@@ -1082,27 +1082,45 @@ def read_certification(path=None):
     except (OSError, ValueError):
         return None
     rows = {r.get("lane"): r for r in (d.get("lanes") or []) if r.get("lane")}
-    return {"as_of": d.get("as_of"), "rows": rows, "verdict": d.get("verdict")}
+    return {"as_of": d.get("as_of"), "rows": rows, "verdict": d.get("verdict"),
+            "machine": d.get("machine")}
 
 
-def cert_row_state(cert_row, board_row):
+def cert_row_state(cert_row, board_row, cert_machine=None, here=None):
     """(state, full_tail, board_tail) -- is this certification usable for THIS row?
 
     r1494: the page and the smoke gates each had their own answer to this
     question, and the gate's was stricter than the page's: it demanded exact
     equality with the board tail, so a certification that predated one panel
     advance turned the gate red forever -- and the cheapest way out of a
-    permanently red gate is to loosen it (r1135). One predicate, three states:
-    * "current"  -- the scan read the same tail this row prints; quote the counts.
-    * "stale"    -- the scan read an older tail; its counts describe another
-                    panel state and must not be quoted, but it must be named.
-    * "missing"  -- no scan covers this lane.
+    permanently red gate is to loosen it (r1135). One predicate, five states:
+    * "current"      -- the scan read the same tail this row prints; quote counts.
+    * "stale"        -- any other tail; its counts describe another panel state
+                        and must not be quoted, but it must be named.
+    * "foreign"      -- the scan describes ANOTHER machine's disk. r1290: this
+                        file is shared across the fleet and every machine reads
+                        it as its own; on 2026-11-12 this machine's ah_panel held
+                        186 files ending 2026-10-16 while the certification (run
+                        on a host whose copy reached 2026-11-12) said 187 of 187
+                        symbols held the newest bar -- printed here as `current`
+                        with 100% coverage over a copy 19 sessions behind.
+    * "unattributed" -- no machine is named, so nobody can say whose disk it read.
+    * "missing"      -- no scan covers this lane.
+
+    The tail test is symmetric on purpose: the old one only caught a scan that
+    was OLDER than the row (`full_tail < board_tail`), so a scan that was NEWER
+    -- exactly the shape a shared certification takes on a machine with a
+    staler copy -- fell through to "current".
     """
-    if not cert_row:
-        return "missing", None, (board_row or {}).get("panel_tail") or (board_row or {}).get("tail")
-    full_tail = cert_row.get("full_tail")
     board_tail = (board_row or {}).get("panel_tail") or (board_row or {}).get("tail")
-    if full_tail and board_tail and str(full_tail) < str(board_tail):
+    if not cert_row:
+        return "missing", None, board_tail
+    full_tail = cert_row.get("full_tail")
+    if cert_machine is None:
+        return "unattributed", full_tail, board_tail
+    if here is not None and str(cert_machine) != str(here):
+        return "foreign", full_tail, board_tail
+    if full_tail and board_tail and str(full_tail) != str(board_tail):
         return "stale", full_tail, board_tail
     return "current", full_tail, board_tail
 
@@ -1116,16 +1134,32 @@ CERT_MAX_STALE_SESSIONS = 5
 
 
 def cert_lag_sessions(full_tail, board_tail, days):
-    """Official sessions between the scanned tail and the tail the row prints."""
+    """Official sessions between the scanned tail and the tail the row prints.
+
+    r1290: this used to be signed (`board - full`), so a certification that read
+    a NEWER tail than the row printed a negative number and nothing on the face
+    said which side was behind. The distance is now non-negative and the side is
+    a separate word (`cert_tail_direction`).
+    """
     if not full_tail or not board_tail or not days:
         return None
     try:
-        return days.index(str(board_tail)) - days.index(str(full_tail))
+        return abs(days.index(str(board_tail)) - days.index(str(full_tail)))
     except ValueError:
         return None
 
 
-def attach_cert(report, days=None, cert=None):
+def cert_tail_direction(full_tail, board_tail):
+    """"same" / "board_ahead" / "board_behind" -- which tail is the newer one."""
+    if not full_tail or not board_tail:
+        return None
+    f, b = str(full_tail), str(board_tail)
+    if f == b:
+        return "same"
+    return "board_ahead" if b > f else "board_behind"
+
+
+def attach_cert(report, days=None, cert=None, here=None):
     """Publish, on every sampled row, which full scan backs the tail it prints.
 
     r1578: the certification state existed only as a sentence inside the
@@ -1134,20 +1168,26 @@ def attach_cert(report, days=None, cert=None):
     whether a full scan had ever read it. A sample tail is a claim about
     thousands of files; a reader who cannot see its backing reads it as
     certified. Counts (holders / files / share) are published ONLY when the scan
-    read the same tail this row prints, and a stale scan names both tails plus
-    the lag instead (r1494: its counts describe another panel state).
+    read the same tail this row prints on THIS machine's disk; every other state
+    names the tails and the machine instead (r1494: its counts describe another
+    panel state; r1290: another machine's disk).
     """
     if cert is None:
         cert = read_certification()
     rows = (cert or {}).get("rows") or {}
     as_of = (cert or {}).get("as_of")
+    cert_machine = (cert or {}).get("machine")
+    here = here if here is not None else (_machine_id() or "unknown")
     n = 0
     for r in report.get("lanes") or []:
         if not (r.get("panel_read") or {}).get("files"):
             continue
         cr = rows.get(r["lane"])
-        state, full_tail, board_tail = cert_row_state(cr, r)
-        blk = {"state": state, "full_tail": full_tail, "board_tail": board_tail,
+        state, full_tail, board_tail = cert_row_state(
+            cr, r, cert_machine=cert_machine, here=here)
+        blk = {"state": state, "machine": cert_machine,
+               "full_tail": full_tail, "board_tail": board_tail,
+               "direction": cert_tail_direction(full_tail, board_tail),
                "certified_as_of": as_of,
                "lag_sessions": cert_lag_sessions(full_tail, board_tail, days),
                "max_stale_sessions": CERT_MAX_STALE_SESSIONS}
@@ -1161,16 +1201,38 @@ def attach_cert(report, days=None, cert=None):
     return n
 
 
-def _holder_sentence(row, cert_row, cert_as_of):
-    """One row's holder facts, or the honest reason they are not printed."""
-    state, full_tail, board_tail = cert_row_state(cert_row, row)
+def _holder_sentence(row, cert_row, cert_as_of, cert_machine=None, here=None):
+    """One row's holder facts, or the honest reason they are not printed.
+
+    r1290: when the row already carries its own certification block (attach_cert
+    ran before the page was rendered) the block's state is the answer -- the
+    page must not recompute a second verdict from the same bytes, or a "foreign"
+    row would print as "stale" on the markdown and "foreign" in the JSON.
+    """
+    blk = row.get("cert") if isinstance(row.get("cert"), dict) else None
+    if blk and blk.get("state"):
+        state = blk["state"]
+        full_tail, board_tail = blk.get("full_tail"), blk.get("board_tail")
+        cert_machine = blk.get("machine", cert_machine)
+    else:
+        state, full_tail, board_tail = cert_row_state(
+            cert_row, row, cert_machine=cert_machine, here=here)
     if state == "missing":
         return " (holder share unknown -- run `certify`)"
+    if state == "unattributed":
+        return (" (this certification does not name the machine whose disk it "
+                "read -- run `certify` here to certify this copy)")
+    if state == "foreign":
+        return (f" (this certification describes **{cert_machine}**'s disk, not "
+                f"this machine's -- run `certify` here to certify this copy)")
     if state == "stale":
-        # The scan that counted holders read an older tail than this board row:
-        # its counts describe a different panel state and must not be quoted.
-        return (f" (certification is older than this scan: full scan read "
-                f"{full_tail}, this row reads {board_tail})")
+        # The scan that counted holders read a different tail than this row:
+        # its counts describe another panel state and must not be quoted.
+        dirn = cert_tail_direction(full_tail, board_tail)
+        side = ("this row is ahead of it" if dirn == "board_ahead"
+                else "this row is behind it")
+        return (f" (certification read {full_tail}, this row reads "
+                f"{board_tail} -- {side}, so its counts are not quoted here)")
     txt = ""
     share = cert_row.get("tail_holder_share")
     holders = cert_row.get("tail_holders")
@@ -1568,6 +1630,7 @@ def render_md(report, cert="auto"):
                      "says how many symbols were read out of how many.\n\n")
         cert_rows = {}
         cert_as_of = None
+        cert_machine = None
         # r1578: when the rows carry their own certification (attach_cert in
         # run()), the page quotes THAT one -- re-reading the file here would
         # describe a scan the row was never checked against, which is the
@@ -1583,19 +1646,21 @@ def render_md(report, cert="auto"):
                     "tail_holder_share": _b.get("tail_holder_share"),
                     "thin_tail": _b.get("thin_tail")}
             cert_as_of = next(iter(_row_cert.values())).get("certified_as_of")
+            cert_machine = next(iter(_row_cert.values())).get("machine")
         else:
             if cert == "auto":
                 cert = read_certification()
             if isinstance(cert, dict):
                 cert_rows = cert.get("rows") or {}
                 cert_as_of = cert.get("as_of")
+                cert_machine = cert.get("machine")
         for r in sampled:
             pr = r["panel_read"]
             tailnote += (f"- `{r['lane']}`: {pr.get('per_file')} of "
                          f"{pr.get('files')} symbols read, tail "
                          f"{r.get('panel_tail') or r.get('tail')}"
                          + _holder_sentence(r, cert_rows.get(r["lane"]),
-                                            cert_as_of)
+                                            cert_as_of, cert_machine)
                          + "\n")
         # r1261: the sample is certified against a full scan, and that scan also
         # says how many symbols hold the newest bar -- a tail held by two files
@@ -2127,7 +2192,7 @@ def selftest():
              "expected_last_official_day": "2026-11-06",
              "calendar_days": 100, "close_accept_time": "15:30"}
     md24 = render_md(rep24, cert={
-        "as_of": "2026-11-07T13:47:58",
+        "as_of": "2026-11-07T13:47:58", "machine": "bm-b",
         "rows": {"per_lane": {"lane": "per_lane", "full_tail": "2026-10-19",
                               "tail_holders": 2, "tail_holder_share": 0.0004,
                               "files": 5222, "thin_tail": True}}})
@@ -2137,13 +2202,13 @@ def selftest():
     md24b = render_md(rep24, cert=None)
     assert "holder share unknown" in md24b, md24b
     md24c = render_md(rep24, cert={
-        "as_of": "2026-11-06T10:00:00",
+        "as_of": "2026-11-06T10:00:00", "machine": "bm-b",
         "rows": {"per_lane": {"lane": "per_lane", "full_tail": "2026-10-13",
                               "tail_holders": 1, "tail_holder_share": 0.0002,
                               "files": 5222, "thin_tail": True}}})
     sect24c = md24c.split("Tails read from a sample")[1].split(
         "Full-scan certification")[0]
-    assert "certification is older than this scan" in sect24c, sect24c
+    assert "certification read 2026-10-13, this row reads 2026-10-19" in sect24c, sect24c
     assert "thin tail" not in sect24c, sect24c
     print("[PASS] L24 the human row quotes the full scan's holder count, says "
           "unknown when it was never certified, and refuses a stale "
@@ -2523,8 +2588,10 @@ def selftest():
     # row" for both the page and the gates. The two used to disagree: the page
     # disclosed a stale certification while the smoke leg demanded equality and
     # stayed red forever -- and a permanently red gate gets loosened (r1135).
-    _cur = cert_row_state({"full_tail": "2026-11-09"}, {"panel_tail": "2026-11-09"})
-    _old = cert_row_state({"full_tail": "2026-11-06"}, {"panel_tail": "2026-11-09"})
+    _cur = cert_row_state({"full_tail": "2026-11-09"}, {"panel_tail": "2026-11-09"},
+                          cert_machine="bm-x", here="bm-x")
+    _old = cert_row_state({"full_tail": "2026-11-06"}, {"panel_tail": "2026-11-09"},
+                          cert_machine="bm-x", here="bm-x")
     _none = cert_row_state(None, {"panel_tail": "2026-11-09"})
     assert _cur[0] == "current", _cur
     assert _old[0] == "stale", _old
@@ -2532,7 +2599,8 @@ def selftest():
     assert _holder_sentence({"panel_tail": "2026-11-09"},
                             {"full_tail": "2026-11-09", "tail_holders": 3,
                              "files": 10, "tail_holder_share": 0.3,
-                             "thin_tail": False}, None).startswith(
+                             "thin_tail": False}, None,
+                            cert_machine="bm-x", here="bm-x").startswith(
         "; the full scan holds it in 3 of 10"), "_holder_sentence"
     print("[PASS] L34 the page and the gates share one certification predicate "
           "(current / stale / missing)", flush=True)
@@ -2549,29 +2617,115 @@ def selftest():
         {"lane": "old_lane", "panel_tail": "2026-11-12",
          "panel_read": {"files": 10, "per_file": 4, "sampled": True}},
         {"lane": "noread_lane", "tail": "2026-11-12"}]}
-    _cert36 = {"as_of": "2026-11-12T10:00:00", "rows": {
+    _cert36 = {"as_of": "2026-11-12T10:00:00", "machine": "bm-fix",
+               "rows": {
         "cur_lane": {"full_tail": "2026-11-11", "tail_holders": 7, "files": 10,
                      "tail_holder_share": 0.7, "thin_tail": False},
         "old_lane": {"full_tail": "2026-11-06", "tail_holders": 9, "files": 10,
                      "tail_holder_share": 0.9, "thin_tail": False}}}
-    _n36 = attach_cert(_rep36, _days36, _cert36)
+    _n36 = attach_cert(_rep36, _days36, _cert36, here="bm-fix")
     _cur36 = _rep36["lanes"][0]["cert"]
     _old36 = _rep36["lanes"][1]["cert"]
     assert _n36 == 2, _n36                              # the unread row gets none
     assert "cert" not in _rep36["lanes"][2], _rep36
     assert _cur36["state"] == "current" and _cur36["holders"] == 7, _cur36
     assert _cur36["lag_sessions"] == 0, _cur36
+    assert _cur36["direction"] == "same", _cur36
+    assert _cur36["machine"] == "bm-fix", _cur36
     assert _old36["state"] == "stale", _old36
     assert "holders" not in _old36 and "files" not in _old36, _old36
     assert (_old36["full_tail"], _old36["board_tail"]) == ("2026-11-06",
                                                            "2026-11-12"), _old36
     assert _old36["lag_sessions"] == 4, _old36          # 11-06 -> 11-12
+    assert _old36["direction"] == "board_ahead", _old36
     assert _old36["max_stale_sessions"] == CERT_MAX_STALE_SESSIONS, _old36
     assert _cur36.get("certified_as_of") == "2026-11-12T10:00:00", _cur36
     assert cert_lag_sessions("2026-11-06", "2026-99-99", _days36) is None
     assert cert_lag_sessions(None, "2026-11-12", _days36) is None
     print("[PASS] L38 a row publishes the scan that backs its tail, and a stale "
           "scan names both tails instead of quoting its counts", flush=True)
+
+    # L39 (r1290) the certification is a shared file but a single-machine scan.
+    # On 2026-11-12 this machine's ah_panel held 186 files whose newest bar was
+    # 2026-10-16, while the committed certification (read on a host whose copy
+    # reached 2026-11-12) said "187 of 187 symbols hold the newest bar". The
+    # state printed `current`, 100% coverage, over a copy 19 sessions behind --
+    # because the tail test only caught a scan OLDER than the row. Three things
+    # are pinned here: the symmetric tail test, the machine test, and the
+    # refusal to quote a foreign scan's counts.
+    _days39 = _days36
+    _rep39 = {"lanes": [
+        {"lane": "behind_lane", "panel_tail": "2026-10-16",
+         "panel_read": {"files": 186, "per_file": 40, "sampled": True}},
+        {"lane": "ahead_lane", "panel_tail": "2026-11-12",
+         "panel_read": {"files": 10, "per_file": 40, "sampled": True}}]}
+    _cert39 = {"as_of": "2026-11-12T19:06:05", "machine": "bm-other", "rows": {
+        "behind_lane": {"full_tail": "2026-11-12", "tail_holders": 187,
+                        "files": 187, "tail_holder_share": 1.0,
+                        "thin_tail": False},
+        "ahead_lane": {"full_tail": "2026-11-06", "tail_holders": 9,
+                       "files": 10, "tail_holder_share": 0.9,
+                       "thin_tail": False}}}
+    attach_cert(_rep39, _days39, _cert39, here="bm-here")
+    for _r in _rep39["lanes"]:
+        _c = _r["cert"]
+        assert _c["state"] == "foreign", _c
+        assert _c["machine"] == "bm-other", _c
+        assert "holders" not in _c and "tail_holder_share" not in _c, _c
+        assert "bm-other" in _holder_sentence(
+            _r, _cert39["rows"][_r["lane"]], _cert39["as_of"], "bm-other",
+            "bm-here"), _r["lane"]
+    # the symmetric tail test: same machine, scan NEWER than the row -> stale
+    _same39 = {"as_of": "2026-11-12T19:06:05", "machine": "bm-here", "rows": {
+        "behind_lane": {"full_tail": "2026-11-12", "tail_holders": 187,
+                        "files": 187, "tail_holder_share": 1.0,
+                        "thin_tail": False}}}
+    attach_cert(_rep39, _days39, _same39, here="bm-here")
+    _b39 = _rep39["lanes"][0]["cert"]
+    assert _b39["state"] == "stale", _b39
+    assert "holders" not in _b39, _b39
+    assert (_b39["board_tail"], _b39["direction"]) == ("2026-10-16",
+                                                       "board_behind"), _b39
+    # a tail outside the calendar this run was handed is honestly "not counted"
+    assert _b39["lag_sessions"] is None, _b39
+    _rep39b = {"lanes": [{"lane": "near_lane", "panel_tail": "2026-11-06",
+                          "panel_read": {"files": 10, "per_file": 40,
+                                         "sampled": True}}]}
+    attach_cert(_rep39b, _days39, {"as_of": "2026-11-12T19:06:05",
+                                   "machine": "bm-here",
+                                   "rows": {"near_lane": {"full_tail": "2026-11-12",
+                                                          "tail_holders": 10,
+                                                          "files": 10,
+                                                          "tail_holder_share": 1.0,
+                                                          "thin_tail": False}}},
+                here="bm-here")
+    _n39 = _rep39b["lanes"][0]["cert"]
+    assert (_n39["state"], _n39["lag_sessions"], _n39["direction"]) == (
+        "stale", 4, "board_behind"), _n39
+    # no machine named -> nobody can say whose disk it read; still no counts
+    _anon39 = {"as_of": "2026-11-12T19:06:05", "rows": dict(_same39["rows"])}
+    attach_cert(_rep39, _days39, _anon39, here="bm-here")
+    _a39 = _rep39["lanes"][0]["cert"]
+    assert _a39["state"] == "unattributed", _a39
+    assert "holders" not in _a39, _a39
+    print("[PASS] L39 a shared certification names its machine and a newer scan "
+          "no longer stamps a stale local copy as current", flush=True)
+
+    # L40 (r1290) the certification PAGE carries the machine too -- the JSON is
+    # not the only face a reader opens, and a page that says "read on an unnamed
+    # machine" is how a shared file turns into a claim about every disk.
+    _md40 = render_cert_md({"as_of": "2026-11-12T21:17:13", "machine": "bm-x",
+                            "verdict": "certified",
+                            "counts": {"lanes": 0, "files_scanned": 0},
+                            "lanes": []})
+    assert "Read on **bm-x**" in _md40, _md40
+    _md40b = render_cert_md({"as_of": "2026-11-12T21:17:13",
+                             "verdict": "certified",
+                             "counts": {"lanes": 0, "files_scanned": 0},
+                             "lanes": []})
+    assert "an unnamed machine" in _md40b, _md40b
+    print("[PASS] L40 the certification page says which machine's disk it read",
+          flush=True)
 
     # L35 (r1519) the window contract travels as DATA now (CEO report / dashboard
     # read it), so the row and the board's markdown must come from one
@@ -2661,7 +2815,7 @@ def selftest():
     finally:
         _sh37.rmtree(_cd37, ignore_errors=True)
 
-    print("selftest: 39/39 PASS", flush=True)
+    print("selftest: 40/40 PASS", flush=True)
     return 0
 
 
@@ -2715,6 +2869,11 @@ def certify_rows(lanes=None, root=ROOT, laggard_cap=25, reuse=None):
         is never older than the board it certifies.
     """
     rows = []
+    # r1290: a full scan describes ONE machine's disk. This report is committed
+    # to the shared tree, so without a name every other machine reads it as its
+    # own -- on 2026-11-12 that turned "187 of 187 symbols hold 2026-11-12" into
+    # a `current` stamp on a local copy whose newest file ended 2026-10-16.
+    here = _machine_id() or "unknown"
     for spec in (lanes if lanes is not None else board_lanes(root=root)):
         pc = spec.get("panel_csv")
         if not pc:
@@ -2727,6 +2886,7 @@ def certify_rows(lanes=None, root=ROOT, laggard_cap=25, reuse=None):
                 and prev.get("sample_tail")):
             row = dict(prev)
             row["reused"] = True
+            row["machine"] = here
             rows.append(row)
             continue
         t0 = dt.datetime.now()
@@ -2734,6 +2894,7 @@ def certify_rows(lanes=None, root=ROOT, laggard_cap=25, reuse=None):
         sample, sinfo = panel_tail_csv(d, pattern)
         rows.append({
             "lane": spec["lane"],
+            "machine": here,
             "dir": pc["dir"],
             "scanned_at": t0.isoformat(timespec="seconds"),
             "panel_fingerprint": fp,
@@ -2788,6 +2949,11 @@ def render_cert_md(report):
            "through a 40-file sample; this reads every file and says whether the "
            "sample got the same answer — and how many symbols actually hold the "
            "newest bar.", "",
+           # r1290: the file is committed to the shared tree but describes ONE
+           # machine's disk, so the page has to say which one.
+           f"Read on **{report.get('machine') or 'an unnamed machine'}**'s disk — "
+           "another machine's board reads this as a foreign scan and will not "
+           "quote these counts against its own copy.", "",
            f"Verdict: **{report['verdict']}** — "
            f"{report['counts']['lanes']} panel(s), "
            f"{report['counts']['files_scanned']} file(s) scanned.", "",
@@ -2861,6 +3027,9 @@ def certify(now=None, lanes=None, root=ROOT, write=True, reuse=True):
     fresh = [r for r in rows if not r.get("reused")]
     report = {
         "as_of": now.isoformat(timespec="seconds"),
+        # r1290: whose disk this scan read. Committed to the shared tree, read
+        # by every machine -- see cert_row_state()'s "foreign" state.
+        "machine": _machine_id() or "unknown",
         "verdict": verdict,
         "thin_tail_share": THIN_TAIL_SHARE,
         "counts": {

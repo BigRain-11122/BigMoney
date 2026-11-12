@@ -3006,13 +3006,17 @@ def main() -> int:
             _why.append(f"{_unbacked}: a sampled row prints a tail with no record "
                         f"of the scan behind it")
         _stale = []
+        _foreign = []
         for lane in _want_lanes:
             r = _board3.get(lane) or {}
             c = r.get("cert") or {}
             if not c:
                 continue
+            # r1290: the state must be recomputed with the same machine inputs the
+            # row was built from, or a "foreign" row reads back as "current" here.
             _state, _ft, _bt = _dlf3.cert_row_state(
-                {"full_tail": c.get("full_tail")}, r)
+                {"full_tail": c.get("full_tail")}, r,
+                cert_machine=c.get("machine"), here=_dlf3._machine_id() or "unknown")
             if c.get("state") != _state:
                 _why.append(f"{lane}: published state {c.get('state')!r} but its "
                             f"own tails say {_state!r}")
@@ -3041,6 +3045,22 @@ def main() -> int:
                     _why.append(f"{lane}: certification is {_lag} sessions behind "
                                 f"the printed tail (max "
                                 f"{_dlf3.CERT_MAX_STALE_SESSIONS}) -- run `certify`")
+            elif _state in ("foreign", "unattributed"):
+                # r1290: the certification is one machine's full scan committed
+                # to a shared path -- reading it here is fine, quoting its counts
+                # against this machine's copy is not.
+                _foreign.append(lane)
+                if c.get("holders") is not None or c.get("files") is not None:
+                    _why.append(f"{lane}: a {_state} certification quotes its "
+                                f"counts ({c.get('holders')} of {c.get('files')}) "
+                                f"against a disk it never read")
+                if _state == "foreign" and not c.get("machine"):
+                    _why.append(f"{lane}: a foreign certification does not name "
+                                f"the machine whose disk it read")
+                if _state == "unattributed":
+                    _why.append(f"{lane}: the certification names no machine, so "
+                                f"nobody can say whose disk it read -- run "
+                                f"`certify` here")
             else:
                 _why.append(f"{lane}: no full scan covers this panel "
                             f"(state={_state}) -- run `certify`")
@@ -3056,7 +3076,8 @@ def main() -> int:
         check("fleet: a panel tail read by sample is certified against a full scan",
               not _why, "; ".join(_why) or
               f"{len(_want_lanes)} sampled panel(s) publish the scan behind their "
-              f"tail, {len(_stale)} disclosed as stale")
+              f"tail, {len(_stale)} disclosed as stale, "
+              f"{len(_foreign)} read from another machine's scan")
     except Exception as e:
         check("fleet: a panel tail read by sample is certified against a full scan",
               False, str(e))
@@ -3076,18 +3097,23 @@ def main() -> int:
         _board4 = {r["lane"]: r for r in (json.load(open(
             "results/data_lane_freshness.json", encoding="utf-8")).get("lanes") or [])}
         _why4 = []
+        _cert4_machine = _cert4.get("machine")
+        _here4 = _dlf3._machine_id() or "unknown"
         for _lane, _cr in _cr4.items():
             _line = [ln for ln in _s4.splitlines()
                      if ln.startswith(f"- `{_lane}`:")]
             if not _line:
                 continue
-            _state = _dlf3.cert_row_state(_cr, _board4.get(_lane))[0]
-            if _state == "stale":
-                if "certification is older than this scan" not in _line[0]:
-                    _why4.append(f"{_lane}: a stale certification is printed "
-                                 f"without being named")
+            _state = _dlf3.cert_row_state(_cr, _board4.get(_lane),
+                                          cert_machine=_cert4_machine,
+                                          here=_here4)[0]
+            if _state != "current":
+                # r1290: a stale / foreign / unattributed scan must be DISCLOSED
+                # on the page, never quoted. Which sentence is used is the
+                # page's own rule (one implementation); this leg only forbids
+                # the quote.
                 if "full scan holds it in" in _line[0]:
-                    _why4.append(f"{_lane}: a stale holder count is quoted")
+                    _why4.append(f"{_lane}: a {_state} holder count is quoted")
                 continue
             _quote = (f"full scan holds it in {_cr['tail_holders']:,} of "
                       f"{_cr['files']:,}")
