@@ -12,7 +12,7 @@
   },
   "mixed": false,
   "denominator": "the session's published unit NAV, NOT an intraday IOPV",
-  "fetched_at": "2026-11-13T00:18:35+0800",
+  "fetched_at": "2026-11-13T02:01:29+0800",
   "rows": 1667,
   "nav_board": "same-day unit NAV board (fund_etf_fund_daily_em) used as the second source"
  },
@@ -42,7 +42,8 @@
    "over_nav_cny": -182.67,
    "iopv": 1.2767,
    "price": 1.274,
-   "source": "sina_nav_not_iopv"
+   "source": "sina_nav_not_iopv",
+   "nav_session": "2026-11-12"
   },
   {
    "symbol": "512040",
@@ -55,20 +56,22 @@
    "over_nav_cny": -7.28,
    "iopv": 1.1871,
    "price": 1.187,
-   "source": "sina_nav_not_iopv"
+   "source": "sina_nav_not_iopv",
+   "nav_session": "2026-11-12"
   },
   {
    "symbol": "159655",
    "name": "标普ETF",
    "class": "crossborder",
    "amount_cny": 86356.8,
-   "premium_pct": 7.6294,
+   "premium_pct": 7.8035,
    "band": "unverified",
    "trust": "iopv-only",
    "over_nav_cny": null,
-   "iopv": 1.8573,
+   "iopv": 1.8543,
    "price": 1.999,
-   "source": "sina_nav_not_iopv"
+   "source": "sina_nav_not_iopv",
+   "nav_session": "2026-11-13"
   },
   {
    "symbol": "513690",
@@ -81,7 +84,8 @@
    "over_nav_cny": -890.71,
    "iopv": 1.163,
    "price": 1.151,
-   "source": "sina_nav_not_iopv"
+   "source": "sina_nav_not_iopv",
+   "nav_session": "2026-11-12"
   },
   {
    "symbol": "159519",
@@ -94,7 +98,8 @@
    "over_nav_cny": -1004.97,
    "iopv": 1.7625,
    "price": 1.742,
-   "source": "sina_nav_not_iopv"
+   "source": "sina_nav_not_iopv",
+   "nav_session": "2026-11-12"
   }
  ],
  "priced_legs": 4,
@@ -168,7 +173,29 @@
     "name": "黄金9999",
     "pct": -2.8863
    }
-  ]
+  ],
+  "cross_date": {
+   "n": 41,
+   "n_liquid": 38,
+   "mean_pct": 6.9915,
+   "max_pct": 37.6186,
+   "dates": [
+    "2026-11-13"
+   ],
+   "amount_cny": 13826961275.0
+  }
+ },
+ "denominator": {
+  "basis": "each row carries the date its own denominator belongs to; never inferred",
+  "session": "2026-11-12",
+  "rows_total": 1667,
+  "rows_dated": 1524,
+  "rows_same_session": 1483,
+  "legs_dated": 5,
+  "legs_lagging": [
+   "159655"
+  ],
+  "verdict": "mixed"
  },
  "caveats": [
   "IOPV is a real-time estimate of the basket, not the fund's published NAV; a premium measured against it inherits that error.",

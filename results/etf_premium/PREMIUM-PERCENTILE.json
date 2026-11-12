@@ -934,26 +934,25 @@
   "ok": true,
   "fails": [],
   "notes": [
-   "CNY figure 159655 is the linear amt*p form; at 9.54% the exact amt*p/(1+p) differs by CNY 651.95"
+   "CNY figure 513690 is the linear amt*p form; at -1.03% the exact amt*p/(1+p) differs by CNY 9.29",
+   "CNY figure 159519 is the linear amt*p form; at -1.16% the exact amt*p/(1+p) differs by CNY 11.83"
   ],
   "cny_identity_forms": {
    "510760": "linear",
    "512040": "either",
-   "159655": "linear",
    "513690": "linear",
    "159519": "linear"
   },
   "cny_tolerance_cny": {
-   "510760": 0.0593,
-   "512040": 0.0593,
-   "159655": 0.0592,
-   "513690": 0.0593,
-   "159519": 0.0593
+   "510760": 0.0632,
+   "512040": 0.0632,
+   "513690": 0.0632,
+   "159519": 0.0632
   },
-  "session": "2026-11-11",
+  "session": "2026-11-12",
   "checked_price": 5,
   "checked_premium": 5,
-  "checked_cny_identity": 5,
+  "checked_cny_identity": 4,
   "tolerances": {
    "price_rel": 0.005,
    "premium_pp": 0.01,
@@ -969,5 +968,5 @@
   "The second rank does NOT drop a session whose NAV moved only slightly (a distribution or a share conversion moves the number without moving the basket). Those rows are measured on their own face (results/etf_premium/PREMIUM-SUBSCRIPTION.json), which counts the one-row suspension runs; this face does not re-decide them.",
   "The panel close is not the price the sheet pays; the sheet pays the next open plus slippage (tracked on the punctuality faces)."
  ],
- "premium_face": "results\\etf_premium\\PREMIUM-2026-11-11.json"
+ "premium_face": "results\\etf_premium\\PREMIUM-2026-11-12.json"
 }

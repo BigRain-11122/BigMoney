@@ -133,6 +133,21 @@ def _src_one(v) -> str:
     return s
 
 
+def _cell_str(v):
+    """A cell -> its text, or None when no date was ever recorded there."""
+    if v is None:
+        return None
+    try:
+        if v != v:  # NaN of either flavour
+            return None
+    except (TypeError, ValueError):
+        pass
+    s = str(v).strip()
+    if not s or s.lower() in ("nan", "none", "<na>", "nat"):
+        return None
+    return s
+
+
 def _src_series(df: pd.DataFrame) -> pd.Series:
     for c in SOURCE_COL_NAMES:
         if c in df.columns:
@@ -165,6 +180,12 @@ def normalize_spot(df: pd.DataFrame) -> pd.DataFrame:
         # re-render of a sina snapshot as eastmoney.
         "source": _src_series(df),
     })
+    # r1604: the denominator's own session. A published unit NAV arrives one session
+    # behind the close for most domestic funds (and T+n for cross-border), so a premium
+    # built on it is a CROSS-DATE gap unless the two dates agree. Carried, never inferred:
+    # an older snapshot has no such column and must read as "undated", not as "same day".
+    out["nav_session"] = (df["净值日期"].astype(str) if "净值日期" in df.columns
+                          else np.nan)
     both = out["price"].gt(0) & out["iopv"].gt(0)
     out["premium_pct"] = np.nan
     out.loc[both, "premium_pct"] = (out.loc[both, "price"] / out.loc[both, "iopv"] - 1.0) * 100.0
@@ -253,6 +274,9 @@ def leg_face(ticket: dict, spot: pd.DataFrame, nav_ok=None) -> list[dict]:
                 # r1600: which reader priced THIS leg -- a mixed file has to be resolvable
                 # leg by leg, not only as a file-level average.
                 "source": (_src_one(r.get("source")) if "source" in by_code.columns else READER_IOPV),
+                # r1604: the date the DENOMINATOR belongs to. Not the same question as
+                # `trust` (a published NAV can be yesterday's and still be published).
+                "nav_session": _cell_str(r.get("nav_session")) if "nav_session" in by_code.columns else None,
             })
         else:
             rows.append({
@@ -267,11 +291,35 @@ def leg_face(ticket: dict, spot: pd.DataFrame, nav_ok=None) -> list[dict]:
                 "iopv": None,
                 "price": None,
                 "source": "no-quote",
+                "nav_session": None,
             })
     return rows
 
 
-def dispersion(spot: pd.DataFrame, min_amount: float = MIN_AMOUNT, nav_ok=None) -> dict:
+def dispersion(spot: pd.DataFrame, min_amount: float = MIN_AMOUNT, nav_ok=None,
+               session=None) -> dict:
+    """The cross-section, measured on ONE date -- and the other date counted, not pooled.
+
+    r1604: 41 QDII rows in the 2026-11-12 snapshot carried a denominator dated 11-13 (the
+    US session that ends on the Beijing morning), and their "premium" averaged +7.0% with
+    a +37.6% tail. Pooling them with the domestic rows makes one distribution out of two
+    quantities, so they are reported in their own line instead.
+    """
+    lag = None
+    if session and "nav_session" in spot.columns:
+        dated = spot["nav_session"].apply(_cell_str)
+        cross = spot[dated.notna() & (dated != session) & spot["premium_pct"].notna()]
+        if len(cross):
+            lag = {
+                "n": int(len(cross)),
+                "n_liquid": int((cross["amount"] >= min_amount).sum()),
+                "mean_pct": round(float(cross["premium_pct"].mean()), 4),
+                "max_pct": round(float(cross["premium_pct"].max()), 4),
+                "dates": sorted(set(dated.loc[cross.index].tolist())),
+                "amount_cny": round(float(cross["amount"].sum()), 0),
+            }
+        keep = dated.isna() | (dated == session)
+        spot = spot[keep]
     liq = spot[(spot["amount"] >= min_amount) & spot["premium_pct"].notna()]
     if nav_ok is not None:
         liq = liq[liq["code"].isin(nav_ok)]
@@ -292,6 +340,7 @@ def dispersion(spot: pd.DataFrame, min_amount: float = MIN_AMOUNT, nav_ok=None) 
                         for _, r in top.iterrows()],
         "top_discount": [{"symbol": r.code, "name": r["name"], "pct": round(float(r.premium_pct), 4)}
                          for _, r in bot.iterrows()],
+        "cross_date": lag,
     }
 
 
@@ -332,10 +381,15 @@ def render_md(face: dict) -> str:
         for r in legs:
             prem = "—" if r["premium_pct"] is None else "%+.3f" % r["premium_pct"]
             over = "—" if r["over_nav_cny"] is None else format(r["over_nav_cny"], "+,.0f")
+            # r1604: the reader cell carries the denominator's date, so a leg priced off
+            # an older NAV says which day it is priced off -- the percentage cannot.
+            reader_cell = _reader_short(r.get("source") or "")
+            if r.get("nav_session"):
+                reader_cell += " " + r["nav_session"]
             L.append("| %s | %s | %s | %s | %s | %s | %s | %s |" % (
                 r["symbol"], r["name"] or "(板面未列)", r["class"],
                 format(r["amount_cny"], ",.0f"),
-                prem, r["band"], over, _reader_short(r.get("source") or "")))
+                prem, r["band"], over, reader_cell))
         L.append("")
         tot = sum(r["over_nav_cny"] for r in legs if r["over_nav_cny"] is not None)
         known = sum(r["amount_cny"] for r in legs if r["over_nav_cny"] is not None)
@@ -362,6 +416,29 @@ def render_md(face: dict) -> str:
                             format(oh.get("hurdle_cny") or 0.0, ",.0f")))
             L.append("")
     disp = face["dispersion"]
+    den = face.get("denominator") or {}
+    if den.get("verdict") == "cross-date":
+        L.append("分母净值日：**%d/%d 行的分母不是本场**（本单 %d 腿里 %d 腿在列）——"
+                 "这不是同一场的溢价，读数＝价格对另一场净值的**跨日缺口**；"
+                 "同日净值公布后本面会换分母重算。"
+                 % (den["rows_dated"] - den["rows_same_session"], den["rows_dated"],
+                    den.get("legs_dated") or 0, len(den.get("legs_lagging") or [])))
+        L.append("")
+    elif den.get("verdict") == "mixed":
+        L.append("分母净值日：**%d/%d 行同场（本场净值已公布），%d 行的分母不是本场**"
+                 "（跨时区品种，其净值日与国内收盘日不同）——两类不可混在一起读，"
+                 "分布面只统计同场行，另一类单独列数。"
+                 % (den["rows_same_session"], den["rows_dated"],
+                    den["rows_dated"] - den["rows_same_session"]))
+        L.append("")
+    elif den.get("verdict") == "same-session":
+        L.append("分母净值日：**本场净值已公布**（%d 行同日），这一列是同一场的溢价。"
+                 % den["rows_same_session"])
+        L.append("")
+    elif den.get("verdict") == "undated":
+        L.append("分母净值日：**这份快照没有记下分母属于哪一天**（旧版快照无该列）——"
+                 "溢价是否同场不可核验，读者只能当口径未知。")
+        L.append("")
     L.append("## 全市场溢价分布（只用当日有公布净值的 %d 只，成交额 ≥ %s）"
              % (disp.get("n", 0), format(MIN_AMOUNT, ",.0f")))
     L.append("")
@@ -376,6 +453,14 @@ def render_md(face: dict) -> str:
                                            for t in disp["top_discount"]))
     else:
         L.append("- %s" % disp.get("note", ""))
+    lag = disp.get("cross_date")
+    if lag:
+        L.append("")
+        L.append("- **另有 %d 只（其中成交额 ≥ 20,000,000 的 %d 只，合计成交 %s 亿）分母净值日不在本场"
+                 "（%s，晚于本场）——它们的溢价平均 %+.2f%%、最高 %+.2f%%，是把国内收盘价与另一场"
+                 "海外交易的净值对出来的跨日缺口，已从上面的分布里剔除，不参与比较。**"
+                 % (lag["n"], lag["n_liquid"], format(lag["amount_cny"] / 1e8, ",.0f"),
+                    "、".join(lag["dates"]), lag["mean_pct"], lag["max_pct"]))
     L.append("")
     cc = face.get("cross_check") or {}
     if cc:
@@ -426,6 +511,47 @@ def _source_block(spot: pd.DataFrame, fetched_at: str, nav_ok=None) -> dict:
             "nav_board": "same-day unit NAV board (fund_etf_fund_daily_em) used as the second source" if nav_ok is not None else "not read -- every premium is IOPV-only"}
 
 
+def denominator_block(spot: pd.DataFrame, session: str, legs: list) -> dict:
+    """Is the DENOMINATOR from this session?  A dated question, not a trust question.
+
+    A published unit NAV can be yesterday's and still be published: on 2026-11-12 every
+    row of the evening snapshot carried NAV(11-11), so the whole table read a price
+    against a NAV one session older and the word "premium" named a cross-date gap. The
+    reader cannot see that from a percentage, so the face has to count it out loud.
+    """
+    if "nav_session" in spot.columns:
+        dated = spot["nav_session"].apply(_cell_str)
+    else:
+        dated = pd.Series([None] * len(spot), index=spot.index)
+    n_dated = int(dated.notna().sum())
+    n_same = int((dated == session).sum())
+    leg_dates = [r.get("nav_session") for r in legs if r.get("nav_session")]
+    lagging = [r["symbol"] for r in legs
+               if r.get("nav_session") and r["nav_session"] != session]
+    if not n_dated:
+        verdict = "undated"
+    elif n_same == n_dated:
+        verdict = "same-session"
+    elif n_same == 0:
+        verdict = "cross-date"
+    else:
+        # A table can hold both dates at once (2026-11-12: 1,483 domestic rows on the
+        # session's own NAV, 41 QDII rows on the US session that ends that morning).
+        # Calling that "cross-date" would mislabel the majority; calling it "same" would
+        # hide the tail, so it gets its own word and its own counts.
+        verdict = "mixed"
+    return {
+        "basis": "each row carries the date its own denominator belongs to; never inferred",
+        "session": session,
+        "rows_total": int(len(spot)),
+        "rows_dated": n_dated,
+        "rows_same_session": n_same,
+        "legs_dated": len(leg_dates),
+        "legs_lagging": lagging,
+        "verdict": verdict,
+    }
+
+
 def build_face(spot: pd.DataFrame, ticket: dict, fetched_at: str, nav_ok=None) -> dict:
     sessions = sorted(set(spot["session"].dropna()))
     session = sessions[-1] if sessions else "unknown"
@@ -465,7 +591,8 @@ def build_face(spot: pd.DataFrame, ticket: dict, fetched_at: str, nav_ok=None) -
         "priced_legs": sum(1 for r in legs if r["over_nav_cny"] is not None),
         "unverified_legs": sum(1 for r in legs if r["band"] == "unverified"),
         "over_hurdle": over_hurdle,
-        "dispersion": dispersion(spot, nav_ok=nav_ok),
+        "dispersion": dispersion(spot, nav_ok=nav_ok, session=session),
+        "denominator": denominator_block(spot, session, legs),
         "caveats": [
             "IOPV is a real-time estimate of the basket, not the fund's published NAV; a premium measured against it inherits that error.",
             "the spot board publishes 折价率 (discount), the opposite sign of a premium -- this face recomputes from price/IOPV and reports any disagreement instead of choosing a side.",
@@ -779,9 +906,17 @@ def _spot_board(sources=None):
     raise RuntimeError("; ".join(errors))
 
 
-def do_fetch(force=False) -> int:
+def do_fetch(force=False, session=None) -> int:
     import time as _t
-    run, target, why = gate(force=force)
+    if session:
+        # r1604: a DELIBERATE re-capture of a session already on disk. The gate is right
+        # to refuse a second pull of a captured session, but when the first pull's
+        # denominator was one session behind (a published NAV arrives late), the honest
+        # repair is to re-photograph that same session with the number since published --
+        # and to say so. Hand-run only: never the chain's path.
+        run, target, why = True, str(session), "explicit session re-capture"
+    else:
+        run, target, why = gate(force=force)
     if not run:
         print("fetch: no-op -- %s" % why)
         return 0
@@ -795,7 +930,14 @@ def do_fetch(force=False) -> int:
         # rolls. Sina answers with the same session's tape (proven reachable), so use it
         # and let the snapshot say which reader produced it.
         try:
-            from scripts import etf_premium_sina as _S
+            try:
+                from scripts import etf_premium_sina as _S
+            except ImportError:
+                # r1604: run as `python scripts/etf_premium_face.py`, sys.path[0] is the
+                # scripts directory itself -- `scripts` then resolves to something else
+                # ("unknown location") and the whole fallback died on the import, which is
+                # the one branch that exists for the evenings eastmoney refuses this host.
+                import etf_premium_sina as _S
             df, source = _S.board_for_session(target)
             print("board source: %s (%d rows)" % (source, len(df)))
         except Exception as e2:  # noqa: BLE001
@@ -1310,6 +1452,30 @@ def selftest() -> int:
         and {r["source"] for r in face_mix["legs"]} == {READER_NAV, READER_IOPV}
         and "混用了两种读数" in md_mix)
 
+    # L39 r1604: a denominator dated the PREVIOUS session is a cross-date gap, and the
+    # page has to say so -- 2026-11-12 shipped +8.0% on 159655 built exactly that way.
+    b_lag = board([["510300", "x", 4.04, 4.00, 9e8, "2026-11-06"]])
+    b_lag["净值日期"] = ["2026-11-05"]
+    face_lag = build_face(normalize_spot(b_lag), tk, "2026-11-06T16:00:00")
+    md_lag = render_md(face_lag)
+    leg("L39 a NAV one session behind is printed as a cross-date gap, not a premium",
+        face_lag["denominator"]["verdict"] == "cross-date"
+        and face_lag["legs"][0]["nav_session"] == "2026-11-05"
+        and "跨日缺口" in md_lag and "2026-11-05" in md_lag)
+
+    # L40 the same board dated for its own session reads as a premium -- and a snapshot
+    # that predates the column reads as UNDATED, never as "same day".
+    b_same = board([["510300", "x", 4.04, 4.00, 9e8, "2026-11-06"]])
+    b_same["净值日期"] = ["2026-11-06"]
+    face_same = build_face(normalize_spot(b_same), tk, "2026-11-06T16:00:00")
+    face_old = build_face(normalize_spot(board([["510300", "x", 4.04, 4.00, 9e8, "2026-11-06"]])),
+                          tk, "2026-11-06T16:00:00")
+    leg("L40 same-session denominator reads as a premium; an undated snapshot says undated",
+        face_same["denominator"]["verdict"] == "same-session"
+        and "本场净值已公布" in render_md(face_same)
+        and face_old["denominator"]["verdict"] == "undated"
+        and face_old["legs"][0]["nav_session"] is None)
+
     ok = sum(1 for _, p, _ in legs if p)
     for name, p, detail in legs:
         print("[%s] %s%s" % ("PASS" if p else "FAIL", name, (" | " + detail) if detail else ""))
@@ -1322,11 +1488,14 @@ def main(argv=None) -> int:
     ap.add_argument("mode", nargs="?", default="render", choices=["fetch", "render", "selftest"])
     ap.add_argument("--force", action="store_true",
                     help="bypass the session/close/backoff gate (a hand-run, never the chain)")
+    ap.add_argument("--session", default=None,
+                    help="re-capture THIS session (an earlier capture whose denominator "
+                         "was published late); hand-run only, never the chain")
     a = ap.parse_args(argv)
     if a.mode == "selftest":
         return selftest()
     if a.mode == "fetch":
-        return do_fetch(force=a.force)
+        return do_fetch(force=a.force, session=a.session)
     return do_render()
 
 

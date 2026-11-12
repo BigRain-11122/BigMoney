@@ -203,6 +203,11 @@ def board_frame(codes, **kw):
         "IOPV实时估值": df["nav"],
         "成交额": df["amount"],
         "数据日期": df["session"],
+        # r1604: the NAV's OWN session travels with the number. The board answers with the
+        # latest unit NAV it holds, which before the evening publication is the PREVIOUS
+        # session's -- paired with today's close it prints a cross-date gap under the word
+        # "premium" (159655 read +8.0% on 2026-11-12 for that reason alone).
+        "净值日期": df["nav_session"],
         "_source": "sina_nav_not_iopv",
     })
     return out
