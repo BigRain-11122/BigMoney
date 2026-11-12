@@ -1422,7 +1422,13 @@ def run_leg(name, cmd, refresh=None, quiet=False):
         text = ""
         tail = ["TIMEOUT"]
     refreshed = None
-    if rc != 0 and refresh and "stale" in text.lower():
+    # r1581: a leg whose FACE IS MISSING is the same repair as stale -- its producer is
+    # declared in the leg table and the face is simply not on disk yet (BLOCKS-2026-11-11 sat
+    # rc2 across two chain records while its own build command was listed one tuple below).
+    # INCONSISTENT still stays red: that one says the face disagrees with itself, and paying a
+    # rebuild would turn the gate into a machine for making red go away (r1345's trap).
+    _repairable = ("stale" in text.lower() or "face missing" in text.lower())
+    if rc != 0 and refresh and _repairable:
         tr = time.time()
         try:
             rr = subprocess.run(refresh, capture_output=True, text=True,
@@ -1490,6 +1496,18 @@ def selftest():
         rec3 = run_leg("no_refresh_fixture", bad_probe, None, quiet=True)
         _check("a leg without a refresh declared is unaffected",
                rec3["rc"] == 2 and "refreshed" not in rec3, "rec=%r" % (rec3,))
+
+        # r1581: a face that does not exist yet is repairable -- its producer is declared.
+        flag4 = os.path.join(td, "missing_face.flag")
+        miss_probe = [py, "-c",
+                      "import os,sys;p=r'%s';done=os.path.exists(p);"
+                      "print('OK: rebuilt' if done else 'FACE MISSING: BLOCKS-2026-11-11.json');"
+                      "sys.exit(0 if done else 2)" % flag4]
+        miss_refresh = [py, "-c", "open(r'%s','w').write('1')" % flag4]
+        rec4 = run_leg("missing_face_fixture", miss_probe, miss_refresh, quiet=True)
+        _check("a FACE MISSING probe pays its declared build and comes back green",
+               rec4["rc"] == 0 and rec4.get("refreshed", {}).get("rc") == 0,
+               "rec=%r" % (rec4,))
 
     # The leg table must be structurally readable by the new unpacking, and every
     # declared refresh must be a real argument vector (not a bare string).
