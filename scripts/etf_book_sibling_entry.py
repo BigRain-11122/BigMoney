@@ -116,6 +116,9 @@ def load_rows(path):
                 "amount": _num(parts[idx["amount"]]),
                 "premium_pct": _num(parts[idx["premium_pct"]]),
                 "session": str(parts[idx["session"]]).strip() if "session" in idx else "",
+                # Which reader produced the "iopv" column (r1599). Old snapshots have no
+                # such column and were all eastmoney IOPV readings.
+                "source": str(parts[idx["source"]]).strip() if "source" in idx else "em_iopv",
             })
     session = os.path.basename(path)[:-4]
     return rows, session
@@ -360,9 +363,12 @@ def build(ticket_path, snap_path):
             "spread_pp": round(hi["premium_pct"] - lo["premium_pct"], 4),
         })
     family_view.sort(key=lambda d: -d["spread_pp"])
+    board_source = next((r.get("source") for r in rows if r.get("source")), "em_iopv")
+    iopv_is_nav = board_source not in ("", "em_iopv")
     return {
         "artifact": "etf_book_sibling_entry",
         "session": session,
+        "board_source": board_source,
         "ticket": os.path.basename(ticket_path),
         "criteria": dict(CRITERIA),
         "summary": summary,
@@ -374,6 +380,8 @@ def build(ticket_path, snap_path):
         "dead_label_phrases": dead,
         "caveats": [
             "the label is read from the NAME, not from a fund document: two tickers that carry different words for the same basket are not merged, and under-merging can only understate the saving",
+            ("premium = price / 公布单位净值 - 1：这块板由备用源（sina）供给，净值是当日官方公布值，不是 eastmoney 的盘中 IOPV（%s）。这一面内部可比，与 IOPV 序列只可粗比。"
+             % board_source) if iopv_is_nav else
             "premium = price / IOPV - 1 on one session snapshot; IOPV is a real-time estimate, not a published NAV, so a cross-border leg's number inherits that error (it is the same ruler r1463 uses)",
             "a swap is a different ISIN holding the same index -- tracking difference, fee, size and quotation width are NOT priced here",
             "the basket gain assumes the cash stays the same; buying the cheaper sibling therefore buys more units, not the same units",
@@ -392,6 +400,11 @@ def render_md(face):
     L.append("")
     L.append("口径：溢价 = 价格 / IOPV − 1（同一时点快照，跨境腿继承 IOPV 误差）；"
              "节省以**篮子价值**计——同样的现金买 amount/(1+p) 的篮子。")
+    _bsrc = face.get("board_source") or "em_iopv"
+    if _bsrc not in ("", "em_iopv"):
+        L.append("")
+        L.append("> **这块板来自备用源 `%s`：分母是当日官方公布单位净值，不是 eastmoney 的盘中 IOPV。**"
+                 "本面内部可比（同一把尺子量全体），与在此之前的 IOPV 序列只可粗比。" % _bsrc)
     L.append("")
     L.append("## 本单逐腿")
     L.append("")

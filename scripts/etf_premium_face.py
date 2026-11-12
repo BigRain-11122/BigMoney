@@ -121,6 +121,11 @@ def normalize_spot(df: pd.DataFrame) -> pd.DataFrame:
         "iopv": _num(df["IOPV实时估值"]),
         "amount": _num(df["成交额"]),
         "session": df["数据日期"].astype(str),
+        # r1599: which reader produced the "iopv" column. Eastmoney prints an intraday
+        # IOPV; the sina fallback carries the fund's published unit NAV. Without this
+        # column the snapshot would claim one provenance while holding the other.
+        "source": (df["_source"].astype(str) if "_source" in df.columns
+                   else pd.Series(["em_iopv"] * len(df), index=df.index)),
     })
     both = out["price"].gt(0) & out["iopv"].gt(0)
     out["premium_pct"] = np.nan
@@ -414,12 +419,42 @@ def _trading_days():
 _AUTO = object()   # sentinel: "read the calendar yourself"; an explicit None is 'unreadable'
 
 
+def _prev_close_session(days, today):
+    """The newest session strictly before `today`, or None.
+
+    Before the 15:30 close the board has not rolled, so this is the only tape it can
+    still be printing -- and the only session a pre-close run may honestly file.
+    """
+    older = [d for d in days if d < today]
+    return max(older) if older else None
+
+
+def _snap_present(session, today, snap_exists):
+    """Is there a snapshot for `session`? `snap_exists` injects the answer.
+
+    A bare bool keeps its old meaning (the value for `today`); a callable is asked
+    about the exact session, which is what the pre-close backfill branch needs.
+    """
+    if callable(snap_exists):
+        return bool(snap_exists(session))
+    if snap_exists is not None:
+        return bool(snap_exists) if session == today else False
+    p = _snap_path(session)
+    return os.path.exists(p) and os.path.getsize(p) > 0
+
+
 def gate(now=None, force=False, days=_AUTO, snap_exists=None, gate_state=None):
     """May `fetch` hit the source right now? -> (run, session, reason).
 
     Every input is injectable so the selftest can drive the clock, the calendar and
     the on-disk state explicitly instead of depending on the day it runs. `days` is
     _AUTO by default (read the file), None passes through as 'calendar unreadable'.
+
+    r1599: the second element is the SESSION TO CAPTURE, not "today". Before the close
+    it is the previous close, because that is the tape the board is still carrying. The
+    old shape refused every pre-close run outright, which made one missed capture a
+    permanent hole (`board_gap`'s own docstring: these holes do not heal) while the
+    price board for that very session was still sitting on the source untouched.
     """
     import datetime as _dt
     now = now or _dt.datetime.now()
@@ -432,21 +467,33 @@ def gate(now=None, force=False, days=_AUTO, snap_exists=None, gate_state=None):
         return False, today, "official calendar unreadable -- refusing to guess a session"
     if today not in days:
         return False, today, "not a trading session (%s)" % today
-    if (now.hour, now.minute) < CLOSE_CUTOFF:
-        return False, today, "before the 15:30 close -- an intraday board is not the session"
-    if snap_exists is None:
-        snap_exists = os.path.exists(_snap_path(today)) and os.path.getsize(_snap_path(today)) > 0
-    if snap_exists:
-        return False, today, "session %s already captured" % today
     g = gate_state if gate_state is not None else _read_gate()
-    ts = g.get("last_fail_ts")
-    if g.get("last_fail_session") == today and ts:
+
+    def _backoff_left(session):
+        ts = g.get("last_fail_ts")
+        if g.get("last_fail_session") != session or not ts:
+            return None
         try:
             age = (now - _dt.datetime.fromisoformat(ts)).total_seconds() / 60.0
         except (TypeError, ValueError):
-            age = None
-        if age is not None and age < RETRY_BACKOFF_MIN:
-            return False, today, "backoff %.0f/%.0f min after a failed attempt" % (age, RETRY_BACKOFF_MIN)
+            return None
+        return age if age < RETRY_BACKOFF_MIN else None
+
+    if (now.hour, now.minute) < CLOSE_CUTOFF:
+        prev = _prev_close_session(days, today)
+        if prev and not _snap_present(prev, today, snap_exists):
+            left = _backoff_left(prev)
+            if left is not None:
+                return False, prev, "backoff %.0f/%.0f min after a failed attempt on %s" % (
+                    left, RETRY_BACKOFF_MIN, prev)
+            return True, prev, ("backfilling %s before the board rolls to %s -- the tape it "
+                                "is printing is still that close" % (prev, today))
+        return False, today, "before the 15:30 close -- an intraday board is not the session"
+    if _snap_present(today, today, snap_exists):
+        return False, today, "session %s already captured" % today
+    left = _backoff_left(today)
+    if left is not None:
+        return False, today, "backoff %.0f/%.0f min after a failed attempt" % (left, RETRY_BACKOFF_MIN)
     return True, today, "armed"
 
 
@@ -640,7 +687,7 @@ def _spot_board(sources=None):
 
 def do_fetch(force=False) -> int:
     import time as _t
-    run, today, why = gate(force=force)
+    run, target, why = gate(force=force)
     if not run:
         print("fetch: no-op -- %s" % why)
         return 0
@@ -649,22 +696,33 @@ def do_fetch(force=False) -> int:
         print("board source: %s (%d rows)" % (source, len(df)))
     except Exception as e:  # noqa: BLE001 -- source failure is a reading, not a crash
         print("source failure: %s" % e)
-        g = _read_gate()
-        g.update({"last_fail_session": today,
-                  "last_fail_ts": _t.strftime("%Y-%m-%dT%H:%M:%S"),
-                  "last_fail_reason": str(e)[:400]})
-        _write_gate(g)
-        return 2
+        # r1599: the eastmoney family can refuse this host for a whole evening, and this
+        # lane's holes do not heal -- the board stops carrying that session the moment it
+        # rolls. Sina answers with the same session's tape (proven reachable), so use it
+        # and let the snapshot say which reader produced it.
+        try:
+            from scripts import etf_premium_sina as _S
+            df, source = _S.board_for_session(target)
+            print("board source: %s (%d rows)" % (source, len(df)))
+        except Exception as e2:  # noqa: BLE001
+            print("fallback also failed: %s" % e2)
+            g = _read_gate()
+            g.update({"last_fail_session": target,
+                      "last_fail_ts": _t.strftime("%Y-%m-%dT%H:%M:%S"),
+                      "last_fail_reason": (str(e)[:200] + " | fallback: " + str(e2)[:180])})
+            _write_gate(g)
+            return 2
     try:
         spot = normalize_spot(df)
     except ValueError as e:
         print(str(e))
         return 3
     session = sorted(set(spot["session"].dropna()))[-1]
-    if session < today:
-        # The board has not rolled to today's close yet: writing this snapshot under
-        # today's name would freeze yesterday's tape as today's session.
-        print("fetch: no-op -- board still reports %s, not %s" % (session, today))
+    if session != target:
+        # r1599: the file is named for the session the board actually printed, never for
+        # the session we hoped to capture. A board that has already rolled past the
+        # target (or still sits behind it) must not be filed under another day's name.
+        print("fetch: no-op -- board reports %s, target session is %s" % (session, target))
         return 0
     os.makedirs(SNAP_DIR, exist_ok=True)
     path = _snap_path(session)
@@ -917,15 +975,18 @@ def selftest() -> int:
         r[0] is False and "not a trading session" in r[2])
 
     # L18 the close is the boundary: 11:00 is refused, 15:45 runs, --force overrides.
-    r_before = gate(now=before_close, days=DAYS, snap_exists=False, gate_state={})
-    r_after = gate(now=after_open, days=DAYS, snap_exists=False, gate_state={})
-    r_forced = gate(now=before_close, force=True, days=DAYS, snap_exists=False, gate_state={})
+    # `snap_exists` is a callable here (r1599): a bare False would now arm the pre-close
+    # backfill branch, so the leg states which sessions already hold a file.
+    _prev_has = lambda s: s == "2026-11-06"
+    r_before = gate(now=before_close, days=DAYS, snap_exists=_prev_has, gate_state={})
+    r_after = gate(now=after_open, days=DAYS, snap_exists=_prev_has, gate_state={})
+    r_forced = gate(now=before_close, force=True, days=DAYS, snap_exists=_prev_has, gate_state={})
     leg("L18 before 15:30 refused, after it armed, --force overrides the clock",
         r_before[0] is False and "before the 15:30 close" in r_before[2]
         and r_after[0] is True and r_forced[0] is True)
 
     # L19 a captured session is not re-pulled (the chain runs many times a day).
-    r = gate(now=after_open, days=DAYS, snap_exists=True, gate_state={})
+    r = gate(now=after_open, days=DAYS, snap_exists=lambda s: True, gate_state={})
     leg("L19 an already captured session is a no-op",
         r[0] is False and "already captured" in r[2])
 
@@ -951,6 +1012,32 @@ def selftest() -> int:
     # (The branch lives in do_fetch, so this leg pins the comparison itself.)
     leg("L22 a stale board day sorts below today and is skipped",
         "2026-11-06" < "2026-11-09" and not ("2026-11-07" >= "2026-11-09"))
+
+    # L22b-L22e (r1599) the pre-close window is the ONLY chance to heal a missed
+    # capture: after the board rolls, that session's tape is gone for good. The gate
+    # used to refuse every pre-close run, so a source outage at 15:31 became a
+    # permanent hole -- and three faces downstream stayed one session behind for ever.
+    r_back = gate(now=before_close, days=DAYS, snap_exists=lambda s: False, gate_state={})
+    leg("L22b before the close, a missing previous close is backfilled under its own name",
+        r_back[0] is True and r_back[1] == "2026-11-06" and "backfilling" in r_back[2])
+
+    r_done = gate(now=before_close, days=DAYS, snap_exists=_prev_has, gate_state={})
+    leg("L22c before the close, nothing to backfill means wait for the close",
+        r_done[0] is False and "before the 15:30 close" in r_done[2])
+
+    r_bo = gate(now=_dt.datetime(2026, 11, 9, 9, 0), days=DAYS, snap_exists=lambda s: False,
+                gate_state={"last_fail_session": "2026-11-06",
+                            "last_fail_ts": "2026-11-09T08:45:00"})
+    leg("L22d a failed backfill backs off against the session it tried, not against today",
+        r_bo[0] is False and "backoff" in r_bo[2] and "2026-11-06" in r_bo[2])
+
+    # The previous close is the previous SESSION, not "yesterday": Monday 09:00 asks
+    # for Friday. A wall-clock subtraction would invent a Saturday.
+    _mon = gate(now=_dt.datetime(2026, 11, 9, 9, 0),
+                days={"2026-11-06", "2026-11-09", "2026-11-10"},
+                snap_exists=lambda s: False, gate_state={})
+    leg("L22e before the close the target is the last session, so Monday asks for Friday",
+        _mon[0] is True and _mon[1] == "2026-11-06")
 
     # L23 the hurdle sums PRICED legs only. One leg at +1% on 1,000,000 = +10,000 CNY
     # breaches; the same ticket with an unverified leg of equal size does NOT get to

@@ -1,0 +1,168 @@
+{
+ "artifact": "etf_premium_face",
+ "machine": "bm-c",
+ "session": "2026-11-12",
+ "source": {
+  "view": "ETF spot board (eastmoney via akshare fund_etf_spot_em)",
+  "fetched_at": "2026-11-13T00:18:35+0800",
+  "rows": 1667,
+  "nav_board": "same-day unit NAV board (fund_etf_fund_daily_em) used as the second source"
+ },
+ "cross_check": {
+  "basis": "premium recomputed from price/IOPV; the board's own 折价率 column is only compared",
+  "compared_rows": 0,
+  "disagreeing_rows": 0,
+  "tolerance_pp": 0.1
+ },
+ "ticket": {
+  "path": "results/etf_book_order/TICKET-2026-11-12.json",
+  "bar": "2026-11-11"
+ },
+ "bands": {
+  "par_pct": 0.3,
+  "watch_pct": 1.0
+ },
+ "legs": [
+  {
+   "symbol": "510760",
+   "name": "上证指数ETF国泰",
+   "class": "equity",
+   "amount_cny": 86377.2,
+   "premium_pct": -0.2115,
+   "band": "at-par",
+   "trust": "iopv+same-day-nav",
+   "over_nav_cny": -182.67,
+   "iopv": 1.2767,
+   "price": 1.274
+  },
+  {
+   "symbol": "512040",
+   "name": "价值ETF富国",
+   "class": "equity",
+   "amount_cny": 86413.6,
+   "premium_pct": -0.0084,
+   "band": "at-par",
+   "trust": "iopv+same-day-nav",
+   "over_nav_cny": -7.28,
+   "iopv": 1.1871,
+   "price": 1.187
+  },
+  {
+   "symbol": "159655",
+   "name": "标普ETF",
+   "class": "crossborder",
+   "amount_cny": 86356.8,
+   "premium_pct": 7.6294,
+   "band": "unverified",
+   "trust": "iopv-only",
+   "over_nav_cny": null,
+   "iopv": 1.8573,
+   "price": 1.999
+  },
+  {
+   "symbol": "513690",
+   "name": "港股红利ETF博时",
+   "class": "crossborder",
+   "amount_cny": 86325.0,
+   "premium_pct": -1.0318,
+   "band": "stretched",
+   "trust": "iopv+same-day-nav",
+   "over_nav_cny": -890.71,
+   "iopv": 1.163,
+   "price": 1.151
+  },
+  {
+   "symbol": "159519",
+   "name": "港股国企",
+   "class": "crossborder",
+   "amount_cny": 86403.2,
+   "premium_pct": -1.1631,
+   "band": "stretched",
+   "trust": "iopv+same-day-nav",
+   "over_nav_cny": -1004.97,
+   "iopv": 1.7625,
+   "price": 1.742
+  }
+ ],
+ "priced_legs": 4,
+ "unverified_legs": 1,
+ "over_hurdle": {
+  "hurdle_cny": 500.0,
+  "total_over_nav_cny": -2085.63,
+  "priced_amount_cny": 345519.0,
+  "share_of_plan_pct": -0.6036,
+  "breached": false,
+  "basis": "sum over priced legs only; unverified legs carry no CNY figure and are excluded, never counted as zero"
+ },
+ "dispersion": {
+  "n": 602,
+  "amount_floor_cny": 20000000.0,
+  "median_pct": -0.1297,
+  "p10_pct": -1.2504,
+  "p90_pct": 0.1659,
+  "share_at_par": 0.6495,
+  "share_stretched": 0.1927,
+  "top_premium": [
+   {
+    "symbol": "159985",
+    "name": "豆粕ETF",
+    "pct": 6.0569
+   },
+   {
+    "symbol": "513310",
+    "name": "中韩半导体ETF华泰柏瑞",
+    "pct": 4.1932
+   },
+   {
+    "symbol": "513880",
+    "name": "日经225ETF华安",
+    "pct": 3.8954
+   },
+   {
+    "symbol": "513520",
+    "name": "日经ETF华夏",
+    "pct": 3.3177
+   },
+   {
+    "symbol": "513000",
+    "name": "日经225ETF易方达",
+    "pct": 2.229
+   }
+  ],
+  "top_discount": [
+   {
+    "symbol": "159663",
+    "name": "机床",
+    "pct": -3.0721
+   },
+   {
+    "symbol": "159206",
+    "name": "卫星ETF",
+    "pct": -2.9181
+   },
+   {
+    "symbol": "159834",
+    "name": "金ETF",
+    "pct": -2.8976
+   },
+   {
+    "symbol": "159934",
+    "name": "黄金ETF",
+    "pct": -2.8875
+   },
+   {
+    "symbol": "159937",
+    "name": "黄金9999",
+    "pct": -2.8863
+   }
+  ]
+ },
+ "caveats": [
+  "IOPV is a real-time estimate of the basket, not the fund's published NAV; a premium measured against it inherits that error.",
+  "the spot board publishes 折价率 (discount), the opposite sign of a premium -- this face recomputes from price/IOPV and reports any disagreement instead of choosing a side.",
+  "a cross-border leg publishes its NAV at T+n, so on the session itself its IOPV cannot be checked against anything. Those legs are marked unverified and carry NO CNY figure: an IOPV that has drifted from the basket looks exactly like a real premium from one snapshot.",
+  "the board is read at one moment: before the close these numbers move, and cross-border legs are the ones that move most (their underlying trades in another timezone).",
+  "a positive premium is a cost only to a buyer; it is income to a seller. This face says nothing about which side the book will be on tomorrow.",
+  "no historical premium series is long enough to build a percentile gate from: this face runs once per session on the daily chain from 2026-11-06, so a 'is today's premium high for this leg' reading has to wait for the series to accumulate."
+ ]
+}
