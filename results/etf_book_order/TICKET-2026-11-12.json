@@ -1,7 +1,7 @@
 {
  "evidence_cutoff": "2026-11-12",
  "beta_target": 0.2,
- "generated": "2026-11-12T23:41:05+08:00",
+ "generated": "2026-11-13T03:13:27+08:00",
  "permission": {
   "status": "within_permission",
   "k_now": 0.432195,
@@ -515,7 +515,7 @@
   "withdrawn_now": [],
   "withdrawal_note": "ledger withdrew 1 bar(s) at 2026-11-09 23:54:02 because the price panel then ended 2026-11-06 (2026-11-09); the panel has since carried 2026-11-09 again and that ledger row is live -- the withdrawal stays on record but it is not this sheet's pricing bar",
   "reinstatements": {
-   "at": "2026-11-12 23:41:05",
+   "at": "2026-11-13 03:13:27",
    "n_reinstated": 1,
    "rewritten": [],
    "verbatim_identical": [
@@ -642,7 +642,7 @@
  },
  "swap_trigger": {
   "artifact": "etf_book_swap_trigger",
-  "session": "2026-11-11",
+  "session": "2026-11-12",
   "ticket": "TICKET-2026-11-12.json",
   "source_face": "results/etf_book_sibling_gap.json",
   "criteria": {
@@ -1465,7 +1465,7 @@
  },
  "next_decision": {
   "artifact": "etf_book_next_decision",
-  "generated": "2026-11-12T23:41:05",
+  "generated": "2026-11-13T03:13:27",
   "evidence_cutoff": "2026-11-12",
   "calendar_source": "data/exchange_calendar.csv",
   "calendar_last": "2026-12-31",
@@ -1594,8 +1594,8 @@
    "an unmeasurable leg is refused with a reason, never scored as zero drift and never scored as zero noise (r1230 family)",
    "the concentration block prices the DIFFERENCE between one fund and two; it says nothing about either fund's tracking against its index, which needs NAV"
   ],
-  "anchor_session": "2026-11-11",
-  "anchor_behind_bar": true,
+  "anchor_session": "2026-11-12",
+  "anchor_behind_bar": false,
   "nothing_measured": {
    "reason": "NO_PAIRS",
    "pairs": 0,
@@ -1606,7 +1606,7 @@
  },
  "swap_freshness": {
   "artifact": "etf_book_swap_freshness",
-  "generated": "2026-11-12T23:41:06",
+  "generated": "2026-11-13T03:13:27",
   "evidence_cutoff": "2026-11-12",
   "calendar_source": "data/exchange_calendar.csv",
   "close_accept_time": "15:30",
@@ -1616,33 +1616,30 @@
     "producer": "scripts/etf_book_sibling_entry.py",
     "face": "results/etf_book_sibling_entry.json",
     "field": "session",
-    "bar": "2026-11-11",
-    "lag_sessions": 1,
-    "status": "STALE",
-    "reason": "1 session(s) behind the 2026-11-12 close",
-    "waiting_on": "waiting on data/etf_premium/snap/2026-11-12.csv (newest copy here: 2026-11-11, written 2026-11-11T16:25:44; lane owner bm-c writes it; this copy cannot)"
+    "bar": "2026-11-12",
+    "lag_sessions": 0,
+    "status": "FRESH",
+    "reason": "on the 2026-11-12 close"
    },
    {
     "leg": "sibling_gap",
     "producer": "scripts/etf_book_sibling_gap.py",
     "face": "results/etf_book_sibling_gap.json",
     "field": "session",
-    "bar": "2026-11-11",
-    "lag_sessions": 1,
-    "status": "STALE",
-    "reason": "1 session(s) behind the 2026-11-12 close",
-    "waiting_on": "waiting on data/etf_premium/snap/2026-11-12.csv (newest copy here: 2026-11-11, written 2026-11-11T16:25:44; lane owner bm-c writes it; this copy cannot)"
+    "bar": "2026-11-12",
+    "lag_sessions": 0,
+    "status": "FRESH",
+    "reason": "on the 2026-11-12 close"
    },
    {
     "leg": "swap_trigger",
     "producer": "scripts/etf_book_swap_trigger.py",
     "face": "results/etf_book_swap_trigger.json",
     "field": "session",
-    "bar": "2026-11-11",
-    "lag_sessions": 1,
-    "status": "STALE",
-    "reason": "1 session(s) behind the 2026-11-12 close",
-    "waiting_on": "waiting on data/etf_premium/snap/2026-11-12.csv (newest copy here: 2026-11-11, written 2026-11-11T16:25:44; lane owner bm-c writes it; this copy cannot)"
+    "bar": "2026-11-12",
+    "lag_sessions": 0,
+    "status": "FRESH",
+    "reason": "on the 2026-11-12 close"
    },
    {
     "leg": "swap_stack",
@@ -1716,14 +1713,10 @@
    }
   ],
   "n_legs": 10,
-  "stale_legs": [
-   "sibling_entry",
-   "sibling_gap",
-   "swap_trigger"
-  ],
+  "stale_legs": [],
   "inconsistent_legs": [],
-  "verdict": "STALE",
-  "sentence": "STALE: 3 of 10 faces are older than the 2026-11-12 close -- worst sibling_entry on 2026-11-11 (1 session(s) behind the 2026-11-12 close). waiting on data/etf_premium/snap/2026-11-12.csv (newest copy here: 2026-11-11, written 2026-11-11T16:25:44; lane owner bm-c writes it; this copy cannot)",
+  "verdict": "FRESH",
+  "sentence": "Every one of the 10 faces in the swap section is on the 2026-11-12 close.",
   "caveats": [
    "The bar-to-be comes from the official exchange calendar, never from this chain's own panels: a panel cannot say which session should already be printed (r1286).",
    "A face AHEAD of the calendar is not stale -- its producer would not make it true, so the chain must keep it red instead of paying a refresh (r1345).",
@@ -1748,15 +1741,15 @@
    "vol": 0.0887
   },
   "width_effect": {
-   "vol": {
-    "ticket_width_cagr": 0.1185,
-    "card_width_cagr": 0.1224,
-    "pp": 0.39
-   },
    "beta": {
     "ticket_width_cagr": 0.1108,
     "card_width_cagr": 0.0963,
     "pp": -1.45
+   },
+   "vol": {
+    "ticket_width_cagr": 0.1185,
+    "card_width_cagr": 0.1224,
+    "pp": 0.39
    }
   },
   "rules_differ": true,
@@ -2020,6 +2013,9 @@
     "lag_latest_pp": 1.018269000539318,
     "nav_lag_days": 1,
     "nav_source": "cache-stale",
+    "session_state": "SAME_SESSION",
+    "price_session": "2026-11-12",
+    "counted": true,
     "verdict": "LAG_DOMINATED",
     "rank": 0.13444816053511705,
     "rank_n": 1495,
@@ -2039,6 +2035,9 @@
     "lag_latest_pp": 1.4017115224217558,
     "nav_lag_days": 1,
     "nav_source": "cache-stale",
+    "session_state": "SAME_SESSION",
+    "price_session": "2026-11-12",
+    "counted": true,
     "verdict": "LAG_DOMINATED",
     "rank": 0.13700787401574804,
     "rank_n": 1905,
@@ -2058,6 +2057,9 @@
     "lag_latest_pp": 3.906211338050092,
     "nav_lag_days": 1,
     "nav_source": "cache-stale",
+    "session_state": "SAME_SESSION",
+    "price_session": "2026-11-12",
+    "counted": true,
     "verdict": "MIXED",
     "rank": 0.9562563580874873,
     "rank_n": 983,
@@ -2077,6 +2079,9 @@
     "lag_latest_pp": 0.5078761956684108,
     "nav_lag_days": 1,
     "nav_source": "cache-stale",
+    "session_state": "SAME_SESSION",
+    "price_session": "2026-11-12",
+    "counted": true,
     "verdict": "MEAN_REVERTING",
     "rank": 0.21052631578947367,
     "rank_n": 1330,
@@ -2096,6 +2101,9 @@
     "lag_latest_pp": 0.7286962724192714,
     "nav_lag_days": 1,
     "nav_source": "cache-stale",
+    "session_state": "SAME_SESSION",
+    "price_session": "2026-11-12",
+    "counted": true,
     "verdict": "MEAN_REVERTING",
     "rank": 0.06727037516170763,
     "rank_n": 773,
@@ -2107,6 +2115,9 @@
     "rank_rulers_disagree": false
    }
   ],
+  "face_session": "2026-11-12",
+  "face_session_field": "base_bar",
+  "face_off_session_legs": [],
   "lag_dominated": [
    "510760",
    "512040"

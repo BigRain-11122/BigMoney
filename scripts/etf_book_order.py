@@ -1435,6 +1435,8 @@ def premium_read(ticket, asof=None, results_dir=None):
     an absent leg is named rather than read as "no premium".
     """
     out = {"status": "missing", "face_asof": None, "stale": None, "rows": [],
+           "face_session": None, "face_session_field": None,
+           "face_off_session_legs": [],
            "lag_dominated": [], "unpriced": [], "missing_legs": [], "nav_lag_days": [],
            "pct_status": "missing", "pct_face_asof": None, "pct_stale": None,
            "pct_missing_legs": [], "pct_sentence": None, "pct_revert_cny": None,
@@ -1537,6 +1539,12 @@ def premium_read(ticket, asof=None, results_dir=None):
     out["status"] = "produced"
     out["face_asof"] = _premium_session(face.get("ticket_path"))
     out["stale"] = bool(asof and out["face_asof"] and str(asof) != out["face_asof"])
+    # r1607: the producer now says which session its per-leg "today" row was priced on, and
+    # which field it read that date from. Before this the sheet had only the ticket's
+    # filename; a reading that had drifted to a later bar would have looked identical.
+    out["face_session"] = face.get("book_session") or face.get("ticket_session")
+    out["face_session_field"] = face.get("ticket_session_field")
+    out["face_off_session_legs"] = list(face.get("off_session_legs") or [])
     legs = {l.get("symbol"): l for l in (face.get("legs") or []) if isinstance(l, dict)}
     for r in ((ticket or {}).get("order") or []):
         sym = r.get("symbol")
@@ -1555,6 +1563,9 @@ def premium_read(ticket, asof=None, results_dir=None):
                             "lag_latest_pp": l.get("lag_spread_latest_pp"),
                             "nav_lag_days": l.get("latest_nav_lag_days"),
                             "nav_source": l.get("nav_source"),
+                            "session_state": l.get("session_state"),
+                            "price_session": l.get("price_session"),
+                            "counted": l.get("counted"),
                             "verdict": l.get("verdict") or "?",
                             "rank": (p or {}).get("rank_of_latest"),
                             "rank_n": (p or {}).get("n"),
@@ -1632,13 +1643,28 @@ def premium_read_md(tk):
     if tk.get("stale"):
         L += ["- **这张溢价面切的是 `%s`，不是本单的日子**：读数与今日下单不同源，"
               "只能作参考，不能拿它说今天的贵贱。" % (tk.get("face_asof") or "?")]
+    if tk.get("face_session"):
+        L += ["- 上面那列「今日溢价」量的是 **`%s` 这一场**（生产者的日期取自 `%s`）；"
+              "不是别的一天的数。"
+              % (tk.get("face_session"), tk.get("face_session_field") or "未知字段")]
+    _off = tk.get("face_off_session_legs") or []
+    if _off:
+        L += ["- **其中 %d 只的读数不在本单这一场，已从任何合计里拿掉**：%s —— "
+              "没落到本单那一天的 bar 上，就不是这张单付的价。"
+              % (len(_off), "；".join(
+                  "`%s` 量的是 %s（本单 %s）" % (o.get("symbol"), o.get("price_session") or "无 bar",
+                                                 o.get("ticket_session") or "?")
+                  for o in _off))]
     if tk.get("rows"):
         L += ["", "| 代码 | 类别 | 今日溢价 | 自身中位 | 自身分位(n) | 自身分位·只算新估值(n) | 戳敏(中位) | 戳敏(今日) | NAV 戳落后 | 判词 |",
               "|---|---|---|---|---|---|---|---|---|---|"]
         for r in tk["rows"]:
+            _same = r.get("session_state") in (None, "SAME_SESSION")
             L.append("| %s | %s | %s | %s | %s | %s | %s | %s | %s | %s |"
                      % (r["symbol"], r["class"],
-                        _pp(r.get("latest_pct")), _pp(r.get("median_pct")),
+                        _pp(r.get("latest_pct")) if _same
+                        else "不同场（%s 的 bar）" % (r.get("price_session") or "?"),
+                        _pp(r.get("median_pct")),
                         _rank(r.get("rank"), r.get("rank_n")),
                         _rank(r.get("rank_clean"), r.get("rank_clean_n")),
                         _pp(r.get("lag_median_pp")), _pp(r.get("lag_latest_pp")),
@@ -6306,6 +6332,48 @@ def selftest():
             _pr8["fwd_status"] == "missing" and "还没被量过" in _md8
             and _pr8["fwd_cny_total"] is None,
             "fwd_status=%s" % _pr8["fwd_status"])
+
+        # ---- r1607: the reading has to name the session it was priced on, and a leg whose
+        # "today" row sits on another day's bar may not be printed as this sheet's premium
+        # (third copy of the r1605/r1606 disease, this time at the sheet).
+        _face_s = {"ticket_path": "results\\etf_book_order\\TICKET-2026-11-09.json",
+                   "ticket_session": "2026-11-09", "ticket_session_field": "base_bar",
+                   "book_session": "2026-11-09",
+                   "off_session_legs": [{"symbol": "BBB", "price_session": "2026-11-10",
+                                         "ticket_session": "2026-11-09",
+                                         "session_state": "PANEL_AHEAD"}],
+                   "legs": [{"symbol": "AAA", "class": "equity", "latest_pct": 1.2,
+                             "median_pct": 0.4, "session_state": "SAME_SESSION",
+                             "price_session": "2026-11-09", "counted": True,
+                             "verdict": "MIXED"},
+                            {"symbol": "BBB", "class": "equity", "latest_pct": 9.9,
+                             "median_pct": 0.4, "session_state": "PANEL_AHEAD",
+                             "price_session": "2026-11-10", "counted": False,
+                             "verdict": "MIXED"}]}
+        with tempfile.TemporaryDirectory() as _ts:
+            with open(os.path.join(_ts, "PREMIUM-PERSISTENCE.json"), "w",
+                      encoding="utf-8") as _f:
+                json.dump(_face_s, _f, ensure_ascii=False)
+            _prs = premium_read(_tk2, "2026-11-09", results_dir=_ts)
+            _mds = "\n".join(premium_read_md(_prs))
+            # the same face with the session marker removed: if that prints the number,
+            # the marker (not the price) is what changed the page
+            _bare = json.loads(json.dumps(_face_s))
+            for _l in _bare["legs"]:
+                _l.pop("session_state", None)
+            _bare.pop("off_session_legs", None)
+            with open(os.path.join(_ts, "PREMIUM-PERSISTENCE.json"), "w",
+                      encoding="utf-8") as _f:
+                json.dump(_bare, _f, ensure_ascii=False)
+            _mdb = "\n".join(premium_read_md(premium_read(_tk2, "2026-11-09",
+                                                          results_dir=_ts)))
+        chk("leg65b the premium column names the session it was priced on",
+            _prs["face_session"] == "2026-11-09" and "2026-11-09" in _mds
+            and "base_bar" in _mds, "sess=%s" % _prs.get("face_session"))
+        chk("leg65c a leg priced off another session is marked, not quoted",
+            "不同场（2026-11-10 的 bar）" in _mds and "+9.90%" not in _mds
+            and "不在本单这一场" in _mds and "+9.90%" in _mdb,
+            "marked=%d bare_prints=%s" % (_mds.count("不同场"), "+9.90%" in _mdb))
 
         # ---- r1571: the sheet has to say what fills at the open, and that a bar's cash
         # belongs to the book held DURING that bar (measured 2026-11-11: book_in_force

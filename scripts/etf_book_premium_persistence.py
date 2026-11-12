@@ -143,8 +143,18 @@ def classify(block):
 
 def book_sentence(legs):
     """What the book's own numbers say, derived -- never typed."""
+    legs = list(legs or [])
     if not legs:
         return "NO_LEGS", "the ticket has no priced legs"
+    same = counted_legs(legs)
+    off = off_session_legs(legs)
+    if not same and off:
+        seen = sorted({l.get("price_session") for l in off if l.get("price_session")})
+        return "NOT_THIS_SESSION", \
+            "none of the %d legs has a price bar on this ticket's own session: %d " \
+            "reading(s) come from %s instead, so nothing here can be totalled as this " \
+            "ticket's premium" % (len(legs), len(off), ",".join(seen) or "an unrecorded day")
+    legs = same or legs
     words = [l.get("verdict") for l in legs]
     if all(w in ("NO_SCALE", "UNPRICED") for w in words):
         return "NO_LEG_HAS_A_SCALE", \
@@ -186,6 +196,61 @@ def _stamp_skipped(navs, ser):
     return any(r.get("date") and used < r["date"] < price_date for r in navs)
 
 
+# ---------------------------------------------------------------- session anchor
+# r1607: this face answers "is TODAY's premium a condition or a convention", and it could not
+# say which day "today" was. It read `ticket["session"]` -- a key a real ticket does not carry
+# (the date lives in `base_bar`, and `feed_status.ticket_bar` says it again) -- so the page
+# printed "(session None)" while the ticket named 2026-11-12 in its own filename. Worse, the
+# per-leg "today" row was simply the price panel's LAST bar: once that panel advances, the
+# face keeps calling a later session "this ticket's today". Same disease r1605/r1606 fixed one
+# level up (a number carrying a date nobody asked about), here at this face's birth station.
+SESSION_FIELDS = ("session", "base_bar", "evidence_cutoff", "feed_status.ticket_bar")
+
+
+def ticket_session(ticket):
+    """(session, the field that answered). Unknown is (None, None) -- never a guess."""
+    tk = ticket or {}
+    for name in SESSION_FIELDS:
+        if "." in name:
+            head, tail = name.split(".", 1)
+            parent = tk.get(head)
+            v = parent.get(tail) if isinstance(parent, dict) else None
+        else:
+            v = tk.get(name)
+        if v:
+            return str(v)[:10], name
+    return None, None
+
+
+def path_session(path):
+    """The session encoded in the ticket's filename -- an independent second ruler."""
+    if not path:
+        return None
+    name = os.path.basename(str(path).replace("\\", "/"))
+    if name.startswith("TICKET-") and name.endswith(".json"):
+        return name[len("TICKET-"):-len(".json")]
+    return None
+
+
+def session_state(price_session, session):
+    """Where the row we printed "today" from actually sits relative to the ticket."""
+    if not session or not price_session:
+        return "SESSION_UNKNOWN"
+    if price_session == session:
+        return "SAME_SESSION"
+    return "PANEL_AHEAD" if price_session > session else "PANEL_BEHIND"
+
+
+def counted_legs(legs):
+    """The legs whose reading belongs to the ticket's own session -- what a book may total."""
+    return [l for l in (legs or []) if l.get("session_state") == "SAME_SESSION"]
+
+
+def off_session_legs(legs):
+    return [l for l in (legs or [])
+            if l.get("session_state") in ("PANEL_AHEAD", "PANEL_BEHIND")]
+
+
 def lag_probe(prices, navs):
     """Median and latest premium under k=1..5 stamps. Prices/navs are the real panels."""
     rows = []
@@ -214,6 +279,8 @@ def build(fetch=False, today=None):
     path, ticket = pp.latest_ticket()
     if not ticket:
         return {"error": "no ticket", "ticket_path": path}
+    session, field = ticket_session(ticket)
+    named = path_session(path)
     order = (ticket.get("ticket") or {}).get("order") or []
     legs = []
     for o in order:
@@ -221,18 +288,24 @@ def build(fetch=False, today=None):
         px = pp.load_prices(code)
         if not px:
             legs.append({"symbol": code, "verdict": "UNPRICED",
-                         "reason": "no price panel", "n": 0})
+                         "reason": "no price panel", "n": 0,
+                         "session_state": "SESSION_UNKNOWN", "counted": False})
             continue
         navs, nav_source = pp.load_nav(code, fetch=fetch, today=today)
         ser = pp.premium_series(px, navs, lag=1)
         vals = [r["premium_pct"] for r in ser]
         blk = series_stats(vals)
         probe = lag_probe(px, navs)
+        price_session = ser[-1]["date"] if ser else None
+        state = session_state(price_session, session)
         blk.update({"symbol": code, "class": o.get("class"),
                     "amount_cny": o.get("amount"),
                     "nav_source": nav_source, "n_nav_rows": len(navs),
                     "first_date": ser[0]["date"] if ser else None,
-                    "last_date": ser[-1]["date"] if ser else None,
+                    "last_date": price_session,
+                    "price_session": price_session,
+                    "session_state": state,
+                    "counted": state == "SAME_SESSION",
                     "latest_nav_date": ser[-1]["nav_date"] if ser else None,
                     "latest_nav_lag_days": ser[-1]["nav_lag_days"] if ser else None,
                     "lag_spread_median_pp": probe["spread_median_pp"],
@@ -242,10 +315,18 @@ def build(fetch=False, today=None):
         blk["verdict"] = classify(blk)
         legs.append(blk)
     word, sentence = book_sentence(legs)
-    priced = [l for l in legs if l.get("amount_cny") and l.get("latest_pct") is not None]
+    counted = [l for l in counted_legs(legs)
+               if l.get("amount_cny") and l.get("latest_pct") is not None]
+    off = [{"symbol": l.get("symbol"), "price_session": l.get("price_session"),
+            "ticket_session": session, "session_state": l.get("session_state")}
+           for l in off_session_legs(legs)]
     return {"generated_utc_note": "wall clock only in the envelope, numbers are deterministic",
             "ticket_path": os.path.relpath(path, ROOT) if path else None,
-            "ticket_session": (ticket.get("ticket") or {}).get("session"),
+            "ticket_session": session,
+            "ticket_session_field": field,
+            "ticket_session_from_path": named,
+            "session_conflict": bool(session and named and session != named),
+            "book_session": session if counted else None,
             "lag_ladder_definition": "NAV stamp strictly earlier than the price bar, "
                                      "k-th earlier for k in %s" % (list(LAGS),),
             "thresholds": {"thin_n": THIN_N, "patient_share": PATIENT_SHARE,
@@ -258,15 +339,21 @@ def build(fetch=False, today=None):
                       "a limited fund",
             "book_verdict": word,
             "book_sentence": sentence,
-            "book_amount_cny": sum(float(l["amount_cny"]) for l in priced) if priced else None,
+            "book_amount_cny": sum(float(l["amount_cny"]) for l in counted) if counted else None,
+            "off_session_legs": off,
             "legs": legs}
 
 
 def render_md(face):
     lines = ["# Premium persistence -- is today's cross-border premium a condition or a "
              "convention?", "",
-             "Ticket: `%s` (session %s)" % (face.get("ticket_path"),
-                                            face.get("ticket_session")), "",
+             "Ticket: `%s` (session %s, read from `%s`%s)" % (
+                 face.get("ticket_path"),
+                 face.get("ticket_session") or "UNKNOWN",
+                 face.get("ticket_session_field") or "nowhere -- the ticket names no session",
+                 "" if not face.get("session_conflict")
+                 else "; **the filename says %s**" % face.get("ticket_session_from_path")),
+             "",
              "## Answer", "", "**%s** -- %s" % (face.get("book_verdict"),
                                                 face.get("book_sentence")), "",
              "| leg | class | n | median % | today % | share>0 | half-life (sess) | "
@@ -279,6 +366,17 @@ def render_md(face):
             _f(l.get("share_positive"), 3), _f(l.get("half_life_sessions"), 1),
             _f(l.get("zero_cross_per_100"), 1), _f(l.get("lag_spread_latest_pp"), 2),
             l.get("verdict")))
+    off = face.get("off_session_legs") or []
+    if off:
+        lines += ["", "## Readings that are not this ticket's session", "",
+                  "These legs have no price bar on %s, so their 'today' premium belongs to "
+                  "another day and none of them is in `book_amount_cny`:" % (
+                      face.get("ticket_session") or "the ticket's session"),
+                  ""]
+        for o in off:
+            lines.append("- `%s`: priced on %s, this ticket is %s (%s)" % (
+                o.get("symbol"), o.get("price_session") or "no bar",
+                o.get("ticket_session") or "unknown", o.get("session_state")))
     lines += ["", "## What this face will not say", "",
               "- " + str(face.get("caveat")), "",
               "- Stamp freshness: a leg with `stamp_skipped` printed a NAV the panel had "
@@ -348,6 +446,35 @@ def check():
         fails.append("book_verdict %s vs %s" % (face.get("book_verdict"), word))
     if sentence != face.get("book_sentence"):
         fails.append("book_sentence does not re-derive")
+
+    # r1607: the face has to name the day it is talking about, and every reading it prints
+    # has to sit on that day. Re-derived from the ticket on disk, not from the face itself.
+    path, ticket = pp.latest_ticket()
+    sess, field = ticket_session(ticket)
+    if not sess:
+        fails.append("the ticket on disk names no session, so this face cannot be anchored")
+    elif face.get("ticket_session") != sess:
+        fails.append("ticket_session %s vs the ticket's own %s (read from %s)"
+                     % (face.get("ticket_session"), sess, field))
+    disclosed = {o.get("symbol") for o in (face.get("off_session_legs") or [])}
+    silent = [str(l.get("symbol")) for l in (face.get("legs") or [])
+              if l.get("session_state") in ("PANEL_AHEAD", "PANEL_BEHIND")
+              and l.get("symbol") not in disclosed]
+    if silent:
+        fails.append("legs priced off another session but not disclosed: %s"
+                     % ",".join(silent))
+    same = counted_legs(face.get("legs") or [])
+    want = sum(float(l["amount_cny"]) for l in same
+               if l.get("amount_cny") and l.get("latest_pct") is not None)
+    got = face.get("book_amount_cny")
+    if round(want or 0.0, 2) != round(float(got or 0.0), 2):
+        fails.append("book_amount_cny %s vs %s from the same-session legs"
+                     % (got, round(want, 2) if want else None))
+    want_sess = face.get("ticket_session") if same else None
+    if face.get("book_session") != want_sess:
+        fails.append("book_session %s vs %s (derived from the counted legs)"
+                     % (face.get("book_session"), want_sess))
+
     summary = ", ".join("%s=%s" % (l.get("symbol"), l.get("verdict"))
                         for l in face.get("legs") or [])
     if fails:
@@ -473,6 +600,49 @@ def selftest():
     leg("a stamp newer than the price bar is not a skip",
         not _stamp_skipped([{"date": "2026-11-12", "nav": 1.0}],
                            [{"date": "2026-11-12", "nav_date": "2026-11-11"}]))
+
+    # 15-19. r1607: the session this face is talking about, and where the reading sits.
+    # The live ticket carries no "session" key -- it carries base_bar / feed_status.
+    leg("session comes from base_bar when the ticket has no session key",
+        ticket_session({"base_bar": "2026-11-12"}) == ("2026-11-12", "base_bar"))
+    leg("session key wins when a producer does write it",
+        ticket_session({"session": "2026-11-10", "base_bar": "2026-11-12"})
+        == ("2026-11-10", "session"))
+    leg("falls through to evidence_cutoff and then feed_status.ticket_bar",
+        ticket_session({"evidence_cutoff": "2026-11-07"}) == ("2026-11-07", "evidence_cutoff")
+        and ticket_session({"feed_status": {"ticket_bar": "2026-11-05"}})
+        == ("2026-11-05", "feed_status.ticket_bar"))
+    leg("a ticket with no date anywhere is unknown, not today",
+        ticket_session({"ticket": {"order": []}}) == (None, None))
+    leg("the filename is a second ruler",
+        path_session("results/etf_book_order/TICKET-2026-11-12.json") == "2026-11-12"
+        and path_session("results/other.json") is None)
+    leg("state: same / ahead / behind / unknown",
+        (session_state("2026-11-12", "2026-11-12"), session_state("2026-11-13", "2026-11-12"),
+         session_state("2026-11-11", "2026-11-12"), session_state("2026-11-12", None))
+        == ("SAME_SESSION", "PANEL_AHEAD", "PANEL_BEHIND", "SESSION_UNKNOWN"))
+
+    # 20-21. A reading off another session must leave the tally and change the verdict.
+    _same = {"symbol": "AAA", "amount_cny": 100.0, "latest_pct": 1.0,
+             "session_state": "SAME_SESSION", "verdict": "PERSISTENT_PREMIUM"}
+    _ahead = {"symbol": "BBB", "amount_cny": 900.0, "latest_pct": 9.0,
+              "price_session": "2026-11-13", "session_state": "PANEL_AHEAD",
+              "verdict": "PERSISTENT_PREMIUM"}
+    _legs = [_same, _ahead]
+    _counted = counted_legs(_legs)
+    leg("a leg priced off another session leaves the tally and is named",
+        [l["symbol"] for l in _counted] == ["AAA"]
+        and [l["symbol"] for l in off_session_legs(_legs)] == ["BBB"]
+        and book_sentence(_legs)[0] == "STANDING_LEVEL_SURVIVES_THE_STAMP")
+    leg("when nothing is on the session the book says so instead of totalling",
+        book_sentence([_ahead])[0] == "NOT_THIS_SESSION"
+        and book_sentence([_ahead])[1].count("2026-11-13") == 1)
+    # a mutant check: promoting the off-session leg back into the counted set must change
+    # what the book claims -- otherwise the filter is decorative
+    leg("the filter is load-bearing, not decorative",
+        counted_legs([dict(_same, session_state="PANEL_AHEAD")]) == []
+        and book_sentence([_same, _ahead])[1]
+        != book_sentence([dict(_same, session_state="PANEL_AHEAD"), _ahead])[1])
 
     passed = sum(1 for _, ok in legs if ok)
     for name, ok in legs:
