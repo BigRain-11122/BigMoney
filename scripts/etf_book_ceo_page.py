@@ -4310,7 +4310,7 @@ def cash_money_face(cash_amount, ticket=None, panel_dir=REPO_DIR, tail=CASH_MONE
     """
     ticket = ticket or {}
     out = {"status": "absent", "source": None, "tail": int(tail), "block": None,
-           "note": None}
+           "note": None, "spot_date": None, "panel_tail": None, "spot_lag": 0}
     try:
         cash = float(cash_amount)
     except (TypeError, ValueError):
@@ -4326,6 +4326,7 @@ def cash_money_face(cash_amount, ticket=None, panel_dir=REPO_DIR, tail=CASH_MONE
     # row rather than borrowing the ticket's accrual for a different pile of money.
     money = ((ticket.get("cash_leg") or {}).get("money") or {})
     m_cash = money.get("cash_amount_cny")
+    rows = repo_rows(CASH_LEG_SYMBOL, panel_dir)
     if m_cash is not None:
         try:
             same = abs(float(m_cash) - cash) <= 0.01
@@ -4338,13 +4339,24 @@ def cash_money_face(cash_amount, ticket=None, panel_dir=REPO_DIR, tail=CASH_MONE
                              and money.get("verdict") != "CANNOT_PRICE" else "unpriced")
             if out["status"] != "ok":
                 out["note"] = money.get("sentence") or "票据说这一半不可定价"
+            # (r1573) consuming a block verbatim also consumes the day it was priced on.
+            # The page re-reads this same panel for its headline cash line, so a ticket
+            # built before the panel advanced would print two "today" rates on one
+            # sheet (1.17% at 11-10 beside 1.51% at 11-11). The lag is measured against
+            # the panel on disk, not against a clock.
+            _spot_d = (money.get("spot") or {}).get("date")
+            _tail_d = rows[-1][0].isoformat() if rows else None
+            out["spot_date"] = _spot_d
+            out["panel_tail"] = _tail_d
+            _lag = (len([d for d, _ in rows if _spot_d < d.isoformat() <= _tail_d])
+                    if (_spot_d and _tail_d and _spot_d < _tail_d) else 0)
+            out["spot_lag"] = _lag
             return out
         out["note"] = ("票据那一份现金是 ¥%s，这一页是 ¥%s —— 不是同一笔钱，"
                        "所以窗口口径不往下借"
                        % (format(float(m_cash), ",.0f"), format(cash, ",.0f")))
     else:
         out["note"] = "票据没有为这一半定价（没有 cash_leg.money），窗口口径不印"
-    rows = repo_rows(CASH_LEG_SYMBOL, panel_dir)
     if not rows:
         out["note"] = "%s 面板缺席" % CASH_LEG_SYMBOL
         return out
@@ -4394,6 +4406,17 @@ def cash_money_block(cm):
     L.append("")
     L.append("| 口径 | 年化 | 一年约赚 | 比今天的报价 |")
     L.append("|---|---|---|---|")
+    _lag = int(cm.get("spot_lag") or 0)
+    if _lag:
+        # r1573: this block is consumed verbatim from the ticket, so its date is the
+        # ticket's build day, not this page's bar. Saying "today" over a stale quote is
+        # the one thing this section must never do -- the headline re-reads the panel.
+        L.append("")
+        L.append("> **这一节的价格不是今天面板的价**：票据记的是 **%s** 的收盘，"
+                 "本页面板已到 **%s**（落后 %d 个报价）——下表第一行是「票据上的报价」，"
+                 "不是「今天的报价」。重发票据后这一行会自己跟上。"
+                 % (cm.get("spot_date") or "?", cm.get("panel_tail") or "?", _lag))
+        L.append("")
 
     def _row(label, pct, annual, is_base=False):
         if pct is None:
@@ -4409,8 +4432,9 @@ def cash_money_block(cm):
             label, float(pct),
             ("**¥%s**" % format(annual, ",.0f")) if annual is not None else "—", delta)
 
-    L.append(_row("**今天的报价**（%s）" % (spot.get("date") or "—"), base,
-                  spot.get("annual_cny"), is_base=True))
+    L.append(_row("**%s**（%s）" % ("票据上的报价" if _lag else "今天的报价",
+                                   spot.get("date") or "—"),
+                  base, spot.get("annual_cny"), is_base=True))
     L.append(_row("自己近 %d 个报价的均值" % (spot.get("quotes") or cm.get("tail") or 0),
                   tail_b.get("pct"), tail_b.get("annual_cny")))
     if win.get("pct") is not None:
@@ -4441,6 +4465,10 @@ def cash_money_block(cm):
                     format(abs(float(win.get("annual_cny") or 0)
                                - float(spot.get("annual_cny") or 0)), ",.0f")))
     L.append("- 这三个数都不是收益来源：现金的活是「不缩水」，要收益得靠上面那些票。")
+    if _lag:
+        L.append("- 上面那几句「今天」说的是 **%s** 那张票据的报价，不是本页面板 "
+                 "**%s** 的收盘——重发票据后本节与头条才会是同一张纸上的同一个数。"
+                 % (cm.get("spot_date") or "?", cm.get("panel_tail") or "?"))
     L.append("")
     return L
 
@@ -8201,6 +8229,33 @@ def selftest():
         "rows=[spot=%s tail=%s window=%s] fall_says_fall=%s steady_says_fall=%s"
         % ("今天的报价" in _cm_lines, "自己近" in _cm_lines, "全窗均值" in _cm_lines,
            "利率掉下来" in _cm_lines, "利率掉下来" in _cm_flat_txt))
+    # L138b (r1573): a ticket priced before the panel advanced. The page re-reads the
+    # same panel for its headline, so a verbatim-consumed block can print a quote the
+    # panel has already moved past -- on 2026-11-12 that was 1.17% (11-10) beside
+    # 1.51% (11-11) under two labels that both said "today".
+    _lag_spot = _cm_days[-2].isoformat()
+    _lag_money = {"cash_amount_cny": 100000.0,
+                  "spot": {"pct": 2.0, "date": _lag_spot, "annual_cny": 2000.0,
+                           "quotes": 250},
+                  "mean_tail": {"pct": 2.0, "annual_cny": 2000.0},
+                  "spread_vs_tail_cny": 0.0, "fall_bp": 25.0,
+                  "verdict": "RATES_STEADY"}
+    _cmf_lag = cash_money_face(100000.0,
+                               {"evidence_cutoff": _cm_date,
+                                "cash_leg": {"money": _lag_money}},
+                               panel_dir=_cm_dir)
+    _lag_lines = "\n".join(cash_money_block(_cmf_lag))
+    chk("L138 cash money: a block priced on an older bar says so and stops saying today",
+        _cmf_lag.get("spot_lag") == 1
+        and _cmf_lag.get("spot_date") == _lag_spot
+        and _cmf_lag.get("panel_tail") == _cm_date
+        and "票据上的报价" in _lag_lines
+        and "不是今天面板的价" in _lag_lines
+        and "票据上的报价" not in _cm_lines,
+        "lag=%r spot=%s tail=%s named=%s quiet_when_same=%s"
+        % (_cmf_lag.get("spot_lag"), _cmf_lag.get("spot_date"),
+           _cmf_lag.get("panel_tail"), "票据上的报价" in _lag_lines,
+           "票据上的报价" not in _cm_lines))
     # L138-L140 (r1247): the entry gate -- the one number that picks the whole universe.
     _eg_dir = tempfile.mkdtemp()
     _eg_gates = [5e6, 10e6, 20e6, 50e6, 100e6, 200e6]

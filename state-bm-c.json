@@ -418,7 +418,7 @@
   "orphans": 0,
   "py_faces": 6
  },
- "orphan_faces": 2,
+ "orphan_faces": 1,
  "orphan_note": "pid 3288 saturation_engine: parent dead but CPU advancing (r340 live face) -- not killed",
  "pending": [],
  "pre2020_face": {
@@ -831,7 +831,7 @@
  "recent_artifact": "docs/live_book/LIVE-BOOK-20261111.md",
  "round": 1572,
  "round_label": "1572",
- "round_no": 1572,
+ "round_no": 1573,
  "round_no_label": "1572",
  "round_no_landed": 1492,
  "round_note": "r1489: a reinstated bar is re-derived from the panel, not carried over (reinstatement_check + reinstatements.json + sheet paragraph)",
@@ -1058,31 +1058,28 @@
  "round_t1565_note": "| 2026-11-12 00:45-01:2x | 1565 | **PRODUCT（产品优先律）：套件里唯一的红（期货 TSMOM 面 stale）既是数据债，也是两台机在同一时刻说出两套真话的入口。** ①红本身：面板尾停在 2026-11-10，官方日历要求 11-11，而属主 bm-a 心跳已静默 **23.6h**——按 r1267 声明接管规则跑 `update_futures.py --takeover`，九个品种各 +1 行落到 **2026-11-11**，TSMOM 面重生 `bar=2026-11-11 stale=False`（TS 仍如实披露滞后 28 交易日）。②**接管声明被旧信封吞掉**：`write_status` 只在信封没有 `authority` 时才写，而 payload 来自 `load_status()`＝**上一轮的信封**，于是本机刚接管完，发布面仍写 `writer_machine=bm-a / declared_takeover=false / reason=null`（00:47 实测）——正好是 r1267 立法的反面：代替写下的行没有任何读者能看出的声明。正法＝`merge_authority()` 每次重写该块，`took_over_at` 补时间戳；自检夹具复刻 00:47 那次运行（继承块 + 接管 → 必须翻转成 declared_takeover=true/took_over_by=bm-c）。③**九条车道共用一句写错的属主**：`takeover_decision` 的判词用模块自己的 `LANE_OWNER`(bm-b)，于是 bm-c 接管 bm-a 的期货车道时打印「owner bm-b silent 23.6h」——两个不同的机器名并排出现在同一条声明里，而 bm-b 真的静默了 300h，读者可以「核实」出一个错误结论。正法＝单源加 `lane_owner` 参数，十条调用各自传自己的属主（heat 传 `HEAT_LANE_HOST`），`etf_wide` 的 arity 腿升为三参并把「判词必须写调用方属主」钉进去（该腿就是为上一次签名漂移立的）。④**孤儿探针把正在干活的链路读成僵尸**：face-3 只看进程自身 CPU，`Tools/s6_chain_bmc.py` 的父进程等子进程（`etf_book_min_capital.py` 在烧）时 CPU=0，于是 01:01 被列为 orphan——`--kill` 下就是**把链路本身杀掉**。正法＝face-3 改看**子树** CPU（自身+活后代）；复跑后该面 `delta 19.969 / stalled=False` 出列，孤儿面 2→1。**验证**：`update_etf_daily` 14/14、`update_futures` 12/12、`update_etf_wide` 43/43（新 arity）、`update_moneyflow` 26/26、`update_repo` 13/13、fund_statements／lhb／heat／astock／zt_pool guard 全 PASS、`intraday_marks` rc0；期货信封实测发布 `lane_owner=bm-a / writer_machine=bm-c / declared_takeover=true / took_over_by=bm-c / took_over_at=2026-11-12T00:53:01`。**S6**：dualrun **ZERO-DRIFT**（744 条 streak 51）／compute_audit FLAG `pool_starvation(16785.8min)+supply_floor(ready 0/floor 3·AGENDA_DEBT·4 候选全不过日历)`／py_watermark `py_low_with_work_cands`（cpu 31%/py 3.9%，唯一候选＝astock 接管拉取，2.5s 限速=结构性低 CPU，非空转）／`update_daily` rc0 **0 新行** cutoff 2026-11-11／`market_regime` RED（hs300<MA200, days=6）／`regime_thermo` stdout-only no-op（本机无 Money02 面板）／车道新鲜度 verdict=attention（stalled 2·behind_1d 5·worst=marks/bm-b 300h）。**本机属主车道本轮动作**：ths_panel 已起分离刷新（2026-11-11.csv 缺）；moneyflow/sina_mf 诚实 no-op（自家 20td 新鲜律），lhb_inst no-op（cutoff 11-09）。**本轮发现待决（写入下轮指针）**：board 判 `behind_1d` 而采集器判「新鲜」，同一块面板两套尺子＝不可行动的旗（E318 族）。**S0.5**：`Tools/s05_probe.py` orders_delta=false / decisions_delta=false / unacked=[]。**S7**：loop pin=5 no-op（首跳 01:10）、watchdog 重注册（S4U 翻转仍被拒·需管理员）、两爪 LF 归一重装、attrition 4 账本 **CLEAN**（3 处历史缩行 healed）。**孤儿面=1**（pid 1956 `Tools/fleet/agent.py --node bm-c --loop 60`：父进程死、无监督任务、不监听端口、20s CPU 0.016——**未杀**：杀了就是卸掉本机节点代理，该留该杀需 CEO/管理员判）。**当前活**：把「接管」从一个隐式动作变成信封上说得出时间的一句话。**最近实物**：`results/futures_update_status.json` 接管声明（00:53）＋`docs/futures_lane/TSMOM-2026-11-11.md`。**下个里程碑**：统一 board 与采集器的「新鲜」定义（窗 ≤48h）。**未验证（如实）**：全量 smoke 本轮 01:02 起后台在飞（`logs/smoke_r1565.log`，收轮时仍在跑），本轮改件以 12 组自检＋信封实测为据。 |",
  "round_t1566_next": "P0 next round: one page carries two dates -- results/etf_book_production/CARD.md is headed '(2026-11-11 bar)' while the holdings it lists were decided on 2026-10-14 (card_track agreement.card_decided_bar), and the paper ledger's row is decided 2026-11-11 with a disjoint 12-name set (9 names missing on each side, max_weight_diff 0.017382, scale card 0.7008 vs ledger 0.9094, cash 0.2992 vs 0.0906). Card_track's agree=False is telling the truth; the defect is that the header bar is not the holdings' decision bar (same shape as r1562: a ticket_session field is not an identity). Decide first which bar the card's holdings belong to and whether the ledger's 11-11 row is the scheduled rebalance or the hand-written target from r1563 (UNEXPLAINED_TARGET_WITHOUT_TRADES) before touching either face. Second: read logs/smoke_r1566b.log's summary (in flight at closeout). Third: the R40 station executor on bm-c is registered but degraded to InteractiveToken (S4U denied unelevated) and blocks on blocked_no_comfyui.",
  "round_t1566_note": "PRODUCT: 两个「有产无读/不可行动」的旗被收掉",
- "rounds": 1569,
- "rounds_done": 1569,
- "rounds_note": "r1569",
- "smoke": "inherited window's suite closed 560/560 PASS 0 FAIL (results/_smoke_r1568.out, 05:23-06:06); this window's two changed modules are covered by their own selftests, and their suite legs enter on the next full pass",
+ "rounds": 1573,
+ "rounds_done": 1573,
+ "rounds_note": "r1573",
+ "smoke": "inherited suite results/_smoke_r1572.out closed 564/564 PASS 0 FAIL (started 08:52, before this window's edits)",
  "src": "K:/Fluxgroup/FluxGroup/Tools/{task-register.ps1,fleet-align.ps1,hq_claim_launch.py} (group repo commit 4546fa97e) + Tools/card_text_hygiene.py + knowledge/METHODOLOGY_ASSETS.md E544",
  "status": "product-closeout",
  "sync": {
   "ahead_origin": 0,
   "behind_origin": 0,
-  "commit": "1265dc5926",
-  "origin_tip": "1265dc5926",
-  "landed_on": "origin/main",
   "local_unreached_commits": 0,
-  "ts": "2026-11-12T06:12:39+08:00"
+  "ts": "2026-11-12T09:15:32+08:00"
  },
- "task": "r1571: the ledger published a decided book (k=0.9094) beside a bar row whose cash (29.9%) belongs to the book held DURING that bar -- one read as a change, the other as staleness; the fill is now a published record with its date and its cost",
+ "task": "r1573: three lanes were being collected by nobody and read by nobody -- the declared takeover brought repo/lhb/heat to 2026-11-11, and the success branch of lhb stopped hiding the key its reader declares",
  "total_ram_gb": 23.9,
- "ts": "2026-11-12T08:49:12+08:00",
+ "ts": "2026-11-12T09:15:32+08:00",
  "updated": "2026-11-12T06:12:39+08:00",
  "updated_at": "2026-11-12T06:12:39+08:00",
- "verdict": "a decision and a fill are two different days: the ledger now says which book each bar row is marked on, when the new one fills, and what the move costs",
- "verify": "etf_book_forward --selftest OK (12 new pending-fill legs incl. the published-nav regression) | etf_book_order --selftest 164/164 | live check 6/6 on the published LEDGER + card sheet | card_track AGREE rc0 | production --selftest OK | inherited suite closed 560/560",
+ "verdict": "a flag that vanishes when the data arrives is the same defect as a lane nobody collects: the reader's key and the writer's success branch now agree, and one sheet no longer prints two different 'today' rates",
+ "verify": "etf_book_ceo_page selftest 242/242 (new L138) | update_lhb selftest PASS (new board-key leg) | GC001 panel tail 2026-11-11 | lane board in_sync 11 | inherited suite 564/564",
  "verify_smoke_closed": "previous window's suite closed 546/547 with one red (live_book_section_bars stale face) -- refreshed this round, check now CHECK_OK rc0",
  "vram_free_gb": 14.5,
- "watermark_verdict": "py_low_with_work_cands (astock_daily refresh in flight = legal)",
+ "watermark_verdict": "insufficient_history (1 sample in window; no in-flight batch)",
  "round_t1567_next": "next: at the 09:30 open confirm the card sheet is what gets executed (12 names, k=0.9094, cash 9.1%) and re-check the sheet is still that card after any mid-session card refresh; second: the fleet agent orphan (pid 1956) still needs a judgement, and the S4U / Defender exclusion items still need an administrator",
  "round_t1567_note": "PRODUCT: the card-config ticket had no re-derivation guard -- it kept quoting 0.7008/30.0% cash while the card had moved to 0.9094/9.1% (20.9pp of a 1M book)",
  "round_t1567_addendum": "| 2026-11-12 05:08 | 1567c | suite closed 559/559 0 FAIL; the new card-sheet leg was written after the run loaded, verified by module selftest 34/34 + a standalone re-computation (tk 5 / ct 12); inbox has no message for bm-c |",
@@ -1098,5 +1095,12 @@
   "advanced": true,
   "rescan": "both false, unacked [] rc0"
  },
- "round_t1572_note": "promise+receipt+self-check in one ledger file; page names the two books from values; scale_floor re-published on the 11-11 panel"
+ "round_t1572_note": "promise+receipt+self-check in one ledger file; page names the two books from values; scale_floor re-published on the 11-11 panel",
+ "round_t1573_next": "next: results/etf_book_return_regime.json still prints 'today 1.17%' (an 11-10 face) in the risk-ladder table on the CEO page -- regenerate it through the pool (O-2100 long batch), do not run it inline; second: the 09:30 open should land the pending fill (ledger row 11-12 filled=true, cash 9.1%, cost ~CNY 1,280); third: ah_panel/lhb_inst still have no --takeover path, so a silent owner leaves them stuck (ah_panel behind_1d, lhb_inst stalled)",
+ "s05_scan": {
+  "orders_delta": false,
+  "decisions_delta": false,
+  "unacked": [],
+  "rc": 0
+ }
 }

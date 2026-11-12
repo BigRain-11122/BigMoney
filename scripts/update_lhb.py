@@ -355,6 +355,24 @@ def rebuild_from_chunks():
     return len(full)
 
 
+def updated_status(cutoff, new_cutoff, new, quarters, total, detail, now):
+    """The envelope published by the one branch that actually moves the panel.
+
+    r1573: this branch used to publish only cutoff_before/cutoff_after while
+    every early exit published `cutoff`. The freshness board (data_lane_freshness
+    LANES["lhb"].key) reads `cutoff`, so a *successful* pull made the lane read
+    `absent` -- the flag vanished exactly when the data arrived. `cutoff` is the
+    declared key; before/after are for the human reading the diff.
+    """
+    return {"cutoff": new_cutoff,
+            "cutoff_before": str(cutoff.date()),
+            "cutoff_after": new_cutoff, "new_rows": int(len(new)),
+            "quarters_refetched": [str(qt) for qt in quarters],
+            "total_rows": int(total),
+            "overlap": detail, "last_attempt": str(now),
+            "verdict": "updated"}
+
+
 def main():
     t0 = time.time()
     owner = machine_id()
@@ -512,12 +530,8 @@ def main():
     total = rebuild_from_chunks()
     new_cutoff = str(pd.to_datetime(
         pd.read_parquet(PARQUET, columns=["上榜日"])["上榜日"]).max().date())
-    save_status({"cutoff_before": str(cutoff.date()),
-                 "cutoff_after": new_cutoff, "new_rows": int(len(new)),
-                 "quarters_refetched": [str(qt) for qt in quarters],
-                 "total_rows": int(total),
-                 "overlap": detail, "last_attempt": str(now),
-                 "verdict": "updated"})
+    save_status(updated_status(cutoff, new_cutoff, new, quarters, total,
+                               detail, now))
     print(f"updated: +{len(new)} rows, cutoff {cutoff.date()} -> "
           f"{new_cutoff}, total {total} ({time.time()-t0:.0f}s)", flush=True)
     return 0
@@ -746,6 +760,26 @@ def selftest():
         (_ued.takeover_decision, _ued._owner_stale_min,
          _ued.TAKEOVER_STALE_MIN) = _saved
         sys.argv = _saved_argv
+
+    # ---- r1573: the branch that advances the panel must publish the key the
+    # freshness board declares. The board's own registry is the source of that
+    # key (never a copy of the string): a writer and a reader that agree by
+    # coincidence is exactly what broke -- the lane went `absent` on the one
+    # day it actually succeeded.
+    from data_lane_freshness import LANES as _BOARD_LANES
+    _lhb_lanes = [ln for ln in _BOARD_LANES if ln.get("writer") == "update_lhb"]
+    assert len(_lhb_lanes) == 1, _lhb_lanes
+    _key = _lhb_lanes[0]["key"]
+    _st_upd = updated_status(ts("2026-11-06"), "2026-11-11", [1] * 210,
+                             [pd.Period("2026Q4", freq="Q")], 268254,
+                             {"old_rows": 79}, ts("2026-11-12 09:02"))
+    assert _key in _st_upd, \
+        f"updated branch omits the board's key {_key!r}: {sorted(_st_upd)}"
+    assert _st_upd[_key] == "2026-11-11", _st_upd[_key]
+    assert _st_upd["cutoff_before"] == "2026-11-06", _st_upd["cutoff_before"]
+    assert _st_upd["verdict"] == "updated"
+    print(f"[PASS] updated branch publishes the board's key {_key!r} "
+          f"(= the new cutoff), not only before/after", flush=True)
 
     print("selftest: all guard cases PASS", flush=True)
     return 0
