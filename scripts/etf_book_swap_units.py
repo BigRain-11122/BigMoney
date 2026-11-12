@@ -388,6 +388,16 @@ def compute(ctx):
                 "holding and it is not added to NAV",
             ]}
 
+    # r1536b: the next decision bar is a pure calendar fact -- it needs no snapshot, no paired
+    # ticket and no discount. Computing it only on the success path meant a missing snapshot
+    # blanked an answer this face can always give, so the clock face's third claim read
+    # "unreadable" and the three-face comparison could only ever say UNKNOWN even when the
+    # other two agreed. Computed here, before every refusal, so no refusal can take it away.
+    rebal, how = grid_constant()
+    face["next_decision_bar"] = nd_clock.next_decision(
+        as_of, ctx.get("calendar") or [], rebal=rebal, anchor=ctx.get("anchor_bar"))
+    face["next_decision_bar"]["grid_constant_source"] = how
+
     stack = ctx.get("swap_stack")
     effect = ctx.get("swap_effect")
     positions = ctx.get("positions")
@@ -479,15 +489,6 @@ def compute(ctx):
     face["ledger"]["share_of_holding"] = (None if not held else round(extra / held, 6))
     face["remark"] = remark_block(as_of, buy["symbol"], extra, level_total,
                                   ctx.get("calendar") or [])
-    rebal, how = grid_constant()
-    cal = ctx.get("calendar") or []
-    # r1536: `after[rebal - 1]` counted 20 sessions from whatever bar the sheet was printed on,
-    # so its date moved forward every day and -- whenever the sheet is not itself on a grid bar
-    # -- named a day that is not a decision bar at all (2026-12-08 was calendar index 8779;
-    # 8779 % 20 == 19). One clock now, anchored on the published last_decision_bar.
-    face["next_decision_bar"] = nd_clock.next_decision(
-        as_of, cal, rebal=rebal, anchor=ctx.get("anchor_bar"))
-    face["next_decision_bar"]["grid_constant_source"] = how
     face["realised_guard"] = realised_guard(positions, level_total)
     face["verdict"] = ("SIZE_RECORDED" if face["realised_guard"].get("found") is not True
                        else "DISCOUNT_REACHED_THE_LEDGER")
@@ -803,6 +804,13 @@ def selftest():
     ctx4["swap_effect"]["bar"] = "2026-11-09"
     leg("L23 a face from another bar is refused",
         compute(ctx4)["verdict"] == "CANNOT_RECORD", compute(ctx4).get("refused"))
+    # r1536b: a refusal may take the size away, never the calendar. The next decision bar is
+    # a pure calendar fact, so a missing snapshot must not blank it (that made the clock
+    # face's third claim unreadable and the whole comparison UNKNOWN by construction).
+    nd4 = compute(ctx4).get("next_decision_bar")
+    leg("L23b a refused face still says when the next decision bar is",
+        isinstance(nd4, dict) and "grid_source" in nd4
+        and (nd4.get("bar") is not None or not (ctx4.get("calendar") or [])), nd4)
 
     # a leg whose notional disagrees was a different trade
     ctx5 = _fixture()

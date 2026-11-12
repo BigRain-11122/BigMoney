@@ -1,6 +1,6 @@
 # One size, three rulers
 
-ticket `TICKET-2026-11-12.json` | evidence cutoff 2026-11-12 | decision date 2026-11-11 | beta target 0.2
+ticket `TICKET-2026-11-12.json` | evidence cutoff 2026-11-12 | decision date 2026-12-09 | beta target 0.2
 
 **SIZE_IS_A_RULER_CHOICE** — the same rule priced on the same panel lands between k=0.343508 and k=0.747086 (40.36pp of range, widest mover=window +31.49pp); the money sits inside that range at k=0.432195 -- 1 readings below it, 3 above it, floor CNY 343,508 against CNY 432,195 deployed
 
@@ -20,8 +20,8 @@ ticket `TICKET-2026-11-12.json` | evidence cutoff 2026-11-12 | decision date 202
 
 identity legs: 6 pass / 0 fail
 
-prereg requirements for 2026-11-11:
+prereg requirements for 2026-12-09:
 - 1. fix the ruler before looking: which window (common vs full) and which universe (all vs graded) is the declared measurement universe
 - 2. fix the denominator rule (path beta, or static mix divided by covered weight) and forbid mixing the two inside one table
 - 3. if the declared size is the floor rather than the ceiling, sign the risk budget it implies (target 0.20 is a budget, not an optimum -- r1447)
-- 4. carry the chosen size into the 2026-11-11 ticket and print the three unused readings next to it so the choice stays visible
+- 4. carry the chosen size into the 2026-12-09 ticket and print the three unused readings next to it so the choice stays visible

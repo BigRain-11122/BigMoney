@@ -1,6 +1,6 @@
 # May the 2026-11-11 rebalance keep this size?
 
-ticket `TICKET-2026-11-12.json` | evidence cutoff 2026-11-12 | decision date 2026-11-11 | beta target 0.2
+ticket `TICKET-2026-11-12.json` | evidence cutoff 2026-11-12 | decision date 2026-12-09 | beta target 0.2
 
 **KEEP_SUPPORTED_BY_INDEPENDENT_PATH** — keeping k=0.432195 is supported by 3 independent path reading(s) (universe, window, window_x_universe); the permitting floor over all path readings is k=0.432195
 

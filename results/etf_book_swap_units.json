@@ -10,7 +10,17 @@
   "evidence_cutoff": "2026-11-12",
   "ledger": null,
   "lot_shares": 100,
-  "next_decision_bar": null,
+  "next_decision_bar": {
+    "anchor_bar": "2026-11-11",
+    "bar": "2026-12-09",
+    "bars_away": 19,
+    "grid": 20,
+    "grid_constant_source": "import",
+    "grid_source": "anchor",
+    "phase": 0,
+    "rule": "2026-11-12 之后第一个落在官方日历相位 0 mod 20 的交易日",
+    "why": ""
+  },
   "not_realised": "折扣是「同一笔钱多买到多少份」，不是卖掉的那部分收入的差——它只有在这些份被卖出、且价差已经收窄时才变成现金；在那之前把它记成已实现收益，等于把份额当成钱。",
   "not_repriced": "份数在买入那一刻就固定了；下一根 bar 能改的只有它按什么价重估。用新的价差重算折扣＝把 r1523 的路径栏再做一遍，本面不提供这个数。",
   "premium_bound_pp": 0.5,

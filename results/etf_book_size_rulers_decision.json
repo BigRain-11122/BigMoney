@@ -51,7 +51,10 @@
  "face": "etf_book_size_rulers_decision",
  "evidence_cutoff": "2026-11-12",
  "ticket_file": "TICKET-2026-11-12.json",
- "decision_date": "2026-11-11",
+ "decision_date": "2026-12-09",
+ "decision_date_source": "next_decision_clock",
+ "decision_date_rolling": "2026-12-10",
+ "decision_date_why": "",
  "beta_target": 0.2,
  "panel_work": "run",
  "market_proxy": "510300",
@@ -69,8 +72,8 @@
    "window": "full"
   },
   "window": {
-   "beta": 0.2677066750837711,
-   "k": 0.7470863396940541,
+   "beta": 0.26770667508377116,
+   "k": 0.747086339694054,
    "bars": 771,
    "universe": "all classes on the panel",
    "window": "common (2023-09-01..2026-11-11)"
@@ -83,8 +86,8 @@
    "window": "full"
   },
   "window_x_universe": {
-   "beta": 0.29955127494483347,
-   "k": 0.667665327202606,
+   "beta": 0.2995512749448334,
+   "k": 0.6676653272026061,
    "bars": 771,
    "universe": "graded (equity,commodity,convertible)",
    "window": "common (2023-09-01..2026-11-11)"
@@ -128,8 +131,8 @@
   "1. fix the ruler before looking: which window (common vs full) and which universe (all vs graded) is the declared measurement universe",
   "2. fix the denominator rule (path beta, or static mix divided by covered weight) and forbid mixing the two inside one table",
   "3. if the declared size is the floor rather than the ceiling, sign the risk budget it implies (target 0.20 is a budget, not an optimum -- r1447)",
-  "4. carry the chosen size into the 2026-11-11 ticket and print the three unused readings next to it so the choice stays visible"
+  "4. carry the chosen size into the 2026-12-09 ticket and print the three unused readings next to it so the choice stays visible"
  ],
- "elapsed_sec": 61.2,
- "generated": "2026-11-12T16:46:53+0800"
+ "elapsed_sec": 36.5,
+ "generated": "2026-11-12T19:49:53+0800"
 }

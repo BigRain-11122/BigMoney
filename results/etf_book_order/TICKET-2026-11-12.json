@@ -6,7 +6,7 @@
   "k_now": 0.432195,
   "permitted_k": 0.432195,
   "ceiling_k": 0.747086,
-  "decision_date": "2026-11-11",
+  "decision_date": "2026-12-09",
   "nav_cny": 1000000.0,
   "ordered_book_cny": 432195.0,
   "permitted_book_cny": 432195.0,
@@ -145,7 +145,7 @@
    "floor": 0.432195,
    "source": "permission_receipt",
    "source_path": "results/etf_book_rebalance_permission.json",
-   "decision_date": "2026-11-11",
+   "decision_date": "2026-12-09",
    "note": null
   },
   "verdict": "WITHIN_PERMISSION"
@@ -234,7 +234,7 @@
   "floor": 0.432195,
   "source": "permission_receipt",
   "source_path": "results/etf_book_rebalance_permission.json",
-  "decision_date": "2026-11-11",
+  "decision_date": "2026-12-09",
   "note": null
  },
  "size_band": {
@@ -514,7 +514,7 @@
   "withdrawn_now": [],
   "withdrawal_note": "ledger withdrew 1 bar(s) at 2026-11-09 23:54:02 because the price panel then ended 2026-11-06 (2026-11-09); the panel has since carried 2026-11-09 again and that ledger row is live -- the withdrawal stays on record but it is not this sheet's pricing bar",
   "reinstatements": {
-   "at": "2026-11-12 19:31:02",
+   "at": "2026-11-12 19:53:26",
    "n_reinstated": 1,
    "rewritten": [],
    "verbatim_identical": [
@@ -1431,7 +1431,17 @@
   "totals": {},
   "ledger": null,
   "remark": null,
-  "next_decision_bar": null,
+  "next_decision_bar": {
+   "bar": "2026-12-09",
+   "grid": 20,
+   "grid_source": "anchor",
+   "anchor_bar": "2026-11-11",
+   "phase": 0,
+   "bars_away": 19,
+   "rule": "2026-11-12 之后第一个落在官方日历相位 0 mod 20 的交易日",
+   "why": "",
+   "grid_constant_source": "import"
+  },
   "sentence": "这一问答不了：净额单里找不到唯一的一条买入腿：折扣买到了多少份读不出来。",
   "lot_shares": 100,
   "realised_booked_cny": null,
@@ -1454,7 +1464,7 @@
  },
  "next_decision": {
   "artifact": "etf_book_next_decision",
-  "generated": "2026-11-12T19:31:02",
+  "generated": "2026-11-12T19:53:26",
   "evidence_cutoff": "2026-11-12",
   "calendar_source": "data/exchange_calendar.csv",
   "calendar_last": "2026-12-31",
@@ -1497,30 +1507,27 @@
     "name": "cut_permission",
     "face": "results/etf_book_rebalance_permission.json",
     "key": "decision_date",
-    "printed": "2026-11-11",
+    "printed": "2026-12-09",
     "note": "权限面自己签的决策日",
-    "bars_from_sheet": -1,
+    "bars_from_sheet": 19,
     "on_grid": true,
-    "agrees": false
+    "agrees": true
    },
    {
     "name": "swap_section",
     "face": "results/etf_book_swap_units.json",
     "key": "next_decision_bar.bar",
-    "printed": null,
-    "note": "面里的 next_decision_bar.bar 是空的",
-    "unreadable": "next_decision_bar.bar=None",
-    "grid": null,
-    "bars_from_sheet": null,
-    "on_grid": null,
-    "agrees": null
+    "printed": "2026-12-09",
+    "note": "换票节自己算的（grid=20，来源=anchor）",
+    "grid": 20,
+    "bars_from_sheet": 19,
+    "on_grid": true,
+    "agrees": true
    }
   ],
-  "wrong_claims": [
-   "cut_permission"
-  ],
+  "wrong_claims": [],
   "off_grid_claims": [],
-  "worst_gap_bars": 1,
+  "worst_gap_bars": null,
   "ledger_trace": {
    "bars": [
     "2026-06-26",
@@ -1542,8 +1549,8 @@
    "first": "2024-01-02",
    "last": "2026-11-12"
   },
-  "verdict": "DISAGREE",
-  "sentence": "下一根决策 bar = 2026-12-09（锚点 2026-11-11 起每 20 根，距 2026-11-12 19 根）。票面不同意：cut_permission 写的是 2026-11-11（-1 根）。",
+  "verdict": "AGREE",
+  "sentence": "下一根决策 bar = 2026-12-09（锚点 2026-11-11 起每 20 根，距 2026-11-12 19 根）。票面上三个面都这么说。",
   "caveats": [
    "网格只回答「下一次重排是哪一天」，它对此外的事（触发面、过路费、折扣兑现）一无所知，也不替它们作证。",
    "相位取自已发布的 last_decision_bar（别人已经落账的事实），不是本面自选；官方日历原点的同相位只是交叉核对，两者不一致时以锚点为准并披露。",
@@ -1598,7 +1605,7 @@
  },
  "swap_freshness": {
   "artifact": "etf_book_swap_freshness",
-  "generated": "2026-11-12T19:31:03",
+  "generated": "2026-11-12T19:53:28",
   "evidence_cutoff": "2026-11-12",
   "calendar_source": "data/exchange_calendar.csv",
   "close_accept_time": "15:30",
@@ -1740,15 +1747,15 @@
    "vol": 0.0887
   },
   "width_effect": {
-   "vol": {
-    "ticket_width_cagr": 0.1185,
-    "card_width_cagr": 0.1224,
-    "pp": 0.39
-   },
    "beta": {
     "ticket_width_cagr": 0.1108,
     "card_width_cagr": 0.0963,
     "pp": -1.45
+   },
+   "vol": {
+    "ticket_width_cagr": 0.1185,
+    "card_width_cagr": 0.1224,
+    "pp": 0.39
    }
   },
   "rules_differ": true,

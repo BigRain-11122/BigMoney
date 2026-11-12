@@ -30,7 +30,8 @@ OUT = os.path.join(BASE, "results", "etf_book_size_rulers_decision.json")
 GRADED = ("equity", "commodity", "convertible")
 MIN_OBS = 60
 SIZE_TOL = 0.005          # 0.5pp on k = the same tolerance the class split uses
-DECISION_DATE = "2026-11-11"
+DECISION_DATE_FALLBACK = "2026-11-11"
+PRODUCTION_FACE = "results/etf_book_production/latest.json"
 
 RULERS = ("denominator", "window", "universe", "window_x_universe")
 
@@ -48,6 +49,59 @@ def _read_json(rel):
         return None
     with open(p, encoding="utf-8") as f:
         return json.load(f)
+
+
+def decision_date(sheet=None, clock=None):
+    """Which rebalance is this table signing for?
+
+    It used to be the string "2026-11-11" typed into this file -- a calendar that does not
+    roll.  Once that day passed every face reading it (this table, the permission block built
+    from it, the ticket's cut-permission row) kept naming a session already spent, while the
+    one face that does roll disagreed by nineteen sessions; `etf_book_next_decision` measured
+    that split as DISAGREE and could not say which side was right, because both sides were
+    quoting a number nobody derived.
+
+    There is one clock here: `etf_book_next_decision.next_decision` reads the anchor another
+    face already committed to (`sheet.last_decision_bar`) against the OFFICIAL calendar.  This
+    face now asks it instead of keeping its own copy.
+
+    `rolling` is what the old rule (as_of + rebal sessions) would have printed, kept as a
+    disclosed second reading so the nineteen-session shape stays visible rather than quietly
+    disappearing with the bug.
+
+    `sheet` and `clock` exist so the selftest can hand this a fixture -- a resolvable seam,
+    not a second code path.
+    """
+    out = {"date": DECISION_DATE_FALLBACK, "source": "fallback_inline",
+           "rolling": None, "why": ""}
+    if clock is None:
+        sys.path.insert(0, os.path.join(BASE, "scripts"))
+        try:
+            import etf_book_next_decision as clock    # noqa: PLC0415 (single clock owner)
+        except Exception as exc:                      # noqa: BLE001
+            out["why"] = "clock not importable: %s" % exc
+            return out
+    if sheet is None:
+        sheet = (_read_json(PRODUCTION_FACE) or {}).get("sheet") or {}
+    as_of = sheet.get("as_of_bar")
+    if not as_of:
+        out["why"] = "production sheet carries no as_of_bar"
+        return out
+    nd = clock.next_decision(as_of)
+    if not nd.get("bar"):
+        out["why"] = nd.get("why") or "clock returned no decision bar"
+        return out
+    out["date"] = nd["bar"]
+    out["source"] = "next_decision_clock"
+    try:
+        days = clock.load_calendar()
+        i = clock.index_of(days, as_of)
+        step = int(nd.get("grid") or 20)
+        if i is not None and i + step < len(days):
+            out["rolling"] = days[i + step]
+    except Exception:                                 # noqa: BLE001
+        pass
+    return out
 
 
 def issued_floor(target, known):
@@ -164,10 +218,14 @@ def published_face():
         return {"face": "etf_book_size_rulers_decision", "verdict": "NO_TICKET",
                 "sentence": "no ticket on disk; nothing to size"}
     split = _read_json(SPLIT_RECEIPT) or {}
+    dd = decision_date()
     return {"face": "etf_book_size_rulers_decision",
             "ticket_file": name,
             "evidence_cutoff": tk.get("evidence_cutoff"),
-            "decision_date": DECISION_DATE,
+            "decision_date": dd["date"],
+            "decision_date_source": dd["source"],
+            "decision_date_rolling": dd["rolling"],
+            "decision_date_why": dd["why"],
             "beta_target": tk.get("beta_target"),
             "split_receipt": SPLIT_RECEIPT if split else None,
             "split_window": (split.get("split") or {}).get("window_span"),
@@ -351,11 +409,15 @@ def run():
     broken = [k for k, v in legs.items() if v is False]
 
     d = decide(cells, tk)
+    dd = decision_date()
     d.update({
         "face": "etf_book_size_rulers_decision",
         "evidence_cutoff": tk.get("evidence_cutoff"),
         "ticket_file": name,
-        "decision_date": DECISION_DATE,
+        "decision_date": dd["date"],
+        "decision_date_source": dd["source"],
+        "decision_date_rolling": dd["rolling"],
+        "decision_date_why": dd["why"],
         "beta_target": target,
         "panel_work": "run",
         "market_proxy": mkt_col,
@@ -376,8 +438,8 @@ def run():
             "and forbid mixing the two inside one table",
             "3. if the declared size is the floor rather than the ceiling, sign the risk budget "
             "it implies (target 0.20 is a budget, not an optimum -- r1447)",
-            "4. carry the chosen size into the 2026-11-11 ticket and print the three unused "
-            "readings next to it so the choice stays visible",
+            ("4. carry the chosen size into the %s ticket and print the three unused "
+             "readings next to it so the choice stays visible" % dd["date"]),
         ],
     })
     if broken:
@@ -546,9 +608,47 @@ def selftest():
     leg(d["n_below_money"] == 1 and d["n_above_money"] == 0,
         "L10 counts %r/%r" % (d["n_below_money"], d["n_above_money"]))
 
+    # L11-L13 the date this table signs for is ASKED of the clock, never typed in here.
+    # Before this, DECISION_DATE was the literal "2026-11-11"; when that session passed the
+    # permission block and the ticket row kept naming it and the sheet rolled on.
+    class _Clock:
+        def __init__(self, days, bar, why=""):
+            self._days, self._bar, self._why = days, bar, why
+
+        def next_decision(self, as_of):
+            return {"bar": self._bar, "grid": 20, "why": self._why}
+
+        def load_calendar(self):
+            return self._days
+
+        def index_of(self, days, bar):
+            try:
+                return days.index(bar)
+            except ValueError:
+                return None
+
+    cal = ["2026-11-%02d" % d for d in range(1, 31)] + ["2026-12-%02d" % d for d in range(1, 31)]
+    clk = _Clock(cal, cal[45])
+    dd = decision_date(sheet={"as_of_bar": cal[20]}, clock=clk)
+    leg(dd["date"] == cal[45] and dd["source"] == "next_decision_clock",
+        "L11 the date must come from the clock, got %r/%r" % (dd["date"], dd["source"]))
+    leg(dd["rolling"] == cal[40],
+        "L11 the old rolling answer must still be published as a second reading, got %r"
+        % (dd["rolling"],))
+
+    blind = decision_date(sheet={"as_of_bar": cal[20]}, clock=_Clock(cal, None, "no grid bar"))
+    leg(blind["date"] == DECISION_DATE_FALLBACK and blind["source"] == "fallback_inline"
+        and "no grid bar" in (blind["why"] or ""),
+        "L12 a clock that cannot answer must fall back WITH the reason, not silently: %r" % (blind,))
+
+    nosheet = decision_date(sheet={}, clock=clk)
+    leg(nosheet["source"] == "fallback_inline" and "as_of_bar" in (nosheet["why"] or ""),
+        "L13 a sheet with no as_of_bar must say so instead of dating the table anyway: %r"
+        % (nosheet,))
+
     for f in fails:
         print("  FAIL " + f)
-    print("[selftest] %d/%d PASS" % (10 - len(fails), 10))
+    print("[selftest] %d/%d PASS" % (13 - len(fails), 13))
     return 0 if not fails else 1
 
 
