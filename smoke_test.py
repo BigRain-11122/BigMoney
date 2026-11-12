@@ -2126,6 +2126,24 @@ def main() -> int:
                   "blocks/card/order absent -- face soft-fails by design")
     except Exception as e:
         check("product: E246 drawdown band reaches both trading pages", False, str(e))
+    # r1582: the two Chinese pages a reader actually opens were quoting an English
+    # sentence verbatim (regime_cap_vs_book.sentence) -- four lines of prose in a
+    # 中文 page, and it had lived there since that face was wired. The census is one
+    # implementation (scripts/zh_page_prose_census.py) and it is an allow-list: what
+    # is already published is recorded with a word-sequence fingerprint, and this leg
+    # fires on a line that appears for the first time. The inherited count travels in
+    # the detail so the debt stays visible instead of hiding behind a green light.
+    try:
+        _sd = os.path.join(os.path.dirname(os.path.abspath(__file__)), "scripts")
+        if _sd not in sys.path:
+            sys.path.insert(0, _sd)
+        import zh_page_prose_census as _zpc
+        _zrc, _zdet = _zpc.check()
+        check("product: the Chinese CEO pages carry no new English prose (r1582)",
+              _zrc == 0, _zdet)
+    except Exception as e:
+        check("product: the Chinese CEO pages carry no new English prose (r1582)",
+              False, str(e))
     # r1357 / E271: the width ruler now has to reach BOTH documents a reader can hold, and
     # the number on each page is recomputed here from the ruler face rather than grepped as
     # a sentence: if the face moves, both pages fail. The card sheet is additionally asked
@@ -3774,6 +3792,33 @@ def main() -> int:
               f"next={_page.get('next_rebalance_date')}"
               + ("" if _page.get("evidence_cutoff") == _lb.get("as_of")
                  else " (page one bar behind; writer=bm-a owes the refresh)"))
+        # r1584: on the morning a sheet tells the reader to trade, that same sheet said
+        # the fill had "no date yet" -- both sentences stood on 2026-11-12. The official
+        # calendar carries the date; once the decision bar's next trading day has arrived
+        # the page must name it instead of admitting it does not know.
+        _ok_fd, _why_fd = True, "no 'no date yet' sentence on the page"
+        try:
+            # the page's filename is its as_of date, not the bar it prices -- read the
+            # pointer instead of composing a name (a leg that never finds its file is
+            # green for the wrong reason)
+            _ptr_fd = json.load(open(os.path.join("docs", "live_book", "latest.json"),
+                                     encoding="utf-8"))
+            _md_p = _ptr_fd.get("page") or ""
+            if _md_p and os.path.exists(_md_p):
+                _txt = open(_md_p, encoding="utf-8").read()
+                _mfd = re.search(u"- \u51b3\u7b56 bar\uff1a(\\d{4}-\\d{2}-\\d{2}) ", _txt)
+                if _mfd and u"\u5c1a\u65e0\u53ef\u6210\u4ea4\u65e5\u671f" in _txt:
+                    _cal2 = [l.strip()[:10] for l in
+                             open("data/exchange_calendar.csv", encoding="utf-8")
+                             .read().splitlines()[1:] if l.strip()]
+                    _nxt = next((d for d in _cal2 if d > _mfd.group(1)), None)
+                    _today = pd.Timestamp.now().strftime("%Y-%m-%d")
+                    _ok_fd = not (_nxt and _nxt <= _today)
+                    _why_fd = ("decision=%s next_trading_day=%s today=%s"
+                               % (_mfd.group(1), _nxt, _today))
+        except Exception as _e:                                  # noqa: BLE001
+            _ok_fd, _why_fd = False, str(_e)
+        check("product: the sheet names the fill day it already knows", _ok_fd, _why_fd)
         # The page now states the same expectation in yuan. Assert the unit change
         # is honest: every yuan figure must equal its own percentage x the capital
         # printed on the same page, and an absent input must be null, not 0 (a 0

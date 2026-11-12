@@ -5132,7 +5132,9 @@ def fill_block(fl, sheet=None):
     lines = None
     if mod is not None:
         try:
-            lines = list(mod.pending_fill_md(pf, fl.get("last_bar"), fl.get("last_cash"), fills))
+            lines = list(mod.pending_fill_md(pf, fl.get("last_bar"), fl.get("last_cash"), fills,
+                                            calendar_dates(),
+                                            dt.date.today().isoformat()))
         except TypeError:
             try:
                 lines = list(mod.pending_fill_md(pf, fl.get("last_bar"), fl.get("last_cash")))

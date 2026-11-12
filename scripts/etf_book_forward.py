@@ -813,7 +813,38 @@ def pending_fill(fwd, dates, marks, capital=None, nav=None):
     }
 
 
-def pending_fill_line(pf):
+def next_trading_day(cal_dates, anchor):
+    """First trading day strictly after `anchor` (ISO strings); None when unreadable."""
+    if not anchor:
+        return None
+    for d in cal_dates or []:
+        if str(d) > str(anchor):
+            return str(d)
+    return None
+
+
+def fill_day_note(pf, cal_dates=None, today=None):
+    """What a face should say about the fill date while the panel has not reached it.
+
+    r1584: `fills_at_bar` is None for two opposite worlds -- the next session has not
+    opened yet, or it opened this morning and that day's close bar is simply not in the
+    price panel. On 2026-11-12 the CEO sheet printed "next bar has not appeared (no
+    fillable date yet)" while the sheet's own headline told the reader to trade today;
+    the official calendar already carries the one date that settles it. Pure text (no
+    markdown) so the console line and the sheet can both print it verbatim.
+    """
+    if not pf or pf.get("fills_at_bar"):
+        return None
+    nxt = next_trading_day(cal_dates, pf.get("decided_bar"))
+    if not nxt:
+        return None
+    if today and nxt <= str(today)[:10]:
+        return ("成交日 %s（已开盘）：账本要等这一天收盘的 bar 才入账，"
+                "所以这里仍是「待成交」，不是「还没到日子」" % nxt)
+    return "成交日 %s：这一天开盘时才成交" % nxt
+
+
+def pending_fill_line(pf, cal_dates=None, today=None):
     """One sentence a human face can print; None-safe so a missing record is not a blank.
 
     ASCII money (CNY) on purpose: this string is printed to a console as well as written
@@ -822,13 +853,20 @@ def pending_fill_line(pf):
     if not pf:
         return "没有待成交的书：账本当前的 book_in_force 就是它已经持有的那本。"
     at = pf.get("fills_at_bar")
+    note = fill_day_note(pf, cal_dates, today)
     money = ("，¥%s" % format(int(round(float(pf["cost_cny"]))), ",")
              ) if pf.get("cost_cny") is not None else ""
     money = money.replace("¥", "CNY ")
-    return ("%s 收盘决策 → %s开盘成交｜k=%.4f（现金 %.1f%%→%.1f%%）｜换手 %.4f＝%.2fbp%s"
+    if at:
+        head = "%s 收盘决策 → %s 开盘成交" % (pf.get("decided_bar") or "?", at)
+    elif note:
+        head = "%s 收盘决策 → %s" % (pf.get("decided_bar") or "?", note)
+    else:
+        head = ("%s 收盘决策 → 下一根 bar 还没出现，尚无可成交日期"
+                % (pf.get("decided_bar") or "?"))
+    return ("%s｜k=%.4f（现金 %.1f%%→%.1f%%）｜换手 %.4f＝%.2fbp%s"
             "｜进 %d 名/出 %d 名"
-            % (pf.get("decided_bar") or "?",
-               (at + " ") if at else "（下一根 bar 还没出现，尚无可成交日期）",
+            % (head,
                float(pf.get("pending_scale") or 0.0),
                100.0 * float(pf.get("held_cash") or 0.0),
                100.0 * (1.0 - float(pf.get("pending_scale") or 0.0)),
@@ -2485,6 +2523,20 @@ def selftest():
     chk("pending fill: the sentence carries the date, both exposures and the money",
         "2026-11-12" in _sent and "0.9094" in _sent and "29.9%" in _sent and "CNY" in _sent,
         _sent)
+    # r1584: the sheet told the reader to trade on 2026-11-12 while the same page said the
+    # fill had "no date yet". The calendar carries that date; printing it is not a forecast.
+    _cal = ["2026-11-10", "2026-11-11", "2026-11-12", "2026-11-13"]
+    _fla = dict(_pf3, fills_at_bar=None)
+    _due = pending_fill_line(_fla, _cal, "2026-11-12")
+    _fut = pending_fill_line(_fla, _cal, "2026-11-10")
+    chk("pending fill: the fill day is printed from the calendar even before its bar lands",
+        "2026-11-12" in _fut and "还没到日子" not in _fut, _fut)
+    chk("pending fill: on the fill day the sentence says opened-but-not-yet-booked",
+        "已开盘" in _due and "待成交" in _due, _due)
+    chk("pending fill: without a calendar the old honest admission stands",
+        "尚无可成交日期" in pending_fill_line(_fla))
+    chk("pending fill: a calendar that cannot reach the decision day prints nothing extra",
+        fill_day_note(_fla, ["2026-11-01"], "2026-11-12") is None)
 
     # 7. the promise vs the receipt (r1572). r1571 published what will fill; nothing checked
     #    it once the bar arrived, and nothing noticed a decision left stranded when the panel

@@ -3376,7 +3376,7 @@
    "turnover_arm": 0.9422,
    "turnover_declared": 0.9529
   },
-  "elapsed_sec": 93.3,
+  "elapsed_sec": 121.5,
   "evidence_cutoff": "2026-11-11",
   "gross_rows": [
    {
@@ -3753,7 +3753,7 @@
    }
   ],
   "script": "scripts\\etf_book_causal_rebuild.py",
-  "ts": "2026-11-12T04:07:27+0800",
+  "ts": "2026-11-12T11:45:19+0800",
   "verdict": {
    "admissible_arms": [],
    "arms": [
@@ -4707,7 +4707,7 @@
    "up_quantile": 0.8,
    "verdict_rule": "ADOPT_GAP iff some gap arm beats `declared` on CAGR by >= gap_min_pp AND its Sharpe is >= this run's `declared` Sharpe AND its max drawdown is no deeper than declared - dd_tol_pp AND it beats declared on CAGR in >= phase_share_min of the phases; MIXED_ACROSS_PHASES if the return line is cleared but the phase share is not (or the reverse); NO_GAP_EDGE otherwise -- the gap stays information"
   },
-  "elapsed_sec": 91.8,
+  "elapsed_sec": 101.3,
   "evidence_cutoff": "2026-11-11",
   "gap_stats": {
    "entry_bars": 84,
@@ -5066,7 +5066,7 @@
    }
   ],
   "script": "scripts\\etf_book_overnight_gap.py",
-  "ts": "2026-11-12T00:54:44+0800",
+  "ts": "2026-11-12T11:47:02+0800",
   "verdict": {
    "admissible_arms": [],
    "arms": [
@@ -5179,8 +5179,8 @@
   "k_schedule_last": 0.460253,
   "consistency": {
    "generated": {
-    "permission": "2026-11-12T01:29:28+0800",
-    "gap": "2026-11-12T01:29:31+0800",
+    "permission": "2026-11-12T12:14:31+0800",
+    "gap": "2026-11-12T12:14:48+0800",
     "ledger": "2026-11-11T18:49:32+0800"
    },
    "permission_vs_gap": true,
@@ -5973,9 +5973,9 @@
    "last": null,
    "rows_detail": [],
    "panel_missing_symbols": [],
-   "repo_quotes": 3764,
-   "rate_latest_bar": "2026-11-10",
-   "rate_latest": 1.165,
+   "repo_quotes": 3765,
+   "rate_latest_bar": "2026-11-11",
+   "rate_latest": 1.51,
    "valued_upto_bar": "2026-11-11"
   },
   "replay": {
@@ -5984,13 +5984,13 @@
    "legs_first_bar": 426357.9,
    "legs_last_bar": 431696.8,
    "legs_ret": 0.01252211,
-   "cash_interest_cny": 488.16,
+   "cash_interest_cny": 511.69,
    "identity_delta_cny": 0.0,
    "identity_status": "PRICED_BAR",
    "identity_holds": true,
    "base_bar_missing_closes": [],
    "base_bar_last_priced_day": "2026-11-11",
-   "rf_missing_bars": 1,
+   "rf_missing_bars": 0,
    "stale_bars": 0
   },
   "engine_book": {
@@ -6633,8 +6633,8 @@
  "authority": {
   "writer": "bm-c",
   "owner": "bm-a",
-  "owner_silent_h": 32.4,
+  "owner_silent_h": 38.0,
   "took_over": true,
-  "why": "bm-a has not written its own heartbeat for 32.4 h (> 6 h): its page faces are stopped, not merely old"
+  "why": "bm-a has not written its own heartbeat for 38.0 h (> 6 h): its page faces are stopped, not merely old"
  }
 }

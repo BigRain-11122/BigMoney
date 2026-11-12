@@ -3566,7 +3566,8 @@ def _verdict(b):
     return "unknown" if b is None else ("一致" if b else "不一致")
 
 
-def pending_fill_md(pf, last_bar=None, last_cash=None, fills=None):
+def pending_fill_md(pf, last_bar=None, last_cash=None, fills=None,
+                    cal_dates=None, today=None):
     """What fills at the next open, and why the last bar's cash is not that book.
 
     r1571: `book_in_force` (decided) and the bar row's `cash` (held during that bar) both
@@ -3577,15 +3578,24 @@ def pending_fill_md(pf, last_bar=None, last_cash=None, fills=None):
     that prints only the promise cannot be checked the next morning -- so the fills already
     recorded are printed here too, money included, and an empty log says so instead of
     leaving the reader to assume the book has never traded.
+
+    r1584: `fills_at_bar` is None both before the session opens and after it opened but
+    before its close bar lands. The calendar date is printed either way, so a sheet that
+    tells the reader to trade today can never also say the fill has no date (see
+    etf_book_forward.fill_day_note -- one implementation, both faces read it).
     """
     lines = ["## 今天开盘要成交的是什么（决策 bar 与成交时点不是同一天）"]
     if not pf:
         lines += ["- 账本没有待成交的书：`book_in_force` 就是账面已经持有的那本。"]
     else:
+        from scripts.etf_book_forward import fill_day_note
         at = pf.get("fills_at_bar")
+        note = fill_day_note(pf, cal_dates, today)
         lines += ["- 决策 bar：%s 收盘（网格日）｜成交：%s"
                   % (pf.get("decided_bar") or "-",
-                     ("%s 开盘" % at) if at else "**下一根 bar 还没出现**（尚无可成交日期，不是已成交）"),
+                     ("%s 开盘" % at) if at else
+                     ("**%s**" % note if note else
+                      "**下一根 bar 还没出现**（尚无可成交日期，不是已成交）")),
                   "- 账面在 %s 这一行持有的是**当根 bar 里那本书**：现金 %s"
                   % (last_bar or "-",
                      ("%.1f%%" % (100.0 * float(last_cash))) if last_cash is not None else "未知"),
@@ -3824,7 +3834,8 @@ def card_config_card(tk, width=None, ruler=None):
           % (rc.get("ledger_last_bar") or "未知",
              float(rc.get("ledger_last_nav") or 0.0), rc.get("ledger_status") or "未知"), ""]
     L += pending_fill_md(rc.get("ledger_pending"), rc.get("ledger_last_bar"),
-                         rc.get("ledger_last_cash"), rc.get("ledger_fills"))
+                         rc.get("ledger_last_cash"), rc.get("ledger_fills"),
+                         CA.load_calendar(), pd.Timestamp.now().strftime("%Y-%m-%d"))
     L += admission_md(rc.get("admission"), rc.get("ledger_last_bar"))
     L += restatement_md({"readable": rc.get("restatements_readable"),
                          "path": rc.get("ledger_source"),
