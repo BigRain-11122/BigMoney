@@ -10862,6 +10862,14 @@ def _legs_supply_and_book():
             _badli.append("a missing reason column passed the shape guard")
         except ValueError:
             pass
+        # r1575: the checkpoint is per page, the data is per day -- a page pulled early in
+        # its own month must not retire the sessions after it (2026-11 was pulled on 11-09
+        # and 11-10/11-11 were never re-requested).
+        _onep = _LI.month_windows("2020-01-01", "2020-01-31")
+        if _LI.pages_to_pull(_onep, {"20200101"}, "2020-01-02") != _onep:
+            _badli.append("a page collected early in its own month retired the rest of it")
+        if _LI.pages_to_pull(_onep, {"20200101"}, "2020-01-31"):
+            _badli.append("a fully covered month was pulled again")
         check("product: the institutional seat panel keeps its reason face and refuses drift",
               not _badli, "; ".join(_badli)[:200]
               or "duplicates collapse on the key, non-A codes drop, drift raises, edits are caught")

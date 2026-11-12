@@ -103,6 +103,24 @@ def month_windows(first: str, last: str) -> list:
     return out
 
 
+def pages_to_pull(windows: list, done: set, cutoff: str | None) -> list:
+    """Which monthly pages this run still has to fetch.
+
+    The checkpoint (`months_done`) is keyed by page start, the data is keyed by day, so a
+    page collected early in its own month looked permanently complete: 2026-11 was pulled
+    on 11-09 and 11-10/11-11 were never re-requested -- the panel dropped out of the
+    freshness board as `stalled` while the producer kept printing "all monthly pages
+    already collected".  A collected page still owes the sessions after the panel cutoff.
+    """
+    todo = []
+    for w in windows:
+        if w[0] not in done:
+            todo.append(w)
+        elif cutoff is None or cutoff < _iso(w[1]):
+            todo.append(w)
+    return todo
+
+
 def load_progress() -> dict:
     if not os.path.exists(PROGRESS):
         return {"months_done": [], "cutoff": None}
@@ -263,7 +281,7 @@ def run(force: bool = False, allow_network: bool = True, now: datetime | None = 
     last = expected or now.strftime("%Y-%m-%d")
     windows = month_windows(FIRST_DATE, last)
     done = set(prog.get("months_done") or [])
-    todo = [w for w in windows if w[0] not in done]
+    todo = pages_to_pull(windows, done, prog.get("cutoff"))
     if force and todo:
         todo = windows[-1:]          # force re-pulls only the newest page
     if not todo:
@@ -337,8 +355,10 @@ def status() -> int:
 def selftest() -> int:
     import pandas as pd
     fails = []
+    n = [0]
 
     def chk(name, cond):
+        n[0] += 1
         print(("  ok   " if cond else "  FAIL ") + name)
         if not cond:
             fails.append(name)
@@ -418,7 +438,17 @@ def selftest() -> int:
     old_rows = merge(merged, page)
     chk("append never loses an older row", cutoff_of(old_rows) == "2020-01-02" and len(old_rows) == 2)
 
-    print("selftest: %d checks, %d failed" % (13, len(fails)))
+    # r1575: the checkpoint is per page, the data is per day -- an early pull must not
+    # retire the rest of its own month.
+    one = month_windows("2020-01-01", "2020-01-31")
+    chk("a page collected early in its own month still owes the rest of it",
+        pages_to_pull(one, {"20200101"}, "2020-01-02") == [("20200101", "20200131")])
+    chk("a page whose month is fully covered is not pulled again",
+        pages_to_pull(one, {"20200101"}, "2020-01-31") == [])
+    chk("a page never collected is always pulled", pages_to_pull(one, set(), "2020-01-31") == one)
+    chk("a panel with no cutoff pulls every page", pages_to_pull(one, {"20200101"}, None) == one)
+
+    print("selftest: %d checks, %d failed" % (n[0], len(fails)))
     return 0 if not fails else 1
 
 
