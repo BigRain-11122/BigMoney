@@ -616,6 +616,54 @@
   "cost_if_retraded_pct_per_year": 17.29,
   "cost_basis": "2 sides x 8.0 bp x 250 sessions x book share 0.4322, on capital"
  },
+ "admission": {
+  "readable": true,
+  "path": "results/etf_book_year_gate/YEAR-GATE.json",
+  "asof": "2026-11-12T06:28:34+0800",
+  "data_last": "2026-11-11",
+  "prior_data_last": "2026-11-09",
+  "line": 0.7,
+  "book": "nobond_vt08_adopted",
+  "found": true,
+  "phase": {
+   "asof": "2026-11-12T07:08:11+08:00",
+   "state": "UNADJUDICABLE_PHASE",
+   "median_top2_share": 0.7889,
+   "spread_pp": 9.04,
+   "margin_pp": 8.89,
+   "single_phase_verdict": "ADMIT",
+   "data_last": "2026-11-11",
+   "path": "results/etf_book_phase_gate.json"
+  },
+  "last_bar": "2026-11-11",
+  "verdict": "ADMIT",
+  "failed": [],
+  "checks": {
+   "Y1_positive_years_share": true,
+   "Y2_median_positive": true,
+   "Y3_worst_year": true,
+   "Y4_top2_share": true,
+   "C1_capacity": true
+  },
+  "top2_share": 0.6995,
+  "top2_share_full_only": 0.7278,
+  "margin_to_line": 0.0005,
+  "prior": {
+   "verdict": "CONDITIONAL",
+   "top2_share": 0.7067
+  },
+  "verdict_changed": true,
+  "positive_years": 7,
+  "years": 7,
+  "median": 5.6072,
+  "worst": 2.8393,
+  "capacity_cny": 49405843.0,
+  "trails_ledger": false,
+  "status": "ok",
+  "evidence_cutoff": "2026-11-11",
+  "panel_gap": false,
+  "clash": true
+ },
  "bets": {
   "status": "ok",
   "verdict": "TWOISH_BETS",
@@ -6496,8 +6544,8 @@
  "authority": {
   "writer": "bm-c",
   "owner": "bm-a",
-  "owner_silent_h": 27.0,
+  "owner_silent_h": 31.0,
   "took_over": true,
-  "why": "bm-a has not written its own heartbeat for 27.0 h (> 6 h): its page faces are stopped, not merely old"
+  "why": "bm-a has not written its own heartbeat for 31.0 h (> 6 h): its page faces are stopped, not merely old"
  }
 }

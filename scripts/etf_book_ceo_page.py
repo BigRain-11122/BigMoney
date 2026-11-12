@@ -4968,6 +4968,64 @@ def stress_cache_digest(close, priced_bar, capital, windows, order, flip_thr=Non
     return h.hexdigest()
 
 
+def _order_module():
+    try:
+        from scripts import etf_book_order as _O
+    except Exception:                                          # noqa: BLE001
+        try:
+            import etf_book_order as _O
+        except Exception:                                  # noqa: BLE001
+            return None
+    return _O
+
+
+def admission_face(last_bar=None, path=None, order_mod=None):
+    """Whether the book on THIS page may take new capital -- read off the gate's own face.
+
+    r1573: the order sheet has carried an admission section since r1572, but the one page the
+    reader opens first did not -- so a reader could read "buy these 12 names with the book's
+    money" on a book the yearly gate had refused, and nothing on the page would say so.
+
+    The reader is the card producer's own (`etf_book_order.admission_read`), imported rather
+    than copied: one gate, one reader, one set of sentences (E289 -- a second implementation
+    is how two papers start disagreeing about one book).
+    """
+    mod = order_mod if order_mod is not None else _order_module()
+    if mod is None:
+        return {"status": "unreadable", "readable": False, "found": False,
+                "evidence_cutoff": None, "why": "order module not importable"}
+    try:
+        ad = mod.admission_read(last_bar, path=path)
+    except Exception as exc:                                   # noqa: BLE001
+        return {"status": "unreadable", "readable": False, "found": False,
+                "evidence_cutoff": None, "why": "admission_read failed: %r" % (exc,)}
+    ad = dict(ad or {})
+    ph = ad.get("phase") or {}
+    ad["status"] = ("unreadable" if not ad.get("readable")
+                    else ("unevaluated" if not ad.get("found") else "ok"))
+    # the bar the verdict was COMPUTED on, so `live_book_section_bars` can date this section
+    # and a reader can see the gate trailing the ledger (E136: never date a face by its clock)
+    ad["evidence_cutoff"] = ad.get("data_last")
+    ad["panel_gap"] = bool(ad.get("data_last") and ph.get("data_last")
+                           and str(ph["data_last"]) != str(ad["data_last"]))
+    ad["clash"] = bool(ph.get("state") and ad.get("verdict") and ph["state"] != ad["verdict"])
+    return ad
+
+
+def admission_block(ad):
+    """Page lines -- the card's own sentences, so the two papers cannot drift apart."""
+    ad = ad or {}
+    mod = _order_module()
+    if mod is None:
+        return ["## 准入判决（这本书能不能吃新增资本）", "",
+                "- **无法核验**：执行单模块不可导入，准入判决读不出来。缺这一行不等于准入通过。", ""]
+    try:
+        return mod.admission_md(ad, ad.get("last_bar"))
+    except Exception as exc:                                   # noqa: BLE001
+        return ["## 准入判决（这本书能不能吃新增资本）", "",
+                "- **无法核验**：%r。缺这一行不等于准入通过。" % (exc,), ""]
+
+
 def build_stress(order, capital, priced_bar, close=None):
     """Data path: replay today's weights over the whole panel, worst-window report.
 
@@ -5243,6 +5301,9 @@ def build(with_stress=False, window_label=None):
     page["ticket_days"] = ticket_days_of(page)
     page["card_days"] = card_days_of(page)
     page["today_action"] = today_action(page)
+    # r1573: "what do I buy" and "is this book allowed new money" are two answers; the page
+    # printed the first and left the second to the order sheet's §准入判决.
+    page["admission"] = admission_face(ledger.get("last_bar") or fwd.get("as_of"))
     page["bets"] = bets_face()
     page["family_coherence"] = family_coherence()
     page["priced_faces"] = priced_faces(page["priced_bar"])
@@ -5426,6 +5487,10 @@ def render_md(p, sb=None):
     add("")
     for _sb_line in section_bars_block(sb):
         add(_sb_line)
+    # r1573: before the buy list, not after it -- whether the book may hold new money is a
+    # condition on the list, and a reader who stops at the table would never reach it.
+    for _adm_line in admission_block(p.get("admission") or {}):
+        add(_adm_line)
     add("## 下单清单%s" % ("（如果你今天才建仓）" if mode == "hold" else ""))
     add("")
     add("| 代码 | 类别 | 份（100 股/份） | 参考价 | 金额 |")
@@ -8837,6 +8902,59 @@ def selftest():
     _md_sb = render_md(page, sb=section_bars_face(page))
     chk("L200 page: the dated-sections sentence is on the rendered page, and only with a face",
         "个带日期的节" in _md_sb and "个带日期的节" not in render_md(page))
+    # ---- r1573: the page says whether the book may take new money ----------------------
+    import tempfile as _tf
+    import types as _types
+    _adm_dir = _tf.mkdtemp(prefix="ceo_adm_")
+    _adm_gate = os.path.join(_adm_dir, "YEAR-GATE.json")
+    with open(_adm_gate, "w", encoding="utf-8") as _fh:
+        json.dump({"asof": "2026-11-12T06:28:34+0800",
+                   "data": {"last": "2026-11-11"},
+                   "gate_rules": {"top2_share_max": 0.7},
+                   "books": [{"book": "nobond_vt08_adopted", "verdict": "CONDITIONAL",
+                              "checks": {"Y4_top2_share": False},
+                              "year_metrics": {"top2_share": 0.7067,
+                                               "top2_share_full_only": 0.7278,
+                                               "positive_years": 7, "years": 7,
+                                               "median": 5.61, "worst": 1.9},
+                              "margin_to_line": 0.0067,
+                              "prior": {"verdict": "ADMIT", "top2_share": 0.6855},
+                              "verdict_changed_from_prior": True,
+                              "capacity_cny_1day_5pct": 48670000.0}]}, _fh)
+    _ad = admission_face("2026-11-11", path=_adm_gate)
+    chk("L201 admission: verdict and the bar it was computed on are copied, not re-judged",
+        _ad["status"] == "ok" and _ad["verdict"] == "CONDITIONAL"
+        and _ad["evidence_cutoff"] == "2026-11-11" and _ad["failed"] == ["Y4_top2_share"],
+        "%s @%s" % (_ad.get("verdict"), _ad.get("evidence_cutoff")))
+    _ad_md = "\n".join(admission_block(_ad))
+    chk("L202 admission: the page prints the gate's own sentences (both calibers, the flip)",
+        "准入判决" in _ad_md and "口径并列" in _ad_md and "本判决翻面" in _ad_md, _ad_md[:60])
+    _ad_miss = admission_face("2026-11-11", path=os.path.join(_adm_dir, "nope.json"))
+    chk("L203 admission: an unreadable gate is 'cannot verify', never a pass",
+        _ad_miss["status"] == "unreadable"
+        and "不等于准入通过" in "\n".join(admission_block(_ad_miss)), _ad_miss.get("why") or "")
+    _adm_gate2 = os.path.join(_adm_dir, "other.json")
+    with open(_adm_gate2, "w", encoding="utf-8") as _fh:
+        json.dump({"asof": "2026-11-12T06:28:34+0800", "data": {"last": "2026-11-11"},
+                   "gate_rules": {"top2_share_max": 0.7}, "books": []}, _fh)
+    _ad_other = admission_face("2026-11-11", path=_adm_gate2)
+    chk("L204 admission: a gate that never judged this book is 'unevaluated', not a pass",
+        _ad_other["status"] == "unevaluated", _ad_other["status"])
+    _fake = _types.SimpleNamespace(
+        admission_read=lambda last_bar=None, path=None: {
+            "readable": True, "found": True, "verdict": "ADMIT", "data_last": "2026-11-11",
+            "checks": {}, "year_metrics": {},
+            "phase": {"state": "UNADJUDICABLE_PHASE", "median_top2_share": 0.7889,
+                      "spread_pp": 9.04, "margin_pp": 8.89, "data_last": "2026-11-09"}},
+        admission_md=lambda ad, last_bar=None: ["## 准入判决（这本书能不能吃新增资本）", "",
+                                                "- stub", ""])
+    _ad_f = admission_face("2026-11-11", order_mod=_fake)
+    chk("L205 admission: a phase face on another panel is a panel gap, not a book reversal",
+        _ad_f["clash"] and _ad_f["panel_gap"],
+        "clash=%s gap=%s" % (_ad_f["clash"], _ad_f["panel_gap"]))
+    chk("L206 page: the admission sits above the buy list, not below it",
+        "准入判决" in _md and _md.index("准入判决") < _md.index("下单清单"))
+    shutil.rmtree(_adm_dir, ignore_errors=True)
     print("\nSummary: %d/%d PASS%s" % (ok, total, "" if ok == total else " -- %d FAIL" % (total - ok)))
     return 0 if ok == total else 1
 
