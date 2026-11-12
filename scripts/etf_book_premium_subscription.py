@@ -1062,28 +1062,128 @@ def leg_facts(leg, prices, navs, status_rows, lag=1, market=None):
     return facts
 
 
-def board_readings(cutoff):
-    """The same session's premium on the BOARD's own ruler (price / IOPV), for the same legs.
+def _session_order(one, other):
+    """Where one session sits relative to another. ISO dates, so the compare is lexical."""
+    if not one or not other:
+        return None
+    if one == other:
+        return "same"
+    return "behind" if one < other else "ahead"
+
+
+def board_readings(session, fallback=None):
+    """The premium on the BOARD's own ruler (price / IOPV), for the session it is asked about.
 
     Two rulers, two quantities: the board prints intraday basket value, this face divides by
     the disclosed unit NAV. They are not convertible, so the page prints both and the gap
-    instead of letting a reader add them. Absent file -> empty map, and the column says so.
+    instead of letting a reader add them.
+
+    r1610: the file is chosen by the SESSION the numbers belong to (the ticket's), not by
+    whichever panel tail happened to be longest. The two faces are not interchangeable --
+    2026-11-11 and 2026-11-12 board faces read 159655 9.5418 vs 7.8035 and 513690 +0.1735 vs
+    -1.0318 -- so a tail-keyed lookup silently moved the gap column by up to 1.2pp. A tail is
+    still used, but only as a named fallback and never while pretending it is the ticket's day.
     """
-    if not cutoff:
-        return {}
-    path = os.path.join(OUT_DIR, "PREMIUM-%s.json" % cutoff)
-    if not os.path.exists(path):
-        return {}
-    try:
-        with open(path, encoding="utf-8") as f:
-            face = json.load(f)
-    except Exception:
-        return {}
-    return {str(l.get("symbol")): l.get("premium_pct") for l in face.get("legs", [])}
+    for sess, how in ((session, "ticket_session"), (fallback, "panel_tail_fallback")):
+        if not sess:
+            continue
+        path = os.path.join(OUT_DIR, "PREMIUM-%s.json" % sess)
+        if not os.path.exists(path):
+            continue
+        try:
+            with open(path, encoding="utf-8") as f:
+                face = json.load(f)
+        except Exception:
+            continue
+        return ({str(l.get("symbol")): l.get("premium_pct") for l in face.get("legs", [])},
+                {"requested_session": session,
+                 "face_session": str(face.get("session") or sess),
+                 "resolved_session": sess,
+                 "face_path": os.path.relpath(path, ROOT).replace("\\", "/"),
+                 "selected_by": how})
+    return {}, {"requested_session": session,
+                "face_session": None, "resolved_session": None,
+                "face_path": None, "selected_by": "none"}
+
+
+def session_block(legs, ticket_session, board_meta, panel_tail):
+    """Which session each number on this page was priced on -- derived from the legs.
+
+    A premium printed without the day it was priced on cannot notice that the panel moved
+    past that day, so the block is computed here from the legs' own `priced_session` and the
+    ticket's own `as_of`; `check` re-derives it rather than trusting the stored words.
+    """
+    priced = sorted({str(l.get("priced_session")) for l in legs if l.get("priced_session")})
+    off = [{"symbol": str(l.get("symbol")), "priced_session": l.get("priced_session"),
+            "vs_ticket": _session_order(l.get("priced_session"), ticket_session)}
+           for l in legs
+           if ticket_session and l.get("priced_session")
+           and l["priced_session"] != ticket_session]
+    if not priced:
+        agreement = "NO_PRICES"
+    elif not ticket_session:
+        agreement = "NO_TICKET_SESSION"
+    elif priced == [ticket_session]:
+        agreement = "ALL_AT_TICKET_SESSION"
+    else:
+        agreement = "MIXED"
+    face_session = board_meta.get("face_session")
+    block = {
+        "ticket_session": ticket_session,
+        "panel_tail": panel_tail,
+        "priced_sessions": priced,
+        "agreement": agreement,
+        "off_session_legs": off,
+        "board": {
+            "face_session": face_session,
+            "face_path": board_meta.get("face_path"),
+            "selected_by": board_meta.get("selected_by"),
+            "requested_session": board_meta.get("requested_session"),
+            "resolved_session": board_meta.get("resolved_session"),
+            "agrees_with_ticket": (None if not ticket_session or not face_session
+                                   else face_session == ticket_session),
+            "face_session_conflict": bool(face_session
+                                          and board_meta.get("resolved_session")
+                                          and face_session != board_meta["resolved_session"]),
+        },
+    }
+    block["sentence"] = session_sentence(block, legs)
+    return block
+
+
+def session_sentence(block, legs):
+    """One sentence naming the day, and the divergence only when there is one."""
+    ticket = block.get("ticket_session")
+    priced = block.get("priced_sessions") or []
+    if not priced:
+        return ("no leg publishes a priced session -- the premium column is empty, not dated")
+    head = "premiums priced on %s" % ", ".join(priced)
+    if ticket:
+        head += " against a ticket of %s" % ticket
+    if block.get("agreement") == "ALL_AT_TICKET_SESSION":
+        head += " -- every leg prices the ticket's own session"
+    elif block.get("off_session_legs"):
+        named = ", ".join("%s (%s, %s the ticket)" % (o["symbol"], o["priced_session"],
+                                                     o["vs_ticket"] or "uncompared")
+                          for o in block["off_session_legs"])
+        head += (" -- these legs do NOT price the ticket's day and are printed as their own "
+                 "reading: %s" % named)
+    board = block.get("board") or {}
+    if board.get("face_session"):
+        head += ("; the price/IOPV column comes from the %s board face (%s)"
+                 % (board["face_session"], board.get("selected_by")))
+        if board.get("face_session_conflict"):
+            head += " whose own session word disagrees with the file it lives in"
+        elif board.get("agrees_with_ticket") is False:
+            head += " -- that is NOT the ticket's session, so the gap column compares two days"
+    else:
+        head += "; no board face was found, so the price/IOPV column is not printed"
+    return head
 
 
 def build(fetch=True, today=None):
     face = json.load(open(FACE, encoding="utf-8"))
+    ticket_session = (face.get("ticket") or {}).get("as_of")
     hk_market, hk_status = load_hk_index(fetch=fetch)
     legs_out, notes = [], []
     cutoff = None
@@ -1101,14 +1201,19 @@ def build(fetch=True, today=None):
         if facts["latest_price_date"] and (cutoff is None or facts["latest_price_date"] > cutoff):
             cutoff = facts["latest_price_date"]
 
-    board = board_readings(cutoff)
+    for l in legs_out:
+        l["priced_session"] = l.get("latest_price_date")
+        l["priced_vs_ticket"] = _session_order(l.get("priced_session"), ticket_session)
+
+    board, board_meta = board_readings(ticket_session, fallback=cutoff)
     if board:
         for l in legs_out:
             b = board.get(l["symbol"])
             l["board_premium_pct"] = b
             l["ruler_gap_pp"] = (l["latest_pct"] - b) if (b is not None and l["latest_pct"] is not None) else None
     else:
-        notes.append("no board face for %s -- the price/IOPV column is not printed" % cutoff)
+        notes.append("no board face for %s -- the price/IOPV column is not printed"
+                     % (ticket_session or cutoff))
 
     verdicts = sorted({l["window_verdict"] for l in legs_out})
     all_closed = all(l["window_verdict"] == "CHANNEL_CLOSED_THROUGHOUT" for l in legs_out)
@@ -1122,6 +1227,7 @@ def build(fetch=True, today=None):
         "machine": os.environ.get("COMPUTERNAME", "bm-c"),
         "decisions": {},
         "evidence_cutoff": cutoff,
+        "session": session_block(legs_out, ticket_session, board_meta, cutoff),
         "ticket": {"path": face.get("ticket", {}).get("path"),
                    "as_of": face.get("ticket", {}).get("as_of")},
         "ruler": {
@@ -1236,19 +1342,22 @@ def render_md(doc):
     L.append("")
     L.append("**Answer (derived):** %s" % doc["summary_sentence"])
     L.append("")
+    L.append("**Session (derived):** %s" % ((doc.get("session") or {}).get("sentence") or "n/a"))
+    L.append("")
     L.append("Ruler: %s. Status joined on: %s."
              % (doc["ruler"]["premium"], doc["ruler"]["status_join"]))
     L.append("")
     L.append("| leg | class | amount CNY | premium (NAV ruler) | board (price/IOPV) | ruler gap pp "
-             "| stamp | 申购状态 on stamp | hard-suspended sessions | premium>=%.0f%% sessions | "
+             "| priced session | stamp | 申购状态 on stamp | hard-suspended sessions | premium>=%.0f%% sessions | "
              "share closed at high | window verdict |" % HI_PCT)
-    L.append("|---|---|---|---|---|---|---|---|---|---|---|---|")
+    L.append("|---|---|---|---|---|---|---|---|---|---|---|---|---|")
     for l in doc["legs"]:
         hi = l["high_premium"]
-        L.append("| %s | %s | %s | %s | %s | %s | %s | %s | %d | %d | %s | %s |" % (
+        L.append("| %s | %s | %s | %s | %s | %s | %s | %s | %s | %d | %d | %s | %s |" % (
             l["symbol"], l["class"], _fmt_money(l.get("amount_cny")),
             _pct(l["latest_pct"]), _pct(l.get("board_premium_pct")),
             ("%+.2f" % l["ruler_gap_pp"]) if l.get("ruler_gap_pp") is not None else "n/a",
+            l.get("priced_session") or "n/a",
             l["latest_nav_date"], l["latest_purchase"] or "(none)",
             l["blocked_sessions"], hi["n_high"],
             ("%.0f%%" % (100.0 * hi["share_closed_at_high"])) if hi["share_closed_at_high"] is not None else "n/a",
@@ -1873,6 +1982,51 @@ def _check_cause(doc, page=True):
     return bad
 
 
+def _check_session(doc):
+    """The published session words are re-derived from the legs and the ticket, not trusted."""
+    bad = []
+    s = doc.get("session")
+    if not isinstance(s, dict):
+        return ["the page carries no session block -- a premium with no date cannot notice a moved panel"]
+    ticket = (doc.get("ticket") or {}).get("as_of")
+    if s.get("ticket_session") != ticket:
+        bad.append("session block ticket_session %r is not the ticket face's as_of %r"
+                   % (s.get("ticket_session"), ticket))
+    legs = doc.get("legs") or []
+    for l in legs:
+        if l.get("latest_price_date") and not l.get("priced_session"):
+            bad.append("%s: prices a bar but publishes no priced_session -- a number with no day"
+                       % (l.get("symbol"),))
+        if l.get("priced_session") != l.get("latest_price_date"):
+            bad.append("%s: priced_session %r is not its own latest_price_date %r"
+                       % (l.get("symbol"), l.get("priced_session"), l.get("latest_price_date")))
+    priced = sorted({str(l.get("priced_session")) for l in legs if l.get("priced_session")})
+    if s.get("priced_sessions") != priced:
+        bad.append("priced_sessions %r is not the set the legs publish %r"
+                   % (s.get("priced_sessions"), priced))
+    want = ("NO_PRICES" if not priced else
+            "NO_TICKET_SESSION" if not ticket else
+            "ALL_AT_TICKET_SESSION" if priced == [ticket] else "MIXED")
+    if s.get("agreement") != want:
+        bad.append("agreement %r is not what the legs derive (%r)" % (s.get("agreement"), want))
+    off = sorted(str(l.get("symbol")) for l in legs
+                 if ticket and l.get("priced_session") and l["priced_session"] != ticket)
+    got = sorted(str(o.get("symbol")) for o in (s.get("off_session_legs") or []))
+    if off != got:
+        bad.append("off_session_legs %r is not what the legs show %r" % (got, off))
+    b = s.get("board") or {}
+    if b.get("face_session") and ticket:
+        if b.get("agrees_with_ticket") != (b["face_session"] == ticket):
+            bad.append("board agrees_with_ticket %r does not follow from %r vs ticket %r"
+                       % (b.get("agrees_with_ticket"), b["face_session"], ticket))
+        if b["face_session"] != ticket and b.get("selected_by") == "ticket_session":
+            bad.append("the board face %r claims to have been selected by the ticket session %r"
+                       % (b["face_session"], ticket))
+    if not (s.get("sentence") or "").strip():
+        bad.append("the session block prints no sentence")
+    return bad
+
+
 def check(doc=None):
     """Re-derive every verdict word from the published numbers. No stored answer is trusted."""
     explicit = doc is not None          # a fixture is not the published page, so no page leg
@@ -1901,8 +2055,11 @@ def check(doc=None):
         bad.extend(_check_excluded_contrast(l))
     bad.extend(_check_cadence(doc, page=not explicit))
     bad.extend(_check_cause(doc, page=not explicit))
+    bad.extend(_check_session(doc))
     if not explicit and os.path.exists(OUT_MD):
         md = open(OUT_MD, encoding="utf-8").read()
+        if "**Session (derived):**" not in md:
+            bad.append("the page does not carry the derived session line")
         measured = [l["symbol"] for l in doc["legs"]
                     if (l.get("block_contrast_excl_gaps") or {}).get("verdict")
                     in ("BLOCK_WIDENS_PREMIUM", "BLOCK_DOES_NOT_WIDEN")]
@@ -2007,6 +2164,10 @@ def selftest():
 
     # L9 render carries the derived words and the refusal
     doc = {"evidence_cutoff": "2026-01-05", "summary_sentence": "sentence",
+           "session": session_block([], None, {"face_session": None, "selected_by": "none",
+                                               "requested_session": None,
+                                               "resolved_session": None}, None),
+           "ticket": {"as_of": None},
            "ruler": {"premium": "close/nav-1", "status_join": "stamp"},
            "legs": [{"symbol": "1", "class": "c", "amount_cny": 1.0, "latest_pct": 1.0,
                      "latest_nav_date": "2026-01-02", "latest_purchase": "场内买入",
@@ -2447,6 +2608,71 @@ def selftest():
     chk(_check_excluded_contrast(leg_x4) != [],
         "a leg that publishes no excluded block goes red")
 
+    # L34 the session block is derived from the legs, not typed on
+    legs_s = [{"symbol": "A", "priced_session": "2026-11-11", "latest_price_date": "2026-11-11"},
+              {"symbol": "B", "priced_session": "2026-11-11", "latest_price_date": "2026-11-11"}]
+    meta_s = {"requested_session": "2026-11-11", "face_session": "2026-11-11",
+              "face_path": "results/etf_premium/PREMIUM-2026-11-11.json",
+              "selected_by": "ticket_session"}
+    sb = session_block(legs_s, "2026-11-11", meta_s, "2026-11-11")
+    chk(sb["agreement"] == "ALL_AT_TICKET_SESSION" and sb["off_session_legs"] == [],
+        "every leg on the ticket's own day is ALL_AT_TICKET_SESSION with nothing to name")
+    chk("2026-11-11" in sb["sentence"] and "do NOT price" not in sb["sentence"],
+        "the sentence names the day and stays quiet when there is no divergence")
+
+    # L35 a leg on another day is named, and the board column says which day it compares
+    legs_m = [dict(legs_s[0]),
+              {"symbol": "B", "priced_session": "2026-11-12", "latest_price_date": "2026-11-12"}]
+    sb2 = session_block(legs_m, "2026-11-11", meta_s, "2026-11-12")
+    chk(sb2["agreement"] == "MIXED"
+        and [o["symbol"] for o in sb2["off_session_legs"]] == ["B"],
+        "one leg on another day makes the block MIXED and names that leg")
+    chk(sb2["off_session_legs"][0]["vs_ticket"] == "ahead",
+        "the off-session leg carries its direction, not just its date")
+    chk("B" in sb2["sentence"] and "do NOT price" in sb2["sentence"],
+        "the sentence prints the divergence when there is one")
+    meta_fb = {"requested_session": "2026-11-11", "face_session": "2026-11-12",
+               "resolved_session": "2026-11-12",
+               "face_path": "results/etf_premium/PREMIUM-2026-11-12.json",
+               "selected_by": "panel_tail_fallback"}
+    sb3 = session_block(legs_s, "2026-11-11", meta_fb, "2026-11-12")
+    chk(sb3["board"]["agrees_with_ticket"] is False and "compares two days" in sb3["sentence"],
+        "a board face from another day is printed as comparing two days")
+
+    # L36 check re-derives the block instead of trusting the stored words
+    chk(_check_session({"ticket": {"as_of": "2026-11-11"}, "legs": legs_m, "session": dict(sb)}) != [],
+        "a block that claims agreement its legs do not show goes red")
+    chk(_check_session({"ticket": {"as_of": "2026-11-11"}, "legs": legs_m, "session": dict(sb2)}) == [],
+        "the derived block passes its own re-derivation")
+    bad_legs = [{"symbol": "A", "priced_session": "2026-11-10", "latest_price_date": "2026-11-11"}]
+    chk(_check_session({"ticket": {"as_of": "2026-11-11"}, "legs": bad_legs,
+                        "session": dict(sb)}) != [],
+        "a leg whose priced_session is not its own tail goes red")
+    chk(_check_session({"ticket": {}, "legs": []}) != [],
+        "a page with no session block at all goes red")
+    sb_tail = session_block(legs_s, "2026-11-11", meta_fb, "2026-11-12")
+    sb_tail["board"]["selected_by"] = "ticket_session"
+    chk(_check_session({"ticket": {"as_of": "2026-11-11"}, "legs": legs_s,
+                        "session": sb_tail}) != [],
+        "a board face that says the ticket selected it while printing another day goes red")
+
+    # L37 the board lookup keys on the session asked about, and the real faces differ
+    real11 = os.path.join(OUT_DIR, "PREMIUM-2026-11-11.json")
+    real12 = os.path.join(OUT_DIR, "PREMIUM-2026-11-12.json")
+    if os.path.exists(real11) and os.path.exists(real12):
+        m11, meta11 = board_readings("2026-11-11", fallback="2026-11-12")
+        m12, _ = board_readings("2026-11-12")
+        chk(meta11["selected_by"] == "ticket_session" and meta11["face_session"] == "2026-11-11",
+            "the ticket's own session wins over the longer panel tail")
+        diff = [s for s in m11 if m12.get(s) is not None and m11[s] is not None
+                and abs(m11[s] - m12[s]) > 0.5]
+        chk(bool(diff),
+            "the two real board faces print different premiums, so the lookup is load-bearing")
+        _, meta_none = board_readings("1999-01-01", fallback="2026-11-12")
+        chk(meta_none["selected_by"] == "panel_tail_fallback"
+            and meta_none["requested_session"] == "1999-01-01",
+            "a missing session file falls back to the tail AND says which day it was asked for")
+
     print("selftest %d/%d" % (ok[0], ok[1]))
     return 0 if ok[0] == ok[1] else 1
 
@@ -2461,6 +2687,7 @@ def run(fetch=True):
         f.write(render_md(doc))
     os.makedirs(os.path.dirname(DOC), exist_ok=True)
     print(doc["summary_sentence"])
+    print("session:", (doc.get("session") or {}).get("sentence"))
     for l in doc["legs"]:
         print("  %-7s %-12s premium %8s  stamp %s  %-6s  %s"
               % (l["symbol"], l["class"], _pct(l["latest_pct"]), l["latest_nav_date"],

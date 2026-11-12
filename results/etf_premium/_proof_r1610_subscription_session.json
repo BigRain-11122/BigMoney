@@ -1,0 +1,207 @@
+{
+ "artifact": "r1610_subscription_session_proof",
+ "board_faces": [
+  {
+   "face_path": "results/etf_premium/PREMIUM-2026-11-11.json",
+   "face_session": "2026-11-11",
+   "requested_session": "2026-11-11",
+   "resolved_session": "2026-11-11",
+   "selected_by": "ticket_session"
+  },
+  {
+   "face_path": "results/etf_premium/PREMIUM-2026-11-12.json",
+   "face_session": "2026-11-12",
+   "requested_session": "2026-11-12",
+   "resolved_session": "2026-11-12",
+   "selected_by": "ticket_session"
+  }
+ ],
+ "board_rows": [
+  {
+   "board_2026-11-11": -0.2209,
+   "board_2026-11-12": -1.1631,
+   "delta_pp": -0.9422,
+   "symbol": "159519"
+  },
+  {
+   "board_2026-11-11": 9.5418,
+   "board_2026-11-12": 7.8035,
+   "delta_pp": -1.7383,
+   "symbol": "159655"
+  },
+  {
+   "board_2026-11-11": 0.1092,
+   "board_2026-11-12": -0.2115,
+   "delta_pp": -0.3207,
+   "symbol": "510760"
+  },
+  {
+   "board_2026-11-11": -0.0167,
+   "board_2026-11-12": -0.0084,
+   "delta_pp": 0.0083,
+   "symbol": "512040"
+  },
+  {
+   "board_2026-11-11": 0.1735,
+   "board_2026-11-12": -1.0318,
+   "delta_pp": -1.2053,
+   "symbol": "513690"
+  }
+ ],
+ "checks": [
+  {
+   "detail": "ALL_AT_TICKET_SESSION",
+   "ok": true,
+   "why": "the published face states a session agreement word"
+  },
+  {
+   "detail": [
+    "2026-11-12",
+    "2026-11-12"
+   ],
+   "ok": true,
+   "why": "the block's ticket session is the ticket face's own as_of"
+  },
+  {
+   "detail": [
+    "2026-11-12",
+    "2026-11-12",
+    "2026-11-12",
+    "2026-11-12",
+    "2026-11-12"
+   ],
+   "ok": true,
+   "why": "every leg names the session it priced"
+  },
+  {
+   "detail": null,
+   "ok": true,
+   "why": "legs readable"
+  },
+  {
+   "detail": "MIXED",
+   "ok": true,
+   "why": "a stale ticket turns the block MIXED"
+  },
+  {
+   "detail": [
+    "159519",
+    "159655",
+    "510760",
+    "512040",
+    "513690"
+   ],
+   "ok": true,
+   "why": "every leg is named as off-session under the stale ticket"
+  },
+  {
+   "detail": [
+    "ahead",
+    "ahead",
+    "ahead",
+    "ahead",
+    "ahead"
+   ],
+   "ok": true,
+   "why": "the direction is 'ahead': the panel moved past the ticket, not behind it"
+  },
+  {
+   "detail": {
+    "face_path": "results/etf_premium/PREMIUM-2026-11-11.json",
+    "face_session": "2026-11-11",
+    "requested_session": "2026-11-11",
+    "resolved_session": "2026-11-11",
+    "selected_by": "ticket_session"
+   },
+   "ok": true,
+   "why": "asking for a session gets that session's face"
+  },
+  {
+   "detail": {
+    "face_path": "results/etf_premium/PREMIUM-2026-11-12.json",
+    "face_session": "2026-11-12",
+    "requested_session": "2026-11-12",
+    "resolved_session": "2026-11-12",
+    "selected_by": "ticket_session"
+   },
+   "ok": true,
+   "why": "and the other session gets the other face"
+  },
+  {
+   "detail": {
+    "legs_moved": 3,
+    "rows": [
+     {
+      "board_2026-11-11": -0.2209,
+      "board_2026-11-12": -1.1631,
+      "delta_pp": -0.9422,
+      "symbol": "159519"
+     },
+     {
+      "board_2026-11-11": 9.5418,
+      "board_2026-11-12": 7.8035,
+      "delta_pp": -1.7383,
+      "symbol": "159655"
+     },
+     {
+      "board_2026-11-11": 0.1092,
+      "board_2026-11-12": -0.2115,
+      "delta_pp": -0.3207,
+      "symbol": "510760"
+     },
+     {
+      "board_2026-11-11": -0.0167,
+      "board_2026-11-12": -0.0084,
+      "delta_pp": 0.0083,
+      "symbol": "512040"
+     },
+     {
+      "board_2026-11-11": 0.1735,
+      "board_2026-11-12": -1.0318,
+      "delta_pp": -1.2053,
+      "symbol": "513690"
+     }
+    ]
+   },
+   "ok": true,
+   "why": "at least one leg's board premium moves by more than 0.5pp between the two real sessions"
+  }
+ ],
+ "face": "results/etf_premium/PREMIUM-SUBSCRIPTION.json",
+ "published_agreement": "ALL_AT_TICKET_SESSION",
+ "published_sentence": "premiums priced on 2026-11-12 against a ticket of 2026-11-12 -- every leg prices the ticket's own session; the price/IOPV column comes from the 2026-11-12 board face (ticket_session)",
+ "stale_ticket_demo": {
+  "agreement": "MIXED",
+  "off_session_legs": [
+   {
+    "priced_session": "2026-11-12",
+    "symbol": "510760",
+    "vs_ticket": "ahead"
+   },
+   {
+    "priced_session": "2026-11-12",
+    "symbol": "512040",
+    "vs_ticket": "ahead"
+   },
+   {
+    "priced_session": "2026-11-12",
+    "symbol": "159655",
+    "vs_ticket": "ahead"
+   },
+   {
+    "priced_session": "2026-11-12",
+    "symbol": "513690",
+    "vs_ticket": "ahead"
+   },
+   {
+    "priced_session": "2026-11-12",
+    "symbol": "159519",
+    "vs_ticket": "ahead"
+   }
+  ],
+  "sentence": "premiums priced on 2026-11-12 against a ticket of 2026-11-11 -- these legs do NOT price the ticket's day and are printed as their own reading: 510760 (2026-11-12, ahead the ticket), 512040 (2026-11-12, ahead the ticket), 159655 (2026-11-12, ahead the ticket), 513690 (2026-11-12, ahead the ticket), 159519 (2026-11-12, ahead the ticket); the price/IOPV column comes from the 2026-11-12 board face (ticket_session) -- that is NOT the ticket's session, so the gap column compares two days",
+  "ticket_session": "2026-11-11"
+ },
+ "ticket_session": "2026-11-12",
+ "verdict": "PASS"
+}

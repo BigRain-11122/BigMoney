@@ -13868,7 +13868,7 @@ SAME_SESSION）、实战样本 11-11 票面 × 今日面板（上段读数）。
 
 溢价族里连续三个面（持久面 r1607、分位面 r1608、票面消费侧）都栽在同一件事上：**输出里有一个
 「今天」，但它的日期取自价格面板的最后一行**。修到第四个孩子——前向面
-（tf_book_premium_forward）——时才看清，这不是三处巧合，而是一个**每个面各写一遍的语义**：
+（etf_book_premium_forward）——时才看清，这不是三处巧合，而是一个**每个面各写一遍的语义**：
 每张面都自己决定「latest」是哪根 bar。
 
 实测（真数据）：同一只 159655，在 2026-11-11 自己那根 bar 上分位 **98.78**（落进 P98P 档），
@@ -13892,8 +13892,35 @@ ows[-1]——这是 E289「同一缺陷的第二份拷贝」的读取侧版本�
 实锚：scripts/etf_book_premium_forward.py（自检 51→73 腿：同场锚定/越场读自己那根 bar/落后不计/
 无日期不猜/缺 bar 不用邻格顶替/句子必须点名日期；check 新增六条重派生腿，其中一条专门判
 「没被计入的腿不许印分位」）、真面 
-esults/etf_premium/PREMIUM-FORWARD.json（panel 块：
+results/etf_premium/PREMIUM-FORWARD.json（panel 块：
 session 2026-11-12 from base_bar、5 腿 SAME_SESSION）、实战样本
 
-esults/etf_premium/_proof_r1609_forward_2026-11-11.json（11-11 票 × 11-12 面板 → PANEL_AHEAD 1 bar，
+results/etf_premium/_proof_r1609_forward_2026-11-11.json（11-11 票 × 11-12 面板 → PANEL_AHEAD 1 bar，
 159655 读 98.8 并点名 2026-11-11）。
+
+
+### E584 · 同一行的两个数不是同一场：按「尾部」取件会把两张脸拼成一张（r1610 bm-c）
+
+溢价族第五个孩子不是「今天取错」，而是**同一行里拼了两个场次**：订阅面（`PREMIUM-SUBSCRIPTION`）
+自身的溢价按每条腿自己那根 bar 算，紧挨着的「板面价/IOPV」列却按 `max(腿尾部)` 去挑
+`PREMIUM-<日期>.json`。面板一旦推过票面，这两列就来自两天，而页面上没有一个字说这件事——
+更糟的是这块面**根本没有场次字段**（只有 `evidence_cutoff`，它是「腿尾部的最大值」而不是日期承诺）。
+
+实测（真产物）：11-11 与 11-12 两块板面价根本不同——159655 **9.5418 vs 7.8035**（-1.74pp）、
+513690 **+0.1735 vs -1.0318**（-1.21pp）、159519 -0.2209 vs -1.1631（-0.94pp）。也就是说
+`ruler_gap_pp` 这一列在取错日期时会静默偏移 1pp 以上，而它正是「两个尺子差多少」的唯一读数。
+
+三条可复用：
+① **一行里的每个数都要能回答「你是哪天」**，不是整页一个日期：本面现在逐腿 `priced_session`
+＋整页 `session` 块（ticket/panel_tail/priced_sessions/agreement/off_session_legs/board），
+`check` 从腿上重派生，手写即红（含「有 bar 却没有场次」单腿红）。
+② **取件键必须是「你正在描述的那一场」**，不是「手上最长的那个」：板面列改为按票面场次取件，
+缺失才回落尾部，且回落要**点名**（`selected_by=panel_tail_fallback`，句子里写「这一列比的是两天」）。
+③ **证明用旧产物开火**：把同一批腿放回两轮前那张 11-11 票下重读，块必须变 MIXED 并逐腿点名
+「ahead」——机制腿绿只证明会拒，旧件才证明拒得对。
+
+实锚：`scripts/etf_book_premium_subscription.py`（自检 75→105 腿：场次块派生/越场点名与方向/
+板面按场次取件与尾部回落点名/六条 check 重派生腿；含两条读真板面的腿——两场数值必须不同，
+否则「按场次取件」这条根本没重量）、真面 `results/etf_premium/PREMIUM-SUBSCRIPTION.json`
+（session 块 agreement=ALL_AT_TICKET_SESSION，5 腿 priced 2026-11-12 = ticket）、实战样本
+`results/etf_premium/_proof_r1610_subscription_session.json`（10/10 PASS，含板面 4 腿位移表）。

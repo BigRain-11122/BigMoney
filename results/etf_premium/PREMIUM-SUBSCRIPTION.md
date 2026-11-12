@@ -1,16 +1,18 @@
-# Premium vs the fund's own purchase channel -- 2026-11-11
+# Premium vs the fund's own purchase channel -- 2026-11-12
 
-**Answer (derived):** 1/5 legs show no open primary subscription anywhere in coverage; 4 leg(s) carry no status data; exchange-only on their latest stamp: 513690; the 64 hard-suspended sessions are 42 runs (24 of them a single NAV row); with the 24 one-row valuation gaps removed the block still sits wider on no leg and not on 513690; what those one-row words are is a valuation gap, not an announcement: 24/24 of them suspend 赎回 on the same row, they move the NAV by 0.13 of a normal session (median), and 21/24 sit on a session the HKEX calendar explains against 6.3% of ordinary sessions (13.9x); closed channel is consistent with a standing premium, not a verdict on it
+**Answer (derived):** 1/5 legs show no open primary subscription anywhere in coverage; 4 leg(s) carry no status data; exchange-only on their latest stamp: 513690; the 64 hard-suspended sessions are 42 runs (24 of them a single NAV row); with the 24 one-row valuation gaps removed the block still sits wider on no leg and not on 513690; what those one-row words are is a valuation gap, not an announcement: 24/24 of them suspend 赎回 on the same row, they move the NAV by 0.13 of a normal session (median), and 21/24 sit on a session the HKEX calendar explains against 6.3% of ordinary sessions (13.8x); closed channel is consistent with a standing premium, not a verdict on it
+
+**Session (derived):** premiums priced on 2026-11-12 against a ticket of 2026-11-12 -- every leg prices the ticket's own session; the price/IOPV column comes from the 2026-11-12 board face (ticket_session)
 
 Ruler: panel close / the newest unit NAV stamped strictly before that close - 1. Status joined on: 申购状态 printed on the NAV stamp the premium used.
 
-| leg | class | amount CNY | premium (NAV ruler) | board (price/IOPV) | ruler gap pp | stamp | 申购状态 on stamp | hard-suspended sessions | premium>=10% sessions | share closed at high | window verdict |
-|---|---|---|---|---|---|---|---|---|---|---|---|
-| 510760 | equity | 86,346 | +0.30% | +0.11% | +0.20 | 2026-11-10 | (none) | 0 | 1 | n/a | NO_STATUS_DATA |
-| 512040 | equity | 86,376 | -0.60% | -0.02% | -0.58 | 2026-11-10 | (none) | 0 | 0 | n/a | NO_STATUS_DATA |
-| 159655 | crossborder | 86,243 | +9.55% | +9.54% | +0.01 | 2026-11-10 | (none) | 0 | 11 | n/a | NO_STATUS_DATA |
-| 513690 | crossborder | 86,394 | -1.06% | +0.17% | -1.24 | 2026-11-10 | 场内买入 | 64 | 0 | n/a | CHANNEL_CLOSED_THROUGHOUT |
-| 159519 | crossborder | 86,338 | -0.96% | -0.22% | -0.73 | 2026-11-10 | (none) | 0 | 0 | n/a | NO_STATUS_DATA |
+| leg | class | amount CNY | premium (NAV ruler) | board (price/IOPV) | ruler gap pp | priced session | stamp | 申购状态 on stamp | hard-suspended sessions | premium>=10% sessions | share closed at high | window verdict |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| 510760 | equity | 86,377 | -0.77% | -0.21% | -0.56 | 2026-11-12 | 2026-11-11 | (none) | 0 | 1 | n/a | NO_STATUS_DATA |
+| 512040 | equity | 86,414 | -0.94% | -0.01% | -0.93 | 2026-11-12 | 2026-11-11 | (none) | 0 | 0 | n/a | NO_STATUS_DATA |
+| 159655 | crossborder | 86,357 | +8.01% | +7.80% | +0.20 | 2026-11-12 | 2026-11-11 | (none) | 0 | 11 | n/a | NO_STATUS_DATA |
+| 513690 | crossborder | 86,325 | -1.04% | -1.03% | -0.01 | 2026-11-12 | 2026-11-11 | (none) | 64 | 0 | n/a | CHANNEL_CLOSED_THROUGHOUT |
+| 159519 | crossborder | 86,403 | -1.57% | -1.16% | -0.41 | 2026-11-12 | 2026-11-11 | (none) | 0 | 0 | n/a | NO_STATUS_DATA |
 
 ## Within-leg contrast: hard-suspended vs exchange-only
 
@@ -52,7 +54,7 @@ the same fact repeated. The table above counts days; this one counts runs.
 | 510760 | 1 | 0 | 0 | n/a | 0 (n/a..n/a) | n/a | n/a | n/a | NO_BLOCKED_EPISODES |
 | 512040 | 1 | 0 | 0 | n/a | 0 (n/a..n/a) | n/a | n/a | n/a | NO_BLOCKED_EPISODES |
 | 159655 | 1 | 0 | 0 | n/a | 0 (n/a..n/a) | n/a | n/a | n/a | NO_BLOCKED_EPISODES |
-| 513690 | 85 | 42 | 24 | 1 | 3 (2021-09-17..2021-09-23) | +0.17 | -0.68 | +0.20 | EPISODE_GAP_DOES_NOT_WIDEN |
+| 513690 | 86 | 42 | 24 | 1 | 3 (2021-09-17..2021-09-23) | +0.17 | -0.68 | +0.20 | EPISODE_GAP_DOES_NOT_WIDEN |
 | 159519 | 1 | 0 | 0 | n/a | 0 (n/a..n/a) | n/a | n/a | n/a | NO_BLOCKED_EPISODES |
 
 Run-level gap = median over blocked runs of (that run's own median premium - the
@@ -100,7 +102,7 @@ does not.
 | 513690 | 24 | Tue | 38% | 20% | 0.038 | 24 | 0 | 2(5), 4(2), 10(2) | BLIP_NO_CADENCE |
 | 159519 | 0 | n/a | n/a | n/a | n/a | 0 | 0 | n/a | TOO_FEW_BLIPS |
 
-**Pooled:** 24 single-row runs out of 42 blocked runs; **Tue carries 38% of them against 20% of all priced sessions** (one-sided chance 0.039). Peak days of the month: 2(5), 4(2), 10(2). 24 of the runs are bracketed by 场内买入 on both sides, and 0 carry a NAV jump larger than 3% -- a split or a big distribution, not a quota.
+**Pooled:** 24 single-row runs out of 42 blocked runs; **Tue carries 38% of them against 20% of all priced sessions** (one-sided chance 0.038). Peak days of the month: 2(5), 4(2), 10(2). 24 of the runs are bracketed by 场内买入 on both sides, and 0 carry a NAV jump larger than 3% -- a split or a big distribution, not a quota.
 
 
 Only 0 of 5 legs clear the line on their own (none); the rest lean the same way with too few runs to call it, which is why the pooled reading above -- not a per-leg one -- is the sentence this section quotes.
@@ -134,7 +136,7 @@ closure calendar (NYSE closures, rule-derived: New Year, MLK, Presidents, Good F
 | calendar | how it is known | runs it explains | rate | ordinary-session rate | lift | named |
 |---|---|---|---|---|---|---|
 | NYSE | rule list, window (prev_stamp, stamp] | 1/24 | 4% | 4.8% | 0.9x | no |
-| HKEX | measured on HSI (no bar / half day / shut weekday in the gap) | 21/24 | 88% | 6.3% | 13.9x | yes |
+| HKEX | measured on HSI (no bar / half day / shut weekday in the gap) | 21/24 | 88% | 6.3% | 13.8x | yes |
 
 HKEX series used here: **3255 sessions, 2013-08-20..2026-11-10** (read: cache-stale). The half-day cutoff is a ruler, so the Hong Kong reading is printed at three of them -- 20/24 runs at 50% of trailing turnover, 21 at 60%, 22 at 70% -- and the page quotes no single one as the answer.
 

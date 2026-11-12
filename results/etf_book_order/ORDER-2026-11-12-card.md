@@ -13,7 +13,7 @@
 ## 今天开盘要成交的是什么（决策 bar 与成交时点不是同一天）
 - 账本没有待成交的书：`book_in_force` 就是账面已经持有的那本。
 
-### 已成交回执（换手真的发生了，钱也真的付了）
+### 已成交回执（账本按规则记的换仓：换手与成本都记在账本里，不是券商回单）
 - 2026-11-12 成交：换手 1.2598｜成本 12.60bp，CNY 1,274｜出处 LEDGER.json `fill_log`
 
 ## 准入判决（这本书能不能吃新增资本）
@@ -31,16 +31,23 @@
 
 ## 历史变更通知：本单引用的历史有没有被改过
 
-**有 3 根 bar 在定格之后又被改述**（=历史变了，两个值都留着）：
+**有 2 根 bar 在定格之后又被改述**（=历史变了，两个值都留着）（另有 1 根被撤回，见下）：
 
 | bar | 当时发布(NAV) | 定格后(NAV) | 差 | 何时 |
 |---|---|---|---|---|
 | 2026-10-29 | 1.01453648 | 1.01453141 | +5.06e-06 | 2026-10-30T19:18:29+0800 |
-| 2026-11-02 | 1.00863296 | - | - | 2026-11-02T23:11:55+0800 |
 | 2026-11-03 | 1.00375536 | 1.00375618 | +8.24e-07 | 2026-11-05T20:29:33+0800 |
 
-- 读法：被改述的是「当天面板还在补数就先定过的价」，不是有人事后改了历史；本单引用的行以「定格后」那一列为准。原因：published on a bar the panel's coverage gate has since refused; the panel's last bar is earlier than this date, so it can never re-derive；published while the panel for that date was still gaining symbols。
+- 读法：被改述的是「当天面板还在补数就先定过的价」，不是有人事后改了历史；本单引用的行以「定格后」那一列为准。原因：published while the panel for that date was still gaining symbols。
 - 出处：results/etf_book_forward/LEDGER.json。
+
+**另有 1 根 bar 被撤回**（不是改述：那根 bar 的面板不再支持它，值被整根作废，没有「定格后」的值可读）：
+
+| bar | 当时发布(NAV) | 何时 | 原因 |
+|---|---|---|---|
+| 2026-11-02 | 1.00863296 | 2026-11-02T23:11:55+0800 | published on a bar the panel's coverage gate has since refused; the panel's last bar is earlier than this date, so it can never re-derive |
+
+- 读法：撤回的 bar **不在本单引用的行里**。改述＝同一个 bar 换一个值，撤回＝这个 bar 被整根拿掉；把两者印成一张表，会让读者以为撤回那根还有个「定格后」的值。
 ## 今日目标（NAV ¥1,000,000）
 风险缩放 k=0.909（书内 90.8%、现金 9.2%）｜现金腿=GC001 (1-day repo, observed close)｜现金 ¥91,793
 

@@ -1,7 +1,7 @@
 {
  "evidence_cutoff": "2026-11-12",
  "beta_target": 0.2,
- "generated": "2026-11-13T03:13:27+08:00",
+ "generated": "2026-11-13T05:10:02+08:00",
  "permission": {
   "status": "within_permission",
   "k_now": 0.432195,
@@ -515,7 +515,7 @@
   "withdrawn_now": [],
   "withdrawal_note": "ledger withdrew 1 bar(s) at 2026-11-09 23:54:02 because the price panel then ended 2026-11-06 (2026-11-09); the panel has since carried 2026-11-09 again and that ledger row is live -- the withdrawal stays on record but it is not this sheet's pricing bar",
   "reinstatements": {
-   "at": "2026-11-13 03:13:27",
+   "at": "2026-11-13 05:10:01",
    "n_reinstated": 1,
    "rewritten": [],
    "verbatim_identical": [
@@ -1465,7 +1465,7 @@
  },
  "next_decision": {
   "artifact": "etf_book_next_decision",
-  "generated": "2026-11-13T03:13:27",
+  "generated": "2026-11-13T05:10:02",
   "evidence_cutoff": "2026-11-12",
   "calendar_source": "data/exchange_calendar.csv",
   "calendar_last": "2026-12-31",
@@ -1606,7 +1606,7 @@
  },
  "swap_freshness": {
   "artifact": "etf_book_swap_freshness",
-  "generated": "2026-11-13T03:13:27",
+  "generated": "2026-11-13T05:10:02",
   "evidence_cutoff": "2026-11-12",
   "calendar_source": "data/exchange_calendar.csv",
   "close_accept_time": "15:30",
@@ -1741,15 +1741,15 @@
    "vol": 0.0887
   },
   "width_effect": {
-   "beta": {
-    "ticket_width_cagr": 0.1108,
-    "card_width_cagr": 0.0963,
-    "pp": -1.45
-   },
    "vol": {
     "ticket_width_cagr": 0.1185,
     "card_width_cagr": 0.1224,
     "pp": 0.39
+   },
+   "beta": {
+    "ticket_width_cagr": 0.1108,
+    "card_width_cagr": 0.0963,
+    "pp": -1.45
    }
   },
   "rules_differ": true,
@@ -2145,7 +2145,7 @@
   "fwd_stale": false,
   "fwd_verdict": "HIGH_PREMIUM_PAYS",
   "fwd_horizon": 20,
-  "fwd_sentence": "premium percentile rank-IC with the next 20 sessions is +0.023 (5 legs); 159519: after sessions in its top decile the next 20 sessions averaged +2.94% (n=49, t=+3.6); 159655: after sessions in its top decile the next 20 sessions averaged +0.25% (n=265, t=+0.9); 510760: after sessions in its top decile the next 20 sessions averaged +0.75% (n=143, t=+2.2); 512040: after sessions in its top decile the next 20 sessions averaged +1.01% (n=157, t=+2.3); 513690: after sessions in its top decile the next 20 sessions averaged +0.12% (n=171, t=+0.3) || one session: after sessions at or above the 98th percentile of the fund's own history, the NEXT session moved a median +0.34% (mean +0.39%, fell in 34% of 136 cases); no leg of this ticket sits in that band today || sample: legs 159519,159655,510760,512040,513690 replaced 159263,159501,159577,513100,513690 (last published 2026-11-10) -- not comparable across sessions",
+  "fwd_sentence": "premium percentile rank-IC with the next 20 sessions is +0.023 (5 legs); 159519: after sessions in its top decile the next 20 sessions averaged +2.94% (n=49, t=+3.6); 159655: after sessions in its top decile the next 20 sessions averaged +0.25% (n=265, t=+0.9); 510760: after sessions in its top decile the next 20 sessions averaged +0.75% (n=143, t=+2.2); 512040: after sessions in its top decile the next 20 sessions averaged +1.01% (n=157, t=+2.3); 513690: after sessions in its top decile the next 20 sessions averaged +0.12% (n=171, t=+0.3) || one session: after sessions at or above the 98th percentile of the fund's own history, the NEXT session moved a median +0.34% (mean +0.39%, fell in 34% of 136 cases); no leg of this ticket sits in that band on 2026-11-12 || sample: legs 159519,159655,510760,512040,513690 replaced 159263,159501,159577,513100,513690 (last published 2026-11-10) -- not comparable across sessions",
   "fwd_caveat": "five legs of one ticket: this is a description of these funds' own records, not a cross-sectional study and not a forecast. Overlapping windows are counted once per stride in the t-stat and reported in full only as coverage.",
   "fwd_rows": [
    {
@@ -2225,7 +2225,7 @@
   "fwd_sample_previous_session": "2026-11-10",
   "fwd_defer_verdict": "WAITING_COST",
   "fwd_defer_band": "P98P",
-  "fwd_defer_sentence": "after sessions at or above the 98th percentile of the fund's own history, the NEXT session moved a median +0.34% (mean +0.39%, fell in 34% of 136 cases); no leg of this ticket sits in that band today",
+  "fwd_defer_sentence": "after sessions at or above the 98th percentile of the fund's own history, the NEXT session moved a median +0.34% (mean +0.39%, fell in 34% of 136 cases); no leg of this ticket sits in that band on 2026-11-12",
   "fwd_defer_rows": [
    {
     "symbol": "510760",
