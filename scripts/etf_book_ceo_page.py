@@ -5026,6 +5026,131 @@ def admission_block(ad):
                 "- **无法核验**：%r。缺这一行不等于准入通过。" % (exc,), ""]
 
 
+def fill_face(ledger=None, path=None, order_mod=None):
+    """What today's open does to the book, and what the fills that already happened cost.
+
+    r1572: this page sells a book and says whether that book may take new capital, but it
+    never said the ledger has already committed to a DIFFERENT exposure at the next open
+    (r1571's `pending_fill`), nor what the trades it has already made actually cost. So
+    "the book in the table is what I hold" and "the book in the table is what I will hold
+    after the open" read the same on paper.
+
+    Everything is copied from the ledger the fills came from -- the promise
+    (`pending_fill`), the receipts (`fill_log`) and the ledger's own self-check
+    (`pending_fill_check`); the sentences are the card producer's
+    (`etf_book_order.pending_fill_md`, E289). An unreadable ledger is `unreadable`, never
+    "nothing is pending".
+    """
+    src = path or LEDGER
+    led = ledger
+    if led is None:
+        try:
+            led = _load(src)
+        except Exception as exc:                               # noqa: BLE001
+            return {"status": "unreadable", "evidence_cutoff": None,
+                    "source": _rel(src, ROOT),
+                    "why": "%s: %r" % (exc.__class__.__name__, exc)}
+    if not isinstance(led, dict) or not led:
+        return {"status": "unreadable", "evidence_cutoff": None, "source": _rel(src, ROOT),
+                "why": "ledger is empty or not an object"}
+    bars = [b for b in (led.get("bars") or []) if not b.get("withdrawn")]
+    last = bars[-1] if bars else {}
+    pf = led.get("pending_fill") or {}
+    fills = list(led.get("fill_log") or [])
+    moneys = [float(e["cost_cny"]) for e in fills if e.get("cost_cny") is not None]
+    bps = [float(e.get("cost_bp_of_nav") or 0.0) for e in fills]
+    return {
+        "status": "ok",
+        "source": _rel(src, ROOT),
+        # the bar every number here was computed on: a page dated by its clock would let
+        # yesterday's promise sit under today's date (E136)
+        "evidence_cutoff": last.get("bar"),
+        "last_bar": last.get("bar"), "last_cash": last.get("cash"),
+        "pending": pf or None,
+        "decided_bar": pf.get("decided_bar"),
+        "fills_at_bar": pf.get("fills_at_bar"),
+        "pending_scale": pf.get("pending_scale"),
+        "held_cash": pf.get("held_cash"),
+        "turnover": pf.get("turnover"),
+        "cost_bp": pf.get("cost_bp_of_nav"),
+        "cost_cny": pf.get("cost_cny"),
+        "n_fills": len(fills),
+        "last_fill": fills[-1].get("bar") if fills else None,
+        "cum_cost_bp": round(sum(bps), 2) if fills else 0.0,
+        "cum_cost_cny": round(sum(moneys), 2) if moneys else None,
+        "fills": fills,
+        "check": led.get("pending_fill_check"),
+        "why": None,
+    }
+
+
+def fill_block(fl, sheet=None):
+    """Page lines: the card's own promise/receipt sentences, then the ledger's
+    self-check, then which book on this page those numbers belong to."""
+    fl = fl or {}
+    head = "## 今天开盘要成交的是什么（决策 bar 与成交时点不是同一天）"
+    if fl.get("status") != "ok":
+        return [head, "",
+                "- **无法核验**：账本读不出来（%s）。缺这一节不等于「没有待成交」，也不等于"
+                "「今天不用动」——先修账本。"
+                % (fl.get("why") or "本页没有读到账本"), ""]
+    mod = _order_module()
+    pf, fills = fl.get("pending"), list(fl.get("fills") or [])[-3:]
+    lines = None
+    if mod is not None:
+        try:
+            lines = list(mod.pending_fill_md(pf, fl.get("last_bar"), fl.get("last_cash"), fills))
+        except TypeError:
+            try:
+                lines = list(mod.pending_fill_md(pf, fl.get("last_bar"), fl.get("last_cash")))
+            except Exception:                                  # noqa: BLE001
+                lines = None
+        except Exception:                                      # noqa: BLE001
+            lines = None
+    if not lines:
+        lines = [head, "", "- **无法核验**：执行单模块读不出待成交那句"
+                          "（缺这一行不等于没有待成交）。", ""]
+    chk = fl.get("check") or {}
+    lines += ["### 这笔承诺与账面行对不对得上"]
+    if not chk:
+        lines += ["- **账本没有发布对账结果**（`pending_fill_check` 缺失）：这不等于一致。"]
+    elif chk.get("ok") is True:
+        lines += ["- 对得上：决策 bar 在账面行里、它印的现金就是那一行的现金、成本＝换手×"
+                  "单边×那一行的净值×资本（账本自己核的，本页只抄判词）。"]
+    else:
+        lines += ["- **对不上**（`%s`）：%s"
+                  % (chk.get("code") or "defect", "；".join(chk.get("problems") or []) or "-")]
+        lines += ["- 出现这一行时，上面的持仓表与这里的成交记录**不能当同一本书读**——问题在"
+                  "账本，不在本页；先修账本再看仓位。"]
+    # r1572b: the page prints two exposures (the ledger's pending book above, the quota-
+    # trimmed list below). Printing them adjacent without naming which is which is exactly
+    # the "two books, one paper" defect this page keeps curing -- so say it, from values.
+    if pf and sheet:
+        _n_pf = int(pf.get("n_pending") or 0)
+        _k_pf = pf.get("pending_scale")
+        _n_sh = sheet.get("n_hold") or len(sheet.get("order") or [])
+        _k_sh = sheet.get("k_now")
+        _same = (bool(_n_pf) and bool(_n_sh) and _n_pf == int(_n_sh)
+                 and _k_pf is not None and _k_sh is not None
+                 and abs(float(_k_pf) - float(_k_sh)) <= 1e-6)
+        if _same:
+            lines += ["- 这一行的书与下面的清单是**同一本**（%d 名·k=%.4f）。"
+                      % (_n_pf, float(_k_pf))]
+        elif _n_pf and _n_sh and _k_pf is not None and _k_sh is not None:
+            lines += ["- **这一行的书与下面的清单不是同一本**：待成交那本 k=%.4f／%d 名"
+                      "（`pending_fill` 记的规则目标），清单那本 k=%.4f／%d 名"
+                      "（额度门签发的那张，见「这张单能下多大」）。两个数都真——一个是规则"
+                      "要持有的书，一个是按额度能下的量，别把一个当另一个的证据。"
+                      % (float(_k_pf), _n_pf, float(_k_sh), int(_n_sh))]
+    if fl.get("n_fills"):
+        lines += ["- 这本账至今记录了 **%d 次成交**，累计成本 **%.1fbp**%s（逐 bar `fill_log`）"
+                  % (fl["n_fills"], float(fl.get("cum_cost_bp") or 0.0),
+                     ("＝ **CNY %s**" % format(int(round(float(fl["cum_cost_cny"]))), ","))
+                     if fl.get("cum_cost_cny") is not None else "（资本未申明，只给 bp）")]
+    lines += [""]
+    return lines
+
+
 def build_stress(order, capital, priced_bar, close=None):
     """Data path: replay today's weights over the whole panel, worst-window report.
 
@@ -5304,6 +5429,10 @@ def build(with_stress=False, window_label=None):
     # r1573: "what do I buy" and "is this book allowed new money" are two answers; the page
     # printed the first and left the second to the order sheet's §准入判决.
     page["admission"] = admission_face(ledger.get("last_bar") or fwd.get("as_of"))
+    # r1572: the page must also say what the ledger has already committed to at the next
+    # open, and what the trades it made actually cost -- the table below is the target
+    # book, not the book on the account.
+    page["fill"] = fill_face(ledger=ledger)
     page["bets"] = bets_face()
     page["family_coherence"] = family_coherence()
     page["priced_faces"] = priced_faces(page["priced_bar"])
@@ -5491,6 +5620,11 @@ def render_md(p, sb=None):
     # condition on the list, and a reader who stops at the table would never reach it.
     for _adm_line in admission_block(p.get("admission") or {}):
         add(_adm_line)
+    # r1572: a condition on the list, like the admission above it -- what fills at the
+    # next open is not in the table below, and a reader who stops at the table never
+    # learns that the account is about to hold a different exposure.
+    for _fill_line in fill_block(p.get("fill") or {}, sheet=p):
+        add(_fill_line)
     add("## 下单清单%s" % ("（如果你今天才建仓）" if mode == "hold" else ""))
     add("")
     add("| 代码 | 类别 | 份（100 股/份） | 参考价 | 金额 |")
@@ -8954,6 +9088,61 @@ def selftest():
         "clash=%s gap=%s" % (_ad_f["clash"], _ad_f["panel_gap"]))
     chk("L206 page: the admission sits above the buy list, not below it",
         "准入判决" in _md and _md.index("准入判决") < _md.index("下单清单"))
+    # ---- r1572: the promise the ledger made, and the receipt for the fills already paid ---
+    _fill_led = os.path.join(_adm_dir, "LEDGER-fill.json")
+    _fill_doc = {"seed": {"bar": "2026-10-23", "capital_cny": 1_000_000.0},
+                 "bars": [{"bar": "2026-11-11", "nav": 1.01604, "cash": 0.299225,
+                           "filled": False, "turn": 0.0}],
+                 "book_in_force": {"bar": "2026-11-11"},
+                 "pending_fill": {"decided_bar": "2026-11-11", "fills_at_bar": None,
+                                  "held_scale": 0.700775, "held_cash": 0.299225,
+                                  "pending_scale": 0.909384, "turnover": 1.259772,
+                                  "cost_bp_of_nav": 12.6, "cost_cny": 1280.01,
+                                  "capital_cny": 1_000_000.0, "names_added": ["A"],
+                                  "names_dropped": ["B"], "pending_names": ["A"],
+                                  "n_pending": 1},
+                 "fill_log": [{"bar": "2026-10-28", "nav": 0.9987, "turnover": 0.5,
+                               "cost_bp_of_nav": 5.0, "cost_cny": 499.35,
+                               "capital_cny": 1_000_000.0}],
+                 "pending_fill_check": {"ok": True, "code": "ok", "problems": []}}
+    with open(_fill_led, "w", encoding="utf-8") as _fh:
+        json.dump(_fill_doc, _fh)
+    _flf = fill_face(path=_fill_led)
+    chk("L207 fill: both days and the money are copied off the ledger, not recomputed here",
+        _flf["status"] == "ok" and _flf["decided_bar"] == "2026-11-11"
+        and _flf["fills_at_bar"] is None and abs(_flf["cost_cny"] - 1280.01) < 0.01
+        and _flf["evidence_cutoff"] == "2026-11-11", str(_flf.get("why") or _flf["status"]))
+    _fl_md = "\n".join(fill_block(_flf))
+    chk("L208 fill: the receipt prints the fill that really paid money, and the running total",
+        "2026-10-28 成交" in _fl_md and "CNY 499" in _fl_md and "1 次成交" in _fl_md
+        and "5.0bp" in _fl_md, _fl_md[-160:])
+    _fl_bad = dict(_flf)
+    _fl_bad["check"] = {"ok": False, "code": "defect",
+                        "problems": ["held_cash 0.299200 is not the cash printed on "
+                                     "2026-11-11 (0.090616)"]}
+    _fl_bad_md = "\n".join(fill_block(_fl_bad))
+    chk("L209 fill: a failing self-check prints as a defect, not as 'two books, pick one'",
+        "对不上" in _fl_bad_md and "不能当同一本书读" in _fl_bad_md
+        and "held_cash" in _fl_bad_md, _fl_bad_md[-140:])
+    _fl_none = fill_face(path=os.path.join(_adm_dir, "no-ledger.json"))
+    _fl_none_md = "\n".join(fill_block(_fl_none))
+    chk("L210 fill: an unreadable ledger is 'cannot verify', never 'nothing is pending'",
+        _fl_none["status"] == "unreadable" and "无法核验" in _fl_none_md
+        and "账本没有待成交的书" not in _fl_none_md
+        and "没有任何已记录的成交" not in _fl_none_md, _fl_none_md[:100])
+    _fill_empty = os.path.join(_adm_dir, "LEDGER-empty.json")
+    with open(_fill_empty, "w", encoding="utf-8") as _fh:
+        json.dump(dict(_fill_doc, fill_log=[]), _fh)
+    chk("L211 fill: an empty receipt says so instead of leaving the reader to assume",
+        "没有任何已记录的成交" in "\n".join(fill_block(fill_face(path=_fill_empty))))
+    chk("L212 page: the fill section sits above the buy list, beside the admission",
+        "今天开盘要成交" in _md and _md.index("今天开盘要成交") < _md.index("下单清单"))
+    _fl_two = "\n".join(fill_block(_flf, sheet={"n_hold": 5, "k_now": 0.432195}))
+    chk("L213 fill: two exposures on one page are named as two books, not left adjacent",
+        "不是同一本" in _fl_two and "0.9094" in _fl_two and "0.4322" in _fl_two, _fl_two[-160:])
+    _fl_one = "\n".join(fill_block(_flf, sheet={"n_hold": 1, "k_now": 0.909384}))
+    chk("L214 fill: when the sheet and the ledger hold one book, it says so instead",
+        "同一本" in _fl_one and "不是同一本" not in _fl_one, _fl_one[-120:])
     shutil.rmtree(_adm_dir, ignore_errors=True)
     print("\nSummary: %d/%d PASS%s" % (ok, total, "" if ok == total else " -- %d FAIL" % (total - ok)))
     return 0 if ok == total else 1

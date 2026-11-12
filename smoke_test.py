@@ -199,6 +199,111 @@ def capture_pinned(argv, timeout):
         _t.join(5.0)
     return subprocess.CompletedProcess(argv, _p.returncode,
                                        "".join(_buf["out"]), "".join(_buf["err"]))
+
+
+def _leg_pending_fill_receipt(path=None):
+    """The sheet's promise and the ledger's receipt, both recomputed here (r1572).
+
+    Kept as a function so it can be replayed on its own ($ python -c "import smoke_test as
+    s; print(s._leg_pending_fill_receipt())") -- a leg that can only be judged by a ~45
+    minute suite is a leg that ships unverified. Everything is derived from the published
+    rows and the documented per-side cost; asking the module for its own verdict would let
+    a wrong constant certify itself. `path` exists so the leg can be shown to go RED on a
+    doctored ledger instead of only ever being observed green.
+    """
+    bad = []
+    led = json.load(open(path or os.path.join("results", "etf_book_forward", "LEDGER.json"),
+                         encoding="utf-8"))
+    rows = {b.get("bar"): b for b in (led.get("bars") or []) if not b.get("withdrawn")}
+    chk = led.get("pending_fill_check") or {}
+    pf = led.get("pending_fill")
+    if not chk:
+        bad.append("the ledger publishes no pending_fill_check")
+    elif chk.get("ok") is not True:
+        bad.append("published check is not ok: %s" % (chk.get("problems"),))
+    if "fill_log" not in led:
+        bad.append("the ledger publishes no fill receipt log")
+    for e in (led.get("fill_log") or []):
+        row = rows.get(e.get("bar")) or {}
+        if row.get("filled") is not True:
+            bad.append("receipt %s has no filled row" % e.get("bar"))
+        elif abs(float(row.get("turn") or 0.0) - float(e.get("turnover") or 0.0)) > 1e-6:
+            bad.append("receipt %s turn %s != row %s"
+                       % (e.get("bar"), e.get("turnover"), row.get("turn")))
+        else:
+            want = (float(e["turnover"]) * 0.001 * float(row.get("nav") or 1.0)
+                    * float(e.get("capital_cny") or 0.0))
+            if e.get("cost_cny") is not None and abs(float(e["cost_cny"]) - want) > 2.0:
+                bad.append("receipt %s money %s != %s"
+                           % (e.get("bar"), e["cost_cny"], round(want, 2)))
+    if pf:
+        dec = pf.get("decided_bar")
+        row = rows.get(dec) or {}
+        if not row:
+            bad.append("pending decision %s has no row" % dec)
+        elif abs(float(pf.get("held_cash") or 0.0) - float(row.get("cash") or 0.0)) > 5e-6:
+            bad.append("pending held_cash %s != row cash %s"
+                       % (pf.get("held_cash"), row.get("cash")))
+        bp = float(pf.get("turnover") or 0.0) * 0.001 * 1e4
+        if abs(float(pf.get("cost_bp_of_nav") or 0.0) - bp) > 0.01:
+            bad.append("pending cost %s bp != %s bp"
+                       % (pf.get("cost_bp_of_nav"), round(bp, 2)))
+        bars = [b.get("bar") for b in (led.get("bars") or [])]
+        if pf.get("fills_at_bar") is None and bars and bars[-1] != dec:
+            bad.append("pending %s has no fill date but the ledger moved to %s"
+                       % (dec, bars[-1]))
+    detail = ("; ".join(bad)[:220]
+              or "pending=%s fills_at=%s log=%d"
+              % (bool(pf), (pf or {}).get("fills_at_bar"), len(led.get("fill_log") or [])))
+    return (not bad), detail
+
+
+def _leg_page_fill_section(page_md=None):
+    """Does the first page say what the open will do, and whose book that is? (r1572)
+
+    Recomputable on its own: `$ python -c "import smoke_test as s; print(s._leg_page_fill_section())"`.
+    Reads the PUBLISHED page (the paper a reader actually opens) and the ledger it quotes --
+    the section may not be judged by asking the producer whether the producer is right.
+    """
+    bad = []
+    path = page_md or os.path.join("docs", "live_book", "LIVE-BOOK-%s.md"
+                                   % dt.datetime.now().strftime("%Y%m%d"))
+    try:
+        text = open(path, encoding="utf-8").read()
+    except OSError as exc:
+        return False, "no readable page (%s)" % exc.__class__.__name__
+    head = "## 今天开盘要成交的是什么"
+    if head not in text:
+        bad.append("the page has no 'what fills at the open' section")
+    else:
+        i = text.index(head)
+        if "## 下单清单" in text and i > text.index("## 下单清单"):
+            bad.append("the fill section sits below the buy list")
+        nxt = text.find("## 下单清单", i)
+        body = text[i:nxt] if nxt > 0 else text[i:i + 4000]
+        if "这笔承诺与账面行对不对得上" not in body:
+            bad.append("the section does not print the ledger's own reconciliation")
+        try:
+            led = json.load(open(os.path.join("results", "etf_book_forward", "LEDGER.json"),
+                                 encoding="utf-8"))
+        except (OSError, ValueError) as exc:
+            led = None
+            bad.append("no readable ledger (%s)" % exc.__class__.__name__)
+        pf = (led or {}).get("pending_fill") or {}
+        if led is not None:
+            if pf and (pf.get("decided_bar") or "") not in body:
+                bad.append("the decision bar %s is not printed" % pf.get("decided_bar"))
+            if not pf and "账本没有待成交的书" not in body:
+                bad.append("the ledger has no pending book but the page does not say so")
+            # two exposures on one page must be named as two books (r1572b)
+            if pf and "不是同一本" in body:
+                tok = "k=%.4f" % float(pf.get("pending_scale") or 0.0)
+                if tok not in body:
+                    bad.append("the ledger's own k %s is not printed" % tok)
+    detail = ("; ".join(bad)[:220] or "section above the list, decision bar and check printed")
+    return (not bad), detail
+
+
 def main() -> int:
     print(f"== Bigmoney smoke test {dt.datetime.now():%Y-%m-%d %H:%M:%S} ==")
     try:
@@ -2583,6 +2688,24 @@ def main() -> int:
                   _sh.get("scale_diff"), _sh.get("ticket_names"), _sh.get("card_names")))
     except Exception as e:
         check("product: the paper book owns the book the card sells", False, str(e))
+    # r1572: the promise (what the sheet says will fill) and the receipt (what the rows say
+    # fills) live in the same file; this leg recomputes both halves.
+    try:
+        _ok72, _d72 = _leg_pending_fill_receipt()
+        check("product: the promised fill and the fill receipt are both recomputable",
+              _ok72, _d72)
+    except Exception as e:
+        check("product: the promised fill and the fill receipt are both recomputable",
+              False, repr(e)[:160])
+    # r1572: the page a reader opens first must say what the open will do to the book, and
+    # which book it is talking about.
+    try:
+        _ok73, _d73 = _leg_page_fill_section()
+        check("product: the page says what fills at the open and whose book that is",
+              _ok73, _d73)
+    except Exception as e:
+        check("product: the page says what fills at the open and whose book that is",
+              False, repr(e)[:160])
     try:
         _stg = [f for f in (_rg.get("faces") or []) if f.get("id") == "staggered"]
         _turn = (_stg[0].get("next_turn") if _stg else None) or []

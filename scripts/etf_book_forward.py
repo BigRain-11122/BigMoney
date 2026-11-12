@@ -837,6 +837,125 @@ def pending_fill_line(pf):
                len(pf.get("names_added") or []), len(pf.get("names_dropped") or [])))
 
 
+def sync_fill_log(led):
+    """Every row marked `filled` gets one append-only record of what that fill cost (r1572).
+
+    r1571 published the *pending* fill; nothing kept the promise once it landed. On the bar
+    after the decision the engine consumes `pending`, so the record disappeared exactly at
+    the moment a reader could check whether the trade described on yesterday's sheet is the
+    trade the ledger actually marked. The rows carry `filled`/`turn` but never money, and the
+    rows are re-derived on every run -- a fill recorded only as a transient block is not a
+    record.
+
+    Appended once per filled bar, never rewritten; returns the entries added this call.
+    """
+    rows = published_bars(led)
+    log = list(led.get("fill_log") or [])
+    have = {e.get("bar") for e in log}
+    capital = (led.get("seed") or {}).get("capital_cny")
+    added = []
+    for b in rows:
+        bar = b.get("bar")
+        if not b.get("filled") or not bar or bar in have:
+            continue
+        turn = float(b.get("turn") or 0.0)
+        cost = turn * float(CONFIG["cost_per_side"])
+        entry = {
+            "bar": bar,
+            "fills_at_bar": bar,
+            "turnover": round(turn, 6),
+            "cost_bp_of_nav": round(cost * 1e4, 2),
+            "capital_cny": None if not capital else float(capital),
+            "cost_cny": (None if (abs(float(cost)) < 1e-12 or not capital)
+                         else round(cost * float(b.get("nav") or 1.0) * float(capital), 2)),
+            "basis": "turnover x %g per side x nav of the bar that fills it"
+                     % float(CONFIG["cost_per_side"]),
+        }
+        log.append(entry)
+        added.append(entry)
+    log.sort(key=lambda e: e.get("bar") or "")
+    led["fill_log"] = log
+    return added
+
+
+def pending_fill_audit(led):
+    """Does the published pending-fill record still describe THIS ledger?(r1572)
+
+    Re-derived from the ledger's own rows and the module constants that produced them: the
+    record may not claim a fill date without a row, may not leave a decision stranded once
+    the panel has moved past it, and its held exposure has to be the cash printed on the
+    decision bar's own row -- that pairing is the whole reason the record exists.
+
+    Returns a dict a caller can publish: `ok`, one-word `code`, `problems[]`, `checked{}`.
+    """
+    pf = led.get("pending_fill")
+    bars = published_bars(led)
+    rows = {b.get("bar"): b for b in bars}
+    head = bars[-1] if bars else None
+    problems = []
+    checked = {"head_bar": (head or {}).get("bar"), "has_pending": pf is not None}
+    if pf is None:
+        return {"ok": True, "code": "no_pending", "problems": [], "checked": checked}
+
+    decided = pf.get("decided_bar")
+    fills = pf.get("fills_at_bar")
+    turn = float(pf.get("turnover") or 0.0)
+    checked.update({"decided_bar": decided, "fills_at_bar": fills, "turnover": turn})
+    if not decided or decided not in rows:
+        problems.append("decision bar %r has no row in the ledger" % (decided,))
+    else:
+        row = rows[decided]
+        if abs(float(pf.get("held_cash") or 0.0) - float(row.get("cash") or 0.0)) > 5e-6:
+            problems.append("held_cash %.6f is not the cash printed on %s (%.6f)"
+                            % (float(pf.get("held_cash") or 0.0), decided,
+                               float(row.get("cash") or 0.0)))
+    if head is not None:
+        if decided and decided > head.get("bar"):
+            problems.append("decision bar %s is after the last row %s"
+                            % (decided, head.get("bar")))
+        if fills is None:
+            if decided and decided != head.get("bar"):
+                problems.append("decision %s has no fill date while the ledger moved on to %s"
+                                % (decided, head.get("bar")))
+        elif fills <= decided:
+            problems.append("fill date %s is not after the decision %s" % (fills, decided))
+        elif fills in rows:
+            row = rows[fills]
+            if row.get("filled") is not True:
+                problems.append("fill date %s has arrived but its row is not filled" % fills)
+            elif abs(float(row.get("turn") or 0.0) - turn) > 1e-6:
+                problems.append("fill row %s turned %.6f, the pending record says %.6f"
+                                % (fills, float(row.get("turn") or 0.0), turn))
+            elif fills not in {e.get("bar") for e in (led.get("fill_log") or [])}:
+                problems.append("fill %s is not in the fill log" % fills)
+    bp = turn * float(CONFIG["cost_per_side"]) * 1e4
+    if abs(float(pf.get("cost_bp_of_nav") or 0.0) - bp) > 0.01:
+        problems.append("cost %.2fbp is not turnover x per-side (%.2fbp)"
+                        % (float(pf.get("cost_bp_of_nav") or 0.0), bp))
+    capital = pf.get("capital_cny")
+    if pf.get("cost_cny") is not None and capital and decided in rows:
+        want = (turn * float(CONFIG["cost_per_side"])
+                * float(rows[decided].get("nav") or 1.0) * float(capital))
+        if abs(float(pf["cost_cny"]) - want) > 2.0:
+            problems.append("money %.2f is not the cost on %s's own nav (%.2f)"
+                            % (float(pf["cost_cny"]), decided, want))
+    added = set(pf.get("names_added") or [])
+    dropped = set(pf.get("names_dropped") or [])
+    pending = set(pf.get("pending_names") or [])
+    if int(pf.get("n_pending") or 0) != len(pending):
+        problems.append("n_pending %s != %d names" % (pf.get("n_pending"), len(pending)))
+    if added & dropped:
+        problems.append("names both added and dropped: %s" % sorted(added & dropped))
+    if not added <= pending:
+        problems.append("names added that are not in the pending book: %s"
+                        % sorted(added - pending))
+    if dropped & pending:
+        problems.append("names dropped that are in the pending book: %s"
+                        % sorted(dropped & pending))
+    return {"ok": not problems, "code": "ok" if not problems else "defect",
+            "problems": problems, "checked": checked}
+
+
 def partition_settled(bars, panel_last_date, carry_last=None):
     """(settled, provisional) published bar dates -- the ONE implementation.
 
@@ -1273,6 +1392,10 @@ def load_ledger():
 
 def save_ledger(led):
     os.makedirs(OUT_DIR, exist_ok=True)
+    # r1572: the promise and the receipt ride in the same file -- what the sheet says will
+    # fill, and what the rows say filled -- so no caller can publish a stale pair.
+    sync_fill_log(led)
+    led["pending_fill_check"] = pending_fill_audit(led)
     with open(LEDGER, "w", encoding="utf-8") as f:
         json.dump(led, f, ensure_ascii=False, indent=1)
 
@@ -2363,6 +2486,71 @@ def selftest():
         "2026-11-12" in _sent and "0.9094" in _sent and "29.9%" in _sent and "CNY" in _sent,
         _sent)
 
+    # 7. the promise vs the receipt (r1572). r1571 published what will fill; nothing checked
+    #    it once the bar arrived, and nothing noticed a decision left stranded when the panel
+    #    moved past it. Both defects are fixtures here, not narrated.
+    def _led_f(in_force, cash, filled=False, turn=0.0, nav=1.01604, bar="2026-11-11"):
+        return {"seed": {"bar": "2026-10-23", "capital_cny": 1_000_000.0},
+                "bars": [{"bar": bar, "nav": nav, "cash": cash, "filled": filled,
+                          "turn": turn}],
+                "book_in_force": in_force}
+
+    _pf_live = dict(_pf3)
+    _led_live = _led_f({"bar": "2026-11-11"}, 0.2992)
+    _led_live["pending_fill"] = _pf_live
+    _au = pending_fill_audit(_led_live)
+    chk("pending audit: live record (decision on the head bar, no fill date yet) is clean",
+        _au["ok"] and _au["code"] == "ok",
+        "; ".join(_au["problems"]) or _au["code"])
+    # the exact r1571 confusion: the record claims a held exposure the row does not print
+    _led_bad = _led_f({"bar": "2026-11-11"}, 0.090616)
+    _led_bad["pending_fill"] = dict(_pf_live)
+    _au2 = pending_fill_audit(_led_bad)
+    chk("pending audit: held_cash that is not the decision bar's own cash is a defect",
+        _au2["ok"] is False and any("held_cash" in p for p in _au2["problems"]),
+        "; ".join(_au2["problems"]))
+    # a decision the panel has walked past with no fill date = the book silently never entered
+    _led_stranded = _led_f({"bar": "2026-11-11"}, 0.2992, bar="2026-11-12")
+    _led_stranded["bars"].insert(0, {"bar": "2026-11-11", "nav": 1.01604, "cash": 0.2992,
+                                     "filled": False, "turn": 0.0})
+    _led_stranded["pending_fill"] = dict(_pf)
+    _au3 = pending_fill_audit(_led_stranded)
+    chk("pending audit: a decision the panel moved past with no fill date is stranded",
+        _au3["ok"] is False and any("no fill date" in p for p in _au3["problems"]),
+        "; ".join(_au3["problems"]))
+    # the fill landed: the row must be filled, turn the promised amount, and be in the log
+    _led_done = _led_f({"bar": "2026-12-09"}, 0.0906, filled=True, turn=1.2598,
+                       nav=1.02, bar="2026-11-12")
+    _led_done["bars"].insert(0, {"bar": "2026-11-11", "nav": 1.01604, "cash": 0.2992,
+                                 "filled": False, "turn": 0.0})
+    _led_done["pending_fill"] = dict(_pf_live, fills_at_bar="2026-11-12")
+    _added = sync_fill_log(_led_done)
+    _au4 = pending_fill_audit(_led_done)
+    chk("pending audit: a fired pending record reconciles with the row that filled it",
+        _au4["ok"] and len(_added) == 1 and _added[0]["bar"] == "2026-11-12",
+        "; ".join(_au4["problems"]) or "log=%s" % [e["bar"] for e in _led_done["fill_log"]])
+    chk("fill log: appended once per filled row and never rewritten",
+        sync_fill_log(_led_done) == [] and len(_led_done["fill_log"]) == 1)
+    # ... and the receipt is money, not an index
+    _fl = _led_done["fill_log"][0]
+    chk("fill log: the receipt prices the fill on the row's own nav",
+        abs(_fl["cost_cny"] - 1.2598 * CONFIG["cost_per_side"] * 1.02 * 1_000_000.0) < 2.0
+        and abs(_fl["cost_bp_of_nav"] - 12.6) < 0.01,
+        "cny=%s bp=%s" % (_fl["cost_cny"], _fl["cost_bp_of_nav"]))
+    # a fill date that arrived without a filled row is the failure mode the record hides
+    _led_nofill = _led_f({"bar": "2026-11-11"}, 0.2992, bar="2026-11-12")
+    _led_nofill["bars"].insert(0, {"bar": "2026-11-11", "nav": 1.01604, "cash": 0.2992,
+                                   "filled": False, "turn": 0.0})
+    _led_nofill["pending_fill"] = dict(_pf_live, fills_at_bar="2026-11-12")
+    sync_fill_log(_led_nofill)
+    _au5 = pending_fill_audit(_led_nofill)
+    chk("pending audit: a dated fill whose row never filled is a defect, not a pending record",
+        _au5["ok"] is False and any("has arrived but its row is not filled" in p
+                                    for p in _au5["problems"]),
+        "; ".join(_au5["problems"]))
+    chk("pending audit: no pending book is a clean code, not an absent verdict",
+        pending_fill_audit(_led_f(None, 0.1))["code"] == "no_pending")
+
     print("SELFTEST " + ("OK" if ok else "FAILED"), flush=True)
     return 0 if ok else 1
 
@@ -2385,4 +2573,21 @@ if __name__ == "__main__":
         sys.exit(carry(fee_free=opts.get("fees") == "0"))
     if cmd == "rebase-audit":
         sys.exit(rebase_audit_face(write="--write" in args))
+    if cmd == "pending-audit":
+        _led = load_ledger()
+        if _led is None:
+            print("NO LEDGER -- nothing to audit", flush=True)
+            sys.exit(2)
+        _au = pending_fill_audit(_led)
+        _pf = _led.get("pending_fill")
+        print("pending_fill_check=%s code=%s head=%s pending=%s fills_at=%s log=%d"
+              % ("OK" if _au["ok"] else "DEFECT", _au["code"],
+                 _au["checked"].get("head_bar"), bool(_pf),
+                 (_pf or {}).get("fills_at_bar"), len(_led.get("fill_log") or [])),
+              flush=True)
+        if _pf:
+            print(pending_fill_line(_pf), flush=True)
+        for _p in _au["problems"]:
+            print("  PROBLEM " + _p, flush=True)
+        sys.exit(0 if _au["ok"] else 1)
     sys.exit(run(rebase="--rebase" in args))

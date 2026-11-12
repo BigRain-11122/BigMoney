@@ -1,6 +1,6 @@
 {
  "report_date": "2026-11-12",
- "generated_at": "2026-11-12 02:12:38",
+ "generated_at": "2026-11-12 08:42:00",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -294,13 +294,13 @@
   "md_link": "../live_usage/LIVE-2026-11-12.md"
  },
  "rd": {
-  "commits_24h": 74,
-  "result_jsons_landed_24h": 158,
-  "digests_landed_24h": 2,
-  "prereg_md_touched_24h": 31,
+  "commits_24h": 65,
+  "result_jsons_landed_24h": 153,
+  "digests_landed_24h": 3,
+  "prereg_md_touched_24h": 30,
   "compute_audit_latest": {
-   "ts": "2026-11-12 00:54:22",
-   "py_cpu_pct": 5.8,
+   "ts": "2026-11-12 08:40:52",
+   "py_cpu_pct": 0.3,
    "flags": [
     "pool_starvation",
     "supply_floor"
@@ -652,7 +652,7 @@
   "total_state_tokens_est": 15889,
   "total_report_tokens_est": 2395805,
   "delta_vs_prev": {
-   "prev_generated": "2026-11-12 01:01:42",
+   "prev_generated": "2026-11-12 01:36:43",
    "state_tokens_growth": 0,
    "report_tokens_growth": 0,
    "mandate_growth": 0
@@ -789,49 +789,13 @@
     "today_supply_gap_flags": 0
    },
    "bm-c": {
-    "latest_ts": "2026-11-12 00:54:22",
-    "py_pct": 5.8,
-    "cpu_pct": 47.0,
+    "latest_ts": "2026-11-12 08:40:52",
+    "py_pct": 0.3,
+    "cpu_pct": 2.0,
     "ready": 0,
-    "streak_min": 16785.8,
+    "streak_min": 16970.7,
     "verdict": "FLAG:pool_starvation,supply_floor",
     "py_series_tail": [
-     [
-      "15:17",
-      0.0
-     ],
-     [
-      "16:34",
-      0.0
-     ],
-     [
-      "17:50",
-      0.0
-     ],
-     [
-      "18:25",
-      4.8
-     ],
-     [
-      "19:02",
-      0.4
-     ],
-     [
-      "22:01",
-      1.0
-     ],
-     [
-      "22:34",
-      0.0
-     ],
-     [
-      "23:14",
-      0.7
-     ],
-     [
-      "23:39",
-      0.0
-     ],
      [
       "00:25",
       1.4
@@ -843,9 +807,45 @@
      [
       "00:54",
       5.8
+     ],
+     [
+      "02:21",
+      5.1
+     ],
+     [
+      "03:16",
+      5.4
+     ],
+     [
+      "03:48",
+      0.2
+     ],
+     [
+      "04:53",
+      1.5
+     ],
+     [
+      "05:24",
+      4.0
+     ],
+     [
+      "06:06",
+      1.0
+     ],
+     [
+      "06:31",
+      0.5
+     ],
+     [
+      "08:15",
+      1.5
+     ],
+     [
+      "08:40",
+      0.3
      ]
     ],
-    "today_samples": 3,
+    "today_samples": 12,
     "today_floor_ok": 0,
     "today_sla_flags": 0,
     "today_supply_gap_flags": 0
@@ -908,7 +908,7 @@
      "readable": true,
      "window_min": 60.0,
      "audit_batches": 0,
-     "audit_ts": "2026-11-12 00:54:22"
+     "audit_ts": "2026-11-12 08:40:52"
     }
    }
   },
@@ -1722,10 +1722,10 @@
  },
  "lane_authority": {
   "present": true,
-  "as_of": "2026-11-12T01:39:01",
+  "as_of": "2026-11-12T03:49:58",
   "verdict": "attention",
   "observer": "bm-c",
-  "sentence": "以本机 bm-c 的盘为基准：14 条在役车道里有 1 条的数字不在本机盘上：1 条在 bm-b 的盘上（300.93h 未报到）；留在本机盘上的 13 条里 13 条可核实。",
+  "sentence": "以本机 bm-c 的盘为基准：14 条在役车道里有 1 条的数字不在本机盘上：1 条在 bm-b 的盘上（303.11h 未报到）；留在本机盘上的 13 条里 13 条可核实。",
   "n_lanes": 14,
   "n_offhost": 1,
   "n_here": 13,
@@ -1739,7 +1739,7 @@
     ],
     "n": 1,
     "alive": false,
-    "age_h": 300.93,
+    "age_h": 303.11,
     "last_seen": "2026-10-30T12:43:06+08:00"
    }
   ],
@@ -1771,7 +1771,7 @@
  },
  "lane_window": {
   "present": true,
-  "as_of": "2026-11-12T01:39:01",
+  "as_of": "2026-11-12T03:49:58",
   "n": 2,
   "windows": [
    {
@@ -1801,12 +1801,12 @@
  "lane_silence": {
   "present": true,
   "machine": "bm-c",
-  "verdict": "SILENT_GAP",
+  "verdict": "OPEN_SILENCE",
   "threshold_min": 90,
   "window_days": 3,
   "median_gap_min": 11.0,
-  "rounds_in_window": 134,
-  "rounds_in_ledger": 999,
+  "rounds_in_window": 128,
+  "rounds_in_ledger": 1004,
   "gaps_over_threshold_count": 12,
   "longest_silence": {
    "from": "2026-11-09T15:00",
@@ -1818,12 +1818,12 @@
    "unexplained_low_min": 231.0
   },
   "open_gap": {
-   "gap_high_min": 30.8,
-   "gap_low_min": 21.8,
+   "gap_high_min": 110.0,
+   "gap_low_min": 101.0,
    "quiet_window_min": 0.0,
-   "since": "2026-11-12T00:00",
-   "unexplained_high_min": 30.8,
-   "unexplained_low_min": 21.8
+   "since": "2026-11-12T02:00",
+   "unexplained_high_min": 110.0,
+   "unexplained_low_min": 101.0
   },
   "gaps_over_threshold": [
    {
@@ -1936,8 +1936,8 @@
    }
   ],
   "evidence_cutoff": "2026-11-12",
-  "generated": "2026-11-12T00:30:49",
-  "silence_verdict": "SILENT_GAP",
+  "generated": "2026-11-12T03:50:01",
+  "silence_verdict": "OPEN_SILENCE",
   "lane_tasks": {
    "absent": [],
    "disabled": [],
@@ -1951,13 +1951,13 @@
    "states": {
     "Bigmoney-IterationLoop": "Running",
     "Bigmoney-LoopWatchdog": "Ready",
-    "Bigmoney-SatEngine-bm-b": "Ready"
+    "Bigmoney-SatEngine-bm-b": "Running"
    },
    "threshold_min": 90,
    "verdict": "LANE_ENABLED",
    "why": "every probeable lane task is switched on; the silence (if any) is not a switch"
   },
-  "sentence": "bm-c: 134 rounds in 3d, median gap 11.0 min, 12 unexplained gap(s) over 90 min; longest silence 2026-11-09T15:00 -> 2026-11-09T19:00 (231.0-249.0 min, 0.0 explained by its quiet window); still open since 2026-11-12T00:00 (21.8-30.8 min unexplained)."
+  "sentence": "bm-c: 128 rounds in 3d, median gap 11.0 min, 12 unexplained gap(s) over 90 min; longest silence 2026-11-09T15:00 -> 2026-11-09T19:00 (231.0-249.0 min, 0.0 explained by its quiet window); still open since 2026-11-12T02:00 (101.0-110.0 min unexplained)."
  },
  "cap_vs_book": {
   "status": "ok",
@@ -2025,7 +2025,7 @@
     },
     "years_for_80pct_power": {
      "pre-2020 measured alpha (single arm)": 136.1,
-     "in-window measured alpha (single arm)": 16.5
+     "in-window measured alpha (single arm)": 15.8
     },
     "candidate_sources": {
      "pre-2020 measured alpha (single arm)": {
@@ -2036,7 +2036,7 @@
      "in-window measured alpha (single arm)": {
       "file": "results/etf_book_spanning.json",
       "field": "arms.book.full.alpha_annual",
-      "edge_pp_per_year": 5.83
+      "edge_pp_per_year": 5.95
      }
     }
    }

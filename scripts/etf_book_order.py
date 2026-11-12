@@ -3305,6 +3305,8 @@ def _ledger_book(ledger_path=None):
             "scale": bif.get("scale"), "book_bar": bif.get("bar"),
             "last_bar": last.get("bar"), "last_nav": last.get("nav"),
             "last_cash": last.get("cash"), "pending": led.get("pending_fill"),
+            "fills": led.get("fill_log") or [],
+            "pending_check": led.get("pending_fill_check"),
             "status": led.get("status"), "source": p}
 
 
@@ -3462,6 +3464,8 @@ def card_config_ticket(card_dir=None, nav=None, ledger_path=None):
              "ledger_last_nav": led.get("last_nav"), "ledger_status": led.get("status"),
              "ledger_last_cash": led.get("last_cash"),
              "ledger_pending": led.get("pending"),
+             "ledger_fills": led.get("fills") or [],
+             "ledger_pending_check": led.get("pending_check"),
              "ledger_source": led.get("source"),
              "restatements_readable": rst["readable"],
              "restatements_source": rst["source"],
@@ -3511,35 +3515,54 @@ def _verdict(b):
     return "unknown" if b is None else ("一致" if b else "不一致")
 
 
-def pending_fill_md(pf, last_bar=None, last_cash=None):
+def pending_fill_md(pf, last_bar=None, last_cash=None, fills=None):
     """What fills at the next open, and why the last bar's cash is not that book.
 
     r1571: `book_in_force` (decided) and the bar row's `cash` (held during that bar) both
     printed on this sheet with no sentence tying them together, so "the book changed" and
     "the ledger is stale" looked the same. Both states are honest; only one is actionable.
+
+    r1572: the pending record is a promise; the ledger's `fill_log` is the receipt. A sheet
+    that prints only the promise cannot be checked the next morning -- so the fills already
+    recorded are printed here too, money included, and an empty log says so instead of
+    leaving the reader to assume the book has never traded.
     """
     lines = ["## 今天开盘要成交的是什么（决策 bar 与成交时点不是同一天）"]
     if not pf:
         lines += ["- 账本没有待成交的书：`book_in_force` 就是账面已经持有的那本。"]
-        return lines + [""]
-    at = pf.get("fills_at_bar")
-    lines += ["- 决策 bar：%s 收盘（网格日）｜成交：%s"
-              % (pf.get("decided_bar") or "-",
-                 ("%s 开盘" % at) if at else "**下一根 bar 还没出现**（尚无可成交日期，不是已成交）"),
-              "- 账面在 %s 这一行持有的是**当根 bar 里那本书**：现金 %s"
-              % (last_bar or "-",
-                 ("%.1f%%" % (100.0 * float(last_cash))) if last_cash is not None else "未知"),
-              "- 待成交的新书：k=%.4f（现金 %.1f%%）｜换手 %.4f｜成本 %.2fbp%s"
-              % (float(pf.get("pending_scale") or 0.0),
-                 100.0 * (1.0 - float(pf.get("pending_scale") or 0.0)),
-                 float(pf.get("turnover") or 0.0), float(pf.get("cost_bp_of_nav") or 0.0),
-                 ("，CNY %s" % format(int(round(float(pf["cost_cny"]))), ","))
-                 if pf.get("cost_cny") is not None else ""),
-              "- 名册变动：进 %d 名（%s）｜出 %d 名（%s）"
-              % (len(pf.get("names_added") or []), "、".join(pf.get("names_added") or []) or "-",
-                 len(pf.get("names_dropped") or []), "、".join(pf.get("names_dropped") or []) or "-"),
-              "- 出处：results/etf_book_forward/LEDGER.json `pending_fill`（生产者 "
-              "etf_book_forward.pending_fill；本页只读不算）"]
+    else:
+        at = pf.get("fills_at_bar")
+        lines += ["- 决策 bar：%s 收盘（网格日）｜成交：%s"
+                  % (pf.get("decided_bar") or "-",
+                     ("%s 开盘" % at) if at else "**下一根 bar 还没出现**（尚无可成交日期，不是已成交）"),
+                  "- 账面在 %s 这一行持有的是**当根 bar 里那本书**：现金 %s"
+                  % (last_bar or "-",
+                     ("%.1f%%" % (100.0 * float(last_cash))) if last_cash is not None else "未知"),
+                  "- 待成交的新书：k=%.4f（现金 %.1f%%）｜换手 %.4f｜成本 %.2fbp%s"
+                  % (float(pf.get("pending_scale") or 0.0),
+                     100.0 * (1.0 - float(pf.get("pending_scale") or 0.0)),
+                     float(pf.get("turnover") or 0.0), float(pf.get("cost_bp_of_nav") or 0.0),
+                     ("，CNY %s" % format(int(round(float(pf["cost_cny"]))), ","))
+                     if pf.get("cost_cny") is not None else ""),
+                  "- 名册变动：进 %d 名（%s）｜出 %d 名（%s）"
+                  % (len(pf.get("names_added") or []),
+                     "、".join(pf.get("names_added") or []) or "-",
+                     len(pf.get("names_dropped") or []),
+                     "、".join(pf.get("names_dropped") or []) or "-"),
+                  "- 出处：results/etf_book_forward/LEDGER.json `pending_fill`（生产者 "
+                  "etf_book_forward.pending_fill；本页只读不算）"]
+    fills = list(fills or [])
+    lines += ["", "### 已成交回执（换手真的发生了，钱也真的付了）"]
+    if not fills:
+        lines += ["- 本账本窗口内**没有任何已记录的成交**：首次决策在 "
+                  "%s，成交落在它的下一根 bar。" % ((pf or {}).get("decided_bar") or "-")]
+    else:
+        for e in fills[-3:]:
+            lines.append("- %s 成交：换手 %.4f｜成本 %.2fbp%s｜出处 LEDGER.json `fill_log`"
+                         % (e.get("bar") or "-", float(e.get("turnover") or 0.0),
+                            float(e.get("cost_bp_of_nav") or 0.0),
+                            ("，CNY %s" % format(int(round(float(e["cost_cny"]))), ","))
+                            if e.get("cost_cny") is not None else ""))
     return lines + [""]
 
 
@@ -3750,7 +3773,7 @@ def card_config_card(tk, width=None, ruler=None):
           % (rc.get("ledger_last_bar") or "未知",
              float(rc.get("ledger_last_nav") or 0.0), rc.get("ledger_status") or "未知"), ""]
     L += pending_fill_md(rc.get("ledger_pending"), rc.get("ledger_last_bar"),
-                         rc.get("ledger_last_cash"))
+                         rc.get("ledger_last_cash"), rc.get("ledger_fills"))
     L += admission_md(rc.get("admission"), rc.get("ledger_last_bar"))
     L += restatement_md({"readable": rc.get("restatements_readable"),
                          "path": rc.get("ledger_source"),
@@ -6085,6 +6108,18 @@ def selftest():
         _md_none = "\n".join(pending_fill_md(None, "2026-11-11", 0.2992))
         chk("leg68 an absent record says nothing is pending instead of printing a blank",
             "没有待成交" in _md_none, _md_none.splitlines()[1] if len(_md_none.splitlines()) > 1 else "")
+        # r1572: the promise is only half the page -- the receipt has to be printed too, and
+        # an empty receipt has to say so instead of leaving the reader to assume.
+        _md_receipt = "\n".join(pending_fill_md(_pf_date, "2026-11-11", 0.2992,
+                                                fills=[{"bar": "2026-11-12", "turnover": 1.2598,
+                                                        "cost_bp_of_nav": 12.6,
+                                                        "cost_cny": 1285.0}]))
+        chk("leg69 a recorded fill is printed with its date, turnover and money",
+            "2026-11-12 成交" in _md_receipt and "1.2598" in _md_receipt
+            and "12.60bp" in _md_receipt and "CNY 1,285" in _md_receipt,
+            _md_receipt.splitlines()[-2] if len(_md_receipt.splitlines()) > 1 else _md_receipt)
+        chk("leg70 an empty receipt says there has been no recorded fill, not a blank",
+            "没有任何已记录的成交" in _md_none and "没有任何已记录的成交" in _md_pf)
 
     # legA-D (r1572): the sheet must state the gate's decision, and must never read
     # "no gate face" / "book not in the gate" as a pass. Fixtures write their own gate
