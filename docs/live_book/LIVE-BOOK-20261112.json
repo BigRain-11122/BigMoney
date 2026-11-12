@@ -5175,8 +5175,8 @@
   "k_schedule_last": 0.460253,
   "consistency": {
    "generated": {
-    "permission": "2026-11-12T16:46:53+0800",
-    "gap": "2026-11-12T16:47:19+0800",
+    "permission": "2026-11-12T17:07:47+0800",
+    "gap": "2026-11-12T17:07:50+0800",
     "ledger": "2026-11-12T16:53:05+0800"
    },
    "permission_vs_gap": true,
@@ -5190,85 +5190,84 @@
   "floor_ledger_issued_at": "2026-11-12T16:53:05+0800"
  },
  "k_gap": {
-  "bar": "2026-11-11",
-  "decision_bar": "2026-11-11",
+  "bar": "2026-11-12",
+  "decision_bar": "2026-11-12",
   "k_now": 0.432195,
   "k_rule": 0.460253,
   "dk_pp": 2.8058,
   "nav_sizing_cny": 1000000.0,
-  "nav_account_cny": 1000000.0,
+  "nav_account_cny": 997235.8,
   "permission_floor": 0.432195,
-  "short_total_cny": 28261.1,
-  "short_share_of_book_pct": 6.1403,
-  "account_base_gap_cny": 67580.2,
+  "short_total_cny": 27996.0,
+  "short_share_of_book_pct": 6.0827,
+  "account_base_gap_cny": 30048.17,
   "verdict": "FLOOR_CUT_THIS_SHEET",
   "cheapest_next_lot": {
-   "lots_at_rule": 460,
-   "lots_ordered": 431,
-   "next_lot_dk_pp": 0.0021,
-   "price": 2.001,
-   "short_cny": 5802.9,
-   "short_lots": 29,
-   "short_shares": 2900,
-   "symbol": "159655"
+   "lots_at_rule": 799,
+   "lots_ordered": 750,
+   "next_lot_dk_pp": 0.0005,
+   "price": 1.151,
+   "short_cny": 5639.9,
+   "short_lots": 49,
+   "short_shares": 4900,
+   "symbol": "513690"
   },
   "unpriced_rows": [],
-  "ticket_file": "TICKET-2026-11-11.json",
+  "ticket_file": "TICKET-2026-11-12.json",
   "rows": [
    {
-    "lots_at_rule": 717,
-    "lots_ordered": 673,
-    "next_lot_dk_pp": 0.0176,
-    "price": 1.283,
-    "short_cny": 5645.2,
+    "lots_at_rule": 722,
+    "lots_ordered": 678,
+    "next_lot_dk_pp": 0.0328,
+    "price": 1.274,
+    "short_cny": 5605.6,
     "short_lots": 44,
     "short_shares": 4400,
     "symbol": "510760"
    },
    {
-    "lots_at_rule": 768,
-    "lots_ordered": 721,
-    "next_lot_dk_pp": 0.0283,
-    "price": 1.198,
-    "short_cny": 5630.6,
+    "lots_at_rule": 775,
+    "lots_ordered": 728,
+    "next_lot_dk_pp": 0.0466,
+    "price": 1.187,
+    "short_cny": 5578.9,
     "short_lots": 47,
     "short_shares": 4700,
     "symbol": "512040"
    },
    {
     "lots_at_rule": 460,
-    "lots_ordered": 431,
-    "next_lot_dk_pp": 0.0021,
-    "price": 2.001,
-    "short_cny": 5802.9,
-    "short_lots": 29,
-    "short_shares": 2900,
+    "lots_ordered": 432,
+    "next_lot_dk_pp": 0.0589,
+    "price": 1.999,
+    "short_cny": 5597.2,
+    "short_lots": 28,
+    "short_shares": 2800,
     "symbol": "159655"
    },
    {
-    "lots_at_rule": 796,
-    "lots_ordered": 748,
-    "next_lot_dk_pp": 0.0352,
-    "price": 1.155,
-    "short_cny": 5544.0,
-    "short_lots": 48,
-    "short_shares": 4800,
+    "lots_at_rule": 799,
+    "lots_ordered": 750,
+    "next_lot_dk_pp": 0.0005,
+    "price": 1.151,
+    "short_cny": 5639.9,
+    "short_lots": 49,
+    "short_shares": 4900,
     "symbol": "513690"
    },
    {
-    "lots_at_rule": 522,
-    "lots_ordered": 490,
-    "next_lot_dk_pp": 0.0376,
-    "price": 1.762,
-    "short_cny": 5638.4,
+    "lots_at_rule": 528,
+    "lots_ordered": 496,
+    "next_lot_dk_pp": 0.0692,
+    "price": 1.742,
+    "short_cny": 5574.4,
     "short_lots": 32,
     "short_shares": 3200,
     "symbol": "159519"
    }
   ],
   "artifact": "results/etf_book_k_gap.json",
-  "status": "mismatch",
-  "mismatch_reason": "面是 2026-11-11 的、这一张是 2026-11-12 的；面来自 TICKET-2026-11-11.json、这一张是 TICKET-2026-11-12.json"
+  "status": "ok"
  },
  "premium_leak": {
   "status": "ok",
@@ -5559,7 +5558,7 @@
  "premium_forward": {
   "status": "ok",
   "artifact": "results/etf_premium/PREMIUM-FORWARD.json",
-  "face_asof": "2026-11-11",
+  "face_asof": "2026-11-12",
   "stale": false,
   "verdict": "HIGH_PREMIUM_PAYS",
   "horizon": 20,
@@ -5574,8 +5573,8 @@
     "n": 590,
     "t": 1.1436214480874844,
     "nonoverlap_obs": 71,
-    "amount_cny": 86345.9,
-    "same_bucket_move_cny": 162.66914353309753
+    "amount_cny": 86377.2,
+    "same_bucket_move_cny": 162.7281103652527
    },
    {
     "symbol": "512040",
@@ -5585,8 +5584,8 @@
     "n": 353,
     "t": 1.087252826971886,
     "nonoverlap_obs": 92,
-    "amount_cny": 86375.8,
-    "same_bucket_move_cny": 327.54222770265636
+    "amount_cny": 86413.6,
+    "same_bucket_move_cny": 327.6855675757129
    },
    {
     "symbol": "159655",
@@ -5596,8 +5595,8 @@
     "n": 264,
     "t": 0.9304860705054543,
     "nonoverlap_obs": 46,
-    "amount_cny": 86243.1,
-    "same_bucket_move_cny": 219.7218653639805
+    "amount_cny": 86356.8,
+    "same_bucket_move_cny": 220.0115392751906
    },
    {
     "symbol": "513690",
@@ -5607,8 +5606,8 @@
     "n": 222,
     "t": 1.3832784155035334,
     "nonoverlap_obs": 63,
-    "amount_cny": 86394.0,
-    "same_bucket_move_cny": 456.7568144302366
+    "amount_cny": 86325.0,
+    "same_bucket_move_cny": 456.3920180300736
    },
    {
     "symbol": "159519",
@@ -5618,12 +5617,12 @@
     "n": 171,
     "t": 4.536022614746311,
     "nonoverlap_obs": 35,
-    "amount_cny": 86338.0,
-    "same_bucket_move_cny": 1193.7697526786296
+    "amount_cny": 86403.2,
+    "same_bucket_move_cny": 1194.671253615351
    }
   ],
   "missing_legs": [],
-  "cny_total": 2360.46,
+  "cny_total": 2361.49,
   "sample_signature": "3600c87ce854",
   "sample_legs": [
    "159519",
@@ -6677,8 +6676,8 @@
  "authority": {
   "writer": "bm-c",
   "owner": "bm-a",
-  "owner_silent_h": 39.8,
+  "owner_silent_h": 40.5,
   "took_over": true,
-  "why": "bm-a has not written its own heartbeat for 39.8 h (> 6 h): its page faces are stopped, not merely old"
+  "why": "bm-a has not written its own heartbeat for 40.5 h (> 6 h): its page faces are stopped, not merely old"
  }
 }

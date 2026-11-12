@@ -1,17 +1,17 @@
 {
  "script": "scripts/live_book_section_bars.py",
- "ts": "2026-11-12 17:05:50",
+ "ts": "2026-11-12 17:44:54",
  "page": {
   "path": "docs/live_book/LIVE-BOOK-20261112.md",
   "json": "docs/live_book/LIVE-BOOK-20261112.json"
  },
  "verdict": "PAGE_MIXES_BARS",
- "sentence": "页面头部写着按 2026-11-12 定价，但 35 个带日期的节里只有 22 节真在这一天；其余 13 节最旧停在 2026-10-26（最差 sample_window 落后 13 个交易日），另外 19 节根本没有日期——它们不是同一根 bar 上的数，读的时候不能互相加减。",
+ "sentence": "页面头部写着按 2026-11-12 定价，但 35 个带日期的节里只有 23 节真在这一天；其余 12 节最旧停在 2026-10-26（最差 sample_window 落后 13 个交易日），另外 19 节根本没有日期——它们不是同一根 bar 上的数，读的时候不能互相加减。",
  "evidence_cutoff": "2026-11-12",
  "headline_bar": "2026-11-12",
  "headline_field": "priced_bar",
  "n_sections": 35,
- "n_on_headline": 22,
+ "n_on_headline": 23,
  "unknown_sections": [
   "cash_yield",
   "cash_money",
@@ -34,14 +34,14 @@
   "authority"
  ],
  "bars": {
-  "2026-11-12": 22,
-  "2026-11-11": 4,
+  "2026-11-12": 23,
+  "2026-11-11": 3,
   "2026-11-08": 1,
   "2026-11-06": 1,
   "2026-10-30": 6,
   "2026-10-26": 1
  },
- "n_off_headline": 13,
+ "n_off_headline": 12,
  "off_headline": [
   {
    "key": "sample_window",
@@ -121,13 +121,6 @@
    "ahead_of_headline": false
   },
   {
-   "key": "k_gap",
-   "bar": "2026-11-11",
-   "field": "bar",
-   "lag_sessions": 1,
-   "ahead_of_headline": false
-  },
-  {
    "key": "window_label",
    "bar": "2026-11-11",
    "field": "evidence_cutoff",
@@ -164,7 +157,7 @@
   "sellability": "2026-11-12",
   "capital": "2026-11-12",
   "gap": "2026-11-12",
-  "k_gap": "2026-11-11",
+  "k_gap": "2026-11-12",
   "floor_provenance": "2026-11-11",
   "vol_target_gate": "2026-11-08",
   "positions": "2026-11-12",

@@ -168,6 +168,24 @@ def book_sentence(legs):
 
 
 # ---------------------------------------------------------------- data
+def _stamp_skipped(navs, ser):
+    """Did the panel hold a newer closing stamp than the one the series printed?
+
+    Found live (r1586): the face said "today 9.44%" for 159655 against the 11-10 NAV
+    while the 11-11 row was already on disk, so the number was two stamps old and the
+    audit trail (premium_history.csv, written with a fresh fetch) said 8.01%. Printing a
+    "today" figure on a stamp the panel has already superseded is the defect; this is
+    its birth station.
+    """
+    if not navs or not ser:
+        return False
+    last = ser[-1]
+    price_date, used = last.get("date"), last.get("nav_date")
+    if not price_date or not used:
+        return False
+    return any(r.get("date") and used < r["date"] < price_date for r in navs)
+
+
 def lag_probe(prices, navs):
     """Median and latest premium under k=1..5 stamps. Prices/navs are the real panels."""
     rows = []
@@ -219,6 +237,7 @@ def build(fetch=False, today=None):
                     "latest_nav_lag_days": ser[-1]["nav_lag_days"] if ser else None,
                     "lag_spread_median_pp": probe["spread_median_pp"],
                     "lag_spread_latest_pp": probe["spread_latest_pp"],
+                    "stamp_skipped": _stamp_skipped(navs, ser),
                     "lag_ladder": probe["ladder"]})
         blk["verdict"] = classify(blk)
         legs.append(blk)
@@ -262,6 +281,9 @@ def render_md(face):
             l.get("verdict")))
     lines += ["", "## What this face will not say", "",
               "- " + str(face.get("caveat")), "",
+              "- Stamp freshness: a leg with `stamp_skipped` printed a NAV the panel had "
+              "already superseded, so its 'today' premium is that many stamps old. Refresh "
+              "the premium face (fetch) before quoting it.", "",
               "A high premium is not a sell signal: a limited fund can stay expensive for "
               "years. The stamp ladder only bounds how much of the reading is accounting.", ""]
     return "\n".join(lines)
@@ -440,6 +462,18 @@ def selftest():
     leg("no subscription-status column is read",
         needle not in src and "申购状态" not in src.split("# 13.")[0])
 
+    # 14. a stamp the panel already held must not be printed as "today" (r1586 live defect)
+    leg("stamp the panel already superseded -> flagged",
+        _stamp_skipped([{"date": "2026-11-10", "nav": 1.0},
+                        {"date": "2026-11-11", "nav": 1.0}],
+                       [{"date": "2026-11-12", "nav_date": "2026-11-10"}]))
+    leg("the natural one-stamp lag -> not flagged",
+        not _stamp_skipped([{"date": "2026-11-11", "nav": 1.0}],
+                           [{"date": "2026-11-12", "nav_date": "2026-11-11"}]))
+    leg("a stamp newer than the price bar is not a skip",
+        not _stamp_skipped([{"date": "2026-11-12", "nav": 1.0}],
+                           [{"date": "2026-11-12", "nav_date": "2026-11-11"}]))
+
     passed = sum(1 for _, ok in legs if ok)
     for name, ok in legs:
         print("[%s] %s" % ("PASS" if ok else "FAIL", name))
@@ -484,6 +518,11 @@ def main(argv=None):
               % (l.get("symbol"), l.get("verdict"), l.get("n"), _f(l.get("median_pct")),
                  _f(l.get("latest_pct")), _f(l.get("share_positive"), 3),
                  _f(l.get("lag_spread_latest_pp"))))
+    skipped = [l["symbol"] for l in face["legs"] if l.get("stamp_skipped")]
+    if skipped:
+        print("[persistence] STAMP_SKIPPED: %s printed a NAV the panel had already "
+              "superseded -- refresh the premium faces before quoting 'today'"
+              % ",".join(skipped))
     return 0
 
 
