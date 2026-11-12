@@ -1,94 +1,86 @@
 {
- "status": "ok",
  "artifact": "results/etf_premium/PREMIUM-SESSION-DELTA.json",
- "evidence_cutoff": "2026-11-10",
+ "evidence_cutoff": "2026-11-12",
  "sessions": [
-  "2026-11-06",
-  "2026-11-10"
+  "2026-11-11",
+  "2026-11-12"
  ],
- "rows": [
-  {
-   "symbol": "159263",
-   "amount_cny": 78522.0,
-   "prev_pct": -0.1834,
-   "now_pct": -0.1409,
-   "delta_pp": 0.0425,
-   "prev_cny": -144.01,
-   "now_cny": -110.64,
-   "delta_cny": 33.37,
-   "prev_sheet_cny": 92011.5
+ "denominator": {
+  "state": "changed",
+  "prev": {
+   "session": "2026-11-11",
+   "rows": 5,
+   "same_session": 0,
+   "cross_session": 0,
+   "undated": 5,
+   "readers": {
+    "unstated": 5
+   }
   },
-  {
-   "symbol": "159501",
-   "amount_cny": 78501.0,
-   "prev_pct": 23.6405,
-   "now_pct": 20.2896,
-   "delta_pp": -3.3509,
-   "prev_cny": 18558.03,
-   "now_cny": 15927.54,
-   "delta_cny": -2630.49,
-   "prev_sheet_cny": 91863.6
+  "now": {
+   "session": "2026-11-12",
+   "rows": 5,
+   "same_session": 4,
+   "cross_session": 1,
+   "undated": 0,
+   "readers": {
+    "sina_nav_not_iopv": 5
+   }
   },
-  {
-   "symbol": "159577",
-   "amount_cny": 78504.4,
-   "prev_pct": 9.6673,
-   "now_pct": 9.4833,
-   "delta_pp": -0.184,
-   "prev_cny": 7589.26,
-   "now_cny": 7444.81,
-   "delta_cny": -144.45,
-   "prev_sheet_cny": 92045.2
-  },
-  {
-   "symbol": "513100",
-   "amount_cny": 78611.4,
-   "prev_pct": 21.2564,
-   "now_pct": 18.2957,
-   "delta_pp": -2.9607,
-   "prev_cny": 16709.95,
-   "now_cny": 14382.51,
-   "delta_cny": -2327.45,
-   "prev_sheet_cny": 91621.66
-  },
-  {
-   "symbol": "513690",
-   "amount_cny": 78588.4,
-   "prev_pct": 0.0778,
-   "now_pct": 0.1208,
-   "delta_pp": 0.043,
-   "prev_cny": 61.14,
-   "now_cny": 94.93,
-   "delta_cny": 33.79,
-   "prev_sheet_cny": 91945.2
-  }
- ],
- "unverifiable": [],
- "totals": {
-  "priced_amount_cny": 392727.2,
-  "prev_cny": 42774.37,
-  "now_cny": 37739.15,
-  "delta_cny": -5035.22,
-  "prev_share_pct": 10.8916,
-  "now_share_pct": 9.6095,
-  "delta_share_pp": -1.2821
+  "basis": "each row carries the date of its own denominator; a rate struck against another session's NAV is not this board's premium"
  },
- "verdict": "PREMIUM_EASED",
- "cross_check": {
-  "published_cny": 37739.14,
-  "recomputed_cny": 37739.15,
-  "gap_cny": 0.01,
-  "ok": true
+ "excluded": {
+  "cross_session": [
+   {
+    "symbol": "159655",
+    "prev_pct": 9.5418,
+    "now_pct": 7.8035,
+    "prev_basis": "undated",
+    "now_basis": "cross_session",
+    "prev_nav_session": null,
+    "now_nav_session": "2026-11-13"
+   }
+  ],
+  "convention_boundary": [
+   {
+    "symbol": "159519",
+    "prev_pct": -0.2209,
+    "now_pct": -1.1631,
+    "prev_basis": "undated",
+    "now_basis": "same_session",
+    "prev_nav_session": null,
+    "now_nav_session": "2026-11-12"
+   },
+   {
+    "symbol": "510760",
+    "prev_pct": 0.1092,
+    "now_pct": -0.2115,
+    "prev_basis": "undated",
+    "now_basis": "same_session",
+    "prev_nav_session": null,
+    "now_nav_session": "2026-11-12"
+   },
+   {
+    "symbol": "512040",
+    "prev_pct": -0.0167,
+    "now_pct": -0.0084,
+    "prev_basis": "undated",
+    "now_basis": "same_session",
+    "prev_nav_session": null,
+    "now_nav_session": "2026-11-12"
+   },
+   {
+    "symbol": "513690",
+    "prev_pct": 0.1735,
+    "now_pct": -1.0318,
+    "prev_basis": "undated",
+    "now_basis": "same_session",
+    "prev_nav_session": null,
+    "now_nav_session": "2026-11-12"
+   }
+  ],
+  "one_face_only": []
  },
- "sheets": {
-  "prev_amount_cny": 459487.16,
-  "now_amount_cny": 392727.2,
-  "delta_cny_on_now_sheet": -5035.22,
-  "note": "each rate is per unit, so both are applied to the NEWER sheet; the two faces' own totals are printed beside each other and never subtracted"
- },
- "caveats": [
-  "two boards, two readings: IOPV is a realtime estimate and a cross-border leg's premium moves with a timezone the local close does not see",
-  "legs one face could not price are named and excluded, never counted as zero",
-  "if the two faces priced different order sizes, the move is recomputed on the newer sheet only -- a sizing change is not a market move"
- ]
+ "status": "no_comparable_legs",
+ "detail": "1 只的分母不属于本场、4 只两块板读法不同：两块板价的是同一批票，但不是同一个量"
 }

@@ -1068,6 +1068,14 @@ LEGS = [
     # r1510: premium_leak prices ONE board. Two boards are on disk now and nothing joined
     # them, so "is the toll on this sheet getting cheaper or dearer" had no artifact. `check`
     # re-derives every published rate/Cny/total from the two faces and refuses drift (0.1s).
+    # r1606: it carried `check` and NO producer -- hand-run, so the page froze on
+    # 2026-11-06/11-10 while two newer boards sat on disk (the r1471/r1594 reader-with-no-
+    # writer class, a second copy inside one round). Its producer also refuses to subtract
+    # rates struck against different denominators -- which is exactly what the newest pair
+    # (an IOPV board vs a published-NAV board, one leg on the 11-13 NAV) would have printed
+    # as a market move.
+    ("premium_session_delta_write",
+     ["python", "scripts/etf_premium_session_delta.py", "run"]),
     ("premium_session_delta",
      ["python", "scripts/etf_premium_session_delta.py", "check"]),
     # r1530: the ten faces below carry `check` legs only, and a check can prove a face is
