@@ -1,7 +1,7 @@
 {
  "activity": "product",
- "activity_now": "r1651: the band ruler's control arms are priced on the page's own bar, so a lagging feed no longer reads as a broken identity; the width ruler composes before the two order sheets",
- "activity_now_round": 1652,
+ "activity_now": "r1655: the band table's three rows measure on two panels and none named its bar -- each row now carries priced_bar and the page says it; the section audit reads a day one level down but only when the section agrees with itself",
+ "activity_now_round": 1655,
  "agenda_starved": false,
  "ahead_origin": 0,
  "arm_repricing": {
@@ -886,7 +886,7 @@
  "recent_artifact": "results/etf_premium/PREMIUM-2026-11-12.md",
  "round": 1630,
  "round_label": "r1630",
- "round_no": 1654,
+ "round_no": 1655,
  "round_no_label": "1572",
  "round_no_landed": 1492,
  "round_note": "r1489: a reinstated bar is re-derived from the panel, not carried over (reinstatement_check + reinstatements.json + sheet paragraph)",
@@ -1215,11 +1215,15 @@
  "round_t1652_note": "| 2026-11-14 04:30-05:1x | 1652 | **PRODUCT（产品优先律·watermark=py_low_board_clear 无红）：桌上唯一要动手的那张面，自己站在一周前的世界，而它的 13 条自检全绿——因为门只照抄了别人的数字，没照抄别人的世界。** `etf_book_do_or_wait` 回答「今天就做还是等 k 根更便宜」，`--check` 13/13 绿；实读它引用的收据 `etf_book_cut_order_gap` 已到 **11-13**，而这张面停在 **11-06**（7 天），链里又只有 `--check` 腿、没有 `run`——一条过期且不可付费的行动建议（r1471 族「check 没有可达的生产者」+ r1345 族「红着走路」）。同族另一半在参考面：k=1 对照 `etf_book_late_sheet_price` 同样只重推自己的行、一天没动；两张面互为对照时，「两数不等」会被读成「有一方算错了」（rc1，不可付费），实际是两张面站在两个世界里。**修**：①`do_or_wait` 落盘它读的两张收据（bar **与字节** sha16）→ 读端三态：同界继续对账／异界 **STALE rc2** 让链付重定价／无记录（旧代面）也判 STALE；②参考面补输入集印花（单一实现 `etf_equity_alpha.panel_inputs_sig`，禁第二份拷贝）+ 同三态；③两条腿在链上各配 refresh 臂（`run`，实测 77s / 67s，只在 probe 自己说 STALE 时付）。**闭环实证**：do_or_wait `STALE (late 11-06 -> 11-13)` → run 77s → `check 13/13` rc0；late `check 10/10` rc0；`s6_chain --only do_or_wait,late_sheet_price` **2/2 rc0**；自检 20/20（新增 5 腿：同界/新 bar/同 bar 改字节/无记录/读不出）＋ late 10/10。**今天的读数（面自己说的·11-13）**：该单「今天什么都不欠」（NOTHING_OWED_TODAY，k 在自己额度内）；等 k 根在每一个 k 都更贵（+1,798 .. +4,071 CNY vs 今天）；一张晚一个开盘的票中位值 **-932 CNY**（41% 的情形等待反而帮忙，t=-4.57）→ 均值可定价、单张仍是掷硬币；整书层面的迟到成本 1.88pp/年。**S1**：全量套件 04:32 起跑、04:47 收口 **569/578 PASS / 9 FAIL**——九条全是 `etf_book_ceo_page` 写面（HOST=bm-a），实读 bm-a 心跳静默 5.7h **未到 6.0h 接管门**（≈05:12 后才有资格），本机此刻无权修；本窗改件不在该套件覆盖范围内（改后证据=上列实跑）。**S0**：identity=bm-c｜orphans=1（集团 `Tools/fleet/agent.py`，非本司只读不杀）｜起手 ahead=0 behind=0｜树脏=车道派生面，本窗定向提交自有件。**S0.5**：`s05_probe` orders_delta=false／decisions_delta=false／unacked=[] rc0。**S6**：`pool_dualrun_reconcile` **ZERO-DRIFT**（744 项·streak 51）／`compute_audit` FLAG:pool_starvation,supply_floor（AGENDA_DEBT·shortfall 3·日历四候选全拒 NO_CANDIDATE_PASSES_CALENDAR）／`py_watermark` py_low_board_clear（板全绿=合法 idle）／`attrition` 4 账本 CLEAN（5 处历史缩行 healed）／`card_text_hygiene` 546 文件 0 控制字符 0 吃前缀。**S7**：loop pin=5 **no-op**／watchdog 重建成功但 **S4U 第二十二轮被拒（拒绝访问）**／两爪 LF 归一 **重装**｜孤儿面=1。**CEO 过程可见面**：当前活＝让「今天做还是等」这张面能被链自己保鲜｜最近实物＝`results/etf_book_do_or_wait.json`（11-13 重定价·NOTHING_OWED_TODAY）+ `results/etf_book_late_sheet_price.json`（11-13·MEAN_IS_PRICED_EACH_SHEET_IS_NOT·-12.1bps t=-4.57）+ 卡 E613｜下个里程碑＝05:12 接管门开后把 9 条 ceo_page 红一次修掉（窗 ≤48h）。**记账**：本行 1 处（+卡 E613 一处，属捕获律收口）。**未验证（如实）**：本窗改件未被全量套件覆盖；refresh 臂在链上仅在 probe 说 STALE 时付，本窗是手工跑同一条命令验证的。 本地未达 origin commit 数=0（推送后复核）。 |",
  "round_t1653_next": "next (P0): full suite must close on this generation; then wire the same shared three-state freshness gate into the remaining self-re-deriving faces (each one is green on any panel), and re-check the two chain legs whose rc1 has no refresh arm.",
  "round_t1653_note": "**PRODUCT（产品优先律·watermark=insufficient_history 无红）：接手 05:33 收口的那份 r1653（同仓另一执行体 05:42 后静默），把它的「自己重算的判据永远绿」修到链上可付费，并闭环实证。** ①`etf_book_leg_attribution` 的每一行都从它自称的那张面板重算→旧 `--check` 在**任何**面板上都自洽地绿，这张面停在上一面板代（11-12）而 CEO 页按 11-13 的标题印它，链里也没腿付费（E240 族「有读无产」）；现接共享实现 `etf_book_forward.check_panel_stamp`（禁第二份日期比较·E288 族），补三态自检 L11a/L11b/L11c。②接上共享门后立刻暴露反向缺陷：`panel.digest` 有的面发布成**块**（digest+bar 数+末 bar），门只认裸 hex→**每个**这样的面每次都被判 stale，一个假的 stale 会把真的 stale 一起作废；`check_panel_stamp` 现解析两种形状，未知形状=不可核验 rc0 不判罪。**闭环证据**：leg_attribution `--selftest` **SELFTEST OK（0 fails）**（新增三态腿全过）/ forward `--selftest` **OK**；链 `--only etf_book_leg_attribution` **rc0 54.9s**——check 报 STALE，refresh 臂自付费重建，`FACE-OK 2026-11-13 (3 arms · production 8.19pp/yr = plain +9.88 + fill drag -1.68)`。**两条旧红实测转绿（不靠猜）**：`etf_book_decision_line --check` → `CHECK_OK 4 fields re-derived from the same receipts`；看板 `etf_book_priced` 三面同 **2026-11-13** / verdict **SAME_DAY**（smoke 05:33 读到的是 05:38 之前的世界）。**CEO 页今日实读（11-13 收盘）**：今天不用动手，下一个动手日 **2026-12-09**；5 单合计 **￥431,770**＋现金 **￥568,230** 进 GC001；准入 **CONDITIONAL**（Y4 最好两年占 70.39%，线 70%，单相位与五相位面冲突如实并列不合并）；159655 在自身 **96.4** 分位溢价，压回平常水平值 **￥3,576**（占资金 0.36%）；照单每天重下的代价 17.3%/年 ",
- "rounds": 1653,
- "rounds_done": 1653,
- "rounds_note": "r1653",
+ "round_t1654_next": "full suite r1654 in flight (pid 70552) -- close it, then date the remaining 7 undated sections where the receipt really carries a bar (backtest_band reads a card that names its panel; authority is heartbeat ages and may stay undated)",
+ "round_t1654_note": "PRODUCT: permission + executed sections never carried the bar they were priced on. The receipts do (-- evidence_cutoff 2026-11-13 in etf_book_rebalance_permission.json, as_of in the ticket even on an untraded bar) and the page dropped both, so the section audit could only file them under \"no date at all, unverifiable\". Page now 49/49 dated on 2026-11-13 + 7 undated (was 47+9); 3 new selftest legs (L225/226/227, total 290/290) pin that permission must never borrow decision_date (the NEXT rebalance) as its bar.",
+ "round_t1655_next": "next (P0): split the last three undated sections by cause (sources=pointer block, sibling_gap=face unreadable, authority=heartbeat ages) so the bucket is actionable; then carry the row-level priced_bar rule into the other cross-panel tables on the page.",
+ "round_t1655_note": "| 2026-11-14 06:30-07:1x | 1655 | **PRODUCT（产品优先律·watermark=insufficient_history 无红）：CEO 页那张「该期待什么」的表有三行尺子（本单、5 名 beta、12 名波动目标），**没有一行说它量到哪一天**——读者只能当它们和页头同一天；同页 `agreement` 节印着两个布尔（同一决策日=True／同一定价日=True），却把票面 `card_agreement` 里现成的两个日期丢了。修：①三行各自落 `priced_bar`（本单行取窗口标签面自己的面板末行、卡片两行取 `card.evidence_cutoff`），表下由数据派生一句话（一天=一句；两天=念两天，禁平均）；②`agreement` 印发 `card_priced_bar`／`ticket_priced_bar`，页脚印「卡片定价日 X、单子定价日 Y」；③审计端 `bar_of` 补一层按值形态的扫描——**只有这一节自己写得一致时才采纳那根 bar**，写了两天就单独发布成 `undated_mixed`（带两天出处），排期字段仍是禁字。**实测**：带日期节 **49→53**，不可核验 **7→3**（余下 sources／sibling_gap／authority 是真没有 bar：指针、读不出的面、心跳年龄）；`live_book_section_bars --check` 自洽；页面自检 **294/294**（新增 L228a/L228b/L229/L230）、审计自检 **51/51**（新增 L7d-h 五腿）；`check-ticket-days`／`check-card-days` 双 AGREE；**全量套件 578/578 PASS 0 FAIL**（06:39 起跑、855.7s 收口，改件在起跑前，覆盖有效）。**S0**：identity=bm-c｜orphans=1（集团 Tools/fleet/agent.py，非本司只读不杀）｜ahead=0 behind=0｜起手树脏 345 件=车道派生面，本轮只定向提交自有 7 件｜自踩坑：`if _mix_txt … elif` 把「不是页面的错」串进数据债句，自检 L32 当场抓红（已修）。**S0.5**：首扫／收尾双扫皆 rc0、无新增未回执令。**S6**：attrition 4 账本 CLEAN（7 处历史缩行 healed）／py_watermark insufficient_history（py 7.5%·本地批在飞）；其余 S6 腿让位在飞套件（半世界读法）。**S7**：loop pin=5 **no-op**；两任务在位（IterationLoop 运行中／Watchdog 就绪）；pre-commit／pre-push 与源逐字节一致（零重装）。**CEO 过程可见面**：当前活＝让「这张表量到哪一天」变成行级可核对的量｜最近实物＝`docs/live_book/LIVE-BOOK-20261114.md`（11-13·表下「三行都量到 2026-11-13」+ 页脚两纸定价日）+ `results/live_book_section_bars.json`（53 带日期／3 不可核验）+ 卡 E616｜下个里程碑＝把余下 3 节按「指针／读不出的面／心跳年龄」分因披露，并把行级 `priced_bar` 铺到其余跨面板表（窗 ≤48h）。**记账**：本行 1 处（+卡 E616 一处，属捕获律收口）。 本地未达 origin commit 数=0（推送后复核）。 |\n",
+ "rounds": 1655,
+ "rounds_done": 1655,
+ "rounds_note": "r1655",
  "s05_scan": {
-  "consumed": "no new orders or decisions this round -> zero action (double scan: round open + closeout)",
+  "consumed": "no new orders or decisions this round -> zero action (double scan: open + closeout)",
   "decisions_delta": false,
   "orders_delta": false,
   "rc": 0,
@@ -1233,19 +1237,20 @@
   "second_scan": "06:14 both true"
  },
  "s6_chain": {
-  "legs": "attrition_ledger_guard CLEAN (4 ledgers, 6 historical shrinks healed); chain --only etf_book_leg_attribution rc0 54.9s; other S6 legs yielded to the in-flight suite",
-  "note": "suite in flight, S6 legs read half a world if run at the same time"
+  "legs": "attrition_ledger_guard CLEAN (4 ledgers, 7 historical shrinks healed); py_watermark insufficient_history (py 7.5%, local batch in flight); other S6 legs yielded to the in-flight suite",
+  "note": "suite in flight while S6 ran, so only the read-only legs were taken"
  },
- "s7_notes": "loop pin=5 no-op (first fire 06:00 untouched); watchdog rebuilt but S4U flip refused (access denied) 23rd round; pre-commit/pre-push claws re-installed LF-normalized; attrition CLEAN",
- "smoke": "full suite started 2026-11-14T05:51:57+08:00 (pythonw pid 34900 -> results/_smoke_r1653b.out); 156+ lines at round end, NOT closed -> not claimed green; the previous closeout (05:33) was 576/578 and its two reds are re-verified green this round",
+ "s7_notes": "loop pin=5 no-op (first fire 06:45 untouched); IterationLoop running + LoopWatchdog ready (both InteractiveToken, S4U unavailable on this host); pre-commit/pre-push identical to source (no reinstall needed)",
+ "smoke": "full suite 2026-11-14T06:39 started (pythonw pid 8816 -> results/_smoke_r1655.out); 578/578 PASS 0 FAIL, wall clock 855.7s over 576 legs; both edited modules were in place before the run started",
  "smoke_closed": {
-  "closed_at": "2026-11-14T03:58:39+08:00",
-  "fail": 10,
+  "closed_at": "2026-11-14T06:57:54+08:00",
+  "fail": 0,
   "legs": 578,
-  "note": "9 reds are owner-side (etf_book_ceo_page HOST=bm-a, 4.57h silent < 6.0h takeover gate); 1 is ours (E271 width ruler number never reaches either order document)",
-  "out": "results/_smoke_r1650.out",
-  "pass": 568,
-  "started": "2026-11-14T03:42:36+08:00"
+  "note": "the previous generation's only red (section bars do not re-derive) is green after this round's republication",
+  "out": "results/_smoke_r1655.out",
+  "pass": 578,
+  "started": "2026-11-14T06:39:00+08:00",
+  "wall_clock_s": 855.7
  },
  "smoke_r1621_out": "results/_smoke_r1621.out",
  "smoke_r1623_out": "results/_smoke_r1623.out",
@@ -1264,18 +1269,16 @@
   "ahead_origin": 0,
   "behind_origin": 0
  },
- "task": "r1653: a face that re-derives its own rows is green on ANY panel -- it now shares one three-state freshness gate and the chain pays for its rebuild",
+ "task": "r1655: the band table's three rows measure on two panels and none named its bar -- each row now carries priced_bar and the page says it; the section audit reads a day one level down but only when the section agrees with itself",
  "total_ram_gb": 23.9,
- "ts": "2026-11-14T05:58:05+08:00",
- "updated": "2026-11-14T05:58:05+08:00",
- "updated_at": "2026-11-14T05:58:05+08:00",
- "verdict": "PRODUCT: leg_attribution priced a panel generation behind with a green check; it now carries the shared three-state gate, and that gate learned the second published digest shape so a correct face is not called stale every run",
- "verify": "leg_attribution --selftest SELFTEST OK (L11a/b/c three-state legs); forward --selftest OK; chain --only etf_book_leg_attribution rc0 54.9s FACE-OK 2026-11-13 8.19pp/yr; decision_line --check CHECK_OK 4 fields; dashboard etf_book_priced SAME_DAY 2026-11-13",
+ "ts": "2026-11-14T06:57:54+08:00",
+ "updated": "2026-11-14T06:57:54+08:00",
+ "updated_at": "2026-11-14T06:57:54+08:00",
+ "verdict": "PRODUCT: the backtest band's rows now name the bar each was measured to and the agreement block prints both papers' priced days; the section audit dates 4 more sections (49 -> 53 dated, 7 -> 3 unverifiable) and publishes a self-disagreeing section as two days instead of 'no date'",
+ "verify": "page selftest 294/294 (L228a/L228b/L229/L230 new); section-bars selftest 51/51 (L7d-L7h new); check-ticket-days AGREE / check-card-days AGREE; live_book_section_bars --check CHECK_OK verdict=PAGE_ON_ONE_BAR_WITH_UNDATED unknown=3; page rebuilt to docs/live_book/LIVE-BOOK-20261114.md",
  "verify_selftest": "do_or_wait 20/20 (5 new three-state legs: current / newer bar / same bar new bytes / no record / unreadable) ; late_sheet_price 10/10",
  "verify_smoke": "full suite started 07:14 (pythonw pid 31124 -> results/_smoke_r1615.out); 478+ lines, no FAIL seen, not closed at round end; modules changed mid-run so the closing numbers are the previous generation",
  "verify_smoke_closed": "full suite started 07:14 closed 576/576 PASS 0 FAIL, wall clock 852.9s over 574 legs; started before the two module edits, so the ceo_page leg inside it printed the previous generation's 260/260 (new legs L214/L215 verified by selftest 262/262)",
  "vram_free_gb": 14.5,
- "watermark_verdict": "insufficient_history",
- "round_t1654_note": "PRODUCT: permission + executed sections never carried the bar they were priced on. The receipts do (-- evidence_cutoff 2026-11-13 in etf_book_rebalance_permission.json, as_of in the ticket even on an untraded bar) and the page dropped both, so the section audit could only file them under \"no date at all, unverifiable\". Page now 49/49 dated on 2026-11-13 + 7 undated (was 47+9); 3 new selftest legs (L225/226/227, total 290/290) pin that permission must never borrow decision_date (the NEXT rebalance) as its bar.",
- "round_t1654_next": "full suite r1654 in flight (pid 70552) -- close it, then date the remaining 7 undated sections where the receipt really carries a bar (backtest_band reads a card that names its panel; authority is heartbeat ages and may stay undated)"
+ "watermark_verdict": "insufficient_history"
 }
