@@ -43,6 +43,7 @@ USE_CLASSES = ("equity", "commodity", "convertible")
 VT_TAIL_FILE = "etf_book_voltarget_tail.json"
 ARMS_FACE_FILE = "etf_book_phase_atlas_arms.json"
 NULL_FACE_FILE = "etf_book_rule_null.json"
+SIGNFLIP_FACE_FILE = "etf_book_arms_signflip.json"
 
 
 def vol_overlay_tail_support():
@@ -236,6 +237,60 @@ def null_calibration_face(results_dir=None):
             "bar_now": None}          # filled in by family_coherence (it knows the arms' bar)
 
 
+def signflip_face(results_dir=None):
+    """Which of the printed labels survive their own cells (r1637).
+
+    The null-calibration face answers "how cheap is this label" and leaves the operator with the
+    one question a frequency cannot answer: *which* of the printed REJECTs is real. This reads the
+    companion face that does that per arm (exact sign flipping over the arm's own cells) and
+    reports it in the same shape, so the card and the page quote one implementation.
+    Absent reads "not assessed", never "the labels hold".
+    """
+    d = E.PATHS.results_dir if results_dir is None else results_dir
+    p = os.path.join(d, SIGNFLIP_FACE_FILE)
+    absent = {"artifact": "results/" + SIGNFLIP_FACE_FILE, "status": "absent",
+              "detail": "sign-flip face absent -- which labels hold is unknown",
+              "n_reject": None, "n_reject_standing": None, "standing": [],
+              "overturned": [], "verdict": None, "evidence_cutoff": None, "bar_now": None}
+    try:
+        with open(p, "r", encoding="utf-8") as fh:
+            doc = json.load(fh)
+    except (OSError, ValueError) as exc:
+        absent["detail"] = "sign-flip face unreadable (%s)" % str(exc)[:100]
+        return absent
+    arms = doc.get("arms") or []
+    if not arms:
+        absent["detail"] = "sign-flip face carries no arm rows"
+        return absent
+    standing = [r.get("arm") for r in arms if r.get("frozen_label") == "REJECT"
+                and r.get("frozen_label_stands")]
+    overturned = doc.get("labels_overturned") or []
+    reasons = doc.get("verdict_reasons") or []
+    # an overturned label fails in one of two directions and they read as different sentences:
+    # the rule printed REJECT for cells that do not agree (overstated), or printed
+    # NOT-SEPARABLE for cells that all point the same way (understated).
+    rows = [{"arm": r.get("arm"), "frozen_label": r.get("frozen_label"),
+             "verdict": r.get("verdict"), "sign_cells": r.get("sign_cells"),
+             "cells_positive": r.get("cells_positive")}
+            for r in arms if r.get("verdict") != "NOT-ASSESSED"]
+    overstated = [r["arm"] for r in rows
+                  if r["frozen_label"] == "REJECT" and r["verdict"] != "WORSE"]
+    understated = [r["arm"] for r in rows
+                   if r["frozen_label"] == "NOT-SEPARABLE" and r["verdict"] != "NOT-SEPARABLE"]
+    return {"artifact": "results/" + SIGNFLIP_FACE_FILE, "status": "ok",
+            "detail": reasons[0] if reasons else None,
+            "n_reject": doc.get("n_reject"),
+            "n_reject_standing": doc.get("n_reject_standing"),
+            "standing": standing,
+            "overturned": list(overturned),
+            "overstated": overstated,
+            "understated": understated,
+            "arms": rows,
+            "verdict": doc.get("verdict"),
+            "evidence_cutoff": doc.get("evidence_cutoff"),
+            "bar_now": None}          # filled in by family_coherence (it knows the arms' bar)
+
+
 def receipt_face():
     """Which world the last family rebuild paid for, and whether that is still today's (r1632).
 
@@ -310,6 +365,11 @@ def family_coherence(results_dir=None):
         # next to its null frequency is a reading; without it it reads as a finding.
         "null_calibration": dict(
             null_calibration_face(results_dir),
+            bar_now=(doc.get("baseline") or {}).get("evidence_cutoff")),
+        # r1637: a frequency says the label is cheap; only the cells say which arm it is cheap
+        # about. Both are quoted from faces, never re-derived here.
+        "signflip": dict(
+            signflip_face(results_dir),
             bar_now=(doc.get("baseline") or {}).get("evidence_cutoff")),
         # r1632: the rebuild receipt names the world it paid for; stale it if that is not today's
         "receipt": receipt_face(),

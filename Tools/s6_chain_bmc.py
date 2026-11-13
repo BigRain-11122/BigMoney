@@ -682,6 +682,11 @@ LEGS = [
     # ~2s; the refresh is a re-simulation, not an engine run.
     ("etf_book_rule_null", ["python", "scripts/etf_book_rule_null.py", "--check"],
      ["python", "scripts/etf_book_rule_null.py", "run"]),
+    # r1637: the null face says the label is cheap; it cannot say which arm it is cheap about.
+    # This leg asks each arm's own cells -- count the signs, then flip them exactly (2^12 worlds)
+    # and see whether the median/z survives. Engine-free, reads one JSON, ~0.2s.
+    ("etf_book_arms_signflip", ["python", "scripts/etf_book_arms_signflip.py", "--check"],
+     ["python", "scripts/etf_book_arms_signflip.py", "run"]),
     # r1361: every reader of the toll-bracketing arms so far consumed them one arm at a time,
     # and the arms leg reads them for the BAND. The complementary question -- the atlas judges
     # its 12-cell ordering against each cell's own phase band, so at what toll does the ordering

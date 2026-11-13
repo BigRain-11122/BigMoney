@@ -6640,6 +6640,39 @@ def render_md(p, sb=None):
     elif nc.get("status") == "absent":
         add("- 这两组标签有多灵，这一页答不了：`results/etf_book_rule_null.json` 不在盘上或读不出频率"
             "（这是「没验」，不是「判据没问题」）。")
+    # r1637: a frequency says the label is cheap; it does not say which arm it is cheap about.
+    # The arm's own cells do -- count the signs, and flip them exactly to see what noise can do.
+    sf = fc.get("signflip") or {}
+    if sf.get("status") == "ok" and sf.get("n_reject") is not None:
+        _stand = sf.get("standing") or []
+        _over = sf.get("overturned") or []
+        if sf.get("n_reject"):
+            add("- 上面那 **%d 个 REJECT 里有 %d 个站得住**（%s）——站得住＝它自己 12 个格子"
+                "在符号翻转下不会异口同声到这一步（2^12 个世界精确枚举）。"
+                % (sf["n_reject"], sf.get("n_reject_standing") or 0,
+                   "、".join(_stand) or "无"))
+        _over = sf.get("overstated") or []
+        _under = sf.get("understated") or []
+        if sf.get("n_reject"):
+            add("- 上面那 **%d 个 REJECT 里有 %d 个站得住**（%s）——站得住＝它自己 12 个格子"
+                "在符号翻转下不会异口同声到这一步（2^12 个世界精确枚举）。"
+                % (sf["n_reject"], sf.get("n_reject_standing") or 0,
+                   "、".join(_stand) or "无"))
+        if _over:
+            add("- **判词说重了的**：%s 印着「确实更差」，可它自己的格子并不同向——那是尺子的默认输出，"
+                "不是发现。" % "、".join(_over))
+        if _under:
+            add("- **判词说轻了的**：%s 被判成「与基线分不开」，而它们的格子全部同向——把成本扣掉本来"
+                "就该更赚（这是必然为正的对照），尺子却分不开。所以同一把尺子两头都会错，"
+                "读数请看 `results/etf_book_arms_signflip.json`，不要只看判词。"
+                % "、".join(_under))
+        if (sf.get("evidence_cutoff") and sf.get("bar_now")
+                and sf["evidence_cutoff"] != sf["bar_now"]):
+            add("- 这一次符号翻转跑在 %s 的面板上，臂面在 %s——两个日子不同，别把它当今天的读数。"
+                % (sf["evidence_cutoff"], sf["bar_now"]))
+    elif sf.get("status") == "absent":
+        add("- 这些判词里哪些站得住，这一页答不了：`results/etf_book_arms_signflip.json` 不在盘上"
+            "（这是「没验」，不是「都站得住」）。")
     # r1632: a rebuild receipt printed without asking "is this still today's world" reads as
     # current news. The one on disk is from another panel and says nothing about that.
     rc = fc.get("receipt") or {}
@@ -8017,6 +8050,32 @@ def selftest():
         and "别把频率当今天的" not in _md_nc, "")
     chk("L56d null calibration: an absent face reads 'cannot answer here', never a pass",
         "答不了" in _md_nc_absent and "96.5%" not in _md_nc_absent, "")
+    # L56e-L56g (r1637): a frequency says the label is cheap, not which arm it is cheap about.
+    _md_sf = _render_fc({"verdict": "ONE_WORLD", "arms": 11, "panels": ["deadbeef"],
+                         "evidence_cutoff": "2026-11-12",
+                         "signflip": {"status": "ok", "n_reject": 4, "n_reject_standing": 3,
+                                      "standing": ["cost20", "cost40", "buffer_k05_cost20"],
+                                      "overturned": ["buffer_k40", "cost0", "cost05"],
+                                      "overstated": ["buffer_k40"],
+                                      "understated": ["cost0", "cost05"],
+                                      "evidence_cutoff": "2026-11-12",
+                                      "bar_now": "2026-11-12"}})
+    _md_sf_lag = _render_fc({"verdict": "ONE_WORLD", "arms": 11, "panels": ["deadbeef"],
+                             "evidence_cutoff": "2026-11-12",
+                             "signflip": {"status": "ok", "n_reject": 4, "n_reject_standing": 3,
+                                          "standing": ["cost20"], "overturned": [],
+                                          "evidence_cutoff": "2026-10-30",
+                                          "bar_now": "2026-11-12"}})
+    _md_sf_absent = _render_fc({"verdict": "ONE_WORLD", "arms": 11, "panels": ["deadbeef"],
+                                "evidence_cutoff": "2026-11-12",
+                                "signflip": {"status": "absent"}})
+    chk("L56e sign flip: the page says which of the printed REJECTs survive their own cells",
+        "4 个 REJECT 里有 3 个站得住" in _md_sf and "cost20" in _md_sf
+        and "判词说重了的" in _md_sf and "buffer_k40" in _md_sf
+        and "判词说轻了的" in _md_sf and "cost05" in _md_sf, "")
+    chk("L56f sign flip: a flip on another bar is named, and an absent face reads 'cannot answer'",
+        "别把它当今天的读数" in _md_sf_lag and "别把它当今天的读数" not in _md_sf
+        and "这些判词里哪些站得住" in _md_sf_absent and "REJECT 里有" not in _md_sf_absent, "")
 
     # L57-L59 (r1185): the page used to answer "same priced bar = True" without ever printing
     # which day any of the three papers was priced on. A reader told "different" must be able
