@@ -51,6 +51,7 @@ import numpy as np
 import pandas as pd
 
 import etf_book_concentration as C
+import etf_book_forward as F
 import etf_book_production as P
 import etf_robust_pf as R
 
@@ -639,11 +640,26 @@ def check(path=None):
     """
     p = Path(path) if path else OUT_JSON
     doc = json.load(open(p, encoding="utf-8"))
+    # r1649: a wide refresh rewrites 1,7xx CSVs one at a time, so during those minutes the
+    # panel HAS a later last bar while it is not yet a panel -- and this leg's date test
+    # then called the face stale (rc2), which the chain pays by re-pricing all three arms
+    # on a mixture. Ask the shared stamp first: digest None means the input set moved
+    # under the read, so the freshness question is unanswerable this run, not "stale".
+    try:
+        stamp = F.panel_stamp()
+    except Exception:                                          # noqa: BLE001
+        stamp = {}
+    if stamp.get("digest") is None:
+        print("sleeve-gate: the panel's input set is moving (a refresh is writing it) -- "
+              "CHECK: freshness NOT VERIFIABLE this run, the rows below are still re-derived")
+        stamp = {}
+    elif F.check_panel_stamp(doc, stamp=stamp, label="sleeve gate") == 2:
+        return 2
     try:
         panel_bar = str(P.prep_panel()[0].index[-1].date())
     except Exception:                                          # noqa: BLE001
         panel_bar = None
-    if panel_bar and (doc.get("evidence_cutoff") or "") != panel_bar:
+    if stamp and panel_bar and (doc.get("evidence_cutoff") or "") != panel_bar:
         print("sleeve-gate face is stale: priced %s, panel at %s (the page reads this face "
               "against the paths face on the same bar)"
               % (doc.get("evidence_cutoff"), panel_bar))

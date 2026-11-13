@@ -56,6 +56,7 @@ import etf_composite_pf as E  # noqa: E402
 import etf_equity_alpha as A  # noqa: E402
 import etf_robust_pf as R  # noqa: E402
 import etf_book_vt_ladder as L  # noqa: E402
+import etf_book_forward as F  # noqa: E402
 
 OUT_DIR = os.path.join(ROOT, "results", "etf_book_derisk_rule")
 OUT = os.path.join(OUT_DIR, "DERISK-RULE.json")
@@ -156,8 +157,21 @@ def rule_row(label: str, rule, ser: pd.Series, turn: float, diag: list) -> dict:
 
 def prepare() -> dict:
     """Load the panel ONCE (61s of the round's budget) and hand it to every run."""
+    sig0 = F.panel_inputs_sig()
     close, openp, amt, feats = E.build_panel()
     close, openp, n_flip = A.repair_flips(close, openp)
+    # r1649: this face carried no panel stamp, so its `--check` was green on any world
+    # (r1345 trap) and no reader could say which panel the verdict was about. One
+    # implementation, shared with the other faces: a panel that moved under the read
+    # is not stamped at all.
+    try:
+        stamp = (A.panel_digest(close, openp, amt) or {}).get("digest")
+    except Exception:                                              # noqa: BLE001
+        stamp = None
+    if sig0 is not None and F.panel_inputs_sig() not in (None, sig0):
+        stamp = None
+        print("panel moved while this face was reading it -- refusing to stamp a "
+              "half-refreshed world (rebuild on a settled panel)", file=sys.stderr)
     cmap = A.load_class_map()
     cls = A.classify(close.columns, cmap, close)
     want = ("equity", "commodity", "convertible")
@@ -165,6 +179,7 @@ def prepare() -> dict:
     sc = E.build_score(close[cols], amt[cols], feats)
     return {"close": close[cols], "openp": openp[cols], "amt": amt[cols], "score": sc,
             "n_flip": int(n_flip), "cols": cols, "bars": int(len(close)),
+            "stamp": stamp,
             "first": str(close.index[0].date()), "last": str(close.index[-1].date())}
 
 
@@ -457,6 +472,11 @@ def run(quick: bool = False) -> dict:
             "positive_years_share_min": G.POSITIVE_YEARS_SHARE,
         },
         "data": meta,
+        "panel": {"digest": bundle.get("stamp"), "bars": bundle["bars"],
+                  "columns": len(bundle["cols"]),
+                  "note": ("r1649: which panel this verdict priced. An empty digest means "
+                           "the input set moved under the read -- the chain rebuilds on a "
+                           "settled panel instead of quoting a mixture")},
         "control_gate": gate,
         "rules": rows,
         "phase_test": phases,
@@ -486,6 +506,12 @@ def check() -> int:
     if d is None:
         print("MISSING %s -- nothing to re-derive" % OUT)
         return 1
+    # r1649: the freshness gate this face never had. Its own rows re-derive on any panel,
+    # which is exactly why a green check could not tell a reader which world was priced.
+    # rc 2 = "stale: rebuild me", rc 0 = "this face priced the panel I just read (or the
+    # live panel could not be stamped because it is being rewritten -- not verifiable)".
+    if F.check_panel_stamp(d, label="derisk rule"):
+        return 2
     errs = []
     rows = d.get("rules") or []
     if not rows:
