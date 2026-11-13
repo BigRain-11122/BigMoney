@@ -71,6 +71,47 @@ BAR_FIELDS_LOOSE = ("as_of", "rate_date", "repo_rate_date", "spot_date", "panel_
                     "data_date", "face_date")
 _ISO_DAY = re.compile(r"^\d{4}-\d{2}-\d{2}")
 
+# r1655: the scan above only ever looked at a section's OWN top level, so two sections that
+# do state which day they price were filed as "carries no date at all": `priced_faces` names
+# the bar under each paper it compares (`faces.card` / `faces.ticket` / `faces.page`) and
+# `research_arc` names it per case (`rows[].evidence_cutoff`) beside its `cutoffs` list.
+# Reading one level deeper is the same FORM rule as r1617 -- the value must look like a day,
+# never a name trusted for its spelling -- plus one guard the flat scan did not need: a
+# section may carry MORE than one day (a study priced on two worlds), and adopting either
+# one would be a guess. So a nested day is used only when every date leaf in the section
+# agrees; a disagreement is published with its paths instead of hidden as "undated".
+SCHEDULE_FIELDS = ("decision_date", "next_rebalance_date")
+MAX_SCAN_DEPTH = 4
+
+
+def _nested_dates(v, path="", depth=0):
+    """(path, day) for every date-shaped leaf under a section, schedule fields skipped."""
+    out = []
+    if depth > MAX_SCAN_DEPTH:
+        return out
+    if isinstance(v, dict):
+        for k, x in v.items():
+            if str(k) in SCHEDULE_FIELDS:
+                continue
+            out.extend(_nested_dates(x, ("%s.%s" % (path, k)).lstrip("."), depth + 1))
+    elif isinstance(v, (list, tuple)):
+        for i, x in enumerate(v):
+            out.extend(_nested_dates(x, "%s[%d]" % (path, i) if path else "[%d]" % i,
+                                     depth + 1))
+    elif isinstance(v, str) and _ISO_DAY.match(v.strip()):
+        out.append((path, v.strip()[:10]))
+    return out
+
+
+def nested_conflicts(d):
+    """The days a section disagrees with itself about, or None when it states one or none."""
+    days = _nested_dates(d) if isinstance(d, dict) else []
+    distinct = sorted({day for _, day in days})
+    if len(distinct) < 2:
+        return None
+    return {"dates": distinct,
+            "where": ["%s=%s" % (p, day) for p, day in days][:8]}
+
 
 # A page behind by more than this many sessions is not "a different day", it is a page
 # nobody refreshed -- that stays a hard finding on every host, not a note.
@@ -303,6 +344,12 @@ def bar_of(d):
         v = d.get(f)
         if isinstance(v, str) and _ISO_DAY.match(v):
             return v[:10], f
+    # r1655: one level deeper, and only when the section agrees with itself about the day.
+    days = _nested_dates(d)
+    distinct = sorted({day for _, day in days})
+    if len(distinct) == 1:
+        path = next(p for p, day in days if day == distinct[0])
+        return distinct[0], path or "nested"
     return None, None
 
 
@@ -374,7 +421,7 @@ def section_bars(doc, cal=None, legs=None):
     if legs is None:
         legs = leg_names()
     page_computed = (doc or {}).get("page_computed") or {}
-    rows, unknown = [], []
+    rows, unknown, mixed_undated = [], [], {}
     for k, v in (doc or {}).items():
         if k in ("page_computed",):      # r1623: provenance面, not a dated section
             continue
@@ -383,6 +430,9 @@ def section_bars(doc, cal=None, legs=None):
         b, f = bar_of(v)
         if b is None:
             unknown.append(k)
+            conf = nested_conflicts(v)
+            if conf:
+                mixed_undated[k] = conf
             continue
         g = guarded_by(k, v, legs)
         pc = page_computed_of(page_computed, k)
@@ -455,6 +505,10 @@ def section_bars(doc, cal=None, legs=None):
         "sections": rows,
         "by_key": {r["key"]: r["bar"] for r in rows},
         "unknown_sections": unknown,
+        # r1655: "no date" and "two dates" are different readings and different actions --
+        # the first asks for a stamp, the second asks which world the section was priced on.
+        "n_undated_mixed": len(mixed_undated),
+        "undated_mixed": mixed_undated,
         "n_sections": len(rows),
         "n_on_headline": len(rows) - len(behind) - len(ahead),
         "bars": dict(sorted(hist.items(), reverse=True)),
@@ -542,8 +596,15 @@ def assess(page=None, jsonp=None, cal=None, legs=None):
                                     "n_no_writer", "no_writer",
                                     "n_engine_priced", "engine_priced",
                                     "n_ahead_of_headline", "ahead_of_headline",
-                                    "ahead_keys",
+                                    "ahead_keys", "n_undated_mixed", "undated_mixed",
                                     "n_window_bound", "window_bound")})
+    _mix = sb.get("undated_mixed") or {}
+    _mix_txt = ""
+    if _mix:
+        _mix_txt = ("；其中 %d 节自己就带着两根以上的日期（%s）——"
+                    "它们不是「没写日期」，是写了两天的数，本面不替它们挑一天"
+                    % (len(_mix), "、".join("%s：%s" % (k, "/".join(v.get("dates") or []))
+                                           for k, v in list(_mix.items())[:4])))
     face["evidence_cutoff"] = sb["headline_bar"]
     if sb["headline_bar"] is None:
         face["verdict"] = NO_HEADLINE
@@ -566,7 +627,7 @@ def assess(page=None, jsonp=None, cal=None, legs=None):
             "页面声明的 %s 就是它全部 %d 个带日期的节的 bar；另有 %d 节（%s）不带任何日期"
             "字段——无法核验它们算到哪天，也不把它们猜成同一天。"
             % (sb["headline_bar"], sb["n_sections"], len(_und),
-               "、".join(_und[:8]) + ("等" if len(_und) > 8 else "")))
+               "、".join(_und[:8]) + ("等" if len(_und) > 8 else ""))) + _mix_txt
     else:
         face["verdict"] = MIXED
         # r1628: the worst lag must not be a section whose date is the end of its own window
@@ -644,6 +705,8 @@ def assess(page=None, jsonp=None, cal=None, legs=None):
                 face["sentence"] += ("这 %d 节的产物各自都有同名链腿在守，"
                                      "停在原来的 bar 是它们各自被评分的那一天，不是页面的错。" %
                                      sb["n_off_headline"])
+            if _mix_txt:
+                face["sentence"] = face["sentence"].rstrip("。") + _mix_txt + "。"
     return face
 
 
@@ -716,6 +779,12 @@ def ticket_lines(face):
         L.append("")
         L.append("这 %d 节没有任何日期字段，本面**不替它们认领**任何一根 bar：%s。"
                  % (len(face["unknown_sections"]), ", ".join(face["unknown_sections"][:12])))
+        _mix = face.get("undated_mixed") or {}
+        if _mix:
+            L.append("")
+            L.append("其中 %d 节其实写了两根以上的日期——本面不挑，把两天的出处照抄在这里：%s。"
+                     % (len(_mix), "；".join("%s（%s）" % (k, "、".join(v.get("where") or []))
+                                            for k, v in list(_mix.items())[:6])))
     return L
 
 
@@ -746,6 +815,7 @@ def check():
     for k in ("verdict", "headline_bar", "n_sections", "n_off_headline", "oldest",
               "max_lag_sessions", "by_key", "unknown_sections", "n_page_computed",
               "no_writer", "n_engine_priced", "engine_priced",
+              "n_undated_mixed", "undated_mixed",
               "n_window_bound", "window_bound"):
         if pub.get(k) != fresh.get(k):
             diffs.append("%s published=%r fresh=%r" % (k, pub.get(k), fresh.get(k)))
@@ -793,6 +863,33 @@ def selftest():
         sb["n_on_headline"] + sb["n_off_headline"] + sb["n_ahead_of_headline"]
         == sb["n_sections"] == 3
         and sb["n_on_headline"] == 1)
+
+    # r1655: two sections on the live page state their day one level down (`priced_faces`
+    # under each paper, `research_arc` per case) and were filed as undated. The scan reads
+    # by value shape, adopts a day only when the section agrees with itself, and prints the
+    # paths when it does not.
+    _nd_b, _nd_f = bar_of({"verdict": "SAME_DAY",
+                           "faces": {"card": "2026-11-13", "ticket": "2026-11-13",
+                                     "page": "2026-11-13"}})
+    leg("L7d a nested day is adopted only when every nested day agrees, and the path is named",
+        _nd_b == "2026-11-13" and _nd_f == "faces.card")
+    _nf_b, _nf_n = bar_of({"rows": [{"evidence_cutoff": "2026-11-13"},
+                                    {"evidence_cutoff": "2026-11-12"}]})
+    leg("L7e a section that names two days is not given either one",
+        _nf_b is None and _nf_n is None)
+    leg("L7f a schedule field is never read as the bar, even nested",
+        bar_of({"a": {"decision_date": "2026-12-09", "k": 0.39}})[0] is None)
+    leg("L7g a file path that happens to contain a date is not a date",
+        bar_of({"artifact": "results/TICKET-2026-11-13.json"})[0] is None)
+    _mix_doc = {"priced_bar": "2026-11-13",
+                "good": {"faces": {"card": "2026-11-13", "page": "2026-11-13"}},
+                "split": {"rows": [{"evidence_cutoff": "2026-11-13"},
+                                   {"evidence_cutoff": "2026-11-12"}]}}
+    _mb = section_bars(_mix_doc, legs=[])
+    leg("L7h a self-disagreeing section is published as two days, not as 'no date'",
+        _mb["by_key"] == {"good": "2026-11-13"}
+        and list((_mb.get("undated_mixed") or {})) == ["split"]
+        and (_mb["undated_mixed"]["split"].get("dates") or []) == ["2026-11-12", "2026-11-13"])
 
     # r1294: "off the headline" must mean OLDER. Once the repo and five-member lanes
     # reached 2026-11-13 while the book still priced 2026-11-12, four sections were listed

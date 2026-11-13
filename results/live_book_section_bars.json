@@ -1,28 +1,24 @@
 {
  "script": "scripts/live_book_section_bars.py",
- "ts": "2026-11-14 06:22:17",
+ "ts": "2026-11-14 06:37:34",
  "page": {
   "path": "docs/live_book/LIVE-BOOK-20261114.md",
   "json": "docs/live_book/LIVE-BOOK-20261114.json"
  },
  "verdict": "PAGE_ON_ONE_BAR_WITH_UNDATED",
- "sentence": "页面声明的 2026-11-13 就是它全部 49 个带日期的节的 bar；另有 7 节（backtest_band、agreement、sources、priced_faces、research_arc、sibling_gap、authority）不带任何日期字段——无法核验它们算到哪天，也不把它们猜成同一天。",
+ "sentence": "页面声明的 2026-11-13 就是它全部 53 个带日期的节的 bar；另有 3 节（sources、sibling_gap、authority）不带任何日期字段——无法核验它们算到哪天，也不把它们猜成同一天。",
  "evidence_cutoff": "2026-11-13",
  "headline_bar": "2026-11-13",
  "headline_field": "priced_bar",
- "n_sections": 49,
- "n_on_headline": 49,
+ "n_sections": 53,
+ "n_on_headline": 53,
  "unknown_sections": [
-  "backtest_band",
-  "agreement",
   "sources",
-  "priced_faces",
-  "research_arc",
   "sibling_gap",
   "authority"
  ],
  "bars": {
-  "2026-11-13": 49
+  "2026-11-13": 53
  },
  "n_off_headline": 0,
  "off_headline": [],
@@ -34,9 +30,11 @@
   "cash_ladder": "2026-11-13",
   "forward": "2026-11-13",
   "vs_basket": "2026-11-13",
+  "backtest_band": "2026-11-13",
   "money_cny": "2026-11-13",
   "ticket_book": "2026-11-13",
   "same_beta_benchmark": "2026-11-13",
+  "agreement": "2026-11-13",
   "ticket_days": "2026-11-13",
   "card_days": "2026-11-13",
   "today_action": "2026-11-13",
@@ -46,6 +44,7 @@
   "fill": "2026-11-13",
   "bets": "2026-11-13",
   "family_coherence": "2026-11-13",
+  "priced_faces": "2026-11-13",
   "cash_handshake": "2026-11-13",
   "carry_regime": "2026-11-13",
   "leg_split": "2026-11-13",
@@ -58,6 +57,7 @@
   "vol_window_edge": "2026-11-13",
   "lookahead": "2026-11-13",
   "causal_rebuild": "2026-11-13",
+  "research_arc": "2026-11-13",
   "underwater": "2026-11-13",
   "sample_window": "2026-11-13",
   "universe_lock": "2026-11-13",
@@ -94,6 +94,8 @@
  "n_ahead_of_headline": 0,
  "ahead_of_headline": [],
  "ahead_keys": [],
+ "n_undated_mixed": 0,
+ "undated_mixed": {},
  "n_window_bound": 0,
  "window_bound": []
 }

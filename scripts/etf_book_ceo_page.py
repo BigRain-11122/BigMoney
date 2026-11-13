@@ -5886,6 +5886,17 @@ def build(with_stress=False, window_label=None):
     bt = (card.get("backtest") or {})
     page_window_label = window_label if window_label is not None else window_label_face()
     band = {}
+    # r1655: the table below is three rulers, and until now none of the three rows said which
+    # day it was measured to -- a reader could only assume it was the page's headline bar.
+    # Each row now carries the bar of the panel its numbers came from: the ticket row from the
+    # window-label face's own panel, the two card rows from the card's evidence_cutoff.
+    _tk_bar = str(tk.get("evidence_cutoff") or "")[:10] or None
+    _wl_bar = None
+    if isinstance(page_window_label, dict):
+        _wl_bar = (((page_window_label.get("panel") or {}).get("last_bar"))
+                   or ((page_window_label.get("inputs") or {}).get("evidence_cutoff")))
+    _wl_bar = str(_wl_bar)[:10] if _wl_bar else _tk_bar
+    _card_bar = str(card.get("evidence_cutoff") or "")[:10] or None
     # the executable ticket prices its own book; quote that口径 first, from the ticket itself
     tk_book = (tk.get("metrics") or {}).get("book") or {}
     wl = page_window_label
@@ -5919,6 +5930,8 @@ def build(with_stress=False, window_label=None):
                 "oos": {"cagr_pct": round(tk_book["cagr"] * 100, 2),
                         "sharpe": round(tk_book["sharpe"], 2),
                         "maxdd_pct": round(tk_book["maxdd"] * 100, 2)}}
+        if band.get(label) is not None and _wl_bar:
+            band[label]["priced_bar"] = _wl_bar
     for key, label in (("n5_base", "5 名·beta 覆盖"),
                        ("n12_vt08", "12 名·8% 波动目标（生产卡片口径）")):
         blk = bt.get(key) or {}
@@ -5931,6 +5944,8 @@ def build(with_stress=False, window_label=None):
                 row[seg] = {"cagr_pct": round(s["cagr"] * 100, 2),
                             "sharpe": round(s["sharpe"], 2),
                             "maxdd_pct": round(s["maxdd"] * 100, 2)}
+        if _card_bar:
+            row["priced_bar"] = _card_bar
         band[label] = row
 
     # the same percentages expressed in yuan on THIS ticket's capital -- a unit change, not a new estimate
@@ -5984,8 +5999,14 @@ def build(with_stress=False, window_label=None):
         "ticket_book": _with_cutoff(tk_book, tk),
         "same_beta_benchmark": _with_cutoff(
             (tk.get("metrics") or {}).get("same_beta_benchmark"), tk),
+        # r1655: the two booleans below are claims ABOUT two dates, and the page kept the
+        # claims while dropping both dates (`card_priced_bar` / `ticket_priced_bar` sit in the
+        # ticket's own card_agreement). "same priced bar = True" cannot be checked by any
+        # reader; naming the two days makes both the claim and its evidence visible.
         "agreement": {"same_decision_bar": agree.get("same_decision_bar"),
                       "same_priced_bar": agree.get("same_priced_bar"),
+                      "card_priced_bar": agree.get("card_priced_bar"),
+                      "ticket_priced_bar": agree.get("ticket_priced_bar"),
                       "card_names": agree.get("card_names")},
         "sources": {"ticket": _rel(tk_path, ROOT),
                     "card": "results/etf_book_production/latest.json",
@@ -6517,6 +6538,22 @@ def render_md(p, sb=None):
     add("")
     add("三行是同一套选券信号，区别只在名数和杠杆规则：第一行是你要下的这份账（5 名 + beta 覆盖 + 8bp 成本）；另两行是生产卡片跑的对照口径。同一决策日，票是卡片的子集。")
     add("")
+    # r1655: each row now says which day it was measured to; say it where the table is read,
+    # because "same table" is not "same bar" (three rulers, two panels).
+    _band_rows = list(p["backtest_band"].items())
+    _band_bars = sorted({str((r or {}).get("priced_bar")) for _, r in _band_rows
+                         if (r or {}).get("priced_bar")})
+    _band_no = [lab for lab, r in _band_rows if not (r or {}).get("priced_bar")]
+    if len(_band_bars) == 1 and not _band_no:
+        add("三行都量到 **%s** 这根 bar 为止（同一块面板的最后一天），与页头同一个世界。"
+            % _band_bars[0])
+        add("")
+    elif _band_bars:
+        add("这几行量到：%s%s——行与行之间先看这一句，再决定能不能相减。"
+            % ("、".join(_band_bars),
+               ("；另有 %d 行没有印日期（%s），它们不参与这句确认"
+                % (len(_band_no), "、".join(_band_no[:3])) if _band_no else "")))
+        add("")
     _dash_n = sum(1 for _r in p["backtest_band"].values()
                   for _seg in ("full", "is", "oos")
                   if ((_r.get(_seg) or {}).get("cagr_pct")) is None)
@@ -7384,9 +7421,11 @@ def render_md(p, sb=None):
                float(_auth.get("owner_silent_h") or 0)))
         add("")
     add("---")
-    add("*生成脚本 scripts/etf_book_ceo_page.py｜证据截止 %s｜卡片与单子同一决策日=%s，"
-        "三张纸同一定价日=%s（%s）*"
+    _agd = p.get("agreement") or {}
+    add("*生成脚本 scripts/etf_book_ceo_page.py｜证据截止 %s｜卡片与单子同一决策日=%s"
+        "（卡片定价日 %s、单子定价日 %s），三张纸同一定价日=%s（%s）*"
         % (p["evidence_cutoff"], p["agreement"]["same_decision_bar"],
+           _agd.get("card_priced_bar") or "?", _agd.get("ticket_priced_bar") or "?",
            _pf.get("verdict") or "UNKNOWN", _shown))
     return "\n".join(L) + "\n"
 
@@ -10434,6 +10473,41 @@ def selftest():
         and _sb_1654.get("n_on_headline") == 2,
         json.dumps({k: _sb_1654.get(k) for k in ("n_sections", "n_on_headline",
                                                  "unknown_sections")}, ensure_ascii=False))
+    # r1655: the band table is three rulers on (possibly) two panels, and until now no row
+    # said which day it was measured to -- the reader could only assume the page's headline.
+    _p_bb, _ = build(with_stress=False)
+    _bb_items = list(_p_bb["backtest_band"].items())
+    _bb_bars = sorted({str((r or {}).get("priced_bar")) for _, r in _bb_items
+                       if (r or {}).get("priced_bar")})
+    _md_bb = render_md(_p_bb)
+    chk("L228a every priced band row names the bar it was measured to, and the page says it "
+        "under the table",
+        bool(_bb_items) and all((r or {}).get("priced_bar") for _, r in _bb_items)
+        and len(_bb_bars) == 1 and _bb_bars[0] in _md_bb,
+        json.dumps({"rows": [k for k, _ in _bb_items], "bars": _bb_bars}, ensure_ascii=False))
+    _p_bb2, _ = build(with_stress=False)
+    _first_lbl = next(iter(_p_bb2["backtest_band"]))
+    _p_bb2["backtest_band"][_first_lbl]["priced_bar"] = "2026-10-30"
+    _md_bb2 = render_md(_p_bb2)
+    chk("L228b rows sitting on two bars are printed as two days, never averaged into one",
+        "2026-10-30" in _md_bb2 and bool(_bb_bars) and _bb_bars[0] in _md_bb2, "")
+    _ag_p = _p_bb.get("agreement") or {}
+    chk("L229 the two papers' priced days reach the page, so 'same priced bar' is checkable",
+        bool(_ag_p.get("card_priced_bar")) and bool(_ag_p.get("ticket_priced_bar"))
+        and _ag_p["card_priced_bar"] in _md_bb and _ag_p["ticket_priced_bar"] in _md_bb,
+        json.dumps({k: _ag_p.get(k) for k in ("card_priced_bar", "ticket_priced_bar")},
+                   ensure_ascii=False))
+    _sb_1655 = section_bars_face({"priced_bar": "2026-11-13",
+                                  "backtest_band": _p_bb["backtest_band"],
+                                  "agreement": _ag_p,
+                                  "priced_faces": _p_bb.get("priced_faces") or {}}) or {}
+    chk("L230 the section audit dates the band table and the agreement block from the day "
+        "they carry one level down",
+        (_sb_1655.get("by_key") or {}).get("backtest_band") == "2026-11-13"
+        and (_sb_1655.get("by_key") or {}).get("agreement") == "2026-11-13"
+        and not (_sb_1655.get("unknown_sections") or []),
+        json.dumps({k: _sb_1655.get(k) for k in ("by_key", "unknown_sections")},
+                   ensure_ascii=False)[:200])
     shutil.rmtree(_adm_dir, ignore_errors=True)
     print("\nSummary: %d/%d PASS%s" % (ok, total, "" if ok == total else " -- %d FAIL" % (total - ok)))
     return 0 if ok == total else 1
