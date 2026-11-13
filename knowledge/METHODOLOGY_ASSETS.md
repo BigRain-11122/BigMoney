@@ -14251,3 +14251,13 @@ CEO 页重生成后「48 个带日期节里 **35** 个在 2026-11-12」（原 34
 **HOW**：①面不自己量 → 建 `doc["panel"] = upstream.get("panel")`，check 走 `FW.check_panel_stamp(doc, stamp=当前上游的 panel)`（单一实现，禁第二份比对）；②**同一次 build 里抄下的票名**也要在 check 里和「现在的票」比——账本不动而票动了是真实形状；③三道闸一律 **rc2 + `stale`**，并把「面不在盘上」写成 **`face missing`**（r1581 链肯付的措辞）；④`read_published()` 必须把 `panel`/`inputs` 一起吐给 check——否则 check 拿到的永远是 `None`，第一版就是这么又绿又瞎的（E595 第三律同族）；⑤面板停了要说清是**谁**让它停：出处面发布 `owner_machine`/`owner_runner`/`panel_last_write` 三个**字段**（不是一句散文），读者算面板写入年龄 + 属主**自写心跳**年龄 → 三态 `alive`(<2h)/`quiet`(≥2h)/`unknown`(读不到=未知，不是死机，E-family r1159)。
 
 **实锚**：`scripts/etf_book_window_label.py`（`behind_rc()`，selftest 11 → **20/20**，五腿：绿/换面板/无戳/换票/账本前进；真数据 11-11 → **2026-11-12**，全窗 7.68% / 2020-2023 3.71% / 2024+ 12.64%，差 **+4.96 pp/yr**，check rc0）、`scripts/live_book_section_bars.py`（`panel_debt()`/`panel_debt_sentence()`，selftest 37 → **42/42**）、`scripts/etf_book_ceo_page.py`（`page_computed_provenance()` 三新字段 + `section_bars_block` 原样印审计句，selftest 272 → **273/273**）。页面实读：「`data/repo_daily` 末行 2026-11-11；最后写入 28.5 h 前；属主 bm-a（update_repo.py） 自己的心跳停在 16.9 h 前——是那条车道停了，不是页面慢」。
+
+### E599 · 只对照自己的检查在任何世界里都是绿的；要比的是「世界」，而修一次要 17 分钟（r1631 bm-c）
+
+**症状**：atlas 的 `--check` 把 280 行重新判一遍、arms 的 `--check` 把自己的标签重新判一遍，两条腿都是绿的；但它们之间的比较印 `MIXED_WORLDS` —— 成本臂站在 2026-11-12、对照臂站在 2026-11-06。于是**判词被扣住（成本轴自 2026-10-31 起 withheld），而链上没有任何一条腿会去解扣**（r1471：读者腿绿 ≠ 写者存在）。r1630 已经证明过一半：把五个成本臂搬到新面板并不会让家族收敛，只会让「旧的一侧」换到对照臂上。
+
+**WHY**：自对照的检查回答的是「我的数字还跟我的行一致吗」，不是「我量的是不是这一天的世界」——前者在旧世界里永远成立，所以越是被扣住的比较，越拿不到修复信号。第二个坑是**修的价格**：一次臂重定价 = 280 格引擎 ≈ 200s × 6 臂 ≈ 17 分钟，远超单腿 900s 超时，「发现就全量重跑」这条天真路子自己打架 —— 要么超时，要么永久红（r1199 半面红牌）。
+
+**HOW**：①比较类面必须有一个**世界门**：世界身份从面板自己的发布者读（`etf_book_spanning.panel.last_bar`），逐面比 `panel.last` + `panel.digest`，同 bar 不同 digest 单列 `content`；②门必须**便宜**（11 个 JSON、0.1s），贵的是修；③refresh 按**预算**分轮付（`--budget=600` 对 900s 腿超时），装不下就 `PARTIAL` 并**逐臂点名**，下一轮接着付；④面**领先于发布者**时禁重建（会把老数字顶上新文件名，r1630 律），单列 `ahead` 让门红在真因上；⑤`os.path.relpath` 跨盘抛 ValueError —— 这是同一坑的**第四份拷贝**（r1371/r1375/r1594 之后），展示路径一律走 `_display()` 回落绝对路径。
+
+**实锚**：`scripts/etf_book_atlas_arms_rebuild.py`（`world_bar`/`family_state`/`check_world`/`refresh`，selftest 16 → **24/24**：8 条世界门腿含 budget 分轮、前向禁建、同 bar 异 digest、发布者落后）、`Tools/s6_chain_bmc.py` 新腿 `etf_book_atlas_family`（check=`--check-world`、refresh=`refresh --budget=600`）。真数据：**6 面落后 4 根 bar → 全部重建到 `e383c3a68f5f98af`/2026-11-12**（1034.5s·workers=6），arms 面 `panel_coherence` 由 `MIXED_WORLDS` 变 **`ONE_WORLD`、`withheld_arms=[]`** —— 成本轴自 2026-10-31 首次可读：cost0/cost05 `NOT-SEPARABLE`、cost20/cost40 `REJECT`、buffer k02/05/10/20 `NOT-SEPARABLE`、k40 `REJECT`；CEO 页 48 节里站在 11-12 的由 42 → **44**。零成本路径实测：收敛后单腿 `0.1s CHECK OK`。

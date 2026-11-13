@@ -1,17 +1,17 @@
 {
  "script": "scripts/live_book_section_bars.py",
- "ts": "2026-11-13 13:32:27",
+ "ts": "2026-11-13 14:45:18",
  "page": {
   "path": "docs/live_book/LIVE-BOOK-20261113.md",
   "json": "docs/live_book/LIVE-BOOK-20261113.json"
  },
  "verdict": "PAGE_MIXES_BARS",
- "sentence": "页面头部写着按 2026-11-12 定价，但 48 个带日期的节里只有 42 节真在这一天；其余 6 节不在这一天（最旧停在 2026-11-06（最差 family_coherence 落后 4 个交易日）），另外 8 节根本没有日期——它们不是同一根 bar 上的数，读的时候不能互相加减。这 6 节里，2 节的产物有同名链腿在守；4 节（cash_handshake, cash_ladder, cash_money, cash_yield）是这一页每次生成时自己重算的，停的正是它读的那块面板的最后一天：data/repo_daily/GC001.csv（update_repo.py / bm-a · T-88 车道，本机只读，末行 2026-11-11）、data/repo_daily（update_repo.py / bm-a · T-88 车道，本机只读，末行 2026-11-11）——落后的是那块面板，不是没人重跑这节；`data/repo_daily` 末行 2026-11-11；最后写入 28.5 h 前；属主 bm-a（update_repo.py） 自己的心跳停在 16.9 h 前——是那条车道停了，不是页面慢；`data/repo_daily/GC001.csv` 末行 2026-11-11；最后写入 28.6 h 前；属主 bm-a（update_repo.py） 自己的心跳停在 16.9 h 前——是那条车道停了，不是页面慢；1 节（family_coherence）的日期是引擎跑出来的，守它的腿只把旧面重新汇总、不会重新定价——它们的落后是数据债，链上再跑多少轮也不会自己追上来；另外 1 节 sample_window（2020-01-01 至 2026-10-26） 讲的是一整段固定窗口，它印的日期就是那段窗口自己的终点，不是某一根 bar 没跟上——要它站到页头那根 bar 上，等于把整段窗口重新定价一遍。",
+ "sentence": "页面头部写着按 2026-11-12 定价，但 48 个带日期的节里只有 44 节真在这一天；其余 4 节不在这一天（最旧停在 2026-11-11（最差 cash_handshake 落后 1 个交易日）），另外 8 节根本没有日期——它们不是同一根 bar 上的数，读的时候不能互相加减。这 4 节里，0 节的产物有同名链腿在守；4 节（cash_handshake, cash_ladder, cash_money, cash_yield）是这一页每次生成时自己重算的，停的正是它读的那块面板的最后一天：data/repo_daily/GC001.csv（update_repo.py / bm-a · T-88 车道，本机只读，末行 2026-11-11）、data/repo_daily（update_repo.py / bm-a · T-88 车道，本机只读，末行 2026-11-11）——落后的是那块面板，不是没人重跑这节；`data/repo_daily` 末行 2026-11-11；最后写入 29.7 h 前；属主 bm-a（update_repo.py） 自己的心跳停在 18.1 h 前——是那条车道停了，不是页面慢；`data/repo_daily/GC001.csv` 末行 2026-11-11；最后写入 29.8 h 前；属主 bm-a（update_repo.py） 自己的心跳停在 18.1 h 前——是那条车道停了，不是页面慢。",
  "evidence_cutoff": "2026-11-12",
  "headline_bar": "2026-11-12",
  "headline_field": "priced_bar",
  "n_sections": 48,
- "n_on_headline": 42,
+ "n_on_headline": 44,
  "unknown_sections": [
   "backtest_band",
   "agreement",
@@ -23,58 +23,11 @@
   "authority"
  ],
  "bars": {
-  "2026-11-12": 42,
-  "2026-11-11": 4,
-  "2026-11-06": 1,
-  "2026-10-26": 1
+  "2026-11-12": 44,
+  "2026-11-11": 4
  },
- "n_off_headline": 6,
+ "n_off_headline": 4,
  "off_headline": [
-  {
-   "key": "sample_window",
-   "bar": "2026-10-26",
-   "field": "evidence_cutoff",
-   "lag_sessions": 13,
-   "ahead_of_headline": false,
-   "guarded_by": [
-    "etf_book_spanning"
-   ],
-   "provenance": "chain_leg",
-   "window": [
-    "2020-01-01",
-    "2026-10-26"
-   ],
-   "window_bound": true,
-   "pricing_mode": null,
-   "refresh_reprices": null,
-   "panel": null,
-   "panel_last_bar": null,
-   "panel_last_write": null,
-   "owner_machine": null,
-   "owner_runner": null,
-   "panel_owner": null
-  },
-  {
-   "key": "family_coherence",
-   "bar": "2026-11-06",
-   "field": "priced_bar",
-   "lag_sessions": 4,
-   "ahead_of_headline": false,
-   "guarded_by": [
-    "etf_book_phase_atlas_arms"
-   ],
-   "provenance": "chain_leg",
-   "window": null,
-   "window_bound": false,
-   "pricing_mode": "engine",
-   "refresh_reprices": false,
-   "panel": null,
-   "panel_last_bar": null,
-   "panel_last_write": null,
-   "owner_machine": null,
-   "owner_runner": null,
-   "panel_owner": null
-  },
   {
    "key": "cash_handshake",
    "bar": "2026-11-11",
@@ -152,8 +105,8 @@
    "panel_owner": "update_repo.py / bm-a · T-88 车道，本机只读"
   }
  ],
- "oldest": "2026-10-26",
- "max_lag_sessions": 13,
+ "oldest": "2026-11-11",
+ "max_lag_sessions": 1,
  "by_key": {
   "cash_yield": "2026-11-11",
   "cash_money": "2026-11-11",
@@ -171,7 +124,7 @@
   "vt_phases": "2026-11-12",
   "fill": "2026-11-12",
   "bets": "2026-11-12",
-  "family_coherence": "2026-11-06",
+  "family_coherence": "2026-11-12",
   "cash_handshake": "2026-11-11",
   "carry_regime": "2026-11-12",
   "leg_split": "2026-11-12",
@@ -185,7 +138,7 @@
   "lookahead": "2026-11-12",
   "causal_rebuild": "2026-11-12",
   "underwater": "2026-11-12",
-  "sample_window": "2026-10-26",
+  "sample_window": "2026-11-12",
   "universe_lock": "2026-11-12",
   "entry_gate": "2026-11-12",
   "live_quote": "2026-11-12",
@@ -233,10 +186,10 @@
    "panel": "data/repo_daily",
    "panel_last_bar": "2026-11-11",
    "panel_last_write": "2026-11-12T09:02:16",
-   "panel_write_age_h": 28.5,
+   "panel_write_age_h": 29.7,
    "owner_machine": "bm-a",
    "owner_runner": "update_repo.py",
-   "owner_heartbeat_age_h": 16.9,
+   "owner_heartbeat_age_h": 18.1,
    "owner_state": "quiet",
    "sections": [
     "cash_ladder"
@@ -246,10 +199,10 @@
    "panel": "data/repo_daily/GC001.csv",
    "panel_last_bar": "2026-11-11",
    "panel_last_write": "2026-11-12T08:58:35",
-   "panel_write_age_h": 28.6,
+   "panel_write_age_h": 29.8,
    "owner_machine": "bm-a",
    "owner_runner": "update_repo.py",
-   "owner_heartbeat_age_h": 16.9,
+   "owner_heartbeat_age_h": 18.1,
    "owner_state": "quiet",
    "sections": [
     "cash_handshake",
@@ -258,15 +211,11 @@
    ]
   }
  ],
- "page_computed_debt_sentence": "`data/repo_daily` 末行 2026-11-11；最后写入 28.5 h 前；属主 bm-a（update_repo.py） 自己的心跳停在 16.9 h 前——是那条车道停了，不是页面慢；`data/repo_daily/GC001.csv` 末行 2026-11-11；最后写入 28.6 h 前；属主 bm-a（update_repo.py） 自己的心跳停在 16.9 h 前——是那条车道停了，不是页面慢",
+ "page_computed_debt_sentence": "`data/repo_daily` 末行 2026-11-11；最后写入 29.7 h 前；属主 bm-a（update_repo.py） 自己的心跳停在 18.1 h 前——是那条车道停了，不是页面慢；`data/repo_daily/GC001.csv` 末行 2026-11-11；最后写入 29.8 h 前；属主 bm-a（update_repo.py） 自己的心跳停在 18.1 h 前——是那条车道停了，不是页面慢",
  "n_no_writer": 0,
  "no_writer": [],
- "n_engine_priced": 1,
- "engine_priced": [
-  "family_coherence"
- ],
- "n_window_bound": 1,
- "window_bound": [
-  "sample_window"
- ]
+ "n_engine_priced": 0,
+ "engine_priced": [],
+ "n_window_bound": 0,
+ "window_bound": []
 }

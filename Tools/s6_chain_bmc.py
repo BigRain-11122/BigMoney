@@ -622,6 +622,17 @@ LEGS = [
     # grid and criteria are echoed, every per-cell scalar and the grid's spread/band are
     # rebuilt from the 280 raw rows, and the verdict is the one the rule produces -- an edited
     # median or an edited verdict is red. 0.9s, no network, no panel build.
+    # r1631: the eleven arm faces are priced by separate 280-cell engine sweeps, and the two
+    # gates below only re-derive their own numbers -- so after r1630 moved the five cost arms
+    # onto 2026-11-12, baseline and the five buffer arms stayed on 2026-11-06 and both checks
+    # stayed GREEN while the comparison between them said MIXED_WORLDS (a withheld cost-axis
+    # verdict that no leg could lift: r1471, a reader leg green says nothing about a writer).
+    # This leg asks the world question -- is every face priced on the bar etf_book_spanning
+    # publishes? -- and pays a rebuild of ONLY the arms that are not, inside a budget the 900s
+    # leg timeout can hold; whatever it cannot fit stays named and red for the next run.
+    ("etf_book_atlas_family",
+     ["python", "scripts/etf_book_atlas_arms_rebuild.py", "--check-world"],
+     ["python", "scripts/etf_book_atlas_arms_rebuild.py", "refresh", "--budget=600"]),
     ("etf_book_phase_atlas", ["python", "scripts/etf_book_phase_atlas.py", "--check"]),
     # r1351: the atlas measured ONE arm (the production toll). r1163 (bm-a) priced the three
     # stockable follow-ups as variants of the same grid -- buffer k=0.05, 5bp/side, 20bp/side --
