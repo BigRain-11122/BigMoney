@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-14T02:35:20+0800",
+ "generated": "2026-11-14T04:12:48+0800",
  "script": "scripts/etf_book_band_ruler.py",
  "criteria": {
   "tol_pp_per_year": 0.25,
@@ -393,22 +393,25 @@
  },
  "identity": {
   "ticket 12.78% reproduced on its own ruler": {
-   "measured_pp": 12.59,
+   "measured_pp": 12.64,
    "published_pp": 12.64,
-   "delta_pp": -0.05,
-   "pass": true
+   "delta_pp": 0.0,
+   "pass": true,
+   "priced_bar": "2026-11-12"
   },
   "card 9.60% reproduced on its own ruler": {
-   "measured_pp": 9.59,
+   "measured_pp": 9.65,
    "published_pp": 9.65,
-   "delta_pp": -0.06,
-   "pass": true
+   "delta_pp": 0.0,
+   "pass": true,
+   "priced_bar": "2026-11-12"
   },
   "card 18.35% (2024+) reproduced on its own ruler": {
-   "measured_pp": 18.2,
+   "measured_pp": 18.37,
    "published_pp": 18.37,
-   "delta_pp": -0.17,
-   "pass": false
+   "delta_pp": 0.0,
+   "pass": true,
+   "priced_bar": "2026-11-12"
   }
  },
  "panel": {
@@ -428,8 +431,20 @@
   },
   "reading": "a series labelled a bar early peaks at +1, not at 0; an overlay fitted to it sees a beta that is not the book's beta"
  },
+ "identity_scope": {
+  "page_priced_bar": "2026-11-12",
+  "page_source": "docs/live_book/LIVE-BOOK-20261113.json",
+  "ruler_bar": "2026-11-13",
+  "priced_on": {
+   "card": "2026-11-12",
+   "ticket": "2026-11-12"
+  },
+  "note": "The control arms are re-priced on the bar the operator page priced; the dial cells are untouched and stay on this face's own panel. Comparing a face priced on today's bar against one priced on the feed's last complete bar measures the feed's lag, not the arm. Consequence, and it is a real limit: while the two bars differ, the dial prices explain this face's own three rows, not the three rows printed on the page that day."
+ },
  "published_faces": {
   "source": "docs/live_book/LIVE-BOOK-20261113.json",
+  "priced_bar": "2026-11-12",
+  "evidence_cutoff": "2026-11-12",
   "rows": [
    {
     "label": "5 名·可执行单口径（本单这份账）",
@@ -487,9 +502,14 @@
   }
  },
  "verdict": {
-  "state": "IDENTITY_FAILED",
-  "why": "a control arm does not reproduce the face it is a control for; no dial price can be quoted",
+  "state": "ROWS_NOT_COMPARABLE",
+  "dials_that_move": [
+   "ordering",
+   "universe",
+   "window"
+  ],
+  "why": "the table's rows are not one ruler: window +4.91pp、universe +0.44pp、ordering -0.56pp per year on the book the operator actually holds. The gap between the top row and the card row is the sum of these dials, not a property of the strategy.",
   "criteria": "ROWS_NOT_COMPARABLE iff at least one dial moves the held config by >= tol_pp_per_year on at least one window; SAME_RULER if none does. The published gap between row 1 and row 3 is decomposed into these dials, and no dial's price is inferred from another."
  },
- "elapsed_sec": 107.3
+ "elapsed_sec": 108.1
 }

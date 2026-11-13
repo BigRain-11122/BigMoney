@@ -140,6 +140,26 @@ def _panel(universe):
     return close[cols], openp[cols], amt[cols], score, int(_nf)
 
 
+def _panel_at(panel, bar):
+    """The same panel as it stood on `bar`, for a like-for-like control arm.
+
+    Returns (panel, bar) where `bar` is None when nothing was cut -- the caller then knows
+    it can reuse the cells it already priced instead of paying for a second run. Every leg
+    of the panel is cut in step: corridor, opens, amount, score (r1651: a control that reads
+    one leg at a different cutoff is not a control, it is a second book)."""
+    if not bar:
+        return panel, None
+    ts = pd.Timestamp(str(bar))
+    close = panel[0]
+    if ts >= close.index[-1]:
+        return panel, None
+    keep = close.index <= ts
+    if not bool(keep.any()):
+        return panel, None
+    return (close.loc[keep], panel[1].loc[keep], panel[2].loc[keep],
+            panel[3].loc[keep], panel[4]), str(pd.Timestamp(bar).date())
+
+
 def _book_series(panel, ordering, n_hold, vol_target=None, cost_bp=None):
     """One book return path under one fill ordering. Both use an existing engine.
 
@@ -329,16 +349,48 @@ def price_all(verbose=True):
 
     # ---- identity arms: each side must land on the number the live face publishes
     pub = _published_band()
+    pub_bar = pub.get("priced_bar")
+    # r1651: a control arm is a control only when both sides price the same bar. The page
+    # reads the feed's last complete bar, which lags this face's repaired panel by a day
+    # whenever a bar lands -- so the arm re-prices the same two configs on the page's bar
+    # instead of comparing 11-13 against 11-12 and reporting the feed's lag as a broken
+    # control (which, before this, silently refused to quote every dial price).
+    id_panels, id_trunc = {}, {}
+    for u in ("card", "ticket"):
+        id_panels[u], id_trunc[u] = _panel_at(panels[u], pub_bar)
+    if not any(v for v in id_trunc.values()):
+        id_card = doc["cells"]["card/12/vol08"]
+        id_ticket = doc["cells"]["held/causal/ticket"]
+    else:
+        ser, _turn = _book_series(id_panels["card"], "published", 12,
+                                  vol_target=P.TARGET_VOL, cost_bp=P.COST * 1e4)
+        id_card = _cells(ser, "identity/card/12/vol08")
+        strat, _b, _m = _overlay_path(id_panels["ticket"], "causal")
+        id_ticket = _cells(strat, "identity/held/causal/ticket")
+        if verbose:
+            print("identity arms priced on %s (the page's bar, not this face's %s)"
+                  % (pub_bar, doc["panels"]["card"]["last_bar"]), flush=True)
+    doc["identity_scope"] = {
+        "page_priced_bar": pub_bar,
+        "page_source": pub.get("source"),
+        "ruler_bar": doc["panels"]["card"]["last_bar"],
+        "priced_on": {u: (id_trunc[u] or doc["panels"][u]["last_bar"]) for u in doc["panels"]},
+        "note": ("The control arms are re-priced on the bar the operator page priced; the dial "
+                 "cells are untouched and stay on this face's own panel. Comparing a face "
+                 "priced on today's bar against one priced on the feed's last complete bar "
+                 "measures the feed's lag, not the arm. Consequence, and it is a real limit: "
+                 "while the two bars differ, the dial prices explain this face's own three "
+                 "rows, not the three rows printed on the page that day.")}
     checks = []
     checks.append(_ident("ticket 12.78% reproduced on its own ruler",
-                         doc["cells"]["held/causal/ticket"]["ticket_window"]["cagr_pp"],
-                         pub.get("ticket_oos")))
+                         id_ticket["ticket_window"]["cagr_pp"],
+                         pub.get("ticket_oos"), pub_bar))
     checks.append(_ident("card 9.60% reproduced on its own ruler",
-                         doc["cells"]["card/12/vol08"]["full"]["cagr_pp"],
-                         pub.get("card_full")))
+                         id_card["full"]["cagr_pp"],
+                         pub.get("card_full"), pub_bar))
     checks.append(_ident("card 18.35% (2024+) reproduced on its own ruler",
-                         doc["cells"]["card/12/vol08"]["oos"]["cagr_pp"],
-                         pub.get("card_oos")))
+                         id_card["oos"]["cagr_pp"],
+                         pub.get("card_oos"), pub_bar))
     doc["identity"] = {c.pop("what"): c for c in checks}
     doc["published_faces"] = pub
     doc["dial_prices"] = dial_prices(doc)
@@ -399,6 +451,12 @@ def _published_band():
         if not isinstance(page, dict):
             page = blk
         band = page.get("backtest_band") or {}
+        # r1651: which bar the published numbers were priced on. Without it a control arm
+        # can only compare its own bar against the page's and call a lagging feed a broken
+        # identity. `priced_bar` is the page's explicit stamp; the cutoff is the fallback
+        # because a page without the stamp still priced *some* bar.
+        out["priced_bar"] = page.get("priced_bar") or page.get("evidence_cutoff")
+        out["evidence_cutoff"] = page.get("evidence_cutoff")
         out["rows"] = []
         for label, row in band.items():
             full = (row.get("full") or {}).get("cagr_pct")
@@ -421,14 +479,15 @@ def _published_band():
     return out
 
 
-def _ident(what, measured, published):
+def _ident(what, measured, published, bar=None):
     if measured is None or published is None:
         return {"what": what, "measured_pp": measured, "published_pp": published,
-                "delta_pp": None, "pass": False, "why": "one side unreadable"}
+                "delta_pp": None, "pass": False, "why": "one side unreadable",
+                "priced_bar": bar}
     d = round(float(measured) - float(published), 3)
     return {"what": what, "measured_pp": round(float(measured), 3),
             "published_pp": round(float(published), 3), "delta_pp": d,
-            "pass": bool(abs(d) <= IDENT_TOL_PP)}
+            "pass": bool(abs(d) <= IDENT_TOL_PP), "priced_bar": bar}
 
 
 # ---------------------------------------------------------------- report
@@ -526,13 +585,27 @@ def render_md(doc):
         add("")
     add("## 身份门（对不上就不许引用）")
     add("")
-    add("| 对照臂 | 本面复现 | 上场发布 | 差 | 过门 |")
-    add("|---|---|---|---|---|")
+    add("| 对照臂 | 本面复现 | 上场发布 | 差 | 两边都按哪根 bar 计价 | 过门 |")
+    add("|---|---|---|---|---|---|")
     for what, r in (doc.get("identity") or {}).items():
-        add("| %s | %s | %s | %s | %s |"
+        add("| %s | %s | %s | %s | %s | %s |"
             % (what, _fmt(r.get("measured_pp"), pct=True), _fmt(r.get("published_pp"), pct=True),
-               _fmt(r.get("delta_pp")), "PASS" if r.get("pass") else "**FAIL**"))
+               _fmt(r.get("delta_pp")), r.get("priced_bar") or "—",
+               "PASS" if r.get("pass") else "**FAIL**"))
     add("")
+    scope = doc.get("identity_scope") or {}
+    if scope.get("page_priced_bar") and scope.get("ruler_bar") \
+            and str(scope["page_priced_bar"]) != str(scope["ruler_bar"]):
+        # r1595: print the relation only when the two sides really sit on different bars --
+        # a caveat printed every day gets skipped on the day it matters.
+        add("对照臂按运营页那根 bar（%s）重算，本面自己的拨盘格仍按 %s 算：两边差一天时，"
+            "拿今天的盘去比昨天的发布，量的是数据源的滞后，不是这本书。"
+            % (scope["page_priced_bar"], scope["ruler_bar"]))
+        add("")
+        add("这也有一个真限制，写在这里免得读者自己补：两个 bar 不同的这一天，拨盘价解释的是"
+            "**本面这一版**的三行，不是运营页当天印的三行——页面的写入方在自己那根 bar 上重生成后，"
+            "两处的数才对得上。")
+        add("")
     add("## 规则（跑之前冻结）")
     add("")
     add(CRITERIA["verdict_rule"])
@@ -748,6 +821,41 @@ def selftest():
             check(path=_face({"digest": "aaaa"}), stamp={"digest": "bbbb"}) == 2)
         chk("a face that carries no stamp cannot pass as fresh",
             check(path=_face(None), stamp={"digest": "aaaa"}) == 2)
+
+    # r1651: the control arm must be readable across a feed lag, and it must not pay for a
+    # second pricing when the page and the panel already sit on the same bar. Both halves
+    # are pinned here on fixtures, because on the live face the two states are one bar apart
+    # only on some days (r1261: a reading nobody can force into the other state is not a gate).
+    _idx = pd.date_range("2024-01-02", periods=5, freq="B")
+    _fx_panel = (pd.DataFrame(1.0, index=_idx, columns=["A", "B"]),
+                 pd.DataFrame(1.0, index=_idx, columns=["A", "B"]),
+                 pd.DataFrame(1.0, index=_idx, columns=["A", "B"]),
+                 pd.DataFrame(1.0, index=_idx, columns=["A", "B"]), 0)
+    _cut, _bar = _panel_at(_fx_panel, "2024-01-04")
+    chk("a control priced on the page's bar cuts every leg in step",
+        _bar == "2024-01-04" and _cut[0].index[-1] == pd.Timestamp("2024-01-04")
+        and all(len(a) == 3 for a in _cut[:4]))
+    _same, _bar2 = _panel_at(_fx_panel, "2024-01-08")
+    chk("a page already on the panel's own bar is not re-priced",
+        _bar2 is None and _same is _fx_panel)
+    chk("a page with no priced bar is not silently treated as a cut",
+        _panel_at(_fx_panel, None)[1] is None)
+    chk("an identity arm carries the bar it was read on",
+        _ident("x", 12.64, 12.64, "2026-11-12")["priced_bar"] == "2026-11-12"
+        and _ident("x", 12.64, 12.64)["priced_bar"] is None)
+    with _tf.TemporaryDirectory() as _td:
+        _pg2 = os.path.join(_td, "page.json")
+        with open(_pg2, "w", encoding="utf-8") as _fh2:
+            json.dump({"priced_bar": "2026-11-12", "evidence_cutoff": "2026-11-12",
+                       "backtest_band": {}}, _fh2, ensure_ascii=False)
+        _keep2 = PAGE_JSON
+        try:
+            globals()["PAGE_JSON"] = _pg2
+            _pub2 = _published_band()
+        finally:
+            globals()["PAGE_JSON"] = _keep2
+    chk("the published side's bar reaches the reader",
+        _pub2.get("priced_bar") == "2026-11-12")
 
     print("selftest: %d/%d" % (ok, ok + len(fail)))
     for f in fail:

@@ -367,6 +367,18 @@ LEGS = [
     # its own round; here it is the cheap face rebuild off the CSV already on disk.
     ("premium_percentile_write",
      ["python", "scripts/etf_book_premium_percentile.py", "--no-fetch", "run"]),
+    # r1651: the two documents below print the live-width ruler's paired gap and its rung
+    # disagreement, and E271 asks each of them for the number the face on disk carries. That
+    # face's composer sat 300 legs LATER (next to its atlas inputs), so every pass that
+    # repriced a width left the sheets quoting the previous generation and E271 went red on a
+    # defect the reader could hold (2026-11-14: sheets printed +0.14pp, the face said +0.15pp;
+    # 10 phases up vs 11). The composer reads the atlas payload's authoritative cells, never
+    # the order document, so it has no cycle with the sheets -- writer before reader, the
+    # r1587/r1561/r1585 class. Composition only (0.1s, engine-free); the heavy arm rebuilds
+    # stay where they are, and the later leg keeps its check so a mid-pass reprice still shows.
+    ("etf_book_live_widths_pre",
+     ["python", "scripts/etf_book_phase_atlas_arms.py", "--live-widths-check"],
+     ["python", "scripts/etf_book_phase_atlas_arms.py", "--live-widths"]),
     ("etf_book_order", ["python", "scripts/etf_book_order.py", "run"]),
     # r1283: the face above publishes ONE bar twice -- the pre-trade book marked at this
     # bar's closes (accrual.last) and the post-trade book at the same closes (ledger_row) --
