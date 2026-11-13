@@ -10609,11 +10609,21 @@ def main() -> int:
         if _rb.get("verdict") == "NOT-ASSESSED":
             _wbad.append("the read-back refused to answer")
         else:
-            _gap = abs(float(_rb.get("observed_pp")) - float(_rb.get("predicted_pp")))
-            if _gap > float(_rb.get("tolerance_pp")):
-                _wbad.append("the harvested point sits %.3fpp off the line, past the %.3fpp "
-                             "tolerance, but the face still says %s"
-                             % (_gap, float(_rb.get("tolerance_pp")), _rb.get("verdict")))
+            # r1644: this leg used to go red whenever the harvested point landed outside the
+            # tolerance -- which is exactly what the face is FOR. REFUTED is the face saying
+            # "the line does not hold here", HOLDS is it saying "it does"; a leg that reads
+            # the refutation as a failure can only be satisfied by the line never being
+            # tested. Re-derive the label from the published numbers instead and red only
+            # when the face's word disagrees with its own arithmetic.
+            _obs = float(_rb.get("observed_pp"))
+            _pred = float(_rb.get("predicted_pp"))
+            _tol = float(_rb.get("tolerance_pp"))
+            _gap = abs(_obs - _pred)
+            _want = "REFUTED" if (_gap > _tol or _obs * _pred < 0) else "HOLDS"
+            if _rb.get("verdict") != _want:
+                _wbad.append("the harvested point sits %.3fpp off the line (tolerance %.3fpp) "
+                             "so its own numbers say %s, but the face says %s"
+                             % (_gap, _tol, _want, _rb.get("verdict")))
             if (_rb.get("gap_pp") is None
                     or abs(round(float(_rb.get("observed_pp")) - float(_rb.get("predicted_pp")), 3)
                            - float(_rb.get("gap_pp"))) > 1e-9):

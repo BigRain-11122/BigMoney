@@ -44,6 +44,7 @@ VT_TAIL_FILE = "etf_book_voltarget_tail.json"
 ARMS_FACE_FILE = "etf_book_phase_atlas_arms.json"
 NULL_FACE_FILE = "etf_book_rule_null.json"
 SIGNFLIP_FACE_FILE = "etf_book_arms_signflip.json"
+BUFFER_READBACK_FILE = "etf_book_buffer_floor_readback.json"
 
 
 def vol_overlay_tail_support():
@@ -291,6 +292,42 @@ def signflip_face(results_dir=None):
             "bar_now": None}          # filled in by family_coherence (it knows the arms' bar)
 
 
+def floor_extrapolation_face(results_dir=None):
+    """Does the width floor's own line survive the point it never saw (r1644)?
+
+    `etf_book_width_resolution_floor` answers "how many names do I need" by fitting a line
+    through the measured buffer arms and continuing it to k=7.79. r1355 built the test that
+    matters -- price the midpoint of the widest gap and ask whether the line still holds there
+    -- and the answer has lived only inside results/. The question that test answers is the one
+    this section of the card already asks about the arms ("is the name count measured?"), one
+    level poorer: even a family that priced one panel can hand back a width that is an
+    extrapolation. Quote the read-back verbatim; absence reads "never tested", not "holds".
+    """
+    d = E.PATHS.results_dir if results_dir is None else results_dir
+    absent = {"artifact": "results/" + BUFFER_READBACK_FILE, "present": False,
+              "detail": "read-back face absent -- the width floor's extrapolation was never tested",
+              "verdict": None, "buffer_k": None, "predicted_pp": None, "observed_pp": None,
+              "gap_pp": None, "tolerance_pp": None, "evidence_cutoff": None}
+    try:
+        with open(os.path.join(d, BUFFER_READBACK_FILE), "r", encoding="utf-8") as fh:
+            doc = json.load(fh)
+    except FileNotFoundError:
+        return absent                      # absent is "never tested", not "holds"
+    except (OSError, ValueError) as exc:
+        absent["detail"] = "read-back face unreadable (%s)" % str(exc)[:100]
+        return absent
+    verdict = doc.get("verdict")
+    return {"artifact": "results/" + BUFFER_READBACK_FILE, "present": True,
+            "detail": "; ".join(doc.get("verdict_reasons") or [])[:400] or verdict,
+            "verdict": verdict,
+            "buffer_k": doc.get("buffer_k"),
+            "predicted_pp": doc.get("predicted_pp"),
+            "observed_pp": doc.get("observed_pp"),
+            "gap_pp": doc.get("gap_pp"),
+            "tolerance_pp": doc.get("tolerance_pp"),
+            "evidence_cutoff": doc.get("evidence_cutoff")}
+
+
 def receipt_face():
     """Which world the last family rebuild paid for, and whether that is still today's (r1632).
 
@@ -373,6 +410,9 @@ def family_coherence(results_dir=None):
             bar_now=(doc.get("baseline") or {}).get("evidence_cutoff")),
         # r1632: the rebuild receipt names the world it paid for; stale it if that is not today's
         "receipt": receipt_face(),
+        # r1644: even a one-world family can hand back a width it never measured -- the floor's
+        # line is tested on a point it never saw, and this face says what that test answered
+        "floor_extrapolation": floor_extrapolation_face(results_dir),
     }
 
 
@@ -2100,6 +2140,36 @@ def write_card(out):
         lines += ["**Label null: uncalibrated** -- how rare these labels are is unknown "
                   "(`results/etf_book_rule_null.json` absent), so a REJECT on this card is not "
                   "a finding.", ""]
+    # r1644: the width this card quotes is the x where a fitted line crosses the baseline band,
+    # and that line is continued past its last measured arm. r1355 built the test -- price the
+    # midpoint of the widest gap and ask whether the line still holds there -- and its answer
+    # has lived only inside results/. Quote it where the width is licensed: a family can be one
+    # world and still hand back a width that was never measured.
+    _fx = _fc.get("floor_extrapolation")
+    if _fx is None:
+        pass                       # a payload written before r1644 never tested it: stay silent
+    elif _fx.get("present") and _fx.get("verdict"):
+        _fv = _fx.get("verdict")
+        _nums = ("priced at the unseen k=%s the line predicted %+.3fpp and the arm's own cells "
+                 "said %+.3fpp -- gap %.3fpp against a %.3fpp tolerance"
+                 % ("%.2f" % _fx["buffer_k"] if _fx.get("buffer_k") is not None else "?",
+                    _fx.get("predicted_pp") or 0.0, _fx.get("observed_pp") or 0.0,
+                    abs(_fx.get("gap_pp") or 0.0), _fx.get("tolerance_pp") or 0.0))
+        if _fv == "REFUTED":
+            lines += ["**Width floor: an extrapolation, and its own test point refutes it.** The "
+                      "name count comes from continuing a fitted line past its last measured "
+                      "arm; %s, so the read-back face publishes REFUTED. Read the width as an "
+                      "extrapolation with no support at that distance, not as a measurement." % _nums,
+                      ""]
+        else:
+            lines += ["**Width floor: an extrapolation that holds its test point** (%s) -- the "
+                      "name count is still continued past the last measured arm, but the point "
+                      "it never saw sits on the line." % _nums, ""]
+    else:
+        lines += ["**Width floor: extrapolation never tested** -- %s. The name count is "
+                  "continued past the last measured arm and no face says whether that line "
+                  "survives there; absence is not support."
+                  % (_fx.get("detail") or "read-back face absent"), ""]
     lines += [
         "**Today (%s bar): %s** (last grid decision %s)." % (
             s["as_of_bar"], s["decision"], s["last_decision_bar"]),
@@ -3006,6 +3076,28 @@ def selftest():
         E.PATHS.results_dir = _keep_res
         shutil.rmtree(_fc_dir, ignore_errors=True)
 
+    _fx_dir = tempfile.mkdtemp(prefix="etf_book_prod_fx_")
+    _keep_res2 = E.PATHS.results_dir
+    try:
+        E.PATHS.results_dir = _fx_dir
+        _fx_absent = floor_extrapolation_face()
+        chk("no read-back face -> the width's extrapolation is untested, not supported",
+            _fx_absent["present"] is False and _fx_absent["verdict"] is None
+            and "never tested" in (_fx_absent["detail"] or ""))
+        with open(os.path.join(_fx_dir, BUFFER_READBACK_FILE), "w", encoding="utf-8") as _fh:
+            json.dump({"buffer_k": 0.3, "predicted_pp": 0.227, "observed_pp": 0.318,
+                       "gap_pp": 0.091, "tolerance_pp": 0.077, "verdict": "REFUTED",
+                       "verdict_reasons": ["the line misses its own test point"],
+                       "evidence_cutoff": "2026-10-29"}, _fh)
+        _fx_rd = floor_extrapolation_face()
+        chk("the read-back face is quoted verbatim, numbers and verdict together",
+            _fx_rd["present"] is True and _fx_rd["verdict"] == "REFUTED"
+            and _fx_rd["gap_pp"] == 0.091 and _fx_rd["tolerance_pp"] == 0.077
+            and "misses" in (_fx_rd["detail"] or ""))
+    finally:
+        E.PATHS.results_dir = _keep_res2
+        shutil.rmtree(_fx_dir, ignore_errors=True)
+
     def _render_with_fc(fc):
         global OUT_DIR
         p = dict(_pb_out)
@@ -3046,6 +3138,30 @@ def selftest():
                                         "null_calibration": {"status": "absent"}})
         chk("card says the labels are uncalibrated rather than implying they discriminate",
             "uncalibrated" in _t_nc_absent and "96.5%" not in _t_nc_absent)
+        # r1644: the width is the x of a line continued past its last measured arm. The
+        # read-back face prices the point it never saw; the card quotes that answer where the
+        # width is licensed, and an absent read-back is "never tested", not "holds".
+        _t_fx_bad = _render_with_fc(
+            {"verdict": "ONE_WORLD", "arms": 11, "panels": ["a1a4"], "priced_same_panel": True,
+             "floor_extrapolation": {"present": True, "verdict": "REFUTED", "buffer_k": 0.3,
+                                     "predicted_pp": 0.227, "observed_pp": 0.318,
+                                     "gap_pp": 0.091, "tolerance_pp": 0.077,
+                                     "evidence_cutoff": "2026-10-29"}})
+        chk("card says the width's own test point refutes the line",
+            "refutes it" in _t_fx_bad and "0.091" in _t_fx_bad and "0.077" in _t_fx_bad)
+        _t_fx_ok = _render_with_fc(
+            {"verdict": "ONE_WORLD", "arms": 11, "panels": ["a1a4"], "priced_same_panel": True,
+             "floor_extrapolation": {"present": True, "verdict": "HOLDS", "buffer_k": 0.3,
+                                     "predicted_pp": 0.227, "observed_pp": 0.201,
+                                     "gap_pp": -0.026, "tolerance_pp": 0.077}})
+        chk("a line that holds its point is not printed as refuted",
+            "holds its test point" in _t_fx_ok and "refutes it" not in _t_fx_ok)
+        _t_fx_absent = _render_with_fc(
+            {"verdict": "ONE_WORLD", "arms": 11, "panels": ["a1a4"], "priced_same_panel": True,
+             "floor_extrapolation": {"present": False, "verdict": None,
+                                     "detail": "read-back face absent"}})
+        chk("an untested extrapolation is disclosed rather than read as support",
+            "never tested" in _t_fx_absent and "holds its test point" not in _t_fx_absent)
     finally:
         OUT_DIR = _keep_out2
         shutil.rmtree(_pb_dir2, ignore_errors=True)

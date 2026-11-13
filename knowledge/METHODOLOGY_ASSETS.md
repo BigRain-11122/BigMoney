@@ -14480,3 +14480,17 @@ exec_delta 卖 313,872.90 / 买 354,253.10、动 668,126.00 元）。它们红�
 MATCHED／L18 异 bar NOT_EVALUATED 且点名两根 bar／L19 同 bar 差异仍 MISMATCH／L20 无 bar 老票面
 走严格）；`scripts/etf_book_forward.py` 该腿重写后 `--selftest` OK；`etf_book_exec_delta.py run` 与
 `etf_book_scale_floor.py check` 链后实跑 rc0（floor=0 top2=0.7039 CONDITIONAL）。
+
+### E607 · 判据的方向写错，只有「缺陷永不发生」时那条腿才是绿（r1644 bm-c）
+
+tf_book_buffer_floor_readback 是 r1355 建的检验面：宽度门槛 k=7.79 是把已测的几臂拟合成一条线再往外延长得到的，于是拿这条线**没见过的点**（k=0.30）去问「线还成立吗」。面自己的规则写得很清楚——观察值与预测值差 0.091pp、容差 0.077pp，判 **REFUTED**（外推在那个距离上没有撑腰）。而守着它的 smoke 腿写的是「只要超出容差就红」，于是**这条腿只有在这条线永远不被检验时才是绿的**：面越诚实地说出坏消息，腿越红。
+
+**正法**：检验类腿不许判「坏消息有没有发生」，只许判「面有没有如实说」——从面上已发布的数字重推判词（gap > tol 或观察与预测符号相反 → 应为 REFUTED，否则 HOLDS），只在**词与算术不一致**时红。规则与 
+eadback_of() 同源，不另写一套。
+
+**第二层（同族）**：这条面写出来之后**从未被任何人类面读过**——卡片、票面、一页纸都不读它（r1108/E240「有产无读」）。所以 tf_book_production.family_coherence() 发布 loor_extrapolation 子块，卡片与 CEO 页在「这个名数有没有实测撑腰」一节各印一句；**面缺席读「没测过」，不是「成立」**，且 payload 里没有这个键时沉默（旧卡片不印无意义的句子）。
+
+**How**：写「检验 A 是否成立」的腿时先问一句——*A 不成立时这条腿该是什么颜色？* 如果答案是红，那它测的不是 A 的真假，而是「坏消息别出现」。任何一次「面被判负 → 腿变红」的现场，先怀疑腿的方向，再怀疑面。
+
+**实锚**：smoke_test.py 该腿重写（三态重推）；scripts/etf_book_production.py::floor_extrapolation_face（selftest +5：面缺席／面读取／REFUTED 句／HOLDS 句／未测句）；scripts/etf_book_ceo_page.py L56d2-d4（287/287 PASS）；卡片真数据实读 
+esults/etf_book_production/CARD.md。

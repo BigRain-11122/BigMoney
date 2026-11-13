@@ -884,6 +884,19 @@ def permission_face(perm_path=PERMISSION_JSON, gap_path=CUT_GAP_JSON,
     return out
 
 
+# r1644: the verdict -> sentence table was a literal inside permission_block, so the
+# selftest leg beside it could only pin ONE verdict's wording and kept demanding the
+# REAPPLY_REQUIRED sentence after the floor ledger started reporting REISSUE_REQUIRED.
+# One table, read by both the renderer and its leg, so a new verdict cannot pass by
+# printing nothing.
+FLOOR_VERDICT_ZH = {
+    "REAPPLY_REQUIRED": "**这张单守住了，但排程没有**：下一张单会重新超额度，除非在那根决策 bar 上重新裁一次",
+    "HOLDING": "**仓位本身就在额度之下**，没有需要修剪的东西",
+    "NOT_ENFORCED": "**这张单也没有守住额度**",
+    "REISSUE_REQUIRED": "**额度是按一张已经被取代的票定的**，要重新签发",
+}
+
+
 def permission_block(pf):
     """The lines this page prints about the size limit behind the list above."""
     L = []
@@ -987,10 +1000,7 @@ def permission_block(pf):
                 % format(over, ",.0f"))
     fv = pf.get("floor_verdict")
     if fv:
-        zh = {"REAPPLY_REQUIRED": "**这张单守住了，但排程没有**：下一张单会重新超额度，除非在那根决策 bar 上重新裁一次",
-              "HOLDING": "**仓位本身就在额度之下**，没有需要修剪的东西",
-              "NOT_ENFORCED": "**这张单也没有守住额度**",
-              "REISSUE_REQUIRED": "**额度是按一张已经被取代的票定的**，要重新签发"}.get(fv, "**%s**" % fv)
+        zh = FLOOR_VERDICT_ZH.get(fv, "**%s**" % fv)
         add("")
         add("- 地板台账（`results/etf_book_floor_ledger.json`）：%s。" % zh)
         if pf.get("floor_sentence"):
@@ -6568,6 +6578,29 @@ def render_md(p, sb=None):
         add("- **不知道。** 读不到宽度臂家族的面（%s）。这是「没验」，不是「没问题」——"
             "上表的读数仍然有效，但它选的那个名数没有实测撑着。"
             % (fc.get("detail") or "家族面缺席"))
+    # r1644: even a one-world family hands back a width by continuing a line past its last
+    # measured arm. The read-back face prices the point that line never saw; quote its answer
+    # where the name count is licensed, because "measured" and "extrapolated" are the two
+    # things this section is for.
+    fx = fc.get("floor_extrapolation")
+    if fx is None:
+        pass                      # a family face written before r1644 never tested it
+    elif fx.get("present") and fx.get("verdict"):
+        _fx_nums = ("外推点 k=%s 上，线说 %+.3f 个百分点、这一臂自己的格子说 %+.3f 个百分点"
+                    "（差 %.3f，容差 %.3f）"
+                    % ("%.2f" % fx["buffer_k"] if fx.get("buffer_k") is not None else "?",
+                       fx.get("predicted_pp") or 0.0, fx.get("observed_pp") or 0.0,
+                       abs(fx.get("gap_pp") or 0.0), fx.get("tolerance_pp") or 0.0))
+        if fx["verdict"] == "REFUTED":
+            add("- **再往下问一层：这个名数是外推出来的，而外推线自己的检验点把它否了。**"
+                "宽度门槛是从已测的几臂上拟合一条线、再往外延长得到的；%s，所以回收面判 **REFUTED**。"
+                "把它读成「外推、且在那么远的地方没有撑腰」，别读成量出来的数。" % _fx_nums)
+        else:
+            add("- **再往下问一层：这个名数是外推出来的，外推点落在线上。** %s——"
+                "仍然是延长出来的，只是它没见过的那一点没有掉出容差。" % _fx_nums)
+    else:
+        add("- **再往下问一层：没人测过这条外推线。** 宽度门槛是延长出来的，"
+            "而盘上没有回收面回答「线在那个点上还成立吗」——这是「没验」，不是「成立」。")
     # r1627: a date with a chain leg next to it reads as "it will catch up by itself". This
     # section's bar is set by eleven engine runs behind the arm faces, and the leg that guards
     # it only re-aggregates them -- so its age is data debt and no chain cycle will fix it.
@@ -7700,13 +7733,22 @@ def selftest():
     # unproduced. The provenance is read off the panel itself (never hand-typed), and an
     # unreadable panel returns None -- the same "must not print as fresh" rule as L32.
     _pc = page.get("page_computed") or {}
+    # r1644: the body used to require every section to report the SAME bar as cash_yield.
+    # That holds only while all four read one file -- cash_ladder reads the whole
+    # data/repo_daily directory (all tenors), and on 11-13 GC001/R-001 still ended 11-11
+    # while GC003/GC007/R-003/R-007 were current, so the leg read a real, honest
+    # difference as a defect. What the name promises is "its panel and that panel's own
+    # last bar": each section is checked against ITS OWN panel, and sections that share a
+    # panel still have to agree (that falls out of the same comparison).
+    _pc_own = {k: _panel_last_bar(v.get("panel") or "") for k, v in _pc.items()}
     chk("L34a provenance: every self-computed cash section names its panel and that panel's own last bar",
         set(_pc) == {"cash_yield", "cash_money", "cash_ladder", "cash_handshake"}
         and all(v.get("panel") and v.get("owner_lane") and v.get("computed_by")
                 for v in _pc.values())
-        and all(v.get("panel_last_bar") == _pc["cash_yield"]["panel_last_bar"]
-                for v in _pc.values()),
-        "panels=%s" % sorted({v.get("panel") for v in _pc.values()}))
+        and all(v.get("panel_last_bar") == _pc_own[k] for k, v in _pc.items()),
+        "panels=%s declared=%s own=%s" % (
+            sorted({v.get("panel") for v in _pc.values()}),
+            {k: v.get("panel_last_bar") for k, v in _pc.items()}, _pc_own))
     _plb = _panel_last_bar("data/repo_daily/GC001.csv")
     chk("L34b provenance: the declared bar is the panel's own, not a constant in this file",
         _plb == _pc.get("cash_yield", {}).get("panel_last_bar")
@@ -8045,6 +8087,30 @@ def selftest():
         and "别把频率当今天的" not in _md_nc, "")
     chk("L56d null calibration: an absent face reads 'cannot answer here', never a pass",
         "答不了" in _md_nc_absent and "96.5%" not in _md_nc_absent, "")
+    # L56d2-L56d4 (r1644): the width itself is the x of a line continued past its last
+    # measured arm. The read-back face prices the point it never saw -- three states.
+    _md_fx_bad = _render_fc({"verdict": "ONE_WORLD", "arms": 11, "panels": ["deadbeef"],
+                             "evidence_cutoff": "2026-11-12",
+                             "floor_extrapolation": {"present": True, "verdict": "REFUTED",
+                                                     "buffer_k": 0.3, "predicted_pp": 0.227,
+                                                     "observed_pp": 0.318, "gap_pp": 0.091,
+                                                     "tolerance_pp": 0.077}})
+    _md_fx_ok = _render_fc({"verdict": "ONE_WORLD", "arms": 11, "panels": ["deadbeef"],
+                            "evidence_cutoff": "2026-11-12",
+                            "floor_extrapolation": {"present": True, "verdict": "HOLDS",
+                                                    "buffer_k": 0.3, "predicted_pp": 0.227,
+                                                    "observed_pp": 0.201, "gap_pp": -0.026,
+                                                    "tolerance_pp": 0.077}})
+    _md_fx_absent = _render_fc({"verdict": "ONE_WORLD", "arms": 11, "panels": ["deadbeef"],
+                                "evidence_cutoff": "2026-11-12",
+                                "floor_extrapolation": {"present": False, "verdict": None,
+                                                        "detail": "read-back face absent"}})
+    chk("L56d2 width floor: a refuted extrapolation says so with its gap and tolerance",
+        "REFUTED" in _md_fx_bad and "0.091" in _md_fx_bad and "0.077" in _md_fx_bad, "")
+    chk("L56d3 width floor: a line that holds its point is not printed as refuted",
+        "外推点落在线上" in _md_fx_ok and "REFUTED" not in _md_fx_ok, "")
+    chk("L56d4 width floor: an untested extrapolation reads 'nobody tested', never 'holds'",
+        "没人测过" in _md_fx_absent and "REFUTED" not in _md_fx_absent, "")
     # L56e-L56g (r1637): a frequency says the label is cheap, not which arm it is cheap about.
     _md_sf = _render_fc({"verdict": "ONE_WORLD", "arms": 11, "panels": ["deadbeef"],
                          "evidence_cutoff": "2026-11-12",
@@ -9333,12 +9399,20 @@ def selftest():
                                                   ((_pf.get("trim") or {}).get("k_after")),
                                                   _pf_over))
     _pf_txt = "\n".join(permission_block(_pf))
+    # r1644: this leg required the REAPPLY_REQUIRED sentence unconditionally, because that
+    # was the verdict when it was written. The ledger now also reports REISSUE_REQUIRED /
+    # HOLDING / NOT_ENFORCED, each with its own honest sentence -- the invariant is "the
+    # block prints the sentence belonging to the verdict it carries, and no other", read
+    # off the same table the renderer reads.
+    _fv_now = _pf.get("floor_verdict")
+    _fv_seen = [v for v, s in FLOOR_VERDICT_ZH.items() if s in _pf_txt]
     chk("L145 permission block: the live face states its position against the floor and warns "
         "that the next decision bar re-sizes over it, printing lots only when it is over",
         ("超出额度" in _pf_txt and "卖出手数" in _pf_txt if _pf_over
          else "超出额度" not in _pf_txt and "卖出手数" not in _pf_txt)
-        and "排程没有" in _pf_txt,
-        "over=%s txt_has_trim=%s" % (_pf.get("over_cny"), "卖出手数" in _pf_txt))
+        and (_fv_now is None or _fv_seen == [_fv_now]),
+        "over=%s txt_has_trim=%s verdict=%s printed=%s"
+        % (_pf.get("over_cny"), "卖出手数" in _pf_txt, _fv_now, _fv_seen))
     _pf_missing = permission_face(perm_path=os.path.join(tempfile.mkdtemp(), "absent.json"))
     _pf_missing_txt = "\n".join(permission_block(_pf_missing))
     chk("L146 permission block: a missing receipt reads 'cannot verify', never 'no cut needed'",
