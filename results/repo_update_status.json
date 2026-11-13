@@ -3,8 +3,8 @@
     "GC001",
     "R-001"
   ],
-  "ts": "2026-11-13T23:07:38",
-  "mode": "no-op: cutoff covered",
+  "ts": "2026-11-14T02:13:24",
+  "mode": "full-history pull, append-only local, overlap-verified",
   "per_term": [
     {
       "term": "GC001",
@@ -182,21 +182,21 @@
   "data_cutoff": "2026-11-13",
   "authority": {
     "lane_owner": "bm-a",
-    "writer_machine": "bm-a",
-    "data_face_machine": "bm-a",
-    "declared_takeover": false,
-    "took_over_by": null,
-    "took_over_at": null,
-    "reason": null
+    "writer_machine": "bm-c",
+    "data_face_machine": "bm-c",
+    "declared_takeover": true,
+    "took_over_by": "bm-c",
+    "took_over_at": "2026-11-14T02:13:24",
+    "reason": "owner bm-a heartbeat silent 3.0h >= 120min"
   },
-  "machine": "bm-a",
+  "machine": "bm-c",
   "lane_host": "bm-a",
   "last_attempt_cleared": {
     "ts": "2026-11-09T21:17:49",
     "by": "bm-a r1276",
     "why": "stamped by the pre-r1276 no-op branch; no fetch occurred (data_cutoff unchanged)"
   },
-  "last_attempt": "2026-11-13T20:17:59",
+  "last_attempt": "2026-11-14T02:13:24",
   "last_noop_ts": "2026-11-13T23:07:38",
   "data_cutoff_max": "2026-11-13",
   "laggards": [],
@@ -213,5 +213,10 @@
     "R-003": "2026-11-13",
     "R-007": "2026-11-13"
   },
-  "no_op_reason": "local cutoff 2026-11-13 covers expected complete-bar date 2026-11-13"
+  "takeover": {
+    "owner": "bm-a",
+    "by": "bm-c",
+    "reason": "owner bm-a heartbeat silent 3.0h >= 120min",
+    "ts": "2026-11-14T02:13:24"
+  }
 }

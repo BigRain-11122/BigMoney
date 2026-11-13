@@ -1,6 +1,6 @@
 {
  "schema": "etf-book-forward-settle-audit/v1",
- "generated": "2026-11-13T21:11:31+0800",
+ "generated": "2026-11-14T02:18:11+0800",
  "evidence_cutoff": "2026-11-13",
  "ledger": {
   "path": "results\\etf_book_forward\\LEDGER.json",
@@ -26,10 +26,9 @@
   "drift": {
    "faces": [],
    "max_abs": 0.0,
-   "checked_bars": 15,
+   "checked_bars": 16,
    "gate": "settled_bars_only",
    "settled_bars": [
-    "2026-10-29",
     "2026-10-30",
     "2026-11-02",
     "2026-11-03",
@@ -38,10 +37,11 @@
     "2026-11-06",
     "2026-11-09",
     "2026-11-10",
-    "2026-11-11"
+    "2026-11-11",
+    "2026-11-12"
    ],
    "provisional_bars": [
-    "2026-11-12"
+    "2026-11-13"
    ],
    "carry_last_bar": "2026-11-13",
    "settled_faces": [],
@@ -111,14 +111,14 @@
    "drift_faces_are_provisional": true,
    "no_settled_bar_drifted": true,
    "worst_within_tol": true,
-   "checked_bars": 15,
+   "checked_bars": 16,
    "published_bars": 16
   },
   "newest_bar": "2026-11-13",
   "panel_last_date": "2026-11-13"
  },
  "restatement": {
-  "n_restated": 2,
+  "n_restated": 3,
   "restated_bars": [
    {
     "bar": "2026-10-29",
@@ -160,10 +160,28 @@
     "history_status": "published_value_never_committed",
     "history_note": "no committed ledger still carried nav 1.0037553579 for 2026-11-03 -- the movement happened between commits",
     "resolved_by_history": false
+   },
+   {
+    "bar": "2026-11-12",
+    "now_settled": true,
+    "now_provisional": false,
+    "on_row": true,
+    "nav_published": 1.0110335008,
+    "nav_settled": 1.0110284683,
+    "nav_factor_applied": 0.99999502242,
+    "later_rows_rescaled": 1,
+    "rescaled_known": true,
+    "chain_verdict": "broken",
+    "restated_at": "2026-11-13T23:20:05+0800",
+    "tail_rows_total": 1,
+    "tail_rows_settled": 0,
+    "restated_value_fails_gate_now": false
    }
   ],
-  "n_restated_now_settled": 2,
-  "chain_measured_on": [],
+  "n_restated_now_settled": 3,
+  "chain_measured_on": [
+   "2026-11-12"
+  ],
   "chain_unmeasured_on": [
    "2026-11-03"
   ],
@@ -175,21 +193,23 @@
     "note": "the ledger held no row behind 2026-10-29 when the published value was committed: the restatement had nothing to move"
    }
   ],
-  "chain_broken_on": [],
+  "chain_broken_on": [
+   "2026-11-12"
+  ],
   "fail_gate_now": [],
   "settled_bars_policed_now": 15,
-  "ledger_checked_bars_field": 15,
+  "ledger_checked_bars_field": 16,
   "ledger_checked_bars_note": "the ledger's checked_bars counts published bars, not re-derived ones; settled_bars_policed_now is the set this audit makes a claim about",
   "checks": {
    "restated_settled_bars_reproduce": true,
-   "no_restatement_left_a_broken_chain": true,
+   "no_restatement_left_a_broken_chain": false,
    "chain_measured_where_it_moved": false,
    "restated_bars_carry_both_values": true
   },
-  "verdict": "restatement_moved_rows_whose_chain_was_never_measured"
+  "verdict": "restatement_left_a_broken_chain"
  },
  "data_lag_audit": {
-  "as_of": "2026-11-13T21:01:40",
+  "as_of": "2026-11-14T02:10:04",
   "coverage_by_day": {
    "2026-11-02": 1.0,
    "2026-11-03": 1.0,
@@ -200,12 +220,12 @@
    "2026-11-10": 1.0,
    "2026-11-11": 1.0,
    "2026-11-12": 1.0,
-   "2026-11-13": 0.0284
+   "2026-11-13": 0.9977
   },
-  "detail": "2026-11-13 is an official trading day; the market closed 5.5h ago and no bar has been published to this panel yet",
-  "ledger_last_bar": "2026-11-12"
+  "detail": "the maintained panel covers every official trading day it should by now",
+  "ledger_last_bar": "2026-11-13"
  },
- "headline": "ledger re-derives clean | 2 published bar(s) restated after publication, 2 of them inside today's settled partition; the record does not say how many later rows moved behind 2026-11-03; 2026-10-29 (no_later_rows_at_publication) is settled from the committed ledger: the ledger held no row behind 2026-10-29 when the published value was committed: the restatement had nothing to move; every restated settled bar re-derives off the panel now",
+ "headline": "ledger re-derives clean | 3 published bar(s) restated after publication, 3 of them inside today's settled partition; chain verified on 2026-11-12; the record does not say how many later rows moved behind 2026-11-03; 2026-10-29 (no_later_rows_at_publication) is settled from the committed ledger: the ledger held no row behind 2026-10-29 when the published value was committed: the restatement had nothing to move; CHAIN BROKEN on 2026-11-12; every restated settled bar re-derives off the panel now",
  "recommended_rule": "A drift gate may only police SETTLED bars. The newest published bar is provisional until its panel date stops gaining symbols (coverage stable across consecutive runs); while it is provisional, a re-derivation mismatch is expected and must be reported, not frozen on -- and never bought with a history rewrite.",
  "caveats": [
   "Point-in-time coverage at pricing time is not recorded anywhere, so 'the panel was still filling' is inferred from the panel's current shape (post-close arrivals) plus the timestamp of the run that priced the bar, not observed directly.",

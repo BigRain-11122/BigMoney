@@ -337,9 +337,9 @@
   "admission": {
    "readable": true,
    "path": "results/etf_book_year_gate/YEAR-GATE.json",
-   "asof": "2026-11-14T00:59:20+0800",
+   "asof": "2026-11-13T16:23:28+0800",
    "data_last": "2026-11-13",
-   "prior_data_last": "2026-11-13",
+   "prior_data_last": "2026-11-12",
    "line": 0.7,
    "book": "nobond_vt08_adopted",
    "found": true,
@@ -370,7 +370,7 @@
    "margin_to_line": -0.0039,
    "prior": {
     "verdict": "CONDITIONAL",
-    "top2_share": 0.7039
+    "top2_share": 0.7007
    },
    "verdict_changed": false,
    "positive_years": 7,
@@ -378,36 +378,7 @@
    "median": 5.6072,
    "worst": 2.6828,
    "capacity_cny": 39783633.0,
-   "trails_ledger": false,
-   "scale_free": {
-    "statistic": "cagr with the two best years replaced by the book's own median year, over the full cagr (prereg 2026-11-13)",
-    "retained_without_top2": 0.4597,
-    "cagr_without_top2_pct": 5.0511,
-    "median_year_pct": 5.6072,
-    "replaced_years": [
-     "2025",
-     "2024"
-    ],
-    "years": 7,
-    "detail": null,
-    "note": "never an admission input; printed so the Y4 line is not read as a ranking of shapes"
-   },
-   "y4_vs_scale_free": {
-    "compared": 3,
-    "agrees": true,
-    "y4_order_best_first": [
-     "nobond_base",
-     "nobond_vt08_adopted",
-     "all_classes_published"
-    ],
-    "scale_free_order_best_first": [
-     "nobond_base",
-     "nobond_vt08_adopted",
-     "all_classes_published"
-    ],
-    "note": null,
-    "reading": "both statistics put these books in the same order, so on this gate's own books the level-vs-shape complaint changes no ranking -- it shows up between a book and a do-nothing shape, not between these books"
-   }
+   "trails_ledger": false
   }
  },
  "decision": "HOLD: 18 bars until the next decision point",
@@ -493,7 +464,11 @@
     "faces": [
      "baseline",
      "buffer_k02",
-     "buffer_k05"
+     "buffer_k05",
+     "buffer_k10",
+     "buffer_k20",
+     "buffer_k40",
+     "cost0"
     ],
     "last": "2026-11-13",
     "bars": 5280,
@@ -504,10 +479,6 @@
     "digest": "e383c3a68f5f98af",
     "faces": [
      "buffer_k05_cost20",
-     "buffer_k10",
-     "buffer_k20",
-     "buffer_k40",
-     "cost0",
      "cost05",
      "cost20",
      "cost40"
@@ -521,14 +492,14 @@
   "priced_same_panel": false,
   "comparable": [
    "buffer_k02",
-   "buffer_k05"
-  ],
-  "withheld": [
-   "buffer_k05_cost20",
+   "buffer_k05",
    "buffer_k10",
    "buffer_k20",
    "buffer_k40",
-   "cost0",
+   "cost0"
+  ],
+  "withheld": [
+   "buffer_k05_cost20",
    "cost05",
    "cost20",
    "cost40"
@@ -537,10 +508,6 @@
    "readable": false,
    "withheld": [
     "buffer_k05_cost20",
-    "buffer_k10",
-    "buffer_k20",
-    "buffer_k40",
-    "cost0",
     "cost05",
     "cost20",
     "cost40"
@@ -566,26 +533,26 @@
     },
     {
      "arm": "buffer_k10",
-     "verdict": "WORLDS_NOT_COMPARABLE",
-     "readable": false,
+     "verdict": "NOT-SEPARABLE",
+     "readable": true,
      "description": "buffer k=0.10 on every cell (the middle of the family r1325 named as a cost knob; declared in the pool at r1351 before this face existed)"
     },
     {
      "arm": "buffer_k20",
-     "verdict": "WORLDS_NOT_COMPARABLE",
-     "readable": false,
+     "verdict": "NOT-SEPARABLE",
+     "readable": true,
      "description": "buffer k=0.20 on every cell (the strongest arm -- if even this stays inside every cell's band, the buffer family is unmeasurable on this design, not negative)"
     },
     {
      "arm": "buffer_k40",
-     "verdict": "WORLDS_NOT_COMPARABLE",
-     "readable": false,
+     "verdict": "REJECT",
+     "readable": true,
      "description": "buffer k=0.40 on every cell (8x the r1325 arm -- the far end, where a real buffer finally has to hurt)"
     },
     {
      "arm": "cost0",
-     "verdict": "WORLDS_NOT_COMPARABLE",
-     "readable": false,
+     "verdict": "NOT-SEPARABLE",
+     "readable": true,
      "description": "0bp/side on the whole grid (no toll at all) -- if the ordering only appears here, the ordering is bought with the toll and the 10bp reading stands"
     },
     {

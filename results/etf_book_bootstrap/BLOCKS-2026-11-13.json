@@ -1,0 +1,421 @@
+{
+ "evidence_cutoff": "2026-11-13",
+ "script": "scripts/etf_book_nav_envelope.py",
+ "question": "how much of the published envelope is the block length rather than the book?",
+ "arm_set": [
+  1,
+  5,
+  10,
+  20,
+  40,
+  60,
+  120,
+  250
+ ],
+ "arms": [
+  {
+   "file": "ENVELOPE-2026-11-13-b1.json",
+   "block": 1,
+   "n_resamples": 2000,
+   "cagr": {
+    "1": 0.002402206798749403,
+    "5": 0.02788770081868579,
+    "25": 0.06753590545316607,
+    "50": 0.09683254377846617,
+    "75": 0.12615730277347553,
+    "95": 0.16593880152313145,
+    "99": 0.19893645321998044
+   },
+   "sharpe": {
+    "1": 0.07643015568088213,
+    "5": 0.31744002573032865,
+    "25": 0.7032774318731128,
+    "50": 0.9802292932450278,
+    "75": 1.2566450417108788,
+    "95": 1.6363909815398128,
+    "99": 1.9084064928787894
+   },
+   "maxdd": {
+    "1": -0.307983993725125,
+    "5": -0.25090757919217777,
+    "25": -0.1795406636580593,
+    "50": -0.144712233021424,
+    "75": -0.11906541329782877,
+    "95": -0.09215252348906283,
+    "99": -0.07907737588987188
+   },
+   "point_pctile": {
+    "cagr": 49.1,
+    "sharpe": 50.6,
+    "maxdd": 76.2
+   },
+   "shares": {
+    "cagr_le_zero": 0.007,
+    "maxdd_le_line": 0.161,
+    "n_resamples": 2000
+   },
+   "reading": "block bootstrap (2000 resamples, block=1 bars): CAGR p5/p50/p95 = 2.79%/9.68%/16.59% per year, Sharpe 0.32/0.98/1.64, maxDD -25.09%/-14.47%/-9.22%; the published point estimate 9.59% sits at the 49.1 pctile; 0.7% of resamples lose money and 16.1% break a -20% drawdown | these are the published book's own numbers: this series reads 9.59% against the production cell n12_vt08 at 9.59%"
+  },
+  {
+   "file": "ENVELOPE-2026-11-13-b5.json",
+   "block": 5,
+   "n_resamples": 2000,
+   "cagr": {
+    "1": 0.008913062899020134,
+    "5": 0.029640115656926303,
+    "25": 0.0669615011427021,
+    "50": 0.09554226073335881,
+    "75": 0.12489569439333709,
+    "95": 0.16741657928865722,
+    "99": 0.1997473183320435
+   },
+   "sharpe": {
+    "1": 0.14032606696095493,
+    "5": 0.3331916353001858,
+    "25": 0.7022135701810504,
+    "50": 0.9711936408768317,
+    "75": 1.2490823575029844,
+    "95": 1.640538282142922,
+    "99": 1.9281638357809123
+   },
+   "maxdd": {
+    "1": -0.2941942309467405,
+    "5": -0.24251393225419124,
+    "25": -0.17840299410728946,
+    "50": -0.14570356717349436,
+    "75": -0.12036535376821766,
+    "95": -0.09349868733865314,
+    "99": -0.0786936905671388
+   },
+   "point_pctile": {
+    "cagr": 50.4,
+    "sharpe": 51.5,
+    "maxdd": 77.2
+   },
+   "shares": {
+    "cagr_le_zero": 0.006,
+    "maxdd_le_line": 0.146,
+    "n_resamples": 2000
+   },
+   "reading": "block bootstrap (2000 resamples, block=5 bars): CAGR p5/p50/p95 = 2.96%/9.55%/16.74% per year, Sharpe 0.33/0.97/1.64, maxDD -24.25%/-14.57%/-9.35%; the published point estimate 9.59% sits at the 50.4 pctile; 0.6% of resamples lose money and 14.6% break a -20% drawdown | these are the published book's own numbers: this series reads 9.59% against the production cell n12_vt08 at 9.59%"
+  },
+  {
+   "file": "ENVELOPE-2026-11-13-b10.json",
+   "block": 10,
+   "n_resamples": 2000,
+   "cagr": {
+    "1": 0.005168130625601545,
+    "5": 0.03076874507819468,
+    "25": 0.06722731393067954,
+    "50": 0.09419020453854443,
+    "75": 0.12084303238098315,
+    "95": 0.16182883334845385,
+    "99": 0.19380468268814036
+   },
+   "sharpe": {
+    "1": 0.1018701721521046,
+    "5": 0.34656302863116006,
+    "25": 0.6980952153582141,
+    "50": 0.9568343459449812,
+    "75": 1.2087314075726148,
+    "95": 1.5851760784192215,
+    "99": 1.8541273661432638
+   },
+   "maxdd": {
+    "1": -0.28641362700773004,
+    "5": -0.23168994965389347,
+    "25": -0.17332611584205956,
+    "50": -0.14113194442049848,
+    "75": -0.1170505170874909,
+    "95": -0.09206804301191936,
+    "99": -0.07908385772240752
+   },
+   "point_pctile": {
+    "cagr": 51.8,
+    "sharpe": 52.6,
+    "maxdd": 74.5
+   },
+   "shares": {
+    "cagr_le_zero": 0.005,
+    "maxdd_le_line": 0.131,
+    "n_resamples": 2000
+   },
+   "reading": "block bootstrap (2000 resamples, block=10 bars): CAGR p5/p50/p95 = 3.08%/9.42%/16.18% per year, Sharpe 0.35/0.96/1.59, maxDD -23.17%/-14.11%/-9.21%; the published point estimate 9.59% sits at the 51.8 pctile; 0.5% of resamples lose money and 13.1% break a -20% drawdown | these are the published book's own numbers: this series reads 9.59% against the production cell n12_vt08 at 9.59%"
+  },
+  {
+   "file": "ENVELOPE-2026-11-13.json",
+   "block": 20,
+   "n_resamples": 2000,
+   "cagr": {
+    "1": 0.009957903922796536,
+    "5": 0.035685064418817594,
+    "25": 0.07010818568342603,
+    "50": 0.09447176058848739,
+    "75": 0.12038621826764684,
+    "95": 0.16619282352948186,
+    "99": 0.19634528250623734
+   },
+   "sharpe": {
+    "1": 0.1500162070416231,
+    "5": 0.4003097762668967,
+    "25": 0.7361992407031331,
+    "50": 0.9617959795620259,
+    "75": 1.208761363228108,
+    "95": 1.5852889042991487,
+    "99": 1.863804187135208
+   },
+   "maxdd": {
+    "1": -0.2589863562986726,
+    "5": -0.21261766277534758,
+    "25": -0.1578943940559118,
+    "50": -0.13209591686015815,
+    "75": -0.110609802077439,
+    "95": -0.0885434435615475,
+    "99": -0.07594145131477185
+   },
+   "point_pctile": {
+    "cagr": 51.2,
+    "sharpe": 53.3,
+    "maxdd": 66.8
+   },
+   "shares": {
+    "cagr_le_zero": 0.005,
+    "maxdd_le_line": 0.07,
+    "n_resamples": 2000
+   },
+   "reading": "block bootstrap (2000 resamples, block=20 bars): CAGR p5/p50/p95 = 3.57%/9.45%/16.62% per year, Sharpe 0.40/0.96/1.59, maxDD -21.26%/-13.21%/-8.85%; the published point estimate 9.59% sits at the 51.2 pctile; 0.5% of resamples lose money and 7.0% break a -20% drawdown | these are the published book's own numbers: this series reads 9.59% against the production cell n12_vt08 at 9.59%"
+  },
+  {
+   "file": "ENVELOPE-2026-11-13-b40.json",
+   "block": 40,
+   "n_resamples": 2000,
+   "cagr": {
+    "1": 0.008483598526527983,
+    "5": 0.03342451350862576,
+    "25": 0.06942013591931823,
+    "50": 0.09515726302169303,
+    "75": 0.1206024173562209,
+    "95": 0.16389198519906753,
+    "99": 0.1986827264108753
+   },
+   "sharpe": {
+    "1": 0.13922170615789986,
+    "5": 0.38465840033914933,
+    "25": 0.7294341071417136,
+    "50": 0.96182845502567,
+    "75": 1.1912752953114265,
+    "95": 1.5565586389392518,
+    "99": 1.8081633350922253
+   },
+   "maxdd": {
+    "1": -0.2621158948010858,
+    "5": -0.21137425676016433,
+    "25": -0.15872135540219595,
+    "50": -0.12995493582075113,
+    "75": -0.10819367557412557,
+    "95": -0.08553283683292531,
+    "99": -0.07377094654252776
+   },
+   "point_pctile": {
+    "cagr": 50.9,
+    "sharpe": 52.8,
+    "maxdd": 63.8
+   },
+   "shares": {
+    "cagr_le_zero": 0.004,
+    "maxdd_le_line": 0.075,
+    "n_resamples": 2000
+   },
+   "reading": "block bootstrap (2000 resamples, block=40 bars): CAGR p5/p50/p95 = 3.34%/9.52%/16.39% per year, Sharpe 0.38/0.96/1.56, maxDD -21.14%/-13.00%/-8.55%; the published point estimate 9.59% sits at the 50.9 pctile; 0.4% of resamples lose money and 7.5% break a -20% drawdown | these are the published book's own numbers: this series reads 9.59% against the production cell n12_vt08 at 9.59%"
+  },
+  {
+   "file": "ENVELOPE-2026-11-13-b60.json",
+   "block": 60,
+   "n_resamples": 2000,
+   "cagr": {
+    "1": 0.007380174809738069,
+    "5": 0.03225961716956215,
+    "25": 0.06889385692161665,
+    "50": 0.09419818484909193,
+    "75": 0.12247556287711248,
+    "95": 0.16756032355239628,
+    "99": 0.19802926394558584
+   },
+   "sharpe": {
+    "1": 0.1234870153608979,
+    "5": 0.363846023569827,
+    "25": 0.7219299747781969,
+    "50": 0.9555273890365849,
+    "75": 1.218108427828431,
+    "95": 1.5899242634012902,
+    "99": 1.8635174957195415
+   },
+   "maxdd": {
+    "1": -0.25690337131349605,
+    "5": -0.2122216869532963,
+    "25": -0.15687398257783264,
+    "50": -0.13106142050487685,
+    "75": -0.10897921913087172,
+    "95": -0.08415245613943367,
+    "99": -0.07092852071890299
+   },
+   "point_pctile": {
+    "cagr": 51.5,
+    "sharpe": 53.3,
+    "maxdd": 66.5
+   },
+   "shares": {
+    "cagr_le_zero": 0.006,
+    "maxdd_le_line": 0.076,
+    "n_resamples": 2000
+   },
+   "reading": "block bootstrap (2000 resamples, block=60 bars): CAGR p5/p50/p95 = 3.23%/9.42%/16.76% per year, Sharpe 0.36/0.96/1.59, maxDD -21.22%/-13.11%/-8.42%; the published point estimate 9.59% sits at the 51.5 pctile; 0.6% of resamples lose money and 7.6% break a -20% drawdown | these are the published book's own numbers: this series reads 9.59% against the production cell n12_vt08 at 9.59%"
+  },
+  {
+   "file": "ENVELOPE-2026-11-13-b120.json",
+   "block": 120,
+   "n_resamples": 2000,
+   "cagr": {
+    "1": 0.006654519971253447,
+    "5": 0.02989345539004824,
+    "25": 0.06722880215086002,
+    "50": 0.0936745044721844,
+    "75": 0.12459294561685813,
+    "95": 0.173747138309258,
+    "99": 0.2054386689777549
+   },
+   "sharpe": {
+    "1": 0.11746181135833447,
+    "5": 0.35589384026774074,
+    "25": 0.7103317467415673,
+    "50": 0.957943065969138,
+    "75": 1.2181031209628235,
+    "95": 1.605577648130487,
+    "99": 1.8595045678238042
+   },
+   "maxdd": {
+    "1": -0.2497614830170634,
+    "5": -0.1988755976920769,
+    "25": -0.1545862416610052,
+    "50": -0.13128644410153567,
+    "75": -0.11077821115479738,
+    "95": -0.09229653831501043,
+    "99": -0.0755836394346696
+   },
+   "point_pctile": {
+    "cagr": 52.4,
+    "sharpe": 53.4,
+    "maxdd": 66.2
+   },
+   "shares": {
+    "cagr_le_zero": 0.005,
+    "maxdd_le_line": 0.049,
+    "n_resamples": 2000
+   },
+   "reading": "block bootstrap (2000 resamples, block=120 bars): CAGR p5/p50/p95 = 2.99%/9.37%/17.37% per year, Sharpe 0.36/0.96/1.61, maxDD -19.89%/-13.13%/-9.23%; the published point estimate 9.59% sits at the 52.4 pctile; 0.5% of resamples lose money and 4.9% break a -20% drawdown | these are the published book's own numbers: this series reads 9.59% against the production cell n12_vt08 at 9.59%"
+  },
+  {
+   "file": "ENVELOPE-2026-11-13-b250.json",
+   "block": 250,
+   "n_resamples": 2000,
+   "cagr": {
+    "1": 0.016125812537546705,
+    "5": 0.03470100623339837,
+    "25": 0.0628479197926336,
+    "50": 0.09160205272159783,
+    "75": 0.12534696343005963,
+    "95": 0.17850957831206743,
+    "99": 0.2088737820098485
+   },
+   "sharpe": {
+    "1": 0.21783354762808477,
+    "5": 0.39421711691267297,
+    "25": 0.6719748143351367,
+    "50": 0.9371278630202493,
+    "75": 1.2124108505200992,
+    "95": 1.605423310740882,
+    "99": 1.826115524144064
+   },
+   "maxdd": {
+    "1": -0.20007851713249877,
+    "5": -0.17362883627461476,
+    "25": -0.1409776904728678,
+    "50": -0.12295891129011127,
+    "75": -0.11268609751285738,
+    "95": -0.09707257507686534,
+    "99": -0.08458415691534782
+   },
+   "point_pctile": {
+    "cagr": 53.8,
+    "sharpe": 54.8,
+    "maxdd": 58.0
+   },
+   "shares": {
+    "cagr_le_zero": 0.001,
+    "maxdd_le_line": 0.011,
+    "n_resamples": 2000
+   },
+   "reading": "block bootstrap (2000 resamples, block=250 bars): CAGR p5/p50/p95 = 3.47%/9.16%/17.85% per year, Sharpe 0.39/0.94/1.61, maxDD -17.36%/-12.30%/-9.71%; the published point estimate 9.59% sits at the 53.8 pctile; 0.1% of resamples lose money and 1.1% break a -20% drawdown | these are the published book's own numbers: this series reads 9.59% against the production cell n12_vt08 at 9.59%"
+  }
+ ],
+ "arm_pcts_refreshed": [],
+ "spread": {
+  "cagr_p1": {
+   "min": 0.002402206798749403,
+   "max": 0.016125812537546705,
+   "range": 0.013723605738797301
+  },
+  "cagr_p5": {
+   "min": 0.02788770081868579,
+   "max": 0.035685064418817594,
+   "range": 0.0077973636001318035
+  },
+  "cagr_p50": {
+   "min": 0.09160205272159783,
+   "max": 0.09683254377846617,
+   "range": 0.005230491056868347
+  },
+  "cagr_p95": {
+   "min": 0.16182883334845385,
+   "max": 0.17850957831206743,
+   "range": 0.016680744963613575
+  },
+  "cagr_p99": {
+   "min": 0.19380468268814036,
+   "max": 0.2088737820098485,
+   "range": 0.015069099321708135
+  },
+  "maxdd_p1": {
+   "min": -0.307983993725125,
+   "max": -0.20007851713249877,
+   "range": 0.10790547659262625
+  },
+  "maxdd_p5": {
+   "min": -0.25090757919217777,
+   "max": -0.17362883627461476,
+   "range": 0.07727874291756301
+  },
+  "maxdd_p50": {
+   "min": -0.14570356717349436,
+   "max": -0.12295891129011127,
+   "range": 0.02274465588338309
+  },
+  "point_pctile_cagr": {
+   "min": 49.1,
+   "max": 53.8
+  },
+  "dd_break_share": {
+   "min": 0.011,
+   "max": 0.161
+  }
+ },
+ "thresholds_note": "the three readings below were fixed AFTER the arms were run, and are descriptive cut-offs (5 pctile pts / 3 pp / 1 pp), not gates: they name which sentences survive the parameter and which do not",
+ "reading": "block length 1/5/10/20/40/60/120/250: the headline's LOCATION is stable (point pctile 49.1 to 53.8, CAGR p50 9.16 to 9.68%/yr) while the TAIL is not (CAGR p5 2.79 to 3.57%, maxDD p5 -25.09 to -17.36%, share breaking -20% 1.1% to 16.1%); the worst 1% reads maxDD p1 -30.80 to -20.01% and CAGR p1 0.24 to 1.61%/yr",
+ "ultra_tail_published": true,
+ "readings": {
+  "headline_not_a_lucky_path": true,
+  "drawdown_tail_is_block_dependent": true,
+  "ultra_tail_is_block_dependent": true,
+  "median_cagr_stable": true
+ }
+}

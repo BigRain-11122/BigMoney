@@ -1,7 +1,7 @@
 {
  "evidence_cutoff": "2026-11-13",
  "beta_target": 0.2,
- "generated": "2026-11-13T23:40:53+08:00",
+ "generated": "2026-11-14T02:20:47+08:00",
  "permission": {
   "status": "within_permission",
   "k_now": 0.432195,
@@ -476,35 +476,35 @@
  },
  "cash_leg": {
   "source": "data/repo_daily/GC001.csv",
-  "mean_accrual_ann_pct": 2.081,
+  "mean_accrual_ann_pct": 2.082,
   "accrual_window": {
    "first": "2020-01-02",
    "last": "2026-11-13",
    "years": 6.86
   },
-  "missing_bar_steps": 1,
+  "missing_bar_steps": 0,
   "money": {
    "cash_amount_cny": 568230.4,
    "spot": {
-    "pct": 1.51,
-    "date": "2026-11-11",
-    "annual_cny": 8580.0,
+    "pct": 1.265,
+    "date": "2026-11-13",
+    "annual_cny": 7188.0,
     "quotes": 250
    },
    "mean_tail": {
-    "pct": 1.3523,
-    "annual_cny": 7684.0
+    "pct": 1.3518,
+    "annual_cny": 7681.0
    },
    "window": {
-    "pct": 2.081,
-    "annual_cny": 11825.0
+    "pct": 2.0816,
+    "annual_cny": 11828.0
    },
    "tail": 250,
    "fall_bp": 25.0,
    "verdict": "RATES_STEADY",
-   "sentence": "现金 ¥568,230 按 2026-11-11 报价 1.51% 一年赚 ¥8,580；按自己近 250 个报价的均值 1.35% 是 ¥7,684；按账本自己走过的全窗均值 2.08% 是 ¥11,825。今天的报价就在它自己的均值上，这一半该怎么算就怎么算。",
-   "spread_vs_tail_cny": 896.0,
-   "spread_vs_window_cny": -3245.0
+   "sentence": "现金 ¥568,230 按 2026-11-13 报价 1.26% 一年赚 ¥7,188；按自己近 250 个报价的均值 1.35% 是 ¥7,681；按账本自己走过的全窗均值 2.08% 是 ¥11,828。今天的报价就在它自己的均值上，这一半该怎么算就怎么算。",
+   "spread_vs_tail_cny": -493.0,
+   "spread_vs_window_cny": -4640.0
   }
  },
  "ledger": {
@@ -515,7 +515,7 @@
   "withdrawn_now": [],
   "withdrawal_note": "ledger withdrew 1 bar(s) at 2026-11-09 23:54:02 because the price panel then ended 2026-11-06 (2026-11-09); the panel has since carried 2026-11-09 again and that ledger row is live -- the withdrawal stays on record but it is not this sheet's pricing bar",
   "reinstatements": {
-   "at": "2026-11-13 23:40:53",
+   "at": "2026-11-14 02:20:47",
    "n_reinstated": 1,
    "rewritten": [],
    "verbatim_identical": [
@@ -775,7 +775,7 @@
   "unexplained": [],
   "unexplained_total_cny": 0,
   "unexplained_unpriced_rows": 0,
-  "ledger_action": "updated",
+  "ledger_action": "kept",
   "ledger_row": {
    "bar": "2026-11-13",
    "kind": "execution",
@@ -931,9 +931,9 @@
    "last": null,
    "rows_detail": [],
    "panel_missing_symbols": [],
-   "repo_quotes": 3765,
-   "rate_latest_bar": "2026-11-11",
-   "rate_latest": 1.51,
+   "repo_quotes": 3767,
+   "rate_latest_bar": "2026-11-13",
+   "rate_latest": 1.265,
    "valued_upto_bar": "2026-11-13"
   },
   "accrual_rows": [],
@@ -952,13 +952,13 @@
    "legs_first_bar": 433570.6,
    "legs_last_bar": 431769.6,
    "legs_ret": -0.00415388,
-   "cash_interest_cny": 475.16,
+   "cash_interest_cny": 517.54,
    "identity_delta_cny": 0.0,
    "identity_status": "PRICED_BAR",
    "identity_holds": true,
    "base_bar_missing_closes": [],
    "base_bar_last_priced_day": "2026-11-13",
-   "rf_missing_bars": 2,
+   "rf_missing_bars": 0,
    "stale_bars": 0
   },
   "engine_book": {
@@ -1041,24 +1041,9 @@
    "trail_starts_with_this_version": true,
    "trail_covers_bar": true,
    "page_block": {
-    "bar": "2026-11-13",
-    "same_bar": true,
-    "lots": {
-     "159519": 496,
-     "159655": 431,
-     "510760": 684,
-     "512040": 726,
-     "513690": 754
-    },
-    "cash_cny": 568230.0
-   },
-   "page_vs_ledger_lots": [],
-   "page_vs_ledger_cash": {
-    "page": 568230.0,
-    "ledger": 568230.4,
-    "page_minus_ledger": -0.4
-   },
-   "page_vs_ledger_agree": false
+    "bar": "2026-11-12",
+    "same_bar": false
+   }
   },
   "caveats": [
    "the reconciliation compares two documents, not two accounts: it says what the printed rows leave behind relative to the book the same face declares, and it cannot see whether the broker actually filled those lots",
@@ -1450,7 +1435,7 @@
  },
  "next_decision": {
   "artifact": "etf_book_next_decision",
-  "generated": "2026-11-13T23:40:53",
+  "generated": "2026-11-14T02:20:47",
   "evidence_cutoff": "2026-11-13",
   "calendar_source": "data/exchange_calendar.csv",
   "calendar_last": "2026-12-31",
@@ -1591,7 +1576,7 @@
  },
  "swap_freshness": {
   "artifact": "etf_book_swap_freshness",
-  "generated": "2026-11-13T23:40:53",
+  "generated": "2026-11-14T02:20:47",
   "evidence_cutoff": "2026-11-13",
   "calendar_source": "data/exchange_calendar.csv",
   "close_accept_time": "15:30",
@@ -1726,15 +1711,15 @@
    "vol": 0.0887
   },
   "width_effect": {
-   "vol": {
-    "ticket_width_cagr": 0.1178,
-    "card_width_cagr": 0.1227,
-    "pp": 0.49
-   },
    "beta": {
     "ticket_width_cagr": 0.1103,
     "card_width_cagr": 0.0964,
     "pp": -1.39
+   },
+   "vol": {
+    "ticket_width_cagr": 0.1178,
+    "card_width_cagr": 0.1227,
+    "pp": 0.49
    }
   },
   "rules_differ": true,
@@ -1889,7 +1874,11 @@
     "faces": [
      "baseline",
      "buffer_k02",
-     "buffer_k05"
+     "buffer_k05",
+     "buffer_k10",
+     "buffer_k20",
+     "buffer_k40",
+     "cost0"
     ],
     "last": "2026-11-13",
     "bars": 5280,
@@ -1900,10 +1889,6 @@
     "digest": "e383c3a68f5f98af",
     "faces": [
      "buffer_k05_cost20",
-     "buffer_k10",
-     "buffer_k20",
-     "buffer_k40",
-     "cost0",
      "cost05",
      "cost20",
      "cost40"
@@ -1917,14 +1902,14 @@
   "priced_same_panel": false,
   "comparable": [
    "buffer_k02",
-   "buffer_k05"
-  ],
-  "withheld": [
-   "buffer_k05_cost20",
+   "buffer_k05",
    "buffer_k10",
    "buffer_k20",
    "buffer_k40",
-   "cost0",
+   "cost0"
+  ],
+  "withheld": [
+   "buffer_k05_cost20",
    "cost05",
    "cost20",
    "cost40"
@@ -1933,10 +1918,6 @@
    "readable": false,
    "withheld": [
     "buffer_k05_cost20",
-    "buffer_k10",
-    "buffer_k20",
-    "buffer_k40",
-    "cost0",
     "cost05",
     "cost20",
     "cost40"
@@ -1962,26 +1943,26 @@
     },
     {
      "arm": "buffer_k10",
-     "verdict": "WORLDS_NOT_COMPARABLE",
-     "readable": false,
+     "verdict": "NOT-SEPARABLE",
+     "readable": true,
      "description": "buffer k=0.10 on every cell (the middle of the family r1325 named as a cost knob; declared in the pool at r1351 before this face existed)"
     },
     {
      "arm": "buffer_k20",
-     "verdict": "WORLDS_NOT_COMPARABLE",
-     "readable": false,
+     "verdict": "NOT-SEPARABLE",
+     "readable": true,
      "description": "buffer k=0.20 on every cell (the strongest arm -- if even this stays inside every cell's band, the buffer family is unmeasurable on this design, not negative)"
     },
     {
      "arm": "buffer_k40",
-     "verdict": "WORLDS_NOT_COMPARABLE",
-     "readable": false,
+     "verdict": "REJECT",
+     "readable": true,
      "description": "buffer k=0.40 on every cell (8x the r1325 arm -- the far end, where a real buffer finally has to hurt)"
     },
     {
      "arm": "cost0",
-     "verdict": "WORLDS_NOT_COMPARABLE",
-     "readable": false,
+     "verdict": "NOT-SEPARABLE",
+     "readable": true,
      "description": "0bp/side on the whole grid (no toll at all) -- if the ordering only appears here, the ordering is bought with the toll and the 10bp reading stands"
     },
     {
@@ -2119,18 +2100,30 @@
    "present": null,
    "detail": "receipt reader failed (module 'etf_book_atlas_arms_rebuild' has no attribute 'receipt_state')",
    "stale": null
+  },
+  "floor_extrapolation": {
+   "artifact": "results/etf_book_buffer_floor_readback.json",
+   "present": true,
+   "detail": "the fit says +0.227pp at k=0.30 (slope +0.824, intercept -0.020); the harvested arm's own 12 cells say +0.318pp (median); gap +0.091pp against tolerance 0.077pp = 3.0x the fit's largest in-sample residual (0.026pp, floored at 0.05); cell spread of the same arm: -0.675 .. +1.340pp (12 cells), i.e. the median is not the book; the line misses the point it never saw by more than its own residual band:",
+   "verdict": "REFUTED",
+   "buffer_k": 0.3,
+   "predicted_pp": 0.227,
+   "observed_pp": 0.318,
+   "gap_pp": 0.091,
+   "tolerance_pp": 0.077,
+   "evidence_cutoff": "2026-10-29"
   }
  },
  "priced_faces": {
   "faces": {
    "card": "2026-11-13",
    "ticket": "2026-11-13",
-   "page": "2026-11-13"
+   "page": "2026-11-12"
   },
-  "verdict": "SAME_DAY",
-  "detail": "all three papers priced the 2026-11-13 bar",
+  "verdict": "DIFFERENT_DAYS",
+  "detail": "priced on different bars: card 2026-11-13 / ticket 2026-11-13 / page 2026-11-12",
   "missing": [],
-  "same_day": true
+  "same_day": false
  },
  "carry_split": {
   "artifact": "results/etf_book_return_regime.json",
