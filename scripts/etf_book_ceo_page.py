@@ -5881,6 +5881,9 @@ def build(with_stress=False, window_label=None):
         "priced_bar": feed.get("ticket_bar"),
         "feed_status": feed.get("status"),
         "feed_lag_days": feed.get("lag_days"),
+        # r1633: the bar the market expects, so the page can say "we are a day behind"
+        # instead of only "these sections agree with each other".
+        "expected_bar": feed.get("expected_bar"),
         "capital_cny": nav,
         "book_amount_cny": round(book_amt, 2),
         "cash_amount_cny": round(cash_amt, 2),
@@ -6073,6 +6076,30 @@ def section_bars_block(sb):
     return out
 
 
+def feed_lag_block(p):
+    """Page lines: this page is priced on a bar the market has already passed.
+
+    r1633: the section-count line above is honest per section, and still misleading as a
+    headline -- 43 of 48 sections sitting on 2026-11-12 reads as "they all agree on today"
+    when the market has already closed 2026-11-13. The ticket knows which bar the market
+    expects (`feed_status.expected_bar`), so that number belongs on the first screen: a
+    reader who stops after the section list never learns the whole page is a day old.
+    """
+    status = p.get("feed_status")
+    lag = p.get("feed_lag_days")
+    priced = p.get("priced_bar")
+    if not priced or status != "stale_feed" or not lag:
+        return []
+    expected = p.get("expected_bar")
+    if not expected:
+        return ["> **这一页还没跟上今天的收盘**：它按 **%s** 定价，票面自己说比市场落后 %s 个交易日。"
+                % (priced, lag)]
+    return ["> **这一页还没跟上今天的收盘**：它按 **%s** 定价，而市场已经收出 **%s** 的 bar"
+            "（落后 %s 个交易日）——今天收盘的价格还没进这张单，上面的份额是老 bar 上的数；"
+            "上游面板推进后重算，份额会跟着价格漂一点，但权重不变。"
+            % (priced, expected, lag)]
+
+
 def render_md(p, sb=None):
     L = []
     add = L.append
@@ -6148,6 +6175,10 @@ def render_md(p, sb=None):
     add("")
     for _sb_line in section_bars_block(sb):
         add(_sb_line)
+    # r1633: right after the per-section counts -- those counts can all be on the same stale
+    # bar, and only the ticket knows which bar the market actually expects.
+    for _fl_line in feed_lag_block(p):
+        add(_fl_line)
     # r1573: before the buy list, not after it -- whether the book may hold new money is a
     # condition on the list, and a reader who stops at the table would never reach it.
     for _adm_line in admission_block(p.get("admission") or {}):
@@ -10136,6 +10167,21 @@ def selftest():
         "audit states it",
         "属主 bm-a 的心跳停在 16.9 h 前" in "\n".join(section_bars_block(_debt_sb))
         and "属主 bm-a" not in "\n".join(section_bars_block(_wb_plain)), "")
+    # r1633: every section can share one stale bar and the page still reads as current. The
+    # ticket knows the bar the market expects; that sentence must appear exactly when it is
+    # true, and must go away the moment the feed catches up.
+    _lag_p = {"priced_bar": "2026-11-12", "feed_status": "stale_feed", "feed_lag_days": 1,
+              "expected_bar": "2026-11-13"}
+    _lag_out = "\n".join(feed_lag_block(_lag_p))
+    chk("L222 feed lag: a day-old page says which bar the market already closed",
+        "2026-11-13" in _lag_out and "还没跟上今天的收盘" in _lag_out, _lag_out[:60])
+    chk("L223 feed lag: a current page prints nothing (the line is not decoration)",
+        feed_lag_block(dict(_lag_p, feed_status="current", feed_lag_days=0)) == []
+        and feed_lag_block({"priced_bar": "2026-11-12"}) == [], "")
+    chk("L224 feed lag: a stale page with no expected bar still says it is behind, "
+        "without inventing a date",
+        "还没跟上今天的收盘" in "\n".join(feed_lag_block(dict(_lag_p, expected_bar=None)))
+        and "2026-11-13" not in "\n".join(feed_lag_block(dict(_lag_p, expected_bar=None))), "")
     shutil.rmtree(_adm_dir, ignore_errors=True)
     print("\nSummary: %d/%d PASS%s" % (ok, total, "" if ok == total else " -- %d FAIL" % (total - ok)))
     return 0 if ok == total else 1

@@ -414,6 +414,30 @@ def check(now=None, faces=None, days=None):
     return 0
 
 
+def _priced_on(face_path, faces=None, leg=None):
+    """What this leg's own producer says it priced on (self-reported, never guessed).
+
+    A producer that runs clean and re-emits the same bar is not failing -- it is reporting
+    that its input is still on that bar. Naming the input turns "pay its producer" (which the
+    reader just did) into "pay the input's writer", and those are two different files.
+    """
+    if faces is not None:
+        payload = faces.get(leg)
+    else:
+        payload = _read_json(os.path.join(ROOT, face_path))
+    if not isinstance(payload, dict):
+        return None
+    for key in ("ticket", "source_face", "panel", "base_bar"):
+        val = payload.get(key)
+        if isinstance(val, str) and val:
+            return "%s=%s" % (key, val)
+        if isinstance(val, dict):
+            for inner in ("digest", "path", "face", "name"):
+                if isinstance(val.get(inner), str) and val.get(inner):
+                    return "%s=%s" % (key, val[inner])
+    return None
+
+
 def run(now=None, faces=None, days=None, producer_cmd=None, out=None):
     """Pay the producer of every stale leg, in dependency order, then judge again.
 
@@ -461,6 +485,16 @@ def run(now=None, faces=None, days=None, producer_cmd=None, out=None):
               % (len(paid), len(after["legs"]) - len(paid)))
         return 0
     print("[swap_freshness] %s" % after["sentence"])
+    stuck = [r for r in after["legs"] if r["status"] == STALE]
+    if stuck and paid:
+        print("[swap_freshness] %d leg(s) are still off the bar although every producer above "
+              "ran clean -- each one re-emitted the bar it was already on:" % len(stuck))
+        for r in stuck:
+            hint = _priced_on(r["face"], faces, r["leg"])
+            print("  %-17s wrote %s%s"
+                  % (r["leg"], r["bar"] or "-", (" -- priced on %s" % hint) if hint else ""))
+        print("[swap_freshness] a producer that runs clean and re-emits the same bar is "
+              "reporting its input, not failing: pay the input's writer, not this leg.")
     return 3 if after["verdict"] == STALE else 1
 
 
@@ -649,6 +683,33 @@ def selftest():
         others = [r for r in stale_rows if r["leg"] == "swap_stack"]
         leg("L30 a stale leg with its own producer is not told to wait for a file",
             all("waiting_on" not in r for r in others))
+
+    # --- r1633: a producer that runs clean and re-emits the old bar reports its input, and the
+    # only way a reader learns whose file to pay is if we name it. Without this the refresh
+    # ends on "pay its producer", which is the command the reader just ran.
+    stuck_faces = dict(prev)
+    stuck_faces["swap_stack"] = {"asof": "2026-11-05", "ticket": "TICKET-2026-11-05.json"}
+
+    def clean_but_stuck(r):
+        return [sys.executable, "-c", "pass"]
+
+    with tempfile.TemporaryDirectory() as td2:
+        tmp2 = (os.path.join(td2, "face.json"), os.path.join(td2, "face.md"))
+        buf = io.StringIO()
+        with redirect_stdout(buf):
+            rc_stuck = run(now=after, faces=stuck_faces, days=days,
+                           producer_cmd=clean_but_stuck, out=tmp2)
+        text_stuck = buf.getvalue()
+    leg("L31 a clean producer that leaves the leg off the bar exits 3 (not a silent green)",
+        rc_stuck == 3)
+    leg("L32 ...and names the input it priced on, so the reader pays the input's writer",
+        "TICKET-2026-11-05.json" in text_stuck
+        and "pay the input's writer" in text_stuck)
+    leg("L33 ...and does not repeat the 'pay its producer' line the reader just obeyed",
+        "pay its producer" not in text_stuck)
+    leg("L34 a face with no self-reported input prints no invented hint",
+        _priced_on("results/etf_book_swap_track.json", {"swap_track": {"bar": "2026-11-05"}},
+                   "swap_track") is None)
 
     # r1533: this read `sum(1 for _, ok in legs)`, which counts every leg whatever its
     # verdict -- the suite printed its own [FAIL] lines and still said "N/N PASS" and rc 0.

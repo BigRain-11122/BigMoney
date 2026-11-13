@@ -1,7 +1,7 @@
 {
  "artifact": "etf_book_swap_freshness",
- "generated": "2026-11-13T00:39:34",
- "evidence_cutoff": "2026-11-12",
+ "generated": "2026-11-13T16:22:39",
+ "evidence_cutoff": "2026-11-13",
  "calendar_source": "data/exchange_calendar.csv",
  "close_accept_time": "15:30",
  "legs": [
@@ -10,111 +10,175 @@
    "producer": "scripts/etf_book_sibling_entry.py",
    "face": "results/etf_book_sibling_entry.json",
    "field": "session",
-   "bar": "2026-11-12",
+   "bar": "2026-11-13",
    "lag_sessions": 0,
    "status": "FRESH",
-   "reason": "on the 2026-11-12 close"
+   "reason": "on the 2026-11-13 close"
   },
   {
    "leg": "sibling_gap",
    "producer": "scripts/etf_book_sibling_gap.py",
    "face": "results/etf_book_sibling_gap.json",
    "field": "session",
-   "bar": "2026-11-12",
+   "bar": "2026-11-13",
    "lag_sessions": 0,
    "status": "FRESH",
-   "reason": "on the 2026-11-12 close"
+   "reason": "on the 2026-11-13 close"
   },
   {
    "leg": "swap_trigger",
    "producer": "scripts/etf_book_swap_trigger.py",
    "face": "results/etf_book_swap_trigger.json",
    "field": "session",
-   "bar": "2026-11-12",
+   "bar": "2026-11-13",
    "lag_sessions": 0,
    "status": "FRESH",
-   "reason": "on the 2026-11-12 close"
+   "reason": "on the 2026-11-13 close"
   },
   {
    "leg": "swap_stack",
    "producer": "scripts/etf_book_swap_stack.py",
    "face": "results/etf_book_swap_stack.json",
    "field": "asof",
-   "bar": "2026-11-12",
+   "bar": "2026-11-13",
    "lag_sessions": 0,
    "status": "FRESH",
-   "reason": "on the 2026-11-12 close"
+   "reason": "on the 2026-11-13 close"
   },
   {
    "leg": "swap_toll",
    "producer": "scripts/etf_book_swap_toll.py",
    "face": "results/etf_book_swap_toll.json",
    "field": "bar",
-   "bar": "2026-11-12",
+   "bar": "2026-11-13",
    "lag_sessions": 0,
    "status": "FRESH",
-   "reason": "on the 2026-11-12 close"
+   "reason": "on the 2026-11-13 close"
   },
   {
    "leg": "toll_scope",
    "producer": "scripts/etf_book_toll_scope.py",
    "face": "results/etf_book_toll_scope.json",
    "field": "bar",
-   "bar": "2026-11-12",
+   "bar": "2026-11-13",
    "lag_sessions": 0,
    "status": "FRESH",
-   "reason": "on the 2026-11-12 close"
+   "reason": "on the 2026-11-13 close"
   },
   {
    "leg": "swap_convergence",
    "producer": "scripts/etf_book_swap_convergence.py",
    "face": "results/etf_book_swap_convergence.json",
    "field": "bar",
-   "bar": "2026-11-12",
+   "bar": "2026-11-13",
    "lag_sessions": 0,
    "status": "FRESH",
-   "reason": "on the 2026-11-12 close"
+   "reason": "on the 2026-11-13 close"
   },
   {
    "leg": "swap_effect",
    "producer": "scripts/etf_book_swap_effect.py",
    "face": "results/etf_book_swap_effect.json",
    "field": "bar",
-   "bar": "2026-11-12",
+   "bar": "2026-11-13",
    "lag_sessions": 0,
    "status": "FRESH",
-   "reason": "on the 2026-11-12 close"
+   "reason": "on the 2026-11-13 close"
   },
   {
    "leg": "swap_units",
    "producer": "scripts/etf_book_swap_units.py",
    "face": "results/etf_book_swap_units.json",
    "field": "bar",
-   "bar": "2026-11-12",
+   "bar": "2026-11-13",
    "lag_sessions": 0,
    "status": "FRESH",
-   "reason": "on the 2026-11-12 close"
+   "reason": "on the 2026-11-13 close"
   },
   {
    "leg": "swap_track",
    "producer": "scripts/etf_book_swap_track.py",
    "face": "results/etf_book_swap_track.json",
    "field": "bar",
-   "bar": "2026-11-12",
+   "bar": "2026-11-13",
    "lag_sessions": 0,
    "status": "FRESH",
-   "reason": "on the 2026-11-12 close"
+   "reason": "on the 2026-11-13 close"
   }
  ],
  "n_legs": 10,
  "stale_legs": [],
  "inconsistent_legs": [],
  "verdict": "FRESH",
- "sentence": "Every one of the 10 faces in the swap section is on the 2026-11-12 close.",
+ "sentence": "Every one of the 10 faces in the swap section is on the 2026-11-13 close.",
  "caveats": [
   "The bar-to-be comes from the official exchange calendar, never from this chain's own panels: a panel cannot say which session should already be printed (r1286).",
   "A face AHEAD of the calendar is not stale -- its producer would not make it true, so the chain must keep it red instead of paying a refresh (r1345).",
   "Freshness is not correctness: a face on the right bar can still be wrong, and each producer's own check is what refuses that."
  ],
- "paid": []
+ "paid": [
+  {
+   "leg": "swap_stack",
+   "cmd": [
+    "scripts/etf_book_swap_stack.py",
+    "run"
+   ],
+   "rc": 0,
+   "tail": "wrote results/etf_book_swap_stack.json"
+  },
+  {
+   "leg": "swap_toll",
+   "cmd": [
+    "scripts/etf_book_swap_toll.py",
+    "run"
+   ],
+   "rc": 0,
+   "tail": "{\"verdict\": \"NO_SWAP_ON_THIS_BAR\", \"rows\": 0, \"round_trip_cny\": null, \"sentence\": \"这一单没有换票动作，所以没有「换回来」的过路费可报（不是 0 元：没有动作就没有第二个交易）。\"}"
+  },
+  {
+   "leg": "toll_scope",
+   "cmd": [
+    "scripts/etf_book_toll_scope.py",
+    "run"
+   ],
+   "rc": 0,
+   "tail": "wrote K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\etf_book_toll_scope.json"
+  },
+  {
+   "leg": "swap_convergence",
+   "cmd": [
+    "scripts/etf_book_swap_convergence.py",
+    "run"
+   ],
+   "rc": 0,
+   "tail": "{\"verdict\": \"NOTHING_MEASURED\", \"pairs\": 0, \"net_after_toll_cny\": null, \"sentence\": \"这一单没有可测量的换票：换出的票没有历史价差路径，或者可比较的样本太少——这不是「不赚钱」的结论。\"}"
+  },
+  {
+   "leg": "swap_effect",
+   "cmd": [
+    "scripts/etf_book_swap_effect.py",
+    "run"
+   ],
+   "rc": 0,
+   "tail": "{\"verdict\": \"CANNOT_PAIR\", \"rows\": 0, \"unpaired\": 0, \"level_cny\": null, \"path_cny\": null, \"combined_cny\": null, \"sentence\": \"这一单没有可以并列的换票：两张面没有共同的票——这不是「不赚钱」的结论。\"}"
+  },
+  {
+   "leg": "swap_units",
+   "cmd": [
+    "scripts/etf_book_swap_units.py",
+    "run"
+   ],
+   "rc": 0,
+   "tail": "{\"verdict\": \"CANNOT_RECORD\", \"rows\": 0, \"unpaired\": 0, \"extra_shares\": null, \"extra_lots\": null, \"remark\": null, \"next_decision_bar\": \"2026-12-09\", \"realised_found\": null}"
+  },
+  {
+   "leg": "swap_track",
+   "cmd": [
+    "scripts/etf_book_swap_track.py",
+    "run"
+   ],
+   "rc": 0,
+   "tail": "{\"verdict\": \"NOTHING_MEASURED\", \"rows\": 0, \"skipped\": 0, \"drift_cny_per_year\": null, \"se_cny_per_year\": null, \"merge_sigma_pp\": null, \"merge_cny_per_year\": null}"
+  }
+ ]
 }

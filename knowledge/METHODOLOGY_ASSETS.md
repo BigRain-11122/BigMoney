@@ -14282,3 +14282,21 @@ null.label_frequency，单实现 etf_book_production.null_calibration_face()，�
 高频=默认输出=不是发现，稀有支才承重。频率与标签必须同 bar，或明写两者不同。
 **实锚**：scripts/etf_book_production.py（null_calibration_face + 卡两腿）、scripts/etf_book_ceo_page.py
 （页三腿：频率/跨 bar 点名/缺席）+ 真数据重生成 CARD.md 与 LIVE-BOOK-20261113.md。
+
+### E601 · 每一节都停在同一根老 bar 上，页面读起来仍然像今天（r1633 bm-c）
+
+「48 个带日期的节里 43 个在 2026-11-12」这句话逐节是真的，作为第一屏却是错的：**当所有节都
+共享同一根老 bar 时，一致性本身就是误导**——读者看到的「它们全都同意」其实是「它们全都比市场
+晚一天」。2026-11-13 收盘后（16:08）CEO 页据此印着「43 节在 11-12」，而票面自己的 feed_status 早
+写着 `stale_feed / expected_bar=2026-11-13 / lag_days=1`，那句话没有出现在第一屏。
+
+正法：页面必须印**市场期望哪根 bar**（票面 feed_status.expected_bar），而不是只印各节的一致程度；
+句子在 `feed_status=stale_feed` 且 lag>=1 时才出现（否则是装饰），缺 expected_bar 时只说我落后、
+不许编日期。姊妹面（同一轮实测）：swap 链刷新跑完 7 个 producer 全 rc=0 却仍 STALE 时，`run`
+原样重印「pay its producer」——那正是读者刚执行过的命令；正法是把每个仍 stale 的面**自己报的输入**
+（ticket/source_face/panel）印出来，收句改成「pay the input's writer, not this leg」。
+
+**How**：①任何"全页日期分布"句必须并排印"市场期望哪根 bar"，并给 ta 的出现条件与缺席措辞；
+②刷新器返回"付费后仍失败"时，禁重印付费指引，必须点名卡在哪个输入上。
+**实锚**：scripts/etf_book_ceo_page.py（feed_lag_block + 页 279/279）、scripts/etf_book_swap_freshness.py
+（_priced_on + 自检 34/34）+ 真数据：票面 TICKET-2026-11-13 重生成、swap 10 面全绿。
