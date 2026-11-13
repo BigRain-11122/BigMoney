@@ -100,6 +100,29 @@ CHAIN_LEG = "chain_leg"
 COMPUTED_IN_PAGE = "computed_in_page"
 NO_WRITER = "no_writer"
 
+# r1628: a fifth state, and it is the same mistake one floor down from r1623. `sample_window`
+# was the page's worst offender -- 13 sessions behind the headline -- and the audit printed it
+# as if its numbers were priced on the bar 2026-10-26. They are not: that section measures two
+# FIXED windows (2015-01-01..2019-12-31 on the pre-2020 universe, 2020-01-01..2026-10-26 on
+# today's) and the date it carries is the END OF ITS OWN WINDOW, not a bar it failed to
+# follow. "A window that ends here" and "a bar that stopped here" produce the same date and
+# opposite actions: the first needs the whole window re-priced (minutes of engine), the second
+# needs a leg re-run. So a section that publishes a window whose end equals the date it states
+# is reported as window-bound -- and the reader is told what closing the gap would cost.
+WINDOW_BOUND = "window_bound"
+WINDOW_FIELDS = ("page_window", "window")
+
+
+def window_of(d):
+    """The [start, end] window a section publishes (page_window first), or None."""
+    if not isinstance(d, dict):
+        return None
+    for f in WINDOW_FIELDS:
+        w = d.get(f)
+        if isinstance(w, (list, tuple)) and len(w) == 2 and all(w):
+            return [str(w[0])[:10], str(w[1])[:10]]
+    return None
+
 
 def page_computed_of(page_computed, key):
     """The page's own declaration for a self-computed section, or None."""
@@ -228,6 +251,7 @@ def section_bars(doc, cal=None, legs=None):
             continue
         g = guarded_by(k, v, legs)
         pc = page_computed_of(page_computed, k)
+        win = window_of(v)
         if g:
             prov = CHAIN_LEG
         elif g == [] and pc is not None:
@@ -236,10 +260,15 @@ def section_bars(doc, cal=None, legs=None):
             prov = NO_WRITER
         else:
             prov = None      # leg list unreadable: claim nothing (r98/r1159)
+        # r1628: the date IS the end of the section's own window -- a fixed-window study, not
+        # a bar that stopped following the page. Checked before the table is printed; the
+        # guarded_by list stays as it is (the table still shows who mentions it).
+        window_bound = bool(win and str(win[1])[:10] == str(b)[:10])
         rows.append({"key": k, "bar": b, "field": f,
                      "lag_sessions": sessions_between(b, head, cal) if head else None,
                      "ahead_of_headline": bool(head and b > head),
                      "guarded_by": g, "provenance": prov,
+                     "window": win, "window_bound": window_bound,
                      "pricing_mode": ((v.get("pricing") or {}).get("mode")
                                       if isinstance(v.get("pricing"), dict) else None),
                      "refresh_reprices": ((v.get("pricing") or {}).get("reprices_bar")
@@ -259,6 +288,10 @@ def section_bars(doc, cal=None, legs=None):
     pc_on_tail = [r for r in pc_rows
                   if r.get("panel_last_bar") and r["bar"] == str(r["panel_last_bar"])[:10]]
     nw_rows = [r for r in behind if r.get("provenance") == NO_WRITER]
+    # r1628: window-bound sections are counted, but they are NOT the worst lag: their lag is
+    # measured from the end of a window they state, so it can never shrink without re-pricing
+    # the window (see WINDOW_BOUND above).
+    wb_rows = [r for r in behind if r.get("window_bound")]
     # r1627: a leg whose NAME matches says "something mentions this", not "something can move
     # it". The width family is re-aggregated every chain cycle from eleven engine-priced arm
     # faces, so it sat four sessions behind the book while the audit counted it as guarded --
@@ -295,6 +328,8 @@ def section_bars(doc, cal=None, legs=None):
         "no_writer": (None if not legs else [r["key"] for r in nw_rows]),
         "n_engine_priced": (None if not legs else len(eg_rows)),
         "engine_priced": (None if not legs else [r["key"] for r in eg_rows]),
+        "n_window_bound": len(wb_rows),
+        "window_bound": [r["key"] for r in wb_rows],
     }
 
 
@@ -349,7 +384,8 @@ def assess(page=None, jsonp=None, cal=None, legs=None):
                                     "unguarded", "n_page_computed", "page_computed",
                                     "page_computed_on_panel_tail", "page_computed_panels",
                                     "n_no_writer", "no_writer",
-                                    "n_engine_priced", "engine_priced")})
+                                    "n_engine_priced", "engine_priced",
+                                    "n_window_bound", "window_bound")})
     face["evidence_cutoff"] = sb["headline_bar"]
     if sb["headline_bar"] is None:
         face["verdict"] = NO_HEADLINE
@@ -362,13 +398,17 @@ def assess(page=None, jsonp=None, cal=None, legs=None):
                             "下面每个数都是这一天的。" % (sb["headline_bar"], sb["n_sections"]))
     else:
         face["verdict"] = MIXED
-        worst = max(sb["off_headline"], key=lambda r: r["lag_sessions"] or 0) if sb["off_headline"] else None
+        # r1628: the worst lag must not be a section whose date is the end of its own window
+        # (it would name the one row that cannot shrink by re-running a leg).
+        _lagged = [r for r in (sb["off_headline"] or []) if not r.get("window_bound")]
+        worst = max(_lagged, key=lambda r: r["lag_sessions"] or 0) if _lagged else None
+        oldest_lagged = min([r["bar"] for r in _lagged]) if _lagged else sb["oldest"]
         face["sentence"] = (
             "页面头部写着按 %s 定价，但 %d 个带日期的节里只有 %d 节真在这一天；"
-            "其余 %d 节最旧停在 %s%s，另外 %d 节根本没有日期——"
+            "其余 %d 节不在这一天（最旧停在 %s%s），另外 %d 节根本没有日期——"
             "它们不是同一根 bar 上的数，读的时候不能互相加减。" %
             (sb["headline_bar"], sb["n_sections"], sb["n_on_headline"],
-             sb["n_off_headline"], sb["oldest"],
+             sb["n_off_headline"], oldest_lagged,
              ("（最差 %s 落后 %d 个交易日）" % (worst["key"], worst["lag_sessions"])
               if worst and worst["lag_sessions"] else ""),
              len(sb["unknown_sections"])))
@@ -396,6 +436,14 @@ def assess(page=None, jsonp=None, cal=None, legs=None):
                 parts.append("%d 节（%s）的日期是引擎跑出来的，守它的腿只把旧面重新汇总、不会"
                              "重新定价——它们的落后是数据债，链上再跑多少轮也不会自己追上来"
                              % (sb["n_engine_priced"], ", ".join((sb["engine_priced"] or [])[:6])))
+            if sb.get("n_window_bound"):
+                _wb = [r for r in (sb["off_headline"] or []) if r.get("window_bound")]
+                _txt = "、".join("%s（%s 至 %s）" % (r["key"], (r.get("window") or ["?", "?"])[0],
+                                                  (r.get("window") or ["?", "?"])[1])
+                                for r in _wb[:3])
+                parts.append("另外 %d 节 %s 讲的是一整段固定窗口，它印的日期就是那段窗口自己的终点，"
+                             "不是某一根 bar 没跟上——要它站到页头那根 bar 上，等于把整段窗口"
+                             "重新定价一遍" % (len(_wb), _txt))
             if len(parts) > 1:
                 face["sentence"] += "；".join(parts) + "。"
             elif not sb["n_unguarded"]:
@@ -425,7 +473,10 @@ def ticket_lines(face):
         L.append("|---|---|---|---|")
         for r in rows[:12]:
             g = r.get("guarded_by")
-            if g is None:
+            if r.get("window_bound"):
+                _w = r.get("window") or ["?", "?"]
+                cell = "窗口段（%s 至 %s）" % (_w[0], _w[1])
+            elif g is None:
                 cell = "未核验"
             elif g:
                 cell = "、".join(g[:2])
@@ -442,6 +493,8 @@ def ticket_lines(face):
                  "这两件事在页面上一向是两个错。"
                  "标着「页内重算」的节不是没腿跑：这一页每次生成都把它们算一遍，"
                  "它们停在那天是因为下面那块面板只到那天，动作在上游数据车道，不在本页。"
+                 "标着「窗口段」的节也不是没更新：它本来就是按一整段固定窗口量的，"
+                 "印的那个日期是窗口的终点，要它跟上页头只能把整段窗口重算一遍（那是引擎的活，不是链腿的活）。"
                  "印「没有」的那几节，才是这一页真正的缺口。")
     if face.get("unknown_sections"):
         L.append("")
@@ -476,7 +529,8 @@ def check():
     diffs = []
     for k in ("verdict", "headline_bar", "n_sections", "n_off_headline", "oldest",
               "max_lag_sessions", "by_key", "unknown_sections", "n_page_computed",
-              "no_writer", "n_engine_priced", "engine_priced"):
+              "no_writer", "n_engine_priced", "engine_priced",
+              "n_window_bound", "window_bound"):
         if pub.get(k) != fresh.get(k):
             diffs.append("%s published=%r fresh=%r" % (k, pub.get(k), fresh.get(k)))
     if diffs:
@@ -661,6 +715,41 @@ def selftest():
             os.unlink(tmp3)
         except OSError:
             pass
+
+    # ---- r1628: a window that ends here is not a bar that stopped here -------------------
+    wb_fx = {"priced_bar": "2026-11-12",
+             "sample_window": {"evidence_cutoff": "2026-10-26",
+                               "window": ["2015-01-01", "2019-12-31"],
+                               "page_window": ["2020-01-01", "2026-10-26"],
+                               "artifact": "results/etf_book_spanning_pre2020.json"},
+             "cost_tape": {"evidence_cutoff": "2026-10-30",
+                           "artifact": "results/etf_book_cost_tape.json"}}
+    wbb = section_bars(wb_fx, legs=LEGS_FAKE)
+    leg("L33 a section whose own window ends on the date it states is window-bound, by name",
+        wbb["window_bound"] == ["sample_window"] and wbb["n_window_bound"] == 1)
+    leg("L34 the named worst lag is not the window-bound section (its lag cannot shrink by re-running a leg)",
+        [r["key"] for r in wbb["off_headline"] if r["window_bound"]] == ["sample_window"])
+    tmp4 = os.path.join(ROOT, "results", "_tmp_section_bars_window.json")
+    with open(tmp4, "w", encoding="utf-8") as fh:
+        json.dump(wb_fx, fh)
+    try:
+        f5 = assess(jsonp=tmp4, legs=LEGS_FAKE)
+        leg("L35 the sentence names the window and does not call it the worst lag",
+            "最差 cost_tape" in f5["sentence"] and "最差 sample_window" not in f5["sentence"]
+            and "sample_window（2020-01-01 至 2026-10-26）" in f5["sentence"])
+        leg("L36 the sheet prints the window, not a leg name, for that row",
+            "窗口段（2020-01-01 至 2026-10-26）" in "\n".join(ticket_lines(f5)))
+    finally:
+        try:
+            os.unlink(tmp4)
+        except OSError:
+            pass
+    # form check, not name trust: a published window that does NOT end on the stated bar is
+    # an ordinary lag and must stay one (the field name alone buys nothing).
+    near = {"priced_bar": "2026-11-12",
+            "x": {"evidence_cutoff": "2026-11-01", "window": ["2020-01-01", "2026-10-30"]}}
+    leg("L37 a window ending somewhere else does not make its section window-bound",
+        section_bars(near, legs=LEGS_FAKE)["n_window_bound"] == 0)
 
     # ---- r1617: a section that says which day it prices is not "undatable" ---------------
     leg("L23 a date under another name is read, and a boolean that merely looks like one is not",

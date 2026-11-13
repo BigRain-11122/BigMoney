@@ -14231,3 +14231,13 @@ CEO 页重生成后「48 个带日期节里 **35** 个在 2026-11-12」（原 34
 **HOW**：①给面加戳前先看**链腿表**——三元组（check + refresh）才谈得上「可付」，光改脚本等于给一个没人接的电话写更准的号码；②「这一节是哪天的」只能用**它定价的那根 bar** 回答（`evidence_cutoff` = panel tail），墙钟另起名（`generated`），顺手也补上 science gate 要求的顶层 `evidence_cutoff`；③截面本人读的字段名要与页节探测器同一套（`BAR_FIELDS`/`HEADLINE_FIELDS`），改了面不改消费面 = 这一节从「日期错」变成「没有日期」，两种都是读不了。
 
 **实锚**：`scripts/etf_book_vol_target_gate.py`（run 写 `panel.digest`+`priced_last_bar` 并与 `F.panel_stamp` 交叉核对、check 走 `F.check_panel_stamp`、selftest 15 → **18/18**）、`Tools/s6_chain_bmc.py`（该腿补 refresh 臂）、`scripts/etf_book_ceo_page.py`（节取 `evidence_cutoff`）。真数据：面板 1519×5279、digest `e383c3a68f5f98af`（与 card 同值）、**2026-11-08 → 2026-11-12**，六档全 REFUSED（unscaled 14.27%/0.949、vt08 8.60%/0.892、vt02 2.19%/0.826）；咬合证明＝旧面（无戳）`CHECK FAIL ... stale` rc2；CEO 页 `n_on_headline 40 → 41`、`off_headline 8 → 7`；页 selftest 271/271、节审计 29/29、链单腿 1/1 rc0。
+
+### E597 · 一段窗口的终点与一根落后的 bar 印同一个日期，动作相反（r1628 bm-c）
+
+**症状**：CEO 页最旧的节是 `sample_window`，停在 **2026-10-26**、落后 13 个交易日，逐节日期审计把它当作「这一节的数落在 10-26」并与其余 47 节并列。它其实是在量两段**固定窗口**（2015-01-01 至 2019-12-31 的上市池、2020-01-01 至 2026-10-26 的今日池），印的那个日期就是**那段窗口自己的终点**。同一个日期，「窗口在这里结束」与「这一节停在老 bar 上」要做的动作相反：后者重跑一条腿即可，前者必须把整段窗口重新定价（引擎级，分钟计）。
+
+**WHY**：r1623 把「没人重跑」与「每轮重跑但数据只到那天」分开，本轮是同一族往下一层——**「一段区间的终点」也是一种日期，但不是一根 bar 的日期**。若不分开：①读者会去找一条不存在的刷新腿；②「最差落后 N 个交易日」这句话会指向唯一一个**不可能靠刷新缩小**的节。
+
+**HOW**：①任何按节比日期的面，先问这一节的日期是**哪一天**还是**哪一段的终点**（发布 `window`/`page_window` 的面按形态识别：终点 == 它印的日期 → 窗口型）；②窗口型**仍计数**（不隐藏），但**不得被点为最差落后**，且表格里把名字换成「窗口段（start 至 end）」；③句子要把「要它跟上页头等于重算整段窗口」写出来——那是成本披露，不是免责；④渲染器（页与审计各一份）都从同一个行的 `window` 字段取，禁第二份判断。
+
+**实锚**：`scripts/live_book_section_bars.py`（`WINDOW_BOUND`/`window_of`/`n_window_bound`，selftest 32 → **37/37**，`check` CHECK_OK）、`scripts/etf_book_ceo_page.py`（`section_bars_block` 增一句，selftest 271 → **272/272**，新腿带变异：判断题不成立时该句必须消失）。真数据：`results/live_book_section_bars.json` 得 `n_window_bound=1`（sample_window，2020-01-01 至 2026-10-26）、被点名的最差落后从 sample_window(13) 改为 `family_coherence`(4，引擎定价，已在 r1627 单列)，CEO 页原句实读为「其中 `sample_window` 量的是**一整段固定窗口**：2020-01-01 至 2026-10-26，它印的日期就是那段窗口的终点」。

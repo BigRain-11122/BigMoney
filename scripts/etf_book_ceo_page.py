@@ -6000,6 +6000,17 @@ def section_bars_block(sb):
                       "?" if lag is None else lag, "；".join(_parts)))
         out.append("> 那些节读的是各自面上一次生成时的数，不是今天的仓位；今天的数字只在前面那 %d 个里。"
                    % (n - len(off)))
+    # r1628: a section that measures a fixed window carries that window's END as its date, and
+    # printing it in the same list as "stopped at an older bar" sends the reader looking for a
+    # re-run that would not move it. The audit decides (single source: its rows carry `window`).
+    _wb = [r for r in off if r.get("window_bound")]
+    if _wb:
+        out.append("> 其中 %s 量的是**一整段固定窗口**：%s，它印的日期就是那段窗口的终点，"
+                   "不是某一根 bar 没跟上——要它站到页头那根 bar 上，只能把整段窗口重算一遍。"
+                   % ("、".join("`%s`" % r["key"] for r in _wb),
+                      "、".join("%s 至 %s" % ((r.get("window") or ["?", "?"])[0],
+                                              (r.get("window") or ["?", "?"])[1])
+                               for r in _wb)))
     if unk:
         # r1617: a count tells the reader that part of the page cannot be checked and nothing
         # about which part -- the same shape as "7 unverifiable lanes" with no owner named
@@ -9954,6 +9965,19 @@ def selftest():
     chk("L219 section bars: strip the published cut day and the section reads as undated",
         _SB is not None and _SB.bar_of(_tb_mut)[0] is None
         and _SB.bar_of(_p_cut.get("ticket_book") or {})[0] == _cut, "")
+    # r1628: a fixed-window section is named as one, and the line disappears when the audit
+    # stops calling it window-bound -- a sentence that prints regardless would be decoration.
+    _wb_row = {"key": "sample_window", "bar": "2026-10-26", "lag_sessions": 13,
+               "window": ["2020-01-01", "2026-10-26"], "window_bound": True}
+    _wb_sb = {"headline_bar": "2026-11-12", "n_sections": 2, "n_on_headline": 1,
+              "oldest": "2026-10-26", "max_lag_sessions": 13, "unknown_sections": [],
+              "off_headline": [_wb_row]}
+    _wb_plain = dict(_wb_sb, off_headline=[dict(_wb_row, window_bound=False)])
+    chk("L220 section bars: a fixed-window section is named as one, and only when the audit "
+        "says so",
+        "固定窗口" in "\n".join(section_bars_block(_wb_sb))
+        and "2020-01-01 至 2026-10-26" in "\n".join(section_bars_block(_wb_sb))
+        and "固定窗口" not in "\n".join(section_bars_block(_wb_plain)), "")
     shutil.rmtree(_adm_dir, ignore_errors=True)
     print("\nSummary: %d/%d PASS%s" % (ok, total, "" if ok == total else " -- %d FAIL" % (total - ok)))
     return 0 if ok == total else 1
