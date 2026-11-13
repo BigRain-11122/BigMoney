@@ -14452,3 +14452,31 @@ cash_yield / live_quote / sample_window）已经走到 2026-11-13。面对的分
 `smoke_test.py` 腿（双向断言 + 计数合计）+ `results/live_book_section_bars.json`
 （on 42 / off 0 / ahead 6，和 = 48）。
 
+### E606 · 一个数在本轮里挪了窝，就没人能替它作证（r1642 bm-c）
+
+r1639 整条链跑完 234 腿，4 条非零：`etf_book_return_regime` rc2「rebuilt base cell does not
+reproduce the published headline」、`etf_book_exec_delta` rc3「账 11-13、票面 11-12，两根 bar
+不能相减」、`etf_book_atlas_family` rc2（11 个臂面停在 11-12）、`scale_floor` rc3（off-chain 待重算）。
+链收口后逐条重跑：**前两条当场 rc0**（identity 12.59% vs published 12.59% matched=True；
+exec_delta 卖 313,872.90 / 买 354,253.10、动 668,126.00 元）。它们红不是因为数字错，是因为**被比
+的两个数在同一轮里各自挪了窝**：链先推面板（11-12 → 11-13），而票面/账本在链的后面才被重写，
+于是比较腿读到「新面板 + 旧票面」。
+
+`etf_book_return_regime` 的 identity 腿形状最典型：`_published()` 从不记票面自己是哪根 bar，
+所以「rebuilt 12.59% vs published 12.49%」这种句子永远说不清到底是谁错了——两个数都真，站在
+两个日子上。**正法**：`identity_verdict(panel_bar, base, pub)` 先比 bar，不同 bar 一律
+`NOT_EVALUATED` 并把两根 bar 一起印出来，**同 bar 才判 matched/mismatch，mismatch 照样 FATAL**。
+不写 bar 的老票面保持严格比对（沉默不许变成通过）。
+
+同族下层（同一轮全量套件抓到）：`etf_book_forward` 的成本轴自检要求**每根**差异 bar 都紧跟决策日，
+而成本是一次性价位下移、后面每根 bar 都继承更小的账 —— 六根窗、第四根成交必然「moved=2 first_reb=3」。
+「只在成交处移动」的正确读法是：成交前一根不动、第一根差异 bar 是决策日的下一根、且没有更晚的差异。
+
+**How**：任何「重建值 vs 已发布值」的断言，先问这两个值各自钉在哪根 bar 上；不同 bar 的结论
+只能是「还不能比」，不能是「复现失败」。任何「只在某事件处变化」的断言，先问该事件的效果是
+**一根尖峰**还是**永久价位下移**——后者会让后面每根 bar 都进差异集。
+
+**实锚**：`scripts/etf_book_return_regime.py::identity_verdict`（selftest 16→20/20，L17 同 bar
+MATCHED／L18 异 bar NOT_EVALUATED 且点名两根 bar／L19 同 bar 差异仍 MISMATCH／L20 无 bar 老票面
+走严格）；`scripts/etf_book_forward.py` 该腿重写后 `--selftest` OK；`etf_book_exec_delta.py run` 与
+`etf_book_scale_floor.py check` 链后实跑 rc0（floor=0 top2=0.7039 CONDITIONAL）。
