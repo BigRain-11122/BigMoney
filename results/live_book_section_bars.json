@@ -1,17 +1,17 @@
 {
  "script": "scripts/live_book_section_bars.py",
- "ts": "2026-11-13 16:24:16",
+ "ts": "2026-11-13 17:25:14",
  "page": {
   "path": "docs/live_book/LIVE-BOOK-20261113.md",
   "json": "docs/live_book/LIVE-BOOK-20261113.json"
  },
  "verdict": "PAGE_MIXES_BARS",
- "sentence": "页面头部写着按 2026-11-13 定价，但 47 个带日期的节里只有 7 节真在这一天；其余 40 节不在这一天（最旧停在 2026-11-06（最差 live_quote 落后 5 个交易日）），另外 9 节根本没有日期——它们不是同一根 bar 上的数，读的时候不能互相加减。这 40 节里，30 节的产物有同名链腿在守；4 节（cash_handshake, cash_ladder, cash_money, cash_yield）是这一页每次生成时自己重算的，停的正是它读的那块面板的最后一天：data/repo_daily/GC001.csv（update_repo.py / bm-a · T-88 车道，本机只读，末行 2026-11-11）、data/repo_daily（update_repo.py / bm-a · T-88 车道，本机只读，末行 2026-11-11）——落后的是那块面板，不是没人重跑这节；`data/repo_daily` 末行 2026-11-11；最后写入 31.4 h 前；属主 bm-a（update_repo.py） 自己的心跳停在 19.8 h 前——是那条车道停了，不是页面慢；`data/repo_daily/GC001.csv` 末行 2026-11-11；最后写入 31.4 h 前；属主 bm-a（update_repo.py） 自己的心跳停在 19.8 h 前——是那条车道停了，不是页面慢；6 节（bets, carry_regime, fill, forward, k_gap, vs_basket）没有任何一条链腿重跑过它们——那是这一页真正的缺口；另外 1 节 sample_window（2020-01-01 至 2026-11-12） 讲的是一整段固定窗口，它印的日期就是那段窗口自己的终点，不是某一根 bar 没跟上——要它站到页头那根 bar 上，等于把整段窗口重新定价一遍。",
+ "sentence": "页面头部写着按 2026-11-13 定价，但 47 个带日期的节里只有 25 节真在这一天；其余 22 节不在这一天（最旧停在 2026-11-11（最差 cash_handshake 落后 2 个交易日）），另外 9 节根本没有日期——它们不是同一根 bar 上的数，读的时候不能互相加减。这 22 节里，17 节的产物有同名链腿在守；4 节（cash_handshake, cash_ladder, cash_money, cash_yield）是这一页每次生成时自己重算的，停的正是它读的那块面板的最后一天：data/repo_daily/GC001.csv（update_repo.py / bm-a · T-88 车道，本机只读，末行 2026-11-11）、data/repo_daily（update_repo.py / bm-a · T-88 车道，本机只读，末行 2026-11-11）——落后的是那块面板，不是没人重跑这节；`data/repo_daily` 末行 2026-11-11；最后写入 32.4 h 前；属主 bm-a（update_repo.py） 自己的心跳停在 20.8 h 前——是那条车道停了，不是页面慢；`data/repo_daily/GC001.csv` 末行 2026-11-11；最后写入 32.4 h 前；属主 bm-a（update_repo.py） 自己的心跳停在 20.8 h 前——是那条车道停了，不是页面慢；1 节（k_gap）没有任何一条链腿重跑过它们——那是这一页真正的缺口。",
  "evidence_cutoff": "2026-11-13",
  "headline_bar": "2026-11-13",
  "headline_field": "priced_bar",
  "n_sections": 47,
- "n_on_headline": 7,
+ "n_on_headline": 25,
  "unknown_sections": [
   "backtest_band",
   "agreement",
@@ -24,34 +24,12 @@
   "authority"
  ],
  "bars": {
-  "2026-11-13": 7,
-  "2026-11-12": 35,
-  "2026-11-11": 4,
-  "2026-11-06": 1
+  "2026-11-13": 25,
+  "2026-11-12": 18,
+  "2026-11-11": 4
  },
- "n_off_headline": 40,
+ "n_off_headline": 22,
  "off_headline": [
-  {
-   "key": "live_quote",
-   "bar": "2026-11-06",
-   "field": "panel_bar",
-   "lag_sessions": 5,
-   "ahead_of_headline": false,
-   "guarded_by": [
-    "etf_book_live_quote"
-   ],
-   "provenance": "chain_leg",
-   "window": null,
-   "window_bound": false,
-   "pricing_mode": null,
-   "refresh_reprices": null,
-   "panel": null,
-   "panel_last_bar": null,
-   "panel_last_write": null,
-   "owner_machine": null,
-   "owner_runner": null,
-   "panel_owner": null
-  },
   {
    "key": "cash_handshake",
    "bar": "2026-11-11",
@@ -150,129 +128,6 @@
    "panel_owner": null
   },
   {
-   "key": "bets",
-   "bar": "2026-11-12",
-   "field": "evidence_cutoff",
-   "lag_sessions": 1,
-   "ahead_of_headline": false,
-   "guarded_by": [],
-   "provenance": "no_writer",
-   "window": null,
-   "window_bound": false,
-   "pricing_mode": null,
-   "refresh_reprices": null,
-   "panel": null,
-   "panel_last_bar": null,
-   "panel_last_write": null,
-   "owner_machine": null,
-   "owner_runner": null,
-   "panel_owner": null
-  },
-  {
-   "key": "capital",
-   "bar": "2026-11-12",
-   "field": "evidence_cutoff",
-   "lag_sessions": 1,
-   "ahead_of_headline": false,
-   "guarded_by": [
-    "etf_book_min_capital"
-   ],
-   "provenance": "chain_leg",
-   "window": null,
-   "window_bound": false,
-   "pricing_mode": null,
-   "refresh_reprices": null,
-   "panel": null,
-   "panel_last_bar": null,
-   "panel_last_write": null,
-   "owner_machine": null,
-   "owner_runner": null,
-   "panel_owner": null
-  },
-  {
-   "key": "card_days",
-   "bar": "2026-11-12",
-   "field": "priced_bar",
-   "lag_sessions": 1,
-   "ahead_of_headline": false,
-   "guarded_by": [
-    "ceo_page_card_days"
-   ],
-   "provenance": "chain_leg",
-   "window": null,
-   "window_bound": false,
-   "pricing_mode": null,
-   "refresh_reprices": null,
-   "panel": null,
-   "panel_last_bar": null,
-   "panel_last_write": null,
-   "owner_machine": null,
-   "owner_runner": null,
-   "panel_owner": null
-  },
-  {
-   "key": "carry_regime",
-   "bar": "2026-11-12",
-   "field": "evidence_cutoff",
-   "lag_sessions": 1,
-   "ahead_of_headline": false,
-   "guarded_by": [],
-   "provenance": "no_writer",
-   "window": null,
-   "window_bound": false,
-   "pricing_mode": null,
-   "refresh_reprices": null,
-   "panel": null,
-   "panel_last_bar": null,
-   "panel_last_write": null,
-   "owner_machine": null,
-   "owner_runner": null,
-   "panel_owner": null
-  },
-  {
-   "key": "causal_rebuild",
-   "bar": "2026-11-12",
-   "field": "evidence_cutoff",
-   "lag_sessions": 1,
-   "ahead_of_headline": false,
-   "guarded_by": [
-    "etf_book_causal_rebuild"
-   ],
-   "provenance": "chain_leg",
-   "window": null,
-   "window_bound": false,
-   "pricing_mode": null,
-   "refresh_reprices": null,
-   "panel": null,
-   "panel_last_bar": null,
-   "panel_last_write": null,
-   "owner_machine": null,
-   "owner_runner": null,
-   "panel_owner": null
-  },
-  {
-   "key": "concentration",
-   "bar": "2026-11-12",
-   "field": "evidence_cutoff",
-   "lag_sessions": 1,
-   "ahead_of_headline": false,
-   "guarded_by": [
-    "concentration_levers",
-    "etf_book_concentration"
-   ],
-   "provenance": "chain_leg",
-   "window": null,
-   "window_bound": false,
-   "pricing_mode": null,
-   "refresh_reprices": null,
-   "panel": null,
-   "panel_last_bar": null,
-   "panel_last_write": null,
-   "owner_machine": null,
-   "owner_runner": null,
-   "panel_owner": null
-  },
-  {
    "key": "cost_tape",
    "bar": "2026-11-12",
    "field": "evidence_cutoff",
@@ -280,27 +135,6 @@
    "ahead_of_headline": false,
    "guarded_by": [
     "etf_book_cost_tape"
-   ],
-   "provenance": "chain_leg",
-   "window": null,
-   "window_bound": false,
-   "pricing_mode": null,
-   "refresh_reprices": null,
-   "panel": null,
-   "panel_last_bar": null,
-   "panel_last_write": null,
-   "owner_machine": null,
-   "owner_runner": null,
-   "panel_owner": null
-  },
-  {
-   "key": "entry_gate",
-   "bar": "2026-11-12",
-   "field": "evidence_cutoff",
-   "lag_sessions": 1,
-   "ahead_of_headline": false,
-   "guarded_by": [
-    "etf_book_entry_gate"
    ],
    "provenance": "chain_leg",
    "window": null,
@@ -378,25 +212,6 @@
    "panel_owner": null
   },
   {
-   "key": "fill",
-   "bar": "2026-11-12",
-   "field": "evidence_cutoff",
-   "lag_sessions": 1,
-   "ahead_of_headline": false,
-   "guarded_by": [],
-   "provenance": "no_writer",
-   "window": null,
-   "window_bound": false,
-   "pricing_mode": null,
-   "refresh_reprices": null,
-   "panel": null,
-   "panel_last_bar": null,
-   "panel_last_write": null,
-   "owner_machine": null,
-   "owner_runner": null,
-   "panel_owner": null
-  },
-  {
    "key": "floor_provenance",
    "bar": "2026-11-12",
    "field": "evidence_cutoff",
@@ -405,46 +220,6 @@
    "guarded_by": [
     "floor_provenance",
     "floor_provenance_write"
-   ],
-   "provenance": "chain_leg",
-   "window": null,
-   "window_bound": false,
-   "pricing_mode": null,
-   "refresh_reprices": null,
-   "panel": null,
-   "panel_last_bar": null,
-   "panel_last_write": null,
-   "owner_machine": null,
-   "owner_runner": null,
-   "panel_owner": null
-  },
-  {
-   "key": "forward",
-   "bar": "2026-11-12",
-   "field": "as_of",
-   "lag_sessions": 1,
-   "ahead_of_headline": false,
-   "guarded_by": [],
-   "provenance": "no_writer",
-   "window": null,
-   "window_bound": false,
-   "pricing_mode": null,
-   "refresh_reprices": null,
-   "panel": null,
-   "panel_last_bar": null,
-   "panel_last_write": null,
-   "owner_machine": null,
-   "owner_runner": null,
-   "panel_owner": null
-  },
-  {
-   "key": "gap",
-   "bar": "2026-11-12",
-   "field": "evidence_cutoff",
-   "lag_sessions": 1,
-   "ahead_of_headline": false,
-   "guarded_by": [
-    "etf_book_overnight_gap"
    ],
    "provenance": "chain_leg",
    "window": null,
@@ -485,51 +260,6 @@
    "ahead_of_headline": false,
    "guarded_by": [
     "etf_book_leg_attribution"
-   ],
-   "provenance": "chain_leg",
-   "window": null,
-   "window_bound": false,
-   "pricing_mode": null,
-   "refresh_reprices": null,
-   "panel": null,
-   "panel_last_bar": null,
-   "panel_last_write": null,
-   "owner_machine": null,
-   "owner_runner": null,
-   "panel_owner": null
-  },
-  {
-   "key": "lookahead",
-   "bar": "2026-11-12",
-   "field": "evidence_cutoff",
-   "lag_sessions": 1,
-   "ahead_of_headline": false,
-   "guarded_by": [
-    "etf_book_lookahead",
-    "etf_book_lookahead_write"
-   ],
-   "provenance": "chain_leg",
-   "window": null,
-   "window_bound": false,
-   "pricing_mode": null,
-   "refresh_reprices": null,
-   "panel": null,
-   "panel_last_bar": null,
-   "panel_last_write": null,
-   "owner_machine": null,
-   "owner_runner": null,
-   "panel_owner": null
-  },
-  {
-   "key": "positions",
-   "bar": "2026-11-12",
-   "field": "asof",
-   "lag_sessions": 1,
-   "ahead_of_headline": false,
-   "guarded_by": [
-    "positions_ledger",
-    "positions_ledger_write",
-    "positions_unpriced_bar"
    ],
    "provenance": "chain_leg",
    "window": null,
@@ -588,51 +318,6 @@
    "panel_owner": null
   },
   {
-   "key": "sample_window",
-   "bar": "2026-11-12",
-   "field": "evidence_cutoff",
-   "lag_sessions": 1,
-   "ahead_of_headline": false,
-   "guarded_by": [
-    "etf_book_spanning"
-   ],
-   "provenance": "chain_leg",
-   "window": [
-    "2020-01-01",
-    "2026-11-12"
-   ],
-   "window_bound": true,
-   "pricing_mode": null,
-   "refresh_reprices": null,
-   "panel": null,
-   "panel_last_bar": null,
-   "panel_last_write": null,
-   "owner_machine": null,
-   "owner_runner": null,
-   "panel_owner": null
-  },
-  {
-   "key": "sellability",
-   "bar": "2026-11-12",
-   "field": "evidence_cutoff",
-   "lag_sessions": 1,
-   "ahead_of_headline": false,
-   "guarded_by": [
-    "etf_book_forced_hold"
-   ],
-   "provenance": "chain_leg",
-   "window": null,
-   "window_bound": false,
-   "pricing_mode": null,
-   "refresh_reprices": null,
-   "panel": null,
-   "panel_last_bar": null,
-   "panel_last_write": null,
-   "owner_machine": null,
-   "owner_runner": null,
-   "panel_owner": null
-  },
-  {
    "key": "sleeve_gate",
    "bar": "2026-11-12",
    "field": "evidence_cutoff",
@@ -661,49 +346,6 @@
    "ahead_of_headline": false,
    "guarded_by": [
     "etf_book_sleeve_paths"
-   ],
-   "provenance": "chain_leg",
-   "window": null,
-   "window_bound": false,
-   "pricing_mode": null,
-   "refresh_reprices": null,
-   "panel": null,
-   "panel_last_bar": null,
-   "panel_last_write": null,
-   "owner_machine": null,
-   "owner_runner": null,
-   "panel_owner": null
-  },
-  {
-   "key": "underwater",
-   "bar": "2026-11-12",
-   "field": "evidence_cutoff",
-   "lag_sessions": 1,
-   "ahead_of_headline": false,
-   "guarded_by": [
-    "etf_book_underwater"
-   ],
-   "provenance": "chain_leg",
-   "window": null,
-   "window_bound": false,
-   "pricing_mode": null,
-   "refresh_reprices": null,
-   "panel": null,
-   "panel_last_bar": null,
-   "panel_last_write": null,
-   "owner_machine": null,
-   "owner_runner": null,
-   "panel_owner": null
-  },
-  {
-   "key": "universe_lock",
-   "bar": "2026-11-12",
-   "field": "evidence_cutoff",
-   "lag_sessions": 1,
-   "ahead_of_headline": false,
-   "guarded_by": [
-    "etf_book_universe_lock",
-    "etf_book_universe_lock_write"
    ],
    "provenance": "chain_leg",
    "window": null,
@@ -782,25 +424,6 @@
    "panel_owner": null
   },
   {
-   "key": "vs_basket",
-   "bar": "2026-11-12",
-   "field": "bar",
-   "lag_sessions": 1,
-   "ahead_of_headline": false,
-   "guarded_by": [],
-   "provenance": "no_writer",
-   "window": null,
-   "window_bound": false,
-   "pricing_mode": null,
-   "refresh_reprices": null,
-   "panel": null,
-   "panel_last_bar": null,
-   "panel_last_write": null,
-   "owner_machine": null,
-   "owner_runner": null,
-   "panel_owner": null
-  },
-  {
    "key": "vt_ladder",
    "bar": "2026-11-12",
    "field": "evidence_cutoff",
@@ -866,69 +489,64 @@
    "panel_owner": null
   }
  ],
- "oldest": "2026-11-06",
- "max_lag_sessions": 5,
+ "oldest": "2026-11-11",
+ "max_lag_sessions": 2,
  "by_key": {
   "cash_yield": "2026-11-11",
   "cash_money": "2026-11-11",
   "cash_ladder": "2026-11-11",
-  "forward": "2026-11-12",
-  "vs_basket": "2026-11-12",
+  "forward": "2026-11-13",
+  "vs_basket": "2026-11-13",
   "money_cny": "2026-11-13",
   "ticket_book": "2026-11-13",
   "same_beta_benchmark": "2026-11-13",
   "ticket_days": "2026-11-13",
-  "card_days": "2026-11-12",
+  "card_days": "2026-11-13",
   "today_action": "2026-11-13",
   "admission": "2026-11-13",
   "vt_ladder": "2026-11-12",
   "vt_phases": "2026-11-12",
-  "fill": "2026-11-12",
-  "bets": "2026-11-12",
+  "fill": "2026-11-13",
+  "bets": "2026-11-13",
   "family_coherence": "2026-11-12",
   "cash_handshake": "2026-11-11",
-  "carry_regime": "2026-11-12",
+  "carry_regime": "2026-11-13",
   "leg_split": "2026-11-12",
-  "concentration": "2026-11-12",
+  "concentration": "2026-11-13",
   "sleeve_gate": "2026-11-12",
   "sleeve_paths": "2026-11-12",
   "exposure_timing": "2026-11-12",
   "cost_tape": "2026-11-12",
   "vol_window": "2026-11-12",
   "vol_window_edge": "2026-11-12",
-  "lookahead": "2026-11-12",
-  "causal_rebuild": "2026-11-12",
-  "underwater": "2026-11-12",
-  "sample_window": "2026-11-12",
-  "universe_lock": "2026-11-12",
-  "entry_gate": "2026-11-12",
-  "live_quote": "2026-11-06",
-  "sellability": "2026-11-12",
-  "capital": "2026-11-12",
-  "gap": "2026-11-12",
+  "lookahead": "2026-11-13",
+  "causal_rebuild": "2026-11-13",
+  "underwater": "2026-11-13",
+  "sample_window": "2026-11-13",
+  "universe_lock": "2026-11-13",
+  "entry_gate": "2026-11-13",
+  "live_quote": "2026-11-13",
+  "sellability": "2026-11-13",
+  "capital": "2026-11-13",
+  "gap": "2026-11-13",
   "k_gap": "2026-11-12",
   "premium_leak": "2026-11-12",
   "premium_forward": "2026-11-12",
   "floor_provenance": "2026-11-12",
   "vol_target_gate": "2026-11-12",
-  "positions": "2026-11-12",
+  "positions": "2026-11-13",
   "band_ruler": "2026-11-12",
   "window_label": "2026-11-12",
   "envelope": "2026-11-12",
   "stress": "2026-11-13"
  },
- "n_unguarded": 10,
+ "n_unguarded": 5,
  "unguarded": [
   "cash_handshake",
   "cash_ladder",
   "cash_money",
   "cash_yield",
-  "bets",
-  "carry_regime",
-  "fill",
-  "forward",
-  "k_gap",
-  "vs_basket"
+  "k_gap"
  ],
  "n_page_computed": 4,
  "page_computed": [
@@ -952,10 +570,10 @@
    "panel": "data/repo_daily",
    "panel_last_bar": "2026-11-11",
    "panel_last_write": "2026-11-12T09:02:16",
-   "panel_write_age_h": 31.4,
+   "panel_write_age_h": 32.4,
    "owner_machine": "bm-a",
    "owner_runner": "update_repo.py",
-   "owner_heartbeat_age_h": 19.8,
+   "owner_heartbeat_age_h": 20.8,
    "owner_state": "quiet",
    "sections": [
     "cash_ladder"
@@ -965,10 +583,10 @@
    "panel": "data/repo_daily/GC001.csv",
    "panel_last_bar": "2026-11-11",
    "panel_last_write": "2026-11-12T08:58:35",
-   "panel_write_age_h": 31.4,
+   "panel_write_age_h": 32.4,
    "owner_machine": "bm-a",
    "owner_runner": "update_repo.py",
-   "owner_heartbeat_age_h": 19.8,
+   "owner_heartbeat_age_h": 20.8,
    "owner_state": "quiet",
    "sections": [
     "cash_handshake",
@@ -977,20 +595,13 @@
    ]
   }
  ],
- "page_computed_debt_sentence": "`data/repo_daily` 末行 2026-11-11；最后写入 31.4 h 前；属主 bm-a（update_repo.py） 自己的心跳停在 19.8 h 前——是那条车道停了，不是页面慢；`data/repo_daily/GC001.csv` 末行 2026-11-11；最后写入 31.4 h 前；属主 bm-a（update_repo.py） 自己的心跳停在 19.8 h 前——是那条车道停了，不是页面慢",
- "n_no_writer": 6,
+ "page_computed_debt_sentence": "`data/repo_daily` 末行 2026-11-11；最后写入 32.4 h 前；属主 bm-a（update_repo.py） 自己的心跳停在 20.8 h 前——是那条车道停了，不是页面慢；`data/repo_daily/GC001.csv` 末行 2026-11-11；最后写入 32.4 h 前；属主 bm-a（update_repo.py） 自己的心跳停在 20.8 h 前——是那条车道停了，不是页面慢",
+ "n_no_writer": 1,
  "no_writer": [
-  "bets",
-  "carry_regime",
-  "fill",
-  "forward",
-  "k_gap",
-  "vs_basket"
+  "k_gap"
  ],
  "n_engine_priced": 0,
  "engine_priced": [],
- "n_window_bound": 1,
- "window_bound": [
-  "sample_window"
- ]
+ "n_window_bound": 0,
+ "window_bound": []
 }

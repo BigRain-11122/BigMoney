@@ -2573,13 +2573,36 @@ def sample_window_face(path=SPANNING_PRE2020_JSON, grid_path=PRE2020_JSON):
                                     "cost_bp": gd.get("cost_bp_per_side"),
                                     "cutoff": gd.get("evidence_cutoff")}
                             break
+                # r1636: the same pre-2020 names measured AFTER the window. Without this
+                # pair, "the rule fails before 2020" cannot be told apart from "the rule
+                # only works on ETFs listed after 2020" -- two different claims about the
+                # same negative, and the page prints only one of them.
+                _pre_uni = (grid or {}).get("universe")
+                if _pre_uni:
+                    for block in blocks.values():
+                        if (block.get("start") == "2020-01-01"
+                                and block.get("universe_size") == _pre_uni):
+                            cell = (block.get("cells") or {}).get(prim)
+                            if cell:
+                                grid_post = {"primary": prim, "start": block.get("start"),
+                                             "end": block.get("end"),
+                                             "book_cagr": (cell.get("book") or {}).get("cagr"),
+                                             "ew_cagr": (cell.get("ew") or {}).get("cagr"),
+                                             "excess_pp": cell.get("excess_cagr_pp"),
+                                             "p_value": (cell.get("null") or {}).get("p_value"),
+                                             "n_iter": (cell.get("null") or {}).get("n_iter"),
+                                             "universe": block.get("universe_size"),
+                                             "cost_bp": gd.get("cost_bp_per_side")}
+                                break
             except Exception:                                   # noqa: BLE001
                 grid = None
+                grid_post = None
         return {"status": "ok", "artifact": _rel(path, ROOT).replace("\\", "/"),
                 "window": doc.get("window"), "universe": doc.get("universe") or {},
                 "config": doc.get("config") or {}, "rows": rows,
                 "verdict": doc.get("verdict"), "survives": survives,
-                "t_abs_max": max(ts), "grid": grid, "page_window": page_window,
+                "t_abs_max": max(ts), "grid": grid, "grid_post": grid_post,
+                "page_window": page_window,
                 "caveats": doc.get("caveats") or [],
                 "evidence_cutoff": (grid or {}).get("cutoff")}
     except Exception as exc:                                    # noqa: BLE001
@@ -2642,6 +2665,18 @@ def sample_window_block(sw):
                100.0 * g["book_cagr"],
                100.0 * (g.get("ew_cagr") or 0.0), g.get("excess_pp") or 0.0,
                _niter, g.get("p_value") if g.get("p_value") is not None else float("nan")))
+        add("")
+    gp = sw.get("grid_post") or {}
+    if gp.get("book_cagr") is not None:
+        _gpiter = ("随机置换 %s 次的 " % gp["n_iter"]) if gp.get("n_iter") is not None else ""
+        add("- **同一批 %s 只老票**，再看 **%s 至 %s** 这一段：**%+.2f%%/年**，"
+            "同期同样的票池等权 %+.2f%%/年（相差 %+.2fpp/年，%sp=%.2f）。"
+            "所以上面那句不是「只对 2020 年后新上市的票有效」——是同一批票、同一套规则，"
+            "换个时段就换了结果；差别在那段行情，不在票池新旧。"
+            % (gp.get("universe"), gp.get("start"), gp.get("end"),
+               100.0 * gp["book_cagr"], 100.0 * (gp.get("ew_cagr") or 0.0),
+               gp.get("excess_pp") or 0.0, _gpiter,
+               gp.get("p_value") if gp.get("p_value") is not None else float("nan")))
         add("")
     if sw.get("survives"):
         add("- 上面那条 t 的读数**过线了**：换个时段这套规则仍与一个固定配比有所区别。"
@@ -2749,6 +2784,21 @@ def universe_lock_block(ul):
                  % (p.get("start"), 100.0 * (p.get("unlocked") or 0.0),
                     100.0 * (p.get("locked") or 0.0), p.get("delta_pp") or 0.0))
     L.append("")
+    # r1636: the table's first row and the card's headline are the SAME cell priced at two
+    # times. When they drift apart the page must say so instead of letting the reader assume
+    # either one is exact -- 8.41 vs 8.52 is a republish gap, not an error and not a tie.
+    _arm_dec = ((ul.get("control") or {}).get("arms") or {}).get("declared") or {}
+    _ph0 = (ul.get("phases") or [{}])[0]
+    _pub, _rc0 = _arm_dec.get("published"), _ph0.get("unlocked")
+    if _pub is not None and _rc0 is not None:
+        _gap_pp = abs(_rc0 - _pub) * 100.0
+        if _gap_pp >= 0.01:
+            L.append("- 上表第一行（不冻结、%s 起）是 **%.2f%%/年**，卡片上同一格印的是 **%.2f%%/年**——"
+                     "差 **%.2f pp**，在面自己的 %.2f pp 容差内。两个数都真：一个按本面今天重算，"
+                     "一个按卡片发布时点；别把其中任何一个当成精确值。"
+                     % (_ph0.get("start"), 100.0 * _rc0, 100.0 * _pub, _gap_pp,
+                        ul.get("tol_pp") or 0.0))
+            L.append("")
     v = ul.get("verdict")
     mean = ul.get("delta_mean_pp") or 0.0
     if v == "LOCK_COSTS_MONEY":
@@ -8587,6 +8637,25 @@ def selftest():
     chk("L115 sample window: an absent or drifted face prints no window table at all",
         "无法回答" in _sw_gone and "无法回答" in _sw_drift
         and "|" not in _sw_gone and "|" not in _sw_drift, "")
+    # L115a-L115b (r1636): "fails before 2020" and "only works on post-2020 listings" are two
+    # different claims. The pairing sentence must be derived from the payload's own post-period
+    # block over the SAME pre-2020 names, and must vanish when that block is missing (a page
+    # that always prints it would be answering a question it did not ask).
+    _sw_gp = _sw.get("grid_post") or {}
+    if _sw_gp.get("book_cagr") is not None:
+        _sw_gp_ok = (("同一批 %s 只老票" % _sw_gp.get("universe")) in _sw_md
+                     and ("%+.2f%%/年" % (100.0 * _sw_gp["book_cagr"])) in _sw_md)
+    else:
+        _sw_gp_ok = "同一批" not in _sw_md
+    chk("L115a sample window: the same pre-2020 names are also priced after the window "
+        "(sentence derived from the payload, absent when the block is missing)",
+        _sw_gp_ok, "grid_post=%s" % (bool(_sw_gp),))
+    _sw_nopost = dict(_sw)
+    _sw_nopost.pop("grid_post", None)
+    _sw_nopost_md = "\n".join(sample_window_block(_sw_nopost))
+    chk("L115b sample window: without the post-period block the pairing sentence disappears",
+        ("只老票" not in _sw_nopost_md and "只老票" in _sw_md)
+        if _sw_gp.get("book_cagr") is not None else ("只老票" not in _sw_nopost_md), "")
     # L116-L119 (r1235): the reader must know whether he could have bought this book in 2020.
     # The page quotes the locked-universe run, its verdict sentence is chosen from the payload's
     # own rows (through the face's single implementation), a payload whose control arms drift is
@@ -8600,10 +8669,26 @@ def selftest():
         _ul.get("status") == "ok" and _ul_ph
         and ("%.2f%%" % (100.0 * (_ul_ph[0].get("unlocked") or 0.0)) in _ul_md)
         and ("%.2f%%" % (100.0 * (_ul_ph[0].get("locked") or 0.0)) in _ul_md)
-        # phase 0 is the card's own decision grid: it has to equal the declared headline
+        # phase 0 is this face's own recomputation -- compare it against the control arm's
+        # RECOMPUTED value (same ruler), not against the card's published headline: r1636 caught
+        # the two 0.11pp apart inside a 0.5pp tolerance, which made this leg red on a face that
+        # was telling the truth. The published-vs-recomputed gap is printed by the block itself.
         and _ul_decl is not None
-        and abs((_ul_ph[0].get("unlocked") or 0.0) - _ul_decl) <= 1e-9,
+        and abs((_ul_ph[0].get("unlocked") or 0.0) - _ul_decl) <= ((_ul.get("tol_pp") or 0.0) / 100.0)
+        and (((_ul.get("control") or {}).get("arms") or {}).get("declared") or {}).get("ok"),
         "status=%s phases=%d declared=%s" % (_ul.get("status"), len(_ul_ph), _ul_decl))
+    # L116b (r1636): the republish gap is printed when it exists and silent when it does not.
+    _ul_gap_txt = "\n".join(universe_lock_block(_ul))
+    _ul_nogap = dict(_ul, control={"arms": {"declared": {"published": _ul_ph[0].get("unlocked"),
+                                                          "ok": True}}})
+    _ul_nogap_txt = "\n".join(universe_lock_block(_ul_nogap))
+    _ul_pub_live = (((_ul.get("control") or {}).get("arms") or {}).get("declared") or {}).get("published")
+    _ul_gap_live_pp = (abs((_ul_ph[0].get("unlocked") or 0.0) - (_ul_pub_live or 0.0)) * 100.0
+                       if _ul_pub_live is not None else 0.0)
+    chk("L116b universe lock: a card-vs-recompute gap is printed, an exact match stays silent",
+        (("卡片上同一格印的是" in _ul_gap_txt) if _ul_gap_live_pp >= 0.01 else True)
+        and "卡片上同一格印的是" not in _ul_nogap_txt,
+        "gap=%.3fpp" % _ul_gap_live_pp)
     _ul_fake_cost = dict(_ul, verdict="LOCK_COSTS_MONEY")
     _ul_fake_rob = dict(_ul, verdict="UNIVERSE_ROBUST")
     chk("L117 universe lock: the verdict sentence follows the payload's own verdict",
