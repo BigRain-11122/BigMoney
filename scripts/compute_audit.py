@@ -336,6 +336,74 @@ def supply_candidates_face(path=None):
                                   "agenda_cause", "calendar")}
 
 
+SUPPLY_FLOOR_ACTIONS = {
+    "calendar": "the gap is a book's own calendar, not a missing topic: the "
+                "candidates named here were judged and refused",
+    "mechanism": "startable work exists and is not in the pool -- enqueue it",
+    "no_topics": "nothing to enqueue and nothing refused by a calendar: "
+                 "write a topic",
+    "unknown": "nothing to enqueue, and the calendar reading could not be made "
+               "-- unknown is not 'no topics' (r98)",
+}
+
+
+def supply_floor_why(sc, breach):
+    """Why the floor is red, in the words a reader can act on (r1657).
+
+    The flag itself is three numbers (ready / floor / breach) and had been red
+    for 12.3 days; every round that printed it printed the same silence. The
+    cause was already published one layer down (supply_candidate_face ->
+    agenda_cause -> calendar), so this block only CARRIES it: no re-derivation,
+    no new verdict, and `None` when the candidate face was unreadable (unknown).
+
+    `wait_heals` is derived from the calendar rows' own words. A candidate that
+    cannot be adjudicated because its phase spread is wider than the margin is
+    not waiting for tomorrow's data: the same book, re-read on another day, sits
+    inside the same noise. One that cannot be adjudicated because its phases
+    disagree is waiting for the phase set to move. Those are two different
+    orders for the desk, and before r1657 they printed the same word.
+    """
+    if not breach:
+        return None
+    if not isinstance(sc, dict):
+        return {"cause": "unknown", "action": SUPPLY_FLOOR_ACTIONS["unknown"],
+                "what_would_move_it": None, "candidates": []}
+    cause = sc.get("agenda_cause") or "unknown"
+    cal = sc.get("calendar") or {}
+    rows = [{"candidate": c.get("candidate"), "state": c.get("state"),
+             "undecidable_because": c.get("undecidable_because"),
+             "failing_checks": c.get("failing_checks")}
+            for c in (cal.get("candidates") or [])]
+    out = {"cause": cause,
+           "action": SUPPLY_FLOOR_ACTIONS.get(cause, SUPPLY_FLOOR_ACTIONS["unknown"]),
+           "shortfall": sc.get("shortfall"),
+           "candidates": rows}
+    if cause == "calendar":
+        spread = [r for r in rows
+                  if r.get("undecidable_because") == "phase_spread_wider_than_margin"]
+        disagree = [r for r in rows
+                    if r.get("undecidable_because") == "phases_disagree_on_verdict"]
+        # Not a boolean: "waiting" is not one thing. A book whose phases
+        # disagree is waiting for the phase set to move; one whose noise is wider
+        # than its margin is waiting for more years of evidence. Neither is
+        # waiting for tomorrow (the same rows would be re-read).
+        out["what_would_move_it"] = (
+            "the phase set" if disagree
+            else "more years of evidence" if spread else "unknown")
+        out["sentence"] = (
+            "%d candidate(s) were judged and none reads ADMIT: %d cannot be "
+            "judged because the phase spread is wider than the distance to the "
+            "line (%s), %d because the phases disagree (%s)"
+            % (len(rows),
+               len(spread), ", ".join(r["candidate"] for r in spread) or "-",
+               len(disagree), ", ".join(r["candidate"] for r in disagree) or "-"))
+    else:
+        out["what_would_move_it"] = None
+        out["sentence"] = SUPPLY_FLOOR_ACTIONS.get(
+            cause, SUPPLY_FLOOR_ACTIONS["unknown"])
+    return out
+
+
 def _ts_age_min(stamp, now_epoch=None):
     """Minutes since an ISO-8601 / 'YYYY-MM-DD HH:MM:SS' stamp; None if
     unparseable (honest unknown, never 0)."""
@@ -927,6 +995,10 @@ def main():
     if unstartable_face:
         flags.append("supply_unstartable")
     streak_min = supply_family_streak_min(hist, flags, time.time())
+    # r1657: read the candidate face once and keep the same dict in both places
+    # (the floor's `why` and the `supply_candidates` block must describe one
+    # reading, not two reads a second apart -- r1290/r1655 family).
+    _sc_face = supply_candidates_face()
 
     record = {
         "ts": time.strftime("%Y-%m-%d %H:%M:%S"),
@@ -974,13 +1046,17 @@ def main():
                                              ignitable["ready_ignitable"]),
                          "breach_ignitable": (None if ignitable is None else
                                               ignitable["ready_ignitable"]
-                                              < SUPPLY_FLOOR_READY)},
+                                              < SUPPLY_FLOOR_READY),
+                         # r1657: the flag is a number; the operator needs the
+                         # cause. Carried from the candidate face, never
+                         # re-derived here; None while the floor is green.
+                         "why": supply_floor_why(_sc_face, floor_breach)},
         "pool_ignitable": ignitable,
         # r1199: the floor flag says the pool is empty; it cannot say whether
         # there was anything to put in it. Read the published candidate face
         # (scripts/supply_candidate_face.py owns that reader) rather than
         # re-deriving it here -- a missing/unreadable artifact stays None.
-        "supply_candidates": supply_candidates_face(),
+        "supply_candidates": _sc_face,
         "ignition_sla_breach_ids": sla_ids,
         "supply_family_streak_min": streak_min,
         "gpu": gpu,
@@ -1445,6 +1521,35 @@ def _selftest():
                         "verdict"])
     check("r1199/r1421 named extra key is dropped, named published keys survive",
           _sc.get("extra", "absent"), "absent")
+
+    # ---- r1657 legs: the floor flag must carry its cause ----------------
+    check("r1657 a green floor says nothing",
+          supply_floor_why({"agenda_cause": "calendar"}, False), None)
+    check("r1657 unreadable candidate face -> unknown, not 'no topics'",
+          (supply_floor_why(None, True) or {}).get("cause"), "unknown")
+    _cal_spread = {"agenda_cause": "calendar", "shortfall": 3, "calendar": {
+        "candidates": [
+            {"candidate": "A", "state": "UNADJUDICABLE_PHASE",
+             "undecidable_because": "phase_spread_wider_than_margin"},
+            {"candidate": "B", "state": "UNADJUDICABLE_PHASE",
+             "undecidable_because": "phase_spread_wider_than_margin"}]}}
+    _w = supply_floor_why(_cal_spread, True)
+    check("r1657 noise-only refusals -> more years of evidence",
+          _w.get("what_would_move_it"), "more years of evidence")
+    check("r1657 the sentence names the candidate",
+          "A" in (_w.get("sentence") or ""), True)
+    check("r1657 both candidates are counted",
+          "2 candidate(s) were judged" in (_w.get("sentence") or ""), True)
+    _cal_mix = {"agenda_cause": "calendar", "shortfall": 3, "calendar": {
+        "candidates": [{"candidate": "A", "state": "UNADJUDICABLE_PHASE",
+                        "undecidable_because": "phases_disagree_on_verdict"}]}}
+    check("r1657 disagreeing phases -> the phase set has to move",
+          supply_floor_why(_cal_mix, True).get("what_would_move_it"), "the phase set")
+    check("r1657 mechanism cause is not read as a calendar cause",
+          supply_floor_why({"agenda_cause": "mechanism"}, True).get("what_would_move_it"),
+          None)
+    check("r1657 a green floor never carries a cause",
+          supply_floor_why(_cal_mix, False), None)
 
     n_pass = sum(1 for _, ok, _, _ in cases if ok)
     print(f"compute_audit selftest: {n_pass}/{len(cases)} PASS")

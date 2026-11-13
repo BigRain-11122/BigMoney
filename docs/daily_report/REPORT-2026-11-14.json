@@ -1,6 +1,6 @@
 {
  "report_date": "2026-11-14",
- "generated_at": "2026-11-14 07:14:07",
+ "generated_at": "2026-11-14 07:53:20",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -294,13 +294,13 @@
   "md_link": "../live_usage/LIVE-2026-11-14.md"
  },
  "rd": {
-  "commits_24h": 94,
+  "commits_24h": 91,
   "result_jsons_landed_24h": 204,
-  "digests_landed_24h": 1,
-  "prereg_md_touched_24h": 49,
+  "digests_landed_24h": 0,
+  "prereg_md_touched_24h": 48,
   "compute_audit_latest": {
-   "ts": "2026-11-14 07:13:53",
-   "py_cpu_pct": 3.5,
+   "ts": "2026-11-14 07:46:31",
+   "py_cpu_pct": 2.0,
    "flags": [
     "pool_starvation",
     "supply_floor"
@@ -650,11 +650,11 @@
  ],
  "token_line": {
   "total_state_tokens_est": 15889,
-  "total_report_tokens_est": 2397190,
+  "total_report_tokens_est": 2398963,
   "delta_vs_prev": {
-   "prev_generated": "2026-11-13 22:44:41",
+   "prev_generated": "2026-11-14 03:31:16",
    "state_tokens_growth": 0,
-   "report_tokens_growth": 0,
+   "report_tokens_growth": 1773,
    "mandate_growth": 0
   },
   "method": {
@@ -684,7 +684,8 @@
     "own_samples": 1,
     "unattributed_samples": 200,
     "latest_attributed": true,
-    "lane_machine": "bm-a"
+    "lane_machine": "bm-a",
+    "supply_why": null
    },
    "bm-b": {
     "latest_ts": "2026-10-30 07:20:32",
@@ -701,14 +702,15 @@
     "own_samples": 0,
     "unattributed_samples": 201,
     "latest_attributed": false,
-    "lane_machine": "bm-b"
+    "lane_machine": "bm-b",
+    "supply_why": null
    },
    "bm-c": {
-    "latest_ts": "2026-11-14 07:13:53",
-    "py_pct": 3.5,
-    "cpu_pct": 56.0,
+    "latest_ts": "2026-11-14 07:46:31",
+    "py_pct": 2.0,
+    "cpu_pct": 36.0,
     "ready": 0,
-    "streak_min": 17651.4,
+    "streak_min": 17610.7,
     "verdict": "FLAG:pool_starvation,supply_floor",
     "py_series_tail": [
      [
@@ -746,16 +748,66 @@
      [
       "07:13",
       3.5
+     ],
+     [
+      "07:44",
+      4.9
+     ],
+     [
+      "07:46",
+      2.0
      ]
     ],
-    "today_samples": 8,
+    "today_samples": 10,
     "today_floor_ok": 0,
     "today_sla_flags": 0,
     "today_supply_gap_flags": 0,
-    "own_samples": 9,
-    "unattributed_samples": 191,
+    "own_samples": 11,
+    "unattributed_samples": 189,
     "latest_attributed": true,
-    "lane_machine": "bm-c"
+    "lane_machine": "bm-c",
+    "supply_why": {
+     "cause": "calendar",
+     "action": "the gap is a book's own calendar, not a missing topic: the candidates named here were judged and refused",
+     "shortfall": 3,
+     "candidates": [
+      {
+       "candidate": "nobond_vt08_adopted",
+       "state": "UNADJUDICABLE_PHASE",
+       "undecidable_because": "phase_spread_wider_than_margin",
+       "failing_checks": [
+        "Y4_top2_share"
+       ]
+      },
+      {
+       "candidate": "nobond_base",
+       "state": "UNADJUDICABLE_PHASE",
+       "undecidable_because": "phases_disagree_on_verdict",
+       "failing_checks": [
+        "Y3_worst_year",
+        "Y4_top2_share"
+       ]
+      },
+      {
+       "candidate": "nobond_vt08_floor_050",
+       "state": "UNADJUDICABLE_PHASE",
+       "undecidable_because": "phases_disagree_on_verdict",
+       "failing_checks": [
+        "Y4_top2_share"
+       ]
+      },
+      {
+       "candidate": "all_classes_published",
+       "state": "CONDITIONAL",
+       "undecidable_because": null,
+       "failing_checks": [
+        "Y4_top2_share"
+       ]
+      }
+     ],
+     "what_would_move_it": "the phase set",
+     "sentence": "4 candidate(s) were judged and none reads ADMIT: 1 cannot be judged because the phase spread is wider than the distance to the line (nobond_vt08_adopted), 2 because the phases disagree (nobond_base, nobond_vt08_floor_050)"
+    }
    }
   },
   "fill_ledger": "T-107 slice-2 / T-108 D4 (catalog generator) pending -- honest label",
@@ -815,7 +867,7 @@
      "readable": true,
      "window_min": 60.0,
      "audit_batches": 0,
-     "audit_ts": "2026-11-14 07:13:53"
+     "audit_ts": "2026-11-14 07:46:31"
     }
    }
   },

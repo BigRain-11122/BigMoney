@@ -296,6 +296,11 @@ def _utilization_face(now):
             "unattributed_samples": unsigned_n,
             "latest_attributed": latest.get("machine") == mid,
             "lane_machine": (d or {}).get("lane_machine"),
+            # r1657: the floor flag has been red for 12.3 days and the page
+            # printed only the numbers. Carry the cause the audit now publishes
+            # (ready/floor/breach + why) so the CEO-visible row says what the
+            # red means and whether waiting can heal it.
+            "supply_why": (latest.get("supply_floor") or {}).get("why"),
         }
     return {"machines": machines,
             "fill_ledger": "T-107 slice-2 / T-108 D4 (catalog generator) "
@@ -1191,6 +1196,43 @@ def render_md(rep):
                  f"· 家族旗龄 {m.get('streak_min')}min · `{m.get('verdict')}`")
         own_n = m.get("own_samples")
         un_n = m.get("unattributed_samples") or 0
+        why = m.get("supply_why") or {}
+        _mover_cn = {"the phase set": "相位集的切法",
+                     "more years of evidence": "更多年的证据"}
+        if why.get("candidates") is not None:
+            # This page is a Chinese CEO face: build the sentence from the
+            # structured cause, never by pasting the audit's English prose
+            # (r1582 leg: `the Chinese CEO pages carry no new English prose`).
+            _cands = why.get("candidates") or []
+            _spread = [c for c in _cands
+                       if c.get("undecidable_because") == "phase_spread_wider_than_margin"]
+            _disagree = [c for c in _cands
+                         if c.get("undecidable_because") == "phases_disagree_on_verdict"]
+            _other = [c for c in _cands if not c.get("undecidable_because")]
+            bits = []
+            if _spread:
+                bits.append("%d 个卡在相位噪声宽于到线距离（%s）" % (
+                    len(_spread), "、".join(c.get("candidate") or "?" for c in _spread)))
+            if _disagree:
+                bits.append("%d 个卡在相位之间判决不一致（%s）" % (
+                    len(_disagree), "、".join(c.get("candidate") or "?" for c in _disagree)))
+            if _other:
+                bits.append("%d 个只是没过单相位的年限检查（%s）" % (
+                    len(_other), "、".join(c.get("candidate") or "?" for c in _other)))
+            mover = _mover_cn.get(why.get("what_would_move_it"))
+            tail = ("要动的是%s（再等一天不会变）" % mover if mover
+                    else "无法判断等什么才有用")
+            L.append("  - 供给底线为什么红：%d 个候选全被自己的日历拒 —— %s；%s"
+                     "（成因 `%s`，缺口 %s）"
+                     % (len(_cands), "；".join(bits) or "成因面没给出可分类的候选",
+                        tail, why.get("cause"), why.get("shortfall")))
+        elif "supply_floor" in str(m.get("verdict") or ""):
+            # Honest label: a lane written before r1657 has the flag but no
+            # cause. Printing nothing would read as "no cause exists"; printing
+            # the same sentence for two machines reads as one number twice, so
+            # the row names its own machine.
+            L.append("  - 供给底线为什么红：**%s** 这条 lane 是旧世代写面，"
+                     "还没有成因字段（成因字段自 r1657 起由本机写入）" % mid)
         if series:
             note = f"近 {len(m.get('py_series_tail') or [])} 采样"
             if own_n:

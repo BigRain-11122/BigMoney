@@ -247,7 +247,16 @@ def build(pool_ready=None, pool_ids=None, tickets=None, backlog_path=None,
             "candidates": [
                 {"candidate": c.get("candidate"), "state": c.get("state"),
                  "failing_checks": c.get("failing_checks"),
-                 "receipt": c.get("receipt")}
+                 "receipt": c.get("receipt"),
+                 # r1657: carry the numbers that make the third word a fact
+                 # rather than a label. Without them a reader one layer up
+                 # (audit floor, daily page) could only repeat
+                 # "UNADJUDICABLE_PHASE" and had no way to tell "the noise is
+                 # wider than the margin" from "the phases disagree".
+                 "phases": c.get("phases"),
+                 "spread_pp": c.get("spread_pp"),
+                 "margin_pp": c.get("margin_pp"),
+                 "undecidable_because": c.get("undecidable_because")}
                 for c in (cal_face.get("candidates") or [])],
         },
         # counted, deliberately NOT startable: cross-company, or needs prereg

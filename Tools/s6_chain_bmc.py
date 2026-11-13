@@ -36,6 +36,18 @@ for _stream in (sys.stdout, sys.stderr):
 
 LEGS = [
     ("dualrun", ["python", "scripts/pool_dualrun_reconcile.py", "run"]),
+    # r1657: the audit's supply_floor flag had been red for 12.3 days and now
+    # carries its cause -- but that cause lives in supply_candidates.json, a face
+    # with no leg of its own and, until this round, written by hand only. Measured
+    # on 2026-11-14: the audit was quoting a candidate face one generation old
+    # (phase spread 9.04pp) while the receipt it derives from said 9.28pp, because
+    # supply_calendar ran ~1,100 legs LATER in this same chain. Writer before the
+    # reader (r1651 class, E569): both faces are built first, the audit that quotes
+    # them second. Both read the PREVIOUS round's phase-gate receipt by design --
+    # the receipt is itself a chain product, and quoting one generation is honest
+    # as long as the audit and the faces read the same generation, which they now do.
+    ("supply_calendar", ["python", "scripts/supply_calendar_face.py", "run"]),
+    ("supply_candidates", ["python", "scripts/supply_candidate_face.py", "run"]),
     ("compute_audit", ["python", "scripts/compute_audit.py"]),
     # r1422: compute_audit has raised supply_floor (ready 0 < floor 3) for thirty
     # rounds and names fill_ladder as the remediation face -- but the ladder's own
@@ -1124,7 +1136,9 @@ LEGS = [
     # JSON plus a recompute of the frozen rule; the 44-cell repricing runs only with `run`
     # in its own round (~2 min).
     ("sign_flip_phase", ["python", "scripts/etf_sign_flip_phase_test.py", "--check"]),
-    ("supply_calendar", ["python", "scripts/supply_calendar_face.py", "run"]),
+    # r1657: the calendar face itself now runs at the head of the chain, so the
+    # audit and the faces it quotes are built from one generation (see the
+    # supply_calendar/supply_candidates pair above compute_audit).
     # r1460: the supply calendar names the refusal but never says how far away it is, and a
     # refusal with no distance cannot be told apart from "we do not know" -- is the desk
     # waiting a month, a year, or a new family? Every calendar check is a function of seven

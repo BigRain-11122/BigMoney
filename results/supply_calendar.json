@@ -23,6 +23,13 @@
    "margin_pp": 9.2,
    "median_top2_share": 0.792,
    "pass": false,
+   "phase_verdicts": [
+    "CONDITIONAL",
+    "CONDITIONAL",
+    "CONDITIONAL",
+    "CONDITIONAL",
+    "CONDITIONAL"
+   ],
    "phases": 5,
    "reading": "phase",
    "receipt": "results/etf_book_phase_gate.json",
@@ -55,7 +62,8 @@
    "trusted_states": {
     "effective_years": "PASS",
     "years_for_half": "FAIL"
-   }
+   },
+   "undecidable_because": "phase_spread_wider_than_margin"
   },
   {
    "candidate": "nobond_base",
@@ -81,6 +89,13 @@
    "margin_pp": 11.85,
    "median_top2_share": 0.8185,
    "pass": false,
+   "phase_verdicts": [
+    "ADMIT",
+    "ADMIT",
+    "REFUSE",
+    "CONDITIONAL",
+    "CONDITIONAL"
+   ],
    "phases": 5,
    "reading": "phase",
    "receipt": "results/etf_book_phase_gate.json",
@@ -113,7 +128,8 @@
    "trusted_states": {
     "effective_years": "PASS",
     "years_for_half": "FAIL"
-   }
+   },
+   "undecidable_because": "phases_disagree_on_verdict"
   },
   {
    "candidate": "nobond_vt08_floor_050",
@@ -138,6 +154,13 @@
    "margin_pp": 8.56,
    "median_top2_share": 0.7856,
    "pass": false,
+   "phase_verdicts": [
+    "ADMIT",
+    "CONDITIONAL",
+    "CONDITIONAL",
+    "CONDITIONAL",
+    "CONDITIONAL"
+   ],
    "phases": 5,
    "reading": "phase",
    "receipt": "results/etf_book_phase_gate.json",
@@ -168,7 +191,8 @@
    "trusted_states": {
     "effective_years": "PASS",
     "years_for_half": "FAIL"
-   }
+   },
+   "undecidable_because": "phases_disagree_on_verdict"
   },
   {
    "candidate": "all_classes_published",
@@ -202,7 +226,7 @@
  ],
  "elected_ruler": "years_for_half",
  "election_error": "",
- "generated": "2026-11-13T22:48:57+0800",
+ "generated": "2026-11-14T07:46:17+0800",
  "half_year": {
   "book": "nobond_vt08_adopted",
   "book_is_a_candidate": true,

@@ -283,6 +283,40 @@ def _phase_state(obj, book):
     return None, summ if isinstance(summ, dict) else {}
 
 
+UNDECIDABLE_WORDS = {
+    "phase_spread_wider_than_margin":
+        "the phase spread is wider than the distance from the median to the line",
+    "phases_disagree_on_verdict":
+        "the phases do not agree on the verdict",
+    "no_top2_share":
+        "no phase published a top-2 share",
+    "not_recorded":
+        "the receipt says 'cannot be judged' without the numbers that say why",
+}
+
+
+def undecidable_because(row):
+    """Why a phase reading cannot be adjudicated -- derived from the row's own
+    numbers, never from the English sentence in the receipt (that sentence is
+    written by another tool and may be reworded; a reader must not depend on it).
+
+    None when the row was adjudicated. The three words are kept apart because an
+    operator's next move differs: a spread wider than the margin is a property of
+    the book's own noise (another day will not heal it), whereas phases that
+    disagree are a property of where the phase set was cut."""
+    if str(row.get("state") or "") != "UNADJUDICABLE_PHASE":
+        return None
+    verdicts = row.get("phase_verdicts")
+    if isinstance(verdicts, (list, tuple)) and len(set(verdicts)) > 1:
+        return "phases_disagree_on_verdict"
+    spread, margin = row.get("spread_pp"), row.get("margin_pp")
+    if spread is not None and margin is not None and float(spread) > float(margin):
+        return "phase_spread_wider_than_margin"
+    if row.get("median_top2_share") is None:
+        return "no_top2_share"
+    return "not_recorded"
+
+
 def read_phase_gate(path, obj, err, root=ROOT):
     """Books + phases. A book is a candidate only if it carries phase rows."""
     rows = []
@@ -331,7 +365,14 @@ def read_phase_gate(path, obj, err, root=ROOT):
             # A5 input, from the receipt's own published sums (never re-derived
             # from returns): how many phases would make "half" a rounding artefact.
             "degenerate_phases": _degenerate_phases(phases),
+            # r1657: the phase rows' own verdict words. The receipt's summary
+            # carries the three-word state but not why it is the third word; a
+            # reader downstream (audit floor, daily page) was left holding
+            # "UNADJUDICABLE_PHASE" with no way to tell "the phases disagree"
+            # from "the noise is wider than the margin".
+            "phase_verdicts": [p.get("verdict") for p in phases if p.get("verdict")],
         })
+        rows[-1]["undecidable_because"] = undecidable_because(rows[-1])
     return rows, ""
 
 
@@ -583,12 +624,14 @@ def ruler_split(rows):
 
 
 def _one_line(row):
-    """Name the failing check, not just the word CONDITIONAL."""
+    """Name the failing check and the reason for the third word, not just the word."""
     checks = ", ".join(row.get("failing_checks") or []) or "no named check"
     extra = ""
     if row.get("state") == "UNADJUDICABLE_PHASE" and row.get("spread_pp") is not None:
-        extra = " (phase spread %.2fpp vs margin %spp)" % (
-            row["spread_pp"], row.get("margin_pp"))
+        why = row.get("undecidable_because")
+        extra = " (phase spread %.2fpp vs margin %spp%s)" % (
+            row["spread_pp"], row.get("margin_pp"),
+            (" -- %s" % UNDECIDABLE_WORDS.get(why, why)) if why else "")
     return "%s: %s via %s%s" % (row["candidate"], row.get("state"), checks, extra)
 
 
@@ -1047,6 +1090,47 @@ def _selftest():
           (nohalf["half_year"], nohalf["half_year_error"]), (None, "absent"))
     check("missing half-year receipt adds no clause to the summary",
           "half_year:" in summary_line(nohalf), False)
+
+    # r1657: the third word has to say WHY it is the third word. Three cases,
+    # each forced by a fixture that differs only in the numbers that carry the
+    # answer -- a leg that only checks the live face would pass if the
+    # classifier quietly returned one word for all of them.
+    check("spread wider than margin -> noise, not disagreement",
+          undecidable_because({"state": "UNADJUDICABLE_PHASE", "spread_pp": 9.0,
+                               "margin_pp": 8.0, "median_top2_share": 0.79,
+                               "phase_verdicts": ["CONDITIONAL", "CONDITIONAL"]}),
+          "phase_spread_wider_than_margin")
+    check("phases that disagree outrank the spread comparison",
+          undecidable_because({"state": "UNADJUDICABLE_PHASE", "spread_pp": 9.0,
+                               "margin_pp": 8.0, "median_top2_share": 0.79,
+                               "phase_verdicts": ["ADMIT", "CONDITIONAL"]}),
+          "phases_disagree_on_verdict")
+    check("a third word without a top-2 share says so",
+          undecidable_because({"state": "UNADJUDICABLE_PHASE",
+                               "phase_verdicts": []}), "no_top2_share")
+    check("a third word with numbers that do not explain it is not guessed",
+          undecidable_because({"state": "UNADJUDICABLE_PHASE", "spread_pp": 1.0,
+                               "margin_pp": 8.0, "median_top2_share": 0.79,
+                               "phase_verdicts": ["CONDITIONAL"]}), "not_recorded")
+    check("an adjudicated row has no 'why' at all",
+          undecidable_because({"state": "CONDITIONAL", "spread_pp": 9.0,
+                               "margin_pp": 8.0}), None)
+    # ... and the word reaches the sentence an operator reads, not just the JSON.
+    pg_split = write("phase_split.json", {
+        "asof": "2026-11-14T00:00:00+0800",
+        "summary": {"B": {"state": "UNADJUDICABLE_PHASE", "spread_pp": 21.0,
+                          "margin_pp": 11.0, "median_top2_share": 0.82}},
+        "books": [{"book": "B", "phase_rows": [
+            {"start": "2020-01-01", "verdict": "ADMIT", "top2_share": 0.92,
+             "failing_checks": []},
+            {"start": "2020-01-08", "verdict": "CONDITIONAL", "top2_share": 0.71,
+             "failing_checks": ["Y4_top2_share"]}]}]})
+    fsplit = build(receipts=[(pg_split, "phase_gate")], root=tmp, elected=None)
+    check("the disagreement reaches the operator's sentence",
+          "the phases do not agree" in summary_line(fsplit), True)
+    check("the row carries the word, not only the sentence",
+          (fsplit["candidates"][0] or {}).get("undecidable_because"),
+          "phases_disagree_on_verdict")
 
     print("selftest %d/%d PASS" % (ok[0], ok[1]))
     return 0 if ok[0] == ok[1] else 1

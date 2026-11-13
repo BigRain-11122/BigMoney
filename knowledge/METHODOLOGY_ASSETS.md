@@ -14648,3 +14648,15 @@ CEO 页的回测带表有三行：第一行是本单的账，另两行是生产�
 **读数**：无日期节 3→2、带日期节 53→54、`stamp_missing=[]`（真正欠日期的节为零），审计 `--check` CHECK_OK，审计自检 57/57（+6 腿：豁免进桶/不自证的节仍欠/自造理由不豁免/两桶守恒/句子分家/two-way），页面自检 297/297（+3 腿：无 pair 仍带日期/该节因此被定日/两块都不再被催日期）。
 
 **How**：①任何「无法核验」清单先问它会不会有一天变空——不会变空的那几项要么改判成「按设计」，要么从清单里删掉，别让它稀释真正可行动的那几项；②豁免机制一律「被检者按枚举自声明 + 校验方只认枚举」，自由文本等于自己给自己发免票；③分类必须带守恒式（两桶和不等于原桶即红），否则一次拆分就能悄悄吞掉一节。
+
+### E618 · 一条旗红了 12.3 天，因为它的成因从来没跟着旗走到读者面前（r1657 bm-c）
+
+`compute_audit` 的 `supply_floor` 旗（ready 0 < floor 3）连红 17,637 分钟，每一轮人类面（日报第六节、看板）印的都是同一句：`池 ready 0 · FLAG:pool_starvation,supply_floor`。成因其实**早就出版了**：`results/supply_candidates.json` 写着 `agenda_cause=calendar`，4 个候选全被自己的日历拒。它没走到读者面前，是两个结构性缺陷叠在一起：①**成因面没有生产者**——链里没有 `supply_candidate_face` 的腿，那份 JSON 只在有人手工跑时才更新（r1471 族：消费者腿绿不等于生产者存在）；②**它排在读者之后约 1,100 条腿**——`supply_calendar` 在链尾，`compute_audit` 在链首第 2 位，于是审计每轮都在引用上一代的成因（实测：审计印 phase spread 9.04pp，同期收据是 9.28pp；r1651 族：写者先于读者）。
+
+第三层缺陷在判词本身：三个候选都印 `UNADJUDICABLE_PHASE`，可它们是两件相反的事——`nobond_vt08_adopted` 是相位噪声（9.28pp）宽于到线距离（9.20pp），要多几年证据；`nobond_base`/`floor_050` 是相位之间判决不一致（有的相位 ADMIT、有的 CONDITIONAL），要换相位集的切法。「等一天」对前者无效、对后者也无效，但两周来读者只有一个词可用。
+
+**修五件**：①`supply_calendar_face.undecidable_because(row)` 把第三词拆成 `phase_spread_wider_than_margin` / `phases_disagree_on_verdict` / `no_top2_share` / `not_recorded`，**只按行自己的数字判**（不读收据里的英文句子）；②两层候选行都带 `spread_pp/margin_pp/phases/undecidable_because`（原来下游白名单只留 4 个字段，数字全丢）；③`compute_audit.supply_floor.why`（cause / action / `what_would_move_it` / sentence）由成因面派生，**不重算、不新增判决**；旗绿时该块为 `None`；④日报第六节把这句话印出来，旧世代 lane 没有该字段时诚实印「还没有成因」而不是沉默；⑤链里把 `supply_calendar`+`supply_candidates` 提到 `compute_audit` 之前，让审计与它引用的面同代（修后实测两边都是 9.28pp）。
+
+**读数**：4 候选 → 1 个相位噪声、2 个相位分歧、1 个 CONDITIONAL（只差 Y4）；`what_would_move_it = the phase set`。自检：日历面 58→65/65、审计 77/77、日报 PASS、链三腿 3/3 rc0。
+
+**How**：①任何连红超过一天的旗，先问三句——成因走到读者面了吗、成因面有生产者吗、生产者排在读者前面吗（三问各对应一族已判例：E318 / r1471 / r1651）；②「不可裁定」类判词必须拆成「要动什么」的枚举，因为等待、换阶段集、补数据是三种相反的动作，共用一个词等于让人围观；③拆解词一律从数字派生，不读上游的散文句子（改文案就会改判词）。
