@@ -411,8 +411,17 @@ def section_bars(doc, cal=None, legs=None):
     hist = {}
     for r in rows:
         hist[r["bar"]] = hist.get(r["bar"], 0) + 1
-    behind = [r for r in rows if head and r["bar"] != head]
+    # r1294: "off the headline" is not the same as "behind the headline". The bucket
+    # used to hold both, so once the repo and five-member lanes caught up to 2026-11-13
+    # while the book itself still priced 2026-11-12, four sections were listed as lagging
+    # when they were the freshest numbers on the page -- and the smoke leg that pins
+    # "off-headline means older" went red for saying the truth. Split the two, and let the
+    # sentence name both directions: a section can be AHEAD of the book, which is a
+    # different reading hazard ("do not subtract these two numbers") from being stale.
+    behind = [r for r in rows if head and r["bar"] < head]
     behind.sort(key=lambda r: (r["bar"], r["key"]))
+    ahead = [r for r in rows if head and r["bar"] > head]
+    ahead.sort(key=lambda r: (r["bar"], r["key"]))
     pc_rows = [r for r in behind if r.get("provenance") == COMPUTED_IN_PAGE]
     # Two very different states inside COMPUTED_IN_PAGE: the section sits exactly on its
     # panel's last bar (the panel is the thing that stopped), or the panel has a newer bar
@@ -441,10 +450,13 @@ def section_bars(doc, cal=None, legs=None):
         "by_key": {r["key"]: r["bar"] for r in rows},
         "unknown_sections": unknown,
         "n_sections": len(rows),
-        "n_on_headline": len(rows) - len(behind),
+        "n_on_headline": len(rows) - len(behind) - len(ahead),
         "bars": dict(sorted(hist.items(), reverse=True)),
         "n_off_headline": len(behind),
         "off_headline": behind,
+        "n_ahead_of_headline": len(ahead),
+        "ahead_of_headline": ahead,
+        "ahead_keys": [r["key"] for r in ahead],
         "oldest": min(hist) if hist else None,
         "max_lag_sessions": max([r["lag_sessions"] or 0 for r in rows] or [0]),
         "n_unguarded": (None if not legs else
@@ -523,6 +535,8 @@ def assess(page=None, jsonp=None, cal=None, legs=None):
                                     "page_computed_debt", "page_computed_debt_sentence",
                                     "n_no_writer", "no_writer",
                                     "n_engine_priced", "engine_priced",
+                                    "n_ahead_of_headline", "ahead_of_headline",
+                                    "ahead_keys",
                                     "n_window_bound", "window_bound")})
     face["evidence_cutoff"] = sb["headline_bar"]
     if sb["headline_bar"] is None:
@@ -530,7 +544,8 @@ def assess(page=None, jsonp=None, cal=None, legs=None):
         face["sentence"] = ("页面没有声明任何一根 bar（%d 节里 %d 节带日期），"
                             "所以「这一页是哪一天的」无法确认。" %
                             (sb["n_sections"], sb["n_sections"] - len(sb["unknown_sections"])))
-    elif sb["n_off_headline"] == 0 and not sb["unknown_sections"]:
+    elif (sb["n_off_headline"] == 0 and not sb["unknown_sections"]
+          and not sb.get("n_ahead_of_headline")):
         face["verdict"] = SINGLE
         face["sentence"] = ("页面声明的 %s 就是它全部 %d 节的 bar——"
                             "下面每个数都是这一天的。" % (sb["headline_bar"], sb["n_sections"]))
@@ -541,16 +556,33 @@ def assess(page=None, jsonp=None, cal=None, legs=None):
         _lagged = [r for r in (sb["off_headline"] or []) if not r.get("window_bound")]
         worst = max(_lagged, key=lambda r: r["lag_sessions"] or 0) if _lagged else None
         oldest_lagged = min([r["bar"] for r in _lagged]) if _lagged else sb["oldest"]
+        # r1294: an empty bucket is not a reading. When nothing lags, the sentence must not
+        # print "the remaining 0 sections are not on this day" -- that is a template talking.
+        _behind_txt = ""
+        if sb["n_off_headline"]:
+            _behind_txt = ("其余 %d 节不在这一天（最旧停在 %s%s），"
+                           % (sb["n_off_headline"], oldest_lagged,
+                              ("（最差 %s 落后 %d 个交易日）"
+                               % (worst["key"], worst["lag_sessions"])
+                               if worst and worst["lag_sessions"] else "")))
         face["sentence"] = (
             "页面头部写着按 %s 定价，但 %d 个带日期的节里只有 %d 节真在这一天；"
-            "其余 %d 节不在这一天（最旧停在 %s%s），另外 %d 节根本没有日期——"
-            "它们不是同一根 bar 上的数，读的时候不能互相加减。" %
-            (sb["headline_bar"], sb["n_sections"], sb["n_on_headline"],
-             sb["n_off_headline"], oldest_lagged,
-             ("（最差 %s 落后 %d 个交易日）" % (worst["key"], worst["lag_sessions"])
-              if worst and worst["lag_sessions"] else ""),
-             len(sb["unknown_sections"])))
-        if sb.get("n_unguarded") is not None:
+            "%s另外 %d 节根本没有日期——"
+            "它们不是同一根 bar 上的数，读的时候不能互相加减。"
+            % (sb["headline_bar"], sb["n_sections"], sb["n_on_headline"],
+               _behind_txt, len(sb["unknown_sections"])))
+        # r1294: the other direction. A section can sit on a NEWER bar than the one the book
+        # is priced on -- its own lane moved and the book's board did not. That is stale in
+        # reverse and equally not addable, so it is named, with its newest bar.
+        if sb.get("n_ahead_of_headline"):
+            _ah = sb.get("ahead_of_headline") or []
+            face["sentence"] = (face["sentence"] or "") + (
+                "反过来有 %d 节比页头更新（%s 已到 %s）：它们读的车道已经走完当天，"
+                "而这本书自己的面板还停在前一根 bar 上——"
+                "这两组数同样不能相减，也不能拿新的那组去替这本书定价。"
+                % (len(_ah), "、".join([r["key"] for r in _ah][:6]),
+                   max([r["bar"] for r in _ah])))
+        if sb.get("n_unguarded") is not None and sb["n_off_headline"]:
             n_leg = sb["n_off_headline"] - sb["n_unguarded"]
             parts = ["这 %d 节里，%d 节的产物有同名链腿在守" % (sb["n_off_headline"], n_leg)]
             if sb.get("n_page_computed"):
@@ -607,9 +639,11 @@ def ticket_lines(face):
         L.append("%s" % face["sentence"].rstrip("。") + "。")
         L.append("")
     L.append("页面逐节 bar：头部声明 **%s**，%d 个带日期的节里 **%s** 节在这一天，"
-             "其余 %s 节在别的 bar 上。" %
+             "其余 %s 节在别的 bar 上%s。" %
              (face.get("headline_bar"), face.get("n_sections"), face.get("n_on_headline"),
-              face.get("n_off_headline")))
+              face.get("n_off_headline"),
+              ("（其中 %s 节比页头新）" % face.get("n_ahead_of_headline")
+               if face.get("n_ahead_of_headline") else "")))
     if face.get("off_headline"):
         rows = face["off_headline"]
         L.append("")
@@ -640,6 +674,26 @@ def ticket_lines(face):
                  "标着「窗口段」的节也不是没更新：它本来就是按一整段固定窗口量的，"
                  "印的那个日期是窗口的终点，要它跟上页头只能把整段窗口重算一遍（那是引擎的活，不是链腿的活）。"
                  "印「没有」的那几节，才是这一页真正的缺口。")
+    if face.get("ahead_of_headline"):
+        rows = face["ahead_of_headline"]
+        L.append("")
+        L.append("| 节 | 它已经走到哪根 bar | 比页头新（交易日） |")
+        L.append("|---|---|---|")
+        for r in rows[:12]:
+            _d = None
+            if face.get("headline_bar"):
+                try:
+                    _d = (dt.date.fromisoformat(str(r.get("bar")))
+                          - dt.date.fromisoformat(str(face["headline_bar"]))).days
+                except Exception:
+                    _d = None
+            L.append("| %s | %s | %s |" % (r["key"], r["bar"], _d))
+        if len(rows) > 12:
+            L.append("| …其余 %d 节 | | |" % (len(rows) - 12))
+        L.append("")
+        L.append("这几节比页头**新**：它们读的车道已经跑完当天，而这本书自己的日线面板还停在页头那根 bar 上。"
+                 "所以它们不是「落后」，是**另一个方向的不一致**——同样不能与页头上的数相加减，"
+                 "也不能拿它们去替这本书定价（书的 bar 由书自己的面板决定，升级要等那条车道到货）。")
     if face.get("unknown_sections"):
         L.append("")
         L.append("这 %d 节没有任何日期字段，本面**不替它们认领**任何一根 bar：%s。"
@@ -718,8 +772,32 @@ def selftest():
         section_bars(undated, legs=[])["unknown_sections"] == ["z"])
 
     leg("L7b the sections on the headline plus the ones off it are all the dated sections",
-        sb["n_on_headline"] + sb["n_off_headline"] == sb["n_sections"] == 3
+        sb["n_on_headline"] + sb["n_off_headline"] + sb["n_ahead_of_headline"]
+        == sb["n_sections"] == 3
         and sb["n_on_headline"] == 1)
+
+    # r1294: "off the headline" must mean OLDER. Once the repo and five-member lanes
+    # reached 2026-11-13 while the book still priced 2026-11-12, four sections were listed
+    # as lagging while they were the freshest numbers on the page.
+    _ahead_doc = {"priced_bar": "2026-11-10", "a": {"evidence_cutoff": "2026-11-10"},
+                  "old": {"evidence_cutoff": "2026-11-09"},
+                  "new": {"evidence_cutoff": "2026-11-12"}}
+    _ab = section_bars(_ahead_doc, legs=[])
+    leg("L7c a section newer than the headline is counted as ahead, never as a lag",
+        _ab["n_off_headline"] == 1 and _ab["n_ahead_of_headline"] == 1
+        and [r["key"] for r in _ab["off_headline"]] == ["old"]
+        and [r["key"] for r in _ab["ahead_of_headline"]] == ["new"])
+    _am = [ln for ln in ticket_lines({"verdict": MIXED, "headline_bar": "2026-11-10",
+                                      "n_sections": 2, "n_on_headline": 0,
+                                      "n_off_headline": 1, "n_ahead_of_headline": 1,
+                                      "sentence": "",
+                                      "off_headline": [{"key": "old", "bar": "2026-11-09",
+                                                        "lag_sessions": 1}],
+                                      "ahead_of_headline": [{"key": "new", "bar": "2026-11-12",
+                                                             "lag_sessions": 0}]})]
+    leg("L7e the sheet's ahead table names the section and how far past the headline it is",
+        any("| new | 2026-11-12 | 2 |" in ln for ln in _am)
+        and any("不能与页头上的数相加减" in ln for ln in _am))
 
     leg("L8 a section ahead of the headline is not a lag",
         sessions_between("2026-11-10", "2026-11-06") == 0)

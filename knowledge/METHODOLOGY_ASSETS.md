@@ -14394,3 +14394,24 @@ history: 共享面的全部历史}`**（先读共享 `results/COMPUTE_AUDIT.json
 **实锚**：`scripts/compute_audit.py`（record 加 `machine`）+ `scripts/daily_report.py`
 （`_own_samples` + 页面 r1293 断言 + 变异测试：把归属改成"全收"立刻红）；
 真数据对照=`results/compute_audit.bm-a.json` 201 行 1 条署名 vs `.bm-c.json` 201 行 0 条。
+
+### E605 · 「不在页头」装了两个方向：比书新的一节被印成落后（r1294 bm-a）
+
+页头写着按 2026-11-12 定价，而收盘后六节（admission / cash_handshake / cash_ladder /
+cash_yield / live_quote / sample_window）已经走到 2026-11-13。面对的分桶只有一个
+`off_headline`（bar != head 的全进），于是**页面上最新的六个数被当成落后的数**，
+而专门钉「off-headline 就是更旧」的 smoke 腿反而因为说了真话而红。
+
+两个方向是两种读数风险：落后 = 这节没重跑（或它读的面板停了）；领先 = 它读的车道
+已走完当天而这本书自己还停在前一根 bar。后者更危险：它看起来像「最新」，拿它去给
+这本书定价就是用一个不存在的次日数。
+
+正法四条：①分桶改成 `bar < head` 与 `bar > head` 两个，分别带
+`n_ahead_of_headline` / `ahead_of_headline` / `ahead_keys`；②「合起来等于带日期节数」必须作为守门断言
+（n_on + n_off + n_ahead == n_sections）；③守门腿双向钉：off 行必须真的更旧、ahead 行必须真的更新；
+④空桶不说话——「其余 0 节不在这一天」是模板在开口，句子要随桶长相变化。
+
+**How**：任何按「不等于页头」分桶的面，先问这行在页头的哪一侧；桶相同不等于同一根 bar。
+**实锚**：`scripts/live_book_section_bars.py`（behind/ahead 双切 + 空桶句子守卫）+
+`smoke_test.py` 腿（双向断言 + 计数合计）+ `results/live_book_section_bars.json`
+（on 42 / off 0 / ahead 6，和 = 48）。

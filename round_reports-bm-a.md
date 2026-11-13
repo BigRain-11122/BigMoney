@@ -2344,3 +2344,25 @@ CEO 一页纸与执行单（同一个读者件） | 最近实物: `results/etf_b
 **S1**：全量 smoke **未收口**（两次尝试：后台 Start-Process 起 29932 后被会话 Job Object 连坐击杀；`python -u | Tee` 因管道阻塞 5 分钟无输出被工具取消）——**如实记未完成，不宣称全绿**。改动面以三组定向自检 + 变异测试为据。
 **S6**：`pool_dualrun_reconcile` ZERO-DRIFT（744 entries，streak 51）；`compute_audit` FLAG:pool_starvation,supply_floor（长期面，ready 0/floor 3，供给债 cause=calendar，4 候选全被 Y4_top2_share 拒）；`py_watermark` insufficient_history；`update_daily` rc0（0 新行，cutoff 2026-11-13）；`market_regime` **RED**（hs300<MA200，days_in_state=8，shadow）；LHB/heat/futures/repo/options **no-op 到 11-13**；zt_pool/moneyflow/sina_mf/ths_panel/ah_panel/fund_statements **诚实 no-op**（属主 bm-c，心跳 61min=醒着，接管被 120min 规则正确拒绝）；`fundamental` 快照 0.5h 新鲜跳过；`b_layer_filter` 全门 pass（5222 codes / 3382 ok_static）；`strategy_scorecard` 95.1s（6 策略/28 交易员/7 组合卡）；`market_clock_call` RED_COOL；`daily_scorecard`/`daily_report`/`ceo_live_usage`/`build_status` 四张 CEO 面当日重生成。
 **S7**：loop pin=8 **no-op**（首跳 20:08）／watchdog 重注册但 **S4U 翻转仍被拒（拒绝访问）**＝承债需一次提权／pre-commit 与 pre-push 两爪 LF 归一并重装／attrition **CLEAN** 4 账本（3 处历史缩行 healed）。**登记簿零命中**（本轮无清扫/归档动作）。**记账**：本行 1 处（其余为 S6 数据面产出）。**本地未达 origin commit 数=0**（收尾 push 后复核）。|
+
+## r1294 — 页头 11-12 与 6 节 11-13：把「不在页头」拆成落后与领先两个方向
+
+- **当前活**：S1/S6 面 —— 页节 bar 地图重构（方向拆分 + 空桶不说话），并重出 CEO 一页纸与地图
+- **最近实物**：`docs/live_book/LIVE-BOOK-20261113.md`（重出 @ 22:59，order 5 名 / book 431,876 / cash 568,124）、`results/live_book_section_bars.json`（on 42 / off 0 / ahead 6，和 = 48）
+- **下个里程碑**：这本书自己的面板还停在 2026-11-12（宽基 ETF 面板 = bm-c 车道）；该车道推进后重出并销 7 天隔离面，窗 ≤48h
+
+### 做了什么
+
+1. **`product: 页节 bar 地图不再把「比书新」当成「落后」` → 交付**。`scripts/live_book_section_bars.py` 分桶由单一 `bar != head` 改为
+   落后 / 领先 两个方向，面上多出 `n_ahead_of_headline` / `ahead_of_headline` / `ahead_keys`，`smoke_test.py` 腿改为双向断言
+   且断言「三桶之和 = 带日期节数」。重出后面上读数：on 42 / off 0 / ahead 6（和 48 = 带日期节数），
+   领先六节 = admission、cash_handshake、cash_ladder、cash_yield、live_quote、sample_window（已到 2026-11-13）。
+   面上句子现在直说：这六节读的车道已走完当天，而这本书自己的面板还停在前一根 bar，两组数不能相减、
+   也不能拿新的那组去替这本书定价。面自检 44/44 PASS。
+2. **`product: 空桶不说话` → 一并修**。旧句子在无落后节时仍印「其余 0 节不在这一天（最旧停在 …」，
+   并把后续「这 0 节里 0 节有链腿在守」一并打印；现在句子随桶长变化，空桶不出字。
+3. **S6/S7 实况**：`orphan_face_probe` 孤儿面 **0/37**；D-19 **MATCH**（decisions 52482bb7@aa3fa84/101011 未动）=零新决策行零动作；
+   本轮未跑全量 smoke（约 570 腿 / ~1560s，超单轮预算）——如实披露，只跑了本面自检 44/44。
+   `pool_dualrun_reconcile` / `compute_audit` / `py_watermark` / `update_daily` 本轮未跑（轮预算用于产品面）——下轮补。
+
+**计账**：本行 1 处（余为产品面产出）。**本地未达 origin commit 数**：见收尾推送后的同步回执（本行写入时为 2，推送前已 rebase）。

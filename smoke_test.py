@@ -8148,11 +8148,19 @@ def main() -> int:
                 _bad78.append("the published section bars do not re-derive")
         if _doc78:
             if (_doc78.get("n_on_headline") or 0) + (_doc78.get("n_off_headline") or 0) \
+                    + (_doc78.get("n_ahead_of_headline") or 0) \
                     != (_doc78.get("n_sections") or 0):
-                _bad78.append("the on/off-headline counts do not add up to the dated sections")
+                _bad78.append("the on/off/ahead counts do not add up to the dated sections")
             for _r78 in _doc78.get("off_headline") or []:
                 if _doc78.get("headline_bar") and _r78.get("bar") >= _doc78["headline_bar"]:
                     _bad78.append("section %r is called off-headline but is not older"
+                                  % (_r78.get("key"),))
+            # r1294: the other direction has to be labelled too -- a section on a NEWER bar
+            # than the book's own is not a lag, and putting it in off_headline hides the one
+            # thing the reader must know (its lane moved, the book's panel did not).
+            for _r78 in _doc78.get("ahead_of_headline") or []:
+                if _doc78.get("headline_bar") and _r78.get("bar") <= _doc78["headline_bar"]:
+                    _bad78.append("section %r is called ahead but is not newer"
                                   % (_r78.get("key"),))
             if _doc78.get("verdict") == "PAGE_MIXES_BARS" and not (_doc78.get("off_headline") or []):
                 _bad78.append("verdict says mixed with nothing behind the headline")
