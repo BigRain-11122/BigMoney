@@ -1,9 +1,9 @@
 {
- "ts": "2026-11-14T02:30:26",
+ "ts": "2026-11-14T03:40:50",
  "mode": "probe",
- "py_faces_seen": 6,
- "orphans": 1,
- "orphans_cleared": 0,
+ "py_faces_seen": 3,
+ "orphans": 0,
+ "orphans_cleared": 1,
  "killed": [],
  "idle_servers_exempt": 0,
  "resident_servers_exempt": 1,
@@ -12,7 +12,7 @@
    "pid": 8840,
    "name": "python.exe",
    "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe K:\\Fluxgroup\\FluxGroup\\Tools\\fleet\\agent.py --node b",
-   "age_min": 209.4,
+   "age_min": 279.8,
    "cpu_delta_20s": 0.0,
    "face1_parent_dead": true,
    "face2_no_hidden_host_ancestor": true,
@@ -20,14 +20,15 @@
    "ancestor_chain": [
     "DEAD"
    ],
-   "confirm_cpu_20s": 0.0,
-   "confirm_new_children": 0
+   "confirm_cpu_20s": 0.016,
+   "confirm_new_children": 1,
+   "confirm": "working"
   },
   {
    "pid": 30432,
    "name": "python.exe",
    "cmd": "D:\\ComfyUI\\python_embeded\\python.exe -s main.py --listen 127.0.0.1 --port 8188",
-   "age_min": 245.4,
+   "age_min": 315.7,
    "cpu_delta_20s": 0.047,
    "face1_parent_dead": true,
    "face2_no_hidden_host_ancestor": true,
@@ -35,45 +36,18 @@
    "ancestor_chain": [
     "DEAD"
    ],
-   "confirm_cpu_20s": 0.031,
+   "confirm_cpu_20s": 0.062,
    "confirm_new_children": 0,
    "listen_ports": [
     8188
    ]
   },
   {
-   "pid": 38812,
-   "name": "python.exe",
-   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe -u Tools\\s6_chain_bmc.py 1647",
-   "age_min": 21.1,
-   "cpu_delta_20s": 20.016,
-   "face1_parent_dead": true,
-   "face2_no_hidden_host_ancestor": true,
-   "face3_cpu_stalled": false,
-   "ancestor_chain": [
-    "DEAD"
-   ]
-  },
-  {
-   "pid": 48424,
-   "name": "python.exe",
-   "cmd": "python scripts/etf_book_causal_rebuild.py run",
-   "age_min": 0.6,
-   "cpu_delta_20s": 20.016,
-   "face1_parent_dead": false,
-   "face2_no_hidden_host_ancestor": true,
-   "face3_cpu_stalled": false,
-   "ancestor_chain": [
-    "python.exe",
-    "DEAD"
-   ]
-  },
-  {
-   "pid": 59788,
+   "pid": 54280,
    "name": "python.exe",
    "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe Tools\\orphan_face_probe.py",
-   "age_min": 0.5,
-   "cpu_delta_20s": 0.188,
+   "age_min": 0.4,
+   "cpu_delta_20s": 0.047,
    "face1_parent_dead": false,
    "face2_no_hidden_host_ancestor": false,
    "face3_cpu_stalled": false,
@@ -83,27 +57,15 @@
     "powershell.exe",
     "wscript.exe"
    ]
-  },
-  {
-   "pid": 61752,
-   "name": "python.exe",
-   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\scripts\\update",
-   "age_min": 15.0,
-   "cpu_delta_20s": 2.562,
-   "face1_parent_dead": true,
-   "face2_no_hidden_host_ancestor": true,
-   "face3_cpu_stalled": false,
-   "ancestor_chain": [
-    "DEAD"
-   ]
   }
  ],
- "orphan_details": [
+ "orphan_details": [],
+ "orphan_cleared_details": [
   {
    "pid": 8840,
    "name": "python.exe",
    "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe K:\\Fluxgroup\\FluxGroup\\Tools\\fleet\\agent.py --node b",
-   "age_min": 209.4,
+   "age_min": 279.8,
    "cpu_delta_20s": 0.0,
    "face1_parent_dead": true,
    "face2_no_hidden_host_ancestor": true,
@@ -111,18 +73,18 @@
    "ancestor_chain": [
     "DEAD"
    ],
-   "confirm_cpu_20s": 0.0,
-   "confirm_new_children": 0
+   "confirm_cpu_20s": 0.016,
+   "confirm_new_children": 1,
+   "confirm": "working"
   }
  ],
- "orphan_cleared_details": [],
  "idle_server_details": [],
  "resident_server_details": [
   {
    "pid": 30432,
    "name": "python.exe",
    "cmd": "D:\\ComfyUI\\python_embeded\\python.exe -s main.py --listen 127.0.0.1 --port 8188",
-   "age_min": 245.4,
+   "age_min": 315.7,
    "cpu_delta_20s": 0.047,
    "face1_parent_dead": true,
    "face2_no_hidden_host_ancestor": true,
@@ -130,7 +92,7 @@
    "ancestor_chain": [
     "DEAD"
    ],
-   "confirm_cpu_20s": 0.031,
+   "confirm_cpu_20s": 0.062,
    "confirm_new_children": 0,
    "listen_ports": [
     8188

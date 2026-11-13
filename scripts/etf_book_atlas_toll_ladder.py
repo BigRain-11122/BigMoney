@@ -37,6 +37,7 @@ Exploratory measurement: no ledger booking, no admission change, no engine run.
 """
 import argparse
 import glob
+import hashlib
 import json
 import os
 import sys
@@ -405,6 +406,47 @@ def statement(toll, buff):
     return "Both ladders carry a structure that survives its own gate."
 
 
+def sources_digest(paths=None):
+    """sha256 over the bytes of the source faces this ladder reads.
+
+    r1650: ``sources_bar`` answers "did a source move to a NEWER bar", which says nothing
+    when an arm is re-priced on the SAME bar (cost-arm regeneration, hysteresis rebuild,
+    a batching window that rewrites arms out of chain order). The gate then reads a
+    legitimate re-pricing as an edit and stays red with no chain leg able to pay it.
+    Hashed bytes answer the narrower question the gate actually needs: are the files read
+    now the files that were read when this face was written? Content, never mtime
+    (r1371: a checkout rewrites mtimes in arbitrary order).
+    """
+    h = hashlib.sha256()
+    for p in sorted(paths or glob.glob(FACE_GLOB)):
+        name = os.path.basename(p)
+        if name == os.path.basename(OUT):
+            continue
+        h.update(name.encode("utf-8"))
+        h.update(b"\0")
+        try:
+            with open(p, "rb") as fh:
+                h.update(hashlib.sha256(fh.read()).digest())
+        except OSError:
+            h.update(b"\0missing")
+    return h.hexdigest()
+
+
+def verdict_when_readings_moved(bad, now_bar, was_bar, now_sig, was_sig):
+    """Why did the published readings move? Returns (kind, why).
+
+    A newer source bar or a re-priced source set is STALE -- the chain may pay the rebuild.
+    The same bytes giving different readings is still an edit and stays red.
+    """
+    if now_bar and now_bar != was_bar:
+        return ("STALE", "face priced on sources ending %s, they now end %s"
+                % (was_bar or "an unrecorded bar", now_bar))
+    if now_sig and now_sig != was_sig:
+        return ("STALE", "sources re-priced on the same bar (source bytes %s -> %s)"
+                % ((was_sig or "unrecorded")[:16], now_sig[:16]))
+    return ("FAIL", "face disagrees with its sources")
+
+
 def build(paths=None):
     faces, excluded, unreadable = discover(paths)
     toll = toll_ladder(faces.get("toll", []))
@@ -416,6 +458,7 @@ def build(paths=None):
     bars = [b for b in bars if b]
     payload = {
         "sources_bar": max(bars) if bars else None,
+        "sources_digest": sources_digest(paths),
         "question": ("the atlas's 12-cell ordering is judged against each cell's own phase "
                      "band; both the spread and the band move with the toll. At what toll does "
                      "the ordering stop clearing its own noise, and is the decay monotone?"),
@@ -514,13 +557,14 @@ def check():
         # r1639: which kind of red is this? A source face re-priced on a newer bar moves the
         # readings legitimately, so the gate says STALE (the chain may pay the rebuild); the
         # same readings moving with the sources unchanged is still an edit.
-        now_bar, was_bar = fresh.get("sources_bar"), stored.get("sources_bar")
-        if now_bar and now_bar != was_bar:
-            print("STALE: face priced on sources ending %s, they now end %s (%s)"
-                  % (was_bar or "an unrecorded bar", now_bar, ", ".join(bad)))
-            return 2
-        print("FAIL: face disagrees with its sources on %s" % ", ".join(bad))
-        return 1
+        # r1650: the bar alone misses a re-pricing that lands on the SAME bar, so the source
+        # bytes are compared too; either signal means STALE.
+        kind, why = verdict_when_readings_moved(bad, fresh.get("sources_bar"),
+                                                stored.get("sources_bar"),
+                                                fresh.get("sources_digest"),
+                                                stored.get("sources_digest"))
+        print("%s: %s (%s)" % (kind, why, ", ".join(bad)))
+        return 1 if kind == "FAIL" else 2
     print("OK: toll ladder %s (%d rungs, break-even %s bp) / buffer ladder %s (%d rungs)"
           % (t.get("verdict"), t.get("rungs", 0), t.get("break_even_toll_bp"),
              fresh["buffer_ladder"].get("verdict"), fresh["buffer_ladder"].get("rungs", 0)))
@@ -653,6 +697,32 @@ def selftest():
         classify({"audit": {"cost": BASELINE_COST, "buffer_k": 0.05}})[0] == "buffer")
     leg("an audit missing a knob is refused",
         classify({"audit": {"cost": 0.002}})[0] is None)
+
+    # r1650: which kind of red is a moved reading? (bar moved / bytes moved / neither)
+    leg("a newer source bar reads as STALE",
+        verdict_when_readings_moved(["toll_ladder"], "2026-11-13", "2026-11-12",
+                                    "aa", "aa")[0] == "STALE")
+    leg("a re-priced source on the SAME bar reads as STALE",
+        verdict_when_readings_moved(["toll_ladder"], "2026-11-13", "2026-11-13",
+                                    "bb", "aa")[0] == "STALE")
+    leg("the same source bytes with moved readings is still an edit",
+        verdict_when_readings_moved(["toll_ladder"], "2026-11-13", "2026-11-13",
+                                    "aa", "aa")[0] == "FAIL")
+    leg("a face written before the digest existed is STALE, not an edit",
+        verdict_when_readings_moved(["faces"], None, None, "cc", None)[0] == "STALE")
+
+    # the digest must follow file CONTENT, never the clock
+    import tempfile
+    td = tempfile.mkdtemp(prefix="toll_digest_")
+    p1 = os.path.join(td, "arm_a.json")
+    with open(p1, "w", encoding="utf-8") as fh:
+        fh.write('{"audit": {"cost": 0.0, "buffer_k": 0.0}}')
+    d1 = sources_digest([p1])
+    os.utime(p1, (1, 1))                       # same bytes, older mtime
+    leg("the digest ignores mtime", sources_digest([p1]) == d1)
+    with open(p1, "w", encoding="utf-8") as fh:
+        fh.write('{"audit": {"cost": 0.0, "buffer_k": 0.05}}')
+    leg("the digest moves when a source is re-priced", sources_digest([p1]) != d1)
 
     # determinism: the same bytes in give the same analysis out
     a1 = analyse_face(_face((0.001, 0.0), meds))
