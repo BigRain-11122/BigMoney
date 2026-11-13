@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-13T12:36:43",
+ "ts": "2026-11-13T16:05:41",
  "mode": "probe",
  "py_faces_seen": 2,
  "orphans": 1,
@@ -8,10 +8,23 @@
  "resident_servers_exempt": 0,
  "faces": [
   {
-   "pid": 26948,
+   "pid": 58604,
+   "name": "python.exe",
+   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe K:\\Fluxgroup\\FluxGroup\\Tools\\fleet\\agent.py --node b",
+   "age_min": 344.5,
+   "cpu_delta_20s": 0.0,
+   "face1_parent_dead": true,
+   "face2_no_hidden_host_ancestor": true,
+   "face3_cpu_stalled": true,
+   "ancestor_chain": [
+    "DEAD"
+   ]
+  },
+  {
+   "pid": 72312,
    "name": "python.exe",
    "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe Tools\\orphan_face_probe.py",
-   "age_min": 0.5,
+   "age_min": 0.4,
    "cpu_delta_20s": 0.062,
    "face1_parent_dead": false,
    "face2_no_hidden_host_ancestor": false,
@@ -22,19 +35,6 @@
     "powershell.exe",
     "wscript.exe"
    ]
-  },
-  {
-   "pid": 58604,
-   "name": "python.exe",
-   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe K:\\Fluxgroup\\FluxGroup\\Tools\\fleet\\agent.py --node b",
-   "age_min": 135.6,
-   "cpu_delta_20s": 0.0,
-   "face1_parent_dead": true,
-   "face2_no_hidden_host_ancestor": true,
-   "face3_cpu_stalled": true,
-   "ancestor_chain": [
-    "DEAD"
-   ]
   }
  ],
  "orphan_details": [
@@ -42,7 +42,7 @@
    "pid": 58604,
    "name": "python.exe",
    "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe K:\\Fluxgroup\\FluxGroup\\Tools\\fleet\\agent.py --node b",
-   "age_min": 135.6,
+   "age_min": 344.5,
    "cpu_delta_20s": 0.0,
    "face1_parent_dead": true,
    "face2_no_hidden_host_ancestor": true,
