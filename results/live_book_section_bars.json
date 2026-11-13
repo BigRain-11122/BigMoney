@@ -1,30 +1,28 @@
 {
  "script": "scripts/live_book_section_bars.py",
- "ts": "2026-11-14 05:42:18",
+ "ts": "2026-11-14 06:22:17",
  "page": {
   "path": "docs/live_book/LIVE-BOOK-20261114.md",
   "json": "docs/live_book/LIVE-BOOK-20261114.json"
  },
- "verdict": "PAGE_MIXES_BARS",
- "sentence": "页面头部写着按 2026-11-13 定价，但 47 个带日期的节里只有 47 节真在这一天；另外 9 节根本没有日期——它们不是同一根 bar 上的数，读的时候不能互相加减。",
+ "verdict": "PAGE_ON_ONE_BAR_WITH_UNDATED",
+ "sentence": "页面声明的 2026-11-13 就是它全部 49 个带日期的节的 bar；另有 7 节（backtest_band、agreement、sources、priced_faces、research_arc、sibling_gap、authority）不带任何日期字段——无法核验它们算到哪天，也不把它们猜成同一天。",
  "evidence_cutoff": "2026-11-13",
  "headline_bar": "2026-11-13",
  "headline_field": "priced_bar",
- "n_sections": 47,
- "n_on_headline": 47,
+ "n_sections": 49,
+ "n_on_headline": 49,
  "unknown_sections": [
   "backtest_band",
   "agreement",
   "sources",
   "priced_faces",
   "research_arc",
-  "permission",
   "sibling_gap",
-  "executed",
   "authority"
  ],
  "bars": {
-  "2026-11-13": 47
+  "2026-11-13": 49
  },
  "n_off_headline": 0,
  "off_headline": [],
@@ -68,12 +66,14 @@
   "sellability": "2026-11-13",
   "capital": "2026-11-13",
   "gap": "2026-11-13",
+  "permission": "2026-11-13",
   "k_gap": "2026-11-13",
   "premium_leak": "2026-11-13",
   "premium_forward": "2026-11-13",
   "floor_provenance": "2026-11-13",
   "vol_target_gate": "2026-11-13",
   "positions": "2026-11-13",
+  "executed": "2026-11-13",
   "band_ruler": "2026-11-13",
   "window_label": "2026-11-13",
   "envelope": "2026-11-13",

@@ -2,8 +2,8 @@
 
 *由 `scripts/live_book_section_bars.py` 生成；判据见文件头。*
 
-页面头部写着按 2026-11-13 定价，但 47 个带日期的节里只有 47 节真在这一天；另外 9 节根本没有日期——它们不是同一根 bar 上的数，读的时候不能互相加减。
+页面声明的 2026-11-13 就是它全部 49 个带日期的节的 bar；另有 7 节（backtest_band、agreement、sources、priced_faces、research_arc、sibling_gap、authority）不带任何日期字段——无法核验它们算到哪天，也不把它们猜成同一天。
 
-页面逐节 bar：头部声明 **2026-11-13**，47 个带日期的节里 **47** 节在这一天，其余 0 节在别的 bar 上。
+页面逐节 bar：头部声明 **2026-11-13**，49 个带日期的节里 **49** 节在这一天，其余 0 节在别的 bar 上。
 
-这 9 节没有任何日期字段，本面**不替它们认领**任何一根 bar：backtest_band, agreement, sources, priced_faces, research_arc, permission, sibling_gap, executed, authority。
+这 7 节没有任何日期字段，本面**不替它们认领**任何一根 bar：backtest_band, agreement, sources, priced_faces, research_arc, sibling_gap, authority。

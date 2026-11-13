@@ -804,6 +804,11 @@ def permission_face(perm_path=PERMISSION_JSON, gap_path=CUT_GAP_JSON,
         "artifact": _rel(perm_path, ROOT).replace(os.sep, "/"),
         "decision_date": perm.get("decision_date"),
         "ticket_file": perm.get("ticket_file"),
+        # r1654: the receipt has always carried the bar its k_now was priced on; the page
+        # dropped it, so the section audit could only say "no date at all, unverifiable"
+        # about the one block that decides how big this book may be. `decision_date` is the
+        # NEXT rebalance (a schedule), never this bar (r1617); `evidence_cutoff` is.
+        "evidence_cutoff": perm.get("evidence_cutoff"),
         "k_order": round(k_order, 6),
         "k_allowed": round(k_allowed, 6),
         "ordered_cny": perm.get("book_amount_cny"),
@@ -2011,7 +2016,10 @@ def executed_face(ticket=None, fills=None):
         if hit:
             return {"status": "ledger_fill", "asof": asof, "fill": hit[-1],
                     "detail": "这张票本身没有再换仓，账本在 %s 这根 bar 上成交过" % asof}
-        return {"status": "none",
+        # r1654: "this bar did not trade" is a statement about a bar, so it carries the bar.
+        # Dropping `as_of` here made the section audit read the block as undatable when the
+        # ticket had named its day all along; an empty as_of stays empty (no invented date).
+        return {"status": "none", "asof": asof or None,
                 "detail": "这张票没有留下成交行（空票或本 bar 未换仓）"}
     sold = sum(a["amount_cny"] or 0.0 for a in actions
                if (a["side"] or "").upper() == "SELL")
@@ -10395,6 +10403,37 @@ def selftest():
         "without inventing a date",
         "还没跟上今天的收盘" in "\n".join(feed_lag_block(dict(_lag_p, expected_bar=None)))
         and "2026-11-13" not in "\n".join(feed_lag_block(dict(_lag_p, expected_bar=None))), "")
+    # r1654: two sections the page could not date at all, and both had the day in hand --
+    # the permission receipt names the bar its k_now was priced on, the ticket names its own
+    # day even when nothing traded. Naming them is not decoration: the section audit's
+    # bucket of "no date, unverifiable" is the only part of the page a reader cannot check.
+    _perm_dated = None
+    with open(os.path.join(_pf_dir, "p_dated.json"), "w", encoding="utf-8") as _fh:
+        json.dump(dict(_perm_fix, evidence_cutoff="2026-11-13"), _fh, ensure_ascii=False)
+    _perm_dated = permission_face(os.path.join(_pf_dir, "p_dated.json"),
+                                 os.path.join(_pf_dir, "g_missing.json"),
+                                 os.path.join(_pf_dir, "l_missing.json"))
+    chk("L225 permission section carries the bar its k was priced on, never the next "
+        "rebalance day",
+        _perm_dated.get("evidence_cutoff") == "2026-11-13"
+        and _perm_dated.get("decision_date") == "2026-11-11",
+        "cutoff=%r decision=%r" % (_perm_dated.get("evidence_cutoff"),
+                                   _perm_dated.get("decision_date")))
+    _ex_none_dated = executed_face({"as_of": "2026-11-13"})
+    _ex_none_bare = executed_face({})
+    chk("L226 an untraded bar still names its own day, and a ticket without one invents none",
+        _ex_none_dated.get("status") == "none"
+        and _ex_none_dated.get("asof") == "2026-11-13"
+        and _ex_none_bare.get("asof") is None,
+        "dated=%r bare=%r" % (_ex_none_dated.get("asof"), _ex_none_bare.get("asof")))
+    _sb_1654 = section_bars_face({"priced_bar": "2026-11-13",
+                                 "permission": _perm_dated,
+                                 "executed": _ex_none_dated}) or {}
+    chk("L227 the section audit can date both, so they leave the unverifiable bucket",
+        _sb_1654.get("n_sections") == 2 and not (_sb_1654.get("unknown_sections") or [])
+        and _sb_1654.get("n_on_headline") == 2,
+        json.dumps({k: _sb_1654.get(k) for k in ("n_sections", "n_on_headline",
+                                                 "unknown_sections")}, ensure_ascii=False))
     shutil.rmtree(_adm_dir, ignore_errors=True)
     print("\nSummary: %d/%d PASS%s" % (ok, total, "" if ok == total else " -- %d FAIL" % (total - ok)))
     return 0 if ok == total else 1

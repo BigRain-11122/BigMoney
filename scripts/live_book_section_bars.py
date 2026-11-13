@@ -38,7 +38,9 @@ import datetime as dt
 import json
 import os
 import re
+import shutil
 import sys
+import tempfile
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, "scripts"))
@@ -76,6 +78,10 @@ MAX_LAG_SESSIONS = 5
 
 MIXED = "PAGE_MIXES_BARS"
 SINGLE = "PAGE_ON_ONE_BAR"
+# r1653: every DATED section on the headline bar, plus a bucket of sections carrying no date
+# at all. MIXED claimed a lag the page's own counts denied (47 of 47 on one day), and the
+# smoke leg that demands MIXED have something behind it went red on a correct page.
+SINGLE_UNDATED = "PAGE_ON_ONE_BAR_WITH_UNDATED"
 NO_PAGE = "NO_PAGE"
 NO_HEADLINE = "HEADLINE_UNKNOWN"
 
@@ -544,11 +550,23 @@ def assess(page=None, jsonp=None, cal=None, legs=None):
         face["sentence"] = ("页面没有声明任何一根 bar（%d 节里 %d 节带日期），"
                             "所以「这一页是哪一天的」无法确认。" %
                             (sb["n_sections"], sb["n_sections"] - len(sb["unknown_sections"])))
-    elif (sb["n_off_headline"] == 0 and not sb["unknown_sections"]
-          and not sb.get("n_ahead_of_headline")):
+    elif (sb["n_off_headline"] == 0 and not sb.get("n_ahead_of_headline")
+          and not sb["unknown_sections"]):
         face["verdict"] = SINGLE
         face["sentence"] = ("页面声明的 %s 就是它全部 %d 节的 bar——"
                             "下面每个数都是这一天的。" % (sb["headline_bar"], sb["n_sections"]))
+    elif sb["n_off_headline"] == 0 and not sb.get("n_ahead_of_headline"):
+        # r1653: every dated section sits on the headline bar; what is left is a bucket of
+        # sections with no date at all. Calling that MIXED made the page refute the word it
+        # was given (47 of 47 on one day), and "mixed" sends the reader hunting a lag that
+        # does not exist. The unverifiable bucket is the finding; it is named, not guessed.
+        face["verdict"] = SINGLE_UNDATED
+        _und = sb["unknown_sections"] or []
+        face["sentence"] = (
+            "页面声明的 %s 就是它全部 %d 个带日期的节的 bar；另有 %d 节（%s）不带任何日期"
+            "字段——无法核验它们算到哪天，也不把它们猜成同一天。"
+            % (sb["headline_bar"], sb["n_sections"], len(_und),
+               "、".join(_und[:8]) + ("等" if len(_und) > 8 else "")))
     else:
         face["verdict"] = MIXED
         # r1628: the worst lag must not be a section whose date is the end of its own window
@@ -798,6 +816,36 @@ def selftest():
     leg("L7e the sheet's ahead table names the section and how far past the headline it is",
         any("| new | 2026-11-12 | 2 |" in ln for ln in _am)
         and any("不能与页头上的数相加减" in ln for ln in _am))
+
+    # r1653: the live page had 47 dated sections all on 2026-11-13 plus 9 sections with no
+    # date at all, and the face called that PAGE_MIXES_BARS -- a word its own counts deny.
+    # Both directions are pinned: one bar + an undated bucket is its own verdict, and a page
+    # that really lags must still come back MIXED (the new branch must not swallow it).
+    # The fixture must live on the repo's own volume: `assess` prints its page path with
+    # os.path.relpath against ROOT, and a C: temp dir against a K: repo raises ValueError
+    # (r1371/r1375 family, third copy -- the suite then never runs a single leg).
+    _tmpbase = os.path.join(ROOT, ".codely-cli", "tmp")
+    os.makedirs(_tmpbase, exist_ok=True)
+    _tmpd = tempfile.mkdtemp(prefix="sb_r1653_", dir=_tmpbase)
+    try:
+        _tp = os.path.join(_tmpd, "page.json")
+        with open(_tp, "w", encoding="utf-8") as _fh:
+            json.dump({"priced_bar": "2026-11-10",
+                       "a": {"evidence_cutoff": "2026-11-10"},
+                       "b": {"panel_last_bar": "2026-11-10"},
+                       "z": {"sentence": "no date anywhere"}}, _fh)
+        _fu = assess(jsonp=_tp, cal=None, legs=[])
+        leg("L7f a one-bar page with an undated bucket is not called MIXED",
+            _fu["verdict"] == SINGLE_UNDATED and "无法核验" in _fu["sentence"])
+        with open(_tp, "w", encoding="utf-8") as _fh:
+            json.dump({"priced_bar": "2026-11-10",
+                       "a": {"evidence_cutoff": "2026-11-10"},
+                       "old": {"evidence_cutoff": "2026-11-06"}}, _fh)
+        _fm = assess(jsonp=_tp, cal=None, legs=[])
+        leg("L7g a page that really lags is still MIXED (the new branch did not swallow it)",
+            _fm["verdict"] == MIXED and _fm["n_off_headline"] == 1)
+    finally:
+        shutil.rmtree(_tmpd, ignore_errors=True)
 
     leg("L8 a section ahead of the headline is not a lag",
         sessions_between("2026-11-10", "2026-11-06") == 0)
