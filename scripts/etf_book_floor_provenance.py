@@ -361,6 +361,32 @@ def md_lines(d):
     return out
 
 
+def refresh():
+    """Rebuild only when the receipt this face prices has moved.
+
+    r1620: the chain carried only `check` for this face. `check` re-derives every
+    field from the same two receipts, so it is green by construction and cannot
+    notice that the published `evidence_cutoff` still sits on whatever day somebody
+    last ran `run` by hand -- r1619 moved the rulers writer onto the chain and this
+    face stayed a day behind, while the page prints that date beside the book's own.
+    The gate therefore compares the two cutoffs, never the clock: re-deriving from
+    unchanged receipts buys nothing but a new timestamp.
+    """
+    t0 = time.time()
+    rulers = _read_json(RULERS)
+    published = _read_json(OUT)
+    upstream = (rulers or {}).get("evidence_cutoff")
+    mine = (published or {}).get("evidence_cutoff")
+    if published is not None and upstream and mine == upstream:
+        print("REFRESH_NOOP evidence_cutoff=%s (%.1fs)" % (upstream, time.time() - t0))
+        return 0
+    face = run(write=True)
+    print("REFRESHED evidence_cutoff=%s verdict=%s floor=%s (%.1fs)"
+          % (face.get("evidence_cutoff"), face.get("verdict"),
+             face.get("published_floor"), time.time() - t0))
+    return 0
+
+
 def check():
     """Re-derive every field that moves when an input moves. Drift is RED."""
     face = _read_json(OUT)
@@ -509,6 +535,18 @@ def selftest():
     leg("L16 the sentence names the issuing cell and its bars",
         "window_x_universe" in a["sentence"] and "306" in a["sentence"], a["sentence"])
 
+    # 17. the face carries its upstream's cutoff, not the day it was written:
+    # otherwise `refresh` has nothing to compare against and the no-op gate
+    # would rebuild on every chain run (r1618's trap one floor up)
+    leg("L17 the published cutoff is the receipt's own, not today's clock",
+        a.get("evidence_cutoff") == fx.get("evidence_cutoff"),
+        "%r vs %r" % (a.get("evidence_cutoff"), fx.get("evidence_cutoff")))
+    fx_late = _fixture()
+    fx_late["evidence_cutoff"] = "2027-01-04"
+    leg("L18 a newer receipt moves the face's cutoff with it",
+        assess(fx_late, perm).get("evidence_cutoff") == "2027-01-04",
+        repr(assess(fx_late, perm).get("evidence_cutoff")))
+
     if fails:
         for f in fails:
             print("FAIL " + f)
@@ -520,12 +558,15 @@ def selftest():
 
 def main(argv=None):
     ap = argparse.ArgumentParser()
-    ap.add_argument("mode", nargs="?", default="run", choices=["run", "check", "selftest", "md"])
+    ap.add_argument("mode", nargs="?", default="run",
+                    choices=["run", "check", "refresh", "selftest", "md"])
     a = ap.parse_args(argv)
     if a.mode == "selftest":
         return selftest()
     if a.mode == "check":
         return check()
+    if a.mode == "refresh":
+        return refresh()
     if a.mode == "md":
         face = run(write=False)
         print("\n".join(md_lines(face)))

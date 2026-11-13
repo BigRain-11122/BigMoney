@@ -14117,3 +14117,29 @@ rebalance_permission 读，而链上只有第 108 步的 check——票面在第
 实锚：Tools/chain_writer_audit.py（selftest 11/11）、results/chain_writer_audit.json（known 30）、
 Tools/s6_chain_bmc.py 腿 etf_book_size_rulers_write（2/2 rc0）、
 smoke 腿「config: no checked face was left without a writer leg」。
+### E590 · 修好上游写者，不会自动修下游：只读别人产物的面各缺一个自己的刷新入口（r1620 bm-c）
+
+**病灶**：r1619 把 `etf_book_size_rulers_decision.json` 的写者接上链（票面读它、写者比读者晚 130 步），
+上游从此每轮都是当天的数。可同一条链上，**读它产物的下游面一个都没动**——`floor_provenance`
+（票面地板的口径来源）在链里同样只有 `check`，它的 `check` 从*同一对收据*重派生，
+所以结构上永远绿，而它发布的 `evidence_cutoff` 停在 **2026-11-11**，比刚被刷新到 11-12 的上游落后一天。
+CEO 页每天把这句话印在书上：「`floor_provenance` 2026-11-11」——一句真话，读者会读成「这本账的口径停在昨天」。
+
+**为什么单独是判例**：这不是 r1471（有读无产）也不是 r1594（只 check 没 writer）的重复，而是它们的**下一层**：
+写者存在、位置也对，问题在「A 被修好 ≠ 读 A 的 B 也修好」。链是一张有向图，修一个节点只修一个节点。
+
+**正法**：给下游面加 `refresh` 模式，闸问**上游的 cutoff**，不问时钟也不问自己——
+①读上游收据的 `evidence_cutoff`；②读自己已发布面的 `evidence_cutoff`；③两者相等 = `REFRESH_NOOP`（0.1s）；
+④不等 = 重建（`assess()` 本来就带上游 cutoff，重建即自动推进）。链上加 `floor_provenance_write`(refresh)
+→ `floor_provenance`(check)，且必须排在它定价的两个写者（`etf_book_size_rulers_write` 步 ~379、
+`rebalance_permission_write` 步 ~773）之后——否则同一条链里自己读到的是上一根 bar 的上游。
+
+**HOW**：CEO 页已经把「哪些节点在更早的 bar」逐节点名了（r1617 建），这份名单就是待修队列：
+拿每个名字去链里查有无写者、再去被检查面清单（`Tools/chain_writer_audit.py`）里查它是「有写模式没上链」还是
+「本来只有读模式」。两种的回答不同——前者补腿，后者是派生面、披露即可。判断写者闸对不对，
+先问「它比的那个量，是上游的截止日，还是它自己写下的时间」。
+
+**实锚**：`scripts/etf_book_floor_provenance.py`（新增 `refresh` + selftest 19/19，含 L17/L18
+「面携带的是收据的截止日、不是今天的钟」）、`Tools/s6_chain_bmc.py` 新腿 `floor_provenance_write`
+（单腿实跑 2/2 rc0：0.1s NOOP，check 绿）、`Tools/chain_writer_audit.py` 重枚举
+**30→29 缺写者（红 27→26）**、CEO 页重生成后「48 个带日期节里 34 个在 2026-11-12」（原 33）。

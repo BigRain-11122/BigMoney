@@ -1246,6 +1246,15 @@ LEGS = [
     # the floor is beta_TARGET / max(beta): a measuring tape, not a rule version. This leg
     # re-derives the 2x2 (window x universe) and refuses a receipt whose split does not add
     # up to its own headline gap (0.1s, JSON reads, no repricing).
+    # r1620: the same face needed a writer, and `check` cannot be one -- it re-derives from
+    # the *same* two receipts, so it is green by construction while the published
+    # evidence_cutoff sits on whatever day somebody last ran `run` by hand. r1619 put the
+    # rulers writer on the chain and this face stayed one day behind, which the page prints
+    # next to the book's own date. `refresh` gates on the upstream cutoff (not the clock) and
+    # must sit after both writers it prices: etf_book_size_rulers_write (step ~379) and
+    # rebalance_permission_write (step ~773) are both far earlier, so this is same-bar.
+    ("floor_provenance_write",
+     ["python", "scripts/etf_book_floor_provenance.py", "refresh"]),
     ("floor_provenance",
      ["python", "scripts/etf_book_floor_provenance.py", "check"]),
     # r1440: forty rounds read the calendar and the order page as two separate

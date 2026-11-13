@@ -1121,9 +1121,9 @@
  "round_t1615b_addendum": "delivered 35a86438f0; ahead=0 behind=0; full suite closed 576/576 0 FAIL (852.9s/574 legs)",
  "round_t1618_next": "next: (a) r1617 的 (a) 仍未做——`PREMIUM-PERCENTILE`/`PREMIUM-FORWARD` 两面是否也拿面板末行当「今日」（本轮只把写者挂到订阅面）；(b) 全量套件 09:02 起那份收口后取最终 FAIL 集（results/_smoke_r1618.out）；(c) 11-13 收盘 bar 落盘后跑 `premium_subscription_write`，看门是否如约判 rebuild 并把 5 腿推到 11-13；(d) 同族其余「只有 check 没有 writer」的面做一次普查（r1471 律：消费者腿绿 ≠ 生产者存在），禁逐个靠眼睛找。",
  "round_t1618_note": "| %s | 1618 | **PRODUCT（产品优先律）：一张面只有检查腿、没有写者，检查腿就会永远绿着说「上次手跑的那份是自洽的」。** 订阅面（`PREMIUM-SUBSCRIPTION`）就是这样：链上每轮跑 `check`，却没有一条腿跑 `run`，它靠手跑刷新（r1594/r1471 同族）。本轮把写者补上，并给写者一道闸——而闸的第一版踩了一个真坑：门槛写成「状态缓存追到票面场次才 no-op」，可**基金净值戳天生落在价格 bar 之后一天**（实测价格板 5/5 腿在 2026-11-12，净值/状态戳 5/5 在 2026-11-11），于是它每轮都判「要重建」，用 ~20s 网络换回同一批字。修法=门槛改问「这面定价过的东西有没有移动」：腿的价格端点==面板末行、腿的净值戳==本地净值缓存末行、状态缓存覆盖它已定价的那个戳、已发布字不是`cache-stale/cache-missing`，四条全不动=no-op（实测 0.1s）；任一移动=重建并顺带重抓。**顺带收编上一窗（08:42-08:43）未提交的死窗遗产**：CEO 页三个「回头测」区块（`money_cny`/`ticket_book`/`same_beta_benchmark`）与现金梯各自带上「这组数是在哪一天截的」——核验后 selftest 269/269 全绿、链腿 rc0，故收编而非重做。**新实物**：链上新腿 `premium_subscription_write`（真数据 0.1s no-op）、重生成的真面 5/5 腿为 `fetched`（旧面 4/5 腿 NO_STATUS_DATA）、CEO 页区块日期落进 `docs/live_book/LIVE-BOOK-20261113.json`、卡 E565。 **S0**：identity=bm-c（fleet/machine.json）｜`orphan_face_probe` py_faces=3 **orphans=1**（集团层 `Tools/fleet/agent.py --node bm-c`，非本司，只读报告不击杀）｜发车前树脏=上一窗死窗遗产，本轮只定向提交自有产出。**S0.5**：`Tools/s05_probe.py` orders_delta=false／decisions_delta=false／unacked=[] rc0。**S1**：全量套件本轮起于 09:02（pythonw pid 59660 → `results/_smoke_r1618.out`），收轮时在飞，**不宣称全绿**；改件以 selftest 269/269（页）＋114/114（订阅面）+ 链腿 3/3 rc0 为据。**S7**：loop pin=5 no-op（首跳 09:05）／watchdog 就绪在位／两爪 CR 归一 MATCH／attrition 4 账本 CLEAN（3 处历史缩行 healed）。**CEO 过程可见面**：当前活＝让订阅面有写者、并让写者只在真变化时才动手｜最近实物＝`results/etf_premium/PREMIUM-SUBSCRIPTION.json`（5/5 腿 fetched，09:00 重生成）＋`Tools/s6_chain_bmc.py` 腿 `premium_subscription_write`＋卡 E565｜下个里程碑＝11-13 收盘新 bar 落盘后，写者门应判「重建」并把 5 腿推到 2026-11-13（窗 ≤48h）。 **记账**：本行 1 处（其余为 S6 产出）。 本地未达 origin commit 数=0（收尾 push 后复核）。 |",
- "rounds": 1619,
- "rounds_done": 1619,
- "rounds_note": "r1619",
+ "rounds": 1620,
+ "rounds_done": 1620,
+ "rounds_note": "r1620",
  "s05_scan": {
   "consumed": "first scan clean at 08:56",
   "decisions_delta": false,
@@ -1152,13 +1152,13 @@
   "ahead_origin": 0,
   "behind_origin": 0
  },
- "task": "r1618: the subscription face gets a writer, and the writer's gate asks 'has anything this face priced moved' instead of a clock that lags by a day",
+ "task": "r1620: give the face that reads another face's receipt its own refresh entry and gate it on the upstream cutoff (30->29 check-only faces)",
  "total_ram_gb": 23.9,
- "ts": "2026-11-13T09:04:38+08:00",
- "updated": "2026-11-13T09:23:58+08:00",
- "updated_at": "2026-11-13T09:23:58+08:00",
+ "ts": "2026-11-13T09:45:25+08:00",
+ "updated": "2026-11-13T09:45:25+08:00",
+ "updated_at": "2026-11-13T09:45:25+08:00",
  "verdict": "insufficient_history",
- "verify": "chain_writer_audit selftest 11/11 | --check rc0 (30 known, 0 new) | mutation: deleting the new writer leg from a chain copy makes scripts/etf_book_size_rulers_decision.py appear as new debt | chain 2/2 rc0 (etf_book_size_rulers_write 52.3s, etf_book_size_rulers 0.2s, check re-derived 7 fields 0 mismatch) | attrition CLEAN | two claws MATCH | loop pin=5 no-op",
+ "verify": "floor_provenance selftest 19/19 (new L17 cutoff comes from the receipt not the clock, L18 a newer receipt moves the face with it) | ceo_page selftest 269/269 | s6_chain selftest 10/10 | chain --only=floor_provenance_write,floor_provenance 2/2 rc0 (writer 0.1s REFRESH_NOOP, check OK floor=0.432195) | chain_writer_audit --check rc0 (29 known, 0 newly paired, red 26) | CEO page regenerated: 34/48 dated sections on 2026-11-12 (was 33) | attrition CLEAN | two claws MATCH | loop pin=5 no-op",
  "verify_smoke": "full suite started 07:14 (pythonw pid 31124 -> results/_smoke_r1615.out); 478+ lines, no FAIL seen, not closed at round end; modules changed mid-run so the closing numbers are the previous generation",
  "verify_smoke_closed": "full suite started 07:14 closed 576/576 PASS 0 FAIL, wall clock 852.9s over 574 legs; started before the two module edits, so the ceo_page leg inside it printed the previous generation's 260/260 (new legs L214/L215 verified by selftest 262/262)",
  "vram_free_gb": 14.5,
@@ -1168,22 +1168,23 @@
  "chain_writer_audit": {
   "tool": "Tools/chain_writer_audit.py",
   "selftest": "11/11",
-  "legs": 224,
+  "legs": 225,
   "faces_checked": 90,
-  "faces_with_writer": 60,
-  "check_only_red": 27,
+  "faces_with_writer": 61,
+  "check_only_red": 26,
   "check_only_disclosed": 3,
-  "known_baseline": 30,
-  "check_rc": 0,
-  "first_draft_false_reds": 84
+  "known_baseline": 29,
+  "check_rc": 0
  },
  "s6_chain": {
   "started": "2026-11-13T09:21:06+08:00",
-  "legs": 224,
+  "legs": 225,
   "record": "results/_r1619bmc_s6_chain.json",
   "stdout": "results/_r1619bmc_chain.out",
-  "state": "in flight at round end"
+  "state": "in flight at round end (past etf_lowvol_book)"
  },
  "s7_notes": "watchdog re-registered but S4U XML flip refused (access denied) -> LogonType regression face, needs elevated re-register; loop task pin=5 no-op; pre-commit/pre-push claws CR-normal MATCH",
- "round_t1619_addendum": "delivered cce2c8e682; 0 ahead / 0 behind; pre-commit claw blocked the heartbeat GPU face (r1413) -> fixed through Tools/gpu_face.py apply, not --no-verify; chain still in flight (19/224 legs at round end); new smoke leg verified by importlib load, full suite not rerun"
+ "round_t1619_addendum": "delivered cce2c8e682; 0 ahead / 0 behind; pre-commit claw blocked the heartbeat GPU face (r1413) -> fixed through Tools/gpu_face.py apply, not --no-verify; chain still in flight (19/224 legs at round end); new smoke leg verified by importlib load, full suite not rerun",
+ "round_t1620_note": "| 2026-11-13T09:5x+0800 | 1620 | **PRODUCT（产品优先律·watermark=insufficient_history 无红）：上一轮把上游的写者接上链，下游那张读它的面照样停在前一天。** r1619 给 `etf_book_size_rulers_decision.json` 补了写者，面从此每轮都是当天的数；可同一条链上读它的 `floor_provenance`（票面地板的口径来源）仍然只有 `check` —— `check` 从同一对收据重派生，所以结构上永远绿，而它发布的 `evidence_cutoff` 停在 **2026-11-11**，CEO 页每天在书上印「`floor_provenance` 2026-11-11」。**修**：脚本加 `refresh` 模式，闸问**上游收据的 cutoff**（不是时钟、不是自己的时间戳）：相等=REFRESH_NOOP（0.1s），不等=重建（`assess()` 本来就带上游 cutoff，重建即推进）；链上加 `floor_provenance_write`(refresh) → `floor_provenance`(check)，位置排在它定价的两个写者之后（rulers_write ~379、rebalance_permission_write ~773 → 同 bar 自洽）。**读数**：单腿 2/2 rc0（0.1s NOOP）；重枚举 `chain_writer_audit` **30→29 缺写者（红 27→26）**、`--check` rc0 0 新债；CEO 页重生成后「48 个带日期节里 **34** 个在 2026-11-12」（原 33），`floor_provenance` 从落后名单消失。**验证**：脚本 selftest 19/19（新增 L17「面携带的是收据的截止日不是今天的钟」、L18「更新的收据要带着面一起走」）；CEO 页 selftest 269/269；链 selftest 10/10。 **S0**：identity=bm-c｜`orphan_face_probe` py_faces=6 **orphans=1**（`Tools/fleet/agent.py --node b` 父死 CPU 停滞 189min，集团层件不属本司，只读报告不击杀）｜发车前树脏=上一窗/链腿派生面，本轮只定向提交自有产出。 **S0.5**：orders 114 件 × ack 241 差集=空；decisions 水位本轮静（`chain_writer_audit` 已消费）。 **S1**：全量套件本轮未起跑（r1619 起的 S6 全链 09:21 仍在飞、占用仓内面），改件以三个自检 + 单腿实跑为据，**不宣称全绿**。 **S6**：链 09:21 起在飞（收轮时已过 `etf_lowvol_book`，约 100+/225 腿），**不宣称链全绿**。 **S7**：attrition 4 账本 **CLEAN**（3 处历史缩行 healed）／loop pin=5 **no-op**（首火 09:45 不动）／两爪 CR 归一 **MATCH**／watchdog 在位但 **S4U 翻转被拒（拒绝访问）=LogonType 回归面，待提权重注册**（如实记，连续第三轮）。**CEO 过程可见面**：当前活＝给「读别人产物的面」补上自己的刷新入口，让链条上的日期不再一个节点一个节点掉队｜最近实物＝`docs/live_book/LIVE-BOOK-20261113.md`（34/48 节在 2026-11-12）＋`results/etf_book_floor_provenance.json`（evidence_cutoff 2026-11-12 重生成）＋链腿 `floor_provenance_write`＋卡 E590｜下个里程碑＝11-13 收盘 bar 落盘后全链重跑，看这两级写者是否同场推进（窗 ≤48h）。 **记账**：本行 1 处（其余为 S6 产出）。 本地未达 origin commit 数=0（收尾 push 后复核）。 |",
+ "round_t1620_next": "next: (a) known check-only 面还有 26 个：页面点名的 permission_persistence(16.8h)/scale_floor(16.3h)/punctuality(83.3h)/band_ruler 是下一批候选，一轮一个，同样「写者排在读者之前 + 闸问上游 cutoff 不问时钟」；(b) r1619 起的 S6 全链仍在飞，收口后读 results/_r1619bmc_chain.out 的最终 FAIL/rc 集再宣称链绿；(c) watchdog S4U 连续三轮被拒（拒绝访问），需一次提权重注册；(d) 11-13 收盘 bar 落盘后看 floor_provenance 与 size_rulers 是否自动同场推进。"
 }
