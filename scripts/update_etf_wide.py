@@ -294,6 +294,31 @@ def _quote_fields(sina_syms):
     return out
 
 
+CORP_ACTION_TAGS = ("XD", "XR", "DR")
+
+
+def corp_action_tag(fields):
+    """Ex-dividend/rights tag the vendor prints in front of the name (pure).
+
+    The only independent evidence that a prev-close drift is a corporate
+    action and not a wrong symbol mapping: on the ex-date sina prefixes the
+    instrument name with XD (cash dividend), XR (rights) or DR (both).
+    """
+    name = (fields[0] if fields else "") or ""
+    up = name.strip().upper()
+    for tag in CORP_ACTION_TAGS:
+        if up.startswith(tag):
+            return tag
+    return None
+
+
+def bar_self_consistent(q_open, q_high, q_low, q_close, q_vol):
+    """A bar that can only come from a real session (pure)."""
+    return (min(q_open, q_close, q_high, q_low) > 0 and q_vol > 0
+            and q_high >= max(q_open, q_close)
+            and q_low <= min(q_open, q_close))
+
+
 def quote_tail(local, fields, target):
     """Pure: build the missing tail bar of one symbol from its quote fields.
 
@@ -301,6 +326,18 @@ def quote_tail(local, fields, target):
     intraday snapshot can never be written as a completed bar) and when the
     quote's previous close reproduces the local last close (so a wrong symbol
     mapping or an unadjusted split is refused, not written).
+
+    Two shapes the plain verifier could not tell apart from bad data (r1634):
+
+    * a session that traded nothing -- the vendor stamps today's date, prints
+      open/high/low/volume as zero and repeats the previous close. There is no
+      bar to append, and refusing it as `nonpositive_quote` left the symbol in
+      `laggards` forever, holding `panel_cutoff` one session behind every
+      downstream gate that asks "is this panel current".
+    * an ex-dividend session -- the vendor restates 昨收 for continuity, so the
+      prev-close check sees a drift that is not a mapping error. The name tag
+      (XD/XR/DR) is the independent evidence, and the bar itself must still be
+      self-consistent before we write it.
     """
     if len(fields) < 32:
         return {"row": None, "mismatch": "short_quote:%d" % len(fields)}
@@ -318,7 +355,15 @@ def quote_tail(local, fields, target):
                 % (q_date or "blank", target)}
     if str(local[-1]["date"]) >= str(target):
         return {"row": None, "mismatch": None, "already_current": True}
+    if q_vol <= 0 and q_close > 0 and abs(q_close - q_prev) <= U.PRICE_TOL:
+        return {"row": None, "mismatch": None, "no_trade": True}
     if abs(q_prev - float(local[-1]["close"])) > U.PRICE_TOL:
+        tag = corp_action_tag(fields)
+        if tag and bar_self_consistent(q_open, q_high, q_low, q_close, q_vol):
+            return {"row": {"date": q_date, "open": q_open, "high": q_high,
+                            "low": q_low, "close": q_close,
+                            "volume": q_vol, "amount": q_amt},
+                    "mismatch": None, "corp_action": tag}
         return {"row": None, "mismatch": "prev_close_drift:%.6f_vs_%.6f"
                 % (q_prev, float(local[-1]["close"]))}
     if min(q_open, q_close, q_high, q_low) <= 0 or q_vol <= 0:
@@ -450,6 +495,29 @@ def coverage_closes_gate(needs, coverage_pct, floor=COVERAGE_FLOOR):
     return bool(needs) and coverage_pct >= floor * 100.0
 
 
+def should_tail_retry(needs, force, laggard_n):
+    """The coverage floor closes the sweep, never the tail (pure).
+
+    A closed sweep with laggards left over is the shape that strands them: the
+    gate says "the panel is current enough", so nothing ever asks those names
+    again, and their files hold `panel_cutoff` on yesterday for good (r1634).
+    """
+    return (not needs) and (not force) and int(laggard_n or 0) > 0
+
+
+def carried_no_trade(prev, expected):
+    """No-trade exclusions that survive from the previous status (pure).
+
+    The verification is per session: those stems printed nothing on
+    `expected`, so they cannot hold the panel's cutoff behind that session --
+    but tomorrow they must be asked again, which is why the exclusion expires
+    the moment the expected bar moves.
+    """
+    if not prev or str(prev.get("source_no_trade_expected") or "") != str(expected):
+        return set()
+    return set(prev.get("source_no_trade_stems") or [])
+
+
 def quote_only_tasks(uni, expected, data_dir=None, tail_date=None):
     """Names whose OWN tail is behind `expected` -- the --quote-only worklist.
 
@@ -506,10 +574,14 @@ def _run_impl(limit=None, workers=DEFAULT_WORKERS, takeover=False,
             age_h = 99.0
         if age_h <= QUIET_RECHECK_H:
             quiet_prev = set(prev.get("source_quiet_stems") or [])
-    cut = panel_cutoff(exclude=set(ended) | set(skipped) | quiet_prev)
+    # A no-trade session is verified against ONE specific session: carry the
+    # exclusion only while that session is still the expected bar, so the
+    # symbol is re-examined tomorrow instead of being quietly retired.
+    no_trade_prev = carried_no_trade(prev, expected)
+    exclude_prev = set(ended) | set(skipped) | quiet_prev | no_trade_prev
+    cut = panel_cutoff(exclude=exclude_prev)
     needs, expected2, reason = U.cutoff_gate(cut, now, dates)
-    cov = panel_coverage(exclude=set(ended) | set(skipped) | quiet_prev,
-                         target=expected2)
+    cov = panel_coverage(exclude=exclude_prev, target=expected2)
     if coverage_closes_gate(needs, cov["pct"]):
         # Coverage override (E136 rule on the gate): the floor is 95% of the
         # universe at the expected bar, so a couple of suspended symbols can
@@ -521,7 +593,18 @@ def _run_impl(limit=None, workers=DEFAULT_WORKERS, takeover=False,
                   % (cov["pct"], cov["total"], expected2,
                      int(COVERAGE_FLOOR * 100), cov["laggard_n"],
                      ",".join(cov["laggards"][:10])))
-    if not needs and not force:
+    # The coverage floor closes the SWEEP, not the tail. If a handful of names
+    # are still behind, the cheap batched-quote pass is the right answer: it
+    # costs one request instead of 1,724, and it is the only thing that can
+    # stop those names from pinning `panel_cutoff` to a previous session
+    # forever (r1634: five names, four of them printing nothing at all).
+    tail_retry = False
+    if should_tail_retry(needs, force, cov["laggard_n"]):
+        quote_only = True
+        tail_retry = True
+        reason = (reason + "; tail retry on %d laggard(s) via the quote face"
+                  % cov["laggard_n"])
+    if not needs and not force and not tail_retry:
         payload = {"ts": now.isoformat(timespec="seconds"), "machine": me,
                    "status": "noop_fresh", "panel_cutoff": cut,
                    "expected": expected2, "detail": reason,
@@ -532,7 +615,11 @@ def _run_impl(limit=None, workers=DEFAULT_WORKERS, takeover=False,
                    "universe": len(uni), "skipped": skipped,
                    "source_ended_stems": sorted(ended),
                    "source_quiet_stems": sorted(quiet_prev),
-                   "source_quiet_ts": quiet_ts}
+                   "source_quiet_ts": quiet_ts,
+                   "source_no_trade_stems": sorted(no_trade_prev),
+                   "source_no_trade_expected":
+                       prev.get("source_no_trade_expected"),
+                   "no_trade_n": len(no_trade_prev)}
         if owner_note:
             payload.update(owner_note)
         write_wide_status(payload)
@@ -548,6 +635,8 @@ def _run_impl(limit=None, workers=DEFAULT_WORKERS, takeover=False,
     lag_tasks = []
     lag_src_last = {}
     quiet_stems = []
+    no_trade_stems = []
+    corp_action_rows = []
     quote_syms = 0
     quote_rows = 0
     quote_refusals = []
@@ -625,6 +714,11 @@ def _run_impl(limit=None, workers=DEFAULT_WORKERS, takeover=False,
                 counts["no_change"] = counts.get("no_change", 0) + 1
                 counts["tail_lag"] = max(0, counts.get("tail_lag", 0) - 1)
                 continue
+            if q.get("no_trade"):
+                no_trade_stems.append(stem)
+                counts["no_trade"] = counts.get("no_trade", 0) + 1
+                counts["tail_lag"] = max(0, counts.get("tail_lag", 0) - 1)
+                continue
             if q["mismatch"]:
                 quote_refusals.append("%s:%s" % (stem, q["mismatch"]))
                 counts["tail_lag"] = max(0, counts.get("tail_lag", 0) - 1)
@@ -641,25 +735,39 @@ def _run_impl(limit=None, workers=DEFAULT_WORKERS, takeover=False,
                 counts["appended"] = counts.get("appended", 0) + 1
                 quote_syms += 1
                 quote_rows += int(res.get("appended") or 0)
+                if q.get("corp_action"):
+                    corp_action_rows.append("%s:%s"
+                                            % (stem, q["corp_action"]))
             else:
                 quote_refusals.append("%s:%s" % (stem, res.get("detail")))
     elapsed = round(time.time() - t0, 1)
-    post_cov = panel_coverage(exclude=set(ended) | set(skipped)
-                              | set(quiet_stems), target=expected)
+    exclude_post = (set(ended) | set(skipped) | set(quiet_stems)
+                    | set(no_trade_stems))
+    post_cov = panel_coverage(exclude=exclude_post, target=expected)
 
     payload = {
         "ts": _now().isoformat(timespec="seconds"),
         "machine": me, "lane_owner": LANE_OWNER,
         "status": "ok", "expected": expected, "panel_cutoff_before": cut,
-        "mode": "quote_only" if quote_only else "full",
-        "panel_cutoff_after": panel_cutoff(exclude=set(ended) | set(skipped)
-                                            | set(quiet_stems)),
+        "mode": ("tail_retry" if tail_retry else
+                 ("quote_only" if quote_only else "full")),
+        # `panel_cutoff` is published in BOTH branches: the noop face has always
+        # carried it, so a run that wrote only before/after left readers that
+        # ask "is this panel current" with a key that appears and disappears
+        # depending on which branch last ran (r1634).
+        "panel_cutoff": panel_cutoff(exclude=exclude_post),
+        "panel_cutoff_after": panel_cutoff(exclude=exclude_post),
         "source_ended_stems": sorted(ended),
         "universe": len(uni), "attempted": len(tasks), "workers": workers,
         "elapsed_s": elapsed, "counts": counts,
         "ended_grace_td": ENDED_GRACE_TD,
         "source_quiet_stems": sorted(set(quiet_stems)),
         "source_quiet_ts": _now().isoformat(timespec="seconds"),
+        "source_no_trade_stems": sorted(set(no_trade_stems)),
+        "source_no_trade_expected": expected,
+        "no_trade_n": len(set(no_trade_stems)),
+        "corp_action_n": len(corp_action_rows),
+        "corp_action_sample": corp_action_rows[:20],
         "source_lagging_stems": lagging_syms,
         "coverage_pct_pre": cov["pct"], "coverage_floor": COVERAGE_FLOOR,
         "coverage_post": post_cov["pct"], "coverage_total": post_cov["total"],
@@ -845,9 +953,9 @@ def _selftest():
 
     # 6 same-evening quote top-up (pure; no network here).  The fixture is the
     #   real 2026-10-26 sh510300 session as the quote face printed it.
-    def qfields(date, o, prev, c, h, low, vol, amt):
+    def qfields(date, o, prev, c, h, low, vol, amt, name="name"):
         f = [""] * 33
-        f[0], f[1], f[2], f[3], f[4], f[5] = ("name", str(o), str(prev),
+        f[0], f[1], f[2], f[3], f[4], f[5] = (name, str(o), str(prev),
                                               str(c), str(h), str(low))
         f[8], f[9], f[30] = str(vol), str(amt), date
         return f
@@ -875,6 +983,62 @@ def _selftest():
         quote_tail(local_q, qfields("2026-10-26", 4.155, 4.178, 4.179, 4.187,
                                     4.130, 0, 0.0),
                    "2026-10-26")["mismatch"] is not None)
+    # 6b a session that traded nothing is NOT broken data (r1634): the vendor
+    #   stamps the date, prints open/high/low/volume as zero and repeats the
+    #   previous close. Refusing it as `nonpositive_quote` left the symbol in
+    #   `laggards` forever and held panel_cutoff one session behind.
+    r_nt = quote_tail(local_q, qfields("2026-10-26", 0.0, 4.178, 4.178, 0.0,
+                                      0.0, 0, 0.0), "2026-10-26")
+    chk("quote_tail_classifies_no_trade_session",
+        r_nt.get("no_trade") is True and r_nt["row"] is None
+        and r_nt["mismatch"] is None)
+    chk("quote_tail_no_trade_needs_close_at_prev",
+        not quote_tail(local_q, qfields("2026-10-26", 0.0, 4.178, 4.100, 0.0,
+                                        0.0, 0, 0.0),
+                       "2026-10-26").get("no_trade")
+        and quote_tail(local_q, qfields("2026-10-26", 0.0, 4.178, 4.100, 0.0,
+                                        0.0, 0, 0.0),
+                       "2026-10-26")["mismatch"] is not None)
+    # 6c an ex-dividend session: the vendor restates 昨收 for continuity, so the
+    #   prev-close check sees a drift that is not a mapping error. The name tag
+    #   is the independent evidence; the bar must still be self-consistent.
+    #   Fixture = the real 2026-11-13 sh510720 line (XD红利国企ETF国泰).
+    local_xd = [{"date": "2026-11-12", "open": 1.010, "high": 1.012,
+                 "low": 1.000, "close": 1.006, "volume": 129755514,
+                 "amount": 130392843}]
+    xd_q = qfields("2026-11-13", 1.004, 1.003, 1.005, 1.012, 1.000,
+                   89066193, 89656968.0, name="XD红利国企ETF国泰")
+    r_xd = quote_tail(local_xd, xd_q, "2026-11-13")
+    chk("quote_tail_accepts_tagged_corp_action_drift",
+        r_xd["mismatch"] is None and r_xd.get("corp_action") == "XD"
+        and r_xd["row"]["close"] == 1.005 and r_xd["row"]["volume"] == 89066193)
+    chk("corp_action_tag_only_from_name_prefix",
+        corp_action_tag(["XD红利国企ETF国泰"] + [""] * 5) == "XD"
+        and corp_action_tag(["责任ETF建信"] + [""] * 5) is None
+        and corp_action_tag([]) is None)
+    # the tag alone is not enough: a bar whose close sits outside its own
+    # low/high cannot come from a session and is refused even on an ex-date
+    chk("tagged_drift_still_needs_a_real_bar",
+        quote_tail(local_xd, qfields("2026-11-13", 1.004, 1.003, 1.000,
+                                     1.012, 1.002, 89066193, 8.9e7,
+                                     name="XD某ETF"),
+                   "2026-11-13")["mismatch"] is not None)
+    # 6d the exclusion expires with the session it was verified on
+    _prev_nt = {"source_no_trade_stems": ["sh511820"],
+                "source_no_trade_expected": "2026-11-13"}
+    chk("carried_no_trade_same_session",
+        carried_no_trade(_prev_nt, "2026-11-13") == {"sh511820"})
+    chk("carried_no_trade_expires_with_session",
+        carried_no_trade(_prev_nt, "2026-11-16") == set()
+        and carried_no_trade({}, "2026-11-13") == set())
+    # 6e the coverage floor closes the sweep, never the tail
+    chk("tail_retry_when_gate_closed_with_laggards",
+        should_tail_retry(False, False, 5) is True)
+    chk("tail_retry_not_when_nothing_behind",
+        should_tail_retry(False, False, 0) is False)
+    chk("tail_retry_not_when_sweep_is_already_open",
+        should_tail_retry(True, False, 5) is False
+        and should_tail_retry(False, True, 5) is False)
     chk("quote_tail_refuses_short_quote",
         quote_tail(local_q, ok_q[:10], "2026-10-26")["mismatch"] is not None)
     chk("quote_tail_noop_when_current",
