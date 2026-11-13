@@ -1825,7 +1825,11 @@ def vol_target_face(path=VOL_TARGET_GATE_JSON):
         "artifact": _rel(path, ROOT).replace(os.sep, "/"),
         "verdict": f.get("verdict"),
         "reading": f.get("verdict_reading"),
-        "asof": f.get("asof"),
+        # r1626: this section used to quote the face's wall-clock `asof`, so a sweep priced on
+        # the 2026-11-12 panel read as a 2026-11-13 section and the section audit listed it
+        # off the head bar. What this section is as-of is the panel tail the face scored.
+        "evidence_cutoff": f.get("evidence_cutoff") or (f.get("panel") or {}).get("last_bar"),
+        "generated": f.get("generated"),
         "capacity_cny": f.get("capacity_cny_1day_5pct"),
         "arms": arms,
         "shape": f.get("shape_invariance") or {},

@@ -35,6 +35,7 @@ import json
 import os
 import statistics
 import sys
+import tempfile
 import time
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -43,6 +44,7 @@ sys.path.insert(0, os.path.join(ROOT, "scripts"))
 
 import candidate_year_gate as G  # noqa: E402
 import candidate_year_gate_phases as P  # noqa: E402
+import etf_book_forward as F  # noqa: E402
 import etf_book_scale_floor as S  # noqa: E402
 import etf_book_year_caliber as K  # noqa: E402
 import etf_book_year_gate as Y  # noqa: E402
@@ -187,6 +189,18 @@ def run() -> int:
     print("panel", len(close.columns), "cols", len(close), "bars flips", n_flip,
           "capacity", cap, "t=%.1fs" % (time.time() - t0), flush=True)
 
+    # r1626: every word below is re-derived from the cells this face publishes, so `check`
+    # was green on any panel and the chain's refresh arm (which only pays on the word
+    # `stale`) could never be called -- the sweep sat on 2026-11-08 while the card priced
+    # 2026-11-12. So the face records the identity of the panel it scored, read from the
+    # canonical reader rather than a second digest implementation, and the priced tail is
+    # cross-checked against it: if the two disagree the stamp does not describe this run.
+    stamp = F.panel_stamp(load=True)
+    priced_tail = str(close.index[-1].date())
+    if stamp.get("last_bar") and stamp["last_bar"] != priced_tail:
+        print("WARNING panel tail disagrees: this face priced %s, canonical panel is %s"
+              % (priced_tail, stamp["last_bar"]), flush=True)
+
     arms_out = []
     for name, vt in ARMS:
         cells = []
@@ -223,10 +237,19 @@ def run() -> int:
             reading["money"]["cagr_pct"], reading["money"]["sharpe"],
             reading["money"]["maxdd_pct"], reading["reason"]), flush=True)
 
-    face = {"tool": "etf_book_vol_target_gate", "asof": time.strftime("%Y-%m-%d"),
+    # r1626: `asof` used to be today's wall clock, so a face priced on the 2026-11-12 panel
+    # declared 2026-11-13 and the page's section audit listed this section as off the head
+    # bar -- the r1595 defect ("is this today's number" is not a question one face can answer
+    # with its own clock). The bar this face is as-of is the panel tail; the wall clock gets
+    # its own name, as every other face in this repo does.
+    face = {"tool": "etf_book_vol_target_gate", "evidence_cutoff": priced_tail,
+            "generated": time.strftime("%Y-%m-%dT%H:%M:%S"),
             "question": ("is there a vol target under which this book clears the calendar "
                          "today, rather than after the N years r1428 estimated?"),
             "rule": RULE, "capacity_cny_1day_5pct": cap,
+            "panel": {"digest": stamp.get("digest"), "last_bar": stamp.get("last_bar"),
+                      "priced_last_bar": priced_tail,
+                      "symbols": int(close.shape[1]), "bars": int(close.shape[0])},
             "arms": arms_out, "verdict": verdict_of(arms_out),
             "shape_invariance": {t: shape_invariance(arms_out, t) for t in TRUSTED},
             "verdict_reading": {
@@ -246,7 +269,7 @@ def run() -> int:
 
 def write_md(face: dict) -> None:
     L = ["# ETF book -- does a vol target clear the calendar today?", "",
-         "As-of %s. Verdict: **%s** -- %s" % (face["asof"], face["verdict"],
+         "As-of %s. Verdict: **%s** -- %s" % (face["evidence_cutoff"], face["verdict"],
                                               face["verdict_reading"]), "",
          "| arm | vol target | verdict | median CAGR | median Sharpe | median maxDD | turnover |",
          "|---|---|---|---|---|---|---|"]
@@ -275,13 +298,18 @@ def write_md(face: dict) -> None:
 
 
 # ---------------------------------------------------------------- check
-def check() -> int:
+def check(path=OUT, stamp=None) -> int:
     """Re-derive every verdict from the published rows. No pricing, no hand-typed words."""
-    if not os.path.exists(OUT):
-        print("REFUSED: no receipt at %s" % OUT)
+    if not os.path.exists(path):
+        print("REFUSED: no receipt at %s" % path)
         return 3
-    with io.open(OUT, encoding="utf-8") as f:
+    with io.open(path, encoding="utf-8") as f:
         face = json.load(f)
+    # r1626: ask the panel before asking the rows. rc 2 + `stale` is the only wording the
+    # chain rebuilds on (r1625); rc 1 stays for "the numbers stopped following the rows".
+    rc = F.check_panel_stamp(face, stamp=stamp, label="vol target gate")
+    if rc != 0:
+        return rc
     bad = 0
     for a in face["arms"]:
         got = arm_reading(a["arm"], a["cells"])
@@ -376,6 +404,29 @@ def selftest() -> int:
     holes = [_arm_shape("a", [2, 1]), _arm_shape("b", [None, 1])]
     _chk(shape_invariance(holes)["unreadable_pairs"] == 1,
          "L15 unreadable pairs are counted, not silently skipped", errs)
+
+    # L16-L18: the stamp gate (r1626). A face left on an older panel must fail with rc 2 --
+    # the only wording the chain pays a rebuild on -- and a face carrying no stamp cannot
+    # pass as fresh, which is how the old check stayed green on every panel.
+    def _stamp_face(digest):
+        face = {"arms": [], "verdict": "NO_ARMS", "panel": ({"digest": digest} if digest else {})}
+        fd, p = tempfile.mkstemp(suffix=".json")
+        os.close(fd)
+        with io.open(p, "w", encoding="utf-8") as f:
+            json.dump(face, f)
+        return p
+    paths = [_stamp_face("aaaa"), _stamp_face("aaaa"), _stamp_face(None)]
+    _chk(check(path=paths[0], stamp={"digest": "aaaa"}) == 0,
+         "L16 a face priced on the live panel passes the stamp gate", errs)
+    _chk(check(path=paths[1], stamp={"digest": "bbbb"}) == 2,
+         "L17 a face left on an older panel fails rc 2 (the word the chain rebuilds on)", errs)
+    _chk(check(path=paths[2], stamp={"digest": "bbbb"}) == 2,
+         "L18 a face with no stamp cannot pass as fresh", errs)
+    for p in paths:
+        try:
+            os.unlink(p)
+        except OSError:
+            pass
     print("selftest", "PASS" if not errs else "FAILED (%d)" % len(errs))
     return 0 if not errs else 1
 

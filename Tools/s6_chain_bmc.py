@@ -1404,7 +1404,12 @@ LEGS = [
     # This leg re-derives each arm word and the scale-invariance deltas FROM THE PUBLISHED
     # CELLS (JSON read, no repricing), so a stale sweep cannot keep claiming it was run and a
     # hand-typed verdict cannot pass.
-    ("vol_target_gate", ["python", "scripts/etf_book_vol_target_gate.py", "check"]),
+    # r1626: the refresh arm was the missing half -- those cells are re-derived from the face
+    # itself, so it was green on any panel and nothing ever paid the sweep to move off
+    # 2026-11-08. The face now carries a panel stamp and says rc2/`stale` when the panel
+    # moved, which is the only wording this arm rebuilds on.
+    ("vol_target_gate", ["python", "scripts/etf_book_vol_target_gate.py", "check"],
+     ["python", "scripts/etf_book_vol_target_gate.py", "run"]),
 # r1475: r1473 priced the window/universe split of the floor (6.72pp) and left the
     # question open -- is the 306-bar beta a phase of this calendar or a moved level. This
     # leg re-derives that ruling from the published path: the bootstrap spread, the tail

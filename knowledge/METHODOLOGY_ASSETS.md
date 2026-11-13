@@ -14221,3 +14221,13 @@ CEO 页重生成后「48 个带日期节里 **35** 个在 2026-11-12」（原 34
 **HOW**：①判据取「同一块面板的身份」而不是「别人的日期」——账本也会落后，用账本当尺子等于用第二张脸量第一张脸；②失败码与措辞必须与消费者对齐：世界前进 = **rc2 + `stale`**（可付），自相矛盾 = rc1（不许付，付了就是用重建把红抹掉，r1345 陷阱）；③**读器会吞掉你的戳**：`read_published()` 只回一个白名单字典，`check` 拿它去比戳必然读到 None——写入面、读器面、检查面三处都要带上 `panel`（r1624 在 vol_window 上已踩过同一处，本轮 band_ruler 又踩一次）。
 
 **实锚**：`scripts/etf_book_cost_tape.py`（真数据 61.7s 从 2026-10-30 → **2026-11-12**，selftest 15 → 18 腿）、`scripts/etf_book_band_ruler.py`（真数据 111.9s → 11-12，selftest 13 → **16/16**），两条 `--check` 复跑 rc0（各付 ~45s 面板装载，这是诚实价格）；咬合证明＝旧面（无戳）直接 `CHECK FAIL ... stale` rc2；CEO 页 `n_on_headline 38 → 40`、`off_headline 10 → 8`。生产口径零改动，只加判据。
+
+### E596 · refresh 臂写在脚本里不算数，得挂在链上（r1626 bm-c）
+
+**症状**：`vol_target_gate` 与 `cost_tape`/`band_ruler` 同族——`check` 的全部工作是 `arm_reading(cells)` 再和自己发布的判决比一次，**在任何面板上都 rc0**，扫描面停在 **2026-11-08** 而卡片按 11-12 定价。差别只在最后一格：它在链腿表里是**二元组**（只有 `check`），而 `run_leg(name, cmd, refresh=None, ...)` 只在 `refresh` 非空且文字含 `stale`/`face missing` 时才付钱——**判据补齐也不会有人付账**，因为付账的插头根本不在表里。
+
+**同族第二形态（本轮自己踩出来）**：面用 `asof = 今天` 回答「这是哪一天」，于是按 **2026-11-12** 面板定价的一节被印成 **11-13**，直接进 CEO 页「不在页头那根 bar 上」名单。一天的面不是一天。
+
+**HOW**：①给面加戳前先看**链腿表**——三元组（check + refresh）才谈得上「可付」，光改脚本等于给一个没人接的电话写更准的号码；②「这一节是哪天的」只能用**它定价的那根 bar** 回答（`evidence_cutoff` = panel tail），墙钟另起名（`generated`），顺手也补上 science gate 要求的顶层 `evidence_cutoff`；③截面本人读的字段名要与页节探测器同一套（`BAR_FIELDS`/`HEADLINE_FIELDS`），改了面不改消费面 = 这一节从「日期错」变成「没有日期」，两种都是读不了。
+
+**实锚**：`scripts/etf_book_vol_target_gate.py`（run 写 `panel.digest`+`priced_last_bar` 并与 `F.panel_stamp` 交叉核对、check 走 `F.check_panel_stamp`、selftest 15 → **18/18**）、`Tools/s6_chain_bmc.py`（该腿补 refresh 臂）、`scripts/etf_book_ceo_page.py`（节取 `evidence_cutoff`）。真数据：面板 1519×5279、digest `e383c3a68f5f98af`（与 card 同值）、**2026-11-08 → 2026-11-12**，六档全 REFUSED（unscaled 14.27%/0.949、vt08 8.60%/0.892、vt02 2.19%/0.826）；咬合证明＝旧面（无戳）`CHECK FAIL ... stale` rc2；CEO 页 `n_on_headline 40 → 41`、`off_headline 8 → 7`；页 selftest 271/271、节审计 29/29、链单腿 1/1 rc0。
