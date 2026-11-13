@@ -1,22 +1,19 @@
 {
  "script": "scripts/live_book_section_bars.py",
- "ts": "2026-11-13 07:49:00",
+ "ts": "2026-11-13 08:13:55",
  "page": {
   "path": "docs/live_book/LIVE-BOOK-20261113.md",
   "json": "docs/live_book/LIVE-BOOK-20261113.json"
  },
  "verdict": "PAGE_MIXES_BARS",
- "sentence": "页面头部写着按 2026-11-12 定价，但 37 个带日期的节里只有 26 节真在这一天；其余 11 节最旧停在 2026-10-26（最差 sample_window 落后 13 个交易日），另外 19 节根本没有日期——它们不是同一根 bar 上的数，读的时候不能互相加减。这 11 节里，9 节的产物有同名链腿在守，2 节没有任何一条链腿重跑过它们（lookahead, universe_lock）——没有腿的那些停在天，是因为没人重跑，不是因为设计。",
+ "sentence": "页面头部写着按 2026-11-12 定价，但 44 个带日期的节里只有 30 节真在这一天；其余 14 节最旧停在 2026-10-26（最差 sample_window 落后 13 个交易日），另外 12 节根本没有日期——它们不是同一根 bar 上的数，读的时候不能互相加减。这 14 节里，9 节的产物有同名链腿在守，5 节没有任何一条链腿重跑过它们（lookahead, universe_lock, cash_handshake, cash_money, cash_yield）——没有腿的那些停在天，是因为没人重跑，不是因为设计。",
  "evidence_cutoff": "2026-11-12",
  "headline_bar": "2026-11-12",
  "headline_field": "priced_bar",
- "n_sections": 37,
- "n_on_headline": 26,
+ "n_sections": 44,
+ "n_on_headline": 30,
  "unknown_sections": [
-  "cash_yield",
-  "cash_money",
   "cash_ladder",
-  "forward",
   "backtest_band",
   "money_cny",
   "ticket_book",
@@ -24,24 +21,20 @@
   "agreement",
   "sources",
   "priced_faces",
-  "cash_handshake",
   "research_arc",
-  "live_quote",
   "permission",
-  "premium_leak",
-  "premium_forward",
   "sibling_gap",
   "authority"
  ],
  "bars": {
-  "2026-11-12": 26,
-  "2026-11-11": 3,
+  "2026-11-12": 30,
+  "2026-11-11": 6,
   "2026-11-08": 1,
   "2026-11-06": 1,
   "2026-10-30": 5,
   "2026-10-26": 1
  },
- "n_off_headline": 11,
+ "n_off_headline": 14,
  "off_headline": [
   {
    "key": "sample_window",
@@ -131,6 +124,30 @@
    ]
   },
   {
+   "key": "cash_handshake",
+   "bar": "2026-11-11",
+   "field": "repo_rate_date",
+   "lag_sessions": 1,
+   "ahead_of_headline": false,
+   "guarded_by": []
+  },
+  {
+   "key": "cash_money",
+   "bar": "2026-11-11",
+   "field": "spot_date",
+   "lag_sessions": 1,
+   "ahead_of_headline": false,
+   "guarded_by": []
+  },
+  {
+   "key": "cash_yield",
+   "bar": "2026-11-11",
+   "field": "rate_date",
+   "lag_sessions": 1,
+   "ahead_of_headline": false,
+   "guarded_by": []
+  },
+  {
    "key": "floor_provenance",
    "bar": "2026-11-11",
    "field": "evidence_cutoff",
@@ -154,6 +171,9 @@
  "oldest": "2026-10-26",
  "max_lag_sessions": 13,
  "by_key": {
+  "cash_yield": "2026-11-11",
+  "cash_money": "2026-11-11",
+  "forward": "2026-11-12",
   "vs_basket": "2026-11-12",
   "ticket_days": "2026-11-12",
   "card_days": "2026-11-12",
@@ -164,6 +184,7 @@
   "fill": "2026-11-12",
   "bets": "2026-11-12",
   "family_coherence": "2026-11-06",
+  "cash_handshake": "2026-11-11",
   "carry_regime": "2026-11-12",
   "leg_split": "2026-11-12",
   "concentration": "2026-11-12",
@@ -179,10 +200,13 @@
   "sample_window": "2026-10-26",
   "universe_lock": "2026-10-30",
   "entry_gate": "2026-11-12",
+  "live_quote": "2026-11-12",
   "sellability": "2026-11-12",
   "capital": "2026-11-12",
   "gap": "2026-11-12",
   "k_gap": "2026-11-12",
+  "premium_leak": "2026-11-12",
+  "premium_forward": "2026-11-12",
   "floor_provenance": "2026-11-11",
   "vol_target_gate": "2026-11-08",
   "positions": "2026-11-12",
@@ -192,9 +216,12 @@
   "envelope": "2026-11-12",
   "stress": "2026-11-12"
  },
- "n_unguarded": 2,
+ "n_unguarded": 5,
  "unguarded": [
   "lookahead",
-  "universe_lock"
+  "universe_lock",
+  "cash_handshake",
+  "cash_money",
+  "cash_yield"
  ]
 }

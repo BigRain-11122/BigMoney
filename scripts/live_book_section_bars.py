@@ -37,6 +37,7 @@ import argparse
 import datetime as dt
 import json
 import os
+import re
 import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -52,6 +53,22 @@ OUT_MD = os.path.join(ROOT, "results", "live_book_section_bars.md")
 # the page writer spells the same idea three ways depending on the section's age
 BAR_FIELDS = ("priced_bar", "evidence_cutoff", "panel_last_bar", "asof", "bar")
 HEADLINE_FIELDS = ("priced_bar", "evidence_cutoff")
+
+# r1617: BAR_FIELDS was written from the spellings the page *header* uses, and 11 of the 19
+# sections the page then called "no date at all, unverifiable" were carrying one under a name
+# this list never asked for -- `rate_date` on the cash yield, `spot_date` on the cash balance,
+# `as_of` on the forward face, `panel_bar` on the live quote, `face_asof`, `session`. Telling
+# a reader "this cannot be checked" about a section that states exactly which day it prices is
+# the r1611 shape one floor up. Widening is FORM-checked, never name-trusted, because two
+# neighbouring fields on this same page would be read wrong by a naive widening:
+#   * `agreement.same_decision_bar` is the string "True" (a claim, not a day);
+#   * `permission.decision_date` is "2026-12-09" -- the NEXT rebalance, i.e. the one date in
+#     this file that must never be read as the bar a section is priced on.
+BAR_FIELDS_LOOSE = ("as_of", "rate_date", "repo_rate_date", "spot_date", "panel_bar",
+                    "quote_date", "face_asof", "session", "trade_date", "nav_date",
+                    "data_date", "face_date")
+_ISO_DAY = re.compile(r"^\d{4}-\d{2}-\d{2}")
+
 
 # A page behind by more than this many sessions is not "a different day", it is a page
 # nobody refreshed -- that stays a hard finding on every host, not a note.
@@ -104,6 +121,10 @@ def bar_of(d):
         v = d.get(f)
         if v not in (None, "", "None"):
             return str(v)[:10], f
+    for f in BAR_FIELDS_LOOSE:
+        v = d.get(f)
+        if isinstance(v, str) and _ISO_DAY.match(v):
+            return v[:10], f
     return None, None
 
 
@@ -473,6 +494,14 @@ def selftest():
     else:
         leg("L13 no page on disk: boundary stated, nothing claimed", True)
         leg("L14 no page on disk: boundary stated, nothing claimed", True)
+
+    # ---- r1617: a section that says which day it prices is not "undatable" ---------------
+    leg("L23 a date under another name is read, and a boolean that merely looks like one is not",
+        bar_of({"rate_date": "2026-11-11"})[0] == "2026-11-11"
+        and bar_of({"same_decision_bar": "True"})[0] is None
+        and bar_of({"asof": "None", "repo_rate_date": "2026-11-11"})[0] == "2026-11-11")
+    leg("L24 the next rebalance date is never read as the bar a section is priced on",
+        bar_of({"decision_date": "2026-12-09", "k_order": 0.39})[0] is None)
 
     # r1533: `sum(1 for _, ok in legs)` counts every leg whatever its verdict -- a suite
     # that can print [FAIL] and still exit 0.

@@ -5904,8 +5904,11 @@ def section_bars_block(sb):
         out.append("> 那些节读的是各自面上一次生成时的数，不是今天的仓位；今天的数字只在前面那 %d 个里。"
                    % (n - len(off)))
     if unk:
-        out.append("> 另有 %d 个节不带任何日期字段，无法核验它们算到哪天（不猜测成同一天）。"
-                   % len(unk))
+        # r1617: a count tells the reader that part of the page cannot be checked and nothing
+        # about which part -- the same shape as "7 unverifiable lanes" with no owner named
+        # (r1159), where nobody can act on the sentence. So the names go in it.
+        out.append("> 另有 %d 个节不带任何日期字段，无法核验它们算到哪天（不猜测成同一天）：%s。"
+                   % (len(unk), "、".join("`%s`" % k for k in unk)))
     out.append("")
     return out
 
@@ -9781,6 +9784,11 @@ def selftest():
     _fl_one = "\n".join(fill_block(_flf, sheet={"n_hold": 1, "k_now": 0.909384}))
     chk("L214 fill: when the sheet and the ledger hold one book, it says so instead",
         "同一本" in _fl_one and "不是同一本" not in _fl_one, _fl_one[-120:])
+    # ---- r1617: the sections that cannot be dated are named, not merely counted ----------
+    _sb_unk_out = "\n".join(section_bars_block(_sb_unk))
+    chk("L215 section bars: the sections that cannot be dated are named, not just counted",
+        "`scalar-ish`" in _sb_unk_out and "1 个节不带任何日期字段" in _sb_unk_out,
+        _sb_unk_out[:110])
     shutil.rmtree(_adm_dir, ignore_errors=True)
     print("\nSummary: %d/%d PASS%s" % (ok, total, "" if ok == total else " -- %d FAIL" % (total - ok)))
     return 0 if ok == total else 1
