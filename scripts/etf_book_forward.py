@@ -2571,13 +2571,23 @@ def selftest():
     pos = {bar: i for i, bar in enumerate(bars_pub)}
     rebals = {str(d.date()) for d in rebal_days}
     first_reb = next((i for i, bar in enumerate(bars_pub) if bar in rebals), None)
-    starts_at_fill = bool(moved) and first_reb is not None and all(
-        pos[bar] > first_reb and bars_pub[pos[bar] - 1] in rebals for bar, _ in moved)
+    # r1642: the cost sweep is a permanent level shift, not a one-bar spike -- the fee is
+    # paid at the fill and every later bar inherits the smaller book. The old leg demanded
+    # that EVERY moved bar sit immediately after a decision day, which is only true when the
+    # window ends one bar after the fill; with six bars and a fill on the fourth it read
+    # "moved=2 first_rebalance_in_window=3" and went red on a correct series (2026-11-13).
+    # The honest shape of "only moves at a fill" is: nothing before the fill, the first
+    # moved bar is the bar AFTER the decision day, and nothing appears later than that.
+    first_move = min((pos[bar] for bar, _ in moved), default=None)
+    starts_at_fill = (first_move is not None and first_reb is not None
+                      and first_move > first_reb and bars_pub[first_move - 1] in rebals
+                      and all(pos[bar] >= first_move for bar, _ in moved))
     drag = max([abs(d) for _, d in moved] or [0.0])
     yrs = max(len(bars_pub) / 250.0, 1e-9)
     chk("basket turnover: a cost sweep moves only on the fill that follows a rebalance",
         (not moved and first_reb is None) or starts_at_fill,
-        "moved=%d first_rebalance_in_window=%s" % (len(moved), first_reb))
+        "moved=%d first_move=%s first_rebalance_in_window=%s"
+        % (len(moved), first_move, first_reb))
     chk("basket turnover: the drag it books is its own published friction, never larger",
         all(d >= -1e-12 for _, d in moved)
         and drag / float(bench["bars"][-1]["nav"] or 1.0) * 1e4 / yrs

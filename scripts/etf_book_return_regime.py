@@ -153,7 +153,48 @@ def _published():
     return {"file": os.path.relpath(path, ROOT), "beta": tk.get("beta_target"),
             "n_hold": tk.get("n_hold"), "cost_bp": tk.get("cost_bp_per_side"),
             "cagr": book.get("cagr"), "sharpe": book.get("sharpe"),
-            "maxdd": book.get("maxdd"), "bars": book.get("bars")}
+            "maxdd": book.get("maxdd"), "bars": book.get("bars"),
+            "bar": tk.get("as_of") or tk.get("evidence_cutoff")}
+
+
+def identity_verdict(panel_bar, base, pub, tol=REPRO_TOL):
+    """Does the base cell reproduce the headline the ticket published -- on THIS bar?
+
+    r1642: this leg compared a panel that ends today against whatever ticket was newest,
+    and the ticket is repriced further down the same chain run. So on every new bar it
+    read "rebuilt 12.59% vs published 12.49%" and called that a reproduction failure --
+    two bars under one verdict (the r1639/r1640 class). A rebuilt number and a published
+    number can only be compared when both are priced on the same bar; on another bar the
+    honest answer is "not evaluated yet", naming both bars.
+    """
+    if base is None or base.get("cagr_pct") is None:
+        return {"published_file": None, "matched": None, "status": "NOT_EVALUATED",
+                "panel_bar": panel_bar,
+                "basis": "no base cell on this panel -- identity leg not evaluated"}
+    if pub is None:
+        return {"published_file": None, "matched": None, "status": "NOT_EVALUATED",
+                "panel_bar": panel_bar,
+                "basis": "no published ticket on disk -- identity leg not evaluated"}
+    recon = round(base["cagr_pct"] / 100.0, 6)
+    pub_bar = pub.get("bar")
+    # a ticket that does not say which bar it was priced on keeps the old behaviour: we
+    # cannot claim it is on another bar, and silence must never become a pass.
+    if pub_bar is not None and str(pub_bar) != str(panel_bar):
+        return {"published_file": pub["file"], "published_cagr": pub["cagr"],
+                "published_bars": pub["bars"], "rebuilt_cagr": recon,
+                "rebuilt_bars": base.get("bars"), "published_bar": str(pub_bar),
+                "panel_bar": panel_bar, "matched": None, "status": "NOT_EVALUATED",
+                "basis": ("the newest ticket is priced on %s while this panel ends %s -- "
+                          "the identity leg is only evaluated on one bar"
+                          % (pub_bar, panel_bar))}
+    matched = bool(abs(recon - float(pub["cagr"])) <= tol
+                   and (pub.get("bars") in (None, base.get("bars"))))
+    return {"published_file": pub["file"], "published_cagr": pub["cagr"],
+            "published_bars": pub["bars"], "rebuilt_cagr": recon,
+            "rebuilt_bars": base.get("bars"), "published_bar": pub_bar,
+            "panel_bar": panel_bar, "matched": matched,
+            "status": "MATCHED" if matched else "MISMATCH",
+            "basis": "base cell (beta 0.20, observed repo) must equal the ticket's own headline"}
 
 
 def build():
@@ -248,19 +289,7 @@ def build():
     pub = _published()
     base = next((c for c in cells
                  if c["beta"] == round(float(BASE_BETA), 4) and c["regime"] == "observed"), None)
-    if pub is not None and base is not None and base.get("cagr_pct") is not None:
-        recon = round(base["cagr_pct"] / 100.0, 6)
-        out["identity"] = {
-            "published_file": pub["file"], "published_cagr": pub["cagr"],
-            "published_bars": pub["bars"], "rebuilt_cagr": recon,
-            "rebuilt_bars": base.get("bars"),
-            "matched": bool(abs(recon - float(pub["cagr"])) <= REPRO_TOL
-                            and (pub.get("bars") in (None, base.get("bars")))),
-            "basis": "base cell (beta 0.20, observed repo) must equal the ticket's own headline",
-        }
-    else:
-        out["identity"] = {"published_file": None, "matched": None,
-                           "basis": "no published ticket on disk -- identity leg not evaluated"}
+    out["identity"] = identity_verdict(out["evidence_cutoff"], base, pub)
     out["caveats"] = [
         "cash-share is the mean of (1-k) over the printed window, so it moves with the beta ladder",
         "flat_today holds one quote constant for years; the observed arm is what actually happened",
@@ -296,11 +325,14 @@ def run():
                  r["carry_pp"], r["carry_share_of_headline_pct"] or 0.0,
                  100.0 * (r["cash_share"] or 0.0)))
     idy = obj.get("identity") or {}
-    print("identity: rebuilt %.4f vs published %s | matched=%s"
-          % (idy.get("rebuilt_cagr") or float("nan"), idy.get("published_cagr"),
-             idy.get("matched")))
+    if idy.get("status") == "NOT_EVALUATED":
+        print("identity: not evaluated -- %s" % (idy.get("basis") or ""))
+    else:
+        print("identity: rebuilt %.4f vs published %s | matched=%s"
+              % (idy.get("rebuilt_cagr") or float("nan"), idy.get("published_cagr"),
+                 idy.get("matched")))
     print("wrote %s" % os.path.relpath(OUT, ROOT))
-    if idy.get("matched") is False:
+    if idy.get("status") == "MISMATCH":
         print("FATAL: rebuilt base cell does not reproduce the published headline", flush=True)
         return 2
     return 0
@@ -373,6 +405,27 @@ def selftest():
         quote_lag(idx, "2026-01-05") == 1 and quote_lag(idx, "2026-01-02") == 2)
     chk("L16 an unknown quote date is None, never 0 (unknown is not up to date)",
         quote_lag(idx, None) is None and quote_lag(idx, "") is None)
+
+    # L17-L20 (r1642): the identity leg compares a rebuilt number against a PUBLISHED one.
+    # The ticket lives further down the same chain run, so on a new bar the two numbers
+    # stand on different bars -- that is not a reproduction failure, it is a question that
+    # cannot be asked yet. And an honest mismatch on ONE bar must still go FATAL.
+    _base = {"cagr_pct": 12.59, "bars": 5280}
+    _pub = {"file": "results/etf_book_order/TICKET-x.json", "cagr": 0.1259, "bars": 5280,
+            "bar": "2026-11-13"}
+    same = identity_verdict("2026-11-13", _base, _pub)
+    chk("L17 same bar and same headline -> MATCHED", same["status"] == "MATCHED"
+        and same["matched"] is True)
+    off = identity_verdict("2026-11-13", _base, dict(_pub, bar="2026-11-12"))
+    chk("L18 a ticket priced on another bar is NOT_EVALUATED and names both bars",
+        off["status"] == "NOT_EVALUATED" and off["matched"] is None
+        and off["published_bar"] == "2026-11-12" and off["panel_bar"] == "2026-11-13")
+    drift = identity_verdict("2026-11-13", _base, dict(_pub, cagr=0.1122))
+    chk("L19 same bar but a different headline is still a MISMATCH",
+        drift["status"] == "MISMATCH" and drift["matched"] is False)
+    nobar = identity_verdict("2026-11-13", _base, dict(_pub, bar=None))
+    chk("L20 a ticket that does not say its bar keeps the strict comparison",
+        nobar["status"] == "MATCHED")
 
     print("selftest %d/%d" % (ok, tot))
     return 0 if ok == tot else 1

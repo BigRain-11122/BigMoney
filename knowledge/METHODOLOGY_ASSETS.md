@@ -14430,3 +14430,28 @@ etf_book_atlas_toll_ladder 同理（且它连 refresh 都没声明）。
 **实锚**：`scripts/etf_book_permission_persistence.py::classify_panel_move`（selftest 15→17/17，钉回 11-12 实读
 `STALE: priced on 2026-11-12 while the panel now ends 2026-11-13` rc2）+ `Tools/s6_chain_bmc.py` 该腿第三元素；
 `chain_writer_audit` red 23→22（floor_toll 有意留红，理由写在卡里）。
+
+### E605 · 一个数在本轮里挪了窝，就没人能替它作证（r1642 bm-c）
+
+r1639 整条链跑完 234 腿，4 条非零：`etf_book_return_regime` rc2「rebuilt base cell does not
+reproduce the published headline」、`etf_book_exec_delta` rc3「账 11-13、票面 11-12，两根 bar
+不能相减」、`etf_book_atlas_family` rc2（11 个臂面停在 11-12）、`scale_floor` rc3（off-chain 待重算）。
+链收口后逐条重跑：**前两条当场 rc0**（identity 12.59% vs published 12.59% matched=True；
+exec_delta 卖 313,872.90 / 买 354,253.10、动 668,126.00 元）。它们红不是因为数字错，是因为**被比
+的两个数在同一轮里各自挪了窝**：链先推面板（11-12 → 11-13），而票面/账本在链的后面才被重写，
+于是比较腿读到「新面板 + 旧票面」。
+
+`etf_book_return_regime` 的 identity 腿形状最典型：`_published()` 从不记票面自己是哪根 bar，
+所以「rebuilt 12.59% vs published 12.49%」这种句子永远说不清到底是谁错了——两个数都真，站在
+两个日子上。**正法**：`identity_verdict(panel_bar, base, pub)` 先比 bar，不同 bar 一律
+`NOT_EVALUATED` 并把两根 bar 一起印出来，**同 bar 才判 matched/mismatch，mismatch 照样 FATAL**。
+不写 bar 的老票面保持严格比对（沉默不许变成通过）。
+
+**How**：任何「重建值 vs 已发布值」的断言，先问这两个值各自钉在哪根 bar 上；不同 bar 的结论
+只能是「还不能比」，不能是「复现失败」。同理，链里排在前面的比较腿，如果它比的票面由后面的腿
+写，它的红是链自己的时序，不是面坏了——修时序或改判据，别去放宽阈值。
+
+**实锚**：`scripts/etf_book_return_regime.py::identity_verdict`（selftest 16→20/20，L17 同 bar
+MATCHED / L18 异 bar NOT_EVALUATED 且点名两根 bar / L19 同 bar 差异仍 MISMATCH / L20 无 bar 老票
+面走严格）；`etf_book_exec_delta.py run` 与 `etf_book_scale_floor.py check` 链后实跑 rc0
+（floor=0 top2=0.7039 CONDITIONAL）。
