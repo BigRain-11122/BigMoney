@@ -1,56 +1,56 @@
 {
- "at": "2026-11-13T05:57:05",
+ "at": "2026-11-13T21:39:53",
  "mode": "SHADOW_ON_REAL_PRODUCTS",
  "note": "real ledger rows from results\\etf_book_order\\ledger.jsonl; the book return that the bar's own row implies, moved by +0.0050 for that one bar (a restated close). Every nav/ret/k/rf below is the ledger's own printed value. The real ledger is untouched.",
  "real_ledger": {
   "path": "results\\etf_book_order\\ledger.jsonl",
-  "rows": 692,
-  "shadowed_bar": "2026-11-11",
-  "next_bar": "2026-11-12"
+  "rows": 693,
+  "shadowed_bar": "2026-11-12",
+  "next_bar": "2026-11-13"
  },
  "control_same_panel": {
-  "status": "RECOMPUTED_IDENTICAL",
-  "nav_delta": 0.0,
-  "nav_delta_ulp": 0,
-  "accepted_as": "identical",
+  "status": "ROUNDED_PATH_DIFF",
+  "nav_delta": -1e-08,
+  "nav_delta_ulp": -1,
+  "accepted_as": "rounded_path_diff<=1ulp",
   "rewritten": []
  },
  "changed_panel": {
   "status": "REWRITTEN_FROM_PANEL",
-  "bar": "2026-11-11",
-  "nav_published": 1.47163025,
-  "nav_settled": 1.47500966,
-  "ret_published": 0.00213097,
-  "ret_settled": 0.00443224,
-  "nav_delta": 0.00337941,
+  "bar": "2026-11-12",
+  "nav_published": 1.46882969,
+  "nav_settled": 1.47221629,
+  "ret_published": -0.00190304,
+  "ret_settled": 0.00039823,
+  "nav_delta": 0.0033866,
   "restated_at": "shadow",
-  "nav_factor": 1.00229637166,
+  "nav_factor": 1.002305645115,
   "later_rows_rescaled": 1,
   "chain_intact": true,
   "chain_breaks": []
  },
  "row_on_disk": {
-  "date": "2026-11-11",
-  "nav": 1.47500966,
-  "ret": 0.00443224,
-  "nav_published": 1.47163025,
-  "ret_published": 0.00213097,
+  "date": "2026-11-12",
+  "nav": 1.47221629,
+  "ret": 0.00039823,
+  "nav_published": 1.46882969,
+  "ret_published": -0.00190304,
   "restated_at": "shadow",
-  "nav_factor_applied": 1.00229637166,
+  "nav_factor_applied": 1.002305645115,
   "later_rows_rescaled": 1
  },
  "downstream_row": {
-  "date": "2026-11-12",
-  "nav_published": 1.46882969,
-  "nav_after": 1.47220267,
+  "date": "2026-11-13",
+  "nav_published": 1.46744585,
+  "nav_after": 1.47082926,
   "ret_unchanged": true
  },
  "ledger_history_face": {
   "bars": [
-   "2026-11-11"
+   "2026-11-12"
   ],
   "chain_broken": [],
-  "published_nav": 1.47163025,
-  "settled_nav": 1.47500966
+  "published_nav": 1.46882969,
+  "settled_nav": 1.47221629
  }
 }

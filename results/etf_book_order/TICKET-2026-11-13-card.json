@@ -1,0 +1,699 @@
+{
+ "kind": "card_config",
+ "asof_bar": "2026-11-13",
+ "capital_cny": 1000000.0,
+ "card_capital_cny": 1000000.0,
+ "scale": 0.9094,
+ "config": {
+  "universe_classes": [
+   "equity",
+   "commodity",
+   "convertible"
+  ],
+  "n_hold": 12,
+  "rebal": 20,
+  "cost_bp_per_side": 10.0,
+  "vol_target": 0.08,
+  "capital_cny": 1000000.0,
+  "universe_size": 1520,
+  "flips_repaired": 169,
+  "execution": "decide at close t -> fill at open t+1 -> hold to next rebalance"
+ },
+ "order": [
+  {
+   "symbol": "510760",
+   "name": "上证指数ETF国泰",
+   "class": "equity",
+   "weight": 0.0758,
+   "price": 1.263,
+   "lots": 600,
+   "shares": 60000,
+   "amount": 75780.0,
+   "note": ""
+  },
+  {
+   "symbol": "512040",
+   "name": "价值ETF富国",
+   "class": "equity",
+   "weight": 0.0758,
+   "price": 1.189,
+   "lots": 637,
+   "shares": 63700,
+   "amount": 75739.3,
+   "note": ""
+  },
+  {
+   "symbol": "159655",
+   "name": "标普500ETF华夏",
+   "class": "equity",
+   "weight": 0.0758,
+   "price": 2.004,
+   "lots": 378,
+   "shares": 37800,
+   "amount": 75751.2,
+   "note": ""
+  },
+  {
+   "symbol": "513690",
+   "name": "港股红利ETF博时",
+   "class": "equity",
+   "weight": 0.0758,
+   "price": 1.145,
+   "lots": 662,
+   "shares": 66200,
+   "amount": 75799.0,
+   "note": ""
+  },
+  {
+   "symbol": "159519",
+   "name": "港股国企ETF国泰",
+   "class": "equity",
+   "weight": 0.0758,
+   "price": 1.741,
+   "lots": 435,
+   "shares": 43500,
+   "amount": 75733.5,
+   "note": ""
+  },
+  {
+   "symbol": "513650",
+   "name": "标普500ETF南方",
+   "class": "equity",
+   "weight": 0.0758,
+   "price": 1.995,
+   "lots": 379,
+   "shares": 37900,
+   "amount": 75610.5,
+   "note": ""
+  },
+  {
+   "symbol": "510210",
+   "name": "上证指数ETF富国",
+   "class": "equity",
+   "weight": 0.0758,
+   "price": 0.945,
+   "lots": 802,
+   "shares": 80200,
+   "amount": 75789.0,
+   "note": ""
+  },
+  {
+   "symbol": "562060",
+   "name": "标普A股红利ETF华宝",
+   "class": "equity",
+   "weight": 0.0758,
+   "price": 0.616,
+   "lots": 1230,
+   "shares": 123000,
+   "amount": 75768.0,
+   "note": ""
+  },
+  {
+   "symbol": "513630",
+   "name": "港股低波红利ETF摩根",
+   "class": "equity",
+   "weight": 0.0758,
+   "price": 1.597,
+   "lots": 474,
+   "shares": 47400,
+   "amount": 75697.8,
+   "note": ""
+  },
+  {
+   "symbol": "159207",
+   "name": "高股息ETF广发",
+   "class": "equity",
+   "weight": 0.0758,
+   "price": 1.208,
+   "lots": 627,
+   "shares": 62700,
+   "amount": 75741.6,
+   "note": ""
+  },
+  {
+   "symbol": "511180",
+   "name": "可转债ETF海富通",
+   "class": "convertible",
+   "weight": 0.0758,
+   "price": 11.577,
+   "lots": 65,
+   "shares": 6500,
+   "amount": 75250.5,
+   "note": ""
+  },
+  {
+   "symbol": "513500",
+   "name": "标普500ETF博时",
+   "class": "equity",
+   "weight": 0.0758,
+   "price": 2.663,
+   "lots": 284,
+   "shares": 28400,
+   "amount": 75629.2,
+   "note": ""
+  }
+ ],
+ "book_amount": 908289.6,
+ "cash_amount": 91710.4,
+ "book_weight": 0.90829,
+ "cash_weight": 0.09171,
+ "cash_leg": "GC001 (1-day repo, observed close)",
+ "underspend_pct": 0.111,
+ "reprice_mismatch": [
+  {
+   "symbol": "513690",
+   "card_shares": 66100,
+   "ticket_shares": 66200
+  },
+  {
+   "symbol": "510210",
+   "card_shares": 80100,
+   "ticket_shares": 80200
+  }
+ ],
+ "recon": {
+  "card_priced_bar": "2026-11-13",
+  "card_decided_at": "2026-11-11",
+  "card_scale": 0.9094,
+  "card_names": [
+   "510760",
+   "512040",
+   "159655",
+   "513690",
+   "159519",
+   "513650",
+   "510210",
+   "562060",
+   "513630",
+   "159207",
+   "511180",
+   "513500"
+  ],
+  "same_names_as_card": true,
+  "ledger_names": [
+   "510760",
+   "512040",
+   "159655",
+   "513690",
+   "159519",
+   "513650",
+   "510210",
+   "562060",
+   "513630",
+   "159207",
+   "511180",
+   "513500"
+  ],
+  "same_names_as_ledger": true,
+  "ledger_scale": 0.909384,
+  "same_scale_as_ledger": true,
+  "ledger_book_bar": "2026-11-11",
+  "ledger_last_bar": "2026-11-13",
+  "ledger_last_nav": 1.0108942788,
+  "ledger_status": "live",
+  "ledger_last_cash": 0.090616,
+  "ledger_pending": null,
+  "ledger_fills": [
+   {
+    "bar": "2026-11-12",
+    "fills_at_bar": "2026-11-12",
+    "turnover": 1.259772,
+    "cost_bp_of_nav": 12.6,
+    "capital_cny": 1000000.0,
+    "cost_cny": 1273.67,
+    "basis": "turnover x 0.001 per side x nav of the bar that fills it",
+    "roster": {
+     "entered": [
+      "159519",
+      "159655",
+      "510210",
+      "510760",
+      "511180",
+      "512040",
+      "513500",
+      "513650",
+      "562060"
+     ],
+     "exited": [
+      "159263",
+      "159307",
+      "159501",
+      "159577",
+      "159632",
+      "513100",
+      "513300",
+      "513850",
+      "513870"
+     ],
+     "kept": [
+      "159207",
+      "513630",
+      "513690"
+     ],
+     "n_before": 12,
+     "n_after": 12,
+     "scale_before": 0.700775,
+     "scale_after": 0.909384,
+     "turnover": 1.259772,
+     "source": "deterministic replay of the same panel",
+     "derived_at": "2026-11-12T16:25:37+0800",
+     "note": "this receipt was published before rosters existed; the names are the engine's own replay of the same panel, attached only because the turnover matches"
+    }
+   }
+  ],
+  "ledger_pending_check": {
+   "ok": true,
+   "code": "no_pending",
+   "problems": [],
+   "checked": {
+    "head_bar": "2026-11-13",
+    "has_pending": false
+   }
+  },
+  "ledger_source": "K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\etf_book_forward\\LEDGER.json",
+  "restatements_readable": true,
+  "restatements_source": "restatements",
+  "restated_bars": [
+   "2026-10-29",
+   "2026-11-03",
+   "2026-11-12"
+  ],
+  "restatements": [
+   {
+    "bar": "2026-10-29",
+    "ts": "2026-10-30T19:18:29+0800",
+    "nav_published": 1.014536476,
+    "nav_settled": 1.0145314121,
+    "delta": 5.0639e-06,
+    "reason": "published while the panel for that date was still gaining symbols"
+   },
+   {
+    "bar": "2026-11-03",
+    "ts": "2026-11-05T20:29:33+0800",
+    "nav_published": 1.0037553579,
+    "nav_settled": 1.0037561821,
+    "delta": 8.242e-07,
+    "reason": "published while the panel for that date was still gaining symbols"
+   },
+   {
+    "bar": "2026-11-12",
+    "ts": "2026-11-13T23:20:05+0800",
+    "nav_published": 1.0110335008,
+    "nav_settled": 1.0110284683,
+    "delta": 5.0325e-06,
+    "reason": "published while the panel for that date was still gaining symbols"
+   }
+  ],
+  "withdrawn_bars": [
+   "2026-11-02"
+  ],
+  "withdrawn": [
+   {
+    "bar": "2026-11-02",
+    "ts": "2026-11-02T23:11:55+0800",
+    "nav_published": 1.0086329582,
+    "reason": "published on a bar the panel's coverage gate has since refused; the panel's last bar is earlier than this date, so it can never re-derive"
+   }
+  ],
+  "ledger_bars_published": 16,
+  "card_cash_weight": 0.0906,
+  "card_cash_amount": 91921.0,
+  "card_cash_is_executable": true,
+  "card_cash_target_amount": 90616.0,
+  "card_config": {
+   "n_hold": 12,
+   "vol_target": 0.08,
+   "rebal": 20,
+   "cost_bp_per_side": 10.0
+  },
+  "ledger_config": {
+   "n_hold": 12,
+   "vol_target": 0.08,
+   "rebal": 20,
+   "cost_per_side": 0.001
+  },
+  "same_config_as_ledger": true,
+  "scale_precision": "4 dp (the card's published precision)",
+  "admission": {
+   "readable": true,
+   "path": "results/etf_book_year_gate/YEAR-GATE.json",
+   "asof": "2026-11-13T16:23:28+0800",
+   "data_last": "2026-11-13",
+   "prior_data_last": "2026-11-12",
+   "line": 0.7,
+   "book": "nobond_vt08_adopted",
+   "found": true,
+   "phase": {
+    "asof": "2026-11-13T21:38:21+08:00",
+    "state": "UNADJUDICABLE_PHASE",
+    "median_top2_share": 0.792,
+    "spread_pp": 9.28,
+    "margin_pp": 9.2,
+    "single_phase_verdict": "CONDITIONAL",
+    "data_last": "2026-11-13",
+    "path": "results/etf_book_phase_gate.json"
+   },
+   "last_bar": "2026-11-13",
+   "verdict": "CONDITIONAL",
+   "failed": [
+    "Y4_top2_share"
+   ],
+   "checks": {
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false,
+    "C1_capacity": true
+   },
+   "top2_share": 0.7039,
+   "top2_share_full_only": 0.7278,
+   "margin_to_line": -0.0039,
+   "prior": {
+    "verdict": "CONDITIONAL",
+    "top2_share": 0.7007
+   },
+   "verdict_changed": false,
+   "positive_years": 7,
+   "years": 7,
+   "median": 5.6072,
+   "worst": 2.6828,
+   "capacity_cny": 39783633.0,
+   "trails_ledger": false
+  }
+ },
+ "decision": "HOLD: 18 bars until the next decision point",
+ "bars_until_next_decision": 18,
+ "feed": {
+  "ticket_bar": "2026-11-13",
+  "expected_bar": "2026-11-13",
+  "lag_days": 0,
+  "status": "current",
+  "detail": "the ticket is priced on the newest official bar that must exist"
+ },
+ "caveats": [
+  "exploratory: no prereg, no verdict, not in the scorecard",
+  "survivorship in the ETF pool; reference prices only, no impact cost",
+  "cash leg is GC001 single tenor, rolls at zero fee"
+ ],
+ "live_width_ruler": {
+  "state": "inside_disagreement",
+  "detail": "paired median +0.145pp inside a 2.070pp engine disagreement",
+  "sheet": "card",
+  "sheet_role": "measured_card",
+  "verdict": "COIN_FLIP_INSIDE_ENGINE_DISAGREEMENT",
+  "published_verdict": "COIN_FLIP_INSIDE_ENGINE_DISAGREEMENT",
+  "gap_pp": 0.145,
+  "disagreement_pp": 2.07,
+  "share_of_disagreement": 0.07,
+  "resolution_pp": 0.778,
+  "gap_over_resolution": 0.186,
+  "below_own_resolution": true,
+  "power_target": 0.8,
+  "paired_sd_pp": 1.242,
+  "atlas_rung_pp": 0.54,
+  "capacity_rung_pp": -1.53,
+  "sign_flips": true,
+  "sign_agreement": 0.5,
+  "pairs": 20,
+  "positive_phases": 10,
+  "min_pp": -1.97,
+  "max_pp": 2.87,
+  "spread_pp": 4.84,
+  "widths": {
+   "ticket": {
+    "live_n_hold": 5,
+    "priced_n_hold": 5,
+    "live_rule": "beta",
+    "priced_rule": "beta"
+   },
+   "card": {
+    "live_n_hold": 12,
+    "priced_n_hold": 12,
+    "live_rule": "vol",
+    "priced_rule": "vol_target"
+   }
+  },
+  "age_days": 1,
+  "evidence_cutoff": "2026-11-12",
+  "asof": "2026-11-13",
+  "source": "results/etf_book_live_width_ruler.json"
+ },
+ "family_coherence": {
+  "artifact": "results/etf_book_phase_atlas_arms.json",
+  "verdict": "MIXED_WORLDS",
+  "detail": "11 faces priced 2 different panels (e383c3a6, e6f9d0e8): per-cell deltas across worlds are world differences, not rule effects",
+  "panels": [
+   "e383c3a68f5f98af",
+   "e6f9d0e81a64ec75"
+  ],
+  "arms": 10,
+  "evidence_cutoff": "2026-11-13",
+  "priced_bar": "2026-11-13",
+  "pricing": {
+   "mode": "engine",
+   "reprices_bar": true,
+   "refresh_arm": "etf_book_atlas_family:refresh",
+   "refresh_arm_note": "re-prices whatever arm is off the panel; the chain pays a few arms per cycle inside its own budget and names whatever it could not fit",
+   "budget_sec": 1100.0,
+   "faces": 10,
+   "cells_per_face": 280
+  },
+  "panels_detail": [
+   {
+    "digest": "e6f9d0e81a64ec75",
+    "faces": [
+     "baseline",
+     "buffer_k02",
+     "buffer_k05"
+    ],
+    "last": "2026-11-13",
+    "bars": 5280,
+    "columns": 1629,
+    "bars_fewer_than_newest": 0
+   },
+   {
+    "digest": "e383c3a68f5f98af",
+    "faces": [
+     "buffer_k05_cost20",
+     "buffer_k10",
+     "buffer_k20",
+     "buffer_k40",
+     "cost0",
+     "cost05",
+     "cost20",
+     "cost40"
+    ],
+    "last": "2026-11-12",
+    "bars": 5279,
+    "columns": 1628,
+    "bars_fewer_than_newest": 1
+   }
+  ],
+  "priced_same_panel": false,
+  "comparable": [
+   "buffer_k02",
+   "buffer_k05"
+  ],
+  "withheld": [
+   "buffer_k05_cost20",
+   "buffer_k10",
+   "buffer_k20",
+   "buffer_k40",
+   "cost0",
+   "cost05",
+   "cost20",
+   "cost40"
+  ],
+  "cost_axis": {
+   "readable": false,
+   "withheld": [
+    "buffer_k05_cost20",
+    "buffer_k10",
+    "buffer_k20",
+    "buffer_k40",
+    "cost0",
+    "cost05",
+    "cost20",
+    "cost40"
+   ],
+   "arms": [
+    {
+     "arm": "buffer_k02",
+     "verdict": "NOT-SEPARABLE",
+     "readable": true,
+     "description": "buffer k=0.02 on every cell (the near-zero end -- a knob that reads the same at 0.02 and at 0.20 is flat, not merely small)"
+    },
+    {
+     "arm": "buffer_k05",
+     "verdict": "NOT-SEPARABLE",
+     "readable": true,
+     "description": "buffer k=0.05 on every cell (the r1325 arm, re-priced per phase)"
+    },
+    {
+     "arm": "buffer_k05_cost20",
+     "verdict": "WORLDS_NOT_COMPARABLE",
+     "readable": false,
+     "description": "buffer k=0.05 at 20bp/side -- the interaction neither family tested: does a buffer that is harmless at 10bp recover any of the -1.41pp the 20bp toll costs?"
+    },
+    {
+     "arm": "buffer_k10",
+     "verdict": "WORLDS_NOT_COMPARABLE",
+     "readable": false,
+     "description": "buffer k=0.10 on every cell (the middle of the family r1325 named as a cost knob; declared in the pool at r1351 before this face existed)"
+    },
+    {
+     "arm": "buffer_k20",
+     "verdict": "WORLDS_NOT_COMPARABLE",
+     "readable": false,
+     "description": "buffer k=0.20 on every cell (the strongest arm -- if even this stays inside every cell's band, the buffer family is unmeasurable on this design, not negative)"
+    },
+    {
+     "arm": "buffer_k40",
+     "verdict": "WORLDS_NOT_COMPARABLE",
+     "readable": false,
+     "description": "buffer k=0.40 on every cell (8x the r1325 arm -- the far end, where a real buffer finally has to hurt)"
+    },
+    {
+     "arm": "cost0",
+     "verdict": "WORLDS_NOT_COMPARABLE",
+     "readable": false,
+     "description": "0bp/side on the whole grid (no toll at all) -- if the ordering only appears here, the ordering is bought with the toll and the 10bp reading stands"
+    },
+    {
+     "arm": "cost05",
+     "verdict": "WORLDS_NOT_COMPARABLE",
+     "readable": false,
+     "description": "5bp/side on the whole grid (half the production toll)"
+    },
+    {
+     "arm": "cost20",
+     "verdict": "WORLDS_NOT_COMPARABLE",
+     "readable": false,
+     "description": "20bp/side on the whole grid (double the production toll)"
+    },
+    {
+     "arm": "cost40",
+     "verdict": "WORLDS_NOT_COMPARABLE",
+     "readable": false,
+     "description": "40bp/side on the whole grid (4x the production toll -- does 'the cadence is quotable' have a toll ceiling, and does the ordering vanish first?)"
+    }
+   ]
+  },
+  "null_calibration": {
+   "artifact": "results/etf_book_rule_null.json",
+   "status": "ok",
+   "detail": "an effect-free panel reads REJECT 96.5% of the time, so a published REJECT transmits almost nothing; the rule's informative branch is the rare one (NOT-SEPARABLE 3.5%, ADOPT 0.0%, NOT-ASSESSED 0.0%). Mechanism: the cell floor -0.15pp is 13.7x smaller than one sigma (2.05pp) of these cells, so about half of them land under it by chance and the not-worse share (floor 0.80) fails by construction",
+   "reject_share": 0.9651,
+   "not_separable_share": 0.0348,
+   "adopt_share": null,
+   "trials": 20000,
+   "label": "REJECT_IS_THE_DEFAULT",
+   "evidence_cutoff": "2026-11-12",
+   "bar_now": "2026-11-13"
+  },
+  "signflip": {
+   "artifact": "results/etf_book_arms_signflip.json",
+   "status": "ok",
+   "detail": "3 of 4 published REJECTs stand on their own cells (buffer_k05_cost20, cost20, cost40); the rest are inside sign noise and must not be read as findings",
+   "n_reject": 4,
+   "n_reject_standing": 3,
+   "standing": [
+    "buffer_k05_cost20",
+    "cost20",
+    "cost40"
+   ],
+   "overturned": [
+    "buffer_k40",
+    "cost0",
+    "cost05"
+   ],
+   "overstated": [
+    "buffer_k40"
+   ],
+   "understated": [
+    "cost0",
+    "cost05"
+   ],
+   "arms": [
+    {
+     "arm": "buffer_k02",
+     "frozen_label": "NOT-SEPARABLE",
+     "verdict": "NOT-SEPARABLE",
+     "sign_cells": 12,
+     "cells_positive": 5
+    },
+    {
+     "arm": "buffer_k05",
+     "frozen_label": "NOT-SEPARABLE",
+     "verdict": "NOT-SEPARABLE",
+     "sign_cells": 11,
+     "cells_positive": 5
+    },
+    {
+     "arm": "buffer_k05_cost20",
+     "frozen_label": "REJECT",
+     "verdict": "WORSE",
+     "sign_cells": 12,
+     "cells_positive": 0
+    },
+    {
+     "arm": "buffer_k10",
+     "frozen_label": "NOT-SEPARABLE",
+     "verdict": "NOT-SEPARABLE",
+     "sign_cells": 12,
+     "cells_positive": 9
+    },
+    {
+     "arm": "buffer_k20",
+     "frozen_label": "NOT-SEPARABLE",
+     "verdict": "NOT-SEPARABLE",
+     "sign_cells": 12,
+     "cells_positive": 8
+    },
+    {
+     "arm": "buffer_k40",
+     "frozen_label": "REJECT",
+     "verdict": "NOT-SEPARABLE",
+     "sign_cells": 12,
+     "cells_positive": 7
+    },
+    {
+     "arm": "cost0",
+     "frozen_label": "NOT-SEPARABLE",
+     "verdict": "BETTER",
+     "sign_cells": 12,
+     "cells_positive": 12
+    },
+    {
+     "arm": "cost05",
+     "frozen_label": "NOT-SEPARABLE",
+     "verdict": "BETTER",
+     "sign_cells": 12,
+     "cells_positive": 12
+    },
+    {
+     "arm": "cost20",
+     "frozen_label": "REJECT",
+     "verdict": "WORSE",
+     "sign_cells": 12,
+     "cells_positive": 0
+    },
+    {
+     "arm": "cost40",
+     "frozen_label": "REJECT",
+     "verdict": "WORSE",
+     "sign_cells": 12,
+     "cells_positive": 0
+    }
+   ],
+   "verdict": "SOME_REJECTS_STAND",
+   "evidence_cutoff": "2026-11-12",
+   "bar_now": "2026-11-13"
+  },
+  "receipt": {
+   "present": null,
+   "detail": "receipt reader failed (module 'etf_book_atlas_arms_rebuild' has no attribute 'receipt_state')",
+   "stale": null
+  }
+ }
+}
