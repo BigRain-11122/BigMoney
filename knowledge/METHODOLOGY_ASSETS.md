@@ -14241,3 +14241,13 @@ CEO 页重生成后「48 个带日期节里 **35** 个在 2026-11-12」（原 34
 **HOW**：①任何按节比日期的面，先问这一节的日期是**哪一天**还是**哪一段的终点**（发布 `window`/`page_window` 的面按形态识别：终点 == 它印的日期 → 窗口型）；②窗口型**仍计数**（不隐藏），但**不得被点为最差落后**，且表格里把名字换成「窗口段（start 至 end）」；③句子要把「要它跟上页头等于重算整段窗口」写出来——那是成本披露，不是免责；④渲染器（页与审计各一份）都从同一个行的 `window` 字段取，禁第二份判断。
 
 **实锚**：`scripts/live_book_section_bars.py`（`WINDOW_BOUND`/`window_of`/`n_window_bound`，selftest 32 → **37/37**，`check` CHECK_OK）、`scripts/etf_book_ceo_page.py`（`section_bars_block` 增一句，selftest 271 → **272/272**，新腿带变异：判断题不成立时该句必须消失）。真数据：`results/live_book_section_bars.json` 得 `n_window_bound=1`（sample_window，2020-01-01 至 2026-10-26）、被点名的最差落后从 sample_window(13) 改为 `family_coherence`(4，引擎定价，已在 r1627 单列)，CEO 页原句实读为「其中 `sample_window` 量的是**一整段固定窗口**：2020-01-01 至 2026-10-26，它印的日期就是那段窗口的终点」。
+
+### E598 · 不自量面板的面，要盖的是**上游面**的身份戳；而「面板停了」还得问属主还在不在（r1629 bm-c）
+
+**症状**：`window_label` 一行都不自己量——它把 band ruler 的两个 cell 和 order sheet 的一个回测抄过来。它的 `--check` 做的是「拿已发布的数重新判定一遍，再和发布的判定比」，所以**在任何面板上都绿**；它确实有一条陈旧断言（`evidence_cutoff` 落后账本末行），但那条分支返回 **rc1 + 「rerun」**，而链的 refresh 臂只认 **rc2 + 字面 `stale`**（E595）。结果：面停在 **2026-11-11** 两天，页头已按 **11-12** 定价，check 每次都红、每次都白红。同族第二个坑：明面上的「账本末行」也不一定是最早动的那个输入——**票**换了一天（`TICKET-2026-11-11` → `-11-12`），账本没动，断言看不见。
+
+**WHY**：抄别人的面没有自己的面板可以盖章，所以 r1249/r1624 那套 `panel.digest` 无处可用——但**它有上游**。上游面已经把「我量的是哪块面板」发布出来了（band ruler 的 `panel`），把那个值随自己的产物一起抄下来，就等于**间接**盖了同一块面板的戳，且零成本（读一个 JSON，而不是重载面板 50s）。三条闸的顺序也重要：**上游/票/账本**是三种「世界动了」，与「数字不再跟随行」（rc1）必须是不同的返回码，否则链会把一次判定分歧当成陈旧去重建（E595 的反面）。
+
+**HOW**：①面不自己量 → 建 `doc["panel"] = upstream.get("panel")`，check 走 `FW.check_panel_stamp(doc, stamp=当前上游的 panel)`（单一实现，禁第二份比对）；②**同一次 build 里抄下的票名**也要在 check 里和「现在的票」比——账本不动而票动了是真实形状；③三道闸一律 **rc2 + `stale`**，并把「面不在盘上」写成 **`face missing`**（r1581 链肯付的措辞）；④`read_published()` 必须把 `panel`/`inputs` 一起吐给 check——否则 check 拿到的永远是 `None`，第一版就是这么又绿又瞎的（E595 第三律同族）；⑤面板停了要说清是**谁**让它停：出处面发布 `owner_machine`/`owner_runner`/`panel_last_write` 三个**字段**（不是一句散文），读者算面板写入年龄 + 属主**自写心跳**年龄 → 三态 `alive`(<2h)/`quiet`(≥2h)/`unknown`(读不到=未知，不是死机，E-family r1159)。
+
+**实锚**：`scripts/etf_book_window_label.py`（`behind_rc()`，selftest 11 → **20/20**，五腿：绿/换面板/无戳/换票/账本前进；真数据 11-11 → **2026-11-12**，全窗 7.68% / 2020-2023 3.71% / 2024+ 12.64%，差 **+4.96 pp/yr**，check rc0）、`scripts/live_book_section_bars.py`（`panel_debt()`/`panel_debt_sentence()`，selftest 37 → **42/42**）、`scripts/etf_book_ceo_page.py`（`page_computed_provenance()` 三新字段 + `section_bars_block` 原样印审计句，selftest 272 → **273/273**）。页面实读：「`data/repo_daily` 末行 2026-11-11；最后写入 28.5 h 前；属主 bm-a（update_repo.py） 自己的心跳停在 16.9 h 前——是那条车道停了，不是页面慢」。
