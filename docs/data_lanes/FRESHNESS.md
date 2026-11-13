@@ -2,21 +2,20 @@
 
 Official reference: last day that must exist by 15:30 = **2026-11-13** (8797 calendar days loaded).
 
-Verdict: **attention** -- 5/15 lanes in sync, 10/15 auditable from this machine, worst = `ths_panel`.
+Verdict: **attention** -- 6/15 lanes in sync, 10/15 auditable from this machine, worst = `ths_panel`.
 
 
 ## Whose disk these numbers are on
 
-以本机 bm-a 的盘为基准：14 条在役车道里有 7 条的数字不在本机盘上：7 条在 bm-c 的盘上（心跳 0.7h 前）；留在本机盘上的 7 条里 7 条可核实。
+以本机 bm-a 的盘为基准：14 条在役车道里有 6 条的数字不在本机盘上：6 条在 bm-c 的盘上（心跳 0.78h 前）；留在本机盘上的 8 条里 8 条可核实。
 
-- `bm-c`: ah_panel, astock_daily, lhb, marks, minute_feed, ths_panel, zt_pool
+- `bm-c`: ah_panel, astock_daily, marks, minute_feed, ths_panel, zt_pool
 | lane | host | tail | missing (official days) | verdict | authority |
 |---|---|---|---|---|---|
 | `options` | bm-c | 2026-09-30 | 27: 2026-10-08, 2026-10-09, 2026-10-12, 2026-10-13, 2026-10-14, 2026-10-15 … | retired (copy said `stalled`) | unattributed |
 | `ths_panel` | bm-c | 2026-10-19 | 19: 2026-10-20, 2026-10-21, 2026-10-22, 2026-10-23, 2026-10-26, 2026-10-27 … | unverifiable (copy said `stalled`) | unattributed |
 | `sina_mf` | bm-c | 2026-10-26 | 14: 2026-10-27, 2026-10-28, 2026-10-29, 2026-10-30, 2026-11-02, 2026-11-03 … | in_sync (own window 14/20) | host_envelope |
 | `moneyflow` | bm-c | 2026-11-10 | 3: 2026-11-11, 2026-11-12, 2026-11-13 | in_sync (own window 3/20) | host_envelope |
-| `lhb` | bm-a | 2026-11-11 | 2: 2026-11-12, 2026-11-13 | stalled | declared_takeover |
 | `lhb_inst` | bm-c | 2026-11-11 | 2: 2026-11-12, 2026-11-13 | stalled | host_envelope |
 | `ah_panel` | bm-c | 2026-11-12 | 1: 2026-11-13 | unverifiable (copy said `today_pending`) | non_host_copy |
 | `astock_daily` | bm-b | 2026-11-12 | 1: 2026-11-13 | today_pending | declared_takeover |
@@ -26,6 +25,7 @@ Verdict: **attention** -- 5/15 lanes in sync, 10/15 auditable from this machine,
 | `zt_pool` | bm-c | 2026-11-12 | 1: 2026-11-13 | unverifiable (copy said `today_pending`) | non_host_copy |
 | `futures` | bm-a | 2026-11-13 | 0 | in_sync | host_envelope |
 | `heat` | bm-a | 2026-11-13 | 0 | in_sync | host_envelope |
+| `lhb` | bm-a | 2026-11-13 | 0 | in_sync | host_envelope |
 | `repo` | bm-a | 2026-11-13 | 0 | in_sync | host_envelope |
 
 ## Lanes where a missed day cannot be recovered
@@ -49,7 +49,7 @@ Each missing day below is classified by its own collector. `takeover_possible` m
 
 A different question from the section above: these machines have written no heartbeat for more than 24.0h, so the lanes they own are being judged from whatever was last committed. A lane here can still read `in_sync` -- the number is old, the owner is gone, and nobody would notice the day the file stops being written.
 
-- `bm-b`: last seen 2026-10-30T12:43:06+08:00 (342.75h ago) -- owns astock_daily, marks
+- `bm-b`: last seen 2026-10-30T12:43:06+08:00 (342.83h ago) -- owns astock_daily, marks
   - already covered by a declared stand-in: astock_daily <- bm-c, marks <- bm-c (nothing to wait for)
 
 ## Why some lanes cannot be certified here
@@ -95,5 +95,5 @@ A quarterly report period cannot be judged by an official trading day: the unit 
 |---|---|---|---|---|---|---|
 | `fund_statements` | bm-c | 20260630 | 20260930 (due 2026-10-31) | 1 | period_missing | yes |
 
-- `fund_statements`: the statute demanded 20260930 from 2026-10-31; the panel on this disk stops at 20260630 (1 period(s) missing) -- host `bm-c` silent 0.7h
+- `fund_statements`: the statute demanded 20260930 from 2026-10-31; the panel on this disk stops at 20260630 (1 period(s) missing) -- host `bm-c` silent 0.78h
 
