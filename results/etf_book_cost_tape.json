@@ -1,58 +1,58 @@
 {
  "arms": {
   "assumed_10bp": {
-   "cagr": 0.096,
+   "cagr": 0.0965,
    "calmar": 0.82,
    "label": "cell",
    "maxdd": -0.1177,
    "neg_years": 1,
-   "pos_months_pct": 0.617,
-   "sharpe": 0.99,
+   "pos_months_pct": 0.622,
+   "sharpe": 0.993,
    "start_level": 1.0073,
-   "vol": 0.1017,
+   "vol": 0.1019,
    "worst_month": -0.0362,
    "worst_year": -0.0199,
-   "years": 6.82
+   "years": 6.86
   },
   "measured": {
-   "cagr": 0.1011,
+   "cagr": 0.1017,
    "calmar": 0.89,
    "label": "cell",
    "maxdd": -0.1137,
    "neg_years": 1,
-   "pos_months_pct": 0.63,
-   "sharpe": 1.037,
+   "pos_months_pct": 0.634,
+   "sharpe": 1.041,
    "start_level": 1.0076,
-   "vol": 0.1017,
+   "vol": 0.1019,
    "worst_month": -0.0359,
    "worst_year": -0.0163,
-   "years": 6.82
+   "years": 6.86
   },
   "upper_p75": {
-   "cagr": 0.0972,
-   "calmar": 0.83,
+   "cagr": 0.0977,
+   "calmar": 0.84,
    "label": "cell",
    "maxdd": -0.1168,
    "neg_years": 1,
-   "pos_months_pct": 0.63,
-   "sharpe": 1.001,
+   "pos_months_pct": 0.634,
+   "sharpe": 1.004,
    "start_level": 1.0073,
-   "vol": 0.1017,
+   "vol": 0.1019,
    "worst_month": -0.0361,
-   "worst_year": -0.0191,
-   "years": 6.82
+   "worst_year": -0.019,
+   "years": 6.86
   }
  },
  "assumption_verdict": "CONSERVATIVE",
  "book": {
-  "cost_money_total": 0.045639,
-  "equivalent_cost_bp": 5.89,
-  "ratio_vs_assumed": 0.589,
-  "turnover_total": 77.5483,
-  "upper_scalar_bp": 9.04
+  "cost_money_total": 0.046292,
+  "equivalent_cost_bp": 5.87,
+  "ratio_vs_assumed": 0.587,
+  "turnover_total": 78.8081,
+  "upper_scalar_bp": 9.02
  },
  "control": {
-  "engine_cagr_at_10bp": 0.096,
+  "engine_cagr_at_10bp": 0.0965,
   "passes": true,
   "published_cagr": 0.096,
   "tolerance_pp": 0.5
@@ -72,54 +72,56 @@
  "decisions": {
   "dropped_examples": [],
   "dropped_low_coverage": 0,
-  "priced": 83,
-  "total": 83
+  "priced": 84,
+  "total": 84
  },
  "engine": "etf_book_production.prep_panel (production universe, repaired prints) + etf_robust_pf.open_to_open_equity (the card's own engine)",
  "estimator": "Corwin-Schultz (2012) effective spread from daily high/low, 20-day rolling median, lagged one bar so a decision cannot see t+1",
- "evidence_cutoff": "2026-10-30",
+ "evidence_cutoff": "2026-11-12",
  "face": "results/etf_book_cost_tape.json",
- "generated": "2026-10-31T18:31:51",
+ "generated": "2026-11-13T11:44:29",
  "panel": {
-  "bars": 5270,
-  "flip_prints_repaired": 168,
-  "symbols": 1504,
-  "tape_symbols": 1493
+  "bars": 5279,
+  "digest": "e383c3a68f5f98af",
+  "flip_prints_repaired": 169,
+  "last_bar": "2026-11-12",
+  "symbols": 1519,
+  "tape_symbols": 1503
  },
  "question": "the card charges every leg a flat 10 bp/side -- what do these names actually quote, and does the book survive the tape's answer?",
  "schema": "etf_book_cost_tape/v1",
  "script": "scripts/etf_book_cost_tape.py",
- "sentence": "the names this book actually traded quote a measured one-way cost of 5.9 bp half-spread; the card charges 10 bp, which is more than the tape says (the card over-charges) -- on the tape's cost the same engine earns 10.1% CAGR / 1.04 Sharpe (each name at its own 75th percentile: 9.7% / 1.00), so the book survives the measured cost",
+ "sentence": "the names this book actually traded quote a measured one-way cost of 5.9 bp half-spread; the card charges 10 bp, which is more than the tape says (the card over-charges) -- on the tape's cost the same engine earns 10.2% CAGR / 1.04 Sharpe (each name at its own 75th percentile: 9.8% / 1.00), so the book survives the measured cost",
  "survives_verdict": "SURVIVES",
  "tape": {
-  "median_name_p50_bp": 13.2,
+  "median_name_p50_bp": 13.3,
   "median_name_p75_bp": 27.4,
   "n_traded_names": 189,
   "widest_traded": [
    {
-    "p50_bp": 31.5,
-    "p90_bp": 91.3,
+    "p50_bp": 31.8,
+    "p90_bp": 91.2,
     "symbol": "159967"
    },
    {
     "p50_bp": 31.1,
-    "p90_bp": 74.6,
+    "p90_bp": 74.3,
     "symbol": "512690"
    },
    {
-    "p50_bp": 26.6,
-    "p90_bp": 64.7,
+    "p50_bp": 26.8,
+    "p90_bp": 65.9,
     "symbol": "159966"
    },
    {
-    "p50_bp": 26.3,
-    "p90_bp": 63.4,
-    "symbol": "159952"
+    "p50_bp": 26.8,
+    "p90_bp": 63.7,
+    "symbol": "512010"
    },
    {
-    "p50_bp": 26.2,
-    "p90_bp": 63.4,
-    "symbol": "512010"
+    "p50_bp": 26.6,
+    "p90_bp": 63.7,
+    "symbol": "159952"
    }
   ]
  },

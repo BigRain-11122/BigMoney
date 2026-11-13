@@ -41,6 +41,7 @@ from __future__ import annotations
 import json
 import os
 import sys
+import tempfile
 import time
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -274,6 +275,13 @@ def price_all(verbose=True):
             print("panel %-7s %4d symbols %5d bars -> %s"
                   % (u, panel[0].shape[1], panel[0].shape[0], doc["panels"][u]["last_bar"]),
                   flush=True)
+
+    # r1625: `panels` prints width and the last bar, and neither is the panel's identity --
+    # two reprices weeks apart both print the same shape. `prep_panel` already fingerprints the
+    # full repaired panel (the digest `etf_book_forward` publishes), so the face carries it and
+    # `check` can ask the live panel instead of trusting the ledger, which can itself lag.
+    doc["panel"] = {"digest": (P.PANEL_DIGEST or {}).get("digest"),
+                    "last_bar": doc["panels"]["card"]["last_bar"]}
 
     # the held config (book + beta overlay + repo cash), causal only -- see the alignment
     # note in dial_prices(): the open-to-open level series is labelled one bar early, so an
@@ -577,6 +585,9 @@ def read_published(path=OUT_JSON):
                           "is": v.get("is"), "oos": v.get("oos")}
                       for k, v in (doc.get("cells") or {}).items()},
             "identity": doc.get("identity"),
+            # r1625: the consumer's reader must carry the stamp too, otherwise `check` cannot
+            # tell a moved panel from a stale face (r1624's vol-window pair added the same key).
+            "panel": doc.get("panel"),
             "evidence_cutoff": ((doc.get("panels") or {}).get("card") or {}).get("last_bar"),
             "published_faces": doc.get("published_faces")}
 
@@ -590,22 +601,27 @@ def _ledger_last_bar():
     return max(d) if d else None
 
 
-def check():
-    doc = read_published()
+def check(path=OUT_JSON, stamp=None):
+    doc = read_published(path)
     if doc.get("status") != "ok":
+        # r1625: a drifted face is not a moved panel -- keep the chain from paying a rebuild
+        # that would hide a self-disagreement (r1345's trap).
         print("CHECK FAILED: %s (%s)" % (doc.get("status"), doc.get("detail")))
         return 1
-    # r1557: this face only ever asserted that it recomputes ITSELF. A face that is
-    # internally consistent and eight days old passes that, so the chain's check->run
-    # fallback never fired and the identity arm kept pointing at a 11-03 panel while every
-    # consumer priced today (window label 12.56 vs 12.73 on 11-11). Freshness is its own
-    # assertion: the priced panel must reach the ledger's last bar.
+    # r1625: r1557 gave this face a freshness assertion, but it could never pay its own
+    # writer: it compared against the ledger (which may lag the panel itself) and it returned
+    # rc1 with the word "rerun", and the chain's refresh arm is paid on rc!=0 only when the
+    # probe says `stale`. So the face sat on 2026-11-11 while the card priced 2026-11-12.
+    _rc = FW.check_panel_stamp(doc, stamp=stamp, label="band ruler")
+    if _rc != 0:
+        return _rc
+    # r1557, kept: the priced panel must also reach the ledger's own last bar.
     _lb = _ledger_last_bar()
     _pb = ((doc.get("panels") or {}).get("card") or {}).get("last_bar")
     if _lb and _pb and str(_pb) < str(_lb):
-        print("CHECK FAILED: priced panel reaches %s, the ledger's last bar is %s -- rerun"
-              % (_pb, _lb))
-        return 1
+        print("CHECK FAILED: priced panel reaches %s, the ledger's last bar is %s -- stale, "
+              "rerun reprices it on the ledger's bar" % (_pb, _lb))
+        return 2
     print("check OK: %s | %s"
           % (doc["verdict"]["state"],
              ", ".join("%s %+.2fpp" % (k, (v or {}).get("price_pp") or 0.0)
@@ -702,6 +718,36 @@ def selftest():
         _pub.get("ticket_oos") == 12.56 and _pub.get("ticket") == 7.63
         and _ident("x", 12.56, _pub.get("ticket_oos"))["pass"]
         and not _ident("x", 12.56, _pub.get("ticket"))["pass"])
+
+    # r1625: the gate has to be payable from the chain, so the three branches are pinned on
+    # the published face itself (offline, deterministic): same digest passes even when the
+    # ledger is behind; a moved digest fails with the word the refresh arm is paid on; and a
+    # face that carries no stamp cannot pass as fresh (r98: unreadable is not clean).
+    try:
+        with open(OUT_JSON, encoding="utf-8") as _fh0:
+            _base = json.load(_fh0)
+    except Exception:                                            # noqa: BLE001
+        _base = None
+    chk("the published face is on disk, so the gate can be tested offline", _base is not None)
+    if _base:
+        _fx = os.path.join(tempfile.mkdtemp(prefix="band_r1625_"), "face.json")
+
+        def _face(seed):
+            d = dict(_base)
+            d["panels"] = dict(_base["panels"],
+                               card=dict(_base["panels"]["card"], last_bar="2099-01-01"))
+            d["verdict"] = decide(dict(d, dial_prices=dial_prices(d)))
+            d["panel"] = seed
+            with open(_fx, "w", encoding="utf-8") as fh:
+                json.dump(d, fh)
+            return _fx
+
+        chk("a face priced on the live panel passes the stamp gate",
+            check(path=_face({"digest": "aaaa"}), stamp={"digest": "aaaa"}) == 0)
+        chk("a face left on an older panel fails with the word the chain rebuilds on",
+            check(path=_face({"digest": "aaaa"}), stamp={"digest": "bbbb"}) == 2)
+        chk("a face that carries no stamp cannot pass as fresh",
+            check(path=_face(None), stamp={"digest": "aaaa"}) == 2)
 
     print("selftest: %d/%d" % (ok, ok + len(fail)))
     for f in fail:

@@ -1687,72 +1687,72 @@
  "cost_tape": {
   "status": "ok",
   "artifact": "K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\etf_book_cost_tape.json",
-  "evidence_cutoff": "2026-10-30",
+  "evidence_cutoff": "2026-11-12",
   "verdict": "CONSERVATIVE | SURVIVES",
   "assumption_verdict": "CONSERVATIVE",
   "survives_verdict": "SURVIVES",
-  "sentence": "the names this book actually traded quote a measured one-way cost of 5.9 bp half-spread; the card charges 10 bp, which is more than the tape says (the card over-charges) -- on the tape's cost the same engine earns 10.1% CAGR / 1.04 Sharpe (each name at its own 75th percentile: 9.7% / 1.00), so the book survives the measured cost",
+  "sentence": "the names this book actually traded quote a measured one-way cost of 5.9 bp half-spread; the card charges 10 bp, which is more than the tape says (the card over-charges) -- on the tape's cost the same engine earns 10.2% CAGR / 1.04 Sharpe (each name at its own 75th percentile: 9.8% / 1.00), so the book survives the measured cost",
   "assumed_bp": 10.0,
-  "measured_bp": 5.89,
-  "upper_p75_bp": 9.04,
-  "ratio_vs_assumed": 0.589,
-  "turnover_total": 77.5483,
+  "measured_bp": 5.87,
+  "upper_p75_bp": 9.02,
+  "ratio_vs_assumed": 0.587,
+  "turnover_total": 78.8081,
   "arms": {
    "assumed_10bp": {
-    "cagr": 0.096,
-    "sharpe": 0.99,
+    "cagr": 0.0965,
+    "sharpe": 0.993,
     "maxdd": -0.1177,
-    "vol": 0.1017,
+    "vol": 0.1019,
     "worst_month": -0.0362,
     "worst_year": -0.0199
    },
    "measured": {
-    "cagr": 0.1011,
-    "sharpe": 1.037,
+    "cagr": 0.1017,
+    "sharpe": 1.041,
     "maxdd": -0.1137,
-    "vol": 0.1017,
+    "vol": 0.1019,
     "worst_month": -0.0359,
     "worst_year": -0.0163
    },
    "upper_p75": {
-    "cagr": 0.0972,
-    "sharpe": 1.001,
+    "cagr": 0.0977,
+    "sharpe": 1.004,
     "maxdd": -0.1168,
-    "vol": 0.1017,
+    "vol": 0.1019,
     "worst_month": -0.0361,
-    "worst_year": -0.0191
+    "worst_year": -0.019
    }
   },
   "tape": {
    "n_traded_names": 189,
-   "median_name_p50_bp": 13.2,
+   "median_name_p50_bp": 13.3,
    "median_name_p75_bp": 27.4,
    "widest_traded": [
     {
-     "p50_bp": 31.5,
-     "p90_bp": 91.3,
+     "p50_bp": 31.8,
+     "p90_bp": 91.2,
      "symbol": "159967"
     },
     {
      "p50_bp": 31.1,
-     "p90_bp": 74.6,
+     "p90_bp": 74.3,
      "symbol": "512690"
     },
     {
-     "p50_bp": 26.6,
-     "p90_bp": 64.7,
+     "p50_bp": 26.8,
+     "p90_bp": 65.9,
      "symbol": "159966"
     }
    ]
   },
   "control": {
    "passes": true,
-   "engine_cagr": 0.096,
+   "engine_cagr": 0.0965,
    "published_cagr": 0.096,
    "tolerance_pp": 0.5
   },
   "decisions": {
-   "priced": 83,
+   "priced": 84,
    "dropped_low_coverage": 0
   }
  },
@@ -6292,26 +6292,26 @@
     "universe",
     "window"
    ],
-   "why": "the table's rows are not one ruler: window +4.99pp、universe +0.43pp、ordering -0.56pp per year on the book the operator actually holds. The gap between the top row and the card row is the sum of these dials, not a property of the strategy.",
+   "why": "the table's rows are not one ruler: window +4.94pp、universe +0.44pp、ordering -0.60pp per year on the book the operator actually holds. The gap between the top row and the card row is the sum of these dials, not a property of the strategy.",
    "criteria": "ROWS_NOT_COMPARABLE iff at least one dial moves the held config by >= tol_pp_per_year on at least one window; SAME_RULER if none does. The published gap between row 1 and row 3 is decomposed into these dials, and no dial's price is inferred from another."
   },
   "dial_prices": {
    "window": {
     "a": "2020-01-01..（表里另两行读的那一段）",
     "b": "2024-01-02..（表里第一行读的那一段）",
-    "price_pp": 4.99,
+    "price_pp": 4.94,
     "note": "同一条定价路径，只换起点。差的是**时期**不是策略——正因为如此，两行按两段时期读、却被放在同一个「全窗」表头下"
    },
    "universe": {
     "a": "卡片类（equity/commodity/convertible）",
     "b": "票类（equity/commodity/crossborder）",
-    "price_pp": 0.43,
+    "price_pp": 0.44,
     "note": "同一本书、同一段、同一时点，只换能挑的品种类别"
    },
    "ordering": {
     "a": "open-to-open（同 bar 信号）",
     "b": "next-open（次开成交）",
-    "price_pp": -0.56,
+    "price_pp": -0.6,
     "note": "同一本书（5 名、不挂覆盖）、同一股票池、同一段，只换信号什么时候被读到。这一格在**书层面**读，不挂 beta 覆盖：open-to-open 的净值序列比收盘口径早一个 bar（下面「为什么覆盖只挂在次开那一侧」那张表是本面的实测），拿它拟合 beta 会读到一个不是这本书的 beta，所以覆盖只挂在 next-open 那一侧"
    },
    "cost": {
@@ -6324,24 +6324,24 @@
   "cells": {
    "held/causal/card": {
     "full": {
-     "cagr": 0.0728,
-     "sharpe": 1.312,
+     "cagr": 0.0724,
+     "sharpe": 1.306,
      "maxdd": -0.0587,
      "vol": 0.0569,
      "years": 6.32,
-     "cagr_pp": 7.28,
+     "cagr_pp": 7.24,
      "maxdd_pp": -5.87,
-     "bars": 1533
+     "bars": 1534
     },
     "ticket_window": {
-     "cagr": 0.1227,
-     "sharpe": 1.688,
+     "cagr": 0.1218,
+     "sharpe": 1.677,
      "maxdd": -0.0587,
      "vol": 0.0731,
      "years": 2.86,
-     "cagr_pp": 12.27,
+     "cagr_pp": 12.18,
      "maxdd_pp": -5.87,
-     "bars": 691
+     "bars": 692
     },
     "is": {
      "cagr": 0.0329,
@@ -6354,36 +6354,36 @@
      "bars": 842
     },
     "oos": {
-     "cagr": 0.1227,
-     "sharpe": 1.688,
+     "cagr": 0.1218,
+     "sharpe": 1.677,
      "maxdd": -0.0587,
      "vol": 0.0731,
      "years": 2.86,
-     "cagr_pp": 12.27,
+     "cagr_pp": 12.18,
      "maxdd_pp": -5.87,
-     "bars": 691
+     "bars": 692
     }
    },
    "held/causal/ticket": {
     "full": {
-     "cagr": 0.0771,
-     "sharpe": 1.34,
+     "cagr": 0.0768,
+     "sharpe": 1.334,
      "maxdd": -0.0578,
-     "vol": 0.059,
+     "vol": 0.0589,
      "years": 6.32,
-     "cagr_pp": 7.71,
+     "cagr_pp": 7.68,
      "maxdd_pp": -5.78,
-     "bars": 1533
+     "bars": 1534
     },
     "ticket_window": {
-     "cagr": 0.1273,
-     "sharpe": 1.729,
+     "cagr": 0.1264,
+     "sharpe": 1.718,
      "maxdd": -0.0578,
      "vol": 0.0739,
      "years": 2.86,
-     "cagr_pp": 12.73,
+     "cagr_pp": 12.64,
      "maxdd_pp": -5.78,
-     "bars": 691
+     "bars": 692
     },
     "is": {
      "cagr": 0.0371,
@@ -6396,36 +6396,36 @@
      "bars": 842
     },
     "oos": {
-     "cagr": 0.1273,
-     "sharpe": 1.729,
+     "cagr": 0.1264,
+     "sharpe": 1.718,
      "maxdd": -0.0578,
      "vol": 0.0739,
      "years": 2.86,
-     "cagr_pp": 12.73,
+     "cagr_pp": 12.64,
      "maxdd_pp": -5.78,
-     "bars": 691
+     "bars": 692
     }
    },
    "held/causal/card/cost10": {
     "full": {
-     "cagr": 0.0713,
-     "sharpe": 1.287,
+     "cagr": 0.0709,
+     "sharpe": 1.28,
      "maxdd": -0.0589,
      "vol": 0.0569,
      "years": 6.32,
-     "cagr_pp": 7.13,
+     "cagr_pp": 7.09,
      "maxdd_pp": -5.89,
-     "bars": 1533
+     "bars": 1534
     },
     "ticket_window": {
-     "cagr": 0.1206,
-     "sharpe": 1.664,
+     "cagr": 0.1197,
+     "sharpe": 1.652,
      "maxdd": -0.0589,
      "vol": 0.0731,
      "years": 2.86,
-     "cagr_pp": 12.06,
+     "cagr_pp": 11.97,
      "maxdd_pp": -5.89,
-     "bars": 691
+     "bars": 692
     },
     "is": {
      "cagr": 0.0318,
@@ -6438,36 +6438,36 @@
      "bars": 842
     },
     "oos": {
-     "cagr": 0.1206,
-     "sharpe": 1.664,
+     "cagr": 0.1197,
+     "sharpe": 1.652,
      "maxdd": -0.0589,
      "vol": 0.0731,
      "years": 2.86,
-     "cagr_pp": 12.06,
+     "cagr_pp": 11.97,
      "maxdd_pp": -5.89,
-     "bars": 691
+     "bars": 692
     }
    },
    "book/card/published": {
     "full": {
-     "cagr": 0.1621,
-     "sharpe": 1.038,
+     "cagr": 0.1618,
+     "sharpe": 1.036,
      "maxdd": -0.1598,
-     "vol": 0.1638,
+     "vol": 0.1637,
      "years": 6.86,
-     "cagr_pp": 16.21,
+     "cagr_pp": 16.18,
      "maxdd_pp": -15.98,
-     "bars": 1660
+     "bars": 1661
     },
     "ticket_window": {
-     "cagr": 0.2456,
-     "sharpe": 1.537,
+     "cagr": 0.2448,
+     "sharpe": 1.532,
      "maxdd": -0.1598,
-     "vol": 0.1573,
+     "vol": 0.1572,
      "years": 2.86,
-     "cagr_pp": 24.56,
+     "cagr_pp": 24.48,
      "maxdd_pp": -15.98,
-     "bars": 691
+     "bars": 692
     },
     "is": {
      "cagr": 0.1061,
@@ -6480,36 +6480,36 @@
      "bars": 969
     },
     "oos": {
-     "cagr": 0.2456,
-     "sharpe": 1.537,
+     "cagr": 0.2448,
+     "sharpe": 1.532,
      "maxdd": -0.1598,
-     "vol": 0.1573,
+     "vol": 0.1572,
      "years": 2.86,
-     "cagr_pp": 24.56,
+     "cagr_pp": 24.48,
      "maxdd_pp": -15.98,
-     "bars": 691
+     "bars": 692
     }
    },
    "book/card/causal": {
     "full": {
-     "cagr": 0.1565,
-     "sharpe": 0.996,
+     "cagr": 0.1558,
+     "sharpe": 0.991,
      "maxdd": -0.1703,
-     "vol": 0.1661,
+     "vol": 0.166,
      "years": 6.86,
-     "cagr_pp": 15.65,
+     "cagr_pp": 15.58,
      "maxdd_pp": -17.03,
-     "bars": 1661
+     "bars": 1662
     },
     "ticket_window": {
-     "cagr": 0.2539,
-     "sharpe": 1.541,
+     "cagr": 0.2518,
+     "sharpe": 1.53,
      "maxdd": -0.1519,
-     "vol": 0.1618,
+     "vol": 0.1617,
      "years": 2.86,
-     "cagr_pp": 25.39,
+     "cagr_pp": 25.18,
      "maxdd_pp": -15.19,
-     "bars": 691
+     "bars": 692
     },
     "is": {
      "cagr": 0.0909,
@@ -6522,36 +6522,36 @@
      "bars": 970
     },
     "oos": {
-     "cagr": 0.2539,
-     "sharpe": 1.541,
+     "cagr": 0.2518,
+     "sharpe": 1.53,
      "maxdd": -0.1519,
-     "vol": 0.1618,
+     "vol": 0.1617,
      "years": 2.86,
-     "cagr_pp": 25.39,
+     "cagr_pp": 25.18,
      "maxdd_pp": -15.19,
-     "bars": 691
+     "bars": 692
     }
    },
    "book/ticket/published": {
     "full": {
-     "cagr": 0.1776,
-     "sharpe": 1.085,
+     "cagr": 0.1773,
+     "sharpe": 1.084,
      "maxdd": -0.1598,
      "vol": 0.1703,
      "years": 6.86,
-     "cagr_pp": 17.76,
+     "cagr_pp": 17.73,
      "maxdd_pp": -15.98,
-     "bars": 1660
+     "bars": 1661
     },
     "ticket_window": {
-     "cagr": 0.2661,
-     "sharpe": 1.601,
+     "cagr": 0.2653,
+     "sharpe": 1.597,
      "maxdd": -0.1598,
-     "vol": 0.1621,
+     "vol": 0.162,
      "years": 2.86,
-     "cagr_pp": 26.61,
+     "cagr_pp": 26.53,
      "maxdd_pp": -15.98,
-     "bars": 691
+     "bars": 692
     },
     "is": {
      "cagr": 0.1184,
@@ -6564,36 +6564,36 @@
      "bars": 969
     },
     "oos": {
-     "cagr": 0.2661,
-     "sharpe": 1.601,
+     "cagr": 0.2653,
+     "sharpe": 1.597,
      "maxdd": -0.1598,
-     "vol": 0.1621,
+     "vol": 0.162,
      "years": 2.86,
-     "cagr_pp": 26.61,
+     "cagr_pp": 26.53,
      "maxdd_pp": -15.98,
-     "bars": 691
+     "bars": 692
     }
    },
    "book/ticket/causal": {
     "full": {
-     "cagr": 0.1681,
-     "sharpe": 1.025,
+     "cagr": 0.1673,
+     "sharpe": 1.021,
      "maxdd": -0.1703,
      "vol": 0.1723,
      "years": 6.86,
-     "cagr_pp": 16.81,
+     "cagr_pp": 16.73,
      "maxdd_pp": -17.03,
-     "bars": 1661
+     "bars": 1662
     },
     "ticket_window": {
-     "cagr": 0.2698,
-     "sharpe": 1.587,
+     "cagr": 0.2677,
+     "sharpe": 1.576,
      "maxdd": -0.1519,
-     "vol": 0.1659,
+     "vol": 0.1658,
      "years": 2.86,
-     "cagr_pp": 26.98,
+     "cagr_pp": 26.77,
      "maxdd_pp": -15.19,
-     "bars": 691
+     "bars": 692
     },
     "is": {
      "cagr": 0.0996,
@@ -6606,36 +6606,36 @@
      "bars": 970
     },
     "oos": {
-     "cagr": 0.2698,
-     "sharpe": 1.587,
+     "cagr": 0.2677,
+     "sharpe": 1.576,
      "maxdd": -0.1519,
-     "vol": 0.1659,
+     "vol": 0.1658,
      "years": 2.86,
-     "cagr_pp": 26.98,
+     "cagr_pp": 26.77,
      "maxdd_pp": -15.19,
-     "bars": 691
+     "bars": 692
     }
    },
    "card/12/vol08": {
     "full": {
-     "cagr": 0.0966,
-     "sharpe": 0.994,
+     "cagr": 0.0965,
+     "sharpe": 0.993,
      "maxdd": -0.1177,
      "vol": 0.1019,
      "years": 6.86,
-     "cagr_pp": 9.66,
+     "cagr_pp": 9.65,
      "maxdd_pp": -11.77,
-     "bars": 1660
+     "bars": 1661
     },
     "ticket_window": {
-     "cagr": 0.184,
-     "sharpe": 1.736,
+     "cagr": 0.1837,
+     "sharpe": 1.734,
      "maxdd": -0.107,
-     "vol": 0.1048,
+     "vol": 0.1047,
      "years": 2.86,
-     "cagr_pp": 18.4,
+     "cagr_pp": 18.37,
      "maxdd_pp": -10.7,
-     "bars": 691
+     "bars": 692
     },
     "is": {
      "cagr": 0.0384,
@@ -6648,40 +6648,44 @@
      "bars": 969
     },
     "oos": {
-     "cagr": 0.184,
-     "sharpe": 1.736,
+     "cagr": 0.1837,
+     "sharpe": 1.734,
      "maxdd": -0.107,
-     "vol": 0.1048,
+     "vol": 0.1047,
      "years": 2.86,
-     "cagr_pp": 18.4,
+     "cagr_pp": 18.37,
      "maxdd_pp": -10.7,
-     "bars": 691
+     "bars": 692
     }
    }
   },
   "identity": {
    "ticket 12.78% reproduced on its own ruler": {
-    "measured_pp": 12.73,
+    "measured_pp": 12.64,
     "published_pp": 12.73,
-    "delta_pp": 0.0,
+    "delta_pp": -0.09,
     "pass": true
    },
    "card 9.60% reproduced on its own ruler": {
-    "measured_pp": 9.66,
-    "published_pp": 9.66,
+    "measured_pp": 9.65,
+    "published_pp": 9.65,
     "delta_pp": 0.0,
     "pass": true
    },
    "card 18.35% (2024+) reproduced on its own ruler": {
-    "measured_pp": 18.4,
-    "published_pp": 18.4,
+    "measured_pp": 18.37,
+    "published_pp": 18.37,
     "delta_pp": 0.0,
     "pass": true
    }
   },
-  "evidence_cutoff": "2026-11-11",
+  "panel": {
+   "digest": "e383c3a68f5f98af",
+   "last_bar": "2026-11-12"
+  },
+  "evidence_cutoff": "2026-11-12",
   "published_faces": {
-   "source": "docs/live_book/LIVE-BOOK-20261111.json",
+   "source": "docs/live_book/LIVE-BOOK-20261113.json",
    "rows": [
     {
      "label": "5 名·可执行单口径（本单这份账）",
@@ -6691,21 +6695,21 @@
     },
     {
      "label": "5 名·beta 覆盖",
-     "full": 15.78,
+     "full": 15.75,
      "is": 10.22,
-     "oos": 24.07
+     "oos": 23.97
     },
     {
      "label": "12 名·8% 波动目标（生产卡片口径）",
-     "full": 9.66,
+     "full": 9.65,
      "is": 3.84,
-     "oos": 18.4
+     "oos": 18.37
     }
    ],
    "ticket": 7.71,
    "ticket_oos": 12.73,
-   "card_full": 9.66,
-   "card_oos": 18.4,
+   "card_full": 9.65,
+   "card_oos": 18.37,
    "row_labels": [
     "5 名·可执行单口径（本单这份账）",
     "5 名·beta 覆盖",
@@ -6896,8 +6900,8 @@
  "authority": {
   "writer": "bm-c",
   "owner": "bm-a",
-  "owner_silent_h": 14.8,
+  "owner_silent_h": 15.2,
   "took_over": true,
-  "why": "bm-a has not written its own heartbeat for 14.8 h (> 6 h): its page faces are stopped, not merely old"
+  "why": "bm-a has not written its own heartbeat for 15.2 h (> 6 h): its page faces are stopped, not merely old"
  }
 }

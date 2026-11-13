@@ -35,6 +35,7 @@ sys.path.insert(0, os.path.join(ROOT, "scripts"))
 import numpy as np
 import pandas as pd
 
+import etf_book_forward as F
 import etf_book_production as P
 import etf_composite_pf as E
 import etf_robust_pf as R
@@ -261,9 +262,16 @@ def run():
         "estimator": ("Corwin-Schultz (2012) effective spread from daily high/low,"
                       " 20-day rolling median, lagged one bar so a decision cannot see t+1"),
         "criteria": CRITERIA,
+        # r1625: the width of the panel is not its identity. Two runs on 2026-10-30 and on
+        # 2026-11-12 both print 1,504 symbols of 1,652 bars, so nothing could tell that this
+        # face had been priced on a panel nine sessions behind the card. `prep_panel` already
+        # fingerprints the full repaired panel (the same digest `etf_book_forward` publishes),
+        # so the face carries it and `--check` compares it against the live panel.
         "panel": {"symbols": int(close.shape[1]), "bars": int(close.shape[0]),
                   "flip_prints_repaired": int(n_flip or 0),
-                  "tape_symbols": int(spreads.shape[1])},
+                  "tape_symbols": int(spreads.shape[1]),
+                  "digest": (P.PANEL_DIGEST or {}).get("digest"),
+                  "last_bar": str(close.index[-1].date())},
         "decisions": {"total": len(rows), "priced": len(usable), "dropped_low_coverage": len(dropped),
                       "dropped_examples": [r["date"] for r in dropped[:5]]},
         "book": {"equivalent_cost_bp": round(meas_bp, 2) if meas_bp else None,
@@ -530,17 +538,48 @@ def selftest():
         r_bad["status"] == "no_control" and r_bad["sentence"] is None,
         "control would have claimed 12.0% vs published 9.6%")
 
+    # r1625: the gate has to bite, and the fixture has to be a face that passes everything
+    # else -- otherwise "rc2" could be the criteria drift and the leg would prove nothing.
+    clean = {"criteria": CRITERIA,
+             "book": {"equivalent_cost_bp": 10.0, "ratio_vs_assumed": 1.0},
+             "assumption_verdict": "AGREE",
+             "arms": {"measured": {"cagr": 0.20, "sharpe": 1.50}},
+             "survives_verdict": "SURVIVES",
+             "control": {"passes": True}, "verdict": "AGREE | SURVIVES"}
+    fx = os.path.join(tempfile.mkdtemp(prefix="ct_r1625_"), "face.json")
+
+    def _face(panel_seed):
+        d = dict(clean)
+        d["panel"] = panel_seed
+        with open(fx, "w", encoding="utf-8") as fh:
+            json.dump(d, fh)
+        return fx
+
+    leg("a face priced on the live panel passes the stamp gate",
+        check(path=_face({"digest": "aaaa"}), stamp={"digest": "aaaa"}) == 0)
+    leg("a face left on an older panel fails with the word the chain rebuilds on",
+        check(path=_face({"digest": "aaaa"}), stamp={"digest": "bbbb"}) == 2)
+    leg("a face that carries no stamp cannot pass as fresh",
+        check(path=_face({"symbols": 1504}), stamp={"digest": "aaaa"}) == 2)
+
     ok = all(l["pass"] for l in legs)
     print(json.dumps({"selftest": "PASS" if ok else "FAIL", "legs": legs}, ensure_ascii=False, indent=1))
     return 0 if ok else 1
 
 
 # --------------------------------------------------------------------------- check
-def check():
-    if not os.path.exists(OUT_JSON):
-        print("no face at %s" % OUT_JSON)
+def check(path=OUT_JSON, stamp=None):
+    if not os.path.exists(path):
+        print("no face at %s" % path)
         return 2
-    p = json.load(open(OUT_JSON, encoding="utf-8"))
+    p = json.load(open(path, encoding="utf-8"))
+    # r1625: every assertion below re-derives from the numbers this file already publishes,
+    # so this leg was green on any panel. The chain pays a refresh only when a probe says
+    # `stale`, so a face priced on 2026-10-30 read as current while the card priced
+    # 2026-11-12 -- the r1249 shape, one face further down (r1624 fixed the vol-window pair).
+    rc = F.check_panel_stamp(p, stamp=stamp, label="cost tape")
+    if rc != 0:
+        return rc
     bad = []
     if p.get("criteria") != CRITERIA:
         bad.append("criteria moved")

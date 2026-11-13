@@ -14213,3 +14213,11 @@ CEO 页重生成后「48 个带日期节里 **35** 个在 2026-11-12」（原 34
 **实锚**：`scripts/etf_book_vol_window_phase.py` / `etf_book_vol_window_edge.py`（run 写戳 + check 过闸 + selftest 各加 3 腿：戳同 rc0 / 戳异 rc2 / 无戳 rc2）；selftest **22/22**、**23/23**；真数据 `run` 88.5s / 105.7s 把两面从 2026-10-30 推到 **2026-11-12**，`--check` 双 rc0；咬合证明＝真载荷改戳 `deadbeef` 后 `check` 打印 `CHECK FAIL ... stale` rc2（链的 refresh 臂就是按这个词付写者的）；CEO 页 `off_headline 12 → 10`、`n_on_headline 36 → 38`。
 
 **附坑**：相位面的 selftest 夹具 `_rows()` 键是 `(phase, window)` 而不是 `window`，照抄兄弟面的 `dict({30:0.92,...})` 会 TypeError——两个面长得像不等于夹具同形。
+
+### E595 · 面有新鲜度断言也可能永远付不出自己的写者（r1625 bm-c）
+
+**症状**：`band_ruler` 从 r1557 起就有新鲜度断言（比账本末行），可它停在 **2026-11-11** 而卡片已经定价 11-12：它返回 **rc1** 且措辞是「-- rerun」，而链的 refresh 臂只在 **rc 非零且文字里含 `stale` 或 `face missing`** 时才付钱（`Tools/s6_chain_bmc.py::run_leg`）。断言在、语义错、付不出 → 面静默落后。同族第二形态：`cost_tape` 有 refresh 臂（check+run 三元组）但 check 只重派生自己发布的数字，**任何面板上都绿**，refresh 永远不被叫醒（E594 同病，只是它连戳都没有）。
+
+**HOW**：①判据取「同一块面板的身份」而不是「别人的日期」——账本也会落后，用账本当尺子等于用第二张脸量第一张脸；②失败码与措辞必须与消费者对齐：世界前进 = **rc2 + `stale`**（可付），自相矛盾 = rc1（不许付，付了就是用重建把红抹掉，r1345 陷阱）；③**读器会吞掉你的戳**：`read_published()` 只回一个白名单字典，`check` 拿它去比戳必然读到 None——写入面、读器面、检查面三处都要带上 `panel`（r1624 在 vol_window 上已踩过同一处，本轮 band_ruler 又踩一次）。
+
+**实锚**：`scripts/etf_book_cost_tape.py`（真数据 61.7s 从 2026-10-30 → **2026-11-12**，selftest 15 → 18 腿）、`scripts/etf_book_band_ruler.py`（真数据 111.9s → 11-12，selftest 13 → **16/16**），两条 `--check` 复跑 rc0（各付 ~45s 面板装载，这是诚实价格）；咬合证明＝旧面（无戳）直接 `CHECK FAIL ... stale` rc2；CEO 页 `n_on_headline 38 → 40`、`off_headline 10 → 8`。生产口径零改动，只加判据。
