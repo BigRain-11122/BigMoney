@@ -886,7 +886,7 @@
  "recent_artifact": "results/etf_premium/PREMIUM-2026-11-12.md",
  "round": 1630,
  "round_label": "r1630",
- "round_no": 1652,
+ "round_no": 1654,
  "round_no_label": "1572",
  "round_no_landed": 1492,
  "round_note": "r1489: a reinstated bar is re-derived from the panel, not carried over (reinstatement_check + reinstatements.json + sheet paragraph)",
@@ -1275,5 +1275,7 @@
  "verify_smoke": "full suite started 07:14 (pythonw pid 31124 -> results/_smoke_r1615.out); 478+ lines, no FAIL seen, not closed at round end; modules changed mid-run so the closing numbers are the previous generation",
  "verify_smoke_closed": "full suite started 07:14 closed 576/576 PASS 0 FAIL, wall clock 852.9s over 574 legs; started before the two module edits, so the ceo_page leg inside it printed the previous generation's 260/260 (new legs L214/L215 verified by selftest 262/262)",
  "vram_free_gb": 14.5,
- "watermark_verdict": "insufficient_history"
+ "watermark_verdict": "insufficient_history",
+ "round_t1654_note": "PRODUCT: permission + executed sections never carried the bar they were priced on. The receipts do (-- evidence_cutoff 2026-11-13 in etf_book_rebalance_permission.json, as_of in the ticket even on an untraded bar) and the page dropped both, so the section audit could only file them under \"no date at all, unverifiable\". Page now 49/49 dated on 2026-11-13 + 7 undated (was 47+9); 3 new selftest legs (L225/226/227, total 290/290) pin that permission must never borrow decision_date (the NEXT rebalance) as its bar.",
+ "round_t1654_next": "full suite r1654 in flight (pid 70552) -- close it, then date the remaining 7 undated sections where the receipt really carries a bar (backtest_band reads a card that names its panel; authority is heartbeat ages and may stay undated)"
 }
