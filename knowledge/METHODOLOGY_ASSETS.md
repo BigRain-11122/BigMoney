@@ -666,7 +666,7 @@ research/ETF_BREADTH_SWEEP.md
 - **E126 (r1270, bm-c) an unswept parameter pair must be priced before its headline is quoted — and a leverage cap at 1.0 means a "vol target" systematically undershoots the vol it names.** The production card's only two un-gridded numbers were the vol target (8%) and its estimate window (60 bars); sweeping them 5x3 at two sleeve widths separated the axes cleanly: (1) the TARGET is a risk dial (12-name Sharpe 0.980/0.978/0.956 across 6/8/10% while CAGR moves 3.76pp and drawdown -9.5%..-12.9%), so a CAGR spread across targets proves nothing and raw return must never referee a risk knob — the referee is whether risk-adjusted quality moves; (2) the WINDOW is load-bearing (Sharpe 1.045/1.039/0.978/0.841/0.817 at 30/45/60/90/120 bars, spread 0.228, with no drawdown penalty for the faster ones), so the published 60d is a convention sitting on a slope, not a plateau — which may be recorded but not re-picked on the same sample, because chasing the best cell of a fresh surface is the exact fitting the sweep exists to detect; (3) because scale = min(1, target/v) is a de-lever-only cap sized on the PICKED names' backward vol (momentum picks are recently calm), the delivered risk exceeds the label structurally: 8% target -> 10.18% realised at 12 names (10.5% at 5 names), and no window fixes it. How to apply: quote a de-levered sleeve by its DELIVERED vol next to its target, never by the target name alone; before trusting a parameter that no grid covers, price its row and its column, and read each axis on the metric that can actually referee it (return for exposure, Sharpe/DD for a risk knob). Evidence: scripts/etf_vol_target_sweep.py --selftest 8/8 (legacy-path maxdiff 0.00e+00, activity leg, higher-target-holds-more-risk, window-inert-without-target, short-history degrades to no overlay, hand-built surface arithmetic), results/etf_vol_target_sweep.json, research/ETF_VOL_TARGET_SURFACE.md.
 
 - **E127 (r1271, bm-c) extracting a helper can silently strip the caller's scope, and a deliverable nobody executes is not covered by green legs.** r1270 pulled the panel build out of etf_book_production.run() into a shared prep_panel(), but the caller kept reading cls[p] and len(cols) -- names that now existed only inside the helper. The production card, i.e. the ONLY artefact a human can place an order from, died with NameError at the order-sheet step and stayed dead for a full round while selftest, smoke 57/57, S6 and every audit stayed green, because no leg in the repo ever called 
-un(). Two rules: (1) when a refactor moves a variable's home, the guard is not a unit test of the helper -- it is a cheap end-to-end invocation of the entry point that produces the deliverable, so the sheet path (backtest -> weights -> legs -> card text) executes on a synthetic panel in ~1s with prep_panel/load_names/OUT_DIR patched to a tmp dir (a real-panel leg would cost a minute and nobody would keep it in smoke); (2) register the expensive real-panel selftest wherever the repo's other exit-code contracts live (smoke_test.py), otherwise 'the card is broken' and 'the repo is healthy' are the same reading. Sibling of E120: a wrapper that is never re-run against its own deliverable rots exactly like a backtest that is never re-derived. Evidence: scripts/etf_book_production.py --selftest (4 new legs incl. the synthetic end-to-end run + card assertions), smoke_test.py product leg, results/etf_book_production/CARD.md.
+un(). Two rules: (1) when a refactor moves a variable's home, the guard is not a unit test of the helper -- it is a cheap end-to-end invocation of the entry point that produces the deliverable, so the sheet path (backtest -> weights -> legs -> card text) executes on a synthetic panel in ~1s with prep_panel/load_names/OUT_DIR patched to a tmp dir (a real-panel leg would cost a minute and nobody would keep it in smoke); (2) register the expensive real-panel selftest wherever the repo's other exit-code contracts live (smoke_test.py), otherwise 'the card is broken' and 'the repo is healthy' are the same reading. Sibling of E120: a wrapper that is never re-run against its own deliverable rots exactly like a backtest that is never re-derived. Evidence: scripts/etf_book_production.py --selftest (4 new legs incl. the synthetic end-to-end run + card assertions), smoke_test.py product leg, rresults/etf_book_production/CARD.md.
 
 - **E128 (r1272, bm-c) "we reported it, we did not explain it" is a debt -- and the obvious
   culprit is often worth one arm of measurement before it becomes the story.** r1270 left the
@@ -4411,7 +4411,7 @@ wrong: assert the identity on a fixture where the lots divide evenly, which prov
 arithmetic and never fires the disclosure (r1261).
 
 EVIDENCE: `scripts/etf_book_production.py` (selftest +5 legs, including an activity leg that
-requires the fixture to strand a residual: 15,940 CNY) -> `results/etf_book_production/CARD.md`
+requires the fixture to strand a residual: 15,940 CNY) -> `rresults/etf_book_production/CARD.md`
 + `PRODUCTION-2026-10-28.json`; smoke leg `product: card amount column is executable money`
 recomputes the identities from the published sheet.
 Digest: research/digests/DIGEST-20261029-e228-executable-amount-column.md.
@@ -8570,7 +8570,7 @@ E27 NO_SLICING_EDGE −0.01，证据截止 2026-10-30）。
 
 **四 · 证据。** `scripts/etf_book_production.py`（`research_exhaustion` + 卡节）·
 `scripts/etf_book_ceo_page.py`（`research_arc_face` / `research_arc_block`，首次引用 E27）·
-`results/etf_book_production/CARD.md`·`docs/live_book/LIVE-BOOK-20261102.md`·
+`rresults/etf_book_production/CARD.md`·`docs/live_book/LIVE-BOOK-20261102.md`·
 `research/digests/DIGEST-20261102-r1228-research-arc-rollup.md`·smoke 腿
 「product: the card says which research questions its numbers already answered」。
 
@@ -9000,7 +9000,7 @@ Caveats 里塞半句「band priced on the X bar, not this card's Y -- stale」�
 **可复用**：任何「A 面按 X bar 算、B 面按 Y bar 算」的并列读数，光印两个日期不是披露——该做什么
 取决于谁更新；把方向写成词，并且写在那两个数旁边。
 **证据**：`scripts/etf_book_production.py`（`drawdown_band_paragraphs` / `write_card` / 三条 selftest 腿）、
-`results/etf_book_production/CARD.md`（「⚠ 这根回撤带比表格新：带 2026-11-02 / 表 2026-10-30」）。
+`rresults/etf_book_production/CARD.md`（「⚠ 这根回撤带比表格新：带 2026-11-02 / 表 2026-10-30」）。
 
 ### E362 · 门槛有第三种宽度：卡片配置、梯子定价、今日票据（r1244 bm-a）
 
@@ -14483,14 +14483,24 @@ MATCHED／L18 异 bar NOT_EVALUATED 且点名两根 bar／L19 同 bar 差异仍 
 
 ### E607 · 判据的方向写错，只有「缺陷永不发生」时那条腿才是绿（r1644 bm-c）
 
-tf_book_buffer_floor_readback 是 r1355 建的检验面：宽度门槛 k=7.79 是把已测的几臂拟合成一条线再往外延长得到的，于是拿这条线**没见过的点**（k=0.30）去问「线还成立吗」。面自己的规则写得很清楚——观察值与预测值差 0.091pp、容差 0.077pp，判 **REFUTED**（外推在那个距离上没有撑腰）。而守着它的 smoke 腿写的是「只要超出容差就红」，于是**这条腿只有在这条线永远不被检验时才是绿的**：面越诚实地说出坏消息，腿越红。
+etf_book_buffer_floor_readback 是 r1355 建的检验面：宽度门槛 k=7.79 是把已测的几臂拟合成一条线再往外延长得到的，于是拿这条线**没见过的点**（k=0.30）去问「线还成立吗」。面自己的规则写得很清楚——观察值与预测值差 0.091pp、容差 0.077pp，判 **REFUTED**（外推在那个距离上没有撑腰）。而守着它的 smoke 腿写的是「只要超出容差就红」，于是**这条腿只有在这条线永远不被检验时才是绿的**：面越诚实地说出坏消息，腿越红。
 
 **正法**：检验类腿不许判「坏消息有没有发生」，只许判「面有没有如实说」——从面上已发布的数字重推判词（gap > tol 或观察与预测符号相反 → 应为 REFUTED，否则 HOLDS），只在**词与算术不一致**时红。规则与 
 eadback_of() 同源，不另写一套。
 
-**第二层（同族）**：这条面写出来之后**从未被任何人类面读过**——卡片、票面、一页纸都不读它（r1108/E240「有产无读」）。所以 tf_book_production.family_coherence() 发布 loor_extrapolation 子块，卡片与 CEO 页在「这个名数有没有实测撑腰」一节各印一句；**面缺席读「没测过」，不是「成立」**，且 payload 里没有这个键时沉默（旧卡片不印无意义的句子）。
+**第二层（同族）**：这条面写出来之后**从未被任何人类面读过**——卡片、票面、一页纸都不读它（r1108/E240「有产无读」）。所以 etf_book_production.family_coherence() 发布 floor_extrapolation 子块，卡片与 CEO 页在「这个名数有没有实测撑腰」一节各印一句；**面缺席读「没测过」，不是「成立」**，且 payload 里没有这个键时沉默（旧卡片不印无意义的句子）。
 
 **How**：写「检验 A 是否成立」的腿时先问一句——*A 不成立时这条腿该是什么颜色？* 如果答案是红，那它测的不是 A 的真假，而是「坏消息别出现」。任何一次「面被判负 → 腿变红」的现场，先怀疑腿的方向，再怀疑面。
 
 **实锚**：smoke_test.py 该腿重写（三态重推）；scripts/etf_book_production.py::floor_extrapolation_face（selftest +5：面缺席／面读取／REFUTED 句／HOLDS 句／未测句）；scripts/etf_book_ceo_page.py L56d2-d4（287/287 PASS）；卡片真数据实读 
-esults/etf_book_production/CARD.md。
+results/etf_book_production/CARD.md。
+
+## E608 -- 判词需要一个「按构造必为正」的对照，而且对照的噪声必须无界
+
+一条测量只有在**看得见一个必然存在的效应**时，它的「看不见」才是一句话。`etf_book_width_null_production` 早就印出「宽度方向是噪声的方向还是分数的方向」，读者却永远分不清下面的「宽度分不开」是「没有宽度效应」还是「这把尺子看不见」。r1646 给它配了正向对照：把分数换成每只票**自己的未来 20 日收益**（完美预视＝已知真值，不可交易，只作尺子校验），于是物理是钉死的——N 越大越稀释，CAGR 必须下降；把同一个分数取负（anti-oracle），N 越大越摊薄坏票，CAGR 必须上升。两侧都被读出（rank corr -1.0 / +1.0），尺子不是瞎的。
+
+**第二层（本轮自踩，代价两跑）**：剂量轴不能用「权重混合」。第一版把 oracle 与均匀噪声按权重混合，6% 权重下仍印出 42pp 的「分辨率」——因为**有界噪声压不住 top-k 选择**（1500 个有界抽样里的最大值永远够不到信号的量级）。换成无界高斯噪声后阶梯才单调（-176 → -20 → -8.75 → -1.57 → -1.26pp）。任何「按比例削弱信号」的对照，先问削弱的是幅度还是极值。
+
+**第三层**：梯子跑到底也没失败时，不许写「再往下就读不出」。本轮的诚实句是「梯子先跑完了，不是尺子先用完了：它在 1.26pp 上仍然读得出，真正的下限在这之下且没测——引用下限之前先延长梯子」。
+
+**How**：写任何判词面（宽度/名数/阈值/尺子）之前先问「给我一个必然为真的对照，我能读出来吗」；做剂量轴时用**无界**噪声；对照全过时只宣布局限，不宣称下限。

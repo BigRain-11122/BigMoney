@@ -795,6 +795,12 @@ LEGS = [
     # is the writer; other hosts print an honest no-op. ~2s warm / ~30s on a new bar.
     ("etf_book_beta_menu", ["python", "scripts/etf_book_beta_menu.py"]),
     ("etf_book_width_null_production", ["python", "scripts/etf_book_width_null_production.py"]),
+    # r1646: the null face above answers "is the width sign the panel's or the score's", and the
+    # reader was left with no way to tell "no width effect" from "this ruler cannot see one".
+    # The positive control prices a perfect-foresight score (and its negation) so the sign MUST
+    # appear, then fades it with Gaussian noise to find the smallest gap still read. 67.5s
+    # measured on the 2026-11-13 panel -- default budget covers it, no override needed.
+    ("etf_book_width_positive_control", ["python", "scripts/etf_book_width_positive_control.py"]),
     # Fourth instance of the orphan-face class, and the worst-placed one: the staggered
     # 5+5 book is the config this firm calls its production book, but its accrual ran only
     # off a scheduled task that no longer exists on this host (schtasks: not found), so the

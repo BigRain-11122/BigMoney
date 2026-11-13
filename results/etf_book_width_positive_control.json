@@ -1,0 +1,216 @@
+{
+ "face": "etf_book_width_positive_control",
+ "question": "can the width ruler see a width effect that exists by construction?",
+ "control": "rank by each name's own forward 20-bar return (perfect foresight, NOT tradeable; anti-oracle = the same score negated, so widening must spread bad names; the dose axis fades the oracle toward a seeded random ranking)",
+ "panel": {
+  "bars": 5280,
+  "names": 1520,
+  "first": "2005-02-23",
+  "last": "2026-11-13",
+  "n_flip_repairs": 169
+ },
+ "config": {
+  "rebal": 20,
+  "cost_bp": 10.0,
+  "vol_target": null,
+  "widths": [
+   3,
+   5,
+   8,
+   12
+  ],
+  "horizon": 20,
+  "doses": [
+   0.0,
+   1.0,
+   2.0,
+   4.0,
+   8.0
+  ]
+ },
+ "priced": {
+  "oracle": {
+   "3": {
+    "cagr": 4.4378,
+    "vol": 0.4051,
+    "sharpe": 4.564,
+    "maxdd": -0.2244,
+    "turnover_per_decision": 1.892
+   },
+   "5": {
+    "cagr": 3.7486,
+    "vol": 0.3751,
+    "sharpe": 4.522,
+    "maxdd": -0.2478,
+    "turnover_per_decision": 1.882
+   },
+   "8": {
+    "cagr": 3.1773,
+    "vol": 0.3429,
+    "sharpe": 4.521,
+    "maxdd": -0.1778,
+    "turnover_per_decision": 1.822
+   },
+   "12": {
+    "cagr": 2.6734,
+    "vol": 0.3218,
+    "sharpe": 4.378,
+    "maxdd": -0.1365,
+    "turnover_per_decision": 1.763
+   }
+  },
+  "oracle_measure": {
+   "verdict": "DETECTED",
+   "expect_sign": -1,
+   "rank_corr_width_cagr": -1.0,
+   "gap_pp_wide_minus_narrow": -176.44,
+   "gap_pp_abs": 176.44,
+   "cagr_by_width": [
+    4.4378,
+    3.7486,
+    3.1773,
+    2.6734
+   ]
+  },
+  "anti_oracle": {
+   "3": {
+    "cagr": -0.7356,
+    "vol": 0.3205,
+    "sharpe": -4.146,
+    "maxdd": -0.9999,
+    "turnover_per_decision": 1.924
+   },
+   "5": {
+    "cagr": -0.715,
+    "vol": 0.2986,
+    "sharpe": -4.214,
+    "maxdd": -0.9998,
+    "turnover_per_decision": 1.911
+   },
+   "8": {
+    "cagr": -0.6937,
+    "vol": 0.2868,
+    "sharpe": -4.139,
+    "maxdd": -0.9997,
+    "turnover_per_decision": 1.855
+   },
+   "12": {
+    "cagr": -0.6678,
+    "vol": 0.2747,
+    "sharpe": -4.029,
+    "maxdd": -0.9995,
+    "turnover_per_decision": 1.797
+   }
+  },
+  "anti_oracle_measure": {
+   "verdict": "DETECTED",
+   "expect_sign": 1,
+   "rank_corr_width_cagr": 1.0,
+   "gap_pp_wide_minus_narrow": 6.78,
+   "gap_pp_abs": 6.78,
+   "cagr_by_width": [
+    -0.7356,
+    -0.715,
+    -0.6937,
+    -0.6678
+   ]
+  }
+ },
+ "dose_curve": [
+  {
+   "noise_lambda": 0.0,
+   "signal_share": 1.0,
+   "cagr_by_width": [
+    4.4378,
+    3.7486,
+    3.1773,
+    2.6734
+   ],
+   "gap_pp_wide_minus_narrow": -176.44,
+   "rank_corr": -1.0,
+   "verdict": "DETECTED"
+  },
+  {
+   "noise_lambda": 1.0,
+   "signal_share": 0.5,
+   "cagr_by_width": [
+    0.5913,
+    0.4866,
+    0.4099,
+    0.3917
+   ],
+   "gap_pp_wide_minus_narrow": -19.96,
+   "rank_corr": -1.0,
+   "verdict": "DETECTED"
+  },
+  {
+   "noise_lambda": 2.0,
+   "signal_share": 0.2,
+   "cagr_by_width": [
+    0.2773,
+    0.2468,
+    0.2015,
+    0.1898
+   ],
+   "gap_pp_wide_minus_narrow": -8.75,
+   "rank_corr": -1.0,
+   "verdict": "DETECTED"
+  },
+  {
+   "noise_lambda": 4.0,
+   "signal_share": 0.059,
+   "cagr_by_width": [
+    0.0932,
+    0.1655,
+    0.1259,
+    0.0775
+   ],
+   "gap_pp_wide_minus_narrow": -1.57,
+   "rank_corr": -0.4,
+   "verdict": "DETECTED"
+  },
+  {
+   "noise_lambda": 8.0,
+   "signal_share": 0.015,
+   "cagr_by_width": [
+    0.0498,
+    0.1099,
+    0.0815,
+    0.0372
+   ],
+   "gap_pp_wide_minus_narrow": -1.26,
+   "rank_corr": -0.4,
+   "verdict": "DETECTED"
+  }
+ ],
+ "verdict": "RULER_SEES_BOTH_DIRECTIONS",
+ "resolution": {
+  "noise_lambda_last_detected": 8.0,
+  "signal_share_at_that_level": 0.015,
+  "gap_pp_at_that_level": -1.26,
+  "levels_where_it_failed": [],
+  "state": "detected_through_the_ladder",
+  "ladder_floor_pp": null,
+  "sentence": "the ladder ran out before the ruler did: at the noisiest level sampled (oracle 2% of the score's variance) the by-construction gap is still only 1.26pp and the sign is still read correctly. So this ruler demonstrably sees a 1.26pp width effect; its true floor is somewhere BELOW that and is not measured here -- extend the ladder before quoting a floor."
+ },
+ "real_face": {
+  "state": "read",
+  "face_bar": "2026-11-13",
+  "cagr_narrow": 0.1555,
+  "cagr_wide": 0.1421,
+  "gap_pp_wide_minus_narrow": -1.34
+ },
+ "real_vs_resolution": {
+  "state": "at_or_above_resolution",
+  "real_gap_pp": 1.34,
+  "control_gap_pp": 1.26,
+  "sentence": "the real book's 1.34pp gap is at or above the 1.26pp this ruler was shown to read in the control, so a verdict about the real pair is a statement about the book rather than about a blind instrument -- the ruler is sensitive enough to have seen a difference of that size"
+ },
+ "honest_caveats": [
+  "the control uses future data on purpose; it is a ruler check, never a strategy",
+  "the pure oracle is an easy control; that is why the fading ladder is published next to it -- the readable number is the dose at which the sign is last recovered",
+  "fading the oracle is not the same as weakening a real signal: the real score has cross-sectional structure an oracle does not, so the resolution is an upper bound on what this panel can show",
+  "oracle and real share eligibility, cadence, toll and engine; only the score differs"
+ ],
+ "evidence_cutoff": "2026-11-13"
+}
