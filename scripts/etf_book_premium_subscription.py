@@ -2673,11 +2673,163 @@ def selftest():
             and meta_none["requested_session"] == "1999-01-01",
             "a missing session file falls back to the tail AND says which day it was asked for")
 
+    # ---- r1618: this face had a `check` leg and no writer in the chain -----------------
+    # A green check on a published face only ever says "the last hand-run face is
+    # self-consistent" (r1594/r1471 family). The writer now wired in asks this guard
+    # first, so the guard is the thing that decides "rebuild or nothing".
+    _pub = {"ticket": {"as_of": "2026-11-12"},
+            "session": {"ticket_session": "2026-11-12"},
+            "legs": [{"symbol": "159655", "priced_session": "2026-11-12",
+                      "latest_nav_date": "2026-11-11", "status_source": "fetched"}]}
+    _face = {"ticket": {"as_of": "2026-11-12"}, "legs": [{"symbol": "159655"}]}
+    chk(stale_reason(_pub, _face, {"159655": "2026-11-12"},
+                     {"159655": "2026-11-11"}, {"159655": "2026-11-11"}) is None,
+        "price tail on the ticket session and the NAV stamp the face priced is current -- "
+        "a NAV stamp that lags the price bar by a day is normal, not staleness")
+    chk(stale_reason(None, _face, {}, {}, {}) == "no published face",
+        "nothing published is a reason to build, not a reason to stay quiet")
+    _face2 = {"ticket": {"as_of": "2026-11-13"}, "legs": [{"symbol": "159655"}]}
+    _r = stale_reason(_pub, _face2, {"159655": "2026-11-13"},
+                      {"159655": "2026-11-12"}, {"159655": "2026-11-12"})
+    chk(_r is not None and "ticket moved" in _r,
+        "a new ticket day rebuilds the face even though the old one is self-consistent")
+    _r = stale_reason(_pub, _face, {"159655": "2026-11-13"},
+                      {"159655": "2026-11-11"}, {"159655": "2026-11-11"})
+    chk(_r is not None and "159655" in _r and "2026-11-13" in _r,
+        "a leg whose price panel advanced past the published day names that leg and both days")
+    _r = stale_reason(_pub, _face, {"159655": "2026-11-12"},
+                      {"159655": "2026-11-12"}, {"159655": "2026-11-11"})
+    chk(_r is not None and "NAV" in _r,
+        "a NAV stamp the local cache has but the face never priced rebuilds, so the status "
+        "word gets re-fetched for that stamp")
+    _r = stale_reason(_pub, _face, {"159655": "2026-11-12"},
+                      {"159655": "2026-11-11"}, {"159655": "2026-11-10"})
+    chk(_r is not None and "status cache" in _r,
+        "status cache behind the NAV stamp the face priced rebuilds (that word is a guess)")
+    _r = stale_reason(_pub, {"ticket": {"as_of": "2026-11-12"},
+                             "legs": [{"symbol": "159655"}, {"symbol": "513100"}]},
+                      {"159655": "2026-11-12", "513100": "2026-11-12"},
+                      {"159655": "2026-11-11", "513100": "2026-11-11"},
+                      {"159655": "2026-11-11"})
+    chk(_r is not None and "513100" in _r,
+        "a leg with no status cache at all is named, not silently skipped")
+    chk(stale_reason({"ticket": {"as_of": "2026-11-12"},
+                      "session": {"ticket_session": "2026-11-11"},
+                      "legs": [{"symbol": "159655", "priced_session": "2026-11-12",
+                                "latest_nav_date": "2026-11-11",
+                                "status_source": "fetched"}]},
+                     _face, {"159655": "2026-11-12"},
+                     {"159655": "2026-11-11"}, {"159655": "2026-11-11"}) is not None,
+        "a published face that priced another session is stale even when the prices agree")
+    chk(stale_reason({"ticket": {"as_of": "2026-11-12"},
+                      "session": {"ticket_session": "2026-11-12"},
+                      "legs": [{"symbol": "159655", "priced_session": "2026-11-12",
+                                "latest_nav_date": "2026-11-11",
+                                "status_source": "cache-stale"}]},
+                     _face, {"159655": "2026-11-12"},
+                     {"159655": "2026-11-11"}, {"159655": "2026-11-11"}) is not None,
+        "a face that published a leg with no status data rebuilds instead of staying quiet")
+
     print("selftest %d/%d" % (ok[0], ok[1]))
     return 0 if ok[0] == ok[1] else 1
 
 
-def run(fetch=True):
+def stale_reason(published, face, price_tails, nav_tails, cache_tails):
+    """Why this face needs a rebuild -- or None when it is already current (r1618).
+
+    The reader-facing question nobody asked before: the chain ran a `check` on this face
+    every round and never a writer, so a green check said "the last hand-run face is
+    self-consistent", never "this face is today's" (r1594/r1471 family).
+
+    The bar is **not** "status cache reaches the ticket session": a fund NAV stamp lands
+    after the price bar by construction, so that rule would refetch five funds every round
+    to learn nothing. The bar is "nothing this face prices has moved": its price leg still
+    ends where its panel ends, its NAV stamp still matches the local NAV cache, and the
+    status cache still covers that stamp.
+
+    Pure: every input is a plain value so the selftest can pin each branch without a disk.
+    """
+    if not published:
+        return "no published face"
+    ticket = (face.get("ticket") or {}).get("as_of")
+    pub_ticket = (published.get("ticket") or {}).get("as_of")
+    if ticket != pub_ticket:
+        return "ticket moved %s -> %s" % (pub_ticket, ticket)
+    pub_session = (published.get("session") or {}).get("ticket_session")
+    if ticket and pub_session != ticket:
+        return "published face priced ticket session %s, ticket says %s" % (pub_session, ticket)
+    pub_legs = {str(l.get("symbol")): l for l in (published.get("legs") or [])}
+    for leg in (face.get("legs") or []):
+        code = str(leg.get("symbol"))
+        pub = pub_legs.get(code) or {}
+        tail = price_tails.get(code)
+        if tail and pub.get("priced_session") != tail:
+            return ("leg %s: published %s, its price panel ends %s"
+                    % (code, pub.get("priced_session"), tail))
+        nav = nav_tails.get(code)
+        priced_nav = pub.get("latest_nav_date")
+        if nav and priced_nav != nav:
+            return "leg %s: NAV stamp %s available but the face priced %s" % (code, nav, priced_nav)
+        cache = cache_tails.get(code)
+        if not cache:
+            return "leg %s: no status cache to join on" % code
+        if priced_nav and cache < priced_nav:
+            return ("leg %s: status cache ends %s, behind the NAV stamp the face priced (%s)"
+                    % (code, cache, priced_nav))
+        if str(pub.get("status_source") or "").startswith(("cache-stale", "cache-missing",
+                                                            "no-akshare")):
+            return "leg %s: the published word came from %s" % (code, pub.get("status_source"))
+    return None
+
+
+def _cache_tail(code):
+    """Last NAV stamp present in this leg's status cache (None when the file is absent)."""
+    path = os.path.join(SUB_DIR, str(code) + ".csv")
+    if not os.path.exists(path):
+        return None
+    last = None
+    with open(path, encoding="utf-8") as f:
+        for line in f:
+            p = line.rstrip("\n").split(",")
+            if len(p) >= 2 and p[0] and p[0] != "date":
+                last = p[0][:10]
+    return last
+
+
+def current_stale_reason():
+    """The guard above, fed from the disk: (reason, context) for the writer leg."""
+    if not os.path.exists(FACE):
+        return "no percentile face to price against", {}
+    face = json.load(open(FACE, encoding="utf-8"))
+    codes = [str(l.get("symbol")) for l in (face.get("legs") or [])]
+    price_tails, nav_tails, cache_tails = {}, {}, {}
+    for code in codes:
+        prices = pp.load_prices(code) or {}
+        price_tails[code] = max(prices) if prices else None
+        navs, _ = pp.load_nav(code, fetch=False)
+        nav_tails[code] = max((n.get("date") for n in (navs or [])), default=None)
+        cache_tails[code] = _cache_tail(code)
+    published = None
+    if os.path.exists(OUT):
+        try:
+            published = json.load(open(OUT, encoding="utf-8"))
+        except ValueError:
+            published = None
+    reason = stale_reason(published, face, price_tails, nav_tails, cache_tails)
+    return reason, {"face_ticket": (face.get("ticket") or {}).get("as_of"),
+                    "price_tails": price_tails, "nav_tails": nav_tails,
+                    "cache_tails": cache_tails}
+
+
+def run(fetch=True, if_stale=False):
+    if if_stale:
+        reason, ctx = current_stale_reason()
+        if reason is None:
+            print("no-op: the published face already prices %s, every leg still ends where "
+                  "its panel ends, and no NAV stamp or status row has moved (%s / %s)"
+                  % (ctx.get("face_ticket"), ctx.get("price_tails"), ctx.get("nav_tails")))
+            return 0
+        print("rebuild: %s" % reason)
     doc = build(fetch=fetch)
     os.makedirs(OUT_DIR, exist_ok=True)
     with open(OUT, "w", encoding="utf-8", newline="\n") as f:
@@ -2701,12 +2853,14 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("mode", choices=["run", "check", "selftest"])
     ap.add_argument("--no-fetch", action="store_true")
+    ap.add_argument("--if-stale", action="store_true",
+                    help="rebuild only when the published face no longer prices this ticket")
     a = ap.parse_args()
     if a.mode == "selftest":
         return selftest()
     if a.mode == "check":
         return check()
-    return run(fetch=not a.no_fetch)
+    return run(fetch=not a.no_fetch, if_stale=a.if_stale)
 
 
 if __name__ == "__main__":

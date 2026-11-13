@@ -14065,3 +14065,25 @@ research/PREREG-20261113-Y4-SCALE-FREE.md、S6 腿 vt_phases / vt_phases_check 2
 实锚：scripts/live_book_section_bars.py（selftest 24/24，新增 L23/L24）、
 scripts/etf_book_ceo_page.py（selftest 265/265，新增 L215）、
 results/live_book_section_bars.json、docs/live_book/LIVE-BOOK-20261113.md 第 12-14 行。
+
+## E565 判「这面新鲜吗」的门槛不能拿一个天生滞后的量当标尺
+
+**病灶**：`PREMIUM-SUBSCRIPTION` 这张面在链里只有 `check` 腿、没有写者（r1594/r1471 同族：
+消费者腿全绿 ≠ 生产者存在）。补写者时，最自然的第一版门槛是「状态缓存追到票面场次就 no-op」——
+这条在真数据上每轮都会判「要重建」：**基金净值戳天生落在价格 bar 之后一天**
+（2026-11-13 实测：价格板 5/5 腿都在 2026-11-12，状态/净值戳 5/5 都在 2026-11-11）。
+于是这个门每 10 分钟重抓 5 只基金（~20s 网络）只为学到同一件事，而它印的仍然是前一天的字。
+
+**正法**：门槛改成「**这面定价过的东西有没有移动**」——①每只腿的价格端点是否仍等于该腿面板末行；
+②每只腿的净值戳是否仍等于本地净值缓存末行；③状态缓存是否仍覆盖它已定价的那个戳
+（而不是覆盖票面场次）；④已发布的那一个字是否来自 `cache-stale/cache-missing/no-akshare`
+（那是没数据，该重建）。四条全不动 = no-op（实测 0.1s）；任一移动 = 重建并顺带重抓。
+
+**HOW**：写带闸的写者前，先问「门槛用的那个量，是不是和它要判的东西同一个时钟」。两个不同的
+时钟（价格 bar / 净值戳）放进一条不等式，会得到一条永远成立的「陈旧」判据——它不报错，
+只会把每一轮都变成一次网络请求。检验很廉价：把门跑在真数据上，看它判 no-op 还是 rebuild；
+判 rebuild 之后，再问「重建完那两列数字变了没有」，没变就是时钟错配。
+
+实锚：scripts/etf_book_premium_subscription.py（`stale_reason`/`current_stale_reason`，
+selftest 114/114，+9 腿）、Tools/s6_chain_bmc.py 新腿 `premium_subscription_write`
+（链上 3/3 rc0，写者 0.1s no-op）、真面重生成后 5/5 腿为 `fetched`（旧面 4/5 无状态数据）。

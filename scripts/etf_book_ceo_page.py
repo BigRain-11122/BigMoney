@@ -4283,11 +4283,32 @@ def calendar_dates(path=CAL):
     return out
 
 
+def _with_cutoff(blk, tk):
+    """A ticket-backtest block plus the window end it was measured at (r1618).
+
+    One implementation: three sections on this page quote the same ticket's backtest,
+    and three hand-copied cutoffs are exactly how a date drifts away from the numbers
+    it describes (r1375 second-copy family). Missing cutoff stays None -- the section
+    bars face must read it as "no date", never as "same day as the headline".
+    """
+    if not isinstance(blk, dict) or not blk:
+        return blk or None
+    out = dict(blk)
+    cut = (tk or {}).get("evidence_cutoff")
+    out["evidence_cutoff"] = str(cut)[:10] if cut else None
+    return out
+
+
 def money_cny(tk, nav):
     """Backtest percentages -> yuan on this ticket's own capital.
 
     Pure unit change: every number is one already published on the ticket times `nav`.
     Anything unreadable stays None -- a 0 here would read as "this book earns nothing".
+
+    r1618: the yuan here are backtest readings, so the block carries the window end they
+    were measured at (`evidence_cutoff`, read off the ticket). Without it a reader who
+    prices this section against the page's headline bar is comparing two days, and the
+    section-bars face could only call it "no date at all" (r1617 shape, one floor down).
     """
     tk = tk or {}
     metrics = tk.get("metrics") or {}
@@ -4295,7 +4316,9 @@ def money_cny(tk, nav):
     bench = metrics.get("same_beta_benchmark") or {}
     out = {"capital_cny": round(float(nav or 0.0), 2), "expected_annual_cny": None,
            "benchmark_annual_cny": None, "excess_annual_cny": None,
-           "worst_drawdown_cny": None, "basis": None}
+           "worst_drawdown_cny": None, "basis": None,
+           "evidence_cutoff": (str(tk.get("evidence_cutoff"))[:10]
+                               if tk.get("evidence_cutoff") else None)}
     if not nav or not book:
         return out
     out["expected_annual_cny"] = round(float(book["cagr"]) * nav, 0)
@@ -4660,6 +4683,7 @@ def cash_ladder(cash_amount, panel_dir=REPO_DIR, tenors=LADDER_TENORS,
     out = {"base": base, "tenors": [], "pick": None, "verdict": "NOT-ASSESSED",
            "reason": None, "cash_amount_cny": None,
            "forgotten_day_cny": None, "rolls": {}, "windows_years": list(windows),
+           "as_of": None,
            "rule": {"min_edge_bp": min_edge_bp, "max_idle_share": max_idle_share,
                     "min_positive_year_share": min_positive_year_share,
                     "years_checked": years_checked,
@@ -4670,6 +4694,10 @@ def cash_ladder(cash_amount, panel_dir=REPO_DIR, tenors=LADDER_TENORS,
         out["reason"] = "一天期面板缺席，无法做基线"
         return out
     end = base_rows[-1][0]
+    # r1618: every rate in this block is read off that panel's last row, so the block
+    # states which day its quotes are from -- each tenor still carries its own spot_date,
+    # and a tenor whose panel ends earlier keeps its own earlier date.
+    out["as_of"] = end.isoformat()
     cash = None if cash_amount is None else float(cash_amount)
     out["cash_amount_cny"] = None if (cash is None or cash <= 0) else round(cash, 2)
     base_by_window = {y: rolled_yield(base_rows, 1, end - dt.timedelta(days=365 * y))
@@ -5769,8 +5797,11 @@ def build(with_stress=False, window_label=None):
         "backtest_band": band,
         "excess_pp": (tk.get("metrics") or {}).get("excess_pp"),
         "money_cny": money,
-        "ticket_book": tk_book or None,
-        "same_beta_benchmark": (tk.get("metrics") or {}).get("same_beta_benchmark"),
+        # r1618: both blocks are the ticket's own backtest, so each publishes the window
+        # end it was measured at instead of leaving the reader to assume the headline bar.
+        "ticket_book": _with_cutoff(tk_book, tk),
+        "same_beta_benchmark": _with_cutoff(
+            (tk.get("metrics") or {}).get("same_beta_benchmark"), tk),
         "agreement": {"same_decision_bar": agree.get("same_decision_bar"),
                       "same_priced_bar": agree.get("same_priced_bar"),
                       "card_names": agree.get("card_names")},
@@ -9789,6 +9820,35 @@ def selftest():
     chk("L215 section bars: the sections that cannot be dated are named, not just counted",
         "`scalar-ish`" in _sb_unk_out and "1 个节不带任何日期字段" in _sb_unk_out,
         _sb_unk_out[:110])
+    # ---- r1618: the ticket-backtest sections each carry the window end they were cut at ---
+    _p_cut, _ = build(with_stress=False)
+    _cut = _p_cut.get("evidence_cutoff")
+    _tk_blocks = ("money_cny", "ticket_book", "same_beta_benchmark")
+    _blk_cut = {k: ((_p_cut.get(k) or {}).get("evidence_cutoff")
+                    if isinstance(_p_cut.get(k), dict) else None) for k in _tk_blocks}
+    chk("L216 section bars: the three ticket-backtest sections each publish the window end "
+        "they were cut at, and it is the ticket's own day",
+        bool(_cut) and all(v == _cut for v in _blk_cut.values()), "%s vs %s" % (_blk_cut, _cut))
+    chk("L217 section bars: a ticket with no cut day leaves those blocks undated, never "
+        "copying the headline",
+        money_cny({}, 1000000.0).get("evidence_cutoff") is None
+        and _with_cutoff({"cagr": 0.1}, {}).get("evidence_cutoff") is None
+        and _with_cutoff(None, {"evidence_cutoff": "2026-11-12"}) is None, "")
+    _cl = _p_cut.get("cash_ladder") or {}
+    _cl_base = next((t for t in (_cl.get("tenors") or [])
+                     if t.get("symbol") == _cl.get("base")), {})
+    chk("L218 section bars: the cash ladder says which day its quotes were read on, and it "
+        "is the same day as its base tenor",
+        (not _cl.get("as_of")) or _cl.get("as_of") == _cl_base.get("spot_date"),
+        "%s vs %s" % (_cl.get("as_of"), _cl_base.get("spot_date")))
+    # mutation leg: the published day is what dates the section. Strip it and the face's own
+    # reader must call the section undated -- otherwise the field above is decoration.
+    _SB = _section_bars_module()
+    _tb_mut = dict(_p_cut.get("ticket_book") or {})
+    _tb_mut.pop("evidence_cutoff", None)
+    chk("L219 section bars: strip the published cut day and the section reads as undated",
+        _SB is not None and _SB.bar_of(_tb_mut)[0] is None
+        and _SB.bar_of(_p_cut.get("ticket_book") or {})[0] == _cut, "")
     shutil.rmtree(_adm_dir, ignore_errors=True)
     print("\nSummary: %d/%d PASS%s" % (ok, total, "" if ok == total else " -- %d FAIL" % (total - ok)))
     return 0 if ok == total else 1

@@ -336,6 +336,7 @@
    3,
    5
   ],
+  "as_of": "2026-11-11",
   "rule": {
    "min_edge_bp": 20.0,
    "max_idle_share": 0.01,
@@ -506,21 +507,24 @@
   "benchmark_annual_cny": 28500.0,
   "excess_annual_cny": 97900.0,
   "worst_drawdown_cny": -57800.0,
-  "basis": "backtest cagr/maxdd x this ticket's capital, no new assumption"
+  "basis": "backtest cagr/maxdd x this ticket's capital, no new assumption",
+  "evidence_cutoff": "2026-11-12"
  },
  "ticket_book": {
   "cagr": 0.1264,
   "sharpe": 1.71,
   "maxdd": -0.0578,
   "vol": 0.0739,
-  "bars": 692
+  "bars": 692,
+  "evidence_cutoff": "2026-11-12"
  },
  "same_beta_benchmark": {
   "cagr": 0.0285,
   "sharpe": 0.751,
   "maxdd": -0.0396,
   "vol": 0.0379,
-  "bars": 692
+  "bars": 692,
+  "evidence_cutoff": "2026-11-12"
  },
  "agreement": {
   "same_decision_bar": true,
@@ -6854,8 +6858,8 @@
  "authority": {
   "writer": "bm-c",
   "owner": "bm-a",
-  "owner_silent_h": 11.6,
+  "owner_silent_h": 12.1,
   "took_over": true,
-  "why": "bm-a has not written its own heartbeat for 11.6 h (> 6 h): its page faces are stopped, not merely old"
+  "why": "bm-a has not written its own heartbeat for 12.1 h (> 6 h): its page faces are stopped, not merely old"
  }
 }

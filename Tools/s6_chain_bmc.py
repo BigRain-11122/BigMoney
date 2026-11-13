@@ -1459,6 +1459,15 @@ LEGS = [
     # the one reading that would falsify the 限购 story) from the published face's own
     # numbers, so a hand-typed verdict word goes red. ~0.2s, published JSON only; the
     # 5-fund status re-pull (~20s) runs with `run` in its own round.
+    # r1618: the paragraph above says the re-pull "runs with `run` in its own round" -- and
+    # no round ever had one, so this face was carried by hand-runs while its check went
+    # green every round (r1594/r1471 family: consumer leg green != producer exists). The
+    # writer leg below asks the face's own guard, which is cheap and network-free when
+    # nothing it prices has moved: a NAV stamp lands after the price bar by construction,
+    # so "status cache reaches the ticket session" would refetch five funds every round to
+    # learn nothing. It refetches only when a price leg, a NAV stamp, or a status row moved.
+    ("premium_subscription_write",
+     ["python", "scripts/etf_book_premium_subscription.py", "run", "--if-stale"]),
     ("premium_subscription",
      ["python", "scripts/etf_book_premium_subscription.py", "check"]),
 ]
