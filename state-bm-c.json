@@ -1219,8 +1219,10 @@
  "round_t1654_note": "PRODUCT: permission + executed sections never carried the bar they were priced on. The receipts do (-- evidence_cutoff 2026-11-13 in etf_book_rebalance_permission.json, as_of in the ticket even on an untraded bar) and the page dropped both, so the section audit could only file them under \"no date at all, unverifiable\". Page now 49/49 dated on 2026-11-13 + 7 undated (was 47+9); 3 new selftest legs (L225/226/227, total 290/290) pin that permission must never borrow decision_date (the NEXT rebalance) as its bar.",
  "round_t1655_next": "next (P0): split the last three undated sections by cause (sources=pointer block, sibling_gap=face unreadable, authority=heartbeat ages) so the bucket is actionable; then carry the row-level priced_bar rule into the other cross-panel tables on the page.",
  "round_t1655_note": "| 2026-11-14 06:30-07:1x | 1655 | **PRODUCT（产品优先律·watermark=insufficient_history 无红）：CEO 页那张「该期待什么」的表有三行尺子（本单、5 名 beta、12 名波动目标），**没有一行说它量到哪一天**——读者只能当它们和页头同一天；同页 `agreement` 节印着两个布尔（同一决策日=True／同一定价日=True），却把票面 `card_agreement` 里现成的两个日期丢了。修：①三行各自落 `priced_bar`（本单行取窗口标签面自己的面板末行、卡片两行取 `card.evidence_cutoff`），表下由数据派生一句话（一天=一句；两天=念两天，禁平均）；②`agreement` 印发 `card_priced_bar`／`ticket_priced_bar`，页脚印「卡片定价日 X、单子定价日 Y」；③审计端 `bar_of` 补一层按值形态的扫描——**只有这一节自己写得一致时才采纳那根 bar**，写了两天就单独发布成 `undated_mixed`（带两天出处），排期字段仍是禁字。**实测**：带日期节 **49→53**，不可核验 **7→3**（余下 sources／sibling_gap／authority 是真没有 bar：指针、读不出的面、心跳年龄）；`live_book_section_bars --check` 自洽；页面自检 **294/294**（新增 L228a/L228b/L229/L230）、审计自检 **51/51**（新增 L7d-h 五腿）；`check-ticket-days`／`check-card-days` 双 AGREE；**全量套件 578/578 PASS 0 FAIL**（06:39 起跑、855.7s 收口，改件在起跑前，覆盖有效）。**S0**：identity=bm-c｜orphans=1（集团 Tools/fleet/agent.py，非本司只读不杀）｜ahead=0 behind=0｜起手树脏 345 件=车道派生面，本轮只定向提交自有 7 件｜自踩坑：`if _mix_txt … elif` 把「不是页面的错」串进数据债句，自检 L32 当场抓红（已修）。**S0.5**：首扫／收尾双扫皆 rc0、无新增未回执令。**S6**：attrition 4 账本 CLEAN（7 处历史缩行 healed）／py_watermark insufficient_history（py 7.5%·本地批在飞）；其余 S6 腿让位在飞套件（半世界读法）。**S7**：loop pin=5 **no-op**；两任务在位（IterationLoop 运行中／Watchdog 就绪）；pre-commit／pre-push 与源逐字节一致（零重装）。**CEO 过程可见面**：当前活＝让「这张表量到哪一天」变成行级可核对的量｜最近实物＝`docs/live_book/LIVE-BOOK-20261114.md`（11-13·表下「三行都量到 2026-11-13」+ 页脚两纸定价日）+ `results/live_book_section_bars.json`（53 带日期／3 不可核验）+ 卡 E616｜下个里程碑＝把余下 3 节按「指针／读不出的面／心跳年龄」分因披露，并把行级 `priced_bar` 铺到其余跨面板表（窗 ≤48h）。**记账**：本行 1 处（+卡 E616 一处，属捕获律收口）。 本地未达 origin commit 数=0（推送后复核）。 |\n",
- "rounds": 1655,
- "rounds_done": 1655,
+ "round_t1656_next": "next (P0): apply the same 'a bucket that can never empty is not a finding' rule to compute_audit's AGENDA_DEBT (shortfall 3; four calendar candidates all refused, three of them UNADJUDICABLE_PHASE) so the 1.2e4-minute red names what can move it; then carry the no_bar_reason contract to any other page block that is a pointer or an age; watchdog S4U still needs one elevated re-register.",
+ "round_t1656_note": "r1656: the undated bucket was three opposite things printed as one -- sources (a pointer block) and authority (hours since a machine wrote) can never carry a bar, while sibling_gap HAD one (session=2026-11-13) and the page dropped it on the 'no priced pair' branch. Page now carries the face's session; each non-measurement block declares no_bar_reason from an enum the auditor validates; the audit publishes two buckets (by-design / stamp-missing) with an additive invariant and stops saying 'cannot verify which day' when nothing owes one. undated 3->2, dated 53->54, stamp_missing=0.",
+ "rounds": 1656,
+ "rounds_done": 1656,
  "rounds_note": "r1655",
  "s05_scan": {
   "consumed": "no new orders or decisions this round -> zero action (double scan: open + closeout)",
@@ -1240,8 +1242,8 @@
   "legs": "attrition_ledger_guard CLEAN (4 ledgers, 7 historical shrinks healed); py_watermark insufficient_history (py 7.5%, local batch in flight); other S6 legs yielded to the in-flight suite",
   "note": "suite in flight while S6 ran, so only the read-only legs were taken"
  },
- "s7_notes": "loop pin=5 no-op (first fire 06:45 untouched); IterationLoop running + LoopWatchdog ready (both InteractiveToken, S4U unavailable on this host); pre-commit/pre-push identical to source (no reinstall needed)",
- "smoke": "full suite 2026-11-14T06:39 started (pythonw pid 8816 -> results/_smoke_r1655.out); 578/578 PASS 0 FAIL, wall clock 855.7s over 576 legs; both edited modules were in place before the run started",
+ "s7_notes": "loop pin=5 no-op (first fire 07:10) | watchdog in place (next 07:13) | both claws CR-normalized MATCH | attrition 4 ledgers CLEAN (3 historical shrinks healed)",
+ "smoke": "578/578 PASS 0 FAIL (results/_smoke_r1656.out)",
  "smoke_closed": {
   "closed_at": "2026-11-14T06:57:54+08:00",
   "fail": 0,
@@ -1252,6 +1254,7 @@
   "started": "2026-11-14T06:39:00+08:00",
   "wall_clock_s": 855.7
  },
+ "smoke_out": "results/_smoke_r1656.out",
  "smoke_r1621_out": "results/_smoke_r1621.out",
  "smoke_r1623_out": "results/_smoke_r1623.out",
  "smoke_r1625_closed": {
@@ -1269,16 +1272,18 @@
   "ahead_origin": 0,
   "behind_origin": 0
  },
- "task": "r1655: the band table's three rows measure on two panels and none named its bar -- each row now carries priced_bar and the page says it; the section audit reads a day one level down but only when the section agrees with itself",
+ "task": "r1656: the undated bucket split by cause -- two blocks that can never carry a bar say so, and the one that had a day keeps it",
  "total_ram_gb": 23.9,
  "ts": "2026-11-14T06:57:54+08:00",
+ "update_daily": "rc0 0 new rows, cutoff 2026-11-13 (Saturday, before the 15:30 guard)",
  "updated": "2026-11-14T06:57:54+08:00",
- "updated_at": "2026-11-14T06:57:54+08:00",
- "verdict": "PRODUCT: the backtest band's rows now name the bar each was measured to and the agreement block prints both papers' priced days; the section audit dates 4 more sections (49 -> 53 dated, 7 -> 3 unverifiable) and publishes a self-disagreeing section as two days instead of 'no date'",
- "verify": "page selftest 294/294 (L228a/L228b/L229/L230 new); section-bars selftest 51/51 (L7d-L7h new); check-ticket-days AGREE / check-card-days AGREE; live_book_section_bars --check CHECK_OK verdict=PAGE_ON_ONE_BAR_WITH_UNDATED unknown=3; page rebuilt to docs/live_book/LIVE-BOOK-20261114.md",
+ "updated_at": "2026-11-14T07:25:20+08:00",
+ "verdict": "green / insufficient_history (no red)",
+ "verify": "live_book_section_bars selftest 57/57 (+6 legs) | etf_book_ceo_page selftest 297/297 (+3 legs) | s6_chain --only etf_book_ceo_page,live_book_section_bars 2/2 rc0 | audit --check CHECK_OK (unknown=2, stamp_missing=0) | smoke 578/578 PASS 0 FAIL (860.5s over 576 legs)",
  "verify_selftest": "do_or_wait 20/20 (5 new three-state legs: current / newer bar / same bar new bytes / no record / unreadable) ; late_sheet_price 10/10",
  "verify_smoke": "full suite started 07:14 (pythonw pid 31124 -> results/_smoke_r1615.out); 478+ lines, no FAIL seen, not closed at round end; modules changed mid-run so the closing numbers are the previous generation",
  "verify_smoke_closed": "full suite started 07:14 closed 576/576 PASS 0 FAIL, wall clock 852.9s over 574 legs; started before the two module edits, so the ceo_page leg inside it printed the previous generation's 260/260 (new legs L214/L215 verified by selftest 262/262)",
  "vram_free_gb": 14.5,
- "watermark_verdict": "insufficient_history"
+ "watermark_verdict": "insufficient_history",
+ "went_well": "three readings were sharing one word; the fix was to let each block say which it is"
 }

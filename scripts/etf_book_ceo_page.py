@@ -1671,6 +1671,12 @@ def premium_forward_block(pf, page_bar=None):
     return L
 
 
+# r1656: two blocks of this page are not measurements -- the source list is a set of paths,
+# the authority block is a count of hours since a machine last wrote. Both were filed by the
+# section auditor under "carries no date", a bucket no reader can act on because neither will
+# ever carry a bar. Each declares its reason from the auditor's enum instead.
+PAGE_NO_BAR_REASONS = {"sources": "pointer_block", "authority": "human_ages"}
+
 SIBLING_GAP_WORDS = {
     "PERSISTENT_GAP": "长期收的",
     "EPISODIC_GAP": "今天才有",
@@ -1691,8 +1697,16 @@ def sibling_gap_face(path=SIBLING_GAP_JSON):
                 "detail": "sibling-gap face absent"}
     f = _load(path) or {}
     if not f.get("pairs"):
+        # r1656: "no pair could be priced" is not "this face has no day". The face states the
+        # session it was built on, and dropping it made the page print a section the auditor
+        # could only file as undated -- the very defect the reader is warned about above. An
+        # unreadable face still carries its day; what it cannot carry is a number.
         return {"status": "unreadable", "artifact": _rel(path, ROOT).replace(os.sep, "/"),
-                "detail": "face carries no priced pair"}
+                "detail": "face carries no priced pair",
+                "session": f.get("session"),
+                "sentence": f.get("sentence"),
+                "verdict_counts": f.get("verdict_counts") or {},
+                "skipped_legs": f.get("skipped_legs") or []}
     return {
         "status": "ok",
         "artifact": _rel(path, ROOT).replace(os.sep, "/"),
@@ -1717,9 +1731,20 @@ def sibling_gap_block(sg, page_bar=None):
     add("")
     sg = sg or {}
     if sg.get("status") != "ok":
-        add("这一节读不到价差历史面（`%s`）：%s。**因此本页只有今天的价差，说不出它会不会天天有**——"
+        # r1656: say which half is missing. "No priced pair" is a day that exists with no
+        # sibling to compare; it is not a face the reader should treat as undated or broken.
+        _day = sg.get("session")
+        _where = ("这一面是拿 **%s** 的盘口建的（日期在，缺的是能配对的两只票），" % _day
+                  if _day else "")
+        _counts = sg.get("verdict_counts") or {}
+        _why = ""
+        if _counts:
+            _why = "；这一天的 %d 只腿全部落在 %s（同类标签上没有第二只活着的票）" % (
+                sum(_counts.values()), "、".join(_counts))
+        add("这一节读不到价差历史面（`%s`）：%s。%s**因此本页只有今天的价差，说不出它会不会天天有**%s——"
             "把今天的一次价差当成长期成本，和把它当成可以永远重复的收益，都是本页现在不能支持的说法。"
-            % (sg.get("artifact") or "results/etf_book_sibling_gap.json", sg.get("detail") or "无读数"))
+            % (sg.get("artifact") or "results/etf_book_sibling_gap.json", sg.get("detail") or "无读数",
+               _where, _why))
         add("")
         return L
     if page_bar and sg.get("session") and str(page_bar)[:10] != str(sg["session"])[:10]:
@@ -6008,10 +6033,14 @@ def build(with_stress=False, window_label=None):
                       "card_priced_bar": agree.get("card_priced_bar"),
                       "ticket_priced_bar": agree.get("ticket_priced_bar"),
                       "card_names": agree.get("card_names")},
+        # r1656: this block is a list of paths, not a measurement -- it will never carry a
+        # bar, and the section auditor asked for one every round. Declared, with the enum
+        # the auditor validates, so the "undated" bucket holds only sections that owe a date.
         "sources": {"ticket": _rel(tk_path, ROOT),
                     "card": "results/etf_book_production/latest.json",
                     "ledger": "results/etf_book_forward/LEDGER.json",
-                    "calendar": "data/exchange_calendar.csv"},
+                    "calendar": "data/exchange_calendar.csv",
+                    "no_bar_reason": PAGE_NO_BAR_REASONS["sources"]},
         "caveats": [
             "回测票池是现存 ETF（有幸存者偏差）；2020-2023 段弱、收益主要集中在 2024 之后。",
             "前向账本只有 %d 个交易日，自起始净值 %.4f 不构成业绩记录。" % (fwd["bars"], fwd["nav"] or 0.0),
@@ -7438,6 +7467,7 @@ def run():
         return 0
     page, today = build(with_stress=True)
     auth = takeover_authority(mid) or {"writer": mid, "owner": HOST, "took_over": False}
+    auth = dict(auth, no_bar_reason=PAGE_NO_BAR_REASONS["authority"])
     page["authority"] = auth
     if auth.get("took_over"):
         print("etf_book_ceo_page: WRITING AS %s -- %s" % (mid, auth["why"]))
@@ -10507,6 +10537,40 @@ def selftest():
         and (_sb_1655.get("by_key") or {}).get("agreement") == "2026-11-13"
         and not (_sb_1655.get("unknown_sections") or []),
         json.dumps({k: _sb_1655.get(k) for k in ("by_key", "unknown_sections")},
+                   ensure_ascii=False)[:200])
+
+    # ---- r1656: the unverifiable bucket was three sections and no action -----------------
+    _sg_tmp = os.path.join(ROOT, "results", "_tmp_sg_r1656.json")
+    with open(_sg_tmp, "w", encoding="utf-8") as fh:
+        json.dump({"session": "2026-11-13", "pairs": [],
+                   "verdict_counts": {"CANNOT_VERIFY": 5},
+                   "skipped_legs": [{"leg_symbol": "510760"}]}, fh)
+    try:
+        _sg_t = sibling_gap_face(_sg_tmp)
+    finally:
+        os.unlink(_sg_tmp)
+    chk("L231 a sibling-gap face with no priced pair still carries the day it was built on",
+        _sg_t.get("status") == "unreadable" and _sg_t.get("session") == "2026-11-13"
+        and (_sg_t.get("verdict_counts") or {}).get("CANNOT_VERIFY") == 5,
+        json.dumps({k: _sg_t.get(k) for k in ("status", "session", "verdict_counts")},
+                   ensure_ascii=False)[:200])
+    _sb_sg = section_bars_face({"priced_bar": "2026-11-13", "sibling_gap": _sg_t}) or {}
+    chk("L232 that section is dated by the auditor instead of joining the unverifiable bucket",
+        (_sb_sg.get("by_key") or {}).get("sibling_gap") == "2026-11-13"
+        and "sibling_gap" not in (_sb_sg.get("unknown_sections") or []),
+        json.dumps({k: _sb_sg.get(k) for k in ("by_key", "unknown_sections")},
+                   ensure_ascii=False)[:200])
+    _sb_blocks = section_bars_face({"priced_bar": "2026-11-13",
+                                    "sources": _p_bb.get("sources") or {},
+                                    "authority": {"owner_silent_h": 7.4,
+                                                  "no_bar_reason": PAGE_NO_BAR_REASONS["authority"]}}) or {}
+    _byd = [x.get("key") for x in (_sb_blocks.get("no_bar_by_design") or [])]
+    chk("L233 neither the pointer block nor the authority block is chased for a date any more",
+        PAGE_NO_BAR_REASONS.get("sources") == "pointer_block"
+        and (_p_bb.get("sources") or {}).get("no_bar_reason") == "pointer_block"
+        and _byd == ["sources", "authority"]
+        and not (_sb_blocks.get("stamp_missing") or []),
+        json.dumps({"by_design": _byd, "missing": _sb_blocks.get("stamp_missing")},
                    ensure_ascii=False)[:200])
     shutil.rmtree(_adm_dir, ignore_errors=True)
     print("\nSummary: %d/%d PASS%s" % (ok, total, "" if ok == total else " -- %d FAIL" % (total - ok)))

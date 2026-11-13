@@ -579,7 +579,8 @@
   "ticket": "results\\etf_book_order\\TICKET-2026-11-13.json",
   "card": "results/etf_book_production/latest.json",
   "ledger": "results/etf_book_forward/LEDGER.json",
-  "calendar": "data/exchange_calendar.csv"
+  "calendar": "data/exchange_calendar.csv",
+  "no_bar_reason": "pointer_block"
  },
  "caveats": [
   "回测票池是现存 ETF（有幸存者偏差）；2020-2023 段弱、收益主要集中在 2024 之后。",
@@ -6121,7 +6122,44 @@
  "sibling_gap": {
   "status": "unreadable",
   "artifact": "results/etf_book_sibling_gap.json",
-  "detail": "face carries no priced pair"
+  "detail": "face carries no priced pair",
+  "session": "2026-11-13",
+  "sentence": "no pair carries both a premium gap and a local price history",
+  "verdict_counts": {
+   "CANNOT_VERIFY": 5
+  },
+  "skipped_legs": [
+   {
+    "leg_symbol": "510760",
+    "label": "上证指数ETF",
+    "verdict": "CANNOT_VERIFY",
+    "why": "label 上证指数ETF names no other live ticker on this board (no sibling group)"
+   },
+   {
+    "leg_symbol": "512040",
+    "label": "价值ETF",
+    "verdict": "CANNOT_VERIFY",
+    "why": "label 价值ETF names no other live ticker on this board (no sibling group)"
+   },
+   {
+    "leg_symbol": "159655",
+    "label": "标普ETF",
+    "verdict": "CANNOT_VERIFY",
+    "why": "label 标普ETF names no other live ticker on this board (no sibling group)"
+   },
+   {
+    "leg_symbol": "513690",
+    "label": "港股红利ETF",
+    "verdict": "CANNOT_VERIFY",
+    "why": "label 港股红利ETF names no other live ticker on this board (no sibling group)"
+   },
+   {
+    "leg_symbol": "159519",
+    "label": "港股国企",
+    "verdict": "CANNOT_VERIFY",
+    "why": "label 港股国企 names no other live ticker on this board (no sibling group)"
+   }
+  ]
  },
  "floor_provenance": {
   "status": "ok",
@@ -7127,8 +7165,9 @@
  "authority": {
   "writer": "bm-c",
   "owner": "bm-a",
-  "owner_silent_h": 7.4,
+  "owner_silent_h": 8.0,
   "took_over": true,
-  "why": "bm-a has not written its own heartbeat for 7.4 h (> 6 h): its page faces are stopped, not merely old"
+  "why": "bm-a has not written its own heartbeat for 8.0 h (> 6 h): its page faces are stopped, not merely old",
+  "no_bar_reason": "human_ages"
  }
 }

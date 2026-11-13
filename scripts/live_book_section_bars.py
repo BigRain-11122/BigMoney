@@ -83,6 +83,20 @@ _ISO_DAY = re.compile(r"^\d{4}-\d{2}-\d{2}")
 SCHEDULE_FIELDS = ("decision_date", "next_rebalance_date")
 MAX_SCAN_DEPTH = 4
 
+# r1656: "carries no date" held two opposite states and the reader got one word for both.
+# A pointer block (paths the page links to) and a block of human ages (hours since a machine
+# last wrote) are never going to carry a bar -- asking for one every round is a permanent,
+# unpayable finding, and a bucket that can never empty stops being read. So the section that
+# KNOWS it is not a measurement says so; anything else that has no date stays in the
+# stamp-missing bucket where it can be acted on. The reason is an enum, not free text: a
+# string nobody can validate would let any section exempt itself.
+NO_BAR_REASONS = ("pointer_block", "human_ages", "not_a_measurement")
+NO_BAR_REASON_TXT = {
+    "pointer_block": "指针块（只列它引用的文件，本身不是一次测量）",
+    "human_ages": "人事年龄（机器多久没写心跳，时间量不是价格日）",
+    "not_a_measurement": "非测量块",
+}
+
 
 def _nested_dates(v, path="", depth=0):
     """(path, day) for every date-shaped leaf under a section, schedule fields skipped."""
@@ -422,6 +436,7 @@ def section_bars(doc, cal=None, legs=None):
         legs = leg_names()
     page_computed = (doc or {}).get("page_computed") or {}
     rows, unknown, mixed_undated = [], [], {}
+    by_design, stamp_missing = [], []
     for k, v in (doc or {}).items():
         if k in ("page_computed",):      # r1623: provenance面, not a dated section
             continue
@@ -433,6 +448,15 @@ def section_bars(doc, cal=None, legs=None):
             conf = nested_conflicts(v)
             if conf:
                 mixed_undated[k] = conf
+                continue
+            # r1656: split the bucket by cause. Only an enum the section declares itself can
+            # exempt it; a typo'd or invented reason stays in stamp_missing (r98: never let
+            # an unreadable claim pass as a clean one).
+            _reason = v.get("no_bar_reason")
+            if isinstance(_reason, str) and _reason in NO_BAR_REASONS:
+                by_design.append({"key": k, "reason": _reason})
+            else:
+                stamp_missing.append(k)
             continue
         g = guarded_by(k, v, legs)
         pc = page_computed_of(page_computed, k)
@@ -505,6 +529,12 @@ def section_bars(doc, cal=None, legs=None):
         "sections": rows,
         "by_key": {r["key"]: r["bar"] for r in rows},
         "unknown_sections": unknown,
+        # r1656: the undated bucket, split so it is actionable: sections that can never carry
+        # a bar (declared by the section itself) vs sections that owe one.
+        "n_no_bar_by_design": len(by_design),
+        "no_bar_by_design": by_design,
+        "n_stamp_missing": len(stamp_missing),
+        "stamp_missing": stamp_missing,
         # r1655: "no date" and "two dates" are different readings and different actions --
         # the first asks for a stamp, the second asks which world the section was priced on.
         "n_undated_mixed": len(mixed_undated),
@@ -540,6 +570,49 @@ def section_bars(doc, cal=None, legs=None):
         "n_window_bound": len(wb_rows),
         "window_bound": [r["key"] for r in wb_rows],
     }
+
+
+def undated_split_sentence(sb):
+    """One line about the undated bucket, split by cause (r1656).
+
+    Empty when nothing is undated -- a template that always prints "the remaining 0
+    sections..." is the same defect as an empty lag bucket printed as a reading."""
+    byd = sb.get("no_bar_by_design") or []
+    miss = sb.get("stamp_missing") or []
+    parts = []
+    if byd:
+        parts.append("%d 节按设计没有 bar（%s）——它们本来就不量某一天，催它们补日期是催不动的事"
+                     % (len(byd),
+                        "、".join("%s=%s" % (x.get("key"), NO_BAR_REASON_TXT.get(x.get("reason"),
+                                                                              x.get("reason")))
+                                 for x in byd[:4])))
+    if miss:
+        parts.append("%d 节欠一个日期（%s）——这一桶才是可以催的"
+                     % (len(miss), "、".join(miss[:6]) + ("等" if len(miss) > 6 else "")))
+    if not parts:
+        return ""
+    return "；".join(parts) + "。"
+
+
+def single_undated_sentence(sb):
+    """The sentence for a page whose dated sections all sit on one bar (r1656).
+
+    Two readings, two sentences: a bucket that will never carry a bar must not be told it
+    "cannot be verified which day it counts to" -- that invites a chase nobody can finish."""
+    und = sb.get("unknown_sections") or []
+    byd, miss = sb.get("no_bar_by_design") or [], sb.get("stamp_missing") or []
+    _names = "、".join(und[:8]) + ("等" if len(und) > 8 else "")
+    if und and byd and not miss:
+        return ("页面声明的 %s 就是它全部 %d 个带日期的节的 bar；另有 %d 节（%s）按设计就没有"
+                " bar——它们不是测量（%s），既不欠日期，也没有「算到哪天」这回事。"
+                % (sb.get("headline_bar"), sb.get("n_sections"), len(und), _names,
+                   "、".join("%s=%s" % (x.get("key"),
+                                        NO_BAR_REASON_TXT.get(x.get("reason"), x.get("reason")))
+                             for x in byd[:4])))
+    return ("页面声明的 %s 就是它全部 %d 个带日期的节的 bar；另有 %d 节（%s）不带任何日期"
+            "字段——无法核验它们算到哪天，也不把它们猜成同一天。%s"
+            % (sb.get("headline_bar"), sb.get("n_sections"), len(und), _names,
+               undated_split_sentence(sb)))
 
 
 def _paths(page=None, jsonp=None):
@@ -597,6 +670,8 @@ def assess(page=None, jsonp=None, cal=None, legs=None):
                                     "n_engine_priced", "engine_priced",
                                     "n_ahead_of_headline", "ahead_of_headline",
                                     "ahead_keys", "n_undated_mixed", "undated_mixed",
+                                    "n_no_bar_by_design", "no_bar_by_design",
+                                    "n_stamp_missing", "stamp_missing",
                                     "n_window_bound", "window_bound")})
     _mix = sb.get("undated_mixed") or {}
     _mix_txt = ""
@@ -622,12 +697,7 @@ def assess(page=None, jsonp=None, cal=None, legs=None):
         # was given (47 of 47 on one day), and "mixed" sends the reader hunting a lag that
         # does not exist. The unverifiable bucket is the finding; it is named, not guessed.
         face["verdict"] = SINGLE_UNDATED
-        _und = sb["unknown_sections"] or []
-        face["sentence"] = (
-            "页面声明的 %s 就是它全部 %d 个带日期的节的 bar；另有 %d 节（%s）不带任何日期"
-            "字段——无法核验它们算到哪天，也不把它们猜成同一天。"
-            % (sb["headline_bar"], sb["n_sections"], len(_und),
-               "、".join(_und[:8]) + ("等" if len(_und) > 8 else ""))) + _mix_txt
+        face["sentence"] = single_undated_sentence(sb) + _mix_txt
     else:
         face["verdict"] = MIXED
         # r1628: the worst lag must not be a section whose date is the end of its own window
@@ -647,9 +717,9 @@ def assess(page=None, jsonp=None, cal=None, legs=None):
         face["sentence"] = (
             "页面头部写着按 %s 定价，但 %d 个带日期的节里只有 %d 节真在这一天；"
             "%s另外 %d 节根本没有日期——"
-            "它们不是同一根 bar 上的数，读的时候不能互相加减。"
+            "它们不是同一根 bar 上的数，读的时候不能互相加减。%s"
             % (sb["headline_bar"], sb["n_sections"], sb["n_on_headline"],
-               _behind_txt, len(sb["unknown_sections"])))
+               _behind_txt, len(sb["unknown_sections"]), undated_split_sentence(sb)))
         # r1294: the other direction. A section can sit on a NEWER bar than the one the book
         # is priced on -- its own lane moved and the book's board did not. That is stale in
         # reverse and equally not addable, so it is named, with its newest bar.
@@ -779,6 +849,20 @@ def ticket_lines(face):
         L.append("")
         L.append("这 %d 节没有任何日期字段，本面**不替它们认领**任何一根 bar：%s。"
                  % (len(face["unknown_sections"]), ", ".join(face["unknown_sections"][:12])))
+        # r1656: the bucket is actionable only once it says which halves will never move.
+        _byd = face.get("no_bar_by_design") or []
+        _miss = face.get("stamp_missing") or []
+        if _byd:
+            L.append("")
+            L.append("其中 %d 节按设计就不该有 bar（%s）——它们不是测量："
+                     % (len(_byd), "、".join(x.get("key") for x in _byd[:8])))
+            for _x in _byd[:8]:
+                L.append("- %s：%s" % (_x.get("key"),
+                                       NO_BAR_REASON_TXT.get(_x.get("reason"), _x.get("reason"))))
+        if _miss:
+            L.append("")
+            L.append("另外 %d 节是真的欠一个日期（%s）——这一桶可以催，也能被催掉。"
+                     % (len(_miss), ", ".join(_miss[:8])))
         _mix = face.get("undated_mixed") or {}
         if _mix:
             L.append("")
@@ -816,6 +900,8 @@ def check():
               "max_lag_sessions", "by_key", "unknown_sections", "n_page_computed",
               "no_writer", "n_engine_priced", "engine_priced",
               "n_undated_mixed", "undated_mixed",
+              "n_no_bar_by_design", "no_bar_by_design",
+              "n_stamp_missing", "stamp_missing",
               "n_window_bound", "window_bound"):
         if pub.get(k) != fresh.get(k):
             diffs.append("%s published=%r fresh=%r" % (k, pub.get(k), fresh.get(k)))
@@ -1175,6 +1261,35 @@ def selftest():
             os.rmdir(_mdir)
         except OSError:
             pass
+
+    # ---- r1656: the undated bucket is two opposite findings, not one ---------------------
+    _split = {"priced_bar": "2026-11-13",
+              "sources": {"ticket": "t.json", "no_bar_reason": "pointer_block"},
+              "authority": {"owner_silent_h": 7.4, "no_bar_reason": "human_ages"},
+              "owes": {"detail": "carries no priced pair"},
+              "invented": {"detail": "x", "no_bar_reason": "because-i-said-so"}}
+    _sb2 = section_bars(_split, legs=[])
+    leg("L43 a section that declares it is not a measurement leaves the stamp-missing bucket",
+        [x["key"] for x in _sb2["no_bar_by_design"]] == ["sources", "authority"]
+        and _sb2["no_bar_by_design"][0]["reason"] == "pointer_block")
+    leg("L44 an undated section that declares nothing still owes a date",
+        _sb2["stamp_missing"] == ["owes", "invented"] and _sb2["n_stamp_missing"] == 2)
+    leg("L45 an invented reason does not exempt a section -- only the enum does",
+        "invented" in _sb2["stamp_missing"]
+        and "invented" not in [x["key"] for x in _sb2["no_bar_by_design"]])
+    leg("L46 the two buckets add up to the undated bucket (no section disappears in the split)",
+        _sb2["n_no_bar_by_design"] + _sb2["n_stamp_missing"] == len(_sb2["unknown_sections"]))
+    _txt = undated_split_sentence(_sb2)
+    leg("L47 the sentence names the two causes and says which half can be chased",
+        "按设计" in _txt and "欠一个日期" in _txt and "可以催" in _txt
+        and undated_split_sentence({"no_bar_by_design": [], "stamp_missing": []}) == "")
+    _s_none_owed = single_undated_sentence(dict(_sb2, stamp_missing=[], n_stamp_missing=0))
+    _s_owed = single_undated_sentence({"headline_bar": "2026-11-13", "n_sections": 5,
+                                       "unknown_sections": ["owes"], "no_bar_by_design": [],
+                                       "stamp_missing": ["owes"]})
+    leg("L48 when nothing owes a date the headline does not say 'cannot verify which day'",
+        "无法核验" not in _s_none_owed and "按设计" in _s_none_owed
+        and "无法核验" in _s_owed and "按设计" not in _s_owed)
 
     # r1533: `sum(1 for _, ok in legs)` counts every leg whatever its verdict -- a suite
     # that can print [FAIL] and still exit 0.
