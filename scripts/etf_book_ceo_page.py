@@ -6645,12 +6645,7 @@ def render_md(p, sb=None):
     sf = fc.get("signflip") or {}
     if sf.get("status") == "ok" and sf.get("n_reject") is not None:
         _stand = sf.get("standing") or []
-        _over = sf.get("overturned") or []
-        if sf.get("n_reject"):
-            add("- 上面那 **%d 个 REJECT 里有 %d 个站得住**（%s）——站得住＝它自己 12 个格子"
-                "在符号翻转下不会异口同声到这一步（2^12 个世界精确枚举）。"
-                % (sf["n_reject"], sf.get("n_reject_standing") or 0,
-                   "、".join(_stand) or "无"))
+        # r1638: r1637 pasted this sentence twice, so one measurement printed as two bullets.
         _over = sf.get("overstated") or []
         _under = sf.get("understated") or []
         if sf.get("n_reject"):
@@ -8070,7 +8065,7 @@ def selftest():
                                 "evidence_cutoff": "2026-11-12",
                                 "signflip": {"status": "absent"}})
     chk("L56e sign flip: the page says which of the printed REJECTs survive their own cells",
-        "4 个 REJECT 里有 3 个站得住" in _md_sf and "cost20" in _md_sf
+        _md_sf.count("4 个 REJECT 里有 3 个站得住") == 1 and "cost20" in _md_sf
         and "判词说重了的" in _md_sf and "buffer_k40" in _md_sf
         and "判词说轻了的" in _md_sf and "cost05" in _md_sf, "")
     chk("L56f sign flip: a flip on another bar is named, and an absent face reads 'cannot answer'",

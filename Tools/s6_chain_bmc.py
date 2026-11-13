@@ -1338,6 +1338,12 @@ LEGS = [
     # constant / priced bar / decision bar). `--check` form (0.2s, ticket + JSON only):
     # the 2-minute repricing runs only with `run` in its own round, and a drifted receipt
     # turns this leg red instead of leaving a stale gap on disk (r1290 class).
+    # r1638: r1447 shipped this as check-only, so the receipt on disk aged every session and
+    # the check leg (correctly) went red on 2026-11-13's first smoke -- a face with a reader
+    # and no writer (r1471/r1619 family). The 2-minute repricing is cheap enough to be a chain
+    # leg, and it runs BEFORE the check so the two judge the same world.
+    ("live_size_provenance_write",
+     ["python", "scripts/etf_book_live_size_provenance.py", "run"]),
     ("live_size_provenance",
      ["python", "scripts/etf_book_live_size_provenance.py", "--check"]),
     # r1480: every sheet this book publishes assumes it is filled at the open of the very

@@ -489,12 +489,12 @@
  "backtest_band": {
   "5 名·可执行单口径（本单这份账）": {
    "full": {
-    "cagr_pct": 7.68,
+    "cagr_pct": 7.66,
     "sharpe": 1.33,
     "maxdd_pct": -5.78
    },
    "oos": {
-    "cagr_pct": 12.64,
+    "cagr_pct": 12.59,
     "sharpe": 1.71,
     "maxdd_pct": -5.78
    },
@@ -715,22 +715,22 @@
  "vt_ladder": {
   "status": "ok",
   "readable": true,
-  "evidence_cutoff": "2026-11-12",
+  "evidence_cutoff": "2026-11-13",
   "answer": "LADDER_HAS_RUNG",
   "n_rungs": 7,
   "n_admit": 4,
   "best_sharpe": {
    "rung": "vt08",
-   "sharpe": 1.142,
+   "sharpe": 1.137,
    "verdict": "CONDITIONAL",
-   "cagr_pct": 0.1162,
+   "cagr_pct": 0.1155,
    "maxdd_pct": -0.1056
   },
   "tightest_admit": {
    "rung": "vt15",
    "vol_target": 0.15,
-   "sharpe": 0.998,
-   "cagr_pct": 0.1437,
+   "sharpe": 0.993,
+   "cagr_pct": 0.1429,
    "maxdd_pct": -0.1604
   },
   "path": "results\\etf_book_vt_ladder\\VT-LADDER.json"
@@ -738,12 +738,12 @@
  "vt_phases": {
   "status": "ok",
   "readable": true,
-  "evidence_cutoff": "2026-11-12",
+  "evidence_cutoff": "2026-11-13",
   "answer": {
    "answer": "NO_RUNG_SURVIVES",
-   "detail": "every rung is refused on at least one phase, and so is the same universe held equally (top-2 1.48 on 0 of 4 phases) -- the line is not ranking these books, it is refusing the shape",
+   "detail": "every rung is refused on at least one phase, and so is the same universe held equally (top-2 1.53 on 0 of 4 phases) -- the line is not ranking these books, it is refusing the shape",
    "gate_comparability": "LINE_REFUSES_THE_MOST_DIVERSIFIED_SHAPE",
-   "reference_top2_median": 1.4831,
+   "reference_top2_median": 1.5307,
    "reference_pass_phases": 0,
    "drop_two": {
     "verdict": "BOOKS_STAND_WITHOUT_THEIR_TWO_BEST_YEARS",
@@ -769,12 +769,12 @@
   "line": 0.7,
   "reference": {
    "verdict": "REFERENCE_ALSO_REFUSED",
-   "top2_min": 1.4658,
-   "top2_max": 1.4969,
-   "top2_median": 1.4831,
+   "top2_min": 1.5112,
+   "top2_max": 1.5464,
+   "top2_median": 1.5307,
    "pass_phases": 0,
    "phases": 4,
-   "cagr_pct": 0.045,
+   "cagr_pct": 0.0428,
    "names_alive_at_start": 194,
    "method": "equal_weight_daily_rebalance_zero_cost"
   },
@@ -783,90 +783,90 @@
     "rung": "none",
     "phases": 4,
     "pass_phases": 2,
-    "top2_min": 0.6785,
-    "top2_max": 0.777,
-    "spread": 0.0985,
-    "margin_to_line": -0.077,
-    "top2_vs_reference": 0.5239,
+    "top2_min": 0.6796,
+    "top2_max": 0.7806,
+    "spread": 0.101,
+    "margin_to_line": -0.0806,
+    "top2_vs_reference": 0.51,
     "verdict": "PHASE_DEPENDENT"
    },
    {
     "rung": "vt08",
     "phases": 4,
     "pass_phases": 0,
-    "top2_min": 0.7007,
-    "top2_max": 0.8659,
-    "spread": 0.1652,
-    "margin_to_line": -0.1659,
-    "top2_vs_reference": 0.5838,
+    "top2_min": 0.7039,
+    "top2_max": 0.8717,
+    "spread": 0.1678,
+    "margin_to_line": -0.1717,
+    "top2_vs_reference": 0.5695,
     "verdict": "PHASE_DEPENDENT"
    },
    {
     "rung": "vt10",
     "phases": 4,
     "pass_phases": 0,
-    "top2_min": 0.7143,
-    "top2_max": 0.8788,
-    "spread": 0.1645,
-    "margin_to_line": -0.1788,
-    "top2_vs_reference": 0.5925,
+    "top2_min": 0.7179,
+    "top2_max": 0.8848,
+    "spread": 0.1669,
+    "margin_to_line": -0.1848,
+    "top2_vs_reference": 0.578,
     "verdict": "PHASE_DEPENDENT"
    },
    {
     "rung": "vt12",
     "phases": 4,
     "pass_phases": 0,
-    "top2_min": 0.7097,
-    "top2_max": 0.8778,
-    "spread": 0.1681,
-    "margin_to_line": -0.1778,
-    "top2_vs_reference": 0.5919,
+    "top2_min": 0.713,
+    "top2_max": 0.8833,
+    "spread": 0.1703,
+    "margin_to_line": -0.1833,
+    "top2_vs_reference": 0.5771,
     "verdict": "PHASE_DEPENDENT"
    },
    {
     "rung": "vt15",
     "phases": 4,
     "pass_phases": 1,
-    "top2_min": 0.6702,
-    "top2_max": 0.8415,
-    "spread": 0.1713,
-    "margin_to_line": -0.1415,
-    "top2_vs_reference": 0.5674,
+    "top2_min": 0.6732,
+    "top2_max": 0.846,
+    "spread": 0.1728,
+    "margin_to_line": -0.146,
+    "top2_vs_reference": 0.5527,
     "verdict": "PHASE_DEPENDENT"
    },
    {
     "rung": "vt20",
     "phases": 4,
     "pass_phases": 2,
-    "top2_min": 0.6646,
-    "top2_max": 0.7966,
-    "spread": 0.132,
-    "margin_to_line": -0.0966,
-    "top2_vs_reference": 0.5371,
+    "top2_min": 0.6675,
+    "top2_max": 0.8004,
+    "spread": 0.1329,
+    "margin_to_line": -0.1004,
+    "top2_vs_reference": 0.5229,
     "verdict": "PHASE_DEPENDENT"
    },
    {
     "rung": "vt25",
     "phases": 4,
     "pass_phases": 2,
-    "top2_min": 0.6766,
-    "top2_max": 0.7871,
-    "spread": 0.1105,
-    "margin_to_line": -0.0871,
-    "top2_vs_reference": 0.5307,
+    "top2_min": 0.6795,
+    "top2_max": 0.7908,
+    "spread": 0.1113,
+    "margin_to_line": -0.0908,
+    "top2_vs_reference": 0.5166,
     "verdict": "PHASE_DEPENDENT"
    }
   ],
   "drop_two": {
    "verdict": "BOOKS_STAND_WITHOUT_THEIR_TWO_BEST_YEARS",
    "reference_retained": [
-    -0.5371,
-    -0.5314,
-    -0.5093,
-    -0.4996
+    -0.6185,
+    -0.6116,
+    -0.5849,
+    -0.5732
    ],
-   "book_retained_min": 0.1093,
-   "book_retained_max": 0.7049,
+   "book_retained_min": 0.1029,
+   "book_retained_max": 0.7032,
    "more_robust": [
     "none",
     "vt08",
@@ -969,14 +969,15 @@
  },
  "family_coherence": {
   "artifact": "results/etf_book_phase_atlas_arms.json",
-  "verdict": "ONE_WORLD",
-  "detail": "all 11 faces priced e383c3a68f5f98af",
+  "verdict": "MIXED_WORLDS",
+  "detail": "11 faces priced 2 different panels (e383c3a6, e6f9d0e8): per-cell deltas across worlds are world differences, not rule effects",
   "panels": [
-   "e383c3a68f5f98af"
+   "e383c3a68f5f98af",
+   "e6f9d0e81a64ec75"
   ],
   "arms": 10,
-  "evidence_cutoff": "2026-11-12",
-  "priced_bar": "2026-11-12",
+  "evidence_cutoff": "2026-11-13",
+  "priced_bar": "2026-11-13",
   "pricing": {
    "mode": "engine",
    "reprices_bar": true,
@@ -988,9 +989,18 @@
   },
   "panels_detail": [
    {
+    "digest": "e6f9d0e81a64ec75",
+    "faces": [
+     "baseline"
+    ],
+    "last": "2026-11-13",
+    "bars": 5280,
+    "columns": 1629,
+    "bars_fewer_than_newest": 0
+   },
+   {
     "digest": "e383c3a68f5f98af",
     "faces": [
-     "baseline",
      "buffer_k02",
      "buffer_k05",
      "buffer_k05_cost20",
@@ -1005,11 +1015,12 @@
     "last": "2026-11-12",
     "bars": 5279,
     "columns": 1628,
-    "bars_fewer_than_newest": 0
+    "bars_fewer_than_newest": 1
    }
   ],
-  "priced_same_panel": true,
-  "comparable": [
+  "priced_same_panel": false,
+  "comparable": [],
+  "withheld": [
    "buffer_k02",
    "buffer_k05",
    "buffer_k05_cost20",
@@ -1021,69 +1032,79 @@
    "cost20",
    "cost40"
   ],
-  "withheld": [],
   "cost_axis": {
-   "readable": true,
-   "withheld": [],
+   "readable": false,
+   "withheld": [
+    "buffer_k02",
+    "buffer_k05",
+    "buffer_k05_cost20",
+    "buffer_k10",
+    "buffer_k20",
+    "buffer_k40",
+    "cost0",
+    "cost05",
+    "cost20",
+    "cost40"
+   ],
    "arms": [
     {
      "arm": "buffer_k02",
-     "verdict": "NOT-SEPARABLE",
-     "readable": true,
+     "verdict": "WORLDS_NOT_COMPARABLE",
+     "readable": false,
      "description": "buffer k=0.02 on every cell (the near-zero end -- a knob that reads the same at 0.02 and at 0.20 is flat, not merely small)"
     },
     {
      "arm": "buffer_k05",
-     "verdict": "NOT-SEPARABLE",
-     "readable": true,
+     "verdict": "WORLDS_NOT_COMPARABLE",
+     "readable": false,
      "description": "buffer k=0.05 on every cell (the r1325 arm, re-priced per phase)"
     },
     {
      "arm": "buffer_k05_cost20",
-     "verdict": "REJECT",
-     "readable": true,
+     "verdict": "WORLDS_NOT_COMPARABLE",
+     "readable": false,
      "description": "buffer k=0.05 at 20bp/side -- the interaction neither family tested: does a buffer that is harmless at 10bp recover any of the -1.41pp the 20bp toll costs?"
     },
     {
      "arm": "buffer_k10",
-     "verdict": "NOT-SEPARABLE",
-     "readable": true,
+     "verdict": "WORLDS_NOT_COMPARABLE",
+     "readable": false,
      "description": "buffer k=0.10 on every cell (the middle of the family r1325 named as a cost knob; declared in the pool at r1351 before this face existed)"
     },
     {
      "arm": "buffer_k20",
-     "verdict": "NOT-SEPARABLE",
-     "readable": true,
+     "verdict": "WORLDS_NOT_COMPARABLE",
+     "readable": false,
      "description": "buffer k=0.20 on every cell (the strongest arm -- if even this stays inside every cell's band, the buffer family is unmeasurable on this design, not negative)"
     },
     {
      "arm": "buffer_k40",
-     "verdict": "REJECT",
-     "readable": true,
+     "verdict": "WORLDS_NOT_COMPARABLE",
+     "readable": false,
      "description": "buffer k=0.40 on every cell (8x the r1325 arm -- the far end, where a real buffer finally has to hurt)"
     },
     {
      "arm": "cost0",
-     "verdict": "NOT-SEPARABLE",
-     "readable": true,
+     "verdict": "WORLDS_NOT_COMPARABLE",
+     "readable": false,
      "description": "0bp/side on the whole grid (no toll at all) -- if the ordering only appears here, the ordering is bought with the toll and the 10bp reading stands"
     },
     {
      "arm": "cost05",
-     "verdict": "NOT-SEPARABLE",
-     "readable": true,
+     "verdict": "WORLDS_NOT_COMPARABLE",
+     "readable": false,
      "description": "5bp/side on the whole grid (half the production toll)"
     },
     {
      "arm": "cost20",
-     "verdict": "REJECT",
-     "readable": true,
+     "verdict": "WORLDS_NOT_COMPARABLE",
+     "readable": false,
      "description": "20bp/side on the whole grid (double the production toll)"
     },
     {
      "arm": "cost40",
-     "verdict": "REJECT",
-     "readable": true,
+     "verdict": "WORLDS_NOT_COMPARABLE",
+     "readable": false,
      "description": "40bp/side on the whole grid (4x the production toll -- does 'the cadence is quotable' have a toll ceiling, and does the ordering vanish first?)"
     }
    ]
@@ -1091,34 +1112,142 @@
   "null_calibration": {
    "artifact": "results/etf_book_rule_null.json",
    "status": "ok",
-   "detail": "an effect-free panel reads REJECT 96.5% of the time, so a published REJECT transmits almost nothing; the rule's informative branch is the rare one (NOT-SEPARABLE 3.5%, ADOPT 0.0%, NOT-ASSESSED 0.0%). Mechanism: the cell floor -0.15pp is 13.7x smaller than one sigma (2.05pp) of these cells, so about half of them land under it by chance and the not-worse share (floor 0.80) fails by construction",
+   "detail": "an effect-free panel reads REJECT 96.5% of the time, so a published REJECT transmits almost nothing; the rule's informative branch is the rare one (NOT-SEPARABLE 3.5%, ADOPT 0.0%, NOT-ASSESSED 0.0%). Mechanism: the cell floor -0.15pp is 13.6x smaller than one sigma (2.04pp) of these cells, so about half of them land under it by chance and the not-worse share (floor 0.80) fails by construction",
    "reject_share": 0.9652,
    "not_separable_share": 0.0348,
    "adopt_share": null,
    "trials": 20000,
    "label": "REJECT_IS_THE_DEFAULT",
-   "evidence_cutoff": "2026-11-12",
-   "bar_now": "2026-11-12"
+   "evidence_cutoff": "2026-11-13",
+   "bar_now": "2026-11-13"
+  },
+  "signflip": {
+   "artifact": "results/etf_book_arms_signflip.json",
+   "status": "ok",
+   "detail": "3 of 4 published REJECTs stand on their own cells (buffer_k05_cost20, cost20, cost40); the rest are inside sign noise and must not be read as findings",
+   "n_reject": 4,
+   "n_reject_standing": 3,
+   "standing": [
+    "buffer_k05_cost20",
+    "cost20",
+    "cost40"
+   ],
+   "overturned": [
+    "buffer_k02",
+    "buffer_k40",
+    "cost0",
+    "cost05"
+   ],
+   "overstated": [
+    "buffer_k40"
+   ],
+   "understated": [
+    "buffer_k02",
+    "cost0",
+    "cost05"
+   ],
+   "arms": [
+    {
+     "arm": "buffer_k02",
+     "frozen_label": "NOT-SEPARABLE",
+     "verdict": "SPLIT",
+     "sign_cells": 12,
+     "cells_positive": 11
+    },
+    {
+     "arm": "buffer_k05",
+     "frozen_label": "NOT-SEPARABLE",
+     "verdict": "NOT-SEPARABLE",
+     "sign_cells": 12,
+     "cells_positive": 8
+    },
+    {
+     "arm": "buffer_k05_cost20",
+     "frozen_label": "REJECT",
+     "verdict": "WORSE",
+     "sign_cells": 12,
+     "cells_positive": 0
+    },
+    {
+     "arm": "buffer_k10",
+     "frozen_label": "NOT-SEPARABLE",
+     "verdict": "NOT-SEPARABLE",
+     "sign_cells": 12,
+     "cells_positive": 10
+    },
+    {
+     "arm": "buffer_k20",
+     "frozen_label": "NOT-SEPARABLE",
+     "verdict": "NOT-SEPARABLE",
+     "sign_cells": 12,
+     "cells_positive": 9
+    },
+    {
+     "arm": "buffer_k40",
+     "frozen_label": "REJECT",
+     "verdict": "NOT-SEPARABLE",
+     "sign_cells": 12,
+     "cells_positive": 8
+    },
+    {
+     "arm": "cost0",
+     "frozen_label": "NOT-SEPARABLE",
+     "verdict": "BETTER",
+     "sign_cells": 12,
+     "cells_positive": 12
+    },
+    {
+     "arm": "cost05",
+     "frozen_label": "NOT-SEPARABLE",
+     "verdict": "BETTER",
+     "sign_cells": 12,
+     "cells_positive": 12
+    },
+    {
+     "arm": "cost20",
+     "frozen_label": "REJECT",
+     "verdict": "WORSE",
+     "sign_cells": 12,
+     "cells_positive": 0
+    },
+    {
+     "arm": "cost40",
+     "frozen_label": "REJECT",
+     "verdict": "WORSE",
+     "sign_cells": 12,
+     "cells_positive": 0
+    }
+   ],
+   "verdict": "SOME_REJECTS_STAND",
+   "evidence_cutoff": "2026-11-13",
+   "bar_now": "2026-11-13"
   },
   "receipt": {
    "present": true,
-   "mode": "group",
-   "status": "ONE_WORLD",
-   "world": "58302d9ca988c138",
-   "world_now": null,
+   "mode": "refresh",
+   "status": "PARTIAL",
+   "world": "2026-11-13",
+   "world_now": "e6f9d0e81a64ec75",
    "world_bar": "2026-11-13",
    "world_source": "spanning",
-   "stale": null,
+   "stale": true,
    "rebuilt": [
+    "base"
+   ],
+   "left": [
     "buffer_k02",
     "buffer_k05",
     "buffer_k10",
     "buffer_k20",
-    "buffer_k40"
+    "buffer_k40",
+    "cost0",
+    "cost05",
+    "cost20",
+    "cost40",
+    "buffer_k05_cost20"
    ],
-   "left": [],
-   "elapsed_sec": null,
-   "generated": null
+   "elapsed_sec": 706.1,
+   "generated": "2026-11-13T17:58:52"
   }
  },
  "priced_faces": {
@@ -1409,7 +1538,7 @@
  "sleeve_gate": {
   "status": "ok",
   "sentence": "No sleeve-level gate earns adoption: switching the sleeve off on trend 25%, vol 30%, drawdown 17% of the decision grid is no better than switching it off on the same number of untimed decisions, so a gate here would buy a shorter holding period, not a signal. The closest arm is the vol gate: +0.86pp of drawdown against the frozen 1.0pp bar, and it does beat its own placebo by +6.06pp -- which is why it is named as the re-test candidate on new data, not re-thresholded here. Verdict NO_GATE.",
-  "evidence_cutoff": "2026-11-12",
+  "evidence_cutoff": "2026-11-13",
   "verdict": "NO_GATE",
   "adopting": [],
   "artifact": "K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\etf_book_sleeve_gate.json",
@@ -1423,7 +1552,7 @@
     "placebo_delta_cagr_pp": -0.43,
     "placebo_delta_maxdd_pp": -2.27,
     "dd_gain_pp": -2.77,
-    "cagr_keep": 0.9668,
+    "cagr_keep": 0.9666,
     "placebo_dd_edge_pp": -0.5,
     "placebo_cagr_edge_pp": 0.11,
     "beats_placebo": false,
@@ -1455,7 +1584,7 @@
     "placebo_delta_cagr_pp": -0.5,
     "placebo_delta_maxdd_pp": -1.33,
     "dd_gain_pp": -1.27,
-    "cagr_keep": 0.9813,
+    "cagr_keep": 0.9812,
     "placebo_dd_edge_pp": 0.06,
     "placebo_cagr_edge_pp": 0.32,
     "beats_placebo": false,
@@ -1491,7 +1620,7 @@
    "sleeve_class": "commodity"
   },
   "baseline": {
-   "cagr": 0.0965,
+   "cagr": 0.0959,
    "maxdd": -0.1177
   }
  },
@@ -1530,7 +1659,7 @@
    "frozen": "written before the first run; --check re-derives every path verdict and the face verdict from the published rows",
    "verdict_rule": "a path passes when dd gain >= min_dd_gain_pp AND cagr_keep >= cagr_keep AND (dd edge >= placebo_dd_edge_pp OR cagr edge >= placebo_cagr_edge_pp); SUPPORTED = all paths, FRAGILE = more than support_share, NO_GATE = support_share or fewer; a path with too few decisions is NOT_ASSESSED"
   },
-  "evidence_cutoff": "2026-11-12",
+  "evidence_cutoff": "2026-11-13",
   "stale_vs_sleeve_gate": false,
   "detail": null,
   "rows": [
@@ -1587,7 +1716,7 @@
     "decisions": 83,
     "verdict": "PASS",
     "dd_gain_pp": 1.05,
-    "cagr_keep": 0.9603,
+    "cagr_keep": 0.96,
     "placebo_dd_edge_pp": 3.5,
     "placebo_cagr_edge_pp": 0.44,
     "ok_dd": true,
@@ -1602,9 +1731,9 @@
     "decisions": 83,
     "verdict": "PASS",
     "dd_gain_pp": 1.05,
-    "cagr_keep": 0.9603,
+    "cagr_keep": 0.96,
     "placebo_dd_edge_pp": 3.0,
-    "placebo_cagr_edge_pp": 1.05,
+    "placebo_cagr_edge_pp": 1.04,
     "ok_dd": true,
     "ok_keep": true,
     "ok_beat": true
@@ -1617,9 +1746,9 @@
     "decisions": 83,
     "verdict": "PASS",
     "dd_gain_pp": 1.05,
-    "cagr_keep": 0.9603,
+    "cagr_keep": 0.96,
     "placebo_dd_edge_pp": 3.34,
-    "placebo_cagr_edge_pp": 2.01,
+    "placebo_cagr_edge_pp": 2.0,
     "ok_dd": true,
     "ok_keep": true,
     "ok_beat": true
@@ -1634,7 +1763,7 @@
     "dd_gain_pp": 0.5,
     "cagr_keep": 0.99,
     "placebo_dd_edge_pp": 0.82,
-    "placebo_cagr_edge_pp": 0.87,
+    "placebo_cagr_edge_pp": 0.86,
     "ok_dd": false,
     "ok_keep": true,
     "ok_beat": true
@@ -1677,9 +1806,9 @@
     "decisions": 83,
     "verdict": "PASS",
     "dd_gain_pp": 1.69,
-    "cagr_keep": 0.9651,
+    "cagr_keep": 0.965,
     "placebo_dd_edge_pp": 2.64,
-    "placebo_cagr_edge_pp": 0.6,
+    "placebo_cagr_edge_pp": 0.59,
     "ok_dd": true,
     "ok_keep": true,
     "ok_beat": true
@@ -1692,9 +1821,9 @@
     "decisions": 83,
     "verdict": "PASS",
     "dd_gain_pp": 1.69,
-    "cagr_keep": 0.9651,
+    "cagr_keep": 0.965,
     "placebo_dd_edge_pp": 2.3,
-    "placebo_cagr_edge_pp": 0.97,
+    "placebo_cagr_edge_pp": 0.96,
     "ok_dd": true,
     "ok_keep": true,
     "ok_beat": true
@@ -1707,7 +1836,7 @@
     "decisions": 83,
     "verdict": "PASS",
     "dd_gain_pp": 1.69,
-    "cagr_keep": 0.9651,
+    "cagr_keep": 0.965,
     "placebo_dd_edge_pp": 4.4,
     "placebo_cagr_edge_pp": 0.31,
     "ok_dd": true,
@@ -1754,7 +1883,7 @@
     "dd_gain_pp": 0.86,
     "cagr_keep": 1.0019,
     "placebo_dd_edge_pp": 6.06,
-    "placebo_cagr_edge_pp": 3.44,
+    "placebo_cagr_edge_pp": 3.43,
     "ok_dd": false,
     "ok_keep": true,
     "ok_beat": true
@@ -1762,8 +1891,8 @@
   ],
   "identity": {
    "reference": "results/etf_book_sleeve_gate.json arms.gate_vol.stats.full",
-   "reference_cagr": 0.0967,
-   "mine_cagr": 0.0967,
+   "reference_cagr": 0.0961,
+   "mine_cagr": 0.0961,
    "reference_maxdd": -0.1091,
    "mine_maxdd": -0.1091,
    "same_cutoff": true,
@@ -1774,8 +1903,8 @@
  "exposure_timing": {
   "status": "ok",
   "artifact": "K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\etf_book_exposure_timing.json",
-  "evidence_cutoff": "2026-11-12",
-  "bars": 1662,
+  "evidence_cutoff": "2026-11-13",
+  "bars": 1663,
   "decisions": 84,
   "identity": {
    "gap": 0.0,
@@ -1785,22 +1914,22 @@
   "arms": {
    "production": {
     "cagr": 0.0911,
-    "sharpe": 0.953,
+    "sharpe": 0.952,
     "maxdd": -0.1326,
     "vol": 0.1006,
-    "mean_exposure": 0.7074,
+    "mean_exposure": 0.7075,
     "delevered_share": 0.8797
    },
    "full": {
-    "cagr": 0.1323,
-    "sharpe": 0.922,
+    "cagr": 0.1322,
+    "sharpe": 0.921,
     "maxdd": -0.1629,
-    "vol": 0.1531,
+    "vol": 0.153,
     "mean_exposure": 0.9994,
     "delevered_share": 0.0006
    },
    "constant": {
-    "cagr": 0.1007,
+    "cagr": 0.1006,
     "sharpe": 0.973,
     "maxdd": -0.1157,
     "vol": 0.1087,
@@ -1814,25 +1943,25 @@
   },
   "placebo": {
    "n": 20,
-   "cagr_mean": 0.1007
+   "cagr_mean": 0.1006
   },
   "verdict": {
    "state": "AVERAGE_EXPOSURE_ONLY",
-   "timing_pp": -0.96,
+   "timing_pp": -0.95,
    "placebo_p05_pp": -1.71,
    "placebo_p95_pp": 1.32,
    "de_risking_pp": -3.16
   },
-  "sentence": "production 9.11% vs a constant book at the same average exposure 10.07% -> timing -0.96pp/yr inside a 20-path placebo band of [-1.71, +1.32]pp"
+  "sentence": "production 9.11% vs a constant book at the same average exposure 10.06% -> timing -0.95pp/yr inside a 20-path placebo band of [-1.71, +1.32]pp"
  },
  "cost_tape": {
   "status": "ok",
   "artifact": "K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\etf_book_cost_tape.json",
-  "evidence_cutoff": "2026-11-12",
+  "evidence_cutoff": "2026-11-13",
   "verdict": "CONSERVATIVE | SURVIVES",
   "assumption_verdict": "CONSERVATIVE",
   "survives_verdict": "SURVIVES",
-  "sentence": "the names this book actually traded quote a measured one-way cost of 5.9 bp half-spread; the card charges 10 bp, which is more than the tape says (the card over-charges) -- on the tape's cost the same engine earns 10.2% CAGR / 1.04 Sharpe (each name at its own 75th percentile: 9.8% / 1.00), so the book survives the measured cost",
+  "sentence": "the names this book actually traded quote a measured one-way cost of 5.9 bp half-spread; the card charges 10 bp, which is more than the tape says (the card over-charges) -- on the tape's cost the same engine earns 10.1% CAGR / 1.03 Sharpe (each name at its own 75th percentile: 9.7% / 1.00), so the book survives the measured cost",
   "assumed_bp": 10.0,
   "measured_bp": 5.87,
   "upper_p75_bp": 9.02,
@@ -1840,26 +1969,26 @@
   "turnover_total": 78.8081,
   "arms": {
    "assumed_10bp": {
-    "cagr": 0.0965,
-    "sharpe": 0.993,
+    "cagr": 0.0959,
+    "sharpe": 0.987,
     "maxdd": -0.1177,
-    "vol": 0.1019,
+    "vol": 0.1018,
     "worst_month": -0.0362,
     "worst_year": -0.0199
    },
    "measured": {
-    "cagr": 0.1017,
-    "sharpe": 1.041,
+    "cagr": 0.101,
+    "sharpe": 1.035,
     "maxdd": -0.1137,
     "vol": 0.1019,
     "worst_month": -0.0359,
     "worst_year": -0.0163
    },
    "upper_p75": {
-    "cagr": 0.0977,
-    "sharpe": 1.004,
+    "cagr": 0.0971,
+    "sharpe": 0.999,
     "maxdd": -0.1168,
-    "vol": 0.1019,
+    "vol": 0.1018,
     "worst_month": -0.0361,
     "worst_year": -0.019
    }
@@ -1888,7 +2017,7 @@
   },
   "control": {
    "passes": true,
-   "engine_cagr": 0.0965,
+   "engine_cagr": 0.0959,
    "published_cagr": 0.096,
    "tolerance_pp": 0.5
   },
@@ -1914,19 +2043,19 @@
      "phases_oos_not_worse": 4,
      "phases_tested": 4,
      "sharpe_delta_by_phase": [
-      0.067,
-      0.143,
-      0.103,
+      0.068,
+      0.142,
+      0.102,
       0.051
      ],
      "oos_sharpe_delta_by_phase": [
-      0.068,
-      0.171,
+      0.072,
+      0.172,
       0.153,
       0.032
      ],
      "sharpe_delta_min": 0.051,
-     "sharpe_delta_max": 0.143
+     "sharpe_delta_max": 0.142
     },
     {
      "window": 45,
@@ -1934,19 +2063,19 @@
      "phases_oos_not_worse": 3,
      "phases_tested": 4,
      "sharpe_delta_by_phase": [
-      0.061,
+      0.062,
       0.04,
       0.059,
       -0.037
      ],
      "oos_sharpe_delta_by_phase": [
-      0.045,
-      0.003,
-      0.096,
+      0.047,
+      0.004,
+      0.095,
       -0.125
      ],
      "sharpe_delta_min": -0.037,
-     "sharpe_delta_max": 0.061
+     "sharpe_delta_max": 0.062
     },
     {
      "window": 90,
@@ -1956,14 +2085,14 @@
      "sharpe_delta_by_phase": [
       -0.138,
       -0.053,
-      -0.109,
-      -0.105
+      -0.11,
+      -0.104
      ],
      "oos_sharpe_delta_by_phase": [
-      -0.221,
+      -0.222,
       0.001,
       -0.086,
-      -0.144
+      -0.143
      ],
      "sharpe_delta_min": -0.138,
      "sharpe_delta_max": -0.053
@@ -1974,18 +2103,18 @@
      "phases_oos_not_worse": 0,
      "phases_tested": 4,
      "sharpe_delta_by_phase": [
-      -0.161,
+      -0.16,
       -0.066,
       -0.137,
-      -0.129
+      -0.128
      ],
      "oos_sharpe_delta_by_phase": [
       -0.257,
       -0.094,
-      -0.133,
+      -0.134,
       -0.146
      ],
-     "sharpe_delta_min": -0.161,
+     "sharpe_delta_min": -0.16,
      "sharpe_delta_max": -0.066
     }
    ],
@@ -2008,19 +2137,19 @@
      "phases_oos_not_worse": 4,
      "phases_tested": 4,
      "sharpe_delta_by_phase": [
-      0.067,
-      0.143,
-      0.103,
+      0.068,
+      0.142,
+      0.102,
       0.051
      ],
      "oos_sharpe_delta_by_phase": [
-      0.068,
-      0.171,
+      0.072,
+      0.172,
       0.153,
       0.032
      ],
      "sharpe_delta_min": 0.051,
-     "sharpe_delta_max": 0.143
+     "sharpe_delta_max": 0.142
     },
     {
      "window": 45,
@@ -2028,19 +2157,19 @@
      "phases_oos_not_worse": 3,
      "phases_tested": 4,
      "sharpe_delta_by_phase": [
-      0.061,
+      0.062,
       0.04,
       0.059,
       -0.037
      ],
      "oos_sharpe_delta_by_phase": [
-      0.045,
-      0.003,
-      0.096,
+      0.047,
+      0.004,
+      0.095,
       -0.125
      ],
      "sharpe_delta_min": -0.037,
-     "sharpe_delta_max": 0.061
+     "sharpe_delta_max": 0.062
     },
     {
      "window": 90,
@@ -2050,14 +2179,14 @@
      "sharpe_delta_by_phase": [
       -0.138,
       -0.053,
-      -0.109,
-      -0.105
+      -0.11,
+      -0.104
      ],
      "oos_sharpe_delta_by_phase": [
-      -0.221,
+      -0.222,
       0.001,
       -0.086,
-      -0.144
+      -0.143
      ],
      "sharpe_delta_min": -0.138,
      "sharpe_delta_max": -0.053
@@ -2068,18 +2197,18 @@
      "phases_oos_not_worse": 0,
      "phases_tested": 4,
      "sharpe_delta_by_phase": [
-      -0.161,
+      -0.16,
       -0.066,
       -0.137,
-      -0.129
+      -0.128
      ],
      "oos_sharpe_delta_by_phase": [
       -0.257,
       -0.094,
-      -0.133,
+      -0.134,
       -0.146
      ],
-     "sharpe_delta_min": -0.161,
+     "sharpe_delta_min": -0.16,
      "sharpe_delta_max": -0.066
     }
    ],
@@ -2094,52 +2223,52 @@
     {
      "phase": 0,
      "status": "ok",
-     "bars": 1660,
-     "mean_pp": 0.831,
+     "bars": 1661,
+     "mean_pp": 0.842,
      "ci_p05_p95_pp": [
-      -0.156,
-      1.939
+      -0.133,
+      1.953
      ],
-     "share_positive": 0.919,
+     "share_positive": 0.924,
      "block": 20,
      "draws": 1000
     },
     {
      "phase": 1,
      "status": "ok",
-     "bars": 1655,
-     "mean_pp": 1.808,
+     "bars": 1656,
+     "mean_pp": 1.807,
      "ci_p05_p95_pp": [
-      0.665,
-      3.071
+      0.685,
+      3.054
      ],
-     "share_positive": 0.999,
+     "share_positive": 1.0,
      "block": 20,
      "draws": 1000
     },
     {
      "phase": 2,
      "status": "ok",
-     "bars": 1650,
-     "mean_pp": 1.168,
+     "bars": 1651,
+     "mean_pp": 1.171,
      "ci_p05_p95_pp": [
-      0.085,
-      2.434
+      0.066,
+      2.402
      ],
-     "share_positive": 0.961,
+     "share_positive": 0.964,
      "block": 20,
      "draws": 1000
     },
     {
      "phase": 3,
      "status": "ok",
-     "bars": 1645,
+     "bars": 1646,
      "mean_pp": 0.416,
      "ci_p05_p95_pp": [
-      -0.379,
-      1.201
+      -0.37,
+      1.227
      ],
-     "share_positive": 0.813,
+     "share_positive": 0.823,
      "block": 20,
      "draws": 1000
     }
@@ -2147,18 +2276,18 @@
    "verdict": {
     "state": "MIXED_ACROSS_PHASES",
     "phases_ok": 4,
-    "min_share_positive": 0.813,
-    "min_ci_low_pp": -0.379,
+    "min_share_positive": 0.823,
+    "min_ci_low_pp": -0.37,
     "rule": "DIFFERENCE_IS_SEPARABLE_IN_EVERY_PHASE iff the paired difference's 5th percentile is above zero in every phase; NOT_SEPARABLE iff no phase clears a 95% positive share; otherwise mixed"
    }
   },
   "paired_ok": true,
-  "evidence_cutoff": "2026-11-12",
+  "evidence_cutoff": "2026-11-13",
   "identity_all_pass": true,
   "panel": {
-   "digest": "e383c3a68f5f98af",
-   "last_bar": "2026-11-12",
-   "bars_named": 5279,
+   "digest": "e6f9d0e81a64ec75",
+   "last_bar": "2026-11-13",
+   "bars_named": 5280,
    "first_bar": "2005-02-23"
   },
   "phase_rows": [
@@ -2166,12 +2295,12 @@
     "phase": 0,
     "phase_start": "2020-01-02",
     "window": 30,
-    "cagr": 0.1051,
-    "sharpe": 1.06,
+    "cagr": 0.1046,
+    "sharpe": 1.055,
     "maxdd": -0.119,
     "vol": 0.1033,
-    "oos_cagr": 0.1954,
-    "oos_sharpe": 1.802,
+    "oos_cagr": 0.194,
+    "oos_sharpe": 1.791,
     "oos_maxdd": -0.119,
     "turnover_per_decision": 0.975,
     "mean_scale": 0.7237
@@ -2180,12 +2309,12 @@
     "phase": 0,
     "phase_start": "2020-01-02",
     "window": 45,
-    "cagr": 0.1026,
-    "sharpe": 1.054,
+    "cagr": 0.1021,
+    "sharpe": 1.049,
     "maxdd": -0.1119,
     "vol": 0.1014,
-    "oos_cagr": 0.1891,
-    "oos_sharpe": 1.779,
+    "oos_cagr": 0.1876,
+    "oos_sharpe": 1.766,
     "oos_maxdd": -0.1089,
     "turnover_per_decision": 0.955,
     "mean_scale": 0.7145
@@ -2194,12 +2323,12 @@
     "phase": 0,
     "phase_start": "2020-01-02",
     "window": 60,
-    "cagr": 0.0965,
-    "sharpe": 0.993,
+    "cagr": 0.0959,
+    "sharpe": 0.987,
     "maxdd": -0.1177,
-    "vol": 0.1019,
-    "oos_cagr": 0.1837,
-    "oos_sharpe": 1.734,
+    "vol": 0.1018,
+    "oos_cagr": 0.182,
+    "oos_sharpe": 1.719,
     "oos_maxdd": -0.107,
     "turnover_per_decision": 0.938,
     "mean_scale": 0.7101
@@ -2208,12 +2337,12 @@
     "phase": 0,
     "phase_start": "2020-01-02",
     "window": 90,
-    "cagr": 0.0776,
-    "sharpe": 0.855,
+    "cagr": 0.077,
+    "sharpe": 0.849,
     "maxdd": -0.1243,
     "vol": 0.0965,
-    "oos_cagr": 0.1413,
-    "oos_sharpe": 1.513,
+    "oos_cagr": 0.1398,
+    "oos_sharpe": 1.497,
     "oos_maxdd": -0.1055,
     "turnover_per_decision": 0.91,
     "mean_scale": 0.6889
@@ -2222,12 +2351,12 @@
     "phase": 0,
     "phase_start": "2020-01-02",
     "window": 120,
-    "cagr": 0.0727,
-    "sharpe": 0.832,
+    "cagr": 0.0722,
+    "sharpe": 0.827,
     "maxdd": -0.1219,
     "vol": 0.093,
-    "oos_cagr": 0.1332,
-    "oos_sharpe": 1.477,
+    "oos_cagr": 0.1318,
+    "oos_sharpe": 1.462,
     "oos_maxdd": -0.1037,
     "turnover_per_decision": 0.897,
     "mean_scale": 0.6828
@@ -2236,12 +2365,12 @@
     "phase": 1,
     "phase_start": "2020-01-09",
     "window": 30,
-    "cagr": 0.1145,
-    "sharpe": 1.081,
+    "cagr": 0.114,
+    "sharpe": 1.076,
     "maxdd": -0.1502,
     "vol": 0.1101,
-    "oos_cagr": 0.1975,
-    "oos_sharpe": 1.603,
+    "oos_cagr": 0.1961,
+    "oos_sharpe": 1.594,
     "oos_maxdd": -0.1304,
     "turnover_per_decision": 0.998,
     "mean_scale": 0.7298
@@ -2250,12 +2379,12 @@
     "phase": 1,
     "phase_start": "2020-01-09",
     "window": 45,
-    "cagr": 0.1004,
-    "sharpe": 0.978,
+    "cagr": 0.0999,
+    "sharpe": 0.974,
     "maxdd": -0.1521,
     "vol": 0.1078,
-    "oos_cagr": 0.1685,
-    "oos_sharpe": 1.435,
+    "oos_cagr": 0.1672,
+    "oos_sharpe": 1.426,
     "oos_maxdd": -0.1387,
     "turnover_per_decision": 0.968,
     "mean_scale": 0.7172
@@ -2264,12 +2393,12 @@
     "phase": 1,
     "phase_start": "2020-01-09",
     "window": 60,
-    "cagr": 0.0956,
-    "sharpe": 0.938,
+    "cagr": 0.0951,
+    "sharpe": 0.934,
     "maxdd": -0.154,
-    "vol": 0.1076,
-    "oos_cagr": 0.1681,
-    "oos_sharpe": 1.432,
+    "vol": 0.1075,
+    "oos_cagr": 0.1669,
+    "oos_sharpe": 1.422,
     "oos_maxdd": -0.1335,
     "turnover_per_decision": 0.961,
     "mean_scale": 0.7126
@@ -2278,12 +2407,12 @@
     "phase": 1,
     "phase_start": "2020-01-09",
     "window": 90,
-    "cagr": 0.086,
-    "sharpe": 0.885,
+    "cagr": 0.0856,
+    "sharpe": 0.881,
     "maxdd": -0.1564,
-    "vol": 0.1032,
-    "oos_cagr": 0.1573,
-    "oos_sharpe": 1.433,
+    "vol": 0.1031,
+    "oos_cagr": 0.1561,
+    "oos_sharpe": 1.423,
     "oos_maxdd": -0.1187,
     "turnover_per_decision": 0.932,
     "mean_scale": 0.6931
@@ -2292,12 +2421,12 @@
     "phase": 1,
     "phase_start": "2020-01-09",
     "window": 120,
-    "cagr": 0.0814,
-    "sharpe": 0.872,
+    "cagr": 0.081,
+    "sharpe": 0.868,
     "maxdd": -0.1536,
     "vol": 0.0991,
-    "oos_cagr": 0.1403,
-    "oos_sharpe": 1.338,
+    "oos_cagr": 0.1391,
+    "oos_sharpe": 1.328,
     "oos_maxdd": -0.1214,
     "turnover_per_decision": 0.903,
     "mean_scale": 0.6717
@@ -2306,12 +2435,12 @@
     "phase": 2,
     "phase_start": "2020-01-16",
     "window": 30,
-    "cagr": 0.1025,
-    "sharpe": 1.009,
+    "cagr": 0.1022,
+    "sharpe": 1.005,
     "maxdd": -0.1408,
-    "vol": 0.1065,
-    "oos_cagr": 0.1944,
-    "oos_sharpe": 1.684,
+    "vol": 0.1064,
+    "oos_cagr": 0.1934,
+    "oos_sharpe": 1.676,
     "oos_maxdd": -0.1269,
     "turnover_per_decision": 1.037,
     "mean_scale": 0.7387
@@ -2320,12 +2449,12 @@
     "phase": 2,
     "phase_start": "2020-01-16",
     "window": 45,
-    "cagr": 0.0975,
-    "sharpe": 0.965,
+    "cagr": 0.0971,
+    "sharpe": 0.962,
     "maxdd": -0.1337,
     "vol": 0.1062,
-    "oos_cagr": 0.1841,
-    "oos_sharpe": 1.627,
+    "oos_cagr": 0.183,
+    "oos_sharpe": 1.618,
     "oos_maxdd": -0.1235,
     "turnover_per_decision": 1.019,
     "mean_scale": 0.7352
@@ -2334,12 +2463,12 @@
     "phase": 2,
     "phase_start": "2020-01-16",
     "window": 60,
-    "cagr": 0.0903,
-    "sharpe": 0.906,
+    "cagr": 0.0899,
+    "sharpe": 0.903,
     "maxdd": -0.1415,
-    "vol": 0.1056,
-    "oos_cagr": 0.1742,
-    "oos_sharpe": 1.531,
+    "vol": 0.1055,
+    "oos_cagr": 0.1731,
+    "oos_sharpe": 1.523,
     "oos_maxdd": -0.1415,
     "turnover_per_decision": 0.996,
     "mean_scale": 0.7226
@@ -2348,12 +2477,12 @@
     "phase": 2,
     "phase_start": "2020-01-16",
     "window": 90,
-    "cagr": 0.0762,
-    "sharpe": 0.797,
+    "cagr": 0.0759,
+    "sharpe": 0.793,
     "maxdd": -0.1366,
     "vol": 0.1027,
-    "oos_cagr": 0.1576,
-    "oos_sharpe": 1.445,
+    "oos_cagr": 0.1565,
+    "oos_sharpe": 1.437,
     "oos_maxdd": -0.1196,
     "turnover_per_decision": 0.965,
     "mean_scale": 0.7043
@@ -2362,12 +2491,12 @@
     "phase": 2,
     "phase_start": "2020-01-16",
     "window": 120,
-    "cagr": 0.07,
-    "sharpe": 0.769,
+    "cagr": 0.0696,
+    "sharpe": 0.766,
     "maxdd": -0.1311,
-    "vol": 0.0979,
-    "oos_cagr": 0.145,
-    "oos_sharpe": 1.398,
+    "vol": 0.0978,
+    "oos_cagr": 0.144,
+    "oos_sharpe": 1.389,
     "oos_maxdd": -0.1132,
     "turnover_per_decision": 0.949,
     "mean_scale": 0.686
@@ -2376,12 +2505,12 @@
     "phase": 3,
     "phase_start": "2020-01-23",
     "window": 30,
-    "cagr": 0.1135,
-    "sharpe": 1.186,
+    "cagr": 0.1131,
+    "sharpe": 1.182,
     "maxdd": -0.1376,
     "vol": 0.0981,
-    "oos_cagr": 0.1428,
-    "oos_sharpe": 1.369,
+    "oos_cagr": 0.1418,
+    "oos_sharpe": 1.36,
     "oos_maxdd": -0.1247,
     "turnover_per_decision": 0.981,
     "mean_scale": 0.7407
@@ -2390,12 +2519,12 @@
     "phase": 3,
     "phase_start": "2020-01-23",
     "window": 45,
-    "cagr": 0.1066,
-    "sharpe": 1.098,
+    "cagr": 0.1062,
+    "sharpe": 1.094,
     "maxdd": -0.1425,
     "vol": 0.1003,
-    "oos_cagr": 0.1289,
-    "oos_sharpe": 1.212,
+    "oos_cagr": 0.1278,
+    "oos_sharpe": 1.203,
     "oos_maxdd": -0.1266,
     "turnover_per_decision": 0.977,
     "mean_scale": 0.7399
@@ -2404,12 +2533,12 @@
     "phase": 3,
     "phase_start": "2020-01-23",
     "window": 60,
-    "cagr": 0.109,
-    "sharpe": 1.135,
+    "cagr": 0.1085,
+    "sharpe": 1.131,
     "maxdd": -0.1448,
     "vol": 0.0988,
-    "oos_cagr": 0.1404,
-    "oos_sharpe": 1.337,
+    "oos_cagr": 0.1393,
+    "oos_sharpe": 1.328,
     "oos_maxdd": -0.1193,
     "turnover_per_decision": 0.968,
     "mean_scale": 0.7365
@@ -2418,12 +2547,12 @@
     "phase": 3,
     "phase_start": "2020-01-23",
     "window": 90,
-    "cagr": 0.0947,
-    "sharpe": 1.03,
+    "cagr": 0.0943,
+    "sharpe": 1.027,
     "maxdd": -0.1474,
-    "vol": 0.0956,
-    "oos_cagr": 0.1172,
-    "oos_sharpe": 1.193,
+    "vol": 0.0955,
+    "oos_cagr": 0.1164,
+    "oos_sharpe": 1.185,
     "oos_maxdd": -0.1183,
     "turnover_per_decision": 0.93,
     "mean_scale": 0.7112
@@ -2432,12 +2561,12 @@
     "phase": 3,
     "phase_start": "2020-01-23",
     "window": 120,
-    "cagr": 0.0894,
-    "sharpe": 1.006,
+    "cagr": 0.0891,
+    "sharpe": 1.003,
     "maxdd": -0.1408,
     "vol": 0.0926,
-    "oos_cagr": 0.1124,
-    "oos_sharpe": 1.191,
+    "oos_cagr": 0.1115,
+    "oos_sharpe": 1.182,
     "oos_maxdd": -0.1193,
     "turnover_per_decision": 0.918,
     "mean_scale": 0.6982
@@ -2447,7 +2576,7 @@
  "vol_window_edge": {
   "status": "ok",
   "artifact": "K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\etf_book_vol_window_edge.json",
-  "evidence_cutoff": "2026-11-12",
+  "evidence_cutoff": "2026-11-13",
   "verdict": {
    "state": "ADOPT_WINDOW",
    "best_window": 30,
@@ -2455,7 +2584,7 @@
    "best_phases_oos_not_worse": 4,
    "phases_needed": 3,
    "phases_tested": 4,
-   "largest_sharpe_gap_vs_shipped": 0.294,
+   "largest_sharpe_gap_vs_shipped": 0.291,
    "windows": [
     {
      "window": 5,
@@ -2463,19 +2592,19 @@
      "phases_oos_not_worse": 0,
      "phases_tested": 4,
      "sharpe_delta_by_phase": [
-      -0.008,
-      -0.027,
-      -0.017,
-      -0.02
+      -0.007,
+      -0.026,
+      -0.016,
+      -0.019
      ],
      "oos_sharpe_delta_by_phase": [
-      -0.132,
-      -0.237,
-      -0.294,
-      -0.081
+      -0.129,
+      -0.233,
+      -0.291,
+      -0.08
      ],
-     "sharpe_delta_min": -0.027,
-     "sharpe_delta_max": -0.008
+     "sharpe_delta_min": -0.026,
+     "sharpe_delta_max": -0.007
     },
     {
      "window": 10,
@@ -2483,19 +2612,19 @@
      "phases_oos_not_worse": 0,
      "phases_tested": 4,
      "sharpe_delta_by_phase": [
-      -0.008,
-      -0.027,
-      -0.017,
-      -0.02
+      -0.007,
+      -0.026,
+      -0.016,
+      -0.019
      ],
      "oos_sharpe_delta_by_phase": [
-      -0.132,
-      -0.237,
-      -0.294,
-      -0.081
+      -0.129,
+      -0.233,
+      -0.291,
+      -0.08
      ],
-     "sharpe_delta_min": -0.027,
-     "sharpe_delta_max": -0.008
+     "sharpe_delta_min": -0.026,
+     "sharpe_delta_max": -0.007
     },
     {
      "window": 15,
@@ -2503,19 +2632,19 @@
      "phases_oos_not_worse": 0,
      "phases_tested": 4,
      "sharpe_delta_by_phase": [
-      -0.008,
-      -0.027,
-      -0.017,
-      -0.02
+      -0.007,
+      -0.026,
+      -0.016,
+      -0.019
      ],
      "oos_sharpe_delta_by_phase": [
-      -0.132,
-      -0.237,
-      -0.294,
-      -0.081
+      -0.129,
+      -0.233,
+      -0.291,
+      -0.08
      ],
-     "sharpe_delta_min": -0.027,
-     "sharpe_delta_max": -0.008
+     "sharpe_delta_min": -0.026,
+     "sharpe_delta_max": -0.007
     },
     {
      "window": 20,
@@ -2523,18 +2652,18 @@
      "phases_oos_not_worse": 4,
      "phases_tested": 4,
      "sharpe_delta_by_phase": [
-      0.094,
+      0.096,
       0.217,
       0.148,
-      0.022
+      0.023
      ],
      "oos_sharpe_delta_by_phase": [
-      0.064,
-      0.241,
-      0.258,
-      -0.002
+      0.069,
+      0.242,
+      0.259,
+      0.0
      ],
-     "sharpe_delta_min": 0.022,
+     "sharpe_delta_min": 0.023,
      "sharpe_delta_max": 0.217
     },
     {
@@ -2543,19 +2672,19 @@
      "phases_oos_not_worse": 4,
      "phases_tested": 4,
      "sharpe_delta_by_phase": [
-      0.115,
-      0.184,
+      0.116,
+      0.183,
       0.14,
       0.031
      ],
      "oos_sharpe_delta_by_phase": [
-      0.129,
-      0.224,
+      0.133,
+      0.225,
       0.196,
       -0.001
      ],
      "sharpe_delta_min": 0.031,
-     "sharpe_delta_max": 0.184
+     "sharpe_delta_max": 0.183
     },
     {
      "window": 30,
@@ -2563,19 +2692,19 @@
      "phases_oos_not_worse": 4,
      "phases_tested": 4,
      "sharpe_delta_by_phase": [
-      0.067,
-      0.143,
-      0.103,
+      0.068,
+      0.142,
+      0.102,
       0.051
      ],
      "oos_sharpe_delta_by_phase": [
-      0.068,
-      0.171,
+      0.072,
+      0.172,
       0.153,
       0.032
      ],
      "sharpe_delta_min": 0.051,
-     "sharpe_delta_max": 0.143
+     "sharpe_delta_max": 0.142
     }
    ],
    "published_window_stays": true,
@@ -2585,33 +2714,33 @@
   "edge": {
    "state": "EDGE_AT_FLOOR",
    "best_window": 20,
-   "best_mean_sharpe": 1.1133,
+   "best_mean_sharpe": 1.1098,
    "floor_window": 20,
    "top_window": 60,
    "curve": [
     {
      "window": 20,
-     "mean_sharpe": 1.1133,
-     "min_sharpe": 1.054,
-     "max_sharpe": 1.157
+     "mean_sharpe": 1.1098,
+     "min_sharpe": 1.051,
+     "max_sharpe": 1.154
     },
     {
      "window": 25,
-     "mean_sharpe": 1.1105,
-     "min_sharpe": 1.046,
-     "max_sharpe": 1.166
+     "mean_sharpe": 1.1062,
+     "min_sharpe": 1.043,
+     "max_sharpe": 1.162
     },
     {
      "window": 30,
-     "mean_sharpe": 1.084,
-     "min_sharpe": 1.009,
-     "max_sharpe": 1.186
+     "mean_sharpe": 1.0795,
+     "min_sharpe": 1.005,
+     "max_sharpe": 1.182
     },
     {
      "window": 60,
-     "mean_sharpe": 0.993,
-     "min_sharpe": 0.906,
-     "max_sharpe": 1.135
+     "mean_sharpe": 0.9888,
+     "min_sharpe": 0.903,
+     "max_sharpe": 1.131
     }
    ],
    "inactive_windows": [
@@ -2647,11 +2776,11 @@
    ],
    "shipped": {
     "window": 60,
-    "mean_sharpe": 0.993,
-    "min_sharpe": 0.906,
-    "max_sharpe": 1.135
+    "mean_sharpe": 0.9888,
+    "min_sharpe": 0.903,
+    "max_sharpe": 1.131
    },
-   "gain_of_best_over_shipped": 0.1203,
+   "gain_of_best_over_shipped": 0.121,
    "rule": "EDGE_AT_FLOOR iff the smallest window the overlay can actually price has the highest mean Sharpe across phases (the ladder is a direction, not a level -- do NOT extrapolate it into a config change); SHIPPED_IS_HIGHEST iff the shipped window tops the curve; EDGE_AT_CEILING iff the largest does; INTERIOR otherwise (the ladder turned inside the live range, so a candidate value exists). Windows whose diag shows no vol estimate never tested a shorter estimate and are excluded from the curve"
   },
   "recomputed_verdict": {
@@ -2661,7 +2790,7 @@
    "best_phases_oos_not_worse": 4,
    "phases_needed": 3,
    "phases_tested": 4,
-   "largest_sharpe_gap_vs_shipped": 0.294,
+   "largest_sharpe_gap_vs_shipped": 0.291,
    "windows": [
     {
      "window": 5,
@@ -2669,19 +2798,19 @@
      "phases_oos_not_worse": 0,
      "phases_tested": 4,
      "sharpe_delta_by_phase": [
-      -0.008,
-      -0.027,
-      -0.017,
-      -0.02
+      -0.007,
+      -0.026,
+      -0.016,
+      -0.019
      ],
      "oos_sharpe_delta_by_phase": [
-      -0.132,
-      -0.237,
-      -0.294,
-      -0.081
+      -0.129,
+      -0.233,
+      -0.291,
+      -0.08
      ],
-     "sharpe_delta_min": -0.027,
-     "sharpe_delta_max": -0.008
+     "sharpe_delta_min": -0.026,
+     "sharpe_delta_max": -0.007
     },
     {
      "window": 10,
@@ -2689,19 +2818,19 @@
      "phases_oos_not_worse": 0,
      "phases_tested": 4,
      "sharpe_delta_by_phase": [
-      -0.008,
-      -0.027,
-      -0.017,
-      -0.02
+      -0.007,
+      -0.026,
+      -0.016,
+      -0.019
      ],
      "oos_sharpe_delta_by_phase": [
-      -0.132,
-      -0.237,
-      -0.294,
-      -0.081
+      -0.129,
+      -0.233,
+      -0.291,
+      -0.08
      ],
-     "sharpe_delta_min": -0.027,
-     "sharpe_delta_max": -0.008
+     "sharpe_delta_min": -0.026,
+     "sharpe_delta_max": -0.007
     },
     {
      "window": 15,
@@ -2709,19 +2838,19 @@
      "phases_oos_not_worse": 0,
      "phases_tested": 4,
      "sharpe_delta_by_phase": [
-      -0.008,
-      -0.027,
-      -0.017,
-      -0.02
+      -0.007,
+      -0.026,
+      -0.016,
+      -0.019
      ],
      "oos_sharpe_delta_by_phase": [
-      -0.132,
-      -0.237,
-      -0.294,
-      -0.081
+      -0.129,
+      -0.233,
+      -0.291,
+      -0.08
      ],
-     "sharpe_delta_min": -0.027,
-     "sharpe_delta_max": -0.008
+     "sharpe_delta_min": -0.026,
+     "sharpe_delta_max": -0.007
     },
     {
      "window": 20,
@@ -2729,18 +2858,18 @@
      "phases_oos_not_worse": 4,
      "phases_tested": 4,
      "sharpe_delta_by_phase": [
-      0.094,
+      0.096,
       0.217,
       0.148,
-      0.022
+      0.023
      ],
      "oos_sharpe_delta_by_phase": [
-      0.064,
-      0.241,
-      0.258,
-      -0.002
+      0.069,
+      0.242,
+      0.259,
+      0.0
      ],
-     "sharpe_delta_min": 0.022,
+     "sharpe_delta_min": 0.023,
      "sharpe_delta_max": 0.217
     },
     {
@@ -2749,19 +2878,19 @@
      "phases_oos_not_worse": 4,
      "phases_tested": 4,
      "sharpe_delta_by_phase": [
-      0.115,
-      0.184,
+      0.116,
+      0.183,
       0.14,
       0.031
      ],
      "oos_sharpe_delta_by_phase": [
-      0.129,
-      0.224,
+      0.133,
+      0.225,
       0.196,
       -0.001
      ],
      "sharpe_delta_min": 0.031,
-     "sharpe_delta_max": 0.184
+     "sharpe_delta_max": 0.183
     },
     {
      "window": 30,
@@ -2769,19 +2898,19 @@
      "phases_oos_not_worse": 4,
      "phases_tested": 4,
      "sharpe_delta_by_phase": [
-      0.067,
-      0.143,
-      0.103,
+      0.068,
+      0.142,
+      0.102,
       0.051
      ],
      "oos_sharpe_delta_by_phase": [
-      0.068,
-      0.171,
+      0.072,
+      0.172,
       0.153,
       0.032
      ],
      "sharpe_delta_min": 0.051,
-     "sharpe_delta_max": 0.143
+     "sharpe_delta_max": 0.142
     }
    ],
    "published_window_stays": true,
@@ -2791,33 +2920,33 @@
   "recomputed_edge": {
    "state": "EDGE_AT_FLOOR",
    "best_window": 20,
-   "best_mean_sharpe": 1.1133,
+   "best_mean_sharpe": 1.1098,
    "floor_window": 20,
    "top_window": 60,
    "curve": [
     {
      "window": 20,
-     "mean_sharpe": 1.1133,
-     "min_sharpe": 1.054,
-     "max_sharpe": 1.157
+     "mean_sharpe": 1.1098,
+     "min_sharpe": 1.051,
+     "max_sharpe": 1.154
     },
     {
      "window": 25,
-     "mean_sharpe": 1.1105,
-     "min_sharpe": 1.046,
-     "max_sharpe": 1.166
+     "mean_sharpe": 1.1062,
+     "min_sharpe": 1.043,
+     "max_sharpe": 1.162
     },
     {
      "window": 30,
-     "mean_sharpe": 1.084,
-     "min_sharpe": 1.009,
-     "max_sharpe": 1.186
+     "mean_sharpe": 1.0795,
+     "min_sharpe": 1.005,
+     "max_sharpe": 1.182
     },
     {
      "window": 60,
-     "mean_sharpe": 0.993,
-     "min_sharpe": 0.906,
-     "max_sharpe": 1.135
+     "mean_sharpe": 0.9888,
+     "min_sharpe": 0.903,
+     "max_sharpe": 1.131
     }
    ],
    "inactive_windows": [
@@ -2853,11 +2982,11 @@
    ],
    "shipped": {
     "window": 60,
-    "mean_sharpe": 0.993,
-    "min_sharpe": 0.906,
-    "max_sharpe": 1.135
+    "mean_sharpe": 0.9888,
+    "min_sharpe": 0.903,
+    "max_sharpe": 1.131
    },
-   "gain_of_best_over_shipped": 0.1203,
+   "gain_of_best_over_shipped": 0.121,
    "rule": "EDGE_AT_FLOOR iff the smallest window the overlay can actually price has the highest mean Sharpe across phases (the ladder is a direction, not a level -- do NOT extrapolate it into a config change); SHIPPED_IS_HIGHEST iff the shipped window tops the curve; EDGE_AT_CEILING iff the largest does; INTERIOR otherwise (the ladder turned inside the live range, so a candidate value exists). Windows whose diag shows no vol estimate never tested a shorter estimate and are excluded from the curve"
   },
   "paired_ok": true,
@@ -2868,52 +2997,52 @@
     {
      "phase": 0,
      "status": "ok",
-     "bars": 1660,
-     "mean_pp": 1.551,
+     "bars": 1661,
+     "mean_pp": 1.566,
      "ci_p05_p95_pp": [
-      0.279,
-      3.003
+      0.322,
+      3.043
      ],
-     "share_positive": 0.981,
+     "share_positive": 0.982,
      "block": 20,
      "draws": 1000
     },
     {
      "phase": 1,
      "status": "ok",
-     "bars": 1655,
-     "mean_pp": 2.598,
+     "bars": 1656,
+     "mean_pp": 2.596,
      "ci_p05_p95_pp": [
-      1.108,
-      4.189
+      1.137,
+      4.227
      ],
-     "share_positive": 0.999,
+     "share_positive": 0.998,
      "block": 20,
      "draws": 1000
     },
     {
      "phase": 2,
      "status": "ok",
-     "bars": 1650,
-     "mean_pp": 1.297,
+     "bars": 1651,
+     "mean_pp": 1.303,
      "ci_p05_p95_pp": [
-      -0.127,
-      2.734
+      -0.076,
+      2.752
      ],
-     "share_positive": 0.941,
+     "share_positive": 0.934,
      "block": 20,
      "draws": 1000
     },
     {
      "phase": 3,
      "status": "ok",
-     "bars": 1645,
-     "mean_pp": 0.534,
+     "bars": 1646,
+     "mean_pp": 0.539,
      "ci_p05_p95_pp": [
-      -0.681,
-      1.699
+      -0.691,
+      1.757
      ],
-     "share_positive": 0.768,
+     "share_positive": 0.777,
      "block": 20,
      "draws": 1000
     }
@@ -2921,8 +3050,8 @@
    "verdict": {
     "state": "MIXED_ACROSS_PHASES",
     "phases_ok": 4,
-    "min_share_positive": 0.768,
-    "min_ci_low_pp": -0.681,
+    "min_share_positive": 0.777,
+    "min_ci_low_pp": -0.691,
     "rule": "DIFFERENCE_IS_SEPARABLE_IN_EVERY_PHASE iff the paired difference's 5th percentile is above zero in every phase; NOT_SEPARABLE iff no phase clears a 95% positive share; otherwise mixed"
    }
   },
@@ -2952,9 +3081,9 @@
   },
   "identity_all_pass": true,
   "panel": {
-   "digest": "e383c3a68f5f98af",
-   "last_bar": "2026-11-12",
-   "bars_named": 5279,
+   "digest": "e6f9d0e81a64ec75",
+   "last_bar": "2026-11-13",
+   "bars_named": 5280,
    "first_bar": "2005-02-23"
   },
   "phase_rows": [
@@ -2962,12 +3091,12 @@
     "phase": 0,
     "phase_start": "2020-01-02",
     "window": 5,
-    "cagr": 0.1428,
-    "sharpe": 0.985,
+    "cagr": 0.1421,
+    "sharpe": 0.98,
     "maxdd": -0.1588,
-    "vol": 0.1532,
-    "oos_cagr": 0.2425,
-    "oos_sharpe": 1.602,
+    "vol": 0.1531,
+    "oos_cagr": 0.2405,
+    "oos_sharpe": 1.59,
     "oos_maxdd": -0.1289,
     "turnover_per_decision": 1.28,
     "mean_scale": 1.0,
@@ -2980,12 +3109,12 @@
     "phase": 0,
     "phase_start": "2020-01-02",
     "window": 10,
-    "cagr": 0.1428,
-    "sharpe": 0.985,
+    "cagr": 0.1421,
+    "sharpe": 0.98,
     "maxdd": -0.1588,
-    "vol": 0.1532,
-    "oos_cagr": 0.2425,
-    "oos_sharpe": 1.602,
+    "vol": 0.1531,
+    "oos_cagr": 0.2405,
+    "oos_sharpe": 1.59,
     "oos_maxdd": -0.1289,
     "turnover_per_decision": 1.28,
     "mean_scale": 1.0,
@@ -2998,12 +3127,12 @@
     "phase": 0,
     "phase_start": "2020-01-02",
     "window": 15,
-    "cagr": 0.1428,
-    "sharpe": 0.985,
+    "cagr": 0.1421,
+    "sharpe": 0.98,
     "maxdd": -0.1588,
-    "vol": 0.1532,
-    "oos_cagr": 0.2425,
-    "oos_sharpe": 1.602,
+    "vol": 0.1531,
+    "oos_cagr": 0.2405,
+    "oos_sharpe": 1.59,
     "oos_maxdd": -0.1289,
     "turnover_per_decision": 1.28,
     "mean_scale": 1.0,
@@ -3016,12 +3145,12 @@
     "phase": 0,
     "phase_start": "2020-01-02",
     "window": 20,
-    "cagr": 0.1123,
-    "sharpe": 1.087,
+    "cagr": 0.1119,
+    "sharpe": 1.083,
     "maxdd": -0.1187,
     "vol": 0.1073,
-    "oos_cagr": 0.2021,
-    "oos_sharpe": 1.798,
+    "oos_cagr": 0.2009,
+    "oos_sharpe": 1.788,
     "oos_maxdd": -0.1187,
     "turnover_per_decision": 1.029,
     "mean_scale": 0.7446,
@@ -3034,12 +3163,12 @@
     "phase": 0,
     "phase_start": "2020-01-02",
     "window": 25,
-    "cagr": 0.1134,
-    "sharpe": 1.108,
+    "cagr": 0.113,
+    "sharpe": 1.103,
     "maxdd": -0.1192,
     "vol": 0.1061,
-    "oos_cagr": 0.2098,
-    "oos_sharpe": 1.863,
+    "oos_cagr": 0.2085,
+    "oos_sharpe": 1.852,
     "oos_maxdd": -0.1192,
     "turnover_per_decision": 1.009,
     "mean_scale": 0.7383,
@@ -3052,12 +3181,12 @@
     "phase": 0,
     "phase_start": "2020-01-02",
     "window": 30,
-    "cagr": 0.1051,
-    "sharpe": 1.06,
+    "cagr": 0.1046,
+    "sharpe": 1.055,
     "maxdd": -0.119,
     "vol": 0.1033,
-    "oos_cagr": 0.1954,
-    "oos_sharpe": 1.802,
+    "oos_cagr": 0.194,
+    "oos_sharpe": 1.791,
     "oos_maxdd": -0.119,
     "turnover_per_decision": 0.975,
     "mean_scale": 0.7237,
@@ -3070,12 +3199,12 @@
     "phase": 0,
     "phase_start": "2020-01-02",
     "window": 60,
-    "cagr": 0.0965,
-    "sharpe": 0.993,
+    "cagr": 0.0959,
+    "sharpe": 0.987,
     "maxdd": -0.1177,
-    "vol": 0.1019,
-    "oos_cagr": 0.1837,
-    "oos_sharpe": 1.734,
+    "vol": 0.1018,
+    "oos_cagr": 0.182,
+    "oos_sharpe": 1.719,
     "oos_maxdd": -0.107,
     "turnover_per_decision": 0.938,
     "mean_scale": 0.7101,
@@ -3088,12 +3217,12 @@
     "phase": 1,
     "phase_start": "2020-01-09",
     "window": 5,
-    "cagr": 0.1402,
-    "sharpe": 0.911,
+    "cagr": 0.1397,
+    "sharpe": 0.908,
     "maxdd": -0.2596,
-    "vol": 0.1652,
-    "oos_cagr": 0.2071,
-    "oos_sharpe": 1.195,
+    "vol": 0.1651,
+    "oos_cagr": 0.2058,
+    "oos_sharpe": 1.189,
     "oos_maxdd": -0.2596,
     "turnover_per_decision": 1.313,
     "mean_scale": 1.0,
@@ -3106,12 +3235,12 @@
     "phase": 1,
     "phase_start": "2020-01-09",
     "window": 10,
-    "cagr": 0.1402,
-    "sharpe": 0.911,
+    "cagr": 0.1397,
+    "sharpe": 0.908,
     "maxdd": -0.2596,
-    "vol": 0.1652,
-    "oos_cagr": 0.2071,
-    "oos_sharpe": 1.195,
+    "vol": 0.1651,
+    "oos_cagr": 0.2058,
+    "oos_sharpe": 1.189,
     "oos_maxdd": -0.2596,
     "turnover_per_decision": 1.313,
     "mean_scale": 1.0,
@@ -3124,12 +3253,12 @@
     "phase": 1,
     "phase_start": "2020-01-09",
     "window": 15,
-    "cagr": 0.1402,
-    "sharpe": 0.911,
+    "cagr": 0.1397,
+    "sharpe": 0.908,
     "maxdd": -0.2596,
-    "vol": 0.1652,
-    "oos_cagr": 0.2071,
-    "oos_sharpe": 1.195,
+    "vol": 0.1651,
+    "oos_cagr": 0.2058,
+    "oos_sharpe": 1.189,
     "oos_maxdd": -0.2596,
     "turnover_per_decision": 1.313,
     "mean_scale": 1.0,
@@ -3142,12 +3271,12 @@
     "phase": 1,
     "phase_start": "2020-01-09",
     "window": 20,
-    "cagr": 0.123,
-    "sharpe": 1.155,
+    "cagr": 0.1225,
+    "sharpe": 1.151,
     "maxdd": -0.1462,
     "vol": 0.1098,
-    "oos_cagr": 0.2074,
-    "oos_sharpe": 1.673,
+    "oos_cagr": 0.2061,
+    "oos_sharpe": 1.664,
     "oos_maxdd": -0.1349,
     "turnover_per_decision": 1.014,
     "mean_scale": 0.7375,
@@ -3160,12 +3289,12 @@
     "phase": 1,
     "phase_start": "2020-01-09",
     "window": 25,
-    "cagr": 0.1198,
-    "sharpe": 1.122,
+    "cagr": 0.1193,
+    "sharpe": 1.117,
     "maxdd": -0.1529,
     "vol": 0.1105,
-    "oos_cagr": 0.205,
-    "oos_sharpe": 1.656,
+    "oos_cagr": 0.2037,
+    "oos_sharpe": 1.647,
     "oos_maxdd": -0.13,
     "turnover_per_decision": 1.006,
     "mean_scale": 0.7351,
@@ -3178,12 +3307,12 @@
     "phase": 1,
     "phase_start": "2020-01-09",
     "window": 30,
-    "cagr": 0.1145,
-    "sharpe": 1.081,
+    "cagr": 0.114,
+    "sharpe": 1.076,
     "maxdd": -0.1502,
     "vol": 0.1101,
-    "oos_cagr": 0.1975,
-    "oos_sharpe": 1.603,
+    "oos_cagr": 0.1961,
+    "oos_sharpe": 1.594,
     "oos_maxdd": -0.1304,
     "turnover_per_decision": 0.998,
     "mean_scale": 0.7298,
@@ -3196,12 +3325,12 @@
     "phase": 1,
     "phase_start": "2020-01-09",
     "window": 60,
-    "cagr": 0.0956,
-    "sharpe": 0.938,
+    "cagr": 0.0951,
+    "sharpe": 0.934,
     "maxdd": -0.154,
-    "vol": 0.1076,
-    "oos_cagr": 0.1681,
-    "oos_sharpe": 1.432,
+    "vol": 0.1075,
+    "oos_cagr": 0.1669,
+    "oos_sharpe": 1.422,
     "oos_maxdd": -0.1335,
     "turnover_per_decision": 0.961,
     "mean_scale": 0.7126,
@@ -3214,12 +3343,12 @@
     "phase": 2,
     "phase_start": "2020-01-16",
     "window": 5,
-    "cagr": 0.1389,
-    "sharpe": 0.889,
+    "cagr": 0.1385,
+    "sharpe": 0.887,
     "maxdd": -0.209,
     "vol": 0.1683,
-    "oos_cagr": 0.2278,
-    "oos_sharpe": 1.237,
+    "oos_cagr": 0.2266,
+    "oos_sharpe": 1.232,
     "oos_maxdd": -0.209,
     "turnover_per_decision": 1.365,
     "mean_scale": 1.0,
@@ -3232,12 +3361,12 @@
     "phase": 2,
     "phase_start": "2020-01-16",
     "window": 10,
-    "cagr": 0.1389,
-    "sharpe": 0.889,
+    "cagr": 0.1385,
+    "sharpe": 0.887,
     "maxdd": -0.209,
     "vol": 0.1683,
-    "oos_cagr": 0.2278,
-    "oos_sharpe": 1.237,
+    "oos_cagr": 0.2266,
+    "oos_sharpe": 1.232,
     "oos_maxdd": -0.209,
     "turnover_per_decision": 1.365,
     "mean_scale": 1.0,
@@ -3250,12 +3379,12 @@
     "phase": 2,
     "phase_start": "2020-01-16",
     "window": 15,
-    "cagr": 0.1389,
-    "sharpe": 0.889,
+    "cagr": 0.1385,
+    "sharpe": 0.887,
     "maxdd": -0.209,
     "vol": 0.1683,
-    "oos_cagr": 0.2278,
-    "oos_sharpe": 1.237,
+    "oos_cagr": 0.2266,
+    "oos_sharpe": 1.232,
     "oos_maxdd": -0.209,
     "turnover_per_decision": 1.365,
     "mean_scale": 1.0,
@@ -3268,12 +3397,12 @@
     "phase": 2,
     "phase_start": "2020-01-16",
     "window": 20,
-    "cagr": 0.1043,
-    "sharpe": 1.054,
+    "cagr": 0.1039,
+    "sharpe": 1.051,
     "maxdd": -0.1315,
-    "vol": 0.1031,
-    "oos_cagr": 0.1991,
-    "oos_sharpe": 1.789,
+    "vol": 0.103,
+    "oos_cagr": 0.1981,
+    "oos_sharpe": 1.782,
     "oos_maxdd": -0.1202,
     "turnover_per_decision": 1.021,
     "mean_scale": 0.73,
@@ -3286,12 +3415,12 @@
     "phase": 2,
     "phase_start": "2020-01-16",
     "window": 25,
-    "cagr": 0.1061,
-    "sharpe": 1.046,
+    "cagr": 0.1058,
+    "sharpe": 1.043,
     "maxdd": -0.134,
     "vol": 0.1058,
-    "oos_cagr": 0.1996,
-    "oos_sharpe": 1.727,
+    "oos_cagr": 0.1986,
+    "oos_sharpe": 1.719,
     "oos_maxdd": -0.1264,
     "turnover_per_decision": 1.04,
     "mean_scale": 0.739,
@@ -3304,12 +3433,12 @@
     "phase": 2,
     "phase_start": "2020-01-16",
     "window": 30,
-    "cagr": 0.1025,
-    "sharpe": 1.009,
+    "cagr": 0.1022,
+    "sharpe": 1.005,
     "maxdd": -0.1408,
-    "vol": 0.1065,
-    "oos_cagr": 0.1944,
-    "oos_sharpe": 1.684,
+    "vol": 0.1064,
+    "oos_cagr": 0.1934,
+    "oos_sharpe": 1.676,
     "oos_maxdd": -0.1269,
     "turnover_per_decision": 1.037,
     "mean_scale": 0.7387,
@@ -3322,12 +3451,12 @@
     "phase": 2,
     "phase_start": "2020-01-16",
     "window": 60,
-    "cagr": 0.0903,
-    "sharpe": 0.906,
+    "cagr": 0.0899,
+    "sharpe": 0.903,
     "maxdd": -0.1415,
-    "vol": 0.1056,
-    "oos_cagr": 0.1742,
-    "oos_sharpe": 1.531,
+    "vol": 0.1055,
+    "oos_cagr": 0.1731,
+    "oos_sharpe": 1.523,
     "oos_maxdd": -0.1415,
     "turnover_per_decision": 0.996,
     "mean_scale": 0.7226,
@@ -3340,12 +3469,12 @@
     "phase": 3,
     "phase_start": "2020-01-23",
     "window": 5,
-    "cagr": 0.1569,
-    "sharpe": 1.115,
+    "cagr": 0.1564,
+    "sharpe": 1.112,
     "maxdd": -0.1719,
     "vol": 0.1452,
-    "oos_cagr": 0.1863,
-    "oos_sharpe": 1.256,
+    "oos_cagr": 0.185,
+    "oos_sharpe": 1.248,
     "oos_maxdd": -0.1719,
     "turnover_per_decision": 1.283,
     "mean_scale": 1.0,
@@ -3358,12 +3487,12 @@
     "phase": 3,
     "phase_start": "2020-01-23",
     "window": 10,
-    "cagr": 0.1569,
-    "sharpe": 1.115,
+    "cagr": 0.1564,
+    "sharpe": 1.112,
     "maxdd": -0.1719,
     "vol": 0.1452,
-    "oos_cagr": 0.1863,
-    "oos_sharpe": 1.256,
+    "oos_cagr": 0.185,
+    "oos_sharpe": 1.248,
     "oos_maxdd": -0.1719,
     "turnover_per_decision": 1.283,
     "mean_scale": 1.0,
@@ -3376,12 +3505,12 @@
     "phase": 3,
     "phase_start": "2020-01-23",
     "window": 15,
-    "cagr": 0.1569,
-    "sharpe": 1.115,
+    "cagr": 0.1564,
+    "sharpe": 1.112,
     "maxdd": -0.1719,
     "vol": 0.1452,
-    "oos_cagr": 0.1863,
-    "oos_sharpe": 1.256,
+    "oos_cagr": 0.185,
+    "oos_sharpe": 1.248,
     "oos_maxdd": -0.1719,
     "turnover_per_decision": 1.283,
     "mean_scale": 1.0,
@@ -3394,12 +3523,12 @@
     "phase": 3,
     "phase_start": "2020-01-23",
     "window": 20,
-    "cagr": 0.1144,
-    "sharpe": 1.157,
+    "cagr": 0.114,
+    "sharpe": 1.154,
     "maxdd": -0.1444,
     "vol": 0.1016,
-    "oos_cagr": 0.148,
-    "oos_sharpe": 1.335,
+    "oos_cagr": 0.147,
+    "oos_sharpe": 1.328,
     "oos_maxdd": -0.1337,
     "turnover_per_decision": 1.023,
     "mean_scale": 0.7568,
@@ -3412,12 +3541,12 @@
     "phase": 3,
     "phase_start": "2020-01-23",
     "window": 25,
-    "cagr": 0.112,
-    "sharpe": 1.166,
+    "cagr": 0.1116,
+    "sharpe": 1.162,
     "maxdd": -0.1386,
     "vol": 0.0987,
-    "oos_cagr": 0.1414,
-    "oos_sharpe": 1.336,
+    "oos_cagr": 0.1404,
+    "oos_sharpe": 1.327,
     "oos_maxdd": -0.1289,
     "turnover_per_decision": 0.991,
     "mean_scale": 0.7445,
@@ -3430,12 +3559,12 @@
     "phase": 3,
     "phase_start": "2020-01-23",
     "window": 30,
-    "cagr": 0.1135,
-    "sharpe": 1.186,
+    "cagr": 0.1131,
+    "sharpe": 1.182,
     "maxdd": -0.1376,
     "vol": 0.0981,
-    "oos_cagr": 0.1428,
-    "oos_sharpe": 1.369,
+    "oos_cagr": 0.1418,
+    "oos_sharpe": 1.36,
     "oos_maxdd": -0.1247,
     "turnover_per_decision": 0.981,
     "mean_scale": 0.7407,
@@ -3448,12 +3577,12 @@
     "phase": 3,
     "phase_start": "2020-01-23",
     "window": 60,
-    "cagr": 0.109,
-    "sharpe": 1.135,
+    "cagr": 0.1085,
+    "sharpe": 1.131,
     "maxdd": -0.1448,
     "vol": 0.0988,
-    "oos_cagr": 0.1404,
-    "oos_sharpe": 1.337,
+    "oos_cagr": 0.1393,
+    "oos_sharpe": 1.328,
     "oos_maxdd": -0.1193,
     "turnover_per_decision": 0.968,
     "mean_scale": 0.7365,
@@ -5495,11 +5624,11 @@
   "status": "ok",
   "artifact": "results/etf_book_rebalance_permission.json",
   "decision_date": "2026-12-09",
-  "ticket_file": "TICKET-2026-11-12.json",
+  "ticket_file": "TICKET-2026-11-13.json",
   "k_order": 0.432195,
   "k_allowed": 0.432195,
-  "ordered_cny": 431875.8,
-  "allowed_cny": 431876.0,
+  "ordered_cny": 431769.6,
+  "allowed_cny": 431770.0,
   "over_cny": 0.0,
   "over_pp": 0.0,
   "keep_allowed": true,
@@ -5539,9 +5668,9 @@
   "k_schedule_last": 0.460253,
   "consistency": {
    "generated": {
-    "permission": "2026-11-13T06:10:36+0800",
-    "gap": "2026-11-13T06:10:57+0800",
-    "ledger": "2026-11-12T16:53:05+0800"
+    "permission": "2026-11-13T18:07:10+0800",
+    "gap": "2026-11-13T18:07:37+0800",
+    "ledger": "2026-11-13T18:16:07+0800"
    },
    "permission_vs_gap": true,
    "permission_vs_ledger": true,
@@ -5549,9 +5678,9 @@
    "agree": true
   },
   "schedule_last_date": "2026-10-23",
-  "floor_action": "the sheet obeys the floor and names a live floor source (permission_receipt, decision 2026-11-11), so the next sheet inherits the cap instead of re-applying it by hand; the standing risk is narrower -- the trim gone only if BOTH the permission receipt and the floor ledger are missing on that bar (r1497)",
-  "floor_issued": "2026-11-11",
-  "floor_ledger_issued_at": "2026-11-12T16:53:05+0800"
+  "floor_action": "the sheet obeys the floor and names a live floor source (permission_receipt, decision 2026-12-09), so the next sheet inherits the cap instead of re-applying it by hand; the standing risk is narrower -- the trim gone only if BOTH the permission receipt and the floor ledger are missing on that bar (r1497)",
+  "floor_issued": "2026-12-09",
+  "floor_ledger_issued_at": "2026-11-13T18:16:07+0800"
  },
  "k_gap": {
   "bar": "2026-11-12",
@@ -5637,113 +5766,112 @@
  "premium_leak": {
   "status": "ok",
   "artifact": "results/etf_book_premium_leak.json",
-  "session": "2026-11-12",
-  "ticket_session": "2026-11-12",
+  "session": "2026-11-13",
+  "ticket_session": "2026-11-13",
   "session_match": true,
-  "verdict": "ENTRY_PREMIUM_SMALL",
-  "verdict_reason": "the ticket pays -0.49% above IOPV (below the 1.0% warn line); 1 name(s) (159655) priced against another session's NAV and are excluded, not counted as a premium",
+  "verdict": "ENTRY_PREMIUM_WARN",
+  "verdict_reason": "the ticket pays 1.07% of its own amount above IOPV (CNY 4599)",
   "names": [
    {
     "symbol": "510760",
     "class": "equity",
-    "price": 1.274,
-    "shares": 67800.0,
-    "amount_cny": 86377.2,
-    "nav_session": "2026-11-12",
+    "price": 1.263,
+    "shares": 68400.0,
+    "amount_cny": 86389.2,
+    "nav_session": "2026-11-13",
     "status": "OK",
-    "iopv": 1.2767,
-    "premium_pct": -0.2115,
-    "premium_paid_cny": -183.06,
-    "market_pctile": 33.66,
-    "market_rank": 1011,
-    "market_n": 1524
+    "iopv": 1.2687,
+    "premium_pct": -0.4493,
+    "premium_paid_cny": -389.88,
+    "market_pctile": 16.33,
+    "market_rank": 1276,
+    "market_n": 1525
    },
    {
     "symbol": "512040",
     "class": "equity",
-    "price": 1.187,
-    "shares": 72800.0,
-    "amount_cny": 86413.6,
-    "nav_session": "2026-11-12",
+    "price": 1.189,
+    "shares": 72600.0,
+    "amount_cny": 86321.4,
+    "nav_session": "2026-11-13",
     "status": "OK",
-    "iopv": 1.1871,
-    "premium_pct": -0.0084,
-    "premium_paid_cny": -7.28,
-    "market_pctile": 70.28,
-    "market_rank": 453,
-    "market_n": 1524
+    "iopv": 1.1888,
+    "premium_pct": 0.0168,
+    "premium_paid_cny": 14.52,
+    "market_pctile": 75.8,
+    "market_rank": 369,
+    "market_n": 1525
    },
    {
     "symbol": "159655",
     "class": "crossborder",
-    "price": 1.999,
-    "shares": 43200.0,
-    "amount_cny": 86356.8,
+    "price": 2.004,
+    "shares": 43100.0,
+    "amount_cny": 86372.4,
     "nav_session": "2026-11-13",
-    "status": "CROSS_SESSION_NAV",
-    "iopv": 1.8543,
-    "premium_pct": 7.8035,
-    "premium_paid_cny": null,
-    "market_pctile": null,
-    "market_rank": null,
-    "market_n": null,
-    "nav_session_mismatch": true
+    "status": "OK",
+    "iopv": 1.8518,
+    "premium_pct": 8.219,
+    "premium_paid_cny": 6559.82,
+    "market_pctile": 98.69,
+    "market_rank": 20,
+    "market_n": 1525
    },
    {
     "symbol": "513690",
     "class": "crossborder",
-    "price": 1.151,
-    "shares": 75000.0,
-    "amount_cny": 86325.0,
-    "nav_session": "2026-11-12",
+    "price": 1.145,
+    "shares": 75400.0,
+    "amount_cny": 86333.0,
+    "nav_session": "2026-11-13",
     "status": "OK",
-    "iopv": 1.163,
-    "premium_pct": -1.0318,
-    "premium_paid_cny": -900.0,
-    "market_pctile": 11.61,
-    "market_rank": 1347,
-    "market_n": 1524
+    "iopv": 1.1505,
+    "premium_pct": -0.4781,
+    "premium_paid_cny": -414.7,
+    "market_pctile": 15.08,
+    "market_rank": 1295,
+    "market_n": 1525
    },
    {
     "symbol": "159519",
     "class": "crossborder",
-    "price": 1.742,
+    "price": 1.741,
     "shares": 49600.0,
-    "amount_cny": 86403.2,
-    "nav_session": "2026-11-12",
+    "amount_cny": 86353.6,
+    "nav_session": "2026-11-13",
     "status": "OK",
-    "iopv": 1.7625,
-    "premium_pct": -1.1631,
-    "premium_paid_cny": -1016.8,
-    "market_pctile": 9.58,
-    "market_rank": 1378,
-    "market_n": 1524
+    "iopv": 1.7646,
+    "premium_pct": -1.3374,
+    "premium_paid_cny": -1170.56,
+    "market_pctile": 4.52,
+    "market_rank": 1456,
+    "market_n": 1525
    }
   ],
   "totals": {
    "n_names": 5,
-   "n_verified": 4,
+   "n_verified": 5,
    "n_unverifiable": 0,
-   "n_cross_session": 1,
-   "cross_session_symbols": [
-    "159655"
-   ],
-   "cross_session_amount_cny": 86356.8,
-   "premium_paid_cny": -2107.14,
-   "verified_amount_cny": 345519.0,
-   "book_amount_cny": 431875.8,
+   "n_cross_session": 0,
+   "cross_session_symbols": [],
+   "cross_session_amount_cny": 0,
+   "premium_paid_cny": 4599.2,
+   "verified_amount_cny": 431769.6,
+   "book_amount_cny": 431769.6,
    "nav_cny": 1000000.0,
-   "premium_share_of_order_pct": -0.4879,
-   "premium_share_of_nav_pct": -0.2107,
-   "book_cagr_pct": 12.64,
-   "years_of_backtest_return_paid": -0.05
+   "premium_share_of_order_pct": 1.0652,
+   "premium_share_of_nav_pct": 0.4599,
+   "book_cagr_pct": 12.59,
+   "years_of_backtest_return_paid": 0.08
   },
-  "premium_names": [],
+  "premium_names": [
+   "159655"
+  ],
   "stress": {
-   "if_premium_reverts_to_zero_cny": 2107.14,
-   "if_premium_reverts_to_zero_pct_of_nav": 0.2107,
-   "if_premium_reverts_to_own_median_cny": 2153.55,
-   "if_premium_reverts_to_own_median_pct_of_nav": 0.2154,
+   "if_premium_reverts_to_zero_cny": -4599.2,
+   "if_premium_reverts_to_zero_pct_of_nav": -0.4599,
+   "if_premium_reverts_to_own_median_cny": -3575.95,
+   "if_premium_reverts_to_own_median_pct_of_nav": -0.3576,
    "note": "reversion is a stress, not a forecast: the gap can persist while the sleeve stays hard to buy. Zero is the outer bound; each fund's own median is the realistic one -- these funds normally live above NAV."
   },
   "rulers": {
@@ -5914,7 +6042,7 @@
    "in_own_top_decile": [
     "159655"
    ],
-   "revert_to_own_median_cny": -2153.55,
+   "revert_to_own_median_cny": 3575.95,
    "revert_note": "stress, not a forecast: it gives back only the part ABOVE each fund's own median premium, and only for names this order is buying",
    "verdict": "SOME_NAMES_ABOVE_OWN_TOP_DECILE"
   },
@@ -5932,71 +6060,71 @@
  "premium_forward": {
   "status": "ok",
   "artifact": "results/etf_premium/PREMIUM-FORWARD.json",
-  "face_asof": "2026-11-12",
+  "face_asof": "2026-11-13",
   "stale": false,
   "verdict": "HIGH_PREMIUM_PAYS",
   "horizon": 20,
-  "sentence": "premium percentile rank-IC with the next 20 sessions is +0.023 (5 legs); 159519: after sessions in its top decile the next 20 sessions averaged +2.94% (n=49, t=+3.6); 159655: after sessions in its top decile the next 20 sessions averaged +0.25% (n=265, t=+0.9); 510760: after sessions in its top decile the next 20 sessions averaged +0.75% (n=143, t=+2.2); 512040: after sessions in its top decile the next 20 sessions averaged +1.01% (n=157, t=+2.3); 513690: after sessions in its top decile the next 20 sessions averaged +0.12% (n=171, t=+0.3) || one session: after sessions at or above the 98th percentile of the fund's own history, the NEXT session moved a median +0.34% (mean +0.39%, fell in 34% of 136 cases); no leg of this ticket sits in that band on 2026-11-12 || sample: legs 159519,159655,510760,512040,513690 replaced 159263,159501,159577,513100,513690 (last published 2026-11-10) -- not comparable across sessions",
+  "sentence": "premium percentile rank-IC with the next 20 sessions is +0.023 (5 legs); 159519: after sessions in its top decile the next 20 sessions averaged +2.94% (n=49, t=+3.6); 159655: after sessions in its top decile the next 20 sessions averaged +0.25% (n=266, t=+0.9); 510760: after sessions in its top decile the next 20 sessions averaged +0.75% (n=143, t=+2.2); 512040: after sessions in its top decile the next 20 sessions averaged +1.01% (n=157, t=+2.3); 513690: after sessions in its top decile the next 20 sessions averaged +0.12% (n=171, t=+0.3) || one session: after sessions at or above the 98th percentile of the fund's own history, the NEXT session moved a median +0.34% (mean +0.39%, fell in 34% of 136 cases); no leg of this ticket sits in that band on 2026-11-13 || sample: legs 159519,159655,510760,512040,513690 replaced 159263,159501,159577,513100,513690 (last published 2026-11-10) -- not comparable across sessions",
   "caveat": "five legs of one ticket: this is a description of these funds' own records, not a cross-sectional study and not a forecast. Overlapping windows are counted once per stride in the t-stat and reported in full only as coverage.",
   "rows": [
    {
     "symbol": "510760",
-    "bucket": "LOW",
-    "latest_pctile": 13.453815261044177,
-    "mean_pct": 0.5223345213939685,
-    "n": 262,
-    "t": 1.9314301221169548,
+    "bucket": "BOTTOM",
+    "latest_pctile": 3.8127090301003346,
+    "mean_pct": 0.9739309177408781,
+    "n": 134,
+    "t": 2.48618543532154,
     "nonoverlap_obs": 71,
-    "amount_cny": 86377.2,
-    "same_bucket_move_cny": 451.177934213511
+    "amount_cny": 86389.2,
+    "same_bucket_move_cny": 841.3711283890027
    },
    {
     "symbol": "512040",
     "bucket": "LOW",
-    "latest_pctile": 13.707983193277311,
+    "latest_pctile": 17.900262467191602,
     "mean_pct": 0.3792060133771917,
     "n": 353,
     "t": 1.087252826971886,
     "nonoverlap_obs": 92,
-    "amount_cny": 86413.6,
-    "same_bucket_move_cny": 327.6855675757129
+    "amount_cny": 86321.4,
+    "same_bucket_move_cny": 327.3359396313791
    },
    {
     "symbol": "159655",
     "bucket": "TOP",
-    "latest_pctile": 95.72301425661914,
-    "mean_pct": 0.25324350056948697,
-    "n": 265,
-    "t": 0.9284051146351501,
+    "latest_pctile": 96.64292980671414,
+    "mean_pct": 0.2489448117886486,
+    "n": 266,
+    "t": 0.915981747529712,
     "nonoverlap_obs": 46,
-    "amount_cny": 86356.8,
-    "same_bucket_move_cny": 218.6929832997907
+    "amount_cny": 86372.4,
+    "same_bucket_move_cny": 215.01960861733872
    },
    {
     "symbol": "513690",
     "bucket": "LOW",
-    "latest_pctile": 21.068472535741158,
-    "mean_pct": 0.5286904350189094,
-    "n": 222,
-    "t": 1.3832784155035334,
+    "latest_pctile": 11.80451127819549,
+    "mean_pct": 0.5330778868734505,
+    "n": 223,
+    "t": 1.4009616177991417,
     "nonoverlap_obs": 63,
-    "amount_cny": 86325.0,
-    "same_bucket_move_cny": 456.3920180300736
+    "amount_cny": 86333.0,
+    "same_bucket_move_cny": 460.222132074456
    },
    {
     "symbol": "159519",
     "bucket": "BOTTOM",
-    "latest_pctile": 6.7357512953367875,
-    "mean_pct": 2.08316783553162,
-    "n": 106,
-    "t": 3.898472601386381,
+    "latest_pctile": 6.338939197930142,
+    "mean_pct": 2.065312175367106,
+    "n": 107,
+    "t": 3.899475787273565,
     "nonoverlap_obs": 35,
-    "amount_cny": 86403.2,
-    "same_bucket_move_cny": 1799.9236712700565
+    "amount_cny": 86353.6,
+    "same_bucket_move_cny": 1783.4714146678095
    }
   ],
   "missing_legs": [],
-  "cny_total": 3253.87,
+  "cny_total": 3627.42,
   "sample_signature": "3600c87ce854",
   "sample_legs": [
    "159519",
@@ -6029,29 +6157,29 @@
   "identity": [
    {
     "cell": "baseline_published",
-    "k": 0.46025345210279767,
-    "beta": 0.4345431828620592,
+    "k": 0.46025345210279783,
+    "beta": 0.43454318286205906,
     "k_x_beta": 0.2,
     "err_vs_target": 0.0
    },
    {
     "cell": "window",
-    "k": 0.7470863396940541,
-    "beta": 0.2677066750837711,
+    "k": 0.7470863396940555,
+    "beta": 0.26770667508377066,
     "k_x_beta": 0.2,
     "err_vs_target": 0.0
    },
    {
     "cell": "universe",
-    "k": 0.4321950056569341,
-    "beta": 0.46275407485563397,
+    "k": 0.4321950056569343,
+    "beta": 0.4627540748556337,
     "k_x_beta": 0.2,
     "err_vs_target": 0.0
    },
    {
     "cell": "window_x_universe",
-    "k": 0.667665327202606,
-    "beta": 0.29955127494483347,
+    "k": 0.6676653272026063,
+    "beta": 0.2995512749448333,
     "k_x_beta": 0.2,
     "err_vs_target": 0.0
    },
@@ -6066,42 +6194,42 @@
   "grid": {
    "common|all": {
     "cell": "window",
-    "k": 0.7470863396940541,
-    "beta": 0.2677066750837711,
+    "k": 0.7470863396940555,
+    "beta": 0.26770667508377066,
     "bars": 771,
     "note": ""
    },
    "common|graded": {
     "cell": "window_x_universe",
-    "k": 0.667665327202606,
-    "beta": 0.29955127494483347,
+    "k": 0.6676653272026063,
+    "beta": 0.2995512749448333,
     "bars": 771,
     "note": ""
    },
    "full|all": {
     "cell": "baseline_published",
-    "k": 0.46025345210279767,
-    "beta": 0.4345431828620592,
-    "bars": 1662,
+    "k": 0.46025345210279783,
+    "beta": 0.43454318286205906,
+    "bars": 1663,
     "note": ""
    },
    "full|graded": {
     "cell": "universe",
-    "k": 0.4321950056569341,
-    "beta": 0.46275407485563397,
-    "bars": 1662,
+    "k": 0.4321950056569343,
+    "beta": 0.4627540748556337,
+    "bars": 1663,
     "note": ""
    }
   },
   "effects": {
-   "floor_full_window": 0.4321950056569341,
-   "floor_common_window": 0.667665327202606,
-   "floor_all_universe": 0.46025345210279767,
-   "floor_graded_universe": 0.4321950056569341,
-   "floor_full_all": 0.46025345210279767,
-   "floor_full_graded": 0.4321950056569341,
-   "floor_common_all": 0.7470863396940541,
-   "floor_common_graded": 0.667665327202606,
+   "floor_full_window": 0.4321950056569343,
+   "floor_common_window": 0.6676653272026063,
+   "floor_all_universe": 0.46025345210279783,
+   "floor_graded_universe": 0.4321950056569343,
+   "floor_full_all": 0.46025345210279783,
+   "floor_full_graded": 0.4321950056569343,
+   "floor_common_all": 0.7470863396940555,
+   "floor_common_graded": 0.6676653272026063,
    "window_effect_k": -0.23547,
    "window_effect_pp": -23.55,
    "window_effect_cny": -235470.32,
@@ -6119,37 +6247,37 @@
   },
   "issuing_cell": {
    "cell": "universe",
-   "beta": 0.46275407485563397,
-   "k": 0.4321950056569341,
-   "bars": 1662,
+   "beta": 0.4627540748556337,
+   "k": 0.4321950056569343,
+   "bars": 1663,
    "window": "full",
    "universe": "graded (equity,commodity,convertible)"
   },
   "issuing_cell_is_the_floor": true,
-  "sentence": "the floor is not a version of the rule: k*beta == 0.2000 on all 5 cells, so the floor is the target divided by the largest beta measured -- issued by `universe` (1662 bars). Of the -20.74pp between the widest floor (k=0.460253) and the narrowest (k=0.667665), -23.55pp (114%) comes from shrinking the window from the full panel to 1662 bars and only 2.81pp from grading the universe on that same short stretch (2.81pp if the universe is graded on the full panel); the two knobs interact by -5.14pp. Read as money on CNY 1,000,000 NAV: the window alone accounts for CNY -235,470 of the gap.",
+  "sentence": "the floor is not a version of the rule: k*beta == 0.2000 on all 5 cells, so the floor is the target divided by the largest beta measured -- issued by `universe` (1663 bars). Of the -20.74pp between the widest floor (k=0.460253) and the narrowest (k=0.667665), -23.55pp (114%) comes from shrinking the window from the full panel to 1663 bars and only 2.81pp from grading the universe on that same short stretch (2.81pp if the universe is graded on the full panel); the two knobs interact by -5.14pp. Read as money on CNY 1,000,000 NAV: the window alone accounts for CNY -235,470 of the gap.",
   "not_measured": [
    "the short window is one calendar stretch (2025-07..2026-10), not a sample of stretches: a rolling 306-bar beta path would say whether the window knob is a level shift or a phase effect, and this face does not compute it",
    "whether a longer window is the RIGHT window: this face only prices the knob, it does not elect one (r1446's caliber prereg)",
    "the floor's own drift as the window slides: today's 306 bars end 2026-10-14, so the floor will be re-issued on a different stretch next month"
   ],
-  "evidence_cutoff": "2026-11-12"
+  "evidence_cutoff": "2026-11-13"
  },
  "vol_target_gate": {
   "status": "ok",
   "artifact": "results/etf_book_vol_target_gate.json",
   "verdict": "STILL_REFUSED",
   "reading": "no arm clears it; the wait in r1428 is not a scaling artifact",
-  "evidence_cutoff": "2026-11-12",
-  "generated": "2026-11-13T12:21:06",
-  "capacity_cny": 65783927.0,
+  "evidence_cutoff": "2026-11-13",
+  "generated": "2026-11-13T18:22:11",
+  "capacity_cny": 39783633.0,
   "arms": [
    {
     "arm": "unscaled",
     "vol_target": null,
     "word": "REFUSED",
     "reason": "gate CONDITIONAL,REFUSE; ruler FAIL years_for_half",
-    "cagr_pct": 14.27,
-    "sharpe": 0.949,
+    "cagr_pct": 14.16,
+    "sharpe": 0.943,
     "maxdd_pct": -18.07,
     "years_for_half_state": "FAIL",
     "years_for_half_median": 2.0,
@@ -6161,8 +6289,8 @@
     "vol_target": 0.08,
     "word": "REFUSED",
     "reason": "gate CONDITIONAL; ruler FAIL years_for_half",
-    "cagr_pct": 8.6,
-    "sharpe": 0.892,
+    "cagr_pct": 8.51,
+    "sharpe": 0.884,
     "maxdd_pct": -12.99,
     "years_for_half_state": "FAIL",
     "years_for_half_median": 2.0,
@@ -6174,8 +6302,8 @@
     "vol_target": 0.06,
     "word": "REFUSED",
     "reason": "gate CONDITIONAL; ruler FAIL years_for_half",
-    "cagr_pct": 6.48,
-    "sharpe": 0.857,
+    "cagr_pct": 6.44,
+    "sharpe": 0.849,
     "maxdd_pct": -9.97,
     "years_for_half_state": "FAIL",
     "years_for_half_median": 2.0,
@@ -6187,8 +6315,8 @@
     "vol_target": 0.04,
     "word": "REFUSED",
     "reason": "gate CONDITIONAL,REFUSE; ruler FAIL years_for_half",
-    "cagr_pct": 4.34,
-    "sharpe": 0.826,
+    "cagr_pct": 4.32,
+    "sharpe": 0.819,
     "maxdd_pct": -6.69,
     "years_for_half_state": "FAIL",
     "years_for_half_median": 2.0,
@@ -6200,8 +6328,8 @@
     "vol_target": 0.03,
     "word": "REFUSED",
     "reason": "gate CONDITIONAL; ruler FAIL years_for_half",
-    "cagr_pct": 3.27,
-    "sharpe": 0.826,
+    "cagr_pct": 3.25,
+    "sharpe": 0.819,
     "maxdd_pct": -5.05,
     "years_for_half_state": "FAIL",
     "years_for_half_median": 2.0,
@@ -6213,8 +6341,8 @@
     "vol_target": 0.02,
     "word": "REFUSED",
     "reason": "gate CONDITIONAL; ruler FAIL years_for_half",
-    "cagr_pct": 2.19,
-    "sharpe": 0.826,
+    "cagr_pct": 2.18,
+    "sharpe": 0.819,
     "maxdd_pct": -3.39,
     "years_for_half_state": "FAIL",
     "years_for_half_median": 2.0,
@@ -6229,19 +6357,19 @@
     "arms_compared": 6,
     "pairs": 25,
     "unreadable_pairs": 0,
-    "max_abs_delta": 0.851743,
+    "max_abs_delta": 0.852698,
     "invariant": false,
     "median_by_arm": {
-     "unscaled": 4.659524,
-     "vt08": 4.946747,
-     "vt06": 4.824826,
-     "vt04": 4.552099,
-     "vt03": 4.592283,
-     "vt02": 4.643692
+     "unscaled": 4.665973,
+     "vt08": 4.974762,
+     "vt06": 4.853644,
+     "vt04": 4.581703,
+     "vt03": 4.567272,
+     "vt02": 4.60859
     },
-    "median_range": 0.394648,
+    "median_range": 0.40749,
     "arms_admitted": [],
-    "reason": "scaling does move this ruler (max |d| 0.851743) but the arm median moves 0.394648 and no arm admits: de-risking is not an admission lever here"
+    "reason": "scaling does move this ruler (max |d| 0.852698) but the arm median moves 0.40749 and no arm admits: de-risking is not an admission lever here"
    },
    "years_for_half": {
     "ruler": "years_for_half",
@@ -6400,14 +6528,14 @@
     "universe",
     "window"
    ],
-   "why": "the table's rows are not one ruler: window +4.94pp、universe +0.44pp、ordering -0.60pp per year on the book the operator actually holds. The gap between the top row and the card row is the sum of these dials, not a property of the strategy.",
+   "why": "the table's rows are not one ruler: window +4.91pp、universe +0.44pp、ordering -0.56pp per year on the book the operator actually holds. The gap between the top row and the card row is the sum of these dials, not a property of the strategy.",
    "criteria": "ROWS_NOT_COMPARABLE iff at least one dial moves the held config by >= tol_pp_per_year on at least one window; SAME_RULER if none does. The published gap between row 1 and row 3 is decomposed into these dials, and no dial's price is inferred from another."
   },
   "dial_prices": {
    "window": {
     "a": "2020-01-01..（表里另两行读的那一段）",
     "b": "2024-01-02..（表里第一行读的那一段）",
-    "price_pp": 4.94,
+    "price_pp": 4.91,
     "note": "同一条定价路径，只换起点。差的是**时期**不是策略——正因为如此，两行按两段时期读、却被放在同一个「全窗」表头下"
    },
    "universe": {
@@ -6419,7 +6547,7 @@
    "ordering": {
     "a": "open-to-open（同 bar 信号）",
     "b": "next-open（次开成交）",
-    "price_pp": -0.6,
+    "price_pp": -0.56,
     "note": "同一本书（5 名、不挂覆盖）、同一股票池、同一段，只换信号什么时候被读到。这一格在**书层面**读，不挂 beta 覆盖：open-to-open 的净值序列比收盘口径早一个 bar（下面「为什么覆盖只挂在次开那一侧」那张表是本面的实测），拿它拟合 beta 会读到一个不是这本书的 beta，所以覆盖只挂在 next-open 那一侧"
    },
    "cost": {
@@ -6432,24 +6560,24 @@
   "cells": {
    "held/causal/card": {
     "full": {
-     "cagr": 0.0724,
-     "sharpe": 1.306,
+     "cagr": 0.0722,
+     "sharpe": 1.303,
      "maxdd": -0.0587,
      "vol": 0.0569,
-     "years": 6.32,
-     "cagr_pp": 7.24,
+     "years": 6.33,
+     "cagr_pp": 7.22,
      "maxdd_pp": -5.87,
-     "bars": 1534
+     "bars": 1535
     },
     "ticket_window": {
-     "cagr": 0.1218,
-     "sharpe": 1.677,
+     "cagr": 0.1213,
+     "sharpe": 1.671,
      "maxdd": -0.0587,
      "vol": 0.0731,
      "years": 2.86,
-     "cagr_pp": 12.18,
+     "cagr_pp": 12.13,
      "maxdd_pp": -5.87,
-     "bars": 692
+     "bars": 693
     },
     "is": {
      "cagr": 0.0329,
@@ -6462,36 +6590,36 @@
      "bars": 842
     },
     "oos": {
-     "cagr": 0.1218,
-     "sharpe": 1.677,
+     "cagr": 0.1213,
+     "sharpe": 1.671,
      "maxdd": -0.0587,
      "vol": 0.0731,
      "years": 2.86,
-     "cagr_pp": 12.18,
+     "cagr_pp": 12.13,
      "maxdd_pp": -5.87,
-     "bars": 692
+     "bars": 693
     }
    },
    "held/causal/ticket": {
     "full": {
-     "cagr": 0.0768,
-     "sharpe": 1.334,
+     "cagr": 0.0766,
+     "sharpe": 1.331,
      "maxdd": -0.0578,
      "vol": 0.0589,
-     "years": 6.32,
-     "cagr_pp": 7.68,
+     "years": 6.33,
+     "cagr_pp": 7.66,
      "maxdd_pp": -5.78,
-     "bars": 1534
+     "bars": 1535
     },
     "ticket_window": {
-     "cagr": 0.1264,
-     "sharpe": 1.718,
+     "cagr": 0.1259,
+     "sharpe": 1.712,
      "maxdd": -0.0578,
      "vol": 0.0739,
      "years": 2.86,
-     "cagr_pp": 12.64,
+     "cagr_pp": 12.59,
      "maxdd_pp": -5.78,
-     "bars": 692
+     "bars": 693
     },
     "is": {
      "cagr": 0.0371,
@@ -6504,36 +6632,36 @@
      "bars": 842
     },
     "oos": {
-     "cagr": 0.1264,
-     "sharpe": 1.718,
+     "cagr": 0.1259,
+     "sharpe": 1.712,
      "maxdd": -0.0578,
      "vol": 0.0739,
      "years": 2.86,
-     "cagr_pp": 12.64,
+     "cagr_pp": 12.59,
      "maxdd_pp": -5.78,
-     "bars": 692
+     "bars": 693
     }
    },
    "held/causal/card/cost10": {
     "full": {
-     "cagr": 0.0709,
-     "sharpe": 1.28,
+     "cagr": 0.0707,
+     "sharpe": 1.277,
      "maxdd": -0.0589,
      "vol": 0.0569,
-     "years": 6.32,
-     "cagr_pp": 7.09,
+     "years": 6.33,
+     "cagr_pp": 7.07,
      "maxdd_pp": -5.89,
-     "bars": 1534
+     "bars": 1535
     },
     "ticket_window": {
-     "cagr": 0.1197,
-     "sharpe": 1.652,
+     "cagr": 0.1192,
+     "sharpe": 1.646,
      "maxdd": -0.0589,
-     "vol": 0.0731,
+     "vol": 0.073,
      "years": 2.86,
-     "cagr_pp": 11.97,
+     "cagr_pp": 11.92,
      "maxdd_pp": -5.89,
-     "bars": 692
+     "bars": 693
     },
     "is": {
      "cagr": 0.0318,
@@ -6546,36 +6674,36 @@
      "bars": 842
     },
     "oos": {
-     "cagr": 0.1197,
-     "sharpe": 1.652,
+     "cagr": 0.1192,
+     "sharpe": 1.646,
      "maxdd": -0.0589,
-     "vol": 0.0731,
+     "vol": 0.073,
      "years": 2.86,
-     "cagr_pp": 11.97,
+     "cagr_pp": 11.92,
      "maxdd_pp": -5.89,
-     "bars": 692
+     "bars": 693
     }
    },
    "book/card/published": {
     "full": {
-     "cagr": 0.1618,
-     "sharpe": 1.036,
+     "cagr": 0.161,
+     "sharpe": 1.032,
      "maxdd": -0.1598,
      "vol": 0.1637,
      "years": 6.86,
-     "cagr_pp": 16.18,
+     "cagr_pp": 16.1,
      "maxdd_pp": -15.98,
-     "bars": 1661
+     "bars": 1662
     },
     "ticket_window": {
-     "cagr": 0.2448,
-     "sharpe": 1.532,
+     "cagr": 0.2426,
+     "sharpe": 1.521,
      "maxdd": -0.1598,
      "vol": 0.1572,
      "years": 2.86,
-     "cagr_pp": 24.48,
+     "cagr_pp": 24.26,
      "maxdd_pp": -15.98,
-     "bars": 692
+     "bars": 693
     },
     "is": {
      "cagr": 0.1061,
@@ -6588,36 +6716,36 @@
      "bars": 969
     },
     "oos": {
-     "cagr": 0.2448,
-     "sharpe": 1.532,
+     "cagr": 0.2426,
+     "sharpe": 1.521,
      "maxdd": -0.1598,
      "vol": 0.1572,
      "years": 2.86,
-     "cagr_pp": 24.48,
+     "cagr_pp": 24.26,
      "maxdd_pp": -15.98,
-     "bars": 692
+     "bars": 693
     }
    },
    "book/card/causal": {
     "full": {
-     "cagr": 0.1558,
-     "sharpe": 0.991,
+     "cagr": 0.1554,
+     "sharpe": 0.989,
      "maxdd": -0.1703,
      "vol": 0.166,
      "years": 6.86,
-     "cagr_pp": 15.58,
+     "cagr_pp": 15.54,
      "maxdd_pp": -17.03,
-     "bars": 1662
+     "bars": 1663
     },
     "ticket_window": {
-     "cagr": 0.2518,
-     "sharpe": 1.53,
+     "cagr": 0.2506,
+     "sharpe": 1.525,
      "maxdd": -0.1519,
-     "vol": 0.1617,
+     "vol": 0.1616,
      "years": 2.86,
-     "cagr_pp": 25.18,
+     "cagr_pp": 25.06,
      "maxdd_pp": -15.19,
-     "bars": 692
+     "bars": 693
     },
     "is": {
      "cagr": 0.0909,
@@ -6630,36 +6758,36 @@
      "bars": 970
     },
     "oos": {
-     "cagr": 0.2518,
-     "sharpe": 1.53,
+     "cagr": 0.2506,
+     "sharpe": 1.525,
      "maxdd": -0.1519,
-     "vol": 0.1617,
+     "vol": 0.1616,
      "years": 2.86,
-     "cagr_pp": 25.18,
+     "cagr_pp": 25.06,
      "maxdd_pp": -15.19,
-     "bars": 692
+     "bars": 693
     }
    },
    "book/ticket/published": {
     "full": {
-     "cagr": 0.1773,
-     "sharpe": 1.084,
+     "cagr": 0.1765,
+     "sharpe": 1.079,
      "maxdd": -0.1598,
-     "vol": 0.1703,
+     "vol": 0.1702,
      "years": 6.86,
-     "cagr_pp": 17.73,
+     "cagr_pp": 17.65,
      "maxdd_pp": -15.98,
-     "bars": 1661
+     "bars": 1662
     },
     "ticket_window": {
-     "cagr": 0.2653,
-     "sharpe": 1.597,
+     "cagr": 0.263,
+     "sharpe": 1.586,
      "maxdd": -0.1598,
-     "vol": 0.162,
+     "vol": 0.1619,
      "years": 2.86,
-     "cagr_pp": 26.53,
+     "cagr_pp": 26.3,
      "maxdd_pp": -15.98,
-     "bars": 692
+     "bars": 693
     },
     "is": {
      "cagr": 0.1184,
@@ -6672,36 +6800,36 @@
      "bars": 969
     },
     "oos": {
-     "cagr": 0.2653,
-     "sharpe": 1.597,
+     "cagr": 0.263,
+     "sharpe": 1.586,
      "maxdd": -0.1598,
-     "vol": 0.162,
+     "vol": 0.1619,
      "years": 2.86,
-     "cagr_pp": 26.53,
+     "cagr_pp": 26.3,
      "maxdd_pp": -15.98,
-     "bars": 692
+     "bars": 693
     }
    },
    "book/ticket/causal": {
     "full": {
-     "cagr": 0.1673,
-     "sharpe": 1.021,
+     "cagr": 0.1669,
+     "sharpe": 1.019,
      "maxdd": -0.1703,
-     "vol": 0.1723,
+     "vol": 0.1722,
      "years": 6.86,
-     "cagr_pp": 16.73,
+     "cagr_pp": 16.69,
      "maxdd_pp": -17.03,
-     "bars": 1662
+     "bars": 1663
     },
     "ticket_window": {
-     "cagr": 0.2677,
-     "sharpe": 1.576,
+     "cagr": 0.2665,
+     "sharpe": 1.571,
      "maxdd": -0.1519,
-     "vol": 0.1658,
+     "vol": 0.1657,
      "years": 2.86,
-     "cagr_pp": 26.77,
+     "cagr_pp": 26.65,
      "maxdd_pp": -15.19,
-     "bars": 692
+     "bars": 693
     },
     "is": {
      "cagr": 0.0996,
@@ -6714,36 +6842,36 @@
      "bars": 970
     },
     "oos": {
-     "cagr": 0.2677,
-     "sharpe": 1.576,
+     "cagr": 0.2665,
+     "sharpe": 1.571,
      "maxdd": -0.1519,
-     "vol": 0.1658,
+     "vol": 0.1657,
      "years": 2.86,
-     "cagr_pp": 26.77,
+     "cagr_pp": 26.65,
      "maxdd_pp": -15.19,
-     "bars": 692
+     "bars": 693
     }
    },
    "card/12/vol08": {
     "full": {
-     "cagr": 0.0965,
-     "sharpe": 0.993,
+     "cagr": 0.0959,
+     "sharpe": 0.987,
      "maxdd": -0.1177,
-     "vol": 0.1019,
+     "vol": 0.1018,
      "years": 6.86,
-     "cagr_pp": 9.65,
+     "cagr_pp": 9.59,
      "maxdd_pp": -11.77,
-     "bars": 1661
+     "bars": 1662
     },
     "ticket_window": {
-     "cagr": 0.1837,
-     "sharpe": 1.734,
+     "cagr": 0.182,
+     "sharpe": 1.719,
      "maxdd": -0.107,
      "vol": 0.1047,
      "years": 2.86,
-     "cagr_pp": 18.37,
+     "cagr_pp": 18.2,
      "maxdd_pp": -10.7,
-     "bars": 692
+     "bars": 693
     },
     "is": {
      "cagr": 0.0384,
@@ -6756,68 +6884,68 @@
      "bars": 969
     },
     "oos": {
-     "cagr": 0.1837,
-     "sharpe": 1.734,
+     "cagr": 0.182,
+     "sharpe": 1.719,
      "maxdd": -0.107,
      "vol": 0.1047,
      "years": 2.86,
-     "cagr_pp": 18.37,
+     "cagr_pp": 18.2,
      "maxdd_pp": -10.7,
-     "bars": 692
+     "bars": 693
     }
    }
   },
   "identity": {
    "ticket 12.78% reproduced on its own ruler": {
-    "measured_pp": 12.64,
-    "published_pp": 12.73,
-    "delta_pp": -0.09,
+    "measured_pp": 12.59,
+    "published_pp": 12.64,
+    "delta_pp": -0.05,
     "pass": true
    },
    "card 9.60% reproduced on its own ruler": {
-    "measured_pp": 9.65,
-    "published_pp": 9.65,
+    "measured_pp": 9.59,
+    "published_pp": 9.59,
     "delta_pp": 0.0,
     "pass": true
    },
    "card 18.35% (2024+) reproduced on its own ruler": {
-    "measured_pp": 18.37,
-    "published_pp": 18.37,
+    "measured_pp": 18.2,
+    "published_pp": 18.2,
     "delta_pp": 0.0,
     "pass": true
    }
   },
   "panel": {
-   "digest": "e383c3a68f5f98af",
-   "last_bar": "2026-11-12"
+   "digest": "e6f9d0e81a64ec75",
+   "last_bar": "2026-11-13"
   },
-  "evidence_cutoff": "2026-11-12",
+  "evidence_cutoff": "2026-11-13",
   "published_faces": {
    "source": "docs/live_book/LIVE-BOOK-20261113.json",
    "rows": [
     {
      "label": "5 名·可执行单口径（本单这份账）",
-     "full": 7.71,
+     "full": 7.68,
      "is": 3.71,
-     "oos": 12.73
+     "oos": 12.64
     },
     {
      "label": "5 名·beta 覆盖",
-     "full": 15.75,
+     "full": 15.67,
      "is": 10.22,
-     "oos": 23.97
+     "oos": 23.76
     },
     {
      "label": "12 名·8% 波动目标（生产卡片口径）",
-     "full": 9.65,
+     "full": 9.59,
      "is": 3.84,
-     "oos": 18.37
+     "oos": 18.2
     }
    ],
-   "ticket": 7.71,
-   "ticket_oos": 12.73,
-   "card_full": 9.65,
-   "card_oos": 18.37,
+   "ticket": 7.68,
+   "ticket_oos": 12.64,
+   "card_full": 9.59,
+   "card_oos": 18.2,
    "row_labels": [
     "5 名·可执行单口径（本单这份账）",
     "5 名·beta 覆盖",
@@ -6830,22 +6958,22 @@
   "artifact": "results/etf_book_window_label.json",
   "verdict": {
    "state": "ROW_LABELED_BY_WINDOW",
-   "gap_pp": 4.96,
-   "why": "the value under the 全窗 header is the 2.86-year window; the same book over the full window reads 7.68%, i.e. +4.96 pp/yr and the header is not what the cell holds"
+   "gap_pp": 4.93,
+   "why": "the value under the 全窗 header is the 2.86-year window; the same book over the full window reads 7.66%, i.e. +4.93 pp/yr and the header is not what the cell holds"
   },
   "table_row": {
    "full": {
-    "cagr_pct": 7.68,
-    "sharpe": 1.334,
+    "cagr_pct": 7.66,
+    "sharpe": 1.331,
     "maxdd_pct": -5.78
    },
    "oos": {
-    "cagr_pct": 12.64,
-    "sharpe": 1.71,
+    "cagr_pct": 12.59,
+    "sharpe": 1.705,
     "maxdd_pct": -5.78
    },
-   "full_window_bars": 1534,
-   "short_window_bars": 692,
+   "full_window_bars": 1535,
+   "short_window_bars": 693,
    "is": {
     "cagr_pct": 3.71,
     "sharpe": 0.901,
@@ -6855,18 +6983,18 @@
   },
   "rows": {
    "printed_under_full_header": {
-    "cagr_pp": 12.64,
-    "sharpe": 1.71,
+    "cagr_pp": 12.59,
+    "sharpe": 1.705,
     "maxdd_pp": -5.78,
-    "bars": 692,
-    "artifact": "results/etf_book_order/TICKET-2026-11-12.json",
+    "bars": 693,
+    "artifact": "results/etf_book_order/TICKET-2026-11-13.json",
     "source": "the ticket's own backtest, as the page prints it today"
    },
    "same_book_full_window": {
-    "cagr_pp": 7.68,
-    "sharpe": 1.334,
+    "cagr_pp": 7.66,
+    "sharpe": 1.331,
     "maxdd_pp": -5.78,
-    "bars": 1534,
+    "bars": 1535,
     "source": "results/etf_book_band_ruler.json :: held/causal/ticket.full"
    },
    "same_book_2020_2023": {
@@ -6879,75 +7007,75 @@
   },
   "identity": {
    "the full-window cell's own window reproduces the ticket": {
-    "measured_pp": 12.64,
-    "published_pp": 12.64,
+    "measured_pp": 12.59,
+    "published_pp": 12.59,
     "delta_pp": 0.0,
     "pass": true
    }
   },
   "panel": {
-   "digest": "e383c3a68f5f98af",
-   "last_bar": "2026-11-12"
+   "digest": "e6f9d0e81a64ec75",
+   "last_bar": "2026-11-13"
   },
   "inputs": {
    "band_ruler_status": "ok",
    "band_ruler_artifact": "results/etf_book_band_ruler.json",
-   "ticket_artifact": "results/etf_book_order/TICKET-2026-11-12.json",
-   "evidence_cutoff": "2026-11-12"
+   "ticket_artifact": "results/etf_book_order/TICKET-2026-11-13.json",
+   "evidence_cutoff": "2026-11-13"
   },
-  "evidence_cutoff": "2026-11-12"
+  "evidence_cutoff": "2026-11-13"
  },
  "envelope": {
   "status": "ok",
-  "artifact": "K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\etf_book_bootstrap\\ENVELOPE-2026-11-12.json",
-  "evidence_cutoff": "2026-11-12",
+  "artifact": "K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\etf_book_bootstrap\\ENVELOPE-2026-11-13.json",
+  "evidence_cutoff": "2026-11-13",
   "block": 20,
   "n_resamples": 2000,
-  "bars": 1661,
+  "bars": 1662,
   "cagr": {
-   "1": 0.014084718404329491,
-   "5": 0.03563137091317296,
-   "25": 0.07127799781524752,
-   "50": 0.09529997994973205,
-   "75": 0.12003147625804156,
-   "95": 0.16586092032165378,
-   "99": 0.1955388252073944
+   "1": 0.009957903922796536,
+   "5": 0.035685064418817594,
+   "25": 0.07010818568342603,
+   "50": 0.09447176058848739,
+   "75": 0.12038621826764684,
+   "95": 0.16619282352948186,
+   "99": 0.19634528250623734
   },
   "sharpe": {
-   "1": 0.19091753351813184,
-   "5": 0.39960790053629436,
-   "25": 0.7393461395514292,
-   "50": 0.9716407185823909,
-   "75": 1.2007637111783456,
-   "95": 1.5933737109695614,
-   "99": 1.8338542287070905
+   "1": 0.1500162070416231,
+   "5": 0.4003097762668967,
+   "25": 0.7361992407031331,
+   "50": 0.9617959795620259,
+   "75": 1.208761363228108,
+   "95": 1.5852889042991487,
+   "99": 1.863804187135208
   },
   "maxdd": {
-   "1": -0.2679945817670492,
-   "5": -0.20881814713594182,
-   "25": -0.1574495381186132,
-   "50": -0.1325545693457163,
-   "75": -0.10999541714854852,
-   "95": -0.08860898508950649,
-   "99": -0.07396161681666134
+   "1": -0.2589863562986726,
+   "5": -0.21261766277534758,
+   "25": -0.1578943940559118,
+   "50": -0.13209591686015815,
+   "75": -0.110609802077439,
+   "95": -0.0885434435615475,
+   "99": -0.07594145131477185
   },
   "point": {
-   "cagr": 0.0965,
-   "sharpe": 0.993,
+   "cagr": 0.0959,
+   "sharpe": 0.987,
    "maxdd": -0.1177
   },
   "point_pctile": {
    "cagr": 51.2,
    "sharpe": 53.3,
-   "maxdd": 67.5
+   "maxdd": 66.8
   },
   "shares": {
-   "cagr_le_zero": 0.004,
-   "maxdd_le_line": 0.067,
+   "cagr_le_zero": 0.005,
+   "maxdd_le_line": 0.07,
    "n_resamples": 2000
   },
   "reconciliation": "same_object",
-  "reading": "block bootstrap (2000 resamples, block=20 bars): CAGR p5/p50/p95 = 3.56%/9.53%/16.59% per year, Sharpe 0.40/0.97/1.59, maxDD -20.88%/-13.26%/-8.86%; the published point estimate 9.65% sits at the 51.2 pctile; 0.4% of resamples lose money and 6.7% break a -20% drawdown | these are the published book's own numbers: this series reads 9.65% against the production cell n12_vt08 at 9.65%"
+  "reading": "block bootstrap (2000 resamples, block=20 bars): CAGR p5/p50/p95 = 3.57%/9.45%/16.62% per year, Sharpe 0.40/0.96/1.59, maxDD -21.26%/-13.21%/-8.85%; the published point estimate 9.59% sits at the 51.2 pctile; 0.5% of resamples lose money and 7.0% break a -20% drawdown | these are the published book's own numbers: this series reads 9.59% against the production cell n12_vt08 at 9.59%"
  },
  "stress": {
   "n_days": 5280,
@@ -7018,8 +7146,8 @@
  "authority": {
   "writer": "bm-c",
   "owner": "bm-a",
-  "owner_silent_h": 20.8,
+  "owner_silent_h": 22.0,
   "took_over": true,
-  "why": "bm-a has not written its own heartbeat for 20.8 h (> 6 h): its page faces are stopped, not merely old"
+  "why": "bm-a has not written its own heartbeat for 22.0 h (> 6 h): its page faces are stopped, not merely old"
  }
 }
