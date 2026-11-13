@@ -2366,3 +2366,5 @@ CEO 一页纸与执行单（同一个读者件） | 最近实物: `results/etf_b
    `pool_dualrun_reconcile` / `compute_audit` / `py_watermark` / `update_daily` 本轮未跑（轮预算用于产品面）——下轮补。
 
 **计账**：本行 1 处（余为产品面产出）。**本地未达 origin commit 数**：见收尾推送后的同步回执（本行写入时为 2，推送前已 rebase）。
+
+**交付回执**：本地未达 origin commit 数=0（push cd66157e89 后 fetch 复核 behind 0 / ahead 0）；origin 上的 results/live_book_section_bars.json 实读 verdict=PAGE_MIXES_BARS、on 42 / off 0 / ahead 6（ahead_keys 含 admission、cash_handshake、cash_ladder…）。与 bm-c r1640 两次撞车均用 merge 化解；knowledge/METHODOLOGY_ASSETS.md 行级 union（E603/E604 前、E605 后，零残留标记，214 卡）。
