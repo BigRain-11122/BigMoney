@@ -1,15 +1,15 @@
 # Would a fixed fraction do the same job as the de-lever rule?
 
-Face: `results/etf_book_exposure_ladder.json` (evidence cutoff 2026-11-12, 1662 bars, 4 phases, 312.6 s).
+Face: `results/etf_book_exposure_ladder.json` (evidence cutoff 2026-11-13, 1663 bars, 4 phases, 269.6 s).
 
 Same names, same grid, same cost model everywhere -- only the exposure multiplier differs. The fixed fractions were chosen before the run, so none of them is calibrated from the answer.
 
 | phase | start | production | 0.40 | 0.50 | 0.60 | 0.70 | 0.80 | 0.90 | 1.00 |
 |---|---|---|---|---|---|---|---|---|---|
-| 0 | 2020-01-02 | 9.11% | 6.56% | 7.71% | 8.84% | 9.96% | 11.06% | 12.15% | 13.23% |
-| 1 | 2020-01-09 | 9.61% | 6.48% | 7.59% | 8.69% | 9.77% | 10.83% | 11.87% | 12.89% |
-| 2 | 2020-01-16 | 6.27% | 4.62% | 5.25% | 5.86% | 6.45% | 7.01% | 7.55% | 8.06% |
-| 3 | 2020-01-23 | 10.14% | 6.62% | 7.78% | 8.94% | 10.08% | 11.22% | 12.34% | 13.45% |
+| 0 | 2020-01-02 | 9.11% | 6.56% | 7.70% | 8.83% | 9.95% | 11.05% | 12.14% | 13.22% |
+| 1 | 2020-01-09 | 9.64% | 6.49% | 7.60% | 8.70% | 9.78% | 10.85% | 11.89% | 12.92% |
+| 2 | 2020-01-16 | 6.24% | 4.61% | 5.24% | 5.84% | 6.43% | 6.99% | 7.52% | 8.03% |
+| 3 | 2020-01-23 | 10.22% | 6.65% | 7.83% | 8.99% | 10.15% | 11.29% | 12.42% | 13.54% |
 
 ## Drawdown on the same phases
 
@@ -24,19 +24,19 @@ Same names, same grid, same cost model everywhere -- only the exposure multiplie
 
 | phase | production | 0.40 | 0.50 | 0.60 | 0.70 | 0.80 | 0.90 | 1.00 |
 |---|---|---|---|---|---|---|---|---|
-| 0 | 17.96% | 10.14% | 12.34% | 14.57% | 16.81% | 19.08% | 21.36% | 23.65% |
-| 1 | 16.70% | 8.91% | 10.76% | 12.61% | 14.45% | 16.29% | 18.13% | 19.95% |
-| 2 | 11.52% | 5.64% | 6.62% | 7.57% | 8.50% | 9.41% | 10.30% | 11.15% |
-| 3 | 13.19% | 7.37% | 8.83% | 10.28% | 11.72% | 13.16% | 14.58% | 16.00% |
+| 0 | 17.94% | 10.13% | 12.33% | 14.55% | 16.79% | 19.05% | 21.33% | 23.62% |
+| 1 | 16.75% | 8.93% | 10.78% | 12.64% | 14.48% | 16.33% | 18.17% | 20.00% |
+| 2 | 11.45% | 5.61% | 6.58% | 7.53% | 8.46% | 9.36% | 10.23% | 11.08% |
+| 3 | 13.38% | 7.46% | 8.94% | 10.41% | 11.87% | 13.33% | 14.78% | 16.23% |
 
 ## Out-of-sample Sharpe (the rule's risk-adjusted test)
 
 | phase | production | 0.40 | 0.50 | 0.60 | 0.70 | 0.80 | 0.90 | 1.00 |
 |---|---|---|---|---|---|---|---|---|
-| 0 | 1.683 | 1.700 | 1.649 | 1.615 | 1.590 | 1.572 | 1.557 | 1.546 |
-| 1 | 1.438 | 1.303 | 1.259 | 1.229 | 1.208 | 1.192 | 1.180 | 1.170 |
-| 2 | 1.065 | 0.863 | 0.817 | 0.787 | 0.765 | 0.749 | 0.736 | 0.726 |
-| 3 | 1.242 | 1.240 | 1.189 | 1.155 | 1.131 | 1.113 | 1.099 | 1.087 |
+| 0 | 1.681 | 1.699 | 1.647 | 1.613 | 1.589 | 1.570 | 1.556 | 1.545 |
+| 1 | 1.442 | 1.305 | 1.261 | 1.232 | 1.211 | 1.195 | 1.183 | 1.173 |
+| 2 | 1.059 | 0.859 | 0.814 | 0.783 | 0.762 | 0.745 | 0.732 | 0.722 |
+| 3 | 1.258 | 1.253 | 1.202 | 1.168 | 1.144 | 1.126 | 1.112 | 1.101 |
 
 ## Verdict (full window)
 
@@ -46,13 +46,13 @@ best fixed fraction: const_0.70 -- no worse than production in 3 of 4 phases (ne
 
 | fixed fraction | mean CAGR vs production | phases not worse |
 |---|---|---|
-| 0.40 | -2.71 pp | 0/4 |
-| 0.50 | -1.70 pp | 0/4 |
-| 0.60 | -0.70 pp | 0/4 |
+| 0.40 | -2.72 pp | 0/4 |
+| 0.50 | -1.71 pp | 0/4 |
+| 0.60 | -0.71 pp | 0/4 |
 | 0.70 | +0.28 pp | 3/4 |
-| 0.80 | +1.25 pp | 2/4 |
+| 0.80 | +1.24 pp | 2/4 |
 | 0.90 | +2.19 pp | 0/4 |
-| 1.00 | +3.12 pp | 0/4 |
+| 1.00 | +3.13 pp | 0/4 |
 
 ## Verdict (adoption: full window AND out of sample)
 
@@ -62,13 +62,13 @@ best fixed fraction const_0.70: no worse than production in 3 of 4 phases on the
 
 | fixed fraction | full window not worse | out of sample not worse | mean OOS CAGR vs production |
 |---|---|---|---|
-| 0.40 | 0/4 | 0/4 | -6.83 pp |
-| 0.50 | 0/4 | 0/4 | -5.21 pp |
-| 0.60 | 0/4 | 0/4 | -3.59 pp |
-| 0.70 | 3/4 | 0/4 | -1.97 pp |
+| 0.40 | 0/4 | 0/4 | -6.85 pp |
+| 0.50 | 0/4 | 0/4 | -5.22 pp |
+| 0.60 | 0/4 | 0/4 | -3.60 pp |
+| 0.70 | 3/4 | 0/4 | -1.98 pp |
 | 0.80 | 2/4 | 0/4 | -0.36 pp |
 | 0.90 | 0/4 | 0/4 | +1.25 pp |
-| 1.00 | 0/4 | 0/4 | +2.84 pp |
+| 1.00 | 0/4 | 0/4 | +2.85 pp |
 
 This second reading is the face's own pre-stated standard applied, not a retuned threshold: the notes written before the first run demanded an out-of-sample test, and the first run is exactly the case it was written for (the full window says no worse, the out-of-sample window does not). Both verdicts are published; the full-window one keeps its v1.0 criteria.
 

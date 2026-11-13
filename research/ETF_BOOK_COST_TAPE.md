@@ -1,16 +1,16 @@
-# ETF book -- what the tape says a side costs (cutoff 2026-11-12)
+# ETF book -- what the tape says a side costs (cutoff 2026-11-13)
 
 the card charges every leg a flat 10 bp/side -- what do these names actually quote, and does the book survive the tape's answer?
 
 **Verdict: CONSERVATIVE | SURVIVES**
 
-the names this book actually traded quote a measured one-way cost of 5.9 bp half-spread; the card charges 10 bp, which is more than the tape says (the card over-charges) -- on the tape's cost the same engine earns 10.2% CAGR / 1.04 Sharpe (each name at its own 75th percentile: 9.8% / 1.00), so the book survives the measured cost
+the names this book actually traded quote a measured one-way cost of 5.9 bp half-spread; the card charges 10 bp, which is more than the tape says (the card over-charges) -- on the tape's cost the same engine earns 10.1% CAGR / 1.03 Sharpe (each name at its own 75th percentile: 9.7% / 1.00), so the book survives the measured cost
 
 | arm | cost / side | CAGR | Sharpe | max drawdown |
 |---|---|---|---|---|
-| the card's assumption | 10.0 bp | 9.7% | 0.99 | -11.8% |
-| the tape (turnover weighted) | 5.9 bp | 10.2% | 1.04 | -11.4% |
-| tape, every name at its own p75 | 9.0 bp | 9.8% | 1.00 | -11.7% |
+| the card's assumption | 10.0 bp | 9.6% | 0.99 | -11.8% |
+| the tape (turnover weighted) | 5.9 bp | 10.1% | 1.03 | -11.4% |
+| tape, every name at its own p75 | 9.0 bp | 9.7% | 1.00 | -11.7% |
 
 Control: the identical engine at 10 bp reproduces the published 9.6% within 0.5pp -> PASS.
 

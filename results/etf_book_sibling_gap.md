@@ -1,6 +1,6 @@
 # ETF book -- the sibling premium gap: a price today, or a rule?
 
-session `2026-11-12` | ticket `TICKET-2026-11-12.json` | source `results\etf_book_sibling_entry.json`
+session `2026-11-13` | ticket `TICKET-2026-11-13.json` | source `results\etf_book_sibling_entry.json`
 
 **no pair carries both a premium gap and a local price history**
 

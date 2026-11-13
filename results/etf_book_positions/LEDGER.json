@@ -243,6 +243,49 @@
    "actions": [],
    "source_face": "results/etf_book_swap_stack.json",
    "written_ts": "2026-11-12T16:53:06+08:00"
+  },
+  {
+   "bar": "2026-11-13",
+   "kind": "execution",
+   "ticket": "TICKET-2026-11-13.json",
+   "k": 0.43177,
+   "risk_book_cny": 431769.6,
+   "cash_cny": 568230.4,
+   "holdings": [
+    {
+     "symbol": "159519",
+     "lots": 496,
+     "price": 1.741,
+     "amount_cny": 86353.6
+    },
+    {
+     "symbol": "159655",
+     "lots": 431,
+     "price": 2.004,
+     "amount_cny": 86372.4
+    },
+    {
+     "symbol": "510760",
+     "lots": 684,
+     "price": 1.263,
+     "amount_cny": 86389.2
+    },
+    {
+     "symbol": "512040",
+     "lots": 726,
+     "price": 1.189,
+     "amount_cny": 86321.4
+    },
+    {
+     "symbol": "513690",
+     "lots": 754,
+     "price": 1.145,
+     "amount_cny": 86333.0
+    }
+   ],
+   "actions": [],
+   "source_face": "results/etf_book_swap_stack.json",
+   "written_ts": "2026-11-13T22:02:01+08:00"
   }
  ],
  "restatements": [
@@ -1149,6 +1192,62 @@
      "symbol": "513690",
      "before": 748,
      "after": 750
+    }
+   ]
+  },
+  {
+   "bar": "2026-11-13",
+   "previous_written_ts": "2026-11-13T21:38:22+08:00",
+   "written_ts": "2026-11-13T22:02:01+08:00",
+   "before": {
+    "k": null,
+    "risk_book_cny": 430992.0,
+    "cash_cny": 568124.2,
+    "lots": {
+     "159519": 496,
+     "159655": 432,
+     "510760": 678,
+     "512040": 728,
+     "513690": 750
+    }
+   },
+   "after": {
+    "k": 0.43177,
+    "risk_book_cny": 431769.6,
+    "cash_cny": 568230.4,
+    "lots": {
+     "159519": 496,
+     "159655": 431,
+     "510760": 684,
+     "512040": 726,
+     "513690": 754
+    }
+   },
+   "delta": {
+    "k": null,
+    "risk_book_cny": 777.6,
+    "cash_cny": 106.2
+   },
+   "lots_changed": [
+    {
+     "symbol": "159655",
+     "before": 432,
+     "after": 431
+    },
+    {
+     "symbol": "510760",
+     "before": 678,
+     "after": 684
+    },
+    {
+     "symbol": "512040",
+     "before": 728,
+     "after": 726
+    },
+    {
+     "symbol": "513690",
+     "before": 750,
+     "after": 754
     }
    ]
   }

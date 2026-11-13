@@ -1,6 +1,6 @@
 # ETF book -- what a market gap actually costs
 
-Evidence cutoff 2026-11-12 · rule beta target 0.20 · rebalance 20 bars · cost 8.0 bp/side
+Evidence cutoff 2026-11-13 · rule beta target 0.20 · rebalance 20 bars · cost 8.0 bp/side
 
 ## The answer
 
@@ -10,8 +10,8 @@ the book's realized beta to 510300 is 0.12 over its whole history and 0.21 on th
 
 | window | bars | beta |
 | --- | --- | --- |
-| full history | 1534 | 0.1210 |
-| last 250 bars | 250 | 0.2134 |
+| full history | 1535 | 0.1210 |
+| last 250 bars | 250 | 0.2133 |
 
 Verdict: **BETA_MATCHED** (band 0.10..0.30).
 
@@ -43,13 +43,13 @@ Mean on those days: index -3.87% / book -0.47% (ratio 0.121) · book worst -1.96
 
 ## Tomorrow, in money
 
-Priced on results/etf_book_order/TICKET-2026-11-12.json: NAV +1,000,000 CNY, deployed +431,876 CNY (43.2%), cash +568,124 CNY.
+Priced on results/etf_book_order/TICKET-2026-11-13.json: NAV +1,000,000 CNY, deployed +431,770 CNY (43.2%), cash +568,230 CNY.
 
 | index gaps | book returns | costs you | the naive 'shock x deployed' |
 | --- | --- | --- | --- |
-| -3% | -0.36% | -3,630 CNY | -12,966 CNY |
-| -5% | -0.61% | -6,050 CNY | -21,610 CNY |
-| -8% | -0.97% | -9,680 CNY | -34,576 CNY |
+| -3% | -0.36% | -3,631 CNY | -12,966 CNY |
+| -5% | -0.61% | -6,051 CNY | -21,610 CNY |
+| -8% | -0.97% | -9,681 CNY | -34,576 CNY |
 
 The last column is what an operator computes by hand and it overstates the loss by roughly the inverse of the beta scaling.
 

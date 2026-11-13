@@ -337,9 +337,9 @@
   "admission": {
    "readable": true,
    "path": "results/etf_book_year_gate/YEAR-GATE.json",
-   "asof": "2026-11-13T16:23:28+0800",
+   "asof": "2026-11-14T00:59:20+0800",
    "data_last": "2026-11-13",
-   "prior_data_last": "2026-11-12",
+   "prior_data_last": "2026-11-13",
    "line": 0.7,
    "book": "nobond_vt08_adopted",
    "found": true,
@@ -370,7 +370,7 @@
    "margin_to_line": -0.0039,
    "prior": {
     "verdict": "CONDITIONAL",
-    "top2_share": 0.7007
+    "top2_share": 0.7039
    },
    "verdict_changed": false,
    "positive_years": 7,
@@ -378,7 +378,36 @@
    "median": 5.6072,
    "worst": 2.6828,
    "capacity_cny": 39783633.0,
-   "trails_ledger": false
+   "trails_ledger": false,
+   "scale_free": {
+    "statistic": "cagr with the two best years replaced by the book's own median year, over the full cagr (prereg 2026-11-13)",
+    "retained_without_top2": 0.4597,
+    "cagr_without_top2_pct": 5.0511,
+    "median_year_pct": 5.6072,
+    "replaced_years": [
+     "2025",
+     "2024"
+    ],
+    "years": 7,
+    "detail": null,
+    "note": "never an admission input; printed so the Y4 line is not read as a ranking of shapes"
+   },
+   "y4_vs_scale_free": {
+    "compared": 3,
+    "agrees": true,
+    "y4_order_best_first": [
+     "nobond_base",
+     "nobond_vt08_adopted",
+     "all_classes_published"
+    ],
+    "scale_free_order_best_first": [
+     "nobond_base",
+     "nobond_vt08_adopted",
+     "all_classes_published"
+    ],
+    "note": null,
+    "reading": "both statistics put these books in the same order, so on this gate's own books the level-vs-shape complaint changes no ranking -- it shows up between a book and a do-nothing shape, not between these books"
+   }
   }
  },
  "decision": "HOLD: 18 bars until the next decision point",
@@ -694,6 +723,18 @@
    "present": null,
    "detail": "receipt reader failed (module 'etf_book_atlas_arms_rebuild' has no attribute 'receipt_state')",
    "stale": null
+  },
+  "floor_extrapolation": {
+   "artifact": "results/etf_book_buffer_floor_readback.json",
+   "present": true,
+   "detail": "the fit says +0.227pp at k=0.30 (slope +0.824, intercept -0.020); the harvested arm's own 12 cells say +0.318pp (median); gap +0.091pp against tolerance 0.077pp = 3.0x the fit's largest in-sample residual (0.026pp, floored at 0.05); cell spread of the same arm: -0.675 .. +1.340pp (12 cells), i.e. the median is not the book; the line misses the point it never saw by more than its own residual band:",
+   "verdict": "REFUTED",
+   "buffer_k": 0.3,
+   "predicted_pp": 0.227,
+   "observed_pp": 0.318,
+   "gap_pp": 0.091,
+   "tolerance_pp": 0.077,
+   "evidence_cutoff": "2026-10-29"
   }
  }
 }

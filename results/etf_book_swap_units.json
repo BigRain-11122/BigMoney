@@ -1,24 +1,24 @@
 {
   "artifact": "etf_book_swap_units",
-  "bar": "2026-11-12",
+  "bar": "2026-11-13",
   "caveats": [
     "the level column is r1524's own figure (already re-scaled on the trimmed book); it is divided by the price this book actually paid, never re-derived from a gap",
     "shares carry a bounded error of at most the sibling's premium (the bound is the premium materiality line, printed beside the count): a NAV-caliber CNY divided by a market price is not exactly a share count",
     "a lot is the smallest thing a ticket can trade, so the discount is only realisable in whole lots; the residue shares are named and priced apart",
     "the size is a subset of the position the ledger holds; it is not a second holding and it is not added to NAV"
   ],
-  "evidence_cutoff": "2026-11-12",
+  "evidence_cutoff": "2026-11-13",
   "ledger": null,
   "lot_shares": 100,
   "next_decision_bar": {
     "anchor_bar": "2026-11-11",
     "bar": "2026-12-09",
-    "bars_away": 19,
+    "bars_away": 18,
     "grid": 20,
     "grid_constant_source": "import",
     "grid_source": "anchor",
     "phase": 0,
-    "rule": "2026-11-12 之后第一个落在官方日历相位 0 mod 20 的交易日",
+    "rule": "2026-11-13 之后第一个落在官方日历相位 0 mod 20 的交易日",
     "why": ""
   },
   "not_realised": "折扣是「同一笔钱多买到多少份」，不是卖掉的那部分收入的差——它只有在这些份被卖出、且价差已经收窄时才变成现金；在那之前把它记成已实现收益，等于把份额当成钱。",

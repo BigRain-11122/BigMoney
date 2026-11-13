@@ -1,19 +1,19 @@
 # The card's headline trades one bar of the future
 
-`2026-11-13T10:20:23+0800` · evidence cutoff **2026-11-12** · 1519 symbols · 5279 bars
+`2026-11-13T21:35:37+0800` · evidence cutoff **2026-11-13** · 1520 symbols · 5280 bars
 
 ## Verdict
 
-**LOOKAHEAD_PRESENT** — the published engine ranks on `score.loc[d]` -- built from bar d's own close and amount -- and then earns open[d]->open[d+1]: the book buys at a price that was set before the information it ranks on. Delaying that information one bar costs 1.13 pp/yr, and the whole ladder is monotone in delay (-2:+15.89, -1:+12.45, +0:+9.65, +1:+8.52, +5:+7.51, +20:+5.23)
+**LOOKAHEAD_PRESENT** — the published engine ranks on `score.loc[d]` -- built from bar d's own close and amount -- and then earns open[d]->open[d+1]: the book buys at a price that was set before the information it ranks on. Delaying that information one bar costs 1.18 pp/yr, and the whole ladder is monotone in delay (-2:+15.82, -1:+12.41, +0:+9.59, +1:+8.41, +5:+7.47, +20:+5.18)
 
 ## The three arms
 
 | arm | cagr | sharpe | maxdd | vol | bars |
 |---|---|---|---|---|---|
-| published (card) | 9.65% | 0.993 | -11.77% | 10.19% | 1661 |
-| causal (score shifted +1 bar) | 8.52% | 0.879 | -16.56% | 10.28% | 1661 |
-| ledger engine, no carry | 8.52% | 0.897 | -13.57% | 10.06% | 1662 |
-| ledger engine, ladder3 carry | 9.11% | 0.953 | -13.26% | 10.06% | 1662 |
+| published (card) | 9.59% | 0.987 | -11.77% | 10.18% | 1662 |
+| causal (score shifted +1 bar) | 8.41% | 0.869 | -16.56% | 10.28% | 1662 |
+| ledger engine, no carry | 8.51% | 0.896 | -13.57% | 10.06% | 1663 |
+| ledger engine, ladder3 carry | 9.11% | 0.952 | -13.26% | 10.06% | 1663 |
 
 ## The lag ladder — the same rule, moved in time
 
@@ -21,22 +21,22 @@ Negative lag = the score is given bars of the *future*; positive = the book is a
 
 | lag (bars) | cagr | sharpe | maxdd |
 |---|---|---|---|
-| -2 | 15.89% | 1.524 | -13.35% |
-| -1 | 12.45% | 1.272 | -11.02% |
-| +0 | 9.65% | 0.993 | -11.77% |
-| +1 | 8.52% | 0.879 | -16.56% |
-| +5 | 7.51% | 0.777 | -16.66% |
-| +20 | 5.23% | 0.559 | -17.64% |
+| -2 | 15.82% | 1.518 | -13.35% |
+| -1 | 12.41% | 1.268 | -11.02% |
+| +0 | 9.59% | 0.987 | -11.77% |
+| +1 | 8.41% | 0.869 | -16.56% |
+| +5 | 7.47% | 0.773 | -16.66% |
+| +20 | 5.18% | 0.554 | -17.64% |
 
 ## Decomposition
 
-- price of the one bar: **1.13 pp/yr**
-- mark basis (open-to-open vs close-to-close): 0.00 pp/yr
-- repo carry credited by the ledger, absent from the card: 0.59 pp/yr
+- price of the one bar: **1.18 pp/yr**
+- mark basis (open-to-open vs close-to-close): -0.10 pp/yr
+- repo carry credited by the ledger, absent from the card: 0.60 pp/yr
 
 the three components are priced on separate arms: the first is information ordering, the second is open-to-open vs close-to-close marking around an open fill, the third is the repo ladder the ledger credits and the card does not
 
-Bar level — published vs causal: 1660 overlapping bars, max daily difference 0.0167 at 2025-08-25.
+Bar level — published vs causal: 1661 overlapping bars, max daily difference 0.0167 at 2025-08-25.
 
 ## What is affected
 

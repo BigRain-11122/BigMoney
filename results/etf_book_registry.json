@@ -8,7 +8,7 @@
    "in_chain": true,
    "chain_note": "wired as etf_book_order",
    "status": "ok",
-   "as_of": "2026-11-12",
+   "as_of": "2026-11-13",
    "n_names": 5,
    "names": [
     "159519",
@@ -20,7 +20,7 @@
    "rule": "beta",
    "rule_param": 0.2,
    "k_now": 0.432195,
-   "artefact": "results/etf_book_order/TICKET-2026-11-12.json"
+   "artefact": "results/etf_book_order/TICKET-2026-11-13.json"
   },
   {
    "id": "card",
@@ -30,7 +30,7 @@
    "in_chain": true,
    "chain_note": "wired as etf_book_production",
    "status": "ok",
-   "as_of": "2026-11-12",
+   "as_of": "2026-11-13",
    "n_names": 12,
    "names": [
     "159207",
@@ -59,7 +59,7 @@
    "in_chain": true,
    "chain_note": "wired as etf_book_forward",
    "status": "ok",
-   "as_of": "2026-11-12",
+   "as_of": "2026-11-13",
    "n_names": 12,
    "names": [
     "159207",
@@ -77,7 +77,7 @@
    ],
    "rule": "vol",
    "rule_param": 0.08,
-   "k_now": 1.0110335008,
+   "k_now": 1.0108993106,
    "artefact": "results/etf_book_forward/LEDGER.json"
   },
   {
@@ -88,23 +88,22 @@
    "in_chain": true,
    "chain_note": "wired as etf_paper_signal",
    "status": "ok",
-   "as_of": "2026-11-12",
-   "n_names": 10,
+   "as_of": "2026-11-13",
+   "n_names": 9,
    "names": [
-    "159307",
     "159519",
-    "159980",
+    "159612",
     "510760",
-    "510980",
     "512040",
-    "512890",
-    "513400",
+    "513630",
+    "513800",
     "515300",
-    "515450"
+    "515450",
+    "562060"
    ],
    "rule": "vol",
-   "rule_param": 0.073,
-   "k_now": 1.0,
+   "rule_param": 0.0816,
+   "k_now": 0.9802,
    "artefact": "results/etf_paper/ledger.jsonl",
    "config": "bond-free, staggered 5+5, R10, 8% vol target",
    "next_turn": [
@@ -116,7 +115,7 @@
     },
     {
      "leg": 1,
-     "due": "2026-11-13",
+     "due": "2026-11-27",
      "anchor": "estimate",
      "clock_anchor": "pos"
     }
@@ -130,7 +129,7 @@
    "in_chain": true,
    "chain_note": "wired as etf_book_ceo_page",
    "status": "ok",
-   "as_of": "2026-11-12",
+   "as_of": "2026-11-13",
    "n_names": 5,
    "names": [
     "159519",
@@ -141,7 +140,7 @@
    ],
    "rule": "beta",
    "rule_param": 0.2,
-   "rule_source": "results/etf_book_order/TICKET-2026-11-12.json",
+   "rule_source": "results/etf_book_order/TICKET-2026-11-13.json",
    "k_now": 0.432195,
    "generated_for_date": "2026-11-13",
    "feed_lag_days": 0,
@@ -151,9 +150,6 @@
  "n_faces": 5,
  "n_live": 5,
  "configs": {
-  "10@vol": [
-   "staggered"
-  ],
   "12@vol": [
    "card",
    "forward"
@@ -161,6 +157,9 @@
   "5@beta": [
    "ceo_page",
    "ticket"
+  ],
+  "9@vol": [
+   "staggered"
   ]
  },
  "distinct_configs": 3,
@@ -192,7 +191,9 @@
   "card|staggered": [
    "159519",
    "510760",
-   "512040"
+   "512040",
+   "513630",
+   "562060"
   ],
   "card|ticket": [
    "159519",
@@ -223,7 +224,9 @@
   "forward|staggered": [
    "159519",
    "510760",
-   "512040"
+   "512040",
+   "513630",
+   "562060"
   ],
   "forward|ticket": [
    "159519",

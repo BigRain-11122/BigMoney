@@ -1,8 +1,8 @@
 {
- "ts": "2026-11-13 05:55:58",
+ "ts": "2026-11-13 21:37:30",
  "script": "scripts/etf_book_concentration.py",
  "face": "results/etf_book_concentration.json",
- "evidence_cutoff": "2026-11-12",
+ "evidence_cutoff": "2026-11-13",
  "criteria": {
   "n_hold": 12,
   "rebal": 20,
@@ -17,10 +17,10 @@
  },
  "execution": "decide at close t -> fill at open t+1 -> hold to next decision",
  "panel": {
-  "columns": 1519,
-  "bars": 5279,
+  "columns": 1520,
+  "bars": 5280,
   "flips_repaired": 169,
-  "digest": "e383c3a68f5f98af"
+  "digest": "e6f9d0e81a64ec75"
  },
  "book": {
   "n_hold": 12,
@@ -31,22 +31,22 @@
   "turnover_per_decision": 0.938
  },
  "identity": {
-  "replica_vs_engine_max_abs": 1.1102230246251565e-15,
-  "bars_compared": 1661,
+  "replica_vs_engine_max_abs": 4.440892098500626e-16,
+  "bars_compared": 1662,
   "passes": true
  },
  "return_sum": {
-  "gross": 0.752381,
-  "sum_of_symbol_contributions": 0.752381,
+  "gross": 0.748809,
+  "sum_of_symbol_contributions": 0.748809,
   "fee_toll": 0.078808,
   "unit_note": "gross and contributions are sums of daily arithmetic returns; the net curve = compounded gross minus the fee charged at each decision, and is what `baseline` quotes"
  },
  "baseline": {
   "full": {
-   "cagr": 0.0965,
-   "sharpe": 0.993,
+   "cagr": 0.0959,
+   "sharpe": 0.987,
    "maxdd": -0.1177,
-   "vol": 0.1019,
+   "vol": 0.1018,
    "years": 6.86
   },
   "is": {
@@ -57,8 +57,8 @@
    "years": 3.99
   },
   "oos": {
-   "cagr": 0.1837,
-   "sharpe": 1.734,
+   "cagr": 0.182,
+   "sharpe": 1.719,
    "maxdd": -0.107,
    "vol": 0.1047,
    "years": 2.86
@@ -71,61 +71,61 @@
    {
     "symbol": "159934",
     "contribution_sum": 0.056005,
-    "share_of_return_sum": 0.0744
+    "share_of_return_sum": 0.0748
    },
    {
     "symbol": "518800",
     "contribution_sum": 0.055486,
-    "share_of_return_sum": 0.0737
+    "share_of_return_sum": 0.0741
    },
    {
     "symbol": "159937",
     "contribution_sum": 0.052608,
-    "share_of_return_sum": 0.0699
+    "share_of_return_sum": 0.0703
    },
    {
     "symbol": "518880",
     "contribution_sum": 0.05012,
-    "share_of_return_sum": 0.0666
+    "share_of_return_sum": 0.0669
    },
    {
     "symbol": "159980",
     "contribution_sum": 0.034362,
-    "share_of_return_sum": 0.0457
+    "share_of_return_sum": 0.0459
    },
    {
     "symbol": "513100",
     "contribution_sum": 0.031747,
-    "share_of_return_sum": 0.0422
+    "share_of_return_sum": 0.0424
    },
    {
     "symbol": "518850",
     "contribution_sum": 0.030415,
-    "share_of_return_sum": 0.0404
+    "share_of_return_sum": 0.0406
    },
    {
     "symbol": "518660",
     "contribution_sum": 0.03011,
-    "share_of_return_sum": 0.04
+    "share_of_return_sum": 0.0402
    },
    {
     "symbol": "518600",
     "contribution_sum": 0.026506,
-    "share_of_return_sum": 0.0352
+    "share_of_return_sum": 0.0354
    },
    {
     "symbol": "518680",
     "contribution_sum": 0.025906,
-    "share_of_return_sum": 0.0344
+    "share_of_return_sum": 0.0346
    }
   ],
-  "top1_share": 0.0744,
-  "top3_share": 0.2181,
+  "top1_share": 0.0748,
+  "top3_share": 0.2191,
   "positive_contribution_hhi": 0.0238,
   "shares_sum_all_names": 1.0,
-  "names_above_1pct_share": 41,
-  "names_negative": 68,
-  "total_return_sum": 0.752381,
+  "names_above_1pct_share": 40,
+  "names_negative": 69,
+  "total_return_sum": 0.748809,
   "unit_note": "shares are of the SUM of daily arithmetic returns, not of log growth; they add to 100% by construction and are unit-free"
  },
  "exposure": {
@@ -239,8 +239,8 @@
   "159934": {
    "solo": {
     "full": {
-     "cagr": 0.089,
-     "sharpe": 0.923,
+     "cagr": 0.0884,
+     "sharpe": 0.917,
      "maxdd": -0.1489,
      "vol": 0.1018,
      "years": 6.86
@@ -253,8 +253,8 @@
      "years": 3.99
     },
     "oos": {
-     "cagr": 0.1742,
-     "sharpe": 1.653,
+     "cagr": 0.1726,
+     "sharpe": 1.639,
      "maxdd": -0.1064,
      "vol": 0.1047,
      "years": 2.86
@@ -263,17 +263,17 @@
    "turnover": 0.93,
    "delta_vs_base": {
     "cagr_pp": -0.75,
-    "sharpe": 0.923,
+    "sharpe": 0.917,
     "maxdd": -0.1489
    }
   },
   "518800": {
    "solo": {
     "full": {
-     "cagr": 0.0912,
-     "sharpe": 0.944,
+     "cagr": 0.0906,
+     "sharpe": 0.938,
      "maxdd": -0.1429,
-     "vol": 0.1018,
+     "vol": 0.1017,
      "years": 6.86
     },
     "is": {
@@ -284,27 +284,27 @@
      "years": 3.99
     },
     "oos": {
-     "cagr": 0.1776,
-     "sharpe": 1.679,
+     "cagr": 0.1759,
+     "sharpe": 1.665,
      "maxdd": -0.1063,
-     "vol": 0.1049,
+     "vol": 0.1048,
      "years": 2.86
     }
    },
    "turnover": 0.931,
    "delta_vs_base": {
     "cagr_pp": -0.53,
-    "sharpe": 0.944,
+    "sharpe": 0.938,
     "maxdd": -0.1429
    }
   },
   "159937": {
    "solo": {
     "full": {
-     "cagr": 0.0906,
-     "sharpe": 0.938,
+     "cagr": 0.09,
+     "sharpe": 0.932,
      "maxdd": -0.1496,
-     "vol": 0.1019,
+     "vol": 0.1018,
      "years": 6.86
     },
     "is": {
@@ -315,8 +315,8 @@
      "years": 3.99
     },
     "oos": {
-     "cagr": 0.1777,
-     "sharpe": 1.681,
+     "cagr": 0.1761,
+     "sharpe": 1.667,
      "maxdd": -0.1064,
      "vol": 0.1048,
      "years": 2.86
@@ -325,7 +325,7 @@
    "turnover": 0.931,
    "delta_vs_base": {
     "cagr_pp": -0.59,
-    "sharpe": 0.938,
+    "sharpe": 0.932,
     "maxdd": -0.1496
    }
   }
@@ -339,10 +339,10 @@
   ],
   "stats": {
    "full": {
-    "cagr": 0.0767,
-    "sharpe": 0.814,
+    "cagr": 0.0761,
+    "sharpe": 0.808,
     "maxdd": -0.1868,
-    "vol": 0.1009,
+    "vol": 0.1008,
     "years": 6.86
    },
    "is": {
@@ -353,8 +353,8 @@
     "years": 3.99
    },
    "oos": {
-    "cagr": 0.1556,
-    "sharpe": 1.524,
+    "cagr": 0.154,
+    "sharpe": 1.509,
     "maxdd": -0.1083,
     "vol": 0.1025,
     "years": 2.86
@@ -370,8 +370,8 @@
   "contains_top_k": true,
   "stats": {
    "full": {
-    "cagr": 0.0596,
-    "sharpe": 0.649,
+    "cagr": 0.059,
+    "sharpe": 0.643,
     "maxdd": -0.2226,
     "vol": 0.1007,
     "years": 6.86
@@ -384,8 +384,8 @@
     "years": 3.99
    },
    "oos": {
-    "cagr": 0.1331,
-    "sharpe": 1.336,
+    "cagr": 0.1315,
+    "sharpe": 1.322,
     "maxdd": -0.1086,
     "vol": 0.1014,
     "years": 2.86

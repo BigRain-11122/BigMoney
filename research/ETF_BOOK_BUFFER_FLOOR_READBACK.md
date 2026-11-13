@@ -6,30 +6,30 @@ r1354 用五个臂拟合出 **%+.3fpp / 单位 k**，再沿这条线外推到 k=
 
 | 读数 | 值 |
 |---|---|
-| 拟合预测 (k=0.30) | +0.246pp |
-| 实测中位 | +0.487pp |
-| 差 | +0.241pp (容差 0.287pp) |
-| 拟合自身最大样本内残差 | 0.096pp |
+| 拟合预测 (k=0.30) | +0.227pp |
+| 实测中位 | +0.318pp |
+| 差 | +0.091pp (容差 0.077pp) |
+| 拟合自身最大样本内残差 | 0.026pp |
 
-判决：**HOLDS**
+判决：**REFUTED**
 
 | n | R | 中位 CAGR | 基线 | Δ |
 |---|---|---|---|---|
-| 3 | 10 | +12.16pp | +10.77pp | +1.400pp |
-| 3 | 20 | +9.76pp | +8.46pp | +1.295pp |
-| 3 | 40 | +6.06pp | +6.66pp | -0.595pp |
-| 5 | 10 | +12.31pp | +11.44pp | +0.875pp |
-| 5 | 20 | +9.79pp | +9.07pp | +0.715pp |
-| 5 | 40 | +8.06pp | +8.10pp | -0.035pp |
-| 8 | 10 | +12.22pp | +11.94pp | +0.290pp |
-| 8 | 20 | +10.00pp | +10.06pp | -0.060pp |
-| 8 | 40 | +8.60pp | +8.03pp | +0.575pp |
-| 12 | 10 | +11.64pp | +11.44pp | +0.200pp |
-| 12 | 20 | +9.82pp | +9.42pp | +0.400pp |
-| 12 | 40 | +8.37pp | +7.70pp | +0.665pp |
+| 3 | 10 | +12.16pp | +10.82pp | +1.340pp |
+| 3 | 20 | +9.76pp | +8.48pp | +1.275pp |
+| 3 | 40 | +6.06pp | +6.74pp | -0.675pp |
+| 5 | 10 | +12.31pp | +11.45pp | +0.865pp |
+| 5 | 20 | +9.79pp | +9.06pp | +0.725pp |
+| 5 | 40 | +8.06pp | +8.24pp | -0.175pp |
+| 8 | 10 | +12.22pp | +11.92pp | +0.305pp |
+| 8 | 20 | +10.00pp | +10.12pp | -0.115pp |
+| 8 | 40 | +8.60pp | +8.27pp | +0.330pp |
+| 12 | 10 | +11.64pp | +11.54pp | +0.100pp |
+| 12 | 20 | +9.82pp | +9.61pp | +0.215pp |
+| 12 | 40 | +8.37pp | +7.78pp | +0.585pp |
 
-- the fit says +0.246pp at k=0.30 (slope +0.887, intercept -0.020)
-- the harvested arm's own 12 cells say +0.487pp (median)
-- gap +0.241pp against tolerance 0.287pp = 3.0x the fit's largest in-sample residual (0.096pp, floored at 0.05)
-- cell spread of the same arm: -0.595 .. +1.400pp (12 cells), i.e. the median is not the book
-- the line predicts a point it never saw, on the widest gap it spans -- the extrapolated k is a continuation of a measured slope, not a guess
+- the fit says +0.227pp at k=0.30 (slope +0.824, intercept -0.020)
+- the harvested arm's own 12 cells say +0.318pp (median)
+- gap +0.091pp against tolerance 0.077pp = 3.0x the fit's largest in-sample residual (0.026pp, floored at 0.05)
+- cell spread of the same arm: -0.675 .. +1.340pp (12 cells), i.e. the median is not the book
+- the line misses the point it never saw by more than its own residual band: the k the floor reports is an extrapolation with no support

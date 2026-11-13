@@ -1,6 +1,6 @@
 # Premium persistence -- is today's cross-border premium a condition or a convention?
 
-Ticket: `results\etf_book_order\TICKET-2026-11-12.json` (session 2026-11-12, read from `base_bar`)
+Ticket: `results\etf_book_order\TICKET-2026-11-13.json` (session 2026-11-13, read from `base_bar`)
 
 ## Answer
 
@@ -8,11 +8,11 @@ Ticket: `results\etf_book_order\TICKET-2026-11-12.json` (session 2026-11-12, rea
 
 | leg | class | n | median % | today % | share>0 | half-life (sess) | crossings/100 | lag spread (today) | verdict |
 |---|---|---|---|---|---|---|---|---|---|
-| 510760 | equity | 1495 | 0.05 | -0.77 | 0.528 | 0.2 | 52.3 | 1.02 | **LAG_DOMINATED** |
-| 512040 | equity | 1905 | 0.02 | -0.94 | 0.507 | 0.2 | 47.7 | 1.40 | **LAG_DOMINATED** |
-| 159655 | crossborder | 983 | 1.25 | 8.01 | 0.778 | 7.5 | 21.4 | 3.91 | **MIXED** |
-| 513690 | crossborder | 1330 | -0.01 | -1.04 | 0.493 | 1.3 | 35.7 | 0.51 | **MEAN_REVERTING** |
-| 159519 | crossborder | 773 | 0.23 | -1.57 | 0.569 | 0.7 | 34.3 | 0.73 | **MEAN_REVERTING** |
+| 510760 | equity | 1496 | 0.05 | -1.63 | 0.528 | 0.3 | 52.2 | 1.01 | **LAG_DOMINATED** |
+| 512040 | equity | 1906 | 0.02 | -0.78 | 0.506 | 0.2 | 47.7 | 1.40 | **LAG_DOMINATED** |
+| 159655 | crossborder | 984 | 1.25 | 8.28 | 0.778 | 7.5 | 21.4 | 3.92 | **MIXED** |
+| 513690 | crossborder | 1331 | -0.01 | -1.56 | 0.493 | 1.3 | 35.6 | 0.51 | **MEAN_REVERTING** |
+| 159519 | crossborder | 774 | 0.23 | -1.63 | 0.568 | 0.7 | 34.3 | 0.73 | **MEAN_REVERTING** |
 
 ## What this face will not say
 

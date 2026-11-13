@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-13T13:25:44+0800",
+ "generated": "2026-11-13T22:34:36+0800",
  "script": "scripts/etf_book_window_label.py",
  "criteria": {
   "tol_pp_per_year": 0.25,
@@ -15,18 +15,18 @@
  },
  "rows": {
   "printed_under_full_header": {
-   "cagr_pp": 12.64,
-   "sharpe": 1.71,
+   "cagr_pp": 12.59,
+   "sharpe": 1.705,
    "maxdd_pp": -5.78,
-   "bars": 692,
-   "artifact": "results/etf_book_order/TICKET-2026-11-12.json",
+   "bars": 693,
+   "artifact": "results/etf_book_order/TICKET-2026-11-13.json",
    "source": "the ticket's own backtest, as the page prints it today"
   },
   "same_book_full_window": {
-   "cagr_pp": 7.68,
-   "sharpe": 1.334,
+   "cagr_pp": 7.66,
+   "sharpe": 1.331,
    "maxdd_pp": -5.78,
-   "bars": 1534,
+   "bars": 1535,
    "source": "results/etf_book_band_ruler.json :: held/causal/ticket.full"
   },
   "same_book_2020_2023": {
@@ -39,8 +39,8 @@
  },
  "identity": {
   "the full-window cell's own window reproduces the ticket": {
-   "measured_pp": 12.64,
-   "published_pp": 12.64,
+   "measured_pp": 12.59,
+   "published_pp": 12.59,
    "delta_pp": 0.0,
    "pass": true
   }
@@ -48,12 +48,12 @@
  "inputs": {
   "band_ruler_status": "ok",
   "band_ruler_artifact": "results/etf_book_band_ruler.json",
-  "ticket_artifact": "results/etf_book_order/TICKET-2026-11-12.json",
-  "evidence_cutoff": "2026-11-12"
+  "ticket_artifact": "results/etf_book_order/TICKET-2026-11-13.json",
+  "evidence_cutoff": "2026-11-13"
  },
  "panel": {
-  "digest": "e383c3a68f5f98af",
-  "last_bar": "2026-11-12"
+  "digest": "e6f9d0e81a64ec75",
+  "last_bar": "2026-11-13"
  },
  "segments": {
   "middle_bars": 842,
@@ -62,22 +62,22 @@
  },
  "verdict": {
   "state": "ROW_LABELED_BY_WINDOW",
-  "gap_pp": 4.96,
-  "why": "the value under the 全窗 header is the 2.86-year window; the same book over the full window reads 7.68%, i.e. +4.96 pp/yr and the header is not what the cell holds"
+  "gap_pp": 4.93,
+  "why": "the value under the 全窗 header is the 2.86-year window; the same book over the full window reads 7.66%, i.e. +4.93 pp/yr and the header is not what the cell holds"
  },
  "table_row": {
   "full": {
-   "cagr_pct": 7.68,
-   "sharpe": 1.334,
+   "cagr_pct": 7.66,
+   "sharpe": 1.331,
    "maxdd_pct": -5.78
   },
   "oos": {
-   "cagr_pct": 12.64,
-   "sharpe": 1.71,
+   "cagr_pct": 12.59,
+   "sharpe": 1.705,
    "maxdd_pct": -5.78
   },
-  "full_window_bars": 1534,
-  "short_window_bars": 692,
+  "full_window_bars": 1535,
+  "short_window_bars": 693,
   "is": {
    "cagr_pct": 3.71,
    "sharpe": 0.901,

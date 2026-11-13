@@ -68,8 +68,34 @@ per via up down out off again once
 """.split())
 
 
+def _newest_day():
+    """Newest day for which BOTH pages exist, or None.
+
+    r1644: the default used to be today's date, so from midnight until the daily
+    pipeline wrote the pair this returned FACES_MISSING and the smoke leg read two
+    pages that do not exist yet as two bad sentences. The audit asks about the pages
+    a reader can open; the newest published pair answers that, and today is only one
+    candidate. An explicit day still wins (that is how --accept pins one).
+    """
+    days = set()
+    for sub, stem in (("live_usage", "LIVE"), ("daily_report", "REPORT")):
+        try:
+            names = os.listdir(os.path.join(ROOT, "docs", sub))
+        except OSError:
+            continue
+        for n in names:
+            m = re.match(r"^%s-(\d{4}-\d{2}-\d{2})\.md$" % stem, n)
+            if m:
+                days.add(m.group(1))
+    both = sorted(d for d in days
+                  if os.path.exists(os.path.join(ROOT, "docs", "live_usage", "LIVE-%s.md" % d))
+                  and os.path.exists(os.path.join(ROOT, "docs", "daily_report",
+                                                  "REPORT-%s.md" % d)))
+    return both[-1] if both else None
+
+
 def face_paths(day=None):
-    day = day or datetime.date.today().strftime("%Y-%m-%d")
+    day = day or _newest_day() or datetime.date.today().strftime("%Y-%m-%d")
     return [os.path.join(ROOT, "docs", "live_usage", "LIVE-%s.md" % day),
             os.path.join(ROOT, "docs", "daily_report", "REPORT-%s.md" % day)]
 
@@ -118,6 +144,7 @@ def load_allow():
 
 
 def run(day=None, accept=False):
+    day = day or _newest_day() or datetime.date.today().strftime("%Y-%m-%d")
     paths = face_paths(day)
     missing = [os.path.basename(p) for p in paths if not os.path.exists(p)]
     if missing:
@@ -127,7 +154,7 @@ def run(day=None, accept=False):
     known = set(allow.get("sha16") or [])
     new = [h for h in hits if h["sha16"] not in known]
     face = {"generated": datetime.datetime.now().isoformat(timespec="seconds"),
-            "cutoff": day or datetime.date.today().strftime("%Y-%m-%d"),
+            "cutoff": day,
             "faces": [os.path.basename(p) for p in paths],
             "n_hits": len(hits), "n_inherited": len(hits) - len(new),
             "n_new": len(new), "new": new[:20], "hits": hits,
@@ -148,8 +175,8 @@ def run(day=None, accept=False):
 def detail(face):
     if face.get("verdict") == "FACES_MISSING":
         return "missing=%s" % face["missing"]
-    return "hits=%d inherited=%d new=%d%s" % (
-        face["n_hits"], face["n_inherited"], face["n_new"],
+    return "day=%s hits=%d inherited=%d new=%d%s" % (
+        face.get("cutoff"), face["n_hits"], face["n_inherited"], face["n_new"],
         (" first_new=%s:%d" % (face["new"][0]["face"], face["new"][0]["line"])) if face["new"] else "")
 
 
@@ -195,6 +222,14 @@ def _selftest():
         and lanes.count(" ") >= MIN_SPACES)
     chk("a list of lane stems is a name list, not English prose", not is_prose(lanes))
     chk("real prose still passes the grammar test", is_prose(en))
+    # r1644: "today" is not the question. The default day must be one whose BOTH pages
+    # exist, and an explicit day must still win -- pinned here because the defect (two
+    # missing faces read as two bad sentences, every midnight) carried no fixture.
+    _nd = _newest_day()
+    chk("the default day is a published pair, never a day whose pages are simply absent",
+        _nd is None or all(os.path.exists(p) for p in face_paths(_nd)))
+    chk("an explicit day still wins over the newest published pair",
+        face_paths("1999-01-01")[0].endswith("LIVE-1999-01-01.md"))
     print("selftest %d/%d PASS" % (ok, tot))
     return 0 if ok == tot else 1
 

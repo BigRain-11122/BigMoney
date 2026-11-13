@@ -161,14 +161,25 @@ def compute(ticket):
     led = pos.get("ledger_row") or {}
     lb, tb = pos.get("ledger_bar"), pos.get("ticket_bar")
     holdings = [h for h in (led.get("holdings") or []) if h.get("symbol")]
-    if not holdings:
+    _tr = pos.get("transition") or {}
+    declared_status = str(_tr.get("status") or "").startswith("UNEXPLAINED")
+    if not holdings and not declared_status:
         return _refused(bar, "账上没有可减的持仓行（positions.ledger_row.holdings 缺失）")
-    if lb and tb and str(lb) != str(tb):
-        return _refused(bar, "账上这一本停在 %s、票面是 %s 的，两根 bar 不能相减" % (lb, tb))
-    # A positions face that reconciled against an OLDER sheet agrees with itself
-    # (ledger_bar == ticket_bar) and would still subtract a book this sheet never saw.
-    if tb and bar and str(tb) != str(bar):
-        return _refused(bar, "账本上一次对的是 %s 的票面、本单是 %s 的" % (tb, bar))
+    # r1640: the two bar-equality gates below stop a self-agreeing face from subtracting a
+    # book this sheet never saw. They must not run when the face itself says its ledger row
+    # is a declaration typed in without trades: in that state `ledger_row` is the target
+    # wearing the account's clothes (r1562), the only subtractable book is the older
+    # `account_row` handled further down, and that book's bar is *expected* to differ from
+    # both the declared ledger bar and this sheet's bar. Nothing is relaxed for an ordinary
+    # face -- both gates stay exactly as they were whenever the row is not a declaration
+    # (L12 / L13b pin that).
+    if not declared_status:
+        if lb and tb and str(lb) != str(tb):
+            return _refused(bar, "账上这一本停在 %s、票面是 %s 的，两根 bar 不能相减" % (lb, tb))
+        # A positions face that reconciled against an OLDER sheet agrees with itself
+        # (ledger_bar == ticket_bar) and would still subtract a book this sheet never saw.
+        if tb and bar and str(tb) != str(bar):
+            return _refused(bar, "账本上一次对的是 %s 的票面、本单是 %s 的" % (tb, bar))
     # r1562: the row this face subtracts must be a book somebody bought. positions writes
     # it from the sheet's own `holdings_after`, so when the swing replaces the sleeve and
     # prints no trades the row is the target wearing the account's clothes -- subtracting
@@ -177,12 +188,18 @@ def compute(ticket):
     # r1563: so don't refuse and don't subtract the declaration -- subtract the newest row a
     # trade list can actually reach (positions.account_row), and name the row it came from.
     # The operator holding the last bought book is exactly who needs this table.
-    _tr = pos.get("transition") or {}
-    declared = str(_tr.get("status") or "").startswith("UNEXPLAINED")
+    declared = declared_status
     declaration = None
     if declared:
         _acct = pos.get("account_row") or {}
         _holdings = [h for h in (_acct.get("holdings") or []) if h.get("symbol")]
+        # r1640: the gate the bar-equality checks would have applied is not dropped, it moves
+        # to the row that is actually subtracted: an account bar *after* this sheet's bar is a
+        # future book and cannot be subtracted from today's target.
+        _acct_bar = str(_acct.get("bar") or "")
+        if _holdings and _acct_bar and bar and _acct_bar > str(bar):
+            return _refused(bar, "账上可减的那一本停在 %s、比本单 %s 还新：这是未来账，不能拿来减"
+                            % (_acct_bar, bar))
         if not _holdings:
             return _refused(
                 bar,
@@ -367,6 +384,23 @@ def same_bar_positions(ticket, path=None):
     return pos
 
 
+def _live_rejection(ticket, path=None):
+    """Why the on-disk statement was not subtracted, as numbers a reader can re-check.
+
+    r1640: this is the input to the sentence above -- a face that says "the disk has none"
+    has to know whether the file is missing or merely answers for another sheet.
+    """
+    bar = str(ticket.get("as_of") or ticket.get("evidence_cutoff") or "")
+    try:
+        pos = _load(path or POS_FACE)
+    except Exception:
+        return None
+    if not isinstance(pos, dict):
+        return None
+    return {"asof": pos.get("asof"), "ticket_bar": pos.get("ticket_bar"),
+            "ledger_bar": pos.get("ledger_bar"), "wanted": bar}
+
+
 def compute_for_ticket(ticket, positions_path=None, prefer_live=True):
     """Compute on the sheet's own bar, and name which statement was subtracted.
 
@@ -385,6 +419,8 @@ def compute_for_ticket(ticket, positions_path=None, prefer_live=True):
     face = compute(ticket)
     if face is not None:
         face["positions_source"] = "ticket_embedded"
+        if prefer_live:
+            face["positions_live"] = _live_rejection(ticket, positions_path)
     return face
 
 
@@ -481,6 +517,17 @@ def positions_source_note(face):
         return ("- 相减用的账：**盘上账本面**（`results/etf_book_positions.json`，asof %s）"
                 "——不是票面构建那一刻的内嵌快照。｜`positions_source=%s`"
                 % (str(src)[len("face@"):], src))
+    # r1640: "the disk has no statement on this bar" was printed on a day when the disk did
+    # carry one -- it just reconciled against the *previous* sheet. A reader who opens that
+    # file sees a face on today's bar and reads the sentence as a bug. Name the bar that
+    # statement actually answers for; only claim absence when the file is absent.
+    _live = (face or {}).get("positions_live") or {}
+    if _live.get("ticket_bar") or _live.get("asof"):
+        return ("- 相减用的账：**票面内嵌快照**（票面构建那一刻的账）——盘上那份账本面"
+                "面对的是 %s 的票面（asof %s），不是本单 %s 的；本节因此减的是那一刻那本账。"
+                "｜`positions_source=%s`"
+                % (_live.get("ticket_bar") or "未署名", _live.get("asof") or "未署名",
+                   _live.get("wanted") or "本单", src))
     return ("- 相减用的账：**票面内嵌快照**（票面构建那一刻的账）——盘上没有与本单同 bar"
             " 的账本面，本节因此减的是那一刻那本账。｜`positions_source=%s`" % src)
 
@@ -766,6 +813,29 @@ def selftest():
     _oldface["positions"]["ticket_bar"] = "2025-12-31"
     leg("L13b a book reconciled against an older sheet is refused, not silently reused",
         compute(_oldface)["verdict"] == "CANNOT_SUBTRACT")
+
+    # r1640: when the ledger row is a declaration (target typed in, no trades), the older
+    # account row is the only subtractable book -- and its bar is expected to differ from
+    # both the declared ledger bar and this sheet's bar. The gates above must not eat it.
+    def _declared_fixture(acct_bar="2025-12-31"):
+        _d = _fixture([("B", 10, 2.0)], [("A", 10, 2.0)], cash=80000.0, bar="2026-01-02")
+        _d["positions"]["ledger_bar"] = "2026-01-02"
+        _d["positions"]["ticket_bar"] = "2026-01-01"
+        _d["positions"]["transition"] = {"status": "UNEXPLAINED_TARGET_WITHOUT_TRADES",
+                                         "bar": "2026-01-02", "actions": 0}
+        _d["positions"]["account_row"] = {
+            "bar": acct_bar, "cash_cny": 80000.0, "risk_book_cny": 2000.0,
+            "holdings": [{"symbol": "A", "lots": 10, "price": 2.0, "amount_cny": 2000.0}]}
+        return _d
+
+    _df = compute(_declared_fixture())
+    leg("L12c a declared ledger row subtracts the older account row, and names it",
+        _df["verdict"] == "SHEET_IMPLIES_A_SWAP"
+        and (_df.get("current_book_from") or {}).get("source") == "book_before_declaration"
+        and _df.get("current_bar") == "2025-12-31"
+        and {r["symbol"]: r["side"] for r in _df["rows"]} == {"A": "SELL", "B": "BUY"})
+    leg("L12d an account row newer than the sheet is still refused, not subtracted",
+        compute(_declared_fixture(acct_bar="2026-02-02"))["verdict"] == "CANNOT_SUBTRACT")
 
     # gate legs: the fixture reconciles, so verify must be silent on it; each tamper must speak
     good = compute(_fixture([("B", 10, 2.0)], [("A", 10, 2.0)], cash=80000.0))

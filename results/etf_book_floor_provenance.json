@@ -5,29 +5,29 @@
  "identity": [
   {
    "cell": "baseline_published",
-   "k": 0.46025345210279767,
-   "beta": 0.4345431828620592,
+   "k": 0.46025345210279783,
+   "beta": 0.43454318286205906,
    "k_x_beta": 0.2,
    "err_vs_target": 0.0
   },
   {
    "cell": "window",
-   "k": 0.7470863396940541,
-   "beta": 0.2677066750837711,
+   "k": 0.7470863396940555,
+   "beta": 0.26770667508377066,
    "k_x_beta": 0.2,
    "err_vs_target": 0.0
   },
   {
    "cell": "universe",
-   "k": 0.4321950056569341,
-   "beta": 0.46275407485563397,
+   "k": 0.4321950056569343,
+   "beta": 0.4627540748556337,
    "k_x_beta": 0.2,
    "err_vs_target": 0.0
   },
   {
    "cell": "window_x_universe",
-   "k": 0.667665327202606,
-   "beta": 0.29955127494483347,
+   "k": 0.6676653272026063,
+   "beta": 0.2995512749448333,
    "k_x_beta": 0.2,
    "err_vs_target": 0.0
   },
@@ -44,43 +44,43 @@
  "grid": {
   "common|all": {
    "cell": "window",
-   "k": 0.7470863396940541,
-   "beta": 0.2677066750837711,
+   "k": 0.7470863396940555,
+   "beta": 0.26770667508377066,
    "bars": 771,
    "note": ""
   },
   "common|graded": {
    "cell": "window_x_universe",
-   "k": 0.667665327202606,
-   "beta": 0.29955127494483347,
+   "k": 0.6676653272026063,
+   "beta": 0.2995512749448333,
    "bars": 771,
    "note": ""
   },
   "full|all": {
    "cell": "baseline_published",
-   "k": 0.46025345210279767,
-   "beta": 0.4345431828620592,
-   "bars": 1662,
+   "k": 0.46025345210279783,
+   "beta": 0.43454318286205906,
+   "bars": 1663,
    "note": ""
   },
   "full|graded": {
    "cell": "universe",
-   "k": 0.4321950056569341,
-   "beta": 0.46275407485563397,
-   "bars": 1662,
+   "k": 0.4321950056569343,
+   "beta": 0.4627540748556337,
+   "bars": 1663,
    "note": ""
   }
  },
  "grid_missing": [],
  "effects": {
-  "floor_full_window": 0.4321950056569341,
-  "floor_common_window": 0.667665327202606,
-  "floor_all_universe": 0.46025345210279767,
-  "floor_graded_universe": 0.4321950056569341,
-  "floor_full_all": 0.46025345210279767,
-  "floor_full_graded": 0.4321950056569341,
-  "floor_common_all": 0.7470863396940541,
-  "floor_common_graded": 0.667665327202606,
+  "floor_full_window": 0.4321950056569343,
+  "floor_common_window": 0.6676653272026063,
+  "floor_all_universe": 0.46025345210279783,
+  "floor_graded_universe": 0.4321950056569343,
+  "floor_full_all": 0.46025345210279783,
+  "floor_full_graded": 0.4321950056569343,
+  "floor_common_all": 0.7470863396940555,
+  "floor_common_graded": 0.6676653272026063,
   "window_effect_k": -0.23547,
   "window_effect_pp": -23.55,
   "window_effect_cny": -235470.32,
@@ -98,19 +98,19 @@
  },
  "issuing_cell": {
   "cell": "universe",
-  "beta": 0.46275407485563397,
-  "k": 0.4321950056569341,
-  "bars": 1662,
+  "beta": 0.4627540748556337,
+  "k": 0.4321950056569343,
+  "bars": 1663,
   "window": "full",
   "universe": "graded (equity,commodity,convertible)"
  },
  "published_floor": 0.432195,
- "evidence_cutoff": "2026-11-12",
- "generated": "2026-11-13T09:39:50+0800",
+ "evidence_cutoff": "2026-11-13",
+ "generated": "2026-11-13T22:49:13+0800",
  "verdict": "FLOOR_IS_A_BETA_RECIPROCAL",
  "issuing_cell_is_the_floor": true,
  "issuing_cell_delta_pp": 0.0,
- "sentence": "the floor is not a version of the rule: k*beta == 0.2000 on all 5 cells, so the floor is the target divided by the largest beta measured -- issued by `universe` (1662 bars). Of the -20.74pp between the widest floor (k=0.460253) and the narrowest (k=0.667665), -23.55pp (114%) comes from shrinking the window from the full panel to 1662 bars and only 2.81pp from grading the universe on that same short stretch (2.81pp if the universe is graded on the full panel); the two knobs interact by -5.14pp. Read as money on CNY 1,000,000 NAV: the window alone accounts for CNY -235,470 of the gap.",
+ "sentence": "the floor is not a version of the rule: k*beta == 0.2000 on all 5 cells, so the floor is the target divided by the largest beta measured -- issued by `universe` (1663 bars). Of the -20.74pp between the widest floor (k=0.460253) and the narrowest (k=0.667665), -23.55pp (114%) comes from shrinking the window from the full panel to 1663 bars and only 2.81pp from grading the universe on that same short stretch (2.81pp if the universe is graded on the full panel); the two knobs interact by -5.14pp. Read as money on CNY 1,000,000 NAV: the window alone accounts for CNY -235,470 of the gap.",
  "not_measured": [
   "the short window is one calendar stretch (2025-07..2026-10), not a sample of stretches: a rolling 306-bar beta path would say whether the window knob is a level shift or a phase effect, and this face does not compute it",
   "whether a longer window is the RIGHT window: this face only prices the knob, it does not elect one (r1446's caliber prereg)",

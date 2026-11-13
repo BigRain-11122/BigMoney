@@ -1,6 +1,6 @@
 # 换回来的收益量出来是多少（r1523）
 
-bar 2026-11-12 ｜ 判定 **NOTHING_MEASURED**
+bar 2026-11-13 ｜ 判定 **NOTHING_MEASURED**
 
 
 ## 逐对读数
