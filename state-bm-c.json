@@ -1220,5 +1220,31 @@
  "round_t1629_next": "next: (a) after the 11-13 close lands, window_label / cost_tape / band_ruler / vol_window should each judge themselves stale and pay their own writers -- verify rather than assume; (b) family_coherence (2026-11-06) is the last engine-priced section: five cost arms must be re-priced on ONE panel (pool ticket ATLAS-ARMS-ONEWORLD) before its bar can move; (c) the repo panel is bm-a's lane and bm-a's heartbeat is 16.9 h quiet -- MSG-20261113-bmc-repo-panel-one-session-behind names the gap; do not take the lane over.",
  "round_t1629b_addendum": "| 2026-11-13 13:5x | 1629b | **ADDENDUM（如实）：改后的全量套件收口了，这一份**覆盖本轮改动**。** 13:35:22 起（`results/_smoke_r1629.out`，晚于三处脚本改动的最后一次写入）→ **577/577 PASS，0 FAIL**，wall clock **705.6s / 575 腿**，59 腿复用首判省 731.1s。套件里 CEO 页那条腿读到 **273/273**（改后档），即这份绿是**改后**的绿，不是上一份（13:22 起、早于改动、已作废不计）。送达：两提交 **8d000d3b1e**（产物）＋**f0d6fbf305**（方法论卡 E598）已落 origin/main，fetch 后 **0 ahead / 0 behind**。**记账**：本行 1 处。 |",
  "round_t1630_note": "| 2026-11-13 13:50-14:2x | 1630 | **PRODUCT（产品优先律·watermark=py_low_with_work_cands，唯一在跑的是本轮自有的重定价批，已如实点名）：一页上印着两个互相矛盾的日子，而链上没有任何一条腿能看见它。** 审计面说 `sample_window`（「这些号码是从哪一段行情里长出来的」）停在 **2026-10-26**，页头却写按 **2026-11-12** 定价——13 个交易日。上一轮把它归成 window_bound（固定窗口），因为它自己的 window 字段末值就是它的 bar；这一轮查清真因：`results/etf_book_pre2020.json` **在链上一条腿都没有**（s6_chain 整文件 grep pre2020 = 0 命中），面 10-27 生成后 18 天没人重跑，窗口自述跟着一起冻住——r1595「读自己/读不到都不等于新鲜」的又一份拷贝。**修两层**：①`scripts/etf_book_pre2020.py` 新增 `refresh` 门，四态＝面板动了→重建／相同→**0.0s no-op**／上游落后→**不写**（重建会把旧数字顶上新文件名）／读不到→重建（不可读不是新鲜）；上游 bar 读 `etf_book_spanning`（同一张面板，与 r1621 universe_lock 同法）。②`Tools/s6_chain_bmc.py` 新增链腿 `etf_book_pre2020_write`，排在 spanning 之后。**验证**：新增 selftest 腿 `moved=1 equal=0 upstream_behind=0 unreadable=1`，`selftest 12/12 PASS`；两文件语法解析 OK；四态真值输出已落盘（REBUILT／REFRESH_NOOP／UPSTREAM_BEHIND／REBUILT）。**第二件（在飞）**：成本轴五臂重定价到同一张面板——`cost0` **203.4s** 与 `cost05` **192.8s** 已完成，两面双双击中 **2026-11-12**（原先 10-30·少 5 根 bar），`cost20/cost40/buffer_k05_cost20` 在跑；跑完 arms 面的 panel_coherence 应从 MIXED_WORLDS 收敛，整条成本轴才可读（这是 family_coherence 停在 11-06 的解锁条件）。**S0**：identity=bm-c｜`orphan_face_probe` py_faces=2 **orphans=1**（集团层 `Tools/fleet/agent.py --node b`，209min·三面全中·非本司只读报告不击杀）｜ahead=0 behind=0｜轮首树脏=上一轮链腿派生面，本轮只定向提交自有产出。**S0.5**：`s05_probe` orders_delta=false／decisions_delta=false／unacked=[] rc0。**S1**：全量套件 13:51:24 起在飞（pid 33892），收轮时未收口＝**不宣称全绿**；改件以 selftest 12/12 + 语法 + 四态真值输出为据。**S6**：dualrun **ZERO-DRIFT**（744 项·streak 51）／`compute_audit` FLAG:pool_starvation,supply_floor（AGENDA_DEBT·shortfall 3·startable 0）／`py_watermark` py_low_with_work_cands／attrition 4 账本 **CLEAN**（3 处历史缩行 healed）。**S7**：loop pin=5 **no-op**（首火 14:05 未动）／watchdog 在位但 S4U 翻转**第八轮被拒**（如实记）／两爪 LF 归一重装 MATCH。**CEO 过程可见面**：当前活＝把「这一页的两个日子」接上能自己追的腿，同时把成本轴搬回同一张面板｜最近实物＝`results/etf_book_phase_atlas_cost0.json`＋`cost05.json`（双双 2026-11-12）＋`scripts/etf_book_pre2020.py` 的 refresh 门（12/12）｜下个里程碑＝五臂到齐后 arms 面收敛出单一 digest，`sample_window` 节随 pre2020 重建回到 11-12（窗 ≤48h）。**记账**：本行 1 处（其余为 S6 产出）。 本地未达 origin commit 数=0（收尾 push 后复核）。 |",
- "round_t1630_next": "next: (a) read results/_r1630_costarms.out to the end -- all five arms on 2026-11-12, then read panel_coherence for a single digest and restate the cost-axis verdict (withheld since 2026-10-31); (b) read the pre2020 rebuild: page_window should move 2026-10-26 -> 2026-11-12 and the section audit should stop naming it; (c) confirm the new chain leg no-ops (0.0s) when the panel is unchanged."
+ "round_t1630_next": "next: (a) read results/_r1630_costarms.out to the end -- all five arms on 2026-11-12, then read panel_coherence for a single digest and restate the cost-axis verdict (withheld since 2026-10-31); (b) read the pre2020 rebuild: page_window should move 2026-10-26 -> 2026-11-12 and the section audit should stop naming it; (c) confirm the new chain leg no-ops (0.0s) when the panel is unchanged.",
+ "round_t1630b_addendum": "| 2026-11-13 14:1x | 1630b | **ADDENDUM（勘正·如实）：成本轴跑完了，可它没有收敛——旧的那一侧翻到了对照臂上。** 五臂全部重定价完成（cost0 203.4s／cost05 192.8s／cost20 195.5s／cost40 197.3s／buffer_k05_cost20），五面**全部落在面板 e383c3a68f5f98af，末行 2026-11-12，5279 bars**。但 arms 面重汇总后仍是 `MIXED_WORLDS`：另一侧现在是 **baseline 与 5 条 buffer 臂（k02/05/10/20/40）停在 58302d9ca988c138，末行 2026-11-06，5275 bars**——4 根 bar 之前。真因在链上：`Tools/s6_chain_bmc.py` 里 `etf_book_phase_atlas` **只有 `--check`，没有 run 写者**（第 625 行），所以 baseline 面自 11-07 10:33 起再没人写过，而它的 check 只重派生自己发布的数字，**在任何面板上都绿**——r1471「消费者腿绿≠生产者存在」的又一份拷贝，也是本轮 pre2020 的同族病。我这一跑把「旧的一侧」从成本臂搬到了对照臂：**没有收敛，只是换了个方向**，禁称已解锁。**下一轮正解**：给 baseline＋5 条 buffer 臂同一次 refresh（面板动了才跑，6 面 × ~200s ≈ 20min），或把整族并进一条 refresh 腿；在那之前成本轴判词维持 withheld（禁读两世界差为规则效应）。**记账**：本行 1 处。 本地未达 origin commit 数=0（收尾 push 后复核）。 |",
+ "round_t1630b_next": "next: (a) give etf_book_phase_atlas (baseline) and the five buffer arms a refresh writer on the chain -- they are the stale side now (2026-11-06 / 58302d9c vs the cost arms' 2026-11-12 / e383c3a6) and the leg at Tools/s6_chain_bmc.py:625 is check-only, so no writer ever advances them; (b) only after one panel holds all 11 faces may the cost-axis verdict be read; (c) read the pre2020 rebuild result (page_window 10-26 -> 11-12).",
+ "arm_repricing": {
+  "done": [
+   "cost0",
+   "cost05",
+   "cost20",
+   "cost40",
+   "buffer_k05_cost20"
+  ],
+  "panel": "e383c3a68f5f98af",
+  "last_bar": "2026-11-12",
+  "bars": 5279,
+  "stale_side_now": [
+   "baseline",
+   "buffer_k02",
+   "buffer_k05",
+   "buffer_k10",
+   "buffer_k20",
+   "buffer_k40"
+  ],
+  "stale_panel": "58302d9ca988c138",
+  "stale_last_bar": "2026-11-06",
+  "verdict": "MIXED_WORLDS (unchanged; the stale side flipped from cost arms to the control arms)",
+  "root_cause": "Tools/s6_chain_bmc.py:625 runs etf_book_phase_atlas with --check only -> no writer leg"
+ }
 }
