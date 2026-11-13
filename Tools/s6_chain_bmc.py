@@ -1405,14 +1405,27 @@ LEGS = [
     # own cells: control reproduces the engine, the verdict is recomputed from the
     # distribution, the aggregate is recomputable from its finals. Read-only JSON, ~0.1s;
     # the 90-second re-derivation runs with `run` in its own round.
-    ("late_sheet_price", ["python", "scripts/etf_book_late_sheet_price.py", "--check"]),
+    # r1652: the reference face had the same hole as the ladder below -- its gate re-derived
+    # its own rows and never asked whether the panel it priced was still the panel on disk
+    # (it answered on the 2026-11-06 panel while the ticket ran to 11-13). It records the
+    # input set it priced, so the probe may pay this ~90s reprice on its own.
+    ("late_sheet_price", ["python", "scripts/etf_book_late_sheet_price.py", "--check"],
+     ["python", "scripts/etf_book_late_sheet_price.py", "run"]),
     # r1482: the desk's own question is not "what does lateness cost" but "today or
     # tomorrow". That answer is the trim's price added to a wait that can be several bars,
     # so this leg re-derives the k-bar ladder receipt: every rung's additivity flag follows
     # its own residual, the decision re-derives from the table it published, and the k=1
     # rung must still equal the published one-sheet face (two faces, one number). Read-only
     # JSON (~0.1s); the few-minute ladder runs with `run` in its own round.
-    ("do_or_wait", ["python", "scripts/etf_book_do_or_wait.py", "--check"]),
+    # r1652: that read-only gate had no staleness leg at all -- it compared the face with
+    # its own ladder and with the two receipts' *decisions*, so it kept saying OK while the
+    # cut receipt ran to 11-13 and the ladder it quotes stayed on 11-06: the desk's one
+    # actionable answer ("do it today or wait k bars") was a week old and nothing could pay
+    # a refresh (a check with no reachable producer, r1471 family). `check` now records the
+    # bar AND the bytes of both receipts it priced and says STALE (rc2) when they move, so
+    # the probe may pay this reprice on its own.
+    ("do_or_wait", ["python", "scripts/etf_book_do_or_wait.py", "--check"],
+     ["python", "scripts/etf_book_do_or_wait.py", "run"]),
     # r1484: 60.7% of this book is a cash leg that matures every bar -- keeping it alive
     # is ~242 orders a year. The one-ETF alternative had never been priced on the same
     # window and principal; this leg re-derives the published gap, its per-year range, the

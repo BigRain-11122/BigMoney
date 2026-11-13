@@ -365,6 +365,7 @@ def run(out_path=None):
         },
         "arms": results,
         "headline": [_sentence(r) for r in results],
+        "panel_inputs": list(A.panel_inputs_sig() or []),
     }
     if out_path:
         with open(out_path, "w", encoding="utf-8") as f:
@@ -469,6 +470,20 @@ def check(out_path=None):
     path = out_path or os.path.join(E.PATHS.results_dir, "etf_book_late_sheet_price.json")
     with open(path, encoding="utf-8") as f:
         d = json.load(f)
+    # r1652: this face is the k=1 reference other faces quote, and its gate only re-derived
+    # its own rows -- so it sat on the 2026-11-06 panel while the ticket it prices against
+    # ran to 11-13, and nothing in the chain could pay a reprice (`--check` was the only
+    # leg). It now records the input set it priced (single implementation:
+    # etf_equity_alpha.panel_inputs_sig) and says STALE when that set moved.
+    live = A.panel_inputs_sig()
+    rec = d.get("panel_inputs")
+    if rec is None:
+        print("STALE: this face never recorded the panel it priced -- the chain reprices")
+        return 2
+    if live is not None and [int(x) for x in rec] != [int(x) for x in live]:
+        print("STALE: the panel's file set moved since this face priced it (%s -> %s); "
+              "the chain reprices" % (list(rec), list(live)))
+        return 2
     legs, bad = [], []
 
     for arm in d["arms"]:

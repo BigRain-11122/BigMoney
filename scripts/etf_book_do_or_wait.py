@@ -44,6 +44,7 @@ panel.
 
 Usage: python scripts/etf_book_do_or_wait.py [run|selftest|--check]
 """
+import hashlib
 import json
 import math
 import os
@@ -174,6 +175,54 @@ def _load(path):
         return None
 
 
+def _sha16(path):
+    try:
+        with open(path, "rb") as fh:
+            return hashlib.sha256(fh.read()).hexdigest()[:16]
+    except OSError:
+        return None
+
+
+RECEIPTS = (("cut_order_gap", CUT), ("late_sheet_price", LATE))
+
+
+def inputs_block():
+    """What this face priced: the two receipts' bar AND their bytes.
+
+    `check` used to compare the face only with its own ladder and with the two receipts'
+    *decisions*, so it could keep saying OK for a week while the ticket it advises on moved
+    on (measured 2026-11-14: the face sat on 2026-11-06, its cut receipt on 2026-11-13).
+    A bar date alone cannot see a same-bar re-price, so the bytes are recorded too.
+    """
+    out = {}
+    for name, path in RECEIPTS:
+        d = _load(path) or {}
+        out[name] = {"cutoff": d.get("evidence_cutoff"), "digest": _sha16(path)}
+    return out
+
+
+def staleness(rec, live):
+    """Three states for the receipts a priced face sits on.
+
+    stale   -- a receipt moved (a newer bar, or the same bar with different bytes)
+    unknown -- the face never recorded what it priced (written before this gate existed)
+    current -- every receipt is the one the face priced
+    """
+    if not rec:
+        return "unknown"
+    for name, now in live.items():
+        was = rec.get(name)
+        if not was:
+            return "unknown"
+        if now.get("digest") is None:
+            return "stale"           # a receipt we cannot read is not the one we priced
+        if str(now.get("cutoff") or "") != str(was.get("cutoff") or ""):
+            return "stale"
+        if now.get("digest") != was.get("digest"):
+            return "stale"
+    return "current"
+
+
 def decide(arm_block, gap, late):
     """Fold the cut's price and the wait's price into one action. Pure function."""
     if not arm_block or not arm_block.get("ladder"):
@@ -299,6 +348,7 @@ def run(out_path=None):
         "arms": arms,
         "decision": dec,
         "headline": [dec["sentence"]] if dec.get("sentence") else [],
+        "inputs": inputs_block(),
     }
     if out_path:
         with open(out_path, "w", encoding="utf-8") as fh:
@@ -417,6 +467,23 @@ def selftest():
     d6 = decide({"ladder": mk(-12.0, -4.6, 0.41)}, None, None)
     leg("missing receipt is UNKNOWN, never a zero toll", d6["verdict"] == "UNKNOWN_MISSING_RECEIPT")
 
+    # the freshness gate: three states, and the bytes do not follow the bar date
+    base = {"cut_order_gap": {"cutoff": "2026-11-13", "digest": "aa"},
+            "late_sheet_price": {"cutoff": "2026-11-06", "digest": "bb"}}
+    leg("a face priced on the receipts it was handed is current",
+        staleness(base, base) == "current")
+    leg("a receipt on a newer bar makes the face stale",
+        staleness(base, {**base, "cut_order_gap": {"cutoff": "2026-11-14", "digest": "aa"}})
+        == "stale")
+    leg("a receipt re-priced on the SAME bar makes the face stale",
+        staleness(base, {**base, "cut_order_gap": {"cutoff": "2026-11-13", "digest": "zz"}})
+        == "stale")
+    leg("a face that never recorded its receipts is stale, not current",
+        staleness(None, base) == "unknown")
+    leg("a receipt that cannot be read is stale, never 'unchanged'",
+        staleness(base, {**base, "late_sheet_price": {"cutoff": "2026-11-06", "digest": None}})
+        == "stale")
+
     failed = [x[0] for x in legs if not x[1]]
     for name, ok, note in legs:
         print(("PASS " if ok else "FAIL ") + name + (("  [" + note + "]") if note else ""))
@@ -428,6 +495,17 @@ def check(out_path=None):
     path = out_path or OUT
     with open(path, encoding="utf-8") as fh:
         d = json.load(fh)
+    live = inputs_block()
+    state = staleness(d.get("inputs"), live)
+    if state == "unknown":
+        print("STALE: this face never recorded the receipts it priced -- the chain reprices")
+        return 2
+    if state == "stale":
+        rec = d.get("inputs") or {}
+        print("STALE: the receipts moved (%s -> %s); the chain reprices this face"
+              % ({k: (v or {}).get("cutoff") for k, v in rec.items()},
+                 {k: v.get("cutoff") for k, v in live.items()}))
+        return 2
     legs, bad = [], []
 
     for a in d["arms"]:

@@ -1,7 +1,7 @@
 {
  "activity": "product",
  "activity_now": "r1651: the band ruler's control arms are priced on the page's own bar, so a lagging feed no longer reads as a broken identity; the width ruler composes before the two order sheets",
- "activity_now_round": 1651,
+ "activity_now_round": 1652,
  "agenda_starved": false,
  "ahead_origin": 0,
  "arm_repricing": {
@@ -183,8 +183,8 @@
   "sha": "278bb79900"
  },
  "last_push_at": "2026-11-11T08:31:06+08:00",
- "last_round": 1651,
- "last_round_at": "2026-11-14T01:05:55+08:00",
+ "last_round": 1652,
+ "last_round_at": "2026-11-14T04:50:13+08:00",
  "last_round_at_legacy": "2026-10-19T15:34:21+08:00",
  "last_round_closed": true,
  "last_round_closed_at": "2026-11-10T10:32:39+08:00",
@@ -886,7 +886,7 @@
  "recent_artifact": "results/etf_premium/PREMIUM-2026-11-12.md",
  "round": 1630,
  "round_label": "r1630",
- "round_no": 1651,
+ "round_no": 1652,
  "round_no_label": "1572",
  "round_no_landed": 1492,
  "round_note": "r1489: a reinstated bar is re-derived from the panel, not carried over (reinstatement_check + reinstatements.json + sheet paragraph)",
@@ -1211,15 +1211,15 @@
  "round_t1650_next": "next (P0): the width ruler's +0.15pp never reaches either order document -- both ORDER-2026-11-13.md and its -card.md mention width and print no number from results/etf_book_live_width_ruler.json (paired.median_pp=+0.15, pairs=20, sign_agreement=0.55); smoke leg is smoke_test.py:2499. Fix the renderer with both-way tests (face moved -> page moves; face same -> page same) inside one full round, do not half-edit the ticket identity legs. Then: 9 remaining reds are owner-side (etf_book_ceo_page HOST=bm-a) and unblock themselves at ~06:10 when bm-a passes the 6.0h takeover gate.",
  "round_t1650_note": "| 2026-11-14 03:42-04:0x | 1650 | **PRODUCT（产品优先律·watermark=insufficient_history 无红）：「同一天换了内容」这种过期，日期判据永远看不见——于是链自己的写腿与检查腿隔 0.1 秒就互相判红。** 起点=r1649 留下的链（pid 38812）03:37 收尾 233/235 rc0，两条非零；`etf_book_atlas_toll_ladder` rc1 `FAIL: face disagrees with its sources on toll_ladder, statement, faces`（0.1s）——**写腿 run 与检查腿 --check 在同一分批里只隔 0.1 秒**，盘上却已经不一致。查根：`build()` 两次连跑逐字节相同（DIFF []，sources_bar 都是 2026-11-13），所以不是不确定性，是**面比源旧一代**；而 check 的 STALE/FAIL 判据只有 `sources_bar` 一条——成本臂/迟滞臂/buffer 臂的重建**发生在同一根 bar 上**（同日重算，bar 不动、内容全变），于是一次合法重定价被读成「有人改账」rc1，而 rc1 没有任何链腿能付，红到底。**修**：`sources_digest()`＝源面文件字节的 sha256（内容，不看 mtime）印进面里，读端三态=源 bar 前进→STALE／bar 不变但源字节变了→**STALE（同 bar 重定价）**／两者都没变→FAIL；旧世代面（无 digest）按 STALE 让链付一次重定价。**验证**：修前 `--check` 实测 rc2「sources re-priced on the same bar (source bytes unrecorded -> a3dacef8b18d458d)」；`run` 重定价后 `--check` **OK**（toll ORDERING_IS_A_TOLL_ARTEFACT 5 rungs·break-even **0.696bp**／buffer SINGLE_RUNG_CROSSING_IS_ONE_DRAW 7 rungs 1/7 clearing）；selftest **33→38/38**（新增 4 条三态腿 + 指纹吃内容不吃 mtime 两腿）。**读数（面自己说的）**：12 格排序只在 **0.70bp/边以下**才清得过自身相位噪声，buffer 剂量从不越带 → 两个旋钮都是零成本对象，唯一站得住的句子是方向的（更宽在每个 rung 都更值钱，rank corr +1.00），且宽度符号最多值 1.72pp、仍在带内。**第二条非零腿不是本机缺陷**：`ceo_page_card_days` DIFF 11-12 vs 11-13——该页 HOST=bm-a，本机 `run` 诚实 no-op；实读 bm-a 心跳静默 **4.57h < 接管门 6.0h**，故此刻不接管（约 06:10 后才有资格），如实留待。**S0**：identity=bm-c｜orphans=0（py_faces=3·cleared 1）｜起手 ahead=0 behind=0｜树脏 344 件＝链/车道派生面，本轮只定向提交自有 5 件。**S0.5**：`s05_probe` orders_delta=false／decisions_delta=false／unacked=[] rc0。**S1**：全量套件 03:42:36 起在飞（pythonw pid 44380 → results\\_smoke_r1650.out），收轮时 156 腿 **0 FAIL** 未收口=**不宣称全绿**；改件证据=修前 rc2/修后 rc0 实跑+自检 38/38。**S6**：`pool_dualrun_reconcile` **ZERO-DRIFT**（744 项·streak 51）／`compute_audit` FLAG:pool_starvation,supply_floor（cpu 10%·AGENDA_DEBT·shortfall 3·日历四候选全拒 NO_CANDIDATE_PASSES_CALENDAR）／`py_watermark` insufficient_history／`attrition` 4 账本 **CLEAN**（2 处历史缩行 healed）／`card_text_hygiene` 546 文件 **0 控制字符 0 吃前缀**。**S7**：loop pin=5 **no-op**（首火 03:50 未动）／watchdog 重建成功但 **S4U 第二十一轮被拒（拒绝访问）**／两爪 LF 归一 **重装**。**CEO 过程可见面**：当前活＝把「同一天重算一遍」这种过期变成可核对的量｜最近实物＝`results/etf_book_atlas_toll_ladder.json`＋`.md`（11-13 世代重定价·break-even 0.696bp）＋`scripts/etf_book_atlas_toll_ladder.py`（自检 38/38）＋卡 E610｜下个里程碑＝套件收口后把剩余红分「bm-a 写面」与真缺陷两堆，并把内容指纹补给其余「读别人的面再出版」的闸（窗 ≤48h）。**记账**：本行 1 处（+卡 E610 一处，属捕获律收口）。**未验证（如实）**：全量套件未收口；新三态在真实并发写窗里未见过自发触发。 本地未达 origin commit 数=0（推送后复核）。 |\n",
  "round_t1650b_note": "| 2026-11-14 03:5x-04:0x | 1650b | **ADDENDUM（套件收口·如实）：568/578 PASS，10 FAIL——九条是 bm-a 的写面，一条是本机真缺陷。** 全量套件 03:42:36 起跑、03:5x 收口（`results\\_smoke_r1650.out`，578 腿）。逐条读红：**owner 侧 9 条**＝`CEO page's sections each name the bar`／`operator page runnable in 2020`／`operator page prices the cash half`（page world e383c3a6 vs 账面另一世界）／`expectation table's rows name the ruler`／`row the operator reads has a full-window number`／`page prices the cost assumption`／`page prints what the price did after a premium reading`（want 1595）／`page's per-name floor cut reproduces k_gap`（`face bar 2026-11-13 vs page 2026-11-12`）／`every face a reader holds says whether the width's family was one world`（card 缺 ONE_WORLD）——全部指向 `etf_book_ceo_page`，它的 HOST=bm-a，本机 `run` 诚实 no-op，而 bm-a 心跳静默 4.57h **未到 6.0h 接管门**；这不是本机漏修，是本机此刻无权修（约 06:10 后才有资格）。**本机真缺陷 1 条**＝`E271 the width ruler reaches both order documents`（r1648 已经红过一次，本轮仍在）：实读 `results/etf_book_live_width_ruler.json` 的 `paired.median_pp=+0.15 / pairs=20 / sign_agreement=0.55`，而 `ORDER-2026-11-13.md` 与 `ORDER-2026-11-13-card.md` **两张单据都提到「宽度」却不印这个数**（`'+0.15pp' in doc` 双 False）——典型的「有产无读」（E240 族）：尺子出版了，票面在讲同一件事却不引它的读数，读者只能靠感觉。**本轮不修**（改单据渲染会牵动票面 identity 腿，须在完整一轮里带正反两测，禁在本窗半改），已写入下轮 P0，并附精确坐标：尺子面字段 `paired.median_pp`、两张单据路径、判据行 `smoke_test.py:2499`。**记账**：本行 1 处。 本地未达 origin commit 数=0（推送后复核）。 |\n",
- "rounds": 1650,
- "rounds_done": 1650,
- "rounds_note": "r1650",
+ "rounds": 1652,
+ "rounds_done": 1652,
+ "rounds_note": "r1652",
  "s05_scan": {
-  "consumed": "no new orders or decisions this round -> zero action",
-  "decisions_delta": false,
-  "orders_delta": false,
   "rc": 0,
-  "unacked": []
+  "orders_delta": false,
+  "decisions_delta": false,
+  "unacked": [],
+  "consumed": "no new orders or decisions this round -> zero action"
  },
  "s05_second_scan": {
   "advanced": true,
@@ -1229,12 +1229,11 @@
   "second_scan": "06:14 both true"
  },
  "s6_chain": {
-  "legs": 235,
-  "note": "two non-zero: etf_book_atlas_toll_ladder rc1 (fixed this round, now rc0) and ceo_page_card_days rc1 (owner-side: HOST=bm-a, 4.57h silent < the 6.0h takeover gate)",
-  "state": "r1647 chain closed 03:37:01 at 233/235 rc0"
+  "legs": 576,
+  "note": "two refreshes wired this round (late_sheet_price / do_or_wait), paid only on STALE; --only double leg re-run 2/2 rc0"
  },
- "s7_notes": "loop pin=5 no-op (first fire 14:05 untouched); watchdog S4U flip refused (access denied) for the 8th round -> still LogonType regression face; pre-commit/pre-push claws re-installed LF-normalized; attrition 4 ledgers CLEAN (3 historical shrinks healed)",
- "smoke": "full suite started 2026-11-14T03:42:36+08:00 (pythonw pid 44380 -> results/_smoke_r1650.out); not closed at round end; 156 legs printed, 0 FAIL seen; not claiming all-green",
+ "s7_notes": "loop pin=5 no-op (first fire 04:50 untouched); watchdog S4U flip refused (access denied) 22nd round -> LogonType regression face; pre-commit/pre-push claws re-installed LF-normalized; attrition 4 ledgers CLEAN (5 historical shrinks healed)",
+ "smoke": "full suite 2026-11-14T04:32:00+08:00 -> 04:47 closed 569/578 PASS 9 FAIL, all 9 = etf_book_ceo_page owner side (HOST=bm-a, 5.7h silent < 6.0h takeover gate)",
  "smoke_closed": {
   "closed_at": "2026-11-14T03:58:39+08:00",
   "fail": 10,
@@ -1261,16 +1260,18 @@
   "ahead_origin": 0,
   "behind_origin": 0
  },
- "task": "r1650: the toll ladder could not tell a same-bar re-pricing from an edit -- it now compares source bytes, not just source dates",
+ "task": "r1652: the desk's one actionable answer (do it today or wait k bars) was a week old with a 13/13 green check -- both faces now name the world they priced",
  "total_ram_gb": 23.9,
- "ts": "2026-11-14T04:24:14+08:00",
- "updated": "2026-11-14T04:24:14+08:00",
+ "ts": "2026-11-14T04:50:13+08:00",
+ "updated": "2026-11-14T04:50:13+08:00",
  "updated_at": "2026-11-14T03:58:39+08:00",
- "verdict": "PRODUCT: the atlas toll ladder's gate read every same-bar arm rebuild as a hand edit (rc1, unpayable by any chain leg); it now fingerprints the source bytes and reads 're-priced' as stale, so the chain pays the re-price and the face is green on 11-13",
- "verify": "before: check rc2 'sources re-priced on the same bar (source bytes unrecorded -> a3dacef8)'; after run: check rc0 OK (toll ORDERING_IS_A_TOLL_ARTEFACT 5 rungs break-even 0.696bp / buffer SINGLE_RUNG_CROSSING_IS_ONE_DRAW 7 rungs 1 clearing); selftest 38/38",
- "verify_selftest": "etf_book_atlas_toll_ladder selftest 38/38 (4 new three-state legs + 2 digest legs: content not mtime); build() twice byte-identical (DIFF [])",
+ "verdict": "PRODUCT: do_or_wait and its k=1 reference each priced a panel/receipt a week behind and their checks could not see it; both now record bar+bytes and report STALE (rc2, chain pays the reprice)",
+ "verify": "do_or_wait STALE (late 11-06 -> 11-13) -> run 77s -> check 13/13 rc0; late_sheet_price check 10/10 rc0 (run 67s); s6_chain --only do_or_wait,late_sheet_price 2/2 rc0",
+ "verify_selftest": "do_or_wait 20/20 (5 new three-state legs: current / newer bar / same bar new bytes / no record / unreadable) ; late_sheet_price 10/10",
  "verify_smoke": "full suite started 07:14 (pythonw pid 31124 -> results/_smoke_r1615.out); 478+ lines, no FAIL seen, not closed at round end; modules changed mid-run so the closing numbers are the previous generation",
  "verify_smoke_closed": "full suite started 07:14 closed 576/576 PASS 0 FAIL, wall clock 852.9s over 574 legs; started before the two module edits, so the ceo_page leg inside it printed the previous generation's 260/260 (new legs L214/L215 verified by selftest 262/262)",
  "vram_free_gb": 14.5,
- "watermark_verdict": "insufficient_history"
+ "watermark_verdict": "insufficient_history",
+ "round_t1652_note": "| 2026-11-14 04:30-05:1x | 1652 | **PRODUCT（产品优先律·watermark=py_low_board_clear 无红）：桌上唯一要动手的那张面，自己站在一周前的世界，而它的 13 条自检全绿——因为门只照抄了别人的数字，没照抄别人的世界。** `etf_book_do_or_wait` 回答「今天就做还是等 k 根更便宜」，`--check` 13/13 绿；实读它引用的收据 `etf_book_cut_order_gap` 已到 **11-13**，而这张面停在 **11-06**（7 天），链里又只有 `--check` 腿、没有 `run`——一条过期且不可付费的行动建议（r1471 族「check 没有可达的生产者」+ r1345 族「红着走路」）。同族另一半在参考面：k=1 对照 `etf_book_late_sheet_price` 同样只重推自己的行、一天没动；两张面互为对照时，「两数不等」会被读成「有一方算错了」（rc1，不可付费），实际是两张面站在两个世界里。**修**：①`do_or_wait` 落盘它读的两张收据（bar **与字节** sha16）→ 读端三态：同界继续对账／异界 **STALE rc2** 让链付重定价／无记录（旧代面）也判 STALE；②参考面补输入集印花（单一实现 `etf_equity_alpha.panel_inputs_sig`，禁第二份拷贝）+ 同三态；③两条腿在链上各配 refresh 臂（`run`，实测 77s / 67s，只在 probe 自己说 STALE 时付）。**闭环实证**：do_or_wait `STALE (late 11-06 -> 11-13)` → run 77s → `check 13/13` rc0；late `check 10/10` rc0；`s6_chain --only do_or_wait,late_sheet_price` **2/2 rc0**；自检 20/20（新增 5 腿：同界/新 bar/同 bar 改字节/无记录/读不出）＋ late 10/10。**今天的读数（面自己说的·11-13）**：该单「今天什么都不欠」（NOTHING_OWED_TODAY，k 在自己额度内）；等 k 根在每一个 k 都更贵（+1,798 .. +4,071 CNY vs 今天）；一张晚一个开盘的票中位值 **-932 CNY**（41% 的情形等待反而帮忙，t=-4.57）→ 均值可定价、单张仍是掷硬币；整书层面的迟到成本 1.88pp/年。**S1**：全量套件 04:32 起跑、04:47 收口 **569/578 PASS / 9 FAIL**——九条全是 `etf_book_ceo_page` 写面（HOST=bm-a），实读 bm-a 心跳静默 5.7h **未到 6.0h 接管门**（≈05:12 后才有资格），本机此刻无权修；本窗改件不在该套件覆盖范围内（改后证据=上列实跑）。**S0**：identity=bm-c｜orphans=1（集团 `Tools/fleet/agent.py`，非本司只读不杀）｜起手 ahead=0 behind=0｜树脏=车道派生面，本窗定向提交自有件。**S0.5**：`s05_probe` orders_delta=false／decisions_delta=false／unacked=[] rc0。**S6**：`pool_dualrun_reconcile` **ZERO-DRIFT**（744 项·streak 51）／`compute_audit` FLAG:pool_starvation,supply_floor（AGENDA_DEBT·shortfall 3·日历四候选全拒 NO_CANDIDATE_PASSES_CALENDAR）／`py_watermark` py_low_board_clear（板全绿=合法 idle）／`attrition` 4 账本 CLEAN（5 处历史缩行 healed）／`card_text_hygiene` 546 文件 0 控制字符 0 吃前缀。**S7**：loop pin=5 **no-op**／watchdog 重建成功但 **S4U 第二十二轮被拒（拒绝访问）**／两爪 LF 归一 **重装**｜孤儿面=1。**CEO 过程可见面**：当前活＝让「今天做还是等」这张面能被链自己保鲜｜最近实物＝`results/etf_book_do_or_wait.json`（11-13 重定价·NOTHING_OWED_TODAY）+ `results/etf_book_late_sheet_price.json`（11-13·MEAN_IS_PRICED_EACH_SHEET_IS_NOT·-12.1bps t=-4.57）+ 卡 E613｜下个里程碑＝05:12 接管门开后把 9 条 ceo_page 红一次修掉（窗 ≤48h）。**记账**：本行 1 处（+卡 E613 一处，属捕获律收口）。**未验证（如实）**：本窗改件未被全量套件覆盖；refresh 臂在链上仅在 probe 说 STALE 时付，本窗是手工跑同一条命令验证的。 本地未达 origin commit 数=0（推送后复核）。 |",
+ "round_t1652_next": "next (P0): at ~05:12 bm-a passes the 6.0h takeover gate -- take the ceo_page family (9 reds, one writer) in ONE window with the two-way tests the identity legs demand; (b) the same 'gate copies the number but not the world' shape still sits in the other cross-face legs -- each equality between two published faces needs both sides to name their bar."
 }
