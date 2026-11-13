@@ -194,6 +194,14 @@ LEGS = [
     # chain for the same reason the capacity face does: a hand-run audit is a face that
     # silently ages (r1257/r1290/r1291/r1293/r1295 class). ~90s, no network.
     ("etf_book_spanning", ["python", "scripts/etf_book_spanning.py"]),
+    # r1630: this face had NO leg at all, so `page_window` -- the window every other number
+    # on the page lives in -- sat on 2026-10-26 while the header printed 2026-11-12: the
+    # page printed both dates one after the other and nothing on the chain could see it
+    # (r1621/r1628 family one floor down; no leg is worse than a check-only leg). The
+    # rebuild is not cheap (three engine cells + a 200-draw null), so the leg asks the cheap
+    # question first, off the leg above: has that panel moved past the bar this face already
+    # prices? Equal bar -> 0.0s no-op; moved bar -> one rebuild a session.
+    ("etf_book_pre2020_write", ["python", "scripts/etf_book_pre2020.py", "refresh"]),
     # r1621: the page's `universe_lock` section ("what could a 2020 starter have bought?") is
     # read by the page but no leg ever re-ran its producer -- the section-bar audit named it
     # one of six sections with no chain leg at all, and it sat on 2026-10-30 while the page

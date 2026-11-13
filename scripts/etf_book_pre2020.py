@@ -42,6 +42,7 @@ Usage (cwd = repo root):
 import json
 import os
 import sys
+import tempfile
 
 _REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if _REPO_ROOT not in sys.path:
@@ -443,14 +444,95 @@ def selftest():
         null["p_value"] is not None and 0.0 <= null["p_value"] <= 1.0,
         "p=%s n=%d" % (null["p_value"], null["n_iter"]))
 
+    # L9 (r1630) the refresh gate: rebuild only when the upstream panel moved. Four states,
+    #    and two of them must NOT write -- an upstream that is behind would republish older
+    #    numbers under a newer filename, and a gate that cannot read its input rebuilds
+    #    (r1595: unreadable is not fresh).
+    _gdir = tempfile.mkdtemp()
+    _own = os.path.join(_gdir, "own.json")
+    _up = os.path.join(_gdir, "up.json")
+
+    def _bar(path, bar):
+        with open(path, "w", encoding="utf-8") as fh:
+            json.dump({"evidence_cutoff": bar}, fh)
+
+    _ran = []
+    _bar(_own, "2026-10-26"); _bar(_up, "2026-11-12")
+    refresh(_own, _up, lambda: _ran.append(1)); _moved = len(_ran)
+    _bar(_own, "2026-11-12"); _ran.clear()
+    refresh(_own, _up, lambda: _ran.append(1)); _same = len(_ran)
+    _bar(_own, "2026-11-13"); _ran.clear()
+    refresh(_own, _up, lambda: _ran.append(1)); _behind = len(_ran)
+    os.remove(_up); _ran.clear()
+    refresh(_own, _up, lambda: _ran.append(1)); _missing = len(_ran)
+    chk("selftest: the refresh gate rebuilds only when the panel moved",
+        (_moved, _same, _behind, _missing) == (1, 0, 0, 1),
+        "moved=%d equal=%d upstream_behind=%d unreadable=%d"
+        % (_moved, _same, _behind, _missing))
+
     print("\nselftest: %d/%d PASS, %d FAIL" % (ok, ok + fail, fail))
     return 0 if fail == 0 else 1
+
+
+SPANNING_PATH = os.path.join(_REPO_ROOT, "results", "etf_book_spanning.json")
+
+
+def _declared_bar(path):
+    """The bar a face says it was priced on; None when the face is missing or undated."""
+    if not os.path.exists(path):
+        return None
+    try:
+        with open(path, "r", encoding="utf-8") as fh:
+            doc = json.load(fh)
+    except (OSError, ValueError):
+        return None
+    bar = doc.get("evidence_cutoff")
+    return str(bar)[:10] if bar else None
+
+
+def refresh(own_path=OUT_PATH, upstream_path=SPANNING_PATH, runner=None):
+    """Rebuild only when the panel this face prices has moved (r1630).
+
+    This face had no chain leg at all, so it sat on 2026-10-26 while the page header
+    printed 2026-11-12: `page_window` -- the window every other number on the page lives
+    in -- was 13 sessions stale, and the page printed both dates one after the other
+    without noticing (r1628 class, two dates on one page). The answer is read off
+    `etf_book_spanning`, which loads the identical panel and publishes its last bar;
+    never off a clock, and never off this file's own mtime (r1371: a staleness gate that
+    measures the filesystem measures the wrong thing).
+
+      equal bars                        -> REFRESH_NOOP, 0.0s;
+      upstream behind, this face ahead   -> UPSTREAM_BEHIND and no write (rebuilding would
+                                           publish older numbers under a newer filename);
+      anything else, including a missing or undated face -> rebuild. A gate that cannot
+      read its own input is not evidence of freshness (r1595 family).
+    """
+    run_it = runner or run
+    own = _declared_bar(own_path)
+    up = _declared_bar(upstream_path)
+    if own and up:
+        if own == up:
+            status = "REFRESH_NOOP"
+        elif up < own:
+            status = "UPSTREAM_BEHIND"
+        else:
+            status = "REBUILT"
+    else:
+        status = "REBUILT"
+    if status == "REBUILT":
+        run_it()
+    print(json.dumps({"mode": "refresh", "status": status, "face_bar": own,
+                      "upstream_bar": up, "ran": status == "REBUILT"},
+                     ensure_ascii=False))
+    return 0
 
 
 def main(argv):
     cmd = argv[1] if len(argv) > 1 else "run"
     if cmd == "selftest":
         return selftest()
+    if cmd == "refresh":
+        return refresh()
     if cmd == "control":
         control()
         return 0
