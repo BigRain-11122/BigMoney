@@ -55,6 +55,12 @@ BASE_FACE = AUDIT.BASE
 RECEIPT = os.path.join(ROOT, "results", "etf_book_atlas_arms_rebuild.json")
 ATLAS = os.path.join("scripts", "etf_book_phase_atlas.py")
 
+# Wall clock the two tail runs (`audit publish` then `audit --check`) take after the last
+# sweep, so `budget` can mean "this whole refresh" instead of "the sweeps, plus whatever
+# the audit happens to cost". Measured 2026-11-13 on the 11-arm family; a reserve is a
+# measurement too, so it is one number in one place, not a subtraction spread around.
+AUDIT_RESERVE = 300.0
+
 
 def face_for(arm):
     """The repo-relative face path an arm writes (base = the production-toll face)."""
@@ -327,8 +333,17 @@ def refresh(budget=620.0, workers=None, faces=None, run_one=None, audit_run=None
     ahead = [r for r in st["rows"] if r["status"] == "ahead"]
     call = run_one or (lambda c: subprocess.call(c, cwd=ROOT))
     done, left = [], []
+    # r1640: the budget has to cover the WHOLE refresh, not just the arm sweeps.
+    # Measured 2026-11-13 on the chain: 11 arms + the two audit runs took 938.3s and the
+    # chain killed the leg at its 900s timeout (rc=124) -- every arm was rebuilt and the
+    # work was thrown away. The 600s budget was being spent on sweeps alone, with
+    # publish + `--check` stacked on top afterwards. So the arm loop now spends what is
+    # left after reserving the audit's own measured cost, and the break no longer depends
+    # on `done`: an arm that FAILS still consumed wall clock, and a run where every arm
+    # failed never broke at all (the budget silently did nothing).
+    arm_budget = max(0.0, float(budget) - (AUDIT_RESERVE if todo else 0.0))
     for i, r in enumerate(todo):
-        if done and (time.time() - t0) > budget:
+        if (time.time() - t0) > arm_budget:
             left.extend(x["arm"] for x in todo[i:])
             break
         cmd = command_for(r["arm"], workers=workers)
@@ -480,7 +495,24 @@ def selftest():
     left = refresh(budget=0, faces=mix, run_one=lambda c: 0, audit_run=lambda a: 0)
     if left != 2:
         bad.append("an unfinished family is not red")
-    n_legs = 16 + 8  # 9 pre-r1181 + 7 publish-contract + the 8 world-gate legs above
+    # r1640: the audit runs sit INSIDE the budget, so a budget too small to cover the
+    # reserve must spend no sweep at all -- it names every arm and leaves them for the
+    # next run, instead of rebuilding them and being killed before it can publish.
+    spent = []
+    if refresh(budget=0, faces=mix, run_one=lambda c: spent.append(c) or 0,
+               audit_run=lambda a: spent.append(a) or 0) != 2 or spent:
+        bad.append("a zero budget still spent a sweep")
+    # and a FAILING arm still consumes the budget (before r1640 the break needed `done`,
+    # so a run where every arm failed never broke and overran its own budget)
+    tried = []
+
+    def _boom(c):
+        tried.append(c)
+        return 1
+    refresh(budget=0, faces=mix, run_one=_boom, audit_run=lambda a: 0)
+    if len(tried) > 1:
+        bad.append("a failing arm did not consume the budget: %d attempts" % len(tried))
+    n_legs = 16 + 8 + 2  # 9 pre-r1181 + 7 publish-contract + the 8 world-gate legs + r1640
     for b in bad:
         print("[FAIL] %s" % b)
     print("selftest: %d legs, %d failed" % (n_legs, len(bad)))

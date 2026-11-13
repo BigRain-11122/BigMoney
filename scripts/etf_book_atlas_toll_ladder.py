@@ -234,6 +234,10 @@ def discover(paths=None):
             unreadable.append({"file": name, "error": "no per_cell scalars"})
             continue
         face["file"] = name
+        # r1639: remember which bar this source ended on -- the gate needs it to tell
+        # "the arms were re-priced" (stale, the chain may rebuild) from "someone edited
+        # the published reading" (inconsistent, stays red).
+        face["source_cutoff"] = payload.get("evidence_cutoff")
         if ladder is None:
             excluded.append({"file": name, "reason": why, "cost": face["cost"],
                              "buffer_k": face["buffer_k"]})
@@ -405,7 +409,13 @@ def build(paths=None):
     faces, excluded, unreadable = discover(paths)
     toll = toll_ladder(faces.get("toll", []))
     buff = buffer_ladder(faces.get("buffer", []))
+    # r1639: the newest bar any rung's source face was priced on. A reading that disagrees
+    # with a source priced on a NEWER bar is stale, not edited -- without this the gate is
+    # permanently red on the day the atlas re-prices, and no chain leg can pay for it.
+    bars = [f.get("source_cutoff") for lad in faces for f in faces[lad]]
+    bars = [b for b in bars if b]
     payload = {
+        "sources_bar": max(bars) if bars else None,
         "question": ("the atlas's 12-cell ordering is judged against each cell's own phase "
                      "band; both the spread and the band move with the toll. At what toll does "
                      "the ordering stop clearing its own noise, and is the decay monotone?"),
@@ -501,6 +511,14 @@ def check():
                 and rho is not None and rho <= MONOTONE_RHO):
             bad.append("toll verdict does not follow from its own numbers")
     if bad:
+        # r1639: which kind of red is this? A source face re-priced on a newer bar moves the
+        # readings legitimately, so the gate says STALE (the chain may pay the rebuild); the
+        # same readings moving with the sources unchanged is still an edit.
+        now_bar, was_bar = fresh.get("sources_bar"), stored.get("sources_bar")
+        if now_bar and now_bar != was_bar:
+            print("STALE: face priced on sources ending %s, they now end %s (%s)"
+                  % (was_bar or "an unrecorded bar", now_bar, ", ".join(bad)))
+            return 2
         print("FAIL: face disagrees with its sources on %s" % ", ".join(bad))
         return 1
     print("OK: toll ladder %s (%d rungs, break-even %s bp) / buffer ladder %s (%d rungs)"

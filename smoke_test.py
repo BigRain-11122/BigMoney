@@ -3673,7 +3673,12 @@ def main() -> int:
                     if _w9.get("sentence") != _dlf9.window_sentence(
                             {k: _w9.get(k) for k in ("lane", "tail", "days_behind",
                                                      "window_trading_days",
-                                                     "sessions_left", "basis")}):
+                                                     "sessions_left", "basis",
+                                                     # r1639: the row says the rule once and
+                                                     # points back on later lanes; a rebuild
+                                                     # that drops this flag re-renders the
+                                                     # full sentence and reads as drift
+                                                     "basis_repeat")}):
                         _why9.append("%s: the report re-worded the producer's "
                                      "sentence" % _w9.get("lane"))
             else:
@@ -6729,6 +6734,33 @@ def main() -> int:
               % len(_cth2.corpus()))
     except Exception as e:
         check("config: no card or digest carries an eaten path prefix",
+              False, repr(e)[:160])
+
+    # r1639: r1638's defect was one sentence printed twice on the live book page --
+    # two copies of the same measurement read as two independent pieces of evidence.
+    # The instance was fixed by hand and by a block-level count; the CLASS is that
+    # nothing read the published bytes for repetition. A face with almost no prose
+    # (the daily report is nearly all tables) is named as such, never as clean.
+    try:
+        _prg = _page_repeat_guard()
+        _rhits, _rthin = [], []
+        for _rname, _rpath in _prg.faces([]):
+            with open(_rpath, encoding="utf-8") as _rf:
+                _rtxt = _rf.read()
+            _kept = _prg.sentences(_rtxt)
+            if len(_kept) < 3:
+                _rthin.append("%s(%d)" % (_rname, len(_kept)))
+            for _rs, _rn, _rl in _prg.scan_text(_rtxt):
+                _rhits.append("%s:%s %dx %s" % (_rname, ",".join(str(x) for x in _rl),
+                                                _rn, _rs[:80]))
+        check("config: no CEO-facing page prints one measurement twice",
+              not _rhits,
+              ("; ".join(_rhits[:3]))[:220] if _rhits else
+              ("%d face(s) read%s" % (len(_prg.faces([])),
+                                      ("; too little prose to judge: " + ",".join(_rthin))
+                                      if _rthin else "")))
+    except Exception as e:
+        check("config: no CEO-facing page prints one measurement twice",
               False, repr(e)[:160])
 
     # r1611: five faces in a row (r1605..r1610) each read "today" as the price panel's last
@@ -11046,6 +11078,7 @@ def _claw():
 
 
 _SMOKE_CTH = None
+_SMOKE_PRG = None
 _SMOKE_JFG = None
 _SMOKE_PSG = None
 _SMOKE_PLA = None
@@ -11122,6 +11155,21 @@ def _card_text_hygiene():
         _s.loader.exec_module(_m)
         _SMOKE_CTH = _m
     return _SMOKE_CTH
+
+
+def _page_repeat_guard():
+    """Tools/page_repeat_guard.py as a module (r1639): the leg must read the same
+    published bytes with the same sentence rule as the chain leg, otherwise a face
+    can be green in one place and repeated in the other."""
+    global _SMOKE_PRG
+    if _SMOKE_PRG is None:
+        import importlib.util as _ilu
+        _p = os.path.join("Tools", "page_repeat_guard.py")
+        _s = _ilu.spec_from_file_location("_smoke_page_repeat_guard", _p)
+        _m = _ilu.module_from_spec(_s)
+        _s.loader.exec_module(_m)
+        _SMOKE_PRG = _m
+    return _SMOKE_PRG
 
 
 def _hunk_state(text: str, rev: str = "HEAD"):

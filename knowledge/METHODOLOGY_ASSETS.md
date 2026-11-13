@@ -14395,6 +14395,42 @@ history: 共享面的全部历史}`**（先读共享 `results/COMPUTE_AUDIT.json
 （`_own_samples` + 页面 r1293 断言 + 变异测试：把归属改成"全收"立刻红）；
 真数据对照=`results/compute_audit.bm-a.json` 201 行 1 条署名 vs `.bm-c.json` 201 行 0 条。
 
+
+### E603 · 一条红了两轮、其实有人能付账的闸（r1639 bm-c）
+
+一个对比「发布面 vs 重算值」的闸，把分歧写成一个词（FAIL / disagrees），就把两种相反的人事状态压成了同一个：
+①输入自己前进了（票换了一张、臂面在新 bar 上重定价）——面必须重建，这是付账；
+②没人动输入，面自己被改了——这是编辑，必须保持红。
+链的付账通道只认字面 "stale"（Tools/s6_chain_bmc.py:run_leg），于是①类的红没人能付：下游一直红，
+直到有人手工重跑。实锤=floor_ledger 在 r1633 两座链记录里红着（面 11-12、票 11-13）而无人付账；
+etf_book_atlas_toll_ladder 同理（且它连 refresh 都没声明）。
+
+**How**：任何「面 vs 源」的闸，先问分歧的原因是不是输入自己动了——是则输出带 "stale" 的 rc2 并点名两个日期（旧面依据 / 新输入），
+否则才是 rc1 编辑面；且每条这类腿都要在链里声明 refresh。不要用一个判词覆盖“能修”与“该拦”。
+**实锚**：`scripts/etf_book_floor_ledger.py::classify_drift`（selftest 15→18/18）+链端到端（把面钉在旧票→链 0.7s 判 STALE→
+自动 refresh 0.2s→绿）；`scripts/etf_book_atlas_toll_ladder.py`（面增 `sources_bar`、selftest 32/32）。
+
+
+### E604 · 「writer 存在但不在链上」里有一半不是债（r1640 bm-c）
+
+`Tools/chain_writer_audit.py` 把每条 check 腿分成两类：有 writer 模式的（WRITER_MODE_EXISTS_NOT_ON_CHAIN，red 23 条）
+和纯测量面（NO_WRITER_MODE，disclosed）。本轮照 E603 的正法去修其中两条，一条成功、一条**不该修**：
+
+- `etf_book_permission_persistence`：check 会 `build_schedule()` 重建面板并比 `panel_last_bar` —— 是**派生型**，
+  面板前进一天它的每个已发布数字都变了，加三态 + 链 refresh 后能自己付账（53s，预算 900s）。
+- `etf_book_floor_toll`：check 五条断言（control.ok / cap_every_bar.k_max / cap_at_decisions.k_max /
+  obedience 差分 / verdict 重推）**全部读它自己的面**，不读任何外部面。这种面任何时刻都自洽，
+  永远不会输出 stale；给它声明 refresh 只是给链加一条永远不触发的分支。它红＝有人手改了面，
+  重建就是把证据抹掉（r1345 的陷阱）。
+
+**How**：接 writer 前先读 check 的第一行断言——**它读的是外部输入还是自己的面**。
+只读自己的面 = 自洽型，不接线，红就是红；读外部面 = 派生型，才需要三态 + refresh。
+「有 writer 模式」只是必要条件，不是充分条件。
+
+**实锚**：`scripts/etf_book_permission_persistence.py::classify_panel_move`（selftest 15→17/17，钉回 11-12 实读
+`STALE: priced on 2026-11-12 while the panel now ends 2026-11-13` rc2）+ `Tools/s6_chain_bmc.py` 该腿第三元素；
+`chain_writer_audit` red 23→22（floor_toll 有意留红，理由写在卡里）。
+
 ### E605 · 「不在页头」装了两个方向：比书新的一节被印成落后（r1294 bm-a）
 
 页头写着按 2026-11-12 定价，而收盘后六节（admission / cash_handshake / cash_ladder /
@@ -14415,3 +14451,4 @@ cash_yield / live_quote / sample_window）已经走到 2026-11-13。面对的分
 **实锚**：`scripts/live_book_section_bars.py`（behind/ahead 双切 + 空桶句子守卫）+
 `smoke_test.py` 腿（双向断言 + 计数合计）+ `results/live_book_section_bars.json`
 （on 42 / off 0 / ahead 6，和 = 48）。
+
