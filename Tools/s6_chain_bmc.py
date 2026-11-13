@@ -632,7 +632,7 @@ LEGS = [
     # leg timeout can hold; whatever it cannot fit stays named and red for the next run.
     ("etf_book_atlas_family",
      ["python", "scripts/etf_book_atlas_arms_rebuild.py", "--check-world"],
-     ["python", "scripts/etf_book_atlas_arms_rebuild.py", "refresh", "--budget=600"]),
+     ["python", "scripts/etf_book_atlas_arms_rebuild.py", "refresh", "--budget=1100"]),
     ("etf_book_phase_atlas", ["python", "scripts/etf_book_phase_atlas.py", "--check"]),
     # r1351: the atlas measured ONE arm (the production toll). r1163 (bm-a) priced the three
     # stockable follow-ups as variants of the same grid -- buffer k=0.05, 5bp/side, 20bp/side --
@@ -886,8 +886,15 @@ LEGS = [
     # re-derives k every 20 bars and carries no memory of it. This leg re-derives the
     # published lifetime face from the same panel (control arm first: the schedule's last
     # decision bar must reproduce the ticket k, or nothing is published). ~50s (panel).
+    # r1640: the same shape r1639 fixed one leg earlier. This probe's ~53s arm rebuilds the
+    # panel, so the day the panel gained a bar every number it publishes moved, it printed
+    # "panel_last_bar A vs B" as one more CHECK_FAIL, and the chain had no refresh it was
+    # allowed to pay -- the face sat red across records until a human re-ran `run`. Its
+    # `check` now separates STALE (the panel moved forward) from DRIFT (the same bar no
+    # longer reproduces), so the probe may pay this refresh on its own.
     ("permission_persistence",
-     ["python", "scripts/etf_book_permission_persistence.py", "--check"]),
+     ["python", "scripts/etf_book_permission_persistence.py", "--check"],
+     ["python", "scripts/etf_book_permission_persistence.py", "run"]),
     # r1457: r1456 proved a one-off trim can be erased by a single upward step, but nothing
     # stored the floor between decision bars -- each permit is regenerated from the current
     # ticket and the sheet reads it only when printing. This leg keeps an append-only ledger
@@ -1569,7 +1576,13 @@ LEGS = [
 # finished in 1,217s when run by hand (r1630 13:57:49 -> 14:18:06).
 # Budgets are measurements: raise one only with a recorded elapsed time, and
 # name a leg that actually exists in LEGS (selftest leg pins both).
-LEG_TIMEOUT = {"etf_book_pre2020_write": 2400}
+LEG_TIMEOUT = {"etf_book_pre2020_write": 2400,
+               # r1640: measured 938.3s for the 11-arm family refresh and the leg was
+               # killed at the 900s default AFTER every arm had been rebuilt (rc=124) --
+               # its 600s budget covered the sweeps only, with publish + `--check` stacked
+               # on top. The refresh now spends its budget on the whole run (AUDIT_RESERVE)
+               # and the leg's own budget covers 1100s of refresh plus the probe.
+               "etf_book_atlas_family": 1500}
 DEFAULT_LEG_TIMEOUT = 900
 
 
@@ -1718,8 +1731,13 @@ def selftest():
            all(len(t) in (2, 3) and isinstance(t[0], str) and isinstance(t[1], list)
                and (len(t) == 2 or isinstance(t[2], list)) for t in LEGS),
            "bad=%r" % ([t[0] for t in LEGS if not (len(t) in (2, 3) and isinstance(t[1], list))],))
+    # r1640: the count goes in the sentence. "the six" stayed in the name after the seventh
+    # was added, so the leg's own label was the one thing on the row a reader could not
+    # check against the table (r1234/r1292 class: a name that quotes a number must be the
+    # number). The floor (>=6) is the assertion; the count is the reading.
     n_refresh = sum(1 for t in LEGS if len(t) == 3)
-    _check("the six check-only legs declare a refresh", n_refresh >= 6, "n=%d" % n_refresh)
+    _check("check-only legs declare a refresh (n=%d)" % n_refresh, n_refresh >= 6,
+           "n=%d" % n_refresh)
     full = chain_record_path(1364)
     scoped = chain_record_path(1364, "fund_premium")
     _check("a --only record cannot overwrite the full-chain record",

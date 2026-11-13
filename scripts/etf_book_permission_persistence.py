@@ -344,6 +344,20 @@ def md_lines(d):
     return L
 
 
+def classify_panel_move(pub_bar, now_bar):
+    """Which kind of red is a panel-bar mismatch? (rc, sentence).
+
+    r1640: forward is STALE -- the input this face is priced from moved, so every
+    published number following it moved too, and the only repair is to re-price
+    (`run`). Backwards, or a bar that is not a date at all, is not something a
+    rebuild can fix: those stay red with the refresh unspent (r1345's trap).
+    """
+    if pub_bar and now_bar and str(now_bar) > str(pub_bar):
+        return 2, ("STALE: this face is priced on the panel bar %s while the panel "
+                   "now ends %s" % (pub_bar, now_bar))
+    return 0, None
+
+
 def check():
     d = published_face()
     if d is None:
@@ -354,6 +368,19 @@ def check():
     if abs(float(d["slack_k"]) - float(gap["gap_k"])) > 1e-6:
         fails.append("slack_k %s vs receipt %s" % (d["slack_k"], gap["gap_k"]))
     sched, meta = build_schedule()
+    # r1640: the panel rolling forward is not an edit -- it is the input this face is
+    # priced from. Before this split, the day the panel gained a bar every published
+    # number moved, the probe printed "panel_last_bar A vs B" as one more CHECK_FAIL,
+    # and the chain had no refresh it was allowed to pay: the face sat red across chain
+    # records until a human re-ran `run` (same shape r1639 fixed on floor_ledger).
+    # Forward = STALE (rc2, the chain pays `run`); a panel that went BACKWARDS, or the
+    # same bar with numbers that no longer reproduce, stays rc1 -- paying a rebuild
+    # there would hide a bug (r1345's trap).
+    rc_stale, sentence = classify_panel_move((d.get("schedule") or {}).get("panel_last_bar"),
+                                             meta["panel_last_bar"])
+    if rc_stale == 2:
+        print(sentence)
+        return 2
     ev = erasure_events(sched, float(d["slack_k"]))
     sm = summarize(ev, max(1, len(sched) - 1))
     for k in ("events", "returned", "never_returned"):
@@ -457,9 +484,21 @@ def selftest():
     leg(ss15["up_steps_at_least_slack"] == 1 and ss15["max_up_step"] == 0.07,
         "L15 up-step tail %r" % (ss15,))
 
+    # L16: a panel that moved forward is STALE and names both bars -- the chain may pay
+    rc16, s16 = classify_panel_move("2026-11-12", "2026-11-13")
+    leg(rc16 == 2 and "2026-11-12" in s16 and "2026-11-13" in s16,
+        "L16 forward panel is stale: %r %r" % (rc16, s16))
+
+    # L17: the same bar, or a panel that went backwards, must NOT be repairable --
+    # a rebuild there would erase the disagreement instead of fixing it
+    leg(classify_panel_move("2026-11-13", "2026-11-13")[0] == 0
+        and classify_panel_move("2026-11-13", "2026-11-12")[0] == 0
+        and classify_panel_move(None, "2026-11-13")[0] == 0,
+        "L17 same/backward/missing bar stays red")
+
     for f in fails:
         print("  FAIL " + f)
-    print("[selftest] %d/%d PASS" % (15 - len(fails), 15))
+    print("[selftest] %d/%d PASS" % (17 - len(fails), 17))
     return 0 if not fails else 1
 
 

@@ -14409,3 +14409,24 @@ etf_book_atlas_toll_ladder 同理（且它连 refresh 都没声明）。
 否则才是 rc1 编辑面；且每条这类腿都要在链里声明 refresh。不要用一个判词覆盖“能修”与“该拦”。
 **实锚**：`scripts/etf_book_floor_ledger.py::classify_drift`（selftest 15→18/18）+链端到端（把面钉在旧票→链 0.7s 判 STALE→
 自动 refresh 0.2s→绿）；`scripts/etf_book_atlas_toll_ladder.py`（面增 `sources_bar`、selftest 32/32）。
+
+
+### E604 · 「writer 存在但不在链上」里有一半不是债（r1640 bm-c）
+
+`Tools/chain_writer_audit.py` 把每条 check 腿分成两类：有 writer 模式的（WRITER_MODE_EXISTS_NOT_ON_CHAIN，red 23 条）
+和纯测量面（NO_WRITER_MODE，disclosed）。本轮照 E603 的正法去修其中两条，一条成功、一条**不该修**：
+
+- `etf_book_permission_persistence`：check 会 `build_schedule()` 重建面板并比 `panel_last_bar` —— 是**派生型**，
+  面板前进一天它的每个已发布数字都变了，加三态 + 链 refresh 后能自己付账（53s，预算 900s）。
+- `etf_book_floor_toll`：check 五条断言（control.ok / cap_every_bar.k_max / cap_at_decisions.k_max /
+  obedience 差分 / verdict 重推）**全部读它自己的面**，不读任何外部面。这种面任何时刻都自洽，
+  永远不会输出 stale；给它声明 refresh 只是给链加一条永远不触发的分支。它红＝有人手改了面，
+  重建就是把证据抹掉（r1345 的陷阱）。
+
+**How**：接 writer 前先读 check 的第一行断言——**它读的是外部输入还是自己的面**。
+只读自己的面 = 自洽型，不接线，红就是红；读外部面 = 派生型，才需要三态 + refresh。
+「有 writer 模式」只是必要条件，不是充分条件。
+
+**实锚**：`scripts/etf_book_permission_persistence.py::classify_panel_move`（selftest 15→17/17，钉回 11-12 实读
+`STALE: priced on 2026-11-12 while the panel now ends 2026-11-13` rc2）+ `Tools/s6_chain_bmc.py` 该腿第三元素；
+`chain_writer_audit` red 23→22（floor_toll 有意留红，理由写在卡里）。
