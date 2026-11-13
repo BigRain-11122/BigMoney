@@ -293,6 +293,16 @@ LEGS = [
     # entries kept, forward 1/2/3 calendar-year returns). ~80s, offline, deterministic -- it
     # runs the production cell through the production engine and must reproduce it to 5e-5.
     ("etf_book_underwater", ["python", "scripts/etf_book_underwater.py", "run"]),
+    # r1622: the face that prices "how much is the card's one bar of the future worth" was on
+    # no chain leg at all -- not a writer, not even a check -- so the page's look-ahead section
+    # sat on the 2026-10-30 panel while the header above it priced 2026-11-12 (r1617 counted it
+    # among the five sections "no chain leg ever reran"). Its own `--check` re-derives the
+    # verdict from the arms the file already published, i.e. it is green on any panel, so the
+    # writer has to ask the panel source: `update_etf_wide` publishes the cutoff of the very
+    # CSVs `_load_prices` reads. Equal bar -> REFRESH_NOOP (~0.05s); moved -> rebuild (~79s,
+    # deterministic, offline). The check then re-derives the whole ladder and both deltas.
+    ("etf_book_lookahead_write", ["python", "scripts/etf_book_lookahead_audit.py", "refresh"]),
+    ("etf_book_lookahead", ["python", "scripts/etf_book_lookahead_audit.py", "--check"]),
     # r1366: the carry split answers "how much of the quoted return is repo interest",
     # and it must be priced on the same bar as the ticket it explains. Hand-run only
     # until now -- r1366 found it frozen on 2026-10-29 (base cell 11.33%) while that

@@ -432,6 +432,75 @@ def check(path=None, quiet=False):
     return 0
 
 
+# ---------------------------------------------------------------- refresh arm
+UPSTREAM_JSON = os.path.join(ROOT, "results", "etf_wide_update_status.json")
+
+REFRESH_NOOP = "REFRESH_NOOP"
+REBUILT = "REBUILT"
+UPSTREAM_BEHIND = "UPSTREAM_BEHIND"
+
+
+def _own_bar(path=OUT_JSON):
+    """The bar this face says it priced (`panel.last_bar`), or None if it cannot say."""
+    try:
+        with open(path, encoding="utf-8") as fh:
+            doc = json.load(fh)
+    except Exception:                                              # noqa: BLE001
+        return None
+    return (doc.get("panel") or {}).get("last_bar") or None
+
+
+def _upstream_bar(path=UPSTREAM_JSON):
+    """The bar the panel source published (`panel_cutoff` on the wide updater's status).
+
+    Read off `update_etf_wide`, which writes exactly the per-symbol CSVs that
+    `_load_prices` reads to build this face's panel -- the same loader, so this is "has the
+    world this face prices moved", not "is a clock later than a file's mtime" (r1371).
+    """
+    try:
+        with open(path, encoding="utf-8") as fh:
+            st = json.load(fh)
+    except Exception:                                              # noqa: BLE001
+        return None
+    return st.get("panel_cutoff") or None
+
+
+def refresh(own_path=OUT_JSON, upstream_path=UPSTREAM_JSON, runner=None):
+    """Rebuild this face only when the panel it prices has moved (r1622).
+
+    The face was on no chain leg at all -- neither a writer nor a check -- so the page's
+    "does the book trade one bar of the future, and what is that bar worth" section sat on
+    the 2026-10-30 panel while the page header priced 2026-11-12. Its own `--check` could
+    never have caught that: it re-derives the verdict from the arms the file already
+    published, which is green on any panel.
+
+    The gate asks the only question that can change the answer: has the source published a
+    newer bar than the one this face priced? Equal -> REFRESH_NOOP (~0.0s); this face ahead
+    of its source -> UPSTREAM_BEHIND and no write (rebuilding would publish older numbers
+    under a newer stamp); anything else -- including an unreadable face or an undated
+    upstream -- rebuilds. "Cannot tell" is not evidence of freshness (r1595 family).
+    """
+    run_it = runner or run
+    own = _own_bar(own_path)
+    up = _upstream_bar(upstream_path)
+    if own and up:
+        if own == up:
+            status = REFRESH_NOOP
+        elif up < own:
+            status = UPSTREAM_BEHIND
+        else:
+            status = REBUILT
+    else:
+        status = REBUILT
+    if status == REBUILT:
+        run_it()
+    print(json.dumps({"mode": "refresh", "status": status, "face_bar": own,
+                      "upstream_bar": up, "ran": status == REBUILT,
+                      "face_bar_after": _own_bar(own_path) if status == REBUILT else own},
+                     ensure_ascii=False))
+    return 0
+
+
 # ---------------------------------------------------------------- selftest
 def _fixture(kind="oracle", n=520, k=16, seed=7):
     """Synthetic panel whose score is either a perfect foresight of the next bar's open move
@@ -503,6 +572,49 @@ def selftest():
     leg("verdict rule names both states",
         "LOOKAHEAD_PRESENT" in CRITERIA["verdict_rule"] and "WITHIN_TOL" in CRITERIA["verdict_rule"])
 
+    # -- refresh arm: the gate must read bars, not clocks, and never call a rebuild "fresh"
+    import tempfile
+    calls = {"n": 0}
+
+    def _runner():
+        calls["n"] += 1
+
+    def _fixture_files(face_bar, up_bar, face_text=None, up_text=None):
+        d = tempfile.mkdtemp(prefix="la_refresh_")
+        own = os.path.join(d, "own.json")
+        up = os.path.join(d, "up.json")
+        with open(own, "w", encoding="utf-8") as fh:
+            fh.write(face_text if face_text is not None
+                     else json.dumps({"panel": {"last_bar": face_bar}}))
+        with open(up, "w", encoding="utf-8") as fh:
+            fh.write(up_text if up_text is not None
+                     else json.dumps({"panel_cutoff": up_bar}))
+        return own, up
+
+    own, up = _fixture_files("2026-11-12", "2026-11-12")
+    calls["n"] = 0
+    leg("same bar on both sides -> no rebuild", refresh(own, up, _runner) == 0 and calls["n"] == 0)
+    own, up = _fixture_files("2026-10-30", "2026-11-12")
+    calls["n"] = 0
+    leg("source moved past the face -> rebuild once",
+        refresh(own, up, _runner) == 0 and calls["n"] == 1)
+    own, up = _fixture_files("2026-11-12", "2026-10-30")
+    calls["n"] = 0
+    leg("face ahead of its source -> no write (older numbers under a newer stamp)",
+        refresh(own, up, _runner) == 0 and calls["n"] == 0)
+    own, up = _fixture_files(None, "2026-11-12", face_text=json.dumps({"panel": {}}))
+    calls["n"] = 0
+    leg("a face that cannot name its bar is not fresh -> rebuild",
+        refresh(own, up, _runner) == 0 and calls["n"] == 1)
+    own, up = _fixture_files("2026-11-12", None, up_text=json.dumps({"panel_cutoff": None}))
+    calls["n"] = 0
+    leg("an undated upstream is not evidence of freshness -> rebuild",
+        refresh(own, up, _runner) == 0 and calls["n"] == 1)
+    calls["n"] = 0
+    leg("an unreadable upstream file -> rebuild, never a silent no-op",
+        refresh(os.path.join(tempfile.mkdtemp(prefix="la_missing_"), "nope.json"), up, _runner) == 0
+        and calls["n"] == 1)
+
     print("selftest %d/%d" % (ok, total))
     return 0 if ok == total else 1
 
@@ -517,6 +629,8 @@ def main(argv=None):
         return selftest()
     if cmd == "--check":
         return check(argv[1] if len(argv) > 1 else None)
+    if cmd == "refresh":
+        return refresh()
     if cmd == "run":
         run()
         return 0

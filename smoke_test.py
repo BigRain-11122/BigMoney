@@ -11841,8 +11841,13 @@ def _legs_supply_and_book():
         _r50 = capture_pinned([sys.executable,
                                os.path.join("scripts", "etf_book_floor_provenance.py"),
                                "selftest"], 120)
+        # r1622: the pin used to be the literal "17/17", so adding a leg to the script turned
+        # the suite red while the script was getting better. Pin the CONTRACT instead -- the
+        # count must agree with itself and never fall below the 17 legs this face was accepted
+        # with, so a silently deleted leg still fails.
+        _m50 = re.search(r"selftest (\d+)/\1\b", _r50.stdout or "")
         check("product: etf_book_floor_provenance (the floor is a beta reciprocal, not a rule version)",
-              _r50.returncode == 0 and "17/17" in _r50.stdout,
+              _r50.returncode == 0 and _m50 is not None and int(_m50.group(1)) >= 17,
               (_r50.stdout.strip().splitlines() or [""])[-1][:200] if _r50.returncode == 0
               else (_r50.stderr or _r50.stdout)[:200])
         _bad50 = []

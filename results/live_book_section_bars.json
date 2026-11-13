@@ -1,17 +1,17 @@
 {
  "script": "scripts/live_book_section_bars.py",
- "ts": "2026-11-13 10:00:31",
+ "ts": "2026-11-13 10:23:23",
  "page": {
   "path": "docs/live_book/LIVE-BOOK-20261113.md",
   "json": "docs/live_book/LIVE-BOOK-20261113.json"
  },
  "verdict": "PAGE_MIXES_BARS",
- "sentence": "页面头部写着按 2026-11-12 定价，但 48 个带日期的节里只有 35 节真在这一天；其余 13 节最旧停在 2026-10-26（最差 sample_window 落后 13 个交易日），另外 8 节根本没有日期——它们不是同一根 bar 上的数，读的时候不能互相加减。这 13 节里，8 节的产物有同名链腿在守，5 节没有任何一条链腿重跑过它们（lookahead, cash_handshake, cash_ladder, cash_money, cash_yield）——没有腿的那些停在天，是因为没人重跑，不是因为设计。",
+ "sentence": "页面头部写着按 2026-11-12 定价，但 48 个带日期的节里只有 36 节真在这一天；其余 12 节最旧停在 2026-10-26（最差 sample_window 落后 13 个交易日），另外 8 节根本没有日期——它们不是同一根 bar 上的数，读的时候不能互相加减。这 12 节里，8 节的产物有同名链腿在守，4 节没有任何一条链腿重跑过它们（cash_handshake, cash_ladder, cash_money, cash_yield）——没有腿的那些停在天，是因为没人重跑，不是因为设计。",
  "evidence_cutoff": "2026-11-12",
  "headline_bar": "2026-11-12",
  "headline_field": "priced_bar",
  "n_sections": 48,
- "n_on_headline": 35,
+ "n_on_headline": 36,
  "unknown_sections": [
   "backtest_band",
   "agreement",
@@ -23,14 +23,14 @@
   "authority"
  ],
  "bars": {
-  "2026-11-12": 35,
+  "2026-11-12": 36,
   "2026-11-11": 6,
   "2026-11-08": 1,
   "2026-11-06": 1,
-  "2026-10-30": 4,
+  "2026-10-30": 3,
   "2026-10-26": 1
  },
- "n_off_headline": 13,
+ "n_off_headline": 12,
  "off_headline": [
   {
    "key": "sample_window",
@@ -51,14 +51,6 @@
    "guarded_by": [
     "etf_book_cost_tape"
    ]
-  },
-  {
-   "key": "lookahead",
-   "bar": "2026-10-30",
-   "field": "evidence_cutoff",
-   "lag_sessions": 9,
-   "ahead_of_headline": false,
-   "guarded_by": []
   },
   {
    "key": "vol_window",
@@ -184,7 +176,7 @@
   "cost_tape": "2026-10-30",
   "vol_window": "2026-10-30",
   "vol_window_edge": "2026-10-30",
-  "lookahead": "2026-10-30",
+  "lookahead": "2026-11-12",
   "causal_rebuild": "2026-11-12",
   "underwater": "2026-11-12",
   "sample_window": "2026-10-26",
@@ -206,9 +198,8 @@
   "envelope": "2026-11-12",
   "stress": "2026-11-12"
  },
- "n_unguarded": 5,
+ "n_unguarded": 4,
  "unguarded": [
-  "lookahead",
   "cash_handshake",
   "cash_ladder",
   "cash_money",

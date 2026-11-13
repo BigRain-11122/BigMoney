@@ -3288,127 +3288,127 @@
  "lookahead": {
   "status": "ok",
   "artifact": "K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\etf_book_lookahead_audit.json",
-  "evidence_cutoff": "2026-10-30",
+  "evidence_cutoff": "2026-11-12",
   "verdict": {
    "state": "LOOKAHEAD_PRESENT",
-   "gap_pp_per_year": 1.14,
+   "gap_pp_per_year": 1.13,
    "score_reads_same_bar_close": true,
    "ladder_pp": {
-    "-2": 15.98,
-    "-1": 12.46,
-    "0": 9.6,
-    "1": 8.46,
-    "5": 7.39,
-    "20": 5.09
+    "-2": 15.89,
+    "-1": 12.45,
+    "0": 9.65,
+    "1": 8.52,
+    "5": 7.51,
+    "20": 5.23
    },
-   "ladder_spread_pp": 10.89,
+   "ladder_spread_pp": 10.66,
    "ladder_monotone": true,
    "rule": "LOOKAHEAD_PRESENT iff the published engine still takes its signal from bar d (`score.loc[d]`) while paying the book from bar d's open to the next bar's open -- a source pin read at run time -- AND pricing the same rule one bar later costs >= tol_pp_per_year; MECHANISM_ABSENT if the engine no longer reads its own bar (the pin flips, the claim must be re-derived); WITHIN_TOL if the pin holds but the one-bar price is under the line",
-   "why": "the published engine ranks on `score.loc[d]` -- built from bar d's own close and amount -- and then earns open[d]->open[d+1]: the book buys at a price that was set before the information it ranks on. Delaying that information one bar costs 1.14 pp/yr, and the whole ladder is monotone in delay (-2:+15.98, -1:+12.46, +0:+9.60, +1:+8.46, +5:+7.39, +20:+5.09)"
+   "why": "the published engine ranks on `score.loc[d]` -- built from bar d's own close and amount -- and then earns open[d]->open[d+1]: the book buys at a price that was set before the information it ranks on. Delaying that information one bar costs 1.13 pp/yr, and the whole ladder is monotone in delay (-2:+15.89, -1:+12.45, +0:+9.65, +1:+8.52, +5:+7.51, +20:+5.23)"
   },
   "arms": {
    "published": {
-    "cagr": 0.096,
-    "sharpe": 0.99,
+    "cagr": 0.0965,
+    "sharpe": 0.993,
     "maxdd": -0.1177,
-    "cagr_pp": 9.6,
+    "cagr_pp": 9.65,
     "maxdd_pp": -11.77,
-    "bars": 1652
+    "bars": 1661
    },
    "causal": {
-    "cagr": 0.0846,
-    "sharpe": 0.874,
+    "cagr": 0.0852,
+    "sharpe": 0.879,
     "maxdd": -0.1656,
-    "cagr_pp": 8.46,
+    "cagr_pp": 8.52,
     "maxdd_pp": -16.56,
-    "bars": 1652
+    "bars": 1661
    },
    "ledger_no_carry": {
-    "cagr": 0.0853,
-    "sharpe": 0.898,
+    "cagr": 0.0852,
+    "sharpe": 0.897,
     "maxdd": -0.1357,
-    "cagr_pp": 8.53,
+    "cagr_pp": 8.52,
     "maxdd_pp": -13.57,
-    "bars": 1653
+    "bars": 1662
    },
    "ledger_carry": {
-    "cagr": 0.0912,
-    "sharpe": 0.955,
+    "cagr": 0.0911,
+    "sharpe": 0.953,
     "maxdd": -0.1326,
-    "cagr_pp": 9.12,
+    "cagr_pp": 9.11,
     "maxdd_pp": -13.26,
-    "bars": 1653
+    "bars": 1662
    }
   },
   "lag_ladder": [
    {
     "lag": -2,
-    "cagr": 0.1598,
-    "sharpe": 1.532,
+    "cagr": 0.1589,
+    "sharpe": 1.524,
     "maxdd": -0.1335,
-    "vol": 0.1043,
-    "cagr_pp": 15.98,
+    "vol": 0.1044,
+    "cagr_pp": 15.89,
     "maxdd_pp": -13.35,
-    "bars": 1652
+    "bars": 1661
    },
    {
     "lag": -1,
-    "cagr": 0.1246,
-    "sharpe": 1.275,
+    "cagr": 0.1245,
+    "sharpe": 1.272,
     "maxdd": -0.1102,
-    "vol": 0.0999,
-    "cagr_pp": 12.46,
+    "vol": 0.1,
+    "cagr_pp": 12.45,
     "maxdd_pp": -11.02,
-    "bars": 1652
+    "bars": 1661
    },
    {
     "lag": 0,
-    "cagr": 0.096,
-    "sharpe": 0.99,
+    "cagr": 0.0965,
+    "sharpe": 0.993,
     "maxdd": -0.1177,
-    "vol": 0.1017,
-    "cagr_pp": 9.6,
+    "vol": 0.1019,
+    "cagr_pp": 9.65,
     "maxdd_pp": -11.77,
-    "bars": 1652
+    "bars": 1661
    },
    {
     "lag": 1,
-    "cagr": 0.0846,
-    "sharpe": 0.874,
+    "cagr": 0.0852,
+    "sharpe": 0.879,
     "maxdd": -0.1656,
     "vol": 0.1028,
-    "cagr_pp": 8.46,
+    "cagr_pp": 8.52,
     "maxdd_pp": -16.56,
-    "bars": 1652
+    "bars": 1661
    },
    {
     "lag": 5,
-    "cagr": 0.0739,
-    "sharpe": 0.766,
+    "cagr": 0.0751,
+    "sharpe": 0.777,
     "maxdd": -0.1666,
     "vol": 0.104,
-    "cagr_pp": 7.39,
+    "cagr_pp": 7.51,
     "maxdd_pp": -16.66,
-    "bars": 1652
+    "bars": 1661
    },
    {
     "lag": 20,
-    "cagr": 0.0509,
-    "sharpe": 0.544,
+    "cagr": 0.0523,
+    "sharpe": 0.559,
     "maxdd": -0.1764,
-    "vol": 0.1051,
-    "cagr_pp": 5.09,
+    "vol": 0.1049,
+    "cagr_pp": 5.23,
     "maxdd_pp": -17.64,
-    "bars": 1652
+    "bars": 1661
    }
   ],
   "decomposition": {
-   "price_of_the_one_bar_pp": 1.14,
-   "mark_basis_pp": -0.07,
+   "price_of_the_one_bar_pp": 1.13,
+   "mark_basis_pp": 0.0,
    "carry_pp": 0.59,
    "note": "the three components are priced on separate arms: the first is information ordering, the second is open-to-open vs close-to-close marking around an open fill, the third is the repo ladder the ledger credits and the card does not"
   },
-  "affected_faces": 33,
+  "affected_faces": 74,
   "criteria": {
    "tol_pp_per_year": 0.25,
    "lags": [
@@ -6858,8 +6858,8 @@
  "authority": {
   "writer": "bm-c",
   "owner": "bm-a",
-  "owner_silent_h": 13.4,
+  "owner_silent_h": 13.8,
   "took_over": true,
-  "why": "bm-a has not written its own heartbeat for 13.4 h (> 6 h): its page faces are stopped, not merely old"
+  "why": "bm-a has not written its own heartbeat for 13.8 h (> 6 h): its page faces are stopped, not merely old"
  }
 }
