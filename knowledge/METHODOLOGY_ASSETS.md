@@ -14431,7 +14431,28 @@ etf_book_atlas_toll_ladder 同理（且它连 refresh 都没声明）。
 `STALE: priced on 2026-11-12 while the panel now ends 2026-11-13` rc2）+ `Tools/s6_chain_bmc.py` 该腿第三元素；
 `chain_writer_audit` red 23→22（floor_toll 有意留红，理由写在卡里）。
 
-### E605 · 一个数在本轮里挪了窝，就没人能替它作证（r1642 bm-c）
+### E605 · 「不在页头」装了两个方向：比书新的一节被印成落后（r1294 bm-a）
+
+页头写着按 2026-11-12 定价，而收盘后六节（admission / cash_handshake / cash_ladder /
+cash_yield / live_quote / sample_window）已经走到 2026-11-13。面对的分桶只有一个
+`off_headline`（bar != head 的全进），于是**页面上最新的六个数被当成落后的数**，
+而专门钉「off-headline 就是更旧」的 smoke 腿反而因为说了真话而红。
+
+两个方向是两种读数风险：落后 = 这节没重跑（或它读的面板停了）；领先 = 它读的车道
+已走完当天而这本书自己还停在前一根 bar。后者更危险：它看起来像「最新」，拿它去给
+这本书定价就是用一个不存在的次日数。
+
+正法四条：①分桶改成 `bar < head` 与 `bar > head` 两个，分别带
+`n_ahead_of_headline` / `ahead_of_headline` / `ahead_keys`；②「合起来等于带日期节数」必须作为守门断言
+（n_on + n_off + n_ahead == n_sections）；③守门腿双向钉：off 行必须真的更旧、ahead 行必须真的更新；
+④空桶不说话——「其余 0 节不在这一天」是模板在开口，句子要随桶长相变化。
+
+**How**：任何按「不等于页头」分桶的面，先问这行在页头的哪一侧；桶相同不等于同一根 bar。
+**实锚**：`scripts/live_book_section_bars.py`（behind/ahead 双切 + 空桶句子守卫）+
+`smoke_test.py` 腿（双向断言 + 计数合计）+ `results/live_book_section_bars.json`
+（on 42 / off 0 / ahead 6，和 = 48）。
+
+### E606 · 一个数在本轮里挪了窝，就没人能替它作证（r1642 bm-c）
 
 r1639 整条链跑完 234 腿，4 条非零：`etf_book_return_regime` rc2「rebuilt base cell does not
 reproduce the published headline」、`etf_book_exec_delta` rc3「账 11-13、票面 11-12，两根 bar
@@ -14447,11 +14468,15 @@ exec_delta 卖 313,872.90 / 买 354,253.10、动 668,126.00 元）。它们红�
 `NOT_EVALUATED` 并把两根 bar 一起印出来，**同 bar 才判 matched/mismatch，mismatch 照样 FATAL**。
 不写 bar 的老票面保持严格比对（沉默不许变成通过）。
 
+同族下层（同一轮全量套件抓到）：`etf_book_forward` 的成本轴自检要求**每根**差异 bar 都紧跟决策日，
+而成本是一次性价位下移、后面每根 bar 都继承更小的账 —— 六根窗、第四根成交必然「moved=2 first_reb=3」。
+「只在成交处移动」的正确读法是：成交前一根不动、第一根差异 bar 是决策日的下一根、且没有更晚的差异。
+
 **How**：任何「重建值 vs 已发布值」的断言，先问这两个值各自钉在哪根 bar 上；不同 bar 的结论
-只能是「还不能比」，不能是「复现失败」。同理，链里排在前面的比较腿，如果它比的票面由后面的腿
-写，它的红是链自己的时序，不是面坏了——修时序或改判据，别去放宽阈值。
+只能是「还不能比」，不能是「复现失败」。任何「只在某事件处变化」的断言，先问该事件的效果是
+**一根尖峰**还是**永久价位下移**——后者会让后面每根 bar 都进差异集。
 
 **实锚**：`scripts/etf_book_return_regime.py::identity_verdict`（selftest 16→20/20，L17 同 bar
-MATCHED / L18 异 bar NOT_EVALUATED 且点名两根 bar / L19 同 bar 差异仍 MISMATCH / L20 无 bar 老票
-面走严格）；`etf_book_exec_delta.py run` 与 `etf_book_scale_floor.py check` 链后实跑 rc0
-（floor=0 top2=0.7039 CONDITIONAL）。
+MATCHED／L18 异 bar NOT_EVALUATED 且点名两根 bar／L19 同 bar 差异仍 MISMATCH／L20 无 bar 老票面
+走严格）；`scripts/etf_book_forward.py` 该腿重写后 `--selftest` OK；`etf_book_exec_delta.py run` 与
+`etf_book_scale_floor.py check` 链后实跑 rc0（floor=0 top2=0.7039 CONDITIONAL）。
