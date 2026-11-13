@@ -14394,3 +14394,18 @@ history: 共享面的全部历史}`**（先读共享 `results/COMPUTE_AUDIT.json
 **实锚**：`scripts/compute_audit.py`（record 加 `machine`）+ `scripts/daily_report.py`
 （`_own_samples` + 页面 r1293 断言 + 变异测试：把归属改成"全收"立刻红）；
 真数据对照=`results/compute_audit.bm-a.json` 201 行 1 条署名 vs `.bm-c.json` 201 行 0 条。
+
+
+### E603 · 一条红了两轮、其实有人能付账的闸（r1639 bm-c）
+
+一个对比「发布面 vs 重算值」的闸，把分歧写成一个词（FAIL / disagrees），就把两种相反的人事状态压成了同一个：
+①输入自己前进了（票换了一张、臂面在新 bar 上重定价）——面必须重建，这是付账；
+②没人动输入，面自己被改了——这是编辑，必须保持红。
+链的付账通道只认字面 "stale"（Tools/s6_chain_bmc.py:run_leg），于是①类的红没人能付：下游一直红，
+直到有人手工重跑。实锤=floor_ledger 在 r1633 两座链记录里红着（面 11-12、票 11-13）而无人付账；
+etf_book_atlas_toll_ladder 同理（且它连 refresh 都没声明）。
+
+**How**：任何「面 vs 源」的闸，先问分歧的原因是不是输入自己动了——是则输出带 "stale" 的 rc2 并点名两个日期（旧面依据 / 新输入），
+否则才是 rc1 编辑面；且每条这类腿都要在链里声明 refresh。不要用一个判词覆盖“能修”与“该拦”。
+**实锚**：`scripts/etf_book_floor_ledger.py::classify_drift`（selftest 15→18/18）+链端到端（把面钉在旧票→链 0.7s 判 STALE→
+自动 refresh 0.2s→绿）；`scripts/etf_book_atlas_toll_ladder.py`（面增 `sources_bar`、selftest 32/32）。

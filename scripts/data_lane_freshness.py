@@ -1362,11 +1362,20 @@ def window_rows(report):
     window language (L29b -- the same rule the board's own markdown leg pins).
     """
     out = []
+    shown = set()
     for r in (report or {}).get("lanes") or []:
         if not r.get("within_window"):
             continue
         win = int(r["window_trading_days"])
         behind = int(r.get("days_behind") or 0)
+        basis = r.get("window_basis")
+        # r1639: the same window rule belongs to several lanes, so printing its
+        # basis on every lane row put one sentence on the CEO page twice -- the
+        # two copies read as two independent pieces of evidence (the r1638 class,
+        # caught here by Tools/page_repeat_guard.py). The rule is stated once and
+        # later rows point back at it; the structured `basis` stays on every row.
+        repeat = bool(basis) and (basis, win) in shown
+        shown.add((basis, win))
         out.append({"lane": r.get("lane"),
                     "host": r.get("lane_host"),
                     "tail": r.get("tail"),
@@ -1374,7 +1383,8 @@ def window_rows(report):
                     "window_trading_days": win,
                     "sessions_left": win - behind + 1,
                     "verdict": r.get("verdict"),
-                    "basis": r.get("window_basis")})
+                    "basis": basis,
+                    "basis_repeat": repeat})
     return out
 
 
@@ -1384,12 +1394,15 @@ def window_sentence(row):
     r1594: this line lands on the Chinese CEO page and the board, so it speaks that
     page's language. The numbers are unchanged -- only the prose moved.
     """
-    return ("`%s`：尾部 %s，落后官方日历 **%d** 个交易日，滚动窗 **%d** 个交易日 "
+    tail = ("`%s`：尾部 %s，落后官方日历 **%d** 个交易日，滚动窗 **%d** 个交易日 "
             "→ 还可再走 **%d** 个交易日才欠一次刷新（差距超过 %d 即读 `stalled`）"
             % (row["lane"], row.get("tail") or "--", row["days_behind"],
                row["window_trading_days"], row["sessions_left"],
-               row["window_trading_days"])
-            + ("。依据：%s" % row["basis"] if row.get("basis") else ""))
+               row["window_trading_days"]))
+    if row.get("basis"):
+        tail += ("。依据同上（本节首行）" if row.get("basis_repeat")
+                 else "。依据：%s" % row["basis"])
+    return tail
 
 
 def render_md(report, cert="auto"):
@@ -2760,6 +2773,33 @@ def selftest():
     print("[PASS] L35 the window contract is one row (sessions left derived) and "
           "the page prints it verbatim; lanes outside a window never enter it",
           flush=True)
+    # L35b (r1639) the same rule governs several lanes, and printing its basis under
+    # every one put a single sentence on the CEO page twice -- two copies read as
+    # two independent pieces of evidence (the r1638 class; page_repeat_guard now
+    # catches it). The rule is stated once, later rows point back, and every lane
+    # keeps its own numbers. Two lanes with a DIFFERENT window must each state
+    # theirs: (basis, window) is the key, not basis alone.
+    _w_dup_a = {"lane": "lane_dup_a", "lane_host": "bm-c", "tail": "2026-10-26",
+                "verdict": "in_sync", "within_window": True,
+                "window_trading_days": 20, "days_behind": 3,
+                "window_basis": "collector no-op rule"}
+    _w_dup_b = dict(_w_dup_a, lane="lane_dup_b", days_behind=5)
+    _w_win40 = dict(_w_dup_a, lane="lane_win40", window_trading_days=40)
+    _dup_rows = window_rows(
+        {"lanes": [_w_dup_a, _w_dup_b, _w_win40]})
+    _dup_sents = [window_sentence(r) for r in _dup_rows]
+    assert len(_dup_sents) == 3, _dup_sents
+    assert _dup_sents[1].count("依据同上") == 1, _dup_sents[1]
+    assert "collector no-op rule" not in _dup_sents[1], \
+        "the second row must point back, not restate the same rule: %r" % _dup_sents[1]
+    assert "collector no-op rule" in _dup_sents[2], \
+        "a DIFFERENT window is a different promise and must state its own rule " \
+        "-- (basis, window), not basis alone: %r" % _dup_sents[2]
+    assert all("尾部" in s for s in _dup_sents), \
+        "pointing back must not eat the lane's own row: %r" % (_dup_sents,)
+    print("[PASS] L35b one collector rule is said once across lanes that share it, "
+          "a different window still states its own, and every lane keeps its numbers",
+          flush=True)
 
     # L36 (r1537) two faces' off-host counts answer a gate only when they
     # describe the same moment. The fixture is the live case: a report written
@@ -2816,7 +2856,10 @@ def selftest():
     finally:
         _sh37.rmtree(_cd37, ignore_errors=True)
 
-    print("selftest: 40/40 PASS", flush=True)
+    # NB: this counter is typed, not derived. It was 40/40 with 41 legs running
+    # (L35b added in r1639) -- a suite that prints a smaller number than it ran
+    # reads as "the new leg never executed". Bump it with every leg added.
+    print("selftest: 41/41 PASS", flush=True)
     return 0
 
 

@@ -783,6 +783,13 @@ LEGS = [
     ("etf_book_premium_leak_write",
      ["python", "scripts/etf_book_premium_leak.py", "run"]),
     ("etf_book_ceo_page", ["python", "scripts/etf_book_ceo_page.py", "run"]),
+    # r1639: r1638 found one sentence copied twice onto this page (the two copies read as
+    # two independent pieces of evidence) and the block-level leg could not see it, because
+    # `"..." in _md` is immune to repetition. That instance is fixed; this leg is the class:
+    # it reads the PUBLISHED bytes of every CEO-facing face and refuses a prose sentence
+    # carrying a number that appears twice. ~1s, no network, no judge; a face with almost no
+    # prose is named as "too little prose to judge" instead of reading clean.
+    ("page_repeat_guard", ["python", "Tools/page_repeat_guard.py", "scan"]),
     # r1150: the four-tier ticket menu is the same book sold at four betas, and it
     # lived a full round with no scheduled producer -- the r1290 two-face class. bm-a
     # is the writer; other hosts print an honest no-op. ~2s warm / ~30s on a new bar.
@@ -887,7 +894,12 @@ LEGS = [
     # of issued floors and re-derives, from published receipts only, whether the floor is
     # still in force on the PATH (HOLDING / REAPPLY_REQUIRED / NOT_ENFORCED / REISSUE_REQUIRED).
     # `check` re-derives 7 fields from the four input faces (0.1s, no panel).
-    ("floor_ledger", ["python", "scripts/etf_book_floor_ledger.py", "check"]),
+    # r1639: the ledger had no refresh declared, so the day the ticket rolled over it went
+    # red and stayed red until a human re-ran the builder by hand (11-12 face on an 11-13
+    # ticket sat in two chain records). Its `check` now separates STALE (the ticket moved)
+    # from DRIFT (an edit), so the probe may pay this refresh on its own.
+    ("floor_ledger", ["python", "scripts/etf_book_floor_ledger.py", "check"],
+     ["python", "scripts/etf_book_floor_ledger.py", "run"]),
     # r1459: the ledger says the floor must be re-applied on the next decision bar, which
     # reads like a second control (clip every bar). This leg prices both rules on the panel
     # and proves they are ONE path on this construction -- so the obligation is to trim at

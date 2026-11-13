@@ -419,6 +419,23 @@ def md_lines(face):
 
 
 # ------------------------------------------------------------------------ check
+def classify_drift(pub, a, drift):
+    """Which kind of red is this? (rc, sentence).
+
+    r1639: a permit priced on yesterday's ticket is STALE, not edited -- the ticket moved
+    and every field that follows it moved with it. Without this split the face stays
+    permanently red on inherited state, the chain has no refresh to pay, and a human has
+    to re-run the builder by hand every time the sheet rolls over. Two ledgers that are
+    priced on the SAME ticket and still disagree are still an edit: that stays rc1.
+    """
+    if drift:
+        pub_ticket, now_ticket = pub.get("ticket_now"), a.get("ticket_now")
+        if pub_ticket and now_ticket and pub_ticket != now_ticket:
+            return 2, ("STALE: the ledger is priced on %s while the newest ticket is %s "
+                       "(%d field(s) moved with it)" % (pub_ticket, now_ticket, len(drift)))
+    return 1, None
+
+
 def check():
     """Re-derive the fields that move when an input moves. Any drift is RED."""
     face = _read_json(LEDGER)
@@ -437,6 +454,10 @@ def check():
         if pub.get(k) != a.get(k):
             drift.append("%s: published=%r re-derived=%r" % (k, pub.get(k), a.get(k)))
     if drift:
+        rc, sentence = classify_drift(pub, a, drift)
+        if rc == 2:
+            print(sentence)
+            return 2
         for d in drift:
             print("DRIFT " + d)
         print("CHECK_FAIL %d field(s) drifted" % len(drift))
@@ -550,12 +571,29 @@ def selftest():
         a["k_sheet"] == a["k_order"] and any("trim" in m for m in a["missing"]),
         repr(a["missing"]))
 
+    # 16. r1639: the red is classified -- a moved ticket is STALE (payable), an edit is not
+    rc, stale_line = classify_drift({"ticket_now": "TICKET-2026-11-12.json"},
+                                    {"ticket_now": "TICKET-2026-11-13.json"},
+                                    ["verdict: published='A' re-derived='B'"])
+    leg("leg16 a ledger priced on an older ticket reads STALE (rc2) and names both sheets",
+        rc == 2 and "TICKET-2026-11-12.json" in (stale_line or "")
+        and "TICKET-2026-11-13.json" in (stale_line or ""), repr((rc, stale_line)))
+    rc, stale_line = classify_drift({"ticket_now": "TICKET-2026-11-13.json"},
+                                    {"ticket_now": "TICKET-2026-11-13.json"},
+                                    ["verdict: published='A' re-derived='B'"])
+    leg("leg17 the same ticket and still disagreeing stays an edit (rc1)",
+        rc == 1 and stale_line is None, repr((rc, stale_line)))
+    rc, stale_line = classify_drift({}, {"ticket_now": "TICKET-2026-11-13.json"},
+                                    ["verdict: published='A' re-derived='B'"])
+    leg("leg18 a face with no ticket of its own cannot be called stale",
+        rc == 1 and stale_line is None, repr((rc, stale_line)))
+
     if fails:
         for f in fails:
             print("FAIL " + f)
-        print("selftest %d/%d" % (15 - len(fails), 15))
+        print("selftest %d/%d" % (18 - len(fails), 18))
         return 1
-    print("selftest 15/15")
+    print("selftest 18/18")
     return 0
 
 
