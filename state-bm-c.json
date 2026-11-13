@@ -73,7 +73,10 @@
   "updated_at": "2026-11-11T20:04:03+08:00"
  },
  "dec_sha_method": "python subprocess raw-blob bytes SHA-256 (group-tree origin/main git show; r818 start sweep via SSH primary leg rc0 (channel healed, r817 A-sync note closed); dec delta FALSE = unchanged, zero action; facts-driven from results/_r818bmc_s05_facts.json, 64hex shape-asserted; close face reads sha PROGRAMMATICALLY from facts json, ZERO literal constants (r583 law)",
- "delivered": "cce2c8e682",
+ "delivered": [
+  "8d000d3b1e",
+  "f0d6fbf305"
+ ],
  "delivered_head": "ef06ca4c4e",
  "delivery_behind": 0,
  "delivery_state": "pushed f020dec739 (0 ahead / 0 behind)",
@@ -1165,13 +1168,19 @@
   "stdout": "results/_r1619bmc_chain.out"
  },
  "s7_notes": "loop pin=5 no-op (first fire 13:35 untouched); watchdog S4U flip refused (access denied) for the 7th round -> LogonType regression face, needs one elevated re-register; pre-commit/pre-push claws re-installed LF-normalized; attrition 4 ledgers CLEAN (3 historical shrinks healed)",
- "smoke": "full suite r1628 closed 577/577 PASS 0 FAIL, but it started 13:22 before this round's edits -> does not cover them; a fresh suite (results/_smoke_r1629.out) was started after the edits",
+ "smoke": "full suite after the edits: 577/577 PASS 0 FAIL (705.6s / 575 legs, 59 reused) -- covers this round's changes; the 13:22 run (577/577) started before the edits and is not counted as evidence",
  "smoke_closed": {
-  "at": "2026-11-13T09:16:00+08:00",
+  "started": "2026-11-13T13:35:22+08:00",
+  "closed_at": "2026-11-13T13:47:08+08:00",
+  "pass": 577,
   "fail": 0,
-  "legs": 574,
-  "pass": 576,
-  "wall_clock_s": 837.8
+  "legs": 575,
+  "wall_clock_s": 705.6,
+  "reused_legs": 59,
+  "reused_saved_s": 731.1,
+  "out": "results/_smoke_r1629.out",
+  "covers_this_round": true,
+  "note": "started after the last script edit; the CEO-page leg inside it printed 273/273 (post-edit)"
  },
  "smoke_r1621_out": "results/_smoke_r1621.out",
  "smoke_r1623_out": "results/_smoke_r1623.out",
@@ -1183,9 +1192,9 @@
  },
  "task": "r1629: a section that copies other faces was only checked against itself -- the row-label face now fails 'stale' when its upstream face or its order sheet moved",
  "total_ram_gb": 23.9,
- "ts": "2026-11-13T13:36:01+08:00",
- "updated": "2026-11-13 13:36",
- "updated_at": "2026-11-13T13:36:01+08:00",
+ "ts": "2026-11-13T13:48:24+08:00",
+ "updated": "2026-11-13 13:48",
+ "updated_at": "2026-11-13T13:48:24+08:00",
  "verdict": "PRODUCT: window_label gains three stale gates (upstream panel digest / rolled ticket / ledger bar) -> rc2 + stale; face rebuilt 2026-11-11 -> 2026-11-12 (full 7.68% / 2020-2023 3.71 / 2024+ 12.64%); page on-headline 41 -> 42; cash sections now name the panel owner AND its heartbeat age",
  "verify": "window_label selftest 11 -> 20/20; live_book_section_bars selftest 37 -> 42/42 + check CHECK_OK; ceo_page selftest 272 -> 273/273; real runs: window_label run+check rc0 on 2026-11-12, page run rc0, audit run+check rc0",
  "verify_smoke": "full suite started 07:14 (pythonw pid 31124 -> results/_smoke_r1615.out); 478+ lines, no FAIL seen, not closed at round end; modules changed mid-run so the closing numbers are the previous generation",
@@ -1208,5 +1217,6 @@
  "round_t1627_note": "| 2026-11-13 12:35-12:5x | 1627 | **PRODUCT（产品优先律·watermark=insufficient_history 无红）：有链腿不等于会自己追上。** 上一轮留下的指针说 family_coherence 停在 11-06 要查「它为何不判 stale」——查清了：守它的腿 `etf_book_phase_atlas_arms:run` 只把十张臂面重新汇总一遍（0.4s·不过引擎），所以这条 bar 永远不动；而节日期审计把「有同名链腿」读成「会自愈」，句子还写着「不是页面的错」。**修五件**：①`family_pricing()` 发布 pricing{mode:engine, reprices_bar:false, faces:10, cells_per_face:280}；②CEO 页新增一句点名它是数据债、往前推得重跑引擎；③arms 面新增 `panels_detail`：两个 digest 现在印出哪张面板旧（2026-10-30·少 5 根 bar）、旧面板上坐着哪五臂——**整条成本轴（cost0/05/20/40＋buffer_k05_cost20）因世界不同而判不了**；④审计新增第四态 `n_engine_priced`（实跑 1：family_coherence），句子不再说「不是页面的错」；⑤`--check` 绿时也把这句声明印出来（保持 rc0：链付不起重定价，永久红＝r1199 半面红牌）。**验证**：arms selftest 134→**136/136**（+旧世界点名/无戳不报 0 两根腿）、页 **271/271**、节日期审计 **32/32** + `check` CHECK_OK、arms `--check` rc0 并印出新句、真页两句实读。**S0**：identity=bm-c｜orphan py_faces=2 orphans=1｜ahead=0 behind=0。**S0.5**：orders_delta=false／decisions_delta=false／unacked=[]。**S1**：全量套件 **577/577 PASS 0 FAIL**（wall 879.4s/575 腿），但它在 12:51 收口、早于最后一轮改动，所以改后证据＝上面几组定向自检，不宣称全量覆盖本轮改动。**S6**：dualrun ZERO-DRIFT（744·streak 51）／attrition 4 账本 CLEAN（3 处历史缩行 healed）。**S7**：loop 在位（下次 12:55·本会话实例）／watchdog 就绪／两爪 CR 归一 MATCH。**CEO 过程可见面**：当前活＝让「有链腿」不再等于「会自己追上」｜最近实物＝`docs/live_book/LIVE-BOOK-20261113.md`（两条新句）＋`results/etf_book_phase_atlas_arms.json`（panels_detail）＋`results/live_book_section_bars.json`（n_engine_priced=1）｜下个里程碑＝把五个被判「世界不同」的成本臂放到同一张面板上重跑（池单 ATLAS-ARMS-ONEWORLD，runner=scripts/etf_book_phase_atlas.py run --cost=… --workers=8，窗 ≤48h）。**记账**：本行 1 处（其余为 S6 产出）。**未验证（如实）**：未重跑引擎，成本轴仍未解锁；池单未登记（无安全入池 API，禁手改共享池面）。 本地未达 origin commit 数=0（收尾 push 后复核）。 |",
  "round_t1627b_addendum": "| 2026-11-13 12:5x | 1627b | **ADDENDUM（如实）：** S7 幂等重注册已跑——loop pin=5 no-op（首火 13:00 未动）；watchdog 重建成功但 **S4U 翻转第六轮被拒（拒绝访问）**，任务留在默认 principal（LogonType 回归面仍在，须一次提权重注册；本机无提权通道＝入 task-s4u-backlog 候办）。送达：轮提交 **c67aa2efc0** 已落 origin/main，fetch 后 **0 ahead / 0 behind**。**记账**：本行 1 处。 |",
  "round_t1629_note": "| 2026-11-13 13:2x-13:5x | 1629 | **PRODUCT（产品优先律·watermark=py_low_with_work_cands 唯一在跑的是本轮全量套件，已如实点名）：一个只会对照自己的检查，永远不会说自己落后。** 上一轮把 window_bound 分出来后，剩下 6 节不在页头那根 bar 上，其中 `window_label` 停在 **2026-11-11** 而页头已按 11-12 定价——它的 `--check` 只做一件事：拿自己发布的行重新算一遍再和自己比，于是**在任何面板上都绿**；更糟的是它的陈旧分支返回 **rc1 + 「rerun」**，而链的刷新臂只认 **rc2 + `stale`**（r1625 定谳），所以那条腿红了也没人付钱。**修**：①`build()` 把上游面的面板身份戳（band ruler 的 `panel.digest`）随产物一起发布；②新增 `behind_rc()` 三道闸＝上游面板换了（走 `FW.check_panel_stamp` 单一实现）/ 票换了（`TICKET-2026-11-11` → `-11-12`）/ 账本 bar 已前进，一律 **rc2 + `stale`**；③`read_published` 补 `panel`/`inputs` 键（否则 check 拿到的永远是 None——r1625 同族坑）；④「面不在盘上」改印 `face missing`（r1581 链肯付的措辞）。**读数（真数据）**：面从 11-11 推到 **2026-11-12**——全窗 **7.68%** / 2020-2023 **3.71%** / 2024 起 **12.64%**，同一本书两个口径差 **+4.96 pp/yr**；`--check` 复跑 rc0；对盘上旧面（无戳）实测 `stale by construction` rc2。CEO 页 **41 → 42** 节站在 11-12。**第二件（同一句债的下一步）**：四个现金流节停在其面板末行的原因是**那块面板的属主停了**，而旧句只说「属主 bm-a，本机只读」，读者无法判断是慢还是死——页面出处面新增 `owner_machine`/`owner_runner`/`panel_last_write` 三个字段，审计面新增 `panel_debt()` 三态（alive <2h / quiet ≥2h / unknown 读不到≠死机），页面原样印审计那句：「末行 2026-11-11；最后写入 28.5 h 前；属主 bm-a（update_repo.py）自己的心跳停在 16.9 h 前——是那条车道停了，不是页面慢」。**验证**：window_label selftest **11→20/20**（+5 腿：绿/换面板/无戳/换票/账本前进）、审计 **37→42/42**（+5 腿：每面板一行/停了/活着/未知/不吞下游债）、页面 **272→273/273**（新腿带变异：审计不说时该句必须消失）、三面真数据跑 + `check` 全 rc0。**S0**：identity=bm-c｜`orphan_face_probe` py_faces=2 **orphans=1**（集团层 `Tools/fleet/agent.py --node b`，非本司，只读报告不击杀）｜ahead=0 behind=0｜发车时树脏=上一轮链腿派生面，本轮只定向提交自有产出。**S0.5**：`s05_probe` orders_delta=false／decisions_delta=false／unacked=[] rc0。**S1**：全量套件 r1628 **577/577 PASS 0 FAIL**（13:22 起，早于本轮改动＝不算本轮证据）；改后另起一轮 `results/_smoke_r1629.out`，收轮时在飞**不宣称全绿**。**S6**：dualrun ZERO-DRIFT（744·streak 51）／`compute_audit` FLAG:pool_starvation,supply_floor（AGENDA_DEBT·shortfall 3·startable 0·日历门四候选全拒）／`py_watermark` py_low_with_work_cands（唯一在跑的是本轮 smoke）／attrition 4 账本 **CLEAN**（3 处历史缩行 healed）。**S7**：loop pin=5 **no-op**（首火 13:35 未动）／watchdog 在位但 S4U 翻转**第七轮被拒**（如实记）／两爪 LF 归一 MATCH｜孤儿面=1。**CEO 过程可见面**：当前活＝让「只会对照自己」的面学会对照世界｜最近实物＝`results/etf_book_window_label.json`（2026-11-12·+4.96pp）＋`docs/live_book/LIVE-BOOK-20261113.md`（42 节在 11-12·现金流节点名属主心跳）＋`results/live_book_section_bars.json`（panel_debt 三态）｜下个里程碑＝11-13 收盘 bar 落盘后这批 check 应各自判 stale 并付写者；`family_coherence`(11-06) 是唯一剩下的引擎定价节，它的解锁要先在**同一张面板**上重跑成本轴（池单 ATLAS-ARMS-ONEWORLD，窗 ≤48h）。**记账**：本行 1 处（其余为 S6 产出）。 本地未达 origin commit 数=0（收尾 push 后复核）。 |",
- "round_t1629_next": "next: (a) after the 11-13 close lands, window_label / cost_tape / band_ruler / vol_window should each judge themselves stale and pay their own writers -- verify rather than assume; (b) family_coherence (2026-11-06) is the last engine-priced section: five cost arms must be re-priced on ONE panel (pool ticket ATLAS-ARMS-ONEWORLD) before its bar can move; (c) the repo panel is bm-a's lane and bm-a's heartbeat is 16.9 h quiet -- MSG-20261113-bmc-repo-panel-one-session-behind names the gap; do not take the lane over."
+ "round_t1629_next": "next: (a) after the 11-13 close lands, window_label / cost_tape / band_ruler / vol_window should each judge themselves stale and pay their own writers -- verify rather than assume; (b) family_coherence (2026-11-06) is the last engine-priced section: five cost arms must be re-priced on ONE panel (pool ticket ATLAS-ARMS-ONEWORLD) before its bar can move; (c) the repo panel is bm-a's lane and bm-a's heartbeat is 16.9 h quiet -- MSG-20261113-bmc-repo-panel-one-session-behind names the gap; do not take the lane over.",
+ "round_t1629b_addendum": "| 2026-11-13 13:5x | 1629b | **ADDENDUM（如实）：改后的全量套件收口了，这一份**覆盖本轮改动**。** 13:35:22 起（`results/_smoke_r1629.out`，晚于三处脚本改动的最后一次写入）→ **577/577 PASS，0 FAIL**，wall clock **705.6s / 575 腿**，59 腿复用首判省 731.1s。套件里 CEO 页那条腿读到 **273/273**（改后档），即这份绿是**改后**的绿，不是上一份（13:22 起、早于改动、已作废不计）。送达：两提交 **8d000d3b1e**（产物）＋**f0d6fbf305**（方法论卡 E598）已落 origin/main，fetch 后 **0 ahead / 0 behind**。**记账**：本行 1 处。 |"
 }
