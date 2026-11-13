@@ -4347,6 +4347,65 @@ DEMAND_RATE_PCT = 0.05
 PLACEMENT_MAX_AGE_DAYS = 7
 DEMAND_INSTRUMENTS = ("", "活期", "demand", "cash", "现金", "活期存款")
 
+# r1623: four sections on this page are computed by the page itself on every build, so no
+# chain leg carries their name and the section-date audit used to print them as "nothing
+# re-runs this". They were recomputed minutes before that sentence was written; what is
+# actually fixed is the panel they read (data/repo_daily, update_repo.py / bm-a -- this
+# host only reads that lane). The page publishes that provenance here so the audit can
+# tell "the data stopped" from "nobody ran it": each entry names the panel and the lane
+# that owns it, and `panel_last_bar` is read off the panel, never hand-typed.
+PAGE_COMPUTED_SOURCES = {
+    "cash_yield": ("data/repo_daily/GC001.csv", "etf_book_ceo_page.cash_yield"),
+    "cash_money": ("data/repo_daily/GC001.csv", "etf_book_ceo_page.cash_money_face"),
+    "cash_ladder": ("data/repo_daily", "etf_book_ceo_page.cash_ladder"),
+    "cash_handshake": ("data/repo_daily/GC001.csv", "etf_book_ceo_page.cash_handshake"),
+}
+REPO_PANEL_OWNER = "update_repo.py / bm-a · T-88 车道，本机只读"
+
+
+def _panel_last_bar(rel):
+    """Last dated row inside a repo-relative panel path (file or directory of CSVs).
+
+    Returns None when it cannot be read -- an unreadable panel must never print as a
+    clean "fresh" one (r98/r1159).
+    """
+    p = os.path.join(ROOT, rel.replace("/", os.sep))
+    files = []
+    if os.path.isdir(p):
+        try:
+            files = sorted(os.path.join(p, f) for f in os.listdir(p)
+                           if f.lower().endswith((".csv", ".parquet")))
+        except OSError:
+            return None
+    elif os.path.exists(p):
+        files = [p]
+    last = None
+    for f in files:
+        try:
+            if f.lower().endswith(".csv"):
+                with open(f, encoding="utf-8") as fh:
+                    rows = [ln.split(",")[0].strip() for ln in fh if ln.strip()]
+                cand = rows[-1] if len(rows) > 1 else None
+            else:
+                import pandas as pd
+                df = pd.read_parquet(f)
+                cand = str(df.index[-1])[:10]
+        except Exception:
+            continue
+        if cand and len(cand) >= 10 and cand[4] == "-" and cand[7] == "-" \
+                and (last is None or cand[:10] > last):
+            last = cand[:10]
+    return last
+
+
+def page_computed_provenance():
+    """Where each self-computed section's number comes from, as the audit reads it."""
+    out = {}
+    for key, (panel, by) in PAGE_COMPUTED_SOURCES.items():
+        out[key] = {"panel": panel, "panel_last_bar": _panel_last_bar(panel),
+                    "owner_lane": REPO_PANEL_OWNER, "computed_by": by}
+    return out
+
 
 def _rel(path, base=ROOT):
     """Repository-relative when both live on one drive, the absolute path otherwise.
@@ -5781,6 +5840,9 @@ def build(with_stress=False, window_label=None):
         "cash_yield": cash_yield(cash_amt),
         "cash_money": cash_money_face(cash_amt, tk),
         "cash_ladder": cash_ladder(cash_amt),
+        # r1623: the four sections above are the page's own arithmetic; declare what each
+        # one reads so a section dated before the headline bar is not read as unproduced.
+        "page_computed": page_computed_provenance(),
         "k_now": tk.get("k_now"),
         "n_hold": tk.get("n_hold"),
         "cost_bp_per_side": tk.get("cost_bp_per_side"),
@@ -7360,6 +7422,24 @@ def selftest():
     chk("L34 cash: the rendered page carries the rate, its date and the 'not a return source' line",
         "现金那一半在赚多少" in _md3 and "1.09%" in _md3 and "2026-10-27" in _md3
         and "+¥5,764" in _md3 and "不是收益来源" in _md3, "rendered cash block present")
+
+    # r1623: these four sections have no chain leg with their name, so the section-date
+    # audit must be able to read where their numbers come from instead of calling them
+    # unproduced. The provenance is read off the panel itself (never hand-typed), and an
+    # unreadable panel returns None -- the same "must not print as fresh" rule as L32.
+    _pc = page.get("page_computed") or {}
+    chk("L34a provenance: every self-computed cash section names its panel and that panel's own last bar",
+        set(_pc) == {"cash_yield", "cash_money", "cash_ladder", "cash_handshake"}
+        and all(v.get("panel") and v.get("owner_lane") and v.get("computed_by")
+                for v in _pc.values())
+        and all(v.get("panel_last_bar") == _pc["cash_yield"]["panel_last_bar"]
+                for v in _pc.values()),
+        "panels=%s" % sorted({v.get("panel") for v in _pc.values()}))
+    _plb = _panel_last_bar("data/repo_daily/GC001.csv")
+    chk("L34b provenance: the declared bar is the panel's own, not a constant in this file",
+        _plb == _pc.get("cash_yield", {}).get("panel_last_bar")
+        and _panel_last_bar("data/repo_daily/__nope__.csv") is None,
+        "panel last bar %s" % _plb)
 
     # 35-38. the ladder question ("should the cash sit in a longer repo?") is answered by
     # rolling each tenor on the panel's own calendar -- the adoption rule is a frozen

@@ -88,6 +88,26 @@ NO_HEADLINE = "HEADLINE_UNKNOWN"
 # it does not claim the leg passed, only that a producer exists.
 MIN_NAME_FOR_MATCH = 8
 
+# r1623: `guarded_by == []` was printed as "nothing re-runs this section", and that is
+# false for a section the page computes itself on every build -- which is exactly the four
+# cash sections. They sit on the last bar of `data/repo_daily`, a lane that lives on
+# another machine (update_repo.py / bm-a, this host only reads it), so a reader was told
+# "nobody re-ran this" about numbers recomputed minutes ago whose only possible next move
+# is upstream. The page now publishes where each self-computed section's number comes
+# from; this face compares that panel's own last bar with the bar the section states, and
+# calls it a writer debt only when the panel moved and the section did not.
+CHAIN_LEG = "chain_leg"
+COMPUTED_IN_PAGE = "computed_in_page"
+NO_WRITER = "no_writer"
+
+
+def page_computed_of(page_computed, key):
+    """The page's own declaration for a self-computed section, or None."""
+    if not isinstance(page_computed, dict):
+        return None
+    v = page_computed.get(str(key))
+    return v if isinstance(v, dict) else None
+
 
 def _days(cal=None):
     try:
@@ -195,23 +215,46 @@ def section_bars(doc, cal=None, legs=None):
     head, head_field = headline_bar(doc)
     if legs is None:
         legs = leg_names()
+    page_computed = (doc or {}).get("page_computed") or {}
     rows, unknown = [], []
     for k, v in (doc or {}).items():
+        if k in ("page_computed",):      # r1623: provenance面, not a dated section
+            continue
         if not isinstance(v, dict):
             continue
         b, f = bar_of(v)
         if b is None:
             unknown.append(k)
             continue
+        g = guarded_by(k, v, legs)
+        pc = page_computed_of(page_computed, k)
+        if g:
+            prov = CHAIN_LEG
+        elif g == [] and pc is not None:
+            prov = COMPUTED_IN_PAGE
+        elif g == []:
+            prov = NO_WRITER
+        else:
+            prov = None      # leg list unreadable: claim nothing (r98/r1159)
         rows.append({"key": k, "bar": b, "field": f,
                      "lag_sessions": sessions_between(b, head, cal) if head else None,
                      "ahead_of_headline": bool(head and b > head),
-                     "guarded_by": guarded_by(k, v, legs)})
+                     "guarded_by": g, "provenance": prov,
+                     "panel": (pc or {}).get("panel"),
+                     "panel_last_bar": (pc or {}).get("panel_last_bar"),
+                     "panel_owner": (pc or {}).get("owner_lane")})
     hist = {}
     for r in rows:
         hist[r["bar"]] = hist.get(r["bar"], 0) + 1
     behind = [r for r in rows if head and r["bar"] != head]
     behind.sort(key=lambda r: (r["bar"], r["key"]))
+    pc_rows = [r for r in behind if r.get("provenance") == COMPUTED_IN_PAGE]
+    # Two very different states inside COMPUTED_IN_PAGE: the section sits exactly on its
+    # panel's last bar (the panel is the thing that stopped), or the panel has a newer bar
+    # and the section did not move (a real writer debt behind a page-computed face).
+    pc_on_tail = [r for r in pc_rows
+                  if r.get("panel_last_bar") and r["bar"] == str(r["panel_last_bar"])[:10]]
+    nw_rows = [r for r in behind if r.get("provenance") == NO_WRITER]
     return {
         "headline_bar": head,
         "headline_field": head_field,
@@ -229,6 +272,16 @@ def section_bars(doc, cal=None, legs=None):
                         sum(1 for r in behind if r.get("guarded_by") == [])),
         "unguarded": (None if not legs else
                       [r["key"] for r in behind if r.get("guarded_by") == []]),
+        "n_page_computed": (None if not legs else len(pc_rows)),
+        "page_computed": (None if not legs else [r["key"] for r in pc_rows]),
+        "page_computed_on_panel_tail": (None if not legs else [r["key"] for r in pc_on_tail]),
+        "page_computed_panels": (None if not legs else
+                                 sorted({"%s（%s，末行 %s）" % (r.get("panel") or "?",
+                                                              r.get("panel_owner") or "属主未声明",
+                                                              r.get("panel_last_bar") or "?")
+                                         for r in pc_rows})),
+        "n_no_writer": (None if not legs else len(nw_rows)),
+        "no_writer": (None if not legs else [r["key"] for r in nw_rows]),
     }
 
 
@@ -280,7 +333,9 @@ def assess(page=None, jsonp=None, cal=None, legs=None):
                                     "n_on_headline", "unknown_sections", "bars",
                                     "n_off_headline", "off_headline", "oldest",
                                     "max_lag_sessions", "by_key", "n_unguarded",
-                                    "unguarded")})
+                                    "unguarded", "n_page_computed", "page_computed",
+                                    "page_computed_on_panel_tail", "page_computed_panels",
+                                    "n_no_writer", "no_writer")})
     face["evidence_cutoff"] = sb["headline_bar"]
     if sb["headline_bar"] is None:
         face["verdict"] = NO_HEADLINE
@@ -304,14 +359,28 @@ def assess(page=None, jsonp=None, cal=None, legs=None):
               if worst and worst["lag_sessions"] else ""),
              len(sb["unknown_sections"])))
         if sb.get("n_unguarded") is not None:
-            if sb["n_unguarded"]:
-                face["sentence"] += ("这 %d 节里，%d 节的产物有同名链腿在守，"
-                                     "%d 节没有任何一条链腿重跑过它们（%s）——"
-                                     "没有腿的那些停在天，是因为没人重跑，不是因为设计。" %
-                                     (sb["n_off_headline"],
-                                      sb["n_off_headline"] - sb["n_unguarded"],
-                                      sb["n_unguarded"], ", ".join(sb["unguarded"][:6])))
-            else:
+            n_leg = sb["n_off_headline"] - sb["n_unguarded"]
+            parts = ["这 %d 节里，%d 节的产物有同名链腿在守" % (sb["n_off_headline"], n_leg)]
+            if sb.get("n_page_computed"):
+                pc = sb["page_computed"]
+                tail = sb.get("page_computed_on_panel_tail") or []
+                if len(tail) == len(pc):
+                    parts.append(
+                        "%d 节（%s）是这一页每次生成时自己重算的，停的正是它读的那块面板的最后一天：%s"
+                        "——落后的是那块面板，不是没人重跑这节"
+                        % (len(pc), ", ".join(pc[:6]),
+                           "、".join((sb.get("page_computed_panels") or [])[:2])))
+                else:
+                    parts.append(
+                        "%d 节（%s）是这一页自己重算的，其中 %d 节坐在面板末行上、"
+                        "%d 节面板已经有了新 bar 它还停在原处"
+                        % (len(pc), ", ".join(pc[:6]), len(tail), len(pc) - len(tail)))
+            if sb.get("n_no_writer"):
+                parts.append("%d 节（%s）没有任何一条链腿重跑过它们——那是这一页真正的缺口"
+                             % (sb["n_no_writer"], ", ".join((sb["no_writer"] or [])[:6])))
+            if len(parts) > 1:
+                face["sentence"] += "；".join(parts) + "。"
+            elif not sb["n_unguarded"]:
                 face["sentence"] += ("这 %d 节的产物各自都有同名链腿在守，"
                                      "停在原来的 bar 是它们各自被评分的那一天，不是页面的错。" %
                                      sb["n_off_headline"])
@@ -338,14 +407,24 @@ def ticket_lines(face):
         L.append("|---|---|---|---|")
         for r in rows[:12]:
             g = r.get("guarded_by")
-            cell = "未核验" if g is None else ("、".join(g[:2]) if g else "**没有**")
+            if g is None:
+                cell = "未核验"
+            elif g:
+                cell = "、".join(g[:2])
+            elif r.get("provenance") == COMPUTED_IN_PAGE:
+                cell = "页内重算（%s 末行 %s）" % (r.get("panel") or "?", r.get("panel_last_bar") or "?")
+            else:
+                cell = "**没有**"
             L.append("| %s | %s | %s | %s |" % (r["key"], r["bar"], r.get("lag_sessions"), cell))
         if len(rows) > 12:
             L.append("| …其余 %d 节 | | | |" % (len(rows) - 12))
         L.append("")
         L.append("「守它的链腿」是按名字匹配的链清单（腿名含该节的名字或产物名），"
                  "只回答「有没有一条腿会重跑它」，不回答那条腿上次过没过——"
-                 "这两件事在页面上一向是两个错。印「没有」的那几节，才是这一页真正的缺口。")
+                 "这两件事在页面上一向是两个错。"
+                 "标着「页内重算」的节不是没腿跑：这一页每次生成都把它们算一遍，"
+                 "它们停在那天是因为下面那块面板只到那天，动作在上游数据车道，不在本页。"
+                 "印「没有」的那几节，才是这一页真正的缺口。")
     if face.get("unknown_sections"):
         L.append("")
         L.append("这 %d 节没有任何日期字段，本面**不替它们认领**任何一根 bar：%s。"
@@ -378,7 +457,8 @@ def check():
     fresh = assess()
     diffs = []
     for k in ("verdict", "headline_bar", "n_sections", "n_off_headline", "oldest",
-              "max_lag_sessions", "by_key", "unknown_sections"):
+              "max_lag_sessions", "by_key", "unknown_sections", "n_page_computed",
+              "no_writer"):
         if pub.get(k) != fresh.get(k):
             diffs.append("%s published=%r fresh=%r" % (k, pub.get(k), fresh.get(k)))
     if diffs:
@@ -488,12 +568,54 @@ def selftest():
         sbr = section_bars(real)
         leg("L13 on the page on disk every dated section is accounted for",
             sbr["n_sections"] + len(sbr["unknown_sections"]) ==
-            sum(1 for v in real.values() if isinstance(v, dict)))
+            sum(1 for k, v in real.items()
+                if isinstance(v, dict) and k not in ("page_computed",)))
         leg("L14 the published verdict names the headline the page itself declares",
             sbr["headline_bar"] == headline_bar(real)[0])
     else:
         leg("L13 no page on disk: boundary stated, nothing claimed", True)
         leg("L14 no page on disk: boundary stated, nothing claimed", True)
+
+    # ---- r1623: a page-computed section is not an unproduced one -----------------------
+    pc_fx = {"priced_bar": "2026-11-12",
+             "cash_yield": {"rate_date": "2026-11-11"},
+             "cash_money": {"spot_date": "2026-11-11"},
+             "lookahead": {"evidence_cutoff": "2026-10-30"},
+             "page_computed": {"cash_yield": {"panel": "data/repo_daily/GC001.csv",
+                                              "panel_last_bar": "2026-11-11",
+                                              "owner_lane": "update_repo.py / bm-a"},
+                               "cash_money": {"panel": "data/repo_daily/GC001.csv",
+                                              "panel_last_bar": "2026-11-11",
+                                              "owner_lane": "update_repo.py / bm-a"}}}
+    psb = section_bars(pc_fx, legs=LEGS_FAKE)
+    leg("L25 a section the page recomputes itself is not counted as having no producer",
+        psb["page_computed"] == ["cash_money", "cash_yield"]
+        and psb["no_writer"] == ["lookahead"]
+        and "data/repo_daily/GC001.csv" in (psb["page_computed_panels"] or [""])[0])
+    leg("L26 the provenance face is not itself a dated section",
+        "page_computed" not in psb["unknown_sections"]
+        and psb["n_sections"] + len(psb["unknown_sections"]) ==
+        sum(1 for v in pc_fx.values() if isinstance(v, dict)) - 1)
+    stale_pc = {"priced_bar": "2026-11-12", "cash_yield": {"rate_date": "2026-11-11"},
+                "page_computed": {"cash_yield": {"panel": "p",
+                                                 "panel_last_bar": "2026-11-12"}}}
+    s2 = section_bars(stale_pc, legs=LEGS_FAKE)
+    leg("L27 a page-computed section whose panel moved past it is a real debt",
+        s2["page_computed"] == ["cash_yield"] and s2["page_computed_on_panel_tail"] == [])
+    tmp2 = os.path.join(ROOT, "results", "_tmp_section_bars_pc.json")
+    with open(tmp2, "w", encoding="utf-8") as fh:
+        json.dump(pc_fx, fh)
+    try:
+        f3 = assess(jsonp=tmp2, legs=LEGS_FAKE)
+        leg("L28 the sentence blames the panel that stopped, not a re-run nobody did",
+            "不是没人重跑这节" in f3["sentence"] and "lookahead" in f3["sentence"])
+        leg("L29 the sheet names the panel and its last bar for such a section",
+            "页内重算（data/repo_daily/GC001.csv 末行 2026-11-11）" in "\n".join(ticket_lines(f3)))
+    finally:
+        try:
+            os.unlink(tmp2)
+        except OSError:
+            pass
 
     # ---- r1617: a section that says which day it prices is not "undatable" ---------------
     leg("L23 a date under another name is read, and a boolean that merely looks like one is not",

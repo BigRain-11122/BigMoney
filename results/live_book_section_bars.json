@@ -1,12 +1,12 @@
 {
  "script": "scripts/live_book_section_bars.py",
- "ts": "2026-11-13 10:23:23",
+ "ts": "2026-11-13 10:50:43",
  "page": {
   "path": "docs/live_book/LIVE-BOOK-20261113.md",
   "json": "docs/live_book/LIVE-BOOK-20261113.json"
  },
  "verdict": "PAGE_MIXES_BARS",
- "sentence": "页面头部写着按 2026-11-12 定价，但 48 个带日期的节里只有 36 节真在这一天；其余 12 节最旧停在 2026-10-26（最差 sample_window 落后 13 个交易日），另外 8 节根本没有日期——它们不是同一根 bar 上的数，读的时候不能互相加减。这 12 节里，8 节的产物有同名链腿在守，4 节没有任何一条链腿重跑过它们（cash_handshake, cash_ladder, cash_money, cash_yield）——没有腿的那些停在天，是因为没人重跑，不是因为设计。",
+ "sentence": "页面头部写着按 2026-11-12 定价，但 48 个带日期的节里只有 36 节真在这一天；其余 12 节最旧停在 2026-10-26（最差 sample_window 落后 13 个交易日），另外 8 节根本没有日期——它们不是同一根 bar 上的数，读的时候不能互相加减。这 12 节里，8 节的产物有同名链腿在守；4 节（cash_handshake, cash_ladder, cash_money, cash_yield）是这一页每次生成时自己重算的，停的正是它读的那块面板的最后一天：data/repo_daily/GC001.csv（update_repo.py / bm-a · T-88 车道，本机只读，末行 2026-11-11）、data/repo_daily（update_repo.py / bm-a · T-88 车道，本机只读，末行 2026-11-11）——落后的是那块面板，不是没人重跑这节。",
  "evidence_cutoff": "2026-11-12",
  "headline_bar": "2026-11-12",
  "headline_field": "priced_bar",
@@ -40,7 +40,11 @@
    "ahead_of_headline": false,
    "guarded_by": [
     "etf_book_spanning"
-   ]
+   ],
+   "provenance": "chain_leg",
+   "panel": null,
+   "panel_last_bar": null,
+   "panel_owner": null
   },
   {
    "key": "cost_tape",
@@ -50,7 +54,11 @@
    "ahead_of_headline": false,
    "guarded_by": [
     "etf_book_cost_tape"
-   ]
+   ],
+   "provenance": "chain_leg",
+   "panel": null,
+   "panel_last_bar": null,
+   "panel_owner": null
   },
   {
    "key": "vol_window",
@@ -61,7 +69,11 @@
    "guarded_by": [
     "etf_book_vol_window_edge",
     "etf_book_vol_window_phase"
-   ]
+   ],
+   "provenance": "chain_leg",
+   "panel": null,
+   "panel_last_bar": null,
+   "panel_owner": null
   },
   {
    "key": "vol_window_edge",
@@ -71,7 +83,11 @@
    "ahead_of_headline": false,
    "guarded_by": [
     "etf_book_vol_window_edge"
-   ]
+   ],
+   "provenance": "chain_leg",
+   "panel": null,
+   "panel_last_bar": null,
+   "panel_owner": null
   },
   {
    "key": "family_coherence",
@@ -81,7 +97,11 @@
    "ahead_of_headline": false,
    "guarded_by": [
     "etf_book_phase_atlas_arms"
-   ]
+   ],
+   "provenance": "chain_leg",
+   "panel": null,
+   "panel_last_bar": null,
+   "panel_owner": null
   },
   {
    "key": "vol_target_gate",
@@ -91,7 +111,11 @@
    "ahead_of_headline": false,
    "guarded_by": [
     "vol_target_gate"
-   ]
+   ],
+   "provenance": "chain_leg",
+   "panel": null,
+   "panel_last_bar": null,
+   "panel_owner": null
   },
   {
    "key": "band_ruler",
@@ -101,7 +125,11 @@
    "ahead_of_headline": false,
    "guarded_by": [
     "etf_book_band_ruler"
-   ]
+   ],
+   "provenance": "chain_leg",
+   "panel": null,
+   "panel_last_bar": null,
+   "panel_owner": null
   },
   {
    "key": "cash_handshake",
@@ -109,7 +137,11 @@
    "field": "repo_rate_date",
    "lag_sessions": 1,
    "ahead_of_headline": false,
-   "guarded_by": []
+   "guarded_by": [],
+   "provenance": "computed_in_page",
+   "panel": "data/repo_daily/GC001.csv",
+   "panel_last_bar": "2026-11-11",
+   "panel_owner": "update_repo.py / bm-a · T-88 车道，本机只读"
   },
   {
    "key": "cash_ladder",
@@ -117,7 +149,11 @@
    "field": "as_of",
    "lag_sessions": 1,
    "ahead_of_headline": false,
-   "guarded_by": []
+   "guarded_by": [],
+   "provenance": "computed_in_page",
+   "panel": "data/repo_daily",
+   "panel_last_bar": "2026-11-11",
+   "panel_owner": "update_repo.py / bm-a · T-88 车道，本机只读"
   },
   {
    "key": "cash_money",
@@ -125,7 +161,11 @@
    "field": "spot_date",
    "lag_sessions": 1,
    "ahead_of_headline": false,
-   "guarded_by": []
+   "guarded_by": [],
+   "provenance": "computed_in_page",
+   "panel": "data/repo_daily/GC001.csv",
+   "panel_last_bar": "2026-11-11",
+   "panel_owner": "update_repo.py / bm-a · T-88 车道，本机只读"
   },
   {
    "key": "cash_yield",
@@ -133,7 +173,11 @@
    "field": "rate_date",
    "lag_sessions": 1,
    "ahead_of_headline": false,
-   "guarded_by": []
+   "guarded_by": [],
+   "provenance": "computed_in_page",
+   "panel": "data/repo_daily/GC001.csv",
+   "panel_last_bar": "2026-11-11",
+   "panel_owner": "update_repo.py / bm-a · T-88 车道，本机只读"
   },
   {
    "key": "window_label",
@@ -143,7 +187,11 @@
    "ahead_of_headline": false,
    "guarded_by": [
     "etf_book_window_label"
-   ]
+   ],
+   "provenance": "chain_leg",
+   "panel": null,
+   "panel_last_bar": null,
+   "panel_owner": null
   }
  ],
  "oldest": "2026-10-26",
@@ -204,5 +252,24 @@
   "cash_ladder",
   "cash_money",
   "cash_yield"
- ]
+ ],
+ "n_page_computed": 4,
+ "page_computed": [
+  "cash_handshake",
+  "cash_ladder",
+  "cash_money",
+  "cash_yield"
+ ],
+ "page_computed_on_panel_tail": [
+  "cash_handshake",
+  "cash_ladder",
+  "cash_money",
+  "cash_yield"
+ ],
+ "page_computed_panels": [
+  "data/repo_daily/GC001.csv（update_repo.py / bm-a · T-88 车道，本机只读，末行 2026-11-11）",
+  "data/repo_daily（update_repo.py / bm-a · T-88 车道，本机只读，末行 2026-11-11）"
+ ],
+ "n_no_writer": 0,
+ "no_writer": []
 }

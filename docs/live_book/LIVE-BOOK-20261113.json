@@ -345,6 +345,32 @@
    "basis": "edge must clear min_edge_bp in the 1y AND 3y windows, idle <= max_idle_share, positive in min_positive_year_share of complete years"
   }
  },
+ "page_computed": {
+  "cash_yield": {
+   "panel": "data/repo_daily/GC001.csv",
+   "panel_last_bar": "2026-11-11",
+   "owner_lane": "update_repo.py / bm-a · T-88 车道，本机只读",
+   "computed_by": "etf_book_ceo_page.cash_yield"
+  },
+  "cash_money": {
+   "panel": "data/repo_daily/GC001.csv",
+   "panel_last_bar": "2026-11-11",
+   "owner_lane": "update_repo.py / bm-a · T-88 车道，本机只读",
+   "computed_by": "etf_book_ceo_page.cash_money_face"
+  },
+  "cash_ladder": {
+   "panel": "data/repo_daily",
+   "panel_last_bar": "2026-11-11",
+   "owner_lane": "update_repo.py / bm-a · T-88 车道，本机只读",
+   "computed_by": "etf_book_ceo_page.cash_ladder"
+  },
+  "cash_handshake": {
+   "panel": "data/repo_daily/GC001.csv",
+   "panel_last_bar": "2026-11-11",
+   "owner_lane": "update_repo.py / bm-a · T-88 车道，本机只读",
+   "computed_by": "etf_book_ceo_page.cash_handshake"
+  }
+ },
  "k_now": 0.432195,
  "n_hold": 5,
  "cost_bp_per_side": 8.0,
@@ -6858,8 +6884,8 @@
  "authority": {
   "writer": "bm-c",
   "owner": "bm-a",
-  "owner_silent_h": 13.8,
+  "owner_silent_h": 14.2,
   "took_over": true,
-  "why": "bm-a has not written its own heartbeat for 13.8 h (> 6 h): its page faces are stopped, not merely old"
+  "why": "bm-a has not written its own heartbeat for 14.2 h (> 6 h): its page faces are stopped, not merely old"
  }
 }

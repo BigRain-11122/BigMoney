@@ -1,57 +1,32 @@
 {
- "ts": "2026-11-13T09:50:51",
+ "ts": "2026-11-13T10:40:49",
  "mode": "probe",
- "py_faces_seen": 5,
- "orphans": 1,
+ "py_faces_seen": 3,
+ "orphans": 0,
  "killed": [],
  "idle_servers_exempt": 0,
  "resident_servers_exempt": 0,
  "faces": [
   {
-   "pid": 6688,
+   "pid": 4616,
    "name": "python.exe",
-   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe K:\\Fluxgroup\\FluxGroup\\Tools\\fleet\\agent.py --node b",
-   "age_min": 209.7,
-   "cpu_delta_20s": 0.031,
-   "face1_parent_dead": true,
-   "face2_no_hidden_host_ancestor": true,
-   "face3_cpu_stalled": true,
-   "ancestor_chain": [
-    "DEAD"
-   ]
-  },
-  {
-   "pid": 12884,
-   "name": "python.exe",
-   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe Tools\\s6_chain_bmc.py --round 1619 --all",
-   "age_min": 30.2,
-   "cpu_delta_20s": 19.922,
-   "face1_parent_dead": true,
+   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe Tools/fleet/fleet_hb.py --node bm-c --root K:\\Fluxgr",
+   "age_min": 0.0,
+   "cpu_delta_20s": 999.0,
+   "face1_parent_dead": false,
    "face2_no_hidden_host_ancestor": true,
    "face3_cpu_stalled": false,
    "ancestor_chain": [
+    "python.exe",
     "DEAD"
    ]
   },
   {
-   "pid": 13920,
-   "name": "python.exe",
-   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\scripts\\update",
-   "age_min": 23.5,
-   "cpu_delta_20s": 0.0,
-   "face1_parent_dead": true,
-   "face2_no_hidden_host_ancestor": true,
-   "face3_cpu_stalled": false,
-   "ancestor_chain": [
-    "DEAD"
-   ]
-  },
-  {
-   "pid": 40576,
+   "pid": 21856,
    "name": "python.exe",
    "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe Tools\\orphan_face_probe.py",
    "age_min": 0.5,
-   "cpu_delta_20s": 0.094,
+   "cpu_delta_20s": 0.25,
    "face1_parent_dead": false,
    "face2_no_hidden_host_ancestor": false,
    "face3_cpu_stalled": false,
@@ -63,35 +38,20 @@
    ]
   },
   {
-   "pid": 77480,
+   "pid": 58604,
    "name": "python.exe",
-   "cmd": "python scripts/etf_book_exit_liquidity.py run",
-   "age_min": 0.6,
-   "cpu_delta_20s": 19.922,
-   "face1_parent_dead": false,
+   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe K:\\Fluxgroup\\FluxGroup\\Tools\\fleet\\agent.py --node b",
+   "age_min": 19.7,
+   "cpu_delta_20s": 0.234,
+   "face1_parent_dead": true,
    "face2_no_hidden_host_ancestor": true,
    "face3_cpu_stalled": false,
    "ancestor_chain": [
-    "python.exe",
     "DEAD"
    ]
   }
  ],
- "orphan_details": [
-  {
-   "pid": 6688,
-   "name": "python.exe",
-   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe K:\\Fluxgroup\\FluxGroup\\Tools\\fleet\\agent.py --node b",
-   "age_min": 209.7,
-   "cpu_delta_20s": 0.031,
-   "face1_parent_dead": true,
-   "face2_no_hidden_host_ancestor": true,
-   "face3_cpu_stalled": true,
-   "ancestor_chain": [
-    "DEAD"
-   ]
-  }
- ],
+ "orphan_details": [],
  "idle_server_details": [],
  "resident_server_details": [],
  "sample_sec": 20.0,
