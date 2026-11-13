@@ -14370,3 +14370,27 @@ CEO 页第 375/376 行因此把一条测量印成两条，读者会当成两条�
 **实锚**：scripts/etf_book_ceo_page.py（L56e 计数腿 + `_render_fc` 的 signflip 段）、
 docs/live_book/LIVE-BOOK-20261113.md 第 375 行（本轮重生成后只余一条）、
 Tools/s6_chain_bmc.py 的 `live_size_provenance_write`（45.6s）→ `live_size_provenance`（check 12/12）。
+
+### E602 · lane 文件是「共享史 + 本机一行」，读者却把整段印成「这一台的历史」（r1293 bm-a）
+
+日报第六节「三机算力对照」里，bm-c 的 py 序列有 12 条采样，其中 11 条是 bm-a 采的——两台机
+印出同一串 `15:51=2.9% 18:17=5.2% 19:04=0.1% ... 07:26=5.8%`。根因不在读者写错，而在数据形状：
+`config.lane_io.write_lane` 写的 lane 文件是 **`{label_machine: 本机, latest: 本机这一条,
+history: 共享面的全部历史}`**（先读共享 `results/COMPUTE_AUDIT.json` 的 history，append 自己一行，
+再整份写进本机 lane）。于是每台机的 lane 里都躺着一个混了三台机的数组，而 `daily_report`
+直接 `hist[-12:]` 当「该机的序列」印出来。
+
+同一条链上还有第二面：**哪一台写于何时，页面不说**。bm-b 那一行停 2026-10-30 07:20，读者看到
+的是一个 14 天前的读数与今天并排，没有任何一句说它 14 天没动了。
+
+正法三条：①写者给每条 row 盖 `machine` 戳（`compute_audit` record 加 `machine` 字段），
+让归属不靠文件名猜；②读者只印 `machine == 本机` 的行，无署名的行**计数但不归属**，零署名时
+印「无法归属——本 lane 的 N 条样本都没有机器署名（署名自 r1293 起才写入）」并点名 lane 由谁
+最后写于何时，**绝不借他机序列**；③过渡态必须说清起点（历史 200 条永远无法归属，这不是缺陷
+而是事实），否则下一轮有人会以为是 bug 去「修」。
+
+**How**：任何「共享面 + 本机增量」形状的 lane 文件（compute_audit / heartbeat / 池面镜像），
+写者必须逐行署名，读者必须逐行验名；「文件叫 bm-c 的」不等于「行是 bm-c 采的」。
+**实锚**：`scripts/compute_audit.py`（record 加 `machine`）+ `scripts/daily_report.py`
+（`_own_samples` + 页面 r1293 断言 + 变异测试：把归属改成"全收"立刻红）；
+真数据对照=`results/compute_audit.bm-a.json` 201 行 1 条署名 vs `.bm-c.json` 201 行 0 条。

@@ -229,6 +229,28 @@ def _live_face(day):
 
 
 # ---------------------------------------------------- utilization face (T-107)
+def _own_samples(hist, mid):
+    """Rows of a lane history that are attributable to `mid`.
+
+    The lane file is written as "the shared history plus this machine's one
+    row" (config.lane_io.write_lane), so its history also holds samples other
+    machines took. Printing that history as this machine's series quotes
+    another machine's reading under its name (r1293 live case: bm-c's 12-row
+    tail carried 11 rows taken by bm-a). A row belongs to this machine only
+    when the row says so; an unsigned row belongs to nobody and is counted,
+    never handed back as this machine's reading (r1290 / r98 family).
+
+    Returns (own_rows, unsigned_n)."""
+    own, unsigned = [], 0
+    for s in hist or []:
+        m = s.get("machine")
+        if not m:
+            unsigned += 1
+        elif m == mid:
+            own.append(s)
+    return own, unsigned
+
+
 def _utilization_face(now):
     """O-20260928-1614 sec.6 CEO-visible utilization section (T-107 face,
     SATURATION_DESIGN D6 baseline): per-machine py series + supply-floor
@@ -236,12 +258,17 @@ def _utilization_face(now):
     aggregated from the per-machine compute_audit lane files (D-03(1)
     machine-suffixed lanes, single-writer per machine). Aggregation only,
     zero new metrics; missing samples = honest labels. Fill-ladder ledger
-    direction = T-107/T-108 pending slices, never fabricated."""
+    direction = T-107/T-108 pending slices, never fabricated.
+
+    r1293: every row is attributed by its own machine stamp before it is
+    printed (see _own_samples); a machine with no attributable reading says
+    so instead of inheriting the neighbouring series."""
     machines = {}
     for mid in ("bm-a", "bm-b", "bm-c"):
         d = _read_json(os.path.join(ROOT, "results",
                                     f"compute_audit.{mid}.json"))
-        hist = (d or {}).get("history") or []
+        hist_all = (d or {}).get("history") or []
+        hist, unsigned_n = _own_samples(hist_all, mid)
         latest = (d or {}).get("latest") or (hist[-1] if hist else {})
         series = [(str(s.get("ts", ""))[11:16], s.get("py_cpu_pct"))
                   for s in hist[-12:] if s.get("ts")]
@@ -263,6 +290,12 @@ def _utilization_face(now):
             "today_floor_ok": floor_ok,
             "today_sla_flags": sla_n,
             "today_supply_gap_flags": gap_n,
+            # r1293: how many rows of this lane are provably this machine's,
+            # and how many carry no machine stamp at all (never counted as its).
+            "own_samples": len(hist),
+            "unattributed_samples": unsigned_n,
+            "latest_attributed": latest.get("machine") == mid,
+            "lane_machine": (d or {}).get("lane_machine"),
         }
     return {"machines": machines,
             "fill_ledger": "T-107 slice-2 / T-108 D4 (catalog generator) "
@@ -1156,8 +1189,22 @@ def render_md(rep):
                  f"· 池 ready {m.get('ready')} · 今日底线合规 {m.get('today_floor_ok')}/{m.get('today_samples')}"
                  f"· SLA 旗 {m.get('today_sla_flags')} · 供给缺口旗 {m.get('today_supply_gap_flags')}"
                  f"· 家族旗龄 {m.get('streak_min')}min · `{m.get('verdict')}`")
+        own_n = m.get("own_samples")
+        un_n = m.get("unattributed_samples") or 0
         if series:
-            L.append(f"  - py 序列（近 {len(m.get('py_series_tail') or [])} 采样）：{series}")
+            note = f"近 {len(m.get('py_series_tail') or [])} 采样"
+            if own_n:
+                note += f"·本机署名 {own_n} 条"
+                if un_n:
+                    note += f"（lane 另有 {un_n} 条无署名样本，不计入本机）"
+            L.append(f"  - py 序列（{note}）：{series}")
+        elif own_n == 0 and un_n:
+            # r1293: the lane's rows predate the machine stamp, so no row can be
+            # attributed to this machine. Printing them as its series is how
+            # bm-a's readings appeared under bm-c's name for a whole morning.
+            L.append(f"  - py 序列：**无法归属**——本 lane 的 {un_n} 条样本都没有机器署名"
+                     f"（署名自 2026-11-13 r1293 起才写入）；lane 由 {m.get('lane_machine') or '?'}"
+                     f" 最后写于 {m.get('latest_ts')}，不借他机序列")
     L.append(f"- 填充台账：{u.get('fill_ledger')}")
     cs = rep.get("core_spread") or {}
     parts = []
@@ -1519,6 +1566,20 @@ def selftest():
     global _attribution_face, _stage_style_face, _zt_risk_face
     global _lane_authority_face, _lane_silence_face, _etf_book_face
     global _lane_window_face
+    # ---- r1293 attribution legs: a lane history is "shared + this machine's
+    # row", so a reader that prints all of it quotes other machines' samples
+    # under one name (live case: bm-c's 12-row tail held 11 rows bm-a took).
+    own, un = _own_samples([{"ts": "2026-11-13 07:26:07", "py_cpu_pct": 5.8,
+                             "machine": "bm-c"},
+                            {"ts": "2026-11-13 06:45:00", "py_cpu_pct": 4.9},
+                            {"ts": "2026-11-13 05:16:00", "py_cpu_pct": 0.3,
+                             "machine": "bm-a"}], "bm-c")
+    assert len(own) == 1 and own[0]["py_cpu_pct"] == 5.8, own
+    assert un == 1, un                       # the unsigned row belongs to nobody
+    assert [s["machine"] for s in own] == ["bm-c"], own   # bm-a's row never leaks in
+    own0, un0 = _own_samples([{"ts": "x", "py_cpu_pct": 1.0}], "bm-c")
+    assert own0 == [] and un0 == 1, (own0, un0)   # no stamp -> empty, not "borrowed"
+    assert _own_samples([], "bm-c") == ([], 0), "empty history is empty, not an error"
     # ---- A2/G4 helper legs (series tail delta, honest degrade paths)
     d = _series_tail_delta([{"date": "2026-09-01", "equity_cny": 100.0},
                             {"date": "2026-09-02", "equity_cny": 101.0}])

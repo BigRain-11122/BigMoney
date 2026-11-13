@@ -930,6 +930,12 @@ def main():
 
     record = {
         "ts": time.strftime("%Y-%m-%d %H:%M:%S"),
+        # r1293: the lane file is "the shared history plus this machine's one
+        # row", so a reader that prints the whole history as this machine's
+        # series quotes other machines' samples under its name (bm-c's 12-row
+        # tail carried 11 rows written by bm-a). Stamp the writer on every row
+        # so a reader can attribute a sample without guessing (r1290 family).
+        "machine": _self_machine_id(),
         "audit_version": AUDIT_VERSION,
         "cpu_total_pct": cpu_now,
         "py_cpu_pct": py_cpu_pct,
@@ -1424,12 +1430,21 @@ def _selftest():
     with open(_scp, "w", encoding="utf-8") as f:
         json.dump({"verdict": "AGENDA_DEBT", "pool_ready": 0,
                    "tickets_unclaimed": 0, "startable_now": 0,
-                   "shortfall": 3, "floor": 3, "extra": "dropped"}, f)
+                   "shortfall": 3, "floor": 3,
+                   # r1421 added this pair to the published face; the whitelist
+                   # leg was never widened, so it read red from r1421 to r1293
+                   # (an aged assertion is still a red -- unnamed keys must be
+                   # dropped, not the published ones).
+                   "agenda_cause": "calendar", "calendar": {"verdict": "X"},
+                   "extra": "dropped"}, f)
     _sc = supply_candidates_face(_scp)
     check("r1199 supply face verdict read", _sc.get("verdict"), "AGENDA_DEBT")
     check("r1199 supply face exposes only the published keys",
-          sorted(_sc), ["floor", "pool_ready", "shortfall", "startable_now",
-                        "tickets_unclaimed", "verdict"])
+          sorted(_sc), ["agenda_cause", "calendar", "floor", "pool_ready",
+                        "shortfall", "startable_now", "tickets_unclaimed",
+                        "verdict"])
+    check("r1199/r1421 named extra key is dropped, named published keys survive",
+          _sc.get("extra", "absent"), "absent")
 
     n_pass = sum(1 for _, ok, _, _ in cases if ok)
     print(f"compute_audit selftest: {n_pass}/{len(cases)} PASS")
