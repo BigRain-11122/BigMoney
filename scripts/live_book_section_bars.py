@@ -112,6 +112,16 @@ NO_WRITER = "no_writer"
 WINDOW_BOUND = "window_bound"
 WINDOW_FIELDS = ("page_window", "window")
 
+# r1629: naming the panel and its owner was half a finding. The four cash sections sat one
+# session behind and every reader could see *who* owns the panel, but not whether the owner
+# was still there -- and "the lane is slow" and "the machine that runs the lane stopped 17 h
+# ago" print identically. This is r1159's law (a certification must name a responsible
+# person AND that person's liveness) applied to a data panel instead of a lane envelope.
+# 2 h is the same threshold r1159 uses: the loop writes every 5-10 min, so two hours of
+# silence is a stopped lane rather than scheduling jitter.
+HEARTBEAT_QUIET_H = 2.0
+MACHINE_DIR = os.path.join(ROOT, "fleet", "machines")
+
 
 def window_of(d):
     """The [start, end] window a section publishes (page_window first), or None."""
@@ -130,6 +140,125 @@ def page_computed_of(page_computed, key):
         return None
     v = page_computed.get(str(key))
     return v if isinstance(v, dict) else None
+
+
+def _parse_iso(v):
+    """A timestamp as naive local datetime, or None -- never "now" for an unreadable one."""
+    if not v:
+        return None
+    s = str(v).strip().replace("Z", "+00:00")
+    try:
+        d = dt.datetime.fromisoformat(s)
+    except ValueError:
+        return None
+    if d.tzinfo is not None:
+        d = d.astimezone().replace(tzinfo=None)
+    return d
+
+
+def machine_heartbeat_age_h(machine, now=None, machine_dir=None):
+    """Hours since the machine last wrote its own heartbeat; None when it cannot be read.
+
+    A missing heartbeat file is UNKNOWN, not dead (r1159): this host can read another
+    machine's file only when it happens to be in the shared tree, and "I could not read it"
+    is not evidence about that machine.
+    """
+    if not machine:
+        return None
+    path = os.path.join(machine_dir or MACHINE_DIR, "%s.json" % str(machine))
+    try:
+        with open(path, encoding="utf-8") as fh:
+            d = json.load(fh) or {}
+    except (OSError, ValueError):
+        return None
+    stamp = None
+    for k in ("last_seen", "clock_read", "ts", "heartbeat_at"):
+        stamp = _parse_iso(d.get(k))
+        if stamp is not None:
+            break
+    if stamp is None:
+        return None
+    now = now or dt.datetime.now()
+    return round((now - stamp).total_seconds() / 3600.0, 1)
+
+
+def panel_write_age_h(stamp, now=None):
+    """Hours since the panel file was last written; None when the page did not say."""
+    d = _parse_iso(stamp)
+    if d is None:
+        return None
+    return round(((now or dt.datetime.now()) - d).total_seconds() / 3600.0, 1)
+
+
+def panel_debt(pc_rows, now=None, machine_dir=None):
+    """One row per stalled panel: which sections hang off it, and whether its owner is alive.
+
+    Only panels whose sections sit on the panel's OWN last bar are debt rows -- a section
+    that fell behind a panel which already moved is a writer debt on the page, not upstream
+    (that distinction is r1623's, and the two need different people).
+    """
+    out = {}
+    for r in pc_rows:
+        panel = r.get("panel")
+        if not panel:
+            continue
+        # The rule lives here, not at the call site, so a second caller cannot hand this
+        # function a row that fell behind a panel which already moved (r1375: one test,
+        # one place). Those rows need the page's writer, not the panel's owner.
+        if r.get("bar") and str(r["bar"])[:10] != str(r.get("panel_last_bar") or "")[:10]:
+            continue
+        rec = out.get(panel)
+        if rec is None:
+            machine = r.get("owner_machine")
+            age = machine_heartbeat_age_h(machine, now=now, machine_dir=machine_dir)
+            if age is None:
+                state = "unknown"
+            elif age > HEARTBEAT_QUIET_H:
+                state = "quiet"
+            else:
+                state = "alive"
+            rec = out[panel] = {"panel": panel,
+                                "panel_last_bar": r.get("panel_last_bar"),
+                                "panel_last_write": r.get("panel_last_write"),
+                                "panel_write_age_h": panel_write_age_h(
+                                    r.get("panel_last_write"), now=now),
+                                "owner_machine": machine,
+                                "owner_runner": r.get("owner_runner"),
+                                "owner_heartbeat_age_h": age,
+                                "owner_state": state,
+                                "sections": []}
+        rec["sections"].append(r.get("key"))
+    return sorted(out.values(), key=lambda x: str(x.get("panel")))
+
+
+def panel_debt_sentence(rows):
+    """The reader's sentence: is this a late lane or a stopped one?"""
+    parts = []
+    for d in rows or []:
+        who = d.get("owner_machine") or "属主未声明"
+        runner = d.get("owner_runner")
+        bits = ["`%s` 末行 %s" % (d.get("panel"), d.get("panel_last_bar") or "?")]
+        if d.get("panel_write_age_h") is not None:
+            bits.append("最后写入 %s 前" % _hours(d["panel_write_age_h"]))
+        if d.get("owner_state") == "quiet":
+            bits.append("属主 %s%s 自己的心跳停在 %s 前——是那条车道停了，不是页面慢"
+                        % (who, ("（%s）" % runner) if runner else "",
+                           _hours(d.get("owner_heartbeat_age_h"))))
+        elif d.get("owner_state") == "alive":
+            bits.append("属主 %s 的心跳还在（%s 前）——车道活着，只是这块面板还没推进到页头那根 bar"
+                        % (who, _hours(d.get("owner_heartbeat_age_h"))))
+        else:
+            bits.append("读不到属主 %s 的心跳，无法判断它是停了还是只是慢——未知不等于死机"
+                        % who)
+        parts.append("；".join(bits))
+    return "；".join(parts)
+
+
+def _hours(h):
+    try:
+        return "%.1f h" % float(h)
+    except (TypeError, ValueError):
+        return "?"
 
 
 def _days(cal=None):
@@ -275,6 +404,9 @@ def section_bars(doc, cal=None, legs=None):
                                           if isinstance(v.get("pricing"), dict) else None),
                      "panel": (pc or {}).get("panel"),
                      "panel_last_bar": (pc or {}).get("panel_last_bar"),
+                     "panel_last_write": (pc or {}).get("panel_last_write"),
+                     "owner_machine": (pc or {}).get("owner_machine"),
+                     "owner_runner": (pc or {}).get("owner_runner"),
                      "panel_owner": (pc or {}).get("owner_lane")})
     hist = {}
     for r in rows:
@@ -299,6 +431,9 @@ def section_bars(doc, cal=None, legs=None):
     # debt, and a reader has to be told that instead of "the page is not at fault".
     eg_rows = [r for r in behind
                if r.get("pricing_mode") == "engine" and r.get("refresh_reprices") is False]
+    # r1629: computed once -- two calls would each take their own wall clock and print an
+    # age the rows beside them do not carry.
+    debt = panel_debt(pc_on_tail) if legs else None
     return {
         "headline_bar": head,
         "headline_field": head_field,
@@ -319,6 +454,8 @@ def section_bars(doc, cal=None, legs=None):
         "n_page_computed": (None if not legs else len(pc_rows)),
         "page_computed": (None if not legs else [r["key"] for r in pc_rows]),
         "page_computed_on_panel_tail": (None if not legs else [r["key"] for r in pc_on_tail]),
+        "page_computed_debt": debt,
+        "page_computed_debt_sentence": (panel_debt_sentence(debt) or None) if debt else None,
         "page_computed_panels": (None if not legs else
                                  sorted({"%s（%s，末行 %s）" % (r.get("panel") or "?",
                                                               r.get("panel_owner") or "属主未声明",
@@ -383,6 +520,7 @@ def assess(page=None, jsonp=None, cal=None, legs=None):
                                     "max_lag_sessions", "by_key", "n_unguarded",
                                     "unguarded", "n_page_computed", "page_computed",
                                     "page_computed_on_panel_tail", "page_computed_panels",
+                                    "page_computed_debt", "page_computed_debt_sentence",
                                     "n_no_writer", "no_writer",
                                     "n_engine_priced", "engine_priced",
                                     "n_window_bound", "window_bound")})
@@ -424,6 +562,12 @@ def assess(page=None, jsonp=None, cal=None, legs=None):
                         "——落后的是那块面板，不是没人重跑这节"
                         % (len(pc), ", ".join(pc[:6]),
                            "、".join((sb.get("page_computed_panels") or [])[:2])))
+                    # r1629: "the panel is the thing that stopped" is not a finding until it
+                    # says whether the machine that writes the panel is still there.
+                    _debt = sb.get("page_computed_debt") or []
+                    if _debt:
+                        parts.append(sb.get("page_computed_debt_sentence")
+                                     or panel_debt_sentence(_debt))
                 else:
                     parts.append(
                         "%d 节（%s）是这一页自己重算的，其中 %d 节坐在面板末行上、"
@@ -758,6 +902,56 @@ def selftest():
         and bar_of({"asof": "None", "repo_rate_date": "2026-11-11"})[0] == "2026-11-11")
     leg("L24 the next rebalance date is never read as the bar a section is priced on",
         bar_of({"decision_date": "2026-12-09", "k_order": 0.39})[0] is None)
+
+    # ---- r1629: a stalled panel names its owner AND whether that owner is still there ----
+    # Fixtures carry their own machine directory: the answer must not depend on which
+    # machine happens to be in this checkout's shared tree (r1135 family).
+    _mdir = os.path.join(ROOT, "results", "_tmp_machines_r1629")
+    os.makedirs(_mdir, exist_ok=True)
+    _now = dt.datetime(2026, 11, 13, 13, 0, 0)
+
+    def _hb(machine, iso):
+        with open(os.path.join(_mdir, "%s.json" % machine), "w", encoding="utf-8") as fh:
+            json.dump({"machine_id": machine, "last_seen": iso}, fh)
+    try:
+        _hb("bm-a", "2026-11-12T20:30:00+08:00")   # 16.5 h quiet
+        _hb("bm-b", "2026-11-13T12:40:00+08:00")   # 20 min alive
+        _rows = [{"key": "cash_yield", "bar": "2026-11-11", "panel": "data/repo_daily/GC001.csv",
+                  "panel_last_bar": "2026-11-11", "panel_last_write": "2026-11-12T08:58:35",
+                  "owner_machine": "bm-a", "owner_runner": "update_repo.py"},
+                 {"key": "cash_money", "bar": "2026-11-11", "panel": "data/repo_daily/GC001.csv",
+                  "panel_last_bar": "2026-11-11", "panel_last_write": "2026-11-12T08:58:35",
+                  "owner_machine": "bm-a", "owner_runner": "update_repo.py"}]
+        _debt = panel_debt(_rows, now=_now, machine_dir=_mdir)
+        leg("L38 one row per panel, naming the sections that hang off it",
+            len(_debt) == 1 and _debt[0]["sections"] == ["cash_yield", "cash_money"])
+        leg("L39 a panel whose owner stopped 16.5 h ago is a stopped lane, and says so",
+            _debt[0]["owner_state"] == "quiet" and _debt[0]["owner_heartbeat_age_h"] == 16.5
+            and "车道停了" in panel_debt_sentence(_debt)
+            and _debt[0]["panel_write_age_h"] == 28.0)
+        _debt2 = panel_debt([dict(_rows[0], owner_machine="bm-b")], now=_now,
+                            machine_dir=_mdir)
+        leg("L40 a live owner with a lagging panel reads 'the lane is alive, the panel has not "
+            "moved' -- not a stopped machine",
+            _debt2[0]["owner_state"] == "alive" and "车道活着" in panel_debt_sentence(_debt2))
+        _debt3 = panel_debt([dict(_rows[0], owner_machine="bm-zz")], now=_now,
+                           machine_dir=_mdir)
+        leg("L41 a heartbeat that cannot be read is unknown, never dead",
+            _debt3[0]["owner_state"] == "unknown" and _debt3[0]["owner_heartbeat_age_h"] is None
+            and "未知不等于死机" in panel_debt_sentence(_debt3))
+        leg("L42 a section that fell behind a panel which already moved is not upstream debt",
+            panel_debt([{"key": "x", "bar": "2026-11-10", "panel": "p",
+                         "panel_last_bar": "2026-11-11"}], now=_now, machine_dir=_mdir) == [])
+    finally:
+        for _f in ("bm-a.json", "bm-b.json"):
+            try:
+                os.unlink(os.path.join(_mdir, _f))
+            except OSError:
+                pass
+        try:
+            os.rmdir(_mdir)
+        except OSError:
+            pass
 
     # r1533: `sum(1 for _, ok in legs)` counts every leg whatever its verdict -- a suite
     # that can print [FAIL] and still exit 0.

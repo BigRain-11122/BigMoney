@@ -27,6 +27,7 @@ import json
 import os
 import shutil
 import sys
+import time
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT_DIR = os.path.join(ROOT, "docs", "live_book")
@@ -4365,6 +4366,39 @@ PAGE_COMPUTED_SOURCES = {
     "cash_handshake": ("data/repo_daily/GC001.csv", "etf_book_ceo_page.cash_handshake"),
 }
 REPO_PANEL_OWNER = "update_repo.py / bm-a · T-88 车道，本机只读"
+# r1629: the same facts as structured fields. The audit has to be able to ask whether the
+# owner is alive; parsing an id out of a display string would break the first time the
+# wording changes (r1201 family: display text is not an interface).
+REPO_PANEL_MACHINE = "bm-a"
+REPO_PANEL_RUNNER = "update_repo.py"
+
+
+def _panel_last_write(rel):
+    """Newest mtime inside a repo-relative panel path (file or directory), local ISO, or None.
+
+    A lane that stopped and a lane that is merely slow leave the same last bar behind; the
+    file's own write time is the only thing on this machine that tells them apart.
+    """
+    p = os.path.join(ROOT, rel.replace("/", os.sep))
+    try:
+        if os.path.isdir(p):
+            cands = [os.path.join(p, f) for f in os.listdir(p)
+                     if f.lower().endswith((".csv", ".parquet"))]
+        elif os.path.exists(p):
+            cands = [p]
+        else:
+            return None
+    except OSError:
+        return None
+    times = []
+    for f in cands:
+        try:
+            times.append(os.path.getmtime(f))
+        except OSError:
+            continue
+    if not times:
+        return None
+    return time.strftime("%Y-%m-%dT%H:%M:%S", time.localtime(max(times)))
 
 
 def _panel_last_bar(rel):
@@ -4403,11 +4437,21 @@ def _panel_last_bar(rel):
 
 
 def page_computed_provenance():
-    """Where each self-computed section's number comes from, as the audit reads it."""
+    """Where each self-computed section's number comes from, as the audit reads it.
+
+    r1629: `owner_lane` was one prose string, so the audit could name the owner but not ask
+    whether it was alive -- "the panel has not advanced" and "the machine that advances it
+    has stopped" printed identically. Machine id, runner and the panel's own last write
+    travel as fields; consumers read fields, not prose (r1201 family).
+    """
     out = {}
     for key, (panel, by) in PAGE_COMPUTED_SOURCES.items():
         out[key] = {"panel": panel, "panel_last_bar": _panel_last_bar(panel),
-                    "owner_lane": REPO_PANEL_OWNER, "computed_by": by}
+                    "panel_last_write": _panel_last_write(panel),
+                    "owner_lane": REPO_PANEL_OWNER,
+                    "owner_machine": REPO_PANEL_MACHINE,
+                    "owner_runner": REPO_PANEL_RUNNER,
+                    "computed_by": by}
     return out
 
 
@@ -6011,6 +6055,13 @@ def section_bars_block(sb):
                       "、".join("%s 至 %s" % ((r.get("window") or ["?", "?"])[0],
                                               (r.get("window") or ["?", "?"])[1])
                                for r in _wb)))
+    # r1629: the audit already knows which panel those sections hang off, and now it also
+    # knows whether that panel's owner wrote its own heartbeat. Printing only "the panel
+    # stopped" leaves the reader unable to tell a late lane from a stopped machine, so the
+    # audit's own sentence is printed verbatim (single source: one judgement, one place).
+    _debt_sentence = sb.get("page_computed_debt_sentence")
+    if _debt_sentence:
+        out.append("> %s。" % str(_debt_sentence).rstrip("。"))
     if unk:
         # r1617: a count tells the reader that part of the page cannot be checked and nothing
         # about which part -- the same shape as "7 unverifiable lanes" with no owner named
@@ -9978,6 +10029,13 @@ def selftest():
         "固定窗口" in "\n".join(section_bars_block(_wb_sb))
         and "2020-01-01 至 2026-10-26" in "\n".join(section_bars_block(_wb_sb))
         and "固定窗口" not in "\n".join(section_bars_block(_wb_plain)), "")
+    # r1629: the audit decides whether a stalled panel's owner is still there; the page prints
+    # that sentence verbatim and prints nothing when the audit has nothing to say.
+    _debt_sb = dict(_wb_plain, page_computed_debt_sentence="属主 bm-a 的心跳停在 16.9 h 前")
+    chk("L221 section bars: the stalled panel's owner-liveness sentence is printed as the "
+        "audit states it",
+        "属主 bm-a 的心跳停在 16.9 h 前" in "\n".join(section_bars_block(_debt_sb))
+        and "属主 bm-a" not in "\n".join(section_bars_block(_wb_plain)), "")
     shutil.rmtree(_adm_dir, ignore_errors=True)
     print("\nSummary: %d/%d PASS%s" % (ok, total, "" if ok == total else " -- %d FAIL" % (total - ok)))
     return 0 if ok == total else 1

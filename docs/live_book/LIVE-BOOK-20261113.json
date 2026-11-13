@@ -349,25 +349,37 @@
   "cash_yield": {
    "panel": "data/repo_daily/GC001.csv",
    "panel_last_bar": "2026-11-11",
+   "panel_last_write": "2026-11-12T08:58:35",
    "owner_lane": "update_repo.py / bm-a · T-88 车道，本机只读",
+   "owner_machine": "bm-a",
+   "owner_runner": "update_repo.py",
    "computed_by": "etf_book_ceo_page.cash_yield"
   },
   "cash_money": {
    "panel": "data/repo_daily/GC001.csv",
    "panel_last_bar": "2026-11-11",
+   "panel_last_write": "2026-11-12T08:58:35",
    "owner_lane": "update_repo.py / bm-a · T-88 车道，本机只读",
+   "owner_machine": "bm-a",
+   "owner_runner": "update_repo.py",
    "computed_by": "etf_book_ceo_page.cash_money_face"
   },
   "cash_ladder": {
    "panel": "data/repo_daily",
    "panel_last_bar": "2026-11-11",
+   "panel_last_write": "2026-11-12T09:02:16",
    "owner_lane": "update_repo.py / bm-a · T-88 车道，本机只读",
+   "owner_machine": "bm-a",
+   "owner_runner": "update_repo.py",
    "computed_by": "etf_book_ceo_page.cash_ladder"
   },
   "cash_handshake": {
    "panel": "data/repo_daily/GC001.csv",
    "panel_last_bar": "2026-11-11",
+   "panel_last_write": "2026-11-12T08:58:35",
    "owner_lane": "update_repo.py / bm-a · T-88 车道，本机只读",
+   "owner_machine": "bm-a",
+   "owner_runner": "update_repo.py",
    "computed_by": "etf_book_ceo_page.cash_handshake"
   }
  },
@@ -476,13 +488,13 @@
  "backtest_band": {
   "5 名·可执行单口径（本单这份账）": {
    "full": {
-    "cagr_pct": 7.71,
-    "sharpe": 1.34,
+    "cagr_pct": 7.68,
+    "sharpe": 1.33,
     "maxdd_pct": -5.78
    },
    "oos": {
-    "cagr_pct": 12.73,
-    "sharpe": 1.72,
+    "cagr_pct": 12.64,
+    "sharpe": 1.71,
     "maxdd_pct": -5.78
    },
    "is": {
@@ -6763,22 +6775,22 @@
   "artifact": "results/etf_book_window_label.json",
   "verdict": {
    "state": "ROW_LABELED_BY_WINDOW",
-   "gap_pp": 5.02,
-   "why": "the value under the 全窗 header is the 2.86-year window; the same book over the full window reads 7.71%, i.e. +5.02 pp/yr and the header is not what the cell holds"
+   "gap_pp": 4.96,
+   "why": "the value under the 全窗 header is the 2.86-year window; the same book over the full window reads 7.68%, i.e. +4.96 pp/yr and the header is not what the cell holds"
   },
   "table_row": {
    "full": {
-    "cagr_pct": 7.71,
-    "sharpe": 1.34,
+    "cagr_pct": 7.68,
+    "sharpe": 1.334,
     "maxdd_pct": -5.78
    },
    "oos": {
-    "cagr_pct": 12.73,
-    "sharpe": 1.721,
+    "cagr_pct": 12.64,
+    "sharpe": 1.71,
     "maxdd_pct": -5.78
    },
-   "full_window_bars": 1533,
-   "short_window_bars": 691,
+   "full_window_bars": 1534,
+   "short_window_bars": 692,
    "is": {
     "cagr_pct": 3.71,
     "sharpe": 0.901,
@@ -6788,18 +6800,18 @@
   },
   "rows": {
    "printed_under_full_header": {
-    "cagr_pp": 12.73,
-    "sharpe": 1.721,
+    "cagr_pp": 12.64,
+    "sharpe": 1.71,
     "maxdd_pp": -5.78,
-    "bars": 691,
-    "artifact": "results/etf_book_order/TICKET-2026-11-11.json",
+    "bars": 692,
+    "artifact": "results/etf_book_order/TICKET-2026-11-12.json",
     "source": "the ticket's own backtest, as the page prints it today"
    },
    "same_book_full_window": {
-    "cagr_pp": 7.71,
-    "sharpe": 1.34,
+    "cagr_pp": 7.68,
+    "sharpe": 1.334,
     "maxdd_pp": -5.78,
-    "bars": 1533,
+    "bars": 1534,
     "source": "results/etf_book_band_ruler.json :: held/causal/ticket.full"
    },
    "same_book_2020_2023": {
@@ -6812,13 +6824,23 @@
   },
   "identity": {
    "the full-window cell's own window reproduces the ticket": {
-    "measured_pp": 12.73,
-    "published_pp": 12.73,
+    "measured_pp": 12.64,
+    "published_pp": 12.64,
     "delta_pp": 0.0,
     "pass": true
    }
   },
-  "evidence_cutoff": "2026-11-11"
+  "panel": {
+   "digest": "e383c3a68f5f98af",
+   "last_bar": "2026-11-12"
+  },
+  "inputs": {
+   "band_ruler_status": "ok",
+   "band_ruler_artifact": "results/etf_book_band_ruler.json",
+   "ticket_artifact": "results/etf_book_order/TICKET-2026-11-12.json",
+   "evidence_cutoff": "2026-11-12"
+  },
+  "evidence_cutoff": "2026-11-12"
  },
  "envelope": {
   "status": "ok",
@@ -6941,8 +6963,8 @@
  "authority": {
   "writer": "bm-c",
   "owner": "bm-a",
-  "owner_silent_h": 16.5,
+  "owner_silent_h": 16.9,
   "took_over": true,
-  "why": "bm-a has not written its own heartbeat for 16.5 h (> 6 h): its page faces are stopped, not merely old"
+  "why": "bm-a has not written its own heartbeat for 16.9 h (> 6 h): its page faces are stopped, not merely old"
  }
 }

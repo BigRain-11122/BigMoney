@@ -39,6 +39,7 @@ sys.path.insert(0, ROOT)
 sys.path.insert(0, os.path.join(ROOT, "scripts"))
 
 import etf_book_band_ruler as BR
+import etf_book_forward as FW
 import etf_book_order as O
 
 OUT_JSON = os.path.join(ROOT, "results", "etf_book_window_label.json")
@@ -141,6 +142,12 @@ def build(br_doc=None):
         "ticket_artifact": (tk or {}).get("artifact"),
         "evidence_cutoff": (br_doc or {}).get("evidence_cutoff"),
     }
+    # r1629: this face prices no panel of its own -- it copies two cells from the band ruler
+    # and one backtest from the order sheet. So the identity of the world it copied has to
+    # travel WITH the copy, or `--check` can only ask "do my rows still re-derive from my own
+    # rows", which stays green on any panel (the r1249/r1624 shape, last remaining instance:
+    # this face sat on 2026-11-11 while the ledger, the band ruler and the page were on 11-12).
+    doc["panel"] = (br_doc or {}).get("panel")
     doc["rows"]["printed_under_full_header"] = dict(
         tk or {}, source="the ticket's own backtest, as the page prints it today")
     doc["rows"]["same_book_full_window"] = dict(
@@ -306,33 +313,89 @@ def read_published(path=OUT_JSON):
             "artifact": os.path.relpath(path, ROOT).replace(os.sep, "/"),
             "verdict": redo, "table_row": doc.get("table_row"),
             "rows": doc.get("rows"), "identity": doc.get("identity"),
+            "panel": doc.get("panel"),
+            "inputs": doc.get("inputs"),
             "evidence_cutoff": (doc.get("inputs") or {}).get("evidence_cutoff")}
+
+
+def behind_rc(doc, upstream_panel=None, ticket_artifact=None, ledger_bar=None,
+              label="window label"):
+    """rc 2 (and the word `stale`) = this face is behind the world; rc 0 = it is not.
+
+    Three ways a copied face can be behind, and all three are "the inputs moved", never "the
+    numbers stopped following the rows" -- that one stays rc 1 in `read_published`, because
+    the chain's refresh arm rebuilds on `stale` and must never rebuild a verdict
+    disagreement (r1241/r1345). Kept as one function so the selftest can fire each gate with
+    fixtures instead of a live panel.
+
+      * the band ruler re-priced onto another panel (its digest), read through the one
+        implementation of that comparison, `FW.check_panel_stamp` (r1375: a second copy of
+        the same test drifts from the first);
+      * the order sheet moved -- a new ticket quotes a different backtest, so the number
+        under the 全窗 header belongs to a different sheet;
+      * the ledger advanced past the bar this row was measured on.
+    """
+    rc = FW.check_panel_stamp(doc, stamp=(upstream_panel or {}), label=label)
+    if rc:
+        return 2
+    stored_ticket = (doc.get("inputs") or {}).get("ticket_artifact")
+    if ticket_artifact and stored_ticket and str(ticket_artifact) != str(stored_ticket):
+        print("%s: CHECK FAIL: the order sheet moved -- stale: this row quotes %s, the "
+              "executable sheet is now %s (rebuild the row against the new sheet)"
+              % (label, stored_ticket, ticket_artifact))
+        return 2
+    cut = (doc.get("inputs") or {}).get("evidence_cutoff")
+    if ledger_bar and cut and str(cut) < str(ledger_bar):
+        print("%s: CHECK FAIL: evidence_cutoff %s is behind the ledger's last bar %s -- "
+              "stale: the cells under this row were measured on an older bar (rerun)"
+              % (label, cut, ledger_bar))
+        return 2
+    return 0
+
+
+def _ledger_bar():
+    try:
+        return max(O.ledger_dates() or [])
+    except Exception:                                            # noqa: BLE001
+        return None
 
 
 def check():
     doc = read_published()
-    if doc.get("status") != "ok":
-        print("CHECK FAILED: %s (%s)" % (doc.get("status"), doc.get("detail")))
+    status = doc.get("status")
+    # r1581: "the artifact is not on disk yet" is the same repair as stale -- its producer is
+    # declared in the leg table, so the chain must be able to pay for it. Say the words the
+    # runner looks for instead of leaving it as a permanent red.
+    if status == "missing":
+        print("CHECK FAILED: face missing -- the leg is declared but %s is not on disk yet "
+              "(build it)" % doc.get("artifact"))
+        return 2
+    if status != "ok":
+        print("CHECK FAILED: %s (%s)" % (status, doc.get("detail")))
         return 1
-    # r1557: read_published only asks whether this face still recomputes from the faces it
-    # copied. It was written 11-03 and stayed "ok" for eight days while the panel moved to
-    # 11-11, so the page kept printing 12.56% and the band ruler's identity arm called a
-    # 0.17pp gap a broken control. A face is also stale when its inputs are behind the
-    # ledger, and that has to fail here or the chain never reruns it.
+    # r1629: read_published only asks whether this face still recomputes from the faces it
+    # copied. It stayed "ok" for two days while the band ruler moved to 11-12 and the ticket
+    # rolled to 11-12, so the page printed a row priced 11-11. Being behind is a separate
+    # question from being self-consistent, and it is the only one the chain can pay for.
     try:
-        _lb = max(O.ledger_dates() or [])
+        _br = BR.read_published()
     except Exception:                                            # noqa: BLE001
-        _lb = None
-    _cut = (doc.get("inputs") or {}).get("evidence_cutoff")
-    if _lb and _cut and str(_cut) < str(_lb):
-        print("CHECK FAILED: evidence_cutoff %s is behind the ledger's last bar %s -- rerun"
-              % (_cut, _lb))
-        return 1
-    print("check OK: %s | gap %+.2f pp/yr | full %.2f%% / 2020-2023 %s / 2024+ %.2f%%"
+        _br = {}
+    try:
+        _tk = _ticket_book()
+    except Exception:                                            # noqa: BLE001
+        _tk = None
+    rc = behind_rc(doc, upstream_panel=(_br or {}).get("panel"),
+                   ticket_artifact=(_tk or {}).get("artifact"),
+                   ledger_bar=_ledger_bar())
+    if rc:
+        return rc
+    print("check OK: %s | gap %+.2f pp/yr | full %.2f%% / 2020-2023 %s / 2024+ %.2f%% | %s"
           % (doc["verdict"]["state"], doc["verdict"].get("gap_pp") or 0.0,
              ((doc.get("table_row") or {}).get("full") or {}).get("cagr_pct") or 0.0,
              ((doc.get("table_row") or {}).get("is") or {}).get("cagr_pct"),
-             ((doc.get("table_row") or {}).get("oos") or {}).get("cagr_pct") or 0.0))
+             ((doc.get("table_row") or {}).get("oos") or {}).get("cagr_pct") or 0.0,
+             (doc.get("inputs") or {}).get("evidence_cutoff")))
     return 0
 
 
@@ -425,6 +488,29 @@ def selftest():
                           table_row=table_row(dict(d7, verdict=_v7))))
     chk("the note quotes the middle window and adds the three bar counts to the full "
         "one", "842+683=1525" in _md7 and "3.29" in _md7)
+
+    # L12-L16 (r1629): being behind is a different question from being self-consistent.
+    # The rows above all re-derive perfectly while the world moves underneath them, so the
+    # gate has to fire on the inputs -- and only on the inputs (a verdict disagreement must
+    # stay rc 1, which is what the chain refuses to rebuild).
+    _live = {"digest": "aaaa1111", "last_bar": "2026-11-12"}
+    _doc_ok = {"panel": dict(_live), "inputs": {"ticket_artifact": "results/etf_book_order/TICKET-2026-11-12.json",
+                                                "evidence_cutoff": "2026-11-12"}}
+    chk("a face on the live panel with the live sheet is not called stale",
+        behind_rc(_doc_ok, upstream_panel=_live,
+                  ticket_artifact="results/etf_book_order/TICKET-2026-11-12.json",
+                  ledger_bar="2026-11-12") == 0)
+    chk("a band ruler re-priced onto another panel reads stale (rc 2)",
+        behind_rc(_doc_ok, upstream_panel={"digest": "bbbb2222"}) == 2)
+    chk("a face carrying no panel stamp is stale by construction (rc 2)",
+        behind_rc({"inputs": {}}, upstream_panel=_live) == 2)
+    chk("a rolled order sheet reads stale even on the same panel (rc 2)",
+        behind_rc(_doc_ok, upstream_panel=_live,
+                  ticket_artifact="results/etf_book_order/TICKET-2026-11-13.json") == 2)
+    chk("a ledger ahead of the row's bar reads stale (rc 2)",
+        behind_rc(_doc_ok, upstream_panel=_live,
+                  ledger_bar="2026-11-13") == 2)
+
     print("selftest %d/%d" % (ok, ok + len(fail)))
     for f in fail:
         print("  FAIL: %s" % f)
