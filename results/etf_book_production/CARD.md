@@ -18,16 +18,17 @@ Row 1 is the engine as coded (score off bar d's close, paid bar d's *open*); row
 **Vol label vs delivered risk: target 8% -> delivered 10.2% over the full window (1.27x).** The overlay only de-levers, so a sleeve sized on its own backward vol can run hotter than 8%; read the risk column, not the label.
 
 
-**Feed: current** -- priced on the 2026-11-12 bar; the official calendar expects 2026-11-12 (lag 0 official day(s)).
+**Feed: stale_feed** -- priced on the 2026-11-12 bar; the official calendar expects 2026-11-13 (lag 1 official day(s)).
 
 **Price basis:** 本面的数字算在**已修复**的面板上：**169 处**单日超过 35% 的报价翻转（份额变动被读成暴跌，涉及 159 只票）在任何测量之前都已抹平为 0% 日（`etf_equity_alpha.repair_flips`）。本面板 1628 列。修与不修的差额已单独立面：results/etf_book_flip_contamination.json。
 
 **Panel digest:** `e383c3a68f5f98af` (5279 bars x 1628 symbols, 2005-02-23->2026-11-12, covers close/open/amount) -- the executable sheet and the forward ledger print the same fingerprint only when all three priced one panel, on the same blocks.
 
-**Priced day: SAME_DAY** -- card 2026-11-12 / ticket 2026-11-12 / page 2026-11-12 (compared at 2026-11-13 05:37:29); this card, the executable sheet and the CEO page all priced the same closing bar.
+**Priced day: SAME_DAY** -- card 2026-11-12 / ticket 2026-11-12 / page 2026-11-12 (compared at 2026-11-13 15:39:27); this card, the executable sheet and the CEO page all priced the same closing bar.
 
-**Family coherence: MIXED_WORLDS** -- 11 faces priced 2 different panels (58302d9c, a1a42aee): per-cell deltas across worlds are world differences, not rule effects.
-5 of 10 arms priced the card's own panel and keep their labels (buffer_k02, buffer_k05, buffer_k10, buffer_k20, buffer_k40); the 5 withheld one(s) still price another panel (buffer_k05_cost20, cost0, cost05, cost20, cost40), so their verdicts are not part of this reading.
+**Family coherence: ONE_WORLD** -- all 10 width arms priced `e383c3a68f5f98af` (cutoff 2026-11-12); the verdicts that license this card's width are measurements on one panel.
+
+**Label null: 96.5% REJECT** -- the same rule called an effect-free panel REJECT in that share of 20000 trials, so a published REJECT carries almost no information; the rare branch (NOT-SEPARABLE 3.5%, ADOPT 0.0%) is the one that reads.
 
 **Today (2026-11-12 bar): HOLD: 19 bars until the next decision point** (last grid decision 2026-11-11).
 
@@ -185,6 +186,7 @@ Read the card's own -11.8% as the median of that ruler, not its tail: size the p
 
 - THE DRAWDOWN LINE ABOVE IS A MEDIAN, NOT A TAIL: it is priced on one ordering of the trading days. Bootstrapping this book's own return path at blocks 1/5/10/20/40/60/120/250 (the block is a free parameter) puts the 5th-percentile drawdown between -25.3% and -16.9% and the share of resamples worse than -20% between 0.9% and 15.2%. Size against the p5 column. See results/etf_book_bootstrap/BLOCKS-2026-11-12.json.
 - THE SIX FACTOR DIRECTIONS WERE CHOSEN WITH HINDSIGHT: every published number here uses a fixed sign block, and those signs are exactly this panel's full-sample IC signs (6 of 6 factors match). Re-priced with signs estimated only from already-realised windows, the same engine returns -10.87%/yr (Sharpe -0.41) against +6.02%/yr (+0.64) for the fixed signs -- and reversing the trailing sign does not recover it (-0.38%/yr). Read the headline as the size of a period, not the size of a rule. See results/etf_sign_pit.json.
+- FEED IS BEHIND: this card is priced on the 2026-11-12 bar, 1 official trading day(s) short of the 2026-11-13 bar the market has already published. The names are that old, not a fresh call.
 - ONE REGIME, NOT A VERIFIED EDGE: on the 224 ETFs that existed before 2020, priced 2015-2019 (a window this card never covered) the same engine returned -4.97%/yr against +3.89%/yr equal weight = -8.86pp excess, worse in 6 of 6 grid cells, random-score p=0.96. The published CAGR is the 2020+ regime, not a property of the factors. That cell is bond-inclusive, 5 names wide and has no sizing rule; 'The 2015-2019 reconciliation' below prices what each of those differences is worth. See results/etf_book_pre2020.json.
 - THE COMMODITY SLEEVE IS MOSTLY METAL BETA WITH A MODEST RANKING OVERLAY: it produced 30.1% of gross return; the same engine restricted to the 41 commodity ETFs returned +16.31%/yr against +11.45%/yr for holding those names equally (+4.86pp), and the deepest-turnover commodity name (518880) returned +13.91%/yr passively, i.e. the book beat holding the metal by +2.40pp. Read the sleeve as commodity/gold exposure plus a small selection add-on, not a commodity ranking that pays. See results/etf_book_commodity_split.json.
 - ETF pool is today's listed set: survivorship inflates the equity sleeve.

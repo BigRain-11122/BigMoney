@@ -978,9 +978,10 @@
   "priced_bar": "2026-11-12",
   "pricing": {
    "mode": "engine",
-   "reprices_bar": false,
-   "refresh_arm": "etf_book_phase_atlas_arms:run",
-   "refresh_arm_note": "re-reads the same arm faces (no engine) -- it can only re-aggregate",
+   "reprices_bar": true,
+   "refresh_arm": "etf_book_atlas_family:refresh",
+   "refresh_arm_note": "re-prices whatever arm is off the panel; the chain pays a few arms per cycle inside its own budget and names whatever it could not fit",
+   "budget_sec": 600.0,
    "faces": 10,
    "cells_per_face": 280
   },
@@ -1019,7 +1020,105 @@
    "cost20",
    "cost40"
   ],
-  "withheld": []
+  "withheld": [],
+  "cost_axis": {
+   "readable": true,
+   "withheld": [],
+   "arms": [
+    {
+     "arm": "buffer_k02",
+     "verdict": "NOT-SEPARABLE",
+     "readable": true,
+     "description": "buffer k=0.02 on every cell (the near-zero end -- a knob that reads the same at 0.02 and at 0.20 is flat, not merely small)"
+    },
+    {
+     "arm": "buffer_k05",
+     "verdict": "NOT-SEPARABLE",
+     "readable": true,
+     "description": "buffer k=0.05 on every cell (the r1325 arm, re-priced per phase)"
+    },
+    {
+     "arm": "buffer_k05_cost20",
+     "verdict": "REJECT",
+     "readable": true,
+     "description": "buffer k=0.05 at 20bp/side -- the interaction neither family tested: does a buffer that is harmless at 10bp recover any of the -1.41pp the 20bp toll costs?"
+    },
+    {
+     "arm": "buffer_k10",
+     "verdict": "NOT-SEPARABLE",
+     "readable": true,
+     "description": "buffer k=0.10 on every cell (the middle of the family r1325 named as a cost knob; declared in the pool at r1351 before this face existed)"
+    },
+    {
+     "arm": "buffer_k20",
+     "verdict": "NOT-SEPARABLE",
+     "readable": true,
+     "description": "buffer k=0.20 on every cell (the strongest arm -- if even this stays inside every cell's band, the buffer family is unmeasurable on this design, not negative)"
+    },
+    {
+     "arm": "buffer_k40",
+     "verdict": "REJECT",
+     "readable": true,
+     "description": "buffer k=0.40 on every cell (8x the r1325 arm -- the far end, where a real buffer finally has to hurt)"
+    },
+    {
+     "arm": "cost0",
+     "verdict": "NOT-SEPARABLE",
+     "readable": true,
+     "description": "0bp/side on the whole grid (no toll at all) -- if the ordering only appears here, the ordering is bought with the toll and the 10bp reading stands"
+    },
+    {
+     "arm": "cost05",
+     "verdict": "NOT-SEPARABLE",
+     "readable": true,
+     "description": "5bp/side on the whole grid (half the production toll)"
+    },
+    {
+     "arm": "cost20",
+     "verdict": "REJECT",
+     "readable": true,
+     "description": "20bp/side on the whole grid (double the production toll)"
+    },
+    {
+     "arm": "cost40",
+     "verdict": "REJECT",
+     "readable": true,
+     "description": "40bp/side on the whole grid (4x the production toll -- does 'the cadence is quotable' have a toll ceiling, and does the ordering vanish first?)"
+    }
+   ]
+  },
+  "null_calibration": {
+   "artifact": "results/etf_book_rule_null.json",
+   "status": "ok",
+   "detail": "an effect-free panel reads REJECT 96.5% of the time, so a published REJECT transmits almost nothing; the rule's informative branch is the rare one (NOT-SEPARABLE 3.5%, ADOPT 0.0%, NOT-ASSESSED 0.0%). Mechanism: the cell floor -0.15pp is 13.7x smaller than one sigma (2.05pp) of these cells, so about half of them land under it by chance and the not-worse share (floor 0.80) fails by construction",
+   "reject_share": 0.9652,
+   "not_separable_share": 0.0348,
+   "adopt_share": null,
+   "trials": 20000,
+   "label": "REJECT_IS_THE_DEFAULT",
+   "evidence_cutoff": "2026-11-12",
+   "bar_now": "2026-11-12"
+  },
+  "receipt": {
+   "present": true,
+   "mode": "group",
+   "status": "ONE_WORLD",
+   "world": "58302d9ca988c138",
+   "world_now": "e383c3a68f5f98af",
+   "world_bar": "2026-11-12",
+   "world_source": "spanning",
+   "stale": true,
+   "rebuilt": [
+    "buffer_k02",
+    "buffer_k05",
+    "buffer_k10",
+    "buffer_k20",
+    "buffer_k40"
+   ],
+   "left": [],
+   "elapsed_sec": null,
+   "generated": null
+  }
  },
  "priced_faces": {
   "faces": {
@@ -4552,14 +4651,79 @@
   }
  },
  "live_quote": {
-  "status": "panel_current",
-  "panel_bar": "2026-11-12",
-  "expected": "2026-11-12",
-  "writer": "quote_face",
-  "quote_symbols": 48,
-  "snapshot_as_of": "2026-11-06",
-  "upstream": "results\\update_status.json",
-  "artifact": "results\\etf_book_live_quote\\latest.json"
+  "status": "ok",
+  "artifact": "results\\etf_book_live_quote\\QUOTE-2026-11-06.json",
+  "verdict": "NO_NEW_BAR",
+  "panel_bar": "2026-11-06",
+  "quote_bar": "2026-11-06",
+  "quote_time": "16:29:30",
+  "lag_trading_days": null,
+  "n_held": 5,
+  "n_joined": 1,
+  "mismatch_share": 0.8,
+  "mismatch_share_max": 0.2,
+  "book_weight": 0.460253,
+  "cash_weight": 0.539747,
+  "held_leg_return": null,
+  "book_change": null,
+  "ticket_priced_bar": "2026-11-06",
+  "rows": [
+   {
+    "symbol": "159501",
+    "weight": 0.092051,
+    "panel_bar": "2026-11-06",
+    "panel_close": 2.069,
+    "quote_date": "2026-11-06",
+    "quote_prev_close": 2.132,
+    "quote_last": 2.069,
+    "joined": false,
+    "ret": null
+   },
+   {
+    "symbol": "513100",
+    "weight": 0.092051,
+    "panel_bar": "2026-11-06",
+    "panel_close": 2.158,
+    "quote_date": "2026-11-06",
+    "quote_prev_close": 2.229,
+    "quote_last": 2.158,
+    "joined": false,
+    "ret": null
+   },
+   {
+    "symbol": "513690",
+    "weight": 0.092051,
+    "panel_bar": "2026-11-06",
+    "panel_close": 1.158,
+    "quote_date": "2026-11-06",
+    "quote_prev_close": 1.155,
+    "quote_last": 1.158,
+    "joined": false,
+    "ret": null
+   },
+   {
+    "symbol": "159577",
+    "weight": 0.092051,
+    "panel_bar": "2026-11-06",
+    "panel_close": 1.612,
+    "quote_date": "2026-11-06",
+    "quote_prev_close": 1.674,
+    "quote_last": 1.612,
+    "joined": false,
+    "ret": null
+   },
+   {
+    "symbol": "159263",
+    "weight": 0.092051,
+    "panel_bar": "2026-11-06",
+    "panel_close": 1.143,
+    "quote_date": "2026-11-06",
+    "quote_prev_close": 1.142,
+    "quote_last": 1.143,
+    "joined": true,
+    "ret": 0.0008756567425569628
+   }
+  ]
  },
  "sellability": {
   "status": "ok",
@@ -6952,8 +7116,8 @@
  "authority": {
   "writer": "bm-c",
   "owner": "bm-a",
-  "owner_silent_h": 18.1,
+  "owner_silent_h": 19.0,
   "took_over": true,
-  "why": "bm-a has not written its own heartbeat for 18.1 h (> 6 h): its page faces are stopped, not merely old"
+  "why": "bm-a has not written its own heartbeat for 19.0 h (> 6 h): its page faces are stopped, not merely old"
  }
 }

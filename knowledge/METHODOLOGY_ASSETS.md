@@ -14261,3 +14261,24 @@ CEO 页重生成后「48 个带日期节里 **35** 个在 2026-11-12」（原 34
 **HOW**：①比较类面必须有一个**世界门**：世界身份从面板自己的发布者读（`etf_book_spanning.panel.last_bar`），逐面比 `panel.last` + `panel.digest`，同 bar 不同 digest 单列 `content`；②门必须**便宜**（11 个 JSON、0.1s），贵的是修；③refresh 按**预算**分轮付（`--budget=600` 对 900s 腿超时），装不下就 `PARTIAL` 并**逐臂点名**，下一轮接着付；④面**领先于发布者**时禁重建（会把老数字顶上新文件名，r1630 律），单列 `ahead` 让门红在真因上；⑤`os.path.relpath` 跨盘抛 ValueError —— 这是同一坑的**第四份拷贝**（r1371/r1375/r1594 之后），展示路径一律走 `_display()` 回落绝对路径。
 
 **实锚**：`scripts/etf_book_atlas_arms_rebuild.py`（`world_bar`/`family_state`/`check_world`/`refresh`，selftest 16 → **24/24**：8 条世界门腿含 budget 分轮、前向禁建、同 bar 异 digest、发布者落后）、`Tools/s6_chain_bmc.py` 新腿 `etf_book_atlas_family`（check=`--check-world`、refresh=`refresh --budget=600`）。真数据：**6 面落后 4 根 bar → 全部重建到 `e383c3a68f5f98af`/2026-11-12**（1034.5s·workers=6），arms 面 `panel_coherence` 由 `MIXED_WORLDS` 变 **`ONE_WORLD`、`withheld_arms=[]`** —— 成本轴自 2026-10-31 首次可读：cost0/cost05 `NOT-SEPARABLE`、cost20/cost40 `REJECT`、buffer k02/05/10/20 `NOT-SEPARABLE`、k40 `REJECT`；CEO 页 48 节里站在 11-12 的由 42 → **44**。零成本路径实测：收敛后单腿 `0.1s CHECK OK`。
+
+### E600 · 「更差」这个判词要先问：什么都没发生时，同一套判据会说多少次（r1633 bm-c）
+
+r1631 把十一个臂面搬到同一张面板，成本轴自 2026-10-31 首次可读，CEO 页当天就印出
+「**确实更差** = 单边 20bp、单边 40bp、缓冲带 k=0.40…」。这句话看起来是发现，实际是默认输出：
+链上另一张面（etf_book_rule_null 族）早把**同一套判据**喂过一张**零效应**面板 —— 20000 次里
+**96.5% 输出 REJECT**、3.5% 输出 NOT-SEPARABLE（ADOPT 0.0%）。机制写在面自己里：判据的 cell 地板
+−0.15pp 只有这些 cell 一个标准差（2.05pp）的 1/13.7，于是约一半 cell 靠运气落到地板下，not-worse
+share（0.80）按构造必然不足。结论：**REJECT 是「什么都没发生」的默认词，发布它几乎不传递信息；
+信息在稀有的那一支。**
+
+正法三件：①判词旁边必须印它自己的 null 频率（读结果面 etf_book_rule_null.json 的
+null.label_frequency，单实现 etf_book_production.null_calibration_face()，卡与页只格式化）；
+②频率要带**它自己跑在哪张面板**（evidence_cutoff）并与臂面的 bar 比对，不同日子必须点名
+「别把频率当今天的」—— 否则换面板后读者会把旧频率读成今天的分辨率；③面缺席读「没验」而不是
+「判据没问题」（r1199 半面红牌：永久红等于没有旗）。
+
+**How**：任何以判据贴「坏/差/拒」标签的产品面，发布前必须并排印同一判据在**零效应面**上的输出频率；
+高频=默认输出=不是发现，稀有支才承重。频率与标签必须同 bar，或明写两者不同。
+**实锚**：scripts/etf_book_production.py（null_calibration_face + 卡两腿）、scripts/etf_book_ceo_page.py
+（页三腿：频率/跨 bar 点名/缺席）+ 真数据重生成 CARD.md 与 LIVE-BOOK-20261113.md。

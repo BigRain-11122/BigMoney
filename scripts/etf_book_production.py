@@ -17,8 +17,10 @@ caveats (survivorship in the ETF pool, IS-heavy history, 2026 flat) travel on th
   python scripts/etf_book_production.py --selftest      # offline invariants
 """
 import glob
+import io
 import json
 import os
+import re
 import shutil
 import sys
 import tempfile
@@ -40,6 +42,7 @@ TARGET_VOL = 0.08
 USE_CLASSES = ("equity", "commodity", "convertible")
 VT_TAIL_FILE = "etf_book_voltarget_tail.json"
 ARMS_FACE_FILE = "etf_book_phase_atlas_arms.json"
+NULL_FACE_FILE = "etf_book_rule_null.json"
 
 
 def vol_overlay_tail_support():
@@ -99,8 +102,36 @@ def vol_overlay_tail_sentence(face=None):
            "" if cagr is None else ", bought with %+.2fpp of median CAGR" % cagr))
 
 
+CHAIN_DEF = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                         "Tools", "s6_chain_bmc.py")
+
+
+def chain_refresh_leg(name="etf_book_atlas_family"):
+    """Does the chain itself re-price this family, or only re-read its published faces (r1632)?
+
+    The sentence this feeds said "the leg only re-aggregates, so the bar is data debt" -- and
+    it stayed on the page after r1631 gave the chain a real refresh arm. A description of what
+    a leg can do is a reading of the chain definition, so it is read from there, not retyped.
+    Unreadable / no such leg reads None, and the page keeps the conservative sentence.
+    """
+    try:
+        with io.open(CHAIN_DEF, "r", encoding="utf-8") as fh:
+            text = fh.read()
+    except (OSError, ValueError):
+        return None
+    i = text.find('("%s",' % name)
+    if i < 0:
+        return None
+    j = text.find("),", i)
+    block = text[i:j + 1] if j > i else text[i:i + 600]
+    if "'refresh'" not in block and '"refresh"' not in block:
+        return None
+    m = re.search(r"--budget=([\d.]+)", block)
+    return {"arm": name + ":refresh", "budget_sec": float(m.group(1)) if m else None}
+
+
 def family_pricing(doc):
-    """How the family's date was set, and whether the chain's refresh arm can move it (r1627).
+    """How the family's date was set, and whether the chain's refresh arm can move it (r1627/r1632).
 
     A section that carries a chain leg reads as self-healing, and this one does have a leg:
     `etf_book_phase_atlas_arms` re-runs `build()` every chain cycle. But `build()` only re-reads
@@ -108,7 +139,10 @@ def family_pricing(doc):
     engine runs behind those faces, and that leg can only re-aggregate them. Left unsaid,
     "it has a leg" reads as "it will catch up on its own": the family sat on 2026-11-06 while
     the book priced 2026-11-12 and nothing in the chain flagged it (r1626 pointer 3).
-    Absence reads "not declared", never "self-healing".
+
+    r1632: the chain now also carries a paying arm (`refresh`, budgeted), so the answer is read
+    off the chain definition instead of being pinned to "no". Absence reads "not declared",
+    never "self-healing".
     """
     d = doc if isinstance(doc, dict) else {}
     base = d.get("baseline") or {}
@@ -116,6 +150,19 @@ def family_pricing(doc):
     if not base.get("evidence_cutoff"):
         return None
     jobs = (base.get("audit") or {}).get("jobs")
+    leg = chain_refresh_leg()
+    if leg:
+        return {
+            "mode": "engine",
+            "reprices_bar": True,
+            "refresh_arm": leg["arm"],
+            "refresh_arm_note": ("re-prices whatever arm is off the panel; the chain pays a few "
+                                 "arms per cycle inside its own budget and names whatever it "
+                                 "could not fit"),
+            "budget_sec": leg.get("budget_sec"),
+            "faces": len(arms) or None,
+            "cells_per_face": jobs,
+        }
     return {
         "mode": "engine",
         "reprices_bar": False,
@@ -124,6 +171,85 @@ def family_pricing(doc):
         "faces": len(arms) or None,
         "cells_per_face": jobs,
     }
+
+
+def cost_axis_reading(doc, comparable, withheld):
+    """What the toll and buffer rungs read as -- only while the family is one measurement (r1632).
+
+    Since 2026-10-31 the whole cost axis was withheld because the ten arms sat on two panels,
+    and the page said nothing about it; r1631 moved them onto one panel and the family went
+    ONE_WORLD, so the per-arm verdicts became readings for the first time. This publishes them
+    as data (arm -> verdict), never as a typed conclusion: a REJECT that later turns
+    NOT-SEPARABLE must change the page without anyone editing a sentence.
+    """
+    arms = doc.get("arms") or {}
+    if not arms:
+        return None
+    comparable = list(comparable or [])
+    withheld = list(withheld or [])
+    readable = bool(comparable) and not withheld and len(comparable) == len(arms)
+    rows = []
+    for name in sorted(arms):
+        a = arms[name] or {}
+        rows.append({"arm": name, "verdict": a.get("verdict"),
+                     "readable": name in comparable,
+                     "description": a.get("description")})
+    return {"readable": readable, "withheld": withheld, "arms": rows}
+
+
+def null_calibration_face(results_dir=None):
+    """How rare the cost axis's labels are when nothing happened (r1633).
+
+    r1632 published the arms' verdicts; a reader takes "REJECT" as a finding. The label
+    side has its own calibration face (`etf_book_rule_null.json`) which feeds the same rule
+    an effect-free panel: if REJECT is what that panel produces almost every time, then
+    publishing REJECT transmits almost nothing and the informative branch is the other one.
+    Single implementation -- the page and the card both quote this, never re-derive it.
+    Absent/unreadable reads "uncalibrated", never "the labels discriminate".
+    """
+    d = E.PATHS.results_dir if results_dir is None else results_dir
+    p = os.path.join(d, NULL_FACE_FILE)
+    absent = {"artifact": "results/" + NULL_FACE_FILE, "status": "absent",
+              "detail": "null calibration face absent -- how rare these labels are is unknown",
+              "reject_share": None, "not_separable_share": None, "trials": None,
+              "label": None, "evidence_cutoff": None, "bar_now": None}
+    try:
+        with open(p, "r", encoding="utf-8") as fh:
+            doc = json.load(fh)
+    except (OSError, ValueError) as exc:
+        absent["detail"] = "null calibration face unreadable (%s)" % str(exc)[:100]
+        return absent
+    null = doc.get("null") or {}
+    freq = null.get("label_frequency") or {}
+    if not freq:
+        absent["detail"] = "null calibration face carries no label frequency"
+        return absent
+    reasons = doc.get("verdict_reasons") or []
+    return {"artifact": "results/" + NULL_FACE_FILE, "status": "ok",
+            "detail": reasons[0] if reasons else None,
+            "reject_share": freq.get("REJECT"),
+            "not_separable_share": freq.get("NOT-SEPARABLE"),
+            "adopt_share": freq.get("ADOPT"),
+            "trials": null.get("trials"),
+            "label": doc.get("verdict"),
+            "evidence_cutoff": doc.get("evidence_cutoff"),
+            "bar_now": None}          # filled in by family_coherence (it knows the arms' bar)
+
+
+def receipt_face():
+    """Which world the last family rebuild paid for, and whether that is still today's (r1632).
+
+    A receipt printed without this comparison reads as current news: the one on disk says
+    ONE_WORLD about panel 58302d9c from 2026-11-07 while the family prices e383c3a6. Absence
+    reads "no receipt"; a receipt that cannot say which world it paid for reads "unknown".
+    """
+    try:
+        sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+        import etf_book_atlas_arms_rebuild as RB
+        return RB.receipt_state()
+    except Exception as exc:                                    # noqa: BLE001
+        return {"present": None, "detail": "receipt reader failed (%s)" % str(exc)[:120],
+                "stale": None}
 
 
 def family_coherence(results_dir=None):
@@ -178,6 +304,15 @@ def family_coherence(results_dir=None):
         "priced_same_panel": (coh.get("verdict") == "ONE_WORLD"),
         "comparable": list(comparable),
         "withheld": list(withheld),
+        # r1632: the toll/buffer rungs' own verdicts, readable only inside one world
+        "cost_axis": cost_axis_reading(doc, comparable, withheld),
+        # r1633: and how rare those labels are when nothing happened -- REJECT published
+        # next to its null frequency is a reading; without it it reads as a finding.
+        "null_calibration": dict(
+            null_calibration_face(results_dir),
+            bar_now=(doc.get("baseline") or {}).get("evidence_cutoff")),
+        # r1632: the rebuild receipt names the world it paid for; stale it if that is not today's
+        "receipt": receipt_face(),
     }
 
 
@@ -1887,6 +2022,24 @@ def write_card(out):
     else:
         lines += ["**Family coherence: not assessable** -- %s; the width is unproven here, "
                   "not verified." % (_fc.get("detail") or "arm family face absent"), ""]
+    # r1633: the arms' verdicts are judged against a null; a reader who is not told how rare
+    # REJECT is on an effect-free panel reads the label as a finding.
+    _nc = _fc.get("null_calibration") or {}
+    if _nc.get("status") == "ok" and _nc.get("reject_share") is not None:
+        lines += ["**Label null: %.1f%% REJECT** -- the same rule called an effect-free panel "
+                  "REJECT in that share of %s trials, so a published REJECT carries almost no "
+                  "information; the rare branch (NOT-SEPARABLE %.1f%%, ADOPT %.1f%%) is the one "
+                  "that reads." % (_nc["reject_share"] * 100, _nc.get("trials") or "?",
+                                   (_nc.get("not_separable_share") or 0) * 100,
+                                   (_nc.get("adopt_share") or 0) * 100), ""]
+        if (_nc.get("evidence_cutoff") and _nc.get("bar_now")
+                and _nc["evidence_cutoff"] != _nc["bar_now"]):
+            lines += ["The null was simulated on %s; these arm faces price %s -- do not read "
+                      "the frequency as today's." % (_nc["evidence_cutoff"], _nc["bar_now"]), ""]
+    elif _nc.get("status") == "absent":
+        lines += ["**Label null: uncalibrated** -- how rare these labels are is unknown "
+                  "(`results/etf_book_rule_null.json` absent), so a REJECT on this card is not "
+                  "a finding.", ""]
     lines += [
         "**Today (%s bar): %s** (last grid decision %s)." % (
             s["as_of_bar"], s["decision"], s["last_decision_bar"]),
@@ -2820,6 +2973,19 @@ def selftest():
                                    "arms": 0, "panels": [], "priced_same_panel": None})
         chk("card says not assessable when the family face is absent",
             "not assessable" in _t_none and "ONE_WORLD" not in _t_none)
+        # r1633: a verdict printed without its null frequency reads as a finding.
+        _t_nc = _render_with_fc({"verdict": "ONE_WORLD", "arms": 11, "panels": ["a1a4"],
+                                 "evidence_cutoff": "2026-11-12", "priced_same_panel": True,
+                                 "null_calibration": {"status": "ok", "reject_share": 0.9652,
+                                                      "not_separable_share": 0.0348,
+                                                      "trials": 20000}})
+        chk("card prints the null frequency next to the labels it quotes",
+            "96.5% REJECT" in _t_nc and "almost no information" in _t_nc)
+        _t_nc_absent = _render_with_fc({"verdict": "ONE_WORLD", "arms": 11, "panels": ["a1a4"],
+                                        "evidence_cutoff": "2026-11-12", "priced_same_panel": True,
+                                        "null_calibration": {"status": "absent"}})
+        chk("card says the labels are uncalibrated rather than implying they discriminate",
+            "uncalibrated" in _t_nc_absent and "96.5%" not in _t_nc_absent)
     finally:
         OUT_DIR = _keep_out2
         shutil.rmtree(_pb_dir2, ignore_errors=True)

@@ -25,6 +25,7 @@ import hashlib
 import io
 import json
 import os
+import re
 import shutil
 import sys
 import time
@@ -6497,6 +6498,81 @@ def render_md(p, sb=None):
             % (pr.get("faces") or "?", pr.get("cells_per_face") or "?",
                pr.get("refresh_arm") or "?", fc.get("evidence_cutoff") or "?",
                p.get("priced_bar") or "?"))
+    elif pr.get("mode") == "engine" and pr.get("reprices_bar"):
+        # r1632: the chain grew a paying arm; the sentence that said "nobody will ever move
+        # this bar" outlived the defect it described. Read the leg, not the memory of it.
+        add("- 日期要说清楚：这一节是**引擎跑出来的**（%s 个臂面各 %s 格，另加基线一张），"
+            "而链上那条 `%s` 会**自己判 stale 并按预算重跑引擎**（每次 %s 秒预算，"
+            "装不下的臂被点名留给下一轮）——所以这根 bar 会自己往前走，不需要谁记得来重跑。"
+            % (pr.get("faces") or "?", pr.get("cells_per_face") or "?",
+               pr.get("refresh_arm") or "?",
+               "%d" % pr["budget_sec"] if pr.get("budget_sec") else "?"))
+    # r1632: the toll/buffer rungs have their own verdicts, withheld for two weeks while the
+    # family sat on two panels. Grouped from the published arm rows, never typed in.
+    ca = fc.get("cost_axis") or {}
+    if ca.get("readable"):
+        labels = {"cost0": "单边 0bp", "cost05": "单边 5bp", "cost20": "单边 20bp",
+                  "cost40": "单边 40bp"}
+        flat, worse, other = [], [], []
+        for row in ca.get("arms") or []:
+            name = row.get("arm") or ""
+            lab = labels.get(name)
+            if not lab:
+                m = re.match(r"^buffer_k(\d+)(?:_cost(\d+))?$", name)
+                if m:
+                    lab = "缓冲带 k=0.%s" % m.group(1)
+                    if m.group(2):
+                        lab += "＋单边 %dbp" % int(m.group(2))
+                else:
+                    lab = name
+            v = (row.get("verdict") or "").upper()
+            if v.startswith("NOT"):
+                flat.append(lab)
+            elif v == "REJECT":
+                worse.append(lab)
+            else:
+                other.append("%s(%s)" % (lab, row.get("verdict")))
+        if flat or worse:
+            add("- 成本轴现在读得出来（这些臂算在同一张面板上）：**与基线分不开** = %s；"
+                "**确实更差** = %s。「分不开」的意思是既没说更好、也没说更差。"
+                % ("、".join(flat) or "无", "、".join(worse) or "无"))
+        if other:
+            add("- 另有这几臂的判词不属于上面两组：%s。" % "、".join(other))
+    elif ca:
+        add("- 成本轴还读不出来：%s 条臂被判词扣着（%s）——面板不同时，臂与基线的差量的是"
+            "世界差，不是规则差。"
+            % (len(ca.get("withheld") or []), "、".join(ca.get("withheld") or []) or "未点名"))
+    # r1633: a verdict's information is measured against the null, not asserted. The rule that
+    # labels these arms returns REJECT on an effect-free panel in 96.5% of trials, so publishing
+    # "REJECT" next to nothing reads as a finding. Print the frequency, not only the labels.
+    nc = fc.get("null_calibration") or {}
+    if nc.get("status") == "ok" and nc.get("reject_share") is not None:
+        add("- 这两组标签本身有多灵：拿一张**没有效应**的面板喂同一套判据，%s 次里 **%.1f%% 的输出是 REJECT**、"
+            "%.1f%% 是 NOT-SEPARABLE——什么都不做时默认判词就是「确实更差」，所以上面那一列几乎不传递信息，"
+            "真正稀有的是「与基线分不开」。"
+            % (nc.get("trials") or "?", nc["reject_share"] * 100,
+               (nc.get("not_separable_share") or 0) * 100))
+        if (nc.get("evidence_cutoff") and nc.get("bar_now")
+                and nc["evidence_cutoff"] != nc["bar_now"]):
+            add("- 上一次校准跑在 %s 的面板上，成本轴那几张臂面在 %s——两个日子不同，别把频率当今天的。"
+                % (nc["evidence_cutoff"], nc["bar_now"]))
+    elif nc.get("status") == "absent":
+        add("- 这两组标签有多灵，这一页答不了：`results/etf_book_rule_null.json` 不在盘上或读不出频率"
+            "（这是「没验」，不是「判据没问题」）。")
+    # r1632: a rebuild receipt printed without asking "is this still today's world" reads as
+    # current news. The one on disk is from another panel and says nothing about that.
+    rc = fc.get("receipt") or {}
+    if rc.get("present") and rc.get("stale"):
+        add("- 上一次族面重定价的回执付的是世界 `%s`（%s），而今天这张面板是 `%s`——"
+            "**回执已陈旧**：它的耗时与判词属于那一次，不属于今天。"
+            % (rc.get("world") or "?", rc.get("generated") or "日期未记",
+               rc.get("world_now") or "?"))
+    elif rc.get("present") and rc.get("stale") is False:
+        add("- 上一次族面重定价的回执就在这个世界（`%s`，%s 秒、%s 条臂）——它不是旧账。"
+            % (rc.get("world") or "?", rc.get("elapsed_sec") if rc.get("elapsed_sec") is not None else "?",
+               len(rc.get("rebuilt") or [])))
+    elif rc.get("present") is False:
+        add("- 族面重定价没有回执：谁付过这笔账、付了多少，这里看不到。")
     add("")
     add("> 判词来源：`%s`。" % (fc.get("artifact") or "results/etf_book_phase_atlas_arms.json"))
     add("")
@@ -7836,6 +7912,30 @@ def selftest():
     chk("L56 family coherence: an absent face reads 'unknown', never a pass",
         "不知道。" in _md_absent and "ONE_WORLD" not in _md_absent
         and "没验" in _md_absent, "")
+    # L56b-L56c (r1633): publishing REJECT without its null frequency reads as a finding.
+    _md_nc = _render_fc({"verdict": "ONE_WORLD", "arms": 11, "panels": ["deadbeef"],
+                         "evidence_cutoff": "2026-11-12",
+                         "null_calibration": {"status": "ok", "reject_share": 0.9652,
+                                              "not_separable_share": 0.0348, "trials": 20000,
+                                              "evidence_cutoff": "2026-11-12",
+                                              "bar_now": "2026-11-12"}})
+    _md_nc_lag = _render_fc({"verdict": "ONE_WORLD", "arms": 11, "panels": ["deadbeef"],
+                             "evidence_cutoff": "2026-11-12",
+                             "null_calibration": {"status": "ok", "reject_share": 0.9652,
+                                                  "not_separable_share": 0.0348, "trials": 20000,
+                                                  "evidence_cutoff": "2026-10-30",
+                                                  "bar_now": "2026-11-12"}})
+    _md_nc_absent = _render_fc({"verdict": "ONE_WORLD", "arms": 11, "panels": ["deadbeef"],
+                                "evidence_cutoff": "2026-11-12",
+                                "null_calibration": {"status": "absent"}})
+    chk("L56b null calibration: a REJECT reading prints the frequency that makes it near-empty",
+        "96.5% 的输出是 REJECT" in _md_nc and "3.5% 是 NOT-SEPARABLE" in _md_nc
+        and "答不了" not in _md_nc, "")
+    chk("L56c null calibration: a calibration on another bar is named, not read as today's",
+        "2026-10-30" in _md_nc_lag and "别把频率当今天的" in _md_nc_lag
+        and "别把频率当今天的" not in _md_nc, "")
+    chk("L56d null calibration: an absent face reads 'cannot answer here', never a pass",
+        "答不了" in _md_nc_absent and "96.5%" not in _md_nc_absent, "")
 
     # L57-L59 (r1185): the page used to answer "same priced bar = True" without ever printing
     # which day any of the three papers was priced on. A reader told "different" must be able
