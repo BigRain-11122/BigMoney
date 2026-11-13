@@ -1,17 +1,17 @@
 {
  "script": "scripts/live_book_section_bars.py",
- "ts": "2026-11-13 09:42:11",
+ "ts": "2026-11-13 10:00:31",
  "page": {
   "path": "docs/live_book/LIVE-BOOK-20261113.md",
   "json": "docs/live_book/LIVE-BOOK-20261113.json"
  },
  "verdict": "PAGE_MIXES_BARS",
- "sentence": "页面头部写着按 2026-11-12 定价，但 48 个带日期的节里只有 34 节真在这一天；其余 14 节最旧停在 2026-10-26（最差 sample_window 落后 13 个交易日），另外 8 节根本没有日期——它们不是同一根 bar 上的数，读的时候不能互相加减。这 14 节里，8 节的产物有同名链腿在守，6 节没有任何一条链腿重跑过它们（lookahead, universe_lock, cash_handshake, cash_ladder, cash_money, cash_yield）——没有腿的那些停在天，是因为没人重跑，不是因为设计。",
+ "sentence": "页面头部写着按 2026-11-12 定价，但 48 个带日期的节里只有 35 节真在这一天；其余 13 节最旧停在 2026-10-26（最差 sample_window 落后 13 个交易日），另外 8 节根本没有日期——它们不是同一根 bar 上的数，读的时候不能互相加减。这 13 节里，8 节的产物有同名链腿在守，5 节没有任何一条链腿重跑过它们（lookahead, cash_handshake, cash_ladder, cash_money, cash_yield）——没有腿的那些停在天，是因为没人重跑，不是因为设计。",
  "evidence_cutoff": "2026-11-12",
  "headline_bar": "2026-11-12",
  "headline_field": "priced_bar",
  "n_sections": 48,
- "n_on_headline": 34,
+ "n_on_headline": 35,
  "unknown_sections": [
   "backtest_band",
   "agreement",
@@ -23,14 +23,14 @@
   "authority"
  ],
  "bars": {
-  "2026-11-12": 34,
+  "2026-11-12": 35,
   "2026-11-11": 6,
   "2026-11-08": 1,
   "2026-11-06": 1,
-  "2026-10-30": 5,
+  "2026-10-30": 4,
   "2026-10-26": 1
  },
- "n_off_headline": 14,
+ "n_off_headline": 13,
  "off_headline": [
   {
    "key": "sample_window",
@@ -54,14 +54,6 @@
   },
   {
    "key": "lookahead",
-   "bar": "2026-10-30",
-   "field": "evidence_cutoff",
-   "lag_sessions": 9,
-   "ahead_of_headline": false,
-   "guarded_by": []
-  },
-  {
-   "key": "universe_lock",
    "bar": "2026-10-30",
    "field": "evidence_cutoff",
    "lag_sessions": 9,
@@ -196,7 +188,7 @@
   "causal_rebuild": "2026-11-12",
   "underwater": "2026-11-12",
   "sample_window": "2026-10-26",
-  "universe_lock": "2026-10-30",
+  "universe_lock": "2026-11-12",
   "entry_gate": "2026-11-12",
   "live_quote": "2026-11-12",
   "sellability": "2026-11-12",
@@ -214,10 +206,9 @@
   "envelope": "2026-11-12",
   "stress": "2026-11-12"
  },
- "n_unguarded": 6,
+ "n_unguarded": 5,
  "unguarded": [
   "lookahead",
-  "universe_lock",
   "cash_handshake",
   "cash_ladder",
   "cash_money",

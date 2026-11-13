@@ -194,6 +194,17 @@ LEGS = [
     # chain for the same reason the capacity face does: a hand-run audit is a face that
     # silently ages (r1257/r1290/r1291/r1293/r1295 class). ~90s, no network.
     ("etf_book_spanning", ["python", "scripts/etf_book_spanning.py"]),
+    # r1621: the page's `universe_lock` section ("what could a 2020 starter have bought?") is
+    # read by the page but no leg ever re-ran its producer -- the section-bar audit named it
+    # one of six sections with no chain leg at all, and it sat on 2026-10-30 while the page
+    # header printed 2026-11-12 (the r1471 family one floor up: a check leg would only prove
+    # the face still agreed with the world it was built in). The `refresh` gate asks the panel
+    # question off the leg above, which loads the identical panel (P.prep_panel) and publishes
+    # its last bar: equal bar -> 0.0s no-op, moved bar -> rebuild (~2min, once a session).
+    ("etf_book_universe_lock_write",
+     ["python", "scripts/etf_book_universe_lock.py", "refresh"]),
+    ("etf_book_universe_lock",
+     ["python", "scripts/etf_book_universe_lock.py", "--check"]),
     # r1335 / E207: the book's six SIGNS are exactly this panel's full-sample IC signs, so
     # every number the legs below publish rests on a direction chosen after the fact. This leg
     # prices the honest arm (signs from already-realised windows only) so the caveat the card

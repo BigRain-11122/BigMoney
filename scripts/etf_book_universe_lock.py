@@ -47,6 +47,10 @@ import etf_robust_pf as R
 OUT_JSON = os.path.join(ROOT, "results", "etf_book_universe_lock.json")
 OUT_MD = os.path.join(ROOT, "research", "ETF_BOOK_UNIVERSE_LOCK.md")
 PUB_PROD = os.path.join(ROOT, "results", "etf_book_production", "latest.json")
+# r1621: the bar this face would price, read off a face built from the SAME loader
+# (`etf_book_spanning` runs P.prep_panel() and publishes close.index[-1]; this face's own
+# evidence_cutoff is that same object). Read only by `refresh`, never by `run`.
+SPANNING_JSON = os.path.join(ROOT, "results", "etf_book_spanning.json")
 
 # ------------------------------------------------------------------ frozen criteria
 # Written before the first run and echoed into the payload; --check re-derives the verdict
@@ -408,6 +412,63 @@ def _check():
     return 0
 
 
+REBUILT = "REBUILT"
+REFRESH_NOOP = "REFRESH_NOOP"
+UPSTREAM_BEHIND = "UPSTREAM_BEHIND"
+
+
+def _declared_bar(path):
+    """The bar a face says it is priced on, or None. Read off the field, never a timestamp."""
+    try:
+        with open(path, encoding="utf-8") as fh:
+            doc = json.load(fh) or {}
+    except Exception:
+        return None
+    v = doc.get("evidence_cutoff")
+    if isinstance(v, str) and len(v) >= 10 and v[:4].isdigit():
+        return v[:10]
+    return None
+
+
+def refresh(own_path=OUT_JSON, spanning_path=SPANNING_JSON, runner=None):
+    """Rebuild the lock ladder only when the panel this face prices has moved (r1621).
+
+    The chain only ever ran this face's `check`, so its bar sat on 2026-10-30 while the page
+    header printed 2026-11-12 -- nine sessions of "two sections, two days". Rebuilding every
+    round costs ~60s of panel load for numbers that move only when a close or a listing does,
+    so the gate asks the cheap question instead: has the panel this arm reads moved past the
+    bar this face already prices? The answer is read off `etf_book_spanning`, which loads the
+    identical panel (P.prep_panel) and publishes its last bar -- not off a clock, and not off
+    this file's own mtime (r1371: a staleness gate that measures the filesystem measures the
+    wrong thing).
+
+    Three answers, one of which runs:
+      * equal bars                     -> REFRESH_NOOP, 0.0s;
+      * upstream behind, this face ahead -> UPSTREAM_BEHIND and no write: rebuilding would
+        publish older numbers under a newer filename;
+      * anything else, including a missing or undated face -> rebuild. A gate that cannot read
+        its own input is not evidence of freshness (r1595 family).
+    """
+    run_it = runner or run
+    own = _declared_bar(own_path)
+    up = _declared_bar(spanning_path)
+    if own and up:
+        if own == up:
+            status = REFRESH_NOOP
+        elif up < own:
+            status = UPSTREAM_BEHIND
+        else:
+            status = REBUILT
+    else:
+        status = REBUILT
+    if status == REBUILT:
+        run_it()
+    print(json.dumps({"mode": "refresh", "status": status, "face_bar": own,
+                      "upstream_bar": up, "ran": status == REBUILT},
+                     ensure_ascii=False))
+    return 0
+
+
 def _fixture(n=520, seed=11, ncols=6):
     rng = np.random.default_rng(seed)
     idx = pd.bdate_range("2019-01-01", periods=n)
@@ -500,6 +561,67 @@ def _selftest():
             CRITERIA["headline_lock"] in (doc.get("criteria") or {}).get("headline_lock", ""),
             str((doc.get("criteria") or {}).get("headline_lock")))
 
+    # L7 the refresh gate (r1621): it must no-op on an unmoved panel, rebuild on a moved one,
+    # refuse to walk backwards, and treat an unreadable gate as "run" rather than "fresh"
+    import tempfile
+    import contextlib
+    import io
+
+    def _face(path, cutoff):
+        with open(path, "w", encoding="utf-8") as fh:
+            json.dump({"evidence_cutoff": cutoff} if cutoff else {"verdict": "x"}, fh)
+
+    with tempfile.TemporaryDirectory() as td:
+        own = os.path.join(td, "own.json")
+        ups = os.path.join(td, "upstream.json")
+        calls = []
+        run_stub = lambda: calls.append(1)
+
+        _face(own, "2026-11-12")
+        _face(ups, "2026-11-12")
+        buf = io.StringIO()
+        with contextlib.redirect_stdout(buf):
+            refresh(own, ups, run_stub)
+        out = json.loads(buf.getvalue().strip().splitlines()[-1])
+        leg("same bar on both sides does not rebuild", out["status"] == REFRESH_NOOP and not calls,
+            buf.getvalue().strip())
+
+        _face(ups, "2026-11-13")
+        buf = io.StringIO()
+        with contextlib.redirect_stdout(buf):
+            refresh(own, ups, run_stub)
+        out = json.loads(buf.getvalue().strip().splitlines()[-1])
+        leg("a moved upstream bar rebuilds", out["status"] == REBUILT and len(calls) == 1,
+            buf.getvalue().strip())
+
+        calls.clear()
+        _face(own, "2026-11-13")
+        _face(ups, "2026-11-12")
+        buf = io.StringIO()
+        with contextlib.redirect_stdout(buf):
+            refresh(own, ups, run_stub)
+        out = json.loads(buf.getvalue().strip().splitlines()[-1])
+        leg("a face ahead of its upstream is not overwritten with older data",
+            out["status"] == UPSTREAM_BEHIND and not calls, buf.getvalue().strip())
+
+        calls.clear()
+        _face(own, "2026-11-13")
+        _face(ups, None)            # undated gate face
+        buf = io.StringIO()
+        with contextlib.redirect_stdout(buf):
+            refresh(own, ups, run_stub)
+        out = json.loads(buf.getvalue().strip().splitlines()[-1])
+        leg("an undated upstream face is not read as fresh",
+            out["status"] == REBUILT and len(calls) == 1, buf.getvalue().strip())
+
+        calls.clear()
+        buf = io.StringIO()
+        with contextlib.redirect_stdout(buf):
+            refresh(os.path.join(td, "nope.json"), os.path.join(td, "nope2.json"), run_stub)
+        out = json.loads(buf.getvalue().strip().splitlines()[-1])
+        leg("a missing face rebuilds instead of passing", out["status"] == REBUILT and calls,
+            buf.getvalue().strip())
+
     n_pass = sum(1 for x in legs if x["ok"])
     for x in legs:
         print(("PASS " if x["ok"] else "FAIL ") + x["leg"] + (" | " + x["detail"] if x["detail"] else ""))
@@ -512,6 +634,8 @@ if __name__ == "__main__":
         sys.exit(_selftest())
     if "--check" in sys.argv:
         sys.exit(_check())
+    if "refresh" in sys.argv:
+        sys.exit(refresh())
     if "run" in sys.argv:
         doc = run()
         if doc == 3:
