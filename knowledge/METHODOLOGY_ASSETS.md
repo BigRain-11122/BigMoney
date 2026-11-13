@@ -14037,3 +14037,31 @@ CEO 页「同一个闸，四条决策日历」两行新句（etf_book_ceo_page s
 实锚：scripts/etf_book_vt_phases.py（selftest 23/23，+7 腿）、
 results/etf_book_vt_phases/VT-PHASES.json（`drop_two` 块）、
 research/PREREG-20261113-Y4-SCALE-FREE.md、S6 腿 vt_phases / vt_phases_check 2/2 rc0。
+
+## E564 名表是样本合同，不是全体合同：按名字找日期会漏，按名字加宽会误读
+
+**病灶**：`live_book_section_bars` 的 `BAR_FIELDS` 只列了 CEO 页**表头**用过的三种拼法
+（`priced_bar`/`evidence_cutoff`/`panel_last_bar`，加 `asof`/`bar`）。于是在真树上，19 个被页面
+印成「不带任何日期字段，无法核验」的节里，有 7 个明确写着自己价哪一天，只是键名叫别的：
+`cash_yield.rate_date`、`cash_money.spot_date`、`forward.as_of`、`live_quote.panel_bar`、
+`premium_forward.face_asof`、`premium_leak.session`、`cash_handshake.repo_rate_date`。
+一张面越是诚实地写「我算不出日期」，越容易掩盖「是我没去问」——读者没有办法分辨这两种。
+
+**正法**：先按精确表问（保持语义优先级），再用**值形态**兜底（`^\d{4}-\d{2}-\d{2}` 的字符串），
+绝不用名字宽松匹配。同一张面里就有两个反例说明为什么必须看值：
+- `agreement.same_decision_bar` 的值是字符串 `"True"`——一个主张，不是一天；
+- `permission.decision_date` 是 `2026-12-09`——**下一个换仓日**，排期而不是这根 bar；
+  按名字加宽会让整张页在 11-13 显示「定价在 12-09」。
+所以宽松表本身也要人工点名排除排期类字段（`decision_date`/`schedule_last_date`），
+并把「排期日永不当 bar」与「布尔不当日」各钉一条自检腿。
+
+**读数（真树）**：带日期节 37→44，真正无日期 19→12，headline 当日 26→30，
+并新暴露 6 个停在 2026-11-11 的利率/现金面节（此前它们被归在「无法核验」里，读者根本不知道它们落后一天）。
+
+**HOW**：任何「按字段名找某类值」的探测，先问两件事——①这个名字表是从哪个样本抄来的
+（表头 ≠ 全体；一个文件里同义字段常有三四种拼法）；②同一个名字前缀下有没有异类语义
+（布尔/排期/计数）会混进来。以及：**计数类披露必须点名字**，『N 个无法核验』读者围观不了（r1159 同族）。
+
+实锚：scripts/live_book_section_bars.py（selftest 24/24，新增 L23/L24）、
+scripts/etf_book_ceo_page.py（selftest 265/265，新增 L215）、
+results/live_book_section_bars.json、docs/live_book/LIVE-BOOK-20261113.md 第 12-14 行。
