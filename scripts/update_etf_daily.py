@@ -60,6 +60,13 @@ import sys
 import time
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# r1295: the chain runs `python scripts/update_etf_daily.py`, so sys.path[0]
+# is the scripts dir and the repo root is absent -- every `from scripts import
+# X` here died on ModuleNotFoundError and the calendar fell back to the panel
+# copy it was supposed to replace (a fix that reports "done" and does nothing).
+# Same bootstrap update_repo.py:78 and update_futures.py:45 already carry.
+if ROOT not in sys.path:
+    sys.path.insert(0, ROOT)
 
 MEMBERS = ["510300", "510050", "510500", "512100", "588000"]  # O-1555 frozen
 TIER = {"510300": "tier1-HS300", "510050": "tier1-SSE50",
@@ -187,31 +194,43 @@ _DATES_CACHE = None
 
 
 def _load_trading_dates():
-    """Local ETF trading-day calendar as sorted ISO strings (update_futures/
-    update_repo master: data/daily/510300.csv primary, glob fallback,
-    None -> weekday approximation)."""
+    """Exchange-day calendar as sorted ISO strings.
+
+    r1294: this was the pre-r1366 hand copy -- data/daily CSVs primary, the
+    official calendar never consulted -- while update_repo got the fix in r1276
+    and its docstring named this exact consequence ("the cash-leg rates the ETF
+    book prices with quietly stopped one session behind").  It did, again: on
+    2026-11-13 20:20 the five panels ended 2026-11-12, so this lane answered
+    "latest complete bar = 2026-11-12", no-op'd, and the quote-topup arm that
+    exists precisely to fill the evening's session never fired.  A panel is not
+    a calendar (E136); the rule is imported from update_futures, never copied.
+    """
     global _DATES_CACHE
     if _DATES_CACHE is not None:
         return _DATES_CACHE
-    import csv as _csv
-    import glob as _glob
-    cands = [os.path.join(ROOT, "data", "daily", "510300.csv")]
-    cands += [p for p in sorted(_glob.glob(os.path.join(ROOT, "data",
-                                                        "daily", "*.csv")))
-              if p != cands[0]]
-    dates = None
-    for p in dict.fromkeys(cands):
-        try:
-            with io.open(p, "r", encoding="utf-8") as f:
-                ds = {str(r.get("date") or "") for r in _csv.DictReader(f)}
-            ds = sorted(d for d in ds if re.match(r"^\d{4}-\d{2}-\d{2}$", d))
-            if len(ds) >= 100:
-                dates = ds
-                break
-        except Exception:
-            continue
-    _DATES_CACHE = dates
-    return dates
+    try:
+        from scripts import update_futures as _uf
+        _DATES_CACHE = _uf._load_trading_dates()
+    except Exception:                       # noqa: BLE001 - fail-open, disclosed
+        import csv as _csv
+        import glob as _glob
+        cands = [os.path.join(ROOT, "data", "daily", "510300.csv")]
+        cands += [p for p in sorted(_glob.glob(os.path.join(ROOT, "data",
+                                                            "daily", "*.csv")))
+                  if p != cands[0]]
+        dates = None
+        for p in dict.fromkeys(cands):
+            try:
+                with io.open(p, "r", encoding="utf-8") as f:
+                    ds = {str(r.get("date") or "") for r in _csv.DictReader(f)}
+                ds = sorted(d for d in ds if re.match(r"^\d{4}-\d{2}-\d{2}$", d))
+                if len(ds) >= 100:
+                    dates = ds
+                    break
+            except Exception:
+                continue
+        _DATES_CACHE = dates
+    return _DATES_CACHE
 
 
 def expected_latest_bar_date(now, dates=None):
@@ -866,7 +885,27 @@ def _selftest():
     # the lane's status whitelist must carry the new block, or the reader
     # never sees the top-up at all (E138 family: published elsewhere = absent)
     assert "quote_topup" in OWNED_KEYS and "last_attempt_topup" in OWNED_KEYS
-    print("selftest: 14/14 PASS")
+
+    # S15 r1295: the session calendar must be ASKED of its owner, never
+    # re-derived from this repo's data/daily panel. A panel cannot answer
+    # "should tonight have a bar" -- it only knows the bars it already has, so
+    # a copy of it always says "we are up to date" exactly when the lane is not
+    # (2026-11-13 live: five panels ended 11-12, the lane answered "latest
+    # complete bar = 11-12", and the quote top-up arm that exists for tonight's
+    # session never fired). Proven by injection, not by comparison: a hand copy
+    # would ignore the sentinel.
+    import scripts.update_futures as _uf_mod
+    _real = _uf_mod._load_trading_dates
+    try:
+        _uf_mod._load_trading_dates = lambda: ["2026-01-02", "2026-01-05"]
+        globals()["_DATES_CACHE"] = None
+        assert _load_trading_dates() == ["2026-01-02", "2026-01-05"], (
+            "calendar was not read from update_futures -- a copy of the "
+            "data/daily panel cannot name a session the panel has not reached")
+    finally:
+        _uf_mod._load_trading_dates = _real
+        globals()["_DATES_CACHE"] = None
+    print("selftest: 15/15 PASS")
     return 0
 
 

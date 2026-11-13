@@ -179,19 +179,33 @@ def cutoff_gate(local_cutoff, now, dates=None):
     return True, expected, f"local cutoff {local_cutoff} behind expected {expected}"
 
 
-def local_data_cutoff(data_dir=None):
-    """Max last-bar date across the 11 term CSVs; None if any file missing/empty."""
+def local_data_last_bars(data_dir=None):
+    """term -> last bar date (None for that term if its CSV is missing/empty)."""
     data_dir = data_dir or DATA_DIR
-    lasts = []
+    out = {}
     for t in TERMS:
         p = os.path.join(data_dir, t + ".csv")
         if not os.path.exists(p):
-            return None
+            out[t] = None
+            continue
         rows = read_local_csv(p)
-        if not rows:
-            return None
-        lasts.append(str(rows[-1]["date"]))
-    return max(lasts)
+        out[t] = str(rows[-1]["date"]) if rows else None
+    return out
+
+
+def local_data_cutoff(data_dir=None):
+    """MIN last-bar date across the 11 term CSVs; None if any file missing/empty.
+
+    r1294: this used to be max. Nine terms advancing to 2026-11-13 made the gate
+    report "cutoff covered" while GC001 and R-001 were frozen at 2026-11-11 --
+    two members that had failed with an HTTP error the night before. The panel
+    only covers the bar its slowest member reaches, and that is also the bar the
+    cash sections of the live book price their overnight rate on.
+    """
+    lasts = local_data_last_bars(data_dir)
+    if any(v is None for v in lasts.values()):
+        return None
+    return min(lasts.values())
 
 
 def validate_rows(rows):
@@ -461,8 +475,17 @@ def run():
             return 0
     st = load_status()
     now = dt.datetime.now()
+    last_bars = local_data_last_bars()
     local_cut = local_data_cutoff()
     needs_fetch, expected, gate_reason = cutoff_gate(local_cut, now)
+    # r1294: name the members that hold the panel back instead of letting the
+    # healthiest nine pay for the two that failed.  A member already at (or past)
+    # the expected bar is left alone, so a catch-up costs only the laggards.
+    laggards = [{"term": t, "last": v, "expected": expected,
+                 "behind_sessions": None}
+                for t, v in last_bars.items()
+                if v is None or str(v) < str(expected)]
+    behind_terms = [x["term"] for x in laggards]
     if not needs_fetch:
         # r1276: a run that fetched nothing must not spend the retry budget.
         # This branch used to stamp `last_attempt`, so the first genuine
@@ -476,6 +499,9 @@ def run():
         st["no_op_reason"] = gate_reason
         st["expected_cutoff"] = expected
         st["data_cutoff"] = local_cut
+        st["data_cutoff_max"] = max([v for v in last_bars.values() if v], default=None)
+        st["laggards"] = laggards
+        st["last_bars"] = last_bars
         st["authority"] = _authority_block(takeover)
         if takeover:
             st["takeover"] = takeover
@@ -500,7 +526,7 @@ def run():
         except Exception:
             pass
     st["last_attempt"] = now.isoformat(timespec="seconds")  # mirror FIRST (r18)
-    st["terms_planned"] = list(TERMS)
+    st["terms_planned"] = behind_terms
     write_status(st)
 
     _clear_proxy_env()
@@ -510,6 +536,12 @@ def run():
         rec = {"term": term, "symbol": sym, "appended": 0, "overlap": 0,
                "mismatch": None, "error": None, "path": None,
                "rows_local": None, "first": None, "last": None}
+        if term not in behind_terms:
+            # r1294: already at the expected bar -- do not spend a request on it.
+            rec["skipped"] = "already at expected bar"
+            rec["last"] = last_bars.get(term)
+            per.append(rec)
+            continue
         if conn_fails >= CONN_STOP:
             rec["error"] = f"conn-fuse: {conn_fails} consecutive connection failures"
             per.append(rec)
@@ -557,13 +589,20 @@ def run():
         if i < len(TERMS) - 1:
             time.sleep(SLEEP_S)
 
-    _cut = max([r["last"] for r in per if r.get("last")], default=None)
+    _lasts = [r["last"] for r in per if r.get("last")]
+    _cut = min(_lasts) if _lasts else None
+    _cut_max = max(_lasts) if _lasts else None
+    _lag = [{"term": r["term"], "last": r.get("last"), "expected": expected,
+             "error": r.get("error") or r.get("mismatch")}
+            for r in per
+            if not r.get("last") or str(r["last"]) < str(expected)]
     st.update({
         "ts": now.isoformat(timespec="seconds"),
         "mode": "full-history pull, append-only local, overlap-verified",
         "per_term": per,
         "summary": {
             "terms": len(TERMS), "failures": len(failures),
+            "failure_terms": failures,
             "mismatches": len(mismatches),
             "total_appended": sum(r.get("appended") or 0 for r in per),
             "data_cutoff": _cut,
@@ -572,8 +611,13 @@ def run():
         # never overwrote them, so a lane that HAD appended kept publishing the cutoff of
         # an earlier no-op (the board read 2026-10-28 while the panel held 2026-11-05) and
         # carried a `no_op_reason` contradicting its own rows.
+        # r1294: published cutoff is the MIN over members (the bar the panel actually
+        # covers); max is kept beside it so a nine-of-eleven panel can never look complete.
         "data_cutoff": _cut,
+        "data_cutoff_max": _cut_max,
         "expected_cutoff": expected,
+        "laggards": _lag,
+        "last_bars": {r["term"]: r.get("last") for r in per},
         "claim": "T-2026-09-26-88-bm-a-s3-repo-rates-collector",
         "note": "prices ARE annualized % (close = day's closing annualized rate); "
                 "consumption interest formula belongs to consumer preregs "
@@ -699,6 +743,17 @@ def _selftest():
                          rows_to_csv_text([dict(r, open=r["close"], high=r["close"],
                                                 low=r["close"], volume=1.0) for r in base]))
         assert local_data_cutoff(td) == "2026-09-23"
+        # S7b (r1294): one lagging member decides the panel. Before this the gate
+        # took the MAX, so nine terms at 09-23 let two frozen at 09-21 read as
+        # "cutoff covered" -- and the overnight rate the cash sections price on
+        # was never retried. Fixture: only GC001 falls behind.
+        lag = [{"date": "2026-09-22", "close": 1.0}]
+        atomic_write(os.path.join(td, "GC001.csv"),
+                     rows_to_csv_text([dict(r, open=r["close"], high=r["close"],
+                                            low=r["close"], volume=1.0) for r in lag]))
+        assert local_data_cutoff(td) == "2026-09-22"
+        assert max(v for v in local_data_last_bars(td).values() if v) == "2026-09-23"
+        assert local_data_last_bars(td)["GC001"] == "2026-09-22"
         os.remove(os.path.join(td, "R-001" + ".csv"))
         assert local_data_cutoff(td) is None
     # S8 status JSON roundtrip: native types only
@@ -748,7 +803,7 @@ def _selftest():
                                         dates=merged) == "2026-11-09"
         assert expected_latest_bar_date(dt.datetime(2026, 11, 9, 21, 0),
                                         dates=stale_panel) == "2026-11-06"
-    print("selftest: 13/13 PASS")
+    print("selftest: 14/14 PASS")
     return 0
 
 
