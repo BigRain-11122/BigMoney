@@ -14087,3 +14087,33 @@ results/live_book_section_bars.json、docs/live_book/LIVE-BOOK-20261113.md 第 1
 实锚：scripts/etf_book_premium_subscription.py（`stale_reason`/`current_stale_reason`，
 selftest 114/114，+9 腿）、Tools/s6_chain_bmc.py 新腿 `premium_subscription_write`
 （链上 3/3 rc0，写者 0.1s no-op）、真面重生成后 5/5 腿为 `fetched`（旧面 4/5 无状态数据）。
+
+### E589 · 「只检查不生成」是最看不见的腐烂：把 r1471 那条律做成一次枚举（r1619 bm-c）
+
+① **现象**：r1471（执行账本）和 r1594（订阅面）是同一个病——面被人读、消费者全绿、链上却没有一条腿写它，
+两次都是靠人读页面发现的。可链本就存着答案：224 条腿里有 50 条把 check 与它的 writer 写成一个三元素条目。
+缺的只是"对剩下的腿做一次差集"。
+
+② **机检**：Tools/chain_writer_audit.py（selftest 11/11）读链自己的 LEGS，把每条 argv 拆成
+{script, 子命令范围, 角色}：角色词（check/selftest/status/explain/probe 与 --check、-check 后缀）＝读者；
+run/write/refresh/snapshot/certify ＝写者；**两者都不进"范围"**（否则 writer 会键在 ("run") 上，
+永远配不到自己的 check）。按 (script, 子命令) 配对，读者键无写者键＝查出一个面。
+读数（2026-11-13 链）：90 个被检查的面里 **60 个有链上写者、30 个没有**——27 个"脚本自己知道怎么写、
+链从不叫它"（红），3 个"脚本本来只有读模式"（派生面，披露不判红）。
+
+③ **首版自己踩的三个坑**（所以工具的第一份输出要先被审、再被相信）：84 红里一半以上是假的——
+(a) writer 的 un 被当成范围键；(b) --check 命中 -check 后缀规则，被切成一个孤立的 -；
+(c) --no-fetch/--if-stale 这类选项被当成范围。修完 84→30。
+**射程**：它答"这条链上有没有人负责再生这张面"，不答"写者的闸对不对""上次写有没有及时"（那是 r1289 的另一半）。
+
+④ **实修一枚**：\tf_book_size_rulers_decision.json\（三条尺子给出"最小可辩护尺寸"）被票面与
+rebalance_permission 读，而链上只有第 108 步的 check——票面在第 57 步就已经读它，写者比读者晚 130 步且根本不存在，
+盘上那份是 13.3h 前手跑的。修＝在票面卡之后加 \tf_book_size_rulers_write\（52.3s，离线、同一引擎），
+实跑 2/2 rc0，check 重派生 7 字段 0 失配。
+
+⑤ **闸语义＝"新债才红"**：30 个已知面随产物冻结成 known 基线，\--check\ 只在新面出现时 rc1——
+永久红的普查会教读者跳过它（E318 族）。咬合证明＝把本轮加的写者腿从链副本里删掉，该面立刻现形为新债。
+
+实锚：Tools/chain_writer_audit.py（selftest 11/11）、results/chain_writer_audit.json（known 30）、
+Tools/s6_chain_bmc.py 腿 etf_book_size_rulers_write（2/2 rc0）、
+smoke 腿「config: no checked face was left without a writer leg」。

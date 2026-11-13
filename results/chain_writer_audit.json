@@ -1,0 +1,848 @@
+{
+ "legs": 224,
+ "pairs": 50,
+ "reader_faces": 90,
+ "writer_faces": 168,
+ "paired": 60,
+ "findings": [
+  {
+   "script": "Tools/card_ledger_guard.py",
+   "scope": [],
+   "legs": [
+    "card_ledger_guard"
+   ],
+   "reason": "no writer leg for this script+scope on the chain",
+   "verdict": "NO_WRITER_MODE",
+   "modes": {
+    "subcommands": [],
+    "flags": [],
+    "bare_writes": false,
+    "writer_modes": []
+   },
+   "artifacts": []
+  },
+  {
+   "script": "Tools/fill_ladder.py",
+   "scope": [],
+   "legs": [
+    "ladder_face"
+   ],
+   "reason": "no writer leg for this script+scope on the chain",
+   "verdict": "WRITER_MODE_EXISTS_NOT_ON_CHAIN",
+   "modes": {
+    "subcommands": [],
+    "flags": [],
+    "bare_writes": true,
+    "writer_modes": []
+   },
+   "artifacts": [
+    {
+     "artifact": "runnable_pool.json",
+     "exists": true,
+     "age_h": 105.9,
+     "cutoff": null
+    },
+    {
+     "artifact": "runnable_pool.bm-c.json",
+     "exists": true,
+     "age_h": 83.5,
+     "cutoff": null
+    },
+    {
+     "artifact": "fill_ladder_face.json",
+     "exists": true,
+     "age_h": 4.0,
+     "cutoff": null
+    }
+   ]
+  },
+  {
+   "script": "Tools/tree_shrink_guard.py",
+   "scope": [
+    ".",
+    "20"
+   ],
+   "legs": [
+    "tree_shrink"
+   ],
+   "reason": "no writer leg for this script+scope on the chain",
+   "verdict": "NO_WRITER_MODE",
+   "modes": {
+    "subcommands": [
+     "check",
+     "check_gates",
+     "check_group",
+     "selftest"
+    ],
+    "flags": [
+     "--commits",
+     "--json",
+     "--max-drop",
+     "--repo",
+     "--rev"
+    ],
+    "bare_writes": false,
+    "writer_modes": []
+   },
+   "artifacts": []
+  },
+  {
+   "script": "scripts/etf_book_2025_repro.py",
+   "scope": [],
+   "legs": [
+    "book_2025_repro"
+   ],
+   "reason": "no writer leg for this script+scope on the chain",
+   "verdict": "WRITER_MODE_EXISTS_NOT_ON_CHAIN",
+   "modes": {
+    "subcommands": [],
+    "flags": [],
+    "bare_writes": true,
+    "writer_modes": []
+   },
+   "artifacts": [
+    {
+     "artifact": "etf_book_2025_repro.json",
+     "exists": true,
+     "age_h": 111.1,
+     "cutoff": "2026-11-06"
+    }
+   ]
+  },
+  {
+   "script": "scripts/etf_book_admission_eta.py",
+   "scope": [],
+   "legs": [
+    "admission_eta"
+   ],
+   "reason": "no writer leg for this script+scope on the chain",
+   "verdict": "WRITER_MODE_EXISTS_NOT_ON_CHAIN",
+   "modes": {
+    "subcommands": [],
+    "flags": [],
+    "bare_writes": true,
+    "writer_modes": []
+   },
+   "artifacts": [
+    {
+     "artifact": "etf_book_year_caliber.json",
+     "exists": true,
+     "age_h": 115.1,
+     "cutoff": "2026-11-08T14:10:54+08:00"
+    },
+    {
+     "artifact": "etf_book_admission_eta.json",
+     "exists": true,
+     "age_h": 114.2,
+     "cutoff": "2026-11-08T15:09:18+0800"
+    },
+    {
+     "artifact": "etf_book_phase_gate.json",
+     "exists": true,
+     "age_h": 16.8,
+     "cutoff": "2026-11-12T16:30:36+08:00"
+    }
+   ]
+  },
+  {
+   "script": "scripts/etf_book_admission_refusal_caliber_adoption.py",
+   "scope": [],
+   "legs": [
+    "refusal_caliber_adoption"
+   ],
+   "reason": "no writer leg for this script+scope on the chain",
+   "verdict": "WRITER_MODE_EXISTS_NOT_ON_CHAIN",
+   "modes": {
+    "subcommands": [],
+    "flags": [],
+    "bare_writes": true,
+    "writer_modes": []
+   },
+   "artifacts": [
+    {
+     "artifact": "etf_book_year_caliber.json",
+     "exists": true,
+     "age_h": 115.1,
+     "cutoff": "2026-11-08T14:10:54+08:00"
+    },
+    {
+     "artifact": "etf_book_admission_refusal_caliber_adoption.json",
+     "exists": true,
+     "age_h": 113.5,
+     "cutoff": "2026-11-08T15:45:32+0800"
+    }
+   ]
+  },
+  {
+   "script": "scripts/etf_book_admission_ruler_election.py",
+   "scope": [],
+   "legs": [
+    "ruler_election"
+   ],
+   "reason": "no writer leg for this script+scope on the chain",
+   "verdict": "WRITER_MODE_EXISTS_NOT_ON_CHAIN",
+   "modes": {
+    "subcommands": [],
+    "flags": [],
+    "bare_writes": true,
+    "writer_modes": []
+   },
+   "artifacts": [
+    {
+     "artifact": "etf_book_year_caliber.json",
+     "exists": true,
+     "age_h": 115.1,
+     "cutoff": "2026-11-08T14:10:54+08:00"
+    },
+    {
+     "artifact": "etf_book_admission_ruler_election.json",
+     "exists": true,
+     "age_h": 113.9,
+     "cutoff": "2026-11-08T15:23:29"
+    },
+    {
+     "artifact": "etf_book_phase_gate.json",
+     "exists": true,
+     "age_h": 16.8,
+     "cutoff": "2026-11-12T16:30:36+08:00"
+    }
+   ]
+  },
+  {
+   "script": "scripts/etf_book_beta_paths.py",
+   "scope": [],
+   "legs": [
+    "beta_paths"
+   ],
+   "reason": "no writer leg for this script+scope on the chain",
+   "verdict": "WRITER_MODE_EXISTS_NOT_ON_CHAIN",
+   "modes": {
+    "subcommands": [],
+    "flags": [],
+    "bare_writes": true,
+    "writer_modes": []
+   },
+   "artifacts": []
+  },
+  {
+   "script": "scripts/etf_book_cash_vehicle.py",
+   "scope": [],
+   "legs": [
+    "cash_vehicle"
+   ],
+   "reason": "no writer leg for this script+scope on the chain",
+   "verdict": "WRITER_MODE_EXISTS_NOT_ON_CHAIN",
+   "modes": {
+    "subcommands": [],
+    "flags": [],
+    "bare_writes": true,
+    "writer_modes": []
+   },
+   "artifacts": [
+    {
+     "artifact": "etf_book_cash_ladder.json",
+     "exists": true,
+     "age_h": 277.7,
+     "cutoff": "2026-10-27"
+    },
+    {
+     "artifact": "etf_book_cash_vehicle.json",
+     "exists": true,
+     "age_h": 80.1,
+     "cutoff": "2026-11-09"
+    }
+   ]
+  },
+  {
+   "script": "scripts/etf_book_concentration_levers.py",
+   "scope": [],
+   "legs": [
+    "concentration_levers"
+   ],
+   "reason": "no writer leg for this script+scope on the chain",
+   "verdict": "WRITER_MODE_EXISTS_NOT_ON_CHAIN",
+   "modes": {
+    "subcommands": [],
+    "flags": [],
+    "bare_writes": true,
+    "writer_modes": []
+   },
+   "artifacts": [
+    {
+     "artifact": "etf_nobond_vt.json",
+     "exists": true,
+     "age_h": 426.4,
+     "cutoff": null
+    },
+    {
+     "artifact": "etf_book_concentration_levers.json",
+     "exists": true,
+     "age_h": 100.6,
+     "cutoff": "2026-11-06"
+    }
+   ]
+  },
+  {
+   "script": "scripts/etf_book_derisk_rule.py",
+   "scope": [],
+   "legs": [
+    "derisk_rule"
+   ],
+   "reason": "no writer leg for this script+scope on the chain",
+   "verdict": "WRITER_MODE_EXISTS_NOT_ON_CHAIN",
+   "modes": {
+    "subcommands": [],
+    "flags": [
+     "--quick"
+    ],
+    "bare_writes": true,
+    "writer_modes": []
+   },
+   "artifacts": []
+  },
+  {
+   "script": "scripts/etf_book_do_or_wait.py",
+   "scope": [],
+   "legs": [
+    "do_or_wait"
+   ],
+   "reason": "no writer leg for this script+scope on the chain",
+   "verdict": "WRITER_MODE_EXISTS_NOT_ON_CHAIN",
+   "modes": {
+    "subcommands": [],
+    "flags": [],
+    "bare_writes": true,
+    "writer_modes": []
+   },
+   "artifacts": [
+    {
+     "artifact": "etf_book_late_sheet_price.json",
+     "exists": true,
+     "age_h": 82.7,
+     "cutoff": "2026-11-06"
+    },
+    {
+     "artifact": "etf_book_do_or_wait.json",
+     "exists": true,
+     "age_h": 82.2,
+     "cutoff": "2026-11-06"
+    },
+    {
+     "artifact": "etf_book_cut_order_gap.json",
+     "exists": true,
+     "age_h": 3.1,
+     "cutoff": "2026-11-12"
+    }
+   ]
+  },
+  {
+   "script": "scripts/etf_book_floor_ledger.py",
+   "scope": [],
+   "legs": [
+    "floor_ledger"
+   ],
+   "reason": "no writer leg for this script+scope on the chain",
+   "verdict": "WRITER_MODE_EXISTS_NOT_ON_CHAIN",
+   "modes": {
+    "subcommands": [],
+    "flags": [],
+    "bare_writes": true,
+    "writer_modes": []
+   },
+   "artifacts": []
+  },
+  {
+   "script": "scripts/etf_book_floor_memory.py",
+   "scope": [],
+   "legs": [
+    "floor_memory"
+   ],
+   "reason": "no writer leg for this script+scope on the chain",
+   "verdict": "WRITER_MODE_EXISTS_NOT_ON_CHAIN",
+   "modes": {
+    "subcommands": [],
+    "flags": [],
+    "bare_writes": true,
+    "writer_modes": []
+   },
+   "artifacts": [
+    {
+     "artifact": "etf_nobond_vt.json",
+     "exists": true,
+     "age_h": 426.4,
+     "cutoff": null
+    },
+    {
+     "artifact": "etf_book_floor_memory.json",
+     "exists": true,
+     "age_h": 38.5,
+     "cutoff": "2026-11-11"
+    },
+    {
+     "artifact": "etf_book_floor_ledger.json",
+     "exists": true,
+     "age_h": 16.4,
+     "cutoff": "2026-11-12"
+    }
+   ]
+  },
+  {
+   "script": "scripts/etf_book_floor_provenance.py",
+   "scope": [],
+   "legs": [
+    "floor_provenance"
+   ],
+   "reason": "no writer leg for this script+scope on the chain",
+   "verdict": "WRITER_MODE_EXISTS_NOT_ON_CHAIN",
+   "modes": {
+    "subcommands": [],
+    "flags": [],
+    "bare_writes": true,
+    "writer_modes": []
+   },
+   "artifacts": [
+    {
+     "artifact": "etf_book_floor_provenance.json",
+     "exists": true,
+     "age_h": 38.5,
+     "cutoff": "2026-11-11"
+    },
+    {
+     "artifact": "etf_book_rebalance_permission.json",
+     "exists": true,
+     "age_h": 3.1,
+     "cutoff": "2026-11-12"
+    },
+    {
+     "artifact": "etf_book_size_rulers_decision.json",
+     "exists": true,
+     "age_h": 0.0,
+     "cutoff": "2026-11-12"
+    }
+   ]
+  },
+  {
+   "script": "scripts/etf_book_floor_toll.py",
+   "scope": [],
+   "legs": [
+    "floor_toll"
+   ],
+   "reason": "no writer leg for this script+scope on the chain",
+   "verdict": "WRITER_MODE_EXISTS_NOT_ON_CHAIN",
+   "modes": {
+    "subcommands": [],
+    "flags": [],
+    "bare_writes": true,
+    "writer_modes": []
+   },
+   "artifacts": [
+    {
+     "artifact": "etf_book_rebalance_permission.json",
+     "exists": true,
+     "age_h": 3.1,
+     "cutoff": "2026-11-12"
+    }
+   ]
+  },
+  {
+   "script": "scripts/etf_book_half_year_provenance.py",
+   "scope": [],
+   "legs": [
+    "half_year_provenance"
+   ],
+   "reason": "no writer leg for this script+scope on the chain",
+   "verdict": "WRITER_MODE_EXISTS_NOT_ON_CHAIN",
+   "modes": {
+    "subcommands": [],
+    "flags": [],
+    "bare_writes": true,
+    "writer_modes": []
+   },
+   "artifacts": [
+    {
+     "artifact": "etf_book_half_year_provenance.json",
+     "exists": true,
+     "age_h": 111.6,
+     "cutoff": "2026-11-06"
+    },
+    {
+     "artifact": "etf_book_phase_gate.json",
+     "exists": true,
+     "age_h": 16.8,
+     "cutoff": "2026-11-12T16:30:36+08:00"
+    }
+   ]
+  },
+  {
+   "script": "scripts/etf_book_late_sheet_price.py",
+   "scope": [],
+   "legs": [
+    "late_sheet_price"
+   ],
+   "reason": "no writer leg for this script+scope on the chain",
+   "verdict": "WRITER_MODE_EXISTS_NOT_ON_CHAIN",
+   "modes": {
+    "subcommands": [
+     "--check",
+     "selftest"
+    ],
+    "flags": [],
+    "bare_writes": true,
+    "writer_modes": []
+   },
+   "artifacts": [
+    {
+     "artifact": "etf_book_late_sheet_price.json",
+     "exists": true,
+     "age_h": 82.7,
+     "cutoff": "2026-11-06"
+    }
+   ]
+  },
+  {
+   "script": "scripts/etf_book_live_size_provenance.py",
+   "scope": [],
+   "legs": [
+    "live_size_provenance"
+   ],
+   "reason": "no writer leg for this script+scope on the chain",
+   "verdict": "WRITER_MODE_EXISTS_NOT_ON_CHAIN",
+   "modes": {
+    "subcommands": [],
+    "flags": [],
+    "bare_writes": true,
+    "writer_modes": []
+   },
+   "artifacts": []
+  },
+  {
+   "script": "scripts/etf_book_permission_persistence.py",
+   "scope": [],
+   "legs": [
+    "permission_persistence"
+   ],
+   "reason": "no writer leg for this script+scope on the chain",
+   "verdict": "WRITER_MODE_EXISTS_NOT_ON_CHAIN",
+   "modes": {
+    "subcommands": [],
+    "flags": [],
+    "bare_writes": true,
+    "writer_modes": []
+   },
+   "artifacts": [
+    {
+     "artifact": "etf_book_permission_persistence.json",
+     "exists": true,
+     "age_h": 16.4,
+     "cutoff": "2026-11-12"
+    }
+   ]
+  },
+  {
+   "script": "scripts/etf_book_phase_atlas.py",
+   "scope": [],
+   "legs": [
+    "etf_book_phase_atlas"
+   ],
+   "reason": "no writer leg for this script+scope on the chain",
+   "verdict": "WRITER_MODE_EXISTS_NOT_ON_CHAIN",
+   "modes": {
+    "subcommands": [],
+    "flags": [
+     "--check",
+     "--cost",
+     "--k",
+     "--out",
+     "--selftest",
+     "--workers"
+    ],
+    "bare_writes": true,
+    "writer_modes": []
+   },
+   "artifacts": [
+    {
+     "artifact": "etf_book_phase_atlas.json",
+     "exists": true,
+     "age_h": 142.8,
+     "cutoff": "2026-11-06"
+    }
+   ]
+  },
+  {
+   "script": "scripts/etf_book_punctuality.py",
+   "scope": [],
+   "legs": [
+    "punctuality"
+   ],
+   "reason": "no writer leg for this script+scope on the chain",
+   "verdict": "WRITER_MODE_EXISTS_NOT_ON_CHAIN",
+   "modes": {
+    "subcommands": [
+     "check",
+     "selftest"
+    ],
+    "flags": [],
+    "bare_writes": true,
+    "writer_modes": []
+   },
+   "artifacts": [
+    {
+     "artifact": "etf_book_punctuality.json",
+     "exists": true,
+     "age_h": 83.0,
+     "cutoff": "2026-11-06"
+    }
+   ]
+  },
+  {
+   "script": "scripts/etf_book_rebal_adoption.py",
+   "scope": [],
+   "legs": [
+    "rebal_adoption"
+   ],
+   "reason": "no writer leg for this script+scope on the chain",
+   "verdict": "WRITER_MODE_EXISTS_NOT_ON_CHAIN",
+   "modes": {
+    "subcommands": [],
+    "flags": [],
+    "bare_writes": true,
+    "writer_modes": []
+   },
+   "artifacts": [
+    {
+     "artifact": "etf_nobond_vt.json",
+     "exists": true,
+     "age_h": 426.4,
+     "cutoff": null
+    },
+    {
+     "artifact": "etf_book_rebal_adoption.json",
+     "exists": true,
+     "age_h": 100.3,
+     "cutoff": "2026-11-06"
+    }
+   ]
+  },
+  {
+   "script": "scripts/etf_book_scale_floor.py",
+   "scope": [],
+   "legs": [
+    "scale_floor"
+   ],
+   "reason": "no writer leg for this script+scope on the chain",
+   "verdict": "WRITER_MODE_EXISTS_NOT_ON_CHAIN",
+   "modes": {
+    "subcommands": [],
+    "flags": [],
+    "bare_writes": true,
+    "writer_modes": []
+   },
+   "artifacts": [
+    {
+     "artifact": "etf_book_scale_floor.json",
+     "exists": true,
+     "age_h": 16.0,
+     "cutoff": "2026-11-12"
+    }
+   ]
+  },
+  {
+   "script": "scripts/etf_book_sizing_prereg.py",
+   "scope": [],
+   "legs": [
+    "sizing_prereg"
+   ],
+   "reason": "no writer leg for this script+scope on the chain",
+   "verdict": "WRITER_MODE_EXISTS_NOT_ON_CHAIN",
+   "modes": {
+    "subcommands": [],
+    "flags": [],
+    "bare_writes": true,
+    "writer_modes": []
+   },
+   "artifacts": [
+    {
+     "artifact": "etf_book_beta_paths.json",
+     "exists": true,
+     "age_h": 91.8,
+     "cutoff": "2026-11-06"
+    },
+    {
+     "artifact": "etf_book_sizing_prereg.json",
+     "exists": true,
+     "age_h": 89.9,
+     "cutoff": "2026-11-06"
+    },
+    {
+     "artifact": "etf_book_size_rulers_decision.json",
+     "exists": true,
+     "age_h": 0.0,
+     "cutoff": "2026-11-12"
+    }
+   ]
+  },
+  {
+   "script": "scripts/etf_book_vol_target_gate.py",
+   "scope": [],
+   "legs": [
+    "vol_target_gate"
+   ],
+   "reason": "no writer leg for this script+scope on the chain",
+   "verdict": "WRITER_MODE_EXISTS_NOT_ON_CHAIN",
+   "modes": {
+    "subcommands": [],
+    "flags": [],
+    "bare_writes": true,
+    "writer_modes": []
+   },
+   "artifacts": [
+    {
+     "artifact": "etf_book_vol_target_gate.json",
+     "exists": true,
+     "age_h": 112.7,
+     "cutoff": "2026-11-08"
+    }
+   ]
+  },
+  {
+   "script": "scripts/etf_book_weight_provenance.py",
+   "scope": [],
+   "legs": [
+    "weight_provenance"
+   ],
+   "reason": "no writer leg for this script+scope on the chain",
+   "verdict": "WRITER_MODE_EXISTS_NOT_ON_CHAIN",
+   "modes": {
+    "subcommands": [],
+    "flags": [],
+    "bare_writes": true,
+    "writer_modes": []
+   },
+   "artifacts": [
+    {
+     "artifact": "etf_nobond_vt.json",
+     "exists": true,
+     "age_h": 426.4,
+     "cutoff": null
+    }
+   ]
+  },
+  {
+   "script": "scripts/etf_book_wrapper_year_gate.py",
+   "scope": [],
+   "legs": [
+    "wrapper_year_gate"
+   ],
+   "reason": "no writer leg for this script+scope on the chain",
+   "verdict": "WRITER_MODE_EXISTS_NOT_ON_CHAIN",
+   "modes": {
+    "subcommands": [],
+    "flags": [
+     "--check",
+     "--selftest"
+    ],
+    "bare_writes": true,
+    "writer_modes": []
+   },
+   "artifacts": []
+  },
+  {
+   "script": "scripts/etf_sign_flip_phase_test.py",
+   "scope": [],
+   "legs": [
+    "sign_flip_phase"
+   ],
+   "reason": "no writer leg for this script+scope on the chain",
+   "verdict": "WRITER_MODE_EXISTS_NOT_ON_CHAIN",
+   "modes": {
+    "subcommands": [],
+    "flags": [
+     "--check",
+     "--selftest"
+    ],
+    "bare_writes": true,
+    "writer_modes": []
+   },
+   "artifacts": [
+    {
+     "artifact": "etf_factor_sign_stability.json",
+     "exists": true,
+     "age_h": 109.4,
+     "cutoff": "2026-11-06"
+    },
+    {
+     "artifact": "etf_sign_flip_phase_test.json",
+     "exists": true,
+     "age_h": 108.8,
+     "cutoff": "2026-11-06"
+    }
+   ]
+  },
+  {
+   "script": "scripts/py_watermark.py",
+   "scope": [],
+   "legs": [
+    "py_watermark"
+   ],
+   "reason": "no writer leg for this script+scope on the chain",
+   "verdict": "NO_WRITER_MODE",
+   "modes": {
+    "subcommands": [],
+    "flags": [],
+    "bare_writes": false,
+    "writer_modes": []
+   },
+   "artifacts": [
+    {
+     "artifact": "bandit_queue.json",
+     "exists": true,
+     "age_h": 1084.5,
+     "cutoff": "2026-09-23"
+    },
+    {
+     "artifact": "runnable_pool.json",
+     "exists": true,
+     "age_h": 105.9,
+     "cutoff": null
+    }
+   ]
+  }
+ ],
+ "generated": "2026-11-13T09:18:28+0800",
+ "chain": "Tools\\s6_chain_bmc.py",
+ "red": 27,
+ "disclosed": 3,
+ "known": [
+  "Tools/card_ledger_guard.py ",
+  "Tools/fill_ladder.py ",
+  "Tools/tree_shrink_guard.py . 20",
+  "scripts/etf_book_2025_repro.py ",
+  "scripts/etf_book_admission_eta.py ",
+  "scripts/etf_book_admission_refusal_caliber_adoption.py ",
+  "scripts/etf_book_admission_ruler_election.py ",
+  "scripts/etf_book_beta_paths.py ",
+  "scripts/etf_book_cash_vehicle.py ",
+  "scripts/etf_book_concentration_levers.py ",
+  "scripts/etf_book_derisk_rule.py ",
+  "scripts/etf_book_do_or_wait.py ",
+  "scripts/etf_book_floor_ledger.py ",
+  "scripts/etf_book_floor_memory.py ",
+  "scripts/etf_book_floor_provenance.py ",
+  "scripts/etf_book_floor_toll.py ",
+  "scripts/etf_book_half_year_provenance.py ",
+  "scripts/etf_book_late_sheet_price.py ",
+  "scripts/etf_book_live_size_provenance.py ",
+  "scripts/etf_book_permission_persistence.py ",
+  "scripts/etf_book_phase_atlas.py ",
+  "scripts/etf_book_punctuality.py ",
+  "scripts/etf_book_rebal_adoption.py ",
+  "scripts/etf_book_scale_floor.py ",
+  "scripts/etf_book_sizing_prereg.py ",
+  "scripts/etf_book_vol_target_gate.py ",
+  "scripts/etf_book_weight_provenance.py ",
+  "scripts/etf_book_wrapper_year_gate.py ",
+  "scripts/etf_sign_flip_phase_test.py ",
+  "scripts/py_watermark.py "
+ ],
+ "verdict": "CHECK_WITHOUT_WRITER"
+}

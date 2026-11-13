@@ -366,6 +366,18 @@ LEGS = [
     # card, nothing re-ranked), so the operator's sheet cannot drift into the other book.
     # ~1s, offline, idempotent.
     ("etf_book_order_card", ["python", "scripts/etf_book_order.py", "card"]),
+    # r1619: the ticket is not the only thing the desk reads off this book -- the SIZE it should
+    # run at is a separate published face (`etf_book_size_rulers_decision.json`: three rulers,
+    # the smallest size all of them defend, and the money already deployed). That face names the
+    # ticket it prices (`TICKET-*.json`) and is read by etf_book_rebalance_permission, so it has
+    # to be written right after the ticket exists -- but the chain only ever ran its `check`,
+    # which re-derives the published table from itself. Nothing on the chain regenerated it: the
+    # file on disk was hand-run yesterday, and the ticket's own sizing question would keep being
+    # answered by a table priced against an older book. `Tools/chain_writer_audit.py` (this round)
+    # names it as WRITER_MODE_EXISTS_NOT_ON_CHAIN. ~52s, offline, no judge, same engine as the
+    # published arm (identity legs reproduce the ticket first).
+    ("etf_book_size_rulers_write",
+     ["python", "scripts/etf_book_size_rulers_decision.py", "run"]),
     # r1490: the sheet now says whether the ledger it quotes ever moved, and the rewrite
     # path ("a published bar whose own panel input changed") had only ever run on a fixture.
     # This leg re-runs it on the REAL ledger -- control first (must reproduce the published

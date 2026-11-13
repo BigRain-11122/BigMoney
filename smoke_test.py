@@ -6788,6 +6788,31 @@ def main() -> int:
         check("config: no premium is priced in CNY against another session's NAV",
               False, repr(e)[:160])
 
+    # r1619: the two legs above catch a face that cannot be dated or a leg priced against
+    # another session's NAV. They cannot catch the r1471 shape -- a face the chain only CHECKS.
+    # That one has been found by eye twice (the execution ledger in r1471, the subscription face
+    # in r1594), and both times the consumers were green because a check compares a face to
+    # itself. Tools/chain_writer_audit.py reads the chain's own leg table and answers it
+    # mechanically: every leg whose argv is a reader, with no writer for the same script and
+    # subcommand. The baseline travels with the published face, so this fails only on debt that
+    # is NEW -- a permanently red census is skipped by its readers (E318 family).
+    try:
+        _cwa = _chain_writer_audit()
+        _cwres = _cwa.audit(_cwa.load_entries())
+        _cwkeys = {"%s %s" % (f["script"], " ".join(f["scope"])) for f in _cwres["findings"]}
+        _cwdoc = json.load(open(_cwa.OUT, encoding="utf-8"))
+        _cwnew = sorted(_cwkeys - set(_cwdoc.get("known", [])))
+        _cwfixed = sorted(set(_cwdoc.get("known", [])) - _cwkeys)
+        check("config: no checked face was left without a writer leg",
+              not _cwnew,
+              ("%d face(s) nobody regenerates, not in the baseline: " % len(_cwnew)
+               + "; ".join(_cwnew[:4]))[:220] if _cwnew else
+              ("%d check-only face(s) known (writer exists off-chain), %d newly paired, "
+               "%d legs on the chain"
+               % (len(_cwkeys & set(_cwdoc.get("known", []))), len(_cwfixed), _cwres["legs"])))
+    except Exception as e:
+        check("config: no checked face was left without a writer leg", False, repr(e)[:160])
+
     # r1406: the forward ledger was committed on 2026-11-07 with a missing comma
     # between two list elements and a `drift` block that carried `faces`/`max_abs`
     # twice. Every reader of that file (the order ticket, the CEO page, the settle
@@ -11016,6 +11041,7 @@ _SMOKE_CTH = None
 _SMOKE_JFG = None
 _SMOKE_PSG = None
 _SMOKE_PLA = None
+_SMOKE_CWA = None
 
 
 def _premium_session_guard():
@@ -11042,6 +11068,19 @@ def _premium_leg_audit():
         _s.loader.exec_module(_m)
         _SMOKE_PLA = _m
     return _SMOKE_PLA
+
+
+def _chain_writer_audit():
+    """Tools/chain_writer_audit.py as a module (r1619): the census of check-only faces."""
+    global _SMOKE_CWA
+    if _SMOKE_CWA is None:
+        import importlib.util as _ilu
+        _p = os.path.join("Tools", "chain_writer_audit.py")
+        _s = _ilu.spec_from_file_location("_smoke_chain_writer_audit", _p)
+        _m = _ilu.module_from_spec(_s)
+        _s.loader.exec_module(_m)
+        _SMOKE_CWA = _m
+    return _SMOKE_CWA
 
 
 def _json_face_guard():
