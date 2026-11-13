@@ -224,6 +224,32 @@ def _subtree_cpu(pid, table, snap1, snap2):
     return total
 
 
+def _new_children_since(pid, table, since_ts):
+    """Live py children of `pid` spawned at/after `since_ts`.
+
+    r1641: a serial chain driver (Tools/s6_chain_bmc.py) sits at ~0 CPU
+    between legs -- it spent 2.3 CPU-seconds over 111 minutes while running
+    well over a hundred legs. On 2026-11-13 22:51 the r1639 chain was
+    flagged an orphan while it was merely between legs; it spawned
+    etf_book_vol_target_gate.py at 22:52:51. A driver that has just
+    spawned a child is working, not orphaned.
+    """
+    out = []
+    for other_pid, rec in table.items():
+        if rec.get("ppid") != pid:
+            continue
+        if rec["name"].lower() not in PY_NAMES:
+            continue
+        if rec.get("create_time", 0) >= since_ts:
+            out.append(other_pid)
+    return out
+
+
+def _confirm_stalled(sub_cpu, new_children):
+    """Second-window verdict: still stalled only if no CPU AND no new child."""
+    return sub_cpu < STALL_CPU_SEC and not new_children
+
+
 def run(mode="probe"):
     t0 = datetime.datetime.now().isoformat(timespec="seconds")
     table = collect_table()
@@ -252,6 +278,32 @@ def run(mode="probe"):
     orphans = [f for f in faces if f["face1_parent_dead"]
                and f["face2_no_hidden_host_ancestor"]
                and f["face3_cpu_stalled"]]
+    # r1641 confirm window: legs have gaps. A candidate that already matched
+    # all three faces is re-sampled once before the kill verdict stands --
+    # CPU in the second window OR a freshly spawned child clears it.
+    orphans_cleared = []
+    if orphans:
+        window_start = time.time() - SAMPLE_SEC
+        time.sleep(SAMPLE_SEC)
+        table3 = collect_table()
+        snap3 = cpu_snapshot(table3)
+        keep = []
+        for f in orphans:
+            pid = f["pid"]
+            if pid not in table3:
+                f["confirm"] = "gone"
+                orphans_cleared.append(f)
+                continue
+            sub = _subtree_cpu(pid, table3, snap2, snap3)
+            kids = _new_children_since(pid, table3, window_start)
+            f["confirm_cpu_20s"] = round(sub, 3)
+            f["confirm_new_children"] = len(kids)
+            if _confirm_stalled(sub, kids):
+                keep.append(f)
+            else:
+                f["confirm"] = "working"
+                orphans_cleared.append(f)
+        orphans = keep
     # v1.1.1 belt: stdio MCP servers are exempt from the orphan verdict
     # (healthy idle; the r840 collateral family). Report-only bucket.
     idle_servers = [f for f in orphans if STDIO_SERVER_RE.search(f["cmd"])]
@@ -272,10 +324,12 @@ def run(mode="probe"):
                 f["kill_error"] = str(ex)[:80]
     report = {
         "ts": t0, "mode": mode, "py_faces_seen": len(faces),
-        "orphans": len(orphans), "killed": killed,
+        "orphans": len(orphans), "orphans_cleared": len(orphans_cleared),
+        "killed": killed,
         "idle_servers_exempt": len(idle_servers),
         "resident_servers_exempt": len(resident_servers),
         "faces": faces, "orphan_details": orphans,
+        "orphan_cleared_details": orphans_cleared,
         "idle_server_details": idle_servers,
         "resident_server_details": resident_servers,
         "sample_sec": SAMPLE_SEC, "stall_cpu_sec": STALL_CPU_SEC,
@@ -284,11 +338,13 @@ def run(mode="probe"):
                "no-hidden-host + cpu-stalled); knife-3 bound subsumed "
                "(probe cadence ~10min << 12h); v1.1.1 stdio belt + "
                "v1.2.0 listening-socket belt (T28, never auto-kill "
-               "a serving socket)",
+               "a serving socket) + r1641 confirm window (a serial "
+               "driver's inter-leg gap is not an orphan)",
     }
     with open(OUT, "w", encoding="utf-8") as fh:
         json.dump(report, fh, ensure_ascii=False, indent=1)
     print(json.dumps({"py_faces": len(faces), "orphans": len(orphans),
+                      "orphans_cleared": len(orphans_cleared),
                       "resident_servers": len(resident_servers),
                       "killed": killed, "report": OUT},
                      ensure_ascii=False))
@@ -360,8 +416,17 @@ def selftest():
        len(keep) == 1 and keep[0]["pid"] == 6)
     ok("socket belt: empty listen-map = zero exemptions (fail-closed)",
        _apply_socket_belt([serv], {}) == ([serv], []))
-    allp = okc[0] == 8
-    print(f"SELFTEST {'ALL PASS' if allp else 'HAS FAIL'} ({okc[0]}/8)")
+    # r1641 confirm-window legs (the 2026-11-13 22:51 r1639 chain case):
+    # first window 0 CPU, second window either a fresh child or CPU clears
+    # the verdict; silence in both windows keeps it.
+    ok("confirm window: fresh child clears a zero-CPU first window",
+       not _confirm_stalled(0.0, [68956]))
+    ok("confirm window: second-window CPU clears a zero first window",
+       not _confirm_stalled(3.2, []))
+    ok("confirm window: silence in both windows keeps the orphan verdict",
+       _confirm_stalled(0.0, []))
+    allp = okc[0] == 11
+    print(f"SELFTEST {'ALL PASS' if allp else 'HAS FAIL'} ({okc[0]}/11)")
     return 0 if allp else 2
 
 
