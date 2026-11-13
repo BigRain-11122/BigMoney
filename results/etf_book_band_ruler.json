@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-13T22:32:10+0800",
+ "generated": "2026-11-14T02:35:20+0800",
  "script": "scripts/etf_book_band_ruler.py",
  "criteria": {
   "tol_pp_per_year": 0.25,
@@ -77,7 +77,7 @@
     "maxdd_pp": -5.87,
     "bars": 693
    },
-   "cash_leg_missing_dates": true
+   "cash_leg_missing_dates": false
   },
   "held/causal/ticket": {
    "full": {
@@ -120,7 +120,7 @@
     "maxdd_pp": -5.78,
     "bars": 693
    },
-   "cash_leg_missing_dates": true
+   "cash_leg_missing_dates": false
   },
   "held/causal/card/cost10": {
    "full": {
@@ -394,21 +394,21 @@
  "identity": {
   "ticket 12.78% reproduced on its own ruler": {
    "measured_pp": 12.59,
-   "published_pp": 12.59,
-   "delta_pp": 0.0,
+   "published_pp": 12.64,
+   "delta_pp": -0.05,
    "pass": true
   },
   "card 9.60% reproduced on its own ruler": {
    "measured_pp": 9.59,
-   "published_pp": 9.59,
-   "delta_pp": 0.0,
+   "published_pp": 9.65,
+   "delta_pp": -0.06,
    "pass": true
   },
   "card 18.35% (2024+) reproduced on its own ruler": {
    "measured_pp": 18.2,
-   "published_pp": 18.2,
-   "delta_pp": 0.0,
-   "pass": true
+   "published_pp": 18.37,
+   "delta_pp": -0.17,
+   "pass": false
   }
  },
  "panel": {
@@ -433,27 +433,27 @@
   "rows": [
    {
     "label": "5 名·可执行单口径（本单这份账）",
-    "full": 7.66,
+    "full": 7.68,
     "is": 3.71,
-    "oos": 12.59
+    "oos": 12.64
    },
    {
     "label": "5 名·beta 覆盖",
-    "full": 15.67,
+    "full": 15.75,
     "is": 10.22,
-    "oos": 23.76
+    "oos": 23.97
    },
    {
     "label": "12 名·8% 波动目标（生产卡片口径）",
-    "full": 9.59,
+    "full": 9.65,
     "is": 3.84,
-    "oos": 18.2
+    "oos": 18.37
    }
   ],
-  "ticket": 7.66,
-  "ticket_oos": 12.59,
-  "card_full": 9.59,
-  "card_oos": 18.2,
+  "ticket": 7.68,
+  "ticket_oos": 12.64,
+  "card_full": 9.65,
+  "card_oos": 18.37,
   "row_labels": [
    "5 名·可执行单口径（本单这份账）",
    "5 名·beta 覆盖",
@@ -487,14 +487,9 @@
   }
  },
  "verdict": {
-  "state": "ROWS_NOT_COMPARABLE",
-  "dials_that_move": [
-   "ordering",
-   "universe",
-   "window"
-  ],
-  "why": "the table's rows are not one ruler: window +4.91pp、universe +0.44pp、ordering -0.56pp per year on the book the operator actually holds. The gap between the top row and the card row is the sum of these dials, not a property of the strategy.",
+  "state": "IDENTITY_FAILED",
+  "why": "a control arm does not reproduce the face it is a control for; no dial price can be quoted",
   "criteria": "ROWS_NOT_COMPARABLE iff at least one dial moves the held config by >= tol_pp_per_year on at least one window; SAME_RULER if none does. The published gap between row 1 and row 3 is decomposed into these dials, and no dial's price is inferred from another."
  },
- "elapsed_sec": 104.5
+ "elapsed_sec": 107.3
 }

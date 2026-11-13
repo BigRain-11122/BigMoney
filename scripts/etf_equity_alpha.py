@@ -99,6 +99,38 @@ def flip_census(close, cols=None, thr=FLIP_THR):
             "symbols": int((bad.sum() > 0).sum()), "columns": int(px.shape[1])}
 
 
+def panel_inputs_sig():
+    """(files, bytes, newest mtime) over the per-symbol CSVs the panel is built from.
+
+    r1648: every staleness gate in this family compares a face's recorded digest with one
+    re-read from `data/daily`. That directory is not a single file -- the wide refresh
+    replaces it one symbol at a time (~1,719 files over ~350s, each write atomic on its
+    own). A read that spans that batch returns a world that never existed: on 2026-11-14
+    02:0x the smoke suite read one such mixture (digest 3c47c600) while six faces, rebuilt
+    minutes later on the settled panel, all agreed on e6f9d0e8 -- the reds were echoes of
+    one half-refreshed snapshot, not separate defects. A clock heuristic cannot see this
+    (r1371: checkouts rewrite mtimes in any order), so the detector compares the input SET
+    before and after the read. None = unreadable, which callers must treat as "unknown",
+    never as "unchanged" (r98).
+    """
+    n = total = newest = 0
+    try:
+        with os.scandir(PATHS.daily_dir) as it:
+            for ent in it:
+                if not ent.name.lower().endswith(".csv"):
+                    continue
+                try:
+                    st = ent.stat()
+                except OSError:
+                    continue
+                n += 1
+                total += st.st_size
+                newest = max(newest, st.st_mtime_ns)
+    except OSError:
+        return None
+    return (n, total, newest)
+
+
 def panel_digest(close, openp=None, amt=None, ndigits=6):
     """A 16-hex fingerprint of the exact prices a face measured on.
 

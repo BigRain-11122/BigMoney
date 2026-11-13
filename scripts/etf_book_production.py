@@ -1315,6 +1315,12 @@ def prep_panel(repair=True, repair_fn=None):
     flip count travels too -- it is printed on the card as evidence the panel was repaired.
     """
     close, openp, amt, feats = E.build_panel()
+    # r1648: the wide refresh rewrites ~1,719 per-symbol files one at a time, so a read
+    # that spans it returns a mixture no later read will reproduce. Take the input-set
+    # signature before the build and refuse to stamp the digest if it moved underneath --
+    # an unstamped face is rebuilt by the chain's own stale arm on a settled panel, whereas
+    # a stamped mixture is judged stale forever while its numbers came from half a refresh.
+    _sig0 = A.panel_inputs_sig()
     # r1177: the census of the panel as the source printed it, taken before the repair (after
     # it the count is zero by construction). The card has to state how wide the panel it
     # counted was, otherwise its total and the ticket's -- which censuses only the classes it
@@ -1341,6 +1347,12 @@ def prep_panel(repair=True, repair_fn=None):
         PANEL_DIGEST = A.panel_digest(close, openp, amt)
     except Exception:
         PANEL_DIGEST = {}
+    # r1648: a digest read across a panel write describes a world that will never be read
+    # again -- stamp nothing and let the stale arm rebuild on a settled panel.
+    if _sig0 is not None and A.panel_inputs_sig() not in (None, _sig0):
+        PANEL_DIGEST = {}
+        sys.stderr.write("panel moved while this face was reading it -- refusing to stamp a "
+                         "half-refreshed world (rebuild on a settled panel)\n")
     cmap = A.load_class_map()
     cls = A.classify(close.columns, cmap, close)
     cols = [c for c in close.columns if cls[c] in USE_CLASSES]

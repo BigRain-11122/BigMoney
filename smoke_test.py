@@ -9998,6 +9998,14 @@ def main() -> int:
                         if _m63 not in _r63:
                             _bad63.append("the middle window the face publishes is "
                                           "missing from the operator's row")
+                        # r1648: the ordering test needs all three numbers on the row. When
+                        # one is absent the old code called .index() on the missing string
+                        # and the whole leg died with ValueError('substring not found') --
+                        # a page that printed the wrong number read as a broken check.
+                        elif _full63 not in _r63 or _oos63 not in _r63:
+                            _bad63.append("the row does not carry both outer windows"
+                                          " (%s / %s) beside the middle one"
+                                          % (_full63, _oos63))
                         elif not (_r63.index(_full63) < _r63.index(_m63) < _r63.index(_oos63)):
                             _bad63.append("the middle window is not in the middle "
                                           "column")

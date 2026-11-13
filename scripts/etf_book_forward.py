@@ -211,8 +211,15 @@ def _panel_block(cls, n_flip):
     return blk
 
 
+# r1648: one implementation, in the module both this file and etf_book_production
+# already import -- a second copy of the moving-input test would drift the way every
+# other duplicated reader has (r1375).
+panel_inputs_sig = A.panel_inputs_sig
+
+
 def build_inputs():
     """Same panel prep as etf_book_production.run(), so the ledger rides the same config."""
+    sig0 = panel_inputs_sig()
     close, openp, amt, feats = E.build_panel()
     close, openp, n_flip = A.repair_flips(close, openp)
     # r1178: fingerprint on the FULL repaired panel, before this face narrows to the classes
@@ -223,6 +230,14 @@ def build_inputs():
         PANEL_DIGEST = A.panel_digest(close, openp, amt)
     except Exception:
         PANEL_DIGEST = {}
+    # r1648: a digest taken while the panel was being rewritten describes a mixture that
+    # will never match the world again -- the face would be judged stale forever while its
+    # numbers came from half a refresh. Refuse to stamp: an unstamped face is rebuilt by
+    # the chain's own stale arm on a settled panel, which is the honest repair.
+    if sig0 is not None and panel_inputs_sig() not in (None, sig0):
+        PANEL_DIGEST = {}
+        print("panel moved while this face was reading it -- refusing to stamp a "
+              "half-refreshed world (rebuild on a settled panel)", file=sys.stderr)
     cmap = A.load_class_map()
     cls = A.classify(close.columns, cmap, close)
     cols = [c for c in close.columns if cls[c] in P.USE_CLASSES]
@@ -242,12 +257,20 @@ def panel_stamp(load=True):
     where the digest is taken.
     """
     global PANEL_DIGEST
+    sig0 = panel_inputs_sig()
     if load and not PANEL_DIGEST:
         try:
             build_inputs()
         except Exception:                                          # noqa: BLE001
             pass
     blk = PANEL_DIGEST or {}
+    # r1648: if the input set moved while this read was in flight, the digest is not the
+    # live panel -- it is a mixture. Answer "unknown" so the check degrades to the honest
+    # "not verifiable" branch instead of declaring every dependent face stale (the 02:0x
+    # storm: thirteen faces red on a snapshot no one would ever reproduce).
+    if sig0 is not None and not blk.get("digest") and panel_inputs_sig() not in (None, sig0):
+        return {"digest": None, "moving": True, "last_bar": blk.get("last"),
+                "bars_named": blk.get("dates"), "first_bar": blk.get("first")}
     return {"digest": blk.get("digest"), "last_bar": blk.get("last"),
             "bars_named": blk.get("dates"), "first_bar": blk.get("first")}
 
