@@ -2368,3 +2368,27 @@ CEO 一页纸与执行单（同一个读者件） | 最近实物: `results/etf_b
 **计账**：本行 1 处（余为产品面产出）。**本地未达 origin commit 数**：见收尾推送后的同步回执（本行写入时为 2，推送前已 rebase）。
 
 **交付回执**：本地未达 origin commit 数=0（push cd66157e89 后 fetch 复核 behind 0 / ahead 0）；origin 上的 results/live_book_section_bars.json 实读 verdict=PAGE_MIXES_BARS、on 42 / off 0 / ahead 6（ahead_keys 含 admission、cash_handshake、cash_ladder…）。与 bm-c r1640 两次撞车均用 merge 化解；knowledge/METHODOLOGY_ASSETS.md 行级 union（E603/E604 前、E605 后，零残留标记，214 卡）。
+
+## r1295 — 日历要问属主，而且修正得在链真正调用它的那种方式下活着
+
+**watermark**：绿。`py_watermark` verdict=`insufficient_history`（窗内仅 1 样本），实质读数=py CPU 0.6% 且待办面全空（open tickets 0 / pool ready 0 / bandit open 0）——没有可跑的活，非遗漏批。
+
+- **当前活**：S6 数据道修复面 —— 两条车道不再用自己的面板回答「今天该不该有 bar」
+- **最近实物**：`scripts/update_etf_daily.py`（15/15·脚本模式）/`scripts/update_repo.py`（14/14），commit `4210b4258c` @ 23:26；11 名逆回购全部 2026-11-13（`results/repo_update_status.json` terms_planned=['GC001','R-001'] 实证只补落后两名）
+- **下个里程碑**：ETF 五员面板与逆回购利率在收盘后同轮落 11-13（今晚已落，明晚 15:30 后同轮验证），窗 ≤24h
+
+### 做了什么
+
+1. **`product: 20:17 死窗的两处修正不再躺在工作树里`** → 直接提交。`update_repo` 的 cutoff 门取 11 员的 **MAX**（九名到 11-13 让冻在 11-11 的 GC001/R-001 读成「已覆盖」），改为 **MIN** + 逐员 laggards 名单，本轮实跑仍正确 no-op；`update_etf_daily` 的交易日历原是 `data/daily` 面板的手抄本（11-13 20:20 五员停在 11-12 → 车道答「最新完整 bar=11-12」→ 专为今晚补报价的 top-up 臂一次都没响）。
+
+2. **`product: 修正原来在生产调用方式下是空的`** → 本轮自己挖出来的。该类导入写成 `from scripts import update_futures`，而链上跑的是 `python scripts/update_etf_daily.py`——此时 `sys.path[0]` 是 scripts 目录、仓库根不在路径上，`import scripts` 抛 `ModuleNotFoundError`，被 try/except 吞掉后**静默走回手抄本分支**：一个会打印「完成」却什么都没做的修正。补上 `update_repo.py:78`/`update_futures.py:45` 早就有的 ROOT 引导后，脚本模式实读 8,797 个交易日、到 2026-12-31（面板只到 11-13）。
+
+3. **`product: 守门腿（S15）`** → 用注入证明来源：把 `update_futures._load_trading_dates` 换成哨兵，函数必须把哨兵还回来；手抄本会无视它。反向变异：阻断 `scripts` 导入（= 修正前的生产状态）后函数返回面板自己的日期（11-13）而非哨兵 → 断言触发，`MUTANT_KILLED`。同族缺陷（E136 自指日历）已在 update_repo 复发过一次，这次让它回退即红。
+
+### 记账
+
+本行 1 处（其余为产品面产出）。
+
+**本地未达 origin commit 数**：0（push `2d1a1d44d2..4210b4258c` → fetch 复核 behind 0 / ahead 0）。
+
+**孤儿面**：0/38。**账本**：attrition CLEAN（4 件）。**orders**：114 件 / 0 未回执。**D-19**：decisions sha256 `52482bb7` 未动（零动作）；orders sha256 `a18606d9`→`2429f39b`，新行读毕无一派工给本书。**全量 smoke 未跑**（约 1560s 超单轮预算）——覆盖本道的两条 smoke 腿（922/4857）调用的正是我跑过的同一个 selftest。
