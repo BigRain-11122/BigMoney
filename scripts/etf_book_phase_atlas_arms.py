@@ -180,7 +180,39 @@ def licensed_arms(worlds):
     return {k for k, v in worlds.items() if k != "baseline" and v and v == base}, base
 
 
-def withhold_verdicts(payload, worlds):
+def panels_detail(worlds, panel_meta):
+    """Which bar each panel ends on, which faces sit on it, how many bars short it is (r1627).
+
+    "11 faces priced 2 different panels (58302d9c, a1a42aee)" names two digests and leaves the
+    reader unable to tell which one is stale, by how much, or which questions died with it. The
+    withheld arms are the whole cost axis (0/5/20/40bp), and they are on the OLDER panel: without
+    this block the card says "the family withdrew its labels" and never says that the cost axis
+    is the part nobody can read. Bars are counted from each face's own panel stamp, not a clock.
+    """
+    meta = panel_meta or {}
+    by = {}
+    for name, dig in (worlds or {}).items():
+        if not dig:
+            continue
+        blk = meta.get(name) or {}
+        row = by.setdefault(dig, {"digest": dig, "faces": [], "last": None, "bars": None,
+                                  "columns": None})
+        row["faces"].append(name)
+        for src in ("last", "dates", "columns"):
+            v = blk.get(src)
+            if v is not None and row["bars" if src == "dates" else src] is None:
+                row["bars" if src == "dates" else src] = v
+    rows = list(by.values())
+    newest = max([r["bars"] or 0 for r in rows] or [0])
+    for r in rows:
+        r["faces"] = sorted(r["faces"])
+        r["bars_fewer_than_newest"] = (None if not r["bars"] or not newest
+                                       else newest - r["bars"])
+    rows.sort(key=lambda r: (-(r["bars"] or 0), r["digest"]))
+    return rows
+
+
+def withhold_verdicts(payload, worlds, panel_meta=None):
     """Publish the coherence verdict, and withhold every label it does not license.
 
     A withheld label is not deleted: it travels as `verdict_if_coherent` beside the reason, so
@@ -197,6 +229,7 @@ def withhold_verdicts(payload, worlds):
         "law": ("a per-cell delta is arm minus baseline on the same cell, which is only a "
                 "measurement inside one panel (r1180, consuming the r1179 stamp); the license "
                 "is per ARM, not per family (r1397)"),
+        "panels_detail": panels_detail(worlds, panel_meta),
     }
     for name, entry in payload["arms"].items():
         entry["panel_digest"] = worlds.get(name)
@@ -286,6 +319,7 @@ def build():
     bcells = cells_of(base)
     base_bands = band_by_cadence(base)
     worlds = {"baseline": world_of(base)}
+    panel_meta = {"baseline": base.get("panel") if isinstance(base.get("panel"), dict) else None}
     payload = {
         "script": "scripts/etf_book_phase_atlas_arms.py",
         "question": ("do the follow-ups the atlas left behind (buffer k=0.05 / 0.10 / 0.20, cost "
@@ -305,6 +339,7 @@ def build():
     for name, (path, desc) in ARMS.items():
         f = face(path)
         worlds[name] = world_of(f)
+        panel_meta[name] = f.get("panel") if isinstance(f.get("panel"), dict) else None
         rows = []
         for (nh, rb), c in sorted(cells_of(f).items()):
             b = bcells[(nh, rb)]
@@ -346,7 +381,7 @@ def build():
         payload["arms"][name] = entry
     # r1180: the stamp each face carries is CONSUMED here -- a label that compares two panels
     # is withheld rather than published (see withhold_verdicts).
-    return withhold_verdicts(payload, worlds)
+    return withhold_verdicts(payload, worlds, panel_meta)
 
 
 # ---- r1354: the resolution floor of the buffer axis -- a size, not a direction ------------
@@ -2311,6 +2346,23 @@ def _selftest():
         "the fit counts only the licensed rungs plus the k=0 identity (%s)"
         % (fo.get("fit") or {}).get("n_points"))
 
+    # r1627: two digests alone leave the reader unable to see which panel is stale.
+    _pd = panels_detail(
+        {"baseline": "aa", "k05": "aa", "cost20": "bb", "cost0": "bb"},
+        {"baseline": {"last": "2026-11-06", "dates": 5275, "columns": 1624},
+         "k05": {"last": "2026-11-06", "dates": 5275, "columns": 1624},
+         "cost20": {"last": "2026-10-30", "dates": 5270, "columns": 1613},
+         "cost0": {"last": "2026-10-30", "dates": 5270, "columns": 1613}})
+    chk([r["faces"] for r in _pd] == [["baseline", "k05"], ["cost0", "cost20"]]
+        and _pd[0]["bars_fewer_than_newest"] == 0
+        and _pd[1]["bars_fewer_than_newest"] == 5 and _pd[1]["last"] == "2026-10-30",
+        "the panel block names the stale world, its bar and how many bars short it is (%r)"
+        % (_pd,))
+    chk(all(r["bars_fewer_than_newest"] is None
+            for r in panels_detail({"baseline": "aa", "k05": "aa"},
+                                   {"baseline": {}, "k05": {}})),
+        "an unstamped panel reports no bar count rather than zero bars behind")
+
     print("selftest: %d legs, %d failed" % (CHECKS[0], len(bad)))
     return 0 if not bad else 1
 
@@ -2477,6 +2529,15 @@ def check():
         verdicts = " | ".join("%s=%s" % (k, v["verdict"]) for k, v in rebuilt["arms"].items())
         print("arms face matches its own sources on cutoff %s: %s"
               % (rebuilt["baseline"]["evidence_cutoff"], verdicts))
+        # r1627: green here answers "did the aggregation follow its inputs", NOT "is the bar
+        # current". The inputs are eleven engine runs; this leg only re-reads them (0.4s, no
+        # engine), so a green face can sit a week behind the book and nothing flags it. Say it
+        # out loud rather than return rc2 -- the chain cannot pay for a reprice, and a
+        # permanent red would be the r1199 half-flag nobody can act on.
+        print("  priced bar %s comes from ENGINE runs (%d arm faces x %s cells each); this leg "
+              "only re-aggregates them -- the bar does not advance here, so its age is data debt"
+              % (rebuilt["baseline"]["evidence_cutoff"], len(rebuilt["arms"]),
+                 (rebuilt.get("baseline", {}).get("audit") or {}).get("jobs")))
         return 0
 
     why = _source_moved(pub, drift, [BASE] + [p for p, _ in ARMS.values()])

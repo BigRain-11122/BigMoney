@@ -964,6 +964,46 @@
   ],
   "arms": 10,
   "evidence_cutoff": "2026-11-06",
+  "priced_bar": "2026-11-06",
+  "pricing": {
+   "mode": "engine",
+   "reprices_bar": false,
+   "refresh_arm": "etf_book_phase_atlas_arms:run",
+   "refresh_arm_note": "re-reads the same arm faces (no engine) -- it can only re-aggregate",
+   "faces": 10,
+   "cells_per_face": 280
+  },
+  "panels_detail": [
+   {
+    "digest": "58302d9ca988c138",
+    "faces": [
+     "baseline",
+     "buffer_k02",
+     "buffer_k05",
+     "buffer_k10",
+     "buffer_k20",
+     "buffer_k40"
+    ],
+    "last": "2026-11-06",
+    "bars": 5275,
+    "columns": 1624,
+    "bars_fewer_than_newest": 0
+   },
+   {
+    "digest": "a1a42aee64453839",
+    "faces": [
+     "buffer_k05_cost20",
+     "cost0",
+     "cost05",
+     "cost20",
+     "cost40"
+    ],
+    "last": "2026-10-30",
+    "bars": 5270,
+    "columns": 1613,
+    "bars_fewer_than_newest": 5
+   }
+  ],
   "priced_same_panel": false,
   "comparable": [
    "buffer_k02",
@@ -5985,16 +6025,17 @@
   "artifact": "results/etf_book_vol_target_gate.json",
   "verdict": "STILL_REFUSED",
   "reading": "no arm clears it; the wait in r1428 is not a scaling artifact",
-  "asof": "2026-11-08",
-  "capacity_cny": 48664681.0,
+  "evidence_cutoff": "2026-11-12",
+  "generated": "2026-11-13T12:21:06",
+  "capacity_cny": 65783927.0,
   "arms": [
    {
     "arm": "unscaled",
     "vol_target": null,
     "word": "REFUSED",
     "reason": "gate CONDITIONAL,REFUSE; ruler FAIL years_for_half",
-    "cagr_pct": 14.2,
-    "sharpe": 0.945,
+    "cagr_pct": 14.27,
+    "sharpe": 0.949,
     "maxdd_pct": -18.07,
     "years_for_half_state": "FAIL",
     "years_for_half_median": 2.0,
@@ -6006,8 +6047,8 @@
     "vol_target": 0.08,
     "word": "REFUSED",
     "reason": "gate CONDITIONAL; ruler FAIL years_for_half",
-    "cagr_pct": 8.53,
-    "sharpe": 0.886,
+    "cagr_pct": 8.6,
+    "sharpe": 0.892,
     "maxdd_pct": -12.99,
     "years_for_half_state": "FAIL",
     "years_for_half_median": 2.0,
@@ -6019,8 +6060,8 @@
     "vol_target": 0.06,
     "word": "REFUSED",
     "reason": "gate CONDITIONAL; ruler FAIL years_for_half",
-    "cagr_pct": 6.42,
-    "sharpe": 0.85,
+    "cagr_pct": 6.48,
+    "sharpe": 0.857,
     "maxdd_pct": -9.97,
     "years_for_half_state": "FAIL",
     "years_for_half_median": 2.0,
@@ -6032,8 +6073,8 @@
     "vol_target": 0.04,
     "word": "REFUSED",
     "reason": "gate CONDITIONAL,REFUSE; ruler FAIL years_for_half",
-    "cagr_pct": 4.31,
-    "sharpe": 0.82,
+    "cagr_pct": 4.34,
+    "sharpe": 0.826,
     "maxdd_pct": -6.69,
     "years_for_half_state": "FAIL",
     "years_for_half_median": 2.0,
@@ -6045,8 +6086,8 @@
     "vol_target": 0.03,
     "word": "REFUSED",
     "reason": "gate CONDITIONAL; ruler FAIL years_for_half",
-    "cagr_pct": 3.25,
-    "sharpe": 0.82,
+    "cagr_pct": 3.27,
+    "sharpe": 0.826,
     "maxdd_pct": -5.05,
     "years_for_half_state": "FAIL",
     "years_for_half_median": 2.0,
@@ -6058,8 +6099,8 @@
     "vol_target": 0.02,
     "word": "REFUSED",
     "reason": "gate CONDITIONAL; ruler FAIL years_for_half",
-    "cagr_pct": 2.17,
-    "sharpe": 0.82,
+    "cagr_pct": 2.19,
+    "sharpe": 0.826,
     "maxdd_pct": -3.39,
     "years_for_half_state": "FAIL",
     "years_for_half_median": 2.0,
@@ -6074,19 +6115,19 @@
     "arms_compared": 6,
     "pairs": 25,
     "unreadable_pairs": 0,
-    "max_abs_delta": 0.85291,
+    "max_abs_delta": 0.851743,
     "invariant": false,
     "median_by_arm": {
-     "unscaled": 4.705631,
-     "vt08": 4.98223,
-     "vt06": 4.86146,
-     "vt04": 4.589879,
-     "vt03": 4.613141,
-     "vt02": 4.655145
+     "unscaled": 4.659524,
+     "vt08": 4.946747,
+     "vt06": 4.824826,
+     "vt04": 4.552099,
+     "vt03": 4.592283,
+     "vt02": 4.643692
     },
-    "median_range": 0.392351,
+    "median_range": 0.394648,
     "arms_admitted": [],
-    "reason": "scaling does move this ruler (max |d| 0.85291) but the arm median moves 0.392351 and no arm admits: de-risking is not an admission lever here"
+    "reason": "scaling does move this ruler (max |d| 0.851743) but the arm median moves 0.394648 and no arm admits: de-risking is not an admission lever here"
    },
    "years_for_half": {
     "ruler": "years_for_half",
@@ -6900,8 +6941,8 @@
  "authority": {
   "writer": "bm-c",
   "owner": "bm-a",
-  "owner_silent_h": 15.2,
+  "owner_silent_h": 16.2,
   "took_over": true,
-  "why": "bm-a has not written its own heartbeat for 15.2 h (> 6 h): its page faces are stopped, not merely old"
+  "why": "bm-a has not written its own heartbeat for 16.2 h (> 6 h): its page faces are stopped, not merely old"
  }
 }

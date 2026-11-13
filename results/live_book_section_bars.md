@@ -2,19 +2,14 @@
 
 *由 `scripts/live_book_section_bars.py` 生成；判据见文件头。*
 
-页面头部写着按 2026-11-12 定价，但 48 个带日期的节里只有 36 节真在这一天；其余 12 节最旧停在 2026-10-26（最差 sample_window 落后 13 个交易日），另外 8 节根本没有日期——它们不是同一根 bar 上的数，读的时候不能互相加减。这 12 节里，8 节的产物有同名链腿在守；4 节（cash_handshake, cash_ladder, cash_money, cash_yield）是这一页每次生成时自己重算的，停的正是它读的那块面板的最后一天：data/repo_daily/GC001.csv（update_repo.py / bm-a · T-88 车道，本机只读，末行 2026-11-11）、data/repo_daily（update_repo.py / bm-a · T-88 车道，本机只读，末行 2026-11-11）——落后的是那块面板，不是没人重跑这节。
+页面头部写着按 2026-11-12 定价，但 48 个带日期的节里只有 41 节真在这一天；其余 7 节最旧停在 2026-10-26（最差 sample_window 落后 13 个交易日），另外 8 节根本没有日期——它们不是同一根 bar 上的数，读的时候不能互相加减。这 7 节里，3 节的产物有同名链腿在守；4 节（cash_handshake, cash_ladder, cash_money, cash_yield）是这一页每次生成时自己重算的，停的正是它读的那块面板的最后一天：data/repo_daily/GC001.csv（update_repo.py / bm-a · T-88 车道，本机只读，末行 2026-11-11）、data/repo_daily（update_repo.py / bm-a · T-88 车道，本机只读，末行 2026-11-11）——落后的是那块面板，不是没人重跑这节；1 节（family_coherence）的日期是引擎跑出来的，守它的腿只把旧面重新汇总、不会重新定价——它们的落后是数据债，链上再跑多少轮也不会自己追上来。
 
-页面逐节 bar：头部声明 **2026-11-12**，48 个带日期的节里 **36** 节在这一天，其余 12 节在别的 bar 上。
+页面逐节 bar：头部声明 **2026-11-12**，48 个带日期的节里 **41** 节在这一天，其余 7 节在别的 bar 上。
 
 | 节 | 它停在哪根 bar | 落后（交易日） | 守它的链腿 |
 |---|---|---|---|
 | sample_window | 2026-10-26 | 13 | etf_book_spanning |
-| cost_tape | 2026-10-30 | 9 | etf_book_cost_tape |
-| vol_window | 2026-10-30 | 9 | etf_book_vol_window_edge、etf_book_vol_window_phase |
-| vol_window_edge | 2026-10-30 | 9 | etf_book_vol_window_edge |
 | family_coherence | 2026-11-06 | 4 | etf_book_phase_atlas_arms |
-| vol_target_gate | 2026-11-08 | 4 | vol_target_gate |
-| band_ruler | 2026-11-11 | 1 | etf_book_band_ruler |
 | cash_handshake | 2026-11-11 | 1 | 页内重算（data/repo_daily/GC001.csv 末行 2026-11-11） |
 | cash_ladder | 2026-11-11 | 1 | 页内重算（data/repo_daily 末行 2026-11-11） |
 | cash_money | 2026-11-11 | 1 | 页内重算（data/repo_daily/GC001.csv 末行 2026-11-11） |

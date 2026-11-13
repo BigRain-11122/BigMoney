@@ -240,6 +240,10 @@ def section_bars(doc, cal=None, legs=None):
                      "lag_sessions": sessions_between(b, head, cal) if head else None,
                      "ahead_of_headline": bool(head and b > head),
                      "guarded_by": g, "provenance": prov,
+                     "pricing_mode": ((v.get("pricing") or {}).get("mode")
+                                      if isinstance(v.get("pricing"), dict) else None),
+                     "refresh_reprices": ((v.get("pricing") or {}).get("reprices_bar")
+                                          if isinstance(v.get("pricing"), dict) else None),
                      "panel": (pc or {}).get("panel"),
                      "panel_last_bar": (pc or {}).get("panel_last_bar"),
                      "panel_owner": (pc or {}).get("owner_lane")})
@@ -255,6 +259,13 @@ def section_bars(doc, cal=None, legs=None):
     pc_on_tail = [r for r in pc_rows
                   if r.get("panel_last_bar") and r["bar"] == str(r["panel_last_bar"])[:10]]
     nw_rows = [r for r in behind if r.get("provenance") == NO_WRITER]
+    # r1627: a leg whose NAME matches says "something mentions this", not "something can move
+    # it". The width family is re-aggregated every chain cycle from eleven engine-priced arm
+    # faces, so it sat four sessions behind the book while the audit counted it as guarded --
+    # a section declared by its own face as engine-priced with a non-repricing leg is data
+    # debt, and a reader has to be told that instead of "the page is not at fault".
+    eg_rows = [r for r in behind
+               if r.get("pricing_mode") == "engine" and r.get("refresh_reprices") is False]
     return {
         "headline_bar": head,
         "headline_field": head_field,
@@ -282,6 +293,8 @@ def section_bars(doc, cal=None, legs=None):
                                          for r in pc_rows})),
         "n_no_writer": (None if not legs else len(nw_rows)),
         "no_writer": (None if not legs else [r["key"] for r in nw_rows]),
+        "n_engine_priced": (None if not legs else len(eg_rows)),
+        "engine_priced": (None if not legs else [r["key"] for r in eg_rows]),
     }
 
 
@@ -335,7 +348,8 @@ def assess(page=None, jsonp=None, cal=None, legs=None):
                                     "max_lag_sessions", "by_key", "n_unguarded",
                                     "unguarded", "n_page_computed", "page_computed",
                                     "page_computed_on_panel_tail", "page_computed_panels",
-                                    "n_no_writer", "no_writer")})
+                                    "n_no_writer", "no_writer",
+                                    "n_engine_priced", "engine_priced")})
     face["evidence_cutoff"] = sb["headline_bar"]
     if sb["headline_bar"] is None:
         face["verdict"] = NO_HEADLINE
@@ -378,6 +392,10 @@ def assess(page=None, jsonp=None, cal=None, legs=None):
             if sb.get("n_no_writer"):
                 parts.append("%d 节（%s）没有任何一条链腿重跑过它们——那是这一页真正的缺口"
                              % (sb["n_no_writer"], ", ".join((sb["no_writer"] or [])[:6])))
+            if sb.get("n_engine_priced"):
+                parts.append("%d 节（%s）的日期是引擎跑出来的，守它的腿只把旧面重新汇总、不会"
+                             "重新定价——它们的落后是数据债，链上再跑多少轮也不会自己追上来"
+                             % (sb["n_engine_priced"], ", ".join((sb["engine_priced"] or [])[:6])))
             if len(parts) > 1:
                 face["sentence"] += "；".join(parts) + "。"
             elif not sb["n_unguarded"]:
@@ -458,7 +476,7 @@ def check():
     diffs = []
     for k in ("verdict", "headline_bar", "n_sections", "n_off_headline", "oldest",
               "max_lag_sessions", "by_key", "unknown_sections", "n_page_computed",
-              "no_writer"):
+              "no_writer", "n_engine_priced", "engine_priced"):
         if pub.get(k) != fresh.get(k):
             diffs.append("%s published=%r fresh=%r" % (k, pub.get(k), fresh.get(k)))
     if diffs:
@@ -614,6 +632,33 @@ def selftest():
     finally:
         try:
             os.unlink(tmp2)
+        except OSError:
+            pass
+
+    # ---- r1627: "a leg mentions it" is not "a leg can move it" ---------------------------
+    eng_fx = {"priced_bar": "2026-11-12",
+              "cost_tape": {"evidence_cutoff": "2026-11-06",
+                            "pricing": {"mode": "engine", "reprices_bar": False}},
+              "dual": {"evidence_cutoff": "2026-11-05",
+                       "artifact": "results/etf_book_leg_attribution.json"}}
+    engb = section_bars(eng_fx, legs=LEGS_FAKE)
+    leg("L30 a section priced by an engine behind a non-repricing leg is its own bucket",
+        engb["engine_priced"] == ["cost_tape"] and engb["n_engine_priced"] == 1
+        and [r["guarded_by"] for r in engb["off_headline"] if r["key"] == "cost_tape"]
+        == [["etf_book_cost_tape"]])
+    leg("L31 a guarded section that declares nothing is not counted as engine-priced",
+        "dual" not in (engb["engine_priced"] or []))
+    tmp3 = os.path.join(ROOT, "results", "_tmp_section_bars_engine.json")
+    with open(tmp3, "w", encoding="utf-8") as fh:
+        json.dump(eng_fx, fh)
+    try:
+        f4 = assess(jsonp=tmp3, legs=LEGS_FAKE)
+        leg("L32 the sentence calls it data debt and does not say the page is blameless",
+            "数据债" in f4["sentence"] and "cost_tape" in f4["sentence"]
+            and "不是页面的错" not in f4["sentence"])
+    finally:
+        try:
+            os.unlink(tmp3)
         except OSError:
             pass
 

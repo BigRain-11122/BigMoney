@@ -6410,10 +6410,31 @@ def render_md(p, sb=None):
         add("- **没有。** 宽度臂家族已经收回了自己的判词（%s：%s）。所以上表里的名数只是配置，"
             "不是测出来的最优——读数照给，但别把它当「选过」的证据。"
             % (fc["verdict"], fc.get("detail") or "无细节"))
+        # r1627: "two different panels" leaves the reader unable to see which one is stale, by
+        # how much, and which questions went with it.
+        pd = [r for r in (fc.get("panels_detail") or []) if r.get("last")]
+        if len(pd) > 1:
+            new, old = pd[0], pd[-1]
+            add("- 两张面板差在哪：新的一张停在 %s，旧的一张停在 **%s**（少 %d 根 bar），"
+                "旧的那张上面坐着 %s——面板不同，这几臂的差值量的是世界差不是规则差，"
+                "所以它们整组判不了。要解开这一组，得把这几臂放到新面板上重跑引擎。"
+                % (new.get("last"), old.get("last"), old.get("bars_fewer_than_newest") or 0,
+                   "、".join(old.get("faces") or [])[:200]))
     else:
         add("- **不知道。** 读不到宽度臂家族的面（%s）。这是「没验」，不是「没问题」——"
             "上表的读数仍然有效，但它选的那个名数没有实测撑着。"
             % (fc.get("detail") or "家族面缺席"))
+    # r1627: a date with a chain leg next to it reads as "it will catch up by itself". This
+    # section's bar is set by eleven engine runs behind the arm faces, and the leg that guards
+    # it only re-aggregates them -- so its age is data debt and no chain cycle will fix it.
+    pr = fc.get("pricing") or {}
+    if pr.get("mode") == "engine" and pr.get("reprices_bar") is False:
+        add("- 日期要说清楚：这一节是**引擎跑出来的**（%s 个臂面各 %s 格，另加基线一张），"
+            "而链上守它的那条 `%s` 只是把这几张旧面重新汇总一遍、不会重新定价——"
+            "所以它停在 **%s**（这一页按 %s 定价）是**数据债**，不是写者债；要往前推得重跑引擎。"
+            % (pr.get("faces") or "?", pr.get("cells_per_face") or "?",
+               pr.get("refresh_arm") or "?", fc.get("evidence_cutoff") or "?",
+               p.get("priced_bar") or "?"))
     add("")
     add("> 判词来源：`%s`。" % (fc.get("artifact") or "results/etf_book_phase_atlas_arms.json"))
     add("")

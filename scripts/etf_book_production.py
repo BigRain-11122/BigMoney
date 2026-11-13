@@ -99,6 +99,33 @@ def vol_overlay_tail_sentence(face=None):
            "" if cagr is None else ", bought with %+.2fpp of median CAGR" % cagr))
 
 
+def family_pricing(doc):
+    """How the family's date was set, and whether the chain's refresh arm can move it (r1627).
+
+    A section that carries a chain leg reads as self-healing, and this one does have a leg:
+    `etf_book_phase_atlas_arms` re-runs `build()` every chain cycle. But `build()` only re-reads
+    the arm faces -- no engine, 0.4s -- so the bar under this section is set by the eleven
+    engine runs behind those faces, and that leg can only re-aggregate them. Left unsaid,
+    "it has a leg" reads as "it will catch up on its own": the family sat on 2026-11-06 while
+    the book priced 2026-11-12 and nothing in the chain flagged it (r1626 pointer 3).
+    Absence reads "not declared", never "self-healing".
+    """
+    d = doc if isinstance(doc, dict) else {}
+    base = d.get("baseline") or {}
+    arms = d.get("arms") or {}
+    if not base.get("evidence_cutoff"):
+        return None
+    jobs = (base.get("audit") or {}).get("jobs")
+    return {
+        "mode": "engine",
+        "reprices_bar": False,
+        "refresh_arm": "etf_book_phase_atlas_arms:run",
+        "refresh_arm_note": "re-reads the same arm faces (no engine) -- it can only re-aggregate",
+        "faces": len(arms) or None,
+        "cells_per_face": jobs,
+    }
+
+
 def family_coherence(results_dir=None):
     """Which world the width arms behind this card were priced on (r1183, per-arm r1397).
 
@@ -122,6 +149,7 @@ def family_coherence(results_dir=None):
         return {"artifact": "results/" + ARMS_FACE_FILE, "verdict": None,
                 "detail": "arm family face absent -- coherence not assessable",
                 "panels": [], "arms": 0, "evidence_cutoff": None,
+                "priced_bar": None, "pricing": None,
                 "priced_same_panel": None,
                 "comparable": [], "withheld": []}
     coh = doc.get("panel_coherence") or {}
@@ -139,6 +167,14 @@ def family_coherence(results_dir=None):
         "panels": coh.get("panels") or [],
         "arms": len(arms),
         "evidence_cutoff": (doc.get("baseline") or {}).get("evidence_cutoff"),
+        # r1627: the bar is an ENGINE run, and the leg that guards this face cannot move it.
+        # The page used to print the date alone, so a reader had no way to tell a
+        # self-healing section from one whose date is data debt.
+        "priced_bar": (doc.get("baseline") or {}).get("evidence_cutoff"),
+        "pricing": family_pricing(doc),
+        # r1627: two digests do not tell a reader which world is stale or which questions died
+        # with it -- the withheld arms are the whole cost axis and they sit on the older panel.
+        "panels_detail": coh.get("panels_detail") or [],
         "priced_same_panel": (coh.get("verdict") == "ONE_WORLD"),
         "comparable": list(comparable),
         "withheld": list(withheld),
