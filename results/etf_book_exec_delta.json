@@ -1,14 +1,14 @@
 {
  "artifact": "etf_book_exec_delta",
- "bar": "2026-11-12",
- "cash_after_cny": 567514.9,
+ "bar": "2026-11-13",
+ "cash_after_cny": 567214.9,
  "cash_before_cny": 607595.1,
- "cash_recon_cny": -609.3,
+ "cash_recon_cny": -1015.5,
  "cash_recon_ex_mark_cny": 0.0,
  "current_bar": "2026-11-10",
  "current_book_from": {
   "bar": "2026-11-10",
-  "declared_bar": "2026-11-12",
+  "declared_bar": "2026-11-13",
   "kind": "execution",
   "source": "book_before_declaration"
  },
@@ -17,44 +17,39 @@
  "declaration": {
   "actions": 0,
   "appeared": [],
-  "bar": "2026-11-12",
-  "cny_moved": 2943.2,
-  "from_bar": "2026-11-11",
+  "bar": "2026-11-13",
+  "cny_moved": 1654.0,
+  "from_bar": "2026-11-12",
   "lots_changed": [
    {
-    "expected_lots": 490,
-    "symbol": "159519",
-    "target_lots": 496
-   },
-   {
-    "expected_lots": 431,
+    "expected_lots": 432,
     "symbol": "159655",
-    "target_lots": 432
+    "target_lots": 431
    },
    {
-    "expected_lots": 673,
+    "expected_lots": 678,
     "symbol": "510760",
-    "target_lots": 678
+    "target_lots": 684
    },
    {
-    "expected_lots": 721,
+    "expected_lots": 728,
     "symbol": "512040",
-    "target_lots": 728
+    "target_lots": 726
    },
    {
-    "expected_lots": 748,
+    "expected_lots": 750,
     "symbol": "513690",
-    "target_lots": 750
+    "target_lots": 754
    }
   ],
   "status": "UNEXPLAINED_TARGET_WITHOUT_TRADES",
   "vanished": []
  },
- "entry_book_cny": 431875.8,
+ "entry_book_cny": 431769.6,
  "entry_rows": 5,
  "entry_sheet_moved": {},
- "evidence_cutoff": "2026-11-12",
- "gross_buy_cny": 353953.1,
+ "evidence_cutoff": "2026-11-13",
+ "gross_buy_cny": 354253.1,
  "gross_sell_cny": 313872.9,
  "held_not_in_target": [
   "159263",
@@ -68,24 +63,24 @@
   "512040"
  ],
  "ledger_risk_book_cny": 392404.9,
- "ledger_row_risk_book_cny": 431875.8,
+ "ledger_row_risk_book_cny": 431769.6,
  "mark": {
   "account_bar": "2026-11-10",
-  "bar": "2026-11-12",
-  "drift_cny": -609.3,
-  "note": "账上那本按 2026-11-10 的价、票面按 2026-11-12 的价：保留腿重估的差额单列，不并进现金对账",
+  "bar": "2026-11-13",
+  "drift_cny": -1015.5,
+  "note": "账上那本按 2026-11-10 的价、票面按 2026-11-13 的价：保留腿重估的差额单列，不并进现金对账",
   "rows": [
    {
     "account_price": 1.16,
     "lots": 677,
-    "mark_cny": -609.3,
-    "sheet_price": 1.151,
+    "mark_cny": -1015.5,
+    "sheet_price": 1.145,
     "symbol": "513690"
    }
   ]
  },
- "net_cash_cny": 40080.2,
- "positions_source": "face@2026-11-12",
+ "net_cash_cny": 40380.2,
+ "positions_source": "face@2026-11-13",
  "refused": null,
  "rows": [
   {
@@ -122,72 +117,72 @@
    "target_lots": 0
   },
   {
-   "amount_cny": 86413.6,
+   "amount_cny": 86389.2,
    "current_lots": 0,
-   "delta_lots": 728,
+   "delta_lots": 684,
    "held": false,
    "in_target": true,
-   "price": 1.187,
+   "price": 1.263,
    "side": "BUY",
-   "symbol": "512040",
-   "target_lots": 728
+   "symbol": "510760",
+   "target_lots": 684
   },
   {
-   "amount_cny": 86403.2,
+   "amount_cny": 86372.4,
+   "current_lots": 0,
+   "delta_lots": 431,
+   "held": false,
+   "in_target": true,
+   "price": 2.004,
+   "side": "BUY",
+   "symbol": "159655",
+   "target_lots": 431
+  },
+  {
+   "amount_cny": 86353.6,
    "current_lots": 0,
    "delta_lots": 496,
    "held": false,
    "in_target": true,
-   "price": 1.742,
+   "price": 1.741,
    "side": "BUY",
    "symbol": "159519",
    "target_lots": 496
   },
   {
-   "amount_cny": 86377.2,
+   "amount_cny": 86321.4,
    "current_lots": 0,
-   "delta_lots": 678,
+   "delta_lots": 726,
    "held": false,
    "in_target": true,
-   "price": 1.274,
+   "price": 1.189,
    "side": "BUY",
-   "symbol": "510760",
-   "target_lots": 678
+   "symbol": "512040",
+   "target_lots": 726
   },
   {
-   "amount_cny": 86356.8,
-   "current_lots": 0,
-   "delta_lots": 432,
-   "held": false,
-   "in_target": true,
-   "price": 1.999,
-   "side": "BUY",
-   "symbol": "159655",
-   "target_lots": 432
-  },
-  {
-   "amount_cny": 8402.3,
+   "amount_cny": 8816.5,
    "current_lots": 677,
-   "delta_lots": 73,
+   "delta_lots": 77,
    "held": true,
    "in_target": true,
-   "price": 1.151,
+   "price": 1.145,
    "side": "BUY",
    "symbol": "513690",
-   "target_lots": 750
+   "target_lots": 754
   }
  ],
  "sheet_book_cny": 432195.0,
- "sheet_cash_cny": 568124.2,
+ "sheet_cash_cny": 568230.4,
  "swap_book_cny": null,
  "swap_bought": [],
  "target_note": null,
  "target_rows": 5,
  "target_source": "entry_sheet",
- "target_total_cny": 431875.8,
- "ticket_file": "TICKET-2026-11-12.json",
- "turnover_cny": 667826.0,
- "turnover_share_of_book_pct": 170.19,
+ "target_total_cny": 431769.6,
+ "ticket_file": "TICKET-2026-11-13.json",
+ "turnover_cny": 668126.0,
+ "turnover_share_of_book_pct": 170.26,
  "unpriced_rows": [],
  "verdict": "SHEET_IMPLIES_A_SWAP"
 }
