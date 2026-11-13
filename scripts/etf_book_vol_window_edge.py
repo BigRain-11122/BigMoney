@@ -295,6 +295,7 @@ def run():
         "admissible": bool(admissible),
         "published_window_stays": not admissible,
         "stays_because": stays_because,
+        "panel": F.panel_stamp(load=False),
         "upstream": BASE.read_published(),
         "notes": [
             "one engine call per cell (etf_robust_pf.open_to_open_equity); vol_window is the "
@@ -423,14 +424,25 @@ def read_published(path=OUT_JSON):
             "stays_because": doc.get("stays_because"),
             "criteria": doc.get("criteria"),
             "identity_all_pass": doc.get("identity_all_pass"),
+            "panel": doc.get("panel"),
             "phase_rows": rows}
 
 
-def check(path=OUT_JSON):
+def check(path=OUT_JSON, stamp=None):
+    """rc0 only when the published read recomputes AND the face priced the live panel.
+
+    r1624: the recompute was green on any panel -- it only reads the rows the file already
+    publishes. Its parent face got the same gate in the same round; the note there explains
+    why the chain's refresh arm needs the word `stale` to come from this leg.
+    """
     pub = read_published(path)
     if pub["status"] != "ok":
         print("vol-window edge: %s" % pub["status"])
         return 2
+    rc = F.check_panel_stamp({"panel": pub.get("panel")}, stamp=stamp,
+                             label="vol-window edge")
+    if rc != 0:
+        return rc
     e, v = pub["edge"], pub["verdict"]
     print("vol-window edge: %s | best %sd vs shipped %d | rule %s | paired %s | %s"
           % (e.get("state"), e.get("best_window"), PUB_WINDOW, v.get("state"),
@@ -549,6 +561,28 @@ def selftest():
     ship = dict({5: 0.5, 10: 0.5, 15: 0.5, 20: 0.9, 25: 0.95, 30: 0.97, 60: 1.20})
     chk("the shipped branch survives the coverage filter",
         edge_read(_rows_cov(ship, off=(5, 10, 15)))["state"] == "SHIPPED_IS_HIGHEST")
+    # 9. (r1624) the leg must ask the panel, not only re-read its own rows
+    import tempfile
+    fx = os.path.join(tempfile.mkdtemp(prefix="vwedge-"), "face.json")
+
+    def _face9(panel):
+        rows9 = _rows_cov(dict({5: 1.20, 10: 1.10, 15: 1.00, 20: 0.95,
+                                25: 0.93, 30: 0.92, 60: 0.90}))
+        d = {"evidence_cutoff": "2026-10-30", "phase_rows": rows9,
+             "verdict": BASE.decide(rows9), "edge": edge_read(rows9),
+             "paired": {}, "identity_all_pass": True}
+        if panel is not None:
+            d["panel"] = panel
+        with open(fx, "w", encoding="utf-8") as fh:
+            json.dump(d, fh)
+        return fx
+
+    chk("a face priced on the live panel passes the stamp gate",
+        check(path=_face9({"digest": "aaaa"}), stamp={"digest": "aaaa"}) == 0)
+    chk("a face left on an older panel fails with the word the chain rebuilds on",
+        check(path=_face9({"digest": "aaaa"}), stamp={"digest": "bbbb"}) == 2)
+    chk("a face that carries no stamp cannot pass as fresh",
+        check(path=_face9(None), stamp={"digest": "aaaa"}) == 2)
 
     bad = [n for n, c, r in ok if not c]
     for n, c, r in ok:

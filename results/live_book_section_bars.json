@@ -1,17 +1,17 @@
 {
  "script": "scripts/live_book_section_bars.py",
- "ts": "2026-11-13 10:50:43",
+ "ts": "2026-11-13 11:27:16",
  "page": {
   "path": "docs/live_book/LIVE-BOOK-20261113.md",
   "json": "docs/live_book/LIVE-BOOK-20261113.json"
  },
  "verdict": "PAGE_MIXES_BARS",
- "sentence": "页面头部写着按 2026-11-12 定价，但 48 个带日期的节里只有 36 节真在这一天；其余 12 节最旧停在 2026-10-26（最差 sample_window 落后 13 个交易日），另外 8 节根本没有日期——它们不是同一根 bar 上的数，读的时候不能互相加减。这 12 节里，8 节的产物有同名链腿在守；4 节（cash_handshake, cash_ladder, cash_money, cash_yield）是这一页每次生成时自己重算的，停的正是它读的那块面板的最后一天：data/repo_daily/GC001.csv（update_repo.py / bm-a · T-88 车道，本机只读，末行 2026-11-11）、data/repo_daily（update_repo.py / bm-a · T-88 车道，本机只读，末行 2026-11-11）——落后的是那块面板，不是没人重跑这节。",
+ "sentence": "页面头部写着按 2026-11-12 定价，但 48 个带日期的节里只有 38 节真在这一天；其余 10 节最旧停在 2026-10-26（最差 sample_window 落后 13 个交易日），另外 8 节根本没有日期——它们不是同一根 bar 上的数，读的时候不能互相加减。这 10 节里，6 节的产物有同名链腿在守；4 节（cash_handshake, cash_ladder, cash_money, cash_yield）是这一页每次生成时自己重算的，停的正是它读的那块面板的最后一天：data/repo_daily/GC001.csv（update_repo.py / bm-a · T-88 车道，本机只读，末行 2026-11-11）、data/repo_daily（update_repo.py / bm-a · T-88 车道，本机只读，末行 2026-11-11）——落后的是那块面板，不是没人重跑这节。",
  "evidence_cutoff": "2026-11-12",
  "headline_bar": "2026-11-12",
  "headline_field": "priced_bar",
  "n_sections": 48,
- "n_on_headline": 36,
+ "n_on_headline": 38,
  "unknown_sections": [
   "backtest_band",
   "agreement",
@@ -23,14 +23,14 @@
   "authority"
  ],
  "bars": {
-  "2026-11-12": 36,
+  "2026-11-12": 38,
   "2026-11-11": 6,
   "2026-11-08": 1,
   "2026-11-06": 1,
-  "2026-10-30": 3,
+  "2026-10-30": 1,
   "2026-10-26": 1
  },
- "n_off_headline": 12,
+ "n_off_headline": 10,
  "off_headline": [
   {
    "key": "sample_window",
@@ -54,35 +54,6 @@
    "ahead_of_headline": false,
    "guarded_by": [
     "etf_book_cost_tape"
-   ],
-   "provenance": "chain_leg",
-   "panel": null,
-   "panel_last_bar": null,
-   "panel_owner": null
-  },
-  {
-   "key": "vol_window",
-   "bar": "2026-10-30",
-   "field": "evidence_cutoff",
-   "lag_sessions": 9,
-   "ahead_of_headline": false,
-   "guarded_by": [
-    "etf_book_vol_window_edge",
-    "etf_book_vol_window_phase"
-   ],
-   "provenance": "chain_leg",
-   "panel": null,
-   "panel_last_bar": null,
-   "panel_owner": null
-  },
-  {
-   "key": "vol_window_edge",
-   "bar": "2026-10-30",
-   "field": "evidence_cutoff",
-   "lag_sessions": 9,
-   "ahead_of_headline": false,
-   "guarded_by": [
-    "etf_book_vol_window_edge"
    ],
    "provenance": "chain_leg",
    "panel": null,
@@ -222,8 +193,8 @@
   "sleeve_paths": "2026-11-12",
   "exposure_timing": "2026-11-12",
   "cost_tape": "2026-10-30",
-  "vol_window": "2026-10-30",
-  "vol_window_edge": "2026-10-30",
+  "vol_window": "2026-11-12",
+  "vol_window_edge": "2026-11-12",
   "lookahead": "2026-11-12",
   "causal_rebuild": "2026-11-12",
   "underwater": "2026-11-12",

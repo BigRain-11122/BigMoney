@@ -338,6 +338,7 @@ def run():
                    "vol_target": VOL_TARGET, "windows": list(WINDOWS)},
         "phase_rows": rows,
         "verdict": verdict,
+        "panel": F.panel_stamp(load=False),
         "paired": {"arm": best_w, "control": PUB_WINDOW,
                    "rows": paired, "verdict": pv},
         "older_face": read_older_face(),
@@ -502,15 +503,27 @@ def read_published(path=OUT_JSON):
             "paired": doc.get("paired"), "paired_ok": paired_ok,
             "evidence_cutoff": doc.get("evidence_cutoff"),
             "identity_all_pass": doc.get("identity_all_pass"),
+            "panel": doc.get("panel"),
             "phase_rows": doc.get("phase_rows")}
 
 
-def check(path=OUT_JSON):
-    """rc0 when the published verdict recomputes from the published rows."""
+def check(path=OUT_JSON, stamp=None):
+    """rc0 when the published verdict recomputes from the published rows AND priced this panel.
+
+    r1624: the recompute half was green on any panel -- `decide()` only reads the rows the file
+    already publishes, so a face frozen on 2026-10-30 answered rc0 while the book priced
+    2026-11-12 and the CEO page printed both numbers a screen apart (r1249's observation, one
+    face further down). The chain's refresh arm pays a writer only on the word `stale`, so the
+    stamp gate has to live here, not in a separate audit that nobody wires.
+    """
     pub = read_published(path)
     if pub["status"] != "ok":
         print("vol-window phases: %s" % pub["status"])
         return 2
+    rc = F.check_panel_stamp({"panel": pub.get("panel")}, stamp=stamp,
+                             label="vol-window phases")
+    if rc != 0:
+        return rc
     v = pub["verdict"]
     print("vol-window phases: %s | best %sd %d/%d phases | paired %s | identity %s | %s"
           % (v["state"], v.get("best_window"), v.get("best_phases_earned", 0),
@@ -639,6 +652,29 @@ def selftest():
             of.get("status") == "ok" and of.get("noise_pp") is not None, str(of.get("status")))
     except Exception as e:  # pragma: no cover
         chk("the older face on this axis is read, not re-derived", False, repr(e)[:80])
+
+    # 11. (r1624) the leg must ask the panel, not only re-read its own rows
+    import tempfile
+    fx = os.path.join(tempfile.mkdtemp(prefix="vwphase-"), "face.json")
+
+    def _face11(panel):
+        rows11 = _rows({(p, w): sh for p in (0, 1, 2, 3)
+                        for w, sh in ((30, 0.92), (45, 0.90), (60, 0.95),
+                                      (90, 0.88), (120, 0.85))})
+        d = {"evidence_cutoff": "2026-10-30", "phase_rows": rows11,
+             "verdict": decide(rows11), "paired": {}, "identity_all_pass": True}
+        if panel is not None:
+            d["panel"] = panel
+        with open(fx, "w", encoding="utf-8") as fh:
+            json.dump(d, fh)
+        return fx
+
+    chk("a face priced on the live panel passes the stamp gate",
+        check(path=_face11({"digest": "aaaa"}), stamp={"digest": "aaaa"}) == 0)
+    chk("a face left on an older panel fails with the word the chain rebuilds on",
+        check(path=_face11({"digest": "aaaa"}), stamp={"digest": "bbbb"}) == 2)
+    chk("a face that carries no stamp cannot pass as fresh",
+        check(path=_face11(None), stamp={"digest": "aaaa"}) == 2)
 
     bad_rows = [r for n, c, r in ok if not c]
     for n, c, r in ok:

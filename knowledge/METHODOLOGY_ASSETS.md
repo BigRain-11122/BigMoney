@@ -14200,3 +14200,16 @@ CEO 页重生成后「48 个带日期节里 **35** 个在 2026-11-12」（原 34
 **实锚**：`scripts/etf_book_ceo_page.py`（`PAGE_COMPUTED_SOURCES` + `page_computed_provenance()`，panel_last_bar 从 CSV 实读，selftest L34a/L34b）、`scripts/live_book_section_bars.py`（三态常量＋句子与表格分印，L25-L29）；实跑 n_page_computed=4 / on_panel_tail=4 / n_no_writer=0，页面 selftest 271/271、审计面 29/29、链 2/2 rc0。顺带修 L13：新增的 provenance 面不得被当成一个带日期的节。
 
 **附坑**：本次用 PowerShell 内联 python 写卡，反引号与百分号被 shell 吃掉（`etf_book_ceo_page` 写成 `f_book_ceo_page`）。写中文＋代码标识符的文本一律用文件写入再执行，禁 shell 内联 heredoc。
+
+
+### E594 · 只重算自己那几行的 check，在任何面板上都是绿的（r1624 bm-c）
+
+**症状**：CEO 页面 48 个带日期的节里有 12 节不在页面头部那根 bar 上，其中 `vol_window`/`vol_window_edge` 停在 **2026-10-30** 九个交易日。这两节在链上一直有腿，而且腿一直是 **rc0**：`etf_book_vol_window_phase|edge --check` 的全部工作是 `decide(doc["phase_rows"])` 再和文件里印着的判决比一次——**它读的是自己已经发布的那些行**。面板从 10-30 走到 11-12，它一个数也不会变，于是没有任何东西会说「你该重跑了」，链的 refresh 臂（只认 `stale` 这个词）永远不被叫醒。这与 r1249 在 `exposure_timing/ladder/sleeve_paths` 上发现的是同一个形状，只是那批脸已装 `panel_stamp`，这两张没有。
+
+**HOW**：三件，一件都不能省。①**脸上要有戳**：`run()` 写 `"panel": F.panel_stamp(load=False)`（`build_inputs()` 已经把 digest 取好，写入零成本）；②**check 必须问戳**：`F.check_panel_stamp({"panel": pub.get("panel")}, label=...)`，不一致 = **rc2 + 带 `stale` 字样**（不是 rc1——rc1 是「数字不再跟随行」，那才是判决错；「世界往前走了」不是这张脸的错，但必须让它重跑）；③**读不到当前面板就不能当新鲜**：沿用 `check_panel_stamp` 的三分支（无当前 digest → 明说不可核验并放行；脸上无戳 → 按构造陈旧；戳不等 → stale），禁自写第二份判据。
+
+**代价**：`panel_stamp(load=True)` 会跑一次 `build_inputs()`（本机实测 **50.7s**），两条腿各付一次 → 链每次多 ~100s。这是这张面的诚实价格：把 50s 花在 check 上，换的是「不会静默冻结九个交易日」。
+
+**实锚**：`scripts/etf_book_vol_window_phase.py` / `etf_book_vol_window_edge.py`（run 写戳 + check 过闸 + selftest 各加 3 腿：戳同 rc0 / 戳异 rc2 / 无戳 rc2）；selftest **22/22**、**23/23**；真数据 `run` 88.5s / 105.7s 把两面从 2026-10-30 推到 **2026-11-12**，`--check` 双 rc0；咬合证明＝真载荷改戳 `deadbeef` 后 `check` 打印 `CHECK FAIL ... stale` rc2（链的 refresh 臂就是按这个词付写者的）；CEO 页 `off_headline 12 → 10`、`n_on_headline 36 → 38`。
+
+**附坑**：相位面的 selftest 夹具 `_rows()` 键是 `(phase, window)` 而不是 `window`，照抄兄弟面的 `dict({30:0.92,...})` 会 TypeError——两个面长得像不等于夹具同形。
