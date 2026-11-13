@@ -284,6 +284,12 @@ def check_panel_stamp(doc, stamp=None, label=""):
     the message carries that word, and only a moved panel produces it.
     """
     rec = ((doc or {}).get("panel") or {}).get("digest")
+    if isinstance(rec, dict):
+        # r1653: some faces publish the whole block (digest + bar count + last bar) rather
+        # than the bare hex. The identity is the same field inside it; reading the block as
+        # "a different panel" would declare such a face stale on every run, which is how a
+        # gate stops being read.
+        rec = rec.get("digest")
     cur = (stamp if stamp is not None else panel_stamp()).get("digest")
     who = (label + ": ") if label else ""
     if not cur:

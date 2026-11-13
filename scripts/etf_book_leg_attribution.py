@@ -365,6 +365,14 @@ def check():
     if bad:
         print("FACE-BROKEN: " + "; ".join(bad)[:400], flush=True)
         return 1
+    # r1653: every row here re-derives from the panel it says it priced, so the old check was
+    # green on ANY panel -- this face sat on 2026-11-12 (a whole panel generation behind) while
+    # the CEO page printed it under a 11-13 headline and the chain leg paid nothing. The gate
+    # is the shared one; rc2 means "the world moved under a correct face", which is the word
+    # the chain's refresh arm rebuilds on.
+    rc = F.check_panel_stamp(face, label="etf_book_leg_attribution")
+    if rc:
+        return rc
     print("FACE-OK %s (%d arms, production %.2fpp/yr = plain %+.2f + fill drag %+.2f)"
           % (face.get("evidence_cutoff"), len(face.get("arms") or {}),
              (face["arms"]["production"]["total_log_pp"]),
@@ -579,6 +587,24 @@ def selftest():
         check("L10b a published split is quoted verbatim (no re-derivation)", False, "no face")
         check("L10c a split whose buckets miss its own total is refused, not published",
               False, "no face")
+
+    # L11 -- r1653: the freshness gate this face now carries has three states and only one of
+    # them is a verdict. A face on the live panel passes, a face on another panel asks for its
+    # rebuild (rc2, the word the chain pays), and an unreadable live panel is NOT a moved one:
+    # "I cannot see the world" must not be published as "the face is wrong" (E378 lineage).
+    _st = {"digest": "aaaa", "last_bar": "2026-11-13"}
+    check("L11a a face carrying the live panel's digest passes the freshness gate",
+          F.check_panel_stamp({"panel": {"digest": {"digest": "aaaa"}}},
+                              stamp=_st) == 0,
+          "digest published as a block (the shape this face uses)")
+    check("L11b a face on another panel is sent back for a rebuild, not a verdict failure",
+          F.check_panel_stamp({"panel": {"digest": {"digest": "bbbb"}}},
+                              stamp=_st) == 2,
+          "rc2 = stale, the chain's refresh arm reads that word")
+    check("L11c an unreadable live panel leaves the face standing (unknown is not stale)",
+          F.check_panel_stamp({"panel": {"digest": {"digest": "bbbb"}}},
+                              stamp={"digest": None}) == 0,
+          "the probe could not name the world, so it does not convict the face")
 
     print("SELFTEST %s (%d fails)" % ("OK" if not fails else "FAIL", len(fails)), flush=True)
     return 0 if not fails else 1

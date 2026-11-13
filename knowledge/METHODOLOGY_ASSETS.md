@@ -14614,3 +14614,11 @@ atlas payload 的 `authoritative_cells`（**不读单据**，无环），于是�
 先修参考面（它自己也要有输入集印花 + 链上 refresh），再让依赖面把参考面的**字节**记进 inputs，
 这样参考面一重定价，依赖面自动 STALE，环就闭合了。实测闭环：do_or_wait `STALE (late 11-06 ->
 11-13)` → run 77s → `check 13/13` rc0；late `check 10/10` rc0；链 `--only` 双绿。
+
+### E614 · 自己 re-derive 的面永远自洽；而共享的门若读不懂脸的发布形状，会把正确的面判成过期（r1653 bm-c）
+
+`etf_book_leg_attribution` 的每一行都从它自称定价的那张面板重算，所以旧 `--check` 在**任何**面板上都能自洽地绿——这张面于是停在上一个面板代（11-12），CEO 页却按 11-13 的标题印它，链里也没有腿付费，一次也没红过。修法不是给它再写一套日期比较（r1613「同一缺陷的第二份拷贝」），而是接上共享实现 `etf_book_forward.check_panel_stamp`。
+
+接上共享实现后立刻暴露第二个方向相反的问题：有的面把 `panel.digest` 发布成**块**（digest + bar 数 + 末 bar），门的读者只认裸 hex，于是「形状不同」被读成「世界不同」——**每一个**这样的面在每一次运行都被判 stale。一个假的 stale 会把真的 stale 一起作废（门从此不被读）。
+
+**How**：①凡「行从面板重算」的面，新鲜度一律走共享实现，禁自写日期比较；②共享实现必须能解析本仓已发布的**两种** digest 形状（裸 hex 与块），未知形状=不可核验（rc0），不是 stale；③三态自检腿必须同时钉住「同界过」「异界 rc2」「不可读不判罪」，因为后两条才是这个门的意义。实测：leg_attribution 三态自检 L11a/L11b/L11c 全过；链 `--only etf_book_leg_attribution` rc0（54.9s，refresher 付费重建到 8.19pp/yr）。
