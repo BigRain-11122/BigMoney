@@ -2,7 +2,7 @@
  "schema": "ceo_live_usage_v1_9",
  "ticket": "T-202609-28-105",
  "day": "2026-11-13",
- "generated": "2026-11-13T06:13:29",
+ "generated": "2026-11-13T19:21:13",
  "market": {
   "state": "RED",
   "asof": "2026-11-12",
@@ -129,12 +129,15 @@
   "kill_day": false,
   "kill_day_unavailable": null,
   "freshness": {
-   "status": "current",
-   "expected_last_bar_day": "2026-11-12",
-   "behind_days": 0,
-   "behind": [],
+   "status": "stale",
+   "expected_last_bar_day": "2026-11-13",
+   "behind_days": 1,
+   "behind": [
+    "2026-11-13"
+   ],
    "lane_owner": "bm-c",
-   "read_on": "bm-c"
+   "read_on": "bm-a",
+   "note": "读到的是 2026-11-12 的副本：最后采集日 2026-11-12，比应有最新 bar 日 2026-11-13 落后 1 个交易日（车道宿主 bm-c）"
   }
  },
  "ladder": {
@@ -468,7 +471,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 53091.7
+    "last_append_age_min": 53872.1
    },
    {
     "family": "FUND-VALUE-P1",
@@ -476,7 +479,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 53936.2
+    "last_append_age_min": 54722.5
    },
    {
     "family": "FUND-DIVLOWVOL-P1",
@@ -484,7 +487,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 50729.5
+    "last_append_age_min": 51519.6
    }
   ]
  },
@@ -582,32 +585,32 @@
   "status": "ok",
   "source": "exchange_calendar_audit.load_calendar/expected_last_day",
   "calendar_last": "2026-12-31",
-  "expected_bar": "2026-11-12",
+  "expected_bar": "2026-11-13",
   "rows": [
    {
     "face": "etf_book",
     "label": "⑥ ETF 复合书",
     "cutoff": "2026-11-12",
-    "owed_sessions": 0,
-    "state": "current"
+    "owed_sessions": 1,
+    "state": "behind"
    },
    {
     "face": "risk_tape",
     "label": "③ 风险带（zt 四面板）",
     "cutoff": "2026-11-12",
-    "owed_sessions": 0,
-    "state": "current"
+    "owed_sessions": 1,
+    "state": "behind"
    },
    {
     "face": "market",
     "label": "① 市场政体态",
     "cutoff": "2026-11-12",
-    "owed_sessions": 0,
-    "state": "current"
+    "owed_sessions": 1,
+    "state": "behind"
    }
   ],
-  "worst_face": null,
-  "worst_owed_sessions": 0,
+  "worst_face": "⑥ ETF 复合书",
+  "worst_owed_sessions": 1,
   "unreadable": [],
   "book_panel_last_bar": "2026-11-12"
  },
