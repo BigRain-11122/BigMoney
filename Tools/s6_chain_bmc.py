@@ -1539,6 +1539,21 @@ LEGS = [
 ]
 
 
+# Per-leg wall-clock budgets (seconds). A leg killed at the default budget loses
+# its work and its face never refreshes, so a budget that is smaller than the
+# leg's honest cost is a silent "this face can never be paid for".
+# r1634: `etf_book_pre2020_write` was killed at 900.2s while the same command
+# finished in 1,217s when run by hand (r1630 13:57:49 -> 14:18:06).
+# Budgets are measurements: raise one only with a recorded elapsed time, and
+# name a leg that actually exists in LEGS (selftest leg pins both).
+LEG_TIMEOUT = {"etf_book_pre2020_write": 2400}
+DEFAULT_LEG_TIMEOUT = 900
+
+
+def leg_budget(name):
+    return int(LEG_TIMEOUT.get(name) or DEFAULT_LEG_TIMEOUT)
+
+
 def run_leg(name, cmd, refresh=None, quiet=False):
     """Run one leg; pay the declared refresh ONLY when the probe says the face is stale.
 
@@ -1551,16 +1566,17 @@ def run_leg(name, cmd, refresh=None, quiet=False):
     says INCONSISTENT, which stays red.
     """
     t0 = time.time()
+    budget = leg_budget(name)
     try:
         r = subprocess.run(cmd, capture_output=True, text=True,
-                           encoding="utf-8", errors="replace", timeout=900)
+                           encoding="utf-8", errors="replace", timeout=budget)
         rc = r.returncode
         text = (r.stdout or "") + (r.stderr or "")
         tail = (r.stdout or "").strip().splitlines()[-1:] or [""]
     except subprocess.TimeoutExpired:
         rc = 124
         text = ""
-        tail = ["TIMEOUT"]
+        tail = ["TIMEOUT after %ds" % budget]
     refreshed = None
     # r1581: a leg whose FACE IS MISSING is the same repair as stale -- its producer is
     # declared in the leg table and the face is simply not on disk yet (BLOCKS-2026-11-11 sat
@@ -1572,7 +1588,7 @@ def run_leg(name, cmd, refresh=None, quiet=False):
         tr = time.time()
         try:
             rr = subprocess.run(refresh, capture_output=True, text=True,
-                                encoding="utf-8", errors="replace", timeout=900)
+                                encoding="utf-8", errors="replace", timeout=budget)
             refresh_rc = rr.returncode
         except subprocess.TimeoutExpired:
             refresh_rc = 124
@@ -1580,14 +1596,15 @@ def run_leg(name, cmd, refresh=None, quiet=False):
                      "elapsed_sec": round(time.time() - tr, 1)}
         try:
             r2 = subprocess.run(cmd, capture_output=True, text=True,
-                                encoding="utf-8", errors="replace", timeout=900)
+                                encoding="utf-8", errors="replace", timeout=budget)
             rc = r2.returncode
             tail = (r2.stdout or "").strip().splitlines()[-1:] or [""]
         except subprocess.TimeoutExpired:
             rc = 124
-            tail = ["TIMEOUT"]
+            tail = ["TIMEOUT after %ds" % budget]
     rec = {"leg": name, "rc": rc,
-           "elapsed_sec": round(time.time() - t0, 1), "tail": tail[0][:220]}
+           "elapsed_sec": round(time.time() - t0, 1), "tail": tail[0][:220],
+           "timeout_sec": budget}
     if refreshed:
         rec["refreshed"] = refreshed
     if not quiet:
@@ -1636,6 +1653,29 @@ def selftest():
         rec3 = run_leg("no_refresh_fixture", bad_probe, None, quiet=True)
         _check("a leg without a refresh declared is unaffected",
                rec3["rc"] == 2 and "refreshed" not in rec3, "rec=%r" % (rec3,))
+
+        # r1634: a budget smaller than a leg's honest cost kills the work and the
+        # face never refreshes. Prove the budget is honoured AND that the record
+        # says which budget it hit, then that the table only names real legs.
+        LEG_TIMEOUT["sleep_fixture"] = 1
+        try:
+            slow = run_leg("sleep_fixture",
+                           [py, "-c", "import time;time.sleep(5);print('done')"],
+                           quiet=True)
+        finally:
+            LEG_TIMEOUT.pop("sleep_fixture", None)
+        _check("a per-leg budget is honoured and the timeout names it",
+               slow["rc"] == 124 and "after 1s" in slow["tail"]
+               and slow["timeout_sec"] == 1, "rec=%r" % (slow,))
+        _check("default budget applies to unnamed legs",
+               leg_budget("some_other_leg") == DEFAULT_LEG_TIMEOUT
+               and leg_budget("etf_book_pre2020_write") == 2400)
+        _leg_names = {row[0] for row in LEGS}
+        _check("every per-leg budget names a real leg",
+               all(k in _leg_names for k in LEG_TIMEOUT)
+               and all(v > DEFAULT_LEG_TIMEOUT for v in LEG_TIMEOUT.values()),
+               "budgets=%r missing=%r"
+               % (LEG_TIMEOUT, sorted(set(LEG_TIMEOUT) - _leg_names)))
 
         # r1581: a face that does not exist yet is repairable -- its producer is declared.
         flag4 = os.path.join(td, "missing_face.flag")
