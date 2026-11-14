@@ -1114,6 +1114,49 @@ def main() -> int:
               _r.returncode == 0, f"exit={_r.returncode} | {_tail[:110]}")
     except Exception as e:
         check("product: index-futures roll-gap states re-derived", False, str(e))
+    # r1698: the roll cost is the last input on the index-futures carry lines that was a
+    # document rather than a tape, and the face that replaced it concluded it CANNOT settle
+    # the question (the range-implied spread saturates at ~20x the tick). That is the shape
+    # worth guarding: a face whose headline is a bound has to keep saying so. Three legs --
+    # the selftest (estimator borrowed, band arithmetic, bias flag two-sided), the page vs
+    # face drift, and a re-derivation of the load-bearing list from the products themselves.
+    try:
+        _r = _leg_memo([sys.executable, "scripts/idx_fut_roll_cost.py", "--selftest"], 120)
+        _tail = ((_r.stdout or _r.stderr).strip().splitlines() or ["no output"])[-1]
+        check("product: index-futures roll cost measured (selftest 22 legs)",
+              _r.returncode == 0, f"exit={_r.returncode} | {_tail[:90]}")
+    except Exception as e:
+        check("product: index-futures roll cost measured (selftest 22 legs)", False, str(e))
+    try:
+        _rf = os.path.join(PATHS.root, "results", "idx_fut_roll_cost.json")
+        _pg = os.path.join(PATHS.root, "research", "IDX_FUT_ROLL_COST.md")
+        if not (os.path.exists(_rf) and os.path.exists(_pg)):
+            check("product: roll cost does not claim a verdict it cannot have (r1698)",
+                  False, "missing face or page")
+        else:
+            with open(_rf, encoding="utf-8") as _fh:
+                _v = json.load(_fh)
+            with open(_pg, encoding="utf-8") as _fh:
+                _page = _fh.read()
+            _prods = {p: x for p, x in (_v.get("products") or {}).items()
+                      if x.get("status") == "ok"}
+            # (a) the unresolved list is exactly the products whose break-even sits in band
+            _want = sorted([p for p, x in _prods.items() if x.get("breakeven_inside_band")])
+            _said = sorted(_v["verdict"].get("unresolved_breakeven_inside_band") or [])
+            # (b) band must be ordered, and a line called "robust above" must really clear it
+            _bad = [p for p in (_v["verdict"].get("robust_above_band") or [])
+                    if p not in _prods
+                    or (_prods[p].get("breakeven_bp_per_roll") or 0)
+                    <= (_prods[p].get("cost_band_bp") or [0, 0])[1]]
+            # (c) a page that claims a bound must print the word unresolved when the list is
+            # non-empty -- the r1692 failure mode was numbers present and the sentence gone
+            _sentence = (not _want) or ("unresolved pending a quote" in _page)
+            check("product: roll cost does not claim a verdict it cannot have (r1698)",
+                  _want == _said and not _bad and _sentence,
+                  f"unresolved want={_want} said={_said} robust_bad={_bad} "
+                  f"sentence={_sentence}")
+    except Exception as e:
+        check("product: roll cost does not claim a verdict it cannot have (r1698)", False, str(e))
     # r1691: the treasury curve verdict (T vs TF, DIRECTION-20261114 section 3) closed a line
     # as KILL. A closed line is only worth closing if the file that says so cannot be edited
     # by hand -- so the verdict is re-derived here from its own criteria and the page's two

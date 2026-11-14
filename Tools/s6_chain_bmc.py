@@ -160,6 +160,14 @@ LEGS = [
     # close, and charge a cost ladder on the switches. It reads the contract cache the leg
     # above fills (no network), so a masked day cannot flatter a number here. ~1-3s.
     ("idx_fut_real_nav", ["python", "scripts/idx_fut_real_nav.py", "--write-doc"]),
+    # r1698: the roll book above prices every switch at the same close, which leaves exactly
+    # one cost still assumed -- crossing the spread twice, published as fee + one tick each
+    # leg. This leg prices it from each contract's own high/low (Corwin-Schultz, imported
+    # from the ETF cost tape, not re-derived), splits the rolls by the day's range to show
+    # the estimator saturating on futures, and then states the thing that matters: which
+    # lines' break-evens sit inside the band the tape cannot resolve. Reads the same cache;
+    # ~2-4s, no network, no judge.
+    ("idx_fut_roll_cost", ["python", "scripts/idx_fut_roll_cost.py", "--write-doc"]),
     # r1695: the carry-per-capital face had a `checkdoc` guard and no producer -- the same
     # "produced once by hand, then read" class (r1282/r1471). It now prices the same gates
     # under two roll masks and that column flips IC/IM over the 3% line, so letting it age
