@@ -56,11 +56,14 @@ CRITERIA = {
 
 
 # ------------------------------------------------------------------ contract book
-def contract_panel(prod, cache_dir=None):
-    """Every cached contract of this product: {sym: {date: (close, open interest, volume)}}.
+def contract_panel_ohlc(prod, cache_dir=None):
+    """Every cached contract of this product, with the open as well as the close.
 
-    Cache only.  The roll-reconstruction leg already owns the pull (and its --max-pull
-    budget); this face is a reader, so a missing contract is an absent year, not a fetch.
+    {sym: {date: {"open", "close", "hold", "volume"}}}.  The close-only tuple below is a
+    projection of this one, not a second parser: an execution face has to fill at the
+    next open, and two readers over the same CSVs is how the two faces stop agreeing
+    (r1375 family).  An open that is missing or non-positive falls back to that day's
+    close and is counted, never invented.
     """
     d = cache_dir or CONTRACT_DIR
     if not os.path.isdir(d):
@@ -79,13 +82,33 @@ def contract_panel(prod, cache_dir=None):
         series = {}
         for r in rows:
             try:
-                series[str(r["date"])[:10]] = (float(r["close"]), float(r["hold"]),
-                                               float(r["volume"]))
+                close = float(r["close"])
+                hold = float(r["hold"])
+                vol = float(r["volume"])
+                try:
+                    op = float(r["open"])
+                except (KeyError, TypeError, ValueError):
+                    op = 0.0
+                if not (op > 0):
+                    op = close                      # counted by the caller, not hidden
+                series[str(r["date"])[:10]] = {"open": op, "close": close,
+                                               "hold": hold, "volume": vol}
             except (KeyError, TypeError, ValueError):
                 continue
         if series:
             out[sym] = series
     return out
+
+
+def contract_panel(prod, cache_dir=None):
+    """Every cached contract of this product: {sym: {date: (close, open interest, volume)}}.
+
+    Cache only.  The roll-reconstruction leg already owns the pull (and its --max-pull
+    budget); this face is a reader, so a missing contract is an absent year, not a fetch.
+    """
+    return {sym: {d: (row["close"], row["hold"], row["volume"])
+                  for d, row in series.items()}
+            for sym, series in contract_panel_ohlc(prod, cache_dir).items()}
 
 
 def active_path(dates, panel, margin=None):

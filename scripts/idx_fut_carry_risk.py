@@ -265,7 +265,7 @@ def product_spread(prod, cache_dir=None):
                                  - 1.0) * 100.0, 3)
     except Exception:                                          # noqa: BLE001
         etf_ann = None
-    return {"spread": spread, "dates": cal, "rolls": len(rolls),
+    return {"spread": spread, "dates": cal, "days": days, "rolls": len(rolls),
             "forced_api_days": forced, "index": code, "etf_ann_pct": etf_ann,
             "etf_flag": etf_flag,
             "futures_ann_pct": round(base.compound_pct(rf), 3),
@@ -273,7 +273,132 @@ def product_spread(prod, cache_dir=None):
             "days_dropped": (len(days) - 1) - len(spread)}
 
 
-def judge_product(prod, sp, book):
+def open_returns(dates, panel_ohlc, held):
+    """Returns of the held contract between two OPENS, filled the day after the signal.
+
+    Every reading this family published so far buys at a close: the roll book marks both
+    legs at the same close, so the decision and the fill are the same instant and the
+    seam costs zero by construction.  A desk cannot do that -- it decides after the
+    close and fills the next session -- so the same book has to be re-run with the fill
+    one session later, at that session's open.  The pairing is produced here (signal day
+    -> fill day -> exit day) rather than rebuilt by a caller.
+    """
+    rf, ri = [], []
+    for k in range(1, len(dates) - 1):
+        d_dec, d_fill, d_exit = dates[k - 1], dates[k], dates[k + 1]
+        sym = held.get(d_dec)
+        row_a = panel_ohlc.get(sym, {}).get(d_fill) if sym else None
+        row_b = panel_ohlc.get(sym, {}).get(d_exit) if sym else None
+        if not (row_a and row_b and row_a["open"] > 0 and row_b["open"] > 0):
+            continue
+        rf.append(row_b["open"] / row_a["open"] - 1.0)
+        ri.append(d_exit)
+    return rf, ri
+
+
+def exec_vs_close(prod, sp, cache_dir=None):
+    """The implementable version of the same book: decide at the close, fill at the next open.
+
+    The published gap (futures minus the matching ETF) is a close-to-close number.  If it
+    only exists because the book buys at the price it decides at, it is not a gap a desk
+    can collect.  This runs both legs from the same opens, subtracts the roll cost the
+    cost face already measured, and prints the close-to-close number beside it so a
+    reader can see what the execution convention is worth.
+    """
+    panel_ohlc = rn.contract_panel_ohlc(prod, cache_dir)
+    if not panel_ohlc:
+        return {"status": "no_contract_book"}
+    panel_proj = {sym: {d: (row["close"], row["hold"], row["volume"])
+                        for d, row in series.items()}
+                  for sym, series in panel_ohlc.items()}
+    held, rolls = rn.active_path(sp["days"], panel_proj)
+    rf, exits = open_returns(sp["dates"], panel_ohlc, held)
+    if len(rf) < CRITERIA.get("min_days", 400):
+        return {"status": "too_short", "days": len(rf)}
+
+    etf_code = base.PAIRS[prod][2]
+    etf_open = base.load_etf_field(etf_code) if etf_code else None
+    etf_ann_open, etf_flag = None, None
+    if not etf_code:
+        etf_flag = "no ETF is mapped to this index, so there is no other leg to price"
+    elif not etf_open:
+        etf_flag = "the ETF panel has no opens on this host"
+    else:
+        sub = [etf_open[d] for d in exits if d in etf_open]
+        if len(sub) <= 250:
+            etf_flag = "only %d shared open-to-open days" % len(sub)
+        elif sub[0] <= 0:
+            etf_flag = "the ETF leg starts at a non-positive open"
+        else:
+            jumps = sum(1 for k in range(1, len(sub))
+                        if sub[k] / sub[k - 1] > 1.35 or sub[k] / sub[k - 1] < 0.65)
+            if jumps:
+                etf_flag = ("%d day(s) move more than 35%% in the ETF leg at the open;"
+                            " the gap is refused, not printed as zero" % jumps)
+            else:
+                etf_ann_open = round(((sub[-1] / sub[0]) ** (base.TRADING_DAYS / (len(sub) - 1))
+                                     - 1.0) * 100.0, 3)
+
+    fut_ann_open = round(base.compound_pct(rf), 3)
+    gap_open = None if etf_ann_open is None else round(fut_ann_open - etf_ann_open, 3)
+    gap_close = (None if (sp.get("futures_ann_pct") is None or sp.get("etf_ann_pct") is None)
+                 else round(sp["futures_ann_pct"] - sp["etf_ann_pct"], 3))
+
+    # The cost face prints a BAND, not a point: its estimator has no resolution below a
+    # few dozen ticks, so a single "roll costs X" would be a choice dressed as a number.
+    # Two drags are computed -- the exchange-file floor and the measured median -- and the
+    # reader gets the gap under both ends.
+    band = roll_cost_band(prod)
+    years = len(rf) / base.TRADING_DAYS
+
+    def drag(bp):
+        return None if (bp is None or years <= 0) else round(len(rolls) * bp / 1e4 / years * 100.0, 3)
+
+    drag_floor = drag(band.get("floor_bp") if band else None)
+    drag_median = drag(band.get("median_bp") if band else None)
+    gap_floor = None if (gap_open is None or drag_floor is None) else round(gap_open - drag_floor, 3)
+    gap_median = None if (gap_open is None or drag_median is None) else round(gap_open - drag_median, 3)
+    return {
+        "status": "ok",
+        "days": len(rf),
+        "rolls": len(rolls),
+        "roll_cost_bp": band,
+        "roll_cost_drag_pp_per_year": {"file_floor": drag_floor, "measured_median": drag_median},
+        "futures_open_open_ann_pct": fut_ann_open,
+        "etf_open_open_ann_pct": etf_ann_open,
+        "etf_flag": etf_flag,
+        "gap_open_open_pp": gap_open,
+        "gap_close_close_pp": gap_close,
+        "gap_after_roll_cost_pp": {"file_floor": gap_floor, "measured_median": gap_median},
+    }
+
+
+def roll_cost_band(prod):
+    """The measured cost of one roll for this product, as a band, from the cost face.
+
+    Read, not recomputed: idx_fut_roll_cost owns that estimator and its caveats (no
+    resolution below ~40 ticks, which is why IF stays unresolved there).  The floor is
+    the exchange file; the median is what the amplitude reading returns, and the cost
+    page itself says that reading is an upper region rather than a mid estimate.  If the
+    face is missing, the numbers are absent and the caller prints "unknown", never zero.
+    """
+    path = os.path.join(ROOT, "results", "idx_fut_roll_cost.json")
+    if not os.path.exists(path):
+        return None
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            face = json.load(f)
+        row = face["products"][prod]
+        med = (row.get("measured") or {}).get("median_bp")
+        floor = row.get("published_floor_bp")
+        if med is None and floor is None:
+            return None
+        return {"median_bp": med, "floor_bp": floor}
+    except Exception:                                          # noqa: BLE001
+        return None
+
+
+def judge_product(prod, sp, book, cache_dir=None):
     r = risk_stats(sp["spread"], sp["dates"])
     scaled, lev = scale_to_vol(sp["spread"], CRITERIA["vol_target_pct"], CRITERIA["max_leverage"])
     r8 = risk_stats(scaled, sp["dates"])
@@ -313,6 +438,7 @@ def judge_product(prod, sp, book):
         "days": len(sp["spread"]), "days_dropped": sp.get("days_dropped"),
         "span": {"first": sp["dates"][0], "last": sp["dates"][-1]},
         "risk": r,
+        "execution": exec_vs_close(prod, sp, cache_dir),
         "at_vol_target": {"target_pct": CRITERIA["vol_target_pct"], "leverage": lev, **r8},
         "margin_identity": margins,
         "realizable": realizable_form(prod, sp, r),
@@ -408,7 +534,7 @@ def build(cache_dir=None, with_book=True):
         if book is None:
             face["products"][prod] = {"status": "no_book_to_compare"}
             continue
-        row = judge_product(prod, sp, book)
+        row = judge_product(prod, sp, book, cache_dir)
         face["products"][prod] = row
         cut = row["span"]["last"]
         if face["evidence_cutoff"] is None or cut > face["evidence_cutoff"]:
@@ -443,6 +569,12 @@ def judge(face):
 # ------------------------------------------------------------------ rendering
 def _p(v, nd=2, dash="-"):
     return dash if v is None else ("%.*f" % (nd, v))
+
+
+def _sgn(v, nd=2, dash="-"):
+    """Signed percentage points.  A gap is only readable with its sign: +2.5 and -2.5
+    are opposite decisions, and a formatter that drops the sign merges them."""
+    return dash if v is None else ("%+.*f" % (nd, v))
 
 
 def render_md(face):
@@ -547,6 +679,67 @@ def render_md(face):
     for p, why in flags:
         L.append("- **%s leg not priced**: %s -- an unread leg is printed as a refusal, not"
                  " as a zero gap" % (p, why))
+    L.append("")
+    L.append("## the same book filled at the next open")
+    L.append("")
+    L.append("Every number above buys at the close it decides at. A desk decides after the"
+             " close and fills the next session, so the book is re-run with the fill one"
+             " session later at that session's open (both legs, rolls included), and the"
+             " roll cost the cost face measured is subtracted. If the gap against the ETF"
+             " only exists at closes, it is not a gap anyone can collect.")
+    L.append("")
+    L.append("| product | futures open→open %/yr | ETF open→open %/yr | gap pp | gap at closes pp |"
+             " gap after cost (file floor) pp | gap after cost (measured median) pp |")
+    L.append("|---|---|---|---|---|---|---|")
+    for prod in CRITERIA["products"]:
+        row = (face.get("products") or {}).get(prod) or {}
+        ex = row.get("execution") or {}
+        if ex.get("status") != "ok":
+            L.append("| %s | - | - | - | - | - | %s |"
+                     % (prod, ex.get("status", "not built")))
+            continue
+        after = ex.get("gap_after_roll_cost_pp") or {}
+        L.append("| %s | %s | %s | %s | %s | %s | %s |"
+                 % (prod, _p(ex.get("futures_open_open_ann_pct")),
+                    _p(ex.get("etf_open_open_ann_pct")),
+                    _sgn(ex.get("gap_open_open_pp")), _sgn(ex.get("gap_close_close_pp")),
+                    _sgn(after.get("file_floor")), _sgn(after.get("measured_median"))))
+    for prod in CRITERIA["products"]:
+        ex = ((face.get("products") or {}).get(prod) or {}).get("execution") or {}
+        if ex.get("status") != "ok":
+            continue
+        after = ex.get("gap_after_roll_cost_pp") or {}
+        floor, med = after.get("file_floor"), after.get("measured_median")
+        at_close = ex.get("gap_close_close_pp")
+        drags = ex.get("roll_cost_drag_pp_per_year") or {}
+        if ex.get("gap_open_open_pp") is None:
+            # Two different absences live here and they call for opposite actions: the
+            # other leg cannot be priced (quote problem) versus the cost is unknown
+            # (face missing).  Printing one word for both is the r1159 family.
+            L.append("- **%s**: no open-to-open gap is printed because the other leg could not"
+                     " be priced (%s); that is a missing price, not a zero gap"
+                     % (prod, ex.get("etf_flag") or "unstated"))
+        elif floor is None or med is None:
+            L.append("- **%s**: the roll cost for this product is unknown on this host, so the"
+                     " gap after execution is not printed (an absent number is not zero)" % prod)
+        elif floor > 0 and med > 0:
+            L.append("- **%s**: holds at both ends of the cost band: %+.2f pp/yr at the exchange"
+                     " file, %+.2f pp/yr at the measured median (%d rolls, drag %s / %s pp/yr)"
+                     % (prod, floor, med, ex["rolls"], _p(drags.get("file_floor")),
+                        _p(drags.get("measured_median"))))
+        elif floor > 0:
+            L.append("- **%s**: only at the exchange file (%+.2f pp/yr); at the measured median"
+                     " the gap is %+.2f pp/yr, so this stays undecided on a quote tape rather"
+                     " than admitted" % (prod, floor, med))
+        else:
+            L.append("- **%s**: does not survive the fill convention and the roll cost: %+.2f"
+                     " pp/yr at the file floor against %s pp at closes -- the published gap is"
+                     " partly the convention, not the carry" % (prod, floor, _sgn(at_close)))
+    refused = [(p, ((face.get("products") or {}).get(p) or {}).get("execution") or {})
+               for p in CRITERIA["products"]]
+    for p, ex in refused:
+        if ex.get("status") == "ok" and ex.get("etf_flag"):
+            L.append("- **%s leg not priced at the open**: %s" % (p, ex["etf_flag"]))
     L.append("")
     L.append("## what one contract actually ties up (margin is an assumption)")
     L.append("")
@@ -697,10 +890,29 @@ def selftest():
     leg("partial years are printed with their own bar count",
         yr["2024"]["days"] == 9 and yr["2025"]["days"] == 10, str({y: v["days"] for y, v in yr.items()}))
 
+    # the fill is the session AFTER the signal: a book that decides at the close cannot
+    # transact at it, and a test that pairs decision and fill on the same day would pass
+    # on an implementation that quietly buys at yesterday's price.
+    oh = {"A": {"d1": {"open": 100.0, "close": 100.0, "hold": 1.0, "volume": 1.0},
+                "d2": {"open": 110.0, "close": 111.0, "hold": 1.0, "volume": 1.0},
+                "d3": {"open": 121.0, "close": 122.0, "hold": 1.0, "volume": 1.0},
+                "d0": {"open": 50.0, "close": 99.0, "hold": 1.0, "volume": 1.0}}}
+    ro, _ex = open_returns(["d0", "d1", "d2", "d3"], oh, {"d0": "A", "d1": "A", "d2": "A"})
+    leg("open-to-open returns pair signal day with the NEXT session's open",
+        len(ro) == 2 and abs(ro[0] - 0.10) < 1e-9 and abs(ro[1] - 0.10) < 1e-9, str(ro))
+    leg("the fill day is not the signal day (50 -> 110 would be the wrong pairing)",
+        abs(ro[0] - 1.2) > 1e-6, str(ro[0] if ro else None))
+
+    # a gap keeps its sign when it is printed
+    leg("a gap prints its sign", _sgn(-2.5) == "-2.50" and _sgn(2.5) == "+2.50", _sgn(-2.5))
+
     # the rendered page must carry the verdict words, not just the numbers
     fake = {"generated": "x", "evidence_cutoff": "2026-11-13", "criteria": CRITERIA,
             "book": {"status": "unavailable"}, "products": {}, "verdict": {}}
     page = render_md(fake)
+    leg("the page prints the execution convention beside the close-to-close gap",
+        "fill" in page and "gap after cost (measured median)" in page,
+        "gap after cost (measured median)" if "gap after cost (measured median)" in page else page[:60])
     leg("the page names the missing book instead of printing zeros",
         "could not be rebuilt" in page, page.splitlines()[6][:60] if len(page.splitlines()) > 6 else "")
 

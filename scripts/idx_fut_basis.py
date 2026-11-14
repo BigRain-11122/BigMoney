@@ -177,6 +177,27 @@ def load_etf(code):
     return out or None
 
 
+def load_etf_field(code, field="open"):
+    """One column of the same ETF panel, keyed by date.
+
+    Every published face reads closes, so an execution face that fills at the next open
+    has to ask this panel for the open.  Same reader, same file: a second parser over
+    data/daily is exactly the copy that drifts (r1375 family).
+    """
+    path = os.path.join(ROOT, "data", "daily", code + ".csv")
+    if not os.path.exists(path):
+        return None
+    out = {}
+    for r in read_csv_rows(path):
+        try:
+            v = float(r[field])
+        except (KeyError, TypeError, ValueError):
+            continue
+        if v > 0:
+            out[str(r["date"])[:10]] = v
+    return out or None
+
+
 def aligned(series_a, series_b):
     dates = sorted(set(series_a) & set(series_b))
     return dates, [series_a[d] for d in dates], [series_b[d] for d in dates]

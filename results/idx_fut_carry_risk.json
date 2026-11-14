@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-15T05:54:22",
+ "generated": "2026-11-15T06:34:21",
  "evidence_cutoff": "2026-11-13",
  "kind": "carry_sleeve_risk",
  "criteria": {
@@ -133,6 +133,28 @@
     },
     "worst_year_pct": -0.819,
     "worst_year": "2018"
+   },
+   "execution": {
+    "status": "ok",
+    "days": 1952,
+    "rolls": 63,
+    "roll_cost_bp": {
+     "median_bp": 30.792,
+     "floor_bp": 1.5
+    },
+    "roll_cost_drag_pp_per_year": {
+     "file_floor": 0.118,
+     "measured_median": 2.425
+    },
+    "futures_open_open_ann_pct": 14.269,
+    "etf_open_open_ann_pct": 4.988,
+    "etf_flag": null,
+    "gap_open_open_pp": 9.281,
+    "gap_close_close_pp": 9.865,
+    "gap_after_roll_cost_pp": {
+     "file_floor": 9.163,
+     "measured_median": 6.856
+    }
    },
    "at_vol_target": {
     "target_pct": 8.0,
@@ -323,6 +345,28 @@
     "worst_year_pct": -3.149,
     "worst_year": "2018"
    },
+   "execution": {
+    "status": "ok",
+    "days": 1952,
+    "rolls": 74,
+    "roll_cost_bp": {
+     "median_bp": 19.843,
+     "floor_bp": 1.5
+    },
+    "roll_cost_drag_pp_per_year": {
+     "file_floor": 0.139,
+     "measured_median": 1.835
+    },
+    "futures_open_open_ann_pct": 5.564,
+    "etf_open_open_ann_pct": 3.079,
+    "etf_flag": null,
+    "gap_open_open_pp": 2.485,
+    "gap_close_close_pp": 3.607,
+    "gap_after_roll_cost_pp": {
+     "file_floor": 2.346,
+     "measured_median": 0.65
+    }
+   },
    "at_vol_target": {
     "target_pct": 8.0,
     "leverage": 1.8275,
@@ -495,6 +539,28 @@
     },
     "worst_year_pct": 4.443,
     "worst_year": "2023"
+   },
+   "execution": {
+    "status": "ok",
+    "days": 1043,
+    "rolls": 23,
+    "roll_cost_bp": {
+     "median_bp": 28.232,
+     "floor_bp": 1.5
+    },
+    "roll_cost_drag_pp_per_year": {
+     "file_floor": 0.081,
+     "measured_median": 1.519
+    },
+    "futures_open_open_ann_pct": 8.41,
+    "etf_open_open_ann_pct": null,
+    "etf_flag": "1 day(s) move more than 35% in the ETF leg at the open; the gap is refused, not printed as zero",
+    "gap_open_open_pp": null,
+    "gap_close_close_pp": null,
+    "gap_after_roll_cost_pp": {
+     "file_floor": null,
+     "measured_median": null
+    }
    },
    "at_vol_target": {
     "target_pct": 8.0,
@@ -669,6 +735,28 @@
     "worst_year_pct": -3.63,
     "worst_year": "2018"
    },
+   "execution": {
+    "status": "ok",
+    "days": 1952,
+    "rolls": 89,
+    "roll_cost_bp": {
+     "median_bp": 21.071,
+     "floor_bp": 1.5
+    },
+    "roll_cost_drag_pp_per_year": {
+     "file_floor": 0.167,
+     "measured_median": 2.344
+    },
+    "futures_open_open_ann_pct": 3.082,
+    "etf_open_open_ann_pct": null,
+    "etf_flag": "no ETF is mapped to this index, so there is no other leg to price",
+    "gap_open_open_pp": null,
+    "gap_close_close_pp": null,
+    "gap_after_roll_cost_pp": {
+     "file_floor": null,
+     "measured_median": null
+    }
+   },
    "at_vol_target": {
     "target_pct": 8.0,
     "leverage": 1.8188,
@@ -836,5 +924,5 @@
   "any_candidate": true,
   "note": "a candidate here is a sleeve worth pricing forward, not an adopted position: the readings are in-sample and the margin is an assumption"
  },
- "elapsed_sec": 48.5
+ "elapsed_sec": 48.0
 }
