@@ -3236,13 +3236,21 @@ def live_quote_face(dir_path=LIVE_QUOTE_DIR, truth=None):
         return {"status": "unreadable", "artifact": _rel(latest, ROOT), "detail": repr(exc)}
 
 
-def live_quote_block(lq):
+def live_quote_block(lq, page_day=None):
     L = []
     st = lq.get("status")
+    _bar = lq.get("panel_bar")
+    # r1663: "tonight" is a claim about the reader's day, and this block is rebuilt on
+    # Saturdays too -- there the newest bar is Friday's close, so the old heading promised a
+    # session that has not happened. The word is only allowed when that bar IS the page's day.
+    _same_day = bool(page_day and _bar and str(_bar) == str(page_day))
     # the heading is the question; once the panel carries tonight's close the question
     # is not "what would it be worth", so the heading has to change with the answer.
-    L.append("## 今晚的收盘，面板自己有了" if st == "panel_current"
-             else "## 面板还停在昨天的时候，这本书今天值多少？")
+    if st == "panel_current":
+        L.append("## 今晚的收盘，面板自己有了" if _same_day
+                 else "## %s 的收盘，面板自己有了" % (_bar or "面板最后一根"))
+    else:
+        L.append("## 面板还没跟上那一根 bar 的时候，这本书值多少？")
     L.append("")
     if st == "panel_current":
         # r1512: the question this section exists for has been answered upstream. Printing
@@ -3258,9 +3266,11 @@ def live_quote_block(lq):
         else:
             src = ("台账里查不到这一根是谁写的——补录台账 r1512 才开始记，更早补齐的行"
                    "没有出处，所以这里不替它认领")
-        L.append("**这一节今天已经没有要回答的问题。** 日线面板自己已经吃到 **%s** 的收盘：%s。"
-                 "上面那张票面就是按这根 bar 算的，本页的价、仓位、溢价都同一天。"
-                 % (bar, src))
+        L.append(("**这一节今天已经没有要回答的问题。** " if _same_day else
+                  "**这一节已经没有要回答的问题。** ")
+                 + "日线面板自己已经吃到 **%s** 的收盘%s：%s。"
+                   "上面那张票面就是按这根 bar 算的，本页的价、仓位、溢价都同一天。"
+                 % (bar, "" if _same_day else "（那是那一根 bar 的日子，不是今天）", src))
         L.append("")
         snap = lq.get("snapshot_as_of")
         L.append("下面那块快照面最新的只到 **%s**，比面板还旧，所以这里不再印它的读数——"
@@ -3281,8 +3291,11 @@ def live_quote_block(lq):
         return L
     v = lq.get("verdict")
     if v == "NO_NEW_BAR":
-        L.append("数据面已经吃到 **%s** 这一根 bar，快照里没有更新的东西可加——这一问今天没有新答案。"
-                 % lq.get("panel_bar"))
+        _tail = ("这一问今天没有新答案。" if _same_day else
+                 "这一问没有新答案——两个面都停在 %s，不是今天。"
+                 % (lq.get("panel_bar") or "那一根"))
+        L.append("数据面已经吃到 **%s** 这一根 bar，快照里没有更新的东西可加——%s"
+                 % (lq.get("panel_bar"), _tail))
         L.append("")
         return L
     if v != "QUOTE_AHEAD":
@@ -7734,7 +7747,8 @@ def render_md(p, sb=None):
         add(_eg_line)
     # r1251: the panel is a bar behind for a few hours every evening. Say what the book is
     # worth today, and say it only when the quote's own rows still reproduce it.
-    for _lq_line in live_quote_block(p.get("live_quote") or {}):
+    for _lq_line in live_quote_block(p.get("live_quote") or {},
+                                     page_day=p.get("generated_for_date")):
         add(_lq_line)
     # r1238: the gate is on the way in only -- can the desk get out of what it holds?
     for _sf_line in sellability_block(p.get("sellability") or {}):
@@ -10503,6 +10517,30 @@ def selftest():
         "今天这两个" not in _pp_weekend_txt
         and "却都不是今天" in _pp_weekend_txt
         and "2026-11-14" in _pp_weekend_txt, "bar=%s" % _pp_ok.get("priced_bar"))
+    # L252-L255 (r1663): the same sweep one section down. The evening-quote block also said
+    # "tonight" and "today", and it is rebuilt on Saturdays while the newest bar is Friday's
+    # close. One leg per side, so a fix that only deletes the words fails; one leg for the
+    # heading of the branch that is not current, which claimed "yesterday" too.
+    _cur_today_txt = "\n".join(live_quote_block(_ql_cur, page_day="2026-11-04"))
+    chk("L252 live quote: on the bar's own day the section still greets the reader with tonight",
+        "今晚的收盘" in _cur_today_txt and "这一节今天" in _cur_today_txt,
+        "tonight=%s" % ("今晚" in _cur_today_txt))
+    _cur_sat_txt = "\n".join(live_quote_block(_ql_cur, page_day="2026-11-14"))
+    chk("L253 live quote: a sheet rebuilt after the close never promises tonight, and names the bar",
+        "今晚" not in _cur_sat_txt and "这一节今天" not in _cur_sat_txt
+        and "2026-11-04" in _cur_sat_txt and "不是今天" in _cur_sat_txt,
+        "tonight=%s" % ("今晚" in _cur_sat_txt))
+    _same_today_txt = "\n".join(live_quote_block(_ql_same, page_day="2026-11-03"))
+    _same_sat_txt = "\n".join(live_quote_block(_ql_same, page_day="2026-11-14"))
+    chk("L254 live quote: 'no new answer today' only when today is the bar, else both stops named",
+        "这一问今天没有新答案" in _same_today_txt
+        and "这一问今天" not in _same_sat_txt and "不是今天" in _same_sat_txt,
+        "today=%s sat=%s" % ("这一问今天没有新答案" in _same_today_txt,
+                             "这一问今天" in _same_sat_txt))
+    _behind_head = "\n".join(live_quote_block(_ql_behind, page_day="2026-11-14"))
+    chk("L255 live quote: the not-yet-current heading claims neither yesterday nor today",
+        "昨天" not in _behind_head and "今天值多少" not in _behind_head
+        and "这本书值多少" in _behind_head, _behind_head.splitlines()[0][:48])
     # L185-L189 (r1541): the page's two days are copied out of the ticket while the page is
     # built, so printed alone they compare one document with itself. Walk the link the page
     # publishes and read the file a reader is about to open -- and an unopened file is not

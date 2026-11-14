@@ -3936,7 +3936,7 @@
    "turnover_arm": 0.9457,
    "turnover_declared": 0.959
   },
-  "elapsed_sec": 93.0,
+  "elapsed_sec": 87.6,
   "evidence_cutoff": "2026-11-13",
   "gross_rows": [
    {
@@ -4313,7 +4313,7 @@
    }
   ],
   "script": "scripts\\etf_book_causal_rebuild.py",
-  "ts": "2026-11-14T02:31:51+0800",
+  "ts": "2026-11-14T10:23:21+0800",
   "verdict": {
    "admissible_arms": [],
    "arms": [
@@ -5279,7 +5279,7 @@
    "up_quantile": 0.8,
    "verdict_rule": "ADOPT_GAP iff some gap arm beats `declared` on CAGR by >= gap_min_pp AND its Sharpe is >= this run's `declared` Sharpe AND its max drawdown is no deeper than declared - dd_tol_pp AND it beats declared on CAGR in >= phase_share_min of the phases; MIXED_ACROSS_PHASES if the return line is cleared but the phase share is not (or the reverse); NO_GAP_EDGE otherwise -- the gap stays information"
   },
-  "elapsed_sec": 92.0,
+  "elapsed_sec": 81.5,
   "evidence_cutoff": "2026-11-13",
   "gap_stats": {
    "entry_bars": 84,
@@ -5638,7 +5638,7 @@
    }
   ],
   "script": "scripts\\etf_book_overnight_gap.py",
-  "ts": "2026-11-14T02:33:24+0800",
+  "ts": "2026-11-14T10:24:43+0800",
   "verdict": {
    "admissible_arms": [],
    "arms": [
@@ -5752,8 +5752,8 @@
   "k_schedule_last": 0.460253,
   "consistency": {
    "generated": {
-    "permission": "2026-11-14T03:25:22+0800",
-    "gap": "2026-11-14T03:25:39+0800",
+    "permission": "2026-11-14T10:53:55+0800",
+    "gap": "2026-11-14T10:53:59+0800",
     "ledger": "2026-11-13T20:58:31+0800"
    },
    "permission_vs_gap": true,
@@ -6719,7 +6719,7 @@
   "inputs": {
    "cut_order_gap": {
     "cutoff": "2026-11-13",
-    "digest": "5ddaf29cc7c5a764"
+    "digest": "966361ec37f86c99"
    },
    "late_sheet_price": {
     "cutoff": "2026-11-13",
@@ -7370,9 +7370,9 @@
  "authority": {
   "writer": "bm-c",
   "owner": "bm-a",
-  "owner_silent_h": 10.8,
+  "owner_silent_h": 12.1,
   "took_over": true,
-  "why": "bm-a has not written its own heartbeat for 10.8 h (> 6 h): its page faces are stopped, not merely old",
+  "why": "bm-a has not written its own heartbeat for 12.1 h (> 6 h): its page faces are stopped, not merely old",
   "no_bar_reason": "human_ages"
  }
 }
