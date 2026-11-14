@@ -1819,13 +1819,23 @@ def sibling_gap_face(path=SIBLING_GAP_JSON):
     }
 
 
-def sibling_gap_block(sg, page_bar=None):
-    """The lines this page prints about whether the swap saving repeats."""
+def sibling_gap_block(sg, page_bar=None, page_day=None):
+    """The lines this page prints about whether the swap saving repeats.
+
+    r1667: every "today" in this block was priced off the gap face's own session. On a
+    page rebuilt the next day that sentence reads as the reader's day -- the same defect
+    the premium/fill/do-or-wait blocks were fixed for (r1664/r1666). The day word now
+    follows page_day; when the page has no day, or the face has no session, the old
+    wording stands.
+    """
     L = []
     add = L.append
-    add("## 这个价差是长期收的，还是今天才有的")
-    add("")
     sg = sg or {}
+    _sg_ds = str(sg.get("session") or "")[:10] or None
+    _now = day_word(page_day, _sg_ds)
+    _now_adj = day_word_adj(page_day, _sg_ds)
+    add("## 这个价差是长期收的，还是只有 %s 才有" % _now)
+    add("")
     if sg.get("status") != "ok":
         # r1656: say which half is missing. "No priced pair" is a day that exists with no
         # sibling to compare; it is not a face the reader should treat as undated or broken.
@@ -1837,30 +1847,30 @@ def sibling_gap_block(sg, page_bar=None):
         if _counts:
             _why = "；这一天的 %d 只腿全部落在 %s（同类标签上没有第二只活着的票）" % (
                 sum(_counts.values()), "、".join(_counts))
-        add("这一节读不到价差历史面（`%s`）：%s。%s**因此本页只有今天的价差，说不出它会不会天天有**%s——"
-            "把今天的一次价差当成长期成本，和把它当成可以永远重复的收益，都是本页现在不能支持的说法。"
+        add("这一节读不到价差历史面（`%s`）：%s。%s**因此本页只有 %s 的价差，说不出它会不会天天有**%s——"
+            "把 %s 的一次价差当成长期成本，和把它当成可以永远重复的收益，都是本页现在不能支持的说法。"
             % (sg.get("artifact") or "results/etf_book_sibling_gap.json", sg.get("detail") or "无读数",
-               _where, _why))
+               _where, _now, _why, _now))
         add("")
         return L
     if page_bar and sg.get("session") and str(page_bar)[:10] != str(sg["session"])[:10]:
         add("价差历史面是拿 **%s** 的盘口锚定的，本页的价是 **%s**——两个日子对不上，"
-            "下面这些历史分位不能搬到今天的单上。" % (sg["session"], page_bar))
+            "下面这些历史分位不能搬到 %s 单上。" % (sg["session"], page_bar, _now_adj))
         add("")
     today = sg.get("today_gain_cny") or 0.0
     rep = sg.get("repeatable_gain_cny") or 0.0
     one = sg.get("one_off_gain_cny") or 0.0
     if today:
         add("**同一笔钱换只票能多买 ￥%s 的篮子，其中按历史平均价差只算得上 ￥%s 是「以后还能再拿到」的，"
-            "剩下 ￥%s 是今天这一次。**" % (format(today, ",.0f"), format(rep, ",.0f"), format(one, ",.0f")))
+            "剩下 ￥%s 是 %s 这一次。**" % (format(today, ",.0f"), format(rep, ",.0f"), format(one, ",.0f"), _now))
         add("")
-    add("| 这只票 | 换到 | 今天价差 | 历史平均 | 多少交易日 | 今天分位 | 读法 |")
+    add("| 这只票 | 换到 | %s价差 | 历史平均 | 多少交易日 | %s分位 | 读法 |" % (_now, _now))
     add("|---|---|---|---|---|---|---|")
     for pr in sg.get("pairs") or []:
         d = pr.get("stats") or {}
         word = SIBLING_GAP_WORDS.get(pr.get("verdict"), pr.get("verdict") or "")
         if pr.get("verdict") == "PERSISTENT_GAP" and (pr.get("flags") or {}).get("today_is_tail"):
-            word += "（但今天是最高分位）"
+            word += "（但 %s 是最高分位）" % _now
         add("| %s | %s %s | %+.2fpp | %s | %s | %s | %s |" % (
             pr.get("leg_symbol"), pr.get("sibling_symbol") or "", pr.get("sibling_name") or "",
             pr.get("gap_today_pp") or 0.0,
@@ -1875,28 +1885,122 @@ def sibling_gap_block(sg, page_bar=None):
             tail = (pr.get("flags") or {}).get("today_is_tail")
             if pr["verdict"] == "PERSISTENT_GAP":
                 say = ("这只票历史上多数日子都比换过去那只贵，平均 %+.2fpp（%d 个交易日，同向占 %.0f%%）——"
-                       "长期换掉它是对的；但今天的 %+.2fpp 是这段历史里的第 %.0f 分位，"
-                       "高出来的那部分是今天这一次，不是长期成本。"
+                       "长期换掉它是对的；但 %s 的 %+.2fpp 是这段历史里的第 %.0f 分位，"
+                       "高出来的那部分是 %s 这一次，不是长期成本。"
                        % (d["mean_pp"], d["days"], 100 * d["share_days_positive"],
-                          pr.get("gap_today_pp") or 0.0, d["today_percentile"]))
+                          _now, pr.get("gap_today_pp") or 0.0, d["today_percentile"], _now))
                 if not tail:
                     say = ("这只票历史上多数日子都比换过去那只贵，平均 %+.2fpp（%d 个交易日，同向占 %.0f%%）"
-                           "——今天的 %+.2fpp 与它一致，长期换掉它就是一次性的修正。"
+                           "——%s 的 %+.2fpp 与它一致，长期换掉它就是一次性的修正。"
                            % (d["mean_pp"], d["days"], 100 * d["share_days_positive"],
-                              pr.get("gap_today_pp") or 0.0))
+                              _now_adj, pr.get("gap_today_pp") or 0.0))
             else:
-                say = ("%d 个交易日里两边平均只差 %+.2fpp，今天的 %+.2fpp 落在第 %.0f 分位"
-                       "——这是今天的一次，别把它当成年年有的收益。"
-                       % (d["days"], d["mean_pp"], pr.get("gap_today_pp") or 0.0, d["today_percentile"]))
+                say = ("%d 个交易日里两边平均只差 %+.2fpp，%s 的 %+.2fpp 落在第 %.0f 分位"
+                       "——这是 %s 的一次，别把它当成年年有的收益。"
+                       % (d["days"], d["mean_pp"], _now_adj, pr.get("gap_today_pp") or 0.0,
+                          d["today_percentile"], _now))
             add("- %s→%s：%s" % (pr.get("leg_symbol"), pr.get("sibling_symbol"), say))
     if sg.get("skipped_legs"):
-        add("- 这一节读不出价的腿：%s。**读不出不是「没有价差」**——这几只票的同类标签上今天没有"
+        add("- 这一节读不出价的腿：%s。**读不出不是「没有价差」**——这几只票的同类标签上 %s 没有"
             "第二只活着的票，所以页面只能给「无法核验」。"
-            % "；".join("%s（%s）" % (x.get("leg_symbol"), x.get("label") or "无同类标签")
+            % ("；".join("%s（%s）" % (x.get("leg_symbol"), x.get("label") or "无同类标签")
                        if x.get("label") else "%s（无同类标签）" % x.get("leg_symbol")
-                       for x in sg["skipped_legs"]))
+                       for x in sg["skipped_legs"]), _now))
     add("")
     return L
+
+
+# r1667: the "today" defect has now been repaired four rounds in a row (quote r1663, do-or-wait
+# r1664, fill r1665, premium r1666) and every one of those repairs was found by eye. This turns
+# the family into a mechanical guard: a block that prints 今天/今日/今晚 without taking a
+# page_day is either repaired or listed below. The ledger is two-sided -- moving a block off the
+# list by repairing it makes the stale row red, so the debt can only shrink deliberately.
+PAGE_DAY_LEDGER = {
+    # status: reader_day = the sentence really means the reader's day; owed = it means the
+    # face's own bar and still says 今天 (the r1664 family, not yet repaired).
+    "permission_block": ("reader_day", "「今天才建仓的话」是给读者的条件句，不是某个面的 bar"),
+    "executed_block": ("reader_day", "「今天这一根 bar」自己点了 bar，读者不会读成自己的日子"),
+    "positions_block": ("reader_day", "同段已有两日对比句；「今天没有新 bar」是 bar 语境"),
+    "universe_lock_block": ("owed", "「今天的 %s 只基金」是锁面自己的名单名册，不是读者今天"),
+    "capital_block": ("owed", "「今天这张可执行单」是票据那天的单，票面日与页面日常常不同"),
+    "lookahead_block": ("reader_day", "该句是口径说明（今天收盘买今天开盘），不指任何一天"),
+    "section_bars_block": ("reader_day", "该句是否定式说明（不是今天的仓位），不宣称任何日"),
+    "feed_lag_block": ("reader_day", "该句本身就是拿「今天」与页面 bar 对账的那句"),
+}
+# Functions that own the page day (or quote someone else's wording) and must not be listed.
+PAGE_DAY_EXEMPT = {
+    "render_md": "owns p['generated_for_date']; it decides which of its sentences may say 今天",
+    "selftest": "fixtures, not the page",
+}
+
+
+def page_day_debt_guard(source=None):
+    """(ok, findings) over this module's own text: who still says 今天 without a page_day.
+
+    Reads the source, not the rendered page: the question is which **block** owns a "today"
+    word, and only the block's signature can answer whether it was handed a day.
+    """
+    src = source
+    if src is None:
+        with open(os.path.abspath(__file__), encoding="utf-8") as fh:
+            src = fh.read()
+    lines = src.split("\n")
+    heads = [(i + 1, l) for i, l in enumerate(lines) if re.match(r"def [A-Za-z_]\w*\(", l)]
+    findings = []
+    seen = set()
+    for idx, (ln, head) in enumerate(heads):
+        name = head[4:].split("(")[0]
+        end = heads[idx + 1][0] - 1 if idx + 1 < len(heads) else len(lines)
+        body = "\n".join(lines[ln - 1:end])
+        # a signature that wraps: keep reading until the parentheses close
+        sig, j = head, ln
+        while ")" not in sig and j < end:
+            sig += lines[j]
+            j += 1
+        has_word = bool(re.search(r"今天|今日|今晚", body))
+        takes_day = "page_day" in sig
+        seen.add(name)
+        if name in PAGE_DAY_EXEMPT:
+            if has_word and not takes_day:
+                continue
+            findings.append("exempt %s no longer needs the exemption (remove the row)" % name)
+            continue
+        if has_word and not takes_day and name not in PAGE_DAY_LEDGER:
+            findings.append("%s prints a 'today' word but takes no page_day" % name)
+        elif name in PAGE_DAY_LEDGER:
+            if not has_word or takes_day:
+                findings.append("%s is in the ledger but no longer owes it (remove the row)" % name)
+            elif PAGE_DAY_LEDGER[name][0] not in ("reader_day", "owed"):
+                findings.append("%s carries an unknown ledger status" % name)
+    for name in PAGE_DAY_LEDGER:
+        if name not in seen:
+            findings.append("ledger row %s names no function in this module" % name)
+    return (not findings), findings
+
+
+def page_day_debt_owed():
+    """The blocks that still say 今天 about their own bar. Printed so the debt is visible."""
+    return sorted(n for n, (st, _why) in PAGE_DAY_LEDGER.items() if st == "owed")
+
+
+# r1668: ONE implementation of the reader's day word. Every repair in the r1664..r1667 family
+# re-invented the same three lines (`_same_day` + a conditional word), which is how the fifth
+# copy appears after the fourth is fixed. A block says 今天 only when the reader's page day IS
+# the bar it priced; otherwise it names that bar. No page day, or no bar: the old wording
+# stands -- the page never invents a day to look precise (r98/r1159). Sites not yet folded in
+# keep their own copy; they are listed as debt by page_day_debt_guard, not assumed repaired.
+def day_word(page_day, bar, today="今天"):
+    """今天 when the page's day is that bar's day, else the bar itself."""
+    _pd = str(page_day or "")[:10]
+    _b = str(bar or "")[:10]
+    if not _pd or not _b or _pd == _b:
+        return today
+    return _b
+
+
+def day_word_adj(page_day, bar, adjective="今天的"):
+    """The attributive form: 今天的 / <bar> 的."""
+    return adjective if day_word(page_day, bar) == "今天" else "%s 的" % str(bar)[:10]
 
 
 def floor_provenance_face(path=FLOOR_PROVENANCE_JSON):
@@ -1989,13 +2093,22 @@ VOL_TARGET_VERDICT_WORDS = {
 }
 
 
-def floor_provenance_block(fp, vt=None, page_bar=None):
-    """The lines this page prints about WHERE its own size limit comes from."""
+def floor_provenance_block(fp, vt=None, page_bar=None, page_day=None):
+    """The lines this page prints about WHERE its own size limit comes from.
+
+    r1668: two sentences here call the issued quota 今天的 -- the quota was issued by a cell
+    anchored on the floor face's own bar, which is not the reader's day. Same ruler as the
+    quote/fill/premium/sibling repairs: the day word follows page_day, and a page that has no
+    day (or a face that has no bar) keeps the old wording rather than inventing one.
+    """
     L = []
     add = L.append
     add("## 为什么这张单只能下这么大")
     add("")
     fp = fp or {}
+    _fp_ds = str(fp.get("evidence_cutoff") or "")[:10] or None
+    _now = day_word(page_day, _fp_ds)
+    _now_adj = day_word_adj(page_day, _fp_ds)
     if fp.get("status") != "ok":
         add("这一节读不到额度来源面（`%s`）：%s。**所以本页只能给出额度是多少，说不出它是怎么定的**——"
             "读者若要问「能不能多买一点」，本页此刻没有能回答的东西。"
@@ -2023,7 +2136,7 @@ def floor_provenance_block(fp, vt=None, page_bar=None):
             name_map = {"baseline_published": "全窗·全池（已发布基线）",
                         "window": "短窗·全池",
                         "universe": "全窗·分级池",
-                        "window_x_universe": "短窗·分级池（签发了今天的额度）"}
+                        "window_x_universe": "短窗·分级池（签发了%s额度）" % _now_adj}
             for key in ("full|all", "common|all", "full|graded", "common|graded"):
                 cell = grid.get(key) or {}
                 if not cell:
@@ -2036,10 +2149,11 @@ def floor_provenance_block(fp, vt=None, page_bar=None):
             add("")
         eff = fp.get("effects") or {}
         if eff.get("total_gap_pp") is not None:
-            add("**最宽的额度（k=%.6f）与今天的额度（k=%.6f）差 %.2fpp，按 ￥1,000,000 本钱折 ￥%s——"
+            add("**最宽的额度（k=%.6f）与%s额度（k=%.6f）差 %.2fpp，按 ￥1,000,000 本钱折 ￥%s——"
                 "其中 %.2fpp（%.0f%%，￥%s）只是把窗口从全史缩到 %s 根 bar 造成的，"
                 "%.2fpp（%.0f%%，￥%s）是改币种池造成的，两者交互 %.2fpp。**"
-                % (eff.get("floor_full_all") or 0.0, eff.get("floor_common_graded") or 0.0,
+                % (eff.get("floor_full_all") or 0.0, _now_adj,
+                   eff.get("floor_common_graded") or 0.0,
                    eff.get("total_gap_pp") or 0.0, format(eff.get("total_gap_cny") or 0, ",.0f"),
                    eff.get("window_effect_pp") or 0.0,
                    100 * (eff.get("window_share_of_gap") or 0.0),
@@ -2055,7 +2169,7 @@ def floor_provenance_block(fp, vt=None, page_bar=None):
         if fp.get("not_measured"):
             add("")
     vt = vt or {}
-    add("### 那么把波动档调一调，能不能让这本账今天就能按年度门供上货")
+    add("### 那么把波动档调一调，能不能让这本账%s就能按年度门供上货" % _now)
     add("")
     if vt.get("status") != "ok":
         add("这一节读不到波动档扫描面（`%s`）：%s。**所以本页说不出「调档能不能过门」**——"
@@ -4912,7 +5026,7 @@ def cash_money_face(cash_amount, ticket=None, panel_dir=REPO_DIR, tail=CASH_MONE
     return out
 
 
-def cash_money_block(cm):
+def cash_money_block(cm, page_day=None):
     """Three rates on the same cash, and what picking the flattering one would cost (r1246)."""
     L = []
     L.append("## 同一笔现金，三种利率口径差多少钱")
@@ -4928,11 +5042,16 @@ def cash_money_block(cm):
     tail_b = b.get("mean_tail") or {}
     win = b.get("window") or {}
     base = spot.get("pct")
+    # r1668: the word "今天" here was priced off the quote's own date, so a page rebuilt the
+    # next day called Friday's rate today's. The word now follows page_day (one implementation,
+    # day_word); an undated page keeps the old wording.
+    _dw = day_word(page_day, spot.get("date"))
+    _dw_adj = day_word_adj(page_day, spot.get("date"))
     L.append("这 ¥%s 放在逆回购里，一年赚多少取决于拿哪个利率去乘它。三个都是这张面板自己的读数、"
              "不是预测；并排印出来，是因为「按历史均值去算」会让账面以为有另一笔钱。"
              % format(cash, ",.0f"))
     L.append("")
-    L.append("| 口径 | 年化 | 一年约赚 | 比今天的报价 |")
+    L.append("| 口径 | 年化 | 一年约赚 | 比%s报价 |" % _dw_adj)
     L.append("|---|---|---|---|")
     _lag = int(cm.get("spot_lag") or 0)
     if _lag:
@@ -4942,7 +5061,7 @@ def cash_money_block(cm):
         L.append("")
         L.append("> **这一节的价格不是今天面板的价**：票据记的是 **%s** 的收盘，"
                  "本页面板已到 **%s**（落后 %d 个报价）——下表第一行是「票据上的报价」，"
-                 "不是「今天的报价」。重发票据后这一行会自己跟上。"
+                 "不是面板上那一行的报价。重发票据后这一行会自己跟上。"
                  % (cm.get("spot_date") or "?", cm.get("panel_tail") or "?", _lag))
         L.append("")
 
@@ -4960,7 +5079,7 @@ def cash_money_block(cm):
             label, float(pct),
             ("**¥%s**" % format(annual, ",.0f")) if annual is not None else "—", delta)
 
-    L.append(_row("**%s**（%s）" % ("票据上的报价" if _lag else "今天的报价",
+    L.append(_row("**%s**（%s）" % ("票据上的报价" if _lag else "%s报价" % _dw_adj,
                                    spot.get("date") or "—"),
                   base, spot.get("annual_cny"), is_base=True))
     L.append(_row("自己近 %d 个报价的均值" % (spot.get("quotes") or cm.get("tail") or 0),
@@ -4970,31 +5089,31 @@ def cash_money_block(cm):
     L.append("")
     verdict = b.get("verdict")
     if verdict == "RATES_FELL":
-        L.append("**今天能拿到的是第一行。** 它比自己近一段的均值低 **%.2f pp**——"
+        L.append("**%s能拿到的是第一行。** 它比自己近一段的均值低 **%.2f pp**——"
                  "照均值算会以为一年多赚 **¥%s**，那是利率掉下来的差，不是这个月选错了票；"
                  "把历史平均收益率写进预期，等于给账面多记一笔钱。"
-                 % (float(tail_b.get("pct") or 0.0) - float(base or 0.0),
+                 % (_dw, float(tail_b.get("pct") or 0.0) - float(base or 0.0),
                     format(abs(float(b.get("spread_vs_tail_cny") or 0.0)), ",.0f")))
     elif verdict == "RATES_ROSE":
-        L.append("**今天能拿到的比自己的均值高**（%+.0f bp，一年多 **¥%s**）——季末/节前的飙高是常态，"
+        L.append("**%s能拿到的比自己的均值高**（%+.0f bp，一年多 **¥%s**）——季末/节前的飙高是常态，"
                  "别把这个差当成常常有，往后还是按均值算。"
-                 % ((float(base or 0.0) - float(tail_b.get("pct") or 0.0)) * 100.0,
+                 % (_dw, (float(base or 0.0) - float(tail_b.get("pct") or 0.0)) * 100.0,
                     format(abs(float(b.get("spread_vs_tail_cny") or 0.0)), ",.0f")))
     else:
-        L.append("**今天的报价就在它自己的均值上**（差 %.0f bp，在冻结的 %.0f bp 噪声带内）——"
+        L.append("**%s的报价就在它自己的均值上**（差 %.0f bp，在冻结的 %.0f bp 噪声带内）——"
                  "这三个口径挑哪个都不算撒谎，但利率一变，第一行就不在这了。"
-                 % (abs(float(base or 0.0) - float(tail_b.get("pct") or 0.0)) * 100.0,
+                 % (_dw, abs(float(base or 0.0) - float(tail_b.get("pct") or 0.0)) * 100.0,
                     float(b.get("fall_bp") or 0.0)))
     if win.get("pct") is not None:
         L.append("")
         L.append("- 第三行是回测账本 accrued 用的利率（历史全窗均值 %.2f%%）：它说的是「过去这些年现金值多少」，"
-                 "不是今天这 ¥%s 的收益率 —— 同一笔钱在首末两行之间能差 **¥%s**。"
-                 % (float(win["pct"]), format(cash, ",.0f"),
+                 "不是%s这 ¥%s 的收益率 —— 同一笔钱在首末两行之间能差 **¥%s**。"
+                 % (float(win["pct"]), _dw, format(cash, ",.0f"),
                     format(abs(float(win.get("annual_cny") or 0)
                                - float(spot.get("annual_cny") or 0)), ",.0f")))
     L.append("- 这三个数都不是收益来源：现金的活是「不缩水」，要收益得靠上面那些票。")
     if _lag:
-        L.append("- 上面那几句「今天」说的是 **%s** 那张票据的报价，不是本页面板 "
+        L.append("- 上面那几句说的是 **%s** 那张票据的报价，不是本页面板 "
                  "**%s** 的收盘——重发票据后本节与头条才会是同一张纸上的同一个数。"
                  % (cm.get("spot_date") or "?", cm.get("panel_tail") or "?"))
     L.append("")
@@ -5365,6 +5484,8 @@ def cash_handshake(cash_amount, ladder, placement_path=PLACEMENT, today=None,
 
 STRESS_DIR = os.path.join(ROOT, "results", "etf_book_stress")
 STRESS_WINDOWS = (1, 5, 20)
+# r1668: bump when the cached face's own basis sentence changes (see stress_cache_digest).
+STRESS_BASIS_VERSION = 2
 
 
 def stress_stats(daily, windows=STRESS_WINDOWS, capital=None):
@@ -5516,8 +5637,15 @@ def stress_cache_digest(close, priced_bar, capital, windows, order, flip_thr=Non
     Every one of these can move while the priced bar stays put: a repaired print, a
     re-priced ticket (weights rescale), a different capital figure. Keying on the date
     alone would answer a question nobody asked.
+
+    r1668: the sentence the cache hands the reader is part of what it was computed from --
+    the basis used to attribute the weights to the reader's day, over whatever bar it priced,
+    so a fixed wording would keep serving the old sentence forever after a repair.
+    BASIS_VERSION is bumped whenever that sentence changes; a cache written under an older
+    one is a MISS (r6230: no digest, no hit).
     """
     h = hashlib.sha256()
+    h.update(("basis|%s" % STRESS_BASIS_VERSION).encode())
     h.update(("bar|%s|cap|%.4f|win|%s" % (
         priced_bar, float(capital or 0.0),
         ",".join(str(int(w)) for w in windows or STRESS_WINDOWS))).encode())
@@ -6185,8 +6313,8 @@ def build_stress(order, capital, priced_bar, close=None):
             clean_st = None
     st["contamination"] = contamination_block(st, clean_st, n_flat, thr)
     st["capital_cny"] = round(float(capital or 0.0), 2)
-    st["basis"] = ("今天的权重原封不动摆回整段面板（现金 0 息），取最坏的连续 N 个交易日；"
-                   "不是策略实际路径，是同一批票的最坏窗口")
+    st["basis"] = ("账面权重（%s 收盘）原封不动摆回整段面板（现金 0 息），取最坏的连续 N 个交易日；"
+                   "不是策略实际路径，是同一批票的最坏窗口" % str(priced_bar)[:10])
     try:
         os.makedirs(STRESS_DIR, exist_ok=True)
         with open(cache, "w", encoding="utf-8", newline="\n") as fh:
@@ -6748,11 +6876,13 @@ def render_md(p, sb=None):
                                            page_bar=p.get("priced_bar"),
                                            page_day=p.get("generated_for_date")):
         add(_pfw_line)
-    for _sg_line in sibling_gap_block(p.get("sibling_gap") or {}, page_bar=p.get("priced_bar")):
+    for _sg_line in sibling_gap_block(p.get("sibling_gap") or {}, page_bar=p.get("priced_bar"),
+                                      page_day=p.get("generated_for_date")):
         add(_sg_line)
     for _fp_line in floor_provenance_block(p.get("floor_provenance") or {},
                                            vt=p.get("vol_target_gate") or {},
-                                           page_bar=p.get("priced_bar")):
+                                           page_bar=p.get("priced_bar"),
+                                           page_day=p.get("generated_for_date")):
         add(_fp_line)
     bf = p.get("bets") or {}
     if bf.get("status") == "ok" and bf.get("sentence"):
@@ -6789,7 +6919,8 @@ def render_md(p, sb=None):
                 % (cy["window"], cy["rate_20d_pct"]))
         add("- 不买逆回购、留在活期，这 ¥%s 就是没有的。" % format(cy["annual_cny"], ",.0f"))
         add("")
-    for _cm_line in cash_money_block(p.get("cash_money") or {}):
+    for _cm_line in cash_money_block(p.get("cash_money") or {},
+                                     page_day=p.get("generated_for_date")):
         add(_cm_line)
     cl = p.get("cash_ladder") or {}
     rows_l = cl.get("tenors") or []
@@ -10196,6 +10327,82 @@ def selftest():
     _sg_shift = "\n".join(sibling_gap_block(dict(_sg_fix, session="2026-11-05"), page_bar="2026-11-06"))
     chk("L154 sibling gap block: a face anchored on another session refuses to lend its percentiles",
         "两个日子对不上" in _sg_shift)
+    # r1667: every "today" in this block was priced off the gap face's own session, so a page
+    # rebuilt the next day told the reader about "today's premium" while quoting Friday's bar.
+    _sg_same = "\n".join(sibling_gap_block(_sg_fix, page_bar="2026-11-06", page_day="2026-11-06"))
+    _sg_next = "\n".join(sibling_gap_block(_sg_fix, page_bar="2026-11-06", page_day="2026-11-14"))
+    _sg_noday = "\n".join(sibling_gap_block(_sg_fix, page_bar="2026-11-06"))
+    chk("L260 sibling gap: the day word follows page_day -- the face's own session says 今天, a later page names the bar",
+        ("只有 今天 才有" in _sg_same and "今天价差" in _sg_same)
+        and ("今天" not in _sg_next and "2026-11-06价差" in _sg_next)
+        and ("只有 今天 才有" in _sg_noday),
+        _sg_next[:160])
+    # r1667: five rounds of this defect were all found by eye, so the family becomes a guard.
+    _guard_ok, _guard_find = page_day_debt_guard()
+    _ghost = ("def ghost_block(x):\n    return '今天的价差'\n\n"
+              "def fixed_block(x, page_day=None):\n    return '今天'\n")
+    _ghost_ok, _ghost_find = page_day_debt_guard(_ghost)
+    _pd_backup = dict(PAGE_DAY_LEDGER)
+    try:
+        PAGE_DAY_LEDGER["sibling_gap_block"] = ("owed", "pretend it was never repaired")
+        _stale_ok, _stale_find = page_day_debt_guard()
+    finally:
+        PAGE_DAY_LEDGER.clear()
+        PAGE_DAY_LEDGER.update(_pd_backup)
+    chk("L261 page-day debt: a block that says 今天 without taking a day is caught, and a repaired block left on the ledger turns red",
+        _guard_ok and page_day_debt_owed() and not _ghost_ok
+        and any("ghost_block" in x for x in _ghost_find)
+        and not any("fixed_block" in x for x in _ghost_find)
+        and not _stale_ok and any("sibling_gap_block" in x for x in _stale_find),
+        "%s / ghost=%s / stale=%s" % (_guard_find[:2], _ghost_find[:2], _stale_find[:2]))
+    # r1668: the two halves of the same defect get one leg each -- the shared word function,
+    # and the census that reads the artifact the reader opens. The next copy of this defect
+    # will appear in whichever half is untested, so neither may rely on the other being green.
+    chk("L262 reader day word: 今天 only when the page's day IS the bar, otherwise the bar itself",
+        day_word("2026-11-13", "2026-11-13") == "今天"
+        and day_word("2026-11-14", "2026-11-13") == "2026-11-13"
+        and day_word(None, "2026-11-13") == "今天"
+        and day_word("2026-11-14", None) == "今天"
+        and day_word_adj("2026-11-14", "2026-11-13") == "2026-11-13 的"
+        and day_word_adj("2026-11-13", "2026-11-13") == "今天的",
+        "%r/%r/%r" % (day_word("2026-11-14", "2026-11-13"), day_word(None, "2026-11-13"),
+                      day_word_adj("2026-11-14", "2026-11-13")))
+    _cm_tomorrow = (_cm_days[-1] + _dt.timedelta(days=1)).isoformat()
+    _cm_same = "\n".join(cash_money_block(_cmf_v, page_day=_cm_date))
+    _cm_later = "\n".join(cash_money_block(_cmf_v, page_day=_cm_tomorrow))
+    chk("L263 cash money: the quote is called 今天 only on its own day, and the bar by name after",
+        "今天的报价" in _cm_same and "今天的报价" not in _cm_later
+        and ("%s 的报价" % _cm_date) in _cm_later
+        and ("%s能拿到的" % _cm_date) in _cm_later,
+        "same_today=%s later_names=%s"
+        % ("今天的报价" in _cm_same, ("%s 的报价" % _cm_date) in _cm_later))
+    try:
+        try:
+            from scripts import live_book_day_words as _DW
+        except Exception:
+            import live_book_day_words as _DW
+        _dw_same_doc = {"generated_for_date": "2026-11-13",
+                        "quote": {"evidence_cutoff": "2026-11-13", "line": "今天的报价"}}
+        _dw_stale_doc = dict(_dw_same_doc, generated_for_date="2026-11-14")
+        _dw_nobar_doc = {"generated_for_date": "2026-11-14", "misc": {"line": "今天没有新 bar"}}
+        _dw_clean_doc = {"generated_for_date": "2026-11-14",
+                         "quote": {"evidence_cutoff": "2026-11-14", "line": "报价 1.26%"}}
+        _dw_same = _DW.census(_dw_same_doc, artifact="fixture")
+        _dw_stale = _DW.census(_dw_stale_doc, artifact="fixture")
+        _dw_nobar = _DW.census(_dw_nobar_doc, artifact="fixture")
+        _dw_clean = _DW.census(_dw_clean_doc, artifact="fixture")
+        _dw_dead = _DW.census(None, artifact="fixture")
+    except Exception as _dw_e:
+        _dw_same = _dw_stale = _dw_nobar = _dw_clean = _dw_dead = {"verdict": repr(_dw_e)}
+    chk("L264 day-word census: another bar's 今天 is red, and a today-word with no date is not green",
+        _dw_same.get("verdict") == "ANCHORED"
+        and _dw_stale.get("verdict") == "DAY_WORD_ON_ANOTHER_DAY"
+        and _dw_nobar.get("verdict") == "DAY_WORD_WITHOUT_A_BAR"
+        and _dw_clean.get("verdict") == "NO_DAY_WORDS"
+        and _dw_dead.get("verdict") == "UNREADABLE",
+        "same=%s stale=%s nobar=%s clean=%s dead=%s"
+        % (_dw_same.get("verdict"), _dw_stale.get("verdict"), _dw_nobar.get("verdict"),
+           _dw_clean.get("verdict"), _dw_dead.get("verdict")))
     _ps_fix = {"status": "ok", "artifact": "results/etf_book_positions.json", "asof": "2026-11-06",
                "verdict": "PRINTED_ROWS_UNDERSELL_THE_BOOK", "printed_rows": 3, "book_rows": 4,
                "unexplained_total_cny": 67289.1, "unexplained_unpriced_rows": 0,
@@ -10267,10 +10474,12 @@ def selftest():
                          "years_for_half_state": "FAIL", "years_for_half_median": 1.0,
                          "years_for_half_line": 3}],
                "shape": {"reason": "scaling does move this ruler"}}
-    _fp_txt = "\n".join(floor_provenance_block(_fp_fix, vt=_vt_fix, page_bar="2026-11-06"))
+    _fp_txt = "\n".join(floor_provenance_block(_fp_fix, vt=_vt_fix, page_bar="2026-11-06",
+                                               page_day="2026-11-06"))
     chk("L162 floor section: the size limit is printed as a beta reciprocal with the knob that issued it",
         "倒过来的尺子" in _fp_txt and "window_x_universe" in _fp_txt and "306" in _fp_txt
-        and "39,122" in _fp_txt and "58%" in _fp_txt and "度" in _fp_txt,
+        and "39,122" in _fp_txt and "58%" in _fp_txt and "度" in _fp_txt
+        and "签发了今天的额度" in _fp_txt and "今天的额度（k=" in _fp_txt,
         _fp_txt[:80])
     chk("L163 floor section: the vol-target sweep is printed arm by arm and never as a pass",
         "仍被拒" in _fp_txt and "不调档（原书）" in _fp_txt and "4% 波动目标" in _fp_txt
@@ -10288,6 +10497,16 @@ def selftest():
         dict(_fp_fix, evidence_cutoff="2026-11-05"), vt=_vt_fix, page_bar="2026-11-06"))
     chk("L165 floor section: a face anchored on another session refuses to lend its split to today",
         "两个日子对不上" in _fp_shift)
+    _fp_later = "\n".join(floor_provenance_block(_fp_fix, vt=_vt_fix, page_bar="2026-11-06",
+                                                 page_day="2026-11-14"))
+    chk("L265 floor section: a later page names the bar the quota was issued on, never 'today'",
+        "今天的额度" not in _fp_later and "签发了2026-11-06 的额度" in _fp_later
+        and "与2026-11-06 的额度（k=" in _fp_later and "2026-11-06就能" in _fp_later,
+        _fp_later[:160])
+    _fp_undated = "\n".join(floor_provenance_block(_fp_fix, vt=_vt_fix, page_bar="2026-11-06"))
+    chk("L266 floor section: a page with no day keeps the old wording instead of inventing a day",
+        "今天的额度" in _fp_undated and "2026-11-06 的额度" not in _fp_undated,
+        _fp_undated[:160])
     # r1502: the premium-forward section. Same family of lies as the premium section above:
     # an absent face would read as "no drift", and the rows / verdict / money must come off
     # the producer (etf_book_order.premium_read), never be typed here.

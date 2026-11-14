@@ -989,14 +989,18 @@ def cash_money(cash_amount, rates, asof, accrual_pct=None, tail=250, fall_bp=CAS
     if out["window"] is not None:
         sent += "；按账本自己走过的全窗均值 %.2f%% 是 ¥%s" % (
             out["window"]["pct"], format(int(out["window"]["annual_cny"]), ","))
+    # r1668: this sentence is consumed verbatim by the CEO page, so "今天" here became the
+    # reader's day on the page that quoted it -- a Saturday paper called Friday's rate today's.
+    # The ticket knows which session it priced (spot_date, printed in its own first clause), so
+    # it names that session and stops making a claim about the reader's calendar.
     if out["verdict"] == "RATES_FELL":
         sent += ("。差出来的 ¥%s 是利率掉了，不是这个月选错了票。"
                  % format(int(abs(out["spread_vs_tail_cny"])), ","))
     elif out["verdict"] == "RATES_ROSE":
-        sent += "。今天的报价高于它自己的均值 ¥%s，别把这个差当成常常有。" % format(
-            int(out["spread_vs_tail_cny"]), ",")
+        sent += "。%s 的报价高于它自己的均值 ¥%s，别把这个差当成常常有。" % (
+            spot_date, format(int(out["spread_vs_tail_cny"]), ","))
     else:
-        sent += "。今天的报价就在它自己的均值上，这一半该怎么算就怎么算。"
+        sent += "。%s 的报价就在它自己的均值上，这一半该怎么算就怎么算。" % spot_date
     out["sentence"] = sent
     return out
 

@@ -1239,6 +1239,14 @@ LEGS = [
     ("live_book_section_bars",
      ["python", "scripts/live_book_section_bars.py", "check"],
      ["python", "scripts/live_book_section_bars.py", "run"]),
+    # r1668: knowing which bar each section priced does not answer whether its sentences say
+    # so. Five rounds repaired a "今天" printed over another bar by hand, each one found by eye
+    # after the paper was out. This leg reads the published page the reader opens and fails
+    # when a today-word sits on a bar that is not the page's own day (and refuses to read a
+    # today-word with no date beside it as clean). Reads the artifact only (0.2s).
+    ("live_book_day_words",
+     ["python", "scripts/live_book_day_words.py", "check"],
+     ["python", "scripts/live_book_day_words.py", "run"]),
     # r1464: premium_leak priced WHAT the ticket pays above the basket but could not answer
     # "is 23% high?" (one observation of history). The answerable question is relative: the
     # same basket is sold under several tickers on the same board. `check` re-reads the board
