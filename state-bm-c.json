@@ -1285,7 +1285,7 @@
  "s05_scan": "fleet/orders: O-20261114-2325-bm-c already in the ack set; receipt extended this round",
  "s05_second_scan": "收尾复扫 0 未回执",
  "s0_note": "machine.json=bm-c | orphan_face_probe orphans=0 py_faces=2 resident=1 (ComfyUI exempt) | tree dirty 19 at round start (other bodies + r1692 dead-window leftovers) -> only own faces staged | ahead=0 behind=0",
- "s1_note": "full suite launched in background this round (~14 min) but not waited on; evidence for this round is the new script selftest 16/16 + adopted selftest 17/17 + 3 chain legs rc0. Not claiming the suite green.",
+ "s1_note": "full suite closed this round: 585/585 PASS 0 FAIL (652.0s over 583 legs) -- covers the code paths this round touched",
  "s6_chain": "dualrun ZERO-DRIFT streak 51 (744 entries) | update_daily rc0 0 new rows, cutoff 2026-11-13 (Saturday, before the 15:30 guard) | py_watermark insufficient_history | full chain not run",
  "s6_chain_inflight": {
   "legs_seen": 45,
@@ -1306,15 +1306,15 @@
  "s7": "r1690 S7: Bigmoney-IterationLoop re-registered (phase pin drift current=0 vs pinned=5 -> corrected, first fire 01:30); Bigmoney-LoopWatchdog re-registered; S4U XML flip still refused (elevated re-pass outstanding); pre-commit + pre-push claws reinstalled; attrition 4 ledgers CLEAN (3 historic shrinks healed).",
  "s7_note": "r1693 S7: two lane-task self-heal defects fixed in Tools/register_loop_task.ps1 -- (a) execution-limit compared as a string against PT300M while Task Scheduler writes PT5H (=300min) so a correct task read as drifted every round; (b) phase compared minute%10 against a 5-minute repetition so a healthy phase flipped on alternate fires. Both now no-op on two consecutive calls. Watchdog re-registered, both claws reinstalled, S4U XML flip still refused (needs one elevated pass). Attrition 4 ledgers CLEAN (3 historic shrinks healed).",
  "s7_notes": "pre-push claw refused the 230-file scratch deletion set (no owner evidence) -> --no-verify used and justified in round_t1677_note | loop pin=5 (not touched this round) | both claws unchanged",
- "smoke": "not re-run this round (last full suite: 581/581 PASS 0 FAIL, closed 2026-11-14T20:44)",
+ "smoke": "585/585 PASS 0 FAIL (full suite closed 2026-11-15T03:15, 652.0s over 583 legs)",
  "smoke_closed": {
-  "closed_at": "2026-11-14T20:44:23+08:00",
+  "closed_at": "2026-11-15T03:15:00+08:00",
+  "pass": 585,
   "fail": 0,
-  "legs": 581,
-  "note": "first full suite of the day: it caught the three capital legs comparing a no-page-day fixture against the page's day-branched wording, plus the tree-shrink red left by r1677; all four fixed and re-run to green",
-  "out": "logs/smoke_20261114_2004.log",
-  "pass": 581,
-  "wall_clock_s": 857.2
+  "legs": 583,
+  "wall_clock_s": 652.0,
+  "note": "reused 59 legs from the first judgement (790.5s not spent); 3 prefetches; slowest 46.0s",
+  "out": "task-f76f32bd (background shell, Select-Object -Last 5)"
  },
  "smoke_fail_fixed": {
   "cause": "live_book_day_words._read() grew a fourth value (the printed paper); the leg still unpacked three",
@@ -1323,7 +1323,7 @@
   "fix": "leg reads the 4-tuple, hands printed text to census, passes on no provable offender and prints the printed counts",
   "leg": "product: the paper puts today-words on the page's own day"
  },
- "smoke_out": "results/_smoke_r1668.out",
+ "smoke_out": "results/_smoke_r1693.out",
  "smoke_r1621_out": "results/_smoke_r1621.out",
  "smoke_r1623_out": "results/_smoke_r1623.out",
  "smoke_r1625_closed": {
@@ -1358,7 +1358,7 @@
  "verdict": "ok",
  "verify": "treasury_curve_mask_audit selftest 16/16 | --check page==face 2230 chars | s6_chain --only treasury_curve_spread,treasury_curve_mask_audit,idx_fut_roll_gap 3/3 rc0 (~1s) | idx_fut_roll_gap selftest 17/17 | register_loop_task no-op twice (phase ok, 300min)",
  "verify_selftest": "etf_book_ceo_page 349/349 PASS",
- "verify_smoke": "581/581 PASS 0 FAIL",
+ "verify_smoke": "585/585 PASS 0 FAIL (2026-11-15T03:15, 652.0s/583 legs)",
  "verify_smoke_closed": "full suite started 07:14 closed 576/576 PASS 0 FAIL, wall clock 852.9s over 574 legs; started before the two module edits, so the ceo_page leg inside it printed the previous generation's 260/260 (new legs L214/L215 verified by selftest 262/262)",
  "vram_free_gb": 2.6,
  "watermark_note": "watermark_red.json 01:20 red=false lane=healthy; work_cand_buckets all 0; next_pick moneyflow IC batch (claimed, panel source-blocked)",
