@@ -7766,10 +7766,20 @@ def render_md(p, sb=None):
     # to see that the suite's stale-page check was comparing the page with itself.
     _pp_day = str(p.get("priced_bar") or "")
     _pp_cut = str(p.get("evidence_cutoff") or "")
+    # r1662: "today" only exists when this sheet's own day IS that day. Every weekend and
+    # holiday the page is titled for today while every number sits on the last bar, and the
+    # old wording still asserted the coincidence about "今天" -- a day the reader is not having.
+    _pp_gen = str(p.get("generated_for_date") or "")
     if _pp_day and _pp_cut:
         if _pp_day == _pp_cut:
-            add("本页自己那一格写的是「定价 %s」，整页数字的数据截止日也是 %s —— 今天这两个"
-                "碰巧是同一天；它们不是同一个量，读别处的页面时要分开看。" % (_pp_day, _pp_cut))
+            if _pp_gen and _pp_gen != _pp_day:
+                add("本页是 **%s** 的页面，但价格和数据都停在 **%s** —— 这两个日子彼此是同一天，"
+                    "却都不是今天；它们也不是同一个量，读别处的页面时要分开看。"
+                    % (_pp_gen, _pp_day))
+            else:
+                add("本页自己那一格写的是「定价 %s」，整页数字的数据截止日也是 %s —— 今天这两个"
+                    "碰巧是同一天；它们不是同一个量，读别处的页面时要分开看。"
+                    % (_pp_day, _pp_cut))
         else:
             add("**本页定价 %s，但整页数字算到 %s** —— 价格按前者、数字按后者，不是同一个量；"
                 "照这张纸下单前先把两个日子对一眼。" % (_pp_day, _pp_cut))
@@ -10461,6 +10471,9 @@ def selftest():
     # stale-page leg ended up comparing the page with itself.
     _pp_ok = dict(page)
     _pp_ok["priced_bar"] = _pp_ok["evidence_cutoff"] = "2026-11-10"
+    # r1662: the sheet's own day is part of this fixture now -- a page titled for a later day
+    # than its bar is a different sentence (L251), and L182 is about the pair being printed.
+    _pp_ok["generated_for_date"] = "2026-11-10"
     _pp_ok_txt = render_md(_pp_ok)
     chk("L182 page: the pricing day and the data cut are printed side by side",
         "定价 2026-11-10" in _pp_ok_txt and "数据截止日也是 2026-11-10" in _pp_ok_txt)
@@ -10476,6 +10489,20 @@ def selftest():
     chk("L184 page: with no pricing day the sentence is not printed at all (no blank claim)",
         "碰巧是同一天" not in render_md(_pp_none)
         and "整页数字算到" not in render_md(_pp_none))
+    # L250-L251 (r1662): the coincidence sentence needs the sheet's own day before it may use
+    # the word "today". Every Saturday and holiday the page is titled for today while every
+    # number sits on the last bar -- there the old wording asserted a coincidence about a day
+    # the reader is not having. One leg per side so a fix that just deletes the sentence fails.
+    _pp_sameday = dict(_pp_ok, generated_for_date="2026-11-10")
+    chk("L250 page: on the bar's own day the coincidence sentence still says 'today'",
+        "今天这两个碰巧是同一天" in render_md(_pp_sameday),
+        "gen=%s" % _pp_sameday.get("generated_for_date"))
+    _pp_weekend = dict(_pp_ok, generated_for_date="2026-11-14")
+    _pp_weekend_txt = render_md(_pp_weekend)
+    chk("L251 page: a sheet titled for a later day than its bar never says 'today' about it",
+        "今天这两个" not in _pp_weekend_txt
+        and "却都不是今天" in _pp_weekend_txt
+        and "2026-11-14" in _pp_weekend_txt, "bar=%s" % _pp_ok.get("priced_bar"))
     # L185-L189 (r1541): the page's two days are copied out of the ticket while the page is
     # built, so printed alone they compare one document with itself. Walk the link the page
     # publishes and read the file a reader is about to open -- and an unopened file is not
