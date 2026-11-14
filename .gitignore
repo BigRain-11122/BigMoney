@@ -289,3 +289,11 @@ results/_ct_selftest.*
 # the quarantine itself is a local 7-day observation window, not a face:
 # each manifest names what moved where, byte count and sha256 to pull it back
 results/_quarantine/
+
+# 转债线（2026-11-14）：1050 只券的历史原文 72.8MB + 面板 24.2MB 不入 git。
+# 面板可由 python scripts/cb_dual_low.py fetch && . build 全量重建（238 秒）。
+# 结论与口径见 research/CB_DUAL_LOW_VERDICT.md，不依赖这两个大件。
+data/cb_daily/
+data/cb_panel.csv.gz
+results/_cb_fetch.out.log
+results/_cb_fetch.err.log
