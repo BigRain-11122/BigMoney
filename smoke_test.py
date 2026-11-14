@@ -1050,6 +1050,38 @@ def main() -> int:
     except Exception as e:
         check("product: the index-futures page carries the capital face's numbers (r1688)",
               False, str(e))
+    # r1691: the treasury curve verdict (T vs TF, DIRECTION-20261114 section 3) closed a line
+    # as KILL. A closed line is only worth closing if the file that says so cannot be edited
+    # by hand -- so the verdict is re-derived here from its own criteria and the page's two
+    # headline numbers are checked against the JSON. Losing either makes a dead line look
+    # releasable (or a live one look dead), which is the expensive direction of that error.
+    try:
+        _tf = os.path.join(ROOT, "results", "treasury_curve_spread.json")
+        _pg = os.path.join(ROOT, "research", "TREASURY_CURVE_VERDICT.md")
+        if not (os.path.exists(_tf) and os.path.exists(_pg)):
+            check("product: treasury curve verdict is re-derived from its own criteria (r1691)",
+                  False, "missing face or page")
+        else:
+            with open(_tf, encoding="utf-8") as _fh:
+                _v = json.load(_fh)
+            _c = _v["verdict"]["criteria"]
+            _re = ("OPEN" if (_c["C1_capital_ann_ge_3pct"]["pass"]
+                              and _c["C2_oos_sharpe_ge_0.70"]["pass"]
+                              and _c["C3_permutation_p_lt_0.05"]["pass"]) else "KILL")
+            _said = _v["verdict"]["verdict"]
+            with open(_pg, encoding="utf-8") as _fh:
+                _txt = _fh.read()
+            # the page must carry the same verb and the same two headline readings
+            _ann = "%.2f" % abs(_c["C1_capital_ann_ge_3pct"]["value"])
+            _sr = "%.2f" % abs(_c["C2_oos_sharpe_ge_0.70"]["value"])
+            _pg_ok = (_said in _txt) and (_ann in _txt) and (_sr in _txt)
+            # a KILL must also be reflected in the diagnostic column, not left blank
+            _ok = (_re == _said) and _pg_ok
+            check("product: treasury curve verdict is re-derived from its own criteria (r1691)",
+                  _ok, f"derived={_re} said={_said} page_says={_pg_ok} ann={_ann} sr={_sr}")
+    except Exception as e:
+        check("product: treasury curve verdict is re-derived from its own criteria (r1691)",
+              False, str(e))
     # r1602: the memo that lets the second copy of a leg ride on the first judgement is
     # itself a measurement, so it is driven here: a repeat is served from the cache and says
     # so, a `run` leg is never cached, and an edited script re-runs instead of reusing.
