@@ -1,0 +1,720 @@
+{
+  "arm_sensitivity": {
+    "B_minus_A_shift_pp_median": -1.155,
+    "gap_moved_pp_max": 1.981,
+    "gap_moved_pp_median": 1.155,
+    "gap_moved_pp_min": 0.899,
+    "note": "gap = A minus B. A positive movement means the complete mask widens the always-in arm over the waiting arm; the r1690 verdict was HOLD-ALWAYS on bars W1/W2 (B-A >= 0.5pp) plus W3 (both halves)",
+    "pairs": 4
+  },
+  "caveats": [
+    "main-contract continuous panel only: which contract the series switched to is not recorded, so the splice is measured as a basis step, not as a contract pair",
+    "the calendar detector assumes the mainland index-futures expiry (third Friday); a month with no panel day inside the window is reported as missing, not guessed",
+    "the open-interest column is unusable before 2019 (all zero) and flat from 2025 (no contract switch), so it is not used as a detector",
+    "masking a roll day sets that day's spread to zero, which charges the roller the index return with no convergence -- the direction is conservative (it understates carry by well under 1bp per roll)",
+    "the arm re-runs are a sensitivity, not a re-declared verdict: W1/W2/W3 and the halves check were frozen against the published reading, so a re-declaration needs its own prereg"
+  ],
+  "criteria": {
+    "expiry_window_after_days": 3,
+    "expiry_window_before_days": 6,
+    "min_months_covered_pct": 90.0,
+    "missed_share_min_pct": 20.0,
+    "reading_gap_min_pp": 1.0
+  },
+  "evidence_cutoff": "2026-11-13",
+  "face": "idx_fut_roll_gap",
+  "generated": "2026-11-15T02:59:55",
+  "incomplete_pairs": [
+    "IF",
+    "IC",
+    "IH",
+    "IM"
+  ],
+  "pairs": {
+    "IC": {
+      "arm_sensitivity": {
+        "A_pp_moved": 2.276,
+        "B_minus_A_pp": {
+          "calendar": -2.034,
+          "published": -0.053
+        },
+        "B_pp_moved": 0.295,
+        "calendar_mask": {
+          "arms": {
+            "A": {
+              "ann_pct": 6.05,
+              "maxdd_pct": -10.976,
+              "vol_pct": 8.009
+            },
+            "B": {
+              "ann_pct": 4.016,
+              "maxdd_pct": -9.212,
+              "vol_pct": 4.455
+            },
+            "C": {
+              "ann_pct": 2.432,
+              "maxdd_pct": 0.0,
+              "vol_pct": 0.222
+            }
+          },
+          "gap_A_minus_B_pp": 2.034,
+          "leverage": 0.3461,
+          "repo_rows_missing": 0,
+          "roll_days_held": 6,
+          "time_in_market_pct": 21.91,
+          "window": {
+            "days": 2324,
+            "from": "2017-04-19",
+            "to": "2026-11-13"
+          }
+        },
+        "gap_pp_moved": 1.981,
+        "published_mask": {
+          "arms": {
+            "A": {
+              "ann_pct": 3.774,
+              "maxdd_pct": -12.227,
+              "vol_pct": 8.011
+            },
+            "B": {
+              "ann_pct": 3.721,
+              "maxdd_pct": -10.057,
+              "vol_pct": 4.414
+            },
+            "C": {
+              "ann_pct": 2.432,
+              "maxdd_pct": 0.0,
+              "vol_pct": 0.222
+            }
+          },
+          "gap_A_minus_B_pp": 0.053,
+          "leverage": 0.3462,
+          "repo_rows_missing": 0,
+          "roll_days_held": 6,
+          "time_in_market_pct": 21.91,
+          "window": {
+            "days": 2324,
+            "from": "2017-04-19",
+            "to": "2026-11-13"
+          }
+        }
+      },
+      "detector": {
+        "months_covered_pct": 98.32,
+        "months_hit": 117,
+        "months_missing": [
+          "2026-02",
+          "2026-11"
+        ],
+        "months_total": 119,
+        "offsets_from_expiry": {
+          "-1": 6,
+          "-2": 3,
+          "-3": 11,
+          "-4": 13,
+          "0": 47,
+          "3": 37
+        }
+      },
+      "index": "sh000905",
+      "readings": {
+        "calendar_mask": {
+          "calendar_years": 9.827,
+          "carry_ann_pct": 9.793,
+          "days": 2382,
+          "kept_days": 2265,
+          "masked_days": 117,
+          "removed_mean_pct": -0.007621,
+          "spliced_total_ann_pct": 0.178,
+          "years": 9.762
+        },
+        "published_threshold_mask": {
+          "calendar_years": 9.827,
+          "carry_ann_pct": 2.881,
+          "days": 2382,
+          "kept_days": 2360,
+          "masked_days": 22,
+          "removed_mean_pct": -0.011877,
+          "spliced_total_ann_pct": 0.178,
+          "years": 9.762
+        }
+      },
+      "roll_days": {
+        "calendar_mask_days": 117,
+        "carry_gap_pp": 6.912,
+        "missed_days": 95,
+        "missed_share_pct": 81.2,
+        "published_mask_days": 22
+      },
+      "roll_steps": {
+        "by_year": {
+          "2017": {
+            "rolls": 12,
+            "sum_pct": -8.731
+          },
+          "2018": {
+            "rolls": 12,
+            "sum_pct": -9.27
+          },
+          "2019": {
+            "rolls": 12,
+            "sum_pct": -11.234
+          },
+          "2020": {
+            "rolls": 12,
+            "sum_pct": -11.946
+          },
+          "2021": {
+            "rolls": 12,
+            "sum_pct": -7.7
+          },
+          "2022": {
+            "rolls": 12,
+            "sum_pct": -6.897
+          },
+          "2023": {
+            "rolls": 12,
+            "sum_pct": -3.529
+          },
+          "2024": {
+            "rolls": 12,
+            "sum_pct": -8.63
+          },
+          "2025": {
+            "rolls": 12,
+            "sum_pct": -13.04
+          },
+          "2026": {
+            "rolls": 9,
+            "sum_pct": -8.18
+          }
+        },
+        "count": 117,
+        "mean_pct": -0.7621,
+        "median_pct": -0.6202,
+        "per_year": 11.99,
+        "positive_steps": 1,
+        "sum_ann_pct": -9.133
+      },
+      "span": {
+        "days": 2383,
+        "from": "2017-01-17",
+        "to": "2026-11-13"
+      },
+      "state": "MASK_INCOMPLETE",
+      "status": "ok"
+    },
+    "IF": {
+      "arm_sensitivity": {
+        "A_pp_moved": 1.483,
+        "B_minus_A_pp": {
+          "calendar": -0.226,
+          "published": 1.153
+        },
+        "B_pp_moved": 0.104,
+        "calendar_mask": {
+          "arms": {
+            "A": {
+              "ann_pct": 5.478,
+              "maxdd_pct": -11.32,
+              "vol_pct": 8.007
+            },
+            "B": {
+              "ann_pct": 5.252,
+              "maxdd_pct": -6.024,
+              "vol_pct": 3.908
+            },
+            "C": {
+              "ann_pct": 2.432,
+              "maxdd_pct": 0.0,
+              "vol_pct": 0.222
+            }
+          },
+          "gap_A_minus_B_pp": 0.226,
+          "leverage": 0.4041,
+          "repo_rows_missing": 0,
+          "roll_days_held": 8,
+          "time_in_market_pct": 21.01,
+          "window": {
+            "days": 2324,
+            "from": "2017-04-19",
+            "to": "2026-11-13"
+          }
+        },
+        "gap_pp_moved": 1.379,
+        "published_mask": {
+          "arms": {
+            "A": {
+              "ann_pct": 3.995,
+              "maxdd_pct": -16.046,
+              "vol_pct": 8.009
+            },
+            "B": {
+              "ann_pct": 5.148,
+              "maxdd_pct": -4.98,
+              "vol_pct": 3.781
+            },
+            "C": {
+              "ann_pct": 2.432,
+              "maxdd_pct": 0.0,
+              "vol_pct": 0.222
+            }
+          },
+          "gap_A_minus_B_pp": -1.153,
+          "leverage": 0.4143,
+          "repo_rows_missing": 0,
+          "roll_days_held": 8,
+          "time_in_market_pct": 21.01,
+          "window": {
+            "days": 2324,
+            "from": "2017-04-19",
+            "to": "2026-11-13"
+          }
+        }
+      },
+      "detector": {
+        "months_covered_pct": 98.32,
+        "months_hit": 117,
+        "months_missing": [
+          "2026-02",
+          "2026-11"
+        ],
+        "months_total": 119,
+        "offsets_from_expiry": {
+          "-1": 7,
+          "-2": 15,
+          "-3": 12,
+          "-4": 14,
+          "0": 38,
+          "3": 31
+        }
+      },
+      "index": "sh000300",
+      "readings": {
+        "calendar_mask": {
+          "calendar_years": 9.827,
+          "carry_ann_pct": 5.795,
+          "days": 2382,
+          "kept_days": 2265,
+          "masked_days": 117,
+          "removed_mean_pct": -0.004477,
+          "spliced_total_ann_pct": 0.145,
+          "years": 9.762
+        },
+        "published_threshold_mask": {
+          "calendar_years": 9.827,
+          "carry_ann_pct": 1.876,
+          "days": 2382,
+          "kept_days": 2356,
+          "masked_days": 26,
+          "removed_mean_pct": -0.006421,
+          "spliced_total_ann_pct": 0.145,
+          "years": 9.762
+        }
+      },
+      "roll_days": {
+        "calendar_mask_days": 117,
+        "carry_gap_pp": 3.919,
+        "missed_days": 91,
+        "missed_share_pct": 77.8,
+        "published_mask_days": 26
+      },
+      "roll_steps": {
+        "by_year": {
+          "2017": {
+            "rolls": 12,
+            "sum_pct": -5.597
+          },
+          "2018": {
+            "rolls": 12,
+            "sum_pct": -5.757
+          },
+          "2019": {
+            "rolls": 12,
+            "sum_pct": -5.083
+          },
+          "2020": {
+            "rolls": 12,
+            "sum_pct": -8.196
+          },
+          "2021": {
+            "rolls": 12,
+            "sum_pct": -5.781
+          },
+          "2022": {
+            "rolls": 12,
+            "sum_pct": -5.991
+          },
+          "2023": {
+            "rolls": 12,
+            "sum_pct": -2.819
+          },
+          "2024": {
+            "rolls": 12,
+            "sum_pct": -4.944
+          },
+          "2025": {
+            "rolls": 12,
+            "sum_pct": -5.828
+          },
+          "2026": {
+            "rolls": 9,
+            "sum_pct": -2.37
+          }
+        },
+        "count": 117,
+        "mean_pct": -0.4476,
+        "median_pct": -0.3849,
+        "per_year": 11.99,
+        "positive_steps": 1,
+        "sum_ann_pct": -5.364
+      },
+      "span": {
+        "days": 2383,
+        "from": "2017-01-17",
+        "to": "2026-11-13"
+      },
+      "state": "MASK_INCOMPLETE",
+      "status": "ok"
+    },
+    "IH": {
+      "arm_sensitivity": {
+        "A_pp_moved": 1.471,
+        "B_minus_A_pp": {
+          "calendar": 0.147,
+          "published": 1.079
+        },
+        "B_pp_moved": 0.539,
+        "calendar_mask": {
+          "arms": {
+            "A": {
+              "ann_pct": 5.55,
+              "maxdd_pct": -14.573,
+              "vol_pct": 8.001
+            },
+            "B": {
+              "ann_pct": 5.697,
+              "maxdd_pct": -5.892,
+              "vol_pct": 3.665
+            },
+            "C": {
+              "ann_pct": 2.432,
+              "maxdd_pct": 0.0,
+              "vol_pct": 0.222
+            }
+          },
+          "gap_A_minus_B_pp": -0.147,
+          "leverage": 0.4166,
+          "repo_rows_missing": 0,
+          "roll_days_held": 8,
+          "time_in_market_pct": 22.64,
+          "window": {
+            "days": 2324,
+            "from": "2017-04-19",
+            "to": "2026-11-13"
+          }
+        },
+        "gap_pp_moved": 0.932,
+        "published_mask": {
+          "arms": {
+            "A": {
+              "ann_pct": 4.079,
+              "maxdd_pct": -17.685,
+              "vol_pct": 8.005
+            },
+            "B": {
+              "ann_pct": 5.158,
+              "maxdd_pct": -6.791,
+              "vol_pct": 3.696
+            },
+            "C": {
+              "ann_pct": 2.432,
+              "maxdd_pct": 0.0,
+              "vol_pct": 0.222
+            }
+          },
+          "gap_A_minus_B_pp": -1.079,
+          "leverage": 0.4294,
+          "repo_rows_missing": 0,
+          "roll_days_held": 8,
+          "time_in_market_pct": 22.64,
+          "window": {
+            "days": 2324,
+            "from": "2017-04-19",
+            "to": "2026-11-13"
+          }
+        }
+      },
+      "detector": {
+        "months_covered_pct": 98.32,
+        "months_hit": 117,
+        "months_missing": [
+          "2026-02",
+          "2026-11"
+        ],
+        "months_total": 119,
+        "offsets_from_expiry": {
+          "-1": 12,
+          "-2": 19,
+          "-3": 12,
+          "-4": 17,
+          "0": 32,
+          "3": 25
+        }
+      },
+      "index": "sh000016",
+      "readings": {
+        "calendar_mask": {
+          "calendar_years": 9.827,
+          "carry_ann_pct": 5.324,
+          "days": 2382,
+          "kept_days": 2265,
+          "masked_days": 117,
+          "removed_mean_pct": -0.004136,
+          "spliced_total_ann_pct": 0.106,
+          "years": 9.762
+        },
+        "published_threshold_mask": {
+          "calendar_years": 9.827,
+          "carry_ann_pct": 1.552,
+          "days": 2382,
+          "kept_days": 2348,
+          "masked_days": 34,
+          "removed_mean_pct": -0.004086,
+          "spliced_total_ann_pct": 0.106,
+          "years": 9.762
+        }
+      },
+      "roll_days": {
+        "calendar_mask_days": 117,
+        "carry_gap_pp": 3.772,
+        "missed_days": 83,
+        "missed_share_pct": 70.9,
+        "published_mask_days": 34
+      },
+      "roll_steps": {
+        "by_year": {
+          "2017": {
+            "rolls": 12,
+            "sum_pct": -3.562
+          },
+          "2018": {
+            "rolls": 12,
+            "sum_pct": -4.89
+          },
+          "2019": {
+            "rolls": 12,
+            "sum_pct": -4.065
+          },
+          "2020": {
+            "rolls": 12,
+            "sum_pct": -7.904
+          },
+          "2021": {
+            "rolls": 12,
+            "sum_pct": -3.691
+          },
+          "2022": {
+            "rolls": 12,
+            "sum_pct": -5.445
+          },
+          "2023": {
+            "rolls": 12,
+            "sum_pct": -3.279
+          },
+          "2024": {
+            "rolls": 12,
+            "sum_pct": -5.715
+          },
+          "2025": {
+            "rolls": 12,
+            "sum_pct": -3.81
+          },
+          "2026": {
+            "rolls": 9,
+            "sum_pct": -6.04
+          }
+        },
+        "count": 117,
+        "mean_pct": -0.4137,
+        "median_pct": -0.2712,
+        "per_year": 11.99,
+        "positive_steps": 1,
+        "sum_ann_pct": -4.958
+      },
+      "span": {
+        "days": 2383,
+        "from": "2017-01-17",
+        "to": "2026-11-13"
+      },
+      "state": "MASK_INCOMPLETE",
+      "status": "ok"
+    },
+    "IM": {
+      "arm_sensitivity": {
+        "A_pp_moved": 1.662,
+        "B_minus_A_pp": {
+          "calendar": -2.999,
+          "published": -2.1
+        },
+        "B_pp_moved": 0.763,
+        "calendar_mask": {
+          "arms": {
+            "A": {
+              "ann_pct": 5.734,
+              "maxdd_pct": -11.53,
+              "vol_pct": 8.005
+            },
+            "B": {
+              "ann_pct": 2.735,
+              "maxdd_pct": -7.312,
+              "vol_pct": 4.829
+            },
+            "C": {
+              "ann_pct": 1.86,
+              "maxdd_pct": 0.0,
+              "vol_pct": 0.12
+            }
+          },
+          "gap_A_minus_B_pp": 2.999,
+          "leverage": 0.3076,
+          "repo_rows_missing": 0,
+          "roll_days_held": 4,
+          "time_in_market_pct": 28.22,
+          "window": {
+            "days": 986,
+            "from": "2022-10-21",
+            "to": "2026-11-13"
+          }
+        },
+        "gap_pp_moved": 0.899,
+        "published_mask": {
+          "arms": {
+            "A": {
+              "ann_pct": 4.072,
+              "maxdd_pct": -13.124,
+              "vol_pct": 8.006
+            },
+            "B": {
+              "ann_pct": 1.972,
+              "maxdd_pct": -7.867,
+              "vol_pct": 4.746
+            },
+            "C": {
+              "ann_pct": 1.86,
+              "maxdd_pct": 0.0,
+              "vol_pct": 0.12
+            }
+          },
+          "gap_A_minus_B_pp": 2.1,
+          "leverage": 0.3084,
+          "repo_rows_missing": 0,
+          "roll_days_held": 4,
+          "time_in_market_pct": 28.22,
+          "window": {
+            "days": 986,
+            "from": "2022-10-21",
+            "to": "2026-11-13"
+          }
+        }
+      },
+      "detector": {
+        "months_covered_pct": 94.34,
+        "months_hit": 50,
+        "months_missing": [
+          "2022-07",
+          "2026-02",
+          "2026-11"
+        ],
+        "months_total": 53,
+        "offsets_from_expiry": {
+          "-1": 5,
+          "-2": 4,
+          "-3": 6,
+          "-4": 7,
+          "0": 11,
+          "3": 17
+        }
+      },
+      "index": "sh000852",
+      "readings": {
+        "calendar_mask": {
+          "calendar_years": 4.315,
+          "carry_ann_pct": 11.954,
+          "days": 1044,
+          "kept_days": 994,
+          "masked_days": 50,
+          "removed_mean_pct": -0.009473,
+          "spliced_total_ann_pct": 0.311,
+          "years": 4.279
+        },
+        "published_threshold_mask": {
+          "calendar_years": 4.315,
+          "carry_ann_pct": 5.864,
+          "days": 1044,
+          "kept_days": 1026,
+          "masked_days": 18,
+          "removed_mean_pct": -0.012959,
+          "spliced_total_ann_pct": 0.311,
+          "years": 4.279
+        }
+      },
+      "roll_days": {
+        "calendar_mask_days": 50,
+        "carry_gap_pp": 6.09,
+        "missed_days": 32,
+        "missed_share_pct": 64.0,
+        "published_mask_days": 18
+      },
+      "roll_steps": {
+        "by_year": {
+          "2022": {
+            "rolls": 5,
+            "sum_pct": -3.341
+          },
+          "2023": {
+            "rolls": 12,
+            "sum_pct": -4.682
+          },
+          "2024": {
+            "rolls": 12,
+            "sum_pct": -14.138
+          },
+          "2025": {
+            "rolls": 12,
+            "sum_pct": -15.99
+          },
+          "2026": {
+            "rolls": 9,
+            "sum_pct": -9.204
+          }
+        },
+        "count": 50,
+        "mean_pct": -0.9471,
+        "median_pct": -0.544,
+        "per_year": 11.68,
+        "positive_steps": 0,
+        "sum_ann_pct": -11.067
+      },
+      "span": {
+        "days": 1045,
+        "from": "2022-07-22",
+        "to": "2026-11-13"
+      },
+      "state": "MASK_INCOMPLETE",
+      "status": "ok"
+    }
+  },
+  "states": {
+    "IC": "MASK_INCOMPLETE",
+    "IF": "MASK_INCOMPLETE",
+    "IH": "MASK_INCOMPLETE",
+    "IM": "MASK_INCOMPLETE"
+  },
+  "verdict": "ROLL_MASK_INCOMPLETE",
+  "verdict_check": {
+    "n_incomplete": 4,
+    "n_pairs": 4,
+    "rule": "MASK_INCOMPLETE needs >=20% of the calendar rolls missed and >=1.0pp of annualised reading between the two masks"
+  }
+}

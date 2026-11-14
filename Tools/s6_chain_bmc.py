@@ -132,6 +132,20 @@ LEGS = [
     # decomposition cannot drift into a story. Reads the same futures panel and the
     # repo panel; ~2s, no network, no judge, selects nothing.
     ("idx_fut_basis_wait", ["python", "scripts/idx_fut_basis_wait.py"]),
+    # r1693: r1691 closed the T-TF curve line on a face that no leg ever wrote -- the
+    # verdict was priced once by hand and the chain had no producer for it, so the KILL
+    # a reader finds in results/treasury_curve_spread.json could only age. Both legs ride
+    # behind the futures panel: the spread face prices the mechanism, the mask audit asks
+    # whether its roll mask (a size rule, on an instrument whose contract switch is the
+    # size of an ordinary day) is what produced the answer, by re-running the imported
+    # mechanism under four masks and publishing the envelope. ~10s + ~4s, no network.
+    ("treasury_curve_spread", ["python", "scripts/treasury_curve_spread.py"]),
+    ("treasury_curve_mask_audit", ["python", "scripts/treasury_curve_mask_audit.py"]),
+    # r1693 (adopted from the killed r1692 body): the index-futures splice audit was written
+    # on 11-14/15 and left untracked with no leg -- the same "no producer" shape. It reads
+    # the IF/IC/IH/IM panel refreshed above and re-derives the carry under a calendar-anchored
+    # roll mask (quarterly, third Friday) instead of a size rule. ~1s, no network, no judge.
+    ("idx_fut_roll_gap", ["python", "scripts/idx_fut_roll_gap.py"]),
     # r1136: the futures TSMOM sleeve was measured on 10-27 (standalone Sharpe 0.27, but
     # 50/50 with the ETF book 1.059 vs 0.98 alone at a smaller drawdown) and there was no
     # daily face for it -- the "produced but never read" class this repo keeps recording

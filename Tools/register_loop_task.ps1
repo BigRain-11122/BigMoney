@@ -72,15 +72,24 @@ if ($exists -and -not $disabledHeal -and $pin -ge 0) {
         $sb = (Get-ScheduledTask -TaskName 'Bigmoney-IterationLoop' `
               -ErrorAction Stop).Triggers[0].StartBoundary
         if ($sb -match 'T\d{2}:(\d{2}):') {
-            $cur = [int]$Matches[1] % 10
+            # the trigger repeats every 5 MINUTES, so the phase that actually holds between
+            # rounds is minute % 5; a % 10 test flips on every fire (:05 -> :10 -> :05) and
+            # made a healthy task re-register on alternate rounds (r1693: pin 5 read current 0).
+            $cur = [int]$Matches[1] % 5
+            $pin = $pin % 5
             if ($cur -eq $pin) {
                 $tl = ''
                 try { $tl = [string](Get-ScheduledTask -TaskName 'Bigmoney-IterationLoop' -ErrorAction Stop).Settings.ExecutionTimeLimit } catch {}
-                if ($tl -eq 'PT300M') {
-                    Write-Output "phase ok: machine=$mid pin=$pin current=$cur time-limit=$tl (no-op, first fire stays $start)"
+                # compare the DURATION, not the spelling: Task Scheduler serialises 300 minutes as
+                # "PT5H", so a string compare against "PT300M" was false on a correct task and the
+                # heal path re-registered the lane every round (r1693: PT5H is 300 minutes).
+                $tlOk = $false
+                if ($tl) { try { $tlOk = ([System.Xml.XmlConvert]::ToTimeSpan($tl)).TotalMinutes -eq 300 } catch { $tlOk = $false } }
+                if ($tlOk) {
+                    Write-Output "phase ok: machine=$mid pin=$pin current=$cur time-limit=$tl (=300min, no-op, first fire stays $start)"
                     exit 0
                 }
-                Write-Output "time-limit drift: live=$tl want=PT300M (a launcher killed under its round leaves the headless child unbabysitted AND the lock reading 'dead' - r1687 double-executor root at 2026-11-15 00:35) -> re-registering"
+                Write-Output "time-limit drift: live=$tl want=300min (a launcher killed under its round leaves the headless child unbabysitted AND the lock reading 'dead' - r1687 double-executor root at 2026-11-15 00:35) -> re-registering"
             } else {
                 Write-Output "phase drift: machine=$mid pin=$pin current=$cur -> re-registering"
             }

@@ -1,0 +1,415 @@
+{
+  "batch": "TREASURY_CURVE_MASK_AUDIT",
+  "evidence_cutoff": "2026-11-13",
+  "status": "ok",
+  "meta": {
+    "pairs": "T(10y) vs TF(5y), sina main-continuous raw",
+    "bars": 2383,
+    "first": "2017-01-17",
+    "last": "2026-11-13",
+    "point_value_cny": 10000.0,
+    "margin_per_pair_cny": 35000.0,
+    "cost_bp_per_side": 20.0,
+    "mechanism": "imported from scripts/treasury_curve_spread.py (z_window/z_enter/max_hold/costs)",
+    "co_move_points": 0.25,
+    "published_rule": "|step| > 8x median and > 0.30 points"
+  },
+  "counts": {
+    "masked_published": 13,
+    "both_legs_same_way": 8,
+    "delivery_month": 2,
+    "single_leg": 10
+  },
+  "classification": [
+    {
+      "date": "2017-01-25",
+      "legs_masked": [
+        "T"
+      ],
+      "t_step": -1.67,
+      "tf_step": -0.125,
+      "singled_leg": true,
+      "both_legs_same_way": false,
+      "delivery_month": false,
+      "month": 1
+    },
+    {
+      "date": "2017-02-07",
+      "legs_masked": [
+        "TF"
+      ],
+      "t_step": 0.315,
+      "tf_step": -1.225,
+      "singled_leg": true,
+      "both_legs_same_way": false,
+      "delivery_month": false,
+      "month": 2
+    },
+    {
+      "date": "2018-04-18",
+      "legs_masked": [
+        "T",
+        "TF"
+      ],
+      "t_step": 1.005,
+      "tf_step": 0.6,
+      "singled_leg": false,
+      "both_legs_same_way": true,
+      "delivery_month": false,
+      "month": 4
+    },
+    {
+      "date": "2019-05-16",
+      "legs_masked": [
+        "TF"
+      ],
+      "t_step": -0.04,
+      "tf_step": -0.665,
+      "singled_leg": true,
+      "both_legs_same_way": false,
+      "delivery_month": false,
+      "month": 5
+    },
+    {
+      "date": "2019-05-17",
+      "legs_masked": [
+        "TF"
+      ],
+      "t_step": 0.1,
+      "tf_step": 0.6,
+      "singled_leg": true,
+      "both_legs_same_way": false,
+      "delivery_month": false,
+      "month": 5
+    },
+    {
+      "date": "2020-02-03",
+      "legs_masked": [
+        "T",
+        "TF"
+      ],
+      "t_step": 1.28,
+      "tf_step": 0.65,
+      "singled_leg": false,
+      "both_legs_same_way": true,
+      "delivery_month": false,
+      "month": 2
+    },
+    {
+      "date": "2020-04-07",
+      "legs_masked": [
+        "TF"
+      ],
+      "t_step": 0.805,
+      "tf_step": 0.995,
+      "singled_leg": true,
+      "both_legs_same_way": true,
+      "delivery_month": false,
+      "month": 4
+    },
+    {
+      "date": "2020-05-22",
+      "legs_masked": [
+        "TF"
+      ],
+      "t_step": 0.685,
+      "tf_step": 0.665,
+      "singled_leg": true,
+      "both_legs_same_way": true,
+      "delivery_month": false,
+      "month": 5
+    },
+    {
+      "date": "2020-06-02",
+      "legs_masked": [
+        "TF"
+      ],
+      "t_step": -0.505,
+      "tf_step": -0.62,
+      "singled_leg": true,
+      "both_legs_same_way": true,
+      "delivery_month": true,
+      "month": 6
+    },
+    {
+      "date": "2020-07-06",
+      "legs_masked": [
+        "T",
+        "TF"
+      ],
+      "t_step": -1.03,
+      "tf_step": -1.055,
+      "singled_leg": false,
+      "both_legs_same_way": true,
+      "delivery_month": false,
+      "month": 7
+    },
+    {
+      "date": "2022-11-18",
+      "legs_masked": [
+        "TF"
+      ],
+      "t_step": -0.265,
+      "tf_step": -0.69,
+      "singled_leg": true,
+      "both_legs_same_way": true,
+      "delivery_month": false,
+      "month": 11
+    },
+    {
+      "date": "2023-02-21",
+      "legs_masked": [
+        "T"
+      ],
+      "t_step": -0.905,
+      "tf_step": -0.005,
+      "singled_leg": true,
+      "both_legs_same_way": false,
+      "delivery_month": false,
+      "month": 2
+    },
+    {
+      "date": "2024-09-27",
+      "legs_masked": [
+        "T"
+      ],
+      "t_step": -0.965,
+      "tf_step": -0.475,
+      "singled_leg": true,
+      "both_legs_same_way": true,
+      "delivery_month": true,
+      "month": 9
+    }
+  ],
+  "masks": {
+    "published": {
+      "full": {
+        "n": 2383,
+        "ann_pct": -9.603356597573631,
+        "sharpe": -0.1075287584570468,
+        "mdd_pct": -80.6163001693194,
+        "total_pct": -37.171428571430006,
+        "nav": 0.373049
+      },
+      "oos": {
+        "n": 693,
+        "ann_pct": -41.27928375825195,
+        "sharpe": -1.9501556085073266,
+        "mdd_pct": -78.32996171443196,
+        "total_pct": -141.68571428571374,
+        "nav": 0.22046
+      },
+      "perm": {
+        "trials": 200,
+        "p_value": 0.42786069651741293,
+        "real_pct": -5.571428571429999,
+        "null_median_pct": -20.714285714286767,
+        "null_p95_pct": 159.14285714285776
+      },
+      "turnovers": 158,
+      "in_market_share": 0.663,
+      "criteria": {
+        "C1": {
+          "bar": "ann_pct >= 3.0",
+          "value": -9.603,
+          "pass": false
+        },
+        "C2": {
+          "bar": "oos_sharpe >= 0.70",
+          "value": -1.95,
+          "pass": false
+        },
+        "C3": {
+          "bar": "perm_p < 0.05",
+          "value": 0.4279,
+          "pass": false
+        }
+      },
+      "verdict": "KILL",
+      "masked_days": 13,
+      "masked_dates": [
+        "2017-01-25",
+        "2017-02-07",
+        "2018-04-18",
+        "2019-05-16",
+        "2019-05-17",
+        "2020-02-03",
+        "2020-04-07",
+        "2020-05-22",
+        "2020-06-02",
+        "2020-07-06",
+        "2022-11-18",
+        "2023-02-21",
+        "2024-09-27"
+      ]
+    },
+    "none": {
+      "full": {
+        "n": 2383,
+        "ann_pct": -13.082047954247633,
+        "sharpe": -0.17279100609991593,
+        "mdd_pct": -85.05839728166555,
+        "total_pct": -64.45714285714382,
+        "nav": 0.254284
+      },
+      "oos": {
+        "n": 693,
+        "ann_pct": -38.50679807421737,
+        "sharpe": -1.6692024151906226,
+        "mdd_pct": -75.29615635445246,
+        "total_pct": -127.68571428571389,
+        "nav": 0.251324
+      },
+      "perm": {
+        "trials": 200,
+        "p_value": 0.5323383084577115,
+        "real_pct": -32.85714285714382,
+        "null_median_pct": -24.57142857142937,
+        "null_p95_pct": 160.28571428571263
+      },
+      "turnovers": 158,
+      "in_market_share": 0.663,
+      "criteria": {
+        "C1": {
+          "bar": "ann_pct >= 3.0",
+          "value": -13.082,
+          "pass": false
+        },
+        "C2": {
+          "bar": "oos_sharpe >= 0.70",
+          "value": -1.669,
+          "pass": false
+        },
+        "C3": {
+          "bar": "perm_p < 0.05",
+          "value": 0.5323,
+          "pass": false
+        }
+      },
+      "verdict": "KILL",
+      "masked_days": 0,
+      "masked_dates": []
+    },
+    "market_kept": {
+      "full": {
+        "n": 2383,
+        "ann_pct": -9.814400345808394,
+        "sharpe": -0.09846216581397664,
+        "mdd_pct": -78.57454125255549,
+        "total_pct": -35.17142857142938,
+        "nav": 0.36463
+      },
+      "oos": {
+        "n": 693,
+        "ann_pct": -38.50679807421737,
+        "sharpe": -1.6692024151906226,
+        "mdd_pct": -75.29615635445246,
+        "total_pct": -127.68571428571389,
+        "nav": 0.251324
+      },
+      "perm": {
+        "trials": 200,
+        "p_value": 0.4079601990049751,
+        "real_pct": -3.5714285714293794,
+        "null_median_pct": -22.785714285714466,
+        "null_p95_pct": 148.85714285714147
+      },
+      "turnovers": 158,
+      "in_market_share": 0.663,
+      "criteria": {
+        "C1": {
+          "bar": "ann_pct >= 3.0",
+          "value": -9.814,
+          "pass": false
+        },
+        "C2": {
+          "bar": "oos_sharpe >= 0.70",
+          "value": -1.669,
+          "pass": false
+        },
+        "C3": {
+          "bar": "perm_p < 0.05",
+          "value": 0.408,
+          "pass": false
+        }
+      },
+      "verdict": "KILL",
+      "masked_days": 5,
+      "masked_dates": [
+        "2017-01-25",
+        "2017-02-07",
+        "2019-05-16",
+        "2019-05-17",
+        "2023-02-21"
+      ]
+    },
+    "single_only": {
+      "full": {
+        "n": 2383,
+        "ann_pct": -12.53001521854502,
+        "sharpe": -0.18956628823977817,
+        "mdd_pct": -84.10536613884183,
+        "total_pct": -66.74285714285807,
+        "nav": 0.270503
+      },
+      "oos": {
+        "n": 693,
+        "ann_pct": -41.27928375825195,
+        "sharpe": -1.9501556085073266,
+        "mdd_pct": -78.32996171443196,
+        "total_pct": -141.68571428571374,
+        "nav": 0.22046
+      },
+      "perm": {
+        "trials": 200,
+        "p_value": 0.5472636815920398,
+        "real_pct": -35.14285714285806,
+        "null_median_pct": -27.357142857143145,
+        "null_p95_pct": 160.71428571428368
+      },
+      "turnovers": 158,
+      "in_market_share": 0.663,
+      "criteria": {
+        "C1": {
+          "bar": "ann_pct >= 3.0",
+          "value": -12.53,
+          "pass": false
+        },
+        "C2": {
+          "bar": "oos_sharpe >= 0.70",
+          "value": -1.95,
+          "pass": false
+        },
+        "C3": {
+          "bar": "perm_p < 0.05",
+          "value": 0.5473,
+          "pass": false
+        }
+      },
+      "verdict": "KILL",
+      "masked_days": 10,
+      "masked_dates": [
+        "2017-01-25",
+        "2017-02-07",
+        "2019-05-16",
+        "2019-05-17",
+        "2020-04-07",
+        "2020-05-22",
+        "2020-06-02",
+        "2022-11-18",
+        "2023-02-21",
+        "2024-09-27"
+      ]
+    }
+  },
+  "verdicts": [
+    "KILL"
+  ],
+  "envelope": "包络：四种掩码（published / none / market_kept / single_only）判决全部为 KILL，r1691 关闭这条线不依赖掩码的选择。",
+  "headline": "r1691 用一条按**跳变大小**判换月的规则去掩码，而这件工具的换月幅度（0.1-0.4 点）和普通日波动同量级，规则抓不到真换月、却把 8 天真实行情当成换月抹掉。把掩码换掉重跑，全窗年化在 -13.08% ~ -9.60% 之间、OOS 夏普在 -1.95 ~ -1.67 之间，判决四种掩码一致（KILL）。",
+  "not_done": [
+    "真换月的日子没有合约级数据可用：面板只有主力连续收盘，没有前后月合约价，所以“哪一天是换月”只能靠代理判据，四种掩码的包络就是这份不确定性的披露面。",
+    "没有重建换月的实际价差成本（本面只测掩码选择对已冻结机制读数的影响）。",
+    "r1691 的判词仍是关闭态的入口；本面只回答“关闭这件事是否依赖掩码”，不重开这条线。"
+  ]
+}
