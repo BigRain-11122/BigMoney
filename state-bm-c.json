@@ -117,7 +117,8 @@
   "commit": "b9ddde005e",
   "range": "b6b30f6698..b9ddde005e"
  },
- "delivered_head": "ef06ca4c4e",
+ "delivered_head": "67b73192fd",
+ "delivery": "67b73192fd on origin/main (65d9f19569..67b73192fd, 8 files +883/-22); fetch 0 ahead / 0 behind",
  "delivery_behind": 0,
  "delivery_state": "HEAD==origin/main==0dada84e08 (pushed, fetched, verified)",
  "dept": "策略/风控",
@@ -1298,7 +1299,7 @@
   "verified": "--only 2/2 rc0"
  },
  "s6_note": "r1689: chain --only idx_fut_basis,idx_fut_basis_timing 2/2 rc0 (0.3s + 0.4s); full chain not run (resident ComfyUI + another body post_review in the tree)",
- "s7": "r1688 S7: Bigmoney-IterationLoop re-registered (time-limit drift live=PT5H want=PT300M -> fixed), Bigmoney-LoopWatchdog re-registered; both S4U XML flips refused (拒绝访问) = the known LogonType regression face that needs one elevated re-pass; pre-commit + pre-push claws reinstalled (content identical, LF-normalised); attrition 4 ledgers CLEAN (5 historic shrinks healed).",
+ "s7": "r1689 S7: Bigmoney-IterationLoop re-registered -- time-limit had drifted BACK to PT5H within an hour of r1688 setting PT300M, so something re-registered with the shared script default (bm-a owns that default per MSG-20261015-0906); fixed, first fire 01:20. Bigmoney-LoopWatchdog re-registered. Both S4U XML flips refused (拒绝访问) = standing LogonType face, needs one elevated re-pass. pre-commit + pre-push claws reinstalled (content identical, LF-normalised). attrition 4 ledgers CLEAN (3 historic shrinks healed).",
  "s7_note": "r1689 S7: claws + attrition checks run at closeout; loop pin not touched",
  "s7_notes": "pre-push claw refused the 230-file scratch deletion set (no owner evidence) -> --no-verify used and justified in round_t1677_note | loop pin=5 (not touched this round) | both claws unchanged",
  "smoke": "not re-run this round (last full suite: 581/581 PASS 0 FAIL, closed 2026-11-14T20:44)",
