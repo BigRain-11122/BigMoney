@@ -36,6 +36,7 @@ Three honest limits, printed on the page rather than buried here:
 """
 import json
 import os
+import re
 import statistics
 import sys
 import time
@@ -567,6 +568,15 @@ def write_doc(face=None):
     return DOC
 
 
+def _drop_stamp(text):
+    """The `generated` field is runtime metadata, not a reading.
+
+    A drift check that compares it reddens on every rebuild for a reason that has nothing to
+    do with the face -- the r1290 rule: a no-op gate's keys must be inputs, never the clock.
+    """
+    return re.sub(r"generated \d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}", "generated <stamp>", text)
+
+
 def checkdoc(face=None):
     face = face or build()
     if not os.path.isfile(DOC):
@@ -575,7 +585,7 @@ def checkdoc(face=None):
     with open(DOC, "r", encoding="utf-8") as f:
         have = f.read()
     want = render_md(face)
-    if have.strip() != want.strip():
+    if _drop_stamp(have).strip() != _drop_stamp(want).strip():
         print("checkdoc: page differs from face")
         return 1
     print("checkdoc ok (%d chars)" % len(want))
@@ -728,6 +738,13 @@ def selftest():
                          robust_above_band=["IC"],
                          robust_below_line=["IH"])
     leg("L22 unresolved wording appears", "unresolved pending a quote" in render_md(f3))
+
+    # L23/L24 the drift check is keyed on the face, not on the clock.  L23: a page carrying a
+    # different stamp is still the same page.  L24: a page carrying a different *number* is not.
+    leg("L23 stamp does not count as drift",
+        _drop_stamp("generated 2026-01-01T00:00:00") == _drop_stamp("generated 2026-11-15T05:17:18"))
+    leg("L24 a changed reading still counts",
+        _drop_stamp("median 19.843") != _drop_stamp("median 19.844"))
 
     if fail:
         print("selftest FAIL (%d/%d)" % (ok, ok + len(fail)))

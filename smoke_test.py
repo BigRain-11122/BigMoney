@@ -1123,10 +1123,10 @@ def main() -> int:
     try:
         _r = _leg_memo([sys.executable, "scripts/idx_fut_roll_cost.py", "--selftest"], 120)
         _tail = ((_r.stdout or _r.stderr).strip().splitlines() or ["no output"])[-1]
-        check("product: index-futures roll cost measured (selftest 22 legs)",
+        check("product: index-futures roll cost measured (selftest 24 legs)",
               _r.returncode == 0, f"exit={_r.returncode} | {_tail[:90]}")
     except Exception as e:
-        check("product: index-futures roll cost measured (selftest 22 legs)", False, str(e))
+        check("product: index-futures roll cost measured (selftest 24 legs)", False, str(e))
     try:
         _rf = os.path.join(PATHS.root, "results", "idx_fut_roll_cost.json")
         _pg = os.path.join(PATHS.root, "research", "IDX_FUT_ROLL_COST.md")
