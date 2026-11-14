@@ -1037,6 +1037,19 @@ def main() -> int:
             check(_label, _r.returncode == 0, f"exit={_r.returncode} | {_tail[:80]}")
         except Exception as e:
             check(_label, False, str(e))
+    # r1688: research/IDX_FUT_BASIS_VERDICT.md headlines OPEN (the discount exists, per
+    # contract notional) while the sibling capital face rejects all four (per committed
+    # capital). A reader holding only one of the two numbers sizes the position by the
+    # wrong one -- and the page's §六 block is rendered from the face, so a number that
+    # moved without the page moving must be red here rather than found by eye later.
+    try:
+        _r = _leg_memo([sys.executable, "scripts/idx_fut_carry_capital.py", "checkdoc"], 90)
+        _tail = ((_r.stdout or _r.stderr).strip().splitlines() or ["no output"])[-1]
+        check("product: the index-futures page carries the capital face's numbers (r1688)",
+              _r.returncode == 0, f"exit={_r.returncode} | {_tail[:110]}")
+    except Exception as e:
+        check("product: the index-futures page carries the capital face's numbers (r1688)",
+              False, str(e))
     # r1602: the memo that lets the second copy of a leg ride on the first judgement is
     # itself a measurement, so it is driven here: a repeat is served from the cache and says
     # so, a `run` leg is never cached, and an edited script re-runs instead of reusing.

@@ -41,6 +41,10 @@ FUT_DIR = os.path.join(ROOT, "data", "futures_daily")
 IDX_DIR = os.path.join(ROOT, "data", "index_daily")
 REPO_PATH = os.path.join(ROOT, "data", "repo_daily", "GC001.csv")
 OUT = os.path.join(ROOT, "results", "idx_fut_carry_capital.json")
+DOC = os.path.join(ROOT, "research", "IDX_FUT_BASIS_VERDICT.md")
+DOC_BEGIN = ("<!-- CARRY-CAPITAL-BLOCK:BEGIN rendered by scripts/idx_fut_carry_capital.py "
+             "docblock -- do not hand-edit -->")
+DOC_END = "<!-- CARRY-CAPITAL-BLOCK:END -->"
 
 MULTIPLIER = {"IF": 300, "IH": 300, "IC": 200, "IM": 200}
 MARGIN_RATE = 0.15          # declared: exchange standard 12% + broker buffer; see notes
@@ -287,6 +291,107 @@ def build():
     }
 
 
+def doc_block(face):
+    """Render the reader-facing table from the published face -- never hand-copied.
+
+    The parent page headlines OPEN ("the discount exists"), which is measured per
+    *notional*. This block is the same trade measured per *committed capital*.
+    A reader holding only one of the two numbers sizes the position by the wrong
+    one, so the block states the relationship before it prints any row.
+    """
+    lines = [DOC_BEGIN, ""]
+    lines.append("**这不是同一问题的两个答案。** §二的 OPEN 回答「贴水存不存在」，"
+                 "分母是**合约名义额**；这张表回答「在你的资金上划不划算」，"
+                 "分母是**必须压上的本金**，且仓位按 %.0f%% 波动目标定尺 —— "
+                 "名义百分比不是钱。" % (VOL_TARGET * 100))
+    lines.append("")
+    lines.append("| 品种 | 名义 carry %/yr | 单张合约价值(万) | 一手所需本金(万) | "
+                 "首个买得起档(万) | 该档名义×本金 | 该档本金净收益 %/yr (10bp) | "
+                 "历史最大回撤占本金 % | 资金口径判词 |")
+    lines.append("|---|---|---|---|---|---|---|---|---|")
+    for fut in ("IF", "IC", "IH", "IM"):
+        f = (face.get("faces") or {}).get(fut)
+        v = (face.get("verdict") or {}).get(fut) or {}
+        if not f:
+            lines.append("| %s | 面缺失 | - | - | - | - | - | - | - |" % fut)
+            continue
+        tiers = {t["capital_cny"]: t for t in f.get("tiers") or []}
+        held = tiers.get(v.get("read_on_tier")) or {}
+        need = f.get("contract_value_cny", 0) * f.get("index_vol_pct", 0) / 100.0 / VOL_TARGET
+        def num(x, fmt="%+.2f"):
+            return "-" if x is None else fmt % x
+        lines.append("| %s | %s | %.0f | %.0f | %s | %s | %s | %s | %s |" % (
+            fut,
+            num(f.get("carry_net_ann_pct")),
+            (f.get("contract_value_cny") or 0) / 10000.0,
+            need / 10000.0,
+            "-" if not v.get("read_on_tier") else "%.0f" % (v["read_on_tier"] / 10000.0),
+            "-" if not held.get("notional_x_capital") else "%.2f×" % held["notional_x_capital"],
+            num((held.get("net_pct_of_capital") or {}).get("10")),
+            num(held.get("stress_loss_pct_of_capital"), "%.1f"),
+            "ADMIT" if v.get("ADMIT") else ("REJECT (V1 资金收益率 < %.1f%%)" % CARRY_MIN_PCT
+                                            if v.get("V1") is False else "REJECT"),
+        ))
+    lines.append("")
+    # the actionable half: what would have to change for the bar to be cleared
+    lines.append("过 %.1f%% 线的两种走法，各自代价写在这里：**①同样的风险预算下提高名义 "
+                 "= 提高波动目标**（carry 不变，风险变大）；**②增加本金**（一手所需本金以上，"
+                 "每多一张就多一份 carry）。下表末列给出「如果只靠加杠杆过线」需要名义达到本金的多少倍，"
+                 "以及它同时放大的历史回撤。" % CARRY_MIN_PCT)
+    lines.append("")
+    lines.append("| 品种 | 靠杠杆过线所需名义×本金 | 该倍数下的历史最大回撤占本金 % |")
+    lines.append("|---|---|---|")
+    for fut in ("IF", "IC", "IH", "IM"):
+        f = (face.get("faces") or {}).get(fut) or {}
+        carry = f.get("carry_net_ann_pct")
+        mdd = f.get("index_max_drawdown_pct")
+        if not carry or carry <= 0:
+            lines.append("| %s | 不适用（carry ≤ 0） | - |" % fut)
+            continue
+        need_x = CARRY_MIN_PCT / carry
+        lines.append("| %s | %.2f× | %.1f |" % (
+            fut, need_x, abs(mdd or 0) * need_x))
+    lines.append("")
+    lines.append("读法：IC 需要 %.2f× 名义才能过线，而 %.0f%% 波动目标只给 0.26× —— "
+                 "把杠杆拉到 0.72× 等于把指数回撤按 0.72 倍压到本金上，这正是 V3 要挡的东西。"
+                 % (CARRY_MIN_PCT / ((face["faces"]["IC"]["carry_net_ann_pct"]) or 1),
+                    VOL_TARGET * 100))
+    lines.append(DOC_END)
+    return "\n".join(lines)
+
+
+def splice_doc(text, block):
+    """Replace (or append) the rendered block; idempotent, never duplicates it."""
+    if DOC_BEGIN in text and DOC_END in text:
+        head = text[:text.index(DOC_BEGIN)]
+        tail = text[text.index(DOC_END) + len(DOC_END):]
+        return head + block + tail, "replaced"
+    return text.rstrip("\n") + "\n\n" + block + "\n", "appended"
+
+
+def checkdoc():
+    """rc0 = the research page still carries this face's numbers; rc2 = drifted."""
+    if not os.path.exists(OUT):
+        print("no face at %s -- run `run` first" % os.path.relpath(OUT, ROOT))
+        return 2
+    if not os.path.exists(DOC):
+        print("no page at %s" % os.path.relpath(DOC, ROOT))
+        return 2
+    face = json.load(open(OUT, encoding="utf-8"))
+    block = doc_block(face)
+    text = open(DOC, encoding="utf-8").read()
+    if DOC_BEGIN not in text or DOC_END not in text:
+        print("page carries no rendered block -- run `write-doc`")
+        return 2
+    have = text[text.index(DOC_BEGIN):text.index(DOC_END) + len(DOC_END)]
+    if have.strip() != block.strip():
+        print("page block differs from the face (face %s)" % face.get("generated"))
+        return 2
+    print("page block matches the face (%d rows, face %s)"
+          % (len(face.get("faces") or {}), face.get("generated")))
+    return 0
+
+
 def selftest():
     ok = []
 
@@ -362,6 +467,32 @@ def selftest():
     j4 = judge({"X": {"tiers": [part]}})["X"]
     leg(j4["V1_by_reading"]["mean_ann_pct"] is None and j4["V1_by_reading"]["median_ann_pct"] is True,
         "R4 an absent reading stays absent instead of borrowing the median")
+
+    # R5: the reader-facing block is rendered from the face, not copied by hand
+    _f = {"faces": {"IC": {"carry_net_ann_pct": 4.159, "contract_value_cny": 1_275_000.0,
+                           "index_vol_pct": 22.45, "index_max_drawdown_pct": -41.808,
+                           "tiers": [{"capital_cny": 5_000_000, "lots": 1,
+                                      "notional_x_capital": 0.26,
+                                      "net_pct_of_capital": {"10": 2.24},
+                                      "stress_loss_pct_of_capital": 10.9}]},
+                    "IF": None, "IH": None, "IM": None},
+          "verdict": {"IC": {"read_on_tier": 5_000_000, "V1": False, "ADMIT": False}}}
+    b1 = doc_block(_f)
+    leg("+4.16" in b1 and "| IC | +4.16 | 128 |" in b1 and "2.24" in b1 and "REJECT" in b1
+        and DOC_BEGIN in b1 and DOC_END in b1,
+        "R5 the block prints the face's numbers and names the rejected reading")
+    _f2 = json.loads(json.dumps(_f))
+    _f2["faces"]["IC"]["carry_net_ann_pct"] = 9.0
+    _f2["verdict"]["IC"] = {"read_on_tier": 5_000_000, "V1": True, "ADMIT": True}
+    b2 = doc_block(_f2)
+    leg("+9.00" in b2 and "+4.16" not in b2 and "ADMIT" in b2
+        and b1 != b2,
+        "R5 a moved carry moves the block (two-sided: no stale copy survives)")
+    _t1, _how1 = splice_doc("# page\n\ntext\n", b1)
+    _t2, _how2 = splice_doc(_t1, b2)
+    leg(_how1 == "appended" and _how2 == "replaced"
+        and _t2.count(DOC_BEGIN) == 1 and "+9.00" in _t2,
+        "R5 splicing is idempotent: one block, replaced in place")
     return ok
 
 
@@ -373,6 +504,20 @@ def main(argv):
         for name in legs:
             print("  [PASS] " + name)
         return 0
+    if cmd == "docblock":
+        print(doc_block(json.load(open(OUT, encoding="utf-8"))))
+        return 0
+    if cmd == "write-doc":
+        face = json.load(open(OUT, encoding="utf-8"))
+        text = open(DOC, encoding="utf-8").read()
+        new, how = splice_doc(text, doc_block(face))
+        with open(DOC, "w", encoding="utf-8", newline="\n") as f:
+            f.write(new)
+        print("page block %s (%s, face %s)"
+              % (how, os.path.relpath(DOC, ROOT), face.get("generated")))
+        return 0
+    if cmd == "checkdoc":
+        return checkdoc()
     face = build()
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
     with open(OUT, "w", encoding="utf-8") as f:
