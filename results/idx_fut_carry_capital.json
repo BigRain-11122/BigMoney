@@ -1,0 +1,601 @@
+{
+ "generated": "2026-11-15T00:30:47",
+ "evidence_cutoff": "2026-11-13",
+ "inputs": {
+  "parent_face": "results/idx_fut_basis.json",
+  "parent_generated": "2026-11-14T23:47:55",
+  "cash_rate_pct": 1.327,
+  "cash_rate_year": "2026",
+  "cash_rate_source": "data/repo_daily/GC001.csv yearly mean close",
+  "margin_rate": 0.15,
+  "margin_rate_note": "declared constant: exchange standard plus broker buffer; not read from a source file, so every tier also reports lots_by_margin so a different rate can be re-read",
+  "margin_use": 0.6,
+  "vol_target": 0.08,
+  "rolls_per_year": 4,
+  "roll_cost_bps_sensitivity": [
+   0,
+   10,
+   25,
+   50
+  ],
+  "capital_tiers": [
+   1000000,
+   3000000,
+   5000000,
+   10000000
+  ],
+  "vol_lookback_days": 1240,
+  "carry_readings": [
+   "median_ann_pct",
+   "trimmed_mean_ann_pct",
+   "mean_ann_pct"
+  ],
+  "declared_reading": "median_ann_pct"
+ },
+ "rules": {
+  "R1": "lots = min(risk budget / (cv * index_vol), margin ceiling); risk sets the size",
+  "R2": "lots == 0 -> report one_lot_capital_needed instead of a fractional position",
+  "R3": "margin_call_fall_pct is a fixed 15% fall; account_wipe_fall_pct is capital/notional and reads null when no single fall can wipe it",
+  "R4": "carry input = parent net_carry_pct (median basis minus control drift); median/trimmed/mean are all priced and a verdict that only one of them supports is flagged ruler_stable=false"
+ },
+ "faces": {
+  "IF": {
+   "index": "sh000300",
+   "index_name": "CSI300",
+   "price_date": "2026-11-13",
+   "price": 3956.6,
+   "multiplier": 300,
+   "contract_value_cny": 1186980,
+   "index_vol_pct": 17.53,
+   "carry_net_ann_pct": 0.797,
+   "carry_net_source": "parent verdict.carries[IF].net_carry_pct",
+   "carry_net_by_reading": {
+    "median_ann_pct": 0.797,
+    "trimmed_mean_ann_pct": 0.768,
+    "mean_ann_pct": 0.108
+   },
+   "carry_per_unit_vol": 0.045,
+   "index_max_drawdown_pct": -45.603,
+   "parent_last_2y_median_ann_pct": 5.314,
+   "tiers": [
+    {
+     "capital_cny": 1000000,
+     "lots": 0,
+     "lots_by_risk": 0,
+     "lots_by_margin": 3,
+     "one_lot_capital_needed_cny": 2600262
+    },
+    {
+     "capital_cny": 3000000,
+     "lots": 1,
+     "lots_by_risk": 1,
+     "lots_by_margin": 10,
+     "one_lot_capital_needed_cny": 2600262,
+     "notional_cny": 1186980,
+     "notional_x_capital": 0.4,
+     "margin_cny": 178047,
+     "margin_pct_of_capital": 5.9,
+     "carry_cny": 9460,
+     "roll_cost_cny_by_bps": {
+      "0": 0,
+      "10": 4748,
+      "25": 11870,
+      "50": 23740
+     },
+     "cash_cny": 37455,
+     "net_pct_of_capital": {
+      "0": 1.56,
+      "10": 1.41,
+      "25": 1.17,
+      "50": 0.77
+     },
+     "net_pct_of_capital_by_reading": {
+      "median_ann_pct": 1.41,
+      "trimmed_mean_ann_pct": 1.39,
+      "mean_ann_pct": 1.13
+     },
+     "margin_call_fall_pct": 15.0,
+     "account_wipe_fall_pct": null,
+     "account_wipe_note": "notional is 40% of capital: no single index fall wipes it",
+     "vol_contrib_pct": 6.9,
+     "stress_loss_pct_of_capital": 18.0
+    },
+    {
+     "capital_cny": 5000000,
+     "lots": 1,
+     "lots_by_risk": 1,
+     "lots_by_margin": 16,
+     "one_lot_capital_needed_cny": 2600262,
+     "notional_cny": 1186980,
+     "notional_x_capital": 0.24,
+     "margin_cny": 178047,
+     "margin_pct_of_capital": 3.6,
+     "carry_cny": 9460,
+     "roll_cost_cny_by_bps": {
+      "0": 0,
+      "10": 4748,
+      "25": 11870,
+      "50": 23740
+     },
+     "cash_cny": 64001,
+     "net_pct_of_capital": {
+      "0": 1.47,
+      "10": 1.37,
+      "25": 1.23,
+      "50": 0.99
+     },
+     "net_pct_of_capital_by_reading": {
+      "median_ann_pct": 1.37,
+      "trimmed_mean_ann_pct": 1.37,
+      "mean_ann_pct": 1.21
+     },
+     "margin_call_fall_pct": 15.0,
+     "account_wipe_fall_pct": null,
+     "account_wipe_note": "notional is 24% of capital: no single index fall wipes it",
+     "vol_contrib_pct": 4.2,
+     "stress_loss_pct_of_capital": 10.8
+    },
+    {
+     "capital_cny": 10000000,
+     "lots": 3,
+     "lots_by_risk": 3,
+     "lots_by_margin": 33,
+     "one_lot_capital_needed_cny": 2600262,
+     "notional_cny": 3560940,
+     "notional_x_capital": 0.36,
+     "margin_cny": 534141,
+     "margin_pct_of_capital": 5.3,
+     "carry_cny": 28381,
+     "roll_cost_cny_by_bps": {
+      "0": 0,
+      "10": 14244,
+      "25": 35609,
+      "50": 71219
+     },
+     "cash_cny": 125639,
+     "net_pct_of_capital": {
+      "0": 1.54,
+      "10": 1.4,
+      "25": 1.18,
+      "50": 0.83
+     },
+     "net_pct_of_capital_by_reading": {
+      "median_ann_pct": 1.4,
+      "trimmed_mean_ann_pct": 1.39,
+      "mean_ann_pct": 1.15
+     },
+     "margin_call_fall_pct": 15.0,
+     "account_wipe_fall_pct": null,
+     "account_wipe_note": "notional is 36% of capital: no single index fall wipes it",
+     "vol_contrib_pct": 6.2,
+     "stress_loss_pct_of_capital": 16.2
+    }
+   ]
+  },
+  "IC": {
+   "index": "sh000905",
+   "index_name": "CSI500",
+   "price_date": "2026-11-13",
+   "price": 6375.0,
+   "multiplier": 200,
+   "contract_value_cny": 1275000,
+   "index_vol_pct": 22.45,
+   "carry_net_ann_pct": 4.159,
+   "carry_net_source": "parent verdict.carries[IC].net_carry_pct",
+   "carry_net_by_reading": {
+    "median_ann_pct": 4.159,
+    "trimmed_mean_ann_pct": 3.099,
+    "mean_ann_pct": 1.999
+   },
+   "carry_per_unit_vol": 0.185,
+   "index_max_drawdown_pct": -41.808,
+   "parent_last_2y_median_ann_pct": 10.213,
+   "tiers": [
+    {
+     "capital_cny": 1000000,
+     "lots": 0,
+     "lots_by_risk": 0,
+     "lots_by_margin": 3,
+     "one_lot_capital_needed_cny": 3578398
+    },
+    {
+     "capital_cny": 3000000,
+     "lots": 0,
+     "lots_by_risk": 0,
+     "lots_by_margin": 9,
+     "one_lot_capital_needed_cny": 3578398
+    },
+    {
+     "capital_cny": 5000000,
+     "lots": 1,
+     "lots_by_risk": 1,
+     "lots_by_margin": 15,
+     "one_lot_capital_needed_cny": 3578398,
+     "notional_cny": 1275000,
+     "notional_x_capital": 0.26,
+     "margin_cny": 191250,
+     "margin_pct_of_capital": 3.8,
+     "carry_cny": 53027,
+     "roll_cost_cny_by_bps": {
+      "0": 0,
+      "10": 5100,
+      "25": 12750,
+      "50": 25500
+     },
+     "cash_cny": 63826,
+     "net_pct_of_capital": {
+      "0": 2.34,
+      "10": 2.24,
+      "25": 2.08,
+      "50": 1.83
+     },
+     "net_pct_of_capital_by_reading": {
+      "median_ann_pct": 2.24,
+      "trimmed_mean_ann_pct": 1.96,
+      "mean_ann_pct": 1.68
+     },
+     "margin_call_fall_pct": 15.0,
+     "account_wipe_fall_pct": null,
+     "account_wipe_note": "notional is 26% of capital: no single index fall wipes it",
+     "vol_contrib_pct": 5.7,
+     "stress_loss_pct_of_capital": 10.7
+    },
+    {
+     "capital_cny": 10000000,
+     "lots": 2,
+     "lots_by_risk": 2,
+     "lots_by_margin": 31,
+     "one_lot_capital_needed_cny": 3578398,
+     "notional_cny": 2550000,
+     "notional_x_capital": 0.26,
+     "margin_cny": 382500,
+     "margin_pct_of_capital": 3.8,
+     "carry_cny": 106054,
+     "roll_cost_cny_by_bps": {
+      "0": 0,
+      "10": 10200,
+      "25": 25500,
+      "50": 51000
+     },
+     "cash_cny": 127652,
+     "net_pct_of_capital": {
+      "0": 2.34,
+      "10": 2.24,
+      "25": 2.08,
+      "50": 1.83
+     },
+     "net_pct_of_capital_by_reading": {
+      "median_ann_pct": 2.24,
+      "trimmed_mean_ann_pct": 1.96,
+      "mean_ann_pct": 1.68
+     },
+     "margin_call_fall_pct": 15.0,
+     "account_wipe_fall_pct": null,
+     "account_wipe_note": "notional is 26% of capital: no single index fall wipes it",
+     "vol_contrib_pct": 5.7,
+     "stress_loss_pct_of_capital": 10.7
+    }
+   ]
+  },
+  "IH": {
+   "index": "sh000016",
+   "index_name": "SSE50",
+   "price_date": "2026-11-13",
+   "price": 2733.4,
+   "multiplier": 300,
+   "contract_value_cny": 820020,
+   "index_vol_pct": 16.41,
+   "carry_net_ann_pct": 1.741,
+   "carry_net_source": "parent verdict.carries[IH].net_carry_pct",
+   "carry_net_by_reading": {
+    "median_ann_pct": 1.741,
+    "trimmed_mean_ann_pct": 1.744,
+    "mean_ann_pct": 1.552
+   },
+   "carry_per_unit_vol": 0.106,
+   "index_max_drawdown_pct": -45.408,
+   "parent_last_2y_median_ann_pct": 3.001,
+   "tiers": [
+    {
+     "capital_cny": 1000000,
+     "lots": 0,
+     "lots_by_risk": 0,
+     "lots_by_margin": 4,
+     "one_lot_capital_needed_cny": 1681802
+    },
+    {
+     "capital_cny": 3000000,
+     "lots": 1,
+     "lots_by_risk": 1,
+     "lots_by_margin": 14,
+     "one_lot_capital_needed_cny": 1681802,
+     "notional_cny": 820020,
+     "notional_x_capital": 0.27,
+     "margin_cny": 123003,
+     "margin_pct_of_capital": 4.1,
+     "carry_cny": 14277,
+     "roll_cost_cny_by_bps": {
+      "0": 0,
+      "10": 3280,
+      "25": 8200,
+      "50": 16400
+     },
+     "cash_cny": 38186,
+     "net_pct_of_capital": {
+      "0": 1.75,
+      "10": 1.64,
+      "25": 1.48,
+      "50": 1.2
+     },
+     "net_pct_of_capital_by_reading": {
+      "median_ann_pct": 1.64,
+      "trimmed_mean_ann_pct": 1.64,
+      "mean_ann_pct": 1.59
+     },
+     "margin_call_fall_pct": 15.0,
+     "account_wipe_fall_pct": null,
+     "account_wipe_note": "notional is 27% of capital: no single index fall wipes it",
+     "vol_contrib_pct": 4.5,
+     "stress_loss_pct_of_capital": 12.4
+    },
+    {
+     "capital_cny": 5000000,
+     "lots": 2,
+     "lots_by_risk": 2,
+     "lots_by_margin": 24,
+     "one_lot_capital_needed_cny": 1681802,
+     "notional_cny": 1640040,
+     "notional_x_capital": 0.33,
+     "margin_cny": 246006,
+     "margin_pct_of_capital": 4.9,
+     "carry_cny": 28553,
+     "roll_cost_cny_by_bps": {
+      "0": 0,
+      "10": 6560,
+      "25": 16400,
+      "50": 32801
+     },
+     "cash_cny": 63099,
+     "net_pct_of_capital": {
+      "0": 1.83,
+      "10": 1.7,
+      "25": 1.51,
+      "50": 1.18
+     },
+     "net_pct_of_capital_by_reading": {
+      "median_ann_pct": 1.7,
+      "trimmed_mean_ann_pct": 1.7,
+      "mean_ann_pct": 1.64
+     },
+     "margin_call_fall_pct": 15.0,
+     "account_wipe_fall_pct": null,
+     "account_wipe_note": "notional is 33% of capital: no single index fall wipes it",
+     "vol_contrib_pct": 5.4,
+     "stress_loss_pct_of_capital": 14.9
+    },
+    {
+     "capital_cny": 10000000,
+     "lots": 5,
+     "lots_by_risk": 5,
+     "lots_by_margin": 48,
+     "one_lot_capital_needed_cny": 1681802,
+     "notional_cny": 4100100,
+     "notional_x_capital": 0.41,
+     "margin_cny": 615015,
+     "margin_pct_of_capital": 6.2,
+     "carry_cny": 71383,
+     "roll_cost_cny_by_bps": {
+      "0": 0,
+      "10": 16400,
+      "25": 41001,
+      "50": 82002
+     },
+     "cash_cny": 124565,
+     "net_pct_of_capital": {
+      "0": 1.96,
+      "10": 1.8,
+      "25": 1.55,
+      "50": 1.14
+     },
+     "net_pct_of_capital_by_reading": {
+      "median_ann_pct": 1.8,
+      "trimmed_mean_ann_pct": 1.8,
+      "mean_ann_pct": 1.72
+     },
+     "margin_call_fall_pct": 15.0,
+     "account_wipe_fall_pct": null,
+     "account_wipe_note": "notional is 41% of capital: no single index fall wipes it",
+     "vol_contrib_pct": 6.7,
+     "stress_loss_pct_of_capital": 18.6
+    }
+   ]
+  },
+  "IM": {
+   "index": "sh000852",
+   "index_name": "CSI1000",
+   "price_date": "2026-11-13",
+   "price": 6276.8,
+   "multiplier": 200,
+   "contract_value_cny": 1255360,
+   "index_vol_pct": 25.17,
+   "carry_net_ann_pct": 6.005,
+   "carry_net_source": "parent verdict.carries[IM].net_carry_pct",
+   "carry_net_by_reading": {
+    "median_ann_pct": 6.005,
+    "trimmed_mean_ann_pct": 3.881,
+    "mean_ann_pct": 2.901
+   },
+   "carry_per_unit_vol": 0.239,
+   "index_max_drawdown_pct": -41.602,
+   "parent_last_2y_median_ann_pct": 13.079,
+   "tiers": [
+    {
+     "capital_cny": 1000000,
+     "lots": 0,
+     "lots_by_risk": 0,
+     "lots_by_margin": 3,
+     "one_lot_capital_needed_cny": 3949312
+    },
+    {
+     "capital_cny": 3000000,
+     "lots": 0,
+     "lots_by_risk": 0,
+     "lots_by_margin": 9,
+     "one_lot_capital_needed_cny": 3949312
+    },
+    {
+     "capital_cny": 5000000,
+     "lots": 1,
+     "lots_by_risk": 1,
+     "lots_by_margin": 15,
+     "one_lot_capital_needed_cny": 3949312,
+     "notional_cny": 1255360,
+     "notional_x_capital": 0.25,
+     "margin_cny": 188304,
+     "margin_pct_of_capital": 3.8,
+     "carry_cny": 75384,
+     "roll_cost_cny_by_bps": {
+      "0": 0,
+      "10": 5021,
+      "25": 12554,
+      "50": 25107
+     },
+     "cash_cny": 63865,
+     "net_pct_of_capital": {
+      "0": 2.78,
+      "10": 2.68,
+      "25": 2.53,
+      "50": 2.28
+     },
+     "net_pct_of_capital_by_reading": {
+      "median_ann_pct": 2.68,
+      "trimmed_mean_ann_pct": 2.15,
+      "mean_ann_pct": 1.91
+     },
+     "margin_call_fall_pct": 15.0,
+     "account_wipe_fall_pct": null,
+     "account_wipe_note": "notional is 25% of capital: no single index fall wipes it",
+     "vol_contrib_pct": 6.3,
+     "stress_loss_pct_of_capital": 10.4
+    },
+    {
+     "capital_cny": 10000000,
+     "lots": 2,
+     "lots_by_risk": 2,
+     "lots_by_margin": 31,
+     "one_lot_capital_needed_cny": 3949312,
+     "notional_cny": 2510720,
+     "notional_x_capital": 0.25,
+     "margin_cny": 376608,
+     "margin_pct_of_capital": 3.8,
+     "carry_cny": 150769,
+     "roll_cost_cny_by_bps": {
+      "0": 0,
+      "10": 10043,
+      "25": 25107,
+      "50": 50214
+     },
+     "cash_cny": 127730,
+     "net_pct_of_capital": {
+      "0": 2.78,
+      "10": 2.68,
+      "25": 2.53,
+      "50": 2.28
+     },
+     "net_pct_of_capital_by_reading": {
+      "median_ann_pct": 2.68,
+      "trimmed_mean_ann_pct": 2.15,
+      "mean_ann_pct": 1.91
+     },
+     "margin_call_fall_pct": 15.0,
+     "account_wipe_fall_pct": null,
+     "account_wipe_note": "notional is 25% of capital: no single index fall wipes it",
+     "vol_contrib_pct": 6.3,
+     "stress_loss_pct_of_capital": 10.4
+    }
+   ]
+  }
+ },
+ "verdict": {
+  "IF": {
+   "V1": false,
+   "V2": true,
+   "V3": true,
+   "ADMIT": false,
+   "V1_by_reading": {
+    "median_ann_pct": false,
+    "trimmed_mean_ann_pct": false,
+    "mean_ann_pct": false
+   },
+   "ADMIT_by_reading": {
+    "median_ann_pct": false,
+    "trimmed_mean_ann_pct": false,
+    "mean_ann_pct": false
+   },
+   "ruler_stable": true,
+   "ADMIT_every_reading": false,
+   "first_affordable_tier_cny": 3000000,
+   "read_on_tier": 3000000
+  },
+  "IC": {
+   "V1": false,
+   "V2": true,
+   "V3": true,
+   "ADMIT": false,
+   "V1_by_reading": {
+    "median_ann_pct": false,
+    "trimmed_mean_ann_pct": false,
+    "mean_ann_pct": false
+   },
+   "ADMIT_by_reading": {
+    "median_ann_pct": false,
+    "trimmed_mean_ann_pct": false,
+    "mean_ann_pct": false
+   },
+   "ruler_stable": true,
+   "ADMIT_every_reading": false,
+   "first_affordable_tier_cny": 5000000,
+   "read_on_tier": 5000000
+  },
+  "IH": {
+   "V1": false,
+   "V2": true,
+   "V3": true,
+   "ADMIT": false,
+   "V1_by_reading": {
+    "median_ann_pct": false,
+    "trimmed_mean_ann_pct": false,
+    "mean_ann_pct": false
+   },
+   "ADMIT_by_reading": {
+    "median_ann_pct": false,
+    "trimmed_mean_ann_pct": false,
+    "mean_ann_pct": false
+   },
+   "ruler_stable": true,
+   "ADMIT_every_reading": false,
+   "first_affordable_tier_cny": 3000000,
+   "read_on_tier": 3000000
+  },
+  "IM": {
+   "V1": false,
+   "V2": true,
+   "V3": true,
+   "ADMIT": false,
+   "V1_by_reading": {
+    "median_ann_pct": false,
+    "trimmed_mean_ann_pct": false,
+    "mean_ann_pct": false
+   },
+   "ADMIT_by_reading": {
+    "median_ann_pct": false,
+    "trimmed_mean_ann_pct": false,
+    "mean_ann_pct": false
+   },
+   "ruler_stable": true,
+   "ADMIT_every_reading": false,
+   "first_affordable_tier_cny": 5000000,
+   "read_on_tier": 5000000
+  }
+ }
+}

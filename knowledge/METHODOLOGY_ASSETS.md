@@ -14960,3 +14960,26 @@ ETF 的结构漂移（net carry），而不是要求 ETF 与指数相等；②**
 原口径下 C3=False -> KILL。一句话：**对照组不该是「另一个也应该一样的东西」，而是「你本来会持有的那个东西」**。
 
 指针：\scripts/idx_fut_basis.py\（selftest 9/9，L8 对照污染即 KILL）+ esults/idx_fut_basis.json\ + esearch/IDX_FUT_BASIS_VERDICT.md\。
+
+### E642 · 「名义百分比」不是钱，而且三把尺子里只挑最漂亮的那把会在同一行翻转判决（r1686 bm-c）
+
+r1685 的贴水面把溢价量成**合约名义额的百分比**（IC +4.16%/yr、IM +6.00%/yr → OPEN）。
+本轮把它翻成一笔钱（`scripts/idx_fut_carry_capital.py`，selftest 18/18），两处必须钉死：
+
+①**口径错位会把「钱」印高**：未提交的那一版把父面的 `carry.median_ann_pct` 直接当成 carry
+（IM 8.97%，而不是减掉跟踪漂移后的 6.00%），于是 IM 在 500 万档读 +3.43%/yr、过 3% 线 → ADMIT=True。
+按父面自己的 net carry（6.00%）读，同一档只有 **+2.68%** → REJECT。差值 2.96pp 就是 ETF 收而价格指数不收的分红。
+正法=输入取父面 `verdict.carries[fut].net_carry_pct`（第二实现一律不写），原始三读数只做披露带。
+
+②**一个判决只被一把尺子支持时，判的是估计器不是交易**：同一序列 median 6.00 / trimmed 3.88 / mean 2.90，
+判决靠 median 才成立 → `ruler_stable=false`、`ADMIT_every_reading=false`。本面无此病（三把尺子同判 REJECT），
+但闸必须存在，否则下一次换序列就会静默变成「挑一把好听的」。
+
+③**为什么钱比名义额小得多**：8% 波动目标遇上 25% 的指数波动 = 0.25x 名义额，其余 75% 资本吃 1.33% 回购利息，
+所以 IM 的 6.00% 名义 carry 落到资本上只剩 2.68%；想靠加仓补回来（1x 名义额 = 25% 波动）会被 V3 的
+「指数自身最深回撤 −41.6% 打到资本的 41.6%」拦下。**结论：贴水是真的，但在 3%/资本这条线上一个品种也过不了。**
+
+三条可复用：①任何「每年 X%」先问它是哪个分母（名义额/资本/保证金）；②判据分母与披露分母不同时，两个都要印；
+③把外部读数当输入前先查它是哪一版定义（父面 median≠父面 net carry）。
+
+指针：`scripts/idx_fut_carry_capital.py`（selftest 18/18，R4 三腿）+ `results/idx_fut_carry_capital.json`（四品种 REJECT/2.68% 最高）。
