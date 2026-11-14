@@ -551,14 +551,22 @@ def _leg_day_words():
         if err:
             return False, "page unreadable (%s)" % err
         c = _DW.census(doc, artifact=rel, printed=printed)
+        # r1671: the census now reads every printed date against the field its sentence quotes,
+        # so PRINTED_DATES_AGREE is a checked green -- it means each today-word line dates
+        # itself AND each date equals its field. PRINTED_DATE_MISMATCH stays out of this list
+        # on purpose: that one is "verified wrong", the r1664 family, and belongs red.
         ok = c["verdict"] in ("ANCHORED", "NO_DAY_WORDS", "PRINTED_BUT_UNANCHORED",
-                              "PRINTED_SELF_DATED")
+                              "PRINTED_SELF_DATED", "PRINTED_DATES_AGREE")
         _pr = c.get("printed") or {}
+        _dc = c.get("date_claims") or {}
         return ok, ("%s | page %s | %d/%d day-word sections on that day | printed %s lines "
-                    "under %s headings | offenders=%s%s"
+                    "under %s headings | dates %s checked %s/%s unmapped %s unverifiable %s | "
+                    "offenders=%s%s"
                     % (c["verdict"], c.get("page_day"), c["n_anchored"],
                        c["n_with_day_word"], _pr.get("n_lines", "-"),
-                       _pr.get("n_headings", "-"),
+                       _pr.get("n_headings", "-"), _dc.get("n_rules", "-"),
+                       _dc.get("n_ok", "-"), _dc.get("n_claims", "-"),
+                       _dc.get("n_unmapped", "-"), _dc.get("n_unverifiable", "-"),
                        ",".join("%s@%s" % (r["key"], r["bar"]) for r in c["offenders"]) or "-",
                        ("" if not c["n_unverifiable"] else
                         " | unverifiable=%s" % ",".join(r["key"]

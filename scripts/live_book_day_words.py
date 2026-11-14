@@ -64,6 +64,79 @@ sys.path.insert(0, os.path.join(ROOT, "scripts"))
 DAY_WORDS = ("今天", "今日", "今晚")
 # A line that carries its own date tells the reader which day it means (r1669).
 DATE_IN_TEXT = re.compile(r"20\d{2}-\d{2}-\d{2}")
+
+_D = r"(20\d{2}-\d{2}-\d{2})"
+# r1671: a printed date is a claim until it is read against the face that issued it. Each rule
+# anchors one sentence pattern from the page to the page's own date field, so "the sentence
+# says 2026-11-13" becomes "the sentence says 2026-11-13 AND the premium face is priced on
+# 2026-11-13". A date that no rule claims is reported as unmapped, never counted as checked.
+CLAIM_RULES = [
+    (re.compile(r"^# 今日 ETF 实盘单 —— " + _D), ["generated_for_date"]),
+    (re.compile(r"上一次定稿 \*\*" + _D + r"\*\*"), ["book_decided_at"]),
+    (re.compile(r"按新的收盘价（\*\*" + _D + r"\*\*）"), ["priced_bar"]),
+    (re.compile(r"下一个动手日是 \*\*" + _D + r"\*\*"), ["next_rebalance_date"]),
+    (re.compile(r"按 \*\*" + _D + r"\*\* 的读数"), ["premium_forward.face_asof"]),
+    (re.compile(r"账只记到 " + _D), ["positions.ledger_bar"]),
+    (re.compile(r"（" + _D + r" 报价）"), ["cash_yield.rate_date"]),
+    (re.compile(r"重放回 " + _D + "~" + _D), ["stress.first", "stress.last"]),
+    (re.compile(r"已经吃到 \*\*" + _D + r"\*\* 的收盘"), ["priced_bar"]),
+    (re.compile(r"（bar " + _D + r"）"), ["priced_bar"]),
+    (re.compile(r"本页是 \*\*" + _D + r"\*\* 的页面"), ["generated_for_date"]),
+    (re.compile(r"价格和数据都停在 \*\*" + _D + r"\*\*"), ["priced_bar"]),
+]
+
+
+def _doc_value(doc, path):
+    v = doc
+    for k in str(path).split("."):
+        if not isinstance(v, dict):
+            return None
+        v = v.get(k)
+    return v
+
+
+def _date_claims(rows, doc):
+    """Read every printed date against the field its sentence quotes.
+
+    Three readings, and only one of them is green: `ok` (the sentence's date is the one the
+    field carries), `mismatch` (the sentence names a day the field does not -- named with both
+    dates), `unverifiable` (the field is missing, so nothing here can say the date is right).
+    A date no rule claims is `unmapped`: the face does not know which paper that sentence
+    quotes, and it says so rather than counting it as checked (r1471 family: reading a face
+    is not the same as having a writer for it).
+    """
+    claims, mismatches, unmapped = [], [], []
+    n_ok = n_unverif = 0
+    for row in rows or []:
+        line = row.get("line") or ""
+        covered = []
+        for pat, paths in CLAIM_RULES:
+            for m in pat.finditer(line):
+                for gi, path in enumerate(paths, start=1):
+                    date = m.group(gi)
+                    covered.append(m.span(gi))
+                    val = _doc_value(doc, path)
+                    exp = str(val)[:10] if isinstance(val, str) else None
+                    rec = {"heading": row.get("heading"), "date": date, "field": path,
+                           "expected": exp, "line": line[:140]}
+                    if exp is None:
+                        rec["reading"] = "unverifiable"
+                        n_unverif += 1
+                    elif exp == date:
+                        rec["reading"] = "ok"
+                        n_ok += 1
+                    else:
+                        rec["reading"] = "mismatch"
+                        mismatches.append(rec)
+                    claims.append(rec)
+        for m in DATE_IN_TEXT.finditer(line):
+            if not any(a <= m.start() < b for a, b in covered):
+                unmapped.append({"heading": row.get("heading"), "date": m.group(0),
+                                 "line": line[:140]})
+    return {"n_claims": len(claims), "n_ok": n_ok, "n_mismatch": len(mismatches),
+            "n_unverifiable": n_unverif, "n_unmapped": len(unmapped),
+            "n_rules": len(CLAIM_RULES), "claims": claims[:40],
+            "mismatches": mismatches[:20], "unmapped": unmapped[:20]}
 FACE = os.path.join(ROOT, "results", "live_book_day_words.json")
 POINTER = os.path.join(ROOT, "docs", "live_book", "latest.json")
 
@@ -150,10 +223,14 @@ def census(doc, artifact=None, printed=_UNMEASURED):
            "rows": [], "verdict": "UNREADABLE", "sentence": ""}
     if printed is _UNMEASURED:
         ret["printed"] = {"state": "not_measured"}
+        ret["date_claims"] = {"state": "not_measured"}
     elif printed is None:
         ret["printed"] = {"state": "unreadable"}
+        ret["date_claims"] = {"state": "not_measured"}
     else:
         ret["printed"] = _printed_census(printed)
+        ret["date_claims"] = _date_claims(ret["printed"]["rows"],
+                                          doc if isinstance(doc, dict) else {})
     if not isinstance(doc, dict) or not doc:
         ret["sentence"] = "页面件读不出来——这不是「没有日词」，是没法核验。"
         return ret
@@ -208,7 +285,17 @@ def census(doc, artifact=None, printed=_UNMEASURED):
         # line carries its own date" are two different debts, and both stay red -- nothing in
         # this face checks that a printed date is the RIGHT date. Splitting the name is what
         # lets the reader tell "still owed" from "paid, not yet audited".
-        if pr.get("n_undated") == 0 and pr.get("n_self_dated"):
+        # r1671: the audit is what this branch now also carries. A printed date that names a
+        # day its own field does not is a mismatch and is named with both dates; a date no
+        # rule claims, or one whose field is missing, keeps the page on the self-dated name --
+        # "I could not check it" never graduates to green.
+        dc = ret["date_claims"]
+        if dc.get("n_mismatch"):
+            ret["verdict"] = "PRINTED_DATE_MISMATCH"
+        elif (dc.get("n_claims") and not dc.get("n_unmapped") and not pr.get("n_undated")
+              and not dc.get("n_unverifiable") and dc.get("n_ok") == dc.get("n_claims")):
+            ret["verdict"] = "PRINTED_DATES_AGREE"
+        elif pr.get("n_undated") == 0 and pr.get("n_self_dated"):
             ret["verdict"] = "PRINTED_SELF_DATED"
         else:
             ret["verdict"] = "PRINTED_BUT_UNANCHORED"
@@ -229,11 +316,26 @@ def sentence(c):
     if c["verdict"] == "UNREADABLE":
         return c["sentence"]
     pr = c.get("printed") or {"state": "not_measured"}
+    dc = c.get("date_claims") or {}
+    if c["verdict"] == "PRINTED_DATE_MISMATCH":
+        named = "；".join("「%s」里写 `%s`，而 %s 是 `%s`"
+                         % (r["heading"], r["date"], r["field"], r["expected"])
+                         for r in dc.get("mismatches") or [])
+        return ("**页面自己用的「今天/今日」有 %d 行；其中 %d 处日期与它引用的那张面对不上**：%s。"
+                "（共核过 %d 处，%d 处对得上，%d 处判不了。）"
+                % (pr["n_lines"], dc.get("n_mismatch", 0), named,
+                   dc.get("n_claims", 0), dc.get("n_ok", 0), dc.get("n_unverifiable", 0)))
+    if c["verdict"] == "PRINTED_DATES_AGREE":
+        return ("**页面自己用的「今天/今日」有 %d 行，%d 处日期逐句对上了它引用的那张面**"
+                "（%d 条规则，0 处无规则可核，0 处判不了；结构面里 %d 节，日词 0 节）。"
+                "这一面核的是「句子写的日子 == 那个字段写的日子」，不核那个字段本身对不对。"
+                % (pr["n_lines"], dc.get("n_claims", 0), dc.get("n_rules", 0), c["n_sections"]))
     if c["verdict"] == "PRINTED_SELF_DATED":
         return ("**页面自己用的「今天/今日」有 %d 行，坐在 %d 个小节里；每一行都自带日期**"
-                "（结构面里 %d 节，日词 0 节）。这一面仍然核不到那些日期对不对——"
-                "自带日期只说明句子诚实，不说明那个日期是对的。"
-                % (pr["n_lines"], pr["n_headings"], c["n_sections"]))
+                "（结构面里 %d 节，日词 0 节）。这一面核了 %d 处日期：%d 处对上它所引用的字段，"
+                "**%d 处判不了（字段缺）**，**%d 处没有规则可核**——判不了的不算对上。"
+                % (pr["n_lines"], pr["n_headings"], c["n_sections"], dc.get("n_claims", 0),
+                   dc.get("n_ok", 0), dc.get("n_unverifiable", 0), dc.get("n_unmapped", 0)))
     if c["verdict"] == "PRINTED_BUT_UNANCHORED":
         _u = pr.get("undated") or []
         _split = ("其中 **%d 行自己带了日期**（读者读得出它算哪一天），**%d 行没有**"
@@ -299,7 +401,7 @@ def _read(pointer=POINTER):
         return None, rel, printed, "%s: %s" % (type(exc).__name__, exc)
 
 
-CLEAN = ("ANCHORED", "NO_DAY_WORDS")
+CLEAN = ("ANCHORED", "NO_DAY_WORDS", "PRINTED_DATES_AGREE")
 
 
 def run():
@@ -334,6 +436,15 @@ def check():
              pr.get("n_lines", "-"), pr.get("n_headings", "-"),
              pr.get("n_self_dated", "-"), pr.get("n_undated", "-")))
     print(c["sentence"])
+    dc = c.get("date_claims") or {}
+    print("  DATES claims %s | ok %s | mismatch %s | unverifiable %s | unmapped %s | rules %s"
+          % (dc.get("n_claims", "-"), dc.get("n_ok", "-"), dc.get("n_mismatch", "-"),
+             dc.get("n_unverifiable", "-"), dc.get("n_unmapped", "-"), dc.get("n_rules", "-")))
+    for r in dc.get("mismatches") or []:
+        print("  DATE-MISMATCH %s | printed %s | %s = %s"
+              % (r["heading"], r["date"], r["field"], r["expected"]))
+    for r in dc.get("unmapped") or []:
+        print("  DATE-UNMAPPED %s | %s | %s" % (r["heading"], r["date"], r["line"][:80]))
     for h in (pr.get("headings") or []):
         print("  PRINTED-UNDER %s" % h)
     for r in (pr.get("undated") or []):
@@ -472,7 +583,7 @@ def selftest():
         and _c_owed["verdict"] == "PRINTED_BUT_UNANCHORED",
         (_c_self["verdict"], _c_owed["verdict"]))
     leg("the self-dated verdict still refuses to claim the dates were checked",
-        "核不到那些日期对不对" in _c_self["sentence"], _c_self["sentence"][:80])
+        "判不了的不算对上" in _c_self["sentence"], _c_self["sentence"][:80])
     leg("one undated line is enough to fall back to the owed name",
         census(clean, artifact="fixture/clean.json",
                printed=_p_all_dated + "\n**今天不用动手。**\n")["verdict"]
@@ -480,6 +591,89 @@ def selftest():
     leg("a date on the paper is read as a date and not as a day-word verdict",
         _pr["rows"][0]["self_dated"] is True
         and _pr["rows"][0]["heading"] == "(页首)", _pr["rows"][0])
+
+    # r1671: "every line dates itself" was still an un-audited claim -- nothing read the date
+    # against the face the sentence quotes. These legs pin each way that audit can go wrong,
+    # plus a table leg that fails if a rule is ever added without a sample of its own language.
+    _samples = [
+        ("# 今日 ETF 实盘单 —— 2026-11-14", 1),
+        ("上一次定稿 **2026-11-11**，今天只是重新算份额", 1),
+        ("今天只是按新的收盘价（**2026-11-13**）算", 1),
+        ("下一个动手日是 **2026-12-09**", 1),
+        ("按 **2026-11-13** 的读数，这张单里可核验的 5 只票", 1),
+        ("现金腿利息：今天没有新 bar，账只记到 2026-11-13。", 1),
+        ("| 若一直只有今天的 1.26%（2026-11-13 报价） |", 1),
+        ("把今天这 5 只票的权重重放回 2005-02-23~2026-11-13 的整段面板", 2),
+        ("日线面板自己已经吃到 **2026-11-13** 的收盘", 1),
+        ("**今天这张可执行单实际持 5 名**（bar 2026-11-13）", 1),
+        ("本页是 **2026-11-14** 的页面", 1),
+        ("价格和数据都停在 **2026-11-13**", 1),
+    ]
+    leg("every date rule has a sample of its own language, and every sample fires one rule",
+        len(_samples) == len(CLAIM_RULES)
+        and all(pat.search(s) and len(paths) == n
+                for (pat, paths), (s, n) in zip(CLAIM_RULES, _samples)),
+        [bool(pat.search(s)) for (pat, _), (s, _n) in zip(CLAIM_RULES, _samples)])
+
+    _doc = {"generated_for_date": "2026-11-14", "book_decided_at": "2026-11-11",
+            "priced_bar": "2026-11-13", "next_rebalance_date": "2026-12-09",
+            "premium_forward": {"face_asof": "2026-11-13"},
+            "positions": {"ledger_bar": "2026-11-13"},
+            "cash_yield": {"rate_date": "2026-11-13"},
+            "stress": {"first": "2005-02-23", "last": "2026-11-13"}}
+    _txt_ok = ("# 今日 ETF 实盘单 —— 2026-11-14\n\n## 一句话\n\n**今天不用动手。** 上一次定稿 "
+               "**2026-11-11**，今天只是按新的收盘价（**2026-11-13**）把同一批权重重新算成份额。"
+               "下一个动手日是 **2026-12-09**。\n\n## 现金腿\n\n"
+               "| 若一直只有今天的 1.26%（2026-11-13 报价） |\n")
+    _c_ok = census(_doc, artifact="fixture/claims.json", printed=_txt_ok)
+    leg("a printed date that equals the field its sentence quotes graduates the page",
+        _c_ok["verdict"] == "PRINTED_DATES_AGREE" and _c_ok["date_claims"]["n_claims"] == 5
+        and _c_ok["date_claims"]["n_ok"] == 5
+        and _c_ok["date_claims"]["n_unmapped"] == 0, _c_ok["date_claims"])
+    leg("the agreeing verdict says what it checked and what it did not",
+        "逐句对上了" in _c_ok["sentence"] and "不核那个字段本身对不对" in _c_ok["sentence"],
+        _c_ok["sentence"][:120])
+
+    _doc_bad = dict(_doc, priced_bar="2026-11-12")
+    _c_bad = census(_doc_bad, artifact="fixture/claims.json", printed=_txt_ok)
+    leg("a printed date that lands on another bar is a mismatch, not a rounding note",
+        _c_bad["verdict"] == "PRINTED_DATE_MISMATCH"
+        and _c_bad["date_claims"]["n_mismatch"] == 1
+        and _c_bad["date_claims"]["mismatches"][0]["field"] == "priced_bar"
+        and "2026-11-13" in _c_bad["sentence"] and "2026-11-12" in _c_bad["sentence"], _c_bad)
+    leg("one mismatch keeps the other four readings visible instead of collapsing them",
+        _c_bad["date_claims"]["n_ok"] == 4 and _c_bad["date_claims"]["n_claims"] == 5,
+        _c_bad["date_claims"])
+
+    _c_missing = census({k: v for k, v in _doc.items() if k != "positions"},
+                        artifact="fixture/claims.json",
+                        printed="## 账上\n\n- 今天没有新 bar，账只记到 2026-11-13。\n")
+    leg("a date whose field is absent is unverifiable and never counts as checked",
+        _c_missing["verdict"] == "PRINTED_SELF_DATED"
+        and _c_missing["date_claims"]["n_unverifiable"] == 1
+        and _c_missing["date_claims"]["n_ok"] == 0, _c_missing["date_claims"])
+
+    _c_unmapped = census(_doc, artifact="fixture/claims.json",
+                         printed="## 杂项\n\n今天和 2026-01-01 没有关系。\n")
+    leg("a printed date no rule claims is unmapped, never silently checked",
+        _c_unmapped["verdict"] == "PRINTED_SELF_DATED"
+        and _c_unmapped["date_claims"]["n_unmapped"] == 1
+        and _c_unmapped["date_claims"]["n_claims"] == 0, _c_unmapped["date_claims"])
+
+    _c_two = census(_doc, artifact="fixture/claims.json",
+                    printed="## 最坏\n\n把今天这 5 只票重放回 2005-02-23~2026-11-13 的老面板。\n")
+    leg("a line that names a range is read as two dated claims, one per field",
+        _c_two["verdict"] == "PRINTED_DATES_AGREE"
+        and {r["field"] for r in _c_two["date_claims"]["claims"]} == {"stress.first",
+                                                                     "stress.last"},
+        _c_two["date_claims"])
+
+    _c_mixed = census(_doc, artifact="fixture/claims.json",
+                      printed="# 今日 ETF 实盘单 —— 2026-11-14\n\n**今天不用动手。**\n")
+    leg("one undated line blocks the agreeing verdict even when the dated one checks",
+        _c_mixed["verdict"] == "PRINTED_BUT_UNANCHORED"
+        and _c_mixed["date_claims"]["n_ok"] == 1
+        and _c_mixed["printed"]["n_undated"] == 1, _c_mixed["date_claims"])
 
     # The published page must go through the same function the fixtures do, on both papers.
     doc, rel, printed_text, err = _read()
@@ -490,13 +684,23 @@ def selftest():
         leg("the published page has a verdict this face can state",
             c["verdict"] in ("ANCHORED", "NO_DAY_WORDS", "DAY_WORD_ON_ANOTHER_DAY",
                              "DAY_WORD_WITHOUT_A_BAR", "PRINTED_BUT_UNANCHORED",
-                             "PRINTED_SELF_DATED", "UNVERIFIED_PRINTED_FACE"),
+                             "PRINTED_SELF_DATED", "UNVERIFIED_PRINTED_FACE",
+                             "PRINTED_DATE_MISMATCH", "PRINTED_DATES_AGREE"),
             c["verdict"])
+        # r1671: CLEAN no longer means "the paper carries no day word". It means "no offender,
+        # the paper was opened, and either it carries none, or every printed date was read
+        # against the field its sentence quotes".
+        _dc = c.get("date_claims") or {}
         leg("the published page's verdict agrees with its own head line",
-            (c["verdict"] in CLEAN) == (not c["offenders"]
-                                        and c["printed"]["state"] == "ok"
-                                        and not c["printed"]["n_lines"]),
-            (c["verdict"], len(c["offenders"]), c["printed"]))
+            (c["verdict"] in CLEAN) == bool(not c["offenders"]
+                                            and c["printed"]["state"] == "ok"
+                                            and (not c["printed"]["n_lines"]
+                                                 or (not _dc.get("n_mismatch")
+                                                     and not _dc.get("n_undated")
+                                                     and not _dc.get("n_unmapped")
+                                                     and not _dc.get("n_unverifiable")
+                                                     and _dc.get("n_claims")))),
+            (c["verdict"], len(c["offenders"]), _dc.get("n_claims"), _dc.get("n_mismatch")))
         leg("the printed page really was opened (a census with no paper is not a census)",
             c["printed"]["state"] == "ok" and c["printed"].get("n_headings", 0) >= 0
             and printed_text is not None, c["printed"].get("state"))
