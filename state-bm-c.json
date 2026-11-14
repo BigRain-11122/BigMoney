@@ -105,10 +105,13 @@
   "updated_at": "2026-11-11T20:04:03+08:00"
  },
  "dec_sha_method": "python subprocess raw-blob bytes SHA-256 (group-tree origin/main git show; r818 start sweep via SSH primary leg rc0 (channel healed, r817 A-sync note closed); dec delta FALSE = unchanged, zero action; facts-driven from results/_r818bmc_s05_facts.json, 64hex shape-asserted; close face reads sha PROGRAMMATICALLY from facts json, ZERO literal constants (r583 law)",
- "delivered": [
-  "8d000d3b1e",
-  "f0d6fbf305"
- ],
+ "delivered": {
+  "commit": "b9ddde005e",
+  "range": "b6b30f6698..b9ddde005e",
+  "ahead": 0,
+  "behind": 0,
+  "blob": "ca640666fefb5a91068894ece3febaa706c5a097"
+ },
  "delivered_head": "ef06ca4c4e",
  "delivery_behind": 0,
  "delivery_state": "pushed f020dec739 (0 ahead / 0 behind)",
@@ -1281,10 +1284,10 @@
  },
  "task": "r1662: the CEO page is titled for today while every number sits on Friday's bar, and one sentence still said 'today' about that coincidence",
  "total_ram_gb": 23.9,
- "ts": "2026-11-14T10:22:27+08:00",
+ "ts": "2026-11-14T10:30:57+08:00",
  "update_daily": "rc0 0 new rows, cutoff 2026-11-13 (Saturday, before the 15:30 guard)",
- "updated": "2026-11-14T10:22:27+08:00",
- "updated_at": "2026-11-14T10:22:27+08:00",
+ "updated": "2026-11-14T10:30:57+08:00",
+ "updated_at": "2026-11-14T10:30:57+08:00",
  "verdict": "green / py_low_with_work_cands (no red; py low because the smoke suite and the S6 chain are the live batches)",
  "verify": "ceo_page selftest 320/320 PASS (L250/L251 new, one leg per side) | page run rc0 -> docs/live_book/LIVE-BOOK-20261114.md rewritten, live read: 「本页是 2026-11-14 的页面，但价格和数据都停在 2026-11-13 —— 这两个日子彼此是同一天，却都不是今天」 | live_book_section_bars PAGE_ON_ONE_BAR_WITH_UNDATED 2026-11-13 (unchanged) | attrition guard CLEAN (4 ledgers, 3 historic shrinks healed) | loop pin=5 no-op",
  "verify_selftest": "do_or_wait 20/20 (5 new three-state legs: current / newer bar / same bar new bytes / no record / unreadable) ; late_sheet_price 10/10",
@@ -1304,5 +1307,11 @@
   "legs": 576,
   "wall_clock_s": 933.9,
   "note": "started 09:52, closed before the ceo_page edit landed, so that leg printed the previous generation; the edit is covered by selftest 320/320"
+ },
+ "push_transport": "github.com:22 refused -> ssh://git@ssh.github.com:443 with id_ed25519_bigmin (no global config change)",
+ "s6_chain_inflight": {
+  "legs_seen": 52,
+  "nonzero": 0,
+  "out": "results/_s6chain_r1662.out"
  }
 }
