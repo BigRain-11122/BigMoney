@@ -1259,8 +1259,9 @@
   "nonzero": 0,
   "out": "results/_s6chain_r1662.out"
  },
+ "s7": "loop pin=5 no-op (first fire 15:00) | watchdog in place (next 14:57) | pre-commit claw CR-normalised MATCH | pre-push MATCH | attrition CLEAN (4 ledgers, 2 historic shrinks healed)",
  "s7_notes": "loop pin=5 no-op (first fire 12:40) | watchdog re-registered, S4U refused 26th time | both claws LF-normalised",
- "smoke": "full suite started 14:43 (pid 23504 -> results/_smoke_r1668.out); 219 legs seen, 0 FAIL, not closed at round end",
+ "smoke": "full suite 14:43-15:0x -> results/_smoke_r1668.out: 480 legs seen, 1 FAIL (the day-word smoke leg still unpacked the old 3-tuple _read; introduced and fixed this round, single-leg re-run green), no final tally -- not claimed green",
  "smoke_closed": {
   "closed_at": "2026-11-14T06:57:54+08:00",
   "fail": 0,
@@ -1271,7 +1272,14 @@
   "started": "2026-11-14T06:39:00+08:00",
   "wall_clock_s": 855.7
  },
- "smoke_out": "results/_r1667b_smoke.out",
+ "smoke_fail_fixed": {
+  "cause": "live_book_day_words._read() grew a fourth value (the printed paper); the leg still unpacked three",
+  "commit": "877db0f0b5",
+  "evidence": "(True, 'PRINTED_BUT_UNANCHORED | page 2026-11-14 | 0/0 day-word sections | printed 20 lines under 12 headings | offenders=-')",
+  "fix": "leg reads the 4-tuple, hands printed text to census, passes on no provable offender and prints the printed counts",
+  "leg": "product: the paper puts today-words on the page's own day"
+ },
+ "smoke_out": "results/_smoke_r1668.out",
  "smoke_r1621_out": "results/_smoke_r1621.out",
  "smoke_r1623_out": "results/_smoke_r1623.out",
  "smoke_r1625_closed": {
@@ -1304,7 +1312,7 @@
  "updated": "2026-11-14T14:53:50",
  "updated_at": "2026-11-14T14:53:50",
  "verdict": "green / insufficient_history (no red; the only batch running is this round's smoke)",
- "verify": "ceo_page selftest 339/339 PASS (L265/L266 new) | live_book_day_words selftest 15/15 PASS (4 new negative controls) | live read: PRINTED_BUT_UNANCHORED, 20 printed lines / 12 headings, structured 58 sections / 0 day-word sections, rc1 | page regenerated (docs/live_book/LIVE-BOOK-20261114.md), sections priced 2026-11-13 | group: HEAD==origin/main==57457295973a, station_drive --once git.state=synced, would_create 3 | s05_probe rc0 (orders_delta=false, decisions_delta=false, unacked=[])",
+ "verify": "ceo_page selftest 339/339 PASS (L265/L266 new) | live_book_day_words selftest 15/15 PASS (4 new negative controls) | live read: PRINTED_BUT_UNANCHORED, 20 printed lines / 12 headings, structured 58 sections / 0 day-word sections, rc1 | page regenerated (docs/live_book/LIVE-BOOK-20261114.md), sections priced 2026-11-13 | group: HEAD==origin/main==57457295973a, station_drive --once git.state=synced, would_create 3 | s05_probe rc0 (orders_delta=false, decisions_delta=false, unacked=[]) | smoke: 480 legs, 1 self-inflicted FAIL fixed in-window (877db0f0b5)",
  "verify_selftest": "do_or_wait 20/20 (5 new three-state legs: current / newer bar / same bar new bytes / no record / unreadable) ; late_sheet_price 10/10",
  "verify_smoke": "full suite started 07:14 (pythonw pid 31124 -> results/_smoke_r1615.out); 478+ lines, no FAIL seen, not closed at round end; modules changed mid-run so the closing numbers are the previous generation",
  "verify_smoke_closed": "full suite started 07:14 closed 576/576 PASS 0 FAIL, wall clock 852.9s over 574 legs; started before the two module edits, so the ceo_page leg inside it printed the previous generation's 260/260 (new legs L214/L215 verified by selftest 262/262)",
