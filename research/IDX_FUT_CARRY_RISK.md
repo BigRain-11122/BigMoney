@@ -1,6 +1,6 @@
 # index-futures carry: what it is worth in risk units
 
-Generated 2026-11-15T07:33:26 · evidence cutoff 2026-11-13 · `scripts/idx_fut_carry_risk.py`
+Generated 2026-11-15T07:45:35 · evidence cutoff 2026-11-13 · `scripts/idx_fut_carry_risk.py`
 
 The roll book (hold the deepest-open-interest contract, switch at the same close) is the one `idx_fut_real_nav` publishes in rupees of carry per year. This page asks the only question that allocates money: at the desk's own 8% volatility target, does that carry buy anything the adopted book does not already buy, and does it move with it?
 
@@ -36,12 +36,14 @@ The roll book (hold the deepest-open-interest contract, switch at the same close
 
 The daily spread above is futures minus index: it is the *excess* return, and isolating it needs a short leg on the index, which this desk cannot borrow. The implementable version of the same idea is owning the future **instead of** the matching ETF -- that is long the index too -- so the column that matters is the gap against the ETF itself over the same window.
 
-| product | long the future %/yr | the matching ETF %/yr | gap pp |
-|---|---|---|---|
-| IC | 14.14 | 4.28 | +9.87 |
-| IF | 6.09 | 2.49 | +3.61 |
-| IM | 7.41 | -2.20 | +9.62 |
-| IH | 3.37 | - | - |
+| product | long the future %/yr | the matching ETF %/yr | gap pp | dividend drift pp | gap net of dividend pp |
+|---|---|---|---|---|---|
+| IC | 14.14 | 4.28 | +9.87 | 0.88 | +8.98 |
+| IF | 6.09 | 2.49 | +3.61 | 1.77 | +1.84 |
+| IM | 7.41 | -2.20 | +9.62 | 2.96 | +6.66 |
+| IH | 3.37 | - | - | 0.00 | - |
+
+The gap column is GROSS of a structural drift that is not a futures market reading: the ETF is paid the basket's cash dividend and the price index the future tracks is not. The drift column is the basis face's own C3 control arm (results/idx_fut_basis.json), measured on this repo's panel -- it is not a dividend announcement. Where that control could not be read the net column is blank, not equal to the gross one.
 - **IC leg priced, level change disclosed**: 1 share conversion(s) removed (2015-04-15 x3.486); level change is not a return
 - **IM leg priced, level change disclosed**: 1 share conversion(s) removed (2022-09-05 x2.763); level change is not a return
 - **IH leg not priced**: no ETF mapped to this index in the panel, so there is nothing to price against -- an unread leg is printed as a refusal, not as a zero gap

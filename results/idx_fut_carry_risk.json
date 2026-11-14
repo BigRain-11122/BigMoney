@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-15T07:33:26",
+ "generated": "2026-11-15T07:45:35",
  "evidence_cutoff": "2026-11-13",
  "kind": "carry_sleeve_risk",
  "criteria": {
@@ -233,8 +233,11 @@
     "long_futures_ann_pct": 14.144,
     "etf_same_window_ann_pct": 4.279,
     "gap_pp": 9.865,
+    "dividend_drift_pp": 0.882,
+    "gap_net_of_dividend_pp": 8.983,
+    "dividend_source": "results/idx_fut_basis.json verdict.carries[].drift_pct (C3 control arm, this repo's own ETF/index panel)",
     "etf_flag": "1 share conversion(s) removed (2015-04-15 x3.486); level change is not a return",
-    "note": "the spread is long-futures/short-index and needs a short leg this desk does not have; owning the future instead of the ETF earns index+carry and is priced against the ETF in the gap column"
+    "note": "the spread is long-futures/short-index and needs a short leg this desk does not have; owning the future instead of the ETF earns index+carry and is priced against the ETF in the gap column, which is gross of the dividend drift printed beside it"
    },
    "common_days_with_book": 1661,
    "corr_with_book": -0.039,
@@ -444,8 +447,11 @@
     "long_futures_ann_pct": 6.095,
     "etf_same_window_ann_pct": 2.488,
     "gap_pp": 3.607,
+    "dividend_drift_pp": 1.768,
+    "gap_net_of_dividend_pp": 1.839,
+    "dividend_source": "results/idx_fut_basis.json verdict.carries[].drift_pct (C3 control arm, this repo's own ETF/index panel)",
     "etf_flag": null,
-    "note": "the spread is long-futures/short-index and needs a short leg this desk does not have; owning the future instead of the ETF earns index+carry and is priced against the ETF in the gap column"
+    "note": "the spread is long-futures/short-index and needs a short leg this desk does not have; owning the future instead of the ETF earns index+carry and is priced against the ETF in the gap column, which is gross of the dividend drift printed beside it"
    },
    "common_days_with_book": 1661,
    "corr_with_book": 0.053,
@@ -623,8 +629,11 @@
     "long_futures_ann_pct": 7.414,
     "etf_same_window_ann_pct": -2.204,
     "gap_pp": 9.618,
+    "dividend_drift_pp": 2.963,
+    "gap_net_of_dividend_pp": 6.655,
+    "dividend_source": "results/idx_fut_basis.json verdict.carries[].drift_pct (C3 control arm, this repo's own ETF/index panel)",
     "etf_flag": "1 share conversion(s) removed (2022-09-05 x2.763); level change is not a return",
-    "note": "the spread is long-futures/short-index and needs a short leg this desk does not have; owning the future instead of the ETF earns index+carry and is priced against the ETF in the gap column"
+    "note": "the spread is long-futures/short-index and needs a short leg this desk does not have; owning the future instead of the ETF earns index+carry and is priced against the ETF in the gap column, which is gross of the dividend drift printed beside it"
    },
    "common_days_with_book": 1044,
    "corr_with_book": -0.064,
@@ -834,8 +843,11 @@
     "long_futures_ann_pct": 3.368,
     "etf_same_window_ann_pct": null,
     "gap_pp": null,
+    "dividend_drift_pp": 0.0,
+    "gap_net_of_dividend_pp": null,
+    "dividend_source": "results/idx_fut_basis.json verdict.carries[].drift_pct (C3 control arm, this repo's own ETF/index panel)",
     "etf_flag": "no ETF mapped to this index in the panel, so there is nothing to price against",
-    "note": "the spread is long-futures/short-index and needs a short leg this desk does not have; owning the future instead of the ETF earns index+carry and is priced against the ETF in the gap column"
+    "note": "the spread is long-futures/short-index and needs a short leg this desk does not have; owning the future instead of the ETF earns index+carry and is priced against the ETF in the gap column, which is gross of the dividend drift printed beside it"
    },
    "common_days_with_book": 1661,
    "corr_with_book": 0.056,
@@ -924,5 +936,5 @@
   "any_candidate": true,
   "note": "a candidate here is a sleeve worth pricing forward, not an adopted position: the readings are in-sample and the margin is an assumption"
  },
- "elapsed_sec": 35.5
+ "elapsed_sec": 36.4
 }

@@ -65,6 +65,9 @@ import etf_share_conversion as SCA     # noqa: E402  (share conversions vs quote
 OUT = os.path.join(ROOT, "results", "idx_fut_carry_risk.json")
 DOC = os.path.join(ROOT, "research", "IDX_FUT_CARRY_RISK.md")
 YEAR_GATE = os.path.join(ROOT, "results", "etf_book_year_gate", "YEAR-GATE.json")
+# The dividend control arm lives on the basis face (C3). This file reads that published
+# reading instead of re-deriving it: one dividend number, one producer.
+BASIS_JSON = os.path.join(ROOT, "results", "idx_fut_basis.json")
 
 CRITERIA = {
     "products": ["IC", "IF", "IM", "IH"],
@@ -456,7 +459,7 @@ def judge_product(prod, sp, book, cache_dir=None):
         "execution": exec_vs_close(prod, sp, cache_dir),
         "at_vol_target": {"target_pct": CRITERIA["vol_target_pct"], "leverage": lev, **r8},
         "margin_identity": margins,
-        "realizable": realizable_form(prod, sp, r),
+        "realizable": realizable_form(prod, sp, r, dividend_drift(prod)),
         "common_days_with_book": len(common),
         "corr_with_book": c,
         "blend": blends,
@@ -465,25 +468,60 @@ def judge_product(prod, sp, book, cache_dir=None):
     }
 
 
-def realizable_form(prod, sp, risk):
+def dividend_drift(prod, path=None):
+    """ETF-accrues-dividend drift for one product, read from the basis face's C3 arm.
+
+    The future tracks the PRICE index; the ETF holds the basket and is paid the cash
+    dividend. So the gap column is gross of a structural drift that has nothing to do
+    with the futures market. The basis face already measures that drift on this repo's
+    own panel (C3 control arm) -- this reads its published reading rather than opening a
+    second estimator. A missing face returns None, never 0: an unread control is not a
+    measured zero.
+    """
+    p = path or BASIS_JSON
+    try:
+        with open(p, "r", encoding="utf-8") as fh:
+            doc = json.load(fh)
+    except (OSError, ValueError):
+        return None
+    for row in ((doc.get("verdict") or {}).get("carries") or []):
+        if row.get("fut") == prod:
+            d = row.get("drift_pct")
+            return None if d is None else float(d)
+    return None
+
+
+def realizable_form(prod, sp, risk, drift=None):
     """The same carry, in the form this desk can actually hold.
 
     The daily spread is futures-minus-index: isolating it needs a short leg on the index,
     which this desk cannot borrow.  Holding the future INSTEAD of the ETF is the
     implementable version, and it is long the index too, so it can only be sold to a
     reader next to the ETF's own return over the same window.
+
+    The gap is gross of the dividend control: the ETF is paid the basket's cash dividend
+    and the price index the future tracks is not. Subtracting the basis face's measured
+    drift is the net reading; when that control is unreadable the net column stays None
+    and the page says so, because a reader who is handed the gross number alone will
+    book a dividend as carry.
     """
     fut = sp.get("futures_ann_pct")
     etf = sp.get("etf_ann_pct")
     gap = None if (fut is None or etf is None) else round(fut - etf, 3)
+    net = None if (gap is None or drift is None) else round(gap - drift, 3)
     return {
         "long_futures_ann_pct": fut,
         "etf_same_window_ann_pct": etf,
         "gap_pp": gap,
+        "dividend_drift_pp": drift,
+        "gap_net_of_dividend_pp": net,
+        "dividend_source": ("results/idx_fut_basis.json verdict.carries[].drift_pct"
+                            " (C3 control arm, this repo's own ETF/index panel)"),
         "etf_flag": sp.get("etf_flag"),
         "note": ("the spread is long-futures/short-index and needs a short leg this desk"
                  " does not have; owning the future instead of the ETF earns index+carry"
-                 " and is priced against the ETF in the gap column"),
+                 " and is priced against the ETF in the gap column, which is gross of the"
+                 " dividend drift printed beside it"),
     }
 
 
@@ -676,18 +714,29 @@ def render_md(face):
              " the matching ETF -- that is long the index too -- so the column that matters"
              " is the gap against the ETF itself over the same window.")
     L.append("")
-    L.append("| product | long the future %/yr | the matching ETF %/yr | gap pp |")
-    L.append("|---|---|---|---|")
+    L.append("| product | long the future %/yr | the matching ETF %/yr | gap pp |"
+             " dividend drift pp | gap net of dividend pp |")
+    L.append("|---|---|---|---|---|---|")
     for prod in CRITERIA["products"]:
         row = (face.get("products") or {}).get(prod) or {}
         rz = row.get("realizable")
         if not rz:
-            L.append("| %s | - | - | - |" % prod)
+            L.append("| %s | - | - | - | - | - |" % prod)
             continue
-        L.append("| %s | %s | %s | %s |"
+        L.append("| %s | %s | %s | %s | %s | %s |"
                  % (prod, _p(rz.get("long_futures_ann_pct")),
                     _p(rz.get("etf_same_window_ann_pct")),
-                    ("%+.2f" % rz["gap_pp"] if rz.get("gap_pp") is not None else "-")))
+                    ("%+.2f" % rz["gap_pp"] if rz.get("gap_pp") is not None else "-"),
+                    _p(rz.get("dividend_drift_pp")),
+                    ("%+.2f" % rz["gap_net_of_dividend_pp"]
+                     if rz.get("gap_net_of_dividend_pp") is not None else "-")))
+    L.append("")
+    L.append("The gap column is GROSS of a structural drift that is not a futures market"
+             " reading: the ETF is paid the basket's cash dividend and the price index the"
+             " future tracks is not. The drift column is the basis face's own C3 control"
+             " arm (results/idx_fut_basis.json), measured on this repo's panel -- it is not"
+             " a dividend announcement. Where that control could not be read the net"
+             " column is blank, not equal to the gross one.")
     flags = [(p, (face["products"][p].get("realizable") or {}).get("etf_flag"))
              for p in CRITERIA["products"]
              if (face.get("products") or {}).get(p, {}).get("realizable", {}).get("etf_flag")]
@@ -928,6 +977,19 @@ def selftest():
 
     # a gap keeps its sign when it is printed
     leg("a gap prints its sign", _sgn(-2.5) == "-2.50" and _sgn(2.5) == "+2.50", _sgn(-2.5))
+
+    # the gap is gross of a dividend drift that belongs to the ETF, not to the futures
+    rz = realizable_form("X", {"futures_ann_pct": 9.0, "etf_ann_pct": 1.0}, None, 2.5)
+    leg("the net gap subtracts the dividend control from the gross gap",
+        rz["gap_pp"] == 8.0 and rz["gap_net_of_dividend_pp"] == 5.5,
+        "%s / %s" % (rz["gap_pp"], rz["gap_net_of_dividend_pp"]))
+    rz0 = realizable_form("X", {"futures_ann_pct": 9.0, "etf_ann_pct": 1.0}, None, None)
+    leg("an unread dividend control leaves the net gap blank, never equal to the gross one",
+        rz0["gap_pp"] == 8.0 and rz0["gap_net_of_dividend_pp"] is None,
+        str(rz0["gap_net_of_dividend_pp"]))
+    leg("an unreadable basis face is not a measured zero drift",
+        dividend_drift("IC", path=os.path.join(ROOT, "results", "__no_such_face__.json")) is None,
+        str(dividend_drift("IC", path=os.path.join(ROOT, "results", "__no_such_face__.json"))))
 
     # the rendered page must carry the verdict words, not just the numbers
     fake = {"generated": "x", "evidence_cutoff": "2026-11-13", "criteria": CRITERIA,
