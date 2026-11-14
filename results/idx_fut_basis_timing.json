@@ -1,0 +1,411 @@
+{
+ "criteria": {
+  "H1_full_pp": 0.2,
+  "H1_stride_pp": 0.1,
+  "H2_spearman_max": -0.05,
+  "fwd_days": 20,
+  "window_max": 250,
+  "window_min": 60,
+  "stride": 20
+ },
+ "pairs": {
+  "IF": {
+   "status": "ok",
+   "index": "sh000300",
+   "window": {
+    "from": "2017-01-17",
+    "to": "2026-11-13",
+    "days": 2383
+   },
+   "n_obs": 2303,
+   "n_stride": 116,
+   "quintiles": [
+    {
+     "quintile": 0,
+     "label": "widest discount",
+     "n_obs": 485,
+     "n_stride": 24,
+     "mean_fwd20_pp": 0.5838,
+     "median_fwd20_pp": 0.5236,
+     "strided_mean_fwd20_pp": 0.6547,
+     "hit_rate_pct": 82.5,
+     "adverse_widening_pp_median": 0.185,
+     "adverse_widening_pp_p90": 0.814
+    },
+    {
+     "quintile": 20,
+     "label": "wide",
+     "n_obs": 483,
+     "n_stride": 28,
+     "mean_fwd20_pp": 0.2374,
+     "median_fwd20_pp": 0.1893,
+     "strided_mean_fwd20_pp": 0.2568,
+     "hit_rate_pct": 69.4,
+     "adverse_widening_pp_median": 0.346,
+     "adverse_widening_pp_p90": 0.996
+    },
+    {
+     "quintile": 40,
+     "label": "middle",
+     "n_obs": 432,
+     "n_stride": 19,
+     "mean_fwd20_pp": 0.0637,
+     "median_fwd20_pp": 0.0225,
+     "strided_mean_fwd20_pp": -0.0154,
+     "hit_rate_pct": 51.9,
+     "adverse_widening_pp_median": 0.443,
+     "adverse_widening_pp_p90": 1.12
+    },
+    {
+     "quintile": 60,
+     "label": "narrow",
+     "n_obs": 426,
+     "n_stride": 25,
+     "mean_fwd20_pp": -0.0136,
+     "median_fwd20_pp": 0.0146,
+     "strided_mean_fwd20_pp": -0.0071,
+     "hit_rate_pct": 51.9,
+     "adverse_widening_pp_median": 0.422,
+     "adverse_widening_pp_p90": 1.033
+    },
+    {
+     "quintile": 80,
+     "label": "narrowest discount",
+     "n_obs": 477,
+     "n_stride": 20,
+     "mean_fwd20_pp": -0.1183,
+     "median_fwd20_pp": -0.0787,
+     "strided_mean_fwd20_pp": -0.1989,
+     "hit_rate_pct": 37.7,
+     "adverse_widening_pp_median": 0.583,
+     "adverse_widening_pp_p90": 1.501
+    }
+   ],
+   "spread_widest_minus_narrowest_pp": {
+    "full": 0.7021,
+    "stride20": 0.8536,
+    "first_half": 0.633,
+    "second_half": 0.7572
+   },
+   "spearman_pct_vs_fwd20": -0.4291,
+   "spearman_level_vs_fwd20": -0.4781,
+   "percentile_adds_over_level": false,
+   "convergence": {
+    "rho_fwd20_vs_basis_change": 0.6928,
+    "median_ratio_fwd_to_change": 1.003,
+    "n": 2303
+   },
+   "H1": true,
+   "H2": true,
+   "H3": true,
+   "verdict": "RULE",
+   "latest": {
+    "basis_pct": -1.486,
+    "percentile": 23.8,
+    "in_widest_quintile": false
+   }
+  },
+  "IC": {
+   "status": "ok",
+   "index": "sh000905",
+   "window": {
+    "from": "2017-01-17",
+    "to": "2026-11-13",
+    "days": 2383
+   },
+   "n_obs": 2303,
+   "n_stride": 116,
+   "quintiles": [
+    {
+     "quintile": 0,
+     "label": "widest discount",
+     "n_obs": 509,
+     "n_stride": 26,
+     "mean_fwd20_pp": 0.5314,
+     "median_fwd20_pp": 0.4482,
+     "strided_mean_fwd20_pp": 0.4784,
+     "hit_rate_pct": 77.4,
+     "adverse_widening_pp_median": 0.214,
+     "adverse_widening_pp_p90": 1.028
+    },
+    {
+     "quintile": 20,
+     "label": "wide",
+     "n_obs": 437,
+     "n_stride": 23,
+     "mean_fwd20_pp": 0.3543,
+     "median_fwd20_pp": 0.2677,
+     "strided_mean_fwd20_pp": 0.2793,
+     "hit_rate_pct": 70.9,
+     "adverse_widening_pp_median": 0.347,
+     "adverse_widening_pp_p90": 0.963
+    },
+    {
+     "quintile": 40,
+     "label": "middle",
+     "n_obs": 457,
+     "n_stride": 22,
+     "mean_fwd20_pp": 0.2529,
+     "median_fwd20_pp": 0.1338,
+     "strided_mean_fwd20_pp": 0.3197,
+     "hit_rate_pct": 64.8,
+     "adverse_widening_pp_median": 0.504,
+     "adverse_widening_pp_p90": 1.373
+    },
+    {
+     "quintile": 60,
+     "label": "narrow",
+     "n_obs": 428,
+     "n_stride": 20,
+     "mean_fwd20_pp": 0.1252,
+     "median_fwd20_pp": 0.0598,
+     "strided_mean_fwd20_pp": 0.2079,
+     "hit_rate_pct": 54.0,
+     "adverse_widening_pp_median": 0.755,
+     "adverse_widening_pp_p90": 1.901
+    },
+    {
+     "quintile": 80,
+     "label": "narrowest discount",
+     "n_obs": 472,
+     "n_stride": 25,
+     "mean_fwd20_pp": -0.0322,
+     "median_fwd20_pp": -0.0853,
+     "strided_mean_fwd20_pp": -0.0347,
+     "hit_rate_pct": 40.3,
+     "adverse_widening_pp_median": 0.923,
+     "adverse_widening_pp_p90": 2.243
+    }
+   ],
+   "spread_widest_minus_narrowest_pp": {
+    "full": 0.5636,
+    "stride20": 0.5131,
+    "first_half": 0.6986,
+    "second_half": 0.4404
+   },
+   "spearman_pct_vs_fwd20": -0.3179,
+   "spearman_level_vs_fwd20": -0.4742,
+   "percentile_adds_over_level": false,
+   "convergence": {
+    "rho_fwd20_vs_basis_change": 0.6188,
+    "median_ratio_fwd_to_change": 1.0,
+    "n": 2303
+   },
+   "H1": true,
+   "H2": true,
+   "H3": true,
+   "verdict": "RULE",
+   "latest": {
+    "basis_pct": -1.4,
+    "percentile": 38.6,
+    "in_widest_quintile": false
+   }
+  },
+  "IH": {
+   "status": "ok",
+   "index": "sh000016",
+   "window": {
+    "from": "2017-01-17",
+    "to": "2026-11-13",
+    "days": 2383
+   },
+   "n_obs": 2303,
+   "n_stride": 116,
+   "quintiles": [
+    {
+     "quintile": 0,
+     "label": "widest discount",
+     "n_obs": 514,
+     "n_stride": 24,
+     "mean_fwd20_pp": 0.5127,
+     "median_fwd20_pp": 0.455,
+     "strided_mean_fwd20_pp": 0.5443,
+     "hit_rate_pct": 86.0,
+     "adverse_widening_pp_median": 0.231,
+     "adverse_widening_pp_p90": 0.96
+    },
+    {
+     "quintile": 20,
+     "label": "wide",
+     "n_obs": 456,
+     "n_stride": 27,
+     "mean_fwd20_pp": 0.2252,
+     "median_fwd20_pp": 0.129,
+     "strided_mean_fwd20_pp": 0.2497,
+     "hit_rate_pct": 64.5,
+     "adverse_widening_pp_median": 0.272,
+     "adverse_widening_pp_p90": 1.398
+    },
+    {
+     "quintile": 40,
+     "label": "middle",
+     "n_obs": 433,
+     "n_stride": 26,
+     "mean_fwd20_pp": 0.0311,
+     "median_fwd20_pp": -0.0052,
+     "strided_mean_fwd20_pp": 0.1323,
+     "hit_rate_pct": 49.0,
+     "adverse_widening_pp_median": 0.353,
+     "adverse_widening_pp_p90": 1.263
+    },
+    {
+     "quintile": 60,
+     "label": "narrow",
+     "n_obs": 446,
+     "n_stride": 22,
+     "mean_fwd20_pp": -0.0578,
+     "median_fwd20_pp": -0.0264,
+     "strided_mean_fwd20_pp": -0.2257,
+     "hit_rate_pct": 45.1,
+     "adverse_widening_pp_median": 0.369,
+     "adverse_widening_pp_p90": 0.952
+    },
+    {
+     "quintile": 80,
+     "label": "narrowest discount",
+     "n_obs": 454,
+     "n_stride": 17,
+     "mean_fwd20_pp": -0.0753,
+     "median_fwd20_pp": -0.0595,
+     "strided_mean_fwd20_pp": -0.1253,
+     "hit_rate_pct": 40.3,
+     "adverse_widening_pp_median": 0.471,
+     "adverse_widening_pp_p90": 1.27
+    }
+   ],
+   "spread_widest_minus_narrowest_pp": {
+    "full": 0.588,
+    "stride20": 0.6696,
+    "first_half": 0.6129,
+    "second_half": 0.5825
+   },
+   "spearman_pct_vs_fwd20": -0.4315,
+   "spearman_level_vs_fwd20": -0.4432,
+   "percentile_adds_over_level": false,
+   "convergence": {
+    "rho_fwd20_vs_basis_change": 0.6083,
+    "median_ratio_fwd_to_change": 0.993,
+    "n": 2303
+   },
+   "H1": true,
+   "H2": true,
+   "H3": true,
+   "verdict": "RULE",
+   "latest": {
+    "basis_pct": -1.5,
+    "percentile": 13.4,
+    "in_widest_quintile": true
+   }
+  },
+  "IM": {
+   "status": "ok",
+   "index": "sh000852",
+   "window": {
+    "from": "2022-07-22",
+    "to": "2026-11-13",
+    "days": 1045
+   },
+   "n_obs": 965,
+   "n_stride": 49,
+   "quintiles": [
+    {
+     "quintile": 0,
+     "label": "widest discount",
+     "n_obs": 278,
+     "n_stride": 13,
+     "mean_fwd20_pp": 0.6888,
+     "median_fwd20_pp": 0.8161,
+     "strided_mean_fwd20_pp": 0.6827,
+     "hit_rate_pct": 80.6,
+     "adverse_widening_pp_median": 0.277,
+     "adverse_widening_pp_p90": 2.04
+    },
+    {
+     "quintile": 20,
+     "label": "wide",
+     "n_obs": 191,
+     "n_stride": 5,
+     "mean_fwd20_pp": 0.5079,
+     "median_fwd20_pp": 0.3784,
+     "strided_mean_fwd20_pp": 0.0945,
+     "hit_rate_pct": 73.8,
+     "adverse_widening_pp_median": 0.381,
+     "adverse_widening_pp_p90": 2.452
+    },
+    {
+     "quintile": 40,
+     "label": "middle",
+     "n_obs": 167,
+     "n_stride": 11,
+     "mean_fwd20_pp": 0.4731,
+     "median_fwd20_pp": 0.4005,
+     "strided_mean_fwd20_pp": 0.4732,
+     "hit_rate_pct": 72.5,
+     "adverse_widening_pp_median": 0.5,
+     "adverse_widening_pp_p90": 2.539
+    },
+    {
+     "quintile": 60,
+     "label": "narrow",
+     "n_obs": 158,
+     "n_stride": 10,
+     "mean_fwd20_pp": 0.4262,
+     "median_fwd20_pp": 0.1889,
+     "strided_mean_fwd20_pp": 0.4119,
+     "hit_rate_pct": 66.5,
+     "adverse_widening_pp_median": 0.861,
+     "adverse_widening_pp_p90": 2.928
+    },
+    {
+     "quintile": 80,
+     "label": "narrowest discount",
+     "n_obs": 171,
+     "n_stride": 10,
+     "mean_fwd20_pp": 0.2708,
+     "median_fwd20_pp": -0.0358,
+     "strided_mean_fwd20_pp": 0.5499,
+     "hit_rate_pct": 46.8,
+     "adverse_widening_pp_median": 1.038,
+     "adverse_widening_pp_p90": 3.323
+    }
+   ],
+   "spread_widest_minus_narrowest_pp": {
+    "full": 0.418,
+    "stride20": 0.1328,
+    "first_half": 0.0436,
+    "second_half": 0.5948
+   },
+   "spearman_pct_vs_fwd20": -0.2425,
+   "spearman_level_vs_fwd20": -0.5897,
+   "percentile_adds_over_level": false,
+   "convergence": {
+    "rho_fwd20_vs_basis_change": 0.3986,
+    "median_ratio_fwd_to_change": 0.99,
+    "n": 965
+   },
+   "H1": true,
+   "H2": true,
+   "H3": true,
+   "verdict": "RULE",
+   "latest": {
+    "basis_pct": -1.266,
+    "percentile": 48.2,
+    "in_widest_quintile": false
+   }
+  }
+ },
+ "verdict": {
+  "passing_pairs": [
+   "IF",
+   "IC",
+   "IH",
+   "IM"
+  ],
+  "percentile_adds_over_level_pairs": [],
+  "median_fwd_to_basis_change_ratio": 0.996,
+  "verdict": "RULE",
+  "kind": "convergence harvest (the window's carry IS the discount closing)",
+  "rule": "enter only when the discount sits in the widest 20% of its trailing year",
+  "note": "A RULE here is a prepayment schedule, not a forecast: the forward window's carry is the discount closing (ratio ~1 against the basis change), so the rule buys a bigger prepayment by waiting, and pays for it with wider adverse widening -- see the per-quintile adverse column before sizing. The trailing percentile is only extra information where percentile_adds_over_level_pairs names it; elsewhere it is a monotone re-expression of the level and any rule can be written on the level directly."
+ }
+}

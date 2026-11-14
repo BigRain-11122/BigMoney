@@ -115,6 +115,15 @@ LEGS = [
     ("update_zt_pool", ["python", "scripts/update_zt_pool.py"]),
     ("update_heat", ["python", "scripts/update_heat.py"]),
     ("update_futures", ["python", "scripts/update_futures.py"]),
+    # r1689: the basis face was measured by hand on 11-14 (idx_fut_basis.json) and its
+    # timing test was written the night after -- and neither had a leg, so the two faces
+    # a reader could open were frozen at the hour someone typed them. Writer before
+    # reader, same as the rest of this table: the face prices the premium, the timing
+    # face asks whether the discount's width carries the next 20 days and prints the
+    # ratio that decides whether that is a forecast or merely the discount closing.
+    # Both read the futures panel refreshed immediately above; ~4s, no network, no judge.
+    ("idx_fut_basis", ["python", "scripts/idx_fut_basis.py"]),
+    ("idx_fut_basis_timing", ["python", "scripts/idx_fut_basis_timing.py"]),
     # r1136: the futures TSMOM sleeve was measured on 10-27 (standalone Sharpe 0.27, but
     # 50/50 with the ETF book 1.059 vs 0.98 alone at a smaller drawdown) and there was no
     # daily face for it -- the "produced but never read" class this repo keeps recording

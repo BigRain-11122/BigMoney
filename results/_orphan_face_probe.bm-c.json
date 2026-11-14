@@ -1,7 +1,7 @@
 {
- "ts": "2026-11-15T00:50:19",
+ "ts": "2026-11-15T01:05:24",
  "mode": "probe",
- "py_faces_seen": 1,
+ "py_faces_seen": 4,
  "orphans": 0,
  "orphans_cleared": 0,
  "killed": [],
@@ -9,11 +9,11 @@
  "resident_servers_exempt": 0,
  "faces": [
   {
-   "pid": 2716,
+   "pid": 4560,
    "name": "python.exe",
    "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe Tools\\orphan_face_probe.py",
    "age_min": 0.4,
-   "cpu_delta_20s": 0.031,
+   "cpu_delta_20s": 0.094,
    "face1_parent_dead": false,
    "face2_no_hidden_host_ancestor": false,
    "face3_cpu_stalled": false,
@@ -22,6 +22,55 @@
     "codely.exe",
     "powershell.exe",
     "wscript.exe"
+   ]
+  },
+  {
+   "pid": 5616,
+   "name": "python.exe",
+   "cmd": "D:\\ComfyUI\\python_embeded\\python.exe K:\\Fluxgroup\\.codely-cli\\tmp\\h3_ab.py",
+   "age_min": 0.3,
+   "cpu_delta_20s": 999.0,
+   "face1_parent_dead": false,
+   "face2_no_hidden_host_ancestor": true,
+   "face3_cpu_stalled": false,
+   "ancestor_chain": [
+    "pwsh.exe",
+    "codely.exe",
+    "codely-binary.exe",
+    "cowork.exe",
+    "explorer.exe",
+    "DEAD"
+   ]
+  },
+  {
+   "pid": 18108,
+   "name": "python.exe",
+   "cmd": "D:\\ComfyUI\\python_embeded\\python.exe -s main.py --listen 127.0.0.1 --port 8188",
+   "age_min": 0.3,
+   "cpu_delta_20s": 999.0,
+   "face1_parent_dead": false,
+   "face2_no_hidden_host_ancestor": true,
+   "face3_cpu_stalled": false,
+   "ancestor_chain": [
+    "python.exe",
+    "pwsh.exe",
+    "codely.exe",
+    "codely-binary.exe",
+    "cowork.exe",
+    "explorer.exe"
+   ]
+  },
+  {
+   "pid": 19308,
+   "name": "python.exe",
+   "cmd": "D:\\ComfyUI\\python_embeded\\python.exe -s main.py --listen 127.0.0.1 --port 8188",
+   "age_min": 3.4,
+   "cpu_delta_20s": 0.0,
+   "face1_parent_dead": true,
+   "face2_no_hidden_host_ancestor": true,
+   "face3_cpu_stalled": false,
+   "ancestor_chain": [
+    "DEAD"
    ]
   }
  ],
