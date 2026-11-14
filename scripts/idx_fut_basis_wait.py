@@ -304,6 +304,8 @@ def build():
             "tradeable instruments themselves",
         ],
         "pairs": {},
+        # the arms below are priced on this mask; r1694 makes the face name it
+        "roll_mask": base.roll_mask_block(),
     }
     for fut, (code, _name, _etf) in base.PAIRS.items():
         fpath = os.path.join(base.FUT_DIR, fut + ".csv")
@@ -423,6 +425,14 @@ def selftest():
                              (True, False, True, ["W2"]), (True, True, True, [])):
         failing = [n for n, v in (("W1", w1), ("W2", w2), ("W3", w3)) if not v]
         leg(failing == want, "L10 failing legs named %s -> %s" % (want, failing))
+    # L11 the rendered section names the roll mask the arms were priced with (r1694):
+    # a face without one must say "unknown", not print the arms as if the mask were whole.
+    bare = {"verdict": {"pooled": "HOLD-ALWAYS", "rule": "r", "read": "x",
+                        "median_time_in_market_pct": 0.0}, "pairs": {}}
+    leg("遮罩口径未知" in doc_block(bare), "L11 a face with no mask block reads as unknown")
+    blk = base.roll_mask_block()
+    leg(base.mask_sentence(blk, "arms") in doc_block(dict(bare, roll_mask=blk)),
+        "L11 the arms section prints the mask sentence the face carries")
     print("selftest %d/%d" % (ok, total))
     return 0 if ok == total else 1
 
@@ -454,6 +464,8 @@ def doc_block(face):
                       a["sharpe_vs_cash"], b["sharpe_vs_cash"],
                       e["verdict"], "/".join(e["failing"]) or "无"))
     out += ["",
+            base.mask_sentence(face.get("roll_mask"), "arms"),
+            "",
             "**总判词：%s。** %s" % (v["pooled"], v["rule"]),
             "",
             "%s" % v["read"],

@@ -1050,14 +1050,54 @@ def main() -> int:
     except Exception as e:
         check("product: the index-futures page carries the capital face's numbers (r1688)",
               False, str(e))
+    # r1694: r1692 measured that the published roll detector misses 64-81% of the index
+    # futures' monthly rolls, and two pages still printed carry and arm numbers without
+    # naming the mask they were priced with -- a reader of one page never sees the other
+    # page's caveat. The mask block now travels with both faces and both sections render
+    # it, so a page that prints those numbers with no mask line is red here instead of
+    # being found by the next reader to compare the two tables.
+    try:
+        _pg = os.path.join(PATHS.root, "research", "IDX_FUT_BASIS_VERDICT.md")
+        _txt = ""
+        if os.path.exists(_pg):
+            with open(_pg, encoding="utf-8") as _fh:
+                _txt = _fh.read()
+        _n_mask = _txt.count("遮罩口径（r1694）")
+        _rule_named = "8x the median step" in _txt
+        check("product: both priced blocks name the roll mask they were measured under (r1694)",
+              _n_mask >= 2 and _rule_named,
+              f"mask lines={_n_mask} rule_named={_rule_named}")
+    except Exception as e:
+        check("product: both priced blocks name the roll mask they were measured under (r1694)",
+              False, str(e))
+    # r1692: the carry reading is what survives a roll mask, so the mask is load-bearing.
+    # The published detector fires a few times a year while the index futures expire every
+    # month; the days it misses stay in the series as losses nobody masked, and the r1690
+    # three-arm verdict was decided on margins smaller than that error. Two legs: the
+    # synthetic sawtooth (a roller earns the convergence, the price series nets to zero)
+    # and the face's own states re-derived from its two readings.
+    try:
+        _r = _leg_memo([sys.executable, "scripts/idx_fut_roll_gap.py", "selftest"], 120)
+        _tail = ((_r.stdout or _r.stderr).strip().splitlines() or ["no output"])[-1]
+        check("product: index-futures roll gaps (selftest 17 legs)",
+              _r.returncode == 0, f"exit={_r.returncode} | {_tail[:90]}")
+    except Exception as e:
+        check("product: index-futures roll gaps (selftest 17 legs)", False, str(e))
+    try:
+        _r = _leg_memo([sys.executable, "scripts/idx_fut_roll_gap.py", "--check"], 120)
+        _tail = ((_r.stdout or _r.stderr).strip().splitlines() or ["no output"])[-1]
+        check("product: index-futures roll-gap states re-derived",
+              _r.returncode == 0, f"exit={_r.returncode} | {_tail[:110]}")
+    except Exception as e:
+        check("product: index-futures roll-gap states re-derived", False, str(e))
     # r1691: the treasury curve verdict (T vs TF, DIRECTION-20261114 section 3) closed a line
     # as KILL. A closed line is only worth closing if the file that says so cannot be edited
     # by hand -- so the verdict is re-derived here from its own criteria and the page's two
     # headline numbers are checked against the JSON. Losing either makes a dead line look
     # releasable (or a live one look dead), which is the expensive direction of that error.
     try:
-        _tf = os.path.join(ROOT, "results", "treasury_curve_spread.json")
-        _pg = os.path.join(ROOT, "research", "TREASURY_CURVE_VERDICT.md")
+        _tf = os.path.join(PATHS.root, "results", "treasury_curve_spread.json")
+        _pg = os.path.join(PATHS.root, "research", "TREASURY_CURVE_VERDICT.md")
         if not (os.path.exists(_tf) and os.path.exists(_pg)):
             check("product: treasury curve verdict is re-derived from its own criteria (r1691)",
                   False, "missing face or page")

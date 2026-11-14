@@ -34,7 +34,8 @@ import sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, "scripts"))
 
-from idx_fut_basis import PAIRS, TRADING_DAYS, read_csv_rows  # noqa: E402
+from idx_fut_basis import (PAIRS, TRADING_DAYS, mask_sentence,  # noqa: E402
+                           read_csv_rows, roll_mask_block)
 
 PARENT = os.path.join(ROOT, "results", "idx_fut_basis.json")
 FUT_DIR = os.path.join(ROOT, "data", "futures_daily")
@@ -287,6 +288,8 @@ def build():
                   "them supports is flagged ruler_stable=false",
         },
         "faces": faces,
+        # every carry below is priced on this mask; r1694 makes the face say which one
+        "roll_mask": roll_mask_block(),
         "verdict": judge(faces),
     }
 
@@ -304,6 +307,8 @@ def doc_block(face):
                  "分母是**合约名义额**；这张表回答「在你的资金上划不划算」，"
                  "分母是**必须压上的本金**，且仓位按 %.0f%% 波动目标定尺 —— "
                  "名义百分比不是钱。" % (VOL_TARGET * 100))
+    lines.append("")
+    lines.append(mask_sentence(face.get("roll_mask"), "carry"))
     lines.append("")
     lines.append("| 品种 | 名义 carry %/yr | 单张合约价值(万) | 一手所需本金(万) | "
                  "首个买得起档(万) | 该档名义×本金 | 该档本金净收益 %/yr (10bp) | "
@@ -488,6 +493,19 @@ def selftest():
     leg("+9.00" in b2 and "+4.16" not in b2 and "ADMIT" in b2
         and b1 != b2,
         "R5 a moved carry moves the block (two-sided: no stale copy survives)")
+    # R6: the mask line travels with the face -- a moved mask face moves the page
+    own = roll_mask_block()
+    b3 = doc_block(dict(_f, roll_mask=own))
+    leg(("遮罩口径" in b3) and (mask_sentence(own, "carry") in b3),
+        "R6 the block prints the mask sentence the face carries")
+    moved = json.loads(json.dumps(own))
+    if moved.get("available"):
+        first = sorted(moved["carry_pct"])[0]
+        moved["carry_pct"][first]["published"] = 9.99
+    leg(doc_block(dict(_f, roll_mask=moved)) != b3,
+        "R6 a moved mask face moves the block (two-sided: no stale sentence survives)")
+    leg("遮罩口径未知" in doc_block(_f),
+        "R6 a face without a mask block says the mask is unknown instead of silence")
     _t1, _how1 = splice_doc("# page\n\ntext\n", b1)
     _t2, _how2 = splice_doc(_t1, b2)
     leg(_how1 == "appended" and _how2 == "replaced"

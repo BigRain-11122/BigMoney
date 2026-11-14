@@ -14953,13 +14953,13 @@ selftest 27/27）+ `scripts/etf_book_year_gate.py`（`decision` 落盘）+ `resu
 三条可复用：①**对照腿的量纲要和被测腿相同** —— 这里的决策对象是「持有期货 vs 持有 ETF」，所以 carry 要减掉
 ETF 的结构漂移（net carry），而不是要求 ETF 与指数相等；②**漂移的方向和量级要能被外部事实解释**
 （这里 = 分红率；实测落在 0-6% 带内即通过，落在负区或 >6% 才是估计器坏了）；③**改判据必须留原判据**
-—— erdict.criteria_revision 同时存 original/now/why，并且写明「按原口径读回 KILL 也成立」，
+—— verdict.criteria_revision 同时存 original/now/why，并且写明「按原口径读回 KILL 也成立」，
 否则下一个读者无法分辨「先冻结后看数」和「看到数再挪线」。
 
 读数：净值 carry IC +4.16%/yr、IM +6.00%/yr 过线，IF +0.80、IH +1.74 不过 -> OPEN；
 原口径下 C3=False -> KILL。一句话：**对照组不该是「另一个也应该一样的东西」，而是「你本来会持有的那个东西」**。
 
-指针：\scripts/idx_fut_basis.py\（selftest 9/9，L8 对照污染即 KILL）+ esults/idx_fut_basis.json\ + esearch/IDX_FUT_BASIS_VERDICT.md\。
+指针：\scripts/idx_fut_basis.py\（selftest 9/9，L8 对照污染即 KILL）+ results/idx_fut_basis.json\ + research/IDX_FUT_BASIS_VERDICT.md\。
 
 ### E642 · 「名义百分比」不是钱，而且三把尺子里只挑最漂亮的那把会在同一行翻转判决（r1686 bm-c）
 
@@ -15011,3 +15011,26 @@ leash 只能降不能升，**且两条臂必须用同一根 leash**——给 B �
 
 指针：`scripts/idx_fut_basis_wait.py`（selftest 23/23，L4 恒等式 + L10 逐腿命名）+ `results/idx_fut_basis_wait.json`
 + `research/IDX_FUT_BASIS_VERDICT.md` §七（由面渲染，`checkdoc` 手改即红）+ S6 腿 `idx_fut_basis_wait`。
+### E643 · 换月掩码的完整性就是读数本身（r1692 bm-c）
+
+主连面板在换月那天跳到下一合约，价差是**水平重置**而不是收益——滚仓的人卖掉旧合约、用同一笔钱买新合约，账面不会少那么多。所以「换月日置零」不是可选项而是定义：置零后活下来的交易日加起来才是 carry。于是真正要量的是**掩码的完整性**。
+
+`idx_fut_basis.basis_face` 的规则（基差步长 > 8× 中位且 > 0.5%）在 IF 上 2,382 天只找到 26 天，而股指期货每月到期一次；漏掉的 91 天留在序列里当没人掩的亏损。
+
+读数（四品种，2017-01→2026-11，日历锚=第三个周五窗口）：掩码日 26/22/34/18 对 应掩 117/117/117/50（漏 78/81/71/64%）；carry 从 +1.88/+2.88/+1.55/+5.86%/yr 修正到 +5.79/+9.79/+5.32/+11.95%/yr。r1690 三臂在完整掩码下 A 抬升、B−A 中位移动 −1.16pp（IF +1.15→−0.23、IH +1.08→+0.15）：HOLD-ALWAYS 成立，但它原先那点边际正是漏掩给的。
+
+第二件（工具面）：一行里可以有两个被转义吃掉的路径前缀，`Tools/card_text_hygiene.py` 的可逆性断言只算自己那一个字母，于是把双站点行拒成「不可逆」——正法=按行收集全部插入列、倒序删除后与原文整行比对（selftest 15→16 腿）。
+
+指针：`scripts/idx_fut_roll_gap.py`（selftest 17/17，含锯齿合成腿：滚仓人赚到收敛、价格序列净值为零）+ `results/idx_fut_roll_gap.json` + `research/IDX_FUT_ROLL_GAP.md` + smoke 双腿。
+
+### E644 · 一个数字是「在哪个掩码下量的」，这句话必须跟数字一起走（r1694 bm-c）
+
+r1692 量出已发布的换月掩码漏遮 64-81% 的日历换月，然后两张已经发布的表照样印着按那套掩码定的 carry 和三臂收益，一个字没提。**读者只打开其中一张表**：他看到的是四个数字，既看不到另一页的 caveat，也看不到自己手上这张是在残缺掩码上算的。这不是「另一页已经说过了」的问题——caveat 放在别的文件里等于没放。
+
+正法=把「口径」做成一份**跟着面走的数据**：idx_fut_basis.roll_mask_block() 从掩码面 
+esults/idx_fut_roll_gap.json 抽出四个品种的两套读数与漏遮比例（单一实现，两个渲染器都 import 它，禁第二份拷贝 r1375 族），两张面的 build 都把这个块嵌进去，页面的两个块各自用 mask_sentence(block, 'carry'|'arms') 渲染一句话，checkdoc 逐字比对页面与面。缺掩码面时印「遮罩口径未知」，禁静默空行（r1371 族：缺输入不许读成没问题）。
+
+守卫件的形状：checkdoc 两腿（页面 == 面）+ 一条 smoke 腿数页面里「遮罩口径」出现次数 ≥2 且点名了规则原文——这条腿抓的正是 r1692 那个形状：数字在、句子没了。自检腿则刻意做成双向：掩码面动一格，页面块必须跟着动（只测「有这行」会在句子被写死时照样绿）。
+
+指针：scripts/idx_fut_basis.py（selftest 12/12·L10/L11）+ scripts/idx_fut_carry_capital.py（R6 三腿）+ scripts/idx_fut_basis_wait.py（L11 两腿）+ 
+esearch/IDX_FUT_BASIS_VERDICT.md §六/§七 + smoke 腿 r1694。

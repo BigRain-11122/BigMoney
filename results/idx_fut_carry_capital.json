@@ -1,9 +1,9 @@
 {
- "generated": "2026-11-15T00:54:56",
+ "generated": "2026-11-15T03:20:40",
  "evidence_cutoff": "2026-11-13",
  "inputs": {
   "parent_face": "results/idx_fut_basis.json",
-  "parent_generated": "2026-11-14T23:47:55",
+  "parent_generated": "2026-11-15T01:13:50",
   "cash_rate_pct": 1.327,
   "cash_rate_year": "2026",
   "cash_rate_source": "data/repo_daily/GC001.csv yearly mean close",
@@ -514,6 +514,54 @@
      "stress_loss_pct_of_capital": 10.4
     }
    ]
+  }
+ },
+ "roll_mask": {
+  "face": "idx_fut_roll_gap",
+  "available": true,
+  "generated": "2026-11-15T02:59:55",
+  "evidence_cutoff": "2026-11-13",
+  "verdict": "ROLL_MASK_INCOMPLETE",
+  "published_rule": "single-leg basis step > 8x the median step and > 0.5%",
+  "carry_pct": {
+   "IC": {
+    "published": 2.881,
+    "calendar": 9.793,
+    "missed_share_pct": 81.2
+   },
+   "IF": {
+    "published": 1.876,
+    "calendar": 5.795,
+    "missed_share_pct": 77.8
+   },
+   "IH": {
+    "published": 1.552,
+    "calendar": 5.324,
+    "missed_share_pct": 70.9
+   },
+   "IM": {
+    "published": 5.864,
+    "calendar": 11.954,
+    "missed_share_pct": 64.0
+   }
+  },
+  "arms_gap_pp": {
+   "IC": {
+    "calendar": -2.034,
+    "published": -0.053
+   },
+   "IF": {
+    "calendar": -0.226,
+    "published": 1.153
+   },
+   "IH": {
+    "calendar": 0.147,
+    "published": 1.079
+   },
+   "IM": {
+    "calendar": -2.999,
+    "published": -2.1
+   }
   }
  },
  "verdict": {

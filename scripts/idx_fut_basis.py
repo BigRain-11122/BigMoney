@@ -55,6 +55,74 @@ CARRY_MIN_PCT = 3.0
 TRIM_MIN_PCT = 1.5
 CONTROL_MAX_PCT = 6.0   # dividend band: ETF accrues yield the price index does not
 
+ROLL_GAP_FACE = os.path.join(ROOT, "results", "idx_fut_roll_gap.json")
+
+
+def roll_mask_block(path=None):
+    """The roll mask a *priced* face was measured under, as figures a page can print.
+
+    r1694: two pages (carry-per-capital and the waiting arms) printed numbers priced
+    with the size rule without naming the rule, while r1692 showed that same rule
+    misses 64-81% of the calendar rolls on the index futures.  A reader who opens
+    only one page never sees the other page's caveat, so the block travels *with*
+    the face and the page renders it -- one producer here, no second copy (r1375).
+    """
+    path = path or ROLL_GAP_FACE
+    try:
+        with open(path, encoding="utf-8") as f:
+            gap = json.load(f)
+    except (OSError, ValueError):
+        # a missing input is not "no problem": the absence prints, it never goes silent
+        return {"face": "idx_fut_roll_gap", "available": False,
+                "why": "results/idx_fut_roll_gap.json unreadable",
+                "published_rule": None, "carry_pct": {}, "arms_gap_pp": {}}
+    out = {"face": "idx_fut_roll_gap", "available": True,
+           "generated": gap.get("generated"), "evidence_cutoff": gap.get("evidence_cutoff"),
+           "verdict": gap.get("verdict"),
+           "published_rule": ("single-leg basis step > %.0fx the median step and > %.1f%%"
+                              % (ROLL_SCALE, ROLL_FLOOR * 100)),
+           "carry_pct": {}, "arms_gap_pp": {}}
+    for fut, e in (gap.get("pairs") or {}).items():
+        readings = e.get("readings") or {}
+        rd = e.get("roll_days") or {}
+        out["carry_pct"][fut] = {
+            "published": (readings.get("published_threshold_mask") or {}).get("carry_ann_pct"),
+            "calendar": (readings.get("calendar_mask") or {}).get("carry_ann_pct"),
+            "missed_share_pct": rd.get("missed_share_pct"),
+        }
+        out["arms_gap_pp"][fut] = dict((e.get("arm_sensitivity") or {}).get("B_minus_A_pp") or {})
+    return out
+
+
+def mask_sentence(block, kind="carry"):
+    """One reader-facing line built from roll_mask_block(); `kind` picks the priced face.
+
+    `carry` names the carry-per-capital table, `arms` the waiting arms.  Both are
+    rendered, never hand-written, so a re-run of the mask face moves the sentence.
+    """
+    if not block or not block.get("available"):
+        return ("**遮罩口径未知**：%s —— 上面的数字无法归属到某个遮罩，先补跑 "
+                "`python scripts/idx_fut_roll_gap.py`。"
+                % ((block or {}).get("why") or "results/idx_fut_roll_gap.json 缺失"))
+    rule = block.get("published_rule")
+    if kind == "arms":
+        parts = ["%s %+.2f→%+.2f" % (f, a["published"], a["calendar"])
+                 for f, a in (block.get("arms_gap_pp") or {}).items()
+                 if a.get("published") is not None and a.get("calendar") is not None]
+        return ("**遮罩口径（r1694）**：上表三条臂按**已发布尺寸式遮罩**（%s）定价；"
+                "同一批面板按日历锚定遮罩重跑，B−A（等待臂减一直持有，pp/年）是 %s —— "
+                "等待臂的边际在完整遮罩下普遍变差，HOLD-ALWAYS 不受影响。"
+                % (rule, "、".join(parts)))
+    parts = ["%s %+.2f→%+.2f（漏遮 %.1f%%）"
+             % (f, c["published"], c["calendar"], c["missed_share_pct"])
+             for f, c in (block.get("carry_pct") or {}).items()
+             if c.get("published") is not None and c.get("calendar") is not None
+             and c.get("missed_share_pct") is not None]
+    return ("**遮罩口径（r1694）**：上表 carry 按**已发布尺寸式遮罩**（%s）定价；"
+            "同一窗口按日历锚定遮罩读到 %s %%/yr。本表**没有**按完整遮罩重定价 —— "
+            "这些判词是在偏低的 carry 上算的，重定价未出（下一轮）。"
+            % (rule, "、".join(parts)))
+
 
 def _clear_proxy():
     for k in ("http_proxy", "https_proxy", "HTTP_PROXY", "HTTPS_PROXY", "all_proxy", "ALL_PROXY"):
@@ -332,6 +400,29 @@ def selftest():
                                                         "trimmed_mean_ann_pct": -2.0,
                                                         "hit_rate_pct": 55.0}}}}
     leg(judge(fake4)["carries"][0]["C2"] is False, "L9 sign flip trips C2")
+    # L10 the mask note is derived from the mask face, both prices printed, one sentence
+    import tempfile
+    with tempfile.TemporaryDirectory() as td:
+        p = os.path.join(td, "gap.json")
+        with open(p, "w", encoding="utf-8") as f:
+            json.dump({"generated": "x", "verdict": "ROLL_MASK_INCOMPLETE",
+                       "pairs": {"IF": {"readings": {
+                           "published_threshold_mask": {"carry_ann_pct": 1.88},
+                           "calendar_mask": {"carry_ann_pct": 5.80}},
+                           "roll_days": {"missed_share_pct": 77.8},
+                           "arm_sensitivity": {"B_minus_A_pp": {"published": 1.15,
+                                                                "calendar": -0.23}}}}}, f)
+        blk = roll_mask_block(p)
+        note = mask_sentence(blk, "carry")
+        leg(blk["available"] and "+1.88" in note and "+5.80" in note and "77.8" in note
+            and "已发布" in note, "L10 carry note prints both masks and the miss share")
+        arms_note = mask_sentence(blk, "arms")
+        leg("+1.15" in arms_note and "-0.23" in arms_note and "77.8" not in arms_note,
+            "L10 arms note prints the gap under both masks, not the carry table")
+        # L11 an unreadable mask face says so instead of printing an empty caveat
+        missing = roll_mask_block(os.path.join(td, "absent.json"))
+        leg(not missing["available"] and "未知" in mask_sentence(missing),
+            "L11 missing mask face reads as unknown, never as no problem")
     print("selftest %d/%d" % (ok, total))
     return 0 if ok == total else 1
 
