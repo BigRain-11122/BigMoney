@@ -551,7 +551,8 @@ def _leg_day_words():
         if err:
             return False, "page unreadable (%s)" % err
         c = _DW.census(doc, artifact=rel, printed=printed)
-        ok = c["verdict"] in ("ANCHORED", "NO_DAY_WORDS", "PRINTED_BUT_UNANCHORED")
+        ok = c["verdict"] in ("ANCHORED", "NO_DAY_WORDS", "PRINTED_BUT_UNANCHORED",
+                              "PRINTED_SELF_DATED")
         _pr = c.get("printed") or {}
         return ok, ("%s | page %s | %d/%d day-word sections on that day | printed %s lines "
                     "under %s headings | offenders=%s%s"

@@ -1921,7 +1921,6 @@ PAGE_DAY_LEDGER = {
     "permission_block": ("reader_day", "「今天才建仓的话」是给读者的条件句，不是某个面的 bar"),
     "executed_block": ("reader_day", "「今天这一根 bar」自己点了 bar，读者不会读成自己的日子"),
     "positions_block": ("reader_day", "同段已有两日对比句；「今天没有新 bar」是 bar 语境"),
-    "universe_lock_block": ("owed", "「今天的 %s 只基金」是锁面自己的名单名册，不是读者今天"),
     "capital_block": ("owed", "「今天这张可执行单」是票据那天的单，票面日与页面日常常不同"),
     "section_bars_block": ("reader_day", "该句是否定式说明（不是今天的仓位），不宣称任何日"),
     "feed_lag_block": ("reader_day", "该句本身就是拿「今天」与页面 bar 对账的那句"),
@@ -2430,7 +2429,7 @@ def positions_block(ps, page_bar=None):
     add("")
     ps = ps or {}
     if ps.get("status") != "ok":
-        add("这一节读不到账本面（`%s`）：%s。**因此本页只能给「如果你今天才建仓」的清单，"
+        add("这一节读不到账本面（`%s`）：%s。**因此本页只能给「要是你现在才建仓」的清单，"
             "说不出已经持有多少、现金还剩多少**——把这张清单当成账上现状是错的。"
             % (ps.get("artifact") or "results/etf_book_positions.json",
                ps.get("detail") or "无读数"))
@@ -3035,7 +3034,14 @@ def universe_lock_face(path=UNIVERSE_LOCK_JSON):
         return {"status": "unreadable", "artifact": _rel(path, ROOT), "detail": repr(exc)}
 
 
-def universe_lock_block(ul):
+def universe_lock_block(ul, page_day=None):
+    # r1670: "today's N funds" is a promise about a date, and on a Saturday the page's own
+    # day is not the bar those funds were counted on. The face carries its evidence_cutoff,
+    # so the sentence borrows day_word's single implementation instead of holding a fifth
+    # copy of the three lines (r1668 family).
+    _as_of = ul.get("evidence_cutoff")
+    _now = day_word(page_day, _as_of)
+    _now_adj = day_word_adj(page_day, _as_of)
     L = []
     if ul.get("status") != "ok":
         L.append("## 2020 年能不能真的跑这本书？")
@@ -3047,9 +3053,9 @@ def universe_lock_block(ul):
     pk = ul.get("picks") or {}
     L.append("## 2020 年能不能真的跑这本书？")
     L.append("")
-    L.append("上面每个数都是在**今天**的 %s 只基金上算出来的；这些基金里有一部分在窗口开始时"
-             "还不存在——今天在手的 %d 个名字里 **%d 个**是 2020 年以后才上市的。"
-             % (ul.get("full_n"), len(pk.get("book_in_force") or []),
+    L.append("上面每个数都是在**%s %s 只基金**上算出来的；这些基金里有一部分在窗口开始时"
+             "还不存在——%s 在手的 %d 个名字里 **%d 个**是 2020 年以后才上市的。"
+             % (_now_adj, ul.get("full_n"), _now, len(pk.get("book_in_force") or []),
                 pk.get("book_in_force_listed_after_lock") or 0))
     L.append("")
     L.append("同一格规则、同一种成交，把票池冻结在窗口第一天（%s，%s 只）重跑："
@@ -3072,10 +3078,10 @@ def universe_lock_block(ul):
         _gap_pp = abs(_rc0 - _pub) * 100.0
         if _gap_pp >= 0.01:
             L.append("- 上表第一行（不冻结、%s 起）是 **%.2f%%/年**，卡片上同一格印的是 **%.2f%%/年**——"
-                     "差 **%.2f pp**，在面自己的 %.2f pp 容差内。两个数都真：一个按本面今天重算，"
+                     "差 **%.2f pp**，在面自己的 %.2f pp 容差内。两个数都真：一个按本面 %s 重算，"
                      "一个按卡片发布时点；别把其中任何一个当成精确值。"
                      % (_ph0.get("start"), 100.0 * _rc0, 100.0 * _pub, _gap_pp,
-                        ul.get("tol_pp") or 0.0))
+                        ul.get("tol_pp") or 0.0, _now))
             L.append("")
     v = ul.get("verdict")
     mean = ul.get("delta_mean_pp") or 0.0
@@ -3086,8 +3092,8 @@ def universe_lock_block(ul):
                     ul.get("tol_pp") or 0.0))
     elif v == "UNIVERSE_ROBUST":
         L.append("**跟票池新旧无关：** 冻结票池后平均只差 %+.2f pp/年（四个相位都在 %.2f pp 内）——"
-                 "这套规则在今天这份名单上能做的事，2020 年那份名单上也能做。"
-                 % (mean, ul.get("tol_pp") or 0.0))
+                 "这套规则在 %s 这份名单上能做的事，2020 年那份名单上也能做。"
+                 % (mean, ul.get("tol_pp") or 0.0, _now))
     else:
         L.append("**平均为零，但相位之间摆动很大：** 冻结票池平均 %+.2f pp/年，"
                  "单个相位从 %+.2f 到 %+.2f pp——摆幅比这条线测过的任何一个效应都大。"
@@ -3099,7 +3105,7 @@ def universe_lock_block(ul):
     if lad:
         L.append("| 票池冻结在 | 基金数 | 年化 | 夏普 | 最大回撤 |")
         L.append("|---|---|---|---|---|")
-        labels = {"unlocked": "不冻结（今天）"}
+        labels = {"unlocked": "不冻结（%s）" % _now}
         for r in lad:
             L.append("| %s | %s | %.2f%% | %.2f | %.2f%% |"
                      % (labels.get(r.get("universe"), r.get("universe")), r.get("n_funds"),
@@ -6859,7 +6865,10 @@ def render_md(p, sb=None):
     for _dw_line in do_or_wait_block(p.get("do_or_wait") or {},
                                      page_day=p.get("generated_for_date")):
         add(_dw_line)
-    add("## 下单清单%s" % ("（如果你今天才建仓）" if mode == "hold" else ""))
+    # r1670: "如果你今天才建仓" is a condition on the reader, not a claim about a bar -- but
+    # on the printed page it reads exactly like the five sentences this family just repaired,
+    # and it was the only undated line left in the top half. A hypothetical needs no date word.
+    add("## 下单清单%s" % ("（要是你现在才建仓）" if mode == "hold" else ""))
     add("")
     add("| 代码 | 类别 | 份（100 股/份） | 参考价 | 金额 |")
     add("|---|---|---|---|---|")
@@ -7354,9 +7363,16 @@ def render_md(p, sb=None):
         base = cr.get("base") or cr["rows"][-1]
         below = [r for r in cr["rows"] if r["beta"] < base["beta"]]
         above = [r for r in cr["rows"] if r["beta"] > base["beta"]]
+        # r1670: four sentences in this section said 今天 about three different days (the
+        # quote's bar, the page's day, the ticket's bar). Each now names its own bar through
+        # day_word, so a Saturday page cannot print Friday's rate under the word 今天.
+        _pd_cash = p.get("generated_for_date")
+        _qw_adj = day_word_adj(_pd_cash, cr.get("quote_date"))
+        _qw = day_word(_pd_cash, cr.get("quote_date"))
+        _tkw = day_word(_pd_cash, p.get("priced_bar"))
         add("同一套引擎、同一批票、同样的 20 个交易日换仓和 8bp 成本，只把现金腿换成三种情形重算"
-            "（历史真实报价 / 今天的报价固定不变 / 干脆 0 息）。风险和收益档位也一并列出，"
-            "因为要不要多加风险是你可以自己选的事：")
+            "（历史真实报价 / %s报价固定不变 / 干脆 0 息）。风险和收益档位也一并列出，"
+            "因为要不要多加风险是你可以自己选的事：" % _qw_adj)
         add("")
         add("| 风险档位 (beta) | 现金占比 | 回测年化（当时真实利率 %.2f%%） | 若一直只有今天的 %.2f%%（%s 报价） | 若现金 0 息 | 最大回撤 |"
             % (rates.get("observed_mean_pct") or 0.0, rates.get("today_pct") or 0.0,
@@ -7385,16 +7401,16 @@ def render_md(p, sb=None):
             add("- 报价日期 **%s** 就是这张表面板尾那根 bar（同一根，未落后）。" % _qd)
         add("")
         add("- **你现在这一档（beta %.2f）的 %.2f%% 里，%.2f 个百分点是把闲置现金借出去挣的**"
-            "（占头条 %.0f%%）。就算逆回购掉到今天的 %.2f%% 不动，这本账还有 **%.2f%%**；"
+            "（占头条 %.0f%%）。就算逆回购掉到 %s 的 %.2f%% 不动，这本账还有 **%.2f%%**；"
             "就算现金一分利息都没有，也还有 **%.2f%%**——剩下来的钱来自选券，不是靠利息。"
             % (base["beta"], base["observed_pct"], base["carry_pp"],
                (100.0 * base["carry_pp"] / base["observed_pct"]) if base["observed_pct"] else 0.0,
-               rates.get("today_pct") or 0.0, base["flat_today_pct"], base["zero_pct"]))
+               _qw, rates.get("today_pct") or 0.0, base["flat_today_pct"], base["zero_pct"]))
         if base.get("pp_per_100bp") is not None and cr.get("flags", {}).get("carry_positive"):
-            add("- 利率每掉 100bp，这一档一年大约少 %.2f 个百分点（历史均值 %.2f%% -> 今天 %.2f%% 只差 %.0fbp，"
+            add("- 利率每掉 100bp，这一档一年大约少 %.2f 个百分点（历史均值 %.2f%% -> %s %.2f%% 只差 %.0fbp，"
                 "已经少赚约 %.2fpp）。这是个慢变量，不是每天看的东西。"
                 % (base["pp_per_100bp"], rates.get("observed_mean_pct") or 0.0,
-                   rates.get("today_pct") or 0.0,
+                   _qw, rates.get("today_pct") or 0.0,
                    100.0 * ((rates.get("observed_mean_pct") or 0.0) - (rates.get("today_pct") or 0.0)),
                    (base["observed_pct"] - base["flat_today_pct"])))
         if above:
@@ -7414,9 +7430,9 @@ def render_md(p, sb=None):
         if above and above[0].get("maxdd_pct") is not None and base.get("maxdd_pct") is not None:
             add("- 想要更多钱就得扛更多波动，这个页不替你选：档位从 %.2f 提到 %.2f，"
                 "回测年化 %.2f%% -> %.2f%%，代价是最大回撤 %.2f%% -> %.2f%%。"
-                "今天这份单是按 %.2f 档开的。"
+                "%s 这份单是按 %.2f 档开的。"
                 % (base["beta"], above[0]["beta"], base["observed_pct"], above[0]["observed_pct"],
-                   base["maxdd_pct"], above[0]["maxdd_pct"], base["beta"]))
+                   base["maxdd_pct"], above[0]["maxdd_pct"], _tkw, base["beta"]))
         idy = cr.get("identity") or {}
         win = cr.get("window") or {}
         add("- 这段窗口是 **%s 起**（%s ~ %s），就是这张票自己在跑的那段，不是全史；"
@@ -7937,7 +7953,8 @@ def render_md(p, sb=None):
         add(_sw_line)
     # r1235: was this book runnable in 2020, or does its return depend on funds
     # that were listed after the window opened?
-    for _ul_line in universe_lock_block(p.get("universe_lock") or {}):
+    for _ul_line in universe_lock_block(p.get("universe_lock") or {},
+                                        page_day=p.get("generated_for_date")):
         add(_ul_line)
     # r1247: the universe is picked by one number (a liquidity cut). Say where that number
     # came from, and say that what sits on it is the book's capacity, not its return.
@@ -9539,7 +9556,22 @@ def selftest():
     # sample-window block's last line -- once per lock line, dropping every lock line
     # from the page. A leg that reads the producer cannot testify for the consumer, so
     # this one renders the page and looks for the block the reader is promised.
-    _ul_lines = [l for l in universe_lock_block(page.get("universe_lock") or {})
+    # L120b (r1670): on a Saturday the page's day is not the bar the fund list was counted
+    # on, and this block printed "today's N funds" anyway. Same day keeps the word; another
+    # day names the bar -- and the ladder's first row follows the same rule. The block must
+    # also be called with the page's own day, or L120 below compares two different sentences.
+    _ul_asof = _ul.get("evidence_cutoff")
+    _ul_same_md = "\n".join(universe_lock_block(_ul, page_day=_ul_asof))
+    _ul_other_md = "\n".join(universe_lock_block(_ul, page_day="2099-01-01"))
+    chk("L120b universe lock: the fund list's day word names its own bar, not the reader's day",
+        bool(_ul_asof)
+        and ("不冻结（今天）" in _ul_same_md
+             and ("今天的 %s 只基金" % _ul.get("full_n")) in _ul_same_md)
+        and (("不冻结（%s）" % _ul_asof) in _ul_other_md
+             and "今天" not in _ul_other_md),
+        "asof=%s" % _ul_asof)
+    _ul_lines = [l for l in universe_lock_block(page.get("universe_lock") or {},
+                                                page_day=page.get("generated_for_date"))
                  if l.strip()]
     _ul_off = [l for l in _ul_lines if l not in md]
     chk("L120 universe lock: the block itself reaches the rendered page",

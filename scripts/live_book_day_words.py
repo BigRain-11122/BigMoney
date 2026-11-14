@@ -204,7 +204,14 @@ def census(doc, artifact=None, printed=_UNMEASURED):
     elif pr["state"] == "unreadable":
         ret["verdict"] = "UNVERIFIED_PRINTED_FACE"
     elif pr["state"] == "ok" and pr["n_lines"] and not ret["n_with_day_word"]:
-        ret["verdict"] = "PRINTED_BUT_UNANCHORED"
+        # r1670: "N printed lines say 今天 and the reader cannot date them" and "every printed
+        # line carries its own date" are two different debts, and both stay red -- nothing in
+        # this face checks that a printed date is the RIGHT date. Splitting the name is what
+        # lets the reader tell "still owed" from "paid, not yet audited".
+        if pr.get("n_undated") == 0 and pr.get("n_self_dated"):
+            ret["verdict"] = "PRINTED_SELF_DATED"
+        else:
+            ret["verdict"] = "PRINTED_BUT_UNANCHORED"
     elif ret["n_unverifiable"]:
         ret["verdict"] = "DAY_WORD_WITHOUT_A_BAR"
     elif not ret["n_with_day_word"] and pr["state"] == "ok" and not pr["n_lines"]:
@@ -222,6 +229,11 @@ def sentence(c):
     if c["verdict"] == "UNREADABLE":
         return c["sentence"]
     pr = c.get("printed") or {"state": "not_measured"}
+    if c["verdict"] == "PRINTED_SELF_DATED":
+        return ("**页面自己用的「今天/今日」有 %d 行，坐在 %d 个小节里；每一行都自带日期**"
+                "（结构面里 %d 节，日词 0 节）。这一面仍然核不到那些日期对不对——"
+                "自带日期只说明句子诚实，不说明那个日期是对的。"
+                % (pr["n_lines"], pr["n_headings"], c["n_sections"]))
     if c["verdict"] == "PRINTED_BUT_UNANCHORED":
         _u = pr.get("undated") or []
         _split = ("其中 **%d 行自己带了日期**（读者读得出它算哪一天），**%d 行没有**"
@@ -429,20 +441,42 @@ def selftest():
     # single total fails here instead of quietly losing the distinction.
     _p = ("# 今日 ETF 实盘单 —— 2026-11-14\n\n"
           "## 一句话\n\n**今天不用动手。**\n\n"
-          "## 下单清单（如果你今天才建仓）\n\n"
+          "## 下单清单（要是你现在才建仓）\n\n"
           "| 代码 | 期限 | 今日报价 |\n\n"
           "- 现金腿利息：**今天没有新 bar，账只记到 2026-11-13**。\n")
     c = census(clean, artifact="fixture/clean.json", printed=_p)
     _pr = c["printed"]
     leg("a printed today-word with no date beside it is named, with the heading it sits under",
-        _pr["n_undated"] == 3
-        and {r["heading"] for r in _pr["undated"]} == {"一句话", "下单清单（如果你今天才建仓）"}
+        _pr["n_undated"] == 2
+        and {r["heading"] for r in _pr["undated"]} == {"一句话", "下单清单（要是你现在才建仓）"}
         and "今天不用动手" in c["sentence"], _pr)
+    # r1670: the heading itself stopped borrowing 今天 for a hypothetical. The table row under
+    # it still carries 今日报价 (that is a real quote column, and the cash-ladder header dates
+    # it), so the split is judged per line, not per section.
+    leg("a hypothetical heading does not borrow the day word (the row under it still may)",
+        not any("如果你今天才建仓" in r["heading"] for r in _pr["rows"]), _pr)
     leg("a printed today-word that carries its own date is not counted as debt",
         _pr["n_self_dated"] == 2
         and not any(DATE_IN_TEXT.search(r["line"]) for r in _pr["undated"]), _pr)
     leg("the two buckets add up to the day-word lines (no line disappears in the split)",
-        _pr["n_self_dated"] + _pr["n_undated"] == _pr["n_lines"] == 5, _pr)
+        _pr["n_self_dated"] + _pr["n_undated"] == _pr["n_lines"] == 4, _pr)
+    # r1670: "N lines nobody can date" and "every line dates itself" both stay red here --
+    # nothing checks that a printed date is the right one -- so the name has to say which
+    # debt the page owes, or the reader cannot see that 7 lines became 0.
+    _p_all_dated = ("# 今日 ETF 实盘单 —— 2026-11-14\n\n"
+                    "## 一句话\n\n**今天没有新 bar，账只记到 2026-11-13。**\n")
+    _c_self = census(clean, artifact="fixture/clean.json", printed=_p_all_dated)
+    _c_owed = census(clean, artifact="fixture/clean.json", printed=_p)
+    leg("a paper whose every day word dates itself is a different debt from one that does not",
+        _c_self["verdict"] == "PRINTED_SELF_DATED"
+        and _c_owed["verdict"] == "PRINTED_BUT_UNANCHORED",
+        (_c_self["verdict"], _c_owed["verdict"]))
+    leg("the self-dated verdict still refuses to claim the dates were checked",
+        "核不到那些日期对不对" in _c_self["sentence"], _c_self["sentence"][:80])
+    leg("one undated line is enough to fall back to the owed name",
+        census(clean, artifact="fixture/clean.json",
+               printed=_p_all_dated + "\n**今天不用动手。**\n")["verdict"]
+        == "PRINTED_BUT_UNANCHORED", "")
     leg("a date on the paper is read as a date and not as a day-word verdict",
         _pr["rows"][0]["self_dated"] is True
         and _pr["rows"][0]["heading"] == "(页首)", _pr["rows"][0])
@@ -456,7 +490,7 @@ def selftest():
         leg("the published page has a verdict this face can state",
             c["verdict"] in ("ANCHORED", "NO_DAY_WORDS", "DAY_WORD_ON_ANOTHER_DAY",
                              "DAY_WORD_WITHOUT_A_BAR", "PRINTED_BUT_UNANCHORED",
-                             "UNVERIFIED_PRINTED_FACE"),
+                             "PRINTED_SELF_DATED", "UNVERIFIED_PRINTED_FACE"),
             c["verdict"])
         leg("the published page's verdict agrees with its own head line",
             (c["verdict"] in CLEAN) == (not c["offenders"]
