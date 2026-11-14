@@ -53,6 +53,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import sys
 import time
 
@@ -61,6 +62,8 @@ sys.path.insert(0, ROOT)
 sys.path.insert(0, os.path.join(ROOT, "scripts"))
 
 DAY_WORDS = ("今天", "今日", "今晚")
+# A line that carries its own date tells the reader which day it means (r1669).
+DATE_IN_TEXT = re.compile(r"20\d{2}-\d{2}-\d{2}")
 FACE = os.path.join(ROOT, "results", "live_book_day_words.json")
 POINTER = os.path.join(ROOT, "docs", "live_book", "latest.json")
 
@@ -96,19 +99,34 @@ def _hits(section):
 
 
 def _printed_census(text):
-    """Day-word lines on the paper a reader opens, grouped by the heading they sit under."""
+    """Day-word lines on the paper a reader opens, grouped by the heading they sit under.
+
+    r1669: "there are 20 such lines and nobody can date them" was the whole finding, and it
+    left the reader with nothing to act on. The paper itself already distinguishes two
+    cases: a line that names a date beside its today-word ("今天的 1.26%（2026-11-13 报价）",
+    "今天没有新 bar，账只记到 2026-11-13") tells the reader which day it means; a line that
+    does not ("| 今日报价 |" on a morning when the quote column is Friday's close) does not.
+    The first is still not *anchored* -- nothing here can check the date is the right one --
+    but it is self-dating, and the second is the debt. Splitting the two is what makes the
+    count actionable, so each row carries `self_dated` and the undated ones are named.
+    """
     rows = []
     heading = "(页首)"
     for line in (text or "").split("\n"):
         if line.startswith("## "):
             heading = line[3:].strip()[:46]
         if any(w in line for w in DAY_WORDS):
-            rows.append({"heading": heading, "line": line.strip()[:180]})
+            shown = line.strip()[:180]
+            rows.append({"heading": heading, "line": shown,
+                         "self_dated": bool(DATE_IN_TEXT.search(shown))})
     heads = []
     for r in rows:
         if r["heading"] not in heads:
             heads.append(r["heading"])
+    undated = [r for r in rows if not r["self_dated"]]
     return {"state": "ok", "n_lines": len(rows), "n_headings": len(heads),
+            "n_self_dated": len(rows) - len(undated), "n_undated": len(undated),
+            "undated": undated[:40],
             "headings": heads[:12], "rows": rows[:40]}
 
 
@@ -205,10 +223,18 @@ def sentence(c):
         return c["sentence"]
     pr = c.get("printed") or {"state": "not_measured"}
     if c["verdict"] == "PRINTED_BUT_UNANCHORED":
-        return ("**页面自己用的「今天/今日」有 %d 行，坐在 %d 个小节里；可它们的句子不是从结构面"
-                "抄来的，是渲染时写出来的——这一面核不到它们算哪一天**（结构面里 %d 节，"
-                "日词 0 节）。所以这不是「没有日词」，是「有，且没人能给它定日」。"
-                % (pr["n_lines"], pr["n_headings"], c["n_sections"]))
+        _u = pr.get("undated") or []
+        _split = ("其中 **%d 行自己带了日期**（读者读得出它算哪一天），**%d 行没有**"
+                  % (pr.get("n_self_dated", 0), pr.get("n_undated", 0)))
+        if _u:
+            _split += "——没有的那几行是：%s%s" % (
+                "、".join("「%s」里的一句 `%s`" % (r["heading"], r["line"][:40])
+                         for r in _u[:4]),
+                "…" if len(_u) > 4 else "")
+        return ("**页面自己用的「今天/今日」有 %d 行，坐在 %d 个小节里；这一面核不到它们算哪一天**"
+                "（结构面里 %d 节，日词 0 节）。%s。自带日期只说明句子诚实，不说明那个日期是对的。"
+                "所以这不是「没有日词」，是「有，且没人能给它定日」。"
+                % (pr["n_lines"], pr["n_headings"], c["n_sections"], _split))
     if c["verdict"] == "UNVERIFIED_PRINTED_FACE":
         return ("页面件读得出来（%d 节），但**印出来的那张纸读不到**——"
                 "「没核到」不是「没有」。"
@@ -288,14 +314,18 @@ def check():
     c = census(doc, artifact=rel, printed=printed)
     pr = c.get("printed") or {}
     print("verdict %s | page %s | sections %d | day-word sections %d | anchored %d | "
-          "offenders %d | unverifiable %d | printed %s %s lines / %s headings"
+          "offenders %d | unverifiable %d | printed %s %s lines / %s headings "
+          "(self-dated %s / undated %s)"
           % (c["verdict"], c.get("page_day") or "?", c["n_sections"],
              c["n_with_day_word"], c["n_anchored"], len(c["offenders"]),
              c["n_unverifiable"], pr.get("state"),
-             pr.get("n_lines", "-"), pr.get("n_headings", "-")))
+             pr.get("n_lines", "-"), pr.get("n_headings", "-"),
+             pr.get("n_self_dated", "-"), pr.get("n_undated", "-")))
     print(c["sentence"])
     for h in (pr.get("headings") or []):
         print("  PRINTED-UNDER %s" % h)
+    for r in (pr.get("undated") or []):
+        print("  UNDATED %s | %s" % (r["heading"], r["line"]))
     for r in c["offenders"]:
         print("  OFFENDER %s bar=%s words=%s" % (r["key"], r["bar"], ",".join(r["words"])))
         for s in r.get("sample") or []:
@@ -392,6 +422,31 @@ def selftest():
     leg("a caller that never measured the printed page is not claiming it is clean",
         c["verdict"] == "NO_DAY_WORDS" and c["printed"]["state"] == "not_measured", c)
 
+    # r1669: "20 lines, nobody can date them" was the whole finding and it left the reader
+    # nothing to act on. The paper already splits those lines in two -- one kind names a date
+    # beside its today-word, the other does not -- and only the second kind is the debt. Each
+    # leg below pins one half of that split, so a future edit that turns it back into a
+    # single total fails here instead of quietly losing the distinction.
+    _p = ("# 今日 ETF 实盘单 —— 2026-11-14\n\n"
+          "## 一句话\n\n**今天不用动手。**\n\n"
+          "## 下单清单（如果你今天才建仓）\n\n"
+          "| 代码 | 期限 | 今日报价 |\n\n"
+          "- 现金腿利息：**今天没有新 bar，账只记到 2026-11-13**。\n")
+    c = census(clean, artifact="fixture/clean.json", printed=_p)
+    _pr = c["printed"]
+    leg("a printed today-word with no date beside it is named, with the heading it sits under",
+        _pr["n_undated"] == 3
+        and {r["heading"] for r in _pr["undated"]} == {"一句话", "下单清单（如果你今天才建仓）"}
+        and "今天不用动手" in c["sentence"], _pr)
+    leg("a printed today-word that carries its own date is not counted as debt",
+        _pr["n_self_dated"] == 2
+        and not any(DATE_IN_TEXT.search(r["line"]) for r in _pr["undated"]), _pr)
+    leg("the two buckets add up to the day-word lines (no line disappears in the split)",
+        _pr["n_self_dated"] + _pr["n_undated"] == _pr["n_lines"] == 5, _pr)
+    leg("a date on the paper is read as a date and not as a day-word verdict",
+        _pr["rows"][0]["self_dated"] is True
+        and _pr["rows"][0]["heading"] == "(页首)", _pr["rows"][0])
+
     # The published page must go through the same function the fixtures do, on both papers.
     doc, rel, printed_text, err = _read()
     if err:
@@ -411,6 +466,11 @@ def selftest():
         leg("the printed page really was opened (a census with no paper is not a census)",
             c["printed"]["state"] == "ok" and c["printed"].get("n_headings", 0) >= 0
             and printed_text is not None, c["printed"].get("state"))
+        # r1669: a debt that is named must be quoted from the paper, not composed here.
+        leg("every undated line this face names is a line the paper actually prints",
+            all(r["line"] in printed_text for r in (c["printed"].get("undated") or []))
+            if printed_text else True,
+            [r["line"][:40] for r in (c["printed"].get("undated") or [])][:3])
     print("selftest %d/%d" % (ok, total))
     return 0 if ok == total else 1
 

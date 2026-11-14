@@ -1923,7 +1923,6 @@ PAGE_DAY_LEDGER = {
     "positions_block": ("reader_day", "同段已有两日对比句；「今天没有新 bar」是 bar 语境"),
     "universe_lock_block": ("owed", "「今天的 %s 只基金」是锁面自己的名单名册，不是读者今天"),
     "capital_block": ("owed", "「今天这张可执行单」是票据那天的单，票面日与页面日常常不同"),
-    "lookahead_block": ("reader_day", "该句是口径说明（今天收盘买今天开盘），不指任何一天"),
     "section_bars_block": ("reader_day", "该句是否定式说明（不是今天的仓位），不宣称任何日"),
     "feed_lag_block": ("reader_day", "该句本身就是拿「今天」与页面 bar 对账的那句"),
 }
@@ -2001,6 +2000,20 @@ def day_word(page_day, bar, today="今天"):
 def day_word_adj(page_day, bar, adjective="今天的"):
     """The attributive form: 今天的 / <bar> 的."""
     return adjective if day_word(page_day, bar) == "今天" else "%s 的" % str(bar)[:10]
+
+
+def cash_ladder_header(page_day, as_of):
+    """The ladder's quote column names its own bar, or says 今天 only when that is the page's day.
+
+    r1669: on a Saturday this column printed Friday's close under the word 今日报价, and a
+    reader who wanted to know whether the rate beside it was live had nothing to read. The
+    decision is already implemented once (`day_word`, r1668), so the header borrows it rather
+    than holding another copy of the same three lines.
+    """
+    w = day_word(page_day, as_of)
+    cell = "今天报价" if w == "今天" else "%s 报价" % w
+    return ("| 代码 | 期限 | %s | 过去 1 年实盘年化 | 比一天期 | 一年滚几次 | 空转天/年 | 一年约赚 |"
+            % cell)
 
 
 def floor_provenance_face(path=FLOOR_PROVENANCE_JSON):
@@ -4509,7 +4522,7 @@ def lookahead_block(lk):
     a missing / drifted / ok face instead of trusting the render path by eye."""
     L = []
     add = L.append
-    add("## 上面那张表的口径，是在用今天的收盘价买今天的开盘")
+    add("## 上面那张表的口径：信号和成交都落在同一日之内")
     add("")
     if (lk or {}).get("status") != "ok":
         add("这一页没有拿到时点体检面的可用读数（`%s`，状态 `%s`）：%s。"
@@ -6794,7 +6807,7 @@ def render_md(p, sb=None):
                 else "这本账回测的收益（全窗口径本期未发表）"
             _tail = ("所以今天要动，但不是每天都跟着重下——纪律是「只在换仓日动」。"
                      if act.get("trade_day_is_today")
-                     else "所以「今天不动」不是懒惰，是这条纪律的一部分。")
+                     else "所以不跟着每天重下，不是懒惰，是这条纪律的一部分。")
             add("")
             add("（照这份清单每天重下一遍的代价：单边 %s bp、进出两边、一年按 %d 个交易日、账内占比 %.1f%%，"
                 "一年约 **%.1f%% 的资本**——比%s还高。%s）"
@@ -6930,7 +6943,7 @@ def render_md(p, sb=None):
         add("逆回购报价是年化，所以「期限越长利率越高」不等于「赚得更多」——一天的腿季末会飙高，"
             "长的腿到期撞周末还会空转。按这些面板自己的日历逐条滚出来：")
         add("")
-        add("| 代码 | 期限 | 今日报价 | 过去 1 年实盘年化 | 比一天期 | 一年滚几次 | 空转天/年 | 一年约赚 |")
+        add(cash_ladder_header(p.get("generated_for_date"), cl.get("as_of")))
         add("|---|---|---|---|---|---|---|---|")
         for r in rows_l:
             r1 = (r.get("realized") or {}).get("1") or {}
@@ -10376,6 +10389,20 @@ def selftest():
         and ("%s能拿到的" % _cm_date) in _cm_later,
         "same_today=%s later_names=%s"
         % ("今天的报价" in _cm_same, ("%s 的报价" % _cm_date) in _cm_later))
+    # r1669: the same defect in a table header -- on a Saturday this column printed Friday's
+    # close under the words 今日报价, and the reader comparing it with the ticket's date had
+    # to guess whether the two numbers came from the same session.
+    _cl_same = cash_ladder_header("2026-11-13", "2026-11-13")
+    _cl_later = cash_ladder_header("2026-11-14", "2026-11-13")
+    chk("L267 cash ladder: the quote column says 今天 on its own day and names the bar after",
+        "今天报价" in _cl_same and "2026-11-13" not in _cl_same
+        and "今天" not in _cl_later and "2026-11-13 报价" in _cl_later
+        and _cl_later.count("|") == _cl_same.count("|") == 9,
+        "same=%r later=%r" % (_cl_same[:30], _cl_later[:30]))
+    chk("L268 cash ladder: with no day on either side the old word stands, no date is invented",
+        "今天报价" in cash_ladder_header(None, "2026-11-13")
+        and "今天报价" in cash_ladder_header("2026-11-14", None),
+        "%r" % (cash_ladder_header("2026-11-14", None)[:30],))
     try:
         try:
             from scripts import live_book_day_words as _DW
