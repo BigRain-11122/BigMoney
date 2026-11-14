@@ -565,6 +565,64 @@ def check(out_path=None):
     return 0 if not bad else 1
 
 
+def read_published(path=None):
+    """What this face says, for faces that only format it (the CEO page).
+
+    Single implementation on purpose: a consumer that re-parses the ladder or re-derives
+    the verdict becomes a second source of truth the moment either side is edited. Four
+    states, because two of them are answers and two of them are not:
+
+      current    -- the two receipts this face priced are still the ones on disk
+      stale      -- a receipt moved (newer bar, or the same bar with new bytes): the face
+                    advises on a sheet that no longer exists and the chain reprices it
+      unknown    -- the face never recorded what it priced (written before the gate)
+      unreadable -- absent or broken: never reads as "nothing owed today"
+    """
+    path = path or OUT
+    try:
+        with open(path, encoding="utf-8") as fh:
+            d = json.load(fh)
+    except Exception as exc:                                  # noqa: BLE001
+        return {"status": "unreadable", "artifact": path,
+                "detail": "cannot read the face (%s)" % str(exc)[:120]}
+    live = None
+    try:
+        live = inputs_block()
+        state = staleness(d.get("inputs"), live)
+    except Exception as exc:                                  # noqa: BLE001
+        state = "unknown"
+    why = None
+    if state == "unknown":
+        why = "this face never recorded the receipts it priced"
+    stale = []
+    if state == "stale" and live:
+        for name, now in live.items():
+            was = (d.get("inputs") or {}).get(name) or {}
+            if (now.get("digest") != was.get("digest")
+                    or str(now.get("cutoff") or "") != str(was.get("cutoff") or "")):
+                stale.append(name)
+    dec = d.get("decision") or {}
+    table = list(dec.get("table") or [])
+    return {
+        "status": state,
+        "artifact": path,
+        "why": why,
+        "stale_receipts": stale,
+        "evidence_cutoff": d.get("evidence_cutoff"),
+        "capital_cny": d.get("capital_cny"),
+        "question": d.get("question"),
+        "verdict": dec.get("verdict"),
+        "sentence": dec.get("sentence"),
+        "table": table,
+        "best_k": dec.get("best_k"),
+        "today_cost_cny": dec.get("today_cost_cny"),
+        "trim_owed": dec.get("trim_owed"),
+        "one_open_late": dec.get("one_open_late"),
+        "max_k": max([int(r.get("k") or 0) for r in table] or [0]),
+        "inputs": d.get("inputs") or {},
+    }
+
+
 def main(argv):
     cmd = argv[1] if len(argv) > 1 else "run"
     if cmd == "selftest":

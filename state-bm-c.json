@@ -1,7 +1,7 @@
 {
  "activity": "product",
- "activity_now": "r1658: the derisk family was already priced and refused, the CEO page never cited it -- the page now prints the refusal, its closest rule and the direction every de-risk rule moves the concentration line",
- "activity_now_round": 1658,
+ "activity_now": "r1659: the page answered 'what do I do today' and 'what fills at the open' but never 'is today even the cheapest day' -- that ladder was priced with 13/13 legs green and had no reader; it now prints its own numbers and refuses to print them when its receipts moved",
+ "activity_now_round": 1659,
  "agenda_starved": false,
  "ahead_origin": 0,
  "arm_repricing": {
@@ -53,7 +53,7 @@
   "state": "registered (FOUND)",
   "task": "HQ-ProductionClaim"
  },
- "clock_read": "2026-11-14T04:24:14+08:00",
+ "clock_read": "2026-11-14T08:44:34+08:00",
  "codely_live_count": 2,
  "comfy_free_vram_mb": 14015,
  "cores": 32,
@@ -886,7 +886,7 @@
  "recent_artifact": "results/etf_premium/PREMIUM-2026-11-12.md",
  "round": 1630,
  "round_label": "r1630",
- "round_no": 1657,
+ "round_no": 1659,
  "round_no_label": "1572",
  "round_no_landed": 1492,
  "round_note": "r1489: a reinstated bar is re-derived from the panel, not carried over (reinstatement_check + reinstatements.json + sheet paragraph)",
@@ -1225,8 +1225,10 @@
  "round_t1658_next": "next (P0): sweep the same 'a refused road must reach the reader' check across the other published-but-unread verdict faces (commodity sleeve gate / holding-period family / momentum variants) -- each one either gets a named reader or says on the face that no reader exists; second: after 15:30 Monday the 11-16 close reprices the same 5 names, confirm the new section's date line follows the face rather than the page.",
  "round_t1658_note": "| 2026-11-14 08:00-08:2x | 1658 | **PRODUCT（产品优先律·watermark=insufficient_history 无红）：CEO 页连着三节说「没有一档过闸」「换日历也过不了」，然后停在那里——读者的下一句必然是「那只在坏状态下减仓呢」，而这族规则 11-14 凌晨已经跑过并封死（四条规则、阈值预注册未搜索、五条日历、链里有 check 腿、smoke 两腿全绿），唯独 CEO 页一个字没引。**页面的沉默被读成一个空集**：没有答案＝没人试过＝值得再烧一轮。**修**：新增一节，数字全部从 `results/etf_book_derisk_rule/DERISK-RULE.json` 抄、不重算（E288 同实现）：①4 条规则无一同时过年度闸与买到回撤（answer=NO_RULE_CLEARS_BOTH，回撤改善 0.00～5.48pp，年化合计让出 8.7～29.5pp）；②最接近的 vt08 差 **0.39pp**，但它在 5 条日历里**只是部分日历过闸**（phase_dependent）→按 r1325 不是一条规则；③dd_brake 五条日历**全在闸线外**（74.1%～91.8%），不是「再等几年」；④最值钱的一句是**方向**：每一条减仓规则都把 top-2 年占比往上涨（+2.2～+11.3pp）——分母是各年净收益之和，把书变小分母掉得比分子快，所以「减仓＝更安全」在这条判据上是反的。**自检 297→302/302**（新 5 腿：读不出不得读成「没人试过」／计数与差额逐项来自面／「不是规则」由相位表挣得／方向句跟着 delta_top2 走／某行翻负时整句必须变）。**实证**：页面重生成（bm-a 心跳静默 9.0h>6.0h 接管门，页面自报 WRITING AS bm-c），带日期节 **54→55**、无日期仍 2（sources/authority 按设计）；`s6_chain --only etf_book_ceo_page,live_book_section_bars` **2/2 rc0**。**S0**：identity=bm-c｜orphans=1（集团 `Tools/fleet/agent.py --node b`，非本司只读不杀）｜起手 **ahead=1**（上一窗 r1657b 已提交未推，本轮首动作推上 origin：74f5cb10e4..f2c3133d48）｜树脏 344 件＝车道派生面，本窗只定向提交自有件。**S0.5**：`s05_probe` orders_delta=false／decisions_delta=false／unacked=[] rc0。**S1**：全量套件 08:01 起、08:2x 收口 **578/578 PASS 0 FAIL**（`logs/smoke_r1658.log`）——但套件起跑早于本窗改件，其内 ceo_page 腿印的是旧版 297/297，本窗改件由独立自检 302/302 覆盖（如实）。**S6**：`pool_dualrun_reconcile` ZERO-DRIFT（744 项·streak 51）／`attrition` 4 账本 **CLEAN**（修前 2 处历史缩行 healed，主账 gate_attrition.bm-a heal）／`py_watermark` insufficient_history（py 0%·套件在飞）／`update_daily` rc0 **0 新行**（cutoff 2026-11-13，周六合法 no-op）。**S7**：loop pin=5 **no-op**（首火 08:25 未动）／watchdog 重建成功但 **S4U 第二十四轮被拒（拒绝访问·需管理员）**／pre-commit 与 pre-push 两爪 LF 归一 **MATCH**（零重装）。**CEO 过程可见面**：当前活＝把「已经封死的路」印到读者面前，让下一轮不再重买同样的算术｜最近实物＝`docs/live_book/LIVE-BOOK-20261114.md` 新节「只在坏状态下减仓呢」（4 条规则逐条数字＋方向句）＋`scripts/etf_book_ceo_page.py`（自检 302/302）＋卡 E619｜下个里程碑＝把同一对账法扫一遍其余「已封死」判决面（涨幅/持有期/商品袖三族），每族要么在读者面点名、要么在面上标「无读者」（窗 ≤48h）。**记账**：本行 1 处（+卡 E619 一处，属捕获律收口）。**未验证（如实）**：全量套件未覆盖本窗改件；新节在真实换仓日（12-09）尚未见过一次「明天就动手」的对照。",
  "round_t1658b_addendum": "| 2026-11-14 08:2x | 1658b | **ADDENDUM（收尾）：送达与两扫。** 轮提交 **5f457730ff** 已落 origin/main（f2c3133d48..5f457730ff，12 件 +402/−44），fetch 后 **0 ahead / 0 behind**（本地未达 origin commit 数=0）。**S0.5 收尾二扫**：orders_delta=false／decisions_delta=false／unacked=[] rc0。**孤儿面**=1（集团 `Tools/fleet/agent.py --node b`，非本司面只读不杀；py_faces=4）。**记账**：本行 1 处。",
- "rounds": 1658,
- "rounds_done": 1658,
+ "round_t1659_next": "next (P0): the same 'priced but unread' sweep one level out -- results/etf_book_band_ruler.json already says the rows are three rulers (window +4.91pp / universe +0.44pp / ordering -0.56pp on the book the operator holds); check whether the page's own expectation table names those three dials per row or only in a footnote. Second: Monday 11-16 after 15:30 the 5 names reprice -- confirm this new section's ladder follows the receipts (it should turn stale the moment cut_order_gap moves).",
+ "round_t1659_note": "PRODUCT（产品优先律·watermark=py_low_with_work_cands 无红）：CEO 页连印了『今天不用动手』『下一个动手日 12-09』『开盘要成交什么』，但**从来没有印过**『真要动手的那天，是当天做还是等几根 bar 更便宜』。这一问 11-14 凌晨就算完了（results/etf_book_do_or_wait.json：k=1..10 的等待梯子 + 单张硬币披露，链里有 do_or_wait 腿、自检 13/13 全绿），**页面上一个字都没有**——E240 族『有产无读』，而这里的沉默会被读成『没人试过，值得再烧一轮』。修法：①在 etf_book_do_or_wait.py 加单一实现 read_published()（四态 current/stale/unknown/unreadable，把它定价用的两张收据 cut_order_gap + late_sheet_price 的字节一起核；stale 是『这张面在给另一张单提建议』，不是『面坏了』）；②CEO 页新节「今天动手，还是等几天？」接在『开盘要成交的是什么』之后——判词、梯子每一档、单张硬币全部从面抄，页面不重算；③自检 302→309/309（7 腿：接线/逐档来自面/陈旧时一档都不印/未知不得读成『今天没有到期的事』/不可读不得印判决/两种判词不得同页/真面必须 current）。**实读**：今天 NOTHING_OWED_TODAY（没有到期的事），基准=什么都不做；真要动手时今天是最便宜的一档，等 1/2/3/5/10 根 bar 分别是 **+1798 / +2638 / +2912 / +4071 / +4025 CNY**；单张单子晚一根 bar 的中位数是 **-932 CNY**，**41%** 的情况里等待其实更好（t=-4.57）——均值定价了，一张单子仍是硬币。页面实读（11-13 收盘）：5 单合计 **¥431,770** + 现金 **¥568,230** 进 GC001，下一个动手日 **2026-12-09**。",
+ "rounds": 1659,
+ "rounds_done": 1659,
  "rounds_note": "r1657",
  "s05_scan": {
   "consumed": "no new orders or decisions this round -> zero action",
@@ -1243,11 +1245,11 @@
   "second_scan": "06:14 both true"
  },
  "s6_chain": {
-  "legs": "pool_dualrun_reconcile ZERO-DRIFT (744 entries, streak 51) | attrition 4 ledgers CLEAN (2 historical shrinks healed) | py_watermark insufficient_history | update_daily rc0 0 new rows (cutoff 2026-11-13, Saturday no-op)",
+  "legs": "pool_dualrun_reconcile ZERO-DRIFT (744 entries, streak 51) | attrition 4 ledgers CLEAN (3 historical shrinks healed) | py_watermark py_low_with_work_cands (py 3.3%, 1 local batch = the smoke suite in flight) | update_daily rc0 0 new rows (cutoff 2026-11-13, Saturday no-op)",
   "note": "full suite in flight while S6 ran, so only the read-only and cheap legs were taken"
  },
- "s7_notes": "loop pin=5 no-op (first fire 07:10) | watchdog in place (next 07:13) | both claws CR-normalized MATCH | attrition 4 ledgers CLEAN (3 historical shrinks healed)",
- "smoke": "578/578 PASS 0 FAIL (logs/smoke_r1658.log; started 08:01 before this window's edits)",
+ "s7_notes": "loop pin=5 no-op (first fire 08:45) | watchdog re-registered (S4U flip refused again, needs an elevated shell) | both claws CR-normalised MATCH (zero reinstall)",
+ "smoke": "578/578 PASS 0 FAIL (logs/smoke_r1659.log; started 08:26, closed ~08:44 -- the ceo_page leg inside it printed the previous generation's 302/302 because it ran before this window's edits)",
  "smoke_closed": {
   "closed_at": "2026-11-14T06:57:54+08:00",
   "fail": 0,
@@ -1258,7 +1260,7 @@
   "started": "2026-11-14T06:39:00+08:00",
   "wall_clock_s": 855.7
  },
- "smoke_out": "logs/smoke_r1658.log",
+ "smoke_out": "logs/smoke_r1659.log",
  "smoke_r1621_out": "results/_smoke_r1621.out",
  "smoke_r1623_out": "results/_smoke_r1623.out",
  "smoke_r1625_closed": {
@@ -1276,18 +1278,18 @@
   "ahead_origin": 0,
   "behind_origin": 0
  },
- "task": "r1658: the third road (de-risk only in bad states) was priced and refused -- the CEO page now prints the refusal with its own numbers",
+ "task": "r1659: do-or-wait was a priced verdict with no reader on the page the CEO actually opens",
  "total_ram_gb": 23.9,
- "ts": "2026-11-14T08:23:07+08:00",
+ "ts": "2026-11-14T08:44:34+08:00",
  "update_daily": "rc0 0 new rows, cutoff 2026-11-13 (Saturday, before the 15:30 guard)",
- "updated": "2026-11-14T08:23:07+08:00",
- "updated_at": "2026-11-14T08:23:07+08:00",
- "verdict": "green / insufficient_history (no red)",
- "verify": "etf_book_ceo_page selftest 302/302 (+5 legs L234-L238) | page run rc0 53.6s (WRITING AS bm-c, bm-a silent 9.0h > 6h gate) | live_book_section_bars 55 dated / 2 by-design undated | s6_chain --only etf_book_ceo_page,live_book_section_bars 2/2 rc0 | full suite 578/578 PASS 0 FAIL (logs/smoke_r1658.log, started before the edits)",
+ "updated": "2026-11-14T08:44:34+08:00",
+ "updated_at": "2026-11-14T08:44:34+08:00",
+ "verdict": "green / py_low_with_work_cands (no red; py 3.3% because the smoke suite is the one live batch)",
+ "verify": "etf_book_ceo_page selftest 309/309 (+7 legs L234-L240) | page run rc0 (5 names, book 431,770, cash 568,230, next 2026-12-09) | new section present at line 4457 of LIVE-BOOK-20261114.md with the face's own numbers (+1798/+2638/+2912/+4071/+4025, -932, 41%, t=-4.57) | s6_chain --only do_or_wait,etf_book_ceo_page,ceo_page_ticket_days,ceo_page_card_days,live_book_section_bars 5/5 rc0 | do_or_wait check 13/13 | zh_page_prose_census 6 hits/0 new | reader_text_audit rc0",
  "verify_selftest": "do_or_wait 20/20 (5 new three-state legs: current / newer bar / same bar new bytes / no record / unreadable) ; late_sheet_price 10/10",
  "verify_smoke": "full suite started 07:14 (pythonw pid 31124 -> results/_smoke_r1615.out); 478+ lines, no FAIL seen, not closed at round end; modules changed mid-run so the closing numbers are the previous generation",
  "verify_smoke_closed": "full suite started 07:14 closed 576/576 PASS 0 FAIL, wall clock 852.9s over 574 legs; started before the two module edits, so the ceo_page leg inside it printed the previous generation's 260/260 (new legs L214/L215 verified by selftest 262/262)",
  "vram_free_gb": 14.5,
- "watermark_verdict": "insufficient_history",
+ "watermark_verdict": "py_low_with_work_cands",
  "went_well": "the page had been saying 'no rung works' and 'no calendar works' and then stopping; the third road a reader reaches for was priced nine hours earlier and never cited"
 }

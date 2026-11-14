@@ -65,6 +65,10 @@ UNIVERSE_LOCK_JSON = os.path.join(ROOT, "results", "etf_book_universe_lock.json"
 EXIT_LIQ_JSON = os.path.join(ROOT, "results", "etf_book_exit_liquidity.json")
 FORCED_HOLD_JSON = os.path.join(ROOT, "results", "etf_book_forced_hold.json")
 MIN_CAPITAL_JSON = os.path.join(ROOT, "results", "etf_book_min_capital.json")
+# r1659: the page answers "what do I do today" and "what fills at the open", but never
+# "is today even the cheapest day to do it". That question was priced (k=1..10 ladder +
+# the single-sheet coin flip) and had no reader on the page at all.
+DO_OR_WAIT_JSON = os.path.join(ROOT, "results", "etf_book_do_or_wait.json")
 # r1247: the whole universe is picked by one number -- a 20M median-turnover cut. Nobody had
 # swept that number inside this book, so a reader could not tell whether it is a result or an
 # inheritance, nor that what sits on it is the book's CAPACITY (how many names it may hold),
@@ -622,6 +626,33 @@ def vol_window_edge_face(path=VOLWIN_EDGE_JSON):
                 "detail": "reader failed (%s)" % str(exc)[:120]}
     try:
         return _VWE.read_published(path=path)
+    except Exception as exc:                                    # noqa: BLE001
+        return {"status": "unreadable", "artifact": path, "verdict": None,
+                "detail": "reading failed (%s)" % str(exc)[:120]}
+
+
+def do_or_wait_face(path=DO_OR_WAIT_JSON):
+    """Today, or is waiting cheaper? (r1659)
+
+    The page says what to hold, what fills at the open and what the next rebalance date is.
+    The one question in between -- "should this sheet be done today, or is a few bars of
+    waiting cheaper?" -- was priced (k=1..10 ladder plus the single-sheet coin flip) and
+    never reached the page. That is the E240 shape: a published verdict with no reader.
+
+    Single implementation: the ladder, the verdict and the coin flip come from
+    `etf_book_do_or_wait.read_published()`, which re-checks the two receipts the face was
+    priced on. A stale/unknown/unreadable face reads as "cannot verify here" -- never as
+    "nothing owed today"."""
+    scripts_dir = os.path.dirname(os.path.abspath(__file__))
+    if scripts_dir not in sys.path:
+        sys.path.insert(0, scripts_dir)
+    try:
+        import etf_book_do_or_wait as _DW
+    except Exception as exc:                                    # noqa: BLE001
+        return {"status": "unreadable", "artifact": path, "verdict": None,
+                "detail": "reader failed (%s)" % str(exc)[:120]}
+    try:
+        return _DW.read_published(path=path)
     except Exception as exc:                                    # noqa: BLE001
         return {"status": "unreadable", "artifact": path, "verdict": None,
                 "detail": "reading failed (%s)" % str(exc)[:120]}
@@ -4063,6 +4094,89 @@ def vol_window_edge_block(ve):
 
 
 
+def do_or_wait_block(dw):
+    """Page lines: is today the cheapest day to do this sheet? (r1659)
+
+    Factored out so a selftest can feed a stale / unknown / unreadable face instead of
+    trusting the render path by eye. Every number here is the face's own; the page only
+    formats. The single-sheet coin flip is printed next to the mean, never averaged in."""
+    L = []
+    add = L.append
+    head = "## 今天动手，还是等几天？"
+    dw = dw or {}
+    if dw.get("status") == "unreadable" or not dw:
+        add(head)
+        add("")
+        add("- **无法核验**：这张面读不出来（%s）。缺这一节不等于「今天动手最便宜」，"
+            "也不等于「应该等」——先修面。" % (dw.get("detail") or "本页没有读到面"))
+        add("")
+        return L
+    st = dw.get("status")
+    if st in ("stale", "unknown"):
+        if st == "stale":
+            why = ("它定价时用的收据已经换了（%s）；这张面给的是另一张单的建议"
+                   % ("、".join(dw.get("stale_receipts") or []) or "收据字节变了"))
+        else:
+            why = dw.get("why") or "这张面没记下它定价用的收据"
+        add(head)
+        add("")
+        add("- **无法核验**：%s。链会按新收据重算这张面，这一节等它。" % why)
+        add("")
+        add("> 面：`%s`" % _rel(dw.get("artifact") or DO_OR_WAIT_JSON, ROOT).replace(os.sep, "/"))
+        add("")
+        return L
+
+    table = list(dw.get("table") or [])
+    one = dw.get("one_open_late") or {}
+    verdict = dw.get("verdict") or "UNKNOWN"
+    add(head)
+    add("")
+    if verdict == "NOTHING_OWED_TODAY":
+        add("- 今天**没有到期的事**（这张单按它自己的额度下单），所以基准是「什么都不做」；"
+            "下面问的是另一件事：**真要动手的那天，是当天做，还是等几根 bar 更便宜**。")
+    elif verdict == "DO_TODAY":
+        add("- 判决：**今天动手**——按面自己重算，等任何一档都不比今天便宜。")
+    elif str(verdict).startswith("WAIT_") and "NOT_SEPARABLE" not in verdict:
+        add("- 判决：**等 %s 根 bar 更便宜**，且这个差在均值和零分得开。" % dw.get("best_k"))
+    else:
+        add("- 判决：**等看起来更便宜，但分不开零**——不能当规则用。")
+    add("")
+
+    if table:
+        add("| 等几根 bar | 比今天贵 / 便宜（CNY） | 其中持仓成本（CNY） | t | 等反而更好的比例 |")
+        add("|---|---|---|---|---|")
+        for r in table:
+            k = r.get("k")
+            cost = r.get("cost_cny_vs_today")
+            carry = r.get("carry_cny")
+            t = r.get("t")
+            share = r.get("share_late_helps")
+            add("| %s | %s | %s | %s | %s |"
+                % ("**今天（基准）**" if r.get("baseline") else str(k),
+                   "0" if r.get("baseline") else
+                   ("%+.0f" % cost if cost is not None else "—"),
+                   "%+.0f" % (carry or 0.0) if carry is not None else "—",
+                   ("%+.2f" % t) if t is not None else "—",
+                   ("%.0f%%" % (100.0 * share)) if share is not None else "—"))
+        add("")
+
+    if one:
+        add("- **单张单子是硬币，不是均值**：晚一根 bar 再开，中位数那张单是 "
+            "**%+.0f CNY** 的净值，而 **%.0f%%** 的情况里等待其实更好（t=%s）。"
+            "均值已经定价，但一张单子仍是五五开——不要把这一节当「一定该等 / 一定别等」。"
+            % (one.get("median_cny") or 0.0,
+               100.0 * (one.get("share_late_helps") or 0.0),
+               ("%.2f" % one["t"]) if one.get("t") is not None else "n/a"))
+        add("")
+    add("> 面：`%s` ｜ 计价截止 %s ｜ 资本 %s CNY ｜ k=1..%d ｜ 两张收据都还是它定价时那两张 = **current**"
+        % (_rel(dw.get("artifact") or DO_OR_WAIT_JSON, ROOT).replace(os.sep, "/"),
+           dw.get("evidence_cutoff") or "—",
+           format(dw.get("capital_cny") or 0, ",.0f"),
+           dw.get("max_k") or 0))
+    add("")
+    return L
+
+
 def causal_rebuild_block(cr):
     """The lines this page prints about the rebuild question (r1224 / E341).
 
@@ -6270,6 +6384,7 @@ def build(with_stress=False, window_label=None):
     page["vol_target_gate"] = vol_target_face()
     page["positions"] = positions_face()
     page["executed"] = executed_face(tk, fills=(page.get("fill") or {}).get("fills"))
+    page["do_or_wait"] = do_or_wait_face()
     page["band_ruler"] = band_ruler_face()
     page["window_label"] = page_window_label
     page["envelope"] = envelope_face()
@@ -6487,6 +6602,11 @@ def render_md(p, sb=None):
     # learns that the account is about to hold a different exposure.
     for _fill_line in fill_block(p.get("fill") or {}, sheet=p):
         add(_fill_line)
+    # r1659: the reader who just learned what fills at the next open asks the next question
+    # -- should it be done today at all, or is waiting cheaper? Priced since r1481/r1482,
+    # never printed here.
+    for _dw_line in do_or_wait_block(p.get("do_or_wait") or {}):
+        add(_dw_line)
     add("## 下单清单%s" % ("（如果你今天才建仓）" if mode == "hold" else ""))
     add("")
     add("| 代码 | 类别 | 份（100 股/份） | 参考价 | 金额 |")
@@ -10788,6 +10908,50 @@ def selftest():
         and _byd == ["sources", "authority"]
         and not (_sb_blocks.get("stamp_missing") or []),
         json.dumps({"by_design": _byd, "missing": _sb_blocks.get("stamp_missing")},
+                   ensure_ascii=False)[:200])
+    # ---- r1659: do-or-wait had a published verdict and no reader -----------------------
+    _dw_ok = {"status": "current", "artifact": "results/etf_book_do_or_wait.json",
+              "evidence_cutoff": "2026-11-13", "capital_cny": 1000000.0, "max_k": 10,
+              "verdict": "NOTHING_OWED_TODAY", "best_k": 0,
+              "table": [{"k": 0, "cost_cny_vs_today": 0.0, "carry_cny": 0.0, "t": None,
+                         "share_late_helps": None, "baseline": True},
+                        {"k": 1, "cost_cny_vs_today": 1798.15, "carry_cny": 0.0,
+                         "t": -4.5708, "share_late_helps": 0.41247, "baseline": False}],
+              "one_open_late": {"median_cny": -932.3, "t": -4.5708,
+                                "share_late_helps": 0.41247}}
+    _dw_md = "\n".join(do_or_wait_block(dict(_dw_ok)))
+    chk("L234 the do-or-wait ladder reaches the page, labelled with its own bar",
+        "今天动手，还是等几天" in _dw_md and "2026-11-13" in _dw_md,
+        _dw_md[:160])
+    chk("L235 every rung is the face's own number and the baseline is named",
+        "今天（基准）" in _dw_md and "+1798" in _dw_md and "-932" in _dw_md,
+        _dw_md[:200])
+    _dw_stale = do_or_wait_block(dict(_dw_ok, status="stale",
+                                      stale_receipts=["cut_order_gap"]))
+    _dw_stale_md = "\n".join(_dw_stale)
+    chk("L236 a stale face prints no rung at all -- the advice was for another sheet",
+        "无法核验" in _dw_stale_md and "+1798" not in _dw_stale_md
+        and "cut_order_gap" in _dw_stale_md,
+        _dw_stale_md[:200])
+    _dw_unk = "\n".join(do_or_wait_block(dict(_dw_ok, status="unknown", why="no receipts")))
+    chk("L237 an unknown face reads as unverifiable, not as 'nothing owed today'",
+        "无法核验" in _dw_unk and "no receipts" in _dw_unk and "没有到期" not in _dw_unk,
+        _dw_unk[:200])
+    _dw_gone = "\n".join(do_or_wait_block({"status": "unreadable", "detail": "boom"}))
+    chk("L238 an unreadable face prints neither the ladder nor a verdict",
+        "无法核验" in _dw_gone and "boom" in _dw_gone
+        and "| 等几根 bar" not in _dw_gone and "判决" not in _dw_gone,
+        _dw_gone[:200])
+    _dw_today = "\n".join(do_or_wait_block(dict(_dw_ok, verdict="DO_TODAY")))
+    chk("L239 the two verdicts never share a page: owed-today and nothing-owed read differently",
+        "没有到期的事" in _dw_md and "没有到期的事" not in _dw_today
+        and "今天动手" in _dw_today,
+        (_dw_today[:120]))
+    _dw_live = do_or_wait_face()
+    chk("L240 the face on disk is the one its receipts price (E188: stale must read stale)",
+        _dw_live.get("status") in ("current", "stale", "unknown", "unreadable")
+        and _dw_live.get("status") == "current",
+        json.dumps({k: _dw_live.get(k) for k in ("status", "stale_receipts", "why")},
                    ensure_ascii=False)[:200])
     shutil.rmtree(_adm_dir, ignore_errors=True)
     print("\nSummary: %d/%d PASS%s" % (ok, total, "" if ok == total else " -- %d FAIL" % (total - ok)))
