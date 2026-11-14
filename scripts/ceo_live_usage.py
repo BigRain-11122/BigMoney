@@ -943,6 +943,20 @@ def _zt_lag_cause(panel: dict) -> str:
     return "（{} 已问·当日零行）".format(shown)
 
 
+def day_word(page_day, as_of):
+    """「今日」only when the page's own day is the day those numbers were priced on.
+
+    On a Saturday this page printed 「今日 +¥0（对比 2026-11-13）」: the reader's day has had
+    no session, and the number belongs to Friday. Borrowing the reader's day for another bar
+    is the r1664 family; naming the bar costs one word and never lies. `as_of` is the bar the
+    sentence is about -- pass the one the sentence quotes, not a page-wide default.
+    """
+    pd, ao = str(page_day or "")[:10], str(as_of or "")[:10]
+    if pd and ao and pd != ao:
+        return ao
+    return "今日"
+
+
 def render_md(p: dict) -> str:
     m = p["market"]
     L = []
@@ -989,13 +1003,17 @@ def render_md(p: dict) -> str:
             lad_seg = " / ".join("{}板{}".format(k, v) for k, v in lad.items())
             line += " · 连板 " + lad_seg
         if rt.get("kill_day") is not None:
-            line += (" · 读法（机械口径）：跌停≥涨停 → 杀跌日，今日 "
+            dw = day_word(p.get("day"), rt.get("cutoff"))
+            line += (" · 读法（机械口径）：跌停≥涨停 → 杀跌日"
+                     + (f"，{dw} " if dw == "今日" else f"（bar {dw}）")
                      + ("是" if rt["kill_day"] else "否"))
         elif (rt.get("kill_day_unavailable") or {}).get("note"):
             # r1579: the rule needs both pools on one session. Printing "否"
             # from 11-11 涨停s vs 11-09 跌停s was a verdict across days.
-            line += (" · 读法（机械口径）：今日 **未判** —— "
-                     + rt["kill_day_unavailable"]["note"])
+            dw = day_word(p.get("day"), rt.get("cutoff"))
+            line += (" · 读法（机械口径）："
+                     + (f"{dw} " if dw == "今日" else f"bar {dw} ")
+                     + "**未判** —— " + rt["kill_day_unavailable"]["note"])
         L.append(line)
         fr = rt.get("freshness") or {}
         if fr.get("status") == "stale":
@@ -1083,12 +1101,18 @@ def render_md(p: dict) -> str:
         L.append("- **六员合计：口径缺件**（起始资本不可得=诚实空档，不填 0）")
     else:
         sgn_p = "+" if ru["pnl_cny"] >= 0 else "-"
+        dw = day_word(p.get("day"), (p.get("freshness") or {}).get("expected_bar"))
         if ru.get("day_pnl_cny") is None:
-            day_txt = "今日 —（无对照件，不填 0）"
+            day_txt = "{} —（无对照件，不填 0）".format("今日" if dw == "今日" else dw + " 之后")
         else:
             sgn_d = "+" if ru["day_pnl_cny"] >= 0 else "-"
-            day_txt = (f"今日 {sgn_d}¥{_fmt_cny(abs(ru['day_pnl_cny']))}"
-                       f"（对比 {ru['day_prior']}）")
+            amt = f"{sgn_d}¥{_fmt_cny(abs(ru['day_pnl_cny']))}"
+            if dw == "今日":
+                day_txt = f"今日 {amt}（对比 {ru['day_prior']}）"
+            else:
+                # the reader's own day has had no session; borrowing its name for Friday's
+                # move is the r1664 family. Name the bar and say there is nothing newer.
+                day_txt = f"较 {dw} 收盘 {amt}（本页无新 bar）"
         L.append(f"- **六员合计：权益 ¥{_fmt_cny(ru['equity_cny'])}"
                  f"（起始 ¥{_fmt_cny(ru['initial_cny'])}·累计 "
                  f"{ru['return_pct']:+.2f}%·{sgn_p}¥"

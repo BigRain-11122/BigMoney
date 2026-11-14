@@ -1247,6 +1247,14 @@ LEGS = [
     ("live_book_day_words",
      ["python", "scripts/live_book_day_words.py", "check"],
      ["python", "scripts/live_book_day_words.py", "run"]),
+    # r1672: the same question on the second paper the CEO opens. The one-pager printed
+    # 「今日 +¥0（对比 2026-11-13）」on a Saturday -- the reader's day had no session and the
+    # number was Friday's. The rules here are this page's own (24 of them), and a printed date
+    # no rule claims stays unmapped, so a reworded sentence turns this leg red and names the
+    # line rather than passing quietly. Reads the published artifact only (0.2s).
+    ("live_usage_day_words",
+     ["python", "scripts/live_usage_day_words.py", "check"],
+     ["python", "scripts/live_usage_day_words.py", "run"]),
     # r1464: premium_leak priced WHAT the ticket pays above the basket but could not answer
     # "is 23% high?" (one observation of history). The answerable question is relative: the
     # same basket is sold under several tickers on the same board. `check` re-reads the board

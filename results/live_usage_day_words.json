@@ -1,0 +1,792 @@
+{
+ "artifact": "docs/live_usage/LIVE-latest.json",
+ "page_day": "2026-11-14",
+ "bar_day": "2026-11-13",
+ "verdict": "PRINTED_DATES_AGREE",
+ "sentence": "**一页纸上 23 处日期逐句对上了它引用的那张面**（24 条规则，0 处判不了，0 处无规则可核）；日词 3 行全部自带日期，其中 0 处拿「今天」说数的地方落在本页自己的 bar（2026-11-13）上。这一面核的是「句子写的日子 == 那个字段写的日子」，不核那个字段本身对不对。",
+ "printed": {
+  "state": "ok",
+  "n_lines": 3,
+  "n_all_lines": 107,
+  "n_headings": 9,
+  "n_honest": 3,
+  "n_self_dated": 0,
+  "n_undated": 0,
+  "undated": [],
+  "headings": [
+   "(页首)",
+   "⓪ 本页新鲜度（先读这个）",
+   "① 市场判定",
+   "② 仓位指令（阶梯总帽）",
+   "③ 六员分配与当前持仓",
+   "④ 决策链版本横幅",
+   "⑤ 在飞判决批（NULLS 烧录进度·纯计数）",
+   "⑥ ETF 复合书 · 前向实绩（生产候选·纯读出）",
+   "⑦ 诚实免责"
+  ],
+  "rows": [
+   {
+    "heading": "(页首)",
+    "line": "# CEO 实盘使用一页纸 · 2026-11-14",
+    "self_dated": true
+   },
+   {
+    "heading": "(页首)",
+    "line": "> 自动生成 2026-11-14T16:39:23 · T-105 v2.1 · 纯聚合面（零新判据）· [版本台账](../../research/DECISION_CHAIN_LEDGER.md)",
+    "self_dated": true
+   },
+   {
+    "heading": "⓪ 本页新鲜度（先读这个）",
+    "line": "## ⓪ 本页新鲜度（先读这个）",
+    "self_dated": false
+   },
+   {
+    "heading": "⓪ 本页新鲜度（先读这个）",
+    "line": "- 参照尺=**官方交易日历**（不是面板自己的日期）：按本页生成时刻算，最后必须已有 bar 的会话是 **2026-11-13**（日历在册最后一日 2026-12-31）",
+    "self_dated": true
+   },
+   {
+    "heading": "⓪ 本页新鲜度（先读这个）",
+    "line": "- ⑥ ETF 复合书：截至 **2026-11-13** · **同步**",
+    "self_dated": true
+   },
+   {
+    "heading": "⓪ 本页新鲜度（先读这个）",
+    "line": "- ③ 风险带（zt 四面板）：截至 **2026-11-13** · **同步**",
+    "self_dated": true
+   },
+   {
+    "heading": "⓪ 本页新鲜度（先读这个）",
+    "line": "- ① 市场政体态：截至 **2026-11-13** · **同步**",
+    "self_dated": true
+   },
+   {
+    "heading": "⓪ 本页新鲜度（先读这个）",
+    "line": "- 书的定价面板尾 bar：**2026-11-13**（书的 bar 不可能比它定价的面板新）",
+    "self_dated": true
+   },
+   {
+    "heading": "⓪ 本页新鲜度（先读这个）",
+    "line": "- 结论：全部面都追到 2026-11-13，本页即该会话收盘后的读数。",
+    "self_dated": true
+   },
+   {
+    "heading": "① 市场判定",
+    "line": "## ① 市场判定",
+    "self_dated": false
+   },
+   {
+    "heading": "① 市场判定",
+    "line": "- **当前政体态：RED**（shadow 探测·已连续 8 日）· asof 2026-11-13",
+    "self_dated": true
+   },
+   {
+    "heading": "① 市场判定",
+    "line": "- 依据：hs300<MA200 (#10 collected)",
+    "self_dated": false
+   },
+   {
+    "heading": "① 市场判定",
+    "line": "- 沪深300ETF 收盘 4.083 vs MA200 4.6575（熔断线之下）",
+    "self_dated": false
+   },
+   {
+    "heading": "① 市场判定",
+    "line": "- **市场时钟**：`RED_COOL`（asof 2026-11-13）· 温度计 LHB 当日 69 行 · 净买 -3.12 亿 vs 250日 p80=96.0 行（温度计=COOL）",
+    "self_dated": true
+   },
+   {
+    "heading": "① 市场判定",
+    "line": "- 满热档判定（v1.3 已接线）：政体态 RED + 温度计 COOL → 满热档未触发（需 GREEN+HOT）",
+    "self_dated": false
+   },
+   {
+    "heading": "① 市场判定",
+    "line": "- **市场风险面（前向池四面板·与每日战报§九同一实现）**：截止 2026-11-13 · 涨停池 37（+0） · 跌停池 33（+28） · 炸板池 21（-14） · 强势池 106（-18） · 封板率 63.8% · 连板 1板30 / 2板4 / 3板2 / 4板1 · 读法（机械口径）：跌停≥涨停 → 杀跌日（bar 2026-11-13）否",
+    "self_dated": true
+   },
+   {
+    "heading": "① 市场判定",
+    "line": "- **国家队状态：存量高控·近期无已验证增持动作** · 依据：最新年报 top-10 名义持仓（T-106 s2·证据截至 2026-08-31）：汇金两司合计 沪深300=82.76%、上证50=86.05%（extreme 控盘带·>=20% 披露表佐证）；2026 上半年份额段指纹=区间净撤离（T-106 s3 EXODUS 段：510300 -701 亿份·证据截至 2026-09-24）；增持公告面=外网窗口全灭·零已验证新增动作。白话：国家队年报纸面还握大头，但上半年份额在退，也没有可信的新买公告",
+    "self_dated": true
+   },
+   {
+    "heading": "① 市场判定",
+    "line": "- 宇宙面注记（T-106 s4）：已验证高控两员=510300、510050（名义 510300=82.76%、510050=86.05%）；510500=75.58% heavy、512100=86.43% extreme：第二层持仓实测高于 CEO 两层命名暗示（UNDERSTATED如实注记）；588000=0 名义缺席；159915=54.03% 非 CEO 点名员",
+    "self_dated": false
+   },
+   {
+    "heading": "① 市场判定",
+    "line": "- 跟队信号面：not_supported（诚实判负）——T-106 s3 事件窗复盘=零格（点事件公告面外网不可达→冻结条款转段级；段级 return_cells=0·N_eff=0·账本 +0）——无『跟国家队』可交易边缘证据 → 不开锦标赛 v4+ 臂，一页纸只挂宇宙面标注（s4 spec 证据门控 IF-not 路径）",
+    "self_dated": false
+   },
+   {
+    "heading": "② 仓位指令（阶梯总帽）",
+    "line": "## ② 仓位指令（阶梯总帽）",
+    "self_dated": false
+   },
+   {
+    "heading": "② 仓位指令（阶梯总帽）",
+    "line": "- **当前态 RED → 股票敞口总帽 20%**",
+    "self_dated": false
+   },
+   {
+    "heading": "② 仓位指令（阶梯总帽）",
+    "line": "- **这个帽子和下面的钱对过账**：市场状态 RED 把新增风险的股票敞口压在上限 20%。（账户文件里另写着 80%（paper_engine），那是另一条规则——风配3 R-配3（跌破 MA250 且自 250 日高点回撤≥20% 才压到 20%）——不是同一顶帽子的矛盾读数。） 3/6 个阶梯管辖账户站在帽子上方；最高的是 COMPOSITE-CE-01，仓位 96.0%（超 76.0pp，是帽子的 4.80 倍）。该户上一交易日 76.8%；当日有 1 笔新开仓（159996）。帽子只挡新开仓，并不强制卖出。按铁律 2 的 80% 单户总仓位帽重判：还有 2/6 户在上方（最高 COMPOSITE-CE-01 仓位 96.0%，超 16.0pp）。",
+    "self_dated": false
+   },
+   {
+    "heading": "② 仓位指令（阶梯总帽）",
+    "line": "- 超帽最多的是 COMPOSITE-CE-01：仓位 96.0%（超 76.0pp·4.80 倍帽）；ETF 复合书列在同一张表但不进裁决",
+    "self_dated": false
+   },
+   {
+    "heading": "② 仓位指令（阶梯总帽）",
+    "line": "- 阶梯全表（冻结）：",
+    "self_dated": false
+   },
+   {
+    "heading": "② 仓位指令（阶梯总帽）",
+    "line": "- RED：20% — 红色急跌/熔断态：股票敞口上限 20% ←当前",
+    "self_dated": false
+   },
+   {
+    "heading": "② 仓位指令（阶梯总帽）",
+    "line": "- YELLOW：65% — 黄色过渡态：上限 65%",
+    "self_dated": false
+   },
+   {
+    "heading": "② 仓位指令（阶梯总帽）",
+    "line": "- ORANGE：50% — 橙色高危态：上限 50%",
+    "self_dated": false
+   },
+   {
+    "heading": "② 仓位指令（阶梯总帽）",
+    "line": "- GREEN：80% — 绿色常态：上限 80%",
+    "self_dated": false
+   },
+   {
+    "heading": "② 仓位指令（阶梯总帽）",
+    "line": "- GREEN×HOT：95% — 绿色且市场热度 HOT：上限 95%",
+    "self_dated": false
+   },
+   {
+    "heading": "② 仓位指令（阶梯总帽）",
+    "line": "- 状态切换触发器（REGIME_GUARD v3 冻结面）：十日累计≤−8% / 20日波动>3年滚动p95 / 广度崩塌（core48 价<MA20 占比≥80% 且 5 日斜率为负）/ 沪深300<MA200 熔断线；GREEN×HOT 满热档=GREEN 政体态+温度计 HOT 复合（v1.3 已接线 results/market_clock/call_latest.json）。",
+    "self_dated": false
+   },
+   {
+    "heading": "③ 六员分配与当前持仓",
+    "line": "## ③ 六员分配与当前持仓",
+    "self_dated": false
+   },
+   {
+    "heading": "③ 六员分配与当前持仓",
+    "line": "- 军种当值表按 MARKET_STAGE_TABLE 随政体态切换",
+    "self_dated": false
+   },
+   {
+    "heading": "③ 六员分配与当前持仓",
+    "line": "- 六员权重=B_MAXDIV 冠军组合面（T-27 锦标赛 winner，10-01 起 SPM-v1 enforce 接线）；持仓=纸盘在册实况（T-35 导出面）：",
+    "self_dated": false
+   },
+   {
+    "heading": "③ 六员分配与当前持仓",
+    "line": "- **六员合计：权益 ¥5,944,977（起始 ¥6,000,000·累计 -0.92%·-¥55,023）**；其中持仓 ¥2,286,597 / 现金 ¥3,658,380；较 2026-11-13 收盘 +¥0（本页无新 bar）",
+    "self_dated": true
+   },
+   {
+    "heading": "③ 六员分配与当前持仓",
+    "line": "### COMPOSITE-CE-01（权重 3.69%｜权益 ¥989,734｜现金 ¥39,605）",
+    "self_dated": false
+   },
+   {
+    "heading": "③ 六员分配与当前持仓",
+    "line": "- 159996｜行业/主题或非五员宽基（O-1533/O-1555 收窄注记：非研究宇宙）｜市值 ¥190,981｜持有 1 日｜浮盈亏 981",
+    "self_dated": false
+   },
+   {
+    "heading": "③ 六员分配与当前持仓",
+    "line": "- 511010｜债券ETF（非宽基研究宇宙）｜市值 ¥189,865｜持有 4 日｜浮盈亏 -136",
+    "self_dated": false
+   },
+   {
+    "heading": "③ 六员分配与当前持仓",
+    "line": "- 511090｜债券ETF（非宽基研究宇宙）｜市值 ¥188,766｜持有 4 日｜浮盈亏 -1,234",
+    "self_dated": false
+   },
+   {
+    "heading": "③ 六员分配与当前持仓",
+    "line": "- 511260｜债券ETF（非宽基研究宇宙）｜市值 ¥189,729｜持有 4 日｜浮盈亏 -271",
+    "self_dated": false
+   },
+   {
+    "heading": "③ 六员分配与当前持仓",
+    "line": "- 513500｜行业/主题或非五员宽基（O-1533/O-1555 收窄注记：非研究宇宙）｜市值 ¥190,788｜持有 3 日｜浮盈亏 788",
+    "self_dated": false
+   },
+   {
+    "heading": "③ 六员分配与当前持仓",
+    "line": "### COMPOSITE-CE-02（权重 1.67%｜权益 ¥979,030｜现金 ¥89,409）",
+    "self_dated": false
+   },
+   {
+    "heading": "③ 六员分配与当前持仓",
+    "line": "- 159920｜行业/主题或非五员宽基（O-1533/O-1555 收窄注记：非研究宇宙）｜市值 ¥117,176｜持有 1 日｜浮盈亏 -1,524",
+    "self_dated": false
+   },
+   {
+    "heading": "③ 六员分配与当前持仓",
+    "line": "- 159996｜行业/主题或非五员宽基（O-1533/O-1555 收窄注记：非研究宇宙）｜市值 ¥119,313｜持有 1 日｜浮盈亏 613",
+    "self_dated": false
+   },
+   {
+    "heading": "③ 六员分配与当前持仓",
+    "line": "- 510050｜宽基·第一层（汇金高度控盘·O-1555）｜市值 ¥118,577｜持有 1 日｜浮盈亏 -123",
+    "self_dated": false
+   },
+   {
+    "heading": "③ 六员分配与当前持仓",
+    "line": "- 511010｜债券ETF（非宽基研究宇宙）｜市值 ¥118,616｜持有 4 日｜浮盈亏 -85",
+    "self_dated": false
+   },
+   {
+    "heading": "③ 六员分配与当前持仓",
+    "line": "- 511090｜债券ETF（非宽基研究宇宙）｜市值 ¥117,930｜持有 4 日｜浮盈亏 -771",
+    "self_dated": false
+   },
+   {
+    "heading": "③ 六员分配与当前持仓",
+    "line": "- 511260｜债券ETF（非宽基研究宇宙）｜市值 ¥118,531｜持有 4 日｜浮盈亏 -169",
+    "self_dated": false
+   },
+   {
+    "heading": "③ 六员分配与当前持仓",
+    "line": "- 512800｜行业/主题或非五员宽基（O-1533/O-1555 收窄注记：非研究宇宙）｜市值 ¥120,856｜持有 4 日｜浮盈亏 2,156",
+    "self_dated": false
+   },
+   {
+    "heading": "③ 六员分配与当前持仓",
+    "line": "- 513500｜行业/主题或非五员宽基（O-1533/O-1555 收窄注记：非研究宇宙）｜市值 ¥58,624｜持有 13 日｜浮盈亏 -726",
+    "self_dated": false
+   },
+   {
+    "heading": "③ 六员分配与当前持仓",
+    "line": "### DROUGHT-CE-01（权重 10.08%｜权益 ¥994,450｜现金 ¥994,450）",
+    "self_dated": false
+   },
+   {
+    "heading": "③ 六员分配与当前持仓",
+    "line": "- （当前空仓）",
+    "self_dated": false
+   },
+   {
+    "heading": "③ 六员分配与当前持仓",
+    "line": "### ENGULF-CE-01（权重 6.49%｜权益 ¥990,206｜现金 ¥939,936）",
+    "self_dated": false
+   },
+   {
+    "heading": "③ 六员分配与当前持仓",
+    "line": "- 515000｜行业/主题或非五员宽基（O-1533/O-1555 收窄注记：非研究宇宙）｜市值 ¥50,270｜持有 10 日｜浮盈亏 270",
+    "self_dated": false
+   },
+   {
+    "heading": "③ 六员分配与当前持仓",
+    "line": "### NEEDLE-DE-01（权重 11.70%｜权益 ¥1,000,000｜现金 ¥1,000,000）",
+    "self_dated": false
+   },
+   {
+    "heading": "③ 六员分配与当前持仓",
+    "line": "- （当前空仓）",
+    "self_dated": false
+   },
+   {
+    "heading": "③ 六员分配与当前持仓",
+    "line": "### VOLATILITY-CE-01（权重 5.63%｜权益 ¥991,557｜现金 ¥594,980）",
+    "self_dated": false
+   },
+   {
+    "heading": "③ 六员分配与当前持仓",
+    "line": "- 159980｜行业/主题或非五员宽基（O-1533/O-1555 收窄注记：非研究宇宙）｜市值 ¥47,562｜持有 13 日｜浮盈亏 -2,438",
+    "self_dated": false
+   },
+   {
+    "heading": "③ 六员分配与当前持仓",
+    "line": "- 510050｜宽基·第一层（汇金高度控盘·O-1555）｜市值 ¥49,879｜持有 13 日｜浮盈亏 -121",
+    "self_dated": false
+   },
+   {
+    "heading": "③ 六员分配与当前持仓",
+    "line": "- 511010｜债券ETF（非宽基研究宇宙）｜市值 ¥99,928｜持有 4 日｜浮盈亏 -71",
+    "self_dated": false
+   },
+   {
+    "heading": "③ 六员分配与当前持仓",
+    "line": "- 511090｜债券ETF（非宽基研究宇宙）｜市值 ¥99,350｜持有 4 日｜浮盈亏 -649",
+    "self_dated": false
+   },
+   {
+    "heading": "③ 六员分配与当前持仓",
+    "line": "- 511260｜债券ETF（非宽基研究宇宙）｜市值 ¥99,857｜持有 4 日｜浮盈亏 -143",
+    "self_dated": false
+   },
+   {
+    "heading": "③ 六员分配与当前持仓",
+    "line": "### 盘中档（T-104 分钟源·v1.4）",
+    "self_dated": false
+   },
+   {
+    "heading": "③ 六员分配与当前持仓",
+    "line": "- 今日尚未有 bar（上一场收盘档·09:15 起随源点亮）——在场 2 员照挂上一场收盘",
+    "self_dated": false
+   },
+   {
+    "heading": "③ 六员分配与当前持仓",
+    "line": "- 159920：T-104 分钟宇宙外（v1.2 收窄）·口径=最近收盘",
+    "self_dated": false
+   },
+   {
+    "heading": "③ 六员分配与当前持仓",
+    "line": "- 159980：T-104 分钟宇宙外（v1.2 收窄）·口径=最近收盘",
+    "self_dated": false
+   },
+   {
+    "heading": "③ 六员分配与当前持仓",
+    "line": "- 159996：T-104 分钟宇宙外（v1.2 收窄）·口径=最近收盘",
+    "self_dated": false
+   },
+   {
+    "heading": "③ 六员分配与当前持仓",
+    "line": "- 510050：上一场收盘 2.889（上一场收盘档（今日 09:15 起随源点亮））",
+    "self_dated": false
+   },
+   {
+    "heading": "③ 六员分配与当前持仓",
+    "line": "- 511010：上一场收盘 140.684（上一场收盘档（今日 09:15 起随源点亮））",
+    "self_dated": false
+   },
+   {
+    "heading": "③ 六员分配与当前持仓",
+    "line": "- 511090：T-104 分钟宇宙外（v1.2 收窄）·口径=最近收盘",
+    "self_dated": false
+   },
+   {
+    "heading": "③ 六员分配与当前持仓",
+    "line": "- 511260：T-104 分钟宇宙外（v1.2 收窄）·口径=最近收盘",
+    "self_dated": false
+   },
+   {
+    "heading": "③ 六员分配与当前持仓",
+    "line": "- 512800：T-104 分钟宇宙外（v1.2 收窄）·口径=最近收盘",
+    "self_dated": false
+   },
+   {
+    "heading": "③ 六员分配与当前持仓",
+    "line": "- 513500：T-104 分钟宇宙外（v1.2 收窄）·口径=最近收盘",
+    "self_dated": false
+   },
+   {
+    "heading": "③ 六员分配与当前持仓",
+    "line": "- 515000：T-104 分钟宇宙外（v1.2 收窄）·口径=最近收盘",
+    "self_dated": false
+   },
+   {
+    "heading": "③ 六员分配与当前持仓",
+    "line": "### 配置参考（研究面·v1.6 接线·零新判据）",
+    "self_dated": false
+   },
+   {
+    "heading": "③ 六员分配与当前持仓",
+    "line": "- **结论**（as_of 2026-10-19·RESEARCH_READOUT_ZERO_JUDGED_CLAIMS）：unconditional DIVLOWVOL-YIELDVOL sleeve (Top-20 by yield_ttm, low-vol half, EW, monthly)",
+    "self_dated": true
+   },
+   {
+    "heading": "③ 六员分配与当前持仓",
+    "line": "- 依据：stage-conditioned selection was judged UNSUPPORTED; the unconditional sleeve dominates every combo cell",
+    "self_dated": false
+   },
+   {
+    "heading": "③ 六员分配与当前持仓",
+    "line": "- 读数：最优阶段组合 C1 Sharpe 1.0830 vs 无条件 U-divlowvol 1.2085（差 -0.1256·P4 过线=否（诚实判负））",
+    "self_dated": false
+   },
+   {
+    "heading": "③ 六员分配与当前持仓",
+    "line": "- 当前阶段：SUPPORT（阶段表=描述性读数，不含判决线）",
+    "self_dated": false
+   },
+   {
+    "heading": "③ 六员分配与当前持仓",
+    "line": "- 在册持仓：20 员等权 5%·入场 2026-10-08·单边换手 0.35",
+    "self_dated": true
+   },
+   {
+    "heading": "③ 六员分配与当前持仓",
+    "line": "- 名单：000915 002027 002170 002233 002441 002572 002749 002763 002867 300406 300770 300994 600329 600742 600750 600866 601717 603165 603551 603569",
+    "self_dated": false
+   },
+   {
+    "heading": "③ 六员分配与当前持仓",
+    "line": "- 全页指针：`docs/portfolio_recommendation/REC-latest.json`（sha16 04f8fce9856cb2e1）——三族 P1 判决 verdict 均 insufficient-sample，如实随源携带",
+    "self_dated": false
+   },
+   {
+    "heading": "④ 决策链版本横幅",
+    "line": "## ④ 决策链版本横幅",
+    "self_dated": false
+   },
+   {
+    "heading": "④ 决策链版本横幅",
+    "line": "- v1 基线版：PENDING（烧批/队列中）",
+    "self_dated": false
+   },
+   {
+    "heading": "④ 决策链版本横幅",
+    "line": "- v1.1 跑前重冻结版：LANDED（已判）",
+    "self_dated": false
+   },
+   {
+    "heading": "④ 决策链版本横幅",
+    "line": "- v2 简化链版：LANDED（已判）",
+    "self_dated": false
+   },
+   {
+    "heading": "④ 决策链版本横幅",
+    "line": "- v3 锦标赛批：LANDED（已判）",
+    "self_dated": false
+   },
+   {
+    "heading": "④ 决策链版本横幅",
+    "line": "- v1 诚实锚：链输（J-TARGET 0/12 未过）；v2 简化链=池序首位在烧；v3 锦标赛=预注册冻结排队；赢家=只入册候选，上线走月界。",
+    "self_dated": false
+   },
+   {
+    "heading": "⑤ 在飞判决批（NULLS 烧录进度·纯计数）",
+    "line": "## ⑤ 在飞判决批（NULLS 烧录进度·纯计数）",
+    "self_dated": false
+   },
+   {
+    "heading": "⑤ 在飞判决批（NULLS 烧录进度·纯计数）",
+    "line": "- 判定批 = 2000 nulls/族（预注册冻结面）·finalize 硬门 have == 2000（预注册冻结硬门）；下表为追加面纯计数读出（零新判据·裁定与窗口实况见轮报告/台账）：",
+    "self_dated": false
+   },
+   {
+    "heading": "⑤ 在飞判决批（NULLS 烧录进度·纯计数）",
+    "line": "- FUND-QUALITY-P1：2000/2000（dup_k=0）",
+    "self_dated": false
+   },
+   {
+    "heading": "⑤ 在飞判决批（NULLS 烧录进度·纯计数）",
+    "line": "- FUND-VALUE-P1：2000/2000（dup_k=0）",
+    "self_dated": false
+   },
+   {
+    "heading": "⑤ 在飞判决批（NULLS 烧录进度·纯计数）",
+    "line": "- FUND-DIVLOWVOL-P1：2000/2000（dup_k=0）",
+    "self_dated": false
+   },
+   {
+    "heading": "⑥ ETF 复合书 · 前向实绩（生产候选·纯读出）",
+    "line": "## ⑥ ETF 复合书 · 前向实绩（生产候选·纯读出）",
+    "self_dated": false
+   },
+   {
+    "heading": "⑥ ETF 复合书 · 前向实绩（生产候选·纯读出）",
+    "line": "- **这一页写的是哪本书（r1580）**：**不比较**——账本 12 名 · k 0.909384 · vol_target 8.0% · 决策 bar 2026-11-11｜执行单 5 名 · k 0.432195 · beta_target 0.20 · 决策 bar 2026-11-13。两侧不在同一决策 bar，并排列出即止（借用一侧的日期会把两个世界的数印成一本书）",
+    "self_dated": true
+   },
+   {
+    "heading": "⑥ ETF 复合书 · 前向实绩（生产候选·纯读出）",
+    "line": "- **账本**：2026-10-23 播种 → 2026-11-13，16 个 bar，净值 **1.010894**（+1.089%）；同窗四 ETF 等权基准 0.986279（-1.372%）→ **超额 +246.2bp**",
+    "self_dated": true
+   },
+   {
+    "heading": "⑥ ETF 复合书 · 前向实绩（生产候选·纯读出）",
+    "line": "- 回撤：书 -1.585%｜基准 -2.343%｜本段换仓 1 次（网格 20 bar·持仓 12 员·波动目标 8.0%·成本 10.0bp/边）",
+    "self_dated": false
+   },
+   {
+    "heading": "⑥ ETF 复合书 · 前向实绩（生产候选·纯读出）",
+    "line": "- 口径：cash leg earns 0 in the ledger (disclosed, not modelled away)",
+    "self_dated": false
+   },
+   {
+    "heading": "⑥ ETF 复合书 · 前向实绩（生产候选·纯读出）",
+    "line": "- 未定稿 bar：2026-11-13（闸 `settled_bars_only`：定稿盘面重生成后会改述，按改述披露读）",
+    "self_dated": true
+   },
+   {
+    "heading": "⑥ ETF 复合书 · 前向实绩（生产候选·纯读出）",
+    "line": "- **还不能下结论**：账本只发了 16 个 bar，超额 1 年噪声带 ±16.566pp/年；80% 功效下 1 年窗只能分辨 23.682pp/年；要分辨它自己的在窗 alpha 需约 15.9 年。这一行是实绩读数，不是判决。",
+    "self_dated": false
+   },
+   {
+    "heading": "⑥ ETF 复合书 · 前向实绩（生产候选·纯读出）",
+    "line": "- 全页指针：`results/etf_book_forward/LEDGER.json`",
+    "self_dated": false
+   },
+   {
+    "heading": "⑦ 诚实免责",
+    "line": "## ⑦ 诚实免责",
+    "self_dated": false
+   },
+   {
+    "heading": "⑦ 诚实免责",
+    "line": "- 本页=决策链条研究产出的聚合展示，非投资建议；",
+    "self_dated": false
+   },
+   {
+    "heading": "⑦ 诚实免责",
+    "line": "- CEO 手动跟随=CEO 直接权限；公司自动实盘开闸=月界（2026-10-01）+CEO 唯一门，本页不改变该门；",
+    "self_dated": true
+   },
+   {
+    "heading": "⑦ 诚实免责",
+    "line": "- 未激活袖面如实披露 NOT_ACTIVATED；既有六员持仓含行业 ETF 成分按 O-1533 如实标注，改仓=月界统一动作不追溯；",
+    "self_dated": false
+   },
+   {
+    "heading": "⑦ 诚实免责",
+    "line": "- 研究宇宙=五员宽基定谳（O-20260928-1555）：第一层 上证50/沪深300（汇金高度控盘）·第二层 中证500/中证1000/科创50；创业板指出列，行业/主题/跨境/债券/黄金维持排除；",
+    "self_dated": false
+   },
+   {
+    "heading": "⑦ 诚实免责",
+    "line": "- 国家队标注=T-106 s4 宇宙面（实测年报名义持仓+2026H1 撤离段指纹）；跟队信号面按 s3 诚实判负只挂标注，不产生交易指令；",
+    "self_dated": false
+   },
+   {
+    "heading": "⑦ 诚实免责",
+    "line": "- 持仓口径=最近收盘 bar（asof 见上）；盘中档=T-104 分钟源实时读出（v1.4 已接线·③节），09:15 起随源点亮·平行读出非重估值；",
+    "self_dated": false
+   }
+  ]
+ },
+ "date_claims": {
+  "n_claims": 23,
+  "n_ok": 23,
+  "n_mismatch": 0,
+  "n_unverifiable": 0,
+  "n_unmapped": 0,
+  "n_rules": 24,
+  "claims": [
+   {
+    "heading": "(页首)",
+    "date": "2026-11-14",
+    "field": "day",
+    "expected": "2026-11-14",
+    "line": "# CEO 实盘使用一页纸 · 2026-11-14",
+    "reading": "ok"
+   },
+   {
+    "heading": "(页首)",
+    "date": "2026-11-14",
+    "field": "generated",
+    "expected": "2026-11-14",
+    "line": "> 自动生成 2026-11-14T16:39:23 · T-105 v2.1 · 纯聚合面（零新判据）· [版本台账](../../research/DECISION_CHAIN_LEDGER.md)",
+    "reading": "ok"
+   },
+   {
+    "heading": "⓪ 本页新鲜度（先读这个）",
+    "date": "2026-11-13",
+    "field": "freshness.expected_bar",
+    "expected": "2026-11-13",
+    "line": "- 参照尺=**官方交易日历**（不是面板自己的日期）：按本页生成时刻算，最后必须已有 bar 的会话是 **2026-11-13**（日历在册最后一日 2026-12-31）",
+    "reading": "ok"
+   },
+   {
+    "heading": "⓪ 本页新鲜度（先读这个）",
+    "date": "2026-12-31",
+    "field": "freshness.calendar_last",
+    "expected": "2026-12-31",
+    "line": "- 参照尺=**官方交易日历**（不是面板自己的日期）：按本页生成时刻算，最后必须已有 bar 的会话是 **2026-11-13**（日历在册最后一日 2026-12-31）",
+    "reading": "ok"
+   },
+   {
+    "heading": "⓪ 本页新鲜度（先读这个）",
+    "date": "2026-11-13",
+    "field": "etf_book.last_bar",
+    "expected": "2026-11-13",
+    "line": "- ⑥ ETF 复合书：截至 **2026-11-13** · **同步**",
+    "reading": "ok"
+   },
+   {
+    "heading": "⓪ 本页新鲜度（先读这个）",
+    "date": "2026-11-13",
+    "field": "risk_tape.cutoff",
+    "expected": "2026-11-13",
+    "line": "- ③ 风险带（zt 四面板）：截至 **2026-11-13** · **同步**",
+    "reading": "ok"
+   },
+   {
+    "heading": "⓪ 本页新鲜度（先读这个）",
+    "date": "2026-11-13",
+    "field": "market.asof",
+    "expected": "2026-11-13",
+    "line": "- ① 市场政体态：截至 **2026-11-13** · **同步**",
+    "reading": "ok"
+   },
+   {
+    "heading": "⓪ 本页新鲜度（先读这个）",
+    "date": "2026-11-13",
+    "field": "freshness.book_panel_last_bar",
+    "expected": "2026-11-13",
+    "line": "- 书的定价面板尾 bar：**2026-11-13**（书的 bar 不可能比它定价的面板新）",
+    "reading": "ok"
+   },
+   {
+    "heading": "⓪ 本页新鲜度（先读这个）",
+    "date": "2026-11-13",
+    "field": "freshness.expected_bar",
+    "expected": "2026-11-13",
+    "line": "- 结论：全部面都追到 2026-11-13，本页即该会话收盘后的读数。",
+    "reading": "ok"
+   },
+   {
+    "heading": "① 市场判定",
+    "date": "2026-11-13",
+    "field": "market.asof",
+    "expected": "2026-11-13",
+    "line": "- **当前政体态：RED**（shadow 探测·已连续 8 日）· asof 2026-11-13",
+    "reading": "ok"
+   },
+   {
+    "heading": "① 市场判定",
+    "date": "2026-11-13",
+    "field": "market.clock_asof",
+    "expected": "2026-11-13",
+    "line": "- **市场时钟**：`RED_COOL`（asof 2026-11-13）· 温度计 LHB 当日 69 行 · 净买 -3.12 亿 vs 250日 p80=96.0 行（温度计=COOL）",
+    "reading": "ok"
+   },
+   {
+    "heading": "① 市场判定",
+    "date": "2026-11-13",
+    "field": "risk_tape.cutoff",
+    "expected": "2026-11-13",
+    "line": "- **市场风险面（前向池四面板·与每日战报§九同一实现）**：截止 2026-11-13 · 涨停池 37（+0） · 跌停池 33（+28） · 炸板池 21（-14） · 强势池 106（-18） · 封板率 63.8% · 连板 1板30 / 2板4 / 3板2 / 4板",
+    "reading": "ok"
+   },
+   {
+    "heading": "① 市场判定",
+    "date": "2026-11-13",
+    "field": "risk_tape.cutoff",
+    "expected": "2026-11-13",
+    "line": "- **市场风险面（前向池四面板·与每日战报§九同一实现）**：截止 2026-11-13 · 涨停池 37（+0） · 跌停池 33（+28） · 炸板池 21（-14） · 强势池 106（-18） · 封板率 63.8% · 连板 1板30 / 2板4 / 3板2 / 4板",
+    "reading": "ok"
+   },
+   {
+    "heading": "① 市场判定",
+    "date": "2026-08-31",
+    "field": "national_team.s2_evidence_cutoff",
+    "expected": "2026-08-31",
+    "line": "- **国家队状态：存量高控·近期无已验证增持动作** · 依据：最新年报 top-10 名义持仓（T-106 s2·证据截至 2026-08-31）：汇金两司合计 沪深300=82.76%、上证50=86.05%（extreme 控盘带·>=20% 披露表佐证）；2026 上半",
+    "reading": "ok"
+   },
+   {
+    "heading": "① 市场判定",
+    "date": "2026-09-24",
+    "field": "national_team.s3_evidence_cutoff",
+    "expected": "2026-09-24",
+    "line": "- **国家队状态：存量高控·近期无已验证增持动作** · 依据：最新年报 top-10 名义持仓（T-106 s2·证据截至 2026-08-31）：汇金两司合计 沪深300=82.76%、上证50=86.05%（extreme 控盘带·>=20% 披露表佐证）；2026 上半",
+    "reading": "ok"
+   },
+   {
+    "heading": "③ 六员分配与当前持仓",
+    "date": "2026-11-13",
+    "field": "freshness.expected_bar",
+    "expected": "2026-11-13",
+    "line": "- **六员合计：权益 ¥5,944,977（起始 ¥6,000,000·累计 -0.92%·-¥55,023）**；其中持仓 ¥2,286,597 / 现金 ¥3,658,380；较 2026-11-13 收盘 +¥0（本页无新 bar）",
+    "reading": "ok"
+   },
+   {
+    "heading": "③ 六员分配与当前持仓",
+    "date": "2026-10-19",
+    "field": "recommendation.as_of",
+    "expected": "2026-10-19",
+    "line": "- **结论**（as_of 2026-10-19·RESEARCH_READOUT_ZERO_JUDGED_CLAIMS）：unconditional DIVLOWVOL-YIELDVOL sleeve (Top-20 by yield_ttm, low-vol half, E",
+    "reading": "ok"
+   },
+   {
+    "heading": "③ 六员分配与当前持仓",
+    "date": "2026-10-08",
+    "field": "recommendation.entry_date",
+    "expected": "2026-10-08",
+    "line": "- 在册持仓：20 员等权 5%·入场 2026-10-08·单边换手 0.35",
+    "reading": "ok"
+   },
+   {
+    "heading": "⑥ ETF 复合书 · 前向实绩（生产候选·纯读出）",
+    "date": "2026-11-11",
+    "field": "book_identity.ledger.bar",
+    "expected": "2026-11-11",
+    "line": "- **这一页写的是哪本书（r1580）**：**不比较**——账本 12 名 · k 0.909384 · vol_target 8.0% · 决策 bar 2026-11-11｜执行单 5 名 · k 0.432195 · beta_target 0.20 · 决策 bar ",
+    "reading": "ok"
+   },
+   {
+    "heading": "⑥ ETF 复合书 · 前向实绩（生产候选·纯读出）",
+    "date": "2026-11-13",
+    "field": "book_identity.ticket.bar",
+    "expected": "2026-11-13",
+    "line": "- **这一页写的是哪本书（r1580）**：**不比较**——账本 12 名 · k 0.909384 · vol_target 8.0% · 决策 bar 2026-11-11｜执行单 5 名 · k 0.432195 · beta_target 0.20 · 决策 bar ",
+    "reading": "ok"
+   },
+   {
+    "heading": "⑥ ETF 复合书 · 前向实绩（生产候选·纯读出）",
+    "date": "2026-10-23",
+    "field": "etf_book.first_bar",
+    "expected": "2026-10-23",
+    "line": "- **账本**：2026-10-23 播种 → 2026-11-13，16 个 bar，净值 **1.010894**（+1.089%）；同窗四 ETF 等权基准 0.986279（-1.372%）→ **超额 +246.2bp**",
+    "reading": "ok"
+   },
+   {
+    "heading": "⑥ ETF 复合书 · 前向实绩（生产候选·纯读出）",
+    "date": "2026-11-13",
+    "field": "etf_book.last_bar",
+    "expected": "2026-11-13",
+    "line": "- **账本**：2026-10-23 播种 → 2026-11-13，16 个 bar，净值 **1.010894**（+1.089%）；同窗四 ETF 等权基准 0.986279（-1.372%）→ **超额 +246.2bp**",
+    "reading": "ok"
+   },
+   {
+    "heading": "⑥ ETF 复合书 · 前向实绩（生产候选·纯读出）",
+    "date": "2026-11-13",
+    "field": "etf_book.provisional_bars[0]",
+    "expected": "2026-11-13",
+    "line": "- 未定稿 bar：2026-11-13（闸 `settled_bars_only`：定稿盘面重生成后会改述，按改述披露读）",
+    "reading": "ok"
+   }
+  ],
+  "mismatches": [],
+  "unmapped": [],
+  "n_policy": 1,
+  "policy": [
+   {
+    "heading": "⑦ 诚实免责",
+    "date": "2026-10-01",
+    "line": "- CEO 手动跟随=CEO 直接权限；公司自动实盘开闸=月界（2026-10-01）+CEO 唯一门，本页不改变该门；"
+   }
+  ]
+ },
+ "day_claims": {
+  "n_claims": 0,
+  "n_stale": 0,
+  "n_honest_forms": 3,
+  "claims": [],
+  "offenders": [],
+  "honest": [
+   {
+    "heading": "③ 六员分配与当前持仓",
+    "line": "- 今日尚未有 bar（上一场收盘档·09:15 起随源点亮）——在场 2 员照挂上一场收盘"
+   },
+   {
+    "heading": "③ 六员分配与当前持仓",
+    "line": "- 510050：上一场收盘 2.889（上一场收盘档（今日 09:15 起随源点亮））"
+   },
+   {
+    "heading": "③ 六员分配与当前持仓",
+    "line": "- 511010：上一场收盘 140.684（上一场收盘档（今日 09:15 起随源点亮））"
+   }
+  ]
+ },
+ "script": "live_usage_day_words",
+ "ts": "2026-11-14T16:41:03"
+}
