@@ -7370,9 +7370,63 @@
  "authority": {
   "writer": "bm-c",
   "owner": "bm-a",
-  "owner_silent_h": 16.9,
+  "owner_silent_h": 18.2,
+  "gate_h": 6.0,
   "took_over": true,
-  "why": "bm-a has not written its own heartbeat for 16.9 h (> 6 h): its page faces are stopped, not merely old",
+  "why": "bm-a has not written its own heartbeat for 18.2 h (> 6 h): this host takes the pen for the page only -- a stopped heartbeat is not a dead machine",
+  "no_bar_reason": "human_ages"
+ },
+ "fleet": {
+  "board_ts": "2026-11-14T17:24:22",
+  "verdict": "attention",
+  "rows": [
+   {
+    "host": "bm-a",
+    "last_seen": "2026-11-13T23:12:03+08:00",
+    "age_h": 18.21,
+    "alive": false,
+    "lanes": [
+     "futures",
+     "heat",
+     "lhb",
+     "repo"
+    ],
+    "taken_over": {
+     "repo": "bm-c"
+    }
+   },
+   {
+    "host": "bm-b",
+    "last_seen": "2026-10-30T12:43:06+08:00",
+    "age_h": 364.69,
+    "alive": false,
+    "lanes": [
+     "marks",
+     "astock_daily"
+    ],
+    "taken_over": {
+     "marks": "bm-c",
+     "astock_daily": "bm-c"
+    }
+   },
+   {
+    "host": "bm-c",
+    "last_seen": "2026-11-14T16:44:49+08:00",
+    "age_h": 0.66,
+    "alive": true,
+    "lanes": [
+     "sina_mf",
+     "moneyflow",
+     "lhb_inst",
+     "ah_panel",
+     "etf_panel",
+     "minute_feed",
+     "ths_panel",
+     "zt_pool"
+    ],
+    "taken_over": {}
+   }
+  ],
   "no_bar_reason": "human_ages"
  }
 }

@@ -1,7 +1,7 @@
 {
  "activity": "product",
- "activity_now": "CEO 一页纸的「今日」：两句拿读者今天说周五的数（周六实证），写手改成印那根 bar",
- "activity_now_round": 1672,
+ "activity_now": "CEO 页新增机队实况节：哪台机自己在写心跳、它管的车道现在谁在跑",
+ "activity_now_round": 1673,
  "agenda_starved": false,
  "ahead_origin": 0,
  "arm_repricing": {
@@ -53,14 +53,18 @@
   "state": "registered (FOUND)",
   "task": "HQ-ProductionClaim"
  },
- "clock_read": "2026-11-14T15:57:20+08:00",
+ "clock_read": "2026-11-14T17:27:45+08:00",
+ "clock_read_source": "local",
+ "clock_tz": "+08:00",
  "codely_live_count": 2,
  "comfy_free_vram_mb": 14015,
  "cores": 32,
  "cpu_cores": 32,
  "cpu_idle_pct": 88.6,
  "cpu_pct": 10.0,
+ "cpu_total_pct": 10.0,
  "cpu_util_pct": 10.0,
+ "cpus": 32,
  "cur_task": "r1664 product: an instruction block must name the bar it priced",
  "current": "r1616: the two-best-year question asked in a scale-free way",
  "current_task": "CEO 页「今天」那把尺子：7 行读不出哪一天的债清成 0（9 行日词全部自带日期），并把判词拆成 PRINTED_SELF_DATED / PRINTED_BUT_UNANCHORED",
@@ -126,6 +130,12 @@
   "占用一行": "CPU=W280 derive anchor SUPPLEMENT (t0_live_faces extract + 10-19 bar laggard papers stale-takeover) + S6 10/10; GPU=idle (resident ComfyUI listener only; MV/POOL burn faces owned by the lane runners, EngineTick in-service); NATS 心跳任务常设在役",
   "最近实物": "results/_w280bmc_t0_live_faces.json + results/_r1127bmc_t0_faces_extract.py (r1127)"
  },
+ "gpu": {
+  "free_mib": 2042,
+  "total_mib": 16384,
+  "used_mib": 14342,
+  "util_pct": 2
+ },
  "gpu_free_mb": 14355,
  "gpu_free_mib": 5673,
  "gpu_free_vram_gb": 14.5,
@@ -146,7 +156,7 @@
  "gpu_vram_used_mb": 15603,
  "head_sha": "d6b7a3775d",
  "health": "ok",
- "heartbeat_epoch_utc": 1794643040,
+ "heartbeat_epoch_utc": 1794648465,
  "heartbeat_epoch_utc_type": "int",
  "idle_ram_gb": 3.62,
  "idle_rounds": 0,
@@ -178,6 +188,7 @@
  "last_orders_sha_note": "r1141: stored r1140 value 9da3cb04 was face-inconsistent vs origin content-sha1 6cec19c3; recomputed with the pinned content-bytes sha1 method (r977). Tail rows 10-20 00:32 x2 + 00:5x already consumed r1140, zero rows owed.",
  "last_orders_watermark": "110e2839a2a9124b@0897cda/77807",
  "last_orders_watermark_v2": "v2:BigRain-11122/FluxGroup@0897cdab8e880ca057fdf5a77b055d5797286746/77807#9c57b4cbbb5a6b6b151dfa33bdb6c60d8d623dc88bbac16c342b9b8e0fcfed5b",
+ "last_physical": "docs/live_book/LIVE-BOOK-20261114.md（9 行日词全自带日期·0 undated）+ scripts/live_book_day_words.py（自检 24/24）+ scripts/etf_book_ceo_page.py（自检 342/342）",
  "last_product": "results/etf_book_year_gate/YEAR-GATE.json (scale_free per arm + y4_vs_scale_free) + results/etf_book_order/ORDER-2026-11-13-card.md",
  "last_pulled_at": "2026-11-07T07:44:42+08:00",
  "last_push": {
@@ -199,7 +210,7 @@
  "last_round_tag": "r1586",
  "last_round_ts": "2026-11-13T05:17:02+08:00",
  "last_run_at": "2026-10-26T21:20:55+08:00",
- "last_seen": "2026-11-14T15:57:20+08:00",
+ "last_seen": "2026-11-14T17:27:45+08:00",
  "last_seen_at": "2026-11-14T11:36:52+08:00",
  "last_task_at": "2026-10-29T06:27:04+08:00",
  "last_ts": "2026-10-19T20:11:25+08:00",
@@ -891,7 +902,7 @@
  "recent_artifact": "docs/live_book/LIVE-BOOK-20261114.md（9 行日词全自带日期·0 undated）+ scripts/live_book_day_words.py（自检 24/24）+ scripts/etf_book_ceo_page.py（自检 342/342）",
  "round": 1630,
  "round_label": "r1630",
- "round_no": 1672,
+ "round_no": 1673,
  "round_no_label": "1572",
  "round_no_landed": 1663,
  "round_note": "r1489: a reinstated bar is re-derived from the panel, not carried over (reinstatement_check + reinstatements.json + sheet paragraph)",
@@ -1307,7 +1318,7 @@
  },
  "task": "r1668: the day-word census was measuring the wrong paper (the JSON has none; the page prints 20)",
  "total_ram_gb": 23.9,
- "ts": "2026-11-14T15:57:20+08:00",
+ "ts": "2026-11-14T17:27:45+08:00",
  "update_daily": "rc0 0 new rows, cutoff 2026-11-13 (Saturday, before the 15:30 guard)",
  "updated": "2026-11-14T14:53:50",
  "updated_at": "2026-11-14T14:53:50",
@@ -1318,14 +1329,5 @@
  "verify_smoke_closed": "full suite started 07:14 closed 576/576 PASS 0 FAIL, wall clock 852.9s over 574 legs; started before the two module edits, so the ceo_page leg inside it printed the previous generation's 260/260 (new legs L214/L215 verified by selftest 262/262)",
  "vram_free_gb": 2.6,
  "watermark_verdict": "insufficient_history",
- "went_well": "the page had been saying 'no rung works' and 'no calendar works' and then stopping; the third road a reader reaches for was priced nine hours earlier and never cited",
- "last_physical": "docs/live_book/LIVE-BOOK-20261114.md（9 行日词全自带日期·0 undated）+ scripts/live_book_day_words.py（自检 24/24）+ scripts/etf_book_ceo_page.py（自检 342/342）",
- "cpus": 32,
- "gpu": {
-  "used_mib": 14342,
-  "total_mib": 16384,
-  "util_pct": 2,
-  "free_mib": 2042
- },
- "cpu_total_pct": 10.0
+ "went_well": "the page had been saying 'no rung works' and 'no calendar works' and then stopping; the third road a reader reaches for was priced nine hours earlier and never cited"
 }

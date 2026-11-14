@@ -1,12 +1,12 @@
 {
  "script": "scripts/live_book_section_bars.py",
- "ts": "2026-11-14 16:07:49",
+ "ts": "2026-11-14 17:25:06",
  "page": {
   "path": "docs/live_book/LIVE-BOOK-20261114.md",
   "json": "docs/live_book/LIVE-BOOK-20261114.json"
  },
  "verdict": "PAGE_ON_ONE_BAR_WITH_UNDATED",
- "sentence": "页面声明的 2026-11-13 就是它全部 56 个带日期的节的 bar；另有 2 节（sources、authority）按设计就没有 bar——它们不是测量（sources=指针块（只列它引用的文件，本身不是一次测量）、authority=人事年龄（机器多久没写心跳，时间量不是价格日）），既不欠日期，也没有「算到哪天」这回事。",
+ "sentence": "页面声明的 2026-11-13 就是它全部 56 个带日期的节的 bar；另有 3 节（sources、authority、fleet）按设计就没有 bar——它们不是测量（sources=指针块（只列它引用的文件，本身不是一次测量）、authority=人事年龄（机器多久没写心跳，时间量不是价格日）），既不欠日期，也没有「算到哪天」这回事。；其中 1 节自己就带着两根以上的日期（fleet：2026-10-30/2026-11-13/2026-11-14）——它们不是「没写日期」，是写了两天的数，本面不替它们挑一天",
  "evidence_cutoff": "2026-11-13",
  "headline_bar": "2026-11-13",
  "headline_field": "priced_bar",
@@ -14,7 +14,8 @@
  "n_on_headline": 56,
  "unknown_sections": [
   "sources",
-  "authority"
+  "authority",
+  "fleet"
  ],
  "bars": {
   "2026-11-13": 56
@@ -96,8 +97,22 @@
  "n_ahead_of_headline": 0,
  "ahead_of_headline": [],
  "ahead_keys": [],
- "n_undated_mixed": 0,
- "undated_mixed": {},
+ "n_undated_mixed": 1,
+ "undated_mixed": {
+  "fleet": {
+   "dates": [
+    "2026-10-30",
+    "2026-11-13",
+    "2026-11-14"
+   ],
+   "where": [
+    "board_ts=2026-11-14",
+    "rows[0].last_seen=2026-11-13",
+    "rows[1].last_seen=2026-10-30",
+    "rows[2].last_seen=2026-11-14"
+   ]
+  }
+ },
  "n_no_bar_by_design": 2,
  "no_bar_by_design": [
   {

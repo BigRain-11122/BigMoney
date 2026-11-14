@@ -168,9 +168,11 @@ def takeover_authority(mid, silence_h=None):
     if h is None or h < TAKEOVER_SILENCE_H:
         return None
     return {"writer": mid, "owner": HOST, "owner_silent_h": round(float(h), 1),
+            "gate_h": TAKEOVER_SILENCE_H,
             "took_over": True,
-            "why": "%s has not written its own heartbeat for %.1f h (> %.0f h): its page faces "
-                   "are stopped, not merely old" % (HOST, float(h), TAKEOVER_SILENCE_H)}
+            "why": "%s has not written its own heartbeat for %.1f h (> %.0f h): this host takes "
+                   "the pen for the page only -- a stopped heartbeat is not a dead machine"
+                   % (HOST, float(h), TAKEOVER_SILENCE_H)}
 
 
 def writer_allowed(mid):
@@ -1771,7 +1773,10 @@ def premium_forward_block(pf, page_bar=None, page_day=None):
 # the authority block is a count of hours since a machine last wrote. Both were filed by the
 # section auditor under "carries no date", a bucket no reader can act on because neither will
 # ever carry a bar. Each declares its reason from the auditor's enum instead.
-PAGE_NO_BAR_REASONS = {"sources": "pointer_block", "authority": "human_ages"}
+PAGE_NO_BAR_REASONS = {"sources": "pointer_block", "authority": "human_ages",
+                       # r1673: the fleet block measures how long ago a machine wrote, which
+                       # is a clock reading like the authority block, never a bar.
+                       "fleet": "human_ages"}
 
 SIBLING_GAP_WORDS = {
     "PERSISTENT_GAP": "长期收的",
@@ -6760,6 +6765,133 @@ def feed_lag_block(p):
             % (priced, expected, lag)]
 
 
+FLEET_FRESHNESS = os.path.join(ROOT, "results", "data_lane_freshness.json")
+
+
+def fleet_state(path=None):
+    """Which machines still write their own heartbeat, and who runs whose lanes.
+
+    Read from the published freshness board (results/data_lane_freshness.json), not from the
+    heartbeat files: that board already splits "where the numbers live" from "who vouches for
+    them" (r1162), and a second derivation here would be a second answer to one question.
+    None = unreadable, which must never print as "everyone is fine" (r98/E254).
+    """
+    p = FLEET_FRESHNESS if path is None else path
+    try:
+        with open(p, encoding="utf-8") as fh:
+            d = json.load(fh) or {}
+    except (OSError, ValueError, TypeError):
+        return None
+    hosts = d.get("hosts") or {}
+    if not isinstance(hosts, dict) or not hosts:
+        return None
+    rows = []
+    for name in sorted(hosts):
+        h = hosts[name] or {}
+        if not isinstance(h, dict):
+            continue
+        rows.append({
+            "host": name,
+            "last_seen": h.get("last_seen") or h.get("ts"),
+            "age_h": h.get("age_h"),
+            "alive": h.get("alive"),
+            "lanes": list(h.get("lanes") or []),
+            "taken_over": dict(h.get("lanes_taken_over") or {}),
+        })
+    if not rows:
+        return None
+    # the board's own generation stamp is not a bar; keeping it under a loose name (`as_of`)
+    # made the section auditor read this block as priced on 2026-11-14 (r1673) -- the clock a
+    # board was written at and the bar it describes are two different quantities.
+    return {"board_ts": d.get("as_of"), "verdict": d.get("verdict"), "rows": rows}
+
+
+def _age_words(age_h):
+    if age_h is None:
+        return "?"
+    try:
+        v = float(age_h)
+    except (TypeError, ValueError):
+        return "?"
+    if v >= 48.0:
+        return "%.1f 天" % (v / 24.0)
+    return "%.1f 小时" % v
+
+
+def fleet_block(st):
+    """The fleet row the CEO paper never carried: three machines, and who is still awake.
+
+    Two of three machines had stopped writing their own heartbeat while their lanes kept
+    running on this host, and every CEO-facing surface read as if the firm were whole. The
+    block says only what the freshness board measured -- a stopped heartbeat, and which host
+    now runs those lanes. It never calls a machine dead (E254: silence is not death; the
+    independent evidence lives in that machine's own artefacts, not in its pulse).
+    """
+    out = ["## 机队实况（谁在写自己的心跳）", ""]
+    if not st or not (st.get("rows") if isinstance(st, dict) else None):
+        out.append("- **读不到机队面**（`results/data_lane_freshness.json`）—— 这一节空着不是"
+                   "「三台都在跑」，是「这一页核不了」；读不到不等于正常。")
+        out.append("")
+        return out
+    rows = st.get("rows") or []
+    out.append("| 机器 | 它自己的心跳停在 | 距今 | 它管的车道 | 这些车道现在谁在跑 |")
+    out.append("|---|---|---|---|---|")
+    quiet = []
+    unknown = []
+    for r in rows:
+        host = r.get("host") or "?"
+        seen = str(r.get("last_seen") or "")
+        seen = seen[:16].replace("T", " ") if seen else "—"
+        lanes = "、".join(r.get("lanes") or []) or "—"
+        tk = r.get("taken_over") or {}
+        if tk:
+            by = {}
+            for lane, who in tk.items():
+                by.setdefault(who, []).append(lane)
+            run = "；".join("%s 代跑 %s" % (who, "、".join(sorted(v)))
+                            for who, v in sorted(by.items()))
+        else:
+            run = "自己"
+        flag = ""
+        if r.get("alive") is False:
+            flag = "（停）"
+            quiet.append(r)
+        elif r.get("alive") is None:
+            flag = "（未判）"
+            unknown.append(r)
+        out.append("| %s%s | %s | %s | %s | %s |"
+                   % (host, flag, seen, _age_words(r.get("age_h")), lanes, run))
+    out.append("")
+    if quiet:
+        bits = ["%s（%s）" % (r.get("host"), _age_words(r.get("age_h"))) for r in quiet]
+        moved = sorted({lane for r in rows for lane in (r.get("taken_over") or {})})
+        out.append("- **%d 台机没有在写自己的心跳**：%s。%s"
+                   % (len(quiet), "、".join(bits),
+                      ("其中 %d 条车道已由别人代跑：%s。" % (len(moved), "、".join(moved)))
+                      if moved else "这些车道眼下没有声明代跑。"))
+    elif unknown:
+        # the third state: a row whose pulse cannot be read is not a stopped machine and not
+        # a healthy one (r98). Printing the "everyone is fine" sentence over it is the exact
+        # defect this block exists to stop.
+        out.append("- **%d 台机的心跳核不了**：%s。读不到既不是「停了」，也不是「正常」。"
+                   % (len(unknown), "、".join(r.get("host") or "?" for r in unknown)))
+    else:
+        ages = [r.get("age_h") for r in rows if r.get("age_h") is not None]
+        out.append("- **每台机都在写自己的心跳**（最近一次 %s）；没有车道被代跑。"
+                   % _age_words(min(ages) if ages else None))
+    out.append("- 说明：这一节只报两件被量过的事——「它自己的心跳文件没更新」和「它的车道现在由谁在跑」。"
+               "心跳停了不等于机器死了（要判生死，得看它自己还留没留下产物）；读不到那一行也不是「正常」。")
+    # r1673: every "how long ago" in the table is that board's reading, not the reader's
+    # clock. Without the board's own stamp the ages silently stop being true as the page
+    # ages (r1671 family: the printed number must carry the moment it was measured).
+    _bs = st.get("board_ts")
+    if _bs:
+        out.append("- 上表每个「距今」是**机队面自己那一刻的读数**（机队面 as_of %s），"
+                   "不是本页的钟；页面离开那一刻越久，表里的数就越旧。" % _bs)
+    out.append("")
+    return out
+
+
 def render_md(p, sb=None):
     L = []
     add = L.append
@@ -6839,6 +6971,12 @@ def render_md(p, sb=None):
     # bar, and only the ticket knows which bar the market actually expects.
     for _fl_line in feed_lag_block(p):
         add(_fl_line)
+    # r1673: the fleet itself. Two of three machines had stopped writing their own heartbeat
+    # while their lanes ran on this host's legs, and no CEO-facing paper ever said so -- the
+    # reader could not tell a whole firm from one machine. Mirrors the published freshness
+    # board (one derivation) and says only what that board measured (E254: no death verdict).
+    for _fleet_line in fleet_block(p.get("fleet") if "fleet" in p else fleet_state()):
+        add(_fleet_line)
     # r1573: before the buy list, not after it -- whether the book may hold new money is a
     # condition on the list, and a reader who stops at the table would never reach it.
     for _adm_line in admission_block(p.get("admission") or {}):
@@ -8024,10 +8162,17 @@ def render_md(p, sb=None):
     add("")
     _auth = p.get("authority") or {}
     if _auth.get("took_over"):
-        add("**这一页是 %s 代笔的。** %s 已经 %.1f 小时没有自己的心跳 —— 它的页面是"
-            "停了，不是旧了；代笔只写这一页，不碰它盘上的任何面。"
+        # r1673: this sentence used to conclude "its pages are stopped, not merely old" from
+        # one witness -- the owner's heartbeat file. A file that stopped being written and a
+        # machine that died are different events, and this page only measured the first
+        # (E254). It now says what it read and leaves the death verdict where it belongs.
+        add("**这一页是 %s 代笔的。** %s 自己的心跳已经超过 %.0f 小时没有更新（门 %.0f 小时；"
+            "具体几小时见上面「机队实况」，那是机队面自己那一刻的读数）——代笔只写这一页，"
+            "不碰它盘上的任何面。心跳停了不等于机器死了：这一句说的是「它的心跳没更新」，"
+            "不是「那台机没了」。"
             % (_auth.get("writer"), _auth.get("owner"),
-               float(_auth.get("owner_silent_h") or 0)))
+               float(_auth.get("gate_h") or TAKEOVER_SILENCE_H),
+               float(_auth.get("gate_h") or TAKEOVER_SILENCE_H)))
         add("")
     add("---")
     _agd = p.get("agreement") or {}
@@ -8049,6 +8194,8 @@ def run():
     auth = takeover_authority(mid) or {"writer": mid, "owner": HOST, "took_over": False}
     auth = dict(auth, no_bar_reason=PAGE_NO_BAR_REASONS["authority"])
     page["authority"] = auth
+    # published with the page so the reader can re-check it without re-deriving anything
+    page["fleet"] = dict(fleet_state() or {}, no_bar_reason=PAGE_NO_BAR_REASONS["fleet"])
     if auth.get("took_over"):
         print("etf_book_ceo_page: WRITING AS %s -- %s" % (mid, auth["why"]))
     os.makedirs(OUT_DIR, exist_ok=True)
@@ -11625,6 +11772,63 @@ def selftest():
         not _bl_buf.getvalue().strip()
         and bool(_bl_page.get("order")) and bool(_bl_today),
         "captured=%r" % (_bl_buf.getvalue().strip()[:120],))
+
+    # r1673: the fleet block. Three states, and the two that lie are the interesting ones:
+    # a whole fleet reads as one sentence, and a fleet that cannot be read must not read as
+    # healthy. Each leg perturbs the field it claims to separate.
+    _fl_all = {"as_of": "2026-11-14 10:56", "verdict": "attention", "rows": [
+        {"host": "bm-a", "last_seen": "2026-11-14T10:40:00+08:00", "age_h": 0.3,
+         "alive": True, "lanes": ["futures", "heat"], "taken_over": {}},
+        {"host": "bm-c", "last_seen": "2026-11-14T10:50:00+08:00", "age_h": 0.1,
+         "alive": True, "lanes": ["marks"], "taken_over": {}}]}
+    _fl_all_txt = "\n".join(fleet_block(_fl_all))
+    chk("L269 fleet block: a fleet whose pulses are all live says so and names no take-over",
+        "每台机都在写自己的心跳" in _fl_all_txt and "没有在写自己的心跳" not in _fl_all_txt
+        and "没有车道被代跑" in _fl_all_txt and "bm-a" in _fl_all_txt
+        and "（未判）" not in _fl_all_txt,
+        _fl_all_txt[:120])
+    _fl_two = {"as_of": "2026-11-14 10:56", "verdict": "attention", "rows": [
+        {"host": "bm-a", "last_seen": "2026-11-13T23:12:03+08:00", "age_h": 11.7,
+         "alive": False, "lanes": ["futures", "repo"], "taken_over": {"repo": "bm-c"}},
+        {"host": "bm-b", "last_seen": "2026-10-30T12:43:06+08:00", "age_h": 358.2,
+         "alive": False, "lanes": ["marks"], "taken_over": {"marks": "bm-c"}},
+        {"host": "bm-c", "last_seen": "2026-11-14T10:50:00+08:00", "age_h": 0.1,
+         "alive": True, "lanes": ["etf_panel"], "taken_over": {}}]}
+    _fl_two_txt = "\n".join(fleet_block(_fl_two))
+    chk("L270 fleet block: a stopped pulse is counted, aged in its own unit, and its lanes name the taker",
+        "2 台机没有在写自己的心跳" in _fl_two_txt
+        and "11.7 小时" in _fl_two_txt and "14.9 天" in _fl_two_txt
+        and "bm-c 代跑 repo" in _fl_two_txt and "bm-c 代跑 marks" in _fl_two_txt
+        and "其中 2 条车道已由别人代跑：marks、repo" in _fl_two_txt
+        and "心跳停了不等于机器死了" in _fl_two_txt
+        and "每台机都在写" not in _fl_two_txt,
+        _fl_two_txt[:200])
+    chk("L271 fleet block: an unreadable board says 'cannot check', never 'all running'",
+        "读不到机队面" in "\n".join(fleet_block(None))
+        and "都在写" not in "\n".join(fleet_block(None))
+        and fleet_state(path=os.path.join(ROOT, "results", "_r1673_no_such_board.json")) is None,
+        "unreadable=OK")
+    _fl_unk = {"as_of": "x", "rows": [
+        {"host": "bm-a", "last_seen": None, "age_h": None, "alive": None,
+         "lanes": [], "taken_over": {}}]}
+    _fl_unk_txt = "\n".join(fleet_block(_fl_unk))
+    chk("L272 fleet block: an unknown pulse is printed as unknown, not as stopped and not as fine",
+        "（未判）" in _fl_unk_txt and "没有在写自己的心跳" not in _fl_unk_txt
+        and "每台机都在写自己的心跳" not in _fl_unk_txt,
+        _fl_unk_txt[:160])
+    # the take-over sentence: it may name the silence, it may not perform the autopsy (E254)
+    _tk = takeover_authority("bm-c", silence_h=17.5) or {}
+    # render_md returns a string (render_* blocks return lists); joining it would put a newline
+    # between every character and quietly pass a substrating-free text to the assertions.
+    _tk_md = render_md(dict(page, authority=dict(_tk, no_bar_reason="human_ages")))
+    chk("L273 take-over sentence names its gate, points at the fleet table for the age, and refuses the death verdict",
+        _tk.get("took_over") is True and "超过 6 小时没有更新" in _tk_md
+        and "机队实况" in _tk_md
+        and "17.5 小时没有更新" not in _tk_md      # one page, one measurement of one age
+        and "心跳停了不等于机器死了" in _tk_md
+        and "停了，不是旧了" not in _tk_md
+        and _tk.get("gate_h") == TAKEOVER_SILENCE_H,
+        (_tk.get("why") or "")[:120])
 
     print("\nSummary: %d/%d PASS%s" % (ok, total, "" if ok == total else " -- %d FAIL" % (total - ok)))
     return 0 if ok == total else 1

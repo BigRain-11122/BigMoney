@@ -23,7 +23,7 @@ Verdict: **attention** -- 11/15 lanes in sync, 14/15 auditable from this machine
 | `heat` | bm-a | 2026-11-13 | 0 | in_sync | host_envelope |
 | `lhb` | bm-a | 2026-11-13 | 0 | in_sync | host_envelope |
 | `minute_feed` | bm-c | 2026-11-13 | 0 | in_sync | host_copy |
-| `repo` | bm-a | 2026-11-13 | 0 | in_sync | host_envelope |
+| `repo` | bm-a | 2026-11-13 | 0 | in_sync | declared_takeover |
 | `ths_panel` | bm-c | 2026-11-13 | 0 | in_sync | host_envelope |
 | `zt_pool` | bm-c | 2026-11-13 | 0 | in_sync | host_copy |
 
@@ -37,7 +37,7 @@ Verdict: **attention** -- 11/15 lanes in sync, 14/15 auditable from this machine
 
 The collector's own last words, quoted rather than re-derived. An empty cause means the lane was simply never run on this host.
 
-- `ah_panel`: last exit 2 | target 2026-11-13 | attempt 2026-11-13 22:39:22 | mapping_error: em page 1: RemoteDisconnected: Remote end closed connection without response
+- `ah_panel`: last exit 2 | target 2026-11-13 | attempt 2026-11-14 10:54:47 | mapping_error: em page 1: RemoteDisconnected: Remote end closed connection without response
 
 ## Lanes judged against their own window
 
@@ -56,16 +56,16 @@ Each missing day below is classified by its own collector. `takeover_possible` m
 
 A different question from the section above: these machines have written no heartbeat for more than 24.0h, so the lanes they own are being judged from whatever was last committed. A lane here can still read `in_sync` -- the number is old, the owner is gone, and nobody would notice the day the file stops being written.
 
-- `bm-b`: last seen 2026-10-30T12:43:06+08:00 (349.46h ago) -- owns astock_daily, marks
+- `bm-b`: last seen 2026-10-30T12:43:06+08:00 (364.69h ago) -- owns astock_daily, marks
   - already covered by a declared stand-in: astock_daily <- bm-c, marks <- bm-c (nothing to wait for)
 
 ## Tails read from a sample
 
 The per-symbol panels hold thousands of files, so their tail is read through an evenly spaced sample rather than a full sweep. A sample can miss a single laggard symbol; it cannot miss a panel that stopped weeks ago. Each row below says how many symbols were read out of how many.
 
-- `moneyflow`: 40 of 5226 symbols read, tail 2026-11-10; the full scan holds it in 5,225 of 5,226 symbols (100.00%) (certified 2026-11-14T02:10:05)
-- `ah_panel`: 40 of 187 symbols read, tail 2026-11-12; the full scan holds it in 187 of 187 symbols (100.00%) (certified 2026-11-14T02:10:05)
-- `astock_daily`: 40 of 5223 symbols read, tail 2026-11-13; the full scan holds it in 5,070 of 5,223 symbols (97.07%) (certified 2026-11-14T02:10:05)
+- `moneyflow`: 40 of 5226 symbols read, tail 2026-11-10; the full scan holds it in 5,225 of 5,226 symbols (100.00%) (certified 2026-11-14T10:04:40)
+- `ah_panel`: 40 of 187 symbols read, tail 2026-11-12; the full scan holds it in 187 of 187 symbols (100.00%) (certified 2026-11-14T10:04:40)
+- `astock_daily`: 40 of 5223 symbols read, tail 2026-11-13; the full scan holds it in 5,212 of 5,223 symbols (99.79%) (certified 2026-11-14T10:04:40)
 
 Full-scan certification of exactly these rows: `scripts/data_lane_freshness.py certify` -> `docs/data_lanes/TAIL_CERTIFICATION.md` (it re-reads every file and names the symbols that sit behind the newest bar).
 
