@@ -1,4 +1,4 @@
-# Lane ownership declaration (2026-11-14T10:05:33)
+# Lane ownership declaration (2026-11-14T20:25:06)
 
 > derived by `scripts/lane_ownership_declaration.py` from `results/data_lane_freshness.json`,
 > `config/lane_hosts.json` and the `owner` defaults inside `data_lane_freshness.LANES`.
@@ -12,14 +12,14 @@
 | options | bm-c | config/lane_hosts.json | bm-a | none (unattributed) | yes | **DECLARED_ONLY** |
 | sina_mf | bm-c | config/lane_hosts.json | - | bm-c | yes | **DECLARED_AND_OBSERVED** |
 | moneyflow | bm-c | config/lane_hosts.json | bm-a | bm-c | yes | **DECLARED_AND_OBSERVED** |
-| lhb_inst | bm-c | config/lane_hosts.json | bm-c | bm-c | yes | **DECLARED_AND_OBSERVED** |
-| ah_panel | bm-c | config/lane_hosts.json | - | none (host_copy) | yes | **DECLARED_ONLY** |
 | marks | bm-b | data_lane_freshness.LANES | bm-b | bm-c | no | **DECLARED_TAKEOVER** |
+| ah_panel | bm-c | config/lane_hosts.json | - | none (host_copy) | yes | **DECLARED_ONLY** |
 | astock_daily | bm-b | data_lane_freshness.LANES | bm-b | bm-c | no | **DECLARED_TAKEOVER** |
 | etf_panel | bm-c | config/lane_hosts.json | bm-a | bm-c | yes | **DECLARED_AND_OBSERVED** |
 | futures | bm-a | data_lane_freshness.LANES | bm-a | bm-a | no | **DECLARED_AND_OBSERVED** |
 | heat | bm-a | config/lane_hosts.json | bm-a | bm-a | no | **DECLARED_AND_OBSERVED** |
 | lhb | bm-a | data_lane_freshness.LANES | bm-a | bm-a | no | **DECLARED_AND_OBSERVED** |
+| lhb_inst | bm-c | config/lane_hosts.json | bm-c | bm-c | yes | **DECLARED_AND_OBSERVED** |
 | minute_feed | bm-c | config/lane_hosts.json | - | none (host_copy) | yes | **DECLARED_ONLY** |
 | repo | bm-a | config/lane_hosts.json | bm-a | bm-c | no | **DECLARED_TAKEOVER** |
 | ths_panel | bm-c | config/lane_hosts.json | - | bm-c | yes | **DECLARED_AND_OBSERVED** |

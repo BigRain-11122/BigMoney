@@ -3936,7 +3936,7 @@
    "turnover_arm": 0.9457,
    "turnover_declared": 0.959
   },
-  "elapsed_sec": 87.6,
+  "elapsed_sec": 100.7,
   "evidence_cutoff": "2026-11-13",
   "gross_rows": [
    {
@@ -4313,7 +4313,7 @@
    }
   ],
   "script": "scripts\\etf_book_causal_rebuild.py",
-  "ts": "2026-11-14T10:23:21+0800",
+  "ts": "2026-11-14T20:46:46+0800",
   "verdict": {
    "admissible_arms": [],
    "arms": [
@@ -5279,7 +5279,7 @@
    "up_quantile": 0.8,
    "verdict_rule": "ADOPT_GAP iff some gap arm beats `declared` on CAGR by >= gap_min_pp AND its Sharpe is >= this run's `declared` Sharpe AND its max drawdown is no deeper than declared - dd_tol_pp AND it beats declared on CAGR in >= phase_share_min of the phases; MIXED_ACROSS_PHASES if the return line is cleared but the phase share is not (or the reverse); NO_GAP_EDGE otherwise -- the gap stays information"
   },
-  "elapsed_sec": 81.5,
+  "elapsed_sec": 89.2,
   "evidence_cutoff": "2026-11-13",
   "gap_stats": {
    "entry_bars": 84,
@@ -5638,7 +5638,7 @@
    }
   ],
   "script": "scripts\\etf_book_overnight_gap.py",
-  "ts": "2026-11-14T10:24:43+0800",
+  "ts": "2026-11-14T20:48:18+0800",
   "verdict": {
    "admissible_arms": [],
    "arms": [
@@ -5752,8 +5752,8 @@
   "k_schedule_last": 0.460253,
   "consistency": {
    "generated": {
-    "permission": "2026-11-14T10:53:55+0800",
-    "gap": "2026-11-14T10:53:59+0800",
+    "permission": "2026-11-14T21:24:03+0800",
+    "gap": "2026-11-14T21:24:06+0800",
     "ledger": "2026-11-13T20:58:31+0800"
    },
    "permission_vs_gap": true,
@@ -6719,7 +6719,7 @@
   "inputs": {
    "cut_order_gap": {
     "cutoff": "2026-11-13",
-    "digest": "966361ec37f86c99"
+    "digest": "78e0e6b04d31a35a"
    },
    "late_sheet_price": {
     "cutoff": "2026-11-13",
@@ -7370,20 +7370,20 @@
  "authority": {
   "writer": "bm-c",
   "owner": "bm-a",
-  "owner_silent_h": 19.2,
+  "owner_silent_h": 23.9,
   "gate_h": 6.0,
   "took_over": true,
-  "why": "bm-a has not written its own heartbeat for 19.2 h (> 6 h): this host takes the pen for the page only -- a stopped heartbeat is not a dead machine",
+  "why": "bm-a has not written its own heartbeat for 23.9 h (> 6 h): this host takes the pen for the page only -- a stopped heartbeat is not a dead machine",
   "no_bar_reason": "human_ages"
  },
  "fleet": {
-  "board_ts": "2026-11-14T18:23:18",
+  "board_ts": "2026-11-14T23:03:57",
   "verdict": "attention",
   "rows": [
    {
     "host": "bm-a",
     "last_seen": "2026-11-13T23:12:03+08:00",
-    "age_h": 19.19,
+    "age_h": 23.87,
     "alive": false,
     "lanes": [
      "futures",
@@ -7398,7 +7398,7 @@
    {
     "host": "bm-b",
     "last_seen": "2026-10-30T12:43:06+08:00",
-    "age_h": 365.67,
+    "age_h": 370.35,
     "alive": false,
     "lanes": [
      "marks",
@@ -7411,8 +7411,8 @@
    },
    {
     "host": "bm-c",
-    "last_seen": "2026-11-14T18:13:00+08:00",
-    "age_h": 0.17,
+    "last_seen": "2026-11-14T21:38:51+08:00",
+    "age_h": 1.42,
     "alive": true,
     "lanes": [
      "sina_mf",

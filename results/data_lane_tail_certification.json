@@ -1,5 +1,5 @@
 {
- "as_of": "2026-11-14T10:04:40",
+ "as_of": "2026-11-14T20:24:12",
  "machine": "bm-c",
  "verdict": "certified",
  "thin_tail_share": 0.1,
@@ -8,7 +8,7 @@
   "lanes_reused": 3,
   "files_scanned": 10657,
   "sample_disagreed": 0,
-  "lanes_with_laggards": 2,
+  "lanes_with_laggards": 3,
   "thin_tails": 0
  },
  "lanes": [
@@ -66,7 +66,7 @@
    "tail_holder_share": 1.0,
    "laggards": [],
    "laggards_truncated": false,
-   "reused": false,
+   "reused": true,
    "elapsed_sec": 0.0,
    "thin_tail": false
   },
@@ -102,10 +102,10 @@
    "lane": "astock_daily",
    "machine": "bm-c",
    "dir": "data/astock_daily/per",
-   "scanned_at": "2026-11-14T10:04:41",
+   "scanned_at": "2026-11-14T20:24:13",
    "panel_fingerprint": {
     "files": 5223,
-    "max_mtime": 1794594684.425,
+    "max_mtime": 1794622314.666,
     "bytes": 1207464342
    },
    "full_tail": "2026-11-13",
@@ -135,21 +135,21 @@
    ],
    "laggards_truncated": false,
    "reused": false,
-   "elapsed_sec": 51.81,
+   "elapsed_sec": 51.98,
    "thin_tail": false
   },
   {
    "lane": "ah_panel",
    "machine": "bm-c",
    "dir": "data/ah_panel/per",
-   "scanned_at": "2026-11-13T21:04:31",
+   "scanned_at": "2026-11-14T20:25:05",
    "panel_fingerprint": {
     "files": 187,
-    "max_mtime": 1794476282.554,
-    "bytes": 16525334
+    "max_mtime": 1794658976.959,
+    "bytes": 16530676
    },
-   "full_tail": "2026-11-12",
-   "sample_tail": "2026-11-12",
+   "full_tail": "2026-11-13",
+   "sample_tail": "2026-11-13",
    "agree": true,
    "direction": "agree",
    "files": 187,
@@ -157,13 +157,39 @@
    "files_read_by_sample": 40,
    "sample_disclosed": true,
    "unread": 0,
-   "n_laggards": 0,
-   "tail_holders": 187,
-   "tail_holder_share": 1.0,
-   "laggards": [],
-   "laggards_truncated": false,
-   "reused": true,
-   "elapsed_sec": 1.09,
+   "n_laggards": 81,
+   "tail_holders": 106,
+   "tail_holder_share": 0.5668,
+   "laggards": [
+    "00347.csv",
+    "00358.csv",
+    "00390.csv",
+    "00470.csv",
+    "00588.csv",
+    "00638.csv",
+    "00670.csv",
+    "00699.csv",
+    "00753.csv",
+    "00763.csv",
+    "00916.csv",
+    "00921.csv",
+    "01055.csv",
+    "01072.csv",
+    "01081.csv",
+    "01138.csv",
+    "01157.csv",
+    "01211.csv",
+    "01304.csv",
+    "01336.csv",
+    "01375.csv",
+    "01377.csv",
+    "01618.csv",
+    "01635.csv",
+    "01772.csv"
+   ],
+   "laggards_truncated": true,
+   "reused": false,
+   "elapsed_sec": 1.32,
    "thin_tail": false
   }
  ]
