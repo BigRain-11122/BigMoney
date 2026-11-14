@@ -134,6 +134,17 @@ def _ceo_page_view():
     return out
 
 
+def _page_day_of(view):
+    """The day the page names for itself -- render_md passes exactly this value.
+
+    r1679: three legs re-derived `capital_block()` with no page_day, so the block printed
+    「今天」 while the page (correctly) named 2026-11-13. The leg was the one lying: a
+    fixture that omits the page's own day cannot judge a sentence that branches on it
+    (same wound as r1664's hand-passed fixtures).
+    """
+    return str(((view or {}).get("doc") or {}).get("generated_for_date") or "") or None
+
+
 def _page_elsewhere_note(view, bar, what="", section=None):
     """The one sentence a leg prints instead of red, or None when it must stay strict.
 
@@ -9126,7 +9137,8 @@ def main() -> int:
                 _note72 = _page_elsewhere_note(_pv72, _face72.get("evidence_cutoff"),
                                            section="capital") or ""
                 _badface72, _bad72 = _bad72, []       # page-side findings collect here
-                _lines72 = [l for l in _PG72.capital_block(_face72) if l.strip()]
+                _lines72 = [l for l in _PG72.capital_block(
+                    _face72, page_day=_page_day_of(_pv72)) if l.strip()]
                 _off72 = [l for l in _lines72 if l not in _md72]
                 if _off72:
                     _bad72.append("%d of the section's lines never reach the page"
@@ -9216,11 +9228,12 @@ def main() -> int:
             # r1493: same split as the capital leg -- the ticket-width line is re-derived
             # from today's face, so its absence on a page built on an older bar is that
             # page's age (owned by another host), not this round's defect.
-            _note73 = _page_elsewhere_note(_ceo_page_view(),
-                                           _face73.get("evidence_cutoff"),
+            _pv73 = _ceo_page_view()
+            _note73 = _page_elsewhere_note(_pv73, _face73.get("evidence_cutoff"),
                                            section="capital") or ""
             _badface73, _bad73 = _bad73, []          # page-side findings collect here
-            _tk_lines73 = [l for l in _PG73.capital_block(_face73) if "可执行单" in l]
+            _tk_lines73 = [l for l in _PG73.capital_block(
+                _face73, page_day=_page_day_of(_pv73)) if "可执行单" in l]
             if not _tk_lines73:
                 _bad73.append("the page never mentions the ticket's own width")
             elif any(l not in _md73 for l in _tk_lines73):
@@ -9291,10 +9304,12 @@ def main() -> int:
             else:
                 with open(_lb74[-1], encoding="utf-8") as _fh74b:
                     _md74 = _fh74b.read()
-                _note74 = _page_elsewhere_note(_ceo_page_view(),
+                _pv74 = _ceo_page_view()
+                _note74 = _page_elsewhere_note(_pv74,
                                                _face74.get("evidence_cutoff"),
                                                section="capital") or ""
-                _lines74 = [l for l in _PG74.capital_block(_face74) if l.strip()]
+                _lines74 = [l for l in _PG74.capital_block(
+                    _face74, page_day=_page_day_of(_pv74)) if l.strip()]
                 _rate74 = ("%gbp" % float(_dbp74)) if _dbp74 else None
                 _hit74 = [l for l in _lines74 if _rate74 and
                           (_rate74 in l or ("%g bp" % float(_dbp74)) in l)]
