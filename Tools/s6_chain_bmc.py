@@ -968,6 +968,16 @@ LEGS = [
     ("alloc_paper", ["python", "scripts/alloc_paper.py", "run"]),
     ("grid_paper", ["python", "scripts/grid_paper.py", "run"]),
     ("system_v1", ["python", "scripts/system_v1_paper.py", "run"]),
+    # r1681: that lane had a reader (r1129) and no producer. Its only scheduler
+    # lives on bm-b, silent since 2026-10-30, so 11 of the last 15 trading days
+    # have no file at all -- and an intraday tick capture cannot be rebuilt after
+    # the fact, so every missed session is permanent (marks_coverage says exactly
+    # that, which is why reading it every round changed nothing). The host that IS
+    # awake takes over here: --takeover returns a no-op (exit 0) the moment bm-b's
+    # heartbeat is fresh again, and the 09:30-15:10 gate inside the script keeps any
+    # off-hours run a no-op, so this leg costs nothing outside the window and stamps
+    # its own provenance into every line it does write.
+    ("marks_capture", ["python", "scripts/update_intraday_marks.py", "--takeover"]),
     # r1129: the marks lane feeds the T-35 fill verifier, and a session that was
     # never captured looks identical to one that is merely late. Classify every
     # trading day (captured / permanent hole / still pending) so the verifier's
@@ -1808,6 +1818,17 @@ def selftest():
     n_refresh = sum(1 for t in LEGS if len(t) == 3)
     _check("check-only legs declare a refresh (n=%d)" % n_refresh, n_refresh >= 6,
            "n=%d" % n_refresh)
+    # r1681: the marks lane was the clearest case of a face with a reader and no producer
+    # -- marks_coverage classified permanent holes for eleven of fifteen trading days and
+    # every round read them, which is exactly why nothing changed. The guard is the ORDER:
+    # a capture leg must sit ahead of its coverage reader. It reads the table, not the
+    # disk (whether a capture actually landed is the freshness board's question), so a
+    # deleted producer turns this red while a genuine network failure does not.
+    _ordered = [t[0] for t in LEGS]
+    _check("the marks lane has a producer ahead of its coverage reader",
+           "marks_capture" in _ordered and "marks_coverage" in _ordered
+           and _ordered.index("marks_capture") < _ordered.index("marks_coverage"),
+           "marks legs=%r" % ([n for n in _ordered if n.startswith("marks")],))
     full = chain_record_path(1364)
     scoped = chain_record_path(1364, "fund_premium")
     _check("a --only record cannot overwrite the full-chain record",

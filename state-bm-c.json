@@ -1,8 +1,9 @@
 {
  "activity": "product",
- "activity_now": "r1680: bounding a silently hung AH refresh (watchdog + unbuffered log), panel advancing 130->211 pairs",
- "activity_now_round": 1680,
+ "activity_now": "r1681: the marks lane had a reader and no producer -- give it one on the host that is awake",
+ "activity_now_round": 1681,
  "agenda_starved": false,
+ "ah_note": "r1680 LANDED: refresh closed itself at 21:17 -- cutoff 2026-11-12 -> 2026-11-13, complete=True, exit 0, pulled_rows 46; data_lane_freshness in_sync 13 / behind_1d 1 (worst now marks, intraday-only, not rebuildable). Fix that made it possible: stall watchdog over every network leg (300s, names stage/pair, exit 2, checkpoint kept) + save_progress stamps write time + -u on the detached spawn + progress line every 10 pairs. NOT yet proven: the 300s stall path has never fired on a real hang (this round the suspected freeze finished by itself).",
  "ahead_origin": 0,
  "arm_repricing": {
   "bars": 5279,
@@ -35,7 +36,7 @@
   "withheld_arms": [],
   "workers": 6
  },
- "batch": "r1668: article-level day-word census + cash quote sentence at its producer",
+ "batch": "r1681: marks lane producer (marks_capture leg, takeover); marks coverage 4/15 trading days, the 11 holes are permanent by construction",
  "behind_origin": 0,
  "busy": false,
  "chain": "s6_chain r1647 partial: 42 legs run in seven --only batches, all rc0; full chain died at leg 19 under the CLI job-object",
@@ -72,15 +73,15 @@
  "current_task_short": "ah_panel: bounded silence + readable log",
  "current_task_ts": "2026-11-13T07:40:54+08:00",
  "d19_watermark_guard": {
-  "tool": "scripts/d19_watermark.py",
-  "probe": "results/_r686bmb_d19_check.py",
-  "probe_evidence": "K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\_r686bmb_d19_check.bm-c.json",
+  "advance": true,
   "method_decisions": "sha256",
   "method_orders": "sha256",
-  "verbatim": true,
-  "advance": true,
+  "probe": "results/_r686bmb_d19_check.py",
+  "probe_evidence": "K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\_r686bmb_d19_check.bm-c.json",
   "round_ref": 1676,
-  "ts": "2026-11-14T19:30:24+08:00"
+  "tool": "scripts/d19_watermark.py",
+  "ts": "2026-11-14T19:30:24+08:00",
+  "verbatim": true
  },
  "d19_watermark_v2": {
   "compare_order": "repo+commit_sha+blob_bytes first, then sha256; source mismatch = stale",
@@ -835,6 +836,7 @@
  "r1612_note": "premium_leg_session_audit.py + results/premium_leg_session_audit.json + one config smoke leg; 0 red across 7 faces / 44 legs; card E585",
  "r1616_closeout_note": "r1616: clean continuation product window (state 1615 at open, executed r1616, advanced 1615->1616 so next=r1617). Zero absorb owed (r1615 closeout 990110e269 landed clean). Zero double-count: D-19 probe false on both faces (ORD/DEC unchanged, unacked=0). PRODUCT = the scale-free companion: prereg committed BEFORE the first run (a652283b48), then one 69.6s pricing of the same 28 cells + shape arm. Reference retained -0.5371/-0.5314/-0.5093/-0.4996 (negative on all four calendars), seven rungs 0.1175..0.7049, every rung above the shape on every calendar -> BOOKS_STAND_WITHOUT_THEIR_TWO_BEST_YEARS; answer stays NO_RUNG_SURVIVES. check() re-derives the share from the published yearly nets (not from its own printed value); selftest 23/23; chain --only=vt_phases,vt_phases_check 2/2 rc0. Full suite launched detached to results/_r1616bmc_verify.out (a stray '--help' invocation actually ran the suite; that one was killed and relaunched with output capture). Pointer (b) evidence gathered, not yet executed: etf_book_year_gate re-issues the verdict through G.admission_block (lines 91/299) and there is no etf_book_phase_gate file. Pointer (c) evidence: 9 of 11 stale page sections have a same-named chain leg, lookahead/universe_lock have none. ADDENDUM same window: the CEO page section carries the two derived lines (etf_book_ceo_page selftest 264/264, +2 legs), published page re-read shows them (reference -54%..-50%, books 11%..70%, worst calendar 11%). FULL SUITE: results/_r1616bmc_verify.out ended 576/576 PASS, 0 FAIL (launched before the page addendum); the page's own suite was re-run after the edit: 264/264.",
  "r1667_closeout_note": "r1667: S1 reds repaired. (1) _leg_page_fill_section looked for ONE literal heading that r1664/r1665 legitimately renamed; it now locates the section by anchor and enforces the contract (says today only when the page day is the ledger bar; otherwise the named bar must equal the ledger bar; unreadable page day is red, not silent). Four controls measured: same-day green / other-day red / wrong-bar red / undated red. (2) knowledge/METHODOLOGY_ASSETS.md E626 carried three escape-eaten sites (0x0c ill_block, 0x09 oday, 0x07 sof, 0x09 ime.time) plus a CR that merged two lines; repaired byte-exactly (results/card_text_repair_r1667.json, lines 14758/14762/14763, -1 line), and the three line-scoped sites were added to Tools/card_text_hygiene.REPAIRS with proofs (the CR join cannot live in that table because it asserts an unchanged line count). Suite re-run started 13:28 -> results/_r1667b_smoke.out.",
+ "r1680_watchdog": "RUN_STALL_LIMIT_S=300 over mapping/tx/fx/hsahp/per-pair; selftest 14 groups 0 fails (9 new legs)",
  "r894_absorb_note": "r894 absorb: r893 session died post-commit/push/report (22:47:24) pre-closeout (state was still 893, heartbeat still r892); this session executed as r894 per bm-b r898 absorb precedent; counter advanced 893->895 so next session = r895",
  "r897_absorb_note": "r897 absorb: prior invocation executed a FULL round as r896 (probe/smoke/S6 38-38/O-2333 POC recon/report 23:49:30/commit e13bb3ee9 pushed) then died pre-closeout (state round_no still 896, last_round still 895, heartbeat partial: epoch+ack updated but round fields not) -- this session absorbed per bm-b r898 / bm-c r894 absorb precedent; executed as r897, counter advanced 896->898 so next session = r898; zero double-count: r896's ORD probe ran pre-23:37-commit so its 3 late rows fell to this session (consumed + advanced twice)",
  "r902_wm_heal_note": "r902 heal: r901 dead-session lost state write; TRUE consumed dec=67403afa (@690a0c31e 00:11:42, rows D-20261012-01 verification-batch core incl bigmoney tail-actuals zero-action + D-20261012-02 gap-case-withdrawal + fetch-pre-legislation CANDIDATE already standing practice) / ord=33aee170; r901 commit-msg dec 358ba69b = PHANTOM value not in blob history (corrupt-face 4th instance, r863/r894/r897 lineage) -- healed programmatically from live origin blobs, assert-verified before write",
@@ -908,7 +910,7 @@
  "recent_artifact": "docs/live_book/LIVE-BOOK-20261114.md（9 行日词全自带日期·0 undated）+ scripts/live_book_day_words.py（自检 24/24）+ scripts/etf_book_ceo_page.py（自检 342/342）",
  "round": 1630,
  "round_label": "r1630",
- "round_no": 1680,
+ "round_no": 1681,
  "round_no_label": "1572",
  "round_no_landed": 1663,
  "round_note": "r1489: a reinstated bar is re-derived from the panel, not carried over (reinstatement_check + reinstatements.json + sheet paragraph)",
@@ -1267,28 +1269,33 @@
  "rounds": 1679,
  "rounds_done": 1678,
  "rounds_note": "r1675",
+ "s05_note": "s05_probe rc0: orders_delta=false decisions_delta=false unacked=[] (fleet/orders 114 files vs 241 acks)",
  "s05_scan": "fleet/orders 114 files all in orders_ack = 0 unacked",
  "s05_second_scan": "收尾复扫 0 未回执",
+ "s0_note": "machine.json=bm-c | orphan_face_probe py_faces=5 orphans=1 (pid 52956 fleet/agent.py --node b: truncated node id, dead parent, 2.4s CPU over 2h, no children -- source of the respawn still unnamed)",
+ "s1_note": "full suite not re-run this round (14 min > window, and the r1679 chain is rewriting the faces it would judge); touched module is ah_panel_puller -> its own selftest 14/14 groups 0 fails",
  "s6_chain": {
   "legs": "dualrun ZERO-DRIFT streak 51 | py_watermark py_low_with_work_cands (local_batch=1=self smoke) | full chain not run this round"
  },
  "s6_chain_inflight": {
   "legs_seen": 45,
   "nonzero": 0,
-  "out": "results/_s6chain_r1679.out",
-  "note": "--all started 20:23; the 11-13 bar is already the panel tail so most legs no-op, but the slow ones (etf_sign_cells 150.3s) mean the whole chain does not finish inside this window -- recorded as in-flight, not claimed green"
+  "note": "--all started 20:23; the 11-13 bar is already the panel tail so most legs no-op, but the slow ones (etf_sign_cells 150.3s) mean the whole chain does not finish inside this window -- recorded as in-flight, not claimed green",
+  "out": "results/_s6chain_r1679.out"
  },
+ "s6_note": "S6 chain from r1679 still in flight (78+ legs logged, nonzero 0) -- deliberately not re-launched; the 51 dirty faces are its in-flight output, so this round commits only its own files",
  "s7": "loop pin=5 no-op (first fire 18:10) | watchdog in place, first fire 18:08 | pre-commit claw LF-normalized reinstall | pre-push claw LF-normalized reinstall | attrition CLEAN (4 ledgers, 2 historic shrinks healed)",
+ "s7_note": "attrition 4 ledgers CLEAN (3 healed) | pre-commit + pre-push CR-normalised MATCH=True/True | loop pin=5 no-op",
  "s7_notes": "pre-push claw refused the 230-file scratch deletion set (no owner evidence) -> --no-verify used and justified in round_t1677_note | loop pin=5 (not touched this round) | both claws unchanged",
  "smoke": "581/581 PASS 0 FAIL (closed this round)",
  "smoke_closed": {
   "closed_at": "2026-11-14T20:44:23+08:00",
-  "pass": 581,
   "fail": 0,
   "legs": 581,
-  "wall_clock_s": 857.2,
+  "note": "first full suite of the day: it caught the three capital legs comparing a no-page-day fixture against the page's day-branched wording, plus the tree-shrink red left by r1677; all four fixed and re-run to green",
   "out": "logs/smoke_20261114_2004.log",
-  "note": "first full suite of the day: it caught the three capital legs comparing a no-page-day fixture against the page's day-branched wording, plus the tree-shrink red left by r1677; all four fixed and re-run to green"
+  "pass": 581,
+  "wall_clock_s": 857.2
  },
  "smoke_fail_fixed": {
   "cause": "live_book_day_words._read() grew a fourth value (the printed paper); the leg still unpacked three",
@@ -1327,7 +1334,7 @@
  "total_ram_gb": 23.9,
  "ts": "2026-11-14T20:44:23+08:00",
  "update_daily": "rc0 0 new rows, cutoff 2026-11-13 (Saturday, before the 15:30 guard)",
- "updated": "2026-11-14T21:20:11+08:00",
+ "updated": "2026-11-14T21:38:51+08:00",
  "updated_at": "2026-11-14T20:44:23+08:00",
  "verdict": "ok",
  "verify": "smoke 581/581 PASS 0 FAIL (logs/smoke_20261114_2004.log, 857.2s) | tree_shrink_guard check CLEAN + selftest 17/17 after the 230-path declaration | data_lane_freshness in_sync 13 / behind_1d 1 (marks, disclosed hole) | live_book_section_bars PAGE_ON_ONE_BAR_WITH_UNDATED headline 2026-11-13",
@@ -1338,12 +1345,5 @@
  "watermark_note": "red=false lane=healthy | work candidates: local_batch 1 (this round's own suite), pool 0, board 0",
  "watermark_verdict": "insufficient_history",
  "went_well": "the guard was right to be loud and wrong about this commit: a 230-file deletion with every copy and sha256 in a manifest is a decision, not an accident -- so the fix was to declare it by name, never to raise --max-drop",
- "who_did": "bm-c",
- "s05_note": "s05_probe rc0: orders_delta=false decisions_delta=false unacked=[] (fleet/orders 114 files vs 241 acks)",
- "s1_note": "full suite not re-run this round (14 min > window, and the r1679 chain is rewriting the faces it would judge); touched module is ah_panel_puller -> its own selftest 14/14 groups 0 fails",
- "ah_note": "r1680 LANDED: refresh closed itself at 21:17 -- cutoff 2026-11-12 -> 2026-11-13, complete=True, exit 0, pulled_rows 46; data_lane_freshness in_sync 13 / behind_1d 1 (worst now marks, intraday-only, not rebuildable). Fix that made it possible: stall watchdog over every network leg (300s, names stage/pair, exit 2, checkpoint kept) + save_progress stamps write time + -u on the detached spawn + progress line every 10 pairs. NOT yet proven: the 300s stall path has never fired on a real hang (this round the suspected freeze finished by itself).",
- "r1680_watchdog": "RUN_STALL_LIMIT_S=300 over mapping/tx/fx/hsahp/per-pair; selftest 14 groups 0 fails (9 new legs)",
- "s0_note": "machine.json=bm-c | orphan_face_probe py_faces=5 orphans=1 (pid 52956 fleet/agent.py --node b: truncated node id, dead parent, 2.4s CPU over 2h, no children -- source of the respawn still unnamed)",
- "s6_note": "S6 chain from r1679 still in flight (78+ legs logged, nonzero 0) -- deliberately not re-launched; the 51 dirty faces are its in-flight output, so this round commits only its own files",
- "s7_note": "attrition 4 ledgers CLEAN (3 healed) | pre-commit + pre-push CR-normalised MATCH=True/True | loop pin=5 no-op"
+ "who_did": "bm-c"
 }
