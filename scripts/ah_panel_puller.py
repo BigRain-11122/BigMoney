@@ -47,6 +47,7 @@ import os
 import re
 import subprocess
 import sys
+import threading
 import time
 import urllib.request
 
@@ -94,6 +95,17 @@ SCALE_GATE_IQR_MED = 0.5      # source falsification gate (E9: tencent garbage =
 SCALE_GATE_MIN_N = 10
 MIN_PAIR_ROWS = 60            # ~1 quarter of common trading days; fewer = the
                               # pair is too young / broken to feed the panel
+# r1680: the per-pair legs call akshare's sina/tencent wrappers, which hand
+# `requests` no timeout at all -- a socket that stops answering blocks this
+# process forever while CPU idles (2026-11-14 20:57 live-fire: frozen at
+# 10.09s CPU for 13+ min, three Established connections, progress file
+# frozen, and a block-buffered stdout that showed nothing). The fix is not a
+# longer patience, it is a bounded silence: a run that completes no pair for
+# this long writes down which pair it died on and exits 2, leaving the
+# per-pair checkpoint for the next gate cycle to resume.
+RUN_STALL_LIMIT_S = 300
+PAIR_LOG_EVERY = 10           # log a progress line every N pairs (visible
+                              # heartbeat for a reader tailing the log)
 PER_HEADER = ["date", "close_A", "close_H", "fx_HKD_CNY", "premium"]
 
 EM_URL = "https://push2.eastmoney.com/api/qt/clist/get"
@@ -485,6 +497,54 @@ def write_status(**patch):
     return st
 
 
+def save_progress(target, done, attempts, quarantined, now_fn=None):
+    """Write the per-pair checkpoint with a timestamp that is actually now.
+
+    r1680: the field was named `last_update` but carried the run's start
+    stamp, so a run that froze at pair 110 kept asserting it had just
+    checked in -- a reader asking "is this alive" got a stale `ok` dressed as
+    a fresh one. The stamp is now computed at write time.
+    """
+    stamp = (now_fn or dt.datetime.now)().strftime("%Y-%m-%d %H:%M:%S")
+    _write_json(PROGRESS, {"run_target": target, "done": done,
+                           "attempts": attempts,
+                           "quarantined": quarantined,
+                           "last_update": stamp})
+    return stamp
+
+
+def stall_expired(last_stamp, now_mono, limit_s=RUN_STALL_LIMIT_S):
+    """Pure: has a started run gone quiet past the limit? (0 = never started)"""
+    return bool(last_stamp) and (now_mono - last_stamp) >= limit_s
+
+
+def start_stall_watchdog(stamp, current_pair, limit_s=RUN_STALL_LIMIT_S,
+                         on_stall=None, exit_fn=None):
+    """Turn an unbounded socket hang into a bounded exit 2.
+
+    `stamp` is a one-element list the pull loop refreshes after every pair;
+    `current_pair` is a one-element list naming the pair in flight. Fires at
+    most once. Returns the (daemon) thread so callers/tests can join.
+    """
+    exit_fn = exit_fn or os._exit
+
+    def _watch():
+        while True:
+            time.sleep(min(5.0, max(0.05, limit_s / 10.0)))
+            if stall_expired(stamp[0], time.monotonic(), limit_s):
+                if on_stall is not None:
+                    try:
+                        on_stall(current_pair[0], limit_s)
+                    except Exception:
+                        pass
+                exit_fn(2)
+                return
+
+    th = threading.Thread(target=_watch, name="ah-stall-watchdog", daemon=True)
+    th.start()
+    return th
+
+
 def cached_mapping(now, path=UNIVERSE_EM, max_days=MAPPING_CACHE_MAX_DAYS):
     """(rows, total, age_days) from the stored EM map, or None.
 
@@ -706,6 +766,30 @@ def run_refresh():
 
 def _refresh_inner():
     now = dt.datetime.now()
+    # r1680: every network leg below (mapping, tx census, fx, hsahp, per-pair
+    # akshare pulls) can block on a socket that never answers, and none of
+    # them carries a timeout of its own. One watchdog covers the whole run;
+    # the stage label travels with it so a stall names the leg it died on
+    # (2026-11-14: two runs froze before the pair loop -- "mapping" was the
+    # last word in the log, so a pair-only watchdog would never have fired).
+    _stamp = [time.monotonic()]
+    _current_pair = ["startup"]
+
+    def _stage(label):
+        _current_pair[0] = label
+        _stamp[0] = time.monotonic()
+
+    def _on_stall(where, limit_s):
+        write_status(mode="refresh", last_refresh_exit=2,
+                     ts=dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                     stalled_at=where, stall_limit_s=limit_s,
+                     stall_error=f"no progress for {limit_s}s at {where} "
+                                 f"(leg has no socket timeout); checkpoint kept")
+        print(f"STALL: no progress for {limit_s}s at {where} "
+              "-- exiting 2, checkpoint kept")
+
+    start_stall_watchdog(_stamp, _current_pair, RUN_STALL_LIMIT_S,
+                         on_stall=_on_stall)
     dates = _load_trading_dates()
     target = gate_target(now, dates)
     prog = progress_roll(_read_json(PROGRESS, {}) or {}, target)
@@ -728,6 +812,7 @@ def _refresh_inner():
     # -- leg 1: EM mapping (authoritative; fuse -> cache -> honest exit 2)
     mapping_src = "live"
     mapping_cache_age = None
+    _stage("mapping")
     try:
         em_rows, em_total = fetch_em_ah_table()
     except Exception as e:
@@ -754,6 +839,7 @@ def _refresh_inner():
     # -- leg 2: tencent census (cross-check face; non-fatal)
     tx_map = {}
     tx_rows_n = 0
+    _stage("tx-census")
     try:
         tx_rows, tx_pages = fetch_tx_census()
         tx_rows_n = len(tx_rows)
@@ -764,6 +850,7 @@ def _refresh_inner():
         print(f"tx census unavailable (non-fatal): {str(e)[:160]}")
 
     # -- leg 3: FX series (fatal)
+    _stage("fx")
     fx_rows = fetch_fx_series()
     if len(fx_rows) < 100:
         write_status(mode="refresh", last_refresh_exit=2, ts=now.strftime(
@@ -774,6 +861,7 @@ def _refresh_inner():
 
     # -- leg 4: HSAHP index (non-fatal)
     hsahp_rows_n = 0
+    _stage("hsahp")
     try:
         hs = fetch_hsahp()
         hsahp_rows_n = len(hs)
@@ -790,8 +878,14 @@ def _refresh_inner():
     scale_samples, cross_fail_run = [], []
     fuse = 0
     pulled = 0
+    attempted = 0
+    _stage("pairs")
     for pair in pairs:
         h = pair["h_code"]
+        _current_pair[0] = h
+        # A turning loop is alive; only a single iteration that never returns
+        # (an akshare socket with no timeout) can age this stamp past the limit.
+        _stamp[0] = time.monotonic()
         if h in quarantined:
             continue
         if h in done:
@@ -841,11 +935,11 @@ def _refresh_inner():
                 continue
             done.append(h)
             fuse = 0
-            _write_json(PROGRESS, {"run_target": target, "done": done,
-                                   "attempts": attempts,
-                                   "quarantined": quarantined,
-                                   "last_update": now.strftime(
-                                       "%Y-%m-%d %H:%M:%S")})
+            attempted += 1
+            save_progress(target, done, attempts, quarantined)
+            if attempted % PAIR_LOG_EVERY == 0:
+                print(f"progress {len(done)}/{len(pairs)} pairs "
+                      f"(this run: {attempted} ok, {pulled} rows)")
         except Exception as e:
             attempts[h] = int(attempts.get(h, 0)) + 1
             fuse += 1
@@ -854,11 +948,7 @@ def _refresh_inner():
             if attempts[h] >= QUARANTINE_AT:
                 quarantined[h] = f"{QUARANTINE_AT} cumulative failures " \
                                  f"@ {now:%Y-%m-%d}"
-            _write_json(PROGRESS, {"run_target": target, "done": done,
-                                   "attempts": attempts,
-                                   "quarantined": quarantined,
-                                   "last_update": now.strftime(
-                                       "%Y-%m-%d %H:%M:%S")})
+            save_progress(target, done, attempts, quarantined)
         time.sleep(PAIR_SLEEP_S)
 
     # T21 source falsification gate: broken crosscheck-source scale
@@ -874,9 +964,7 @@ def _refresh_inner():
               f"n {src_n}) -- {len(cross_fail_run)} fails downgraded to "
               "deferred, zero quarantine (r952 falsification law)")
 
-    _write_json(PROGRESS, {"run_target": target, "done": done,
-                           "attempts": attempts, "quarantined": quarantined,
-                           "last_update": now.strftime("%Y-%m-%d %H:%M:%S")})
+    save_progress(target, done, attempts, quarantined)
 
     # -- finalize: consolidated panel + status
     cutoff, panel_rows = None, 0
@@ -1058,7 +1146,12 @@ def spawn_detached_refresh():
     flags = (subprocess.DETACHED_PROCESS | subprocess.CREATE_NEW_PROCESS_GROUP
              | subprocess.CREATE_NO_WINDOW)
     with io.open(LOG, "a", encoding="utf-8") as lf:
-        subprocess.Popen([sys.executable, os.path.abspath(__file__), "refresh"],
+        # -u is not cosmetic: a redirected stdout is block-buffered, so the
+        # whole run's progress sat in an 8 KB buffer and the log read empty
+        # until exit -- which is how a healthy sleep-paced pull and a hung
+        # socket looked identical from outside (r1680).
+        subprocess.Popen([sys.executable, "-u", os.path.abspath(__file__),
+                          "refresh"],
                          stdout=lf, stderr=subprocess.STDOUT,
                          stdin=subprocess.DEVNULL, creationflags=flags,
                          close_fds=True)
@@ -1237,6 +1330,70 @@ def _selftest():
               cached_mapping(mnow, path=und) is None)
         check("F10c a missing cache is not an empty map",
               cached_mapping(mnow, path=os.path.join(_td, "none.json")) is None)
+
+    # F10d bounded silence (r1680): a leg with no timeout must not be able to
+    # hold the run forever, and a reader must be able to tell "working" from
+    # "hung" without guessing.
+    check("F10d a run that never started is not stalled",
+          stall_expired(0, 1e9) is False)
+    check("F10d a run inside the limit is still working",
+          stall_expired(100.0, 399.0, 300) is False)
+    check("F10d going quiet past the limit is a stall",
+          stall_expired(100.0, 400.0, 300) is True)
+    check("F10d the limit is a knob, not a coincidence",
+          stall_expired(100.0, 400.0, 1000) is False)
+    with _tf.TemporaryDirectory() as _td:
+        global PROGRESS
+        _saved_prog, PROGRESS = PROGRESS, os.path.join(_td, "_progress.json")
+        try:
+            st = save_progress("2026-11-13", ["02318"], {"00553": 1},
+                               {"01330": "x"},
+                               now_fn=lambda: dt.datetime(2026, 11, 14, 21, 5, 0))
+            back = _read_json(PROGRESS)
+            check("F10d the checkpoint stamp is written at write time",
+                  st == "2026-11-14 21:05:00"
+                  and back.get("last_update") == st)
+            check("F10d the checkpoint keeps every resume key",
+                  back.get("done") == ["02318"]
+                  and back.get("attempts") == {"00553": 1}
+                  and back.get("quarantined") == {"01330": "x"}
+                  and back.get("run_target") == "2026-11-13")
+        finally:
+            PROGRESS = _saved_prog
+
+    fired = []
+    stamp = [time.monotonic() - 10.0]
+    th = start_stall_watchdog(stamp, ["00553"], limit_s=0.2,
+                              on_stall=lambda h, lim: fired.append((h, lim)),
+                              exit_fn=lambda rc: fired.append(("exit", rc)))
+    th.join(timeout=5.0)
+    check("F10d the watchdog names the pair in flight and exits 2",
+          fired == [("00553", 0.2), ("exit", 2)])
+    fired2 = []
+    stamp2 = [time.monotonic()]
+    th2 = start_stall_watchdog(stamp2, ["02318"], limit_s=0.6,
+                               on_stall=lambda h, lim: fired2.append(h),
+                               exit_fn=lambda rc: fired2.append(("exit", rc)))
+    for _ in range(6):
+        stamp2[0] = time.monotonic()
+        time.sleep(0.15)
+    check("F10d a loop that keeps turning is never declared dead",
+          fired2 == [])
+
+    _saved_popen = subprocess.Popen
+
+    def _fake_popen(argv, **kw):
+        _fake_popen.seen = list(argv)
+        return object()
+
+    subprocess.Popen = _fake_popen
+    try:
+        spawn_detached_refresh()
+    finally:
+        subprocess.Popen = _saved_popen
+    check("F10d the detached refresh runs unbuffered",
+          "-u" in getattr(_fake_popen, "seen", [])
+          and "refresh" in getattr(_fake_popen, "seen", []))
 
     # F10 crosscheck verdict (T21 EM f188 re-point: raw/10000, dual gate)
     v1, _ = crosscheck_verdict(0.1621, 1621)      # em 0.1621, diff ~0 pass

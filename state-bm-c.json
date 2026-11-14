@@ -1,7 +1,7 @@
 {
  "activity": "product",
- "activity_now": "CEO 页票据句改由票据自己的 bar 定词，页面日债清零",
- "activity_now_round": 1675,
+ "activity_now": "r1680: bounding a silently hung AH refresh (watchdog + unbuffered log), panel advancing 130->211 pairs",
+ "activity_now_round": 1680,
  "agenda_starved": false,
  "ahead_origin": 0,
  "arm_repricing": {
@@ -53,7 +53,7 @@
   "state": "registered (FOUND)",
   "task": "HQ-ProductionClaim"
  },
- "clock_read": "2026-11-14T20:44:23+08:00",
+ "clock_read": "2026-11-14T21:11:23+08:00",
  "clock_read_source": "local",
  "clock_tz": "+08:00",
  "codely_live_count": 2,
@@ -65,11 +65,11 @@
  "cpu_total_pct": 10.0,
  "cpu_util_pct": 10.0,
  "cpus": 32,
- "cur_task": "r1664 product: an instruction block must name the bar it priced",
+ "cur_task": "ah_panel: bounded silence + readable log",
  "current": "r1616: the two-best-year question asked in a scale-free way",
- "current_task": "CEO 页「今天」那把尺子：7 行读不出哪一天的债清成 0（9 行日词全部自带日期），并把判词拆成 PRINTED_SELF_DATED / PRINTED_BUT_UNANCHORED",
+ "current_task": "r1680 product: ah_panel refresh stalled 4 minutes in, then froze forever mid-leg; the run now declares its silence",
  "current_task_at": "2026-11-14T11:36:52+08:00",
- "current_task_short": "r1616 y4 scale-free companion",
+ "current_task_short": "ah_panel: bounded silence + readable log",
  "current_task_ts": "2026-11-13T07:40:54+08:00",
  "d19_watermark_guard": {
   "tool": "scripts/d19_watermark.py",
@@ -908,7 +908,7 @@
  "recent_artifact": "docs/live_book/LIVE-BOOK-20261114.md（9 行日词全自带日期·0 undated）+ scripts/live_book_day_words.py（自检 24/24）+ scripts/etf_book_ceo_page.py（自检 342/342）",
  "round": 1630,
  "round_label": "r1630",
- "round_no": 1678,
+ "round_no": 1680,
  "round_no_label": "1572",
  "round_no_landed": 1663,
  "round_note": "r1489: a reinstated bar is re-derived from the panel, not carried over (reinstatement_check + reinstatements.json + sheet paragraph)",
@@ -1327,7 +1327,7 @@
  "total_ram_gb": 23.9,
  "ts": "2026-11-14T20:44:23+08:00",
  "update_daily": "rc0 0 new rows, cutoff 2026-11-13 (Saturday, before the 15:30 guard)",
- "updated": "2026-11-14T20:44:23+08:00",
+ "updated": "2026-11-14T21:11:23+08:00",
  "updated_at": "2026-11-14T20:44:23+08:00",
  "verdict": "ok",
  "verify": "smoke 581/581 PASS 0 FAIL (logs/smoke_20261114_2004.log, 857.2s) | tree_shrink_guard check CLEAN + selftest 17/17 after the 230-path declaration | data_lane_freshness in_sync 13 / behind_1d 1 (marks, disclosed hole) | live_book_section_bars PAGE_ON_ONE_BAR_WITH_UNDATED headline 2026-11-13",
@@ -1339,7 +1339,11 @@
  "watermark_verdict": "insufficient_history",
  "went_well": "the guard was right to be loud and wrong about this commit: a 230-file deletion with every copy and sha256 in a manifest is a decision, not an accident -- so the fix was to declare it by name, never to raise --max-drop",
  "who_did": "bm-c",
- "s05_note": "s05_probe rc0: orders_delta=false decisions_delta=false unacked=[]",
- "s1_note": "red found: tree-shrink SHRINK (r1677's 230-file scratch retirement undeclared) + three page legs (capital/ticket-width/rate) red because the fixture omitted page_day. Fixed both classes, suite re-run end to end: 581/581",
- "ah_note": "ah_panel refresh spawned 20:05 and then sat 30+ min with zero CPU growth on three stuck established connections to the EM host; killed, lock left for its own pid check to reclaim. Panel stays 2026-11-12; the board still reads the gap"
+ "s05_note": "s05_probe rc0: orders_delta=false decisions_delta=false unacked=[] (fleet/orders 114 files vs 241 acks)",
+ "s1_note": "full suite not re-run this round (14 min > window, and the r1679 chain is rewriting the faces it would judge); touched module is ah_panel_puller -> its own selftest 14/14 groups 0 fails",
+ "ah_note": "r1680: two runs froze (20:57 and 21:02) with zero log growth -- the akshare fx/pair legs hand requests no timeout, and the detached spawn had a block-buffered stdout, so a healthy sleep-paced pull and a hung socket looked identical. Fix: stall watchdog over every network leg (300s, names the leg/pair, exit 2, checkpoint kept), save_progress stamps write time (last_update used to carry the run START time), -u on the spawn, progress line every 10 pairs. First end-to-end proof of the r1678 cache fallback: source=cache age 2.17d -> pairs advancing.",
+ "r1680_watchdog": "RUN_STALL_LIMIT_S=300 over mapping/tx/fx/hsahp/per-pair; selftest 14 groups 0 fails (9 new legs)",
+ "s0_note": "machine.json=bm-c | orphan_face_probe py_faces=5 orphans=1 (pid 52956 fleet/agent.py --node b: truncated node id, dead parent, 2.4s CPU over 2h, no children -- source of the respawn still unnamed)",
+ "s6_note": "S6 chain from r1679 still in flight (78+ legs logged, nonzero 0) -- deliberately not re-launched; the 51 dirty faces are its in-flight output, so this round commits only its own files",
+ "s7_note": "attrition 4 ledgers CLEAN (3 healed) | pre-commit + pre-push CR-normalised MATCH=True/True | loop pin=5 no-op"
 }
