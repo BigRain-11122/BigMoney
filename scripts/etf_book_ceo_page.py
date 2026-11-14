@@ -2381,7 +2381,13 @@ def gap_face(path=GAP_JSON):
         if doc is None:
             return {"status": "absent", "artifact": path, "verdict": None,
                     "detail": "no artifact"}
-        if _GP.check(path) != 0:
+        # r1661: check() narrates its receipt to stdout; this reader wants only the exit
+        # code (same defect as causal_rebuild/underwater, found a third time by an actual
+        # run -- the reader probe alone missed it because build() passes another path).
+        _receipt = io.StringIO()
+        with contextlib.redirect_stdout(_receipt):
+            _rc = _GP.check(path)
+        if _rc != 0:
             return {"status": "drifted", "artifact": path, "verdict": doc.get("verdict"),
                     "detail": "the verdict no longer recomputes from its own rows"}
         doc["status"] = "ok"
@@ -2413,7 +2419,13 @@ def causal_rebuild_face(path=CAUSAL_REBUILD_JSON):
         if doc is None:
             return {"status": "absent", "artifact": path, "verdict": None,
                     "detail": "no artifact"}
-        if _CR.check(path) != 0:
+        # r1661: check() prints its own JSON receipt; this reader only wants the exit code.
+        # A reader that writes to stdout is not a reader -- the page's stdout is its one-line
+        # summary, and the smoke leg quotes that line as the leg's detail.
+        _receipt = io.StringIO()
+        with contextlib.redirect_stdout(_receipt):
+            _rc = _CR.check(path)
+        if _rc != 0:
             return {"status": "drifted", "artifact": path, "verdict": doc.get("verdict"),
                     "detail": "the verdict no longer recomputes from its own rows"}
         doc["status"] = "ok"
@@ -7832,6 +7844,69 @@ def run():
     return 0
 
 
+# --------------------------------------------------------------- reader probe (r1661)
+# Every reader below puts a number on this page, and every one of them parses a published
+# artifact. Until r1661 not one of those parse layers had a selftest leg: the *blocks* were
+# fed hand-built dicts, so a reader could stop matching its artifact (renamed key, changed
+# unit, a silent `None`) and every leg stayed green while the page printed "?" or a number
+# from a previous generation -- exactly the shape r1660 found in the band-ruler block.
+# This probe runs each reader against the artifact it actually ships with.
+_REAL_FILE_READERS = (
+    ("concentration", concentration_face),
+    ("sleeve_gate", sleeve_gate_face),
+    ("sleeve_paths", sleeve_paths_face),
+    ("exposure_timing", exposure_timing_face),
+    ("vol_window", vol_window_face),
+    ("vol_window_edge", vol_window_edge_face),
+    ("window_label", window_label_face),
+    ("band_ruler", band_ruler_face),
+    ("premium", premium_face),
+    ("premium_forward", premium_forward_face),
+    ("floor_provenance", floor_provenance_face),
+    ("vol_target", vol_target_face),
+    ("positions", positions_face),
+    ("causal_rebuild", causal_rebuild_face),
+    ("lookahead", lookahead_face),
+    ("envelope", envelope_face),
+    ("cost_tape", cost_tape_face),
+    ("derisk", derisk_face),
+)
+_READER_STATUS = ("ok", "absent", "unreadable", "drifted")
+
+
+def reader_probe():
+    """Run every published-artifact reader once against its own file.
+
+    Returns (survivors, noisy, raised):
+      survivors -- readers that returned a dict with a status this page understands
+      noisy     -- readers that wrote to stdout (the page's stdout is its one-line summary,
+                   and the smoke leg quotes that line as the leg's detail)
+      raised    -- readers that threw, or returned a shape this page cannot render
+
+    Readers are expected to be fallible: an unreadable artifact must produce an explicit
+    status, never an exception and never a silent `ok`.
+    """
+    survivors, noisy, raised = [], [], []
+    for name, fn in _REAL_FILE_READERS:
+        buf = io.StringIO()
+        try:
+            with contextlib.redirect_stdout(buf):
+                r = fn()
+        except Exception as exc:                                # noqa: BLE001
+            raised.append((name, "%s: %s" % (type(exc).__name__, str(exc)[:100])))
+            continue
+        if not isinstance(r, dict):
+            raised.append((name, "returned %s, not a dict" % type(r).__name__))
+            continue
+        if r.get("status") not in _READER_STATUS:
+            raised.append((name, "status=%r is not in the page's vocabulary" % (r.get("status"),)))
+            continue
+        survivors.append((name, r.get("status")))
+        if buf.getvalue().strip():
+            noisy.append((name, buf.getvalue().strip().splitlines()[0][:90]))
+    return survivors, noisy, raised
+
+
 def selftest():
     ok = 0
     total = 0
@@ -11027,6 +11102,57 @@ def selftest():
     chk("L244 the split caveat is silent when the two bars agree (a daily caveat gets skipped)",
         "量的不是本页这三行" not in _br_same_md and "4.91" in _br_same_md,
         _br_same_md[:240])
+
+    # r1661: the parse layers behind every number on this page, exercised for the first time.
+    # `*_block` legs feed hand-built dicts, so a reader that stops matching its artifact is
+    # invisible to them; these legs run the readers against the artifacts actually shipped.
+    _rd_survivors, _rd_noisy, _rd_raised = reader_probe()
+    chk("L245 every published-artifact reader survives its own artifact",
+        (not _rd_raised) and len(_rd_survivors) == len(_REAL_FILE_READERS),
+        "%d/%d alive; raised=%s" % (len(_rd_survivors), len(_REAL_FILE_READERS), _rd_raised[:3]))
+    chk("L246 no reader prints (the page's stdout is its one-line summary)",
+        not _rd_noisy, "noisy=%s" % (_rd_noisy[:3],))
+
+    _rd_absent = os.path.join(ROOT, "results", "_r1661_no_such_artifact.json")
+    _rd_dk = derisk_face(path=_rd_absent)
+    _rd_pf = premium_forward_face(ticket=_rd_absent,
+                                  results_dir=os.path.dirname(_rd_absent))
+    chk("L247 a missing artifact reads as a status, not an exception and not an ok",
+        _rd_dk.get("status") in _READER_STATUS and _rd_dk.get("readable") is False
+        and _rd_pf.get("status") in _READER_STATUS and _rd_pf.get("status") != "ok",
+        "derisk=%s premium_forward=%s" % (_rd_dk.get("status"), _rd_pf.get("status")))
+
+    # A green probe is not proof of a working probe: feed it one reader that prints and one
+    # that throws, and require that it names both. (r1371: a leg must perturb the class it
+    # claims to separate, or it passes for the wrong reason.)
+    def _rd_printy():
+        print("noise from a reader")
+        return {"status": "ok"}
+
+    def _rd_boom():
+        raise RuntimeError("reader exploded")
+
+    _rd_saved = globals()["_REAL_FILE_READERS"]
+    globals()["_REAL_FILE_READERS"] = (("printy", _rd_printy), ("boom", _rd_boom))
+    try:
+        _rd2_s, _rd2_n, _rd2_r = reader_probe()
+    finally:
+        globals()["_REAL_FILE_READERS"] = _rd_saved
+    chk("L248 the probe itself names a printing reader and a throwing reader",
+        [x[0] for x in _rd2_n] == ["printy"] and [x[0] for x in _rd2_r] == ["boom"]
+        and [x[0] for x in _rd2_s] == ["printy"],
+        "noisy=%s raised=%s survivors=%s" % (_rd2_n, _rd2_r, _rd2_s))
+
+    # The probe above runs each reader with its own default path; the page's build() passes
+    # other paths, which is how a third copy of the same stdout leak survived it (r1661:
+    # gap_face printed its receipt only on the build path). Assert on the production path.
+    _bl_buf = io.StringIO()
+    with contextlib.redirect_stdout(_bl_buf):
+        _bl_page, _bl_today = build(with_stress=False)
+    chk("L249 the page's own build writes nothing to stdout (readers are not printers)",
+        not _bl_buf.getvalue().strip()
+        and bool(_bl_page.get("order")) and bool(_bl_today),
+        "captured=%r" % (_bl_buf.getvalue().strip()[:120],))
 
     print("\nSummary: %d/%d PASS%s" % (ok, total, "" if ok == total else " -- %d FAIL" % (total - ok)))
     return 0 if ok == total else 1
