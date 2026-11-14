@@ -100,6 +100,11 @@ EM_URL = "https://push2.eastmoney.com/api/qt/clist/get"
 EM_FIELDS = "f193,f191,f192,f12,f13,f14,f1,f2,f4,f3,f152,f186,f190,f187,f189,f188"
 EM_MAX_PAGES = 10             # universe ~150-220 at pz=100
 EM_TIMEOUT = 15
+# r1678: the mapping page is an INPUT, not the thing being refreshed. When it
+# is unreachable, the stored _universe_em.json still names every pair, so a
+# transient source outage must not cost the whole day's bars. Past this age the
+# cache is no longer a map we can vouch for -> honest exit 2 as before.
+MAPPING_CACHE_MAX_DAYS = 7.0
 TX_URL = "http://stock.gtimg.cn/data/hk_rank.php"
 TX_HEADERS = {"Referer": "http://stockapp.finance.qq.com/mstats/",
              "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
@@ -480,6 +485,36 @@ def write_status(**patch):
     return st
 
 
+def cached_mapping(now, path=UNIVERSE_EM, max_days=MAPPING_CACHE_MAX_DAYS):
+    """(rows, total, age_days) from the stored EM map, or None.
+
+    An unreadable / undated / stale cache is None -- the caller then keeps its
+    old behaviour (honest exit 2). Never invent a map we cannot date.
+    """
+    try:
+        cache = _read_json(path)
+    except Exception:
+        return None
+    if not isinstance(cache, dict):
+        return None
+    rows = cache.get("rows")
+    if not rows:
+        return None
+    try:
+        fetched = dt.datetime.strptime(str(cache.get("fetched_at") or ""),
+                                       "%Y-%m-%d %H:%M:%S")
+    except Exception:
+        return None
+    age_days = (now - fetched).total_seconds() / 86400.0
+    if age_days < 0 or age_days > max_days:
+        return None
+    try:
+        total = int(cache.get("total") or len(rows))
+    except Exception:
+        total = len(rows)
+    return rows, total, age_days
+
+
 # ---------------------------------------------------------------- network legs
 
 def _opener():
@@ -690,18 +725,31 @@ def _refresh_inner():
                   f"{'...' if len(released) > 6 else ''})")
     status = load_status()
 
-    # -- leg 1: EM mapping (authoritative; fuse -> honest exit 2)
+    # -- leg 1: EM mapping (authoritative; fuse -> cache -> honest exit 2)
+    mapping_src = "live"
+    mapping_cache_age = None
     try:
         em_rows, em_total = fetch_em_ah_table()
     except Exception as e:
-        write_status(mode="refresh", last_refresh_exit=2, ts=now.strftime(
-            "%Y-%m-%d %H:%M:%S"), mapping_error=str(e)[:300], run_target=target)
-        print(f"EM mapping unavailable: {str(e)[:200]}")
-        return 2
-    _write_json(UNIVERSE_EM, {"fetched_at": now.strftime(
-        "%Y-%m-%d %H:%M:%S"), "total": em_total, "rows": em_rows})
+        fallback = cached_mapping(now)
+        if fallback is None:
+            write_status(mode="refresh", last_refresh_exit=2, ts=now.strftime(
+                "%Y-%m-%d %H:%M:%S"), mapping_error=str(e)[:300],
+                run_target=target)
+            print(f"EM mapping unavailable: {str(e)[:200]}")
+            return 2
+        em_rows, em_total, mapping_cache_age = fallback
+        mapping_src = "cache"
+        print(f"EM mapping unavailable ({str(e)[:160]}); using stored map "
+              f"({mapping_cache_age:.2f}d old, {len(em_rows)} rows)")
+    if mapping_src == "live":
+        _write_json(UNIVERSE_EM, {"fetched_at": now.strftime(
+            "%Y-%m-%d %H:%M:%S"), "total": em_total, "rows": em_rows})
     pairs = [r for r in em_rows if a_leg_symbol(r["a_code"])]
-    print(f"EM mapping: total={em_total} mapped_pairs={len(pairs)}")
+    print(f"EM mapping: total={em_total} mapped_pairs={len(pairs)} "
+          f"source={mapping_src}"
+          + (f" age={mapping_cache_age:.2f}d"
+             if mapping_cache_age is not None else ""))
 
     # -- leg 2: tencent census (cross-check face; non-fatal)
     tx_map = {}
@@ -876,6 +924,7 @@ def _refresh_inner():
         crosscheck_source_degraded=crosscheck_source_degraded,
         quarantine_released=[r["h_code"] for r in released],
         quarantine_release_days=QUARANTINE_RELEASE_DAYS,
+        mapping_source=mapping_src, mapping_cache_age_days=mapping_cache_age,
         fx_rows=len(fx_rows), fx_range_flag=fx_bad,
         hsahp_rows=hsahp_rows_n, tx_census_rows=tx_rows_n,
         panel_rows=panel_rows, last_refresh_exit=exit_code,
@@ -1162,6 +1211,32 @@ def _selftest():
           release_stale_quarantines(
               {"09976": "3 cumulative failures @ 2026-11-11"}, {},
               "2026-11-12", release_days=0)[2][0]["h_code"] == "09976")
+
+    # F10c mapping cache fallback (r1678): the EM map is an INPUT of the
+    # refresh, not its output. A dated cache inside the window keeps the day's
+    # bars reachable; an undated or stale one is never a licence to skip it.
+    import tempfile as _tf
+    mnow = dt.datetime(2026, 11, 14, 19, 0, 0)
+    with _tf.TemporaryDirectory() as _td:
+        good = os.path.join(_td, "u.json")
+        _write_json(good, {"fetched_at": "2026-11-14 12:00:00", "total": 2,
+                           "rows": [{"a_code": "601318", "h_code": "02318"},
+                                    {"a_code": "600036", "h_code": "03968"}]})
+        got = cached_mapping(mnow, path=good)
+        check("F10c a dated cache inside the window is usable",
+              got is not None and len(got[0]) == 2 and got[1] == 2
+              and 0 < got[2] < 1)
+        old = os.path.join(_td, "old.json")
+        _write_json(old, {"fetched_at": "2026-10-01 12:00:00",
+                          "rows": [{"a_code": "601318", "h_code": "02318"}]})
+        check("F10c a stale cache is not permission to skip the map",
+              cached_mapping(mnow, path=old) is None)
+        und = os.path.join(_td, "und.json")
+        _write_json(und, {"rows": [{"a_code": "601318", "h_code": "02318"}]})
+        check("F10c an undated cache cannot be vouched for",
+              cached_mapping(mnow, path=und) is None)
+        check("F10c a missing cache is not an empty map",
+              cached_mapping(mnow, path=os.path.join(_td, "none.json")) is None)
 
     # F10 crosscheck verdict (T21 EM f188 re-point: raw/10000, dual gate)
     v1, _ = crosscheck_verdict(0.1621, 1621)      # em 0.1621, diff ~0 pass
