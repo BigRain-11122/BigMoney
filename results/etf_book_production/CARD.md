@@ -24,16 +24,13 @@ Row 1 is the engine as coded (score off bar d's close, paid bar d's *open*); row
 
 **Panel digest:** `e6f9d0e81a64ec75` (5280 bars x 1629 symbols, 2005-02-23->2026-11-13, covers close/open/amount) -- the executable sheet and the forward ledger print the same fingerprint only when all three priced one panel, on the same blocks.
 
-**Priced day: SAME_DAY** -- card 2026-11-13 / ticket 2026-11-13 / page 2026-11-13 (compared at 2026-11-14 00:31:26); this card, the executable sheet and the CEO page all priced the same closing bar.
+**Priced day: SAME_DAY** -- card 2026-11-13 / ticket 2026-11-13 / page 2026-11-13 (compared at 2026-11-14 10:21:04); this card, the executable sheet and the CEO page all priced the same closing bar.
 
-**Family coherence: MIXED_WORLDS** -- 11 faces priced 2 different panels (e383c3a6, e6f9d0e8): per-cell deltas across worlds are world differences, not rule effects.
-2 of 10 arms priced the card's own panel and keep their labels (buffer_k02, buffer_k05); the 8 withheld one(s) still price another panel (buffer_k05_cost20, buffer_k10, buffer_k20, buffer_k40, cost0, cost05, cost20, cost40), so their verdicts are not part of this reading.
+**Family coherence: ONE_WORLD** -- all 10 width arms priced `e6f9d0e81a64ec75` (cutoff 2026-11-13); the verdicts that license this card's width are measurements on one panel.
 
 **Label null: 96.5% REJECT** -- the same rule called an effect-free panel REJECT in that share of 20000 trials, so a published REJECT carries almost no information; the rare branch (NOT-SEPARABLE 3.5%, ADOPT 0.0%) is the one that reads.
 
-The null was simulated on 2026-11-12; these arm faces price 2026-11-13 -- do not read the frequency as today's.
-
-**Width floor: an extrapolation, and its own test point refutes it.** The name count comes from continuing a fitted line past its last measured arm; priced at the unseen k=0.30 the line predicted +0.227pp and the arm's own cells said +0.318pp -- gap 0.091pp against a 0.077pp tolerance, so the read-back face publishes REFUTED. Read the width as an extrapolation with no support at that distance, not as a measurement.
+**Width floor: an extrapolation, and its own test point refutes it.** The name count comes from continuing a fitted line past its last measured arm; priced at the unseen k=0.30 the line predicted +0.220pp and the arm's own cells said +0.365pp -- gap 0.145pp against a 0.081pp tolerance, so the read-back face publishes REFUTED. Read the width as an extrapolation with no support at that distance, not as a measurement.
 
 **Today (2026-11-13 bar): HOLD: 18 bars until the next decision point** (last grid decision 2026-11-11).
 

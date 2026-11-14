@@ -275,3 +275,17 @@ results/etf_book_bootstrap/_p2.json
 # the published derived face carries every reading it supports)
 data/etf_premium/nav_history/
 data/etf_premium/subscription/
+
+# r1677 bm-c: per-round scratch and run logs are not faces. 233 root `_tmp_*`
+# scripts and ~44 results/_smoke_* / _s6chain_* / _ct_selftest.* transcripts had
+# piled up untracked because no rule named them (the tracked-face rule above
+# only covers `_r[0-9]*`). Quarantined copies live under results/_quarantine/,
+# which is where to look when a past round's scratch script is actually needed.
+_tmp_*
+results/_smoke_*
+results/_s6chain_*
+results/_ct_selftest.*
+
+# the quarantine itself is a local 7-day observation window, not a face:
+# each manifest names what moved where, byte count and sha256 to pull it back
+results/_quarantine/

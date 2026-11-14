@@ -10,13 +10,13 @@ flips on the signal face, sleeve charged the full cost ladder, blend at f=0.33, 
 
 | arm | flips | flip cut | turnover | turnover cut | gross CAGR | give-up pp | sharpe d (1bp) | delta CAGR pp @1bp | @3bp | @5bp | @10bp | breakeven |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
-| tsmom60_base | 1470 | 0.0% | 1006.5 | 0.0% | 1.94% | 0.0 | 0.0 | 0.88 | -0.11 | -1.09 | -3.52 | 1bp |
-| tsmom60_strength_hold_0.02 | 412 | 72.0% | 168.8 | 83.2% | 1.53% | -0.41 | 0.006 | 0.95 | 0.83 | 0.71 | 0.41 | 10bp |
-| tsmom60_strength_hold_0.04 | 266 | 81.9% | 130.9 | 87.0% | -0.21% | -2.15 | -0.209 | -1.4 | -1.5 | -1.6 | -1.85 | none |
-| tsmom60_confirm_3d | 606 | 58.8% | 437.0 | 56.6% | 1.26% | -0.68 | -0.055 | 0.26 | -0.15 | -0.56 | -1.59 | 1bp |
-| tsmom60_confirm_5d | 432 | 70.6% | 329.6 | 67.3% | 1.4% | -0.54 | 0.001 | 0.86 | 0.57 | 0.28 | -0.45 | 5bp |
+| tsmom60_base | 1470 | 0.0% | 1006.5 | 0.0% | 1.94% | 0.0 | 0.0 | 0.93 | -0.06 | -1.04 | -3.47 | 1bp |
+| tsmom60_strength_hold_0.02 | 412 | 72.0% | 168.8 | 83.2% | 1.53% | -0.41 | 0.005 | 0.99 | 0.86 | 0.74 | 0.44 | 10bp |
+| tsmom60_strength_hold_0.04 | 266 | 81.9% | 130.9 | 87.0% | -0.21% | -2.15 | -0.208 | -1.34 | -1.44 | -1.54 | -1.79 | none |
+| tsmom60_confirm_3d | 606 | 58.8% | 437.0 | 56.6% | 1.26% | -0.68 | -0.055 | 0.31 | -0.11 | -0.52 | -1.54 | 1bp |
+| tsmom60_confirm_5d | 432 | 70.6% | 329.6 | 67.3% | 1.4% | -0.54 | 0.001 | 0.91 | 0.62 | 0.33 | -0.4 | 5bp |
 
-**tsmom60_strength_hold_0.02 clears the base at 3/5/10bp: 72.0% fewer flips, turnover cut 83.2%, gross -0.41 pp; breakeven moves to 10bp (+0.41 pp at that cost, +0.41 pp at 10bp)**
+**tsmom60_strength_hold_0.02 clears the base at 3/5/10bp: 72.0% fewer flips, turnover cut 83.2%, gross -0.41 pp; breakeven moves to 10bp (+0.44 pp at that cost, +0.44 pp at 10bp)**
 
 robustness: 1 of the tested theta levels clear the base ([0.02, 0.04]); exposure spread across all arms 0.03% -- so this is a flip filter, not a deleveraging
 
@@ -28,13 +28,13 @@ flips on the signal face, sleeve charged the full cost ladder, blend at f=0.33, 
 
 | arm | flips | flip cut | turnover | turnover cut | gross CAGR | give-up pp | sharpe d (1bp) | delta CAGR pp @1bp | @3bp | @5bp | @10bp | breakeven |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
-| tsmom120_base | 896 | 0.0% | 633.6 | 0.0% | 2.17% | 0.0 | 0.0 | 0.75 | 0.12 | -0.51 | -2.06 | 3bp |
-| tsmom120_strength_hold_0.02 | 277 | 69.1% | 151.2 | 76.1% | 1.85% | -0.32 | -0.024 | 0.48 | 0.37 | 0.25 | -0.05 | 5bp |
-| tsmom120_strength_hold_0.04 | 181 | 79.8% | 126.4 | 80.1% | 0.2% | -1.97 | -0.192 | -1.32 | -1.41 | -1.51 | -1.75 | none |
-| tsmom120_confirm_3d | 354 | 60.5% | 270.8 | 57.3% | 1.36% | -0.81 | -0.119 | -0.54 | -0.78 | -1.02 | -1.62 | none |
-| tsmom120_confirm_5d | 253 | 71.8% | 233.6 | 63.1% | 1.46% | -0.71 | -0.052 | 0.18 | -0.04 | -0.26 | -0.8 | 1bp |
+| tsmom120_base | 896 | 0.0% | 633.6 | 0.0% | 2.17% | 0.0 | 0.0 | 0.77 | 0.14 | -0.49 | -2.03 | 3bp |
+| tsmom120_strength_hold_0.02 | 277 | 69.1% | 151.2 | 76.1% | 1.85% | -0.32 | -0.024 | 0.5 | 0.39 | 0.27 | -0.02 | 5bp |
+| tsmom120_strength_hold_0.04 | 181 | 79.8% | 126.4 | 80.1% | 0.2% | -1.97 | -0.191 | -1.29 | -1.38 | -1.48 | -1.72 | none |
+| tsmom120_confirm_3d | 354 | 60.5% | 270.8 | 57.3% | 1.36% | -0.81 | -0.119 | -0.51 | -0.76 | -1.0 | -1.6 | none |
+| tsmom120_confirm_5d | 253 | 71.8% | 233.6 | 63.1% | 1.46% | -0.71 | -0.05 | 0.22 | 0.0 | -0.22 | -0.76 | 1bp |
 
-**tsmom120_strength_hold_0.02 clears the base at 3/5/10bp: 69.1% fewer flips, turnover cut 76.1%, gross -0.32 pp; breakeven moves to 5bp (+0.25 pp at that cost, -0.05 pp at 10bp)**
+**tsmom120_strength_hold_0.02 clears the base at 3/5/10bp: 69.1% fewer flips, turnover cut 76.1%, gross -0.32 pp; breakeven moves to 5bp (+0.27 pp at that cost, -0.02 pp at 10bp)**
 
 robustness: 1 of the tested theta levels clear the base ([0.02, 0.04]); exposure spread across all arms 0.0% -- so this is a flip filter, not a deleveraging
 

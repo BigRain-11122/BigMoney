@@ -47,7 +47,7 @@ Priced on results/etf_book_order/TICKET-2026-11-13.json: NAV +1,000,000 CNY, dep
 
 | index gaps | book returns | costs you | the naive 'shock x deployed' |
 | --- | --- | --- | --- |
-| -3% | -0.36% | -3,631 CNY | -12,966 CNY |
+| -3% | -0.36% | -3,630 CNY | -12,966 CNY |
 | -5% | -0.61% | -6,051 CNY | -21,610 CNY |
 | -8% | -0.97% | -9,681 CNY | -34,576 CNY |
 

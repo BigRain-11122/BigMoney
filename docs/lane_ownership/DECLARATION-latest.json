@@ -1,7 +1,7 @@
 {
  "schema": "lane-ownership/v1",
- "generated": "2026-11-14T02:10:57",
- "source_freshness_as_of": "2026-11-14T02:10:54",
+ "generated": "2026-11-14T10:05:36",
+ "source_freshness_as_of": "2026-11-14T10:05:33",
  "lanes": [
   {
    "lane": "options",
@@ -15,7 +15,7 @@
    "copy_face": null,
    "observation": "retired",
    "host_alive": true,
-   "host_age_h": 0.57,
+   "host_age_h": 0.54,
    "declared_takeover_by": null,
    "verdict": "DECLARED_ONLY"
   },
@@ -31,7 +31,7 @@
    "copy_face": null,
    "observation": "in_sync",
    "host_alive": true,
-   "host_age_h": 0.57,
+   "host_age_h": 0.54,
    "declared_takeover_by": null,
    "verdict": "DECLARED_AND_OBSERVED"
   },
@@ -47,7 +47,7 @@
    "copy_face": null,
    "observation": "in_sync",
    "host_alive": true,
-   "host_age_h": 0.57,
+   "host_age_h": 0.54,
    "declared_takeover_by": null,
    "verdict": "DECLARED_AND_OBSERVED"
   },
@@ -63,7 +63,7 @@
    "copy_face": null,
    "observation": "stalled",
    "host_alive": true,
-   "host_age_h": 0.57,
+   "host_age_h": 0.54,
    "declared_takeover_by": null,
    "verdict": "DECLARED_AND_OBSERVED"
   },
@@ -79,7 +79,7 @@
    "copy_face": null,
    "observation": "behind_1d",
    "host_alive": true,
-   "host_age_h": 0.57,
+   "host_age_h": 0.54,
    "declared_takeover_by": null,
    "verdict": "DECLARED_ONLY"
   },
@@ -95,7 +95,7 @@
    "copy_face": null,
    "observation": "behind_1d",
    "host_alive": false,
-   "host_age_h": 349.46,
+   "host_age_h": 357.37,
    "declared_takeover_by": "bm-c",
    "verdict": "DECLARED_TAKEOVER"
   },
@@ -111,7 +111,7 @@
    "copy_face": null,
    "observation": "in_sync",
    "host_alive": false,
-   "host_age_h": 349.46,
+   "host_age_h": 357.37,
    "declared_takeover_by": "bm-c",
    "verdict": "DECLARED_TAKEOVER"
   },
@@ -127,7 +127,7 @@
    "copy_face": null,
    "observation": "in_sync",
    "host_alive": true,
-   "host_age_h": 0.57,
+   "host_age_h": 0.54,
    "declared_takeover_by": null,
    "verdict": "DECLARED_AND_OBSERVED"
   },
@@ -143,7 +143,7 @@
    "copy_face": null,
    "observation": "in_sync",
    "host_alive": false,
-   "host_age_h": 2.98,
+   "host_age_h": 10.89,
    "declared_takeover_by": null,
    "verdict": "DECLARED_AND_OBSERVED"
   },
@@ -159,7 +159,7 @@
    "copy_face": null,
    "observation": "in_sync",
    "host_alive": false,
-   "host_age_h": 2.98,
+   "host_age_h": 10.89,
    "declared_takeover_by": null,
    "verdict": "DECLARED_AND_OBSERVED"
   },
@@ -175,7 +175,7 @@
    "copy_face": null,
    "observation": "in_sync",
    "host_alive": false,
-   "host_age_h": 2.98,
+   "host_age_h": 10.89,
    "declared_takeover_by": null,
    "verdict": "DECLARED_AND_OBSERVED"
   },
@@ -191,7 +191,7 @@
    "copy_face": "bm-c",
    "observation": "in_sync",
    "host_alive": true,
-   "host_age_h": 0.57,
+   "host_age_h": 0.54,
    "declared_takeover_by": null,
    "verdict": "DECLARED_ONLY"
   },
@@ -202,14 +202,14 @@
    "code_default": "bm-a",
    "config_value": "bm-a",
    "source_divergence": false,
-   "observed_writer": "bm-a",
-   "observed_how": "host_envelope",
+   "observed_writer": "bm-c",
+   "observed_how": "declared_takeover",
    "copy_face": null,
    "observation": "in_sync",
    "host_alive": false,
-   "host_age_h": 2.98,
-   "declared_takeover_by": null,
-   "verdict": "DECLARED_AND_OBSERVED"
+   "host_age_h": 10.89,
+   "declared_takeover_by": "bm-c",
+   "verdict": "DECLARED_TAKEOVER"
   },
   {
    "lane": "ths_panel",
@@ -223,7 +223,7 @@
    "copy_face": null,
    "observation": "in_sync",
    "host_alive": true,
-   "host_age_h": 0.57,
+   "host_age_h": 0.54,
    "declared_takeover_by": null,
    "verdict": "DECLARED_AND_OBSERVED"
   },
@@ -239,7 +239,7 @@
    "copy_face": null,
    "observation": "in_sync",
    "host_alive": true,
-   "host_age_h": 0.57,
+   "host_age_h": 0.54,
    "declared_takeover_by": null,
    "verdict": "DECLARED_ONLY"
   }
@@ -262,7 +262,8 @@
   ],
   "declared_takeover_lanes": {
    "marks": "bm-c",
-   "astock_daily": "bm-c"
+   "astock_daily": "bm-c",
+   "repo": "bm-c"
   },
   "stale_envelopes": {},
   "verdict": "OWNERSHIP_UNIQUE"

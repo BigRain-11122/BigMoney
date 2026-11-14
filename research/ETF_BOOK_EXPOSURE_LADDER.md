@@ -1,6 +1,6 @@
 # Would a fixed fraction do the same job as the de-lever rule?
 
-Face: `results/etf_book_exposure_ladder.json` (evidence cutoff 2026-11-13, 1663 bars, 4 phases, 269.6 s).
+Face: `results/etf_book_exposure_ladder.json` (evidence cutoff 2026-11-13, 1663 bars, 4 phases, 324.2 s).
 
 Same names, same grid, same cost model everywhere -- only the exposure multiplier differs. The fixed fractions were chosen before the run, so none of them is calibrated from the answer.
 

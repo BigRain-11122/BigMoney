@@ -1,4 +1,4 @@
-# Lane ownership declaration (2026-11-14T02:10:54)
+# Lane ownership declaration (2026-11-14T10:05:33)
 
 > derived by `scripts/lane_ownership_declaration.py` from `results/data_lane_freshness.json`,
 > `config/lane_hosts.json` and the `owner` defaults inside `data_lane_freshness.LANES`.
@@ -21,7 +21,7 @@
 | heat | bm-a | config/lane_hosts.json | bm-a | bm-a | no | **DECLARED_AND_OBSERVED** |
 | lhb | bm-a | data_lane_freshness.LANES | bm-a | bm-a | no | **DECLARED_AND_OBSERVED** |
 | minute_feed | bm-c | config/lane_hosts.json | - | none (host_copy) | yes | **DECLARED_ONLY** |
-| repo | bm-a | config/lane_hosts.json | bm-a | bm-a | no | **DECLARED_AND_OBSERVED** |
+| repo | bm-a | config/lane_hosts.json | bm-a | bm-c | no | **DECLARED_TAKEOVER** |
 | ths_panel | bm-c | config/lane_hosts.json | - | bm-c | yes | **DECLARED_AND_OBSERVED** |
 | zt_pool | bm-c | config/lane_hosts.json | bm-a | none (host_copy) | yes | **DECLARED_ONLY** |
 
@@ -35,5 +35,5 @@ Declared on a host that has not produced an envelope this machine can read: opti
 
 ## Owned, currently served by a declared stand-in
 
-astock_daily (by bm-c), marks (by bm-c) -- the owner is unchanged and the envelope names both the owner and the stand-in, so this is a standby rule in force, not two writers. The 2026-11-08 enable decision should check whether the owner has come back before re-enabling anything that would run on both.
+astock_daily (by bm-c), marks (by bm-c), repo (by bm-c) -- the owner is unchanged and the envelope names both the owner and the stand-in, so this is a standby rule in force, not two writers. The 2026-11-08 enable decision should check whether the owner has come back before re-enabling anything that would run on both.
 

@@ -1,7 +1,7 @@
 {
  "evidence_cutoff": "2026-11-13",
  "beta_target": 0.2,
- "generated": "2026-11-14T04:21:12+08:00",
+ "generated": "2026-11-14T14:13:30+08:00",
  "permission": {
   "status": "within_permission",
   "k_now": 0.432195,
@@ -502,7 +502,7 @@
    "tail": 250,
    "fall_bp": 25.0,
    "verdict": "RATES_STEADY",
-   "sentence": "现金 ¥568,230 按 2026-11-13 报价 1.26% 一年赚 ¥7,188；按自己近 250 个报价的均值 1.35% 是 ¥7,681；按账本自己走过的全窗均值 2.08% 是 ¥11,828。今天的报价就在它自己的均值上，这一半该怎么算就怎么算。",
+   "sentence": "现金 ¥568,230 按 2026-11-13 报价 1.26% 一年赚 ¥7,188；按自己近 250 个报价的均值 1.35% 是 ¥7,681；按账本自己走过的全窗均值 2.08% 是 ¥11,828。2026-11-13 的报价就在它自己的均值上，这一半该怎么算就怎么算。",
    "spread_vs_tail_cny": -493.0,
    "spread_vs_window_cny": -4640.0
   }
@@ -515,7 +515,7 @@
   "withdrawn_now": [],
   "withdrawal_note": "ledger withdrew 1 bar(s) at 2026-11-09 23:54:02 because the price panel then ended 2026-11-06 (2026-11-09); the panel has since carried 2026-11-09 again and that ledger row is live -- the withdrawal stays on record but it is not this sheet's pricing bar",
   "reinstatements": {
-   "at": "2026-11-14 04:21:12",
+   "at": "2026-11-14 14:13:29",
    "n_reinstated": 1,
    "rewritten": [],
    "verbatim_identical": [
@@ -1041,9 +1041,24 @@
    "trail_starts_with_this_version": true,
    "trail_covers_bar": true,
    "page_block": {
-    "bar": "2026-11-12",
-    "same_bar": false
-   }
+    "bar": "2026-11-13",
+    "same_bar": true,
+    "lots": {
+     "159519": 496,
+     "159655": 431,
+     "510760": 684,
+     "512040": 726,
+     "513690": 754
+    },
+    "cash_cny": 568230.0
+   },
+   "page_vs_ledger_lots": [],
+   "page_vs_ledger_cash": {
+    "page": 568230.0,
+    "ledger": 568230.4,
+    "page_minus_ledger": -0.4
+   },
+   "page_vs_ledger_agree": false
   },
   "caveats": [
    "the reconciliation compares two documents, not two accounts: it says what the printed rows leave behind relative to the book the same face declares, and it cannot see whether the broker actually filled those lots",
@@ -1435,7 +1450,7 @@
  },
  "next_decision": {
   "artifact": "etf_book_next_decision",
-  "generated": "2026-11-14T04:21:13",
+  "generated": "2026-11-14T14:13:30",
   "evidence_cutoff": "2026-11-13",
   "calendar_source": "data/exchange_calendar.csv",
   "calendar_last": "2026-12-31",
@@ -1576,7 +1591,7 @@
  },
  "swap_freshness": {
   "artifact": "etf_book_swap_freshness",
-  "generated": "2026-11-14T04:21:13",
+  "generated": "2026-11-14T14:13:30",
   "evidence_cutoff": "2026-11-13",
   "calendar_source": "data/exchange_calendar.csv",
   "close_accept_time": "15:30",
@@ -2102,12 +2117,12 @@
   "faces": {
    "card": "2026-11-13",
    "ticket": "2026-11-13",
-   "page": "2026-11-12"
+   "page": "2026-11-13"
   },
-  "verdict": "DIFFERENT_DAYS",
-  "detail": "priced on different bars: card 2026-11-13 / ticket 2026-11-13 / page 2026-11-12",
+  "verdict": "SAME_DAY",
+  "detail": "all three papers priced the 2026-11-13 bar",
   "missing": [],
-  "same_day": false
+  "same_day": true
  },
  "carry_split": {
   "artifact": "results/etf_book_return_regime.json",

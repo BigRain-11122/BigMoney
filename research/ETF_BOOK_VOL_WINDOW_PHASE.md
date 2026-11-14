@@ -1,6 +1,6 @@
 # Is the 60-day vol window load-bearing, or a champion on one calendar?
 
-Face: `results/etf_book_vol_window_phase.json` (evidence cutoff 2026-11-13, 1662 bars, 4 phases, 81.1 s).
+Face: `results/etf_book_vol_window_phase.json` (evidence cutoff 2026-11-13, 1662 bars, 4 phases, 102.0 s).
 
 ## Verdict
 
