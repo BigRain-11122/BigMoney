@@ -146,6 +146,14 @@ LEGS = [
     # the IF/IC/IH/IM panel refreshed above and re-derives the carry under a calendar-anchored
     # roll mask (quarterly, third Friday) instead of a size rule. ~1s, no network, no judge.
     ("idx_fut_roll_gap", ["python", "scripts/idx_fut_roll_gap.py"]),
+    # r1696: every carry number above is priced with a roll mask, and both masks in use were
+    # guesses. This leg replaces the guess with the observation -- it names the contract the
+    # published continuous is quoting each day by matching its close to a contract close to
+    # the tick, so a masked day is exactly a day the series changed contract. Cache-first;
+    # at most 6 new contract codes per round, newest month first, so it heals the live end of
+    # the series without holding the chain for the ~400-code first pull. ~1-15s, no judge.
+    ("idx_fut_contract_roll", ["python", "scripts/idx_fut_contract_roll.py",
+                               "--max-pull=6", "--write-doc"]),
     # r1695: the carry-per-capital face had a `checkdoc` guard and no producer -- the same
     # "produced once by hand, then read" class (r1282/r1471). It now prices the same gates
     # under two roll masks and that column flips IC/IM over the 3% line, so letting it age
