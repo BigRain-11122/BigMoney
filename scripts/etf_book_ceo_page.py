@@ -1926,7 +1926,6 @@ PAGE_DAY_LEDGER = {
     "permission_block": ("reader_day", "「今天才建仓的话」是给读者的条件句，不是某个面的 bar"),
     "executed_block": ("reader_day", "「今天这一根 bar」自己点了 bar，读者不会读成自己的日子"),
     "positions_block": ("reader_day", "同段已有两日对比句；「今天没有新 bar」是 bar 语境"),
-    "capital_block": ("owed", "「今天这张可执行单」是票据那天的单，票面日与页面日常常不同"),
     "section_bars_block": ("reader_day", "该句是否定式说明（不是今天的仓位），不宣称任何日"),
     "feed_lag_block": ("reader_day", "该句本身就是拿「今天」与页面 bar 对账的那句"),
 }
@@ -3948,7 +3947,7 @@ def _ticket_width():
     return n, tk.get("evidence_cutoff")
 
 
-def capital_block(cf):
+def capital_block(cf, page_day=None):
     L = []
     L.append("## 要用多少钱，才谈得上「这本书自己的每边成本」？")
     L.append("")
@@ -4119,19 +4118,24 @@ def capital_block(cf):
     # reader actually has.
     _tw = cf.get("ticket_n_hold")
     _pw2 = cf.get("published_path_width")
+    # r1675: the sheet a reader can place is dated by the ticket, not by the page. On a
+    # Saturday these three sentences called Friday's sheet 今天 -- the last owed row in
+    # PAGE_DAY_LEDGER. One implementation (day_word) decides the word.
+    _tk_w = day_word(page_day, cf.get("ticket_bar"))
+    _tk_pfx = "今天这张可执行单" if _tk_w == "今天" else "%s 那张可执行单" % _tk_w
     if _tw is not None and _tw != _pw2:
         _th = cf.get("ticket_delivered_nav") if _two_rates else cf.get("ticket_model_nav")
-        L.append("**今天这张可执行单实际持 %d 名**（bar %s），而这一节的门槛是按 **%s 名**算的。"
+        L.append("**%s实际持 %d 名**（bar %s），而这一节的门槛是按 **%s 名**算的。"
                  "同一闭式在 %d 名上重算%s，平衡点是 **%s**——这才是你手上这张单的那一本。"
-                 % (_tw, cf.get("ticket_bar") or "？", _pw2, _tw,
+                 % (_tk_pfx, _tw, cf.get("ticket_bar") or "？", _pw2, _tw,
                     ("（按 %g bp）" % _bp_dlv) if _two_rates else "",
                     ("%.0f 元" % _th) if _th is not None else "（宽度扫描里没有这一档，未量）"))
     elif _tw is not None:
-        L.append("**今天这张可执行单持有 %d 名**（bar %s），与这一节定价的篮子宽度一致。"
-                 % (_tw, cf.get("ticket_bar") or "？"))
+        L.append("**%s持有 %d 名**（bar %s），与这一节定价的篮子宽度一致。"
+                 % (_tk_pfx, _tw, cf.get("ticket_bar") or "？"))
     elif wid_rows:
-        L.append("**今天这张可执行单的持名数读不出来**（票据缺席或没有 `n_hold`）——"
-                 "所以上面那个门槛是在量哪一本，本页答不了，别按它下单。")
+        L.append("**%s的持名数读不出来**（票据缺席或没有 `n_hold`）——"
+                 "所以上面那个门槛是在量哪一本，本页答不了，别按它下单。" % _tk_pfx)
     L.append("")
     # (r1507) the second smallness constraint. The section above answers "is the fee model
     # honest at this size"; this one answers "can the book be held at this size at all".
@@ -8107,7 +8111,8 @@ def render_md(p, sb=None):
     for _sf_line in sellability_block(p.get("sellability") or {}):
         add(_sf_line)
     # r1239: 8bp per side is an assumption with a cash floor at the bottom end.
-    for _cf_line in capital_block(p.get("capital") or {}):
+    for _cf_line in capital_block(p.get("capital") or {},
+                                  page_day=p.get("generated_for_date")):
         add(_cf_line)
     add("## 必须记住的四条")
     add("")
@@ -9782,7 +9787,11 @@ def selftest():
         and (_cf.get("real_nav") or 0) > (_cf.get("model_nav") or 0),
         "status=%s model=%s real=%s dw=%s"
         % (_cf.get("status"), _cf.get("model_nav"), _cf.get("real_nav"), _cf.get("dw_median")))
-    _cf_lines = [l for l in capital_block(_cf) if l.strip()]
+    # r1675: this leg has to build the block with the page's own day, or it compares a
+    # different generation of the same sentences -- the ticket line names its bar on a
+    # Saturday, so a no-day fixture would report the page as missing a line it prints.
+    _cf_lines = [l for l in capital_block(_cf, page_day=page.get("generated_for_date"))
+                 if l.strip()]
     _cf_off = [l for l in _cf_lines if l not in md]
     chk("L127 capital: the block itself reaches the rendered page",
         bool(_cf_lines) and not _cf_off,
@@ -9857,6 +9866,20 @@ def selftest():
         bool(_tk_none_lines) and "读不出来" in _tk_none_lines[0]
         and "203007" not in _tk_none_lines[0],
         "lines=%r" % (_tk_none_lines[:1],))
+    # L133-L134 (r1675): the ticket is the sheet a reader can actually place, and it is
+    # dated by its own bar. Read on a Saturday the page called Friday's sheet 今天 in three
+    # sentences -- numbers right, suite green, wrong only to someone who knows the date.
+    # Two-sided: a later page day must name the bar, the bar's own day must keep the word.
+    _tk_later = "\n".join(capital_block(_tk_fake, page_day="2026-11-14"))
+    _tk_own = "\n".join(capital_block(_tk_fake, page_day="2026-10-30"))
+    chk("L133 capital: a later page day names the ticket's bar instead of calling it 今天",
+        ("2026-10-30 那张可执行单" in _tk_later)
+        and ("今天这张可执行单" not in _tk_later),
+        "later=%r" % ([l for l in _tk_later.splitlines() if "可执行单" in l][:1],))
+    chk("L134 capital: when the page day IS the ticket's bar the same sentence says 今天",
+        ("今天这张可执行单" in _tk_own)
+        and ("2026-10-30 那张可执行单" not in _tk_own),
+        "own=%r" % ([l for l in _tk_own.splitlines() if "可执行单" in l][:1],))
     # ---- r1507: the second smallness constraint (whole lots) ------------------------------
     # The section above prices "is the fee model honest at this size"; one lot = 100 units
     # means a position below that is not expensive, it is unrepresentable. The page must
@@ -10538,15 +10561,20 @@ def selftest():
     try:
         PAGE_DAY_LEDGER["sibling_gap_block"] = ("owed", "pretend it was never repaired")
         _stale_ok, _stale_find = page_day_debt_guard()
+        _owed_probe = page_day_debt_owed()
     finally:
         PAGE_DAY_LEDGER.clear()
         PAGE_DAY_LEDGER.update(_pd_backup)
+    # r1675: the last real owed row (capital_block) is repaired, so the ledger is empty on
+    # purpose -- asserting `page_day_debt_owed()` is truthy would now demand that some block
+    # stay unrepaired. The owed() reading is exercised against the fixture row instead.
     chk("L261 page-day debt: a block that says 今天 without taking a day is caught, and a repaired block left on the ledger turns red",
-        _guard_ok and page_day_debt_owed() and not _ghost_ok
+        _guard_ok and any("sibling_gap_block" in x for x in _owed_probe) and not _ghost_ok
         and any("ghost_block" in x for x in _ghost_find)
         and not any("fixed_block" in x for x in _ghost_find)
         and not _stale_ok and any("sibling_gap_block" in x for x in _stale_find),
-        "%s / ghost=%s / stale=%s" % (_guard_find[:2], _ghost_find[:2], _stale_find[:2]))
+        "%s / ghost=%s / stale=%s / owed=%s"
+        % (_guard_find[:2], _ghost_find[:2], _stale_find[:2], _owed_probe))
     # r1668: the two halves of the same defect get one leg each -- the shared word function,
     # and the census that reads the artifact the reader opens. The next copy of this defect
     # will appear in whichever half is untested, so neither may rely on the other being green.

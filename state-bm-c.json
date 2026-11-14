@@ -1,7 +1,7 @@
 {
  "activity": "product",
- "activity_now": "CEO 页新增机队实况节：哪台机自己在写心跳、它管的车道现在谁在跑",
- "activity_now_round": 1673,
+ "activity_now": "CEO 页票据句改由票据自己的 bar 定词，页面日债清零",
+ "activity_now_round": 1675,
  "agenda_starved": false,
  "ahead_origin": 0,
  "arm_repricing": {
@@ -902,7 +902,7 @@
  "recent_artifact": "docs/live_book/LIVE-BOOK-20261114.md（9 行日词全自带日期·0 undated）+ scripts/live_book_day_words.py（自检 24/24）+ scripts/etf_book_ceo_page.py（自检 342/342）",
  "round": 1630,
  "round_label": "r1630",
- "round_no": 1674,
+ "round_no": 1675,
  "round_no_label": "1572",
  "round_no_landed": 1663,
  "round_note": "r1489: a reinstated bar is re-derived from the panel, not carried over (reinstatement_check + reinstatements.json + sheet paragraph)",
@@ -1256,14 +1256,13 @@
  "round_t1666_note": "PRODUCT. E625/E626 fixed the blocks that hand out an instruction; the section that answers \"how much extra did you pay\" still said today in two places: its closing bullet (priced on the premium face session) and the next section's cross-reference (same money total). Read on Saturday 11-14 both re-dated a 2026-11-13 reading. premium_block gained page_day with four states (same day / other day or no page_day -> names the bar / no session -> generic sentence); premium_forward_block's cross-reference is now keyed on face_asof. Selftest 327->332/332 (L258 three-state bullet, L259 four-state cross-reference). LIVE-BOOK regenerated and both sentences read back by eye. Card E627.",
  "round_t1668_next": "next (P0): work the 12 headings the census lists -- decide per block whether its 今天 means the reader day or the priced bar, give each a page_day argument and a two-sided leg; start with the summary first line and the cash-ladder quote column. Second: close the full smoke suite and record its numbers.",
  "round_t1668_note": "PRODUCT. The killed 13:50 round left uncommitted work (sibling_gap page_day + day_word helpers + the chain leg); verified green (ceo_page 337/337, order 189/189, UTF-8 clean) and adopted. This round: (1) floor_provenance_block takes page_day, its three today-words branch on it, PAGE_DAY_LEDGER owed 4 -> 3, selftest 339/339 (L265 other-day names 2026-11-06, L266 no-day keeps the old wording); (2) live_book_day_words claimed to read \"the artifact a reader actually opens\" but read the JSON, where no today-word exists -- render_md composes them -- so it printed NO_DAY_WORDS over a page printing 20 lines under 12 headings; the census now reads the pointer page too, with PRINTED_BUT_UNANCHORED (rc1) and UNVERIFIED_PRINTED_FACE, selftest 15/15, and the live read flipped from clean to rc1; (3) consumed the 12:20 master order: group closeout HEAD 57457295973a == origin/main, backup of the 5 overwritten tracked files + a 293-path manifest under results/_quarantine/group-closeout-20261114/, station task verified in place (next 14:53:39, --station visual --once --run-limit 6 through InvisibleRunner), receipt CLOSEOUT-20261114-1451.json pushed (574572959..0897cdab8); orders watermark advanced, s05 rc0.",
- "rounds": 1668,
- "rounds_done": 1668,
- "rounds_note": "r1668",
+ "rounds": 1675,
+ "rounds_done": 1675,
+ "rounds_note": "r1675",
  "s05_scan": "fleet/orders 114 files all in orders_ack = 0 unacked",
  "s05_second_scan": "收尾复扫 0 未回执",
  "s6_chain": {
-  "legs": "dualrun ZERO-DRIFT streak 51 | attrition CLEAN (4 ledgers, 2 historic shrinks healed) | py_watermark insufficient_history | update_daily rc0 0 new rows | ceo_page+section_bars 2/2 rc0",
-  "note": "the full chain was not run this round"
+  "legs": "dualrun ZERO-DRIFT streak 51 | py_watermark py_low_with_work_cands (local_batch=1=self smoke) | full chain not run this round"
  },
  "s6_chain_inflight": {
   "legs_seen": 52,
@@ -1316,18 +1315,24 @@
   "ahead_origin": 0,
   "behind_origin": 0
  },
- "task": "r1668: the day-word census was measuring the wrong paper (the JSON has none; the page prints 20)",
+ "task": "r1675: the last owed today-word (the ticket sheet) now names its own bar",
  "total_ram_gb": 23.9,
- "ts": "2026-11-14T17:27:45+08:00",
+ "ts": "2026-11-14T18:10:00+08:00",
  "update_daily": "rc0 0 new rows, cutoff 2026-11-13 (Saturday, before the 15:30 guard)",
- "updated": "2026-11-14T14:53:50",
- "updated_at": "2026-11-14T14:53:50",
+ "updated": "2026-11-14T18:10:00+08:00",
+ "updated_at": "2026-11-14T18:10:00+08:00",
  "verdict": "green",
- "verify": "ceo_page selftest 339/339 PASS (L265/L266 new) | live_book_day_words selftest 15/15 PASS (4 new negative controls) | live read: PRINTED_BUT_UNANCHORED, 20 printed lines / 12 headings, structured 58 sections / 0 day-word sections, rc1 | page regenerated (docs/live_book/LIVE-BOOK-20261114.md), sections priced 2026-11-13 | group: HEAD==origin/main==57457295973a, station_drive --once git.state=synced, would_create 3 | s05_probe rc0 (orders_delta=false, decisions_delta=false, unacked=[]) | smoke: 480 legs, 1 self-inflicted FAIL fixed in-window (877db0f0b5)",
- "verify_selftest": "do_or_wait 20/20 (5 new three-state legs: current / newer bar / same bar new bytes / no record / unreadable) ; late_sheet_price 10/10",
+ "verify": "etf_book_ceo_page selftest 349/349 PASS (new L133 later-day names the bar / L134 same-day keeps 今天; L261 now probes owed() with a fixture row; L127 builds the compared block with the page's own page_day) | page rebuilt docs/live_book/LIVE-BOOK-20261114.md, live read: '2026-11-13 那张可执行单实际持 5 名（bar 2026-11-13）' | PAGE_DAY_LEDGER owed rows 1 -> 0 | pool_dualrun ZERO-DRIFT streak 51 | py_watermark py_low_with_work_cands",
+ "verify_selftest": "etf_book_ceo_page 349/349 PASS",
  "verify_smoke": "full suite started 07:14 (pythonw pid 31124 -> results/_smoke_r1615.out); 478+ lines, no FAIL seen, not closed at round end; modules changed mid-run so the closing numbers are the previous generation",
  "verify_smoke_closed": "full suite started 07:14 closed 576/576 PASS 0 FAIL, wall clock 852.9s over 574 legs; started before the two module edits, so the ceo_page leg inside it printed the previous generation's 260/260 (new legs L214/L215 verified by selftest 262/262)",
  "vram_free_gb": 2.6,
- "watermark_verdict": "insufficient_history",
- "went_well": "the page had been saying 'no rung works' and 'no calendar works' and then stopping; the third road a reader reaches for was priced nine hours earlier and never cited"
+ "watermark_verdict": "py_low_with_work_cands",
+ "went_well": "the page had been saying 'no rung works' and 'no calendar works' and then stopping; the third road a reader reaches for was priced nine hours earlier and never cited",
+ "page_day_debt": {
+  "owed": 0,
+  "reader_day": 5,
+  "registry": "PAGE_DAY_LEDGER"
+ },
+ "not_verified": "full smoke suite started 17:46 not closed at round end (no tally claimed)"
 }
