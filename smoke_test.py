@@ -1070,6 +1070,30 @@ def main() -> int:
     except Exception as e:
         check("product: both priced blocks name the roll mask they were measured under (r1694)",
               False, str(e))
+    # r1695: the capital face now prices the same three gates under two roll masks, and the
+    # calendar column flips IC/IM over the 3% line while the published column admits none.
+    # Two things must hold or a reader gets two stories: the admission list has to be
+    # re-derivable from the verdict blocks (never hand-typed), and the page has to carry
+    # the re-pricing section that prints both columns side by side.
+    try:
+        _cf = json.load(open(os.path.join(PATHS.root, "results", "idx_fut_carry_capital.json"),
+                             encoding="utf-8"))
+        _vb = _cf.get("verdict_by_mask") or {}
+        _derived = {m: sorted(f for f, v in (blk or {}).items() if v.get("ADMIT") is True)
+                    for m, blk in _vb.items()}
+        _stated = {m: sorted(v or []) for m, v in (_cf.get("admitted_by_mask") or {}).items()}
+        _txt = ""
+        _pg = os.path.join(PATHS.root, "research", "IDX_FUT_BASIS_VERDICT.md")
+        if os.path.exists(_pg):
+            with open(_pg, encoding="utf-8") as _fh:
+                _txt = _fh.read()
+        _marker = "按完整掩码重定价（r1695）"
+        check("product: the capital face prices both roll masks and the page prints both (r1695)",
+              set(_vb) >= {"published", "calendar"} and _derived == _stated and _marker in _txt,
+              f"derived={_derived} stated={_stated} page={_marker in _txt}")
+    except Exception as e:
+        check("product: the capital face prices both roll masks and the page prints both (r1695)",
+              False, str(e))
     # r1692: the carry reading is what survives a roll mask, so the mask is load-bearing.
     # The published detector fires a few times a year while the index futures expire every
     # month; the days it misses stay in the series as losses nobody masked, and the r1690

@@ -110,7 +110,7 @@ def size_position(capital, cv, vol, vol_target=VOL_TARGET, margin_rate=MARGIN_RA
 
 
 def build_tier(capital, cv, vol, carry_pct, cash, roll_bps_list, mdd_pct=0.0,
-               carry_by_reading=None):
+               carry_by_reading=None, carry_by_mask=None):
     s = size_position(capital, cv, vol)
     lots = s["lots"]
     row = {"capital_cny": capital, "lots": lots, "lots_by_risk": s["lots_risk"],
@@ -141,6 +141,15 @@ def build_tier(capital, cv, vol, carry_pct, cash, roll_bps_list, mdd_pct=0.0,
             name: (None if c is None else
                    round((notional * c / 100.0 + cash_cny - roll[10]) / capital * 100, 2))
             for name, c in (carry_by_reading or {}).items()},
+        # r1695: the same money under each roll mask, reading by reading. The published
+        # column prices the series with the size-rule mask; the calendar column prices
+        # the same days minus the splices that mask misses. Both are printed because a
+        # reader who sees only one of them sizes the position off an unfinished series.
+        "net_pct_of_capital_by_mask": {
+            mask: {name: (None if c is None else
+                          round((notional * c / 100.0 + cash_cny - roll[10]) / capital * 100, 2))
+                   for name, c in (readings or {}).items()}
+            for mask, readings in (carry_by_mask or {}).items()},
         # R3: two distances, printed separately. A margin call is a fixed 15% fall
         # (the posted margin is gone); the account is wiped only if the loss outruns
         # ALL the capital, which for a small position can be more than the index can
@@ -159,22 +168,36 @@ def build_tier(capital, cv, vol, carry_pct, cash, roll_bps_list, mdd_pct=0.0,
     return row
 
 
-def judge(faces, vol_target=VOL_TARGET):
+def judge(faces, vol_target=VOL_TARGET, mask="published"):
     """Frozen V1/V2/V3 on the first tier that can actually hold a lot.
 
     Reading the verdict off a fixed tier would print "no lot" for a book that is
     merely smaller than one contract; the gate that matters is the one applied to
     the smallest capital that can trade at all.
+
+    r1695: `mask` picks which roll mask the carry is priced under. V2/V3 do not move
+    with it (they are set by contract value and the index's own drawdown), so a face
+    that reports the mask as if it changed the leverage gate would be inventing
+    sensitivity. A mask with no reading is UNKNOWN, never False: an absent number is
+    not a failed bar (r1371 family).
     """
     out = {}
     for fut, f in faces.items():
         mid = next((t for t in f["tiers"] if t["lots"] > 0), None)
         if not mid:
-            out[fut] = {"V1": False, "V2": None, "V3": None,
+            # "cannot afford a lot" is a decided answer, not a missing measurement
+            out[fut] = {"V1": False, "V2": None, "V3": None, "ADMIT": False,
+                        "mask": mask,
                         "why": "no tier in the table can afford one lot at the vol target",
-                        "first_affordable_tier_cny": None, "ADMIT": False}
+                        "first_affordable_tier_cny": None}
             continue
-        v1 = mid["net_pct_of_capital"]["10"] >= CARRY_MIN_PCT
+        if mask == "published":
+            by = mid.get("net_pct_of_capital_by_reading") or {}
+            net_declared = mid["net_pct_of_capital"]["10"]
+        else:
+            by = (mid.get("net_pct_of_capital_by_mask") or {}).get(mask) or {}
+            net_declared = by.get(DECLARED_READING)
+        v1 = None if net_declared is None else bool(net_declared >= CARRY_MIN_PCT)
         # V2 is a leverage cap, not a vol check: R1 already pins vol contribution to
         # the target by construction, so a "vol <= target" gate would be a tautology.
         # What R1 does NOT cap is the notional multiple, and that is what path risk
@@ -183,21 +206,22 @@ def judge(faces, vol_target=VOL_TARGET):
         # V3 replays the index's own worst drawdown on this position: the carry is
         # payment for holding the index, and this is what holding it has already cost.
         v3 = mid["stress_loss_pct_of_capital"] <= STRESS_MAX_PCT
-        by = mid.get("net_pct_of_capital_by_reading") or {}
         v1_by = {name: (None if by.get(name) is None else by[name] >= CARRY_MIN_PCT)
                  for name in CARRY_READINGS}
         admit_by = {name: (None if v1_by[name] is None else bool(v1_by[name] and v2 and v3))
                     for name in CARRY_READINGS}
         seen = {v for v in v1_by.values() if v is not None}
-        out[fut] = {"V1": v1, "V2": v2, "V3": v3, "ADMIT": bool(v1 and v2 and v3),
+        admit = None if v1 is None else bool(v1 and v2 and v3)
+        out[fut] = {"V1": v1, "V2": v2, "V3": v3, "ADMIT": admit, "mask": mask,
                     "V1_by_reading": v1_by,
                     "ADMIT_by_reading": admit_by,
+                    "net_declared_pct": net_declared,
                     # a verdict that only one of the three readings supports is a
                     # verdict about the estimator, not about the trade
                     "ruler_stable": len(seen) <= 1,
-                    "ADMIT_every_reading": bool(v1 and v2 and v3 and admit_by
-                                                and all(v for v in admit_by.values()
-                                                        if v is not None)),
+                    "ADMIT_every_reading": (None if admit is None else
+                                            bool(admit and all(v for v in admit_by.values()
+                                                               if v is not None))),
                     "first_affordable_tier_cny": mid["capital_cny"],
                     "read_on_tier": mid["capital_cny"]}
     return out
@@ -213,6 +237,8 @@ def build():
     # parent's derived net_carry_pct is the input, and the raw readings are only a
     # disclosure band around it.
     parent_carries = {c.get("fut"): c for c in parent.get("verdict", {}).get("carries", [])}
+    mask_block = roll_mask_block()
+    mask_carry = mask_block.get("carry_pct") or {}
     faces = {}
     for fut, e in parent["pairs"].items():
         if e.get("status") != "ok":
@@ -237,6 +263,14 @@ def build():
             g = (e.get("carry") or {}).get(name)
             carry_by_reading[name] = None if g is None else round(float(g) - drift, 3)
         carry_by_reading[DECLARED_READING] = round(carry, 3)
+        # r1695: repricing under the complete (calendar-anchored) mask. Same estimator,
+        # different set of days -- the calendar column is the parent's own three readings
+        # recomputed on the series with the missed splices removed, minus the same drift.
+        cal_stats = (mask_carry.get(fut) or {}).get("calendar_stats") or {}
+        carry_by_mask = {"published": dict(carry_by_reading),
+                         "calendar": {name: (None if cal_stats.get(name) is None else
+                                             round(float(cal_stats[name]) - drift, 3))
+                                      for name in CARRY_READINGS}}
         mdd = float(e.get("index_max_drawdown_pct") or 0.0)
         faces[fut] = {
             "index": code,
@@ -249,11 +283,13 @@ def build():
             "carry_net_ann_pct": carry,
             "carry_net_source": carry_src,
             "carry_net_by_reading": carry_by_reading,
+            "carry_net_by_mask": carry_by_mask,
             "carry_per_unit_vol": round(carry / (vol * 100), 3),
             "index_max_drawdown_pct": mdd,
             "parent_last_2y_median_ann_pct": e.get("last_2y_median_ann_pct"),
             "tiers": [build_tier(c, cv, vol, carry, cash, ROLL_COST_BPS, mdd,
-                                 carry_by_reading=carry_by_reading)
+                                 carry_by_reading=carry_by_reading,
+                                 carry_by_mask=carry_by_mask)
                       for c in CAPITAL_TIERS],
         }
     return {
@@ -289,8 +325,14 @@ def build():
         },
         "faces": faces,
         # every carry below is priced on this mask; r1694 makes the face say which one
-        "roll_mask": roll_mask_block(),
-        "verdict": judge(faces),
+        "roll_mask": mask_block,
+        # `verdict` stays the published-mask read (what every older consumer expects);
+        # r1695 adds the same gates re-priced under the complete mask, never merged.
+        "verdict": judge(faces, mask="published"),
+        "verdict_by_mask": {m: judge(faces, mask=m) for m in ("published", "calendar")},
+        "admitted_by_mask": {m: sorted(fut for fut, v in judge(faces, mask=m).items()
+                                       if v.get("ADMIT") is True)
+                             for m in ("published", "calendar")},
     }
 
 
@@ -337,6 +379,54 @@ def doc_block(face):
             "ADMIT" if v.get("ADMIT") else ("REJECT (V1 资金收益率 < %.1f%%)" % CARRY_MIN_PCT
                                             if v.get("V1") is False else "REJECT"),
         ))
+    lines.append("")
+    # r1695: the same gates, priced on the days the published mask leaves in the series.
+    # Both columns print because the verdict flips between them -- and a flip that is
+    # only visible in one column would read as "the bar was always this way".
+    vb = face.get("verdict_by_mask") or {}
+    pub_v, cal_v = vb.get("published") or {}, vb.get("calendar") or {}
+    lines.append("**按完整掩码重定价（r1695）**。上表的 carry 是在**已发布尺寸式掩码**下量的，"
+                 "而 r1692 量出那套掩码漏遮 64-81%% 的日历换月。把同一批日子换成日历锚定的"
+                 "完整掩码重算（同一批读数口径：median/trimmed/mean，同一个 drift），"
+                 "同一个 %.1f%% 线给出不同的判词 —— 两个都印，读者自己看口径：" % CARRY_MIN_PCT)
+    lines.append("")
+    lines.append("| 品种 | 已发布掩码 净 %%/yr | 完整掩码 净 %%/yr | 差 pp | 完整掩码 V1（≥%.1f%%） | 完整掩码判词 |"
+                 % CARRY_MIN_PCT)
+    lines.append("|---|---|---|---|---|---|")
+    for fut in ("IF", "IC", "IH", "IM"):
+        pv = pub_v.get(fut) or {}
+        cv_ = cal_v.get(fut) or {}
+        pn, cn = pv.get("net_declared_pct"), cv_.get("net_declared_pct")
+        gap = "-" if (pn is None or cn is None) else "%+.2f" % (cn - pn)
+        v1 = cv_.get("V1")
+        v1_s = "-" if v1 is None else ("是" if v1 else "否")
+        admit = cv_.get("ADMIT")
+        word = "口径未知" if admit is None else ("ADMIT" if admit else "REJECT")
+        lines.append("| %s | %s | %s | %s | %s | %s |" % (
+            fut,
+            "-" if pn is None else "%+.2f" % pn,
+            "-" if cn is None else "%+.2f" % cn,
+            gap, v1_s, word))
+    lines.append("")
+    adm = face.get("admitted_by_mask") or {}
+    cal_list = adm.get("calendar")
+    pub_list = adm.get("published")
+    ic_net = (cal_v.get("IC") or {}).get("net_declared_pct")
+    im_net = (cal_v.get("IM") or {}).get("net_declared_pct")
+    lines.append("完整掩码下过线的品种：%s（已发布掩码下：%s）。**这不是「多赚了」，是同一批日子"
+                 "少扣了「%s」档漏遮的换月跳变** —— 判词翻面本身说明这条线对掩码敏感；"
+                 "过线的两个净收益只有 %s/%s %%/yr（高出线 %s/%s pp），IF/IH 仍未过。"
+                 % ("、".join(cal_list) if cal_list else "无",
+                    "、".join(pub_list) if pub_list else "无",
+                    (face.get("roll_mask") or {}).get("published_rule") or "尺寸式",
+                    "-" if ic_net is None else "%.2f" % ic_net,
+                    "-" if im_net is None else "%.2f" % im_net,
+                    "-" if ic_net is None else "%.2f" % (ic_net - CARRY_MIN_PCT),
+                    "-" if im_net is None else "%.2f" % (im_net - CARRY_MIN_PCT)))
+    lines.append("")
+    lines.append("**这张表不下采纳判决**。过线只说明「按完整掩码，这两笔的资金收益率过了 %.1f%% 线」；"
+                 "日历掩码也不是终点 —— 它按到期日历抓换月，但换月幅度本身还没用合约级数据重建"
+                 "（r1692 遗留），所以 IC/IM 记为**候选**而不是采纳。" % CARRY_MIN_PCT)
     lines.append("")
     # the actionable half: what would have to change for the bar to be cleared
     lines.append("过 %.1f%% 线的两种走法，各自代价写在这里：**①同样的风险预算下提高名义 "
@@ -506,6 +596,30 @@ def selftest():
         "R6 a moved mask face moves the block (two-sided: no stale sentence survives)")
     leg("遮罩口径未知" in doc_block(_f),
         "R6 a face without a mask block says the mask is unknown instead of silence")
+    # R7: repricing under the complete mask is a different column, never a relabelled one
+    t4 = build_tier(4_000_000, cv, vol, 4.0, 0.013, ROLL_COST_BPS,
+                    carry_by_mask={"calendar": {"median_ann_pct": 8.0,
+                                                "trimmed_mean_ann_pct": None}})
+    leg(t4["net_pct_of_capital_by_mask"]["calendar"]["median_ann_pct"]
+        > t4["net_pct_of_capital"]["10"],
+        "R7 calendar mask prices more than the published one on the same tier")
+    leg(t4["net_pct_of_capital_by_mask"]["calendar"]["trimmed_mean_ann_pct"] is None,
+        "R7 an absent calendar reading stays absent instead of borrowing the median")
+    masked = dict(hot, net_pct_of_capital={"10": 2.0}, notional_x_capital=0.30,
+                  stress_loss_pct_of_capital=12.0, vol_contrib_pct=8.0,
+                  net_pct_of_capital_by_mask={
+                      "published": {"median_ann_pct": 2.0},
+                      "calendar": {"median_ann_pct": 4.0}})
+    jp = judge({"X": {"tiers": [masked]}}, mask="published")["X"]
+    jc = judge({"X": {"tiers": [masked]}}, mask="calendar")["X"]
+    leg(jp["V1"] is False and jc["V1"] is True and jc["mask"] == "calendar",
+        "R7 the same book clears V1 only under the complete mask")
+    leg(jc["V2"] is True and jc["V3"] is True,
+        "R7 V2/V3 do not move with the mask (they are set by contract size and drawdown)")
+    j5 = judge({"X": {"tiers": [dict(masked, net_pct_of_capital_by_mask=None)]}},
+               mask="calendar")["X"]
+    leg(j5["V1"] is None and j5["ADMIT"] is None,
+        "R7 a mask with no reading is UNKNOWN, never a failed bar")
     _t1, _how1 = splice_doc("# page\n\ntext\n", b1)
     _t2, _how2 = splice_doc(_t1, b2)
     leg(_how1 == "appended" and _how2 == "replaced"
@@ -564,6 +678,16 @@ def main(argv):
         print("    verdict ADMIT=%s (V1 %s / V2 %s / V3 %s)  ruler_stable=%s  every-reading=%s"
               % (v["ADMIT"], v["V1"], v["V2"], v["V3"], v["ruler_stable"],
                  v["ADMIT_every_reading"]))
+    # r1695: the chain leg runs `run --write-doc` so the page cannot outlive the face it
+    # renders -- the face and its block ship in the same step, and checkdoc is then a
+    # drift alarm rather than the only producer of the page.
+    if "--write-doc" in argv:
+        text = open(DOC, encoding="utf-8").read()
+        new, how = splice_doc(text, doc_block(face))
+        with open(DOC, "w", encoding="utf-8", newline="\n") as f:
+            f.write(new)
+        print("page block %s (%s, face %s)"
+              % (how, os.path.relpath(DOC, ROOT), face["generated"]))
     return 0
 
 

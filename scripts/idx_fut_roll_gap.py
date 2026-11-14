@@ -128,6 +128,11 @@ def carry_stats(spread, dates, masked_days):
         "carry_ann_pct": round(carry_ann, 3) if carry_ann is not None else None,
         "removed_mean_pct": round(statistics.fmean(dropped), 6) if dropped else None,
         "spliced_total_ann_pct": round(spliced_ann, 3) if spliced_ann is not None else None,
+        # r1695: the surviving days read three ways, through the parent's own estimator.
+        # The carry-per-capital table prices the median, so repricing it under the calendar
+        # mask needs the median of the surviving days -- publishing only the mean made that
+        # impossible without a second estimator (r1375 forbids a second copy).
+        "stats": base.stats_pct(kept),
     }
 
 

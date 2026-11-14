@@ -89,6 +89,12 @@ def roll_mask_block(path=None):
             "published": (readings.get("published_threshold_mask") or {}).get("carry_ann_pct"),
             "calendar": (readings.get("calendar_mask") or {}).get("carry_ann_pct"),
             "missed_share_pct": rd.get("missed_share_pct"),
+            # r1695: all three central tendencies of the surviving days, per mask. The
+            # carry-per-capital table prices the median, so a reader who wants to reprice
+            # it under the complete mask needs the median -- the mean alone (all r1694
+            # published) prices a different estimator, not a different mask.
+            "published_stats": (readings.get("published_threshold_mask") or {}).get("stats"),
+            "calendar_stats": (readings.get("calendar_mask") or {}).get("stats"),
         }
         out["arms_gap_pp"][fut] = dict((e.get("arm_sensitivity") or {}).get("B_minus_A_pp") or {})
     return out

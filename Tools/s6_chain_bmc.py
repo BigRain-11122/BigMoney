@@ -146,6 +146,13 @@ LEGS = [
     # the IF/IC/IH/IM panel refreshed above and re-derives the carry under a calendar-anchored
     # roll mask (quarterly, third Friday) instead of a size rule. ~1s, no network, no judge.
     ("idx_fut_roll_gap", ["python", "scripts/idx_fut_roll_gap.py"]),
+    # r1695: the carry-per-capital face had a `checkdoc` guard and no producer -- the same
+    # "produced once by hand, then read" class (r1282/r1471). It now prices the same gates
+    # under two roll masks and that column flips IC/IM over the 3% line, so letting it age
+    # is no longer cosmetic: a stale face would keep publishing the old admission list
+    # beside a page that names the flip. Rides behind the roll-gap leg it reads. ~1s.
+    ("idx_fut_carry_capital", ["python", "scripts/idx_fut_carry_capital.py",
+                               "run", "--write-doc"]),
     # r1136: the futures TSMOM sleeve was measured on 10-27 (standalone Sharpe 0.27, but
     # 50/50 with the ETF book 1.059 vs 0.98 alone at a smaller drawdown) and there was no
     # daily face for it -- the "produced but never read" class this repo keeps recording
