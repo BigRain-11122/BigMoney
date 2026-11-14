@@ -124,6 +124,14 @@ LEGS = [
     # Both read the futures panel refreshed immediately above; ~4s, no network, no judge.
     ("idx_fut_basis", ["python", "scripts/idx_fut_basis.py"]),
     ("idx_fut_basis_timing", ["python", "scripts/idx_fut_basis_timing.py"]),
+    # r1690: the timing face says the width carries the next 20 days and that the carry
+    # IS the discount closing -- it never says whether waiting for that width is worth
+    # the drift given up while sitting in repo. This leg prices the three arms (always
+    # in / wide-only / always cash) on identical capital and one volatility leash, and
+    # asserts A-B equals the skipped in-market return plus the cost difference, so the
+    # decomposition cannot drift into a story. Reads the same futures panel and the
+    # repo panel; ~2s, no network, no judge, selects nothing.
+    ("idx_fut_basis_wait", ["python", "scripts/idx_fut_basis_wait.py"]),
     # r1136: the futures TSMOM sleeve was measured on 10-27 (standalone Sharpe 0.27, but
     # 50/50 with the ETF book 1.059 vs 0.98 alone at a smaller drawdown) and there was no
     # daily face for it -- the "produced but never read" class this repo keeps recording

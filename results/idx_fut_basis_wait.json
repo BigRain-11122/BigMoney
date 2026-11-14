@@ -1,0 +1,387 @@
+{
+ "criteria": {
+  "wide_edge_pct": 20.0,
+  "W1_pp": 0.5,
+  "W2_pp": 0.5,
+  "slip_bp": 1.0,
+  "roll_bp": 1.0,
+  "vol_target_pct": 8.0,
+  "frozen_note": "thresholds written before any number was read"
+ },
+ "caveats": [
+  "main-contract continuous series: roll days are masked and charged, but the roll premium itself is not reconstructed",
+  "no margin/capital-consumption model: both arms are fully funded, so the leash is the only gear",
+  "repo accrual is GC001 close, not the actual collateral arrangement",
+  "futures index joins are on shared trading dates; index bars are not tradeable instruments themselves"
+ ],
+ "pairs": {
+  "IF": {
+   "status": "ok",
+   "index": "sh000300",
+   "window": {
+    "from": "2017-04-19",
+    "to": "2026-11-13",
+    "days": 2324
+   },
+   "n_obs": 2323,
+   "repo": {
+    "source": "data/repo_daily/GC001.csv",
+    "rows_missing_ffill": 0,
+    "accrual": "rate% x calendar_days_to_next_trading_day / 365"
+   },
+   "leash": {
+    "exposure_vol_pct": 19.309,
+    "target_pct": 8.0,
+    "leverage": 0.4143,
+    "note": "same leash on A and B; never above 1.0"
+   },
+   "costs": {
+    "slip_bp_per_side": 1.0,
+    "roll_bp_per_held_roll_day": 1.0,
+    "flips": 276,
+    "roll_days_held": 5
+   },
+   "arms": {
+    "A": {
+     "ann_pct": 4.092,
+     "vol_pct": 8.006,
+     "maxdd_pct": -15.768,
+     "growth_x": 1.4681,
+     "n_days": 2323,
+     "sharpe_vs_cash": 0.207
+    },
+    "B": {
+     "ann_pct": 5.151,
+     "vol_pct": 3.782,
+     "maxdd_pct": -4.989,
+     "growth_x": 1.6176,
+     "n_days": 2323,
+     "sharpe_vs_cash": 0.719
+    },
+    "C": {
+     "ann_pct": 2.432,
+     "vol_pct": 0.222,
+     "maxdd_pct": 0.0,
+     "growth_x": 1.2587,
+     "n_days": 2323,
+     "sharpe_vs_cash": 0.0
+    }
+   },
+   "time_in_market_pct": 21.01,
+   "decomposition": {
+    "A_minus_B_ann_pp": -1.059,
+    "foregone_inmarket_pp_per_yr": -0.888,
+    "identity_gap_pp": 0.0,
+    "note": "A - B is what the waiting arm did not earn (index drift plus carry on the out-days) net of the costs only B pays; residual is the check"
+   },
+   "halves": {
+    "first": {
+     "A_ann": 6.87,
+     "B_ann": 6.014,
+     "B_minus_A_pp": -0.856
+    },
+    "second": {
+     "A_ann": 1.406,
+     "B_ann": 4.301,
+     "B_minus_A_pp": 2.895
+    }
+   },
+   "W1": true,
+   "W2": true,
+   "W3": false,
+   "failing": [
+    "W3"
+   ],
+   "verdict": "HOLD-ALWAYS",
+   "sharpe_gain_B_over_A": 0.512
+  },
+  "IC": {
+   "status": "ok",
+   "index": "sh000905",
+   "window": {
+    "from": "2017-04-19",
+    "to": "2026-11-13",
+    "days": 2324
+   },
+   "n_obs": 2323,
+   "repo": {
+    "source": "data/repo_daily/GC001.csv",
+    "rows_missing_ffill": 0,
+    "accrual": "rate% x calendar_days_to_next_trading_day / 365"
+   },
+   "leash": {
+    "exposure_vol_pct": 23.105,
+    "target_pct": 8.0,
+    "leverage": 0.3462,
+    "note": "same leash on A and B; never above 1.0"
+   },
+   "costs": {
+    "slip_bp_per_side": 1.0,
+    "roll_bp_per_held_roll_day": 1.0,
+    "flips": 316,
+    "roll_days_held": 4
+   },
+   "arms": {
+    "A": {
+     "ann_pct": 3.874,
+     "vol_pct": 8.007,
+     "maxdd_pct": -12.13,
+     "growth_x": 1.439,
+     "n_days": 2323,
+     "sharpe_vs_cash": 0.18
+    },
+    "B": {
+     "ann_pct": 3.723,
+     "vol_pct": 4.413,
+     "maxdd_pct": -10.049,
+     "growth_x": 1.4191,
+     "n_days": 2323,
+     "sharpe_vs_cash": 0.293
+    },
+    "C": {
+     "ann_pct": 2.432,
+     "vol_pct": 0.222,
+     "maxdd_pct": 0.0,
+     "growth_x": 1.2587,
+     "n_days": 2323,
+     "sharpe_vs_cash": 0.0
+    }
+   },
+   "time_in_market_pct": 21.91,
+   "decomposition": {
+    "A_minus_B_ann_pp": 0.151,
+    "foregone_inmarket_pp_per_yr": 0.221,
+    "identity_gap_pp": -0.0,
+    "note": "A - B is what the waiting arm did not earn (index drift plus carry on the out-days) net of the costs only B pays; residual is the check"
+   },
+   "halves": {
+    "first": {
+     "A_ann": 4.804,
+     "B_ann": 6.551,
+     "B_minus_A_pp": 1.747
+    },
+    "second": {
+     "A_ann": 2.959,
+     "B_ann": 0.99,
+     "B_minus_A_pp": -1.969
+    }
+   },
+   "W1": false,
+   "W2": true,
+   "W3": false,
+   "failing": [
+    "W1",
+    "W3"
+   ],
+   "verdict": "HOLD-ALWAYS",
+   "sharpe_gain_B_over_A": 0.113
+  },
+  "IH": {
+   "status": "ok",
+   "index": "sh000016",
+   "window": {
+    "from": "2017-04-19",
+    "to": "2026-11-13",
+    "days": 2324
+   },
+   "n_obs": 2323,
+   "repo": {
+    "source": "data/repo_daily/GC001.csv",
+    "rows_missing_ffill": 0,
+    "accrual": "rate% x calendar_days_to_next_trading_day / 365"
+   },
+   "leash": {
+    "exposure_vol_pct": 18.631,
+    "target_pct": 8.0,
+    "leverage": 0.4294,
+    "note": "same leash on A and B; never above 1.0"
+   },
+   "costs": {
+    "slip_bp_per_side": 1.0,
+    "roll_bp_per_held_roll_day": 1.0,
+    "flips": 228,
+    "roll_days_held": 12
+   },
+   "arms": {
+    "A": {
+     "ann_pct": 4.166,
+     "vol_pct": 8.003,
+     "maxdd_pct": -17.553,
+     "growth_x": 1.4782,
+     "n_days": 2323,
+     "sharpe_vs_cash": 0.217
+    },
+    "B": {
+     "ann_pct": 5.153,
+     "vol_pct": 3.695,
+     "maxdd_pct": -6.8,
+     "growth_x": 1.6179,
+     "n_days": 2323,
+     "sharpe_vs_cash": 0.736
+    },
+    "C": {
+     "ann_pct": 2.432,
+     "vol_pct": 0.222,
+     "maxdd_pct": 0.0,
+     "growth_x": 1.2587,
+     "n_days": 2323,
+     "sharpe_vs_cash": 0.0
+    }
+   },
+   "time_in_market_pct": 22.64,
+   "decomposition": {
+    "A_minus_B_ann_pp": -0.987,
+    "foregone_inmarket_pp_per_yr": -0.789,
+    "identity_gap_pp": -0.0,
+    "note": "A - B is what the waiting arm did not earn (index drift plus carry on the out-days) net of the costs only B pays; residual is the check"
+   },
+   "halves": {
+    "first": {
+     "A_ann": 6.969,
+     "B_ann": 6.668,
+     "B_minus_A_pp": -0.301
+    },
+    "second": {
+     "A_ann": 1.456,
+     "B_ann": 3.671,
+     "B_minus_A_pp": 2.215
+    }
+   },
+   "W1": true,
+   "W2": true,
+   "W3": false,
+   "failing": [
+    "W3"
+   ],
+   "verdict": "HOLD-ALWAYS",
+   "sharpe_gain_B_over_A": 0.519
+  },
+  "IM": {
+   "status": "ok",
+   "index": "sh000852",
+   "window": {
+    "from": "2022-10-21",
+    "to": "2026-11-13",
+    "days": 986
+   },
+   "n_obs": 985,
+   "repo": {
+    "source": "data/repo_daily/GC001.csv",
+    "rows_missing_ffill": 0,
+    "accrual": "rate% x calendar_days_to_next_trading_day / 365"
+   },
+   "leash": {
+    "exposure_vol_pct": 25.937,
+    "target_pct": 8.0,
+    "leverage": 0.3084,
+    "note": "same leash on A and B; never above 1.0"
+   },
+   "costs": {
+    "slip_bp_per_side": 1.0,
+    "roll_bp_per_held_roll_day": 1.0,
+    "flips": 118,
+    "roll_days_held": 5
+   },
+   "arms": {
+    "A": {
+     "ann_pct": 4.147,
+     "vol_pct": 8.002,
+     "maxdd_pct": -13.054,
+     "growth_x": 1.1796,
+     "n_days": 985,
+     "sharpe_vs_cash": 0.286
+    },
+    "B": {
+     "ann_pct": 1.97,
+     "vol_pct": 4.745,
+     "maxdd_pct": -7.876,
+     "growth_x": 1.0825,
+     "n_days": 985,
+     "sharpe_vs_cash": 0.023
+    },
+    "C": {
+     "ann_pct": 1.86,
+     "vol_pct": 0.12,
+     "maxdd_pct": 0.0,
+     "growth_x": 1.0778,
+     "n_days": 985,
+     "sharpe_vs_cash": 0.0
+    }
+   },
+   "time_in_market_pct": 28.22,
+   "decomposition": {
+    "A_minus_B_ann_pp": 2.177,
+    "foregone_inmarket_pp_per_yr": 2.205,
+    "identity_gap_pp": 0.0,
+    "note": "A - B is what the waiting arm did not earn (index drift plus carry on the out-days) net of the costs only B pays; residual is the check"
+   },
+   "halves": {
+    "first": {
+     "A_ann": 1.317,
+     "B_ann": 2.397,
+     "B_minus_A_pp": 1.08
+    },
+    "second": {
+     "A_ann": 7.055,
+     "B_ann": 1.545,
+     "B_minus_A_pp": -5.51
+    }
+   },
+   "W1": false,
+   "W2": false,
+   "W3": false,
+   "failing": [
+    "W1",
+    "W2",
+    "W3"
+   ],
+   "verdict": "HOLD-ALWAYS",
+   "sharpe_gain_B_over_A": -0.263
+  }
+ },
+ "verdict": {
+  "waiting_pairs": [],
+  "pooled": "HOLD-ALWAYS",
+  "B_minus_A_pp_by_pair": {
+   "IF": 1.059,
+   "IC": -0.151,
+   "IH": 0.987,
+   "IM": -2.177
+  },
+  "median_time_in_market_pct": 22.275,
+  "sharpe_by_pair": {
+   "IF": {
+    "A": 0.207,
+    "B": 0.719,
+    "gain": 0.512
+   },
+   "IC": {
+    "A": 0.18,
+    "B": 0.293,
+    "gain": 0.113
+   },
+   "IH": {
+    "A": 0.217,
+    "B": 0.736,
+    "gain": 0.519
+   },
+   "IM": {
+    "A": 0.286,
+    "B": 0.023,
+    "gain": -0.263
+   }
+  },
+  "money_but_unstable_pairs": [
+   "IF",
+   "IH"
+  ],
+  "failing_leg_counts": {
+   "W3": 4,
+   "W1": 2,
+   "W2": 1
+  },
+  "rule": "no 2-of-4 -- waiting for the wide discount costs more drift than the prepayment it collects; hold the average instead",
+  "note": "B - A reads low because the waiting arm is out of the market: read it next to median_time_in_market_pct and the foregone column, not as a verdict on the discount itself.",
+  "read": "冻结判据判 HOLD-ALWAYS，而把它判死的**不是收益门槛**：IF/IH 两对过了 W1/W2，死在 W3（前后半场同号）——它们的全部好处都在后半场。又因为 B 有约四分之三的时间在场外，原始年化天生被摊薄、波动远低于目标档，所以同风险的比较看夏普列：IF/IH 的 0.72/0.74 对一直持有的 0.21/0.22 是这条线唯一像样的读数，而它同样只活在后半场，不能当成已成立的择时规则。"
+ }
+}
