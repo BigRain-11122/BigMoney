@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-14T23:02:13",
+ "ts": "2026-11-14T23:15:33",
  "mode": "probe",
  "py_faces_seen": 6,
  "orphans": 0,
@@ -12,7 +12,7 @@
    "pid": 9288,
    "name": "python.exe",
    "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe K:\\Fluxgroup\\FluxGroup\\Tools\\fleet\\agent.py --node b",
-   "age_min": 0.9,
+   "age_min": 14.2,
    "cpu_delta_20s": 0.0,
    "face1_parent_dead": true,
    "face2_no_hidden_host_ancestor": true,
@@ -22,27 +22,78 @@
    ]
   },
   {
-   "pid": 10116,
-   "name": "pythonw.exe",
-   "cmd": "pythonw.exe K:\\Fluxgroup\\FluxGroup\\Tools\\hq_claim_launch.py",
-   "age_min": 1.2,
+   "pid": 12368,
+   "name": "python.exe",
+   "cmd": "python Tools/fleet/job_kf_batch.py --node bm-c --prompts cph4/fleet/mv0001-handover/plan/kf_prompts.json --out cph4/flee",
+   "age_min": 0.5,
    "cpu_delta_20s": 0.0,
    "face1_parent_dead": false,
    "face2_no_hidden_host_ancestor": true,
    "face3_cpu_stalled": false,
    "ancestor_chain": [
-    "svchost.exe",
-    "services.exe",
-    "wininit.exe",
+    "cmd.exe",
+    "python.exe",
+    "pwsh.exe",
+    "codely.exe",
+    "codely-binary.exe",
+    "cowork.exe"
+   ]
+  },
+  {
+   "pid": 15244,
+   "name": "python.exe",
+   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe Tools\\fleet\\station_drive.py --station visual --once",
+   "age_min": 0.5,
+   "cpu_delta_20s": 0.0,
+   "face1_parent_dead": false,
+   "face2_no_hidden_host_ancestor": true,
+   "face3_cpu_stalled": false,
+   "ancestor_chain": [
+    "pwsh.exe",
+    "codely.exe",
+    "codely-binary.exe",
+    "cowork.exe",
+    "explorer.exe",
     "DEAD"
    ]
   },
   {
-   "pid": 18556,
+   "pid": 18088,
+   "name": "pythonw.exe",
+   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\pythonw.exe scripts\\cb_dual_low.py fetch --workers 4",
+   "age_min": 0.4,
+   "cpu_delta_20s": 999.0,
+   "face1_parent_dead": false,
+   "face2_no_hidden_host_ancestor": true,
+   "face3_cpu_stalled": false,
+   "ancestor_chain": [
+    "pwsh.exe",
+    "codely.exe",
+    "codely-binary.exe",
+    "cowork.exe",
+    "explorer.exe",
+    "DEAD"
+   ]
+  },
+  {
+   "pid": 25564,
+   "name": "python.exe",
+   "cmd": "D:\\ComfyUI\\python_embeded\\python.exe -s D:\\ComfyUI\\ComfyUI\\main.py --listen 127.0.0.1 --port 8188",
+   "age_min": 18.3,
+   "cpu_delta_20s": 0.203,
+   "face1_parent_dead": true,
+   "face2_no_hidden_host_ancestor": true,
+   "face3_cpu_stalled": false,
+   "ancestor_chain": [
+    "DEAD"
+   ]
+  },
+  {
+   "pid": 31952,
    "name": "python.exe",
    "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe Tools\\orphan_face_probe.py",
    "age_min": 0.4,
-   "cpu_delta_20s": 0.062,
+   "cpu_delta_20s": 0.078,
    "face1_parent_dead": false,
    "face2_no_hidden_host_ancestor": false,
    "face3_cpu_stalled": false,
@@ -51,49 +102,6 @@
     "codely.exe",
     "powershell.exe",
     "wscript.exe"
-   ]
-  },
-  {
-   "pid": 18840,
-   "name": "python.exe",
-   "cmd": "python Tools\\queue_claim.py --node bm-c",
-   "age_min": 0.9,
-   "cpu_delta_20s": 0.0,
-   "face1_parent_dead": false,
-   "face2_no_hidden_host_ancestor": false,
-   "face3_cpu_stalled": false,
-   "ancestor_chain": [
-    "cmd.exe",
-    "pythonw.exe"
-   ]
-  },
-  {
-   "pid": 25564,
-   "name": "python.exe",
-   "cmd": "D:\\ComfyUI\\python_embeded\\python.exe -s D:\\ComfyUI\\ComfyUI\\main.py --listen 127.0.0.1 --port 8188",
-   "age_min": 5.0,
-   "cpu_delta_20s": 0.0,
-   "face1_parent_dead": true,
-   "face2_no_hidden_host_ancestor": true,
-   "face3_cpu_stalled": false,
-   "ancestor_chain": [
-    "DEAD"
-   ]
-  },
-  {
-   "pid": 33704,
-   "name": "python.exe",
-   "cmd": "python Tools/fleet/job_kf_batch.py --node bm-c --prompts cph4/fleet/out/drama/kf_prompts.json --out cph4/fleet/out/drama",
-   "age_min": 0.7,
-   "cpu_delta_20s": 0.0,
-   "face1_parent_dead": false,
-   "face2_no_hidden_host_ancestor": false,
-   "face3_cpu_stalled": false,
-   "ancestor_chain": [
-    "cmd.exe",
-    "python.exe",
-    "cmd.exe",
-    "pythonw.exe"
    ]
   }
  ],
