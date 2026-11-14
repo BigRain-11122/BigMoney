@@ -523,6 +523,49 @@ def _leg_pending_fill_receipt(path=None):
     return (not bad), detail
 
 
+def _leg_day_words():
+    """Does the paper a reader opens put a today-word on another day's bar? (r1668)
+
+    Recomputable on its own:
+    `$ python -c "import smoke_test as s; print(s._leg_day_words())"`.
+
+    Reads the PUBLISHED page artifact through the census face's own function -- the same one
+    the chain leg runs, so this leg cannot drift from the guard. A page nobody can read is a
+    failure here rather than a skip: this host writes that page.
+
+    r1668: the census grew a second paper (the rendered markdown, where render_md composes the
+    today-words; the JSON holds none), so `_read` now hands back four values and the printed
+    count is reported on every run. This leg stays green while no today-word PROVABLY sits on
+    another bar and the paper is readable; the weaker state -- printed words the structured
+    face cannot attribute -- is carried as the printed counts in the detail line and as rc1
+    from the chain leg, not by turning the whole suite red over a debt that is being paid down
+    one block at a time (r1159: "cannot verify" is not "fine", but it is also not the same
+    finding as "verified wrong").
+    """
+    try:
+        try:
+            from scripts import live_book_day_words as _DW
+        except Exception:
+            import live_book_day_words as _DW
+        doc, rel, printed, err = _DW._read()
+        if err:
+            return False, "page unreadable (%s)" % err
+        c = _DW.census(doc, artifact=rel, printed=printed)
+        ok = c["verdict"] in ("ANCHORED", "NO_DAY_WORDS", "PRINTED_BUT_UNANCHORED")
+        _pr = c.get("printed") or {}
+        return ok, ("%s | page %s | %d/%d day-word sections on that day | printed %s lines "
+                    "under %s headings | offenders=%s%s"
+                    % (c["verdict"], c.get("page_day"), c["n_anchored"],
+                       c["n_with_day_word"], _pr.get("n_lines", "-"),
+                       _pr.get("n_headings", "-"),
+                       ",".join("%s@%s" % (r["key"], r["bar"]) for r in c["offenders"]) or "-",
+                       ("" if not c["n_unverifiable"] else
+                        " | unverifiable=%s" % ",".join(r["key"]
+                                                        for r in c["unverifiable"]))))
+    except Exception as exc:
+        return False, repr(exc)[:200]
+
+
 def _leg_page_fill_section(page_md=None):
     """Does the first page say what the open will do, and whose book that is? (r1572)
 
@@ -1040,6 +1083,15 @@ def main() -> int:
             # the evaluated window inside the bars the rate archive actually measured.
             ("product: repo rate stress supply probe (exit-code contract)",
              "scripts/zoo98_repo_rate_stress_probe.py", ["--selftest"]),
+            # r1668: five hand repairs of the same defect ("今天" printed over a bar that is
+            # not the reader's day) were all found by eye, after the paper was already out.
+            # The page's own guard reads the SOURCE and asks which block still says 今天
+            # without being handed a day; this census reads the artifact and asks whether the
+            # sentence the reader actually sees sits on the page's own day. Its legs pin the
+            # two answers that must never be merged: a today-word on another bar is red, and
+            # a today-word in a section with no date is "cannot verify", not clean.
+            ("product: live-book day words sit on the page's own day (exit-code contract)",
+             "scripts/live_book_day_words.py", ["--selftest"]),
 
             # r1409: the textbook dual-momentum rotation (zoo #82) priced on the published
             # book's own panel. Its legs pin the two ways a gate can lie about itself: a name
@@ -3074,6 +3126,14 @@ def main() -> int:
     except Exception as e:
         check("product: the page says what fills at the open and whose book that is",
               False, repr(e)[:160])
+    # r1668: the same page may still print "今天" over the bar it priced, which on a weekend
+    # is the previous session. The census answers that from the artifact, not from intent.
+    try:
+        _okdw, _ddw = _leg_day_words()
+        check("product: the paper puts today-words on the page's own day", _okdw, _ddw)
+    except Exception as e:
+        check("product: the paper puts today-words on the page's own day", False,
+              repr(e)[:160])
     try:
         _stg = [f for f in (_rg.get("faces") or []) if f.get("id") == "staggered"]
         _turn = (_stg[0].get("next_turn") if _stg else None) or []
