@@ -114,6 +114,32 @@ REPAIRS = [
         "restored": "Here burncontrol recomputes nothing",
         "proof": "scripts/e110_burncontrol_close.py + six other sources spell burncontrol",
     },
+    # r1667: r1665's own card was written through an escape-stripping path, so the same class
+    # came back with three NEW escapes: \f -> 0x0c, \a -> 0x07, \t -> 0x09. The card body uses
+    # a backslash as its inline-code mark, which is why \fill_block / \today / \asof / \row lost
+    # their leading letter. Repaired byte-exactly (receipt=results/card_text_repair_r1667.json);
+    # the fourth site (\row -> a real CR, which merged two lines into one) cannot live in this
+    # table because `fix` asserts an unchanged line count -- it is recorded in that receipt.
+    {
+        "damaged": "\\\x0cill_block\\ 的签名却是 \\\x0cill_block(fl, sheet=None)\\ 内部",
+        "restored": "\\fill_block\\ 的签名却是 \\fill_block(fl, sheet=None)\\ 内部",
+        "proof": "scripts/etf_book_ceo_page.py:6143 defines fill_block(fl, sheet=None, page_day=None)",
+    },
+    {
+        "damaged": "\\\x09oday\\，看起来",
+        "restored": "\\today\\，看起来",
+        "proof": "scripts/etf_book_order.py:3704 pending_fill_md(..., today=None, ...)",
+    },
+    {
+        "damaged": "\\\x09oday\\ / \\\x07sof\\",
+        "restored": "\\today\\ / \\asof\\",
+        "proof": "asof is a live parameter name: scripts/e34_cadence_rolling.py:99 era_of(asof)",
+    },
+    {
+        "damaged": "\\\x09ime.time()\\",
+        "restored": "\\time.time()\\",
+        "proof": "the same sentence names the three clock readers: date.today() / time.time() / datetime.now()",
+    },
 ]
 
 RECEIPT = os.path.join("results", "card_text_hygiene.json")

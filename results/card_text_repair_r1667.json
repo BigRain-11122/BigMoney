@@ -1,0 +1,47 @@
+{
+ "after_bytes": 1478680,
+ "before_bytes": 1478681,
+ "lines_after": 14779,
+ "lines_before": 14780,
+ "lines_touched": [
+  14758,
+  14762,
+  14763
+ ],
+ "note": "the CR join (site 4) cannot live in Tools/card_text_hygiene.REPAIRS: that table asserts an unchanged line count, and this damage merged two lines into one. The three line-scoped sites are in the table and fix() sees them discharged.",
+ "schema": "card-text-repair/v1",
+ "sites": [
+  {
+   "damaged": "\\\\\\x0cill_block\\\\ \\u7684\\u7b7e\\u540d\\u5374\\u662f \\\\\\x0cill_block(fl, sheet=None)\\\\ \\u5185\\u90e8",
+   "line": 14758,
+   "proof": "etf_book_ceo_page.py:6143 defines fill_block(fl, sheet=None, page_day=None)",
+   "restored": "\\\\fill_block\\\\ \\u7684\\u7b7e\\u540d\\u5374\\u662f \\\\fill_block(fl, sheet=None)\\\\ \\u5185\\u90e8"
+  },
+  {
+   "damaged": "\\\\\\today\\\\\\uff0c\\u770b\\u8d77\\u6765",
+   "line": 14758,
+   "proof": "etf_book_order.py:3704 pending_fill_md(..., today=None, ...)",
+   "restored": "\\\\today\\\\\\uff0c\\u770b\\u8d77\\u6765"
+  },
+  {
+   "damaged": "\\\\\\today\\\\ / \\\\\\x07sof\\\\",
+   "line": 14762,
+   "proof": "astock_size_age_control.py / e34_cadence_rolling.py:99 era_of(asof) -- live param name",
+   "restored": "\\\\today\\\\ / \\\\asof\\\\"
+  },
+  {
+   "damaged": "\\\\\\time.time()\\\\",
+   "line": 14763,
+   "proof": "the same sentence names the three clock readers: date.today() / time.time() / datetime.now()",
+   "restored": "\\\\time.time()\\\\"
+  },
+  {
+   "damaged": "\\\\\\r\\now\\\\ \\u8fd9\\u7c7b\\u5f62\\u53c2\\u5b58\\u5728",
+   "line": 14762,
+   "proof": "the line was one sentence: '\\today\\ / \\asof\\ / \\row\\' (three parameter-name styles)",
+   "restored": "\\\\row\\\\ \\u8fd9\\u7c7b\\u5f62\\u53c2\\u5b58\\u5728"
+  }
+ ],
+ "target": "knowledge/METHODOLOGY_ASSETS.md",
+ "tool": ".codely-cli/tmp/_r1667_card_fix.py"
+}

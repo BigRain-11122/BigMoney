@@ -546,11 +546,17 @@ def _leg_page_fill_section(page_md=None):
         text = open(path, encoding="utf-8").read()
     except OSError as exc:
         return False, "no readable page (%s)" % exc.__class__.__name__
-    head = "## 今天开盘要成交的是什么"
-    if head not in text:
+    # r1667: the heading has TWO legitimate spellings since r1664/r1665 made the section
+    # name the bar it priced instead of calling it "today". Looking for one literal turned
+    # this leg red against a page the producer had just FIXED -- so the contract is checked
+    # instead of the wording: either it says today, and today IS the ledger's bar; or it
+    # names the bar, and the bar it names is the one the ledger is on.
+    _hm = re.search(r"^## [^\n]*开盘要成交的是什么[^\n]*$", text, re.M)
+    if not _hm:
         bad.append("the page has no 'what fills at the open' section")
     else:
-        i = text.index(head)
+        head = _hm.group(0)
+        i = _hm.start()
         if "## 下单清单" in text and i > text.index("## 下单清单"):
             bad.append("the fill section sits below the buy list")
         nxt = text.find("## 下单清单", i)
@@ -565,6 +571,25 @@ def _leg_page_fill_section(page_md=None):
             bad.append("no readable ledger (%s)" % exc.__class__.__name__)
         pf = (led or {}).get("pending_fill") or {}
         if led is not None:
+            _pm = re.search(r"LIVE-BOOK-(\d{4})(\d{2})(\d{2})\.md$", os.path.basename(path))
+            _pday = "%s-%s-%s" % _pm.groups() if _pm else ""
+            _bars = [b.get("bar") for b in (led.get("bars") or []) if b.get("bar")]
+            _bar = (pf.get("decided_bar") or (_bars[-1] if _bars else "")) or ""
+            if "今天" in head:
+                if not _pday:
+                    # "today" is only checkable against the page's own day; a filename that
+                    # does not carry one must be said out loud, not read as agreement.
+                    bad.append("the page's own day cannot be read from its filename")
+                elif _bar and str(_bar)[:10] != _pday:
+                    bad.append("the section calls %s's bar 'today' on a %s page"
+                               % (str(_bar)[:10], _pday))
+            else:
+                _nm = re.search(r"(\d{4}-\d{2}-\d{2})", head)
+                if not _nm:
+                    bad.append("the section neither says 'today' nor names the bar")
+                elif _bar and _nm.group(1) != str(_bar)[:10]:
+                    bad.append("the section names %s but the ledger is on %s"
+                               % (_nm.group(1), str(_bar)[:10]))
             if pf and (pf.get("decided_bar") or "") not in body:
                 bad.append("the decision bar %s is not printed" % pf.get("decided_bar"))
             if not pf and "账本没有待成交的书" not in body:

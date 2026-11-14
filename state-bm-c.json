@@ -63,7 +63,7 @@
  "cpu_util_pct": 4.8,
  "cur_task": "r1664 product: an instruction block must name the bar it priced",
  "current": "r1616: the two-best-year question asked in a scale-free way",
- "current_task": "r1664 product: an instruction block must name the bar it priced",
+ "current_task": "r1667: two reds repaired (page-fill leg contract + escape-eaten card)",
  "current_task_at": "2026-11-14T11:36:52+08:00",
  "current_task_short": "r1616 y4 scale-free companion",
  "current_task_ts": "2026-11-13T07:40:54+08:00",
@@ -199,7 +199,7 @@
  "last_round_tag": "r1586",
  "last_round_ts": "2026-11-13T05:17:02+08:00",
  "last_run_at": "2026-10-26T21:20:55+08:00",
- "last_seen": "2026-11-14T11:36:52+08:00",
+ "last_seen": "2026-11-14T13:32:44+08:00",
  "last_seen_at": "2026-11-14T11:36:52+08:00",
  "last_task_at": "2026-10-29T06:27:04+08:00",
  "last_ts": "2026-10-19T20:11:25+08:00",
@@ -889,11 +889,11 @@
  "recent_artifact": "docs/live_book/LIVE-BOOK-20261114.md",
  "round": 1630,
  "round_label": "r1630",
- "round_no": 1666,
+ "round_no": 1667,
  "round_no_label": "1572",
  "round_no_landed": 1663,
  "round_note": "r1489: a reinstated bar is re-derived from the panel, not carried over (reinstatement_check + reinstatements.json + sheet paragraph)",
- "round_now": 1664,
+ "round_now": "results/card_text_repair_r1667.json",
  "round_r1390_closeout_note": "r1390: PRODUCT window (state round_no=1389 at open, HEAD round 1389 pushed clean -> zero absorb owed). PRODUCT = the first supply berth whose exposure is structurally 1.0 (both earlier berths were timing families and lost to the exit tax by construction): scripts/zoo_supply_xs_reversal_probe.py (selftest 9/9) buys the 10 worst trailing-20-bar ETFs from the published book eligibility, holds 20 bars, next-open fill, 8bp/side, and rides run_next_open instead of re-implementing the fill. Rule -8.15%/yr maxdd -59.4% vs SAME-POOL equal-weight +1.86%/-39.9% -> -10.01pp excess, 113.7 slot swaps/yr, all four admit conditions false -> REFUSE_AS_CANDIDATE. The reading that outlives the verdict: 200 same-exposure random-rank nulls average -3.38pp/yr (sd 3.44), so 10-name concentration plus its monthly swap is itself negative alpha on this panel (card E387). Two pits: np.nanmean(P).prod() is not compounding (needs np.prod(1+mean); the basis leg caught the equal-weight control reading -100% before publication), and run_next_open returns a 3-tuple. S6: dualrun streak 14, compute_audit FLAG pool_starvation+supply_floor (ready 0 floor 3, breach 10122 min), update_daily rc0 0 new rows cutoff 2026-11-06, regime RED raw ORANGE shadow, attrition CLEAN. S0.5 orders 0 unacked. orphan 0. SMOKE HONESTY: suite launched 06:57 stalled at 07:05 on an unprinted external-source leg (191 PASS/0 FAIL), killed 07:15, relaunched pid 67412 -- no suite total claimed. next=r1391: an EVENT family (forced trading), because breadth is now measured as a tax and holdings count is no longer a free axis.",
  "round_r1403_next": "supply floor still 0<3 (AGENDA_DEBT, streak 10,709 min): next berth is new supply; the repo-lane refill must land with its restatement in one window (bm-a), else the ledger exits 3 on 4 bars",
  "round_r1403_note": "r1403: PRODUCT round. The open tree carried a dead r1402 window's estate (volgate probe + card_track carry_last fix + smoke/chain legs, all uncommitted, its smoke suite still running at 16:36 when the loop restarted) and a P1 inbox message asserting the forward ledger would freeze; this window landed the estate on evidence (volgate selftest pass, card_track 20/20 re-run here) and then turned the assertion into arithmetic. NEW: scripts/etf_book_carry_repro.py (selftest 9/9) re-derives every published bar READ-ONLY and splits it with the live gate's own partition_settled -- today the ledger does NOT block (settled 10-23/10-26/10-27 reproduce at 0.000e+00; the 8 provisional bars sit at up to 9.956e-07, 996x tol, but the gate only polices settled bars), and the freeze arrives WITH the refill: stepping carry_last forward, 10-30 blocks 1 bar, 11-02 two, 11-03 three, >=11-04 four (10-30/11-02/11-03/11-04). So bm-a's refill and the restatement must land in the same window (restate_provisional, not --rebase: the book is not wrong, its input was still growing). NOT EXPLAINED, named: those four bars' NAV moves are 1.5-4.2x the carry gap, so a second unattributed recompute difference exists on the same bars -- reported per bar instead of folded into carry and instead of moving the tolerance. PIT: my first selftest had two wrong EXPECTATIONS, not wrong code -- partition_settled treats bars[-1] as the newest bar (a one-bar list is provisional by construction) and treats carry_last=None as no extra provisionality, so an absent repo panel makes those bars settle while the ledger's carry was priced by one. The shared splitter was right both times; the legs now assert what it does. PUSH: landed on origin tip eef3e98c9f after rebase onto 31 upstream commits; the card collided (E402 was already taken) and is E404; the METHODOLOGY_ASSETS conflict was resolved by union (both sides cards kept, zero markers, card_ledger_guard CLEAN max 404); the autostash carrying ~130 regenerated lane faces conflicted on replay and was dropped by taking HEADs versions -- every file in it was a lane-regenerated face (results/, docs/, research/), none hand-written.",
@@ -1252,7 +1252,7 @@
   "started": "2026-11-14T06:39:00+08:00",
   "wall_clock_s": 855.7
  },
- "smoke_out": "logs/smoke_r1659.log",
+ "smoke_out": "results/_r1667b_smoke.out",
  "smoke_r1621_out": "results/_smoke_r1621.out",
  "smoke_r1623_out": "results/_smoke_r1623.out",
  "smoke_r1625_closed": {
@@ -1307,5 +1307,6 @@
  "round_t1664_note": "PRODUCT (产品优先律·watermark=py_low_with_work_cands 的唯一在跑批就是本轮 smoke 本身). r1663 把晚报节的日期词修成三态后，下一个块照旧：`do_or_wait_block` 印「## 今天动手，还是等几天？」「判决：**今天动手**」「**今天（基准）**」「比今天贵 / 便宜」，而这一节是按 `evidence_cutoff` = 2026-11-13 那根 bar 定价的；`premium_forward_block` 的表头印「今日档位」，实际是 11-13 的读数。周六（11-14）实读，两处都把一个休市日说成今天——「今天动手」不再只是不准，而是让人在关着的市场上按单操作。修：两个块都加 `page_day` 参数、由 `render_md` 传 `p['generated_for_date']`；只有 page_day 就是那根 bar （premium 表头还要求 == face_asof）才允许说「今天/今日」，否则标题点名「在 2026-11-13 那根 bar 上动手」、基准行印「2026-11-13（基准）」、表头印「档位（2026-11-13 的读数）」、判决补「（那是那一根 bar 的日子，不是今天）」。缺省 page_day=None（夹具/未知）一律走点名分支——旧夹具不传日子正是「替页面撒谎的腿」，L234/L235/L239 改成显式传 11-13，再加 L256（周六不得说今天）/L257（同日必须还说今天）/L174（表头按读数日命名）。自检 324→327/327 PASS；发布页实读新句（docs/live_book/LIVE-BOOK-20261114.md：`## 在 2026-11-13 那根 bar 上动手，还是等几天？`、`| 等几根 bar | 比那根 bar 贵 / 便宜（CNY） |`、`| 代码 | 档位（2026-11-13 的读数） |`）。",
  "round_t1664_next": "next (P0): the same word is still loose in the premium block itself — its last bullet reads 「所以这不是卖出的理由，是「这张单今天不便宜」的读数」 and the cross-reference above the forward table reads 「上一节说的是**今天多付了多少**」; both are about the priced bar, not the reader's day. Give `premium_block` a page_day, branch those two sentences, and add a two-sided leg (same day keeps 「今天」, Saturday must name 2026-11-13). Second: Monday 11-16 after 15:30 the five names reprice — confirm both newly-branched blocks flip back to 「今天」 on their own and do not stay in the bar-named branch.",
  "round_t1666_note": "PRODUCT. E625/E626 fixed the blocks that hand out an instruction; the section that answers \"how much extra did you pay\" still said today in two places: its closing bullet (priced on the premium face session) and the next section's cross-reference (same money total). Read on Saturday 11-14 both re-dated a 2026-11-13 reading. premium_block gained page_day with four states (same day / other day or no page_day -> names the bar / no session -> generic sentence); premium_forward_block's cross-reference is now keyed on face_asof. Selftest 327->332/332 (L258 three-state bullet, L259 four-state cross-reference). LIVE-BOOK regenerated and both sentences read back by eye. Card E627.",
- "round_t1666_next": "next (P0): same ruler over the remaining 今天 on the page -- summary first line, sibling gap, floor/permission quota, cash ladder 今日报价, calibre section; each block decides page-day vs bar-day and gets a two-sided leg. Second: Monday 11-16 after 15:30 the five names reprice -- confirm both newly-branched sentences flip back on their own."
+ "round_t1666_next": "next (P0): same ruler over the remaining 今天 on the page -- summary first line, sibling gap, floor/permission quota, cash ladder 今日报价, calibre section; each block decides page-day vs bar-day and gets a two-sided leg. Second: Monday 11-16 after 15:30 the five names reprice -- confirm both newly-branched sentences flip back on their own.",
+ "r1667_closeout_note": "r1667: S1 reds repaired. (1) _leg_page_fill_section looked for ONE literal heading that r1664/r1665 legitimately renamed; it now locates the section by anchor and enforces the contract (says today only when the page day is the ledger bar; otherwise the named bar must equal the ledger bar; unreadable page day is red, not silent). Four controls measured: same-day green / other-day red / wrong-bar red / undated red. (2) knowledge/METHODOLOGY_ASSETS.md E626 carried three escape-eaten sites (0x0c ill_block, 0x09 oday, 0x07 sof, 0x09 ime.time) plus a CR that merged two lines; repaired byte-exactly (results/card_text_repair_r1667.json, lines 14758/14762/14763, -1 line), and the three line-scoped sites were added to Tools/card_text_hygiene.REPAIRS with proofs (the CR join cannot live in that table because it asserts an unchanged line count). Suite re-run started 13:28 -> results/_r1667b_smoke.out."
 }
