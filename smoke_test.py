@@ -7001,9 +7001,23 @@ def main() -> int:
                 _badq.append("panel is not current (%r) yet the section retires itself"
                              % (_truth.get("panel_bar"),))
         _mdq = _pgq.render_md(_pageq)
+        # r1664: "tonight" is the reader's day, not the panel's bar. Since r1663 the heading only
+        # says 今晚 when that bar IS the page's day; on a Saturday the same section must still be
+        # there, named by its bar. Requiring the literal word made this leg red for a correct
+        # page -- the leg now asks for the section, not for one of its two spellings.
+        _barq = _lq.get("panel_bar")
+        _genq = _pageq.get("generated_for_date")
+        _sameq = bool(_genq and _barq and str(_genq)[:10] == str(_barq)[:10])
         if _lq.get("status") == "panel_current":
-            if "今晚的收盘" not in _mdq:
+            if _sameq and "今晚的收盘" not in _mdq:
                 _badq.append("the retirement heading never reaches the page")
+            if not _sameq:
+                if "%s 的收盘" % _barq not in _mdq:
+                    _badq.append("a page read after its bar must still print the closing section, "
+                                 "named by that bar (%r)" % (_barq,))
+                if "今晚" in _mdq:
+                    _badq.append("the page says tonight although its bar is %r, not today"
+                                 % (_barq,))
             if "持仓腿今天" in _mdq:
                 _badq.append("the page prints the snapshot's move anyway")
         else:
