@@ -1683,7 +1683,7 @@ def premium_forward_face(ticket=None, results_dir=None):
             "sample_previous_session": pr.get("fwd_sample_previous_session")}
 
 
-def premium_forward_block(pf, page_bar=None):
+def premium_forward_block(pf, page_bar=None, page_day=None):
     """The lines this page prints about what the price did after such a reading."""
     L = []
     add = L.append
@@ -1704,7 +1704,13 @@ def premium_forward_block(pf, page_bar=None):
             % (pf["face_asof"], page_bar))
         add("")
     h = pf.get("horizon") or "?"
-    add("| 代码 | 今日档位 | 同档此后 %s 个交易日均涨 | 观测 | t | 本单金额 | 同档折成钱 |" % h)
+    # r1664: "今日档位" is the bucket the READ face saw. It is only "today's" bucket when that
+    # reading's session is the page's own day -- otherwise the header names the session, since
+    # the page is rebuilt on weekends and the column would otherwise re-date a Friday reading.
+    _asof = pf.get("face_asof")
+    _same_day = bool(page_day and _asof and str(page_day)[:10] == str(_asof)[:10])
+    add("| 代码 | %s | 同档此后 %s 个交易日均涨 | 观测 | t | 本单金额 | 同档折成钱 |"
+        % ("今日档位" if _same_day else "档位（%s 的读数）" % (_asof or "读数日"), h))
     add("|---|---|---|---|---|---|---|")
     for r in pf.get("rows") or []:
         add("| %s | %s | %+.2f%% | %s | %+.1f | %s | %s |"
@@ -4153,7 +4159,7 @@ def vol_window_edge_block(ve):
 
 
 
-def do_or_wait_block(dw):
+def do_or_wait_block(dw, page_day=None):
     """Page lines: is today the cheapest day to do this sheet? (r1659)
 
     Factored out so a selftest can feed a stale / unknown / unreadable face instead of
@@ -4161,8 +4167,16 @@ def do_or_wait_block(dw):
     formats. The single-sheet coin flip is printed next to the mean, never averaged in."""
     L = []
     add = L.append
-    head = "## 今天动手，还是等几天？"
     dw = dw or {}
+    # r1664: this ladder is priced ON A BAR, and the page is rebuilt on Saturdays too. "今天动手"
+    # printed over Friday's bar tells a Saturday reader to trade on a shut market -- the same lie
+    # r1662/r1663 removed from the page footer and the live-quote heading, in the section that
+    # hands out an instruction. The word is allowed only when that bar IS the page's day.
+    _bar = dw.get("evidence_cutoff")
+    _same_day = bool(page_day and _bar and str(_bar)[:10] == str(page_day)[:10])
+    _day = "今天" if _same_day else "%s 那根 bar 上" % _bar
+    head = ("## 今天动手，还是等几天？" if _same_day
+            else "## 在 %s 那根 bar 上动手，还是等几天？" % (_bar or "最后一根"))
     if dw.get("status") == "unreadable" or not dw:
         add(head)
         add("")
@@ -4191,10 +4205,12 @@ def do_or_wait_block(dw):
     add(head)
     add("")
     if verdict == "NOTHING_OWED_TODAY":
-        add("- 今天**没有到期的事**（这张单按它自己的额度下单），所以基准是「什么都不做」；"
-            "下面问的是另一件事：**真要动手的那天，是当天做，还是等几根 bar 更便宜**。")
+        add("- %s**没有到期的事**（这张单按它自己的额度下单），所以基准是「什么都不做」；"
+            "下面问的是另一件事：**真要动手的那天，是当天做，还是等几根 bar 更便宜**。" % _day)
     elif verdict == "DO_TODAY":
-        add("- 判决：**今天动手**——按面自己重算，等任何一档都不比今天便宜。")
+        add("- 判决：**%s动手**——按面自己重算，等任何一档都不比%s便宜。%s"
+            % (_day, "今天" if _same_day else "那天",
+               "" if _same_day else "（那是那一根 bar 的日子，不是今天）"))
     elif str(verdict).startswith("WAIT_") and "NOT_SEPARABLE" not in verdict:
         add("- 判决：**等 %s 根 bar 更便宜**，且这个差在均值和零分得开。" % dw.get("best_k"))
     else:
@@ -4202,7 +4218,8 @@ def do_or_wait_block(dw):
     add("")
 
     if table:
-        add("| 等几根 bar | 比今天贵 / 便宜（CNY） | 其中持仓成本（CNY） | t | 等反而更好的比例 |")
+        add("| 等几根 bar | 比%s贵 / 便宜（CNY） | 其中持仓成本（CNY） | t | 等反而更好的比例 |"
+            % ("今天" if _same_day else "那根 bar "))
         add("|---|---|---|---|---|")
         for r in table:
             k = r.get("k")
@@ -4211,7 +4228,8 @@ def do_or_wait_block(dw):
             t = r.get("t")
             share = r.get("share_late_helps")
             add("| %s | %s | %s | %s | %s |"
-                % ("**今天（基准）**" if r.get("baseline") else str(k),
+                % (("**今天（基准）**" if _same_day else "**%s（基准）**" % _bar)
+                   if r.get("baseline") else str(k),
                    "0" if r.get("baseline") else
                    ("%+.0f" % cost if cost is not None else "—"),
                    "%+.0f" % (carry or 0.0) if carry is not None else "—",
@@ -6664,7 +6682,8 @@ def render_md(p, sb=None):
     # r1659: the reader who just learned what fills at the next open asks the next question
     # -- should it be done today at all, or is waiting cheaper? Priced since r1481/r1482,
     # never printed here.
-    for _dw_line in do_or_wait_block(p.get("do_or_wait") or {}):
+    for _dw_line in do_or_wait_block(p.get("do_or_wait") or {},
+                                     page_day=p.get("generated_for_date")):
         add(_dw_line)
     add("## 下单清单%s" % ("（如果你今天才建仓）" if mode == "hold" else ""))
     add("")
@@ -6692,7 +6711,8 @@ def render_md(p, sb=None):
                                                        for o in (p.get("order") or [])]}):
         add(_pl_line)
     for _pfw_line in premium_forward_block(p.get("premium_forward") or {},
-                                           page_bar=p.get("priced_bar")):
+                                           page_bar=p.get("priced_bar"),
+                                           page_day=p.get("generated_for_date")):
         add(_pfw_line)
     for _sg_line in sibling_gap_block(p.get("sibling_gap") or {}, page_bar=p.get("priced_bar")):
         add(_sg_line)
@@ -10250,6 +10270,16 @@ def selftest():
         dict(_pfw_fix, face_asof="2026-11-06"), page_bar="2026-11-09"))
     chk("L168 premium forward block: a face anchored on another session refuses to lend its rows to today",
         "两个日子对不上" in _pfw_shift)
+    # r1664: the column header said "今日档位" over a reading taken on another session.
+    _pfw_hdr_today = "\n".join(premium_forward_block(
+        _pfw_fix, page_bar="2026-11-09", page_day="2026-11-09"))
+    _pfw_hdr_old = "\n".join(premium_forward_block(
+        _pfw_fix, page_bar="2026-11-09", page_day="2026-11-14"))
+    chk("L174 premium forward block: 'today's bucket' only on the reading's own day",
+        "今日档位" in _pfw_hdr_today
+        and "档位（2026-11-09 的读数）" in _pfw_hdr_old
+        and "今日档位" not in _pfw_hdr_old,
+        _pfw_hdr_old.splitlines()[:1] and _pfw_hdr_old[:200])
     _pfw_cut = "\n".join(premium_forward_block(dict(_pfw_fix, missing_legs=["513100"])))
     chk("L169 premium forward block: a leg with no reading is named as unmeasured, not as zero drift",
         "513100" in _pfw_cut and "没量过" in _pfw_cut)
@@ -11093,13 +11123,28 @@ def selftest():
                          "t": -4.5708, "share_late_helps": 0.41247, "baseline": False}],
               "one_open_late": {"median_cny": -932.3, "t": -4.5708,
                                 "share_late_helps": 0.41247}}
-    _dw_md = "\n".join(do_or_wait_block(dict(_dw_ok)))
+    _dw_md = "\n".join(do_or_wait_block(dict(_dw_ok), page_day="2026-11-13"))
     chk("L234 the do-or-wait ladder reaches the page, labelled with its own bar",
         "今天动手，还是等几天" in _dw_md and "2026-11-13" in _dw_md,
         _dw_md[:160])
     chk("L235 every rung is the face's own number and the baseline is named",
         "今天（基准）" in _dw_md and "+1798" in _dw_md and "-932" in _dw_md,
         _dw_md[:200])
+    # r1664: the ladder hands out an instruction, so its day word has to be the reader's day --
+    # on a Saturday the face is still priced on Friday's bar.
+    _dw_sat = "\n".join(do_or_wait_block(dict(_dw_ok, verdict="DO_TODAY"),
+                                         page_day="2026-11-14"))
+    chk("L256 do-or-wait: a Saturday page never tells the reader to act 'today' on Friday's bar",
+        "今天动手" not in _dw_sat and "2026-11-13 那根 bar 上动手" in _dw_sat
+        and "不是今天" in _dw_sat and "2026-11-13（基准）" in _dw_sat
+        and "今天（基准）" not in _dw_sat and "比今天贵" not in _dw_sat,
+        _dw_sat[:240])
+    chk("L257 do-or-wait: on the bar's own day the same block still says today (two-sided)",
+        "今天动手" in "\n".join(do_or_wait_block(dict(_dw_ok, verdict="DO_TODAY"),
+                                                page_day="2026-11-13"))
+        and "今天（基准）" in _dw_md and "不是今天" not in _dw_md
+        and "比今天贵" in _dw_md,
+        _dw_md[:240])
     _dw_stale = do_or_wait_block(dict(_dw_ok, status="stale",
                                       stale_receipts=["cut_order_gap"]))
     _dw_stale_md = "\n".join(_dw_stale)
@@ -11116,7 +11161,8 @@ def selftest():
         "无法核验" in _dw_gone and "boom" in _dw_gone
         and "| 等几根 bar" not in _dw_gone and "判决" not in _dw_gone,
         _dw_gone[:200])
-    _dw_today = "\n".join(do_or_wait_block(dict(_dw_ok, verdict="DO_TODAY")))
+    _dw_today = "\n".join(do_or_wait_block(dict(_dw_ok, verdict="DO_TODAY"),
+                                           page_day="2026-11-13"))
     chk("L239 the two verdicts never share a page: owed-today and nothing-owed read differently",
         "没有到期的事" in _dw_md and "没有到期的事" not in _dw_today
         and "今天动手" in _dw_today,
