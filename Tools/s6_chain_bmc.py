@@ -168,6 +168,16 @@ LEGS = [
     # lines' break-evens sit inside the band the tape cannot resolve. Reads the same cache;
     # ~2-4s, no network, no judge.
     ("idx_fut_roll_cost", ["python", "scripts/idx_fut_roll_cost.py", "--write-doc"]),
+    # r1699: the roll book was published in rupees of carry per year and the desk's own book
+    # in risk units, so the only question that allocates money ("the next yuan: the ETF book
+    # or the carry sleeve?") had no face. This leg adds the missing half -- vol, Sharpe,
+    # drawdown, underwater run, the same series scaled to the desk's 8% target, the margin
+    # identity (capital = margin + |drawdown|), the blend grid against the adopted book, and
+    # the form this desk can actually hold (owning the future instead of the ETF, since the
+    # spread needs a short leg nobody here can borrow). Rides behind the roll book it reads;
+    # ~50s, no network.
+    ("idx_fut_carry_risk", ["python", "scripts/idx_fut_carry_risk.py", "run",
+                            "--write-doc"]),
     # r1695: the carry-per-capital face had a `checkdoc` guard and no producer -- the same
     # "produced once by hand, then read" class (r1282/r1471). It now prices the same gates
     # under two roll masks and that column flips IC/IM over the 3% line, so letting it age

@@ -1,0 +1,840 @@
+{
+ "generated": "2026-11-15T05:54:22",
+ "evidence_cutoff": "2026-11-13",
+ "kind": "carry_sleeve_risk",
+ "criteria": {
+  "products": [
+   "IC",
+   "IF",
+   "IM",
+   "IH"
+  ],
+  "vol_target_pct": 8.0,
+  "max_leverage": 5.0,
+  "margin_assumptions": {
+   "10pct": 0.1,
+   "12pct": 0.12,
+   "15pct": 0.15
+  },
+  "blend_lambdas": [
+   0.0,
+   0.1,
+   0.2,
+   0.3
+  ],
+  "blend_risk_pct": 10.0,
+  "corr_diversifies_below": 0.5,
+  "improve_sharpe_min": 0.02,
+  "underwater_top_n": 3
+ },
+ "book": {
+  "book": "nobond_vt08_adopted",
+  "turnover_side_pct": 108.25,
+  "n": 1661,
+  "ann_mean_pct": 11.555,
+  "ann_vol_pct": 10.332,
+  "sharpe": 1.118,
+  "mdd_pct": -10.556,
+  "underwater_max_bars": 207,
+  "underwater_open_bars": 67,
+  "hit_rate_pct": 55.1,
+  "ann_compound_pct": 11.647,
+  "by_year": {
+   "2020": {
+    "days": 241,
+    "compound_pct": 5.679
+   },
+   "2021": {
+    "days": 243,
+    "compound_pct": 8.67
+   },
+   "2022": {
+    "days": 242,
+    "compound_pct": 3.14
+   },
+   "2023": {
+    "days": 242,
+    "compound_pct": 5.93
+   },
+   "2024": {
+    "days": 242,
+    "compound_pct": 14.706
+   },
+   "2025": {
+    "days": 243,
+    "compound_pct": 43.223
+   },
+   "2026": {
+    "days": 208,
+    "compound_pct": 3.704
+   }
+  },
+  "worst_year_pct": 3.14,
+  "worst_year": "2022"
+ },
+ "products": {
+  "IC": {
+   "product": "IC",
+   "index": "sh000905",
+   "rolls": 63,
+   "days": 1956,
+   "days_dropped": 0,
+   "span": {
+    "first": "2018-10-22",
+    "last": "2026-11-13"
+   },
+   "risk": {
+    "n": 1956,
+    "ann_mean_pct": 8.574,
+    "ann_vol_pct": 5.868,
+    "sharpe": 1.461,
+    "mdd_pct": -5.639,
+    "underwater_max_bars": 174,
+    "underwater_open_bars": 6,
+    "hit_rate_pct": 55.0,
+    "ann_compound_pct": 8.763,
+    "by_year": {
+     "2018": {
+      "days": 49,
+      "compound_pct": -0.819
+     },
+     "2019": {
+      "days": 244,
+      "compound_pct": 11.518
+     },
+     "2020": {
+      "days": 243,
+      "compound_pct": 12.891
+     },
+     "2021": {
+      "days": 243,
+      "compound_pct": 13.026
+     },
+     "2022": {
+      "days": 242,
+      "compound_pct": 6.814
+     },
+     "2023": {
+      "days": 242,
+      "compound_pct": 2.62
+     },
+     "2024": {
+      "days": 242,
+      "compound_pct": 5.338
+     },
+     "2025": {
+      "days": 243,
+      "compound_pct": 11.245
+     },
+     "2026": {
+      "days": 208,
+      "compound_pct": 9.146
+     }
+    },
+    "worst_year_pct": -0.819,
+    "worst_year": "2018"
+   },
+   "at_vol_target": {
+    "target_pct": 8.0,
+    "leverage": 1.3633,
+    "n": 1956,
+    "ann_mean_pct": 11.688,
+    "ann_vol_pct": 8.0,
+    "sharpe": 1.461,
+    "mdd_pct": -7.671,
+    "underwater_max_bars": 174,
+    "underwater_open_bars": 6,
+    "hit_rate_pct": 55.0,
+    "ann_compound_pct": 12.037,
+    "by_year": {
+     "2018": {
+      "days": 49,
+      "compound_pct": -1.191
+     },
+     "2019": {
+      "days": 244,
+      "compound_pct": 15.903
+     },
+     "2020": {
+      "days": 243,
+      "compound_pct": 17.873
+     },
+     "2021": {
+      "days": 243,
+      "compound_pct": 18.093
+     },
+     "2022": {
+      "days": 242,
+      "compound_pct": 9.336
+     },
+     "2023": {
+      "days": 242,
+      "compound_pct": 3.568
+     },
+     "2024": {
+      "days": 242,
+      "compound_pct": 7.112
+     },
+     "2025": {
+      "days": 243,
+      "compound_pct": 15.577
+     },
+     "2026": {
+      "days": 208,
+      "compound_pct": 12.576
+     }
+    },
+    "worst_year_pct": -1.191,
+    "worst_year": "2018"
+   },
+   "margin_identity": {
+    "10pct": {
+     "margin_assumed_pct": 10.0,
+     "capital_pct_of_notional": 15.639,
+     "ann_on_capital_pct": 56.033,
+     "dd_on_capital_pct": 36.057
+    },
+    "12pct": {
+     "margin_assumed_pct": 12.0,
+     "capital_pct_of_notional": 17.639,
+     "ann_on_capital_pct": 49.68,
+     "dd_on_capital_pct": 31.969
+    },
+    "15pct": {
+     "margin_assumed_pct": 15.0,
+     "capital_pct_of_notional": 20.639,
+     "ann_on_capital_pct": 42.458,
+     "dd_on_capital_pct": 27.322
+    }
+   },
+   "realizable": {
+    "long_futures_ann_pct": 14.144,
+    "etf_same_window_ann_pct": 4.279,
+    "gap_pp": 9.865,
+    "etf_flag": null,
+    "note": "the spread is long-futures/short-index and needs a short leg this desk does not have; owning the future instead of the ETF earns index+carry and is priced against the ETF in the gap column"
+   },
+   "common_days_with_book": 1661,
+   "corr_with_book": -0.039,
+   "blend": [
+    {
+     "lambda": 0.0,
+     "leverage": 0.9678,
+     "ann_pct": 11.183,
+     "vol_pct": 10.0,
+     "sharpe": 1.118,
+     "mdd_pct": -10.231
+    },
+    {
+     "lambda": 0.1,
+     "leverage": 1.0759,
+     "ann_pct": 12.103,
+     "vol_pct": 10.0,
+     "sharpe": 1.21,
+     "mdd_pct": -10.115
+    },
+    {
+     "lambda": 0.2,
+     "leverage": 1.2046,
+     "ann_pct": 13.183,
+     "vol_pct": 10.0,
+     "sharpe": 1.318,
+     "mdd_pct": -9.919
+    },
+    {
+     "lambda": 0.3,
+     "leverage": 1.3565,
+     "ann_pct": 14.43,
+     "vol_pct": 10.0,
+     "sharpe": 1.443,
+     "mdd_pct": -9.589
+    }
+   ],
+   "blend_best": {
+    "lambda": 0.3,
+    "leverage": 1.3565,
+    "ann_pct": 14.43,
+    "vol_pct": 10.0,
+    "sharpe": 1.443,
+    "mdd_pct": -9.589
+   },
+   "blend_gain_sharpe": 0.325,
+   "verdict": "SLEEVE_CANDIDATE",
+   "why": "carry 12.04% at target risk, corr -0.039, blend Sharpe +0.325"
+  },
+  "IF": {
+   "product": "IF",
+   "index": "sh000300",
+   "rolls": 74,
+   "days": 1956,
+   "days_dropped": 0,
+   "span": {
+    "first": "2018-10-22",
+    "last": "2026-11-13"
+   },
+   "risk": {
+    "n": 1956,
+    "ann_mean_pct": 3.601,
+    "ann_vol_pct": 4.378,
+    "sharpe": 0.823,
+    "mdd_pct": -6.549,
+    "underwater_max_bars": 300,
+    "underwater_open_bars": 6,
+    "hit_rate_pct": 52.8,
+    "ann_compound_pct": 3.567,
+    "by_year": {
+     "2018": {
+      "days": 49,
+      "compound_pct": -3.149
+     },
+     "2019": {
+      "days": 244,
+      "compound_pct": 2.847
+     },
+     "2020": {
+      "days": 243,
+      "compound_pct": 6.808
+     },
+     "2021": {
+      "days": 243,
+      "compound_pct": 5.738
+     },
+     "2022": {
+      "days": 242,
+      "compound_pct": 2.473
+     },
+     "2023": {
+      "days": 242,
+      "compound_pct": 0.176
+     },
+     "2024": {
+      "days": 242,
+      "compound_pct": 2.314
+     },
+     "2025": {
+      "days": 243,
+      "compound_pct": 3.986
+     },
+     "2026": {
+      "days": 208,
+      "compound_pct": 6.109
+     }
+    },
+    "worst_year_pct": -3.149,
+    "worst_year": "2018"
+   },
+   "at_vol_target": {
+    "target_pct": 8.0,
+    "leverage": 1.8275,
+    "n": 1956,
+    "ann_mean_pct": 6.581,
+    "ann_vol_pct": 8.0,
+    "sharpe": 0.823,
+    "mdd_pct": -11.842,
+    "underwater_max_bars": 300,
+    "underwater_open_bars": 6,
+    "hit_rate_pct": 52.8,
+    "ann_compound_pct": 6.459,
+    "by_year": {
+     "2018": {
+      "days": 49,
+      "compound_pct": -5.779
+     },
+     "2019": {
+      "days": 244,
+      "compound_pct": 5.108
+     },
+     "2020": {
+      "days": 243,
+      "compound_pct": 12.532
+     },
+     "2021": {
+      "days": 243,
+      "compound_pct": 10.62
+     },
+     "2022": {
+      "days": 242,
+      "compound_pct": 4.463
+     },
+     "2023": {
+      "days": 242,
+      "compound_pct": 0.286
+     },
+     "2024": {
+      "days": 242,
+      "compound_pct": 3.967
+     },
+     "2025": {
+      "days": 243,
+      "compound_pct": 7.247
+     },
+     "2026": {
+      "days": 208,
+      "compound_pct": 11.315
+     }
+    },
+    "worst_year_pct": -5.779,
+    "worst_year": "2018"
+   },
+   "margin_identity": {
+    "10pct": {
+     "margin_assumed_pct": 10.0,
+     "capital_pct_of_notional": 16.549,
+     "ann_on_capital_pct": 21.554,
+     "dd_on_capital_pct": 39.573
+    },
+    "12pct": {
+     "margin_assumed_pct": 12.0,
+     "capital_pct_of_notional": 18.549,
+     "ann_on_capital_pct": 19.23,
+     "dd_on_capital_pct": 35.306
+    },
+    "15pct": {
+     "margin_assumed_pct": 15.0,
+     "capital_pct_of_notional": 21.549,
+     "ann_on_capital_pct": 16.553,
+     "dd_on_capital_pct": 30.391
+    }
+   },
+   "realizable": {
+    "long_futures_ann_pct": 6.095,
+    "etf_same_window_ann_pct": 2.488,
+    "gap_pp": 3.607,
+    "etf_flag": null,
+    "note": "the spread is long-futures/short-index and needs a short leg this desk does not have; owning the future instead of the ETF earns index+carry and is priced against the ETF in the gap column"
+   },
+   "common_days_with_book": 1661,
+   "corr_with_book": 0.053,
+   "blend": [
+    {
+     "lambda": 0.0,
+     "leverage": 0.9678,
+     "ann_pct": 11.183,
+     "vol_pct": 10.0,
+     "sharpe": 1.118,
+     "mdd_pct": -10.231
+    },
+    {
+     "lambda": 0.1,
+     "leverage": 1.0715,
+     "ann_pct": 11.564,
+     "vol_pct": 10.0,
+     "sharpe": 1.156,
+     "mdd_pct": -10.116
+    },
+    {
+     "lambda": 0.2,
+     "leverage": 1.1964,
+     "ann_pct": 12.0,
+     "vol_pct": 10.0,
+     "sharpe": 1.2,
+     "mdd_pct": -9.945
+    },
+    {
+     "lambda": 0.3,
+     "leverage": 1.3479,
+     "ann_pct": 12.49,
+     "vol_pct": 10.0,
+     "sharpe": 1.249,
+     "mdd_pct": -9.684
+    }
+   ],
+   "blend_best": {
+    "lambda": 0.3,
+    "leverage": 1.3479,
+    "ann_pct": 12.49,
+    "vol_pct": 10.0,
+    "sharpe": 1.249,
+    "mdd_pct": -9.684
+   },
+   "blend_gain_sharpe": 0.131,
+   "verdict": "REFUSE",
+   "why": "at 8.0% vol the sleeve earns 6.46% against the book's 11.65%"
+  },
+  "IM": {
+   "product": "IM",
+   "index": "sh000852",
+   "rolls": 23,
+   "days": 1044,
+   "days_dropped": 0,
+   "span": {
+    "first": "2022-07-22",
+    "last": "2026-11-13"
+   },
+   "risk": {
+    "n": 1044,
+    "ann_mean_pct": 9.944,
+    "ann_vol_pct": 6.815,
+    "sharpe": 1.459,
+    "mdd_pct": -5.047,
+    "underwater_max_bars": 122,
+    "underwater_open_bars": 7,
+    "hit_rate_pct": 56.2,
+    "ann_compound_pct": 10.198,
+    "by_year": {
+     "2022": {
+      "days": 109,
+      "compound_pct": 10.933
+     },
+     "2023": {
+      "days": 242,
+      "compound_pct": 4.443
+     },
+     "2024": {
+      "days": 242,
+      "compound_pct": 10.067
+     },
+     "2025": {
+      "days": 243,
+      "compound_pct": 14.353
+     },
+     "2026": {
+      "days": 208,
+      "compound_pct": 12.098
+     }
+    },
+    "worst_year_pct": 4.443,
+    "worst_year": "2023"
+   },
+   "at_vol_target": {
+    "target_pct": 8.0,
+    "leverage": 1.1739,
+    "n": 1044,
+    "ann_mean_pct": 11.673,
+    "ann_vol_pct": 8.0,
+    "sharpe": 1.459,
+    "mdd_pct": -5.907,
+    "underwater_max_bars": 122,
+    "underwater_open_bars": 7,
+    "hit_rate_pct": 56.2,
+    "ann_compound_pct": 12.023,
+    "by_year": {
+     "2022": {
+      "days": 109,
+      "compound_pct": 12.933
+     },
+     "2023": {
+      "days": 242,
+      "compound_pct": 5.223
+     },
+     "2024": {
+      "days": 242,
+      "compound_pct": 11.789
+     },
+     "2025": {
+      "days": 243,
+      "compound_pct": 17.009
+     },
+     "2026": {
+      "days": 208,
+      "compound_pct": 14.304
+     }
+    },
+    "worst_year_pct": 5.223,
+    "worst_year": "2023"
+   },
+   "margin_identity": {
+    "10pct": {
+     "margin_assumed_pct": 10.0,
+     "capital_pct_of_notional": 15.047,
+     "ann_on_capital_pct": 67.774,
+     "dd_on_capital_pct": 33.542
+    },
+    "12pct": {
+     "margin_assumed_pct": 12.0,
+     "capital_pct_of_notional": 17.047,
+     "ann_on_capital_pct": 59.823,
+     "dd_on_capital_pct": 29.606
+    },
+    "15pct": {
+     "margin_assumed_pct": 15.0,
+     "capital_pct_of_notional": 20.047,
+     "ann_on_capital_pct": 50.87,
+     "dd_on_capital_pct": 25.176
+    }
+   },
+   "realizable": {
+    "long_futures_ann_pct": 7.414,
+    "etf_same_window_ann_pct": null,
+    "gap_pp": null,
+    "etf_flag": "1 day(s) move more than 35% in the ETF leg; gap not printed",
+    "note": "the spread is long-futures/short-index and needs a short leg this desk does not have; owning the future instead of the ETF earns index+carry and is priced against the ETF in the gap column"
+   },
+   "common_days_with_book": 1044,
+   "corr_with_book": -0.064,
+   "blend": [
+    {
+     "lambda": 0.0,
+     "leverage": 1.024,
+     "ann_pct": 15.632,
+     "vol_pct": 10.0,
+     "sharpe": 1.563,
+     "mdd_pct": -10.797
+    },
+    {
+     "lambda": 0.1,
+     "leverage": 1.14,
+     "ann_pct": 16.797,
+     "vol_pct": 10.0,
+     "sharpe": 1.68,
+     "mdd_pct": -10.616
+    },
+    {
+     "lambda": 0.2,
+     "leverage": 1.2748,
+     "ann_pct": 18.105,
+     "vol_pct": 10.0,
+     "sharpe": 1.81,
+     "mdd_pct": -10.306
+    },
+    {
+     "lambda": 0.3,
+     "leverage": 1.4268,
+     "ann_pct": 19.504,
+     "vol_pct": 10.0,
+     "sharpe": 1.95,
+     "mdd_pct": -9.786
+    }
+   ],
+   "blend_best": {
+    "lambda": 0.3,
+    "leverage": 1.4268,
+    "ann_pct": 19.504,
+    "vol_pct": 10.0,
+    "sharpe": 1.95,
+    "mdd_pct": -9.786
+   },
+   "blend_gain_sharpe": 0.387,
+   "verdict": "SLEEVE_CANDIDATE",
+   "why": "carry 12.02% at target risk, corr -0.064, blend Sharpe +0.387"
+  },
+  "IH": {
+   "product": "IH",
+   "index": "sh000016",
+   "rolls": 89,
+   "days": 1956,
+   "days_dropped": 0,
+   "span": {
+    "first": "2018-10-22",
+    "last": "2026-11-13"
+   },
+   "risk": {
+    "n": 1956,
+    "ann_mean_pct": 2.461,
+    "ann_vol_pct": 4.399,
+    "sharpe": 0.559,
+    "mdd_pct": -7.425,
+    "underwater_max_bars": 479,
+    "underwater_open_bars": 3,
+    "hit_rate_pct": 52.4,
+    "ann_compound_pct": 2.392,
+    "by_year": {
+     "2018": {
+      "days": 49,
+      "compound_pct": -3.63
+     },
+     "2019": {
+      "days": 244,
+      "compound_pct": 1.58
+     },
+     "2020": {
+      "days": 243,
+      "compound_pct": 7.634
+     },
+     "2021": {
+      "days": 243,
+      "compound_pct": 3.124
+     },
+     "2022": {
+      "days": 242,
+      "compound_pct": 1.976
+     },
+     "2023": {
+      "days": 242,
+      "compound_pct": -0.081
+     },
+     "2024": {
+      "days": 242,
+      "compound_pct": 1.14
+     },
+     "2025": {
+      "days": 243,
+      "compound_pct": 1.856
+     },
+     "2026": {
+      "days": 208,
+      "compound_pct": 3.482
+     }
+    },
+    "worst_year_pct": -3.63,
+    "worst_year": "2018"
+   },
+   "at_vol_target": {
+    "target_pct": 8.0,
+    "leverage": 1.8188,
+    "n": 1956,
+    "ann_mean_pct": 4.476,
+    "ann_vol_pct": 8.0,
+    "sharpe": 0.559,
+    "mdd_pct": -13.356,
+    "underwater_max_bars": 480,
+    "underwater_open_bars": 3,
+    "hit_rate_pct": 52.4,
+    "ann_compound_pct": 4.24,
+    "by_year": {
+     "2018": {
+      "days": 49,
+      "compound_pct": -6.608
+     },
+     "2019": {
+      "days": 244,
+      "compound_pct": 2.79
+     },
+     "2020": {
+      "days": 243,
+      "compound_pct": 13.999
+     },
+     "2021": {
+      "days": 243,
+      "compound_pct": 5.65
+     },
+     "2022": {
+      "days": 242,
+      "compound_pct": 3.539
+     },
+     "2023": {
+      "days": 242,
+      "compound_pct": -0.187
+     },
+     "2024": {
+      "days": 242,
+      "compound_pct": 1.72
+     },
+     "2025": {
+      "days": 243,
+      "compound_pct": 3.274
+     },
+     "2026": {
+      "days": 208,
+      "compound_pct": 6.319
+     }
+    },
+    "worst_year_pct": -6.608,
+    "worst_year": "2018"
+   },
+   "margin_identity": {
+    "10pct": {
+     "margin_assumed_pct": 10.0,
+     "capital_pct_of_notional": 17.425,
+     "ann_on_capital_pct": 13.727,
+     "dd_on_capital_pct": 42.611
+    },
+    "12pct": {
+     "margin_assumed_pct": 12.0,
+     "capital_pct_of_notional": 19.425,
+     "ann_on_capital_pct": 12.314,
+     "dd_on_capital_pct": 38.224
+    },
+    "15pct": {
+     "margin_assumed_pct": 15.0,
+     "capital_pct_of_notional": 22.425,
+     "ann_on_capital_pct": 10.667,
+     "dd_on_capital_pct": 33.11
+    }
+   },
+   "realizable": {
+    "long_futures_ann_pct": 3.368,
+    "etf_same_window_ann_pct": null,
+    "gap_pp": null,
+    "etf_flag": "no ETF mapped to this index in the panel, so there is nothing to price against",
+    "note": "the spread is long-futures/short-index and needs a short leg this desk does not have; owning the future instead of the ETF earns index+carry and is priced against the ETF in the gap column"
+   },
+   "common_days_with_book": 1661,
+   "corr_with_book": 0.056,
+   "blend": [
+    {
+     "lambda": 0.0,
+     "leverage": 0.9678,
+     "ann_pct": 11.183,
+     "vol_pct": 10.0,
+     "sharpe": 1.118,
+     "mdd_pct": -10.231
+    },
+    {
+     "lambda": 0.1,
+     "leverage": 1.0712,
+     "ann_pct": 11.441,
+     "vol_pct": 10.0,
+     "sharpe": 1.144,
+     "mdd_pct": -10.137
+    },
+    {
+     "lambda": 0.2,
+     "leverage": 1.1954,
+     "ann_pct": 11.722,
+     "vol_pct": 10.0,
+     "sharpe": 1.172,
+     "mdd_pct": -9.989
+    },
+    {
+     "lambda": 0.3,
+     "leverage": 1.3453,
+     "ann_pct": 12.016,
+     "vol_pct": 10.0,
+     "sharpe": 1.202,
+     "mdd_pct": -9.756
+    }
+   ],
+   "blend_best": {
+    "lambda": 0.3,
+    "leverage": 1.3453,
+    "ann_pct": 12.016,
+    "vol_pct": 10.0,
+    "sharpe": 1.202,
+    "mdd_pct": -9.756
+   },
+   "blend_gain_sharpe": 0.084,
+   "verdict": "REFUSE",
+   "why": "at 8.0% vol the sleeve earns 4.24% against the book's 11.65%"
+  }
+ },
+ "verdict": {
+  "rows": {
+   "IC": {
+    "verdict": "SLEEVE_CANDIDATE",
+    "why": "carry 12.04% at target risk, corr -0.039, blend Sharpe +0.325",
+    "carry_at_target_pct": 12.037,
+    "corr_with_book": -0.039,
+    "blend_gain_sharpe": 0.325
+   },
+   "IF": {
+    "verdict": "REFUSE",
+    "why": "at 8.0% vol the sleeve earns 6.46% against the book's 11.65%",
+    "carry_at_target_pct": 6.459,
+    "corr_with_book": 0.053,
+    "blend_gain_sharpe": 0.131
+   },
+   "IM": {
+    "verdict": "SLEEVE_CANDIDATE",
+    "why": "carry 12.02% at target risk, corr -0.064, blend Sharpe +0.387",
+    "carry_at_target_pct": 12.023,
+    "corr_with_book": -0.064,
+    "blend_gain_sharpe": 0.387
+   },
+   "IH": {
+    "verdict": "REFUSE",
+    "why": "at 8.0% vol the sleeve earns 4.24% against the book's 11.65%",
+    "carry_at_target_pct": 4.24,
+    "corr_with_book": 0.056,
+    "blend_gain_sharpe": 0.084
+   }
+  },
+  "sleeve_candidates": [
+   "IC",
+   "IM"
+  ],
+  "any_candidate": true,
+  "note": "a candidate here is a sleeve worth pricing forward, not an adopted position: the readings are in-sample and the margin is an assumption"
+ },
+ "elapsed_sec": 48.5
+}

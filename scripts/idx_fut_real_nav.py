@@ -117,7 +117,7 @@ def active_path(dates, panel, margin=None):
     return held, rolls
 
 
-def book_returns(dates, panel, held, index_close):
+def book_returns(dates, panel, held, index_close, dates_out=None):
     """Daily returns of the held contract and of the index over the same calendar.
 
     The contract is held from the close it was marked at, so day k's return is the return
@@ -127,6 +127,11 @@ def book_returns(dates, panel, held, index_close):
     forced, never silently dropped.
     """
     rf, ri, forced = [], [], 0
+    # r1699: a consumer that needs the calendar of these returns (risk units per day)
+    # must not rebuild it -- every `continue` below drops a day, and a rebuilt calendar
+    # then sits one day off the series.  The optional list records the date each kept
+    # return belongs to, so the pairing is produced here or nowhere.
+    keep_dates = dates_out if dates_out is not None else None
     for k in range(1, len(dates)):
         d0, d1 = dates[k - 1], dates[k]
         sym = held.get(d0)
@@ -148,6 +153,8 @@ def book_returns(dates, panel, held, index_close):
         else:
             rf.pop()
             continue
+        if keep_dates is not None:
+            keep_dates.append(d1)
     return rf, ri, forced
 
 
