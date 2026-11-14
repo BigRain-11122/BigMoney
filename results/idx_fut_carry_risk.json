@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-15T06:34:21",
+ "generated": "2026-11-15T07:33:26",
  "evidence_cutoff": "2026-11-13",
  "kind": "carry_sleeve_risk",
  "criteria": {
@@ -148,7 +148,7 @@
     },
     "futures_open_open_ann_pct": 14.269,
     "etf_open_open_ann_pct": 4.988,
-    "etf_flag": null,
+    "etf_flag": "1 share conversion(s) removed at the open (2015-04-15 x3.486); the level change is not a return",
     "gap_open_open_pp": 9.281,
     "gap_close_close_pp": 9.865,
     "gap_after_roll_cost_pp": {
@@ -233,7 +233,7 @@
     "long_futures_ann_pct": 14.144,
     "etf_same_window_ann_pct": 4.279,
     "gap_pp": 9.865,
-    "etf_flag": null,
+    "etf_flag": "1 share conversion(s) removed (2015-04-15 x3.486); level change is not a return",
     "note": "the spread is long-futures/short-index and needs a short leg this desk does not have; owning the future instead of the ETF earns index+carry and is priced against the ETF in the gap column"
    },
    "common_days_with_book": 1661,
@@ -553,13 +553,13 @@
      "measured_median": 1.519
     },
     "futures_open_open_ann_pct": 8.41,
-    "etf_open_open_ann_pct": null,
-    "etf_flag": "1 day(s) move more than 35% in the ETF leg at the open; the gap is refused, not printed as zero",
-    "gap_open_open_pp": null,
-    "gap_close_close_pp": null,
+    "etf_open_open_ann_pct": -1.177,
+    "etf_flag": "1 share conversion(s) removed at the open (2022-09-05 x2.763); the level change is not a return",
+    "gap_open_open_pp": 9.587,
+    "gap_close_close_pp": 9.618,
     "gap_after_roll_cost_pp": {
-     "file_floor": null,
-     "measured_median": null
+     "file_floor": 9.506,
+     "measured_median": 8.068
     }
    },
    "at_vol_target": {
@@ -621,9 +621,9 @@
    },
    "realizable": {
     "long_futures_ann_pct": 7.414,
-    "etf_same_window_ann_pct": null,
-    "gap_pp": null,
-    "etf_flag": "1 day(s) move more than 35% in the ETF leg; gap not printed",
+    "etf_same_window_ann_pct": -2.204,
+    "gap_pp": 9.618,
+    "etf_flag": "1 share conversion(s) removed (2022-09-05 x2.763); level change is not a return",
     "note": "the spread is long-futures/short-index and needs a short leg this desk does not have; owning the future instead of the ETF earns index+carry and is priced against the ETF in the gap column"
    },
    "common_days_with_book": 1044,
@@ -924,5 +924,5 @@
   "any_candidate": true,
   "note": "a candidate here is a sleeve worth pricing forward, not an adopted position: the readings are in-sample and the margin is an assumption"
  },
- "elapsed_sec": 48.0
+ "elapsed_sec": 35.5
 }

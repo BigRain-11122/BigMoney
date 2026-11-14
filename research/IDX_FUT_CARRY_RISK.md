@@ -1,6 +1,6 @@
 # index-futures carry: what it is worth in risk units
 
-Generated 2026-11-15T06:34:21 · evidence cutoff 2026-11-13 · `scripts/idx_fut_carry_risk.py`
+Generated 2026-11-15T07:33:26 · evidence cutoff 2026-11-13 · `scripts/idx_fut_carry_risk.py`
 
 The roll book (hold the deepest-open-interest contract, switch at the same close) is the one `idx_fut_real_nav` publishes in rupees of carry per year. This page asks the only question that allocates money: at the desk's own 8% volatility target, does that carry buy anything the adopted book does not already buy, and does it move with it?
 
@@ -40,9 +40,10 @@ The daily spread above is futures minus index: it is the *excess* return, and is
 |---|---|---|---|
 | IC | 14.14 | 4.28 | +9.87 |
 | IF | 6.09 | 2.49 | +3.61 |
-| IM | 7.41 | - | - |
+| IM | 7.41 | -2.20 | +9.62 |
 | IH | 3.37 | - | - |
-- **IM leg not priced**: 1 day(s) move more than 35% in the ETF leg; gap not printed -- an unread leg is printed as a refusal, not as a zero gap
+- **IC leg priced, level change disclosed**: 1 share conversion(s) removed (2015-04-15 x3.486); level change is not a return
+- **IM leg priced, level change disclosed**: 1 share conversion(s) removed (2022-09-05 x2.763); level change is not a return
 - **IH leg not priced**: no ETF mapped to this index in the panel, so there is nothing to price against -- an unread leg is printed as a refusal, not as a zero gap
 
 ## the same book filled at the next open
@@ -53,13 +54,14 @@ Every number above buys at the close it decides at. A desk decides after the clo
 |---|---|---|---|---|---|---|
 | IC | 14.27 | 4.99 | +9.28 | +9.87 | +9.16 | +6.86 |
 | IF | 5.56 | 3.08 | +2.48 | +3.61 | +2.35 | +0.65 |
-| IM | 8.41 | - | - | - | - | - |
+| IM | 8.41 | -1.18 | +9.59 | +9.62 | +9.51 | +8.07 |
 | IH | 3.08 | - | - | - | - | - |
 - **IC**: holds at both ends of the cost band: +9.16 pp/yr at the exchange file, +6.86 pp/yr at the measured median (63 rolls, drag 0.12 / 2.42 pp/yr)
 - **IF**: holds at both ends of the cost band: +2.35 pp/yr at the exchange file, +0.65 pp/yr at the measured median (74 rolls, drag 0.14 / 1.83 pp/yr)
-- **IM**: no open-to-open gap is printed because the other leg could not be priced (1 day(s) move more than 35% in the ETF leg at the open; the gap is refused, not printed as zero); that is a missing price, not a zero gap
+- **IM**: holds at both ends of the cost band: +9.51 pp/yr at the exchange file, +8.07 pp/yr at the measured median (23 rolls, drag 0.08 / 1.52 pp/yr)
 - **IH**: no open-to-open gap is printed because the other leg could not be priced (no ETF is mapped to this index, so there is no other leg to price); that is a missing price, not a zero gap
-- **IM leg not priced at the open**: 1 day(s) move more than 35% in the ETF leg at the open; the gap is refused, not printed as zero
+- **IC leg priced, with the level change disclosed**: 1 share conversion(s) removed at the open (2015-04-15 x3.486); the level change is not a return
+- **IM leg priced, with the level change disclosed**: 1 share conversion(s) removed at the open (2022-09-05 x2.763); the level change is not a return
 - **IH leg not priced at the open**: no ETF is mapped to this index, so there is no other leg to price
 
 ## what one contract actually ties up (margin is an assumption)

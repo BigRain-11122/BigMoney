@@ -60,6 +60,7 @@ sys.path.insert(0, os.path.join(ROOT, "scripts"))
 
 import idx_fut_basis as base            # noqa: E402  (index panel, TRADING_DAYS, single source)
 import idx_fut_real_nav as rn          # noqa: E402  (roll book + daily returns, single source)
+import etf_share_conversion as SCA     # noqa: E402  (share conversions vs quote flips)
 
 OUT = os.path.join(ROOT, "results", "idx_fut_carry_risk.json")
 DOC = os.path.join(ROOT, "research", "IDX_FUT_CARRY_RISK.md")
@@ -251,6 +252,10 @@ def product_spread(prod, cache_dir=None):
         if not etf_code:
             etf_flag = "no ETF mapped to this index in the panel, so there is nothing to price against"
         if holder:
+            # A fund share conversion moves the price level by the same factor it divides
+            # the share count, so that day carries no return and the leg is still readable.
+            # Only an unexplained jump stays refused (etf_share_conversion, r1701).
+            holder, conv_ev = SCA.adjusted_closes(etf_code)
             sub = [holder[d] for d in cal if d in holder]
             # the same trap the book's own panel carries: an unrepaired quote flip turns a
             # flat year into a hundred-percent one.  One >35% day and the ETF leg is a
@@ -263,6 +268,10 @@ def product_spread(prod, cache_dir=None):
             elif len(sub) > 250 and sub[0] > 0:
                 etf_ann = round(((sub[-1] / sub[0]) ** (base.TRADING_DAYS / (len(sub) - 1))
                                  - 1.0) * 100.0, 3)
+                if conv_ev:
+                    etf_flag = ("%d share conversion(s) removed (%s); level change is not a "
+                                "return" % (len(conv_ev), ", ".join(
+                                    "%s x%.3f" % (e["date"], e["ratio"]) for e in conv_ev)))
     except Exception:                                          # noqa: BLE001
         etf_ann = None
     return {"spread": spread, "dates": cal, "days": days, "rolls": len(rolls),
@@ -317,7 +326,8 @@ def exec_vs_close(prod, sp, cache_dir=None):
         return {"status": "too_short", "days": len(rf)}
 
     etf_code = base.PAIRS[prod][2]
-    etf_open = base.load_etf_field(etf_code) if etf_code else None
+    etf_open, conv_open = (SCA.adjusted_field(etf_code, "open") if etf_code
+                           else (None, []))
     etf_ann_open, etf_flag = None, None
     if not etf_code:
         etf_flag = "no ETF is mapped to this index, so there is no other leg to price"
@@ -338,6 +348,11 @@ def exec_vs_close(prod, sp, cache_dir=None):
             else:
                 etf_ann_open = round(((sub[-1] / sub[0]) ** (base.TRADING_DAYS / (len(sub) - 1))
                                      - 1.0) * 100.0, 3)
+                if conv_open:
+                    etf_flag = ("%d share conversion(s) removed at the open (%s); the level "
+                                "change is not a return" % (len(conv_open), ", ".join(
+                                    "%s x%.3f" % (e["date"], e.get("ratio", e.get("factor")))
+                                    for e in conv_open)))
 
     fut_ann_open = round(base.compound_pct(rf), 3)
     gap_open = None if etf_ann_open is None else round(fut_ann_open - etf_ann_open, 3)
@@ -677,8 +692,11 @@ def render_md(face):
              for p in CRITERIA["products"]
              if (face.get("products") or {}).get(p, {}).get("realizable", {}).get("etf_flag")]
     for p, why in flags:
-        L.append("- **%s leg not priced**: %s -- an unread leg is printed as a refusal, not"
-                 " as a zero gap" % (p, why))
+        rz = ((face.get("products") or {}).get(p) or {}).get("realizable") or {}
+        priced = rz.get("gap_pp") is not None
+        L.append("- **%s leg %s**: %s%s" % (
+            p, "priced, level change disclosed" if priced else "not priced", why,
+            "" if priced else " -- an unread leg is printed as a refusal, not as a zero gap"))
     L.append("")
     L.append("## the same book filled at the next open")
     L.append("")
@@ -739,7 +757,12 @@ def render_md(face):
                for p in CRITERIA["products"]]
     for p, ex in refused:
         if ex.get("status") == "ok" and ex.get("etf_flag"):
-            L.append("- **%s leg not priced at the open**: %s" % (p, ex["etf_flag"]))
+            # A removed share conversion is a disclosure on a leg that IS priced; only a
+            # leg whose flag left it unpriced belongs in "not priced" (r1159 family).
+            priced = ex.get("gap_open_open_pp") is not None
+            L.append("- **%s leg %s**: %s" % (
+                p, "priced, with the level change disclosed" if priced else "not priced at the open",
+                ex["etf_flag"]))
     L.append("")
     L.append("## what one contract actually ties up (margin is an assumption)")
     L.append("")

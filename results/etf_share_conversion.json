@@ -1,0 +1,113 @@
+{
+ "artifact": "ETF share conversion vs quote flip, per ETF in the index/futures pair map",
+ "criteria": {
+  "move_trigger": 0.35,
+  "persist_bars": 10,
+  "persist_tol": 0.25,
+  "turnover_band": [
+   0.4,
+   2.5
+  ]
+ },
+ "evidence_cutoff": "2026-11-13",
+ "faces": {
+  "sh510300": {
+   "bars": 3515,
+   "first": "2012-05-28",
+   "index": "sh000300",
+   "last": "2026-11-13",
+   "qualified_events": 0,
+   "quote_flip_events": 0,
+   "shifts": [],
+   "status": "ok",
+   "unresolved_events": 0
+  },
+  "sh510500": {
+   "bars": 3318,
+   "first": "2013-03-15",
+   "index": "sh000905",
+   "last": "2026-11-13",
+   "qualified_events": 1,
+   "quote_flip_events": 0,
+   "shifts": [
+    {
+     "close": 7.818,
+     "date": "2015-04-15",
+     "evidence": {
+      "close_after_10_bars": 8.449,
+      "index_move_pct": -1.879,
+      "ratio_after_bars": 3.76683,
+      "session_before_event": "2015-04-14",
+      "session_missing": true,
+      "turnover_ratio": 2.4104
+     },
+     "kind": "corporate_action",
+     "markers": {
+      "index_absence": true,
+      "persistence": true,
+      "suspension_gap": true,
+      "turnover": true
+     },
+     "prev_close": 2.243,
+     "ratio": 3.48551
+    }
+   ],
+   "status": "ok",
+   "unresolved_events": 0
+  },
+  "sh512100": {
+   "bars": 2434,
+   "first": "2016-11-04",
+   "index": "sh000852",
+   "last": "2026-11-13",
+   "qualified_events": 1,
+   "quote_flip_events": 0,
+   "shifts": [
+    {
+     "close": 2.713,
+     "date": "2022-09-05",
+     "evidence": {
+      "close_after_10_bars": 2.59,
+      "index_move_pct": 1.102,
+      "ratio_after_bars": 2.637475,
+      "session_before_event": "2022-09-02",
+      "session_missing": true,
+      "turnover_ratio": 0.9035
+     },
+     "kind": "corporate_action",
+     "markers": {
+      "index_absence": true,
+      "persistence": true,
+      "suspension_gap": true,
+      "turnover": true
+     },
+     "prev_close": 0.982,
+     "ratio": 2.762729
+    }
+   ],
+   "status": "ok",
+   "unresolved_events": 0
+  }
+ },
+ "law_refs": [
+  "O-20261114-2325-bm-c (only work that moves a bet)",
+  "r1700 idx_fut_carry_risk (refuses a >35% ETF day)"
+ ],
+ "verdict": {
+  "qualified": [
+   [
+    "sh510500",
+    "2015-04-15",
+    3.48551
+   ],
+   [
+    "sh512100",
+    "2022-09-05",
+    2.762729
+   ]
+  ],
+  "quote_flips": [],
+  "unresolved": [],
+  "verdict": "QUALIFIED: 2 share conversion(s) (sh510500@2015-04-15 x3.486, sh512100@2022-09-05 x2.763) can be removed from the leg; the rest of the panel is clean"
+ }
+}
