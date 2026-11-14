@@ -74,10 +74,16 @@ if ($exists -and -not $disabledHeal -and $pin -ge 0) {
         if ($sb -match 'T\d{2}:(\d{2}):') {
             $cur = [int]$Matches[1] % 10
             if ($cur -eq $pin) {
-                Write-Output "phase ok: machine=$mid pin=$pin current=$cur (no-op, first fire stays $start)"
-                exit 0
+                $tl = ''
+                try { $tl = [string](Get-ScheduledTask -TaskName 'Bigmoney-IterationLoop' -ErrorAction Stop).Settings.ExecutionTimeLimit } catch {}
+                if ($tl -eq 'PT300M') {
+                    Write-Output "phase ok: machine=$mid pin=$pin current=$cur time-limit=$tl (no-op, first fire stays $start)"
+                    exit 0
+                }
+                Write-Output "time-limit drift: live=$tl want=PT300M (a launcher killed under its round leaves the headless child unbabysitted AND the lock reading 'dead' - r1687 double-executor root at 2026-11-15 00:35) -> re-registering"
+            } else {
+                Write-Output "phase drift: machine=$mid pin=$pin current=$cur -> re-registering"
             }
-            Write-Output "phase drift: machine=$mid pin=$pin current=$cur -> re-registering"
         }
     } catch {}
 }
@@ -94,7 +100,14 @@ $t = New-ScheduledTaskTrigger -Once -At $start -RepetitionInterval (New-TimeSpan
 # honestly (no false success, r521; self-heal never leaves the task dead,
 # D-20261002-02 honest-fail concern survives). SWA=false = anti-herd
 # (09:16 batch face).
-$s = New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries -MultipleInstances IgnoreNew -ExecutionTimeLimit (New-TimeSpan -Minutes 35)
+# r1687 execution-time limit = round hard-cap (240min) + margin, NOT 35min:
+# this launcher's only job is to babysit the headless round (silence-kill /
+# hard-cap enforcement). Task Scheduler killed it at 35min while the round was
+# still working, which (a) left no babysitter, (b) left round.lock pointing at a
+# dead pid, and (c) on 2026-11-15 00:35 made the next tick spawn a SECOND
+# executor against the same tree. iteration_loop.ps1 now also stamps the child
+# pid into the lock (two-pid guard); both halves are needed.
+$s = New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries -MultipleInstances IgnoreNew -ExecutionTimeLimit (New-TimeSpan -Minutes 300)
 Register-ScheduledTask -TaskName 'Bigmoney-IterationLoop' -Action $a -Trigger $t -Settings $s -Force -ErrorAction Stop | Out-Null
 try {
     $x = Export-ScheduledTask -TaskName 'Bigmoney-IterationLoop'

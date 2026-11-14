@@ -43,8 +43,8 @@ $sac.WaitForExit()
 $deadPid = $sac.Id
 
 foreach ($target in @(
-    @{ script = 'iteration_loop.ps1'; lock = (Join-Path $sbLogs 'iteration-loop\round.lock') },
-    @{ script = 'watchdog.ps1';       lock = (Join-Path $sbLogs 'watchdog.lock') }
+    @{ script = 'iteration_loop.ps1'; lock = (Join-Path $sbLogs 'iteration-loop\round.lock'); two_pid = $true },
+    @{ script = 'watchdog.ps1';       lock = (Join-Path $sbLogs 'watchdog.lock'); two_pid = $false }
 )) {
     $s = $target.script
     $lp = $target.lock
@@ -56,6 +56,17 @@ foreach ($target in @(
         Set-Content -Path $lp -Value '20260925_020000' -Encoding ASCII
         (Get-Item $lp).LastWriteTime = (Get-Date).AddMinutes(-45)
     } 'probe: TAKE legacy-stale*'
+    # r1687 two-pid legs (iteration_loop only): launcher dead + headless child
+    # alive = round still working => SKIP (the 2026-11-15 00:35 double-executor
+    # case); both dead => TAKE as before.
+    if ($target.two_pid) {
+        Check ("{0} dead-launcher-live-child -> SKIP" -f $s) $lp $s {
+            Set-Content -Path $lp -Value ("pid=$deadPid child=$PID x") -Encoding ASCII
+        } 'probe: SKIP pid=* child=*alive*'
+        Check ("{0} dead-launcher-dead-child -> TAKE" -f $s) $lp $s {
+            Set-Content -Path $lp -Value ("pid=$deadPid child=$deadPid x") -Encoding ASCII
+        } 'probe: TAKE pid=*dead*'
+    }
 }
 
 Remove-Item $sb -Recurse -Force -ErrorAction SilentlyContinue

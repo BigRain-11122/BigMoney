@@ -118,19 +118,33 @@ function Stop-RoundTreeChecked([int]$rootPid, [string]$why) {
 $lock = Join-Path $logDir 'round.lock'
 $lockPid = 0
 $lockAlive = $false
+# r1687 two-pid lock (2026-11-15 00:35 live case): the lock's "pid=" is THIS
+# launcher, whose only job is to spawn the headless codely round and babysit it.
+# When the launcher dies (task time-limit kill / dead window) the headless child
+# keeps working, so a pid-only lock reads "dead" and the next tick spawns a
+# SECOND executor against the same tree (00:35 tick took over from launcher
+# 34148 while its r1686 child 21008 still had 10+ min of work left and then
+# committed). The spawned child pid is now recorded in the same line as
+# "child=<n>": takeover requires BOTH to be dead.
+$lockChild = 0
+$childAlive = $false
 if (Test-Path $lock) {
     $raw = Get-Content -Path $lock -Raw -ErrorAction SilentlyContinue
     if ($raw -and $raw -match 'pid=(\d+)') { $lockPid = [int]$Matches[1] }
+    if ($raw -and $raw -match 'child=(\d+)') { $lockChild = [int]$Matches[1] }
     if ($lockPid -gt 0 -and (Get-Process -Id $lockPid -ErrorAction SilentlyContinue)) { $lockAlive = $true }
+    if ($lockChild -gt 0 -and $lockChild -ne $lockPid -and (Get-Process -Id $lockChild -ErrorAction SilentlyContinue)) { $childAlive = $true }
     $age = ((Get-Date) - (Get-Item $lock).LastWriteTime).TotalMinutes
     if ($LockProbeOnly) {
         if ($lockAlive) { Write-Output "probe: SKIP pid=$lockPid alive age=$([int]$age)min" }
+        elseif ($childAlive) { Write-Output "probe: SKIP pid=$lockPid dead child=$lockChild alive age=$([int]$age)min" }
         elseif ($lockPid -gt 0) { Write-Output "probe: TAKE pid=$lockPid dead age=$([int]$age)min" }
         elseif ($age -lt $LockMaxAgeMinutes) { Write-Output "probe: SKIP legacy-fresh age=$([int]$age)min" }
         else { Write-Output "probe: TAKE legacy-stale age=$([int]$age)min" }
         exit 0
     }
     if ($lockAlive) { Log "skip: previous round still running (pid=$lockPid alive, age=$([int]$age)min)"; Beat 'skip (round in flight)'; exit 0 }
+    if ($childAlive) { Log "skip: launcher pid=$lockPid dead but headless round child=$lockChild still alive (age=$([int]$age)min) - no takeover"; Beat 'skip (round child in flight)'; exit 0 }
     if ($lockPid -gt 0) { Log "lock pid=$lockPid dead (age=$([int]$age)min) - taking over" }
     elseif ($age -ge $LockMaxAgeMinutes) { Log "stale round lock expired (age=$([int]$age)min) - taking over" }
     else { Log "skip: previous round still running (age=$([int]$age)min)"; Beat 'skip (round in flight)'; exit 0 }
@@ -248,6 +262,9 @@ try {
     }
     $p = Start-Process -FilePath $codelyPath -ArgumentList $argLine -WorkingDirectory $Project -PassThru -NoNewWindow -RedirectStandardOutput $roundOut -RedirectStandardError $roundErr
     $null = $p.Handle   # materialize handle so ExitCode is readable
+    # r1687: stamp the headless child into the lock so this launcher's death is
+    # not read as "no round in flight" (see two-pid lock note above).
+    try { Set-Content -Path $lock -Value ("pid=$PID child=$($p.Id) $stamp") -Encoding ASCII } catch { Log "lock child-pid record failed: $_" }
     # v2 liveness budget: poll in 30s slices. "Activity" = the round's stdout/stderr
     # redirect files gaining bytes. Kill ONLY on evidence of a hang (silent for
     # $RoundSilenceMinutes) or the $RoundTimeoutMinutes hard cap. A productive
