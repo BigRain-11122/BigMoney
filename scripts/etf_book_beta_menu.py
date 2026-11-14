@@ -35,6 +35,7 @@ from scripts import etf_book_order as O             # noqa: E402
 from scripts import etf_variants_null_rolling as V  # noqa: E402
 from scripts.etf_asset_class import classify        # noqa: E402
 from scripts.etf_book_ceo_page import panel_fingerprint, stress_stats  # noqa: E402
+from scripts.live_book_day_words import DATE_IN_TEXT       # noqa: E402  (one date pattern, r1375)
 from config import PATHS                            # noqa: E402
 
 BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -276,11 +277,40 @@ def tier_stress(menu, close, capital, priced_bar, cache_dir=STRESS_DIR,
     return out
 
 
-def render(menu, asof, dec_bar, nav, caveats, recon=None):
-    L = ["# 今天的票：四个风险档各买什么（%s）" % asof, ""]
+def caveats_list():
+    """The honesty block, in one place: a probe re-rendering an old menu must not retype it."""
+    return [
+        "票池=现存 ETF，存在幸存者偏差",
+        "票面按收盘价折算，未计冲击成本与涨跌停",
+        "k 每 %d 个交易日重算，段内实际β仍会漂移" % O.REBAL,
+        "回测列读自 results/etf_book_return_regime.json（observed 档），非本页现算",
+        "最坏窗口=决策日权重摆回整段面板的复利最坏 N 日，现金 0 息，非策略实际路径",
+        "GC001 单期限滚动假设零费；真实现金台应做期限梯",
+    ]
+
+
+def render(menu, asof, dec_bar, nav, caveats, recon=None, staleness=None):
+    # r1684: the page used to open with "今天的票" while every price on it was struck on the
+    # decision bar -- the 11-06 page said 今天 over a 10-14 book, sixteen sessions stale and
+    # four sessions past the rebalance that should have replaced it. A ticket is the one paper
+    # a reader acts on, so the day it was priced belongs in the title, and the distance to the
+    # page (and to the next rebalance) is printed rather than left to arithmetic (r1664 family).
+    dec = str(dec_bar)[:10] if dec_bar else None
+    st = staleness or {}
+    L = ["# 决策日 %s 的票：四个风险档各买什么（页面 %s）" % (dec or "?", asof), ""]
     L += ["同一套引擎、同一批票、同一个决策日 **%s**、同样 %d 个交易日换仓与 8bp 成本；"
           % (dec_bar, O.REBAL), "唯一变动的是降险系数 k = 目标β / 实际β（只降不升杠杆）。",
           "名义本金 ¥%s。" % f"{nav:,.0f}", ""]
+    if st.get("td_gap"):
+        L += ["> 价与权重都按 **%s** 的收盘算；这一页写于 **%s**，中间过了 %d 个交易日。"
+              % (dec or "?", asof, st["td_gap"]), ""]
+    if st.get("superseded_at"):
+        L += ["> **这张票已经被换掉了**：**%s** 那根 bar 就是下一个调仓日，页面比它晚——"
+              "照这张单下单之前先看最新一版。" % st["superseded_at"], ""]
+    elif st.get("td_to_next_rebalance"):
+        L += ["> 这份票还能用 **%d 个交易日**（按本面板的交易日计，第 %d 根 bar 换仓；"
+              "日历日期要过节假日表，这里不猜）。"
+              % (st["td_to_next_rebalance"], st.get("rebal_every") or O.REBAL), ""]
     L += ["| 目标β | 实际 k | 买股票 | 留现金 | 回测年化 | 回测回撤 | 夏普 |",
           "|---|---|---|---|---|---|---|"]
     for r in menu:
@@ -298,7 +328,7 @@ def render(menu, asof, dec_bar, nav, caveats, recon=None):
         L += ["", "> 注：缺 `results/etf_book_return_regime.json` 的面，回测列留空——不是 0。"]
     if any(r.get("stress") for r in menu):
         L += ["", "## 每档最坏的连续 N 个交易日（现金 0 息，本金全额口径）", "",
-              "> 把该档今天的权重原封不动摆回整段面板，取最坏的连续 N 日——不是策略实际路径，",
+              "> 把该档 **%s** 的权重原封不动摆回整段面板，取最坏的连续 N 日——不是策略实际路径，" % (dec or "?"),
               "> 是「同一批票、同样的钱」能遇到的最坏窗口。k 只降不升，所以档位越低亏得越少，",
               "> 但不是按比例缩小（窗口是复利口径）。", "",
               "| 目标β | 最坏 1 日 | 最坏 5 日 | 最坏 20 日 |",
@@ -339,8 +369,8 @@ def render(menu, asof, dec_bar, nav, caveats, recon=None):
             f"{tk['cash_amount'] - nav * tk['cash_weight']:,.2f}")]
     L += ["", "## 与 CEO 一页纸对账（同一天、同一本书）", ""]
     if recon is None:
-        L += ["> 注：今天的 CEO 一页纸（`docs/live_book/LIVE-BOOK-%s.json`）不在盘上，"
-              "对账跳过——不是「已对账」。" % str(asof).replace("-", ""), ""]
+        L += ["> 注：同一页面日（%s）的 CEO 一页纸（`docs/live_book/LIVE-BOOK-%s.json`）不在盘上，"
+              "对账跳过——不是「已对账」。" % (asof, str(asof).replace("-", "")), ""]
     elif recon.get("ok"):
         L += ["- ✅ 一致：β=%.2f（k=%.3f）这一档逐行复现一页纸的票——%s；股票金额与现金金额"
               "同一分钱内相等。**这两页是同一本书，不是两个模型。**"
@@ -377,8 +407,26 @@ def run(nav=NAV, betas=BETAS):
     rp, rm = BT.rets(ser.reindex(idx)), BT.rets(close[mkt_col].reindex(idx))
 
     grid = [d for d in close.index if d >= pd.Timestamp("2020-01-01")]
-    dec_bar = grid[(len(grid) - 1) // O.REBAL * O.REBAL] if grid else None
+    gpos = (len(grid) - 1) // O.REBAL * O.REBAL if grid else 0
+    dec_bar = grid[gpos] if grid else None
     asof = str(ser.index[-1].date())
+    # The reader's question about a ticket is "how old is it, and for how long is it good".
+    # Both halves come from this one grid: sessions since the decision bar, and sessions left
+    # until the bar that replaces it. The next rebalance is normally one grid step away and
+    # therefore not yet on the panel, so it is counted in bars rather than dated -- a calendar
+    # date would need the holiday table, and guessing one is how a page starts lying.
+    staleness = {"page_day": asof,
+                 "decided_at": None if dec_bar is None else str(dec_bar.date()),
+                 "rebal_every": int(O.REBAL)}
+    if dec_bar is not None:
+        gap = int(sum(1 for d in close.index if dec_bar < d <= ser.index[-1]))
+        staleness["td_gap"] = gap
+        nxt = grid[gpos + O.REBAL] if gpos + O.REBAL < len(grid) else None
+        staleness["td_to_next_rebalance"] = (int(sum(1 for d in close.index
+                                                    if nxt <= d <= ser.index[-1]))
+                                             if nxt is not None else max(O.REBAL - gap, 0))
+        if nxt is not None:
+            staleness["superseded_at"] = str(nxt.date())
 
     k_by_beta = {}
     for b in betas:
@@ -397,20 +445,14 @@ def run(nav=NAV, betas=BETAS):
     # whenever both producers ran; a mismatch here is the reader seeing two books.
     recon = reconcile_page(menu, ceo_page_face(asof), dec_bar=dec_bar)
 
-    caveats = [
-        "票池=现存 ETF，存在幸存者偏差",
-        "票面按收盘价折算，未计冲击成本与涨跌停",
-        "k 每 %d 个交易日重算，段内实际β仍会漂移" % O.REBAL,
-        "回测列读自 results/etf_book_return_regime.json（observed 档），非本页现算",
-        "最坏窗口=今天权重摆回整段面板的复利最坏 N 日，现金 0 息，非策略实际路径",
-        "GC001 单期限滚动假设零费；真实现金台应做期限梯",
-    ]
+    caveats = caveats_list()
     payload = {"evidence_cutoff": asof,
                "book_decided_at": None if dec_bar is None else str(dec_bar.date()),
                "nav": float(nav), "rebal": O.REBAL, "n_hold": O.N_HOLD,
                "cost_bp_per_side": O.COST_BP, "betas": list(map(float, betas)),
                "menu": menu, "published_source": os.path.relpath(REGIME_JSON, BASE),
                "published_found": bool(pub), "ceo_page_recon": recon,
+               "ticket_age": staleness,
                "caveats": caveats}
 
     os.makedirs(OUT_DIR, exist_ok=True)
@@ -422,13 +464,17 @@ def run(nav=NAV, betas=BETAS):
     md = os.path.join(DOC_DIR, "TICKET-MENU-%s.md" % asof)
     with open(md, "w", encoding="utf-8", newline="\n") as f:
         f.write(render(menu, asof, None if dec_bar is None else str(dec_bar.date()), nav,
-                       caveats, recon=recon))
+                       caveats, recon=recon, staleness=staleness))
     with open(os.path.join(OUT_DIR, "latest.json"), "w", encoding="utf-8", newline="\n") as f:
         json.dump({"evidence_cutoff": asof, "menu": os.path.relpath(js, BASE),
                    "page": os.path.relpath(md, BASE)}, f, ensure_ascii=False, indent=1)
         f.write("\n")
 
-    print("menu: %s | decided %s" % (asof, dec_bar))
+    print("menu: %s | decided %s | age %s td | %s td to the next rebalance%s"
+          % (asof, dec_bar, staleness.get("td_gap"),
+             staleness.get("td_to_next_rebalance"),
+             (" (SUPERSEDED at %s)" % staleness.get("superseded_at"))
+             if staleness.get("superseded_at") else ""))
     for r in menu:
         tk = r["ticket"] or {}
         p = r["published"] or {}
@@ -623,7 +669,35 @@ def selftest():
     chk("L27 recon: a five-yuan cash drift is caught",
         not r_cash["ok"] and any("cash_amount" in d for d in r_cash["diffs"]))
 
-    total = 27
+    # L28-L32 (r1684). A ticket is the paper a reader acts on, so the page may not say "today"
+    # about a book struck on another bar. Every today-word that survives must sit on a line
+    # carrying its own date; the 11-06 issue opened with one over a 10-14 book.
+    def _bare_today_words(text):
+        return [ln for ln in text.splitlines()
+                if any(w in ln for w in ("今天", "今日", "今晚"))
+                and not DATE_IN_TEXT.search(ln)]
+
+    dated_md = render(menu, "2026-10-29", "2026-10-29", 100_000.0, ["caveat-A"])
+    chk("L28 ticket page carries no undated today-word", not _bare_today_words(dated_md))
+    chk("L29 ticket title names the decision bar",
+        dated_md.splitlines()[0].startswith("# 决策日 2026-10-29"))
+    stale_md = render(menu, "2026-11-06", "2026-10-14", 100_000.0, ["caveat-A"],
+                      staleness={"td_gap": 17, "rebal_every": 20,
+                                 "td_to_next_rebalance": 3})
+    chk("L30 a ticket says how long it is good for",
+        "还能用 **3 个交易日**" in stale_md and "17 个交易日" in stale_md)
+    chk("L31 a superseded ticket says so, with the bar that replaced it",
+        "已经被换掉了" in render(menu, "2026-11-06", "2026-10-14", 100_000.0, ["caveat-A"],
+                                 staleness={"td_gap": 25, "rebal_every": 20,
+                                            "superseded_at": "2026-11-11"})
+        and not _bare_today_words(stale_md))
+    fresh_md = render(menu, "2026-10-29", "2026-10-29", 100_000.0, ["caveat-A"],
+                      staleness={"td_gap": 0, "rebal_every": 20,
+                                 "td_to_next_rebalance": 20})
+    chk("L32 a fresh ticket does not claim it was replaced",
+        "已经被换掉了" not in fresh_md and "价与权重都按" not in fresh_md)
+
+    total = 32
     if fails:
         print("etf_book_beta_menu selftest FAIL %d/%d: %s" % (len(fails), total, ", ".join(fails)))
         return 1

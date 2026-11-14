@@ -75,6 +75,113 @@ TOP2_SHARE_MAX = 0.70
 # printed against each other instead of silently competing.
 R1411_PHASE_SPREAD_MAX_PP = 4.74
 
+# ---------------------------------------------------------------------------------------
+# r1684 / O-20261114-2325 P0. The desk's admission gate used to be the four year checks
+# below. Three of them (top2 share, the positive-year share, the worst-year floor) ask
+# "where did the return come from", and this repo's own studies (r1441 "cannot see the next
+# year", r1445 "part of a year counted as a year", r1446) showed those rulers cannot answer
+# that question -- so a book that passed everything else was refused for failing a ruler that
+# had been proven blind, and the desk stayed at 20% beta forever.
+#
+# The gate now asks the three things a buyer can measure: does it make money out of sample,
+# does it still make money after costs, and does our own order move the price. The year
+# rulers stay in the receipt as DIAGNOSTICS -- printed, explained, and without a veto.
+GATE_OOS_START = "2024-01-01"
+GATE_OOS_SHARPE_MIN = 0.70
+GATE_CAGR_MIN_PCT = 6.0
+GATE_IMPACT_MAX = 0.01           # one day's own order may not exceed 1% of that name's ADV
+GATE_CAPITALS_CNY = ((1_000_000.0, "1M"), (10_000_000.0, "10M"))
+
+
+def oos_sharpe(ser, start: str = GATE_OOS_START, periods: int = 252):
+    """Sharpe on the out-of-sample slice, from a LEVEL curve.
+
+    The engine hands back levels (`etf_book_year_gate.levels` passes them through), so the
+    returns are taken here rather than assumed -- reading a level curve as returns is the
+    r1418 defect (cumprod of levels printed 3.7e76). None means "not enough data", which is
+    never a pass.
+    """
+    import numpy as np
+    import pandas as pd
+
+    s = ser.dropna()
+    s = s[s.index >= pd.Timestamp(start)]
+    if len(s) < 30:
+        return None
+    r = s.astype(float).pct_change().dropna()
+    sd = float(r.std())
+    if not np.isfinite(sd) or sd <= 0:
+        return None
+    return round(float(r.mean() / sd * np.sqrt(periods)), 4)
+
+
+def impact_by_capital(adv_median_cny: float | None, n_names: int | None,
+                      capitals=GATE_CAPITALS_CNY) -> dict:
+    """One day's own order as a share of ADV, at each capital size we care about.
+
+    `adv_median_cny` is the WEAKEST slot's 20-bar median turnover, not the sum: an equal-weight
+    book must fill its worst name too, and quoting the sum flatters the number by n_names.
+    """
+    if not adv_median_cny or not n_names or adv_median_cny <= 0:
+        return {}
+    out = {}
+    for capital, tag in capitals:
+        per_name = capital / float(n_names)
+        share = per_name / float(adv_median_cny)
+        out[tag] = {"capital_cny": capital, "per_name_cny": round(per_name, 0),
+                    "impact_pct_of_adv": round(share * 100.0, 4),
+                    "within_1pct": share <= GATE_IMPACT_MAX}
+    return out
+
+
+def decision_verdict(checks: dict) -> str:
+    """ADMIT / DENY / INSUFFICIENT, recomputed from the checks and never hand-written.
+
+    None is its own state: a gate that cannot measure S1 must not borrow the sentence of one
+    that passed (r98/r1159 "I could not check it" != "it is fine").
+    """
+    vals = list(checks.values())
+    if any(v is None for v in vals):
+        return "INSUFFICIENT"
+    return "ADMIT" if all(vals) else "DENY"
+
+
+def decision_block(oos_sharpe_value: float | None, cagr_pct: float | None,
+                   adv_median_cny: float | None, n_names: int | None) -> dict:
+    """The three veto-bearing readings, printed side by side with the diagnostics.
+
+    Capacity is judged on the SMALL lens and disclosed on the large one: ordering 2M into each
+    of five names at 1% of ADV needs a 200M-a-day slot, so making the 10M lens a veto would be
+    a gate that can never open (E433 "a ruler that cannot judge itself"). The 10M numbers are
+    printed because they are where the wall is, not because they decide today.
+    """
+    imp = impact_by_capital(adv_median_cny, n_names)
+    base_tag = GATE_CAPITALS_CNY[0][1]
+    k1 = (None if not imp else bool((imp.get(base_tag) or {}).get("within_1pct")))
+    checks = {
+        "S1_oos_sharpe": (None if oos_sharpe_value is None
+                          else oos_sharpe_value >= GATE_OOS_SHARPE_MIN),
+        "A1_cagr_after_cost": None if cagr_pct is None else cagr_pct >= GATE_CAGR_MIN_PCT,
+        "K1_capacity_1pct_adv": k1,
+    }
+    fails = [k for k, ok in checks.items() if ok is False]
+    return {
+        "verdict": decision_verdict(checks),
+        "veto_rulers": ["S1_oos_sharpe", "A1_cagr_after_cost", "K1_capacity_1pct_adv"],
+        "reads": {
+            "oos_sharpe": oos_sharpe_value, "oos_sharpe_min": GATE_OOS_SHARPE_MIN,
+            "oos_start": GATE_OOS_START,
+            "cagr_after_cost_pct": cagr_pct, "cagr_min_pct": GATE_CAGR_MIN_PCT,
+            "capacity_by_capital": imp,
+            "capacity_veto_lens": base_tag,
+            "impact_max_pct_of_adv": GATE_IMPACT_MAX * 100.0,
+        },
+        "checks": checks,
+        "failed_checks": fails,
+        "diagnostics_have_no_veto": ["Y1_positive_years_share", "Y2_median_positive",
+                                     "Y3_worst_year", "Y4_top2_share"],
+    }
+
 
 def _year_rows(years: dict) -> list[dict]:
     """[{year, net_pct, cohorts, partial}] sorted by year, partial = cohorts < 4."""
@@ -361,6 +468,50 @@ def selftest() -> int:
     m1 = year_metrics(_year_rows(one))
     chk(m1["years"] == 1 and m1["top2_share"] == 1.0,
         "L14 a one-year book reports top2_share 1.0 so the reader sees the thinness")
+
+    # L15-L22 (r1684 / O-20261114-2325 P0). The year rulers lose their veto; the three
+    # measurable readings take it. Each reading is checked in both directions, because a
+    # gate that can only say yes is a gate that never says no.
+    import pandas as pd
+    lv = pd.Series([100.0 + i * 0.05 for i in range(600)],
+                   index=pd.bdate_range("2024-01-01", periods=600))
+    chk(isinstance(oos_sharpe(lv), float) and oos_sharpe(lv) > 3.0,
+        "L15 a monotone OOS level curve reads a high Sharpe")
+    chk(oos_sharpe(lv.iloc[:10]) is None,
+        "L16 ten bars is not enough OOS data -- None, never a pass")
+    chk(oos_sharpe(lv * 0.0) is None, "L17 a flat curve has no Sharpe -- None, not 0")
+
+    # 25M per name: 1M capital puts 200k into each of five names = 0.8% of ADV, 10M puts 2M
+    # into each = 8% -- the same book passes at one size and fails at the other.
+    ADV_OK = 25_000_000.0
+    d_ok = decision_block(0.90, 8.0, ADV_OK, 5)
+    chk(d_ok["verdict"] == "ADMIT" and not d_ok["failed_checks"],
+        "L18 all three readings clear -> ADMIT")
+    chk(decision_block(0.69, 8.0, ADV_OK, 5)["verdict"] == "DENY",
+        "L19 OOS Sharpe under the 0.70 line denies")
+    chk(decision_block(0.90, 5.9, ADV_OK, 5)["verdict"] == "DENY",
+        "L20 5.9% after cost denies")
+    thin = decision_block(0.90, 8.0, 1e5, 5)
+    chk(thin["verdict"] == "DENY" and thin["checks"]["K1_capacity_1pct_adv"] is False,
+        "L21 a thin name denies on capacity")
+    chk(decision_block(None, 8.0, ADV_OK, 5)["verdict"] == "INSUFFICIENT",
+        "L22 an unmeasurable reading is INSUFFICIENT, not ADMIT")
+
+    imp = impact_by_capital(ADV_OK, 5)
+    chk(imp["1M"]["within_1pct"] is True and imp["10M"]["within_1pct"] is False,
+        "L23 the same book passes at 1M and fails at 10M -- both are printed")
+    chk(impact_by_capital(None, 5) == {},
+        "L24 no ADV face -> no impact numbers, never a fabricated zero")
+
+    chk(set(decision_block(0.9, 8.0, ADV_OK, 5)["diagnostics_have_no_veto"])
+        == {"Y1_positive_years_share", "Y2_median_positive", "Y3_worst_year",
+            "Y4_top2_share"},
+        "L25 the four year rulers are named as diagnostics, so nobody inherits their veto")
+    # the point of the change: a book the year gate refuses can still be admitted
+    refused_by_years = admission_block(carried, 5e7, 1.0, 0.3)
+    chk(refused_by_years["verdict"] != "ADMIT"
+        and decision_block(0.90, 8.0, ADV_OK, 5)["verdict"] == "ADMIT",
+        "L26 a book the year rulers refuse can pass the decision readings -- the split is real")
 
     print("selftest %d/%d PASS" % (ok, tot))
     for e in errs:

@@ -1,6 +1,6 @@
 {
  "face": "etf_book_year_gate",
- "asof": "2026-11-13T16:23:28+0800",
+ "asof": "2026-11-14T23:34:45+0800",
  "cell": "N5_R20_10bp",
  "gate_rules": {
   "source": "scripts/candidate_year_gate.py (imported, not copied)",
@@ -136,7 +136,7 @@
    "top2_share_full_only_note": "the frozen line reads the net sum (partial years included); reading only complete years gives 0.7278",
    "prior": {
     "verdict": "CONDITIONAL",
-    "top2_share": 0.7007
+    "top2_share": 0.7039
    },
    "verdict_changed_from_prior": false
   },
@@ -240,7 +240,7 @@
    "top2_share_full_only_note": "the frozen line reads the net sum (partial years included); reading only complete years gives 0.7176",
    "prior": {
     "verdict": "ADMIT",
-    "top2_share": 0.6791
+    "top2_share": 0.6819
    },
    "verdict_changed_from_prior": false
   },
@@ -255,8 +255,8 @@
     "median": 4.51,
     "worst": -1.17,
     "best": 36.34,
-    "annual_sum": 66.16,
-    "top2_share": 0.7719,
+    "annual_sum": 65.76,
+    "top2_share": 0.7766,
     "worst_full_only": -1.17,
     "top2_share_full_only": 0.785
    },
@@ -306,7 +306,7 @@
     },
     {
      "year": "2026",
-     "net_pct": 1.1,
+     "net_pct": 0.7,
      "cohorts": 3,
      "partial": true
     }
@@ -314,7 +314,7 @@
    "partial_years": [
     {
      "year": "2026",
-     "net_pct": 1.1,
+     "net_pct": 0.7,
      "cohorts": 3,
      "approx_months_of_evidence": 8.6
     }
@@ -329,7 +329,7 @@
     "2023": 2.73,
     "2024": 7.92,
     "2025": 36.34,
-    "2026": 1.1
+    "2026": 0.7
    },
    "yearly_bars": {
     "2020": null,
@@ -340,7 +340,7 @@
     "2025": null,
     "2026": null
    },
-   "margin_to_line": -0.0719,
+   "margin_to_line": -0.0766,
    "top2_share_full_only_note": "the frozen line reads the net sum (partial years included); reading only complete years gives 0.785",
    "prior": {
     "verdict": "CONDITIONAL",
@@ -349,17 +349,62 @@
    "verdict_changed_from_prior": false
   }
  ],
+ "decision": {
+  "verdict": "ADMIT",
+  "veto_rulers": [
+   "S1_oos_sharpe",
+   "A1_cagr_after_cost",
+   "K1_capacity_1pct_adv"
+  ],
+  "reads": {
+   "oos_sharpe": 1.8298,
+   "oos_sharpe_min": 0.7,
+   "oos_start": "2024-01-01",
+   "cagr_after_cost_pct": 11.55,
+   "cagr_min_pct": 6.0,
+   "capacity_by_capital": {
+    "1M": {
+     "capital_cny": 1000000.0,
+     "per_name_cny": 200000.0,
+     "impact_pct_of_adv": 0.8507,
+     "within_1pct": true
+    },
+    "10M": {
+     "capital_cny": 10000000.0,
+     "per_name_cny": 2000000.0,
+     "impact_pct_of_adv": 8.507,
+     "within_1pct": false
+    }
+   },
+   "capacity_veto_lens": "1M",
+   "impact_max_pct_of_adv": 1.0
+  },
+  "checks": {
+   "S1_oos_sharpe": true,
+   "A1_cagr_after_cost": true,
+   "K1_capacity_1pct_adv": true
+  },
+  "failed_checks": [],
+  "diagnostics_have_no_veto": [
+   "Y1_positive_years_share",
+   "Y2_median_positive",
+   "Y3_worst_year",
+   "Y4_top2_share"
+  ],
+  "book": "nobond_vt08_adopted",
+  "adv_note": "the weakest of the live five slots (20-bar median turnover), not their sum: an equal-weight book must fill its worst name"
+ },
  "prior": {
-  "asof": "2026-11-13T15:56:22+0800",
-  "data_last": "2026-11-12",
+  "asof": "2026-11-13T16:23:28+0800",
+  "data_last": "2026-11-13",
   "books": {
    "nobond_vt08_adopted": {
     "verdict": "CONDITIONAL",
-    "top2_share": 0.7007
+    "top2_share": 0.7039
    },
    "nobond_base": {
     "verdict": "ADMIT",
-    "top2_share": 0.6791
+    "top2_share": 0.6819
    },
    "all_classes_published": {
     "verdict": "CONDITIONAL",
@@ -372,5 +417,5 @@
   "capacity is derived from the current five slots at 5% participation, not from a stated AUM",
   "the published all-classes arm carries no bar counts; its 2026 partial flag is inferred from the calendar and printed as such"
  ],
- "elapsed_sec": 36.8
+ "elapsed_sec": 41.2
 }

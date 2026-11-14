@@ -139,6 +139,26 @@ def run() -> int:
             a["checks"]["C1_capacity"] = None if cap is None else cap >= G.CAPACITY_FLOOR_CNY
             a["verdict"] = G.verdict({"checks": a["checks"]})
 
+    # r1684 / O-20261114-2325 P0: the year checks above stay printed as diagnostics; the
+    # verdict that can actually stop the desk is now the three measurable readings. The
+    # weakest slot's ADV is used, because an equal-weight book has to fill its worst name.
+    adv_weakest = None
+    if picks:
+        advs = []
+        for sym in picks:
+            if sym in amt.columns:
+                med = float(amt[sym].tail(20).median())
+                if np.isfinite(med):
+                    advs.append(med)
+        adv_weakest = min(advs) if advs else None
+    oos = G.oos_sharpe(adopted_ser) if adopted_ser is not None else None
+    cagr_frac = A.stats2(adopted_ser, "nobond_vt08_adopted").get("cagr") if adopted_ser is not None else None
+    cagr_pct = None if cagr_frac is None else round(float(cagr_frac) * 100.0, 4)
+    decision = G.decision_block(oos, cagr_pct, adv_weakest, len(picks) or None)
+    decision["book"] = "nobond_vt08_adopted"
+    decision["adv_note"] = ("the weakest of the live five slots (20-bar median turnover), "
+                            "not their sum: an equal-weight book must fill its worst name")
+
     # third arm: the full book, whose yearly face is already published
     published = os.path.join(ROOT, "results", "etf_equity_alpha.json")
     allc_years = None
@@ -208,6 +228,7 @@ def run() -> int:
                  "live_picks": picks,
                  "live_picks_asof": str(last.date())},
         "books": arms,
+        "decision": decision,
         "prior": prior,
         "honest": [
             "the adopted book is judged by the same frozen line it never faced",
@@ -224,6 +245,9 @@ def run() -> int:
         json.dump(out, f, ensure_ascii=False, indent=1)
     os.replace(tmp, OUT)
     print(json.dumps({"verdicts": {a["book"]: a["verdict"] for a in arms},
+                      "decision": decision["verdict"],
+                      "decision_reads": {k: v for k, v in decision["reads"].items()
+                                         if k != "capacity_by_capital"},
                       "elapsed_sec": out["elapsed_sec"]}, ensure_ascii=False))
     print("saved", OUT)
     return 0

@@ -62,8 +62,11 @@ sys.path.insert(0, ROOT)
 sys.path.insert(0, os.path.join(ROOT, "scripts"))
 
 DAY_WORDS = ("今天", "今日", "今晚")
-# A line that carries its own date tells the reader which day it means (r1669).
-DATE_IN_TEXT = re.compile(r"20\d{2}-\d{2}-\d{2}")
+# A line that carries its own date tells the reader which day it means (r1669). Group 1 is the
+# date itself: r1684's ticket audit has to compare that day with the decision bar (a line dated
+# with the page day is not anchored to the book), so the pattern carries the value, not just a
+# boolean. Adding the group changes no caller that only asks "is there a date here".
+DATE_IN_TEXT = re.compile(r"(20\d{2}-\d{2}-\d{2})")
 
 _D = r"(20\d{2}-\d{2}-\d{2})"
 # r1671: a printed date is a claim until it is read against the face that issued it. Each rule
