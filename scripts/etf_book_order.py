@@ -3712,7 +3712,17 @@ def pending_fill_md(pf, last_bar=None, last_cash=None, fills=None,
     tells the reader to trade today can never also say the fill has no date (see
     etf_book_forward.fill_day_note -- one implementation, both faces read it).
     """
-    lines = ["## 今天开盘要成交的是什么（决策 bar 与成交时点不是同一天）"]
+    # r1665: this heading called the priced bar "today" on whatever day the page was read.
+    # `today` is already the page's own day (the caller passes it), so the word is only
+    # allowed when page day and decision bar are the same day; otherwise the heading names
+    # that bar, the same way do_or_wait/premium_forward were made to (r1664).
+    _dec = (pf or {}).get("decided_bar") or (last_bar if not pf else None)
+    _same_day = bool(today and _dec and str(today)[:10] == str(_dec)[:10])
+    if _same_day or not today or not _dec:
+        lines = ["## 今天开盘要成交的是什么（决策 bar 与成交时点不是同一天）"]
+    else:
+        lines = ["## %s 那根 bar 之后开盘要成交的是什么（决策 bar 与成交时点不是同一天）"
+                 % _dec]
     if not pf:
         lines += ["- 账本没有待成交的书：`book_in_force` 就是账面已经持有的那本。"]
     else:

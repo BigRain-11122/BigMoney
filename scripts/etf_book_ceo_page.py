@@ -1391,7 +1391,7 @@ def premium_on_page_sheet(pb, page_sheet, tol_cny=100.0, tol_pct=0.5):
     return out
 
 
-def premium_block(pb, page_bar=None, page_sheet=None, board_gap=None):
+def premium_block(pb, page_bar=None, page_sheet=None, board_gap=None, page_day=None):
     """The lines this page prints about what the order pays above the basket."""
     L = []
     add = L.append
@@ -1399,6 +1399,17 @@ def premium_block(pb, page_bar=None, page_sheet=None, board_gap=None):
     add("")
     gap = premium_board_gap() if board_gap is None else board_gap
     pb = pb or {}
+    # r1665: every rate below is the face's own session. The page is rebuilt on weekends, so
+    # "today" is only true when the reader's day IS that session -- otherwise the bullet
+    # asks a reader to judge a Friday rate by their own calendar.
+    _pb_face_ds = str(pb.get("session"))[:10] if pb.get("session") else None
+    _pb_same_day = bool(page_day and _pb_face_ds and str(page_day)[:10] == _pb_face_ds)
+    if _pb_same_day:
+        _pb_cheap = "这张单今天不便宜"
+    elif _pb_face_ds:
+        _pb_cheap = "这张单在 %s 那天不便宜" % _pb_face_ds
+    else:
+        _pb_cheap = "这张单不便宜"
     if pb.get("status") != "ok":
         add("这一节读不到溢价面（`%s`）：%s。**上面那张清单因此没有经过溢价检查**——"
             "按什么价格买到多少篮子价值，本页分不出来。" % (
@@ -1411,7 +1422,7 @@ def premium_block(pb, page_bar=None, page_sheet=None, board_gap=None):
         return L
     if page_bar and pb.get("session") and str(page_bar)[:10] != str(pb["session"])[:10]:
         add("溢价面是按 **%s** 的 IOPV 算的，本页的价是 **%s**——两个日子对不上，"
-            "下面这些数不能直接搬到今天的单上。" % (pb["session"], page_bar))
+            "下面这些数不能直接搬到本页这张单上。" % (pb["session"], page_bar))
         add("")
     for line in premium_board_gap_lines(gap, rate_session=pb.get("session")):
         add(line)
@@ -1597,7 +1608,7 @@ def premium_block(pb, page_bar=None, page_sheet=None, board_gap=None):
         add("- 但折价可以随时消失——它是这张单这一刻的读数，不是这本书的常态。")
     else:
         add("- 但溢价可以长期存在——限购让一二级套利关不上门，这类 ETF 常年溢价。所以这不是卖出的理由，"
-            "是「这张单今天不便宜」的读数。")
+            "是「%s」的读数。" % _pb_cheap)
     hist = pb.get("nav_ruler_history") or {}
     if hist:
         rows = [v for v in hist.values() if (v or {}).get("status") == "OK"]
@@ -1624,7 +1635,7 @@ def premium_block(pb, page_bar=None, page_sheet=None, board_gap=None):
             _unanswered = [t.get("symbol") or "?" for t in thin
                            if (_own_rec.get(t.get("symbol") or "") or {}).get("status") != "OK"]
             add("- 基金溢价快照这条路（T-16 车道）对 %s 观测不足（少于 %s 次）——"
-                "它答不了「今天这个溢价算不算高」。"
+                "它答不了「这一次的溢价算不算高」。"
                 % ("、".join(t.get("symbol") or "?" for t in thin), _min_obs))
             if _answered:
                 add("- %s 这件事由上一段的「基金自己历史」那把尺子回答了，两把尺子各管各的日子。"
@@ -1689,10 +1700,19 @@ def premium_forward_block(pf, page_bar=None, page_day=None):
     add = L.append
     add("## 付了溢价之后，这些基金自己的价格怎么走")
     add("")
-    add("（上一节说的是**今天多付了多少**，这一节说的是**付过之后，这只基金自己在同样处境下的历史里怎么走**"
-        "——两个问题、两个数，不许相加。）")
-    add("")
     pf = pf or {}
+    # r1665: this cross-reference names the previous section's money total, which is priced
+    # on THIS face's session. Rebuilt on a Saturday, "today" re-dates a Friday reading.
+    _pfw_asof = str(pf.get("face_asof"))[:10] if pf.get("face_asof") else None
+    if page_day and _pfw_asof and str(page_day)[:10] == _pfw_asof:
+        _pfw_prev = "**今天多付了多少**"
+    elif _pfw_asof:
+        _pfw_prev = "**%s 那天多付了多少**" % _pfw_asof
+    else:
+        _pfw_prev = "**上一节那份溢价读数多付了多少**"
+    add("（上一节说的是%s，这一节说的是**付过之后，这只基金自己在同样处境下的历史里怎么走**"
+        "——两个问题、两个数，不许相加。）" % _pfw_prev)
+    add("")
     if pf.get("status") != "ok":
         add("这一条**还没被量过**（`%s` 读不到：%s）。没测不等于没问题——它只是说这条路还没有人量过。"
             % (pf.get("artifact") or "results/etf_premium/PREMIUM-FORWARD.json",
@@ -6031,11 +6051,22 @@ def fill_face(ledger=None, path=None, order_mod=None):
     }
 
 
-def fill_block(fl, sheet=None):
+def fill_block(fl, sheet=None, page_day=None):
     """Page lines: the card's own promise/receipt sentences, then the ledger's
-    self-check, then which book on this page those numbers belong to."""
+    self-check, then which book on this page those numbers belong to.
+
+    r1665: the section heading and the fill-day note both used the wall clock
+    (`dt.date.today()`), so a page replayed for another day told the reader the decision
+    bar was "today" and dated the fill against the wrong day (E136). Both now take the
+    page's own day; None keeps the old clock behaviour for callers that have no page.
+    """
     fl = fl or {}
-    head = "## 今天开盘要成交的是什么（决策 bar 与成交时点不是同一天）"
+    _bar = fl.get("decided_bar") or fl.get("last_bar")
+    _same_day = bool(page_day and _bar and str(page_day)[:10] == str(_bar)[:10])
+    head = ("## 今天开盘要成交的是什么（决策 bar 与成交时点不是同一天）"
+            if (_same_day or not page_day or not _bar)
+            else "## %s 那根 bar 之后开盘要成交的是什么（决策 bar 与成交时点不是同一天）"
+                 % _bar)
     if fl.get("status") != "ok":
         return [head, "",
                 "- **无法核验**：账本读不出来（%s）。缺这一节不等于「没有待成交」，也不等于"
@@ -6048,7 +6079,8 @@ def fill_block(fl, sheet=None):
         try:
             lines = list(mod.pending_fill_md(pf, fl.get("last_bar"), fl.get("last_cash"), fills,
                                             calendar_dates(),
-                                            dt.date.today().isoformat(), sheet=sheet))
+                                            page_day or dt.date.today().isoformat(),
+                                            sheet=sheet))
         except TypeError:
             try:
                 lines = list(mod.pending_fill_md(pf, fl.get("last_bar"), fl.get("last_cash")))
@@ -6677,7 +6709,8 @@ def render_md(p, sb=None):
     # r1572: a condition on the list, like the admission above it -- what fills at the
     # next open is not in the table below, and a reader who stops at the table never
     # learns that the account is about to hold a different exposure.
-    for _fill_line in fill_block(p.get("fill") or {}, sheet=p):
+    for _fill_line in fill_block(p.get("fill") or {}, sheet=p,
+                                 page_day=p.get("generated_for_date")):
         add(_fill_line)
     # r1659: the reader who just learned what fills at the next open asks the next question
     # -- should it be done today at all, or is waiting cheaper? Priced since r1481/r1482,
@@ -6705,6 +6738,7 @@ def render_md(p, sb=None):
     for _kg_line in k_gap_block(p.get("k_gap") or {}, page_bar=p.get("priced_bar")):
         add(_kg_line)
     for _pl_line in premium_block(p.get("premium_leak") or {}, page_bar=p.get("priced_bar"),
+                                  page_day=p.get("generated_for_date"),
                                   page_sheet={"amount_cny": p.get("book_amount_cny"),
                                               "legs": [{"symbol": o.get("symbol"),
                                                         "amount_cny": o.get("amount_cny")}
@@ -10106,6 +10140,19 @@ def selftest():
                                                "legs": [{"symbol": "159501", "amount_cny": 1.0}]})
     chk("L155 premium on this page: a rounding-sized difference is the same paper, not a second one",
         _pb_near is None, "near=%r" % (_pb_near,))
+    # r1665: the closing bullet read "this ticket is not cheap today" no matter which session
+    # priced it. On a Saturday the reader is told to judge a Friday rate by their own day.
+    _pb_today = "\n".join(premium_block(_pb_fix, page_bar="2026-11-06", page_day="2026-11-06"))
+    _pb_sat = "\n".join(premium_block(_pb_fix, page_bar="2026-11-06", page_day="2026-11-14"))
+    _pb_noday = "\n".join(premium_block(_pb_fix, page_bar="2026-11-06"))
+    _pb_sat_bullet = "\n".join(l for l in _pb_sat.splitlines() if "卖出的理由" in l)
+    _pb_noday_bullet = "\n".join(l for l in _pb_noday.splitlines() if "卖出的理由" in l)
+    chk("L258 premium block: 'not cheap today' only on the rate's own day, else names that bar",
+        "这张单今天不便宜" in _pb_today
+        and "2026-11-06 那天不便宜" in _pb_sat_bullet and "今天" not in _pb_sat_bullet
+        and "2026-11-06 那天不便宜" in _pb_noday_bullet
+        and "今天" not in _pb_noday_bullet,
+        _pb_sat_bullet or _pb_sat[-160:])
     # r1504: the last round printed the date mismatch as a sentence above the table. A reader
     # who copies a row out of the table still holds an undated number, and the page's sheet
     # (2026-11-09 prices) and the face's rates (2026-11-06) sit in two different tables.
@@ -10280,6 +10327,25 @@ def selftest():
         and "档位（2026-11-09 的读数）" in _pfw_hdr_old
         and "今日档位" not in _pfw_hdr_old,
         _pfw_hdr_old.splitlines()[:1] and _pfw_hdr_old[:200])
+    # r1665: the same session also prices the cross-reference to the previous section.
+    _pfw_x_today = "\n".join(premium_forward_block(
+        _pfw_fix, page_bar="2026-11-09", page_day="2026-11-09"))
+    _pfw_x_sat = "\n".join(premium_forward_block(
+        _pfw_fix, page_bar="2026-11-09", page_day="2026-11-14"))
+    _pfw_x_none = "\n".join(premium_forward_block(_pfw_fix, page_bar="2026-11-09"))
+    _pfw_x_bare = "\n".join(premium_forward_block(
+        {k: v for k, v in _pfw_fix.items() if k != "face_asof"},
+        page_bar="2026-11-09", page_day="2026-11-09"))
+    chk("L259 premium forward block: the 'how much extra did we pay today' cross-reference "
+        "follows the reading's session, and an unsigned block claims no day at all",
+        "上一节说的是**今天多付了多少**" in _pfw_x_today
+        and "今天多付了多少" not in _pfw_x_sat
+        and "2026-11-09 那天多付了多少" in _pfw_x_sat
+        and "今天多付了多少" not in _pfw_x_none
+        and "2026-11-09 那天多付了多少" in _pfw_x_none
+        and "上一节那份溢价读数多付了多少" in _pfw_x_bare
+        and "那天多付了多少" not in _pfw_x_bare,
+        "\n".join(_pfw_x_bare.splitlines()[:4]))
     _pfw_cut = "\n".join(premium_forward_block(dict(_pfw_fix, missing_legs=["513100"])))
     chk("L169 premium forward block: a leg with no reading is named as unmeasured, not as zero drift",
         "513100" in _pfw_cut and "没量过" in _pfw_cut)
@@ -10937,7 +11003,24 @@ def selftest():
     chk("L211 fill: an empty receipt says so instead of leaving the reader to assume",
         "没有任何已记录的成交" in "\n".join(fill_block(fill_face(path=_fill_empty))))
     chk("L212 page: the fill section sits above the buy list, beside the admission",
-        "今天开盘要成交" in _md and _md.index("今天开盘要成交") < _md.index("下单清单"))
+        "要成交的是什么" in _md and _md.index("要成交的是什么") < _md.index("下单清单"))
+    # r1665: the same heading, two page days -- the word 今天 is only allowed on the bar's
+    # own day; otherwise the bar is named (a Saturday page read the Friday bar as today).
+    _fl_sat = "\n".join(fill_block(_flf, page_day="2026-11-14"))
+    _fl_same = "\n".join(fill_block(_flf, page_day=_flf.get("decided_bar")))
+    chk("L212b fill: on another day the heading names the bar, it does not call it today",
+        ("2026-11-11 那根 bar 之后开盘要成交的是什么" in _fl_sat)
+        and ("今天开盘要成交" not in _fl_sat.split("\n")[0]), _fl_sat[:140])
+    chk("L212c fill: on the decision bar's own day the heading keeps saying today",
+        "今天开盘要成交" in _fl_same and "那根 bar" not in _fl_same.split("\n")[0],
+        _fl_same[:140])
+    # r1665b: "nothing is pending" is still a dated reading -- the heading names the bar it
+    # looked at, or a Saturday page asks what fills at an open that never happens.
+    _fl_nopend = dict(_flf, pending=None, decided_bar=None, last_bar="2026-11-13")
+    _fl_nopend_md = "\n".join(fill_block(_fl_nopend, page_day="2026-11-14"))
+    chk("L212d fill: with nothing pending the heading still names the bar it read",
+        "2026-11-13 那根 bar 之后开盘要成交的是什么" in _fl_nopend_md
+        and "账本没有待成交的书" in _fl_nopend_md, _fl_nopend_md[:160])
     _fl_two = "\n".join(fill_block(_flf, sheet={"n_hold": 5, "k_now": 0.432195}))
     chk("L213 fill: two exposures on one page are named as two books, not left adjacent",
         "不是同一本" in _fl_two and "0.9094" in _fl_two and "0.4322" in _fl_two, _fl_two[-160:])
