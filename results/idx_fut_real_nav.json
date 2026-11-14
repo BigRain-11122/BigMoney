@@ -1,0 +1,615 @@
+{
+  "generated": "2026-11-15T05:02:09",
+  "evidence_cutoff": "2026-11-13",
+  "kind": "real_contract_roll_book",
+  "criteria": {
+    "products": [
+      "IF",
+      "IC",
+      "IH",
+      "IM"
+    ],
+    "switch_margin": 0.05,
+    "commission_bp": 0.46,
+    "tick_points": 0.2,
+    "cost_ladder_bp": [
+      0.0,
+      1.5,
+      4.0,
+      8.0,
+      15.0
+    ],
+    "default_cost_bp": 1.5,
+    "min_days": 400,
+    "min_rolls": 12,
+    "admitted_line_pct": 3.0
+  },
+  "published_by_mask": {
+    "IC": {
+      "calendar": 9.283,
+      "observed": 7.252,
+      "published_size": 3.366
+    },
+    "IF": {
+      "calendar": 5.517,
+      "observed": 3.596,
+      "published_size": 2.209
+    },
+    "IH": {
+      "calendar": 5.508,
+      "observed": 2.353,
+      "published_size": 2.158
+    },
+    "IM": {
+      "calendar": 11.954,
+      "observed": 8.795,
+      "published_size": 5.864
+    }
+  },
+  "products": {
+    "IF": {
+      "status": "ok",
+      "product": "IF",
+      "index": "sh000300",
+      "span": {
+        "first": "2018-10-22",
+        "last": "2026-11-13",
+        "days": 1956,
+        "years": 8.02
+      },
+      "contracts_quoted": 94,
+      "rolls_n": 74,
+      "rolls_per_year": 9.23,
+      "rolls_by_reason": {
+        "open_interest": 71,
+        "incumbent_not_quoted": 3
+      },
+      "forced_return_days": 3,
+      "futures_ann_pct": 6.09526431922498,
+      "index_ann_pct": 2.5964466940592734,
+      "carry_gross_ann_pct": 3.567,
+      "carry_net_ann_pct": 3.428,
+      "admitted_at_default_cost": true,
+      "default_cost_bp_per_roll": 1.5,
+      "cost_ladder": {
+        "0.0": {
+          "net_ann_pct": 3.567,
+          "admitted": true
+        },
+        "1.5": {
+          "net_ann_pct": 3.428,
+          "admitted": true
+        },
+        "4.0": {
+          "net_ann_pct": 3.198,
+          "admitted": true
+        },
+        "8.0": {
+          "net_ann_pct": 2.828,
+          "admitted": false
+        },
+        "15.0": {
+          "net_ann_pct": 2.182,
+          "admitted": false
+        }
+      },
+      "breakeven_bp_per_roll": 6.14,
+      "stats": {
+        "n": 1956,
+        "median_ann_pct": 3.049,
+        "mean_ann_pct": 3.601,
+        "trimmed_mean_ann_pct": 3.845,
+        "hit_rate_pct": 52.8
+      },
+      "by_year": {
+        "2018": {
+          "days": 49,
+          "carry_ann_pct": -3.129,
+          "years_frac": 0.2
+        },
+        "2019": {
+          "days": 244,
+          "carry_ann_pct": 2.907,
+          "years_frac": 1.0
+        },
+        "2020": {
+          "days": 243,
+          "carry_ann_pct": 6.738,
+          "years_frac": 1.0
+        },
+        "2021": {
+          "days": 243,
+          "carry_ann_pct": 5.648,
+          "years_frac": 1.0
+        },
+        "2022": {
+          "days": 242,
+          "carry_ann_pct": 2.507,
+          "years_frac": 0.99
+        },
+        "2023": {
+          "days": 242,
+          "carry_ann_pct": 0.201,
+          "years_frac": 0.99
+        },
+        "2024": {
+          "days": 242,
+          "carry_ann_pct": 2.478,
+          "years_frac": 0.99
+        },
+        "2025": {
+          "days": 243,
+          "carry_ann_pct": 4.004,
+          "years_frac": 1.0
+        },
+        "2026": {
+          "days": 208,
+          "carry_ann_pct": 6.007,
+          "years_frac": 0.85
+        }
+      },
+      "recent_2y_ann_pct": 4.351,
+      "roll_days_sample": [
+        {
+          "date": "2025-06-16",
+          "from": "IF2506",
+          "to": "IF2509",
+          "reason": "open interest"
+        },
+        {
+          "date": "2025-09-12",
+          "from": "IF2509",
+          "to": "IF2512",
+          "reason": "open interest"
+        },
+        {
+          "date": "2025-12-15",
+          "from": "IF2512",
+          "to": "IF2603",
+          "reason": "open interest"
+        },
+        {
+          "date": "2026-03-13",
+          "from": "IF2603",
+          "to": "IF2606",
+          "reason": "open interest"
+        },
+        {
+          "date": "2026-06-11",
+          "from": "IF2606",
+          "to": "IF2609",
+          "reason": "open interest"
+        },
+        {
+          "date": "2026-09-11",
+          "from": "IF2609",
+          "to": "IF2612",
+          "reason": "open interest"
+        }
+      ]
+    },
+    "IC": {
+      "status": "ok",
+      "product": "IC",
+      "index": "sh000905",
+      "span": {
+        "first": "2018-10-22",
+        "last": "2026-11-13",
+        "days": 1956,
+        "years": 8.02
+      },
+      "contracts_quoted": 94,
+      "rolls_n": 63,
+      "rolls_per_year": 7.86,
+      "rolls_by_reason": {
+        "open_interest": 60,
+        "incumbent_not_quoted": 3
+      },
+      "forced_return_days": 3,
+      "futures_ann_pct": 14.144260902345373,
+      "index_ann_pct": 5.118779293160736,
+      "carry_gross_ann_pct": 8.763,
+      "carry_net_ann_pct": 8.645,
+      "admitted_at_default_cost": true,
+      "default_cost_bp_per_roll": 1.5,
+      "cost_ladder": {
+        "0.0": {
+          "net_ann_pct": 8.763,
+          "admitted": true
+        },
+        "1.5": {
+          "net_ann_pct": 8.645,
+          "admitted": true
+        },
+        "4.0": {
+          "net_ann_pct": 8.449,
+          "admitted": true
+        },
+        "8.0": {
+          "net_ann_pct": 8.134,
+          "admitted": true
+        },
+        "15.0": {
+          "net_ann_pct": 7.584,
+          "admitted": true
+        }
+      },
+      "breakeven_bp_per_roll": 73.33,
+      "stats": {
+        "n": 1956,
+        "median_ann_pct": 8.223,
+        "mean_ann_pct": 8.574,
+        "trimmed_mean_ann_pct": 7.932,
+        "hit_rate_pct": 55.0
+      },
+      "by_year": {
+        "2018": {
+          "days": 49,
+          "carry_ann_pct": -0.667,
+          "years_frac": 0.2
+        },
+        "2019": {
+          "days": 244,
+          "carry_ann_pct": 11.111,
+          "years_frac": 1.0
+        },
+        "2020": {
+          "days": 243,
+          "carry_ann_pct": 12.298,
+          "years_frac": 1.0
+        },
+        "2021": {
+          "days": 243,
+          "carry_ann_pct": 12.372,
+          "years_frac": 1.0
+        },
+        "2022": {
+          "days": 242,
+          "carry_ann_pct": 6.714,
+          "years_frac": 0.99
+        },
+        "2023": {
+          "days": 242,
+          "carry_ann_pct": 2.626,
+          "years_frac": 0.99
+        },
+        "2024": {
+          "days": 242,
+          "carry_ann_pct": 5.644,
+          "years_frac": 0.99
+        },
+        "2025": {
+          "days": 243,
+          "carry_ann_pct": 10.758,
+          "years_frac": 1.0
+        },
+        "2026": {
+          "days": 208,
+          "carry_ann_pct": 8.925,
+          "years_frac": 0.85
+        }
+      },
+      "recent_2y_ann_pct": 9.847,
+      "roll_days_sample": [
+        {
+          "date": "2025-06-16",
+          "from": "IC2506",
+          "to": "IC2509",
+          "reason": "open interest"
+        },
+        {
+          "date": "2025-09-15",
+          "from": "IC2509",
+          "to": "IC2512",
+          "reason": "open interest"
+        },
+        {
+          "date": "2025-12-15",
+          "from": "IC2512",
+          "to": "IC2603",
+          "reason": "open interest"
+        },
+        {
+          "date": "2026-03-10",
+          "from": "IC2603",
+          "to": "IC2606",
+          "reason": "open interest"
+        },
+        {
+          "date": "2026-06-12",
+          "from": "IC2606",
+          "to": "IC2609",
+          "reason": "open interest"
+        },
+        {
+          "date": "2026-09-14",
+          "from": "IC2609",
+          "to": "IC2612",
+          "reason": "open interest"
+        }
+      ]
+    },
+    "IH": {
+      "status": "ok",
+      "product": "IH",
+      "index": "sh000016",
+      "span": {
+        "first": "2018-10-22",
+        "last": "2026-11-13",
+        "days": 1956,
+        "years": 8.02
+      },
+      "contracts_quoted": 94,
+      "rolls_n": 89,
+      "rolls_per_year": 11.1,
+      "rolls_by_reason": {
+        "open_interest": 86,
+        "incumbent_not_quoted": 3
+      },
+      "forced_return_days": 3,
+      "futures_ann_pct": 3.368064330349174,
+      "index_ann_pct": 1.1092857598107742,
+      "carry_gross_ann_pct": 2.392,
+      "carry_net_ann_pct": 2.225,
+      "admitted_at_default_cost": false,
+      "default_cost_bp_per_roll": 1.5,
+      "cost_ladder": {
+        "0.0": {
+          "net_ann_pct": 2.392,
+          "admitted": false
+        },
+        "1.5": {
+          "net_ann_pct": 2.225,
+          "admitted": false
+        },
+        "4.0": {
+          "net_ann_pct": 1.948,
+          "admitted": false
+        },
+        "8.0": {
+          "net_ann_pct": 1.504,
+          "admitted": false
+        },
+        "15.0": {
+          "net_ann_pct": 0.726,
+          "admitted": false
+        }
+      },
+      "breakeven_bp_per_roll": 0.0,
+      "stats": {
+        "n": 1956,
+        "median_ann_pct": 2.389,
+        "mean_ann_pct": 2.461,
+        "trimmed_mean_ann_pct": 2.809,
+        "hit_rate_pct": 52.4
+      },
+      "by_year": {
+        "2018": {
+          "days": 49,
+          "carry_ann_pct": -3.624,
+          "years_frac": 0.2
+        },
+        "2019": {
+          "days": 244,
+          "carry_ann_pct": 1.634,
+          "years_frac": 1.0
+        },
+        "2020": {
+          "days": 243,
+          "carry_ann_pct": 7.543,
+          "years_frac": 1.0
+        },
+        "2021": {
+          "days": 243,
+          "carry_ann_pct": 3.141,
+          "years_frac": 1.0
+        },
+        "2022": {
+          "days": 242,
+          "carry_ann_pct": 2.01,
+          "years_frac": 0.99
+        },
+        "2023": {
+          "days": 242,
+          "carry_ann_pct": -0.055,
+          "years_frac": 0.99
+        },
+        "2024": {
+          "days": 242,
+          "carry_ann_pct": 1.366,
+          "years_frac": 0.99
+        },
+        "2025": {
+          "days": 243,
+          "carry_ann_pct": 1.92,
+          "years_frac": 1.0
+        },
+        "2026": {
+          "days": 208,
+          "carry_ann_pct": 3.488,
+          "years_frac": 0.85
+        }
+      },
+      "recent_2y_ann_pct": 1.959,
+      "roll_days_sample": [
+        {
+          "date": "2025-06-18",
+          "from": "IH2506",
+          "to": "IH2509",
+          "reason": "open interest"
+        },
+        {
+          "date": "2025-09-15",
+          "from": "IH2509",
+          "to": "IH2512",
+          "reason": "open interest"
+        },
+        {
+          "date": "2025-12-17",
+          "from": "IH2512",
+          "to": "IH2603",
+          "reason": "open interest"
+        },
+        {
+          "date": "2026-03-17",
+          "from": "IH2603",
+          "to": "IH2606",
+          "reason": "open interest"
+        },
+        {
+          "date": "2026-06-15",
+          "from": "IH2606",
+          "to": "IH2609",
+          "reason": "open interest"
+        },
+        {
+          "date": "2026-09-14",
+          "from": "IH2609",
+          "to": "IH2612",
+          "reason": "open interest"
+        }
+      ]
+    },
+    "IM": {
+      "status": "ok",
+      "product": "IM",
+      "index": "sh000852",
+      "span": {
+        "first": "2022-07-22",
+        "last": "2026-11-13",
+        "days": 1044,
+        "years": 4.28
+      },
+      "contracts_quoted": 53,
+      "rolls_n": 23,
+      "rolls_per_year": 5.38,
+      "rolls_by_reason": {
+        "open_interest": 23,
+        "incumbent_not_quoted": 0
+      },
+      "forced_return_days": 0,
+      "futures_ann_pct": 7.4137421648920565,
+      "index_ann_pct": -2.338449319034286,
+      "carry_gross_ann_pct": 10.198,
+      "carry_net_ann_pct": 10.118,
+      "admitted_at_default_cost": true,
+      "default_cost_bp_per_roll": 1.5,
+      "cost_ladder": {
+        "0.0": {
+          "net_ann_pct": 10.198,
+          "admitted": true
+        },
+        "1.5": {
+          "net_ann_pct": 10.118,
+          "admitted": true
+        },
+        "4.0": {
+          "net_ann_pct": 9.983,
+          "admitted": true
+        },
+        "8.0": {
+          "net_ann_pct": 9.768,
+          "admitted": true
+        },
+        "15.0": {
+          "net_ann_pct": 9.392,
+          "admitted": true
+        }
+      },
+      "breakeven_bp_per_roll": 133.91,
+      "stats": {
+        "n": 1044,
+        "median_ann_pct": 10.968,
+        "mean_ann_pct": 9.944,
+        "trimmed_mean_ann_pct": 9.307,
+        "hit_rate_pct": 56.2
+      },
+      "by_year": {
+        "2022": {
+          "days": 109,
+          "carry_ann_pct": 10.465,
+          "years_frac": 0.45
+        },
+        "2023": {
+          "days": 242,
+          "carry_ann_pct": 4.402,
+          "years_frac": 0.99
+        },
+        "2024": {
+          "days": 242,
+          "carry_ann_pct": 10.164,
+          "years_frac": 0.99
+        },
+        "2025": {
+          "days": 243,
+          "carry_ann_pct": 13.59,
+          "years_frac": 1.0
+        },
+        "2026": {
+          "days": 208,
+          "carry_ann_pct": 11.601,
+          "years_frac": 0.85
+        }
+      },
+      "recent_2y_ann_pct": 12.664,
+      "roll_days_sample": [
+        {
+          "date": "2025-06-18",
+          "from": "IM2506",
+          "to": "IM2509",
+          "reason": "open interest"
+        },
+        {
+          "date": "2025-09-15",
+          "from": "IM2509",
+          "to": "IM2512",
+          "reason": "open interest"
+        },
+        {
+          "date": "2025-12-16",
+          "from": "IM2512",
+          "to": "IM2603",
+          "reason": "open interest"
+        },
+        {
+          "date": "2026-03-13",
+          "from": "IM2603",
+          "to": "IM2606",
+          "reason": "open interest"
+        },
+        {
+          "date": "2026-06-15",
+          "from": "IM2606",
+          "to": "IM2609",
+          "reason": "open interest"
+        },
+        {
+          "date": "2026-09-14",
+          "from": "IM2609",
+          "to": "IM2612",
+          "reason": "open interest"
+        }
+      ]
+    }
+  },
+  "verdict": {
+    "state": "booked",
+    "admitted_at_default_cost": [
+      "IC",
+      "IF",
+      "IM"
+    ],
+    "admitted_gross_of_cost": [
+      "IC",
+      "IF",
+      "IM"
+    ],
+    "below_line_before_any_cost": [
+      "IH"
+    ],
+    "flips_vs_published_observed_mask": [],
+    "weakest_breakeven_bp_per_roll": 6.14,
+    "cost_was_the_binding_constraint": false,
+    "line_pct": 3.0
+  }
+}

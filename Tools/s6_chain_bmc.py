@@ -154,6 +154,12 @@ LEGS = [
     # the series without holding the chain for the ~400-code first pull. ~1-15s, no judge.
     ("idx_fut_contract_roll", ["python", "scripts/idx_fut_contract_roll.py",
                                "--max-pull=6", "--write-doc"]),
+    # r1697: every carry number above is a daily difference with the seam deleted -- a model
+    # of rolling, not a roll. This leg books the roll instead: hold the contract with the
+    # most open interest, move when another takes that over by 5%, mark both legs at the same
+    # close, and charge a cost ladder on the switches. It reads the contract cache the leg
+    # above fills (no network), so a masked day cannot flatter a number here. ~1-3s.
+    ("idx_fut_real_nav", ["python", "scripts/idx_fut_real_nav.py", "--write-doc"]),
     # r1695: the carry-per-capital face had a `checkdoc` guard and no producer -- the same
     # "produced once by hand, then read" class (r1282/r1471). It now prices the same gates
     # under two roll masks and that column flips IC/IM over the 3% line, so letting it age
