@@ -887,6 +887,113 @@
   },
   "path": "results\\etf_book_vt_phases\\VT-PHASES.json"
  },
+ "derisk": {
+  "status": "ok",
+  "readable": true,
+  "n_phases": 5,
+  "evidence_cutoff": "2026-11-13",
+  "asof": "2026-11-14T03:31:43+0800",
+  "line": 0.7,
+  "frozen": {
+   "dd_soft_pct": 8.0,
+   "dd_soft_scale": 0.5,
+   "dd_hard_pct": 15.0,
+   "dd_hard_scale": 0.25,
+   "trend_window_bars": 200,
+   "trend_scale": 0.5,
+   "loss_window_bars": 60,
+   "loss_regime_vol_target": 0.08,
+   "note": "chosen before the run; no threshold was searched. If the family fails, the answer is the family, not a missing rung"
+  },
+  "answer": "NO_RULE_CLEARS_BOTH",
+  "closest_rule": "vt08",
+  "closest_fails": [
+   "Y4_top2_share"
+  ],
+  "phase_dependent": [
+   "vt08",
+   "loss_cond_vt",
+   "trend_brake"
+  ],
+  "phase_stable_pass": [],
+  "mechanism": [
+   {
+    "rule": "vt08",
+    "de_risk_share": 0.8452,
+    "annual_sum_pp": 81.8427,
+    "delta_annual_sum_pp": -29.498,
+    "top2_share": 0.7039,
+    "delta_top2": 0.022,
+    "delta_maxdd_pp": 5.48
+   },
+   {
+    "rule": "dd_brake",
+    "de_risk_share": 0.4405,
+    "annual_sum_pp": 88.3893,
+    "delta_annual_sum_pp": -22.9514,
+    "top2_share": 0.7521,
+    "delta_top2": 0.0702,
+    "delta_maxdd_pp": 1.86
+   },
+   {
+    "rule": "loss_cond_vt",
+    "de_risk_share": 0.2143,
+    "annual_sum_pp": 102.6126,
+    "delta_annual_sum_pp": -8.7281,
+    "top2_share": 0.7357,
+    "delta_top2": 0.0538,
+    "delta_maxdd_pp": 1.74
+   },
+   {
+    "rule": "trend_brake",
+    "de_risk_share": 0.2738,
+    "annual_sum_pp": 87.1348,
+    "delta_annual_sum_pp": -24.2059,
+    "top2_share": 0.795,
+    "delta_top2": 0.1131,
+    "delta_maxdd_pp": 0.0
+   }
+  ],
+  "verdicts": {
+   "none": "ADMIT",
+   "vt08": "CONDITIONAL",
+   "dd_brake": "CONDITIONAL",
+   "loss_cond_vt": "CONDITIONAL",
+   "trend_brake": "CONDITIONAL"
+  },
+  "instrument": {
+   "vt08": {
+    "top2_min": 0.6621,
+    "top2_max": 0.786,
+    "spread_pp": 12.39,
+    "straddles_line": true,
+    "distance_to_line_pp": 3.79
+   },
+   "dd_brake": {
+    "top2_min": 0.741,
+    "top2_max": 0.9181,
+    "spread_pp": 17.71,
+    "straddles_line": false,
+    "distance_to_line_pp": 4.1
+   },
+   "loss_cond_vt": {
+    "top2_min": 0.68,
+    "top2_max": 0.9245,
+    "spread_pp": 24.45,
+    "straddles_line": true,
+    "distance_to_line_pp": 2.0
+   },
+   "trend_brake": {
+    "top2_min": 0.6871,
+    "top2_max": 0.9007,
+    "spread_pp": 21.36,
+    "straddles_line": true,
+    "distance_to_line_pp": 1.29
+   }
+  },
+  "control_straddles": true,
+  "path": "results\\etf_book_derisk_rule\\DERISK-RULE.json"
+ },
  "fill": {
   "status": "ok",
   "source": "results\\etf_book_forward\\LEDGER.json",
@@ -7165,9 +7272,9 @@
  "authority": {
   "writer": "bm-c",
   "owner": "bm-a",
-  "owner_silent_h": 8.0,
+  "owner_silent_h": 9.1,
   "took_over": true,
-  "why": "bm-a has not written its own heartbeat for 8.0 h (> 6 h): its page faces are stopped, not merely old",
+  "why": "bm-a has not written its own heartbeat for 9.1 h (> 6 h): its page faces are stopped, not merely old",
   "no_bar_reason": "human_ages"
  }
 }

@@ -104,6 +104,11 @@ FLOOR_PROVENANCE_JSON = os.path.join(ROOT, "results", "etf_book_floor_provenance
 VOL_TARGET_GATE_JSON = os.path.join(ROOT, "results", "etf_book_vol_target_gate.json")
 VT_LADDER_JSON = os.path.join(ROOT, "results", "etf_book_vt_ladder", "VT-LADDER.json")
 VT_PHASES_JSON = os.path.join(ROOT, "results", "etf_book_vt_phases", "VT-PHASES.json")
+# r1658: the page ends the ladder section by saying no rung clears both, and a reader's
+# next sentence is "then de-risk only in bad states". That family is already priced
+# (frozen thresholds, no search, four rules) and the page never cited it -- an empty
+# answer reads as "nobody looked", and the reader buys the same arithmetic twice.
+DERISK_JSON = os.path.join(ROOT, "results", "etf_book_derisk_rule", "DERISK-RULE.json")
 MACHINE = os.path.join(ROOT, "fleet", "machine.json")
 
 # Single writer: the page is a plain-language mirror of shared artefacts, so two
@@ -5584,6 +5589,168 @@ def vt_phases_block(vp):
     return out
 
 
+def derisk_face(path=DERISK_JSON):
+    """r1658: "de-risk only in the bad states" is the reader's next idea after the ladder.
+
+    The family is priced and published (scripts/etf_book_derisk_rule.py, frozen
+    thresholds declared before the run, no threshold searched) and four rules were put
+    through the same year gate. The page printed the ladder's dead end and dropped this,
+    so the reader could only conclude nobody had tried -- which is the wrong conclusion
+    to hand a CEO deciding whether to keep paying for a third road.
+
+    Every number is copied off the face (E288 lineage: one implementation); nothing is
+    recomputed here, and an unreadable face is reported as unreadable.
+    """
+    try:
+        d = _load(path)
+    except Exception:
+        d = None
+    if not d or not (d.get("answer") or {}).get("answer"):
+        return {"status": "unreadable", "readable": False, "why": "no answer block"}
+
+    def _n(x, k):
+        v = (x or {}).get(k)
+        return float(v) if isinstance(v, (int, float)) else None
+
+    ans = d.get("answer") or {}
+    mech = []
+    for m in (ans.get("mechanism") or []):
+        mech.append({"rule": m.get("rule"),
+                     "de_risk_share": _n(m, "de_risk_share"),
+                     "annual_sum_pp": _n(m, "annual_sum_pp"),
+                     "delta_annual_sum_pp": _n(m, "delta_annual_sum_pp"),
+                     "top2_share": _n(m, "top2_share"),
+                     "delta_top2": _n(m, "delta_top2"),
+                     "delta_maxdd_pp": _n(m, "delta_maxdd_pp")})
+    verdicts = {r.get("rule"): r.get("verdict") for r in (d.get("rules") or [])}
+    inst = d.get("instrument") or {}
+    # how many calendars were walked: read off the face's own phase test, never assumed
+    n_phases = None
+    for _pt in (d.get("phase_test") or {}).values():
+        if isinstance(_pt, dict) and (_pt.get("phases") or []):
+            n_phases = len(_pt["phases"])
+            break
+    return {"status": "ok", "readable": True,
+            "n_phases": n_phases,
+            "evidence_cutoff": d.get("evidence_cutoff"),
+            "asof": d.get("asof"),
+            "line": (d.get("gate_rules") or {}).get("top2_share_max"),
+            "frozen": d.get("frozen_parameters") or {},
+            "answer": ans.get("answer"),
+            "closest_rule": ans.get("closest_rule"),
+            "closest_fails": ans.get("closest_fails") or [],
+            "phase_dependent": ans.get("phase_dependent_rules") or [],
+            "phase_stable_pass": ans.get("phase_stable_pass_rules") or [],
+            "mechanism": mech,
+            "verdicts": verdicts,
+            "instrument": {k: {"top2_min": _n(v, "top2_min"),
+                               "top2_max": _n(v, "top2_max"),
+                               "spread_pp": _n(v, "spread_pp"),
+                               "straddles_line": v.get("straddles_line"),
+                               "distance_to_line_pp": _n(v, "distance_to_line_pp")}
+                           for k, v in (inst.get("rules") or {}).items()},
+            "control_straddles": (inst.get("control") or {}).get("straddles_line"),
+            "path": _rel(path)}
+
+
+def derisk_block(dk):
+    """The third road, printed as a dead end with its own measurements.
+
+    Three sentences carry the structure and none of them is a constant written here:
+    (1) how many rules were priced and whether any clears (answer + verdict column);
+    (2) the closest one, and the reason it is not a rule (phase list, not a verdict);
+    (3) what de-risking does to the line it has to clear -- read off delta_top2, because
+        a smaller book has a smaller denominator, so cutting exposure can move the
+        share UP. That is the counter-intuitive half; if the face ever prints a rule
+        whose delta_top2 is negative, this sentence must change with it.
+    """
+    head = ["## 只在坏状态下减仓呢（这条更聪明的路，测过了）", ""]
+    dk = dk or {}
+    if not dk.get("readable"):
+        return head + ["- **无法核验**：降风险规则面读不出来。缺这一行不等于「这条思路没人试过」。", ""]
+    out = list(head)
+    mech = dk.get("mechanism") or []
+    n = len(mech)
+    line = dk.get("line")
+    line_say = ("%.0f%%" % (line * 100)) if isinstance(line, (int, float)) else "?"
+
+    if dk.get("answer") == "NO_RULE_CLEARS_BOTH":
+        out.append("- 答案：**%d 条规则，没有一条同时做到「过年度闸」和「买到回撤」**（%s）。"
+                   "阈值是跑之前写死的（回撤 %.0f%% 减半 / %.0f%% 砍到四分之一、200 日趋势线、"
+                   "60 日亏损窗里才启用 8%% 波动目标），没有回头搜过参数——所以这不是「没调好」，"
+                   "是这个家族本身。"
+                   % (n, "answer=NO_RULE_CLEARS_BOTH",
+                      (dk.get("frozen") or {}).get("dd_soft_pct") or 0,
+                      (dk.get("frozen") or {}).get("dd_hard_pct") or 0))
+    else:
+        out.append("- 答案：%s（%d 条规则）。" % (dk.get("answer"), n))
+
+    out.append("")
+    out.append("| 规则 | 多久在减仓 | 年化合计 pp（对不动） | top-2 年占比（对不动） | 最大回撤改善 | 判决 |")
+    out.append("|---|---|---|---|---|---|")
+    for m in mech:
+        out.append("| %s | %s | %s | %s | %s | %s |"
+                   % (m.get("rule"),
+                      ("%.1f%%" % (m["de_risk_share"] * 100)) if m.get("de_risk_share") is not None else "?",
+                      ("%.1f（%+0.1f）" % (m["annual_sum_pp"], m["delta_annual_sum_pp"]))
+                      if m.get("annual_sum_pp") is not None and m.get("delta_annual_sum_pp") is not None else "?",
+                      ("%.1f%%（%+.1fpp）" % (m["top2_share"] * 100, m["delta_top2"] * 100))
+                      if m.get("top2_share") is not None and m.get("delta_top2") is not None else "?",
+                      ("%.2fpp" % m["delta_maxdd_pp"]) if m.get("delta_maxdd_pp") is not None else "?",
+                      (dk.get("verdicts") or {}).get(m.get("rule")) or "?"))
+    out.append("")
+
+    closest = dk.get("closest_rule")
+    cm = next((m for m in mech if m.get("rule") == closest), None)
+    phase_dep = dk.get("phase_dependent") or []
+    _np = dk.get("n_phases")
+    _cal = ("%d 条日历" % _np) if _np else "多条日历"
+    if cm and cm.get("top2_share") is not None and isinstance(line, (int, float)):
+        gap_pp = (cm["top2_share"] - line) * 100
+        # the phase list is the reason, not a footnote: a rung that clears on some starts
+        # and fails on others is a calendar effect (r1325), so it cannot be adopted
+        _why = ("，但它**不是一条规则**：在 %s里只是部分日历上过闸（%s 都这样），"
+                "换一个起点就不过——按 r1325 的口径这不能采用"
+                % (_cal, "、".join(phase_dep))) if closest in phase_dep else ""
+        out.append("- 最接近的一条是 **%s**：top-2 年占比 %.2f%%，闸线 %.0f%%，"
+                   "**差 %.2fpp**；它同时买到最大回撤改善 %.2fpp%s。"
+                   % (closest, cm["top2_share"] * 100, line * 100, gap_pp,
+                      cm.get("delta_maxdd_pp") or 0.0, _why))
+
+    up = [m for m in mech if (m.get("delta_top2") or 0) > 0]
+    if up and len(up) == len(mech):
+        worst = max(mech, key=lambda m: m["delta_top2"])
+        out.append("- 但要注意方向：**每一条减仓规则都让 top-2 年占比往上涨**（%s 最多，%+.2fpp）。"
+                   "原因是这个占比的分母是各年净收益之和——把书变小，分母掉得比两年掉的更快，"
+                   "所以「减仓＝更安全」在这一行上是反的。"
+                   % (worst.get("rule"), worst["delta_top2"] * 100))
+    elif up:
+        out.append("- 方向：%d/%d 条规则让 top-2 年占比上涨（最多 %s %+.2fpp），"
+                   "不是每一条都如此。"
+                   % (len(up), len(mech), max(up, key=lambda m: m["delta_top2"]).get("rule"),
+                      max(m["delta_top2"] for m in up) * 100))
+
+    inst = dk.get("instrument") or {}
+    if inst:
+        _line_v = line if isinstance(line, (int, float)) else 0.70
+        stable = dk.get("phase_stable_pass") or []
+        for k, v in sorted(inst.items()):
+            if v.get("straddles_line") is False and (v.get("top2_min") or 0) > _line_v:
+                out.append("- %s从头到尾都过不了的：**%s**（它自己的 top-2 年在 %.1f%%～%.1f%% 之间，"
+                           "每一条都在闸线 %.0f%% 上方）——这不是「再等几年就行」，是更差。"
+                           % (_cal, k, (v.get("top2_min") or 0) * 100, (v.get("top2_max") or 0) * 100,
+                              _line_v * 100))
+        if not stable:
+            out.append("- %s上都过闸的规则：**没有**。" % _cal)
+    out.append("- 结论：**这条路不是没想到，是测过并封死了**。要让这本书吃新钱，"
+               "要么接受满仓书的回撤，要么换一条判据（不是再换一个波动目标或减仓阈值）。")
+    out.append("- 数据到 %s（规则面 evidence_cutoff，非本页 bar；跑于 %s），出处 %s"
+               % (dk.get("evidence_cutoff") or "未标注", dk.get("asof") or "未标注",
+                  dk.get("path") or "?"))
+    out.append("")
+    return out
+
+
 def vt_ladder_block(vl):
     head = ["## 换档扫描（同一个闸，七个档）", ""]
 
@@ -6061,6 +6228,10 @@ def build(with_stress=False, window_label=None):
     # r1614: the ladder answers on ONE decision grid. Four grids, same gate, is what
     # decides whether that answer can be adopted -- or whether the calendar chose it.
     page["vt_phases"] = vt_phases_face()
+    # r1658: the ladder and the calendars both end in "no"; the reader's next idea is
+    # de-risking only in the bad states. It has been priced and refused -- print it, or
+    # an empty answer reads as "nobody looked".
+    page["derisk"] = derisk_face()
     # r1572: the page must also say what the ledger has already committed to at the next
     # open, and what the trades it made actually cost -- the table below is the target
     # book, not the book on the account.
@@ -6307,6 +6478,10 @@ def render_md(p, sb=None):
     # a rung that clears on one calendar and fails on three is not a rung to adopt.
     for _vp_line in vt_phases_block(p.get("vt_phases") or {}):
         add(_vp_line)
+    # r1658: both the ladder and the calendar answer are "no"; the third road a reader
+    # reaches for is de-risking in bad states, and it has been priced and refused.
+    for _dk_line in derisk_block(p.get("derisk") or {}):
+        add(_dk_line)
     # r1572: a condition on the list, like the admission above it -- what fills at the
     # next open is not in the table below, and a reader who stops at the table never
     # learns that the account is about to hold a different exposure.
@@ -10348,6 +10523,48 @@ def selftest():
         "被这条线偏爱的那个形态" not in _vp_d2_ok_md
         and "这不是尺子的问题" in _vp_d2_ok_md
         and "最好的两年换成这本书自己的中位年" in _vp_d2_ok_md, _vp_d2_ok_md[-260:])
+    # ---- r1658: the third road (de-risk in bad states), read off its own face ------------
+    _dk_miss = {"status": "unreadable", "readable": False, "why": "no answer block"}
+    _dk_miss_md = "\n".join(derisk_block(_dk_miss))
+    chk("L234 derisk: an unreadable face is reported, never as 'nobody tried'",
+        "无法核验" in _dk_miss_md and "只在坏状态下减仓" in _dk_miss_md, _dk_miss_md)
+    _dk = {"status": "ok", "readable": True, "evidence_cutoff": "2026-11-13",
+           "asof": "2026-11-14T03:31:43+0800", "line": 0.70, "n_phases": 4,
+           "frozen": {"dd_soft_pct": 8.0, "dd_hard_pct": 15.0},
+           "answer": "NO_RULE_CLEARS_BOTH", "closest_rule": "vt08",
+           "closest_fails": ["Y4_top2_share"],
+           "phase_dependent": ["vt08", "loss_cond_vt", "trend_brake"],
+           "phase_stable_pass": [],
+           "mechanism": [
+               {"rule": "vt08", "de_risk_share": 0.8452, "annual_sum_pp": 81.8427,
+                "delta_annual_sum_pp": -29.498, "top2_share": 0.7039, "delta_top2": 0.022,
+                "delta_maxdd_pp": 5.48},
+               {"rule": "dd_brake", "de_risk_share": 0.4405, "annual_sum_pp": 88.3893,
+                "delta_annual_sum_pp": -22.9514, "top2_share": 0.7521, "delta_top2": 0.0702,
+                "delta_maxdd_pp": 1.86}],
+           "verdicts": {"vt08": "CONDITIONAL", "dd_brake": "CONDITIONAL"},
+           "instrument": {"vt08": {"top2_min": 0.6621, "top2_max": 0.786, "spread_pp": 12.39,
+                                   "straddles_line": True, "distance_to_line_pp": 3.79},
+                          "dd_brake": {"top2_min": 0.741, "top2_max": 0.9181, "spread_pp": 17.71,
+                                       "straddles_line": False, "distance_to_line_pp": 4.1}},
+           "control_straddles": True, "path": "results/etf_book_derisk_rule/DERISK-RULE.json"}
+    _dk_md = "\n".join(derisk_block(_dk))
+    chk("L235 derisk: the count, the closest rule's gap and every verdict come off the face",
+        "2 条规则" in _dk_md and "差 0.39pp" in _dk_md and "70.39%" in _dk_md
+        and _dk_md.count("CONDITIONAL") == 2, _dk_md[:600])
+    chk("L236 derisk: 'close but not a rule' is earned by the phase list, not asserted",
+        "不是一条规则" in _dk_md and "从头到尾都过不了" in _dk_md, _dk_md[-700:])
+    # the counter-intuitive half: cutting exposure moves the share UP, and the sentence
+    # must follow the rows rather than be a constant of the code
+    chk("L237 derisk: the direction sentence follows delta_top2 (all up here)",
+        "每一条减仓规则都让 top-2 年占比往上涨" in _dk_md and "+7.02pp" in _dk_md, _dk_md[-700:])
+    _dk_mixed = dict(_dk)
+    _dk_mixed["mechanism"] = [dict(_dk["mechanism"][0], delta_top2=0.022),
+                              dict(_dk["mechanism"][1], delta_top2=-0.031)]
+    _dk_mixed_md = "\n".join(derisk_block(_dk_mixed))
+    chk("L238 derisk: a rule that raises the share does not get the 'every rule' sentence",
+        "每一条减仓规则都让" not in _dk_mixed_md and "不是每一条都如此" in _dk_mixed_md,
+        _dk_mixed_md[-600:])
     # ---- r1572: the promise the ledger made, and the receipt for the fills already paid ---
     _fill_led = os.path.join(_adm_dir, "LEDGER-fill.json")
     _fill_doc = {"seed": {"bar": "2026-10-23", "capital_cny": 1_000_000.0},

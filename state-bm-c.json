@@ -1,7 +1,7 @@
 {
  "activity": "product",
- "activity_now": "r1655: the band table's three rows measure on two panels and none named its bar -- each row now carries priced_bar and the page says it; the section audit reads a day one level down but only when the section agrees with itself",
- "activity_now_round": 1655,
+ "activity_now": "r1658: the derisk family was already priced and refused, the CEO page never cited it -- the page now prints the refusal, its closest rule and the direction every de-risk rule moves the concentration line",
+ "activity_now_round": 1658,
  "agenda_starved": false,
  "ahead_origin": 0,
  "arm_repricing": {
@@ -1222,11 +1222,13 @@
  "round_t1656_next": "next (P0): apply the same 'a bucket that can never empty is not a finding' rule to compute_audit's AGENDA_DEBT (shortfall 3; four calendar candidates all refused, three of them UNADJUDICABLE_PHASE) so the 1.2e4-minute red names what can move it; then carry the no_bar_reason contract to any other page block that is a pointer or an age; watchdog S4U still needs one elevated re-register.",
  "round_t1656_note": "r1656: the undated bucket was three opposite things printed as one -- sources (a pointer block) and authority (hours since a machine wrote) can never carry a bar, while sibling_gap HAD one (session=2026-11-13) and the page dropped it on the 'no priced pair' branch. Page now carries the face's session; each non-measurement block declares no_bar_reason from an enum the auditor validates; the audit publishes two buckets (by-design / stamp-missing) with an additive invariant and stops saying 'cannot verify which day' when nothing owes one. undated 3->2, dated 53->54, stamp_missing=0.",
  "round_t1656b_addendum": "full suite closed inside the round: 578/578 PASS 0 FAIL, 860.5s over 576 legs (results/_smoke_r1656.out); delivered 7cd0bbb5c0 (3b4a1d6dc6..7cd0bbb5c0, 16 files), fetch 0 ahead / 0 behind",
- "rounds": 1656,
- "rounds_done": 1656,
- "rounds_note": "r1655",
+ "round_t1658_next": "next (P0): sweep the same 'a refused road must reach the reader' check across the other published-but-unread verdict faces (commodity sleeve gate / holding-period family / momentum variants) -- each one either gets a named reader or says on the face that no reader exists; second: after 15:30 Monday the 11-16 close reprices the same 5 names, confirm the new section's date line follows the face rather than the page.",
+ "round_t1658_note": "| 2026-11-14 08:00-08:2x | 1658 | **PRODUCT（产品优先律·watermark=insufficient_history 无红）：CEO 页连着三节说「没有一档过闸」「换日历也过不了」，然后停在那里——读者的下一句必然是「那只在坏状态下减仓呢」，而这族规则 11-14 凌晨已经跑过并封死（四条规则、阈值预注册未搜索、五条日历、链里有 check 腿、smoke 两腿全绿），唯独 CEO 页一个字没引。**页面的沉默被读成一个空集**：没有答案＝没人试过＝值得再烧一轮。**修**：新增一节，数字全部从 `results/etf_book_derisk_rule/DERISK-RULE.json` 抄、不重算（E288 同实现）：①4 条规则无一同时过年度闸与买到回撤（answer=NO_RULE_CLEARS_BOTH，回撤改善 0.00～5.48pp，年化合计让出 8.7～29.5pp）；②最接近的 vt08 差 **0.39pp**，但它在 5 条日历里**只是部分日历过闸**（phase_dependent）→按 r1325 不是一条规则；③dd_brake 五条日历**全在闸线外**（74.1%～91.8%），不是「再等几年」；④最值钱的一句是**方向**：每一条减仓规则都把 top-2 年占比往上涨（+2.2～+11.3pp）——分母是各年净收益之和，把书变小分母掉得比分子快，所以「减仓＝更安全」在这条判据上是反的。**自检 297→302/302**（新 5 腿：读不出不得读成「没人试过」／计数与差额逐项来自面／「不是规则」由相位表挣得／方向句跟着 delta_top2 走／某行翻负时整句必须变）。**实证**：页面重生成（bm-a 心跳静默 9.0h>6.0h 接管门，页面自报 WRITING AS bm-c），带日期节 **54→55**、无日期仍 2（sources/authority 按设计）；`s6_chain --only etf_book_ceo_page,live_book_section_bars` **2/2 rc0**。**S0**：identity=bm-c｜orphans=1（集团 `Tools/fleet/agent.py --node b`，非本司只读不杀）｜起手 **ahead=1**（上一窗 r1657b 已提交未推，本轮首动作推上 origin：74f5cb10e4..f2c3133d48）｜树脏 344 件＝车道派生面，本窗只定向提交自有件。**S0.5**：`s05_probe` orders_delta=false／decisions_delta=false／unacked=[] rc0。**S1**：全量套件 08:01 起、08:2x 收口 **578/578 PASS 0 FAIL**（`logs/smoke_r1658.log`）——但套件起跑早于本窗改件，其内 ceo_page 腿印的是旧版 297/297，本窗改件由独立自检 302/302 覆盖（如实）。**S6**：`pool_dualrun_reconcile` ZERO-DRIFT（744 项·streak 51）／`attrition` 4 账本 **CLEAN**（修前 2 处历史缩行 healed，主账 gate_attrition.bm-a heal）／`py_watermark` insufficient_history（py 0%·套件在飞）／`update_daily` rc0 **0 新行**（cutoff 2026-11-13，周六合法 no-op）。**S7**：loop pin=5 **no-op**（首火 08:25 未动）／watchdog 重建成功但 **S4U 第二十四轮被拒（拒绝访问·需管理员）**／pre-commit 与 pre-push 两爪 LF 归一 **MATCH**（零重装）。**CEO 过程可见面**：当前活＝把「已经封死的路」印到读者面前，让下一轮不再重买同样的算术｜最近实物＝`docs/live_book/LIVE-BOOK-20261114.md` 新节「只在坏状态下减仓呢」（4 条规则逐条数字＋方向句）＋`scripts/etf_book_ceo_page.py`（自检 302/302）＋卡 E619｜下个里程碑＝把同一对账法扫一遍其余「已封死」判决面（涨幅/持有期/商品袖三族），每族要么在读者面点名、要么在面上标「无读者」（窗 ≤48h）。**记账**：本行 1 处（+卡 E619 一处，属捕获律收口）。**未验证（如实）**：全量套件未覆盖本窗改件；新节在真实换仓日（12-09）尚未见过一次「明天就动手」的对照。",
+ "rounds": 1658,
+ "rounds_done": 1658,
+ "rounds_note": "r1657",
  "s05_scan": {
-  "consumed": "no new orders or decisions this round -> zero action (double scan: open + closeout)",
+  "consumed": "no new orders or decisions this round -> zero action",
   "decisions_delta": false,
   "orders_delta": false,
   "rc": 0,
@@ -1240,11 +1242,11 @@
   "second_scan": "06:14 both true"
  },
  "s6_chain": {
-  "legs": "attrition_ledger_guard CLEAN (4 ledgers, 7 historical shrinks healed); py_watermark insufficient_history (py 7.5%, local batch in flight); other S6 legs yielded to the in-flight suite",
-  "note": "suite in flight while S6 ran, so only the read-only legs were taken"
+  "legs": "pool_dualrun_reconcile ZERO-DRIFT (744 entries, streak 51) | attrition 4 ledgers CLEAN (2 historical shrinks healed) | py_watermark insufficient_history | update_daily rc0 0 new rows (cutoff 2026-11-13, Saturday no-op)",
+  "note": "full suite in flight while S6 ran, so only the read-only and cheap legs were taken"
  },
  "s7_notes": "loop pin=5 no-op (first fire 07:10) | watchdog in place (next 07:13) | both claws CR-normalized MATCH | attrition 4 ledgers CLEAN (3 historical shrinks healed)",
- "smoke": "578/578 PASS 0 FAIL (results/_smoke_r1656.out)",
+ "smoke": "578/578 PASS 0 FAIL (logs/smoke_r1658.log; started 08:01 before this window's edits)",
  "smoke_closed": {
   "closed_at": "2026-11-14T06:57:54+08:00",
   "fail": 0,
@@ -1255,7 +1257,7 @@
   "started": "2026-11-14T06:39:00+08:00",
   "wall_clock_s": 855.7
  },
- "smoke_out": "results/_smoke_r1656.out",
+ "smoke_out": "logs/smoke_r1658.log",
  "smoke_r1621_out": "results/_smoke_r1621.out",
  "smoke_r1623_out": "results/_smoke_r1623.out",
  "smoke_r1625_closed": {
@@ -1273,18 +1275,18 @@
   "ahead_origin": 0,
   "behind_origin": 0
  },
- "task": "r1656: the undated bucket split by cause -- two blocks that can never carry a bar say so, and the one that had a day keeps it",
+ "task": "r1658: the third road (de-risk only in bad states) was priced and refused -- the CEO page now prints the refusal with its own numbers",
  "total_ram_gb": 23.9,
- "ts": "2026-11-14T06:57:54+08:00",
+ "ts": "2026-11-14T08:20:16+08:00",
  "update_daily": "rc0 0 new rows, cutoff 2026-11-13 (Saturday, before the 15:30 guard)",
- "updated": "2026-11-14T06:57:54+08:00",
- "updated_at": "2026-11-14T07:25:20+08:00",
+ "updated": "2026-11-14T08:20:16+08:00",
+ "updated_at": "2026-11-14T08:20:16+08:00",
  "verdict": "green / insufficient_history (no red)",
- "verify": "live_book_section_bars selftest 57/57 (+6 legs) | etf_book_ceo_page selftest 297/297 (+3 legs) | s6_chain --only etf_book_ceo_page,live_book_section_bars 2/2 rc0 | audit --check CHECK_OK (unknown=2, stamp_missing=0) | smoke 578/578 PASS 0 FAIL (860.5s over 576 legs)",
+ "verify": "etf_book_ceo_page selftest 302/302 (+5 legs L234-L238) | page run rc0 53.6s (WRITING AS bm-c, bm-a silent 9.0h > 6h gate) | live_book_section_bars 55 dated / 2 by-design undated | s6_chain --only etf_book_ceo_page,live_book_section_bars 2/2 rc0 | full suite 578/578 PASS 0 FAIL (logs/smoke_r1658.log, started before the edits)",
  "verify_selftest": "do_or_wait 20/20 (5 new three-state legs: current / newer bar / same bar new bytes / no record / unreadable) ; late_sheet_price 10/10",
  "verify_smoke": "full suite started 07:14 (pythonw pid 31124 -> results/_smoke_r1615.out); 478+ lines, no FAIL seen, not closed at round end; modules changed mid-run so the closing numbers are the previous generation",
  "verify_smoke_closed": "full suite started 07:14 closed 576/576 PASS 0 FAIL, wall clock 852.9s over 574 legs; started before the two module edits, so the ceo_page leg inside it printed the previous generation's 260/260 (new legs L214/L215 verified by selftest 262/262)",
  "vram_free_gb": 14.5,
  "watermark_verdict": "insufficient_history",
- "went_well": "three readings were sharing one word; the fix was to let each block say which it is"
+ "went_well": "the page had been saying 'no rung works' and 'no calendar works' and then stopping; the third road a reader reaches for was priced nine hours earlier and never cited"
 }
