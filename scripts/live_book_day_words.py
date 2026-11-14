@@ -105,7 +105,7 @@ def _doc_value(doc, path):
     return v
 
 
-def _date_claims(rows, doc, rules=None):
+def _date_claims(rows, doc, rules=None, unmapped_classifier=None):
     """Read every printed date against the field its sentence quotes.
 
     Three readings, and only one of them is green: `ok` (the sentence's date is the one the
@@ -114,9 +114,16 @@ def _date_claims(rows, doc, rules=None):
     A date no rule claims is `unmapped`: the face does not know which paper that sentence
     quotes, and it says so rather than counting it as checked (r1471 family: reading a face
     is not the same as having a writer for it).
+
+    `unmapped_classifier(rec) -> bucket or None` lets a longer paper sort its leftovers
+    instead of either writing one rule per sentence or dropping forty dates into one
+    anonymous debt bucket (r1674: the third paper prints 67 dates). A bucket is a *reason
+    this date is not checked* (`identifier`, `policy`, `member_of_twin`) and it never counts
+    as checked: the counts are printed beside the checked ones.
     """
     rules = CLAIM_RULES if rules is None else rules
     claims, mismatches, unmapped = [], [], []
+    buckets, bucket_rows = {}, {}
     n_ok = n_unverif = 0
     for row in rows or []:
         line = row.get("line") or ""
@@ -142,12 +149,23 @@ def _date_claims(rows, doc, rules=None):
                     claims.append(rec)
         for m in DATE_IN_TEXT.finditer(line):
             if not any(a <= m.start() < b for a, b in covered):
-                unmapped.append({"heading": row.get("heading"), "date": m.group(0),
-                                 "line": line[:140]})
+                rec = {"heading": row.get("heading"), "date": m.group(0),
+                       "line": line[:140]}
+                bucket = None
+                if unmapped_classifier is not None:
+                    bucket = unmapped_classifier(rec)
+                if bucket:
+                    buckets[bucket] = buckets.get(bucket, 0) + 1
+                    rows_ = bucket_rows.setdefault(bucket, [])
+                    if len(rows_) < 20:
+                        rows_.append(rec)
+                else:
+                    unmapped.append(rec)
     return {"n_claims": len(claims), "n_ok": n_ok, "n_mismatch": len(mismatches),
             "n_unverifiable": n_unverif, "n_unmapped": len(unmapped),
             "n_rules": len(rules), "claims": claims[:40],
-            "mismatches": mismatches[:20], "unmapped": unmapped[:20]}
+            "mismatches": mismatches[:20], "unmapped": unmapped[:20],
+            "buckets": buckets, "bucket_rows": bucket_rows}
 FACE = os.path.join(ROOT, "results", "live_book_day_words.json")
 POINTER = os.path.join(ROOT, "docs", "live_book", "latest.json")
 

@@ -1102,6 +1102,15 @@ def main() -> int:
             ("product: live-book day words sit on the page's own day (exit-code contract)",
              "scripts/live_book_day_words.py", ["--selftest"]),
 
+            # r1674: the daily report is the third paper and the longest one (67 dates, 7 day
+            # words on 2026-11-14). Its legs pin what the two shorter papers could assume: a
+            # day word is read against ITS OWN section's bar (today's floor-compliance count is
+            # about today, the book's instruction is about Friday), a printed date the twin JSON
+            # never mentions is a named finding rather than a pass, and a ticket id is counted
+            # apart instead of quietly counting as checked.
+            ("product: daily-report day words and printed dates agree with their own faces",
+             "scripts/daily_report_day_words.py", ["--selftest"]),
+
             # r1409: the textbook dual-momentum rotation (zoo #82) priced on the published
             # book's own panel. Its legs pin the two ways a gate can lie about itself: a name
             # that fails the 60-bar absolute gate must be unselectable (not merely ranked

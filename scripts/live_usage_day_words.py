@@ -131,20 +131,29 @@ def _day_word_rows(rows):
     return [r for r in rows if any(w in (r.get("line") or "") for w in LBW.DAY_WORDS)]
 
 
-def _day_claims(rows, page_day, bar_day):
-    """Value-claiming today-words, each read against the day the page's own bar falls on."""
+def _day_claims(rows, page_day, bar_day, rules=None, bar_for=None, honest_forms=None):
+    """Value-claiming today-words, each read against the day the page's own bar falls on.
+
+    `bar_for(field) -> day` lets a paper whose sections are priced on different bars answer
+    per sentence instead of borrowing one page-wide bar (r1674: the daily report puts today's
+    floor-compliance count beside the ETF book's Friday price). `honest_forms` replaces the
+    page's own list of forms that say the day has nothing yet.
+    """
+    rules = DAY_CLAIM_RULES if rules is None else rules
+    honest_pats = DAY_HONEST_RULES if honest_forms is None else honest_forms
     claims, offenders, honest = [], [], []
     for row in rows or []:
         line = row.get("line") or ""
-        if any(p.search(line) for p in DAY_HONEST_RULES):
+        if any(p.search(line) for p in honest_pats):
             honest.append({"heading": row.get("heading"), "line": line[:140]})
             continue
-        for pat, field, why in DAY_CLAIM_RULES:
+        for pat, field, why in rules:
             if not pat.search(line):
                 continue
-            stale = bool(page_day and bar_day and page_day != bar_day)
+            bar = bar_for(field) if bar_for is not None else bar_day
+            stale = bool(page_day and bar and page_day != bar)
             rec = {"heading": row.get("heading"), "field": field, "why": why,
-                   "page_day": page_day, "bar_day": bar_day,
+                   "page_day": page_day, "bar_day": str(bar)[:10] if bar else None,
                    "reading": "stale_day" if stale else "same_day",
                    "line": line[:160]}
             claims.append(rec)

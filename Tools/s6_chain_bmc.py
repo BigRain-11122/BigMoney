@@ -1255,6 +1255,15 @@ LEGS = [
     ("live_usage_day_words",
      ["python", "scripts/live_usage_day_words.py", "check"],
      ["python", "scripts/live_usage_day_words.py", "run"]),
+    # r1674: the third paper, and the one that asks the question hardest (37 claimed dates,
+    # 48 more sorted into buckets, 7 day words on 2026-11-14). Two things differ from the two
+    # shorter papers and both are pinned by this leg: the bar is read per SENTENCE (this page
+    # prints today's floor-compliance count next to Friday's book price), and a printed date
+    # the twin JSON never mentions is a named finding rather than an unread rule. Reads the
+    # published pair only (0.3s).
+    ("daily_report_day_words",
+     ["python", "scripts/daily_report_day_words.py", "check"],
+     ["python", "scripts/daily_report_day_words.py", "run"]),
     # r1464: premium_leak priced WHAT the ticket pays above the basket but could not answer
     # "is 23% high?" (one observation of history). The answerable question is relative: the
     # same basket is sold under several tickers on the same board. `check` re-reads the board

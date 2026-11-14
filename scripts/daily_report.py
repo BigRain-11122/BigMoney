@@ -34,6 +34,7 @@ Exit codes: 0 = written/selftest pass; 2 = mechanism failure (honest, report as-
 import glob
 import json
 import os
+import re
 import subprocess
 import sys
 from datetime import datetime, timedelta
@@ -47,6 +48,7 @@ import merge_lane_views as lane_views
 # prints the forward LEDGER -- two books, one name.  Both faces now quote the
 # same identity implementation instead of each describing its own book.
 import etf_book_identity as book_identity
+from etf_book_ceo_page import day_word
 
 
 def _lane_view(face):
@@ -1176,7 +1178,13 @@ def render_md(rep):
     else:
         L.append(f"- 候选产线 · 常青 N1 波链：{ew.get('note') or '面未产出——如实标注'}")
     L.append("")
-    L.append("## 四、决策面（今日 GM 自主决策日志尾）")
+    # r1674: 「今日 GM 自主决策日志尾」 printed 今日 over a log whose last entry was 2026-09-26.
+    # A heading that says 今日 about a stale log is the same borrowed day as a sentence, so the
+    # heading now names the last entry it actually shows.
+    _dtail = rep.get("decisions_tail") or []
+    _dm = re.match(r"^-\s*(20\d{2}-\d{2}-\d{2})", str(_dtail[0])) if _dtail else None
+    L.append("## 四、决策面（GM 自主决策日志尾 · 最后一条 %s）"
+             % (_dm.group(1) if _dm else "无在册条目"))
     for ln in rep.get("decisions_tail", []):
         L.append(f"- {ln[2:]}")
     L.append("")
@@ -1430,11 +1438,16 @@ def render_md(rep):
         if mr.get("down_over_up") is not None:
             L.append(f"- 跌停/涨停 = **{mr.get('down_over_up')}**")
         if mr.get("kill_day") is not None:
-            L.append("- 读法（机械口径，不含判据）：跌停数 ≥ 涨停数 → 记为**杀跌日**；"
-                     f"今日 {'是' if mr.get('kill_day') else '否'}")
+            # r1674: this sentence printed 「今日 否」 on a Saturday while the four panels it
+            # reads were the 2026-11-13 close -- the reader's day had no session. Naming the
+            # bar costs one word and is true every day; the word 今日 never is (r1664 family).
+            _cut = str(mr.get("cutoff") or "")[:10]
+            _head = f"（bar {_cut}）" if _cut else "；"
+            L.append("- 读法（机械口径，不含判据）：跌停数 ≥ 涨停数 → 记为**杀跌日**"
+                     f"{_head}{'是' if mr.get('kill_day') else '否'}")
         elif (mr.get("kill_day_unavailable") or {}).get("note"):
-            L.append("- 读法（机械口径，不含判据）：跌停数 ≥ 涨停数 → 记为**杀跌日**；"
-                     "今日 **未判** —— " + mr["kill_day_unavailable"]["note"])
+            L.append("- 读法（机械口径，不含判据）：跌停数 ≥ 涨停数 → 记为**杀跌日**"
+                     "（两池不同日，**未判**）—— " + mr["kill_day_unavailable"]["note"])
         ser = mr.get("series") or []
         if len(ser) > 1:
             L.append("")
@@ -1517,7 +1530,9 @@ def render_md(rep):
             L.append(f"- 此刻仍开着的空档：自 {og.get('since')} 起 {og.get('unexplained_low_min')}"
                      f"–{og.get('unexplained_high_min')} 分钟未解释（含已声明静默窗的扣除）")
     L.append("")
-    L.append("## 十二、ETF 那本账（纸盘：今天该不该动、能期待什么）")
+    # r1674: 「今天该不该动」 in a title asks the reader's day; on a Saturday the answer can only
+    # be about the last bar. The question is the same one, asked without borrowing a day.
+    L.append("## 十二、ETF 那本账（纸盘：现在该不该动、能期待什么）")
     eb = rep.get("etf_book") or {}
     if eb.get("status") != "ok":
         L.append(f"- 账本面{'读不出' if eb.get('status') == 'unreadable' else '未产出'}"
@@ -1535,11 +1550,16 @@ def render_md(rep):
         # bought a portfolio the other never described.
         L.extend(book_identity.lines(book_identity.face()))
         ta = eb.get("today_action") or {}
+        # r1674: 「今天：不动」 was the reader's day over Friday's bar. Same one-word fix as the
+        # kill-day line above, through the one implementation of the word (etf_book_ceo_page
+        # .day_word) rather than a fourth copy of the same three lines.
+        _word = day_word(rep.get("report_date"), ta.get("priced_bar"))
+        _when = "今天" if _word == "今天" else "在 %s 那根 bar 上" % _word
         if ta.get("mode") == "hold":
-            L.append(f"- 今天：**不动**（继续持有到 {ta.get('next_trade_date')}）；"
+            L.append(f"- {_when}：**不动**（继续持有到 {ta.get('next_trade_date')}）；"
                      f"现在换一次书=年化让出 {ta.get('cost_if_retraded_pct_per_year')}%")
         elif ta.get("mode"):
-            L.append(f"- 今天：{'**换书**' if ta.get('mode') == 'trade' else ta.get('mode')}")
+            L.append(f"- {_when}：{'**换书**' if ta.get('mode') == 'trade' else ta.get('mode')}")
         fw = eb.get("forward") or {}
         if fw.get("as_of"):
             L.append(f"- 前向账本 {fw.get('bars')} 根 bar（{fw.get('inception')}→{fw.get('as_of')}）："
@@ -1923,7 +1943,7 @@ def selftest():
                    "**跌停池 141**（前 2026-09-25 35，+106）",
                    "封板率 60.9%", "连板梯队：1 板 33 / 2 板 4 / 3 板 1 / 4 板 1",
                    "最高 **4 连板**（1 只）：TEST股份", "跌停/涨停 = **3.615**",
-                   "记为**杀跌日**；今日 是"):
+                   "记为**杀跌日**（bar 2026-09-26）是"):
         assert marker in md, marker
     # r1162: the authorship section must print the board's OWN sentence, and an
     # absent/garbled board must read absent -- never an empty attribution table
