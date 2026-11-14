@@ -662,6 +662,11 @@ def read_published(path=OUT_JSON):
             # tell a moved panel from a stale face (r1624's vol-window pair added the same key).
             "panel": doc.get("panel"),
             "evidence_cutoff": ((doc.get("panels") or {}).get("card") or {}).get("last_bar"),
+            # r1660: the face already publishes which bar its control arms were re-priced on,
+            # and says in its own words that the dial prices then explain this face's rows
+            # rather than the rows printed on the page that day. A consumer cannot honour a
+            # limit it is never handed, so the scope rides the same reader.
+            "identity_scope": doc.get("identity_scope"),
             "published_faces": doc.get("published_faces")}
 
 

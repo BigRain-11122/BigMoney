@@ -745,7 +745,7 @@ def band_ruler_face(path=BAND_RULER_JSON):
                 "detail": "reading failed (%s)" % str(exc)[:120]}
 
 
-def band_ruler_block(br):
+def band_ruler_block(br, band=None):
     """The lines this page prints about who priced its own table.
 
     Factored out (like `lookahead_block`) so a selftest can feed a missing / drifted / ok
@@ -770,7 +770,10 @@ def band_ruler_block(br):
           "IDENTITY_FAILED": "**对照臂没复现，这一节不许引用**"}.get(v.get("state"), "**%s**" % v.get("state"))
     add("- 判决：%s。把这三行摆在一张表里比较，比的不只是策略。" % zh)
     cells = br.get("cells") or {}
-    held = cells.get("held/causal/card") or {}
+    # r1660: "the book you hold" is the ticket's class universe, not the card's. The old
+    # pick (held/causal/card) printed 7.22 / 12.13 one heading above a table whose own first
+    # row says 7.66 / 12.59 -- two numbers for the same claim on the same page.
+    held = cells.get("held/causal/ticket") or cells.get("held/causal/card") or {}
     if (held.get("full") or {}).get("cagr_pp") is not None:
         add("- 同一本书（你手上这本，5 名·beta 0.20）按同一把手量：全窗 %.2f%% / 2024 起 %.2f%%——"
             "同一个策略，两段时期差 %+.2f 个点。"
@@ -786,8 +789,39 @@ def band_ruler_block(br):
             bits.append("%s %+.2f" % (name, val))
     if bits:
         add("- 四个旋钮各自值多少（pp/年，正＝后者读得更高）：%s。" % "、".join(bits))
-    add("- 所以按列读表（12.78 对 9.60）与按同一段读表（12.78 对这张表自己印的 2024 起 18.35）"
-        "会得出相反的排序。要比较，请只在同一列里比。")
+    # r1660: the old sentence quoted 12.78 / 9.60 / 18.35 -- three numbers from the run that
+    # wrote this block. The table above has since been re-priced, so the page carried two
+    # generations of the same claim. Price the crossing from the table it actually prints.
+    _rows = list((band or {}).items())
+    _gap = None
+    if len(_rows) >= 2:
+        _a = ((_rows[0][1] or {}).get("full") or {}).get("cagr_pct")
+        _b = ((_rows[-1][1] or {}).get("full") or {}).get("cagr_pct")
+        if _a is not None and _b is not None:
+            _gap = float(_b) - float(_a)
+    _wp = (pr.get("window") or {}).get("price_pp")
+    if _gap is not None and _wp is not None:
+        add("- 第一行读 2024 起、另两行读 2020 起。只换这一根起点，同一本书就差 %+.2fpp/年"
+            "——%s上表第一行与最后一行在**同一列**里的差（%+.2f）。跨列相减，"
+            "减掉的可能是时期，不是策略。要比较，请只在同一列里比。"
+            % (_wp, "还大于" if abs(_wp) > abs(_gap) else "小于", _gap))
+    else:
+        add("- 第一行读 2024 起、另两行读 2020 起：跨列相减，减掉的可能是时期，不是策略。"
+            "要比较，请只在同一列里比。")
+    # r1660: this face publishes the limit itself -- its dial prices explain its own three
+    # rows, and split from the page's rows as soon as the two pricing bars differ. Print the
+    # split only when it is real (a caveat printed every day gets skipped, r1595).
+    _isc = br.get("identity_scope") or {}
+    _face_bar = _isc.get("page_priced_bar")
+    _owns = _isc.get("priced_on") or {}
+    _row_bars = sorted({str((r or {}).get("priced_bar")) for _, r in _rows
+                        if (r or {}).get("priced_bar")})
+    if _face_bar and _row_bars and str(_face_bar) not in _row_bars:
+        add("- **这套旋钮价格量的不是本页这三行**：它的对照臂按 **%s** 那份页面复现"
+            "（卡片 %s / 票 %s），而本页表停在 **%s**。两个日子不同时，上面四个数是那一天的差价，"
+            "不是这一天的。"
+            % (_face_bar, _owns.get("card") or "—", _owns.get("ticket") or "—",
+               "、".join(_row_bars)))
     add("")
     add("> 尺子面：`%s` ｜ 定价截止 %s ｜ 身份门 %s"
         % (str(br.get("artifact") or "").replace(os.sep, "/"), br.get("evidence_cutoff") or "—",
@@ -6902,7 +6936,7 @@ def render_md(p, sb=None):
     for _ra_line in research_arc_block(p.get("research_arc") or {}):
         add(_ra_line)
     # r1213: the table's rows are not one ruler -- say which, where the table is read.
-    for _br_line in band_ruler_block(p.get("band_ruler") or {}):
+    for _br_line in band_ruler_block(p.get("band_ruler") or {}, p.get("backtest_band") or {}):
         add(_br_line)
     # r1216: the table's first row used to print the ticket's own 683-bar return under the
     # 全窗 header. Say, where the row is read, which window each of its two cells holds.
@@ -10954,6 +10988,46 @@ def selftest():
         json.dumps({k: _dw_live.get(k) for k in ("status", "stale_receipts", "why")},
                    ensure_ascii=False)[:200])
     shutil.rmtree(_adm_dir, ignore_errors=True)
+
+    # r1660: this block had never had a leg, and it carried two generations of numbers plus a
+    # row label that pointed at the card's universe for the reader's own book.
+    _br_ok = {"status": "ok", "artifact": "results/etf_book_band_ruler.json",
+              "verdict": {"state": "ROWS_NOT_COMPARABLE"},
+              "dial_prices": {"window": {"price_pp": 4.91}, "universe": {"price_pp": 0.44},
+                              "ordering": {"price_pp": -0.56}, "cost": {"price_pp": -0.15}},
+              "cells": {"held/causal/ticket": {"full": {"cagr_pp": 7.66},
+                                               "ticket_window": {"cagr_pp": 12.59}},
+                        "held/causal/card": {"full": {"cagr_pp": 7.22},
+                                             "ticket_window": {"cagr_pp": 12.13}}},
+              "identity": {"a": {"pass": True}},
+              "evidence_cutoff": "2026-11-13",
+              "identity_scope": {"page_priced_bar": "2026-11-12",
+                                 "priced_on": {"card": "2026-11-12",
+                                               "ticket": "2026-11-12"}}}
+    _br_band = {"5 名·可执行单口径（本单这份账）": {"full": {"cagr_pct": 7.66},
+                                             "priced_bar": "2026-11-13"},
+                "12 名·8% 波动目标（生产卡片口径）": {"full": {"cagr_pct": 9.59},
+                                              "priced_bar": "2026-11-13"}}
+    _br_md = "\n".join(band_ruler_block(dict(_br_ok), _br_band))
+    chk("L241 the reader's own book is the ticket universe, not the card's",
+        "7.66%" in _br_md and "12.59%" in _br_md and "7.22%" not in _br_md,
+        _br_md[:240])
+    chk("L242 no number from a previous generation survives in this block",
+        "12.78" not in _br_md and "9.60" not in _br_md and "18.35" not in _br_md
+        and "4.91" in _br_md and "+1.93" in _br_md,
+        _br_md[:240])
+    chk("L243 a dial price measured on another bar says which bar, and says it is not this one",
+        "2026-11-12" in _br_md and "2026-11-13" in _br_md
+        and "量的不是本页这三行" in _br_md,
+        _br_md[:240])
+    _br_same = dict(_br_ok, identity_scope={"page_priced_bar": "2026-11-13",
+                                            "priced_on": {"card": "2026-11-13",
+                                                          "ticket": "2026-11-13"}})
+    _br_same_md = "\n".join(band_ruler_block(_br_same, _br_band))
+    chk("L244 the split caveat is silent when the two bars agree (a daily caveat gets skipped)",
+        "量的不是本页这三行" not in _br_same_md and "4.91" in _br_same_md,
+        _br_same_md[:240])
+
     print("\nSummary: %d/%d PASS%s" % (ok, total, "" if ok == total else " -- %d FAIL" % (total - ok)))
     return 0 if ok == total else 1
 

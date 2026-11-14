@@ -53,7 +53,7 @@
   "state": "registered (FOUND)",
   "task": "HQ-ProductionClaim"
  },
- "clock_read": "2026-11-14T08:44:34+08:00",
+ "clock_read": "2026-11-14T09:05:00+08:00",
  "codely_live_count": 2,
  "comfy_free_vram_mb": 14015,
  "cores": 32,
@@ -1228,8 +1228,8 @@
  "round_t1659_next": "next (P0): the same 'priced but unread' sweep one level out -- results/etf_book_band_ruler.json already says the rows are three rulers (window +4.91pp / universe +0.44pp / ordering -0.56pp on the book the operator holds); check whether the page's own expectation table names those three dials per row or only in a footnote. Second: Monday 11-16 after 15:30 the 5 names reprice -- confirm this new section's ladder follows the receipts (it should turn stale the moment cut_order_gap moves).",
  "round_t1659_note": "PRODUCT（产品优先律·watermark=py_low_with_work_cands 无红）：CEO 页连印了『今天不用动手』『下一个动手日 12-09』『开盘要成交什么』，但**从来没有印过**『真要动手的那天，是当天做还是等几根 bar 更便宜』。这一问 11-14 凌晨就算完了（results/etf_book_do_or_wait.json：k=1..10 的等待梯子 + 单张硬币披露，链里有 do_or_wait 腿、自检 13/13 全绿），**页面上一个字都没有**——E240 族『有产无读』，而这里的沉默会被读成『没人试过，值得再烧一轮』。修法：①在 etf_book_do_or_wait.py 加单一实现 read_published()（四态 current/stale/unknown/unreadable，把它定价用的两张收据 cut_order_gap + late_sheet_price 的字节一起核；stale 是『这张面在给另一张单提建议』，不是『面坏了』）；②CEO 页新节「今天动手，还是等几天？」接在『开盘要成交的是什么』之后——判词、梯子每一档、单张硬币全部从面抄，页面不重算；③自检 302→309/309（7 腿：接线/逐档来自面/陈旧时一档都不印/未知不得读成『今天没有到期的事』/不可读不得印判决/两种判词不得同页/真面必须 current）。**实读**：今天 NOTHING_OWED_TODAY（没有到期的事），基准=什么都不做；真要动手时今天是最便宜的一档，等 1/2/3/5/10 根 bar 分别是 **+1798 / +2638 / +2912 / +4071 / +4025 CNY**；单张单子晚一根 bar 的中位数是 **-932 CNY**，**41%** 的情况里等待其实更好（t=-4.57）——均值定价了，一张单子仍是硬币。页面实读（11-13 收盘）：5 单合计 **¥431,770** + 现金 **¥568,230** 进 GC001，下一个动手日 **2026-12-09**。",
  "round_t1659b_addendum": "delivered b016f5ecc3 (8ea4fc69a3..b016f5ecc3, 18 files +474/-131); fetch 0 ahead / 0 behind; S0.5 rescan both false, unacked [] rc0; orphans=1 (group Tools/fleet/agent.py, not this firm)",
- "rounds": 1659,
- "rounds_done": 1659,
+ "rounds": 1660,
+ "rounds_done": 1660,
  "rounds_note": "r1657",
  "s05_scan": {
   "consumed": "no new orders or decisions this round -> zero action",
@@ -1279,18 +1279,20 @@
   "ahead_origin": 0,
   "behind_origin": 0
  },
- "task": "r1659: do-or-wait was a priced verdict with no reader on the page the CEO actually opens",
+ "task": "r1660: the ruler block quoted three numbers from the run that wrote it, called the card universe the reader's book, and never handed out the limit the face itself publishes",
  "total_ram_gb": 23.9,
- "ts": "2026-11-14T08:48:17+08:00",
+ "ts": "2026-11-14T09:05:00+08:00",
  "update_daily": "rc0 0 new rows, cutoff 2026-11-13 (Saturday, before the 15:30 guard)",
- "updated": "2026-11-14T08:48:17+08:00",
- "updated_at": "2026-11-14T08:48:17+08:00",
+ "updated": "2026-11-14T09:05:00+08:00",
+ "updated_at": "2026-11-14T09:05:00+08:00",
  "verdict": "green / py_low_with_work_cands (no red; py 3.3% because the smoke suite is the one live batch)",
- "verify": "etf_book_ceo_page selftest 309/309 (+7 legs L234-L240) | page run rc0 (5 names, book 431,770, cash 568,230, next 2026-12-09) | new section present at line 4457 of LIVE-BOOK-20261114.md with the face's own numbers (+1798/+2638/+2912/+4071/+4025, -932, 41%, t=-4.57) | s6_chain --only do_or_wait,etf_book_ceo_page,ceo_page_ticket_days,ceo_page_card_days,live_book_section_bars 5/5 rc0 | do_or_wait check 13/13 | zh_page_prose_census 6 hits/0 new | reader_text_audit rc0",
+ "verify": "band_ruler read_published now returns identity_scope | ceo_page selftest 313/313 (L241 ticket universe 7.66/12.59 not card 7.22 | L242 no 12.78/9.60/18.35, both 4.91 and +1.93 present | L243 splits on 11-12 vs 11-13 | L244 silent when both are 11-13) | page run rc0 (5 names, book 431770, cash 568230, next 2026-12-09) | live section read: 7.66/12.59, +4.91 vs +1.93, split named | s6_chain --only etf_book_band_ruler,etf_book_ceo_page,live_book_section_bars 3/3 rc0",
  "verify_selftest": "do_or_wait 20/20 (5 new three-state legs: current / newer bar / same bar new bytes / no record / unreadable) ; late_sheet_price 10/10",
  "verify_smoke": "full suite started 07:14 (pythonw pid 31124 -> results/_smoke_r1615.out); 478+ lines, no FAIL seen, not closed at round end; modules changed mid-run so the closing numbers are the previous generation",
  "verify_smoke_closed": "full suite started 07:14 closed 576/576 PASS 0 FAIL, wall clock 852.9s over 574 legs; started before the two module edits, so the ceo_page leg inside it printed the previous generation's 260/260 (new legs L214/L215 verified by selftest 262/262)",
  "vram_free_gb": 14.5,
  "watermark_verdict": "py_low_with_work_cands",
- "went_well": "the page had been saying 'no rung works' and 'no calendar works' and then stopping; the third road a reader reaches for was priced nine hours earlier and never cited"
+ "went_well": "the page had been saying 'no rung works' and 'no calendar works' and then stopping; the third road a reader reaches for was priced nine hours earlier and never cited",
+ "round_t1660_note": "PRODUCT. The CEO-page section that explains who priced its own expectation table had never had a selftest leg. Three defects survived from r1213: (1) it quoted 12.78 / 9.60 / 18.35 from the run that wrote the block while the table above had been repriced to 7.66 / 12.59 / 9.59 -- two generations of one claim on one page; (2) it labelled held/causal/card (7.22 / 12.13) as the book the reader holds, which is the ticket universe (7.66 / 12.59); (3) etf_book_band_ruler already publishes identity_scope -- its dial prices explain its own three rows, not the page's rows, once the two pricing bars differ -- and read_published() did not return it, so no consumer could honour a limit it was never handed. Fixes: the reader now passes identity_scope; the block takes the page band as an argument and prices the window dial against the table it actually prints (+4.91pp/yr > the +1.93 same-column gap, so a cross-column subtraction removes period, not strategy); the held row switched to ticket with card as fallback; the split caveat prints only when page_priced_bar is absent from the row bars (L243 vs L244). Selftest 309 -> 313/313 (L241-L244, first-ever coverage of this block). Live read after regeneration: the section now says 7.66 / 12.59, +4.91 vs +1.93, and carries the real 2026-11-12-vs-2026-11-13 split.",
+ "round_t1660_next": "next (P0): the same 'which generation wrote these numbers' sweep over the other blocks that quote a face by hand -- the premium / derisk / sleeve blocks each print frozen literals; check each against its own selftest coverage, since a block with no fixture silently freezes. Second: Monday 11-16 after 15:30 the 5 names reprice -- confirm the band tables reprice and that identity_scope.page_priced_bar catches up, otherwise the split caveat keeps firing (which is correct, not noise)."
 }
