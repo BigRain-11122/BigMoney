@@ -14943,3 +14943,20 @@ selftest 27/27）+ `scripts/etf_book_year_gate.py`（`decision` 落盘）+ `resu
 `ticket_day_words.py` 的 `anchored_to_decision_bar` 就是这条，7/7 张历史票面各 3 处未锚定。
 
 指针：`scripts/ticket_day_words.py`（selftest 10/10）+ `results/ticket_day_words.json` + `scripts/etf_book_beta_menu.py`（`render`/`staleness`，selftest 32/32）。
+
+### E641 · 对照腿失败时先问「这两个东西在同一个宇宙里吗」，再问「估计器坏了吗」（r1685 bm-c）
+
+股指期货贴水的对照组是「510300 对 sh000300」，冻结阈值写成 |ETF - 指数| <= 1.0%/yr，实测 +1.77/+0.88/+2.96%/yr
+—— 三条腿全败。第一反应是估计器有问题，实际是这两个序列**经济上就不同**：ETF 收分红进净值，价格指数不收，
+所以 ETF 每年多出约分红率的 1.8-3.0%。同族陷阱：把对照组当「零假设」，于是它一偏离就判自己的测量无效。
+
+三条可复用：①**对照腿的量纲要和被测腿相同** —— 这里的决策对象是「持有期货 vs 持有 ETF」，所以 carry 要减掉
+ETF 的结构漂移（net carry），而不是要求 ETF 与指数相等；②**漂移的方向和量级要能被外部事实解释**
+（这里 = 分红率；实测落在 0-6% 带内即通过，落在负区或 >6% 才是估计器坏了）；③**改判据必须留原判据**
+—— erdict.criteria_revision 同时存 original/now/why，并且写明「按原口径读回 KILL 也成立」，
+否则下一个读者无法分辨「先冻结后看数」和「看到数再挪线」。
+
+读数：净值 carry IC +4.16%/yr、IM +6.00%/yr 过线，IF +0.80、IH +1.74 不过 -> OPEN；
+原口径下 C3=False -> KILL。一句话：**对照组不该是「另一个也应该一样的东西」，而是「你本来会持有的那个东西」**。
+
+指针：\scripts/idx_fut_basis.py\（selftest 9/9，L8 对照污染即 KILL）+ esults/idx_fut_basis.json\ + esearch/IDX_FUT_BASIS_VERDICT.md\。
