@@ -1269,8 +1269,8 @@
   "nonzero": 0,
   "out": "results/_s6chain_r1662.out"
  },
- "s7": "loop pin=5 no-op (first fire 15:00) | watchdog in place (next 14:57) | pre-commit claw CR-normalised MATCH | pre-push MATCH | attrition CLEAN (4 ledgers, 2 historic shrinks healed)",
- "s7_notes": "loop pin=5 no-op (first fire 12:40) | watchdog re-registered, S4U refused 26th time | both claws LF-normalised",
+ "s7": "loop pin=5 no-op (first fire 18:10) | watchdog in place, first fire 18:08 | pre-commit claw LF-normalized reinstall | pre-push claw LF-normalized reinstall | attrition CLEAN (4 ledgers, 2 historic shrinks healed)",
+ "s7_notes": "watchdog S4U XML flip refused for the 27th time -> task left at default principal (needs manual S4U re-pass)",
  "smoke": "full suite 14:43-15:0x -> results/_smoke_r1668.out: 480 legs seen, 1 FAIL (the day-word smoke leg still unpacked the old 3-tuple _read; introduced and fixed this round, single-leg re-run green), no final tally -- not claimed green",
  "smoke_closed": {
   "closed_at": "2026-11-14T06:57:54+08:00",
@@ -1313,14 +1313,15 @@
  "status": "round-closed",
  "sync": {
   "ahead_origin": 0,
-  "behind_origin": 0
+  "behind_origin": 0,
+  "commit": "793e0a0aff"
  },
  "task": "r1675: the last owed today-word (the ticket sheet) now names its own bar",
  "total_ram_gb": 23.9,
- "ts": "2026-11-14T18:10:00+08:00",
+ "ts": "2026-11-14T18:13:00+08:00",
  "update_daily": "rc0 0 new rows, cutoff 2026-11-13 (Saturday, before the 15:30 guard)",
- "updated": "2026-11-14T18:10:00+08:00",
- "updated_at": "2026-11-14T18:10:00+08:00",
+ "updated": "2026-11-14T18:13:00+08:00",
+ "updated_at": "2026-11-14T18:13:00+08:00",
  "verdict": "green",
  "verify": "etf_book_ceo_page selftest 349/349 PASS (new L133 later-day names the bar / L134 same-day keeps 今天; L261 now probes owed() with a fixture row; L127 builds the compared block with the page's own page_day) | page rebuilt docs/live_book/LIVE-BOOK-20261114.md, live read: '2026-11-13 那张可执行单实际持 5 名（bar 2026-11-13）' | PAGE_DAY_LEDGER owed rows 1 -> 0 | pool_dualrun ZERO-DRIFT streak 51 | py_watermark py_low_with_work_cands",
  "verify_selftest": "etf_book_ceo_page 349/349 PASS",
