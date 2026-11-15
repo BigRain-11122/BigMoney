@@ -15633,3 +15633,13 @@ research/ETF_BOOK_CAUSAL_HEADLINE.md · smoke 既有腿（check 契约）
 **正法**：①滚动次数一律从同一份交易日历数（窗口 `[anchor-365d, anchor+1d)` 复用 `forward_rolls`，锚点只在它真是会话时被计）；②费率从同一张 `FEE_BP` 表派生，禁第二份假设；③**毛数一个不动**，净数是加上的孪生字段（`net_pct`/`net_annual_cny`），发布读数不因加口径而漂移；④句子必须点名「按过去一年这张交易日历」，否则读者会把 243 套到 23 天的窗口上去；⑤旧块（无费率字段）在页面上不印净数，也不许被读成净值。
 
 **正身**：scripts/etf_book_order.py `annual_rolls`/`cash_money`（selftest leg4zf/4zg/4zi/4zj/4zk）+ scripts/etf_book_ceo_page.py `cash_money_block` 净口径行（L304d/L304e）+ results/etf_book_order/ORDER-2026-11-13.md 第 249 行 + docs/live_book/LIVE-BOOK-20261116.md 第 323 行
+
+## E666 — 「分离起跑失败」与「起跑成功」长得一模一样（r1751 bm-c）
+
+**症状**：把全量套件丢到后台跑，`Start-Process` 返回了一个对象、没有任何报错，于是轮报告写「已分离起跑」。实际盘上没有输出文件、也没有 `smoke_test` 进程——**假起跑**。本窗两次实弹：①`pythonw -c "import subprocess,sys; subprocess.run(... stdout=open(...))"` 从 PowerShell 传参时引号被吃掉，进程起来即退，什么都不落；②只用 `-PassThru` 不看 `HasExited`，把「起来了又立刻死」当在飞。
+
+**为什么危险**：它与「真在跑」在**调用方**看来完全一样（同一个返回、同一个零报错），而受害的是下游的诚实面——下一轮读到「上轮套件在飞」，就再也不会去跑，绿声明被永久搁置。
+
+**正法**：分离起跑必须验**两个独立信号**再声明在飞——①进程仍在（`$p.HasExited -eq $false`，或按 `Get-CimInstance Win32_Process` 按命令行匹配一次，注意排除探测命令自身）；②输出文件**存在且在增长**（隔 5-10 秒比一次字节数）。两条缺一即按「未起跑」记账，不许写「在飞」。姊妹面（r1748）：套件红了说不出哪条腿，也是同一族——**调用方看得见的东西必须能证明被调方真的跑了**。
+
+**正身**：round_reports-bm-c.md r1751 收尾补记 + Tools/smoke_red.py 读取器（rc2=无记录，永不当成通过）
