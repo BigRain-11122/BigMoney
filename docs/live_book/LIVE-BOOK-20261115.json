@@ -1348,31 +1348,42 @@
   "evidence_cutoff": "2026-11-13",
   "leg_max_share": 0.3,
   "one_lot_is_the_book": [
+   "AU",
    "IC",
    "IF",
    "IH",
-   "IM"
+   "IM",
+   "SC",
+   "T",
+   "TF"
   ],
   "expressible_as_a_leg": [
    "510050",
    "510300",
    "510500",
    "512100",
-   "588000"
+   "588000",
+   "RB"
   ],
-  "undeclared_multiplier": [
-   "AU",
-   "RB",
-   "SC",
-   "T",
-   "TF",
-   "TS"
-  ],
+  "undeclared_multiplier": [],
+  "writer_check": {
+   "readable": true,
+   "no_declared_writer": [
+    "TS"
+   ],
+   "no_declared_writer_bars": [
+    "2026-09-24"
+   ]
+  },
   "shares_at_1m": {
+   "AU": 0.839,
    "IC": 1.275,
    "IF": 1.18698,
    "IH": 0.82002,
-   "IM": 1.25536
+   "IM": 1.25536,
+   "SC": 0.6255,
+   "T": 1.10045,
+   "TF": 1.0676
   },
   "etf_shares_at_1m": {
    "510300": 0.000408,
@@ -1382,10 +1393,14 @@
    "588000": 0.000135
   },
   "capital_needed": {
+   "AU": 2796666.666666667,
    "IC": 4250000.0,
    "IF": 3956600.0,
    "IH": 2733400.0,
-   "IM": 4184533.3333333335
+   "IM": 4184533.3333333335,
+   "SC": 2085000.0,
+   "T": 3668166.666666667,
+   "TF": 3558666.666666667
   },
   "face_cutoff": "2026-11-13"
  },
@@ -7830,20 +7845,20 @@
  "authority": {
   "writer": "bm-c",
   "owner": "bm-a",
-  "owner_silent_h": 39.3,
+  "owner_silent_h": 39.7,
   "gate_h": 6.0,
   "took_over": true,
-  "why": "bm-a has not written its own heartbeat for 39.3 h (> 6 h): this host takes the pen for the page only -- a stopped heartbeat is not a dead machine",
+  "why": "bm-a has not written its own heartbeat for 39.7 h (> 6 h): this host takes the pen for the page only -- a stopped heartbeat is not a dead machine",
   "no_bar_reason": "human_ages"
  },
  "fleet": {
-  "board_ts": "2026-11-15T12:02:58",
+  "board_ts": "2026-11-15T14:34:59",
   "verdict": "attention",
   "rows": [
    {
     "host": "bm-a",
     "last_seen": "2026-11-13T23:12:03+08:00",
-    "age_h": 36.85,
+    "age_h": 39.38,
     "alive": false,
     "lanes": [
      "futures",
@@ -7858,7 +7873,7 @@
    {
     "host": "bm-b",
     "last_seen": "2026-10-30T12:43:06+08:00",
-    "age_h": 383.33,
+    "age_h": 385.86,
     "alive": false,
     "lanes": [
      "marks",
@@ -7871,8 +7886,8 @@
    },
    {
     "host": "bm-c",
-    "last_seen": "2026-11-15T11:55:14+08:00",
-    "age_h": 0.13,
+    "last_seen": "2026-11-15T14:34:44+08:00",
+    "age_h": 0.0,
     "alive": true,
     "lanes": [
      "sina_mf",

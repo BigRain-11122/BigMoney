@@ -17,6 +17,31 @@
  },
  "legs": [
   {
+   "instrument": "AU",
+   "kind": "commodity_future",
+   "price": 839.0,
+   "price_date": "2026-11-13",
+   "multiplier": 1000,
+   "lot_size": 1,
+   "one_lot_notional": 839000.0,
+   "share_of_account": {
+    "500000": 1.678,
+    "1000000": 0.839,
+    "2000000": 0.4195,
+    "5000000": 0.1678
+   },
+   "verdict_by_tier": {
+    "500000": "ONE_LOT_IS_THE_BOOK",
+    "1000000": "ONE_LOT_IS_THE_BOOK",
+    "2000000": "ONE_LOT_IS_THE_BOOK",
+    "5000000": "A_LEG"
+   },
+   "capital_where_it_becomes_a_leg": 2796666.666666667,
+   "multiplier_source": "SHFE 黄金期货合约 交易单位 1000克/手",
+   "price_is_face_bar": true,
+   "writer": "in_lane_roster"
+  },
+  {
    "instrument": "IC",
    "kind": "index_future",
    "price": 6375.0,
@@ -36,7 +61,10 @@
     "2000000": "ONE_LOT_IS_THE_BOOK",
     "5000000": "A_LEG"
    },
-   "capital_where_it_becomes_a_leg": 4250000.0
+   "capital_where_it_becomes_a_leg": 4250000.0,
+   "multiplier_source": "repo table etf_book_ih_hedge.MULTIPLIER",
+   "price_is_face_bar": true,
+   "writer": "in_lane_roster"
   },
   {
    "instrument": "IF",
@@ -58,7 +86,10 @@
     "2000000": "ONE_LOT_IS_THE_BOOK",
     "5000000": "A_LEG"
    },
-   "capital_where_it_becomes_a_leg": 3956600.0
+   "capital_where_it_becomes_a_leg": 3956600.0,
+   "multiplier_source": "repo table etf_book_ih_hedge.MULTIPLIER",
+   "price_is_face_bar": true,
+   "writer": "in_lane_roster"
   },
   {
    "instrument": "IH",
@@ -80,7 +111,10 @@
     "2000000": "ONE_LOT_IS_THE_BOOK",
     "5000000": "A_LEG"
    },
-   "capital_where_it_becomes_a_leg": 2733400.0
+   "capital_where_it_becomes_a_leg": 2733400.0,
+   "multiplier_source": "repo table etf_book_ih_hedge.MULTIPLIER",
+   "price_is_face_bar": true,
+   "writer": "in_lane_roster"
   },
   {
    "instrument": "IM",
@@ -102,139 +136,135 @@
     "2000000": "ONE_LOT_IS_THE_BOOK",
     "5000000": "A_LEG"
    },
-   "capital_where_it_becomes_a_leg": 4184533.3333333335
-  },
-  {
-   "instrument": "AU",
-   "kind": "future_undeclared_multiplier",
-   "price": 839.0,
-   "price_date": "2026-11-13",
-   "multiplier": null,
-   "lot_size": 1,
-   "one_lot_notional": null,
-   "share_of_account": {
-    "500000": null,
-    "1000000": null,
-    "2000000": null,
-    "5000000": null
-   },
-   "verdict_by_tier": {
-    "500000": "UNDECLARED_MULTIPLIER",
-    "1000000": "UNDECLARED_MULTIPLIER",
-    "2000000": "UNDECLARED_MULTIPLIER",
-    "5000000": "UNDECLARED_MULTIPLIER"
-   },
-   "capital_where_it_becomes_a_leg": null
+   "capital_where_it_becomes_a_leg": 4184533.3333333335,
+   "multiplier_source": "repo table etf_book_ih_hedge.MULTIPLIER",
+   "price_is_face_bar": true,
+   "writer": "in_lane_roster"
   },
   {
    "instrument": "RB",
-   "kind": "future_undeclared_multiplier",
+   "kind": "commodity_future",
    "price": 3035.0,
    "price_date": "2026-11-13",
-   "multiplier": null,
+   "multiplier": 10,
    "lot_size": 1,
-   "one_lot_notional": null,
+   "one_lot_notional": 30350.0,
    "share_of_account": {
-    "500000": null,
-    "1000000": null,
-    "2000000": null,
-    "5000000": null
+    "500000": 0.0607,
+    "1000000": 0.03035,
+    "2000000": 0.015175,
+    "5000000": 0.00607
    },
    "verdict_by_tier": {
-    "500000": "UNDECLARED_MULTIPLIER",
-    "1000000": "UNDECLARED_MULTIPLIER",
-    "2000000": "UNDECLARED_MULTIPLIER",
-    "5000000": "UNDECLARED_MULTIPLIER"
+    "500000": "A_LEG",
+    "1000000": "A_LEG",
+    "2000000": "A_LEG",
+    "5000000": "A_LEG"
    },
-   "capital_where_it_becomes_a_leg": null
+   "capital_where_it_becomes_a_leg": 101166.66666666667,
+   "multiplier_source": "SHFE 螺纹钢期货合约 交易单位 10吨/手",
+   "price_is_face_bar": true,
+   "writer": "in_lane_roster"
   },
   {
    "instrument": "SC",
-   "kind": "future_undeclared_multiplier",
+   "kind": "commodity_future",
    "price": 625.5,
    "price_date": "2026-11-13",
-   "multiplier": null,
+   "multiplier": 1000,
    "lot_size": 1,
-   "one_lot_notional": null,
+   "one_lot_notional": 625500.0,
    "share_of_account": {
-    "500000": null,
-    "1000000": null,
-    "2000000": null,
-    "5000000": null
+    "500000": 1.251,
+    "1000000": 0.6255,
+    "2000000": 0.31275,
+    "5000000": 0.1251
    },
    "verdict_by_tier": {
-    "500000": "UNDECLARED_MULTIPLIER",
-    "1000000": "UNDECLARED_MULTIPLIER",
-    "2000000": "UNDECLARED_MULTIPLIER",
-    "5000000": "UNDECLARED_MULTIPLIER"
+    "500000": "ONE_LOT_IS_THE_BOOK",
+    "1000000": "ONE_LOT_IS_THE_BOOK",
+    "2000000": "ONE_LOT_IS_THE_BOOK",
+    "5000000": "A_LEG"
    },
-   "capital_where_it_becomes_a_leg": null
+   "capital_where_it_becomes_a_leg": 2085000.0,
+   "multiplier_source": "INE 原油期货合约 交易单位 1000桶/手",
+   "price_is_face_bar": true,
+   "writer": "in_lane_roster"
   },
   {
    "instrument": "T",
-   "kind": "future_undeclared_multiplier",
+   "kind": "bond_future",
    "price": 110.045,
    "price_date": "2026-11-13",
-   "multiplier": null,
+   "multiplier": 10000,
    "lot_size": 1,
-   "one_lot_notional": null,
+   "one_lot_notional": 1100450.0,
    "share_of_account": {
-    "500000": null,
-    "1000000": null,
-    "2000000": null,
-    "5000000": null
+    "500000": 2.2009,
+    "1000000": 1.10045,
+    "2000000": 0.550225,
+    "5000000": 0.22009
    },
    "verdict_by_tier": {
-    "500000": "UNDECLARED_MULTIPLIER",
-    "1000000": "UNDECLARED_MULTIPLIER",
-    "2000000": "UNDECLARED_MULTIPLIER",
-    "5000000": "UNDECLARED_MULTIPLIER"
+    "500000": "ONE_LOT_IS_THE_BOOK",
+    "1000000": "ONE_LOT_IS_THE_BOOK",
+    "2000000": "ONE_LOT_IS_THE_BOOK",
+    "5000000": "A_LEG"
    },
-   "capital_where_it_becomes_a_leg": null
+   "capital_where_it_becomes_a_leg": 3668166.666666667,
+   "multiplier_source": "CFFEX 10年期国债期货合约交易细则 第四条(面值100万元)+第六条(百元净价报价)",
+   "price_is_face_bar": true,
+   "writer": "in_lane_roster"
   },
   {
    "instrument": "TF",
-   "kind": "future_undeclared_multiplier",
+   "kind": "bond_future",
    "price": 106.76,
    "price_date": "2026-11-13",
-   "multiplier": null,
+   "multiplier": 10000,
    "lot_size": 1,
-   "one_lot_notional": null,
+   "one_lot_notional": 1067600.0,
    "share_of_account": {
-    "500000": null,
-    "1000000": null,
-    "2000000": null,
-    "5000000": null
+    "500000": 2.1352,
+    "1000000": 1.0676,
+    "2000000": 0.5338,
+    "5000000": 0.21352
    },
    "verdict_by_tier": {
-    "500000": "UNDECLARED_MULTIPLIER",
-    "1000000": "UNDECLARED_MULTIPLIER",
-    "2000000": "UNDECLARED_MULTIPLIER",
-    "5000000": "UNDECLARED_MULTIPLIER"
+    "500000": "ONE_LOT_IS_THE_BOOK",
+    "1000000": "ONE_LOT_IS_THE_BOOK",
+    "2000000": "ONE_LOT_IS_THE_BOOK",
+    "5000000": "A_LEG"
    },
-   "capital_where_it_becomes_a_leg": null
+   "capital_where_it_becomes_a_leg": 3558666.666666667,
+   "multiplier_source": "CFFEX 5年期国债期货合约交易细则 第四条(面值100万元)+百元净价报价",
+   "price_is_face_bar": true,
+   "writer": "in_lane_roster"
   },
   {
    "instrument": "TS",
-   "kind": "future_undeclared_multiplier",
+   "kind": "bond_future",
    "price": 102.594,
    "price_date": "2026-09-24",
-   "multiplier": null,
+   "multiplier": 20000,
    "lot_size": 1,
-   "one_lot_notional": null,
+   "one_lot_notional": 2051879.9999999998,
    "share_of_account": {
-    "500000": null,
-    "1000000": null,
-    "2000000": null,
-    "5000000": null
+    "500000": 4.10376,
+    "1000000": 2.05188,
+    "2000000": 1.02594,
+    "5000000": 0.410376
    },
    "verdict_by_tier": {
-    "500000": "UNDECLARED_MULTIPLIER",
-    "1000000": "UNDECLARED_MULTIPLIER",
-    "2000000": "UNDECLARED_MULTIPLIER",
-    "5000000": "UNDECLARED_MULTIPLIER"
+    "500000": "ONE_LOT_IS_THE_BOOK",
+    "1000000": "ONE_LOT_IS_THE_BOOK",
+    "2000000": "ONE_LOT_IS_THE_BOOK",
+    "5000000": "ONE_LOT_IS_THE_BOOK"
    },
-   "capital_where_it_becomes_a_leg": null
+   "capital_where_it_becomes_a_leg": 6839599.999999999,
+   "multiplier_source": "CFFEX 2年期国债期货合约交易细则 第四条(面值200万元)+百元净价报价",
+   "price_is_face_bar": false,
+   "writer": "no_declared_writer"
   },
   {
    "instrument": "510300",
@@ -256,7 +286,10 @@
     "2000000": "A_LEG",
     "5000000": "A_LEG"
    },
-   "capital_where_it_becomes_a_leg": 1361.0
+   "capital_where_it_becomes_a_leg": 1361.0,
+   "multiplier_source": "exchange lot size (100 shares)",
+   "price_is_face_bar": true,
+   "writer": "in_lane_roster"
   },
   {
    "instrument": "510050",
@@ -278,7 +311,10 @@
     "2000000": "A_LEG",
     "5000000": "A_LEG"
    },
-   "capital_where_it_becomes_a_leg": 963.0
+   "capital_where_it_becomes_a_leg": 963.0,
+   "multiplier_source": "exchange lot size (100 shares)",
+   "price_is_face_bar": true,
+   "writer": "in_lane_roster"
   },
   {
    "instrument": "510500",
@@ -300,7 +336,10 @@
     "2000000": "A_LEG",
     "5000000": "A_LEG"
    },
-   "capital_where_it_becomes_a_leg": 2165.0
+   "capital_where_it_becomes_a_leg": 2165.0,
+   "multiplier_source": "exchange lot size (100 shares)",
+   "price_is_face_bar": true,
+   "writer": "in_lane_roster"
   },
   {
    "instrument": "512100",
@@ -322,7 +361,10 @@
     "2000000": "A_LEG",
     "5000000": "A_LEG"
    },
-   "capital_where_it_becomes_a_leg": 860.6666666666666
+   "capital_where_it_becomes_a_leg": 860.6666666666666,
+   "multiplier_source": "exchange lot size (100 shares)",
+   "price_is_face_bar": true,
+   "writer": "in_lane_roster"
   },
   {
    "instrument": "588000",
@@ -344,32 +386,58 @@
     "2000000": "A_LEG",
     "5000000": "A_LEG"
    },
-   "capital_where_it_becomes_a_leg": 451.33333333333337
+   "capital_where_it_becomes_a_leg": 451.33333333333337,
+   "multiplier_source": "exchange lot size (100 shares)",
+   "price_is_face_bar": true,
+   "writer": "in_lane_roster"
   }
  ],
- "at_1m": {
-  "one_lot_is_the_book": [
+ "stale_price_bars": [
+  "TS"
+ ],
+ "writer_check": {
+  "readable": true,
+  "source": "results\\futures_update_status.json",
+  "roster": [
+   "AU",
    "IC",
    "IF",
    "IH",
-   "IM"
+   "IM",
+   "RB",
+   "SC",
+   "T",
+   "TF"
+  ],
+  "no_declared_writer": [
+   "TS"
+  ],
+  "note": "R7: the futures update lane's own status face names the varieties it refreshes; a panel file outside that list has no producer and is kept out of the counts. Unreadable lane face = unknown, which is not the same as 'nobody writes it' -- nothing is excluded then."
+ },
+ "at_1m": {
+  "one_lot_is_the_book": [
+   "AU",
+   "IC",
+   "IF",
+   "IH",
+   "IM",
+   "SC",
+   "T",
+   "TF"
   ],
   "expressible_as_a_leg": [
    "510050",
    "510300",
    "510500",
    "512100",
-   "588000"
+   "588000",
+   "RB"
   ],
-  "undeclared_multiplier": [
-   "AU",
-   "RB",
-   "SC",
-   "T",
-   "TF",
+  "undeclared_multiplier": [],
+  "unreadable_price": [],
+  "no_declared_writer": [
    "TS"
-  ],
-  "unreadable_price": []
+  ]
  },
- "sentence": "1,000,000 元账户上，9 个可测品种里有 4 个没法定大小——一手就已经超过账户的 30%（最大的一手是 IC 的 1,275,000 元；最小的是 588000 的 135 元）；另有 6 条腿乘数未声明，被排除在判决外"
+ "sentence": "1,000,000 元账户上，14 个可测品种里有 8 个没法定大小——一手就已经超过账户的 30%（最大的一手是 IC 的 1,275,000 元；最小的是 588000 的 135 元）；另有 1 条腿的面板文件不在更新车道名单里（没有生产者），不计入"
 }

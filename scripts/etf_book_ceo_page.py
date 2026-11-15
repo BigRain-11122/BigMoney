@@ -6802,6 +6802,14 @@ def lot_floor_face():
         "one_lot_is_the_book": list(at.get("one_lot_is_the_book") or []),
         "expressible_as_a_leg": list(at.get("expressible_as_a_leg") or []),
         "undeclared_multiplier": list(at.get("undeclared_multiplier") or []),
+        "writer_check": {
+            "readable": (d.get("writer_check") or {}).get("readable", True),
+            "no_declared_writer": list((d.get("writer_check") or {}).get("no_declared_writer") or []),
+            "no_declared_writer_bars": sorted({str((by.get(i) or {}).get("price_date"))
+                                               for i in ((d.get("writer_check") or {})
+                                                         .get("no_declared_writer") or [])
+                                               if (by.get(i) or {}).get("price_date")}),
+        },
         "shares_at_1m": shares,
         "etf_shares_at_1m": etf_shares,
         "capital_needed": need,
@@ -6856,6 +6864,15 @@ def lot_floor_block(lf):
     if und:
         out.append("- 另有 %d 个期货品种本仓没有声明乘数（%s），这条面**不猜**，它们不进上面的判决。"
                    % (len(und), "、".join(und)))
+    writer = lf.get("writer_check") or {}
+    if not writer.get("readable", True):
+        out.append("- 更新车道名单读不出来，所以这条面**说不出**哪个品种没人写（无法核验不等于没人写）。")
+    elif writer.get("no_declared_writer"):
+        out.append("- 有 %d 条腿的面板文件不在期货更新车道的名单里（%s），它们**不进上面的判决**："
+                   "那份文件停在 %s，不是表头截点那一根 bar 上的价。"
+                   % (len(writer["no_declared_writer"]),
+                      "、".join(writer["no_declared_writer"]),
+                      "、".join(writer.get("no_declared_writer_bars") or []) or "更早的一根 bar"))
     out.append("")
     return out
 
@@ -13305,6 +13322,22 @@ def selftest():
     _lf_gone = "\n".join(lot_floor_block({"readable": False, "why": "no file"}))
     chk("L315 lot floor: an unreadable face says cannot-check and prints no percentage",
         "无法核验" in _lf_gone and "127.5" not in _lf_gone and "%" not in _lf_gone, _lf_gone[:800])
+
+    # L316-L317 (r1723): a leg whose panel file no lane refreshes must be named on the page
+    # together with the bar it stopped on; an unreadable lane roster must say it cannot tell,
+    # never fall silent (silence reads as "everyone writes everything").
+    _lf_w = dict(_lf_fx)
+    _lf_w["writer_check"] = {"readable": True, "no_declared_writer": ["TS"],
+                             "no_declared_writer_bars": ["2026-09-24"]}
+    _lf_w_md = "\n".join(lot_floor_block(_lf_w))
+    chk("L316 lot floor: a leg nobody writes is named with the bar it stopped on",
+        "不在期货更新车道的名单里" in _lf_w_md and "TS" in _lf_w_md
+        and "2026-09-24" in _lf_w_md and "不进上面的判决" in _lf_w_md, _lf_w_md[:1600])
+    _lf_unknown = dict(_lf_fx)
+    _lf_unknown["writer_check"] = {"readable": False, "no_declared_writer": []}
+    _lf_u_md = "\n".join(lot_floor_block(_lf_unknown))
+    chk("L317 lot floor: an unreadable lane roster says cannot-tell, not nobody-writes",
+        "说不出" in _lf_u_md and "无法核验不等于没人写" in _lf_u_md, _lf_u_md[:1600])
 
     # L306-L308 (r1720): the marks belong to a book, and it is not always the sheet's book.
     # Paired: two widths must name both numbers and the overlap; equal widths must NOT borrow

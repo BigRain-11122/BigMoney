@@ -29,11 +29,19 @@ Frozen reading rules, written before this round's numbers were read:
       the desk would then quote.
   R4  a missing price prints null and says unreadable; it never prints 0. Zero would
       read as "this leg is free".
+  R5  every row carries the bar its own price came from. The face cutoff is the newest
+      bar among the legs, NOT the bar each row was priced on -- a leg whose last bar is
+      older is marked (price_is_face_bar=false) and its date is printed, never silently
+      blended into a table that reads as one day.
+  R6  a multiplier is declared with a source, or it is not declared at all (R3). The
+      six non-index products that used to print UNDECLARED_MULTIPLIER are declared here
+      from exchange contract text (SPEC_MULTIPLIER); a contract quoted per 100 face is
+      carried in those terms (T/TF 10,000; TS 20,000), never as the 1,000,000 face.
 
 Subcommands:
   run      -- deterministic, local-only; writes results/etf_book_lot_floor.json and
               research/ETF_BOOK_LOT_FLOOR.md.
-  selftest -- hermetic synthetic checks of R1-R4 and the arithmetic.
+  selftest -- hermetic synthetic checks of R1-R6 and the arithmetic.
 """
 import json
 import os
@@ -44,6 +52,7 @@ FUT_DIR = os.path.join(ROOT, "data", "futures_daily")
 ETF_DIR = os.path.join(ROOT, "data", "daily")
 OUT = os.path.join(ROOT, "results", "etf_book_lot_floor.json")
 DOC = os.path.join(ROOT, "research", "ETF_BOOK_LOT_FLOOR.md")
+LANE_STATUS = os.path.join(ROOT, "results", "futures_update_status.json")
 
 # Same declaration as etf_book_ih_hedge.MULTIPLIER -- one implementation of the table,
 # imported rather than copied so the two faces cannot drift.
@@ -54,8 +63,39 @@ except Exception:  # pragma: no cover - import guard only
     _MULT = {"IF": 300, "IH": 300, "IC": 200, "IM": 200}
 MULTIPLIER = dict(_MULT)
 
-# Listed on disk but with no multiplier declared anywhere in this repo: honesty row.
-FUT_UNDECLARED = ["AU", "RB", "SC", "T", "TF", "TS"]
+# Products the desk's futures panel carries that are NOT index futures. Each one is
+# declared here only with a source; the number is the quote-unit multiplier, i.e.
+# notional = close x multiplier, exactly the convention index futures already use
+# (IF 300 = 300 CNY per index point).
+#
+#   CFFEX 10y CGB (T)  : face 1,000,000 CNY, quoted per 100 face -> 10,000
+#                        (合约交易细则 第四条/第六条/第十三条: 合约价值=合约价格x(面值/100))
+#   CFFEX 5y CGB  (TF) : face 1,000,000 CNY, quoted per 100 face -> 10,000
+#   CFFEX 2y CGB  (TS) : face 2,000,000 CNY, quoted per 100 face -> 20,000
+#   SHFE gold     (AU) : 1,000 grams per lot, quoted CNY/gram      -> 1,000
+#   SHFE rebar    (RB) : 10 tonnes per lot, quoted CNY/tonne       -> 10
+#   INE  crude    (SC) : 1,000 barrels per lot, quoted CNY/barrel  -> 1,000
+#
+# R6: a product missing from this table and from MULTIPLIER stays UNDECLARED_MULTIPLIER
+# and out of every count -- the table is the only place a number may come from.
+SPEC_MULTIPLIER = {
+    "T": {"multiplier": 10000, "kind": "bond_future",
+          "source": "CFFEX 10年期国债期货合约交易细则 第四条(面值100万元)+第六条(百元净价报价)"},
+    "TF": {"multiplier": 10000, "kind": "bond_future",
+           "source": "CFFEX 5年期国债期货合约交易细则 第四条(面值100万元)+百元净价报价"},
+    "TS": {"multiplier": 20000, "kind": "bond_future",
+           "source": "CFFEX 2年期国债期货合约交易细则 第四条(面值200万元)+百元净价报价"},
+    "AU": {"multiplier": 1000, "kind": "commodity_future",
+           "source": "SHFE 黄金期货合约 交易单位 1000克/手"},
+    "RB": {"multiplier": 10, "kind": "commodity_future",
+           "source": "SHFE 螺纹钢期货合约 交易单位 10吨/手"},
+    "SC": {"multiplier": 1000, "kind": "commodity_future",
+           "source": "INE 原油期货合约 交易单位 1000桶/手"},
+}
+
+# Listed on disk but declared nowhere in this repo: honesty row (R3). Empty as of
+# r1723 -- kept as the code path and exercised by the selftest with a synthetic name.
+FUT_UNDECLARED = []
 ETF_CODES = ["510300", "510050", "510500", "512100", "588000"]
 ETF_LOT = 100
 
@@ -119,38 +159,112 @@ def leg_row(instrument, kind, price, mult, lot_size, date):
     }
 
 
-def build(fut_dir=None, etf_dir=None, tiers=None):
+def declaration(prod):
+    """(multiplier, kind, source) for a futures product, or (None, kind, None) (R3/R6)."""
+    if prod in MULTIPLIER:
+        return MULTIPLIER[prod], "index_future", "repo table etf_book_ih_hedge.MULTIPLIER"
+    spec = SPEC_MULTIPLIER.get(prod)
+    if spec:
+        return spec["multiplier"], spec["kind"], spec["source"]
+    return None, "future_undeclared_multiplier", None
+
+
+def panel_products(fut_dir):
+    """Roster = what the panel carries UNION what the repo declares.
+
+    A declared product whose file is missing stays on the face with a null price
+    (UNREADABLE_PRICE, R4) -- a leg that silently disappears would read as a leg that
+    never existed.
+    """
+    try:
+        disk = {f[:-4] for f in os.listdir(fut_dir) if f.endswith(".csv")}
+    except OSError:
+        disk = set()
+    return sorted(disk | set(MULTIPLIER) | set(SPEC_MULTIPLIER))
+
+
+def lane_roster(status_path=None):
+    """(set of varieties the futures update lane refreshes, source) or (None, why) (R7).
+
+    Read from the lane's own status face -- the list of varieties a run actually planned
+    is evidence of who writes what; a file it never plans is a file with no producer.
+    """
+    path = status_path or LANE_STATUS
+    if not os.path.exists(path):
+        return None, "lane status face not on disk"
+    try:
+        with open(path, encoding="utf-8") as f:
+            d = json.load(f)
+    except (OSError, ValueError) as e:
+        return None, repr(e)
+    planned = d.get("varieties_planned")
+    if not isinstance(planned, list) or not planned:
+        return None, "lane status carries no varieties_planned"
+    return set(str(x) for x in planned), display_path(path)
+
+
+def display_path(path):
+    """Repo-relative when possible; absolute when the path sits on another drive (the
+    selftest's fixtures live on C: while the repo is on K:, and a bare relpath raises)."""
+    try:
+        return os.path.relpath(path, ROOT)
+    except ValueError:
+        return path
+
+
+def build(fut_dir=None, etf_dir=None, tiers=None, lane_status=None):
     fut_dir = fut_dir or FUT_DIR
     etf_dir = etf_dir or ETF_DIR
     tiers = tiers or TIERS
     legs, cutoff = [], None
 
-    for prod in sorted(MULTIPLIER):
+    for prod in panel_products(fut_dir):
         date, px = last_close(os.path.join(fut_dir, prod + ".csv"))
         if date and (cutoff is None or date > cutoff):
             cutoff = date
-        legs.append(leg_row(prod, "index_future", px, MULTIPLIER[prod], 1, date))
-
-    for prod in FUT_UNDECLARED:
-        path = os.path.join(fut_dir, prod + ".csv")
-        if not os.path.exists(path):
-            continue
-        date, px = last_close(path)
-        if date and (cutoff is None or date > cutoff):
-            cutoff = date
-        legs.append(leg_row(prod, "future_undeclared_multiplier", px, None, 1, date))
+        mult, kind, src = declaration(prod)
+        row = leg_row(prod, kind, px, mult, 1, date)
+        row["multiplier_source"] = src
+        legs.append(row)
 
     for code in ETF_CODES:
         date, px = last_close(os.path.join(etf_dir, code + ".csv"))
         if date and (cutoff is None or date > cutoff):
             cutoff = date
-        legs.append(leg_row(code, "etf", px, ETF_LOT, ETF_LOT, date))
+        row = leg_row(code, "etf", px, ETF_LOT, ETF_LOT, date)
+        row["multiplier_source"] = "exchange lot size (100 shares)"
+        legs.append(row)
+
+    # R5: the face cutoff is the newest bar among the legs; each row says whether its
+    # own price sits on that bar or on an older one.
+    for row in legs:
+        row["price_is_face_bar"] = bool(row["price_date"] and cutoff
+                                        and row["price_date"] == cutoff)
+    stale = sorted(r["instrument"] for r in legs if r["price_date"] and not r["price_is_face_bar"])
+
+    # R7: a panel file nobody writes still has a last bar, and its arithmetic still
+    # looks fine. The update lane declares which varieties it refreshes; a row outside
+    # that roster has no producer, so it is kept out of the counts (but never deleted
+    # from the table -- a stale unit is still the unit).
+    roster, roster_src = lane_roster(lane_status)
+    for row in legs:
+        if row["kind"] == "etf":
+            row["writer"] = "in_lane_roster"
+        elif roster is None:
+            row["writer"] = "unknown"
+        elif row["instrument"] in roster:
+            row["writer"] = "in_lane_roster"
+        else:
+            row["writer"] = "no_declared_writer"
+    excluded = sorted(r["instrument"] for r in legs
+                      if r["writer"] == "no_declared_writer" and r["price"] is not None)
+
+    def counted(row, verdict):
+        return row["verdict_by_tier"].get(one_m) == verdict and row["writer"] != "no_declared_writer"
 
     one_m = str(TIERS[1]) if TIERS[1] in tiers else "1000000"
-    book_at_1m = sorted(l["instrument"] for l in legs
-                        if l["verdict_by_tier"].get(one_m) == "ONE_LOT_IS_THE_BOOK")
-    leg_at_1m = sorted(l["instrument"] for l in legs
-                       if l["verdict_by_tier"].get(one_m) == "A_LEG")
+    book_at_1m = sorted(l["instrument"] for l in legs if counted(l, "ONE_LOT_IS_THE_BOOK"))
+    leg_at_1m = sorted(l["instrument"] for l in legs if counted(l, "A_LEG"))
     undeclared = sorted(l["instrument"] for l in legs
                         if l["verdict_by_tier"].get(one_m) == "UNDECLARED_MULTIPLIER")
     unreadable = sorted(l["instrument"] for l in legs
@@ -176,20 +290,33 @@ def build(fut_dir=None, etf_dir=None, tiers=None):
                      "may be; it is not the 3x unit-vs-target rule of etf_book_ih_hedge."),
         },
         "legs": legs,
+        "stale_price_bars": stale,
+        "writer_check": {
+            "readable": roster is not None,
+            "source": roster_src,
+            "roster": sorted(roster) if roster else None,
+            "no_declared_writer": excluded,
+            "note": ("R7: the futures update lane's own status face names the varieties "
+                     "it refreshes; a panel file outside that list has no producer and is "
+                     "kept out of the counts. Unreadable lane face = unknown, which is "
+                     "not the same as 'nobody writes it' -- nothing is excluded then."),
+        },
         "at_1m": {
             "one_lot_is_the_book": book_at_1m,
             "expressible_as_a_leg": leg_at_1m,
             "undeclared_multiplier": undeclared,
             "unreadable_price": unreadable,
+            "no_declared_writer": excluded,
         },
-        "sentence": sentence_of(book_at_1m, leg_at_1m, undeclared, legs, one_m),
+        "sentence": sentence_of(book_at_1m, leg_at_1m, undeclared, legs, one_m, excluded),
     }
 
 
-def sentence_of(book, leg, undeclared, legs, tier_key):
+def sentence_of(book, leg, undeclared, legs, tier_key, excluded=None):
     if not book and not leg:
         return "本机没有一条腿量得出来，这里没有一个读数"
-    fut = [l for l in legs if l["kind"] == "index_future" and l["price"] is not None]
+    fut = [l for l in legs if l["kind"].endswith("_future") and l["price"] is not None
+           and l["writer"] != "no_declared_writer"]
     etf = [l for l in legs if l["kind"] == "etf" and l["price"] is not None]
     bits = []
     if fut:
@@ -206,6 +333,8 @@ def sentence_of(book, leg, undeclared, legs, tier_key):
     tail = "（" + "；".join(bits) + "）" if bits else ""
     if undeclared:
         tail += "；另有 %d 条腿乘数未声明，被排除在判决外" % len(undeclared)
+    if excluded:
+        tail += "；另有 %d 条腿的面板文件不在更新车道名单里（没有生产者），不计入" % len(excluded)
     return head + tail
 
 
@@ -221,14 +350,17 @@ def render_md(face):
              "你只能整仓押它，不能给它定大小。" % (face["rule"]["leg_max_share_of_account"] * 100))
     L.append("")
     tiers = face["rule"]["tiers"]
-    head = "| 品种 | 类型 | 最新价 | 乘数 | 一手名义 | " + " | ".join(
+    head = "| 品种 | 类型 | 最新价 | 价格日 | 乘数 | 一手名义 | " + " | ".join(
         "{:,}档".format(t) for t in tiers) + " | 变成一条腿所需账户 |"
     L.append(head)
-    L.append("|" + "---|" * (5 + len(tiers) + 1))
+    L.append("|" + "---|" * (6 + len(tiers) + 1))
+    kinds = {"index_future": "股指期货", "bond_future": "国债期货",
+             "commodity_future": "商品期货", "etf": "ETF",
+             "future_undeclared_multiplier": "期货(未声明乘数)"}
     for l in face["legs"]:
         if l["one_lot_notional"] is None:
             cells = ["—"] * len(tiers)
-            need = "乘数未声明" if l["kind"] != "etf" else "价格读不到"
+            need = "价格读不到" if l["multiplier"] is not None else "乘数未声明"
         else:
             cells = []
             for t in tiers:
@@ -241,13 +373,30 @@ def render_md(face):
                     cells.append("%.1f%% %s" % (pct * 100, mark))
             need = ("{:,}".format(int(l["capital_where_it_becomes_a_leg"]))
                     if l["capital_where_it_becomes_a_leg"] else "—")
-        L.append("| %s | %s | %s | %s | %s | %s | %s |" % (
+        bar = l.get("price_date") or "读不到"
+        if l.get("price_is_face_bar") is False:
+            bar = "%s **旧**" % bar
+        L.append("| %s | %s | %s | %s | %s | %s | %s | %s |" % (
             l["instrument"],
-            {"index_future": "股指期货", "etf": "ETF", "future_undeclared_multiplier": "期货(未声明乘数)"}[l["kind"]],
+            kinds.get(l["kind"], l["kind"]),
             ("%.4f" % l["price"]) if l["price"] is not None else "读不到",
+            bar,
             l["multiplier"] if l["multiplier"] is not None else "—",
             ("{:,}".format(int(l["one_lot_notional"])) if l["one_lot_notional"] else "—"),
             " | ".join(cells), need))
+    L.append("")
+    if face.get("stale_price_bars"):
+        L.append("价格日不是数据截点的腿（**旧**）：%s —— 这些行的一手名义按它自己那根 bar 算，"
+                 "不跟着截点走（R5）。" % "、".join(face["stale_price_bars"]))
+        L.append("")
+    _wc = face.get("writer_check") or {}
+    if not _wc.get("readable"):
+        L.append("更新车道名单读不出来（%s），所以**没有一条腿**被判定为「没人写」——"
+                 "无法核验不等于没人写（R7）。" % (_wc.get("source") or "no reason"))
+    elif _wc.get("no_declared_writer"):
+        L.append("不在更新车道名单里的腿（**没有生产者**，不计入任何判决·R7）：%s ——"
+                 "更新车道声明刷新的品种见 `%s`。"
+                 % ("、".join(_wc["no_declared_writer"]), _wc.get("source") or "lane status"))
     L.append("")
     L.append("## 一句话")
     L.append("")
@@ -268,11 +417,14 @@ def render_md(face):
              "「买得起」不等于「定得了」（100 万现金买 0 手 IC；按保证金，一手 IC 仍是账户的 127%）。")
     L.append("2. 这是**单位算术**，不是成交记录：一手名义=乘数×最新价，没有计入保证金占用、"
              "滑点、合约换月；保证金与券商规则由账户侧决定。")
-    L.append("2. 30% 是本书的**仓位规模规则**，与 `etf_book_ih_hedge` 的 3 倍单位规则是两个问题"
+    L.append("3. 30% 是本书的**仓位规模规则**，与 `etf_book_ih_hedge` 的 3 倍单位规则是两个问题"
              "（R2）——那一个比的是「一手 vs beta 要的仓位」，这一个比的是「一手 vs 账户」。")
-    L.append("3. 商品/国债六个品种在仓里没有声明乘数，本面**不猜**（R3）；要纳进来先把乘数写进"
-             "`etf_book_ih_hedge.MULTIPLIER` 同一个表。")
-    L.append("4. ETF 100 份/手是交易所规则常量，与品种无关；价格取本仓 `data/daily` 的最后一个可读行。")
+    L.append("4. 商品/国债六条的乘数来自交易所合约文本（逐条写在 `SPEC_MULTIPLIER` 里，含来源），"
+             "不是本仓的数据；国债按**百元净价报价**折算（T/TF 10,000、TS 20,000），"
+             "**不是** 100 万面值本身（R6）。仓里没有声明的品种仍印 UNDECLARED_MULTIPLIER，不猜（R3）。")
+    L.append("5. ETF 100 份/手是交易所规则常量，与品种无关；价格取本仓 `data/daily` 的最后一个可读行。")
+    L.append("6. 每行的一手名义只按**它自己那根 bar** 算（R5）；表头的数据截点是最新的那根 bar，"
+             "不是每一行的 bar——价格日不是截点的行标 **旧**。")
     L.append("")
     return "\n".join(L) + "\n"
 
@@ -320,11 +472,23 @@ def selftest():
         _write_csv(os.path.join(fut, "IH.csv"),
                    [("2026-11-13", 250, 251, 249, 250.0, 1, 1)])   # 75,000 -> 7.5%
         _write_csv(os.path.join(fut, "AU.csv"),
-                   [("2026-11-13", 800, 801, 799, 800.0, 1, 1)])
+                   [("2026-11-13", 800, 801, 799, 800.0, 1, 1)])   # 1000 g -> 800,000 (80%)
+        _write_csv(os.path.join(fut, "T.csv"),
+                   [("2026-11-13", 110, 110.2, 109.9, 110.0, 1, 1)])   # x10000 -> 1,100,000
+        _write_csv(os.path.join(fut, "RB.csv"),
+                   [("2026-11-13", 3030, 3040, 3020, 3035.0, 1, 1)])   # x10 -> 30,350
+        _write_csv(os.path.join(fut, "TS.csv"),
+                   [("2026-09-24", 102.5, 102.6, 102.5, 102.594, 1, 1)])  # old bar (R5)
+        _write_csv(os.path.join(fut, "ZZ.csv"),
+                   [("2026-11-13", 10, 11, 9, 10.0, 1, 1)])        # declared nowhere (R3)
         _write_csv(os.path.join(etf, "510300.csv"),
                    [("2026-11-13", 4.0, 4.1, 3.9, 4.0, 1, 1)])     # 400 -> 0.04%
 
-        face = build(fut_dir=fut, etf_dir=etf)
+        lane = os.path.join(td, "lane.json")
+        with open(lane, "w", encoding="utf-8") as f:
+            json.dump({"varieties_planned": ["IF", "IH", "AU", "T", "RB"]}, f)
+
+        face = build(fut_dir=fut, etf_dir=etf, lane_status=lane)
         by = {l["instrument"]: l for l in face["legs"]}
 
         # R1: 120% of a 1M account is the book, 0.04% is a leg, 7.5% is a leg.
@@ -347,13 +511,44 @@ def selftest():
         ok("L6 capital threshold is lot/0.30",
            abs(by["IF"]["capital_where_it_becomes_a_leg"] - 1200000 / 0.30) < 1e-6)
 
+        # R6: a declared non-index contract multiplies in its own quote unit.
+        ok("L14 declared commodity multiplier flows through (AU 800 x 1000)",
+           by["AU"]["multiplier"] == 1000 and abs(by["AU"]["one_lot_notional"] - 800000) < 1e-6
+           and by["AU"]["kind"] == "commodity_future")
+        ok("L15 a bond contract quoted per 100 face carries 10,000, not the 1,000,000 face",
+           by["T"]["multiplier"] == 10000 and abs(by["T"]["one_lot_notional"] - 1100000) < 1e-6)
+        ok("L16 a small-unit commodity is a leg at 1M (RB 3035 x 10)",
+           by["RB"]["verdict_by_tier"]["1000000"] == "A_LEG")
+        ok("L17 every declared row carries a source, and only declared rows get a number",
+           all(l["multiplier_source"] for l in face["legs"] if l["multiplier"] is not None)
+           and by["ZZ"]["multiplier"] is None)
+
         # R3: undeclared multiplier never gets a number and never enters a verdict
         ok("L7 undeclared multiplier yields null notional",
-           by["AU"]["one_lot_notional"] is None)
+           by["ZZ"]["one_lot_notional"] is None)
         ok("L8 undeclared multiplier is excluded from both counts",
-           "AU" not in face["at_1m"]["expressible_as_a_leg"]
-           and "AU" not in face["at_1m"]["one_lot_is_the_book"]
-           and "AU" in face["at_1m"]["undeclared_multiplier"])
+           "ZZ" not in face["at_1m"]["expressible_as_a_leg"]
+           and "ZZ" not in face["at_1m"]["one_lot_is_the_book"]
+           and "ZZ" in face["at_1m"]["undeclared_multiplier"])
+
+        # R5: the face cutoff is the newest bar; an older row says so
+        ok("L18 a leg priced on an older bar is marked, not blended",
+           by["TS"]["price_is_face_bar"] is False and by["IF"]["price_is_face_bar"] is True
+           and face["stale_price_bars"] == ["TS"]
+           and face["evidence_cutoff"] == "2026-11-13")
+
+        # R7: a panel file the update lane never refreshes has no producer
+        ok("L19 a leg no lane writes stays on the table but out of the counts",
+           by["TS"]["writer"] == "no_declared_writer"
+           and "TS" in face["writer_check"]["no_declared_writer"]
+           and "TS" not in face["at_1m"]["one_lot_is_the_book"]
+           and by["TS"]["verdict_by_tier"]["1000000"] == "ONE_LOT_IS_THE_BOOK"
+           and by["IF"]["writer"] == "in_lane_roster")
+        ok("L20 an unreadable lane face is unknown, not 'nobody writes it'",
+           build(fut_dir=fut, etf_dir=etf,
+                 lane_status=os.path.join(td, "nope.json"))["writer_check"]["no_declared_writer"] == []
+           and build(fut_dir=fut, etf_dir=etf,
+                     lane_status=os.path.join(td, "nope.json"))["writer_check"]["readable"] is False)
 
         # R4: unreadable price is null, not zero
         os.remove(os.path.join(etf, "510300.csv"))
@@ -369,7 +564,7 @@ def selftest():
 
         # the sentence names the count it measured, not a hardcoded one
         ok("L11 sentence counts the legs it actually measured",
-           "3 个可测品种里有 1 个" in face["sentence"], face["sentence"])
+           "6 个可测品种里有 3 个" in face["sentence"], face["sentence"])
 
         # R3 vs R4 are two different missing things, and they must not share a word
         os.remove(os.path.join(fut, "IH.csv"))
