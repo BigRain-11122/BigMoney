@@ -214,6 +214,16 @@ LEGS = [
     # (minute_feed's five v1.0/v1.1 codes) is printed rather than counted as a defect.
     # An unreadable roster is its own verdict, never green. ~1s, no network, sizes nothing.
     ("lane_roster_disk_audit", ["python", "scripts/lane_roster_disk_audit.py", "run"]),
+    # r1729: the roster audit found ONE lane publishing its universe as a number
+    # (options: panel.universe=254). This leg asks every lane receipt the same
+    # question and then the one the first answer cannot settle: could anyone
+    # re-check that count by name? futures lists its 10 varieties in the receipt;
+    # options' 254 is only countable against a tracked panel; moneyflow's 5226
+    # matches this machine's gitignored copy (one host's number, r1290); sina_mf
+    # claims 5227 with no panel here at all; repo names the 2 terms it fetched
+    # while quoting 11. Bucketed panels refuse the comparison instead of going red.
+    # ~1s, no network, reads receipts and file names only.
+    ("count_only_claims", ["python", "scripts/count_only_claims.py", "run"]),
     # r1716: the book's own engine prices its idle sleeve at 0 (the vol target de-levers
     # into cash) while etf_book_cash_vehicle already priced that same cash at 1.77%/yr and
     # the newest ticket already carries it -- two published faces for one sleeve, never

@@ -5125,8 +5125,17 @@ def main() -> int:
         _lf = _mt.count("\n")
         _pua = sum(1 for _c in _mt if 0xE000 <= ord(_c) <= 0xF8FF)
         _rows = sum(1 for _l in _mt.splitlines() if _l.lstrip().startswith("- ["))
-        check("memory: CODELY.md structure intact", _lf >= 55 and _pua == 0 and _rows > 0,
-              f"lines={_lf} pua={_pua} list_rows={_rows} "
+        # r1729: the old floor was `_lf >= 55`, and r1727's legitimate hot/cold pass
+        # (50.9KB -> 14.7KB, entry bodies moved verbatim to research/memory-archive/)
+        # left the file at 51 lines and turned this leg red -- a line count cannot
+        # tell "archived" from "truncated", so it would have stayed red until someone
+        # padded the file back over the line. The invariant that actually matters is
+        # structural: the four memory sections exist and the file still carries rows.
+        _secs = sum(1 for _h in ("### User", "### Feedback", "### Project", "### Reference")
+                    if _h in _mt)
+        check("memory: CODELY.md structure intact",
+              _lf >= 10 and _pua == 0 and _rows > 0 and _secs == 4,
+              f"lines={_lf} pua={_pua} list_rows={_rows} sections={_secs}/4 "
               f"bytes={len(_mt.encode('utf-8'))}")
     except Exception as e:
         check("memory: CODELY.md structure intact", False, str(e))

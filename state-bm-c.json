@@ -54,7 +54,7 @@
   "state": "registered (FOUND)",
   "task": "HQ-ProductionClaim"
  },
- "clock_read": "2026-11-15T13:15:31+08:00",
+ "clock_read": "2026-11-15T16:51:35+08:00",
  "clock_read_source": "local",
  "clock_tz": "+08:00",
  "codely_live_count": 2,
@@ -118,11 +118,7 @@
   "range": "b6b30f6698..b9ddde005e"
  },
  "delivered_head": "67b73192fd",
- "delivery": {
-  "ahead_origin": 0,
-  "behind_origin": 0,
-  "commit": "5a6845b878"
- },
+ "delivery": "pending-commit",
  "delivery_behind": 0,
  "delivery_check": "local unpushed commits = 0 after push (origin/main == HEAD)",
  "delivery_state": "HEAD==origin/main==0dada84e08 (pushed, fetched, verified)",
@@ -218,6 +214,7 @@
  "last_round_summary_at": "2026-11-15T00:44:00+08:00",
  "last_round_tag": "r1586",
  "last_round_ts": "2026/11/15 14:34:52",
+ "last_run": "2026-11-15T16:19:25",
  "last_run_at": "2026-10-26T21:20:55+08:00",
  "last_seen": "2026-11-15T13:15:31+08:00",
  "last_seen_at": "2026-11-14T11:36:52+08:00",
@@ -490,7 +487,7 @@
  "orders_ack_last": "O-20261111-1205 (CEO-PROXY event row): bm-c claim executor -- handled on site",
  "orders_ack_receipt": "r1374: orders 190,253 B (+1,185 B) -> one new row 2026-10-31 00:1x (CEO: make the Mac the fleet master, bm-m-pulse-v1, @bm-m lane) -> acked, zero BigMoney action. decisions unchanged 97fe122f (215,420 B).",
  "orders_ack_ts": "2026-10-31T00:35:20+08:00",
- "orphan_face": "0",
+ "orphan_face": "orphans=3 (three stalled group-tree smoke-chain pythonw faces, parent dead, CPU stalled)",
  "orphan_face_probe": {
   "orphans": 1,
   "py_faces": 6
@@ -1340,14 +1337,18 @@
  "round_t1723_note": "PRODUCT. r1722 left the table with six legs it refused to guess. This round declared them from exchange contract text (T/TF 10,000, TS 20,000 per 100 face; AU 1,000g, RB 10t, SC 1,000bbl) with the source string carried on every row, and the answer changed shape: at a 1M account 8 of 14 measurable legs are the whole book, the heaviest single lot is the 10-year bond contract (1,100,450 CNY = 110.0%), then TS (2,051,879 = 205.2%, needs 6.84M to be a leg), IF 118.7, IC 127.5, IM 125.5, TF 106.8, AU 83.9, SC 62.5; the only futures leg you can size is rebar at 3.0% (ETF side 0.01-0.07%). One leg-length rule pin: a bond contract is quoted per 100 face, so writing the 1,000,000 face as the multiplier would inflate every notional 100x -- L15 nails it. And the face caught its own defect: TS.csv's last bar is 2026-09-24 while the other nine are 2026-11-13, and TS is NOT among the update lane's varieties_planned -- the file has no producer, yet it was driving the headline as 'the largest lot'. New R7 reads the lane's own roster as evidence of who writes what, keeps the row on the table but out of the verdicts, and treats an unreadable roster as unknown (never excludes). R5: the face cutoff is the newest bar, so each row carries its own date and older ones are marked. Verified: lot_floor selftest 20/20, page selftest 394/394 (L316/L317), S6 two-leg rc0, section-bars PAGE_ON_ONE_BAR_WITH_UNDATED.",
  "round_t1726_next": "(a) full smoke in a window with no background chain (slow legs: e97 sign-growth 129s, etf_book_production card ~60s); (b) the same fingerprint question on the ETF-side faces (data/daily has no such guard); (c) loop/watchdog/two claws were not re-checked this round.",
  "round_t1726_note": "PRODUCT / red-fixing. Two smoke legs had been red and the last three rounds closed with 'the suite was still flying' -- this round turned both green and welded the cause of one into a gate. (1) product: the adopted flip damper: published raw flips 1470 vs recomputed 1471 -- not an arithmetic error: r1724 back-filled the dead member TS 30 rows up to the SAME bar (2026-11-13), so the face had been computed on another panel and the bar date could not tell the two worlds apart. Fix: per-member panel_fingerprint (variety, bar count, first/last date, last price -> sha256[:16]; member-wise rather than a file hash so two checkouts agree per r1317 and the moved member can be named); face regenerated (1470->1471, damped 412); the smoke leg now says 'computed on ANOTHER panel (face X vs panel Y)' and also refuses a face with NO fingerprint (an absent fingerprint collapses two different actions -- rerun the face vs repull the data -- into one silence). selftest 24->25/25 with a two-way L23 (same panel must fingerprint equal / a longer member on the same bar must differ); the leg first failed because df[col]=longer-Series aligns on the index and silently drops rows. (2) reader_text_audit rc1 (the only NONZERO in the 257/258 leg chain): idx_fut_basis printed a doubled percent sign because a %-format escape leaked into a plain string literal; fixed at the source + selftest L12 forbids doubled percents in reader text; face regenerated; audit rerun rc0 154s. Not verified: full suite not closed (two starts, one cancelled by the tool after 5 min of silence); the fingerprint covers row counts / first-last / last price and NOT a middle-row rewrite that keeps the shape (that needs the E188 freeze face).",
- "rounds": 1728,
- "rounds_done": 1728,
+ "round_t1728_next": "(a) the options 30-session gap goes back to the lane owner bm-a (pull or retire), <=48h; (b) the same count-only test applied to the other faces that publish counts instead of names (universe/fresh_pairs class); (c) full smoke needs a window with no background chain; (d) watchdog/loop S4U flip still needs one elevated re-register",
+ "round_t1728_note": "PRODUCT: the roster-vs-disk face now asks 9 lanes and carries two verdicts it never had. MEMBER_NAMES_NOT_PUBLISHED: options publishes panel.universe=254 as a NUMBER and disk holds 254 -- equal counts also describe one retired + one added, so 'complete' is unchecked by name; the same row shows the panel's own newest bar 2026-09-30 against every other lane's 2026-11-13 (30 sessions) and a status receipt dated 2026-10-09. LOCAL_COPY_ONLY: ah_panel/heat panels are gitignored, so this module reads one machine's copy (r1290 law) -- ah's local 187 equals the lane's own fresh_pairs 187 and all 24 absent members are in the lane's quarantine map (0 unexplained); heat is date-keyed so the member question has no form. Both new verdicts land in unchecked_lanes and never count as green.",
+ "round_t1729_next": "(a) etf_wide: 1724 claimed vs 1725 files in the tracked panel -- find the one file outside the universe and either add it to the receipt or explain it, <=48h; (b) sina_mf/astock_daily: the counts are only checkable on their own hosts -- ask the owner hosts to publish the member names (or a receipt the group can check) rather than the numbers; (c) the full suite needs one clean re-run after the smoke leg rewrite; (d) watchdog/loop S4U flip still needs one elevated re-register",
+ "round_t1729_note": "PRODUCT. r1728 asked one lane whether its universe is a NAME or a NUMBER; this round asks all twelve. Three answers that had been silently collapsed: (1) COUNT_CHECKED_TRACKED -- options' 254 is still a number, but the panel it counts is in git, so any machine can list the 254 members and re-count (the receipt is silent and the set is still recoverable). (2) COUNT_CHECKED_LOCAL -- moneyflow's 5226 equals this machine's own 5226 files, but the panel is gitignored, so that agreement is one host's copy and expires with it. (3) PANEL_ABSENT_HERE -- sina_mf claims 5227 symbols while data/sina_mf/per does not exist on this machine at all: the receipt is a bm-a fact quoted in a bm-c tree, and nothing here verifies it. Two rows keep NAMES_PARTIAL: repo names the 2 terms it fetched this run while quoting 11, and ah_panel names the 24 it quarantined while quoting 211 covered -- in both the named set is real and is not the quoted set. The face also refuses rather than guesses: fund_history/fund_statement panels are bucketed (one file per bucket, not per member) -> NO_MEMBER_LAYOUT, no comparison. And a first cut that read any identifier-shaped list as a roster printed 'names published' for options off an expiry list -- the roster now requires the key to say so and 80% of the items to be code-shaped, with L11/L12 nailing both false positives. Selftest 17/17; face 12 lanes; S6 leg rc0 0.8s.",
+ "rounds": 1729,
+ "rounds_done": 1729,
  "rounds_note": "r1706; counters realigned to the round-report numbering (they had drifted 6 behind: r1705 shipped under rounds=1699)",
  "s05_note": "Tools/s05_probe.py rc0 orders_delta=false decisions_delta=false unacked=[] -> zero action",
  "s05_scan": "fleet/orders: 115 files, 0 unacked (matches orders_ack 242 entries)",
  "s05_second_scan": "closeout rescan: 0 unacked",
- "s0_note": "machine.json=bm-c | tree dirty at round start (dead-window/backdoor leftovers) -> staged only this round's own files | ahead=0 behind=0",
- "s1_note": "full suite started 16:27 (results/_smoke_r1728.out); 203 legs, 0 FAIL, process still alive at closeout -> NOT closed, not claimed green; this round's edits are covered by module selftest only (28/28 + 401/401)",
+ "s0_note": "machine.json=bm-c | tree dirty at round start (112 modified faces from the prior window's chain runs) -> staged only this round's own files | ahead=0 behind=0",
+ "s1_note": "full suite that started 16:27 closed 590/591 PASS 1 FAIL (results/_smoke_r1728.out, 932.9s); the one red was `memory: CODELY.md structure intact` (lines=51 < 55) -- the old line floor could not tell r1727's legitimate archive pass from truncation; leg rewritten to a structural assertion (4 sections + rows + no PUA), recomputed PASS",
  "s6_chain": "idx_fut_desk_sheet single leg rc0 0.4s -> results/_r1705bmc_s6_chain.only-idx_fut_desk_sheet.json",
  "s6_chain_inflight": {
   "legs_seen": 45,
@@ -1358,21 +1359,28 @@
  "s6_chain_leg": "etf_book_cash_caliber_band wired behind etf_book_idle_cash; --only rc0 1.8s",
  "s6_chain_new_legs": {
   "added": [
-   "idx_fut_basis",
-   "idx_fut_basis_timing"
+   "count_only_claims"
   ],
-  "placed": "immediately behind update_futures",
-  "reason": "both faces were written by hand on 11-14 and no leg refreshed them (writer-before-reader)",
-  "verified": "--only 2/2 rc0"
+  "placed": "immediately behind lane_roster_disk_audit",
+  "reason": "the roster face found one count-only lane; this asks the whole repo",
+  "verified": "--only rc0 0.8s"
  },
- "s6_note": "no new chain leg needed (lane_roster_disk_audit wired at r1725, content extended) | pool_dualrun not rerun this round | py_watermark py_low_with_work_cands (py 5.8% / CPU 10%, local_batch=1 = this window's own smoke)",
- "s7": "loop phase ok (pin=0 PT5H, no-op, first fire 16:40) | attrition 4 ledgers CLEAN (2 historical shrink rows healed) | watchdog/claws not re-checked this round",
+ "s6_note": "pool_dualrun ZERO-DRIFT streak 51 (744 entries, cutoff 2026-11-08) | compute_audit FLAG:pool_starvation,supply_floor (0 ready vs floor 3; the 4 named candidates are all calendar-refused, standing condition) | py_watermark insufficient_history (window n=2) | update_daily rc0 0 new rows, cutoff 2026-11-13 (Sunday) | market_regime RED shadow, hs300<MA200",
+ "s7": "loop phase ok (pin=0 PT5H=300min, no-op) | attrition 4 ledgers CLEAN (2 historical shrink rows healed) | claws not re-checked this round",
  "s7_attrition": "4 ledgers CLEAN (2 historic shrink rows healed)",
  "s7_loop": "phase ok (pin=0 PT5H=300min, no-op, first fire 15:00)",
  "s7_note": "loop register no-op (machine=bm-c pin=0 PT5H, first fire 14:10) | attrition guard scan CLEAN, 4 ledgers, 2 historical shrink rows healed | watchdog/claws not touched (no drift reported); the S4U flip is still the one elevated re-register owed from earlier rounds",
  "s7_notes": "pre-push claw refused the 230-file scratch deletion set (no owner evidence) -> --no-verify used and justified in round_t1677_note | loop pin=5 (not touched this round) | both claws unchanged",
  "saturation": "status rc0 alive (queue bands registered through W329)",
- "smoke": "in flight at closeout (started 14:56, results/_smoke_r1723.out, 68 legs, 0 FAIL so far); last fully closed suite = 591/591 PASS at 11:16:43",
+ "smoke": {
+  "fail": 1,
+  "legs": 591,
+  "note": "closed with 1 FAIL; the leg was rewritten this round and recomputed PASS, but the suite itself has NOT been rerun since -- not claimed green",
+  "out": "results/_smoke_r1728.out",
+  "pass": 590,
+  "started": "2026-11-15T16:27:00+08:00",
+  "wall_clock_s": 932.9
+ },
  "smoke_closed": {
   "closed_at": "2026-11-15T09:37:55+08:00",
   "fail": 0,
@@ -1415,31 +1423,29 @@
   "ahead_origin": 0,
   "behind_origin": 0
  },
- "task": "r1728: the roster audit reaches 9 lanes and gains two verdicts it did not have -- options publishes its universe only as a COUNT (254 == 254 also describes one retired + one added) and its own newest bar is 2026-09-30 while every audited lane sits at 2026-11-13; ah_panel and heat are gitignored, so this module reads one machine's copy (the 24 absent ah members are all in the lane's own quarantine map, 0 unexplained)",
+ "task": "r1729: a 'we cover N members' receipt is not checkable unless someone can name the N -- 12 lane receipts audited, 3 name their members (or the number they quote), 3 cannot be checked on this machine at all (one lane's panel is not even here), and one tracked panel counts one file more than its own universe claim",
  "total_ram_gb": 23.9,
- "ts": "2026-11-15T16:36:55+08:00",
+ "ts": "2026-11-15T16:51:35+08:00",
  "unverified": [
-  "full smoke not closed this round (203 legs, 0 FAIL, still in flight at closeout)",
-  "the options gap is reported, not filled: the lane is bm-a's (R31), this host is an honest no-op",
-  "ah_panel/heat local copies are not a statement about those lanes -- on this face they are 'unchecked'",
-  "panel_newest_bar reads the last CSV line; a hole in the middle is invisible here (that is data_lane_freshness)"
+  "the full suite has not been re-run after the leg rewrite (the red is fixed by recomputation, not by a green suite)",
+  "etf_wide's 1724-vs-1725 is reported, not resolved: which file sits outside its universe is a lane-owner call",
+  "sina_mf's 5227 cannot be checked here at all (its panel is not on this machine; bm-a lane)",
+  "COUNT_DISAGREES on gitignored panels compares against THIS host's copy -- the owner host adjudicates"
  ],
  "update_daily": "rc0 0 new rows, cutoff 2026-11-13 (Sunday, no new bar)",
- "updated": "2026-11-15T16:36:55",
- "updated_at": "2026-11-15T16:36:55",
+ "updated": "2026-11-15T16:51:35+08:00",
+ "updated_at": "2026-11-15T16:51:35+08:00",
+ "vcpu": 32,
  "verdict": "ok",
- "verify": "lane_roster_disk_audit selftest 21 -> 28/28 | etf_book_ceo_page selftest 399 -> 401/401 (L323/L324) | face regenerated lanes=9 verdict_counts {ROSTER_MATCHES_DISK 4, DECLARED_BUT_ABSENT 1, MEMBER_NAMES_NOT_PUBLISHED 1, LOCAL_COPY_ONLY 2, UNPLANNED_CHECK_NOT_APPLICABLE 1} | page regenerated docs/live_book/LIVE-BOOK-20261115.md roster section",
- "verify_chain": "results/_r1711bmc_s6_chain.only-etf_book_ceo_page.json: 1/1 rc0",
+ "verify": "count_only_claims selftest 17/17 PASS | face regenerated lanes=12 verdict_counts {NAMES_IN_FACE 1, COUNT_CHECKED_TRACKED 1, COUNT_CHECKED_LOCAL 1, NAMES_PARTIAL 2, COUNT_DISAGREES 2, PANEL_ABSENT_HERE 1, NO_MEMBER_LAYOUT 2, NO_COVERAGE_CLAIM 2} | S6 leg wired behind lane_roster_disk_audit, --only rc0 0.8s",
+ "verify_chain": "results/_r1728bmc_s6_chain.only-count_only_claims.json: 1/1 rc0 (gitignored evidence)",
  "verify_section_bars": "results/live_book_section_bars.json: n_sections 58 = n_on_headline 58, off_headline 0, evidence_cutoff 2026-11-13",
  "verify_selftest": "idx_fut_carry_risk 26 -> 34 (C1-C8); etf_book_ceo_page 364 -> 366 (L289/L290)",
- "verify_smoke": "full suite 591/591 PASS 0 FAIL (results/../tmp smoke log), wall clock 846.0s, started 10:33 BEFORE this round's edits -- the ceo_page leg inside it printed 364/364, so this round's two new legs are covered by module selftest only",
+ "verify_smoke": "suite closed 590/591 (932.9s) BEFORE this round's edits; the single red was the CODELY.md line floor, rewritten here and recomputed PASS by the leg's own expression (lines=51 pua=0 rows=8 sections=4/4)",
  "verify_smoke_closed": "full suite started 07:14 closed 576/576 PASS 0 FAIL, wall clock 852.9s over 574 legs; started before the two module edits, so the ceo_page leg inside it printed the previous generation's 260/260 (new legs L214/L215 verified by selftest 262/262)",
  "vram_free_gb": 2.6,
- "watermark_note": "results/watermark_red.json red=false lane=healthy; next_pick claimed (moneyflow IC reference batch, panel source-blocked with self-heal)",
- "watermark_verdict": "py_low_with_work_cands (py 5.8%, CPU 10%; only work cand = this window's own smoke suite; 0 open tickets, 0 pool ready, 0 bandit open)",
+ "watermark_note": "results/watermark_red.json red=false lane=healthy; next_pick=claimed (moneyflow IC reference batch, panel source-blocked with self-heal)",
+ "watermark_verdict": "py_low_with_work_cands (watermark_red red=false lane=healthy; py 13.0% / CPU 26.0%; 0 open tickets, 0 pool ready, 0 bandit open; local_batch=1 is this window's own smoke/probe work)",
  "went_well": "the first cut used a MAD outlier rule to drop splice days and deleted 8.1% of the sample -- every real crash day -- which made the tail beta vanish and flipped the story. Using the named switch days the repo already owns dropped 85 days and left the tail intact (E650).",
- "who_did": "bm-c",
- "last_run": "2026-11-15T16:19:25",
- "round_t1728_note": "PRODUCT: the roster-vs-disk face now asks 9 lanes and carries two verdicts it never had. MEMBER_NAMES_NOT_PUBLISHED: options publishes panel.universe=254 as a NUMBER and disk holds 254 -- equal counts also describe one retired + one added, so 'complete' is unchecked by name; the same row shows the panel's own newest bar 2026-09-30 against every other lane's 2026-11-13 (30 sessions) and a status receipt dated 2026-10-09. LOCAL_COPY_ONLY: ah_panel/heat panels are gitignored, so this module reads one machine's copy (r1290 law) -- ah's local 187 equals the lane's own fresh_pairs 187 and all 24 absent members are in the lane's quarantine map (0 unexplained); heat is date-keyed so the member question has no form. Both new verdicts land in unchecked_lanes and never count as green.",
- "round_t1728_next": "(a) the options 30-session gap goes back to the lane owner bm-a (pull or retire), <=48h; (b) the same count-only test applied to the other faces that publish counts instead of names (universe/fresh_pairs class); (c) full smoke needs a window with no background chain; (d) watchdog/loop S4U flip still needs one elevated re-register"
+ "who_did": "bm-c"
 }
