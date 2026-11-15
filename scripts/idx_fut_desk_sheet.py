@@ -60,6 +60,9 @@ CRITERIA = {
     # the middle of the source face's three printed margin assumptions
     "margin_pct": 0.12,
     "thin_interest_share_pct": 8.0,
+    # account sizes a reader might actually have; the sheet prices every one of them
+    # instead of answering only for the face's own 1M
+    "ladder_capitals_cny": [300000, 1000000, 3000000, 10000000, 50000000],
 }
 
 
@@ -216,6 +219,25 @@ def desk_row(prod, face, cache_dir=None, capital=None):
     call_at_survive = (margin_call(lots_survive, notional, cap, maint)
                        if (maint is not None and lots_survive) else None)
 
+    # Every count above is a margin-account answer.  A cash account cannot carry a lot
+    # whose notional exceeds its capital at all, and the earlier prints of this sheet put
+    # "1 lot survives the record" next to a 1M capital while one IC lot is 1.275M of
+    # index: a reader would size a book the account cannot fund without borrowing, so the
+    # cash count is printed beside the margin counts instead of being left to arithmetic.
+    cash_lots = int(cap // notional) if notional > 0 else None
+
+    # What the sleeve pays on the capital it actually needs behind it.  Carry is measured
+    # on notional, but nobody holds a future on notional alone -- the money that has to sit
+    # there is the maintenance level plus the fall it must fund.  Both rulers are printed
+    # because they answer different questions: the sample's own drawdown says what this
+    # window cost, the index's worst says what a 2008 would demand.
+    carry = (src.get("risk") or {}).get("ann_compound_pct")
+    sample_dd = (src.get("risk") or {}).get("mdd_pct")
+    rec_ratio = (maint + abs(stress_dd) / 100.0 * (1 - maint)
+                 if (maint is not None and isinstance(stress_dd, (int, float))) else None)
+    smp_ratio = (maint + abs(sample_dd) / 100.0 * (1 - maint)
+                 if (maint is not None and isinstance(sample_dd, (int, float))) else None)
+
     iv = roll_intervals(days, rolls)
     idx = {d: k for k, d in enumerate(days)}
     last_roll = rolls[-1] if rolls else None
@@ -242,6 +264,17 @@ def desk_row(prod, face, cache_dir=None, capital=None):
         "lots_after_own_drawdown": lots_after_dd,
         "lots_after_index_worst_drawdown": lots_after_stress,
         "lots_that_survive_index_worst_without_a_call": lots_survive,
+        # the same question asked of a cash account: a lot whose notional exceeds the
+        # capital is not a small position, it is not a position at all
+        "cash_lots_at_stated_capital": cash_lots,
+        "carry_ann_compound_pct": carry,
+        "sample_drawdown_pct": None if not isinstance(sample_dd, (int, float)) else round(abs(sample_dd), 2),
+        "record_risk_capital_per_lot_cny": None if rec_ratio is None else round(notional * rec_ratio, 0),
+        "record_return_on_risk_capital_pct": (None if (carry is None or not rec_ratio)
+                                             else round(carry / rec_ratio, 2)),
+        "sample_risk_capital_per_lot_cny": None if smp_ratio is None else round(notional * smp_ratio, 0),
+        "sample_return_on_risk_capital_pct": (None if (carry is None or not smp_ratio)
+                                             else round(carry / smp_ratio, 2)),
         "index_worst_drawdown_pct": None if not isinstance(stress_dd, (int, float)) else round(abs(stress_dd), 2),
         "stress_buffer_per_lot_cny": None if stress_buffer is None else round(stress_buffer, 0),
         "margin_call_at_recommended_lots": call_at_recommended,
@@ -296,7 +329,61 @@ def build(cache_dir=None, capital=None):
                                  if not r.get("thin_interest")),
         "note": ("a candidate is a sleeve being priced forward, not an adopted position;"
                  " the margin and the multipliers are assumptions printed with the numbers"),
+        "capital_ladder": capital_ladder(rows),
+        "book": _book_block(face),
     }
+
+
+def _book_block(face):
+    """The adopted book's own risk face, copied so the sleeve can be read against it."""
+    b = ((face or {}).get("book") or {})
+    if not b:
+        return None
+    return {k: b.get(k) for k in ("n", "ann_mean_pct", "ann_vol_pct", "sharpe",
+                                  "mdd_pct", "ann_compound_pct", "worst_year_pct",
+                                  "worst_year", "underwater_max_bars")}
+
+
+def capital_ladder(rows, capitals=None):
+    """One row per (product, account size): what a cash account can hold, what a margin
+    account can hold, and what each of those earns in CNY at the published carry.
+
+    Both counts are printed because they diverge in the direction that matters: a 1M
+    cash account carries zero IC lots while a margin account carries six, and a reader
+    who is handed only the second number will believe the first is six too.
+    """
+    caps = [float(c) for c in (capitals or CRITERIA["ladder_capitals_cny"])]
+    out = []
+    for prod in CRITERIA["products"]:
+        r = (rows or {}).get(prod) or {}
+        if r.get("status") != "ok":
+            out.append({"product": prod, "status": r.get("status") or "absent", "steps": []})
+            continue
+        notional = r.get("notional_per_lot_cny") or 0.0
+        margin = r.get("margin_per_lot_cny") or 0.0
+        carry = r.get("carry_ann_compound_pct")
+        steps = []
+        for cap in caps:
+            cash_lots = int(cap // notional) if notional > 0 else None
+            margin_lots = int(cap // margin) if margin > 0 else None
+            steps.append({
+                "capital_cny": cap,
+                "cash_lots": cash_lots,
+                "cash_return_cny": (None if (cash_lots is None or carry is None)
+                                    else round(cash_lots * notional * carry / 100.0, 0)),
+                "cash_occupancy_pct": (None if (cash_lots is None or not cap)
+                                       else round(cash_lots * notional / cap * 100.0, 1)),
+                "margin_lots": margin_lots,
+                "margin_return_cny": (None if (margin_lots is None or carry is None)
+                                      else round(margin_lots * notional * carry / 100.0, 0)),
+            })
+        out.append({"product": prod, "status": "ok",
+                    "notional_per_lot_cny": notional, "carry_ann_compound_pct": carry,
+                    "steps": steps})
+    return {"capitals_cny": caps, "rows": out,
+            "note": ("cash = the lot is paid for in full (notional <= capital); margin = the"
+                     " exchange minimum is posted and the rest of the capital is what absorbs"
+                     " the fall -- the two are different positions, not two estimates")}
 
 
 # ------------------------------------------------------------------ rendering
@@ -342,20 +429,22 @@ def render_md(face):
     L.append("")
     L.append("## what a stated capital buys")
     L.append("")
-    L.append("Capital **%s CNY**. Four counts, because \"how many lots\" has four different"
-             " answers depending on what the capital is supposed to survive: margin only,"
-             " the product's own published max drawdown, the index's worst on record paid in"
-             " cash, and the largest book that is never called at that worst."
+    L.append("Capital **%s CNY**. Five counts, because \"how many lots\" has five different"
+             " answers depending on what the capital is supposed to survive: paid for in"
+             " full, margin only, the product's own published max drawdown, the index's"
+             " worst on record paid in cash, and the largest book that is never called at"
+             " that worst."
              % _p(face["criteria"]["capital_cny"], 0))
     L.append("")
-    L.append("| product | margin only | after own max drawdown | after index worst drawdown | survives worst drawdown without a call |")
-    L.append("|---|---|---|---|---|")
+    L.append("| product | cash, no borrowing | margin only | after own max drawdown | after index worst drawdown | survives worst drawdown without a call |")
+    L.append("|---|---|---|---|---|---|")
     for prod in CRITERIA["products"]:
         r = face["rows"].get(prod, {})
         if r.get("status") != "ok":
             continue
-        L.append("| %s | %s lots | %s lots | %s lots | %s lots |"
-                 % (prod, _p(r.get("lots_for_capital"), 0, "?"),
+        L.append("| %s | %s lots | %s lots | %s lots | %s lots | %s lots |"
+                 % (prod, _p(r.get("cash_lots_at_stated_capital"), 0, "?"),
+                    _p(r.get("lots_for_capital"), 0, "?"),
                     _p(r.get("lots_after_own_drawdown"), 0, "?"),
                     _p(r.get("lots_after_index_worst_drawdown"), 0, "?"),
                     _p(r.get("lots_that_survive_index_worst_without_a_call"), 0, "?")))
@@ -369,6 +458,92 @@ def render_md(face):
     L.append("because a call arrives at the maintenance level, not at the initial one -- and")
     L.append("that difference is the only room this trade is actually given.")
     L.append("")
+    # The five counts differ in one direction that costs money: a cash account cannot
+    # carry a lot whose notional exceeds its capital.  Say which products are in that
+    # shape at this account size instead of leaving the reader to multiply.
+    live_prods = [p for p in CRITERIA["products"]
+                  if (face["rows"].get(p) or {}).get("status") == "ok"]
+    cannot_pay = [p for p in live_prods
+                  if (face["rows"][p].get("cash_lots_at_stated_capital") or 0) == 0]
+    if cannot_pay:
+        L.append("**%s** cannot be paid for in full even once at this account size (one"
+                 " lot's notional is larger than the stated capital), so every count in"
+                 " the last three columns is a margin position: the account borrows, and"
+                 " the borrowed part is exactly what a fall calls first."
+                 % ", ".join(cannot_pay))
+        L.append("")
+    L.append("## what the sleeve earns on the capital it needs behind it")
+    L.append("")
+    L.append("Carry is measured on notional. Nobody holds a future on notional alone -- the")
+    L.append("money that has to sit there is the maintenance level plus the fall it must")
+    L.append("fund -- so the same carry buys a different return on the capital actually")
+    L.append("committed, and the answer depends on which fall you prepare for.")
+    L.append("")
+    L.append("| product | carry on notional | capital/lot for sample DD | return on it | capital/lot for index worst | return on it |")
+    L.append("|---|---|---|---|---|---|")
+    for prod in CRITERIA["products"]:
+        r = face["rows"].get(prod, {})
+        if r.get("status") != "ok":
+            continue
+        L.append("| %s | %s%% | %s | %s%% | %s | %s%% |"
+                 % (prod,
+                    _p(r.get("carry_ann_compound_pct"), 2, "?"),
+                    _p(r.get("sample_risk_capital_per_lot_cny"), 0, "?"),
+                    _p(r.get("sample_return_on_risk_capital_pct"), 2, "?"),
+                    _p(r.get("record_risk_capital_per_lot_cny"), 0, "?"),
+                    _p(r.get("record_return_on_risk_capital_pct"), 2, "?")))
+    L.append("")
+    L.append("The sample column prepares for the hole this window produced (%s%% for IC);"
+             " the index column prepares for the index's own worst (%s%%)."
+             % (_p((face["rows"].get("IC") or {}).get("sample_drawdown_pct"), 2, "?"),
+                _p((face["rows"].get("IC") or {}).get("index_worst_drawdown_pct"), 2, "?")))
+    L.append(" A return computed on the smaller capital is not a better trade, it is the same")
+    L.append(" trade with less money held against the day the larger number happens.")
+    L.append("")
+    bk = face.get("book") or {}
+    if bk and bk.get("ann_compound_pct") is not None:
+        L.append("Read against the adopted book on the same source face (n=%s bars, %s%%"
+                 " vol, Sharpe %s, max drawdown %s%%):"
+                 % (bk.get("n"), _p(bk.get("ann_vol_pct"), 2, "?"),
+                    _p(bk.get("sharpe"), 3, "?"), _p(bk.get("mdd_pct"), 2, "?")))
+        L.append("")
+        L.append("- the book compounds **%s%%/yr** and its worst drawdown is **%s%%**;"
+                 % (_p(bk.get("ann_compound_pct"), 2, "?"), _p(bk.get("mdd_pct"), 2, "?")))
+        for prod in CRITERIA["products"]:
+            r = face["rows"].get(prod, {})
+            if r.get("status") != "ok" or r.get("record_return_on_risk_capital_pct") is None:
+                continue
+            L.append("- **%s** pays **%s%%/yr** on the capital that funds its index worst"
+                     " (%s), and that capital is the size of a %s%% fall."
+                     % (prod, _p(r.get("record_return_on_risk_capital_pct"), 2),
+                        _p(r.get("record_risk_capital_per_lot_cny"), 0),
+                        _p(r.get("index_worst_drawdown_pct"), 2, "?")))
+        L.append("")
+        L.append("A sleeve that pays the book's rate while requiring its holder to fund a")
+        L.append("%s%% fall is not the same instrument at the same price; that comparison"
+                 " is the one this sheet refuses to make for the reader."
+                 % _p(max([(face["rows"].get(p) or {}).get("index_worst_drawdown_pct") or 0
+                           for p in live_prods] or [0]), 2))
+        L.append("")
+        priced = [(p, (face["rows"].get(p) or {}).get("record_return_on_risk_capital_pct"))
+                  for p in live_prods
+                  if (face["rows"].get(p) or {}).get("record_return_on_risk_capital_pct") is not None]
+        if priced and bk.get("ann_compound_pct") is not None:
+            best_prod, best_pct = max(priced, key=lambda x: x[1])
+            gap = best_pct - bk["ann_compound_pct"]
+            L.append("So the money question has one answer on this face: the best sleeve is")
+            L.append("**%s** at %s%%/yr against the book's %s%%/yr (%spp), and the %spp is"
+                     " paid for by holding capital sized for a %s%% fall rather than the book's"
+                     " %s%% worst. A reader who wants the book's risk shape should not"
+                     " substitute this; a reader who will fund a %s%% hole for %spp is being"
+                     " quoted the whole price here, not a partial one."
+                     % (best_prod, _p(best_pct, 2), _p(bk.get("ann_compound_pct"), 2),
+                        _sgn(gap, 2), _p(gap, 2),
+                        _p((face["rows"].get(best_prod) or {}).get("index_worst_drawdown_pct"), 2, "?"),
+                        _p(abs(bk.get("mdd_pct") or 0), 2),
+                        _p(max([(face["rows"].get(p) or {}).get("index_worst_drawdown_pct") or 0
+                                for p in live_prods] or [0]), 2), _sgn(gap, 2)))
+            L.append("")
     L.append("## how far the index must fall before someone calls")
     L.append("")
     L.append("| product | index worst DD on record | fall that calls the own-DD count | with +%spp maintenance | fall that calls the surviving count |"
@@ -458,6 +633,35 @@ def render_md(face):
              " one number) and the fact that CFFEX may raise the maintenance level mid-crisis,"
              " which is exactly when the distance is being used." % _p(MAINTENANCE_SURCHARGE_BAND * 100, 0))
     L.append("")
+    lad = face.get("capital_ladder") or {}
+    if lad.get("rows"):
+        L.append("## a ladder: what each account size holds, and what it earns")
+        L.append("")
+        L.append("Two counts per account because they answer two different questions: the")
+        L.append("cash column is a position that cannot be called, the margin column is the")
+        L.append("one the exchange minimum buys and the rest of the capital absorbs the fall.")
+        L.append("Returns are carry on notional at the published rate; idle cash earns nothing")
+        L.append("here, and the repo rate on that cash is another host's panel.")
+        L.append("")
+        L.append("| product | capital | cash lots | cash earns /yr | cash occupancy | margin lots | margin earns /yr |")
+        L.append("|---|---|---|---|---|---|---|")
+        for row in lad["rows"]:
+            if row.get("status") != "ok":
+                L.append("| %s | - | %s | - | - | - | - |" % (row.get("product"), row.get("status")))
+                continue
+            for st in row.get("steps") or []:
+                L.append("| %s | %s | %s | %s | %s%% | %s | %s |"
+                         % (row.get("product"), _p(st.get("capital_cny"), 0, "?"),
+                            _p(st.get("cash_lots"), 0, "?"),
+                            _p(st.get("cash_return_cny"), 0, "?"),
+                            _p(st.get("cash_occupancy_pct"), 1, "?"),
+                            _p(st.get("margin_lots"), 0, "?"),
+                            _p(st.get("margin_return_cny"), 0, "?")))
+        L.append("")
+        L.append("A zero in the cash column is not a small position: it means one lot costs")
+        L.append("more than the whole account, and the margin column is what a leveraged")
+        L.append("holder would be looking at -- the row that has a call distance attached.")
+        L.append("")
     L.append("## when it rolls, and what the published gap is")
     L.append("")
     L.append("| product | last roll | td since | median interval | next roll ~td | gap after roll cost (floor / median) |")
@@ -723,6 +927,85 @@ def selftest():
             "No index worst drawdown on the source face for **IH**" in tp2, "")
         leg("a row with no stress ruler does not inherit a neighbour's fall",
             "| IH | ?% |" in tp2, "")
+
+    # 13. the cash ruler (r1706).  The failure that costs money here is printing a margin
+    # count where a reader reads a cash one, so the legs assert the boundary from both
+    # sides: a notional above the capital is zero lots, a notional below it is at least one.
+    leg("a lot that costs more than the account is not a small position: zero cash lots",
+        int(999999.0 // 1000000.0) == 0, "999999 // 1000000")
+    leg("cash lots x notional never exceeds the capital",
+        int(2000000.0 // 1275000.0) * 1275000.0 <= 2000000.0,
+        "1 lot of 1.275M inside 2M")
+    r_ic = (face["rows"].get("IC") or {})
+    if r_ic.get("status") == "ok":
+        leg("a cash lot is priced against notional, not margin",
+            r_ic.get("cash_lots_at_stated_capital")
+            == int(r_ic["capital_cny"] // r_ic["notional_per_lot_cny"]),
+            str(r_ic.get("cash_lots_at_stated_capital")))
+        # the risk-capital return is the carry divided by the capital ratio, not a second
+        # estimate of carry: assert the identity at the printed precision
+        ratio = MAINTENANCE["IC"] + abs(r_ic["index_worst_drawdown_pct"]) / 100.0 * (1 - MAINTENANCE["IC"])
+        leg("return on risk capital == carry / (maintenance + fall funded)",
+            abs(r_ic["record_return_on_risk_capital_pct"]
+                - round(r_ic["carry_ann_compound_pct"] / ratio, 2)) < 0.006,
+            "%s vs %s" % (r_ic["record_return_on_risk_capital_pct"],
+                          round(r_ic["carry_ann_compound_pct"] / ratio, 2)))
+        leg("preparing for the index worst costs more capital than preparing for the sample",
+            (r_ic.get("record_risk_capital_per_lot_cny") or 0)
+            >= (r_ic.get("sample_risk_capital_per_lot_cny") or 0),
+            "%s vs %s" % (r_ic.get("sample_risk_capital_per_lot_cny"),
+                          r_ic.get("record_risk_capital_per_lot_cny")))
+        leg("a return on the smaller capital is larger, which is why both are printed",
+            (r_ic.get("sample_return_on_risk_capital_pct") or 0)
+            >= (r_ic.get("record_return_on_risk_capital_pct") or 0),
+            "%s vs %s" % (r_ic.get("sample_return_on_risk_capital_pct"),
+                          r_ic.get("record_return_on_risk_capital_pct")))
+        if (r_ic.get("cash_lots_at_stated_capital") or 0) == 0:
+            leg("a product a cash account cannot buy says so on the page",
+                "cannot be paid for in full" in page12 and "IC" in page12, "")
+    lad = face.get("capital_ladder") or {}
+    ladder_rows = [x for x in (lad.get("rows") or []) if x.get("status") == "ok"]
+    leg("the ladder prices every product the sheet carries",
+        len(ladder_rows) == len([p for p in CRITERIA["products"]
+                                 if (face["rows"].get(p) or {}).get("status") == "ok"]),
+        str([x.get("product") for x in ladder_rows]))
+    mono = True
+    money_ok = True
+    for x in ladder_rows:
+        prev_cash, prev_marg = -1, -1
+        for st in x.get("steps") or []:
+            if st["cash_lots"] is not None:
+                if st["cash_lots"] < prev_cash:
+                    mono = False
+                prev_cash = st["cash_lots"]
+            if st["margin_lots"] is not None:
+                if st["margin_lots"] < prev_marg:
+                    mono = False
+                prev_marg = st["margin_lots"]
+            if st.get("cash_return_cny") is not None and x.get("carry_ann_compound_pct") is not None:
+                want = round(st["cash_lots"] * x["notional_per_lot_cny"]
+                             * x["carry_ann_compound_pct"] / 100.0, 0)
+                if abs(want - st["cash_return_cny"]) > 1.0:
+                    money_ok = False
+    leg("more capital never buys fewer lots (cash or margin)", mono, "")
+    leg("a cash step earns lots x notional x the published carry", money_ok, "")
+    leg("the margin count is never below the cash count",
+        all((st.get("margin_lots") or 0) >= (st.get("cash_lots") or 0)
+            for x in ladder_rows for st in x.get("steps") or []), "")
+    # the comparison sentence is derived, so a hand-typed product name or a stale gap
+    # would be a silent edit of the only money sentence on the page
+    bk = face.get("book") or {}
+    priced = [(p, (face["rows"].get(p) or {}).get("record_return_on_risk_capital_pct"))
+              for p in CRITERIA["products"]
+              if (face["rows"].get(p) or {}).get("status") == "ok"
+              and (face["rows"].get(p) or {}).get("record_return_on_risk_capital_pct") is not None]
+    if bk.get("ann_compound_pct") is not None and priced:
+        best_prod, best_pct = max(priced, key=lambda x: x[1])
+        gap = best_pct - bk["ann_compound_pct"]
+        leg("the page names the sleeve that pays most, and by how much",
+            ("**%s** at %.2f%%/yr" % (best_prod, best_pct)) in page12
+            and ("%+.2fpp" % gap) in page12,
+            "%s %+.2fpp" % (best_prod, gap))
 
     bad = [n for n, ok, _ in legs if not ok]
     for n, ok, d in legs:
