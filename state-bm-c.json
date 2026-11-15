@@ -73,15 +73,15 @@
  "current_task_short": "ah_panel: bounded silence + readable log",
  "current_task_ts": "2026-11-13T07:40:54+08:00",
  "d19_watermark_guard": {
-  "tool": "scripts/d19_watermark.py",
-  "probe": "results/_r686bmb_d19_check.py",
-  "probe_evidence": "K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\_r686bmb_d19_check.bm-c.json",
+  "advance": true,
   "method_decisions": "sha256",
   "method_orders": "sha256",
-  "verbatim": true,
-  "advance": true,
+  "probe": "results/_r686bmb_d19_check.py",
+  "probe_evidence": "K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\_r686bmb_d19_check.bm-c.json",
   "round_ref": 1732,
-  "ts": "2026-11-15T18:25:00+08:00"
+  "tool": "scripts/d19_watermark.py",
+  "ts": "2026-11-15T18:25:00+08:00",
+  "verbatim": true
  },
  "d19_watermark_v2": {
   "compare_order": "repo+commit_sha+blob_bytes first, then sha256; source mismatch = stale",
@@ -1464,5 +1464,6 @@
  "watermark_note": "results/watermark_red.json red=false lane=healthy; next_pick=claimed (moneyflow IC reference batch, panel source-blocked with self-heal)",
  "watermark_verdict": "insufficient_history",
  "went_well": "the receipt reader was written key-gated from the start, so the first run already refused the laggard_sample list and read only the two lists that say what they are -- the same defect r1731 had to fix after the fact",
- "who_did": "bm-c"
+ "who_did": "bm-c",
+ "当前任务": "r1732 陈旧队列点名（exchange_calendar_audit.stale_cohort_names + FRESHNESS 页面新节）"
 }
