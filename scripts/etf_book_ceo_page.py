@@ -6020,6 +6020,65 @@ def derisk_face(path=DERISK_JSON):
             "path": _rel(path)}
 
 
+DESK_SHEET = os.path.join(ROOT, "results", "idx_fut_desk_sheet.json")
+CARRY_RISK = os.path.join(ROOT, "results", "idx_fut_carry_risk.json")
+
+
+def futures_sleeve_face():
+    """The index-futures carry sleeve, read off the two published faces.
+
+    r1708: twenty rounds went into pricing an index-futures carry sleeve and the page a
+    CEO opens never carried one line of it -- a whole line of work with no reader. Every
+    number here is copied off the desk sheet (and the risk face for the caveat that the
+    +0.3 Sharpe is a spread blend), never recomputed: one implementation, E288 lineage.
+    """
+    ds = _load(DESK_SHEET) if os.path.exists(DESK_SHEET) else {}
+    cr = _load(CARRY_RISK) if os.path.exists(CARRY_RISK) else {}
+    rows = ds.get("rows") or {}
+    if not isinstance(rows, dict) or not rows:
+        return {"status": "unreadable", "readable": False,
+                "why": "results/idx_fut_desk_sheet.json has no rows block"}
+
+    def _num(x, k=None):
+        v = (x or {}).get(k) if k else x
+        return float(v) if isinstance(v, (int, float)) else None
+
+    out_rows = []
+    for prod in ("IC", "IF", "IH", "IM"):
+        r = rows.get(prod) or {}
+        if not r:
+            continue
+        v = ((cr.get("products") or {}).get(prod) or {})
+        blend = v.get("blend_best") or {}
+        out_rows.append({
+            "product": prod,
+            "capital_cny": _num(r, "capital_cny"),
+            "notional_per_lot_cny": _num(r, "notional_per_lot_cny"),
+            "cash_lots_at_stated_capital": _num(r, "cash_lots_at_stated_capital"),
+            "lots_that_survive_index_worst": _num(r, "lots_that_survive_index_worst_without_a_call"),
+            "carry_ann_compound_pct": _num(r, "carry_ann_compound_pct"),
+            "gap_net_pp": _num(r.get("gap_after_roll_cost_pp") or {}, "measured_median"),
+            "index_worst_drawdown_pct": _num(r, "index_worst_drawdown_pct"),
+            "verdict": v.get("verdict"),
+            "blend_gain_sharpe": _num(v, "blend_gain_sharpe"),
+            "blend_lambda": _num(blend, "lambda"),
+        })
+    if not out_rows:
+        return {"status": "unreadable", "readable": False,
+                "why": "the desk sheet carries none of IC/IF/IH/IM"}
+    book = ds.get("book") or {}
+    return {"status": "ok", "readable": True,
+            "evidence_cutoff": ds.get("evidence_cutoff"),
+            "capital_cny": out_rows[0].get("capital_cny"),
+            "book": {"ann_compound_pct": _num(book, "ann_compound_pct"),
+                     "sharpe": _num(book, "sharpe")},
+            "candidates": ds.get("candidates") or [],
+            "rows": out_rows,
+            "desk_path": _rel(DESK_SHEET),
+            "risk_path": _rel(CARRY_RISK),
+            "risk_note": ((cr.get("verdict") or {}).get("note") or None)}
+
+
 def derisk_block(dk):
     """The third road, printed as a dead end with its own measurements.
 
@@ -6114,6 +6173,93 @@ def derisk_block(dk):
     out.append("- 数据到 %s（规则面 evidence_cutoff，非本页 bar；跑于 %s），出处 %s"
                % (dk.get("evidence_cutoff") or "未标注", dk.get("asof") or "未标注",
                   dk.get("path") or "?"))
+    out.append("")
+    return out
+
+
+def futures_sleeve_block(fs):
+    """The index-futures carry sleeve, as three sentences a reader can act on.
+
+    r1708. Nothing in this block is a constant of the code:
+    (1) which contracts the stated capital can pay for in CASH (`cash_lots_at_stated_capital`)
+        -- and a notional larger than the whole account is the answer "none of them", which
+        is a different sentence from "we did not look";
+    (2) the yield of the ones it can hold, printed beside the book's own yield;
+    (3) the risk face's +0.3 Sharpe is the futures-minus-index spread, which needs a short
+        index leg this desk does not have (the face's own realizable note). A reader who
+        takes that number as buyable would buy index beta and call it carry.
+    """
+    head = ["## 要不要用期货把指数那部分换掉（这条线跑了二十多轮）", ""]
+    fs = fs or {}
+    if not fs.get("readable"):
+        return head + ["- **无法核验**：期货晨表读不出来，所以这一节既没有答案，"
+                       "也不该被读成任何方向的答案。", ""]
+    rows = fs.get("rows") or []
+    cap = fs.get("capital_cny")
+    book = fs.get("book") or {}
+    book_ann = book.get("ann_compound_pct")
+    cap_say = format(cap or 0, ",.0f")
+    out = list(head)
+
+    cash = [r for r in rows if (r.get("cash_lots_at_stated_capital") or 0) >= 1]
+    if cash:
+        best = max(cash, key=lambda r: r.get("carry_ann_compound_pct") or 0)
+        out.append("- 一句话：**这个账户能付现金买下的合约只有 %s**（一手名义 %s 元，账户 %s 元），"
+                   "它一年赚 **%.2f%%**，而这本书自己一年赚 **%.2f%%**。"
+                   % ("、".join(r["product"] for r in cash),
+                      format(best.get("notional_per_lot_cny") or 0, ",.0f"), cap_say,
+                      best.get("carry_ann_compound_pct") or 0.0, book_ann or 0.0))
+        out.append("- 所以结论是**不换**：不是这条线不成立，是它在这么小的账户上没有位置。")
+    else:
+        cheap = min(rows, key=lambda r: r.get("notional_per_lot_cny") or 0)
+        out.append("- 一句话：**一张都买不起**——最便宜的一手（%s）名义 %s 元，"
+                   "比 %s 元的整个账户还大，其余更大。"
+                   % (cheap.get("product"), format(cheap.get("notional_per_lot_cny") or 0, ",.0f"),
+                      cap_say))
+        out.append("- 所以结论是**不换**：这个规模的账户没有一条能用现金持有一张指数期货的路径。")
+
+    out.append("")
+    out.append("| 合约 | 一手名义 | 这账户能付现金几手 | 扛过指数全史最坏回撤还剩几手 | 年均 carry | 把 ETF 换成期货的净差 |")
+    out.append("|---|---|---|---|---|---|")
+    for r in rows:
+        out.append("| %s | %s | %s | %s | %s | %s |"
+                   % (r.get("product"),
+                      format(r.get("notional_per_lot_cny") or 0, ",.0f"),
+                      "-" if r.get("cash_lots_at_stated_capital") is None
+                      else "%d" % int(r["cash_lots_at_stated_capital"]),
+                      "-" if r.get("lots_that_survive_index_worst") is None
+                      else "%d" % int(r["lots_that_survive_index_worst"]),
+                      "?" if r.get("carry_ann_compound_pct") is None
+                      else "%.2f%%/年" % r["carry_ann_compound_pct"],
+                      "?" if r.get("gap_net_pp") is None else "%+.2fpp" % r["gap_net_pp"]))
+    out.append("")
+
+    ratio = [(r.get("product"), (r.get("notional_per_lot_cny") or 0.0) / cap)
+             for r in rows] if cap else []
+    over = [x for x in ratio if x[1] > 1.0]
+    if over:
+        w = max(over, key=lambda x: x[1])
+        out.append("- **一手就是一本账**：%s 一手的名义是这个账户的 %.2f 倍——买一手等于把整个账户押上去，"
+                   "而且还要借 %.2f 倍。这一行不是「仓位小一点」，是没有小一点的仓位。"
+                   % (w[0], w[1], w[1] - 1.0))
+
+    gains = [(r.get("product"), r.get("blend_gain_sharpe")) for r in rows
+             if (r.get("blend_gain_sharpe") or 0) > 0]
+    if gains:
+        top = max(gains, key=lambda x: x[1])
+        out.append("- 风险面上那个 **%+.3f 的夏普**（%s）**不能买**：那个混合用的是「期货减指数」的价差，"
+                   "要有条**指数空腿**才能把它隔离出来，这条腿本所借不到——这是那张风险面自己写的。"
+                   "能买到的是上表的净差列（把 ETF 换成期货），不是这个夏普。"
+                   % (top[1], top[0]))
+
+    cand = fs.get("candidates") or []
+    if cand:
+        out.append("- 风险面把 %s 列为「值得往前定价的袖」，不是已建仓：它的读数全在样本内，保证金是假设值。"
+                   "在账户买得起一手之前，这一行没有可执行的含义。" % "、".join(cand))
+    out.append("- **这一节的 bar：%s**（期货晨表 evidence_cutoff，不是本页下单 bar），出处 %s + %s"
+               % (fs.get("evidence_cutoff") or "未标注",
+                  fs.get("desk_path") or "results/idx_fut_desk_sheet.json",
+                  fs.get("risk_path") or "results/idx_fut_carry_risk.json"))
     out.append("")
     return out
 
@@ -6611,6 +6757,9 @@ def build(with_stress=False, window_label=None):
     # de-risking only in the bad states. It has been priced and refused -- print it, or
     # an empty answer reads as "nobody looked".
     page["derisk"] = derisk_face()
+    # r1708: the fourth road -- swap the index sleeve for index futures. Twenty rounds priced
+    # it and this page never carried a line, so the reader could only assume nobody looked.
+    page["futures_sleeve"] = futures_sleeve_face()
     # r1572: the page must also say what the ledger has already committed to at the next
     # open, and what the trades it made actually cost -- the table below is the target
     # book, not the book on the account.
@@ -6995,6 +7144,10 @@ def render_md(p, sb=None):
     # reaches for is de-risking in bad states, and it has been priced and refused.
     for _dk_line in derisk_block(p.get("derisk") or {}):
         add(_dk_line)
+    # r1708: right after the de-risk dead end, because it answers the same question from the
+    # other side -- not "hold less", but "hold the same exposure as a future instead".
+    for _fs_line in futures_sleeve_block(p.get("futures_sleeve") or {}):
+        add(_fs_line)
     # r1572: a condition on the list, like the admission above it -- what fills at the
     # next open is not in the table below, and a reader who stops at the table never
     # learns that the account is about to hold a different exposure.
@@ -11857,6 +12010,41 @@ def selftest():
         and "停了，不是旧了" not in _tk_md
         and _tk.get("gate_h") == TAKEOVER_SILENCE_H,
         (_tk.get("why") or "")[:120])
+
+    # ---- the futures sleeve section (r1708) --------------------------------------------
+    _fs_fx = {"status": "ok", "readable": True, "evidence_cutoff": "2026-11-13",
+              "capital_cny": 1000000.0,
+              "book": {"ann_compound_pct": 11.647, "sharpe": 1.118},
+              "candidates": ["IC", "IM"],
+              "rows": [
+                  {"product": "IC", "notional_per_lot_cny": 1275000.0,
+                   "cash_lots_at_stated_capital": 0, "lots_that_survive_index_worst": 1,
+                   "carry_ann_compound_pct": 8.763, "gap_net_pp": 6.856,
+                   "blend_gain_sharpe": 0.325},
+                  {"product": "IH", "notional_per_lot_cny": 820020.0,
+                   "cash_lots_at_stated_capital": 1, "lots_that_survive_index_worst": 1,
+                   "carry_ann_compound_pct": 2.392, "gap_net_pp": None,
+                   "blend_gain_sharpe": 0.084}]}
+    _fs_md = "\n".join(futures_sleeve_block(_fs_fx))
+    # the only buyable contract and both yields are read off the rows, not typed here
+    chk("L274 futures sleeve: the one cash-affordable contract and both yields come off the rows",
+        "只有 IH" in _fs_md and "2.39%" in _fs_md and "11.65%" in _fs_md
+        and "一张都买不起" not in _fs_md, _fs_md[:700])
+    # the reverse direction: with no cash-affordable row the sentence has to flip, and it must
+    # name the cheapest contract rather than assert a general impossibility
+    _fs_none = dict(_fs_fx, rows=[dict(r, cash_lots_at_stated_capital=0) for r in _fs_fx["rows"]])
+    _fs_none_md = "\n".join(futures_sleeve_block(_fs_none))
+    chk("L275 futures sleeve: with no affordable row the page says so and names the cheapest",
+        "一张都买不起" in _fs_none_md and "IH" in _fs_none_md and "只有" not in _fs_none_md
+        and "820,020" in _fs_none_md, _fs_none_md[:500])
+    # a quoted blend gain buys index beta unless the short leg is named beside it
+    chk("L276 futures sleeve: a quoted blend Sharpe is printed with the short-leg caveat, not alone",
+        "+0.325" in _fs_md and "空腿" in _fs_md and "不能买" in _fs_md, _fs_md[-900:])
+    # and an unreadable face is 'cannot check', never a direction
+    _fs_unk = "\n".join(futures_sleeve_block({"status": "unreadable", "readable": False}))
+    chk("L277 futures sleeve: an unreadable face says cannot-check, not 'do not switch'",
+        "无法核验" in _fs_unk and "不换" not in _fs_unk and "买不起" not in _fs_unk,
+        _fs_unk[:240])
 
     print("\nSummary: %d/%d PASS%s" % (ok, total, "" if ok == total else " -- %d FAIL" % (total - ok)))
     return 0 if ok == total else 1
