@@ -1,6 +1,6 @@
 # index-futures carry: what it is worth in risk units
 
-Generated 2026-11-15T07:45:35 · evidence cutoff 2026-11-13 · `scripts/idx_fut_carry_risk.py`
+Generated 2026-11-15T08:05:05 · evidence cutoff 2026-11-13 · `scripts/idx_fut_carry_risk.py`
 
 The roll book (hold the deepest-open-interest contract, switch at the same close) is the one `idx_fut_real_nav` publishes in rupees of carry per year. This page asks the only question that allocates money: at the desk's own 8% volatility target, does that carry buy anything the adopted book does not already buy, and does it move with it?
 
@@ -76,6 +76,19 @@ Margin is not the capital: a book that cannot fund its own drawdown is not holdi
 | IF | 21.55% on capital, DD 39.57% | 19.23% on capital, DD 35.31% | 16.55% on capital, DD 30.39% |
 | IM | 67.77% on capital, DD 33.54% | 59.82% on capital, DD 29.61% | 50.87% on capital, DD 25.18% |
 | IH | 13.73% on capital, DD 42.61% | 12.31% on capital, DD 38.22% | 10.67% on capital, DD 33.11% |
+
+### the same carry sized against the index's worst drawdown
+
+The table above buffers the margin with the drawdown this window produced. That buffer is a property of the sample, not of the contract: the position is long the index, so the hole it can be asked to fund is the index's own worst drawdown over its full quoted history. Same carry, same margin, only the buffer changes -- and the buffer is the whole difference between a capital number you can finance and one you cannot.
+
+| product | index worst DD % | margin 10% | margin 12% | margin 15% |
+|---|---|---|---|---|
+| IC | 72.42 | 10.63% on capital, DD 87.87% | 10.38% on capital, DD 85.78% | 10.02% on capital, DD 82.84% |
+| IF | 72.30 | 4.33% on capital, DD 87.85% | 4.23% on capital, DD 85.77% | 4.09% on capital, DD 82.82% |
+| IM | 72.35 | 12.38% on capital, DD 87.86% | 12.09% on capital, DD 85.77% | 11.68% on capital, DD 82.83% |
+| IH | 72.41 | 2.90% on capital, DD 87.86% | 2.83% on capital, DD 85.78% | 2.74% on capital, DD 82.84% |
+
+The four holes sit within 0.11 pp of each other (72.30 to 72.42): these indices fell in the same crisis, so the buffer is one market-wide number, not four independent ones -- holding several products does not shrink it.
 
 ## blend grid
 

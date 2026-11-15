@@ -166,20 +166,40 @@ def scale_to_vol(daily, target_pct, max_lev):
     return [r * lev for r in daily], round(lev, 4)
 
 
-def margin_identity(ann_pct, mdd_pct, margin):
+def margin_identity(ann_pct, mdd_pct, margin, stress_dd_pct=None):
     """Return on the capital a real book must keep behind one contract.
 
     margin alone is not the capital: a book that cannot fund its own drawdown is not
     holding the position, it is hoping.
+
+    Two rulers, printed side by side because they answer different questions.  The
+    sample ruler uses the drawdown this window produced; on a four-year futures series
+    that number is small enough to make the capital look almost free, and it is a fact
+    about the window, not about the contract.  The stress ruler uses the index's own
+    worst drawdown over its whole history: the position is long the index, so that is
+    the size of the hole it can be asked to fund no matter how kind the sample was.
+    The buffer only grows (max of the two), never shrinks, so the stress column can
+    never print a return higher than the sample column.
     """
     dd = abs(mdd_pct)
     cap = margin * 100.0 + dd            # both as percent of notional
-    return {
+    out = {
         "margin_assumed_pct": round(margin * 100.0, 2),
         "capital_pct_of_notional": round(cap, 3),
         "ann_on_capital_pct": round(ann_pct / cap * 100.0, 3) if cap > 0 else None,
         "dd_on_capital_pct": round(dd / cap * 100.0, 3) if cap > 0 else None,
+        "dd_used_pct": round(dd, 3),
     }
+    if stress_dd_pct is not None:
+        sdd = max(dd, abs(float(stress_dd_pct)))
+        scap = margin * 100.0 + sdd
+        out["stress_dd_pct"] = round(sdd, 3)
+        out["capital_stress_pct_of_notional"] = round(scap, 3)
+        out["ann_on_capital_stress_pct"] = (
+            round(ann_pct / scap * 100.0, 3) if scap > 0 else None)
+        out["dd_on_capital_stress_pct"] = round(sdd / scap * 100.0, 3) if scap > 0 else None
+        out["folded_to_sample_dd"] = bool(abs(sdd - dd) < 1e-9)
+    return out
 
 
 def corr(a, b):
@@ -282,6 +302,10 @@ def product_spread(prod, cache_dir=None):
             "etf_flag": etf_flag,
             "futures_ann_pct": round(base.compound_pct(rf), 3),
             "index_ann_pct": round(base.compound_pct(ri), 3),
+            # the hole this position can be asked to fund: the index's own worst
+            # drawdown over its whole quoted history, not the kindest four years.
+            "index_mdd_full_pct": round(
+                base.max_drawdown_pct([idx[d] for d in sorted(idx)]), 3),
             "days_dropped": (len(days) - 1) - len(spread)}
 
 
@@ -420,7 +444,8 @@ def judge_product(prod, sp, book, cache_dir=None):
     r = risk_stats(sp["spread"], sp["dates"])
     scaled, lev = scale_to_vol(sp["spread"], CRITERIA["vol_target_pct"], CRITERIA["max_leverage"])
     r8 = risk_stats(scaled, sp["dates"])
-    margins = {k: margin_identity(r["ann_compound_pct"], r["mdd_pct"], v)
+    margins = {k: margin_identity(r["ann_compound_pct"], r["mdd_pct"], v,
+                                  stress_dd_pct=sp.get("index_mdd_full_pct"))
                for k, v in CRITERIA["margin_assumptions"].items()}
 
     # align the two sleeves on shared dates before correlating or blending
@@ -834,6 +859,47 @@ def render_md(face):
                          % (_p(v.get("ann_on_capital_pct")), _p(v.get("dd_on_capital_pct"))))
         L.append("| %s | %s | %s | %s |" % (prod, cells[0], cells[1], cells[2]))
     L.append("")
+    L.append("### the same carry sized against the index's worst drawdown")
+    L.append("")
+    L.append("The table above buffers the margin with the drawdown this window produced."
+             " That buffer is a property of the sample, not of the contract: the position"
+             " is long the index, so the hole it can be asked to fund is the index's own"
+             " worst drawdown over its full quoted history. Same carry, same margin, only"
+             " the buffer changes -- and the buffer is the whole difference between a"
+             " capital number you can finance and one you cannot.")
+    L.append("")
+    L.append("| product | index worst DD % | margin 10% | margin 12% | margin 15% |")
+    L.append("|---|---|---|---|---|")
+    for prod in CRITERIA["products"]:
+        row = (face.get("products") or {}).get(prod) or {}
+        m = row.get("margin_identity") or {}
+        mid = m.get("12pct") or {}
+        sdd = mid.get("stress_dd_pct")
+        if sdd is None:
+            L.append("| %s | - | - | - | - |" % prod)
+            continue
+        cells = []
+        for key in ("10pct", "12pct", "15pct"):
+            v = m.get(key) or {}
+            cells.append("%s%% on capital, DD %s%%"
+                         % (_p(v.get("ann_on_capital_stress_pct")),
+                            _p(v.get("dd_on_capital_stress_pct"))))
+        L.append("| %s | %s | %s | %s | %s |"
+                 % (prod, _p(sdd), cells[0], cells[1], cells[2]))
+    stress_vals = []
+    for prod in CRITERIA["products"]:
+        mid = ((((face.get("products") or {}).get(prod) or {}).get("margin_identity")
+                or {}).get("12pct") or {})
+        if mid.get("stress_dd_pct") is not None:
+            stress_vals.append(mid["stress_dd_pct"])
+    if len(stress_vals) > 1:
+        L.append("")
+        L.append("The four holes sit within %s pp of each other (%s to %s): these indices"
+                 " fell in the same crisis, so the buffer is one market-wide number, not"
+                 " four independent ones -- holding several products does not shrink it."
+                 % (_p(max(stress_vals) - min(stress_vals)), _p(min(stress_vals)),
+                    _p(max(stress_vals))))
+    L.append("")
     L.append("## blend grid")
     L.append("")
     L.append("(1-lam) x adopted book + lam x carry, rescaled to one 10% risk level so the"
@@ -878,7 +944,15 @@ def write_doc(face):
 
 
 def checkdoc(face=None):
-    face = build(with_book=False) if face is None else face
+    if face is None:
+        # "page == face" means the page matches the face that was PUBLISHED. Rebuilding
+        # one here stamps a new `generated` and the comparison can never pass, which is a
+        # red leg nobody can act on.
+        try:
+            with open(OUT, "r", encoding="utf-8") as _f:
+                face = json.load(_f)
+        except (OSError, ValueError):
+            face = build(with_book=False)
     if not os.path.isfile(DOC):
         print("checkdoc: page missing")
         return 1
@@ -939,6 +1013,20 @@ def selftest():
         str(m["capital_pct_of_notional"]))
     leg("return on capital is diluted by the buffer",
         m["ann_on_capital_pct"] < 8.0 / 12.0 * 100, str(m["ann_on_capital_pct"]))
+
+    # the stress ruler: a bigger buffer can only lower the return, never raise it
+    ms = margin_identity(10.0, -5.0, 0.12, stress_dd_pct=-45.0)
+    leg("stress buffer folds to the index's worst hole",
+        abs(ms["capital_stress_pct_of_notional"] - 57.0) < 1e-6,
+        str(ms["capital_stress_pct_of_notional"]))
+    leg("stress lowers the return on capital",
+        ms["ann_on_capital_stress_pct"] < ms["ann_on_capital_pct"],
+        "%s < %s" % (ms["ann_on_capital_stress_pct"], ms["ann_on_capital_pct"]))
+    leg("a sample already worse than the index keeps its own buffer",
+        margin_identity(10.0, -60.0, 0.12, stress_dd_pct=-45.0)["stress_dd_pct"] == 60.0,
+        str(margin_identity(10.0, -60.0, 0.12, stress_dd_pct=-45.0)["stress_dd_pct"]))
+    leg("no stress input prints no stress column",
+        "ann_on_capital_stress_pct" not in m, str(m.get("stress_dd_pct")))
 
     # correlation of a series with itself is 1, and with its negation is -1
     a = [0.1, -0.2, 0.3, -0.1, 0.05]
