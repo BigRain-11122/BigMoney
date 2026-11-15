@@ -35,7 +35,8 @@ def check(name: str, ok: bool, detail: str = ""):
         PERF.append((name, _now - _LAST_T[0]))
     _LAST_T[0] = _now
     RESULTS.append((name, bool(ok), detail))
-    print(f"[{'PASS' if ok else 'FAIL'}] {name}" + (f" | {detail}" if detail else ""))
+    print(f"[{'PASS' if ok else 'FAIL'}] {name}" + (f" | {detail}" if detail else ""),
+          flush=True)
 
 
 def _perf_summary(ceiling=None, top: int = 5):
@@ -13360,10 +13361,49 @@ def _legs_supply_and_book():
         check("product: seat faces are confirmed by shape", False, repr(e)[:180])
 
 
+def _verdict_record(path=None):
+    """Every leg's verdict as a file, so a red leg keeps its name (r1748).
+
+    r1747 closed at "600/601 PASS, 1 FAIL" and no FAIL line survived: the suite's
+    stdout is a shared file handle, and a spliced write can overwrite exactly the
+    one line an auditor needs (that run also carries a lone "[" and a leg name
+    chopped in half). The summary is a number; this is the name. Written on every
+    run -- an empty failed list is the positive claim "all green", so a missing
+    file can never be read as a pass.
+    """
+    rec = {
+        "ts": dt.datetime.now().isoformat(timespec="seconds"),
+        "legs": len(RESULTS),
+        "pass": sum(1 for _, ok, _ in RESULTS if ok),
+        "fail": sum(1 for _, ok, _ in RESULTS if not ok),
+        "failed": [{"name": n, "detail": d} for n, ok, d in RESULTS if not ok],
+    }
+    if path is None:
+        path = os.path.join("logs", "smoke_legs.json")
+    try:
+        _d = os.path.dirname(path)
+        if _d:
+            os.makedirs(_d, exist_ok=True)
+        with open(path + ".tmp", "w", encoding="utf-8") as fh:
+            json.dump(rec, fh, ensure_ascii=False, indent=1)
+        os.replace(path + ".tmp", path)
+    except Exception:
+        pass
+    return rec
+
+
 def _finish() -> int:
     n_pass = sum(1 for _, ok, _ in RESULTS if ok)
     n_fail = len(RESULTS) - n_pass
     print(f"\nSummary: {n_pass}/{len(RESULTS)} PASS, {n_fail} FAIL")
+    try:
+        _rec = _verdict_record()
+        print("record: logs/smoke_legs.json failed=%d%s"
+              % (_rec["fail"],
+                 "" if not _rec["failed"]
+                 else " -- " + " | ".join(x["name"][:90] for x in _rec["failed"])))
+    except Exception:
+        pass
     print(_reuse_summary())
     perf = _perf_summary() if PERF else ""
     if perf:
