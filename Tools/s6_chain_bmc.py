@@ -198,6 +198,14 @@ LEGS = [
     # correctly sized short does not [-0.099, +0.071]. Reads the same series and the same
     # switch-day rule through etf_book_ih_hedge (imported), ~30s, no network, buys nothing.
     ("etf_book_ih_tail_ci", ["python", "scripts/etf_book_ih_tail_ci.py", "run"]),
+    # r1716: the book's own engine prices its idle sleeve at 0 (the vol target de-levers
+    # into cash) while etf_book_cash_vehicle already priced that same cash at 1.77%/yr and
+    # the newest ticket already carries it -- two published faces for one sleeve, never
+    # composed (E240). This leg publishes the composition on the engine's own step returns,
+    # so the zero-cash control is exact (max rel err 1.9e-15) and the cash-vehicle rate is
+    # reproduced on its own published window (gap 0.4bp). ~38s, no network, no judge; the
+    # gate is frozen in the script and the verdict is re-derived off its own readings.
+    ("etf_book_idle_cash", ["python", "scripts/etf_book_idle_cash.py"]),
     # r1701: the carry family had a judgement but nothing a desk could act on -- no contract
     # name, no lot count, no margin, no next-roll answer, and the IM/IH gap was refused
     # without saying why. This leg publishes the morning sheet off the panels the legs above

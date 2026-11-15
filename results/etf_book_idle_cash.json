@@ -1,0 +1,118 @@
+{
+ "face": "etf_book_idle_cash",
+ "asof": "2026-11-15T12:09:55",
+ "evidence_cutoff": "2026-11-13",
+ "window": {
+  "start": "2020-01-03",
+  "end": "2026-11-13",
+  "bars": 1662
+ },
+ "book": {
+  "vol_target": 0.08,
+  "rebal": 20,
+  "n_hold": 5,
+  "cost": 0.001,
+  "universe": 1520,
+  "turnover": 1.0825
+ },
+ "question": "the book de-levers into cash and the engine prices that cash at 0; the desk already priced the same cash at 1.77%/yr -- what is the book worth with its idle sleeve paid?",
+ "criteria_frozen": {
+  "C0_control": "with the cash rate forced to zero the composed curve must equal the engine curve (max |diff| <= 5e-5 relative) -- otherwise the composition, not the cash, is what moved the number",
+  "C1_cash_vehicle_published": "the idle sleeve must be priced by the already-published vehicle (GC001 daily roll) and reproduce its net rate to 0.5bp; a new vehicle would be a second implementation",
+  "C2_cagr_gain_pp": 0.3,
+  "C3_sharpe_must_not_fall": true,
+  "C4_maxdd_must_not_deepen_pp": 0.2
+ },
+ "readings": {
+  "cagr_without_pct": 11.55,
+  "cagr_with_pct": 12.13,
+  "cagr_gain_pp": 0.58,
+  "sharpe_without": 1.137,
+  "sharpe_with": 1.188,
+  "maxdd_without_pct": -10.56,
+  "maxdd_with_pct": -10.47,
+  "vol_without_pct": 10.5,
+  "vol_with_pct": 10.5,
+  "control_max_rel_err": 1.887379141862766e-15,
+  "cash_vehicle_net_pct_on_window": 1.7731,
+  "cash_vehicle_published_pct": 1.7689,
+  "cash_vehicle_reproduced_on_published_window_pct": 1.7733,
+  "cash_vehicle_gap_bp": 0.4449,
+  "idle_share_mean": 0.3032,
+  "idle_share_median": 0.2922,
+  "bars_fully_invested": 260,
+  "bars_with_cash": 1402,
+  "bars": 1662,
+  "cny_per_year_on_1m": 5800.0,
+  "per_year_cagr_with": {
+   "2020": 6.823,
+   "2021": 8.381,
+   "2022": 3.222,
+   "2023": 5.877,
+   "2024": 15.101,
+   "2025": 44.097,
+   "2026": 3.495
+  },
+  "without": {
+   "label": "without_fix",
+   "years": 6.86,
+   "start_level": 1.008,
+   "cagr": 0.1155,
+   "vol": 0.105,
+   "sharpe": 1.137,
+   "maxdd": -0.1056,
+   "worst_year": 0.0268,
+   "neg_years": 0,
+   "worst_month": -0.043,
+   "pos_months_pct": 0.61
+  },
+  "with": {
+   "label": "with_fix",
+   "years": 6.86,
+   "start_level": 1.008,
+   "cagr": 0.1213,
+   "vol": 0.105,
+   "sharpe": 1.188,
+   "maxdd": -0.1047,
+   "worst_year": 0.0298,
+   "neg_years": 0,
+   "worst_month": -0.0426,
+   "pos_months_pct": 0.61
+  },
+  "is_oos": {
+   "without": {
+    "cagr_is": 0.0581,
+    "sharpe_is": 0.621,
+    "maxdd_is": -0.088,
+    "cagr_oos": 0.201,
+    "sharpe_oos": 1.83,
+    "maxdd_oos": -0.1056
+   },
+   "with": {
+    "cagr_is": 0.0644,
+    "sharpe_is": 0.68,
+    "maxdd_is": -0.0866,
+    "cagr_oos": 0.2062,
+    "sharpe_oos": 1.871,
+    "maxdd_oos": -0.1047
+   }
+  }
+ },
+ "gates": {
+  "C2_cagr_gain_pp": true,
+  "C3_sharpe_must_not_fall": true,
+  "C4_maxdd_must_not_deepen_pp": true,
+  "C0_control": true,
+  "C1_cash_vehicle_published": true
+ },
+ "verdict": "ADMIT",
+ "repo_contracts": 1661,
+ "repo_missing_quotes": 0,
+ "honest": [
+  "idle = 1 - scale held constant over a holding period, the engine's own nominal-weight convention; a drifting sleeve would move the number by less than the 3rd decimal",
+  "the cash vehicle is a daily GC001 roll at the quoted rate, not a dealer quote; one contract per bar, exchange commission included, no bid-offer",
+  "the composed curve is a book-return statement, not a ticket: it says the idle sleeve is worth paying, not which vehicle the account should use",
+  "1662 repo bars on the window, 0 missing quotes; cash accrual is carried across non-maturity bars by differencing the rung's cumulative growth"
+ ],
+ "elapsed_sec": 37.6
+}
