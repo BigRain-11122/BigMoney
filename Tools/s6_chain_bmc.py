@@ -5,6 +5,12 @@ prompt, records {leg, rc, elapsed} for each into
 results/_r<round>bmc_s6_chain.json and prints a compact tail summary.
 
 Usage: python Tools\\s6_chain_bmc.py <round_no>
+       python Tools\\s6_chain_bmc.py --selftest      (14 offline legs, no chain run)
+       python Tools\\s6_chain_bmc.py --only <names>  (touched legs only)
+Bare ``python Tools\\s6_chain_bmc.py`` with NO argument is not a usage banner -- it
+starts the whole chain (r1737: a session ran it looking for help, and the shell that
+reaped the parent left one leg burning on disk). Ask for --selftest when you only
+want to read the legs.
 Exit 0 always (legs are recorded; non-zero legs are reported, not fatal) --
 the round report must surface any rc!=0 leg verbatim.
 
