@@ -8,67 +8,67 @@
   "flips": {
    "cut_pct": 72.0,
    "damped": 412,
-   "raw": 1470
+   "raw": 1471
   },
   "gross": 3.0,
   "legs": [
    {
-    "damped_weight": -0.070587,
-    "raw_weight": -0.070587,
+    "damped_weight": -0.049944,
+    "raw_weight": -0.049944,
     "same_side": true,
     "variety": "AU"
    },
    {
-    "damped_weight": -0.053322,
-    "raw_weight": -0.053322,
+    "damped_weight": -0.037729,
+    "raw_weight": -0.037729,
     "same_side": true,
     "variety": "IC"
    },
    {
-    "damped_weight": -0.092066,
-    "raw_weight": -0.092066,
+    "damped_weight": -0.065142,
+    "raw_weight": -0.065142,
     "same_side": true,
     "variety": "IF"
    },
    {
-    "damped_weight": -0.122665,
-    "raw_weight": -0.122665,
+    "damped_weight": -0.086792,
+    "raw_weight": -0.086792,
     "same_side": true,
     "variety": "IH"
    },
    {
-    "damped_weight": -0.050254,
-    "raw_weight": -0.050254,
+    "damped_weight": -0.035558,
+    "raw_weight": -0.035558,
     "same_side": true,
     "variety": "IM"
    },
    {
-    "damped_weight": -0.151436,
-    "raw_weight": 0.151436,
+    "damped_weight": -0.107149,
+    "raw_weight": 0.107149,
     "same_side": false,
     "variety": "RB"
    },
    {
-    "damped_weight": 0.025457,
-    "raw_weight": 0.025457,
+    "damped_weight": 0.018012,
+    "raw_weight": 0.018012,
     "same_side": true,
     "variety": "SC"
    },
    {
-    "damped_weight": 1.194251,
-    "raw_weight": 1.194251,
+    "damped_weight": 0.844996,
+    "raw_weight": 0.844996,
     "same_side": true,
     "variety": "T"
    },
    {
-    "damped_weight": 1.239962,
-    "raw_weight": 1.239962,
+    "damped_weight": 0.877339,
+    "raw_weight": 0.877339,
     "same_side": true,
     "variety": "TF"
    },
    {
-    "damped_weight": null,
-    "raw_weight": null,
+    "damped_weight": 0.877339,
+    "raw_weight": 0.877339,
     "same_side": true,
     "variety": "TS"
    }
@@ -90,72 +90,72 @@
   }
  },
  "book": {
-  "flat": 1,
+  "flat": 0,
   "gross": 3.0,
   "legs": [
    {
     "mom_60d": -0.119585,
     "variety": "AU",
     "vol_60d_ann": 0.222201,
-    "weight": -0.070587
+    "weight": -0.049944
    },
    {
     "mom_60d": -0.189571,
     "variety": "IC",
     "vol_60d_ann": 0.294143,
-    "weight": -0.053322
+    "weight": -0.037729
    },
    {
     "mom_60d": -0.144334,
     "variety": "IF",
     "vol_60d_ann": 0.17036,
-    "weight": -0.092066
+    "weight": -0.065142
    },
    {
     "mom_60d": -0.058293,
     "variety": "IH",
     "vol_60d_ann": 0.127864,
-    "weight": -0.122665
+    "weight": -0.086792
    },
    {
     "mom_60d": -0.177805,
     "variety": "IM",
     "vol_60d_ann": 0.312101,
-    "weight": -0.050254
+    "weight": -0.035558
    },
    {
     "mom_60d": 0.010993,
     "variety": "RB",
     "vol_60d_ann": 0.103571,
-    "weight": 0.151436
+    "weight": 0.107149
    },
    {
     "mom_60d": 0.130081,
     "variety": "SC",
     "vol_60d_ann": 0.616126,
-    "weight": 0.025457
+    "weight": 0.018012
    },
    {
     "mom_60d": 0.005069,
     "variety": "T",
     "vol_60d_ann": 0.013133,
-    "weight": 1.194251
+    "weight": 0.844996
    },
    {
     "mom_60d": 0.001877,
     "variety": "TF",
     "vol_60d_ann": 0.009009,
-    "weight": 1.239962
+    "weight": 0.877339
    },
    {
-    "mom_60d": null,
+    "mom_60d": 0.000156,
     "variety": "TS",
-    "vol_60d_ann": null,
-    "weight": null
+    "vol_60d_ann": 0.00302,
+    "weight": 0.877339
    }
   ],
-  "long": 4,
-  "net": 2.2222,
+  "long": 5,
+  "net": 2.4497,
   "short": 5
  },
  "caveats": [
@@ -188,30 +188,21 @@
  "mechanism": "time-series momentum, 60d sign, risk-parity sizing, |w|<=2.0 gross<=3.0",
  "panel": {
   "bars": 4591,
+  "fingerprint": "3123810d5420ccb1",
   "first_bar": "2008-01-09",
   "source": "data/futures_daily main-continuous (sina); roll gaps live in the series",
   "varieties": 10
  },
- "run_at": "2026-11-14T20:27:17",
+ "run_at": "2026-11-15T15:53:32",
  "shadow": true,
  "staleness": {
   "calendar_last": "2026-11-13",
   "lag_trading_days": 0,
   "members": {
-   "lagging": [
-    {
-     "lag_trading_days": 30,
-     "last_bar": "2026-09-24",
-     "variety": "TS"
-    }
-   ],
-   "n_lagging": 1,
+   "lagging": [],
+   "n_lagging": 0,
    "n_varieties": 10,
-   "worst": {
-    "lag_trading_days": 30,
-    "last_bar": "2026-09-24",
-    "variety": "TS"
-   }
+   "worst": null
   },
   "panel_bar": "2026-11-13",
   "stale": false

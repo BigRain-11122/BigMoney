@@ -6656,6 +6656,7 @@ def main() -> int:
     try:
         import json as _json
         _bad = []
+        _fp_now = None
         _face = _json.load(open(os.path.join("results", "futures_tsmom_signal.json"),
                                 encoding="utf-8"))
         _art = _json.load(open(os.path.join(
@@ -6679,7 +6680,21 @@ def main() -> int:
                 sys.path.insert(0, _sys_path)
             import futures_tsmom_probe as _P
             import futures_overlay_fliprate as _F
+            import futures_tsmom_signal as _S
             _close = _P.load_panel()
+            # r1726: the bar date cannot tell "same bar" from "same bar, different
+            # history". r1724 back-filled a dead member (TS) up to the SAME last bar, and
+            # this leg could only report "1470 != 1471" -- a symptom, not a cause. The
+            # panel fingerprint is the cause: this face was computed on another panel.
+            _fp_now = _S.panel_fingerprint(_close)
+            _fp_face = (_face.get("panel") or {}).get("fingerprint")
+            if not _fp_face:
+                _bad.append("the face carries no panel fingerprint, so a back-filled "
+                            "member cannot be told apart from a moved bar")
+            elif _fp_face != _fp_now:
+                _bad.append("the face was computed on ANOTHER panel (face %s vs panel %s, "
+                            "same bar date -- rerun futures_tsmom_signal)"
+                            % (_fp_face, _fp_now))
             _mom = _close.pct_change(int(_spec["lookback"]))
             _fn = (lambda m: _F.strength_hold(m, float(_spec["theta"]))
                    if _spec["mechanism"] == "strength_hold"
@@ -6700,8 +6715,9 @@ def main() -> int:
                 _bad.append("the human page does not carry the adopted section")
         check("product: the adopted flip damper reaches the live shadow book",
               not _bad, "; ".join(_bad)[:220]
-              or "page flips %d->%d with the artifact's own rule, recomputed from the panel"
-                 % (_ad["flips"]["raw"], _ad["flips"]["damped"]))
+              or "page flips %d->%d with the artifact's own rule, recomputed from the panel "
+                 "(fingerprint %s)" % (_ad["flips"]["raw"], _ad["flips"]["damped"],
+                                       _fp_now))
     except Exception as e:
         check("product: the adopted flip damper reaches the live shadow book", False, str(e))
     try:

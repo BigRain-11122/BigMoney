@@ -377,7 +377,7 @@ def judge(face):
                 "C3_original": "|ETF - index| <= %.1f%%/yr" % CONTROL_MAX_PCT,
                 "C3_now": "control drift within the dividend band 0..%.0f%%/yr, and carry judged net of it"
                           % CONTROL_MAX_PCT,
-                "why": "the ETF/index pair differs structurally by dividend accrual (+1.77/+0.88/+2.96%%/yr "
+                "why": "the ETF/index pair differs structurally by dividend accrual (+1.77/+0.88/+2.96%/yr "
                        "measured), so the original threshold was falsified by this repo's own panel rather "
                        "than by a reading the line wanted",
                 "C1_now": "net_carry (futures carry - control drift) >= %.1f%%/yr" % CARRY_MIN_PCT},
@@ -456,6 +456,13 @@ def selftest():
         missing = roll_mask_block(os.path.join(td, "absent.json"))
         leg(not missing["available"] and "未知" in mask_sentence(missing),
             "L11 missing mask face reads as unknown, never as no problem")
+    # L12 r1726: the revision block is prose read by humans. A literal "%%" -- the %-format
+    # escape leaking into a plain string literal -- shipped in the published face and was
+    # caught by reader_text_audit (S6 leg, rc1). Refused at the source now, so the text a
+    # reader sees and the text this module believes it wrote cannot drift apart again.
+    _rev = judge(fake2)["criteria_revision"]
+    leg(all("%%" not in str(v) for v in _rev.values()),
+        "L12 revision text carries no doubled percent")
     print("selftest %d/%d" % (ok, total))
     return 0 if ok == total else 1
 

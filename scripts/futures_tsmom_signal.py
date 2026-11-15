@@ -30,6 +30,7 @@ see the sleeve is a bar behind rather than assume it is today's.
 """
 import datetime as dt
 import glob
+import hashlib
 import json
 import os
 import sys
@@ -55,6 +56,29 @@ def flat(w_row):
     for k, v in w_row.items():
         out[k] = None if v is None or (isinstance(v, float) and np.isnan(v)) else float(v)
     return out
+
+
+def panel_fingerprint(close):
+    """What panel this face was computed on -- per-member bar count and last prints.
+
+    r1726: this face published `raw flips 1470` while a rerun on the SAME bar read 1471,
+    because a dead member (TS) had been back-filled 30 rows up to the same last bar in
+    between (r1724). Same bar date, different panel. The date could not tell those two
+    worlds apart, so the smoke leg could only print "1470 != 1471" -- a symptom. A
+    fingerprint makes the reason legible: this face was computed on ANOTHER panel.
+
+    Deliberately member-wise rather than a file hash: two checkouts of the same panel must
+    fingerprint the same (r1317: never hash working-tree bytes), and the point is to name
+    WHICH member moved, which a flat digest cannot.
+    """
+    h = hashlib.sha256()
+    for v in sorted(close.columns):
+        s = close[v].dropna()
+        first = s.index[0].strftime("%Y-%m-%d") if len(s) else "-"
+        last = s.index[-1].strftime("%Y-%m-%d") if len(s) else "-"
+        px = float(s.iloc[-1]) if len(s) else float("nan")
+        h.update(("%s|%d|%s|%s|%.6f\n" % (v, len(s), first, last, px)).encode("utf-8"))
+    return h.hexdigest()[:16]
 
 
 def bar_horizon(now=None):
@@ -256,6 +280,7 @@ def build(close, probe_face=None, calendar=None, asof=None, horizon=None, adopte
             "varieties": len(names),
             "bars": int(len(close)),
             "first_bar": close.index[0].strftime("%Y-%m-%d"),
+            "fingerprint": panel_fingerprint(close),
             "source": "data/futures_daily main-continuous (sina); roll gaps live in the series",
         },
         "staleness": {
@@ -661,6 +686,30 @@ def selftest():
         ok += 1
     else:
         print("L22 FAIL: adopted rule not read from the path artifact -> %s" % (ad,))
+
+    # L23: the panel fingerprint must tell "same bar" from "same bar, different history".
+    # A member back-filled up to the same last bar (the r1724 TS repair) leaves the bar date
+    # untouched and the sleeve's numbers moved -- the date cannot carry that, the
+    # fingerprint can. Both directions are asserted: identical panels must agree (else a
+    # rerun on the same data would look stale), and a longer member must not.
+    total += 1
+    back_filled = close.copy()
+    # concat, not column assignment: assigning a longer Series to a column aligns on the
+    # frame's index and silently drops the extra rows (this leg caught exactly that).
+    _extra_idx = pd.bdate_range("2023-12-28", periods=2)
+    _extra = pd.DataFrame(index=_extra_idx, columns=close.columns, dtype=float)
+    _extra["NZ"] = [99.0, 98.0]
+    back_filled = pd.concat([_extra, back_filled]).sort_index()
+    fp_same = panel_fingerprint(close) == panel_fingerprint(close.copy())
+    fp_moved = panel_fingerprint(back_filled) != panel_fingerprint(close)
+    if (fp_same and fp_moved
+            and build(close)["panel"]["fingerprint"] == panel_fingerprint(close)
+            and build(close)["generated_for_bar"] == build(back_filled)["generated_for_bar"]):
+        ok += 1
+    else:
+        print("L23 FAIL: fingerprint same=%(same)s moved=%(moved)s "
+              "rows=%(rows)d (same bar date, longer member must differ)"
+              % {"same": fp_same, "moved": fp_moved, "rows": len(back_filled)})
 
     print("selftest %d/%d" % (ok, total))
     return 0 if ok == total else 1
