@@ -1,0 +1,487 @@
+{
+ "face": "lhb_sellleg",
+ "asof": "2026-11-15T19:06:22",
+ "evidence_cutoff": "2026-11-06",
+ "question": "r1733 read the LHB sell leg on 122 days and warned the sign could be one regime. Does 'institutions dumping' still underperform when the test set is every LHB event before the window that produced it?",
+ "criteria_frozen": {
+  "hypothesis_start": "2026-05-14",
+  "min_names_per_day": 200,
+  "min_events": 1000,
+  "C1_bottom_neg_t": 2.0,
+  "C2_spread_t": 2.0,
+  "C3_min_years": 6,
+  "C4_control_t": 2.0
+ },
+ "test_window": [
+  "2020-01-02",
+  "2026-05-13"
+ ],
+ "test_set_excludes": [
+  "2026-05-14",
+  "2026-11-06"
+ ],
+ "window": {
+  "full_start": "2020-01-02",
+  "full_end": "2026-11-06",
+  "full_events": 56808
+ },
+ "r1733_reference": {
+  "window": [
+   "2026-05-14",
+   "2026-11-06"
+  ],
+  "bottom_pct": -0.8995,
+  "bottom_t": -1.886,
+  "top_pct": 0.3835,
+  "top_t": 0.887
+ },
+ "test": {
+  "events": 51157,
+  "window": [
+   "2020-01-02",
+   "2026-05-13"
+  ],
+  "top_quintile": {
+   "label": "institutions bought (top 20% share)",
+   "n": 10232,
+   "mean_excess_pct": 1.8262,
+   "t_stat": 12.914
+  },
+  "bottom_quintile": {
+   "label": "institutions sold (bottom 20% share)",
+   "n": 10232,
+   "mean_excess_pct": 0.0357,
+   "t_stat": 0.226
+  },
+  "all_events": {
+   "label": "all LHB events that day",
+   "n": 51157,
+   "mean_excess_pct": -0.1025,
+   "t_stat": -1.501
+  },
+  "spread_bottom_minus_top_pct": -1.7905,
+  "spread_bottom_minus_top_t": -8.438,
+  "control_bottom_minus_other_t": 0.985,
+  "control_bottom_minus_other_pct": 0.1728,
+  "by_year": {
+   "2020": {
+    "events": 6242,
+    "bottom": {
+     "label": "sold",
+     "n": 1249,
+     "mean_excess_pct": 2.0108,
+     "t_stat": 3.979
+    },
+    "top": {
+     "label": "bought",
+     "n": 1249,
+     "mean_excess_pct": 4.5359,
+     "t_stat": 10.605
+    }
+   },
+   "2021": {
+    "events": 8095,
+    "bottom": {
+     "label": "sold",
+     "n": 1619,
+     "mean_excess_pct": 1.5561,
+     "t_stat": 3.586
+    },
+    "top": {
+     "label": "bought",
+     "n": 1619,
+     "mean_excess_pct": 3.0161,
+     "t_stat": 8.895
+    }
+   },
+   "2022": {
+    "events": 7512,
+    "bottom": {
+     "label": "sold",
+     "n": 1503,
+     "mean_excess_pct": -0.0189,
+     "t_stat": -0.047
+    },
+    "top": {
+     "label": "bought",
+     "n": 1503,
+     "mean_excess_pct": 1.6057,
+     "t_stat": 5.092
+    }
+   },
+   "2023": {
+    "events": 7598,
+    "bottom": {
+     "label": "sold",
+     "n": 1520,
+     "mean_excess_pct": -1.6131,
+     "t_stat": -4.296
+    },
+    "top": {
+     "label": "bought",
+     "n": 1520,
+     "mean_excess_pct": 0.9248,
+     "t_stat": 2.714
+    }
+   },
+   "2024": {
+    "events": 8589,
+    "bottom": {
+     "label": "sold",
+     "n": 1718,
+     "mean_excess_pct": -0.0552,
+     "t_stat": -0.147
+    },
+    "top": {
+     "label": "bought",
+     "n": 1718,
+     "mean_excess_pct": 0.6906,
+     "t_stat": 1.882
+    }
+   },
+   "2025": {
+    "events": 9446,
+    "bottom": {
+     "label": "sold",
+     "n": 1890,
+     "mean_excess_pct": -0.21,
+     "t_stat": -0.556
+    },
+    "top": {
+     "label": "bought",
+     "n": 1890,
+     "mean_excess_pct": 1.011,
+     "t_stat": 2.835
+    }
+   },
+   "2026": {
+    "events": 3675,
+    "bottom": {
+     "label": "sold",
+     "n": 735,
+     "mean_excess_pct": -1.4748,
+     "t_stat": -2.746
+    },
+    "top": {
+     "label": "bought",
+     "n": 735,
+     "mean_excess_pct": 0.5977,
+     "t_stat": 1.092
+    }
+   }
+  }
+ },
+ "full_history_context": {
+  "events": 56808,
+  "window": [
+   "2020-01-02",
+   "2026-11-06"
+  ],
+  "top_quintile": {
+   "label": "institutions bought (top 20% share)",
+   "n": 11362,
+   "mean_excess_pct": 1.6613,
+   "t_stat": 12.356
+  },
+  "bottom_quintile": {
+   "label": "institutions sold (bottom 20% share)",
+   "n": 11362,
+   "mean_excess_pct": -0.0977,
+   "t_stat": -0.651
+  },
+  "all_events": {
+   "label": "all LHB events that day",
+   "n": 56808,
+   "mean_excess_pct": -0.1766,
+   "t_stat": -2.737
+  },
+  "spread_bottom_minus_top_pct": -1.759,
+  "spread_bottom_minus_top_t": -8.73,
+  "control_bottom_minus_other_t": 0.593,
+  "control_bottom_minus_other_pct": 0.0986,
+  "by_year": {
+   "2020": {
+    "events": 6242,
+    "bottom": {
+     "label": "sold",
+     "n": 1249,
+     "mean_excess_pct": 2.0108,
+     "t_stat": 3.979
+    },
+    "top": {
+     "label": "bought",
+     "n": 1249,
+     "mean_excess_pct": 4.5359,
+     "t_stat": 10.605
+    }
+   },
+   "2021": {
+    "events": 8095,
+    "bottom": {
+     "label": "sold",
+     "n": 1619,
+     "mean_excess_pct": 1.5561,
+     "t_stat": 3.586
+    },
+    "top": {
+     "label": "bought",
+     "n": 1619,
+     "mean_excess_pct": 3.0161,
+     "t_stat": 8.895
+    }
+   },
+   "2022": {
+    "events": 7512,
+    "bottom": {
+     "label": "sold",
+     "n": 1503,
+     "mean_excess_pct": -0.0189,
+     "t_stat": -0.047
+    },
+    "top": {
+     "label": "bought",
+     "n": 1503,
+     "mean_excess_pct": 1.6057,
+     "t_stat": 5.092
+    }
+   },
+   "2023": {
+    "events": 7598,
+    "bottom": {
+     "label": "sold",
+     "n": 1520,
+     "mean_excess_pct": -1.6131,
+     "t_stat": -4.296
+    },
+    "top": {
+     "label": "bought",
+     "n": 1520,
+     "mean_excess_pct": 0.9248,
+     "t_stat": 2.714
+    }
+   },
+   "2024": {
+    "events": 8589,
+    "bottom": {
+     "label": "sold",
+     "n": 1718,
+     "mean_excess_pct": -0.0552,
+     "t_stat": -0.147
+    },
+    "top": {
+     "label": "bought",
+     "n": 1718,
+     "mean_excess_pct": 0.6906,
+     "t_stat": 1.882
+    }
+   },
+   "2025": {
+    "events": 9446,
+    "bottom": {
+     "label": "sold",
+     "n": 1890,
+     "mean_excess_pct": -0.21,
+     "t_stat": -0.556
+    },
+    "top": {
+     "label": "bought",
+     "n": 1890,
+     "mean_excess_pct": 1.011,
+     "t_stat": 2.835
+    }
+   },
+   "2026": {
+    "events": 9326,
+    "bottom": {
+     "label": "sold",
+     "n": 1866,
+     "mean_excess_pct": -1.2555,
+     "t_stat": -3.53
+    },
+    "top": {
+     "label": "bought",
+     "n": 1866,
+     "mean_excess_pct": 0.4772,
+     "t_stat": 1.408
+    }
+   }
+  }
+ },
+ "gates": {
+  "C1": false,
+  "C2": true,
+  "C3": false,
+  "C4": false,
+  "years_present": 7,
+  "years_bottom_negative": 5
+ },
+ "verdict": "REJECT",
+ "execution": {
+  "criteria_frozen": {
+   "leg": "institutions bought (top 20% share)",
+   "entry": "next session open after the LHB date (disclosure is after that close)",
+   "exit": "close H sessions after the LHB date",
+   "cost": "COST_X1 (13.041bp) per side, rev_osc_stock_p1 import",
+   "min_events": 1000,
+   "C1_net_t": 2.0,
+   "C3_min_years": 6,
+   "C4_min_retained": 0.5
+  },
+  "test": {
+   "events": 50943,
+   "window": [
+    "2020-01-02",
+    "2026-05-13"
+   ],
+   "top_quintile": {
+    "label": "institutions bought (top 20% share)",
+    "n": 10189,
+    "mean_excess_pct": 0.3432,
+    "t_stat": 2.654
+   },
+   "bottom_quintile": {
+    "label": "institutions sold (bottom 20% share)",
+    "n": 10189,
+    "mean_excess_pct": 0.3327,
+    "t_stat": 2.409
+   },
+   "all_events": {
+    "label": "all LHB events that day",
+    "n": 50943,
+    "mean_excess_pct": -0.1481,
+    "t_stat": -2.413
+   },
+   "spread_bottom_minus_top_pct": -0.0105,
+   "spread_bottom_minus_top_t": -0.055,
+   "control_bottom_minus_other_t": 3.898,
+   "control_bottom_minus_other_pct": 0.601,
+   "by_year": {
+    "2020": {
+     "events": 6224,
+     "bottom": {
+      "label": "sold",
+      "n": 1246,
+      "mean_excess_pct": 1.8963,
+      "t_stat": 4.529
+     },
+     "top": {
+      "label": "bought",
+      "n": 1245,
+      "mean_excess_pct": 1.657,
+      "t_stat": 4.383
+     }
+    },
+    "2021": {
+     "events": 8023,
+     "bottom": {
+      "label": "sold",
+      "n": 1606,
+      "mean_excess_pct": 1.6009,
+      "t_stat": 4.349
+     },
+     "top": {
+      "label": "bought",
+      "n": 1605,
+      "mean_excess_pct": 0.9921,
+      "t_stat": 3.18
+     }
+    },
+    "2022": {
+     "events": 7478,
+     "bottom": {
+      "label": "sold",
+      "n": 1496,
+      "mean_excess_pct": 0.3106,
+      "t_stat": 0.891
+     },
+     "top": {
+      "label": "bought",
+      "n": 1496,
+      "mean_excess_pct": 0.3058,
+      "t_stat": 1.042
+     }
+    },
+    "2023": {
+     "events": 7588,
+     "bottom": {
+      "label": "sold",
+      "n": 1518,
+      "mean_excess_pct": -1.0002,
+      "t_stat": -3.034
+     },
+     "top": {
+      "label": "bought",
+      "n": 1518,
+      "mean_excess_pct": -0.3308,
+      "t_stat": -1.028
+     }
+    },
+    "2024": {
+     "events": 8580,
+     "bottom": {
+      "label": "sold",
+      "n": 1716,
+      "mean_excess_pct": 0.3668,
+      "t_stat": 1.066
+     },
+     "top": {
+      "label": "bought",
+      "n": 1716,
+      "mean_excess_pct": -0.337,
+      "t_stat": -1.015
+     }
+    },
+    "2025": {
+     "events": 9402,
+     "bottom": {
+      "label": "sold",
+      "n": 1881,
+      "mean_excess_pct": -0.2651,
+      "t_stat": -0.803
+     },
+     "top": {
+      "label": "bought",
+      "n": 1881,
+      "mean_excess_pct": 0.1104,
+      "t_stat": 0.337
+     }
+    },
+    "2026": {
+     "events": 3648,
+     "bottom": {
+      "label": "sold",
+      "n": 730,
+      "mean_excess_pct": -0.9931,
+      "t_stat": -2.131
+     },
+     "top": {
+      "label": "bought",
+      "n": 730,
+      "mean_excess_pct": 0.128,
+      "t_stat": 0.255
+     }
+    }
+   }
+  },
+  "gates": {
+   "C1": true,
+   "C3": false,
+   "C4": false,
+   "years_present": 7,
+   "years_top_positive": 5,
+   "retained_frac": 0.1879
+  },
+  "verdict": "NOT_TRADABLE"
+ },
+ "admitted": [],
+ "honest": [
+  "the test set is the panel before 2026-05-14, which removes the 122 days that generated the hypothesis but does not remove r1733's own reasoning from the author's head -- this is a cleaner test, not a pristine one",
+  "excess is close-to-close 5-day against that day's cross-sectional median over the price universe: no cost, no open-to-open execution. This is an information test, not a tradable return",
+  "quintile cut is computed inside whichever window is being read, so the test-set cut is not the cut the full history would pick",
+  "LHB names are volatile by construction; C4 exists because r1733 had no control for 'being on the list' at all",
+  "no parameter search: one horizon (5), one smoothing (none -- LHB is an event, not a series), one share definition, two legs named before the run",
+  "the priced leg is a measurement, not a blind test: this run's own information table named the top leg before the execution panel was built, so 'tradable' here means 'the number survives cost and the overnight gap', not 'nobody had looked'",
+  "the priced leg needs a quote on both exact sessions; a name halted on the entry or exit day is dropped instead of bridged, which removes the most volatile names from the priced sample rather than from the information one"
+ ],
+ "elapsed_sec": 46.93
+}
