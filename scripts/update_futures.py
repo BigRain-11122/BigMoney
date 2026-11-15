@@ -1,6 +1,6 @@
 """Futures main-continuous daily puller (R48 bm-a, claim MSG-20260924-0645).
 
-Full-history pull of 9 varieties (IF/IC/IM/IH/T/TF/RB/AU/SC) from sina
+Full-history pull of 10 varieties (IF/IC/IM/IH/T/TF/TS/RB/AU/SC) from sina
 main-continuous daily kline into data/futures_daily/<V>.csv (root data dir;
 Money0923 archive untouched). Pure data engineering: zero engine runs, ledger N
 untouched (POOL_AUDIT / R47 probe precedent).
@@ -52,7 +52,7 @@ from config.lane_io import lane_host, machine_id, write_lane  # noqa: E402
 LANE_OWNER = lane_host("update_futures", "bm-a")   # R31 lane-ownership precedent
 _ACTIVE_TAKEOVER = None   # set by _takeover_gate when a declared takeover passed
 
-VARIETIES = ["IF", "IC", "IM", "IH", "T", "TF", "RB", "AU", "SC"]
+VARIETIES = ["IF", "IC", "IM", "IH", "T", "TF", "TS", "RB", "AU", "SC"]
 COLS = ["date", "open", "high", "low", "close", "volume", "oi", "settle"]
 SLEEP_S = 2.5
 MIN_ATTEMPT_S = 30 * 60
@@ -186,8 +186,13 @@ def cutoff_gate(local_cutoff, now, dates=None):
 
 
 def local_data_cutoff(data_dir=None):
-    """Max last-bar date across the 9 variety CSVs; None if any file is
-    missing/empty (gate then degrades honestly to a real fetch)."""
+    """PANEL cutoff = max last-bar date across the variety CSVs; None if any
+    file is missing/empty (gate then degrades honestly to a real fetch).
+
+    r1724: this is the panel's newest bar, NOT proof that every member is
+    current -- a max cannot see a member that stopped. Per-member coverage is
+    answered by last_bar_by_variety()/stale_varieties(); the gate now asks both.
+    """
     data_dir = data_dir or DATA_DIR
     lasts = []
     for v in VARIETIES:
@@ -199,6 +204,49 @@ def local_data_cutoff(data_dir=None):
             return None
         lasts.append(str(rows[-1]["date"]))
     return max(lasts)
+
+
+def last_bar_by_variety(data_dir=None):
+    """{variety: last bar date or None} -- one read per CSV, no network.
+
+    r1724 (victim: TS): TS.csv sat 50 sessions behind at 2026-09-24 while the
+    panel cutoff read 2026-11-13 off its neighbours and the gate answered
+    "covered, zero network". The stale member was never repaired; it was also
+    invisible to the reader that printed a lot size off its September bar.
+    """
+    data_dir = data_dir or DATA_DIR
+    out = {}
+    for v in VARIETIES:
+        p = os.path.join(data_dir, v + ".csv")
+        rows = read_local_csv(p) if os.path.exists(p) else []
+        out[v] = str(rows[-1]["date"]) if rows else None
+    return out
+
+
+def stale_varieties(lasts, expected):
+    """Names whose last bar is missing or older than `expected` (sorted).
+
+    Named, not counted: "N 个品种落后" cannot be acted on, "TS 落后" can.
+    """
+    if not expected:
+        return []
+    exp = str(expected)
+    return sorted(v for v, d in (lasts or {}).items() if not d or str(d) < exp)
+
+
+def unplanned_csvs(data_dir=None):
+    """CSV files on disk that no VARIETIES entry maintains (sorted).
+
+    r1724: TS.csv was pulled by hand on 2026-09-25 and then never entered the
+    lane's variety list -- a data face on disk with no producer is not a data
+    face. Surfaced in status so the next reader does not have to notice by eye.
+    """
+    data_dir = data_dir or DATA_DIR
+    if not os.path.isdir(data_dir):
+        return []
+    planned = {v + ".csv" for v in VARIETIES}
+    return sorted(n for n in os.listdir(data_dir)
+                  if n.lower().endswith(".csv") and n not in planned)
 
 
 def validate_rows(rows):
@@ -448,14 +496,26 @@ def run():
     # an attempt must record attempts (r1315 family: name vs value).
     local_cut = local_data_cutoff()
     needs_fetch, expected, gate_reason = cutoff_gate(local_cut, now)
-    if not needs_fetch:
+    # r1724: panel coverage is necessary but not sufficient -- ask every member.
+    behind = stale_varieties(last_bar_by_variety(), expected)
+    fetch_set = list(VARIETIES) if needs_fetch else list(behind)
+    if not needs_fetch and behind:
+        gate_reason = (f"panel cutoff {local_cut} covers {expected}, but "
+                       f"{len(behind)}/{len(VARIETIES)} variety CSV(s) are "
+                       f"behind it: {','.join(behind)}")
+    unplanned = unplanned_csvs()
+    if not fetch_set:
         st["ts"] = now.isoformat(timespec="seconds")
         st["mode"] = "no-op: cutoff covered"
         st["no_op_reason"] = gate_reason
         st["expected_cutoff"] = expected
         st["data_cutoff"] = local_cut
+        st["varieties_planned"] = VARIETIES      # r1724: the list must not decay
+        st["laggards"] = behind
+        st["unplanned_csvs"] = unplanned
         write_status(st)
-        print(f"no-op: {gate_reason} -> zero network")
+        print(f"no-op: {gate_reason} -> zero network"
+              + (f" | unplanned csv on disk: {','.join(unplanned)}" if unplanned else ""))
         return 0
     last_attempt = st.get("last_attempt")
     if last_attempt:
@@ -468,12 +528,15 @@ def run():
             pass
     st["last_attempt"] = now.isoformat(timespec="seconds")  # mirror FIRST (r18 lesson)
     st["varieties_planned"] = VARIETIES
+    st["fetch_set"] = fetch_set          # r1724: which members this run went to the wire for
+    st["laggards"] = behind
+    st["unplanned_csvs"] = unplanned
     write_status(st)
 
     _clear_proxy_env()
     per, failures, mismatches = [], [], []
     use_raw_only = False
-    for i, v in enumerate(VARIETIES):
+    for i, v in enumerate(fetch_set):
         sym = v + "0"
         rec = {"variety": v, "symbol": sym, "appended": 0, "overlap": 0,
                "mismatch": None, "error": None, "path": None,
@@ -517,7 +580,7 @@ def run():
             rec["error"] = f"{type(e).__name__}: {str(e)[:180]}"
             failures.append(v)
         per.append(rec)
-        if i < len(VARIETIES) - 1:
+        if i < len(fetch_set) - 1:
             time.sleep(SLEEP_S)
 
     st.update({
@@ -525,7 +588,8 @@ def run():
         "mode": "full-history pull, append-only local, overlap-verified",
         "per_variety": per,
         "summary": {
-            "varieties": len(VARIETIES), "failures": len(failures),
+            "varieties": len(VARIETIES), "fetched": len(fetch_set),
+            "laggards_before": len(behind), "failures": len(failures),
             "mismatches": len(mismatches),
             "total_appended": sum(r.get("appended") or 0 for r in per),
             "data_cutoff": max([r["last"] for r in per if r.get("last")], default=None),
@@ -694,7 +758,37 @@ def _selftest():
         (_ued.takeover_decision, _ued._owner_stale_min,
          _ued.TAKEOVER_STALE_MIN) = _saved
         sys.argv = _saved_argv
-    print("selftest: 12/12 PASS")
+    # S13 r1724: a max cutoff cannot see a dead member (TS fixture: panel says
+    # 2026-11-13 while one CSV sits at 2026-09-24 -> the gate used to no-op).
+    _lasts = {"IF": "2026-11-13", "TS": "2026-09-24"}
+    _cut, _exp, _ = cutoff_gate(max(_lasts.values()), dt.datetime(2026, 11, 15, 12, 0),
+                                dates=["2026-11-13"])
+    assert _cut is False, "fixture must be the panel-covered case"
+    assert stale_varieties(_lasts, _exp) == ["TS"], stale_varieties(_lasts, _exp)
+    # all current -> nothing stale; missing member -> named, not skipped
+    assert stale_varieties({"IF": "2026-11-13", "TS": "2026-11-13"},
+                           "2026-11-13") == []
+    assert stale_varieties({"IF": "2026-11-13", "TS": None}, "2026-11-13") == ["TS"]
+    assert stale_varieties({"IF": "2026-11-13"}, None) == []   # no expected date -> no claim
+    print("[PASS] S13 per-member coverage: panel max covers while a member lags "
+          "(one stale CSV is named, a missing one is named, no date -> no claim)",
+          flush=True)
+    # S14 r1724: a CSV on disk that the lane does not maintain is surfaced.
+    _saved_v = list(VARIETIES)
+    try:
+        VARIETIES[:] = ["IF"]
+        _d = tempfile.mkdtemp()
+        for _n in ("IF.csv", "TS.csv", "notes.txt"):
+            io.open(os.path.join(_d, _n), "w", encoding="utf-8").write("date,close\n")
+        assert unplanned_csvs(_d) == ["TS.csv"], unplanned_csvs(_d)
+        VARIETIES[:] = ["IF", "TS"]
+        assert unplanned_csvs(_d) == [], unplanned_csvs(_d)
+        assert unplanned_csvs(os.path.join(_d, "nope")) == []
+    finally:
+        VARIETIES[:] = _saved_v
+    print("[PASS] S14 unplanned-csv guard: a data file nobody maintains is named, "
+          "and disappears once the plan lists it", flush=True)
+    print("selftest: 14/14 PASS")
     return 0
 
 

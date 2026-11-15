@@ -244,16 +244,16 @@
   {
    "instrument": "TS",
    "kind": "bond_future",
-   "price": 102.594,
-   "price_date": "2026-09-24",
+   "price": 102.636,
+   "price_date": "2026-11-13",
    "multiplier": 20000,
    "lot_size": 1,
-   "one_lot_notional": 2051879.9999999998,
+   "one_lot_notional": 2052720.0,
    "share_of_account": {
-    "500000": 4.10376,
-    "1000000": 2.05188,
-    "2000000": 1.02594,
-    "5000000": 0.410376
+    "500000": 4.10544,
+    "1000000": 2.05272,
+    "2000000": 1.02636,
+    "5000000": 0.410544
    },
    "verdict_by_tier": {
     "500000": "ONE_LOT_IS_THE_BOOK",
@@ -261,10 +261,10 @@
     "2000000": "ONE_LOT_IS_THE_BOOK",
     "5000000": "ONE_LOT_IS_THE_BOOK"
    },
-   "capital_where_it_becomes_a_leg": 6839599.999999999,
+   "capital_where_it_becomes_a_leg": 6842400.0,
    "multiplier_source": "CFFEX 2年期国债期货合约交易细则 第四条(面值200万元)+百元净价报价",
-   "price_is_face_bar": false,
-   "writer": "no_declared_writer"
+   "price_is_face_bar": true,
+   "writer": "in_lane_roster"
   },
   {
    "instrument": "510300",
@@ -392,9 +392,7 @@
    "writer": "in_lane_roster"
   }
  ],
- "stale_price_bars": [
-  "TS"
- ],
+ "stale_price_bars": [],
  "writer_check": {
   "readable": true,
   "source": "results\\futures_update_status.json",
@@ -407,11 +405,10 @@
    "RB",
    "SC",
    "T",
-   "TF"
-  ],
-  "no_declared_writer": [
+   "TF",
    "TS"
   ],
+  "no_declared_writer": [],
   "note": "R7: the futures update lane's own status face names the varieties it refreshes; a panel file outside that list has no producer and is kept out of the counts. Unreadable lane face = unknown, which is not the same as 'nobody writes it' -- nothing is excluded then."
  },
  "at_1m": {
@@ -423,7 +420,8 @@
    "IM",
    "SC",
    "T",
-   "TF"
+   "TF",
+   "TS"
   ],
   "expressible_as_a_leg": [
    "510050",
@@ -435,9 +433,7 @@
   ],
   "undeclared_multiplier": [],
   "unreadable_price": [],
-  "no_declared_writer": [
-   "TS"
-  ]
+  "no_declared_writer": []
  },
- "sentence": "1,000,000 元账户上，14 个可测品种里有 8 个没法定大小——一手就已经超过账户的 30%（最大的一手是 IC 的 1,275,000 元；最小的是 588000 的 135 元）；另有 1 条腿的面板文件不在更新车道名单里（没有生产者），不计入"
+ "sentence": "1,000,000 元账户上，15 个可测品种里有 9 个没法定大小——一手就已经超过账户的 30%（最大的一手是 TS 的 2,052,720 元；最小的是 588000 的 135 元）"
 }

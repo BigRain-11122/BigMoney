@@ -1355,7 +1355,8 @@
    "IM",
    "SC",
    "T",
-   "TF"
+   "TF",
+   "TS"
   ],
   "expressible_as_a_leg": [
    "510050",
@@ -1368,12 +1369,8 @@
   "undeclared_multiplier": [],
   "writer_check": {
    "readable": true,
-   "no_declared_writer": [
-    "TS"
-   ],
-   "no_declared_writer_bars": [
-    "2026-09-24"
-   ]
+   "no_declared_writer": [],
+   "no_declared_writer_bars": []
   },
   "shares_at_1m": {
    "AU": 0.839,
@@ -1383,7 +1380,8 @@
    "IM": 1.25536,
    "SC": 0.6255,
    "T": 1.10045,
-   "TF": 1.0676
+   "TF": 1.0676,
+   "TS": 2.05272
   },
   "etf_shares_at_1m": {
    "510300": 0.000408,
@@ -1400,7 +1398,8 @@
    "IM": 4184533.3333333335,
    "SC": 2085000.0,
    "T": 3668166.666666667,
-   "TF": 3558666.666666667
+   "TF": 3558666.666666667,
+   "TS": 6842400.0
   },
   "face_cutoff": "2026-11-13"
  },
@@ -4411,7 +4410,7 @@
    "turnover_arm": 0.9457,
    "turnover_declared": 0.959
   },
-  "elapsed_sec": 77.7,
+  "elapsed_sec": 116.0,
   "evidence_cutoff": "2026-11-13",
   "gross_rows": [
    {
@@ -4788,7 +4787,7 @@
    }
   ],
   "script": "scripts\\etf_book_causal_rebuild.py",
-  "ts": "2026-11-15T05:59:22+0800",
+  "ts": "2026-11-15T15:02:20+0800",
   "verdict": {
    "admissible_arms": [],
    "arms": [
@@ -5754,7 +5753,7 @@
    "up_quantile": 0.8,
    "verdict_rule": "ADOPT_GAP iff some gap arm beats `declared` on CAGR by >= gap_min_pp AND its Sharpe is >= this run's `declared` Sharpe AND its max drawdown is no deeper than declared - dd_tol_pp AND it beats declared on CAGR in >= phase_share_min of the phases; MIXED_ACROSS_PHASES if the return line is cleared but the phase share is not (or the reverse); NO_GAP_EDGE otherwise -- the gap stays information"
   },
-  "elapsed_sec": 72.0,
+  "elapsed_sec": 102.4,
   "evidence_cutoff": "2026-11-13",
   "gap_stats": {
    "entry_bars": 84,
@@ -6113,7 +6112,7 @@
    }
   ],
   "script": "scripts\\etf_book_overnight_gap.py",
-  "ts": "2026-11-15T06:00:35+0800",
+  "ts": "2026-11-15T15:04:04+0800",
   "verdict": {
    "admissible_arms": [],
    "arms": [
@@ -7845,10 +7844,10 @@
  "authority": {
   "writer": "bm-c",
   "owner": "bm-a",
-  "owner_silent_h": 39.7,
+  "owner_silent_h": 40.0,
   "gate_h": 6.0,
   "took_over": true,
-  "why": "bm-a has not written its own heartbeat for 39.7 h (> 6 h): this host takes the pen for the page only -- a stopped heartbeat is not a dead machine",
+  "why": "bm-a has not written its own heartbeat for 40.0 h (> 6 h): this host takes the pen for the page only -- a stopped heartbeat is not a dead machine",
   "no_bar_reason": "human_ages"
  },
  "fleet": {

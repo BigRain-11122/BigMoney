@@ -15295,3 +15295,28 @@ R4 价格读不到／L13 两者必须是两个词／空面渲染不崩）+ CEO �
 工具面：scripts/etf_book_lot_floor.py（selftest 20/20：L14-L17 声明乘数走通且行行有来源／
 L18 旧 bar 标记／L19 无生产者行留在表里但不进判决／L20 名单读不出＝未知不剔除）+
 CEO 页 L316-L317 + S6 腿 etf_book_lot_floor。
+
+### E655 · 面板的最大截点看不见死掉的成员（r1724 bm-c）
+
+1. **`max` 是「最新」，不是「都在」。** 期货车道 `local_data_cutoff()` 取十个品种的**最大**末日，
+   于是 TS.csv 停在 2026-09-24 的 50 个交易日里，门每次都读到邻居的 2026-11-13、回答
+   「covered → zero network」——落后的成员永远不会被拉，而同一个 max 也正是页面头条的数据截点，
+   读者看不出差别。正法＝逐成员对**同一个** `expected` 日期点名（`stale_varieties()` 返回名字，
+   不返回计数：「N 个品种落后」不能行动，「TS 落后」能行动）；整体覆盖与个体覆盖**两条都成立**
+   才允许 zero-network no-op（r1289 宽腿 no-op 闸是同一族的下层）。
+2. **落后时只拉落后者，不要全量重拉。** `fetch_set = VARIETIES if needs_fetch else laggards`：
+   面板整体缺数据＝全拉；只是某个成员落后＝只去那条线（本次 TS 一次请求 +30 行，其余九条零流量）。
+3. **「盘上有文件」不等于「有人在维护」，反过来也必须由车道自己印出来。** TS.csv 是 2026-09-25
+   手工拉的，此后无人认领；上一轮是靠人眼在单位表里发现的。正法＝车道自己算 `unplanned_csvs()`
+   写进 status（本次实测 `[]`——TS 入名单后它自己消失），读者不必再看 mtime 猜。
+4. **接管律的实弹用法**：`LANE_OWNER=bm-a` 心跳静默 40h ≥ 120min 阈值 → `--takeover` 合法，
+   信封记 `authority.took_over_by=bm-c`；修复合并成功本身就是重叠行逐列（tol 1e-6）一致的证据
+   （1997 行到 2026-11-13）。切分：车道归属不因一次接管而改变，截至下一条 owner 运行。
+5. **修好之后数字会动，这是判据不是噪声**：TS 一手 2,051,879（09-24 旧 bar）→ **2,052,720**
+   （11-13），`writer` 从 `no_declared_writer` 变 `in_lane_roster`，`stale_price_bars` 清空，
+   100 万档仍是 `ONE_LOT_IS_THE_BOOK`（205.3%），要做到 6,842,400 才是一条腿。
+
+工具面：scripts/update_futures.py（selftest 12/12 → **14/14**：S13 面板 max 覆盖而成员落后时点名
+（缺失成员点名／无 expected 日期不下断言）／S14 名单外的盘面文件被点名、入名单后消失）+
+单位地板面 selftest 20/20 + CEO 页 394/394 + results/futures_update_status.json（laggards/fetch_set/
+unplanned_csvs 三字段）。
