@@ -1666,19 +1666,20 @@ def entry_gate_support():
             return {"status": "unreadable", "detail": repr(exc)}
 
 
-def entry_gate_seats_md(eg, seats):
-    """r1753/r1755: 「这道闸够本书装几只」——判定的唯一实现在 CEO 页，票面从这里取。
+def entry_gate_seats_md(eg, seats, reach="auto"):
+    """r1753/r1755/r1758: 「这道闸够本书装几只」——判定的唯一实现在 CEO 页，票面从这里取。
 
     两处各写一份的代价是同一句话在票面和页面上分叉（r1753 分过一次，r1755 又看见
-    LIVE-BOOK 仍印旧句）；这里只做转发，措辞由页面模块统一。
+    LIVE-BOOK 仍印旧句）；这里只做转发，措辞由页面模块统一。r1758 的「最薄日是哪一天」
+    同样只有一份实现，`reach` 原样透传（默认 auto=页面模块自己读可达面）。
     """
     try:
         from scripts import etf_book_ceo_page as _PAGE
-        return _PAGE.entry_gate_seats_md(eg, seats)
+        return _PAGE.entry_gate_seats_md(eg, seats, reach)
     except Exception:                                          # noqa: BLE001
         try:
             import etf_book_ceo_page as _PAGE2
-            return _PAGE2.entry_gate_seats_md(eg, seats)
+            return _PAGE2.entry_gate_seats_md(eg, seats, reach)
         except Exception:                                      # noqa: BLE001
             return []
     return ["- **换成你能装几只（r1753）**：本书现在开 **%d 个位置**，而 %gM 这一档历史上"
@@ -1742,7 +1743,7 @@ def capacity_per_seat_md(nav_cny, seats, book_weight=None, yg=None):
     return [head + tail]
 
 
-def entry_gate_md(eg, seats=None, nav_cny=None, book_weight=None, capacity=None):
+def entry_gate_md(eg, seats=None, nav_cny=None, book_weight=None, capacity=None, reach="auto"):
     """两轴分开印：这道闸买到了多少收益，和它买到了多少容量。"""
     eg = eg or {}
     if eg.get("status") != "ok":
@@ -1769,7 +1770,7 @@ def entry_gate_md(eg, seats=None, nav_cny=None, book_weight=None, capacity=None)
                  "改变的是单笔能有多大，不是期望收益。"
                  % (int(eg.get("widest_names") or 0), int(eg.get("narrowest_names") or 0),
                     float(ratio)))
-    L += entry_gate_seats_md(eg, seats)
+    L += entry_gate_seats_md(eg, seats, reach)
     L += capacity_per_seat_md(nav_cny, seats, book_weight, capacity)
     L.append("- 判定 **%s**｜出处 `%s`（证据截止 %s，面板末 bar %s；%gM 档复现本书申报格 "
              "%.3f pp，容差 %.2f pp）。"
@@ -6758,6 +6759,23 @@ def selftest():
         "alarm as a count, so '10.2x' is never the only thing a reader gets",
         "离座位线还有 **46 只**缓冲" in _thin_gap_line and "10.2 倍" in _thin_gap_line
         and "池子告警" not in _thin_gap_line, _thin_gap_line[:200])
+
+    # r1758: 「最薄的一天也还有 51 只」没说哪天。日期与暖机注解只有一个实现（CEO 页），
+    # 票面只转发；两个面不同代时宁可说不同代，也不借一个日期。
+    _reach_edge = {"shipped_row": {"thin": 51, "thin_date": "2020-01-02"},
+                   "edge_reading": {"thin_is_warmup_edge": True, "warmup_edge_bars": 20,
+                                    "core_thin": 56, "core_thin_date": "2020-02-13"}}
+    _reach_line = _seat_line("\n".join(entry_gate_md(_eg_ok, seats=5, reach=_reach_edge)))
+    chk("leg48p entry gate: the thin day carries its own date and the warm-up note on the "
+        "ticket too (51 is the window's first bar, run-time thin 56), read from the reach face",
+        "2020-01-02" in _reach_line and "暖机边界" in _reach_line
+        and "56 只（2020-02-13）" in _reach_line and "不是风险" in _reach_line,
+        _reach_line[-170:])
+    _reach_none_line = _seat_line("\n".join(entry_gate_md(_eg_ok, seats=5, reach=False)))
+    chk("leg48q entry gate: without the reach face the ticket says the date is not on this "
+        "face -- it borrows no date and drops none of the readings it does have",
+        "这张面没有给" in _reach_none_line and "10.2 倍" in _reach_none_line
+        and "2020" not in _reach_none_line, _reach_none_line[-140:])
 
     # 49a-e. r1455: the sheet sizes to the permission the desk itself published. r1450
     # printed a floor (k=0.393073) and its prereg requirement 4 asked for it to be carried

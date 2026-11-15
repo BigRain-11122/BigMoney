@@ -3583,7 +3583,54 @@ def entry_gate_face(path=ENTRY_GATE_JSON):
         return {"status": "unreadable", "artifact": _rel(path, ROOT), "detail": repr(exc)}
 
 
-def entry_gate_seats_md(eg, seats):
+def _seat_alarm_reach_face():
+    """r1758: 最薄那一天是哪一天、它是不是暖机边界（r1757 的可达面）。
+
+    票面上「最薄的一天也还有 51 只」这句话里，51 没说是哪一天，也没说那一天是这本书开机
+    的第一根 bar。这两个事实在 results/etf_book_seat_alarm_reach.json 里；本函数只读它，
+    不在这里重算任何一天的名数（r1282/r1745 族：消费者不许从发布件重新推导一遍就当核验）。
+    """
+    p = os.path.join(ROOT, "results", "etf_book_seat_alarm_reach.json")
+    if not os.path.exists(p):
+        return None
+    try:
+        return _load(p)
+    except (OSError, ValueError):
+        return None
+
+
+def seat_alarm_date_md(thin, reach="auto"):
+    """r1758: 「最薄那天是哪一天」——三种状态三种话，没有一种拿别的数顶替。
+
+    面在且对得上代 -> 印日期；若可达面说它坐在暖机边界上，连同运行期最薄的数一起印；
+    面在但那天与本页的入场闸面不同 -> 两个面不同代，不印日期；面缺席 -> 明写没有这一问。
+    """
+    if reach == "auto":
+        reach = _seat_alarm_reach_face()
+    if not reach:
+        return "（最薄那一天是哪一天、它是不是暖机边界，这张面没有给。）"
+    row = reach.get("shipped_row") or {}
+    face_thin = row.get("thin")
+    day = row.get("thin_date")
+    if face_thin is None or day is None:
+        return "（最薄那一天是哪一天，可达面里没有这个数，本页不猜。）"
+    try:
+        same = thin is not None and int(face_thin) == int(thin)
+    except (TypeError, ValueError):
+        same = False
+    if not same:
+        return ("（最薄那一天是哪一天：可达面说的是 %s 只、本页的入场闸面写 %s 只——两个面不同代，"
+                "本页不印日期。）" % (face_thin, thin))
+    edge = reach.get("edge_reading") or {}
+    if edge.get("thin_is_warmup_edge"):
+        return ("那天是 **%s**——这个窗口的第一根 bar（面板刚够历史长度的暖机边界）；去掉前 %s 根，"
+                "运行期最薄是 **%s 只（%s）**。所以这个数量的是开机那一瞬间，不是风险。"
+                % (str(day)[:10], edge.get("warmup_edge_bars"),
+                   edge.get("core_thin"), str(edge.get("core_thin_date") or "")[:10]))
+    return "那天是 **%s**。" % str(day)[:10]
+
+
+def entry_gate_seats_md(eg, seats, reach="auto"):
     """r1753: 「这道闸够这本书装几只」——把宽度那一轴换算成位置数。
 
     宽度那句话说的是「池子里有几只可挑」，读者要的是「我这本 5 个位置够不够装」。
@@ -3621,8 +3668,9 @@ def entry_gate_seats_md(eg, seats):
                             % (thin, n_seats))]
         return [head + ("最薄那天是这本书位置的 **%.1f 倍**，离座位线还有 **%d 只**缓冲——所以历史上"
                         "没有一天池子比你的座位薄；这道闸要开始限制你，得等最薄日先跌到 **%d 只"
-                        "以下**（或者这本书开到 **%d 个位置以上**）。"
-                        % (float(thin) / float(n_seats), thin - n_seats, n_seats, thin))]
+                        "以下**（或者这本书开到 **%d 个位置以上**）。%s"
+                        % (float(thin) / float(n_seats), thin - n_seats, n_seats, thin,
+                           seat_alarm_date_md(thin, reach)))]
     return ["- **换成你能装几只（r1753）**：这本书现在开 **%d 个位置**，而 %gM 这一档历史上"
             "中位 **%d 只**可挑（%.1f 倍）。**最薄那天的数这张面没有**，所以只说中位——"
             "按最薄日算只会比这个倍数更低，不会更高。"
@@ -3698,7 +3746,7 @@ def capacity_per_seat_md(nav_cny, seats, book_weight=None, yg=None):
     return [head + tail]
 
 
-def entry_gate_block(eg, seats=None, nav_cny=None, book_weight=None, capacity=None):
+def entry_gate_block(eg, seats=None, nav_cny=None, book_weight=None, capacity=None, reach="auto"):
     L = []
     if eg.get("status") != "ok":
         L.append("## 这本书的票池是被一个数选出来的，那个数是从哪来的？")
@@ -3747,7 +3795,7 @@ def entry_gate_block(eg, seats=None, nav_cny=None, book_weight=None, capacity=No
                  % (int(eg.get("widest_names") or 0), int(eg.get("narrowest_names") or 0),
                     float(ratio)))
         L.append("")
-    _seats = entry_gate_seats_md(eg, seats)
+    _seats = entry_gate_seats_md(eg, seats, reach)
     if _seats:
         L += _seats
         L.append("")
@@ -11834,6 +11882,31 @@ def selftest():
         and "池子告警" not in _eg_equal_line and "倍" not in _eg_equal_line
         and "离座位线还有 **46 只**缓冲" in _eg_buffered_line,
         "equal=%s buffered=%s" % (_eg_equal_line[:90], _eg_buffered_line[:90]))
+    # L140e4-e6 (r1758): 「最薄的一天也还有 51 只」这一句一直没说哪天。r1757 查到那天是窗口的
+    # 第一根 bar（暖机边界，不是风险）。日期与注解只从可达面读，三种状态三种话。
+    _reach_edge = {"shipped_row": {"thin": 51, "thin_date": "2020-01-02"},
+                   "edge_reading": {"thin_is_warmup_edge": True, "warmup_edge_bars": 20,
+                                    "core_thin": 56, "core_thin_date": "2020-02-13"}}
+    _eg_reach_line = next((l for l in entry_gate_block(_eg_ok, seats=5, reach=_reach_edge)
+                           if "换成你能装几只" in l), "")
+    chk("L140e4 entry gate: the thin day carries its own date and the warm-up note -- 51 is "
+        "the window's first bar and the run-time thin is 56, so the number is not a risk reading",
+        "2020-01-02" in _eg_reach_line and "暖机边界" in _eg_reach_line
+        and "56 只（2020-02-13）" in _eg_reach_line and "不是风险" in _eg_reach_line,
+        _eg_reach_line[-170:])
+    _eg_reach_other = next((l for l in entry_gate_block(
+        _eg_ok, seats=5, reach={"shipped_row": {"thin": 44, "thin_date": "2020-01-02"}})
+        if "换成你能装几只" in l), "")
+    chk("L140e5 entry gate: a reach face whose thin day is a different number is a different "
+        "generation -- the page prints no date instead of borrowing one",
+        "不同代" in _eg_reach_other and "2020-01-02" not in _eg_reach_other,
+        _eg_reach_other[-140:])
+    _eg_reach_none = next((l for l in entry_gate_block(_eg_ok, seats=5, reach=False)
+                           if "换成你能装几只" in l), "")
+    chk("L140e6 entry gate: with no reach face the page says the date is not on this face, "
+        "and it prints none of the readings it does not have",
+        "这张面没有给" in _eg_reach_none and "2020" not in _eg_reach_none
+        and "10.2 倍" in _eg_reach_none, _eg_reach_none[-140:])
     # L140f-h (r1754): 位置数换完了，下一个问题是「每个位置多大、什么时候会大到拖累成交」。
     # 那张数在年闸面里（今天这 5 个槽各按一日 5% 参与率），这里只换算不重算成交额。
     _cap_face = {"books": [{"capacity_cny_1day_5pct": 1200000.0}],
