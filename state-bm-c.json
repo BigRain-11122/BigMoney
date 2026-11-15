@@ -1340,7 +1340,7 @@
  "s05_scan": "fleet/orders: 115 files, 0 unacked (matches orders_ack 242 entries)",
  "s05_second_scan": "closeout rescan: 0 unacked",
  "s0_note": "machine.json=bm-c | tree dirty at round start (104 modified, dead-window + other-body leftovers) -> staged only this round's own files | ahead=0 behind=0",
- "s1_note": "full suite started 13:59:51 in the background; it caught one real red at line 92 -- the new 今天 line carried no date, so live_book_day_words fell to PRINTED_BUT_UNANCHORED -- fixed by putting the quote bar in the sentence; that leg's selftest is now 33/33 and the page says PRINTED_SELF_DATED (12/12 date claims ok, 1 unfiled rule). Suite still in flight, 0 other fails",
+ "s1_note": "full suite started 13:59:51 in the background; it caught one real red at line 92 -- the new 今天 line carried no date, so live_book_day_words fell to PRINTED_BUT_UNANCHORED -- fixed by putting the quote bar in the sentence; that leg's selftest is now 33/33 and the day-word face now reads PRINTED_DATES_AGREE (13/13 claims, 0 unmapped, 0 unverifiable). Suite still in flight, 0 other fails",
  "s6_chain": "idx_fut_desk_sheet single leg rc0 0.4s -> results/_r1705bmc_s6_chain.only-idx_fut_desk_sheet.json",
  "s6_chain_inflight": {
   "legs_seen": 45,
@@ -1377,7 +1377,7 @@
  "smoke_fail_fixed": {
   "leg": "product: live-book day words sit on the page's own day",
   "cause": "the new cash-caliber sentence said 今天 without naming the quote bar, so the census could not self-date it (12 printed lines, 0 anchored)",
-  "fix": "the sentence now reads 今天（2026-11-13 的报价）; live_book_day_words selftest 33/33, page verdict PRINTED_SELF_DATED",
+  "fix": "the sentence now reads 今天（2026-11-13 的报价）, and the day-word face got a dedicated rule mapping it to cash_caliber.quote_date (not to the cash-yield face, whose date merely matches today): live_book_day_words selftest 33/33, run exit 0, page verdict PRINTED_DATES_AGREE with 13/13 claims checked and 0 unmapped (the face was PRINTED_SELF_DATED with 1 unfiled rule before)",
   "evidence": "results/live_book_day_words.json"
  },
  "smoke_inflight": null,
