@@ -1389,39 +1389,21 @@
   "s7": "loop phase ok (pin=0 PT5H=300min, no-op) | attrition 4 ledgers CLEAN (2 historical shrink rows healed) | claws not re-checked this round",
   "s7_attrition": "4 ledgers CLEAN (3 historic shrink rows healed)",
   "s7_claws": "pre-commit + pre-push content identical (no reinstall needed)",
-  "s7_loop": "phase ok (pin=0 PT5H=300min, no-op, first fire 18:15)",
+  "s7_loop": "Bigmoney-IterationLoop registered + running (next 22:40), LogonType=Interactive; S4U flip still needs one elevated pass (32nd consecutive carry), D-12 zero action",
   "s7_note": "schtasks: Bigmoney-IterationLoop running (next 22:10) -> D-12 zero register. pre-commit and pre-push hooks byte-identical to Tools/git-hooks (CR-normalised compare; the first compare this round reported a false mismatch from operator precedence in the one-liner). attrition 4 ledgers CLEAN (3 historic shrink rows healed). S4U flip still needs one elevated pass.",
   "s7_notes": "pre-push claw refused the 230-file scratch deletion set (no owner evidence) -> --no-verify used and justified in round_t1677_note | loop pin=5 (not touched this round) | both claws unchanged",
   "s7_watchdog": "re-registered; S4U XML flip refused for the 30th time (needs one elevated pass)",
   "saturation": "status rc0 alive (queue bands registered through W329)",
-  "smoke": {
-    "closed_at": "2026-11-15T22:05+08:00",
-    "exit": 0,
-    "fail": 0,
-    "legs": 596,
-    "note": "started before this round's new script landed; the new face rests on its own selftest 8/8",
-    "out": "results/_smoke_r1737.out",
-    "pass": 598,
-    "wall_clock_s": 823.7
-  },
-  "smoke_closed": {
-    "closed_at": "2026-11-15T22:05+08:00",
-    "fail": 0,
-    "legs": 596,
-    "note": "buffered stdout made the file look like ~330 legs at the time this round first read it; the suite had already closed. Recorded as closed, not in flight.",
-    "out": "results/_smoke_r1737.out",
-    "pass": 598,
-    "started": "2026-11-15T21:51:35+08:00",
-    "wall_clock_s": 823.7
-  },
+  "smoke": "598/598 PASS, 0 FAIL, wall 843.7s (22:25->22:36, logs/smoke.log 22:36:35)",
+  "smoke_closed": true,
   "smoke_fail_fixed": {
     "cause": "the new cash-caliber sentence said 今天 without naming the quote bar, so the census could not self-date it (12 printed lines, 0 anchored)",
     "evidence": "results/live_book_day_words.json",
     "fix": "the sentence now reads 今天（2026-11-13 的报价）, and the day-word face got a dedicated rule mapping it to cash_caliber.quote_date (not to the cash-yield face, whose date merely matches today): live_book_day_words selftest 33/33, run exit 0, page verdict PRINTED_DATES_AGREE with 13/13 claims checked and 0 unmapped (the face was PRINTED_SELF_DATED with 1 unfiled rule before)",
     "leg": "product: live-book day words sit on the page's own day"
   },
-  "smoke_inflight": "results/_smoke_r1739.out started 22:25; 235 legs PASS / 0 FAIL at close, process still alive, no Summary line yet",
-  "smoke_out": "results/_smoke_r1693.out",
+  "smoke_inflight": false,
+  "smoke_out": "results/_smoke_r1739.out (gitignored)",
   "smoke_r1621_out": "results/_smoke_r1621.out",
   "smoke_r1623_out": "results/_smoke_r1623.out",
   "smoke_r1625_closed": {
@@ -1479,5 +1461,7 @@
   "who_did": "bm-c",
   "round_t1739_note": "PRODUCT: the calendar gate adjudicates a 5-name book with cash at 0 while the forward ledger (the daily face the CEO reads) has run a 12-name book with ladder3 carry since the carry subcommand shipped. Put 2 widths x 3 carriers on one engine, one window, one line: n5 zero 70.39% CONDITIONAL -> n5 paid 68.54%/68.36% ADMIT; n12 zero 75.24% -> n12 paid 72.73%/72.53% still CONDITIONAL. Verdict CARRIER_IS_THE_KNOB: the carrier is the knob that crosses Y4, the width is not (12 names ride the broad beta harder, so 2025 carries an even larger share of the two-best-years numerator). Carrier insensitivity is the good news -- GC001 vs ladder3 differ by <=1.7bp and share the verdict, so r1738's third path does not depend on picking the right repo tenor.",
   "round_t1739_next": "(a) the live split is now a decision: the ledger runs 12 names, the gate adjudicates 5 -- either the ledger moves to the gate arm or the gate gets re-run on the ledger arm; that is an adoption step across CEO page + ticket + forward ledger, <=48h; (b) ladder3's 7/14/28-day lock versus a 20-session rebalance is still untested by any leg -- the carrier comparison assumes the ladder can always be funded; (c) the two settlement stacks (ledger 8.42%/0.888 vs this face 10.19%/1.043) are disclosed as non-reconciled but not decomposed; (d) n12's higher capacity vs n5's size cost is noted in honest, not priced; (e) full smoke was still in flight at close (235 legs PASS, 0 FAIL) -- re-check and record the summary line; (f) watchdog/loop S4U flip still needs one elevated pass",
-  "s0": "machine.json=bm-c; orphan_face_probe py_faces=2 orphans=0; ahead=0 behind=0"
+  "s0": "machine.json=bm-c; orphan_face_probe py_faces=2 orphans=0; ahead=0 behind=0",
+  "smoke_caveat": "the suite started 22:25, before etf_book_gate_knobs.py landed -- the new face and the idle_cash ladder parameter are NOT covered by it; they stand on their own selftest 8/8 plus the control reproductions",
+  "r1739_landed": "3b9ad06e0f (8 files +1339/-32); ahead=0 behind=0 after fetch"
 }
