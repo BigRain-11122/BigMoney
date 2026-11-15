@@ -1,12 +1,12 @@
 # Does the order sheet price the execution it declares?
 
-Generated 2026-11-14T20:44:53+0800 from `scripts/etf_book_causal_headline.py` (panel 2005-02-23 -> 2026-11-13, 1520 symbols, cutoff `2026-11-13`).
+Generated 2026-11-16T01:35:10+0800 from `scripts/etf_book_causal_headline.py` (panel 2005-02-23 -> 2026-11-13, 1520 symbols, cutoff `2026-11-13`).
 
 ## Verdict
 
-**CANNOT_VERIFY** -- a side of the comparison is unreadable
+**TABLE_PRINTS_BOTH_ARMS** -- the card's own table labels both arms (declared row 8.40%/yr, as-coded row 9.60%/yr); each labelled cell is this face's own measurement of the arm it names (-0.01pp and +0.01pp), so the eye cannot land on a number the sheet does not also label
 
-Recommendation: No headline change is called for: the sheet already prices the execution it declares -- but the comparison is unreadable, so the sheet should print its convention until it can be re-derived.
+Recommendation: No further change is called for on this face: the card's table prints both arms with their basis in the row label (declared 8.40%/yr, as-coded 9.60%/yr) and both cells are this face's own measurements, so the operator can size off the tradeable row without reading prose.
 
 ## The three numbers, each with its own convention
 
@@ -18,10 +18,11 @@ Recommendation: No headline change is called for: the sheet already prices the e
 
 ## What the operator's files say
 
-- the card prints **unreadable** (no '2020-01 onwards' row found)
+- the card prints **9.60%/yr** (row label '2020-01 onwards -- as coded', results\etf_book_production\CARD.md)
 - the card claims execution **decide at close t -> fill at open t+1 -> hold to next rebalance** (results\etf_book_production\latest.json)
 - the card discloses beside it **8.41%/yr declared vs 9.59%/yr as-coded, verdict SAME_OPEN_ARM** (results\etf_book_production\latest.json)
 
+- the card's own row labels state the basis: as_coded = 9.60%/yr; declared = 8.40%/yr
 
 ## Why this is a defect and not a preference
 

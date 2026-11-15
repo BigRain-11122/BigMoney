@@ -15590,3 +15590,27 @@ smoke_test.py 一条产品腿。
 指针：scripts/event_exec_gate.py（seat_subject/_band_edges/_numeric_curves/_row_lists
 + audit 注记 + selftest_seat_subject 8/8）· scripts/seat_subject_census.py（run/selftest 6/6）
 · results/seat_subject_census.json · research/SEAT_SUBJECT_CENSUS.md · smoke_test.py 腿 83
+
+
+### E662 「自洽的绿」：从自己的产出再推导的 check 永远绿（r1745 bm-c）
+
+1. **坑**：口径面（订单册印的是不是它自己声明的成交基座）连续一天印 CANNOT_VERIFY，
+   而套件全绿——因为 check() 拿**发布件**重新推导，推导出的正是同一种瞎。判据问的是
+   「这张面自相矛盾吗」，它答的是「不矛盾」，客户问的却是「卡片现在印的是什么」。
+   根因在读行：正则会话要求标签**恰好**等于 2020-01 onwards，而卡片已长成
+   2020-01 onwards -- as coded / -- declared fill (close t -> open t+1)。
+2. **两个方向相反的解析错，代价不同**：收紧到精确字面 = 把「卡片变好」读成「读不到」
+   （假 CANNOT_VERIFY）；放松成前缀匹配 = 抓第一行去指控一张已经改对的卡（假指控，
+   对一个指控型面是最坏的错）。正法＝**留全部行 + 按标签自称的口径归档**，逐个格子
+   跟它自称的那条臂比；标签是写给旁边格子的承诺，写错就是错（TABLE_ROW_DISAGREES）。
+3. **check 必须读盘上的被检物**：发布块若早于卡片就报 stale（r1282/r1594 同族），
+   两分支都要夹具钉住（stale rc1 / fresh rc0）。任何「消费者绿但生产者已动」的面，
+   拦在消费者读发布件这一步。
+4. **顺带**：夹具放在 C: 盘、仓在 K: 盘时 os.path.relpath 抛 ValueError，整套自检
+   一行都不出（r1371/r1375/r1594 之后**第三份拷贝**）；展示路径一律走跨盘回落的
+   _display()。
+
+指针：scripts/etf_book_causal_headline.py（_row_basis/_display/read_printed_cagr +
+decide TABLE_PRINTS_BOTH_ARMS/TABLE_ROW_DISAGREES + check stale 门 + selftest 20/20）·
+results/etf_book_causal_headline.json（声明行 8.40 vs 臂 8.41、as-coded 行 9.60 vs 9.59）·
+research/ETF_BOOK_CAUSAL_HEADLINE.md · smoke 既有腿（check 契约）

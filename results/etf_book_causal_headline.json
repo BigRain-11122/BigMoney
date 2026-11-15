@@ -61,9 +61,9 @@
   "source": "results\\etf_book_production\\latest.json",
   "verdict": "SAME_OPEN_ARM"
  },
- "elapsed_sec": 55.6,
+ "elapsed_sec": 61.4,
  "evidence_cutoff": "2026-11-13",
- "generated": "2026-11-14T20:44:53+0800",
+ "generated": "2026-11-16T01:35:10+0800",
  "panel": {
   "bars": 5280,
   "first_bar": "2005-02-23",
@@ -72,17 +72,43 @@
   "symbols": 1520
  },
  "printed": {
-  "cagr": null,
-  "error": "no '2020-01 onwards' row found",
+  "cagr": 0.096,
+  "label": "2020-01 onwards -- as coded",
+  "labelled": {
+   "as_coded": {
+    "cagr": 0.096,
+    "label": "2020-01 onwards -- as coded"
+   },
+   "declared": {
+    "cagr": 0.084,
+    "label": "2020-01 onwards -- declared fill (close t -> open t+1)"
+   }
+  },
+  "raw": "| 2020-01 onwards -- as coded | 9.6% | 0.99 | -11.8% | 10.2% | 8% (1.27x) |",
+  "rows": [
+   {
+    "cagr": 0.096,
+    "label": "2020-01 onwards -- as coded",
+    "raw": "| 2020-01 onwards -- as coded | 9.6% | 0.99 | -11.8% | 10.2% | 8% (1.27x) |"
+   },
+   {
+    "cagr": 0.084,
+    "label": "2020-01 onwards -- declared fill (close t -> open t+1)",
+    "raw": "| 2020-01 onwards -- declared fill (close t -> open t+1) | 8.4% | 0.87 | -16.6% | 10.3% | 8% (1.28x) |"
+   }
+  ],
   "source": "results\\etf_book_production\\CARD.md"
  },
- "recommendation": "No headline change is called for: the sheet already prices the execution it declares -- but the comparison is unreadable, so the sheet should print its convention until it can be re-derived.",
+ "recommendation": "No further change is called for on this face: the card's table prints both arms with their basis in the row label (declared 8.40%/yr, as-coded 9.60%/yr) and both cells are this face's own measurements, so the operator can size off the tradeable row without reading prose.",
  "script": "scripts/etf_book_causal_headline.py",
  "verdict": {
-  "as_coded_cagr_pp": 9.59,
-  "declared_cagr_pp": 8.41,
-  "printed_cagr_pp": null,
-  "state": "CANNOT_VERIFY",
-  "why": "a side of the comparison is unreadable"
+  "printed_vs_as_coded_pp": -0.01,
+  "printed_vs_declared_pp": -1.19,
+  "row_as_coded_pp": 9.6,
+  "row_declared_pp": 8.4,
+  "row_vs_face_as_coded_pp": 0.01,
+  "row_vs_face_declared_pp": -0.01,
+  "state": "TABLE_PRINTS_BOTH_ARMS",
+  "why": "the card's own table labels both arms (declared row 8.40%/yr, as-coded row 9.60%/yr); each labelled cell is this face's own measurement of the arm it names (-0.01pp and +0.01pp), so the eye cannot land on a number the sheet does not also label"
  }
 }

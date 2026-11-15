@@ -104,23 +104,61 @@ def read_claim(payload_path=CARD_PAYLOAD):
             "source": os.path.relpath(payload_path, ROOT)}
 
 
-_ROW = re.compile(r"^\|\s*(2020-01 onwards)\s*\|\s*(-?[\d.]+)%")
+_ROW = re.compile(r"^\|\s*(2020-01 onwards[^|]*?)\s*\|\s*(-?[\d.]+)%")
+
+
+def _display(path):
+    """A label for a path that survives living on another drive than the repo."""
+    try:
+        return os.path.relpath(path, ROOT)
+    except ValueError:  # pragma: no cover - Windows cross-drive temp fixtures
+        return os.path.abspath(path)
+
+
+def _row_basis(label):
+    """Which fill a table row's own label declares, or None when it declares none."""
+    s = (label or "").lower()
+    if "declared" in s:
+        return "declared"
+    if "as coded" in s or "as-coded" in s:
+        return "as_coded"
+    return None
 
 
 def read_printed_cagr(card_path=CARD):
-    """What the operator's eye lands on: the '2020-01 onwards' CAGR cell of the card."""
+    """The '2020-01 onwards' rows of the card, each kept with the label it carries.
+
+    The card may print one unqualified row (the shape this face was written against) or
+    several rows whose labels say which fill each cell prices. Both blind spots are
+    parsing errors with opposite costs: taking the first match regardless of its label
+    accuses a card that has already fixed itself, and demanding the label be exactly
+    '2020-01 onwards' reads a card that only got better as unreadable. So the selector
+    keeps every row and files the labelled ones under the basis their label states.
+    """
     try:
         with open(card_path, encoding="utf-8") as fh:
             text = fh.read()
     except Exception as exc:  # noqa: BLE001
         return {"cagr": None, "error": "%s: %s" % (type(exc).__name__, exc)}
+    rows = []
     for line in text.splitlines():
         m = _ROW.match(line.strip())
         if m:
-            return {"cagr": float(m.group(2)) / 100.0, "raw": line.strip(),
-                    "source": os.path.relpath(card_path, ROOT)}
-    return {"cagr": None, "error": "no '2020-01 onwards' row found",
-            "source": os.path.relpath(card_path, ROOT)}
+            rows.append({"label": m.group(1).strip(),
+                         "cagr": float(m.group(2)) / 100.0,
+                         "raw": line.strip()})
+    if not rows:
+        return {"cagr": None, "error": "no '2020-01 onwards' row found",
+                "source": _display(card_path)}
+    labelled = {}
+    for r in rows:
+        b = _row_basis(r["label"])
+        if b and b not in labelled:
+            labelled[b] = {"cagr": r["cagr"], "label": r["label"]}
+    head = rows[0]
+    return {"cagr": head["cagr"], "label": head["label"], "raw": head["raw"],
+            "rows": rows, "labelled": labelled,
+            "source": _display(card_path)}
 
 
 def read_disclosure(payload_path=CARD_PAYLOAD):
@@ -176,6 +214,36 @@ def decide(doc, tol=None):
                 "as_coded_cagr_pp": _pp(as_coded)}
     gap_declared = 100.0 * (declared - printed)
     gap_as_coded = 100.0 * (as_coded - printed)
+    labelled = pr.get("labelled") or {}
+    row_decl = (labelled.get("declared") or {}).get("cagr")
+    row_code = (labelled.get("as_coded") or {}).get("cagr")
+    if row_decl is not None and row_code is not None:
+        # A table that states its own basis needs no inference from the prose: compare each
+        # labelled cell with the arm it names, which is the only comparison that cannot be
+        # won by quoting one row and pricing the other.
+        off_decl = 100.0 * (row_decl - declared)
+        off_code = 100.0 * (row_code - as_coded)
+        why.append("the card's own table labels both arms (declared row %.2f%%/yr, as-coded "
+                   "row %.2f%%/yr)"
+                   % (100.0 * row_decl, 100.0 * row_code))
+        out = {"row_declared_pp": _pp(row_decl), "row_as_coded_pp": _pp(row_code),
+               "row_vs_face_declared_pp": round(off_decl, 3),
+               "row_vs_face_as_coded_pp": round(off_code, 3),
+               "printed_vs_declared_pp": round(gap_declared, 3),
+               "printed_vs_as_coded_pp": round(gap_as_coded, 3)}
+        if abs(off_decl) <= tol and abs(off_code) <= tol:
+            why.append("each labelled cell is this face's own measurement of the arm it "
+                       "names (%+.2fpp and %+.2fpp), so the eye cannot land on a number the "
+                       "sheet does not also label" % (off_decl, off_code))
+            out["state"] = "TABLE_PRINTS_BOTH_ARMS"
+            out["why"] = "; ".join(why)
+            return out
+        why.append("the labelled cells are %+.2fpp / %+.2fpp off this face's own arms -- a "
+                   "label is a claim about the cell beside it, and this one is wrong"
+                   % (off_decl, off_code))
+        out["state"] = "TABLE_ROW_DISAGREES"
+        out["why"] = "; ".join(why)
+        return out
     why.append("the card prints %+.2fpp against the execution it declares (%.2f vs %.2f%%/yr)"
                % (100.0 * (printed - declared), printed * 100.0, declared * 100.0))
     if claim_next_open is None:
@@ -286,6 +354,19 @@ def _recommend(doc):
     ar, v = doc.get("arms") or {}, doc.get("verdict") or {}
     declared = (ar.get("declared") or {}).get("cagr")
     ledger = (ar.get("ledger_live") or {}).get("cagr")
+    if v.get("state") == "TABLE_PRINTS_BOTH_ARMS":
+        return ("No further change is called for on this face: the card's table prints both "
+                "arms with their basis in the row label (declared %.2f%%/yr, as-coded "
+                "%.2f%%/yr) and both cells are this face's own measurements, so the operator "
+                "can size off the tradeable row without reading prose."
+                % (v.get("row_declared_pp") or 0.0, v.get("row_as_coded_pp") or 0.0))
+    if v.get("state") == "TABLE_ROW_DISAGREES":
+        return ("The card's labelled rows do not agree with this face (declared row %+.2fpp, "
+                "as-coded row %+.2fpp): a row label is a promise about the cell beside it, so "
+                "either the card or this face is pricing a different book -- re-price both on "
+                "one panel before anyone sizes off either row."
+                % (v.get("row_vs_face_declared_pp") or 0.0,
+                   v.get("row_vs_face_as_coded_pp") or 0.0))
     if v.get("state") == "PRINTED_MATCHES_NEITHER_ARM":
         return ("The sheet should print the arm it actually prices: it currently reads "
                 "%+.2fpp off the execution it declares and %+.2fpp off the arm the engine "
@@ -341,7 +422,8 @@ def write_md(doc):
     lines += ["", "## What the operator's files say", "",
               "- the card prints **%s** (%s)" % (
                   "unreadable" if pr.get("cagr") is None else "%.2f%%/yr" % (pr["cagr"] * 100.0),
-                  pr.get("error") or pr.get("source")),
+                  pr.get("error") or (("row label '%s', %s" % (pr.get("label"), pr.get("source")))
+                                      if pr.get("label") else pr.get("source"))),
               "- the card claims execution **%s** (%s)" % (
                   cl.get("execution") or "unreadable", cl.get("error") or cl.get("source")),
               "- the card discloses beside it **%s** (%s)" % (
@@ -353,6 +435,11 @@ def write_md(doc):
                       else "%.2f" % (100.0 * ds["as_coded_cagr"]),
                       ds.get("verdict") or "unstated"),
                   ds.get("error") or ds.get("note") or ds.get("source") or "unreadable"), ""]
+    lab = pr.get("labelled") or {}
+    if lab:
+        lines += ["- the card's own row labels state the basis: %s" % "; ".join(
+            "%s = %.2f%%/yr" % (k, 100.0 * (v.get("cagr") or 0.0))
+            for k, v in sorted(lab.items()))]
     lines += ["", "## Why this is a defect and not a preference", "",
               "The two arms differ in exactly one number -- how many bars of information the "
               "signal has when the book is paid for. `as coded` ranks on bar d's own close and "
@@ -374,7 +461,7 @@ def read_published(path=None):
         return json.load(fh)
 
 
-def check(path=None, quiet=False):
+def check(path=None, quiet=False, card_path=None):
     """Re-derive the verdict from the published rows; refuse a face whose criteria moved."""
     doc = read_published(path)
     problems = []
@@ -382,6 +469,20 @@ def check(path=None, quiet=False):
         problems.append("the criteria block does not hash to its own recorded digest")
     if _digest(doc.get("criteria") or {}) != _digest(CRITERIA):
         problems.append("the published criteria are not the frozen criteria in this file")
+    # A verdict is only as fresh as the row block it was derived from. Re-deriving from the
+    # published rows alone reads a face that never re-ran as self-consistent (the r1282
+    # family), so the card on disk is read here and the published block must match it.
+    fresh = read_printed_cagr(card_path) if card_path else read_printed_cagr()
+    pub = doc.get("printed") or {}
+    pub_rows, fresh_rows = len(pub.get("rows") or []), len(fresh.get("rows") or [])
+    if fresh_rows and not pub_rows:
+        problems.append("the card on disk carries %d '2020-01 onwards' row(s) but the published "
+                        "row block has none -- this face has not been re-run against the card "
+                        "it reads" % fresh_rows)
+    elif fresh_rows and pub.get("label") != fresh.get("label"):
+        problems.append("the published row label %r is not the card's current label %r -- the "
+                        "verdict was derived from a card that has since moved"
+                        % (pub.get("label"), fresh.get("label")))
     live = decide(doc)
     if live.get("state") != (doc.get("verdict") or {}).get("state"):
         problems.append("the published verdict %r does not re-derive (%r)"
@@ -398,7 +499,7 @@ def check(path=None, quiet=False):
 
 # ---------------------------------------------------------------- selftest fixtures
 
-def _fixture(kind="mismatch", printed=None, tol=None, disclosure=None):
+def _fixture(kind="mismatch", printed=None, tol=None, disclosure=None, labelled=None):
     """A face shaped like the real one, with numbers chosen so the rule must name them."""
     as_coded, declared = 0.0960, 0.0846
     if kind == "consistent":
@@ -432,6 +533,8 @@ def _fixture(kind="mismatch", printed=None, tol=None, disclosure=None):
            "disclosure": disclosure,
            "claim": {"execution": ("decide at close t -> fill at open t+1 -> hold to next "
                                    "rebalance") if kind != "unreadable_claim" else None}}
+    if labelled is not None:
+        doc["printed"]["labelled"] = labelled
     return doc
 
 
@@ -499,9 +602,58 @@ def selftest():
         "8.46" in _recommend({"arms": {"declared": {"cagr": 0.0846}},
                               "disclosure": {"present": True, "declared_cagr": 0.0846},
                               "verdict": {"state": "DISCLOSED"}}))
+    labelled_both = {"as_coded": {"cagr": 0.0960}, "declared": {"cagr": 0.0846}}
+    leg("L16 a table whose rows label their own basis reads TABLE_PRINTS_BOTH_ARMS, not an "
+        "accusation against a card that fixed itself",
+        decide(_fixture("mismatch", labelled=labelled_both))["state"]
+        == "TABLE_PRINTS_BOTH_ARMS", decide(_fixture("mismatch", labelled=labelled_both)))
+    labelled_wrong = {"as_coded": {"cagr": 0.0960}, "declared": {"cagr": 0.0960}}
+    leg("L17 a declared row that prints the as-coded number reads TABLE_ROW_DISAGREES with "
+        "the distance named",
+        decide(_fixture("mismatch", labelled=labelled_wrong))["state"] == "TABLE_ROW_DISAGREES"
+        and abs(decide(_fixture("mismatch", labelled=labelled_wrong))
+                .get("row_vs_face_declared_pp") or 0) > tol,
+        decide(_fixture("mismatch", labelled=labelled_wrong)))
+    leg("L18 the labelled branch cannot be reached by position: the same first-row number "
+        "reads a different state once the rows carry labels",
+        decide(_fixture("mismatch"))["state"] == "EXECUTION_CLAIM_MISMATCH"
+        and decide(_fixture("mismatch", labelled=labelled_both))["state"]
+        == "TABLE_PRINTS_BOTH_ARMS",
+        decide(_fixture("mismatch", labelled=labelled_both)))
+    leg("L19 row labels the card actually writes map to the arms they name, and an "
+        "unqualified label maps to neither",
+        _row_basis("2020-01 onwards -- declared fill (close t -> open t+1)") == "declared"
+        and _row_basis("2020-01 onwards -- as coded") == "as_coded"
+        and _row_basis("2020-01 onwards") is None)
+    # the drift tripwire: a face that never re-ran must not read itself as self-consistent
+    import tempfile
+    tmp = tempfile.mkdtemp(prefix="causal_headline_selftest_")
+    card = os.path.join(tmp, "CARD.md")
+    with open(card, "w", encoding="utf-8", newline="\n") as fh:
+        fh.write("| window | CAGR |\n|---|---|\n"
+                 "| 2020-01 onwards -- as coded | 9.6% | 0.99 |\n"
+                 "| 2020-01 onwards -- declared fill (close t -> open t+1) | 8.4% | 0.87 |\n")
+    stale_doc = os.path.join(tmp, "stale.json")
+    d = _fixture("mismatch")
+    d["criteria"], d["criteria_digest"] = CRITERIA, _digest(CRITERIA)
+    d["verdict"] = decide(d)
+    with open(stale_doc, "w", encoding="utf-8") as fh:
+        json.dump(d, fh)
+    stale_rc = check(stale_doc, quiet=True, card_path=card)
+    d2 = _fixture("mismatch", labelled=labelled_both)
+    d2["printed"]["label"] = "2020-01 onwards -- as coded"
+    d2["printed"]["rows"] = read_printed_cagr(card)["rows"]
+    d2["criteria"], d2["criteria_digest"] = CRITERIA, _digest(CRITERIA)
+    d2["verdict"] = decide(d2)
+    fresh_doc = os.path.join(tmp, "fresh.json")
+    with open(fresh_doc, "w", encoding="utf-8") as fh:
+        json.dump(d2, fh)
+    fresh_rc = check(fresh_doc, quiet=True, card_path=card)
+    leg("L20 a published block that predates the card reads as stale (rc1), and the same "
+        "block carrying the card's own label reads clean (rc0)",
+        stale_rc == 1 and fresh_rc == 0, "stale=%r fresh=%r" % (stale_rc, fresh_rc))
     print("\n%d/%d legs PASS" % (sum(ok), len(ok)))
     return 0 if all(ok) else 1
-
 
 def main(argv=None):
     argv = list(sys.argv[1:] if argv is None else argv)
