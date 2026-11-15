@@ -82,7 +82,7 @@ def compose(book, idle, cash_ret):
     return pd.Series(np.cumprod(1.0 + step), index=book.index) * float(book.iloc[0])
 
 
-def cash_step_returns(rates, index, name="GC001"):
+def cash_step_returns(rates, index, name="GC001", ladder=None, fees=None):
     """Per-bar net cash return on `index`, from the published repo engine.
 
     The rung's interest is credited on contract-maturity bars, so the curve is built on
@@ -90,11 +90,21 @@ def cash_step_returns(rates, index, name="GC001"):
     cumulative growth carries accrual across bars where no contract matured, which keeps
     the total accrual exact.  Differencing the raw per-bar rate instead would drop the
     interest of every contract that matured on a non-book bar.
+
+    `ladder` (a tuple of tenors taken from `etf_book_cash_ladder.LADDERS`) prices the
+    sleeve as an equal-weight ladder instead of one rolling tenor; `ladder=None` keeps the
+    published GC001 path byte-identical. r1739 added the parameter because the forward
+    ledger already prices its cash on `ladder3` with commission charged, so "is the carrier
+    worth anything?" has to be answered on this composition, not typed into a second
+    engine.
     """
     bars = V.repo_bars(rates, str(pd.Timestamp(index[0]).date()))
     if len(bars) < 250:
         raise RuntimeError("too few repo bars (%d)" % len(bars))
-    ret, info = CL.roll_rung(bars, rates, None, fees=None, name=name)
+    if ladder is None:
+        ret, info = CL.roll_rung(bars, rates, None, fees=None, name=name)
+    else:
+        ret, info = CL.ladder(bars, rates, tuple(ladder), fees=fees)
     cum = (1.0 + ret).cumprod()
     cum = cum.reindex(cum.index.union(index)).ffill().reindex(index)
     step = cum.pct_change().fillna(0.0)

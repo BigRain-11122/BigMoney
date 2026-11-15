@@ -924,7 +924,7 @@
   "ram_load_pct": 80,
   "ram_note": "RAM free 3.2/55.9GB (5.7%) -- ComfyUI pid 12616 started 00:51:38, 39.5GB working set, exemption; the 00:35 idle_trigger 70.8% reading is stale",
   "ram_total_gb": 23.9,
-  "recent_artifact": "results/event_exec_gate_audit.json（3,830 面扫描·published 未定价交易域 0）+ scripts/event_exec_gate.py audit 子命令（selftest-audit 7/7）",
+  "recent_artifact": "results/etf_book_gate_knobs.json + research/ETF_BOOK_GATE_KNOBS.md (2026-11-15T22:32, 6-cell grid, window 2020-01-03..2026-11-13)",
   "round": 1695,
   "round_1685_next": "next (P0): the second P1 candidate from the same order -- moneyflow/LHB IC reference batch (20 min, lane already claimed and parked on a source-blocked panel). Second: the basis face now needs the two things it explicitly did not do -- roll slippage + margin occupancy, and monthly vs quarterly roll -- before anyone sizes a position on it; and the discount-width timing test (basis percentile vs next 20d carry) is the cheapest way to turn a static premium into a rule.",
   "round_1685_note": "PRODUCT. O-20261114-2325 section 3 P1 named two candidates; the first (index-futures basis) was still PARTIAL because nobody had started it. Started and closed the kill test in one pass. The premium is real and decision-sized: net carry (futures carry minus the ETF that would otherwise be held) is IC +4.16%/yr and IM +6.00%/yr against the frozen 3.0% bar, IF +0.80 and IH +1.74 fail it -- OPEN. The number a reader must not miss is that the discount died in 2021-2024 (IC -3.19%/yr in 2024) and came back in 2025-2026 (IC +11.0/+9.4, IM +14.4/+11.7): the nine-year median blends a dead era with a live one, so both are printed. Data bias handled first: sina's main-continuous series is raw, so a roll is a price step a holder never eats; rolls are detected as a basis step 8x the median step and excluded, the gap reported separately. Index panel fetched and cached (4 indices, 2017-01-17..2026-11-13). One self-exposure: C3 was written as |ETF-index|<=1%/yr assuming a one-for-one tracker; this repo's own panel says the funds accrue +1.77/+0.88/+2.96%/yr of dividends the price index does not, so the ruler was revised to a dividend band plus net-of-drift carry and the original is preserved in verdict.criteria_revision -- read under the original ruler the face goes back to KILL. Selftest 9/9, pushed a3a7d8dace.",
@@ -933,8 +933,8 @@
   "round_1689_next": "(a) price the rule, not the bucket: run the widest-quintile-only arm against hold-everything after the 8% vol leash and the repo leg -- the quintile table already says the entry with the least adverse widening is also the one with the most carry, so the open question is whether a book that waits costs more in idle cash than it collects; (b) moneyflow/LHB IC reference batch (the order second P1 candidate) is still claimed and its panel source-blocked -- check the collector self-heal before starting; (c) watchdog S4U needs one elevated re-register (28th).",
   "round_1689_note": "PRODUCT. r1686 left the basis line one untried axis: \"the discount-width timing test (basis percentile vs next 20d carry) is the cheapest way to turn a static premium into a rule\". Built: scripts/idx_fut_basis_timing.py (selftest 12/12) -- causal percentile over a trailing 250d window (60 obs min), forward window t+1..t+20 with roll days dropped, quintiles printed beside a stride-20 subsample that drops overlapping windows, Spearman on ranks, first/second half split. All four pairs pass the frozen H1/H2/H3: widest-quintile forward carry +0.584/+0.531/+0.513/+0.689pp per 20d at hit 82.5/77.4/86.0/80.6% vs narrowest -0.118/-0.032/-0.075/+0.271pp at 37.7/40.3/40.3/46.8%; spreads hold on stride-12 (0.854/0.513/0.670/0.133) and in both halves. The pair of numbers that decides what this is: fwd20-to-basis-change ratio 1.003/1.000/0.993/0.990 -> kind=convergence harvest, i.e. the rule is a prepayment schedule (wait for a wide discount, collect more of it closing), not a prediction. And the percentile adds nothing over the raw level (spearman level -0.478/-0.474/-0.443/-0.590 vs pct -0.429/-0.318/-0.432/-0.243; percentile_adds_over_level_pairs=[]), so any rule here can be written on the level directly. Adverse side is the surprise: entering at the widest discount had the SMALLEST subsequent widening (median 0.185/0.214/0.231/0.277pp) and the narrowest the largest (0.583/0.923/0.471/1.038pp) -- higher carry and less drawdown, not a risk trade. Two selftest legs caught real defects before publication: adverse_widening used max() and reported the discount closing as a drawdown (the basis is negative when wide, so the window MINIMUM is the adverse side), and convergence_share carried an off-by-one that double-counted a step the holder never takes (basis_face convention: spread[j] is the step dates[j]->dates[j+1]). Neither face had a chain leg -- both were typed by hand on 11-14 -- so both now ride straight behind update_futures; chain --only 2/2 rc0. Latest percentiles: IH 13.4 (widest quintile, fires), IF 23.8, IC 38.6, IM 48.2.",
   "round_label": "1704",
-  "round_no": 1738,
-  "round_no_label": "1704",
+  "round_no": 1739,
+  "round_no_label": "r1739",
   "round_no_landed": 1663,
   "round_note": "r1489: a reinstated bar is re-derived from the panel, not carried over (reinstatement_check + reinstatements.json + sheet paragraph)",
   "round_now": "results/idx_fut_carry_risk.json",
@@ -1363,7 +1363,7 @@
   "rounds": 1738,
   "rounds_done": 1738,
   "rounds_note": "r1738; rounds/rounds_done had drifted to 1734 while round_no was 1737 (r1737 closed without bumping them) -- both re-anchored to 1738 here",
-  "s05_note": "s05_probe rc0 orders_delta=false decisions_delta=false unacked=[] -> zero action (115 orders / 252 acks)",
+  "s05_note": "Tools\\s05_probe.py rc0 orders_delta=false decisions_delta=false unacked=[] (zero action)",
   "s05_scan": "fleet/orders: 115 files, 0 unacked (orders_ack set covers all)",
   "s05_second_scan": "closeout rescan: 0 unacked",
   "s0_note": "machine.json=bm-c | tree dirty at round start (111 modified, prior-generation derived faces) -> staged only this round's own 4 files | ahead=0 behind=0 | orphan probe py_faces=2 orphans=0",
@@ -1420,7 +1420,7 @@
     "fix": "the sentence now reads 今天（2026-11-13 的报价）, and the day-word face got a dedicated rule mapping it to cash_caliber.quote_date (not to the cash-yield face, whose date merely matches today): live_book_day_words selftest 33/33, run exit 0, page verdict PRINTED_DATES_AGREE with 13/13 claims checked and 0 unmapped (the face was PRINTED_SELF_DATED with 1 unfiled rule before)",
     "leg": "product: live-book day words sit on the page's own day"
   },
-  "smoke_inflight": null,
+  "smoke_inflight": "results/_smoke_r1739.out started 22:25; 235 legs PASS / 0 FAIL at close, process still alive, no Summary line yet",
   "smoke_out": "results/_smoke_r1693.out",
   "smoke_r1621_out": "results/_smoke_r1621.out",
   "smoke_r1623_out": "results/_smoke_r1623.out",
@@ -1442,7 +1442,7 @@
     "wall_clock_s": 933.9
   },
   "src": "scripts/moneyflow_ic_reference.py (lhb_sellleg + lhb_exec_verdict + build_price_panel dual panels + lhb-sellleg subcommand, selftest 17/17) + research/LHB_SELLLEG_VERDICT.md (generated) + research/MONEYFLOW_IC_VERDICT.md (pointer)",
-  "status": "round-closed",
+  "status": "product_delivered",
   "sync": {
     "ahead_origin": 0,
     "behind_origin": 0
@@ -1458,9 +1458,9 @@
   ],
   "update_daily": "rc0 0 new rows, cutoff 2026-11-13 (Sunday, no new bar)",
   "updated": "2026-11-15T22:08:15+08:00",
-  "updated_at": "2026-11-15T22:08:15+08:00",
+  "updated_at": "2026-11-15T22:33:56",
   "vcpu": 32,
-  "verdict": "ok",
+  "verdict": "CARRIER_IS_THE_KNOB",
   "verify": "etf_book_year_gate_idlecarry selftest 8/8 PASS | run THIRD_PATH_FOUND: top2 70.39%->68.54% (line 70%) verdict CONDITIONAL->ADMIT, CAGR 11.55%->12.13%, Sharpe 1.137->1.188, maxDD -10.56%->-10.47% | C0 control reproduces the published block (top2 diff 0.0, same verdict) | C1 GC001 vehicle 1.7731%/yr reproduced to 0.004bp",
   "verify_caveat": "complete-years-only caliber is still above the line (72.78%->71.00%), so the page says 'passes on the ruler the gate uses', not 'no longer depends on two years'",
   "verify_chain": "5/5 rc0 (see s6_chain)",
@@ -1473,8 +1473,11 @@
   "verify_smoke_closed": "full suite started 07:14 closed 576/576 PASS 0 FAIL, wall clock 852.9s over 574 legs; started before the two module edits, so the ceo_page leg inside it printed the previous generation's 260/260 (new legs L214/L215 verified by selftest 262/262)",
   "vram_free_gb": 13.5,
   "watermark_note": "the 594-leg suite was running as this round's only load; the py window has one sample because of it (same reading r1734 published)",
-  "watermark_verdict": "insufficient_history",
+  "watermark_verdict": "py_low_board_clear",
   "went_well": "the receipt reader was written key-gated from the start, so the first run already refused the laggard_sample list and read only the two lists that say what they are -- the same defect r1731 had to fix after the fact",
   "when_well": "the exec panel reused lhb_sellleg verbatim by passing a net-of-cost panel instead of writing a second event study -- the two tables cannot disagree about the quintiles because there is only one implementation",
-  "who_did": "bm-c"
+  "who_did": "bm-c",
+  "round_t1739_note": "PRODUCT: the calendar gate adjudicates a 5-name book with cash at 0 while the forward ledger (the daily face the CEO reads) has run a 12-name book with ladder3 carry since the carry subcommand shipped. Put 2 widths x 3 carriers on one engine, one window, one line: n5 zero 70.39% CONDITIONAL -> n5 paid 68.54%/68.36% ADMIT; n12 zero 75.24% -> n12 paid 72.73%/72.53% still CONDITIONAL. Verdict CARRIER_IS_THE_KNOB: the carrier is the knob that crosses Y4, the width is not (12 names ride the broad beta harder, so 2025 carries an even larger share of the two-best-years numerator). Carrier insensitivity is the good news -- GC001 vs ladder3 differ by <=1.7bp and share the verdict, so r1738's third path does not depend on picking the right repo tenor.",
+  "round_t1739_next": "(a) the live split is now a decision: the ledger runs 12 names, the gate adjudicates 5 -- either the ledger moves to the gate arm or the gate gets re-run on the ledger arm; that is an adoption step across CEO page + ticket + forward ledger, <=48h; (b) ladder3's 7/14/28-day lock versus a 20-session rebalance is still untested by any leg -- the carrier comparison assumes the ladder can always be funded; (c) the two settlement stacks (ledger 8.42%/0.888 vs this face 10.19%/1.043) are disclosed as non-reconciled but not decomposed; (d) n12's higher capacity vs n5's size cost is noted in honest, not priced; (e) full smoke was still in flight at close (235 legs PASS, 0 FAIL) -- re-check and record the summary line; (f) watchdog/loop S4U flip still needs one elevated pass",
+  "s0": "machine.json=bm-c; orphan_face_probe py_faces=2 orphans=0; ahead=0 behind=0"
 }

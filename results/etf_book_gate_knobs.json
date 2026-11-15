@@ -1,0 +1,799 @@
+{
+ "face": "etf_book_gate_knobs",
+ "asof": "2026-11-15T22:31:57",
+ "evidence_cutoff": "2026-11-13",
+ "window": {
+  "start": "2020-01-03",
+  "end": "2026-11-13",
+  "bars": 1662
+ },
+ "question": "The gate adjudicates a 5-name book with cash at 0; the forward ledger runs a 12-name book with cash paid on ladder3. Which of the two knobs the desk already runs carries the Y4 line?",
+ "grid_config": {
+  "widths": {
+   "n5_gate_arm": 5,
+   "n12_forward_arm": 12
+  },
+  "carriers": {
+   "cash_zero": null,
+   "gc001_roll": [
+    "GC001"
+   ],
+   "ladder3": [
+    "GC007",
+    "GC014",
+    "GC028"
+   ]
+  },
+  "rebal": 20,
+  "cost_per_side": 0.001,
+  "vol_target": 0.08,
+  "drawdown_slack_pp": 0.2
+ },
+ "readings": {
+  "control_reproduces_published": true,
+  "control_top2_share": 0.7039,
+  "published_top2_share": 0.7039,
+  "control_verdict": "CONDITIONAL",
+  "published_verdict": "CONDITIONAL",
+  "gate_line_top2_share_max": 0.7,
+  "grid": {
+   "n5_gate_arm": {
+    "cash_zero": {
+     "top2_share": 0.7039,
+     "top2_share_full_only": 0.7278,
+     "verdict": "CONDITIONAL",
+     "Y4_top2_share": false,
+     "cagr": 0.1155,
+     "sharpe": 1.137,
+     "maxdd_pct": -10.56,
+     "median_idle_share": 0.2922,
+     "n_held": 5,
+     "turnover_per_side": 1.0825
+    },
+    "gc001_roll": {
+     "top2_share": 0.6854,
+     "top2_share_full_only": 0.71,
+     "verdict": "ADMIT",
+     "Y4_top2_share": true,
+     "cagr": 0.1213,
+     "sharpe": 1.188,
+     "maxdd_pct": -10.47,
+     "median_idle_share": 0.2922,
+     "n_held": 5,
+     "turnover_per_side": 1.0825
+    },
+    "ladder3": {
+     "top2_share": 0.6836,
+     "top2_share_full_only": 0.7086,
+     "verdict": "ADMIT",
+     "Y4_top2_share": true,
+     "cagr": 0.1218,
+     "sharpe": 1.192,
+     "maxdd_pct": -10.47,
+     "median_idle_share": 0.2922,
+     "n_held": 5,
+     "turnover_per_side": 1.0825
+    }
+   },
+   "n12_forward_arm": {
+    "cash_zero": {
+     "top2_share": 0.7524,
+     "top2_share_full_only": 0.7885,
+     "verdict": "CONDITIONAL",
+     "Y4_top2_share": false,
+     "cagr": 0.0959,
+     "sharpe": 0.987,
+     "maxdd_pct": -11.77,
+     "median_idle_share": 0.264,
+     "n_held": 12,
+     "turnover_per_side": 0.9382
+    },
+    "gc001_roll": {
+     "top2_share": 0.7273,
+     "top2_share_full_only": 0.7635,
+     "verdict": "CONDITIONAL",
+     "Y4_top2_share": false,
+     "cagr": 0.1015,
+     "sharpe": 1.039,
+     "maxdd_pct": -11.48,
+     "median_idle_share": 0.264,
+     "n_held": 12,
+     "turnover_per_side": 0.9382
+    },
+    "ladder3": {
+     "top2_share": 0.7253,
+     "top2_share_full_only": 0.7618,
+     "verdict": "CONDITIONAL",
+     "Y4_top2_share": false,
+     "cagr": 0.1019,
+     "sharpe": 1.043,
+     "maxdd_pct": -11.46,
+     "median_idle_share": 0.264,
+     "n_held": 12,
+     "turnover_per_side": 0.9382
+    }
+   }
+  },
+  "paid_maxdd_not_deeper_all_cells": true,
+  "drawdown_delta_pp_vs_zero": {
+   "n5_gate_arm/gc001_roll": 0.09,
+   "n5_gate_arm/ladder3": 0.09,
+   "n12_forward_arm/gc001_roll": 0.29,
+   "n12_forward_arm/ladder3": 0.31
+  },
+  "carrier_verdict_same_within_1pp": {
+   "n5_gate_arm": true,
+   "n12_forward_arm": true
+  },
+  "cash_carrier_cagr_pct": {
+   "cash_zero": null,
+   "gc001_roll": 1.7731,
+   "ladder3": 1.88
+  },
+  "forward_ledger_config_n_hold": 12,
+  "forward_ledger_carry_fixed_stats": {
+   "evidence_cutoff": "2026-10-23",
+   "cagr": 0.0842,
+   "sharpe": 0.888,
+   "maxdd": -0.1357,
+   "carrier": "ladder3 (GC007/GC014/GC028) commission charged"
+  },
+  "bars": 1662,
+  "bars_scored": 5280,
+  "flips_repaired": 169,
+  "turnover_per_side": {
+   "n5_gate_arm": 1.0825,
+   "n12_forward_arm": 0.9382
+  },
+  "verdict": "CARRIER_IS_THE_KNOB"
+ },
+ "arms": [
+  {
+   "verdict": "CONDITIONAL",
+   "capacity_checked": true,
+   "cagr_pct": 11.55,
+   "capacity_cny_1day_5pct": 39783633.0,
+   "year_metrics": {
+    "years": 7,
+    "positive_years": 7,
+    "median": 5.6072,
+    "worst": 2.6828,
+    "best": 43.0627,
+    "annual_sum": 81.8427,
+    "top2_share": 0.7039,
+    "worst_full_only": 2.8393,
+    "top2_share_full_only": 0.7278
+   },
+   "checks": {
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false,
+    "C1_capacity": true
+   },
+   "years": [
+    {
+     "year": "2020",
+     "net_pct": 5.607211539627421,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2021",
+     "net_pct": 7.628116174581634,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2022",
+     "net_pct": 2.8392743924002817,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2023",
+     "net_pct": 5.47301156733262,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2024",
+     "net_pct": 14.54956309948332,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2025",
+     "net_pct": 43.06268157181643,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2026",
+     "net_pct": 2.6828062593693414,
+     "cohorts": 3,
+     "partial": true
+    }
+   ],
+   "partial_years": [
+    {
+     "year": "2026",
+     "net_pct": 2.6828062593693414,
+     "cohorts": 3,
+     "approx_months_of_evidence": 8.6
+    }
+   ],
+   "gate_conflict": null,
+   "book": "n5_gate_arm/cash_zero",
+   "note": "the sleeve priced at 0 -- what the calendar gate adjudicates today",
+   "yearly_returns_pct": {
+    "2020": 5.607211539627421,
+    "2021": 7.628116174581634,
+    "2022": 2.8392743924002817,
+    "2023": 5.47301156733262,
+    "2024": 14.54956309948332,
+    "2025": 43.06268157181643,
+    "2026": 2.6828062593693414
+   },
+   "yearly_bars": {
+    "2020": 242,
+    "2021": 243,
+    "2022": 242,
+    "2023": 242,
+    "2024": 242,
+    "2025": 243,
+    "2026": 208
+   },
+   "stats": {
+    "cagr": 0.1155,
+    "sharpe": 1.137,
+    "maxdd": -0.1056,
+    "vol": 0.105
+   },
+   "median_idle_share": 0.2922,
+   "turnover_per_side": 1.0825,
+   "n_held": 5
+  },
+  {
+   "verdict": "ADMIT",
+   "capacity_checked": true,
+   "cagr_pct": 12.13,
+   "capacity_cny_1day_5pct": 39783633.0,
+   "year_metrics": {
+    "years": 7,
+    "positive_years": 7,
+    "median": 6.7798,
+    "worst": 2.9778,
+    "best": 43.7731,
+    "annual_sum": 85.82,
+    "top2_share": 0.6854,
+    "worst_full_only": 3.1746,
+    "top2_share_full_only": 0.71
+   },
+   "checks": {
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": true,
+    "C1_capacity": true
+   },
+   "years": [
+    {
+     "year": "2020",
+     "net_pct": 6.779777184987812,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2021",
+     "net_pct": 8.279108951549773,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2022",
+     "net_pct": 3.1746016681763356,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2023",
+     "net_pct": 5.790095094860304,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2024",
+     "net_pct": 15.045533458458804,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2025",
+     "net_pct": 43.7730948759155,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2026",
+     "net_pct": 2.977788583420682,
+     "cohorts": 3,
+     "partial": true
+    }
+   ],
+   "partial_years": [
+    {
+     "year": "2026",
+     "net_pct": 2.977788583420682,
+     "cohorts": 3,
+     "approx_months_of_evidence": 8.6
+    }
+   ],
+   "gate_conflict": null,
+   "book": "n5_gate_arm/gc001_roll",
+   "note": "the one-tenor daily roll r1738 priced",
+   "yearly_returns_pct": {
+    "2020": 6.779777184987812,
+    "2021": 8.279108951549773,
+    "2022": 3.1746016681763356,
+    "2023": 5.790095094860304,
+    "2024": 15.045533458458804,
+    "2025": 43.7730948759155,
+    "2026": 2.977788583420682
+   },
+   "yearly_bars": {
+    "2020": 242,
+    "2021": 243,
+    "2022": 242,
+    "2023": 242,
+    "2024": 242,
+    "2025": 243,
+    "2026": 208
+   },
+   "stats": {
+    "cagr": 0.1213,
+    "sharpe": 1.188,
+    "maxdd": -0.1047,
+    "vol": 0.105
+   },
+   "median_idle_share": 0.2922,
+   "turnover_per_side": 1.0825,
+   "n_held": 5
+  },
+  {
+   "verdict": "ADMIT",
+   "capacity_checked": true,
+   "cagr_pct": 12.18,
+   "capacity_cny_1day_5pct": 39783633.0,
+   "year_metrics": {
+    "years": 7,
+    "positive_years": 7,
+    "median": 6.8668,
+    "worst": 3.0317,
+    "best": 43.7925,
+    "annual_sum": 86.1009,
+    "top2_share": 0.6836,
+    "worst_full_only": 3.206,
+    "top2_share_full_only": 0.7086
+   },
+   "checks": {
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": true,
+    "C1_capacity": true
+   },
+   "years": [
+    {
+     "year": "2020",
+     "net_pct": 6.866829350653636,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2021",
+     "net_pct": 8.334063294489225,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2022",
+     "net_pct": 3.2060436308865903,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2023",
+     "net_pct": 5.800468377141166,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2024",
+     "net_pct": 15.069344033157051,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2025",
+     "net_pct": 43.792450634359994,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2026",
+     "net_pct": 3.031727781290483,
+     "cohorts": 3,
+     "partial": true
+    }
+   ],
+   "partial_years": [
+    {
+     "year": "2026",
+     "net_pct": 3.031727781290483,
+     "cohorts": 3,
+     "approx_months_of_evidence": 8.6
+    }
+   ],
+   "gate_conflict": null,
+   "book": "n5_gate_arm/ladder3",
+   "note": "GC007/GC014/GC028 equal rungs with exchange commission -- the forward ledger's carrier",
+   "yearly_returns_pct": {
+    "2020": 6.866829350653636,
+    "2021": 8.334063294489225,
+    "2022": 3.2060436308865903,
+    "2023": 5.800468377141166,
+    "2024": 15.069344033157051,
+    "2025": 43.792450634359994,
+    "2026": 3.031727781290483
+   },
+   "yearly_bars": {
+    "2020": 242,
+    "2021": 243,
+    "2022": 242,
+    "2023": 242,
+    "2024": 242,
+    "2025": 243,
+    "2026": 208
+   },
+   "stats": {
+    "cagr": 0.1218,
+    "sharpe": 1.192,
+    "maxdd": -0.1047,
+    "vol": 0.105
+   },
+   "median_idle_share": 0.2922,
+   "turnover_per_side": 1.0825,
+   "n_held": 5
+  },
+  {
+   "verdict": "CONDITIONAL",
+   "capacity_checked": true,
+   "cagr_pct": 9.59,
+   "capacity_cny_1day_5pct": 109543238.0,
+   "year_metrics": {
+    "years": 7,
+    "positive_years": 6,
+    "median": 5.0677,
+    "worst": -1.9888,
+    "best": 44.181,
+    "annual_sum": 69.6312,
+    "top2_share": 0.7524,
+    "worst_full_only": -1.9888,
+    "top2_share_full_only": 0.7885
+   },
+   "checks": {
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false,
+    "C1_capacity": true
+   },
+   "years": [
+    {
+     "year": "2020",
+     "net_pct": 5.067702315333311,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2021",
+     "net_pct": 6.561774240252083,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2022",
+     "net_pct": -1.9887885482921752,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2023",
+     "net_pct": 4.40791086922252,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2024",
+     "net_pct": 8.208844764382906,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2025",
+     "net_pct": 44.18098118344602,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2026",
+     "net_pct": 3.192763635214857,
+     "cohorts": 3,
+     "partial": true
+    }
+   ],
+   "partial_years": [
+    {
+     "year": "2026",
+     "net_pct": 3.192763635214857,
+     "cohorts": 3,
+     "approx_months_of_evidence": 8.6
+    }
+   ],
+   "gate_conflict": null,
+   "book": "n12_forward_arm/cash_zero",
+   "note": "the sleeve priced at 0 -- what the calendar gate adjudicates today",
+   "yearly_returns_pct": {
+    "2020": 5.067702315333311,
+    "2021": 6.561774240252083,
+    "2022": -1.9887885482921752,
+    "2023": 4.40791086922252,
+    "2024": 8.208844764382906,
+    "2025": 44.18098118344602,
+    "2026": 3.192763635214857
+   },
+   "yearly_bars": {
+    "2020": 242,
+    "2021": 243,
+    "2022": 242,
+    "2023": 242,
+    "2024": 242,
+    "2025": 243,
+    "2026": 208
+   },
+   "stats": {
+    "cagr": 0.0959,
+    "sharpe": 0.987,
+    "maxdd": -0.1177,
+    "vol": 0.1018
+   },
+   "median_idle_share": 0.264,
+   "turnover_per_side": 0.9382,
+   "n_held": 12
+  },
+  {
+   "verdict": "CONDITIONAL",
+   "capacity_checked": true,
+   "cagr_pct": 10.15,
+   "capacity_cny_1day_5pct": 109543238.0,
+   "year_metrics": {
+    "years": 7,
+    "positive_years": 6,
+    "median": 6.2585,
+    "worst": -1.7431,
+    "best": 44.7749,
+    "annual_sum": 73.4156,
+    "top2_share": 0.7273,
+    "worst_full_only": -1.7431,
+    "top2_share_full_only": 0.7635
+   },
+   "checks": {
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false,
+    "C1_capacity": true
+   },
+   "years": [
+    {
+     "year": "2020",
+     "net_pct": 6.258503505075241,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2021",
+     "net_pct": 7.252166514230773,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2022",
+     "net_pct": -1.7430632022158776,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2023",
+     "net_pct": 4.774459416338495,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2024",
+     "net_pct": 8.619956449209077,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2025",
+     "net_pct": 44.77489533968486,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2026",
+     "net_pct": 3.478665694452121,
+     "cohorts": 3,
+     "partial": true
+    }
+   ],
+   "partial_years": [
+    {
+     "year": "2026",
+     "net_pct": 3.478665694452121,
+     "cohorts": 3,
+     "approx_months_of_evidence": 8.6
+    }
+   ],
+   "gate_conflict": null,
+   "book": "n12_forward_arm/gc001_roll",
+   "note": "the one-tenor daily roll r1738 priced",
+   "yearly_returns_pct": {
+    "2020": 6.258503505075241,
+    "2021": 7.252166514230773,
+    "2022": -1.7430632022158776,
+    "2023": 4.774459416338495,
+    "2024": 8.619956449209077,
+    "2025": 44.77489533968486,
+    "2026": 3.478665694452121
+   },
+   "yearly_bars": {
+    "2020": 242,
+    "2021": 243,
+    "2022": 242,
+    "2023": 242,
+    "2024": 242,
+    "2025": 243,
+    "2026": 208
+   },
+   "stats": {
+    "cagr": 0.1015,
+    "sharpe": 1.039,
+    "maxdd": -0.1148,
+    "vol": 0.1018
+   },
+   "median_idle_share": 0.264,
+   "turnover_per_side": 0.9382,
+   "n_held": 12
+  },
+  {
+   "verdict": "CONDITIONAL",
+   "capacity_checked": true,
+   "cagr_pct": 10.19,
+   "capacity_cny_1day_5pct": 109543238.0,
+   "year_metrics": {
+    "years": 7,
+    "positive_years": 6,
+    "median": 6.3483,
+    "worst": -1.7215,
+    "best": 44.8067,
+    "annual_sum": 73.6925,
+    "top2_share": 0.7253,
+    "worst_full_only": -1.7215,
+    "top2_share_full_only": 0.7618
+   },
+   "checks": {
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false,
+    "C1_capacity": true
+   },
+   "years": [
+    {
+     "year": "2020",
+     "net_pct": 6.348308414330295,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2021",
+     "net_pct": 7.3149414809441815,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2022",
+     "net_pct": -1.721461941050062,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2023",
+     "net_pct": 4.771532866828565,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2024",
+     "net_pct": 8.642885375737674,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2025",
+     "net_pct": 44.80674429748801,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2026",
+     "net_pct": 3.529595671291852,
+     "cohorts": 3,
+     "partial": true
+    }
+   ],
+   "partial_years": [
+    {
+     "year": "2026",
+     "net_pct": 3.529595671291852,
+     "cohorts": 3,
+     "approx_months_of_evidence": 8.6
+    }
+   ],
+   "gate_conflict": null,
+   "book": "n12_forward_arm/ladder3",
+   "note": "GC007/GC014/GC028 equal rungs with exchange commission -- the forward ledger's carrier",
+   "yearly_returns_pct": {
+    "2020": 6.348308414330295,
+    "2021": 7.3149414809441815,
+    "2022": -1.721461941050062,
+    "2023": 4.771532866828565,
+    "2024": 8.642885375737674,
+    "2025": 44.80674429748801,
+    "2026": 3.529595671291852
+   },
+   "yearly_bars": {
+    "2020": 242,
+    "2021": 243,
+    "2022": 242,
+    "2023": 242,
+    "2024": 242,
+    "2025": 243,
+    "2026": 208
+   },
+   "stats": {
+    "cagr": 0.1019,
+    "sharpe": 1.043,
+    "maxdd": -0.1146,
+    "vol": 0.1018
+   },
+   "median_idle_share": 0.264,
+   "turnover_per_side": 0.9382,
+   "n_held": 12
+  }
+ ],
+ "source_faces": {
+  "calendar_gate": "results\\etf_book_year_gate\\YEAR-GATE.json",
+  "forward_ledger": "results\\etf_book_forward\\LEDGER.json"
+ },
+ "honest": [
+  "the two widths also carry different capacities: 12 names hold more of the participation floor than 5 do, so a pass on n12 is not free of a size cost",
+  "the carrier comparison is inside the book's own cash share; it does not answer whether the treasurer can actually keep a 7/14/28-day ladder funded while rebalancing every 20 sessions",
+  "ladder3 is charged the exchange commission (fees=None -> default table); the GC001 leg is priced fee-free exactly as the published idle-cash face prices it",
+  "2026 is a partial calendar year and stays flagged partial by the gate's own 60-bar window rule"
+ ],
+ "elapsed_sec": 53.4
+}

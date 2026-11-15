@@ -15507,3 +15507,24 @@ results/event_exec_gate_audit.json · smoke 腿 `product: event_exec_gate audit`
 
 工具面：scripts/etf_book_year_gate_idlecarry.py（run/selftest 8 腿）·
 results/etf_book_year_gate_idlecarry.json · research/ETF_BOOK_YEAR_GATE_IDLECARRY.md（机械生成）。
+
+## E662 — 同一条腿上的两个旋钮，只有付钱的那个在闸门前有效（r1739 bm-c）
+
+1. 前向账本（CEO 每天读的账）与日历闸（决定能不能拿新钱）**不是同一本书**：闸审 5 名
+   持仓 + 现金按 0 计息，账本自 CARRY 面起就跑 12 名 + ladder3 含佣计息（config.n_hold=12）。
+   两个旋钮都「已经在跑」，谁都没被送进闸门。
+2. 把 2 宽度 × 3 载体放进同一把尺（同引擎/同窗/同线）：n5 零息 70.39% CONDITIONAL；n5 付息
+   68.54%（GC001）/68.36%（ladder3）ADMIT；**n12 零息 75.24%，付息后 72.73%/72.53% 仍
+   CONDITIONAL**。判决 CARRIER_IS_THE_KNOB——载体是能过闸的旋钮，宽度不是，甚至更糟。
+3. 机制不是「分散降低依赖」：12 名更贴宽基 beta，2025 的大涨把「最好两年占净收益」推高，
+   分散换来的是更强的单年依赖。**加了名字≠降了集中度**，这一格必须在闸门自己的判据上读，
+   不能按「更分散=更稳」的直觉读。
+4. 载体不敏感是好消息：GC001 与 ladder3 的 top2 差 ≤1.7bp、判决同名，说明 r1738 的第三条路
+   不靠挑现金工具成立；但 ladder3 的 7/14/28 天锁定与 20 日调仓的错配仍未被任何腿检验。
+5. 两张面量同一本书会有两个数（账本 8.42%/0.888 vs 本面 10.19%/1.043）——因为结算栈不同
+   （次日开盘成交流水 vs 引擎曲线×名义闲置份额）。**必须写在页面上并明说互不背书**，
+   否则下一个读者会拿两个数互相印证。
+
+工具面：scripts/etf_book_gate_knobs.py（run/selftest 8 腿）· results/etf_book_gate_knobs.json ·
+research/ETF_BOOK_GATE_KNOBS.md（机械生成）· etf_book_idle_cash.cash_step_returns 新增
+ladder/fees 参数（默认路径逐位不变，GC001 复现 1.7731% 与已发布面相同）。
