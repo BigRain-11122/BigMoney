@@ -1320,7 +1320,7 @@
  "s05_scan": "fleet/orders: 115 files, 0 unacked (matches orders_ack 242 entries)",
  "s05_second_scan": "closeout rescan: 0 unacked",
  "s0_note": "machine.json=bm-c | orphan_face_probe py_faces=2 orphans=0 resident=1 (ComfyUI exempt) | tree dirty 120 at round start (other bodies + dead-window leftovers) -> staged only the faces this round wrote | fetch+rev-list: ahead=0 behind=0",
- "s1_note": "selftest 353 -> 358/358 PASS (L278-L282); S6 --only etf_book_ceo_page rc0 36.9s; live_book_section_bars 58/58 dated, futures_ladder on the headline bar 2026-11-13, 0 off-headline",
+ "s1_note": "selftest 353 -> 358/358 PASS (L278-L282); S6 --only etf_book_ceo_page rc0 36.9s; live_book_section_bars 58/58 dated, futures_ladder on the headline bar 2026-11-13, 0 off-headline | the r1708 suite read its own footer later: 591/591 PASS 0 FAIL closed 09:37:55 (started 09:26:03, before the r1709 edit)",
  "s6_chain": "idx_fut_desk_sheet single leg rc0 0.4s -> results/_r1705bmc_s6_chain.only-idx_fut_desk_sheet.json",
  "s6_chain_inflight": {
   "legs_seen": 45,
@@ -1342,14 +1342,15 @@
  "s7_attrition": "4 ledger files CLEAN (2 historic shrinks healed)",
  "s7_note": "loop phase ok (pin=0, PT5H=300min, none re-registered); watchdog re-registered (S4U XML flip still refused: needs one elevated pass); both claws reinstalled; attrition 4 ledgers CLEAN",
  "s7_notes": "pre-push claw refused the 230-file scratch deletion set (no owner evidence) -> --no-verify used and justified in round_t1677_note | loop pin=5 (not touched this round) | both claws unchanged",
- "smoke": "in flight when r1708 closed: 476 PASS 0 FAIL read at 09:35, no summary footer captured (the suite is not claimed green)",
+ "smoke": "591/591 PASS 0 FAIL (results/_smoke_r1708.out, closed 09:37:55, started 09:26:03 under r1708)",
  "smoke_closed": {
-  "closed_at": "2026-11-15T08:44:00+08:00",
+  "pass": 591,
   "fail": 0,
   "legs": 591,
-  "note": "started 08:30:40 before the r1706 edits; the desk-sheet leg inside it printed the previous generation (30/30)",
-  "out": "results/_smoke_r1705.out",
-  "pass": 591
+  "out": "results/_smoke_r1708.out",
+  "closed_at": "2026-11-15T09:37:55+08:00",
+  "started": "2026-11-15T09:26:03+08:00",
+  "note": "the footer is present (Summary: 591/591 PASS, 0 FAIL); the suite started before the r1709 edits, so the new ladder legs L278-L282 are covered by selftest 358/358, not by the suite"
  },
  "smoke_fail_fixed": {
   "cause": "live_book_day_words._read() grew a fourth value (the printed paper); the leg still unpacked three",
@@ -1388,10 +1389,10 @@
  "total_ram_gb": 23.9,
  "ts": "2026-11-15T09:44:17+08:00",
  "unverified": [
-  "full smoke suite: 476 PASS 0 FAIL lines at 09:35 with no summary footer; exit code not captured, so not claimed green",
   "the ladder's vol target 8% / margin 15% / GC001-mean cash are declared constants, not exchange files",
   "published vs calendar mask disagree on IC/IM -- a caliber question this page does not settle",
-  "the section is arithmetic on published faces, not a broker fill record"
+  "the section is arithmetic on published faces, not a broker fill record",
+  "full smoke 591/591 is green but predates the r1709 edit; the edit is covered by selftest 358/358 only"
  ],
  "update_daily": "rc0 0 new rows, cutoff 2026-11-13 (Sunday, no new bar)",
  "updated": "2026-11-15T05:21:18",
