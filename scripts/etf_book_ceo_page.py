@@ -5086,7 +5086,8 @@ def cash_yield(cash_amount, symbol=CASH_LEG_SYMBOL, panel_dir=REPO_DIR, window=2
 CASH_MONEY_TAIL = 250
 
 
-def cash_money_face(cash_amount, ticket=None, panel_dir=REPO_DIR, tail=CASH_MONEY_TAIL):
+def cash_money_face(cash_amount, ticket=None, panel_dir=REPO_DIR, tail=CASH_MONEY_TAIL,
+                    next_bar=None):
     """The order sheet's three-rate cash pricing, applied to the money this page shows.
 
     (r1246) The ticket learned (r1245) to price its idle half in CNY at the quote it
@@ -5099,7 +5100,8 @@ def cash_money_face(cash_amount, ticket=None, panel_dir=REPO_DIR, tail=CASH_MONE
     """
     ticket = ticket or {}
     out = {"status": "absent", "source": None, "tail": int(tail), "block": None,
-           "note": None, "spot_date": None, "panel_tail": None, "spot_lag": 0}
+           "note": None, "spot_date": None, "panel_tail": None, "spot_lag": 0,
+           "next_bar": None, "forward": None}
     try:
         cash = float(cash_amount)
     except (TypeError, ValueError):
@@ -5140,6 +5142,12 @@ def cash_money_face(cash_amount, ticket=None, panel_dir=REPO_DIR, tail=CASH_MONE
             _lag = (len([d for d, _ in rows if _spot_d < d.isoformat() <= _tail_d])
                     if (_spot_d and _tail_d and _spot_d < _tail_d) else 0)
             out["spot_lag"] = _lag
+            # r1719: consuming the block verbatim also means consuming the forward window the
+            # ticket priced -- recomputing it here would be the second clock on one page.
+            out["forward"] = (ticket.get("cash_leg") or {}).get("forward")
+            out["next_bar"] = (next_bar
+                               or ((ticket.get("next_decision") or {}).get("grid") or {}).get("next_bar")
+                               or (out["forward"] or {}).get("end_session"))
             return out
         out["note"] = ("票据那一份现金是 ¥%s，这一页是 ¥%s —— 不是同一笔钱，"
                        "所以窗口口径不往下借"
@@ -5166,6 +5174,13 @@ def cash_money_face(cash_amount, ticket=None, panel_dir=REPO_DIR, tail=CASH_MONE
     blk["sentence"] = ((blk.get("sentence") or "") +
                        "（窗口口径缺席：这一页的现金不是票据定价的那一笔）").strip()
     out["block"] = blk
+    # r1719: the forward window needs the next decision bar, and that clock lives on the ticket
+    # (NDC.assess). Read it from the ticket this face was handed; absent = the block says so.
+    try:
+        out["next_bar"] = (next_bar or
+                           (((ticket or {}).get("next_decision") or {}).get("grid") or {}).get("next_bar"))
+    except AttributeError:
+        out["next_bar"] = next_bar
     out["source"] = "scripts/etf_book_order.cash_money（页自己重算，无窗口行）"
     out["status"] = "ok" if blk.get("verdict") and blk["verdict"] != "CANNOT_PRICE" else "unpriced"
     if out["status"] != "ok":
@@ -5269,6 +5284,22 @@ def cash_money_block(cm, page_day=None):
     if _bk_lines:
         L.append("")
         L += _bk_lines
+    # r1719: every number above prices a window that has already happened. The one window the
+    # reader still has to live through is priced here, from the same two rates and the ticket's
+    # own next decision bar (no second clock, no second rate estimator).
+    try:
+        import etf_book_order as _ORD2
+        # the ticket's own block when this page consumed it verbatim; otherwise derive it here
+        # from the same two rates and the same next bar (never from a page clock).
+        # An explicit `forward: null` means "the sheet says it has no such reading" -- do not
+        # silently recompute a substitute; only a block that never claimed one is derived here.
+        _fwd = cm["forward"] if "forward" in cm else _ORD2.cash_forward_window(b, cm.get("next_bar"))
+        _fwd_lines = _ORD2.cash_forward_md(_fwd)
+    except Exception:
+        _fwd_lines = []
+    if _fwd_lines:
+        L.append("")
+        L += _fwd_lines
     L.append("- 这三个数都不是收益来源：现金的活是「不缩水」，要收益得靠上面那些票。")
     if _lag:
         L.append("- 上面那几句说的是 **%s** 那张票据的报价，不是本页面板 "
@@ -7315,7 +7346,9 @@ def build(with_stress=False, window_label=None):
         "cash_weight": round(cash_w, 4),
         "cash_leg": cash_leg,
         "cash_yield": cash_yield(cash_amt),
-        "cash_money": cash_money_face(cash_amt, tk),
+        # r1719: the same next decision bar this page already prints ("next rebalance") —
+        # one clock, so the forward cash line cannot disagree with the schedule above it.
+        "cash_money": cash_money_face(cash_amt, tk, next_bar=next_reb),
         "cash_ladder": cash_ladder(cash_amt),
         # r1623: the four sections above are the page's own arithmetic; declare what each
         # one reads so a section dated before the headline bar is not read as unproduced.
@@ -12905,6 +12938,33 @@ def selftest():
     chk("L303 idle cash: an unreadable face says cannot-check and prints no headline",
         "无法核验" in "\n".join(idle_cash_block({"readable": False, "why": "no file"}))
         and "12.13" not in "\n".join(idle_cash_block({"readable": False})))
+    # L304-L305 (r1719): the page now carries the one window still ahead of the reader. Paired:
+    # the line must name both dates off the block (not a page clock), and a block without a
+    # forward reading must say so instead of dropping the question in silence.
+    _fwd_blk = {"verdict": "TWO_RATES", "cash_amount_cny": 500000.0,
+                "spot": {"pct": 1.20, "date": "2026-11-13", "cny": 500000 * 0.012 * 23 / 365},
+                "book_rate": {"pct": 1.80, "source": "etf_book_idle_cash.json"},
+                "start_session": "2026-11-16", "end_session": "2026-12-09",
+                "calendar_days": 23, "start_basis": "exchange_calendar",
+                "book": {"pct": 1.80, "cny": 500000 * 0.018 * 23 / 365}}
+    try:
+        from scripts import etf_book_order as _fwd_ord
+    except Exception:                                       # noqa: BLE001
+        import etf_book_order as _fwd_ord
+    _fwd_win = _fwd_ord.cash_forward_window(_fwd_blk, "2026-12-09",
+                                            cal=["2026-11-13", "2026-11-16"])
+    _fwd_txt = "\n".join(cash_money_block(
+        {"status": "ok", "block": _fwd_blk, "forward": _fwd_win, "next_bar": "2026-12-09"}))
+    _fwd_line = "\n".join(_fwd_ord.cash_forward_md(_fwd_win))
+    chk("L304 idle cash: the forward window names both dates and says the rate is assumed",
+        "2026-11-16" in _fwd_line and "2026-12-09" in _fwd_line
+        and "假设利率不动" in _fwd_line and "今天" not in _fwd_line
+        and _fwd_line in _fwd_txt, _fwd_line[:400])
+    _no_fwd_txt = "\n".join(cash_money_block(
+        {"status": "ok", "block": _fwd_blk, "forward": None, "next_bar": None}))
+    chk("L305 idle cash: a block with no forward reading says so instead of going silent",
+        "下一段窗口付多少" in _no_fwd_txt and "没有" in _no_fwd_txt
+        and "今日" not in _no_fwd_txt, _no_fwd_txt[-400:])
 
     print("\nSummary: %d/%d PASS%s" % (ok, total, "" if ok == total else " -- %d FAIL" % (total - ok)))
     return 0 if ok == total else 1

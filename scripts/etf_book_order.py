@@ -1087,6 +1087,117 @@ def cash_book_rate_md(cm):
             % (gap, format(int(abs(br.get("gap_vs_spot_cny") or 0)), ","))]
 
 
+CASH_FORWARD_RULER = "calendar_days/365 x annualised rate"
+
+
+def cash_forward_window(cm, next_bar, cal=None):
+    """r1719: from the NEXT session to the next rebalance, what does the parked cash pay?
+
+    r1718 put this ticket's cash line on the headline's calendar and named the 50.81bp gap to
+    one session's quote -- but both numbers describe windows that have already happened. The
+    only reader a ticket has is the one deciding now, and it got no date arithmetic at all:
+    its choice was between a window mean and a spot quote.
+
+    The arithmetic that IS deterministic: a money-market position rolls once per session and
+    interest accrues on calendar days, so rate/100 * days/365 -- the convention every GC quote
+    is annualised on. One window, the two rates already printed above, the gap in CNY instead
+    of a choice of adjectives. Nothing here is a forecast: the sentence states that the rate is
+    assumed to hold, and names the 1.77% for what it is (a realised window's net daily roll),
+    never as tomorrow's overnight quote.
+    """
+    out = {"verdict": "CANNOT_PRICE", "sentence": None, "start_session": None,
+           "end_session": None, "calendar_days": None, "ruler": CASH_FORWARD_RULER,
+           "start_basis": None, "cash_amount_cny": None, "spot": None, "book": None,
+           "gap_cny": None, "gap_bp": None}
+    cm = cm or {}
+    cash = cm.get("cash_amount_cny")
+    spot = (cm.get("spot") or {})
+    spot_pct = spot.get("pct")
+    asof = spot.get("date")
+    out["cash_amount_cny"] = cash
+    if cash is None or spot_pct is None or not asof:
+        out["sentence"] = ("这段窗口付多少钱算不出来：现金金额或报价日期缺失，本单不报（不是 0）。")
+        return out
+    try:
+        end = pd.Timestamp(str(next_bar)).normalize()
+    except (TypeError, ValueError):
+        end = None
+    if end is None:
+        out["sentence"] = "不知道下一张单落在哪一天，所以「下一段窗口付多少」本单不报。"
+        return out
+    out["end_session"] = str(end.date())
+    days = cal if cal is not None else CA.load_calendar()
+    start = next((d for d in days if d > str(asof)), None)
+    if start is None:
+        # The calendar does not reach past the priced bar, so fall back to the next weekday and
+        # say which basis was used instead of silently inventing a session.
+        d0 = pd.Timestamp(str(asof)).normalize() + pd.Timedelta(days=1)
+        while d0.weekday() >= 5:
+            d0 += pd.Timedelta(days=1)
+        start = str(d0.date())
+        out["start_basis"] = "weekday_fallback"
+    else:
+        out["start_basis"] = "exchange_calendar"
+    out["start_session"] = start
+    n_days = int((end - pd.Timestamp(start)).days)
+    out["calendar_days"] = n_days
+    if n_days < 1:
+        out["verdict"] = "WINDOW_CLOSED"
+        out["sentence"] = ("下一张单的日子 %s 不晚于第一个可停车的交易日 %s，这段窗口没有天数可计息。"
+                           % (out["end_session"], start))
+        return out
+
+    def _pay(pct):
+        return round(float(cash) * float(pct) / 100.0 * n_days / 365.0, 0)
+
+    out["spot"] = {"pct": round(float(spot_pct), 4), "cny": _pay(spot_pct)}
+    book_pct = (cm.get("book_rate") or {}).get("pct")
+    head = ("从 %s（%s 之后的第一个交易日）到 %s（下一张单）共 **%d 个日历天**：同一笔 ¥%s 若利率停在 "
+            "%s 的报价 %.2f%%，这段窗口付 ¥%s"
+            % (start, asof, out["end_session"], n_days, format(int(cash), ","),
+               asof, float(spot_pct), format(int(out["spot"]["cny"]), ",")))
+    if book_pct is None or not np.isfinite(float(book_pct)):
+        out["verdict"] = "ONE_RATE_ONLY"
+        out["sentence"] = head + ("；头条那把尺子（%s）这一面读不出来，所以「按整段窗口的净滚付多少」"
+                                  "本单**无法核验**——不拿这个报价冒充它。" % IDLE_CASH_FACE)
+        return out
+    book_pct = float(book_pct)
+    out["book"] = {"pct": round(book_pct, 4), "cny": _pay(book_pct),
+                   "source": (cm.get("book_rate") or {}).get("source")}
+    out["gap_bp"] = round((book_pct - float(spot_pct)) * 100.0, 2)
+    out["gap_cny"] = round(out["book"]["cny"] - out["spot"]["cny"], 0)
+    if abs(book_pct - float(spot_pct)) * 100.0 <= CASH_BOOK_SAME_BP:
+        out["verdict"] = "RATES_AGREE"
+        out["sentence"] = head + ("，与整段窗口扣佣金的净滚 %.2f%% 是同一个口径（差 %.2fbp）："
+                                  "这段窗口多少钱只在这一把尺子上有一个答案。"
+                                  % (book_pct, out["gap_bp"]))
+        return out
+    out["verdict"] = "TWO_RATES"
+    out["sentence"] = head + ("；若按整段窗口扣佣金的净滚 %.2f%% 付是 ¥%s，差 **%.2fbp / ¥%s**。"
+                              % (book_pct, format(int(out["book"]["cny"]), ","),
+                                 out["gap_bp"], format(int(abs(out["gap_cny"])), ",")))
+    out["sentence"] += ("两个数都假设利率不动——%.2f%% 是已经走过的那段窗口的净滚，不是下一段的隔夜报价，"
+                        "它只说明过去付过多少，不承诺这一段。" % book_pct)
+    return out
+
+
+def cash_forward_md(cf):
+    """The forward line, printed under the two calibers it prices."""
+    if not cf:
+        # A ticket built before r1719 carries no forward block. Say that instead of dropping
+        # the question in silence -- an absent reading is not "nothing to report" (r1159 family).
+        return ["- 下一段窗口付多少（r1719）：**这张票面没有前向窗口的读数**——它比 r1719 早，"
+                "重发票据后这一行才有；本页不替你推算。"]
+    v = cf.get("verdict")
+    if v == "CANNOT_PRICE":
+        return ["- 下一段窗口付多少（r1719）：**这一问答不了。** %s" % (cf.get("sentence") or "")]
+    L = ["- 下一段窗口付多少（r1719）：%s" % (cf.get("sentence") or "")]
+    if cf.get("start_basis") == "weekday_fallback":
+        L.append("- 起点用的是「报价日之后的第一个工作日」（交易日历还没排到那一天），不是交易所日历——"
+                 "遇到节假日这一行就会偏，日历补齐后自动改回交易所口径。")
+    return L
+
+
 def entry_gate_support():
     """r1248: 这本书能买哪些票，是一只手的数定的。
 
@@ -2548,6 +2659,7 @@ def card(ticket, mk, sched, asof, beta, extra):
                       "- 出处：%s（同一块面板，%d 个报价的尾窗；判定 **%s**）。"
                       % ("data/repo_daily/GC001.csv", cm["spot"]["quotes"], cm["verdict"])]
                 L += cash_book_rate_md(cm)
+                L += cash_forward_md(extra.get("cash_forward"))
         L += entry_gate_md(extra.get("entry_gate"))
         rp = extra.get("reprice")
         if rp and rp.get("status") == "ok":
@@ -3305,6 +3417,12 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
     # that checks the page can then compare it with the ticket instead of trusting either one.
     _prem = premium_read(ticket, asof)
     payload["premium"] = _prem
+    # r1719: every cash number on this sheet so far prices a window that has already happened.
+    # Compute the one window still ahead of the reader (next session -> next decision bar)
+    # BEFORE the ticket is written, so the markdown line and the JSON are one object.
+    payload["cash_leg"]["forward"] = cash_forward_window(
+        payload["cash_leg"]["money"],
+        ((payload.get("next_decision") or {}).get("grid") or {}).get("next_bar"))
     _write("TICKET-%s.json" % asof, payload)
     _write("latest.json", {"as_of": asof, "file": "TICKET-%s.json" % asof,
                            # r1597: same stamp the ticket carries -- the pointer is what a
@@ -3328,6 +3446,8 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
                       "reinstatements": payload["ledger"]["reinstatements"],
                       "reinstated_history": payload["ledger"]["reinstated_history"],
                       "cash_money": payload["cash_leg"]["money"],
+                      # r1719: and the same cash over the window that is still ahead of the reader.
+                      "cash_forward": payload["cash_leg"].get("forward"),
                       "entry_gate": payload["entry_gate"],
                       "swap_trigger": payload["swap_trigger"],
                       "swap_stack": payload["swap_stack"],
@@ -4806,6 +4926,41 @@ def selftest():
         _live is not None and _face_pct is not None
         and abs(float(_live["pct"]) - float(_face_pct)) < 1e-4,
         "live=%s face=%s" % (_live and _live["pct"], _face_pct))
+
+    # leg4k-o (r1719): the two calibers above both price windows that already happened. Paired
+    # legs on the forward one: the money must be the rate arithmetic on real calendar days, moving
+    # the next decision bar must move it, an unreadable headline must say cannot-verify, a closed
+    # window must refuse to price, and the sentence must name both dates (never "today").
+    _cal_fx = ["2024-02-23", "2024-02-26", "2024-02-27"]
+    _cf = cash_forward_window(_cm_gap, "2024-03-08", cal=_cal_fx)
+    _want_days = (pd.Timestamp("2024-03-08") - pd.Timestamp("2024-02-26")).days
+    _want_spot = 568230.0 * 1.26 / 100.0 * _want_days / 365.0
+    chk("leg4k the forward window pays rate*calendar_days/365 on the next session",
+        _cf["verdict"] == "TWO_RATES" and _cf["start_session"] == "2024-02-26"
+        and _cf["calendar_days"] == _want_days
+        and abs(_cf["spot"]["cny"] - _want_spot) <= 0.51,
+        "start=%s days=%s spot=%s want %.1f" % (_cf["start_session"], _cf["calendar_days"],
+                                                _cf["spot"] and _cf["spot"]["cny"], _want_spot))
+    _cf_far = cash_forward_window(_cm_gap, "2024-03-19", cal=_cal_fx)
+    chk("leg4l a longer window scales the money (not a frozen constant)",
+        _cf_far["calendar_days"] == 2 * _want_days
+        and abs(_cf_far["spot"]["cny"] / max(_cf["spot"]["cny"], 1.0) - 2.0) <= 0.02
+        and abs(_cf_far["book"]["cny"] / max(_cf["book"]["cny"], 1.0) - 2.0) <= 0.02,
+        "days %s->%s cny %s->%s" % (_cf["calendar_days"], _cf_far["calendar_days"],
+                                    _cf["spot"]["cny"], _cf_far["spot"]["cny"]))
+    _cf_nb = cash_forward_window(_nobook, "2024-03-08", cal=_cal_fx)
+    chk("leg4m an unreadable headline leaves only one rate and says cannot-verify",
+        _cf_nb["verdict"] == "ONE_RATE_ONLY" and _cf_nb["book"] is None
+        and "无法核验" in _cf_nb["sentence"] and "1.7731" not in _cf_nb["sentence"],
+        _cf_nb["sentence"][:140])
+    _cf_closed = cash_forward_window(_cm_gap, "2024-02-26", cal=_cal_fx)
+    chk("leg4n a decision bar on the start session has no days to price",
+        _cf_closed["verdict"] == "WINDOW_CLOSED" and _cf_closed["spot"] is None
+        and _cf_closed["sentence"], _cf_closed["sentence"][:120])
+    _cf_md = " ".join(cash_forward_md(_cf))
+    chk("leg4o the forward line names both dates and never says today",
+        "2024-02-26" in _cf_md and "2024-03-08" in _cf_md and "今天" not in _cf_md
+        and "假设利率不动" in _cf_md, _cf_md[:160])
 
     # leg5: the incremental ledger reproduces the engine on a hand-built path
     d2 = pd.DatetimeIndex(["2021-01-04", "2021-01-05", "2021-01-06", "2021-01-07"])

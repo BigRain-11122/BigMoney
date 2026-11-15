@@ -63,7 +63,29 @@
   "note": null,
   "spot_date": "2026-11-13",
   "panel_tail": "2026-11-13",
-  "spot_lag": 0
+  "spot_lag": 0,
+  "next_bar": "2026-12-09",
+  "forward": {
+   "verdict": "TWO_RATES",
+   "sentence": "从 2026-11-16（2026-11-13 之后的第一个交易日）到 2026-12-09（下一张单）共 **23 个日历天**：同一笔 ¥568,230 若利率停在 2026-11-13 的报价 1.26%，这段窗口付 ¥453；若按整段窗口扣佣金的净滚 1.77% 付是 ¥635，差 **50.81bp / ¥182**。两个数都假设利率不动——1.77% 是已经走过的那段窗口的净滚，不是下一段的隔夜报价，它只说明过去付过多少，不承诺这一段。",
+   "start_session": "2026-11-16",
+   "end_session": "2026-12-09",
+   "calendar_days": 23,
+   "ruler": "calendar_days/365 x annualised rate",
+   "start_basis": "exchange_calendar",
+   "cash_amount_cny": 568230.4,
+   "spot": {
+    "pct": 1.265,
+    "cny": 453.0
+   },
+   "book": {
+    "pct": 1.7731,
+    "cny": 635.0,
+    "source": "etf_book_idle_cash.json"
+   },
+   "gap_cny": 182.0,
+   "gap_bp": 50.81
+  }
  },
  "cash_ladder": {
   "base": "GC001",
@@ -7728,10 +7750,10 @@
  "authority": {
   "writer": "bm-c",
   "owner": "bm-a",
-  "owner_silent_h": 37.6,
+  "owner_silent_h": 38.0,
   "gate_h": 6.0,
   "took_over": true,
-  "why": "bm-a has not written its own heartbeat for 37.6 h (> 6 h): this host takes the pen for the page only -- a stopped heartbeat is not a dead machine",
+  "why": "bm-a has not written its own heartbeat for 38.0 h (> 6 h): this host takes the pen for the page only -- a stopped heartbeat is not a dead machine",
   "no_bar_reason": "human_ages"
  },
  "fleet": {
