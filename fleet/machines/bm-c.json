@@ -701,7 +701,7 @@
  "s6_note": "pool_dualrun ZERO-DRIFT streak 51 (744 entries); compute_audit FLAG pool_starvation+supply_floor (calendar agenda debt, 4 candidates all judged and refused); py_watermark py_low_board_clear",
  "s7_attrition": "4 ledgers CLEAN (3 historic shrink rows healed)",
  "s7_claws": "pre-commit + pre-push reinstalled, content identical",
- "s7_loop": "not touched this round: D-12 (r1732 rows) freezes scheduled-task (re)registration on this host; both tasks were left as found",
+ "s7_loop": "not touched this round: D-12 (read from origin/main:docs/decisions.md, 11-15 12:1x erratum row) means 'take cards inside tasks that were never paused; do not create or restore' -- no scheduled task was created, restored or re-registered here, which is consistent with it",
  "s7_notes": "r1688 S7: Bigmoney-IterationLoop re-registered (time-limit drift live=PT5H want=PT300M -> fixed), Bigmoney-LoopWatchdog re-registered; both S4U XML flips refused (拒绝访问) = the known LogonType regression face that needs one elevated re-pass; pre-commit + pre-push claws reinstalled (content identical, LF-normalised); attrition 4 ledgers CLEAN (5 historic shrinks healed).",
  "s7_watchdog": "re-registered; S4U XML flip refused for the 28th time (needs one elevated pass)",
  "smoke": "not closed this round (two starts, one cancelled after 5 min of tool silence); covered: futures_tsmom_signal 25/25, idx_fut_basis 13/13, reader_text_audit rc0 154s",
