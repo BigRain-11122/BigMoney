@@ -728,7 +728,7 @@
  "s7_loop": "Bigmoney-IterationLoop and Bigmoney-LoopWatchdog left untouched per D-12 (freeze on registering/restoring self-starting tasks)",
  "s7_notes": "r1688 S7: Bigmoney-IterationLoop re-registered (time-limit drift live=PT5H want=PT300M -> fixed), Bigmoney-LoopWatchdog re-registered; both S4U XML flips refused (拒绝访问) = the known LogonType regression face that needs one elevated re-pass; pre-commit + pre-push claws reinstalled (content identical, LF-normalised); attrition 4 ledgers CLEAN (5 historic shrinks healed).",
  "s7_watchdog": "not re-registered per D-12",
- "smoke": "full suite not run this round; r1756's detached run closed 602/602 PASS 0 FAIL (828.9s, results/_smoke_r1756.out) but it started 07:12, before this round's edits -> it does NOT cover them",
+ "smoke": "full suite not run to completion this round: r1756's detached run closed 602/602 PASS 0 FAIL (828.9s) but predates this round's edits; r1757's own detached run (pid 47124, results/_smoke_r1757.out) was killed at 134 lines / ~60 legs when the tool shell exited -- every leg it printed was PASS, no Traceback, no Summary, so it is an interrupted run, not a result",
  "smoke_note": "this round's edits are covered by three faces: etf_book_entry_gate 11/11, etf_book_seat_alarm_reach 11/11, etf_book_ceo_page 420/420",
  "smoke_out": "results/_smoke_r1747.out",
  "source_face_note": "cached_mapping() in scripts/ah_panel_puller.py -- the EM map is an input, a dated cache inside 7d keeps the day's bars reachable",
@@ -743,6 +743,7 @@
  "total_ram_gb": 55.9,
  "ts": "2026-11-16T07:21:52+08:00",
  "unverified": [
+  "r1757's detached smoke was interrupted by the tool shell exit after ~60 passing legs; no full-suite green exists for this round's edits",
   "full 602-leg suite not re-run against r1757's edits (the r1756 run predates them)",
   "the warm-up-edge reading removes 20 bars by a fixed k; the interior minimum (56 on 2020-02-13) moves with k and k was chosen, not derived",
   "no price consequence is attached to raising the gate: the face only counts names, it does not re-run the book at 1000M",
@@ -761,5 +762,6 @@
  "went_well": "the panel's own short history was disclosed as the reason the answer is 'not seen in half a year' rather than 'does not exist' -- the closing line is 2028, not next round with a different window",
  "who_did": "bm-c",
  "当前任务": "r1757 done: 池子告警腿在真实历史里一次都不会响，且它引用的「最薄那天」是窗口第一天",
- "空闲RAM": 24.3
+ "空闲RAM": 24.3,
+ "smoke_detach_note": "detached pythonw started from an agent tool shell dies with that shell (job object); a full suite needs another carrier"
 }
