@@ -21,9 +21,60 @@
     "missed_share_min_pct": 20.0,
     "reading_gap_min_pp": 1.0
   },
+  "dilution": {
+    "identity_all_hold": true,
+    "note": "each product: the days the published threshold leaves in, what those days read annualised, and whether the two face readings are reproduced by that split (gap_identity). GAP_IS_ARITHMETIC means a reader does not have to choose between two rulers -- one of them books level resets as daily carry",
+    "pairs": {
+      "IC": {
+        "calendar_ann_pct": 9.793,
+        "deleted_real_days": 10,
+        "gap_identity_holds": true,
+        "gap_pp": 6.912,
+        "kept_by_both_ann_pct": 9.837,
+        "missed_roll_days": 105,
+        "missed_roll_days_ann_pct": -146.492,
+        "published_ann_pct": 2.881,
+        "reading": "MISSED_ROLLS_ARE_A_FAKE_LOSS"
+      },
+      "IF": {
+        "calendar_ann_pct": 5.795,
+        "deleted_real_days": 18,
+        "gap_identity_holds": true,
+        "gap_pp": 3.919,
+        "kept_by_both_ann_pct": 6.5,
+        "missed_roll_days": 109,
+        "missed_roll_days_ann_pct": -93.463,
+        "published_ann_pct": 1.876,
+        "reading": "MISSED_ROLLS_ARE_A_FAKE_LOSS"
+      },
+      "IH": {
+        "calendar_ann_pct": 5.324,
+        "deleted_real_days": 22,
+        "gap_identity_holds": true,
+        "gap_pp": 3.772,
+        "kept_by_both_ann_pct": 5.135,
+        "missed_roll_days": 105,
+        "missed_roll_days_ann_pct": -75.004,
+        "published_ann_pct": 1.552,
+        "reading": "MISSED_ROLLS_ARE_A_FAKE_LOSS"
+      },
+      "IM": {
+        "calendar_ann_pct": 11.954,
+        "deleted_real_days": 9,
+        "gap_identity_holds": true,
+        "gap_pp": 6.09,
+        "kept_by_both_ann_pct": 11.562,
+        "missed_roll_days": 41,
+        "missed_roll_days_ann_pct": -131.025,
+        "published_ann_pct": 5.864,
+        "reading": "MISSED_ROLLS_ARE_A_FAKE_LOSS"
+      }
+    },
+    "verdict": "GAP_IS_ARITHMETIC"
+  },
   "evidence_cutoff": "2026-11-13",
   "face": "idx_fut_roll_gap",
-  "generated": "2026-11-15T04:08:41",
+  "generated": "2026-11-15T10:04:51",
   "incomplete_pairs": [
     "IF",
     "IC",
@@ -117,6 +168,36 @@
         }
       },
       "index": "sh000905",
+      "mask_split": {
+        "counts_closed": true,
+        "days_total": 2382,
+        "gap_identity": {
+          "face_gap_pp": 6.912,
+          "holds": true,
+          "rebuilt_gap_pp": 6.912
+        },
+        "groups": {
+          "both": {
+            "ann_pct": -531.319,
+            "n": 12
+          },
+          "extra": {
+            "ann_pct": -146.492,
+            "n": 105
+          },
+          "neither": {
+            "ann_pct": 9.837,
+            "n": 2255
+          },
+          "pub_only": {
+            "ann_pct": 0.047,
+            "n": 10
+          }
+        },
+        "kept_cal_rebuilt_ann_pct": 9.793,
+        "kept_pub_rebuilt_ann_pct": 2.881,
+        "reading": "MISSED_ROLLS_ARE_A_FAKE_LOSS"
+      },
       "readings": {
         "calendar_mask": {
           "calendar_years": 9.827,
@@ -304,6 +385,36 @@
         }
       },
       "index": "sh000300",
+      "mask_split": {
+        "counts_closed": true,
+        "days_total": 2382,
+        "gap_identity": {
+          "face_gap_pp": 3.919,
+          "holds": true,
+          "rebuilt_gap_pp": 3.919
+        },
+        "groups": {
+          "both": {
+            "ann_pct": -324.149,
+            "n": 8
+          },
+          "extra": {
+            "ann_pct": -93.463,
+            "n": 109
+          },
+          "neither": {
+            "ann_pct": 6.5,
+            "n": 2247
+          },
+          "pub_only": {
+            "ann_pct": -82.23,
+            "n": 18
+          }
+        },
+        "kept_cal_rebuilt_ann_pct": 5.795,
+        "kept_pub_rebuilt_ann_pct": 1.876,
+        "reading": "MISSED_ROLLS_ARE_A_FAKE_LOSS"
+      },
       "readings": {
         "calendar_mask": {
           "calendar_years": 9.827,
@@ -491,6 +602,36 @@
         }
       },
       "index": "sh000016",
+      "mask_split": {
+        "counts_closed": true,
+        "days_total": 2382,
+        "gap_identity": {
+          "face_gap_pp": 3.772,
+          "holds": true,
+          "rebuilt_gap_pp": 3.772
+        },
+        "groups": {
+          "both": {
+            "ann_pct": -327.57,
+            "n": 12
+          },
+          "extra": {
+            "ann_pct": -75.004,
+            "n": 105
+          },
+          "neither": {
+            "ann_pct": 5.135,
+            "n": 2243
+          },
+          "pub_only": {
+            "ann_pct": 24.579,
+            "n": 22
+          }
+        },
+        "kept_cal_rebuilt_ann_pct": 5.324,
+        "kept_pub_rebuilt_ann_pct": 1.552,
+        "reading": "MISSED_ROLLS_ARE_A_FAKE_LOSS"
+      },
       "readings": {
         "calendar_mask": {
           "calendar_years": 9.827,
@@ -679,6 +820,36 @@
         }
       },
       "index": "sh000852",
+      "mask_split": {
+        "counts_closed": true,
+        "days_total": 1044,
+        "gap_identity": {
+          "face_gap_pp": 6.09,
+          "holds": true,
+          "rebuilt_gap_pp": 6.09
+        },
+        "groups": {
+          "both": {
+            "ann_pct": -687.186,
+            "n": 9
+          },
+          "extra": {
+            "ann_pct": -131.025,
+            "n": 41
+          },
+          "neither": {
+            "ann_pct": 11.562,
+            "n": 985
+          },
+          "pub_only": {
+            "ann_pct": 54.79,
+            "n": 9
+          }
+        },
+        "kept_cal_rebuilt_ann_pct": 11.954,
+        "kept_pub_rebuilt_ann_pct": 5.864,
+        "reading": "MISSED_ROLLS_ARE_A_FAKE_LOSS"
+      },
       "readings": {
         "calendar_mask": {
           "calendar_years": 4.315,

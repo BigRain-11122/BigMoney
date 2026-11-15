@@ -6023,6 +6023,7 @@ def derisk_face(path=DERISK_JSON):
 DESK_SHEET = os.path.join(ROOT, "results", "idx_fut_desk_sheet.json")
 CARRY_RISK = os.path.join(ROOT, "results", "idx_fut_carry_risk.json")
 CARRY_CAPITAL = os.path.join(ROOT, "results", "idx_fut_carry_capital.json")
+ROLL_GAP = os.path.join(ROOT, "results", "idx_fut_roll_gap.json")
 
 
 def futures_sleeve_face():
@@ -6322,8 +6323,25 @@ def futures_ladder_face():
     inputs = cp.get("inputs") or {}
     tiers_all = [r["first_affordable_tier_cny"] for r in out_rows
                  if r.get("first_affordable_tier_cny") is not None]
+    # r1710: the two verdict columns disagree; this face carries the split that explains it,
+    # so the page can stop printing "an unresolved ruler" (E240 family: the producer of that
+    # split is idx_fut_roll_gap, read here, never recomputed).
+    dilution = {}
+    try:
+        if os.path.exists(ROLL_GAP):
+            rg = _load(ROLL_GAP) or {}
+            dl = rg.get("dilution") or {}
+            if dl.get("pairs"):
+                dilution = {"verdict": dl.get("verdict"),
+                            "identity_all_hold": dl.get("identity_all_hold"),
+                            "pairs": dl.get("pairs") or {},
+                            "evidence_cutoff": rg.get("evidence_cutoff"),
+                            "path": _rel(ROLL_GAP)}
+    except (OSError, ValueError):
+        dilution = {}
     return {"status": "ok", "readable": True,
             "evidence_cutoff": cp.get("evidence_cutoff"),
+            "dilution": dilution,
             "capital_ladder_tiers": inputs.get("capital_tiers") or [],
             "declared": {"vol_target": _num(inputs, "vol_target"),
                          "margin_rate": _num(inputs, "margin_rate"),
@@ -6403,9 +6421,38 @@ def futures_ladder_block(fl, book_ann=None):
                 % (len(refused), len(adm), "ADMIT=false" if len(refused) == len(adm)
                    else "被拒"))
         if passed_cal and len(refused) == len(adm):
-            line += ("但同一张面换日历口径重读，**%s 能过闸**——两个口径答案相反，"
-                     "所以这一行还不能当「可以加」，它是一个还没统一的尺子。"
-                     % "、".join(passed_cal))
+            dil = fl.get("dilution") or {}
+            pairs_d = dil.get("pairs") or {}
+            det = [(p, pairs_d.get(p) or {}) for p in passed_cal]
+            explained = (dil.get("verdict") == "GAP_IS_ARITHMETIC"
+                         and dil.get("identity_all_hold") is True
+                         and det
+                         and all(d.get("reading") == "MISSED_ROLLS_ARE_A_FAKE_LOSS"
+                                 and d.get("missed_roll_days") is not None
+                                 and d.get("missed_roll_days_ann_pct") is not None
+                                 and d.get("kept_by_both_ann_pct") is not None
+                                 for _, d in det))
+            if explained:
+                # r1710: the two rulers do not disagree -- one of them is reading level
+                # resets as daily carry. Printing "unresolved" here would send a reader
+                # back to a settled question (r1709's own milestone).
+                line += ("这两个口径不是两种意见，是同一把尺子先在坏掉的那一半上量过："
+                         "published 阈值只认出少数换月，剩下的换月日留在序列里，"
+                         "而这些天的年化读数是 %s——把换月跳变当成某一天的亏损；"
+                         "两边都被剔除的日子读 %s/年，那才是滚动持有赚到的。"
+                         % ("、".join("%s %s 天读 %.0f%%" %
+                                      (p, format(int(d["missed_roll_days"]), ","),
+                                       d["missed_roll_days_ann_pct"]) for p, d in det),
+                            "、".join("%s %.2f%%" % (p, d["kept_by_both_ann_pct"])
+                                     for p, d in det)))
+                line += ("所以日历口径那个「过」是同一把尺子修好之后的读数，"
+                         "它在这一列上已经不是悬案；但「过闸≠可以加」——拦住它的仍是上一节的"
+                         "一手名义，以及两个口径各自的 bar。")
+            else:
+                line += ("但同一张面换日历口径重读，**%s 能过闸**——两个口径答案相反，"
+                         "且分解这一差的面读不出来或恒等式不成立，"
+                         "所以这一行还不能当「可以加」，它仍是一个还没统一的尺子。"
+                         % "、".join(passed_cal))
         out.append(line)
 
     out.append("")
@@ -12274,6 +12321,30 @@ def selftest():
         _fl_live.get("readable") is True and len(_fl_live.get("rows") or []) == 4
         and _fl_live.get("smallest_affordable_tier_cny") is not None,
         str({k: _fl_live.get(k) for k in ("status", "smallest_affordable_tier_cny")})[:160])
+
+    # r1710: when the split explains the two rulers, the page must stop calling it unresolved,
+    # and the numbers it names must come off the split (not typed into the sentence).
+    _fl_dil = {"readable": True, "dilution": {
+        "verdict": "GAP_IS_ARITHMETIC", "identity_all_hold": True,
+        "pairs": {"IC": {"reading": "MISSED_ROLLS_ARE_A_FAKE_LOSS",
+                         "missed_roll_days": 105, "missed_roll_days_ann_pct": -146.492,
+                         "kept_by_both_ann_pct": 9.837}}},
+        "declared": {"vol_target": 0.08, "margin_rate": 0.15},
+        "rows": [{"product": "IC", "admit": False, "admit_calendar": True,
+                  "one_lot_notional_cny": 1275000.0, "first_affordable_tier_cny": 5000000.0,
+                  "net_pct_of_capital": 2.24, "notional_x_capital_on_tier": 0.255,
+                  "stress_loss_pct_of_capital": 11.5}]}
+    _fl_dil_md = "\n".join(futures_ladder_block(_fl_dil, book_ann=11.647))
+    chk("L283 account ladder: an explained ruler gap stops being called unresolved, and the split's own numbers ride in the sentence",
+        "不是两种意见" in _fl_dil_md and "还没统一的尺子" not in _fl_dil_md
+        and "105" in _fl_dil_md and "-146" in _fl_dil_md and "9.84" in _fl_dil_md, _fl_dil_md[-1400:])
+    # the fail-safe direction: a split that does not reproduce the readings must not be used
+    # to declare the question settled
+    _fl_bad = json.loads(json.dumps(_fl_dil))
+    _fl_bad["dilution"]["identity_all_hold"] = False
+    chk("L284 account ladder: a split whose identity does not hold leaves the question open",
+        "还没统一的尺子" in "\n".join(futures_ladder_block(_fl_bad, book_ann=11.647)),
+        "\n".join(futures_ladder_block(_fl_bad, book_ann=11.647))[-600:])
 
     print("\nSummary: %d/%d PASS%s" % (ok, total, "" if ok == total else " -- %d FAIL" % (total - ok)))
     return 0 if ok == total else 1

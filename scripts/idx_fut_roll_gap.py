@@ -136,6 +136,60 @@ def carry_stats(spread, dates, masked_days):
     }
 
 
+def mask_split(spread, dates, pub_masked, cal_masked):
+    """The days the two masks disagree about, and what each group reads.
+
+    r1710. Two masks produce two annualised readings, and a page can only print "the two
+    disagree" -- which leaves a reader sizing off an unresolved ruler. The disagreement is
+    arithmetic, so it can be split: a roll day's spread is the level reset between two
+    contracts, and a mask that keeps it books a jump as one day's carry. Four groups,
+    because the threshold mask can also delete a real day, which biases the other way:
+      neither   kept by both                                   (what a roller banks)
+      extra     calendar calls it a roll, published keeps it    (missed roll: a fake loss)
+      pub_only  published calls it a roll, calendar keeps it    (a deleted real day)
+      both      dropped by both
+    The two rebuilt readings must reproduce the two face readings; `gap_identity` in
+    one_pair asserts exactly that, so a page can print the split as the reason.
+    """
+    g = {"neither": [], "extra": [], "pub_only": [], "both": []}
+    for k, s in enumerate(spread):
+        d = dates[k + 1]
+        p, c = (d in pub_masked), (d in cal_masked)
+        if p and c:
+            g["both"].append(s)
+        elif c:
+            g["extra"].append(s)
+        elif p:
+            g["pub_only"].append(s)
+        else:
+            g["neither"].append(s)
+
+    def _ann(xs):
+        return round(statistics.fmean(xs) * DAYS_PER_YEAR * 100.0, 3) if xs else None
+
+    def _rebuilt(*names):
+        return _ann([s for n in names for s in g[n]])
+
+    out = {
+        "groups": dict((k, {"n": len(v), "ann_pct": _ann(v)}) for k, v in g.items()),
+        "kept_pub_rebuilt_ann_pct": _rebuilt("neither", "extra"),
+        "kept_cal_rebuilt_ann_pct": _rebuilt("neither", "pub_only"),
+        "counts_closed": sum(len(v) for v in g.values()) == len(spread),
+        "days_total": len(spread),
+    }
+    extra, neither = out["groups"]["extra"], out["groups"]["neither"]
+    if extra["n"] and extra["ann_pct"] is not None and neither["ann_pct"] is not None:
+        # A verdict on the MASK, not on the trade: whether the days the published threshold
+        # leaves in are level resets (a fake loss) or ordinary days.
+        if extra["ann_pct"] < 0 and neither["ann_pct"] > extra["ann_pct"]:
+            out["reading"] = "MISSED_ROLLS_ARE_A_FAKE_LOSS"
+        else:
+            out["reading"] = "MISSED_ROLLS_DO_NOT_DEPRESS_THE_READING"
+    else:
+        out["reading"] = "NO_READING"
+    return out
+
+
 def classify_mask(pub, cal, pub_days, cal_days):
     """States describe the MASK, not the strategy.
 
@@ -218,6 +272,18 @@ def one_pair(fut, code):
     if info["months_covered_pct"] < CRITERIA["min_months_covered_pct"]:
         state = "CALENDAR_UNUSABLE"
 
+    # r1710: the gap between the two readings, split into the days that cause it.
+    split = mask_split(spread, dates, pub_masked, cal_masked)
+    if pub.get("carry_ann_pct") is not None and cal.get("carry_ann_pct") is not None:
+        rp, rc = split["kept_pub_rebuilt_ann_pct"], split["kept_cal_rebuilt_ann_pct"]
+        if rp is not None and rc is not None:
+            face_gap = cal["carry_ann_pct"] - pub["carry_ann_pct"]
+            split["gap_identity"] = {
+                "rebuilt_gap_pp": round(rc - rp, 3),
+                "face_gap_pp": round(face_gap, 3),
+                "holds": abs((rc - rp) - face_gap) <= 0.01,
+            }
+
     steps = [v for _, v in sorted(rolls.items())]
     years = pub["years"] if pub else None
     by_year = {}
@@ -267,6 +333,7 @@ def one_pair(fut, code):
         },
         "detector": info,
         "state": state,
+        "mask_split": split,
         "arm_sensitivity": sens,
     }
 
@@ -301,12 +368,51 @@ def build():
                 "note": "gap = A minus B. A positive movement means the complete mask widens "
                         "the always-in arm over the waiting arm; the r1690 verdict was "
                         "HOLD-ALWAYS on bars W1/W2 (B-A >= 0.5pp) plus W3 (both halves)"}
+
+    # r1710: the two readings differ because of specific days, and those days can be named.
+    # This is the block a page reads to stop printing "the two rulers disagree".
+    dilution = {"pairs": {}, "identity_all_hold": None}
+    for fut, p in pairs.items():
+        if p.get("status") != "ok":
+            continue
+        sp = p.get("mask_split") or {}
+        gr = sp.get("groups") or {}
+        ident = sp.get("gap_identity") or {}
+        dilution["pairs"][fut] = {
+            "reading": sp.get("reading"),
+            "missed_roll_days": (gr.get("extra") or {}).get("n"),
+            "missed_roll_days_ann_pct": (gr.get("extra") or {}).get("ann_pct"),
+            "kept_by_both_ann_pct": (gr.get("neither") or {}).get("ann_pct"),
+            "deleted_real_days": (gr.get("pub_only") or {}).get("n"),
+            "published_ann_pct": (p.get("readings", {}).get("published_threshold_mask") or {})
+                                 .get("carry_ann_pct"),
+            "calendar_ann_pct": (p.get("readings", {}).get("calendar_mask") or {})
+                                .get("carry_ann_pct"),
+            "gap_identity_holds": ident.get("holds"),
+            "gap_pp": ident.get("face_gap_pp"),
+        }
+    holds = [v.get("gap_identity_holds") for v in dilution["pairs"].values()]
+    dilution["identity_all_hold"] = all(holds) if holds else None
+    readings = [v.get("reading") for v in dilution["pairs"].values()]
+    if readings and all(r == "MISSED_ROLLS_ARE_A_FAKE_LOSS" for r in readings):
+        dilution["verdict"] = "GAP_IS_ARITHMETIC"       # the extra days are level resets
+    elif readings and any(r == "NO_READING" for r in readings):
+        dilution["verdict"] = "PARTIAL_READING"
+    else:
+        dilution["verdict"] = "GAP_NOT_EXPLAINED_BY_THE_MISSED_DAYS"
+    dilution["note"] = ("each product: the days the published threshold leaves in, what those "
+                        "days read annualised, and whether the two face readings are reproduced "
+                        "by that split (gap_identity). GAP_IS_ARITHMETIC means a reader does not "
+                        "have to choose between two rulers -- one of them books level resets "
+                        "as daily carry")
+
     return {
         "face": "idx_fut_roll_gap",
         "generated": dt.datetime.now().isoformat(timespec="seconds"),
         "evidence_cutoff": max(p["span"]["to"] for p in ok) if ok else None,
         "criteria": CRITERIA,
         "verdict": verdict,
+        "dilution": dilution,
         "incomplete_pairs": incomplete,
         "states": {f: p.get("state") for f, p in pairs.items()},
         "verdict_check": {"n_pairs": len(ok), "n_incomplete": len(incomplete),
@@ -540,6 +646,29 @@ def selftest():
         classify_mask(pub, cal, pub["masked_days"], cal["masked_days"]))
     leg("a complete mask is not flagged",
         classify_mask(cal, cal, cal["masked_days"], cal["masked_days"]) == "MASK_COMPLETE")
+
+    # r1710: the split must reproduce both readings, and must name the missed days as resets.
+    sp = mask_split(spread, dates, quarter, set(rolls))
+    leg("split closes: every day lands in exactly one group",
+        sp["counts_closed"] is True and sum(g["n"] for g in sp["groups"].values()) == sp["days_total"],
+        "closed=%s total=%d" % (sp["counts_closed"], sp["days_total"]))
+    leg("split reproduces the published reading",
+        sp["kept_pub_rebuilt_ann_pct"] is not None
+        and abs(sp["kept_pub_rebuilt_ann_pct"] - pub["carry_ann_pct"]) <= 0.002,
+        "rebuilt=%.3f face=%.3f" % (sp["kept_pub_rebuilt_ann_pct"] or 0,
+                                    pub["carry_ann_pct"]))
+    leg("split reproduces the calendar reading",
+        sp["kept_cal_rebuilt_ann_pct"] is not None
+        and abs(sp["kept_cal_rebuilt_ann_pct"] - cal["carry_ann_pct"]) <= 0.002,
+        "rebuilt=%.3f face=%.3f" % (sp["kept_cal_rebuilt_ann_pct"] or 0,
+                                    cal["carry_ann_pct"]))
+    leg("split counts a published mask that misses rolls as extra, not as deleted real days",
+        sp["groups"]["extra"]["n"] > 0 and sp["groups"]["pub_only"]["n"] == 0,
+        "extra=%d pub_only=%d" % (sp["groups"]["extra"]["n"], sp["groups"]["pub_only"]["n"]))
+    leg("split calls the missed days level resets (a fake loss)",
+        sp["reading"] == "MISSED_ROLLS_ARE_A_FAKE_LOSS", sp["reading"])
+    leg("split refuses a verdict when the missed-day group is empty",
+        mask_split(spread, dates, set(rolls), set(rolls))["reading"] == "NO_READING")
 
     # No sawtooth at all: nothing to mask, nothing to flag.
     dates2, basis2, spread2 = _synth(0.0, -0.0005)
