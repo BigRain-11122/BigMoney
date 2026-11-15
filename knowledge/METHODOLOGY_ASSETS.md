@@ -15655,3 +15655,15 @@ research/ETF_BOOK_CAUSAL_HEADLINE.md · smoke 既有腿（check 契约）
 **正法**：①整段年化的面必须同时携带按年表（从同一个生产者读，禁二次计算）；②票面/页在平均值旁边直接印首末两年与「最近这一段」的金额，并写明「上面那个数是整段的平均，不是这一段的收益率」；③缺按年表时印「不把它当今年的收益率」，禁拿平均值顶替；④按年数用生产者自己的三位小数印（`%.2f` 把 2.335 印成 2.33、1.065 印成 1.06 ＝ half-to-even，两处都不是面的原值）——精度在这里不是排版问题，是断言问题（selftest 曾因此两腿红）。
 
 **正身**：scripts/etf_book_order.py `idle_cash_book_rate`/`_cash_book_decay_line`/`cash_book_rate_md`（selftest leg4zo-zt）+ results/etf_book_order/ORDER-2026-11-13.md 第 254 行 + docs/live_book/LIVE-BOOK-20261116.md 第 330 行
+
+## E668 — 「这条闸的产出」是对的，但换算成「我的位置够不够」这一步没人做（r1753 bm-c）
+
+**症状**：票面与 CEO 页那一节只印「同一个旋钮把可选名数中位数从 **462 只** 压到 **56 只**（8.2 倍）——这道闸是你的容量来源」。读者手上是 **5 个位置**、一笔钱，他想知道的是「池子够不够我把 5 个位置装满」。两个数早就在同一张面上（`results/etf_book_entry_gate.json` 每一档带 `median` **和** `min`：20M 档中位 262、最薄 51），但派生面（`entry_gate_face`）只搬运了 `median`，把同行的最薄日丢了——于是唯一能回答「够不够装」的数字没有消费者（E667 家族的第二张脸：不是没生产者，是派生面把同行字段丢掉）。换算结果：最薄那天 51 只 ÷ 5 个位置 = **10.2 倍**，要它开始限制，池子得先薄到 5 只以下。
+
+**正法**：①派生面转运同行的**极值**，不只均值/中位（`min_names`/`max_names` + `shipped_median_names`/`shipped_min_names`/`thinnest_day_names`）；②换算句只做比值，不重算票池；③缺最薄日 → 只按中位说并明写「按中位算的倍数只会偏高」，禁拿中位冒充最薄；④完全没分布 → 「这一问答不了」，禁用任何编出来的倍数。
+
+**接线坑（本窗实弹，两条腿自检都绿也拦不住）**：票面 `card()` 收到的 `ticket` 是 `build_ticket()` 的 dict，里面**没有** `n_hold`（它只存在于落盘的 payload 与页面 `tk`）——第一版 `seats=ticket.get("n_hold")` 在票面静默不印这一句，而 CEO 页照样印得漂亮（页面用 `tk`）。自检腿传的是带 `n_hold` 的夹具，所以两处自检都绿。正法：位置数随 `extra["seats"]=payload["n_hold"]` 显式传递，并留 `len(order)` 兜底；腿改成「夹具里**没有** n_hold、只有 extra」来钉住真实传递路径——夹具比生产多一个字段，就是一条腿的盲区（E289 家族）。
+
+**附**：新句里写了「今天」被 page-day debt 守卫（L261）当场抓红——那句不是带日期的断言，改词而不是豁免；守卫读源码，改写比加白名单纯净。
+
+**正身**：scripts/etf_book_order.py `entry_gate_seats_md`（leg48e-i）+ scripts/etf_book_ceo_page.py `entry_gate_seats_md`/`entry_gate_face`（L140b-e）+ results/etf_book_order/ORDER-2026-11-13.md 第 262 行 + docs/live_book/LIVE-BOOK-20261116.md 第 821 行

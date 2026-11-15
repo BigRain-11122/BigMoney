@@ -1639,7 +1639,36 @@ def entry_gate_support():
             return {"status": "unreadable", "detail": repr(exc)}
 
 
-def entry_gate_md(eg):
+def entry_gate_seats_md(eg, seats):
+    """r1753: 这道闸够本书装几只——宽度那轴换算成位置数（读同一张面，不重算票池）。"""
+    if not seats:
+        return []
+    eg = eg or {}
+    try:
+        n_seats = int(seats)
+    except (TypeError, ValueError):
+        return []
+    med = eg.get("shipped_median_names")
+    thin = eg.get("shipped_min_names")
+    if med is None and thin is None:
+        return ["- **换成你能装几只（r1753）**：这张面上没有可选名数的分布，所以「%d 个位置够不够装」"
+                "这一问答不了——中位数不是最薄的那天，本页不拿它顶替。" % n_seats]
+    gate_m = (float(eg.get("shipped_cny") or 0.0)) / 1e6
+    if thin is not None and int(thin) > 0:
+        thin = int(thin)
+        return ["- **换成你能装几只（r1753）**：本书现在开 **%d 个位置**，而 %gM 这一档历史上"
+                "中位 **%d 只**可挑、**最薄的一天也还有 %d 只**——最薄那天是本书位置的 **%.1f 倍**。"
+                "这道闸本身不决定你装几只：它开始限制你的时候，是池子先薄到 %d 只以下"
+                "（或者这本书开到 %d 个位置以上）。"
+                % (n_seats, gate_m, int(med or 0), thin,
+                   float(thin) / float(n_seats), n_seats, thin)]
+    return ["- **换成你能装几只（r1753）**：本书现在开 **%d 个位置**，而 %gM 这一档历史上"
+            "中位 **%d 只**可挑（%.1f 倍）。**最薄那天的数这张面没有**，所以只说中位——"
+            "按最薄日算只会比这个倍数更低，不会更高。"
+            % (n_seats, gate_m, int(med or 0), float(med or 0) / float(n_seats))]
+
+
+def entry_gate_md(eg, seats=None):
     """两轴分开印：这道闸买到了多少收益，和它买到了多少容量。"""
     eg = eg or {}
     if eg.get("status") != "ok":
@@ -1666,6 +1695,7 @@ def entry_gate_md(eg):
                  "改变的是单笔能有多大，不是期望收益。"
                  % (int(eg.get("widest_names") or 0), int(eg.get("narrowest_names") or 0),
                     float(ratio)))
+    L += entry_gate_seats_md(eg, seats)
     L.append("- 判定 **%s**｜出处 `%s`（证据截止 %s，面板末 bar %s；%gM 档复现本书申报格 "
              "%.3f pp，容差 %.2f pp）。"
              % (eg.get("verdict"),
@@ -3081,7 +3111,10 @@ def card(ticket, mk, sched, asof, beta, extra):
                       % ("data/repo_daily/GC001.csv", cm["spot"]["quotes"], cm["verdict"])]
                 L += cash_book_rate_md(cm)
                 L += cash_forward_md(extra.get("cash_forward"))
-        L += entry_gate_md(extra.get("entry_gate"))
+        L += entry_gate_md(extra.get("entry_gate"),
+                           seats=(extra.get("seats")
+                                  if extra.get("seats") is not None
+                                  else ticket.get("n_hold")))
         rp = extra.get("reprice")
         if rp and rp.get("status") == "ok":
             L += ["", "## 参考价用的是哪一天（这会改变手数）",
@@ -3870,6 +3903,10 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
                       # r1719: and the same cash over the window that is still ahead of the reader.
                       "cash_forward": payload["cash_leg"].get("forward"),
                       "entry_gate": payload["entry_gate"],
+                      # r1753: the seat count the pool has to fill, from the ticket that
+                      # carries it (the card() argument is build_ticket's dict, which has no
+                      # n_hold -- reading it there is what left the sentence off the sheet).
+                      "seats": payload.get("n_hold"),
                       "swap_trigger": payload["swap_trigger"],
                       "swap_stack": payload["swap_stack"],
                       "positions": payload["positions"],
@@ -6495,6 +6532,7 @@ def selftest():
     _eg_ok = {"status": "ok", "shipped_cny": 20e6, "verdict": "GATE_SITS_ON_PLATEAU",
               "near_max_pp": 1.53, "best_delta_pp": 0.21, "tol_pp": 1.0,
               "width_ratio": 8.25, "widest_names": 462, "narrowest_names": 56,
+              "shipped_median_names": 262, "shipped_min_names": 51,
               "artifact": "results/etf_book_entry_gate.json",
               "evidence_cutoff": "2026-10-30", "panel_last_bar": "2026-10-30",
               "control": {"delta_pp": 0.0, "tol_pp": 0.25}}
@@ -6521,6 +6559,38 @@ def selftest():
         "cannot be answered instead of vanishing",
         "这本书能买哪些票" in _tk_md and "容量来源" in _tk_md
         and "这一问答不了" in _tk_absent and "容量来源" not in _tk_absent)
+
+    # r1753: 宽度那轴说的是池子里有几只，读者问的是「我这几个位置够不够装」。换算只用面里的
+    # 两个数（shipped 档的中位 + 它自己最薄的一天），禁拿中位冒充最薄日。
+    _eg_seat_md = "\n".join(entry_gate_md(_eg_ok, seats=5))
+    chk("leg48e entry gate: a seat count turns width into 'can my 5 seats be filled', using "
+        "the thin day (51/5 = 10.2x) and not the median (262/5)",
+        "5 个位置" in _eg_seat_md and "10.2 倍" in _eg_seat_md
+        and "52.4" not in _eg_seat_md,
+        _eg_seat_md[:160])
+    _eg_no_thin_md = "\n".join(entry_gate_md(
+        dict(_eg_ok, shipped_min_names=None), seats=5))
+    chk("leg48f entry gate: no thin day means the median is named as a median only -- "
+        "the sheet says the thin day is missing instead of borrowing it",
+        "最薄那天的数这张面没有" in _eg_no_thin_md and "52.4 倍" in _eg_no_thin_md
+        and "10.2" not in _eg_no_thin_md, _eg_no_thin_md[:160])
+    chk("leg48g entry gate: no seat count on the ticket prints no seat sentence",
+        "换成你能装几只" in _eg_seat_md
+        and "换成你能装几只" not in "\n".join(entry_gate_md(_eg_ok)))
+    chk("leg48h entry gate: a face with no distribution says the seat question cannot be "
+        "answered -- it does not print an invented multiple",
+        "这一问答不了" in "\n".join(entry_gate_md(
+            dict(_eg_ok, shipped_median_names=None, shipped_min_names=None), seats=5))
+        and "倍" not in "\n".join(entry_gate_md(
+            dict(_eg_ok, shipped_median_names=None, shipped_min_names=None),
+            seats=5)).split("这一问答不了")[1])
+    _tk_seat_md = card(_tk_min, None, None, "2026-10-30", 0.2,
+                       {"inception": "2024-01-01", "entry_gate": _eg_ok, "seats": 5})
+    chk("leg48i entry gate: the ticket builder hands the book's own n_hold to the section "
+        "(the card() ticket is build_ticket's dict, which carries no n_hold -- the count "
+        "travels in extra)",
+        "5 个位置" in _tk_seat_md and "最薄的一天也还有 51 只" in _tk_seat_md,
+        [l for l in _tk_seat_md.splitlines() if "换成你能装几只" in l][:1])
 
     # 49a-e. r1455: the sheet sizes to the permission the desk itself published. r1450
     # printed a floor (k=0.393073) and its prereg requirement 4 asked for it to be carried

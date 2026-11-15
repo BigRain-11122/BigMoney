@@ -1,7 +1,7 @@
 {
  "evidence_cutoff": "2026-11-13",
  "beta_target": 0.2,
- "generated": "2026-11-16T04:43:04+08:00",
+ "generated": "2026-11-16T05:19:38+08:00",
  "permission": {
   "status": "within_permission",
   "k_now": 0.432195,
@@ -588,7 +588,7 @@
   "withdrawn_now": [],
   "withdrawal_note": "ledger withdrew 1 bar(s) at 2026-11-09 23:54:02 because the price panel then ended 2026-11-06 (2026-11-09); the panel has since carried 2026-11-09 again and that ledger row is live -- the withdrawal stays on record but it is not this sheet's pricing bar",
   "reinstatements": {
-   "at": "2026-11-16 04:43:04",
+   "at": "2026-11-16 05:19:38",
    "n_reinstated": 1,
    "rewritten": [],
    "verbatim_identical": [
@@ -647,6 +647,8 @@
     "sharpe": 0.886,
     "maxdd": -0.1651,
     "median_names": 462,
+    "min_names": 71,
+    "max_names": 1025,
     "turnover": 0.964,
     "delta_pp": 0.22
    },
@@ -657,6 +659,8 @@
     "sharpe": 0.886,
     "maxdd": -0.1651,
     "median_names": 367,
+    "min_names": 61,
+    "max_names": 873,
     "turnover": 0.964,
     "delta_pp": 0.22
    },
@@ -667,6 +671,8 @@
     "sharpe": 0.869,
     "maxdd": -0.1656,
     "median_names": 262,
+    "min_names": 51,
+    "max_names": 694,
     "turnover": 0.959,
     "delta_pp": 0.0
    },
@@ -677,6 +683,8 @@
     "sharpe": 0.83,
     "maxdd": -0.202,
     "median_names": 154,
+    "min_names": 32,
+    "max_names": 492,
     "turnover": 0.883,
     "delta_pp": -0.5
    },
@@ -687,6 +695,8 @@
     "sharpe": 0.879,
     "maxdd": -0.2066,
     "median_names": 94,
+    "min_names": 21,
+    "max_names": 357,
     "turnover": 0.79,
     "delta_pp": 0.12
    },
@@ -697,6 +707,8 @@
     "sharpe": 0.576,
     "maxdd": -0.2269,
     "median_names": 56,
+    "min_names": 16,
+    "max_names": 231,
     "turnover": 0.687,
     "delta_pp": -2.99
    }
@@ -704,6 +716,9 @@
   "widest_names": 462,
   "narrowest_names": 56,
   "width_ratio": 8.25,
+  "shipped_median_names": 262,
+  "shipped_min_names": 51,
+  "thinnest_day_names": 16,
   "universe_measured": 1520,
   "universe_published": 1520,
   "control": {
@@ -1523,7 +1538,7 @@
  },
  "next_decision": {
   "artifact": "etf_book_next_decision",
-  "generated": "2026-11-16T04:43:04",
+  "generated": "2026-11-16T05:19:38",
   "evidence_cutoff": "2026-11-13",
   "calendar_source": "data/exchange_calendar.csv",
   "calendar_last": "2026-12-31",
@@ -1664,7 +1679,7 @@
  },
  "swap_freshness": {
   "artifact": "etf_book_swap_freshness",
-  "generated": "2026-11-16T04:43:04",
+  "generated": "2026-11-16T05:19:38",
   "evidence_cutoff": "2026-11-13",
   "calendar_source": "data/exchange_calendar.csv",
   "close_accept_time": "15:30",
@@ -1799,15 +1814,15 @@
    "vol": 0.0887
   },
   "width_effect": {
-   "vol": {
-    "ticket_width_cagr": 0.1178,
-    "card_width_cagr": 0.1227,
-    "pp": 0.49
-   },
    "beta": {
     "ticket_width_cagr": 0.1103,
     "card_width_cagr": 0.0964,
     "pp": -1.39
+   },
+   "vol": {
+    "ticket_width_cagr": 0.1178,
+    "card_width_cagr": 0.1227,
+    "pp": 0.49
    }
   },
   "rules_differ": true,

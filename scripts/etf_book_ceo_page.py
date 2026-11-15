@@ -3472,6 +3472,11 @@ def entry_gate_face(path=ENTRY_GATE_JSON):
                           "sharpe": r.get("sharpe"),
                           "maxdd": r.get("maxdd"),
                           "median_names": r.get("median"),
+                          # r1753: the same row already carries the thin day. A reader who
+                          # only hears the median cannot tell how close the pool ever came
+                          # to starving the book's own seat count.
+                          "min_names": r.get("min"),
+                          "max_names": r.get("max"),
                           "turnover": r.get("turnover_per_decision"),
                           "delta_pp": (stored.get("deltas_pp") or {}).get(
                               str(int(r.get("min_amt_cny") or 0)))})
@@ -3480,6 +3485,14 @@ def entry_gate_face(path=ENTRY_GATE_JSON):
                     "detail": "fewer than three gates could be priced"}
         widths = [g["median_names"] for g in gates if g["median_names"] is not None]
         widest, narrowest = (max(widths), min(widths)) if widths else (None, None)
+        # r1753: the width axis is what the ticket's seat count is actually measured
+        # against. Carry the shipped rung's own thin day, plus the thinnest day any rung
+        # ever saw, so "how many names could this book hold" is a read, not a re-derivation.
+        _shipped = next((g for g in gates
+                         if (doc.get("rule") or {}).get("shipped_cny") is not None
+                         and float(g.get("gate_cny") or 0.0)
+                         == float((doc.get("rule") or {}).get("shipped_cny"))), None)
+        _thin = [g["min_names"] for g in gates if g.get("min_names") is not None]
         near = stored.get("near_deltas_pp") or []
         return {"status": "ok", "artifact": _rel(path, ROOT),
                 "evidence_cutoff": doc.get("evidence_cutoff"),
@@ -3494,6 +3507,9 @@ def entry_gate_face(path=ENTRY_GATE_JSON):
                 "widest_names": widest, "narrowest_names": narrowest,
                 "width_ratio": (float(widest) / float(narrowest)
                                 if widest and narrowest else None),
+                "shipped_median_names": (_shipped or {}).get("median_names"),
+                "shipped_min_names": (_shipped or {}).get("min_names"),
+                "thinnest_day_names": (min(_thin) if _thin else None),
                 "universe_measured": cfg.get("universe_measured"),
                 "universe_published": cfg.get("universe_published"),
                 "control": control}
@@ -3501,7 +3517,41 @@ def entry_gate_face(path=ENTRY_GATE_JSON):
         return {"status": "unreadable", "artifact": _rel(path, ROOT), "detail": repr(exc)}
 
 
-def entry_gate_block(eg):
+def entry_gate_seats_md(eg, seats):
+    """r1753: 「这道闸够这本书装几只」——把宽度那一轴换算成位置数。
+
+    宽度那句话说的是「池子里有几只可挑」，读者要的是「我这本 5 个位置够不够装」。
+    两个数都在同一张面上（shipped 那一档的中位数与它自己最薄的一天），这里只做换算，
+    不重算任何一只票；缺最薄日就只按中位说，并明写按中位算的倍数只会偏高（E664 族）。
+    """
+    if not seats:
+        return []
+    eg = eg or {}
+    med = eg.get("shipped_median_names")
+    thin = eg.get("shipped_min_names")
+    try:
+        n_seats = int(seats)
+    except (TypeError, ValueError):
+        return []
+    if med is None and thin is None:
+        return ["- **换成你能装几只（r1753）**：这张面上没有可选名数的分布，所以「%d 个位置够不够装」"
+                "这一问答不了——中位数不是最薄的那天，本页不拿它顶替。" % n_seats]
+    gate_m = (float(eg.get("shipped_cny") or 0.0)) / 1e6
+    if thin is not None and int(thin) > 0:
+        thin = int(thin)
+        return ["- **换成你能装几只（r1753）**：这本书现在开 **%d 个位置**，而 %gM 这一档历史上"
+                "中位 **%d 只**可挑、**最薄的一天也还有 %d 只**——最薄那天是这本书位置的 **%.1f 倍**。"
+                "所以这一档本身不决定你装几只：它开始限制你的时候，是池子先薄到 %d 只以下"
+                "（或者这本书开到 %d 个位置以上）。"
+                % (n_seats, gate_m, int(med or 0), thin,
+                   float(thin) / float(n_seats), n_seats, thin)]
+    return ["- **换成你能装几只（r1753）**：这本书现在开 **%d 个位置**，而 %gM 这一档历史上"
+            "中位 **%d 只**可挑（%.1f 倍）。**最薄那天的数这张面没有**，所以只说中位——"
+            "按最薄日算只会比这个倍数更低，不会更高。"
+            % (n_seats, gate_m, int(med or 0), float(med or 0) / float(n_seats))]
+
+
+def entry_gate_block(eg, seats=None):
     L = []
     if eg.get("status") != "ok":
         L.append("## 这本书的票池是被一个数选出来的，那个数是从哪来的？")
@@ -3549,6 +3599,10 @@ def entry_gate_block(eg):
                  "想要更宽的书，代价不是收益，是单笔更小、其中一部分名字的成交额更薄。"
                  % (int(eg.get("widest_names") or 0), int(eg.get("narrowest_names") or 0),
                     float(ratio)))
+        L.append("")
+    _seats = entry_gate_seats_md(eg, seats)
+    if _seats:
+        L += _seats
         L.append("")
     L.append("> 跨窗口面：`%s` ｜ 证据截止 %s（面板末根 bar %s）｜ 控制闸：%gM 这一档先复现"
              "卡片已发表的「可交易臂」年化（差 %.3f pp，容差 %.2f pp）才引用任何一行；"
@@ -9472,7 +9526,7 @@ def render_md(p, sb=None):
         add(_ul_line)
     # r1247: the universe is picked by one number (a liquidity cut). Say where that number
     # came from, and say that what sits on it is the book's capacity, not its return.
-    for _eg_line in entry_gate_block(p.get("entry_gate") or {}):
+    for _eg_line in entry_gate_block(p.get("entry_gate") or {}, seats=p.get("n_hold")):
         add(_eg_line)
     # r1251: the panel is a bar behind for a few hours every evening. Say what the book is
     # worth today, and say it only when the quote's own rows still reproduce it.
@@ -11477,11 +11531,12 @@ def selftest():
     _eg_dir = tempfile.mkdtemp()
     _eg_gates = [5e6, 10e6, 20e6, 50e6, 100e6, 200e6]
     _eg_medians = [460, 370, 262, 150, 94, 56]
+    _eg_thins = [71, 61, 51, 32, 21, 16]
     _eg_cagrs = [8.50, 8.50, 8.40, 7.90, 8.50, 5.50]
     _eg_rows = [{"min_amt_cny": g, "min_amt_m": round(g / 1e6, 1), "cagr": c / 100.0,
-                 "sharpe": 0.9, "maxdd": -0.16, "median": m,
+                 "sharpe": 0.9, "maxdd": -0.16, "median": m, "min": t, "max": m + 200,
                  "turnover_per_decision": 0.95}
-                for g, c, m in zip(_eg_gates, _eg_cagrs, _eg_medians)]
+                for g, c, m, t in zip(_eg_gates, _eg_cagrs, _eg_medians, _eg_thins)]
     _eg_doc = {"evidence_cutoff": "2026-10-30", "panel_last_bar": "2026-10-30",
                "rule": {"shipped_cny": 20e6, "tol_pp": 1.0},
                "config": {"universe_delta_names": 0, "universe_measured": 1504,
@@ -11536,6 +11591,41 @@ def selftest():
          and "答不了" in _eg_absent and "容量来源" not in _eg_absent),
         "width_sentence=%s return_sentence=%s absent_says_unmeasured=%s"
         % ("容量来源" in _eg_lines, "±0.50 pp" in _eg_lines, "答不了" in _eg_absent))
+    # L140b-e (r1753): the width axis is a statement about the pool, not about this book's
+    # seat count. The reader's question is "do my 5 seats still get filled" -- answer it
+    # from the same face (shipped rung's median and its own thin day), and never let the
+    # median stand in for the thin day.
+    _eg_seats = "\n".join(entry_gate_block(_eg_ok, seats=5))
+    chk("L140b entry gate: with a seat count the block converts width into seats using the "
+        "SHIPPED rung's thin day (51/5), not its median (262/5)",
+        "5 个位置" in _eg_seats and "51" in _eg_seats and "10.2 倍" in _eg_seats
+        and "52.4" not in _eg_seats,
+        "seats=%s thin=%s median_multiple_leaked=%s"
+        % ("5 个位置" in _eg_seats, "10.2 倍" in _eg_seats, "52.4" in _eg_seats))
+    _eg_no_thin = dict(_eg_ok)
+    _eg_no_thin["shipped_min_names"] = None
+    _eg_no_thin["thinnest_day_names"] = None
+    _eg_no_thin_lines = "\n".join(entry_gate_block(_eg_no_thin, seats=5))
+    chk("L140c entry gate: without a thin day the block says so and prints only the median "
+        "multiple -- it never names a thin day it does not have",
+        "最薄那天的数这张面没有" in _eg_no_thin_lines
+        and "52.4 倍" in _eg_no_thin_lines and "10.2 倍" not in _eg_no_thin_lines,
+        "honest=%s median_only=%s"
+        % ("最薄那天的数这张面没有" in _eg_no_thin_lines, "52.4 倍" in _eg_no_thin_lines))
+    _eg_empty = dict(_eg_ok)
+    _eg_empty["shipped_median_names"] = None
+    _eg_empty["shipped_min_names"] = None
+    _eg_empty_lines = "\n".join(entry_gate_block(_eg_empty, seats=5))
+    chk("L140d entry gate: no distribution at all is an unanswerable question, not a "
+        "quiet omission and not a borrowed number",
+        "这一问答不了" in _eg_empty_lines
+        and "倍" not in _eg_empty_lines.split("这一问答不了")[1],
+        _eg_empty_lines[:120])
+    chk("L140e entry gate: a page with no ticket seat count prints no seat sentence at all",
+        "换成你能装几只" in _eg_seats
+        and "换成你能装几只" not in "\n".join(entry_gate_block(_eg_ok)),
+        "with=%s without=%s" % ("换成你能装几只" in _eg_seats,
+                                "换成你能装几只" in "\n".join(entry_gate_block(_eg_ok))))
     # r1251: the evening quote face -- what the book is worth while the panel lags one bar.
     # The arithmetic here is downstream of etf_book_live_quote.recheck (never a second copy).
     _ql_dir = tempfile.mkdtemp()
