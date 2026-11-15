@@ -37,6 +37,9 @@ CARD = os.path.join(ROOT, "results", "etf_book_production", "latest.json")
 LEDGER = os.path.join(ROOT, "results", "etf_book_forward", "LEDGER.json")
 CAL = os.path.join(ROOT, "data", "exchange_calendar.csv")
 REGIME_PATH = os.path.join(ROOT, "results", "etf_book_return_regime.json")
+# r1717: the vol target parks a third of the book in cash and the engine prices that cash
+# at 0%/yr, while the desk already prices the same money at 1.77%. One book, two calibers.
+IDLE_CASH_JSON = os.path.join(ROOT, "results", "etf_book_idle_cash.json")
 BETS_JSON = os.path.join(ROOT, "results", "etf_book_bets_face.json")
 LEGS_JSON = os.path.join(ROOT, "results", "etf_book_legs", "latest.json")
 CONC_JSON = os.path.join(ROOT, "results", "etf_book_concentration.json")
@@ -243,6 +246,122 @@ def carry_regime(path=REGIME_PATH):
                    if cells else None),
         "evidence_cutoff": obj.get("evidence_cutoff"),
     })
+    return out
+
+
+def idle_cash_face(path=IDLE_CASH_JSON):
+    """The engine parks cash at 0%/yr; the desk prices the same money at 1.77%. (r1717)
+
+    Reads results/etf_book_idle_cash.json and copies every number off it -- the composition
+    control (C0) lives in the producer, so this reader never rebuilds a curve. A missing or
+    partial face reads as absent, never as "the cash earns nothing".
+    """
+    out = {"status": "absent", "readable": False,
+           "source": _rel(path, ROOT).replace("\\", "/")}
+    if not os.path.exists(path):
+        return out
+    try:
+        obj = _load(path) or {}
+    except (OSError, ValueError) as exc:
+        out.update({"status": "unreadable", "why": str(exc)[:120]})
+        return out
+
+    r = obj.get("readings") or {}
+
+    def _f(k):
+        v = r.get(k)
+        return float(v) if isinstance(v, (int, float)) and not isinstance(v, bool) else None
+
+    if _f("cagr_without_pct") is None or _f("cagr_with_pct") is None:
+        out.update({"status": "unreadable",
+                    "why": "the face carries no paid/unpaid headline pair"})
+        return out
+    v = obj.get("verdict")
+    out.update({
+        "status": "ok", "readable": True,
+        "evidence_cutoff": obj.get("evidence_cutoff"),
+        "verdict": v if isinstance(v, str) else (v or {}).get("verdict"),
+        "cagr_without_pct": _f("cagr_without_pct"), "cagr_with_pct": _f("cagr_with_pct"),
+        "gain_pp": _f("cagr_gain_pp"),
+        "sharpe_without": _f("sharpe_without"), "sharpe_with": _f("sharpe_with"),
+        "maxdd_without_pct": _f("maxdd_without_pct"), "maxdd_with_pct": _f("maxdd_with_pct"),
+        "idle_share_mean": _f("idle_share_mean"),
+        "cny_per_year_on_1m": _f("cny_per_year_on_1m"),
+        "vehicle_net_pct": _f("cash_vehicle_net_pct_on_window"),
+        "vehicle_published_pct": _f("cash_vehicle_published_pct"),
+        "vehicle_gap_bp": _f("cash_vehicle_gap_bp"),
+        "control_max_rel_err": _f("control_max_rel_err"),
+        "bars_with_cash": r.get("bars_with_cash"), "bars": r.get("bars"),
+        "gates": obj.get("gates") or {},
+        "criteria": obj.get("criteria_frozen") or {},
+    })
+    return out
+
+
+def idle_cash_block(ic, page_bar=None):
+    """What the book is worth once the cash it parks is paid at the published rate.
+
+    The two headlines and the gate readouts come off the face row. The sentence about
+    whether the change is big enough is derived from the gain against the frozen C2 line,
+    so a face that gains 0.1pp cannot print the same sentence as one that gains 0.58pp.
+    """
+    out = ["", "### 坐在现金上的那一截，是不是真的不生息？"]
+    if not ic.get("readable"):
+        out.append("闲置现金面（etf_book_idle_cash）读不出来（%s），无法核验——"
+                   "这既不证明现金有息，也不证明它没有。" % (ic.get("why") or "no reason given"))
+        out.append("")
+        return out
+    without, with_, gain = ic["cagr_without_pct"], ic.get("cagr_with_pct"), ic.get("gain_pp")
+    share = ic.get("idle_share_mean")
+    sh0, sh1 = ic.get("sharpe_without"), ic.get("sharpe_with")
+    dd0, dd1 = ic.get("maxdd_without_pct"), ic.get("maxdd_with_pct")
+    out.append("- 这本书按波动目标降杠杆后，有一截钱是**躺在现金里**的（平均 %.0f%% 的仓位，"
+               "%s 根 bar 里 %s 根带现金）。引擎给这笔钱记 **0%%** 息：头条 **%.2f%%/年**。"
+               % ((share or 0.0) * 100,
+                  ic.get("bars") if ic.get("bars") is not None else "?",
+                  ic.get("bars_with_cash") if ic.get("bars_with_cash") is not None else "?",
+                  without))
+    if with_ is not None:
+        out.append("- 同一笔钱按**桌面已经发布的那个载具**（逆回购日滚）计息，头条是 **%.2f%%/年**"
+                   "（%+.2f 个百分点）；夏普 %s → %s，最大回撤 %s → %s。"
+                   % (with_, gain or 0.0,
+                      "%.3f" % sh0 if sh0 is not None else "?",
+                      "%.3f" % sh1 if sh1 is not None else "?",
+                      "%.2f%%" % dd0 if dd0 is not None else "?",
+                      "%.2f%%" % dd1 if dd1 is not None else "?"))
+    if ic.get("cny_per_year_on_1m") is not None:
+        out.append("- 摊到钱上：**100 万账户一年约 +¥%s**。" % format(ic["cny_per_year_on_1m"], ",.0f"))
+    # The gate that keeps this from being a composition exercise: with the cash rate forced
+    # to zero the composed curve must equal the engine's own. Printed, because a reader who
+    # cannot see it has no way to tell "the cash earned" from "the splice moved the number".
+    if ic.get("control_max_rel_err") is not None:
+        out.append("- **这不是把两张面拼起来再讲故事**：把利率强制归零后，合成曲线与引擎自己的曲线"
+                   "逐点相等（最大相对误差 %.1e）；现金载具也是在**它自己的已发布窗口**上被复现的"
+                   "（%.4f%% vs 发布值 %.4f%%，差 %.2fbp，容差 0.5bp）。"
+                   % (ic["control_max_rel_err"],
+                      ic.get("vehicle_net_pct") or 0.0,
+                      ic.get("vehicle_published_pct") or 0.0,
+                      ic.get("vehicle_gap_bp") or 0.0))
+    else:
+        out.append("- 这张面没有报告合成控制腿，所以「多出来的这 %.2fpp 是利息不是拼接」在本页无法核验。"
+                   % (gain or 0.0))
+    thr = (ic.get("criteria") or {}).get("C2_cagr_gain_pp")
+    v = ic.get("verdict") or "?"
+    if thr is not None and gain is not None:
+        if gain >= float(thr):
+            out.append("- 判词 **%s**：增益 %.2fpp 过得了预先冻结的 %.1fpp 线——**这笔钱该按有息算，"
+                       "页上那张头条是少算的**。" % (v, gain, float(thr)))
+        else:
+            out.append("- 判词 **%s**：增益只有 %.2fpp，够不着预先冻结的 %.1fpp 线——"
+                       "**即便按有息算，这件事也改不了这本账的结论**。"
+                       % (v, gain, float(thr)))
+    else:
+        out.append("- 判词 **%s**（冻结门槛没读出来，本页不替它下结论）。" % v)
+    gates = ic.get("gates") or {}
+    failed = [k for k, ok in gates.items() if ok is False]
+    if failed:
+        out.append("- 没过的闸：%s。" % "、".join(failed))
+    out.append("")
     return out
 
 
@@ -7273,6 +7392,9 @@ def build(with_stress=False, window_label=None):
     page["priced_faces"] = priced_faces(page["priced_bar"])
     page["cash_handshake"] = cash_handshake(cash_amt, page["cash_ladder"], today=today)
     page["carry_regime"] = carry_regime()
+    # r1717: the carry section prices the cash the book lends out; this one prices the cash
+    # the book parks. Two calibers of the same sleeve, and they had never been reconciled.
+    page["idle_cash"] = idle_cash_face()
     page["leg_split"] = leg_split()
     page["concentration"] = concentration_face()
     page["sleeve_gate"] = sleeve_gate_face()
@@ -8257,6 +8379,11 @@ def render_md(p, sb=None):
         add("")
         add("> 口径来源：`%s`（现金流按「前一根 bar 的报价 x 日历天数 / 365」计息，三种情形用同一约定；"
             "缺口日不计息并计数，不补默认值）。" % cr.get("source"))
+    # r1717: the section above prices the cash the book lends out; this one prices the cash
+    # it parks at 0%. Same sleeve, two calibers -- and until now only one of them was on the
+    # page, so the headline read as if idle money earned nothing.
+    for _ic_line in idle_cash_block(p.get("idle_cash") or {}, page_bar=p.get("priced_bar")):
+        add(_ic_line)
     add("")
     ls = p.get("leg_split") or {}
     add("## 这笔钱是「一天里的哪一段」挣的")
@@ -12737,6 +12864,36 @@ def selftest():
         "无法核验" in "\n".join(futures_hedge_tail_block(
             {"readable": True, "cuts_pct": -0.01, "tail_n": 235}))
         and "无法核验" in "\n".join(futures_hedge_tail_block({"readable": False})))
+
+    # r1717: the idle-cash face. Every number in the block must come off the row, the
+    # sentence about "big enough" must follow the gain against the frozen line, and a paid
+    # headline that loses Sharpe must say so rather than inheriting the ADMIT wording.
+    _ic_fx = {"readable": True, "verdict": "ADMIT", "cagr_without_pct": 11.55,
+              "cagr_with_pct": 12.13, "gain_pp": 0.58, "sharpe_without": 1.137,
+              "sharpe_with": 1.188, "maxdd_without_pct": -10.56, "maxdd_with_pct": -10.47,
+              "idle_share_mean": 0.3032, "cny_per_year_on_1m": 5800.0,
+              "vehicle_net_pct": 1.7731, "vehicle_published_pct": 1.7689,
+              "vehicle_gap_bp": 0.4449, "control_max_rel_err": 1.9e-15,
+              "bars": 1662, "bars_with_cash": 1402,
+              "criteria": {"C2_cagr_gain_pp": 0.3}, "gates": {"C0_control": True}}
+    _ic_md = "\n".join(idle_cash_block(_ic_fx))
+    chk("L300 idle cash: both headlines, the gain, idle share and the per-million yuan all come off the row",
+        "11.55%/年" in _ic_md and "12.13%/年" in _ic_md and "+0.58 个百分点" in _ic_md
+        and "30%" in _ic_md and "¥5,800" in _ic_md and "1.9e-15" in _ic_md, _ic_md[:1600])
+    _ic_small = json.loads(json.dumps(_ic_fx))
+    _ic_small.update({"cagr_with_pct": 11.70, "gain_pp": 0.15, "verdict": "REJECT"})
+    _ic_small_md = "\n".join(idle_cash_block(_ic_small))
+    chk("L301 idle cash: a gain under the frozen line flips the sentence to 'changes nothing'",
+        "够不着" in _ic_small_md and "该按有息算" not in _ic_small_md, _ic_small_md[:1600])
+    _ic_worse = json.loads(json.dumps(_ic_fx))
+    _ic_worse.update({"sharpe_with": 1.090, "gates": {"C3_sharpe_must_not_fall": False}})
+    _ic_worse_md = "\n".join(idle_cash_block(_ic_worse))
+    chk("L302 idle cash: a paid headline that costs Sharpe prints the fall and names the failed gate",
+        "1.137 → 1.090" in _ic_worse_md and "C3_sharpe_must_not_fall" in _ic_worse_md,
+        _ic_worse_md[:1600])
+    chk("L303 idle cash: an unreadable face says cannot-check and prints no headline",
+        "无法核验" in "\n".join(idle_cash_block({"readable": False, "why": "no file"}))
+        and "12.13" not in "\n".join(idle_cash_block({"readable": False})))
 
     print("\nSummary: %d/%d PASS%s" % (ok, total, "" if ok == total else " -- %d FAIL" % (total - ok)))
     return 0 if ok == total else 1
