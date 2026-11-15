@@ -38,6 +38,7 @@ no thresholds about whether a stale member matters (that is
 from __future__ import annotations
 
 import importlib
+import io
 import json
 import os
 import sys
@@ -93,6 +94,9 @@ ROSTERS = [
         "module": "update_astock_daily", "kind": "universe_codes",
         "dir": "data/astock_daily/per", "pattern": ".csv",
         "scope": "closed",
+        # the lane's own per-symbol attempts log: it is the only writer that
+        # knows whether an absent member is queued or already quarantined
+        "progress": "data/astock_daily/_progress.json",
         "roster_source": "update_astock_daily.universe_codes() over "
                         "data/fundamental/eligibility.csv (lane's own "
                         "market_of() skip rule applied)",
@@ -237,6 +241,50 @@ def judge(spec, declared, frozen, note, disk, disk_note):
     return row
 
 
+def missing_disposition(spec, missing, root=ROOT):
+    """Split "roster member with no panel file" by who can fix it.
+
+    A bare list of missing members is the half-red-flag trap (E318): a symbol
+    quarantined after three failed refreshes will never come back on its own,
+    while a queued symbol arrives at the next refresh -- the two need opposite
+    actions. The lane's own attempts log is the only writer of that fact, so
+    read it plus the lane's own quarantine threshold (no second implementation).
+
+    Returns (disposition|None, note). None means "cannot say", never "fine".
+    """
+    path = spec.get("progress")
+    if not path:
+        return None, "this lane publishes no per-member attempts log"
+    full = os.path.join(root, *path.split("/"))
+    if not os.path.isfile(full):
+        return None, f"attempts log absent ({path})"
+    try:
+        with io.open(full, "r", encoding="utf-8-sig") as f:
+            prog = json.load(f)
+    except Exception as exc:              # noqa: BLE001 - reported, not swallowed
+        return None, f"attempts log unreadable ({type(exc).__name__}: {exc})"
+    attempts = prog.get("attempts")
+    if not isinstance(attempts, dict):
+        return None, "attempts log carries no attempts map"
+    try:
+        threshold = int(getattr(_load_module(spec["module"]), "QUARANTINE_AT", 0))
+    except Exception:                     # noqa: BLE001
+        threshold = 0
+    if threshold <= 0:
+        return None, "the lane's quarantine threshold is unreadable"
+    quarantined, pending, unexplained = [], [], []
+    for code in sorted(missing):
+        n = attempts.get(str(code))
+        if not isinstance(n, int):
+            unexplained.append(code)
+        elif n >= threshold:
+            quarantined.append(code)
+        else:
+            pending.append(code)
+    return ({"threshold": threshold, "quarantined": quarantined,
+             "pending": pending, "unexplained": unexplained}, "")
+
+
 def build(root=ROOT, specs=None):
     rows = []
     for spec in (specs if specs is not None else ROSTERS):
@@ -244,6 +292,11 @@ def build(root=ROOT, specs=None):
         disk, disk_note = scan_disk(spec, root=root)
         row = judge(spec, declared, frozen, note, disk, disk_note)
         row.update(extra or {})
+        if row.get("declared_not_on_disk"):
+            disp, disp_note = missing_disposition(
+                spec, row["declared_not_on_disk"], root=root)
+            row["missing_disposition"] = disp
+            row["missing_disposition_note"] = disp_note or None
         rows.append(row)
     counts = {}
     for r in rows:
@@ -318,6 +371,20 @@ def render_md(rep):
             out.append("- 盘面有、名单没有：不适用（共享宇宙目录）")
         if r["declared_not_on_disk"]:
             out.append(f"- **名单有、盘面没有**：{', '.join(r['declared_not_on_disk'][:20])}")
+            disp = r.get("missing_disposition")
+            if disp:
+                if disp["quarantined"]:
+                    out.append(f"  - 已被车道隔离（连续 {disp['threshold']} 次拉取失败＝"
+                               f"不会自己回来）：{', '.join(disp['quarantined'])}")
+                if disp["pending"]:
+                    out.append(f"  - 待拉（下次刷新会回来）：{', '.join(disp['pending'])}")
+                if disp["unexplained"]:
+                    out.append(f"  - 车道记录里查不到（既没拉过也没隔离）："
+                               f"{', '.join(disp['unexplained'])}")
+                elif not (disp["quarantined"] or disp["pending"]):
+                    out.append("  - 车道记录里没有任何一只的条目")
+            else:
+                out.append(f"  - 无法分辨待拉还是隔离：{r['missing_disposition_note']}")
         if r["declared_frozen"]:
             out.append(f"- 已声明冻结（在盘但不采）：{', '.join(r['declared_frozen'])}")
         out.append(f"- 判词：{r['why']}")
@@ -374,7 +441,49 @@ def selftest():
     ok(rep["all_closed_rosters_match"] in (True, False), "L9 build runs")
     ok(isinstance(rep["verdict_counts"], dict), "L9 counts present")
 
-    total = 11
+    # --- E318 class: an absent member is queued or quarantined, and those two
+    # need opposite actions. The split must come from the lane's own log.
+    import tempfile
+    with tempfile.TemporaryDirectory() as td:
+        os.makedirs(os.path.join(td, "data", "x"), exist_ok=True)
+        with io.open(os.path.join(td, "data", "x", "_progress.json"), "w",
+                     encoding="utf-8") as f:
+            json.dump({"attempts": {"A": 3, "B": 1}}, f)
+        spec = dict(closed, progress="data/x/_progress.json",
+                    module="lane_roster_disk_audit", kind=None)
+        # threshold is read off the lane module; this module has none -> the
+        # disposition must refuse to answer rather than invent one
+        disp, note = missing_disposition(spec, ["A", "B"], root=td)
+        ok(disp is None and "threshold" in (note or ""),
+           "L10 no lane threshold -> cannot say, never 'fine'")
+
+        class _Threshold:            # stand-in module exposing the lane constant
+            QUARANTINE_AT = 3
+        sys.modules["_lane_threshold_fixture"] = _Threshold
+        spec["module"] = "_lane_threshold_fixture"
+        disp, note = missing_disposition(spec, ["A", "B", "Z"], root=td)
+        ok(disp["quarantined"] == ["A"], "L11 quarantined member is named")
+        ok(disp["pending"] == ["B"], "L11 queued member is a different class")
+        ok(disp["unexplained"] == ["Z"], "L11 a member with no log entry is not assumed")
+        ok(note == "", "L11 readable log carries no note")
+
+    with tempfile.TemporaryDirectory() as td:
+        spec = dict(closed, progress="data/x/_progress.json", module="lane_roster_disk_audit")
+        disp, note = missing_disposition(spec, ["A"], root=td)
+        ok(disp is None and "absent" in note, "L12 missing log is not an empty log")
+        os.makedirs(os.path.join(td, "data", "x"), exist_ok=True)
+        with io.open(os.path.join(td, "data", "x", "_progress.json"), "w",
+                     encoding="utf-8") as f:
+            f.write("{not json")
+        disp, note = missing_disposition(spec, ["A"], root=td)
+        ok(disp is None and "unreadable" in note, "L12 corrupt log says so")
+
+        spec_no = dict(closed)
+        spec_no.pop("progress", None)
+        disp, note = missing_disposition(spec_no, ["A"], root=td)
+        ok(disp is None, "L13 a lane with no log is never judged fine")
+
+    total = 21
     if fails:
         for f in fails:
             print("[FAIL]", f)

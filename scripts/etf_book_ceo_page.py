@@ -6916,6 +6916,10 @@ def roster_audit_face():
             "verdict": r.get("verdict"),
             "on_disk_not_declared": list(r.get("on_disk_not_declared") or []),
             "declared_not_on_disk": list(r.get("declared_not_on_disk") or []),
+            # r1727: "absent" is two different states -- quarantined after N failed
+            # refreshes (never comes back on its own) vs queued (arrives next pull)
+            "missing_disposition": r.get("missing_disposition"),
+            "missing_disposition_note": r.get("missing_disposition_note"),
             "declared_n": r.get("declared_n"),
             "disk_n": r.get("disk_n"),
         } for r in bad],
@@ -6952,6 +6956,26 @@ def roster_audit_block(ra):
             out.append("- **%s**：名单上有 %d 个成员盘上没有文件（%s%s）——车道说要拉、实际没落盘。"
                        % (d.get("lane"), len(missing),
                           "、".join(missing[:8]), "…" if len(missing) > 8 else ""))
+            disp = d.get("missing_disposition") or {}
+            if disp:
+                q = disp.get("quarantined") or []
+                p = disp.get("pending") or []
+                u = disp.get("unexplained") or []
+                if q:
+                    out.append("  - 其中 %d 只**不是「还没拉」，是拉过 %s 次都失败被车道隔离了**：%s"
+                               "——它们不会自己回来，要么解隔离、要么从名单里退役。"
+                               % (len(q), disp.get("threshold"), "、".join(q[:8])))
+                if p:
+                    out.append("  - 另有 %d 只排在待拉队列（下次刷新会回来）：%s。"
+                               % (len(p), "、".join(p[:8])))
+                if u:
+                    out.append("  - 还有 %d 只（%s）在车道自己的记录里查不到——既没拉过也没隔离，"
+                               "这一条要人去车道看。" % (len(u), "、".join(u[:8])))
+            else:
+                out.append("  - 这 %d 只**是「待拉」还是「已被隔离」无法分辨**（%s），"
+                           "不能据此判断它们还会不会回来。"
+                           % (len(missing),
+                              d.get("missing_disposition_note") or "车道没有逐成员记录"))
     unread = ra.get("unreadable_lanes") or []
     if unread:
         out.append("- 另有 %d 条车道名单或面板读不出来（%s），**不能读成干净**。"
@@ -13455,6 +13479,33 @@ def selftest():
     _ra_gone = "\n".join(roster_audit_block({"readable": False, "why": "no file"}))
     chk("L320 roster audit: an unreadable face says cannot-check and names no lane",
         "无法核验" in _ra_gone and "astock_daily" not in _ra_gone, _ra_gone[:800])
+
+    # L321-L322 (r1727): "absent member" is two states with opposite fixes -- quarantined
+    # after N failed pulls (never returns on its own) vs queued (arrives next pull). The page
+    # must say which one it is, and must not invent one when the lane keeps no log.
+    _ra_q = {"readable": True, "lanes": 6, "matched": 5, "not_applicable": 1,
+             "unreadable_lanes": [],
+             "defects": [{"lane": "astock_daily", "verdict": "DECLARED_BUT_ABSENT",
+                          "on_disk_not_declared": [], "declared_not_on_disk":
+                          ["001235", "001381"], "declared_n": 5226, "disk_n": 5221,
+                          "missing_disposition": {"threshold": 3,
+                                                  "quarantined": ["001235", "001381"],
+                                                  "pending": [], "unexplained": []}}]}
+    _ra_q_md = "\n".join(roster_audit_block(_ra_q))
+    chk("L321 roster audit: a quarantined member is named as 'not queued, will not come back'",
+        "不是「还没拉」" in _ra_q_md and "3 次" in _ra_q_md and "001235" in _ra_q_md
+        and "退役" in _ra_q_md, _ra_q_md[:1600])
+    _ra_noq = {"readable": True, "lanes": 6, "matched": 5, "not_applicable": 1,
+               "unreadable_lanes": [],
+               "defects": [{"lane": "astock_daily", "verdict": "DECLARED_BUT_ABSENT",
+                            "on_disk_not_declared": [], "declared_not_on_disk": ["001235"],
+                            "declared_n": 5226, "disk_n": 5221,
+                            "missing_disposition": None,
+                            "missing_disposition_note": "attempts log absent (data/x.json)"}]}
+    _ra_noq_md = "\n".join(roster_audit_block(_ra_noq))
+    chk("L322 roster audit: no per-member log says cannot-tell, never assumes 'queued'",
+        "无法分辨" in _ra_noq_md and "排在待拉队列" not in _ra_noq_md
+        and "attempts log absent" in _ra_noq_md, _ra_noq_md[:1600])
 
     # L306-L308 (r1720): the marks belong to a book, and it is not always the sheet's book.
     # Paired: two widths must name both numbers and the overlap; equal widths must NOT borrow

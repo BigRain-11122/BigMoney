@@ -844,6 +844,9 @@ def refresh(limit=None, repull=False):
                              "repull": bool(repull)},
             "validation": dict(val_tally),
             "quarantined_n": len(quarantine),
+            # r1727: a count cannot be acted on -- a quarantined symbol never
+            # comes back on its own, so the names are published, not just n.
+            "quarantined": sorted(quarantine),
             "settled_n": len(settled_valid),
             "settled": sorted(settled_valid),
         })

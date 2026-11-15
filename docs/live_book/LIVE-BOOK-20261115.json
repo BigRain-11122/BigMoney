@@ -1414,11 +1414,8 @@
   "defects": [
    {
     "lane": "astock_daily",
-    "verdict": "ROSTER_OMITS_DISK",
-    "on_disk_not_declared": [
-     "002731",
-     "301139"
-    ],
+    "verdict": "DECLARED_BUT_ABSENT",
+    "on_disk_not_declared": [],
     "declared_not_on_disk": [
      "001235",
      "001381",
@@ -1426,8 +1423,21 @@
      "688845",
      "689009"
     ],
+    "missing_disposition": {
+     "threshold": 3,
+     "quarantined": [
+      "001235",
+      "001381",
+      "688827",
+      "688845",
+      "689009"
+     ],
+     "pending": [],
+     "unexplained": []
+    },
+    "missing_disposition_note": null,
     "declared_n": 5226,
-    "disk_n": 5223
+    "disk_n": 5221
    }
   ]
  },
@@ -6254,8 +6264,8 @@
   "k_schedule_last": 0.460253,
   "consistency": {
    "generated": {
-    "permission": "2026-11-15T06:27:10+0800",
-    "gap": "2026-11-15T06:27:12+0800",
+    "permission": "2026-11-15T15:40:05+0800",
+    "gap": "2026-11-15T15:40:09+0800",
     "ledger": "2026-11-13T20:58:31+0800"
    },
    "permission_vs_gap": true,
@@ -7221,7 +7231,7 @@
   "inputs": {
    "cut_order_gap": {
     "cutoff": "2026-11-13",
-    "digest": "d3054717cda8c6d9"
+    "digest": "2c83eff285e0dae4"
    },
    "late_sheet_price": {
     "cutoff": "2026-11-13",
@@ -7872,20 +7882,20 @@
  "authority": {
   "writer": "bm-c",
   "owner": "bm-a",
-  "owner_silent_h": 40.3,
+  "owner_silent_h": 41.1,
   "gate_h": 6.0,
   "took_over": true,
-  "why": "bm-a has not written its own heartbeat for 40.3 h (> 6 h): this host takes the pen for the page only -- a stopped heartbeat is not a dead machine",
+  "why": "bm-a has not written its own heartbeat for 41.1 h (> 6 h): this host takes the pen for the page only -- a stopped heartbeat is not a dead machine",
   "no_bar_reason": "human_ages"
  },
  "fleet": {
-  "board_ts": "2026-11-15T14:34:59",
+  "board_ts": "2026-11-15T15:43:20",
   "verdict": "attention",
   "rows": [
    {
     "host": "bm-a",
     "last_seen": "2026-11-13T23:12:03+08:00",
-    "age_h": 39.38,
+    "age_h": 40.52,
     "alive": false,
     "lanes": [
      "futures",
@@ -7894,13 +7904,14 @@
      "repo"
     ],
     "taken_over": {
+     "futures": "bm-c",
      "repo": "bm-c"
     }
    },
    {
     "host": "bm-b",
     "last_seen": "2026-10-30T12:43:06+08:00",
-    "age_h": 385.86,
+    "age_h": 387.0,
     "alive": false,
     "lanes": [
      "marks",
@@ -7913,8 +7924,8 @@
    },
    {
     "host": "bm-c",
-    "last_seen": "2026-11-15T14:34:44+08:00",
-    "age_h": 0.0,
+    "last_seen": "2026-11-15T15:32:57+08:00",
+    "age_h": 0.17,
     "alive": true,
     "lanes": [
      "sina_mf",

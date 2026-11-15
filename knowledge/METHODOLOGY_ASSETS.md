@@ -15346,3 +15346,31 @@ unplanned_csvs 三字段）。
 工具面：scripts/futures_tsmom_signal.py（selftest 24→**25/25**，`panel_fingerprint` + L23 双向腿 +
 `panel.fingerprint` 入面）· smoke_test.py 该腿（缺指纹判红／指纹不符点名「另一张面板」）·
 scripts/idx_fut_basis.py（selftest 12→**13/13**，L12）· results/idx_fut_basis.json 重生成。
+
+
+## E651 — 「缺一个成员」有三种来源，动作三者相反（r1727 bm-c）
+
+上一轮把「车道名单上有、盘上没有」印成 5 个名字就收了。名字够了，判词还不够：同样是「没有文件」，
+停在**待拉队列**里的成员下次刷新会自己回来（等），被**隔离**的成员（连续 N 次拉取失败）永远不会回来
+（解隔离或退役），而在车道自己的记录里**查不到**的成员是第三种——那不是技术状态，是人事状态，要人去看。
+把三者印成同一句话，等于把一个动作决定压成一个沉默（E318 族：只量一半成因的旗永远红着）。
+
+正法三条：
+
+1. **读车道自己的账，不抄它的规则。** 判定所需的两个输入都在车道手里：`data/astock_daily/_progress.json`
+   的 `attempts`（唯一写者）与车道的 `QUARANTINE_AT` 常量。审计面用具名 import 取阈值，**不抄第二份 3**；
+   阈值读不出来就返回 `None`（"说不出"），禁默认 3 或默认"待拉"。同理日志缺失 ≠ 日志为空。
+2. **第三类必须单列。** `unexplained` 与 `pending` 分开印：把「记录里没有」并进「待拉」会让读者对一只
+   永远不会被拉的符号抱有期待，而这正是本轮实测的情形——5 只缺口全部是 `quarantined`，**没有一只在排队**。
+3. **`on_disk_not_declared` 的处置是动作，不是断言。** 两只残件（002731、301139）实测已不在
+   `eligibility.csv` 的宇宙里；经 `treasure_guard prescan` 零命中后按 TREASURE_PROTECTION_LAW §2 移入
+   `results/_quarantine/`（manifest 记 sha256/字节/理由/轮号，7 天观察窗），审计面该车道随即从
+   `ROSTER_OMITS_DISK` 转为 `DECLARED_BUT_ABSENT` ——「盘面有、名单没有」这一半被清空。
+4. **计数必须配名字。** `update_astock_daily` 的 status 原本只有 `quarantined_n`；本轮加上 `quarantined`
+   名字列表（r1159 族：读者围观不了 11）。计数用于体检，名字用于行动。
+
+自检腿：名单审计面 11→**21/21**（L10 无阈值常量不许猜／L11 三分类各归位／L12 日志缺失与损坏各说各话／
+L13 没有日志的车道永不算干净）；CEO 页 397→**399/399**（L321 隔离成员必须印「不是还没拉」+次数+退役／
+L322 无逐成员记录时印「无法分辨」且禁出现「排在待拉队列」）。
+工具面：scripts/lane_roster_disk_audit.py（`missing_disposition`）· scripts/update_astock_daily.py
+（`quarantined` 名字列表）· scripts/etf_book_ceo_page.py（roster_audit_block）。
