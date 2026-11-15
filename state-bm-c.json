@@ -1326,6 +1326,9 @@
   "round_t1712_note": "PRODUCT. r1711's pointer (a) said the same double-ruler question was still unanswered on the risk face. It was: results/idx_fut_carry_risk.json printed one carry per product with no indication that the same window prices 2.88% (threshold ruler) or 9.79% (calendar ruler) for IC -- and the risk face does not use either ruler, it switches at every max-open-interest change. New roll_caliber() reads results/idx_fut_roll_gap.json (one implementation, no second estimator) and caliber_block() prints three columns side by side plus the spread; the CEO book page (docs/live_book, line 91) now carries one line naming the widest band (6.91pp, IC), both readings, the 105 missed roll days and the rule that a single figure inside the band is a caliber choice, not a measurement. selftest C1-C8 are paired: wide spread must say 'choice', narrow spread must say 'does not move the reading', a moved ruler must move the block, an unreadable face must say unknown, and a missing side prints '?' instead of borrowing the other.",
   "round_t1714_next": "(a) the tail beta 0.61 at IH<=-2% is the only reason hedging is interesting and it rests on 52 days -- if anything needs a confidence interval here, it is that; (b) the same coarse-unit test has not been run on the book's other legs (is one lot of anything representable at 1M?); (c) watchdog/loop S4U flip still needs one elevated re-register; (d) full suite needs its own window",
   "round_t1714_note": "PRODUCT. r1713 closed on 'IH is the only contract a 1M account can post margin for and the least rewarding of the four' and left the other half open: use it to hedge the book's index leg. Priced both halves. (1) The index leg is not this book's risk: beta to IH is 0.0745 (corr 0.142), so an index hedge could remove 2.0% of the book's variance -- and a correctly sized short (k=1x beta) makes the Sharpe WORSE (0.968 -> 0.948) while volatility moves -0.10pp. Tail beta is real and large (IH<=-1%: 0.318; IH<=-2%: 0.613, corr 0.75 on 52 days) but too few days to pay for the noise on the other 1,500. (2) The decisive number is the unit: one IH lot is 820,020 CNY = 11.0x the short beta asks for at 1M; the account that makes one lot equal 1x beta is 11.0M. On this account the only tradeable version is an oversized short, not a hedge -- verdict UNEXECUTABLE_AT_THIS_SIZE, derived by the face's own R2 rule (min unit <= 3x target).",
+  "round_t1715_next": "(a) the same coarse-unit test has still not been run on the book's other legs (is one lot of anything else a whole position at 1M?); (b) the -0.10pp vol reduction is real and unmonetised -- if anything converts lower vol into return here it is the vol-target sizing rule, and that is a separate adoption round; (c) the tail interval is conditioned on these 52 days, not a regime statement; (d) watchdog/loop S4U flip still needs one elevated re-register; (e) full suite needs its own window (last closed green 591/591 at 11:16:43, before this round's edits).",
+  "round_t1715_note": "PRODUCT. r1714 printed \"beta 0.613 on the 52 days IH fell >2%\" as a fact and it rests on 52 observations. Circular block bootstrap (2000 resamples, 21-bar blocks, paired, seed 20261115) over the same series and splice rule (imported from etf_book_ih_hedge): the tail beta survives -- 0.613, 90% CI [0.110, 0.833], above the average beta 0.0745 in 96% of draws (the -1% slice: 0.318, [0.019, 0.510]) -> TAIL_BETA_IS_REAL. The correctly sized short does not: Sharpe change -0.0205, CI [-0.099, +0.071] straddles zero -> HEDGE_NOT_MEASURABLE (not a loss, no measurable gain). Vol change -0.10pp, CI [-0.30pp, -0.01pp] entirely below zero: the hedge reliably shaves volatility and that does not convert. Both tags printed side by side, never averaged. Card E648. Selftest L3 caught its own first version: a constant synthetic tail has zero variance and no beta at all (None, not 3.0).",
+  "round_t1715_smoke": "not run this round (10-minute window); last closed 591/591 PASS 0 FAIL at 11:16:43 (results/_smoke_r1713.out) BEFORE this round's edits; coverage of this round = module selftest 9/9 + ceo_page page selftest 375/375",
   "rounds": 1714,
   "rounds_done": 1714,
   "rounds_note": "r1706; counters realigned to the round-report numbering (they had drifted 6 behind: r1705 shipped under rounds=1699)",
@@ -1341,6 +1344,7 @@
     "note": "--all started 20:23; the 11-13 bar is already the panel tail so most legs no-op, but the slow ones (etf_sign_cells 150.3s) mean the whole chain does not finish inside this window -- recorded as in-flight, not claimed green",
     "out": "results/_s6chain_r1679.out"
   },
+  "s6_chain_leg": "etf_book_ih_tail_ci wired behind etf_book_ih_hedge; --only rc0 15.3s",
   "s6_chain_new_legs": {
     "added": [
       "idx_fut_basis",
@@ -1351,7 +1355,7 @@
     "verified": "--only 2/2 rc0"
   },
   "s6_note": "pool_dualrun ZERO-DRIFT (744 entries, streak 51) | compute_audit FLAG pool_starvation+supply_floor (pre-existing, cause=calendar: 4 candidates judged, none ADMIT) | py_watermark py_low_board_clear | update_daily rc0 0 new rows cutoff 2026-11-13 (Sunday)",
-  "s7": "r1709 S7: loop no-op, watchdog re-registered (S4U still refused), both claws installed, attrition 4 CLEAN",
+  "s7": "loop phase ok (pin=0, PT5H=300min); watchdog re-registered (S4U flip refused again = needs one elevated pass); both claws reinstalled; attrition 4 ledgers CLEAN",
   "s7_attrition": "4 ledgers CLEAN (5 historical shrink rows healed)",
   "s7_loop": "phase ok (pin=0, PT5H=300min, zero re-register)",
   "s7_note": "loop phase ok (pin=0, PT5H=300min, none re-registered); watchdog re-registered (S4U XML flip still refused: needs one elevated pass); both claws reinstalled; attrition 4 ledgers CLEAN",
@@ -1400,7 +1404,7 @@
     "ahead_origin": 0,
     "behind_origin": 0
   },
-  "task": "r1714: the one IH lot this account can afford is 11x the short the book's beta asks for -- hedging is a unit problem before it is a return one, and a correctly sized short actually lowers the Sharpe",
+  "task": "r1715: the tail beta survives its interval (0.613, [0.110, 0.833]) but the correctly sized short Sharpe change does not ([-0.099, +0.071])",
   "total_ram_gb": 23.9,
   "ts": "2026-11-15T10:58:00+08:00",
   "unverified": [
@@ -1410,8 +1414,8 @@
     "this is arithmetic on published series, not a broker fill record"
   ],
   "update_daily": "rc0 0 new rows, cutoff 2026-11-13 (Sunday, no new bar)",
-  "updated": "2026-11-15T05:21:18",
-  "updated_at": "2026-11-15T11:36:00",
+  "updated": "2026-11-15T12:02:00",
+  "updated_at": "2026-11-15T12:02:00+08:00",
   "verdict": "ok",
   "verify": "etf_book_ih_hedge selftest 8/8 | chain --only etf_book_ih_hedge rc0 0.1s | etf_book_ceo_page selftest 371/371 (L293-L295 new) | chain --only etf_book_ceo_page rc0 39.3s | page line 113 carries the hedge block",
   "verify_chain": "results/_r1711bmc_s6_chain.only-etf_book_ceo_page.json: 1/1 rc0",
