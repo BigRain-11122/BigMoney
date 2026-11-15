@@ -6307,6 +6307,14 @@ def futures_ladder_face():
             "first_affordable_tier_cny": _num(v, "first_affordable_tier_cny"),
             "read_on_tier_cny": _num(v, "read_on_tier"),
             "net_pct_of_capital": _num(v, "net_declared_pct"),
+            # r1711: the tier yield exists under both roll masks on the capital face. The
+            # page used to print only the published one in the table and then tell the reader
+            # (two bullets later) that the published ruler books roll resets as losses -- the
+            # same page quoting the ruler it just called broken. Both travel with the row.
+            "net_pct_of_capital_by_mask": {
+                m: _num(((tier or {}).get("net_pct_of_capital_by_mask") or {}).get(m),
+                        "median_ann_pct")
+                for m in ("published", "calendar")},
             "admit": v.get("ADMIT"),
             "admit_calendar": ((((cp.get("verdict_by_mask") or {}).get("calendar") or {})
                                 .get(prod) or {}).get("ADMIT")),
@@ -6405,12 +6413,24 @@ def futures_ladder_block(fl, book_ann=None):
                and r.get("net_pct_of_capital") is not None]
     if on_tier:
         best = max(on_tier, key=lambda r: r["net_pct_of_capital"])
-        line = ("- 到了那个档它值多少：**%s** 在 %s 元档一年给这笔钱带来 **%.2f%%**（占资本口径，不是占名义）"
-                % (best["product"], format(best.get("read_on_tier_cny") or 0, ",.0f"),
-                   best["net_pct_of_capital"]))
+        bm = best.get("net_pct_of_capital_by_mask") or {}
+        marks = [(m, bm.get(m)) for m in ("published", "calendar") if bm.get(m) is not None]
+        if marks:
+            reading = "/".join("%.2f%%（%s 口径）" % (v, m) for m, v in marks)
+        else:
+            reading = "%.2f%%" % best["net_pct_of_capital"]
+        line = ("- 到了那个档它值多少：**%s** 在 %s 元档一年给这笔钱带来 **%s**（占资本口径，不是占名义）"
+                % (best["product"], format(best.get("read_on_tier_cny") or 0, ",.0f"), reading))
         if isinstance(book_ann, (int, float)):
-            line += ("；这本书自己一年 **%.2f%%**——**等到买得起，它还是低一档**，"
-                     "这一行不是「再攒点钱就行」" % book_ann)
+            # the verdict is derived from the strongest ruler on the row, never typed: a page
+            # that says "still a tier below" must stop saying it the moment a mask clears the book
+            top = max((v for _, v in marks), default=best["net_pct_of_capital"])
+            if top < book_ann:
+                line += ("；这本书自己一年 **%.2f%%**——**两把尺子都低一档，等到买得起，它还是低一档**，"
+                         "这一行不是「再攒点钱就行」" % book_ann)
+            else:
+                line += ("；这本书自己一年 **%.2f%%**——**按最高的那把尺子，它已经不低于这本书**，"
+                         "能不能加由上一节的手数边界决定，不由收益率决定" % book_ann)
         out.append(line + "。")
 
     adm = [r for r in rows if r.get("admit") is not None]
@@ -6439,7 +6459,7 @@ def futures_ladder_block(fl, book_ann=None):
                 line += ("这两个口径不是两种意见，是同一把尺子先在坏掉的那一半上量过："
                          "published 阈值只认出少数换月，剩下的换月日留在序列里，"
                          "而这些天的年化读数是 %s——把换月跳变当成某一天的亏损；"
-                         "两边都被剔除的日子读 %s/年，那才是滚动持有赚到的。"
+                         "两把尺子各自剔掉换月日之后**都保留**的日子读 %s/年，那才是滚动持有赚到的。"
                          % ("、".join("%s %s 天读 %.0f%%" %
                                       (p, format(int(d["missed_roll_days"]), ","),
                                        d["missed_roll_days_ann_pct"]) for p, d in det),
@@ -6456,19 +6476,27 @@ def futures_ladder_block(fl, book_ann=None):
         out.append(line)
 
     out.append("")
-    out.append("| 合约 | 一手名义（脱杠杆起点） | 第一个买得起的档 | 档上净收益（占这笔钱） | 一手占该档资本 | 全史最坏冲击占该档资本 | 判决（published/calendar） |")
+    out.append("| 合约 | 一手名义（脱杠杆起点） | 第一个买得起的档 | 档上净收益（占这笔钱·published/calendar） | 一手占该档资本 | 全史最坏冲击占该档资本 | 判决（published/calendar） |")
     out.append("|---|---|---|---|---|---|---|")
     for r in rows:
         _ad = r.get("admit")
         _cal = r.get("admit_calendar")
+        _bm = r.get("net_pct_of_capital_by_mask") or {}
+        _pub_v = _bm.get("published")
+        _cal_v = _bm.get("calendar")
+        if _pub_v is None and _cal_v is None:
+            _yield_cell = "?" if r.get("net_pct_of_capital") is None \
+                else "%.2f%%/年" % r["net_pct_of_capital"]
+        else:
+            _yield_cell = "%s / %s/年" % ("?" if _pub_v is None else "%.2f%%" % _pub_v,
+                                          "?" if _cal_v is None else "%.2f%%" % _cal_v)
         out.append("| %s | %s | %s | %s | %s | %s | %s / %s |"
                    % (r.get("product"),
                       "-" if r.get("one_lot_notional_cny") is None
                       else format(r["one_lot_notional_cny"], ",.0f"),
                       "-" if r.get("first_affordable_tier_cny") is None
                       else format(r["first_affordable_tier_cny"], ",.0f"),
-                      "?" if r.get("net_pct_of_capital") is None
-                      else "%.2f%%/年" % r["net_pct_of_capital"],
+                      _yield_cell,
                       "?" if r.get("notional_x_capital_on_tier") is None
                       else "%.0f%%" % (r["notional_x_capital_on_tier"] * 100),
                       "?" if r.get("stress_loss_pct_of_capital") is None
@@ -12345,6 +12373,29 @@ def selftest():
     chk("L284 account ladder: a split whose identity does not hold leaves the question open",
         "还没统一的尺子" in "\n".join(futures_ladder_block(_fl_bad, book_ann=11.647)),
         "\n".join(futures_ladder_block(_fl_bad, book_ann=11.647))[-600:])
+
+    # r1711: the capital face prices the same tier under both roll masks. The table printed
+    # only the published one while the next bullet called that ruler broken -- both must ride.
+    _fl_two = json.loads(json.dumps(_fl_dil))
+    _fl_two["rows"][0]["net_pct_of_capital_by_mask"] = {"published": 2.24, "calendar": 3.12}
+    _fl_two_md = "\n".join(futures_ladder_block(_fl_two, book_ann=11.647))
+    chk("L285 account ladder: the tier yield is printed under both roll masks off the row",
+        "2.24%（published 口径）" in _fl_two_md and "3.12%（calendar 口径）" in _fl_two_md
+        and "2.24% / 3.12%/年" in _fl_two_md, _fl_two_md[:1400])
+    # the printed conclusion follows the strongest ruler: a mask that clears the book must
+    # stop the page from calling the line a tier below
+    _fl_two["rows"][0]["net_pct_of_capital_by_mask"] = {"published": 2.24, "calendar": 12.5}
+    _fl_above_md = "\n".join(futures_ladder_block(_fl_two, book_ann=11.647))
+    chk("L286 account ladder: when a mask clears the book the 'still a tier below' line flips",
+        "低一档" not in _fl_above_md and "不低于这本书" in _fl_above_md, _fl_above_md[:1400])
+    # one absent mask is an absent reading, never a reason to borrow the other one
+    _fl_one = json.loads(json.dumps(_fl_two))
+    _fl_one["rows"][0]["net_pct_of_capital_by_mask"] = {"published": 2.24, "calendar": None}
+    _one_md = "\n".join(futures_ladder_block(_fl_one, book_ann=11.647))
+    chk("L287 account ladder: an absent mask reading prints '?', not the other mask's number",
+        "2.24% / ?/年" in _one_md and "2.24%（published 口径）" in _one_md, _one_md[:1400])
+    chk("L288 account ladder: the surviving-days sentence never calls the surviving days removed",
+        "都保留" in _fl_dil_md and "都被剔除的日子" not in _fl_dil_md, _fl_dil_md[-1200:])
 
     print("\nSummary: %d/%d PASS%s" % (ok, total, "" if ok == total else " -- %d FAIL" % (total - ok)))
     return 0 if ok == total else 1
