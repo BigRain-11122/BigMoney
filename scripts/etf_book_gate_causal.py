@@ -262,8 +262,10 @@ def run():
             "the basis is therefore a sample-level number, not a per-trade rebate",
             "the capacity check reads the newest score row that exists for each lag, so the "
             "lagged arm cannot inherit picks it could not have ranked",
-            "no carry is credited to the ledger comparison here: the ledger's own face "
-            "prices the sleeve and this one only re-adjudicates the equity book's gate",
+            "both sides of the ledger comparison carry ladder3 carry, but not the same idle "
+            "convention: the ledger prices the bar's opening cash balance, this face prices the "
+            "engine's nominal 1 - scale share. They agree on this book to 0.02pp of CAGR, which "
+            "does not prove they agree on every book",
             "this face does not choose an arm. It says whether an already-issued adoption "
             "sentence is execution-independent",
         ],
