@@ -1668,7 +1668,62 @@ def entry_gate_seats_md(eg, seats):
             % (n_seats, gate_m, int(med or 0), float(med or 0) / float(n_seats))]
 
 
-def entry_gate_md(eg, seats=None):
+def capacity_per_seat_md(nav_cny, seats, book_weight=None, yg=None):
+    """r1754: 「几个位置 × 每笔多大」与「这本书能装多少」并成一行。
+
+    r1753 把宽度那轴换算成了位置数（池子有几只可挑 vs 本书几座）。读者下一步问的是
+    「我这一笔有多大、什么时候会大到成交拖累」，而年闸面已经有这个数：所选那 5 个槽
+    各按一日 5% 参与率算出的可吸收额。这里只做除法和倍数，不重算任何一只票的成交额。
+    """
+    if yg is None:
+        yg = _year_gate_face()
+    try:
+        nav = float(nav_cny or 0.0)
+        n = int(seats or 0)
+    except (TypeError, ValueError):
+        return []
+    if nav <= 0.0 or n <= 0:
+        return []
+    try:
+        w = float(book_weight) if book_weight is not None else None
+    except (TypeError, ValueError):
+        w = None
+    if w is not None and not (0.0 < w <= 1.0):
+        w = None
+    cap = None
+    cap_asof = None
+    if isinstance(yg, dict):
+        for b in (yg.get("books") or []):
+            if b.get("capacity_cny_1day_5pct") is not None:
+                cap = float(b["capacity_cny_1day_5pct"])
+                cap_asof = ((yg.get("data") or {}).get("live_picks_asof")
+                            or yg.get("asof"))
+                break
+    if cap is None or cap <= 0.0:
+        return ["- **换成你每个位置能有多大（r1754）**：这张面没有这本书的容量数"
+                "（年闸面缺席、或它自己没检这一格），所以「我这笔钱每个位置放多大、"
+                "什么时候会大到拖累成交」这一问答不了——本单不拿池子成交额现算一个顶上。"]
+    per_seat_cap = cap / float(n)
+    invested = nav * (w if w is not None else 1.0)
+    per_seat_now = invested / float(n)
+    mult = cap / invested
+    head = ("- **换成你每个位置能有多大（r1754）**：这本书开 %d 个位置，按本单的资金与仓位"
+            "（¥%s 里投出去 ¥%s%s），每个位置现在是 **¥%s**；而年闸面按一日 5%% 参与率算出"
+            "这本书所选的那 %d 个槽一共能吸收 **¥%s**（平均每槽 ¥%s）"
+            % (n, format(nav, ",.0f"), format(invested, ",.0f"),
+               "" if w is not None else "，账面权重这张单没有所以按满仓算",
+               format(per_seat_now, ",.0f"), n,
+               format(cap, ",.0f"), format(per_seat_cap, ",.0f")))
+    tail = ("——你现在这笔钱占容量的 **%.2f%%**，离这个仓位开始被成交拖累还有约 **%.0f 倍**；"
+            "撞上的形状是账面投入长到约 ¥%s（同样 %d 个位置、每笔约 ¥%s）。"
+            % (100.0 * per_seat_now / per_seat_cap, mult,
+               format(cap, ",.0f"), n, format(per_seat_cap, ",.0f")))
+    if cap_asof:
+        tail += "容量用的是 %s 那批选中的槽。" % str(cap_asof)[:10]
+    return [head + tail]
+
+
+def entry_gate_md(eg, seats=None, nav_cny=None, book_weight=None, capacity=None):
     """两轴分开印：这道闸买到了多少收益，和它买到了多少容量。"""
     eg = eg or {}
     if eg.get("status") != "ok":
@@ -1696,6 +1751,7 @@ def entry_gate_md(eg, seats=None):
                  % (int(eg.get("widest_names") or 0), int(eg.get("narrowest_names") or 0),
                     float(ratio)))
     L += entry_gate_seats_md(eg, seats)
+    L += capacity_per_seat_md(nav_cny, seats, book_weight, capacity)
     L.append("- 判定 **%s**｜出处 `%s`（证据截止 %s，面板末 bar %s；%gM 档复现本书申报格 "
              "%.3f pp，容差 %.2f pp）。"
              % (eg.get("verdict"),
@@ -1717,6 +1773,26 @@ POSITIONS_FACE = "results/etf_book_positions.json"
 PREMIUM_FACE = "results/etf_premium/PREMIUM-PERSISTENCE.json"   # r1499: the reading the sheet must print
 PREMIUM_PCT_FACE = "results/etf_premium/PREMIUM-PERCENTILE.json"   # r1499b: where today ranks in its own history
 PREMIUM_FORWARD_FACE = "results/etf_premium/PREMIUM-FORWARD.json"   # r1501: what the price did after such a reading
+
+
+YEAR_GATE_FACE = "results/etf_book_year_gate/YEAR-GATE.json"   # r1754: capacity as the year gate measures it
+
+
+def _year_gate_face(results_dir=None):
+    """r1754: 年闸自己算的容量面（`books[0].capacity_cny_1day_5pct`）。
+
+    `_json_face` 只认 results/ 根下的 basename，这张面在子目录里，所以单独取。
+    读不到就是 None——调用方必须说「这一问这张面没有数」，不许拿池子成交额现算一个顶上
+    （那样两个数来自两把尺子，读者无法对齐）。
+    """
+    p = os.path.join(results_dir or PATHS.results_dir, "etf_book_year_gate", "YEAR-GATE.json")
+    if not os.path.exists(p):
+        return None
+    try:
+        with open(p, encoding="utf-8") as f:
+            return json.load(f)
+    except (OSError, ValueError):
+        return None
 
 
 def _json_face(rel, results_dir=None):
@@ -3114,7 +3190,11 @@ def card(ticket, mk, sched, asof, beta, extra):
         L += entry_gate_md(extra.get("entry_gate"),
                            seats=(extra.get("seats")
                                   if extra.get("seats") is not None
-                                  else ticket.get("n_hold")))
+                                  else ticket.get("n_hold")),
+                           nav_cny=ticket.get("nav"),
+                           book_weight=ticket.get("book_weight"),
+                           capacity=(extra["capacity"] if "capacity" in extra
+                                     else _year_gate_face()))
         rp = extra.get("reprice")
         if rp and rp.get("status") == "ok":
             L += ["", "## 参考价用的是哪一天（这会改变手数）",
@@ -6591,6 +6671,28 @@ def selftest():
         "travels in extra)",
         "5 个位置" in _tk_seat_md and "最薄的一天也还有 51 只" in _tk_seat_md,
         [l for l in _tk_seat_md.splitlines() if "换成你能装几只" in l][:1])
+
+    # r1754: 位置数那一轴换完了，下一个问题是「每个位置多大、什么时候会大到拖累成交」。
+    # 那张数在年闸面里（今天这 5 个槽各按一日 5% 参与率），这里只换算，不重算成交额。
+    _cap_face = {"books": [{"capacity_cny_1day_5pct": 1200000.0}],
+                 "data": {"live_picks_asof": "2026-11-13"}}
+    _cap_md = "\n".join(capacity_per_seat_md(1_000_000.0, 5, 0.2, _cap_face))
+    chk("leg48j capacity: the size axis is converted into 'how big is one seat now, how many "
+        "times is the wall' from the year gate's own number (200k/5 = 40k vs 1.2M/5 = 240k = 6x)",
+        "每个位置现在是 **¥40,000**" in _cap_md and "**6 倍**" in _cap_md
+        and "16.67%" in _cap_md and "2026-11-13" in _cap_md
+        and "长到约 ¥1,200,000" in _cap_md,
+        _cap_md[:200])
+    _cap_absent = "\n".join(capacity_per_seat_md(1_000_000.0, 5, 0.2, {}))
+    chk("leg48k capacity: with no capacity face the line says the question cannot be answered "
+        "and prints no multiple -- it never derives one from the pool's turnover",
+        "这一问答不了" in _cap_absent and "倍" not in _cap_absent
+        and "能吸收" not in _cap_absent, _cap_absent[:200])
+    _cap_noweight = "\n".join(capacity_per_seat_md(1_000_000.0, 5, None, _cap_face))
+    chk("leg48l capacity: without the sheet's book weight the line says it assumed a full "
+        "book instead of silently dividing the whole capital into seats",
+        "按满仓算" in _cap_noweight and "每个位置现在是 **¥200,000**" in _cap_noweight,
+        _cap_noweight[:200])
 
     # 49a-e. r1455: the sheet sizes to the permission the desk itself published. r1450
     # printed a floor (k=0.393073) and its prereg requirement 4 asked for it to be carried

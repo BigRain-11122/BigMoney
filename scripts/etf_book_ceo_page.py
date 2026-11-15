@@ -3551,7 +3551,76 @@ def entry_gate_seats_md(eg, seats):
             % (n_seats, gate_m, int(med or 0), float(med or 0) / float(n_seats))]
 
 
-def entry_gate_block(eg, seats=None):
+def _year_gate_face():
+    """r1754: 年闸自己算的容量面（`books[0].capacity_cny_1day_5pct`）。
+
+    这张面在 results/ 子目录里（不是根下 basename），所以单独取。读不到就是 None——
+    调用方必须说「这一问这张面没有数」，不许拿池子成交额现算一个顶上（两把尺子）。
+    """
+    p = os.path.join(ROOT, "results", "etf_book_year_gate", "YEAR-GATE.json")
+    if not os.path.exists(p):
+        return None
+    try:
+        return _load(p)
+    except (OSError, ValueError):
+        return None
+
+
+def capacity_per_seat_md(nav_cny, seats, book_weight=None, yg=None):
+    """r1754: 「几个位置 × 每笔多大」与「这本书能装多少」并成一行。
+    r1753 把宽度那轴换算成了位置数（池子有几只可挑 vs 本书几座）。读者下一步问的是
+    「我这一笔有多大、什么时候会大到成交拖累」，而年闸面已经有这个数：所选那 5 个槽
+    各按一日 5% 参与率算出的可吸收额。这里只做除法和倍数，不重算任何一只票的成交额。
+    """
+    if yg is None:
+        yg = _year_gate_face()
+    try:
+        nav = float(nav_cny or 0.0)
+        n = int(seats or 0)
+    except (TypeError, ValueError):
+        return []
+    if nav <= 0.0 or n <= 0:
+        return []
+    try:
+        w = float(book_weight) if book_weight is not None else None
+    except (TypeError, ValueError):
+        w = None
+    if w is not None and not (0.0 < w <= 1.0):
+        w = None
+    cap = None
+    cap_asof = None
+    if isinstance(yg, dict):
+        for b in (yg.get("books") or []):
+            if b.get("capacity_cny_1day_5pct") is not None:
+                cap = float(b["capacity_cny_1day_5pct"])
+                cap_asof = ((yg.get("data") or {}).get("live_picks_asof")
+                            or yg.get("asof"))
+                break
+    if cap is None or cap <= 0.0:
+        return ["- **换成你每个位置能有多大（r1754）**：这张面没有这本书的容量数"
+                "（年闸面缺席、或它自己没检这一格），所以「我这笔钱每个位置放多大、"
+                "什么时候会大到拖累成交」这一问答不了——本页不拿池子成交额现算一个顶上。"]
+    per_seat_cap = cap / float(n)
+    invested = nav * (w if w is not None else 1.0)
+    per_seat_now = invested / float(n)
+    mult = cap / invested
+    head = ("- **换成你每个位置能有多大（r1754）**：这本书开 %d 个位置，按本单的资金与仓位"
+            "（¥%s 里投出去 ¥%s%s），每个位置现在是 **¥%s**；而年闸面按一日 5%% 参与率算出"
+            "这本书所选的那 %d 个槽一共能吸收 **¥%s**（平均每槽 ¥%s）"
+            % (n, format(nav, ",.0f"), format(invested, ",.0f"),
+               "" if w is not None else "，账面权重这张单没有所以按满仓算",
+               format(per_seat_now, ",.0f"), n,
+               format(cap, ",.0f"), format(per_seat_cap, ",.0f")))
+    tail = ("——你现在这笔钱占容量的 **%.2f%%**，离这个仓位开始被成交拖累还有约 **%.0f 倍**；"
+            "撞上的形状是账面投入长到约 ¥%s（同样 %d 个位置、每笔约 ¥%s）。"
+            % (100.0 * per_seat_now / per_seat_cap, mult,
+               format(cap, ",.0f"), n, format(per_seat_cap, ",.0f")))
+    if cap_asof:
+        tail += "容量用的是 %s 那批选中的槽。" % str(cap_asof)[:10]
+    return [head + tail]
+
+
+def entry_gate_block(eg, seats=None, nav_cny=None, book_weight=None, capacity=None):
     L = []
     if eg.get("status") != "ok":
         L.append("## 这本书的票池是被一个数选出来的，那个数是从哪来的？")
@@ -3603,6 +3672,10 @@ def entry_gate_block(eg, seats=None):
     _seats = entry_gate_seats_md(eg, seats)
     if _seats:
         L += _seats
+        L.append("")
+    _cap = capacity_per_seat_md(nav_cny, seats, book_weight, capacity)
+    if _cap:
+        L += _cap
         L.append("")
     L.append("> 跨窗口面：`%s` ｜ 证据截止 %s（面板末根 bar %s）｜ 控制闸：%gM 这一档先复现"
              "卡片已发表的「可交易臂」年化（差 %.3f pp，容差 %.2f pp）才引用任何一行；"
@@ -9526,7 +9599,11 @@ def render_md(p, sb=None):
         add(_ul_line)
     # r1247: the universe is picked by one number (a liquidity cut). Say where that number
     # came from, and say that what sits on it is the book's capacity, not its return.
-    for _eg_line in entry_gate_block(p.get("entry_gate") or {}, seats=p.get("n_hold")):
+    for _eg_line in entry_gate_block(p.get("entry_gate") or {}, seats=p.get("n_hold"),
+                                     nav_cny=p.get("capital_cny"),
+                                     book_weight=p.get("k_now"),
+                                     capacity=(p["capacity"] if "capacity" in p
+                                               else _year_gate_face())):
         add(_eg_line)
     # r1251: the panel is a bar behind for a few hours every evening. Say what the book is
     # worth today, and say it only when the quote's own rows still reproduce it.
@@ -11626,6 +11703,29 @@ def selftest():
         and "换成你能装几只" not in "\n".join(entry_gate_block(_eg_ok)),
         "with=%s without=%s" % ("换成你能装几只" in _eg_seats,
                                 "换成你能装几只" in "\n".join(entry_gate_block(_eg_ok))))
+    # L140f-h (r1754): 位置数换完了，下一个问题是「每个位置多大、什么时候会大到拖累成交」。
+    # 那张数在年闸面里（今天这 5 个槽各按一日 5% 参与率），这里只换算不重算成交额。
+    _cap_face = {"books": [{"capacity_cny_1day_5pct": 1200000.0}],
+                 "data": {"live_picks_asof": "2026-11-13"}}
+    _cap_txt = "\n".join(entry_gate_block(_eg_ok, seats=5, nav_cny=1_000_000.0,
+                                          book_weight=0.2, capacity=_cap_face))
+    chk("L140f entry gate: the size axis is answered from the year gate's own capacity number "
+        "(200k/5 = 40k a seat vs 1.2M/5 = 240k = 6x), not re-derived from pool turnover",
+        "每个位置现在是 **¥40,000**" in _cap_txt and "**6 倍**" in _cap_txt
+        and "16.67%" in _cap_txt and "长到约 ¥1,200,000" in _cap_txt,
+        " | ".join([l[:120] for l in _cap_txt.splitlines() if "换成你每个位置" in l][:1]))
+    _cap_absent = "\n".join(entry_gate_block(_eg_ok, seats=5, nav_cny=1_000_000.0,
+                                             book_weight=0.2, capacity={}))
+    _cap_absent_line = "\n".join([l for l in _cap_absent.splitlines()
+                                  if "换成你每个位置" in l])
+    chk("L140g entry gate: a page with no capacity face says the size question cannot be "
+        "answered and prints no multiple",
+        "这一问答不了" in _cap_absent_line and "倍" not in _cap_absent_line
+        and "能吸收" not in _cap_absent_line, _cap_absent_line[:160])
+    chk("L140h entry gate: no page capital prints no size sentence at all",
+        "换成你每个位置能有多大" in _cap_txt
+        and "换成你每个位置能有多大" not in "\n".join(
+            entry_gate_block(_eg_ok, seats=5, capacity=_cap_face)))
     # r1251: the evening quote face -- what the book is worth while the panel lags one bar.
     # The arithmetic here is downstream of etf_book_live_quote.recheck (never a second copy).
     _ql_dir = tempfile.mkdtemp()
