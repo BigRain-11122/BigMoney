@@ -15614,3 +15614,13 @@ smoke_test.py 一条产品腿。
 decide TABLE_PRINTS_BOTH_ARMS/TABLE_ROW_DISAGREES + check stale 门 + selftest 20/20）·
 results/etf_book_causal_headline.json（声明行 8.40 vs 臂 8.41、as-coded 行 9.60 vs 9.59）·
 research/ETF_BOOK_CAUSAL_HEADLINE.md · smoke 既有腿（check 契约）
+
+## E664 — 报价口径与入账口径：毛数写进「你会拿到多少」，差额是手续费不是利率（r1749 bm-c）
+
+**症状**：票面写「这段窗口按 1.26% 付 ￥453」，而这条现金腿每滚一次都要交佣金（GC001 0.1bp/次），1.26% 的报价下手续费约吃掉利息的四分之一 → 读者按 ￥453 做计划，实际入账 ￥356。更糟的是旁边一行「与头条净滚差 50.81bp」被当成利率差读，可那 50.81bp 里有一半是手续费。
+
+**正法**：①费用从同一张表派生（etf_book_cash_ladder.FEE_BP），窗口费用=滚动次数×单次费率，滚动次数从同一份交易日历数，禁写死「一天一滚」；②两条臂一律净对净比，毛口径只作对照数字且显式标注；③缺 fee 键的旧票面必须自己声明「这一行按毛收印」，不许被读成净值。
+
+**同类坑（本窗实弹）**：零佣金控制腿看不见单位错——先跑的版本把费率当分数从百分数里减（1.26 - 0.0027），零费用时差为 0，控制腿全绿，页上照样印「年化 1.26%」。控制只在非零取值处才能验量纲：必须另钉一条「带费用时扣减量=费率×滚动次数年化」的腿。
+
+**正身**：scripts/etf_book_order.py cash_forward_window/forward_rolls（selftest leg4x-4zc）+ scripts/etf_book_ceo_page.py L304b/L304c + results/etf_book_order/TICKET-2026-11-13.json

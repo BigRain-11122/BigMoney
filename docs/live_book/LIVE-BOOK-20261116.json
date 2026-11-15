@@ -77,24 +77,33 @@
   "next_bar": "2026-12-09",
   "forward": {
    "verdict": "TWO_RATES",
-   "sentence": "从 2026-11-16（2026-11-13 之后的第一个交易日）到 2026-12-09（下一张单）共 **23 个日历天**：同一笔 ¥568,230 若利率停在 2026-11-13 的报价 1.26%，这段窗口付 ¥453；若按整段窗口扣佣金的净滚 1.77% 付是 ¥635，差 **50.81bp / ¥182**。两个数都假设利率不动——1.77% 是已经走过的那段窗口的净滚，不是下一段的隔夜报价，它只说明过去付过多少，不承诺这一段。",
+   "sentence": "从 2026-11-16（2026-11-13 之后的第一个交易日）到 2026-12-09（下一张单）共 **23 个日历天**：同一笔 ¥568,230 若利率停在 2026-11-13 的报价 1.26%，这段窗口**毛收** ¥453；这笔钱在这段窗口要逐交易日滚 **17 次**，每次佣金 0.1bp（≈ ¥6），共 **¥97**，所以按这个报价**入账 ¥356**（这段窗口年化 1.00%，比报价低的那截就是这条路的手续费）；若按整段窗口扣佣金的净滚 1.77% 付是 ¥635，与**入账**数差 **77.79bp / ¥279**——佣金两边都已扣过，这个差是纯利率差（不扣佣金的毛口径是 50.81bp，那个数里混进了手续费，不能拿来当利率差用）。两个数都假设利率不动——1.77% 是已经走过的那段窗口的净滚，不是下一段的隔夜报价，它只说明过去付过多少，不承诺这一段。",
    "start_session": "2026-11-16",
    "end_session": "2026-12-09",
    "calendar_days": 23,
-   "ruler": "calendar_days/365 x annualised rate",
+   "ruler": "calendar_days/365 x annualised rate, net of per-roll commission",
    "start_basis": "exchange_calendar",
    "cash_amount_cny": 568230.4,
    "spot": {
     "pct": 1.265,
     "cny": 453.0
    },
+   "spot_net": {
+    "pct": 0.9952,
+    "cny": 356.0
+   },
+   "rolls": 17,
+   "fee_bp_per_roll": 0.1,
+   "fee_cny": 97.0,
+   "fee_src": "scripts/etf_book_cash_ladder.py FEE_BP (one source for every rung)",
+   "gap_cny": 279.0,
+   "gap_bp": 77.79,
+   "gap_bp_gross": 50.81,
    "book": {
     "pct": 1.7731,
     "cny": 635.0,
     "source": "etf_book_idle_cash.json"
-   },
-   "gap_cny": 182.0,
-   "gap_bp": 50.81
+   }
   }
  },
  "cash_ladder": {
@@ -7998,10 +8007,10 @@
  "authority": {
   "writer": "bm-c",
   "owner": "bm-a",
-  "owner_silent_h": 51.0,
+  "owner_silent_h": 52.4,
   "gate_h": 6.0,
   "took_over": true,
-  "why": "bm-a has not written its own heartbeat for 51.0 h (> 6 h): this host takes the pen for the page only -- a stopped heartbeat is not a dead machine",
+  "why": "bm-a has not written its own heartbeat for 52.4 h (> 6 h): this host takes the pen for the page only -- a stopped heartbeat is not a dead machine",
   "no_bar_reason": "human_ages"
  },
  "fleet": {

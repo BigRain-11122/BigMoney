@@ -13486,6 +13486,19 @@ def selftest():
         and _fwd_line in _fwd_txt, _fwd_line[:400])
     _no_fwd_txt = "\n".join(cash_money_block(
         {"status": "ok", "block": _fwd_blk, "forward": None, "next_bar": None}))
+    # L304b (r1749): the ticket now prices commission on the window it prints. Paired: a
+    # fee-carrying block must reach the page with what the account banks, and a block written
+    # before the fee existed must say its figure is gross rather than pass for the net one.
+    chk("L304b idle cash: the page carries what the account banks, not just the quote",
+        "入账" in _fwd_line and "佣金" in _fwd_line and "毛收" in _fwd_line,
+        _fwd_line[-300:])
+    _fwd_pre = dict(_fwd_blk)
+    _fwd_pre_win = {"verdict": "TWO_RATES", "sentence": "这段窗口付 ¥300。",
+                    'cash_amount_cny': 500000.0}
+    _fwd_pre_txt = "\n".join(cash_money_block(
+        {"status": "ok", "block": _fwd_pre, "forward": _fwd_pre_win, "next_bar": "2026-12-09"}))
+    chk("L304c idle cash: a pre-fee block is labelled gross, never read as the net figure",
+        "毛收" in _fwd_pre_txt and "重出票据" in _fwd_pre_txt, _fwd_pre_txt[-300:])
     chk("L305 idle cash: a block with no forward reading says so instead of going silent",
         "下一段窗口付多少" in _no_fwd_txt and "没有" in _no_fwd_txt
         and "今日" not in _no_fwd_txt, _no_fwd_txt[-400:])

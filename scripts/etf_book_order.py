@@ -979,6 +979,76 @@ def idle_cash_book_rate(results_dir=None):
             "declared_gap_pp": _gap if isinstance(_gap, (int, float)) else None}
 
 
+CASH_LOCK_GAP_FACE = "etf_book_cash_lock_gap.json"
+
+
+def cash_ladder_caveat(results_dir=None, face=None):
+    """r1749: the honest face told the operator to run a 1/7/14-day ladder and stopped there.
+
+    That sentence reads as free advice, and the desk has since priced it: a ladder whose rungs
+    mature before the next scheduled decision bar holds the book (callable), while a ladder
+    pinned to 7/14/28 calendar days without asking when the book buys does not -- most buy asks
+    arrive while the cash is still locked, so the book cannot fund itself. A caveat that names
+    the improvement without its price leaves the reader unable to choose. The arms are read off
+    the published face (never rebuilt here); an absent or non-reproducing face refuses to
+    recommend anything rather than falling back to the bare sentence.
+    """
+    out = {"verdict": "CANNOT_PRICE", "line": None, "arms": None, "cutoff": None,
+           "blocked_share": None, "carry_given_up_pp": None}
+    doc = face if face is not None else _json_face(CASH_LOCK_GAP_FACE, results_dir)
+    base = "- GC001 单期限且滚动假设零费；"
+    if not doc:
+        out["line"] = base + ("现金台的期限政策这一面读不到（`%s` 缺席），所以本单**不推荐任何期限结构**"
+                              "——没有价格之前，「该做梯队」只是一句口号。" % CASH_LOCK_GAP_FACE)
+        return out
+    rd = doc.get("readings") or {}
+    arms = rd.get("arms") or {}
+    out["arms"] = arms
+    out["cutoff"] = doc.get("evidence_cutoff")
+    if rd.get("control_reproduces_published_cells") is not True or not arms:
+        out["line"] = base + ("这张锁期面自己的控制格没复现发布格（它在给另一本书定价），所以本单"
+                              "**不引用它的价格、也不推荐期限结构**。")
+        return out
+    try:
+        cal = float((arms.get("callable") or {})["cagr"]) * 100.0
+        lock = float((arms.get("locked") or {})["cagr"]) * 100.0
+        roll = float(((((rd.get("controls") or {}).get("gc001_roll") or {})
+                       .get("stats") or {})["cagr"])) * 100.0
+    except (KeyError, TypeError, ValueError):
+        out["line"] = base + ("这张锁期面缺了三种期限政策里的一格（callable/locked/隔夜滚动），"
+                              "读不全就不报——本单**不推荐期限结构**。")
+        return out
+    _lk = arms.get("locked") or {}
+    _share = _lk.get("blocked_share_of_asks")
+    _worst = _lk.get("worst_short")
+    out["blocked_share"] = _share
+    out["carry_given_up_pp"] = round(cal - roll, 2)
+    _cfg = doc.get("config") or {}
+    _ladder = [x for x in (_cfg.get("ladder") or [])]
+    _td = _cfg.get("tenor_days") or {}
+    _days = [str(int(_td[k])) for k in _ladder if isinstance(_td.get(k), (int, float))]
+    if _days:
+        _ten = "/".join(_days) + " 天"
+    elif _ladder:
+        _ten = "、".join(str(x) for x in _ladder)
+    else:
+        _ten = "期限梯队"
+    _tail = ""
+    if isinstance(_share, (int, float)):
+        _tail += ("，因为 **%.1f%%** 的买单在钱到期之前就到了（%s 次）"
+                  % (float(_share) * 100.0, _lk.get("blocked_events")))
+    if isinstance(_worst, (int, float)) and float(_worst) > 0:
+        _tail += "，最坏时现金短 **%.1f%%**" % (float(_worst) * 100.0)
+    out["verdict"] = str(rd.get("verdict") or "PRICED")
+    out["line"] = base + ("**「该做梯队」这句话本身有价格**：同一块面板上的三种期限政策都已定价"
+                          "（`%s`，cutoff %s，判 **%s**）——按日历把每一档停到下一个决策日之前"
+                          "（callable）年化 **%.2f%%**，与隔夜滚动 %.2f%% 差 %+.2fpp；不看日历硬锁 "
+                          "%s（locked）只有 **%.2f%%**%s。所以梯队的期限必须跟着调仓日历走。"
+                          % (CASH_LOCK_GAP_FACE, out["cutoff"], out["verdict"], cal, roll,
+                             cal - roll, _ten, lock, _tail))
+    return out
+
+
 def cash_money(cash_amount, rates, asof, accrual_pct=None, tail=250, fall_bp=CASH_MONEY_BP,
                book=None):
     """What the idle half of THIS ticket earns, in CNY, at the rates this book actually parks in.
@@ -1155,10 +1225,41 @@ def cash_book_rate_md(cm, basis=True):
             % (gap, format(int(abs(br.get("gap_vs_spot_cny") or 0)), ","))]
 
 
-CASH_FORWARD_RULER = "calendar_days/365 x annualised rate"
+CASH_FORWARD_RULER = "calendar_days/365 x annualised rate, net of per-roll commission"
+CASH_FORWARD_FEE_SRC = "scripts/etf_book_cash_ladder.py FEE_BP (one source for every rung)"
 
 
-def cash_forward_window(cm, next_bar, cal=None):
+def forward_rolls(start, end, cal=None, fallback=False):
+    """How many times the money is rolled between two sessions (exclusive of the last one).
+
+    The ledger accrues interest between rolls but is charged commission on every contract it
+    buys, so a window's fee is `rolls * fee_bp` -- the count has to come from the same calendar
+    the window came from, never from a hard-coded "one roll per day" assumption.
+    """
+    try:
+        a = pd.Timestamp(str(start)).normalize()
+        b = pd.Timestamp(str(end)).normalize()
+    except (TypeError, ValueError):
+        return None
+    if fallback or cal is None:
+        n, d = 0, a
+        while d < b:
+            if d.weekday() < 5:
+                n += 1
+            d += pd.Timedelta(days=1)
+        return n
+    n = 0
+    for s in cal:
+        try:
+            t = pd.Timestamp(str(s)).normalize()
+        except (TypeError, ValueError):
+            continue
+        if a <= t < b:
+            n += 1
+    return n
+
+
+def cash_forward_window(cm, next_bar, cal=None, fees=None):
     """r1719: from the NEXT session to the next rebalance, what does the parked cash pay?
 
     r1718 put this ticket's cash line on the headline's calendar and named the 50.81bp gap to
@@ -1171,12 +1272,21 @@ def cash_forward_window(cm, next_bar, cal=None):
     is annualised on. One window, the two rates already printed above, the gap in CNY instead
     of a choice of adjectives. Nothing here is a forecast: the sentence states that the rate is
     assumed to hold, and names the 1.77% for what it is (a realised window's net daily roll),
-    never as tomorrow's overnight quote.
+
+    r1749: the arithmetic above prices a QUOTE, but a money-market position is charged
+    commission every time it rolls -- the ledger that will hold this cash has always done so
+    (etf_book_cash_ladder.roll_rung subtracts FEE_BP on every contract). At a 1.26% overnight
+    rate that fee is roughly 29% of the interest, so a gross window figure overstates what the
+    account banks by about a quarter. The fee here is rolls x FEE_BP from that same table (no
+    second assumption), the two arms are compared net-to-net, and the gross-vs-net difference
+    is printed as the fee it is rather than left inside a gap labelled "rate".
+        never as tomorrow's overnight quote.
     """
     out = {"verdict": "CANNOT_PRICE", "sentence": None, "start_session": None,
            "end_session": None, "calendar_days": None, "ruler": CASH_FORWARD_RULER,
-           "start_basis": None, "cash_amount_cny": None, "spot": None, "book": None,
-           "gap_cny": None, "gap_bp": None}
+           "start_basis": None, "cash_amount_cny": None, "spot": None, "spot_net": None,
+           "rolls": None, "fee_bp_per_roll": None, "fee_cny": None, "fee_src": None,
+           "gap_cny": None, "gap_bp": None, "gap_bp_gross": None, "book": None}
     cm = cm or {}
     cash = cm.get("cash_amount_cny")
     spot = (cm.get("spot") or {})
@@ -1218,35 +1328,74 @@ def cash_forward_window(cm, next_bar, cal=None):
     def _pay(pct):
         return round(float(cash) * float(pct) / 100.0 * n_days / 365.0, 0)
 
-    out["spot"] = {"pct": round(float(spot_pct), 4), "cny": _pay(spot_pct)}
+    # r1749: the gross figure is what the QUOTE pays; it is not what the account banks. The
+    # ledger charges commission on every contract it buys, so a window's fee is the roll count
+    # times the exchange fee for a 1-day contract -- read off the same FEE_BP table the cash
+    # vehicle prices its rungs with, so the ticket cannot carry a second fee assumption.
+    try:
+        from scripts import etf_book_cash_ladder as CL
+    except ImportError:                                          # direct-script runs
+        import etf_book_cash_ladder as CL
+    fee_bp_one = float(CL.fee_bp("GC001", fees))
+    rolls = forward_rolls(start, end,
+                          cal=days if out["start_basis"] == "exchange_calendar" else None,
+                          fallback=out["start_basis"] != "exchange_calendar")
+    fee_exact = float(cash) * fee_bp_one / 1e4 * float(rolls or 0)
+    fee_cny = round(fee_exact, 0)
+    gross_cny = _pay(spot_pct)
+    net_cny = round(float(cash) * float(spot_pct) / 100.0 * n_days / 365.0 - fee_exact, 0)
+    out["rolls"] = rolls
+    out["fee_bp_per_roll"] = fee_bp_one
+    out["fee_src"] = CASH_FORWARD_FEE_SRC
+    out["fee_cny"] = fee_cny
+    out["spot"] = {"pct": round(float(spot_pct), 4), "cny": gross_cny}
+    # The annualised net is derived from the exact fee, not from the rounded CNY figure: a
+    # zero-fee control must return the quote's own percentage to the last digit (r1749 leg4y).
+    net_pct = (float(spot_pct)
+               - fee_bp_one / 1e4 * float(rolls or 0) * 365.0 / float(n_days) * 100.0
+               if float(cash) else None)
+    out["spot_net"] = {"pct": round(net_pct, 4) if net_pct is not None else None,
+                       "cny": net_cny}
     book_pct = (cm.get("book_rate") or {}).get("pct")
     head = ("从 %s（%s 之后的第一个交易日）到 %s（下一张单）共 **%d 个日历天**：同一笔 ¥%s 若利率停在 "
-            "%s 的报价 %.2f%%，这段窗口付 ¥%s"
+            "%s 的报价 %.2f%%，这段窗口**毛收** ¥%s"
             % (start, asof, out["end_session"], n_days, format(int(cash), ","),
-               asof, float(spot_pct), format(int(out["spot"]["cny"]), ",")))
+               asof, float(spot_pct), format(int(gross_cny), ",")))
+    fee_sentence = ("；这笔钱在这段窗口要逐交易日滚 **%d 次**，每次佣金 %gbp（≈ ¥%s），共 **¥%s**，"
+                    "所以按这个报价**入账 ¥%s**（这段窗口年化 %.2f%%，比报价低的那截就是这条路的手续费）"
+                    % (int(rolls or 0), fee_bp_one,
+                       format(int(round(float(cash) * fee_bp_one / 1e4, 0)), ","),
+                       format(int(fee_cny), ","), format(int(net_cny), ","),
+                       float(net_pct if net_pct is not None else 0.0)))
     if book_pct is None or not np.isfinite(float(book_pct)):
         out["verdict"] = "ONE_RATE_ONLY"
-        out["sentence"] = head + ("；头条那把尺子（%s）这一面读不出来，所以「按整段窗口的净滚付多少」"
-                                  "本单**无法核验**——不拿这个报价冒充它。" % IDLE_CASH_FACE)
+        out["sentence"] = head + fee_sentence + ("；头条那把尺子（%s）这一面读不出来，所以「按整段窗口的净滚付多少」"
+                                                 "本单**无法核验**——不拿这个报价冒充它。" % IDLE_CASH_FACE)
         return out
     book_pct = float(book_pct)
     out["book"] = {"pct": round(book_pct, 4), "cny": _pay(book_pct),
                    "source": (cm.get("book_rate") or {}).get("source")}
-    out["gap_bp"] = round((book_pct - float(spot_pct)) * 100.0, 2)
-    out["gap_cny"] = round(out["book"]["cny"] - out["spot"]["cny"], 0)
-    if abs(book_pct - float(spot_pct)) * 100.0 <= CASH_BOOK_SAME_BP:
+    out["gap_bp_gross"] = round((book_pct - float(spot_pct)) * 100.0, 2)
+    base_pct = net_pct if net_pct is not None else float(spot_pct)
+    out["gap_bp"] = round((book_pct - float(base_pct)) * 100.0, 2)
+    out["gap_cny"] = round(out["book"]["cny"] - net_cny, 0)
+    if abs(book_pct - float(base_pct)) * 100.0 <= CASH_BOOK_SAME_BP:
         out["verdict"] = "RATES_AGREE"
-        out["sentence"] = head + ("，与整段窗口扣佣金的净滚 %.2f%% 是同一个口径（差 %.2fbp）："
-                                  "这段窗口多少钱只在这一把尺子上有一个答案。"
-                                  % (book_pct, out["gap_bp"]))
+        out["sentence"] = head + fee_sentence + ("；与整段窗口扣佣金的净滚 %.2f%% 是同一个口径"
+                                                 "（差 %.2fbp）：这段窗口多少钱只在这一把尺子上有一个答案。"
+                                                 % (book_pct, out["gap_bp"]))
         return out
     out["verdict"] = "TWO_RATES"
-    out["sentence"] = head + ("；若按整段窗口扣佣金的净滚 %.2f%% 付是 ¥%s，差 **%.2fbp / ¥%s**。"
-                              % (book_pct, format(int(out["book"]["cny"]), ","),
-                                 out["gap_bp"], format(int(abs(out["gap_cny"])), ",")))
+    out["sentence"] = head + fee_sentence + (
+        "；若按整段窗口扣佣金的净滚 %.2f%% 付是 ¥%s，与**入账**数差 **%.2fbp / ¥%s**——佣金两边都已扣过，"
+        "这个差是纯利率差（不扣佣金的毛口径是 %.2fbp，那个数里混进了手续费，不能拿来当利率差用）。"
+        % (book_pct, format(int(out["book"]["cny"]), ","), out["gap_bp"],
+           format(int(abs(out["gap_cny"])), ","),
+           out["gap_bp_gross"]))
     out["sentence"] += ("两个数都假设利率不动——%.2f%% 是已经走过的那段窗口的净滚，不是下一段的隔夜报价，"
                         "它只说明过去付过多少，不承诺这一段。" % book_pct)
     return out
+
 
 
 def cash_forward_md(cf):
@@ -1260,6 +1409,12 @@ def cash_forward_md(cf):
     if v == "CANNOT_PRICE":
         return ["- 下一段窗口付多少（r1719）：**这一问答不了。** %s" % (cf.get("sentence") or "")]
     L = ["- 下一段窗口付多少（r1719）：%s" % (cf.get("sentence") or "")]
+    # r1749: a ticket written before the fee existed carries a gross sentence. Printing it
+    # as-is would let the page present what the quote pays as what the account banks, so say
+    # which caliber this block is on instead of silently inheriting the older one.
+    if cf.get("fee_cny") is None and cf.get("spot_net") is None \
+            and cf.get("verdict") in ("TWO_RATES", "RATES_AGREE", "ONE_RATE_ONLY"):
+        L.append("- 这一行来自 r1749 之前的票面：它印的是**毛收**，没有扣逐次滚动的佣金——这条现金腿的实际入账会低一截（现价附近约四分之一），重出票据后这一行才有净数。")
     if cf.get("start_basis") == "weekday_fallback":
         L.append("- 起点用的是「报价日之后的第一个工作日」（交易日历还没排到那一天），不是交易所日历——"
                  "遇到节假日这一行就会偏，日历补齐后自动改回交易所口径。")
@@ -2936,7 +3091,7 @@ def card(ticket, mk, sched, asof, beta, extra):
         L += ["- **名数没被证过**：读不到宽度臂家族的面（%s）——这是「没验」，不是「没问题」。"
               % (fcs.get("detail") or "家族面缺席")]
     L += ["- 票池=现存 ETF，存在幸存者偏差；票面仅按收盘价折算，未计冲击成本与涨跌停。",
-          "- GC001 单期限且滚动假设零费；真实现金台应做 1/7/14 天梯队。",
+          cash_ladder_caveat()["line"],
           "- k 每 %d 个交易日才重算，段内实际 β 仍会漂移。" % REBAL]
     return "\n".join(L) + "\n"
 
@@ -4389,7 +4544,7 @@ def card_config_card(tk, width=None, ruler=None):
                      format(int(round(tk["cash_amount"])), ","), 100.0 * gap / tk["nav"])]
     L += [
           "- 票池=现存 ETF，存在幸存者偏差；票面按卡片定盘 bar 的参考价折算，未计冲击成本与涨跌停。",
-          "- GC001 单期限且滚动假设零费；真实现金台应做 1/7/14 天梯队。",
+          cash_ladder_caveat()["line"],
           "- 波动目标是历史估计，只降不升杠杆：标注 8% 的书实测跑到 10%+（见卡片风险列）。"]
     return "\n".join(L) + "\n"
 
@@ -5039,6 +5194,50 @@ def selftest():
         and len(_on) == len(_off) + 1,
         "off=%d on=%d" % (len(_off), len(_on)))
 
+    # leg4t-w (r1749): the honest face used to tell the operator to run a 1/7/14-day ladder and
+    # stopped there, as if the advice were free. The desk has priced it since: a ladder whose
+    # rungs mature before the next decision bar holds, a ladder pinned to 7/14/28 calendar days
+    # does not. Paired legs: the caveat carries both arms and the blocked share; a missing face
+    # and a face that fails its own control both refuse to recommend anything.
+    _clg_face = {"evidence_cutoff": "2026-11-13",
+                 "config": {"ladder": ["GC007", "GC014", "GC028"],
+                            "tenor_days": {"GC007": 7, "GC014": 14, "GC028": 28}},
+                 "readings": {"verdict": "CALLABLE_LADDER_HOLDS",
+                              "control_reproduces_published_cells": True,
+                              "controls": {"gc001_roll": {"stats": {"cagr": 0.1213}}},
+                              "arms": {"locked": {"cagr": 0.0898,
+                                                  "blocked_share_of_asks": 0.880385,
+                                                  "blocked_events": 55,
+                                                  "worst_short": 0.55101},
+                                       "callable": {"cagr": 0.1215}}}}
+    _clg = cash_ladder_caveat(face=_clg_face)
+    chk("leg4t the ladder caveat carries the price of the ladder it recommends",
+        _clg["verdict"] == "CALLABLE_LADDER_HOLDS"
+        and "12.15" in _clg["line"] and "8.98" in _clg["line"]
+        and "12.13" in _clg["line"] and "88.0%" in _clg["line"]
+        and "55" in _clg["line"] and "调仓日历" in _clg["line"]
+        and "7/14/28 天" in _clg["line"] and "GC007" not in _clg["line"],
+        str(_clg["line"])[:170])
+    _clg_none = cash_ladder_caveat(face={})
+    chk("leg4u a missing lock-gap face refuses to recommend any tenor structure",
+        "不推荐任何期限结构" in (_clg_none["line"] or "")
+        and "8.98" not in (_clg_none["line"] or ""), str(_clg_none["line"])[:170])
+    _clg_bad = json.loads(json.dumps(_clg_face))
+    _clg_bad["readings"]["control_reproduces_published_cells"] = False
+    _clg_ctl = cash_ladder_caveat(face=_clg_bad)
+    chk("leg4v a face that fails its own control is not quoted",
+        "不引用" in (_clg_ctl["line"] or "") and "12.15" not in (_clg_ctl["line"] or ""),
+        str(_clg_ctl["line"])[:170])
+    _live_clg = cash_ladder_caveat()
+    try:
+        _live_cal = float((((_live_clg.get("arms") or {}).get("callable") or {})
+                           .get("cagr"))) * 100.0
+    except (TypeError, ValueError):
+        _live_cal = None
+    chk("leg4w the caveat on the live desk quotes the published arm, not a fixture",
+        _live_cal is not None and ("%.2f" % _live_cal) in (_live_clg["line"] or ""),
+        "live=%.2f line=%s" % (_live_cal or -1, str(_live_clg["line"])[:120]))
+
     # leg4k-o (r1719): the two calibers above both price windows that already happened. Paired
     # legs on the forward one: the money must be the rate arithmetic on real calendar days, moving
     # the next decision bar must move it, an unreadable headline must say cannot-verify, a closed
@@ -5073,6 +5272,53 @@ def selftest():
     chk("leg4o the forward line names both dates and never says today",
         "2024-02-26" in _cf_md and "2024-03-08" in _cf_md and "今天" not in _cf_md
         and "假设利率不动" in _cf_md, _cf_md[:160])
+
+    # leg4x-za (r1749): the forward window priced a QUOTE, while the ledger that will actually
+    # hold the money is charged commission on every contract it buys -- so the printed figure was
+    # gross, and at today's 1.26% roughly a quarter of it never reaches the account. Paired legs:
+    # the fee is the roll count times the ladder's own fee table (no second assumption), a
+    # zero-fee control returns the quote arithmetic, the pure-rate gap is measured on the net arm,
+    # and the sentence must say what the account banks rather than what the quote pays.
+    _cal_fx2 = [str(d.date()) for d in pd.bdate_range("2024-02-23", "2024-03-20")]
+    _cf_fee = cash_forward_window(_cm_gap, "2024-03-08", cal=_cal_fx2)
+    _want_rolls = sum(1 for _d in _cal_fx2 if "2024-02-26" <= _d < "2024-03-08")
+    _want_fee = round(568230.0 * 0.1 / 1e4 * _want_rolls, 0)
+    chk("leg4x the window's fee is the roll count times the ladder's own fee table",
+        _cf_fee["rolls"] == _want_rolls and _cf_fee["fee_bp_per_roll"] == 0.1
+        and abs(_cf_fee["fee_cny"] - _want_fee) <= 0.51
+        and abs(_cf_fee["spot_net"]["cny"] - (_cf_fee["spot"]["cny"] - _want_fee)) <= 0.51,
+        "rolls=%s fee=%s gross=%s net=%s" % (_cf_fee["rolls"], _cf_fee["fee_cny"],
+                                             _cf_fee["spot"]["cny"], _cf_fee["spot_net"]["cny"]))
+    _cf_free = cash_forward_window(_cm_gap, "2024-03-08", cal=_cal_fx2, fees={1: 0.0})
+    chk("leg4y a zero-fee control returns the quote arithmetic (the fee is the only difference)",
+        abs(_cf_free["spot_net"]["cny"] - _cf_free["spot"]["cny"]) <= 0.51
+        and abs(_cf_free["gap_bp"] - _cf_free["gap_bp_gross"]) <= 0.01,
+        "net=%s gross=%s gap=%s/%s" % (_cf_free["spot_net"]["cny"], _cf_free["spot"]["cny"],
+                                       _cf_free["gap_bp"], _cf_free["gap_bp_gross"]))
+    chk("leg4z the pure-rate gap is measured on the net arm, not on the quote",
+        abs(_cf_fee["gap_bp"]
+            - (_cf_fee["book"]["pct"] - _cf_fee["spot_net"]["pct"]) * 100.0) <= 0.02
+        and _cf_fee["gap_bp"] > _cf_fee["gap_bp_gross"],
+        "net-gap=%.2f gross-gap=%.2f" % (_cf_fee["gap_bp"], _cf_fee["gap_bp_gross"]))
+    # A zero-fee control cannot see a unit error, and the first version of this leg proved it:
+    # the annualised net printed the quote's own 1.26% because the fee was subtracted as a
+    # fraction from a percentage. Pin the SIZE of the deduction, not just its sign.
+    _want_net_pct = 1.26 - 0.1 / 1e4 * _want_rolls * 365.0 * 100.0 / 11.0
+    chk("leg4zb a positive fee lowers the annualised net by its own size (a unit check)",
+        abs(_cf_fee["spot_net"]["pct"] - _want_net_pct) <= 0.02
+        and _cf_fee["spot_net"]["pct"] < _cf_fee["spot"]["pct"] - 0.2,
+        "net_pct=%s want=%.4f quote=%s" % (_cf_fee["spot_net"]["pct"], _want_net_pct,
+                                           _cf_fee["spot"]["pct"]))
+    _cf_pre = dict(_cf_fee)
+    for _k in ("fee_cny", "spot_net", "rolls", "fee_bp_per_roll"):
+        _cf_pre.pop(_k, None)
+    _pre_md = " ".join(cash_forward_md(_cf_pre))
+    chk("leg4zc a pre-fee block says its figure is gross instead of inheriting the new caliber",
+        "毛收" in _pre_md and "重出票据" in _pre_md, _pre_md[-220:])
+    chk("leg4za the sentence says what the account banks, not what the quote pays",
+        "毛收" in _cf_fee["sentence"] and "入账" in _cf_fee["sentence"]
+        and ("滚 **%d 次**" % _want_rolls) in _cf_fee["sentence"]
+        and "佣金" in _cf_fee["sentence"], _cf_fee["sentence"][:170])
 
     # leg5: the incremental ledger reproduces the engine on a hand-built path
     d2 = pd.DatetimeIndex(["2021-01-04", "2021-01-05", "2021-01-06", "2021-01-07"])
