@@ -13242,7 +13242,12 @@ def _legs_supply_and_book():
         _eg82 = capture_pinned([sys.executable,
                                 os.path.join("scripts", "event_exec_gate.py"),
                                 "selftest-audit"], 120)
-        _tok82 = [t for t in (_eg82.stdout or "").split() if "/" in t]
+        # the selftest-audit command prints one summary per face it covers; read the
+        # one that names itself instead of the last positional token, or a face added
+        # below the audit line (r1743's seat-subject 8/8) silently becomes the count
+        _ln82 = [l for l in (_eg82.stdout or "").splitlines()
+                 if l.strip().startswith("audit selftest")]
+        _tok82 = [t for t in (_ln82[-1] if _ln82 else "").split() if "/" in t]
         _ok82, _n82 = (0, 1)
         if _tok82:
             try:
