@@ -224,6 +224,13 @@ LEGS = [
     # while quoting 11. Bucketed panels refuse the comparison instead of going red.
     # ~1s, no network, reads receipts and file names only.
     ("count_only_claims", ["python", "scripts/count_only_claims.py", "run"]),
+    # r1735: three event families (LHB bought/sold, 涨停池 follow) had their verdicts
+    # published on a close-to-close number that no book can buy. This leg is the face's
+    # producer: it re-derives the page from the JSON every round (so the page can never be
+    # hand-edited between rounds) and rebuilds the panels only when the price panel's last
+    # bar moved past what the face already read -- ~0.2s in steady state, ~130s on a new
+    # bar. Rebuilding every round would re-date a measurement nobody re-read.
+    ("event_exec_gate", ["python", "scripts/event_exec_gate.py", "refresh"]),
     # r1730: two published faces described the same carry position and never met. The desk
     # sheet's ladder sizes by the margin box and prints 1,000,000 CNY holding 3 IC lots at
     # 67%/yr; the capital face sizes by vol target and refuses at every tier. Both are

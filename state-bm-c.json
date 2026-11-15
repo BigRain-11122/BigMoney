@@ -1,7 +1,7 @@
 {
  "activity": "product",
- "activity_now": "r1730: 保证金口径强平实测（idx_fut_leverage_washout）",
- "activity_now_round": "r1733 order-flow IC reference batch: 0/5 admitted, REJECT; the sell leg is the only near-signal (t=-1.89)",
+ "activity_now": "r1735: 披露即定价闸收口（残差列改名/负分母保留率/生产者腿）",
+ "activity_now_round": "r1735 event_exec_gate closeout: the excess table no longer labels its 0.0009% residual as a cost, a negative information face no longer prints +158.3%% retained, and the face finally has a producer leg (refresh: 0.8s fresh / 130s on a new bar)",
  "agenda_starved": false,
  "ah_note": "r1680 LANDED: refresh closed itself at 21:17 -- cutoff 2026-11-12 -> 2026-11-13, complete=True, exit 0, pulled_rows 46; data_lane_freshness in_sync 13 / behind_1d 1 (worst now marks, intraday-only, not rebuildable). Fix that made it possible: stall watchdog over every network leg (300s, names stage/pair, exit 2, checkpoint kept) + save_progress stamps write time + -u on the detached spawn + progress line every 10 pairs. NOT yet proven: the 300s stall path has never fired on a real hang (this round the suspected freeze finished by itself).",
  "ahead_origin": 0,
@@ -39,8 +39,8 @@
  "batch": "r1682: land staged face set (100 files, 83 JSON verified from index blobs) + re-cut CEO pages at 23:04",
  "behind_origin": 0,
  "busy": false,
- "chain": "s6_chain --only idx_fut_real_nav,idx_fut_roll_cost 2/2 rc0 (new leg: the roll cost face had no producer)",
- "chain_note": "full 235-leg run killed at leg 19 (background process reaped with the shell); resumed in --only batches",
+ "chain": "s6_chain --only event_exec_gate 1/1 rc0 (new leg: the face had a reader and no producer)",
+ "chain_note": "full 597-leg smoke green this round (596/596 PASS, 854.6s); the full S6 chain was not run -- only the touched leg, so the evidence is not split across two tables",
  "chain_writer_audit": {
   "known_baseline": 29,
   "note": "not re-enumerated this round: the face fixed here never appeared in that enumeration (it had no leg at all)",
@@ -54,7 +54,7 @@
   "state": "registered (FOUND)",
   "task": "HQ-ProductionClaim"
  },
- "clock_read": "2026-11-15T16:51:35+08:00",
+ "clock_read": "2026-11-15T20:43:06+08:00",
  "clock_read_source": "local",
  "clock_tz": "+08:00",
  "codely_live_count": 2,
@@ -203,7 +203,7 @@
   "sha": "278bb79900"
  },
  "last_push_at": "2026-11-11T08:31:06+08:00",
- "last_round": 1733,
+ "last_round": 1735,
  "last_round_at": "2026-11-15T18:47:16+08:00",
  "last_round_at_legacy": "2026-10-19T15:34:21+08:00",
  "last_round_closed": 1733,
@@ -932,7 +932,7 @@
  "round_1689_next": "(a) price the rule, not the bucket: run the widest-quintile-only arm against hold-everything after the 8% vol leash and the repo leg -- the quintile table already says the entry with the least adverse widening is also the one with the most carry, so the open question is whether a book that waits costs more in idle cash than it collects; (b) moneyflow/LHB IC reference batch (the order second P1 candidate) is still claimed and its panel source-blocked -- check the collector self-heal before starting; (c) watchdog S4U needs one elevated re-register (28th).",
  "round_1689_note": "PRODUCT. r1686 left the basis line one untried axis: \"the discount-width timing test (basis percentile vs next 20d carry) is the cheapest way to turn a static premium into a rule\". Built: scripts/idx_fut_basis_timing.py (selftest 12/12) -- causal percentile over a trailing 250d window (60 obs min), forward window t+1..t+20 with roll days dropped, quintiles printed beside a stride-20 subsample that drops overlapping windows, Spearman on ranks, first/second half split. All four pairs pass the frozen H1/H2/H3: widest-quintile forward carry +0.584/+0.531/+0.513/+0.689pp per 20d at hit 82.5/77.4/86.0/80.6% vs narrowest -0.118/-0.032/-0.075/+0.271pp at 37.7/40.3/40.3/46.8%; spreads hold on stride-12 (0.854/0.513/0.670/0.133) and in both halves. The pair of numbers that decides what this is: fwd20-to-basis-change ratio 1.003/1.000/0.993/0.990 -> kind=convergence harvest, i.e. the rule is a prepayment schedule (wait for a wide discount, collect more of it closing), not a prediction. And the percentile adds nothing over the raw level (spearman level -0.478/-0.474/-0.443/-0.590 vs pct -0.429/-0.318/-0.432/-0.243; percentile_adds_over_level_pairs=[]), so any rule here can be written on the level directly. Adverse side is the surprise: entering at the widest discount had the SMALLEST subsequent widening (median 0.185/0.214/0.231/0.277pp) and the narrowest the largest (0.583/0.923/0.471/1.038pp) -- higher carry and less drawdown, not a risk trade. Two selftest legs caught real defects before publication: adverse_widening used max() and reported the discount closing as a drawdown (the basis is negative when wide, so the window MINIMUM is the adverse side), and convergence_share carried an off-by-one that double-counted a step the holder never takes (basis_face convention: spread[j] is the step dates[j]->dates[j+1]). Neither face had a chain leg -- both were typed by hand on 11-14 -- so both now ride straight behind update_futures; chain --only 2/2 rc0. Latest percentiles: IH 13.4 (widest quintile, fires), IF 23.8, IC 38.6, IM 48.2.",
  "round_label": "1704",
- "round_no": 1733,
+ "round_no": 1735,
  "round_no_label": "1704",
  "round_no_landed": 1663,
  "round_note": "r1489: a reinstated bar is re-derived from the panel, not carried over (reinstatement_check + reinstatements.json + sheet paragraph)",
@@ -1443,7 +1443,7 @@
  },
  "task": "r1734: the LHB sell leg does not exist at 45x the sample, and the buy leg's t=12.9 is an overnight gap you cannot buy -- 81% of the close-to-close edge is gone by the next open",
  "total_ram_gb": 55.9,
- "ts": "2026-11-15T18:22:00+08:00",
+ "ts": "2026-11-15T20:43:06+08:00",
  "unverified": [
   "the naming covers the ETF wide panel only; the other panels' stale cohorts are still published as counts",
   "the receipt's own vocabulary (skipped/source_ended/no_trade) is read by key pattern -- a lane inventing a new key word stays unexplained by design, which shows up as an undeclared member rather than a silent pass",

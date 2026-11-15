@@ -13165,6 +13165,63 @@ def _legs_supply_and_book():
               False, repr(e)[:160])
 
 
+    # ---- r1735: an edge printed after the close has to survive the next open ----
+    # event_exec_gate asks every event family the same three questions on one shared
+    # sample of events: what the panel knows (close->close), what a book could buy
+    # (next open -> close), what it keeps after both sides of cost. This leg pins the
+    # two things the face cannot be allowed to lose: a short calendar must be refused
+    # rather than condemned, and the money column must actually carry the commission
+    # (it read 0.0009pp for weeks-worth of intent because a uniform fee cancels out of
+    # an excess -- L13 in the face's own selftest).
+    try:
+        _eg81 = capture_pinned([sys.executable,
+                                os.path.join("scripts", "event_exec_gate.py"),
+                                "selftest"], 120)
+        check("product: event_exec_gate (the next open and both sides of cost are part of the verdict)",
+              _eg81.returncode == 0 and "Summary: PASS" in _eg81.stdout,
+              (_eg81.stdout.strip().splitlines() or [""])[-1][:200] if _eg81.returncode == 0
+              else (_eg81.stderr or _eg81.stdout)[:200])
+        _bad81 = []
+        _f81 = os.path.join(PATHS.results_dir, "event_exec_gate.json")
+        if not os.path.exists(_f81):
+            _bad81.append("results/event_exec_gate.json missing")
+        else:
+            with open(_f81, encoding="utf-8") as _fh81:
+                _v81 = json.load(_fh81)
+            _fams81 = _v81.get("families") or []
+            if not _fams81:
+                _bad81.append("the face published no family")
+            for _r81 in _fams81:
+                _b81 = _r81.get("buckets") or {}
+                _m81 = _r81.get("money") or {}
+                _why81 = (_r81.get("gates") or {}).get("why") or ""
+                if _r81.get("verdict") in ("NOT_TRADABLE", "NOT_JUDGEABLE") and not _why81:
+                    _bad81.append("%s carries a verdict without a reason" % _r81.get("family"))
+                if _r81.get("verdict") == "NOT_JUDGEABLE" and "calendar" not in _why81:
+                    _bad81.append("%s refuses without naming the short history"
+                                  % _r81.get("family"))
+                # the identity the page tells the reader to re-derive
+                if abs((_b81.get("info_pct") or 0.0) - (_b81.get("gap_pct") or 0.0)
+                       - (_b81.get("cost_pct") or 0.0) - (_b81.get("net_pct") or 0.0)) > 2e-4:
+                    _bad81.append("%s excess buckets do not subtract"
+                                  % _r81.get("family"))
+                if _m81:
+                    _bp81 = float(_m81.get("cost_bp_per_side") or 0.0)
+                    if not (12.0 <= _bp81 <= 14.0):
+                        _bad81.append("%s money column prices the fee at %.3fbp"
+                                      % (_r81.get("family"), _bp81))
+                else:
+                    _bad81.append("%s publishes no absolute (money) column" % _r81.get("family"))
+        check("product: event_exec_gate (the fee is in the money column, a short calendar is refused)",
+              not _bad81, "; ".join(_bad81)[:220]
+              or "%d families: %s" % (len(_fams81),
+                                      ", ".join("%s=%s" % (r.get("family"), r.get("verdict"))
+                                                for r in _fams81)))
+    except Exception as e:
+        check("product: event_exec_gate (the next open and both sides of cost are part of the verdict)",
+              False, repr(e)[:180])
+
+
 def _finish() -> int:
     n_pass = sum(1 for _, ok, _ in RESULTS if ok)
     n_fail = len(RESULTS) - n_pass
