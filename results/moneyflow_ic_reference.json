@@ -1,0 +1,162 @@
+{
+ "face": "moneyflow_ic_reference",
+ "asof": "2026-11-15T18:42:43",
+ "evidence_cutoff": "2026-11-10",
+ "question": "the order-flow and LHB panels have been collected for months and never priced -- do they know anything about the next 5 days?",
+ "window": {
+  "start": "2026-05-14",
+  "end": "2026-11-10",
+  "bars": 122,
+  "symbols": 5221
+ },
+ "criteria_frozen": {
+  "C1_abs_ic_mean": 0.02,
+  "C2_abs_t": 2.0,
+  "C3_half_split_same_sign": true,
+  "C4_max_abs_corr_vs_mom20": 0.7,
+  "min_days": 60,
+  "min_names_per_day": 200,
+  "lhb_min_events": 300,
+  "lhb_abs_t": 2.0
+ },
+ "horizon_days": 5,
+ "factors": {
+  "mf5": {
+   "readings": {
+    "ic_mean": -0.00794,
+    "ic_std": 0.06826,
+    "ic_ir": -0.1164,
+    "t_stat": -1.253,
+    "ic_pos_pct": 0.4397,
+    "n_days": 116,
+    "names_per_day_median": 5190,
+    "half_ic_mean": [
+     -0.00432,
+     -0.01157
+    ],
+    "first_day": "2026-05-20",
+    "last_day": "2026-11-06"
+   },
+   "corr_vs_mom20": 0.1929,
+   "gates": {
+    "C1": false,
+    "C2": false,
+    "C3": true,
+    "C4": true
+   },
+   "verdict": "REJECT"
+  },
+  "xl5": {
+   "readings": {
+    "ic_mean": 0.00254,
+    "ic_std": 0.06767,
+    "ic_ir": 0.0375,
+    "t_stat": 0.404,
+    "ic_pos_pct": 0.4741,
+    "n_days": 116,
+    "names_per_day_median": 5190,
+    "half_ic_mean": [
+     0.01274,
+     -0.00766
+    ],
+    "first_day": "2026-05-20",
+    "last_day": "2026-11-06"
+   },
+   "corr_vs_mom20": 0.1766,
+   "gates": {
+    "C1": false,
+    "C2": false,
+    "C3": false,
+    "C4": true
+   },
+   "verdict": "REJECT"
+  },
+  "sm5": {
+   "readings": {
+    "ic_mean": 0.00589,
+    "ic_std": 0.08353,
+    "ic_ir": 0.0705,
+    "t_stat": 0.759,
+    "ic_pos_pct": 0.5862,
+    "n_days": 116,
+    "names_per_day_median": 5190,
+    "half_ic_mean": [
+     0.01296,
+     -0.00119
+    ],
+    "first_day": "2026-05-20",
+    "last_day": "2026-11-06"
+   },
+   "corr_vs_mom20": -0.1201,
+   "gates": {
+    "C1": false,
+    "C2": false,
+    "C3": false,
+    "C4": true
+   },
+   "verdict": "REJECT"
+  },
+  "mf1": {
+   "readings": {
+    "ic_mean": -0.00459,
+    "ic_std": 0.05859,
+    "ic_ir": -0.0783,
+    "t_stat": -0.858,
+    "ic_pos_pct": 0.4417,
+    "n_days": 120,
+    "names_per_day_median": 5195,
+    "half_ic_mean": [
+     0.00134,
+     -0.01052
+    ],
+    "first_day": "2026-05-14",
+    "last_day": "2026-11-06"
+   },
+   "corr_vs_mom20": 0.0996,
+   "gates": {
+    "C1": false,
+    "C2": false,
+    "C3": false,
+    "C4": true
+   },
+   "verdict": "REJECT"
+  }
+ },
+ "lhb": {
+  "readings": {
+   "events": 5651,
+   "window": [
+    "2026-05-14",
+    "2026-11-06"
+   ],
+   "top_quintile": {
+    "label": "institutions bought (top 20% share)",
+    "n": 1131,
+    "mean_excess_pct": 0.3835,
+    "t_stat": 0.887
+   },
+   "bottom_quintile": {
+    "label": "institutions sold (bottom 20% share)",
+    "n": 1131,
+    "mean_excess_pct": -0.8995,
+    "t_stat": -1.886
+   },
+   "spread_pct": 1.2829
+  },
+  "gates": {
+   "C1_abs_t": false,
+   "C2_spread_sign": true
+  },
+  "verdict": "REJECT"
+ },
+ "admitted": [],
+ "verdict": "REJECT",
+ "honest": [
+  "the moneyflow panel starts 2026-05-14 (122 bars): this is a half-year reference batch, not a full-history verdict; the sign can still be a 2026-regime artefact",
+  "forward returns are the same close-to-close 5-day convention as factor_ic (no open-to-open, no cost) -- this is an information test, not a tradable return",
+  "net inflow share is the vendor's own order-size classification, not exchange tape; it is re-published values, so revisions are visible only on re-pull",
+  "LHB events are priced against that day's cross-sectional median forward return; large-cap tilts inside the event set are not neutralised",
+  "no parameter search: one smoothing window (5), one horizon (5), four named factors. A grid here would manufacture the answer"
+ ],
+ "elapsed_sec": 213.61
+}
