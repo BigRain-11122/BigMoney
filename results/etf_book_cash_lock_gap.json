@@ -1,0 +1,227 @@
+{
+ "face": "etf_book_cash_lock_gap",
+ "asof": "2026-11-16T00:00:29",
+ "evidence_cutoff": "2026-11-13",
+ "window": {
+  "start": "2020-01-03",
+  "end": "2026-11-13",
+  "bars": 1662
+ },
+ "question": "The gate's Y4 pass comes from paying the idle sleeve at a repo carry. Can that cash actually be raised on the decision bar it is needed?",
+ "config": {
+  "n_hold": 5,
+  "rebal": 20,
+  "cost_per_side": 0.001,
+  "vol_target": 0.08,
+  "ladder": [
+   "GC007",
+   "GC014",
+   "GC028"
+  ],
+  "tenor_days": {
+   "GC007": 7,
+   "GC014": 14,
+   "GC028": 28
+  },
+  "overnight": "GC001",
+  "policy": "locked | callable | break"
+ },
+ "criteria": {
+  "C0_published_cells": "the cash-at-0 cell and the GC001 cell must reproduce results/etf_book_gate_knobs.json (top2_share to 1e-4 and the same verdict) -- otherwise this face is pricing a different book",
+  "C0b_ledger_cash_band_pp": 0.5,
+  "C0b_why": "the ledger re-places at each maturity instead of rolling independent rungs, so its cash CAGR is a different contract simulation; the band only checks it is pricing the same panel, it is not a precision claim"
+ },
+ "readings": {
+  "control_reproduces_published_cells": true,
+  "control_cells": {
+   "cash_zero": {
+    "ours": 0.7039,
+    "published": 0.7039,
+    "verdict_ours": "CONDITIONAL",
+    "verdict_published": "CONDITIONAL"
+   },
+   "gc001_roll": {
+    "ours": 0.6854,
+    "published": 0.6854,
+    "verdict_ours": "ADMIT",
+    "verdict_published": "ADMIT"
+   }
+  },
+  "ledger_cash_cagr_in_band": true,
+  "ledger_cash_cagr_pct": 1.8276,
+  "ledger_cash_cagr_published_pct": 1.88,
+  "ledger_cash_cagr_band_pp": 0.5,
+  "gate_line_top2_share_max": 0.7,
+  "arms": {
+   "locked": {
+    "cagr": 0.0898,
+    "sharpe": 1.06,
+    "maxdd_pct": -10.16,
+    "top2_share": 0.6725,
+    "Y4_top2_share": true,
+    "verdict": "ADMIT",
+    "cash_cagr_pct": 1.8276,
+    "sleeve_days": 2506,
+    "portfolio_contrib_pct": 0.8334,
+    "fee_total": 0.00798285,
+    "leak_events": 0,
+    "blocked_events": 55,
+    "blocked_share_of_asks": 0.880385,
+    "worst_short": 0.55101,
+    "forfeit_pp": 0.0
+   },
+   "callable": {
+    "cagr": 0.1215,
+    "sharpe": 1.191,
+    "maxdd_pct": -10.47,
+    "top2_share": 0.6842,
+    "Y4_top2_share": true,
+    "verdict": "ADMIT",
+    "cash_cagr_pct": -0.0035,
+    "sleeve_days": 2506,
+    "portfolio_contrib_pct": 0.5481,
+    "fee_total": 0.00511518,
+    "leak_events": 13,
+    "blocked_events": 0,
+    "blocked_share_of_asks": 0.0,
+    "worst_short": 0.0,
+    "forfeit_pp": 0.0
+   },
+   "break": {
+    "cagr": 0.1211,
+    "sharpe": 1.187,
+    "maxdd_pct": -10.47,
+    "top2_share": 0.6856,
+    "Y4_top2_share": true,
+    "verdict": "ADMIT",
+    "cash_cagr_pct": 0.0139,
+    "sleeve_days": 2506,
+    "portfolio_contrib_pct": 0.5128,
+    "fee_total": 0.00565221,
+    "leak_events": 4,
+    "blocked_events": 9,
+    "blocked_share_of_asks": 0.010212,
+    "worst_short": 0.003361,
+    "forfeit_pp": 0.1957
+   }
+  },
+  "controls": {
+   "cash_zero": {
+    "top2_share": 0.7039,
+    "verdict": "CONDITIONAL",
+    "stats": {
+     "cagr": 0.1155,
+     "sharpe": 1.137,
+     "maxdd": -0.1056,
+     "vol": 0.105
+    }
+   },
+   "gc001_roll": {
+    "top2_share": 0.6854,
+    "verdict": "ADMIT",
+    "stats": {
+     "cagr": 0.1213,
+     "sharpe": 1.188,
+     "maxdd": -0.1047,
+     "vol": 0.105
+    }
+   }
+  },
+  "carry_given_up_for_callable_pp": 1.83,
+  "blocked_worst_case": [
+   {
+    "date": "2021-07-28",
+    "needed": 0.552999,
+    "raised": 0.001989,
+    "short": 0.55101,
+    "locked_at_ask": 0.548714,
+    "kind": "lock",
+    "forfeit": 0.0
+   },
+   {
+    "date": "2022-08-23",
+    "needed": 0.536474,
+    "raised": 0.000353,
+    "short": 0.536121,
+    "locked_at_ask": 0.532614,
+    "kind": "lock",
+    "forfeit": 0.0
+   },
+   {
+    "date": "2022-09-21",
+    "needed": 0.536121,
+    "raised": 0.009738,
+    "short": 0.526383,
+    "locked_at_ask": 0.522769,
+    "kind": "lock",
+    "forfeit": 0.0
+   },
+   {
+    "date": "2022-10-26",
+    "needed": 0.526383,
+    "raised": 0.004549,
+    "short": 0.521834,
+    "locked_at_ask": 0.518094,
+    "kind": "lock",
+    "forfeit": 0.0
+   },
+   {
+    "date": "2022-12-21",
+    "needed": 0.520681,
+    "raised": 0.000636,
+    "short": 0.520044,
+    "locked_at_ask": 0.5161,
+    "kind": "lock",
+    "forfeit": 0.0
+   },
+   {
+    "date": "2022-11-23",
+    "needed": 0.518653,
+    "raised": 0.001153,
+    "short": 0.5175,
+    "locked_at_ask": 0.516839,
+    "kind": "lock",
+    "forfeit": 0.0
+   },
+   {
+    "date": "2023-03-23",
+    "needed": 0.460368,
+    "raised": 0.006992,
+    "short": 0.453375,
+    "locked_at_ask": 0.449132,
+    "kind": "lock",
+    "forfeit": 0.0
+   },
+   {
+    "date": "2023-05-24",
+    "needed": 0.449186,
+    "raised": 0.000147,
+    "short": 0.449039,
+    "locked_at_ask": 0.444599,
+    "kind": "lock",
+    "forfeit": 0.0
+   }
+  ],
+  "blocked_events_any": {
+   "locked": 55,
+   "callable": 13,
+   "break": 38
+  },
+  "bars": 1662,
+  "flips_repaired": 169,
+  "decisions": 84,
+  "verdict": "CALLABLE_LADDER_HOLDS"
+ },
+ "source_faces": {
+  "knobs": "results\\etf_book_gate_knobs.json"
+ },
+ "honest": [
+  "an exchange repo contract cannot be broken early; the `break` arm is the cost of an emergency funding line standing in for that impossibility, and its number is a lower bound on the price of being wrong about the calendar",
+  "the ledger keeps balances in units of NAV, matching the engine's own convention that weights do not drift between rebalances (the same convention the published idle-cash face uses); a drifting sleeve would move these numbers by less than the disclosed rounding",
+  "`callable` uses the longest ladder tenor that matures before the NEXT SCHEDULED decision bar -- knowing your own rebalance date is not a forecast, but it does assume the treasurer keeps that calendar, and it assumes a rung can be placed at that bar's close",
+  "the sleeve is re-placed on the book's own bar calendar, so a maturity that lands on a non-bar day waits for the next bar; the interest is booked to the bar the cash actually returns, not the nominal maturity date",
+  "`2026` is a partial calendar year and is flagged partial by the gate's own 60-bar rule, exactly as in the published cells",
+  "the book is the gate's 5-name arm; the forward ledger runs 12 names with the same carrier, and r1739 already showed width does not change the carrier verdict, so this face does not re-run width"
+ ],
+ "elapsed_sec": 52.7
+}

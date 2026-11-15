@@ -1376,6 +1376,15 @@ def main() -> int:
             # function on the flipped state rather than a second implementation.
             ("product: book x volume-gate overlay (exit-code contract)",
              "scripts/etf_book_volgate.py", ["--selftest"]),
+            # r1741: the gate's Y4 pass is bought with a repo carry on the idle sleeve, and
+            # a repo contract cannot be sold back before its maturity -- so "what the sleeve
+            # earns" and "can that cash be handed over on the bar the sizing rule asks for"
+            # are two different questions. The legs pin that a 28-day rung cannot fund the
+            # next decision, that the same calendar placed to mature before it can, and --
+            # the defect this round fixed -- that the carry given up is a DIFFERENCE OF TWO
+            # PERCENTAGES (1.83 pp), not the 183.11 pp a second multiply by 100 printed.
+            ("product: etf_book_cash_lock_gap (a locked rung cannot fund the bar that asks)",
+             "scripts/etf_book_cash_lock_gap.py", ["selftest"]),
             # r1395: the book's entry friction. The spot board publishes 折价率 (a DISCOUNT,
             # the opposite sign of a premium) and an IOPV that a cross-border fund cannot
             # check against anything until its T+n NAV arrives -- two ways to print a number
