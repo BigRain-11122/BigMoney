@@ -1,0 +1,216 @@
+{
+ "candidates": [
+  "IC",
+  "IM"
+ ],
+ "criteria": {
+  "capital_cny": 1000000.0,
+  "margin_pct": 0.12,
+  "products": [
+   "IC",
+   "IF",
+   "IM",
+   "IH"
+  ],
+  "thin_interest_share_pct": 8.0
+ },
+ "evidence_cutoff": "2026-11-13",
+ "kind": "idx_fut_desk_sheet",
+ "multiplier_assumption": {
+  "IC": 200,
+  "IF": 300,
+  "IH": 300,
+  "IM": 200
+ },
+ "note": "a candidate is a sleeve being priced forward, not an adopted position; the margin and the multipliers are assumptions printed with the numbers",
+ "rows": {
+  "IC": {
+   "capital_cny": 1000000.0,
+   "close": 6375.0,
+   "cutoff": "2026-11-13",
+   "drawdown_buffer_per_lot_cny": 71897.0,
+   "etf_leg_note": "1 share conversion(s) removed at the open (2015-04-15 x3.486); the level change is not a return",
+   "evidence_cutoff": "2026-11-13",
+   "gap_after_roll_cost_pp": {
+    "file_floor": 9.163,
+    "measured_median": 6.856
+   },
+   "gap_open_open_pp": 9.281,
+   "gap_refused_because": null,
+   "held_contract": "IC2612",
+   "last_roll": {
+    "date": "2026-09-14",
+    "from": "IC2609",
+    "reason": "open interest",
+    "to": "IC2612"
+   },
+   "lots_after_own_drawdown": 4,
+   "lots_for_capital": 6,
+   "margin_pct_assumed": 12.0,
+   "margin_per_lot_cny": 153000.0,
+   "multiplier": 200,
+   "next_roll_eta_td": -17.5,
+   "notional_per_lot_cny": 1275000.0,
+   "oi_share_pct": 81.29,
+   "open_interest": 170581.0,
+   "product": "IC",
+   "roll_interval": {
+    "iqr_td": [
+     11.0,
+     58.0
+    ],
+    "median_td": 20.5,
+    "n": 62
+   },
+   "rolls": 63,
+   "status": "ok",
+   "td_since_last_roll": 38,
+   "thin_interest": false,
+   "verdict": "SLEEVE_CANDIDATE",
+   "verdict_why": "carry 12.04% at target risk, corr -0.039, blend Sharpe +0.325"
+  },
+  "IF": {
+   "capital_cny": 1000000.0,
+   "close": 3956.6,
+   "cutoff": "2026-11-13",
+   "drawdown_buffer_per_lot_cny": 77735.0,
+   "etf_leg_note": null,
+   "evidence_cutoff": "2026-11-13",
+   "gap_after_roll_cost_pp": {
+    "file_floor": 2.346,
+    "measured_median": 0.65
+   },
+   "gap_open_open_pp": 2.485,
+   "gap_refused_because": null,
+   "held_contract": "IF2612",
+   "last_roll": {
+    "date": "2026-09-11",
+    "from": "IF2609",
+    "reason": "open interest",
+    "to": "IF2612"
+   },
+   "lots_after_own_drawdown": 4,
+   "lots_for_capital": 7,
+   "margin_pct_assumed": 12.0,
+   "margin_per_lot_cny": 142438.0,
+   "multiplier": 300,
+   "next_roll_eta_td": -20.0,
+   "notional_per_lot_cny": 1186980.0,
+   "oi_share_pct": 80.71,
+   "open_interest": 173340.0,
+   "product": "IF",
+   "roll_interval": {
+    "iqr_td": [
+     9.0,
+     42.0
+    ],
+    "median_td": 19.0,
+    "n": 73
+   },
+   "rolls": 74,
+   "status": "ok",
+   "td_since_last_roll": 39,
+   "thin_interest": false,
+   "verdict": "REFUSE",
+   "verdict_why": "at 8.0% vol the sleeve earns 6.46% against the book's 11.65%"
+  },
+  "IH": {
+   "capital_cny": 1000000.0,
+   "close": 2733.4,
+   "cutoff": "2026-11-13",
+   "drawdown_buffer_per_lot_cny": 60886.0,
+   "etf_leg_note": "no ETF is mapped to this index, so there is no other leg to price",
+   "evidence_cutoff": "2026-11-13",
+   "gap_after_roll_cost_pp": {
+    "file_floor": null,
+    "measured_median": null
+   },
+   "gap_open_open_pp": null,
+   "gap_refused_because": "no ETF is mapped to this index, so there is no other leg to price",
+   "held_contract": "IH2612",
+   "last_roll": {
+    "date": "2026-09-14",
+    "from": "IH2609",
+    "reason": "open interest",
+    "to": "IH2612"
+   },
+   "lots_after_own_drawdown": 6,
+   "lots_for_capital": 10,
+   "margin_pct_assumed": 12.0,
+   "margin_per_lot_cny": 98402.0,
+   "multiplier": 300,
+   "next_roll_eta_td": -21.0,
+   "notional_per_lot_cny": 820020.0,
+   "oi_share_pct": 80.08,
+   "open_interest": 63167.0,
+   "product": "IH",
+   "roll_interval": {
+    "iqr_td": [
+     5.0,
+     26.0
+    ],
+    "median_td": 17.0,
+    "n": 88
+   },
+   "rolls": 89,
+   "status": "ok",
+   "td_since_last_roll": 38,
+   "thin_interest": false,
+   "verdict": "REFUSE",
+   "verdict_why": "at 8.0% vol the sleeve earns 4.24% against the book's 11.65%"
+  },
+  "IM": {
+   "capital_cny": 1000000.0,
+   "close": 6276.8,
+   "cutoff": "2026-11-13",
+   "drawdown_buffer_per_lot_cny": 63358.0,
+   "etf_leg_note": "1 share conversion(s) removed at the open (2022-09-05 x2.763); the level change is not a return",
+   "evidence_cutoff": "2026-11-13",
+   "gap_after_roll_cost_pp": {
+    "file_floor": 9.506,
+    "measured_median": 8.068
+   },
+   "gap_open_open_pp": 9.587,
+   "gap_refused_because": null,
+   "held_contract": "IM2612",
+   "last_roll": {
+    "date": "2026-09-14",
+    "from": "IM2609",
+    "reason": "open interest",
+    "to": "IM2612"
+   },
+   "lots_after_own_drawdown": 4,
+   "lots_for_capital": 6,
+   "margin_pct_assumed": 12.0,
+   "margin_per_lot_cny": 150643.0,
+   "multiplier": 200,
+   "next_roll_eta_td": 21.0,
+   "notional_per_lot_cny": 1255360.0,
+   "oi_share_pct": 78.39,
+   "open_interest": 295156.0,
+   "product": "IM",
+   "roll_interval": {
+    "iqr_td": [
+     21.0,
+     62.0
+    ],
+    "median_td": 59.0,
+    "n": 22
+   },
+   "rolls": 23,
+   "status": "ok",
+   "td_since_last_roll": 38,
+   "thin_interest": false,
+   "verdict": "SLEEVE_CANDIDATE",
+   "verdict_why": "carry 12.02% at target risk, corr -0.064, blend Sharpe +0.387"
+  }
+ },
+ "source_face": "results/idx_fut_carry_risk.json",
+ "source_present": true,
+ "tradable_today": [
+  "IC",
+  "IF",
+  "IH",
+  "IM"
+ ]
+}

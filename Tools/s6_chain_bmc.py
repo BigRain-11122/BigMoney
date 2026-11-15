@@ -185,6 +185,12 @@ LEGS = [
     # beside a page that names the flip. Rides behind the roll-gap leg it reads. ~1s.
     ("idx_fut_carry_capital", ["python", "scripts/idx_fut_carry_capital.py",
                                "run", "--write-doc"]),
+    # r1701: the carry family had a judgement but nothing a desk could act on -- no contract
+    # name, no lot count, no margin, no next-roll answer, and the IM/IH gap was refused
+    # without saying why. This leg publishes the morning sheet off the panels the legs above
+    # refresh, reads the judgement rather than recomputing it, and carries the refusal
+    # reason instead of a dash. ~3s, no network, adopts nothing.
+    ("idx_fut_desk_sheet", ["python", "scripts/idx_fut_desk_sheet.py", "--write-doc"]),
     # r1136: the futures TSMOM sleeve was measured on 10-27 (standalone Sharpe 0.27, but
     # 50/50 with the ETF book 1.059 vs 0.98 alone at a smaller drawdown) and there was no
     # daily face for it -- the "produced but never read" class this repo keeps recording
