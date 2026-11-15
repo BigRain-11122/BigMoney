@@ -365,6 +365,134 @@ def idle_cash_block(ic, page_bar=None):
     return out
 
 
+def cash_caliber_face(path=None):
+    """Is the ticket's 1bp "same caliber" band reachable, and what is its gap made of? (r1721)
+
+    Reads results/etf_book_cash_caliber_band.json.  Every number is copied off the producer:
+    the band statistics, the gross/net pair and the split all live there, so this reader
+    never re-derives a rate (r1290 single-implementation rule).  A missing or partial face
+    reads as absent, never as "the two sides agree".
+    """
+    p = path or os.path.join(ROOT, "results", "etf_book_cash_caliber_band.json")
+    out = {"status": "absent", "readable": False,
+           "source": _rel(p, ROOT).replace("\\", "/")}
+    if not os.path.exists(p):
+        return out
+    try:
+        obj = _load(p) or {}
+    except (OSError, ValueError) as exc:
+        out.update({"status": "unreadable", "why": str(exc)[:120]})
+        return out
+    r = obj.get("readings") or {}
+    band = r.get("band") or {}
+    split = r.get("split") or {}
+
+    def _f(d, k):
+        v = (d or {}).get(k)
+        return float(v) if isinstance(v, (int, float)) and not isinstance(v, bool) else None
+
+    if _f(band, "share_within_band_pct") is None:
+        out.update({"status": "unreadable",
+                    "why": "the face carries no in-band share"})
+        return out
+    out.update({
+        "status": "ok", "readable": True,
+        "evidence_cutoff": obj.get("evidence_cutoff"),
+        "verdict": obj.get("verdict"), "fee_verdict": obj.get("fee_verdict"),
+        "band_bp": obj.get("band_bp"),
+        "share_in_band_pct": _f(band, "share_within_band_pct"),
+        "bars": band.get("bars"),
+        "median_abs_bp": _f(band, "median_abs_gap_bp"),
+        "band_50_bp": _f(band, "band_covering_50pct_bp"),
+        "band_90_bp": _f(band, "band_covering_90pct_bp"),
+        "window_net_pct": _f(r, "window_net_pct"), "window_gross_pct": _f(r, "window_gross_pct"),
+        "quote_pct": _f(r, "quote_pct"), "quote_date": r.get("quote_date"),
+        "commission_bp": _f(split, "commission_bp"),
+        "rate_diff_bp": _f(split, "rate_difference_vs_gross_bp"),
+        "total_bp": _f(split, "total_vs_net_bp"),
+        "commission_share_pct": _f(split, "commission_share_of_total_pct"),
+        "split_readable": bool(split.get("readable")),
+        "control_error_bp": _f(r, "control_error_bp"),
+        "window": obj.get("window") or {},
+    })
+    return out
+
+
+def cash_caliber_block(cc, page_bar=None, page_day=None):
+    """The -50.81bp line split into a fee and a rate, and the band's measured reach. (r1721)
+
+    Two things a reader of the cash section cannot get from one number: whether "same
+    caliber" is a state the asset ever reaches, and how much of the printed gap is the
+    vehicle's own commission.  Both are printed; the two parts are never added into a
+    single "the market pays less" sentence.
+
+    The day word follows `page_day` (r1664): the gap is priced on the face's own quote bar,
+    so only a page rebuilt on that same day may call it today.
+    """
+    out = ["", "### 那句差价里，有多少是费率、有多少是利率？"]
+    if not cc.get("readable"):
+        out.append("现金口径面（etf_book_cash_caliber_band）读不出来（%s），无法核验——"
+                   "这既不证明两个面同口径，也不证明它们不同。"
+                   % (cc.get("why") or "no reason given"))
+        out.append("")
+        return out
+    band = cc.get("band_bp") or 1.0
+    # the day word is bound to a bar (E625): the gap is priced on the quote's own session.
+    same_day = bool(page_day and cc.get("quote_date")
+                    and str(page_day) == str(cc.get("quote_date")))
+    day_word = "今天" if same_day else str(cc.get("quote_date") or "报价日")
+    share, bars = cc.get("share_in_band_pct"), cc.get("bars")
+    if share is not None and bars:
+        n_in = int(round(float(share) / 100.0 * float(bars)))
+        out.append("- 票据用 **%.1fbp** 当「同口径」的线。在整段窗口 %s 根 bar 上，落在线上的是 "
+                   "**%.2f%%**（%d 根）；中位差 **%s bp**，要让一半的 bar 进来得用 **%s bp** 的线，"
+                   "九成要 **%s bp**。"
+                   % (float(band), bars, share, n_in,
+                      ("%.1f" % cc["median_abs_bp"]) if cc.get("median_abs_bp") is not None else "?",
+                      ("%.1f" % cc["band_50_bp"]) if cc.get("band_50_bp") is not None else "?",
+                      ("%.1f" % cc["band_90_bp"]) if cc.get("band_90_bp") is not None else "?"))
+        if str(cc.get("verdict")) == "CALIBER_BAND_IS_DECORATIVE":
+            out.append("- 所以「同口径」**不是这个利率会到达的状态**，是个装饰性的分支："
+                       "页上那句「差 X bp」在任何一天都会印出来，不管是不是真出了事。"
+                       "这不是说那个差是假的——是说它不能当警报读。")
+        elif str(cc.get("verdict")) == "CALIBER_BAND_REACHABLE":
+            out.append("- 判词 **CALIBER_BAND_REACHABLE**：这条线是资产会到达的状态，"
+                       "「同口径」可以当读数用。")
+    if cc.get("split_readable") and cc.get("total_bp") is not None:
+        fee, rate, total = cc.get("commission_bp"), cc.get("rate_diff_bp"), cc.get("total_bp")
+        out.append("- 票据印的 **%+.2fbp** 拆成两半：**车辆佣金 %s bp/年**（毛 %s%% → 净 %s%%，"
+                   "同一段窗口）+ **利率差 %s bp**（报价 %s%% 对窗口毛均 %s%%，%s）。"
+                   % (total,
+                      ("%+.2f" % fee) if fee is not None else "?",
+                      ("%.4f" % cc["window_gross_pct"]) if cc.get("window_gross_pct") is not None else "?",
+                      ("%.4f" % cc["window_net_pct"]) if cc.get("window_net_pct") is not None else "?",
+                      ("%+.2f" % rate) if rate is not None else "?",
+                      ("%.3f" % cc["quote_pct"]) if cc.get("quote_pct") is not None else "?",
+                      ("%.4f" % cc["window_gross_pct"]) if cc.get("window_gross_pct") is not None else "?",
+                      cc.get("quote_date") or "报价日未标注"))
+        if cc.get("commission_share_pct") is not None and \
+                str(cc.get("fee_verdict")) == "PRINTED_GAP_IS_PARTLY_A_FEE":
+            out.append("- **这两半不相加**，而且方向要说清：佣金是**正的**，把差价的绝对值压小了。"
+                       "按同一侧比（毛报价 vs 毛均值），%s比窗口均值低 **%.1fbp**，比页上那个 "
+                       "%+.2fbp **更远**——那个数里有 **%.1f%%** 是成本，不是「市场给得少」。"
+                       % (day_word, abs(rate or 0.0), total, float(cc["commission_share_pct"])))
+        elif cc.get("fee_verdict") == "PRINTED_GAP_IS_A_RATE_DIFFERENCE":
+            out.append("- 佣金只占这个小差价的一小部分，这句话读起来是利率差，不是成本。")
+        if cc.get("quote_date") and page_bar and str(cc["quote_date"]) != str(page_bar):
+            out.append("- 注意这一行定价在 **%s** 那根 bar（本页 bar %s），不是今天的新报价。"
+                       % (cc["quote_date"], page_bar))
+    else:
+        out.append("- 这笔差价拆不开（%s），本页不印合并成一个数。"
+                   % ("缺一侧" if not cc.get("split_readable") else "面里没有拆解"))
+    if cc.get("control_error_bp") is not None:
+        out.append("- 这不是第二套估计：净值在**它自己的已发布窗口**上复现到 %.3fbp（容差 0.5bp），"
+                   "毛值是同一段窗口把费率关掉跑出来的。"
+                   % float(cc["control_error_bp"]))
+    out.append("- 出处：`%s`（生产者 etf_book_cash_caliber_band；本页只读不算）" % cc.get("source"))
+    out.append("")
+    return out
+
+
 def bets_face(path=BETS_JSON):
     """How many independent bets the holdings on this page actually are.
 
@@ -7451,6 +7579,9 @@ def build(with_stress=False, window_label=None):
     # r1717: the carry section prices the cash the book lends out; this one prices the cash
     # the book parks. Two calibers of the same sleeve, and they had never been reconciled.
     page["idle_cash"] = idle_cash_face()
+    # r1721: the cash section prints a gap between two calibers; this is the face that says
+    # whether its 1bp "same caliber" band can ever fire and what the gap is made of.
+    page["cash_caliber"] = cash_caliber_face()
     page["leg_split"] = leg_split()
     page["concentration"] = concentration_face()
     page["sleeve_gate"] = sleeve_gate_face()
@@ -8457,6 +8588,12 @@ def render_md(p, sb=None):
     # page, so the headline read as if idle money earned nothing.
     for _ic_line in idle_cash_block(p.get("idle_cash") or {}, page_bar=p.get("priced_bar")):
         add(_ic_line)
+    # r1721: the cash paragraph above prints the gap between a quote and a net roll. This
+    # says whether its "same caliber" band ever fires, and splits that gap into the fee and
+    # the rate -- the reader had one number for two causes.
+    for _cc_line in cash_caliber_block(p.get("cash_caliber") or {}, page_bar=p.get("priced_bar"),
+                                       page_day=p.get("priced_bar")):
+        add(_cc_line)
     add("")
     ls = p.get("leg_split") or {}
     add("## 这笔钱是「一天里的哪一段」挣的")
@@ -12994,6 +13131,42 @@ def selftest():
     chk("L305 idle cash: a block with no forward reading says so instead of going silent",
         "下一段窗口付多少" in _no_fwd_txt and "没有" in _no_fwd_txt
         and "今日" not in _no_fwd_txt, _no_fwd_txt[-400:])
+
+    # L309-L312 (r1721): the cash paragraph prints one gap for two causes. Paired: a band
+    # that never fires must say so, a band that does fire must say the opposite, the split
+    # must name both parts and the commission share, and an unreadable face must print no
+    # number at all.
+    _cc_fx = {"readable": True, "source": "results/etf_book_cash_caliber_band.json",
+              "band_bp": 1.0, "share_in_band_pct": 1.264, "bars": 1662,
+              "median_abs_bp": 33.5, "band_50_bp": 33.5, "band_90_bp": 90.4,
+              "window_net_pct": 1.7731, "window_gross_pct": 2.0196, "quote_pct": 1.265,
+              "quote_date": "2026-11-13", "commission_bp": 24.649,
+              "rate_diff_bp": -75.455, "total_bp": -50.806, "commission_share_pct": 48.52,
+              "split_readable": True, "control_error_bp": 0.004,
+              "verdict": "CALIBER_BAND_IS_DECORATIVE",
+              "fee_verdict": "PRINTED_GAP_IS_PARTLY_A_FEE"}
+    _cc_md = "\n".join(cash_caliber_block(_cc_fx, page_bar="2026-11-13", page_day="2026-11-13"))
+    chk("L309 cash caliber: a band that fires on 1% of days is named decorative, not an alarm",
+        "1.26%" in _cc_md and "装饰性的分支" in _cc_md and "不能当警报读" in _cc_md,
+        _cc_md[:1600])
+    chk("L310 cash caliber: the split names both parts, the fee share, and the wider true gap",
+        "+24.65" in _cc_md and "-75.45" in _cc_md and "48.5%" in _cc_md
+        and "更远" in _cc_md and "-50.81" in _cc_md and "今天比窗口均值低" in _cc_md,
+        _cc_md[:1600])
+    _cc_ok = dict(_cc_fx, verdict="CALIBER_BAND_REACHABLE", fee_verdict="PRINTED_GAP_IS_A_RATE_DIFFERENCE",
+                  commission_share_pct=2.0, share_in_band_pct=40.0)
+    _cc_ok_md = "\n".join(cash_caliber_block(_cc_ok, page_bar="2026-11-13", page_day="2026-11-13"))
+    chk("L311 cash caliber: the opposite readings print the opposite sentences",
+        "CALIBER_BAND_REACHABLE" in _cc_ok_md and "装饰性的分支" not in _cc_ok_md
+        and "不是成本" in _cc_ok_md, _cc_ok_md[:1600])
+    # the day word is bound to a bar: a page rebuilt later names the quote's date instead.
+    _cc_next = "\n".join(cash_caliber_block(_cc_fx, page_bar="2026-11-14", page_day="2026-11-14"))
+    chk("L312a cash caliber: a page rebuilt on a later day names the quote's bar, not today",
+        "今天比窗口均值低" not in _cc_next and "2026-11-13比窗口均值低" in _cc_next
+        and "不是今天的新报价" in _cc_next, _cc_next[:1600])
+    _cc_gone = "\n".join(cash_caliber_block({"readable": False, "why": "no file"}))
+    chk("L312 cash caliber: an unreadable face says cannot-check and prints neither number",
+        "无法核验" in _cc_gone and "50.81" not in _cc_gone and "24.65" not in _cc_gone, _cc_gone[:800])
 
     # L306-L308 (r1720): the marks belong to a book, and it is not always the sheet's book.
     # Paired: two widths must name both numbers and the overlap; equal widths must NOT borrow

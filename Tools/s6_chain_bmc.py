@@ -206,6 +206,12 @@ LEGS = [
     # reproduced on its own published window (gap 0.4bp). ~38s, no network, no judge; the
     # gate is frozen in the script and the verdict is re-derived off its own readings.
     ("etf_book_idle_cash", ["python", "scripts/etf_book_idle_cash.py"]),
+    # r1721: the cash section prints one gap (-50.81bp) for two causes, and calls the two
+    # calibers "the same" within 1bp -- a band nobody had measured. This leg measures it on
+    # the published window: only 1.26% of 1662 bars land inside 1bp (median 33.5bp), and the
+    # gap splits into +24.65bp commission and -75.45bp rate, so nearly half of "the market
+    # pays less" is the vehicle's own fee. ~3s, no network, changes no ticket.
+    ("etf_book_cash_caliber_band", ["python", "scripts/etf_book_cash_caliber_band.py"]),
     # r1701: the carry family had a judgement but nothing a desk could act on -- no contract
     # name, no lot count, no margin, no next-roll answer, and the IM/IH gap was refused
     # without saying why. This leg publishes the morning sheet off the panels the legs above
