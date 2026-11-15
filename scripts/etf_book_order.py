@@ -933,6 +933,7 @@ CASH_BOOK_SAME_BP = 1.0     # frozen: below this the ticket's own quote and the 
                             # roll are called one caliber; above it the gap is named in CNY
 
 IDLE_CASH_FACE = "etf_book_idle_cash.json"
+CASH_VEHICLE_FACE = "etf_book_cash_vehicle.json"
 
 
 def idle_cash_book_rate(results_dir=None):
@@ -969,6 +970,27 @@ def idle_cash_book_rate(results_dir=None):
                "maxdd_with_pct": _arm.get("maxdd_with_pct"),
                "lag": _arm.get("lag"), "convention": _arm.get("convention")}
     _gap = (doc.get("arm_gap") or {}).get("cagr_with_pct")
+    # r1752: this 1.77% is an average over the whole book window, and the published
+    # vehicle face already prints the same roll year by year (2.34% in 2020 -> 1.07% in
+    # 2026). "A year pays ¥10,075" read off that average is a budget against a rate the
+    # most recent year did not pay, so the table is carried here -- read off that face,
+    # never rebuilt -- and the ticket prints the fall beside the average.
+    _py, _py_src = None, None
+    _cv = _json_face(CASH_VEHICLE_FACE, results_dir) or {}
+    for _v in (_cv.get("vehicles") or []):
+        if _v.get("name") != "gc001_daily_roll":
+            continue
+        _t = _v.get("per_year_net_pct")
+        if isinstance(_t, dict):
+            _tmp = {}
+            for _k, _x in _t.items():
+                try:
+                    _tmp[str(_k)] = float(_x)
+                except (TypeError, ValueError):
+                    continue
+            if len(_tmp) >= 2:
+                _py, _py_src = _tmp, CASH_VEHICLE_FACE
+        break
     return {"pct": round(pct, 4), "source": IDLE_CASH_FACE,
             "asof": doc.get("asof"), "evidence_cutoff": doc.get("evidence_cutoff"),
             "book_cagr_without_pct": rd.get("cagr_without_pct"),
@@ -976,7 +998,8 @@ def idle_cash_book_rate(results_dir=None):
             "idle_share_mean": rd.get("idle_share_mean"),
             "basis": "as_coded", "basis_label": rd.get("convention"),
             "declared": dec,
-            "declared_gap_pp": _gap if isinstance(_gap, (int, float)) else None}
+            "declared_gap_pp": _gap if isinstance(_gap, (int, float)) else None,
+            "per_year_net_pct": _py, "per_year_src": _py_src}
 
 
 CASH_LOCK_GAP_FACE = "etf_book_cash_lock_gap.json"
@@ -1193,7 +1216,13 @@ def cash_money(cash_amount, rates, asof, accrual_pct=None, tail=250, fall_bp=CAS
                                 "declared": book.get("declared"),
                                 "declared_gap_pp": book.get("declared_gap_pp"),
                                 "gap_vs_spot_bp": round((spot_pct - bp) * 100.0, 2),
-                                "gap_vs_spot_cny": round(cash * (spot_pct - bp) / 100.0, 0)}
+                                "gap_vs_spot_cny": round(cash * (spot_pct - bp) / 100.0, 0),
+                                # r1752: the headline rate is a whole-window average; the
+                                # per-year table travels with it so the ticket can print the
+                                # fall instead of letting one year look like every year.
+                                "per_year_net_pct": book.get("per_year_net_pct"),
+                                "per_year_src": book.get("per_year_src"),
+                                "evidence_cutoff": book.get("evidence_cutoff")}
     if spot_pct <= tail_pct - float(fall_bp) / 100.0:
         out["verdict"] = "RATES_FELL"
     elif spot_pct >= tail_pct + float(fall_bp) / 100.0:
@@ -1306,6 +1335,57 @@ def cash_read_md(cm, cash_weight):
     return out
 
 
+def _cash_book_decay_line(br, amount):
+    """r1752: the headline's cash rate is an average over the whole book window, and the
+    published vehicle face already prints that same roll year by year.
+
+    The ticket printed "a year pays ¥10,075" off the average with nothing beside it, so the
+    number read like this year's rate -- while the most recent year pays a good deal less
+    than the seven-year mean. The table is READ off that face (never rebuilt here); a face
+    without it leaves the average labelled as an average rather than passed off as a year.
+    """
+    src = (br or {}).get("source") or "?"
+    t = (br or {}).get("per_year_net_pct")
+    items = []
+    if isinstance(t, dict):
+        for k, v in t.items():
+            try:
+                items.append((str(k), float(v)))
+            except (TypeError, ValueError):
+                continue
+    items.sort()
+    if len(items) < 2 or amount is None:
+        return ["- 这一年化净滚没有按年拆分的读数（%s），所以**不把它当今年**的收益率——"
+                "它只是整段窗口的平均。" % src]
+    y0, v0 = items[0]
+    y1, v1 = items[-1]
+    try:
+        cny_last = int(round(float(amount) * v1 / 100.0))
+        cny_avg = int(round(float(amount) * float(br.get("pct") or 0.0) / 100.0))
+    except (TypeError, ValueError):
+        return ["- 这一年化净滚的按年读数算不出金额（%s），本单不拿它报钱。" % src]
+    def _pp(x):
+        # the face publishes three decimals; rounding them to two here would print 2.33 for
+        # 2.335 and 1.06 for 1.065 (half-to-even) -- neither is the face's own reading
+        return ("%.3f" % float(x)).rstrip("0").rstrip(".")
+
+    cut = (br or {}).get("evidence_cutoff")
+    last_note = ("%s 年只到 %s，按年化读" % (y1, cut)) if cut else ("%s 是年化读数" % y1)
+    out = ("- 上面那个 %.2f%% 是 **%s → %s 整段**的年化净滚，按年拆开它从 **%s%%（%s）** "
+           "走到 **%s%%（%s）**（%s）——按最近这一段 %s%% 算，同一笔 ¥%s 一年是 **¥%s**，"
+           % (float(br.get("pct") or 0.0), y0, y1, _pp(v0), y0, _pp(v1), y1, last_note,
+              _pp(v1), format(int(amount), ","), format(cny_last, ",")))
+    if v1 < v0 - 1e-9:
+        out += ("比上面的 ¥%s 少 ¥%s：上面那个数是整段的平均，不是这一段的收益率。"
+                % (format(cny_avg, ","), format(cny_avg - cny_last, ",")))
+    elif v1 > v0 + 1e-9:
+        out += ("比上面的 ¥%s 多 ¥%s：上面那个数是整段的平均，这一段跑在它上面。"
+                % (format(cny_avg, ","), format(cny_last - cny_avg, ",")))
+    else:
+        out += "与上面的 ¥%s 相同：这一段正好落在整段平均上。" % format(cny_avg, ",")
+    return [out]
+
+
 def cash_book_rate_md(cm, basis=True):
     """r1718: does this ticket's cash line use the same rate the book's headline uses?
 
@@ -1331,14 +1411,15 @@ def cash_book_rate_md(cm, basis=True):
             % (br["pct"], br.get("source") or "?",
                format(int(cm["cash_amount_cny"]), ","),
                format(int(br["annual_cny"]), ",")))
+    decay_lines = _cash_book_decay_line(br, cm.get("cash_amount_cny"))
     basis_lines = _cash_basis_lines(br) if basis else []
     gap = br.get("gap_vs_spot_bp")
     if gap is None:
-        return [head] + basis_lines + ["- 两张面之间的差算不出来，本单不印它。"]
+        return [head] + decay_lines + basis_lines + ["- 两张面之间的差算不出来，本单不印它。"]
     if abs(gap) <= CASH_BOOK_SAME_BP:
-        return [head] + basis_lines + ["- 它与上面那节报价差 %.2fbp，属同一个口径：这张单的现金行就是"
+        return [head] + decay_lines + basis_lines + ["- 它与上面那节报价差 %.2fbp，属同一个口径：这张单的现金行就是"
                                  "头条那一行。" % gap]
-    return [head] + basis_lines + [
+    return [head] + decay_lines + basis_lines + [
             "- 与上面那节报价差 **%.2fbp**（一年 ¥%s）：一个是一节报价，一个是整段窗口扣佣金的"
             "净滚，**不可相加**；头条用的是后者。"
             % (gap, format(int(abs(br.get("gap_vs_spot_cny") or 0)), ","))]
@@ -5337,6 +5418,50 @@ def selftest():
         _live is not None and _face_pct is not None
         and abs(float(_live["pct"]) - float(_face_pct)) < 1e-4,
         "live=%s face=%s" % (_live and _live["pct"], _face_pct))
+    # leg4zo-zt (r1752): the 1.77% beside this cash is a whole-window average of a rate
+    # that fell from 2.34% (2020) to 1.07% (2026), and the published vehicle face already
+    # prints that fall year by year. "A year pays ¥10,075" read off the average is a budget
+    # against a rate the most recent year did not pay. Paired legs: the table is read off
+    # the face, the money is that year's own rate (not the average), a rising table is not
+    # called a drop, and an absent table labels the average as an average.
+    _bk_py = dict(_bk, per_year_net_pct={"2020": 2.335, "2024": 1.733, "2026": 1.065},
+                  per_year_src=CASH_VEHICLE_FACE, evidence_cutoff="2026-11-13")
+    _dec = _cash_book_decay_line(_bk_py, 568230.0)
+    _dec_txt = "".join(_dec)
+    _last_cny = int(round(568230.0 * 1.065 / 100.0))
+    _avg_cny = int(round(568230.0 * 1.7731 / 100.0))
+    chk("leg4zo the cash headline's rate is shown falling per year, with this year's money",
+        len(_dec) == 1 and "2.335" in _dec_txt and "1.065" in _dec_txt
+        and "2020" in _dec_txt and "2026" in _dec_txt
+        and ("¥%s" % format(_last_cny, ",")) in _dec_txt
+        and ("¥%s" % format(_avg_cny, ",")) in _dec_txt,
+        _dec_txt[:200])
+    chk("leg4zp the year's money is that year's own rate, not the average",
+        _last_cny != _avg_cny
+        and ("少 ¥%s" % format(_avg_cny - _last_cny, ",")) in _dec_txt,
+        _dec_txt[:200])
+    _up_txt = "".join(_cash_book_decay_line(
+        dict(_bk, per_year_net_pct={"2024": 1.0, "2026": 2.0},
+             per_year_src=CASH_VEHICLE_FACE), 568230.0))
+    chk("leg4zq a rising table is not called a drop",
+        "多 ¥" in _up_txt and "少 Y" not in _up_txt, _up_txt[:160])
+    _no_txt = "".join(_cash_book_decay_line(dict(_bk), 568230.0))
+    chk("leg4zr a face without the per-year table labels the average as an average",
+        "不把它当今年" in _no_txt and format(_avg_cny, ",") not in _no_txt
+        and format(_last_cny, ",") not in _no_txt, _no_txt[:160])
+    _lp = idle_cash_book_rate()
+    chk("leg4zs the per-year table is read off the published vehicle, not typed here",
+        isinstance((_lp or {}).get("per_year_net_pct"), dict)
+        and len(_lp["per_year_net_pct"]) >= 5
+        and (_lp.get("per_year_src") == CASH_VEHICLE_FACE),
+        "years=%s src=%s" % (len((_lp or {}).get("per_year_net_pct") or {}),
+                             (_lp or {}).get("per_year_src")))
+    _cm_py = cash_money(568230.0, pd.Series([1.7732] * 40, index=_cm_idx),
+                        "2024-02-23", accrual_pct=1.7732, book=_bk_py)
+    _md_py = "".join(cash_book_rate_md(_cm_py))
+    chk("leg4zt the ticket prints the decay line beside the headline, from the face",
+        "按年拆开" in _md_py and "2.335" in _md_py and "1.065" in _md_py, _md_py[:220])
+
 
     # leg4p-r (r1747): the two book CAGRs on the cash line are the engine as coded, while the
     # card claims decide-at-close(d) -> fill-at-open(d+1). The ticket now prints the declared
