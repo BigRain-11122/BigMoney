@@ -1,0 +1,327 @@
+{
+  "face": "etf_book_year_gate_idlecarry",
+  "asof": "2026-11-15T22:02:09",
+  "evidence_cutoff": "2026-11-13",
+  "window": {
+    "start": "2020-01-03",
+    "end": "2026-11-13",
+    "bars": 1662
+  },
+  "question": "the page says take the deep-drawdown book to pass the year gate or the shallow one and never grow capital. Does paying the book's own idle sleeve the rate the desk already earns buy both at once?",
+  "criteria_frozen": {
+    "C0_control": "with the cash rate forced to zero the re-derived calendar block must reproduce the published YEAR-GATE nobond_vt08_adopted top2_share (|diff| <= 1e-4) and its verdict; otherwise the composition, not the carry, is what moved the gate",
+    "C1_cash_vehicle_published": "the idle sleeve must be priced by the published GC001 daily roll and reproduce the published idle-cash face's net rate on this window (<= 0.5bp), never a new vehicle",
+    "C2_line": "the gate line is candidate_year_gate.TOP2_SHARE_MAX, imported -- this face may not restate or move it",
+    "C3_drawdown_must_not_deepen_pp": 0.2,
+    "min_partial_years_note": "2026 is a partial calendar year and stays flagged partial by the same 60-bar window rule the gate uses"
+  },
+  "readings": {
+    "control_reproduces_published": true,
+    "control_top2_share": 0.7039,
+    "published_top2_share": 0.7039,
+    "control_verdict": "CONDITIONAL",
+    "published_verdict": "CONDITIONAL",
+    "paid_top2_share": 0.6854,
+    "control_top2_share_full_only": 0.7278,
+    "paid_top2_share_full_only": 0.71,
+    "caliber_note": "the frozen gate caliber keeps partial years in the denominator; the complete-years-only reading is printed beside it because the two disagree about the same book and a reader must see both",
+    "paid_verdict": "ADMIT",
+    "control_Y4": false,
+    "paid_Y4": true,
+    "gate_line_top2_share_max": 0.7,
+    "control_maxdd_pct": -10.56,
+    "paid_maxdd_pct": -10.47,
+    "paid_maxdd_not_deeper_pp_ok": true,
+    "cash_vehicle_reproduced": true,
+    "cash_vehicle_net_pct_on_window": 1.7731,
+    "published_cash_vehicle_net_pct": 1.7731,
+    "cash_reproduction_gap_bp": 0.004,
+    "control_max_rel_err_vs_engine": 1.887379141862766e-15,
+    "bars": 1662,
+    "turnover_per_side": 1.0825,
+    "median_idle_share": 0.2922,
+    "flips_repaired": 169
+  },
+  "gates": {
+    "C0_control": true,
+    "C1_cash_vehicle_published": true,
+    "C2_line_imported": true,
+    "C3_drawdown_must_not_deepen_pp": true
+  },
+  "verdict": "THIRD_PATH_FOUND",
+  "arms": [
+    {
+      "verdict": "CONDITIONAL",
+      "capacity_checked": true,
+      "cagr_pct": 11.55,
+      "capacity_cny_1day_5pct": 39783633.0,
+      "year_metrics": {
+        "years": 7,
+        "positive_years": 7,
+        "median": 5.6072,
+        "worst": 2.6828,
+        "best": 43.0627,
+        "annual_sum": 81.8427,
+        "top2_share": 0.7039,
+        "worst_full_only": 2.8393,
+        "top2_share_full_only": 0.7278
+      },
+      "checks": {
+        "Y1_positive_years_share": true,
+        "Y2_median_positive": true,
+        "Y3_worst_year": true,
+        "Y4_top2_share": false,
+        "C1_capacity": true
+      },
+      "years": [
+        {
+          "year": "2020",
+          "net_pct": 5.607211539627421,
+          "cohorts": 4,
+          "partial": false
+        },
+        {
+          "year": "2021",
+          "net_pct": 7.628116174581634,
+          "cohorts": 4,
+          "partial": false
+        },
+        {
+          "year": "2022",
+          "net_pct": 2.8392743924002817,
+          "cohorts": 4,
+          "partial": false
+        },
+        {
+          "year": "2023",
+          "net_pct": 5.47301156733262,
+          "cohorts": 4,
+          "partial": false
+        },
+        {
+          "year": "2024",
+          "net_pct": 14.54956309948332,
+          "cohorts": 4,
+          "partial": false
+        },
+        {
+          "year": "2025",
+          "net_pct": 43.06268157181643,
+          "cohorts": 4,
+          "partial": false
+        },
+        {
+          "year": "2026",
+          "net_pct": 2.6828062593693414,
+          "cohorts": 3,
+          "partial": true
+        }
+      ],
+      "partial_years": [
+        {
+          "year": "2026",
+          "net_pct": 2.6828062593693414,
+          "cohorts": 3,
+          "approx_months_of_evidence": 8.6
+        }
+      ],
+      "gate_conflict": null,
+      "book": "cash_zero_control",
+      "note": "the adopted book as priced today: the 8% target de-levers into a sleeve the engine pays 0",
+      "yearly_returns_pct": {
+        "2020": 5.607211539627421,
+        "2021": 7.628116174581634,
+        "2022": 2.8392743924002817,
+        "2023": 5.47301156733262,
+        "2024": 14.54956309948332,
+        "2025": 43.06268157181643,
+        "2026": 2.6828062593693414
+      },
+      "yearly_bars": {
+        "2020": 242,
+        "2021": 243,
+        "2022": 242,
+        "2023": 242,
+        "2024": 242,
+        "2025": 243,
+        "2026": 208
+      },
+      "stats": {
+        "cagr": 0.1155,
+        "sharpe": 1.137,
+        "maxdd": -0.1056,
+        "vol": 0.105
+      }
+    },
+    {
+      "verdict": "ADMIT",
+      "capacity_checked": true,
+      "cagr_pct": 12.13,
+      "capacity_cny_1day_5pct": 39783633.0,
+      "year_metrics": {
+        "years": 7,
+        "positive_years": 7,
+        "median": 6.7798,
+        "worst": 2.9778,
+        "best": 43.7731,
+        "annual_sum": 85.82,
+        "top2_share": 0.6854,
+        "worst_full_only": 3.1746,
+        "top2_share_full_only": 0.71
+      },
+      "checks": {
+        "Y1_positive_years_share": true,
+        "Y2_median_positive": true,
+        "Y3_worst_year": true,
+        "Y4_top2_share": true,
+        "C1_capacity": true
+      },
+      "years": [
+        {
+          "year": "2020",
+          "net_pct": 6.779777184987812,
+          "cohorts": 4,
+          "partial": false
+        },
+        {
+          "year": "2021",
+          "net_pct": 8.279108951549773,
+          "cohorts": 4,
+          "partial": false
+        },
+        {
+          "year": "2022",
+          "net_pct": 3.1746016681763356,
+          "cohorts": 4,
+          "partial": false
+        },
+        {
+          "year": "2023",
+          "net_pct": 5.790095094860304,
+          "cohorts": 4,
+          "partial": false
+        },
+        {
+          "year": "2024",
+          "net_pct": 15.045533458458804,
+          "cohorts": 4,
+          "partial": false
+        },
+        {
+          "year": "2025",
+          "net_pct": 43.7730948759155,
+          "cohorts": 4,
+          "partial": false
+        },
+        {
+          "year": "2026",
+          "net_pct": 2.977788583420682,
+          "cohorts": 3,
+          "partial": true
+        }
+      ],
+      "partial_years": [
+        {
+          "year": "2026",
+          "net_pct": 2.977788583420682,
+          "cohorts": 3,
+          "approx_months_of_evidence": 8.6
+        }
+      ],
+      "gate_conflict": null,
+      "book": "cash_paid",
+      "note": "same book, same target, same picks; the idle fraction earns the published GC001 daily roll",
+      "yearly_returns_pct": {
+        "2020": 6.779777184987812,
+        "2021": 8.279108951549773,
+        "2022": 3.1746016681763356,
+        "2023": 5.790095094860304,
+        "2024": 15.045533458458804,
+        "2025": 43.7730948759155,
+        "2026": 2.977788583420682
+      },
+      "yearly_bars": {
+        "2020": 242,
+        "2021": 243,
+        "2022": 242,
+        "2023": 242,
+        "2024": 242,
+        "2025": 243,
+        "2026": 208
+      },
+      "stats": {
+        "cagr": 0.1213,
+        "sharpe": 1.188,
+        "maxdd": -0.1047,
+        "vol": 0.105
+      }
+    }
+  ],
+  "year_delta_pp": {
+    "2020": {
+      "without_pct": 5.6072,
+      "with_pct": 6.7798,
+      "delta_pp": 1.1726,
+      "bars": 242
+    },
+    "2021": {
+      "without_pct": 7.6281,
+      "with_pct": 8.2791,
+      "delta_pp": 0.651,
+      "bars": 243
+    },
+    "2022": {
+      "without_pct": 2.8393,
+      "with_pct": 3.1746,
+      "delta_pp": 0.3353,
+      "bars": 242
+    },
+    "2023": {
+      "without_pct": 5.473,
+      "with_pct": 5.7901,
+      "delta_pp": 0.3171,
+      "bars": 242
+    },
+    "2024": {
+      "without_pct": 14.5496,
+      "with_pct": 15.0455,
+      "delta_pp": 0.496,
+      "bars": 242
+    },
+    "2025": {
+      "without_pct": 43.0627,
+      "with_pct": 43.7731,
+      "delta_pp": 0.7104,
+      "bars": 243
+    },
+    "2026": {
+      "without_pct": 2.6828,
+      "with_pct": 2.9778,
+      "delta_pp": 0.295,
+      "bars": 208
+    }
+  },
+  "idle_share_by_year": {
+    "2020": 0.5509,
+    "2021": 0.2946,
+    "2022": 0.1987,
+    "2023": 0.1359,
+    "2024": 0.2746,
+    "2025": 0.3436,
+    "2026": 0.3275
+  },
+  "source_faces": {
+    "year_gate": "results/etf_book_year_gate/YEAR-GATE.json",
+    "idle_cash": "results/etf_book_idle_cash.json",
+    "cash_vehicle": "results/etf_book_cash_vehicle.json"
+  },
+  "honest": [
+    "the cash vehicle is a daily GC001 roll at the published rate, not a dealer quote; one contract per bar, exchange commission included, and its 1.77%/yr is reproduced here rather than assumed",
+    "the composed curve is a return statement about the book, not a ticket: it says what the sleeve would have earned had it been paid, not that the desk earned it",
+    "idle is 1 - scale held constant over a holding period (the engine's own nominal weight convention); a drifting sleeve moves the number below the printed precision",
+    "the year gate's 60-bar cohort count is a window analogue for a daily book and is imported unchanged; 2026 stays partial and stays in the frozen denominator",
+    "instrument-list survivorship is unchanged and still disclosed on the card; this face does not repair it",
+    "nothing is adopted here: paying the sleeve changes the book's headline, and that is a card change across every face that quotes it, not a side effect of a gate reading"
+  ],
+  "elapsed_sec": 43.74
+}

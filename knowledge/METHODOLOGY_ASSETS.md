@@ -15489,3 +15489,21 @@ research/EVENT_EXEC_GATE.md（机械生成）· smoke 腿 product: event_exec_ga
 工具面：scripts/event_exec_gate.py（`_protocol_seat_marks` / `_is_protocol_seat_face` /
 `audit` / `selftest-audit` 14 腿含 L16-L19）· S6 腿 `event_exec_gate_audit`（3s·每轮自动点名）·
 results/event_exec_gate_audit.json · smoke 腿 `product: event_exec_gate audit`（r1737）。
+
+## E661 — 机制句要由能验算的那一列支撑（r1738 bm-c）
+
+1. 一张新面回答「付清闲置仓的利息能不能让同一本书同时过日历闸又保住浅回撤」，结论
+   **THIRD_PATH_FOUND**：冻结口径的「最好两年占净收益」70.39%→68.54%（线 70%），
+   判决 CONDITIONAL→ADMIT，回撤 -10.56%→-10.47%。
+2. **第一版页面把机制句写反了**：原句是「carry 落在回撤最深的年份，弱年得到最大补益」。
+   把年度闲置占比打出来就看到真相：carry 与**闲置占比**成正比，2020 闲置 55.1% 拿 +1.17pp，
+   而 2022/2023 几乎满仓只拿 +0.32pp。份额下降的算术在分母：七年合计 +3.98pp，最好两年
+   只 +1.21pp。**写反也能读得通**——所以机制句必须由表里那一列能验算的量支撑，且那一列
+   要打在页面上（本轮加 `idle_share_by_year` 就是为此）。
+3. **口径并列必须写在结论旁**：同一本书按「只算完整年」仍是 72.78%→71.00%，仍在线上。
+   正句是「它过的是闸用的那把尺」，不是「它不再依赖两年」。少这一行，面就从读数变成宣传。
+4. 组合两张已发布面时，控制组要能复现已发布读数（本面：无 carry 重派生 top2=0.7039 与
+   已发布逐位相同、判决同名；现金载体 1.77%/yr 复现差 0.004bp），否则动的是组合不是 carry。
+
+工具面：scripts/etf_book_year_gate_idlecarry.py（run/selftest 8 腿）·
+results/etf_book_year_gate_idlecarry.json · research/ETF_BOOK_YEAR_GATE_IDLECARRY.md（机械生成）。
