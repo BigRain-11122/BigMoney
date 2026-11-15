@@ -9,8 +9,8 @@
  "n_unverifiable": 0,
  "unverifiable": [],
  "rows": [],
- "verdict": "PRINTED_SELF_DATED",
- "sentence": "**页面自己用的「今天/今日」有 9 行，坐在 7 个小节里；每一行都自带日期**（结构面里 65 节，日词 0 节）。这一面核了 12 处日期：12 处对上它所引用的字段，**0 处判不了（字段缺）**，**1 处没有规则可核**——判不了的不算对上。",
+ "verdict": "PRINTED_DATES_AGREE",
+ "sentence": "**页面自己用的「今天/今日」有 9 行，13 处日期逐句对上了它引用的那张面**（13 条规则，0 处无规则可核，0 处判不了；结构面里 65 节，日词 0 节）。这一面核的是「句子写的日子 == 那个字段写的日子」，不核那个字段本身对不对。",
  "printed": {
   "state": "ok",
   "n_lines": 9,
@@ -76,12 +76,12 @@
   ]
  },
  "date_claims": {
-  "n_claims": 12,
-  "n_ok": 12,
+  "n_claims": 13,
+  "n_ok": 13,
   "n_mismatch": 0,
   "n_unverifiable": 0,
-  "n_unmapped": 1,
-  "n_rules": 12,
+  "n_unmapped": 0,
+  "n_rules": 13,
   "claims": [
    {
     "heading": "(页首)",
@@ -140,6 +140,14 @@
     "reading": "ok"
    },
    {
+    "heading": "这笔钱里有多少是「把现金借出去」挣的",
+    "date": "2026-11-13",
+    "field": "cash_caliber.quote_date",
+    "expected": "2026-11-13",
+    "line": "- **这两半不相加**，而且方向要说清：佣金是**正的**，把差价的绝对值压小了。按同一侧比（毛报价 vs 毛均值），今天（2026-11-13 的报价）比窗口均值低 **75.5bp**，比页上那个 -50.81bp **更远**——那个数里有 **48.5%** 是成本，不",
+    "reading": "ok"
+   },
+   {
     "heading": "最坏的日子长什么样（同一批票，整段历史）",
     "date": "2005-02-23",
     "field": "stress.first",
@@ -181,18 +189,12 @@
    }
   ],
   "mismatches": [],
-  "unmapped": [
-   {
-    "heading": "这笔钱里有多少是「把现金借出去」挣的",
-    "date": "2026-11-13",
-    "line": "- **这两半不相加**，而且方向要说清：佣金是**正的**，把差价的绝对值压小了。按同一侧比（毛报价 vs 毛均值），今天（2026-11-13 的报价）比窗口均值低 **75.5bp**，比页上那个 -50.81bp **更远**——那个数里有 **48.5%** 是成本，不"
-   }
-  ],
+  "unmapped": [],
   "buckets": {},
   "bucket_rows": {}
  },
  "day_source": "generated_for_date",
  "headline_field": "priced_bar",
  "script": "live_book_day_words",
- "ts": "2026-11-15T14:05:29"
+ "ts": "2026-11-15T14:09:58"
 }

@@ -86,6 +86,10 @@ CLAIM_RULES = [
     (re.compile(r"（bar " + _D + r"）"), ["priced_bar"]),
     (re.compile(r"本页是 \*\*" + _D + r"\*\* 的页面"), ["generated_for_date"]),
     (re.compile(r"价格和数据都停在 \*\*" + _D + r"\*\*"), ["priced_bar"]),
+    # r1721: the cash-caliber sentence says "today (the 2026-11-13 quote)"; it reads its own
+    # face, so it must be checked against that face's quote date -- not against the cash
+    # yield face just because the two happen to print the same day today.
+    (re.compile(r"今天（" + _D + r" 的报价）"), ["cash_caliber.quote_date"]),
 ]
 
 
@@ -640,6 +644,7 @@ def selftest():
         ("**今天这张可执行单实际持 5 名**（bar 2026-11-13）", 1),
         ("本页是 **2026-11-14** 的页面", 1),
         ("价格和数据都停在 **2026-11-13**", 1),
+        ("今天（2026-11-13 的报价）比窗口均值低 **75.5bp**", 1),
     ]
     leg("every date rule has a sample of its own language, and every sample fires one rule",
         len(_samples) == len(CLAIM_RULES)
