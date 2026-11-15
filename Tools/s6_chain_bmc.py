@@ -198,6 +198,13 @@ LEGS = [
     # correctly sized short does not [-0.099, +0.071]. Reads the same series and the same
     # switch-day rule through etf_book_ih_hedge (imported), ~30s, no network, buys nothing.
     ("etf_book_ih_tail_ci", ["python", "scripts/etf_book_ih_tail_ci.py", "run"]),
+    # r1721: the IH study ended on a unit problem, and only IH ever got that treatment.
+    # This leg asks it of every instrument the desk can put on: one lot's notional as a
+    # share of the account against a 30% line -- at 1M all four index futures are "the
+    # whole book" (IC 127.5%, IM 125.5%, IF 118.7%, IH 82.0%) while every ETF lot is a
+    # rounding error (<=0.1%); six commodity/bond futures carry no declared multiplier in
+    # this repo and are listed as such rather than guessed. ~1s, no network, sizes nothing.
+    ("etf_book_lot_floor", ["python", "scripts/etf_book_lot_floor.py", "run"]),
     # r1716: the book's own engine prices its idle sleeve at 0 (the vol target de-levers
     # into cash) while etf_book_cash_vehicle already priced that same cash at 1.77%/yr and
     # the newest ticket already carries it -- two published faces for one sleeve, never

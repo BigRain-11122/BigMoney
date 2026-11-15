@@ -1342,6 +1342,53 @@
   "block_bars": 21,
   "path": "results\\etf_book_ih_tail_ci.json"
  },
+ "lot_floor": {
+  "status": "ok",
+  "readable": true,
+  "evidence_cutoff": "2026-11-13",
+  "leg_max_share": 0.3,
+  "one_lot_is_the_book": [
+   "IC",
+   "IF",
+   "IH",
+   "IM"
+  ],
+  "expressible_as_a_leg": [
+   "510050",
+   "510300",
+   "510500",
+   "512100",
+   "588000"
+  ],
+  "undeclared_multiplier": [
+   "AU",
+   "RB",
+   "SC",
+   "T",
+   "TF",
+   "TS"
+  ],
+  "shares_at_1m": {
+   "IC": 1.275,
+   "IF": 1.18698,
+   "IH": 0.82002,
+   "IM": 1.25536
+  },
+  "etf_shares_at_1m": {
+   "510300": 0.000408,
+   "510050": 0.000289,
+   "510500": 0.00065,
+   "512100": 0.000258,
+   "588000": 0.000135
+  },
+  "capital_needed": {
+   "IC": 4250000.0,
+   "IF": 3956600.0,
+   "IH": 2733400.0,
+   "IM": 4184533.3333333335
+  },
+  "face_cutoff": "2026-11-13"
+ },
  "fill": {
   "status": "ok",
   "source": "results\\etf_book_forward\\LEDGER.json",
@@ -1838,6 +1885,35 @@
    "C2_cagr_gain_pp": 0.3,
    "C3_sharpe_must_not_fall": true,
    "C4_maxdd_must_not_deepen_pp": 0.2
+  }
+ },
+ "cash_caliber": {
+  "status": "ok",
+  "readable": true,
+  "source": "results/etf_book_cash_caliber_band.json",
+  "evidence_cutoff": "2026-11-13",
+  "verdict": "CALIBER_BAND_IS_DECORATIVE",
+  "fee_verdict": "PRINTED_GAP_IS_PARTLY_A_FEE",
+  "band_bp": 1.0,
+  "share_in_band_pct": 1.264,
+  "bars": 1662,
+  "median_abs_bp": 33.5,
+  "band_50_bp": 33.5,
+  "band_90_bp": 90.405,
+  "window_net_pct": 1.7731,
+  "window_gross_pct": 2.0196,
+  "quote_pct": 1.265,
+  "quote_date": "2026-11-13",
+  "commission_bp": 24.649,
+  "rate_diff_bp": -75.455,
+  "total_bp": -50.806,
+  "commission_share_pct": 48.52,
+  "split_readable": true,
+  "control_error_bp": 0.004,
+  "window": {
+   "start": "2020-01-03",
+   "end": "2026-11-13",
+   "bars": 1662
   }
  },
  "leg_split": {
@@ -7754,10 +7830,10 @@
  "authority": {
   "writer": "bm-c",
   "owner": "bm-a",
-  "owner_silent_h": 38.5,
+  "owner_silent_h": 39.3,
   "gate_h": 6.0,
   "took_over": true,
-  "why": "bm-a has not written its own heartbeat for 38.5 h (> 6 h): this host takes the pen for the page only -- a stopped heartbeat is not a dead machine",
+  "why": "bm-a has not written its own heartbeat for 39.3 h (> 6 h): this host takes the pen for the page only -- a stopped heartbeat is not a dead machine",
   "no_bar_reason": "human_ages"
  },
  "fleet": {

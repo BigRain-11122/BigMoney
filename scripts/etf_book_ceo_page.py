@@ -6577,6 +6577,8 @@ def futures_sleeve_block(fs):
 
 HEDGE_FACE = os.path.join(ROOT, "results", "etf_book_ih_hedge.json")
 TAIL_CI_FACE = os.path.join(ROOT, "results", "etf_book_ih_tail_ci.json")
+# r1721: one lot against one leg, for every instrument the desk can put on.
+LOT_FLOOR_FACE = os.path.join(ROOT, "results", "etf_book_lot_floor.json")
 
 
 def futures_hedge_face():
@@ -6750,6 +6752,110 @@ def futures_hedge_tail_block(fh):
                       "区间跨过 0，这不是亏损，是量不出改善" if dlo <= 0.0 <= dhi
                       else ("区间整段在 0 以上" if dlo > 0.0 else "区间整段在 0 以下"),
                       fh.get("hedge_verdict") or "-"))
+    out.append("")
+    return out
+
+
+def lot_floor_face():
+    """One lot against one leg, for every instrument the desk can put on (r1721).
+
+    The IH study ended on a unit problem -- one lot is 11x what beta asks for -- and only
+    IH ever got that treatment. The question generalises without changing: at the account
+    size this page talks about, is the smallest tradeable unit smaller than the leg it is
+    meant to express? Reads `results/etf_book_lot_floor.json`; nothing is recomputed here
+    and the 30% line is quoted from the face, not typed.
+    """
+    if not os.path.exists(LOT_FLOOR_FACE):
+        return {"status": "unreadable", "readable": False,
+                "why": "results/etf_book_lot_floor.json is not on disk"}
+    try:
+        with open(LOT_FLOOR_FACE, encoding="utf-8") as f:
+            d = json.load(f)
+    except (OSError, ValueError) as e:
+        return {"status": "unreadable", "readable": False, "why": repr(e)}
+    at = d.get("at_1m") or {}
+    legs = d.get("legs") or []
+    by = {l.get("instrument"): l for l in legs if isinstance(l, dict)}
+    shares = {}
+    for inst in (at.get("one_lot_is_the_book") or []):
+        s = (by.get(inst) or {}).get("share_of_account") or {}
+        v = s.get("1000000")
+        if isinstance(v, (int, float)):
+            shares[inst] = v
+    etf_shares = {}
+    for l in legs:
+        if l.get("kind") != "etf":
+            continue
+        v = ((l.get("share_of_account") or {}).get("1000000"))
+        if isinstance(v, (int, float)):
+            etf_shares[l.get("instrument")] = v
+    need = {}
+    for inst in (at.get("one_lot_is_the_book") or []):
+        c = (by.get(inst) or {}).get("capital_where_it_becomes_a_leg")
+        if isinstance(c, (int, float)):
+            need[inst] = c
+    return {
+        "status": "ok",
+        "readable": True,
+        "evidence_cutoff": d.get("evidence_cutoff"),
+        "leg_max_share": (d.get("rule") or {}).get("leg_max_share_of_account"),
+        "one_lot_is_the_book": list(at.get("one_lot_is_the_book") or []),
+        "expressible_as_a_leg": list(at.get("expressible_as_a_leg") or []),
+        "undeclared_multiplier": list(at.get("undeclared_multiplier") or []),
+        "shares_at_1m": shares,
+        "etf_shares_at_1m": etf_shares,
+        "capital_needed": need,
+        "face_cutoff": d.get("evidence_cutoff"),
+    }
+
+
+def lot_floor_block(lf):
+    """Does "one lot" ever mean "one leg" on this account? (r1721)"""
+    out = ["", "### 「一手」在 100 万上到底算不算一条腿？"]
+    if not lf.get("readable"):
+        out.append("单位地板面（etf_book_lot_floor）读不出来（%s），这一条无法核验。"
+                   % (lf.get("why") or "no reason given"))
+        out.append("")
+        return out
+    line = lf.get("leg_max_share") or 0.0
+    book = lf.get("one_lot_is_the_book") or []
+    leg = lf.get("expressible_as_a_leg") or []
+    shares = lf.get("shares_at_1m") or {}
+    need = lf.get("capital_needed") or {}
+    etf_shares = lf.get("etf_shares_at_1m") or {}
+    if not book and not leg:
+        out.append("- 这条面上一条腿都没量出来，什么也不能说。")
+        out.append("")
+        return out
+    if book:
+        parts = []
+        for inst in book:
+            s = shares.get(inst)
+            n = need.get(inst)
+            if s is None:
+                parts.append("%s（占比读不到）" % inst)
+            elif n is None:
+                parts.append("%s 一手占 %.1f%%" % (inst, s * 100.0))
+            else:
+                parts.append("%s 一手占 %.1f%%（要做到 %s 元才是一条腿）"
+                             % (inst, s * 100.0, "{:,.0f}".format(n)))
+        out.append("- 100 万上「一手就是整本」，一手已超过账户的 %.0f%%：%s。"
+                   % (line * 100.0, "；".join(parts)))
+    else:
+        out.append("- 100 万上没有任何品种一手就超过账户的 %.0f%%——这条线在这档账户上不成立。"
+                   % (line * 100.0))
+    if etf_shares:
+        small = min(etf_shares.values())
+        big = max(etf_shares.values())
+        out.append("- 同一天 ETF 那一侧是另一种量级：最便宜的一手占账户 %.2f%%、最贵的 %.2f%%，"
+                   "所以「买不到整手」不是这套书的普遍问题，它只发生在期货上。"
+                   % (small * 100.0, big * 100.0))
+    elif leg:
+        out.append("- 100 万上还是一条腿的品种：%s。" % "、".join(leg))
+    und = lf.get("undeclared_multiplier") or []
+    if und:
+        out.append("- 另有 %d 个期货品种本仓没有声明乘数（%s），这条面**不猜**，它们不进上面的判决。"
+                   % (len(und), "、".join(und)))
     out.append("")
     return out
 
@@ -7570,6 +7676,8 @@ def build(with_stress=False, window_label=None):
     # r1715: that hedge's whole case is a beta measured on 52 days. The interval is a face
     # of its own, and it separates "the tail beta is real" from "the short buys anything".
     page["futures_hedge_tail"] = futures_hedge_tail_face()
+    # r1721: that hedge stopped on a unit question, and only IH ever got asked it.
+    page["lot_floor"] = lot_floor_face()
     # r1572: the page must also say what the ledger has already committed to at the next
     # open, and what the trades it made actually cost -- the table below is the target
     # book, not the book on the account.
@@ -7978,6 +8086,10 @@ def render_md(p, sb=None):
     # beside it, and the Sharpe interval decides whether any of it is a measurable gain.
     for _ft_line in futures_hedge_tail_block(p.get("futures_hedge_tail") or {}):
         add(_ft_line)
+    # r1721: the hedge's obstacle was the lot, so the lot is priced against the account for
+    # every instrument -- the ETF legs are the control that shows where the problem lives.
+    for _lf_line in lot_floor_block(p.get("lot_floor") or {}):
+        add(_lf_line)
     # r1572: a condition on the list, like the admission above it -- what fills at the
     # next open is not in the table below, and a reader who stops at the table never
     # learns that the account is about to hold a different exposure.
@@ -13170,6 +13282,29 @@ def selftest():
     _cc_gone = "\n".join(cash_caliber_block({"readable": False, "why": "no file"}))
     chk("L312 cash caliber: an unreadable face says cannot-check and prints neither number",
         "无法核验" in _cc_gone and "50.81" not in _cc_gone and "24.65" not in _cc_gone, _cc_gone[:800])
+
+    # L313-L315 (r1722): one lot against one leg. Every percentage and every "capital where
+    # it becomes a leg" must come off the face row; an empty book must say the 30% line does
+    # not hold rather than print an empty list; an unreadable face must print no number.
+    _lf_fx = {"readable": True, "leg_max_share": 0.30, "evidence_cutoff": "2026-11-13",
+              "one_lot_is_the_book": ["IC", "IH"],
+              "expressible_as_a_leg": ["510300", "510050"],
+              "undeclared_multiplier": ["AU"],
+              "shares_at_1m": {"IC": 1.275, "IH": 0.82},
+              "etf_shares_at_1m": {"510300": 0.0004, "510050": 0.0003},
+              "capital_needed": {"IC": 4250000.0, "IH": 2733400.0}}
+    _lf_md = "\n".join(lot_floor_block(_lf_fx))
+    chk("L313 lot floor: both legs, both percentages and both capital thresholds come off the row",
+        "IC 一手占 127.5%" in _lf_md and "IH 一手占 82.0%" in _lf_md
+        and "4,250,000" in _lf_md and "2,733,400" in _lf_md and "30%" in _lf_md, _lf_md[:1600])
+    _lf_empty = json.loads(json.dumps(_lf_fx))
+    _lf_empty.update({"one_lot_is_the_book": [], "shares_at_1m": {}, "capital_needed": {}})
+    _lf_empty_md = "\n".join(lot_floor_block(_lf_empty))
+    chk("L314 lot floor: an empty book says the 30% line does not hold, not an empty list",
+        "不成立" in _lf_empty_md and "一手就是整本" not in _lf_empty_md, _lf_empty_md[:1600])
+    _lf_gone = "\n".join(lot_floor_block({"readable": False, "why": "no file"}))
+    chk("L315 lot floor: an unreadable face says cannot-check and prints no percentage",
+        "无法核验" in _lf_gone and "127.5" not in _lf_gone and "%" not in _lf_gone, _lf_gone[:800])
 
     # L306-L308 (r1720): the marks belong to a book, and it is not always the sheet's book.
     # Paired: two widths must name both numbers and the overlap; equal widths must NOT borrow
