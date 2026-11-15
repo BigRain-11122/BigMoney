@@ -929,9 +929,40 @@ def carry_split(beta=None, path=None):
 
 CASH_MONEY_BP = 25.0        # frozen before the run: spot must clear this far below its own
                             # trailing mean before this face calls it a fall rather than noise
+CASH_BOOK_SAME_BP = 1.0     # frozen: below this the ticket's own quote and the headline's net
+                            # roll are called one caliber; above it the gap is named in CNY
+
+IDLE_CASH_FACE = "etf_book_idle_cash.json"
 
 
-def cash_money(cash_amount, rates, asof, accrual_pct=None, tail=250, fall_bp=CASH_MONEY_BP):
+def idle_cash_book_rate(results_dir=None):
+    """The rate the book's own headline pays its idle sleeve (r1718).
+
+    r1717 published 11.55 -> 12.13%/yr by crediting the parked cash at the already-published
+    GC001 vehicle (1.77%/yr net of the daily roll).  This ticket priced the same cash at raw
+    quotes only, so two faces on the same desk disagreed about the same money.  One
+    implementation: read the published face, never rebuild the roll here (second estimator).
+    Unreadable stays None -- the caller must say it cannot verify, never borrow the quote.
+    """
+    doc = _json_face(IDLE_CASH_FACE, results_dir)
+    if not doc:
+        return None
+    rd = doc.get("readings") or {}
+    try:
+        pct = float(rd.get("cash_vehicle_net_pct_on_window"))
+    except (TypeError, ValueError):
+        return None
+    if not np.isfinite(pct):
+        return None
+    return {"pct": round(pct, 4), "source": IDLE_CASH_FACE,
+            "asof": doc.get("asof"), "evidence_cutoff": doc.get("evidence_cutoff"),
+            "book_cagr_without_pct": rd.get("cagr_without_pct"),
+            "book_cagr_with_pct": rd.get("cagr_with_pct"),
+            "idle_share_mean": rd.get("idle_share_mean")}
+
+
+def cash_money(cash_amount, rates, asof, accrual_pct=None, tail=250, fall_bp=CASH_MONEY_BP,
+               book=None):
     """What the idle half of THIS ticket earns, in CNY, at the rates this book actually parks in.
 
     The sheet printed the cash weight and the cash amount and stopped there: the only yield it
@@ -944,7 +975,8 @@ def cash_money(cash_amount, rates, asof, accrual_pct=None, tail=250, fall_bp=CAS
     """
     out = {"cash_amount_cny": None, "spot": None, "mean_tail": None, "window": None,
            "tail": int(tail), "fall_bp": float(fall_bp), "verdict": "CANNOT_PRICE",
-           "sentence": None, "spread_vs_tail_cny": None, "spread_vs_window_cny": None}
+           "sentence": None, "spread_vs_tail_cny": None, "spread_vs_window_cny": None,
+           "book_rate": None}
     try:
         cash = None if cash_amount is None else float(cash_amount)
     except (TypeError, ValueError):
@@ -975,6 +1007,23 @@ def cash_money(cash_amount, rates, asof, accrual_pct=None, tail=250, fall_bp=CAS
     if out["window"] is not None:
         out["spread_vs_window_cny"] = round(
             cash * (spot_pct - out["window"]["pct"]) / 100.0, 0)
+    # r1718: the headline on the CEO page now credits this same sleeve at the published
+    # vehicle's net roll. Price the ticket's cash at that rate too -- off the published face,
+    # so the two numbers a reader puts side by side are one caliber or the gap is named.
+    if book:
+        try:
+            bp = float(book.get("pct"))
+        except (TypeError, ValueError):
+            bp = None
+        if bp is not None and np.isfinite(bp):
+            out["book_rate"] = {"pct": round(bp, 4),
+                                "annual_cny": round(cash * bp / 100.0, 0),
+                                "source": book.get("source"),
+                                "asof": book.get("asof"),
+                                "book_cagr_without_pct": book.get("book_cagr_without_pct"),
+                                "book_cagr_with_pct": book.get("book_cagr_with_pct"),
+                                "gap_vs_spot_bp": round((spot_pct - bp) * 100.0, 2),
+                                "gap_vs_spot_cny": round(cash * (spot_pct - bp) / 100.0, 0)}
     if spot_pct <= tail_pct - float(fall_bp) / 100.0:
         out["verdict"] = "RATES_FELL"
     elif spot_pct >= tail_pct + float(fall_bp) / 100.0:
@@ -1003,6 +1052,39 @@ def cash_money(cash_amount, rates, asof, accrual_pct=None, tail=250, fall_bp=CAS
         sent += "。%s 的报价就在它自己的均值上，这一半该怎么算就怎么算。" % spot_date
     out["sentence"] = sent
     return out
+
+
+def cash_book_rate_md(cm):
+    """r1718: does this ticket's cash line use the same rate the book's headline uses?
+
+    The ticket and the headline printed two answers about the same money at different
+    calibers: one session's quote (1.26%) against a window's net daily roll (1.77%). Both
+    are real readings of the same panel; neither is the other's error. So print the
+    headline's rate beside the quote, name the gap in CNY, and refuse to add them. When the
+    face is unreadable the ticket says it cannot verify -- it must not pass the quote off as
+    the headline's caliber.
+    """
+    if not cm or cm.get("verdict") == "CANNOT_PRICE":
+        return []
+    br = cm.get("book_rate")
+    if not br:
+        return ["- 这本书头条用的那个利率（%s）这一面读不出来，所以「票面的现金读数与头条是不是"
+                "同一个口径」本单**无法核验**——不拿上面那节报价冒充它。" % IDLE_CASH_FACE]
+    head = ("- 这本书自己的头条按 **%.2f%%/年**（%s，整段窗口的 GC001 日滚、扣佣金）给同一笔 ¥%s "
+            "定价：一年 ¥%s。"
+            % (br["pct"], br.get("source") or "?",
+               format(int(cm["cash_amount_cny"]), ","),
+               format(int(br["annual_cny"]), ",")))
+    gap = br.get("gap_vs_spot_bp")
+    if gap is None:
+        return [head, "- 两张面之间的差算不出来，本单不印它。"]
+    if abs(gap) <= CASH_BOOK_SAME_BP:
+        return [head, "- 它与上面那节报价差 %.2fbp，属同一个口径：这张单的现金行就是头条那一行。"
+                % gap]
+    return [head,
+            "- 与上面那节报价差 **%.2fbp**（一年 ¥%s）：一个是一节报价，一个是整段窗口扣佣金的"
+            "净滚，**不可相加**；头条用的是后者。"
+            % (gap, format(int(abs(br.get("gap_vs_spot_cny") or 0)), ","))]
 
 
 def entry_gate_support():
@@ -2456,13 +2538,16 @@ def card(ticket, mk, sched, asof, beta, extra):
             if cm.get("verdict") == "CANNOT_PRICE":
                 L += ["- %s" % (cm.get("sentence") or "现金腿收益不可读。")]
             else:
-                L += ["- %s。" % cm["sentence"],
+                # r1718: the sentence already ends in a full stop; appending another one printed
+                # "该怎么算就怎么算。。" on the published sheet.
+                L += ["- %s" % (cm["sentence"].rstrip("。") + "。"),
                       "- 读法：现金占比 %.0f%% 不是「没仓位」，它是一笔按天计息的停车位；"
                       "上面三个数用同一块 repo 面板、同一笔 ¥%s 算出来，差别只来自取哪一段利率。"
                       % (ticket["cash_weight"] * 100,
                          format(int(cm["cash_amount_cny"]), ",")),
                       "- 出处：%s（同一块面板，%d 个报价的尾窗；判定 **%s**）。"
                       % ("data/repo_daily/GC001.csv", cm["spot"]["quotes"], cm["verdict"])]
+                L += cash_book_rate_md(cm)
         L += entry_gate_md(extra.get("entry_gate"))
         rp = extra.get("reprice")
         if rp and rp.get("status") == "ok":
@@ -3112,7 +3197,8 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
                             "missing_bar_steps": int(cash_missing),
                             "money": cash_money(
                                 (ticket or {}).get("cash_amount"), rates, asof,
-                                accrual_pct=float(cash_rf.mean() * 252.0) * 100.0)},
+                                accrual_pct=float(cash_rf.mean() * 252.0) * 100.0,
+                                book=idle_cash_book_rate())},
                "ledger": {"bars": int(state.get("rows", 0)), "nav": round(float(state["nav"]), 8),
                           "rows_added": len(merged), "engine_naive_vs_ledger": drift,
                           "withdrawn_now": [r["date"] for r in _withdrawn],
@@ -4678,6 +4764,48 @@ def selftest():
         and _cm_late["verdict"] == "CANNOT_PRICE" and _cm_late["spot"] is None
         and all(_x["sentence"] for _x in (_cm_none, _cm_absent, _cm_late)),
         "none/absent/late all CANNOT_PRICE with a sentence")
+
+    # leg4f-h (r1718): the ticket's cash line and the book's headline were two calibers on the
+    # same money -- one session's quote (1.26%) beside a window's net roll (1.77%). Paired legs:
+    # the number must come off the published face, an agreeing rate must NOT be called a gap,
+    # and an unreadable face must say so instead of borrowing the quote.
+    _bk = {"pct": 1.7731, "source": IDLE_CASH_FACE, "asof": "2026-11-15T12:09:55",
+           "book_cagr_without_pct": 11.55, "book_cagr_with_pct": 12.13}
+    _cm_book = cash_money(568230.0, pd.Series([1.7732] * 40, index=_cm_idx),
+                          "2024-02-23", accrual_pct=1.7732, book=_bk)
+    chk("leg4f the ticket prices the same cash at the headline's rate",
+        _cm_book["book_rate"] is not None
+        and abs(_cm_book["book_rate"]["annual_cny"] - 568230.0 * 1.7731 / 100.0) < 0.5
+        and abs(_cm_book["book_rate"]["gap_vs_spot_bp"] - 0.01) <= 0.02,
+        "%s at %.4f%% -> %s CNY, gap %.2fbp"
+        % (_cm_book["book_rate"]["source"], _cm_book["book_rate"]["pct"],
+           _cm_book["book_rate"]["annual_cny"], _cm_book["book_rate"]["gap_vs_spot_bp"]))
+    _same = [l for l in cash_book_rate_md(_cm_book) if "同一个口径" in l]
+    _split = [l for l in cash_book_rate_md(_cm_book) if "不可相加" in l]
+    chk("leg4g a rate within 1bp is one caliber, not a gap", len(_same) == 1 and not _split,
+        "; ".join(_same)[:120])
+    _cm_gap = cash_money(568230.0, pd.Series([1.26] * 40, index=_cm_idx), "2024-02-23",
+                         accrual_pct=2.08, book=_bk)
+    _split2 = [l for l in cash_book_rate_md(_cm_gap) if "不可相加" in l]
+    chk("leg4h a quote 51bp off the headline names the gap and refuses to add them",
+        len(_split2) == 1 and "同一个口径" not in "".join(cash_book_rate_md(_cm_gap)),
+        "; ".join(_split2)[:140])
+    _nobook = cash_money(568230.0, pd.Series([1.26] * 40, index=_cm_idx), "2024-02-23", book=None)
+    _unv = cash_book_rate_md(_nobook)
+    chk("leg4i an unreadable headline rate says cannot-verify, never borrows the quote",
+        _nobook["book_rate"] is None and len(_unv) == 1 and "无法核验" in _unv[0]
+        and "1.26" not in _unv[0] and "¥" not in _unv[0], "; ".join(_unv)[:120])
+    _live = idle_cash_book_rate()
+    _face_pct = None
+    try:
+        with open(os.path.join(PATHS.results_dir, IDLE_CASH_FACE), encoding="utf-8") as _f:
+            _face_pct = (json.load(_f).get("readings") or {}).get("cash_vehicle_net_pct_on_window")
+    except (OSError, ValueError):
+        _face_pct = None
+    chk("leg4j the live face is the single implementation (no second roll estimator)",
+        _live is not None and _face_pct is not None
+        and abs(float(_live["pct"]) - float(_face_pct)) < 1e-4,
+        "live=%s face=%s" % (_live and _live["pct"], _face_pct))
 
     # leg5: the incremental ledger reproduces the engine on a hand-built path
     d2 = pd.DatetimeIndex(["2021-01-04", "2021-01-05", "2021-01-06", "2021-01-07"])

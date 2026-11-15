@@ -5258,6 +5258,17 @@ def cash_money_block(cm, page_day=None):
                  % (float(win["pct"]), _dw, format(cash, ",.0f"),
                     format(abs(float(win.get("annual_cny") or 0)
                                - float(spot.get("annual_cny") or 0)), ",.0f")))
+    # r1718: the ticket now also prices this money at the rate the book's headline uses, so
+    # the page prints it beside the three quotes instead of leaving the reader to notice that
+    # 1.26%/yr and 1.77%/yr are the same cash priced by two different instruments.
+    try:
+        import etf_book_order as _ORD
+        _bk_lines = _ORD.cash_book_rate_md(b)
+    except Exception:
+        _bk_lines = []
+    if _bk_lines:
+        L.append("")
+        L += _bk_lines
     L.append("- 这三个数都不是收益来源：现金的活是「不缩水」，要收益得靠上面那些票。")
     if _lag:
         L.append("- 上面那几句说的是 **%s** 那张票据的报价，不是本页面板 "
