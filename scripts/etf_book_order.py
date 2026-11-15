@@ -1265,6 +1265,47 @@ def _cash_basis_lines(br):
     return []
 
 
+def cash_read_md(cm, cash_weight):
+    """r1751: how to read the three rates above, now that one of them is a fee.
+
+    r1245 called this half "a parking spot that accrues by the day", and that was the last
+    line on the sheet still describing the money as free to park: the account buys the repo
+    again every session and pays commission on every roll, so a day of accrual always carries
+    a fee. r1750 priced that fee into net twins; the reading sentence kept saying "the only
+    difference is which rate segment you take", which is true of the three GROSS figures and
+    false of gross vs its own net twin. So the two kinds of difference are printed apart, and
+    when the fee cannot be priced the line says the figures are gross rather than naming a fee
+    it does not have.
+    """
+    try:
+        weight = "%.0f%%" % (float(cash_weight) * 100.0)
+    except (TypeError, ValueError):
+        weight = "?"
+    amount = "?"
+    try:
+        amount = format(int(cm["cash_amount_cny"]), ",")
+    except (KeyError, TypeError, ValueError):
+        pass
+    rolls = cm.get("rolls_per_year")
+    fee_one = cm.get("fee_bp_per_roll")
+    fee_year = cm.get("fee_cny_per_year")
+    out = ["- 读法：现金占比 %s 不是「没仓位」，它是一笔停车位——**但停车不是免费的**："
+           "这笔钱每个交易日都要续滚一次，每滚一次收一次佣金" % weight]
+    if rolls and fee_one is not None and fee_year is not None:
+        out[0] += ("（过去一年这张交易日历滚 **%d** 次、每次 **%gbp**，全年 **¥%s**），"
+                   "所以「按天计息」的每一天都夹着一笔手续费。"
+                   % (int(rolls), float(fee_one), format(int(fee_year), ",")))
+        out.append("- 上面三个数是**毛**数，用同一块 repo 面板、同一笔 ¥%s 算出来，"
+                   "彼此差别只来自取哪一段利率；每个毛数与它自己的**入账**数之间差的那一截，"
+                   "只来自手续费、与利率无关——把毛数并进利率差里读，这半仓的收益就高估了。"
+                   % amount)
+    else:
+        out[0] += "；本单读不到费率表或滚动次数，所以上面三个数只能按**毛**口径读。"
+        out.append("- 上面三个数用同一块 repo 面板、同一笔 ¥%s 算出来，彼此差别只来自取哪一段利率；"
+                   "手续费那一截本单算不出来，别把这三个数当成会落进账的钱。" % amount)
+    return out
+
+
 def cash_book_rate_md(cm, basis=True):
     """r1718: does this ticket's cash line use the same rate the book's headline uses?
 
@@ -2952,11 +2993,9 @@ def card(ticket, mk, sched, asof, beta, extra):
             else:
                 # r1718: the sentence already ends in a full stop; appending another one printed
                 # "该怎么算就怎么算。。" on the published sheet.
-                L += ["- %s" % (cm["sentence"].rstrip("。") + "。"),
-                      "- 读法：现金占比 %.0f%% 不是「没仓位」，它是一笔按天计息的停车位；"
-                      "上面三个数用同一块 repo 面板、同一笔 ¥%s 算出来，差别只来自取哪一段利率。"
-                      % (ticket["cash_weight"] * 100,
-                         format(int(cm["cash_amount_cny"]), ",")),
+                L += ["- %s" % (cm["sentence"].rstrip("。") + "。")]
+                L += cash_read_md(cm, ticket["cash_weight"])
+                L += [
                       "- 出处：%s（同一块面板，%d 个报价的尾窗；判定 **%s**）。"
                       % ("data/repo_daily/GC001.csv", cm["spot"]["quotes"], cm["verdict"])]
                 L += cash_book_rate_md(cm)
@@ -5228,6 +5267,34 @@ def selftest():
                 - 500000.0 * float(_cm_fell.mean()) / 100.0) <= 1.0,
         "gross spot=%s window=%s" % (_cm_fee["spot"]["annual_cny"],
                                       _cm_fee["window"]["annual_cny"]))
+
+    # leg4zl-zn (r1751): the reading line still called this half "a parking spot that accrues
+    # by the day", i.e. free to park, and said the ONLY difference among the numbers is which
+    # rate segment you take -- true of the three gross figures, false of gross vs its net twin.
+    # Paired legs: the reading names the commission per roll with this year's own counts; it
+    # keeps the two kinds of difference apart; and with no fee it claims gross-only, naming no
+    # fee figure at all.
+    _read_fee = cash_read_md(_cm_fee, 0.57)
+    _read_txt = "".join(_read_fee)
+    chk("leg4zl the reading names the commission each roll, with the calendar's own count",
+        len(_read_fee) == 2 and "不是免费" in _read_txt and "每滚一次" in _read_txt
+        and "佣金" in _read_txt and "按天计息" in _read_txt
+        and "**3** 次" in _read_txt and "¥15" in _read_txt,
+        _read_txt[:170])
+    chk("leg4zm rates and fees are two different differences, printed apart",
+        "差别只来自取哪一段利率" in _read_txt and "与利率无关" in _read_txt
+        and "入账" in _read_txt and _read_txt.index("毛**数") < _read_txt.index("与利率无关"),
+        _read_fee[-1][:170])
+    _cm_nf = dict(_cm_fee)
+    for _k in ("rolls_per_year", "fee_bp_per_roll", "fee_cny_per_year"):
+        _cm_nf[_k] = None
+    _read_nf = cash_read_md(_cm_nf, 0.57)
+    _nf_txt = "".join(_read_nf)
+    chk("leg4zn without a fee the reading claims gross-only and names no fee figure",
+        len(_read_nf) == 2 and "不是免费" in _nf_txt and "毛" in _nf_txt
+        and "全年" not in _nf_txt and "¥15" not in _nf_txt
+        and "入账" not in _nf_txt and "算不出来" in _nf_txt,
+        _nf_txt[:170])
 
     # leg4f-h (r1718): the ticket's cash line and the book's headline were two calibers on the
     # same money -- one session's quote (1.26%) beside a window's net roll (1.77%). Paired legs:
