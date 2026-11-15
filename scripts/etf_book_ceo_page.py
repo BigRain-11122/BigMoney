@@ -6911,6 +6911,28 @@ def roster_audit_face():
         "unreadable_lanes": [r.get("lane") for r in rows
                              if r.get("verdict") in ("ROSTER_UNREADABLE",
                                                      "PANEL_UNREADABLE")],
+        # r1728: two more ways a lane cannot be called green, both of which used to
+        # fall through as silence -- a roster published as a COUNT, and a panel that
+        # is gitignored (one machine's copy, not the lane's statement).
+        "count_only": [{
+            "lane": r.get("lane"),
+            "declared_n": r.get("declared_n"),
+            "disk_n": r.get("disk_n"),
+            "counts_agree": r.get("counts_agree"),
+            "source": r.get("declared_count_source"),
+            "panel_newest_bar": r.get("panel_newest_bar"),
+        } for r in rows if r.get("verdict") == "MEMBER_NAMES_NOT_PUBLISHED"],
+        "local_copies": [{
+            "lane": r.get("lane"),
+            "owner": r.get("owner"),
+            "keying": r.get("keying"),
+            "observed": r.get("observed_verdict"),
+            "declared_n": r.get("declared_n"),
+            "local_disk_n": r.get("disk_n"),
+            "laneside": r.get("laneside"),
+            "missing_disposition": r.get("missing_disposition"),
+        } for r in rows if r.get("verdict") == "LOCAL_COPY_ONLY"],
+        "unchecked_lanes": list(d.get("unchecked_lanes") or []),
         "defects": [{
             "lane": r.get("lane"),
             "verdict": r.get("verdict"),
@@ -6940,9 +6962,10 @@ def roster_audit_block(ra):
         out.append("")
         return out
     out.append("- 查了 %d 条有封闭面板目录的车道：%d 条名单与盘面逐件对上，%d 条目录是共享宇宙"
-               "（不适用这项检查），%d 条有问题。"
+               "（不适用这项检查），%d 条有问题，%d 条**在这张面上核不了**（下面逐条说清是哪种）。"
                % (lanes, ra.get("matched") or 0, ra.get("not_applicable") or 0,
-                  len(ra.get("defects") or [])))
+                  len(ra.get("defects") or []),
+                  len(ra.get("unchecked_lanes") or [])))
     for d in (ra.get("defects") or []):
         extra = d.get("on_disk_not_declared") or []
         missing = d.get("declared_not_on_disk") or []
@@ -6977,10 +7000,48 @@ def roster_audit_block(ra):
                            % (len(missing),
                               d.get("missing_disposition_note") or "车道没有逐成员记录"))
     unread = ra.get("unreadable_lanes") or []
+    count_only = ra.get("count_only") or []
+    local = ra.get("local_copies") or []
+    for c in count_only:
+        bar = c.get("panel_newest_bar")
+        out.append("- **%s**：车道只公布成员**个数**（%d，来自 %s），盘上也正好 %d 件——"
+                   "两个数相等**不等于同一批**：退一只再进一只，数照样相等，所以这条车道"
+                   "「完整」与否在这张面上核不了。"
+                   % (c.get("lane"), c.get("declared_n") or 0, c.get("source"),
+                      c.get("disk_n") or 0))
+        if bar:
+            out.append("  - 这份面板自己的最新一根 bar 停在 **%s**（这张面对照的车道都在 %s）"
+                       "——成员对得上，数据不一定新。"
+                       % (bar, ra.get("evidence_cutoff") or "更近的日期"))
+    for l in local:
+        if l.get("keying") == "date":
+            out.append("- **%s**：这是按日命名的目录（每个交易日一份快照），没有成员名单这项检查；"
+                       "而且它不入库（%s 自己的副本），本机看到的不算车道的话。"
+                       % (l.get("lane"), l.get("owner")))
+            continue
+        lane_side = l.get("laneside") or {}
+        disp = l.get("missing_disposition") or {}
+        if lane_side.get("agree"):
+            tail = ("本机副本 %d 件正好等于车道自报的 %d 件（%s），"
+                    "所以这份副本与它自己的刷新计数一致——但只说明这台机。"
+                    % (l.get("local_disk_n") or 0, lane_side.get("value"),
+                       lane_side.get("source")))
+        elif lane_side.get("value") is not None:
+            tail = ("本机副本 %d 件与车道自报 %d 件不一致（%s）。"
+                    % (l.get("local_disk_n") or 0, lane_side.get("value"),
+                       lane_side.get("source")))
+        else:
+            tail = "车道自报计数读不出来，无法与这份副本对照。"
+        out.append("- **%s**：面板不入库（%s 自己的副本），本机读到的不是车道对自己的陈述。%s"
+                   % (l.get("lane"), l.get("owner"), tail))
+        if disp.get("quarantined"):
+            out.append("  - 名单上 %d 只里，盘上缺的 %d 只**全部记在车道自己的隔离表里**"
+                       "（逐名可查，0 只查无），不是悄悄漏拉。"
+                       % (l.get("declared_n") or 0, len(disp["quarantined"])))
     if unread:
         out.append("- 另有 %d 条车道名单或面板读不出来（%s），**不能读成干净**。"
                    % (len(unread), "、".join(unread)))
-    if not (ra.get("defects") or []) and not unread:
+    if not (ra.get("defects") or []) and not unread and not count_only and not local:
         out.append("- 每条车道的名单都点得到盘上的文件，没有「在维护但不在名单」的成员。")
     out.append("")
     return out
@@ -13506,6 +13567,42 @@ def selftest():
     chk("L322 roster audit: no per-member log says cannot-tell, never assumes 'queued'",
         "无法分辨" in _ra_noq_md and "排在待拉队列" not in _ra_noq_md
         and "attempts log absent" in _ra_noq_md, _ra_noq_md[:1600])
+
+    # L323-L324 (r1728): two lanes that used to fall through as silence. A roster published
+    # only as a COUNT cannot be called complete (254 == 254 also describes one retired and
+    # one added), and its panel's own last bar must ride along; a gitignored panel is ONE
+    # machine's copy, so neither agreement nor absence here is the lane's statement.
+    _ra_c = {"readable": True, "lanes": 9, "matched": 4, "not_applicable": 1,
+             "unreadable_lanes": [], "defects": [],
+             "unchecked_lanes": ["options", "ah_panel", "heat"],
+             "count_only": [{"lane": "options", "declared_n": 254, "disk_n": 254,
+                             "counts_agree": True,
+                             "source": "results/options_update_status.json:panel.universe",
+                             "panel_newest_bar": "2026-09-30"}],
+             "local_copies": []}
+    _ra_c_md = "\n".join(roster_audit_block(_ra_c))
+    chk("L323 roster audit: a count that agrees is not the same set, and its own bar date rides along",
+        "254" in _ra_c_md and "不等于同一批" in _ra_c_md and "2026-09-30" in _ra_c_md
+        and "数据不一定新" in _ra_c_md and "没有「在维护但不在名单」的成员" not in _ra_c_md,
+        _ra_c_md[:1600])
+    _ra_l = {"readable": True, "lanes": 9, "matched": 4, "not_applicable": 1,
+             "unreadable_lanes": [], "defects": [], "unchecked_lanes": ["ah_panel", "heat"],
+             "count_only": [],
+             "local_copies": [
+                 {"lane": "ah_panel", "owner": "bm-a", "keying": None,
+                  "observed": "DECLARED_BUT_ABSENT", "declared_n": 211,
+                  "local_disk_n": 187,
+                  "laneside": {"value": 187, "agree": True,
+                               "source": "results/ah_panel_status.json:fresh_pairs"},
+                  "missing_disposition": {"quarantined": ["00038"], "pending": [],
+                                          "unexplained": []}},
+                 {"lane": "heat", "owner": "bm-a", "keying": "date"}]}
+    _ra_l_md = "\n".join(roster_audit_block(_ra_l))
+    chk("L324 roster audit: a gitignored panel is one machine's copy; a date-keyed lane says so",
+        "只说明这台机" in _ra_l_md and "bm-a" in _ra_l_md
+        and "全部记在车道自己的隔离表里" in _ra_l_md
+        and "按日命名" in _ra_l_md and "没有「在维护但不在名单」的成员" not in _ra_l_md,
+        _ra_l_md[:1600])
 
     # L306-L308 (r1720): the marks belong to a book, and it is not always the sheet's book.
     # Paired: two widths must name both numbers and the overlap; equal widths must NOT borrow

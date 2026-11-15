@@ -15374,3 +15374,20 @@ L13 没有日志的车道永不算干净）；CEO 页 397→**399/399**（L321 �
 L322 无逐成员记录时印「无法分辨」且禁出现「排在待拉队列」）。
 工具面：scripts/lane_roster_disk_audit.py（`missing_disposition`）· scripts/update_astock_daily.py
 （`quarantined` 名字列表）· scripts/etf_book_ceo_page.py（roster_audit_block）。
+
+## E652 — 数相等不是集相等；面板不入库时它只是一台机的副本（r1728 bm-c）
+
+1. **计数对得上不等于同一批。** options 的名单只有一个数（`panel.universe=254`），盘上也是 254 件。
+   退一只、进一只，数照旧相等。判词 `MEMBER_NAMES_NOT_PUBLISHED`，进 `unchecked_lanes` 永不计绿；
+   同一行必须带上这份面板**自己的最新 bar**（本例 2026-09-30，而其余车道 2026-11-13，差 30 个交易日），
+   否则「对上了」会被读者当成「数据是新的」。成员对得上与数据是新的，是两个问题。
+2. **进 .gitignore 的面板不是车道对自己的陈述。** ah_panel/heat 的面板各机自留，本机读到的是本机副本
+   （r1290 族：一个共享文件描述一群机器时必须先写清它是哪台机）。判词 `LOCAL_COPY_ONLY`：观测照记
+   （缺哪些成员仍逐名留下），但不判缺陷、也不算干净；能说的只有「本机 187 件＝车道自报 fresh_pairs 187」，
+   并把两个数的来源一并印出来。
+3. **按日命名的目录连问题都没有形。** heat 每个交易日一份快照，没有成员名单这项检查；印成「对上」
+   等于宣称问过一个不存在的问题，必须单独说清。
+
+自检腿：名单审计面 21→**28/28**（L14-L21）；CEO 页 399→**401/401**（L323/L324）。
+工具面：scripts/lane_roster_disk_audit.py（`count_only_row` / `status_disposition` /
+`_dir_newest_bar` / `LOCAL_COPY_ONLY`）· scripts/etf_book_ceo_page.py（`count_only` / `local_copies`）。

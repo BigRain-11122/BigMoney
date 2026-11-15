@@ -1407,10 +1407,90 @@
   "status": "ok",
   "readable": true,
   "evidence_cutoff": "2026-11-13",
-  "lanes": 6,
+  "lanes": 9,
   "matched": 4,
   "not_applicable": 1,
   "unreadable_lanes": [],
+  "count_only": [
+   {
+    "lane": "options",
+    "declared_n": 254,
+    "disk_n": 254,
+    "counts_agree": true,
+    "source": "results/options_update_status.json:panel.universe",
+    "panel_newest_bar": "2026-09-30"
+   }
+  ],
+  "local_copies": [
+   {
+    "lane": "ah_panel",
+    "owner": "bm-a",
+    "keying": null,
+    "observed": "DECLARED_BUT_ABSENT",
+    "declared_n": 211,
+    "local_disk_n": 187,
+    "laneside": {
+     "value": 187,
+     "source": "results/ah_panel_status.json:fresh_pairs",
+     "local_disk_n": 187,
+     "note": null,
+     "agree": true
+    },
+    "missing_disposition": {
+     "source": "results/ah_panel_status.json:quarantined",
+     "threshold": null,
+     "quarantined": [
+      "00038",
+      "00187",
+      "00553",
+      "00568",
+      "00719",
+      "00956",
+      "01057",
+      "01108",
+      "01330",
+      "01349",
+      "01456",
+      "02218",
+      "02245",
+      "02384",
+      "02636",
+      "03223",
+      "03228",
+      "03678",
+      "03757",
+      "03993",
+      "06066",
+      "06727",
+      "09607",
+      "09976"
+     ],
+     "pending": [],
+     "unexplained": []
+    }
+   },
+   {
+    "lane": "heat",
+    "owner": "bm-a",
+    "keying": "date",
+    "observed": "ROSTER_UNREADABLE",
+    "declared_n": null,
+    "local_disk_n": 1,
+    "laneside": {
+     "value": null,
+     "source": null,
+     "local_disk_n": 1,
+     "note": null,
+     "agree": false
+    },
+    "missing_disposition": null
+   }
+  ],
+  "unchecked_lanes": [
+   "options",
+   "ah_panel",
+   "heat"
+  ],
   "defects": [
    {
     "lane": "astock_daily",
@@ -7882,10 +7962,10 @@
  "authority": {
   "writer": "bm-c",
   "owner": "bm-a",
-  "owner_silent_h": 41.1,
+  "owner_silent_h": 41.4,
   "gate_h": 6.0,
   "took_over": true,
-  "why": "bm-a has not written its own heartbeat for 41.1 h (> 6 h): this host takes the pen for the page only -- a stopped heartbeat is not a dead machine",
+  "why": "bm-a has not written its own heartbeat for 41.4 h (> 6 h): this host takes the pen for the page only -- a stopped heartbeat is not a dead machine",
   "no_bar_reason": "human_ages"
  },
  "fleet": {

@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-15T16:14:34",
+ "generated": "2026-11-15T16:31:47",
  "evidence_cutoff": "2026-11-13",
  "lanes": [
   {
@@ -14,7 +14,8 @@
    "on_disk_not_declared": [],
    "declared_frozen": [],
    "verdict": "ROSTER_MATCHES_DISK",
-   "why": "every roster member has a file and every file is named"
+   "why": "every roster member has a file and every file is named",
+   "panel_newest_bar": "2026-11-13"
   },
   {
    "lane": "repo",
@@ -28,7 +29,8 @@
    "on_disk_not_declared": [],
    "declared_frozen": [],
    "verdict": "ROSTER_MATCHES_DISK",
-   "why": "every roster member has a file and every file is named"
+   "why": "every roster member has a file and every file is named",
+   "panel_newest_bar": "2026-11-13"
   },
   {
    "lane": "minute_feed",
@@ -48,7 +50,8 @@
     "518880"
    ],
    "verdict": "ROSTER_MATCHES_DISK",
-   "why": "every roster member has a file and every file is named"
+   "why": "every roster member has a file and every file is named",
+   "panel_newest_bar": "2026-11-13"
   },
   {
    "lane": "zt_pool",
@@ -62,7 +65,8 @@
    "on_disk_not_declared": [],
    "declared_frozen": [],
    "verdict": "ROSTER_MATCHES_DISK",
-   "why": "every roster member has a file and every file is named"
+   "why": "every roster member has a file and every file is named",
+   "panel_newest_bar": null
   },
   {
    "lane": "astock_daily",
@@ -105,7 +109,138 @@
     "pending": [],
     "unexplained": []
    },
-   "missing_disposition_note": null
+   "missing_disposition_note": null,
+   "panel_newest_bar": "2026-11-13"
+  },
+  {
+   "lane": "options",
+   "writer": "update_options",
+   "dir": "data/options/daily",
+   "scope": "closed",
+   "roster_source": "results/options_update_status.json:panel.universe (a count; the lane never names its 254 contracts)",
+   "declared_n": 254,
+   "disk_n": 254,
+   "declared_not_on_disk": [],
+   "on_disk_not_declared": [],
+   "declared_frozen": [],
+   "declared_count": 254,
+   "declared_count_source": "results/options_update_status.json:panel.universe",
+   "counts_agree": true,
+   "verdict": "MEMBER_NAMES_NOT_PUBLISHED",
+   "why": "the lane publishes HOW MANY members it covers, never which ones -- two equal numbers also describe one contract retired and another added, so 'complete' cannot be checked by name here",
+   "panel_newest_bar": "2026-09-30"
+  },
+  {
+   "lane": "ah_panel",
+   "writer": "ah_panel_puller",
+   "dir": "data/ah_panel/per",
+   "scope": "closed",
+   "roster_source": "data/ah_panel/_universe_em.json:h_code (frozen EM mapping, 211 pairs)",
+   "declared_n": 211,
+   "disk_n": 187,
+   "declared_not_on_disk": [
+    "00038",
+    "00187",
+    "00553",
+    "00568",
+    "00719",
+    "00956",
+    "01057",
+    "01108",
+    "01330",
+    "01349",
+    "01456",
+    "02218",
+    "02245",
+    "02384",
+    "02636",
+    "03223",
+    "03228",
+    "03678",
+    "03757",
+    "03993",
+    "06066",
+    "06727",
+    "09607",
+    "09976"
+   ],
+   "on_disk_not_declared": [],
+   "declared_frozen": [],
+   "verdict": "LOCAL_COPY_ONLY",
+   "why": "this panel is gitignored (machine-local) and the lane is bm-a's -- what was read here is THIS machine's copy (observed: DECLARED_BUT_ABSENT); it is not the lane's statement about itself",
+   "roster_rows": 211,
+   "roster_declared_total": 211,
+   "roster_fetched_at": "2026-11-12 17:08:47",
+   "missing_disposition": {
+    "source": "results/ah_panel_status.json:quarantined",
+    "threshold": null,
+    "quarantined": [
+     "00038",
+     "00187",
+     "00553",
+     "00568",
+     "00719",
+     "00956",
+     "01057",
+     "01108",
+     "01330",
+     "01349",
+     "01456",
+     "02218",
+     "02245",
+     "02384",
+     "02636",
+     "03223",
+     "03228",
+     "03678",
+     "03757",
+     "03993",
+     "06066",
+     "06727",
+     "09607",
+     "09976"
+    ],
+    "pending": [],
+    "unexplained": []
+   },
+   "missing_disposition_note": null,
+   "panel_newest_bar": "2026-11-13",
+   "observed_verdict": "DECLARED_BUT_ABSENT",
+   "local_copy": true,
+   "owner": "bm-a",
+   "laneside": {
+    "value": 187,
+    "source": "results/ah_panel_status.json:fresh_pairs",
+    "local_disk_n": 187,
+    "note": null,
+    "agree": true
+   }
+  },
+  {
+   "lane": "heat",
+   "writer": "update_heat",
+   "dir": "data/heat/popularity",
+   "scope": "closed",
+   "roster_source": "no member roster -- the directory is keyed by day (one snapshot per trading day)",
+   "declared_n": null,
+   "disk_n": 1,
+   "declared_not_on_disk": [],
+   "on_disk_not_declared": [],
+   "declared_frozen": [],
+   "verdict": "LOCAL_COPY_ONLY",
+   "why": "this panel is gitignored (machine-local) and the lane is bm-a's -- what was read here is THIS machine's copy (observed: ROSTER_UNREADABLE); it is not the lane's statement about itself",
+   "keying": "date",
+   "panel_newest_bar": null,
+   "observed_verdict": "ROSTER_UNREADABLE",
+   "local_copy": true,
+   "owner": "bm-a",
+   "laneside": {
+    "value": null,
+    "source": null,
+    "local_disk_n": 1,
+    "note": null,
+    "agree": false
+   }
   },
   {
    "lane": "etf_daily",
@@ -119,17 +254,25 @@
    "on_disk_not_declared": null,
    "declared_frozen": [],
    "verdict": "UNPLANNED_CHECK_NOT_APPLICABLE",
-   "why": "this directory holds a market-wide universe, so an unnamed file is not evidence of neglect; only declared->disk is asked"
+   "why": "this directory holds a market-wide universe, so an unnamed file is not evidence of neglect; only declared->disk is asked",
+   "panel_newest_bar": "2026-11-13"
   }
  ],
  "verdict_counts": {
   "ROSTER_MATCHES_DISK": 4,
   "DECLARED_BUT_ABSENT": 1,
+  "MEMBER_NAMES_NOT_PUBLISHED": 1,
+  "LOCAL_COPY_ONLY": 2,
   "UNPLANNED_CHECK_NOT_APPLICABLE": 1
  },
  "defect_lanes": [
   "astock_daily"
  ],
+ "unchecked_lanes": [
+  "options",
+  "ah_panel",
+  "heat"
+ ],
  "all_closed_rosters_match": false,
- "law": "roster vs disk: a file on disk that the lane's roster does not name is refreshed by nobody (r1724 TS); a roster member with no file is a promise with no panel; unreadable is never clean"
+ "law": "roster vs disk: a file on disk that the lane's roster does not name is refreshed by nobody (r1724 TS); a roster member with no file is a promise with no panel; unreadable is never clean; a count that agrees is not the same set; a gitignored panel is one machine's copy, not the lane's statement"
 }

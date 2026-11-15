@@ -102,6 +102,43 @@ ROSTERS = [
                         "market_of() skip rule applied)",
     },
     {
+        # The lane publishes its universe as a NUMBER (`panel.universe: 254`),
+        # never as names. Two equal numbers therefore cannot tell "the same 254
+        # contracts" from "253 kept, 1 retired, 1 added" -- the count agrees and
+        # the sets differ (same shape as r1726's "one bar date is not one panel").
+        "lane": "options", "writer": "update_options",
+        "kind": "status_count",
+        "status": "results/options_update_status.json", "status_path": "panel.universe",
+        "dir": "data/options/daily", "pattern": ".csv",
+        "scope": "closed", "tracked": True,
+        "roster_source": "results/options_update_status.json:panel.universe "
+                        "(a count; the lane never names its 254 contracts)",
+    },
+    {
+        # Machine-local panel (gitignored) on the lane host, so what this module
+        # reads here is THIS machine's copy. The 24 members with no file are the
+        # lane's own `quarantined` map in its status face, not silent gaps.
+        "lane": "ah_panel", "writer": "ah_panel_puller",
+        "module": "ah_panel_puller", "kind": "json_rows_fields",
+        "json": "data/ah_panel/_universe_em.json", "field": "h_code",
+        "status": "results/ah_panel_status.json", "quarantine_path": "quarantined",
+        "laneside_path": "fresh_pairs",
+        "dir": "data/ah_panel/per", "pattern": ".csv",
+        "scope": "closed", "tracked": False, "owner": "bm-a",
+        "roster_source": "data/ah_panel/_universe_em.json:h_code (frozen EM "
+                        "mapping, 211 pairs)",
+    },
+    {
+        # One file per trading day, not one per member: the TS question has no
+        # form here, and saying "matches" would imply it had been asked.
+        "lane": "heat", "writer": "update_heat",
+        "kind": None,
+        "dir": "data/heat/popularity", "pattern": ".json",
+        "scope": "closed", "tracked": False, "owner": "bm-a", "keying": "date",
+        "roster_source": "no member roster -- the directory is keyed by day "
+                        "(one snapshot per trading day)",
+    },
+    {
         "lane": "etf_daily", "writer": "update_etf_daily",
         "module": "update_etf_daily", "attr": "MEMBERS", "kind": "list",
         "dir": "data/daily", "pattern": ".csv",
@@ -138,6 +175,23 @@ def read_roster(spec):
     """-> (declared set|None, frozen set, note, extra). None = unreadable, never empty."""
     kind = spec.get("kind")
     try:
+        if kind == "json_rows_fields":
+            # a frozen mapping file is the lane's own declaration of who it
+            # covers; the field name differs per lane so the spec carries it
+            full = os.path.join(ROOT, *spec["json"].split("/"))
+            with io.open(full, "r", encoding="utf-8-sig") as fh:
+                doc = json.load(fh)
+            rows = doc.get("rows") if isinstance(doc, dict) else None
+            if not isinstance(rows, list) or not rows:
+                return None, set(), f"{spec['json']} carries no rows", {}
+            declared = {str(r.get(spec["field"])) for r in rows
+                        if isinstance(r, dict) and r.get(spec["field"])}
+            if not declared:
+                return None, set(), f"{spec['json']} rows carry no {spec['field']}", {}
+            extra = {"roster_rows": len(rows),
+                     "roster_declared_total": doc.get("total"),
+                     "roster_fetched_at": doc.get("fetched_at")}
+            return declared, set(), "", extra
         if kind == "universe_codes":
             mod = _load_module(spec["module"])
             codes, buckets = mod.universe_codes()
@@ -188,6 +242,70 @@ def scan_disk(spec, root=ROOT):
             stem = stem[2:]
         stems.add(stem)
     return stems, ""
+
+
+def _read_json_rel(path, root=ROOT):
+    """-> (doc|None, note). A missing status face is not an empty one."""
+    full = os.path.join(root, *path.split("/"))
+    if not os.path.isfile(full):
+        return None, f"status face absent ({path})"
+    try:
+        with io.open(full, "r", encoding="utf-8-sig") as fh:
+            return json.load(fh), ""
+    except Exception as exc:                  # noqa: BLE001 - reported, not swallowed
+        return None, f"status face unreadable ({type(exc).__name__}: {exc})"
+
+
+def count_only_row(spec, extra, disk, disk_note):
+    """A lane that publishes a universe COUNT cannot be checked member by member.
+
+    Returning "matches" here would be the exact defect this module exists to
+    catch: `254 == 254` is also what "one retired, one added" looks like.
+    """
+    row = {
+        "lane": spec["lane"], "writer": spec.get("writer"), "dir": spec["dir"],
+        "scope": spec["scope"], "roster_source": spec.get("roster_source"),
+        "declared_n": None, "disk_n": len(disk) if disk else None,
+        "declared_not_on_disk": [], "on_disk_not_declared": [],
+        "declared_frozen": [],
+    }
+    row.update(extra or {})
+    if row.get("declared_count") is None or disk is None:
+        row["verdict"] = ("ROSTER_UNREADABLE" if row.get("declared_count") is None
+                          else "PANEL_UNREADABLE")
+        row["why"] = row.get("roster_note") or disk_note
+        return row
+    row["declared_n"] = row["declared_count"]
+    row["counts_agree"] = (row["declared_n"] == row["disk_n"])
+    row["verdict"] = "MEMBER_NAMES_NOT_PUBLISHED"
+    row["why"] = ("the lane publishes HOW MANY members it covers, never which ones -- "
+                  "two equal numbers also describe one contract retired and another "
+                  "added, so 'complete' cannot be checked by name here")
+    return row
+
+
+def status_disposition(spec, missing, root=ROOT):
+    """Same three-way split as `missing_disposition`, but from the lane's STATUS face.
+
+    A lane that keeps its attempts log inside its status envelope has no separate
+    `_progress.json`; the fact "quarantined after N failures" is still written
+    down by the lane itself, so read it there rather than inventing a threshold.
+    """
+    key = spec.get("quarantine_path")
+    if not key or not spec.get("status"):
+        return None, "this lane publishes no quarantine record"
+    doc, note = _read_json_rel(spec["status"], root=root)
+    if doc is None:
+        return None, note
+    q = doc.get(key)
+    if not isinstance(q, dict):
+        return None, f"status face carries no {key} map"
+    quarantined, unexplained = [], []
+    for code in sorted(missing):
+        (quarantined if str(code) in q else unexplained).append(code)
+    return {"source": f"{spec['status']}:{key}", "threshold": None,
+            "quarantined": quarantined, "pending": [],
+            "unexplained": unexplained}, ""
 
 
 def judge(spec, declared, frozen, note, disk, disk_note):
@@ -285,36 +403,127 @@ def missing_disposition(spec, missing, root=ROOT):
              "pending": pending, "unexplained": unexplained}, "")
 
 
+def _status_path_value(spec, path, root=ROOT):
+    """-> (value|None, source, note). Dotted path into the lane's own status face."""
+    doc, note = _read_json_rel(spec["status"], root=root)
+    if doc is None:
+        return None, None, note
+    cur = doc
+    for part in path.split("."):
+        if isinstance(cur, dict) and part in cur:
+            cur = cur[part]
+        else:
+            return None, None, f"{spec['status']} has no {path}"
+    return cur, f"{spec['status']}:{path}", ""
+
+
+def _count_extra(spec, root=ROOT):
+    val, src, note = _status_path_value(spec, spec["status_path"], root=root)
+    if val is None:
+        return {"declared_count": None, "roster_note": note}
+    if isinstance(val, bool) or not isinstance(val, int):
+        return {"declared_count": None,
+                "roster_note": f"{spec['status_path']} is not a count ({val!r})"}
+    return {"declared_count": val, "declared_count_source": src}
+
+
+def _dir_newest_bar(dir_rel, suffix, root=ROOT):
+    """Newest first-column date across a CSV panel, or None.
+
+    Member-vs-roster says nothing about TIME: `options` agreed 254/254 by count
+    while every file in it stopped at 2026-09-30. The date belongs next to the
+    verdict so "matches" cannot be read as "current".
+    """
+    d = os.path.join(root, *dir_rel.split("/"))
+    if not os.path.isdir(d) or suffix != ".csv":
+        return None
+    newest = None
+    for name in sorted(os.listdir(d))[:600]:
+        if not name.lower().endswith(suffix):
+            continue
+        full = os.path.join(d, name)
+        try:
+            size = os.path.getsize(full)
+            with open(full, "rb") as fh:
+                fh.seek(max(0, size - 300))
+                tail = fh.read().decode("utf-8", "replace").strip().splitlines()
+        except OSError:
+            continue
+        if not tail:
+            continue
+        first = tail[-1].split(",")[0].strip().strip('"')[:10]
+        if len(first) >= 8 and first[:4].isdigit() and (newest is None or first > newest):
+            newest = first
+    return newest
+
+
 def build(root=ROOT, specs=None):
     rows = []
     for spec in (specs if specs is not None else ROSTERS):
-        declared, frozen, note, extra = read_roster(spec)
         disk, disk_note = scan_disk(spec, root=root)
-        row = judge(spec, declared, frozen, note, disk, disk_note)
-        row.update(extra or {})
-        if row.get("declared_not_on_disk"):
-            disp, disp_note = missing_disposition(
-                spec, row["declared_not_on_disk"], root=root)
-            row["missing_disposition"] = disp
-            row["missing_disposition_note"] = disp_note or None
+        if spec.get("kind") == "status_count":
+            row = count_only_row(spec, _count_extra(spec, root=root), disk, disk_note)
+        else:
+            declared, frozen, note, extra = read_roster(spec)
+            row = judge(spec, declared, frozen, note, disk, disk_note)
+            row.update(extra or {})
+            if row.get("declared_not_on_disk"):
+                if spec.get("progress"):
+                    disp, disp_note = missing_disposition(
+                        spec, row["declared_not_on_disk"], root=root)
+                else:
+                    disp, disp_note = status_disposition(
+                        spec, row["declared_not_on_disk"], root=root)
+                row["missing_disposition"] = disp
+                row["missing_disposition_note"] = disp_note or None
+        if spec.get("keying"):
+            row["keying"] = spec["keying"]
+        row["panel_newest_bar"] = (_dir_newest_bar(spec["dir"], spec["pattern"], root=root)
+                                   if spec.get("pattern") else None)
+        # A gitignored panel belongs to the machine that wrote it; this repo
+        # checkout holds one machine's copy (r1290: a shared face must say whose
+        # disk it read). Neither agreement nor absence here is the lane's verdict.
+        if spec.get("tracked") is False:
+            row["observed_verdict"] = row["verdict"]
+            row["local_copy"] = True
+            row["owner"] = spec.get("owner")
+            lane_n, lane_src, lane_note = (None, None, "")
+            if spec.get("laneside_path"):
+                lane_n, lane_src, lane_note = _status_path_value(
+                    spec, spec["laneside_path"], root=root)
+            row["laneside"] = {"value": lane_n, "source": lane_src,
+                               "local_disk_n": row.get("disk_n"),
+                               "note": lane_note or None,
+                               "agree": (lane_n is not None
+                                         and lane_n == row.get("disk_n"))}
+            row["verdict"] = "LOCAL_COPY_ONLY"
+            row["why"] = (
+                f"this panel is gitignored (machine-local) and the lane is "
+                f"{spec.get('owner')}'s -- what was read here is THIS machine's "
+                f"copy (observed: {row['observed_verdict']}); it is not the "
+                f"lane's statement about itself")
         rows.append(row)
     counts = {}
     for r in rows:
         counts[r["verdict"]] = counts.get(r["verdict"], 0) + 1
     defects = [r for r in rows
                if r["verdict"] in ("ROSTER_OMITS_DISK", "DECLARED_BUT_ABSENT")]
+    unchecked = [r["lane"] for r in rows if r["verdict"] in (
+        "ROSTER_UNREADABLE", "PANEL_UNREADABLE", "LOCAL_COPY_ONLY",
+        "MEMBER_NAMES_NOT_PUBLISHED")]
     return {
         "generated": datetime.now().strftime("%Y-%m-%dT%H:%M:%S"),
         "evidence_cutoff": None,   # set by build_and_write from the newest panel
         "lanes": rows,
         "verdict_counts": counts,
         "defect_lanes": [r["lane"] for r in defects],
-        "all_closed_rosters_match": bool(rows) and not defects and not [
-            r for r in rows if r["verdict"] in ("ROSTER_UNREADABLE",
-                                                "PANEL_UNREADABLE")],
+        "unchecked_lanes": unchecked,
+        "all_closed_rosters_match": bool(rows) and not defects and not unchecked,
         "law": ("roster vs disk: a file on disk that the lane's roster does not "
                 "name is refreshed by nobody (r1724 TS); a roster member with no "
-                "file is a promise with no panel; unreadable is never clean"),
+                "file is a promise with no panel; unreadable is never clean; a "
+                "count that agrees is not the same set; a gitignored panel is one "
+                "machine's copy, not the lane's statement"),
     }
 
 
@@ -364,6 +573,28 @@ def render_md(rep):
     for r in rep["lanes"]:
         out.append(f"## {r['lane']} — {r['verdict']}")
         out.append(f"- 名单来源：{r['roster_source']}")
+        if r.get("keying") == "date":
+            out.append("- 这个目录按**日**命名（每个交易日一份快照），没有成员名单这项检查")
+        if r.get("local_copy"):
+            lane = r.get("laneside") or {}
+            out.append(f"- **这份面板不入库（各机自留），车道属主＝{r.get('owner')}**："
+                       f"这里读到的是本机副本，不是车道对自己的陈述")
+            if lane.get("agree"):
+                out.append(f"- 本机副本 {lane.get('local_disk_n')} 件＝车道自报 "
+                           f"{lane.get('value')}（{lane.get('source')}）——只说明这份副本"
+                           f"与它自己的刷新计数一致，不说明别的机器")
+            elif lane.get("value") is not None:
+                out.append(f"- 本机副本 {lane.get('local_disk_n')} 件 ≠ 车道自报 "
+                           f"{lane.get('value')}（{lane.get('source')}）")
+            elif lane.get("note"):
+                out.append(f"- 车道自报计数读不出：{lane.get('note')}")
+        if r.get("declared_count") is not None:
+            out.append(f"- 名单只公布**个数** {r['declared_count']}"
+                       f"（{r.get('declared_count_source')}）／盘面 {r['disk_n']} 件"
+                       f"——两数{'相等' if r.get('counts_agree') else '不等'}")
+        if r.get("panel_newest_bar"):
+            out.append(f"- 这份面板自己的最新一根 bar：**{r['panel_newest_bar']}**"
+                       f"（成员对得上不等于数据是新的）")
         out.append(f"- 名单 {r['declared_n']} / 盘面 {r['disk_n']}（{r['dir']}）")
         if r["on_disk_not_declared"]:
             out.append(f"- **盘面有、名单没有**：{', '.join(r['on_disk_not_declared'])}")
@@ -483,7 +714,73 @@ def selftest():
         disp, note = missing_disposition(spec_no, ["A"], root=td)
         ok(disp is None, "L13 a lane with no log is never judged fine")
 
-    total = 21
+    # --- L14-L16: a lane that publishes a COUNT, not names, cannot be green.
+    spec_c = dict(closed, kind="status_count", status_path="panel.universe")
+    r = count_only_row(spec_c, {"declared_count": 254}, {"a", "b"}, "")
+    ok(r["verdict"] == "MEMBER_NAMES_NOT_PUBLISHED", "L14 count-only is not a match")
+    ok(r["declared_n"] == 254, "L14 the published count is carried")
+    r = count_only_row(spec_c, {"declared_count": 2}, {"a", "b"}, "")
+    ok(r["counts_agree"] is True, "L15 equal numbers are reported as equal")
+    ok(r["verdict"] != "ROSTER_MATCHES_DISK",
+       "L15 equal counts still are not a set match (retire one, add one)")
+    r = count_only_row(spec_c, {"declared_count": None, "roster_note": "no path"},
+                       {"a"}, "")
+    ok(r["verdict"] == "ROSTER_UNREADABLE" and "no path" in r["why"],
+       "L16 no count at all is unreadable, not zero")
+
+    # --- L17/L18: a gitignored panel is ONE machine's copy.
+    with tempfile.TemporaryDirectory() as td:
+        os.makedirs(os.path.join(td, "data", "p"), exist_ok=True)
+        for n in ("A.csv", "B.csv"):
+            io.open(os.path.join(td, "data", "p", n), "w").close()
+
+        class _ListFixture:                 # stand-in lane roster
+            MEMBERS = ["A"]
+        sys.modules["_lane_local_fixture"] = _ListFixture
+        spec_l = {"lane": "loc", "writer": "w", "dir": "data/p", "pattern": ".csv",
+                  "scope": "closed", "tracked": False, "owner": "bm-a",
+                  "module": "_lane_local_fixture", "attr": "MEMBERS", "kind": "list",
+                  "roster_source": "unit"}
+        rep = build(root=td, specs=[spec_l])
+        r = rep["lanes"][0]
+        ok(r["verdict"] == "LOCAL_COPY_ONLY", "L17 a local panel is not judged")
+        ok(r["observed_verdict"] == "ROSTER_OMITS_DISK",
+           "L17 what was observed is still recorded")
+        ok(r["on_disk_not_declared"] == ["B"],
+           "L17 the observation keeps the names, not a count")
+        ok(rep["all_closed_rosters_match"] is False and rep["unchecked_lanes"] == ["loc"],
+           "L17 a local copy never counts as green")
+        spec_d = dict(spec_l, keying="date")
+        rep = build(root=td, specs=[spec_d])
+        ok(rep["lanes"][0]["keying"] == "date", "L18 a date-keyed panel says so")
+
+    # --- L19/L20: the same three-way split, from the lane's STATUS face.
+    with tempfile.TemporaryDirectory() as td:
+        os.makedirs(os.path.join(td, "results"), exist_ok=True)
+        with io.open(os.path.join(td, "results", "s.json"), "w", encoding="utf-8") as f:
+            json.dump({"quarantined": {"X": "3 cumulative failures"}}, f)
+        spec_s = dict(closed, status="results/s.json", quarantine_path="quarantined")
+        disp, note = status_disposition(spec_s, ["X", "Y"], root=td)
+        ok(disp and disp["quarantined"] == ["X"], "L19 quarantined member is named")
+        ok(disp and disp["unexplained"] == ["Y"],
+           "L19 a member with no record is not assumed quarantined")
+        spec_n = dict(closed)
+        disp, note = status_disposition(spec_n, ["X"], root=td)
+        ok(disp is None and "no quarantine record" in note,
+           "L20 a lane with no record is never judged fine")
+
+    # --- L21: a member match says nothing about time (options: 254/254 at 09-30)
+    with tempfile.TemporaryDirectory() as td:
+        os.makedirs(os.path.join(td, "data", "q"), exist_ok=True)
+        for name, day in (("a.csv", "2026-09-30"), ("b.csv", "2026-11-13")):
+            with io.open(os.path.join(td, "data", "q", name), "w", encoding="utf-8") as f:
+                f.write("date,close\n%s,1.0\n" % day)
+        ok(_dir_newest_bar("data/q", ".csv", root=td) == "2026-11-13",
+           "L21 newest bar is read, not assumed")
+        ok(_dir_newest_bar("data/none", ".csv", root=td) is None,
+           "L21 an absent panel has no date (not today)")
+
+    total = 28
     if fails:
         for f in fails:
             print("[FAIL]", f)
