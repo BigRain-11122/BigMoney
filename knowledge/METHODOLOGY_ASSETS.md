@@ -15570,3 +15570,23 @@ results/etf_book_gate_causal.json · research/ETF_BOOK_GATE_CAUSAL.md ·
 results/etf_book_cash_lock_gap.json · research/ETF_BOOK_CASH_LOCK_GAP.md ·
 smoke_test.py 一条产品腿。
 
+
+### E661 形状能当科目证据，词表只能当边界（r1743 bm-c）
+
+1. **坑**：审计把 252 张 ADMIT 面判成「冻结窗口席位」而免票，依据是**书词表没出现**
+   （BOOK_KEYS 里没有 positions/weights/…）。词表说的是词汇，不是科目——一个把持仓
+   写成 holdings、把曲线写成 book_path 的面，永远碰不到那张表，却能顶着席位形状免票。
+2. **正法**：对同一批面问两个**只有形状能回答**的问题。席位形状＝整数 rows + W<n> 波尾
+   的台账，且存在能解析成 lo≤hi 的数对带边；书的形状＝≥20 点数值序列，或 ≥3 行且行键
+   落在席位词表之外。读数 252/252 台账齐全、252/252 有序带边（最薄 1、最厚 13）、
+   曲线 0、异词行 0。
+3. **证伪件必须同轮发布**：造 4 个「席位标记齐全 + 本体是书」的合成面（holdings 表 /
+   30 点曲线 / 散文带子 / 倒挂带子），书词表 0/4、形状测试 4/4，并把这组对照焊成
+   selftest 腿（L20-L23）。没有这组数字，改法只是把一张词表换成另一张词表。
+4. **验收口径**：改完重跑必须让**已发布数字逐位不动**（本轮 protocol_seats 252 /
+   subject_confirmed 252 / seat_shapes_reported_as_trading 0，与前一代逐位相同）——
+   动了说明改的是判定，不是证据。
+
+指针：scripts/event_exec_gate.py（seat_subject/_band_edges/_numeric_curves/_row_lists
++ audit 注记 + selftest_seat_subject 8/8）· scripts/seat_subject_census.py（run/selftest 6/6）
+· results/seat_subject_census.json · research/SEAT_SUBJECT_CENSUS.md · smoke_test.py 腿 83

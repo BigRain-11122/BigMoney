@@ -1,0 +1,85 @@
+{
+ "ts": "2026-11-16T00:46:42+08:00",
+ "cmd": "update",
+ "advance": true,
+ "state_path": "K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\state-bm-c.json",
+ "action": "advanced",
+ "changed": {
+  "decisions": false,
+  "orders": true
+ },
+ "reasons": [],
+ "err": null,
+ "stale_watermarks": [],
+ "triples": {
+  "last_decisions_watermark": "a9312e794314e41c@e7ff023/142232",
+  "last_orders_watermark": "dc66aa516b6ec88e@e7ff023/81165"
+ },
+ "v2_status": {
+  "decisions": {
+   "status": "delta",
+   "why": "content differs (bytes 133834->142232)"
+  },
+  "orders": {
+   "status": "delta",
+   "why": "content differs (bytes 79462->81165)"
+  }
+ },
+ "quads": {
+  "last_decisions_watermark_v2": "v2:BigRain-11122/FluxGroup@e7ff02328a6c1227e4f4ccec178e46b06f67b504/142232#a9312e794314e41cfdda1fac5ce41ec7a4cd391dc57da9b937fb9328b0c3e7c5",
+  "last_orders_watermark_v2": "v2:BigRain-11122/FluxGroup@e7ff02328a6c1227e4f4ccec178e46b06f67b504/81165#dc66aa516b6ec88eb217f4adebaceae41c4988bbfefe4e9d44243107fe3a347a"
+ },
+ "refetch": {
+  "decisions": "git -C <group-tree> show e7ff02328a6c1227e4f4ccec178e46b06f67b504:docs/decisions.md",
+  "orders": "git -C <group-tree> show e7ff02328a6c1227e4f4ccec178e46b06f67b504:docs/orders.md"
+ },
+ "written": {
+  "last_decisions_sha": "a9312e794314e41cfdda1fac5ce41ec7a4cd391dc57da9b937fb9328b0c3e7c5",
+  "last_orders_sha": "dc66aa516b6ec88eb217f4adebaceae41c4988bbfefe4e9d44243107fe3a347a",
+  "last_decisions_watermark_v2": "v2:BigRain-11122/FluxGroup@e7ff02328a6c1227e4f4ccec178e46b06f67b504/142232#a9312e794314e41cfdda1fac5ce41ec7a4cd391dc57da9b937fb9328b0c3e7c5",
+  "last_orders_watermark_v2": "v2:BigRain-11122/FluxGroup@e7ff02328a6c1227e4f4ccec178e46b06f67b504/81165#dc66aa516b6ec88eb217f4adebaceae41c4988bbfefe4e9d44243107fe3a347a"
+ },
+ "heartbeat_sync": {
+  "path": "K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\fleet\\machines\\bm-c.json",
+  "synced": {
+   "last_orders_sha": {
+    "from": "8fb0a8fd50c12b932217b1b996ef9af00fc64d7b7438698c9d5f5bfcdb80d875",
+    "to": "dc66aa516b6ec88eb217f4adebaceae41c4988bbfefe4e9d44243107fe3a347a"
+   },
+   "last_decisions_sha": {
+    "from": "8acdcdc4f0738f7c9667860d2c1a5d6f4bb06aa60bca07a243406bf83a1aa577",
+    "to": "a9312e794314e41cfdda1fac5ce41ec7a4cd391dc57da9b937fb9328b0c3e7c5"
+   },
+   "last_orders_read_at": {
+    "from": "2026-11-15T18:25:00+08:00",
+    "to": "2026-11-16T00:46:42+08:00"
+   },
+   "last_decisions_read_at": {
+    "from": "2026-11-15T18:25:00+08:00",
+    "to": "2026-11-16T00:46:42+08:00"
+   },
+   "last_decisions_at": {
+    "from": "2026-11-15T13:15:06+08:00",
+    "to": "2026-11-16T00:40:00+08:00"
+   },
+   "last_orders_watermark": {
+    "from": "8fb0a8fd50c12b93@5895faa/79462",
+    "to": "dc66aa516b6ec88e@e7ff023/81165"
+   },
+   "last_decisions_watermark": {
+    "from": "8acdcdc4f0738f7c@5895faa/133834",
+    "to": "a9312e794314e41c@e7ff023/142232"
+   },
+   "last_orders_watermark_v2": {
+    "from": "v2:BigRain-11122/FluxGroup@5895faaf1aaea5dfdbd5bcb0c5203c0e1df05aa9/79462#8fb0a8fd50c12b932217b1b996ef9af00fc64d7b7438698c9d5f5bfcdb80d875",
+    "to": "v2:BigRain-11122/FluxGroup@e7ff02328a6c1227e4f4ccec178e46b06f67b504/81165#dc66aa516b6ec88eb217f4adebaceae41c4988bbfefe4e9d44243107fe3a347a"
+   },
+   "last_decisions_watermark_v2": {
+    "from": "v2:BigRain-11122/FluxGroup@5895faaf1aaea5dfdbd5bcb0c5203c0e1df05aa9/133834#8acdcdc4f0738f7c9667860d2c1a5d6f4bb06aa60bca07a243406bf83a1aa577",
+    "to": "v2:BigRain-11122/FluxGroup@e7ff02328a6c1227e4f4ccec178e46b06f67b504/142232#a9312e794314e41cfdda1fac5ce41ec7a4cd391dc57da9b937fb9328b0c3e7c5"
+   }
+  },
+  "readback_ok": true,
+  "note": null
+ }
+}

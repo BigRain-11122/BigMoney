@@ -34,6 +34,7 @@ _lhb_events); this file adds the third panel, the shared-event selection and the
 import io
 import json
 import os
+import re
 import sys
 import time
 
@@ -721,6 +722,133 @@ def _priced(face):
     return any(k.lower() in txt for k in PRICING_KEYS)
 
 
+# ---- what the legs describe, asked by shape (r1743) ---------------------------------
+# The seat classification above keeps a book word out of the out-of-scope pile, but a
+# word list is a claim about vocabulary, not about subject: a face that spells its
+# holdings "holdings" instead of "positions" never meets BOOK_KEYS and can ride a seat
+# shape straight past this audit. So the same faces are asked a second question, one
+# that cannot be answered by renaming a field: a seat ledger carries integer counts and
+# a wave tail, a band is two ordered numeric edges, and a book needs either a price
+# series long enough to be a curve or per-name rows -- both of which are visible
+# whatever they are called.
+SEAT_ROW_KEYS = ("hop", "jump_to", "jump", "window", "band", "seat", "rows", "row",
+                 "ordinal", "refuser", "refusers", "refuser_bands", "refuser_pts",
+                 "tail", "owner", "owner_rows", "bmb_rows", "bmb_ordinal", "conflicts",
+                 "vacant_on_origin", "origin_vacancy", "probe", "face")
+CURVE_MIN_POINTS = 20   # a series this long is a curve, whatever the field is called
+BAND_EDGE = re.compile(r"(-?\d+(?:_\d+)*(?:\.\d+)?)\.\.(-?\d+(?:_\d+)*(?:\.\d+)?)")
+
+
+def _band_edges(face, path="", depth=0, out=None):
+    """Every lo..hi pair written anywhere in the face, parsed as numbers.
+
+    The gates in this tree write their windows as "275_004..277_003" and also inside
+    prose ("arithmetic 65_850..66_049 REFUSED"), so the reader walks strings, not keys.
+    """
+    out = [] if out is None else out
+    if depth > 4:
+        return out
+    if isinstance(face, dict):
+        for k, v in face.items():
+            _band_edges(v, path + "." + k, depth + 1, out)
+    elif isinstance(face, list):
+        for v in face:
+            _band_edges(v, path, depth + 1, out)
+    elif isinstance(face, str):
+        for m in BAND_EDGE.finditer(face):
+            lo, hi = float(m.group(1).replace("_", "")), float(m.group(2).replace("_", ""))
+            out.append({"path": path, "lo": lo, "hi": hi, "ordered": lo <= hi})
+    return out
+
+
+def _numeric_curves(face, path="", depth=0, out=None):
+    """Lists of numbers long enough to be a price series, under any field name."""
+    out = [] if out is None else out
+    if depth > 4:
+        return out
+    if isinstance(face, dict):
+        for k, v in face.items():
+            _numeric_curves(v, path + "." + k, depth + 1, out)
+    elif isinstance(face, list):
+        nums = [x for x in face if isinstance(x, (int, float)) and not isinstance(x, bool)]
+        if len(nums) >= CURVE_MIN_POINTS and len(nums) == len(face):
+            out.append({"path": path, "points": len(nums)})
+        else:
+            for v in face:
+                _numeric_curves(v, path, depth + 1, out)
+    return out
+
+
+def _row_lists(face, path="", depth=0, out=None):
+    """Lists of dicts that look like rows per name, and the keys a seat would not use."""
+    out = [] if out is None else out
+    if depth > 4:
+        return out
+    if isinstance(face, dict):
+        for k, v in face.items():
+            _row_lists(v, path + "." + k, depth + 1, out)
+    elif isinstance(face, list):
+        rows = [x for x in face if isinstance(x, dict)]
+        if len(rows) >= 3:
+            keys = sorted({k for r in rows for k in r})
+            off = [k for k in keys if k.lower() not in SEAT_ROW_KEYS]
+            out.append({"path": path, "rows": len(rows), "keys": keys[:8],
+                        "not_seat_words": off[:8]})
+        else:
+            for v in face:
+                _row_lists(v, path, depth + 1, out)
+    return out
+
+
+def seat_subject(face):
+    """Is this face a seat protocol or a book wearing one? Answered by shapes.
+
+    Two independent questions, both answerable from the face itself: does a seat ledger
+    exist (integer rows with a wave tail), and does any shape that can only belong to a
+    book exist (a curve, or rows whose keys are not seat words). A face with a book
+    shape is unverified no matter how many seat marks it carries.
+    """
+    legs = face.get("legs") if isinstance(face.get("legs"), dict) else {}
+    ledger = [v for v in legs.values()
+              if isinstance(v, dict) and "tail" in v and isinstance(v.get("rows"), int)
+              and not isinstance(v.get("rows"), bool)]
+    bands = _band_edges(face)
+    curves = _numeric_curves(face)
+    rows = _row_lists(face)
+    stray = [r for r in rows if r["not_seat_words"]]
+    why = []
+    if not ledger:
+        why.append("no seat ledger (integer rows + wave tail)")
+    if not bands:
+        why.append("no band edge parses as two numbers")
+    elif not any(b["ordered"] for b in bands):
+        why.append("every band edge runs backwards (hi < lo)")
+    if curves:
+        why.append("carries a %d-point numeric series under %s"
+                   % (curves[0]["points"], curves[0]["path"] or "the root"))
+    if stray:
+        why.append("rows are named with words a seat does not use (%s)"
+                   % "/".join(stray[0]["not_seat_words"][:3]))
+    return {
+        "ledger": bool(ledger),
+        "band_edges": len(bands),
+        "band_edges_ordered": sum(1 for b in bands if b["ordered"]),
+        "curves": len(curves),
+        "row_lists": len(rows),
+        "row_lists_not_seat": len(stray),
+        "verdict": "seat" if not why else "unverified",
+        "why": why,
+    }
+
+
+def _subject_brief(subj):
+    """The part of the subject reading a reader of the audit face needs."""
+    return {"ledger": subj["ledger"], "band_edges": subj["band_edges"],
+            "band_edges_ordered": subj["band_edges_ordered"],
+            "curves": subj["curves"], "row_lists": subj["row_lists"],
+            "row_lists_not_seat": subj["row_lists_not_seat"]}
+
+
 def _display_path(path):
     """relpath breaks across drives (a selftest fixture lives on C:, the repo on K:)."""
     try:
@@ -753,14 +881,29 @@ def audit(results_dir=None, limit=0):
             continue
         marks = _is_protocol_seat_face(face)
         if marks:
-            # Out of scope, and named with the marks that decided it -- a reader must be
-            # able to check the classification without re-deriving the walk.
-            protocol.append({
+            subj = seat_subject(face)
+            if subj["verdict"] == "seat":
+                # Out of scope, and named with the marks that decided it -- a reader must
+                # be able to check the classification without re-deriving the walk.
+                protocol.append({
+                    "file": _display_path(path),
+                    "tier": tier,
+                    "verdict": face.get("verdict"),
+                    "marks": marks,
+                    "subject": _subject_brief(subj),
+                    "admits": "the freeze-window seat for a parameter band, not a position",
+                })
+                continue
+            # The marks said seat; the shapes say something that can only be a book.
+            # Filing this as out of scope is how a renamed holdings block stays unpriced.
+            findings.append({
                 "file": _display_path(path),
                 "tier": tier,
+                "scope": "trading",
                 "verdict": face.get("verdict"),
                 "marks": marks,
-                "admits": "the freeze-window seat for a parameter band, not a position",
+                "why": "wears a seat shape but its legs describe a book: "
+                       + "; ".join(subj["why"]),
             })
             continue
         scope = "registration" if any(k in face for k in REGISTRATION_KEYS) else "trading"
@@ -790,6 +933,15 @@ def audit(results_dir=None, limit=0):
                 "published": sum(1 for p in protocol if p["tier"] == "published"),
                 "probe": sum(1 for p in protocol if p["tier"] == "probe"),
             },
+            # A seat is out of scope only after its shapes agree that it is a seat. The
+            # number is re-derived from the published rows, not copied from len(protocol),
+            # so a row that is listed without that evidence shows up as a disagreement.
+            "protocol_seats_subject_confirmed": sum(
+                1 for p in protocol
+                if p["subject"]["ledger"] and p["subject"]["band_edges_ordered"]
+                and not p["subject"]["curves"]
+                and not p["subject"]["row_lists_not_seat"]),
+            "seat_shapes_reported_as_trading": sum(1 for f in findings if f.get("marks")),
         },
         "protocol": protocol,
         "findings": findings,
@@ -800,6 +952,12 @@ def audit(results_dir=None, limit=0):
                                   + "/".join(REGISTRATION_KEYS[:3]) + "...",
             "protocol_admit": "a freeze-window seat may be taken: recognised by seat "
                               "ledger + origin occupancy + band ranges, never by file name",
+            "protocol_seat_subject": "and confirmed by shapes, not words: an integer "
+                                     "ledger with a wave tail, a band that parses as two "
+                                     "ordered numbers, no price series, and no per-name "
+                                     "rows spelled outside seat vocabulary (a face that "
+                                     "wears a seat shape while holding a book is reported "
+                                     "as a trading claim)",
         },
         "rule": {
             "only_the_priced_face_can_admit": True,
@@ -900,6 +1058,87 @@ def selftest_audit():
     return ok, total
 
 
+def selftest_seat_subject():
+    """A seat shape must not be able to carry a book past the audit under a new name.
+
+    The fixtures are the falsifier for the classification the audit already publishes:
+    four faces that meet every seat mark and describe a book, one face that is honestly
+    a seat. The point of the run is the tally -- the word list catches none of the four,
+    the shape test catches all four, and the honest seat keeps its exemption.
+    """
+    import tempfile
+    ok = 0
+    total = 0
+
+    def chk(cond, name):
+        nonlocal ok, total
+        total += 1
+        if cond:
+            ok += 1
+        else:
+            print("FAIL", name)
+
+    seat_marks = {"legs": {
+        "leg0": {"rows": 113, "tail": "W115", "ordinal": 106, "owner_rows": 105},
+        "leg1": {"A": "275_004..277_003", "B": "62_701..62_900"},
+        "leg2": {"conflicts": [], "vacant_on_origin": True},
+    }}
+    lookalikes = {
+        "k_hidden_book.json": dict(seat_marks, **{
+            "holdings": [{"ticker": "51%04d" % i, "qty": 1200 + i, "px": 3.9 + i / 100}
+                         for i in range(4)]}),
+        "l_curve_book.json": dict(seat_marks, **{
+            "book_path": [1.0 + i / 100.0 for i in range(30)]}),
+        "m_prose_band.json": {"legs": {
+            "leg0": {"rows": 40, "tail": "W140", "ordinal": 33},
+            "leg1": {"A": "roughly five thousand to six thousand"},
+            "leg2": {"conflicts": [], "vacant_on_origin": True}}},
+        "n_backwards_band.json": {"legs": {
+            "leg0": {"rows": 41, "tail": "W141", "ordinal": 34},
+            "leg1": {"A": "277_003..275_004"},
+            "leg2": {"conflicts": [], "vacant_on_origin": True}}},
+    }
+    with tempfile.TemporaryDirectory() as d:
+        def put(name, payload):
+            payload = dict(payload, face=name, verdict="ADMIT")
+            with io.open(os.path.join(d, name), "w", encoding="utf-8") as f:
+                f.write(json.dumps(payload))
+
+        put("g_honest_seat.json", seat_marks)
+        for name, payload in lookalikes.items():
+            put(name, payload)
+        rep = audit(d)
+
+        blind = [n for n, p in lookalikes.items()
+                 if not any(k in json.dumps(p, ensure_ascii=False).lower() for k in BOOK_KEYS)]
+        chk(len(blind) == len(lookalikes),
+            "L20 the word list cannot see a book spelled holdings/book_path (blind on %d/%d)"
+            % (len(blind), len(lookalikes)))
+        caught = [f for f in rep["findings"] if "seat shape" in (f.get("why") or "")]
+        chk(len(caught) == len(lookalikes),
+            "L21 the shape test catches every lookalike the words miss (%d/%d)"
+            % (len(caught), len(lookalikes)))
+        chk(not [p for p in rep["protocol"] if p["file"].split("/")[-1] in lookalikes],
+            "L21 no lookalike keeps the seat exemption")
+        chk(all(f["scope"] == "trading" and f["marks"] for f in caught),
+            "L21 a lookalike is reported as a trading claim and keeps the marks that hid it")
+        seat = [p for p in rep["protocol"] if p["file"].endswith("g_honest_seat.json")]
+        chk(len(seat) == 1 and seat[0]["subject"]["ledger"]
+            and seat[0]["subject"]["band_edges_ordered"] >= 1,
+            "L22 an honest seat keeps its exemption, with the shapes written beside it")
+        chk(rep["out_of_scope"]["protocol_seats"] == 1
+            and rep["out_of_scope"]["protocol_seats_subject_confirmed"] == 1,
+            "L22 the out-of-scope number is re-derived from the subject reading")
+        chk(rep["out_of_scope"]["seat_shapes_reported_as_trading"] == len(lookalikes),
+            "L23 the count of seat shapes that turned out to be books is published")
+        chk(not [f for f in rep["findings"] if "g_honest_seat" in f["file"]],
+            "L23 the honest seat is still not a trading violation")
+
+    print("seat-subject selftest %d/%d (words 0/%d, shapes %d/%d)"
+          % (ok, total, len(lookalikes), len(caught), len(lookalikes)))
+    return ok, total
+
+
 def main(argv):
     cmd = (argv[1] if len(argv) > 1 else "run").lower()
     if cmd == "selftest":
@@ -938,8 +1177,9 @@ def main(argv):
     if cmd == "audit":
         return run_audit()
     if cmd == "selftest-audit":
-        ok, total = selftest_audit()
-        return 0 if ok == total else 1
+        ok1, total1 = selftest_audit()
+        ok2, total2 = selftest_seat_subject()
+        return 0 if ok1 + ok2 == total1 + total2 else 1
     if cmd != "run":
         print(__doc__)
         return 2

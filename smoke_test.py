@@ -13294,6 +13294,65 @@ def _legs_supply_and_book():
     except Exception as e:
         check("product: event_exec_gate audit (no trading admission goes unpriced)",
               False, repr(e)[:180])
+    # ---- r1743: the seat exemption is a shape reading, not a word list --------
+    # 252 ADMIT faces are out of scope as "freeze-window seats". Until r1743 that was
+    # argued by the absence of book words, and a face that spells its holdings
+    # "holdings" never meets the list. This leg pins the falsifier (four seat-shaped
+    # books the words miss and the shapes catch) and the cross-face agreement, so the
+    # exemption cannot quietly go back to being a vocabulary claim.
+    try:
+        _ss83 = capture_pinned([sys.executable,
+                                os.path.join("scripts", "seat_subject_census.py"),
+                                "selftest"], 120)
+        _ok83 = _ss83.returncode == 0 and "FAIL" not in _ss83.stdout
+        check("product: seat faces are confirmed by shape (a renamed holdings block is "
+              "not a seat)",
+              _ok83,
+              (_ss83.stdout.strip().splitlines() or [""])[-1][:200] if _ss83.returncode == 0
+              else (_ss83.stderr or _ss83.stdout)[:200])
+        _bad83 = []
+        _f83 = os.path.join(PATHS.results_dir, "seat_subject_census.json")
+        _a83 = os.path.join(PATHS.results_dir, "event_exec_gate_audit.json")
+        if not os.path.exists(_f83):
+            _bad83.append("results/seat_subject_census.json missing")
+        else:
+            with open(_f83, encoding="utf-8") as _fh83:
+                _v83 = json.load(_fh83)
+            _fal83 = _v83.get("falsifier") or {}
+            if not (_fal83.get("n") and _fal83.get("words_caught") == 0
+                    and _fal83.get("shapes_caught") == _fal83.get("n")):
+                _bad83.append("the falsifier did not run: words=%s shapes=%s n=%s"
+                              % (_fal83.get("words_caught"), _fal83.get("shapes_caught"),
+                                 _fal83.get("n")))
+            if _v83.get("claiming_admission") is None or _v83.get("seat_classified") is None:
+                _bad83.append("the face published no admission count")
+            if _v83.get("seat_lookalikes") and not _v83.get("lookalikes"):
+                _bad83.append("%d seat-shaped book(s) counted but none named"
+                              % _v83.get("seat_lookalikes"))
+            if os.path.exists(_a83):
+                with open(_a83, encoding="utf-8") as _fh83b:
+                    _v83b = json.load(_fh83b)
+                _oos83 = (_v83b.get("out_of_scope") or {})
+                if _oos83.get("protocol_seats") != _v83.get("seat_classified"):
+                    _bad83.append("audit says %s seats, census says %s"
+                                  % (_oos83.get("protocol_seats"),
+                                     _v83.get("seat_classified")))
+                if _oos83.get("protocol_seats_subject_confirmed") != _oos83.get("protocol_seats"):
+                    _bad83.append("%s of %s seats lack the subject evidence"
+                                  % (_oos83.get("protocol_seats_subject_confirmed"),
+                                     _oos83.get("protocol_seats")))
+            else:
+                _bad83.append("results/event_exec_gate_audit.json missing")
+        check("product: the seat count and the shape evidence are the same face's number",
+              not _bad83, "; ".join(_bad83)[:220]
+              or "seats=%s lookalikes=%s words=%s/%s shapes=%s/%s"
+              % (_v83.get("seat_classified"), _v83.get("seat_lookalikes"),
+                 (_v83.get("falsifier") or {}).get("words_caught"),
+                 (_v83.get("falsifier") or {}).get("n"),
+                 (_v83.get("falsifier") or {}).get("shapes_caught"),
+                 (_v83.get("falsifier") or {}).get("n")))
+    except Exception as e:
+        check("product: seat faces are confirmed by shape", False, repr(e)[:180])
 
 
 def _finish() -> int:

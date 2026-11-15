@@ -1,0 +1,83 @@
+{
+  "face": "seat_subject_census",
+  "scanned": 3836,
+  "claiming_admission": 255,
+  "admissions_already_priced": 1,
+  "seat_classified": 252,
+  "seat_by_tier": {
+    "probe": 252,
+    "published": 0
+  },
+  "seat_subject_confirmed": 252,
+  "seat_lookalikes": 0,
+  "registration_gates": 2,
+  "book_faces": 0,
+  "seat_band_edges": {
+    "min": 1,
+    "max": 13,
+    "faces_with_ordered_band": 252
+  },
+  "seat_curves": 0,
+  "seat_row_lists_not_seat": 0,
+  "seat_ledger_present": 252,
+  "word_list_vs_shape": {
+    "shape_book_words_seat": [],
+    "words_book_shape_seat": [],
+    "disagreements": 0
+  },
+  "lookalikes": [],
+  "book_detail": [],
+  "registration_detail": [
+    {
+      "file": "results/theme_judge_p2_d6_probe.json",
+      "verdict": "ADMIT",
+      "subject": {
+        "ledger": false,
+        "band_edges": 0,
+        "band_edges_ordered": 0,
+        "curves": 0,
+        "row_lists": 1,
+        "row_lists_not_seat": 1
+      },
+      "why": [
+        "no seat ledger (integer rows + wave tail)",
+        "no band edge parses as two numbers",
+        "rows are named with words a seat does not use (corr/member/n_common)"
+      ]
+    },
+    {
+      "file": "results/theme_judge_p2_seed_band_receipt.json",
+      "verdict": "ADMIT",
+      "subject": {
+        "ledger": false,
+        "band_edges": 0,
+        "band_edges_ordered": 0,
+        "curves": 0,
+        "row_lists": 0,
+        "row_lists_not_seat": 0
+      },
+      "why": [
+        "no seat ledger (integer rows + wave tail)",
+        "no band edge parses as two numbers"
+      ]
+    }
+  ],
+  "audit_face": {
+    "protocol_seats": 252,
+    "protocol_seats_subject_confirmed": 252,
+    "seat_shapes_reported_as_trading": 0,
+    "asof": "2026-11-16T00:41:01"
+  },
+  "rule": {
+    "seat_needs": "integer ledger rows + wave tail, >=1 ordered band edge",
+    "book_shapes_veto": "a 20-point numeric series, or >=3 rows whose keys are not seat words",
+    "seat_vocabulary_is_a_boundary_not_a_proof": true
+  },
+  "asof": "2026-11-16T00:42:02",
+  "falsifier": {
+    "words_caught": 0,
+    "shapes_caught": 4,
+    "n": 4,
+    "rc": 0
+  }
+}
