@@ -57,6 +57,9 @@ HOST_DOWN_H = 2.0
 # different questions. 2h = "can this host vouch for the row it wrote?"; 24h =
 # "has the owner stopped reporting at all?" -- reported separately.
 HOST_SILENT_H = 24.0
+# r1732: how many members of a stale cohort the page spells out before "..." --
+# the full list stays in the audited face, the page has to stay readable.
+STALE_COHORT_SHOW = 8
 
 DAY8_RE = re.compile(r"^(\d{4})(\d{2})(\d{2})\.json$")
 # envelope keys that name the machine whose data the number describes
@@ -588,6 +591,20 @@ def audit(days, now, lanes=None, root=ROOT, machines_dir=None):
                         extra["audited_by"] = spec.get("audited_by")
                         if spec.get("verdict_key"):
                             extra["cited_verdict"] = _get(doc, spec["verdict_key"])
+                        # r1732: the auditing face names the members outside its
+                        # active cohort, and each name carries the reason its own
+                        # lane gave. "2 files are outside the cohort" cannot tell
+                        # a pinned member from a feed that died -- and only the
+                        # second one needs somebody to act -- so the names travel
+                        # with the verdict instead of staying in the JSON.
+                        _pnl = doc.get("panel") if isinstance(doc, dict) else None
+                        if isinstance(_pnl, dict) and _pnl.get("stale_cohort_names"):
+                            extra["stale_cohort"] = {
+                                "names": _pnl["stale_cohort_names"],
+                                "unexplained": _pnl.get("stale_cohort_unexplained") or [],
+                                "truncated": bool(_pnl.get("stale_cohort_truncated")),
+                                "audited_by": spec.get("audited_by"),
+                            }
                         # r1266: when the auditing face keeps a per-hole cause
                         # table, carry it. "6 days missing" is one number for
                         # two very different histories -- days when a stand-in
@@ -1611,6 +1628,24 @@ def render_md(report, cert="auto"):
                          + (f" ({lag} official days behind)" if lag is not None
                             else " (past the calendar, day count N/A)")
                          + "\n")
+    cohort = [r for r in report["lanes"] if r.get("stale_cohort")]
+    if cohort:
+        tailnote += ("\n## Members sitting outside the active cohort\n\n"
+                     "These are named by the face that audits the panel, with the "
+                     "reason the lane's own receipt gives. A pinned member and a "
+                     "source that ended are decisions already taken; a member with "
+                     "**no declaration** is a feed that stopped, and that is the "
+                     "only line here that needs somebody to act.\n\n")
+        for r in cohort:
+            sc = r["stale_cohort"]
+            shown = sc["names"][:STALE_COHORT_SHOW]
+            tailnote += (f"- `{r['lane']}`: " + ", ".join(
+                f"`{c.get('stem')}` ({c.get('reason') or '**no declaration**'}@"
+                f"{c.get('tail_bar')})" for c in shown)
+                + (" ..." if len(sc["names"]) > len(shown) or sc.get("truncated") else "")
+                + (f" -- {len(sc['unexplained'])} undeclared"
+                   if sc.get("unexplained") else " -- all declared")
+                + f" (audited by {sc.get('audited_by') or 'an unnamed face'})\n")
     sampled = [r for r in report["lanes"]
                if (r.get("panel_read") or {}).get("sampled")]
     behind = [r for r in report["lanes"] if r.get("panel_behind_envelope")]
@@ -2856,10 +2891,49 @@ def selftest():
     finally:
         _sh37.rmtree(_cd37, ignore_errors=True)
 
+    # L41 (r1732) a stale member named by the auditing face rides into the row
+    # WITH its reason, and the page separates "declared" from "nobody declared"
+    with tempfile.TemporaryDirectory() as td:
+        json.dump({"panel": {"effective_cutoff": "2026-10-28",
+                             "stale_cohort_names": [
+                                 {"stem": "510880_t73", "tail_bar": "2026-09-22",
+                                  "reason": "declared_out_of_scope"},
+                                 {"stem": "sh512390", "tail_bar": "2026-09-04",
+                                  "reason": None}],
+                             "stale_cohort_unexplained": ["sh512390"],
+                             "stale_cohort_truncated": False},
+                   "verdict": "in_sync"},
+                  open(os.path.join(td, "e.json"), "w"))
+        _spec = {"lane": "etf", "kind": "external", "path": "e.json",
+                 "tail_key": "panel.effective_cutoff", "verdict_key": "verdict",
+                 "audited_by": "exchange_calendar_audit"}
+        row = run_lane(_spec, td)
+        assert row["stale_cohort"]["names"][0]["reason"] == "declared_out_of_scope", row
+        assert row["stale_cohort"]["unexplained"] == ["sh512390"], row
+        rep = audit(days, now, lanes=[_spec], root=td)
+        _md = render_md(rep, cert=None)
+        assert "outside the active cohort" in _md, _md[-900:]
+        assert "sh512390` (**no declaration**" in _md, _md[-900:]
+        assert "1 undeclared" in _md, _md[-900:]
+        print("[PASS] L41 a named stale cohort reaches the page with its reasons",
+              flush=True)
+
+    # L42 a face that publishes only a COUNT of its stale members must not read
+    # as if the members were known -- the row carries no cohort at all
+    with tempfile.TemporaryDirectory() as td:
+        json.dump({"panel": {"effective_cutoff": "2026-10-28",
+                             "n_stale_cohort": 2}, "verdict": "in_sync"},
+                  open(os.path.join(td, "e.json"), "w"))
+        row = run_lane({"lane": "etf", "kind": "external", "path": "e.json",
+                        "tail_key": "panel.effective_cutoff",
+                        "verdict_key": "verdict"}, td)
+        assert "stale_cohort" not in row, row
+        print("[PASS] L42 a bare stale count is not dressed as a roster", flush=True)
+
     # NB: this counter is typed, not derived. It was 40/40 with 41 legs running
     # (L35b added in r1639) -- a suite that prints a smaller number than it ran
     # reads as "the new leg never executed". Bump it with every leg added.
-    print("selftest: 41/41 PASS", flush=True)
+    print("selftest: 43/43 PASS", flush=True)
     return 0
 
 

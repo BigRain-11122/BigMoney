@@ -3392,6 +3392,22 @@ def main() -> int:
     except Exception as e:
         check("product: data lag audit face published", False, str(e))
     try:
+        # r1732: "2 files sit outside the active cohort" used to be the whole
+        # answer, and it cannot tell a pinned member from a feed that died. The
+        # face now names them; a bare count is the defect this leg pins.
+        _p2 = _la.get("panel") or {}
+        _n2 = _p2.get("n_stale_cohort") or 0
+        _nm2 = _p2.get("stale_cohort_names") or []
+        _ok2 = (_n2 == 0
+                or (len(_nm2) == min(_n2, 25)
+                    and all(x.get("stem") and x.get("tail_bar") for x in _nm2)
+                    and isinstance(_p2.get("stale_cohort_unexplained"), list)))
+        check("product: a stale cohort is named, not counted", _ok2,
+              f"stale={_n2} named={len(_nm2)} undeclared="
+              f"{len(_p2.get('stale_cohort_unexplained') or [])}")
+    except Exception as e:
+        check("product: a stale cohort is named, not counted", False, str(e))
+    try:
         _mc = json.load(open("results/marks_coverage.json", encoding="utf-8"))
         _rows = {r["date"]: r["status"] for r in _mc.get("days") or []}
         _holes = _mc.get("holes") or []

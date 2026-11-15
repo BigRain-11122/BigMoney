@@ -202,6 +202,99 @@ def panel_tails(daily_dir=DAILY_DIR):
     return tails
 
 
+# ---------------------------------------- who declared a stale member stale
+# r1732: `n_stale_cohort` was a NUMBER. On 2026-11-15 this panel held 1,725
+# files with exactly two outside the active cohort, and the lane's own receipt
+# named both -- under two different keys, for two different reasons
+# (`skipped: [510880_t73]`, the pinned stem the 48-lock invariant moved out;
+# `source_ended_stems: [sh512390]`, a source that stopped serving it). Both were
+# honest, and a reader could not tell them apart. The third class -- a member
+# that stopped and that nobody declared -- is the only one that needs an action,
+# and inside the number 2 it was invisible. So the cohort is now named, and
+# every name carries the reason its own lane gave, or None, which is a fact too.
+#
+# The KEY says what the list is: a member roster must never be read as an
+# exclusion list (r1731 L22). Order is priority -- a symbol both
+# `source_ended` and `no_trade` is reported as ended, the stronger statement.
+DECLARED_SCOPE_KEYS = [
+    ("skipped", "declared_out_of_scope"),
+    ("excluded", "declared_out_of_scope"),
+    ("ignored", "declared_out_of_scope"),
+    ("held", "declared_out_of_scope"),
+    ("source_ended", "source_ended"),
+    ("unsupported", "unsupported"),
+    ("no_trade", "no_trade"),
+]
+STALE_NAMES_CAP = 25
+STALE_EXAMPLE_CAP = 6
+
+
+def scope_from_doc(doc):
+    """{stem: reason} from a lane receipt's own exclusion lists (pure).
+
+    Only string lists whose key matches a phrase in DECLARED_SCOPE_KEYS are
+    read, so a member roster cannot be mistaken for an exclusion list. An
+    empty result is a real answer: nobody declared anything.
+    """
+    if not isinstance(doc, dict):
+        return {}
+    out = {}
+    for phrase, reason in DECLARED_SCOPE_KEYS:
+        for key, val in doc.items():
+            if not isinstance(val, list) or phrase not in str(key).lower():
+                continue
+            for item in val:
+                if isinstance(item, str) and item and item not in out:
+                    out[item] = reason
+    return out
+
+
+def declared_stale_scope(daily_dir=DAILY_DIR):
+    """-> ({stem: reason}, info) for the lane that maintains `daily_dir`.
+
+    The receipt is only read for the panel it actually describes; given any
+    other dir (a selftest sandbox), nothing is declared and every stale member
+    is reported unexplained rather than silently explained.
+    """
+    info = {"receipt": None, "declared": 0, "by_reason": {}, "error": None}
+    if os.path.abspath(daily_dir) != os.path.abspath(DAILY_DIR):
+        info["error"] = "panel_is_not_the_default_one_so_no_receipt_applies"
+        return {}, info
+    path = os.path.join(ROOT, "results", "etf_wide_update_status.json")
+    info["receipt"] = os.path.relpath(path, ROOT).replace("\\", "/")
+    try:
+        with io.open(path, "r", encoding="utf-8-sig") as f:
+            doc = json.load(f)
+    except Exception as e:                                  # noqa: BLE001
+        info["error"] = f"{type(e).__name__}: {e}"
+        return {}, info
+    scope = scope_from_doc(doc)
+    counts = {}
+    for reason in scope.values():
+        counts[reason] = counts.get(reason, 0) + 1
+    info.update(declared=len(scope), by_reason=counts)
+    return scope, info
+
+
+def _stale_note(cohort, unexplained):
+    """One sentence naming the stale cohort and who (if anyone) declared it."""
+    if not cohort:
+        return ""
+    shown = cohort[:STALE_EXAMPLE_CAP]
+    bits = ", ".join(
+        "%s (%s; last bar %s)" % (c["stem"], c["reason"] or "no declaration",
+                                  c["tail_bar"]) for c in shown)
+    more = " ..." if len(cohort) > len(shown) else ""
+    note = f"{len(cohort)} file(s) sit outside the active cohort: {bits}{more}"
+    if unexplained:
+        note += (" -- %d of them are declared by nobody (%s), so that is a member "
+                 "that stopped, not a pin"
+                 % (len(unexplained), ", ".join(unexplained[:STALE_EXAMPLE_CAP])))
+    else:
+        note += " -- every one of them is declared by the lane's own receipt"
+    return note
+
+
 def expected_last_day(days, now):
     """Last official day whose bar must exist by `now`.
 
@@ -219,7 +312,7 @@ def expected_last_day(days, now):
 
 
 def audit(days, tails, now, missing_window=MISSING_WINDOW,
-          active_lag_days=5, coverage_share=0.90):
+          active_lag_days=5, coverage_share=0.90, stale_scope=None):
     """Judge the panel by its MAINTAINED cohort, not by its oldest file.
 
     data/daily holds 1,725 CSVs; 1,671 of them stopped at 2026-09-22 when the
@@ -237,7 +330,9 @@ def audit(days, tails, now, missing_window=MISSING_WINDOW,
         return {
             "expected_last_official_day": exp,
             "panel": {"n_symbols": len(tails), "cutoff_min": None,
-                      "cutoff_max": None, "n_active": 0, "n_stale_cohort": len(tails)},
+                      "cutoff_max": None, "n_active": 0, "n_stale_cohort": len(tails),
+                      "stale_cohort_names": [], "stale_cohort_truncated": False,
+                      "stale_cohort_unexplained": []},
             "missing_official_days": [],
             "verdict": "in_sync" if not tails else "in_sync",
             "detail": "empty panel face -- nothing to audit",
@@ -247,6 +342,19 @@ def audit(days, tails, now, missing_window=MISSING_WINDOW,
     floor = recent[0] if recent else cutoff_max
     active = {s: t for s, t in tails.items() if t >= floor}
     stale = len(tails) - len(active)
+    # r1732: the cohort is named, and each name carries its own lane's reason
+    # (None = nobody declared it). A bare count cannot tell a pin from a feed
+    # that died, and only the second one needs somebody to act.
+    scope = stale_scope or {}
+    cohort = [{"stem": s, "tail_bar": t, "reason": scope.get(s)}
+              for s, t in sorted(tails.items()) if t < floor]
+    unexplained = [c["stem"] for c in cohort if not c["reason"]]
+    stale_block = {
+        "stale_cohort_names": cohort[:STALE_NAMES_CAP],
+        "stale_cohort_truncated": len(cohort) > STALE_NAMES_CAP,
+        "stale_cohort_unexplained": unexplained,
+    }
+    note = _stale_note(cohort, unexplained)
     window = [d for d in days if d <= exp][-missing_window:]
     covered = []
     for d in window:
@@ -274,12 +382,15 @@ def audit(days, tails, now, missing_window=MISSING_WINDOW,
         detail = (f"the maintained panel is behind the market by {len(missing)} "
                   f"official day(s): {', '.join(missing)} -- a feed that stopped "
                   f"publishing, not merely a publication delay")
+    if note:
+        detail = f"{detail}; {note}"
     return {
         "expected_last_official_day": exp,
         "panel": {"n_symbols": len(tails), "cutoff_min": min(tails.values()),
                   "cutoff_max": cutoff_max, "n_active": len(active),
                   "n_stale_cohort": stale, "active_floor": floor,
-                  "effective_cutoff": effective, "lagging_active_sample": lagging},
+                  "effective_cutoff": effective, "lagging_active_sample": lagging,
+                  **stale_block},
         "missing_official_days": missing,
         "coverage_by_day": {d: round(s, 4) for d, s in covered},
         "verdict": verdict,
@@ -378,7 +489,8 @@ def run(now=None, allow_network=True, cal_path=CAL_PATH, daily_dir=DAILY_DIR,
         return {"schema": "data-lag-audit/v1", "verdict": "mechanism_failure",
                 "error": info.get("error") or info.get("reason")}
     tails = panel_tails(daily_dir)
-    body = audit(days, tails, now)
+    scope, scope_info = declared_stale_scope(daily_dir)
+    body = audit(days, tails, now, stale_scope=scope)
     face = {
         "schema": "data-lag-audit/v1",
         "as_of": now.isoformat(timespec="seconds"),
@@ -394,6 +506,7 @@ def run(now=None, allow_network=True, cal_path=CAL_PATH, daily_dir=DAILY_DIR,
             "refresh": info,
         },
         "forward_impact": forward_impact(),
+        "stale_scope": scope_info,
         **body,
         "note": ("Descriptive face. The calendar is the independent reference; the "
                  "panel is ours. source_lag is a publication delay (self-heals), "
@@ -409,7 +522,9 @@ def run(now=None, allow_network=True, cal_path=CAL_PATH, daily_dir=DAILY_DIR,
           f"({len(days)}d) | expected {face['expected_last_official_day']} | "
           f"active {face['panel']['n_active']}/{face['panel']['n_symbols']} syms "
           f"effective {face['panel']['effective_cutoff']} | missing "
-          f"{face['missing_official_days'] or 'none'}")
+          f"{face['missing_official_days'] or 'none'} | stale cohort "
+          f"{face['panel']['n_stale_cohort']} "
+          f"(undeclared {len(face['panel']['stale_cohort_unexplained'])})")
     return face
 
 
@@ -506,7 +621,52 @@ def selftest():
           f"stale={res['panel']['n_stale_cohort']}")
     ok &= l9
 
-    print(f"selftest: {'PASS' if ok else 'FAIL'} (9 legs)")
+    # L10 a stale member the lane's receipt declares is named AND carries the
+    # reason -- not lumped into a count, and not counted as unexplained
+    base = {f"a{i:02d}": "2026-10-26" for i in range(8)}
+    base["510880_t73"] = "2026-09-22"
+    res = audit(days, base, mon_close,
+                stale_scope={"510880_t73": "declared_out_of_scope"})
+    l10 = (res["panel"]["stale_cohort_names"]
+           == [{"stem": "510880_t73", "tail_bar": "2026-09-22",
+                "reason": "declared_out_of_scope"}]
+           and res["panel"]["stale_cohort_unexplained"] == []
+           and "every one of them is declared" in res["detail"])
+    print(f"  [{'PASS' if l10 else 'FAIL'}] L10 declared stale member named: "
+          f"{res['panel']['stale_cohort_names']}")
+    ok &= l10
+    # L11 the same panel with NO declaration must say so -- an undeclared member
+    # is a feed that stopped, and silence about it is the defect this leg pins
+    res = audit(days, base, mon_close)
+    l11 = (res["panel"]["stale_cohort_unexplained"] == ["510880_t73"]
+           and "no declaration" in res["detail"]
+           and "not a pin" in res["detail"])
+    print(f"  [{'PASS' if l11 else 'FAIL'}] L11 undeclared stale member surfaced: "
+          f"{res['panel']['stale_cohort_unexplained']}")
+    ok &= l11
+    # L12 a long stale cohort is capped and says it is capped
+    wide = {f"w{i:02d}": "2026-10-26" for i in range(5)}
+    wide.update({f"old{i:02d}": "2026-09-22" for i in range(30)})
+    res = audit(days, wide, mon_close)
+    l12 = (len(res["panel"]["stale_cohort_names"]) == STALE_NAMES_CAP
+           and res["panel"]["stale_cohort_truncated"] is True
+           and res["panel"]["n_stale_cohort"] == 30
+           and len(res["panel"]["stale_cohort_unexplained"]) == 30)
+    print(f"  [{'PASS' if l12 else 'FAIL'}] L12 cohort capped at {STALE_NAMES_CAP} "
+          f"with truncated={res['panel']['stale_cohort_truncated']}")
+    ok &= l12
+    # L13 the receipt reader must not read a member roster as an exclusion list,
+    # and must prefer the stronger reason when a symbol appears in two lists
+    s13 = scope_from_doc({"universe": ["sh510300", "sh510050"],
+                          "skipped": ["510880_t73"],
+                          "source_ended_stems": ["sh512390"],
+                          "source_no_trade_stems": ["sh512390", "sh510090"]})
+    l13 = s13 == {"510880_t73": "declared_out_of_scope",
+                  "sh512390": "source_ended", "sh510090": "no_trade"}
+    print(f"  [{'PASS' if l13 else 'FAIL'}] L13 roster unread, reason precedence: {s13}")
+    ok &= l13
+
+    print(f"selftest: {'PASS' if ok else 'FAIL'} (13 legs)")
     return 0 if ok else 1
 
 
