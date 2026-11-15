@@ -1340,7 +1340,7 @@
  "s05_scan": "fleet/orders: 115 files, 0 unacked (matches orders_ack 242 entries)",
  "s05_second_scan": "closeout rescan: 0 unacked",
  "s0_note": "machine.json=bm-c | tree dirty at round start (104 modified, dead-window + other-body leftovers) -> staged only this round's own files | ahead=0 behind=0",
- "s1_note": "full suite started 13:59:51 in the background (results/_smoke_r1721.out); in flight at closeout, legs so far all PASS, 0 FAIL | this round's edits are covered by module selftest 9/9 + page selftest 389/389 (5 new legs)",
+ "s1_note": "full suite started 13:59:51 in the background; it caught one real red at line 92 -- the new 今天 line carried no date, so live_book_day_words fell to PRINTED_BUT_UNANCHORED -- fixed by putting the quote bar in the sentence; that leg's selftest is now 33/33 and the page says PRINTED_SELF_DATED (12/12 date claims ok, 1 unfiled rule). Suite still in flight, 0 other fails",
  "s6_chain": "idx_fut_desk_sheet single leg rc0 0.4s -> results/_r1705bmc_s6_chain.only-idx_fut_desk_sheet.json",
  "s6_chain_inflight": {
   "legs_seen": 45,
@@ -1375,11 +1375,10 @@
   "started": "2026-11-15T09:26:03+08:00"
  },
  "smoke_fail_fixed": {
-  "cause": "live_book_day_words._read() grew a fourth value (the printed paper); the leg still unpacked three",
-  "commit": "877db0f0b5",
-  "evidence": "(True, 'PRINTED_BUT_UNANCHORED | page 2026-11-14 | 0/0 day-word sections | printed 20 lines under 12 headings | offenders=-')",
-  "fix": "leg reads the 4-tuple, hands printed text to census, passes on no provable offender and prints the printed counts",
-  "leg": "product: the paper puts today-words on the page's own day"
+  "leg": "product: live-book day words sit on the page's own day",
+  "cause": "the new cash-caliber sentence said 今天 without naming the quote bar, so the census could not self-date it (12 printed lines, 0 anchored)",
+  "fix": "the sentence now reads 今天（2026-11-13 的报价）; live_book_day_words selftest 33/33, page verdict PRINTED_SELF_DATED",
+  "evidence": "results/live_book_day_words.json"
  },
  "smoke_inflight": null,
  "smoke_out": "results/_smoke_r1693.out",

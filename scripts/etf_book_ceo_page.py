@@ -440,7 +440,10 @@ def cash_caliber_block(cc, page_bar=None, page_day=None):
     # the day word is bound to a bar (E625): the gap is priced on the quote's own session.
     same_day = bool(page_day and cc.get("quote_date")
                     and str(page_day) == str(cc.get("quote_date")))
-    day_word = "今天" if same_day else str(cc.get("quote_date") or "报价日")
+    # the sentence carries its own date either way: a reader (and the day-word census) can
+    # always tell which bar "today" means here.
+    day_word = ("今天（%s 的报价）" % cc.get("quote_date")) if same_day and cc.get("quote_date") \
+        else ("%s 那天" % cc.get("quote_date") if cc.get("quote_date") else "报价日那天")
     share, bars = cc.get("share_in_band_pct"), cc.get("bars")
     if share is not None and bars:
         n_in = int(round(float(share) / 100.0 * float(bars)))
@@ -13151,7 +13154,7 @@ def selftest():
         _cc_md[:1600])
     chk("L310 cash caliber: the split names both parts, the fee share, and the wider true gap",
         "+24.65" in _cc_md and "-75.45" in _cc_md and "48.5%" in _cc_md
-        and "更远" in _cc_md and "-50.81" in _cc_md and "今天比窗口均值低" in _cc_md,
+        and "更远" in _cc_md and "-50.81" in _cc_md and "今天（2026-11-13 的报价）比窗口均值低" in _cc_md,
         _cc_md[:1600])
     _cc_ok = dict(_cc_fx, verdict="CALIBER_BAND_REACHABLE", fee_verdict="PRINTED_GAP_IS_A_RATE_DIFFERENCE",
                   commission_share_pct=2.0, share_in_band_pct=40.0)
@@ -13162,7 +13165,7 @@ def selftest():
     # the day word is bound to a bar: a page rebuilt later names the quote's date instead.
     _cc_next = "\n".join(cash_caliber_block(_cc_fx, page_bar="2026-11-14", page_day="2026-11-14"))
     chk("L312a cash caliber: a page rebuilt on a later day names the quote's bar, not today",
-        "今天比窗口均值低" not in _cc_next and "2026-11-13比窗口均值低" in _cc_next
+        "今天比窗口均值低" not in _cc_next and "2026-11-13 那天比窗口均值低" in _cc_next
         and "不是今天的新报价" in _cc_next, _cc_next[:1600])
     _cc_gone = "\n".join(cash_caliber_block({"readable": False, "why": "no file"}))
     chk("L312 cash caliber: an unreadable face says cannot-check and prints neither number",
