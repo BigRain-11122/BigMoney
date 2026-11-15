@@ -7233,6 +7233,18 @@ def build(with_stress=False, window_label=None):
         fwd["as_of"] = bars[-1].get("bar")
         fwd["nav"] = bars[-1].get("nav")
         fwd["since_inception_pct"] = round((float(bars[-1]["nav"]) - 1.0) * 100.0, 4)
+    # r1720: the ledger records the card's 12-name book, the executable sheet carries the
+    # ticket's width. The page printed both and only the RECEIPT section said they were two
+    # books, so the +1.09% on the marks read as the sheet's own performance. Both widths are
+    # read off their owners (book_in_force / the ticket's order), never typed here.
+    _bif = ledger.get("book_in_force") or {}
+    _book_names = [str(s) for s in (_bif.get("names") or []) if s]
+    _ticket_names = [str(o.get("symbol")) for o in order if o.get("symbol")]
+    fwd["book_bar"] = _bif.get("bar")
+    fwd["book_n_hold"] = len(_book_names) or None
+    fwd["ticket_n_hold"] = len(_ticket_names) or None
+    fwd["names_overlap"] = (len(set(_book_names) & set(_ticket_names))
+                            if _book_names and _ticket_names else None)
 
     # the daily answer to "are we beating just buying the four exposures" -- read off the
     # forward ledger's own benchmark block, never re-priced here (one price source)
@@ -8068,6 +8080,23 @@ def render_md(p, sb=None):
         add("- 前向账本：起始 %s 净值 1.0000 -> %s 净值 **%.4f**（%+.2f%%），共 %d 个交易日"
             % (fwd["inception"], fwd["as_of"], fwd["nav"], fwd["since_inception_pct"], fwd["bars"]))
         add("  - 这只是起步，不能当业绩看。")
+        # r1720: which book these marks belong to. The receipt section already named the two
+        # widths; the marks themselves still read as "this sheet's performance". The widths
+        # come off the ledger and the ticket, so the sentence flips by itself the day the
+        # ledger records the sheet's own width.
+        _bn = fwd.get("book_n_hold")
+        _tn = fwd.get("ticket_n_hold")
+        if _bn and _tn and _bn != _tn:
+            _ov = fwd.get("names_overlap")
+            add("  - 这条记录记的是账本的 **%d 名**那本（账面当前持有的那本，bar %s），"
+                "不是上面的 **%d 名**可执行单：它的净值与「对篮子」的差都按前者算%s。"
+                % (_bn, fwd.get("book_bar") or "—", _tn,
+                   "（两边重合 %d 名）" % _ov if _ov is not None
+                   else "（名册读不到，重合数说不出）"))
+        elif _bn and _tn:
+            add("  - 这条记录与上面的可执行单是同一本（都是 %d 名）。" % _bn)
+        else:
+            add("  - 账本没有写它持的是几名，读不出这条记录与可执行单是不是同一本。")
     else:
         add("- 前向账本：尚未起算")
     vsb = p.get("vs_basket")
@@ -12965,6 +12994,32 @@ def selftest():
     chk("L305 idle cash: a block with no forward reading says so instead of going silent",
         "下一段窗口付多少" in _no_fwd_txt and "没有" in _no_fwd_txt
         and "今日" not in _no_fwd_txt, _no_fwd_txt[-400:])
+
+    # L306-L308 (r1720): the marks belong to a book, and it is not always the sheet's book.
+    # Paired: two widths must name both numbers and the overlap; equal widths must NOT borrow
+    # the receipt sentence; an empty roster must say it cannot tell (never a width of 0).
+    _fwd_seed = dict(page["forward"] or {})
+    _fwd_seed.update({"nav": 1.0109, "inception": "2026-10-23", "as_of": "2026-11-13",
+                      "since_inception_pct": 1.095, "bars": 16})
+    _fwd_two = dict(_fwd_seed, book_n_hold=12, ticket_n_hold=5, names_overlap=5,
+                    book_bar="2026-11-11")
+    _txt_two = render_md(dict(page, forward=_fwd_two))
+    chk("L306 forward: a 12-name record under a 5-name sheet names both books and the overlap",
+        "**12 名**" in _txt_two and "**5 名**" in _txt_two and "重合 5 名" in _txt_two
+        and "2026-11-11" in _txt_two and "不是上面的" in _txt_two,
+        "two-width sentence present")
+    _fwd_one = dict(_fwd_seed, book_n_hold=5, ticket_n_hold=5, names_overlap=5,
+                    book_bar="2026-11-11")
+    _txt_one = render_md(dict(page, forward=_fwd_one))
+    chk("L307 forward: equal widths read as one book and never borrow the receipt sentence",
+        "同一本（都是 5 名）" in _txt_one and "不是上面的" not in _txt_one,
+        "same-width sentence present")
+    _fwd_none = dict(_fwd_seed, book_n_hold=None, ticket_n_hold=None, names_overlap=None)
+    _txt_none = render_md(dict(page, forward=_fwd_none))
+    chk("L308 forward: an unreadable roster says it cannot tell, never a width of zero",
+        "是不是同一本" in _txt_none and "**0 名**" not in _txt_none
+        and "同一本（都是" not in _txt_none,
+        "cannot-tell sentence present")
 
     print("\nSummary: %d/%d PASS%s" % (ok, total, "" if ok == total else " -- %d FAIL" % (total - ok)))
     return 0 if ok == total else 1
