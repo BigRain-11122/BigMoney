@@ -15105,3 +15105,32 @@ r1712。风险面把 IC carry 印成 **8.76%/年**、IM **10.20%/年**，都是�
 
 指针：`scripts/idx_fut_carry_risk.py` + `research/IDX_FUT_CARRY_RISK.md` §the caliber the carry column rides on
 + `docs/live_book/LIVE-BOOK-20261115.md` L91 + `results/idx_fut_roll_gap.json`（dilution.pairs）。
+
+## E649 · 口径分歧的第三种读法：交集尺（不是第三种意见）
+
+**问题**：两张面给出两个读数（阈值尺 2.88% / 日历锚 9.79%），页面只能印「两个口径答案不同」。
+这句话是真的，但它把决定权推回给读者——「过闸」到底是对这笔交易的性质，还是对读者挑了哪把尺子的性质？
+两张读数都在印、恒等式也成立，仍然回答不了这一问（E648 族只解决「差从哪来」，不解决「谁离群」）。
+
+**判据**：分歧里能加的第三把尺子，必须是**两侧的严格化**而不是第三个意见：一个日子只有两把尺子都不认作换月
+才留在序列里（同时剔掉 A 漏掉的换月日与 A 误删的真实日），读数走同一个估计器家族（median/trimmed/mean）。
+然后比较**判决集**而不是读数：
+- 三把尺子判决集相同时 → 「过闸」不是选尺子的结果，离群的是那一把（本例 = 阈值尺），页面必须把这句话印出来，
+  并把结论推回真约束（一手名义）；
+- 交集尺一个都不放 → 原来那个「过」依赖较松的一把，只能记候选；
+- 只换掉一部分 → 点名少了哪些、多了哪些，禁只印一边；
+- 交集尺读不出来 → 印「读不出来」，禁继承另一把的判决（缺列 ≠ 同答）。
+
+**为什么不能只看读数**：IH 的交集读数 5.14% 低于日历 5.32%，两者判决却相同（都 REJECT）；
+IC 的交集 9.84% 略高于日历 9.79%，判决也相同（都 ADMIT）。读数差 ≤0.2pp 但「过/不过」归属是另一件事——
+先判判决集，再谈读数。
+
+工具面：`scripts/idx_fut_roll_gap.py::one_pair()` 第三条读数 `strictest_mask`（= 两侧 masked 的并集），
+`idx_fut_basis.roll_mask_block()` 透传 `strictest`/`strictest_stats`，`idx_fut_carry_capital.judge(mask="strictest")`
+复用同一个法官（禁第二实现），`etf_book_ceo_page.futures_ladder_block()` 印第三列并按判决集派生句子。
+selftest：roll_gap 26/26（最严保留日 ≤ 任一把 / 最严读数 == neither 组均值 / 最严 ≥ 日历）；
+capital 38/38（R8 四腿：同答 / 全空翻面 / 部分换掉点名 / 缺列 fail-safe）；ceo_page 368/368（L291/L292）。
+
+指针：`results/idx_fut_carry_capital.json` 的 `admitted_by_mask`（published/calendar/strictest）
++ `results/idx_fut_roll_gap.json` `pairs.*.readings.strictest_mask`
++ `docs/live_book/LIVE-BOOK-20261115.md`（账户规模阶梯三列 + 同答句）。

@@ -6331,10 +6331,14 @@ def futures_ladder_face():
             "net_pct_of_capital_by_mask": {
                 m: _num(((tier or {}).get("net_pct_of_capital_by_mask") or {}).get(m),
                         "median_ann_pct")
-                for m in ("published", "calendar")},
+                for m in ("published", "calendar", "strictest")},
             "admit": v.get("ADMIT"),
             "admit_calendar": ((((cp.get("verdict_by_mask") or {}).get("calendar") or {})
                                 .get(prod) or {}).get("ADMIT")),
+            # r1713: the strictest ruler's verdict rides with the other two, so the page can
+            # say which answer is the outlier instead of asking the reader to pick a ruler
+            "admit_strictest": ((((cp.get("verdict_by_mask") or {}).get("strictest") or {})
+                                 .get(prod) or {}).get("ADMIT")),
             "ruler_stable": v.get("ruler_stable"),
             "lots_on_tier": _num(tier, "lots"),
             "notional_x_capital_on_tier": _num(tier, "notional_x_capital"),
@@ -6431,7 +6435,8 @@ def futures_ladder_block(fl, book_ann=None):
     if on_tier:
         best = max(on_tier, key=lambda r: r["net_pct_of_capital"])
         bm = best.get("net_pct_of_capital_by_mask") or {}
-        marks = [(m, bm.get(m)) for m in ("published", "calendar") if bm.get(m) is not None]
+        marks = [(m, bm.get(m)) for m in ("published", "calendar", "strictest")
+                 if bm.get(m) is not None]
         if marks:
             reading = "/".join("%.2f%%（%s 口径）" % (v, m) for m, v in marks)
         else:
@@ -6442,9 +6447,12 @@ def futures_ladder_block(fl, book_ann=None):
             # the verdict is derived from the strongest ruler on the row, never typed: a page
             # that says "still a tier below" must stop saying it the moment a mask clears the book
             top = max((v for _, v in marks), default=best["net_pct_of_capital"])
+            # r1713: the count is derived too -- two rulers or three, the sentence says which
+            cnt = {2: "两把", 3: "三把"}.get(len(marks),
+                                            "%d 把" % len(marks))
             if top < book_ann:
-                line += ("；这本书自己一年 **%.2f%%**——**两把尺子都低一档，等到买得起，它还是低一档**，"
-                         "这一行不是「再攒点钱就行」" % book_ann)
+                line += ("；这本书自己一年 **%.2f%%**——**%s尺子都低一档，等到买得起，它还是低一档**，"
+                         "这一行不是「再攒点钱就行」" % (book_ann, cnt))
             else:
                 line += ("；这本书自己一年 **%.2f%%**——**按最高的那把尺子，它已经不低于这本书**，"
                          "能不能加由上一节的手数边界决定，不由收益率决定" % book_ann)
@@ -6492,8 +6500,38 @@ def futures_ladder_block(fl, book_ann=None):
                          % "、".join(passed_cal))
         out.append(line)
 
+        # r1713: does the admission verdict survive the strictest ruler? This is the question
+        # the two-mask page could not answer -- it left the verdict a property of which ruler
+        # the reader opened. The sentence is derived from the two verdict sets, never typed.
+        _strict = [r["product"] for r in adm if r.get("admit_strictest") is True]
+        _has_strict = any(r.get("admit_strictest") is not None for r in adm)
+        if _has_strict and passed_cal and len(refused) == len(adm):
+            if sorted(_strict) == sorted(passed_cal):
+                line2 = ("**最严那把尺子（两把尺子都不认作换月的日子才留）给出同一批过线品种：%s。**"
+                         "所以「过」不是谁挑了哪把尺子的结果，唯一不一样的是 published 阈值那把——"
+                         "它把换月跳变记成某一天的亏损。" % "、".join(_strict))
+            elif not _strict:
+                line2 = ("**最严那把尺子一个都不放**（日历锚放 %s）——所以那两个「过」依赖日历锚，"
+                         "换一把更严的尺子就没了：这条线是候选，不是采纳。"
+                         % "、".join(passed_cal))
+            else:
+                _lost = [p for p in passed_cal if p not in _strict]
+                line2 = ("**最严那把尺子只过 %s**（日历锚放 %s%s）——少掉的部分来自阈值尺误删的真实日，"
+                         "不能当作「修好尺子就多出来的钱」。"
+                         % ("、".join(_strict), "、".join(passed_cal),
+                            ("，少了 " + "、".join(_lost)) if _lost else ""))
+            out.append("- " + line2)
+
     out.append("")
-    out.append("| 合约 | 一手名义（脱杠杆起点） | 第一个买得起的档 | 档上净收益（占这笔钱·published/calendar） | 一手占该档资本 | 全史最坏冲击占该档资本 | 判决（published/calendar） |")
+    _masks = [m for m in ("published", "calendar", "strictest")
+              if any((r.get("net_pct_of_capital_by_mask") or {}).get(m) is not None for r in rows)]
+    _has3 = "strictest" in _masks
+    if _has3:
+        out.append("| 合约 | 一手名义（脱杠杆起点） | 第一个买得起的档 | 档上净收益（占这笔钱·published/calendar/strictest） | "
+                   "一手占该档资本 | 全史最坏冲击占该档资本 | 判决（published/calendar/strictest） |")
+    else:
+        out.append("| 合约 | 一手名义（脱杠杆起点） | 第一个买得起的档 | 档上净收益（占这笔钱·published/calendar） | "
+                   "一手占该档资本 | 全史最坏冲击占该档资本 | 判决（published/calendar） |")
     out.append("|---|---|---|---|---|---|---|")
     for r in rows:
         _ad = r.get("admit")
@@ -6501,13 +6539,22 @@ def futures_ladder_block(fl, book_ann=None):
         _bm = r.get("net_pct_of_capital_by_mask") or {}
         _pub_v = _bm.get("published")
         _cal_v = _bm.get("calendar")
-        if _pub_v is None and _cal_v is None:
+        _str_v = _bm.get("strictest")
+        if _pub_v is None and _cal_v is None and _str_v is None:
             _yield_cell = "?" if r.get("net_pct_of_capital") is None \
                 else "%.2f%%/年" % r["net_pct_of_capital"]
         else:
-            _yield_cell = "%s / %s/年" % ("?" if _pub_v is None else "%.2f%%" % _pub_v,
-                                          "?" if _cal_v is None else "%.2f%%" % _cal_v)
-        out.append("| %s | %s | %s | %s | %s | %s | %s / %s |"
+            _cells = ["?" if _pub_v is None else "%.2f%%" % _pub_v,
+                      "?" if _cal_v is None else "%.2f%%" % _cal_v]
+            if _has3:
+                _cells.append("?" if _str_v is None else "%.2f%%" % _str_v)
+            _yield_cell = " / ".join(_cells) + "/年"
+        _verdicts = ["?" if _ad is None else ("过" if _ad else "拒"),
+                     "?" if _cal is None else ("过" if _cal else "拒")]
+        if _has3:
+            _st = r.get("admit_strictest")
+            _verdicts.append("?" if _st is None else ("过" if _st else "拒"))
+        out.append("| %s | %s | %s | %s | %s | %s | %s |"
                    % (r.get("product"),
                       "-" if r.get("one_lot_notional_cny") is None
                       else format(r["one_lot_notional_cny"], ",.0f"),
@@ -6518,8 +6565,7 @@ def futures_ladder_block(fl, book_ann=None):
                       else "%.0f%%" % (r["notional_x_capital_on_tier"] * 100),
                       "?" if r.get("stress_loss_pct_of_capital") is None
                       else "%.1f%%" % r["stress_loss_pct_of_capital"],
-                      "?" if _ad is None else ("过" if _ad else "拒"),
-                      "?" if _cal is None else ("过" if _cal else "拒")))
+                      " / ".join(_verdicts)))
     out.append("")
 
     out.append("- 阶梯的定价常数写在面上、不写在这一节里：波动目标 %.0f%%、保证金 %.0f%%（交易所标准＋券商缓冲，非交易所文件）、"
@@ -12430,6 +12476,28 @@ def selftest():
         "2.24% / ?/年" in _one_md and "2.24%（published 口径）" in _one_md, _one_md[:1400])
     chk("L288 account ladder: the surviving-days sentence never calls the surviving days removed",
         "都保留" in _fl_dil_md and "都被剔除的日子" not in _fl_dil_md, _fl_dil_md[-1200:])
+
+    # r1713: the strictest ruler. The page has to show whether "passes" belongs to the trade
+    # or to the ruler the reader opened -- so the third column and the verdict sentence ride
+    # together, and a missing third ruler is a missing reading, never an inherited answer.
+    _fl_three = json.loads(json.dumps(_fl_dil))
+    _fl_three["rows"][0]["net_pct_of_capital_by_mask"] = {"published": 2.24, "calendar": 3.12,
+                                                         "strictest": 3.05}
+    _fl_three["rows"][0]["admit_calendar"] = True
+    _fl_three["rows"][0]["admit_strictest"] = True
+    _three_md = "\n".join(futures_ladder_block(_fl_three, book_ann=11.647))
+    chk("L291 account ladder: the strictest ruler rides as a third column and verdict, and when "
+        "it agrees with the complete mask the page says the pass is not a choice of ruler",
+        "2.24% / 3.12% / 3.05%/年" in _three_md and "同一批过线品种" in _three_md
+        and "三把" in _three_md, _three_md[:1800])
+    _fl_no3 = json.loads(json.dumps(_fl_three))
+    _fl_no3["rows"][0]["net_pct_of_capital_by_mask"] = {"published": 2.24, "calendar": 3.12}
+    _fl_no3["rows"][0]["admit_strictest"] = None
+    _no3_md = "\n".join(futures_ladder_block(_fl_no3, book_ann=11.647))
+    chk("L292 account ladder: a face without the strictest ruler prints two columns and claims "
+        "nothing about the third",
+        "2.24% / 3.12%/年" in _no3_md and "同一批过线品种" not in _no3_md
+        and "strictest" not in _no3_md, _no3_md[:1800])
 
     print("\nSummary: %d/%d PASS%s" % (ok, total, "" if ok == total else " -- %d FAIL" % (total - ok)))
     return 0 if ok == total else 1

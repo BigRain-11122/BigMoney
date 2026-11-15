@@ -267,10 +267,17 @@ def build():
         # different set of days -- the calendar column is the parent's own three readings
         # recomputed on the series with the missed splices removed, minus the same drift.
         cal_stats = (mask_carry.get(fut) or {}).get("calendar_stats") or {}
+        # r1713: the strictest ruler -- a day survives only if neither mask calls it a roll.
+        # Without it the face could only say "the two rulers disagree", which leaves the
+        # admission verdict a property of whichever ruler a reader happened to open.
+        strict_stats = (mask_carry.get(fut) or {}).get("strictest_stats") or {}
         carry_by_mask = {"published": dict(carry_by_reading),
                          "calendar": {name: (None if cal_stats.get(name) is None else
                                              round(float(cal_stats[name]) - drift, 3))
-                                      for name in CARRY_READINGS}}
+                                      for name in CARRY_READINGS},
+                         "strictest": {name: (None if strict_stats.get(name) is None else
+                                              round(float(strict_stats[name]) - drift, 3))
+                                       for name in CARRY_READINGS}}
         mdd = float(e.get("index_max_drawdown_pct") or 0.0)
         faces[fut] = {
             "index": code,
@@ -329,10 +336,11 @@ def build():
         # `verdict` stays the published-mask read (what every older consumer expects);
         # r1695 adds the same gates re-priced under the complete mask, never merged.
         "verdict": judge(faces, mask="published"),
-        "verdict_by_mask": {m: judge(faces, mask=m) for m in ("published", "calendar")},
+        "verdict_by_mask": {m: judge(faces, mask=m)
+                            for m in ("published", "calendar", "strictest")},
         "admitted_by_mask": {m: sorted(fut for fut, v in judge(faces, mask=m).items()
                                        if v.get("ADMIT") is True)
-                             for m in ("published", "calendar")},
+                             for m in ("published", "calendar", "strictest")},
     }
 
 
@@ -385,32 +393,41 @@ def doc_block(face):
     # only visible in one column would read as "the bar was always this way".
     vb = face.get("verdict_by_mask") or {}
     pub_v, cal_v = vb.get("published") or {}, vb.get("calendar") or {}
+    strict_v = vb.get("strictest") or {}
     lines.append("**按完整掩码重定价（r1695）**。上表的 carry 是在**已发布尺寸式掩码**下量的，"
                  "而 r1692 量出那套掩码漏遮 64-81%% 的日历换月。把同一批日子换成日历锚定的"
                  "完整掩码重算（同一批读数口径：median/trimmed/mean，同一个 drift），"
                  "同一个 %.1f%% 线给出不同的判词 —— 两个都印，读者自己看口径：" % CARRY_MIN_PCT)
     lines.append("")
-    lines.append("| 品种 | 已发布掩码 净 %%/yr | 完整掩码 净 %%/yr | 差 pp | 完整掩码 V1（≥%.1f%%） | 完整掩码判词 |"
-                 % CARRY_MIN_PCT)
-    lines.append("|---|---|---|---|---|---|")
+    lines.append("第三列（r1713）是**更严的那把尺子**：只有两把尺子都不认作换月的日子才留在序列里，"
+                 "它同时剔掉阈值尺漏掉的换月日与阈值尺误删的真实日。加这一列是为了回答一个"
+                 "此前没人回答的问题——**「过闸」到底是对这笔交易的性质，还是对读者挑了哪把尺子的性质。**")
+    lines.append("")
+    lines.append("| 品种 | 已发布掩码 净 %%/yr | 完整掩码 净 %%/yr | 严格掩码 净 %%/yr | "
+                 "完整−已发布 pp | 完整掩码判词 | 严格掩码判词 |")
+    lines.append("|---|---|---|---|---|---|---|")
     for fut in ("IF", "IC", "IH", "IM"):
         pv = pub_v.get(fut) or {}
         cv_ = cal_v.get(fut) or {}
-        pn, cn = pv.get("net_declared_pct"), cv_.get("net_declared_pct")
+        sv = strict_v.get(fut) or {}
+        pn, cn, sn = (pv.get("net_declared_pct"), cv_.get("net_declared_pct"),
+                      sv.get("net_declared_pct"))
         gap = "-" if (pn is None or cn is None) else "%+.2f" % (cn - pn)
-        v1 = cv_.get("V1")
-        v1_s = "-" if v1 is None else ("是" if v1 else "否")
-        admit = cv_.get("ADMIT")
-        word = "口径未知" if admit is None else ("ADMIT" if admit else "REJECT")
-        lines.append("| %s | %s | %s | %s | %s | %s |" % (
+
+        def _word(v):
+            a = v.get("ADMIT")
+            return "口径未知" if a is None else ("ADMIT" if a else "REJECT")
+        lines.append("| %s | %s | %s | %s | %s | %s | %s |" % (
             fut,
             "-" if pn is None else "%+.2f" % pn,
             "-" if cn is None else "%+.2f" % cn,
-            gap, v1_s, word))
+            "-" if sn is None else "%+.2f" % sn,
+            gap, _word(cv_), _word(sv)))
     lines.append("")
     adm = face.get("admitted_by_mask") or {}
     cal_list = adm.get("calendar")
     pub_list = adm.get("published")
+    strict_list = adm.get("strictest")
     ic_net = (cal_v.get("IC") or {}).get("net_declared_pct")
     im_net = (cal_v.get("IM") or {}).get("net_declared_pct")
     lines.append("完整掩码下过线的品种：%s（已发布掩码下：%s）。**这不是「多赚了」，是同一批日子"
@@ -423,6 +440,31 @@ def doc_block(face):
                     "-" if im_net is None else "%.2f" % im_net,
                     "-" if ic_net is None else "%.2f" % (ic_net - CARRY_MIN_PCT),
                     "-" if im_net is None else "%.2f" % (im_net - CARRY_MIN_PCT)))
+    lines.append("")
+    # r1713: the sentence is derived from the three admission sets, never typed. What a
+    # reader needs to know is which answer is the outlier, not that answers differ.
+    if strict_list is None:
+        lines.append("**严格掩码的判词读不出来**（面里没有 strictest 块）——这不等于「更严的尺子也放」；"
+                     "缺这一列时，本表只能说「两把尺子答案不同」，不能说哪个是离群的那个。")
+    elif (strict_list or []) == (cal_list or []):
+        lines.append("**最严那把尺子给出同一批过线品种（%s）**，也就是说「过闸」不是谁挑了哪把尺子的结果："
+                     "两把更严的尺子同答，唯一不一样的是已发布那把（它把换月跳变记成某一天的亏损）。"
+                     "但这只把问题从「选哪把尺子」挪到「交易本身划不划算」——拦住它的仍是一手名义。"
+                     % ("、".join(strict_list) if strict_list else "无"))
+    elif not (strict_list or []):
+        lines.append("**最严那把尺子一个都不放**（日历锚放 %s）——这就不是「同一批日子少扣了换月」，"
+                     "而是「把阈值尺误删的真实日也剔掉之后，carry 掉回线下」。"
+                     "所以 IC/IM 的过闸只成立在日历锚上，换一把更严的尺子就没了：记为**候选**，不是采纳。"
+                     % ("、".join(cal_list) if cal_list else "无"))
+    else:
+        _extra = [p for p in (strict_list or []) if p not in (cal_list or [])]
+        _lost = [p for p in (cal_list or []) if p not in (strict_list or [])]
+        lines.append("**最严那把尺子换掉了一部分答案**：它过 %s；相对日历锚少了 %s%s。"
+                     "少掉的品种说明它的 carry 有一部分来自被阈值尺误删的真实日，"
+                     "这部分不能当作「修好尺子就多出来的钱」。"
+                     % ("、".join(strict_list) if strict_list else "无",
+                        "、".join(_lost) if _lost else "无",
+                        ("、多了 " + "、".join(_extra)) if _extra else ""))
     lines.append("")
     lines.append("**这张表不下采纳判决**。过线只说明「按完整掩码，这两笔的资金收益率过了 %.1f%% 线」；"
                  "日历掩码也不是终点 —— 它按到期日历抓换月，但换月幅度本身还没用合约级数据重建"
@@ -625,6 +667,44 @@ def selftest():
     leg(_how1 == "appended" and _how2 == "replaced"
         and _t2.count(DOC_BEGIN) == 1 and "+9.00" in _t2,
         "R5 splicing is idempotent: one block, replaced in place")
+
+    # R8 (r1713): the strictest ruler -- a day survives only if NEITHER mask calls it a roll.
+    # The point of the column is to separate "the trade is good" from "the reader picked the
+    # gentler ruler", so the sentence has to turn on which admission set comes out.
+    _sf = json.loads(json.dumps(_f))
+    _sf["verdict_by_mask"] = {
+        "published": {"IC": {"net_declared_pct": 2.24, "ADMIT": False}},
+        "calendar": {"IC": {"net_declared_pct": 3.12, "ADMIT": True}},
+        "strictest": {"IC": {"net_declared_pct": 3.05, "ADMIT": True}}}
+    _sf["admitted_by_mask"] = {"published": [], "calendar": ["IC"], "strictest": ["IC"]}
+    b8 = doc_block(_sf)
+    leg("3.05" in b8 and "同一批过线品种" in b8,
+        "R8 the strictest ruler rides as its own column, and when it agrees with the complete "
+        "mask the block says the verdict is not a choice of ruler")
+    # fail-safe direction #1: a strictest ruler that admits nothing is a different answer, not
+    # a rounding difference -- folding it into "it passes once the ruler is fixed" would be a lie
+    _narrow = json.loads(json.dumps(_sf))
+    _narrow["verdict_by_mask"]["strictest"] = {"IC": {"net_declared_pct": 1.1, "ADMIT": False}}
+    _narrow["admitted_by_mask"]["strictest"] = []
+    b9 = doc_block(_narrow)
+    leg("一个都不放" in b9 and "同一批过线品种" not in b9,
+        "R8 a strictest ruler that admits nothing turns the sentence around")
+    # ...and a partial swap names both sides instead of picking one
+    _swap = json.loads(json.dumps(_sf))
+    _swap["verdict_by_mask"]["strictest"] = {"IC": {"net_declared_pct": 1.1, "ADMIT": False},
+                                            "IM": {"net_declared_pct": 4.0, "ADMIT": True}}
+    _swap["admitted_by_mask"] = {"published": [], "calendar": ["IC"], "strictest": ["IM"]}
+    b9b = doc_block(_swap)
+    leg("换掉了一部分答案" in b9b and "少了 IC" in b9b and "多了 IM" in b9b,
+        "R8 a strictest ruler that swaps products names what it lost and what it gained")
+    # fail-safe direction #2: a missing strictest column must say it is unreadable, never
+    # inherit the calendar verdict
+    _nostrict = json.loads(json.dumps(_sf))
+    _nostrict["verdict_by_mask"].pop("strictest")
+    _nostrict["admitted_by_mask"].pop("strictest")
+    b10 = doc_block(_nostrict)
+    leg("读不出来" in b10 and "同一批过线品种" not in b10,
+        "R8 a missing strictest column is unreadable, not an inherited pass")
     return ok
 
 

@@ -95,6 +95,12 @@ def roll_mask_block(path=None):
             # published) prices a different estimator, not a different mask.
             "published_stats": (readings.get("published_threshold_mask") or {}).get("stats"),
             "calendar_stats": (readings.get("calendar_mask") or {}).get("stats"),
+            # r1713: a third mask -- a day survives only if NEITHER ruler calls it a roll.
+            # Priced with the same estimator family, so a page can put the admission verdict
+            # of the strictest ruler beside the other two and show which ruler is the outlier
+            # instead of asking the reader to pick one.
+            "strictest": (readings.get("strictest_mask") or {}).get("carry_ann_pct"),
+            "strictest_stats": (readings.get("strictest_mask") or {}).get("stats"),
         }
         out["arms_gap_pp"][fut] = dict((e.get("arm_sensitivity") or {}).get("B_minus_A_pp") or {})
     return out

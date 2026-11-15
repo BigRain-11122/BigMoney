@@ -268,6 +268,12 @@ def one_pair(fut, code):
 
     pub = carry_stats(spread, dates, pub_masked)
     cal = carry_stats(spread, dates, cal_masked)
+    # r1713: a third mask, strictly weaker than both -- a day survives only if NEITHER ruler
+    # calls it a roll (the `neither` group of mask_split, priced through the same estimator).
+    # It answers a question the two-mask page could not: is the admission verdict an artifact
+    # of which ruler the reader picked? If the strictest mask admits the same products as the
+    # calendar mask, only the published one is the outlier.
+    strict = carry_stats(spread, dates, pub_masked | cal_masked)
     state = classify_mask(pub, cal, pub["masked_days"], cal["masked_days"])
     if info["months_covered_pct"] < CRITERIA["min_months_covered_pct"]:
         state = "CALENDAR_UNUSABLE"
@@ -315,7 +321,8 @@ def one_pair(fut, code):
         "status": "ok",
         "index": code,
         "span": {"from": dates[0], "to": dates[-1], "days": len(dates)},
-        "readings": {"published_threshold_mask": pub, "calendar_mask": cal},
+        "readings": {"published_threshold_mask": pub, "calendar_mask": cal,
+                     "strictest_mask": strict},
         "roll_days": {"published_mask_days": pub["masked_days"], "calendar_mask_days": cal["masked_days"],
                       "missed_days": max(0, cal["masked_days"] - pub["masked_days"]),
                       "missed_share_pct": round(100.0 * max(0, cal["masked_days"] - pub["masked_days"])
@@ -388,6 +395,10 @@ def build():
                                  .get("carry_ann_pct"),
             "calendar_ann_pct": (p.get("readings", {}).get("calendar_mask") or {})
                                 .get("carry_ann_pct"),
+            # r1713: the strictest ruler's reading travels here too, so a page can say whether
+            # the verdict is a property of the trade or of the ruler the reader happened to pick
+            "strictest_ann_pct": (p.get("readings", {}).get("strictest_mask") or {})
+                                 .get("carry_ann_pct"),
             "gap_identity_holds": ident.get("holds"),
             "gap_pp": ident.get("face_gap_pp"),
         }
@@ -669,6 +680,23 @@ def selftest():
         sp["reading"] == "MISSED_ROLLS_ARE_A_FAKE_LOSS", sp["reading"])
     leg("split refuses a verdict when the missed-day group is empty",
         mask_split(spread, dates, set(rolls), set(rolls))["reading"] == "NO_READING")
+
+    # r1713: the strictest mask drops anything either ruler calls a roll. Two properties have
+    # to hold or the column means nothing: it can only keep fewer days than either ruler, and
+    # its reading must be the reading of the days *both* rulers keep (the `neither` group).
+    strict = carry_stats(spread, dates, quarter | set(rolls))
+    leg("strictest mask keeps at most as many days as either ruler",
+        strict["kept_days"] <= min(pub["kept_days"], cal["kept_days"])
+        and strict["masked_days"] >= max(pub["masked_days"], cal["masked_days"]),
+        "strict=%d pub=%d cal=%d" % (strict["kept_days"], pub["kept_days"], cal["kept_days"]))
+    leg("strictest reading equals the days both rulers keep",
+        strict["stats"] is not None and sp["groups"]["neither"]["ann_pct"] is not None
+        and abs(strict["stats"]["mean_ann_pct"] - sp["groups"]["neither"]["ann_pct"]) <= 0.002,
+        "strict=%.3f neither=%.3f" % ((strict["stats"] or {}).get("mean_ann_pct") or 0,
+                                      sp["groups"]["neither"]["ann_pct"] or 0))
+    leg("strictest reading is never below the complete mask on this fixture",
+        strict["carry_ann_pct"] >= cal["carry_ann_pct"] - 0.002,
+        "strict=%.3f cal=%.3f" % (strict["carry_ann_pct"], cal["carry_ann_pct"]))
 
     # No sawtooth at all: nothing to mask, nothing to flag.
     dates2, basis2, spread2 = _synth(0.0, -0.0005)
