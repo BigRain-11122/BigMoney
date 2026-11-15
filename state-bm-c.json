@@ -1368,7 +1368,7 @@
   "s05_second_scan": "closeout rescan: 0 unacked",
   "s0_note": "machine.json=bm-c | tree dirty at round start (111 modified, prior-generation derived faces) -> staged only this round's own 4 files | ahead=0 behind=0 | orphan probe py_faces=2 orphans=0",
   "s0_orphans": "py_faces=2 orphans=0 (report-only)",
-  "s1_note": "full suite started 21:51:35 (results/_smoke_r1737b.out); at close it stood at 330 [PASS] / 0 [FAIL] and was still running. r1737's own suite closed 598/598 PASS in that window. Not claimed green here.",
+  "s1_note": "full suite 598/598 PASS, 0 FAIL, exit 0, wall clock 823.7s over 596 legs (results/_smoke_r1737.out). It started 21:51:35 -- before this round's script existed -- so the new face is covered by its own selftest 8/8, not by the suite.",
   "s6_chain": "Tools/s6_chain_bmc.py --round=1738 --only=dualrun,compute_audit,py_watermark,update_daily,event_exec_gate -> 5/5 rc0 (dualrun ZERO-DRIFT streak 51; event_exec_gate fresh panel_last_bar=2026-11-13, page re-derived)",
   "s6_chain_inflight": {
     "legs_seen": 45,
@@ -1395,23 +1395,24 @@
   "s7_watchdog": "re-registered; S4U XML flip refused for the 30th time (needs one elevated pass)",
   "saturation": "status rc0 alive (queue bands registered through W329)",
   "smoke": {
-    "closed_at": "2026-11-15T19:2x+08:00",
+    "closed_at": "2026-11-15T22:05+08:00",
     "exit": 0,
     "fail": 0,
-    "legs": 594,
-    "note": "592 legs ran (2 legs served from the first judgement); Summary 594/594 PASS",
-    "out": "results/_smoke_r1734.out",
-    "pass": 594,
-    "wall_clock_s": 672.9
+    "legs": 596,
+    "note": "started before this round's new script landed; the new face rests on its own selftest 8/8",
+    "out": "results/_smoke_r1737.out",
+    "pass": 598,
+    "wall_clock_s": 823.7
   },
   "smoke_closed": {
-    "closed_at": "2026-11-15T09:37:55+08:00",
+    "closed_at": "2026-11-15T22:05+08:00",
     "fail": 0,
-    "legs": 591,
-    "note": "the footer is present (Summary: 591/591 PASS, 0 FAIL); the suite started before the r1709 edits, so the new ladder legs L278-L282 are covered by selftest 358/358, not by the suite",
-    "out": "results/_smoke_r1708.out",
-    "pass": 591,
-    "started": "2026-11-15T09:26:03+08:00"
+    "legs": 596,
+    "note": "buffered stdout made the file look like ~330 legs at the time this round first read it; the suite had already closed. Recorded as closed, not in flight.",
+    "out": "results/_smoke_r1737.out",
+    "pass": 598,
+    "started": "2026-11-15T21:51:35+08:00",
+    "wall_clock_s": 823.7
   },
   "smoke_fail_fixed": {
     "cause": "the new cash-caliber sentence said 今天 without naming the quote bar, so the census could not self-date it (12 printed lines, 0 anchored)",
@@ -1419,13 +1420,7 @@
     "fix": "the sentence now reads 今天（2026-11-13 的报价）, and the day-word face got a dedicated rule mapping it to cash_caliber.quote_date (not to the cash-yield face, whose date merely matches today): live_book_day_words selftest 33/33, run exit 0, page verdict PRINTED_DATES_AGREE with 13/13 claims checked and 0 unmapped (the face was PRINTED_SELF_DATED with 1 unfiled rule before)",
     "leg": "product: live-book day words sit on the page's own day"
   },
-  "smoke_inflight": {
-    "fail_at_close": 0,
-    "note": "buffered stdout means the file lags the run; the count is read from the file tail, so it is a floor, not the final leg count",
-    "out": "results/_smoke_r1737.out",
-    "pass_at_close": 330,
-    "started": "2026-11-15T21:51:35+08:00"
-  },
+  "smoke_inflight": null,
   "smoke_out": "results/_smoke_r1693.out",
   "smoke_r1621_out": "results/_smoke_r1621.out",
   "smoke_r1623_out": "results/_smoke_r1623.out",
