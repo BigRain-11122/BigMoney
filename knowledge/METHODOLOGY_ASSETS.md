@@ -15468,3 +15468,24 @@ family，selftest 16 腿含 L13 佣金抵消、L14 残差列名、L14c 负分母
 event_exec_gate refresh（0.8s 新常态）· results/event_exec_gate.json ·
 research/EVENT_EXEC_GATE.md（机械生成）· smoke 腿 product: event_exec_gate（r1735）。
 
+
+## E660 — 一个词承认三件事，判据必须读形状（r1737 bm-c）
+
+1. 「ADMIT」在本仓有三个主人：**交易准入**（买得进的仓位）/ **注册准入**（种子进试验）/
+   **协议准入**（冻结窗座位可占）。第三类有 252 张面，全是 W 波 band gate 与 pre-seat probe，
+   里面没有一笔买卖——向它要「次日开盘价」是范畴错误。
+2. 审计第一版把 252 张全读成「声称准入却从未给出可买入口」的交易违规，并用文件名 `_r*.json`
+   把它们归成「一次性工作件单列计数」——这正是 E658 拒绝过的做法（名字不是判据）。
+   代价不是多报一个数：真正的信号（交易域 0 张）被 252 条噪声埋掉。
+3. **正法＝读协议形状，三个独立证据取其二**：座位台账（`rows`/`tail`/`ordinal`）、占位腿
+   （`conflicts`/`vacant_on_origin`）、`lo..hi` 带区间。同时**带否决项**：任何 book 主体键
+   （`sharpe`/`ann_return`/`nav`/`weights`…）出现即回交易域。单证据不豁免——否则下次给一张
+   真仓位面加个空 `legs` 壳就能逃过审计（L17/L18 两条腿钉死）。
+4. **出范围的行必须带证据留在面上**：每行印 `marks` 列表 + 「它承认的是什么」一句话。
+   只把 252 变成 0 而不写下它们去了哪里，下一轮又会有人从零重建同一张审计。
+5. **修语义不修数字**：扫描面数、tier 分层、`asof` 一字未变，只有分类变了——审计从
+   「252 张违规」变成「0 张交易违规 / 252 张座位 / 2 张注册」。同一份盘，同一段代码路径。
+
+工具面：scripts/event_exec_gate.py（`_protocol_seat_marks` / `_is_protocol_seat_face` /
+`audit` / `selftest-audit` 14 腿含 L16-L19）· S6 腿 `event_exec_gate_audit`（3s·每轮自动点名）·
+results/event_exec_gate_audit.json · smoke 腿 `product: event_exec_gate audit`（r1737）。

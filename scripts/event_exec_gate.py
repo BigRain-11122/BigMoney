@@ -658,6 +658,51 @@ REGISTRATION_KEYS = ("admit_threshold", "seed_key", "registry_size", "band_width
 PRICING_KEYS = ("next_open", "next-open", "execution", "entry_convention", "cost_bp",
                 "cost_model", "exec_verdict", "retained_frac", "cost_per_side_bp",
                 "priced", "money")
+# "ADMIT" also owns a third meaning, and it is the one that fills this tree: the wave
+# freeze-window seat gates (W116..W1xx band gates, pre-seat probes) print ADMIT when a
+# parameter band may be seated and the seat is vacant on origin. Nothing there is for
+# sale, so demanding a buyable entry from it is a category error -- and reading it as a
+# trading violation buries the one number this audit exists to produce. The gate cannot
+# learn this from the file name ("_r*.json" was how the first pass dodged it, which is
+# just r1731's count-reconcile lesson again), so it reads the protocol shape instead:
+# a seat ledger (rows/tail/ordinal), an occupancy leg (conflicts / vacant_on_origin),
+# and band ranges written as "lo..hi" under A/B legs.
+SEAT_LEDGER_KEYS = ("rows", "tail", "ordinal", "owner_rows")
+SEAT_OCCUPANCY_KEYS = ("conflicts", "vacant_on_origin", "origin_vacancy")
+# ... and a face that carries any of these is a book talking, whatever else it holds.
+BOOK_KEYS = ("sharpe", "ann_return", "cagr", "equity_curve", "nav", "pnl", "positions",
+             "weights", "exposure", "max_drawdown")
+
+
+def _protocol_seat_marks(face):
+    """Content evidence that this ADMIT is about a seat, not a position."""
+    marks = []
+    legs = face.get("legs")
+    if not isinstance(legs, dict) or not legs:
+        return marks
+    if any(isinstance(v, dict) and any(k in v for k in SEAT_LEDGER_KEYS)
+           for v in legs.values()):
+        marks.append("seat_ledger")
+    if any(k in legs for k in ("leg2",)) and isinstance(legs.get("leg2"), dict) \
+            and any(k in legs["leg2"] for k in SEAT_OCCUPANCY_KEYS):
+        marks.append("origin_occupancy")
+    for v in legs.values():
+        if isinstance(v, dict) and any(isinstance(x, str) and ".." in x
+                                      for x in v.values()):
+            marks.append("band_ranges")
+            break
+    return marks
+
+
+def _is_protocol_seat_face(face):
+    """Two independent marks, and no book subject. One mark alone is a coincidence."""
+    marks = _protocol_seat_marks(face)
+    if len(marks) < 2:
+        return []
+    txt = json.dumps(face, ensure_ascii=False).lower()
+    if any(k in txt for k in BOOK_KEYS):
+        return []
+    return marks
 
 
 def _claims_admission(face):
@@ -687,7 +732,8 @@ def _display_path(path):
 def audit(results_dir=None, limit=0):
     import glob
     rdir = results_dir or os.path.join(ROOT, "results")
-    findings, scanned, claimed = [], 0, {"published": 0, "probe": 0}
+    findings, protocol, scanned = [], [], 0
+    claimed = {"published": 0, "probe": 0}
     for path in sorted(glob.glob(os.path.join(rdir, "*.json"))):
         try:
             if os.path.getsize(path) > 8 * 1024 * 1024:
@@ -704,6 +750,18 @@ def audit(results_dir=None, limit=0):
         tier = "probe" if os.path.basename(path).startswith("_") else "published"
         claimed[tier] += 1
         if _priced(face):
+            continue
+        marks = _is_protocol_seat_face(face)
+        if marks:
+            # Out of scope, and named with the marks that decided it -- a reader must be
+            # able to check the classification without re-deriving the walk.
+            protocol.append({
+                "file": _display_path(path),
+                "tier": tier,
+                "verdict": face.get("verdict"),
+                "marks": marks,
+                "admits": "the freeze-window seat for a parameter band, not a position",
+            })
             continue
         scope = "registration" if any(k in face for k in REGISTRATION_KEYS) else "trading"
         findings.append({
@@ -726,11 +784,28 @@ def audit(results_dir=None, limit=0):
                                           and f["scope"] == "registration"),
             "probe": sum(1 for f in findings if f["tier"] == "probe"),
         },
+        "out_of_scope": {
+            "protocol_seats": len(protocol),
+            "protocol_seats_by_tier": {
+                "published": sum(1 for p in protocol if p["tier"] == "published"),
+                "probe": sum(1 for p in protocol if p["tier"] == "probe"),
+            },
+        },
+        "protocol": protocol,
         "findings": findings,
+        "semantics": {
+            "trading_admit": "a position may be held: owes a next-open entry and both "
+                             "sides of cost (this audit's subject)",
+            "registration_admit": "a seed may enter a trial: out of scope, keyed by "
+                                  + "/".join(REGISTRATION_KEYS[:3]) + "...",
+            "protocol_admit": "a freeze-window seat may be taken: recognised by seat "
+                              "ledger + origin occupancy + band ranges, never by file name",
+        },
         "rule": {
             "only_the_priced_face_can_admit": True,
             "cost_bp_per_side": GATE.get("cost_bp_per_side", 13.041),
             "registration_admissions_are_out_of_scope": True,
+            "protocol_seat_admissions_are_out_of_scope": True,
         },
     }
 
@@ -744,6 +819,7 @@ def run_audit(write=True):
     print(json.dumps({"scanned": rep["scanned"],
                       "claiming_admission": rep["claiming_admission"],
                       "unpriced": rep["unpriced"],
+                      "out_of_scope": rep["out_of_scope"],
                       "examples": [x["file"] for x in rep["findings"][:4]]},
                      ensure_ascii=False))
     return 0
@@ -776,11 +852,24 @@ def selftest_audit():
         put("d_refused.json", {"face": "w", "verdict": "REJECT"})
         put("e_alive.json", {"face": "v", "verdict": "blockade ALIVE day-13"})
         put("_f_probe.json", {"face": "u", "verdict": "ADMIT"})
+        # the three meanings of ADMIT, as they are actually written in this tree
+        put("g_seat.json", {"face": "seat", "verdict": "ADMIT", "legs": {
+            "leg0": {"rows": 113, "tail": "W115", "ordinal": 106},
+            "leg1": {"A": "275_004..277_003", "hops_A": 0},
+            "leg2": {"conflicts": [], "vacant_on_origin": True}}})
+        put("h_bare_legs.json", {"face": "noleg", "verdict": "ADMIT",
+                                 "legs": {"notes": "we ran some legs"}})
+        put("i_seat_with_book.json", {"face": "seatbook", "verdict": "ADMIT",
+                                      "sharpe": 1.4, "legs": {
+                                          "leg0": {"rows": 3, "ordinal": 4},
+                                          "leg2": {"vacant_on_origin": True}}})
+        put("j_band_only.json", {"face": "bandonly", "verdict": "ADMIT",
+                                 "legs": {"leg1": {"A": "1..200"}}})
         rep = audit(d)
-        chk(rep["claiming_admission"] == {"published": 3, "probe": 1},
+        chk(rep["claiming_admission"] == {"published": 7, "probe": 1},
             "L15 counts admissions per tier")
-        chk(rep["unpriced"]["published_trading"] == 1,
-            "L15 the unpriced trading admission is named")
+        chk(rep["unpriced"]["published_trading"] == 4,
+            "L15 the unpriced trading admissions are named")
         chk(rep["unpriced"]["published_registration"] == 1,
             "L15 a registration gate is out of scope, not a violation")
         chk(rep["unpriced"]["probe"] == 1, "L15 a probe is counted apart")
@@ -790,6 +879,22 @@ def selftest_audit():
             "L15 a priced admission is not a finding")
         chk(not [x for x in rep["findings"] if "e_alive" in x["file"]],
             "L15 'ALIVE' is not read as an admission")
+        seat = [x for x in rep["protocol"] if "g_seat" in x["file"]]
+        chk(rep["out_of_scope"]["protocol_seats"] == 1 and len(seat) == 1,
+            "L16 a freeze-window seat gate is out of scope, and counted where it went")
+        chk(seat and set(seat[0]["marks"]) == {"seat_ledger", "origin_occupancy",
+                                               "band_ranges"},
+            "L16 the seat classification names the evidence that decided it")
+        chk(not [x for x in rep["findings"] if "g_seat" in x["file"]],
+            "L16 a seat is not also reported as a trading violation")
+        chk(bool([x for x in rep["findings"] if "h_bare_legs" in x["file"]]),
+            "L17 a bare 'legs' block is not a passport (one mark is a coincidence)")
+        chk(bool([x for x in rep["findings"] if "i_seat_with_book" in x["file"]]),
+            "L18 a seat shape that also carries a book subject is still a book claim")
+        chk(bool([x for x in rep["findings"] if "j_band_only" in x["file"]]),
+            "L18 band ranges alone do not make a face a protocol gate")
+        chk(all(len(p["marks"]) >= 2 and p["admits"] for p in rep["protocol"]),
+            "L19 every out-of-scope row carries >=2 marks and says what it was admitting")
 
     print("audit selftest %d/%d" % (ok, total))
     return ok, total

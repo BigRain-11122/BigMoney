@@ -13221,6 +13221,71 @@ def _legs_supply_and_book():
         check("product: event_exec_gate (the next open and both sides of cost are part of the verdict)",
               False, repr(e)[:180])
 
+    # ---- r1737: 252 faces said ADMIT and meant "seat this band", not "buy this" ----
+    # The audit (r1736) walks the published tree for admissions that never showed a
+    # buyable entry. Its first pass read 252 freeze-window seat gates as trading
+    # violations and dismissed them by file name (`_r*.json`), which is the same dodge
+    # r1731 refused in the count face. The face now classifies by protocol shape and
+    # names the marks that decided each row, so this leg pins the two things that must
+    # stay true for the number to mean anything: nothing in the trading domain admits
+    # unpriced, and every out-of-scope row can be re-checked by a reader.
+    try:
+        _eg82 = capture_pinned([sys.executable,
+                                os.path.join("scripts", "event_exec_gate.py"),
+                                "selftest-audit"], 120)
+        _tok82 = [t for t in (_eg82.stdout or "").split() if "/" in t]
+        _ok82, _n82 = (0, 1)
+        if _tok82:
+            try:
+                _ok82, _n82 = (int(x) for x in _tok82[-1].split("/"))
+            except Exception:
+                _ok82, _n82 = (0, 1)
+        check("product: event_exec_gate audit (the three meanings of ADMIT are told apart)",
+              _eg82.returncode == 0 and _ok82 == _n82 and _n82 >= 14,
+              (_eg82.stdout.strip().splitlines() or [""])[-1][:200] if _eg82.returncode == 0
+              else (_eg82.stderr or _eg82.stdout)[:200])
+        _bad82 = []
+        _v82 = {}
+        _f82 = os.path.join(PATHS.results_dir, "event_exec_gate_audit.json")
+        if not os.path.exists(_f82):
+            _bad82.append("results/event_exec_gate_audit.json missing")
+        else:
+            with open(_f82, encoding="utf-8") as _fh82:
+                _v82 = json.load(_fh82)
+            _u82 = _v82.get("unpriced") or {}
+            if (_u82.get("published_trading") or 0) != 0:
+                _bad82.append("%s published trading face(s) admit without a price"
+                              % _u82.get("published_trading"))
+            if (_u82.get("probe") or 0) != 0:
+                _bad82.append("%s probe face(s) still counted as unpriced admissions"
+                              % _u82.get("probe"))
+            _oos82 = (_v82.get("out_of_scope") or {}).get("protocol_seats")
+            if not _oos82:
+                _bad82.append("no protocol seat was named: the out-of-scope number "
+                              "vanished instead of being classified")
+            _proto82 = _v82.get("protocol") or []
+            if len(_proto82) != (_oos82 or 0):
+                _bad82.append("out_of_scope.protocol_seats=%s but %d rows published"
+                              % (_oos82, len(_proto82)))
+            if any(len(p.get("marks") or []) < 2 or not p.get("admits") for p in _proto82):
+                _bad82.append("an out-of-scope row carries <2 marks or says nothing about "
+                              "what it admitted")
+            if not (_v82.get("semantics") or {}).get("protocol_admit"):
+                _bad82.append("the face does not say what a protocol ADMIT means")
+            if not _v82.get("asof"):
+                _bad82.append("the audit face carries no asof")
+        check("product: event_exec_gate audit (no trading admission goes unpriced, and the "
+              "seats are named, not dropped)",
+              not _bad82, "; ".join(_bad82)[:220]
+              or "scanned=%s protocol_seats=%s registration=%s trading=%s"
+              % (_v82.get("scanned"),
+                 (_v82.get("out_of_scope") or {}).get("protocol_seats"),
+                 (_v82.get("unpriced") or {}).get("published_registration"),
+                 (_v82.get("unpriced") or {}).get("published_trading")))
+    except Exception as e:
+        check("product: event_exec_gate audit (no trading admission goes unpriced)",
+              False, repr(e)[:180])
+
 
 def _finish() -> int:
     n_pass = sum(1 for _, ok, _ in RESULTS if ok)

@@ -231,6 +231,14 @@ LEGS = [
     # bar moved past what the face already read -- ~0.2s in steady state, ~130s on a new
     # bar. Rebuilding every round would re-date a measurement nobody re-read.
     ("event_exec_gate", ["python", "scripts/event_exec_gate.py", "refresh"]),
+    # r1737: ``event_exec_gate audit`` (r1736) walked 3,830 published faces and named every
+    # one that says ADMIT without ever showing a buyable entry -- and got 252 of them wrong,
+    # all of them freeze-window seat gates whose ADMIT means "this band may be seated, the
+    # seat is vacant". The audit now reads that meaning off the protocol shape (seat ledger +
+    # origin occupancy + band ranges) instead of the file name; this leg is what keeps the
+    # answer from ageing: a face published next week that admits a position unpriced is named
+    # the round it lands. ~3s, no network, reads results/*.json only.
+    ("event_exec_gate_audit", ["python", "scripts/event_exec_gate.py", "audit"]),
     # r1730: two published faces described the same carry position and never met. The desk
     # sheet's ladder sizes by the margin box and prints 1,000,000 CNY holding 3 IC lots at
     # 67%/yr; the capital face sizes by vol target and refuses at every tier. Both are
