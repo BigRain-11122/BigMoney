@@ -50,3 +50,4 @@
 
 - 冷层指针·热冷整编 2026-11-15 r1727 bm-c 窗批（7 条最大块·36417B 全文 verbatim=research/memory-archive/202611.md『热冷整编 2026-11-15 r1727 bm-c 窗批』节）
 - [2026-11-15 r1727 bm-c] 「缺一个成员」三态判例（正身=knowledge/METHODOLOGY_ASSETS.md E651）：待拉（下次刷新会回来）/已隔离（连续 N 次失败，不会自己回来）/查无（车道记录里没这一只）三者动作相反，判定必须读车道自己的 attempts 日志+它自己的隔离阈值常量（禁抄第二份数字）；记录里查不到的必须单列，禁并入待拉。盘上没人刷新的残件处置=`treasure_guard prescan` 零命中 → `results/_quarantine/` + manifest（sha256/字节/理由/轮号）。
+- [2026-11-16 r1743 bm-c] 「词表不是证明」判例（正身=knowledge/METHODOLOGY_ASSETS.md E661）：把 252 张 ADMIT 面判成「席位免票」的依据一直是书词表，而把持仓写成 holdings 就绕过——正法=用形状问科目（整数台账+W 波尾、lo≤hi 数对带边、≥20 点曲线、席位词表外的行），并同轮发布证伪件（书词表 0/4 vs 形状测试 4/4）；改完必须让已发布数字逐位不动，动了说明改的是判定不是证据。正身=scripts/seat_subject_census.py + results/seat_subject_census.json。
