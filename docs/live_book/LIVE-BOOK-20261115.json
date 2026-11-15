@@ -1285,6 +1285,27 @@
   "maxdd_delta_pp": -0.05412128425121843,
   "path": "results\\etf_book_ih_hedge.json"
  },
+ "futures_hedge_tail": {
+  "status": "ok",
+  "readable": true,
+  "evidence_cutoff": "2026-11-13",
+  "slice": "ih_le_-2",
+  "cuts_pct": -0.02,
+  "tail_n": 52,
+  "tail_beta": 0.6126419583867959,
+  "tail_ci_lo": 0.10957277748333087,
+  "tail_ci_hi": 0.8328393159433894,
+  "share_above_uncond": 0.9605,
+  "uncond_beta": 0.07453700153927338,
+  "dsharpe": -0.020547817217357878,
+  "dsharpe_lo": -0.09881020082682476,
+  "dsharpe_hi": 0.0707691125152359,
+  "tail_verdict": "TAIL_BETA_IS_REAL",
+  "hedge_verdict": "HEDGE_NOT_MEASURABLE",
+  "resamples": 2000,
+  "block_bars": 21,
+  "path": "results\\etf_book_ih_tail_ci.json"
+ },
  "fill": {
   "status": "ok",
   "source": "results\\etf_book_forward\\LEDGER.json",
@@ -7661,10 +7682,10 @@
  "authority": {
   "writer": "bm-c",
   "owner": "bm-a",
-  "owner_silent_h": 36.3,
+  "owner_silent_h": 36.7,
   "gate_h": 6.0,
   "took_over": true,
-  "why": "bm-a has not written its own heartbeat for 36.3 h (> 6 h): this host takes the pen for the page only -- a stopped heartbeat is not a dead machine",
+  "why": "bm-a has not written its own heartbeat for 36.7 h (> 6 h): this host takes the pen for the page only -- a stopped heartbeat is not a dead machine",
   "no_bar_reason": "human_ages"
  },
  "fleet": {

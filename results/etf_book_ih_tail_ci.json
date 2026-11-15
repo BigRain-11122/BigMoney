@@ -1,0 +1,115 @@
+{
+  "book": {
+    "bars": 1587,
+    "first": "2020-01-06",
+    "last": "2026-11-13",
+    "series": "results\\etf_book_series\\NAV-2026-11-13.json"
+  },
+  "bootstrap": {
+    "beta_draws_ci": {
+      "hi": 0.12920210747978306,
+      "lo": 0.028400476954201462,
+      "median": 0.07271713067039137,
+      "n": 2000
+    },
+    "block_bars": 21,
+    "ci": [
+      0.05,
+      0.95
+    ],
+    "resamples": 2000,
+    "seed": 20261115,
+    "unit": "bar pairs (book return, IH return)"
+  },
+  "deepest_tail": "ih_le_-2",
+  "elapsed_sec": 15.2,
+  "evidence_cutoff": "2026-11-13",
+  "generated": "2026-11-15T11:50:20",
+  "index": {
+    "product": "IH",
+    "splice_days_dropped": 85
+  },
+  "kind": "etf_book_ih_tail_ci",
+  "not_measured": [
+    "regime change: a future crash need not resemble these tail days",
+    "margin interest on the short is not netted (same as etf_book_ih_hedge)",
+    "the coarse-unit problem is a separate face and is not repriced here",
+    "this is arithmetic on published series, not a broker fill record"
+  ],
+  "perf_at_1beta": {
+    "base_sharpe": 0.9684188067751379,
+    "dmaxdd": -0.0005412128425121843,
+    "dmaxdd_ci": {
+      "hi": 0.02919872201476029,
+      "lo": -0.005291645991387206,
+      "median": 0.007642389816633732,
+      "n": 2000
+    },
+    "dsharpe": -0.020547817217357878,
+    "dsharpe_ci": {
+      "hi": 0.0707691125152359,
+      "lo": -0.09881020082682476,
+      "median": -0.015161963072270301,
+      "n": 2000
+    },
+    "dvol": -0.0010119817508366241,
+    "dvol_ci": {
+      "hi": -0.0001495438112421907,
+      "lo": -0.0029875622785716597,
+      "median": -0.000946515402168023,
+      "n": 2000
+    },
+    "full_sharpe": 0.94787098955778,
+    "k": 1.0,
+    "share_dsharpe_positive": 0.3555
+  },
+  "reading_rules": {
+    "R1": "sampling interval conditional on this window's tail days, not a regime claim",
+    "R2": "tail beta measured only if the 90% interval excludes 0",
+    "R3": "tail differs from average only if the interval excludes the unconditional beta",
+    "R4": "measurable improvement only if the Sharpe-change interval excludes 0 upward",
+    "R5": "the two tags are printed together and never averaged"
+  },
+  "tail": {
+    "ih_le_-1": {
+      "beta": 0.317850738141136,
+      "beta_ci": {
+        "hi": 0.5105129636284571,
+        "lo": 0.019021388044445038,
+        "median": 0.3064427085357387,
+        "n": 2000
+      },
+      "corr": 0.4287098034231727,
+      "cut": -0.01,
+      "median_tail_days": 235.0,
+      "n": 235,
+      "share_above_uncond": 0.8975,
+      "share_above_zero": 0.966
+    },
+    "ih_le_-2": {
+      "beta": 0.6126419583867959,
+      "beta_ci": {
+        "hi": 0.8328393159433894,
+        "lo": 0.10957277748333087,
+        "median": 0.6017379903740425,
+        "n": 2000
+      },
+      "corr": 0.752018480779259,
+      "cut": -0.02,
+      "median_tail_days": 52.0,
+      "n": 52,
+      "share_above_uncond": 0.9605,
+      "share_above_zero": 0.9815
+    }
+  },
+  "unconditional": {
+    "bars": 1587,
+    "beta": 0.07453700153927338,
+    "corr": 0.14152934655175411
+  },
+  "verdict": {
+    "hedge": "HEDGE_NOT_MEASURABLE",
+    "sentence": "尾部 beta 0.613 建在 52 天上，90% 的抽样区间是 [0.110, 0.833]；按 beta 精确对冲的夏普变化 -0.021，区间 [-0.099, +0.071]。",
+    "tail": "TAIL_BETA_IS_REAL"
+  }
+}

@@ -6284,6 +6284,7 @@ def futures_sleeve_block(fs):
 
 
 HEDGE_FACE = os.path.join(ROOT, "results", "etf_book_ih_hedge.json")
+TAIL_CI_FACE = os.path.join(ROOT, "results", "etf_book_ih_tail_ci.json")
 
 
 def futures_hedge_face():
@@ -6372,6 +6373,91 @@ def futures_hedge_block(fh):
                    % (fh["vol_delta_pp"], fh.get("maxdd_delta_pp") or 0.0,
                       fh.get("sharpe_delta") or 0.0, fh.get("verdict") or "-",
                       fh.get("splice_days_dropped") or 0))
+    out.append("")
+    return out
+
+
+def futures_hedge_tail_face():
+    """r1715: the hedge's only reason to exist is a beta on 52 days. Is that a measurement?
+
+    Reads results/etf_book_ih_tail_ci.json -- the block-bootstrap interval on the tail beta
+    and on the Sharpe change of a correctly sized short. Every number is copied off the
+    face (E288); an absent face is an absent answer, never a zero.
+    """
+    if not os.path.exists(TAIL_CI_FACE):
+        return {"status": "absent", "readable": False,
+                "why": "results/etf_book_ih_tail_ci.json is not on disk"}
+    try:
+        h = _load(TAIL_CI_FACE) or {}
+    except (OSError, ValueError) as exc:
+        return {"status": "unreadable", "readable": False, "why": str(exc)[:120]}
+
+    def _f(x, k=None):
+        v = (x or {}).get(k) if k else x
+        return float(v) if isinstance(v, (int, float)) else None
+
+    v = h.get("verdict") or {}
+    deep = h.get("deepest_tail")
+    row = (h.get("tail") or {}).get(deep) or {}
+    ci = row.get("beta_ci") or {}
+    perf = h.get("perf_at_1beta") or {}
+    dci = perf.get("dsharpe_ci") or {}
+    if _f(row, "beta") is None and not v.get("tail"):
+        return {"status": "unreadable", "readable": False,
+                "why": "the face carries neither a tail beta nor a verdict"}
+    return {
+        "status": "ok", "readable": True,
+        "evidence_cutoff": h.get("evidence_cutoff"),
+        "slice": deep,
+        "cuts_pct": _f(row, "cut"),
+        "tail_n": row.get("n"),
+        "tail_beta": _f(row, "beta"),
+        "tail_ci_lo": _f(ci, "lo"),
+        "tail_ci_hi": _f(ci, "hi"),
+        "share_above_uncond": _f(row, "share_above_uncond"),
+        "uncond_beta": _f(h.get("unconditional"), "beta"),
+        "dsharpe": _f(perf, "dsharpe"),
+        "dsharpe_lo": _f(dci, "lo"),
+        "dsharpe_hi": _f(dci, "hi"),
+        "tail_verdict": v.get("tail"),
+        "hedge_verdict": v.get("hedge"),
+        "resamples": (h.get("bootstrap") or {}).get("resamples"),
+        "block_bars": (h.get("bootstrap") or {}).get("block_bars"),
+        "path": _rel(TAIL_CI_FACE),
+    }
+
+
+def futures_hedge_tail_block(fh):
+    """One line per question: is the tail beta measured, and does the short buy anything."""
+    out = ["", "### 那个「尾部对冲」的 beta，是量出来的吗？"]
+    if not fh.get("readable"):
+        out.append("尾部区间面（etf_book_ih_tail_ci）读不出来（%s），无法核验。"
+                   % (fh.get("why") or "no reason given"))
+        out.append("")
+        return out
+    n = fh.get("tail_n")
+    lo, hi = fh.get("tail_ci_lo"), fh.get("tail_ci_hi")
+    if lo is None or hi is None:
+        out.append("- IH 跌超 %.0f%% 的那些日子（%s 天）beta 的区间算不出来，这一条无法核验。"
+                   % (abs(fh.get("cuts_pct") or 0.0) * 100.0, n if n is not None else "?"))
+    else:
+        share = fh.get("share_above_uncond")
+        out.append("- IH 跌超 %.0f%% 的那 %s 天，beta %.3f，%s 次重抽样的 90%% 区间是"
+                   " [%.3f, %.3f]；平均 beta 只有 %.3f，区间里 %s 的抽样高于它（判决 %s）。"
+                   % (abs(fh.get("cuts_pct") or 0.0) * 100.0, n if n is not None else "?",
+                      fh.get("tail_beta") or 0.0, fh.get("resamples") or 0,
+                      lo, hi, fh.get("uncond_beta") or 0.0,
+                      "-" if share is None else "%.0f%%" % (100.0 * share),
+                      fh.get("tail_verdict") or "-"))
+    dlo, dhi = fh.get("dsharpe_lo"), fh.get("dsharpe_hi")
+    if dlo is None or dhi is None:
+        out.append("- 按 beta 精确对冲的夏普变化区间也算不出来。")
+    else:
+        out.append("- 但按 beta 精确对冲，夏普变化 %+.3f，区间 [%+.3f, %+.3f]：%s（判决 %s）。"
+                   % (fh.get("dsharpe") or 0.0, dlo, dhi,
+                      "区间跨过 0，这不是亏损，是量不出改善" if dlo <= 0.0 <= dhi
+                      else ("区间整段在 0 以上" if dlo > 0.0 else "区间整段在 0 以下"),
+                      fh.get("hedge_verdict") or "-"))
     out.append("")
     return out
 
@@ -7175,6 +7261,9 @@ def build(with_stress=False, window_label=None):
     # r1714: the ladder ends on "not buyable at this size"; the remaining use for the one
     # affordable contract is hedging what we already hold, and that has now been priced.
     page["futures_hedge"] = futures_hedge_face()
+    # r1715: that hedge's whole case is a beta measured on 52 days. The interval is a face
+    # of its own, and it separates "the tail beta is real" from "the short buys anything".
+    page["futures_hedge_tail"] = futures_hedge_tail_face()
     # r1572: the page must also say what the ledger has already committed to at the next
     # open, and what the trades it made actually cost -- the table below is the target
     # book, not the book on the account.
@@ -7573,6 +7662,10 @@ def render_md(p, sb=None):
     # book already holds. Priced, and the answer is a unit problem before it is a return one.
     for _fh_line in futures_hedge_block(p.get("futures_hedge") or {}):
         add(_fh_line)
+    # r1715: "the hedge protects you in a crash" rests on 52 days. The interval is printed
+    # beside it, and the Sharpe interval decides whether any of it is a measurable gain.
+    for _ft_line in futures_hedge_tail_block(p.get("futures_hedge_tail") or {}):
+        add(_ft_line)
     # r1572: a condition on the list, like the admission above it -- what fills at the
     # next open is not in the table below, and a reader who stops at the table never
     # learns that the account is about to hold a different exposure.
@@ -12621,6 +12714,29 @@ def selftest():
     chk("L295 hedge block: an unreadable face says cannot-check and states no verdict",
         "无法核验" in "\n".join(futures_hedge_block({"readable": False, "why": "no file"}))
         and "不是对冲" not in "\n".join(futures_hedge_block({"readable": False})))
+
+    # r1715: the tail-beta interval face. Every printed number must come off the row.
+    _ft_fx = {"readable": True, "cuts_pct": -0.02, "tail_n": 52, "tail_beta": 0.613,
+              "tail_ci_lo": 0.110, "tail_ci_hi": 0.833, "share_above_uncond": 0.96,
+              "uncond_beta": 0.0745, "dsharpe": -0.021, "dsharpe_lo": -0.099,
+              "dsharpe_hi": 0.071, "tail_verdict": "TAIL_BETA_IS_REAL",
+              "hedge_verdict": "HEDGE_NOT_MEASURABLE", "resamples": 2000}
+    _ft_md = "\n".join(futures_hedge_tail_block(_ft_fx))
+    chk("L296 tail block: days, beta, interval and the share of draws above the average all come off the row",
+        "52 天" in _ft_md and "0.613" in _ft_md and "[0.110, 0.833]" in _ft_md
+        and "96%" in _ft_md and "2000 次" in _ft_md, _ft_md[:1400])
+    chk("L297 tail block: a Sharpe interval straddling zero reads as no measurable gain, not a loss",
+        "跨过 0" in _ft_md and "亏损" in _ft_md and "HEDGE_NOT_MEASURABLE" in _ft_md, _ft_md[:1400])
+    _ft_wide = json.loads(json.dumps(_ft_fx))
+    _ft_wide.update({"dsharpe": 0.04, "dsharpe_lo": 0.01, "dsharpe_hi": 0.09,
+                     "hedge_verdict": "HEDGE_IMPROVES_SHARPE"})
+    _wide_md = "\n".join(futures_hedge_tail_block(_ft_wide))
+    chk("L298 tail block: an interval entirely above zero flips the sentence to a gain",
+        "整段在 0 以上" in _wide_md and "跨过 0" not in _wide_md, _wide_md[:1400])
+    chk("L299 tail block: an unreadable interval says cannot-check and never prints a zero",
+        "无法核验" in "\n".join(futures_hedge_tail_block(
+            {"readable": True, "cuts_pct": -0.01, "tail_n": 235}))
+        and "无法核验" in "\n".join(futures_hedge_tail_block({"readable": False})))
 
     print("\nSummary: %d/%d PASS%s" % (ok, total, "" if ok == total else " -- %d FAIL" % (total - ok)))
     return 0 if ok == total else 1

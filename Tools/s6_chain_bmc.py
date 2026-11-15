@@ -192,6 +192,12 @@ LEGS = [
     # makes the Sharpe worse, and one lot is 11x the short beta asks for at 1M. Reads the
     # book's NAV series and the named switch days; ~2s, no network, buys nothing.
     ("etf_book_ih_hedge", ["python", "scripts/etf_book_ih_hedge.py", "run"]),
+    # r1715: the hedge above turns on a beta measured on 52 crash days. The interval is its
+    # own face -- 2000 circular 21-bar-block resamples: the tail beta survives (0.613,
+    # [0.110, 0.833], above the average in 96% of draws) while the Sharpe change from a
+    # correctly sized short does not [-0.099, +0.071]. Reads the same series and the same
+    # switch-day rule through etf_book_ih_hedge (imported), ~30s, no network, buys nothing.
+    ("etf_book_ih_tail_ci", ["python", "scripts/etf_book_ih_tail_ci.py", "run"]),
     # r1701: the carry family had a judgement but nothing a desk could act on -- no contract
     # name, no lot count, no margin, no next-roll answer, and the IM/IH gap was refused
     # without saying why. This leg publishes the morning sheet off the panels the legs above
