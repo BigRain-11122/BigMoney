@@ -1065,6 +1065,87 @@
   "risk_path": "results\\idx_fut_carry_risk.json",
   "risk_note": "a candidate here is a sleeve worth pricing forward, not an adopted position: the readings are in-sample and the margin is an assumption"
  },
+ "futures_ladder": {
+  "status": "ok",
+  "readable": true,
+  "evidence_cutoff": "2026-11-13",
+  "capital_ladder_tiers": [
+   1000000,
+   3000000,
+   5000000,
+   10000000
+  ],
+  "declared": {
+   "vol_target": 0.08,
+   "margin_rate": 0.15,
+   "cash_rate_pct": 1.327,
+   "cash_rate_source": "data/repo_daily/GC001.csv yearly mean close"
+  },
+  "smallest_affordable_tier_cny": 3000000.0,
+  "rows": [
+   {
+    "product": "IC",
+    "one_lot_notional_cny": 1275000.0,
+    "first_affordable_tier_cny": 5000000.0,
+    "read_on_tier_cny": 5000000.0,
+    "net_pct_of_capital": 2.24,
+    "admit": false,
+    "admit_calendar": true,
+    "ruler_stable": true,
+    "lots_on_tier": 1.0,
+    "notional_x_capital_on_tier": 0.26,
+    "stress_loss_pct_of_capital": 10.7,
+    "vol_contrib_pct": 5.7,
+    "margin_pct_of_capital": 3.8
+   },
+   {
+    "product": "IF",
+    "one_lot_notional_cny": 1186980.0,
+    "first_affordable_tier_cny": 3000000.0,
+    "read_on_tier_cny": 3000000.0,
+    "net_pct_of_capital": 1.41,
+    "admit": false,
+    "admit_calendar": false,
+    "ruler_stable": true,
+    "lots_on_tier": 1.0,
+    "notional_x_capital_on_tier": 0.4,
+    "stress_loss_pct_of_capital": 18.0,
+    "vol_contrib_pct": 6.9,
+    "margin_pct_of_capital": 5.9
+   },
+   {
+    "product": "IH",
+    "one_lot_notional_cny": 820020.0,
+    "first_affordable_tier_cny": 3000000.0,
+    "read_on_tier_cny": 3000000.0,
+    "net_pct_of_capital": 1.64,
+    "admit": false,
+    "admit_calendar": false,
+    "ruler_stable": true,
+    "lots_on_tier": 1.0,
+    "notional_x_capital_on_tier": 0.27,
+    "stress_loss_pct_of_capital": 12.4,
+    "vol_contrib_pct": 4.5,
+    "margin_pct_of_capital": 4.1
+   },
+   {
+    "product": "IM",
+    "one_lot_notional_cny": 1255360.0,
+    "first_affordable_tier_cny": 5000000.0,
+    "read_on_tier_cny": 5000000.0,
+    "net_pct_of_capital": 2.68,
+    "admit": false,
+    "admit_calendar": true,
+    "ruler_stable": true,
+    "lots_on_tier": 1.0,
+    "notional_x_capital_on_tier": 0.25,
+    "stress_loss_pct_of_capital": 10.4,
+    "vol_contrib_pct": 6.3,
+    "margin_pct_of_capital": 3.8
+   }
+  ],
+  "path": "results\\idx_fut_carry_capital.json"
+ },
  "fill": {
   "status": "ok",
   "source": "results\\etf_book_forward\\LEDGER.json",
@@ -7441,10 +7522,10 @@
  "authority": {
   "writer": "bm-c",
   "owner": "bm-a",
-  "owner_silent_h": 34.3,
+  "owner_silent_h": 34.5,
   "gate_h": 6.0,
   "took_over": true,
-  "why": "bm-a has not written its own heartbeat for 34.3 h (> 6 h): this host takes the pen for the page only -- a stopped heartbeat is not a dead machine",
+  "why": "bm-a has not written its own heartbeat for 34.5 h (> 6 h): this host takes the pen for the page only -- a stopped heartbeat is not a dead machine",
   "no_bar_reason": "human_ages"
  },
  "fleet": {

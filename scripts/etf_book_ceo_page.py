@@ -6022,6 +6022,7 @@ def derisk_face(path=DERISK_JSON):
 
 DESK_SHEET = os.path.join(ROOT, "results", "idx_fut_desk_sheet.json")
 CARRY_RISK = os.path.join(ROOT, "results", "idx_fut_carry_risk.json")
+CARRY_CAPITAL = os.path.join(ROOT, "results", "idx_fut_carry_capital.json")
 
 
 def futures_sleeve_face():
@@ -6260,6 +6261,183 @@ def futures_sleeve_block(fs):
                % (fs.get("evidence_cutoff") or "未标注",
                   fs.get("desk_path") or "results/idx_fut_desk_sheet.json",
                   fs.get("risk_path") or "results/idx_fut_carry_risk.json"))
+    out.append("")
+    return out
+
+
+def futures_ladder_face():
+    """At what account size this sleeve stops being leverage.
+
+    r1709. The page already said "one lot is a whole book" at the stated capital; a reader's
+    next question is the only one that can change a decision -- how much money makes this
+    line have a place? The capital face answers it on its own tiers, so every number here is
+    copied off `results/idx_fut_carry_capital.json` and none is recomputed or typed (E288:
+    one implementation).
+
+    Two different thresholds are kept apart on purpose, because they answer two different
+    questions: `contract_value_cny` is the capital at which one lot stops being borrowed
+    money; `first_affordable_tier_cny` is the capital at which the face's own 8% vol target
+    will size at least one lot. A page that prints only the second reads as "you need 3M for
+    a tiny position" without saying 1.19M is where the borrowing stops.
+    """
+    cp = _load(CARRY_CAPITAL) if os.path.exists(CARRY_CAPITAL) else {}
+    faces = cp.get("faces") or {}
+    verdicts = cp.get("verdict") or {}
+    if not isinstance(faces, dict) or not faces:
+        return {"status": "unreadable", "readable": False,
+                "why": "results/idx_fut_carry_capital.json has no faces block"}
+
+    def _num(x, k=None):
+        v = (x or {}).get(k) if k else x
+        return float(v) if isinstance(v, (int, float)) else None
+
+    out_rows = []
+    for prod in ("IC", "IF", "IH", "IM"):
+        f = faces.get(prod) or {}
+        if not f:
+            continue
+        v = verdicts.get(prod) or {}
+        tiers = f.get("tiers") or []
+        on = v.get("read_on_tier")
+        tier = next((t for t in tiers if t.get("capital_cny") == on), None)
+        out_rows.append({
+            "product": prod,
+            "one_lot_notional_cny": _num(f, "contract_value_cny"),
+            "first_affordable_tier_cny": _num(v, "first_affordable_tier_cny"),
+            "read_on_tier_cny": _num(v, "read_on_tier"),
+            "net_pct_of_capital": _num(v, "net_declared_pct"),
+            "admit": v.get("ADMIT"),
+            "admit_calendar": ((((cp.get("verdict_by_mask") or {}).get("calendar") or {})
+                                .get(prod) or {}).get("ADMIT")),
+            "ruler_stable": v.get("ruler_stable"),
+            "lots_on_tier": _num(tier, "lots"),
+            "notional_x_capital_on_tier": _num(tier, "notional_x_capital"),
+            "stress_loss_pct_of_capital": _num(tier, "stress_loss_pct_of_capital"),
+            "vol_contrib_pct": _num(tier, "vol_contrib_pct"),
+            "margin_pct_of_capital": _num(tier, "margin_pct_of_capital"),
+        })
+    if not out_rows:
+        return {"status": "unreadable", "readable": False,
+                "why": "the capital face carries none of IC/IF/IH/IM"}
+    inputs = cp.get("inputs") or {}
+    tiers_all = [r["first_affordable_tier_cny"] for r in out_rows
+                 if r.get("first_affordable_tier_cny") is not None]
+    return {"status": "ok", "readable": True,
+            "evidence_cutoff": cp.get("evidence_cutoff"),
+            "capital_ladder_tiers": inputs.get("capital_tiers") or [],
+            "declared": {"vol_target": _num(inputs, "vol_target"),
+                         "margin_rate": _num(inputs, "margin_rate"),
+                         "cash_rate_pct": _num(inputs, "cash_rate_pct"),
+                         "cash_rate_source": inputs.get("cash_rate_source")},
+            "smallest_affordable_tier_cny": min(tiers_all) if tiers_all else None,
+            "rows": out_rows,
+            "path": _rel(CARRY_CAPITAL)}
+
+
+def futures_ladder_block(fl, book_ann=None):
+    """The account-size ladder, as the two thresholds a reader actually has to know.
+
+    r1709. Three sentences, each derived from the ladder rows:
+    (1) the capital at which one lot stops being borrowed money (one-lot notional), and the
+        capital at which the face's vol target will size a lot at all -- both printed because
+        they differ by a factor of two and answer different questions;
+    (2) what the line earns on the first tier that holds it, beside the book's own yield;
+    (3) the face's own verdict column, including the half that disagrees: the published mask
+        refuses all four, the calendar mask admits two. Printing only one half would turn a
+        ruler disagreement into a decision.
+    """
+    head = ["## 要多少钱，这条线才有位置（账户规模阶梯）", ""]
+    fl = fl or {}
+    if not fl.get("readable"):
+        return head + ["- **无法核验**：账户规模阶梯读不出来。缺这一行不等于「哪个规模都行」，"
+                       "也不等于「哪个规模都不行」。", ""]
+    rows = fl.get("rows") or []
+    out = list(head)
+
+    notional = [(r["product"], r["one_lot_notional_cny"]) for r in rows
+                if r.get("one_lot_notional_cny") is not None]
+    if notional:
+        order = sorted(notional, key=lambda x: x[1])
+        lo = order[0]
+        rest = order[1:]
+        out.append("- 第一个起点：**一手不再等于整本账**。低于一手名义的账户买一手就是借钱——"
+                   "最便宜的是 %s 一手 %s 元%s。"
+                   % (lo[0], format(lo[1], ",.0f"),
+                      ("，其余三个在 %s～%s 元之间（%s）"
+                       % (format(rest[0][1], ",.0f"), format(rest[-1][1], ",.0f"),
+                          "、".join("%s %s" % (p, format(n, ",.0f")) for p, n in rest)))
+                      if rest else ""))
+    sized = [(r["product"], r["first_affordable_tier_cny"]) for r in rows
+             if r.get("first_affordable_tier_cny") is not None]
+    d = fl.get("declared") or {}
+    if sized:
+        lo2 = min(sized, key=lambda x: x[1])
+        at_lo = sorted({p for p, c in sized if c == lo2[1]})
+        higher = sorted({c for _, c in sized if c != lo2[1]})
+        higher_who = sorted({p for p, c in sized if c != lo2[1]})
+        more = ("；%s 还要 %s 元" % ("、".join(higher_who),
+                                     "、".join(format(c, ",.0f") for c in higher))) if higher else ""
+        out.append("- 第二个起点：**按这张面自己的 %.0f%% 波动目标配资，第一个真能配出手数的档**是 %s 元（%s）%s。"
+                   "比这更小的账户上风险预算算出来就是 0 手——所以 100 万账户里这条线的正确读数是"
+                   "「没有位置」，不是「仓位小一点」。"
+                   % ((d.get("vol_target") or 0) * 100, format(lo2[1], ",.0f"),
+                      "、".join(at_lo), more))
+
+    on_tier = [r for r in rows if r.get("first_affordable_tier_cny") is not None
+               and r.get("net_pct_of_capital") is not None]
+    if on_tier:
+        best = max(on_tier, key=lambda r: r["net_pct_of_capital"])
+        line = ("- 到了那个档它值多少：**%s** 在 %s 元档一年给这笔钱带来 **%.2f%%**（占资本口径，不是占名义）"
+                % (best["product"], format(best.get("read_on_tier_cny") or 0, ",.0f"),
+                   best["net_pct_of_capital"]))
+        if isinstance(book_ann, (int, float)):
+            line += ("；这本书自己一年 **%.2f%%**——**等到买得起，它还是低一档**，"
+                     "这一行不是「再攒点钱就行」" % book_ann)
+        out.append(line + "。")
+
+    adm = [r for r in rows if r.get("admit") is not None]
+    if adm:
+        refused = [r["product"] for r in adm if r.get("admit") is False]
+        passed_cal = [r["product"] for r in adm if r.get("admit_calendar") is True]
+        line = ("- 这张面自己的判决列：其中 **%d/%d 个 %s**。"
+                % (len(refused), len(adm), "ADMIT=false" if len(refused) == len(adm)
+                   else "被拒"))
+        if passed_cal and len(refused) == len(adm):
+            line += ("但同一张面换日历口径重读，**%s 能过闸**——两个口径答案相反，"
+                     "所以这一行还不能当「可以加」，它是一个还没统一的尺子。"
+                     % "、".join(passed_cal))
+        out.append(line)
+
+    out.append("")
+    out.append("| 合约 | 一手名义（脱杠杆起点） | 第一个买得起的档 | 档上净收益（占这笔钱） | 一手占该档资本 | 全史最坏冲击占该档资本 | 判决（published/calendar） |")
+    out.append("|---|---|---|---|---|---|---|")
+    for r in rows:
+        _ad = r.get("admit")
+        _cal = r.get("admit_calendar")
+        out.append("| %s | %s | %s | %s | %s | %s | %s / %s |"
+                   % (r.get("product"),
+                      "-" if r.get("one_lot_notional_cny") is None
+                      else format(r["one_lot_notional_cny"], ",.0f"),
+                      "-" if r.get("first_affordable_tier_cny") is None
+                      else format(r["first_affordable_tier_cny"], ",.0f"),
+                      "?" if r.get("net_pct_of_capital") is None
+                      else "%.2f%%/年" % r["net_pct_of_capital"],
+                      "?" if r.get("notional_x_capital_on_tier") is None
+                      else "%.0f%%" % (r["notional_x_capital_on_tier"] * 100),
+                      "?" if r.get("stress_loss_pct_of_capital") is None
+                      else "%.1f%%" % r["stress_loss_pct_of_capital"],
+                      "?" if _ad is None else ("过" if _ad else "拒"),
+                      "?" if _cal is None else ("过" if _cal else "拒")))
+    out.append("")
+
+    out.append("- 阶梯的定价常数写在面上、不写在这一节里：波动目标 %.0f%%、保证金 %.0f%%（交易所标准＋券商缓冲，非交易所文件）、"
+               "现金腿 %s%%（%s）。换一个波动目标整条梯子就要重读——面里同时印了保证金口径手数，可以自己重算。"
+               % ((d.get("vol_target") or 0) * 100, (d.get("margin_rate") or 0) * 100,
+                  ("%.2f" % d["cash_rate_pct"]) if d.get("cash_rate_pct") is not None else "?",
+                  d.get("cash_rate_source") or "未标注"))
+    out.append("- **这一节的 bar：%s**（资本面 evidence_cutoff，不是本页下单 bar），出处 %s"
+               % (fl.get("evidence_cutoff") or "未标注",
+                  fl.get("path") or "results/idx_fut_carry_capital.json"))
     out.append("")
     return out
 
@@ -6760,6 +6938,9 @@ def build(with_stress=False, window_label=None):
     # r1708: the fourth road -- swap the index sleeve for index futures. Twenty rounds priced
     # it and this page never carried a line, so the reader could only assume nobody looked.
     page["futures_sleeve"] = futures_sleeve_face()
+    # r1709: the natural next question after "one lot is a whole book" is "how much money
+    # makes it have a place" -- the capital face answers it and nothing here printed it.
+    page["futures_ladder"] = futures_ladder_face()
     # r1572: the page must also say what the ledger has already committed to at the next
     # open, and what the trades it made actually cost -- the table below is the target
     # book, not the book on the account.
@@ -7148,6 +7329,12 @@ def render_md(p, sb=None):
     # other side -- not "hold less", but "hold the same exposure as a future instead".
     for _fs_line in futures_sleeve_block(p.get("futures_sleeve") or {}):
         add(_fs_line)
+    # r1709: the sleeve block ends on "not buyable at this size"; the reader's next question is
+    # the size at which it would be. Same two faces, one question further out.
+    for _fl_line in futures_ladder_block(
+            p.get("futures_ladder") or {},
+            book_ann=((p.get("futures_sleeve") or {}).get("book") or {}).get("ann_compound_pct")):
+        add(_fl_line)
     # r1572: a condition on the list, like the admission above it -- what fills at the
     # next open is not in the table below, and a reader who stops at the table never
     # learns that the account is about to hold a different exposure.
@@ -12045,6 +12232,48 @@ def selftest():
     chk("L277 futures sleeve: an unreadable face says cannot-check, not 'do not switch'",
         "无法核验" in _fs_unk and "不换" not in _fs_unk and "买不起" not in _fs_unk,
         _fs_unk[:240])
+
+    # ---- the account-size ladder (r1709) -----------------------------------------------
+    _fl_fx = {"status": "ok", "readable": True, "evidence_cutoff": "2026-11-13",
+              "declared": {"vol_target": 0.08, "margin_rate": 0.15,
+                           "cash_rate_pct": 1.327,
+                           "cash_rate_source": "data/repo_daily/GC001.csv yearly mean close"},
+              "rows": [
+                  {"product": "IC", "one_lot_notional_cny": 1275000.0,
+                   "first_affordable_tier_cny": 5000000.0, "read_on_tier_cny": 5000000.0,
+                   "net_pct_of_capital": 2.24, "admit": False, "admit_calendar": True,
+                   "notional_x_capital_on_tier": 0.255, "stress_loss_pct_of_capital": 11.5},
+                  {"product": "IH", "one_lot_notional_cny": 820020.0,
+                   "first_affordable_tier_cny": 3000000.0, "read_on_tier_cny": 3000000.0,
+                   "net_pct_of_capital": 1.64, "admit": False, "admit_calendar": False,
+                   "notional_x_capital_on_tier": 0.273, "stress_loss_pct_of_capital": 9.4}]}
+    _fl_md = "\n".join(futures_ladder_block(_fl_fx, book_ann=11.647))
+    # two thresholds, both off the rows: borrowed-money stops at one-lot notional, sizing
+    # starts at the first tier. A page that prints only one of them answers a different question.
+    chk("L278 account ladder: the leverage-free threshold and the sized threshold are both read off the rows",
+        "第一个起点" in _fl_md and "第二个起点" in _fl_md
+        and "820,020" in _fl_md and "1,275,000" in _fl_md
+        and "3,000,000" in _fl_md and "5,000,000" in _fl_md
+        and "8% 波动目标" in _fl_md, _fl_md[:900])
+    # the yield at that tier is printed against the book's own, and the sentence is not
+    # allowed to read as "save up and it works"
+    chk("L279 account ladder: the tier's own yield is printed beside the book's, and it is called worse",
+        "1.64%/年" in _fl_md and "11.65%" in _fl_md and "低一档" in _fl_md
+        and "等到买得起" in _fl_md, _fl_md[:1200])
+    # both halves of a disagreeing ruler on the page: all four refused, two admitted on the
+    # calendar mask. Printing one half would turn a ruler gap into a decision.
+    chk("L280 account ladder: the refused and the calendar-admitted halves are printed together",
+        "拒 / 过" in _fl_md and "拒 / 拒" in _fl_md and "能过闸" in _fl_md
+        and "还没统一的尺子" in _fl_md, _fl_md[-1200:])
+    chk("L281 account ladder: an unreadable face says cannot-check, not 'no size works'",
+        "无法核验" in "\n".join(futures_ladder_block({"readable": False}))
+        and "没有位置" not in "\n".join(futures_ladder_block({"readable": False})), "unreadable=OK")
+    # and the live face must read the published capital file, not just the fixture
+    _fl_live = futures_ladder_face()
+    chk("L282 account ladder: the live face reads the published capital file and keeps four products",
+        _fl_live.get("readable") is True and len(_fl_live.get("rows") or []) == 4
+        and _fl_live.get("smallest_affordable_tier_cny") is not None,
+        str({k: _fl_live.get(k) for k in ("status", "smallest_affordable_tier_cny")})[:160])
 
     print("\nSummary: %d/%d PASS%s" % (ok, total, "" if ok == total else " -- %d FAIL" % (total - ok)))
     return 0 if ok == total else 1
