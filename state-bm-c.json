@@ -480,8 +480,7 @@
     "O-20261026-0810-bm-a.md",
     "O-20261026-0930-bm-c.md",
     "OB-20261030-195043-103",
-    "bm-m-pulse-v1"
-  ],
+    "bm-m-pulse-v1", "O-20261114-2325-bm-c.md"],
   "orders_ack_count": 241,
   "orders_ack_last": "O-20261111-1205 (CEO-PROXY event row): bm-c claim executor -- handled on site",
   "orders_ack_receipt": "r1374: orders 190,253 B (+1,185 B) -> one new row 2026-10-31 00:1x (CEO: make the Mac the fleet master, bm-m-pulse-v1, @bm-m lane) -> acked, zero BigMoney action. decisions unchanged 97fe122f (215,420 B).",
@@ -924,7 +923,7 @@
   "round_1689_next": "(a) price the rule, not the bucket: run the widest-quintile-only arm against hold-everything after the 8% vol leash and the repo leg -- the quintile table already says the entry with the least adverse widening is also the one with the most carry, so the open question is whether a book that waits costs more in idle cash than it collects; (b) moneyflow/LHB IC reference batch (the order second P1 candidate) is still claimed and its panel source-blocked -- check the collector self-heal before starting; (c) watchdog S4U needs one elevated re-register (28th).",
   "round_1689_note": "PRODUCT. r1686 left the basis line one untried axis: \"the discount-width timing test (basis percentile vs next 20d carry) is the cheapest way to turn a static premium into a rule\". Built: scripts/idx_fut_basis_timing.py (selftest 12/12) -- causal percentile over a trailing 250d window (60 obs min), forward window t+1..t+20 with roll days dropped, quintiles printed beside a stride-20 subsample that drops overlapping windows, Spearman on ranks, first/second half split. All four pairs pass the frozen H1/H2/H3: widest-quintile forward carry +0.584/+0.531/+0.513/+0.689pp per 20d at hit 82.5/77.4/86.0/80.6% vs narrowest -0.118/-0.032/-0.075/+0.271pp at 37.7/40.3/40.3/46.8%; spreads hold on stride-12 (0.854/0.513/0.670/0.133) and in both halves. The pair of numbers that decides what this is: fwd20-to-basis-change ratio 1.003/1.000/0.993/0.990 -> kind=convergence harvest, i.e. the rule is a prepayment schedule (wait for a wide discount, collect more of it closing), not a prediction. And the percentile adds nothing over the raw level (spearman level -0.478/-0.474/-0.443/-0.590 vs pct -0.429/-0.318/-0.432/-0.243; percentile_adds_over_level_pairs=[]), so any rule here can be written on the level directly. Adverse side is the surprise: entering at the widest discount had the SMALLEST subsequent widening (median 0.185/0.214/0.231/0.277pp) and the narrowest the largest (0.583/0.923/0.471/1.038pp) -- higher carry and less drawdown, not a risk trade. Two selftest legs caught real defects before publication: adverse_widening used max() and reported the discount closing as a drawdown (the basis is negative when wide, so the window MINIMUM is the adverse side), and convergence_share carried an off-by-one that double-counted a step the holder never takes (basis_face convention: spread[j] is the step dates[j]->dates[j+1]). Neither face had a chain leg -- both were typed by hand on 11-14 -- so both now ride straight behind update_futures; chain --only 2/2 rc0. Latest percentiles: IH 13.4 (widest quintile, fires), IF 23.8, IC 38.6, IM 48.2.",
   "round_label": "1704",
-  "round_no": 1706,
+  "round_no": 1707,
   "round_no_label": "1704",
   "round_no_landed": 1663,
   "round_note": "r1489: a reinstated bar is re-derived from the panel, not carried over (reinstatement_check + reinstatements.json + sheet paragraph)",
@@ -1404,5 +1403,8 @@
   "watermark_note": "watermark_red.json red=false (healthy); no board claim this round",
   "watermark_verdict": "healthy (red=false)",
   "went_well": "the basis face had already produced this number; the defect was that two published faces never met in one table, so a reader had to subtract them by hand -- and the page never said the gap was gross",
-  "who_did": "bm-c"
+  "who_did": "bm-c",
+"round_t1707_note": "P1 second candidate closed: institutional LHB seat net-buy carries IC 0.0202 (t 2.29) at h=5 and a 0.43% tercile spread -- both under the frozen 0.030/0.50% lines, verdict CLOSE (scripts/lhb_inst_ic.py selftest 7/7 + results/lhb_inst_ic.json + research/LHB_INST_IC_VERDICT.md). 15,020 events over 395 dates, 2025-01-01..2026-11-11, CSI1000 benchmark, entry next open. Side finding registered not adopted: turnover is the one strong signal on that tape (IC -0.053 t -5.3 at h=5, -0.093 t -9.2 at h=20, tercile spread -2.55% at 20d) but it is post-hoc reversal and there is no short leg for us.",
+"round_t1707_panel": "new reusable price lane: data/stock_daily_tx/per (Tencent qfq kline, 3,535/3,535 symbols in 94s with 8 threads; akshare/sina wrapper was 11s/symbol so the pull was previously unaffordable). gitignored, checkpoint in _progress.json.",
+"round_t1707_next": "carry timing is the next decision-changing question on the IDX_FUT line: does the size of the discount (basis percentile) tell you when to enter, i.e. does buying the future only when basis is in the wide tercile beat holding always? data on hand (data/futures_daily + data/index_daily), freeze the criterion before reading. Also open: roll slippage + margin usage, monthly vs quarterly roll."
 }
