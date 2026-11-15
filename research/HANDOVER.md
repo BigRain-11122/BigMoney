@@ -815,3 +815,25 @@ spread 9.04pp > 距线 8.89pp）过去只有两个时钟、没有面板名 —�
 
 **下一步（≤48h）**：把准入判决接进 `etf_book_ceo_page` 与 `build_status`，让开盘前那一眼就能看到
 「这本书能不能吃新钱」，而不是翻执行单。
+
+## 5x checkpoint -- bm-c r1705 (2026-11-15 08:3x) -- the carry sleeve, from "worth holding" to "how many lots survive a call"
+
+Product faces added/changed in this cycle (all committed, all re-derivable):
+
+- `results/idx_fut_carry_risk.json` + `research/IDX_FUT_CARRY_RISK.md` -- per-product carry vs the
+  adopted book at the 8% target, and the margin identity on TWO rulers (sample drawdown, and the
+  index's own worst historical drawdown ~72.4%). Status: IC/IM SLEEVE_CANDIDATE, IF/IH REFUSE.
+- `results/idx_fut_desk_sheet.json` + `research/IDX_FUT_DESK_SHEET.md` -- the morning sheet:
+  contract, OI share, notional/margin per lot, lot counts, next-roll estimate, published gap.
+  r1705 adds the financing ruler: how far the index must fall before a maintenance call, and the
+  largest lot count that survives the record without one (1 lot for all four at 1M capital; the
+  sheet's own 4 lots are called after a 12.6% fall). `--capital N` prints a variant without
+  rewriting the published face.
+- `results/idx_fut_carry_capital.json`, `idx_fut_roll_cost.json`, `idx_fut_contract_roll.json`,
+  `idx_fut_basis.json`, `idx_fut_basis_timing.json`, `idx_fut_basis_wait.json`,
+  `idx_fut_real_nav.json`, `idx_fut_roll_gap.json` -- the supporting family (roll cost band,
+  contract switch history, basis/drift, realizable form). Each has `--selftest`; all are S6 legs.
+
+Open (honest): the maintenance ratio 8% and the multipliers are assumptions the exchange/broker
+would firm up; the call distance ignores mid-crisis margin hikes; IH has no ETF pair so its drift
+reads 0.0 as an absence. Nothing above is an adopted position.
