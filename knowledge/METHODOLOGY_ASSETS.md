@@ -15417,3 +15417,21 @@ L322 无逐成员记录时印「无法分辨」且禁出现「排在待拉队列
 工具面：`scripts/idx_fut_leverage_washout.py`（`effective_returns` / `lots_by_margin` / `simulate` /
 `_verdict`，selftest 12 腿）· `results/idx_fut_leverage_washout.json` · S6 腿
 `idx_fut_leverage_washout`（链内 rc0）。
+
+### E658 · 「声明留下了什么」能和解差额，但必须是名字对得上（r1731 bm-c）
+
+1. **数不等不等于缺陷。** etf_wide 声称 `universe=1724`，盘上 1725 个文件，上一代面判
+   `COUNT_DISAGREES`。真值是这支车道自己写了 `skipped: [510880_t73]`——它刷新 1724 只、
+   跳过一枚钉死的 stem（该 stem 与 `sh510880.csv` 是同一标的的两面，故不重复刷）。
+   把诚实车道的自我披露读成缺陷，等于给诚实者发红牌；差额的第一问应是「回执自己有没有点名」。
+2. **判定正法：声称 + 回执自己声明的排除名单 == 盘上文件数，且每一条排除名真的在盘上。**
+   → `COUNT_RECONCILED` 并点名那些文件；任一条声明名不在盘上 → 仍是 `COUNT_DISAGREES`。
+   算术相等不构成证据：「声称 2 + 跳过 1 = 3 个文件」一般也成立于任意一个大目录——只有名字才是判据。
+3. **被排除的名单不能当成员名单读。** `skipped`/`excluded`/`ignored` 命中 `ROSTER_HINT` 时会把
+   skip 列表当成「回执已公布成员」→ 假 `NAMES_PARTIAL`。roster 检测必须先排掉 `EXCLUDE_HINT` 的键。
+4. **和解不是 tracked 面板的特权。** gitignored 面板同样和解，但句子里必须说清这是哪台机的副本（r1290）。
+5. **两边都要钉。** 自检四条方向相反的腿：名对得上才和解／声明名不在盘上不解／算完还差一只不解／
+   skip 列表不是 roster。只钉第一条的修法会把「闭眼分数」赋予所有车道。
+
+工具面：`scripts/count_only_claims.py`（`_scope_exclusions` / `_reconciled` / `panel_stems`，
+selftest 17→23 腿）· smoke 腿 `product: count_only_claims`（r1731）· S6 腿同名链内 rc0 1.1s。

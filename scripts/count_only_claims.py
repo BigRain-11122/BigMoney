@@ -33,6 +33,9 @@ Verdicts (never a pass/fail line about the market -- this is a receipt audit):
   COUNT_AGREES_LOCAL_EMPTY the receipt claims N, this machine's panel holds 0
                            and the panel is gitignored -> the number belongs to
                            another host; nothing here verifies it
+  COUNT_RECONCILED         claimed != disk, but the receipt declares the extra
+                           files out of scope BY NAME and every declared name is
+                           really on disk -> the difference is checkable
   COUNT_DISAGREES          the lane's own panel is gitignored AND claimed != disk
                            (a defect only the owner host can adjudicate)
   PANEL_UNMAPPED           a coverage claim with no panel directory in the table
@@ -83,6 +86,13 @@ CODE_RE = re.compile(r"^(\d{3,}|[A-Z]{1,4}-?\d{0,4}|\d{6}\.[A-Z]{2})$")
 ROSTER_HINT = re.compile(r"planned|members|symbols|universe|varieties|terms|"
                          r"codes|per_|quarantine|skipped|held|constituents|"
                          r"members_|files_written|done")
+
+# the opposite of a roster: files the lane declares it will NOT refresh. These
+# names are the reconciliation for a panel that holds one file more than the
+# receipt claims -- etf_wide refreshes 1724 members and skips the pinned
+# `510880_t73` stem, so a 1725-file panel is 1724 + a file it already named.
+EXCLUDE_HINT = re.compile(r"skipped|excluded|ignored|unsupported|not_member|"
+                          r"out_of_scope")
 
 # face -> lane panel. `owner` is the lane host as declared by the lane's own
 # docstring / R31 lane-ownership receipts; it is carried so a row on a
@@ -167,7 +177,27 @@ def _roster_path(path):
     "names published" for lanes that publish none.
     """
     low = path.lower()
+    if EXCLUDE_HINT.search(low):
+        return False
     return bool(ROSTER_HINT.search(low))
+
+
+def _scope_exclusions(doc):
+    """Names the receipt declares OUT of its own coverage.
+
+    -> {"path","names"} for the largest identifier-shaped exclusion list. A
+    `skipped` roster is not a member roster: it says which files the lane
+    deliberately leaves stale, and that is the only thing that can turn
+    "1724 claimed vs 1725 on disk" from a defect into a checkable statement.
+    """
+    hits = []
+    for path, kind, val in walk(doc):
+        if kind != "list" or not EXCLUDE_HINT.search(path.lower()):
+            continue
+        names = [x for x in val if isinstance(x, str) and NAME_RE.match(x)]
+        if names:
+            hits.append({"path": path or "/", "names": names})
+    return max(hits, key=lambda h: len(h["names"])) if hits else None
 
 
 def name_evidence(doc):
@@ -222,7 +252,48 @@ def panel_count(rel, root=ROOT):
     return n
 
 
-def judge_lane(spec, doc, names, claims, disk_n, tracked, host):
+def panel_stems(rel, root=ROOT):
+    """File stems of a one-file-per-member panel (None = no such panel here)."""
+    full = os.path.join(root, *rel.split("/"))
+    if not os.path.isdir(full):
+        return None
+    return {os.path.splitext(n)[0] for n in os.listdir(full)
+            if os.path.isfile(os.path.join(full, n))}
+
+
+def _reconciled(value, disk_n, excl, stems, panel):
+    """Is `value` + the receipt's own declared-excluded files exactly the disk?
+
+    -> (ok, detail). `detail` names the difference either way, so a row that
+    stays red still says how far off it is and which declared names are not on
+    disk. Arithmetic alone is never enough: "claim 2 + skip 1 = 3 files" is
+    usually true of a panel holding thousands of unrelated files -- only the
+    NAMES make it a check.
+    """
+    if not excl:
+        return False, ""
+    declared = list(excl["names"])
+    if stems is None:
+        return False, (f"the receipt declares {len(declared)} name(s) out of scope "
+                       f"at {excl['path']}, but {panel} is not readable here")
+    present = sorted(d for d in declared if d in stems)
+    missing = sorted(set(declared) - set(present))
+    if missing:
+        return False, (f"the receipt declares {len(declared)} name(s) out of scope "
+                       f"at {excl['path']}, but {len(missing)} of them are not in "
+                       f"{panel} ({', '.join(missing[:6])})")
+    if disk_n - len(present) == value:
+        return True, (f"{value} members refreshed plus {len(present)} file(s) the "
+                      f"receipt declares out of scope at {excl['path']} "
+                      f"({', '.join(present[:6])}) = {disk_n} files on disk; the "
+                      f"difference is named, so the panel re-counts")
+    return False, (f"the receipt declares {len(present)} file(s) out of scope at "
+                   f"{excl['path']} ({', '.join(present[:6])}), leaving "
+                   f"{disk_n - len(present)} against the {value} it claims")
+
+
+def judge_lane(spec, doc, names, claims, disk_n, tracked, host,
+               excl=None, stems=None):
     """Pure: everything above is IO, this turns it into one row."""
     row = {"lane": spec["lane"], "face": spec["face"], "panel": spec["panel"],
            "owner": spec.get("owner"), "tracked": tracked,
@@ -276,9 +347,14 @@ def judge_lane(spec, doc, names, claims, disk_n, tracked, host):
             row["why"] = (f"{key}={value} equals the {disk_n} files in the tracked "
                           f"panel -- re-countable by name on any machine")
         else:
-            row["verdict"] = "COUNT_DISAGREES"
-            row["why"] = (f"{key}={value} against {disk_n} files in the tracked "
-                          f"panel")
+            ok, detail = _reconciled(value, disk_n, excl, stems, spec["panel"])
+            if ok:
+                row["verdict"] = "COUNT_RECONCILED"
+                row["why"] = detail
+            else:
+                row["verdict"] = "COUNT_DISAGREES"
+                row["why"] = (f"{key}={value} against {disk_n} files in the tracked "
+                              f"panel" + (f"; {detail}" if detail else ""))
         return row
     # gitignored panel: this machine's copy only
     if disk_n == 0:
@@ -292,10 +368,16 @@ def judge_lane(spec, doc, names, claims, disk_n, tracked, host):
                       f"the panel is gitignored, so only {host} can re-count it, "
                       f"and only for as long as its copy holds")
     else:
-        row["verdict"] = "COUNT_DISAGREES"
-        row["why"] = (f"{key}={value} against {disk_n} local files in a gitignored "
-                      f"panel ({host}: a non-owner host's copy proves nothing; the "
-                      f"owner host adjudicates)")
+        ok, detail = _reconciled(value, disk_n, excl, stems, spec["panel"])
+        if ok:
+            row["verdict"] = "COUNT_RECONCILED"
+            row["why"] = (detail + f" (on {host}'s own copy of a gitignored panel)")
+        else:
+            row["verdict"] = "COUNT_DISAGREES"
+            row["why"] = (f"{key}={value} against {disk_n} local files in a "
+                          f"gitignored panel ({host}: a non-owner host's copy "
+                          f"proves nothing; the owner host adjudicates)"
+                          + (f"; {detail}" if detail else ""))
     return row
 
 
@@ -322,7 +404,9 @@ def build(root=ROOT):
             continue
         row = judge_lane(spec, doc, name_evidence(doc), claim_fields(doc),
                          panel_count(spec["panel"], root=root),
-                         trk.get(spec["panel"], False), host)
+                         trk.get(spec["panel"], False), host,
+                         excl=_scope_exclusions(doc),
+                         stems=panel_stems(spec["panel"], root=root))
         lanes.append(row)
         verdicts[row["verdict"]] = verdicts.get(row["verdict"], 0) + 1
     silent = [r for r in lanes if r["verdict"] in
@@ -427,6 +511,50 @@ def selftest():
     chk(all(("claim" in r) or ("verdict" in r) for r in built["lanes"]),
         "L16 every row carries a verdict")
     chk("hole" not in json.dumps(built).lower() or True, "L17 report renders")
+
+    # L18 a receipt that names what it leaves out IS checkable: claim + the
+    # declared non-members must equal the files BY NAME (etf_wide: 1724 claimed,
+    # 1725 on disk, `skipped: [510880_t73]`). Before this leg every such receipt
+    # read as COUNT_DISAGREES, i.e. a false red on a lane that was honest.
+    doc = {"panel": {"universe": 2}, "skipped": ["510880_t73"]}
+    stems = {"510300", "sh510880", "510880_t73"}
+    row = judge_lane(base, doc, name_evidence(doc), claim_fields(doc),
+                     len(stems), True, "bm-c", excl=_scope_exclusions(doc),
+                     stems=stems)
+    chk(row["verdict"] == "COUNT_RECONCILED",
+        "L18 claim + declared-out-of-scope files (all really on disk) = reconciled")
+    chk("510880_t73" in row["why"], "L19 the reconciliation names the extra file")
+
+    # L20 a declared name that is NOT on disk cannot explain the difference
+    doc = {"panel": {"universe": 2}, "skipped": ["159999"]}
+    row = judge_lane(base, doc, name_evidence(doc), claim_fields(doc),
+                     len(stems), True, "bm-c", excl=_scope_exclusions(doc),
+                     stems=stems)
+    chk(row["verdict"] == "COUNT_DISAGREES" and "159999" in row["why"],
+        "L20 an exclusion the panel does not hold stays red and names the miss")
+
+    # L21 arithmetic that does not close is still red, with the remainder named
+    doc = {"panel": {"universe": 1}, "skipped": ["510880_t73"]}
+    row = judge_lane(base, doc, name_evidence(doc), claim_fields(doc),
+                     len(stems), True, "bm-c", excl=_scope_exclusions(doc),
+                     stems=stems)
+    chk(row["verdict"] == "COUNT_DISAGREES" and "leaving 2" in row["why"],
+        "L21 declared exclusions that leave a remainder do not reconcile")
+
+    # L22 excluded names are not members: a `skipped` roster of 3 must never be
+    # read as the receipt publishing its membership
+    doc = {"skipped": ["510880_t73", "159901_t73", "511010_t73"],
+           "panel": {"universe": 1724}}
+    chk(name_evidence(doc) is None,
+        "L22 a skipped roster is not a member roster")
+
+    # L23 the reconciliation is not a tracked-panel privilege
+    doc = {"panel": {"universe": 2}, "skipped": ["510880_t73"]}
+    row = judge_lane(base, doc, name_evidence(doc), claim_fields(doc),
+                     len(stems), False, "bm-c", excl=_scope_exclusions(doc),
+                     stems=stems)
+    chk(row["verdict"] == "COUNT_RECONCILED" and "own copy" in row["why"],
+        "L23 a gitignored panel reconciles too, saying whose copy it is")
 
     print(f"\nSummary: {'PASS' if ok else 'FAIL'} (count_only_claims selftest)")
     return 0 if ok else 1

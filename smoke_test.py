@@ -12367,6 +12367,42 @@ def _legs_supply_and_book():
     except Exception as e:
         check("product: etf_book_vol_target_gate (a scaling sweep is judged by the calendar, not by Sharpe)",
               False, repr(e)[:180])
+    # ---- r1731: a lane that names what it leaves out can be re-counted --------
+    # count_only_claims asks every "we cover N" receipt whether anyone could re-count
+    # it by name. Its first generation read a receipt's `skipped` roster as noise, so
+    # a lane refreshing 1724 members and SKIPPING one pinned stem (1725 files on disk)
+    # was filed as a disagreement -- a false red on the honest lane. This leg pins both
+    # directions: the face re-derives, and a reconciliation must still be a NAME match.
+    try:
+        _cc52 = capture_pinned([sys.executable,
+                                os.path.join("scripts", "count_only_claims.py"),
+                                "selftest"], 90)
+        check("product: count_only_claims (a declared exclusion reconciles, a missing one does not)",
+              _cc52.returncode == 0 and "Summary: PASS" in _cc52.stdout,
+              (_cc52.stdout.strip().splitlines() or [""])[-1][:200] if _cc52.returncode == 0
+              else (_cc52.stderr or _cc52.stdout)[:200])
+        _bad52 = []
+        _f52 = os.path.join(PATHS.results_dir, "count_only_claims.json")
+        if not os.path.exists(_f52):
+            _bad52.append("results/count_only_claims.json missing")
+        else:
+            with open(_f52, encoding="utf-8") as _fh52:
+                _v52 = json.load(_fh52)
+            _rows52 = _v52.get("lanes") or []
+            if not _rows52:
+                _bad52.append("the face published no row")
+            for _r52 in [r for r in _rows52 if r.get("verdict") == "COUNT_RECONCILED"]:
+                if "out of scope" not in (_r52.get("why") or ""):
+                    _bad52.append("%s reconciled without naming what it excluded"
+                                  % _r52.get("lane"))
+            if not isinstance(_v52.get("counts_no_one_here_can_check"), list):
+                _bad52.append("the face no longer says which counts nobody here can check")
+        check("product: a reconciled count names the member it left out",
+              not _bad52, "; ".join(_bad52)[:220]
+              or "every COUNT_RECONCILED row names the file it excluded")
+    except Exception as e:
+        check("product: count_only_claims (a declared exclusion reconciles, a missing one does not)",
+              False, repr(e)[:180])
     # ---- r1502: the page the CEO opens must print what the price did after such a premium --
     # reading. Producer face -> etf_book_order.premium_read (the single cutter the ORDER
     # sheet also uses) -> the rendered row. This leg rebuilds each row out of the face and

@@ -1,10 +1,9 @@
 {
  "counts_no_one_here_can_check": [
   "astock_daily",
-  "moneyflow",
-  "etf_wide"
+  "moneyflow"
  ],
- "generated": "2026-11-15T16:47:50",
+ "generated": "2026-11-15T17:37:44",
  "host": "bm-c",
  "lanes": [
   {
@@ -311,8 +310,8 @@
    "panel": "data/daily",
    "panel_files_here": 1725,
    "tracked": true,
-   "verdict": "COUNT_DISAGREES",
-   "why": "universe=1724 against 1725 files in the tracked panel"
+   "verdict": "COUNT_RECONCILED",
+   "why": "1724 members refreshed plus 1 file(s) the receipt declares out of scope at /skipped (510880_t73) = 1725 files on disk; the difference is named, so the panel re-counts"
   },
   {
    "claim": {
@@ -343,7 +342,8 @@
  "verdict_counts": {
   "COUNT_CHECKED_LOCAL": 1,
   "COUNT_CHECKED_TRACKED": 1,
-  "COUNT_DISAGREES": 2,
+  "COUNT_DISAGREES": 1,
+  "COUNT_RECONCILED": 1,
   "NAMES_IN_FACE": 1,
   "NAMES_PARTIAL": 2,
   "NO_COVERAGE_CLAIM": 2,
