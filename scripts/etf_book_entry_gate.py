@@ -73,14 +73,24 @@ def build_universe():
     return close[cols], openp[cols], amt[cols], feats, n_flip
 
 
-def eligible_counts(close, amt, gate, start="2020-01-01"):
-    """How many names clear the gate on each bar -- the width side of the same knob."""
+def eligible_series(close, amt, gate, start="2020-01-01"):
+    """The per-bar width series behind `eligible_counts` (r1757).
+
+    Same expression, same filters -- `eligible_counts` now derives from this so the two
+    cannot drift. The seat-alarm face needs the bars, not only their min/median: "the
+    thinnest day was 51" answers nothing about which day, or about how far the gate would
+    have to move before the thinnest day falls under a seat count.
+    """
     hist = close.notna().cumsum()
     warm = (hist >= E.MIN_HIST).any(axis=1)   # bars before any name can qualify
     elig = (amt >= gate) & (hist >= E.MIN_HIST)
     elig = elig.loc[(elig.index >= pd.Timestamp(start)) & warm]
-    per_bar = elig.sum(axis=1)
-    vals = [int(v) for v in per_bar.tolist()]
+    return elig.sum(axis=1)
+
+
+def eligible_counts(close, amt, gate, start="2020-01-01"):
+    """How many names clear the gate on each bar -- the width side of the same knob."""
+    vals = [int(v) for v in eligible_series(close, amt, gate, start).tolist()]
     if not vals:
         return {"bars": 0, "median": None, "mean": None, "min": None, "max": None}
     return {"bars": len(vals), "median": int(np.median(vals)),

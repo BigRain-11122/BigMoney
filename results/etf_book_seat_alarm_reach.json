@@ -1,0 +1,180 @@
+{
+ "face": "etf_book_seat_alarm_reach",
+ "evidence_cutoff": "2026-11-13",
+ "window": {
+  "start": "2020-01-02",
+  "end": "2026-11-13",
+  "bars": 1663
+ },
+ "question": "票价面印的「离座位线还有 46 只缓冲」是余量还是一句永远不响的告警？池子要薄到什么程度、闸要抬到哪一档，这条腿才会真的响？",
+ "seats": 5,
+ "idle_share_mean": 0.3032,
+ "shipped_gate_cny": 20000000.0,
+ "control": {
+  "published_min": 51,
+  "published_median": 262,
+  "published_bars": 1663,
+  "panel_universe": 1520,
+  "panel_flips_repaired": 169
+ },
+ "shipped_row": {
+  "mult": 1,
+  "gate_cny": 20000000.0,
+  "gate_m": 20.0,
+  "bars": 1663,
+  "thin": 51,
+  "thin_date": "2020-01-02",
+  "median": 262
+ },
+ "edge_reading": {
+  "thin_position_in_window": 0,
+  "thin_is_warmup_edge": true,
+  "warmup_edge_bars": 20,
+  "core_thin": 56,
+  "core_thin_date": "2020-02-13",
+  "core_bars": 1643,
+  "verdict": "THINNEST_AT_WARMUP_EDGE",
+  "sentence": "最薄的那一天是窗口的第一根 bar（2020-01-02，51 只），那是面板刚够历史长度的暖机边界；去掉前 20 根之后，运行期最薄是 56 只（2020-02-13）"
+ },
+ "ladder": [
+  {
+   "mult": 1,
+   "gate_cny": 20000000.0,
+   "gate_m": 20.0,
+   "bars": 1663,
+   "thin": 51,
+   "thin_date": "2020-01-02",
+   "median": 262
+  },
+  {
+   "mult": 2,
+   "gate_cny": 40000000.0,
+   "gate_m": 40.0,
+   "bars": 1663,
+   "thin": 37,
+   "thin_date": "2020-01-02",
+   "median": 179
+  },
+  {
+   "mult": 5,
+   "gate_cny": 100000000.0,
+   "gate_m": 100.0,
+   "bars": 1663,
+   "thin": 21,
+   "thin_date": "2020-01-02",
+   "median": 94
+  },
+  {
+   "mult": 10,
+   "gate_cny": 200000000.0,
+   "gate_m": 200.0,
+   "bars": 1663,
+   "thin": 16,
+   "thin_date": "2020-01-02",
+   "median": 56
+  },
+  {
+   "mult": 20,
+   "gate_cny": 400000000.0,
+   "gate_m": 400.0,
+   "bars": 1663,
+   "thin": 13,
+   "thin_date": "2020-01-02",
+   "median": 35
+  },
+  {
+   "mult": 50,
+   "gate_cny": 1000000000.0,
+   "gate_m": 1000.0,
+   "bars": 1663,
+   "thin": 3,
+   "thin_date": "2020-06-11",
+   "median": 13
+  },
+  {
+   "mult": 100,
+   "gate_cny": 2000000000.0,
+   "gate_m": 2000.0,
+   "bars": 1663,
+   "thin": 0,
+   "thin_date": "2020-01-02",
+   "median": 3
+  },
+  {
+   "mult": 200,
+   "gate_cny": 4000000000.0,
+   "gate_m": 4000.0,
+   "bars": 1663,
+   "thin": 0,
+   "thin_date": "2020-01-02",
+   "median": 0
+  }
+ ],
+ "first_reachable_rung": {
+  "mult": 50,
+  "gate_cny": 1000000000.0,
+  "gate_m": 1000.0,
+  "bars": 1663,
+  "thin": 3,
+  "thin_date": "2020-06-11",
+  "median": 13
+ },
+ "yearly_thin": [
+  {
+   "year": 2020,
+   "thin": 51,
+   "thin_date": "2020-01-02",
+   "bars": 243
+  },
+  {
+   "year": 2021,
+   "thin": 86,
+   "thin_date": "2021-04-22",
+   "bars": 243
+  },
+  {
+   "year": 2022,
+   "thin": 169,
+   "thin_date": "2022-01-04",
+   "bars": 242
+  },
+  {
+   "year": 2023,
+   "thin": 240,
+   "thin_date": "2023-01-03",
+   "bars": 242
+  },
+  {
+   "year": 2024,
+   "thin": 241,
+   "thin_date": "2024-09-02",
+   "bars": 242
+  },
+  {
+   "year": 2025,
+   "thin": 346,
+   "thin_date": "2025-01-09",
+   "bars": 243
+  },
+  {
+   "year": 2026,
+   "thin": 501,
+   "thin_date": "2026-01-05",
+   "bars": 208
+  }
+ ],
+ "verdict": {
+  "verdict": "ALARM_UNREACHABLE",
+  "short": 0,
+  "buffer": 46,
+  "multiple": 10.2,
+  "drop_needed": 47,
+  "sentence": "最薄那天是 51 只，对 5 个位置是 10.2 倍——这条告警腿要在同一天再消失 47 只票才会响，这个窗口里它一次都没响过",
+  "pool_empty_seats": 0,
+  "observed_empty_seats": 1.516,
+  "attribution": "EMPTY_SEATS_ARE_DELEVERAGING",
+  "attribution_sentence": "账上平均空着 1.5 个位置，而池子从来没有薄到座位线以下——空座全部来自波动目标降杠杆，不是没票可选"
+ },
+ "not_priced": "抬闸的收益代价：本面只数名数，不重算收益；已发布的六档扫描里200M 档的年化是 5.42%（20M 是 8.41%），更高档只会更差",
+ "generated": "2026-11-16T07:18:56"
+}
