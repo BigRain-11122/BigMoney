@@ -1433,8 +1433,8 @@
     "leg": "product: live-book day words sit on the page's own day"
   },
   "smoke_inflight": true,
-  "smoke_note": "detached-process liveness needs three faces (pid alive / output mtime advancing / final Summary line); a snapshot count alone cannot tell 'killed' from 'still running'",
-  "smoke_out": "results/_smoke_r1753.out",
+ "smoke_note": "full suite launched detached at closeout (pid 47676, pythonw -m smoke_test, output growing 4127->5157 bytes within 22s, process alive). Last full green 602/602 at 07:35:55 (r1757) does not cover this round; this round's change is covered by etf_book_order 241/241 + etf_book_ceo_page 423/423. NOT claimed green while in flight.",
+ "smoke_out": "results/_smoke_r1758.out",
   "smoke_r1621_out": "results/_smoke_r1621.out",
   "smoke_r1623_out": "results/_smoke_r1623.out",
   "smoke_r1625_closed": {
@@ -1508,5 +1508,7 @@
   "smoke_detach_note": "corrected: a detached pythonw started from an agent tool shell CAN outlive that shell (pid 47124 ran to 602/602); liveness was misjudged from a mid-run snapshot",
   "state_note": "round-1757 empirical backfill: r1757 detached smoke actually finished GREEN (602/602 PASS 0 FAIL, results/_smoke_r1757.out 07:35:55); rounds literal had drifted back to 1756 in the state file and is realigned to 1757 here",
  "round_t1758_note": "r1758: the thinnest-day sentence on both papers never said WHICH day. r1757 proved it is the window's first bar (2020-01-02, warm-up edge; run-time thin 56 on 2020-02-13). The date and the warm-up note now ride on that sentence, read from results/etf_book_seat_alarm_reach.json and never recomputed here. Three states, three sentences: face agrees -> print the date (+warm-up note); face names a different thin day -> say the two faces are different generations and print no date; face absent -> say the date is not on this face. No state borrows a date.",
- "verify_t1758": "order selftest 239->241/241 (leg48p date+warm-up on the ticket, leg48q no face = no date but 10.2x kept) | page selftest 420->423/423 (L140e4 agrees / L140e5 different generation / L140e6 no face) | ORDER-2026-11-13.md L262 == LIVE-BOOK-20261116.md L825 word for word | live_book_day_words PRINTED_DATES_AGREE 13/13 claims, 0 unmapped | check-ticket-days AGREE | check-card-days AGREE"
+ "verify_t1758": "order selftest 239->241/241 (leg48p date+warm-up on the ticket, leg48q no face = no date but 10.2x kept) | page selftest 420->423/423 (L140e4 agrees / L140e5 different generation / L140e6 no face) | ORDER-2026-11-13.md L262 == LIVE-BOOK-20261116.md L825 word for word | live_book_day_words PRINTED_DATES_AGREE 13/13 claims, 0 unmapped | check-ticket-days AGREE | check-card-days AGREE",
+ "smoke_pid": 47676,
+ "smoke_started": "2026-11-16T08:02:00+08:00"
 }
