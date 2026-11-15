@@ -15624,3 +15624,12 @@ research/ETF_BOOK_CAUSAL_HEADLINE.md · smoke 既有腿（check 契约）
 **同类坑（本窗实弹）**：零佣金控制腿看不见单位错——先跑的版本把费率当分数从百分数里减（1.26 - 0.0027），零费用时差为 0，控制腿全绿，页上照样印「年化 1.26%」。控制只在非零取值处才能验量纲：必须另钉一条「带费用时扣减量=费率×滚动次数年化」的腿。
 
 **正身**：scripts/etf_book_order.py cash_forward_window/forward_rolls（selftest leg4x-4zc）+ scripts/etf_book_ceo_page.py L304b/L304c + results/etf_book_order/TICKET-2026-11-13.json
+
+
+## E665 — 年化收益要用「这一年滚了几次」而不是「合同多少天」（r1750 bm-c·E664 的姊妹面）
+
+**症状**：E664 把「一段窗口付多少」改成净对净之后，同一张票面上那句「按 1.26% 报价**一年赚 ¥7,188**」还是毛数——读者照 7,188 做计划，账上进来 5,807。这不是漏了减费用，是**分母选错了**：`FEE_BP` 是按每次滚动收的，而「一年」到底付几次费取决于**交易日历**（本机过去 365 天 = 243 个会话），不是合同期限（GC001 的 1 天）。把 365/k 当成「一年滚 365 次」会高估费用 50%（36.5bp vs 24.3bp），反过来把窗口的 17 次/23 天直接按 365 天放大又会低估（0.74 vs 0.67 次/日历日，节假日密度不同）。
+
+**正法**：①滚动次数一律从同一份交易日历数（窗口 `[anchor-365d, anchor+1d)` 复用 `forward_rolls`，锚点只在它真是会话时被计）；②费率从同一张 `FEE_BP` 表派生，禁第二份假设；③**毛数一个不动**，净数是加上的孪生字段（`net_pct`/`net_annual_cny`），发布读数不因加口径而漂移；④句子必须点名「按过去一年这张交易日历」，否则读者会把 243 套到 23 天的窗口上去；⑤旧块（无费率字段）在页面上不印净数，也不许被读成净值。
+
+**正身**：scripts/etf_book_order.py `annual_rolls`/`cash_money`（selftest leg4zf/4zg/4zi/4zj/4zk）+ scripts/etf_book_ceo_page.py `cash_money_block` 净口径行（L304d/L304e）+ results/etf_book_order/ORDER-2026-11-13.md 第 249 行 + docs/live_book/LIVE-BOOK-20261116.md 第 323 行
