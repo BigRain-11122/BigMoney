@@ -15548,3 +15548,25 @@ r1738/r1739 用同一把尺把付息的 5 名臂从 CONDITIONAL 推到 ADMIT，�
 results/etf_book_gate_causal.json · research/ETF_BOOK_GATE_CAUSAL.md ·
 两张印 ADMIT 的页面把 caveat 从同一 JSON 读进来（文字手改即与 JSON 相悖）。
 
+### E660 · 两个百分数的差已经是百分点，再乘 100 就是一次重复换算（r1741 bm-c）
+
+1. **事件**：现金锁期面要报「为了保持可取用，让掉了多少 carry」。两个输入都已
+   是百分数（ledger 现金 CAGR 1.8276、callable 现金 CAGR -0.0035），差值
+   **-1.83 已经是百分点**；第一版又乘了一次 100，页面印出 **-183.11 pp/yr**。
+   金额面全对（锁定梯子 55/84 个决策融不到钱、最短缺口 55.1% NAV、callable 0 次
+   短缺），控制臂复现、verdict 不变、自检 9/9 全绿——**缺陷只对会看单位的人可见**。
+2. **符号也要判，不能只判幅度**：字段名是 given up（让掉的代价），读者要正数；
+   第一版是 -183.11，符号与名字相反。正法＝用 led - callable 的显式方向，
+   而不是「先相减再乘」的随手公式。
+3. **正法＝把换算抽成有名字的函数，两条腿钉住幅度与符号**：
+   carry_given_up_pp(led_pct, callable_pct) = round(a-b, 2)；腿一断言 1.8276
+   与 -0.0035 得 1.83（若再乘 100 立刻红），腿二断言为正。selftest 9→11。
+4. **单位缺陷的出生地在字段产出处，拦截点必须能重算它**：同轮把这条腿接进
+   smoke（product: etf_book_cash_lock_gap），否则下一个人在别处重写这个乘数
+   仍会静默通过。凡见 × 100 夹在两个 pct 字段之间，默认它就是重复换算，先问
+   「这两个数各自带 % 吗」。
+
+工具面：scripts/etf_book_cash_lock_gap.py（carry_given_up_pp + selftest 11/11）·
+results/etf_book_cash_lock_gap.json · research/ETF_BOOK_CASH_LOCK_GAP.md ·
+smoke_test.py 一条产品腿。
+
