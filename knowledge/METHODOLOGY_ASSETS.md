@@ -15134,3 +15134,28 @@ capital 38/38（R8 四腿：同答 / 全空翻面 / 部分换掉点名 / 缺列 
 指针：`results/idx_fut_carry_capital.json` 的 `admitted_by_mask`（published/calendar/strictest）
 + `results/idx_fut_roll_gap.json` `pairs.*.readings.strictest_mask`
 + `docs/live_book/LIVE-BOOK-20261115.md`（账户规模阶梯三列 + 同答句）。
+
+## E650 · 清洗规则不能把研究对象当噪声删掉
+
+**问题**：本轮要测的是「IH 暴跌日这本书跌多少」（尾部 beta），而 IH 主力连续序列里的换月跳变必须先剔除。
+第一版用了通用异常值规则：`|r - median| > 4 * MAD` 的日子剔除。结果剔除 129/1587 天（8.1%），
+而 IH 的日波动 ~1.2%、MAD ~0.6%，4*MAD≈2.4% —— **所有真实暴跌日都在剔除名单里**。
+后果：`ih<=-1%` 的条件 beta 从 0.318 变成 **-0.030**，`ih<=-2%` 从 0.613 变成样本不足直接印 `-`。
+判词方向也随之反转（「有显著尾部相关、只是粒度不够」变成「没有可测的尾部」）。
+
+**判据**：任何「先清洗再测量」的管线，清洗规则必须能区分「脏」与「我要测的东西」。
+用统计阈值当清洗器 = 把研究对象当噪声。换月跳变这类**有结构、有属主**的脏，必须按身份剔除：
+
+- 换月日在本仓已有唯一属主：`results/idx_fut_contract_roll.json` 的 `products.<P>.observed_rolls`（r1696 用合约命名建的面）；
+- 按名字剔除：85 天，beta 0.0745，尾部 0.318 / 0.613 完整保留；
+- 阈值规则只在**没有属主**时兜底，且必须在产物里写明「这条规则删掉了多少天、删掉的日子长什么样」。
+
+**自检腿**：`etf_book_ih_hedge.py` L3 成对断言——命名换月日必须被删，
+**一个「大但未命名」的日子（-6%）必须留下**（`d98 in kept`）。只断言「异常日被删掉」的腿，
+在清洗器吃掉尾部时照样绿。
+
+**Why it matters**：这不是清洗精度问题，是「测量对象被预处理消灭」的整类缺陷——
+判词看起来有数据支撑（n=1587 很大），而真正决定结论的那 52 个日子已经不在样本里了。
+
+指针：`scripts/etf_book_ih_hedge.py`（R4）+ `results/etf_book_ih_hedge.json` `index.splice_rule`
++ `research/ETF_BOOK_IH_HEDGE.md`。

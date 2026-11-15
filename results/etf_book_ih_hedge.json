@@ -1,0 +1,288 @@
+{
+  "arms": [
+    {
+      "cagr": 0.0966603635238652,
+      "k": 0.0,
+      "maxdd": -0.11147541364692704,
+      "mean_ann": 0.09736022713177882,
+      "sharpe": 0.9684188067751379,
+      "total": 0.8310002347549743,
+      "vol": 0.10053525029732863,
+      "weight_vs_book": 0.0,
+      "years": 6.555386197752084
+    },
+    {
+      "cagr": 0.09588183647330561,
+      "k": 0.25,
+      "maxdd": -0.11032183012159857,
+      "mean_ann": 0.09660397510913112,
+      "sharpe": 0.9651347708494815,
+      "total": 0.8224960647367958,
+      "vol": 0.10009376724051017,
+      "weight_vs_book": 0.018634250384818345,
+      "years": 6.555386197752084
+    },
+    {
+      "cagr": 0.09508987334791241,
+      "k": 0.5,
+      "maxdd": -0.10916739737930536,
+      "mean_ann": 0.09584772308648344,
+      "sharpe": 0.9606172340651414,
+      "total": 0.8138794949531505,
+      "vol": 0.09977722623284084,
+      "weight_vs_book": 0.03726850076963669,
+      "years": 6.555386197752084
+    },
+    {
+      "cagr": 0.09346575985515848,
+      "k": 1.0,
+      "maxdd": -0.11201662648943922,
+      "mean_ann": 0.09433521904118806,
+      "sharpe": 0.94787098955778,
+      "total": 0.7963170665021286,
+      "vol": 0.099523268546492,
+      "weight_vs_book": 0.07453700153927338,
+      "years": 6.555386197752084
+    },
+    {
+      "cagr": 0.09178826936187279,
+      "k": 1.5,
+      "maxdd": -0.11794343196324797,
+      "mean_ann": 0.0928227149958927,
+      "sharpe": 0.930299613453685,
+      "total": 0.7783289421749717,
+      "vol": 0.09977722623284084,
+      "weight_vs_book": 0.11180550230891007,
+      "years": 6.555386197752084
+    }
+  ],
+  "book": {
+    "bars": 1587,
+    "config": {
+      "cost_bp_per_side": 10.0,
+      "flips_repaired": 169,
+      "n_hold": 12,
+      "rebal": 20,
+      "universe_symbols": 1520,
+      "vol_target": 0.08
+    },
+    "first": "2020-01-06",
+    "last": "2026-11-13",
+    "series": "results\\etf_book_series\\NAV-2026-11-13.json"
+  },
+  "evidence_cutoff": "2026-11-13",
+  "exposure": {
+    "bars": 1587,
+    "beta": 0.07453700153927338,
+    "corr": 0.14152934655175411,
+    "variance_removable_pct": 2.0030555935366516
+  },
+  "generated": "2026-11-15T11:26:29",
+  "index": {
+    "last_close": 2733.4,
+    "min_unit_notional": 820020.0,
+    "multiplier": 300,
+    "product": "IH",
+    "splice_days_dropped": 85,
+    "splice_days_sample": [
+      "2019-03-27",
+      "2019-04-09",
+      "2019-04-22",
+      "2019-05-17",
+      "2019-06-21"
+    ],
+    "splice_rule": "named switch days (idx_fut_contract_roll.observed_rolls)"
+  },
+  "kind": "etf_book_ih_hedge",
+  "ladder": [
+    {
+      "capital": 1000000,
+      "capital_to_trade_one_lot_at_1beta": 11001515.798404276,
+      "k0.5": {
+        "executable": false,
+        "lots_ceil": 1,
+        "lots_floor": 0,
+        "target_notional": 37268.50076963669,
+        "unit_over_target": 22.003031596808555
+      },
+      "k1.0": {
+        "executable": false,
+        "lots_ceil": 1,
+        "lots_floor": 0,
+        "target_notional": 74537.00153927338,
+        "unit_over_target": 11.001515798404277
+      },
+      "k1.5": {
+        "executable": false,
+        "lots_ceil": 1,
+        "lots_floor": 0,
+        "target_notional": 111805.50230891007,
+        "unit_over_target": 7.334343865602851
+      },
+      "min_unit_notional": 820020.0
+    },
+    {
+      "capital": 3000000,
+      "capital_to_trade_one_lot_at_1beta": 11001515.798404276,
+      "k0.5": {
+        "executable": false,
+        "lots_ceil": 1,
+        "lots_floor": 0,
+        "target_notional": 111805.50230891007,
+        "unit_over_target": 7.334343865602851
+      },
+      "k1.0": {
+        "executable": false,
+        "lots_ceil": 1,
+        "lots_floor": 0,
+        "target_notional": 223611.00461782014,
+        "unit_over_target": 3.6671719328014256
+      },
+      "k1.5": {
+        "executable": true,
+        "lots_ceil": 1,
+        "lots_floor": 0,
+        "target_notional": 335416.5069267302,
+        "unit_over_target": 2.444781288534284
+      },
+      "min_unit_notional": 820020.0
+    },
+    {
+      "capital": 5000000,
+      "capital_to_trade_one_lot_at_1beta": 11001515.798404276,
+      "k0.5": {
+        "executable": false,
+        "lots_ceil": 1,
+        "lots_floor": 0,
+        "target_notional": 186342.50384818346,
+        "unit_over_target": 4.40060631936171
+      },
+      "k1.0": {
+        "executable": true,
+        "lots_ceil": 1,
+        "lots_floor": 0,
+        "target_notional": 372685.0076963669,
+        "unit_over_target": 2.200303159680855
+      },
+      "k1.5": {
+        "executable": true,
+        "lots_ceil": 1,
+        "lots_floor": 0,
+        "target_notional": 559027.5115445503,
+        "unit_over_target": 1.4668687731205703
+      },
+      "min_unit_notional": 820020.0
+    },
+    {
+      "capital": 10000000,
+      "capital_to_trade_one_lot_at_1beta": 11001515.798404276,
+      "k0.5": {
+        "executable": true,
+        "lots_ceil": 1,
+        "lots_floor": 0,
+        "target_notional": 372685.0076963669,
+        "unit_over_target": 2.200303159680855
+      },
+      "k1.0": {
+        "executable": true,
+        "lots_ceil": 1,
+        "lots_floor": 0,
+        "target_notional": 745370.0153927339,
+        "unit_over_target": 1.1001515798404276
+      },
+      "k1.5": {
+        "executable": true,
+        "lots_ceil": 2,
+        "lots_floor": 1,
+        "target_notional": 1118055.0230891006,
+        "unit_over_target": 0.7334343865602851
+      },
+      "min_unit_notional": 820020.0
+    },
+    {
+      "capital": 20000000,
+      "capital_to_trade_one_lot_at_1beta": 11001515.798404276,
+      "k0.5": {
+        "executable": true,
+        "lots_ceil": 1,
+        "lots_floor": 0,
+        "target_notional": 745370.0153927339,
+        "unit_over_target": 1.1001515798404276
+      },
+      "k1.0": {
+        "executable": true,
+        "lots_ceil": 2,
+        "lots_floor": 1,
+        "target_notional": 1490740.0307854677,
+        "unit_over_target": 0.5500757899202138
+      },
+      "k1.5": {
+        "executable": true,
+        "lots_ceil": 3,
+        "lots_floor": 2,
+        "target_notional": 2236110.046178201,
+        "unit_over_target": 0.3667171932801426
+      },
+      "min_unit_notional": 820020.0
+    }
+  ],
+  "not_measured": [
+    "the future's roll slippage in points (see idx_fut_roll_gap) is a separate face",
+    "margin interest / cash drag of posting IH margin is not netted into the arms",
+    "this is arithmetic on published series, not a broker fill record"
+  ],
+  "one_lot_at_1m": {
+    "cagr": 0.05014295056828222,
+    "implied_beta_multiple": 11.001515798404276,
+    "maxdd": -0.25774372070339246,
+    "mean_ann": 0.06408055283284403,
+    "sharpe": 0.3690075348016151,
+    "total": 0.3781345103869205,
+    "vol": 0.17365648879580428,
+    "weight_vs_book": 0.82002,
+    "years": 6.555386197752084
+  },
+  "reading_rules": {
+    "R1": "hedge size = beta * capital; one lot is a contract, not a hedge unit",
+    "R2": "executable only when min unit <= 3x the size beta asks for",
+    "R3": "tail beta printed beside the unconditional one",
+    "R4": "splice days (|r-med| > 4*MAD) dropped from the beta estimate, count printed"
+  },
+  "tail": {
+    "book_down": {
+      "beta": 0.07932842043233587,
+      "corr": 0.20384655819798164,
+      "n": 703
+    },
+    "book_up": {
+      "beta": 0.028801676371095795,
+      "corr": 0.07633536407829002,
+      "n": 884
+    },
+    "ih_le_-1": {
+      "beta": 0.317850738141136,
+      "corr": 0.4287098034231727,
+      "mean_book_pct": -0.1435252781144741,
+      "mean_ih_pct": -1.766873789846282,
+      "n": 235
+    },
+    "ih_le_-2": {
+      "beta": 0.6126419583867959,
+      "corr": 0.752018480779259,
+      "mean_book_pct": -0.29931133086019734,
+      "mean_ih_pct": -3.212824981744506,
+      "n": 52
+    }
+  },
+  "verdict": {
+    "at_capital": 1000000,
+    "capital_needed_for_one_lot_at_1beta": 11001515.798404276,
+    "maxdd_delta_at_1beta": -0.0005412128425121843,
+    "sentence": "One IH lot is 11.00x the short beta asks for at 1,000,000 CNY, so the only tradeable version of this hedge is an oversized short, not a hedge.",
+    "sharpe_delta_at_1beta": -0.020547817217357878,
+    "unit_over_target_at_1beta": 11.001515798404277,
+    "variance_removable_pct": 2.0030555935366516,
+    "verdict": "UNEXECUTABLE_AT_THIS_SIZE",
+    "vol_delta_at_1beta": -0.0010119817508366241
+  }
+}

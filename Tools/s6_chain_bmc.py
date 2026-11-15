@@ -185,6 +185,13 @@ LEGS = [
     # beside a page that names the flip. Rides behind the roll-gap leg it reads. ~1s.
     ("idx_fut_carry_capital", ["python", "scripts/idx_fut_carry_capital.py",
                                "run", "--write-doc"]),
+    # r1714: the desk sheet says IH is the only future a 1M account can post margin for and
+    # the least rewarding of the four; the other half of that sentence -- "then hedge the
+    # book's index leg with it" -- had no face. This one prices the hedge and the coarse
+    # unit together: beta 0.0745 (2.0% of the book's variance), a correctly sized short
+    # makes the Sharpe worse, and one lot is 11x the short beta asks for at 1M. Reads the
+    # book's NAV series and the named switch days; ~2s, no network, buys nothing.
+    ("etf_book_ih_hedge", ["python", "scripts/etf_book_ih_hedge.py", "run"]),
     # r1701: the carry family had a judgement but nothing a desk could act on -- no contract
     # name, no lot count, no margin, no next-roll answer, and the IM/IH gap was refused
     # without saying why. This leg publishes the morning sheet off the panels the legs above

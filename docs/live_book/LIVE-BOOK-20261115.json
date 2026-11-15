@@ -1266,6 +1266,25 @@
   ],
   "path": "results\\idx_fut_carry_capital.json"
  },
+ "futures_hedge": {
+  "status": "ok",
+  "readable": true,
+  "evidence_cutoff": "2026-11-13",
+  "beta": 0.07453700153927338,
+  "corr": 0.14152934655175411,
+  "variance_removable_pct": 2.0030555935366516,
+  "min_unit_notional": 820020.0,
+  "splice_days_dropped": 85,
+  "verdict": "UNEXECUTABLE_AT_THIS_SIZE",
+  "sentence": "One IH lot is 11.00x the short beta asks for at 1,000,000 CNY, so the only tradeable version of this hedge is an oversized short, not a hedge.",
+  "at_capital": 1000000.0,
+  "unit_over_target": 11.001515798404277,
+  "capital_for_one_lot": 11001515.798404276,
+  "vol_delta_pp": -0.10119817508366241,
+  "sharpe_delta": -0.020547817217357878,
+  "maxdd_delta_pp": -0.05412128425121843,
+  "path": "results\\etf_book_ih_hedge.json"
+ },
  "fill": {
   "status": "ok",
   "source": "results\\etf_book_forward\\LEDGER.json",
@@ -7642,10 +7661,10 @@
  "authority": {
   "writer": "bm-c",
   "owner": "bm-a",
-  "owner_silent_h": 36.1,
+  "owner_silent_h": 36.3,
   "gate_h": 6.0,
   "took_over": true,
-  "why": "bm-a has not written its own heartbeat for 36.1 h (> 6 h): this host takes the pen for the page only -- a stopped heartbeat is not a dead machine",
+  "why": "bm-a has not written its own heartbeat for 36.3 h (> 6 h): this host takes the pen for the page only -- a stopped heartbeat is not a dead machine",
   "no_bar_reason": "human_ages"
  },
  "fleet": {

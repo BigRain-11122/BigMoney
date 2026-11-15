@@ -6283,6 +6283,99 @@ def futures_sleeve_block(fs):
     return out
 
 
+HEDGE_FACE = os.path.join(ROOT, "results", "etf_book_ih_hedge.json")
+
+
+def futures_hedge_face():
+    """The other half of "IH is the one you can afford": can it hedge what we already hold?
+
+    r1714. The desk sheet says IH is the only contract a 1M account can post margin for and
+    the least rewarding of the four. The obvious counter-argument is the one worth pricing:
+    if it is the only one we can hold, use it to hedge the book's index leg instead. This
+    face reads results/etf_book_ih_hedge.json -- the beta, the share of variance a hedge
+    could remove, and the ratio of one lot to the short beta actually asks for. Nothing is
+    recomputed here (E288: one implementation), and an absent face is an absent answer.
+    """
+    if not os.path.exists(HEDGE_FACE):
+        return {"status": "absent", "readable": False,
+                "why": "results/etf_book_ih_hedge.json is not on disk"}
+    try:
+        h = _load(HEDGE_FACE) or {}
+    except (OSError, ValueError) as exc:
+        return {"status": "unreadable", "readable": False, "why": str(exc)[:120]}
+
+    def _f(x, k=None):
+        v = (x or {}).get(k) if k else x
+        return float(v) if isinstance(v, (int, float)) else None
+
+    ex = h.get("exposure") or {}
+    v = h.get("verdict") or {}
+    idx = h.get("index") or {}
+    if _f(ex, "beta") is None or not v.get("verdict"):
+        return {"status": "unreadable", "readable": False,
+                "why": "the hedge face carries no beta or no verdict"}
+    return {
+        "status": "ok", "readable": True,
+        "evidence_cutoff": h.get("evidence_cutoff"),
+        "beta": _f(ex, "beta"),
+        "corr": _f(ex, "corr"),
+        "variance_removable_pct": _f(ex, "variance_removable_pct"),
+        "min_unit_notional": _f(idx, "min_unit_notional"),
+        "splice_days_dropped": idx.get("splice_days_dropped"),
+        "verdict": v.get("verdict"),
+        "sentence": v.get("sentence"),
+        "at_capital": _f(v, "at_capital"),
+        "unit_over_target": _f(v, "unit_over_target_at_1beta"),
+        "capital_for_one_lot": _f(v, "capital_needed_for_one_lot_at_1beta"),
+        "vol_delta_pp": (lambda x: None if x is None else x * 100.0)(
+            _f(v, "vol_delta_at_1beta")),
+        "sharpe_delta": _f(v, "sharpe_delta_at_1beta"),
+        "maxdd_delta_pp": (lambda x: None if x is None else x * 100.0)(
+            _f(v, "maxdd_delta_at_1beta")),
+        "path": _rel(HEDGE_FACE),
+    }
+
+
+def futures_hedge_block(fh):
+    """Two sentences: how much risk the index leg is, and whether the unit can express it.
+
+    Both come off the face. The page never says "hedging is safe" or "hedging is useless" as
+    a rule -- it prints the beta, the variance share, and the coarse-unit ratio, and lets the
+    verdict string say which of those decided it.
+    """
+    out = ["", "### 用 IH 对冲这本书？"]
+    if not fh.get("readable"):
+        out.append("账户规模面（etf_book_ih_hedge）读不出来（%s），无法核验。"
+                   % (fh.get("why") or "no reason given"))
+        out.append("")
+        return out
+    beta = fh.get("beta")
+    share = fh.get("variance_removable_pct")
+    ratio = fh.get("unit_over_target")
+    need = fh.get("capital_for_one_lot")
+    cap = fh.get("at_capital")
+    out.append("- 这本书对上证 50 的 beta 只有 %.3f（相关性 %.2f），指数腿只解释它 %.1f%% 的方差；"
+               "正确的对冲仓位要有 %.0f 万元的 IH 空头。"
+               % (beta, fh.get("corr") or 0.0, share or 0.0, beta * (cap or 0) / 1e4))
+    if ratio is not None and ratio > 1.0:
+        out.append("- 但一手 IH 就是 %.0f 万元名义，是 beta 要的仓位的 %.1f 倍——%s 万账户上"
+                   "唯一能下的那一手不是对冲，是第二个更大的反向仓位。要做到一手正好对上 beta，"
+                   "账户得有 %.0f 万元。"
+                   % ((fh.get("min_unit_notional") or 0) / 1e4, ratio,
+                      (cap or 0) / 1e4, (need or 0) / 1e4))
+    else:
+        out.append("- 一手 IH 名义 %.0f 万元，是 beta 要的仓位的 %.2f 倍，这一档的粒度够用。"
+                   % ((fh.get("min_unit_notional") or 0) / 1e4, ratio or 0.0))
+    if fh.get("vol_delta_pp") is not None:
+        out.append("- 就算按 beta 精确对冲：波动 %+.2fpp、回撤 %+.2fpp、夏普 %+.3f "
+                   "（判决 %s，%d 个换月日已从估计里剔除）。"
+                   % (fh["vol_delta_pp"], fh.get("maxdd_delta_pp") or 0.0,
+                      fh.get("sharpe_delta") or 0.0, fh.get("verdict") or "-",
+                      fh.get("splice_days_dropped") or 0))
+    out.append("")
+    return out
+
+
 def futures_ladder_face():
     """At what account size this sleeve stops being leverage.
 
@@ -7079,6 +7172,9 @@ def build(with_stress=False, window_label=None):
     # r1709: the natural next question after "one lot is a whole book" is "how much money
     # makes it have a place" -- the capital face answers it and nothing here printed it.
     page["futures_ladder"] = futures_ladder_face()
+    # r1714: the ladder ends on "not buyable at this size"; the remaining use for the one
+    # affordable contract is hedging what we already hold, and that has now been priced.
+    page["futures_hedge"] = futures_hedge_face()
     # r1572: the page must also say what the ledger has already committed to at the next
     # open, and what the trades it made actually cost -- the table below is the target
     # book, not the book on the account.
@@ -7473,6 +7569,10 @@ def render_md(p, sb=None):
             p.get("futures_ladder") or {},
             book_ann=((p.get("futures_sleeve") or {}).get("book") or {}).get("ann_compound_pct")):
         add(_fl_line)
+    # r1714: the one contract this account can afford has a second use -- hedging what the
+    # book already holds. Priced, and the answer is a unit problem before it is a return one.
+    for _fh_line in futures_hedge_block(p.get("futures_hedge") or {}):
+        add(_fh_line)
     # r1572: a condition on the list, like the admission above it -- what fills at the
     # next open is not in the table below, and a reader who stops at the table never
     # learns that the account is about to hold a different exposure.
@@ -12498,6 +12598,29 @@ def selftest():
         "nothing about the third",
         "2.24% / 3.12%/年" in _no3_md and "同一批过线品种" not in _no3_md
         and "strictest" not in _no3_md, _no3_md[:1800])
+
+    # r1714: the one affordable contract has a second use -- hedging the book's index leg.
+    # Every number in the block must come off the face row, and the coarse-unit sentence must
+    # follow the ratio rather than a fixed opinion about hedging.
+    _fh_fx = {"readable": True, "beta": 0.0745, "corr": 0.142,
+              "variance_removable_pct": 2.0, "min_unit_notional": 820020.0,
+              "splice_days_dropped": 85, "verdict": "UNEXECUTABLE_AT_THIS_SIZE",
+              "at_capital": 1000000.0, "unit_over_target": 11.0,
+              "capital_for_one_lot": 11001516.0, "vol_delta_pp": -0.10,
+              "maxdd_delta_pp": -0.05, "sharpe_delta": -0.020}
+    _fh_md = "\n".join(futures_hedge_block(_fh_fx))
+    chk("L293 hedge block: beta, variance share, coarse-unit ratio and the account that would fix it all come off the row",
+        "0.074" in _fh_md and "2.0%" in _fh_md and "11.0 倍" in _fh_md
+        and "1100" in _fh_md and "85 个换月日" in _fh_md, _fh_md[:1400])
+    # when the unit is fine, the block must stop saying "not a hedge"
+    _fh_fine = json.loads(json.dumps(_fh_fx))
+    _fh_fine["unit_over_target"] = 0.5
+    _fine_md = "\n".join(futures_hedge_block(_fh_fine))
+    chk("L294 hedge block: a fine-grained unit stops calling the only tradeable version a second position",
+        "不是对冲" not in _fine_md and "粒度够用" in _fine_md, _fine_md[:1400])
+    chk("L295 hedge block: an unreadable face says cannot-check and states no verdict",
+        "无法核验" in "\n".join(futures_hedge_block({"readable": False, "why": "no file"}))
+        and "不是对冲" not in "\n".join(futures_hedge_block({"readable": False})))
 
     print("\nSummary: %d/%d PASS%s" % (ok, total, "" if ok == total else " -- %d FAIL" % (total - ok)))
     return 0 if ok == total else 1
