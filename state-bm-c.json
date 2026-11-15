@@ -86,28 +86,28 @@
   "d19_watermark_v2": {
     "compare_order": "repo+commit_sha+blob_bytes first, then sha256; source mismatch = stale",
     "decisions": {
-      "blob_bytes": 101011,
-      "commit_sha": "681228a9f93a885a39e2c7d7bba03e28d952abf5",
+      "blob_bytes": 128056,
+      "commit_sha": "2d3e02bf58d5e8dc801a0a83113e7262e3def088",
       "fetch_command": "git -C <group-tree> show origin/main:docs/decisions.md",
       "path": "docs/decisions.md",
-      "repo": "git@github.com:BigRain-11122/FluxGroup.git",
-      "sha256": "52482bb75550ea0d7e558eda6c729750b2433d714883d1cdbf69d361be1ebc67"
+      "repo": "BigRain-11122/FluxGroup",
+      "sha256": "8ab8d5574faab69354e43b99b559ee753b628c0a4a122b0fcbf6b87bd5aeb7f9"
     },
     "decisions_verdict": "changed",
     "law": "D-20261025-08 watermark v2 quartet {repo, commit_sha, blob_bytes, sha256}",
-    "note": "r1303: quartet refreshed to the current tip. It had been frozen at 822d1305a8/263139 (dec) while the legacy single-string keys already held the current content (c514b69c), so Tools/s05_probe.py cried decisions_delta=true every round against a stale face while scripts/d19_watermark.py probe said false -- a phantom delta produced by two faces of the same watermark disagreeing, not by new rows.",
+    "note": "r1719: this block is a DERIVED copy -- the maintained keys are last_decisions_watermark_v2 / last_orders_watermark_v2. It had been frozen at 681228a9/101011 (dec) while those keys already held 2d3e02bf/128056, so a reader of this block alone read a phantom backward move (r1303 family).",
     "orders": {
-      "blob_bytes": 67814,
-      "commit_sha": "681228a9f93a885a39e2c7d7bba03e28d952abf5",
+      "blob_bytes": 79462,
+      "commit_sha": "2d3e02bf58d5e8dc801a0a83113e7262e3def088",
       "fetch_command": "git -C <group-tree> show origin/main:docs/orders.md",
       "path": "docs/orders.md",
-      "repo": "git@github.com:BigRain-11122/FluxGroup.git",
-      "sha256": "44daec549506957a274c5fef52036d00bbf2ab3b6533aad4aca06f32b4204fe3"
+      "repo": "BigRain-11122/FluxGroup",
+      "sha256": "8fb0a8fd50c12b932217b1b996ef9af00fc64d7b7438698c9d5f5bfcdb80d875"
     },
     "orders_verdict": "changed",
     "round": 1402,
     "ts": "2026-11-07T16:37:02+08:00",
-    "updated_at": "2026-11-11T20:04:03+08:00"
+    "updated_at": "2026-11-15T13:18:18+08:00"
   },
   "dec_sha_method": "python subprocess raw-blob bytes SHA-256 (group-tree origin/main git show; r818 start sweep via SSH primary leg rc0 (channel healed, r817 A-sync note closed); dec delta FALSE = unchanged, zero action; facts-driven from results/_r818bmc_s05_facts.json, 64hex shape-asserted; close face reads sha PROGRAMMATICALLY from facts json, ZERO literal constants (r583 law)",
   "delivered": {
