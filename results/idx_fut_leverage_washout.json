@@ -1,0 +1,357 @@
+{
+ "generated": "2026-11-15T17:19:46",
+ "kind": "idx_fut_leverage_washout",
+ "assumptions": {
+  "multiplier_per_point": {
+   "IF": 300,
+   "IH": 300,
+   "IC": 200,
+   "IM": 200
+  },
+  "initial_margin_rate": 0.15,
+  "maintenance_margin_rate": 0.12,
+  "margin_use_share_of_capital": 0.6,
+  "side": "LONG futures (receives the discount, W1)",
+  "sizing": "margin box = floor(capital*margin_use / (entry notional*initial_margin)); same rule as the desk sheet (W4)",
+  "lifetime": "book opens on the panel's first day and is held to the last day: no de-levering, no adding, no re-entry after a call",
+  "note": "assumptions are printed, not sourced: change a constant and re-run instead of arguing with a verdict"
+ },
+ "rules": {
+  "W1": "long futures only",
+  "W2": "roll splice excluded from P&L",
+  "W3": "wipeout is mechanical at equity <= maintenance*notional; nothing simulated after",
+  "W4": "lots match the desk sheet's ladder"
+ },
+ "products": {
+  "IF": {
+   "status": "ok",
+   "index": "sh000300",
+   "index_name": "CSI300",
+   "window": {
+    "from": "2017-01-17",
+    "to": "2026-11-13",
+    "days": 2383
+   },
+   "index_max_drawdown_pct": -45.603,
+   "ladder": [
+    {
+     "status": "survived",
+     "lots": 4,
+     "days_held": 2382,
+     "final_equity_cny": 2690526.0,
+     "total_return_pct": 169.05,
+     "annualised_pct": 10.67,
+     "max_drawdown_pct": -72.32,
+     "worst_day_pct": -19.71,
+     "survived": true,
+     "capital_cny": 1000000,
+     "entry_notional_per_lot_cny": 997907.0,
+     "latest_notional_per_lot_cny": 1204887.0
+    },
+    {
+     "status": "survived",
+     "lots": 12,
+     "days_held": 2382,
+     "final_equity_cny": 8071579.0,
+     "total_return_pct": 169.05,
+     "annualised_pct": 10.67,
+     "max_drawdown_pct": -72.32,
+     "worst_day_pct": -19.71,
+     "survived": true,
+     "capital_cny": 3000000,
+     "entry_notional_per_lot_cny": 997907.0,
+     "latest_notional_per_lot_cny": 1204887.0
+    },
+    {
+     "status": "survived",
+     "lots": 20,
+     "days_held": 2382,
+     "final_equity_cny": 13452631.0,
+     "total_return_pct": 169.05,
+     "annualised_pct": 10.67,
+     "max_drawdown_pct": -72.32,
+     "worst_day_pct": -19.71,
+     "survived": true,
+     "capital_cny": 5000000,
+     "entry_notional_per_lot_cny": 997907.0,
+     "latest_notional_per_lot_cny": 1204887.0
+    },
+    {
+     "status": "survived",
+     "lots": 40,
+     "days_held": 2382,
+     "final_equity_cny": 26905262.0,
+     "total_return_pct": 169.05,
+     "annualised_pct": 10.67,
+     "max_drawdown_pct": -72.32,
+     "worst_day_pct": -19.71,
+     "survived": true,
+     "capital_cny": 10000000,
+     "entry_notional_per_lot_cny": 997907.0,
+     "latest_notional_per_lot_cny": 1204887.0
+    }
+   ],
+   "verdict": "SURVIVED_EVERY_TIER"
+  },
+  "IC": {
+   "status": "ok",
+   "index": "sh000905",
+   "index_name": "CSI500",
+   "window": {
+    "from": "2017-01-17",
+    "to": "2026-11-13",
+    "days": 2383
+   },
+   "index_max_drawdown_pct": -41.808,
+   "ladder": [
+    {
+     "status": "wiped",
+     "lots": 3,
+     "days_held": 377,
+     "call_date": "2018-08-06",
+     "equity_at_call_cny": 313414.0,
+     "loss_pct_of_capital": -68.66,
+     "max_drawdown_pct": -77.61,
+     "worst_day_pct": -33.05,
+     "survived": false,
+     "capital_cny": 1000000,
+     "entry_notional_per_lot_cny": 1216413.0,
+     "latest_notional_per_lot_cny": 1293097.0
+    },
+    {
+     "status": "wiped",
+     "lots": 9,
+     "days_held": 377,
+     "call_date": "2018-08-06",
+     "equity_at_call_cny": 940242.0,
+     "loss_pct_of_capital": -68.66,
+     "max_drawdown_pct": -77.61,
+     "worst_day_pct": -33.05,
+     "survived": false,
+     "capital_cny": 3000000,
+     "entry_notional_per_lot_cny": 1216413.0,
+     "latest_notional_per_lot_cny": 1293097.0
+    },
+    {
+     "status": "wiped",
+     "lots": 16,
+     "days_held": 355,
+     "call_date": "2018-07-05",
+     "equity_at_call_cny": 1703819.0,
+     "loss_pct_of_capital": -65.92,
+     "max_drawdown_pct": -76.11,
+     "worst_day_pct": -36.33,
+     "survived": false,
+     "capital_cny": 5000000,
+     "entry_notional_per_lot_cny": 1216413.0,
+     "latest_notional_per_lot_cny": 1293097.0
+    },
+    {
+     "status": "wiped",
+     "lots": 32,
+     "days_held": 355,
+     "call_date": "2018-07-05",
+     "equity_at_call_cny": 3407638.0,
+     "loss_pct_of_capital": -65.92,
+     "max_drawdown_pct": -76.11,
+     "worst_day_pct": -36.33,
+     "survived": false,
+     "capital_cny": 10000000,
+     "entry_notional_per_lot_cny": 1216413.0,
+     "latest_notional_per_lot_cny": 1293097.0
+    }
+   ],
+   "verdict": "WIPED_AT_EVERY_TIER"
+  },
+  "IH": {
+   "status": "ok",
+   "index": "sh000016",
+   "index_name": "SSE50",
+   "window": {
+    "from": "2017-01-17",
+    "to": "2026-11-13",
+    "days": 2383
+   },
+   "index_max_drawdown_pct": -45.408,
+   "ladder": [
+    {
+     "status": "survived",
+     "lots": 5,
+     "days_held": 2382,
+     "final_equity_cny": 2265047.0,
+     "total_return_pct": 126.5,
+     "annualised_pct": 8.74,
+     "max_drawdown_pct": -69.56,
+     "worst_day_pct": -16.22,
+     "survived": true,
+     "capital_cny": 1000000,
+     "entry_notional_per_lot_cny": 698878.0,
+     "latest_notional_per_lot_cny": 832507.0
+    },
+    {
+     "status": "survived",
+     "lots": 17,
+     "days_held": 2382,
+     "final_equity_cny": 7301159.0,
+     "total_return_pct": 143.37,
+     "annualised_pct": 9.54,
+     "max_drawdown_pct": -71.79,
+     "worst_day_pct": -17.29,
+     "survived": true,
+     "capital_cny": 3000000,
+     "entry_notional_per_lot_cny": 698878.0,
+     "latest_notional_per_lot_cny": 832507.0
+    },
+    {
+     "status": "survived",
+     "lots": 28,
+     "days_held": 2382,
+     "final_equity_cny": 12084262.0,
+     "total_return_pct": 141.69,
+     "annualised_pct": 9.46,
+     "max_drawdown_pct": -71.59,
+     "worst_day_pct": -17.19,
+     "survived": true,
+     "capital_cny": 5000000,
+     "entry_notional_per_lot_cny": 698878.0,
+     "latest_notional_per_lot_cny": 832507.0
+    },
+    {
+     "status": "survived",
+     "lots": 57,
+     "days_held": 2382,
+     "final_equity_cny": 24421533.0,
+     "total_return_pct": 144.22,
+     "annualised_pct": 9.58,
+     "max_drawdown_pct": -71.89,
+     "worst_day_pct": -17.34,
+     "survived": true,
+     "capital_cny": 10000000,
+     "entry_notional_per_lot_cny": 698878.0,
+     "latest_notional_per_lot_cny": 832507.0
+    }
+   ],
+   "verdict": "SURVIVED_EVERY_TIER"
+  },
+  "IM": {
+   "status": "ok",
+   "index": "sh000852",
+   "index_name": "CSI1000",
+   "window": {
+    "from": "2022-07-22",
+    "to": "2026-11-13",
+    "days": 1045
+   },
+   "index_max_drawdown_pct": -41.602,
+   "ladder": [
+    {
+     "status": "wiped",
+     "lots": 2,
+     "days_held": 366,
+     "call_date": "2024-01-22",
+     "equity_at_call_cny": 181894.0,
+     "loss_pct_of_capital": -81.81,
+     "max_drawdown_pct": -84.35,
+     "worst_day_pct": -40.24,
+     "survived": false,
+     "capital_cny": 1000000,
+     "entry_notional_per_lot_cny": 1406920.0,
+     "latest_notional_per_lot_cny": 1271452.0
+    },
+    {
+     "status": "wiped",
+     "lots": 8,
+     "days_held": 301,
+     "call_date": "2023-10-20",
+     "equity_at_call_cny": 1095845.0,
+     "loss_pct_of_capital": -63.47,
+     "max_drawdown_pct": -69.96,
+     "worst_day_pct": -17.84,
+     "survived": false,
+     "capital_cny": 3000000,
+     "entry_notional_per_lot_cny": 1406920.0,
+     "latest_notional_per_lot_cny": 1271452.0
+    },
+    {
+     "status": "wiped",
+     "lots": 14,
+     "days_held": 300,
+     "call_date": "2023-10-19",
+     "equity_at_call_cny": 1888842.0,
+     "loss_pct_of_capital": -62.22,
+     "max_drawdown_pct": -69.21,
+     "worst_day_pct": -19.06,
+     "survived": false,
+     "capital_cny": 5000000,
+     "entry_notional_per_lot_cny": 1406920.0,
+     "latest_notional_per_lot_cny": 1271452.0
+    },
+    {
+     "status": "wiped",
+     "lots": 28,
+     "days_held": 300,
+     "call_date": "2023-10-19",
+     "equity_at_call_cny": 3777685.0,
+     "loss_pct_of_capital": -62.22,
+     "max_drawdown_pct": -69.21,
+     "worst_day_pct": -19.06,
+     "survived": false,
+     "capital_cny": 10000000,
+     "entry_notional_per_lot_cny": 1406920.0,
+     "latest_notional_per_lot_cny": 1271452.0
+    }
+   ],
+   "verdict": "WIPED_AT_EVERY_TIER"
+  }
+ },
+ "headline": [
+  {
+   "capital_cny": 1000000,
+   "survived": [
+    "IF",
+    "IH"
+   ],
+   "wiped": [
+    "IC",
+    "IM"
+   ],
+   "cannot_afford_one_lot": []
+  },
+  {
+   "capital_cny": 3000000,
+   "survived": [
+    "IF",
+    "IH"
+   ],
+   "wiped": [
+    "IC",
+    "IM"
+   ],
+   "cannot_afford_one_lot": []
+  },
+  {
+   "capital_cny": 5000000,
+   "survived": [
+    "IF",
+    "IH"
+   ],
+   "wiped": [
+    "IC",
+    "IM"
+   ],
+   "cannot_afford_one_lot": []
+  },
+  {
+   "capital_cny": 10000000,
+   "survived": [
+    "IF",
+    "IH"
+   ],
+   "wiped": [
+    "IC",
+    "IM"
+   ],
+   "cannot_afford_one_lot": []
+  }
+ ]
+}

@@ -15391,3 +15391,29 @@ L322 无逐成员记录时印「无法分辨」且禁出现「排在待拉队列
 自检腿：名单审计面 21→**28/28**（L14-L21）；CEO 页 399→**401/401**（L323/L324）。
 工具面：scripts/lane_roster_disk_audit.py（`count_only_row` / `status_disposition` /
 `_dir_newest_bar` / `LOCAL_COPY_ONLY`）· scripts/etf_book_ceo_page.py（`count_only` / `local_copies`）。
+
+### E657 · 保证金箱定出来的手数不是可持仓位（r1730 bm-c）
+
+1. **同一张面上的两种尺子可以都算对，而只有一种能下单。** `idx_fut_desk_sheet` 按保证金箱
+   定额度（`floor(capital*margin_use/(notional*初始保证金))`）算出「100 万本金持 3 手 IC、
+   年化 67%」；`idx_fut_carry_capital` 按波动率目标定额度并给出 ADMIT=False。两个数都是从
+   同一张面板、同一组价格算出来的，读者被迫挑一个，而挑错的代价是账户被强平，不是少赚。
+2. **正法＝把「按这张尺子定出来的仓位」放回历史，撞一次维护保证金线。** 逐日盯市（权益 += 手数×
+   乘数×价格×有效收益），当 `权益 ≤ 维护保证金率 × 当日名义` 即强平，**强平后不再模拟**（一个被
+   强平的账户不持有后续仓位，报告之后的"回本"是幻觉）。实测：IC 在 2018-07-05/08-06、IM 在
+   2023-10-19 至 2024-01-22，**1M/3M/5M/10M 四档全被强平**；IF/IH 活下来但最大回撤 -70% 上下，
+   即"活着的"那条也只是加了杠杆的 beta。
+3. **两个口径必须对齐到同一个入场价。** 手数要用**建仓日**名义值算，不能用最新价：用最新价
+   定额度会让"2022 年那一段"的手数与当时资金需求不符（实测同一档位在不同入场价下差一手，
+   强平日期就从 2024-01 挪到 2023-10）。这不是精度问题，是同一个账户在两份历史里被写成两种仓位。
+4. **滚月那一天的价差不属于持仓人。** 主连序列在换月处跳空，持仓人只是把仓位滚到更便宜的合约上；
+   把跳空当亏损会凭空造出一次回撤（与父面 `idx_fut_basis` 的掩码同一律：滚月日只留指数暴露）。
+   自检里用一条人造 -5% 拼接序列钉死这一点：换月日有效收益**不得**超过 1%，而检测器必须把
+   那一天**报出来**——被吞掉与被识别是两件事。
+5. **判词要分档到"在哪一档死"。** `WIPED_AT_EVERY_TIER` / `WIPED_AT_SMALL_TIERS_ONLY` /
+   `SURVIVED_EVERY_TIER` / `NO_LOT_AT_ANY_TIER` 四种：前两种的动作不同（一条线关不关 vs 换个额度），
+   而 `NO_LOT` 必须自带「一手需要多少钱」，否则读者会把 0 手读成"风险可控"。
+
+工具面：`scripts/idx_fut_leverage_washout.py`（`effective_returns` / `lots_by_margin` / `simulate` /
+`_verdict`，selftest 12 腿）· `results/idx_fut_leverage_washout.json` · S6 腿
+`idx_fut_leverage_washout`（链内 rc0）。

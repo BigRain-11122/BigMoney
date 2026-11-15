@@ -224,6 +224,16 @@ LEGS = [
     # while quoting 11. Bucketed panels refuse the comparison instead of going red.
     # ~1s, no network, reads receipts and file names only.
     ("count_only_claims", ["python", "scripts/count_only_claims.py", "run"]),
+    # r1730: two published faces described the same carry position and never met. The desk
+    # sheet's ladder sizes by the margin box and prints 1,000,000 CNY holding 3 IC lots at
+    # 67%/yr; the capital face sizes by vol target and refuses at every tier. Both are
+    # arithmetically right and the reader has to pick one. This leg replays the desk
+    # sheet's own size through history against the maintenance-margin line: IC is
+    # force-liquidated 2018-07-05/08-06 and IM between 2023-10-19 and 2024-01-22, at all
+    # four tiers from 1M to 10M, so the ladder is a return on a position nobody can hold.
+    # ~1s, no network; assumptions are printed in the face and the verdict is re-derived
+    # from its own ladder.
+    ("idx_fut_leverage_washout", ["python", "scripts/idx_fut_leverage_washout.py", "run"]),
     # r1716: the book's own engine prices its idle sleeve at 0 (the vol target de-levers
     # into cash) while etf_book_cash_vehicle already priced that same cash at 1.77%/yr and
     # the newest ticket already carries it -- two published faces for one sleeve, never
