@@ -211,6 +211,9 @@ def _md(rep):
              "stopped depending on two years\"."
              % ((line - pm["top2_share"]) * 100, pm["top2_share_full_only"] * 100, line * 100))
     L.append("")
+    # Deferred: etf_book_gate_causal imports this module for its constants.
+    import etf_book_gate_causal as KC
+    L.extend(KC.basis_caveat_lines())
     L.append("## Why it moves: the carry is paid on the idle share")
     L.append("")
     L.append("| year | idle share (avg) | without | with | carry added |")

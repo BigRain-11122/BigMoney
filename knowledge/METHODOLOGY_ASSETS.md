@@ -15528,3 +15528,23 @@ results/etf_book_year_gate_idlecarry.json · research/ETF_BOOK_YEAR_GATE_IDLECAR
 工具面：scripts/etf_book_gate_knobs.py（run/selftest 8 腿）· results/etf_book_gate_knobs.json ·
 research/ETF_BOOK_GATE_KNOBS.md（机械生成）· etf_book_idle_cash.cash_step_returns 新增
 ladder/fees 参数（默认路径逐位不变，GC001 复现 1.7731% 与已发布面相同）。
+
+## E663 — 一条闸门判决是「执行基座的函数」，不是策略的性质（r1740 bm-c）
+
+r1738/r1739 用同一把尺把付息的 5 名臂从 CONDITIONAL 推到 ADMIT，尺子本身跑在一个
+「用当天收盘排出来的名次去当天开盘买」的引擎上。库里早有两条面量过这一天（lag 定价 1.14pp/yr、
+页面印的是哪条臂），但**没人把滞后送回闸门**。同一套六格、同一引擎、只把信号后移一根 bar：
+
+- n5 零息 top2 70.39%→**76.07%**（年化 11.55→9.12）；n5 ladder3 68.36%→**73.18%**，ADMIT→**CONDITIONAL**
+- n12 ladder3 72.53%→**75.88%**（10.19→8.99）
+- 基准价：宽度 5 上 **2.43pp/yr**、宽度 12 上 **1.20pp/yr**
+
+三条可复用：①**「过线」句必须点名执行基座**——同一个网格在两种基座上逐格翻面，判决不是策略的性质；
+②**集中度会放大基座漏算**（2.43pp vs 1.20pp），所以「窄仓过线、宽仓不过」这种结论最先要查的就是基座，
+不是机制；③因果臂反过来给前向账本做了独立旁证（9.01% vs 8.99%，差 0.02pp），
+把「两套结算栈未对账」这一条当场关掉——**两个数在修好基座后本来就该重合**。
+
+工具面：scripts/etf_book_gate_causal.py（run/selftest 6 腿/basis_caveat_lines）·
+results/etf_book_gate_causal.json · research/ETF_BOOK_GATE_CAUSAL.md ·
+两张印 ADMIT 的页面把 caveat 从同一 JSON 读进来（文字手改即与 JSON 相悖）。
+

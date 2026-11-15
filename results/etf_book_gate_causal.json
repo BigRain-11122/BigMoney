@@ -1,0 +1,176 @@
+{
+ "face": "etf_book_gate_causal",
+ "asof": "2026-11-15T23:23:52",
+ "evidence_cutoff": "2026-11-13",
+ "window": {
+  "start": "2020-01-03",
+  "end": "2026-11-13",
+  "bars": 1662
+ },
+ "question": "r1738/r1739 sent the shallow paid arm from CONDITIONAL to ADMIT on an engine that ranks on bar d's close and pays from bar d's open. Does that verdict survive the execution the card declares (rank on d-1, fill at d's open)?",
+ "grid_config": {
+  "bases": {
+   "as_coded": 0,
+   "causal": 1
+  },
+  "widths": {
+   "n5": 5,
+   "n12": 12
+  },
+  "carriers": {
+   "cash_zero": null,
+   "ladder3": [
+    "GC007",
+    "GC014",
+    "GC028"
+   ]
+  },
+  "rebal": 20,
+  "cost_per_side": 0.001,
+  "vol_target": 0.08
+ },
+ "readings": {
+  "controls_ok": true,
+  "control_knobs_n5_top2": {
+   "published": 0.7039,
+   "mine": 0.7039,
+   "ok": true
+  },
+  "control_knobs_n12_ladder3_top2": {
+   "published": 0.7253,
+   "mine": 0.7253,
+   "ok": true
+  },
+  "ledger_crosscheck": {
+   "ledger_fixed_carry_cagr": 0.0901,
+   "causal_n12_ladder3_cagr": 0.0899,
+   "gap_pp": -0.02,
+   "ok": true,
+   "note": "the ledger accrues decide-at-close/fill-next-open; this face prices the audit's lag arm on the engine's open-to-open window, so the two are different settlement stacks and only have to agree to 0.35 pp"
+  },
+  "gate_line_top2_share_max": 0.7,
+  "grid": {
+   "as_coded": {
+    "n5": {
+     "cash_zero": {
+      "verdict": "CONDITIONAL",
+      "top2_share": 0.7039,
+      "top2_share_full_only": 0.7278,
+      "Y4_top2_share": false,
+      "cagr": 0.1155,
+      "sharpe": 1.137,
+      "maxdd_pct": -10.56,
+      "vol_pct": 10.5,
+      "median_idle_share": 0.2922,
+      "turnover_per_side": 1.0825
+     },
+     "ladder3": {
+      "verdict": "ADMIT",
+      "top2_share": 0.6836,
+      "top2_share_full_only": 0.7086,
+      "Y4_top2_share": true,
+      "cagr": 0.1218,
+      "sharpe": 1.192,
+      "maxdd_pct": -10.47,
+      "vol_pct": 10.5,
+      "median_idle_share": 0.2922,
+      "turnover_per_side": 1.0825
+     }
+    },
+    "n12": {
+     "cash_zero": {
+      "verdict": "CONDITIONAL",
+      "top2_share": 0.7524,
+      "top2_share_full_only": 0.7885,
+      "Y4_top2_share": false,
+      "cagr": 0.0959,
+      "sharpe": 0.987,
+      "maxdd_pct": -11.77,
+      "vol_pct": 10.18,
+      "median_idle_share": 0.264,
+      "turnover_per_side": 0.9382
+     },
+     "ladder3": {
+      "verdict": "CONDITIONAL",
+      "top2_share": 0.7253,
+      "top2_share_full_only": 0.7618,
+      "Y4_top2_share": false,
+      "cagr": 0.1019,
+      "sharpe": 1.043,
+      "maxdd_pct": -11.46,
+      "vol_pct": 10.18,
+      "median_idle_share": 0.264,
+      "turnover_per_side": 0.9382
+     }
+    }
+   },
+   "causal": {
+    "n5": {
+     "cash_zero": {
+      "verdict": "CONDITIONAL",
+      "top2_share": 0.7607,
+      "top2_share_full_only": 0.8131,
+      "Y4_top2_share": false,
+      "cagr": 0.0912,
+      "sharpe": 0.876,
+      "maxdd_pct": -12.07,
+      "vol_pct": 11.07,
+      "median_idle_share": 0.3013,
+      "turnover_per_side": 1.0951
+     },
+     "ladder3": {
+      "verdict": "CONDITIONAL",
+      "top2_share": 0.7318,
+      "top2_share_full_only": 0.7827,
+      "Y4_top2_share": false,
+      "cagr": 0.0974,
+      "sharpe": 0.929,
+      "maxdd_pct": -11.98,
+      "vol_pct": 11.07,
+      "median_idle_share": 0.3013,
+      "turnover_per_side": 1.0951
+     }
+    },
+    "n12": {
+     "cash_zero": {
+      "verdict": "CONDITIONAL",
+      "top2_share": 0.7913,
+      "top2_share_full_only": 0.8379,
+      "Y4_top2_share": false,
+      "cagr": 0.0841,
+      "sharpe": 0.869,
+      "maxdd_pct": -16.56,
+      "vol_pct": 10.28,
+      "median_idle_share": 0.2713,
+      "turnover_per_side": 0.959
+     },
+     "ladder3": {
+      "verdict": "CONDITIONAL",
+      "top2_share": 0.7588,
+      "top2_share_full_only": 0.8047,
+      "Y4_top2_share": false,
+      "cagr": 0.0899,
+      "sharpe": 0.923,
+      "maxdd_pct": -16.16,
+      "vol_pct": 10.28,
+      "median_idle_share": 0.2713,
+      "turnover_per_side": 0.959
+     }
+    }
+   }
+  },
+  "price_of_the_basis_pp": {
+   "n5_cash_zero": 2.43,
+   "n12_ladder3": 1.2
+  },
+  "verdict": "VERDICT_WAS_THE_BASIS"
+ },
+ "honest": [
+  "the causal arm is `score.shift(1)` -- the audit's own lag lattice point, not a second way of ranking; both arms pick the same names, one bar apart",
+  "a one-bar lag also moves which bar the sample starts and ends on; the price of the basis is therefore a sample-level number, not a per-trade rebate",
+  "the capacity check reads the newest score row that exists for each lag, so the lagged arm cannot inherit picks it could not have ranked",
+  "no carry is credited to the ledger comparison here: the ledger's own face prices the sleeve and this one only re-adjudicates the equity book's gate",
+  "this face does not choose an arm. It says whether an already-issued adoption sentence is execution-independent"
+ ],
+ "elapsed_sec": 57.5
+}

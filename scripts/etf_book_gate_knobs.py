@@ -332,6 +332,10 @@ def _md(rep):
                 "n/a" if v["sharpe"] is None else "%.3f" % v["sharpe"],
                 "n/a" if v["maxdd_pct"] is None else "%.2f%%" % v["maxdd_pct"]))
     L.append("")
+    # Deferred: this face is imported by etf_book_gate_causal (it owns these constants),
+    # so the caveat reader cannot be imported at module level.
+    import etf_book_gate_causal as KC
+    L.extend(KC.basis_caveat_lines())
     L.append("## Controls")
     L.append("")
     L.append("| control | value |")
