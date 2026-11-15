@@ -1640,28 +1640,20 @@ def entry_gate_support():
 
 
 def entry_gate_seats_md(eg, seats):
-    """r1753: 这道闸够本书装几只——宽度那轴换算成位置数（读同一张面，不重算票池）。"""
-    if not seats:
-        return []
-    eg = eg or {}
+    """r1753/r1755: 「这道闸够本书装几只」——判定的唯一实现在 CEO 页，票面从这里取。
+
+    两处各写一份的代价是同一句话在票面和页面上分叉（r1753 分过一次，r1755 又看见
+    LIVE-BOOK 仍印旧句）；这里只做转发，措辞由页面模块统一。
+    """
     try:
-        n_seats = int(seats)
-    except (TypeError, ValueError):
-        return []
-    med = eg.get("shipped_median_names")
-    thin = eg.get("shipped_min_names")
-    if med is None and thin is None:
-        return ["- **换成你能装几只（r1753）**：这张面上没有可选名数的分布，所以「%d 个位置够不够装」"
-                "这一问答不了——中位数不是最薄的那天，本页不拿它顶替。" % n_seats]
-    gate_m = (float(eg.get("shipped_cny") or 0.0)) / 1e6
-    if thin is not None and int(thin) > 0:
-        thin = int(thin)
-        return ["- **换成你能装几只（r1753）**：本书现在开 **%d 个位置**，而 %gM 这一档历史上"
-                "中位 **%d 只**可挑、**最薄的一天也还有 %d 只**——最薄那天是本书位置的 **%.1f 倍**。"
-                "这道闸本身不决定你装几只：它开始限制你的时候，是池子先薄到 %d 只以下"
-                "（或者这本书开到 %d 个位置以上）。"
-                % (n_seats, gate_m, int(med or 0), thin,
-                   float(thin) / float(n_seats), n_seats, thin)]
+        from scripts import etf_book_ceo_page as _PAGE
+        return _PAGE.entry_gate_seats_md(eg, seats)
+    except Exception:                                          # noqa: BLE001
+        try:
+            import etf_book_ceo_page as _PAGE2
+            return _PAGE2.entry_gate_seats_md(eg, seats)
+        except Exception:                                      # noqa: BLE001
+            return []
     return ["- **换成你能装几只（r1753）**：本书现在开 **%d 个位置**，而 %gM 这一档历史上"
             "中位 **%d 只**可挑（%.1f 倍）。**最薄那天的数这张面没有**，所以只说中位——"
             "按最薄日算只会比这个倍数更低，不会更高。"
@@ -6693,6 +6685,32 @@ def selftest():
         "book instead of silently dividing the whole capital into seats",
         "按满仓算" in _cap_noweight and "每个位置现在是 **¥200,000**" in _cap_noweight,
         _cap_noweight[:200])
+
+    # r1755: 「最薄那天是 10.2 倍」是余量不是判定。最薄日压到座位线以下时，读者必须看到
+    # 缺几只、那天最多能装几只，而不是一个听着还有余量的倍数。
+    def _seat_line(md):
+        return next((l for l in md.splitlines() if "换成你能装几只" in l), "")
+
+    _thin_alarm_line = _seat_line("\n".join(entry_gate_md(
+        dict(_eg_ok, shipped_min_names=3), seats=5)))
+    chk("leg48m entry gate: a thin day below the seat count raises the pool alarm with the "
+        "size of the hole (3 names vs 5 seats = 2 short, at most 3 seats fillable) and "
+        "prints no multiple",
+        "池子告警" in _thin_alarm_line and "还少 **2 只**" in _thin_alarm_line
+        and "最多装 3 只" in _thin_alarm_line and "倍" not in _thin_alarm_line,
+        _thin_alarm_line[:200])
+    _thin_equal_line = _seat_line("\n".join(entry_gate_md(
+        dict(_eg_ok, shipped_min_names=5), seats=5)))
+    chk("leg48n entry gate: a thin day exactly equal to the seat count is the zero-buffer "
+        "reading -- neither an alarm nor a multiple",
+        "刚好装满" in _thin_equal_line and "余量为零" in _thin_equal_line
+        and "池子告警" not in _thin_equal_line and "倍" not in _thin_equal_line,
+        _thin_equal_line[:200])
+    _thin_gap_line = _seat_line("\n".join(entry_gate_md(_eg_ok, seats=5)))
+    chk("leg48o entry gate: above the seat line the buffered reading prints the gap to the "
+        "alarm as a count, so '10.2x' is never the only thing a reader gets",
+        "离座位线还有 **46 只**缓冲" in _thin_gap_line and "10.2 倍" in _thin_gap_line
+        and "池子告警" not in _thin_gap_line, _thin_gap_line[:200])
 
     # 49a-e. r1455: the sheet sizes to the permission the desk itself published. r1450
     # printed a floor (k=0.393073) and its prereg requirement 4 asked for it to be carried

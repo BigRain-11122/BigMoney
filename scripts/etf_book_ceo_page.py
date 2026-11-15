@@ -3539,12 +3539,24 @@ def entry_gate_seats_md(eg, seats):
     gate_m = (float(eg.get("shipped_cny") or 0.0)) / 1e6
     if thin is not None and int(thin) > 0:
         thin = int(thin)
-        return ["- **换成你能装几只（r1753）**：这本书现在开 **%d 个位置**，而 %gM 这一档历史上"
-                "中位 **%d 只**可挑、**最薄的一天也还有 %d 只**——最薄那天是这本书位置的 **%.1f 倍**。"
-                "所以这一档本身不决定你装几只：它开始限制你的时候，是池子先薄到 %d 只以下"
-                "（或者这本书开到 %d 个位置以上）。"
-                % (n_seats, gate_m, int(med or 0), thin,
-                   float(thin) / float(n_seats), n_seats, thin)]
+        head = ("- **换成你能装几只（r1753）**：这本书现在开 **%d 个位置**，而 %gM 这一档历史上"
+                "中位 **%d 只**可挑、**最薄的一天也还有 %d 只**。"
+                % (n_seats, gate_m, int(med or 0), thin))
+        # r1755: 「最薄那天是 10.2 倍」是余量不是判定。最薄日压到座位线以下时，读者必须看到
+        # 缺几只、那天最多能装几只。这段判定的唯一实现放在本模块，票面从这里取（禁第二份）。
+        if thin < n_seats:
+            return [head + ("**⚠ 池子告警（r1755）**：最薄那天只有 **%d 只**，比这本书的 **%d 个位置**"
+                            "还少 **%d 只**——那一天这本书装不满，最多装 %d 只，剩下的位置只能留"
+                            "现金。这道闸在你想装的那一档上已经动过手了。"
+                            % (thin, n_seats, n_seats - thin, thin))]
+        if thin == n_seats:
+            return [head + ("**刚好装满（r1755）**：最薄那天正好 **%d 只**对上 **%d 个位置**，"
+                            "余量为零——再少一只，那一天就装不满，没有缓冲。"
+                            % (thin, n_seats))]
+        return [head + ("最薄那天是这本书位置的 **%.1f 倍**，离座位线还有 **%d 只**缓冲——所以历史上"
+                        "没有一天池子比你的座位薄；这道闸要开始限制你，得等最薄日先跌到 **%d 只"
+                        "以下**（或者这本书开到 **%d 个位置以上**）。"
+                        % (float(thin) / float(n_seats), thin - n_seats, n_seats, thin))]
     return ["- **换成你能装几只（r1753）**：这本书现在开 **%d 个位置**，而 %gM 这一档历史上"
             "中位 **%d 只**可挑（%.1f 倍）。**最薄那天的数这张面没有**，所以只说中位——"
             "按最薄日算只会比这个倍数更低，不会更高。"
@@ -11703,6 +11715,29 @@ def selftest():
         and "换成你能装几只" not in "\n".join(entry_gate_block(_eg_ok)),
         "with=%s without=%s" % ("换成你能装几只" in _eg_seats,
                                 "换成你能装几只" in "\n".join(entry_gate_block(_eg_ok))))
+    # L140e2-e3 (r1755): 「最薄那天是 10.2 倍」是余量不是判定。最薄日压到座位线以下时，
+    # 页面必须自己印出缺几只、那天最多装几只——这段判定搬到本模块后，票面只是转发它。
+    _eg_thin = dict(_eg_ok)
+    _eg_thin["shipped_min_names"] = 3
+    _eg_thin_line = next((l for l in entry_gate_block(_eg_thin, seats=5)
+                          if "换成你能装几只" in l), "")
+    chk("L140e2 entry gate: a thin day below the seat count raises the pool alarm on the page "
+        "itself (3 names vs 5 seats = 2 short, at most 3 seats fillable), not only on the ticket",
+        "池子告警" in _eg_thin_line and "还少 **2 只**" in _eg_thin_line
+        and "最多装 3 只" in _eg_thin_line and "倍" not in _eg_thin_line,
+        _eg_thin_line[:200])
+    _eg_equal = dict(_eg_ok)
+    _eg_equal["shipped_min_names"] = 5
+    _eg_equal_line = next((l for l in entry_gate_block(_eg_equal, seats=5)
+                           if "换成你能装几只" in l), "")
+    _eg_buffered_line = next((l for l in entry_gate_block(_eg_ok, seats=5)
+                              if "换成你能装几只" in l), "")
+    chk("L140e3 entry gate: the thin day exactly at the seat count is the zero-buffer reading, "
+        "and one name above it the page prints the count left before the gate can bite (46)",
+        "刚好装满" in _eg_equal_line and "余量为零" in _eg_equal_line
+        and "池子告警" not in _eg_equal_line and "倍" not in _eg_equal_line
+        and "离座位线还有 **46 只**缓冲" in _eg_buffered_line,
+        "equal=%s buffered=%s" % (_eg_equal_line[:90], _eg_buffered_line[:90]))
     # L140f-h (r1754): 位置数换完了，下一个问题是「每个位置多大、什么时候会大到拖累成交」。
     # 那张数在年闸面里（今天这 5 个槽各按一日 5% 参与率），这里只换算不重算成交额。
     _cap_face = {"books": [{"capacity_cny_1day_5pct": 1200000.0}],
