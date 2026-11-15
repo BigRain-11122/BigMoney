@@ -205,6 +205,15 @@ LEGS = [
     # rounding error (<=0.1%); six commodity/bond futures carry no declared multiplier in
     # this repo and are listed as such rather than guessed. ~1s, no network, sizes nothing.
     ("etf_book_lot_floor", ["python", "scripts/etf_book_lot_floor.py", "run"]),
+    # r1725: r1724 fixed one lane by hand -- futures carried a TS.csv its own roster
+    # (VARIETIES) never named, so the gate kept answering "covered" over a member that
+    # was 50 sessions dead. This leg asks the same question of every lane that owns a
+    # closed panel directory: a file on disk the roster does not name is refreshed by
+    # nobody (002731/301139 in astock_daily today), a roster member with no file is a
+    # promise with no panel (five codes), and a deliberately frozen archive
+    # (minute_feed's five v1.0/v1.1 codes) is printed rather than counted as a defect.
+    # An unreadable roster is its own verdict, never green. ~1s, no network, sizes nothing.
+    ("lane_roster_disk_audit", ["python", "scripts/lane_roster_disk_audit.py", "run"]),
     # r1716: the book's own engine prices its idle sleeve at 0 (the vol target de-levers
     # into cash) while etf_book_cash_vehicle already priced that same cash at 1.77%/yr and
     # the newest ticket already carries it -- two published faces for one sleeve, never

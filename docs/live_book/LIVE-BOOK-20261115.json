@@ -53,7 +53,7 @@
     "pct": 1.7731,
     "annual_cny": 10075.0,
     "source": "etf_book_idle_cash.json",
-    "asof": "2026-11-15T12:09:55",
+    "asof": "2026-11-15T14:40:04",
     "book_cagr_without_pct": 11.55,
     "book_cagr_with_pct": 12.13,
     "gap_vs_spot_bp": -50.81,
@@ -1402,6 +1402,34 @@
    "TS": 6842400.0
   },
   "face_cutoff": "2026-11-13"
+ },
+ "roster_audit": {
+  "status": "ok",
+  "readable": true,
+  "evidence_cutoff": "2026-11-13",
+  "lanes": 6,
+  "matched": 4,
+  "not_applicable": 1,
+  "unreadable_lanes": [],
+  "defects": [
+   {
+    "lane": "astock_daily",
+    "verdict": "ROSTER_OMITS_DISK",
+    "on_disk_not_declared": [
+     "002731",
+     "301139"
+    ],
+    "declared_not_on_disk": [
+     "001235",
+     "001381",
+     "688827",
+     "688845",
+     "689009"
+    ],
+    "declared_n": 5226,
+    "disk_n": 5223
+   }
+  ]
  },
  "fill": {
   "status": "ok",
@@ -7844,10 +7872,10 @@
  "authority": {
   "writer": "bm-c",
   "owner": "bm-a",
-  "owner_silent_h": 40.0,
+  "owner_silent_h": 40.3,
   "gate_h": 6.0,
   "took_over": true,
-  "why": "bm-a has not written its own heartbeat for 40.0 h (> 6 h): this host takes the pen for the page only -- a stopped heartbeat is not a dead machine",
+  "why": "bm-a has not written its own heartbeat for 40.3 h (> 6 h): this host takes the pen for the page only -- a stopped heartbeat is not a dead machine",
   "no_bar_reason": "human_ages"
  },
  "fleet": {

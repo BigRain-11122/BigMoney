@@ -6579,6 +6579,7 @@ HEDGE_FACE = os.path.join(ROOT, "results", "etf_book_ih_hedge.json")
 TAIL_CI_FACE = os.path.join(ROOT, "results", "etf_book_ih_tail_ci.json")
 # r1721: one lot against one leg, for every instrument the desk can put on.
 LOT_FLOOR_FACE = os.path.join(ROOT, "results", "etf_book_lot_floor.json")
+ROSTER_AUDIT_FACE = os.path.join(ROOT, "results", "lane_roster_disk_audit.json")
 
 
 def futures_hedge_face():
@@ -6873,6 +6874,90 @@ def lot_floor_block(lf):
                    % (len(writer["no_declared_writer"]),
                       "、".join(writer["no_declared_writer"]),
                       "、".join(writer.get("no_declared_writer_bars") or []) or "更早的一根 bar"))
+    out.append("")
+    return out
+
+
+def roster_audit_face():
+    """Does every lane's own roster name the files that sit on its disk? (r1725)
+
+    r1724 fixed futures by hand: `TS.csv` was on disk but absent from `VARIETIES`, so the
+    gate answered "covered" for 50 sessions over a dead member. That is a class, not an
+    incident -- so this face asks it of every lane that owns a closed panel directory.
+    Reads `results/lane_roster_disk_audit.json`; nothing is recomputed and no threshold
+    is invented here (staleness is `data_lane_freshness`'s question, not this one).
+    """
+    if not os.path.exists(ROSTER_AUDIT_FACE):
+        return {"status": "unreadable", "readable": False,
+                "why": "results/lane_roster_disk_audit.json is not on disk"}
+    try:
+        with open(ROSTER_AUDIT_FACE, encoding="utf-8") as f:
+            d = json.load(f)
+    except (OSError, ValueError) as e:
+        return {"status": "unreadable", "readable": False, "why": repr(e)}
+    rows = [r for r in (d.get("lanes") or []) if isinstance(r, dict)]
+    bad = [r for r in rows
+           if r.get("verdict") in ("ROSTER_OMITS_DISK", "DECLARED_BUT_ABSENT")]
+    return {
+        "status": "ok",
+        "readable": True,
+        "evidence_cutoff": d.get("evidence_cutoff"),
+        "lanes": len(rows),
+        "matched": len([r for r in rows
+                        if r.get("verdict") == "ROSTER_MATCHES_DISK"]),
+        "not_applicable": len([r for r in rows
+                               if r.get("verdict")
+                               == "UNPLANNED_CHECK_NOT_APPLICABLE"]),
+        "unreadable_lanes": [r.get("lane") for r in rows
+                             if r.get("verdict") in ("ROSTER_UNREADABLE",
+                                                     "PANEL_UNREADABLE")],
+        "defects": [{
+            "lane": r.get("lane"),
+            "verdict": r.get("verdict"),
+            "on_disk_not_declared": list(r.get("on_disk_not_declared") or []),
+            "declared_not_on_disk": list(r.get("declared_not_on_disk") or []),
+            "declared_n": r.get("declared_n"),
+            "disk_n": r.get("disk_n"),
+        } for r in bad],
+    }
+
+
+def roster_audit_block(ra):
+    """Which lane is refreshing something its own roster does not name? (r1725)"""
+    out = ["", "### 有没有哪条车道在维护一份自己名单上没有的文件？"]
+    if not ra.get("readable"):
+        out.append("名单盘面对账面（lane_roster_disk_audit）读不出来（%s），这一条无法核验。"
+                   % (ra.get("why") or "no reason given"))
+        out.append("")
+        return out
+    lanes = ra.get("lanes") or 0
+    if not lanes:
+        out.append("- 这张面一条车道都没量出来，什么也不能说。")
+        out.append("")
+        return out
+    out.append("- 查了 %d 条有封闭面板目录的车道：%d 条名单与盘面逐件对上，%d 条目录是共享宇宙"
+               "（不适用这项检查），%d 条有问题。"
+               % (lanes, ra.get("matched") or 0, ra.get("not_applicable") or 0,
+                  len(ra.get("defects") or [])))
+    for d in (ra.get("defects") or []):
+        extra = d.get("on_disk_not_declared") or []
+        missing = d.get("declared_not_on_disk") or []
+        if extra:
+            out.append("- **%s**：盘上 %d 个文件里有 %d 个不在车道自己的名单（%d 件）里——"
+                       "没人刷新的就是这些：%s。要么把名字补进名单，要么把文件退役。"
+                       % (d.get("lane"), d.get("disk_n") or 0, len(extra),
+                          d.get("declared_n") or 0,
+                          "、".join(extra[:8]) + ("…" if len(extra) > 8 else "")))
+        if missing:
+            out.append("- **%s**：名单上有 %d 个成员盘上没有文件（%s%s）——车道说要拉、实际没落盘。"
+                       % (d.get("lane"), len(missing),
+                          "、".join(missing[:8]), "…" if len(missing) > 8 else ""))
+    unread = ra.get("unreadable_lanes") or []
+    if unread:
+        out.append("- 另有 %d 条车道名单或面板读不出来（%s），**不能读成干净**。"
+                   % (len(unread), "、".join(unread)))
+    if not (ra.get("defects") or []) and not unread:
+        out.append("- 每条车道的名单都点得到盘上的文件，没有「在维护但不在名单」的成员。")
     out.append("")
     return out
 
@@ -7695,6 +7780,10 @@ def build(with_stress=False, window_label=None):
     page["futures_hedge_tail"] = futures_hedge_tail_face()
     # r1721: that hedge stopped on a unit question, and only IH ever got asked it.
     page["lot_floor"] = lot_floor_face()
+    # r1725: the lot question was answered by hand-fixing one lane's roster; every other
+    # lane now gets the same question asked of it -- is a file on your disk missing from
+    # your own list?
+    page["roster_audit"] = roster_audit_face()
     # r1572: the page must also say what the ledger has already committed to at the next
     # open, and what the trades it made actually cost -- the table below is the target
     # book, not the book on the account.
@@ -8107,6 +8196,10 @@ def render_md(p, sb=None):
     # every instrument -- the ETF legs are the control that shows where the problem lives.
     for _lf_line in lot_floor_block(p.get("lot_floor") or {}):
         add(_lf_line)
+    # r1725: the next question is not about this book's instrument but about the machinery
+    # underneath it -- which lane is keeping a panel its own roster never named.
+    for _ra_line in roster_audit_block(p.get("roster_audit") or {}):
+        add(_ra_line)
     # r1572: a condition on the list, like the admission above it -- what fills at the
     # next open is not in the table below, and a reader who stops at the table never
     # learns that the account is about to hold a different exposure.
@@ -13338,6 +13431,30 @@ def selftest():
     _lf_u_md = "\n".join(lot_floor_block(_lf_unknown))
     chk("L317 lot floor: an unreadable lane roster says cannot-tell, not nobody-writes",
         "说不出" in _lf_u_md and "无法核验不等于没人写" in _lf_u_md, _lf_u_md[:1600])
+
+    # L318-L320 (r1725): the same question asked of every lane's own roster. Paired legs, the
+    # family habit: a file on disk that the roster does not name must be printed with its name
+    # (a count cannot be acted on); a lane with no defect must say so rather than print an
+    # empty list; an unreadable face must say cannot-check and print no lane verdict.
+    _ra_fx = {"readable": True, "lanes": 6, "matched": 4, "not_applicable": 1,
+              "unreadable_lanes": [],
+              "defects": [{"lane": "astock_daily", "verdict": "ROSTER_OMITS_DISK",
+                           "on_disk_not_declared": ["002731", "301139"],
+                           "declared_not_on_disk": ["001235"],
+                           "declared_n": 5226, "disk_n": 5223}]}
+    _ra_md = "\n".join(roster_audit_block(_ra_fx))
+    chk("L318 roster audit: the files nobody refreshes are named, both directions",
+        "002731" in _ra_md and "301139" in _ra_md and "001235" in _ra_md
+        and "5226" in _ra_md and "5223" in _ra_md, _ra_md[:1600])
+    _ra_clean = {"readable": True, "lanes": 3, "matched": 3, "not_applicable": 0,
+                 "unreadable_lanes": [], "defects": []}
+    _ra_clean_md = "\n".join(roster_audit_block(_ra_clean))
+    chk("L319 roster audit: a clean board says every lane names its files, no empty list",
+        "没有「在维护但不在名单」的成员" in _ra_clean_md
+        and "要么把名字补进名单" not in _ra_clean_md, _ra_clean_md[:1600])
+    _ra_gone = "\n".join(roster_audit_block({"readable": False, "why": "no file"}))
+    chk("L320 roster audit: an unreadable face says cannot-check and names no lane",
+        "无法核验" in _ra_gone and "astock_daily" not in _ra_gone, _ra_gone[:800])
 
     # L306-L308 (r1720): the marks belong to a book, and it is not always the sheet's book.
     # Paired: two widths must name both numbers and the overlap; equal widths must NOT borrow

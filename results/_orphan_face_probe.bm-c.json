@@ -1,32 +1,19 @@
 {
- "ts": "2026-11-15T15:06:26",
+ "ts": "2026-11-15T15:21:48",
  "mode": "probe",
- "py_faces_seen": 13,
- "orphans": 0,
+ "py_faces_seen": 8,
+ "orphans": 1,
  "orphans_cleared": 0,
  "killed": [],
  "idle_servers_exempt": 0,
  "resident_servers_exempt": 0,
  "faces": [
   {
-   "pid": 8232,
+   "pid": 7920,
    "name": "python.exe",
-   "cmd": "K:\\Fluxgroup\\.tools\\lora-venv\\Scripts\\python.exe -m musubi_tuner.krea2_cache_latents --dataset_config K:\\Fluxgroup\\FluxG",
-   "age_min": 1.7,
-   "cpu_delta_20s": 42.562,
-   "face1_parent_dead": true,
-   "face2_no_hidden_host_ancestor": true,
-   "face3_cpu_stalled": false,
-   "ancestor_chain": [
-    "DEAD"
-   ]
-  },
-  {
-   "pid": 11876,
-   "name": "python.exe",
-   "cmd": "K:\\Fluxgroup\\.tools\\lora-venv\\Scripts\\python.exe -m musubi_tuner.krea2_cache_latents --dataset_config K:\\Fluxgroup\\FluxG",
-   "age_min": 1.7,
-   "cpu_delta_20s": 42.562,
+   "cmd": "python scripts/etf_book_shock_day.py run",
+   "age_min": 0.5,
+   "cpu_delta_20s": 19.891,
    "face1_parent_dead": false,
    "face2_no_hidden_host_ancestor": true,
    "face3_cpu_stalled": false,
@@ -36,64 +23,11 @@
    ]
   },
   {
-   "pid": 16248,
-   "name": "python.exe",
-   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe scripts/e97_routing.py selftest",
-   "age_min": 1.2,
-   "cpu_delta_20s": 6.297,
-   "face1_parent_dead": false,
-   "face2_no_hidden_host_ancestor": true,
-   "face3_cpu_stalled": false,
-   "ancestor_chain": [
-    "python.exe",
-    "DEAD"
-   ]
-  },
-  {
-   "pid": 17964,
-   "name": "python.exe",
-   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe -m smoke_test",
-   "age_min": 11.3,
-   "cpu_delta_20s": 6.297,
-   "face1_parent_dead": true,
-   "face2_no_hidden_host_ancestor": true,
-   "face3_cpu_stalled": false,
-   "ancestor_chain": [
-    "DEAD"
-   ]
-  },
-  {
-   "pid": 27416,
-   "name": "pythonw.exe",
-   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\pythonw.exe cph4\\fleet\\mv-album-001-jay\\local-i2v\\h3_i2v_album.",
-   "age_min": 14.8,
-   "cpu_delta_20s": 0.0,
-   "face1_parent_dead": true,
-   "face2_no_hidden_host_ancestor": true,
-   "face3_cpu_stalled": false,
-   "ancestor_chain": [
-    "DEAD"
-   ]
-  },
-  {
-   "pid": 34972,
-   "name": "python.exe",
-   "cmd": "D:\\ComfyUI\\python_embeded\\python.exe -s D:\\ComfyUI\\ComfyUI\\main.py --listen 127.0.0.1 --port 8188 --disable-smart-memory",
-   "age_min": 822.3,
-   "cpu_delta_20s": 13.781,
-   "face1_parent_dead": true,
-   "face2_no_hidden_host_ancestor": true,
-   "face3_cpu_stalled": false,
-   "ancestor_chain": [
-    "DEAD"
-   ]
-  },
-  {
-   "pid": 35068,
+   "pid": 17976,
    "name": "python.exe",
    "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe Tools\\orphan_face_probe.py",
    "age_min": 0.4,
-   "cpu_delta_20s": 0.062,
+   "cpu_delta_20s": 0.031,
    "face1_parent_dead": false,
    "face2_no_hidden_host_ancestor": false,
    "face3_cpu_stalled": false,
@@ -105,11 +39,26 @@
    ]
   },
   {
-   "pid": 37132,
+   "pid": 27416,
    "name": "pythonw.exe",
-   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\pythonw.exe K:\\Fluxgroup\\FluxGroup\\Tools\\smoke\\chain_cast_sheet",
-   "age_min": 2.0,
+   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\pythonw.exe cph4\\fleet\\mv-album-001-jay\\local-i2v\\h3_i2v_album.",
+   "age_min": 30.1,
    "cpu_delta_20s": 0.0,
+   "face1_parent_dead": true,
+   "face2_no_hidden_host_ancestor": true,
+   "face3_cpu_stalled": true,
+   "ancestor_chain": [
+    "DEAD"
+   ],
+   "confirm_cpu_20s": 0.031,
+   "confirm_new_children": 0
+  },
+  {
+   "pid": 34972,
+   "name": "python.exe",
+   "cmd": "D:\\ComfyUI\\python_embeded\\python.exe -s D:\\ComfyUI\\ComfyUI\\main.py --listen 127.0.0.1 --port 8188 --disable-smart-memory",
+   "age_min": 837.6,
+   "cpu_delta_20s": 36.188,
    "face1_parent_dead": true,
    "face2_no_hidden_host_ancestor": true,
    "face3_cpu_stalled": false,
@@ -118,16 +67,15 @@
    ]
   },
   {
-   "pid": 37504,
-   "name": "python.exe",
-   "cmd": "python scripts/etf_book_exit_liquidity.py run",
-   "age_min": 0.8,
-   "cpu_delta_20s": 19.781,
-   "face1_parent_dead": false,
+   "pid": 37132,
+   "name": "pythonw.exe",
+   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\pythonw.exe K:\\Fluxgroup\\FluxGroup\\Tools\\smoke\\chain_cast_sheet",
+   "age_min": 17.3,
+   "cpu_delta_20s": 0.016,
+   "face1_parent_dead": true,
    "face2_no_hidden_host_ancestor": true,
    "face3_cpu_stalled": false,
    "ancestor_chain": [
-    "python.exe",
     "DEAD"
    ]
   },
@@ -135,21 +83,8 @@
    "pid": 38284,
    "name": "python.exe",
    "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe -u K:\\Fluxgroup\\.tools\\dl\\seg_dl.py --url https://hf",
-   "age_min": 33.1,
-   "cpu_delta_20s": 0.344,
-   "face1_parent_dead": true,
-   "face2_no_hidden_host_ancestor": true,
-   "face3_cpu_stalled": false,
-   "ancestor_chain": [
-    "DEAD"
-   ]
-  },
-  {
-   "pid": 39360,
-   "name": "python.exe",
-   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe -u K:\\Fluxgroup\\.tools\\dl\\seg_dl.py --url https://hf",
-   "age_min": 33.1,
-   "cpu_delta_20s": 0.203,
+   "age_min": 48.4,
+   "cpu_delta_20s": 0.234,
    "face1_parent_dead": true,
    "face2_no_hidden_host_ancestor": true,
    "face3_cpu_stalled": false,
@@ -161,7 +96,7 @@
    "pid": 40152,
    "name": "pythonw.exe",
    "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\pythonw.exe K:\\Fluxgroup\\FluxGroup\\Tools\\smoke\\chain_reburn_dri",
-   "age_min": 7.6,
+   "age_min": 22.9,
    "cpu_delta_20s": 0.0,
    "face1_parent_dead": true,
    "face2_no_hidden_host_ancestor": true,
@@ -174,8 +109,8 @@
    "pid": 41152,
    "name": "python.exe",
    "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe -u Tools/s6_chain_bmc.py --round 1722 --all",
-   "age_min": 32.4,
-   "cpu_delta_20s": 19.781,
+   "age_min": 47.8,
+   "cpu_delta_20s": 19.891,
    "face1_parent_dead": true,
    "face2_no_hidden_host_ancestor": true,
    "face3_cpu_stalled": false,
@@ -184,7 +119,23 @@
    ]
   }
  ],
- "orphan_details": [],
+ "orphan_details": [
+  {
+   "pid": 27416,
+   "name": "pythonw.exe",
+   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\pythonw.exe cph4\\fleet\\mv-album-001-jay\\local-i2v\\h3_i2v_album.",
+   "age_min": 30.1,
+   "cpu_delta_20s": 0.0,
+   "face1_parent_dead": true,
+   "face2_no_hidden_host_ancestor": true,
+   "face3_cpu_stalled": true,
+   "ancestor_chain": [
+    "DEAD"
+   ],
+   "confirm_cpu_20s": 0.031,
+   "confirm_new_children": 0
+  }
+ ],
  "orphan_cleared_details": [],
  "idle_server_details": [],
  "resident_server_details": [],
