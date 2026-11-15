@@ -18,14 +18,53 @@ Margin is the exchange minimum at 12%; a broker adds its own, which this host ca
 
 ## what a stated capital buys
 
-Capital **1000000 CNY**. Two counts: the naive one (margin only) and the one that can also fund the product's own published max drawdown, which is the only count that survives a bad year.
+Capital **1000000 CNY**. Four counts, because "how many lots" has four different answers depending on what the capital is supposed to survive: margin only, the product's own published max drawdown, the index's worst on record paid in cash, and the largest book that is never called at that worst.
 
-| product | margin only | after own max drawdown | drawdown buffer/lot |
-|---|---|---|---|
-| IC | 6 lots | 4 lots | 71897 |
-| IF | 7 lots | 4 lots | 77735 |
-| IM | 6 lots | 4 lots | 63358 |
-| IH | 10 lots | 6 lots | 60886 |
+| product | margin only | after own max drawdown | after index worst drawdown | survives worst drawdown without a call |
+|---|---|---|---|---|
+| IC | 6 lots | 4 lots | 0 lots | 1 lots |
+| IF | 7 lots | 4 lots | 0 lots | 1 lots |
+| IM | 6 lots | 4 lots | 0 lots | 1 lots |
+| IH | 10 lots | 6 lots | 1 lots | 1 lots |
+
+The **own max drawdown** column funds the hole this window
+produced (a few percent, on a four-year futures series); the **index worst**
+column funds the index's own worst historical drawdown (the per-product number
+is printed in the call table below). They are not two estimates of one thing:
+the first is a fact about the sample, the second is the size of the hole this
+position can be asked to fund. The last column is never larger than the third
+because a call arrives at the maintenance level, not at the initial one -- and
+that difference is the only room this trade is actually given.
+
+## how far the index must fall before someone calls
+
+| product | index worst DD on record | fall that calls the own-DD count | with +2pp maintenance | fall that calls the surviving count |
+|---|---|---|---|---|
+| IC | 72.42% | 4 lots → 12.6% | 10.7% | 1 lots → 76.6% |
+| IF | 72.30% | 4 lots → 14.2% | 12.3% | 1 lots → 82.9% |
+| IM | 72.35% | 4 lots → 12.9% | 11.0% | 1 lots → 77.9% |
+| IH | 72.41% | 6 lots → 13.4% | 11.5% | 1 lots → >100% |
+
+The fall column is not a scenario, it is arithmetic:
+
+```
+equity(f)   = capital - V*f          (a future is unfunded, so no interest)
+required(f) = m * (1 - f) * V         (maintenance is a share of the marked value)
+called when equity(f) < required(f) => f > (capital - m*V) / ((1-m)*V)
+```
+
+with m = 8% maintenance (an assumption, printed with the rest) and V = lots x notional. Every extra lot adds V, which costs more equity than it adds maintenance, so the distance shrinks as the book grows -- that is the whole reason a count can look affordable and still be called inside a recorded year.
+
+Counts this table would call **inside the record**, i.e. the own-drawdown
+count is not a position a broker lets you keep:
+
+- **IC** — 4 lots are called after a 12.6% fall; the index has fallen 72.4% before.
+- **IF** — 4 lots are called after a 14.2% fall; the index has fallen 72.3% before.
+- **IM** — 4 lots are called after a 12.9% fall; the index has fallen 72.3% before.
+- **IH** — 6 lots are called after a 13.4% fall; the index has fallen 72.4% before.
+
+Two things this table does not model, both of which can only make the distance
+shorter: the broker's surcharge (printed as the +2pp column, not as a guess at one number) and the fact that CFFEX may raise the maintenance level mid-crisis, which is exactly when the distance is being used.
 
 ## when it rolls, and what the published gap is
 
@@ -58,6 +97,8 @@ this is what the source face had to repair to get there:
 ## the sentence this sheet is not allowed to say
 
 Nothing here is adopted. Candidates: **IC, IM**. The readings behind them are in-sample, the margin is an assumption, and the roll cost is a band whose two ends are printed side by side because the estimator has no resolution below a few dozen ticks.
+
+The call distance is arithmetic on those assumptions, not a record: this host has no broker statement, no CFFEX margin file and no margin-call history to fit, so it says what the stated rules imply, not what a broker did to anybody.
 
 What the source face says, copied verbatim so it cannot drift here:
 

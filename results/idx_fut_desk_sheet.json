@@ -16,6 +16,13 @@
  },
  "evidence_cutoff": "2026-11-13",
  "kind": "idx_fut_desk_sheet",
+ "maintenance_margin_assumption": {
+  "IC": 0.08,
+  "IF": 0.08,
+  "IH": 0.08,
+  "IM": 0.08
+ },
+ "maintenance_surcharge_band": 0.02,
  "multiplier_assumption": {
   "IC": 200,
   "IF": 300,
@@ -38,14 +45,41 @@
    "gap_open_open_pp": 9.281,
    "gap_refused_because": null,
    "held_contract": "IC2612",
+   "index_worst_drawdown_pct": 72.42,
    "last_roll": {
     "date": "2026-09-14",
     "from": "IC2609",
     "reason": "open interest",
     "to": "IC2612"
    },
+   "lots_after_index_worst_drawdown": 0,
    "lots_after_own_drawdown": 4,
    "lots_for_capital": 6,
+   "lots_that_survive_index_worst_without_a_call": 1,
+   "margin_call_at_recommended_lots": {
+    "equity_at_call_cny": 356522.0,
+    "fall_to_call_pct": 12.62,
+    "lots": 4,
+    "maint_pct_assumed": 8.0,
+    "never_short_of_total_loss": false,
+    "notional_cny": 5100000.0
+   },
+   "margin_call_at_recommended_lots_surcharge_band": {
+    "equity_at_call_cny": 455556.0,
+    "fall_to_call_pct": 10.68,
+    "lots": 4,
+    "maint_pct_assumed": 10.0,
+    "never_short_of_total_loss": false,
+    "notional_cny": 5100000.0
+   },
+   "margin_call_at_surviving_lots": {
+    "equity_at_call_cny": 23913.0,
+    "fall_to_call_pct": 76.56,
+    "lots": 1,
+    "maint_pct_assumed": 8.0,
+    "never_short_of_total_loss": false,
+    "notional_cny": 1275000.0
+   },
    "margin_pct_assumed": 12.0,
    "margin_per_lot_cny": 153000.0,
    "multiplier": 200,
@@ -64,6 +98,7 @@
    },
    "rolls": 63,
    "status": "ok",
+   "stress_buffer_per_lot_cny": 923317.0,
    "td_since_last_roll": 38,
    "thin_interest": false,
    "verdict": "SLEEVE_CANDIDATE",
@@ -83,14 +118,41 @@
    "gap_open_open_pp": 2.485,
    "gap_refused_because": null,
    "held_contract": "IF2612",
+   "index_worst_drawdown_pct": 72.3,
    "last_roll": {
     "date": "2026-09-11",
     "from": "IF2609",
     "reason": "open interest",
     "to": "IF2612"
    },
+   "lots_after_index_worst_drawdown": 0,
    "lots_after_own_drawdown": 4,
    "lots_for_capital": 7,
+   "lots_that_survive_index_worst_without_a_call": 1,
+   "margin_call_at_recommended_lots": {
+    "equity_at_call_cny": 325906.0,
+    "fall_to_call_pct": 14.2,
+    "lots": 4,
+    "maint_pct_assumed": 8.0,
+    "never_short_of_total_loss": false,
+    "notional_cny": 4747920.0
+   },
+   "margin_call_at_recommended_lots_surcharge_band": {
+    "equity_at_call_cny": 416436.0,
+    "fall_to_call_pct": 12.29,
+    "lots": 4,
+    "maint_pct_assumed": 10.0,
+    "never_short_of_total_loss": false,
+    "notional_cny": 4747920.0
+   },
+   "margin_call_at_surviving_lots": {
+    "equity_at_call_cny": 16259.0,
+    "fall_to_call_pct": 82.88,
+    "lots": 1,
+    "maint_pct_assumed": 8.0,
+    "never_short_of_total_loss": false,
+    "notional_cny": 1186980.0
+   },
    "margin_pct_assumed": 12.0,
    "margin_per_lot_cny": 142438.0,
    "multiplier": 300,
@@ -109,6 +171,7 @@
    },
    "rolls": 74,
    "status": "ok",
+   "stress_buffer_per_lot_cny": 858234.0,
    "td_since_last_roll": 39,
    "thin_interest": false,
    "verdict": "REFUSE",
@@ -128,14 +191,42 @@
    "gap_open_open_pp": null,
    "gap_refused_because": "no ETF is mapped to this index, so there is no other leg to price",
    "held_contract": "IH2612",
+   "index_worst_drawdown_pct": 72.41,
    "last_roll": {
     "date": "2026-09-14",
     "from": "IH2609",
     "reason": "open interest",
     "to": "IH2612"
    },
+   "lots_after_index_worst_drawdown": 1,
    "lots_after_own_drawdown": 6,
    "lots_for_capital": 10,
+   "lots_that_survive_index_worst_without_a_call": 1,
+   "margin_call_at_recommended_lots": {
+    "equity_at_call_cny": 340880.0,
+    "fall_to_call_pct": 13.4,
+    "lots": 6,
+    "maint_pct_assumed": 8.0,
+    "never_short_of_total_loss": false,
+    "notional_cny": 4920120.0
+   },
+   "margin_call_at_recommended_lots_surcharge_band": {
+    "equity_at_call_cny": 435569.0,
+    "fall_to_call_pct": 11.47,
+    "lots": 6,
+    "maint_pct_assumed": 10.0,
+    "never_short_of_total_loss": false,
+    "notional_cny": 4920120.0
+   },
+   "margin_call_at_surviving_lots": {
+    "equity_at_call_cny": null,
+    "fall_to_call_pct": null,
+    "fall_to_call_pct_ge_100": 123.86,
+    "lots": 1,
+    "maint_pct_assumed": 8.0,
+    "never_short_of_total_loss": true,
+    "notional_cny": 820020.0
+   },
    "margin_pct_assumed": 12.0,
    "margin_per_lot_cny": 98402.0,
    "multiplier": 300,
@@ -154,6 +245,7 @@
    },
    "rolls": 89,
    "status": "ok",
+   "stress_buffer_per_lot_cny": 593744.0,
    "td_since_last_roll": 38,
    "thin_interest": false,
    "verdict": "REFUSE",
@@ -173,14 +265,41 @@
    "gap_open_open_pp": 9.587,
    "gap_refused_because": null,
    "held_contract": "IM2612",
+   "index_worst_drawdown_pct": 72.35,
    "last_roll": {
     "date": "2026-09-14",
     "from": "IM2609",
     "reason": "open interest",
     "to": "IM2612"
    },
+   "lots_after_index_worst_drawdown": 0,
    "lots_after_own_drawdown": 4,
    "lots_for_capital": 6,
+   "lots_that_survive_index_worst_without_a_call": 1,
+   "margin_call_at_recommended_lots": {
+    "equity_at_call_cny": 349690.0,
+    "fall_to_call_pct": 12.95,
+    "lots": 4,
+    "maint_pct_assumed": 8.0,
+    "never_short_of_total_loss": false,
+    "notional_cny": 5021440.0
+   },
+   "margin_call_at_recommended_lots_surcharge_band": {
+    "equity_at_call_cny": 446827.0,
+    "fall_to_call_pct": 11.02,
+    "lots": 4,
+    "maint_pct_assumed": 10.0,
+    "never_short_of_total_loss": false,
+    "notional_cny": 5021440.0
+   },
+   "margin_call_at_surviving_lots": {
+    "equity_at_call_cny": 22205.0,
+    "fall_to_call_pct": 77.89,
+    "lots": 1,
+    "maint_pct_assumed": 8.0,
+    "never_short_of_total_loss": false,
+    "notional_cny": 1255360.0
+   },
    "margin_pct_assumed": 12.0,
    "margin_per_lot_cny": 150643.0,
    "multiplier": 200,
@@ -199,6 +318,7 @@
    },
    "rolls": 23,
    "status": "ok",
+   "stress_buffer_per_lot_cny": 908240.0,
    "td_since_last_roll": 38,
    "thin_interest": false,
    "verdict": "SLEEVE_CANDIDATE",

@@ -1157,6 +1157,52 @@ def main() -> int:
                   f"sentence={_sentence}")
     except Exception as e:
         check("product: roll cost does not claim a verdict it cannot have (r1698)", False, str(e))
+    # r1701: the carry family had a judgement and no sheet a desk could act on -- no
+    # contract, no lot count, no margin, no next-roll answer, and two gaps refused without
+    # saying why. A refusal that reads as a dash is the expensive direction (a reader
+    # treats "no number" as "nothing to report"), so the guard re-derives it: every row
+    # without a published gap must carry its reason, every candidate must carry the
+    # source face's sentence rather than a placeholder.
+    try:
+        _r = _leg_memo([sys.executable, "scripts/idx_fut_desk_sheet.py", "--selftest"], 180)
+        _tail = ((_r.stdout or _r.stderr).strip().splitlines() or ["no output"])[-1]
+        check("product: index-futures carry desk sheet (selftest)",
+              _r.returncode == 0, f"exit={_r.returncode} | {_tail[:90]}")
+    except Exception as e:
+        check("product: index-futures carry desk sheet (selftest)", False, str(e))
+    try:
+        _sf = os.path.join(PATHS.root, "results", "idx_fut_desk_sheet.json")
+        _sp = os.path.join(PATHS.root, "research", "IDX_FUT_DESK_SHEET.md")
+        if not (os.path.exists(_sf) and os.path.exists(_sp)):
+            check("product: the desk sheet refuses a gap instead of printing zero (r1701)",
+                  False, "missing face or page")
+        else:
+            with open(_sf, encoding="utf-8") as _fh:
+                _sheet = json.load(_fh)
+            with open(_sp, encoding="utf-8") as _fh:
+                _sheet_page = _fh.read()
+            _srows = {p: x for p, x in (_sheet.get("rows") or {}).items()
+                      if x.get("status") == "ok"}
+            _scand = _sheet.get("candidates") or []
+            _swhy = all((_srows.get(p) or {}).get("verdict_why") for p in _scand)
+            _sref, _sprint = True, True
+            for _p, _x in _srows.items():
+                _b = (_x.get("gap_after_roll_cost_pp") or {}).get("file_floor")
+                if _b is None and not _x.get("gap_refused_because"):
+                    _sref = False
+                if _b is not None and not _x.get("held_contract"):
+                    _sprint = False
+            # the page is only a guard if it is the face's own render (drift would let a
+            # hand-edited sheet keep a number no face publishes)
+            _spage_ok = ("evidence cutoff: **%s**" % (_sheet.get("evidence_cutoff") or "unknown")
+                         in _sheet_page)
+            check("product: the desk sheet refuses a gap instead of printing zero (r1701)",
+                  bool(_srows) and bool(_scand) and _swhy and _sref and _sprint and _spage_ok,
+                  f"rows={sorted(_srows)} cand={_scand} why={_swhy} refused={_sref} "
+                  f"printed={_sprint} page={_spage_ok}")
+    except Exception as e:
+        check("product: the desk sheet refuses a gap instead of printing zero (r1701)",
+              False, str(e))
     # r1691: the treasury curve verdict (T vs TF, DIRECTION-20261114 section 3) closed a line
     # as KILL. A closed line is only worth closing if the file that says so cannot be edited
     # by hand -- so the verdict is re-derived here from its own criteria and the page's two

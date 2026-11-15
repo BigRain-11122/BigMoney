@@ -13,6 +13,10 @@ face is the smallest thing that turns the judgement into a morning sheet:
     one, because a broker's surcharge is not measurable from this host -- and so how
     many lots a stated capital buys, both naively and after funding the product's own
     published max drawdown (the margin identity the source face already prints);
+  * how far the index must fall before the account is below maintenance margin, and the
+    largest lot count that survives the index's own worst drawdown without a call
+    (r1705).  The lot count that funds the sample's drawdown and the count that survives
+    the record are different numbers, and only the second one is a position;
   * when the next roll falls, measured from this book's own switch history rather than
     a calendar rule -- the calendar rule was already shown to catch 50% of the rolls
     while eating market days near expiry;
@@ -41,6 +45,14 @@ SRC = os.path.join(ROOT, "results", "idx_fut_carry_risk.json")
 # CFFEX contract specs.  An assumption like the margin: the exchange publishes them,
 # this host cannot query the file, and getting one wrong scales every lot count.
 MULTIPLIER = {"IF": 300, "IH": 300, "IC": 200, "IM": 200}
+
+# The level at which the broker calls, not the level at which it is posted.  Same family
+# of assumption as the 12% initial margin and printed for the same reason: the exchange
+# file and the broker's surcharge are both unreachable from this host.  It is smaller
+# than the initial margin by construction -- a book that is only ever called after it has
+# already posted the full initial margin again is not a call, it is a liquidation.
+MAINTENANCE = {"IF": 0.08, "IH": 0.08, "IC": 0.08, "IM": 0.08}
+MAINTENANCE_SURCHARGE_BAND = 0.02
 
 CRITERIA = {
     "products": ["IC", "IF", "IM", "IH"],
@@ -95,7 +107,64 @@ def roll_intervals(days, rolls):
             "iqr_td": [q1, q3], "gaps": gaps}
 
 
-def desk_row(prod, face, cache_dir=None):
+def margin_call(lots, notional_per_lot, capital, maint_pct):
+    """How far the index must fall before this account is below maintenance margin.
+
+    The algebra, because a paper that prints a number without it cannot be argued with:
+
+        equity(f)      = capital - V*f                 a future is unfunded, no interest
+        required(f)    = m * (1 - f) * V               maintenance is a share of the mark
+        call when      capital - V*f < m*(1-f)*V
+                    => f > (capital - m*V) / ((1-m)*V)
+
+    Two consequences worth printing rather than discovering: the distance SHRINKS as lots
+    grow (every extra lot adds V, which costs more equity than it adds maintenance), and it
+    can exceed 100% -- that is the honest reading of "no call short of a total loss", not a
+    number a reader should see as a percentage of a fall.
+    """
+    out = {"lots": lots, "maint_pct_assumed": round(maint_pct * 100.0, 2),
+           "fall_to_call_pct": None, "equity_at_call_cny": None,
+           "never_short_of_total_loss": False}
+    if not lots or not notional_per_lot or notional_per_lot <= 0:
+        return out
+    v = lots * notional_per_lot
+    denom = (1.0 - maint_pct) * v
+    if denom <= 0:
+        return out
+    f = (capital - maint_pct * v) / denom
+    out["notional_cny"] = round(v, 0)
+    out["equity_at_call_cny"] = round(capital - v * f, 0) if f < 1.0 else None
+    if f >= 1.0:
+        # a 100% fall is a total loss of the index; anything at or past it is not a call
+        out["never_short_of_total_loss"] = True
+        out["fall_to_call_pct_ge_100"] = round(f * 100.0, 2)
+        return out
+    out["fall_to_call_pct"] = round(f * 100.0, 2)
+    return out
+
+
+def lots_that_survive(capital, notional_per_lot, maint_pct, worst_dd_pct):
+    """The largest lot count this account can hold and still not be called at the worst
+    drawdown on record.
+
+    Closed form: f*(N) > D  <=>  capital > N*notional*(m + D*(1-m)).  Strict inequality,
+    because f* == D is a call exactly at the worst day, which is not survival.  Both sides
+    of the boundary are asserted in the selftest -- a count that is one lot too high is the
+    failure that costs money, and only the "+1 does get called" leg catches it.
+    """
+    if worst_dd_pct is None or notional_per_lot is None or notional_per_lot <= 0:
+        return None
+    d = abs(float(worst_dd_pct)) / 100.0
+    denom = notional_per_lot * (maint_pct + d * (1.0 - maint_pct))
+    if denom <= 0:
+        return None
+    n = int(capital // denom)
+    if n > 0 and abs(capital - n * denom) < 1e-6:
+        n -= 1               # exact equality is a call, not survival
+    return max(n, 0)
+
+
+def desk_row(prod, face, cache_dir=None, capital=None):
     ohlc, proj, days = _panel(prod, cache_dir)
     if not ohlc:
         return {"product": prod, "status": "no_contract_book"}
@@ -119,10 +188,33 @@ def desk_row(prod, face, cache_dir=None):
     verdict_row = ((face or {}).get("verdict", {}) or {}).get("rows", {}).get(prod, {})
     mdd = (src.get("risk") or {}).get("mdd_pct")
     dd_buffer = (abs(mdd) / 100.0 * notional) if isinstance(mdd, (int, float)) else None
-    cap = CRITERIA["capital_cny"]
+    cap = float(CRITERIA["capital_cny"] if capital is None else capital)
     lots_naive = int(cap // margin) if margin > 0 else None
     lots_after_dd = (int(cap // (margin + dd_buffer))
                      if (dd_buffer is not None and margin + dd_buffer > 0) else None)
+
+    # The second ruler the source face already carries: the index's own worst drawdown over
+    # its whole history.  The lot count above funds the window's drawdown, which on a
+    # four-year futures series is small; funding the record instead is what survives a 2008.
+    mi = (src.get("margin_identity") or {}).get("12pct") or {}
+    stress_dd = mi.get("stress_dd_pct")
+    stress_buffer = (abs(stress_dd) / 100.0 * notional) if isinstance(stress_dd, (int, float)) else None
+    lots_after_stress = (int(cap // (margin + stress_buffer))
+                         if (stress_buffer is not None and margin + stress_buffer > 0) else None)
+
+    # And the third question a desk actually asks: not "how many do I keep behind this" but
+    # "how far does the index fall before someone calls me".  Priced at the count the sheet
+    # otherwise recommends (the sample-drawdown one), because that is the count a reader
+    # would act on, and at the count that survives the record, because that is the cap.
+    maint = MAINTENANCE.get(prod)
+    call_at_recommended = (margin_call(lots_after_dd, notional, cap, maint)
+                           if maint is not None else None)
+    call_at_recommended_band = (margin_call(lots_after_dd, notional, cap,
+                                            maint + MAINTENANCE_SURCHARGE_BAND)
+                                if maint is not None else None)
+    lots_survive = lots_that_survive(cap, notional, maint, stress_dd) if maint is not None else None
+    call_at_survive = (margin_call(lots_survive, notional, cap, maint)
+                       if (maint is not None and lots_survive) else None)
 
     iv = roll_intervals(days, rolls)
     idx = {d: k for k, d in enumerate(days)}
@@ -148,6 +240,13 @@ def desk_row(prod, face, cache_dir=None):
         "drawdown_buffer_per_lot_cny": None if dd_buffer is None else round(dd_buffer, 0),
         "lots_for_capital": lots_naive,
         "lots_after_own_drawdown": lots_after_dd,
+        "lots_after_index_worst_drawdown": lots_after_stress,
+        "lots_that_survive_index_worst_without_a_call": lots_survive,
+        "index_worst_drawdown_pct": None if not isinstance(stress_dd, (int, float)) else round(abs(stress_dd), 2),
+        "stress_buffer_per_lot_cny": None if stress_buffer is None else round(stress_buffer, 0),
+        "margin_call_at_recommended_lots": call_at_recommended,
+        "margin_call_at_recommended_lots_surcharge_band": call_at_recommended_band,
+        "margin_call_at_surviving_lots": call_at_survive,
         "capital_cny": cap,
         "rolls": len(rolls),
         "last_roll": None if not last_roll else {"date": last_roll["date"],
@@ -175,19 +274,21 @@ def desk_row(prod, face, cache_dir=None):
     }
 
 
-def build(cache_dir=None):
+def build(cache_dir=None, capital=None):
     face = _face()
     rows = {}
     for prod in CRITERIA["products"]:
-        rows[prod] = desk_row(prod, face, cache_dir)
+        rows[prod] = desk_row(prod, face, cache_dir, capital)
     live = {p: r for p, r in rows.items() if r.get("status") == "ok"}
     return {
         "kind": "idx_fut_desk_sheet",
         "evidence_cutoff": (face or {}).get("evidence_cutoff"),
         "source_face": "results/idx_fut_carry_risk.json",
         "source_present": face is not None,
-        "criteria": CRITERIA,
+        "criteria": dict(CRITERIA, capital_cny=float(CRITERIA["capital_cny"] if capital is None else capital)),
         "multiplier_assumption": MULTIPLIER,
+        "maintenance_margin_assumption": MAINTENANCE,
+        "maintenance_surcharge_band": MAINTENANCE_SURCHARGE_BAND,
         "rows": rows,
         "candidates": sorted(p for p, r in rows.items()
                              if r.get("verdict") == "SLEEVE_CANDIDATE"),
@@ -241,20 +342,121 @@ def render_md(face):
     L.append("")
     L.append("## what a stated capital buys")
     L.append("")
-    L.append("Capital **%s CNY**. Two counts: the naive one (margin only) and the one that"
-             " can also fund the product's own published max drawdown, which is the only"
-             " count that survives a bad year." % _p(face["criteria"]["capital_cny"], 0))
+    L.append("Capital **%s CNY**. Four counts, because \"how many lots\" has four different"
+             " answers depending on what the capital is supposed to survive: margin only,"
+             " the product's own published max drawdown, the index's worst on record paid in"
+             " cash, and the largest book that is never called at that worst."
+             % _p(face["criteria"]["capital_cny"], 0))
     L.append("")
-    L.append("| product | margin only | after own max drawdown | drawdown buffer/lot |")
-    L.append("|---|---|---|---|")
+    L.append("| product | margin only | after own max drawdown | after index worst drawdown | survives worst drawdown without a call |")
+    L.append("|---|---|---|---|---|")
     for prod in CRITERIA["products"]:
         r = face["rows"].get(prod, {})
         if r.get("status") != "ok":
             continue
-        L.append("| %s | %s lots | %s lots | %s |"
+        L.append("| %s | %s lots | %s lots | %s lots | %s lots |"
                  % (prod, _p(r.get("lots_for_capital"), 0, "?"),
                     _p(r.get("lots_after_own_drawdown"), 0, "?"),
-                    _p(r.get("drawdown_buffer_per_lot_cny"), 0, "?")))
+                    _p(r.get("lots_after_index_worst_drawdown"), 0, "?"),
+                    _p(r.get("lots_that_survive_index_worst_without_a_call"), 0, "?")))
+    L.append("")
+    L.append("The **own max drawdown** column funds the hole this window")
+    L.append("produced (a few percent, on a four-year futures series); the **index worst**")
+    L.append("column funds the index's own worst historical drawdown (the per-product number")
+    L.append("is printed in the call table below). They are not two estimates of one thing:")
+    L.append("the first is a fact about the sample, the second is the size of the hole this")
+    L.append("position can be asked to fund. The last column is never larger than the third")
+    L.append("because a call arrives at the maintenance level, not at the initial one -- and")
+    L.append("that difference is the only room this trade is actually given.")
+    L.append("")
+    L.append("## how far the index must fall before someone calls")
+    L.append("")
+    L.append("| product | index worst DD on record | fall that calls the own-DD count | with +%spp maintenance | fall that calls the surviving count |"
+             % _p(MAINTENANCE_SURCHARGE_BAND * 100, 0))
+    L.append("|---|---|---|---|---|")
+    for prod in CRITERIA["products"]:
+        r = face["rows"].get(prod, {})
+        if r.get("status") != "ok":
+            continue
+        c1 = r.get("margin_call_at_recommended_lots") or {}
+        c2 = r.get("margin_call_at_recommended_lots_surcharge_band") or {}
+        c3 = r.get("margin_call_at_surviving_lots") or {}
+
+        def _fall(c):
+            if not c:
+                return "?"
+            if c.get("fall_to_call_pct") is not None:
+                return "%s%%" % _p(c["fall_to_call_pct"], 1, "?")
+            if c.get("never_short_of_total_loss"):
+                return ">100%"
+            return "?"
+        n1 = "%s lots" % _p(r.get("lots_after_own_drawdown"), 0, "?")
+        L.append("| %s | %s%% | %s → %s | %s | %s lots → %s |"
+                 % (prod, _p(r.get("index_worst_drawdown_pct"), 2, "?"), n1, _fall(c1),
+                    _fall(c2), _p(r.get("lots_that_survive_index_worst_without_a_call"), 0, "?"),
+                    _fall(c3)))
+    L.append("")
+    L.append("The fall column is not a scenario, it is arithmetic:")
+    L.append("")
+    L.append("```")
+    L.append("equity(f)   = capital - V*f          (a future is unfunded, so no interest)")
+    L.append("required(f) = m * (1 - f) * V         (maintenance is a share of the marked value)")
+    L.append("called when equity(f) < required(f) => f > (capital - m*V) / ((1-m)*V)")
+    L.append("```")
+    L.append("")
+    L.append("with m = %.0f%% maintenance (an assumption, printed with the rest) and V = lots x"
+             " notional. Every extra lot adds V, which costs more equity than it adds"
+             " maintenance, so the distance shrinks as the book grows -- that is the whole"
+             " reason a count can look affordable and still be called inside a recorded year."
+             % ((MAINTENANCE.get(CRITERIA["products"][0]) or 0.0) * 100.0))
+    L.append("")
+    binding = []
+    for prod in CRITERIA["products"]:
+        r = face["rows"].get(prod, {})
+        if r.get("status") != "ok":
+            continue
+        c1 = r.get("margin_call_at_recommended_lots") or {}
+        dd = r.get("index_worst_drawdown_pct")
+        f = c1.get("fall_to_call_pct")
+        if f is not None and dd is not None and f < dd:
+            binding.append((prod, r.get("lots_after_own_drawdown"), f, dd))
+    if binding:
+        L.append("Counts this table would call **inside the record**, i.e. the own-drawdown")
+        L.append("count is not a position a broker lets you keep:")
+        L.append("")
+        for prod, n, f, dd in binding:
+            L.append("- **%s** — %s lots are called after a %.1f%% fall; the index has fallen"
+                     " %.1f%% before." % (prod, _p(n, 0), f, dd))
+        L.append("")
+    unbinding = [(p, (face["rows"].get(p) or {}).get("lots_after_own_drawdown"),
+                  ((face["rows"].get(p) or {}).get("margin_call_at_recommended_lots") or {}).get("fall_to_call_pct"),
+                  (face["rows"].get(p) or {}).get("index_worst_drawdown_pct"))
+                 for p in CRITERIA["products"]
+                 if (face["rows"].get(p) or {}).get("status") == "ok"
+                 and ((face["rows"].get(p) or {}).get("margin_call_at_recommended_lots") or {}).get("fall_to_call_pct") is not None
+                 and (face["rows"].get(p) or {}).get("index_worst_drawdown_pct") is not None
+                 and ((face["rows"][p].get("margin_call_at_recommended_lots") or {}).get("fall_to_call_pct")
+                      >= face["rows"][p]["index_worst_drawdown_pct"])]
+    if unbinding:
+        L.append("And the counts that survive the record with room to spare -- printed for the")
+        L.append("same reason: the answer is per product, so it cannot be summarised in one line:")
+        L.append("")
+        for prod, n, f, dd in unbinding:
+            L.append("- **%s** — %s lots are called after a %.1f%% fall against a %.1f%% worst."
+                     % (prod, _p(n, 0), f, dd))
+        L.append("")
+    no_stress = [p for p in CRITERIA["products"]
+                 if (face["rows"].get(p) or {}).get("status") == "ok"
+                 and (face["rows"].get(p) or {}).get("index_worst_drawdown_pct") is None]
+    if no_stress:
+        L.append("No index worst drawdown on the source face for **%s**, so its buffers and call"
+                 " distances print as `?` -- an absent ruler, not a comfortable one."
+                 % ", ".join(no_stress))
+        L.append("")
+    L.append("Two things this table does not model, both of which can only make the distance")
+    L.append("shorter: the broker's surcharge (printed as the +%spp column, not as a guess at"
+             " one number) and the fact that CFFEX may raise the maintenance level mid-crisis,"
+             " which is exactly when the distance is being used." % _p(MAINTENANCE_SURCHARGE_BAND * 100, 0))
     L.append("")
     L.append("## when it rolls, and what the published gap is")
     L.append("")
@@ -321,6 +523,10 @@ def render_md(face):
              " ends are printed side by side because the estimator has no resolution below a"
              " few dozen ticks." % (", ".join(face.get("candidates") or []) or "none"))
     L.append("")
+    L.append("The call distance is arithmetic on those assumptions, not a record: this host has"
+             " no broker statement, no CFFEX margin file and no margin-call history to fit, so"
+             " it says what the stated rules imply, not what a broker did to anybody.")
+    L.append("")
     if face.get("candidates"):
         L.append("What the source face says, copied verbatim so it cannot drift here:")
         L.append("")
@@ -337,8 +543,8 @@ def write_doc(face):
     return DOC
 
 
-def checkdoc(face=None):
-    face = build() if face is None else face
+def checkdoc(face=None, capital=None):
+    face = build(capital=capital) if face is None else face
     if not os.path.isfile(DOC):
         print("checkdoc: page missing")
         return 1
@@ -438,6 +644,86 @@ def selftest():
     leg("the face is byte-stable for identical inputs",
         json.dumps(build(), sort_keys=True) == json.dumps(build(), sort_keys=True), "")
 
+    # 11. the financing ruler: algebra first, then both sides of the boundary.  A lot count
+    # that is one too high is the failure that costs money, so the "+1 does get called" leg
+    # is not optional -- a count-only leg would pass for any number above the true cap.
+    notl, mnt = 1275000.0, 0.08
+    c0 = margin_call(0, notl, 1000000.0, mnt)
+    leg("an empty book has no call distance to print", c0["fall_to_call_pct"] is None,
+        str(c0["fall_to_call_pct"]))
+    c1 = margin_call(1, notl, 1000000.0, mnt)
+    c2 = margin_call(2, notl, 1000000.0, mnt)
+    c4 = margin_call(4, notl, 1000000.0, mnt)
+    leg("more lots means a shorter fall to the call",
+        c1["fall_to_call_pct"] > c2["fall_to_call_pct"] > c4["fall_to_call_pct"],
+        "%s > %s > %s" % (c1["fall_to_call_pct"], c2["fall_to_call_pct"],
+                          c4["fall_to_call_pct"]))
+    leg("the distance is the published formula, not a fitted one",
+        abs(c1["fall_to_call_pct"]
+            - round((1000000.0 - mnt * notl) / ((1 - mnt) * notl) * 100.0, 2)) < 1e-9,
+        str(c1["fall_to_call_pct"]))
+    f2 = c2["fall_to_call_pct"] / 100.0
+    eq = 1000000.0 - 2 * notl * f2
+    req = mnt * (1 - f2) * 2 * notl
+    # the printed fall is rounded to 2 decimals, so the identity can only be asserted to
+    # one basis point of notional -- a tighter tolerance tests the rounding, not the algebra
+    leg("at the printed fall, equity equals the maintenance requirement",
+        abs(eq - req) < 1e-4 * 2 * notl, "%.2f vs %.2f" % (eq, req))
+    D = 72.417
+    n_surv = lots_that_survive(1000000.0, notl, mnt, D)
+    f_n = margin_call(n_surv, notl, 1000000.0, mnt)["fall_to_call_pct"]
+    f_n1 = margin_call(n_surv + 1, notl, 1000000.0, mnt)["fall_to_call_pct"]
+    leg("the surviving count is still above the worst drawdown", f_n > D,
+        "%s lots -> %s%% vs %s%%" % (n_surv, f_n, D))
+    leg("one lot more IS called inside the worst drawdown", f_n1 <= D,
+        "%s lots -> %s%% vs %s%%" % (n_surv + 1, f_n1, D))
+    cex = notl * (mnt + D / 100.0 * (1 - mnt))
+    leg("a capital that funds exactly the worst day survives zero lots, not one",
+        lots_that_survive(cex, notl, mnt, D) == 0,
+        "%s lots at exact equality" % lots_that_survive(cex, notl, mnt, D))
+    leg("no worst drawdown on the source face means no borrowed ruler",
+        lots_that_survive(1000000.0, notl, mnt, None) is None, "")
+    leg("more capital never buys fewer surviving lots",
+        lots_that_survive(2000000.0, notl, mnt, D) >= n_surv,
+        "%s vs %s" % (lots_that_survive(2000000.0, notl, mnt, D), n_surv))
+    leg("maintenance is below the initial margin, else the call is a liquidation",
+        all(MAINTENANCE[p] < CRITERIA["margin_pct"] for p in CRITERIA["products"]),
+        str(MAINTENANCE))
+
+    # 12. on the real face: every live row prices a call or says it cannot be called, the
+    # maintenance ruler never buys more lots than funding the hole in cash, and a row with
+    # no stress ruler prints "?" rather than inheriting a neighbour's number.
+    ok_rows = [r for r in face["rows"].values() if r.get("status") == "ok"]
+    leg("every live row prices a call or says no call short of a total loss",
+        all(((r.get("margin_call_at_recommended_lots") or {}).get("fall_to_call_pct") is not None
+             or (r.get("margin_call_at_recommended_lots") or {}).get("never_short_of_total_loss"))
+            for r in ok_rows if r.get("index_worst_drawdown_pct") is not None),
+        str([(r["product"], (r.get("margin_call_at_recommended_lots") or {}).get("fall_to_call_pct"))
+             for r in ok_rows]))
+    leg("the maintenance ruler never buys more lots than funding the hole in cash",
+        all(r["lots_that_survive_index_worst_without_a_call"] >= r["lots_after_index_worst_drawdown"]
+            for r in ok_rows
+            if r.get("lots_that_survive_index_worst_without_a_call") is not None
+            and r.get("lots_after_index_worst_drawdown") is not None),
+        str({r["product"]: (r.get("lots_after_index_worst_drawdown"),
+                            r.get("lots_that_survive_index_worst_without_a_call"))
+             for r in ok_rows}))
+    page12 = render_md(face)
+    leg("the page prints the maintenance assumption it priced with",
+        "maintenance" in page12 and ("m = %.0f%%" % (MAINTENANCE[CRITERIA["products"][0]] * 100.0)) in page12,
+        "")
+    tampered2 = json.loads(json.dumps(face))
+    if "IH" in tampered2["rows"] and tampered2["rows"]["IH"].get("status") == "ok":
+        for k in ("index_worst_drawdown_pct", "lots_after_index_worst_drawdown",
+                  "lots_that_survive_index_worst_without_a_call",
+                  "margin_call_at_recommended_lots", "margin_call_at_surviving_lots"):
+            tampered2["rows"]["IH"][k] = None
+        tp2 = render_md(tampered2)
+        leg("a product with no stress ruler prints ? for it and says why",
+            "No index worst drawdown on the source face for **IH**" in tp2, "")
+        leg("a row with no stress ruler does not inherit a neighbour's fall",
+            "| IH | ?% |" in tp2, "")
+
     bad = [n for n, ok, _ in legs if not ok]
     for n, ok, d in legs:
         print("[%s] %s%s" % ("PASS" if ok else "FAIL", n, (" | " + d) if d else ""))
@@ -451,15 +737,26 @@ def main(argv=None):
     ap.add_argument("--selftest", action="store_true")
     ap.add_argument("--write-doc", action="store_true")
     ap.add_argument("--checkdoc", action="store_true")
+    ap.add_argument("--capital", type=float, default=None,
+                    help="price the lot counts for this account size instead of the face's own")
     args = ap.parse_args(argv)
     if args.selftest:
         return selftest()
-    face = build()
+    face = build(capital=args.capital)
+    # A side question ("what would 5M buy?") must not silently rewrite the published face:
+    # the chain leg prices the face's own capital, so an ad-hoc --capital run only prints
+    # unless it is explicitly given --write-doc, which is the same act as publishing a page.
+    if args.capital is not None and not args.write_doc:
+        sys.stdout.write(render_md(face))
+        print("(not written: --capital without --write-doc prints only; the published face"
+              " stays priced at its own capital)")
+        return 0
     with open(OUT, "w", encoding="utf-8", newline="\n") as f:
         json.dump(face, f, ensure_ascii=False, indent=1, sort_keys=True)
         f.write("\n")
-    print("wrote %s (cutoff=%s candidates=%s)"
-          % (OUT, face.get("evidence_cutoff"), ",".join(face.get("candidates") or []) or "none"))
+    print("wrote %s (cutoff=%s capital=%.0f candidates=%s)"
+          % (OUT, face.get("evidence_cutoff"), face["criteria"]["capital_cny"],
+             ",".join(face.get("candidates") or []) or "none"))
     if args.write_doc:
         print("wrote", write_doc(face))
     if args.checkdoc:
