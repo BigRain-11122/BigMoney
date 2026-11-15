@@ -68,6 +68,12 @@ YEAR_GATE = os.path.join(ROOT, "results", "etf_book_year_gate", "YEAR-GATE.json"
 # The dividend control arm lives on the basis face (C3). This file reads that published
 # reading instead of re-deriving it: one dividend number, one producer.
 BASIS_JSON = os.path.join(ROOT, "results", "idx_fut_basis.json")
+# The two published roll rulers (threshold vs calendar) and the split that prices them.
+# Read by this face so its own carry column travels with the size of that caliber.
+ROLL_GAP = os.path.join(ROOT, "results", "idx_fut_roll_gap.json")
+# Below this spread the caliber choice does not move the reading; above it the headline
+# rides a choice. A display threshold, not a decision line.
+CALIBER_SPREAD_PP = 1.0
 
 CRITERIA = {
     "products": ["IC", "IF", "IM", "IH"],
@@ -440,7 +446,36 @@ def roll_cost_band(prod):
         return None
 
 
-def judge_product(prod, sp, book, cache_dir=None):
+def roll_caliber(prod, path=None):
+    """What the same product's carry reads under each published roll ruler.
+
+    Read, not recomputed: idx_fut_roll_gap owns both estimators and the split that
+    prices them.  This face's own series performs every max-open-interest switch and
+    drops no days, so neither ruler below is this face's treatment -- the column exists
+    to show how far a carry headline moves when the roll-day rule changes, not to pick
+    a favourite.  An unreadable face is UNKNOWN, never "the rulers agree".
+    """
+    p = path or ROLL_GAP
+    if not p or not os.path.exists(p):
+        return {"status": "unreadable"}
+    try:
+        with open(p, "r", encoding="utf-8") as f:
+            face = json.load(f)
+        pair = (((face.get("dilution") or {}).get("pairs") or {}).get(prod)) or {}
+        pub = pair.get("published_ann_pct")
+        cal = pair.get("calendar_ann_pct")
+        spread = None if (pub is None or cal is None) else round(abs(cal - pub), 3)
+        return {"status": "ok", "published_ann_pct": pub, "calendar_ann_pct": cal,
+                "spread_pp": spread,
+                "missed_roll_days": pair.get("missed_roll_days"),
+                "deleted_real_days": pair.get("deleted_real_days"),
+                "reading": pair.get("reading"),
+                "face_verdict": (face.get("dilution") or {}).get("verdict")}
+    except (OSError, ValueError, KeyError, TypeError):
+        return {"status": "unreadable"}
+
+
+def judge_product(prod, sp, book, cache_dir=None, caliber=None):
     r = risk_stats(sp["spread"], sp["dates"])
     scaled, lev = scale_to_vol(sp["spread"], CRITERIA["vol_target_pct"], CRITERIA["max_leverage"])
     r8 = risk_stats(scaled, sp["dates"])
@@ -489,6 +524,7 @@ def judge_product(prod, sp, book, cache_dir=None):
         "corr_with_book": c,
         "blend": blends,
         "blend_best": best, "blend_gain_sharpe": gain,
+        "roll_caliber": caliber if caliber is not None else {"status": "unreadable"},
         "verdict": verdict, "why": why,
     }
 
@@ -612,7 +648,7 @@ def build(cache_dir=None, with_book=True):
         if book is None:
             face["products"][prod] = {"status": "no_book_to_compare"}
             continue
-        row = judge_product(prod, sp, book, cache_dir)
+        row = judge_product(prod, sp, book, cache_dir, caliber=roll_caliber(prod))
         face["products"][prod] = row
         cut = row["span"]["last"]
         if face["evidence_cutoff"] is None or cut > face["evidence_cutoff"]:
@@ -633,7 +669,9 @@ def judge(face):
                           "carry_at_target_pct": (row.get("at_vol_target") or {}).get(
                               "ann_compound_pct"),
                           "corr_with_book": row.get("corr_with_book"),
-                          "blend_gain_sharpe": row.get("blend_gain_sharpe")}
+                          "blend_gain_sharpe": row.get("blend_gain_sharpe"),
+                          "caliber_spread_pp": (row.get("roll_caliber") or {}).get(
+                              "spread_pp")}
     cands = [p for p, v in rows.items() if v["verdict"] == "SLEEVE_CANDIDATE"]
     return {
         "rows": rows,
@@ -653,6 +691,62 @@ def _sgn(v, nd=2, dash="-"):
     """Signed percentage points.  A gap is only readable with its sign: +2.5 and -2.5
     are opposite decisions, and a formatter that drops the sign merges them."""
     return dash if v is None else ("%+.*f" % (nd, v))
+
+
+def caliber_block(face):
+    """The caliber the carry column rides on, one row per product.
+
+    Two published rulers count different days as roll days, and the annualised carry
+    moves by several points between them.  This prints three numbers side by side -- this
+    face's own reading, the threshold ruler, the calendar ruler -- plus the size of the
+    disagreement, so no single figure is read as a measurement.  Every number is read off
+    the roll-mask face; nothing is recomputed and nothing is borrowed across a missing
+    side (an unread ruler is "unknown", never "they agree").
+    """
+    rows = face.get("products") or {}
+    out = ["## the caliber the carry column rides on", ""]
+    out.append("Which days count as roll days moves the annualised carry by more than this"
+               " sleeve's whole margin over the book, so the column above travels with both"
+               " rulers the roll-mask face publishes for the same products"
+               " (`results/idx_fut_roll_gap.json`, read, not recomputed). This face's own"
+               " series performs every max-open-interest switch and drops no days, so"
+               " neither ruler below is this face's own treatment.")
+    out.append("")
+    out.append("| product | this face carry %/yr | threshold ruler %/yr | calendar ruler %/yr"
+               " | rulers disagree by pp | roll days the threshold ruler misses |")
+    out.append("|---|---|---|---|---|---|")
+    bullets = []
+    for prod in CRITERIA["products"]:
+        row = rows.get(prod) or {}
+        cal = row.get("roll_caliber") or {}
+        own = None if row.get("status") else (row.get("risk") or {}).get("ann_compound_pct")
+        pub = cal.get("published_ann_pct")
+        knd = cal.get("calendar_ann_pct")
+        spr = cal.get("spread_pp")
+        miss = cal.get("missed_roll_days")
+        out.append("| %s | %s | %s | %s | %s | %s |"
+                   % (prod, _p(own), _p(pub), _p(knd),
+                      ("%.2f" % spr if spr is not None else "?"),
+                      miss if miss is not None else "?"))
+        if cal.get("status") != "ok":
+            bullets.append("- **%s**: the roll-mask face is unreadable on this host, so the"
+                           " caliber is unknown here -- an unread ruler is not 'the rulers"
+                           " agree'." % prod)
+        elif spr is None:
+            bullets.append("- **%s**: one of the two rulers has no reading on this window, so"
+                           " the spread is unknown rather than zero." % prod)
+        elif spr >= CALIBER_SPREAD_PP:
+            bullets.append("- **%s**: the two published rulers disagree by %.2f pp on the same"
+                           " window; a single carry figure inside that band is a caliber"
+                           " choice, not a measurement." % (prod, spr))
+        else:
+            bullets.append("- **%s**: the two published rulers agree to within %.2f pp here,"
+                           " so the caliber does not move this product's reading."
+                           % (prod, spr))
+    out.append("")
+    out.extend(bullets)
+    out.append("")
+    return out
 
 
 def render_md(face):
@@ -704,7 +798,7 @@ def render_md(face):
                     _p(r.get("sharpe"), 3), _p(r.get("mdd_pct")),
                     r.get("underwater_max_bars"), r.get("underwater_open_bars", 0),
                     _p(r.get("worst_year_pct"))))
-    L.append("")
+    L.extend(caliber_block(face))
     L.append("## at the desk's 8% volatility target")
     L.append("")
     L.append("| product | leverage to 8% vol | carry %/yr | max DD % | corr with the book |"
@@ -1088,6 +1182,54 @@ def selftest():
         "gap after cost (measured median)" if "gap after cost (measured median)" in page else page[:60])
     leg("the page names the missing book instead of printing zeros",
         "could not be rebuilt" in page, page.splitlines()[6][:60] if len(page.splitlines()) > 6 else "")
+
+    # --- the caliber the carry column rides on (r1712) -------------------------------
+    # A face whose two roll rulers disagree by 6.91 pp must print that spread and call the
+    # single figure a choice; a face where they agree must NOT claim a choice exists.
+    def _cal_rows(spread, pub=2.881, knd=9.793, missed=105, status="ok"):
+        return {"IC": {"risk": {"ann_compound_pct": 12.041},
+                       "roll_caliber": {"status": status, "published_ann_pct": pub,
+                                        "calendar_ann_pct": knd, "spread_pp": spread,
+                                        "missed_roll_days": missed}}}
+
+    wide = "\n".join(caliber_block({"products": _cal_rows(6.912)}))
+    leg("C1 the two rulers and their spread are printed off the face, not typed",
+        "2.88" in wide and "9.79" in wide and "6.91" in wide and "105" in wide,
+        wide.splitlines()[6][:80] if len(wide.splitlines()) > 6 else "")
+
+    leg("C2 a wide spread is called a caliber choice, not a measurement",
+        "caliber choice, not a measurement" in wide and "agree to within" not in wide,
+        wide.splitlines()[-2][:70])
+
+    narrow = "\n".join(caliber_block({"products": _cal_rows(0.24, pub=9.60, knd=9.84)}))
+    leg("C3 rulers that agree must not be sold as a choice (flip side of C2)",
+        "agree to within 0.24 pp" in narrow and "caliber choice" not in narrow,
+        narrow.splitlines()[-2][:70])
+
+    moved = "\n".join(caliber_block({"products": _cal_rows(6.912, pub=2.881, knd=14.00)}))
+    leg("C4 a moved ruler moves the block (no stale sentence survives)",
+        moved != wide and "14.00" in moved, "" if moved != wide else "identical output")
+
+    unknown = "\n".join(caliber_block({"products": _cal_rows(None, status="unreadable")}))
+    leg("C5 an unreadable ruler is unknown, never 'the rulers agree' or a zero spread",
+        "unknown here" in unknown and "agree to within" not in unknown
+        and "| ? |" in unknown, unknown.splitlines()[-2][:70])
+
+    half = "\n".join(caliber_block({"products": _cal_rows(None, knd=None)}))
+    leg("C6 a missing side keeps the spread unknown instead of borrowing the other",
+        "spread is unknown rather than zero" in half and "| ? |" in half,
+        half.splitlines()[-2][:70])
+
+    absent = "\n".join(caliber_block({"products": {}}))
+    leg("C7 a product with no row still gets a row and a stated unknown",
+        absent.count("| ? |") == len(CRITERIA["products"]) and "unreadable" in absent,
+        str(absent.count("| ? |")))
+
+    own_is_not_the_ruler = "\n".join(caliber_block({"products": _cal_rows(6.912)}))
+    leg("C8 the face's own carry and both rulers are three separate numbers",
+        "12.04" in own_is_not_the_ruler and "this face" in own_is_not_the_ruler
+        and "neither ruler below is this face's own treatment" in own_is_not_the_ruler,
+        "")
 
     bad = sum(1 for _n, ok, _d in legs if not ok)
     for n, ok, d in legs:

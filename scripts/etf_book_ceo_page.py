@@ -6064,6 +6064,9 @@ def futures_sleeve_face():
             "verdict": v.get("verdict"),
             "blend_gain_sharpe": _num(v, "blend_gain_sharpe"),
             "blend_lambda": _num(blend, "lambda"),
+            # r1712: the carry above rides a roll-day rule; the risk face now publishes how
+            # far the two rulers disagree on the same window.
+            "carry_caliber": v.get("roll_caliber") or None,
         })
     if not out_rows:
         return {"status": "unreadable", "readable": False,
@@ -6258,6 +6261,20 @@ def futures_sleeve_block(fs):
     if cand:
         out.append("- 风险面把 %s 列为「值得往前定价的袖」，不是已建仓：它的读数全在样本内，保证金是假设值。"
                    "在账户买得起一手之前，这一行没有可执行的含义。" % "、".join(cand))
+    # r1712: the carry column above is a point estimate off a roll-day rule; print the band
+    # the two published rulers put around it instead of letting one figure pass as measured.
+    calib = [(r.get("product"), r.get("carry_caliber"))
+             for r in rows if ((r.get("carry_caliber") or {}).get("spread_pp") is not None)]
+    if calib:
+        _cp, _cc = max(calib, key=lambda x: x[1]["spread_pp"])
+        out.append("- **上表的 carry 有一条 %.2fpp 的口径带**（最宽的是 %s）：同一段窗口，按换月阈值认 "
+                   "%.2f%%/年，按日历锚认 %.2f%%/年——阈值那把会漏掉 %s 个换月日。所以表里的单个 carry 数字"
+                   "落在带里就是口径选择，不是测量；这条线要定，先定尺子（本所风险面自己每次最大持仓切换都算，"
+                   "既不是这两把里的哪一把）。"
+                   % (_cc["spread_pp"], _cp, _cc.get("published_ann_pct") or 0.0,
+                      _cc.get("calendar_ann_pct") or 0.0,
+                      _cc.get("missed_roll_days")
+                      if _cc.get("missed_roll_days") is not None else "?"))
     out.append("- **这一节的 bar：%s**（期货晨表 evidence_cutoff，不是本页下单 bar），出处 %s + %s"
                % (fs.get("evidence_cutoff") or "未标注",
                   fs.get("desk_path") or "results/idx_fut_desk_sheet.json",
@@ -12307,6 +12324,23 @@ def selftest():
     chk("L277 futures sleeve: an unreadable face says cannot-check, not 'do not switch'",
         "无法核验" in _fs_unk and "不换" not in _fs_unk and "买不起" not in _fs_unk,
         _fs_unk[:240])
+    # r1712: the carry point estimate travels with the band the two roll rulers put around it
+    _fs_cal = dict(_fs_fx, rows=[
+        dict(_fs_fx["rows"][0], carry_caliber={"status": "ok", "published_ann_pct": 2.881,
+                                               "calendar_ann_pct": 9.793, "spread_pp": 6.912,
+                                               "missed_roll_days": 105}),
+        dict(_fs_fx["rows"][1], carry_caliber={"status": "ok", "published_ann_pct": 1.552,
+                                               "calendar_ann_pct": 5.324, "spread_pp": 3.772,
+                                               "missed_roll_days": 105})])
+    _fs_cal_md = "\n".join(futures_sleeve_block(_fs_cal))
+    chk("L289 futures sleeve: the widest ruler spread is printed with both readings and the missed days",
+        "6.91pp" in _fs_cal_md and "2.88%" in _fs_cal_md and "9.79%" in _fs_cal_md
+        and "105 个换月日" in _fs_cal_md and "口径选择，不是测量" in _fs_cal_md, _fs_cal_md[-700:])
+    _fs_nocal = dict(_fs_fx, rows=[dict(r, carry_caliber=None) for r in _fs_fx["rows"]])
+    _fs_nocal_md = "\n".join(futures_sleeve_block(_fs_nocal))
+    chk("L290 futures sleeve: no caliber reading prints no band (an absent ruler is not a 0.00pp band)",
+        "口径带" not in _fs_nocal_md and "口径选择，不是测量" not in _fs_nocal_md,
+        _fs_nocal_md[-400:])
 
     # ---- the account-size ladder (r1709) -----------------------------------------------
     _fl_fx = {"status": "ok", "readable": True, "evidence_cutoff": "2026-11-13",

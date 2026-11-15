@@ -15085,3 +15085,23 @@ r1708 把结论停在「一手就是一本账」。读者的下一个问题是�
 
 指针：`scripts/etf_book_ceo_page.py`（selftest 358/358）+ `docs/live_book/LIVE-BOOK-20261115.md` §「要多少钱，这条线才有位置」
 + `results/idx_fut_carry_capital.json`。
+
+## E648 一个点估计必须带着它的口径带出门：同一条序列换个换月规则就动 3.8~6.9pp
+
+r1712。风险面把 IC carry 印成 **8.76%/年**、IM **10.20%/年**，都是单个数字；而同一段窗口上，换月日的两种
+认法给出 **2.88% vs 9.79%（IC，差 6.91pp）**、**1.55% vs 5.32%（IH，差 3.77pp）**——这条带比整个袖对书的超额
+（书 11.65%/年）还宽。单个数字印在页上，读者会把它当测量；它其实是「我挑了一把尺子」的结果。
+
+同族两条：
+- **两侧读数与差值必须同印。** 只要同一条序列存在两种口径（这里是「换月日算不算」），印一侧就是把选择写成
+  测量。三列并印（本面读数 / 阈值尺 / 日历尺）+ 一行差值，读者才拿得到「这个数落在带里」这个事实。
+- **「读不出来」不等于「两边一致」。** 口径面不可读时判词必须是 unknown；一侧缺读数时印 `?`，禁把缺失补成
+  0.00pp 的「无差」（r98 未知≠空 同族）。成对腿：宽差必须说「口径选择」、窄差必须说「不影响读数」、换数必须让
+  句子跟着变、缺面必须说 unknown——只测其中一个方向的腿会在分类器坏掉时照样绿。
+
+工具面：`scripts/idx_fut_carry_risk.py::roll_caliber()` 只读 `results/idx_fut_roll_gap.json`（两把尺子的唯一实现，
+禁在本面再估一次，E289 族），`caliber_block()` 印三列；`etf_book_ceo_page.futures_sleeve_block()` 多一行「口径带」，
+把这段披露搬到 CEO 每天打开的那页纸上。selftest C1-C8（risk 面 34/34）+ L289/L290（CEO 页 366/366）。
+
+指针：`scripts/idx_fut_carry_risk.py` + `research/IDX_FUT_CARRY_RISK.md` §the caliber the carry column rides on
++ `docs/live_book/LIVE-BOOK-20261115.md` L91 + `results/idx_fut_roll_gap.json`（dilution.pairs）。

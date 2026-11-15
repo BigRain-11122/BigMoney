@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-15T08:05:05",
+ "generated": "2026-11-15T10:46:34",
  "evidence_cutoff": "2026-11-13",
  "kind": "carry_sleeve_risk",
  "criteria": {
@@ -302,6 +302,16 @@
     "mdd_pct": -9.589
    },
    "blend_gain_sharpe": 0.325,
+   "roll_caliber": {
+    "status": "ok",
+    "published_ann_pct": 2.881,
+    "calendar_ann_pct": 9.793,
+    "spread_pp": 6.912,
+    "missed_roll_days": 105,
+    "deleted_real_days": 10,
+    "reading": "MISSED_ROLLS_ARE_A_FAKE_LOSS",
+    "face_verdict": "GAP_IS_ARITHMETIC"
+   },
    "verdict": "SLEEVE_CANDIDATE",
    "why": "carry 12.04% at target risk, corr -0.039, blend Sharpe +0.325"
   },
@@ -534,6 +544,16 @@
     "mdd_pct": -9.684
    },
    "blend_gain_sharpe": 0.131,
+   "roll_caliber": {
+    "status": "ok",
+    "published_ann_pct": 1.876,
+    "calendar_ann_pct": 5.795,
+    "spread_pp": 3.919,
+    "missed_roll_days": 109,
+    "deleted_real_days": 18,
+    "reading": "MISSED_ROLLS_ARE_A_FAKE_LOSS",
+    "face_verdict": "GAP_IS_ARITHMETIC"
+   },
    "verdict": "REFUSE",
    "why": "at 8.0% vol the sleeve earns 6.46% against the book's 11.65%"
   },
@@ -734,6 +754,16 @@
     "mdd_pct": -9.786
    },
    "blend_gain_sharpe": 0.387,
+   "roll_caliber": {
+    "status": "ok",
+    "published_ann_pct": 5.864,
+    "calendar_ann_pct": 11.954,
+    "spread_pp": 6.09,
+    "missed_roll_days": 41,
+    "deleted_real_days": 9,
+    "reading": "MISSED_ROLLS_ARE_A_FAKE_LOSS",
+    "face_verdict": "GAP_IS_ARITHMETIC"
+   },
    "verdict": "SLEEVE_CANDIDATE",
    "why": "carry 12.02% at target risk, corr -0.064, blend Sharpe +0.387"
   },
@@ -966,6 +996,16 @@
     "mdd_pct": -9.756
    },
    "blend_gain_sharpe": 0.084,
+   "roll_caliber": {
+    "status": "ok",
+    "published_ann_pct": 1.552,
+    "calendar_ann_pct": 5.324,
+    "spread_pp": 3.772,
+    "missed_roll_days": 105,
+    "deleted_real_days": 22,
+    "reading": "MISSED_ROLLS_ARE_A_FAKE_LOSS",
+    "face_verdict": "GAP_IS_ARITHMETIC"
+   },
    "verdict": "REFUSE",
    "why": "at 8.0% vol the sleeve earns 4.24% against the book's 11.65%"
   }
@@ -977,28 +1017,32 @@
     "why": "carry 12.04% at target risk, corr -0.039, blend Sharpe +0.325",
     "carry_at_target_pct": 12.037,
     "corr_with_book": -0.039,
-    "blend_gain_sharpe": 0.325
+    "blend_gain_sharpe": 0.325,
+    "caliber_spread_pp": 6.912
    },
    "IF": {
     "verdict": "REFUSE",
     "why": "at 8.0% vol the sleeve earns 6.46% against the book's 11.65%",
     "carry_at_target_pct": 6.459,
     "corr_with_book": 0.053,
-    "blend_gain_sharpe": 0.131
+    "blend_gain_sharpe": 0.131,
+    "caliber_spread_pp": 3.919
    },
    "IM": {
     "verdict": "SLEEVE_CANDIDATE",
     "why": "carry 12.02% at target risk, corr -0.064, blend Sharpe +0.387",
     "carry_at_target_pct": 12.023,
     "corr_with_book": -0.064,
-    "blend_gain_sharpe": 0.387
+    "blend_gain_sharpe": 0.387,
+    "caliber_spread_pp": 6.09
    },
    "IH": {
     "verdict": "REFUSE",
     "why": "at 8.0% vol the sleeve earns 4.24% against the book's 11.65%",
     "carry_at_target_pct": 4.24,
     "corr_with_book": 0.056,
-    "blend_gain_sharpe": 0.084
+    "blend_gain_sharpe": 0.084,
+    "caliber_spread_pp": 3.772
    }
   },
   "sleeve_candidates": [
@@ -1008,5 +1052,5 @@
   "any_candidate": true,
   "note": "a candidate here is a sleeve worth pricing forward, not an adopted position: the readings are in-sample and the margin is an assumption"
  },
- "elapsed_sec": 36.3
+ "elapsed_sec": 50.7
 }
