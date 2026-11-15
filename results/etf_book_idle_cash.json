@@ -1,6 +1,6 @@
 {
  "face": "etf_book_idle_cash",
- "asof": "2026-11-15T12:09:55",
+ "asof": "2026-11-16T01:48:21",
  "evidence_cutoff": "2026-11-13",
  "window": {
   "start": "2020-01-03",
@@ -21,9 +21,13 @@
   "C1_cash_vehicle_published": "the idle sleeve must be priced by the already-published vehicle (GC001 daily roll) and reproduce its net rate to 0.5bp; a new vehicle would be a second implementation",
   "C2_cagr_gain_pp": 0.3,
   "C3_sharpe_must_not_fall": true,
-  "C4_maxdd_must_not_deepen_pp": 0.2
+  "C4_maxdd_must_not_deepen_pp": 0.2,
+  "C5_both_arms_published": "the declared execution (lag +1, the basis the card's own config string claims) must be priced on the same rule and the same cash path, so a reader can see which of the two headlines the book is actually quoting",
+  "C6_arm_is_the_probe": "the as-coded arm must reproduce the grid probe exactly (<= 1e-9 pp), otherwise the arm loop and the cash-path grid have drifted apart"
  },
  "readings": {
+  "lag": 0,
+  "convention": "lag 0: score(bar d) selects, the book earns open[d] -> open[d+1] (the engine as coded)",
   "cagr_without_pct": 11.55,
   "cagr_with_pct": 12.13,
   "cagr_gain_pp": 0.58,
@@ -34,10 +38,6 @@
   "vol_without_pct": 10.5,
   "vol_with_pct": 10.5,
   "control_max_rel_err": 1.887379141862766e-15,
-  "cash_vehicle_net_pct_on_window": 1.7731,
-  "cash_vehicle_published_pct": 1.7689,
-  "cash_vehicle_reproduced_on_published_window_pct": 1.7733,
-  "cash_vehicle_gap_bp": 0.4449,
   "idle_share_mean": 0.3032,
   "idle_share_median": 0.2922,
   "bars_fully_invested": 260,
@@ -96,14 +96,174 @@
     "sharpe_oos": 1.871,
     "maxdd_oos": -0.1047
    }
+  },
+  "cash_vehicle_net_pct_on_window": 1.7731,
+  "cash_vehicle_published_pct": 1.7689,
+  "cash_vehicle_reproduced_on_published_window_pct": 1.7733,
+  "cash_vehicle_gap_bp": 0.4449
+ },
+ "arms": {
+  "as_coded": {
+   "lag": 0,
+   "convention": "lag 0: score(bar d) selects, the book earns open[d] -> open[d+1] (the engine as coded)",
+   "cagr_without_pct": 11.55,
+   "cagr_with_pct": 12.13,
+   "cagr_gain_pp": 0.58,
+   "sharpe_without": 1.137,
+   "sharpe_with": 1.188,
+   "maxdd_without_pct": -10.56,
+   "maxdd_with_pct": -10.47,
+   "vol_without_pct": 10.5,
+   "vol_with_pct": 10.5,
+   "control_max_rel_err": 1.887379141862766e-15,
+   "idle_share_mean": 0.3032,
+   "idle_share_median": 0.2922,
+   "bars_fully_invested": 260,
+   "bars_with_cash": 1402,
+   "bars": 1662,
+   "cny_per_year_on_1m": 5800.0,
+   "per_year_cagr_with": {
+    "2020": 6.823,
+    "2021": 8.381,
+    "2022": 3.222,
+    "2023": 5.877,
+    "2024": 15.101,
+    "2025": 44.097,
+    "2026": 3.495
+   },
+   "without": {
+    "label": "without_fix",
+    "years": 6.86,
+    "start_level": 1.008,
+    "cagr": 0.1155,
+    "vol": 0.105,
+    "sharpe": 1.137,
+    "maxdd": -0.1056,
+    "worst_year": 0.0268,
+    "neg_years": 0,
+    "worst_month": -0.043,
+    "pos_months_pct": 0.61
+   },
+   "with": {
+    "label": "with_fix",
+    "years": 6.86,
+    "start_level": 1.008,
+    "cagr": 0.1213,
+    "vol": 0.105,
+    "sharpe": 1.188,
+    "maxdd": -0.1047,
+    "worst_year": 0.0298,
+    "neg_years": 0,
+    "worst_month": -0.0426,
+    "pos_months_pct": 0.61
+   },
+   "is_oos": {
+    "without": {
+     "cagr_is": 0.0581,
+     "sharpe_is": 0.621,
+     "maxdd_is": -0.088,
+     "cagr_oos": 0.201,
+     "sharpe_oos": 1.83,
+     "maxdd_oos": -0.1056
+    },
+    "with": {
+     "cagr_is": 0.0644,
+     "sharpe_is": 0.68,
+     "maxdd_is": -0.0866,
+     "cagr_oos": 0.2062,
+     "sharpe_oos": 1.871,
+     "maxdd_oos": -0.1047
+    }
+   }
+  },
+  "declared": {
+   "lag": 1,
+   "convention": "lag +1: score(bar d-1) selects, the book earns open[d] -> open[d+1] -- the execution the card's config.execution string claims (decide at the close of bar d, fill at the open of bar d+1)",
+   "cagr_without_pct": 9.12,
+   "cagr_with_pct": 9.7,
+   "cagr_gain_pp": 0.58,
+   "sharpe_without": 0.876,
+   "sharpe_with": 0.926,
+   "maxdd_without_pct": -12.07,
+   "maxdd_with_pct": -11.98,
+   "vol_without_pct": 11.07,
+   "vol_with_pct": 11.07,
+   "control_max_rel_err": 1.7763568394002505e-15,
+   "idle_share_mean": 0.3031,
+   "idle_share_median": 0.3013,
+   "bars_fully_invested": 180,
+   "bars_with_cash": 1482,
+   "bars": 1662,
+   "cny_per_year_on_1m": 5800.0,
+   "per_year_cagr_with": {
+    "2020": -0.369,
+    "2021": 8.058,
+    "2022": 2.62,
+    "2023": 3.67,
+    "2024": 12.108,
+    "2025": 38.5,
+    "2026": 5.202
+   },
+   "without": {
+    "label": "without_fix",
+    "years": 6.86,
+    "start_level": 1.0054,
+    "cagr": 0.0912,
+    "vol": 0.1107,
+    "sharpe": 0.876,
+    "maxdd": -0.1207,
+    "worst_year": -0.0144,
+    "neg_years": 1,
+    "worst_month": -0.0478,
+    "pos_months_pct": 0.61
+   },
+   "with": {
+    "label": "with_fix",
+    "years": 6.86,
+    "start_level": 1.0054,
+    "cagr": 0.097,
+    "vol": 0.1107,
+    "sharpe": 0.926,
+    "maxdd": -0.1198,
+    "worst_year": -0.0037,
+    "neg_years": 1,
+    "worst_month": -0.0472,
+    "pos_months_pct": 0.622
+   },
+   "is_oos": {
+    "without": {
+     "cagr_is": 0.0319,
+     "sharpe_is": 0.343,
+     "maxdd_is": -0.1207,
+     "cagr_oos": 0.1797,
+     "sharpe_oos": 1.688,
+     "maxdd_oos": -0.1203
+    },
+    "with": {
+     "cagr_is": 0.0383,
+     "sharpe_is": 0.399,
+     "maxdd_is": -0.1193,
+     "cagr_oos": 0.1845,
+     "sharpe_oos": 1.729,
+     "maxdd_oos": -0.1198
+    }
+   }
   }
+ },
+ "arm_gap": {
+  "cagr_with_pct": -2.43,
+  "cagr_without_pct": -2.43,
+  "sharpe_with": -0.262,
+  "maxdd_with_pct": -1.51,
+  "note": "declared minus as-coded on the same rule, the same cash path and the same window; a negative cagr gap means the published headline was bought by filling the signal's own bar"
  },
  "gates": {
   "C2_cagr_gain_pp": true,
   "C3_sharpe_must_not_fall": true,
   "C4_maxdd_must_not_deepen_pp": true,
   "C0_control": true,
-  "C1_cash_vehicle_published": true
+  "C1_cash_vehicle_published": true,
+  "C0b_arm_reproduces_probe": true
  },
  "verdict": "ADMIT",
  "repo_contracts": 1661,
@@ -114,5 +274,6 @@
   "the composed curve is a book-return statement, not a ticket: it says the idle sleeve is worth paying, not which vehicle the account should use",
   "1662 repo bars on the window, 0 missing quotes; cash accrual is carried across non-maturity bars by differencing the rung's cumulative growth"
  ],
- "elapsed_sec": 37.6
+ "honest_arms": "both arms are the same universe, rule, cost and repo path; the only difference is the bar the score is read from, so arm_gap is the price of the execution basis and not a second strategy",
+ "elapsed_sec": 39.57
 }

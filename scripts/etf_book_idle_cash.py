@@ -51,6 +51,8 @@ CRITERIA = {
     "C2_cagr_gain_pp": 0.30,
     "C3_sharpe_must_not_fall": True,
     "C4_maxdd_must_not_deepen_pp": 0.20,
+    "C5_both_arms_published": "the declared execution (lag +1, the basis the card's own config string claims) must be priced on the same rule and the same cash path, so a reader can see which of the two headlines the book is actually quoting",
+    "C6_arm_is_the_probe": "the as-coded arm must reproduce the grid probe exactly (<= 1e-9 pp), otherwise the arm loop and the cash-path grid have drifted apart",
 }
 
 
@@ -129,6 +131,78 @@ def verdict_of(readings, criteria=CRITERIA):
 
 
 # ---------------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------------------
+# two execution arms of the same rule (r1746)
+#   lag 0 -- the engine as coded: score(bar d) selects and the book is paid from bar d's
+#            open. Every number this face published before this round is this arm.
+#   lag +1 -- the execution the card's own config string claims: decide at the close of bar
+#            d and fill at the open of bar d+1. Moved by `score.shift(lag)`, the same rule
+#            `etf_book_lookahead_audit.arm_at_lag` prices, so the basis has one
+#            implementation in this repo and this face does not restate a second one.
+# Both arms pay the same idle sleeve off the same repo path, so the difference between them
+# is the basis and nothing else.
+# ---------------------------------------------------------------------------------------
+LAG_ARMS = ((0, "as_coded"), (1, "declared"))
+ARM_CONVENTIONS = {
+    0: "lag 0: score(bar d) selects, the book earns open[d] -> open[d+1] (the engine as coded)",
+    1: "lag +1: score(bar d-1) selects, the book earns open[d] -> open[d+1] -- the execution "
+       "the card's config.execution string claims (decide at the close of bar d, fill at the "
+       "open of bar d+1)",
+}
+
+
+def arm_readings(close, openp, amt, sc, cash_ret, lag):
+    """One arm: the same rule, the same cash composition, the score moved `lag` bars."""
+    diag = []
+    s = sc if lag == 0 else sc.shift(lag)
+    book, turn = R.open_to_open_equity(close, openp, amt, s, REBAL, NHOLD, COST,
+                                       vol_target=VOL_TARGET, diag=diag)
+    idle = (1.0 - scale_schedule(diag, book.index)).clip(lower=0.0, upper=1.0)
+    ctrl = compose(book, idle, pd.Series(0.0, index=book.index))
+    comp = compose(book, idle, cash_ret)
+    st_wo = A.stats2(book, "without_fix")
+    st_w = A.stats2(comp, "with_fix")
+
+    def slice_stats(ser):
+        out = {}
+        for lbl, sl in (("is", ser[ser.index <= IS_END]), ("oos", ser[ser.index > IS_END])):
+            m = A.stats2(sl, lbl)
+            for k in ("cagr", "sharpe", "maxdd"):
+                out["%s_%s" % (k, lbl)] = m.get(k)
+        return out
+
+    per_year = {}
+    for y in sorted({d.year for d in comp.index}):
+        m = comp[[d for d in comp.index if d.year == y]]
+        if len(m) > 20:
+            per_year[str(y)] = round(cagr_pct(m), 3)
+
+    return {
+        "lag": lag,
+        "convention": ARM_CONVENTIONS[lag],
+        "cagr_without_pct": round(float(st_wo["cagr"]) * 100.0, 4),
+        "cagr_with_pct": round(float(st_w["cagr"]) * 100.0, 4),
+        "cagr_gain_pp": round((float(st_w["cagr"]) - float(st_wo["cagr"])) * 100.0, 4),
+        "sharpe_without": round(float(st_wo["sharpe"]), 4),
+        "sharpe_with": round(float(st_w["sharpe"]), 4),
+        "maxdd_without_pct": round(float(st_wo["maxdd"]) * 100.0, 4),
+        "maxdd_with_pct": round(float(st_w["maxdd"]) * 100.0, 4),
+        "vol_without_pct": round(float(st_wo.get("vol", np.nan)) * 100.0, 4),
+        "vol_with_pct": round(float(st_w.get("vol", np.nan)) * 100.0, 4),
+        "control_max_rel_err": float((ctrl / book - 1.0).abs().max()),
+        "idle_share_mean": round(float(idle.fillna(0.0).mean()), 4),
+        "idle_share_median": round(float(idle.fillna(0.0).median()), 4),
+        "bars_fully_invested": int((idle.fillna(0.0) <= 1e-9).sum()),
+        "bars_with_cash": int((idle.fillna(0.0) > 1e-9).sum()),
+        "bars": int(len(book)),
+        "cny_per_year_on_1m": round(1_000_000.0 * (float(st_w["cagr"]) -
+                                                   float(st_wo["cagr"])), 0),
+        "per_year_cagr_with": per_year,
+        "without": st_wo, "with": st_w,
+        "is_oos": {"without": slice_stats(book), "with": slice_stats(comp)},
+    }, float(turn), book
+
+
 def run():
     import time
     t0 = time.time()
@@ -140,21 +214,17 @@ def run():
     print("bond-free universe %d, flips repaired %d" % (len(cols), n_flip), flush=True)
 
     sc = E.build_score(close[cols], amt[cols], feats)
-    diag = []
-    book, turn = R.open_to_open_equity(close[cols], openp[cols], amt[cols], sc, REBAL, NHOLD,
-                                       COST, vol_target=VOL_TARGET, diag=diag)
-    print("book bars %d turnover %.3f  cagr %.4f%%" % (len(book), turn, cagr_pct(book)),
+
+    # the cash path has to be built on the book's own calendar, so probe the grid once with
+    # the published arm before either arm is composed
+    diag0 = []
+    book0, turn0 = R.open_to_open_equity(close[cols], openp[cols], amt[cols], sc, REBAL,
+                                         NHOLD, COST, vol_target=VOL_TARGET, diag=diag0)
+    print("book bars %d turnover %.3f  cagr %.4f%%" % (len(book0), turn0, cagr_pct(book0)),
           flush=True)
 
-    scale = scale_schedule(diag, book.index)
-    idle = (1.0 - scale).clip(lower=0.0, upper=1.0)
-
-    # control: no cash at all must reproduce the engine curve
-    ctrl = compose(book, idle, pd.Series(0.0, index=book.index))
-    ctrl_err = float((ctrl / book - 1.0).abs().max())
-
     rates = CL.load_panel()
-    cash_ret, info, raw_ret, raw_bars = cash_step_returns(rates, book.index)
+    cash_ret, info, raw_ret, raw_bars = cash_step_returns(rates, book0.index)
     cash_on_window = CL.cagr_pct(raw_ret, raw_bars) / 100.0
 
     # the published vehicle's own control, read off the face that already prices it.
@@ -178,63 +248,57 @@ def run():
             ctrl_rate = CL.cagr_pct(cr, cb)
             gap_bp = abs(ctrl_rate - float(published)) * 100.0
 
-    comp = compose(book, idle, cash_ret)
-    st_wo = A.stats2(book, "without_fix")
-    st_w = A.stats2(comp, "with_fix")
+    arms, turns, books = {}, {}, {}
+    for lag, name in LAG_ARMS:
+        r, turn, bk = arm_readings(close[cols], openp[cols], amt[cols], sc, cash_ret, lag)
+        arms[name] = r
+        turns[name] = turn
+        books[name] = bk
+    base, dec = arms["as_coded"], arms["declared"]
+    turn = turns["as_coded"]
 
-    def slice_stats(ser):
-        out = {}
-        for lbl, sl in (("is", ser[ser.index <= IS_END]), ("oos", ser[ser.index > IS_END])):
-            m = A.stats2(sl, lbl)
-            for k in ("cagr", "sharpe", "maxdd"):
-                out["%s_%s" % (k, lbl)] = m.get(k)
-        return out
-
-    per_year = {}
-    for y in sorted({d.year for d in comp.index}):
-        m = comp[[d for d in comp.index if d.year == y]]
-        if len(m) > 20:
-            per_year[str(y)] = round(cagr_pct(m), 3)
-
-    readings = {
-        "cagr_without_pct": round(float(st_wo["cagr"]) * 100.0, 4),
-        "cagr_with_pct": round(float(st_w["cagr"]) * 100.0, 4),
-        "cagr_gain_pp": round((float(st_w["cagr"]) - float(st_wo["cagr"])) * 100.0, 4),
-        "sharpe_without": round(float(st_wo["sharpe"]), 4),
-        "sharpe_with": round(float(st_w["sharpe"]), 4),
-        "maxdd_without_pct": round(float(st_wo["maxdd"]) * 100.0, 4),
-        "maxdd_with_pct": round(float(st_w["maxdd"]) * 100.0, 4),
-        "vol_without_pct": round(float(st_wo.get("vol", np.nan)) * 100.0, 4),
-        "vol_with_pct": round(float(st_w.get("vol", np.nan)) * 100.0, 4),
-        "control_max_rel_err": ctrl_err,
+    # the published readings are the as-coded arm: this face's own numbers, unchanged
+    readings = dict(base)
+    readings.update({
         "cash_vehicle_net_pct_on_window": round(cash_on_window * 100.0, 4),
         "cash_vehicle_published_pct": published,
         "cash_vehicle_reproduced_on_published_window_pct": None if ctrl_rate is None
         else round(ctrl_rate, 4),
         "cash_vehicle_gap_bp": None if gap_bp is None else round(gap_bp, 4),
-        "idle_share_mean": round(float(idle.fillna(0.0).mean()), 4),
-        "idle_share_median": round(float(idle.fillna(0.0).median()), 4),
-        "bars_fully_invested": int((idle.fillna(0.0) <= 1e-9).sum()),
-        "bars_with_cash": int((idle.fillna(0.0) > 1e-9).sum()),
-        "bars": int(len(book)),
-        "cny_per_year_on_1m": round(1_000_000.0 * (float(st_w["cagr"]) -
-                                                   float(st_wo["cagr"])), 0),
-        "per_year_cagr_with": per_year,
-        "without": st_wo, "with": st_w,
-        "is_oos": {"without": slice_stats(book), "with": slice_stats(comp)},
+    })
+
+    # the probe and the published arm are the same run; if they ever disagree the arm loop
+    # and the grid probe have drifted apart and no arm number can be quoted
+    # both sides of this gate use the same estimator (`cagr_pct`); stats2's cagr is a
+    # different arithmetic and comparing across the two would read a definition as drift
+    probe_gap_pp = abs(cagr_pct(book0) - cagr_pct(books["as_coded"]))
+
+    arm_gap = {
+        "cagr_with_pct": round(float(dec["cagr_with_pct"]) - float(base["cagr_with_pct"]), 4),
+        "cagr_without_pct": round(float(dec["cagr_without_pct"]) -
+                                  float(base["cagr_without_pct"]), 4),
+        "sharpe_with": round(float(dec["sharpe_with"]) - float(base["sharpe_with"]), 4),
+        "maxdd_with_pct": round(float(dec["maxdd_with_pct"]) -
+                                float(base["maxdd_with_pct"]), 4),
+        "note": "declared minus as-coded on the same rule, the same cash path and the same "
+                "window; a negative cagr gap means the published headline was bought by "
+                "filling the signal's own bar",
     }
+
     verdict, gates = verdict_of(readings)
-    gates["C0_control"] = bool(ctrl_err <= REPRO_TOL)
+    gates["C0_control"] = bool(float(base["control_max_rel_err"]) <= REPRO_TOL)
     gates["C1_cash_vehicle_published"] = bool(gap_bp is not None and gap_bp <= 0.5)
-    if not (gates["C0_control"] and gates["C1_cash_vehicle_published"]):
+    gates["C0b_arm_reproduces_probe"] = bool(probe_gap_pp <= 1e-9)
+    if not (gates["C0_control"] and gates["C1_cash_vehicle_published"]
+            and gates["C0b_arm_reproduces_probe"]):
         verdict = "REFUSE"
 
     payload = {
         "face": "etf_book_idle_cash",
         "asof": pd.Timestamp.now().strftime("%Y-%m-%dT%H:%M:%S%z"),
-        "evidence_cutoff": str(book.index[-1].date()),
-        "window": {"start": str(book.index[0].date()), "end": str(book.index[-1].date()),
-                   "bars": int(len(book))},
+        "evidence_cutoff": str(book0.index[-1].date()),
+        "window": {"start": str(book0.index[0].date()), "end": str(book0.index[-1].date()),
+                   "bars": int(len(book0))},
         "book": {"vol_target": VOL_TARGET, "rebal": REBAL, "n_hold": NHOLD, "cost": COST,
                  "universe": len(cols), "turnover": round(turn, 4)},
         "question": "the book de-levers into cash and the engine prices that cash at 0; "
@@ -242,6 +306,8 @@ def run():
                     "worth with its idle sleeve paid?",
         "criteria_frozen": CRITERIA,
         "readings": readings,
+        "arms": arms,
+        "arm_gap": arm_gap,
         "gates": gates,
         "verdict": verdict,
         "repo_contracts": len(info["contracts"]),
@@ -258,6 +324,7 @@ def run():
             "non-maturity bars by differencing the rung's cumulative growth"
             % (len(raw_bars), info.get("missing", 0)),
         ],
+        "honest_arms": "both arms are the same universe, rule, cost and repo path; the only difference is the bar the score is read from, so arm_gap is the price of the execution basis and not a second strategy",
         "elapsed_sec": round(time.time() - t0, 2),
     }
     A.dir_ready = True
@@ -324,6 +391,23 @@ def selftest():
     chk(verdict_of(r_dd)[0] == "REJECT", "L5c a deeper drawdown rejects")
     r_sh = dict(r_ok, sharpe_with=0.99)
     chk(verdict_of(r_sh)[0] == "REJECT", "L5d a lower Sharpe rejects")
+
+    # L6 the arm list and the convention table cannot drift apart
+    chk([n for _l, n in LAG_ARMS] == ["as_coded", "declared"],
+        "L6a the two arms are named as_coded and declared")
+    chk(set(ARM_CONVENTIONS) == {l for l, _n in LAG_ARMS},
+        "L6b every arm has a stated convention")
+
+    # L7 the declared arm is the same score read one bar earlier -- the wiring, not a
+    # second rule. On a frame whose rows are distinguishable this must be an identity.
+    idx7 = pd.DatetimeIndex(pd.date_range("2025-01-01", periods=6, freq="B"))
+    sc7 = pd.DataFrame({"A": [1.0, 2.0, 3.0, 4.0, 5.0, 6.0],
+                        "B": [6.0, 5.0, 4.0, 3.0, 2.0, 1.0]}, index=idx7)
+    lag1 = sc7.shift(1)
+    chk(lag1.loc[idx7[3], "A"] == sc7.loc[idx7[2], "A"],
+        "L7a the declared arm reads bar d-1's score")
+    chk(np.isnan(lag1.loc[idx7[0], "A"]),
+        "L7b the first bar has no lagged score and must not invent one")
 
     print("selftest %s" % ("PASS" if not errs else "FAIL %d" % len(errs)), flush=True)
     return 0 if not errs else 1

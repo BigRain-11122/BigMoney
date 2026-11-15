@@ -276,6 +276,14 @@ def idle_cash_face(path=IDLE_CASH_JSON):
         out.update({"status": "unreadable",
                     "why": "the face carries no paid/unpaid headline pair"})
         return out
+    arms = {}
+    for _n, _a in (obj.get("arms") or {}).items():
+        if isinstance(_a, dict) and _a.get("cagr_with_pct") is not None:
+            arms[_n] = {"lag": _a.get("lag"),
+                        "cagr_without_pct": _a.get("cagr_without_pct"),
+                        "cagr_with_pct": _a.get("cagr_with_pct"),
+                        "sharpe_with": _a.get("sharpe_with"),
+                        "maxdd_with_pct": _a.get("maxdd_with_pct")}
     v = obj.get("verdict")
     out.update({
         "status": "ok", "readable": True,
@@ -294,6 +302,7 @@ def idle_cash_face(path=IDLE_CASH_JSON):
         "bars_with_cash": r.get("bars_with_cash"), "bars": r.get("bars"),
         "gates": obj.get("gates") or {},
         "criteria": obj.get("criteria_frozen") or {},
+        "arms": arms, "arm_gap": obj.get("arm_gap") or {},
     })
     return out
 
@@ -329,6 +338,32 @@ def idle_cash_block(ic, page_bar=None):
                       "%.3f" % sh1 if sh1 is not None else "?",
                       "%.2f%%" % dd0 if dd0 is not None else "?",
                       "%.2f%%" % dd1 if dd1 is not None else "?"))
+    # r1746: both headlines above are the engine AS CODED -- bar d's own score, filled at
+    # bar d's open. The card's config.execution claims decide-at-close(d) -> fill-at-open(d+1)
+    # and the producer now prices that arm on the same book and the same cash path. Printing
+    # it here is the point of the round: otherwise the reader sizes off a number the stated
+    # execution cannot deliver. A face without the arm says so rather than borrowing the
+    # as-coded number and letting it pass as declared.
+    dec = (ic.get("arms") or {}).get("declared")
+    if isinstance(dec, dict) and dec.get("cagr_with_pct") is not None:
+        _gap = (ic.get("arm_gap") or {}).get("cagr_with_pct")
+        if isinstance(_gap, (int, float)):
+            _tail = ("，比上面的数低 %.2f 个百分点" % abs(_gap)) if _gap < 0 \
+                else ("，与上面的数相差 %.2f 个百分点" % _gap)
+        else:
+            _tail = ""
+        out.append("- **上面这两个头条是按引擎现在的写法量的**：取 bar d 自己的分数、在 bar d 的开盘"
+                   "成交。卡上声明的执行是「bar d 收盘决策、bar d+1 开盘成交」——同一本书、同一条"
+                   "现金路径按那个口径重排：头条 **%.2f%%/年**（付息后 **%.2f%%/年**，夏普 %s，"
+                   "最大回撤 %s）%s。"
+                   % (dec["cagr_without_pct"], dec["cagr_with_pct"],
+                      "%.3f" % dec["sharpe_with"] if dec.get("sharpe_with") is not None else "?",
+                      "%.2f%%" % dec["maxdd_with_pct"]
+                      if dec.get("maxdd_with_pct") is not None else "?",
+                      _tail))
+    elif dec is None:
+        out.append("- 这张面没有发布「按卡上执行口径」的那一臂，所以上面那两个头条究竟是哪一臂，"
+                   "本页无法核验。")
     if ic.get("cny_per_year_on_1m") is not None:
         out.append("- 摊到钱上：**100 万账户一年约 +¥%s**。" % format(ic["cny_per_year_on_1m"], ",.0f"))
     # The gate that keeps this from being a composition exercise: with the cash rate forced
@@ -13411,6 +13446,19 @@ def selftest():
     chk("L302 idle cash: a paid headline that costs Sharpe prints the fall and names the failed gate",
         "1.137 → 1.090" in _ic_worse_md and "C3_sharpe_must_not_fall" in _ic_worse_md,
         _ic_worse_md[:1600])
+    _ic_arm = json.loads(json.dumps(_ic_fx))
+    _ic_arm.update({"arms": {"declared": {"lag": 1, "cagr_without_pct": 9.12,
+                                          "cagr_with_pct": 9.70, "sharpe_with": 0.926,
+                                          "maxdd_with_pct": -11.98}},
+                    "arm_gap": {"cagr_with_pct": -2.43}})
+    _ic_arm_md = "\n".join(idle_cash_block(_ic_arm))
+    chk("L303b idle cash: the declared-execution arm is printed beside the as-coded pair "
+        "with its gap",
+        "9.70%/年" in _ic_arm_md and "低 2.43 个百分点" in _ic_arm_md
+        and "0.926" in _ic_arm_md, _ic_arm_md[:1800])
+    chk("L303c idle cash: a face without the declared arm says cannot-check and never lets "
+        "the as-coded number pass as declared",
+        "无法核验" in "\n".join(idle_cash_block(_ic_fx)), _ic_md[:1800])
     chk("L303 idle cash: an unreadable face says cannot-check and prints no headline",
         "无法核验" in "\n".join(idle_cash_block({"readable": False, "why": "no file"}))
         and "12.13" not in "\n".join(idle_cash_block({"readable": False})))
