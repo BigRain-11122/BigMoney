@@ -112,7 +112,12 @@
   },
   "dec_sha_method": "python subprocess raw-blob bytes SHA-256 (group-tree origin/main git show; r818 start sweep via SSH primary leg rc0 (channel healed, r817 A-sync note closed); dec delta FALSE = unchanged, zero action; facts-driven from results/_r818bmc_s05_facts.json, 64hex shape-asserted; close face reads sha PROGRAMMATICALLY from facts json, ZERO literal constants (r583 law)",
   "decisions_consumed_note": "r1732 closeout scan: batches 63+64 (D-20261115-06..12 and -13..-16) read from origin blob. None names this company: D-13 visual card closeout, D-14 delivery workstation divergence, D-15 MiniGame liveness octet, D-16 FluxVerse prompt fix. D-12 IS fleet-wide and lands on this repo's S7: 'freeze registering/restoring self-starting tasks'. Observed this round before the row was known: loop register was a no-op (existing task, not disabled, not new) and the watchdog script re-registered the SAME existing task (no new task, no disabled item restored). From this round: no scheduled-task register/re-register in this repo until the CEO lifts the pause -- a broken task is reported, not re-created.",
-  "delivered": "a0a7596bbf",
+  "delivered": {
+    "ahead_origin": 0,
+    "behind_origin": 0,
+    "note": "pushed 869781a2f7..b017007778, re-fetched 0/0",
+    "sha": "b017007778"
+  },
   "delivered_head": "67b73192fd",
   "delivery": "pending-commit",
   "delivery_behind": 0,
@@ -1383,7 +1388,7 @@
   "s05_second_scan": "closeout rescan Tools/s05_probe.py rc0 orders_delta=false decisions_delta=false unacked=[] (zero action); fleet/inbox empty",
   "s0_note": "machine.json=bm-c | 110 dirty at open (prior-generation derived faces) -> directional add only | ahead 0 behind 0 (pull --rebase refused on dirty tree, origin had nothing new)",
   "s0_orphans": "py_faces=4 orphans=0 / resident=1 (ComfyUI)",
-  "s1_note": "r1751 suite closed 602/602 PASS 0 FAIL at 04:39:59 (results/_smoke_r1751.out, 800.6s) -- but it started 04:26, before this round's edits, so it does not cover them; a new full suite was launched 04:44 (pythonw pid 39696, results/_smoke_r1752.out) and was still in flight at closeout",
+  "s1_note": "r1751 suite closed 602/602 green at 04:39:59 but predates this round's edits; this round launched its own at 04:44:54 and it closed 602/602 PASS 0 FAIL at 04:57:48 -- covers the change",
   "s6_chain": "dualrun ZERO-DRIFT streak 51 (744 entries) -> compute_audit -> py_watermark -> update_daily: 4/4 rc0",
   "s6_chain_excluded": "etf_book_gate_causal is NOT a chain leg: 4 engine runs per invocation. It is re-derived by hand this round and needs a staleness door next round",
   "s6_chain_inflight": {
@@ -1412,7 +1417,7 @@
   "s7_watchdog": "Bigmoney-LoopWatchdog present, ready (next 01:37) -- reported only, not re-registered (D-12)",
   "saturation": "status rc0 alive, bands registered through W329",
   "self_caught": "honest item 1 first said 'no carry is credited to the ledger comparison' while both arms carry ladder3 carry (different idle conventions); rewritten and re-derived -- verdict and all six numbers identical, only the honest block moved",
-  "smoke": "in flight (results/_smoke_r1752.out, pythonw pid 39696 launched 04:44); previous full suite 602/602 PASS 0 FAIL at 04:39:59 but predates this round's edits",
+  "smoke": "full suite started 04:44:54 (after both scripts reached their final state; etf_book_order.py 04:41:23, etf_book_ceo_page.py untouched this round) and closed 602/602 PASS 0 FAIL at 04:57:48 in 773.7s over 600 legs -- this green covers the round's change",
   "smoke_caveat": "the suite launched 23:22, before this round's script existed, and it carries no legs for etf_book_gate_causal / etf_book_gate_knobs / etf_book_year_gate_idlecarry (grep of the full output: zero hits); the three changes stand on their own selftest 6/6, the as-coded control reproducing the published JSON to 0.0e+00, and a grep of the regenerated pages for the caveat",
   "smoke_closed": true,
   "smoke_fail_fixed": {
@@ -1421,7 +1426,7 @@
     "fix": "the sentence now reads 今天（2026-11-13 的报价）, and the day-word face got a dedicated rule mapping it to cash_caliber.quote_date (not to the cash-yield face, whose date merely matches today): live_book_day_words selftest 33/33, run exit 0, page verdict PRINTED_DATES_AGREE with 13/13 claims checked and 0 unmapped (the face was PRINTED_SELF_DATED with 1 unfiled rule before)",
     "leg": "product: live-book day words sit on the page's own day"
   },
-  "smoke_inflight": true,
+  "smoke_inflight": false,
   "smoke_note": "launched 00:42:45 via pythonw; at closeout 204 legs seen, 0 FAIL, suite still running (long legs), so the round does not claim a suite verdict",
   "smoke_out": "results/_smoke_r1752.out",
   "smoke_r1621_out": "results/_smoke_r1621.out",
@@ -1453,7 +1458,6 @@
   "total_ram_gb": 55.9,
   "ts": "2026-11-16T04:55:00+08:00",
   "unverified": [
-    "全量套件 04:44 起跑（results/_smoke_r1752.out），收窗时在飞——本轮不宣称全绿；起跑已验进程活+输出在增长",
     "2026 年的 1.065% 是只到 11-13 的年化读数，不是已完成的整年",
     "佣金 0.1bp/次来自 etf_book_cash_ladder 的 ASSUMPTION 表，未与券商页核对",
     "按年表来自 vehicle 面，与 idle_cash 面的 1.7731% 之间差 0.44bp（在 0.5bp 容差内），未做统一",
@@ -1483,7 +1487,7 @@
   "verify_ref": "research/MONEYFLOW_IC_VERDICT.md gains a pointer section so the sell-leg hunch in its section 3 item 2 is not acted on",
   "verify_section_bars": "results/live_book_section_bars.json: n_sections 58 = n_on_headline 58, off_headline 0, evidence_cutoff 2026-11-13",
   "verify_selftest": "etf_book_order 221->227/227 PASS (leg4zo falling table + this year's money / leg4zp that money is the year's own rate / leg4zq a rising table is not called a drop / leg4zr an absent table says average-only / leg4zs the table is read off the published vehicle / leg4zt the ticket actually prints it)",
-  "verify_smoke": "全量套件本轮未跑（窗）；最近一次全量 602/602 PASS 0 FAIL（logs/smoke_legs.json 03:07）",
+  "verify_smoke": "results/_smoke_r1752.out (local, gitignored); verdict read back via Tools/smoke_red.py: 2026-11-16T04:57:48 green",
   "verify_smoke_closed": "full suite started 07:14 closed 576/576 PASS 0 FAIL, wall clock 852.9s over 574 legs; started before the two module edits, so the ceo_page leg inside it printed the previous generation's 260/260 (new legs L214/L215 verified by selftest 262/262)",
   "verify_units": "%.2f on the face's own three decimals prints 2.33 for 2.335 and 1.06 for 1.065 (half-to-even); two legs went red on it, fixed by printing the published precision instead of widening the assertion",
   "vram_free_gb": 13.1,
