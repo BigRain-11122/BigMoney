@@ -640,6 +640,161 @@ def selftest():
     print("\nSummary: %s (event_exec_gate selftest)" % ("PASS" if ok else "FAIL"))
     return 0 if ok else 1
 
+# ------------------------------------------------------------------------- auditing
+# The gate above prices the events it is handed.  It cannot stop some other face in
+# results/ from printing "ADMIT" on a number that was only ever read close-to-close --
+# r1734's whole finding was that such a number can look spectacular and be unbuyable.
+# So the same rule is applied backwards over the published tree: name every face that
+# claims admission without ever showing a buyable entry, so a reader can tell which
+# admissions have been priced and which are only a word.
+AUDIT_OUT = os.path.join(ROOT, "results", "event_exec_gate_audit.json")
+ADMIT_VALUES = {"ADMIT", "ADMITTED", "OPEN", "TRADABLE", "GO", "LIVE"}
+# "ADMIT" is a word with more than one owner: a registration gate admits a seed into a
+# trial, a trading gate admits a position into a book. Only the second owes this gate a
+# buyable number, and the first must be named as out of scope rather than counted as a
+# violation (E206: a name is not a measurement).
+REGISTRATION_KEYS = ("admit_threshold", "seed_key", "registry_size", "band_width",
+                     "clashes_lt_2000", "nearest_entry")
+PRICING_KEYS = ("next_open", "next-open", "execution", "entry_convention", "cost_bp",
+                "cost_model", "exec_verdict", "retained_frac", "cost_per_side_bp",
+                "priced", "money")
+
+
+def _claims_admission(face):
+    v = face.get("verdict")
+    if isinstance(v, str):
+        u = v.strip().upper()
+        return u in ADMIT_VALUES or u.startswith("ADMIT")
+    ext = face.get("execution")
+    if isinstance(ext, dict) and isinstance(ext.get("verdict"), str):
+        return ext["verdict"].strip().upper().startswith("TRADABLE")
+    return False
+
+
+def _priced(face):
+    txt = json.dumps(face, ensure_ascii=False).lower()
+    return any(k.lower() in txt for k in PRICING_KEYS)
+
+
+def _display_path(path):
+    """relpath breaks across drives (a selftest fixture lives on C:, the repo on K:)."""
+    try:
+        return os.path.relpath(path, ROOT).replace("\\", "/")
+    except ValueError:
+        return os.path.abspath(path).replace("\\", "/")
+
+
+def audit(results_dir=None, limit=0):
+    import glob
+    rdir = results_dir or os.path.join(ROOT, "results")
+    findings, scanned, claimed = [], 0, {"published": 0, "probe": 0}
+    for path in sorted(glob.glob(os.path.join(rdir, "*.json"))):
+        try:
+            if os.path.getsize(path) > 8 * 1024 * 1024:
+                continue
+            with io.open(path, encoding="utf-8") as f:
+                face = json.load(f)
+        except Exception:
+            continue
+        if not isinstance(face, dict):
+            continue
+        scanned += 1
+        if not _claims_admission(face):
+            continue
+        tier = "probe" if os.path.basename(path).startswith("_") else "published"
+        claimed[tier] += 1
+        if _priced(face):
+            continue
+        scope = "registration" if any(k in face for k in REGISTRATION_KEYS) else "trading"
+        findings.append({
+            "file": _display_path(path),
+            "tier": tier,
+            "scope": scope,
+            "verdict": face.get("verdict"),
+            "why": "claims admission with no next-open entry or cost face anywhere",
+        })
+        if limit and len(findings) >= limit:
+            break
+    return {
+        "face": "event_exec_gate.audit",
+        "scanned": scanned,
+        "claiming_admission": claimed,
+        "unpriced": {
+            "published_trading": sum(1 for f in findings if f["tier"] == "published"
+                                     and f["scope"] == "trading"),
+            "published_registration": sum(1 for f in findings if f["tier"] == "published"
+                                          and f["scope"] == "registration"),
+            "probe": sum(1 for f in findings if f["tier"] == "probe"),
+        },
+        "findings": findings,
+        "rule": {
+            "only_the_priced_face_can_admit": True,
+            "cost_bp_per_side": GATE.get("cost_bp_per_side", 13.041),
+            "registration_admissions_are_out_of_scope": True,
+        },
+    }
+
+
+def run_audit(write=True):
+    rep = audit()
+    rep["asof"] = time.strftime("%Y-%m-%dT%H:%M:%S")
+    if write:
+        with io.open(AUDIT_OUT, "w", encoding="utf-8", newline="\n") as f:
+            f.write(json.dumps(rep, ensure_ascii=False, indent=2))
+    print(json.dumps({"scanned": rep["scanned"],
+                      "claiming_admission": rep["claiming_admission"],
+                      "unpriced": rep["unpriced"],
+                      "examples": [x["file"] for x in rep["findings"][:4]]},
+                     ensure_ascii=False))
+    return 0
+
+
+def selftest_audit():
+    """Fixtures on disk, because the thing under test is a walk over a directory."""
+    import tempfile
+    ok = 0
+    total = 0
+
+    def chk(cond, name):
+        nonlocal ok, total
+        total += 1
+        if cond:
+            ok += 1
+        else:
+            print("FAIL", name)
+
+    with tempfile.TemporaryDirectory() as d:
+        def put(name, payload):
+            with io.open(os.path.join(d, name), "w", encoding="utf-8") as f:
+                f.write(json.dumps(payload))
+
+        put("a_priced.json", {"face": "x", "verdict": "TRADABLE",
+                              "execution": {"entry_convention": "next_open"}})
+        put("b_unpriced.json", {"face": "y", "verdict": "ADMIT", "sharpe": 1.4})
+        put("c_registration.json", {"face": "z", "verdict": "ADMIT",
+                                    "admit_threshold": 0.7, "seed_key": "s1"})
+        put("d_refused.json", {"face": "w", "verdict": "REJECT"})
+        put("e_alive.json", {"face": "v", "verdict": "blockade ALIVE day-13"})
+        put("_f_probe.json", {"face": "u", "verdict": "ADMIT"})
+        rep = audit(d)
+        chk(rep["claiming_admission"] == {"published": 3, "probe": 1},
+            "L15 counts admissions per tier")
+        chk(rep["unpriced"]["published_trading"] == 1,
+            "L15 the unpriced trading admission is named")
+        chk(rep["unpriced"]["published_registration"] == 1,
+            "L15 a registration gate is out of scope, not a violation")
+        chk(rep["unpriced"]["probe"] == 1, "L15 a probe is counted apart")
+        chk(all("b_unpriced" not in x["file"] or x["scope"] == "trading"
+                for x in rep["findings"]), "L15 scope travels with the finding")
+        chk(not [x for x in rep["findings"] if "a_priced" in x["file"]],
+            "L15 a priced admission is not a finding")
+        chk(not [x for x in rep["findings"] if "e_alive" in x["file"]],
+            "L15 'ALIVE' is not read as an admission")
+
+    print("audit selftest %d/%d" % (ok, total))
+    return ok, total
+
+
 def main(argv):
     cmd = (argv[1] if len(argv) > 1 else "run").lower()
     if cmd == "selftest":
@@ -675,6 +830,11 @@ def main(argv):
               % ((payload or {}).get("panel_last_bar"), tail))
         run()
         return 0
+    if cmd == "audit":
+        return run_audit()
+    if cmd == "selftest-audit":
+        ok, total = selftest_audit()
+        return 0 if ok == total else 1
     if cmd != "run":
         print(__doc__)
         return 2
