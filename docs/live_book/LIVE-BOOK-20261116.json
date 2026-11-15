@@ -33,20 +33,26 @@
     "pct": 1.265,
     "date": "2026-11-13",
     "annual_cny": 7188.0,
-    "quotes": 250
+    "quotes": 250,
+    "net_pct": 1.022,
+    "net_annual_cny": 5807.0
    },
    "mean_tail": {
     "pct": 1.3518,
-    "annual_cny": 7681.0
+    "annual_cny": 7681.0,
+    "net_pct": 1.1088,
+    "net_annual_cny": 6301.0
    },
    "window": {
     "pct": 2.0816,
-    "annual_cny": 11828.0
+    "annual_cny": 11828.0,
+    "net_pct": 1.8386,
+    "net_annual_cny": 10447.0
    },
    "tail": 250,
    "fall_bp": 25.0,
    "verdict": "RATES_STEADY",
-   "sentence": "现金 ¥568,230 按 2026-11-13 报价 1.26% 一年赚 ¥7,188；按自己近 250 个报价的均值 1.35% 是 ¥7,681；按账本自己走过的全窗均值 2.08% 是 ¥11,828。2026-11-13 的报价就在它自己的均值上，这一半该怎么算就怎么算。",
+   "sentence": "现金 ¥568,230 按 2026-11-13 报价 1.26% 一年赚 ¥7,188；按自己近 250 个报价的均值 1.35% 是 ¥7,681；按账本自己走过的全窗均值 2.08% 是 ¥11,828。这三个数都是**毛**口径：这笔钱按过去一年这张交易日历要逐交易日滚 243 次、每次佣金 0.1bp，全年手续费约 **¥1,381**，所以按上面那个报价**入账 ¥5,807**（年化 1.02%）、按近 250 个报价的均值 ¥6,301、按全窗均值 ¥10,447——毛数与入账数之间差的就是这条路的手续费，不是利率差（费率表同 `etf_book_cash_ladder` 的 FEE_BP）。2026-11-13 的报价就在它自己的均值上，这一半该怎么算就怎么算。",
    "spread_vs_tail_cny": -493.0,
    "spread_vs_window_cny": -4640.0,
    "book_rate": {
@@ -68,7 +74,13 @@
     "declared_gap_pp": -2.43,
     "gap_vs_spot_bp": -50.81,
     "gap_vs_spot_cny": -2887.0
-   }
+   },
+   "rolls_per_year": 243,
+   "fee_bp_per_roll": 0.1,
+   "fee_cny_per_year": 1381.0,
+   "fee_basis": "exchange_calendar",
+   "fee_src": "scripts/etf_book_cash_ladder.py FEE_BP (one source for every rung)",
+   "fee_clause": "。这三个数都是**毛**口径：这笔钱按过去一年这张交易日历要逐交易日滚 243 次、每次佣金 0.1bp，全年手续费约 **¥1,381**，所以按上面那个报价**入账 ¥5,807**（年化 1.02%）、按近 250 个报价的均值 ¥6,301、按全窗均值 ¥10,447——毛数与入账数之间差的就是这条路的手续费，不是利率差（费率表同 `etf_book_cash_ladder` 的 FEE_BP）"
   },
   "note": null,
   "spot_date": "2026-11-13",
@@ -8007,10 +8019,10 @@
  "authority": {
   "writer": "bm-c",
   "owner": "bm-a",
-  "owner_silent_h": 52.4,
+  "owner_silent_h": 52.7,
   "gate_h": 6.0,
   "took_over": true,
-  "why": "bm-a has not written its own heartbeat for 52.4 h (> 6 h): this host takes the pen for the page only -- a stopped heartbeat is not a dead machine",
+  "why": "bm-a has not written its own heartbeat for 52.7 h (> 6 h): this host takes the pen for the page only -- a stopped heartbeat is not a dead machine",
   "no_bar_reason": "human_ages"
  },
  "fleet": {

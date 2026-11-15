@@ -5415,6 +5415,25 @@ def cash_money_block(cm, page_day=None):
     if win.get("pct") is not None:
         L.append(_row("账本自己走过的全窗均值", win.get("pct"), win.get("annual_cny")))
     L.append("")
+    # r1750: the rows above are QUOTES; the account pays commission on every contract it
+    # rolls, so the ticket's annual line now prints both calibers. A page that kept only the
+    # gross column would answer "一年赚多少" with money the account cannot bank (r1718's rule:
+    # two calibers on one page are named, never left for the reader to reconcile).
+    _net_cny = [spot.get("net_annual_cny"), tail_b.get("net_annual_cny"),
+                win.get("net_annual_cny")]
+    if b.get("rolls_per_year") and _net_cny[0] is not None:
+        _banked = ["按上面那个报价 **¥%s**" % format(_net_cny[0], ",.0f")]
+        if _net_cny[1] is not None:
+            _banked.append("按均值 ¥%s" % format(_net_cny[1], ",.0f"))
+        if _net_cny[2] is not None:
+            _banked.append("按全窗均值 ¥%s" % format(_net_cny[2], ",.0f"))
+        L.append("- 这三行都是**毛**口径，钱不会按毛数入账：一年（按过去一年这张交易日历）要逐交易日滚 **%d** 次、"
+                 "每次佣金 %gbp，全年手续费约 **¥%s**——扣掉之后入账的是 %s"
+                 "（费率表同 `etf_book_cash_ladder` 的 FEE_BP，与票据同一句读法）。"
+                 % (int(b["rolls_per_year"]), float(b.get("fee_bp_per_roll") or 0.0),
+                    format(float(b.get("fee_cny_per_year") or 0.0), ",.0f"),
+                    "、".join(_banked)))
+        L.append("")
     verdict = b.get("verdict")
     if verdict == "RATES_FELL":
         L.append("**%s能拿到的是第一行。** 它比自己近一段的均值低 **%.2f pp**——"
@@ -13499,6 +13518,21 @@ def selftest():
         {"status": "ok", "block": _fwd_pre, "forward": _fwd_pre_win, "next_bar": "2026-12-09"}))
     chk("L304c idle cash: a pre-fee block is labelled gross, never read as the net figure",
         "毛收" in _fwd_pre_txt and "重出票据" in _fwd_pre_txt, _fwd_pre_txt[-300:])
+    # L304d-e (r1750): the three-rate table answered "一年约赚多少" with gross money, one
+    # section below a window that already banks net. Paired: a fee-carrying block names the
+    # net under the quotes; a block priced before the fee existed must print no net claim.
+    _cmr_lines = "\n".join(cash_money_block(_cmf_r))
+    chk("L304d idle cash: the three-rate table names what the account banks under the quotes",
+        "毛" in _cmr_lines and "入账" in _cmr_lines
+        and format(float(_cmb_r["spot"]["net_annual_cny"]), ",.0f") in _cmr_lines,
+        "; ".join(l for l in _cmr_lines.split("\n") if "入账" in l)[:200])
+    chk("L304e idle cash: a ticket block priced before the fee existed prints no net claim",
+        "入账" not in _cm_lines,
+        "; ".join(l for l in _cm_lines.split("\n") if "入账" in l)[:200])
+    chk("L304e idle cash: a block priced before the fee existed prints no net claim",
+        "入账" not in _lag_lines,
+        [l for l in _lag_lines.split("\n") if "入账" in l][:1])
+
     chk("L305 idle cash: a block with no forward reading says so instead of going silent",
         "下一段窗口付多少" in _no_fwd_txt and "没有" in _no_fwd_txt
         and "今日" not in _no_fwd_txt, _no_fwd_txt[-400:])

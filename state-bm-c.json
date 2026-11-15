@@ -1,7 +1,7 @@
 {
   "activity": "product",
-  "activity_now": "r1743: the seat exemption is now a shape reading -- 252/252 seats carry a ledger, an ordered band and no curve, and a renamed holdings block cannot ride a seat shape past the audit",
-  "activity_now_round": "1742",
+  "activity_now": "r1750: the ticket's annual cash line now prints what the account banks -- 7,188 gross is 5,807 net once 243 rolls x 0.1bp are charged, and the same number appears under the three-rate table on the CEO page",
+  "activity_now_round": "1750",
   "agenda_starved": false,
   "ah_note": "r1680 LANDED: refresh closed itself at 21:17 -- cutoff 2026-11-12 -> 2026-11-13, complete=True, exit 0, pulled_rows 46; data_lane_freshness in_sync 13 / behind_1d 1 (worst now marks, intraday-only, not rebuildable). Fix that made it possible: stall watchdog over every network leg (300s, names stage/pair, exit 2, checkpoint kept) + save_progress stamps write time + -u on the detached spawn + progress line every 10 pairs. NOT yet proven: the 300s stall path has never fired on a real hang (this round the suspected freeze finished by itself).",
   "ahead_origin": 0,
@@ -36,11 +36,11 @@
     "withheld_arms": [],
     "workers": 6
   },
-  "batch": "r1682: land staged face set (100 files, 83 JSON verified from index blobs) + re-cut CEO pages at 23:04",
+  "batch": "etf_book_order selftest 218/218 (+5 legs) + full run 45s; etf_book_ceo_page selftest 408/408 (+2 legs) + page rebuild; full smoke started 03:52 pythonw (results/_smoke_r1750.out) and did not finish inside the round",
   "behind_origin": 0,
   "busy": false,
-  "chain": "s6_chain --only event_exec_gate 1/1 rc0; smoke 596/596 PASS (854.6s); push 539a9b7553 verified from origin/main",
-  "chain_note": "full 597-leg smoke green this round (596/596 PASS, 854.6s); the full S6 chain was not run -- only the touched leg, so the evidence is not split across two tables",
+  "chain": "s6 --only 4/4 rc0 (dualrun ZERO-DRIFT streak 51/744; compute_audit flags pool_starvation+supply_floor unchanged; py_watermark py_low_with_work_cands local_batch_running=true = the smoke suite; update_daily 0 new rows, cutoff 2026-11-13)",
+  "chain_note": "the rest of the S6 chain was not run this round -- one table, no split evidence",
   "chain_writer_audit": {
     "known_baseline": 29,
     "note": "not re-enumerated this round: the face fixed here never appeared in that enumeration (it had no leg at all)",
@@ -54,7 +54,7 @@
     "state": "registered (FOUND)",
     "task": "HQ-ProductionClaim"
   },
-  "clock_read": "2026-11-16T01:21:06+08:00",
+  "clock_read": "2026-11-16T03:59:59+08:00",
   "clock_read_source": "local",
   "clock_tz": "+08:00",
   "codely_live_count": 2,
@@ -930,7 +930,7 @@
   "round_1689_next": "(a) price the rule, not the bucket: run the widest-quintile-only arm against hold-everything after the 8% vol leash and the repo leg -- the quintile table already says the entry with the least adverse widening is also the one with the most carry, so the open question is whether a book that waits costs more in idle cash than it collects; (b) moneyflow/LHB IC reference batch (the order second P1 candidate) is still claimed and its panel source-blocked -- check the collector self-heal before starting; (c) watchdog S4U needs one elevated re-register (28th).",
   "round_1689_note": "PRODUCT. r1686 left the basis line one untried axis: \"the discount-width timing test (basis percentile vs next 20d carry) is the cheapest way to turn a static premium into a rule\". Built: scripts/idx_fut_basis_timing.py (selftest 12/12) -- causal percentile over a trailing 250d window (60 obs min), forward window t+1..t+20 with roll days dropped, quintiles printed beside a stride-20 subsample that drops overlapping windows, Spearman on ranks, first/second half split. All four pairs pass the frozen H1/H2/H3: widest-quintile forward carry +0.584/+0.531/+0.513/+0.689pp per 20d at hit 82.5/77.4/86.0/80.6% vs narrowest -0.118/-0.032/-0.075/+0.271pp at 37.7/40.3/40.3/46.8%; spreads hold on stride-12 (0.854/0.513/0.670/0.133) and in both halves. The pair of numbers that decides what this is: fwd20-to-basis-change ratio 1.003/1.000/0.993/0.990 -> kind=convergence harvest, i.e. the rule is a prepayment schedule (wait for a wide discount, collect more of it closing), not a prediction. And the percentile adds nothing over the raw level (spearman level -0.478/-0.474/-0.443/-0.590 vs pct -0.429/-0.318/-0.432/-0.243; percentile_adds_over_level_pairs=[]), so any rule here can be written on the level directly. Adverse side is the surprise: entering at the widest discount had the SMALLEST subsequent widening (median 0.185/0.214/0.231/0.277pp) and the narrowest the largest (0.583/0.923/0.471/1.038pp) -- higher carry and less drawdown, not a risk trade. Two selftest legs caught real defects before publication: adverse_widening used max() and reported the discount closing as a drawdown (the basis is negative when wide, so the window MINIMUM is the adverse side), and convergence_share carried an off-by-one that double-counted a step the holder never takes (basis_face convention: spread[j] is the step dates[j]->dates[j+1]). Neither face had a chain leg -- both were typed by hand on 11-14 -- so both now ride straight behind update_futures; chain --only 2/2 rc0. Latest percentiles: IH 13.4 (widest quintile, fires), IF 23.8, IC 38.6, IM 48.2.",
   "round_label": "1704",
-  "round_no": 1749,
+  "round_no": 1750,
   "round_no_label": "r1739",
   "round_no_landed": 1663,
   "round_note": "r1489: a reinstated bar is re-derived from the panel, not carried over (reinstatement_check + reinstatements.json + sheet paragraph)",
@@ -1487,5 +1487,6 @@
   "went_well": "the fix keeps the old states reachable: a card with one unqualified row still takes the position-free path, so no previously published verdict changed meaning",
   "when_well": "the exec panel reused lhb_sellleg verbatim by passing a net-of-cost panel instead of writing a second event study -- the two tables cannot disagree about the quintiles because there is only one implementation",
   "who_did": "bm-c",
-  "当前任务": "r1749: 前向窗口原来只印「报价付多少」——账本每滚一次要交佣金，1.26% 报价下约四分之一收不到；现在按滚动次数×同一张 FEE_BP 表扣佣金，两条臂改为净对净比"
+  "当前任务": "r1749: 前向窗口原来只印「报价付多少」——账本每滚一次要交佣金，1.26% 报价下约四分之一收不到；现在按滚动次数×同一张 FEE_BP 表扣佣金，两条臂改为净对净比",
+  "chain_verdict": "4/4 rc0"
 }

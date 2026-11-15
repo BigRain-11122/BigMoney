@@ -1049,8 +1049,39 @@ def cash_ladder_caveat(results_dir=None, face=None):
     return out
 
 
+
+def annual_rolls(asof, cal=None, days=365):
+    """How many times a money-market position rolls in one year (r1750).
+
+    A GC001 position is bought again every session the exchange opens, so the count is a
+    calendar fact -- 365 is the contract tenor, not the number of commissions a year of
+    parking actually pays. Read off the same calendar (and the same `forward_rolls`) the
+    window arithmetic uses; the window is [anchor-365d, anchor+1d) so the anchored session
+    is counted only when it really is a session. Only when the calendar does not reach back
+    a year does it fall back to weekdays, and it says which basis it used.
+    """
+    try:
+        end = pd.Timestamp(str(asof)).normalize()
+    except (TypeError, ValueError):
+        return None, None
+    start = end - pd.Timedelta(days=int(days))
+    stop = end + pd.Timedelta(days=1)
+    try:
+        days_list = cal if cal is not None else CA.load_calendar()
+    except Exception:
+        days_list = None
+    if days_list:
+        n = forward_rolls(start, stop, cal=days_list)
+        if n:
+            return int(n), "exchange_calendar"
+    n = forward_rolls(start, stop, cal=None, fallback=True)
+    if not n:
+        return None, None
+    return int(n), "weekday_fallback"
+
+
 def cash_money(cash_amount, rates, asof, accrual_pct=None, tail=250, fall_bp=CASH_MONEY_BP,
-               book=None):
+               book=None, cal=None, fees=None):
     """What the idle half of THIS ticket earns, in CNY, at the rates this book actually parks in.
 
     The sheet printed the cash weight and the cash amount and stopped there: the only yield it
@@ -1064,7 +1095,9 @@ def cash_money(cash_amount, rates, asof, accrual_pct=None, tail=250, fall_bp=CAS
     out = {"cash_amount_cny": None, "spot": None, "mean_tail": None, "window": None,
            "tail": int(tail), "fall_bp": float(fall_bp), "verdict": "CANNOT_PRICE",
            "sentence": None, "spread_vs_tail_cny": None, "spread_vs_window_cny": None,
-           "book_rate": None}
+           "book_rate": None, "rolls_per_year": None, "fee_bp_per_roll": None,
+           "fee_cny_per_year": None, "fee_basis": None, "fee_src": None,
+           "fee_clause": None}
     try:
         cash = None if cash_amount is None else float(cash_amount)
     except (TypeError, ValueError):
@@ -1095,6 +1128,50 @@ def cash_money(cash_amount, rates, asof, accrual_pct=None, tail=250, fall_bp=CAS
     if out["window"] is not None:
         out["spread_vs_window_cny"] = round(
             cash * (spot_pct - out["window"]["pct"]) / 100.0, 0)
+    # r1750: every annual figure above divides a QUOTE by 100, while the account is charged
+    # commission on every contract it rolls -- so this line's 7,188/7,681/11,828 sat one
+    # section above a forward window that already banks net (r1749), the same money at two
+    # calibers on one ticket. The fee here is rolls-in-a-year x the ladder's own FEE_BP (no
+    # second assumption), each block gets a net twin, and the gross figures stay put so the
+    # published readings do not move under the reader.
+    try:
+        from scripts import etf_book_cash_ladder as _CL
+    except ImportError:                                      # direct-script runs
+        import etf_book_cash_ladder as _CL
+    _rolls_year, _rolls_basis = annual_rolls(asof or spot_date, cal)
+    try:
+        _fee_one = float(_CL.fee_bp("GC001", fees))
+    except Exception:
+        _fee_one = None
+    if _rolls_year and _fee_one is not None:
+        _fee_exact_year = float(cash) * _fee_one / 1e4 * float(_rolls_year)
+        _fee_pct_year = _fee_one / 1e4 * float(_rolls_year) * 100.0
+        out["rolls_per_year"] = int(_rolls_year)
+        out["fee_bp_per_roll"] = _fee_one
+        out["fee_cny_per_year"] = round(_fee_exact_year, 0)
+        out["fee_basis"] = _rolls_basis
+        out["fee_src"] = CASH_FORWARD_FEE_SRC
+        for _blk in (out["spot"], out["mean_tail"], out["window"]):
+            if not _blk:
+                continue
+            _blk["net_pct"] = round(float(_blk["pct"]) - _fee_pct_year, 4)
+            _blk["net_annual_cny"] = round(
+                float(cash) * float(_blk["pct"]) / 100.0 - _fee_exact_year, 0)
+        out["fee_clause"] = (
+            "。这三个数都是**毛**口径：这笔钱按过去一年这张交易日历要逐交易日滚 %d 次、每次佣金 %gbp，"
+            "全年手续费约 **¥%s**，所以按上面那个报价**入账 ¥%s**（年化 %.2f%%）、"
+            "按近 %d 个报价的均值 ¥%s、按全窗均值 ¥%s——毛数与入账数之间差的就是这条路的"
+            "手续费，不是利率差（费率表同 `etf_book_cash_ladder` 的 FEE_BP）"
+            % (int(_rolls_year), _fee_one,
+               format(int(out["fee_cny_per_year"]), ","),
+               format(int(out["spot"]["net_annual_cny"]), ","),
+               float(out["spot"]["net_pct"]), int(out["spot"]["quotes"]),
+               format(int(out["mean_tail"]["net_annual_cny"]), ","),
+               (format(int(out["window"]["net_annual_cny"]), ",")
+                if out["window"] else "—")))
+    else:
+        out["fee_clause"] = ("。佣金这一步算不出来（滚动次数或费率表读不到），"
+                             "所以上面三个数只能按**毛**口径读，不是入账数")
     # r1718: the headline on the CEO page now credits this same sleeve at the published
     # vehicle's net roll. Price the ticket's cash at that rate too -- off the published face,
     # so the two numbers a reader puts side by side are one caliber or the gap is named.
@@ -1127,10 +1204,11 @@ def cash_money(cash_amount, rates, asof, accrual_pct=None, tail=250, fall_bp=CAS
             % (format(int(cash), ","), spot_date, spot_pct,
                format(int(out["spot"]["annual_cny"]), ","),
                out["spot"]["quotes"], tail_pct,
-               format(int(out["mean_tail"]["annual_cny"]), ",")))
+            format(int(out["mean_tail"]["annual_cny"]), ",")))
     if out["window"] is not None:
         sent += "；按账本自己走过的全窗均值 %.2f%% 是 ¥%s" % (
             out["window"]["pct"], format(int(out["window"]["annual_cny"]), ","))
+    sent += (out["fee_clause"] or "")
     # r1668: this sentence is consumed verbatim by the CEO page, so "今天" here became the
     # reader's day on the page that quoted it -- a Saturday paper called Friday's rate today's.
     # The ticket knows which session it priced (spot_date, printed in its own first clause), so
@@ -5107,6 +5185,49 @@ def selftest():
         and _cm_late["verdict"] == "CANNOT_PRICE" and _cm_late["spot"] is None
         and all(_x["sentence"] for _x in (_cm_none, _cm_absent, _cm_late)),
         "none/absent/late all CANNOT_PRICE with a sentence")
+
+    # leg4zf-zk (r1750): the annual figures on this line were quotes, while the account pays
+    # commission on every contract it rolls -- so the ticket said 一年赚 ¥7,188 one section
+    # above a window that banks ¥356 net. Paired legs: the fee is rolls x the ladder table, a
+    # zero-fee control returns the quote arithmetic, the roll count comes from the calendar
+    # (never a 365 constant), the gross numbers do not move, and the sentence must say 入账.
+    _cal_fake = ["2023-06-01", "2023-06-02", "2023-06-05"]   # 3 sessions in the trailing year
+    _cm_fee = cash_money(500000.0, _cm_fell, "2024-02-23", accrual_pct=2.10,
+                         cal=_cal_fake)
+    _fee_pt = 0.1 / 1e4 * 3 * 100.0                        # GC001 in FEE_BP, 3 rolls
+    chk("leg4zf the annual line nets the commission it charges (rolls x the ladder's table)",
+        _cm_fee["rolls_per_year"] == 3
+        and abs(_cm_fee["spot"]["net_pct"] - (1.05 - _fee_pt)) < 1e-6
+        and abs(_cm_fee["spot"]["net_annual_cny"] - (5250.0 - 15.0)) < 0.6
+        and _cm_fee["fee_cny_per_year"] == 15.0,
+        "rolls=%s net_pct=%s net=%.0f fee=%.0f" % (
+            _cm_fee["rolls_per_year"], _cm_fee["spot"]["net_pct"],
+            _cm_fee["spot"]["net_annual_cny"], _cm_fee["fee_cny_per_year"]))
+    _cm_zero = cash_money(500000.0, _cm_fell, "2024-02-23", accrual_pct=2.10,
+                          cal=_cal_fake, fees={1: 0.0})
+    chk("leg4zg a zero-fee control returns the quote arithmetic to the last digit",
+        abs(_cm_zero["spot"]["net_pct"] - float(_cm_zero["spot"]["pct"])) < 1e-9
+        and _cm_zero["spot"]["net_annual_cny"] == _cm_zero["spot"]["annual_cny"],
+        "net=%s gross=%s" % (_cm_zero["spot"]["net_pct"], _cm_zero["spot"]["pct"]))
+    _cm_year = cash_money(500000.0, _cm_fell, "2024-02-23")
+    chk("leg4zi the roll count is read off the calendar, never a 365 constant",
+        _cm_year["rolls_per_year"] is not None
+        and 200 <= _cm_year["rolls_per_year"] <= 260
+        and _cm_year["rolls_per_year"] != 365
+        and _cm_year["fee_basis"] == "exchange_calendar",
+        "rolls=%s basis=%s" % (_cm_year["rolls_per_year"], _cm_year["fee_basis"]))
+    _sent_fee = _cm_fee.get("sentence") or ""
+    chk("leg4zj the sentence says what lands, not only what the quote pays",
+        "入账" in _sent_fee and "佣金" in _sent_fee and "毛" in _sent_fee
+        and format(int(_cm_fee["spot"]["net_annual_cny"]), ",") in _sent_fee,
+        _sent_fee[:170])
+    chk("leg4zk the gross figures are untouched (a net twin is added, not substituted)",
+        abs(_cm_fee["spot"]["annual_cny"] - 500000.0 * 1.05 / 100.0) < 0.5
+        and abs(_cm_fee["window"]["annual_cny"] - 500000.0 * 2.10 / 100.0) < 0.5
+        and abs(_cm_fee["mean_tail"]["annual_cny"]
+                - 500000.0 * float(_cm_fell.mean()) / 100.0) <= 1.0,
+        "gross spot=%s window=%s" % (_cm_fee["spot"]["annual_cny"],
+                                      _cm_fee["window"]["annual_cny"]))
 
     # leg4f-h (r1718): the ticket's cash line and the book's headline were two calibers on the
     # same money -- one session's quote (1.26%) beside a window's net roll (1.77%). Paired legs:
