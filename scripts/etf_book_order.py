@@ -1429,6 +1429,33 @@ CASH_FORWARD_RULER = "calendar_days/365 x annualised rate, net of per-roll commi
 CASH_FORWARD_FEE_SRC = "scripts/etf_book_cash_ladder.py FEE_BP (one source for every rung)"
 
 
+def cash_zero_baseline_md(cs):
+    """r1756: 票面这一节与头条印同一个 0 息数（11.55%），而加上现金之后两个数不同
+    （本节 12.59% / 头条 12.13%）——读者会把那 0.46pp 当两个答案甚至当算错。
+
+    判定与措辞的唯一实现在 CEO 页（`etf_book_ceo_page.cash_zero_baseline_md`），票面只做
+    转发：两面各写一份会让同一句话分叉（r1753/r1755 的教训）。头条那一对与载具利率
+    从发布面读（`idle_cash_book_rate`），本节三个数用 carry_split 自己的字段，零重算。
+    """
+    br = idle_cash_book_rate() or {}
+    ic = {"readable": bool(br) and br.get("book_cagr_without_pct") is not None
+          and br.get("book_cagr_with_pct") is not None,
+          "cagr_without_pct": br.get("book_cagr_without_pct"),
+          "cagr_with_pct": br.get("book_cagr_with_pct"),
+          "vehicle_net_pct": br.get("pct"), "source": IDLE_CASH_FACE}
+    args = (cs.get("zero_pct"), cs.get("observed_pct"), cs.get("cash_share"), ic)
+    kw = {"rate_observed_pct": cs.get("rate_observed_pct")}
+    try:
+        from scripts import etf_book_ceo_page as _PAGE
+        return _PAGE.cash_zero_baseline_md(*args, **kw)
+    except Exception:                                          # noqa: BLE001
+        try:
+            import etf_book_ceo_page as _PAGE2
+            return _PAGE2.cash_zero_baseline_md(*args, **kw)
+        except Exception:                                      # noqa: BLE001
+            return []
+
+
 def forward_rolls(start, end, cal=None, fallback=False):
     """How many times the money is rolled between two sessions (exclusive of the last one).
 
@@ -3246,6 +3273,10 @@ def card(ticket, mk, sched, asof, beta, extra):
               "就是少赚 %.2fpp，不是这个月选错了票。"
               % (cs["zero_pct"], cs["carry_share_pct"], cs["rate_today_pct"] or 0.0,
                  cs["rate_today_date"] or "未知", cs["flat_rate_cost_pp"])]
+        # r1756: the 0-cash number in this section is the same number the ticket's headline
+        # quotes (11.55%), while the two "with cash" numbers differ (12.59% / 12.13%). Say so,
+        # price the slice of the gap these faces can price, and refuse the rest.
+        L += cash_zero_baseline_md(cs)
         if cs["evidence_cutoff"] and asof and cs["evidence_cutoff"] != asof:
             L += ["- ⚠ 拆解定价 bar %s 落后本单 %s：这是拆解面没跟上，不是利率变了，"
                   "按旧 bar 的数字只当量级读。" % (cs["evidence_cutoff"], asof)]
@@ -5615,6 +5646,22 @@ def selftest():
         and any("按引擎现在的写法" in l for l in _on)
         and len(_on) == len(_off) + 1,
         "off=%d on=%d" % (len(_off), len(_on)))
+
+    # leg4s2 (r1756): the carry section and the headline print the same 0-cash number, while
+    # the two "with cash" numbers beside it differ. The ticket must forward the shared sentence
+    # (one implementation, in the page module) and quote the headline's own number -- read off
+    # the face, never hand-copied, so this leg cannot pass on a stale constant.
+    _zl_cs = {"zero_pct": 11.55, "observed_pct": 12.59, "cash_share": 0.5638,
+              "rate_observed_pct": 2.08}
+    _zl = cash_zero_baseline_md(_zl_cs)
+    _zl_txt = "\n".join(_zl)
+    _br_live = idle_cash_book_rate() or {}
+    chk("leg4s2 zero baseline: the ticket forwards the shared sentence and names the same "
+        "0-cash arm as its own headline",
+        bool(_zl) and "同一个数" in _zl_txt
+        and ("%.2f%%" % float(_br_live.get("book_cagr_without_pct"))) in _zl_txt
+        and ("%.2f%%" % float(_br_live.get("book_cagr_with_pct"))) in _zl_txt,
+        _zl_txt[:260])
 
     # leg4t-w (r1749): the honest face used to tell the operator to run a 1/7/14-day ladder and
     # stopped there, as if the advice were free. The desk has priced it since: a ladder whose

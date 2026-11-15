@@ -307,6 +307,72 @@ def idle_cash_face(path=IDLE_CASH_JSON):
     return out
 
 
+CASH_ZERO_SAME_PP = 0.005   # frozen: below this the two papers' zero-cash arms are one number
+
+
+def _num(x):
+    try:
+        v = float(x)
+    except (TypeError, ValueError):
+        return None
+    return v if v == v else None
+
+
+def cash_zero_baseline_md(zero_pct, observed_pct, cash_share, ic,
+                          rate_observed_pct=None, source=None):
+    """r1756: the same 11.55% is printed on both papers as the zero-cash arm, and each paper
+    quotes a different "with cash" number beside it (12.59% here, 12.13% there). Read one
+    after the other, the 0.46pp gap looks like two answers to one question, or like an error.
+
+    It is neither. The two faces agree to the digit where the cash earns nothing -- which is
+    what two independent engines must do if they price the same book -- and the disagreement
+    only appears once the cash is paid, because the two faces pay it differently: one runs the
+    historical rate path, the other one published vehicle's flat net roll. This prints (a)
+    whether the two baselines are literally the same number, (b) the one slice of the gap that
+    can be priced from numbers already on the faces (cash share x rate-level difference), and
+    (c) an explicit refusal to decompose what is left. Nothing is recomputed here.
+
+    Single implementation for both papers: the ticket forwards to this function.
+    """
+    z, o, sh = _num(zero_pct), _num(observed_pct), _num(cash_share)
+    ic = ic or {}
+    wout, wwith, veh = (_num(ic.get("cagr_without_pct")), _num(ic.get("cagr_with_pct")),
+                        _num(ic.get("vehicle_net_pct")))
+    src = source or ic.get("source") or "etf_book_idle_cash.json"
+    if z is None or o is None:
+        return []
+    if ic.get("readable") is False or wout is None or wwith is None:
+        return ["- 头条那一对（现金 0 息 / 载具计息）读不出来（`%s`），所以「这一节的零息数和头条是不是"
+                "同一个数」本页**无法核验**——不拿本节那个数顶替它的基线。" % src]
+    L = []
+    d = z - wout
+    if abs(d) <= CASH_ZERO_SAME_PP:
+        L.append("- **这一节的「现金 0 息」数与头条的「现金 0 息」数是同一个数（%.2f%%）**：两个独立的"
+                 "面在这条基线上逐位相同（差 %.2fpp）——所以两张纸的差别不在选股机器，只在给停车位付多少。"
+                 % (z, d))
+    else:
+        L.append("- 这一节的「现金 0 息」数是 **%.2f%%**，头条的「现金 0 息」基线是 **%.2f%%**（差 %+.2fpp）："
+                 "两条基线本身就不一样，**不能互相替代**，也不要拿这一节的 carry 去套头条。"
+                 % (z, wout, d))
+    gap = o - wwith
+    L.append("- 加上现金之后两个数不同（这一节 **%.2f%%** / 头条 **%.2f%%**，差 **%.2fpp**），这不是矛盾："
+             "这一节按历史逐段真实报价付这笔钱，头条按已经发布的那个载具（逆回购日滚）付，"
+             "两条路不是同一条。" % (o, wwith, gap))
+    rmean = _num(rate_observed_pct)
+    if sh is not None and rmean is not None and veh is not None:
+        rate_gap = rmean - veh
+        expl = sh * rate_gap
+        L.append("- 这一截里能在这里定价的只有利率水平差：现金占比 %.0f%% × **%.2fpp**"
+                 "（历史均值 %.2f%% vs 载具净滚 %.2f%%）＝ **%.2fpp**；剩下 **%.2fpp** 是逐段真实路径"
+                 "与常数净滚的差异（以及两套成本处理），这两张纸都**没有**拆开——不要把它当第二个选股"
+                 "结论，也不要与上面那个 carry 相加。"
+                 % (sh * 100.0, rate_gap, rmean, veh, expl, gap - expl))
+    else:
+        L.append("- 这一截**没有**在页上拆开：本书自己的现金载具利率（`%s`）或历史均值读不到，"
+                 "所以只印两个总数，不编一个归因。" % src)
+    return L
+
+
 def idle_cash_block(ic, page_bar=None):
     """What the book is worth once the cash it parks is paid at the published rate.
 
@@ -9048,6 +9114,14 @@ def render_md(p, sb=None):
             % (base["beta"], base["observed_pct"], base["carry_pp"],
                (100.0 * base["carry_pp"] / base["observed_pct"]) if base["observed_pct"] else 0.0,
                _qw, rates.get("today_pct") or 0.0, base["flat_today_pct"], base["zero_pct"]))
+        # r1756: the same 11.55% is the zero-cash arm on this page and on the ticket, while the
+        # two "with cash" numbers beside it differ (12.59% here, 12.13% on the ticket). Name
+        # the shared baseline and price the one slice of the gap that these faces can price.
+        for _zl in cash_zero_baseline_md(base.get("zero_pct"), base.get("observed_pct"),
+                                         base.get("cash_share"), p.get("idle_cash") or {},
+                                         rate_observed_pct=rates.get("observed_mean_pct")):
+            add(_zl)
+        add("")
         if base.get("pp_per_100bp") is not None and cr.get("flags", {}).get("carry_positive"):
             add("- 利率每掉 100bp，这一档一年大约少 %.2f 个百分点（历史均值 %.2f%% -> %s %.2f%% 只差 %.0fbp，"
                 "已经少赚约 %.2fpp）。这是个慢变量，不是每天看的东西。"
@@ -10331,6 +10405,28 @@ def selftest():
         and _fake_ok["base"]["beta"] == 0.2 and _fake_ok["base"]["pp_per_100bp"] == 1.0
         and _fake_ok["window"]["first"] == "2024-01-02",
         "rows=%d base=%s" % (len(_fake_ok.get("rows") or []), (_fake_ok.get("base") or {}).get("beta")))
+
+    # L47b-L47d (r1756). One 0-cash number, two different "with cash" neighbours: the page
+    # must say the baseline is shared, price the one slice of the gap it can price (cash share
+    # x rate-level difference), and refuse the rest -- instead of leaving 12.59 vs 12.13 as two
+    # answers to one question, or silent.
+    _ic_ok = {"readable": True, "cagr_without_pct": 11.55, "cagr_with_pct": 12.13,
+              "vehicle_net_pct": 1.77, "source": "etf_book_idle_cash.json"}
+    _z_same = "\n".join(cash_zero_baseline_md(11.55, 12.59, 0.5638, _ic_ok,
+                                              rate_observed_pct=2.08))
+    chk("L47b zero baseline: twin 0-cash arms are named as one number, and the priced slice "
+        "of the with-cash gap is cash share x rate-level difference",
+        "同一个数（11.55%）" in _z_same and "0.17pp" in _z_same and "0.29pp" in _z_same,
+        _z_same[:240])
+    _z_diff = "\n".join(cash_zero_baseline_md(10.00, 12.59, 0.5638, _ic_ok,
+                                              rate_observed_pct=2.08))
+    chk("L47c zero baseline: two different baselines are never called one number",
+        "不能互相替代" in _z_diff and "同一个数" not in _z_diff, _z_diff[:200])
+    _z_blind = "\n".join(cash_zero_baseline_md(11.55, 12.59, 0.5638,
+                                               {"readable": False, "source": "x.json"}))
+    chk("L47d zero baseline: an unreadable headline pair says cannot-verify, never borrows "
+        "the section's own number", "无法核验" in _z_blind and "12.13" not in _z_blind,
+        _z_blind[:200])
 
     # L215-L218 (r1575). The ladder's word "today" is a promise about a date. Three states,
     # three different sentences -- and the bar count must come off the artifact, because the
