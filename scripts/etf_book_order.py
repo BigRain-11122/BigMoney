@@ -954,11 +954,29 @@ def idle_cash_book_rate(results_dir=None):
         return None
     if not np.isfinite(pct):
         return None
+    # r1747: the two book CAGRs above are the engine AS CODED (score at bar d, filled at bar
+    # d's open). The card declares decide-at-close(d) -> fill-at-open(d+1), and r1746 priced
+    # that arm on the same book, the same rule and the same cash path. A ticket that calls the
+    # as-coded pair "the book's headline" without saying so quotes a number the stated
+    # execution cannot deliver. The arm is read, never rebuilt here; a face without it leaves
+    # this None so the ticket says it cannot verify instead of borrowing the as-coded number.
+    _arm = (doc.get("arms") or {}).get("declared")
+    dec = None
+    if isinstance(_arm, dict) and _arm.get("cagr_with_pct") is not None:
+        dec = {"cagr_without_pct": _arm.get("cagr_without_pct"),
+               "cagr_with_pct": _arm.get("cagr_with_pct"),
+               "sharpe_with": _arm.get("sharpe_with"),
+               "maxdd_with_pct": _arm.get("maxdd_with_pct"),
+               "lag": _arm.get("lag"), "convention": _arm.get("convention")}
+    _gap = (doc.get("arm_gap") or {}).get("cagr_with_pct")
     return {"pct": round(pct, 4), "source": IDLE_CASH_FACE,
             "asof": doc.get("asof"), "evidence_cutoff": doc.get("evidence_cutoff"),
             "book_cagr_without_pct": rd.get("cagr_without_pct"),
             "book_cagr_with_pct": rd.get("cagr_with_pct"),
-            "idle_share_mean": rd.get("idle_share_mean")}
+            "idle_share_mean": rd.get("idle_share_mean"),
+            "basis": "as_coded", "basis_label": rd.get("convention"),
+            "declared": dec,
+            "declared_gap_pp": _gap if isinstance(_gap, (int, float)) else None}
 
 
 def cash_money(cash_amount, rates, asof, accrual_pct=None, tail=250, fall_bp=CASH_MONEY_BP,
@@ -1022,6 +1040,11 @@ def cash_money(cash_amount, rates, asof, accrual_pct=None, tail=250, fall_bp=CAS
                                 "asof": book.get("asof"),
                                 "book_cagr_without_pct": book.get("book_cagr_without_pct"),
                                 "book_cagr_with_pct": book.get("book_cagr_with_pct"),
+                                # r1747: carry the execution basis down to the machine face too,
+                                # so a downstream reader does not have to re-open the source.
+                                "basis": book.get("basis"),
+                                "declared": book.get("declared"),
+                                "declared_gap_pp": book.get("declared_gap_pp"),
                                 "gap_vs_spot_bp": round((spot_pct - bp) * 100.0, 2),
                                 "gap_vs_spot_cny": round(cash * (spot_pct - bp) / 100.0, 0)}
     if spot_pct <= tail_pct - float(fall_bp) / 100.0:
@@ -1054,7 +1077,47 @@ def cash_money(cash_amount, rates, asof, accrual_pct=None, tail=250, fall_bp=CAS
     return out
 
 
-def cash_book_rate_md(cm):
+def _cash_basis_lines(br):
+    """r1747: which execution basis is the headline on this cash line quoting?
+
+    r1746 found the CEO page's two headlines were the engine as coded, while the card claims
+    decide-at-close(d) -> fill-at-open(d+1); on the same book and the same cash path that arm
+    pays 2.43pp less. The ticket quotes the same headline and had the same silence, so a reader
+    deciding off the ticket sized against a number the stated execution cannot deliver. One
+    source: the arm is read off the published face. A face without the arm says it cannot
+    verify -- the as-coded pair is never passed off as the declared one.
+    """
+    dec = (br or {}).get("declared")
+    if isinstance(dec, dict) and dec.get("cagr_with_pct") is not None:
+        c0 = br.get("book_cagr_without_pct")
+        c1 = br.get("book_cagr_with_pct")
+        g = br.get("declared_gap_pp")
+        if isinstance(g, (int, float)):
+            tail = ("，比上面的数低 %.2f 个百分点" % abs(g)) if g < 0 \
+                else ("，与上面的数相差 %.2f 个百分点" % g)
+        else:
+            tail = ""
+        as_coded = ""
+        if isinstance(c0, (int, float)) or isinstance(c1, (int, float)):
+            as_coded = "（%s%%/年 → 付息后 %s%%/年）" % (
+                "%.2f" % c0 if isinstance(c0, (int, float)) else "?",
+                "%.2f" % c1 if isinstance(c1, (int, float)) else "?")
+        return ["- **这本书的头条是按引擎现在的写法量的**：取 bar d 自己的分数、在 bar d 的开盘"
+                "成交%s。卡上声明的执行是「bar d 收盘决策、bar d+1 开盘成交」——同一本书、同一条"
+                "现金路径按那个口径重排：头条 **%.2f%%/年**（付息后 **%.2f%%/年**，夏普 %s，最大"
+                "回撤 %s）%s。"
+                % (as_coded, dec["cagr_without_pct"], dec["cagr_with_pct"],
+                   "%.3f" % dec["sharpe_with"] if dec.get("sharpe_with") is not None else "?",
+                   "%.2f%%" % dec["maxdd_with_pct"]
+                   if dec.get("maxdd_with_pct") is not None else "?",
+                   tail)]
+    if dec is None:
+        return ["- 这张面没有发布「按卡上执行口径」的那一臂，所以上面那个头条究竟是哪一臂，"
+                "本单**无法核验**——不拿 as-coded 的数顶替声明臂。"]
+    return []
+
+
+def cash_book_rate_md(cm, basis=True):
     """r1718: does this ticket's cash line use the same rate the book's headline uses?
 
     The ticket and the headline printed two answers about the same money at different
@@ -1063,6 +1126,10 @@ def cash_book_rate_md(cm):
     headline's rate beside the quote, name the gap in CNY, and refuse to add them. When the
     face is unreadable the ticket says it cannot verify -- it must not pass the quote off as
     the headline's caliber.
+
+    r1747: `basis` lets the caller skip the execution-basis sentence. The CEO page prints the
+    two arms in its own section, so consuming the ticket's sentence too would say the same
+    thing twice on one page; a ticket read on its own must keep it.
     """
     if not cm or cm.get("verdict") == "CANNOT_PRICE":
         return []
@@ -1075,13 +1142,14 @@ def cash_book_rate_md(cm):
             % (br["pct"], br.get("source") or "?",
                format(int(cm["cash_amount_cny"]), ","),
                format(int(br["annual_cny"]), ",")))
+    basis_lines = _cash_basis_lines(br) if basis else []
     gap = br.get("gap_vs_spot_bp")
     if gap is None:
-        return [head, "- 两张面之间的差算不出来，本单不印它。"]
+        return [head] + basis_lines + ["- 两张面之间的差算不出来，本单不印它。"]
     if abs(gap) <= CASH_BOOK_SAME_BP:
-        return [head, "- 它与上面那节报价差 %.2fbp，属同一个口径：这张单的现金行就是头条那一行。"
-                % gap]
-    return [head,
+        return [head] + basis_lines + ["- 它与上面那节报价差 %.2fbp，属同一个口径：这张单的现金行就是"
+                                 "头条那一行。" % gap]
+    return [head] + basis_lines + [
             "- 与上面那节报价差 **%.2fbp**（一年 ¥%s）：一个是一节报价，一个是整段窗口扣佣金的"
             "净滚，**不可相加**；头条用的是后者。"
             % (gap, format(int(abs(br.get("gap_vs_spot_cny") or 0)), ","))]
@@ -4926,6 +4994,50 @@ def selftest():
         _live is not None and _face_pct is not None
         and abs(float(_live["pct"]) - float(_face_pct)) < 1e-4,
         "live=%s face=%s" % (_live and _live["pct"], _face_pct))
+
+    # leg4p-r (r1747): the two book CAGRs on the cash line are the engine as coded, while the
+    # card claims decide-at-close(d) -> fill-at-open(d+1). The ticket now prints the declared
+    # arm beside them. Paired legs: the sentence must carry both arms and the gap; a face
+    # without the arm must say cannot-verify instead of letting the as-coded pair pass.
+    _bk_dec = {"pct": 1.7731, "source": IDLE_CASH_FACE, "asof": "2026-11-16T01:48:21",
+               "book_cagr_without_pct": 11.55, "book_cagr_with_pct": 12.13,
+               "basis": "as_coded", "declared_gap_pp": -2.43,
+               "declared": {"cagr_without_pct": 9.12, "cagr_with_pct": 9.70,
+                            "sharpe_with": 0.926, "maxdd_with_pct": -11.98, "lag": 1}}
+    _cm_dec = cash_money(568230.0, pd.Series([1.7732] * 40, index=_cm_idx),
+                         "2024-02-23", accrual_pct=1.7732, book=_bk_dec)
+    _basis = [l for l in cash_book_rate_md(_cm_dec) if "按引擎现在的写法" in l]
+    chk("leg4p the declared arm is printed beside the as-coded headline, with its gap",
+        len(_basis) == 1 and "9.12" in _basis[0] and "9.70" in _basis[0]
+        and "0.926" in _basis[0] and "2.43" in _basis[0] and "11.55" in _basis[0],
+        "; ".join(_basis)[:160])
+    _bk_nodec = {k: v for k, v in _bk_dec.items() if k not in ("declared", "declared_gap_pp")}
+    _cm_nodec = cash_money(568230.0, pd.Series([1.7732] * 40, index=_cm_idx),
+                           "2024-02-23", accrual_pct=1.7732, book=_bk_nodec)
+    _unv2 = [l for l in cash_book_rate_md(_cm_nodec) if "无法核验" in l]
+    _all2 = "".join(cash_book_rate_md(_cm_nodec))
+    chk("leg4q a face without the declared arm says cannot-verify, never borrows as-coded",
+        len(_unv2) == 1 and "11.55" not in _all2 and "9.12" not in _all2,
+        "; ".join(_unv2)[:160])
+    _face_dec = None
+    try:
+        with open(os.path.join(PATHS.results_dir, IDLE_CASH_FACE), encoding="utf-8") as _f:
+            _face_dec = ((json.load(_f).get("arms") or {}).get("declared") or {}).get("cagr_with_pct")
+    except (OSError, ValueError):
+        _face_dec = None
+    _live_dec = ((_live or {}).get("declared") or {}).get("cagr_with_pct")
+    chk("leg4r the declared arm is read off the face, not a second computation",
+        _face_dec is not None and _live_dec is not None
+        and abs(float(_live_dec) - float(_face_dec)) < 1e-6,
+        "live=%s face=%s" % (_live_dec, _face_dec))
+
+    _off = cash_book_rate_md(_cm_dec, basis=False)
+    _on = cash_book_rate_md(_cm_dec)
+    chk("leg4s a caller that prints the arms itself can skip the sentence (no double talk)",
+        not any("按引擎现在的写法" in l for l in _off)
+        and any("按引擎现在的写法" in l for l in _on)
+        and len(_on) == len(_off) + 1,
+        "off=%d on=%d" % (len(_off), len(_on)))
 
     # leg4k-o (r1719): the two calibers above both price windows that already happened. Paired
     # legs on the forward one: the money must be the rate arithmetic on real calendar days, moving

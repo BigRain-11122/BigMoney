@@ -53,9 +53,19 @@
     "pct": 1.7731,
     "annual_cny": 10075.0,
     "source": "etf_book_idle_cash.json",
-    "asof": "2026-11-15T14:40:04",
+    "asof": "2026-11-16T01:48:21",
     "book_cagr_without_pct": 11.55,
     "book_cagr_with_pct": 12.13,
+    "basis": "as_coded",
+    "declared": {
+     "cagr_without_pct": 9.12,
+     "cagr_with_pct": 9.7,
+     "sharpe_with": 0.926,
+     "maxdd_with_pct": -11.98,
+     "lag": 1,
+     "convention": "lag +1: score(bar d-1) selects, the book earns open[d] -> open[d+1] -- the execution the card's config.execution string claims (decide at the close of bar d, fill at the open of bar d+1)"
+    },
+    "declared_gap_pp": -2.43,
     "gap_vs_spot_bp": -50.81,
     "gap_vs_spot_cny": -2887.0
    }
@@ -7988,10 +7998,10 @@
  "authority": {
   "writer": "bm-c",
   "owner": "bm-a",
-  "owner_silent_h": 50.6,
+  "owner_silent_h": 51.0,
   "gate_h": 6.0,
   "took_over": true,
-  "why": "bm-a has not written its own heartbeat for 50.6 h (> 6 h): this host takes the pen for the page only -- a stopped heartbeat is not a dead machine",
+  "why": "bm-a has not written its own heartbeat for 51.0 h (> 6 h): this host takes the pen for the page only -- a stopped heartbeat is not a dead machine",
   "no_bar_reason": "human_ages"
  },
  "fleet": {

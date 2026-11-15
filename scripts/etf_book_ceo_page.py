@@ -5444,7 +5444,7 @@ def cash_money_block(cm, page_day=None):
     # 1.26%/yr and 1.77%/yr are the same cash priced by two different instruments.
     try:
         import etf_book_order as _ORD
-        _bk_lines = _ORD.cash_book_rate_md(b)
+        _bk_lines = _ORD.cash_book_rate_md(b, basis=False)
     except Exception:
         _bk_lines = []
     if _bk_lines:
