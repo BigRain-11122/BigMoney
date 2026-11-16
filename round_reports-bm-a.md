@@ -2414,3 +2414,30 @@ CEO 一页纸与执行单（同一个读者件） | 最近实物: `results/etf_b
 **本地未达 origin commit 数**：见尾注（push 后复核）。
 
 **本地未达 origin commit 数**：0（push `5fb8a9096a..490682096b` → fetch 复核 behind 0 / ahead 0）。**S7**：IterationLoop 因 PT35M 时限漂移重注册（pin=8 保持，首跑 20:13）；LoopWatchdog 重注册；两者 S4U 翻转仍拒绝访问＝携带中的提权债（CEO 物理件）；两枚钩子与正典逐字节一致（零动作）。**全量 smoke 未跑**（预算）——覆盖本道的两条 smoke 腿断言与本轮 legI–legM 同类，已手核发布面文本。
+
+## r1297 bm-a · 2026-11-16 20:06 → 21:0x
+
+**水位**：red=false（lane=insufficient_history）。**孤儿面=0**（`python Tools\orphan_face_probe.py`）。
+
+**CEO 三行面**：
+- 当前活：补跑上一轮没跑的全量 smoke，按红项修到能修的位置。
+- 最近实物：`scripts/bond_fut_roll_probe.py` + `research/BOND_FUT_ROLL_VERDICT.md`（2026-11-16 20:5x）——国债期货跨期这条候选 30 分钟判完，WEAK，不投。
+- 下个里程碑：全量 smoke 复跑确认红项清零（下轮，≤2026-11-17）。
+
+**产品增量（四门落 (a) 下不下注=不下）**：国债期货跨期 T/TF/TS。谁在付钱=把套保从本月挪到远月的移仓盘；读数=主力连续换月跳空的幅度（即两合约价差）。**符号**：gap=ln(远/近)，多头滚仓「卖近买远」，远月便宜才是他占便宜 → 可交易读数取反。三品种同号：T **+0.597%/yr**、TF **+0.430%/yr**、TS **+0.497%/yr**，中位 +0.50%/yr，未过 +1.5% 开线 → **WEAK，不立项**（关线，面板与脚本留复用）。selftest 12/12。边界写在判决件里：这是切换日一次的代理价差，不是每日可挂单的双腿报价；换月日靠「当月最大波动 ≥3× 同月中位」启发式，覆盖率 71%–88%。
+
+**修红（S1）**：全量 smoke 首跑 26 条红，两类同因——
+1. **13 条「面板推到 11-16、面停 11-13」**：重跑 writer 腿后核验逐条转绿——rebalance_permission 6/6、cut_order_gap 9/9、decision_line CHECK_OK、permission_persistence CHECK_OK、calendar_distance OK、supply_gate_decision OK、live_size_provenance 12/12、late_sheet_price 10/10、do_or_wait 13/13、premium_persistence CHECK_OK、futures_tsmom rc0（另：`update_futures` 把 10 个品种推到 11-16，idx_fut_basis/idx_fut_desk_sheet 同批重跑 rc0）。
+2. **四处真代码缺陷**：
+   - `smoke_test.py`：`_heat_offhost` 只在本地分支赋值，异机面走 foreign 分支时 UnboundLocalError —— 这条腿从来判不了异机面（r1595 遗留）。补初始化。
+   - `scripts/etf_book_premium_percentile.py::write_hist`：**把 append-only 历史覆盖成空**。本机无 `data/etf_premium/nav_history/` → build 派生 0 行 → 旧版直接把表头写上去，**6496 行在一条 0.2 秒的腿里蒸发**。改为并集语义 + 空构建不落盘；selftest 48/48（新增两腿钉住）。已 `git restore` 恢复 6497 行（`treasure_guard restore` rc0＝可再生工件类）。
+   - `scripts/etf_book_derisk_rule.py::run`：只 print 不写盘，而 `check` 一直读那个文件 → 面冻结在 19:51，每条 check 都报 “panel moved under this face”（r1282/r1594 同族：**check 没有生产者**）。补写盘后 CHECK_OK，selftest 45/45。
+   - `scripts/idx_fut_desk_sheet.py` 自检 33/34：那条腿把真面板 IC 行的 verdict 置 None，而当日 IC 的 status 非 ok 会走 status 分支 → 页面正确、腿判红（fixture 读了世界）。改成自带 fixture 行，34/34。
+
+**剩余未修（如实，不宣称完成）**：`data_lane_tail_certification` rc3 `sample_understated`（抽读与全扫不一致，本机扫 10651 文件）；`data_lane_freshness` verdict=attention（unverifiable 4 / stalled 1 / today_pending 5，worst=ths_panel）；ah_panel 本机盘仍停 10-16（r1290 判例的实物面）。**全量 smoke 未在本轮复跑**（首跑约 35 分钟），下轮首动作＝复跑确认。
+
+**D-19**：decisions sha256 `08c0859e`→`ce16893c`（origin blob 实读，66 批），无一行涉 BigMoney/quant → 水位键更新、零动作。orders：1 条未回执 `O-20261114-2325-bm-c`，本机 r1296 已执行（P0 消费端），本轮补 ack 行。
+
+**捕获律**：新方法入 `knowledge/METHODOLOGY_ASSETS.md` **E1384**（拼接跳空的符号是「谁在付钱」的一半）。
+
+**本地未达 origin commit 数**：0（push 后复核）。

@@ -1,6 +1,6 @@
 {
- "ts": "2026-11-13T19:46:44",
- "mode": "no-op: cutoff covered",
+ "ts": "2026-11-16T20:56:27",
+ "mode": "full-history pull, append-only local, overlap-verified",
  "no_op_reason": "local cutoff 2026-11-13 covers expected complete-bar date 2026-11-13",
  "expected_cutoff": "2026-11-13",
  "data_cutoff": "2026-11-13",
@@ -11,6 +11,7 @@
   "IH",
   "T",
   "TF",
+  "TS",
   "RB",
   "AU",
   "SC"
@@ -20,122 +21,136 @@
    "variety": "IF",
    "symbol": "IF0",
    "appended": 1,
-   "overlap": 2382,
+   "overlap": 2383,
    "mismatch": null,
    "error": null,
    "path": "akshare.futures_main_sina",
-   "rows_local": 2383,
+   "rows_local": 2384,
    "first": "2017-01-17",
-   "last": "2026-11-13"
+   "last": "2026-11-16"
   },
   {
    "variety": "IC",
    "symbol": "IC0",
    "appended": 1,
-   "overlap": 2382,
+   "overlap": 2383,
    "mismatch": null,
    "error": null,
    "path": "akshare.futures_main_sina",
-   "rows_local": 2383,
+   "rows_local": 2384,
    "first": "2017-01-17",
-   "last": "2026-11-13"
+   "last": "2026-11-16"
   },
   {
    "variety": "IM",
    "symbol": "IM0",
    "appended": 1,
-   "overlap": 1044,
+   "overlap": 1045,
    "mismatch": null,
    "error": null,
    "path": "akshare.futures_main_sina",
-   "rows_local": 1045,
+   "rows_local": 1046,
    "first": "2022-07-22",
-   "last": "2026-11-13"
+   "last": "2026-11-16"
   },
   {
    "variety": "IH",
    "symbol": "IH0",
    "appended": 1,
-   "overlap": 2382,
+   "overlap": 2383,
    "mismatch": null,
    "error": null,
    "path": "akshare.futures_main_sina",
-   "rows_local": 2383,
+   "rows_local": 2384,
    "first": "2017-01-17",
-   "last": "2026-11-13"
+   "last": "2026-11-16"
   },
   {
    "variety": "T",
    "symbol": "T0",
    "appended": 1,
-   "overlap": 2382,
+   "overlap": 2383,
    "mismatch": null,
    "error": null,
    "path": "akshare.futures_main_sina",
-   "rows_local": 2383,
+   "rows_local": 2384,
    "first": "2017-01-17",
-   "last": "2026-11-13"
+   "last": "2026-11-16"
   },
   {
    "variety": "TF",
    "symbol": "TF0",
    "appended": 1,
-   "overlap": 2382,
+   "overlap": 2383,
    "mismatch": null,
    "error": null,
    "path": "akshare.futures_main_sina",
-   "rows_local": 2383,
+   "rows_local": 2384,
    "first": "2017-01-17",
-   "last": "2026-11-13"
+   "last": "2026-11-16"
+  },
+  {
+   "variety": "TS",
+   "symbol": "TS0",
+   "appended": 1,
+   "overlap": 1997,
+   "mismatch": null,
+   "error": null,
+   "path": "akshare.futures_main_sina",
+   "rows_local": 1998,
+   "first": "2018-08-17",
+   "last": "2026-11-16"
   },
   {
    "variety": "RB",
    "symbol": "RB0",
    "appended": 1,
-   "overlap": 4280,
+   "overlap": 4281,
    "mismatch": null,
    "error": null,
    "path": "akshare.futures_main_sina",
-   "rows_local": 4281,
+   "rows_local": 4282,
    "first": "2009-03-27",
-   "last": "2026-11-13"
+   "last": "2026-11-16"
   },
   {
    "variety": "AU",
    "symbol": "AU0",
    "appended": 1,
-   "overlap": 4589,
+   "overlap": 4590,
    "mismatch": null,
    "error": null,
    "path": "akshare.futures_main_sina",
-   "rows_local": 4590,
+   "rows_local": 4591,
    "first": "2008-01-09",
-   "last": "2026-11-13"
+   "last": "2026-11-16"
   },
   {
    "variety": "SC",
    "symbol": "SC0",
    "appended": 1,
-   "overlap": 2094,
+   "overlap": 2095,
    "mismatch": null,
    "error": null,
    "path": "akshare.futures_main_sina",
-   "rows_local": 2095,
+   "rows_local": 2096,
    "first": "2018-03-26",
-   "last": "2026-11-13"
+   "last": "2026-11-16"
   }
  ],
  "summary": {
-  "varieties": 9,
+  "varieties": 10,
+  "fetched": 10,
+  "laggards_before": 10,
   "failures": 0,
   "mismatches": 0,
-  "total_appended": 9,
-  "data_cutoff": "2026-11-13"
+  "total_appended": 10,
+  "data_cutoff": "2026-11-16"
  },
  "claim": "MSG-20260924-0645-bm-a-futures-cta-puller",
  "note": "main-continuous bars are raw price level at roll (unadjusted); roll-gap handling is a prereg design decision, not a puller concern",
  "machine": "bm-a",
- "last_attempt": "2026-11-13T19:22:10",
+ "last_attempt": "2026-11-16T20:56:27",
  "authority": {
   "lane_owner": "bm-a",
   "writer_machine": "bm-a",
@@ -145,5 +160,30 @@
   "took_over_at": null,
   "reason": null
  },
+ "fetch_set": [
+  "IF",
+  "IC",
+  "IM",
+  "IH",
+  "T",
+  "TF",
+  "TS",
+  "RB",
+  "AU",
+  "SC"
+ ],
+ "laggards": [
+  "AU",
+  "IC",
+  "IF",
+  "IH",
+  "IM",
+  "RB",
+  "SC",
+  "T",
+  "TF",
+  "TS"
+ ],
+ "unplanned_csvs": [],
  "lane_machine": "bm-a"
 }

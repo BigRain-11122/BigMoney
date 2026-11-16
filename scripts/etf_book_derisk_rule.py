@@ -788,6 +788,13 @@ def main() -> int:
     if a.mode == "check":
         return check()
     out = run(quick=a.quick)
+    # r1297 bm-a: `check` has always read this file, but `run` only printed. The face froze
+    # at whatever build last wrote it, so every later check said "the panel moved under this
+    # face" and no writer existed to answer -- the r1282/r1594 class (a check must be able to
+    # name who writes the face it reads). The producer is restored here, panel stamp included.
+    os.makedirs(OUT_DIR, exist_ok=True)
+    with io.open(OUT, "w", encoding="utf-8") as _fh:
+        json.dump(out, _fh, ensure_ascii=False, indent=2)
     print(json.dumps({"answer": out["answer"],
                       "control_gate_ok": out["control_gate"]["ok"],
                       "rules": {r["rule"]: [r["verdict"], r["cagr_pct"], r["maxdd_pct"],

@@ -707,13 +707,39 @@ def _fmt_money(x):
 
 
 def write_hist(hist_rows):
+    """Append-only: the published history may gain rows, never lose them.
+
+    Why (r1297 bm-a): `build` derives the history from whatever NAV files exist on THIS
+    host, and a host that does not hold `data/etf_premium/nav_history/` derives nothing.
+    The earlier version wrote that emptiness straight over the published file -- one 0.2 s
+    `--no-fetch` leg replaced 6,496 rows with a header.  A writer that cannot see the panel
+    is not evidence that the panel is empty, so the union is written and the rows this
+    build could not see are named out loud.
+    """
     os.makedirs(OUT_DIR, exist_ok=True)
+    merged = {}
+    for r in read_hist():
+        merged[(r["date"], r["symbol"])] = (r["date"], r["symbol"], r["close"],
+                                            r["nav_date"], r["nav"], r["premium_pct"])
+    old_keys = set(merged)
+    new_keys = {(row[0], row[1]) for row in hist_rows}
+    for row in hist_rows:
+        merged[(row[0], row[1])] = tuple(row)
+    if not hist_rows:
+        print("history: this host derived no rows -- %d published row(s) kept, file untouched"
+              % len(old_keys))
+        return len(old_keys)
+    unseen = len(old_keys - new_keys)
+    if unseen:
+        print("history: union -- %d published row(s) this build could not see are kept"
+              % unseen)
     tmp = HIST + ".tmp"
     with open(tmp, "w", encoding="utf-8", newline="\n") as f:
         f.write("date,symbol,close,nav_date,nav,premium_pct\n")
-        for d, c, cl, nd, nav, pr in sorted(hist_rows):
+        for d, c, cl, nd, nav, pr in sorted(merged.values()):
             f.write("%s,%s,%.4f,%s,%.6f,%.6f\n" % (d, c, cl, nd, nav, pr))
     os.replace(tmp, HIST)
+    return len(merged)
 
 
 def read_hist():
@@ -1100,6 +1126,29 @@ def selftest():
                                           "bars_beyond_session": 1}})
     chk("2026-11-13" in s_ahead and "2026-11-12" in s_ahead,
         "a sentence that quotes a rank names the day when the panel moved past it")
+
+    # r1297 bm-a: a writer that cannot see the panel must not delete the panel. The leg
+    # runs against a temporary HISTORY so the published file is never the fixture.
+    import shutil
+    import tempfile
+    _tmpdir = tempfile.mkdtemp(prefix="premium_hist_")
+    _saved_hist = HIST
+    try:
+        globals()["HIST"] = os.path.join(_tmpdir, "premium_history.csv")
+        with open(HIST, "w", encoding="utf-8", newline="\n") as _fh:
+            _fh.write("date,symbol,close,nav_date,nav,premium_pct\n")
+            _fh.write("2026-11-13,159655,1.5000,2026-11-12,1.480000,1.351400\n")
+        write_hist([])
+        _kept = read_hist()
+        chk(len(_kept) == 1 and _kept[0]["date"] == "2026-11-13",
+            "an empty build keeps the published history instead of writing a bare header")
+        write_hist([("2026-11-16", "159655", 1.52, "2026-11-13", 1.49, 2.013400)])
+        _union = read_hist()
+        chk(len(_union) == 2 and {r["date"] for r in _union} == {"2026-11-13", "2026-11-16"},
+            "a later build unions with the published history rather than replacing it")
+    finally:
+        globals()["HIST"] = _saved_hist
+        shutil.rmtree(_tmpdir, ignore_errors=True)
 
     print("selftest %d/%d" % (ok, tot))
     for e in errs:

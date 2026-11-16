@@ -811,13 +811,17 @@ def selftest():
         abs(60.0 / tot * 100.0 + 40.0 / tot * 100.0 - 100.0) < 1e-9, str(tot))
 
     # 8. a missing judgement is printed as unknown, never inherited from a neighbour
+    # r1297 bm-a: this leg used to null the verdict on whatever the LIVE panel produced. On a
+    # day the product's own status is not "ok" the renderer takes the status branch first, so
+    # the leg failed on a correct page -- a fixture that reads the world is not a fixture.
     base_face = build()
     tampered = json.loads(json.dumps(base_face))
-    if "IC" in tampered["rows"]:
-        tampered["rows"]["IC"]["verdict"] = None
+    tampered["rows"]["IC"] = {"status": "ok", "verdict": None, "held_contract": "IC2601",
+                             "close": 1.0, "oi_share_pct": 1.0, "thin_interest": False,
+                             "notional_per_lot_cny": 1.0, "margin_per_lot_cny": 1.0}
     page = render_md(tampered)
     leg("a missing judgement reads 'unknown', never a borrowed verdict",
-        ("| IC | unknown |" in page) or ("IC" not in tampered["rows"]), "row-level")
+        "| IC | unknown |" in page, "row-level fixture")
     # ...and a refused gap has to say why, not print a bare dash
     refused_prods = [p for p in CRITERIA["products"]
                      if (tampered["rows"].get(p) or {}).get("status") == "ok"

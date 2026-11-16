@@ -4286,6 +4286,10 @@ def main() -> int:
             _here = None
         _disk = _lfz.get("disk") or {}
         _foreign = bool(_here and _disk.get("here") and _disk["here"] != _here)
+        # r1595's `_heat_offhost` is only assigned on the local branch, but the verdict and
+        # the detail string below read it on both -- a foreign face crashed the leg with
+        # UnboundLocalError instead of being judged.  Default it on the foreign side.
+        _heat_offhost = False
         if _foreign:
             _heat_matches = bool(_disk.get("sentence"))
             _zt_ok = bool(_disk.get("offhost_lanes") or _disk.get("groups"))

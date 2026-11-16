@@ -16063,3 +16063,12 @@ etf_book_premium_choice 用百分数、premium_persistence 用分数）。
 
 **正身**：scripts/etf_book_premium_roads.py（selftest 11/11 ＋ --check ok:true）·
 results/etf_book_order/ORDER-2026-11-16.md §溢价腿的三条路（r1775）· scripts/etf_book_ceo_page.py L230 修法
+## E1384 · 拼接跳空的符号是「谁在付钱」的一半，不是读数本身
+
+主力连续在换月日把两份合约的价差记成一根收益。把这根从收益里剔掉是对的，但**读数必须再定方向**：
+跳空 = ln(远月/近月)。多头滚仓是「卖近买远」，远月便宜他才占便宜 —— 所以**可交易读数 = −跳空**。
+本窗第一版把跳空中位 −0.25% 直接读成「多头每年付费 0.5%」，一整条判词的方向就是反的；
+现在 selftest 里有一条恒等腿（long_roll == −gap_annual）和 contango/backwardation 双向腿钉住它。
+
+**实锚**：T/TF/TS 换月跳空中位 −0.2501%/−0.1482%/−0.0743%，同一批数据两种读法差 **≈1.0pp/年**（「付费」vs「收钱」）。
+**正身**：scripts/bond_fut_roll_probe.py（selftest 12/12）· research/BOND_FUT_ROLL_VERDICT.md
