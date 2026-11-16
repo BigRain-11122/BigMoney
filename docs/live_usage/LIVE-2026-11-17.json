@@ -2,7 +2,7 @@
  "schema": "ceo_live_usage_v1_9",
  "ticket": "T-202609-28-105",
  "day": "2026-11-17",
- "generated": "2026-11-17T02:02:57",
+ "generated": "2026-11-17T02:22:50",
  "market": {
   "state": "RED",
   "asof": "2026-11-16",
@@ -506,7 +506,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 58601.2
+    "last_append_age_min": 58621.0
    },
    {
     "family": "FUND-VALUE-P1",
@@ -514,7 +514,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 59445.6
+    "last_append_age_min": 59465.5
    },
    {
     "family": "FUND-DIVLOWVOL-P1",
@@ -522,7 +522,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 56238.9
+    "last_append_age_min": 56258.8
    }
   ]
  },
@@ -622,7 +622,180 @@
   "cash_weight": 0.567805,
   "k_now": 0.432195,
   "next_decision_bars": 17,
-  "cost_bp_per_side": 8.0
+  "cost_bp_per_side": 8.0,
+  "delta": {
+   "present": true,
+   "verdict": "SHEET_IMPLIES_A_SWAP",
+   "verdict_cn": "换仓：一部分卖出、一部分买入",
+   "no_action": false,
+   "executable": true,
+   "rows": [
+    {
+     "symbol": "159513",
+     "price": 1.76,
+     "current_lots": 891,
+     "target_lots": 0,
+     "delta_lots": -891,
+     "side": "SELL",
+     "amount_cny": 156816.0
+    },
+    {
+     "symbol": "159263",
+     "price": 1.134,
+     "current_lots": 693,
+     "target_lots": 0,
+     "delta_lots": -693,
+     "side": "SELL",
+     "amount_cny": 78586.2
+    },
+    {
+     "symbol": "159577",
+     "price": 1.659,
+     "current_lots": 473,
+     "target_lots": 0,
+     "delta_lots": -473,
+     "side": "SELL",
+     "amount_cny": 78470.7
+    },
+    {
+     "symbol": "510760",
+     "price": 1.254,
+     "current_lots": 0,
+     "target_lots": 689,
+     "delta_lots": 689,
+     "side": "BUY",
+     "amount_cny": 86400.6
+    },
+    {
+     "symbol": "512040",
+     "price": 1.201,
+     "current_lots": 0,
+     "target_lots": 719,
+     "delta_lots": 719,
+     "side": "BUY",
+     "amount_cny": 86351.9
+    },
+    {
+     "symbol": "159519",
+     "price": 1.751,
+     "current_lots": 0,
+     "target_lots": 493,
+     "delta_lots": 493,
+     "side": "BUY",
+     "amount_cny": 86324.3
+    },
+    {
+     "symbol": "159655",
+     "price": 1.97,
+     "current_lots": 0,
+     "target_lots": 438,
+     "delta_lots": 438,
+     "side": "BUY",
+     "amount_cny": 86286.0
+    },
+    {
+     "symbol": "513690",
+     "price": 1.15,
+     "current_lots": 677,
+     "target_lots": 751,
+     "delta_lots": 74,
+     "side": "BUY",
+     "amount_cny": 8510.0
+    }
+   ],
+   "sells": [
+    {
+     "symbol": "159513",
+     "price": 1.76,
+     "current_lots": 891,
+     "target_lots": 0,
+     "delta_lots": -891,
+     "side": "SELL",
+     "amount_cny": 156816.0
+    },
+    {
+     "symbol": "159263",
+     "price": 1.134,
+     "current_lots": 693,
+     "target_lots": 0,
+     "delta_lots": -693,
+     "side": "SELL",
+     "amount_cny": 78586.2
+    },
+    {
+     "symbol": "159577",
+     "price": 1.659,
+     "current_lots": 473,
+     "target_lots": 0,
+     "delta_lots": -473,
+     "side": "SELL",
+     "amount_cny": 78470.7
+    }
+   ],
+   "buys": [
+    {
+     "symbol": "510760",
+     "price": 1.254,
+     "current_lots": 0,
+     "target_lots": 689,
+     "delta_lots": 689,
+     "side": "BUY",
+     "amount_cny": 86400.6
+    },
+    {
+     "symbol": "512040",
+     "price": 1.201,
+     "current_lots": 0,
+     "target_lots": 719,
+     "delta_lots": 719,
+     "side": "BUY",
+     "amount_cny": 86351.9
+    },
+    {
+     "symbol": "159519",
+     "price": 1.751,
+     "current_lots": 0,
+     "target_lots": 493,
+     "delta_lots": 493,
+     "side": "BUY",
+     "amount_cny": 86324.3
+    },
+    {
+     "symbol": "159655",
+     "price": 1.97,
+     "current_lots": 0,
+     "target_lots": 438,
+     "delta_lots": 438,
+     "side": "BUY",
+     "amount_cny": 86286.0
+    },
+    {
+     "symbol": "513690",
+     "price": 1.15,
+     "current_lots": 677,
+     "target_lots": 751,
+     "delta_lots": 74,
+     "side": "BUY",
+     "amount_cny": 8510.0
+    }
+   ],
+   "gross_sell_cny": 313872.9,
+   "gross_buy_cny": 353872.8,
+   "turnover_cny": 667745.7,
+   "net_cash_cny": 39999.9,
+   "cash_before_cny": 607595.1,
+   "cash_after_cny": 567595.2,
+   "turnover_share_pct": 170.17,
+   "current_bar": "2026-11-10",
+   "current_rows": 4,
+   "target_rows": 5,
+   "mark_cny": -677.0,
+   "mark_account_bar": "2026-11-10",
+   "declaration_status": "UNEXPLAINED_TARGET_WITHOUT_TRADES",
+   "declaration_bar": "2026-11-16",
+   "declaration_actions": 0,
+   "positions_source": "face@2026-11-16"
+  }
  },
  "book_identity": {
   "path_ledger": "results/etf_book_forward/LEDGER.json",

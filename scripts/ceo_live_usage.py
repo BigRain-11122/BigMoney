@@ -702,6 +702,76 @@ def _carry_book_face():
     }
 
 
+# r1785: the sheet below is a full build; the reader who already followed the
+# page needs the DIFFERENCE.  The producer (etf_book_exec_delta) has printed
+# that difference since r1563 and nothing on the page ever showed it, so
+# "follow the page" meant buying the whole book again at every hand-off.  Two
+# rules:
+#
+#   * ALREADY_ON_TARGET is a real zero (nothing to do today) while a missing or
+#     unpriced face is NOT -- the two must never print the same sentence (r98);
+#   * the account row and the sheet are priced on different bars, so the
+#     carry-leg mark is printed beside the cash chain instead of folded into it
+#     (r1563: the producer keeps them apart, this page keeps them apart).
+_ETF_DELTA_VERDICTS = {
+    "ALREADY_ON_TARGET": "已到目标：今天没有动作",
+    "SHEET_IMPLIES_A_SWAP": "换仓：一部分卖出、一部分买入",
+    "BUY_ONLY": "只买不卖",
+    "SELL_DOWN_ONLY": "只减不加",
+    "CASH_SHORT": "卖出回笼不够买：现金会变成负数，这张差量单不能执行",
+    "UNPRICED": "有票读不到价：差量算不出",
+}
+
+
+def _etf_delta_face(t):
+    """The published sell/buy rows, read straight from the ticket's face."""
+    d = (t or {}).get("exec_delta") or {}
+    if not d:
+        return {"present": False, "note": "换仓差量面未产出（缺面不读 0 手）"}
+    rows = []
+    for r in d.get("rows") or []:
+        rows.append({
+            "symbol": str(r.get("symbol") or ""),
+            "price": r.get("price"),
+            "current_lots": r.get("current_lots"),
+            "target_lots": r.get("target_lots"),
+            "delta_lots": r.get("delta_lots"),
+            "side": str(r.get("side") or ""),
+            "amount_cny": r.get("amount_cny"),
+        })
+    verdict = str(d.get("verdict") or "")
+    mark = d.get("mark") or {}
+    decl = d.get("declaration") or {}
+    return {
+        "present": True,
+        "verdict": verdict,
+        "verdict_cn": _ETF_DELTA_VERDICTS.get(
+            verdict, "判定面出现未登记状态：按不可读处理"),
+        "no_action": verdict == "ALREADY_ON_TARGET",
+        "executable": verdict in {"SHEET_IMPLIES_A_SWAP", "BUY_ONLY",
+                                  "SELL_DOWN_ONLY"},
+        "rows": rows,
+        "sells": [r for r in rows if r["side"] == "SELL"],
+        "buys": [r for r in rows if r["side"] == "BUY"],
+        "gross_sell_cny": d.get("gross_sell_cny"),
+        "gross_buy_cny": d.get("gross_buy_cny"),
+        "turnover_cny": d.get("turnover_cny"),
+        "net_cash_cny": d.get("net_cash_cny"),
+        "cash_before_cny": d.get("cash_before_cny"),
+        "cash_after_cny": d.get("cash_after_cny"),
+        "turnover_share_pct": d.get("turnover_share_of_book_pct"),
+        "current_bar": d.get("current_bar"),
+        "current_rows": d.get("current_rows"),
+        "target_rows": d.get("target_rows"),
+        "mark_cny": mark.get("drift_cny"),
+        "mark_account_bar": mark.get("account_bar"),
+        "declaration_status": str(decl.get("status") or ""),
+        "declaration_bar": decl.get("bar"),
+        "declaration_actions": decl.get("actions"),
+        "positions_source": d.get("positions_source"),
+    }
+
+
 def _etf_order_face():
     """v2.3 (r1784): the executable sheet's own rows, in lots and cash.
 
@@ -717,9 +787,10 @@ def _etf_order_face():
     * the page names the decision bar and the producing trip, because the fill
       is the NEXT session's open while the ticket is priced on this bar's close
       (r1771/r1781 day-word family);
-    * the list is the target build, not the rebalance delta -- the delta lives
-      in the ledger block; mixing them would print a buy list for someone who
-      is already holding the book.
+    * the list is the target build, not the rebalance delta -- r1785 prints the
+      delta as its own block, one line below, labelled for the reader who has
+      already followed an earlier sheet; mixing them would print a buy list for
+      someone who is already holding the book.
     """
     latest = _read_json(ETF_TICKET_LATEST)
     if not latest:
@@ -764,6 +835,9 @@ def _etf_order_face():
         "k_now": latest.get("k_now"),
         "next_decision_bars": t.get("next_decision_bars"),
         "cost_bp_per_side": t.get("cost_bp_per_side"),
+        # r1785: the same trip also published the rebalance difference; the
+        # page prints it as a second, separately labelled reader.
+        "delta": _etf_delta_face(t),
     }
 
 
@@ -1406,11 +1480,83 @@ def render_md(p: dict) -> str:
             L.append(f"  - {r['symbol']}｜{r['lots']} 手（{r['shares']} 份）"
                      f"｜约 ¥{_fmt_cny(r['amount_cny'] or 0)}｜价 {r['price']}")
         L.append("  - 口径：这是 100 万账面按目标铺满的整手清单，**不是换仓差量**"
-                 "（差量看账本那一段，那本与这本不在同一决策 bar）；"
+                 "（差量见紧接的下一段）；"
                  "价=决策 bar 收盘，开盘成交价会不同。")
         if eo.get("generated"):
             L.append(f"  - 出处：`results/etf_book_order/{eo.get('file')}`"
                      f"（generated {eo.get('generated')}·cutoff {eo.get('bar')}）")
+        # ---- r1785: the difference a returning reader actually has to trade.
+        eod = eo.get("delta") or {}
+        if not eod.get("present"):
+            L.append("  - **今天要做的动作**（同一张票面里的换仓差量）："
+                     f"{eod.get('note') or '缺件（缺面不读 0 手）'}")
+        elif eod.get("no_action"):
+            L.append("  - **今天要做的动作**（同一张票面里的换仓差量）："
+                     f"{eod.get('verdict_cn')}——这一段不需要下单。")
+        elif not eod.get("executable"):
+            L.append("  - **今天要做的动作**（同一张票面里的换仓差量）："
+                     f"{eod.get('verdict_cn')}——所以这一段不给买卖手数。")
+        else:
+            _bp = eo.get("cost_bp_per_side")
+            _bs = eod.get("gross_sell_cny") or 0.0
+            _bb = eod.get("gross_buy_cny") or 0.0
+            L.append("  - **今天要做的动作**（同一张票面里的换仓差量·账面持仓 bar "
+                     f"{eod.get('current_bar')} → 票面 bar {eo.get('bar')}）："
+                     f"{eod.get('verdict_cn')}")
+            if eod.get("sells"):
+                L.append("    - 先卖 {} 只｜合计回笼 ¥{}".format(
+                    len(eod["sells"]), _fmt_cny(_bs)))
+                for r in eod["sells"]:
+                    L.append("      - {}｜卖 {} 手｜{}→{} 手｜约 ¥{}｜价 {}".format(
+                        r["symbol"], abs(r["delta_lots"] or 0),
+                        r["current_lots"], r["target_lots"],
+                        _fmt_cny(r["amount_cny"] or 0), r["price"]))
+            if eod.get("buys"):
+                L.append("    - 再买 {} 只｜合计支出 ¥{}".format(
+                    len(eod["buys"]), _fmt_cny(_bb)))
+                for r in eod["buys"]:
+                    L.append("      - {}｜买 {} 手｜{}→{} 手｜约 ¥{}｜价 {}".format(
+                        r["symbol"], abs(r["delta_lots"] or 0),
+                        r["current_lots"], r["target_lots"],
+                        _fmt_cny(r["amount_cny"] or 0), r["price"]))
+            _cb = eod.get("cash_before_cny")
+            _ca = eod.get("cash_after_cny")
+            if _cb is not None and _ca is not None:
+                # r1785: direction is read off the two cash numbers, not off
+                # net_cash_cny -- the producer's net cash is "money needed to
+                # buy", positive when cash FALLS, so reusing its sign here
+                # printed a 40,000 outflow as "+40,000".
+                _d = _ca - _cb
+                L.append("    - 现金：动手前 ¥{} → 动完 ¥{}（{}¥{}）".format(
+                    _fmt_cny(_cb), _fmt_cny(_ca),
+                    "净增" if _d >= 0 else "净减", _fmt_cny(abs(_d))))
+            if _bp:
+                L.append("    - 成本：按票面 {:.1f}bp/边估，卖出 ¥{}＋买入 ¥{}＝约 ¥{}"
+                         .format(_bp, _fmt_cny(_bs * _bp / 10000.0),
+                                 _fmt_cny(_bb * _bp / 10000.0),
+                                 _fmt_cny((_bs + _bb) * _bp / 10000.0)))
+            _ts = eod.get("turnover_share_pct")
+            if _ts is not None:
+                L.append("    - 换手是账面总额的 {:.1f}%：这是近乎全换仓，"
+                         "不是小修小补。".format(_ts))
+            L.append("    - 两种读者别混用：**手上没有这只书**的照上面那张铺满单建仓；"
+                     "**已经照过前一张单**的只做这一段。混着看会把同一批票买两遍。")
+            _mk = eod.get("mark_cny")
+            if _mk is not None:
+                L.append("    - 和这一段一起读：账上那本按 {} 的价、票面按 {} 的价，"
+                         "保留腿重估差 {}¥{}，单列、不并进上面的现金数。".format(
+                             eod.get("mark_account_bar") or "上一交易日",
+                             eo.get("bar"), "-" if _mk < 0 else "",
+                             _fmt_cny(abs(_mk))))
+            if eod.get("declaration_status", "").startswith("UNEXPLAINED"):
+                L.append("    - 也和这一句一起读：票面自标「目标动过、但没有成交记录"
+                         "解释这次移动」（{} → {}，账面零成交）——所以这一段是"
+                         "「把账面拉到今天这张单」，不是「策略今天叫你换仓」。".format(
+                             eod.get("mark_account_bar") or "上一交易日",
+                             eo.get("bar")))
+            L.append("    - 出处：同一张票面里的换仓差量面（`{}`·bar {}）".format(
+                "results/etf_book_order/" + str(eo.get("file")),
+                eod.get("current_bar")))
     L.append("")
     L.append("## ⑦ 指数期货 carry 书 · 开仓资金线（纯读出）")
     L.append("")
@@ -1606,6 +1752,64 @@ def selftest() -> int:
                      - _eo["nav_cny"]) < 1.0)
         check("order sheet: the page names the decision bar and the trip",
               str(_eo.get("decision_bar")) in _md_o)
+        # --- r1785: the delta a returning reader has to trade.  The sheet
+        # above is a full build; a reader who already followed an earlier
+        # sheet must not be told to buy the whole book again.  Three legs:
+        # the rows are the face's own, the cash chain closes, and a real
+        # "nothing to do" never shares wording with "could not read".
+        _eod = _eo.get("delta") or {}
+        if _eod.get("present"):
+            check("delta: page carries every face row, one per code (r1785)",
+                  all(r["symbol"] in _md_o for r in _eod.get("rows") or [])
+                  and len(_eod.get("rows") or [])
+                  == len(_eod.get("sells") or []) + len(_eod.get("buys") or []))
+            _cb0 = _eod.get("cash_before_cny")
+            _ca0 = _eod.get("cash_after_cny")
+            _gs0 = _eod.get("gross_sell_cny") or 0.0
+            _gb0 = _eod.get("gross_buy_cny") or 0.0
+            check("delta: cash chain closes (before - buys + sells == after)",
+                  _cb0 is None or _ca0 is None
+                  or abs((_cb0 - _gb0 + _gs0) - _ca0) < 1.0)
+            # r1785: the printed direction must follow the two cash numbers.
+            # The producer's net_cash_cny is positive when cash FALLS, so a
+            # page that reads it as a signed change prints an outflow as "+".
+            if _cb0 is not None and _ca0 is not None:
+                _want = "净减" if _ca0 < _cb0 else "净增"
+                check("delta: money direction follows the cash numbers (r1785)",
+                      _want in _md_o
+                      and ("净增" if _want == "净减" else "净减") not in _md_o)
+            _rows_sum = sum(abs(r.get("delta_lots") or 0)
+                            for r in _eod.get("rows") or [])
+            check("delta: lots moved is the face's own sum, not a recount",
+                  _rows_sum == 0 or _eod.get("rows"))
+            if _eod.get("declaration_status", "").startswith("UNEXPLAINED"):
+                check("delta: an unexplained target move reaches the page (r1785)",
+                      "目标动过" in _md_o)
+        else:
+            check("delta: absent face never reads as 'nothing to do' (r1785)",
+                  "缺面不读 0" in _md_o and "不需要下单" not in _md_o)
+        _pz = json.loads(json.dumps(p1))
+        _pz["etf_order"]["delta"].update({
+            "present": True, "verdict": "ALREADY_ON_TARGET",
+            "verdict_cn": _ETF_DELTA_VERDICTS["ALREADY_ON_TARGET"],
+            "no_action": True, "executable": False})
+        _mdz = render_md(_pz)
+        check("delta: ALREADY_ON_TARGET prints a real zero, not a blank (r1785)",
+              "不需要下单" in _mdz and "不给买卖手数" not in _mdz)
+        _pz2 = json.loads(json.dumps(p1))
+        _pz2["etf_order"]["delta"].update({
+            "present": True, "verdict": "UNPRICED",
+            "verdict_cn": _ETF_DELTA_VERDICTS["UNPRICED"],
+            "no_action": False, "executable": False})
+        _mdz2 = render_md(_pz2)
+        check("delta: an unreadable sheet refuses lots instead of printing 0 (r1785)",
+              "不给买卖手数" in _mdz2 and "不需要下单" not in _mdz2)
+        _pz3 = json.loads(json.dumps(p1))
+        _pz3["etf_order"]["delta"] = {"present": False,
+                                      "note": "换仓差量面未产出（缺面不读 0 手）"}
+        _mdz3 = render_md(_pz3)
+        check("delta: missing face and real zero never share a sentence (r1785)",
+              "缺面不读 0" in _mdz3 and "不需要下单" not in _mdz3)
     else:
         check("order sheet: absent face never renders as a zero (r1784)",
               "缺面不读 0" in _md_o or "不读 0" in _md_o)

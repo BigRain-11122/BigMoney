@@ -11313,6 +11313,76 @@ def main() -> int:
     except Exception as e:
         check("product: the CEO page prints what following the book means "
               "tomorrow (lots + cash)", False, repr(e)[:160])
+    # ---- r1785: the sheet above is a full build; a reader who already followed
+    # an earlier sheet needs the DIFFERENCE.  The ticket has published the
+    # rebalance rows since r1563 and the page never showed them.  Re-derived
+    # from the ticket's own exec_delta, so a hand-typed second copy, a page that
+    # drops a sell row, or a page that prints 0 lots for an unreadable face
+    # reads red -- and the cash direction is asserted against the two cash
+    # numbers, never against net_cash_cny (positive there means money NEEDED).
+    try:
+        _bad35 = []
+        _note35 = ""
+        _to35 = os.path.join(PATHS.results_dir, "etf_book_order", "latest.json")
+        _lu35 = os.path.join(PATHS.root, "docs", "live_usage", "LIVE-latest.md")
+        if not os.path.exists(_to35) or not os.path.exists(_lu35):
+            _bad35.append("ticket pointer or CEO page missing")
+        else:
+            with open(_to35, encoding="utf-8") as _fh35:
+                _lt35 = json.load(_fh35)
+            with open(os.path.join(PATHS.results_dir, "etf_book_order",
+                                   _lt35.get("file") or ""),
+                      encoding="utf-8") as _fh35:
+                _t35 = json.load(_fh35)
+            with open(_lu35, encoding="utf-8") as _fh35:
+                _md35 = _fh35.read()
+            _d35 = _t35.get("exec_delta") or {}
+            if "今天要做的动作" not in _md35:
+                _bad35.append("the page does not print today's actions")
+            if not _d35:
+                if "不需要下单" in _md35:
+                    _bad35.append("a missing delta face reads as 'nothing to do'")
+            else:
+                _v35 = str(_d35.get("verdict") or "")
+                _note35 = _v35
+                if _v35 == "ALREADY_ON_TARGET":
+                    if "不需要下单" not in _md35:
+                        _bad35.append("a real zero is not printed as one")
+                elif _v35 in {"SHEET_IMPLIES_A_SWAP", "BUY_ONLY",
+                              "SELL_DOWN_ONLY"}:
+                    _sides = (("SELL", "卖"), ("BUY", "买"))
+                    for _r35 in _d35.get("rows") or []:
+                        _side35 = str(_r35.get("side") or "")
+                        _verb35 = dict(_sides).get(_side35)
+                        if not _verb35:
+                            continue
+                        _seg35 = "%s｜%s %s 手" % (
+                            _r35.get("symbol"), _verb35,
+                            abs(_r35.get("delta_lots") or 0))
+                        if _seg35 not in _md35:
+                            _bad35.append("the page does not print %s" % _seg35)
+                    _cb35 = _d35.get("cash_before_cny")
+                    _ca35 = _d35.get("cash_after_cny")
+                    if _cb35 is not None and _ca35 is not None:
+                        if "{:,.0f}".format(_cb35) not in _md35:
+                            _bad35.append("cash before is not printed")
+                        _dir35 = "净减" if _ca35 < _cb35 else "净增"
+                        if _dir35 not in _md35:
+                            _bad35.append("money direction %s is not printed"
+                                          % _dir35)
+                    if "两种读者别混用" not in _md35:
+                        _bad35.append("the page does not say which reader the "
+                                      "delta is for")
+                else:
+                    if "不给买卖手数" not in _md35:
+                        _bad35.append("a %s face still prints lots" % _v35)
+        check("product: the CEO page carries today's actions, not only the "
+              "full build", not _bad35,
+              "; ".join(_bad35)[:220]
+              or "delta rows on the page (%s)" % (_note35 or "no face"))
+    except Exception as e:
+        check("product: the CEO page carries today's actions, not only the "
+              "full build", False, repr(e)[:160])
     # ---- r1218: the battle report's ETF book section is the page's own payload ----
     # The report is where the CEO reads the book every morning; before this leg it
     # carried no book at all, so "the book is fine" and "nobody printed the book"
