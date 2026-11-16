@@ -26,20 +26,20 @@ Frozen adoption rule (echoed from `ADOPT_RULE` in the script):
 
 | cell | lag | varieties | delta pp @5bp | delta pp @10bp | base CAGR @10bp |
 |---|---|---|---|---|---|
-| full | 1 | 10 | 1.78 | 3.91 | 0.0624 |
+| full | 1 | 10 | 1.77 | 3.9 | 0.0621 |
 | is | 1 | 10 | 1.47 | 3.45 | 0.0138 |
-| oos | 1 | 10 | 2.35 | 4.68 | 0.133 |
-| lag2 | 2 | 10 | 1.79 | 3.9 | 0.059 |
-| lag3 | 3 | 10 | 1.85 | 3.93 | 0.0486 |
-| loo_AU | 1 | 9 | 1.68 | 3.85 | 0.0555 |
-| loo_IC | 1 | 9 | 1.8 | 3.97 | 0.0611 |
-| loo_IF | 1 | 9 | 1.83 | 4.0 | 0.062 |
-| loo_IH | 1 | 9 | 2.07 | 4.19 | 0.0613 |
-| loo_IM | 1 | 9 | 2.05 | 4.21 | 0.061 |
-| loo_RB | 1 | 9 | 1.89 | 4.04 | 0.0627 |
-| loo_SC | 1 | 9 | 1.75 | 3.89 | 0.0637 |
-| loo_T | 1 | 9 | 1.05 | 3.08 | 0.066 |
-| loo_TF | 1 | 9 | 2.13 | 4.14 | 0.0635 |
+| oos | 1 | 10 | 2.32 | 4.64 | 0.1323 |
+| lag2 | 2 | 10 | 1.81 | 3.9 | 0.0586 |
+| lag3 | 3 | 10 | 1.86 | 3.94 | 0.048 |
+| loo_AU | 1 | 9 | 1.68 | 3.85 | 0.0551 |
+| loo_IC | 1 | 9 | 1.78 | 3.95 | 0.0609 |
+| loo_IF | 1 | 9 | 1.81 | 3.99 | 0.0618 |
+| loo_IH | 1 | 9 | 2.05 | 4.16 | 0.061 |
+| loo_IM | 1 | 9 | 2.04 | 4.18 | 0.0609 |
+| loo_RB | 1 | 9 | 1.88 | 4.03 | 0.0623 |
+| loo_SC | 1 | 9 | 1.73 | 3.87 | 0.0633 |
+| loo_T | 1 | 9 | 1.01 | 3.03 | 0.0656 |
+| loo_TF | 1 | 9 | 2.11 | 4.13 | 0.0627 |
 | loo_TS | 1 | 9 | 1.08 | 2.92 | 0.0669 |
 
 ## tsmom60_confirm_3d
@@ -49,20 +49,20 @@ Frozen adoption rule (echoed from `ADOPT_RULE` in the script):
 
 | cell | lag | varieties | delta pp @5bp | delta pp @10bp | base CAGR @10bp |
 |---|---|---|---|---|---|
-| full | 1 | 10 | 0.52 | 1.93 | 0.0624 |
+| full | 1 | 10 | 0.5 | 1.9 | 0.0621 |
 | is | 1 | 10 | 0.55 | 1.76 | 0.0138 |
-| oos | 1 | 10 | 0.69 | 2.39 | 0.133 |
-| lag2 | 2 | 10 | 0.66 | 2.05 | 0.059 |
-| lag3 | 3 | 10 | 2.22 | 3.58 | 0.0486 |
-| loo_AU | 1 | 9 | 0.4 | 1.83 | 0.0555 |
-| loo_IC | 1 | 9 | 0.67 | 2.09 | 0.0611 |
-| loo_IF | 1 | 9 | 0.73 | 2.15 | 0.062 |
-| loo_IH | 1 | 9 | 0.75 | 2.12 | 0.0613 |
-| loo_IM | 1 | 9 | 0.83 | 2.26 | 0.061 |
-| loo_RB | 1 | 9 | 0.45 | 1.87 | 0.0627 |
-| loo_SC | 1 | 9 | 0.53 | 1.93 | 0.0637 |
-| loo_T | 1 | 9 | 0.29 | 1.64 | 0.066 |
-| loo_TF | 1 | 9 | 0.2 | 1.54 | 0.0635 |
+| oos | 1 | 10 | 0.63 | 2.31 | 0.1323 |
+| lag2 | 2 | 10 | 0.66 | 2.03 | 0.0586 |
+| lag3 | 3 | 10 | 2.22 | 3.59 | 0.048 |
+| loo_AU | 1 | 9 | 0.38 | 1.8 | 0.0551 |
+| loo_IC | 1 | 9 | 0.64 | 2.06 | 0.0609 |
+| loo_IF | 1 | 9 | 0.71 | 2.12 | 0.0618 |
+| loo_IH | 1 | 9 | 0.72 | 2.08 | 0.061 |
+| loo_IM | 1 | 9 | 0.81 | 2.21 | 0.0609 |
+| loo_RB | 1 | 9 | 0.45 | 1.85 | 0.0623 |
+| loo_SC | 1 | 9 | 0.5 | 1.9 | 0.0633 |
+| loo_T | 1 | 9 | 0.23 | 1.57 | 0.0656 |
+| loo_TF | 1 | 9 | 0.17 | 1.5 | 0.0627 |
 | loo_TS | 1 | 9 | -0.18 | 1.1 | 0.0669 |
 
 ## tsmom120_strength_hold_2pct
@@ -72,43 +72,43 @@ Frozen adoption rule (echoed from `ADOPT_RULE` in the script):
 
 | cell | lag | varieties | delta pp @5bp | delta pp @10bp | base CAGR @10bp |
 |---|---|---|---|---|---|
-| full | 1 | 10 | 0.76 | 2.01 | 0.0768 |
+| full | 1 | 10 | 0.75 | 2.01 | 0.0762 |
 | is | 1 | 10 | 0.23 | 1.45 | 0.019 |
-| oos | 1 | 10 | 1.51 | 2.77 | 0.1629 |
-| lag2 | 2 | 10 | 0.83 | 2.07 | 0.0712 |
-| lag3 | 3 | 10 | 1.61 | 2.82 | 0.0584 |
-| loo_AU | 1 | 9 | 0.71 | 1.98 | 0.0711 |
-| loo_IC | 1 | 9 | 0.82 | 2.09 | 0.0744 |
-| loo_IF | 1 | 9 | 0.65 | 1.92 | 0.0781 |
-| loo_IH | 1 | 9 | 0.96 | 2.23 | 0.0789 |
-| loo_IM | 1 | 9 | 0.8 | 2.06 | 0.0763 |
-| loo_RB | 1 | 9 | 0.77 | 2.02 | 0.0785 |
-| loo_SC | 1 | 9 | 0.69 | 1.94 | 0.0802 |
-| loo_T | 1 | 9 | 0.79 | 2.09 | 0.0735 |
-| loo_TF | 1 | 9 | 0.77 | 2.01 | 0.0744 |
+| oos | 1 | 10 | 1.5 | 2.78 | 0.1615 |
+| lag2 | 2 | 10 | 0.84 | 2.08 | 0.0707 |
+| lag3 | 3 | 10 | 1.63 | 2.83 | 0.0578 |
+| loo_AU | 1 | 9 | 0.71 | 1.99 | 0.0706 |
+| loo_IC | 1 | 9 | 0.82 | 2.1 | 0.0739 |
+| loo_IF | 1 | 9 | 0.64 | 1.92 | 0.0776 |
+| loo_IH | 1 | 9 | 0.96 | 2.22 | 0.0784 |
+| loo_IM | 1 | 9 | 0.79 | 2.05 | 0.0759 |
+| loo_RB | 1 | 9 | 0.76 | 2.0 | 0.078 |
+| loo_SC | 1 | 9 | 0.68 | 1.95 | 0.0794 |
+| loo_T | 1 | 9 | 0.78 | 2.08 | 0.0726 |
+| loo_TF | 1 | 9 | 0.76 | 2.01 | 0.0733 |
 | loo_TS | 1 | 9 | 0.59 | 1.47 | 0.0809 |
 
 ## tsmom120_confirm_3d
 
-- verdict: **REJECT** - share positive 0.867 of 15 cells, worst cell oos (-0.78 pp)
-- why: out-of-sample delta -0.78 pp is not positive
+- verdict: **REJECT** - share positive 0.867 of 15 cells, worst cell oos (-0.76 pp)
+- why: out-of-sample delta -0.76 pp is not positive
 
 | cell | lag | varieties | delta pp @5bp | delta pp @10bp | base CAGR @10bp |
 |---|---|---|---|---|---|
-| full | 1 | 10 | -0.51 | 0.43 | 0.0768 |
+| full | 1 | 10 | -0.51 | 0.45 | 0.0762 |
 | is | 1 | 10 | 0.06 | 0.99 | 0.019 |
-| oos | 1 | 10 | -1.69 | -0.78 | 0.1629 |
-| lag2 | 2 | 10 | 0.18 | 1.12 | 0.0712 |
-| lag3 | 3 | 10 | 1.89 | 2.79 | 0.0584 |
-| loo_AU | 1 | 9 | -0.6 | 0.36 | 0.0711 |
-| loo_IC | 1 | 9 | -0.45 | 0.51 | 0.0744 |
-| loo_IF | 1 | 9 | -0.36 | 0.59 | 0.0781 |
-| loo_IH | 1 | 9 | 0.1 | 1.04 | 0.0789 |
-| loo_IM | 1 | 9 | -0.46 | 0.49 | 0.0763 |
-| loo_RB | 1 | 9 | -0.72 | 0.22 | 0.0785 |
-| loo_SC | 1 | 9 | -0.41 | 0.53 | 0.0802 |
-| loo_T | 1 | 9 | -0.55 | 0.45 | 0.0735 |
-| loo_TF | 1 | 9 | -0.62 | 0.35 | 0.0744 |
+| oos | 1 | 10 | -1.68 | -0.76 | 0.1615 |
+| lag2 | 2 | 10 | 0.2 | 1.12 | 0.0707 |
+| lag3 | 3 | 10 | 1.91 | 2.8 | 0.0578 |
+| loo_AU | 1 | 9 | -0.6 | 0.37 | 0.0706 |
+| loo_IC | 1 | 9 | -0.44 | 0.52 | 0.0739 |
+| loo_IF | 1 | 9 | -0.36 | 0.6 | 0.0776 |
+| loo_IH | 1 | 9 | 0.1 | 1.03 | 0.0784 |
+| loo_IM | 1 | 9 | -0.46 | 0.49 | 0.0759 |
+| loo_RB | 1 | 9 | -0.72 | 0.22 | 0.078 |
+| loo_SC | 1 | 9 | -0.41 | 0.55 | 0.0794 |
+| loo_T | 1 | 9 | -0.56 | 0.45 | 0.0726 |
+| loo_TF | 1 | 9 | -0.62 | 0.36 | 0.0733 |
 | loo_TS | 1 | 9 | -1.31 | -0.65 | 0.0809 |
 
 ## Not modelled
@@ -117,7 +117,7 @@ roll cost, margin, financing/carry, contract multipliers; the ETF leg's universe
 
 ## Consumer
 
-The shadow face `scripts/futures_tsmom_signal.py` reads this artifact's rule (arm `tsmom60_strength_hold_2pct`) and executes the same mechanism module, printing both books side by side. On 2026-11-13: flips 1470 -> 412 (cut 72.0%), today's legs 1 differ, gross 3.0.
+The shadow face `scripts/futures_tsmom_signal.py` reads this artifact's rule (arm `tsmom60_strength_hold_2pct`) and executes the same mechanism module, printing both books side by side. On 2026-11-13: flips 1471 -> 412 (cut 72.0%), today's legs 1 differ, gross 3.0.
 
 Page: `docs/futures_lane/TSMOM-2026-11-13.md`; machine face: `results/futures_tsmom_signal.json` -> `adopted_overlay`. Re-running the path test rewrites that page on its next run; it never applies a rule the verdict does not currently hold.
 

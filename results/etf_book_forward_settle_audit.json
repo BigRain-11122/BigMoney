@@ -1,6 +1,6 @@
 {
  "schema": "etf-book-forward-settle-audit/v1",
- "generated": "2026-11-15T14:46:22+0800",
+ "generated": "2026-11-16T14:38:57+0800",
  "evidence_cutoff": "2026-11-13",
  "ledger": {
   "path": "results\\etf_book_forward\\LEDGER.json",
@@ -209,7 +209,7 @@
   "verdict": "restatement_left_a_broken_chain"
  },
  "data_lag_audit": {
-  "as_of": "2026-11-15T14:34:53",
+  "as_of": "2026-11-16T14:26:35",
   "coverage_by_day": {
    "2026-11-02": 1.0,
    "2026-11-03": 1.0,
@@ -222,7 +222,7 @@
    "2026-11-12": 1.0,
    "2026-11-13": 0.9977
   },
-  "detail": "the maintained panel covers every official trading day it should by now",
+  "detail": "the maintained panel covers every official trading day it should by now; 2 file(s) sit outside the active cohort: 510880_t73 (declared_out_of_scope; last bar 2026-09-22), sh512390 (source_ended; last bar 2026-09-04) -- every one of them is declared by the lane's own receipt",
   "ledger_last_bar": "2026-11-13"
  },
  "headline": "ledger re-derives clean | 3 published bar(s) restated after publication, 3 of them inside today's settled partition; chain verified on 2026-11-12; the record does not say how many later rows moved behind 2026-11-03; 2026-10-29 (no_later_rows_at_publication) is settled from the committed ledger: the ledger held no row behind 2026-10-29 when the published value was committed: the restatement had nothing to move; CHAIN BROKEN on 2026-11-12; every restated settled bar re-derives off the panel now",

@@ -10,15 +10,15 @@ flips on the signal face, sleeve charged the full cost ladder, blend at f=0.33, 
 
 | arm | flips | flip cut | turnover | turnover cut | gross CAGR | give-up pp | sharpe d (1bp) | delta CAGR pp @1bp | @3bp | @5bp | @10bp | breakeven |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
-| tsmom60_base | 1470 | 0.0% | 1006.5 | 0.0% | 1.94% | 0.0 | 0.0 | 0.93 | -0.06 | -1.04 | -3.47 | 1bp |
-| tsmom60_strength_hold_0.02 | 412 | 72.0% | 168.8 | 83.2% | 1.53% | -0.41 | 0.005 | 0.99 | 0.86 | 0.74 | 0.44 | 10bp |
-| tsmom60_strength_hold_0.04 | 266 | 81.9% | 130.9 | 87.0% | -0.21% | -2.15 | -0.208 | -1.34 | -1.44 | -1.54 | -1.79 | none |
-| tsmom60_confirm_3d | 606 | 58.8% | 437.0 | 56.6% | 1.26% | -0.68 | -0.055 | 0.31 | -0.11 | -0.52 | -1.54 | 1bp |
-| tsmom60_confirm_5d | 432 | 70.6% | 329.6 | 67.3% | 1.4% | -0.54 | 0.001 | 0.91 | 0.62 | 0.33 | -0.4 | 5bp |
+| tsmom60_base | 1471 | 0.0% | 1004.5 | 0.0% | 1.9% | 0.0 | 0.0 | 0.88 | -0.1 | -1.08 | -3.5 | 1bp |
+| tsmom60_strength_hold_0.02 | 412 | 72.0% | 166.9 | 83.4% | 1.48% | -0.42 | 0.004 | 0.93 | 0.81 | 0.69 | 0.4 | 10bp |
+| tsmom60_strength_hold_0.04 | 266 | 81.9% | 129.0 | 87.2% | -0.23% | -2.13 | -0.205 | -1.36 | -1.45 | -1.55 | -1.79 | none |
+| tsmom60_confirm_3d | 607 | 58.7% | 436.7 | 56.5% | 1.21% | -0.69 | -0.056 | 0.24 | -0.17 | -0.58 | -1.6 | 1bp |
+| tsmom60_confirm_5d | 433 | 70.6% | 329.3 | 67.2% | 1.35% | -0.55 | 0.0 | 0.85 | 0.56 | 0.27 | -0.45 | 5bp |
 
-**tsmom60_strength_hold_0.02 clears the base at 3/5/10bp: 72.0% fewer flips, turnover cut 83.2%, gross -0.41 pp; breakeven moves to 10bp (+0.44 pp at that cost, +0.44 pp at 10bp)**
+**tsmom60_strength_hold_0.02 clears the base at 3/5/10bp: 72.0% fewer flips, turnover cut 83.4%, gross -0.42 pp; breakeven moves to 10bp (+0.40 pp at that cost, +0.40 pp at 10bp)**
 
-robustness: 1 of the tested theta levels clear the base ([0.02, 0.04]); exposure spread across all arms 0.03% -- so this is a flip filter, not a deleveraging
+robustness: 1 of the tested theta levels clear the base ([0.02, 0.04]); exposure spread across all arms 0.07% -- so this is a flip filter, not a deleveraging
 
 > **Fragile:** the win lives at one theta. a win at LOW theta next to a collapse at HIGH theta is a single grid point; it needs a neighbourhood sweep before it can be called a rule
 
@@ -28,15 +28,15 @@ flips on the signal face, sleeve charged the full cost ladder, blend at f=0.33, 
 
 | arm | flips | flip cut | turnover | turnover cut | gross CAGR | give-up pp | sharpe d (1bp) | delta CAGR pp @1bp | @3bp | @5bp | @10bp | breakeven |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
-| tsmom120_base | 896 | 0.0% | 633.6 | 0.0% | 2.17% | 0.0 | 0.0 | 0.77 | 0.14 | -0.49 | -2.03 | 3bp |
-| tsmom120_strength_hold_0.02 | 277 | 69.1% | 151.2 | 76.1% | 1.85% | -0.32 | -0.024 | 0.5 | 0.39 | 0.27 | -0.02 | 5bp |
-| tsmom120_strength_hold_0.04 | 181 | 79.8% | 126.4 | 80.1% | 0.2% | -1.97 | -0.191 | -1.29 | -1.38 | -1.48 | -1.72 | none |
-| tsmom120_confirm_3d | 354 | 60.5% | 270.8 | 57.3% | 1.36% | -0.81 | -0.119 | -0.51 | -0.76 | -1.0 | -1.6 | none |
-| tsmom120_confirm_5d | 253 | 71.8% | 233.6 | 63.1% | 1.46% | -0.71 | -0.05 | 0.22 | 0.0 | -0.22 | -0.76 | 1bp |
+| tsmom120_base | 897 | 0.0% | 633.5 | 0.0% | 2.13% | 0.0 | 0.0 | 0.71 | 0.08 | -0.54 | -2.09 | 3bp |
+| tsmom120_strength_hold_0.02 | 277 | 69.1% | 149.1 | 76.5% | 1.8% | -0.33 | -0.025 | 0.44 | 0.32 | 0.21 | -0.08 | 5bp |
+| tsmom120_strength_hold_0.04 | 181 | 79.8% | 124.5 | 80.3% | 0.16% | -1.97 | -0.19 | -1.34 | -1.43 | -1.52 | -1.75 | none |
+| tsmom120_confirm_3d | 355 | 60.4% | 268.8 | 57.6% | 1.31% | -0.82 | -0.12 | -0.58 | -0.81 | -1.05 | -1.64 | none |
+| tsmom120_confirm_5d | 253 | 71.8% | 231.8 | 63.4% | 1.41% | -0.72 | -0.051 | 0.16 | -0.06 | -0.27 | -0.81 | 1bp |
 
-**tsmom120_strength_hold_0.02 clears the base at 3/5/10bp: 69.1% fewer flips, turnover cut 76.1%, gross -0.32 pp; breakeven moves to 5bp (+0.27 pp at that cost, -0.02 pp at 10bp)**
+**tsmom120_strength_hold_0.02 clears the base at 3/5/10bp: 69.1% fewer flips, turnover cut 76.5%, gross -0.33 pp; breakeven moves to 5bp (+0.21 pp at that cost, -0.08 pp at 10bp)**
 
-robustness: 1 of the tested theta levels clear the base ([0.02, 0.04]); exposure spread across all arms 0.0% -- so this is a flip filter, not a deleveraging
+robustness: 1 of the tested theta levels clear the base ([0.02, 0.04]); exposure spread across all arms 0.03% -- so this is a flip filter, not a deleveraging
 
 > **Fragile:** the win lives at one theta. a win at LOW theta next to a collapse at HIGH theta is a single grid point; it needs a neighbourhood sweep before it can be called a rule
 
