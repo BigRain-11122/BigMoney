@@ -1,7 +1,7 @@
 {
  "schema": "lane-ownership/v1",
- "generated": "2026-11-14T20:25:08",
- "source_freshness_as_of": "2026-11-14T20:25:06",
+ "generated": "2026-11-15T21:26:58",
+ "source_freshness_as_of": "2026-11-15T21:26:54",
  "lanes": [
   {
    "lane": "options",
@@ -15,7 +15,7 @@
    "copy_face": null,
    "observation": "retired",
    "host_alive": true,
-   "host_age_h": 0.84,
+   "host_age_h": 0.36,
    "declared_takeover_by": null,
    "verdict": "DECLARED_ONLY"
   },
@@ -31,7 +31,7 @@
    "copy_face": null,
    "observation": "in_sync",
    "host_alive": true,
-   "host_age_h": 0.84,
+   "host_age_h": 0.36,
    "declared_takeover_by": null,
    "verdict": "DECLARED_AND_OBSERVED"
   },
@@ -47,7 +47,7 @@
    "copy_face": null,
    "observation": "in_sync",
    "host_alive": true,
-   "host_age_h": 0.84,
+   "host_age_h": 0.36,
    "declared_takeover_by": null,
    "verdict": "DECLARED_AND_OBSERVED"
   },
@@ -63,7 +63,7 @@
    "copy_face": null,
    "observation": "behind_1d",
    "host_alive": false,
-   "host_age_h": 367.7,
+   "host_age_h": 392.73,
    "declared_takeover_by": "bm-c",
    "verdict": "DECLARED_TAKEOVER"
   },
@@ -79,7 +79,7 @@
    "copy_face": null,
    "observation": "in_sync",
    "host_alive": true,
-   "host_age_h": 0.84,
+   "host_age_h": 0.36,
    "declared_takeover_by": null,
    "verdict": "DECLARED_ONLY"
   },
@@ -95,7 +95,7 @@
    "copy_face": null,
    "observation": "in_sync",
    "host_alive": false,
-   "host_age_h": 367.7,
+   "host_age_h": 392.73,
    "declared_takeover_by": "bm-c",
    "verdict": "DECLARED_TAKEOVER"
   },
@@ -111,7 +111,7 @@
    "copy_face": null,
    "observation": "in_sync",
    "host_alive": true,
-   "host_age_h": 0.84,
+   "host_age_h": 0.36,
    "declared_takeover_by": null,
    "verdict": "DECLARED_AND_OBSERVED"
   },
@@ -122,14 +122,14 @@
    "code_default": "bm-a",
    "config_value": null,
    "source_divergence": false,
-   "observed_writer": "bm-a",
-   "observed_how": "host_envelope",
+   "observed_writer": "bm-c",
+   "observed_how": "declared_takeover",
    "copy_face": null,
    "observation": "in_sync",
    "host_alive": false,
-   "host_age_h": 21.22,
-   "declared_takeover_by": null,
-   "verdict": "DECLARED_AND_OBSERVED"
+   "host_age_h": 46.25,
+   "declared_takeover_by": "bm-c",
+   "verdict": "DECLARED_TAKEOVER"
   },
   {
    "lane": "heat",
@@ -143,7 +143,7 @@
    "copy_face": null,
    "observation": "in_sync",
    "host_alive": false,
-   "host_age_h": 21.22,
+   "host_age_h": 46.25,
    "declared_takeover_by": null,
    "verdict": "DECLARED_AND_OBSERVED"
   },
@@ -159,7 +159,7 @@
    "copy_face": null,
    "observation": "in_sync",
    "host_alive": false,
-   "host_age_h": 21.22,
+   "host_age_h": 46.25,
    "declared_takeover_by": null,
    "verdict": "DECLARED_AND_OBSERVED"
   },
@@ -175,7 +175,7 @@
    "copy_face": null,
    "observation": "in_sync",
    "host_alive": true,
-   "host_age_h": 0.84,
+   "host_age_h": 0.36,
    "declared_takeover_by": null,
    "verdict": "DECLARED_AND_OBSERVED"
   },
@@ -191,7 +191,7 @@
    "copy_face": "bm-c",
    "observation": "in_sync",
    "host_alive": true,
-   "host_age_h": 0.84,
+   "host_age_h": 0.36,
    "declared_takeover_by": null,
    "verdict": "DECLARED_ONLY"
   },
@@ -207,7 +207,7 @@
    "copy_face": null,
    "observation": "in_sync",
    "host_alive": false,
-   "host_age_h": 21.22,
+   "host_age_h": 46.25,
    "declared_takeover_by": "bm-c",
    "verdict": "DECLARED_TAKEOVER"
   },
@@ -223,7 +223,7 @@
    "copy_face": null,
    "observation": "in_sync",
    "host_alive": true,
-   "host_age_h": 0.84,
+   "host_age_h": 0.36,
    "declared_takeover_by": null,
    "verdict": "DECLARED_AND_OBSERVED"
   },
@@ -239,7 +239,7 @@
    "copy_face": null,
    "observation": "in_sync",
    "host_alive": true,
-   "host_age_h": 0.84,
+   "host_age_h": 0.36,
    "declared_takeover_by": null,
    "verdict": "DECLARED_ONLY"
   }
@@ -263,6 +263,7 @@
   "declared_takeover_lanes": {
    "marks": "bm-c",
    "astock_daily": "bm-c",
+   "futures": "bm-c",
    "repo": "bm-c"
   },
   "stale_envelopes": {},

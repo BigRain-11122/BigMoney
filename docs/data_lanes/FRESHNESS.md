@@ -48,10 +48,10 @@ Each missing day below is classified by its own collector. `takeover_possible` m
 
 A different question from the section above: these machines have written no heartbeat for more than 24.0h, so the lanes they own are being judged from whatever was last committed. A lane here can still read `in_sync` -- the number is old, the owner is gone, and nobody would notice the day the file stops being written.
 
-- `bm-a`: last seen 2026-11-13T23:12:03+08:00 (42.93h ago) -- owns futures, heat, lhb, repo
+- `bm-a`: last seen 2026-11-13T23:12:03+08:00 (46.25h ago) -- owns futures, heat, lhb, repo
   - already covered by a declared stand-in: futures <- bm-c, repo <- bm-c (nothing to wait for)
   - nobody is covering these: heat, lhb
-- `bm-b`: last seen 2026-10-30T12:43:06+08:00 (389.42h ago) -- owns astock_daily, marks
+- `bm-b`: last seen 2026-10-30T12:43:06+08:00 (392.73h ago) -- owns astock_daily, marks
   - already covered by a declared stand-in: astock_daily <- bm-c, marks <- bm-c (nothing to wait for)
 
 ## Members sitting outside the active cohort
@@ -64,9 +64,9 @@ These are named by the face that audits the panel, with the reason the lane's ow
 
 The per-symbol panels hold thousands of files, so their tail is read through an evenly spaced sample rather than a full sweep. A sample can miss a single laggard symbol; it cannot miss a panel that stopped weeks ago. Each row below says how many symbols were read out of how many.
 
-- `moneyflow`: 40 of 5226 symbols read, tail 2026-11-10; the full scan holds it in 5,225 of 5,226 symbols (100.00%) (certified 2026-11-15T05:40:07)
-- `ah_panel`: 40 of 187 symbols read, tail 2026-11-13; the full scan holds it in 187 of 187 symbols (100.00%) (certified 2026-11-15T05:40:07)
-- `astock_daily`: 40 of 5221 symbols read, tail 2026-11-13; the full scan holds it in 5,213 of 5,223 symbols (99.81%) (certified 2026-11-15T05:40:07)
+- `moneyflow`: 40 of 5226 symbols read, tail 2026-11-10; the full scan holds it in 5,225 of 5,226 symbols (100.00%) (certified 2026-11-15T21:25:55)
+- `ah_panel`: 40 of 187 symbols read, tail 2026-11-13; the full scan holds it in 187 of 187 symbols (100.00%) (certified 2026-11-15T21:25:55)
+- `astock_daily`: 40 of 5221 symbols read, tail 2026-11-13; the full scan holds it in 5,213 of 5,221 symbols (99.85%) (certified 2026-11-15T21:25:55)
 
 Full-scan certification of exactly these rows: `scripts/data_lane_freshness.py certify` -> `docs/data_lanes/TAIL_CERTIFICATION.md` (it re-reads every file and names the symbols that sit behind the newest bar).
 

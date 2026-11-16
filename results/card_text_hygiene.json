@@ -3,100 +3,72 @@
  "target": "knowledge/METHODOLOGY_ASSETS.md",
  "sites": [
   {
-   "line": 563,
-   "damaged": "esults/etf_book_order_fresh/TICKET-2026-10-23.json",
-   "restored": "results/etf_book_order_fresh/TICKET-2026-10-23.json",
+   "line": 15031,
+   "damaged": "esults/idx_fut_roll_gap.json",
+   "restored": "results/idx_fut_roll_gap.json",
    "proof": "restored path exists"
   },
   {
-   "line": 565,
-   "damaged": "esearch/ETF_BOOK_ORDER.md",
-   "restored": "research/ETF_BOOK_ORDER.md",
-   "proof": "restored path exists"
-  },
-  {
-   "line": 649,
-   "damaged": "esults/etf_breadth_sweep.json",
-   "restored": "results/etf_breadth_sweep.json",
-   "proof": "restored path exists"
-  },
-  {
-   "line": 651,
-   "damaged": "esearch/ETF_BREADTH_SWEEP.md",
-   "restored": "research/ETF_BREADTH_SWEEP.md",
-   "proof": "restored path exists"
-  },
-  {
-   "line": 865,
-   "damaged": "esults/data_lag_audit.json",
-   "restored": "results/data_lag_audit.json",
-   "proof": "restored path exists"
-  },
-  {
-   "line": 4022,
-   "damaged": "esults/obs_rate/OBSRATE-<cutoff>.json",
-   "restored": "results/obs_rate/OBSRATE-<cutoff>.json",
-   "proof": "restored template directory results/obs_rate/ exists"
-  },
-  {
-   "line": 8636,
-   "damaged": "esults/etf_book_underwater.json",
-   "restored": "results/etf_book_underwater.json",
-   "proof": "restored path exists"
-  },
-  {
-   "line": 8637,
-   "damaged": "esearch/ETF_BOOK_UNDERWATER.md",
-   "restored": "research/ETF_BOOK_UNDERWATER.md",
+   "line": 15036,
+   "damaged": "esearch/IDX_FUT_BASIS_VERDICT.md",
+   "restored": "research/IDX_FUT_BASIS_VERDICT.md",
    "proof": "restored path exists"
   }
  ],
  "lines_touched": [
-  563,
-  565,
-  649,
-  651,
-  865,
-  4022,
-  8636,
-  8637
+  15031,
+  15036
  ],
- "ledger_bytes_before_repair": 832368,
- "ledger_bytes_now": 834754,
- "files": [
+ "before_bytes": 1514972,
+ "after_bytes": 1514974,
+ "guard_note": "treasure_guard prescan rejects this file by design (registry hit, rc3); the permitted path is a line-level union with a receipt, which is what this is -- every other byte is asserted unchanged",
+ "files": [],
+ "applied": true,
+ "remaining": 0,
+ "history": [
   {
-   "path": "research/digests/DIGEST-20261021-e36-broad-eq-post2020.md",
    "sites": [
     {
-     "line": 59,
-     "damaged": "esults/e36_concentration_n10/UNIV-b1d578-s20180101-xsh511-20261021.json",
-     "restored": "results/e36_concentration_n10/UNIV-b1d578-s20180101-xsh511-20261021.json",
+     "line": 14956,
+     "damaged": "—— \u000berdict.criteria_revision",
+     "restored": "—— verdict.criteria_revision",
+     "proof": "results/idx_fut_basis.json carries verdict.criteria_revision, and the card's next line names original/now/why from that same block"
+    },
+    {
+     "line": 14962,
+     "damaged": "esults/idx_fut_basis.json",
+     "restored": "results/idx_fut_basis.json",
+     "proof": "restored path exists"
+    },
+    {
+     "line": 14962,
+     "damaged": "esearch/IDX_FUT_BASIS_VERDICT.md",
+     "restored": "research/IDX_FUT_BASIS_VERDICT.md",
      "proof": "restored path exists"
     }
    ],
-   "bytes_before_repair": 4903,
-   "bytes_now": 5006
-  }
- ],
- "self_card_sites": [
-  {
-   "line": 8739,
-   "restored": "results/etf_book_universe_lock.json",
-   "proof": "path exists"
+   "files": [],
+   "before_bytes": 1511721,
+   "after_bytes": 1511723
   },
   {
-   "line": 8741,
-   "restored": "research/ETF_BOOK_UNIVERSE_LOCK.md",
-   "proof": "path exists"
-  },
-  {
-   "line": 8743,
-   "restored": "research/digests/DIGEST-20261102-r1235-universe-lock.md",
-   "proof": "path exists"
+   "sites": [
+    {
+     "line": 15031,
+     "damaged": "esults/idx_fut_roll_gap.json",
+     "restored": "results/idx_fut_roll_gap.json",
+     "proof": "restored path exists"
+    },
+    {
+     "line": 15036,
+     "damaged": "esearch/IDX_FUT_BASIS_VERDICT.md",
+     "restored": "research/IDX_FUT_BASIS_VERDICT.md",
+     "proof": "restored path exists"
+    }
+   ],
+   "files": [],
+   "before_bytes": 1514972,
+   "after_bytes": 1514974
   }
- ],
- "derivation": "HEAD blob carries the damage and the worktree does not, so every site in `sites`/`files` is measured; `self_card_sites` are the three pointers of the card this round added (not in HEAD yet) confirmed present-tense on disk",
- "guard_note": "treasure_guard prescan rejects this file by design (registry hit, rc3); the permitted path is a line-level union with a receipt, which is what this is (11 single-byte insertions, line count unchanged, per-site reversibility asserted)",
- "applied": true,
- "remaining": 0
+ ]
 }

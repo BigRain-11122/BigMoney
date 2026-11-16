@@ -1,8 +1,8 @@
 {
- "page_day": "2026-11-14",
+ "page_day": "2026-11-15",
  "bar_day": "2026-11-13",
- "verdict": "PRINTED_DATES_AGREE",
- "sentence": "**战报上 37 处日期逐句对上了它引用的那张面**（29 条规则，0 处判不了）；另有 16 处日期落在成文约定/票号上（计数不核）、32 处只是「JSON 里也有这一天」；日词 3 行没有一行坐在别的 bar 上（本页 2026-11-14，最近一根 bar 2026-11-13）。这一面核的是「句子写的日子 == 那个字段写的日子」，不核那个字段本身对不对。",
+ "verdict": "PRINTED_SELF_DATED",
+ "sentence": "**战报上 36 处日期都带了日子，但 1 处判不了（字段缺）**——判不了的不算对上，这一面不给绿。",
  "printed": {
   "state": "ok",
   "n_lines": 3,
@@ -14,12 +14,12 @@
   "rows": [
    {
     "heading": "(页首)",
-    "line": "# 每日战报 — 2026-11-14",
+    "line": "# 每日战报 — 2026-11-15",
     "self_dated": true
    },
    {
     "heading": "(页首)",
-    "line": "> 生成 2026-11-14 17:44:00 · 聚合面零新判据 · 缺面如实标注",
+    "line": "> 生成 2026-11-15 06:31:28 · 聚合面零新判据 · 缺面如实标注",
     "self_dated": true
    },
    {
@@ -209,7 +209,7 @@
    },
    {
     "heading": "二、CEO 实盘使用面（T-105 直达）",
-    "line": "- **[实盘一页纸直达](../live_usage/LIVE-2026-11-14.md)**（LIVE-2026-11-14）：政体态 **RED** · 有效档位 **RED** → 股票敞口总帽 20% · 温度计 COOL · 市场时钟 `RED_COOL` · 六员 6 员持仓见一页纸",
+    "line": "- LIVE-2026-11-15.json 未生成（ceo_live_usage.py 腿未跑或机制故障）——如实标注，禁编数",
     "self_dated": true
    },
    {
@@ -219,12 +219,12 @@
    },
    {
     "heading": "三、研发面（24h）",
-    "line": "- 提交 83 · 判定/结果件落地 208 · 调研 digest 0 · 预注册/正典触碰 48",
+    "line": "- 提交 92 · 判定/结果件落地 150 · 调研 digest 0 · 预注册/正典触碰 26",
     "self_dated": false
    },
    {
     "heading": "三、研发面（24h）",
-    "line": "- 在飞批：否 · 水位判定 `insufficient_history` · 算力审计 14:34 采样 · 本方 py 0.0% · 旗 2 条（池饿、供给地板）",
+    "line": "- 在飞批：否 · 水位判定 `insufficient_history` · 算力审计 05:39 采样 · 本方 py 1.6% · 旗 3 条（单核独占、池饿、供给地板）",
     "self_dated": false
    },
    {
@@ -369,7 +369,7 @@
    },
    {
     "heading": "六、算力利用率（O-1614 满载机制 · T-107 面）",
-    "line": "- **bm-c**：py 0.0%（总机 6.0% · 2026-11-14 14:34:00）· 池 ready 0 · 今日底线合规 0/12· SLA 旗 0 · 供给缺口旗 0· 家族旗龄 17957.1min · `FLAG:pool_starvation,supply_floor`",
+    "line": "- **bm-c**：py 1.6%（总机 74.0% · 2026-11-15 05:39:54）· 池 ready 0 · 今日底线合规 0/3· SLA 旗 0 · 供给缺口旗 0· 家族旗龄 18603.5min · `FLAG:single_core_hog,pool_starvation,supply_floor`",
     "self_dated": true
    },
    {
@@ -379,7 +379,7 @@
    },
    {
     "heading": "六、算力利用率（O-1614 满载机制 · T-107 面）",
-    "line": "- py 序列（近 12 采样·本机署名 13 条（lane 另有 187 条无署名样本，不计入本机））：01:04=5.4% 02:09=0.1% 02:47=12.3% 03:47=4.9% 04:22=0.3% 04:49=0.0% 04:58=0.0% 07:13=3.5% 07:44=4.9% 07:46=2.0% 10:04=0.0% 14:34=0.0%",
+    "line": "- py 序列（近 12 采样·本机署名 18 条（lane 另有 182 条无署名样本，不计入本机））：04:49=0.0% 04:58=0.0% 07:13=3.5% 07:44=4.9% 07:46=2.0% 10:04=0.0% 14:34=0.0% 20:23=0.2% 23:07=2.4% 01:47=5.0% 02:40=1.3% 05:39=1.6%",
     "self_dated": false
    },
    {
@@ -389,12 +389,12 @@
    },
    {
     "heading": "六、算力利用率（O-1614 满载机制 · T-107 面）",
-    "line": "- **核分布/并行效率三机对照（T-134 s4 · 2026-11-14）**：**bm-a** 有效核 N/A（判 0 批 · 多核达标 0 · 单核红牌 0 · 短跑不计 0）——当日零发射·采样器健康（近60min窗 0 批）；**bm-b** 有效核 N/A（判 0 批 · 多核达标 0 · 单核红牌 0 · 短跑不计 0）——当日零发射·采样器健康（近60min窗 0 批）；**bm-c** 有效核 N/A（判 0 批 · 多核达标 0 · 单核红牌 0 · 短跑不计 0）——当日零发射·采样器健康（近60min窗 0 批）",
+    "line": "- **核分布/并行效率三机对照（T-134 s4 · 2026-11-15）**：**bm-a** 有效核 N/A（判 0 批 · 多核达标 0 · 单核红牌 0 · 短跑不计 0）——当日零发射·采样器健康（近60min窗 0 批）；**bm-b** 有效核 N/A（判 0 批 · 多核达标 0 · 单核红牌 0 · 短跑不计 0）——当日零发射·采样器健康（近60min窗 0 批）；**bm-c** 有效核 N/A（判 0 批 · 多核达标 0 · 单核红牌 0 · 短跑不计 0）——当日零发射·采样器健康（近60min窗 0 批）",
     "self_dated": true
    },
    {
     "heading": "六、算力利用率（O-1614 满载机制 · T-107 面）",
-    "line": "- **CPU 有效工时（2026-11-14）**：当日零判定批——如实标注，禁编数",
+    "line": "- **CPU 有效工时（2026-11-15）**：当日零判定批——如实标注，禁编数",
     "self_dated": true
    },
    {
@@ -799,7 +799,7 @@
    },
    {
     "heading": "十、数据的盘上归属（这批数字在谁的盘上）",
-    "line": "- 判据=板面逐车道 authority（宿主封套/宿主本机副本/他机封套/他机副本/申报接管/无主）· 板面 2026-11-14T17:24:22 · verdict `attention` · 本行零重判",
+    "line": "- 判据=板面逐车道 authority（宿主封套/宿主本机副本/他机封套/他机副本/申报接管/无主）· 板面 2026-11-15T06:31:26 · verdict `attention` · 本行零重判",
     "self_dated": true
    },
    {
@@ -829,17 +829,17 @@
    },
    {
     "heading": "十一、车道的静默史（线停了多久、什么时候停的）",
-    "line": "- **bm-c: 153 rounds in 3d, median gap 16.0 min, 10 unexplained gap(s) over 90 min; longest silence 2026-11-11T16:00 -> 2026-11-11T18:47 (158.0-167.0 min, 0.0 explained by its quiet window); still open since 2026-11-14T09:10 (55.6-55.6 min unexplained).**",
+    "line": "- **bm-c: 167 rounds in 3d, median gap 15.0 min, 8 unexplained gap(s) over 90 min; longest silence 2026-11-14T09:10 -> 2026-11-14T14:35 (325.0-325.0 min, 0.0 explained by its quiet window); still open since 2026-11-15T05:00 (32.1-41.1 min unexplained).**",
     "self_dated": true
    },
    {
     "heading": "十一、车道的静默史（线停了多久、什么时候停的）",
-    "line": "- 判据=本机轮账本相邻两轮的空档（模糊时间戳按区间放宽，只在悲观端越阈才判）· 扣除本机申报的静默窗 · 阈值 90 分钟 · 面 2026-11-14T10:05:36 · verdict `SILENT_GAP` · 本行零重判",
+    "line": "- 判据=本机轮账本相邻两轮的空档（模糊时间戳按区间放宽，只在悲观端越阈才判）· 扣除本机申报的静默窗 · 阈值 90 分钟 · 面 2026-11-15T05:41:08 · verdict `SILENT_GAP` · 本行零重判",
     "self_dated": true
    },
    {
     "heading": "十一、车道的静默史（线停了多久、什么时候停的）",
-    "line": "- 此刻仍开着的空档：自 2026-11-14T09:10 起 55.6–55.6 分钟未解释（含已声明静默窗的扣除）",
+    "line": "- 此刻仍开着的空档：自 2026-11-15T05:00 起 32.1–41.1 分钟未解释（含已声明静默窗的扣除）",
     "self_dated": true
    },
    {
@@ -904,7 +904,7 @@
    },
    {
     "heading": "Token 行（T-77 · L1 本地零 token/L3 云端该用就用）",
-    "line": "- 状态面估计 15889 · 报告面估计 2400156 · 增量 {\"prev_generated\": \"2026-11-14 07:14:34\", \"state_tokens_growth\": 0, \"report_tokens_growth\": 1193, \"mandate_growth\": 0} · 口径 {'bpe_proxy': 3.5, 'disclosure': 'ROUGH ESTIMATE -- byte/3.5 proxy; never presented as exact; exactness upgrade path = future CLI usage API'}",
+    "line": "- 状态面估计 15889 · 报告面估计 2400817 · 增量 {\"prev_generated\": \"2026-11-14 10:57:19\", \"state_tokens_growth\": 0, \"report_tokens_growth\": 661, \"mandate_growth\": 0} · 口径 {'bpe_proxy': 3.5, 'disclosure': 'ROUGH ESTIMATE -- byte/3.5 proxy; never presented as exact; exactness upgrade path = future CLI usage API'}",
     "self_dated": true
    },
    {
@@ -915,27 +915,27 @@
   ]
  },
  "date_claims": {
-  "n_claims": 37,
-  "n_ok": 37,
+  "n_claims": 36,
+  "n_ok": 35,
   "n_mismatch": 0,
-  "n_unverifiable": 0,
+  "n_unverifiable": 1,
   "n_unmapped": 0,
   "n_rules": 29,
   "claims": [
    {
     "heading": "(页首)",
-    "date": "2026-11-14",
+    "date": "2026-11-15",
     "field": "report_date",
-    "expected": "2026-11-14",
-    "line": "# 每日战报 — 2026-11-14",
+    "expected": "2026-11-15",
+    "line": "# 每日战报 — 2026-11-15",
     "reading": "ok"
    },
    {
     "heading": "(页首)",
-    "date": "2026-11-14",
+    "date": "2026-11-15",
     "field": "generated_at",
-    "expected": "2026-11-14",
-    "line": "> 生成 2026-11-14 17:44:00 · 聚合面零新判据 · 缺面如实标注",
+    "expected": "2026-11-15",
+    "line": "> 生成 2026-11-15 06:31:28 · 聚合面零新判据 · 缺面如实标注",
     "reading": "ok"
    },
    {
@@ -956,19 +956,11 @@
    },
    {
     "heading": "二、CEO 实盘使用面（T-105 直达）",
-    "date": "2026-11-14",
+    "date": "2026-11-15",
     "field": "live_usage.day",
-    "expected": "2026-11-14",
-    "line": "- **[实盘一页纸直达](../live_usage/LIVE-2026-11-14.md)**（LIVE-2026-11-14）：政体态 **RED** · 有效档位 **RED** → 股票敞口总帽 20% · 温度计 COOL · 市场时钟 `RED_COOL` · 六员",
-    "reading": "ok"
-   },
-   {
-    "heading": "二、CEO 实盘使用面（T-105 直达）",
-    "date": "2026-11-14",
-    "field": "live_usage.day",
-    "expected": "2026-11-14",
-    "line": "- **[实盘一页纸直达](../live_usage/LIVE-2026-11-14.md)**（LIVE-2026-11-14）：政体态 **RED** · 有效档位 **RED** → 股票敞口总帽 20% · 温度计 COOL · 市场时钟 `RED_COOL` · 六员",
-    "reading": "ok"
+    "expected": null,
+    "line": "- LIVE-2026-11-15.json 未生成（ceo_live_usage.py 腿未跑或机制故障）——如实标注，禁编数",
+    "reading": "unverifiable"
    },
    {
     "heading": "六、算力利用率（O-1614 满载机制 · T-107 面）",
@@ -988,26 +980,26 @@
    },
    {
     "heading": "六、算力利用率（O-1614 满载机制 · T-107 面）",
-    "date": "2026-11-14",
+    "date": "2026-11-15",
     "field": "utilization.machines.bm-c.latest_ts",
-    "expected": "2026-11-14",
-    "line": "- **bm-c**：py 0.0%（总机 6.0% · 2026-11-14 14:34:00）· 池 ready 0 · 今日底线合规 0/12· SLA 旗 0 · 供给缺口旗 0· 家族旗龄 17957.1min · `FLAG:pool_starvation,suppl",
+    "expected": "2026-11-15",
+    "line": "- **bm-c**：py 1.6%（总机 74.0% · 2026-11-15 05:39:54）· 池 ready 0 · 今日底线合规 0/3· SLA 旗 0 · 供给缺口旗 0· 家族旗龄 18603.5min · `FLAG:single_core_hog,pool_",
     "reading": "ok"
    },
    {
     "heading": "六、算力利用率（O-1614 满载机制 · T-107 面）",
-    "date": "2026-11-14",
+    "date": "2026-11-15",
     "field": "core_spread.day",
-    "expected": "2026-11-14",
-    "line": "- **核分布/并行效率三机对照（T-134 s4 · 2026-11-14）**：**bm-a** 有效核 N/A（判 0 批 · 多核达标 0 · 单核红牌 0 · 短跑不计 0）——当日零发射·采样器健康（近60min窗 0 批）；**bm-b** 有效核 N/A（判 0 ",
+    "expected": "2026-11-15",
+    "line": "- **核分布/并行效率三机对照（T-134 s4 · 2026-11-15）**：**bm-a** 有效核 N/A（判 0 批 · 多核达标 0 · 单核红牌 0 · 短跑不计 0）——当日零发射·采样器健康（近60min窗 0 批）；**bm-b** 有效核 N/A（判 0 ",
     "reading": "ok"
    },
    {
     "heading": "六、算力利用率（O-1614 满载机制 · T-107 面）",
-    "date": "2026-11-14",
+    "date": "2026-11-15",
     "field": "core_spread.day",
-    "expected": "2026-11-14",
-    "line": "- **CPU 有效工时（2026-11-14）**：当日零判定批——如实标注，禁编数",
+    "expected": "2026-11-15",
+    "line": "- **CPU 有效工时（2026-11-15）**：当日零判定批——如实标注，禁编数",
     "reading": "ok"
    },
    {
@@ -1100,42 +1092,42 @@
    },
    {
     "heading": "十、数据的盘上归属（这批数字在谁的盘上）",
-    "date": "2026-11-14",
+    "date": "2026-11-15",
     "field": "lane_authority.as_of",
-    "expected": "2026-11-14",
-    "line": "- 判据=板面逐车道 authority（宿主封套/宿主本机副本/他机封套/他机副本/申报接管/无主）· 板面 2026-11-14T17:24:22 · verdict `attention` · 本行零重判",
+    "expected": "2026-11-15",
+    "line": "- 判据=板面逐车道 authority（宿主封套/宿主本机副本/他机封套/他机副本/申报接管/无主）· 板面 2026-11-15T06:31:26 · verdict `attention` · 本行零重判",
     "reading": "ok"
    },
    {
     "heading": "十一、车道的静默史（线停了多久、什么时候停的）",
-    "date": "2026-11-11",
+    "date": "2026-11-14",
     "field": "lane_silence.longest_silence.from",
-    "expected": "2026-11-11",
-    "line": "- **bm-c: 153 rounds in 3d, median gap 16.0 min, 10 unexplained gap(s) over 90 min; longest silence 2026-11-11T16:00 -> 2026-11-11T18:47 (15",
+    "expected": "2026-11-14",
+    "line": "- **bm-c: 167 rounds in 3d, median gap 15.0 min, 8 unexplained gap(s) over 90 min; longest silence 2026-11-14T09:10 -> 2026-11-14T14:35 (325",
     "reading": "ok"
    },
    {
     "heading": "十一、车道的静默史（线停了多久、什么时候停的）",
-    "date": "2026-11-11",
+    "date": "2026-11-14",
     "field": "lane_silence.longest_silence.to",
-    "expected": "2026-11-11",
-    "line": "- **bm-c: 153 rounds in 3d, median gap 16.0 min, 10 unexplained gap(s) over 90 min; longest silence 2026-11-11T16:00 -> 2026-11-11T18:47 (15",
+    "expected": "2026-11-14",
+    "line": "- **bm-c: 167 rounds in 3d, median gap 15.0 min, 8 unexplained gap(s) over 90 min; longest silence 2026-11-14T09:10 -> 2026-11-14T14:35 (325",
     "reading": "ok"
    },
    {
     "heading": "十一、车道的静默史（线停了多久、什么时候停的）",
-    "date": "2026-11-14",
+    "date": "2026-11-15",
     "field": "lane_silence.generated",
-    "expected": "2026-11-14",
-    "line": "- 判据=本机轮账本相邻两轮的空档（模糊时间戳按区间放宽，只在悲观端越阈才判）· 扣除本机申报的静默窗 · 阈值 90 分钟 · 面 2026-11-14T10:05:36 · verdict `SILENT_GAP` · 本行零重判",
+    "expected": "2026-11-15",
+    "line": "- 判据=本机轮账本相邻两轮的空档（模糊时间戳按区间放宽，只在悲观端越阈才判）· 扣除本机申报的静默窗 · 阈值 90 分钟 · 面 2026-11-15T05:41:08 · verdict `SILENT_GAP` · 本行零重判",
     "reading": "ok"
    },
    {
     "heading": "十一、车道的静默史（线停了多久、什么时候停的）",
-    "date": "2026-11-14",
+    "date": "2026-11-15",
     "field": "lane_silence.open_gap.since",
-    "expected": "2026-11-14",
-    "line": "- 此刻仍开着的空档：自 2026-11-14T09:10 起 55.6–55.6 分钟未解释（含已声明静默窗的扣除）",
+    "expected": "2026-11-15",
+    "line": "- 此刻仍开着的空档：自 2026-11-15T05:00 起 32.1–41.1 分钟未解释（含已声明静默窗的扣除）",
     "reading": "ok"
    },
    {
@@ -1215,7 +1207,7 @@
     "date": "2026-11-14",
     "field": "token_line.delta_vs_prev.prev_generated",
     "expected": "2026-11-14",
-    "line": "- 状态面估计 15889 · 报告面估计 2400156 · 增量 {\"prev_generated\": \"2026-11-14 07:14:34\", \"state_tokens_growth\": 0, \"report_tokens_growth\": 1193, \"mandat",
+    "line": "- 状态面估计 15889 · 报告面估计 2400817 · 增量 {\"prev_generated\": \"2026-11-14 10:57:19\", \"state_tokens_growth\": 0, \"report_tokens_growth\": 661, \"mandate",
     "reading": "ok"
    }
   ],
@@ -1430,8 +1422,8 @@
     "heading": "六、算力利用率（O-1614 满载机制 · T-107 面）",
     "field": "__page__",
     "why": "counts samples taken on the report day",
-    "page_day": "2026-11-14",
-    "bar_day": "2026-11-14",
+    "page_day": "2026-11-15",
+    "bar_day": "2026-11-15",
     "reading": "same_day",
     "line": "- **bm-a**：py 5.1%（总机 33.0% · 2026-11-13 19:59:02）· 池 ready 0 · 今日底线合规 0/0· SLA 旗 0 · 供给缺口旗 0· 家族旗龄 17306.7min · `FLAG:pool_starvation,supply_floor`"
    },
@@ -1439,8 +1431,8 @@
     "heading": "六、算力利用率（O-1614 满载机制 · T-107 面）",
     "field": "__page__",
     "why": "counts samples taken on the report day",
-    "page_day": "2026-11-14",
-    "bar_day": "2026-11-14",
+    "page_day": "2026-11-15",
+    "bar_day": "2026-11-15",
     "reading": "same_day",
     "line": "- **bm-b**：py 0.0%（总机 4.0% · 2026-10-30 07:20:32）· 池 ready 1 · 今日底线合规 0/0· SLA 旗 0 · 供给缺口旗 0· 家族旗龄 107.2min · `FLAG:supply_gap,supply_floor`"
    },
@@ -1448,17 +1440,17 @@
     "heading": "六、算力利用率（O-1614 满载机制 · T-107 面）",
     "field": "__page__",
     "why": "counts samples taken on the report day",
-    "page_day": "2026-11-14",
-    "bar_day": "2026-11-14",
+    "page_day": "2026-11-15",
+    "bar_day": "2026-11-15",
     "reading": "same_day",
-    "line": "- **bm-c**：py 0.0%（总机 6.0% · 2026-11-14 14:34:00）· 池 ready 0 · 今日底线合规 0/12· SLA 旗 0 · 供给缺口旗 0· 家族旗龄 17957.1min · `FLAG:pool_starvation,supply_floor`"
+    "line": "- **bm-c**：py 1.6%（总机 74.0% · 2026-11-15 05:39:54）· 池 ready 0 · 今日底线合规 0/3· SLA 旗 0 · 供给缺口旗 0· 家族旗龄 18603.5min · `FLAG:single_core_hog,pool_starvation,supply_fl"
    }
   ],
   "offenders": [],
   "honest": []
  },
  "script": "daily_report_day_words",
- "artifact": "docs/daily_report/REPORT-2026-11-14.json",
- "page": "docs/daily_report/REPORT-2026-11-14.md",
- "ts": "2026-11-14T17:50:18"
+ "artifact": "docs/daily_report/REPORT-2026-11-15.json",
+ "page": "docs/daily_report/REPORT-2026-11-15.md",
+ "ts": "2026-11-15T06:34:22"
 }

@@ -1,6 +1,6 @@
 # Calendar distance: how far each refusal is from flipping
 
-asof 2026-11-14T21:31:18+08:00 | evidence_cutoff 2026
+asof 2026-11-15T15:46:55+08:00 | evidence_cutoff 2026
 
 **WAIT_ON_A_WATCHABLE_NUMBER** — nobond_vt08_adopted is 0.46pp of 2026 return away from ADMIT; the remaining 1 cohort(s) must return 0.45%
 
@@ -9,7 +9,7 @@ asof 2026-11-14T21:31:18+08:00 | evidence_cutoff 2026
 | nobond_vt08_adopted | CONDITIONAL | Y4_top2_share | 2.68% | 3.14% | 0.46pp | 0.45% |
 | nobond_base | ADMIT | none | 5.54% | READINGS_DISAGREE | — | — |
 | nobond_vt08_floor_050 | NO_YEARLY_BLOCK | — | — | — | — | — |
-| all_classes_published | CONDITIONAL | Y4_top2_share | 1.10% | 7.90% | 6.80pp | 6.73% |
+| all_classes_published | CONDITIONAL | Y4_top2_share | 0.70% | 7.90% | 7.20pp | 7.15% |
 
 ## What this does not say
 
