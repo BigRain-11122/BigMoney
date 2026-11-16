@@ -1364,13 +1364,13 @@ def render_md(p: dict) -> str:
                  f"{_n(cb.get('funding_all_cny'))} 元")
         L.append(f"- 撤单范围：`{cb.get('decision')}`"
                  f"（{cb.get('decided')}·{cb.get('decided_in')}）＝"
-                 f"{cb.get('scope')}")
+                 "只撤可执行票面；前向纸面序列是 append-only 证据行，"
+                 "改标签不重写、不截断、不删除")
         L.append(f"  - 纸面账本 {cb.get('paper_lots_total')} 手**不删不改**，"
                  f"标签 `{cb.get('paper_label')}`"
                  "（它记的是那份更大资本账户的行为，不是这本书的）")
-        L.append(f"  - 撤单是条件的：{cb.get('reversal')}")
-        if cb.get("sentence"):
-            L.append(f"- 一句话（产出面原句）：{cb['sentence']}")
+        L.append("  - 撤单是**条件的**不是判词：资金补到首档后同一规则自动"
+                 "还回 1 手（撤单对资本，不对袖面）")
         L.append(f"- 出处：`{cb.get('path')}`｜generated "
                  f"{cb.get('source_generated')}｜cutoff "
                  f"{cb.get('evidence_cutoff')}｜尺子 "

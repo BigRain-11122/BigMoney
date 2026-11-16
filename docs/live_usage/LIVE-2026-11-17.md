@@ -1,6 +1,6 @@
 # CEO 实盘使用一页纸 · 2026-11-17
 
-> 自动生成 2026-11-17T01:24:46 · T-105 v2.1 · 纯聚合面（零新判据）· [版本台账](../../research/DECISION_CHAIN_LEDGER.md)
+> 自动生成 2026-11-17T01:41:30 · T-105 v2.1 · 纯聚合面（零新判据）· [版本台账](../../research/DECISION_CHAIN_LEDGER.md)
 
 ## ⓪ 本页新鲜度（先读这个）
 
@@ -128,10 +128,9 @@
   - IC：目标 8.0% · 可执行 **0 手**（WITHDRAWN·撤 4 手）· 首档 **1,125,012 元** · 差 125,012 元（12.50% 资本）· 桌上 4 手 = 4.50 倍波动预算
   - IM：目标 8.0% · 可执行 **0 手**（WITHDRAWN·撤 4 手）· 首档 **1,152,040 元** · 差 152,040 元（15.20% 资本）· 桌上 4 手 = 4.61 倍波动预算
 - 最便宜入门：**IC 账户 1,125,012 元**；两条腿同时开 2,277,052 元
-- 撤单范围：`WITHDRAW_FROM_TICKET`（2026-11-17·bm-c round 1780）＝the executable ticket only. The forward paper series is an append-only evidence line: it is re-labelled FUNDED_BY_A_LARGER_CAPITAL, never rewritten, truncated or deleted
+- 撤单范围：`WITHDRAW_FROM_TICKET`（2026-11-17·bm-c round 1780）＝只撤可执行票面；前向纸面序列是 append-only 证据行，改标签不重写、不截断、不删除
   - 纸面账本 8 手**不删不改**，标签 `FUNDED_BY_A_LARGER_CAPITAL`（它记的是那份更大资本账户的行为，不是这本书的）
-  - 撤单是条件的：fund the account to the first rung and re-run: the same rule hands the ticket back one lot and this file prints it -- the withdrawal is conditional on capital, not a judgement about the sleeve
-- 一句话（产出面原句）：To open this book at all needs 1,125,012 CNY of capital (IC account). IC is 125,012 CNY short of its first lot (capital 1,000,000, gap 12.50%). IM is 152,040 CNY short of its first lot (capital 1,000,000, gap 15.20%). IC: the desk's 4 lot(s) are withdrawn from the ticket and the executable line is 0; IM: the desk's 4 lot(s) are withdrawn from the ticket and the executable line is 0. The forward paper series that ran on 8 lot(s) across the accounts is kept and labelled FUNDED_BY_A_LARGER_CAPITAL: it is what a larger account would have done, not what this one can. It comes back the moment the capital does.
+  - 撤单是**条件的**不是判词：资金补到首档后同一规则自动还回 1 手（撤单对资本，不对袖面）
 - 出处：`results/idx_fut_carry_open_capital.json`｜generated 2026-11-17T01:09:22+08:00｜cutoff 2026-11-16｜尺子 `results/idx_fut_carry_sizing_spec.json`／`results/idx_fut_carry_capital_ladder.json`
 
 ## ⑧ 诚实免责
