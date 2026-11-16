@@ -837,3 +837,31 @@ Product faces added/changed in this cycle (all committed, all re-derivable):
 Open (honest): the maintenance ratio 8% and the multipliers are assumptions the exchange/broker
 would firm up; the call distance ignores mid-crisis margin hikes; IH has no ETF pair so its drift
 reads 0.0 as an absence. Nothing above is an adopted position.
+
+
+## 5x checkpoint -- bm-c r1765 (2026-11-16 11:5x) -- three rulers on one question: can this book's
+## select leg be made measurable without making it smaller
+
+The r1761..r1765 cycle asked one question from three sides, all on the same engine, the same
+panel (1,520 names, last bar 2026-11-13) and the same frozen ruler (block 20, 2,000 draws,
+seed 2026-1116, z80 2.802):
+
+- `results/etf_book_money_mde.json` + `research/ETF_BOOK_MONEY_MDE.md` (r1763) -- the book's
+  whole 7.76pp/yr excess over 510300 sits inside its own 19.28pp MDE80; of the four attributed
+  legs only `cost` is measurable.
+- `results/etf_book_seat_mde.json` + `research/ETF_BOOK_SEAT_MDE.md` (r1764) -- seat count is not
+  the key: 2..30 seats moves the select leg's MDE80 only 8.74 -> 6.87pp (log slope -0.13, not
+  the -0.5 pure diversification would give) and costs 2.76pp of CAGR through the rotation leg.
+- `results/etf_book_corr_select.json` + `research/ETF_BOOK_CORR_SELECT.md` (r1765) -- nor is the
+  correlation between the held names: five de-correlated arms move the floor to 6.98pp at best
+  and pay 4.66pp of select alpha for it; every arm's price tag is 2.0-4.0pp of alpha per 1pp of
+  floor, so a quieter book is a smaller book.
+
+Methodology added: `knowledge/METHODOLOGY_ASSETS.md` E673 (a noise floor is judged by a slope,
+not by a table) and E674 (a de-noising arm must print its price tag). All six faces carry
+`--selftest` + `--check` and are smoke legs (suite 612/612 PASS at 11:44:38).
+
+Open (honest): the 1pp IMPROVE target was never reached by either axis, so the honest sentence is
+"not measurable at this history length" (r1762 priced 1pp at 50-836 years), not "no edge". The
+next axis is not a smaller error bar but a different ruler: slice the same select leg by month
+and quarter and ask whether +7.45pp is a stable premium or five good windows.
