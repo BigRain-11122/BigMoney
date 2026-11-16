@@ -16042,3 +16042,24 @@ p*=9.7%）；C 路=不买进现金腿（省 5,821 元，放弃 307 元/窗，p*=
 
 **正身**：scripts/etf_book_premium_choice.py（selftest 19/19 ＋ --check ok:true）·
 results/etf_book_premium_choice.json（RULERS_DISAGREE_SWAP_AT_HORIZON）· research/ETF_BOOK_PREMIUM_CHOICE.md
+
+
+## E683 — 面自己已经说百分比，读者再乘 100 就印出 674.6%（r1775 bm-c）
+
+把 r1774 的判词接到票面上时，第一版渲染印出「159655 溢价 674.614%」。原因不是算错，是**单位**：
+results/etf_book_premium_choice.json 里 premium_pct=6.746139 配 premium_cny=5,820.97 / 86,286 元
+——它**本来就是百分数**，而本仓其余面惯用分数（0.0674）。同一个 _pct() 格式化函数用在两种口径上，
+读者看到的是一位小数点的差别：674.6% vs 6.746%，一个荒谬、一个正确，都长得像正经数字。
+
+**正法**：①同一个数字进入两个面之前先问「这个字段自己说的是分数还是百分数」，用两个格式化函数
+（_pct 分数 / _pctu 百分比）而不是一个通用函数；②自检腿钉住单位而不是钉住数值——本面加 L11：
+渲染里必须出现 6.746% 且**不得**出现 674.6%；③字段名带 pct 不等于分数（本仓两种都有，
+etf_book_premium_choice 用百分数、premium_persistence 用分数）。
+
+**姊妹面（同窗实犯）**：一条自检腿把「注入的页头日期」钉成断言，而它喂进去的行自带另一天的日期
+（L230：注入 2026-11-13、行在 2026-11-16）——这类腿只在**数据恰好同意**时绿，换一根 bar 就红，
+红的时候代码是对的、腿是错的。正法：断言被检对象**自己的**读数（行的日期 / 面自称口径），
+把「注入值与真实值不同」也写进断言，这样它验的是「按自己带的日期算」，不是「等于我今天恰好看到的日期」。
+
+**正身**：scripts/etf_book_premium_roads.py（selftest 11/11 ＋ --check ok:true）·
+results/etf_book_order/ORDER-2026-11-16.md §溢价腿的三条路（r1775）· scripts/etf_book_ceo_page.py L230 修法

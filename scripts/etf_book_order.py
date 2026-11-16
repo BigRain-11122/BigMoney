@@ -66,6 +66,7 @@ from scripts import etf_book_swap_units as SWU                # noqa: E402  (r15
 from scripts import etf_book_swap_track as SWK                # noqa: E402  (r1526: what CARRYING the sibling costs per year)
 from scripts import etf_book_swap_freshness as SFI            # noqa: E402  (r1532: which bar each of the ten faces is on)
 from scripts import etf_book_next_decision as NDC             # noqa: E402  (r1536: the single decision clock)
+from scripts import etf_book_premium_roads as PRD             # noqa: E402  (r1775: the premium leg's three roads)
 from config import PATHS                           # noqa: E402
 
 BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -3231,6 +3232,8 @@ def card(ticket, mk, sched, asof, beta, extra):
         L += SWK.md_lines(extra.get("swap_track"))
         L += executed_base_md(extra.get("base"))
         L += premium_read_md(extra.get("premium"))
+        # r1775: the roads the premium leg can take, priced against this book's own hold.
+        L += PRD.md_lines(extra.get("premium_roads"))
         L += positions_md(extra.get("positions"))
         cm = extra.get("cash_money")
         if cm:
@@ -3972,6 +3975,11 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
                # no reader (the entry face was two sessions behind while the sheet read
                # `current`).
                "swap_freshness": swap_freshness_face(),
+               # r1775: r1773 priced refusing the premium leg with the annual ruler, r1774 read
+               # the same numbers over the 1.57-window hold this book actually has and reached
+               # the opposite verdict. Both lived in the producer's file and neither reached
+               # the sheet the operator places the order from.
+               "premium_roads": PRD.read({"as_of": asof, "ticket": ticket}),
                "width_disclosure": wd,
                "live_width_ruler": ruler,
                "price_basis": basis,
@@ -4075,6 +4083,7 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
                       # face knew it and nothing read it.
                       "swap_freshness": payload["swap_freshness"],
                       "premium": _prem,
+                      "premium_roads": payload["premium_roads"],
                       "base": payload["base"],
                       "permission": payload["permission"],
                       "size_band": payload["size_band"],

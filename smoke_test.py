@@ -5700,6 +5700,12 @@ def main() -> int:
              "scripts/etf_book_premium_choice.py", ["--selftest"]),
             ("product: etf_book_premium_choice (road arithmetic still re-derives)",
              "scripts/etf_book_premium_choice.py", ["--check"]),
+            # r1775: the choice face's three roads have to reach the sheet the order is placed
+            # from -- a verdict that only lives in the producer's file is not a decision.
+            ("product: etf_book_premium_roads (the three roads on the ticket)",
+             "scripts/etf_book_premium_roads.py", ["--selftest"]),
+            ("product: etf_book_premium_roads (published roads still re-derive)",
+             "scripts/etf_book_premium_roads.py", ["--check"]),
             # The money question ("how big can this book get before impact eats it")
             # rests entirely on this one script: it re-derives both arms off one
             # engine and pins k=1 to the flat path to 1e-12. A rot here would print

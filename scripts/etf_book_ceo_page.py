@@ -13593,10 +13593,20 @@ def selftest():
                                   "backtest_band": _p_bb["backtest_band"],
                                   "agreement": _ag_p,
                                   "priced_faces": _p_bb.get("priced_faces") or {}}) or {}
+    # r1775: this leg used to pin both sections to the headline it injected (2026-11-13) even
+    # though the rows it was handed were priced on 2026-11-16 -- the audit prefers the day a
+    # section carries one level down, so the leg passed only while the real rows happened to
+    # sit on the injected day, and went red the first time a new bar moved them. Pin the
+    # behaviour it is named for instead: each section reports its OWN day, and a headline that
+    # disagrees is not stamped onto it.
+    _bb_day = _bb_bars[0] if _bb_bars else None
+    _ag_day = _ag_p.get("ticket_priced_bar") or _ag_p.get("card_priced_bar")
     chk("L230 the section audit dates the band table and the agreement block from the day "
         "they carry one level down",
-        (_sb_1655.get("by_key") or {}).get("backtest_band") == "2026-11-13"
-        and (_sb_1655.get("by_key") or {}).get("agreement") == "2026-11-13"
+        _bb_day is not None and _ag_day is not None
+        and (_sb_1655.get("by_key") or {}).get("backtest_band") == _bb_day
+        and (_sb_1655.get("by_key") or {}).get("agreement") == _ag_day
+        and _bb_day != "2026-11-13"          # the injected headline really does disagree
         and not (_sb_1655.get("unknown_sections") or []),
         json.dumps({k: _sb_1655.get(k) for k in ("by_key", "unknown_sections")},
                    ensure_ascii=False)[:200])
