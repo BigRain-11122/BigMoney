@@ -1,6 +1,6 @@
 # the carry sleeve: an 8% vol target on a 1,000,000 book is not an integer
 
-evidence cutoff: **2026-11-16** | source: `results/idx_fut_carry_paper/SIZING.json` | generated 2026-11-16T23:02:48
+evidence cutoff: **2026-11-16** | source: `results/idx_fut_carry_paper/SIZING.json` | generated 2026-11-16T23:41:03
 
 One lot's annualised vol, hedged to the discount, is the whole input here; the face does not re-derive it. 
 A fraction of a lot is printed as arithmetic and never as a position: a futures contract is not divisible.

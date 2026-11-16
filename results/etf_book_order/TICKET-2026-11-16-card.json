@@ -492,11 +492,10 @@
  },
  "family_coherence": {
   "artifact": "results/etf_book_phase_atlas_arms.json",
-  "verdict": "MIXED_WORLDS",
-  "detail": "11 faces priced 2 different panels (0988c653, e6f9d0e8): per-cell deltas across worlds are world differences, not rule effects",
+  "verdict": "ONE_WORLD",
+  "detail": "all 11 faces priced 0988c6530a481fa1",
   "panels": [
-   "0988c6530a481fa1",
-   "e6f9d0e81a64ec75"
+   "0988c6530a481fa1"
   ],
   "arms": 10,
   "evidence_cutoff": "2026-11-16",
@@ -517,6 +516,7 @@
      "baseline",
      "buffer_k02",
      "buffer_k05",
+     "buffer_k05_cost20",
      "buffer_k10",
      "buffer_k20",
      "buffer_k40",
@@ -529,22 +529,13 @@
     "bars": 5281,
     "columns": 1630,
     "bars_fewer_than_newest": 0
-   },
-   {
-    "digest": "e6f9d0e81a64ec75",
-    "faces": [
-     "buffer_k05_cost20"
-    ],
-    "last": "2026-11-13",
-    "bars": 5280,
-    "columns": 1629,
-    "bars_fewer_than_newest": 1
    }
   ],
-  "priced_same_panel": false,
+  "priced_same_panel": true,
   "comparable": [
    "buffer_k02",
    "buffer_k05",
+   "buffer_k05_cost20",
    "buffer_k10",
    "buffer_k20",
    "buffer_k40",
@@ -553,14 +544,10 @@
    "cost20",
    "cost40"
   ],
-  "withheld": [
-   "buffer_k05_cost20"
-  ],
+  "withheld": [],
   "cost_axis": {
-   "readable": false,
-   "withheld": [
-    "buffer_k05_cost20"
-   ],
+   "readable": true,
+   "withheld": [],
    "arms": [
     {
      "arm": "buffer_k02",
@@ -576,8 +563,8 @@
     },
     {
      "arm": "buffer_k05_cost20",
-     "verdict": "WORLDS_NOT_COMPARABLE",
-     "readable": false,
+     "verdict": "REJECT",
+     "readable": true,
      "description": "buffer k=0.05 at 20bp/side -- the interaction neither family tested: does a buffer that is harmless at 10bp recover any of the -1.41pp the 20bp toll costs?"
     },
     {
@@ -639,22 +626,23 @@
   "signflip": {
    "artifact": "results/etf_book_arms_signflip.json",
    "status": "ok",
-   "detail": "3 of 5 published REJECTs stand on their own cells (buffer_k05_cost20, cost20, cost40); the rest are inside sign noise and must not be read as findings",
+   "detail": "2 of 5 published REJECTs stand on their own cells (cost20, cost40); the rest are inside sign noise and must not be read as findings",
    "n_reject": 5,
-   "n_reject_standing": 3,
+   "n_reject_standing": 2,
    "standing": [
-    "buffer_k05_cost20",
     "cost20",
     "cost40"
    ],
    "overturned": [
     "buffer_k05",
+    "buffer_k05_cost20",
     "buffer_k40",
     "cost0",
     "cost05"
    ],
    "overstated": [
     "buffer_k05",
+    "buffer_k05_cost20",
     "buffer_k40"
    ],
    "understated": [
@@ -679,9 +667,9 @@
     {
      "arm": "buffer_k05_cost20",
      "frozen_label": "REJECT",
-     "verdict": "WORSE",
+     "verdict": "NOT-SEPARABLE",
      "sign_cells": 12,
-     "cells_positive": 0
+     "cells_positive": 3
     },
     {
      "arm": "buffer_k10",

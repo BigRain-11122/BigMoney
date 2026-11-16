@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-16T21:23:11+0800",
+ "generated": "2026-11-17T00:13:57+0800",
  "script": "scripts/etf_book_volgate.py",
  "question": "does zoo #96's volume state machine improve the production book?",
  "evidence_cutoff": "2026-11-16",
@@ -91,13 +91,13 @@
   "rule": "HMA(amount_sum,5)/HMA(amount_sum,100) vs 1.150 / 0.810874",
   "bars": 1664,
   "coverage": {
-   "min": 2249,
+   "min": 3527,
    "median": 4852
   },
-  "risk_on_share": 0.385,
+  "risk_on_share": 0.3843,
   "last_bar": "2026-11-16",
-  "last_state": 1,
-  "last_volume_index": 0.6927
+  "last_state": 0,
+  "last_volume_index": 0.9044
  },
  "arms": {
   "control": {
@@ -149,9 +149,9 @@
     "vol": 0.0786,
     "years": 2.87
    },
-   "exposure_share": 0.385,
-   "switches": 290,
-   "switches_per_year": 42.21
+   "exposure_share": 0.3843,
+   "switches": 291,
+   "switches_per_year": 42.36
   },
   "gate_mid": {
    "full": {
@@ -175,9 +175,9 @@
     "vol": 0.0743,
     "years": 2.87
    },
-   "exposure_share": 0.385,
-   "switches": 290,
-   "switches_per_year": 42.21
+   "exposure_share": 0.3843,
+   "switches": 291,
+   "switches_per_year": 42.36
   },
   "gate_half": {
    "full": {
@@ -201,9 +201,9 @@
     "vol": 0.0865,
     "years": 2.87
    },
-   "exposure_share": 0.385,
-   "switches": 290,
-   "switches_per_year": 42.21
+   "exposure_share": 0.3843,
+   "switches": 291,
+   "switches_per_year": 42.36
   },
   "gate_long_x": {
    "full": {
@@ -227,9 +227,9 @@
     "vol": 0.0788,
     "years": 2.87
    },
-   "exposure_share": 0.385,
-   "switches": 290,
-   "switches_per_year": 42.21
+   "exposure_share": 0.3843,
+   "switches": 291,
+   "switches_per_year": 42.36
   },
   "gate_long_base": {
    "full": {
@@ -253,9 +253,9 @@
     "vol": 0.1159,
     "years": 2.87
    },
-   "exposure_share": 0.385,
-   "switches": 290,
-   "switches_per_year": 42.21
+   "exposure_share": 0.3843,
+   "switches": 291,
+   "switches_per_year": 42.36
   }
  },
  "excess_pp": {
@@ -267,14 +267,14 @@
  },
  "null": {
   "draws": 200,
-  "mean_pp": -11.489,
-  "p95_pp": -8.21,
+  "mean_pp": -11.537,
+  "p95_pp": -8.217,
   "p_value": 0.23
  },
  "null_mirror": {
   "draws": 200,
-  "mean_pp": -8.843,
-  "p95_pp": -5.43,
+  "mean_pp": -8.853,
+  "p95_pp": -5.237,
   "p_value": 0.77
  },
  "deviations": [
@@ -289,5 +289,5 @@
   "gated max drawdown -18.90% is worse than the book's -10.56%",
   "at 13.041bp per side the gate gives the excess back (-11.29pp/yr)"
  ],
- "elapsed_sec": 81.3
+ "elapsed_sec": 82.0
 }

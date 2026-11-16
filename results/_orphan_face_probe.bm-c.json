@@ -1,7 +1,7 @@
 {
- "ts": "2026-11-17T01:10:10",
+ "ts": "2026-11-17T01:46:47",
  "mode": "probe",
- "py_faces_seen": 7,
+ "py_faces_seen": 6,
  "orphans": 0,
  "orphans_cleared": 0,
  "killed": [],
@@ -9,37 +9,24 @@
  "resident_servers_exempt": 1,
  "faces": [
   {
-   "pid": 50180,
-   "name": "pythonw.exe",
-   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\pythonw.exe scripts/etf_book_forward.py --selftest",
-   "age_min": 1.1,
-   "cpu_delta_20s": 20.188,
-   "face1_parent_dead": false,
-   "face2_no_hidden_host_ancestor": false,
+   "pid": 60444,
+   "name": "python.exe",
+   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe -m smoke_test",
+   "age_min": 0.8,
+   "cpu_delta_20s": 40.594,
+   "face1_parent_dead": true,
+   "face2_no_hidden_host_ancestor": true,
    "face3_cpu_stalled": false,
    "ancestor_chain": [
-    "pythonw.exe"
-   ]
-  },
-  {
-   "pid": 59876,
-   "name": "pythonw.exe",
-   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\pythonw.exe scripts/zoo94_lhb_inst_dist_probe.py --selftest",
-   "age_min": 0.3,
-   "cpu_delta_20s": 999.0,
-   "face1_parent_dead": false,
-   "face2_no_hidden_host_ancestor": false,
-   "face3_cpu_stalled": false,
-   "ancestor_chain": [
-    "pythonw.exe"
+    "DEAD"
    ]
   },
   {
    "pid": 62156,
    "name": "python.exe",
    "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\scripts\\update",
-   "age_min": 467.9,
-   "cpu_delta_20s": 0.703,
+   "age_min": 504.6,
+   "cpu_delta_20s": 0.359,
    "face1_parent_dead": true,
    "face2_no_hidden_host_ancestor": true,
    "face3_cpu_stalled": false,
@@ -48,24 +35,39 @@
    ]
   },
   {
-   "pid": 64072,
-   "name": "pythonw.exe",
-   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\pythonw.exe -u smoke_test.py",
-   "age_min": 1.1,
-   "cpu_delta_20s": 40.234,
-   "face1_parent_dead": true,
+   "pid": 68168,
+   "name": "python.exe",
+   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe scripts/etf_book_order.py --selftest",
+   "age_min": 0.8,
+   "cpu_delta_20s": 20.203,
+   "face1_parent_dead": false,
    "face2_no_hidden_host_ancestor": true,
    "face3_cpu_stalled": false,
    "ancestor_chain": [
+    "python.exe",
     "DEAD"
    ]
   },
   {
-   "pid": 64632,
+   "pid": 68908,
+   "name": "python.exe",
+   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe scripts/etf_book_forward.py --selftest",
+   "age_min": 0.8,
+   "cpu_delta_20s": 20.156,
+   "face1_parent_dead": false,
+   "face2_no_hidden_host_ancestor": true,
+   "face3_cpu_stalled": false,
+   "ancestor_chain": [
+    "python.exe",
+    "DEAD"
+   ]
+  },
+  {
+   "pid": 71688,
    "name": "python.exe",
    "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe Tools\\orphan_face_probe.py",
    "age_min": 0.5,
-   "cpu_delta_20s": 0.344,
+   "cpu_delta_20s": 0.328,
    "face1_parent_dead": false,
    "face2_no_hidden_host_ancestor": false,
    "face3_cpu_stalled": false,
@@ -77,24 +79,11 @@
    ]
   },
   {
-   "pid": 70268,
-   "name": "pythonw.exe",
-   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\pythonw.exe scripts/etf_book_order.py --selftest",
-   "age_min": 1.1,
-   "cpu_delta_20s": 20.016,
-   "face1_parent_dead": false,
-   "face2_no_hidden_host_ancestor": false,
-   "face3_cpu_stalled": false,
-   "ancestor_chain": [
-    "pythonw.exe"
-   ]
-  },
-  {
    "pid": 72700,
    "name": "python.exe",
    "cmd": "D:\\ComfyUI\\python_embeded\\python.exe -s D:\\ComfyUI\\ComfyUI\\main.py --listen 127.0.0.1 --port 8188 --disable-smart-memory",
-   "age_min": 216.7,
-   "cpu_delta_20s": 0.047,
+   "age_min": 253.3,
+   "cpu_delta_20s": 0.0,
    "face1_parent_dead": true,
    "face2_no_hidden_host_ancestor": true,
    "face3_cpu_stalled": true,
@@ -116,8 +105,8 @@
    "pid": 72700,
    "name": "python.exe",
    "cmd": "D:\\ComfyUI\\python_embeded\\python.exe -s D:\\ComfyUI\\ComfyUI\\main.py --listen 127.0.0.1 --port 8188 --disable-smart-memory",
-   "age_min": 216.7,
-   "cpu_delta_20s": 0.047,
+   "age_min": 253.3,
+   "cpu_delta_20s": 0.0,
    "face1_parent_dead": true,
    "face2_no_hidden_host_ancestor": true,
    "face3_cpu_stalled": true,

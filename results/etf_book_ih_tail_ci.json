@@ -1,15 +1,15 @@
 {
   "book": {
-    "bars": 1587,
+    "bars": 1588,
     "first": "2020-01-06",
-    "last": "2026-11-13",
+    "last": "2026-11-16",
     "series": "results\\etf_book_series\\NAV-2026-11-16.json"
   },
   "bootstrap": {
     "beta_draws_ci": {
-      "hi": 0.12920210747978306,
-      "lo": 0.028400476954201462,
-      "median": 0.07271713067039137,
+      "hi": 0.12868942078696075,
+      "lo": 0.029672243993819482,
+      "median": 0.07258018504612135,
       "n": 2000
     },
     "block_bars": 21,
@@ -22,9 +22,9 @@
     "unit": "bar pairs (book return, IH return)"
   },
   "deepest_tail": "ih_le_-2",
-  "elapsed_sec": 15.0,
+  "elapsed_sec": 15.9,
   "evidence_cutoff": "2026-11-16",
-  "generated": "2026-11-16T20:49:03",
+  "generated": "2026-11-16T23:40:16",
   "index": {
     "product": "IH",
     "splice_days_dropped": 85
@@ -37,31 +37,31 @@
     "this is arithmetic on published series, not a broker fill record"
   ],
   "perf_at_1beta": {
-    "base_sharpe": 0.9684188067751379,
-    "dmaxdd": -0.0005412128425121843,
+    "base_sharpe": 0.9612281745805933,
+    "dmaxdd": -0.0005306830633980963,
     "dmaxdd_ci": {
-      "hi": 0.02919872201476029,
-      "lo": -0.005291645991387206,
-      "median": 0.007642389816633732,
+      "hi": 0.02874210481513537,
+      "lo": -0.0062447077299049025,
+      "median": 0.007444465888151897,
       "n": 2000
     },
-    "dsharpe": -0.020547817217357878,
+    "dsharpe": -0.020974735979811476,
     "dsharpe_ci": {
-      "hi": 0.0707691125152359,
-      "lo": -0.09881020082682476,
-      "median": -0.015161963072270301,
+      "hi": 0.07410021845492577,
+      "lo": -0.09867847461663937,
+      "median": -0.016442466018979196,
       "n": 2000
     },
-    "dvol": -0.0010119817508366241,
+    "dvol": -0.0010097200878734364,
     "dvol_ci": {
-      "hi": -0.0001495438112421907,
-      "lo": -0.0029875622785716597,
-      "median": -0.000946515402168023,
+      "hi": -0.00016427934467634007,
+      "lo": -0.0029717326267965243,
+      "median": -0.0009528761068838751,
       "n": 2000
     },
-    "full_sharpe": 0.94787098955778,
+    "full_sharpe": 0.9402534386007818,
     "k": 1.0,
-    "share_dsharpe_positive": 0.3555
+    "share_dsharpe_positive": 0.337
   },
   "reading_rules": {
     "R1": "sampling interval conditional on this window's tail days, not a regime claim",
@@ -74,42 +74,42 @@
     "ih_le_-1": {
       "beta": 0.317850738141136,
       "beta_ci": {
-        "hi": 0.5105129636284571,
-        "lo": 0.019021388044445038,
-        "median": 0.3064427085357387,
+        "hi": 0.5135375297097413,
+        "lo": 0.023706378347936326,
+        "median": 0.30454105986206637,
         "n": 2000
       },
       "corr": 0.4287098034231727,
       "cut": -0.01,
       "median_tail_days": 235.0,
       "n": 235,
-      "share_above_uncond": 0.8975,
-      "share_above_zero": 0.966
+      "share_above_uncond": 0.9005,
+      "share_above_zero": 0.967
     },
     "ih_le_-2": {
       "beta": 0.6126419583867959,
       "beta_ci": {
-        "hi": 0.8328393159433894,
-        "lo": 0.10957277748333087,
-        "median": 0.6017379903740425,
+        "hi": 0.8414217707501334,
+        "lo": 0.12206311855461444,
+        "median": 0.6030653522292271,
         "n": 2000
       },
       "corr": 0.752018480779259,
       "cut": -0.02,
       "median_tail_days": 52.0,
       "n": 52,
-      "share_above_uncond": 0.9605,
-      "share_above_zero": 0.9815
+      "share_above_uncond": 0.9685,
+      "share_above_zero": 0.9795
     }
   },
   "unconditional": {
-    "bars": 1587,
-    "beta": 0.07453700153927338,
-    "corr": 0.14152934655175411
+    "bars": 1588,
+    "beta": 0.07447081363455153,
+    "corr": 0.14138168578950164
   },
   "verdict": {
     "hedge": "HEDGE_NOT_MEASURABLE",
-    "sentence": "尾部 beta 0.613 建在 52 天上，90% 的抽样区间是 [0.110, 0.833]；按 beta 精确对冲的夏普变化 -0.021，区间 [-0.099, +0.071]。",
+    "sentence": "尾部 beta 0.613 建在 52 天上，90% 的抽样区间是 [0.122, 0.841]；按 beta 精确对冲的夏普变化 -0.021，区间 [-0.099, +0.074]。",
     "tail": "TAIL_BETA_IS_REAL"
   }
 }
