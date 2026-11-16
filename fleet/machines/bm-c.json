@@ -767,7 +767,7 @@
  "updated": "2026-11-17T02:36:28+08:00",
  "updated_at": "2026-11-16T22:42:04+08:00",
  "vcpu": 32,
- "verdict": "watermark not re-probed this round (smoke in flight); red=false, orphans=0",
+ "verdict": "watermark insufficient_history (py 6.9%, local batch running), red=false, orphans=0",
  "verify": "idx_fut_carry_paper selftest 31/31 | s6 --only idx_fut_* 9/9 rc0 | etf_book ticket family re-derived, premium_percentile ticket-check OK | smoke 613/630 (5 STALE faces paid, 1 control char fixed, rest cross-machine/bm-a)",
  "vram_free_gb": 14.1,
  "vram_total_gb": 16.0,
@@ -780,5 +780,6 @@
  "当前任务": "r1793：把隔夜差面剩下的 29 个「同 bar 位移」逐族取证并分流；产生者侧让两节自己报每腿的 bar（印章只能盖最旧那根），隔夜差面加两档可证的解释，判决 29→22。",
  "空闲RAM": 27.9,
  "r1793_note": "etf_book_day_delta 29->22 unexplained: 6 INPUT_IDENTITY_CHANGED (panel digest set), 1 QUOTED_FROM_SOURCE (bm-a ah_panel fresh_pairs 185), 22 left = the 11-16 page stamped 11-16 over 11-13 futures prices (IC 6375x200=1,275,000), now impossible to repeat.",
- "r1793_next": "first day a leg lags: the two sections should read SECTION_ADVANCED on their own"
+ "r1793_next": "first day a leg lags: the two sections should read SECTION_ADVANCED on their own",
+ "r1793_s6": "dualrun ZERO-DRIFT (744, streak 51) | py_watermark insufficient_history"
 }
