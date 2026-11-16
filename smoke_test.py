@@ -5639,6 +5639,15 @@ def main() -> int:
              "scripts/etf_book_period_slice.py", ["--selftest"]),
             ("product: etf_book_period_slice (published verdict still re-derives)",
              "scripts/etf_book_period_slice.py", ["--check"]),
+            # r1767: the event profile could be forecastable or not. This face cuts the same
+            # months on three states known at the month's start and reads the verdict off a
+            # label-shuffle null (eight cells always have a best row). The selftest leg pins
+            # that the null punishes the eight-way search; the check leg re-derives the
+            # published verdict from the table on disk.
+            ("product: etf_book_month_condition (is the event profile forecastable)",
+             "scripts/etf_book_month_condition.py", ["--selftest"]),
+            ("product: etf_book_month_condition (published verdict still re-derives)",
+             "scripts/etf_book_month_condition.py", ["--check"]),
             # The money question ("how big can this book get before impact eats it")
             # rests entirely on this one script: it re-derives both arms off one
             # engine and pins k=1 to the flat path to 1e-12. A rot here would print
