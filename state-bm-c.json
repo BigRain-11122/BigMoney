@@ -55,7 +55,7 @@
   "state": "registered (FOUND)",
   "task": "HQ-ProductionClaim"
  },
- "clock_read": "2026-11-16T12:31:27+08:00",
+ "clock_read": "2026-11-16T12:59:18+08:00",
  "clock_read_source": "local",
  "clock_tz": "+08:00",
  "codely_live_count": 2,
@@ -161,7 +161,7 @@
  "gpu_vram_used_mb": 15603,
  "head_sha": "a0a7596bbf",
  "health": "ok",
- "heartbeat_epoch_utc": 1794803487,
+ "heartbeat_epoch_utc": 1794805158,
  "heartbeat_epoch_utc_type": "int",
  "idle_ram_gb": 3.62,
  "idle_rounds": 0,
@@ -1425,16 +1425,24 @@
  "self_caught": "honest item 1 first said 'no carry is credited to the ledger comparison' while both arms carry ladder3 carry (different idle conventions); rewritten and re-derived -- verdict and all six numbers identical, only the honest block moved",
  "smoke": "full suite closed 614/614 PASS 0 FAIL at 12:13:22 (results/_smoke_r1766.out) but it started 11:56 BEFORE the two new legs entered smoke_test.py, so this round claims its own script only: selftest 17/17 + --check 11/11 rc0",
  "smoke_caveat": "the suite launched 23:22, before this round's script existed, and it carries no legs for etf_book_gate_causal / etf_book_gate_knobs / etf_book_year_gate_idlecarry (grep of the full output: zero hits); the three changes stand on their own selftest 6/6, the as-coded control reproducing the published JSON to 0.0e+00, and a grep of the regenerated pages for the caveat",
- "smoke_closed": true,
+ "smoke_closed": {
+  "pass": 618,
+  "fail": 0,
+  "legs": 616,
+  "out": "results/_smoke_r1767b.out",
+  "note": "restarted after fixing the two new legs; both green inside this run",
+  "fail_first_run": 2,
+  "first_run_out": "results/_smoke_r1767.out"
+ },
  "smoke_fail_fixed": {
   "cause": "the new cash-caliber sentence said 今天 without naming the quote bar, so the census could not self-date it (12 printed lines, 0 anchored)",
   "evidence": "results/live_book_day_words.json",
   "fix": "the sentence now reads 今天（2026-11-13 的报价）, and the day-word face got a dedicated rule mapping it to cash_caliber.quote_date (not to the cash-yield face, whose date merely matches today): live_book_day_words selftest 33/33, run exit 0, page verdict PRINTED_DATES_AGREE with 13/13 claims checked and 0 unmapped (the face was PRINTED_SELF_DATED with 1 unfiled rule before)",
   "leg": "product: live-book day words sit on the page's own day"
  },
- "smoke_inflight": true,
- "smoke_note": "detached pythonw restarted at 12:30 local after the first wrapper died before writing a byte (module lookup needs ROOT on sys.path). Last full green 614/614 (r1766). This round's change is covered by etf_book_month_condition selftest 11/11 + check rc0. NOT claimed green in flight.",
- "smoke_out": "results/_smoke_r1767.out",
+ "smoke_inflight": false,
+ "smoke_note": "first suite run caught my own two new legs failing with exit=2 \"usage\" -- the suite passes --selftest/--check while the script only took bare words. Fixed in main() (lstrip). Re-ran the full suite from scratch: 618/618 PASS 0 FAIL, 769.9s over 616 legs, both new legs green (selftest 11/11, check ok=true).",
+ "smoke_out": "results/_smoke_r1767b.out",
  "smoke_r1621_out": "results/_smoke_r1621.out",
  "smoke_r1623_out": "results/_smoke_r1623.out",
  "smoke_r1625_closed": {
@@ -1462,7 +1470,7 @@
  },
  "task": "r1768 next: 「钱没有天气预报」把问题推回书本身——正贡献月是否与【持仓的名册状态】有关，而不是与市场天气有关。用 df 已有的 turn（换手）和名册-指数相关（corr_pick 的输入窗口相关）把同一张月表分格：高/低换手 × 名册与指数相关高/低，看正贡献月是否落在「换手高」或「与指数脱钩」的格里；判据同样先冻结、空分布读（标签打乱），窗 ≤48h",
  "total_ram_gb": 55.9,
- "ts": "2026-11-16T12:31:27+08:00",
+ "ts": "2026-11-16T12:59:18+08:00",
  "unverified": [
   "全量套件未覆盖本轮改动（起跑早于两条新腿；上一绿 612/612 @11:44:38 同样早于本轮）",
   "EVENT_DRIVEN 是单腿边缘判定（53.0% vs 55%，余量 1.99pp），集中度那条 45.7% 未触发",
@@ -1471,8 +1479,8 @@
   "正贡献月计数不含「贡献为零的月份」（83 月中 0 个零值月，此处恰好不影响）"
  ],
  "update_daily": "rc0 0 new rows, cutoff 2026-11-13 (Sunday, no new bar)",
- "updated": "2026-11-16T12:31:27+08:00",
- "updated_at": "2026-11-16 12:31:27",
+ "updated": "2026-11-16T12:59:18+08:00",
+ "updated_at": "2026-11-16 12:59:18",
  "vcpu": 32,
  "verdict": "NO_VISIBLE_CONDITION",
  "verify": "etf_book_order --selftest 238/238 PASS (new leg48m/48n/48o) | etf_book_ceo_page selftest 417/417 PASS (new L140e2/L140e3) | ORDER-2026-11-13.md and LIVE-BOOK-20261116.md regenerated, same sentence ('离座位线还有 **46 只**缓冲')",
@@ -1529,10 +1537,12 @@
  "verify_concentration": "months 83 windows / 44 positive (53.01%) / top8 share 45.74% / HHI 0.02315 / effective 43.2 | quarters 28 / 19 (67.9%) / top3 35.7% / effective 16.7 | years 7 / 6 (85.7%) / top1 25.4% / effective 5.6",
  "verify_ruler": "day block SE 3.12pp -> MDE80 8.74pp; month block SE 3.20pp -> MDE80 8.98pp; ratio 1.028 | to 1pp: 16166 bars (day rule) or 852 months (month rule) vs 1662 bars / 83 months on the book",
  "edge_t1766": "the EVENT_DRIVEN call rests on one leg only: positive-month ratio 53.01% vs the frozen 55% line (margin 1.99pp), while the concentration leg (top 10% of months >= 60%) reads 45.74% and does not trigger -- published as an edge call, with the sensitivity sweep on the page (54% and above would still read EVENT_DRIVEN, 52% and below would read MIXED)",
- "ts_epoch": 1794803487,
+ "ts_epoch": 1794805158,
  "round_t1767_note": "r1767: r1766 说这本书的超额是「月度事件、年度习惯」，但没回答那些月份事前能不能认出来。本轮把同一张 83 个月的表按三个【月初就能看到】的状态切开：M=指数 60 日动量为正、V=60 日已实现波动高于自己的扩展中位、E=月初持仓里有权益（w_equity>0），2x2x2=8 格。判词不看表、只看标签打乱空分布（2000 次，同贡献同格大小只打乱「哪个月是哪格」）。实锚：最好的一格 M+_V+_E+（10 个月）月均只比全表高 +0.06pp，打乱 2000 次里 66% 能造出一样好或更好的一格 -> NO_VISIBLE_CONDITION。三条条件单看也没有一条分离：动量 +0.13 vs +0.05pp/月（p=0.261）、波动 +0.11 vs +0.08（p=0.732）、持权益 +0.10 vs -0.03（p=0.426）。读表要点：八格只有六格有人且 30 个月落在同一格（三条件彼此不独立、94% 的月份都持权益）；格间差只有零点几个 pp，而月贡献标准差 0.35pp——这本书的钱是在场时赚到的，不是在可预告的天气里赚到的。",
  "verify_t1767": "etf_book_month_condition selftest 11/11 PASS (L5 植入条件分离/L5b 未植入不分离/L6 小格不进最佳格候选/L7 植入格过空分布/L7b 平坦表不过/L8 三态映射) | --check rc0 ok=true verdict 同判 best_cell M+_V+_E+ p=0.6602 | 控制臂 select +7.4451pp == r1766 在印 7.4451（delta 0.000pp，容差 0.25） 月表 83 月/44 正逐步复现 | 加性恒等式 Σ月贡献=年化 select 误差 8.9e-16 | smoke 增两腿（selftest+check），本轮跑着的套件在此之前已加载",
  "s7_selfheal": "loop task no-op (pin=0 current=0) | watchdog S4U flip REFUSED (access denied, needs elevation -> LogonType regression face stands, logged not fixed) | pre-commit + pre-push claws reinstalled | attrition guard CLEAN (4 ledgers, 2 historic shrinks healed)",
  "evidence_cutoff": "2026-11-13",
- "decisions_watermark": "group decisions.md sha256 bee18d6c... == the watermark r1766 advanced; batches 64/65/66 already consumed, zero new lines, zero execution action"
+ "decisions_watermark": "group decisions.md sha256 bee18d6c... == the watermark r1766 advanced; batches 64/65/66 already consumed, zero new lines, zero execution action",
+ "verify_smoke_r1767": "results/_smoke_r1767b.out: Summary 618/618 PASS, 0 FAIL, wall clock 769.9s over 616 legs; both etf_book_month_condition legs PASS (selftest 11/11, check {\"ok\": true, \"verdict\": \"NO_VISIBLE_CONDITION\", \"p_shuffle\": 0.6602})",
+ "verify_args": "the suite calls legs as `--selftest`/`--check`; the new face accepted only bare words and returned rc2 usage. main() now lstrips dashes -- same defect class as a leg that never ran because its flag spelling differed."
 }
