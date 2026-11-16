@@ -617,7 +617,7 @@ def selftest():
 
 
 def main(argv):
-    cmd = (argv[1] if len(argv) > 1 else "run").lower()
+    cmd = (argv[1] if len(argv) > 1 else "run").lower().lstrip("-")
     if cmd == "run":
         rc = run()
         if rc == 0:
