@@ -1,5 +1,5 @@
 {
- "as_of": "2026-11-16T14:26:35",
+ "as_of": "2026-11-16T18:05:30",
  "calendar": {
   "path": "data/exchange_calendar.csv",
   "refresh": {
@@ -12,7 +12,6 @@
   "scope_start": "1990-12-19"
  },
  "coverage_by_day": {
-  "2026-11-02": 1.0,
   "2026-11-03": 1.0,
   "2026-11-04": 1.0,
   "2026-11-05": 1.0,
@@ -21,28 +20,32 @@
   "2026-11-10": 1.0,
   "2026-11-11": 1.0,
   "2026-11-12": 1.0,
-  "2026-11-13": 0.9977
+  "2026-11-13": 0.9994,
+  "2026-11-16": 0.9959
  },
  "detail": "the maintained panel covers every official trading day it should by now; 2 file(s) sit outside the active cohort: 510880_t73 (declared_out_of_scope; last bar 2026-09-22), sh512390 (source_ended; last bar 2026-09-04) -- every one of them is declared by the lane's own receipt",
- "expected_last_official_day": "2026-11-13",
+ "expected_last_official_day": "2026-11-16",
  "forward_impact": {
   "blocked": true,
-  "ledger_last_bar": "2026-11-13",
+  "ledger_last_bar": "2026-11-16",
   "note": "one mark per new panel bar; a lagging feed pauses accrual without any error"
  },
  "machine": "bm-c",
  "missing_official_days": [],
  "note": "Descriptive face. The calendar is the independent reference; the panel is ours. source_lag is a publication delay (self-heals), panel_gap is a stopped feed (needs a human/lane owner).",
  "panel": {
-  "active_floor": "2026-11-09",
-  "cutoff_max": "2026-11-13",
+  "active_floor": "2026-11-10",
+  "cutoff_max": "2026-11-16",
   "cutoff_min": "2026-09-04",
-  "effective_cutoff": "2026-11-13",
+  "effective_cutoff": "2026-11-16",
   "lagging_active_sample": [
-   "sh510090",
-   "sh511820",
-   "sh511980",
-   "sh530080"
+   "sh530080",
+   "sz159119",
+   "sz159209",
+   "sz159220",
+   "sz159399",
+   "sz159576",
+   "sz159589"
   ],
   "n_active": 1723,
   "n_stale_cohort": 2,
@@ -66,10 +69,10 @@
  "stale_scope": {
   "by_reason": {
    "declared_out_of_scope": 1,
-   "no_trade": 4,
+   "no_trade": 1,
    "source_ended": 1
   },
-  "declared": 6,
+  "declared": 3,
   "error": null,
   "receipt": "results/etf_wide_update_status.json"
  },

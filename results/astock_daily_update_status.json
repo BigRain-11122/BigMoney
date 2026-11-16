@@ -1,8 +1,8 @@
 {
-  "ts": "2026-11-16T14:37:24",
-  "mode": "refresh complete",
+  "ts": "2026-11-16T17:22:45",
+  "mode": "refresh in progress (todo=5221/5226, quarantined=11, settled=0)",
   "panel": {
-    "complete": true,
+    "complete": false,
     "cutoff": "2026-11-13",
     "cutoff_is": "max tail across all per/*.csv -- read coverage_pct/coverage_90 before calling the panel current",
     "coverage_pct": 99.8,
@@ -62,7 +62,7 @@
     "repull": false
   },
   "quarantined_n": 11,
-  "last_spawn_attempt": "2026-11-16T14:36:29",
+  "last_spawn_attempt": "2026-11-16T17:21:58",
   "settled_n": 8,
   "settled": [
     "000635",
@@ -83,8 +83,8 @@
   "takeover": {
     "owner": "bm-b",
     "by": "bm-c",
-    "reason": "owner bm-b silent 409.9h >= 120min",
-    "ts": "2026-11-16T14:36:29"
+    "reason": "owner bm-b silent 412.6h >= 120min",
+    "ts": "2026-11-16T17:21:58"
   },
   "authority": {
     "lane_owner": "bm-b",
@@ -92,12 +92,11 @@
     "data_face_machine": "bm-c",
     "declared_takeover": true,
     "took_over_by": "bm-c",
-    "took_over_at": "2026-11-16T14:36:29",
-    "reason": "owner bm-b silent 409.9h >= 120min"
+    "took_over_at": "2026-11-16T17:21:58",
+    "reason": "owner bm-b silent 412.6h >= 120min"
   },
   "machine": "bm-c",
-  "disk_truth_override": "status claims complete panel but per files on disk = 5221 (status 5223) -> disk face wins, rebuild (P0 r834-kin guard)",
-  "spawn_reason": "panel incomplete at cutoff 2026-11-13 (coverage 99.8%, expected 2026-11-13) -> continuation refresh, not a first pull",
+  "spawn_reason": "panel lags expected bar date (2026-11-13 < 2026-11-16)",
   "spawn_mode": "continuation",
   "quarantined": [
     "000005",

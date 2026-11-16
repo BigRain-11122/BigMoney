@@ -9,7 +9,7 @@ Config: 12 names of a 1521-instrument bond-free pool, rebalance every 20 bars, 1
 | 2020-2023 -- as coded | 3.8% | 0.44 | -11.8% | 10.0% | 8% (1.25x) |
 | 2024 onwards -- as coded | 18.0% | 1.70 | -10.7% | 10.5% | 8% (1.31x) |
 
-**This card is the research basket, not today's ticket.** It ranks 12 names under the vol rule; the ticket priced on the 2026-11-13 bar buys **5 of the same names** under the beta rule at k=0.4322 (-1.24pp/yr apart on the same panel). Size from the ticket and read this card as the rule behind it -- results/etf_book_order/latest.json.
+**This card is the research basket, not today's ticket.** It ranks 12 names under the vol rule; the ticket priced on the 2026-11-16 bar buys **5 of the same names** under the beta rule at k=0.4322 (-1.24pp/yr apart on the same panel). Size from the ticket and read this card as the rule behind it -- results/etf_book_order/latest.json.
 
 Row 1 is the engine as coded (score off bar d's close, paid bar d's *open*); row 2 is the same rule with the score held one bar back -- the fill this card declares. Size off row 2.
 
@@ -24,7 +24,7 @@ Row 1 is the engine as coded (score off bar d's close, paid bar d's *open*); row
 
 **Panel digest:** `0988c6530a481fa1` (5281 bars x 1630 symbols, 2005-02-23->2026-11-16, covers close/open/amount) -- the executable sheet and the forward ledger print the same fingerprint only when all three priced one panel, on the same blocks.
 
-**Priced day: DIFFERENT_DAYS** -- card 2026-11-16 / ticket 2026-11-13 / page 2026-11-13 (compared at 2026-11-16 16:45:38); priced on different bars: card 2026-11-16 / ticket 2026-11-13 / page 2026-11-13. A reader comparing numbers across these papers is comparing two different books, so read the lagging one only as history.
+**Priced day: SAME_DAY** -- card 2026-11-16 / ticket 2026-11-16 / page 2026-11-16 (compared at 2026-11-16 17:55:38); this card, the executable sheet and the CEO page all priced the same closing bar.
 
 **Family coherence: ONE_WORLD** -- all 10 width arms priced `e6f9d0e81a64ec75` (cutoff 2026-11-13); the verdicts that license this card's width are measurements on one panel.
 
@@ -90,13 +90,13 @@ So the pre-2020 failure belongs to the bond-inclusive, unsized cell (-5.0%/yr) a
 
 ## What is left after the four betas
 
-Regressed on the four exposures an account could hold instead of this book (gold / Nasdaq-100 QDII / CSI300 / treasury bond, same execution basis, same cost), the book's daily returns leave an intercept of **+5.9%/yr with t=1.98** and R2=0.44, as of 2026-11-13. The equal-weight four-ETF basket itself returns 9.8%/yr at Sharpe 0.96 and worst drawdown -11.3%, against the book's 9.6%/yr, Sharpe 0.99 and -11.8%.
+Regressed on the four exposures an account could hold instead of this book (gold / Nasdaq-100 QDII / CSI300 / treasury bond, same execution basis, same cost), the book's daily returns leave an intercept of **+6.0%/yr with t=1.99** and R2=0.44, as of 2026-11-16. The equal-weight four-ETF basket itself returns 9.7%/yr at Sharpe 0.94 and worst drawdown -11.4%, against the book's 9.5%/yr, Sharpe 0.98 and -11.8%.
 
 Read that as **not distinguishable from a fixed loadings mix**, not as zero and not as proven skill: the in-sample half of the window prints t=1.16 and the out-of-sample half t=2.02, so the point estimate is carried by the later period and the line is a risk statement rather than a return one.
 
-The single arm that out-earns the book is gold (12.8%/yr) at a -33.3% drawdown -- the comparison has to be printed next to the return or it reads as a verdict. See results/etf_book_spanning.json.
+The single arm that out-earns the book is gold (12.6%/yr) at a -33.7% drawdown -- the comparison has to be printed next to the return or it reads as a verdict. See results/etf_book_spanning.json.
 
-The staggered 6+6 book (same universe, score, execution and cost; second sleeve offset half a rebalance period) leaves **+7.0%/yr at t=2.45** (IS t=1.26 / OOS t=2.43) with residual vol 7.3%, against the single sleeve's +5.9%/yr at t=1.98 and 7.7%. The split clock clears a t of 2 where the single sleeve does not: that is a strategy difference worth its own test, not a free lunch -- one arm over the threshold is a hypothesis, not an edge.
+The staggered 6+6 book (same universe, score, execution and cost; second sleeve offset half a rebalance period) leaves **+7.0%/yr at t=2.46** (IS t=1.26 / OOS t=2.43) with residual vol 7.3%, against the single sleeve's +6.0%/yr at t=1.99 and 7.7%. The split clock clears a t of 2 where the single sleeve does not: that is a strategy difference worth its own test, not a free lunch -- one arm over the threshold is a hypothesis, not an edge.
 
 ## Does any of it survive outside 2020-2026?
 
@@ -189,7 +189,7 @@ Read the card's own -11.8% as the median of that ruler, not its tail: size the p
 ## Caveats
 
 - THE DRAWDOWN LINE ABOVE IS A MEDIAN, NOT A TAIL: it is priced on one ordering of the trading days. Bootstrapping this book's own return path at blocks 1/5/10/20/40/60/120/250 (the block is a free parameter) puts the 5th-percentile drawdown between -25.1% and -17.4% and the share of resamples worse than -20% between 1.1% and 16.1%. Size against the p5 column. See results/etf_book_bootstrap/BLOCKS-2026-11-13.json (band priced on the 2026-11-13 bar, older than this card's 2026-11-16 -- stale, its tail can only be too narrow).
-- THE SIX FACTOR DIRECTIONS WERE CHOSEN WITH HINDSIGHT: every published number here uses a fixed sign block, and those signs are exactly this panel's full-sample IC signs (6 of 6 factors match). Re-priced with signs estimated only from already-realised windows, the same engine returns -10.89%/yr (Sharpe -0.41) against +6.02%/yr (+0.63) for the fixed signs -- and reversing the trailing sign does not recover it (-0.98%/yr). Read the headline as the size of a period, not the size of a rule. See results/etf_sign_pit.json.
+- THE SIX FACTOR DIRECTIONS WERE CHOSEN WITH HINDSIGHT: every published number here uses a fixed sign block, and those signs are exactly this panel's full-sample IC signs (6 of 6 factors match). Re-priced with signs estimated only from already-realised windows, the same engine returns -10.85%/yr (Sharpe -0.41) against +5.99%/yr (+0.63) for the fixed signs -- and reversing the trailing sign does not recover it (-1.96%/yr). Read the headline as the size of a period, not the size of a rule. See results/etf_sign_pit.json.
 - ONE REGIME, NOT A VERIFIED EDGE: on the 224 ETFs that existed before 2020, priced 2015-2019 (a window this card never covered) the same engine returned -4.97%/yr against +3.89%/yr equal weight = -8.86pp excess, worse in 6 of 6 grid cells, random-score p=0.96. The published CAGR is the 2020+ regime, not a property of the factors. That cell is bond-inclusive, 5 names wide and has no sizing rule; 'The 2015-2019 reconciliation' below prices what each of those differences is worth. See results/etf_book_pre2020.json.
 - THE COMMODITY SLEEVE IS MOSTLY METAL BETA WITH A MODEST RANKING OVERLAY: it produced 30.1% of gross return; the same engine restricted to the 41 commodity ETFs returned +16.31%/yr against +11.45%/yr for holding those names equally (+4.86pp), and the deepest-turnover commodity name (518880) returned +13.91%/yr passively, i.e. the book beat holding the metal by +2.40pp. Read the sleeve as commodity/gold exposure plus a small selection add-on, not a commodity ranking that pays. See results/etf_book_commodity_split.json.
 - ETF pool is today's listed set: survivorship inflates the equity sleeve.

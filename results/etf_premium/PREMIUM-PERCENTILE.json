@@ -1,21 +1,21 @@
 {
  "artifact": "etf_book_premium_percentile",
  "machine": "bm-c",
- "evidence_cutoff": "2026-11-13",
- "session": "2026-11-13",
+ "evidence_cutoff": "2026-11-16",
+ "session": "2026-11-16",
  "panel": {
-  "ticket_session": "2026-11-13",
-  "read_from_field": "base_bar",
-  "price_panel_last": "2026-11-13",
+  "ticket_session": "2026-11-16",
+  "read_from_field": "evidence_cutoff",
+  "price_panel_last": "2026-11-16",
   "state": "SAME_SESSION",
   "bars_beyond_session": 0,
   "bars_beyond": [],
-  "note": "the price panel ends on the ticket's own session (2026-11-13); every bar the panel holds is in this reading"
+  "note": "the price panel ends on the ticket's own session (2026-11-16); every bar the panel holds is in this reading"
  },
  "ticket": {
-  "path": "results\\etf_book_order\\TICKET-2026-11-13.json",
-  "as_of": "2026-11-13",
-  "book_amount_cny": 431769.6
+  "path": "results\\etf_book_order\\TICKET-2026-11-16.json",
+  "as_of": "2026-11-16",
+  "book_amount_cny": 431727.8
  },
  "ruler": {
   "measure": "panel close / the newest unit NAV stamped strictly before that close - 1",
@@ -33,25 +33,25 @@
  },
  "legs": [
   {
-   "n": 1496,
+   "n": 1497,
    "first_date": "2020-09-09",
-   "last_date": "2026-11-13",
-   "latest_premium_pct": -1.6278526364981838,
+   "last_date": "2026-11-16",
+   "latest_premium_pct": -2.3288418101098274,
    "latest_nav_date": "2026-11-11",
-   "latest_nav_lag_days": 2,
-   "median_pct": 0.04538222478739362,
-   "p05_pct": -1.3977313718557234,
+   "latest_nav_lag_days": 5,
+   "median_pct": 0.04470272686634136,
+   "p05_pct": -1.4128333793913783,
    "p25_pct": -0.4337349397590562,
-   "p75_pct": 0.5322452817500767,
-   "p95_pct": 1.4319130577408357,
+   "p75_pct": 0.5321722302854326,
+   "p95_pct": 1.4318135061983606,
    "min_pct": -7.126002831524314,
    "min_date": "2025-04-07",
    "max_pct": 12.91592833234889,
    "max_date": "2024-09-30",
-   "rank_of_latest": 0.038101604278074866,
+   "rank_of_latest": 0.012024048096192385,
    "verdict": "LOWER_TAIL",
-   "n_clean": 1490,
-   "rank_of_latest_clean": 0.03825503355704698,
+   "n_clean": 1491,
+   "rank_of_latest_clean": 0.012072434607645875,
    "verdict_clean": "LOWER_TAIL",
    "n_gap_excluded": 6,
    "gap_excluded_by_calendar": {
@@ -63,8 +63,8 @@
    "rulers_disagree": false,
    "symbol": "510760",
    "class": "equity",
-   "amount_cny": 86389.2,
-   "panel_price": 1.263,
+   "amount_cny": 86400.6,
+   "panel_price": 1.254,
    "nav_source": "cache-stale",
    "n_nav_rows": 1502,
    "nav_tail": [
@@ -193,49 +193,49 @@
     {
      "lag": 1,
      "nav_date": "2026-11-11",
-     "nav_lag_days": 2,
-     "latest_premium_pct": -1.6278526364981838
+     "nav_lag_days": 5,
+     "latest_premium_pct": -2.3288418101098274
     },
     {
      "lag": 2,
      "nav_date": "2026-11-10",
-     "nav_lag_days": 3,
-     "latest_premium_pct": -1.2586975216949403
+     "nav_lag_days": 6,
+     "latest_premium_pct": -1.9623172543194345
     },
     {
      "lag": 3,
      "nav_date": "2026-11-09",
-     "nav_lag_days": 4,
-     "latest_premium_pct": -1.181441201783906
+     "nav_lag_days": 7,
+     "latest_premium_pct": -1.885611454502778
     }
    ],
-   "lag_spread_pp": 0.4464114347142778,
-   "panel_last_date": "2026-11-13",
-   "price_session": "2026-11-13",
+   "lag_spread_pp": 0.4432303556070494,
+   "panel_last_date": "2026-11-16",
+   "price_session": "2026-11-16",
    "session_state": "SAME_SESSION",
    "bars_beyond_session": 0,
-   "revert_to_median_cny": -1469.4141070687288
+   "revert_to_median_cny": -2099.654349575334
   },
   {
-   "n": 1906,
+   "n": 1907,
    "first_date": "2019-01-03",
-   "last_date": "2026-11-13",
-   "latest_premium_pct": -0.7760994742551874,
+   "last_date": "2026-11-16",
+   "latest_premium_pct": 0.22531920220312252,
    "latest_nav_date": "2026-11-11",
-   "latest_nav_lag_days": 2,
-   "median_pct": 0.016080129776652186,
-   "p05_pct": -1.6707451898854642,
-   "p25_pct": -0.5864021563271926,
-   "p75_pct": 0.5877368642386416,
-   "p95_pct": 1.7076010765520677,
+   "latest_nav_lag_days": 5,
+   "median_pct": 0.016157699143648507,
+   "p05_pct": -1.670691581286683,
+   "p25_pct": -0.5861793615397959,
+   "p75_pct": 0.5874480691757888,
+   "p95_pct": 1.7071072089296528,
    "min_pct": -11.646160373355963,
    "min_date": "2023-12-13",
    "max_pct": 7.947163274144664,
    "max_date": "2024-09-30",
-   "rank_of_latest": 0.1789087093389297,
+   "rank_of_latest": 0.5925537493445202,
    "verdict": "ORDINARY",
-   "n_clean": 1897,
-   "rank_of_latest_clean": 0.17817606747496045,
+   "n_clean": 1898,
+   "rank_of_latest_clean": 0.5922023182297155,
    "verdict_clean": "ORDINARY",
    "n_gap_excluded": 9,
    "gap_excluded_by_calendar": {
@@ -245,8 +245,8 @@
    "rulers_disagree": false,
    "symbol": "512040",
    "class": "equity",
-   "amount_cny": 86321.4,
-   "panel_price": 1.189,
+   "amount_cny": 86351.9,
+   "panel_price": 1.201,
    "nav_source": "cache-stale",
    "n_nav_rows": 1909,
    "nav_tail": [
@@ -375,49 +375,49 @@
     {
      "lag": 1,
      "nav_date": "2026-11-11",
-     "nav_lag_days": 2,
-     "latest_premium_pct": -0.7760994742551874
+     "nav_lag_days": 5,
+     "latest_premium_pct": 0.22531920220312252
     },
     {
      "lag": 2,
      "nav_date": "2026-11-10",
-     "nav_lag_days": 3,
-     "latest_premium_pct": -1.344175240623957
+     "nav_lag_days": 6,
+     "latest_premium_pct": -0.34848987719879876
     },
     {
      "lag": 3,
      "nav_date": "2026-11-09",
-     "nav_lag_days": 4,
-     "latest_premium_pct": -1.8004625041295075
+     "nav_lag_days": 7,
+     "latest_premium_pct": -0.8093822266270312
     }
    ],
-   "lag_spread_pp": 1.02436302987432,
-   "panel_last_date": "2026-11-13",
-   "price_session": "2026-11-13",
+   "lag_spread_pp": 1.0347014288301537,
+   "panel_last_date": "2026-11-16",
+   "price_session": "2026-11-16",
    "session_state": "SAME_SESSION",
    "bars_beyond_session": 0,
-   "revert_to_median_cny": -689.1691629652429
+   "revert_to_median_cny": 180.20888673452058
   },
   {
-   "n": 984,
+   "n": 985,
    "first_date": "2022-10-25",
-   "last_date": "2026-11-13",
-   "latest_premium_pct": 8.277501620920692,
+   "last_date": "2026-11-16",
+   "latest_premium_pct": 6.440458180246389,
    "latest_nav_date": "2026-11-11",
-   "latest_nav_lag_days": 2,
-   "median_pct": 1.2463242777115857,
-   "p05_pct": -0.5274716827031112,
-   "p25_pct": 0.05883255896093065,
-   "p75_pct": 3.473910965960292,
-   "p95_pct": 7.667018823032262,
+   "latest_nav_lag_days": 5,
+   "median_pct": 1.247346072186839,
+   "p05_pct": -0.5274112697262212,
+   "p25_pct": 0.059508628751170356,
+   "p75_pct": 3.477961432506893,
+   "p95_pct": 7.660732762353634,
    "min_pct": -8.092606840595929,
    "min_date": "2025-04-07",
    "max_pct": 17.58658864463072,
    "max_date": "2024-01-24",
-   "rank_of_latest": 0.9654471544715447,
+   "rank_of_latest": 0.9065989847715736,
    "verdict": "UPPER_TAIL",
-   "n_clean": 979,
-   "rank_of_latest_clean": 0.965270684371808,
+   "n_clean": 980,
+   "rank_of_latest_clean": 0.9071428571428571,
    "verdict_clean": "UPPER_TAIL",
    "n_gap_excluded": 5,
    "gap_excluded_by_calendar": {
@@ -428,8 +428,8 @@
    "rulers_disagree": false,
    "symbol": "159655",
    "class": "crossborder",
-   "amount_cny": 86372.4,
-   "panel_price": 2.004,
+   "amount_cny": 86286.0,
+   "panel_price": 1.97,
    "nav_source": "cache-stale",
    "n_nav_rows": 990,
    "nav_tail": [
@@ -558,49 +558,49 @@
     {
      "lag": 1,
      "nav_date": "2026-11-11",
-     "nav_lag_days": 2,
-     "latest_premium_pct": 8.277501620920692
+     "nav_lag_days": 5,
+     "latest_premium_pct": 6.440458180246389
     },
     {
      "lag": 2,
      "nav_date": "2026-11-10",
-     "nav_lag_days": 3,
-     "latest_premium_pct": 9.718039967150283
+     "nav_lag_days": 6,
+     "latest_premium_pct": 7.856556255132774
     },
     {
      "lag": 3,
      "nav_date": "2026-11-09",
-     "nav_lag_days": 4,
-     "latest_premium_pct": 9.209809264305168
+     "nav_lag_days": 7,
+     "latest_premium_pct": 7.3569482288828425
     }
    ],
-   "lag_spread_pp": 1.4405383462295909,
-   "panel_last_date": "2026-11-13",
-   "price_session": "2026-11-13",
+   "lag_spread_pp": 1.416098074886385,
+   "panel_last_date": "2026-11-16",
+   "price_session": "2026-11-16",
    "session_state": "SAME_SESSION",
    "bars_beyond_session": 0,
-   "revert_to_median_cny": 5608.733604555714
+   "revert_to_median_cny": 4209.798407643318
   },
   {
-   "n": 1331,
+   "n": 1332,
    "first_date": "2021-05-20",
-   "last_date": "2026-11-13",
-   "latest_premium_pct": -1.5561860545095008,
+   "last_date": "2026-11-16",
+   "latest_premium_pct": -1.1263004040925173,
    "latest_nav_date": "2026-11-11",
-   "latest_nav_lag_days": 2,
-   "median_pct": -0.013925637097900179,
-   "p05_pct": -2.2820999100369663,
-   "p25_pct": -0.8721008949883313,
-   "p75_pct": 0.8905211560065518,
-   "p95_pct": 2.4608755008358907,
+   "latest_nav_lag_days": 5,
+   "median_pct": -0.016019148923879234,
+   "p05_pct": -2.2805506012594816,
+   "p25_pct": -0.8725637052861723,
+   "p75_pct": 0.8902297025946304,
+   "p95_pct": 2.460617625905946,
    "min_pct": -10.393331596770006,
    "min_date": "2022-08-15",
    "max_pct": 9.388895947147757,
    "max_date": "2022-03-17",
-   "rank_of_latest": 0.1179564237415477,
+   "rank_of_latest": 0.19294294294294295,
    "verdict": "ORDINARY",
-   "n_clean": 1326,
-   "rank_of_latest_clean": 0.11840120663650075,
+   "n_clean": 1327,
+   "rank_of_latest_clean": 0.19140919366993217,
    "verdict_clean": "ORDINARY",
    "n_gap_excluded": 5,
    "gap_excluded_by_calendar": {
@@ -611,8 +611,8 @@
    "rulers_disagree": false,
    "symbol": "513690",
    "class": "crossborder",
-   "amount_cny": 86333.0,
-   "panel_price": 1.145,
+   "amount_cny": 86365.0,
+   "panel_price": 1.15,
    "nav_source": "cache-stale",
    "n_nav_rows": 1336,
    "nav_tail": [
@@ -741,50 +741,50 @@
     {
      "lag": 1,
      "nav_date": "2026-11-11",
-     "nav_lag_days": 2,
-     "latest_premium_pct": -1.5561860545095008
+     "nav_lag_days": 5,
+     "latest_premium_pct": -1.1263004040925173
     },
     {
      "lag": 2,
      "nav_date": "2026-11-10",
-     "nav_lag_days": 3,
-     "latest_premium_pct": -1.9187939009765231
+     "nav_lag_days": 6,
+     "latest_premium_pct": -1.4904916909371346
     },
     {
      "lag": 3,
      "nav_date": "2026-11-09",
-     "nav_lag_days": 4,
-     "latest_premium_pct": -2.0614147634932856
+     "nav_lag_days": 7,
+     "latest_premium_pct": -1.63373535198017
     }
    ],
-   "lag_spread_pp": 0.5052287089837848,
-   "panel_last_date": "2026-11-13",
-   "price_session": "2026-11-13",
+   "lag_spread_pp": 0.5074349478876528,
+   "panel_last_date": "2026-11-16",
+   "price_session": "2026-11-16",
    "session_state": "SAME_SESSION",
    "bars_beyond_session": 0,
-   "revert_to_median_cny": -1352.5275309845372
+   "revert_to_median_cny": -969.8174640428572
   },
   {
-   "n": 774,
+   "n": 775,
    "first_date": "2023-08-31",
-   "last_date": "2026-11-13",
-   "latest_premium_pct": -1.6273025200587599,
+   "last_date": "2026-11-16",
+   "latest_premium_pct": -1.0622669228161463,
    "latest_nav_date": "2026-11-11",
-   "latest_nav_lag_days": 2,
-   "median_pct": 0.23368254379366737,
-   "p05_pct": -1.7440198837177887,
-   "p25_pct": -0.615559151876538,
-   "p75_pct": 1.1213388009225889,
-   "p95_pct": 2.664400834611371,
+   "latest_nav_lag_days": 5,
+   "median_pct": 0.23243948069617826,
+   "p05_pct": -1.7429356921550032,
+   "p25_pct": -0.6173503856694573,
+   "p75_pct": 1.1206778858957378,
+   "p95_pct": 2.6642336068882955,
    "min_pct": -7.032755298651261,
    "min_date": "2025-04-07",
    "max_pct": 6.071058985857203,
    "max_date": "2024-05-10",
-   "rank_of_latest": 0.06330749354005168,
-   "verdict": "LOWER_TAIL",
-   "n_clean": 770,
-   "rank_of_latest_clean": 0.06363636363636363,
-   "verdict_clean": "LOWER_TAIL",
+   "rank_of_latest": 0.14709677419354839,
+   "verdict": "ORDINARY",
+   "n_clean": 771,
+   "rank_of_latest_clean": 0.14785992217898833,
+   "verdict_clean": "ORDINARY",
    "n_gap_excluded": 4,
    "gap_excluded_by_calendar": {
     "unexplained": 4
@@ -793,8 +793,8 @@
    "rulers_disagree": false,
    "symbol": "159519",
    "class": "crossborder",
-   "amount_cny": 86353.6,
-   "panel_price": 1.741,
+   "amount_cny": 86324.3,
+   "panel_price": 1.751,
    "nav_source": "cache-stale",
    "n_nav_rows": 778,
    "nav_tail": [
@@ -923,28 +923,28 @@
     {
      "lag": 1,
      "nav_date": "2026-11-11",
-     "nav_lag_days": 2,
-     "latest_premium_pct": -1.6273025200587599
+     "nav_lag_days": 5,
+     "latest_premium_pct": -1.0622669228161463
     },
     {
      "lag": 2,
      "nav_date": "2026-11-10",
-     "nav_lag_days": 3,
-     "latest_premium_pct": -2.136031478358613
+     "nav_lag_days": 6,
+     "latest_premium_pct": -1.573917931422153
     },
     {
      "lag": 3,
      "nav_date": "2026-11-09",
-     "nav_lag_days": 4,
-     "latest_premium_pct": -2.3555804823331417
+     "nav_lag_days": 7,
+     "latest_premium_pct": -1.794727986539546
     }
    ],
-   "lag_spread_pp": 0.7282779622743818,
-   "panel_last_date": "2026-11-13",
-   "price_session": "2026-11-13",
+   "lag_spread_pp": 0.7324610637233997,
+   "panel_last_date": "2026-11-16",
+   "price_session": "2026-11-16",
    "session_state": "SAME_SESSION",
    "bars_beyond_session": 0,
-   "revert_to_median_cny": -1633.6113975390049
+   "revert_to_median_cny": -1129.6460967175112
   }
  ],
  "summary": {
@@ -953,25 +953,25 @@
   "at_or_above_p90": [
    "159655"
   ],
-  "revert_to_own_median_cny": 464.0114059982003,
-  "book_amount_cny": 431769.6,
+  "revert_to_own_median_cny": 190.88938404213584,
+  "book_amount_cny": 431727.8,
   "n_gap_excluded_total": 29,
-  "n_sessions_total": 6491,
+  "n_sessions_total": 6496,
   "rulers_disagree": [],
-  "sentence": "159655(UPPER_TAIL, 第97%)；若这些腿各自回到自己的中位溢价，这张单值 ￥464；把 29 个「净值戳沿用上一日数字、分母当天不可能动」的会话剔掉后，没有一只腿的判词改变"
+  "sentence": "159655(UPPER_TAIL, 第91%)；若这些腿各自回到自己的中位溢价，这张单值 ￥191；把 29 个「净值戳沿用上一日数字、分母当天不可能动」的会话剔掉后，没有一只腿的判词改变"
  },
  "gate": {
   "ok": true,
   "fails": [],
   "notes": [
-   "CNY figure 510760 is the linear amt*p form; at -0.45% the exact amt*p/(1+p) differs by CNY 1.75",
-   "CNY figure 159655 is the linear amt*p form; at 8.22% the exact amt*p/(1+p) differs by CNY 539.05",
-   "CNY figure 513690 is the linear amt*p form; at -0.48% the exact amt*p/(1+p) differs by CNY 1.98",
-   "CNY figure 159519 is the linear amt*p form; at -1.34% the exact amt*p/(1+p) differs by CNY 15.66"
+   "CNY figure 510760 is the linear amt*p form; at -0.31% the exact amt*p/(1+p) differs by CNY 0.83",
+   "CNY figure 159655 is the linear amt*p form; at 6.75% the exact amt*p/(1+p) differs by CNY 367.87",
+   "CNY figure 513690 is the linear amt*p form; at -0.36% the exact amt*p/(1+p) differs by CNY 1.09",
+   "CNY figure 159519 is the linear amt*p form; at -0.75% the exact amt*p/(1+p) differs by CNY 4.87"
   ],
   "cny_identity_forms": {
    "510760": "linear",
-   "512040": "either",
+   "512040": "linear",
    "159655": "linear",
    "513690": "linear",
    "159519": "linear"
@@ -979,11 +979,11 @@
   "cny_tolerance_cny": {
    "510760": 0.0632,
    "512040": 0.0632,
-   "159655": 0.0632,
+   "159655": 0.0631,
    "513690": 0.0632,
    "159519": 0.0632
   },
-  "session": "2026-11-13",
+  "session": "2026-11-16",
   "checked_price": 5,
   "checked_premium": 5,
   "checked_cny_identity": 5,
@@ -1003,5 +1003,5 @@
   "The panel close is not the price the sheet pays; the sheet pays the next open plus slippage (tracked on the punctuality faces).",
   "This rank is read at the ticket's own session: bars the panel holds past that session are counted on `panel.bars_beyond_session` and excluded, so a panel that moves on overnight cannot reprice a sheet that has not moved."
  ],
- "premium_face": "results\\etf_premium\\PREMIUM-2026-11-13.json"
+ "premium_face": "results\\etf_premium\\PREMIUM-2026-11-16.json"
 }

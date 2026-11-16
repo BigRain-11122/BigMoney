@@ -1,48 +1,39 @@
 {
- "ts": "2026-11-16T16:43:19",
+ "ts": "2026-11-16T17:23:07",
  "machine": "bm-c",
  "lane_owner": "bm-c",
- "status": "ok_with_refusals",
+ "status": "ok",
  "expected": "2026-11-16",
- "panel_cutoff_before": "2026-11-12",
- "mode": "full",
+ "panel_cutoff_before": "2026-11-13",
+ "mode": "tail_retry",
  "panel_cutoff": "2026-11-13",
  "panel_cutoff_after": "2026-11-13",
  "source_ended_stems": [
   "sh512390"
  ],
  "universe": 1724,
- "attempted": 1724,
+ "attempted": 0,
  "workers": 6,
- "elapsed_s": 401.7,
+ "elapsed_s": 20.7,
  "counts": {
-  "no_change": 47,
-  "tail_lag": 0,
-  "mismatch": 1,
-  "appended": 1668,
+  "quote_only_tail_lag": 8,
   "no_trade": 2,
+  "tail_lag": 0,
   "quote_refused": 6
  },
  "ended_grace_td": 5,
  "source_quiet_stems": [],
- "source_quiet_ts": "2026-11-16T16:43:19",
+ "source_quiet_ts": "2026-11-16T17:23:08",
  "source_no_trade_stems": [
   "sh512390",
   "sh530080"
  ],
  "source_no_trade_expected": "2026-11-16",
  "no_trade_n": 2,
- "corp_action_n": 6,
- "corp_action_sample": [
-  "sh513530:XD",
-  "sh520550:XD",
-  "sh520900:XD",
-  "sh551500:XD",
-  "sh561580:XD",
-  "sh563500:XD"
- ],
- "source_lagging_stems": 1723,
- "coverage_pct_pre": 2.79,
+ "corp_action_n": 0,
+ "corp_action_sample": [],
+ "source_lagging_stems": 8,
+ "coverage_pct_pre": 99.65,
  "coverage_floor": 0.95,
  "coverage_post": 99.65,
  "coverage_total": 1722,
@@ -55,8 +46,8 @@
   "sz159576",
   "sz159589"
  ],
- "quote_topup_stems": 1668,
- "quote_topup_rows": 1668,
+ "quote_topup_stems": 0,
+ "quote_topup_rows": 0,
  "quote_refusal_n": 6,
  "quote_refusal_sample": [
   "sz159119:prev_close_drift:0.927000_vs_0.930000",
@@ -68,16 +59,14 @@
  ],
  "quote_face": "https://hq.sinajs.cn/list={syms}",
  "quote_chunk": 60,
- "mismatch_n": 1,
- "mismatch_sample": [
-  "159915:2026-10-26:volume_drift"
- ],
+ "mismatch_n": 0,
+ "mismatch_sample": [],
  "fetch_fail_n": 0,
  "fetch_fail_sample": [],
  "invalid_n": 0,
  "invalid_sample": [],
- "holes_symbols": 36,
- "holes_bars": 36178,
+ "holes_symbols": 0,
+ "holes_bars": 0,
  "skipped_stems": [
   "510880_t73"
  ]
