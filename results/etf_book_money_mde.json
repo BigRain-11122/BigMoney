@@ -1,0 +1,210 @@
+{
+ "evidence_cutoff": "2026-11-13",
+ "panel_last_bar": "2026-11-13",
+ "script": "scripts/etf_book_money_mde.py",
+ "rule": {
+  "benchmark": "510300",
+  "gate_cny": 20000000.0,
+  "seats": 5,
+  "z80": 2.802,
+  "per_year": 252.0,
+  "block": 20,
+  "draws": 2000,
+  "seed": 20261116,
+  "control_tol_pp": 0.25,
+  "replay_tol": 1e-09,
+  "question": "does the book's excess over the index clear the book's own MDE80, and which leg earned it",
+  "legs": {
+   "select": "equity picks at their weight, vs the index",
+   "rotate": "non-equity picks (gold/convertibles) at their weight, vs the index",
+   "size": "the weight left uninvested (vol target), vs the index",
+   "cost": "net minus gross, i.e. what the broker took"
+  },
+  "identity": "select+rotate+size+cost == net - r_bench, exactly, per bar",
+  "frozen": "criteria written before the run; --check re-derives them"
+ },
+ "config": {
+  "rebal": 20,
+  "vol_target": 0.08,
+  "cost_bp_per_side": 10.0,
+  "panel_build_seconds": null,
+  "run_seconds": 47.8
+ },
+ "book": {
+  "cagr": 0.0912,
+  "sharpe": 0.876,
+  "maxdd": -0.1207,
+  "vol": 0.1107,
+  "years": 6.86
+ },
+ "benchmark": {
+  "cagr": 0.0001,
+  "sharpe": 0.1,
+  "maxdd": -0.4668,
+  "vol": 0.2008,
+  "years": 6.86,
+  "symbol": "510300"
+ },
+ "benchmark_bars_panel": 1663,
+ "control": {
+  "arm_cagr": 0.0912,
+  "published_cagr": 0.0912,
+  "universe_measured": 1520,
+  "universe_published": 1520,
+  "delta_pp": 0.0,
+  "tol_pp": 0.25
+ },
+ "replay": {
+  "bars_replayed": 1662,
+  "bars_matched": 1662,
+  "max_abs_equity_diff": 9.709355455410595e-16,
+  "tol": 1e-09,
+  "identity_max_abs_resid": 6.938893903907228e-18,
+  "engine_end": 1.829531164615428,
+  "replay_end": 1.8295311646154284
+ },
+ "totals": {
+  "excess_ann_pp": 7.763770924115937,
+  "legs_sum_pp": 7.763771,
+  "legs_sum_matches": true,
+  "cagr_gap_pp": 9.11,
+  "mde80_pp": 19.2761,
+  "se_pp": 6.8794,
+  "t": 1.129,
+  "p_one_sided": 0.1434,
+  "p_direction": 0.1434,
+  "bars": 1662,
+  "status": "NO_DIRECTION",
+  "bars_needed_for_1pp": 617547
+ },
+ "legs": {
+  "select": {
+   "ann_pp": 7.4451,
+   "mde80_pp": 8.7389,
+   "se_pp": 3.1188,
+   "p_direction": 0.0055,
+   "t": 2.387,
+   "status": "SIGNIFICANT_UNDERPOWERED"
+  },
+  "rotate": {
+   "ann_pp": 5.3321,
+   "mde80_pp": 9.9425,
+   "se_pp": 3.5484,
+   "p_direction": 0.062,
+   "t": 1.503,
+   "status": "NO_DIRECTION"
+  },
+  "size": {
+   "ann_pp": -3.6172,
+   "mde80_pp": 7.9075,
+   "se_pp": 2.8221,
+   "p_direction": 0.081,
+   "t": -1.282,
+   "status": "NO_DIRECTION"
+  },
+  "cost": {
+   "ann_pp": -1.3962,
+   "mde80_pp": 0.159,
+   "se_pp": 0.0567,
+   "p_direction": 0.0005,
+   "t": -24.607,
+   "status": "ABOVE_MDE80"
+  }
+ },
+ "exposure": {
+  "mean_w_held": 0.6966,
+  "mean_w_equity": 0.4482,
+  "bars_no_equity": 100,
+  "bars_partial": 1482,
+  "bars_unpriced": 2,
+  "bars": 1662
+ },
+ "years": [
+  {
+   "year": 2020,
+   "bars": 242,
+   "book_pct": -0.91,
+   "bench_pct": 25.92,
+   "excess_pp": -26.83,
+   "select_pp": -5.4,
+   "rotate_pp": -1.86,
+   "size_pp": -17.46,
+   "cost_pp": -0.95
+  },
+  {
+   "year": 2021,
+   "bars": 243,
+   "book_pct": 7.97,
+   "bench_pct": -3.43,
+   "excess_pp": 11.4,
+   "select_pp": 13.71,
+   "rotate_pp": -1.59,
+   "size_pp": -1.03,
+   "cost_pp": -1.19
+  },
+  {
+   "year": 2022,
+   "bars": 242,
+   "book_pct": 2.76,
+   "bench_pct": -21.42,
+   "excess_pp": 24.18,
+   "select_pp": 3.99,
+   "rotate_pp": 22.58,
+   "size_pp": 0.35,
+   "cost_pp": -1.29
+  },
+  {
+   "year": 2023,
+   "bars": 242,
+   "book_pct": 3.66,
+   "bench_pct": -11.4,
+   "excess_pp": 15.06,
+   "select_pp": 11.25,
+   "rotate_pp": 0.01,
+   "size_pp": 5.58,
+   "cost_pp": -1.66
+  },
+  {
+   "year": 2024,
+   "bars": 242,
+   "book_pct": 11.61,
+   "bench_pct": 17.17,
+   "excess_pp": -5.56,
+   "select_pp": 2.72,
+   "rotate_pp": 0.37,
+   "size_pp": -9.82,
+   "cost_pp": -1.36
+  },
+  {
+   "year": 2025,
+   "bars": 243,
+   "book_pct": 37.68,
+   "bench_pct": 16.88,
+   "excess_pp": 20.79,
+   "select_pp": 8.99,
+   "rotate_pp": 13.48,
+   "size_pp": -5.21,
+   "cost_pp": -1.32
+  },
+  {
+   "year": 2026,
+   "bars": 208,
+   "book_pct": 4.48,
+   "bench_pct": -13.67,
+   "excess_pp": 18.15,
+   "select_pp": 13.84,
+   "rotate_pp": 2.17,
+   "size_pp": 3.73,
+   "cost_pp": -1.44
+  }
+ ],
+ "verdict": {
+  "verdict": "EXCESS_INSIDE_MDE80",
+  "status": "NO_DIRECTION",
+  "sentence": "这条 +7.76pp/年的差落在本书自己的射程内（MDE80 19.28pp，p=0.1434）——这张纸读不出这本书比闭眼买 510300 更好还是更差；四条腿里只有 *cost* 越过各自 MDE80（cost -1.40pp vs 门 0.16pp）。",
+  "legs_above_mde": [
+   "cost"
+  ],
+  "largest_leg": "select"
+ }
+}

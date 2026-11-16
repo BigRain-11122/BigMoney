@@ -1,7 +1,7 @@
 {
  "activity": "product",
- "activity_now": "r1761: at an unchanged bar (2026-11-13) the cash-forward block changed two money numbers overnight (50.81bp/¥182 -> 77.79bp/¥279); the day-delta face names both alibis (old value survives at gap_bp_gross, ruler sentence changed) and reports zero unexplained moves",
- "activity_now_round": "1756",
+ "activity_now": "r1763: the same MDE80 ruler moved onto the money -- the book beats 510300 by 7.76pp/yr (arithmetic) / 9.11pp CAGR, which is INSIDE the book own 19.28pp floor (t=1.13, p=0.143); the exact four-leg split (select +7.45 / rotate +5.33 / size -3.62 / cost -1.40, sums to 7.7638 by identity) shows only cost clears its own MDE80 and stock-picking is significant-but-underpowered",
+ "activity_now_round": "1763",
  "agenda_starved": false,
  "ah_note": "r1680 LANDED: refresh closed itself at 21:17 -- cutoff 2026-11-12 -> 2026-11-13, complete=True, exit 0, pulled_rows 46; data_lane_freshness in_sync 13 / behind_1d 1 (worst now marks, intraday-only, not rebuildable). Fix that made it possible: stall watchdog over every network leg (300s, names stage/pair, exit 2, checkpoint kept) + save_progress stamps write time + -u on the detached spawn + progress line every 10 pairs. NOT yet proven: the 300s stall path has never fired on a real hang (this round the suspected freeze finished by itself).",
  "ahead_origin": 0,
@@ -205,7 +205,7 @@
   "sha": "278bb79900"
  },
  "last_push_at": "2026-11-11T08:31:06+08:00",
- "last_round": 1760,
+ "last_round": 1763,
  "last_round_at": "2026-11-16T02:16:53+08:00",
  "last_round_at_legacy": "2026-10-19T15:34:21+08:00",
  "last_round_closed": 1733,
@@ -936,7 +936,7 @@
  "round_1689_next": "(a) price the rule, not the bucket: run the widest-quintile-only arm against hold-everything after the 8% vol leash and the repo leg -- the quintile table already says the entry with the least adverse widening is also the one with the most carry, so the open question is whether a book that waits costs more in idle cash than it collects; (b) moneyflow/LHB IC reference batch (the order second P1 candidate) is still claimed and its panel source-blocked -- check the collector self-heal before starting; (c) watchdog S4U needs one elevated re-register (28th).",
  "round_1689_note": "PRODUCT. r1686 left the basis line one untried axis: \"the discount-width timing test (basis percentile vs next 20d carry) is the cheapest way to turn a static premium into a rule\". Built: scripts/idx_fut_basis_timing.py (selftest 12/12) -- causal percentile over a trailing 250d window (60 obs min), forward window t+1..t+20 with roll days dropped, quintiles printed beside a stride-20 subsample that drops overlapping windows, Spearman on ranks, first/second half split. All four pairs pass the frozen H1/H2/H3: widest-quintile forward carry +0.584/+0.531/+0.513/+0.689pp per 20d at hit 82.5/77.4/86.0/80.6% vs narrowest -0.118/-0.032/-0.075/+0.271pp at 37.7/40.3/40.3/46.8%; spreads hold on stride-12 (0.854/0.513/0.670/0.133) and in both halves. The pair of numbers that decides what this is: fwd20-to-basis-change ratio 1.003/1.000/0.993/0.990 -> kind=convergence harvest, i.e. the rule is a prepayment schedule (wait for a wide discount, collect more of it closing), not a prediction. And the percentile adds nothing over the raw level (spearman level -0.478/-0.474/-0.443/-0.590 vs pct -0.429/-0.318/-0.432/-0.243; percentile_adds_over_level_pairs=[]), so any rule here can be written on the level directly. Adverse side is the surprise: entering at the widest discount had the SMALLEST subsequent widening (median 0.185/0.214/0.231/0.277pp) and the narrowest the largest (0.583/0.923/0.471/1.038pp) -- higher carry and less drawdown, not a risk trade. Two selftest legs caught real defects before publication: adverse_widening used max() and reported the discount closing as a drawdown (the basis is negative when wide, so the window MINIMUM is the adverse side), and convergence_share carried an off-by-one that double-counted a step the holder never takes (basis_face convention: spread[j] is the step dates[j]->dates[j+1]). Neither face had a chain leg -- both were typed by hand on 11-14 -- so both now ride straight behind update_futures; chain --only 2/2 rc0. Latest percentiles: IH 13.4 (widest quintile, fires), IF 23.8, IC 38.6, IM 48.2.",
  "round_label": "1704",
- "round_no": 1761,
+ "round_no": 1763,
  "round_no_label": "r1739",
  "round_no_landed": 1663,
  "round_note": "r1489: a reinstated bar is re-derived from the panel, not carried over (reinstatement_check + reinstatements.json + sheet paragraph)",
@@ -1462,7 +1462,7 @@
  },
  "task": "r1763 next: 同一把尺子换到「钱」上——这本书全窗 9.12% 与闭眼买 510300 的差，是否越过它自己的 MDE80；若越过，把差拆成「选股超额」与「择时/防御」两块，给出各自的可分辨下限（窗 ≤48h）",
  "total_ram_gb": 55.9,
- "ts": "2026-11-16T10:02:00+08:00",
+ "ts": "2026-11-16T10:35:00+08:00",
  "unverified": [
   "全量套件未对本轮改动重跑（本轮新增文件+两腿；上一绿 604/604 @09:36:56 不含本轮）",
   "per_year=252 年化：算术年化与复利 CAGR 不同口径（对差是低阶，但非严格恒等）",
@@ -1471,7 +1471,7 @@
   "控制臂只覆盖本轮判过的六档，未判档位未被复现"
  ],
  "update_daily": "rc0 0 new rows, cutoff 2026-11-13 (Sunday, no new bar)",
- "updated": "2026-11-16T10:02:00+08:00",
+ "updated": "2026-11-16T10:35:00+08:00",
  "updated_at": "2026-11-16T10:02:00+08:00",
  "vcpu": 32,
  "verdict": "SIGNIFICANT_BUT_UNDERPOWERED",
@@ -1517,5 +1517,7 @@
  "verify_t1760": "etf_book_gate_raise_noise selftest 24/24 PASS | --check 复算 verdict 同判 | 控制臂三格 delta 0.000pp | 交叉核对：另一张臂噪声面的 +0.79pp 与 Jaccard 0.3728 在本面独立实现下逐位复现（相同名日 5/84）| md -> research/ETF_BOOK_GATE_RAISE_NOISE.md",
  "verify_crossface": "与另一张面的关系写明在 rm 里：同方向（分不开）、不同尺子（随机排名零假设带 vs 配对日收益块自助）、不同档位（20M vs 40M）",
  "round_t1762_note": "r1762: 前两面各自判过「这道闸分不开」，但都没给数，读表的人下一次读到「这一档好 1pp」仍无判据。本轮在同一条配对日收益差序列上把自助重采样读两遍——读尾部（p）与读宽度（SE），MDE80=z80×SE（z80=2.802，引擎自己的 252 年化），三态判词：越过 MDE80 / 显著但没到效力 / 无方向。实锚：5 座书六档 MDE80 2.70~11.04pp；六格 CAGR 与抬闸定价面逐格 0.000pp 恒等；100M vs 20M 的 p 与闸噪声面 0.3183 逐位复现、0.79pp 与臂噪声面同值；r1760 的 1.79pp 凸起自家 MDE80=3.81pp（射程一半都不到）；唯一显著的是 1000M vs 20M（-7.99pp，t=-2.069，p=0.0185，MDE80=10.82pp）——方向可信、幅度不可信；要把 MDE 压到 1pp 需 12129~202402 bars（≈50~836 年），因此「再攒数据」在这本书上不成立。",
- "verify_t1762": "etf_book_book_mde selftest 40/40 PASS | --check 复算同判 ok=true（verdict+逐行三态+mde=z80*se 三条全过）| 控制臂六格最差偏差 0.000pp | 交叉核对 p 0.3183==0.3183、obs 0.7114 vs 臂噪声 0.79（tol 0.25）| md -> research/ETF_BOOK_BOOK_MDE.md | smoke 增两腿（selftest+check），登记于 r1762 注释块"
+ "verify_t1762": "etf_book_book_mde selftest 40/40 PASS | --check 复算同判 ok=true（verdict+逐行三态+mde=z80*se 三条全过）| 控制臂六格最差偏差 0.000pp | 交叉核对 p 0.3183==0.3183、obs 0.7114 vs 臂噪声 0.79（tol 0.25）| md -> research/ETF_BOOK_BOOK_MDE.md | smoke 增两腿（selftest+check），登记于 r1762 注释块",
+ "round_t1763_note": "scripts/etf_book_money_mde.py: replay of the engine equity curve from its own diag (max rel diff 9.7e-16 over 1662 bars) then four-leg exact attribution; control arm reproduces 9.12% at 0.000pp",
+ "verify_t1763": "selftest 34/34; --check five checks ok; smoke legs added (selftest+check) but the running suite was loaded before them"
 }

@@ -5600,6 +5600,15 @@ def main() -> int:
              "scripts/etf_book_book_mde.py", ["--selftest"]),
             ("product: etf_book_book_mde (published verdict still re-derives)",
              "scripts/etf_book_book_mde.py", ["--check"]),
+            # r1763 puts that same ruler on the money: the excess over 510300 is split into
+            # four legs that must sum to it bar by bar (select/rotate/size/cost), and the
+            # replay has to reproduce the engine's own equity curve from its diag before any
+            # leg is published. The legs are pinned on synthetic bars (identity, cash-only,
+            # unpriced slot, class split) and one leg runs the real engine on a fake panel.
+            ("product: etf_book_money_mde (four legs of the excess over the index)",
+             "scripts/etf_book_money_mde.py", ["--selftest"]),
+            ("product: etf_book_money_mde (published split still re-derives)",
+             "scripts/etf_book_money_mde.py", ["--check"]),
             # The money question ("how big can this book get before impact eats it")
             # rests entirely on this one script: it re-derives both arms off one
             # engine and pins k=1 to the flat path to 1e-12. A rot here would print
