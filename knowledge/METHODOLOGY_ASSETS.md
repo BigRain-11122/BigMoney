@@ -16022,3 +16022,23 @@ results/etf_book_window_split.json（WINDOW_GAP_NOT_SEPARABLE）· research/ETF_
 
 **正身**：scripts/etf_book_premium_swap.py（selftest 16/16 ＋ --check ok:true）·
 results/etf_book_premium_swap.json（HOLD_STRETCHED）· research/ETF_BOOK_PREMIUM_SWAP.md
+
+
+## E682 — 一次性成本与「每窗」收益之间隔着持有期：漏掉那个「每」等于假设持有一年（r1774 bm-c）
+
+r1773 把两笔钱并排放好（换腿一次省 1,506 元、放弃 2.12 pp/年），然后用年化上限 2.00 pp/年
+判了 HOLD_STRETCHED。三个数都对，缺的是那个「每」——放弃是**每个决策窗**付出的，年化把它乘了
+12.6 倍，而这本书自己的持有窗只有 1.57 窗（中位 1、79% 的座位只坐一窗，实测 84 次决策）。
+按持有窗读同一组数：每窗放弃 145 元，省 1,506 元 → 回本 10.4 窗（0.82 年）→ 只要溢价差在
+离场前收敛超过 **9.7%** 就是划算的。两把尺子给出相反答案，因为它们回答的是两个问题。
+
+**正法**：①期间量一律乘**被检对象自己的实测持有窗**（从它的决策路径量 span 长度，禁假设）；
+②印「回本窗数 + 回本所需收敛概率 p*」，不印净值——净值需要一个本面测不出来的收敛概率；
+③两把尺子的结论都印出来，谁也别偷偷替换谁；④持有窗按 span 计：一个座位连续坐两窗是
+span=2，按决策数逐次累加会把同一个座位数成两次。
+
+**实锚**：159655 溢价 6.746%；B 路=同市场孪生 159529（省 1.75pp=1,506 元，放弃 145 元/窗，
+p*=9.7%）；C 路=不买进现金腿（省 5,821 元，放弃 307 元/窗，p*=5.3%）。
+
+**正身**：scripts/etf_book_premium_choice.py（selftest 19/19 ＋ --check ok:true）·
+results/etf_book_premium_choice.json（RULERS_DISAGREE_SWAP_AT_HORIZON）· research/ETF_BOOK_PREMIUM_CHOICE.md

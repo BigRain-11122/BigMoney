@@ -1,0 +1,177 @@
+{
+ "face": "etf_book_premium_choice",
+ "ticket": "results/etf_book_order/TICKET-2026-11-16.json",
+ "as_of": "2026-11-16",
+ "evidence_cutoff": "2026-11-16",
+ "decision_bar": "2026-11-16",
+ "snapshot": "data/etf_premium/snap/2026-11-16.csv",
+ "snapshot_symbols": 1528,
+ "criteria": {
+  "premium_swap_pp": 3.0,
+  "min_saving_pp": 1.0,
+  "max_giveup_pp_per_year_annual_ruler": 2.0,
+  "horizon_bars": 20,
+  "rebalance_bars": 20,
+  "n_hold": 5,
+  "start": "2020-01-01",
+  "convergence_floor_for_swap": 0.5,
+  "bars_per_year": 252.0
+ },
+ "law": {
+  "horizon": "a one-off CNY saving and a per-window give-up are compared only over the window the book actually holds; the annual ruler is printed too, never silently applied",
+  "currencies": "one-off CNY vs CNY-per-window vs pp/yr: printed side by side, never summed",
+  "belief": "whether the premium converges at exit is not measurable from a single session snapshot, so every road prints its break-even probability",
+  "twin_rule": "inherited from etf_book_premium_swap: same class AND same market"
+ },
+ "seat_tenure": {
+  "decisions": 84,
+  "seat_periods": 420,
+  "fresh_seats": 267,
+  "fresh_share": 0.6357,
+  "seats_closed": 267,
+  "mean_tenure_decisions": 1.573,
+  "median_tenure_decisions": 1.0,
+  "max_tenure_decisions": 16,
+  "share_held_one_window": 0.794,
+  "tenure_years": 0.1248,
+  "window_years": 0.079365
+ },
+ "score_slope": {
+  "status": "MEASURED",
+  "bars": 111,
+  "slope_median_per_horizon": 0.010739587458382917,
+  "slope_annualised": 0.13531880197562474,
+  "corr_median": 0.04681276531460001
+ },
+ "cash_annual_pct": 1.265,
+ "legs": [
+  {
+   "symbol": "510760",
+   "class": "equity",
+   "amount_cny": 86400.6,
+   "premium_pct": -0.310041,
+   "premium_cny": -267.88,
+   "stretched": false,
+   "leg_score": 0.501601,
+   "roads": [],
+   "verdict": "NOT_STRETCHED",
+   "annual_ruler": null,
+   "rulers_disagree": false,
+   "note": "inside the 3.0 pp threshold"
+  },
+  {
+   "symbol": "512040",
+   "class": "equity",
+   "amount_cny": 86351.9,
+   "premium_pct": -0.224308,
+   "premium_cny": -193.69,
+   "stretched": false,
+   "leg_score": 0.458732,
+   "roads": [],
+   "verdict": "NOT_STRETCHED",
+   "annual_ruler": null,
+   "rulers_disagree": false,
+   "note": "inside the 3.0 pp threshold"
+  },
+  {
+   "symbol": "159655",
+   "class": "crossborder",
+   "amount_cny": 86286.0,
+   "premium_pct": 6.746139,
+   "premium_cny": 5820.97,
+   "stretched": true,
+   "leg_score": 0.425284,
+   "roads": [
+    {
+     "road": "A_buy_as_printed",
+     "amount_cny": 86286.0,
+     "saving_cny_once": 0.0,
+     "giveup_cny_per_window": 0.0,
+     "giveup_pp_per_year": 0.0,
+     "windows_of_giveup_affordable": null,
+     "breakeven_convergence_p": null,
+     "breakeven_tenure_windows": null,
+     "breakeven_tenure_years": null,
+     "pays_over_book_tenure": null,
+     "note": "baseline: pay 5821 CNY of premium once, substitute nothing, so there is neither a saving nor a give-up to compare"
+    },
+    {
+     "road": "B_same_market_twin",
+     "amount_cny": 86286.0,
+     "saving_cny_once": 1506.35,
+     "giveup_cny_per_window": 145.4,
+     "giveup_pp_per_year": 2.1233,
+     "windows_of_giveup_affordable": null,
+     "breakeven_convergence_p": 0.096527,
+     "breakeven_tenure_windows": 10.36,
+     "breakeven_tenure_years": 0.8222,
+     "pays_over_book_tenure": true,
+     "floor_convergence_p": 0.5,
+     "note": "the swap pays for itself if the premium gap closes by more than 9.7% before exit; it takes 10.4 windows of give-up to eat the whole saving",
+     "twin": {
+      "symbol": "159529",
+      "market": "us_sp500",
+      "premium_pct": 5.000372606006409,
+      "score": 0.2683751499309239,
+      "score_gap": 0.15690898858192576
+     }
+    },
+    {
+     "road": "C_drop_to_cash",
+     "amount_cny": 86286.0,
+     "saving_cny_once": 5820.97,
+     "giveup_cny_per_window": 307.47,
+     "giveup_pp_per_year": null,
+     "windows_of_giveup_affordable": null,
+     "breakeven_convergence_p": 0.052821,
+     "breakeven_tenure_windows": 18.932,
+     "breakeven_tenure_years": 1.5025,
+     "pays_over_book_tenure": true,
+     "floor_convergence_p": 0.5,
+     "note": "the swap pays for itself if the premium gap closes by more than 5.3% before exit; it takes 18.9 windows of give-up to eat the whole saving"
+    }
+   ],
+   "verdict": "SWAP_AT_BOOK_HORIZON",
+   "annual_ruler": "HOLD",
+   "rulers_disagree": true,
+   "note": "over the book's own 1.57-window hold, the substitution pays for itself at a 5.3% convergence probability; the annual ruler read the same numbers as 2.12 pp/yr against a 2.00 cap"
+  },
+  {
+   "symbol": "513690",
+   "class": "crossborder",
+   "amount_cny": 86365.0,
+   "premium_pct": -0.355255,
+   "premium_cny": -306.82,
+   "stretched": false,
+   "leg_score": 0.593388,
+   "roads": [],
+   "verdict": "NOT_STRETCHED",
+   "annual_ruler": null,
+   "rulers_disagree": false,
+   "note": "inside the 3.0 pp threshold"
+  },
+  {
+   "symbol": "159519",
+   "class": "crossborder",
+   "amount_cny": 86324.3,
+   "premium_pct": -0.748214,
+   "premium_cny": -645.89,
+   "stretched": false,
+   "leg_score": 0.500325,
+   "roads": [],
+   "verdict": "NOT_STRETCHED",
+   "annual_ruler": null,
+   "rulers_disagree": false,
+   "note": "inside the 3.0 pp threshold"
+  }
+ ],
+ "verdict": "RULERS_DISAGREE_SWAP_AT_HORIZON",
+ "totals": {
+  "legs": 5,
+  "stretched_legs": 1,
+  "roads_priced": 2,
+  "best_saving_cny": 5820.97,
+  "best_giveup_cny_per_window": 145.4,
+  "rulers_disagreeing_legs": 1
+ }
+}

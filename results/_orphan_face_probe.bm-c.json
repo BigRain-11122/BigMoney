@@ -1,7 +1,7 @@
 {
- "ts": "2026-11-16T17:41:17",
+ "ts": "2026-11-16T18:25:40",
  "mode": "probe",
- "py_faces_seen": 11,
+ "py_faces_seen": 15,
  "orphans": 6,
  "orphans_cleared": 0,
  "killed": [],
@@ -12,25 +12,39 @@
    "pid": 25136,
    "name": "python.exe",
    "cmd": "D:\\ComfyUI\\python_embeded\\python.exe -s D:\\ComfyUI\\ComfyUI\\main.py --listen 127.0.0.1 --port 8188 --disable-smart-memory",
-   "age_min": 413.2,
-   "cpu_delta_20s": 0.0,
+   "age_min": 457.6,
+   "cpu_delta_20s": 0.062,
    "face1_parent_dead": true,
    "face2_no_hidden_host_ancestor": true,
    "face3_cpu_stalled": true,
    "ancestor_chain": [
     "DEAD"
    ],
-   "confirm_cpu_20s": 0.016,
+   "confirm_cpu_20s": 0.062,
    "confirm_new_children": 0,
    "listen_ports": [
     8188
    ]
   },
   {
+   "pid": 48884,
+   "name": "python.exe",
+   "cmd": "python scripts/etf_sign_enum.py run",
+   "age_min": 0.8,
+   "cpu_delta_20s": 19.656,
+   "face1_parent_dead": false,
+   "face2_no_hidden_host_ancestor": true,
+   "face3_cpu_stalled": false,
+   "ancestor_chain": [
+    "python.exe",
+    "DEAD"
+   ]
+  },
+  {
    "pid": 50312,
    "name": "pythonw.exe",
    "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\pythonw.exe -c from multiprocessing.spawn import spawn_main; sp",
-   "age_min": 71.2,
+   "age_min": 115.7,
    "cpu_delta_20s": 0.0,
    "face1_parent_dead": true,
    "face2_no_hidden_host_ancestor": true,
@@ -45,7 +59,7 @@
    "pid": 52764,
    "name": "pythonw.exe",
    "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\pythonw.exe -c from multiprocessing.spawn import spawn_main; sp",
-   "age_min": 71.2,
+   "age_min": 115.7,
    "cpu_delta_20s": 0.0,
    "face1_parent_dead": true,
    "face2_no_hidden_host_ancestor": true,
@@ -57,7 +71,133 @@
    "confirm_new_children": 0
   },
   {
-   "pid": 55608,
+   "pid": 53284,
+   "name": "python.exe",
+   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe scripts/panel_level_anchor_audit.py selftest",
+   "age_min": 0.0,
+   "cpu_delta_20s": 999.0,
+   "face1_parent_dead": false,
+   "face2_no_hidden_host_ancestor": true,
+   "face3_cpu_stalled": false,
+   "ancestor_chain": [
+    "python.exe",
+    "DEAD"
+   ]
+  },
+  {
+   "pid": 57336,
+   "name": "python.exe",
+   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe Tools\\s6_chain_bmc.py 1773",
+   "age_min": 21.1,
+   "cpu_delta_20s": 19.656,
+   "face1_parent_dead": true,
+   "face2_no_hidden_host_ancestor": true,
+   "face3_cpu_stalled": false,
+   "ancestor_chain": [
+    "DEAD"
+   ]
+  },
+  {
+   "pid": 57352,
+   "name": "pythonw.exe",
+   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\pythonw.exe -c from multiprocessing.spawn import spawn_main; sp",
+   "age_min": 115.7,
+   "cpu_delta_20s": 0.0,
+   "face1_parent_dead": true,
+   "face2_no_hidden_host_ancestor": true,
+   "face3_cpu_stalled": true,
+   "ancestor_chain": [
+    "DEAD"
+   ],
+   "confirm_cpu_20s": 0.0,
+   "confirm_new_children": 0
+  },
+  {
+   "pid": 57524,
+   "name": "pythonw.exe",
+   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\pythonw.exe -c from multiprocessing.spawn import spawn_main; sp",
+   "age_min": 115.7,
+   "cpu_delta_20s": 0.0,
+   "face1_parent_dead": true,
+   "face2_no_hidden_host_ancestor": true,
+   "face3_cpu_stalled": true,
+   "ancestor_chain": [
+    "DEAD"
+   ],
+   "confirm_cpu_20s": 0.0,
+   "confirm_new_children": 0
+  },
+  {
+   "pid": 58936,
+   "name": "pythonw.exe",
+   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\pythonw.exe Tools\\s6_chain_bmc.py",
+   "age_min": 72.5,
+   "cpu_delta_20s": 19.719,
+   "face1_parent_dead": true,
+   "face2_no_hidden_host_ancestor": true,
+   "face3_cpu_stalled": false,
+   "ancestor_chain": [
+    "DEAD"
+   ]
+  },
+  {
+   "pid": 59900,
+   "name": "pythonw.exe",
+   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\pythonw.exe -c from multiprocessing.spawn import spawn_main; sp",
+   "age_min": 115.7,
+   "cpu_delta_20s": 0.0,
+   "face1_parent_dead": true,
+   "face2_no_hidden_host_ancestor": true,
+   "face3_cpu_stalled": true,
+   "ancestor_chain": [
+    "DEAD"
+   ],
+   "confirm_cpu_20s": 0.0,
+   "confirm_new_children": 0
+  },
+  {
+   "pid": 60228,
+   "name": "pythonw.exe",
+   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\pythonw.exe -c from multiprocessing.spawn import spawn_main; sp",
+   "age_min": 115.7,
+   "cpu_delta_20s": 0.0,
+   "face1_parent_dead": true,
+   "face2_no_hidden_host_ancestor": true,
+   "face3_cpu_stalled": true,
+   "ancestor_chain": [
+    "DEAD"
+   ],
+   "confirm_cpu_20s": 0.0,
+   "confirm_new_children": 0
+  },
+  {
+   "pid": 61768,
+   "name": "python.exe",
+   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe -m smoke_test",
+   "age_min": 6.5,
+   "cpu_delta_20s": 0.031,
+   "face1_parent_dead": true,
+   "face2_no_hidden_host_ancestor": true,
+   "face3_cpu_stalled": false,
+   "ancestor_chain": [
+    "DEAD"
+   ]
+  },
+  {
+   "pid": 62156,
+   "name": "python.exe",
+   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\scripts\\update",
+   "age_min": 63.5,
+   "cpu_delta_20s": 3.688,
+   "face1_parent_dead": true,
+   "face2_no_hidden_host_ancestor": true,
+   "face3_cpu_stalled": false,
+   "ancestor_chain": [
+    "DEAD"
+   ]
+  },
+  {
+   "pid": 63888,
    "name": "python.exe",
    "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe Tools\\orphan_face_probe.py",
    "age_min": 0.5,
@@ -73,102 +213,16 @@
    ]
   },
   {
-   "pid": 57148,
+   "pid": 64304,
    "name": "python.exe",
-   "cmd": "python scripts/etf_book_pre2020.py refresh",
-   "age_min": 15.6,
-   "cpu_delta_20s": 20.203,
+   "cmd": "python scripts/etf_book_cagr_reconcile.py",
+   "age_min": 0.7,
+   "cpu_delta_20s": 19.719,
    "face1_parent_dead": false,
    "face2_no_hidden_host_ancestor": false,
    "face3_cpu_stalled": false,
    "ancestor_chain": [
     "pythonw.exe"
-   ]
-  },
-  {
-   "pid": 57352,
-   "name": "pythonw.exe",
-   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\pythonw.exe -c from multiprocessing.spawn import spawn_main; sp",
-   "age_min": 71.2,
-   "cpu_delta_20s": 0.0,
-   "face1_parent_dead": true,
-   "face2_no_hidden_host_ancestor": true,
-   "face3_cpu_stalled": true,
-   "ancestor_chain": [
-    "DEAD"
-   ],
-   "confirm_cpu_20s": 0.0,
-   "confirm_new_children": 0
-  },
-  {
-   "pid": 57524,
-   "name": "pythonw.exe",
-   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\pythonw.exe -c from multiprocessing.spawn import spawn_main; sp",
-   "age_min": 71.2,
-   "cpu_delta_20s": 0.0,
-   "face1_parent_dead": true,
-   "face2_no_hidden_host_ancestor": true,
-   "face3_cpu_stalled": true,
-   "ancestor_chain": [
-    "DEAD"
-   ],
-   "confirm_cpu_20s": 0.0,
-   "confirm_new_children": 0
-  },
-  {
-   "pid": 58936,
-   "name": "pythonw.exe",
-   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\pythonw.exe Tools\\s6_chain_bmc.py",
-   "age_min": 28.1,
-   "cpu_delta_20s": 20.203,
-   "face1_parent_dead": true,
-   "face2_no_hidden_host_ancestor": true,
-   "face3_cpu_stalled": false,
-   "ancestor_chain": [
-    "DEAD"
-   ]
-  },
-  {
-   "pid": 59900,
-   "name": "pythonw.exe",
-   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\pythonw.exe -c from multiprocessing.spawn import spawn_main; sp",
-   "age_min": 71.2,
-   "cpu_delta_20s": 0.0,
-   "face1_parent_dead": true,
-   "face2_no_hidden_host_ancestor": true,
-   "face3_cpu_stalled": true,
-   "ancestor_chain": [
-    "DEAD"
-   ],
-   "confirm_cpu_20s": 0.0,
-   "confirm_new_children": 0
-  },
-  {
-   "pid": 60228,
-   "name": "pythonw.exe",
-   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\pythonw.exe -c from multiprocessing.spawn import spawn_main; sp",
-   "age_min": 71.2,
-   "cpu_delta_20s": 0.0,
-   "face1_parent_dead": true,
-   "face2_no_hidden_host_ancestor": true,
-   "face3_cpu_stalled": true,
-   "ancestor_chain": [
-    "DEAD"
-   ],
-   "confirm_cpu_20s": 0.0,
-   "confirm_new_children": 0
-  },
-  {
-   "pid": 62156,
-   "name": "python.exe",
-   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\scripts\\update",
-   "age_min": 19.0,
-   "cpu_delta_20s": 3.797,
-   "face1_parent_dead": true,
-   "face2_no_hidden_host_ancestor": true,
-   "face3_cpu_stalled": false,
-   "ancestor_chain": [
-    "DEAD"
    ]
   }
  ],
@@ -177,7 +231,7 @@
    "pid": 50312,
    "name": "pythonw.exe",
    "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\pythonw.exe -c from multiprocessing.spawn import spawn_main; sp",
-   "age_min": 71.2,
+   "age_min": 115.7,
    "cpu_delta_20s": 0.0,
    "face1_parent_dead": true,
    "face2_no_hidden_host_ancestor": true,
@@ -192,7 +246,7 @@
    "pid": 52764,
    "name": "pythonw.exe",
    "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\pythonw.exe -c from multiprocessing.spawn import spawn_main; sp",
-   "age_min": 71.2,
+   "age_min": 115.7,
    "cpu_delta_20s": 0.0,
    "face1_parent_dead": true,
    "face2_no_hidden_host_ancestor": true,
@@ -207,7 +261,7 @@
    "pid": 57352,
    "name": "pythonw.exe",
    "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\pythonw.exe -c from multiprocessing.spawn import spawn_main; sp",
-   "age_min": 71.2,
+   "age_min": 115.7,
    "cpu_delta_20s": 0.0,
    "face1_parent_dead": true,
    "face2_no_hidden_host_ancestor": true,
@@ -222,7 +276,7 @@
    "pid": 57524,
    "name": "pythonw.exe",
    "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\pythonw.exe -c from multiprocessing.spawn import spawn_main; sp",
-   "age_min": 71.2,
+   "age_min": 115.7,
    "cpu_delta_20s": 0.0,
    "face1_parent_dead": true,
    "face2_no_hidden_host_ancestor": true,
@@ -237,7 +291,7 @@
    "pid": 59900,
    "name": "pythonw.exe",
    "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\pythonw.exe -c from multiprocessing.spawn import spawn_main; sp",
-   "age_min": 71.2,
+   "age_min": 115.7,
    "cpu_delta_20s": 0.0,
    "face1_parent_dead": true,
    "face2_no_hidden_host_ancestor": true,
@@ -252,7 +306,7 @@
    "pid": 60228,
    "name": "pythonw.exe",
    "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\pythonw.exe -c from multiprocessing.spawn import spawn_main; sp",
-   "age_min": 71.2,
+   "age_min": 115.7,
    "cpu_delta_20s": 0.0,
    "face1_parent_dead": true,
    "face2_no_hidden_host_ancestor": true,
@@ -271,15 +325,15 @@
    "pid": 25136,
    "name": "python.exe",
    "cmd": "D:\\ComfyUI\\python_embeded\\python.exe -s D:\\ComfyUI\\ComfyUI\\main.py --listen 127.0.0.1 --port 8188 --disable-smart-memory",
-   "age_min": 413.2,
-   "cpu_delta_20s": 0.0,
+   "age_min": 457.6,
+   "cpu_delta_20s": 0.062,
    "face1_parent_dead": true,
    "face2_no_hidden_host_ancestor": true,
    "face3_cpu_stalled": true,
    "ancestor_chain": [
     "DEAD"
    ],
-   "confirm_cpu_20s": 0.016,
+   "confirm_cpu_20s": 0.062,
    "confirm_new_children": 0,
    "listen_ports": [
     8188

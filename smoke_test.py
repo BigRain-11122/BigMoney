@@ -5689,6 +5689,17 @@ def main() -> int:
              "scripts/etf_book_premium_swap.py", ["--selftest"]),
             ("product: etf_book_premium_swap (verdicts still re-derive from the ticket)",
              "scripts/etf_book_premium_swap.py", ["--check"]),
+            # Same ticket, different question (r1774): a one-off CNY saving and a per-window
+            # give-up are only comparable over the window this book actually holds a seat --
+            # annualising the give-up silently assumes a one-year hold, and this book's
+            # measured tenure is 1.6 windows. The selftest pins p*, the break-even windows,
+            # both rulers and the tenure measurement; the check re-derives every road's
+            # arithmetic from the ticket and names the two panel-derived inputs it does not
+            # rebuild.
+            ("product: etf_book_premium_choice (three roads over the book's holding window)",
+             "scripts/etf_book_premium_choice.py", ["--selftest"]),
+            ("product: etf_book_premium_choice (road arithmetic still re-derives)",
+             "scripts/etf_book_premium_choice.py", ["--check"]),
             # The money question ("how big can this book get before impact eats it")
             # rests entirely on this one script: it re-derives both arms off one
             # engine and pins k=1 to the flat path to 1e-12. A rot here would print

@@ -5693,12 +5693,23 @@ def selftest():
     _zl = cash_zero_baseline_md(_zl_cs)
     _zl_txt = "\n".join(_zl)
     _br_live = idle_cash_book_rate() or {}
+    # r1774: the shared implementation has TWO branches and its own selftest pins both: when
+    # the section's zero number equals the headline's, the sentence says it IS the same number;
+    # when the published face has since moved, it says the two baselines are not the same and
+    # must not be substituted. This leg pinned one phrase, so it went red the moment the idle
+    # cash face was re-derived at a new bar (11.55 section vs 11.45 headline) while the
+    # sentence was working exactly as designed. Read the branch the numbers decide instead.
+    _base = _br_live.get("book_cagr_without_pct")
+    _with = _br_live.get("book_cagr_with_pct")
+    _same_branch = (_base is not None
+                    and abs(float(_zl_cs["zero_pct"]) - float(_base)) < 0.005)
     chk("leg4s2 zero baseline: the ticket forwards the shared sentence and names the same "
         "0-cash arm as its own headline",
-        bool(_zl) and "同一个数" in _zl_txt
-        and ("%.2f%%" % float(_br_live.get("book_cagr_without_pct"))) in _zl_txt
-        and ("%.2f%%" % float(_br_live.get("book_cagr_with_pct"))) in _zl_txt,
-        _zl_txt[:260])
+        bool(_zl) and ("同一个数" if _same_branch else "不能互相替代") in _zl_txt
+        and _base is not None and _with is not None
+        and ("%.2f%%" % float(_base)) in _zl_txt
+        and ("%.2f%%" % float(_with)) in _zl_txt,
+        "branch=%s | %s" % ("same" if _same_branch else "differ", _zl_txt[:240]))
 
     # leg4t-w (r1749): the honest face used to tell the operator to run a 1/7/14-day ladder and
     # stopped there, as if the advice were free. The desk has priced it since: a ladder whose
