@@ -1,0 +1,157 @@
+{
+ "schema": "etf_book_day_delta/v1",
+ "today": {
+  "day": "20261116",
+  "file": "LIVE-BOOK-20261116.json",
+  "priced_bar": "2026-11-13",
+  "evidence_cutoff": "2026-11-13"
+ },
+ "prev": {
+  "day": "20261115",
+  "file": "LIVE-BOOK-20261115.json",
+  "priced_bar": "2026-11-13",
+  "evidence_cutoff": "2026-11-13"
+ },
+ "evidence_cutoff": "2026-11-13",
+ "same_cut": true,
+ "cut_today": {
+  "priced_bar": "2026-11-13",
+  "evidence_cutoff": "2026-11-13"
+ },
+ "cut_prev": {
+  "priced_bar": "2026-11-13",
+  "evidence_cutoff": "2026-11-13"
+ },
+ "counts": {
+  "leaves_today": 4314,
+  "leaves_prev": 4257,
+  "shared": 4257,
+  "identical": 4251,
+  "moved": 6,
+  "clock": 4,
+  "data_advanced": 0,
+  "recovered_old_value": 1,
+  "declared_ruler": 1,
+  "unexplained": 0,
+  "appeared": 57,
+  "vanished": 0
+ },
+ "moves": [
+  {
+   "path": "/authority/owner_silent_h",
+   "prev": 41.4,
+   "today": 57.0,
+   "delta": 15.600000000000001,
+   "kind": "CLOCK"
+  },
+  {
+   "path": "/cash_money/forward/gap_bp",
+   "prev": 50.81,
+   "today": 77.79,
+   "delta": 26.980000000000004,
+   "kind": "RECOVERED_OLD_VALUE",
+   "evidence": "昨天的 50.81 今天仍在这页上：`/cash_money/forward/gap_bp_gross`（改名，不是重算）"
+  },
+  {
+   "path": "/cash_money/forward/gap_cny",
+   "prev": 182.0,
+   "today": 279.0,
+   "delta": 97.0,
+   "kind": "DECLARED_RULER",
+   "evidence": "同块口径句改了：`/cash_money/forward/ruler`"
+  },
+  {
+   "path": "/fleet/rows/0/age_h",
+   "prev": 40.52,
+   "today": 46.25,
+   "delta": 5.729999999999997,
+   "kind": "CLOCK"
+  },
+  {
+   "path": "/fleet/rows/1/age_h",
+   "prev": 387.0,
+   "today": 392.73,
+   "delta": 5.730000000000018,
+   "kind": "CLOCK"
+  },
+  {
+   "path": "/fleet/rows/2/age_h",
+   "prev": 0.17,
+   "today": 0.36,
+   "delta": 0.18999999999999997,
+   "kind": "CLOCK"
+  }
+ ],
+ "money_moves": [
+  {
+   "path": "/cash_money/forward/gap_bp",
+   "prev": 50.81,
+   "today": 77.79,
+   "delta": 26.980000000000004,
+   "kind": "RECOVERED_OLD_VALUE",
+   "evidence": "昨天的 50.81 今天仍在这页上：`/cash_money/forward/gap_bp_gross`（改名，不是重算）"
+  },
+  {
+   "path": "/cash_money/forward/gap_cny",
+   "prev": 182.0,
+   "today": 279.0,
+   "delta": 97.0,
+   "kind": "DECLARED_RULER",
+   "evidence": "同块口径句改了：`/cash_money/forward/ruler`"
+  }
+ ],
+ "appeared_blocks": [
+  "/cash_money/block",
+  "/cash_money/forward",
+  "/entry_gate/gates",
+  "/entry_gate/shipped_median_names",
+  "/entry_gate/shipped_min_names",
+  "/entry_gate/thinnest_day_names",
+  "/idle_cash/arm_gap",
+  "/idle_cash/arms"
+ ],
+ "appeared_paths": [
+  "/cash_money/block/book_rate/declared/cagr_with_pct",
+  "/cash_money/block/book_rate/declared/cagr_without_pct",
+  "/cash_money/block/book_rate/declared/lag",
+  "/cash_money/block/book_rate/declared/maxdd_with_pct",
+  "/cash_money/block/book_rate/declared/sharpe_with",
+  "/cash_money/block/book_rate/declared_gap_pp",
+  "/cash_money/block/book_rate/per_year_net_pct/2020",
+  "/cash_money/block/book_rate/per_year_net_pct/2021",
+  "/cash_money/block/book_rate/per_year_net_pct/2022",
+  "/cash_money/block/book_rate/per_year_net_pct/2023",
+  "/cash_money/block/book_rate/per_year_net_pct/2024",
+  "/cash_money/block/book_rate/per_year_net_pct/2025",
+  "/cash_money/block/book_rate/per_year_net_pct/2026",
+  "/cash_money/block/fee_bp_per_roll",
+  "/cash_money/block/fee_cny_per_year",
+  "/cash_money/block/mean_tail/net_annual_cny",
+  "/cash_money/block/mean_tail/net_pct",
+  "/cash_money/block/rolls_per_year",
+  "/cash_money/block/spot/net_annual_cny",
+  "/cash_money/block/spot/net_pct",
+  "/cash_money/block/window/net_annual_cny",
+  "/cash_money/block/window/net_pct",
+  "/cash_money/forward/fee_bp_per_roll",
+  "/cash_money/forward/fee_cny",
+  "/cash_money/forward/gap_bp_gross",
+  "/cash_money/forward/rolls",
+  "/cash_money/forward/spot_net/cny",
+  "/cash_money/forward/spot_net/pct",
+  "/entry_gate/gates/0/max_names",
+  "/entry_gate/gates/0/min_names",
+  "/entry_gate/gates/1/max_names",
+  "/entry_gate/gates/1/min_names",
+  "/entry_gate/gates/2/max_names",
+  "/entry_gate/gates/2/min_names",
+  "/entry_gate/gates/3/max_names",
+  "/entry_gate/gates/3/min_names",
+  "/entry_gate/gates/4/max_names",
+  "/entry_gate/gates/4/min_names",
+  "/entry_gate/gates/5/max_names",
+  "/entry_gate/gates/5/min_names"
+ ],
+ "vanished_paths": [],
+ "verdict": "EXPLAINED_MOVES"
+}

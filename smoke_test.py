@@ -5579,6 +5579,16 @@ def main() -> int:
              "scripts/etf_book_gate_raise_noise.py", ["--selftest"]),
             ("product: etf_book_gate_raise_noise (published verdict still re-derives)",
              "scripts/etf_book_gate_raise_noise.py", ["--check"]),
+            # r1761: the CEO page is published every day and nobody diffs it. A number can
+            # move overnight with no new bar for three reasons -- clock, declared ruler
+            # change, or nothing at all. The day-delta face partitions every numeric leaf
+            # of the two newest day pages; the legs pin the four buckets (clock exempt,
+            # data day allowed, rename recognised via the surviving old value, declared
+            # ruler recognised) and the refusal to invent a delta from a single page.
+            ("product: etf_book_day_delta (overnight moves at an unchanged cut)",
+             "scripts/etf_book_day_delta.py", ["--selftest"]),
+            ("product: etf_book_day_delta (published verdict still re-derives)",
+             "scripts/etf_book_day_delta.py", ["--check"]),
             # The money question ("how big can this book get before impact eats it")
             # rests entirely on this one script: it re-derives both arms off one
             # engine and pins k=1 to the flat path to 1e-12. A rot here would print

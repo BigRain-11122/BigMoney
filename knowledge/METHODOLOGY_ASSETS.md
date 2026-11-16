@@ -15679,3 +15679,27 @@ research/ETF_BOOK_CAUSAL_HEADLINE.md · smoke 既有腿（check 契约）
 **附（实现坑）**：`%`-format 长句里出现裸百分号（「必须复现已发布的 8.41% 可交易臂」）→ `ValueError: unsupported format character`，118s 的 run 在写 md 时崩（JSON 已落盘、md 没写）。给脚本加 `--md` 重渲染模式后，排版修复不再需要重算面板——**计算与渲染分成两条腿**，是本族脚本该有的默认形状。
 
 **正身**：scripts/etf_book_gate_raise_price.py（selftest 19/19，`--check` OK）+ scripts/etf_book_ceo_page.py `raise_price_md`（L141a-e）+ scripts/etf_book_order.py `raise_price_md`（leg48r-s）+ results/etf_book_gate_raise_price.json + results/etf_book_order/ORDER-2026-11-13.md 第 263 行 / docs/live_book/LIVE-BOOK-20261116.md 第 827 行
+
+
+## E670 — 同一根 bar 上，一个数凭什么可以变（r1761 bm-c）
+
+**症状**：CEO 页每天重生成，没人做隔夜差。现金腿那句「与净滚差 50.81bp / ￥182」隔夜变成
+**77.79bp / ￥279**，而两天都是同一根 bar（2026-11-13）——读者无法区分「今天变了」与
+「口径改了」，只能挑一个信。
+
+**正法**：把相邻两个日页的**每个数字叶子**分类：CLOCK（钟面，允许自己走）/
+DATA_ADVANCED（bar 推进，全部允许动）/ 同一 cut 上的位移——后者必须自带解说才不算账：
+RECOVERED_OLD_VALUE（昨天的数**仍在页上**，只是换了键名＝改名不是重算）/
+DECLARED_RULER（同块的 ruler/basis/convention 句改了）/ UNEXPLAINED（既无留存也无声明
+＝这页偷偷换了数，红灯）。实锚：gap_bp 50.81→77.79 被今天新出现的 gap_bp_gross=50.81
+认领；gap_cny 182→279 由 
+uler 句从「rate only」改成「net of per-roll commission」声明
+（E664/E665 两张卡的落地被这条面当场看见）。
+
+**可复用**：①任何每日重生成的对外页都该有一条「无新数据的位移必须自带解说」的闸，否则
+改口径与改数是同一种形状；②钟面名单**写死在代码里**，用 wildcard 会把钱一起吞进豁免；
+③「旧值仍在」按数值相等判（相对 1e-9）是**线索不是证明**，行里必须同时印出它落在哪个键上，
+让人能核；④宁可多报：不认识的字段落 UNEXPLAINED，不要靠猜给它豁免。
+
+**正身**：scripts/etf_book_day_delta.py（selftest 21/21，--check 复算同判）·
+results/etf_book_day_delta.json · research/ETF_BOOK_DAY_DELTA.md · smoke 两腿

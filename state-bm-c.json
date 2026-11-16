@@ -1,6 +1,6 @@
 {
  "activity": "product",
- "activity_now": "r1756: the same 11.55% is the zero-cash arm on both papers while each prints a different \"with cash\" number beside it (12.59% / 12.13%) -- the sentence now names the shared baseline, prices the 0.11pp of the 0.46pp gap that cash share x rate-level difference explains, and refuses the remaining 0.35pp instead of leaving it as two answers",
+ "activity_now": "r1761: at an unchanged bar (2026-11-13) the cash-forward block changed two money numbers overnight (50.81bp/¥182 -> 77.79bp/¥279); the day-delta face names both alibis (old value survives at gap_bp_gross, ruler sentence changed) and reports zero unexplained moves",
  "activity_now_round": "1756",
  "agenda_starved": false,
  "ah_note": "r1680 LANDED: refresh closed itself at 21:17 -- cutoff 2026-11-12 -> 2026-11-13, complete=True, exit 0, pulled_rows 46; data_lane_freshness in_sync 13 / behind_1d 1 (worst now marks, intraday-only, not rebuildable). Fix that made it possible: stall watchdog over every network leg (300s, names stage/pair, exit 2, checkpoint kept) + save_progress stamps write time + -u on the detached spawn + progress line every 10 pairs. NOT yet proven: the 300s stall path has never fired on a real hang (this round the suspected freeze finished by itself).",
@@ -55,7 +55,7 @@
   "state": "registered (FOUND)",
   "task": "HQ-ProductionClaim"
  },
- "clock_read": "2026-11-16T03:59:59+08:00",
+ "clock_read": "2026-11-16T09:32:06+08:00",
  "clock_read_source": "local",
  "clock_tz": "+08:00",
  "codely_live_count": 2,
@@ -69,7 +69,7 @@
  "cpus": 32,
  "cur_task": "r1703 carry-on-capital stress ruler",
  "current": "r1742: the visual card face stops claiming queued work (6 OPEN -> BLOCKED), and freshness in its log turned out to be the auditor, not an executor",
- "current_task": "r1720 the forward marks name their own book (12 vs 5)",
+ "current_task": "r1761 what moved overnight on the CEO page and did it have the right to move",
  "current_task_at": "2026-11-15T13:15:31+08:00",
  "current_task_short": "ah_panel: bounded silence + readable log",
  "current_task_ts": "2026-11-13T07:40:54+08:00",
@@ -205,7 +205,7 @@
   "sha": "278bb79900"
  },
  "last_push_at": "2026-11-11T08:31:06+08:00",
- "last_round": 1742,
+ "last_round": 1760,
  "last_round_at": "2026-11-16T02:16:53+08:00",
  "last_round_at_legacy": "2026-10-19T15:34:21+08:00",
  "last_round_closed": 1733,
@@ -499,7 +499,7 @@
  },
  "orphan_faces": 0,
  "orphan_note": "group Tools/fleet/agent.py --node b (not this company's face; read-only, not killed)",
- "orphans": 5,
+ "orphans": 0,
  "page_day_debt": {
   "owed": 0,
   "reader_day": 5,
@@ -936,7 +936,7 @@
  "round_1689_next": "(a) price the rule, not the bucket: run the widest-quintile-only arm against hold-everything after the 8% vol leash and the repo leg -- the quintile table already says the entry with the least adverse widening is also the one with the most carry, so the open question is whether a book that waits costs more in idle cash than it collects; (b) moneyflow/LHB IC reference batch (the order second P1 candidate) is still claimed and its panel source-blocked -- check the collector self-heal before starting; (c) watchdog S4U needs one elevated re-register (28th).",
  "round_1689_note": "PRODUCT. r1686 left the basis line one untried axis: \"the discount-width timing test (basis percentile vs next 20d carry) is the cheapest way to turn a static premium into a rule\". Built: scripts/idx_fut_basis_timing.py (selftest 12/12) -- causal percentile over a trailing 250d window (60 obs min), forward window t+1..t+20 with roll days dropped, quintiles printed beside a stride-20 subsample that drops overlapping windows, Spearman on ranks, first/second half split. All four pairs pass the frozen H1/H2/H3: widest-quintile forward carry +0.584/+0.531/+0.513/+0.689pp per 20d at hit 82.5/77.4/86.0/80.6% vs narrowest -0.118/-0.032/-0.075/+0.271pp at 37.7/40.3/40.3/46.8%; spreads hold on stride-12 (0.854/0.513/0.670/0.133) and in both halves. The pair of numbers that decides what this is: fwd20-to-basis-change ratio 1.003/1.000/0.993/0.990 -> kind=convergence harvest, i.e. the rule is a prepayment schedule (wait for a wide discount, collect more of it closing), not a prediction. And the percentile adds nothing over the raw level (spearman level -0.478/-0.474/-0.443/-0.590 vs pct -0.429/-0.318/-0.432/-0.243; percentile_adds_over_level_pairs=[]), so any rule here can be written on the level directly. Adverse side is the surprise: entering at the widest discount had the SMALLEST subsequent widening (median 0.185/0.214/0.231/0.277pp) and the narrowest the largest (0.583/0.923/0.471/1.038pp) -- higher carry and less drawdown, not a risk trade. Two selftest legs caught real defects before publication: adverse_widening used max() and reported the discount closing as a drawdown (the basis is negative when wide, so the window MINIMUM is the adverse side), and convergence_share carried an off-by-one that double-counted a step the holder never takes (basis_face convention: spread[j] is the step dates[j]->dates[j+1]). Neither face had a chain leg -- both were typed by hand on 11-14 -- so both now ride straight behind update_futures; chain --only 2/2 rc0. Latest percentiles: IH 13.4 (widest quintile, fires), IF 23.8, IC 38.6, IM 48.2.",
  "round_label": "1704",
- "round_no": 1760,
+ "round_no": 1761,
  "round_no_label": "r1739",
  "round_no_landed": 1663,
  "round_note": "r1489: a reinstated bar is re-derived from the panel, not carried over (reinstatement_check + reinstatements.json + sheet paragraph)",
@@ -1462,7 +1462,7 @@
  },
  "task": "r1761 next: 那张臂噪声面与这张闸噪声面各用一把尺子，却都把结论落在「分不开」；下一问是分得开要多大的差——把两把尺子放在同一条差序列上，给出这本书在 5 个位置上的最小可分辨差（MDE），这样下一次读到「再好 1pp」时能立刻判它是否在射程内（窗 ≤48h）",
  "total_ram_gb": 55.9,
- "ts": "2026-11-16T09:08:44+08:00",
+ "ts": "2026-11-16T09:32:06+08:00",
  "unverified": [
   "全量套件没有对本轮改动重跑（本轮新增文件，不改既有模块；最近一绿 602/602 @08:28:31）",
   "块自助的块长取 20（一个调仓周期）是选的不是推的；块长 10/40 下 p 值未报",
