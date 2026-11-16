@@ -49,7 +49,9 @@ USAGE
 """
 
 import json
+import math
 import os
+import statistics
 import sys
 from datetime import datetime
 
@@ -358,6 +360,199 @@ def replay_block(prod, rows, lots, mult, idx_close=None, years=REPLAY_YEARS):
     }
 
 
+# -------------------------------------------------------------------- sizing
+TARGET_VOL_PCT = 8.0
+SIZING_PATH = os.path.join(LEDGER_DIR, "SIZING.json")
+
+
+def per_lot_daily(rows, idx_close=None, years=REPLAY_YEARS):
+    """Per-lot daily moves over the replay window, in index points, for the two arms.
+
+    `fut_points` is what one lot made on the contract that was actually held: rolls are
+    priced on the outgoing leg and a forced roll books zero -- the ledger's seam rule, not a
+    second one.  `excess_points` is the same day minus what the same notional would have
+    made in the index outright, so it is the residual the hedge would leave standing.
+    """
+    if not rows:
+        return None
+    cutoff = rows[-1][0]
+    want = str(int(cutoff[:4]) - int(years)) + cutoff[4:]
+    start = next((k for k, r in enumerate(rows) if r[0] >= want), 0)
+    held = rows[start][1]
+    prev = rows[start][2]
+    prev_idx = (idx_close or {}).get(rows[start][0])
+    fut_points, excess_points = [], []
+    forced = 0
+    for d, sym, px, old_px in rows[start + 1:]:
+        if px is None:
+            continue
+        if sym != held:
+            if old_px is None:
+                forced += 1
+                fut = 0.0
+                notional = prev if prev is not None else px
+            else:
+                fut = (old_px - prev) if prev is not None else 0.0
+                notional = old_px
+            held, prev = sym, px
+        else:
+            fut = (px - prev) if prev is not None else 0.0
+            notional = prev if prev is not None else px
+            prev = px
+        fut_points.append(fut)
+        cur_idx = (idx_close or {}).get(d)
+        if prev_idx and cur_idx and notional is not None:
+            excess_points.append(fut - notional * (cur_idx / prev_idx - 1.0))
+            prev_idx = cur_idx
+        elif cur_idx:
+            prev_idx = cur_idx
+    return {"window": [rows[start][0], cutoff], "days": len(fut_points),
+            "forced_rolls": forced, "fut_points": fut_points,
+            "excess_points": excess_points}
+
+
+def _ann_vol_cny(points, mult):
+    """Annualised P&L vol of one lot, in CNY.  A short series is absent, not small."""
+    if not points or len(points) < 20:
+        return None
+    return statistics.stdev(points) * float(mult) * math.sqrt(252.0)
+
+
+def vol_target_arm(sigma_cny, capital, target_pct):
+    """Lots that put this arm's annualised P&L vol at `target_pct` of capital.
+
+    `lots_at_or_below_budget` floors on purpose: a fractional lot is not tradeable, and
+    rounding up prints a position whose measured vol is above the budget it claims.
+    """
+    if not sigma_cny or sigma_cny <= 0 or not capital:
+        return None
+    float_lots = (target_pct / 100.0) * capital / sigma_cny
+    return {
+        "ann_vol_per_lot_cny": round(sigma_cny, 2),
+        "vol_pct_of_capital_per_lot": round(sigma_cny / capital * 100.0, 4),
+        "lots_float": round(float_lots, 4),
+        "lots_at_or_below_budget": int(float_lots),
+        "capital_for_one_lot_at_target": round(sigma_cny / (target_pct / 100.0), 2),
+    }
+
+
+def index_return_corr(a_code, b_code, years=REPLAY_YEARS):
+    """Daily-return correlation of two index panels -- the basis leak a cross-index hedge
+    leaves behind.  Absent panels print as None rather than as a flattering 1.0."""
+    try:
+        a = BASE.load_index(a_code)
+        b = BASE.load_index(b_code)
+    except Exception:
+        return None
+    days = sorted(set(a) & set(b))
+    if len(days) < 61:
+        return None
+    cutoff = days[-1]
+    want = str(int(cutoff[:4]) - int(years)) + cutoff[4:]
+    days = [d for d in days if d >= want]
+    if len(days) < 61:
+        return None
+    ra, rb = [], []
+    for p, q in zip(days, days[1:]):
+        if a.get(p) and b.get(p) and a.get(q) and b.get(q):
+            ra.append(a[q] / a[p] - 1.0)
+            rb.append(b[q] / b[p] - 1.0)
+    if len(ra) < 60:
+        return None
+    ma = sum(ra) / len(ra)
+    mb = sum(rb) / len(rb)
+    cov = sum((x - ma) * (y - mb) for x, y in zip(ra, rb))
+    va = sum((x - ma) ** 2 for x in ra)
+    vb = sum((y - mb) ** 2 for y in rb)
+    if va <= 0 or vb <= 0:
+        return None
+    return round(cov / math.sqrt(va * vb), 4)
+
+
+def hedge_block(prod, desk_rows):
+    """What it costs to neutralise the index leg, read from the ticket's own bank of carry.
+
+    Shorting an index future is not free: the short leg's own discount passes to the other
+    side, so the hedge is priced at the short leg's carry.  A contract that sits at par is
+    therefore the cheap hedge, and one that carries as much as the long leg gives the whole
+    sleeve away.  Both numbers come from `gap_after_roll_cost_pp` on the ticket, which
+    already nets that product's measured roll cost -- this face adds no estimator.
+    """
+    me = (desk_rows or {}).get(prod) or {}
+    if not isinstance(me, dict):
+        return {"status": "UNPRICED", "reason": "%s is not on the ticket" % prod}
+    g = me.get("gap_after_roll_cost_pp") or {}
+    long_carry = g.get("measured_median")
+    basis = "measured_median"
+    if long_carry is None:
+        long_carry = g.get("file_floor")
+        basis = "file_floor"
+    if long_carry is None:
+        return {"status": "UNPRICED",
+                "reason": "the ticket prints no carry for %s, so no hedge can be priced" % prod}
+    cands = []
+    for other, r in sorted((desk_rows or {}).items()):
+        if other == prod or not isinstance(r, dict) or r.get("status") != "ok":
+            continue
+        og = r.get("gap_after_roll_cost_pp") or {}
+        cost = og.get("measured_median")
+        cbasis = "measured_median"
+        if cost is None:
+            cost = og.get("file_floor")
+            cbasis = "file_floor"
+        if cost is None:
+            continue
+        cands.append({"hedge_product": other,
+                      "cost_pp_per_year": round(float(cost), 3),
+                      "cost_basis": cbasis})
+    if not cands:
+        return {"status": "UNPRICED",
+                "reason": "no other product prints a carry, so no short leg can be priced"}
+    best = min(cands, key=lambda c: (c["cost_pp_per_year"], c["hedge_product"]))
+    net = float(long_carry) - best["cost_pp_per_year"]
+    return {
+        "status": "ok",
+        "long_carry_pp": round(float(long_carry), 3),
+        "long_carry_basis": basis,
+        "candidates": cands,
+        "cheapest": best,
+        "net_carry_after_hedge_pp": round(net, 3),
+        "verdict": ("HEDGE_KEEPS_THE_CARRY" if net >= 0.5 * float(long_carry)
+                    else "HEDGE_GIVES_IT_AWAY"),
+    }
+
+
+def sizing_block(prod, rows, mult, capital, idx_close, desk_rows,
+                 target_pct=TARGET_VOL_PCT):
+    """The ticket's lots re-read under the 8% vol target, both arms, plus the hedge price.
+
+    The ticket sizes on drawdown survival ("how many lots survive the drawdown it has
+    already seen"), which is a different ruler from the book's 8% vol target.  Two arms are
+    printed because they are two different trades: unhedged the line is mostly the index,
+    hedged it is the discount -- and only the second one can be sized to a vol budget
+    without pretending the index beta is free.
+    """
+    series = per_lot_daily(rows, idx_close)
+    if not series or not series["days"]:
+        return {"status": "NO_ROWS"}
+    out = {
+        "status": "ok",
+        "window": series["window"],
+        "days": series["days"],
+        "forced_rolls": series["forced_rolls"],
+        "target_pct": target_pct,
+        "capital_cny": capital,
+        "unhedged": vol_target_arm(_ann_vol_cny(series["fut_points"], mult), capital, target_pct),
+        "hedged": vol_target_arm(_ann_vol_cny(series["excess_points"], mult), capital, target_pct),
+        "hedge": hedge_block(prod, desk_rows),
+    }
+    hp = (out["hedge"] or {}).get("cheapest") or {}
+    if hp.get("hedge_product"):
+        out["hedge"]["index_corr_with_long"] = index_return_corr(
+            BASE.PAIRS[prod][0], BASE.PAIRS[hp["hedge_product"]][0])
+    return out
+
+
 # ----------------------------------------------------------------------- run
 def run(now=None, write=True):
     desk = _load(DESK_PATH)
@@ -374,6 +569,8 @@ def run(now=None, write=True):
     accounts = ledger.setdefault("accounts", {})
     notes = []
     total_appended = 0
+    sizing = {}
+    desk_rows = desk.get("rows") or {}
 
     for prod, t in sorted(ticket.items()):
         rows, rolls = position_series(prod)
@@ -408,12 +605,24 @@ def run(now=None, write=True):
         notes.append("%s: %s (%s)" % (prod, note, t["contract"]))
         acct["replay"] = replay_block(prod, rows, acct["lots"], acct["multiplier"],
                                       idx_close=idx_close)
+        sizing[prod] = sizing_block(prod, rows, acct["multiplier"], acct["capital_cny"],
+                                    idx_close, desk_rows)
+        s_hedged = (sizing[prod].get("hedged") or {})
+        if s_hedged.get("lots_float") is not None and acct["lots"]:
+            notes.append("%s: ticket %d lot(s) vs %.2f at the %g%% vol target (hedged arm)"
+                         % (prod, acct["lots"], s_hedged["lots_float"], TARGET_VOL_PCT))
 
     ledger["evidence_cutoff"] = str(
         (desk.get("evidence_cutoff") or datetime.now().strftime("%Y-%m-%d")))
+    # the judgement's cutoff and the bars' cutoff are not the same date: the ticket is
+    # judged on the continuous panel while the contract cache can lag it by a few sessions.
+    # Printing both keeps a 11-16 ticket from reading as an 11-16 fill.
+    ledger["contract_cutoff"] = max(
+        [(a.get("rows") or [{}])[-1].get("date") or "" for a in accounts.values()] or [""]) or None
     ledger["generated"] = (now or datetime.now()).strftime("%Y-%m-%dT%H:%M:%S")
     ledger["source_face"] = "results/idx_fut_desk_sheet.json"
     ledger["ticket"] = ticket
+    ledger["sizing"] = sizing
     ledger["note"] = ("forward lines only; a replay block is published beside each "
                       "account and never merged into its NAV series")
 
@@ -421,7 +630,16 @@ def run(now=None, write=True):
         _dump(LEDGER_PATH, ledger)
         latest = _latest(ledger)
         _dump(LATEST_PATH, latest)
-        write_doc(latest)
+        _dump(SIZING_PATH, {"kind": "idx_fut_carry_paper_sizing",
+                            "evidence_cutoff": ledger.get("evidence_cutoff"),
+                            "generated": ledger.get("generated"),
+                            "target_pct": TARGET_VOL_PCT,
+                            "source_face": "results/idx_fut_desk_sheet.json",
+                            "accounts": sizing,
+                            "note": "the ticket sizes on drawdown survival; this face "
+                                    "re-reads the same position under the book's 8% vol "
+                                    "target, unhedged and hedged, and prices the hedge"})
+        write_doc(latest, sizing)
     print("idx_fut_carry_paper: %d bar(s) appended" % total_appended)
     for n in notes:
         print("  " + n)
@@ -431,17 +649,23 @@ def run(now=None, write=True):
 DOC_PATH = os.path.join(ROOT, "research", "IDX_FUT_CARRY_PAPER.md")
 
 
-def write_doc(latest):
+def write_doc(latest, sizing=None):
     """One page, no prose beyond what the numbers need: a desk reads this, not a report."""
     acc = latest.get("accounts") or {}
     if not acc:
         return
+    sizing = sizing if sizing is not None else (latest.get("sizing") or {})
     out = []
     out.append("# the carry sleeve, booked forward")
     out.append("")
-    out.append("evidence cutoff: **%s** | generated %s | "
+    out.append("evidence cutoff: **%s** | contract bars to **%s** | generated %s | "
                "source judgement: `results/idx_fut_desk_sheet.json`"
-               % (latest.get("evidence_cutoff"), latest.get("generated")))
+               % (latest.get("evidence_cutoff"), latest.get("contract_cutoff") or "--",
+                  latest.get("generated")))
+    out.append("")
+    out.append("The two dates are printed because they are two dates: the ticket is judged "
+               "on the continuous panel and the contract cache can lag it by a few sessions, "
+               "so a ticket stamped with the judgement date is not a fill at that date.")
     out.append("")
     out.append("Forward lines only.  The forward series starts at the anchor below and "
                "grows one bar a day; the replay block is labelled and never merged into it.")
@@ -482,6 +706,70 @@ def write_doc(latest):
                "index -- and the reverse.  Sizing is therefore a decision about the index "
                "exposure, not about the discount.")
     out.append("")
+    out.append("## the same position at the %g%% vol target (two arms, because they are two trades)"
+               % TARGET_VOL_PCT)
+    out.append("")
+    wins = sorted({tuple(s.get("window") or []) for s in sizing.values()
+                   if (s or {}).get("window")})
+    if wins:
+        out.append("Vol is measured on the same replay window as the block above (%s..%s, "
+                   "%d bar(s)), not on the full contract history, so it answers 'what would "
+                   "this size have put on the table this year' rather than 'how volatile is "
+                   "the discount forever'." % (wins[0][0], wins[0][1],
+                                               (list(sizing.values())[0].get("days") or 0)))
+        out.append("")
+    out.append("| product | arm | vol of 1 lot | lots for %g%% | lots at or below | "
+               "capital for 1 lot | this ticket's lots | vol of those lots |"
+               % TARGET_VOL_PCT)
+    out.append("|---|---|---|---|---|---|---|---|")
+    for prod, a in sorted(acc.items()):
+        sz = sizing.get(prod) or {}
+        tick = a["lots"]
+        for arm, label in (("unhedged", "index + carry"), ("hedged", "carry only")):
+            row = sz.get(arm) or {}
+            if not row:
+                continue
+            vol_of_ticket = "%.2f%%" % (tick * row["vol_pct_of_capital_per_lot"])
+            out.append("| %s | %s | %s CNY/yr (%.2f%% of capital) | %.2f | %d | %s | %d | %s |"
+                       % (prod, label, "{:,.0f}".format(row["ann_vol_per_lot_cny"]),
+                          row["vol_pct_of_capital_per_lot"], row["lots_float"],
+                          row["lots_at_or_below_budget"],
+                          "{:,.0f}".format(row["capital_for_one_lot_at_target"]),
+                          tick, vol_of_ticket))
+    out.append("")
+    out.append("## what the hedge costs (the short leg's carry, not an estimate)")
+    out.append("")
+    out.append("| product | long carry | cheapest hedge | hedge cost | net carry | verdict | "
+               "index corr |")
+    out.append("|---|---|---|---|---|---|---|")
+    any_hedge = False
+    for prod, a in sorted(acc.items()):
+        hb = ((sizing.get(prod) or {}).get("hedge") or {})
+        if hb.get("status") != "ok":
+            continue
+        any_hedge = True
+        best = hb.get("cheapest") or {}
+        corr = hb.get("index_corr_with_long")
+        out.append("| %s | %.3f pp/yr | short %s | %.3f pp/yr | %+.3f pp/yr | %s | %s |"
+                   % (prod, hb["long_carry_pp"], best.get("hedge_product"),
+                      best.get("cost_pp_per_year"), hb["net_carry_after_hedge_pp"],
+                      hb["verdict"], "--" if corr is None else "%.3f" % corr))
+    if not any_hedge:
+        out.append("| -- | -- | -- | -- | -- | UNPRICED | -- |")
+    out.append("")
+    out.append("**Read the two arms together.**  The ticket sizes on drawdown survival -- "
+               "how many lots survive the drawdown this sleeve has already seen.  That is a "
+               "different ruler from the book's %g%% vol target: unhedged, one lot is mostly "
+               "index beta, so the target buys a fraction of a lot; hedged to the discount it "
+               "buys a whole lot or more.  The hedge is priced at the short leg's own carry, "
+               "which is why the cheap hedge is the contract sitting nearest par -- shorting "
+               "a leg that carries as much as the long one hands the sleeve away, and that "
+               "shows up as a negative net carry rather than as a caveat." % TARGET_VOL_PCT)
+    out.append("")
+    out.append("Basis risk is printed as the daily-return correlation of the two indices: a "
+               "cross-index hedge leaves that residual behind, and it is not netted out of "
+               "the net-carry column.")
+    out.append("")
     out.append("Entry is filled at the anchor close and rolls are booked at the same close "
                "(no slippage assumed, printed as `entry_fill_assumed_at_close` and "
                "`n_rolls` so a reader can charge them).")
@@ -506,7 +794,9 @@ def _latest(ledger):
     out = {
         "kind": "idx_fut_carry_paper_latest",
         "evidence_cutoff": ledger.get("evidence_cutoff"),
+        "contract_cutoff": ledger.get("contract_cutoff"),
         "generated": ledger.get("generated"),
+        "sizing": ledger.get("sizing") or {},
         "accounts": {},
     }
     for prod, acct in sorted((ledger.get("accounts") or {}).items()):
@@ -614,6 +904,52 @@ def selftest():
     # 10. an empty desk sheet is refused, not silently booked
     check("L17 empty ticket refused", read_ticket({"candidates": [], "rows": {}}) == {})
 
+    # 11. the per-lot series is close-to-close on the held leg, no anchor dependence
+    ser = per_lot_daily(rows2, None)
+    check("L18 futures points are close-to-close", abs(ser["fut_points"][0] - 20.0) < 1e-9)
+    check("L18b futures points end on the last bar", abs(ser["fut_points"][-1] - 25.0) < 1e-9)
+
+    # 12. the hedged arm is priced on the same notional, not on the futures move
+    idx = {"2026-11-12": 100.0, "2026-11-13": 110.0}
+    ser2 = per_lot_daily(rows2, idx)
+    check("L19 excess leg nets the index out",
+          abs(ser2["excess_points"][-1] - (25.0 - 6350.0 * 0.1)) < 1e-6)
+
+    # 13. vol scales with the moves, so the lot count scales inversely
+    va = _ann_vol_cny([1.0, -1.0] * 30, 200)
+    vb = _ann_vol_cny([2.0, -2.0] * 30, 200)
+    check("L20 doubling the moves doubles the vol", abs(vb - 2.0 * va) < 1e-6)
+    check("L20b doubling the vol halves the lots",
+          abs(vol_target_arm(va, 1e6, 8.0)["lots_float"]
+              - 2.0 * vol_target_arm(vb, 1e6, 8.0)["lots_float"]) < 1e-9)
+
+    # 14. the floored lot count never claims more vol than the budget
+    arm = vol_target_arm(60000.0, 1e6, 8.0)
+    check("L21 floor stays under the budget",
+          arm["lots_at_or_below_budget"] <= arm["lots_float"]
+          and arm["lots_at_or_below_budget"] * 60000.0 / 1e6 * 100.0 <= 8.0 + 1e-9)
+    check("L22 capital for one lot is sigma over the target",
+          abs(arm["capital_for_one_lot_at_target"] - 60000.0 / 0.08) < 1e-6)
+
+    # 15. the hedge is the cheapest short leg, not the one carrying the most
+    desk3 = {"IC": {"status": "ok", "gap_after_roll_cost_pp": {"measured_median": 6.856}},
+             "IF": {"status": "ok", "gap_after_roll_cost_pp": {"measured_median": 0.65}},
+             "IM": {"status": "ok", "gap_after_roll_cost_pp": {"measured_median": 8.068}}}
+    hb = hedge_block("IC", desk3)
+    check("L23 cheapest hedge wins", hb["cheapest"]["hedge_product"] == "IF")
+    check("L23b net carry subtracts the hedge cost",
+          abs(hb["net_carry_after_hedge_pp"] - (6.856 - 0.65)) < 1e-3)
+    check("L24 a hedge keeps the carry", hb["verdict"] == "HEDGE_KEEPS_THE_CARRY")
+
+    # 16. a short leg that carries as much as the long one gives the sleeve away
+    desk4 = {"IC": desk3["IC"], "IM": desk3["IM"]}
+    hb4 = hedge_block("IC", desk4)
+    check("L25 expensive hedge is refused", hb4["verdict"] == "HEDGE_GIVES_IT_AWAY")
+    check("L26 no carry face is UNPRICED, not zero",
+          hedge_block("IC", {"IC": {"status": "ok"}})["status"] == "UNPRICED")
+    check("L27 no rows is NO_ROWS, not a size",
+          sizing_block("IC", [], 200, 1e6, None, desk3)["status"] == "NO_ROWS")
+
     total = ok + len(bad)
     if bad:
         print("idx_fut_carry_paper selftest %d/%d FAILED: %s" % (ok, total, ", ".join(bad)))
@@ -644,6 +980,23 @@ def show():
                 print("       of which index %+.2f%% and discount %+.2f%% of capital"
                       % (rb["index_pnl_cny"] / a["capital_cny"] * 100.0,
                          rb["excess_pct_of_capital"]))
+        sz = (led.get("sizing") or {}).get(prod) or {}
+        for arm, label in (("unhedged", "index+carry"), ("hedged", "carry only")):
+            row = sz.get(arm) or {}
+            if not row:
+                continue
+            print("     %-11s vol %6.2f%% of capital per lot -> %.2f lot(s) for %g%% "
+                  "(this ticket's %d lot(s) run %.2f%%)"
+                  % (label, row["vol_pct_of_capital_per_lot"], row["lots_float"],
+                     row.get("target_pct", TARGET_VOL_PCT), a["lots"],
+                     a["lots"] * row["vol_pct_of_capital_per_lot"]))
+        hb = sz.get("hedge") or {}
+        if hb.get("status") == "ok":
+            print("     hedge: short %s costs %.3f pp/yr -> net carry %+.3f pp/yr %s"
+                  % (hb["cheapest"]["hedge_product"], hb["cheapest"]["cost_pp_per_year"],
+                     hb["net_carry_after_hedge_pp"], hb["verdict"]))
+        elif hb:
+            print("     hedge: %s (%s)" % (hb.get("status"), hb.get("reason")))
     return 0
 
 
