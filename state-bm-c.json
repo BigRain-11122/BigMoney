@@ -1544,5 +1544,6 @@
  "evidence_cutoff": "2026-11-13",
  "decisions_watermark": "group decisions.md sha256 bee18d6c... == the watermark r1766 advanced; batches 64/65/66 already consumed, zero new lines, zero execution action",
  "verify_smoke_r1767": "results/_smoke_r1767b.out: Summary 618/618 PASS, 0 FAIL, wall clock 769.9s over 616 legs; both etf_book_month_condition legs PASS (selftest 11/11, check {\"ok\": true, \"verdict\": \"NO_VISIBLE_CONDITION\", \"p_shuffle\": 0.6602})",
- "verify_args": "the suite calls legs as `--selftest`/`--check`; the new face accepted only bare words and returned rc2 usage. main() now lstrips dashes -- same defect class as a leg that never ran because its flag spelling differed."
+ "verify_args": "the suite calls legs as `--selftest`/`--check`; the new face accepted only bare words and returned rc2 usage. main() now lstrips dashes -- same defect class as a leg that never ran because its flag spelling differed.",
+ "verify_smoke_read": "Tools/smoke_red.py 的第一个位置参数是 **record 路径**（默认 logs/smoke_legs.json），不是套件的 .out 文件；把 results/_smoke_r1767b.out 喂进去它会当 JSON 解析失败 -> rc2 UNKNOWN，读起来像「套件没跑绿」（本窗实犯一次，r1766 窗同款误读）。正法=不带参数跑 `python Tools/smoke_red.py` -> 2026-11-16T12:57:52: 618/618 PASS, 0 FAIL (green) rc0。判据取 record、不自造：record failed=[] / pass=618 / fail=0 / legs=618 与 .out 摘要逐字一致。"
 }
