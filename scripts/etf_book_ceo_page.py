@@ -6825,8 +6825,24 @@ def futures_sleeve_face():
         return {"status": "unreadable", "readable": False,
                 "why": "the desk sheet carries none of IC/IF/IH/IM"}
     book = ds.get("book") or {}
+    _cut = ds.get("evidence_cutoff")
+    # r1793: two legs, one stamp. The notional is struck on the futures contract panel's last
+    # bar, the carry/verdict on the source face -- and on 11-16 those were 11-13 and 11-16, so
+    # this section printed "2026-11-16" over prices that were three sessions old. Publish the
+    # bar each number was actually struck on and the section cannot claim the newer one.
+    _legs = {}
+    for r in out_rows:
+        _legs[r["product"]] = (rows.get(r["product"]) or {}).get("cutoff")
+    _bars = [b for b in _legs.values() if isinstance(b, str) and b]
+    _behind = sorted(p for p, b in _legs.items()
+                     if isinstance(b, str) and _cut and b < str(_cut))
+    _priced = min(_bars + ([str(_cut)] if _cut else [])) if (_bars or _cut) else None
     return {"status": "ok", "readable": True,
             "evidence_cutoff": ds.get("evidence_cutoff"),
+            # the oldest bar any printed number here was struck on, named with the legs behind
+            "priced_bar": _priced,
+            "leg_bars": _legs,
+            "legs_behind": _behind,
             "capital_cny": out_rows[0].get("capital_cny"),
             "book": {"ann_compound_pct": _num(book, "ann_compound_pct"),
                      "sharpe": _num(book, "sharpe")},
@@ -7032,6 +7048,15 @@ def futures_sleeve_block(fs):
                % (fs.get("evidence_cutoff") or "未标注",
                   fs.get("desk_path") or "results/idx_fut_desk_sheet.json",
                   fs.get("risk_path") or "results/idx_fut_carry_risk.json"))
+    # r1793: an honest section names the oldest bar it printed, not the newest one it saw.
+    if fs.get("legs_behind"):
+        out.append("- **上面那些名义价不在这根 bar 上**：%s 的合约价停在 %s，所以这一节最旧的"
+                   "价格 bar 是 %s，而 carry 与判决取 %s——两个数不是同一天的量，"
+                   "别把它们放进同一次计算。"
+                   % ("、".join(fs["legs_behind"]),
+                      "、".join(sorted({str((fs.get("leg_bars") or {}).get(p))
+                                       for p in fs["legs_behind"]})),
+                      fs.get("priced_bar") or "?", fs.get("evidence_cutoff") or "?"))
     out.append("")
     return out
 
@@ -7256,10 +7281,28 @@ def lot_floor_face():
         c = (by.get(inst) or {}).get("capital_where_it_becomes_a_leg")
         if isinstance(c, (int, float)):
             need[inst] = c
+    # r1793: every share above is one price divided by one account. Name the bar each of those
+    # prices was struck on: on 11-16 this section stamped 11-16 while the contract and leg
+    # panels were still on 11-13, so a reader comparing two mornings saw the same day disagree
+    # with itself. The honest bar is the OLDEST one any printed number came off.
+    _cut = d.get("evidence_cutoff")
+    _leg_bars = {}
+    for l in legs:
+        if not isinstance(l, dict):
+            continue
+        pd = l.get("price_date")
+        if isinstance(pd, str) and pd:
+            _leg_bars[l.get("instrument")] = pd
+    _bars = sorted(_leg_bars.values())
+    _behind = sorted(i for i, b in _leg_bars.items() if _cut and b < str(_cut))
+    _priced = min(_bars + ([str(_cut)] if _cut else [])) if (_bars or _cut) else None
     return {
         "status": "ok",
         "readable": True,
         "evidence_cutoff": d.get("evidence_cutoff"),
+        "priced_bar": _priced,
+        "leg_bars": _leg_bars,
+        "legs_behind": _behind,
         "leg_max_share": (d.get("rule") or {}).get("leg_max_share_of_account"),
         "one_lot_is_the_book": list(at.get("one_lot_is_the_book") or []),
         "expressible_as_a_leg": list(at.get("expressible_as_a_leg") or []),
@@ -7311,6 +7354,14 @@ def lot_floor_block(lf):
                              % (inst, s * 100.0, "{:,.0f}".format(n)))
         out.append("- 100 万上「一手就是整本」，一手已超过账户的 %.0f%%：%s。"
                    % (line * 100.0, "；".join(parts)))
+        # r1793: the shares above are prices divided by an account; name the oldest bar.
+        if lf.get("legs_behind"):
+            out.append("- **这一节的 bar 是最旧的那一根 %s**（面自己写 %s）：%s 的价格停在 %s——"
+                       "这些占比不是同一天量出来的，隔夜差值不能直接相减。"
+                       % (lf.get("priced_bar") or "?", lf.get("evidence_cutoff") or "?",
+                          "、".join(lf["legs_behind"]),
+                          "、".join(sorted({str((lf.get("leg_bars") or {}).get(i))
+                                           for i in lf["legs_behind"]}))))
     else:
         out.append("- 100 万上没有任何品种一手就超过账户的 %.0f%%——这条线在这档账户上不成立。"
                    % (line * 100.0))
@@ -14224,6 +14275,27 @@ def selftest():
     _lf_gone = "\n".join(lot_floor_block({"readable": False, "why": "no file"}))
     chk("L315 lot floor: an unreadable face says cannot-check and prints no percentage",
         "无法核验" in _lf_gone and "127.5" not in _lf_gone and "%" not in _lf_gone, _lf_gone[:800])
+
+    # L315a-b (r1793): a section that priced two legs on two different bars must name the
+    # OLDEST one -- on 11-16 both of these stamped the newer bar over numbers struck three
+    # sessions earlier, and nothing on the page said so. The sentence is only for that case:
+    # when every leg is on the same bar it must not appear (wallpaper is not a warning).
+    _fs_lag = dict(_fs_fx, priced_bar="2026-11-13", evidence_cutoff="2026-11-16",
+                   leg_bars={"IC": "2026-11-13", "IH": "2026-11-16"}, legs_behind=["IC"])
+    _fs_lag_md = "\n".join(futures_sleeve_block(_fs_lag))
+    chk("L315a futures sleeve: a lagging leg is named with the oldest bar, not the newest",
+        "不在这根 bar 上" in _fs_lag_md and "2026-11-13" in _fs_lag_md
+        and "2026-11-16" in _fs_lag_md and "IC" in _fs_lag_md.split("不在这根 bar 上")[1][:80],
+        _fs_lag_md[-900:])
+    chk("L315b futures sleeve: no warning when every leg sits on the same bar",
+        "不在这根 bar 上" not in _fs_md, _fs_md[-400:])
+    _lf_lag = dict(_lf_fx, priced_bar="2026-11-13", leg_bars={"IC": "2026-11-13"},
+                   legs_behind=["IC"])
+    _lf_lag_md = "\n".join(lot_floor_block(_lf_lag))
+    chk("L315c lot floor: a lagging leg is named with the oldest bar",
+        "最旧的那一根 2026-11-13" in _lf_lag_md and "IC" in _lf_lag_md, _lf_lag_md[-800:])
+    chk("L315d lot floor: no warning when every leg sits on the same bar",
+        "最旧的那一根" not in _lf_md, _lf_md[-400:])
 
     # L316-L317 (r1723): a leg whose panel file no lane refreshes must be named on the page
     # together with the bar it stopped on; an unreadable lane roster must say it cannot tell,

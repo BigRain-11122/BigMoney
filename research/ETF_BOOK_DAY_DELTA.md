@@ -5,13 +5,13 @@
 - 判决：**UNEXPLAINED_MOVES**
 
 ## 一句话
-两天**是同一根 bar**（没有新数据进来），这页有 **264** 个数变了；其中 **6** 个是钟面（机器多久没说话之类，本来就该走）、**0** 个能给出解释（旧数还在页上或口径句改了）、**29** 个没解释。新增 **11** 个数字叶子、消失 **3** 个。
+两天**是同一根 bar**（没有新数据进来），这页有 **264** 个数变了；其中 **6** 个是钟面（机器多久没说话之类，本来就该走）、**236** 个能给出解释（旧数还在页上／口径句改了／这一节换了代／这一节换了定价的输入／这个数只是转抄别面）、**22** 个没解释。新增 **11** 个数字叶子、消失 **3** 个。
 
 ## 动的数（全部 264 个）
 
 | 数字 | 昨天 | 今天 | 判读 | 依据 |
 |---|---|---|---|---|
-| `/authority/owner_silent_h` | 68.4 | 6.6 | CLOCK |  |
+| `/authority/owner_silent_h` | 68.4 | 7.3 | CLOCK |  |
 | `/causal_rebuild/elapsed_sec` | 118.9 | 82.4 | CLOCK |  |
 | `/derisk/instrument/dd_brake/distance_to_line_pp` | 4.1 | 4.33 | SECTION_ADVANCED | 这一节自己换了代：`derisk` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
 | `/derisk/instrument/dd_brake/spread_pp` | 17.71 | 17.36 | SECTION_ADVANCED | 这一节自己换了代：`derisk` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
@@ -61,12 +61,12 @@
 | `/do_or_wait/table/3/mean_cny` | -2912.473314066595 | -2882.084463921774 | SECTION_ADVANCED | 这一节自己换了代：`do_or_wait` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
 | `/do_or_wait/table/3/share_late_helps` | 0.43132530120481927 | 0.4326923076923077 | SECTION_ADVANCED | 这一节自己换了代：`do_or_wait` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
 | `/do_or_wait/table/3/t` | -4.231648631666141 | -4.205498567925245 | SECTION_ADVANCED | 这一节自己换了代：`do_or_wait` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/family_coherence/floor_extrapolation/gap_pp` | 0.145 | 0.05 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/family_coherence/floor_extrapolation/observed_pp` | 0.365 | 0.385 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/family_coherence/floor_extrapolation/predicted_pp` | 0.22 | 0.335 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/family_coherence/floor_extrapolation/tolerance_pp` | 0.081 | 0.172 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/family_coherence/signflip/arms/2/cells_positive` | 0 | 3 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/family_coherence/signflip/n_reject_standing` | 3 | 2 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
+| `/family_coherence/floor_extrapolation/gap_pp` | 0.145 | 0.05 | INPUT_IDENTITY_CHANGED | 这一节的输入身份变了：`family_coherence` 昨天按 0988c6530a481fa1、e6f9d0e81a64ec75 定价、今天按 0988c6530a481fa1 定价——数字换的是「拿什么算的」，不是同一根 bar 上的读数 |
+| `/family_coherence/floor_extrapolation/observed_pp` | 0.365 | 0.385 | INPUT_IDENTITY_CHANGED | 这一节的输入身份变了：`family_coherence` 昨天按 0988c6530a481fa1、e6f9d0e81a64ec75 定价、今天按 0988c6530a481fa1 定价——数字换的是「拿什么算的」，不是同一根 bar 上的读数 |
+| `/family_coherence/floor_extrapolation/predicted_pp` | 0.22 | 0.335 | INPUT_IDENTITY_CHANGED | 这一节的输入身份变了：`family_coherence` 昨天按 0988c6530a481fa1、e6f9d0e81a64ec75 定价、今天按 0988c6530a481fa1 定价——数字换的是「拿什么算的」，不是同一根 bar 上的读数 |
+| `/family_coherence/floor_extrapolation/tolerance_pp` | 0.081 | 0.172 | INPUT_IDENTITY_CHANGED | 这一节的输入身份变了：`family_coherence` 昨天按 0988c6530a481fa1、e6f9d0e81a64ec75 定价、今天按 0988c6530a481fa1 定价——数字换的是「拿什么算的」，不是同一根 bar 上的读数 |
+| `/family_coherence/signflip/arms/2/cells_positive` | 0 | 3 | INPUT_IDENTITY_CHANGED | 这一节的输入身份变了：`family_coherence` 昨天按 0988c6530a481fa1、e6f9d0e81a64ec75 定价、今天按 0988c6530a481fa1 定价——数字换的是「拿什么算的」，不是同一根 bar 上的读数 |
+| `/family_coherence/signflip/n_reject_standing` | 3 | 2 | INPUT_IDENTITY_CHANGED | 这一节的输入身份变了：`family_coherence` 昨天按 0988c6530a481fa1、e6f9d0e81a64ec75 定价、今天按 0988c6530a481fa1 定价——数字换的是「拿什么算的」，不是同一根 bar 上的读数 |
 | `/fleet/rows/0/age_h` | 66.91 | 3.45 | CLOCK |  |
 | `/fleet/rows/1/age_h` | 413.39 | 419.73 | CLOCK |  |
 | `/fleet/rows/2/age_h` | 1.09 | 1.35 | CLOCK |  |
@@ -203,7 +203,7 @@
 | `/premium_forward/rows/4/n` | 107 | 172 | SECTION_ADVANCED | 这一节自己换了代：`premium_forward` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
 | `/premium_forward/rows/4/same_bucket_move_cny` | 1783.4714146678095 | 1188.9444541090584 | SECTION_ADVANCED | 这一节自己换了代：`premium_forward` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
 | `/premium_forward/rows/4/t` | 3.899475787273565 | 4.544192330848934 | SECTION_ADVANCED | 这一节自己换了代：`premium_forward` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/roster_audit/local_copies/0/laneside/value` | 187 | 185 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
+| `/roster_audit/local_copies/0/laneside/value` | 187 | 185 | QUOTED_FROM_SOURCE | 这个数不是这页算的：`results/ah_panel_status.json:fresh_pairs` 现在读 185，与今天印的 185 相同——页只是转抄，动的是被引用的那张面 |
 | `/vol_target_gate/arms/0/cagr_pct` | 14.16 | 14.05 | SECTION_ADVANCED | 这一节自己换了代：`vol_target_gate` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
 | `/vol_target_gate/arms/0/sharpe` | 0.943 | 0.938 | SECTION_ADVANCED | 这一节自己换了代：`vol_target_gate` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
 | `/vol_target_gate/arms/1/cagr_pct` | 8.51 | 8.43 | SECTION_ADVANCED | 这一节自己换了代：`vol_target_gate` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
@@ -336,12 +336,12 @@
 - `/do_or_wait/table/3/mean_cny`：**-2912.473314066595 → -2882.084463921774**（差 30.38885）｜SECTION_ADVANCED｜这一节自己换了代：`do_or_wait` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
 - `/do_or_wait/table/3/share_late_helps`：**0.43132530120481927 → 0.4326923076923077**（差 0.001367）｜SECTION_ADVANCED｜这一节自己换了代：`do_or_wait` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
 - `/do_or_wait/table/3/t`：**-4.231648631666141 → -4.205498567925245**（差 0.02615）｜SECTION_ADVANCED｜这一节自己换了代：`do_or_wait` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/family_coherence/floor_extrapolation/gap_pp`：**0.145 → 0.05**（差 -0.095）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/family_coherence/floor_extrapolation/observed_pp`：**0.365 → 0.385**（差 0.02）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/family_coherence/floor_extrapolation/predicted_pp`：**0.22 → 0.335**（差 0.115）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/family_coherence/floor_extrapolation/tolerance_pp`：**0.081 → 0.172**（差 0.091）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/family_coherence/signflip/arms/2/cells_positive`：**0 → 3**（差 3）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/family_coherence/signflip/n_reject_standing`：**3 → 2**（差 -1）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
+- `/family_coherence/floor_extrapolation/gap_pp`：**0.145 → 0.05**（差 -0.095）｜INPUT_IDENTITY_CHANGED｜这一节的输入身份变了：`family_coherence` 昨天按 0988c6530a481fa1、e6f9d0e81a64ec75 定价、今天按 0988c6530a481fa1 定价——数字换的是「拿什么算的」，不是同一根 bar 上的读数
+- `/family_coherence/floor_extrapolation/observed_pp`：**0.365 → 0.385**（差 0.02）｜INPUT_IDENTITY_CHANGED｜这一节的输入身份变了：`family_coherence` 昨天按 0988c6530a481fa1、e6f9d0e81a64ec75 定价、今天按 0988c6530a481fa1 定价——数字换的是「拿什么算的」，不是同一根 bar 上的读数
+- `/family_coherence/floor_extrapolation/predicted_pp`：**0.22 → 0.335**（差 0.115）｜INPUT_IDENTITY_CHANGED｜这一节的输入身份变了：`family_coherence` 昨天按 0988c6530a481fa1、e6f9d0e81a64ec75 定价、今天按 0988c6530a481fa1 定价——数字换的是「拿什么算的」，不是同一根 bar 上的读数
+- `/family_coherence/floor_extrapolation/tolerance_pp`：**0.081 → 0.172**（差 0.091）｜INPUT_IDENTITY_CHANGED｜这一节的输入身份变了：`family_coherence` 昨天按 0988c6530a481fa1、e6f9d0e81a64ec75 定价、今天按 0988c6530a481fa1 定价——数字换的是「拿什么算的」，不是同一根 bar 上的读数
+- `/family_coherence/signflip/arms/2/cells_positive`：**0 → 3**（差 3）｜INPUT_IDENTITY_CHANGED｜这一节的输入身份变了：`family_coherence` 昨天按 0988c6530a481fa1、e6f9d0e81a64ec75 定价、今天按 0988c6530a481fa1 定价——数字换的是「拿什么算的」，不是同一根 bar 上的读数
+- `/family_coherence/signflip/n_reject_standing`：**3 → 2**（差 -1）｜INPUT_IDENTITY_CHANGED｜这一节的输入身份变了：`family_coherence` 昨天按 0988c6530a481fa1、e6f9d0e81a64ec75 定价、今天按 0988c6530a481fa1 定价——数字换的是「拿什么算的」，不是同一根 bar 上的读数
 - `/floor_provenance/grid/full|all/bars`：**1663 → 1664**（差 1）｜SECTION_ADVANCED｜这一节自己换了代：`floor_provenance` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
 - `/floor_provenance/grid/full|graded/bars`：**1663 → 1664**（差 1）｜SECTION_ADVANCED｜这一节自己换了代：`floor_provenance` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
 - `/floor_provenance/issuing_cell/bars`：**1663 → 1664**（差 1）｜SECTION_ADVANCED｜这一节自己换了代：`floor_provenance` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
@@ -474,7 +474,7 @@
 - `/premium_forward/rows/4/n`：**107 → 172**（差 65）｜SECTION_ADVANCED｜这一节自己换了代：`premium_forward` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
 - `/premium_forward/rows/4/same_bucket_move_cny`：**1783.4714146678095 → 1188.9444541090584**（差 -594.526961）｜SECTION_ADVANCED｜这一节自己换了代：`premium_forward` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
 - `/premium_forward/rows/4/t`：**3.899475787273565 → 4.544192330848934**（差 0.644717）｜SECTION_ADVANCED｜这一节自己换了代：`premium_forward` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/roster_audit/local_copies/0/laneside/value`：**187 → 185**（差 -2）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
+- `/roster_audit/local_copies/0/laneside/value`：**187 → 185**（差 -2）｜QUOTED_FROM_SOURCE｜这个数不是这页算的：`results/ah_panel_status.json:fresh_pairs` 现在读 185，与今天印的 185 相同——页只是转抄，动的是被引用的那张面
 - `/vol_target_gate/arms/0/cagr_pct`：**14.16 → 14.05**（差 -0.11）｜SECTION_ADVANCED｜这一节自己换了代：`vol_target_gate` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
 - `/vol_target_gate/arms/0/sharpe`：**0.943 → 0.938**（差 -0.005）｜SECTION_ADVANCED｜这一节自己换了代：`vol_target_gate` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
 - `/vol_target_gate/arms/1/cagr_pct`：**8.51 → 8.43**（差 -0.08）｜SECTION_ADVANCED｜这一节自己换了代：`vol_target_gate` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
@@ -549,6 +549,13 @@
 
 同一个隔夜、同一根 bar、同一笔钱，这页昨天给一个答案、今天给另一个。两个答案不可能都对：走 `RECOVERED_OLD_VALUE`／`DECLARED_RULER` 的那一条说明**是新答案改了算法**（旧数还在页上或口径句改了），读的人要按新口径重读昨天的判断；没有这两条说明的，就是这页偷偷换了数。
 
+## 还有哪些节在同 bar 上改了数（22 个）
+
+- `lot_floor`：18 个
+- `futures_sleeve`：4 个
+
+这几节的位移**没有任何解释**（不是转抄、不是换输入、不是换代）。页要在同一根 bar 上改这些数，就得自己写出理由；写不出来，读的人就分不清「今天变了」和「口径变了」。
+
 ## 怎么读
 
 - `CLOCK`＝钟面（`age_h`/`silent_h`/`lag_days` 这类）：没有新 bar 也该走，不构成问题；但它的存在说明「哪些数允许自己走」是**名单制**的，名单写在本脚本顶部，不由数据推出来。
@@ -556,6 +563,8 @@
 - `RECOVERED_OLD_VALUE`＝昨天那个数今天还在页上，只是换了名字——那是**改名**不是重算；读的人必须知道这一点，否则会把「口径换了」读成「今天变了」。
 - `DECLARED_RULER`＝同一块里的口径句（`ruler`/`basis`/`convention`）改了，位移由它自己声明；句子改了而读者没看见，等于数被悄悄换了定义。
 - `SECTION_ADVANCED`＝这一**节**自己换了代（标题那根 bar 两天相同，这一节不同，按 `results/live_book_section_bars.json` 判）：不是同 bar 重算漂移，而是页面里混着两代数据（页面本身另有 `PAGE_MIXES_BARS` 面在报）。
+- `INPUT_IDENTITY_CHANGED`＝这一节**拿什么算**变了：它在自己身上写下的面板指纹（16 位十六进制）两天不同。族面是按「几个臂已重算」分批定价的，换一批臂，同一根 bar 上这一节的数就会动——这是它自己的输入变了，不是它在同一天改了口径。本档与 `DECLARED_RULER` 同一弱点：它信的是这一节自己的宣告，不独立复算。
+- `QUOTED_FROM_SOURCE`＝这个数不是这页算的：它的块里写着 `source`（如`results/x.json:fresh_pairs`），而那个文件**现在**读到的值正好等于今天印的值。页只是转抄，动的是被引用的那张面（另一条车道）；写这张面的人不是改数的人。
 - `UNEXPLAINED`＝既没有旧值留存、也没有口径声明——**这一档非零就是本面要报的事**。
 
 ## 未验证（如实）

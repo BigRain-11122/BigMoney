@@ -195,7 +195,7 @@
  "last_decisions_read_at": "2026-11-17T02:35:33+08:00",
  "last_decisions_read_note": "r1677: decisions raw-blob sha256 3bdddebd... (batch-61 execution addendum: D-20261114-01 already executed by the round itself / D-02 writer located nowhere) -> zero BigMoney action, watermark only",
  "last_decisions_seen": "188744b9ccd31da9a5a7bcb5e78d4883ca3193272c5ba6f54386d1108c20b9cb",
- "last_decisions_sha": "08c0859eb179b0244b616656ba02d76d9f4a1e15fe5da0043df3464b343bd0b4",
+ "last_decisions_sha": "f7d8fe43fb42f0c0b70c4d7babd0152d23bf03b727a1a338bc17c1556c3c3919",
  "last_decisions_sha_method": "sha256(git show origin/main:docs/decisions.md raw bytes)",
  "last_decisions_watermark": "08c0859eb179b024@2b21d4c/149431",
  "last_decisions_watermark_v2": "v2:BigRain-11122/FluxGroup@2b21d4cb949aa715079eaa8a7593a5d12b23a5a7/149431#08c0859eb179b0244b616656ba02d76d9f4a1e15fe5da0043df3464b343bd0b4",
@@ -961,7 +961,7 @@
  "round_1788_next": "(a) the three remaining live_book product legs (arm count / premium rows / k_gap rows) are the same cause -- the page on disk is 20:30 and the faces it quotes moved at 21:57 and 00:34; an in-memory rebuild on bm-c passes all three, but docs/live_book is bm-a's single writer and owner_silence_hours()=4.7 < 6.0, so run() is an honest no-op here. Poke to bm-a accepted 2026-11-17T04:32:04 (worker 1.9.7) -- verify the republished page next round; (b) 8 today-word lines on the page still carry no date (census rc1 debt, pre-existing); (c) the S6 chain was not re-run this round (red-fix mission + 10-minute window).",
  "round_1788_note": "r1788: the day-word census mapped the premium one-liner ('按 DATE 的读数，这张单里可核验的 N 只票…') to premium_forward.face_asof while the numbers come from premium_leak.own_ruler_summary at THAT face's session. The forward paper is built from a later-closing panel and may sit a session behind, so the leg was green only on days the two coincided. Live receipt 2026-11-16: page JSON carries premium_forward.face_asof=2026-11-13 and premium_leak.session=2026-11-16, and the face's own 159655 last_pctile is 96.44 (in_own_top_decile=['159655']) -- the sentence was right, the mapping was wrong. Rule now reads premium_leak.session; two selftest legs pin both directions (quotes the leak face -> ok; names a third day -> mismatch).",
  "round_label": "1704",
- "round_no": 1792,
+ "round_no": 1793,
  "round_no_label": "r1785",
  "round_no_landed": 1663,
  "round_note": "r1489: a reinstated bar is re-derived from the panel, not carried over (reinstatement_check + reinstatements.json + sheet paragraph)",
@@ -1616,5 +1616,8 @@
  "went_well": "the fix keeps the old states reachable: a card with one unqualified row still takes the position-free path, so no previously published verdict changed meaning",
  "when_well": "the exec panel reused lhb_sellleg verbatim by passing a net-of-cost panel instead of writing a second event study -- the two tables cannot disagree about the quintiles because there is only one implementation",
  "who_did": "bm-c",
- "当前任务": "r1792：把 face_consumer_census 指名的 15 张「算完没人读」阶梯胜率面聚合成一页三判词（e33_ladder_census，selftest 10/10 + check ok + S6 链腿 rc0），并修 etf_book_day_delta 的「标题 bar ≠ 节 bar」假红（258→29，selftest 26/26）。"
+ "当前任务": "r1792：把 face_consumer_census 指名的 15 张「算完没人读」阶梯胜率面聚合成一页三判词（e33_ladder_census，selftest 10/10 + check ok + S6 链腿 rc0），并修 etf_book_day_delta 的「标题 bar ≠ 节 bar」假红（258→29，selftest 26/26）。",
+ "r1793_note": "r1793: 一节两腿两根 bar。隔夜差面剩的 29 个同 bar 位移逐族取证：22 个是 11-16 页把 11-16 盖在 11-13 的期货价上（算术级：6,375×200=1,275,000），6 个是族面分批重算导致面板指纹集变化，1 个是转抄 bm-a 的 ah_panel 状态面。生产者侧加 leg_bars/priced_bar/legs_behind（印章取的是最旧的那根，腿落后就印一句话）；隔夜差面加两档可证的解释（INPUT_IDENTITY_CHANGED/QUOTED_FROM_SOURCE），判决 29→22，面照旧报红。 同轮勘误：r1792 报的 e33_ladder_census `--check` 从未真跑过（脚本只认位置 `check`），套件 648/649 的唯一红就是它；已让 main() 同时接受两种写法，check ok / selftest 10/10 实跑通过。",
+ "r1793_next": "下个里程碑：等第一天腿落后看这两节自己变成 SECTION_ADVANCED（窗 ≤48h）；并把尚未定性的 22 个位移在新两页对上复查一次。",
+ "r1793_smoke": "results/_smoke_r1793.out: Summary 648/649 PASS, 1 FAIL at 07:00:09; the one red (e33_ladder_census --check unrecognized) was fixed in-round and re-verified by hand."
 }

@@ -57,6 +57,10 @@ CLOCK_TOKENS = ("age_h", "age_days", "silent_h", "silence_h", "owner_silent", "l
                 "lag_hours", "elapsed", "generated", "now_unix", "wall_clock")
 # Sentences that declare how a block was measured. A changed one is an alibi for its numbers.
 RULER_TOKENS = ("ruler", "basis", "convention", "caliber", "口径", "读法")
+# r1793: blocks that quote another lane's face name it in one of these fields. A number that
+# still equals the cited file's own reading is a copy, and the copyist is not the author.
+CITED_FIELDS = ("source", "cited_from", "quoted_from")
+_DIGEST_RE = re.compile(r"^[0-9a-f]{16}$")
 REL_TOL = 1e-9
 ABS_TOL = 1e-9
 
@@ -161,12 +165,81 @@ def _ruler_sentences(texts, parent):
     return out
 
 
+def _section_digests(doc):
+    """section key -> the set of 16-hex panel digests that section names anywhere inside it.
+
+    r1793: the family-coherence block reprices "a few arms per cycle", so on any given morning
+    some arms are priced on one panel and the rest on another -- the face says so in its own
+    `panels` list. When that set changes, the section's numbers are allowed to move *because
+    the thing they were priced on changed*, and saying so is not the same as letting a number
+    move silently. Only a 16-hex token counts: an 8-hex prefix in prose is a name, not an id.
+    """
+    out = {}
+    for p, v in text_leaves(doc or {}).items():
+        k = _section_key(p)
+        if not k:
+            continue
+        for tok in re.split(r"[^0-9a-f]+", v.lower()):
+            if _DIGEST_RE.match(tok):
+                out.setdefault(k, set()).add(tok)
+    return out
+
+
+def _block_at(doc, parent):
+    """The block a leaf sits in, so its own declared source can be read."""
+    cur = doc
+    for part in [x for x in str(parent or "").split("/") if x]:
+        if isinstance(cur, dict) and part in cur:
+            cur = cur[part]
+        elif isinstance(cur, list) and part.isdigit() and int(part) < len(cur):
+            cur = cur[int(part)]
+        else:
+            return None
+    return cur if isinstance(cur, dict) else None
+
+
+def _cited_value(block):
+    """`results/x.json:fresh_pairs` -> the value that file holds there right now (r1793).
+
+    A page that quotes another lane's status face is not the author of that number. If the
+    cited file still reads exactly what the page prints, the page is a copyist, and accusing
+    it of editing its own history is the wrong finding -- the upstream face moved.
+    """
+    if not isinstance(block, dict):
+        return None, None
+    for name in CITED_FIELDS:
+        spec = block.get(name)
+        if not isinstance(spec, str) or ":" not in spec:
+            continue
+        rel, _, field = spec.partition(":")
+        full = os.path.join(ROOT, rel.strip())
+        if not os.path.isfile(full):
+            continue
+        try:
+            with open(full, encoding="utf-8") as fh:
+                doc = json.load(fh)
+        except (OSError, ValueError):
+            continue
+        cur = doc
+        for part in field.strip().split("."):
+            if isinstance(cur, dict) and part in cur:
+                cur = cur[part]
+            else:
+                cur = None
+                break
+        if isinstance(cur, (int, float)) and not isinstance(cur, bool):
+            return cur, spec
+    return None, None
+
+
 # ----------------------------------------------------------------------------- the diff
 def _verdict_of(counts, same_cut):
     """One implementation of the precedence, so run() and the selftest cannot disagree."""
     if counts["unexplained"]:
         return "UNEXPLAINED_MOVES"
     if same_cut and (counts["recovered_old_value"] + counts["declared_ruler"]
+                     + counts.get("input_identity_changed", 0)
+                     + counts.get("quoted_from_source", 0)
                      + counts["section_advanced"]):
         return "EXPLAINED_MOVES"
     if same_cut and counts["moved"] == 0:
@@ -187,6 +260,7 @@ def delta(today, prev, sec_a=None, sec_b=None):
     vanished = sorted(p for p in tb if p not in ta)
     shared = [p for p in ta if p in tb]
     moved = sorted(p for p in shared if not _close(ta[p], tb[p]))
+    dig_a, dig_b = _section_digests(today), _section_digests(prev)
 
     moves = []
     for p in moved:
@@ -210,7 +284,27 @@ def delta(today, prev, sec_a=None, sec_b=None):
                                  % (_k, _bb, _ba))
             else:
                 old = tb[p]
+                _da = dig_a.get(_k) or set()
+                _db = dig_b.get(_k) or set()
+                _gain = sorted(_da - _db)
+                _lost = sorted(_db - _da)
+                cited, cited_from = _cited_value(_block_at(today, _parent(p)))
                 alibi = None
+                if _gain or _lost:
+                    m["kind"] = "INPUT_IDENTITY_CHANGED"
+                    m["evidence"] = (
+                        "这一节的输入身份变了：`%s` 昨天按 %s 定价、今天按 %s 定价"
+                        "——数字换的是「拿什么算的」，不是同一根 bar 上的读数"
+                        % (_k, "、".join(sorted(_db)) or "（未声明）",
+                           "、".join(sorted(_da)) or "（未声明）"))
+                elif cited is not None and _close(cited, ta[p]):
+                    m["kind"] = "QUOTED_FROM_SOURCE"
+                    m["evidence"] = ("这个数不是这页算的：`%s` 现在读 %s，与今天印的 %s 相同"
+                                     "——页只是转抄，动的是被引用的那张面"
+                                     % (cited_from, cited, ta[p]))
+                if m.get("kind") in ("INPUT_IDENTITY_CHANGED", "QUOTED_FROM_SOURCE"):
+                    moves.append(m)
+                    continue
                 for q in appeared:                  # the old number survives under a NEW name
                     if _close(ta[q], old):
                         alibi = q
@@ -241,6 +335,9 @@ def delta(today, prev, sec_a=None, sec_b=None):
         "data_advanced": sum(1 for m in moves if m["kind"] == "DATA_ADVANCED"),
         "recovered_old_value": sum(1 for m in moves if m["kind"] == "RECOVERED_OLD_VALUE"),
         "declared_ruler": sum(1 for m in moves if m["kind"] == "DECLARED_RULER"),
+        "input_identity_changed": sum(1 for m in moves
+                                     if m["kind"] == "INPUT_IDENTITY_CHANGED"),
+        "quoted_from_source": sum(1 for m in moves if m["kind"] == "QUOTED_FROM_SOURCE"),
         "section_advanced": sum(1 for m in moves if m["kind"] == "SECTION_ADVANCED"),
         "unexplained": sum(1 for m in moves if m["kind"] == "UNEXPLAINED"),
         "appeared": len(appeared),
@@ -249,6 +346,7 @@ def delta(today, prev, sec_a=None, sec_b=None):
     if counts["unexplained"]:
         verdict = "UNEXPLAINED_MOVES"
     elif same_cut and (counts["recovered_old_value"] + counts["declared_ruler"]
+                       + counts["input_identity_changed"] + counts["quoted_from_source"]
                        + counts["section_advanced"]):
         verdict = "EXPLAINED_MOVES"
     elif same_cut and counts["moved"] == 0:
@@ -260,6 +358,8 @@ def delta(today, prev, sec_a=None, sec_b=None):
     assert verdict == _verdict_of(counts, same_cut), "two implementations of the precedence"
 
     money_leaves = [m for m in moves if m["kind"] in ("RECOVERED_OLD_VALUE", "DECLARED_RULER",
+                                                      "INPUT_IDENTITY_CHANGED",
+                                                      "QUOTED_FROM_SOURCE",
                                                       "SECTION_ADVANCED", "UNEXPLAINED")]
     blocks = sorted({"/".join(p.split("/")[:3]) for p in appeared})
     return {
@@ -327,12 +427,14 @@ def write_md(p):
         "## 一句话",
     ]
     if p["same_cut"]:
+        _expl = (c["recovered_old_value"] + c["declared_ruler"] + c["section_advanced"]
+                 + c.get("input_identity_changed", 0) + c.get("quoted_from_source", 0))
         lines.append(
             "两天**是同一根 bar**（没有新数据进来），这页有 **%d** 个数变了；其中 **%d** 个是钟面"
-            "（机器多久没说话之类，本来就该走）、**%d** 个能给出解释（旧数还在页上或口径句改了）、"
-            "**%d** 个没解释。新增 **%d** 个数字叶子、消失 **%d** 个。"
-            % (c["moved"], c["clock"], c["recovered_old_value"] + c["declared_ruler"],
-               c["unexplained"], c["appeared"], c["vanished"]))
+            "（机器多久没说话之类，本来就该走）、**%d** 个能给出解释（旧数还在页上／口径句改了／"
+            "这一节换了代／这一节换了定价的输入／这个数只是转抄别面）、**%d** 个没解释。"
+            "新增 **%d** 个数字叶子、消失 **%d** 个。"
+            % (c["moved"], c["clock"], _expl, c["unexplained"], c["appeared"], c["vanished"]))
     else:
         lines.append(
             "两天**不是同一根 bar**（%s → %s），数据推进了，先分不清“数据动”和“口径动”；"
@@ -367,6 +469,19 @@ def write_md(p):
                   "**是新答案改了算法**（旧数还在页上或口径句改了），读的人要按新口径重读昨天的判断；"
                   "没有这两条说明的，就是这页偷偷换了数。"]
 
+    un = [m for m in p["moves"] if m["kind"] == "UNEXPLAINED"]
+    if un:
+        cnt = {}
+        for m in un:
+            cnt[_section_key(m["path"])] = cnt.get(_section_key(m["path"]), 0) + 1
+        lines += ["", "## 还有哪些节在同 bar 上改了数（%d 个）" % len(un), ""]
+        for k in sorted(cnt, key=lambda x: (-cnt[x], x)):
+            lines.append("- `%s`：%d 个" % (k, cnt[k]))
+        lines += ["",
+                  "这几节的位移**没有任何解释**（不是转抄、不是换输入、不是换代）。"
+                  "页要在同一根 bar 上改这些数，就得自己写出理由；写不出来，读的人就分不清"
+                  "「今天变了」和「口径变了」。"]
+
     lines += ["", "## 怎么读", "",
               "- `CLOCK`＝钟面（`age_h`/`silent_h`/`lag_days` 这类）：没有新 bar 也该走，不构成问题；"
               "但它的存在说明「哪些数允许自己走」是**名单制**的，名单写在本脚本顶部，不由数据推出来。",
@@ -378,6 +493,13 @@ def write_md(p):
               "- `SECTION_ADVANCED`＝这一**节**自己换了代（标题那根 bar 两天相同，这一节不同，"
               "按 `results/live_book_section_bars.json` 判）：不是同 bar 重算漂移，而是页面里"
               "混着两代数据（页面本身另有 `PAGE_MIXES_BARS` 面在报）。",
+              "- `INPUT_IDENTITY_CHANGED`＝这一节**拿什么算**变了：它在自己身上写下的面板指纹"
+              "（16 位十六进制）两天不同。族面是按「几个臂已重算」分批定价的，换一批臂，"
+              "同一根 bar 上这一节的数就会动——这是它自己的输入变了，不是它在同一天改了口径。"
+              "本档与 `DECLARED_RULER` 同一弱点：它信的是这一节自己的宣告，不独立复算。",
+              "- `QUOTED_FROM_SOURCE`＝这个数不是这页算的：它的块里写着 `source`（如"
+              "`results/x.json:fresh_pairs`），而那个文件**现在**读到的值正好等于今天印的值。"
+              "页只是转抄，动的是被引用的那张面（另一条车道）；写这张面的人不是改数的人。",
               "- `UNEXPLAINED`＝既没有旧值留存、也没有口径声明——**这一档非零就是本面要报的事**。",
               "", "## 未验证（如实）", "",
               "- 只比**相邻两天**：更早的口径变更若在两页之前发生，本面看不见（可手工指定更多日页，未做）。",
@@ -518,6 +640,56 @@ def selftest():
     d = delta(a, b, sec_a=None, sec_b=None)
     check("L15 no section face -> still accused",
           d["counts"]["unexplained"] == 1, d["counts"])
+
+    # L16 r1793: the section's own declared world-set changed -> its numbers may move
+    a = {"priced_bar": "2026-11-16",
+         "family_coherence": {"panels": ["0988c6530a481fa1", "e6f9d0e81a64ec75"],
+                              "verdict": "MIXED_WORLDS", "gap_pp": 2.0}}
+    b = {"priced_bar": "2026-11-16",
+         "family_coherence": {"panels": ["0988c6530a481fa1"],
+                              "verdict": "ONE_WORLD", "gap_pp": 1.0}}
+    d = delta(a, b)
+    k = {m["path"]: m["kind"] for m in d["moves"]}
+    check("L16 input identity change recognised",
+          k.get("/family_coherence/gap_pp") == "INPUT_IDENTITY_CHANGED", k)
+    check("L16 alibi names both digests",
+          ("e6f9d0e81a64ec75" in (d["moves"][0].get("evidence") or "")
+           and "0988c6530a481fa1" in (d["moves"][0].get("evidence") or "")), d["moves"])
+    check("L16 nothing unexplained", d["counts"]["unexplained"] == 0, d["counts"])
+
+    # L17 same world-set on both days -> the move is still an accusation (the guard must bite)
+    a2 = json.loads(json.dumps(a))
+    a2["family_coherence"]["panels"] = ["0988c6530a481fa1"]
+    d = delta(a2, b)
+    check("L17 same world-set -> still accused",
+          d["counts"]["unexplained"] == 1, d["counts"])
+
+    # L18 r1793: a number copied from a cited face is not this page's to explain
+    cited = os.path.join(ROOT, "results", "_selftest_cited_day_delta.json")
+    try:
+        with open(cited, "w", encoding="utf-8") as fh:
+            json.dump({"fresh_pairs": 185}, fh)
+        a3 = {"priced_bar": "2026-11-16",
+              "roster": {"rows": [{"laneside": {"value": 185,
+                                                "source": "results/_selftest_cited_day_delta.json:fresh_pairs"}}]}}
+        b3 = {"priced_bar": "2026-11-16",
+              "roster": {"rows": [{"laneside": {"value": 187,
+                                                "source": "results/_selftest_cited_day_delta.json:fresh_pairs"}}]}}
+        d = delta(a3, b3)
+        check("L18 quoted value recognised",
+              d["moves"][0]["kind"] == "QUOTED_FROM_SOURCE", d["moves"])
+        check("L18 nothing unexplained", d["counts"]["unexplained"] == 0, d["counts"])
+        # L18b the cited face no longer says what the page prints -> back to an accusation
+        with open(cited, "w", encoding="utf-8") as fh:
+            json.dump({"fresh_pairs": 99}, fh)
+        d = delta(a3, b3)
+        check("L18b cited face disagrees -> accused",
+              d["counts"]["unexplained"] == 1, d["counts"])
+    finally:
+        try:
+            os.remove(cited)
+        except OSError:
+            pass
 
     print("selftest %d/%d %s" % (total[0] - fails[0], total[0], "PASS" if not fails[0] else "FAIL"))
     return 0 if not fails[0] else 1

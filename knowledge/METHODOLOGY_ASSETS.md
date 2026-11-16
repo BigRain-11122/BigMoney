@@ -16281,3 +16281,30 @@ bm-a 活书页停更的三条放在同一桶里，等于把自己的映射缺陷
 正身：`scripts/etf_book_day_delta.py`（selftest 26/26，+L13/L14/L15）＋
 `scripts/e33_ladder_census.py`（selftest 10/10 + `--check` ok）＋
 `results/e33_ladder_census.json` ＋ `research/E33_LADDER_CENSUS.md`。
+
+## E1390 · 一节两腿两根 bar：印章只能盖最旧的那一根；隔夜红先分「转抄」「换输入」再谈指控（r1793 bm-c）
+
+隔夜差面剩 29 个「同 bar 位移」，四族：`futures_sleeve` 名义价 4／`lot_floor` 一手资金 18／
+`family_coherence` 6／`roster_audit` 1。逐族取证后只有一族是真错，而且错的方式是**印章**：
+
+- **算术级实证**：11-16 页印 `notional_per_lot_cny = 1,275,000`；IC2612 在 11-13 收 6,375×200
+  = 1,275,000，11-16 收 6,218.4×200 = 1,243,680 —— 旧页把 **11-16 盖在 11-13 的价格上**
+  （carry/判决取 ETF 面 11-16，名义价取期货合约面 11-13）。这不是口径漂移，是一枚印章盖两根 bar。
+  正法在生产者侧：两节逐腿发布 `leg_bars`，节级 `priced_bar = min(所有腿 bar, 面 cut)`，
+  腿落后就印一句「上面那些名义价不在这根 bar 上」——今天四腿全 11-16 故 dormant，
+  下次腿落后分节 bar 面与隔夜差面会自己判成 `SECTION_ADVANCED`。
+- **`INPUT_IDENTITY_CHANGED`**：族面按「几个臂已重算」分批定价，两天面板指纹集不同
+  （`0988c653`+`e6f9d0e8` → `0988c653`），同一根 bar 上这一节的数当然会动。只认 16 位指纹，
+  8 位前缀是名字不是 id（r1234 名即语义的姊妹面）。
+- **`QUOTED_FROM_SOURCE`**：`roster_audit` 的 187→185 是转抄 bm-a `results/ah_panel_status.json:fresh_pairs`
+  （该面现在正读 185，且 `complete:false`＋`mapping_error`）。判据=块内 `source` 指向文件的现值
+  必须**等于**今天印的值，不等就照旧指控。
+- 判决 29→22：余下 22 全是那次印章错盖，**不可追溯修复**（旧页没有腿级 bar 可反证），只能防复发，
+  面照旧报红不粉饰。同一弱点照旧写在面上：`DECLARED_RULER` 与 `INPUT_IDENTITY_CHANGED`
+  都信这一节自己的宣告，不独立复算。
+
+How：一节印两个来源的数，印章只能盖**最旧**那根 bar，并把每根腿的 bar 一起印出来；
+隔夜红先三问——是不是转抄别面、是不是换了定价输入、是不是换了代——再谈「这页偷偷改了数」。
+
+正身：`scripts/etf_book_day_delta.py`（selftest 33/33，+L16/L17/L18/L18b）＋
+`scripts/etf_book_ceo_page.py`（selftest 437/437，+L315a-d）＋`results/etf_book_day_delta.json`。
