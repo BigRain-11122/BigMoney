@@ -1,0 +1,198 @@
+{
+ "artifact": "etf_premium_face",
+ "machine": "bm-c",
+ "session": "2026-11-16",
+ "source": {
+  "view": "sina quoted tape + the session's published unit NAV (fallback: the IOPV board did not answer)",
+  "readers": [
+   "sina_nav_not_iopv"
+  ],
+  "reader_rows": {
+   "sina_nav_not_iopv": 1667
+  },
+  "mixed": false,
+  "denominator": "the session's published unit NAV, NOT an intraday IOPV",
+  "fetched_at": "2026-11-16T16:56:23+0800",
+  "rows": 1667,
+  "nav_board": "not read -- every premium is IOPV-only"
+ },
+ "cross_check": {
+  "basis": "premium recomputed from price/IOPV; the board's own 折价率 column is only compared",
+  "compared_rows": 0,
+  "disagreeing_rows": 0,
+  "tolerance_pp": 0.1
+ },
+ "ticket": {
+  "path": "results/etf_book_order/TICKET-2026-11-16.json",
+  "bar": "2026-11-11"
+ },
+ "bands": {
+  "par_pct": 0.3,
+  "watch_pct": 1.0
+ },
+ "legs": [
+  {
+   "symbol": "510760",
+   "name": "上证指数ETF国泰",
+   "class": "equity",
+   "amount_cny": 86400.6,
+   "premium_pct": -0.31,
+   "band": "watch",
+   "trust": "iopv+same-day-nav",
+   "over_nav_cny": -267.88,
+   "iopv": 1.2579,
+   "price": 1.254,
+   "source": "sina_nav_not_iopv",
+   "nav_session": "2026-11-16"
+  },
+  {
+   "symbol": "512040",
+   "name": "价值ETF富国",
+   "class": "equity",
+   "amount_cny": 86351.9,
+   "premium_pct": -0.2243,
+   "band": "at-par",
+   "trust": "iopv+same-day-nav",
+   "over_nav_cny": -193.69,
+   "iopv": 1.2037,
+   "price": 1.201,
+   "source": "sina_nav_not_iopv",
+   "nav_session": "2026-11-16"
+  },
+  {
+   "symbol": "159655",
+   "name": "标普ETF",
+   "class": "crossborder",
+   "amount_cny": 86286.0,
+   "premium_pct": 6.7461,
+   "band": "stretched",
+   "trust": "iopv+same-day-nav",
+   "over_nav_cny": 5820.97,
+   "iopv": 1.8455,
+   "price": 1.97,
+   "source": "sina_nav_not_iopv",
+   "nav_session": "2026-11-16"
+  },
+  {
+   "symbol": "513690",
+   "name": "港股红利ETF博时",
+   "class": "crossborder",
+   "amount_cny": 86365.0,
+   "premium_pct": -0.3553,
+   "band": "watch",
+   "trust": "iopv+same-day-nav",
+   "over_nav_cny": -306.82,
+   "iopv": 1.1541,
+   "price": 1.15,
+   "source": "sina_nav_not_iopv",
+   "nav_session": "2026-11-16"
+  },
+  {
+   "symbol": "159519",
+   "name": "港股国企",
+   "class": "crossborder",
+   "amount_cny": 86324.3,
+   "premium_pct": -0.7482,
+   "band": "watch",
+   "trust": "iopv+same-day-nav",
+   "over_nav_cny": -645.89,
+   "iopv": 1.7642,
+   "price": 1.751,
+   "source": "sina_nav_not_iopv",
+   "nav_session": "2026-11-16"
+  }
+ ],
+ "priced_legs": 5,
+ "unverified_legs": 0,
+ "over_hurdle": {
+  "hurdle_cny": 500.0,
+  "total_over_nav_cny": 4406.69,
+  "priced_amount_cny": 431727.8,
+  "share_of_plan_pct": 1.0207,
+  "breached": true,
+  "basis": "sum over priced legs only; unverified legs carry no CNY figure and are excluded, never counted as zero"
+ },
+ "dispersion": {
+  "n": 630,
+  "amount_floor_cny": 20000000.0,
+  "median_pct": -0.0978,
+  "p10_pct": -1.5402,
+  "p90_pct": 0.2809,
+  "share_at_par": 0.627,
+  "share_stretched": 0.2127,
+  "top_premium": [
+   {
+    "symbol": "159509",
+    "name": "纳指科技",
+    "pct": 37.2819
+   },
+   {
+    "symbol": "159501",
+    "name": "纳指基金",
+    "pct": 16.3706
+   },
+   {
+    "symbol": "513100",
+    "name": "纳指ETF国泰",
+    "pct": 15.6121
+   },
+   {
+    "symbol": "159696",
+    "name": "纳100ETF",
+    "pct": 14.9986
+   },
+   {
+    "symbol": "159941",
+    "name": "纳指ETF",
+    "pct": 13.7678
+   }
+  ],
+  "top_discount": [
+   {
+    "symbol": "159382",
+    "name": "AI创业板",
+    "pct": -6.8203
+   },
+   {
+    "symbol": "159242",
+    "name": "创业AIDC",
+    "pct": -6.8053
+   },
+   {
+    "symbol": "589130",
+    "name": "科创芯片ETF易方达",
+    "pct": -6.6641
+   },
+   {
+    "symbol": "589190",
+    "name": "科创芯片ETF华宝",
+    "pct": -6.5577
+   },
+   {
+    "symbol": "588890",
+    "name": "科创芯片ETF南方",
+    "pct": -6.5156
+   }
+  ],
+  "cross_date": null
+ },
+ "denominator": {
+  "basis": "each row carries the date its own denominator belongs to; never inferred",
+  "session": "2026-11-16",
+  "rows_total": 1667,
+  "rows_dated": 1528,
+  "rows_same_session": 1528,
+  "legs_dated": 5,
+  "legs_lagging": [],
+  "verdict": "same-session"
+ },
+ "caveats": [
+  "IOPV is a real-time estimate of the basket, not the fund's published NAV; a premium measured against it inherits that error.",
+  "the spot board publishes 折价率 (discount), the opposite sign of a premium -- this face recomputes from price/IOPV and reports any disagreement instead of choosing a side.",
+  "a cross-border leg publishes its NAV at T+n, so on the session itself its IOPV cannot be checked against anything. Those legs are marked unverified and carry NO CNY figure: an IOPV that has drifted from the basket looks exactly like a real premium from one snapshot.",
+  "the board is read at one moment: before the close these numbers move, and cross-border legs are the ones that move most (their underlying trades in another timezone).",
+  "a positive premium is a cost only to a buyer; it is income to a seller. This face says nothing about which side the book will be on tomorrow.",
+  "no historical premium series is long enough to build a percentile gate from: this face runs once per session on the daily chain from 2026-11-06, so a 'is today's premium high for this leg' reading has to wait for the series to accumulate.",
+  "this session's denominator is the fund's published unit NAV, not an intraday IOPV: the premium is measured against the day's official net asset value, so it carries no intraday basket drift -- and it is only coarsely comparable with an IOPV-based premium from an earlier session."
+ ]
+}

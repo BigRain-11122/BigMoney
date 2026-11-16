@@ -1,6 +1,6 @@
 # Calendar distance: how far each refusal is from flipping
 
-asof 2026-11-15T15:46:55+08:00 | evidence_cutoff 2026
+asof 2026-11-16T15:35:07+08:00 | evidence_cutoff 2026
 
 **WAIT_ON_A_WATCHABLE_NUMBER** — nobond_vt08_adopted is 0.46pp of 2026 return away from ADMIT; the remaining 1 cohort(s) must return 0.45%
 

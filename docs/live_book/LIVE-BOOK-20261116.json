@@ -1,14 +1,14 @@
 {
  "schema": "etf-book-ceo-page/v1",
  "generated_for_date": "2026-11-16",
- "evidence_cutoff": "2026-11-13",
- "priced_bar": "2026-11-13",
+ "evidence_cutoff": "2026-11-16",
+ "priced_bar": "2026-11-16",
  "feed_status": "current",
  "feed_lag_days": 0,
- "expected_bar": "2026-11-13",
+ "expected_bar": "2026-11-16",
  "capital_cny": 1000000.0,
- "book_amount_cny": 431769.6,
- "cash_amount_cny": 568230.4,
+ "book_amount_cny": 431727.8,
+ "cash_amount_cny": 568272.2,
  "cash_weight": 0.5678,
  "cash_leg": "GC001 (1-day repo, observed close)",
  "cash_yield": {
@@ -17,7 +17,7 @@
   "rate_date": "2026-11-13",
   "rate_pct": 1.265,
   "rate_20d_pct": 1.232,
-  "annual_cny": 7188.0,
+  "annual_cny": 7189.0,
   "daily_cny": 29.0,
   "window": 20,
   "basis": "cash x panel close rate / 100; per session = annual / 250 sessions",
@@ -28,38 +28,38 @@
   "source": "票据 cash_leg.money（逐字消费）",
   "tail": 250,
   "block": {
-   "cash_amount_cny": 568230.4,
+   "cash_amount_cny": 568272.2,
    "spot": {
     "pct": 1.265,
     "date": "2026-11-13",
-    "annual_cny": 7188.0,
+    "annual_cny": 7189.0,
     "quotes": 250,
-    "net_pct": 1.022,
-    "net_annual_cny": 5807.0
+    "net_pct": 1.023,
+    "net_annual_cny": 5813.0
    },
    "mean_tail": {
     "pct": 1.3518,
-    "annual_cny": 7681.0,
-    "net_pct": 1.1088,
-    "net_annual_cny": 6301.0
+    "annual_cny": 7682.0,
+    "net_pct": 1.1098,
+    "net_annual_cny": 6307.0
    },
    "window": {
-    "pct": 2.0816,
-    "annual_cny": 11828.0,
-    "net_pct": 1.8386,
-    "net_annual_cny": 10447.0
+    "pct": 2.082,
+    "annual_cny": 11831.0,
+    "net_pct": 1.84,
+    "net_annual_cny": 10456.0
    },
    "tail": 250,
    "fall_bp": 25.0,
    "verdict": "RATES_STEADY",
-   "sentence": "现金 ¥568,230 按 2026-11-13 报价 1.26% 一年赚 ¥7,188；按自己近 250 个报价的均值 1.35% 是 ¥7,681；按账本自己走过的全窗均值 2.08% 是 ¥11,828。这三个数都是**毛**口径：这笔钱按过去一年这张交易日历要逐交易日滚 243 次、每次佣金 0.1bp，全年手续费约 **¥1,381**，所以按上面那个报价**入账 ¥5,807**（年化 1.02%）、按近 250 个报价的均值 ¥6,301、按全窗均值 ¥10,447——毛数与入账数之间差的就是这条路的手续费，不是利率差（费率表同 `etf_book_cash_ladder` 的 FEE_BP）。2026-11-13 的报价就在它自己的均值上，这一半该怎么算就怎么算。",
+   "sentence": "现金 ¥568,272 按 2026-11-13 报价 1.26% 一年赚 ¥7,189；按自己近 250 个报价的均值 1.35% 是 ¥7,682；按账本自己走过的全窗均值 2.08% 是 ¥11,831。这三个数都是**毛**口径：这笔钱按过去一年这张交易日历要逐交易日滚 242 次、每次佣金 0.1bp，全年手续费约 **¥1,375**，所以按上面那个报价**入账 ¥5,813**（年化 1.02%）、按近 250 个报价的均值 ¥6,307、按全窗均值 ¥10,456——毛数与入账数之间差的就是这条路的手续费，不是利率差（费率表同 `etf_book_cash_ladder` 的 FEE_BP）。2026-11-13 的报价就在它自己的均值上，这一半该怎么算就怎么算。",
    "spread_vs_tail_cny": -493.0,
-   "spread_vs_window_cny": -4640.0,
+   "spread_vs_window_cny": -4643.0,
    "book_rate": {
     "pct": 1.7731,
-    "annual_cny": 10075.0,
+    "annual_cny": 10076.0,
     "source": "etf_book_idle_cash.json",
-    "asof": "2026-11-16T01:48:21",
+    "asof": "2026-11-16T14:33:28",
     "book_cagr_without_pct": 11.55,
     "book_cagr_with_pct": 12.13,
     "basis": "as_coded",
@@ -86,12 +86,12 @@
     "per_year_src": "etf_book_cash_vehicle.json",
     "evidence_cutoff": "2026-11-13"
    },
-   "rolls_per_year": 243,
+   "rolls_per_year": 242,
    "fee_bp_per_roll": 0.1,
-   "fee_cny_per_year": 1381.0,
+   "fee_cny_per_year": 1375.0,
    "fee_basis": "exchange_calendar",
    "fee_src": "scripts/etf_book_cash_ladder.py FEE_BP (one source for every rung)",
-   "fee_clause": "。这三个数都是**毛**口径：这笔钱按过去一年这张交易日历要逐交易日滚 243 次、每次佣金 0.1bp，全年手续费约 **¥1,381**，所以按上面那个报价**入账 ¥5,807**（年化 1.02%）、按近 250 个报价的均值 ¥6,301、按全窗均值 ¥10,447——毛数与入账数之间差的就是这条路的手续费，不是利率差（费率表同 `etf_book_cash_ladder` 的 FEE_BP）"
+   "fee_clause": "。这三个数都是**毛**口径：这笔钱按过去一年这张交易日历要逐交易日滚 242 次、每次佣金 0.1bp，全年手续费约 **¥1,375**，所以按上面那个报价**入账 ¥5,813**（年化 1.02%）、按近 250 个报价的均值 ¥6,307、按全窗均值 ¥10,456——毛数与入账数之间差的就是这条路的手续费，不是利率差（费率表同 `etf_book_cash_ladder` 的 FEE_BP）"
   },
   "note": null,
   "spot_date": "2026-11-13",
@@ -100,13 +100,13 @@
   "next_bar": "2026-12-09",
   "forward": {
    "verdict": "TWO_RATES",
-   "sentence": "从 2026-11-16（2026-11-13 之后的第一个交易日）到 2026-12-09（下一张单）共 **23 个日历天**：同一笔 ¥568,230 若利率停在 2026-11-13 的报价 1.26%，这段窗口**毛收** ¥453；这笔钱在这段窗口要逐交易日滚 **17 次**，每次佣金 0.1bp（≈ ¥6），共 **¥97**，所以按这个报价**入账 ¥356**（这段窗口年化 1.00%，比报价低的那截就是这条路的手续费）；若按整段窗口扣佣金的净滚 1.77% 付是 ¥635，与**入账**数差 **77.79bp / ¥279**——佣金两边都已扣过，这个差是纯利率差（不扣佣金的毛口径是 50.81bp，那个数里混进了手续费，不能拿来当利率差用）。两个数都假设利率不动——1.77% 是已经走过的那段窗口的净滚，不是下一段的隔夜报价，它只说明过去付过多少，不承诺这一段。",
+   "sentence": "从 2026-11-16（2026-11-13 之后的第一个交易日）到 2026-12-09（下一张单）共 **23 个日历天**：同一笔 ¥568,272 若利率停在 2026-11-13 的报价 1.26%，这段窗口**毛收** ¥453；这笔钱在这段窗口要逐交易日滚 **17 次**，每次佣金 0.1bp（≈ ¥6），共 **¥97**，所以按这个报价**入账 ¥356**（这段窗口年化 1.00%，比报价低的那截就是这条路的手续费）；若按整段窗口扣佣金的净滚 1.77% 付是 ¥635，与**入账**数差 **77.79bp / ¥279**——佣金两边都已扣过，这个差是纯利率差（不扣佣金的毛口径是 50.81bp，那个数里混进了手续费，不能拿来当利率差用）。两个数都假设利率不动——1.77% 是已经走过的那段窗口的净滚，不是下一段的隔夜报价，它只说明过去付过多少，不承诺这一段。",
    "start_session": "2026-11-16",
    "end_session": "2026-12-09",
    "calendar_days": 23,
    "ruler": "calendar_days/365 x annualised rate, net of per-roll commission",
    "start_basis": "exchange_calendar",
-   "cash_amount_cny": 568230.4,
+   "cash_amount_cny": 568272.2,
    "spot": {
     "pct": 1.265,
     "cny": 453.0
@@ -165,7 +165,7 @@
     "rolls_1y": 242,
     "idle_days_1y": 0,
     "idle_share_1y": 0.0,
-    "annual_cny_spot": 7188.0,
+    "annual_cny_spot": 7189.0,
     "annual_cny_realized_1y": 7426.0,
     "positive_years": null,
     "years_checked": null,
@@ -209,8 +209,8 @@
     "rolls_1y": 98,
     "idle_days_1y": 70,
     "idle_share_1y": 0.1923,
-    "annual_cny_spot": 6904.0,
-    "annual_cny_realized_1y": 6385.0,
+    "annual_cny_spot": 6905.0,
+    "annual_cny_realized_1y": 6386.0,
     "positive_years": 0,
     "years_checked": 5,
     "verdict": "REJECT",
@@ -253,8 +253,8 @@
     "rolls_1y": 50,
     "idle_days_1y": 14,
     "idle_share_1y": 0.0385,
-    "annual_cny_spot": 7813.0,
-    "annual_cny_realized_1y": 8011.0,
+    "annual_cny_spot": 7814.0,
+    "annual_cny_realized_1y": 8012.0,
     "positive_years": 3,
     "years_checked": 5,
     "verdict": "REJECT",
@@ -297,7 +297,7 @@
     "rolls_1y": 25,
     "idle_days_1y": 7,
     "idle_share_1y": 0.0196,
-    "annual_cny_spot": 7813.0,
+    "annual_cny_spot": 7814.0,
     "annual_cny_realized_1y": 8226.0,
     "positive_years": 4,
     "years_checked": 5,
@@ -341,7 +341,7 @@
     "rolls_1y": 13,
     "idle_days_1y": 0,
     "idle_share_1y": 0.0,
-    "annual_cny_spot": 7813.0,
+    "annual_cny_spot": 7814.0,
     "annual_cny_realized_1y": 8244.0,
     "positive_years": 4,
     "years_checked": 5,
@@ -386,7 +386,7 @@
     "idle_days_1y": 0,
     "idle_share_1y": 0.0,
     "annual_cny_spot": 7643.0,
-    "annual_cny_realized_1y": 8133.0,
+    "annual_cny_realized_1y": 8134.0,
     "positive_years": 4,
     "years_checked": 5,
     "verdict": "REJECT",
@@ -396,7 +396,7 @@
   "pick": "GC001",
   "verdict": "KEEP-1D",
   "reason": "GC003 少 18.3 bp（1年）/ 少 30.7 bp（3年），门槛 20 bp；到期撞上休市日，一年空转 70 天（19.2% > 1%）；5 个完整年只赢了 0 年；GC007 多 10.3 bp（1年）/ 多 4.8 bp（3年），门槛 20 bp；到期撞上休市日，一年空转 14 天（3.9% > 1%）；GC014 多 14.1 bp（1年）/ 多 5.6 bp（3年），门槛 20 bp；到期撞上休市日，一年空转 7 天（2.0% > 1%）；GC028 多 14.4 bp（1年）/ 多 11.2 bp（3年），门槛 20 bp；GC091 多 12.5 bp（1年）/ 多 10.0 bp（3年），门槛 20 bp",
-  "cash_amount_cny": 568230.4,
+  "cash_amount_cny": 568272.2,
   "forgotten_day_cny": 20.0,
   "rolls": {
    "GC001": 242,
@@ -462,7 +462,7 @@
  "n_hold": 5,
  "cost_bp_per_side": 8.0,
  "book_decided_at": "2026-11-11",
- "next_decision_bars": 18,
+ "next_decision_bars": 17,
  "next_rebalance_date": "2026-12-09",
  "order": [
   {
@@ -470,50 +470,50 @@
    "class": "equity",
    "class_zh": "A股",
    "weight": 0.086439,
-   "price": 1.263,
-   "lots": 684,
-   "shares": 68400,
-   "amount_cny": 86389.2
+   "price": 1.254,
+   "lots": 689,
+   "shares": 68900,
+   "amount_cny": 86400.6
   },
   {
    "symbol": "512040",
    "class": "equity",
    "class_zh": "A股",
    "weight": 0.086439,
-   "price": 1.189,
-   "lots": 726,
-   "shares": 72600,
-   "amount_cny": 86321.4
+   "price": 1.201,
+   "lots": 719,
+   "shares": 71900,
+   "amount_cny": 86351.9
   },
   {
    "symbol": "159655",
    "class": "crossborder",
    "class_zh": "跨境",
    "weight": 0.086439,
-   "price": 2.004,
-   "lots": 431,
-   "shares": 43100,
-   "amount_cny": 86372.4
+   "price": 1.97,
+   "lots": 438,
+   "shares": 43800,
+   "amount_cny": 86286.0
   },
   {
    "symbol": "513690",
    "class": "crossborder",
    "class_zh": "跨境",
    "weight": 0.086439,
-   "price": 1.145,
-   "lots": 754,
-   "shares": 75400,
-   "amount_cny": 86333.0
+   "price": 1.15,
+   "lots": 751,
+   "shares": 75100,
+   "amount_cny": 86365.0
   },
   {
    "symbol": "159519",
    "class": "crossborder",
    "class_zh": "跨境",
    "weight": 0.086439,
-   "price": 1.741,
-   "lots": 496,
-   "shares": 49600,
-   "amount_cny": 86353.6
+   "price": 1.751,
+   "lots": 493,
+   "shares": 49300,
+   "amount_cny": 86324.3
   }
  ],
  "forward": {
@@ -585,8 +585,8 @@
   },
   "5 名·beta 覆盖": {
    "full": {
-    "cagr_pct": 15.67,
-    "sharpe": 1.01,
+    "cagr_pct": 15.55,
+    "sharpe": 1.0,
     "maxdd_pct": -16.04
    },
    "is": {
@@ -595,16 +595,16 @@
     "maxdd_pct": -14.18
    },
    "oos": {
-    "cagr_pct": 23.76,
-    "sharpe": 1.49,
+    "cagr_pct": 23.42,
+    "sharpe": 1.48,
     "maxdd_pct": -16.04
    },
-   "priced_bar": "2026-11-13"
+   "priced_bar": "2026-11-16"
   },
   "12 名·8% 波动目标（生产卡片口径）": {
    "full": {
-    "cagr_pct": 9.59,
-    "sharpe": 0.99,
+    "cagr_pct": 9.51,
+    "sharpe": 0.98,
     "maxdd_pct": -11.77
    },
    "is": {
@@ -613,48 +613,48 @@
     "maxdd_pct": -11.77
    },
    "oos": {
-    "cagr_pct": 18.2,
-    "sharpe": 1.72,
+    "cagr_pct": 17.97,
+    "sharpe": 1.7,
     "maxdd_pct": -10.7
    },
-   "priced_bar": "2026-11-13"
+   "priced_bar": "2026-11-16"
   }
  },
- "excess_pp": 9.8,
+ "excess_pp": 9.81,
  "money_cny": {
   "capital_cny": 1000000.0,
-  "expected_annual_cny": 125900.0,
-  "benchmark_annual_cny": 27900.0,
-  "excess_annual_cny": 98000.0,
+  "expected_annual_cny": 125400.0,
+  "benchmark_annual_cny": 27300.0,
+  "excess_annual_cny": 98100.0,
   "worst_drawdown_cny": -57800.0,
   "basis": "backtest cagr/maxdd x this ticket's capital, no new assumption",
-  "evidence_cutoff": "2026-11-13"
+  "evidence_cutoff": "2026-11-16"
  },
  "ticket_book": {
-  "cagr": 0.1259,
-  "sharpe": 1.705,
+  "cagr": 0.1254,
+  "sharpe": 1.699,
   "maxdd": -0.0578,
-  "vol": 0.0739,
-  "bars": 693,
-  "evidence_cutoff": "2026-11-13"
+  "vol": 0.0738,
+  "bars": 694,
+  "evidence_cutoff": "2026-11-16"
  },
  "same_beta_benchmark": {
-  "cagr": 0.0279,
-  "sharpe": 0.737,
+  "cagr": 0.0273,
+  "sharpe": 0.722,
   "maxdd": -0.0396,
   "vol": 0.0379,
-  "bars": 693,
-  "evidence_cutoff": "2026-11-13"
+  "bars": 694,
+  "evidence_cutoff": "2026-11-16"
  },
  "agreement": {
   "same_decision_bar": true,
   "same_priced_bar": true,
-  "card_priced_bar": "2026-11-13",
-  "ticket_priced_bar": "2026-11-13",
+  "card_priced_bar": "2026-11-16",
+  "ticket_priced_bar": "2026-11-16",
   "card_names": 12
  },
  "sources": {
-  "ticket": "results\\etf_book_order\\TICKET-2026-11-13.json",
+  "ticket": "results\\etf_book_order\\TICKET-2026-11-16.json",
   "card": "results/etf_book_production/latest.json",
   "ledger": "results/etf_book_forward/LEDGER.json",
   "calendar": "data/exchange_calendar.csv",
@@ -668,79 +668,79 @@
  ],
  "ticket_days": {
   "verdict": "AGREE",
-  "detail": "both papers write priced 2026-11-13 and data cut 2026-11-13",
+  "detail": "both papers write priced 2026-11-16 and data cut 2026-11-16",
   "rows": [
    {
     "field": "priced_bar",
-    "page": "2026-11-13",
-    "ticket": "2026-11-13",
+    "page": "2026-11-16",
+    "ticket": "2026-11-16",
     "same": true
    },
    {
     "field": "evidence_cutoff",
-    "page": "2026-11-13",
-    "ticket": "2026-11-13",
+    "page": "2026-11-16",
+    "ticket": "2026-11-16",
     "same": true
    }
   ],
   "unreadable": [],
   "agree": true,
-  "file": "results/etf_book_order/TICKET-2026-11-13.json",
-  "priced_bar": "2026-11-13",
-  "evidence_cutoff": "2026-11-13",
+  "file": "results/etf_book_order/TICKET-2026-11-16.json",
+  "priced_bar": "2026-11-16",
+  "evidence_cutoff": "2026-11-16",
   "priced_source": "reprice.priced_bar",
   "days": {
-   "priced_bar": "2026-11-13",
+   "priced_bar": "2026-11-16",
    "priced_source": "reprice.priced_bar",
-   "evidence_cutoff": "2026-11-13",
+   "evidence_cutoff": "2026-11-16",
    "evidence_cutoff_source": "evidence_cutoff",
-   "as_of": "2026-11-13",
+   "as_of": "2026-11-16",
    "decision_bar": "2026-11-11",
    "missing": [],
    "verdict": "SELF_CONSISTENT",
-   "detail": "priced 2026-11-13, data cut 2026-11-13, session 2026-11-13"
+   "detail": "priced 2026-11-16, data cut 2026-11-16, session 2026-11-16"
   }
  },
  "card_days": {
   "verdict": "AGREE",
-  "detail": "both papers write priced 2026-11-13 and data cut 2026-11-13",
+  "detail": "both papers write priced 2026-11-16 and data cut 2026-11-16",
   "rows": [
    {
     "field": "priced_bar",
-    "page": "2026-11-13",
-    "card": "2026-11-13",
+    "page": "2026-11-16",
+    "card": "2026-11-16",
     "same": true
    },
    {
     "field": "evidence_cutoff",
-    "page": "2026-11-13",
-    "card": "2026-11-13",
+    "page": "2026-11-16",
+    "card": "2026-11-16",
     "same": true
    }
   ],
   "unreadable": [],
   "agree": true,
   "file": "results/etf_book_production/latest.json",
-  "priced_bar": "2026-11-13",
-  "evidence_cutoff": "2026-11-13",
+  "priced_bar": "2026-11-16",
+  "evidence_cutoff": "2026-11-16",
   "priced_source": "sheet.as_of_bar",
   "days": {
-   "priced_bar": "2026-11-13",
+   "priced_bar": "2026-11-16",
    "priced_source": "sheet.as_of_bar",
-   "evidence_cutoff": "2026-11-13",
+   "evidence_cutoff": "2026-11-16",
    "evidence_cutoff_source": "evidence_cutoff",
    "decision_bar": "2026-11-11",
    "is_grid_decision_bar": false,
    "missing": [],
    "verdict": "SELF_CONSISTENT",
-   "detail": "priced 2026-11-13, data cut 2026-11-13, decided 2026-11-11"
+   "detail": "priced 2026-11-16, data cut 2026-11-16, decided 2026-11-11"
   }
  },
  "today_action": {
   "mode": "hold",
   "holding": true,
   "book_decided_at": "2026-11-11",
-  "priced_bar": "2026-11-13",
+  "priced_bar": "2026-11-16",
   "next_trade_date": "2026-12-09",
   "trade_day_is_today": false,
   "cost_if_retraded_pct_per_year": 17.29,
@@ -749,8 +749,8 @@
  "admission": {
   "readable": true,
   "path": "results/etf_book_year_gate/YEAR-GATE.json",
-  "asof": "2026-11-14T23:34:45+0800",
-  "data_last": "2026-11-13",
+  "asof": "2026-11-16T16:50:53+0800",
+  "data_last": "2026-11-16",
   "prior_data_last": "2026-11-13",
   "line": 0.7,
   "book": "nobond_vt08_adopted",
@@ -777,9 +777,9 @@
    "Y4_top2_share": false,
    "C1_capacity": true
   },
-  "top2_share": 0.7039,
+  "top2_share": 0.7084,
   "top2_share_full_only": 0.7278,
-  "margin_to_line": -0.0039,
+  "margin_to_line": -0.0084,
   "prior": {
    "verdict": "CONDITIONAL",
    "top2_share": 0.7039
@@ -788,12 +788,12 @@
   "positive_years": 7,
   "years": 7,
   "median": 5.6072,
-  "worst": 2.6828,
-  "capacity_cny": 39783633.0,
+  "worst": 2.1656,
+  "capacity_cny": 27645948.0,
   "trails_ledger": false,
   "status": "ok",
-  "evidence_cutoff": "2026-11-13",
-  "panel_gap": false,
+  "evidence_cutoff": "2026-11-16",
+  "panel_gap": true,
   "clash": true
  },
  "vt_ladder": {
@@ -1448,7 +1448,7 @@
  "roster_audit": {
   "status": "ok",
   "readable": true,
-  "evidence_cutoff": "2026-11-13",
+  "evidence_cutoff": "2026-11-16",
   "lanes": 9,
   "matched": 4,
   "not_applicable": 1,
@@ -1901,12 +1901,12 @@
  },
  "priced_faces": {
   "faces": {
-   "card": "2026-11-13",
-   "ticket": "2026-11-13",
-   "page": "2026-11-13"
+   "card": "2026-11-16",
+   "ticket": "2026-11-16",
+   "page": "2026-11-16"
   },
   "verdict": "SAME_DAY",
-  "detail": "all three papers priced the 2026-11-13 bar",
+  "detail": "all three papers priced the 2026-11-16 bar",
   "missing": [],
   "same_day": true
  },
@@ -1925,12 +1925,12 @@
   "demand_rate_pct": 0.05,
   "gap_annual_cny": null,
   "gap_daily_cny": null,
-  "worst_case_annual_cny": 6904.0,
+  "worst_case_annual_cny": 6905.0,
   "stale": null,
   "reason": "账户实况未登记（登记件在位但没人填）",
   "placement_file": "state/account/cash_placement.json",
   "basis": "idle = book cash - recorded repo placements; gap = idle x (repo panel close - declared demand rate) / 100",
-  "cash_amount_cny": 568230.4
+  "cash_amount_cny": 568272.2
  },
  "carry_regime": {
   "available": true,
@@ -4596,7 +4596,7 @@
    "turnover_arm": 0.9457,
    "turnover_declared": 0.959
   },
-  "elapsed_sec": 116.0,
+  "elapsed_sec": 95.9,
   "evidence_cutoff": "2026-11-13",
   "gross_rows": [
    {
@@ -4973,7 +4973,7 @@
    }
   ],
   "script": "scripts\\etf_book_causal_rebuild.py",
-  "ts": "2026-11-15T15:02:20+0800",
+  "ts": "2026-11-16T14:53:52+0800",
   "verdict": {
    "admissible_arms": [],
    "arms": [
@@ -5552,8 +5552,8 @@
  },
  "live_quote": {
   "status": "panel_current",
-  "panel_bar": "2026-11-13",
-  "expected": "2026-11-13",
+  "panel_bar": "2026-11-16",
+  "expected": "2026-11-16",
   "writer": "quote_face",
   "quote_symbols": 48,
   "snapshot_as_of": "2026-11-06",
@@ -5887,7 +5887,7 @@
   ],
   "delivered_n_hold": 12,
   "ticket_n_hold": 5,
-  "ticket_bar": "2026-11-13",
+  "ticket_bar": "2026-11-16",
   "ticket_model_nav": 66751.5,
   "ticket_delivered_nav": 53401.2,
   "ticket_narrower_than_path": true,
@@ -5954,7 +5954,7 @@
    "up_quantile": 0.8,
    "verdict_rule": "ADOPT_GAP iff some gap arm beats `declared` on CAGR by >= gap_min_pp AND its Sharpe is >= this run's `declared` Sharpe AND its max drawdown is no deeper than declared - dd_tol_pp AND it beats declared on CAGR in >= phase_share_min of the phases; MIXED_ACROSS_PHASES if the return line is cleared but the phase share is not (or the reverse); NO_GAP_EDGE otherwise -- the gap stays information"
   },
-  "elapsed_sec": 102.4,
+  "elapsed_sec": 85.0,
   "evidence_cutoff": "2026-11-13",
   "gap_stats": {
    "entry_bars": 84,
@@ -6313,7 +6313,7 @@
    }
   ],
   "script": "scripts\\etf_book_overnight_gap.py",
-  "ts": "2026-11-15T15:04:04+0800",
+  "ts": "2026-11-16T14:55:19+0800",
   "verdict": {
    "admissible_arms": [],
    "arms": [
@@ -6427,8 +6427,8 @@
   "k_schedule_last": 0.460253,
   "consistency": {
    "generated": {
-    "permission": "2026-11-15T15:40:05+0800",
-    "gap": "2026-11-15T15:40:09+0800",
+    "permission": "2026-11-16T15:29:22+0800",
+    "gap": "2026-11-16T15:29:25+0800",
     "ledger": "2026-11-13T20:58:31+0800"
    },
    "permission_vs_gap": true,
@@ -6519,7 +6519,8 @@
    }
   ],
   "artifact": "results/etf_book_k_gap.json",
-  "status": "ok"
+  "status": "mismatch",
+  "mismatch_reason": "面是 2026-11-13 的、这一张是 2026-11-16 的；面来自 TICKET-2026-11-13.json、这一张是 TICKET-2026-11-16.json"
  },
  "premium_leak": {
   "status": "ok",
@@ -7192,7 +7193,7 @@
   "status": "ok",
   "artifact": "results/etf_book_positions.json",
   "asof": "2026-11-13",
-  "ledger_bar": "2026-11-13",
+  "ledger_bar": "2026-11-16",
   "ticket_bar": "2026-11-13",
   "verdict": "PRINTED_ROWS_REBUILD_THE_BOOK",
   "printed_rows": 0,
@@ -7244,12 +7245,12 @@
    "source_face": "results/etf_book_swap_stack.json"
   },
   "next_order_base": {
-   "bar": "2026-11-13",
-   "kind": "execution",
-   "arrival": "declared",
-   "arrival_actions": 0,
-   "source": "execution_row",
-   "risk_book_cny": 431769.6,
+   "bar": "2026-11-16",
+   "kind": "valuation",
+   "arrival": null,
+   "arrival_actions": null,
+   "source": "accrued_valuation",
+   "risk_book_cny": 431432.8,
    "cash_cny": 568230.4,
    "holdings": 5,
    "superseded_execution_bar": "2026-11-13"
@@ -7257,20 +7258,74 @@
   "base_divergence": [],
   "base_divergence_total_cny": 0.0,
   "accrual": {
-   "status": "NO_NEW_BAR",
+   "status": "ACCRUED",
    "from_bar": "2026-11-13",
-   "rows": 0,
-   "written": 0,
+   "rows": 1,
+   "written": 1,
    "kept": 0,
    "skipped_execution_bars": [],
-   "rf_missing_bars": 0,
-   "last": null,
-   "rows_detail": [],
+   "rf_missing_bars": 1,
+   "last": {
+    "bar": "2026-11-16",
+    "kind": "valuation",
+    "from_bar": "2026-11-13",
+    "holdings": [
+     {
+      "symbol": "159519",
+      "lots": 496,
+      "price": 1.751,
+      "amount_cny": 86849.6
+     },
+     {
+      "symbol": "159655",
+      "lots": 431,
+      "price": 1.97,
+      "amount_cny": 84907.0
+     },
+     {
+      "symbol": "510760",
+      "lots": 684,
+      "price": 1.254,
+      "amount_cny": 85773.6
+     },
+     {
+      "symbol": "512040",
+      "lots": 726,
+      "price": 1.201,
+      "amount_cny": 87192.6
+     },
+     {
+      "symbol": "513690",
+      "lots": 754,
+      "price": 1.15,
+      "amount_cny": 86710.0
+     }
+    ],
+    "risk_book_cny": 431432.8,
+    "cash_cny": 568230.4,
+    "nav_cny": 999663.2,
+    "ret": -0.0003368,
+    "cum_ret": -0.0003368,
+    "rf_step": 0.0,
+    "stale_price_symbols": [],
+    "source_face": "results/etf_book_swap_stack.json"
+   },
+   "rows_detail": [
+    {
+     "bar": "2026-11-16",
+     "risk_book_cny": 431432.8,
+     "cash_cny": 568230.4,
+     "nav_cny": 999663.2,
+     "ret": -0.0003368,
+     "cum_ret": -0.0003368,
+     "rf_step": 0.0
+    }
+   ],
    "panel_missing_symbols": [],
    "repo_quotes": 3767,
    "rate_latest_bar": "2026-11-13",
    "rate_latest": 1.265,
-   "valued_upto_bar": "2026-11-13"
+   "valued_upto_bar": "2026-11-16"
   },
   "replay": {
    "start_bar": "2026-10-16",
@@ -7290,10 +7345,10 @@
   "engine_book": {
    "tail": {
     "source": "results/etf_book_order/ledger.jsonl",
-    "bar": "2026-11-13",
-    "nav_units": 1.46744585,
+    "bar": "2026-11-16",
+    "nav_units": 1.4670029,
     "k": 0.460253,
-    "rf": 0.0
+    "rf": 0.00010397
    },
    "divergence": {
     "book_k": 0.43177,
@@ -7311,7 +7366,7 @@
  },
  "executed": {
   "status": "none",
-  "asof": "2026-11-13",
+  "asof": "2026-11-16",
   "detail": "这张票没有留下成交行（空票或本 bar 未换仓）"
  },
  "do_or_wait": {
@@ -7394,7 +7449,7 @@
   "inputs": {
    "cut_order_gap": {
     "cutoff": "2026-11-13",
-    "digest": "2c83eff285e0dae4"
+    "digest": "c3bc31a33b347a46"
    },
    "late_sheet_price": {
     "cutoff": "2026-11-13",
@@ -7977,9 +8032,9 @@
   "reading": "block bootstrap (2000 resamples, block=20 bars): CAGR p5/p50/p95 = 3.57%/9.45%/16.62% per year, Sharpe 0.40/0.96/1.59, maxDD -21.26%/-13.21%/-8.85%; the published point estimate 9.59% sits at the 51.2 pctile; 0.5% of resamples lose money and 7.0% break a -20% drawdown | these are the published book's own numbers: this series reads 9.59% against the production cell n12_vt08 at 9.59%"
  },
  "stress": {
-  "n_days": 5280,
+  "n_days": 5281,
   "first": "2005-02-23",
-  "last": "2026-11-13",
+  "last": "2026-11-16",
   "worst": {
    "1d": {
     "pct": -3.64,
@@ -8038,27 +8093,27 @@
    "differs": false,
    "sentence": "按同一条修复规则把面板里的单日翻转压平（共 0 处，阈值 35%）之后，这张表最差的一天没有变化（-3.64%），也就是说它是行情，不是报价。"
   },
-  "basis": "账面权重（2026-11-13 收盘）原封不动摆回整段面板（现金 0 息），取最坏的连续 N 个交易日；不是策略实际路径，是同一批票的最坏窗口",
-  "priced_bar": "2026-11-13",
-  "inputs_sha256": "d090f59c155c0fe0a80397765665bf91f56eed0b05d6e0e56d1101cbfeec8a99"
+  "basis": "账面权重（2026-11-16 收盘）原封不动摆回整段面板（现金 0 息），取最坏的连续 N 个交易日；不是策略实际路径，是同一批票的最坏窗口",
+  "priced_bar": "2026-11-16",
+  "inputs_sha256": "0726a57b92a47199b09b31b6d4dd9a828552ef40b53ec4fc409ecf2afa3f21d5"
  },
  "authority": {
   "writer": "bm-c",
   "owner": "bm-a",
-  "owner_silent_h": 57.0,
+  "owner_silent_h": 65.7,
   "gate_h": 6.0,
   "took_over": true,
-  "why": "bm-a has not written its own heartbeat for 57.0 h (> 6 h): this host takes the pen for the page only -- a stopped heartbeat is not a dead machine",
+  "why": "bm-a has not written its own heartbeat for 65.7 h (> 6 h): this host takes the pen for the page only -- a stopped heartbeat is not a dead machine",
   "no_bar_reason": "human_ages"
  },
  "fleet": {
-  "board_ts": "2026-11-15T21:26:54",
+  "board_ts": "2026-11-16T15:32:19",
   "verdict": "attention",
   "rows": [
    {
     "host": "bm-a",
     "last_seen": "2026-11-13T23:12:03+08:00",
-    "age_h": 46.25,
+    "age_h": 64.34,
     "alive": false,
     "lanes": [
      "futures",
@@ -8074,7 +8129,7 @@
    {
     "host": "bm-b",
     "last_seen": "2026-10-30T12:43:06+08:00",
-    "age_h": 392.73,
+    "age_h": 410.82,
     "alive": false,
     "lanes": [
      "marks",
@@ -8087,8 +8142,8 @@
    },
    {
     "host": "bm-c",
-    "last_seen": "2026-11-15T21:05:28+08:00",
-    "age_h": 0.36,
+    "last_seen": "2026-11-16T15:28:43+08:00",
+    "age_h": 0.06,
     "alive": true,
     "lanes": [
      "sina_mf",
@@ -8096,9 +8151,9 @@
      "ah_panel",
      "etf_panel",
      "lhb_inst",
-     "minute_feed",
      "ths_panel",
-     "zt_pool"
+     "zt_pool",
+     "minute_feed"
     ],
     "taken_over": {}
    }

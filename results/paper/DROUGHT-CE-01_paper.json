@@ -24,7 +24,7 @@
     }
   },
   "paper_start": "2026-09-23",
-  "bars": 32,
+  "bars": 33,
   "months_tracked": 1,
   "monthly_returns": [
     -0.0078
@@ -50,15 +50,15 @@
     {
       "month": "2026-11",
       "return": 0.0023,
-      "bars": 10,
+      "bars": 11,
       "month_ended": false,
       "full_from_hire": true,
       "counted": false
     }
   ],
   "window_metrics": {
-    "annual_return": -0.0429,
-    "sharpe": -3.1635,
+    "annual_return": -0.0416,
+    "sharpe": -3.1133,
     "max_drawdown": -0.0081,
     "win_rate": 0.5,
     "profit_factor": 0.3038,
@@ -80,25 +80,25 @@
   },
   "cost_x2_check": {
     "status": "ok",
-    "paper_window_sharpe_x2": -3.3572,
+    "paper_window_sharpe_x2": -3.3037,
     "skill_bar": 0.4004,
     "survive": false,
-    "margin": -3.7576,
+    "margin": -3.7041,
     "note": "rolling x2-cost safety on paper window to date"
   },
   "x2_watch": {
     "status": "probation",
     "probation": true,
-    "margin": -3.7576,
+    "margin": -3.7041,
     "survive": false,
     "source": "paper_window"
   },
-  "cutoff": "2026-11-13",
-  "updated": "2026-11-16 13:52:16",
+  "cutoff": "2026-11-16",
+  "updated": "2026-11-16 15:44:59",
   "risk_regime": {
-    "is_major_bear": false,
-    "position_cap": 0.8,
-    "as_of": "2026-11-13"
+    "is_major_bear": true,
+    "position_cap": 0.2,
+    "as_of": "2026-11-16"
   },
   "regime_guard": {
     "mode": "enforce",
@@ -106,7 +106,6 @@
     "active_from": "2026-10-01",
     "gate_note": null,
     "v3_state_tail": {
-      "2026-11-02": "YELLOW",
       "2026-11-03": "YELLOW",
       "2026-11-04": "YELLOW",
       "2026-11-05": "GREEN",
@@ -115,11 +114,12 @@
       "2026-11-10": "GREEN",
       "2026-11-11": "GREEN",
       "2026-11-12": "GREEN",
-      "2026-11-13": "GREEN"
+      "2026-11-13": "GREEN",
+      "2026-11-16": "YELLOW"
     },
     "enforced": {
       "active_from": "2026-10-01",
-      "days_enforced": 27,
+      "days_enforced": 28,
       "entries_blocked": 0,
       "entries_halved": 3
     },
@@ -137,7 +137,7 @@
     "deferred_days_total": 0,
     "first_deferred_date": null,
     "window_semantics": "guarded",
-    "as_of": "2026-11-16 13:52:16",
+    "as_of": "2026-11-16 15:44:59",
     "note": "composition: buy_rejected_n may include T-21 regime-matrix drops (guard faces ANDed on the buy leg)",
     "consolidation": {
       "enabled": true,

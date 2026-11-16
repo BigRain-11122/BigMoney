@@ -1,30 +1,30 @@
-# ETF book -- production candidate, order sheet (holdings decided 2026-11-11, priced 2026-11-13)
+# ETF book -- production candidate, order sheet (holdings decided 2026-11-11, priced 2026-11-16)
 
-Config: 12 names of a 1520-instrument bond-free pool, rebalance every 20 bars, 10 bp/side, 8% vol target (de-lever only).
+Config: 12 names of a 1521-instrument bond-free pool, rebalance every 20 bars, 10 bp/side, 8% vol target (de-lever only).
 
 | window | CAGR | Sharpe | max drawdown | realised vol | target |
 |---|---|---|---|---|---|
-| 2020-01 onwards -- as coded | 9.6% | 0.99 | -11.8% | 10.2% | 8% (1.27x) |
+| 2020-01 onwards -- as coded | 9.5% | 0.98 | -11.8% | 10.2% | 8% (1.27x) |
 | 2020-01 onwards -- declared fill (close t -> open t+1) | 8.4% | 0.87 | -16.6% | 10.3% | 8% (1.28x) |
 | 2020-2023 -- as coded | 3.8% | 0.44 | -11.8% | 10.0% | 8% (1.25x) |
-| 2024 onwards -- as coded | 18.2% | 1.72 | -10.7% | 10.5% | 8% (1.31x) |
+| 2024 onwards -- as coded | 18.0% | 1.70 | -10.7% | 10.5% | 8% (1.31x) |
 
 **This card is the research basket, not today's ticket.** It ranks 12 names under the vol rule; the ticket priced on the 2026-11-13 bar buys **5 of the same names** under the beta rule at k=0.4322 (-1.24pp/yr apart on the same panel). Size from the ticket and read this card as the rule behind it -- results/etf_book_order/latest.json.
 
 Row 1 is the engine as coded (score off bar d's close, paid bar d's *open*); row 2 is the same rule with the score held one bar back -- the fill this card declares. Size off row 2.
 
-**Execution basis: the as-coded row is the arm this book cannot actually trade.** It ranks on bar d's close and is paid bar d's *open* -- a price set before the information it ranks on. The fill the card itself declares (*decide at close t, fill at open t+1*) earns **8.41%/yr, Sharpe 0.87, max drawdown -16.6%**, i.e. 1.18pp/yr below the printed cell; size positions off the declared arm and read the printed one as an upper bound the desk cannot reach.
+**Execution basis: the as-coded row is the arm this book cannot actually trade.** It ranks on bar d's close and is paid bar d's *open* -- a price set before the information it ranks on. The fill the card itself declares (*decide at close t, fill at open t+1*) earns **8.39%/yr, Sharpe 0.87, max drawdown -16.6%**, i.e. 1.12pp/yr below the printed cell; size positions off the declared arm and read the printed one as an upper bound the desk cannot reach.
 
 **Vol label vs delivered risk: target 8% -> delivered 10.2% over the full window (1.27x).** The overlay only de-levers, so a sleeve sized on its own backward vol can run hotter than 8%; read the risk column, not the label.
 
 
-**Feed: current** -- priced on the 2026-11-13 bar; the official calendar expects 2026-11-13 (lag 0 official day(s)).
+**Feed: current** -- priced on the 2026-11-16 bar; the official calendar expects 2026-11-16 (lag 0 official day(s)).
 
-**Price basis:** 本面的数字算在**已修复**的面板上：**169 处**单日超过 35% 的报价翻转（份额变动被读成暴跌，涉及 159 只票）在任何测量之前都已抹平为 0% 日（`etf_equity_alpha.repair_flips`）。本面板 1629 列。修与不修的差额已单独立面：results/etf_book_flip_contamination.json。
+**Price basis:** 本面的数字算在**已修复**的面板上：**169 处**单日超过 35% 的报价翻转（份额变动被读成暴跌，涉及 159 只票）在任何测量之前都已抹平为 0% 日（`etf_equity_alpha.repair_flips`）。本面板 1630 列。修与不修的差额已单独立面：results/etf_book_flip_contamination.json。
 
-**Panel digest:** `e6f9d0e81a64ec75` (5280 bars x 1629 symbols, 2005-02-23->2026-11-13, covers close/open/amount) -- the executable sheet and the forward ledger print the same fingerprint only when all three priced one panel, on the same blocks.
+**Panel digest:** `0988c6530a481fa1` (5281 bars x 1630 symbols, 2005-02-23->2026-11-16, covers close/open/amount) -- the executable sheet and the forward ledger print the same fingerprint only when all three priced one panel, on the same blocks.
 
-**Priced day: SAME_DAY** -- card 2026-11-13 / ticket 2026-11-13 / page 2026-11-13 (compared at 2026-11-16 14:51:17); this card, the executable sheet and the CEO page all priced the same closing bar.
+**Priced day: DIFFERENT_DAYS** -- card 2026-11-16 / ticket 2026-11-13 / page 2026-11-13 (compared at 2026-11-16 16:45:38); priced on different bars: card 2026-11-16 / ticket 2026-11-13 / page 2026-11-13. A reader comparing numbers across these papers is comparing two different books, so read the lagging one only as history.
 
 **Family coherence: ONE_WORLD** -- all 10 width arms priced `e6f9d0e81a64ec75` (cutoff 2026-11-13); the verdicts that license this card's width are measurements on one panel.
 
@@ -32,27 +32,27 @@ Row 1 is the engine as coded (score off bar d's close, paid bar d's *open*); row
 
 **Width floor: an extrapolation, and its own test point refutes it.** The name count comes from continuing a fitted line past its last measured arm; priced at the unseen k=0.30 the line predicted +0.220pp and the arm's own cells said +0.365pp -- gap 0.145pp against a 0.081pp tolerance, so the read-back face publishes REFUTED. Read the width as an extrapolation with no support at that distance, not as a measurement.
 
-**Today (2026-11-13 bar): HOLD: 18 bars until the next decision point** (last grid decision 2026-11-11).
+**Today (2026-11-16 bar): HOLD: 17 bars until the next decision point** (last grid decision 2026-11-11).
 
 Realised 60d book vol 8.8% -> risk scale 0.91, cash slot 9.1%.
 
 | code | name | sleeve | weight | target (CNY) | executable (CNY) | 100-share lots |
 |---|---|---|---|---|---|---|
-| 510760 | 上证指数ETF国泰 | equity | 7.6% | 75,782 | 75,780 | 60000 |
-| 512040 | 价值ETF富国 | equity | 7.6% | 75,782 | 75,739 | 63700 |
-| 159655 | 标普500ETF华夏 | equity | 7.6% | 75,782 | 75,751 | 37800 |
-| 513690 | 港股红利ETF博时 | equity | 7.6% | 75,782 | 75,684 | 66100 |
-| 159519 | 港股国企ETF国泰 | equity | 7.6% | 75,782 | 75,734 | 43500 |
-| 513650 | 标普500ETF南方 | equity | 7.6% | 75,782 | 75,610 | 37900 |
-| 510210 | 上证指数ETF富国 | equity | 7.6% | 75,782 | 75,694 | 80100 |
-| 562060 | 标普A股红利ETF华宝 | equity | 7.6% | 75,782 | 75,768 | 123000 |
-| 513630 | 港股低波红利ETF摩根 | equity | 7.6% | 75,782 | 75,698 | 47400 |
-| 159207 | 高股息ETF广发 | equity | 7.6% | 75,782 | 75,742 | 62700 |
-| 511180 | 可转债ETF海富通 | convertible | 7.6% | 75,782 | 75,250 | 6500 |
-| 513500 | 标普500ETF博时 | equity | 7.6% | 75,782 | 75,629 | 28400 |
-| cash | - | money | 9.1% | 90,616 | 91,921 | - |
+| 510760 | 上证指数ETF国泰 | equity | 7.6% | 75,782 | 75,742 | 60400 |
+| 512040 | 价值ETF富国 | equity | 7.6% | 75,782 | 75,663 | 63000 |
+| 159655 | 标普500ETF华夏 | equity | 7.6% | 75,782 | 75,648 | 38400 |
+| 513690 | 港股红利ETF博时 | equity | 7.6% | 75,782 | 75,670 | 65800 |
+| 159519 | 港股国企ETF国泰 | equity | 7.6% | 75,782 | 75,643 | 43200 |
+| 513650 | 标普500ETF南方 | equity | 7.6% | 75,782 | 75,620 | 38700 |
+| 510210 | 上证指数ETF富国 | equity | 7.6% | 75,782 | 75,722 | 80900 |
+| 562060 | 标普A股红利ETF华宝 | equity | 7.6% | 75,782 | 75,757 | 121600 |
+| 513630 | 港股低波红利ETF摩根 | equity | 7.6% | 75,782 | 75,709 | 47200 |
+| 159207 | 高股息ETF广发 | equity | 7.6% | 75,782 | 75,704 | 61900 |
+| 511180 | 可转债ETF海富通 | convertible | 7.6% | 75,782 | 75,610 | 6700 |
+| 513500 | 标普500ETF博时 | equity | 7.6% | 75,782 | 75,747 | 29100 |
+| cash | - | money | 9.1% | 90,616 | 91,765 | - |
 
-**Which column is money.** A weight times capital is the sizing INTENT; only whole 100-share lots can be placed. So the executable column can only spend 908,079 of the 909,384 target book, and the desk keeps 1,305 (0.13% NAV) in cash that the risk scale never asked for -- that residue is the price of lot granularity, not a position. Place the executable column. Until r1342 this card printed the target column as if it were the order, which is why the ticket disagreed with it by 0.13% NAV (E201); the two faces now reconcile to the yuan.
+**Which column is money.** A weight times capital is the sizing INTENT; only whole 100-share lots can be placed. So the executable column can only spend 908,235 of the 909,384 target book, and the desk keeps 1,149 (0.11% NAV) in cash that the risk scale never asked for -- that residue is the price of lot granularity, not a position. Place the executable column. Until r1342 this card printed the target column as if it were the order, which is why the ticket disagreed with it by 0.13% NAV (E201); the two faces now reconcile to the yuan.
 
 ## Whose CAGR is this?
 
@@ -184,9 +184,11 @@ Read the card's own -11.8% as the median of that ruler, not its tail: size the p
 
 > Band priced on the **2026-11-13** bar from results/etf_book_bootstrap/BLOCKS-2026-11-13.json. A tail quoted without its block is a sentence without its parameter (E248).
 
+**⚠ 这根回撤带比表格旧（stale）：带站在 2026-11-13，表格站在 2026-11-16。** 带宽没有吃到最近这段行情，所以 p5 那一列只会比真实更窄——不要把窄当成安全。
+
 ## Caveats
 
-- THE DRAWDOWN LINE ABOVE IS A MEDIAN, NOT A TAIL: it is priced on one ordering of the trading days. Bootstrapping this book's own return path at blocks 1/5/10/20/40/60/120/250 (the block is a free parameter) puts the 5th-percentile drawdown between -25.1% and -17.4% and the share of resamples worse than -20% between 1.1% and 16.1%. Size against the p5 column. See results/etf_book_bootstrap/BLOCKS-2026-11-13.json.
+- THE DRAWDOWN LINE ABOVE IS A MEDIAN, NOT A TAIL: it is priced on one ordering of the trading days. Bootstrapping this book's own return path at blocks 1/5/10/20/40/60/120/250 (the block is a free parameter) puts the 5th-percentile drawdown between -25.1% and -17.4% and the share of resamples worse than -20% between 1.1% and 16.1%. Size against the p5 column. See results/etf_book_bootstrap/BLOCKS-2026-11-13.json (band priced on the 2026-11-13 bar, older than this card's 2026-11-16 -- stale, its tail can only be too narrow).
 - THE SIX FACTOR DIRECTIONS WERE CHOSEN WITH HINDSIGHT: every published number here uses a fixed sign block, and those signs are exactly this panel's full-sample IC signs (6 of 6 factors match). Re-priced with signs estimated only from already-realised windows, the same engine returns -10.89%/yr (Sharpe -0.41) against +6.02%/yr (+0.63) for the fixed signs -- and reversing the trailing sign does not recover it (-0.98%/yr). Read the headline as the size of a period, not the size of a rule. See results/etf_sign_pit.json.
 - ONE REGIME, NOT A VERIFIED EDGE: on the 224 ETFs that existed before 2020, priced 2015-2019 (a window this card never covered) the same engine returned -4.97%/yr against +3.89%/yr equal weight = -8.86pp excess, worse in 6 of 6 grid cells, random-score p=0.96. The published CAGR is the 2020+ regime, not a property of the factors. That cell is bond-inclusive, 5 names wide and has no sizing rule; 'The 2015-2019 reconciliation' below prices what each of those differences is worth. See results/etf_book_pre2020.json.
 - THE COMMODITY SLEEVE IS MOSTLY METAL BETA WITH A MODEST RANKING OVERLAY: it produced 30.1% of gross return; the same engine restricted to the 41 commodity ETFs returned +16.31%/yr against +11.45%/yr for holding those names equally (+4.86pp), and the deepest-turnover commodity name (518880) returned +13.91%/yr passively, i.e. the book beat holding the metal by +2.40pp. Read the sleeve as commodity/gold exposure plus a small selection add-on, not a commodity ranking that pays. See results/etf_book_commodity_split.json.

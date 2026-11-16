@@ -2,17 +2,19 @@
  "schema": "ceo_live_usage_v1_9",
  "ticket": "T-202609-28-105",
  "day": "2026-11-16",
- "generated": "2026-11-16T13:53:23",
+ "generated": "2026-11-16T16:47:48",
  "market": {
   "state": "RED",
-  "asof": "2026-11-13",
+  "asof": "2026-11-16",
   "mode": "shadow",
-  "days_in_state": 8,
+  "days_in_state": 9,
   "triggers": [
-   "hs300<MA200 (#10 collected)"
+   "R-配3 major bear (regime.py)",
+   "hs300<MA200 (#10 collected)",
+   "breadth 0.83>=65%"
   ],
-  "bench_close": 4.083,
-  "bench_ma200": 4.6575,
+  "bench_close": 4.054,
+  "bench_ma200": 4.6534,
   "clock_cell": "RED_COOL",
   "clock_asof": "2026-11-13",
   "heat": "COOL",
@@ -127,12 +129,15 @@
   "kill_day": false,
   "kill_day_unavailable": null,
   "freshness": {
-   "status": "current",
-   "expected_last_bar_day": "2026-11-13",
-   "behind_days": 0,
-   "behind": [],
+   "status": "stale",
+   "expected_last_bar_day": "2026-11-16",
+   "behind_days": 1,
+   "behind": [
+    "2026-11-16"
+   ],
    "lane_owner": "bm-c",
-   "read_on": "bm-c"
+   "read_on": "bm-c",
+   "note": "读到的是 2026-11-13 的副本：最后采集日 2026-11-13，比应有最新 bar 日 2026-11-16 落后 1 个交易日（车道宿主 bm-c）"
   }
  },
  "ladder": {
@@ -366,7 +371,7 @@
   },
   "state": "RED",
   "priced_on": "2026-11-13",
-  "stale": false
+  "stale": true
  },
  "rollup": {
   "n_traders": 6,
@@ -387,9 +392,9 @@
  "intraday": {
   "feed": "T-104 minute_feed (rolling 1m archive, bm-b lane)",
   "today": "2026-11-16",
-  "asof": "2026-11-16 13:48:00",
+  "asof": "2026-11-16 15:00:00",
   "n_held_with_feed": 2,
-  "n_live": 1,
+  "n_live": 0,
   "rows": [
    {
     "symbol": "159920",
@@ -408,12 +413,12 @@
    },
    {
     "symbol": "510050",
-    "status": "LIVE",
-    "latest_bar": "2026-11-16 13:48:00",
-    "latest_close": 2.88,
+    "status": "LAGGED",
+    "latest_bar": "2026-11-16 15:00:00",
+    "latest_close": 2.885,
     "prev_session_close": 2.889,
-    "day_change_pct": -0.31,
-    "age_min": 5.4
+    "day_change_pct": -0.14,
+    "age_min": 107.8
    },
    {
     "symbol": "511010",
@@ -504,7 +509,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 57871.6
+    "last_append_age_min": 58046.0
    },
    {
     "family": "FUND-VALUE-P1",
@@ -512,7 +517,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 58716.1
+    "last_append_age_min": 58890.5
    },
    {
     "family": "FUND-DIVLOWVOL-P1",
@@ -520,7 +525,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 55509.4
+    "last_append_age_min": 55683.8
    }
   ]
  },
@@ -566,7 +571,7 @@
  },
  "book_identity": {
   "path_ledger": "results/etf_book_forward/LEDGER.json",
-  "path_ticket": "results/etf_book_order/TICKET-2026-11-13.json",
+  "path_ticket": "results/etf_book_order/TICKET-2026-11-16.json",
   "ledger": {
    "present": true,
    "bar": "2026-11-11",
@@ -591,7 +596,7 @@
   },
   "ticket": {
    "present": true,
-   "bar": "2026-11-13",
+   "bar": "2026-11-16",
    "n_hold": 5,
    "scale": 0.432195,
    "names": [
@@ -602,8 +607,8 @@
     "159519"
    ],
    "rule": "beta_target 0.20",
-   "book_amount_cny": 431769.6,
-   "cash_amount_cny": 568230.4
+   "book_amount_cny": 431727.8,
+   "cash_amount_cny": 568272.2
   },
   "comparable": false,
   "same_book": null,
@@ -612,38 +617,38 @@
   "scale_gap_pp": 47.72,
   "scale_gap_cny": 477189.0,
   "capital_cny": 1000000.0,
-  "note": "两侧不在同一决策 bar（账本 2026-11-11 / 执行单 2026-11-13）——只并排印，不做比较"
+  "note": "两侧不在同一决策 bar（账本 2026-11-11 / 执行单 2026-11-16）——只并排印，不做比较"
  },
  "freshness": {
   "status": "ok",
   "source": "exchange_calendar_audit.load_calendar/expected_last_day",
   "calendar_last": "2026-12-31",
-  "expected_bar": "2026-11-13",
+  "expected_bar": "2026-11-16",
   "rows": [
    {
     "face": "etf_book",
     "label": "⑥ ETF 复合书",
     "cutoff": "2026-11-13",
-    "owed_sessions": 0,
-    "state": "current"
+    "owed_sessions": 1,
+    "state": "behind"
    },
    {
     "face": "risk_tape",
     "label": "③ 风险带（zt 四面板）",
     "cutoff": "2026-11-13",
-    "owed_sessions": 0,
-    "state": "current"
+    "owed_sessions": 1,
+    "state": "behind"
    },
    {
     "face": "market",
     "label": "① 市场政体态",
-    "cutoff": "2026-11-13",
+    "cutoff": "2026-11-16",
     "owed_sessions": 0,
     "state": "current"
    }
   ],
-  "worst_face": null,
-  "worst_owed_sessions": 0,
+  "worst_face": "⑥ ETF 复合书",
+  "worst_owed_sessions": 1,
   "unreadable": [],
   "book_panel_last_bar": "2026-11-13"
  },

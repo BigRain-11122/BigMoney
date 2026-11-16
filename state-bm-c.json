@@ -1,7 +1,7 @@
 {
  "activity": "product",
- "activity_now": "r1770: why the early window is 3.19% and the late one 17.97% -- the annualised gap split into four cells (time in equity vs each state's own daily speed) by a Bennet midpoint identity, then read through the same block bootstrap. The old story ('pre-2024 it lived on bonds') is falsified: the book holds equity 91.7% of the IS bars and 97.1% of the OOS bars, and the defence state has 80 / 20 bars respectively. The dominant cell is the equity-day rate (+11.74pp, 86% of the gap) but the gap itself (+13.72pp) sits inside its own MDE80 (22.24pp) -> WINDOW_GAP_NOT_SEPARABLE: no cell may be called the reason.",
- "activity_now_round": "1770",
+ "activity_now": "r1772: 接手 15:50 轮被静默击杀的残局（它死在 ETF 全宇宙刷新的第一阶段扫描 1250/1724，写盘在第二阶段，所以零落盘——进度行看起来像干了 1500 只票的活，实际一只没写）。本轮把它跑完：1668 只 ETF 补齐 2026-11-16 bar，覆盖 99.65%（6 只源未出、2 只无成交、1 只除权重拉）。数据面推进后**当场把依赖它的下游面付清**，这才是本轮的产品增量：\n1) 订单票从 stale_feed 变 current：results/etf_book_order/TICKET-2026-11-16.json，as_of 2026-11-16，k=0.432195（规则上限 0.460253），NAV 1,000,000，5 名各 8.64%，现金腿 56.78% 进 GC001——这是明天开盘可以直接照着做的单。\n2) 入场摩擦面同日落盘：5 腿里 159655（标普ETF）溢价 +6.746% = stretched，买 86,286 元要多付 5,821 元；其余四腿 -0.22%~-0.75%（at-par/watch）。\n3) 隔夜差异面（etf_book_day_delta）在数据推进后重算：DATA_ADVANCED moved=81 unexplained=0，即今日页面与昨日页面的每个变动都能归因到「新 bar」，没有一处是表尺被偷偷改过。\n4) swap 段 10 面全部落到 2026-11-16 收盘价（此前 3 面停在 11-13，根因是 data/etf_premium/snap/2026-11-16.csv 没采，本机当场把溢价面补采 1,667 行）。\n课程（写进 CODELY）：**推进数据面必须同轮把下游面付清**，否则 6 条冒烟腿立刻变红——本轮的 6 红全是「数据新、面旧」，没有一条是算法错。",
+ "activity_now_round": "1772",
  "agenda_starved": false,
  "ah_note": "r1680 LANDED: refresh closed itself at 21:17 -- cutoff 2026-11-12 -> 2026-11-13, complete=True, exit 0, pulled_rows 46; data_lane_freshness in_sync 13 / behind_1d 1 (worst now marks, intraday-only, not rebuildable). Fix that made it possible: stall watchdog over every network leg (300s, names stage/pair, exit 2, checkpoint kept) + save_progress stamps write time + -u on the detached spawn + progress line every 10 pairs. NOT yet proven: the 300s stall path has never fired on a real hang (this round the suspected freeze finished by itself).",
  "ahead_origin": 0,
@@ -55,7 +55,7 @@
   "state": "registered (FOUND)",
   "task": "HQ-ProductionClaim"
  },
- "clock_read": "2026-11-16T12:59:18+08:00",
+ "clock_read": "2026-11-16T17:01:22+08:00",
  "clock_read_source": "local",
  "clock_tz": "+08:00",
  "codely_live_count": 2,
@@ -161,7 +161,7 @@
  "gpu_vram_used_mb": 15603,
  "head_sha": "a0a7596bbf",
  "health": "ok",
- "heartbeat_epoch_utc": 1794805158,
+ "heartbeat_epoch_utc": 1794819682,
  "heartbeat_epoch_utc_type": "int",
  "idle_ram_gb": 3.62,
  "idle_rounds": 0,
@@ -220,7 +220,7 @@
  "last_round_ts": "2026/11/16 11:18:02",
  "last_run": "2026-11-15T16:19:25",
  "last_run_at": "2026-10-26T21:20:55+08:00",
- "last_seen": "2026-11-16T11:18:02+08:00",
+ "last_seen": "2026-11-16T17:01:22+08:00",
  "last_seen_at": "2026-11-14T11:36:52+08:00",
  "last_task_at": "2026-10-29T06:27:04+08:00",
  "last_ts": "2026-10-19T20:11:25+08:00",
@@ -936,7 +936,7 @@
  "round_1689_next": "(a) price the rule, not the bucket: run the widest-quintile-only arm against hold-everything after the 8% vol leash and the repo leg -- the quintile table already says the entry with the least adverse widening is also the one with the most carry, so the open question is whether a book that waits costs more in idle cash than it collects; (b) moneyflow/LHB IC reference batch (the order second P1 candidate) is still claimed and its panel source-blocked -- check the collector self-heal before starting; (c) watchdog S4U needs one elevated re-register (28th).",
  "round_1689_note": "PRODUCT. r1686 left the basis line one untried axis: \"the discount-width timing test (basis percentile vs next 20d carry) is the cheapest way to turn a static premium into a rule\". Built: scripts/idx_fut_basis_timing.py (selftest 12/12) -- causal percentile over a trailing 250d window (60 obs min), forward window t+1..t+20 with roll days dropped, quintiles printed beside a stride-20 subsample that drops overlapping windows, Spearman on ranks, first/second half split. All four pairs pass the frozen H1/H2/H3: widest-quintile forward carry +0.584/+0.531/+0.513/+0.689pp per 20d at hit 82.5/77.4/86.0/80.6% vs narrowest -0.118/-0.032/-0.075/+0.271pp at 37.7/40.3/40.3/46.8%; spreads hold on stride-12 (0.854/0.513/0.670/0.133) and in both halves. The pair of numbers that decides what this is: fwd20-to-basis-change ratio 1.003/1.000/0.993/0.990 -> kind=convergence harvest, i.e. the rule is a prepayment schedule (wait for a wide discount, collect more of it closing), not a prediction. And the percentile adds nothing over the raw level (spearman level -0.478/-0.474/-0.443/-0.590 vs pct -0.429/-0.318/-0.432/-0.243; percentile_adds_over_level_pairs=[]), so any rule here can be written on the level directly. Adverse side is the surprise: entering at the widest discount had the SMALLEST subsequent widening (median 0.185/0.214/0.231/0.277pp) and the narrowest the largest (0.583/0.923/0.471/1.038pp) -- higher carry and less drawdown, not a risk trade. Two selftest legs caught real defects before publication: adverse_widening used max() and reported the discount closing as a drawdown (the basis is negative when wide, so the window MINIMUM is the adverse side), and convergence_share carried an off-by-one that double-counted a step the holder never takes (basis_face convention: spread[j] is the step dates[j]->dates[j+1]). Neither face had a chain leg -- both were typed by hand on 11-14 -- so both now ride straight behind update_futures; chain --only 2/2 rc0. Latest percentiles: IH 13.4 (widest quintile, fires), IF 23.8, IC 38.6, IM 48.2.",
  "round_label": "1704",
- "round_no": 1770,
+ "round_no": 1772,
  "round_no_label": "r1739",
  "round_no_landed": 1663,
  "round_note": "r1489: a reinstated bar is re-derived from the panel, not carried over (reinstatement_check + reinstatements.json + sheet paragraph)",
@@ -1462,7 +1462,7 @@
  },
  "task": "r1768 next: 「钱没有天气预报」把问题推回书本身——正贡献月是否与【持仓的名册状态】有关，而不是与市场天气有关。用 df 已有的 turn（换手）和名册-指数相关（corr_pick 的输入窗口相关）把同一张月表分格：高/低换手 × 名册与指数相关高/低，看正贡献月是否落在「换手高」或「与指数脱钩」的格里；判据同样先冻结、空分布读（标签打乱），窗 ≤48h",
  "total_ram_gb": 55.9,
- "ts": "2026-11-16T12:59:18+08:00",
+ "ts": "2026-11-16T17:01:22+08:00",
  "unverified": [
   "全量套件未覆盖本轮改动（起跑早于两条新腿；上一绿 612/612 @11:44:38 同样早于本轮）",
   "EVENT_DRIVEN 是单腿边缘判定（53.0% vs 55%，余量 1.99pp），集中度那条 45.7% 未触发",
@@ -1552,5 +1552,10 @@
  "verify_smoke_r1770": "results/_smoke_r1770.out: Summary 622/622 PASS, 0 FAIL, wall clock 946.4s over 620 legs; record logs/smoke_legs.json failed=0; Tools/smoke_red.py -> 2026-11-16T15:24:27 green rc0. NOTE: 本轮两腿（etf_book_window_split selftest/check）在套件加载之后才写进 smoke_test.py，所以这一轮 620 腿里没有它们（手工已跑：21/21 + ok:true）；results/_smoke_r1770b.out 是含新腿的重跑。",
  "s0_collision_r1770": "no other executor in this repo: round opened with 2 dirty derived faces (both written by the in-flight s6 chain, not by a foreign session); zero foreign uncommitted work taken; the chain itself is bm-c's own prior-round regen and was left running (killing it would have re-burned 263 legs)",
  "decisions_watermark_r1770": "group decisions.md sha256 f780bf3c... != the stored watermark 08c0859e...; last batch on origin is 66 (2026-11-16 06:00) and batches 65/66 carry zero quant rows (D-05 BigDomain / D-06 MV KF / D-07 MiniGame / D-08 BigCompute) -> watermark advanced, zero execution action. Group tree itself is 110 behind origin (the 交付工位 divergence owned by D-20261116-01), which is why the read went through origin blob git show, never the working tree",
- "local_unpushed_note": "local commits not on origin = 0"
+ "local_unpushed_note": "local commits not on origin = 0 (checked after push)",
+ "round_t1772_note": "r1772: 接手 15:50 轮被静默击杀的残局（它死在 ETF 全宇宙刷新的第一阶段扫描 1250/1724，写盘在第二阶段，所以零落盘——进度行看起来像干了 1500 只票的活，实际一只没写）。本轮把它跑完：1668 只 ETF 补齐 2026-11-16 bar，覆盖 99.65%（6 只源未出、2 只无成交、1 只除权重拉）。数据面推进后**当场把依赖它的下游面付清**，这才是本轮的产品增量：\n1) 订单票从 stale_feed 变 current：results/etf_book_order/TICKET-2026-11-16.json，as_of 2026-11-16，k=0.432195（规则上限 0.460253），NAV 1,000,000，5 名各 8.64%，现金腿 56.78% 进 GC001——这是明天开盘可以直接照着做的单。\n2) 入场摩擦面同日落盘：5 腿里 159655（标普ETF）溢价 +6.746% = stretched，买 86,286 元要多付 5,821 元；其余四腿 -0.22%~-0.75%（at-par/watch）。\n3) 隔夜差异面（etf_book_day_delta）在数据推进后重算：DATA_ADVANCED moved=81 unexplained=0，即今日页面与昨日页面的每个变动都能归因到「新 bar」，没有一处是表尺被偷偷改过。\n4) swap 段 10 面全部落到 2026-11-16 收盘价（此前 3 面停在 11-13，根因是 data/etf_premium/snap/2026-11-16.csv 没采，本机当场把溢价面补采 1,667 行）。\n课程（写进 CODELY）：**推进数据面必须同轮把下游面付清**，否则 6 条冒烟腿立刻变红——本轮的 6 红全是「数据新、面旧」，没有一条是算法错。",
+ "verify_t1772": "update_etf_wide: appended 1668 / universe 1724, coverage_post 99.65%, elapsed 401.7s, panel_cutoff_after 报 2026-11-13（诚实 min 口径：6 只源滞后 + 已死码未排除）、实测 1725 个 csv 里 1716 个尾 bar = 2026-11-16 | etf_book_production rc0 61.9s feed_status=current ticket_bar=2026-11-16 lag_days=0 | etf_book_order run rc0 size band WITHIN_BAND drift +0.000pp -> TICKET-2026-11-16.json + ORDER-2026-11-16-card.md | etf_book_positions run rc0 PRINTED_ROWS_REBUILD_THE_BOOK unexplained_cny=0 | etf_premium_face fetch rc0 121.9s 1667 行（IOPV 主源未应答，sina 兜底，口径已在面头声明 sina_nav_not_iopv） | swap 家族 8/8 rc0 + 10 面全部 11-16 | year_gate 24/24 PASS | late_sheet_price 10/10 PASS | day_delta check OK DATA_ADVANCED moved=81 unexplained=0 | ceo_page ticket/card days 双 AGREE 2026-11-16 | live_book_section_bars CHECK_OK PAGE_MIXES_BARS off=50 unknown=4 | 首轮冒烟 618/624 PASS 6 FAIL（全是下游面停在 11-13），修复后已启动全量复跑",
+ "s6_r1772": "dualrun rc0 ZERO-DRIFT streak 51 | compute_audit rc0 FLAG:pool_starvation,supply_floor (AGENDA_DEBT calendar，4 候选全被判 refuse) | py_watermark rc0 insufficient_history (窗口刚开，py 2.3%) | update_daily rc0 cutoff 2026-11-16 | market_regime rc0 RED/CRISIS shadow | daily_scorecard rc0 (bm-a 心跳 3936min 停跳 -> stale-takeover 派生) | ceo_live_usage rc0 (state=RED rung=RED cap=20% heat=COOL) | monitor.build_status rc1 原样上报",
+ "s0_collision_r1772": "no other executor: 15:50 轮被 loop 静默击杀（16:15:33 kill tree，5 子进程），本轮接手它的残局而不是重开科学面；仓内零他窗未提交改动被吞",
+ "decisions_watermark_r1772": "group decisions.md sha256 08c0859e... == state 自持水位 08c0859e...（fetch 后 0fc0d281d..487bab3d1 新提交，但 decisions.md 内容哈希不变）-> 零新决策行、零执行动作；尾批仍是第 66 批 2026-11-16 06:00（D-05..D-08 全为 BigDomain/MV/MiniGame/BigCompute，零 quant 行）。orders 差集 115 单/252 回执/unacked=[]"
 }

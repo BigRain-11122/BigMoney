@@ -14,23 +14,23 @@
  "claims": [
   {
    "agrees": true,
-   "bars_from_sheet": 19,
+   "bars_from_sheet": 18,
    "face": "results/etf_book_production/latest.json",
    "key": "sheet.bars_until_next_decision",
    "name": "production_sheet",
-   "note": "2026-11-12 起第 19 根（面自己写的 bars_until_next_decision）",
+   "note": "2026-11-13 起第 18 根（面自己写的 bars_until_next_decision）",
    "on_grid": true,
    "printed": "2026-12-09",
    "sheet": {
-    "as_of_bar": "2026-11-12",
-    "bars_until_next_decision": 19,
+    "as_of_bar": "2026-11-13",
+    "bars_until_next_decision": 18,
     "is_grid_decision_bar": false,
     "last_decision_bar": "2026-11-11"
    }
   },
   {
    "agrees": true,
-   "bars_from_sheet": 19,
+   "bars_from_sheet": 18,
    "face": "results/etf_book_rebalance_permission.json",
    "key": "decision_date",
    "name": "cut_permission",
@@ -40,7 +40,7 @@
   },
   {
    "agrees": true,
-   "bars_from_sheet": 19,
+   "bars_from_sheet": 18,
    "face": "results/etf_book_swap_units.json",
    "grid": 20,
    "key": "next_decision_bar.bar",
@@ -50,13 +50,13 @@
    "printed": "2026-12-09"
   }
  ],
- "evidence_cutoff": "2026-11-12",
+ "evidence_cutoff": "2026-11-13",
  "grid": {
   "anchor_bar": "2026-11-11",
   "anchor_on_calendar": true,
   "anchor_source": "results/etf_book_production/latest.json#sheet.last_decision_bar",
-  "as_of": "2026-11-12",
-  "bars_away": 19,
+  "as_of": "2026-11-13",
+  "bars_away": 18,
   "crosscheck": {
    "agrees": true,
    "next_bar": "2026-12-09",
@@ -79,7 +79,7 @@
    "2026-11-02"
   ],
   "first": "2024-01-02",
-  "last": "2026-11-12",
+  "last": "2026-11-13",
   "n_moves": 35,
   "off_grid": [
    "2026-06-26",
@@ -91,7 +91,7 @@
   ]
  },
  "off_grid_claims": [],
- "sentence": "下一根决策 bar = 2026-12-09（锚点 2026-11-11 起每 20 根，距 2026-11-12 19 根）。票面上三个面都这么说。",
+ "sentence": "下一根决策 bar = 2026-12-09（锚点 2026-11-11 起每 20 根，距 2026-11-13 18 根）。票面上三个面都这么说。",
  "verdict": "AGREE",
  "worst_gap_bars": null,
  "wrong_claims": []
@@ -100,15 +100,15 @@
 
 
 ## 下一根决策 bar 是哪一天（r1536）
-- 下一根决策 bar：**2026-12-09**（距 2026-11-12 19 个交易日；锚点 `last_decision_bar` = 2026-11-11，每 20 根）。
+- 下一根决策 bar：**2026-12-09**（距 2026-11-13 18 个交易日；锚点 `last_decision_bar` = 2026-11-11，每 20 根）。
 
 | 面 | 它印的 | 距本单票面 | 落在网格上 | 一致 |
 |---|---|---|---|---|
-| production_sheet | 2026-12-09 | +19 根 | 是 | 是 |
-| cut_permission | 2026-12-09 | +19 根 | 是 | 是 |
-| swap_section | 2026-12-09 | +19 根 | 是 | 是 |
+| production_sheet | 2026-12-09 | +18 根 | 是 | 是 |
+| cut_permission | 2026-12-09 | +18 根 | 是 | 是 |
+| swap_section | 2026-12-09 | +18 根 | 是 | 是 |
 - 交叉核对：official calendar origin mod rebal == 0 → 2026-12-09（一致）。
 - 账本自己的 k 最近动在这几根：2026-06-26、2026-07-24、2026-08-21、2026-09-18、2026-10-26、2026-11-02（共 35 次，其中不在网格上 6 次）——这是行为样本，不是判据。
 - 判词：**AGREE**
-- 下一根决策 bar = 2026-12-09（锚点 2026-11-11 起每 20 根，距 2026-11-12 19 根）。票面上三个面都这么说。
+- 下一根决策 bar = 2026-12-09（锚点 2026-11-11 起每 20 根，距 2026-11-13 18 根）。票面上三个面都这么说。
 

@@ -8,566 +8,40 @@
   "live",
   "monitor"
  ],
- "files_scanned": 2405,
- "n_hits": 790,
+ "files_scanned": 2436,
+ "n_hits": 796,
  "counts": {
   "bare-root-literal": 2,
   "deployment-root-literal": 2,
   "exempt-resolver": 20,
   "group-root-hint": 7,
-  "one-off": 214,
-  "repo-root-literal": 533,
+  "one-off": 216,
+  "repo-root-literal": 537,
   "sibling-repo-literal": 11,
   "validated-walk": 1
  },
  "verdict": "PASS",
  "defects": [],
  "advisory": {
-  "exempt-resolver": [
-   {
-    "kind": "literal",
-    "mode": "bare-root",
-    "line": 68,
-    "text": "`K:\\\\Fluxgroup` is a per-host DEPLOYMENT root (task backups, machine-state",
-    "file": "scripts/group_root_sweep.py",
-    "bucket": "exempt-resolver",
-    "uses_resolver": true
-   },
-   {
-    "kind": "literal",
-    "mode": "group-root",
-    "line": 69,
-    "text": "flags); `K:\\\\Fluxgroup\\\\FluxGroup` is the group TREE. Only the latter can be",
-    "file": "scripts/group_root_sweep.py",
-    "bucket": "exempt-resolver",
-    "uses_resolver": true
-   },
-   {
-    "kind": "literal",
-    "mode": "bare-root",
-    "line": 78,
-    "text": "# `D:\\FluxGroup` alone is ambiguous: the group tree on some host, or a",
-    "file": "scripts/group_root_sweep.py",
-    "bucket": "exempt-resolver",
-    "uses_resolver": true
-   },
-   {
-    "kind": "literal",
-    "mode": "deployment-root",
-    "line": 82,
-    "text": "# K:\\Fluxgroup\\.codely-cli\\... -- per-host deployment, outside any repo",
-    "file": "scripts/group_root_sweep.py",
-    "bucket": "exempt-resolver",
-    "uses_resolver": true
-   },
-   {
-    "kind": "literal",
-    "mode": "group-root",
-    "line": 88,
-    "text": "# nested FluxGroup/, or straight into the tree (D:\\FluxGroup\\cph4, cph4/, docs/)",
-    "file": "scripts/group_root_sweep.py",
-    "bucket": "exempt-resolver",
-    "uses_resolver": true
-   },
-   {
-    "kind": "literal",
-    "mode": "group-root",
-    "line": 216,
-    "text": "bad.write_text(\"GRP = r'D:\\\\FluxGroup\\\\cph4'\\n\", encoding=\"utf-8\")",
-    "file": "scripts/group_root_sweep.py",
-    "bucket": "exempt-resolver",
-    "uses_resolver": true
-   },
-   {
-    "kind": "literal",
-    "mode": "group-root",
-    "line": 227,
-    "text": "oneoff.write_text(\"GROUP = r'K:\\\\Fluxgroup\\\\FluxGroup'\\n\", encoding=\"utf-8\")",
-    "file": "scripts/group_root_sweep.py",
-    "bucket": "exempt-resolver",
-    "uses_resolver": true
-   },
-   {
-    "kind": "literal",
-    "mode": "group-root",
-    "line": 235,
-    "text": "\"GRP = pick_or_default(r'K:\\\\Fluxgroup\\\\FluxGroup')\\n\",",
-    "file": "scripts/group_root_sweep.py",
-    "bucket": "exempt-resolver",
-    "uses_resolver": true
-   },
-   {
-    "kind": "literal",
-    "mode": "repo-root",
-    "line": 245,
-    "text": "own.write_text(\"ROOT = r'K:\\\\Fluxgroup\\\\FluxGroup\\\\quant\\\\bigmoney'\\n\",",
-    "file": "scripts/group_root_sweep.py",
-    "bucket": "exempt-resolver",
-    "uses_resolver": true
-   },
-   {
-    "kind": "climb",
-    "mode": "group-root",
-    "line": 254,
-    "text": "climb.write_text(\"p = os.path.join('..', '..', 'docs', 'decisions.md')\\n\",",
-    "file": "scripts/group_root_sweep.py",
-    "bucket": "exempt-resolver",
-    "uses_resolver": true
-   },
-   {
-    "kind": "climb",
-    "mode": "group-root",
-    "line": 266,
-    "text": "\"c = os.path.join('..', '..')\\n\", encoding=\"utf-8\")",
-    "file": "scripts/group_root_sweep.py",
-    "bucket": "exempt-resolver",
-    "uses_resolver": true
-   },
-   {
-    "kind": "literal",
-    "mode": "deployment-root",
-    "line": 279,
-    "text": "# 7. the per-host deployment root is NOT the group tree (K:\\Fluxgroup\\.codely-cli)",
-    "file": "scripts/group_root_sweep.py",
-    "bucket": "exempt-resolver",
-    "uses_resolver": true
-   },
-   {
-    "kind": "literal",
-    "mode": "deployment-root",
-    "line": 281,
-    "text": "dep.write_text('VALVE = r\"K:\\\\Fluxgroup\\\\.codely-cli\\\\machine-state.flag\"\\n',",
-    "file": "scripts/group_root_sweep.py",
-    "bucket": "exempt-resolver",
-    "uses_resolver": true
-   },
-   {
-    "kind": "literal",
-    "mode": "group-root",
-    "line": 12,
-    "text": "* hardcoded paths (`K:\\\\Fluxgroup\\\\FluxGroup`, `D:\\\\FluxGroup`, ...) -- same",
-    "file": "Tools/group_root.py",
-    "bucket": "exempt-resolver",
-    "uses_resolver": false
-   },
-   {
-    "kind": "literal",
-    "mode": "bare-root",
-    "line": 12,
-    "text": "* hardcoded paths (`K:\\\\Fluxgroup\\\\FluxGroup`, `D:\\\\FluxGroup`, ...) -- same",
-    "file": "Tools/group_root.py",
-    "bucket": "exempt-resolver",
-    "uses_resolver": false
-   },
-   {
-    "kind": "literal",
-    "mode": "group-root",
-    "line": 15,
-    "text": "FluxVerse's live damage: `D:\\\\FluxGroup\\\\cph4` was nine days stale (235 vs 373",
-    "file": "Tools/group_root.py",
-    "bucket": "exempt-resolver",
-    "uses_resolver": false
-   },
-   {
-    "kind": "literal",
-    "mode": "group-root",
-    "line": 33,
-    "text": "root = pick_or_default(\"K:\\\\Fluxgroup\\\\FluxGroup\")",
-    "file": "Tools/group_root.py",
-    "bucket": "exempt-resolver",
-    "uses_resolver": false
-   },
-   {
-    "kind": "climb",
-    "mode": "group-root",
-    "line": 71,
-    "text": "out.append(os.path.normpath(os.path.join(here, \"..\", \"..\")))",
-    "file": "Tools/group_root.py",
-    "bucket": "exempt-resolver",
-    "uses_resolver": false
-   },
-   {
-    "kind": "literal",
-    "mode": "group-root",
-    "line": 72,
-    "text": "out.append(r\"K:\\Fluxgroup\\FluxGroup\")",
-    "file": "Tools/group_root.py",
-    "bucket": "exempt-resolver",
-    "uses_resolver": false
-   },
-   {
-    "kind": "literal",
-    "mode": "group-root",
-    "line": 73,
-    "text": "out.append(r\"C:\\Fluxgroup\\FluxGroup\")",
-    "file": "Tools/group_root.py",
-    "bucket": "exempt-resolver",
-    "uses_resolver": false
-   }
-  ],
-  "repo-root-literal": [
-   {
-    "kind": "literal",
-    "mode": "repo-root",
-    "line": 9,
-    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
-    "file": "Tools/_r1029bmc_rebase_resolve.py",
-    "bucket": "repo-root-literal",
-    "uses_resolver": false
-   },
-   {
-    "kind": "literal",
-    "mode": "repo-root",
-    "line": 16,
-    "text": "REPO = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
-    "file": "Tools/_r1034bmc_spawn_receipt.py",
-    "bucket": "repo-root-literal",
-    "uses_resolver": false
-   },
-   {
-    "kind": "literal",
-    "mode": "repo-root",
-    "line": 5,
-    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
-    "file": "Tools/_r1070bmc_close.py",
-    "bucket": "repo-root-literal",
-    "uses_resolver": false
-   },
-   {
-    "kind": "literal",
-    "mode": "repo-root",
-    "line": 5,
-    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
-    "file": "Tools/_r1071bmc_close.py",
-    "bucket": "repo-root-literal",
-    "uses_resolver": false
-   },
-   {
-    "kind": "literal",
-    "mode": "repo-root",
-    "line": 8,
-    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
-    "file": "Tools/_r309bmc_close.py",
-    "bucket": "repo-root-literal",
-    "uses_resolver": false
-   },
-   {
-    "kind": "literal",
-    "mode": "repo-root",
-    "line": 14,
-    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
-    "file": "Tools/_r309bmc_pool_rebase_resolver.py",
-    "bucket": "repo-root-literal",
-    "uses_resolver": false
-   },
-   {
-    "kind": "literal",
-    "mode": "repo-root",
-    "line": 26,
-    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
-    "file": "Tools/_r309bmc_w5_entry_flip.py",
-    "bucket": "repo-root-literal",
-    "uses_resolver": false
-   },
-   {
-    "kind": "literal",
-    "mode": "repo-root",
-    "line": 21,
-    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
-    "file": "Tools/_r416bmc_cas_push.py",
-    "bucket": "repo-root-literal",
-    "uses_resolver": false
-   },
-   {
-    "kind": "literal",
-    "mode": "repo-root",
-    "line": 10,
-    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
-    "file": "Tools/_r421bmc_addendum.py",
-    "bucket": "repo-root-literal",
-    "uses_resolver": false
-   },
-   {
-    "kind": "literal",
-    "mode": "repo-root",
-    "line": 9,
-    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
-    "file": "Tools/_r421bmc_close.py",
-    "bucket": "repo-root-literal",
-    "uses_resolver": false
-   },
-   {
-    "kind": "literal",
-    "mode": "repo-root",
-    "line": 8,
-    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
-    "file": "Tools/_r421bmc_close2.py",
-    "bucket": "repo-root-literal",
-    "uses_resolver": false
-   },
-   {
-    "kind": "literal",
-    "mode": "repo-root",
-    "line": 24,
-    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
-    "file": "Tools/_r421bmc_rebase_finish.py",
-    "bucket": "repo-root-literal",
-    "uses_resolver": false
-   },
-   {
-    "kind": "literal",
-    "mode": "repo-root",
-    "line": 11,
-    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
-    "file": "Tools/_r421bmc_rebase_resolve.py",
-    "bucket": "repo-root-literal",
-    "uses_resolver": false
-   },
-   {
-    "kind": "literal",
-    "mode": "repo-root",
-    "line": 13,
-    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
-    "file": "Tools/_r421bmc_rebase_resolve2.py",
-    "bucket": "repo-root-literal",
-    "uses_resolver": false
-   },
-   {
-    "kind": "literal",
-    "mode": "repo-root",
-    "line": 13,
-    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
-    "file": "Tools/_r421bmc_rebase_skip.py",
-    "bucket": "repo-root-literal",
-    "uses_resolver": false
-   },
-   {
-    "kind": "literal",
-    "mode": "repo-root",
-    "line": 12,
-    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
-    "file": "Tools/_r422bmc_rebase_resolve.py",
-    "bucket": "repo-root-literal",
-    "uses_resolver": false
-   },
-   {
-    "kind": "literal",
-    "mode": "repo-root",
-    "line": 9,
-    "text": "ROOT = r\"C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
-    "file": "Tools/_r488_close.py",
-    "bucket": "repo-root-literal",
-    "uses_resolver": false
-   },
-   {
-    "kind": "literal",
-    "mode": "repo-root",
-    "line": 9,
-    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
-    "file": "Tools/_r517bmc_commit.py",
-    "bucket": "repo-root-literal",
-    "uses_resolver": false
-   },
-   {
-    "kind": "literal",
-    "mode": "repo-root",
-    "line": 10,
-    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
-    "file": "Tools/_r518bmc_commit.py",
-    "bucket": "repo-root-literal",
-    "uses_resolver": false
-   },
-   {
-    "kind": "literal",
-    "mode": "repo-root",
-    "line": 13,
-    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
-    "file": "Tools/_r525bmc_bookkeeping.py",
-    "bucket": "repo-root-literal",
-    "uses_resolver": false
-   },
-   {
-    "kind": "literal",
-    "mode": "repo-root",
-    "line": 13,
-    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
-    "file": "Tools/_r526bmc_bookkeeping.py",
-    "bucket": "repo-root-literal",
-    "uses_resolver": false
-   },
-   {
-    "kind": "literal",
-    "mode": "repo-root",
-    "line": 9,
-    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
-    "file": "Tools/_r536bmc_final_verify.py",
-    "bucket": "repo-root-literal",
-    "uses_resolver": false
-   },
-   {
-    "kind": "literal",
-    "mode": "repo-root",
-    "line": 5,
-    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
-    "file": "Tools/_r536bmc_gitlog.py",
-    "bucket": "repo-root-literal",
-    "uses_resolver": false
-   },
-   {
-    "kind": "literal",
-    "mode": "repo-root",
-    "line": 9,
-    "text": "OUT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\_r536bmc_gorders_dump.txt\"",
-    "file": "Tools/_r536bmc_gorders2.py",
-    "bucket": "repo-root-literal",
-    "uses_resolver": false
-   },
-   {
-    "kind": "literal",
-    "mode": "repo-root",
-    "line": 8,
-    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
-    "file": "Tools/_r536bmc_premerge_probe.py",
-    "bucket": "repo-root-literal",
-    "uses_resolver": false
-   },
-   {
-    "kind": "literal",
-    "mode": "repo-root",
-    "line": 7,
-    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
-    "file": "Tools/_r536bmc_race_probe.py",
-    "bucket": "repo-root-literal",
-    "uses_resolver": false
-   },
-   {
-    "kind": "literal",
-    "mode": "repo-root",
-    "line": 8,
-    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
-    "file": "Tools/_r536bmc_xref_extract.py",
-    "bucket": "repo-root-literal",
-    "uses_resolver": false
-   },
-   {
-    "kind": "literal",
-    "mode": "repo-root",
-    "line": 9,
-    "text": "OUT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\.codely-cli\\scratch\\_r725bmb_merge_resolve_REF.py\"",
-    "file": "Tools/_r536bmc_xref_extract.py",
-    "bucket": "repo-root-literal",
-    "uses_resolver": false
-   },
-   {
-    "kind": "literal",
-    "mode": "repo-root",
-    "line": 3,
-    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
-    "file": "Tools/_r539bmc_board_probe.py",
-    "bucket": "repo-root-literal",
-    "uses_resolver": false
-   },
-   {
-    "kind": "literal",
-    "mode": "repo-root",
-    "line": 8,
-    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
-    "file": "Tools/_r539bmc_bookkeeping.py",
-    "bucket": "repo-root-literal",
-    "uses_resolver": false
-   },
-   {
-    "kind": "literal",
-    "mode": "repo-root",
-    "line": 3,
-    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
-    "file": "Tools/_r539bmc_orders_probe.py",
-    "bucket": "repo-root-literal",
-    "uses_resolver": false
-   },
-   {
-    "kind": "literal",
-    "mode": "repo-root",
-    "line": 15,
-    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
-    "file": "Tools/_r544bmc_merge_close.py",
-    "bucket": "repo-root-literal",
-    "uses_resolver": false
-   },
-   {
-    "kind": "literal",
-    "mode": "repo-root",
-    "line": 7,
-    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
-    "file": "Tools/_r545bmc_bookkeeping.py",
-    "bucket": "repo-root-literal",
-    "uses_resolver": false
-   },
-   {
-    "kind": "literal",
-    "mode": "repo-root",
-    "line": 8,
-    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
-    "file": "Tools/_r546bmc_bookkeeping.py",
-    "bucket": "repo-root-literal",
-    "uses_resolver": false
-   },
-   {
-    "kind": "literal",
-    "mode": "repo-root",
-    "line": 8,
-    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
-    "file": "Tools/_r547bmc_bookkeeping.py",
-    "bucket": "repo-root-literal",
-    "uses_resolver": false
-   },
-   {
-    "kind": "literal",
-    "mode": "repo-root",
-    "line": 9,
-    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
-    "file": "Tools/_r547bmc_verdict_fix.py",
-    "bucket": "repo-root-literal",
-    "uses_resolver": false
-   },
-   {
-    "kind": "literal",
-    "mode": "repo-root",
-    "line": 8,
-    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
-    "file": "Tools/_r548bmc_bookkeeping.py",
-    "bucket": "repo-root-literal",
-    "uses_resolver": false
-   },
-   {
-    "kind": "literal",
-    "mode": "repo-root",
-    "line": 10,
-    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
-    "file": "Tools/_r549bmc_bookkeeping.py",
-    "bucket": "repo-root-literal",
-    "uses_resolver": false
-   },
-   {
-    "kind": "literal",
-    "mode": "repo-root",
-    "line": 12,
-    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
-    "file": "Tools/_r550bmc_bookkeeping.py",
-    "bucket": "repo-root-literal",
-    "uses_resolver": false
-   },
-   {
-    "kind": "literal",
-    "mode": "repo-root",
-    "line": 12,
-    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
-    "file": "Tools/_r551bmc_bookkeeping.py",
-    "bucket": "repo-root-literal",
-    "uses_resolver": false
-   }
-  ],
   "one-off": [
+   {
+    "kind": "literal",
+    "mode": "group-root",
+    "line": 152,
+    "text": "\"最近实物＝`K:\\\\Fluxgroup\\\\FluxGroup\\\\cph4\\\\fleet\\\\rt\\\\visual\\\\receipts\\\\D02-RECONCILE-20261116-bmc.md`\"",
+    "file": "scripts/_r1742bmc_closeout.py",
+    "bucket": "one-off",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "group-root",
+    "line": 12,
+    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\"",
+    "file": "scripts/_r1742bmc_relaunch_group.py",
+    "bucket": "one-off",
+    "uses_resolver": false
+   },
    {
     "kind": "literal",
     "mode": "group-root",
@@ -909,23 +383,549 @@
     "file": "Tools/_r665bmc_s05.py",
     "bucket": "one-off",
     "uses_resolver": false
+   }
+  ],
+  "exempt-resolver": [
+   {
+    "kind": "literal",
+    "mode": "bare-root",
+    "line": 68,
+    "text": "`K:\\\\Fluxgroup` is a per-host DEPLOYMENT root (task backups, machine-state",
+    "file": "scripts/group_root_sweep.py",
+    "bucket": "exempt-resolver",
+    "uses_resolver": true
+   },
+   {
+    "kind": "literal",
+    "mode": "group-root",
+    "line": 69,
+    "text": "flags); `K:\\\\Fluxgroup\\\\FluxGroup` is the group TREE. Only the latter can be",
+    "file": "scripts/group_root_sweep.py",
+    "bucket": "exempt-resolver",
+    "uses_resolver": true
+   },
+   {
+    "kind": "literal",
+    "mode": "bare-root",
+    "line": 78,
+    "text": "# `D:\\FluxGroup` alone is ambiguous: the group tree on some host, or a",
+    "file": "scripts/group_root_sweep.py",
+    "bucket": "exempt-resolver",
+    "uses_resolver": true
+   },
+   {
+    "kind": "literal",
+    "mode": "deployment-root",
+    "line": 82,
+    "text": "# K:\\Fluxgroup\\.codely-cli\\... -- per-host deployment, outside any repo",
+    "file": "scripts/group_root_sweep.py",
+    "bucket": "exempt-resolver",
+    "uses_resolver": true
+   },
+   {
+    "kind": "literal",
+    "mode": "group-root",
+    "line": 88,
+    "text": "# nested FluxGroup/, or straight into the tree (D:\\FluxGroup\\cph4, cph4/, docs/)",
+    "file": "scripts/group_root_sweep.py",
+    "bucket": "exempt-resolver",
+    "uses_resolver": true
+   },
+   {
+    "kind": "literal",
+    "mode": "group-root",
+    "line": 216,
+    "text": "bad.write_text(\"GRP = r'D:\\\\FluxGroup\\\\cph4'\\n\", encoding=\"utf-8\")",
+    "file": "scripts/group_root_sweep.py",
+    "bucket": "exempt-resolver",
+    "uses_resolver": true
+   },
+   {
+    "kind": "literal",
+    "mode": "group-root",
+    "line": 227,
+    "text": "oneoff.write_text(\"GROUP = r'K:\\\\Fluxgroup\\\\FluxGroup'\\n\", encoding=\"utf-8\")",
+    "file": "scripts/group_root_sweep.py",
+    "bucket": "exempt-resolver",
+    "uses_resolver": true
+   },
+   {
+    "kind": "literal",
+    "mode": "group-root",
+    "line": 235,
+    "text": "\"GRP = pick_or_default(r'K:\\\\Fluxgroup\\\\FluxGroup')\\n\",",
+    "file": "scripts/group_root_sweep.py",
+    "bucket": "exempt-resolver",
+    "uses_resolver": true
+   },
+   {
+    "kind": "literal",
+    "mode": "repo-root",
+    "line": 245,
+    "text": "own.write_text(\"ROOT = r'K:\\\\Fluxgroup\\\\FluxGroup\\\\quant\\\\bigmoney'\\n\",",
+    "file": "scripts/group_root_sweep.py",
+    "bucket": "exempt-resolver",
+    "uses_resolver": true
    },
    {
     "kind": "climb",
     "mode": "group-root",
-    "line": 24,
-    "text": "GROUP = os.path.normpath(os.path.join(ROOT, \"..\", \"..\"))  # bigmoney -> quant -> FluxGroup",
-    "file": "Tools/_r666bmc_s05.py",
-    "bucket": "one-off",
+    "line": 254,
+    "text": "climb.write_text(\"p = os.path.join('..', '..', 'docs', 'decisions.md')\\n\",",
+    "file": "scripts/group_root_sweep.py",
+    "bucket": "exempt-resolver",
+    "uses_resolver": true
+   },
+   {
+    "kind": "climb",
+    "mode": "group-root",
+    "line": 266,
+    "text": "\"c = os.path.join('..', '..')\\n\", encoding=\"utf-8\")",
+    "file": "scripts/group_root_sweep.py",
+    "bucket": "exempt-resolver",
+    "uses_resolver": true
+   },
+   {
+    "kind": "literal",
+    "mode": "deployment-root",
+    "line": 279,
+    "text": "# 7. the per-host deployment root is NOT the group tree (K:\\Fluxgroup\\.codely-cli)",
+    "file": "scripts/group_root_sweep.py",
+    "bucket": "exempt-resolver",
+    "uses_resolver": true
+   },
+   {
+    "kind": "literal",
+    "mode": "deployment-root",
+    "line": 281,
+    "text": "dep.write_text('VALVE = r\"K:\\\\Fluxgroup\\\\.codely-cli\\\\machine-state.flag\"\\n',",
+    "file": "scripts/group_root_sweep.py",
+    "bucket": "exempt-resolver",
+    "uses_resolver": true
+   },
+   {
+    "kind": "literal",
+    "mode": "group-root",
+    "line": 12,
+    "text": "* hardcoded paths (`K:\\\\Fluxgroup\\\\FluxGroup`, `D:\\\\FluxGroup`, ...) -- same",
+    "file": "Tools/group_root.py",
+    "bucket": "exempt-resolver",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "bare-root",
+    "line": 12,
+    "text": "* hardcoded paths (`K:\\\\Fluxgroup\\\\FluxGroup`, `D:\\\\FluxGroup`, ...) -- same",
+    "file": "Tools/group_root.py",
+    "bucket": "exempt-resolver",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "group-root",
+    "line": 15,
+    "text": "FluxVerse's live damage: `D:\\\\FluxGroup\\\\cph4` was nine days stale (235 vs 373",
+    "file": "Tools/group_root.py",
+    "bucket": "exempt-resolver",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "group-root",
+    "line": 33,
+    "text": "root = pick_or_default(\"K:\\\\Fluxgroup\\\\FluxGroup\")",
+    "file": "Tools/group_root.py",
+    "bucket": "exempt-resolver",
     "uses_resolver": false
    },
    {
     "kind": "climb",
     "mode": "group-root",
+    "line": 71,
+    "text": "out.append(os.path.normpath(os.path.join(here, \"..\", \"..\")))",
+    "file": "Tools/group_root.py",
+    "bucket": "exempt-resolver",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "group-root",
+    "line": 72,
+    "text": "out.append(r\"K:\\Fluxgroup\\FluxGroup\")",
+    "file": "Tools/group_root.py",
+    "bucket": "exempt-resolver",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "group-root",
+    "line": 73,
+    "text": "out.append(r\"C:\\Fluxgroup\\FluxGroup\")",
+    "file": "Tools/group_root.py",
+    "bucket": "exempt-resolver",
+    "uses_resolver": false
+   }
+  ],
+  "repo-root-literal": [
+   {
+    "kind": "literal",
+    "mode": "repo-root",
+    "line": 9,
+    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
+    "file": "Tools/_r1029bmc_rebase_resolve.py",
+    "bucket": "repo-root-literal",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "repo-root",
+    "line": 16,
+    "text": "REPO = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
+    "file": "Tools/_r1034bmc_spawn_receipt.py",
+    "bucket": "repo-root-literal",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "repo-root",
+    "line": 5,
+    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
+    "file": "Tools/_r1070bmc_close.py",
+    "bucket": "repo-root-literal",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "repo-root",
+    "line": 5,
+    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
+    "file": "Tools/_r1071bmc_close.py",
+    "bucket": "repo-root-literal",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "repo-root",
+    "line": 38,
+    "text": "\"最近实物＝`K:\\\\Fluxgroup\\\\FluxGroup\\\\quant\\\\bigmoney\\\\results\\\\etf_book_order\\\\ORDER-2026-11-13.md` 第 **262** 行\"",
+    "file": "Tools/_r1753bmc_report.py",
+    "bucket": "repo-root-literal",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "repo-root",
+    "line": 146,
+    "text": "\"`K:\\\\Fluxgroup\\\\FluxGroup\\\\quant\\\\bigmoney\\\\research\\\\ETF_BOOK_SEAT_HOLD.md` ＋ \"",
+    "file": "Tools/_r1769bmc_close.py",
+    "bucket": "repo-root-literal",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "repo-root",
+    "line": 147,
+    "text": "\"`K:\\\\Fluxgroup\\\\FluxGroup\\\\quant\\\\bigmoney\\\\results\\\\etf_book_seat_hold.json` ＋ \"",
+    "file": "Tools/_r1769bmc_close.py",
+    "bucket": "repo-root-literal",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "repo-root",
+    "line": 148,
+    "text": "\"`K:\\\\Fluxgroup\\\\FluxGroup\\\\quant\\\\bigmoney\\\\scripts\\\\etf_book_seat_hold.py`\"",
+    "file": "Tools/_r1769bmc_close.py",
+    "bucket": "repo-root-literal",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "repo-root",
+    "line": 8,
+    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
+    "file": "Tools/_r309bmc_close.py",
+    "bucket": "repo-root-literal",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "repo-root",
+    "line": 14,
+    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
+    "file": "Tools/_r309bmc_pool_rebase_resolver.py",
+    "bucket": "repo-root-literal",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "repo-root",
+    "line": 26,
+    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
+    "file": "Tools/_r309bmc_w5_entry_flip.py",
+    "bucket": "repo-root-literal",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "repo-root",
+    "line": 21,
+    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
+    "file": "Tools/_r416bmc_cas_push.py",
+    "bucket": "repo-root-literal",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "repo-root",
+    "line": 10,
+    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
+    "file": "Tools/_r421bmc_addendum.py",
+    "bucket": "repo-root-literal",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "repo-root",
+    "line": 9,
+    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
+    "file": "Tools/_r421bmc_close.py",
+    "bucket": "repo-root-literal",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "repo-root",
+    "line": 8,
+    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
+    "file": "Tools/_r421bmc_close2.py",
+    "bucket": "repo-root-literal",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "repo-root",
     "line": 24,
-    "text": "GROUP = os.path.normpath(os.path.join(ROOT, \"..\", \"..\"))  # bigmoney -> quant -> FluxGroup",
-    "file": "Tools/_r668bmc_s05.py",
-    "bucket": "one-off",
+    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
+    "file": "Tools/_r421bmc_rebase_finish.py",
+    "bucket": "repo-root-literal",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "repo-root",
+    "line": 11,
+    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
+    "file": "Tools/_r421bmc_rebase_resolve.py",
+    "bucket": "repo-root-literal",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "repo-root",
+    "line": 13,
+    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
+    "file": "Tools/_r421bmc_rebase_resolve2.py",
+    "bucket": "repo-root-literal",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "repo-root",
+    "line": 13,
+    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
+    "file": "Tools/_r421bmc_rebase_skip.py",
+    "bucket": "repo-root-literal",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "repo-root",
+    "line": 12,
+    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
+    "file": "Tools/_r422bmc_rebase_resolve.py",
+    "bucket": "repo-root-literal",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "repo-root",
+    "line": 9,
+    "text": "ROOT = r\"C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
+    "file": "Tools/_r488_close.py",
+    "bucket": "repo-root-literal",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "repo-root",
+    "line": 9,
+    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
+    "file": "Tools/_r517bmc_commit.py",
+    "bucket": "repo-root-literal",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "repo-root",
+    "line": 10,
+    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
+    "file": "Tools/_r518bmc_commit.py",
+    "bucket": "repo-root-literal",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "repo-root",
+    "line": 13,
+    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
+    "file": "Tools/_r525bmc_bookkeeping.py",
+    "bucket": "repo-root-literal",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "repo-root",
+    "line": 13,
+    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
+    "file": "Tools/_r526bmc_bookkeeping.py",
+    "bucket": "repo-root-literal",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "repo-root",
+    "line": 9,
+    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
+    "file": "Tools/_r536bmc_final_verify.py",
+    "bucket": "repo-root-literal",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "repo-root",
+    "line": 5,
+    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
+    "file": "Tools/_r536bmc_gitlog.py",
+    "bucket": "repo-root-literal",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "repo-root",
+    "line": 9,
+    "text": "OUT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\_r536bmc_gorders_dump.txt\"",
+    "file": "Tools/_r536bmc_gorders2.py",
+    "bucket": "repo-root-literal",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "repo-root",
+    "line": 8,
+    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
+    "file": "Tools/_r536bmc_premerge_probe.py",
+    "bucket": "repo-root-literal",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "repo-root",
+    "line": 7,
+    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
+    "file": "Tools/_r536bmc_race_probe.py",
+    "bucket": "repo-root-literal",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "repo-root",
+    "line": 8,
+    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
+    "file": "Tools/_r536bmc_xref_extract.py",
+    "bucket": "repo-root-literal",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "repo-root",
+    "line": 9,
+    "text": "OUT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\.codely-cli\\scratch\\_r725bmb_merge_resolve_REF.py\"",
+    "file": "Tools/_r536bmc_xref_extract.py",
+    "bucket": "repo-root-literal",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "repo-root",
+    "line": 3,
+    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
+    "file": "Tools/_r539bmc_board_probe.py",
+    "bucket": "repo-root-literal",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "repo-root",
+    "line": 8,
+    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
+    "file": "Tools/_r539bmc_bookkeeping.py",
+    "bucket": "repo-root-literal",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "repo-root",
+    "line": 3,
+    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
+    "file": "Tools/_r539bmc_orders_probe.py",
+    "bucket": "repo-root-literal",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "repo-root",
+    "line": 15,
+    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
+    "file": "Tools/_r544bmc_merge_close.py",
+    "bucket": "repo-root-literal",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "repo-root",
+    "line": 7,
+    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
+    "file": "Tools/_r545bmc_bookkeeping.py",
+    "bucket": "repo-root-literal",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "repo-root",
+    "line": 8,
+    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
+    "file": "Tools/_r546bmc_bookkeeping.py",
+    "bucket": "repo-root-literal",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "repo-root",
+    "line": 8,
+    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
+    "file": "Tools/_r547bmc_bookkeeping.py",
+    "bucket": "repo-root-literal",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "repo-root",
+    "line": 9,
+    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
+    "file": "Tools/_r547bmc_verdict_fix.py",
+    "bucket": "repo-root-literal",
     "uses_resolver": false
    }
   ],
@@ -1155,6 +1155,20 @@
   "scripts/group_root_sweep.py"
  ],
  "by_file": {
+  "scripts/_r1742bmc_closeout.py": [
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 152
+   }
+  ],
+  "scripts/_r1742bmc_relaunch_group.py": [
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 12
+   }
+  ],
   "scripts/group_root_sweep.py": [
    {
     "bucket": "exempt-resolver",
@@ -1267,6 +1281,30 @@
     "bucket": "repo-root-literal",
     "mode": "repo-root",
     "line": 5
+   }
+  ],
+  "Tools/_r1753bmc_report.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 38
+   }
+  ],
+  "Tools/_r1769bmc_close.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 146
+   },
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 147
+   },
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 148
    }
   ],
   "Tools/_r309bmc_close.py": [

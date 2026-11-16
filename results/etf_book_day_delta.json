@@ -3,8 +3,8 @@
  "today": {
   "day": "20261116",
   "file": "LIVE-BOOK-20261116.json",
-  "priced_bar": "2026-11-13",
-  "evidence_cutoff": "2026-11-13"
+  "priced_bar": "2026-11-16",
+  "evidence_cutoff": "2026-11-16"
  },
  "prev": {
   "day": "20261115",
@@ -12,94 +12,600 @@
   "priced_bar": "2026-11-13",
   "evidence_cutoff": "2026-11-13"
  },
- "evidence_cutoff": "2026-11-13",
- "same_cut": true,
+ "evidence_cutoff": "2026-11-16",
+ "same_cut": false,
  "cut_today": {
-  "priced_bar": "2026-11-13",
-  "evidence_cutoff": "2026-11-13"
+  "priced_bar": "2026-11-16",
+  "evidence_cutoff": "2026-11-16"
  },
  "cut_prev": {
   "priced_bar": "2026-11-13",
   "evidence_cutoff": "2026-11-13"
  },
  "counts": {
-  "leaves_today": 4314,
+  "leaves_today": 4340,
   "leaves_prev": 4257,
-  "shared": 4257,
-  "identical": 4251,
-  "moved": 6,
-  "clock": 4,
-  "data_advanced": 0,
-  "recovered_old_value": 1,
-  "declared_ruler": 1,
+  "shared": 4256,
+  "identical": 4175,
+  "moved": 81,
+  "clock": 6,
+  "data_advanced": 75,
+  "recovered_old_value": 0,
+  "declared_ruler": 0,
   "unexplained": 0,
-  "appeared": 57,
-  "vanished": 0
+  "appeared": 84,
+  "vanished": 1
  },
  "moves": [
   {
+   "path": "/admission/capacity_cny",
+   "prev": 39783633.0,
+   "today": 27645948.0,
+   "delta": -12137685.0,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/admission/margin_to_line",
+   "prev": -0.0039,
+   "today": -0.0084,
+   "delta": -0.0045,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/admission/top2_share",
+   "prev": 0.7039,
+   "today": 0.7084,
+   "delta": 0.0045000000000000595,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/admission/worst",
+   "prev": 2.6828,
+   "today": 2.1656,
+   "delta": -0.5171999999999999,
+   "kind": "DATA_ADVANCED"
+  },
+  {
    "path": "/authority/owner_silent_h",
    "prev": 41.4,
-   "today": 57.0,
-   "delta": 15.600000000000001,
+   "today": 65.7,
+   "delta": 24.300000000000004,
    "kind": "CLOCK"
+  },
+  {
+   "path": "/backtest_band/12 名·8% 波动目标（生产卡片口径）/full/cagr_pct",
+   "prev": 9.59,
+   "today": 9.51,
+   "delta": -0.08000000000000007,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/backtest_band/12 名·8% 波动目标（生产卡片口径）/full/sharpe",
+   "prev": 0.99,
+   "today": 0.98,
+   "delta": -0.010000000000000009,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/backtest_band/12 名·8% 波动目标（生产卡片口径）/oos/cagr_pct",
+   "prev": 18.2,
+   "today": 17.97,
+   "delta": -0.23000000000000043,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/backtest_band/12 名·8% 波动目标（生产卡片口径）/oos/sharpe",
+   "prev": 1.72,
+   "today": 1.7,
+   "delta": -0.020000000000000018,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/backtest_band/5 名·beta 覆盖/full/cagr_pct",
+   "prev": 15.67,
+   "today": 15.55,
+   "delta": -0.11999999999999922,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/backtest_band/5 名·beta 覆盖/full/sharpe",
+   "prev": 1.01,
+   "today": 1.0,
+   "delta": -0.010000000000000009,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/backtest_band/5 名·beta 覆盖/oos/cagr_pct",
+   "prev": 23.76,
+   "today": 23.42,
+   "delta": -0.33999999999999986,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/backtest_band/5 名·beta 覆盖/oos/sharpe",
+   "prev": 1.49,
+   "today": 1.48,
+   "delta": -0.010000000000000009,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/book_amount_cny",
+   "prev": 431769.6,
+   "today": 431727.8,
+   "delta": -41.79999999998836,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/cash_amount_cny",
+   "prev": 568230.4,
+   "today": 568272.2,
+   "delta": 41.79999999993015,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/cash_handshake/cash_amount_cny",
+   "prev": 568230.4,
+   "today": 568272.2,
+   "delta": 41.79999999993015,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/cash_handshake/worst_case_annual_cny",
+   "prev": 6904.0,
+   "today": 6905.0,
+   "delta": 1.0,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/cash_ladder/cash_amount_cny",
+   "prev": 568230.4,
+   "today": 568272.2,
+   "delta": 41.79999999993015,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/cash_ladder/tenors/0/annual_cny_spot",
+   "prev": 7188.0,
+   "today": 7189.0,
+   "delta": 1.0,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/cash_ladder/tenors/1/annual_cny_realized_1y",
+   "prev": 6385.0,
+   "today": 6386.0,
+   "delta": 1.0,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/cash_ladder/tenors/1/annual_cny_spot",
+   "prev": 6904.0,
+   "today": 6905.0,
+   "delta": 1.0,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/cash_ladder/tenors/2/annual_cny_realized_1y",
+   "prev": 8011.0,
+   "today": 8012.0,
+   "delta": 1.0,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/cash_ladder/tenors/2/annual_cny_spot",
+   "prev": 7813.0,
+   "today": 7814.0,
+   "delta": 1.0,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/cash_ladder/tenors/3/annual_cny_spot",
+   "prev": 7813.0,
+   "today": 7814.0,
+   "delta": 1.0,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/cash_ladder/tenors/4/annual_cny_spot",
+   "prev": 7813.0,
+   "today": 7814.0,
+   "delta": 1.0,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/cash_ladder/tenors/5/annual_cny_realized_1y",
+   "prev": 8133.0,
+   "today": 8134.0,
+   "delta": 1.0,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/cash_money/block/book_rate/annual_cny",
+   "prev": 10075.0,
+   "today": 10076.0,
+   "delta": 1.0,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/cash_money/block/cash_amount_cny",
+   "prev": 568230.4,
+   "today": 568272.2,
+   "delta": 41.79999999993015,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/cash_money/block/mean_tail/annual_cny",
+   "prev": 7681.0,
+   "today": 7682.0,
+   "delta": 1.0,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/cash_money/block/spot/annual_cny",
+   "prev": 7188.0,
+   "today": 7189.0,
+   "delta": 1.0,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/cash_money/block/spread_vs_window_cny",
+   "prev": -4640.0,
+   "today": -4643.0,
+   "delta": -3.0,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/cash_money/block/window/annual_cny",
+   "prev": 11828.0,
+   "today": 11831.0,
+   "delta": 3.0,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/cash_money/block/window/pct",
+   "prev": 2.0816,
+   "today": 2.082,
+   "delta": 0.00039999999999995595,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/cash_money/forward/cash_amount_cny",
+   "prev": 568230.4,
+   "today": 568272.2,
+   "delta": 41.79999999993015,
+   "kind": "DATA_ADVANCED"
   },
   {
    "path": "/cash_money/forward/gap_bp",
    "prev": 50.81,
    "today": 77.79,
    "delta": 26.980000000000004,
-   "kind": "RECOVERED_OLD_VALUE",
-   "evidence": "昨天的 50.81 今天仍在这页上：`/cash_money/forward/gap_bp_gross`（改名，不是重算）"
+   "kind": "DATA_ADVANCED"
   },
   {
    "path": "/cash_money/forward/gap_cny",
    "prev": 182.0,
    "today": 279.0,
    "delta": 97.0,
-   "kind": "DECLARED_RULER",
-   "evidence": "同块口径句改了：`/cash_money/forward/ruler`"
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/cash_yield/annual_cny",
+   "prev": 7188.0,
+   "today": 7189.0,
+   "delta": 1.0,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/causal_rebuild/elapsed_sec",
+   "prev": 116.0,
+   "today": 95.9,
+   "delta": -20.099999999999994,
+   "kind": "CLOCK"
+  },
+  {
+   "path": "/excess_pp",
+   "prev": 9.8,
+   "today": 9.81,
+   "delta": 0.009999999999999787,
+   "kind": "DATA_ADVANCED"
   },
   {
    "path": "/fleet/rows/0/age_h",
    "prev": 40.52,
-   "today": 46.25,
-   "delta": 5.729999999999997,
+   "today": 64.34,
+   "delta": 23.82,
    "kind": "CLOCK"
   },
   {
    "path": "/fleet/rows/1/age_h",
    "prev": 387.0,
-   "today": 392.73,
-   "delta": 5.730000000000018,
+   "today": 410.82,
+   "delta": 23.819999999999993,
    "kind": "CLOCK"
   },
   {
    "path": "/fleet/rows/2/age_h",
    "prev": 0.17,
-   "today": 0.36,
-   "delta": 0.18999999999999997,
+   "today": 0.06,
+   "delta": -0.11000000000000001,
    "kind": "CLOCK"
-  }
- ],
- "money_moves": [
-  {
-   "path": "/cash_money/forward/gap_bp",
-   "prev": 50.81,
-   "today": 77.79,
-   "delta": 26.980000000000004,
-   "kind": "RECOVERED_OLD_VALUE",
-   "evidence": "昨天的 50.81 今天仍在这页上：`/cash_money/forward/gap_bp_gross`（改名，不是重算）"
   },
   {
-   "path": "/cash_money/forward/gap_cny",
-   "prev": 182.0,
-   "today": 279.0,
-   "delta": 97.0,
-   "kind": "DECLARED_RULER",
-   "evidence": "同块口径句改了：`/cash_money/forward/ruler`"
+   "path": "/gap/elapsed_sec",
+   "prev": 102.4,
+   "today": 85.0,
+   "delta": -17.400000000000006,
+   "kind": "CLOCK"
+  },
+  {
+   "path": "/money_cny/benchmark_annual_cny",
+   "prev": 27900.0,
+   "today": 27300.0,
+   "delta": -600.0,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/money_cny/excess_annual_cny",
+   "prev": 98000.0,
+   "today": 98100.0,
+   "delta": 100.0,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/money_cny/expected_annual_cny",
+   "prev": 125900.0,
+   "today": 125400.0,
+   "delta": -500.0,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/next_decision_bars",
+   "prev": 18,
+   "today": 17,
+   "delta": -1,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/order/0/amount_cny",
+   "prev": 86389.2,
+   "today": 86400.6,
+   "delta": 11.400000000008731,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/order/0/lots",
+   "prev": 684,
+   "today": 689,
+   "delta": 5,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/order/0/price",
+   "prev": 1.263,
+   "today": 1.254,
+   "delta": -0.008999999999999897,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/order/0/shares",
+   "prev": 68400,
+   "today": 68900,
+   "delta": 500,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/order/1/amount_cny",
+   "prev": 86321.4,
+   "today": 86351.9,
+   "delta": 30.5,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/order/1/lots",
+   "prev": 726,
+   "today": 719,
+   "delta": -7,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/order/1/price",
+   "prev": 1.189,
+   "today": 1.201,
+   "delta": 0.01200000000000001,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/order/1/shares",
+   "prev": 72600,
+   "today": 71900,
+   "delta": -700,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/order/2/amount_cny",
+   "prev": 86372.4,
+   "today": 86286.0,
+   "delta": -86.39999999999418,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/order/2/lots",
+   "prev": 431,
+   "today": 438,
+   "delta": 7,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/order/2/price",
+   "prev": 2.004,
+   "today": 1.97,
+   "delta": -0.03400000000000003,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/order/2/shares",
+   "prev": 43100,
+   "today": 43800,
+   "delta": 700,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/order/3/amount_cny",
+   "prev": 86333.0,
+   "today": 86365.0,
+   "delta": 32.0,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/order/3/lots",
+   "prev": 754,
+   "today": 751,
+   "delta": -3,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/order/3/price",
+   "prev": 1.145,
+   "today": 1.15,
+   "delta": 0.004999999999999893,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/order/3/shares",
+   "prev": 75400,
+   "today": 75100,
+   "delta": -300,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/order/4/amount_cny",
+   "prev": 86353.6,
+   "today": 86324.3,
+   "delta": -29.30000000000291,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/order/4/lots",
+   "prev": 496,
+   "today": 493,
+   "delta": -3,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/order/4/price",
+   "prev": 1.741,
+   "today": 1.751,
+   "delta": 0.009999999999999787,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/order/4/shares",
+   "prev": 49600,
+   "today": 49300,
+   "delta": -300,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/positions/accrual/rf_missing_bars",
+   "prev": 0,
+   "today": 1,
+   "delta": 1,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/positions/accrual/rows",
+   "prev": 0,
+   "today": 1,
+   "delta": 1,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/positions/accrual/written",
+   "prev": 0,
+   "today": 1,
+   "delta": 1,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/positions/engine_book/tail/nav_units",
+   "prev": 1.46744585,
+   "today": 1.4670029,
+   "delta": -0.000442950000000053,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/positions/engine_book/tail/rf",
+   "prev": 0.0,
+   "today": 0.00010397,
+   "delta": 0.00010397,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/positions/next_order_base/risk_book_cny",
+   "prev": 431769.6,
+   "today": 431432.8,
+   "delta": -336.79999999998836,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/same_beta_benchmark/bars",
+   "prev": 693,
+   "today": 694,
+   "delta": 1,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/same_beta_benchmark/cagr",
+   "prev": 0.0279,
+   "today": 0.0273,
+   "delta": -0.0005999999999999998,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/same_beta_benchmark/sharpe",
+   "prev": 0.737,
+   "today": 0.722,
+   "delta": -0.015000000000000013,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/stress/n_days",
+   "prev": 5280,
+   "today": 5281,
+   "delta": 1,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/ticket_book/bars",
+   "prev": 693,
+   "today": 694,
+   "delta": 1,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/ticket_book/cagr",
+   "prev": 0.1259,
+   "today": 0.1254,
+   "delta": -0.0005000000000000004,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/ticket_book/sharpe",
+   "prev": 1.705,
+   "today": 1.699,
+   "delta": -0.006000000000000005,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/ticket_book/vol",
+   "prev": 0.0739,
+   "today": 0.0738,
+   "delta": -9.999999999998899e-05,
+   "kind": "DATA_ADVANCED"
   }
  ],
+ "money_moves": [],
  "appeared_blocks": [
   "/cash_money/block",
   "/cash_money/forward",
@@ -108,7 +614,8 @@
   "/entry_gate/shipped_min_names",
   "/entry_gate/thinnest_day_names",
   "/idle_cash/arm_gap",
-  "/idle_cash/arms"
+  "/idle_cash/arms",
+  "/positions/accrual"
  ],
  "appeared_paths": [
   "/cash_money/block/book_rate/declared/cagr_with_pct",
@@ -152,6 +659,8 @@
   "/entry_gate/gates/5/max_names",
   "/entry_gate/gates/5/min_names"
  ],
- "vanished_paths": [],
- "verdict": "EXPLAINED_MOVES"
+ "vanished_paths": [
+  "/positions/next_order_base/arrival_actions"
+ ],
+ "verdict": "DATA_ADVANCED"
 }
