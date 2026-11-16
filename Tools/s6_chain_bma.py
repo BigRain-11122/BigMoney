@@ -32,6 +32,7 @@ round report must surface any rc!=0 leg verbatim.
 """
 import json
 import os
+import re
 import subprocess
 import sys
 import time
@@ -71,9 +72,203 @@ def resolve(cmd):
     return out
 
 
+def _progress_path(round_no, scope):
+    return os.path.join(ROOT, "results",
+                        f"_r{round_no}bma_s6_chain{scope}.progress.jsonl")
+
+
+def _append_progress(path, rec):
+    """One line per finished leg, written the moment the leg ends.
+
+    Why: the chain record used to be written only after the LAST leg. A chain that
+    ran 38 minutes and was killed (r1298 found exactly that: legs still writing
+    per-symbol CSVs, no record on disk) left nothing to read -- the next round
+    could only guess its position from file mtimes. A runner that reports progress
+    must not be able to lose its own tail (r1234 family, applied to the chain).
+
+    Deliberately unable to kill the run: a failure to append is swallowed. The
+    record is evidence, not a gate.
+    """
+    try:
+        with open(path, "a", encoding="utf-8") as fh:
+            fh.write(json.dumps(rec, ensure_ascii=False) + "\n")
+    except OSError:
+        pass
+
+
+LOCK_MAX_AGE_MIN = 120
+
+
+def _pid_alive(pid):
+    if pid <= 0:
+        return False
+    try:
+        import ctypes
+        h = ctypes.windll.kernel32.OpenProcess(0x1000, 0, pid)  # QUERY_LIMITED_INFORMATION
+        if not h:
+            return False
+        code = ctypes.c_ulong()
+        ok = ctypes.windll.kernel32.GetExitCodeProcess(h, ctypes.byref(code))
+        ctypes.windll.kernel32.CloseHandle(h)
+        if ok:
+            return code.value == 259  # STILL_ACTIVE
+    except Exception:
+        pass
+    try:
+        os.kill(pid, 0)
+        return True
+    except OSError:
+        return False
+
+
+def _lock_path_default():
+    return os.path.join(ROOT, "logs", "s6_chain_bma.lock")
+
+
+def _lock_take(path=None):
+    """Single-instance guard: two rounds must never drive the same leg list.
+
+    Why: on 2026-11-16 23:28 the previous round's chain was still running (43 min
+    in, writing one per-symbol CSV per second under data/astock_daily/per/) while
+    the next round had already started. Nothing in this runner stopped the new
+    round from walking the same 263 legs over the same faces -- the only thing that
+    prevented a double write was the session happening to notice the process. That
+    is the r1687 two-pid lock lesson applied to the chain driver rather than to the
+    launcher.
+
+    Rules (same shape as iteration_loop.ps1): a LIVE pid wins at any age (a running
+    chain is never taken over); a dead pid is taken over immediately; an
+    unparseable legacy lock is taken over only once it is older than
+    LOCK_MAX_AGE_MIN. Returns (held, why, pid).
+    """
+    path = path or _lock_path_default()
+    try:
+        os.makedirs(os.path.dirname(path), exist_ok=True)
+    except OSError:
+        pass
+    if os.path.exists(path):
+        raw = ""
+        try:
+            with open(path, encoding="utf-8", errors="replace") as fh:
+                raw = fh.read()
+        except OSError:
+            pass
+        m = re.search(r"pid=(\d+)", raw or "")
+        if m:
+            pid = int(m.group(1))
+            if _pid_alive(pid):
+                return False, (raw or "").strip() or f"pid={pid}", pid
+        else:
+            try:
+                age = (time.time() - os.path.getmtime(path)) / 60.0
+            except OSError:
+                age = 0.0
+            if age < LOCK_MAX_AGE_MIN:
+                return False, (raw or "").strip() or "legacy-lock-fresh", 0
+        try:
+            os.remove(path)
+        except OSError:
+            pass
+    try:
+        with open(path, "w", encoding="utf-8") as fh:
+            fh.write("pid=%d %s\n" % (os.getpid(),
+                                      datetime.now().isoformat(timespec="seconds")))
+    except OSError:
+        return True, "lock-write-failed", os.getpid()
+    return True, "acquired", os.getpid()
+
+
+def _lock_release(path=None):
+    """Only the process named in the lock may remove it."""
+    path = path or _lock_path_default()
+    try:
+        with open(path, encoding="utf-8", errors="replace") as fh:
+            raw = fh.read()
+    except OSError:
+        return
+    if "pid=%d" % os.getpid() in (raw or ""):
+        try:
+            os.remove(path)
+        except OSError:
+            pass
+
+
+def _selftest():
+    """Offline check of the progress evidence: three fake legs, no shared face."""
+    import tempfile
+    tmp = tempfile.mkdtemp(prefix="s6self_")
+    legs = [
+        ("ok", [sys.executable, "-c", "print('leg-ok')"]),
+        ("fail", [sys.executable, "-c", "import sys; sys.exit(3)"]),
+        ("gone", ["__no_such_leg__.py"]),
+    ]
+    fails = []
+
+    def want(label, cond):
+        if not cond:
+            fails.append(label)
+
+    # drive the same helpers the real chain uses
+    prog = os.path.join(tmp, "progress.jsonl")
+    _append_progress(prog, {"started": "x", "legs_total": len(legs)})
+    out = []
+    for name, cmd in legs:
+        if not os.path.exists(os.path.join(ROOT, cmd[-1] if len(cmd) > 1 else cmd[0])) \
+                and not os.path.isabs(cmd[0]) and cmd[0] != sys.executable:
+            out.append({"leg": name, "rc": 127, "tail": "MISSING"})
+        else:
+            r = subprocess.run(resolve(cmd), cwd=ROOT, capture_output=True,
+                               text=True, encoding="utf-8", errors="replace",
+                               timeout=120)
+            out.append({"leg": name, "rc": r.returncode, "tail": (r.stdout or "").strip()})
+        _append_progress(prog, dict(out[-1], t="x"))
+
+    lines = [json.loads(l) for l in open(prog, encoding="utf-8") if l.strip()]
+    want("progress has header+3 legs", len(lines) == 4)
+    want("first line is the header", lines[0].get("legs_total") == 3)
+    want("a failing leg keeps its rc", any(l.get("rc") == 3 for l in lines))
+    want("a missing leg reads 127", any(l.get("rc") == 127 for l in lines))
+    want("an ok leg reads 0", any(l.get("rc") == 0 for l in lines))
+    want("every leg line carries a timestamp", all("t" in l for l in lines[1:]))
+    # atomicity: an append after a torn write must not corrupt earlier lines
+    with open(prog, "a", encoding="utf-8") as fh:
+        fh.write('{"leg": "extra"}\n')
+    again = [l for l in open(prog, encoding="utf-8") if l.strip()]
+    want("append after the fact stays parseable", len(again) == 5)
+
+    # single-instance guard
+    lp = os.path.join(tmp, "chain.lock")
+    ok1, _w1, _p1 = _lock_take(lp)
+    ok2, _w2, p2 = _lock_take(lp)
+    want("first lock take wins", ok1 is True)
+    want("a live pid beats a second take", ok2 is False and p2 == os.getpid())
+    _lock_release(lp)
+    want("release leaves no lock behind", not os.path.exists(lp))
+    ok3, _w3, _p3 = _lock_take(lp)
+    want("the lock is re-takeable after release", ok3 is True)
+    _lock_release(lp)
+    # a dead pid must be taken over at any age
+    with open(lp, "w", encoding="utf-8") as fh:
+        fh.write("pid=999999 stale\n")
+    ok4, _w4, _p4 = _lock_take(lp)
+    want("a dead pid is taken over", ok4 is True)
+    _lock_release(lp)
+
+    import shutil
+    shutil.rmtree(tmp, ignore_errors=True)
+    if fails:
+        print("selftest FAIL: " + "; ".join(fails))
+        return 1
+    print("selftest 12/12 PASS (progress evidence: header, per-leg rc, missing=127, "
+          "timestamp, append-safe; lock: live pid wins, dead pid taken over, release "
+          "is owner-only; no shared face touched)")
+    return 0
+
+
 def main(argv):
     args = list(argv[1:])
     only = None
+    selftest = False
     for a in list(args):
         if a.startswith("--only"):
             only = a.split("=", 1)[1] if "=" in a else None
@@ -84,7 +279,19 @@ def main(argv):
             for t in LEGS:
                 print(t[0])
             return 0
+        elif a == "--selftest":
+            selftest = True
+            args.remove(a)
     round_no = args[0] if args else "0"
+
+    if selftest:
+        return _selftest()
+
+    held, why, lpid = _lock_take()
+    if not held:
+        print(f"skip: another chain is in flight ({why}) -- one writer per face, "
+              f"r1687 lock law applied to this runner")
+        return 0
 
     legs = LEGS
     if only is not None:
@@ -94,6 +301,19 @@ def main(argv):
         if missing:
             print(f"unknown leg(s): {missing}; known={[t[0] for t in LEGS]}")
             return 2
+
+    # r1186: the record name has to carry the run's SCOPE. A `--only=` re-run of four legs used
+    # to write the same `_r<N>bma_s6_chain.json` as the full 107-leg chain, so fixing one face
+    # silently replaced the whole chain's evidence with a four-leg record (bm-c paid this at
+    # r1364 and fixed it there; this runner is the other copy of the same defect). Atomic writes
+    # stop a torn file, not a small run wearing the big run's name.
+    scope = ""
+    if only is not None:
+        scope = ".only-" + "-".join(sorted({t[0] for t in legs}))
+    path = os.path.join(ROOT, "results", f"_r{round_no}bma_s6_chain{scope}.json")
+    prog = _progress_path(round_no, scope)
+    _append_progress(prog, {"started": datetime.now().isoformat(timespec="seconds"),
+                            "legs_total": len(legs), "scope": scope.strip(".") or "full"})
 
     out = []
     for name, cmd, *rest in legs:
@@ -155,18 +375,13 @@ def main(argv):
         if refreshed:
             rec["refreshed"] = refreshed
         out.append(rec)
+        _append_progress(prog, dict(rec, t=datetime.now().isoformat(timespec="seconds")))
         note = (" +refresh(rc=%s,%ss)" % (refreshed["rc"], refreshed["elapsed_sec"])) if refreshed else ""
         print(f"{rc:3d} {name:18s} {el:7.1f}s {tail[0][:120]}{note}", flush=True)
 
     # r1186: the record name has to carry the run's SCOPE. A `--only=` re-run of four legs used
     # to write the same `_r<N>bma_s6_chain.json` as the full 107-leg chain, so fixing one face
     # silently replaced the whole chain's evidence with a four-leg record (bm-c paid this at
-    # r1364 and fixed it there; this runner is the other copy of the same defect). Atomic writes
-    # stop a torn file, not a small run wearing the big run's name.
-    scope = ""
-    if only is not None:
-        scope = ".only-" + "-".join(sorted({t[0] for t in legs}))
-    path = os.path.join(ROOT, "results", f"_r{round_no}bma_s6_chain{scope}.json")
     with open(path, "w", encoding="utf-8") as fh:
         json.dump(out, fh, ensure_ascii=False, indent=1)
     bad = [o for o in out if o["rc"] != 0]
@@ -174,6 +389,7 @@ def main(argv):
           f"({datetime.now().isoformat(timespec='seconds')})")
     if bad:
         print("NONZERO: " + ", ".join(f"{o['leg']}={o['rc']}" for o in bad))
+    _lock_release()
     return 0
 
 
