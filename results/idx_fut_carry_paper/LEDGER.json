@@ -1,0 +1,123 @@
+{
+ "accounts": {
+  "IC": {
+   "capital_cny": 1000000.0,
+   "drawdown_pct": 0.0,
+   "entry_fill_assumed_at_close": true,
+   "index_anchor": 6465.485,
+   "last_date": "2026-11-13",
+   "lots": 4,
+   "multiplier": 200,
+   "n_rolls": 0,
+   "nav_cny": 1000000.0,
+   "notional_basis_cny": 5100000.0,
+   "peak_nav_cny": 1000000.0,
+   "product": "IC",
+   "replay": {
+    "days": 242,
+    "excess_pct_of_capital": 58.445,
+    "excess_pnl_cny": 584453.56,
+    "index_pnl_cny": -703493.56,
+    "label": "REPLAY_NOT_FORWARD",
+    "max_drawdown_pct": -72.18,
+    "nav_end_cny": 880960.0,
+    "nav_start_cny": 1000000.0,
+    "note": "history with this position held daily -- a backtest, kept out of the forward series on purpose (see WHY THIS FILE EXISTS)",
+    "total_pct": -11.904,
+    "total_pnl_cny": -119040.0,
+    "window": [
+     "2025-11-13",
+     "2026-11-13"
+    ]
+   },
+   "rows": [
+    {
+     "close": 6375.0,
+     "contract": "IC2612",
+     "date": "2026-11-13",
+     "event": "anchor",
+     "excess_pnl_cum_cny": 0.0,
+     "index_close": 6465.485,
+     "index_pnl_cum_cny": 0.0,
+     "nav_cny": 1000000.0,
+     "pnl_cny": 0.0
+    }
+   ],
+   "source_verdict": "SLEEVE_CANDIDATE"
+  },
+  "IM": {
+   "capital_cny": 1000000.0,
+   "drawdown_pct": 0.0,
+   "entry_fill_assumed_at_close": true,
+   "index_anchor": 6357.258,
+   "last_date": "2026-11-13",
+   "lots": 4,
+   "multiplier": 200,
+   "n_rolls": 0,
+   "nav_cny": 1000000.0,
+   "notional_basis_cny": 5021440.0,
+   "peak_nav_cny": 1000000.0,
+   "product": "IM",
+   "replay": {
+    "days": 242,
+    "excess_pct_of_capital": 75.927,
+    "excess_pnl_cny": 759273.3,
+    "index_pnl_cny": -972073.3,
+    "label": "REPLAY_NOT_FORWARD",
+    "max_drawdown_pct": -74.63,
+    "nav_end_cny": 787200.0,
+    "nav_start_cny": 1000000.0,
+    "note": "history with this position held daily -- a backtest, kept out of the forward series on purpose (see WHY THIS FILE EXISTS)",
+    "total_pct": -21.28,
+    "total_pnl_cny": -212800.0,
+    "window": [
+     "2025-11-13",
+     "2026-11-13"
+    ]
+   },
+   "rows": [
+    {
+     "close": 6276.8,
+     "contract": "IM2612",
+     "date": "2026-11-13",
+     "event": "anchor",
+     "excess_pnl_cum_cny": 0.0,
+     "index_close": 6357.258,
+     "index_pnl_cum_cny": 0.0,
+     "nav_cny": 1000000.0,
+     "pnl_cny": 0.0
+    }
+   ],
+   "source_verdict": "SLEEVE_CANDIDATE"
+  }
+ },
+ "evidence_cutoff": "2026-11-16",
+ "generated": "2026-11-16T21:33:59",
+ "kind": "idx_fut_carry_paper",
+ "note": "forward lines only; a replay block is published beside each account and never merged into its NAV series",
+ "source_face": "results/idx_fut_desk_sheet.json",
+ "ticket": {
+  "IC": {
+   "bar": "2026-11-13",
+   "close": 6375.0,
+   "contract": "IC2612",
+   "distance_to_call_pct": 12.62,
+   "lots": 4,
+   "margin_per_lot_cny": 153000.0,
+   "multiplier": 200,
+   "product": "IC",
+   "verdict": "SLEEVE_CANDIDATE"
+  },
+  "IM": {
+   "bar": "2026-11-13",
+   "close": 6276.8,
+   "contract": "IM2612",
+   "distance_to_call_pct": 12.95,
+   "lots": 4,
+   "margin_per_lot_cny": 150643.0,
+   "multiplier": 200,
+   "product": "IM",
+   "verdict": "SLEEVE_CANDIDATE"
+  }
+ }
+}

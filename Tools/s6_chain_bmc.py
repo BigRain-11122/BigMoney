@@ -275,6 +275,15 @@ LEGS = [
     # refresh, reads the judgement rather than recomputing it, and carries the refusal
     # reason instead of a dash. ~3s, no network, adopts nothing.
     ("idx_fut_desk_sheet", ["python", "scripts/idx_fut_desk_sheet.py", "--write-doc"]),
+    # r1776: the desk sheet names a position but nothing booked it forward, so DIRECTION
+    # 20261114 sec.5's "the NAV this book has accumulated from today" had no home -- every
+    # carry face on disk is a replay, and a month from now the honest answer would still be
+    # a backtest. This leg marks the published ticket (contract, recommended lots,
+    # multiplier) to the contract closes, one line a day, never rewriting a line it already
+    # has. It reads the sheet, it does not re-judge it; the index leg rides beside the
+    # futures leg so the ticket's excess carry is separable from the index's own move.
+    # ~4s, no network (cached panels), adopts nothing.
+    ("idx_fut_carry_paper", ["python", "scripts/idx_fut_carry_paper.py", "run"]),
     # r1136: the futures TSMOM sleeve was measured on 10-27 (standalone Sharpe 0.27, but
     # 50/50 with the ETF book 1.059 vs 0.98 alone at a smaller drawdown) and there was no
     # daily face for it -- the "produced but never read" class this repo keeps recording
