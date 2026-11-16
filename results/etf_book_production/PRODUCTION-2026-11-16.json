@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-16 18:35:39",
+ "ts": "2026-11-16 21:03:17",
  "evidence_cutoff": "2026-11-16",
  "feed_status": {
   "ticket_bar": "2026-11-16",
@@ -32,14 +32,15 @@
  },
  "family_coherence": {
   "artifact": "results/etf_book_phase_atlas_arms.json",
-  "verdict": "ONE_WORLD",
-  "detail": "all 11 faces priced e6f9d0e81a64ec75",
+  "verdict": "MIXED_WORLDS",
+  "detail": "11 faces priced 2 different panels (0988c653, e6f9d0e8): per-cell deltas across worlds are world differences, not rule effects",
   "panels": [
+   "0988c6530a481fa1",
    "e6f9d0e81a64ec75"
   ],
   "arms": 10,
-  "evidence_cutoff": "2026-11-13",
-  "priced_bar": "2026-11-13",
+  "evidence_cutoff": "2026-11-16",
+  "priced_bar": "2026-11-16",
   "pricing": {
    "mode": "engine",
    "reprices_bar": true,
@@ -51,12 +52,11 @@
   },
   "panels_detail": [
    {
-    "digest": "e6f9d0e81a64ec75",
+    "digest": "0988c6530a481fa1",
     "faces": [
      "baseline",
      "buffer_k02",
      "buffer_k05",
-     "buffer_k05_cost20",
      "buffer_k10",
      "buffer_k20",
      "buffer_k40",
@@ -65,17 +65,26 @@
      "cost20",
      "cost40"
     ],
+    "last": "2026-11-16",
+    "bars": 5281,
+    "columns": 1630,
+    "bars_fewer_than_newest": 0
+   },
+   {
+    "digest": "e6f9d0e81a64ec75",
+    "faces": [
+     "buffer_k05_cost20"
+    ],
     "last": "2026-11-13",
     "bars": 5280,
     "columns": 1629,
-    "bars_fewer_than_newest": 0
+    "bars_fewer_than_newest": 1
    }
   ],
-  "priced_same_panel": true,
+  "priced_same_panel": false,
   "comparable": [
    "buffer_k02",
    "buffer_k05",
-   "buffer_k05_cost20",
    "buffer_k10",
    "buffer_k20",
    "buffer_k40",
@@ -84,10 +93,14 @@
    "cost20",
    "cost40"
   ],
-  "withheld": [],
+  "withheld": [
+   "buffer_k05_cost20"
+  ],
   "cost_axis": {
-   "readable": true,
-   "withheld": [],
+   "readable": false,
+   "withheld": [
+    "buffer_k05_cost20"
+   ],
    "arms": [
     {
      "arm": "buffer_k02",
@@ -97,14 +110,14 @@
     },
     {
      "arm": "buffer_k05",
-     "verdict": "NOT-SEPARABLE",
+     "verdict": "REJECT",
      "readable": true,
      "description": "buffer k=0.05 on every cell (the r1325 arm, re-priced per phase)"
     },
     {
      "arm": "buffer_k05_cost20",
-     "verdict": "REJECT",
-     "readable": true,
+     "verdict": "WORLDS_NOT_COMPARABLE",
+     "readable": false,
      "description": "buffer k=0.05 at 20bp/side -- the interaction neither family tested: does a buffer that is harmless at 10bp recover any of the -1.41pp the 20bp toll costs?"
     },
     {
@@ -160,14 +173,14 @@
    "adopt_share": null,
    "trials": 20000,
    "label": "REJECT_IS_THE_DEFAULT",
-   "evidence_cutoff": "2026-11-13",
-   "bar_now": "2026-11-13"
+   "evidence_cutoff": "2026-11-16",
+   "bar_now": "2026-11-16"
   },
   "signflip": {
    "artifact": "results/etf_book_arms_signflip.json",
    "status": "ok",
-   "detail": "3 of 4 published REJECTs stand on their own cells (buffer_k05_cost20, cost20, cost40); the rest are inside sign noise and must not be read as findings",
-   "n_reject": 4,
+   "detail": "3 of 5 published REJECTs stand on their own cells (buffer_k05_cost20, cost20, cost40); the rest are inside sign noise and must not be read as findings",
+   "n_reject": 5,
    "n_reject_standing": 3,
    "standing": [
     "buffer_k05_cost20",
@@ -175,11 +188,13 @@
     "cost40"
    ],
    "overturned": [
+    "buffer_k05",
     "buffer_k40",
     "cost0",
     "cost05"
    ],
    "overstated": [
+    "buffer_k05",
     "buffer_k40"
    ],
    "understated": [
@@ -192,14 +207,14 @@
      "frozen_label": "NOT-SEPARABLE",
      "verdict": "NOT-SEPARABLE",
      "sign_cells": 12,
-     "cells_positive": 4
+     "cells_positive": 5
     },
     {
      "arm": "buffer_k05",
-     "frozen_label": "NOT-SEPARABLE",
+     "frozen_label": "REJECT",
      "verdict": "NOT-SEPARABLE",
      "sign_cells": 12,
-     "cells_positive": 5
+     "cells_positive": 6
     },
     {
      "arm": "buffer_k05_cost20",
@@ -213,7 +228,7 @@
      "frozen_label": "NOT-SEPARABLE",
      "verdict": "NOT-SEPARABLE",
      "sign_cells": 12,
-     "cells_positive": 9
+     "cells_positive": 10
     },
     {
      "arm": "buffer_k20",
@@ -227,7 +242,7 @@
      "frozen_label": "REJECT",
      "verdict": "NOT-SEPARABLE",
      "sign_cells": 12,
-     "cells_positive": 8
+     "cells_positive": 9
     },
     {
      "arm": "cost0",
@@ -259,8 +274,8 @@
     }
    ],
    "verdict": "SOME_REJECTS_STAND",
-   "evidence_cutoff": "2026-11-13",
-   "bar_now": "2026-11-13"
+   "evidence_cutoff": "2026-11-16",
+   "bar_now": "2026-11-16"
   },
   "receipt": {
    "present": null,
@@ -270,13 +285,13 @@
   "floor_extrapolation": {
    "artifact": "results/etf_book_buffer_floor_readback.json",
    "present": true,
-   "detail": "the fit says +0.220pp at k=0.30 (slope +0.801, intercept -0.020); the harvested arm's own 12 cells say +0.365pp (median); gap +0.145pp against tolerance 0.081pp = 3.0x the fit's largest in-sample residual (0.027pp, floored at 0.05); cell spread of the same arm: -0.635 .. +1.380pp (12 cells), i.e. the median is not the book; the line misses the point it never saw by more than its own residual band:",
-   "verdict": "REFUTED",
+   "detail": "the fit says +0.335pp at k=0.30 (slope +1.225, intercept -0.033); the harvested arm's own 12 cells say +0.385pp (median); gap +0.050pp against tolerance 0.172pp = 3.0x the fit's largest in-sample residual (0.057pp, floored at 0.05); cell spread of the same arm: -0.560 .. +1.495pp (12 cells), i.e. the median is not the book; the line predicts a point it never saw, on the widest gap it spans -- the ",
+   "verdict": "HOLDS",
    "buffer_k": 0.3,
-   "predicted_pp": 0.22,
-   "observed_pp": 0.365,
-   "gap_pp": 0.145,
-   "tolerance_pp": 0.081,
+   "predicted_pp": 0.335,
+   "observed_pp": 0.385,
+   "gap_pp": 0.05,
+   "tolerance_pp": 0.172,
    "evidence_cutoff": "2026-10-29"
   }
  },
@@ -301,7 +316,7 @@
   "ticket_k": 0.432195,
   "ticket_is_prefix_of_card": true,
   "same_priced_bar": true,
-  "gap_pp": -1.24,
+  "gap_pp": -1.2,
   "source": "results/etf_book_order/latest.json",
   "card_bar": "2026-11-16"
  },
@@ -777,7 +792,7 @@
   ]
  },
  "caveats": [
-  "THE DRAWDOWN LINE ABOVE IS A MEDIAN, NOT A TAIL: it is priced on one ordering of the trading days. Bootstrapping this book's own return path at blocks 1/5/10/20/40/60/120/250 (the block is a free parameter) puts the 5th-percentile drawdown between -25.1% and -17.4% and the share of resamples worse than -20% between 1.1% and 16.1%. Size against the p5 column. See results/etf_book_bootstrap/BLOCKS-2026-11-13.json (band priced on the 2026-11-13 bar, older than this card's 2026-11-16 -- stale, its tail can only be too narrow).",
+  "THE DRAWDOWN LINE ABOVE IS A MEDIAN, NOT A TAIL: it is priced on one ordering of the trading days. Bootstrapping this book's own return path at blocks 1/5/10/20/40/60/120/250 (the block is a free parameter) puts the 5th-percentile drawdown between -25.2% and -17.6% and the share of resamples worse than -20% between 1.7% and 15.9%. Size against the p5 column. See results/etf_book_bootstrap/BLOCKS-2026-11-16.json.",
   "THE SIX FACTOR DIRECTIONS WERE CHOSEN WITH HINDSIGHT: every published number here uses a fixed sign block, and those signs are exactly this panel's full-sample IC signs (6 of 6 factors match). Re-priced with signs estimated only from already-realised windows, the same engine returns -10.85%/yr (Sharpe -0.41) against +5.99%/yr (+0.63) for the fixed signs -- and reversing the trailing sign does not recover it (-1.96%/yr). Read the headline as the size of a period, not the size of a rule. See results/etf_sign_pit.json.",
   "ONE REGIME, NOT A VERIFIED EDGE: on the 224 ETFs that existed before 2020, priced 2015-2019 (a window this card never covered) the same engine returned -4.97%/yr against +3.89%/yr equal weight = -8.86pp excess, worse in 6 of 6 grid cells, random-score p=0.96. The published CAGR is the 2020+ regime, not a property of the factors. That cell is bond-inclusive, 5 names wide and has no sizing rule; 'The 2015-2019 reconciliation' below prices what each of those differences is worth. See results/etf_book_pre2020.json.",
   "THE COMMODITY SLEEVE IS MOSTLY METAL BETA WITH A MODEST RANKING OVERLAY: it produced 30.1% of gross return; the same engine restricted to the 41 commodity ETFs returned +16.31%/yr against +11.45%/yr for holding those names equally (+4.86pp), and the deepest-turnover commodity name (518880) returned +13.91%/yr passively, i.e. the book beat holding the metal by +2.40pp. Read the sleeve as commodity/gold exposure plus a small selection add-on, not a commodity ranking that pays. See results/etf_book_commodity_split.json.",
@@ -1305,8 +1320,8 @@
   ]
  },
  "drawdown_band": {
-  "artifact": "results/etf_book_bootstrap/BLOCKS-2026-11-13.json",
-  "evidence_cutoff": "2026-11-13",
+  "artifact": "results/etf_book_bootstrap/BLOCKS-2026-11-16.json",
+  "evidence_cutoff": "2026-11-16",
   "block_set": [
    1,
    5,
@@ -1321,74 +1336,74 @@
   "arm_rows": [
    {
     "block": 1,
-    "maxdd_p5": -0.25090757919217777,
-    "maxdd_p50": -0.144712233021424,
-    "dd_break_share": 0.161,
-    "point_pctile_maxdd": 76.2
+    "maxdd_p5": -0.2521271030491452,
+    "maxdd_p50": -0.1479960683761153,
+    "dd_break_share": 0.158,
+    "point_pctile_maxdd": 77.6
    },
    {
     "block": 5,
-    "maxdd_p5": -0.24251393225419124,
-    "maxdd_p50": -0.14570356717349436,
-    "dd_break_share": 0.146,
-    "point_pctile_maxdd": 77.2
+    "maxdd_p5": -0.24697909167049048,
+    "maxdd_p50": -0.14659190686420914,
+    "dd_break_share": 0.159,
+    "point_pctile_maxdd": 77.7
    },
    {
     "block": 10,
-    "maxdd_p5": -0.23168994965389347,
-    "maxdd_p50": -0.14113194442049848,
-    "dd_break_share": 0.131,
-    "point_pctile_maxdd": 74.5
+    "maxdd_p5": -0.23993615542010557,
+    "maxdd_p50": -0.14103759327144527,
+    "dd_break_share": 0.138,
+    "point_pctile_maxdd": 74.7
    },
    {
     "block": 20,
-    "maxdd_p5": -0.21261766277534758,
-    "maxdd_p50": -0.13209591686015815,
-    "dd_break_share": 0.07,
-    "point_pctile_maxdd": 66.8
+    "maxdd_p5": -0.21604681688105645,
+    "maxdd_p50": -0.1333660742210368,
+    "dd_break_share": 0.073,
+    "point_pctile_maxdd": 67.6
    },
    {
     "block": 40,
-    "maxdd_p5": -0.21137425676016433,
-    "maxdd_p50": -0.12995493582075113,
-    "dd_break_share": 0.075,
-    "point_pctile_maxdd": 63.8
+    "maxdd_p5": -0.21368895703402693,
+    "maxdd_p50": -0.13139307363612251,
+    "dd_break_share": 0.08,
+    "point_pctile_maxdd": 65.0
    },
    {
     "block": 60,
-    "maxdd_p5": -0.2122216869532963,
-    "maxdd_p50": -0.13106142050487685,
-    "dd_break_share": 0.076,
-    "point_pctile_maxdd": 66.5
+    "maxdd_p5": -0.21997465840516103,
+    "maxdd_p50": -0.13314867660930407,
+    "dd_break_share": 0.086,
+    "point_pctile_maxdd": 67.5
    },
    {
     "block": 120,
-    "maxdd_p5": -0.1988755976920769,
-    "maxdd_p50": -0.13128644410153567,
-    "dd_break_share": 0.049,
-    "point_pctile_maxdd": 66.2
+    "maxdd_p5": -0.2064540045571748,
+    "maxdd_p50": -0.1333224623772329,
+    "dd_break_share": 0.059,
+    "point_pctile_maxdd": 68.6
    },
    {
     "block": 250,
-    "maxdd_p5": -0.17362883627461476,
-    "maxdd_p50": -0.12295891129011127,
-    "dd_break_share": 0.011,
-    "point_pctile_maxdd": 58.0
+    "maxdd_p5": -0.17628978579355933,
+    "maxdd_p50": -0.12501395877138238,
+    "dd_break_share": 0.017,
+    "point_pctile_maxdd": 61.1
    }
   ],
   "maxdd_p5_band": {
-   "min": -0.25090757919217777,
-   "max": -0.17362883627461476,
-   "range": 0.07727874291756301
+   "min": -0.2521271030491452,
+   "max": -0.17628978579355933,
+   "range": 0.07583731725558587
   },
   "maxdd_p50_band": {
-   "min": -0.14570356717349436,
-   "max": -0.12295891129011127,
-   "range": 0.02274465588338309
+   "min": -0.1479960683761153,
+   "max": -0.12501395877138238,
+   "range": 0.022982109604732903
   },
   "dd_break_band": {
-   "min": 0.011,
-   "max": 0.161
+   "min": 0.017,
+   "max": 0.159
   },
   "readings": {
    "headline_not_a_lucky_path": true,
@@ -1396,7 +1411,7 @@
    "ultra_tail_is_block_dependent": true,
    "median_cagr_stable": true
   },
-  "band_pp": 7.727874291756301
+  "band_pp": 7.583731725558588
  },
  "entry_gate": {
   "status": "ok",
