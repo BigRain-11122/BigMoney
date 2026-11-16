@@ -5648,6 +5648,16 @@ def main() -> int:
              "scripts/etf_book_month_condition.py", ["--selftest"]),
             ("product: etf_book_month_condition (published verdict still re-derives)",
              "scripts/etf_book_month_condition.py", ["--check"]),
+            # r1768 asks the other half of the same question: not when the money arrives but
+            # on WHICH names. The attribution is per name -- pp_i = w_i * (r_i - r_bench) --
+            # so the two readings (share of the money vs per-name gap) can disagree, and the
+            # selftest pins that trap plus the within-period permutation that is the only
+            # thing this data can test. The check leg re-derives the split and its p off the
+            # published period table.
+            ("product: etf_book_churn_hold (does the money sit on fresh names or held ones)",
+             "scripts/etf_book_churn_hold.py", ["--selftest"]),
+            ("product: etf_book_churn_hold (published verdict still re-derives)",
+             "scripts/etf_book_churn_hold.py", ["--check"]),
             # The money question ("how big can this book get before impact eats it")
             # rests entirely on this one script: it re-derives both arms off one
             # engine and pins k=1 to the flat path to 1e-12. A rot here would print
