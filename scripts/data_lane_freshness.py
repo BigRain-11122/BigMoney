@@ -1341,7 +1341,10 @@ def render_period_md(rows):
         return ""
     out = ("\n## Lanes whose clock is the statute, not the trading calendar\n\n"
            "A quarterly report period cannot be judged by an official trading "
-           "day: the unit is the period and the deadline is statutory.\n\n"
+           "day: the unit is the period and the deadline is statutory."
+           + (f" The `panel cutoff` cell is read from **{rows[0].get('machine')}**'s "
+              f"disk." if rows and rows[0].get("machine") else "")
+           + "\n\n"
            "| lane | host | panel cutoff | statute demands | missing | verdict "
            "| takeover path |\n|---|---|---|---|---|---|---|\n")
     for r in rows:
@@ -1431,7 +1434,12 @@ def render_md(report, cert="auto"):
             f"{report['counts'].get('in_sync', 0)}/{report['n_lanes']} lanes in sync, "
             f"{report.get('n_auditable', 0)}/{report['n_lanes']} auditable from this "
             f"machine"
-            + (f", worst = `{report['worst']}`" if report["worst"] else "") + ".\n\n")
+            + (f", worst = `{report['worst']}`" if report["worst"] else "") + ".\n\n"
+            + (f"Built on **{report['machine']}** at {report['as_of']}: every tail "
+               f"and period below is a reading of that machine's disk. A copy of "
+               f"this file on another machine says nothing about that machine's "
+               f"panels -- run the board there to read its own bytes.\n\n"
+               if report.get("machine") else ""))
     cols = ("| lane | host | tail | missing (official days) | verdict | authority |\n"
             "|---|---|---|---|---|---|\n")
     body = ""
@@ -2930,10 +2938,35 @@ def selftest():
         assert "stale_cohort" not in row, row
         print("[PASS] L42 a bare stale count is not dressed as a roster", flush=True)
 
+    # L43 (r1779) the board is committed and read fleet-wide, so it must name the
+    # disk it read: a pulled copy's tails are evidence about the machine that
+    # built it, never about the reader's. Two numbers that both look right -- the
+    # pulled board said "86 of 87 periods" while this disk held 87 -- are only
+    # distinguishable by that name.
+    with tempfile.TemporaryDirectory() as td:
+        _spec43 = {"lane": "etf", "kind": "external", "path": "e.json",
+                   "tail_key": "panel.effective_cutoff", "verdict_key": "verdict"}
+        json.dump({"panel": {"effective_cutoff": "2026-10-28"},
+                   "verdict": "in_sync"},
+                  open(os.path.join(td, "e.json"), "w"))
+        _rep43 = audit(days, now, lanes=[_spec43], root=td)
+        _rep43["machine"] = "bm-x"
+        _rep43["period_lanes"] = [{"lane": "stat", "machine": "bm-x",
+                                   "cutoff": "20260630", "verdict": "in_sync"}]
+        _md43 = render_md(_rep43, cert=None)
+        assert "Built on **bm-x**" in _md43, _md43[:600]
+        assert "read from **bm-x**'s disk" in _md43, _md43[-900:]
+        # and an unnamed board must not print an empty claim instead
+        _rep43.pop("machine")
+        _rep43["period_lanes"] = []
+        assert "Built on **" not in render_md(_rep43, cert=None)
+        print("[PASS] L43 the board names the machine whose disk it read",
+              flush=True)
+
     # NB: this counter is typed, not derived. It was 40/40 with 41 legs running
     # (L35b added in r1639) -- a suite that prints a smaller number than it ran
     # reads as "the new leg never executed". Bump it with every leg added.
-    print("selftest: 43/43 PASS", flush=True)
+    print("selftest: 44/44 PASS", flush=True)
     return 0
 
 
@@ -3205,6 +3238,14 @@ def run(now=None, allow_network=False):
     # and the board was silent about it -- that debt was visible only to whoever
     # happened to run the collector by hand (r1263).
     report["period_lanes"] = audit_period_lanes(now)
+    # r1779: every tail and every period below is a reading of ONE disk, and this
+    # board is committed and read by the whole fleet -- so it has to say whose
+    # disk it read. Measured 2026-11-16: the pulled copy said fund_statements was
+    # missing 20260930 (86 of 87 periods, cutoff 20260630) while this machine's
+    # panel held all 87; both numbers were true, about two different machines.
+    report["machine"] = _machine_id() or "unknown"
+    for _pr in report["period_lanes"]:
+        _pr["machine"] = report["machine"]
     # r1578: the row's certification travels with the row. Attached before the
     # JSON and the markdown are written, so both faces quote one derivation.
     attach_cert(report, days)
