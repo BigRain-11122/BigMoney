@@ -5629,6 +5629,16 @@ def main() -> int:
              "scripts/etf_book_corr_select.py", ["--selftest"]),
             ("product: etf_book_corr_select (published verdict still re-derives)",
              "scripts/etf_book_corr_select.py", ["--check"]),
+            # r1766 stops asking for a smaller noise and changes the ruler instead: is the
+            # select leg's alpha spread over its months or does a handful of them pay for
+            # the window? The legs pin the additive decomposition (and the quarter buckets
+            # carrying their year -- shedding the year turned twenty-eight quarters into
+            # four during the first run), the month-block bootstrap that must be no
+            # narrower than the day-block one, and the reader-facing sensitivity sweep.
+            ("product: etf_book_period_slice (is the alpha spread over its months)",
+             "scripts/etf_book_period_slice.py", ["--selftest"]),
+            ("product: etf_book_period_slice (published verdict still re-derives)",
+             "scripts/etf_book_period_slice.py", ["--check"]),
             # The money question ("how big can this book get before impact eats it")
             # rests entirely on this one script: it re-derives both arms off one
             # engine and pins k=1 to the flat path to 1e-12. A rot here would print

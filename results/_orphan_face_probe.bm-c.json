@@ -1,19 +1,32 @@
 {
- "ts": "2026-11-16T08:55:53",
+ "ts": "2026-11-16T11:55:47",
  "mode": "probe",
- "py_faces_seen": 2,
+ "py_faces_seen": 4,
  "orphans": 0,
  "orphans_cleared": 0,
  "killed": [],
  "idle_servers_exempt": 0,
- "resident_servers_exempt": 1,
+ "resident_servers_exempt": 0,
  "faces": [
   {
-   "pid": 15952,
+   "pid": 25136,
+   "name": "python.exe",
+   "cmd": "D:\\ComfyUI\\python_embeded\\python.exe -s D:\\ComfyUI\\ComfyUI\\main.py --listen 127.0.0.1 --port 8188 --disable-smart-memory",
+   "age_min": 67.7,
+   "cpu_delta_20s": 23.219,
+   "face1_parent_dead": true,
+   "face2_no_hidden_host_ancestor": true,
+   "face3_cpu_stalled": false,
+   "ancestor_chain": [
+    "DEAD"
+   ]
+  },
+  {
+   "pid": 34040,
    "name": "python.exe",
    "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe Tools\\orphan_face_probe.py",
-   "age_min": 0.4,
-   "cpu_delta_20s": 0.078,
+   "age_min": 0.5,
+   "cpu_delta_20s": 0.094,
    "face1_parent_dead": false,
    "face2_no_hidden_host_ancestor": false,
    "face3_cpu_stalled": false,
@@ -25,47 +38,44 @@
    ]
   },
   {
-   "pid": 34972,
+   "pid": 45504,
    "name": "python.exe",
-   "cmd": "D:\\ComfyUI\\python_embeded\\python.exe -s D:\\ComfyUI\\ComfyUI\\main.py --listen 127.0.0.1 --port 8188 --disable-smart-memory",
-   "age_min": 1891.7,
+   "cmd": "D:\\ComfyUI\\python_embeded\\python.exe C:\\Users\\Dasheng\\Desktop\\音乐视频\\jqld_i2v.py",
+   "age_min": 122.5,
    "cpu_delta_20s": 0.0,
-   "face1_parent_dead": true,
+   "face1_parent_dead": false,
    "face2_no_hidden_host_ancestor": true,
    "face3_cpu_stalled": true,
    "ancestor_chain": [
+    "pwsh.exe",
+    "codely.exe",
+    "codely-binary.exe",
+    "cowork.exe",
     "DEAD"
-   ],
-   "confirm_cpu_20s": 0.0,
-   "confirm_new_children": 0,
-   "listen_ports": [
-    8188
+   ]
+  },
+  {
+   "pid": 48752,
+   "name": "python.exe",
+   "cmd": "D:\\ComfyUI\\python_embeded\\python.exe C:\\Users\\Dasheng\\Desktop\\音乐视频\\jqld_watch.py",
+   "age_min": 117.6,
+   "cpu_delta_20s": 0.0,
+   "face1_parent_dead": false,
+   "face2_no_hidden_host_ancestor": true,
+   "face3_cpu_stalled": true,
+   "ancestor_chain": [
+    "pwsh.exe",
+    "codely.exe",
+    "codely-binary.exe",
+    "cowork.exe",
+    "DEAD"
    ]
   }
  ],
  "orphan_details": [],
  "orphan_cleared_details": [],
  "idle_server_details": [],
- "resident_server_details": [
-  {
-   "pid": 34972,
-   "name": "python.exe",
-   "cmd": "D:\\ComfyUI\\python_embeded\\python.exe -s D:\\ComfyUI\\ComfyUI\\main.py --listen 127.0.0.1 --port 8188 --disable-smart-memory",
-   "age_min": 1891.7,
-   "cpu_delta_20s": 0.0,
-   "face1_parent_dead": true,
-   "face2_no_hidden_host_ancestor": true,
-   "face3_cpu_stalled": true,
-   "ancestor_chain": [
-    "DEAD"
-   ],
-   "confirm_cpu_20s": 0.0,
-   "confirm_new_children": 0,
-   "listen_ports": [
-    8188
-   ]
-  }
- ],
+ "resident_server_details": [],
  "sample_sec": 20.0,
  "stall_cpu_sec": 0.1,
  "grace_min": 30.0,
