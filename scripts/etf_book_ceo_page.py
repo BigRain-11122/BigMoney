@@ -3677,6 +3677,83 @@ def entry_gate_seats_md(eg, seats, reach="auto"):
             % (n_seats, gate_m, int(med or 0), float(med or 0) / float(n_seats))]
 
 
+def _raise_price_face():
+    """r1759: 抬闸的收益代价面（results/etf_book_gate_raise_price.json）。
+
+    可达面只说「要抬到哪一档才会响」，没钱那一轴。这一面把那一档（和中间几档）按同一台
+    引擎、两种座位数各定一次价。本函数只读它，不在这里重算任何一档的收益。
+    """
+    p = os.path.join(ROOT, "results", "etf_book_gate_raise_price.json")
+    if not os.path.exists(p):
+        return None
+    try:
+        return _load(p)
+    except (OSError, ValueError):
+        return None
+
+
+def raise_price_md(face="auto"):
+    """r1759: 「真把闸抬到会响的那一档，一年要付多少」——五态五话，不拿别的数顶替。
+
+    读者读完「要等最薄日跌到 5 只以下」的下一问就是「那就抬啊，抬了会怎样」。这句话在
+    r1757 之前只有一句推断（「更高档只会更差」），没定过价。数全从发布面读：
+    verdict.cost_pp / shipped_cagr / reachable_cagr / reachable_gate_cny /
+    reachable_bars_below_seats，座位数取 config.card_seats（那个臂必须复现已发布申报格）。
+    """
+    if face == "auto":
+        face = _raise_price_face()
+    if not face:
+        return ["- **真把闸抬上去要付多少（r1759）**：这张面没有给——所以「抬闸会很贵」"
+                "这句话本页不印，也不拿别的档位推算一个顶上。"]
+    v = face.get("verdict") or {}
+    verdict = v.get("verdict")
+    seats = (face.get("config") or {}).get("card_seats")
+    gate_m = (face.get("reach") or {}).get("gate_m")
+    if verdict not in ("RAISE_COSTS_MONEY", "RAISE_EARNS_MORE", "RAISE_IS_FREE_IN_WINDOW"):
+        if verdict == "ALARM_STILL_UNREACHABLE":
+            return ["- **真把闸抬上去要付多少（r1759）**：可达面说这条梯子上没有会响的那一档，"
+                    "所以没有代价可付——这一问在这本书上不成立。"]
+        if verdict == "RAISE_UNPRICEABLE":
+            return ["- **真把闸抬上去要付多少（r1759）**：会响的那一档在这张面板上定不出价，"
+                    "所以抬闸的代价**不等于零**——本页不把它当零。"]
+        return ["- **真把闸抬上去要付多少（r1759）**：这张面判不了价（%s），本页不猜。"
+                % (verdict or "无判定")]
+    shipped = v.get("shipped_cagr")
+    reach_c = v.get("reachable_cagr")
+    cost = v.get("cost_pp")
+    below = v.get("reachable_bars_below_seats")
+    try:
+        cost_s = "%+.2fpp" % float(cost)
+    except (TypeError, ValueError):
+        cost_s = "-"
+    try:
+        pair = "**%.2f%%**（20M 是 **%.2f%%**，%s）" % (float(reach_c) * 100.0,
+                                                     float(shipped) * 100.0, cost_s)
+    except (TypeError, ValueError):
+        pair = "**这一档的年化这张面没有给全**"
+    tail = ""
+    if below is not None and seats:
+        bars = None
+        for r in (face.get("rows") or []):
+            try:
+                if abs(float(r.get("min_amt_cny") or 0.0) - float(
+                        v.get("reachable_gate_cny") or 0.0)) < 1.0:
+                    bars = (r.get("card") or {}).get("bars")
+            except (TypeError, ValueError):
+                continue
+        if bars:
+            tail = ("；而卡臂的 **%d 个位置**里有 **%d/%d** 个决策日连座位都填不满"
+                    % (int(seats), int(below), int(bars)))
+    verdict_tail = {
+        "RAISE_COSTS_MONEY": "所以「告警在这一档不可达」不是缺陷，是这本书买到的容量。",
+        "RAISE_EARNS_MORE": "所以「不可达」不能用收益代价来正当化——它只是一个没被检验的假设。",
+        "RAISE_IS_FREE_IN_WINDOW": "这条窗口分不出代价，所以也不能拿「会少赚」当理由。",
+    }.get(verdict, "")
+    return ["- **真把闸抬上去要付多少（r1759）**：告警要能响，门槛得抬到 **%sM**；"
+            "那一档这一年 %s%s。%s"
+            % ("-" if gate_m is None else ("%g" % float(gate_m)), pair, tail, verdict_tail)]
+
+
 def _year_gate_face():
     """r1754: 年闸自己算的容量面（`books[0].capacity_cny_1day_5pct`）。
 
@@ -3799,6 +3876,9 @@ def entry_gate_block(eg, seats=None, nav_cny=None, book_weight=None, capacity=No
     if _seats:
         L += _seats
         L.append("")
+    # r1759: 「那就抬闸啊」的下一问——抬到会响的那一档要付多少。与票面同一份实现。
+    L += raise_price_md()
+    L.append("")
     _cap = capacity_per_seat_md(nav_cny, seats, book_weight, capacity)
     if _cap:
         L += _cap
@@ -11907,6 +11987,41 @@ def selftest():
         "and it prints none of the readings it does not have",
         "这张面没有给" in _eg_reach_none and "2020" not in _eg_reach_none
         and "10.2 倍" in _eg_reach_none, _eg_reach_none[-140:])
+    # L141a-e (r1759): 「那就抬闸啊」的下一问——抬到会响的那一档要付多少。这句话在 r1757
+    # 之前只有一句推断（「更高档只会更差」），没定过价。数全从发布面读，五态五话。
+    _rp_face = {"config": {"card_seats": 12},
+                "reach": {"gate_m": 1000.0},
+                "verdict": {"verdict": "RAISE_COSTS_MONEY", "cost_pp": -7.16,
+                            "shipped_cagr": 0.0841, "reachable_cagr": 0.0125,
+                            "reachable_gate_cny": 1000000000.0,
+                            "reachable_bars_below_seats": 700},
+                "rows": [{"min_amt_cny": 1000000000.0, "card": {"bars": 1663}}]}
+    _rp_line = "".join(raise_price_md(face=_rp_face))
+    chk("L141a raise price: the reachable rung is named with its own year -- 1.25% against "
+        "8.41% is -7.16pp, and 700 of 1663 decision days cannot fill the card's 12 seats",
+        "1000M" in _rp_line and "1.25%" in _rp_line and "8.41%" in _rp_line
+        and "-7.16pp" in _rp_line and "700/1663" in _rp_line and "不是缺陷" in _rp_line,
+        _rp_line[-190:])
+    _rp_missing = "".join(raise_price_md(face=None))
+    chk("L141b raise price: with no face the page says the face did not give it and prints no "
+        "number at all", "这张面没有给" in _rp_missing and "7.16" not in _rp_missing
+        and "1000M" not in _rp_missing, _rp_missing[-140:])
+    _rp_unreach = "".join(raise_price_md(face={"verdict": {"verdict": "ALARM_STILL_UNREACHABLE"},
+                                               "config": {"card_seats": 12},
+                                               "reach": {"gate_m": 1000.0}}))
+    chk("L141c raise price: an unreachable alarm has no cost to pay, and the page does not "
+        "print a zero or a rung for it", "没有代价可付" in _rp_unreach
+        and "0.00pp" not in _rp_unreach and "1000M" not in _rp_unreach, _rp_unreach[-120:])
+    _rp_earns = "".join(raise_price_md(face=dict(_rp_face, verdict=dict(
+        _rp_face["verdict"], verdict="RAISE_EARNS_MORE", cost_pp=1.5))))
+    chk("L141d raise price: a raise that earns more may not be sold as a cost -- the page "
+        "says the unreachability is an untested assumption", "不能用收益代价来正当化"
+        in _rp_earns and "+1.50pp" in _rp_earns, _rp_earns[-160:])
+    _rp_unpriced = "".join(raise_price_md(face={"verdict": {"verdict": "RAISE_UNPRICEABLE"},
+                                                "config": {"card_seats": 12},
+                                                "reach": {"gate_m": 1000.0}}))
+    chk("L141e raise price: a rung that cannot be priced is not a zero-cost raise",
+        "不等于零" in _rp_unpriced and "0.00pp" not in _rp_unpriced, _rp_unpriced[-120:])
     # L140f-h (r1754): 位置数换完了，下一个问题是「每个位置多大、什么时候会大到拖累成交」。
     # 那张数在年闸面里（今天这 5 个槽各按一日 5% 参与率），这里只换算不重算成交额。
     _cap_face = {"books": [{"capacity_cny_1day_5pct": 1200000.0}],

@@ -1688,6 +1688,23 @@ def entry_gate_seats_md(eg, seats, reach="auto"):
             % (n_seats, gate_m, int(med or 0), float(med or 0) / float(n_seats))]
 
 
+def raise_price_md(face="auto"):
+    """r1759: 「真把闸抬到会响的那一档要付多少」——唯一实现在 CEO 页，票面只转发。
+
+    r1753/r1755/r1758 的同一课：判定与措辞写两份，下一轮必分叉。这里不重算任何一档的收益，
+    也不自己挑「会响的闸」；页面模块读 results/etf_book_gate_raise_price.json 并出五态之一。
+    """
+    try:
+        from scripts import etf_book_ceo_page as _PAGE
+        return _PAGE.raise_price_md(face)
+    except Exception:                                          # noqa: BLE001
+        try:
+            import etf_book_ceo_page as _PAGE2
+            return _PAGE2.raise_price_md(face)
+        except Exception:                                      # noqa: BLE001
+            return []
+
+
 def capacity_per_seat_md(nav_cny, seats, book_weight=None, yg=None):
     """r1754: 「几个位置 × 每笔多大」与「这本书能装多少」并成一行。
 
@@ -1771,6 +1788,7 @@ def entry_gate_md(eg, seats=None, nav_cny=None, book_weight=None, capacity=None,
                  % (int(eg.get("widest_names") or 0), int(eg.get("narrowest_names") or 0),
                     float(ratio)))
     L += entry_gate_seats_md(eg, seats, reach)
+    L += raise_price_md()
     L += capacity_per_seat_md(nav_cny, seats, book_weight, capacity)
     L.append("- 判定 **%s**｜出处 `%s`（证据截止 %s，面板末 bar %s；%gM 档复现本书申报格 "
              "%.3f pp，容差 %.2f pp）。"
@@ -6776,6 +6794,25 @@ def selftest():
         "face -- it borrows no date and drops none of the readings it does have",
         "这张面没有给" in _reach_none_line and "10.2 倍" in _reach_none_line
         and "2020" not in _reach_none_line, _reach_none_line[-140:])
+
+    # leg48r-s (r1759): 「那就抬闸啊」的下一问。票面必须与 CEO 页同一句话，且缺面/判不了价时
+    # 明写「这张面没有给 / 不等于零」——「抬闸会很贵」在 r1757 之前只是一句推断，没定过价。
+    _rp_face = {"config": {"card_seats": 12},
+                "reach": {"gate_m": 1000.0},
+                "verdict": {"verdict": "RAISE_COSTS_MONEY", "cost_pp": -7.16,
+                            "shipped_cagr": 0.0841, "reachable_cagr": 0.0125,
+                            "reachable_gate_cny": 1000000000.0,
+                            "reachable_bars_below_seats": 700},
+                "rows": [{"min_amt_cny": 1000000000.0, "card": {"bars": 1663}}]}
+    _rp_line = "\n".join(raise_price_md(face=_rp_face))
+    chk("leg48r raise price: the ticket prints the reachable rung's own year against the "
+        "shipped one (-7.16pp) and the decision days it cannot fill (700/1663)",
+        "1000M" in _rp_line and "1.25%" in _rp_line and "8.41%" in _rp_line
+        and "-7.16pp" in _rp_line and "700/1663" in _rp_line, _rp_line[-190:])
+    _rp_missing = "\n".join(raise_price_md(face=None))
+    chk("leg48s raise price: with no face the ticket says the face did not give it and prints "
+        "no cost at all", "这张面没有给" in _rp_missing and "7.16" not in _rp_missing,
+        _rp_missing[-140:])
 
     # 49a-e. r1455: the sheet sizes to the permission the desk itself published. r1450
     # printed a floor (k=0.393073) and its prereg requirement 4 asked for it to be carried

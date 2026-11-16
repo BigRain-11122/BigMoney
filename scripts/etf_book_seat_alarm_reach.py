@@ -249,8 +249,9 @@ def run():
         "first_reachable_rung": tripped,
         "yearly_thin": yearly_thin(series),
         "verdict": verdict,
-        "not_priced": ("抬闸的收益代价：本面只数名数，不重算收益；已发布的六档扫描里"
-                       "200M 档的年化是 5.42%（20M 是 8.41%），更高档只会更差"),
+        "not_priced": ("抬闸的收益代价：本面只数名数，不重算收益。这一截 r1759 已单独定价——"
+                       "见 results/etf_book_gate_raise_price.json 与 research/ETF_BOOK_GATE_RAISE_PRICE.md；"
+                       "本面不在这里替它下结论"),
         "generated": pd.Timestamp.now().isoformat(timespec="seconds"),
     }
     with open(OUT_JSON, "w", encoding="utf-8") as fh:
