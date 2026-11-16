@@ -772,6 +772,55 @@ def _etf_delta_face(t):
     }
 
 
+# r1786: the sheet spends 43.2% of the 1,000,000 and the page prints "留现金
+# ¥568,272" -- but nothing said what that cash DOES.  The ticket face has priced
+# it against the repo market since it landed (spot / 250-day mean / full-window
+# mean, each already net of a fall haircut) and no reader page ever quoted it, so
+# "half the book is cash" read as either dead money or as a return the book was
+# already banking.
+#
+# The trap in one sentence: the forward ledger's own config says the cash leg
+# earns 0.  So this is a RATE ON CASH, not money already made, and it must never
+# be folded into the +0.681% printed above it.  Both sentences print or neither
+# does.
+_ETF_CASH_BANDS = (("spot", "最近一笔"), ("mean_tail", "250 日均"),
+                   ("window", "有记录以来"))
+
+
+def _etf_cash_leg_face(cl):
+    """What the cash left on the sheet earns, quoted from the ticket face."""
+    cl = cl or {}
+    money = cl.get("money") or {}
+    if not money:
+        return None
+    bands = {}
+    for key, label in _ETF_CASH_BANDS:
+        b = money.get(key) or {}
+        if b.get("pct") is None:
+            continue
+        bands[key] = {
+            "label": label,
+            "pct": b.get("pct"),
+            "net_pct": b.get("net_pct"),
+            "net_annual_cny": b.get("net_annual_cny"),
+            "as_of": b.get("date"),
+            "quotes": b.get("quotes"),
+        }
+    if not bands:
+        return None
+    return {
+        "source": cl.get("source"),
+        "cash_cny": money.get("cash_amount_cny"),
+        "fall_bp": money.get("fall_bp"),
+        "bands": bands,
+        "headline": "spot" if "spot" in bands else sorted(bands)[0],
+        "tail": money.get("tail"),
+        "verdict": money.get("verdict"),
+        "window_years": (cl.get("accrual_window") or {}).get("years"),
+        "missing_bar_steps": cl.get("missing_bar_steps"),
+    }
+
+
 def _etf_order_face():
     """v2.3 (r1784): the executable sheet's own rows, in lots and cash.
 
@@ -834,7 +883,11 @@ def _etf_order_face():
         "cash_weight": tk.get("cash_weight"),
         "k_now": latest.get("k_now"),
         "next_decision_bars": t.get("next_decision_bars"),
+        "book_decided_bar": t.get("book_decided_at"),
+        "rebal": t.get("rebal"),
         "cost_bp_per_side": t.get("cost_bp_per_side"),
+        # r1786: what the cash row earns, quoted from the same sheet.
+        "cash_leg": _etf_cash_leg_face(t.get("cash_leg")),
         # r1785: the same trip also published the rebalance difference; the
         # page prints it as a second, separately labelled reader.
         "delta": _etf_delta_face(t),
@@ -1485,6 +1538,43 @@ def render_md(p: dict) -> str:
         if eo.get("generated"):
             L.append(f"  - 出处：`results/etf_book_order/{eo.get('file')}`"
                      f"（generated {eo.get('generated')}·cutoff {eo.get('bar')}）")
+        # ---- r1786: the cash row is not dead weight, and the page says so with
+        # the rate the ticket already priced -- never as money already earned.
+        _cl = eo.get("cash_leg")
+        if _cl and _cl.get("bands"):
+            _hd = _cl["bands"].get(_cl["headline"]) or {}
+            _bits = []
+            for _key, _lab in _ETF_CASH_BANDS:
+                _b = _cl["bands"].get(_key)
+                if not _b:
+                    continue
+                if _key == "window" and _cl.get("window_years") is not None:
+                    _lab = "有记录以来 {} 年".format(_cl["window_years"])
+                _s = "{} {}%".format(_lab, _b["pct"])
+                if _b.get("as_of"):
+                    _s += "（{}）".format(_b["as_of"])
+                _bits.append(_s)
+            _cash = _cl.get("cash_cny")
+            _ann = _hd.get("net_annual_cny")
+            _share = (None if (_ann is None or not eo.get("nav_cny"))
+                      else _ann / float(eo["nav_cny"]) * 100.0)
+            L.append(
+                "  - 那 ¥{} 现金不是趴着：按国债逆回购（GC001）计息——{}；"
+                "按{}并扣 {:g}bp 保守折扣约 **¥{}/年**{}。".format(
+                    _fmt_cny(_cash or eo.get("cash_left_cny") or 0),
+                    "、".join(_bits), _hd.get("label", ""),
+                    _cl.get("fall_bp"),
+                    _fmt_cny(_ann or 0),
+                    "" if _share is None else "（占账面 {:.2f}%）".format(_share)))
+            L.append("    - 这一笔**不并进上面的净值**：前向账本自己写着"
+                     "「现金腿按 0 计息」（如实披露、不建模），所以它是"
+                     "「这段现金按今天的利率值多少」的读数，不是已经赚到的钱。")
+            if _cl.get("source"):
+                L.append("    - 出处：同一张票面的现金腿面"
+                         "（利率源 `{}`·{} 个报价点）".format(
+                             _cl["source"], _cl.get("tail") or "?"))
+        else:
+            L.append("  - 那笔现金赚什么：票面未印（缺面不读 0）")
         # ---- r1785: the difference a returning reader actually has to trade.
         eod = eo.get("delta") or {}
         if not eod.get("present"):
@@ -1557,6 +1647,19 @@ def render_md(p: dict) -> str:
             L.append("    - 出处：同一张票面里的换仓差量面（`{}`·bar {}）".format(
                 "results/etf_book_order/" + str(eo.get("file")),
                 eod.get("current_bar")))
+        # ---- r1786: the sheet also says when it will change again; a reader who
+        # has followed it should not have to guess how long the position stands.
+        _nd = eo.get("next_decision_bars")
+        if _nd is None:
+            L.append("  - **下次什么时候再看**：票面未印（缺面不读 0）")
+        elif _nd == 0:
+            L.append("  - **下次什么时候再看**：这张 bar 本身就是决策 bar，"
+                     "下一次决策随下一个 bar 到来。")
+        else:
+            L.append("  - **下次什么时候再看**：下一次决策还有 **{} 个 bar**"
+                     "（网格 {} bar·上一次决策 bar {}）；在那之前这本书不换仓。"
+                     .format(_nd, eo.get("rebal") or "?",
+                             eo.get("book_decided_bar") or "?"))
     L.append("")
     L.append("## ⑦ 指数期货 carry 书 · 开仓资金线（纯读出）")
     L.append("")
@@ -2168,6 +2271,40 @@ def selftest() -> int:
     check("risk tape rendered in md (v1.8)",
           "市场风险面" in md1
           and (not tape_ok or str(rt.get("cutoff")) in md1))
+    # ---- r1786: the sheet leaves 56.8% in cash and the page now says what that
+    # cash earns.  Three things it must never do: fold the rate into the track
+    # record above (the ledger's own cash leg earns 0), print ¥0 when the rate
+    # face is absent, or read an unknown next-decision as 0 bars.
+    _eo1 = p1.get("etf_order") or {}
+    _cl1 = _eo1.get("cash_leg") or {}
+    if not _eo1.get("present") or not _cl1.get("bands"):
+        print("  [SKIP] cash leg: the sheet or its rate face is absent")
+    else:
+        _hd1 = (_cl1.get("bands") or {}).get(_cl1.get("headline")) or {}
+        check("the page prices the cash it leaves behind, as a rate not a return",
+              _hd1.get("net_annual_cny") is not None
+              and _fmt_cny(_hd1.get("net_annual_cny")) in md1
+              and "不并进上面的净值" in md1
+              and "现金腿按 0 计息" in md1)
+        _deg2 = json.loads(json.dumps(p1))
+        _deg2["etf_order"] = dict(_deg2.get("etf_order") or {})
+        _deg2["etf_order"]["cash_leg"] = None
+        _md2 = render_md(_deg2)
+        check("a missing rate face prints a reason, never ¥0 (r1786)",
+              "票面未印（缺面不读 0）" in _md2
+              and _fmt_cny(_hd1.get("net_annual_cny") or 0) not in _md2)
+        _nd1 = _eo1.get("next_decision_bars")
+        check("the page says when the sheet changes again (r1786)",
+              (_nd1 is None and "票面未印（缺面不读 0）" in md1)
+              or (isinstance(_nd1, int)
+                  and "下一次决策还有 **{} 个 bar**".format(_nd1) in md1))
+        _deg3 = json.loads(json.dumps(p1))
+        _deg3["etf_order"] = dict(_deg3.get("etf_order") or {})
+        _deg3["etf_order"]["next_decision_bars"] = None
+        _md3 = render_md(_deg3)
+        check("an unknown next decision is not printed as 0 bars (r1786)",
+              "下一个 bar 到来" not in _md3
+              and "票面未印（缺面不读 0）" in _md3)
     print(f"selftest: {'ALL PASS' if not fails else f'FAIL {fails}'}")
     return 0 if not fails else 1
 

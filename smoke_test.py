@@ -11383,6 +11383,61 @@ def main() -> int:
     except Exception as e:
         check("product: the CEO page carries today's actions, not only the "
               "full build", False, repr(e)[:160])
+    # ---- r1786: the sheet parks 56.8% of the account in cash and no reader page
+    # said what that cash DOES.  The ticket has priced it against the repo market
+    # (spot / 250-day / full-window, each already net of a fall haircut) since it
+    # landed.  Two things this leg refuses: a page that folds that rate into the
+    # track record (the forward ledger's own cash leg earns 0), and a page that
+    # prints a number when the rate face or the next-decision count is missing.
+    try:
+        _bad36 = []
+        _note36 = ""
+        _to36 = os.path.join(PATHS.results_dir, "etf_book_order", "latest.json")
+        _lu36 = os.path.join(PATHS.root, "docs", "live_usage", "LIVE-latest.md")
+        if not os.path.exists(_to36) or not os.path.exists(_lu36):
+            _bad36.append("ticket pointer or CEO page missing")
+        else:
+            with open(_to36, encoding="utf-8") as _fh36:
+                _lt36 = json.load(_fh36)
+            with open(os.path.join(PATHS.results_dir, "etf_book_order",
+                                   _lt36.get("file") or ""),
+                      encoding="utf-8") as _fh36:
+                _t36 = json.load(_fh36)
+            with open(_lu36, encoding="utf-8") as _fh36:
+                _md36 = _fh36.read()
+            _sp36 = ((_t36.get("cash_leg") or {}).get("money") or {}) \
+                .get("spot") or {}
+            _ann36 = _sp36.get("net_annual_cny")
+            _note36 = "spot %s%% -> %s/year" % (_sp36.get("pct"),
+                                                _ann36)
+            if _ann36 is None:
+                if "那笔现金赚什么" not in _md36:
+                    _bad36.append("a missing rate face prints no reason")
+                if "现金不是趴着" in _md36:
+                    _bad36.append("a missing rate face still prints a rate")
+            else:
+                if "{:,.0f}".format(_ann36) not in _md36:
+                    _bad36.append("the page does not price the cash it leaves "
+                                  "behind (%s/year)" % "{:,.0f}".format(_ann36))
+                if "不并进上面的净值" not in _md36:
+                    _bad36.append("the rate is not marked as outside the track "
+                                  "record")
+                if "现金腿按 0 计息" not in _md36:
+                    _bad36.append("the page does not say the ledger pays cash 0")
+            _nd36 = _t36.get("next_decision_bars")
+            if _nd36 is None:
+                if "下一次决策还有" in _md36:
+                    _bad36.append("an unknown next decision prints as a count")
+            elif "下一次决策还有 **%d 个 bar**" % int(_nd36) not in _md36:
+                _bad36.append("the page does not say when the sheet changes "
+                              "again (%d bars)" % int(_nd36))
+        check("product: the CEO page prices the cash the sheet leaves behind",
+              not _bad36,
+              "; ".join(_bad36)[:220]
+              or "cash rate + next decision on the page (%s)" % _note36)
+    except Exception as e:
+        check("product: the CEO page prices the cash the sheet leaves behind",
+              False, repr(e)[:160])
     # ---- r1218: the battle report's ETF book section is the page's own payload ----
     # The report is where the CEO reads the book every morning; before this leg it
     # carried no book at all, so "the book is fine" and "nobody printed the book"

@@ -2,7 +2,7 @@
  "schema": "ceo_live_usage_v1_9",
  "ticket": "T-202609-28-105",
  "day": "2026-11-17",
- "generated": "2026-11-17T02:22:50",
+ "generated": "2026-11-17T03:02:21",
  "market": {
   "state": "RED",
   "asof": "2026-11-16",
@@ -506,7 +506,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 58621.0
+    "last_append_age_min": 58660.6
    },
    {
     "family": "FUND-VALUE-P1",
@@ -514,7 +514,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 59465.5
+    "last_append_age_min": 59505.0
    },
    {
     "family": "FUND-DIVLOWVOL-P1",
@@ -522,7 +522,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 56258.8
+    "last_append_age_min": 56298.3
    }
   ]
  },
@@ -622,7 +622,45 @@
   "cash_weight": 0.567805,
   "k_now": 0.432195,
   "next_decision_bars": 17,
+  "book_decided_bar": "2026-11-11",
+  "rebal": 20,
   "cost_bp_per_side": 8.0,
+  "cash_leg": {
+   "source": "data/repo_daily/GC001.csv",
+   "cash_cny": 568272.2,
+   "fall_bp": 25.0,
+   "bands": {
+    "spot": {
+     "label": "最近一笔",
+     "pct": 1.265,
+     "net_pct": 1.023,
+     "net_annual_cny": 5813.0,
+     "as_of": "2026-11-13",
+     "quotes": 250
+    },
+    "mean_tail": {
+     "label": "250 日均",
+     "pct": 1.3518,
+     "net_pct": 1.1098,
+     "net_annual_cny": 6307.0,
+     "as_of": null,
+     "quotes": null
+    },
+    "window": {
+     "label": "有记录以来",
+     "pct": 2.082,
+     "net_pct": 1.84,
+     "net_annual_cny": 10456.0,
+     "as_of": null,
+     "quotes": null
+    }
+   },
+   "headline": "spot",
+   "tail": 250,
+   "verdict": "RATES_STEADY",
+   "window_years": 6.87,
+   "missing_bar_steps": 0
+  },
   "delta": {
    "present": true,
    "verdict": "SHEET_IMPLIES_A_SWAP",
