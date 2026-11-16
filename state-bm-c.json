@@ -36,6 +36,12 @@
   "withheld_arms": [],
   "workers": 6
  },
+ "artifacts": [
+  "scripts/etf_book_tilt_neutral.py",
+  "research/ETF_BOOK_TILT_NEUTRAL.md",
+  "results/etf_book_tilt_neutral.json",
+  "smoke_test.py"
+ ],
  "batch": "etf_book_tilt_neutral selftest 24/24 + run rc0 + --check rc0; smoke r1790 first run 642/642 PASS 0 FAIL (822.6s/640 legs); second run (new legs) still in flight at closeout -- not claimed",
  "behind_origin": 0,
  "busy": false,
@@ -239,6 +245,7 @@
  "local_behind_origin": 0,
  "local_unpushed_commits": 0,
  "local_unpushed_note": "local commits not on origin = 0 (checked after push)",
+ "local_unreached_commits": 0,
  "local_unreached_origin_commits": 0,
  "loop_round": 1572,
  "machine_id": "bm-c",
@@ -954,7 +961,7 @@
  "round_1788_next": "(a) the three remaining live_book product legs (arm count / premium rows / k_gap rows) are the same cause -- the page on disk is 20:30 and the faces it quotes moved at 21:57 and 00:34; an in-memory rebuild on bm-c passes all three, but docs/live_book is bm-a's single writer and owner_silence_hours()=4.7 < 6.0, so run() is an honest no-op here. Poke to bm-a accepted 2026-11-17T04:32:04 (worker 1.9.7) -- verify the republished page next round; (b) 8 today-word lines on the page still carry no date (census rc1 debt, pre-existing); (c) the S6 chain was not re-run this round (red-fix mission + 10-minute window).",
  "round_1788_note": "r1788: the day-word census mapped the premium one-liner ('按 DATE 的读数，这张单里可核验的 N 只票…') to premium_forward.face_asof while the numbers come from premium_leak.own_ruler_summary at THAT face's session. The forward paper is built from a later-closing panel and may sit a session behind, so the leg was green only on days the two coincided. Live receipt 2026-11-16: page JSON carries premium_forward.face_asof=2026-11-13 and premium_leak.session=2026-11-16, and the face's own 159655 last_pctile is 96.44 (in_own_top_decile=['159655']) -- the sentence was right, the mapping was wrong. Rule now reads premium_leak.session; two selftest legs pin both directions (quotes the leak face -> ok; names a third day -> mismatch).",
  "round_label": "1704",
- "round_no": 1791,
+ "round_no": 1792,
  "round_no_label": "r1785",
  "round_no_landed": 1663,
  "round_note": "r1489: a reinstated bar is re-derived from the panel, not carried over (reinstatement_check + reinstatements.json + sheet paragraph)",
@@ -1418,6 +1425,10 @@
  "round_t1777_note": "r1777: the desk sizes on drawdown survival (4 lots survive its worst sample); the book other ruler is the 8% vol target and it had never been converted into lots. Same replay window and same seam rule as the ledger: one IC lot is 44.89% of capital vol unhedged and 8.97% hedged, so 8% buys 0.18 of the index+carry trade or 0.89 of the carry alone -- the ticket 4 lots run 179.6% / 35.9%. The hedge is priced at the short leg own carry (short IF 0.65pp/yr -> net +6.21pp on IC, +7.42 on IM; shorting a deep-discount leg is refused as HEDGE_GIVES_IT_AWAY), basis leak printed as index corr 0.886. The ticket now prints judgement date (11-16) beside the contract bar (11-13), and the same re-run restored the desk sheet from a transient no_contract_book (all four products had come back empty).",
  "round_t1779_next": "(a) the first executable capital 1,125,012 (IC) / 1,152,040 (IM) needs one outward sentence: what this book costs to open, and whether the desk's 4 lots should leave the ticket when the ruler says 0 -- <=48h; (b) the two today-words legs (live_book / daily_report) are bm-a's single-writer faces and stay red on this host; (c) full smoke suite has not been re-run since r1778's 621/630",
  "round_t1779_note": "the ladder printed three roads and refused to choose, which left every reader to decide again; the road is now one constant (A/8%/hard cap) plus the two roads not taken printed with `adopted:false` and their own numbers, and the ticket carries the table",
+ "round_t1791_next": "(a) contract cache still lags the continuous panel by 3 sessions (r1777c) -- the forward series cannot accrue new bars until idx_fut_contract_roll pulls 11-17; (b) the CEO page section 7 now prints 1,122,782 but its prose still argues from the 1,125,012 generation nowhere else -- re-read after the next contract bar; (c) full smoke suite not re-run this round (only the new legs' facts verified by hand).",
+ "round_t1791_note": "r1791 PRODUCT (dept:工程/数据): data/index_daily had no producer -- idx_fut_basis.load_index returns the cache the moment the file exists, so the four index files sat at 2026-11-13 while the futures panel had 11-16 bars; r1777 recorded the carry book's discount legs as 'a no-producer face'. wrote scripts/update_index_daily.py (append-only, overlap tol 1e-3 with a refused re-based row, 15:30 completeness gate, 30min throttle written before the fetch, universe derived from disk, bm-c lane R31, selftest 14/14) and wired it into Tools/s6_chain_bmc.py before the carry legs. live payoff: all four panels moved 11-13 -> 11-16 (4 rows), the carry replay's index leg now covers the last three bars so its excess over index reads 46.423% -> 59.716% (IC) and 63.366% -> 78.513% (IM), and the published first rung moved 1,125,012 -> 1,122,782 (gap 122,782 = 12.28%).",
+ "round_t1792_next": "(a) the 29 residual unexplained moves are three families -- futures_sleeve notional per lot, lot_floor capital needed, family_coherence arms (signflip/floor_extrapolation) -- all priced on the same bar on both days; take evidence on whether the contract rolled or the arms face was rebuilt between the two page writes; (b) full smoke suite not re-run this round (only the new chain leg and both faces' own selftests); (c) e33 Q1 has no 2016 x3 face, so the triple-cost column is missing for that start.",
+ "round_t1792_note": "PRODUCT (dept:工程/数据/研究): the r1792 census named 15 faces in results/e33_ladder_baseline/ that answer 'does a plain equal-weight five-fund ladder beat 510300' and that nothing has ever read. scripts/e33_ladder_census.py re-states them read-only and applies three frozen thresholds: FULL-window excess +187.9bp/yr with monthly t=0.83 and a 2016 start at -35.6bp (not separable); annual rebalance 6.19% vs monthly 5.27% while annual's own commission is 2.9bp/yr; and the hindsight test -- the same ladder built from a causal top-5-by-traded-value pick earns 0.64%/yr against the desk five's 5.74%, so ~89% of the headline is hindsight. Wired into S6 (rc0) and two smoke legs. Same round: etf_book_day_delta was accusing the page of moving 258 numbers at an unchanged cut, when the 11-16 page priced derisk/vt_phases on 11-13 while its headline said 11-16 -- it now asks live_book_section_bars which bar each SECTION was priced on (258 -> 29; 229 named SECTION_ADVANCED), selftest 26/26 with three new legs (E687).",
  "rounds": 1780,
  "rounds_done": 1790,
  "rounds_note": "round_no/rounds/rounds_done stay in lockstep",
@@ -1605,14 +1616,5 @@
  "went_well": "the fix keeps the old states reachable: a card with one unqualified row still takes the position-free path, so no previously published verdict changed meaning",
  "when_well": "the exec panel reused lhb_sellleg verbatim by passing a net-of-cost panel instead of writing a second event study -- the two tables cannot disagree about the quintiles because there is only one implementation",
  "who_did": "bm-c",
- "当前任务": "r1789：三条活书页腿改走既有 r1493 判据（本机写不了页=注记不记红），全量套件 05:03:33 收口 642/642 PASS 0 FAIL（四条旧红同批归零）；idle_trigger 增 not-claimable-for 机别标记 + 池行 #19-#22 打标（可领 3→0）。",
- "artifacts": [
-  "scripts/etf_book_tilt_neutral.py",
-  "research/ETF_BOOK_TILT_NEUTRAL.md",
-  "results/etf_book_tilt_neutral.json",
-  "smoke_test.py"
- ],
- "local_unreached_commits": 0,
- "round_t1791_note": "r1791 PRODUCT (dept:工程/数据): data/index_daily had no producer -- idx_fut_basis.load_index returns the cache the moment the file exists, so the four index files sat at 2026-11-13 while the futures panel had 11-16 bars; r1777 recorded the carry book's discount legs as 'a no-producer face'. wrote scripts/update_index_daily.py (append-only, overlap tol 1e-3 with a refused re-based row, 15:30 completeness gate, 30min throttle written before the fetch, universe derived from disk, bm-c lane R31, selftest 14/14) and wired it into Tools/s6_chain_bmc.py before the carry legs. live payoff: all four panels moved 11-13 -> 11-16 (4 rows), the carry replay's index leg now covers the last three bars so its excess over index reads 46.423% -> 59.716% (IC) and 63.366% -> 78.513% (IM), and the published first rung moved 1,125,012 -> 1,122,782 (gap 122,782 = 12.28%).",
- "round_t1791_next": "(a) contract cache still lags the continuous panel by 3 sessions (r1777c) -- the forward series cannot accrue new bars until idx_fut_contract_roll pulls 11-17; (b) the CEO page section 7 now prints 1,122,782 but its prose still argues from the 1,125,012 generation nowhere else -- re-read after the next contract bar; (c) full smoke suite not re-run this round (only the new legs' facts verified by hand)."
+ "当前任务": "r1792：把 face_consumer_census 指名的 15 张「算完没人读」阶梯胜率面聚合成一页三判词（e33_ladder_census，selftest 10/10 + check ok + S6 链腿 rc0），并修 etf_book_day_delta 的「标题 bar ≠ 节 bar」假红（258→29，selftest 26/26）。"
 }

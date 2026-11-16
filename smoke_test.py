@@ -5806,6 +5806,24 @@ def main() -> int:
              "scripts/etf_book_period_slice.py", ["--selftest"]),
             ("product: etf_book_period_slice (published verdict still re-derives)",
              "scripts/etf_book_period_slice.py", ["--check"]),
+            # r1792 asks a question no single face could answer: is this number read by
+            # anything at all? The census walks results/ once and tiers each face by who
+            # names it. The selftest pins the two traps that would make its count a lie --
+            # a generic basename (`latest.json` in 100+ dirs) needing its owning directory
+            # in the same file, and run receipts / dated snapshots / scratch never counting
+            # as orphans.
+            ("product: face_consumer_census (which published faces nothing reads)",
+             "scripts/face_consumer_census.py", ["--selftest"]),
+            # r1792's census named fifteen faces that answered "does a plain five-fund ladder
+            # beat 510300" that no page, ticket or downstream face has ever read. This face
+            # re-states those numbers in one place and applies three frozen thresholds; the
+            # third is the one that matters -- the same rule picking the top-5 causally earns
+            # 0.64%/yr against the desk five's 5.74%, so most of the headline was hindsight,
+            # not a rule anyone could have run.
+            ("product: e33_ladder_census (the unread ladder-vs-index study, in one place)",
+             "scripts/e33_ladder_census.py", ["--selftest"]),
+            ("product: e33_ladder_census (published verdict still re-derives)",
+             "scripts/e33_ladder_census.py", ["--check"]),
             # r1767: the event profile could be forecastable or not. This face cuts the same
             # months on three states known at the month's start and reads the verdict off a
             # label-shuffle null (eight cells always have a best row). The selftest leg pins

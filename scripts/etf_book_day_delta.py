@@ -127,6 +127,28 @@ def _parent(path):
     return path.rsplit("/", 1)[0] if "/" in path else ""
 
 
+def _section_key(path):
+    """`/derisk/instrument/vt08/top2_min` -> `derisk` (the page key a section is named by)."""
+    p = str(path or "").strip("/")
+    return p.split("/", 1)[0] if p else ""
+
+
+def section_bars_of(doc):
+    """section key -> the bar that section was priced on (r1532's one implementation).
+
+    Returns None when the producer cannot be read at all: an unreadable guard is not
+    permission to call a move explained, so every caller keeps its strict behaviour.
+    """
+    try:
+        import live_book_section_bars as _SB
+    except Exception:
+        return None
+    try:
+        return (_SB.section_bars(doc) or {}).get("by_key") or None
+    except Exception:
+        return None
+
+
 def _ruler_sentences(texts, parent):
     """Declared-ruler sentences that sit in the block the number came from."""
     out = {}
@@ -140,7 +162,21 @@ def _ruler_sentences(texts, parent):
 
 
 # ----------------------------------------------------------------------------- the diff
-def delta(today, prev):
+def _verdict_of(counts, same_cut):
+    """One implementation of the precedence, so run() and the selftest cannot disagree."""
+    if counts["unexplained"]:
+        return "UNEXPLAINED_MOVES"
+    if same_cut and (counts["recovered_old_value"] + counts["declared_ruler"]
+                     + counts["section_advanced"]):
+        return "EXPLAINED_MOVES"
+    if same_cut and counts["moved"] == 0:
+        return "CLEAN"
+    if not same_cut:
+        return "DATA_ADVANCED"
+    return "EXPLAINED_MOVES"
+
+
+def delta(today, prev, sec_a=None, sec_b=None):
     ta, tb = numeric_leaves(today), numeric_leaves(prev)
     xa, xb = text_leaves(today), text_leaves(prev)
     cut_a = (today.get("priced_bar"), today.get("evidence_cutoff"))
@@ -160,25 +196,39 @@ def delta(today, prev):
         elif not same_cut:
             m["kind"] = "DATA_ADVANCED"
         else:
-            old = tb[p]
-            alibi = None
-            for q in appeared:                      # the old number survives under a NEW name
-                if _close(ta[q], old):
-                    alibi = q
-                    break
-            if alibi:
-                m["kind"] = "RECOVERED_OLD_VALUE"
-                m["evidence"] = "昨天的 %s 今天仍在这页上：`%s`（改名，不是重算）" % (old, alibi)
+            # r1532 the headline bar is not the page's only bar: the 11-16 page carried a
+            # derisk section priced on 11-13, so 258 leaves moved "at the same cut" only
+            # because the sections were a different generation. Ask the section face which
+            # bar each block was priced on before accusing the page of changing its numbers.
+            _k = _section_key(p)
+            _ba = (sec_a or {}).get(_k)
+            _bb = (sec_b or {}).get(_k)
+            if _ba and _bb and str(_ba) != str(_bb):
+                m["kind"] = "SECTION_ADVANCED"
+                m["evidence"] = ("这一节自己换了代：`%s` %s → %s（标题那根 bar 两天相同，这一节不同）"
+                                 "；分节 bar 面：results/live_book_section_bars.json"
+                                 % (_k, _bb, _ba))
             else:
-                par_a = _ruler_sentences(xa, _parent(p))
-                par_b = _ruler_sentences(xb, _parent(p))
-                changed = [k for k in par_a if k in par_b and par_a[k] != par_b[k]]
-                if changed:
-                    m["kind"] = "DECLARED_RULER"
-                    m["evidence"] = "同块口径句改了：`%s`" % changed[0]
+                old = tb[p]
+                alibi = None
+                for q in appeared:                  # the old number survives under a NEW name
+                    if _close(ta[q], old):
+                        alibi = q
+                        break
+                if alibi:
+                    m["kind"] = "RECOVERED_OLD_VALUE"
+                    m["evidence"] = ("昨天的 %s 今天仍在这页上：`%s`（改名，不是重算）"
+                                     % (old, alibi))
                 else:
-                    m["kind"] = "UNEXPLAINED"
-                    m["evidence"] = "没有旧值留存，也没有口径声明"
+                    par_a = _ruler_sentences(xa, _parent(p))
+                    par_b = _ruler_sentences(xb, _parent(p))
+                    changed = [k for k in par_a if k in par_b and par_a[k] != par_b[k]]
+                    if changed:
+                        m["kind"] = "DECLARED_RULER"
+                        m["evidence"] = "同块口径句改了：`%s`" % changed[0]
+                    else:
+                        m["kind"] = "UNEXPLAINED"
+                        m["evidence"] = "没有旧值留存，也没有口径声明"
         moves.append(m)
 
     counts = {
@@ -191,13 +241,15 @@ def delta(today, prev):
         "data_advanced": sum(1 for m in moves if m["kind"] == "DATA_ADVANCED"),
         "recovered_old_value": sum(1 for m in moves if m["kind"] == "RECOVERED_OLD_VALUE"),
         "declared_ruler": sum(1 for m in moves if m["kind"] == "DECLARED_RULER"),
+        "section_advanced": sum(1 for m in moves if m["kind"] == "SECTION_ADVANCED"),
         "unexplained": sum(1 for m in moves if m["kind"] == "UNEXPLAINED"),
         "appeared": len(appeared),
         "vanished": len(vanished),
     }
     if counts["unexplained"]:
         verdict = "UNEXPLAINED_MOVES"
-    elif same_cut and counts["recovered_old_value"] + counts["declared_ruler"]:
+    elif same_cut and (counts["recovered_old_value"] + counts["declared_ruler"]
+                       + counts["section_advanced"]):
         verdict = "EXPLAINED_MOVES"
     elif same_cut and counts["moved"] == 0:
         verdict = "CLEAN"
@@ -205,12 +257,14 @@ def delta(today, prev):
         verdict = "DATA_ADVANCED"
     else:
         verdict = "EXPLAINED_MOVES"
+    assert verdict == _verdict_of(counts, same_cut), "two implementations of the precedence"
 
     money_leaves = [m for m in moves if m["kind"] in ("RECOVERED_OLD_VALUE", "DECLARED_RULER",
-                                                      "UNEXPLAINED")]
+                                                      "SECTION_ADVANCED", "UNEXPLAINED")]
     blocks = sorted({"/".join(p.split("/")[:3]) for p in appeared})
     return {
         "same_cut": same_cut,
+        "verdict": verdict,
         "cut_today": {"priced_bar": cut_a[0], "evidence_cutoff": cut_a[1]},
         "cut_prev": {"priced_bar": cut_b[0], "evidence_cutoff": cut_b[1]},
         "counts": counts,
@@ -229,7 +283,12 @@ def run(pages_dir=None):
                 "只有一张已发布日页：没有第二个可比的快照，本面拒绝编造隔夜差"}
     (day_a, path_a), (day_b, path_b) = names[-1], names[-2]
     today, prev = _load(path_a), _load(path_b)
-    d = delta(today, prev)
+    # r1793: the headline bar is not the page's only bar (r1532). Hand the diff each
+    # section's own bar so a section that changed generation is named as such instead of
+    # being reported as a page that moved 258 numbers at an unchanged cut.
+    sec_a = section_bars_of(today)
+    sec_b = section_bars_of(prev)
+    d = delta(today, prev, sec_a=sec_a, sec_b=sec_b)
     payload = {
         "schema": SCHEMA,
         "today": {"day": day_a, "file": os.path.basename(path_a),
@@ -238,6 +297,8 @@ def run(pages_dir=None):
         "prev": {"day": day_b, "file": os.path.basename(path_b),
                  "priced_bar": prev.get("priced_bar"),
                  "evidence_cutoff": prev.get("evidence_cutoff")},
+        "section_bars_read": bool(sec_a and sec_b),
+        "section_bars_ref": "results/live_book_section_bars.json",
         "evidence_cutoff": today.get("evidence_cutoff"),
     }
     payload.update(d)
@@ -314,6 +375,9 @@ def write_md(p):
               "读的人必须知道这一点，否则会把「口径换了」读成「今天变了」。",
               "- `DECLARED_RULER`＝同一块里的口径句（`ruler`/`basis`/`convention`）改了，"
               "位移由它自己声明；句子改了而读者没看见，等于数被悄悄换了定义。",
+              "- `SECTION_ADVANCED`＝这一**节**自己换了代（标题那根 bar 两天相同，这一节不同，"
+              "按 `results/live_book_section_bars.json` 判）：不是同 bar 重算漂移，而是页面里"
+              "混着两代数据（页面本身另有 `PAGE_MIXES_BARS` 面在报）。",
               "- `UNEXPLAINED`＝既没有旧值留存、也没有口径声明——**这一档非零就是本面要报的事**。",
               "", "## 未验证（如实）", "",
               "- 只比**相邻两天**：更早的口径变更若在两页之前发生，本面看不见（可手工指定更多日页，未做）。",
@@ -434,6 +498,26 @@ def selftest():
     # L12 no second page -> refuse to invent a delta
     r = run(pages_dir=os.path.join(ROOT, "results", "_selftest_no_such_dir"))
     check("L12 single page refused", r.get("verdict") == "NO_SECOND_PAGE", r.get("verdict"))
+
+    # L13 a section that changed generation explains its own leaves (r1793)
+    a = {"priced_bar": "2026-11-16", "derisk": {"x": 2.0}}
+    b = {"priced_bar": "2026-11-16", "derisk": {"x": 1.0}}
+    d = delta(a, b, sec_a={"derisk": "2026-11-16"}, sec_b={"derisk": "2026-11-13"})
+    kinds = {m["path"]: m["kind"] for m in d["moves"]}
+    check("L13 section generation named",
+          kinds.get("/derisk/x") == "SECTION_ADVANCED", kinds)
+    check("L13 not an accusation", d["counts"]["unexplained"] == 0, d["counts"])
+    check("L13 verdict explained", d["verdict"] == "EXPLAINED_MOVES", d["verdict"])
+
+    # L14 same section bar on both days -> the move stays unexplained (the guard must bite)
+    d = delta(a, b, sec_a={"derisk": "2026-11-16"}, sec_b={"derisk": "2026-11-16"})
+    check("L14 same-section move still accused",
+          d["counts"]["unexplained"] == 1, d["counts"])
+
+    # L15 an unreadable section face is not permission: old strict behaviour survives
+    d = delta(a, b, sec_a=None, sec_b=None)
+    check("L15 no section face -> still accused",
+          d["counts"]["unexplained"] == 1, d["counts"])
 
     print("selftest %d/%d %s" % (total[0] - fails[0], total[0], "PASS" if not fails[0] else "FAIL"))
     return 0 if not fails[0] else 1

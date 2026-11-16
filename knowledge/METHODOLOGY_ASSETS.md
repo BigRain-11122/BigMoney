@@ -16254,3 +16254,30 @@ bm-a 活书页停更的三条放在同一桶里，等于把自己的映射缺陷
 
 正身：`scripts/etf_book_tilt_neutral.py`（selftest 24/24 + --check）+ `results/etf_book_tilt_neutral.json`
 + `research/ETF_BOOK_TILT_NEUTRAL.md`。
+
+### E687 — 「标题那根 bar」不是「这一节的那根 bar」：隔夜差面必须先问节自己的日期（r1792 bm-c）
+
+隔夜差面（`etf_book_day_delta`）把两天页面按**标题** `priced_bar` 判「同一根 bar」，
+然后要求每个变了的数都有解释。实测：11-16 页与 11-17 页标题都写 `2026-11-16`，
+但 11-16 页的 `derisk`/`vt_phases` 两节**定价在 11-13**，11-17 页那两节已换到 11-16 ——
+于是在「同一根 bar」的前提下列出 **258 个没有解释的位移**，全是同一件事的碎片：
+**页面里混着两代数据**（`live_book_section_bars` 面当天就印着 `PAGE_MIXES_BARS`）。
+
+判据：一个「同 bar 上这个数凭什么能动」的检查，第一件事不是比标题，而是**问这个数属于哪一节、
+那一节自己定价在哪根 bar**。正解＝把 `results/live_book_section_bars.json` 的 `by_key`
+交给差面：节换了代 → `SECTION_ADVANCED`（可验证的解释），节没换代 → 才轮到
+「改名 / 口径句改了 / 没人解释」。实锚：258 → **29** 未解释，229 归 `SECTION_ADVANCED`。
+残余 29 分三族（`futures_sleeve` 名义价、`lot_floor` 一手资金、`family_coherence` 的
+`arms` 重算），三节两天 bar 相同，属**真·同 bar 漂移**，如实留红待查（疑合约换月与 arms 面重算，
+本机未取证）。
+
+第二条（同轮）：**先看数有没有人读，再决定写什么**。`face_consumer_census` 普查出 15 张
+阶梯胜率面（`results/e33_ladder_baseline/`，2026-10-20 算完）从未被任何页/票/下游面读过；
+`e33_ladder_census` 把这些答案结成一句可读的判词：FULL 窗阶梯对 510300 超额 +187.9bp/年，
+但月度 t=0.83，且 2016 起算为 **-35.6bp**；调仓越慢越好（年度 6.19% vs 月度 5.27%，
+而年度自身成本只 2.9bp/年）；**最关键**：同规则改用因果可选的「成交额前 5」只有 0.64%，
+即这五只 5.74% 里约 89% 是事后 hindsight。
+
+正身：`scripts/etf_book_day_delta.py`（selftest 26/26，+L13/L14/L15）＋
+`scripts/e33_ladder_census.py`（selftest 10/10 + `--check` ok）＋
+`results/e33_ladder_census.json` ＋ `research/E33_LADDER_CENSUS.md`。

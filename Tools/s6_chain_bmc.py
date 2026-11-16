@@ -1846,6 +1846,16 @@ LEGS = [
      ["python", "scripts/etf_book_premium_subscription.py", "run", "--if-stale"]),
     ("premium_subscription",
      ["python", "scripts/etf_book_premium_subscription.py", "check"]),
+    # r1792: "who reads this face?" used to be answered from memory, one path at a time,
+    # so it was only ever answered for the face under discussion. This leg answers it for
+    # the whole results/ tree (10.6s, no network) and tiers run receipts / dated snapshots
+    # / scratch apart, so the orphan count is a count of faces and not of run logs.
+    ("face_consumer_census", ["python", "scripts/face_consumer_census.py", "run"]),
+    # r1792's census named the first face nobody had read: fifteen studies in
+    # results/e33_ladder_baseline/ that answer "does a plain five-fund ladder beat 510300".
+    # This leg re-states them in one page every round so the answer (and the hindsight
+    # share inside it) is read, and so the table cannot drift away from the studies.
+    ("e33_ladder_census", ["python", "scripts/e33_ladder_census.py", "run"]),
 ]
 
 
