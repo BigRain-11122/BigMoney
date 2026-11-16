@@ -165,7 +165,7 @@
  "heartbeat_epoch_utc_type": "int",
  "idle_ram_gb": 3.62,
  "idle_rounds": 0,
- "landed_commit": "a0a7596bbf",
+ "landed_commit": "ef8a8dd525",
  "last_action": "r1757 seated the pool alarm against the real history: unreachable, and its thinnest day is the window's warm-up edge",
  "last_action_at": "2026-11-16T07:21:52+08:00",
  "last_artifact": "results/etf_book_seat_alarm_reach.json",
@@ -1423,7 +1423,7 @@
  "s7_watchdog": "Bigmoney-LoopWatchdog present, ready (next 01:37) -- reported only, not re-registered (D-12)",
  "saturation": "status rc0 alive, bands registered through W329",
  "self_caught": "honest item 1 first said 'no carry is credited to the ledger comparison' while both arms carry ladder3 carry (different idle conventions); rewritten and re-derived -- verdict and all six numbers identical, only the honest block moved",
- "smoke": "full suite launched detached 11:56 (pid 41228, results/_smoke_r1766.out) BEFORE the two new legs were added to smoke_test.py, so it cannot cover them -- NOT claimed green; last complete green 612/612 PASS 0 FAIL at 11:44:38 (results/_smoke_r1765.out, also predating this round's edit). This round's script is covered directly: selftest 17/17 + --check 11/11 rc0",
+ "smoke": "full suite closed 614/614 PASS 0 FAIL at 12:13:22 (results/_smoke_r1766.out) but it started 11:56 BEFORE the two new legs entered smoke_test.py, so this round claims its own script only: selftest 17/17 + --check 11/11 rc0",
  "smoke_caveat": "the suite launched 23:22, before this round's script existed, and it carries no legs for etf_book_gate_causal / etf_book_gate_knobs / etf_book_year_gate_idlecarry (grep of the full output: zero hits); the three changes stand on their own selftest 6/6, the as-coded control reproducing the published JSON to 0.0e+00, and a grep of the regenerated pages for the caveat",
  "smoke_closed": true,
  "smoke_fail_fixed": {
