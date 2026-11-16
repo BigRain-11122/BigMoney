@@ -5678,6 +5678,17 @@ def main() -> int:
              "scripts/etf_book_window_split.py", ["--selftest"]),
             ("product: etf_book_window_split (cells and verdict still re-derive)",
              "scripts/etf_book_window_split.py", ["--check"]),
+            # r1773 turns r1772's "stretched" label into a decision: if the sheet refuses a
+            # leg paying 6.75% over its basket, what does it buy instead? Two cuts decide it
+            # (asset class AND underlying market -- 标普A股红利ETF is not a US S&P leg, the
+            # first run's trap), and the give-up is priced with the panel's own score slope.
+            # The selftest pins the threshold, the money math, both cuts and the planted
+            # slope; the check leg re-derives premiums and every verdict from the ticket and
+            # the session snapshot, and says out loud which half it did not re-derive.
+            ("product: etf_book_premium_swap (which twin, and what refusing costs)",
+             "scripts/etf_book_premium_swap.py", ["--selftest"]),
+            ("product: etf_book_premium_swap (verdicts still re-derive from the ticket)",
+             "scripts/etf_book_premium_swap.py", ["--check"]),
             # The money question ("how big can this book get before impact eats it")
             # rests entirely on this one script: it re-derives both arms off one
             # engine and pins k=1 to the flat path to 1e-12. A rot here would print

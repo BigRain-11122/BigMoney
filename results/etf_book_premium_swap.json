@@ -1,0 +1,275 @@
+{
+ "face": "etf_book_premium_swap",
+ "ticket": "results/etf_book_order/TICKET-2026-11-16.json",
+ "as_of": "2026-11-16",
+ "evidence_cutoff": "2026-11-16",
+ "decision_bar": "2026-11-16",
+ "snapshot": "data/etf_premium/snap/2026-11-16.csv",
+ "snapshot_loaded": true,
+ "snapshot_symbols": 1528,
+ "criteria": {
+  "premium_swap_pp": 3.0,
+  "min_saving_pp": 1.0,
+  "max_giveup_pp_per_year": 2.0,
+  "horizon_bars": 20,
+  "min_cross_section": 30
+ },
+ "law": {
+  "currencies": "premium saving = one-off CNY at the order; give-up = expected return pp/yr; never added",
+  "class": "a twin must share the leg's asset class -- otherwise it is a different bet",
+  "market": "when both sides carry a name the underlying market must match too; the token table is frozen",
+  "history": "no historical arm: disclosed-NAV history covers 9 symbols only"
+ },
+ "score_slope": {
+  "status": "MEASURED",
+  "bars": 111,
+  "horizon_bars": 20,
+  "slope_median_per_horizon": 0.010739587458382917,
+  "slope_annualised": 0.13531880197562474,
+  "corr_median": 0.04681276531460001,
+  "n_median": 155,
+  "sample_tail": [
+   {
+    "bar": "2026-06-18",
+    "slope": -0.16390529031916568,
+    "corr": -0.273750022802888,
+    "n": 628
+   },
+   {
+    "bar": "2026-07-17",
+    "slope": -0.012529756838381383,
+    "corr": -0.04239459646155364,
+    "n": 671
+   },
+   {
+    "bar": "2026-08-14",
+    "slope": 0.08409195417390102,
+    "corr": 0.39009177712413823,
+    "n": 643
+   },
+   {
+    "bar": "2026-09-11",
+    "slope": 0.10751642163944558,
+    "corr": 0.56314265882222,
+    "n": 609
+   },
+   {
+    "bar": "2026-10-19",
+    "slope": 0.07710012634095617,
+    "corr": 0.4969183991535375,
+    "n": 609
+   }
+  ]
+ },
+ "premium_census": {
+  "by_class": {
+   "bond": {
+    "n": 31,
+    "median_pct": -0.141,
+    "share_above_threshold": 0.0,
+    "p90_pct": 0.336,
+    "min_pct": -0.509,
+    "max_pct": 1.027
+   },
+   "commodity": {
+    "n": 19,
+    "median_pct": 0.342,
+    "share_above_threshold": 0.0526,
+    "p90_pct": 0.491,
+    "min_pct": -1.866,
+    "max_pct": 5.355
+   },
+   "crossborder": {
+    "n": 237,
+    "median_pct": -0.555,
+    "share_above_threshold": 0.1181,
+    "p90_pct": 3.591,
+    "min_pct": -3.214,
+    "max_pct": 37.282
+   },
+   "equity": {
+    "n": 1241,
+    "median_pct": -0.099,
+    "share_above_threshold": 0.0016,
+    "p90_pct": 0.165,
+    "min_pct": -9.886,
+    "max_pct": 8.084
+   }
+  },
+  "crossborder_by_market": {
+   "cn_a": {
+    "n": 6,
+    "median_pct": -0.719,
+    "share_above_threshold": 0.0,
+    "p90_pct": -0.295,
+    "min_pct": -1.021,
+    "max_pct": -0.158
+   },
+   "cn_adr": {
+    "n": 4,
+    "median_pct": -2.386,
+    "share_above_threshold": 0.0,
+    "p90_pct": -2.286,
+    "min_pct": -2.86,
+    "max_pct": -2.283
+   },
+   "de": {
+    "n": 2,
+    "median_pct": 0.843,
+    "share_above_threshold": 0.0,
+    "p90_pct": 1.566,
+    "min_pct": -0.061,
+    "max_pct": 1.747
+   },
+   "fr": {
+    "n": 1,
+    "median_pct": -0.186,
+    "share_above_threshold": 0.0,
+    "p90_pct": -0.186,
+    "min_pct": -0.186,
+    "max_pct": -0.186
+   },
+   "hk": {
+    "n": 133,
+    "median_pct": -0.575,
+    "share_above_threshold": 0.0075,
+    "p90_pct": -0.185,
+    "min_pct": -2.043,
+    "max_pct": 3.758
+   },
+   "jp": {
+    "n": 5,
+    "median_pct": 2.099,
+    "share_above_threshold": 0.2,
+    "p90_pct": 3.389,
+    "min_pct": -1.489,
+    "max_pct": 3.655
+   },
+   "sa": {
+    "n": 2,
+    "median_pct": -1.147,
+    "share_above_threshold": 0.0,
+    "p90_pct": -1.145,
+    "min_pct": -1.148,
+    "max_pct": -1.145
+   },
+   "unmapped": {
+    "n": 61,
+    "median_pct": -0.745,
+    "share_above_threshold": 0.082,
+    "p90_pct": 0.24,
+    "min_pct": -3.214,
+    "max_pct": 14.999
+   },
+   "us_dow": {
+    "n": 1,
+    "median_pct": 2.243,
+    "share_above_threshold": 0.0,
+    "p90_pct": 2.243,
+    "min_pct": 2.243,
+    "max_pct": 2.243
+   },
+   "us_nasdaq": {
+    "n": 13,
+    "median_pct": 12.331,
+    "share_above_threshold": 1.0,
+    "p90_pct": 16.219,
+    "min_pct": 8.404,
+    "max_pct": 37.282
+   },
+   "us_sp500": {
+    "n": 9,
+    "median_pct": 5.0,
+    "share_above_threshold": 0.8889,
+    "p90_pct": 7.356,
+    "min_pct": -0.719,
+    "max_pct": 7.852
+   }
+  }
+ },
+ "legs": [
+  {
+   "symbol": "510760",
+   "class": "equity",
+   "amount_cny": 86400.6,
+   "premium_pct": -0.3100405437634124,
+   "premium_cny": -267.87689005485095,
+   "stretched": false,
+   "verdict": "NOT_STRETCHED",
+   "candidate": null,
+   "leg_market": "cn_a",
+   "note": "inside the 3.0 pp threshold"
+  },
+  {
+   "symbol": "512040",
+   "class": "equity",
+   "amount_cny": 86351.9,
+   "premium_pct": -0.2243083824873259,
+   "premium_cny": -193.69455013707318,
+   "stretched": false,
+   "verdict": "NOT_STRETCHED",
+   "candidate": null,
+   "leg_market": null,
+   "note": "inside the 3.0 pp threshold"
+  },
+  {
+   "symbol": "159655",
+   "class": "crossborder",
+   "amount_cny": 86286.0,
+   "premium_pct": 6.746139257653749,
+   "premium_cny": 5820.973719859114,
+   "stretched": true,
+   "verdict": "HOLD_STRETCHED",
+   "candidate": {
+    "symbol": "159529",
+    "class": "crossborder",
+    "market": "us_sp500",
+    "premium_pct": 5.000372606006409,
+    "premium_cny": 4314.62150681869,
+    "premium_saving_pp": 1.7457666516473402,
+    "premium_saving_cny": 1506.3522130404242,
+    "score": 0.2683751499309239,
+    "score_gap": 0.15690898858192576,
+    "giveup_pp_per_year": 2.123273635411318,
+    "pool_priced": 4,
+    "pool_size": 132,
+    "pool_other_market": 108
+   },
+   "leg_market": "us_sp500",
+   "note": "the twin is 1.75 pp cheaper to buy but ranks far enough below that the expected give-up 2.12 pp/yr exceeds the 2.00 pp/yr cap -- paying the premium is the cheaper mistake"
+  },
+  {
+   "symbol": "513690",
+   "class": "crossborder",
+   "amount_cny": 86365.0,
+   "premium_pct": -0.3552551771943468,
+   "premium_cny": -306.8161337838976,
+   "stretched": false,
+   "verdict": "NOT_STRETCHED",
+   "candidate": null,
+   "leg_market": "hk",
+   "note": "inside the 3.0 pp threshold"
+  },
+  {
+   "symbol": "159519",
+   "class": "crossborder",
+   "amount_cny": 86324.3,
+   "premium_pct": -0.748214488153276,
+   "premium_cny": -645.8909193968984,
+   "stretched": false,
+   "verdict": "NOT_STRETCHED",
+   "candidate": null,
+   "leg_market": "hk",
+   "note": "inside the 3.0 pp threshold"
+  }
+ ],
+ "verdict": "HOLD_STRETCHED",
+ "totals": {
+  "legs": 5,
+  "stretched_legs": 1,
+  "net_premium_cny": 4406.7,
+  "swap_saving_cny": 1506.4,
+  "swaps_advised": 0,
+  "faithful_twin_missing": 0
+ }
+}
