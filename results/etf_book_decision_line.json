@@ -4,13 +4,13 @@
  "conflicts": [],
  "row": {
   "decision_date": "2026-12-09",
-  "evidence_cutoff": "2026-11-13",
+  "evidence_cutoff": "2026-11-16",
   "order_k": 0.432195,
   "permission_k": 0.432195,
   "cut_k": 0.0,
   "size_cny": {
-   "ordered": 431770.0,
-   "permitted": 431770.0,
+   "ordered": 431728.0,
+   "permitted": 431728.0,
    "refused": 0.0,
    "nav": 1000000.0
   },
@@ -29,34 +29,34 @@
   "gate": {
    "held_book": "nobond_vt08_adopted",
    "held_verdict": "CONDITIONAL",
-   "held_top2_share": 0.7039,
+   "held_top2_share": 0.7084,
    "held_top2_share_full_years_only": 0.7278,
    "held_note": "this is the overlay book the desk actually holds; the ticket arm below is a different object",
    "ticket_arm_verdict": "ADMIT",
-   "ticket_arm_top2_share": 0.6665,
+   "ticket_arm_top2_share": 0.6669,
    "ticket_arm_top2_share_full_years_only": 0.7757,
    "capped_arm_verdict": "ADMIT",
-   "capped_arm_top2_share": 0.6518,
+   "capped_arm_top2_share": 0.6522,
    "implementable_arm_verdict": "ADMIT",
-   "cap_binding_share": 0.3225,
+   "cap_binding_share": 0.3229,
    "gate_flips": false,
    "top2_share_delta_pp": -1.47,
-   "cagr_delta_pp": -0.34
+   "cagr_delta_pp": -0.35
   },
   "verdict": "NO_CUT_OWED",
-  "sentence": "on 2026-12-09 the ticket orders k=0.432195 under a permission of 0.432195: no cut is owed, so the only question left is whether the next decision bar re-sizes over the floor (it does unless the same trim is applied there); filling this sheet one open late costs about 932 CNY of NAV on 1,000,000 (median over 417 sheets; waiting helped on 41% of them, t=-4.57), and this sheet owes no trim at all, so being a day late is the only price on it; today-or-wait: NOTHING_OWED_TODAY (cheapest at k=0, +0 CNY vs today)",
+  "sentence": "on 2026-12-09 the ticket orders k=0.432195 under a permission of 0.432195: no cut is owed, so the only question left is whether the next decision bar re-sizes over the floor (it does unless the same trim is applied there); filling this sheet one open late costs about 929 CNY of NAV on 1,000,000 (median over 418 sheets; waiting helped on 41% of them, t=-4.55), and this sheet owes no trim at all, so being a day late is the only price on it; today-or-wait: NOTHING_OWED_TODAY (cheapest at k=0, +0 CNY vs today)",
   "late_sheet": {
    "status": "OK",
    "face": "results/etf_book_late_sheet_price.json",
    "arm": "nobond_vt08",
    "verdict": "MEAN_IS_PRICED_EACH_SHEET_IS_NOT",
    "capital_cny": 1000000.0,
-   "events": 417,
-   "median_cny_one_sheet": -932.3031683309092,
-   "mean_bps_one_sheet": -12.079787796549434,
-   "t": -4.57083893644543,
-   "share_late_helps": 0.41247002398081534,
-   "aggregate_pp_per_year": -1.8799999999999997,
+   "events": 418,
+   "median_cny_one_sheet": -929.1796775963227,
+   "mean_bps_one_sheet": -12.004316273920965,
+   "t": -4.551322911619224,
+   "share_late_helps": 0.4138755980861244,
+   "aggregate_pp_per_year": -1.9000000000000004,
    "note": "this is one sheet's price on the face's stated capital, not the aggregate arm; on this book the per-sheet prices add up to that arm exactly"
   },
   "do_or_wait": {
@@ -126,6 +126,6 @@
   }
  },
  "face": "etf_book_decision_line",
- "asof": "2026-11-16T15:29:29+0800",
+ "asof": "2026-11-16T19:40:20+0800",
  "elapsed_sec": 0.0
 }

@@ -1,8 +1,8 @@
 {
- "ts": "2026-11-14 02:35:18",
+ "ts": "2026-11-16 18:34:31",
  "script": "scripts/etf_book_sleeve_gate.py",
  "face": "results/etf_book_sleeve_gate.json",
- "evidence_cutoff": "2026-11-13",
+ "evidence_cutoff": "2026-11-16",
  "criteria": {
   "sleeve_class": "commodity",
   "n_hold": 12,
@@ -26,11 +26,11 @@
  },
  "execution": "decide at close t -> fill at open t+1 -> hold to next decision",
  "panel": {
-  "columns": 1520,
-  "bars": 5280,
+  "columns": 1521,
+  "bars": 5281,
   "flips_repaired": 169,
   "sleeve_symbols": 41,
-  "digest": "e6f9d0e81a64ec75"
+  "digest": "0988c6530a481fa1"
  },
  "book": {
   "n_hold": 12,
@@ -42,7 +42,7 @@
  },
  "identity": {
   "zero_gate_vs_baseline_max_abs": 0.0,
-  "bars_compared": 1662,
+  "bars_compared": 1663,
   "cross_face_delete_sleeve": {
    "reference_delta_cagr_pp": -3.69,
    "mine_delta_cagr_pp": -3.69,
@@ -56,11 +56,11 @@
  },
  "baseline": {
   "full": {
-   "cagr": 0.0959,
-   "sharpe": 0.987,
+   "cagr": 0.0951,
+   "sharpe": 0.98,
    "maxdd": -0.1177,
    "vol": 0.1018,
-   "years": 6.86
+   "years": 6.87
   },
   "is": {
    "cagr": 0.0384,
@@ -70,22 +70,22 @@
    "years": 3.99
   },
   "oos": {
-   "cagr": 0.182,
-   "sharpe": 1.719,
+   "cagr": 0.1797,
+   "sharpe": 1.702,
    "maxdd": -0.107,
-   "vol": 0.1047,
-   "years": 2.86
+   "vol": 0.1046,
+   "years": 2.87
   }
  },
  "arms": {
   "gate_trend": {
    "stats": {
     "full": {
-     "cagr": 0.0927,
-     "sharpe": 0.948,
+     "cagr": 0.0919,
+     "sharpe": 0.941,
      "maxdd": -0.1454,
      "vol": 0.1029,
-     "years": 6.86
+     "years": 6.87
     },
     "is": {
      "cagr": 0.025,
@@ -95,11 +95,11 @@
      "years": 3.99
     },
     "oos": {
-     "cagr": 0.1946,
-     "sharpe": 1.787,
+     "cagr": 0.1922,
+     "sharpe": 1.77,
      "maxdd": -0.107,
      "vol": 0.107,
-     "years": 2.86
+     "years": 2.87
     }
    },
    "off_decisions": 21,
@@ -111,11 +111,11 @@
   "placebo_trend": {
    "stats": {
     "full": {
-     "cagr": 0.0916,
-     "sharpe": 0.948,
+     "cagr": 0.0908,
+     "sharpe": 0.941,
      "maxdd": -0.1404,
      "vol": 0.1017,
-     "years": 6.86
+     "years": 6.87
     },
     "is": {
      "cagr": 0.0267,
@@ -125,11 +125,11 @@
      "years": 3.99
     },
     "oos": {
-     "cagr": 0.189,
-     "sharpe": 1.796,
+     "cagr": 0.1866,
+     "sharpe": 1.778,
      "maxdd": -0.1067,
      "vol": 0.1035,
-     "years": 2.86
+     "years": 2.87
     }
    },
    "off_decisions": 21,
@@ -141,11 +141,11 @@
   "gate_vol": {
    "stats": {
     "full": {
-     "cagr": 0.0961,
-     "sharpe": 0.993,
+     "cagr": 0.0953,
+     "sharpe": 0.986,
      "maxdd": -0.1091,
      "vol": 0.1014,
-     "years": 6.86
+     "years": 6.87
     },
     "is": {
      "cagr": 0.0415,
@@ -155,11 +155,11 @@
      "years": 3.99
     },
     "oos": {
-     "cagr": 0.1777,
-     "sharpe": 1.701,
+     "cagr": 0.1753,
+     "sharpe": 1.683,
      "maxdd": -0.1091,
      "vol": 0.1034,
-     "years": 2.86
+     "years": 2.87
     }
    },
    "off_decisions": 25,
@@ -171,11 +171,11 @@
   "placebo_vol": {
    "stats": {
     "full": {
-     "cagr": 0.0753,
-     "sharpe": 0.789,
+     "cagr": 0.0745,
+     "sharpe": 0.782,
      "maxdd": -0.1697,
      "vol": 0.1024,
-     "years": 6.86
+     "years": 6.87
     },
     "is": {
      "cagr": 0.0198,
@@ -185,11 +185,11 @@
      "years": 3.99
     },
     "oos": {
-     "cagr": 0.1582,
-     "sharpe": 1.513,
+     "cagr": 0.1559,
+     "sharpe": 1.495,
      "maxdd": -0.107,
      "vol": 0.1049,
-     "years": 2.86
+     "years": 2.87
     }
    },
    "off_decisions": 25,
@@ -201,11 +201,11 @@
   "gate_drawdown": {
    "stats": {
     "full": {
-     "cagr": 0.0941,
-     "sharpe": 0.965,
+     "cagr": 0.0933,
+     "sharpe": 0.958,
      "maxdd": -0.1304,
-     "vol": 0.1025,
-     "years": 6.86
+     "vol": 0.1024,
+     "years": 6.87
     },
     "is": {
      "cagr": 0.0346,
@@ -215,11 +215,11 @@
      "years": 3.99
     },
     "oos": {
-     "cagr": 0.1834,
-     "sharpe": 1.715,
+     "cagr": 0.181,
+     "sharpe": 1.698,
      "maxdd": -0.1067,
      "vol": 0.1056,
-     "years": 2.86
+     "years": 2.87
     }
    },
    "off_decisions": 14,
@@ -231,11 +231,11 @@
   "placebo_drawdown": {
    "stats": {
     "full": {
-     "cagr": 0.0909,
-     "sharpe": 0.941,
+     "cagr": 0.09,
+     "sharpe": 0.934,
      "maxdd": -0.131,
      "vol": 0.1018,
-     "years": 6.86
+     "years": 6.87
     },
     "is": {
      "cagr": 0.0293,
@@ -245,27 +245,27 @@
      "years": 3.99
     },
     "oos": {
-     "cagr": 0.1828,
-     "sharpe": 1.73,
+     "cagr": 0.1804,
+     "sharpe": 1.712,
      "maxdd": -0.107,
      "vol": 0.1044,
-     "years": 2.86
+     "years": 2.87
     }
    },
    "off_decisions": 14,
    "off_share": 0.1667,
-   "delta_cagr_pp": -0.5,
+   "delta_cagr_pp": -0.51,
    "delta_sharpe": -0.046,
    "delta_maxdd_pp": -1.33
   },
   "delete_sleeve": {
    "stats": {
     "full": {
-     "cagr": 0.059,
-     "sharpe": 0.643,
+     "cagr": 0.0582,
+     "sharpe": 0.636,
      "maxdd": -0.2226,
      "vol": 0.1007,
-     "years": 6.86
+     "years": 6.87
     },
     "is": {
      "cagr": 0.0097,
@@ -275,11 +275,11 @@
      "years": 3.99
     },
     "oos": {
-     "cagr": 0.1315,
-     "sharpe": 1.322,
+     "cagr": 0.1294,
+     "sharpe": 1.305,
      "maxdd": -0.1086,
-     "vol": 0.1014,
-     "years": 2.86
+     "vol": 0.1013,
+     "years": 2.87
     }
    },
    "off_decisions": 84,
@@ -299,11 +299,11 @@
    "placebo_turnover": 0.976,
    "stats": {
     "full": {
-     "cagr": 0.0927,
-     "sharpe": 0.948,
+     "cagr": 0.0919,
+     "sharpe": 0.941,
      "maxdd": -0.1454,
      "vol": 0.1029,
-     "years": 6.86
+     "years": 6.87
     },
     "is": {
      "cagr": 0.025,
@@ -313,20 +313,20 @@
      "years": 3.99
     },
     "oos": {
-     "cagr": 0.1946,
-     "sharpe": 1.787,
+     "cagr": 0.1922,
+     "sharpe": 1.77,
      "maxdd": -0.107,
      "vol": 0.107,
-     "years": 2.86
+     "years": 2.87
     }
    },
    "placebo_stats": {
     "full": {
-     "cagr": 0.0916,
-     "sharpe": 0.948,
+     "cagr": 0.0908,
+     "sharpe": 0.941,
      "maxdd": -0.1404,
      "vol": 0.1017,
-     "years": 6.86
+     "years": 6.87
     },
     "is": {
      "cagr": 0.0267,
@@ -336,23 +336,23 @@
      "years": 3.99
     },
     "oos": {
-     "cagr": 0.189,
-     "sharpe": 1.796,
+     "cagr": 0.1866,
+     "sharpe": 1.778,
      "maxdd": -0.1067,
      "vol": 0.1035,
-     "years": 2.86
+     "years": 2.87
     }
    },
    "judgement": {
     "verdict": "NO_GATE",
     "reasons": [
      "drawdown gain -2.77 pp vs baseline (needs >= 1.0)",
-     "CAGR kept 0.967 of baseline (needs >= 0.95)",
+     "CAGR kept 0.966 of baseline (needs >= 0.95)",
      "beats placebo by -0.5 pp drawdown / 0.11 pp CAGR (needs +0.5 or +0.5)"
     ],
     "numbers": {
      "dd_gain_pp": -2.77,
-     "cagr_keep": 0.9666,
+     "cagr_keep": 0.9664,
      "placebo_dd_edge_pp": -0.5,
      "placebo_cagr_edge_pp": 0.11
     }
@@ -367,11 +367,11 @@
    "placebo_turnover": 0.979,
    "stats": {
     "full": {
-     "cagr": 0.0961,
-     "sharpe": 0.993,
+     "cagr": 0.0953,
+     "sharpe": 0.986,
      "maxdd": -0.1091,
      "vol": 0.1014,
-     "years": 6.86
+     "years": 6.87
     },
     "is": {
      "cagr": 0.0415,
@@ -381,20 +381,20 @@
      "years": 3.99
     },
     "oos": {
-     "cagr": 0.1777,
-     "sharpe": 1.701,
+     "cagr": 0.1753,
+     "sharpe": 1.683,
      "maxdd": -0.1091,
      "vol": 0.1034,
-     "years": 2.86
+     "years": 2.87
     }
    },
    "placebo_stats": {
     "full": {
-     "cagr": 0.0753,
-     "sharpe": 0.789,
+     "cagr": 0.0745,
+     "sharpe": 0.782,
      "maxdd": -0.1697,
      "vol": 0.1024,
-     "years": 6.86
+     "years": 6.87
     },
     "is": {
      "cagr": 0.0198,
@@ -404,11 +404,11 @@
      "years": 3.99
     },
     "oos": {
-     "cagr": 0.1582,
-     "sharpe": 1.513,
+     "cagr": 0.1559,
+     "sharpe": 1.495,
      "maxdd": -0.107,
      "vol": 0.1049,
-     "years": 2.86
+     "years": 2.87
     }
    },
    "judgement": {
@@ -435,11 +435,11 @@
    "placebo_turnover": 0.953,
    "stats": {
     "full": {
-     "cagr": 0.0941,
-     "sharpe": 0.965,
+     "cagr": 0.0933,
+     "sharpe": 0.958,
      "maxdd": -0.1304,
-     "vol": 0.1025,
-     "years": 6.86
+     "vol": 0.1024,
+     "years": 6.87
     },
     "is": {
      "cagr": 0.0346,
@@ -449,20 +449,20 @@
      "years": 3.99
     },
     "oos": {
-     "cagr": 0.1834,
-     "sharpe": 1.715,
+     "cagr": 0.181,
+     "sharpe": 1.698,
      "maxdd": -0.1067,
      "vol": 0.1056,
-     "years": 2.86
+     "years": 2.87
     }
    },
    "placebo_stats": {
     "full": {
-     "cagr": 0.0909,
-     "sharpe": 0.941,
+     "cagr": 0.09,
+     "sharpe": 0.934,
      "maxdd": -0.131,
      "vol": 0.1018,
-     "years": 6.86
+     "years": 6.87
     },
     "is": {
      "cagr": 0.0293,
@@ -472,11 +472,11 @@
      "years": 3.99
     },
     "oos": {
-     "cagr": 0.1828,
-     "sharpe": 1.73,
+     "cagr": 0.1804,
+     "sharpe": 1.712,
      "maxdd": -0.107,
      "vol": 0.1044,
-     "years": 2.86
+     "years": 2.87
     }
    },
    "judgement": {
@@ -484,13 +484,13 @@
     "reasons": [
      "drawdown gain -1.27 pp vs baseline (needs >= 1.0)",
      "CAGR kept 0.981 of baseline (needs >= 0.95)",
-     "beats placebo by 0.06 pp drawdown / 0.32 pp CAGR (needs +0.5 or +0.5)"
+     "beats placebo by 0.06 pp drawdown / 0.33 pp CAGR (needs +0.5 or +0.5)"
     ],
     "numbers": {
      "dd_gain_pp": -1.27,
-     "cagr_keep": 0.9812,
+     "cagr_keep": 0.9811,
      "placebo_dd_edge_pp": 0.06,
-     "placebo_cagr_edge_pp": 0.32
+     "placebo_cagr_edge_pp": 0.33
     }
    }
   }

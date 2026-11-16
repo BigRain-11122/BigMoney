@@ -1,81 +1,49 @@
 {
- "verdict": "PASS",
+ "verdict": "NO_EVIDENCE",
  "rel_tol": 0.002,
  "counters": {
-  "matched": 4,
+  "matched": 0,
   "dropped": 0,
   "breach": 0,
-  "zero_pending_traders": 4,
-  "no_marks_traders": 0,
+  "zero_pending_traders": 0,
+  "no_marks_traders": 6,
   "no_bar_traders": 0,
   "refire_held": 0
  },
  "per_trader": {
   "COMPOSITE-CE-01": {
-   "cutoff": "2026-11-13",
-   "status": "verified_pass",
-   "detail": [
-    {
-     "symbol": "159996",
-     "outcome": "filled",
-     "cost_price": 1.356,
-     "session_open": 1.356,
-     "rel_diff": 0.0
-    }
-   ]
+   "cutoff": "2026-11-16",
+   "status": "no_marks",
+   "detail": []
   },
   "COMPOSITE-CE-02": {
-   "cutoff": "2026-11-13",
-   "status": "verified_pass",
-   "detail": [
-    {
-     "symbol": "159920",
-     "outcome": "filled",
-     "cost_price": 1.402,
-     "session_open": 1.402,
-     "rel_diff": 0.0
-    },
-    {
-     "symbol": "159996",
-     "outcome": "filled",
-     "cost_price": 1.356,
-     "session_open": 1.356,
-     "rel_diff": 0.0
-    },
-    {
-     "symbol": "510050",
-     "outcome": "filled",
-     "cost_price": 2.892,
-     "session_open": 2.892,
-     "rel_diff": 0.0
-    }
-   ]
+   "cutoff": "2026-11-16",
+   "status": "no_marks",
+   "detail": []
   },
   "DROUGHT-CE-01": {
-   "cutoff": "2026-11-13",
-   "status": "zero_pending",
+   "cutoff": "2026-11-16",
+   "status": "no_marks",
    "detail": []
   },
   "ENGULF-CE-01": {
-   "cutoff": "2026-11-13",
-   "status": "zero_pending",
+   "cutoff": "2026-11-16",
+   "status": "no_marks",
    "detail": []
   },
   "NEEDLE-DE-01": {
-   "cutoff": "2026-11-13",
-   "status": "zero_pending",
+   "cutoff": "2026-11-16",
+   "status": "no_marks",
    "detail": []
   },
   "VOLATILITY-CE-01": {
-   "cutoff": "2026-11-13",
-   "status": "zero_pending",
+   "cutoff": "2026-11-16",
+   "status": "no_marks",
    "detail": []
   }
  },
- "day": "2026-11-13",
- "evidence_tier": "daily_bar_open",
+ "day": "2026-11-16",
+ "evidence_tier": "none",
  "drops_observable": false,
- "evidence_note": "marks lane missed this session; fill prices were checked against the official daily bar open (same exchange first-trade price marks samples from spot). Dropped-pending counts are NOT observable on this tier.",
- "no_bar_fills": {},
- "ts": "2026-11-16 15:32:28"
+ "ts": "2026-11-16 19:45:28"
 }

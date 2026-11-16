@@ -2,15 +2,15 @@
  "face": "minute_feed_status",
  "lane_machine": "bm-c",
  "kind": "gated",
- "ts": "2026-11-16T15:30:20",
- "last_success_ts": "2026-11-16T15:30:20",
+ "ts": "2026-11-16T19:40:53",
+ "last_success_ts": "2026-11-16T19:40:53",
  "archive_dir": "data/minute_feed",
  "symbols": {
   "510300": {
    "category": "broad-base",
    "t_settlement": "T+1",
    "rows_total": 9110,
-   "rows_new": 70,
+   "rows_new": 0,
    "oldest_fetched": "2026-11-04 13:53:00",
    "gap_vs_local": false
   },
@@ -18,7 +18,7 @@
    "category": "broad-base",
    "t_settlement": "T+1",
    "rows_total": 9110,
-   "rows_new": 70,
+   "rows_new": 0,
    "oldest_fetched": "2026-11-04 13:53:00",
    "gap_vs_local": false
   },
@@ -26,7 +26,7 @@
    "category": "broad-base",
    "t_settlement": "T+1",
    "rows_total": 9110,
-   "rows_new": 69,
+   "rows_new": 0,
    "oldest_fetched": "2026-11-04 13:53:00",
    "gap_vs_local": false
   },
@@ -34,7 +34,7 @@
    "category": "broad-base",
    "t_settlement": "T+1",
    "rows_total": 9110,
-   "rows_new": 69,
+   "rows_new": 0,
    "oldest_fetched": "2026-11-04 13:53:00",
    "gap_vs_local": false
   },
@@ -42,14 +42,14 @@
    "category": "broad-base",
    "t_settlement": "T+1",
    "rows_total": 9110,
-   "rows_new": 69,
+   "rows_new": 0,
    "oldest_fetched": "2026-11-04 13:53:00",
    "gap_vs_local": false
   }
  },
- "rows_new_total": 347,
+ "rows_new_total": 0,
  "coverage": {
-  "last_completed_session": "2026-11-13",
+  "last_completed_session": "2026-11-16",
   "settle_time": "15:30",
   "tail_day_by_symbol": {
    "510300": "2026-11-16",
@@ -63,73 +63,5 @@
   "symbols_total": 5,
   "law": "a completed session behind an archive's tail is a hole, not a no-op -- the sina 1m window is the only backfill channel and it slides away; named here rather than left to the freshness board"
  },
- "spec": "research/etf_ops/MINUTE_FEED.md v1.4",
- "repairs": {
-  "510500": {
-   "kind": "tail_partial_capture",
-   "ts": "2026-11-16 13:49:00",
-   "old": [
-    "2026-11-16 13:49:00",
-    "6.383",
-    "6.384",
-    "6.378",
-    "6.383",
-    "1687700",
-    "10770945.0970"
-   ],
-   "new": [
-    "2026-11-16 13:49:00",
-    "6.383",
-    "6.384",
-    "6.378",
-    "6.384",
-    "1912700",
-    "12207098.6720"
-   ]
-  },
-  "512100": {
-   "kind": "tail_partial_capture",
-   "ts": "2026-11-16 13:49:00",
-   "old": [
-    "2026-11-16 13:49:00",
-    "2.529",
-    "2.529",
-    "2.526",
-    "2.527",
-    "287400",
-    "726382.3034"
-   ],
-   "new": [
-    "2026-11-16 13:49:00",
-    "2.529",
-    "2.530",
-    "2.526",
-    "2.527",
-    "328800",
-    "831071.3044"
-   ]
-  },
-  "588000": {
-   "kind": "tail_partial_capture",
-   "ts": "2026-11-16 13:49:00",
-   "old": [
-    "2026-11-16 13:49:00",
-    "1.294",
-    "1.295",
-    "1.293",
-    "1.294",
-    "13542796",
-    "17523068.8360"
-   ],
-   "new": [
-    "2026-11-16 13:49:00",
-    "1.294",
-    "1.295",
-    "1.293",
-    "1.295",
-    "13983396",
-    "18093353.5402"
-   ]
-  }
- }
+ "spec": "research/etf_ops/MINUTE_FEED.md v1.4"
 }

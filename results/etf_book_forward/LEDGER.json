@@ -187,19 +187,25 @@
   },
   {
    "bar": "2026-11-13",
-   "nav": 1.0108942788,
-   "dd": -0.005065,
+   "nav": 1.0108993106,
+   "dd": -0.00506,
    "cash": 0.090616,
    "carry": 3.4508e-06,
    "n_held": 12,
    "filled": false,
    "turn": 0.0,
-   "provisional": true
+   "provisional": false,
+   "nav_published": 1.0108942788,
+   "dd_published": -0.005065,
+   "cash_published": 0.090616,
+   "nav_factor_applied": 1.000004977573,
+   "later_rows_rescaled": 1,
+   "restated_at": "2026-11-16T18:21:44+0800"
   },
   {
    "bar": "2026-11-16",
-   "nav": 1.0068071635,
-   "dd": -0.009088,
+   "nav": 1.006812175,
+   "dd": -0.009083,
    "cash": 0.090616,
    "carry": 1.03525e-05,
    "n_held": 12,
@@ -254,10 +260,9 @@
  "drift": {
   "faces": [],
   "max_abs": 0.0,
-  "checked_bars": 16,
+  "checked_bars": 17,
   "gate": "settled_bars_only",
   "settled_bars": [
-   "2026-10-30",
    "2026-11-02",
    "2026-11-03",
    "2026-11-04",
@@ -266,17 +271,20 @@
    "2026-11-09",
    "2026-11-10",
    "2026-11-11",
-   "2026-11-12"
+   "2026-11-12",
+   "2026-11-13"
   ],
   "provisional_bars": [
-   "2026-11-13"
+   "2026-11-16"
   ],
   "carry_last_bar": "2026-11-13",
   "settled_faces": [],
   "provisional_faces": [],
   "benchmark_settled_faces": [],
   "benchmark_provisional_faces": [],
-  "restated_bars": [],
+  "restated_bars": [
+   "2026-11-13"
+  ],
   "withdrawn_bars": []
  },
  "rebases": [
@@ -300,11 +308,6 @@
   }
  ],
  "runs": [
-  {
-   "ts": "2026-10-28T16:28:31+0800",
-   "new_bars": 1,
-   "last_bar": "2026-10-28"
-  },
   {
    "ts": "2026-10-28T21:33:02+0800",
    "new_bars": 0,
@@ -499,6 +502,11 @@
    "ts": "2026-11-16T17:24:01+0800",
    "new_bars": 1,
    "last_bar": "2026-11-16"
+  },
+  {
+   "ts": "2026-11-16T18:21:49+0800",
+   "new_bars": 0,
+   "last_bar": "2026-11-16"
   }
  ],
  "panel": {
@@ -662,15 +670,15 @@
     "bar": "2026-11-13",
     "nav": 0.9862785895,
     "filled": false,
-    "book_nav": 1.0108942788,
-    "excess": 0.0249581503
+    "book_nav": 1.0108993106,
+    "excess": 0.0249632521
    },
    {
     "bar": "2026-11-16",
     "nav": 0.9765895222,
     "filled": false,
-    "book_nav": 1.0068071635,
-    "excess": 0.0309420085
+    "book_nav": 1.006812175,
+    "excess": 0.0309471401
    }
   ],
   "rebalance_friction": {
@@ -682,9 +690,9 @@
   "decisions": 84,
   "latest": {
    "bar": "2026-11-16",
-   "book_nav": 1.0068071635,
+   "book_nav": 1.006812175,
    "basket_nav": 0.9765895222,
-   "excess_pp": 3.0942
+   "excess_pp": 3.0947
   },
   "significance": {
    "available": true,
@@ -728,7 +736,7 @@
     },
     "years_for_80pct_power": {
      "pre-2020 measured alpha (single arm)": 136.1,
-     "in-window measured alpha (single arm)": 15.9
+     "in-window measured alpha (single arm)": 15.8
     },
     "candidate_sources": {
      "pre-2020 measured alpha (single arm)": {
@@ -739,7 +747,7 @@
      "in-window measured alpha (single arm)": {
       "file": "results/etf_book_spanning.json",
       "field": "arms.book.full.alpha_annual",
-      "edge_pp_per_year": 5.94
+      "edge_pp_per_year": 5.96
      }
     },
     "available": true,
@@ -833,10 +841,33 @@
      "gate": 1.1010000000000002e-09
     }
    ]
+  },
+  {
+   "ts": "2026-11-16T18:21:44+0800",
+   "bar": "2026-11-13",
+   "reason": "published while the panel for that date was still gaining symbols",
+   "panel_last_date": "2026-11-16",
+   "nav_published": 1.0108942788,
+   "nav_settled": 1.0108993106,
+   "dd_published": -0.005065,
+   "cash_published": 0.090616,
+   "delta": 5.0318e-06,
+   "nav_factor_applied": 1.000004977573,
+   "later_rows_rescaled": 1,
+   "chain_checked_bars": 1,
+   "chain_intact": false,
+   "chain_breaks": [
+    {
+     "bar": "2026-11-16",
+     "expected_from_panel": 1.0068071635,
+     "ledger_after_rescale": 1.006812175,
+     "gate": 1.1010000000000002e-09
+    }
+   ]
   }
  ],
  "ledger_history": {
-  "bars": 16,
+  "bars": 17,
   "restated_bars": [
    {
     "bar": "2026-10-29",
@@ -873,10 +904,22 @@
     "rescaled_known": true,
     "restated_at": "2026-11-13T23:20:05+0800",
     "chain_intact": false
+   },
+   {
+    "bar": "2026-11-13",
+    "on_row": true,
+    "nav_published": 1.0108942788,
+    "nav_settled": 1.0108993106,
+    "delta": 5.0318e-06,
+    "nav_factor_applied": 1.000004977573,
+    "later_rows_rescaled": 1,
+    "rescaled_known": true,
+    "restated_at": "2026-11-16T18:21:44+0800",
+    "chain_intact": false
    }
   ],
-  "n_restated": 3,
-  "n_restated_on_row": 1,
+  "n_restated": 4,
+  "n_restated_on_row": 2,
   "withdrawn": [
    {
     "bar": "2026-11-02",
@@ -884,7 +927,7 @@
    }
   ],
   "n_withdrawn": 1,
-  "verdict": "3 published bar(s) were restated after publication (2 recorded before rows carried the published value)"
+  "verdict": "4 published bar(s) were restated after publication (2 recorded before rows carried the published value)"
  },
  "pending_fill": null,
  "fill_log": [

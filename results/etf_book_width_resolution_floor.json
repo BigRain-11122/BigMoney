@@ -6,33 +6,33 @@
   "slope_pp_per_name": "pp of median CAGR per additional name",
   "ruler_pp": "the baseline grid's median per-cell band (p95-p05)"
  },
- "evidence_cutoff": "2026-11-13",
+ "evidence_cutoff": "2026-11-16",
  "rule": {
   "min_rungs": 4,
   "sign_agreement_min": 0.75,
   "priced_width_max": 20,
   "frozen": "written before the first read of the width floor: the axis is the published baseline grid's own medians, the ruler is the same baseline median cell band the buffer floor used, and the sign test runs before the slope"
  },
- "ruler_pp": 6.72,
+ "ruler_pp": 6.713,
  "widths": {
   "3": {
    "n_hold": 3,
    "cadences": 3,
-   "median_cagr_pp": 8.45,
+   "median_cagr_pp": 8.365,
    "by_cadence": {
-    "10": 10.785,
-    "20": 8.45,
-    "40": 6.695
+    "10": 10.67,
+    "20": 8.365,
+    "40": 6.62
    }
   },
   "5": {
    "n_hold": 5,
    "cadences": 3,
-   "median_cagr_pp": 9.015,
+   "median_cagr_pp": 9.025,
    "by_cadence": {
-    "10": 11.4,
-    "20": 9.015,
-    "40": 8.175
+    "10": 11.38,
+    "20": 9.025,
+    "40": 8.015
    }
   },
   "8": {
@@ -40,19 +40,19 @@
    "cadences": 3,
    "median_cagr_pp": 10.07,
    "by_cadence": {
-    "10": 11.86,
+    "10": 11.865,
     "20": 10.07,
-    "40": 8.235
+    "40": 8.19
    }
   },
   "12": {
    "n_hold": 12,
    "cadences": 3,
-   "median_cagr_pp": 9.55,
+   "median_cagr_pp": 9.475,
    "by_cadence": {
-    "10": 11.465,
-    "20": 9.55,
-    "40": 7.705
+    "10": 11.455,
+    "20": 9.475,
+    "40": 7.67
    }
   }
  },
@@ -61,63 +61,63 @@
    "rebal": 10,
    "from": 3,
    "to": 5,
-   "step_pp": 0.615,
+   "step_pp": 0.71,
    "up": true
   },
   {
    "rebal": 10,
    "from": 5,
    "to": 8,
-   "step_pp": 0.46,
+   "step_pp": 0.485,
    "up": true
   },
   {
    "rebal": 10,
    "from": 8,
    "to": 12,
-   "step_pp": -0.395,
+   "step_pp": -0.41,
    "up": false
   },
   {
    "rebal": 20,
    "from": 3,
    "to": 5,
-   "step_pp": 0.565,
+   "step_pp": 0.66,
    "up": true
   },
   {
    "rebal": 20,
    "from": 5,
    "to": 8,
-   "step_pp": 1.055,
+   "step_pp": 1.045,
    "up": true
   },
   {
    "rebal": 20,
+   "from": 8,
+   "to": 12,
+   "step_pp": -0.595,
+   "up": false
+  },
+  {
+   "rebal": 40,
+   "from": 3,
+   "to": 5,
+   "step_pp": 1.395,
+   "up": true
+  },
+  {
+   "rebal": 40,
+   "from": 5,
+   "to": 8,
+   "step_pp": 0.175,
+   "up": true
+  },
+  {
+   "rebal": 40,
    "from": 8,
    "to": 12,
    "step_pp": -0.52,
-   "up": false
-  },
-  {
-   "rebal": 40,
-   "from": 3,
-   "to": 5,
-   "step_pp": 1.48,
-   "up": true
-  },
-  {
-   "rebal": 40,
-   "from": 5,
-   "to": 8,
-   "step_pp": 0.06,
-   "up": true
-  },
-  {
-   "rebal": 40,
-   "from": 8,
-   "to": 12,
-   "step_pp": -0.53,
    "up": false
   }
  ],
@@ -193,24 +193,24 @@
   "sign_flips_by_cadence": true
  },
  "fit": {
-  "slope_pp_per_name": 0.1302,
-  "intercept_pp": 8.3597,
-  "r2": 0.5358,
+  "slope_pp_per_name": 0.129,
+  "intercept_pp": 8.3306,
+  "r2": 0.4922,
   "n_points": 4
  },
- "dn_required": 51.61,
- "width_required": 54.61,
- "sweep_span_pp": 1.1,
- "sweep_share_of_ruler": 0.1637,
+ "dn_required": 52.03,
+ "width_required": 55.03,
+ "sweep_span_pp": 1.11,
+ "sweep_share_of_ruler": 0.1653,
  "verdict": "DIRECTION_NOT_A_SIZE",
  "verdict_reasons": [
   "9 rungs over 4 widths (need >= 4)",
   "6 of 9 rungs point up (sign agreement 0.667; floor 0.75) -- a line through a hill has a slope, so the sign test runs first",
   "peak width 8 with turnover inside the tested grid = True",
-  "slope +0.1302pp per name, r2 0.536 on 4 widths",
-  "ruler = median cell band 6.72pp; names of runway required = 51.61",
-  "width required = 54.6 (thinnest tested 3 + runway; widest PRICED rung = 20)",
-  "the whole ladder spans 1.100pp = 0.164 of the ruler",
+  "slope +0.1290pp per name, r2 0.492 on 4 widths",
+  "ruler = median cell band 6.71pp; names of runway required = 52.03",
+  "width required = 55.0 (thinnest tested 3 + runway; widest PRICED rung = 20)",
+  "the whole ladder spans 1.110pp = 0.165 of the ruler",
   "the rungs disagree about the sign, so no single number of names buys the ruler: width is a trade (CAGR against capacity), not a resolution knob",
   "cross-check on the capacity face's own engine (7 rungs, 0.429 up): sign flips between cadences = True -- a hill that a second engine cannot reproduce is a panel artefact, not a property of width"
  ]

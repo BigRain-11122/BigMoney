@@ -1,6 +1,6 @@
 # Does the order sheet price the execution it declares?
 
-Generated 2026-11-16T17:56:25+0800 from `scripts/etf_book_causal_headline.py` (panel 2005-02-23 -> 2026-11-16, 1521 symbols, cutoff `2026-11-16`).
+Generated 2026-11-16T18:36:29+0800 from `scripts/etf_book_causal_headline.py` (panel 2005-02-23 -> 2026-11-16, 1521 symbols, cutoff `2026-11-16`).
 
 ## Verdict
 

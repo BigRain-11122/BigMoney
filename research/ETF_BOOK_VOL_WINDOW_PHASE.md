@@ -1,6 +1,6 @@
 # Is the 60-day vol window load-bearing, or a champion on one calendar?
 
-Face: `results/etf_book_vol_window_phase.json` (evidence cutoff 2026-11-13, 1662 bars, 4 phases, 102.0 s).
+Face: `results/etf_book_vol_window_phase.json` (evidence cutoff 2026-11-16, 1663 bars, 4 phases, 94.1 s).
 
 ## Verdict
 
@@ -14,10 +14,10 @@ The older face on this axis (`results/etf_book_voltarget_phase.json`) calls the 
 
 | phase | paired mean | 5%-95% band | share > 0 |
 |---|---|---|---|
-| 0 | +0.84 pp/yr | [-0.13, +1.95] | 92.4% |
-| 1 | +1.81 pp/yr | [+0.69, +3.05] | 100.0% |
-| 2 | +1.17 pp/yr | [+0.07, +2.40] | 96.4% |
-| 3 | +0.42 pp/yr | [-0.37, +1.23] | 82.3% |
+| 0 | +0.86 pp/yr | [-0.09, +1.95] | 92.6% |
+| 1 | +1.81 pp/yr | [+0.69, +3.04] | 99.9% |
+| 2 | +1.19 pp/yr | [+0.13, +2.42] | 96.7% |
+| 3 | +0.41 pp/yr | [-0.36, +1.19] | 82.0% |
 
 Paired read: **MIXED_ACROSS_PHASES** (arm 30d vs control 60d).
 
@@ -29,37 +29,37 @@ Older face on the same axis (read, not re-derived): window 20d vs 60d control, m
 
 | phase | start | 30d | 45d | 60d | 90d | 120d |
 |---|---|---|---|---|---|---|
-| 0 | 2020-01-02 | 1.055 | 1.049 | 0.987 | 0.849 | 0.827 |
-| 1 | 2020-01-09 | 1.076 | 0.974 | 0.934 | 0.881 | 0.868 |
-| 2 | 2020-01-16 | 1.005 | 0.962 | 0.903 | 0.793 | 0.766 |
-| 3 | 2020-01-23 | 1.182 | 1.094 | 1.131 | 1.027 | 1.003 |
+| 0 | 2020-01-02 | 1.049 | 1.043 | 0.980 | 0.842 | 0.820 |
+| 1 | 2020-01-09 | 1.071 | 0.969 | 0.929 | 0.876 | 0.862 |
+| 2 | 2020-01-16 | 0.993 | 0.948 | 0.889 | 0.779 | 0.752 |
+| 3 | 2020-01-23 | 1.189 | 1.102 | 1.139 | 1.033 | 1.009 |
 
 ## Out of sample (bars after 2023-12-31)
 
 | phase | 30d | 45d | 60d | 90d | 120d |
 |---|---|---|---|---|---|
-| 0 | 1.791 | 1.766 | 1.719 | 1.497 | 1.462 |
-| 1 | 1.594 | 1.426 | 1.422 | 1.423 | 1.328 |
-| 2 | 1.676 | 1.618 | 1.523 | 1.437 | 1.389 |
-| 3 | 1.360 | 1.203 | 1.328 | 1.185 | 1.182 |
+| 0 | 1.777 | 1.750 | 1.702 | 1.479 | 1.444 |
+| 1 | 1.582 | 1.414 | 1.411 | 1.410 | 1.315 |
+| 2 | 1.647 | 1.586 | 1.490 | 1.403 | 1.358 |
+| 3 | 1.376 | 1.220 | 1.345 | 1.199 | 1.197 |
 
 ## Per-window read
 
 | window | phases earned | phases OOS not worse | Sharpe delta range |
 |---|---|---|---|
-| 30d | 4/4 | 4/4 | +0.051 .. +0.142 |
-| 45d | 3/4 | 3/4 | -0.037 .. +0.062 |
+| 30d | 4/4 | 4/4 | +0.050 .. +0.142 |
+| 45d | 3/4 | 3/4 | -0.037 .. +0.063 |
 | 90d | 0/4 | 0/4 | -0.138 .. -0.053 |
-| 120d | 0/4 | 0/4 | -0.160 .. -0.066 |
+| 120d | 0/4 | 0/4 | -0.160 .. -0.067 |
 
 ## What the winning window actually changes (shipped vs best)
 
 | phase | shipped 60d scale / vol / Sharpe | best 30d scale / vol / Sharpe |
 |---|---|---|
-| 0 | 0.710 / 10.2% / 0.987 | 0.724 / 10.3% / 1.055 |
-| 1 | 0.713 / 10.8% / 0.934 | 0.730 / 11.0% / 1.076 |
-| 2 | 0.723 / 10.5% / 0.903 | 0.739 / 10.6% / 1.005 |
-| 3 | 0.737 / 9.9% / 1.131 | 0.741 / 9.8% / 1.182 |
+| 0 | 0.710 / 10.2% / 0.980 | 0.724 / 10.3% / 1.049 |
+| 1 | 0.713 / 10.8% / 0.929 | 0.730 / 11.0% / 1.071 |
+| 2 | 0.723 / 10.6% / 0.889 | 0.739 / 10.6% / 0.993 |
+| 3 | 0.737 / 9.9% / 1.139 | 0.741 / 9.8% / 1.189 |
 
 A shorter estimate reacts faster, so it also holds MORE of the book: the mean scale rises in every phase, and the delivered vol drifts above the 8% label. The Sharpe column is the part that is not just extra exposure.
 

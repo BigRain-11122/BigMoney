@@ -1,46 +1,46 @@
 {
  "arms": {
   "assumed_10bp": {
-   "cagr": 0.0959,
+   "cagr": 0.0951,
    "calmar": 0.81,
    "label": "cell",
    "maxdd": -0.1177,
    "neg_years": 1,
-   "pos_months_pct": 0.622,
-   "sharpe": 0.987,
+   "pos_months_pct": 0.61,
+   "sharpe": 0.98,
    "start_level": 1.0073,
    "vol": 0.1018,
    "worst_month": -0.0362,
    "worst_year": -0.0199,
-   "years": 6.86
+   "years": 6.87
   },
   "measured": {
-   "cagr": 0.101,
-   "calmar": 0.89,
+   "cagr": 0.1002,
+   "calmar": 0.88,
    "label": "cell",
    "maxdd": -0.1137,
    "neg_years": 1,
-   "pos_months_pct": 0.634,
-   "sharpe": 1.035,
+   "pos_months_pct": 0.622,
+   "sharpe": 1.028,
    "start_level": 1.0076,
-   "vol": 0.1019,
+   "vol": 0.1018,
    "worst_month": -0.0359,
    "worst_year": -0.0163,
-   "years": 6.86
+   "years": 6.87
   },
   "upper_p75": {
-   "cagr": 0.0971,
-   "calmar": 0.83,
+   "cagr": 0.0963,
+   "calmar": 0.82,
    "label": "cell",
    "maxdd": -0.1168,
    "neg_years": 1,
-   "pos_months_pct": 0.634,
-   "sharpe": 0.999,
+   "pos_months_pct": 0.622,
+   "sharpe": 0.991,
    "start_level": 1.0073,
    "vol": 0.1018,
    "worst_month": -0.0361,
    "worst_year": -0.019,
-   "years": 6.86
+   "years": 6.87
   }
  },
  "assumption_verdict": "CONSERVATIVE",
@@ -52,7 +52,7 @@
   "upper_scalar_bp": 9.02
  },
  "control": {
-  "engine_cagr_at_10bp": 0.0959,
+  "engine_cagr_at_10bp": 0.0951,
   "passes": true,
   "published_cagr": 0.096,
   "tolerance_pp": 0.5
@@ -77,25 +77,25 @@
  },
  "engine": "etf_book_production.prep_panel (production universe, repaired prints) + etf_robust_pf.open_to_open_equity (the card's own engine)",
  "estimator": "Corwin-Schultz (2012) effective spread from daily high/low, 20-day rolling median, lagged one bar so a decision cannot see t+1",
- "evidence_cutoff": "2026-11-13",
+ "evidence_cutoff": "2026-11-16",
  "face": "results/etf_book_cost_tape.json",
- "generated": "2026-11-13T22:30:39",
+ "generated": "2026-11-16T19:23:30",
  "panel": {
-  "bars": 5280,
-  "digest": "e6f9d0e81a64ec75",
+  "bars": 5281,
+  "digest": "0988c6530a481fa1",
   "flip_prints_repaired": 169,
-  "last_bar": "2026-11-13",
-  "symbols": 1520,
-  "tape_symbols": 1504
+  "last_bar": "2026-11-16",
+  "symbols": 1521,
+  "tape_symbols": 1508
  },
  "question": "the card charges every leg a flat 10 bp/side -- what do these names actually quote, and does the book survive the tape's answer?",
  "schema": "etf_book_cost_tape/v1",
  "script": "scripts/etf_book_cost_tape.py",
- "sentence": "the names this book actually traded quote a measured one-way cost of 5.9 bp half-spread; the card charges 10 bp, which is more than the tape says (the card over-charges) -- on the tape's cost the same engine earns 10.1% CAGR / 1.03 Sharpe (each name at its own 75th percentile: 9.7% / 1.00), so the book survives the measured cost",
+ "sentence": "the names this book actually traded quote a measured one-way cost of 5.9 bp half-spread; the card charges 10 bp, which is more than the tape says (the card over-charges) -- on the tape's cost the same engine earns 10.0% CAGR / 1.03 Sharpe (each name at its own 75th percentile: 9.6% / 0.99), so the book survives the measured cost",
  "survives_verdict": "SURVIVES",
  "tape": {
   "median_name_p50_bp": 13.3,
-  "median_name_p75_bp": 27.4,
+  "median_name_p75_bp": 27.3,
   "n_traded_names": 189,
   "widest_traded": [
    {
@@ -104,19 +104,19 @@
     "symbol": "159967"
    },
    {
-    "p50_bp": 31.1,
+    "p50_bp": 30.9,
     "p90_bp": 74.3,
     "symbol": "512690"
    },
    {
     "p50_bp": 26.8,
-    "p90_bp": 65.9,
-    "symbol": "159966"
+    "p90_bp": 63.9,
+    "symbol": "512010"
    },
    {
     "p50_bp": 26.8,
-    "p90_bp": 63.8,
-    "symbol": "512010"
+    "p90_bp": 66.0,
+    "symbol": "159966"
    },
    {
     "p50_bp": 26.6,
