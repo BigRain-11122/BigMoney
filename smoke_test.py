@@ -1229,6 +1229,79 @@ def main() -> int:
               f"exit={_r.returncode} | {_tail[:140]}")
     except Exception as e:
         check("product: carry sleeve integer ladder (every cell re-derived)", False, str(e))
+    # r1779: the ladder printed three roads and refused to choose, which leaves every
+    # reader to decide again -- differently. The adoption is now one constant in
+    # scripts/idx_fut_carry_sizing_spec.py, so these two legs ask that the face still says
+    # WHICH road the book runs and that its arithmetic still follows from the ladder.
+    try:
+        _r = _leg_memo([sys.executable, "scripts/idx_fut_carry_sizing_spec.py", "selftest"], 120)
+        _tail = ((_r.stdout or _r.stderr).strip().splitlines() or ["no output"])[-1]
+        check("product: carry sleeve sizing ruler adopted (selftest)",
+              _r.returncode == 0, f"exit={_r.returncode} | {_tail[:90]}")
+    except Exception as e:
+        check("product: carry sleeve sizing ruler adopted (selftest)", False, str(e))
+    try:
+        _r = _leg_memo([sys.executable, "scripts/idx_fut_carry_sizing_spec.py", "check"], 180)
+        _tail = ((_r.stdout or _r.stderr).strip().splitlines() or ["no output"])[-1]
+        try:
+            _spec = json.loads(_tail)
+        except Exception:
+            _spec = {}
+        check("product: carry sleeve sizing ruler (every consequence re-derived)",
+              _r.returncode == 0 and bool(_spec.get("ok")),
+              f"exit={_r.returncode} | {_tail[:140]}")
+    except Exception as e:
+        check("product: carry sleeve sizing ruler (every consequence re-derived)", False, str(e))
+    # ... and the reader's page has to carry the decision, not just the face on disk: a
+    # road adopted in JSON that the ticket still leaves open is the same unresolvable
+    # sentence one directory away.
+    try:
+        _pg = os.path.join(PATHS.root, "research", "IDX_FUT_CARRY_PAPER.md")
+        _txt = open(_pg, encoding="utf-8").read() if os.path.exists(_pg) else ""
+        _ok = ("the road this book runs on" in _txt
+               and "A_keep_target_raise_capital" in _txt
+               and "OUT_OF_RULER" in _txt)
+        check("product: the ticket prints which sizing road the book runs", _ok,
+              "page missing the adopted-road block" if not _ok else "")
+    except Exception as e:
+        check("product: the ticket prints which sizing road the book runs", False, str(e))
+    # r1781: "0 lots" is a rule outcome, and a rule outcome nobody can act on. The funding
+    # line says what would make the book openable, the withdrawal takes the desk's four off
+    # the executable ticket, and the forward paper series is relabelled rather than erased.
+    # Two legs keep the face honest; the third asks the reader's page to carry it -- a
+    # withdrawal adopted in JSON that the ticket still contradicts is one directory away
+    # from the same unresolvable sentence (r1779).
+    try:
+        _r = _leg_memo([sys.executable, "scripts/idx_fut_carry_open_capital.py", "selftest"], 120)
+        _tail = ((_r.stdout or _r.stderr).strip().splitlines() or ["no output"])[-1]
+        check("product: carry sleeve funding line (selftest)",
+              _r.returncode == 0, f"exit={_r.returncode} | {_tail[:90]}")
+    except Exception as e:
+        check("product: carry sleeve funding line (selftest)", False, str(e))
+    try:
+        _r = _leg_memo([sys.executable, "scripts/idx_fut_carry_open_capital.py", "check"], 180)
+        _tail = ((_r.stdout or _r.stderr).strip().splitlines() or ["no output"])[-1]
+        try:
+            _cap = json.loads(_tail)
+        except Exception:
+            _cap = {}
+        check("product: carry sleeve funding line (every number re-derived)",
+              _r.returncode == 0 and bool(_cap.get("ok")),
+              f"exit={_r.returncode} | {_tail[:140]}")
+    except Exception as e:
+        check("product: carry sleeve funding line (every number re-derived)", False, str(e))
+    try:
+        _pg = os.path.join(PATHS.root, "research", "IDX_FUT_CARRY_PAPER.md")
+        _txt = open(_pg, encoding="utf-8").read() if os.path.exists(_pg) else ""
+        _ok = ("what it costs to open this book" in _txt
+               and "WITHDRAW_FROM_TICKET" in _txt
+               and "FUNDED_BY_A_LARGER_CAPITAL" in _txt
+               and "idx_fut_carry_open_capital.json" in _txt)
+        check("product: the ticket says what it costs to open and which line is executable",
+              _ok, "page missing the funding/withdrawal block" if not _ok else "")
+    except Exception as e:
+        check("product: the ticket says what it costs to open and which line is executable",
+              False, str(e))
     # r1691: the treasury curve verdict (T vs TF, DIRECTION-20261114 section 3) closed a line
     # as KILL. A closed line is only worth closing if the file that says so cannot be edited
     # by hand -- so the verdict is re-derived here from its own criteria and the page's two

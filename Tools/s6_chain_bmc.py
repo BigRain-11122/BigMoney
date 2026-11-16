@@ -293,6 +293,19 @@ LEGS = [
     # and the ledger's ticket line; it re-derives no volatility and judges nothing.
     # ~1s, no network, adopts nothing.
     ("idx_fut_carry_capital_ladder", ["python", "scripts/idx_fut_carry_capital_ladder.py", "run"]),
+    # r1779: the ladder refused to choose, and a face that refuses to choose is re-decided
+    # by every reader. This leg writes the ADOPTION (road A: keep the 8% standard, raise
+    # the capital, read the target as a hard cap) and what it returns at the desk's capital
+    # -- 0 lots, first rung 1,125,012 (IC) / 1,152,040 (IM), the desk's 4 lots marked
+    # out-of-ruler and left untouched. Reads the ladder face only; ~0.1s, no network.
+    ("idx_fut_carry_sizing_spec", ["python", "scripts/idx_fut_carry_sizing_spec.py", "run"]),
+    # r1780: the ruler's zero was arithmetic, not an instruction -- nobody can act on
+    # "0 lots" and the desk's four rode beside it. This leg publishes the funding line
+    # (IC 1,125,012 / IM 1,152,040 to open at all; 125,012 / 152,040 short of it), adopts
+    # WITHDRAW_FROM_TICKET once, and relabels -- never rewrites -- the forward paper series
+    # as FUNDED_BY_A_LARGER_CAPITAL. r1781 puts that sentence on the reader's page. Reads
+    # the sizing face; ~0.1s, no network, rewrites no ledger line.
+    ("idx_fut_carry_open_capital", ["python", "scripts/idx_fut_carry_open_capital.py", "run"]),
     # r1136: the futures TSMOM sleeve was measured on 10-27 (standalone Sharpe 0.27, but
     # 50/50 with the ETF book 1.059 vs 0.98 alone at a smaller drawdown) and there was no
     # daily face for it -- the "produced but never read" class this repo keeps recording

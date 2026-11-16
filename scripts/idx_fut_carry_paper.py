@@ -69,6 +69,10 @@ LATEST_PATH = os.path.join(LEDGER_DIR, "latest.json")
 DESK_PATH = os.path.join(ROOT, "results", "idx_fut_desk_sheet.json")
 # r1778: the integer face that says what the vol target's fraction rounds to
 LADDER_PATH = os.path.join(ROOT, "results", "idx_fut_carry_capital_ladder.json")
+# r1779: the ADOPTED road out of that face's three -- the ticket prints which one it runs
+SPEC_PATH = os.path.join(ROOT, "results", "idx_fut_carry_sizing_spec.json")
+# r1780: what it costs to open the book, and which number on the ticket is executable
+OPEN_CAP_PATH = os.path.join(ROOT, "results", "idx_fut_carry_open_capital.json")
 
 CAPITAL_CNY = 1_000_000.0   # the desk sheet's stated capital rung
 REPLAY_YEARS = 1.0          # the labelled comparison window, not part of the NAV series
@@ -823,11 +827,103 @@ def write_doc(latest, sizing=None):
                           "{:,.0f}".format(d["capital_cny"]),
                           b.get("target_needed_pct_for_one_lot") or 0, c.get("lots")))
         out.append("")
-        out.append("These are not a preference ordering -- A spends capital, B spends risk, "
-                   "C spends the sleeve -- and picking one changes either the capital rung "
-                   "or the vol target, which is a specification change rather than a sizing "
-                   "step.  The ladder face prints the full grid; this page only says that "
-                   "the fraction is not a size.")
+        # r1779: a face that refuses to choose cannot be consumed -- every reader would
+        # decide again, differently. The road is adopted once in
+        # scripts/idx_fut_carry_sizing_spec.py and this page prints WHICH one it runs,
+        # together with what that road returns at this capital and what the desk's size
+        # would need to be inside it. The two roads not taken keep their price line above.
+        spec = _load(SPEC_PATH)
+        if not spec or not (spec.get("accounts") or {}):
+            out.append("**No adopted road on disk**, so the three readings above stay "
+                       "unresolved: this page does not pick one on the reader's behalf "
+                       "(`scripts/idx_fut_carry_sizing_spec.py run` writes the adoption).")
+            out.append("")
+        else:
+            ad = spec.get("adoption") or {}
+            out.append("### the road this book runs on: %s\n" % (ad.get("road") or "--"))
+            out.append("Target **%g%%**, read as **%s** (decided %s in %s). %s\n"
+                       % (ad.get("target_pct") or 0, ad.get("reading"),
+                          ad.get("decided"), ad.get("decided_in"),
+                          (ad.get("because") or "").strip().capitalize()))
+            out.append("| product | lots the adopted ruler allows now | first "
+                       "executable rung (CNY) | gap to that rung (CNY) | the desk's "
+                       "lots | the desk's lots against the ruler | capital those lots "
+                       "would need (CNY) |")
+            out.append("|---|---|---|---|---|---|---|")
+            for prod, d in sorted((spec.get("accounts") or {}).items()):
+                if d.get("status") != "ok":
+                    out.append("| %s | -- | -- | -- | -- | %s | -- |"
+                               % (prod, d.get("status")))
+                    continue
+                t = d.get("ticket") or {}
+                out.append("| %s | **%d** | %s | %s | %s | %s%s | %s |"
+                           % (prod, d["admissible_lots"],
+                              "{:,.0f}".format(d.get("first_executable_capital_cny") or 0),
+                              "{:,.0f}".format(d.get("capital_gap_to_first_lot_cny") or 0),
+                              t.get("lots"), t.get("conformance"),
+                              (" (%.2fx the budget)" % t["multiple_of_budget"]
+                               if t.get("multiple_of_budget") is not None else ""),
+                              "{:,.0f}".format(d.get("capital_the_ticket_needs_cny") or 0)))
+            out.append("")
+            out.append("Zero lots at this capital is the rule's answer, not a missing "
+                       "measurement: one hedged lot's annualised vol is larger than the "
+                       "whole budget, so the sleeve sits below its first rung. The desk's "
+                       "size is printed beside the ruler and **not rewritten** -- it is an "
+                       "input to this book, and a conformance flag is the honest way to "
+                       "carry a disagreement.")
+            out.append("")
+    # r1781: the ruler's zero is a rule outcome, not an instruction. A reader holding
+    # "0 lots" still does not know what to do, and a ticket that leaves the desk's four
+    # beside that zero asks every reader to choose again (r1779). The withdrawal is adopted
+    # once in scripts/idx_fut_carry_open_capital.py; this page prints the funding line and
+    # says which number on the ticket is the executable one.
+    cap = _load(OPEN_CAP_PATH)
+    if not cap or not (cap.get("accounts") or {}):
+        out.append("**No funding line on disk** -- the sizes above are the ruler's reading "
+                   "only; `scripts/idx_fut_carry_open_capital.py run` writes what it costs "
+                   "to open this book and which line is executable.")
+        out.append("")
+    else:
+        bk = cap.get("book") or {}
+        wd = cap.get("withdrawal") or {}
+        out.append("### what it costs to open this book\n")
+        out.append((cap.get("sentence") or "").strip())
+        out.append("")
+        out.append("Funding line read from `results/idx_fut_carry_open_capital.json` "
+                   "(generated %s, cutoff %s), so a reader can see which pass it came from."
+                   % (cap.get("generated") or "--", cap.get("evidence_cutoff") or "--"))
+        out.append("")
+        out.append("| product | executable lots | desk lots withdrawn | forward paper lots "
+                   "(relabelled) | first rung (CNY) | gap at this capital (CNY) | capital "
+                   "those desk lots would need (CNY) |")
+        out.append("|---|---|---|---|---|---|---|")
+        for prod, d in sorted((cap.get("accounts") or {}).items()):
+            if d.get("status") != "ok":
+                out.append("| %s | -- | -- | -- | -- | -- | %s |" % (prod, d.get("status")))
+                continue
+            et = d.get("executable_ticket") or {}
+            fp = d.get("forward_paper") or {}
+            f = d.get("funding") or {}
+            dt = d.get("desk_ticket") or {}
+            out.append("| %s | **%s** | %s | %s (%s) | %s | %s | %s |"
+                       % (prod, et.get("lots"), et.get("withdrawn_lots"),
+                          fp.get("lots_in_ledger"), fp.get("label"),
+                          "{:,.0f}".format(f.get("first_rung_cny") or 0),
+                          "{:,.0f}".format(f.get("gap_cny") or 0),
+                          "{:,.0f}".format(dt.get("capital_the_ticket_needs_cny") or 0)))
+        out.append("")
+        ch = bk.get("cheapest_to_open") or {}
+        _rev = (wd.get("reversal") or "").strip()
+        if _rev:
+            _rev = _rev[:1].upper() + _rev[1:]
+        out.append("Cheapest way in: **%s** at %s CNY; both legs together %s CNY. Decision "
+                   "**%s** (%s, %s). %s"
+                   % (ch.get("product"), "{:,.0f}".format(ch.get("funding_cny") or 0),
+                      "{:,.0f}".format(bk.get("funding_for_all_legs_cny") or 0),
+                      wd.get("decision"), wd.get("decided"), wd.get("decided_in"), _rev))
+        out.append("")
+        out.append("Scope of the withdrawal: %s"
+                   % ((wd.get("scope") or "").strip() or "--"))
         out.append("")
     out.append("Entry is filled at the anchor close and rolls are booked at the same close "
                "(no slippage assumed, printed as `entry_fill_assumed_at_close` and "

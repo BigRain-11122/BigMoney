@@ -1,6 +1,6 @@
 # the carry sleeve, booked forward
 
-evidence cutoff: **2026-11-16** | contract bars to **2026-11-16** | generated 2026-11-16T23:03:23 | source judgement: `results/idx_fut_desk_sheet.json`
+evidence cutoff: **2026-11-16** | contract bars to **2026-11-16** | generated 2026-11-17T01:09:22 | source judgement: `results/idx_fut_desk_sheet.json`
 
 The two dates are printed because they are two dates: the ticket is judged on the continuous panel and the contract cache can lag it by a few sessions, so a ticket stamped with the judgement date is not a fill at that date.
 
@@ -56,7 +56,31 @@ Basis risk is printed as the daily-return correlation of the two indices: a cros
 - **IC**  A keep 8%: one lot needs 1,125,012 CNY; B keep 1,000,000 CNY: one lot needs 9.0001%; C keep both: 0 lot.
 - **IM**  A keep 8%: one lot needs 1,152,040 CNY; B keep 1,000,000 CNY: one lot needs 9.2163%; C keep both: 0 lot.
 
-These are not a preference ordering -- A spends capital, B spends risk, C spends the sleeve -- and picking one changes either the capital rung or the vol target, which is a specification change rather than a sizing step.  The ladder face prints the full grid; this page only says that the fraction is not a size.
+### the road this book runs on: A_keep_target_raise_capital
+
+Target **8%**, read as **hard_cap_vol_le_target** (decided 2026-11-17 in bm-c round 1779). 8% is a risk dial and not a fit (results/etf_vol_target_sweep.json, book n5: target 8% prints 11.49% cagr / -10.56% maxdd / sharpe 1.13 against 15.56% / -16.04% / 1.00 with no target -- sharpe moves 0.08 while return and drawdown scale together, so the target sets the size of the drawdown, not the return). raising it to 9% to make one contract fit would spend 1pp of drawdown tolerance for no return; the capital is the free variable and the risk number is a preference
+
+| product | lots the adopted ruler allows now | first executable rung (CNY) | gap to that rung (CNY) | the desk's lots | the desk's lots against the ruler | capital those lots would need (CNY) |
+|---|---|---|---|---|---|---|
+| IC | **0** | 1,125,012 | 125,012 | 4 | OUT_OF_RULER (4.50x the budget) | 4,500,049 |
+| IM | **0** | 1,152,040 | 152,040 | 4 | OUT_OF_RULER (4.61x the budget) | 4,608,159 |
+
+Zero lots at this capital is the rule's answer, not a missing measurement: one hedged lot's annualised vol is larger than the whole budget, so the sleeve sits below its first rung. The desk's size is printed beside the ruler and **not rewritten** -- it is an input to this book, and a conformance flag is the honest way to carry a disagreement.
+
+### what it costs to open this book
+
+To open this book at all needs 1,125,012 CNY of capital (IC account). IC is 125,012 CNY short of its first lot (capital 1,000,000, gap 12.50%). IM is 152,040 CNY short of its first lot (capital 1,000,000, gap 15.20%). IC: the desk's 4 lot(s) are withdrawn from the ticket and the executable line is 0; IM: the desk's 4 lot(s) are withdrawn from the ticket and the executable line is 0. The forward paper series that ran on 8 lot(s) across the accounts is kept and labelled FUNDED_BY_A_LARGER_CAPITAL: it is what a larger account would have done, not what this one can. It comes back the moment the capital does.
+
+Funding line read from `results/idx_fut_carry_open_capital.json` (generated 2026-11-17T01:09:22+08:00, cutoff 2026-11-16), so a reader can see which pass it came from.
+
+| product | executable lots | desk lots withdrawn | forward paper lots (relabelled) | first rung (CNY) | gap at this capital (CNY) | capital those desk lots would need (CNY) |
+|---|---|---|---|---|---|---|
+| IC | **0** | 4 | 4 (FUNDED_BY_A_LARGER_CAPITAL) | 1,125,012 | 125,012 | 4,500,049 |
+| IM | **0** | 4 | 4 (FUNDED_BY_A_LARGER_CAPITAL) | 1,152,040 | 152,040 | 4,608,159 |
+
+Cheapest way in: **IC** at 1,125,012 CNY; both legs together 2,277,052 CNY. Decision **WITHDRAW_FROM_TICKET** (2026-11-17, bm-c round 1780). Fund the account to the first rung and re-run: the same rule hands the ticket back one lot and this file prints it -- the withdrawal is conditional on capital, not a judgement about the sleeve
+
+Scope of the withdrawal: the executable ticket only. The forward paper series is an append-only evidence line: it is re-labelled FUNDED_BY_A_LARGER_CAPITAL, never rewritten, truncated or deleted
 
 Entry is filled at the anchor close and rolls are booked at the same close (no slippage assumed, printed as `entry_fill_assumed_at_close` and `n_rolls` so a reader can charge them).
 
