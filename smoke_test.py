@@ -5589,6 +5589,17 @@ def main() -> int:
              "scripts/etf_book_day_delta.py", ["--selftest"]),
             ("product: etf_book_day_delta (published verdict still re-derives)",
              "scripts/etf_book_day_delta.py", ["--check"]),
+            # r1762: two faces both said "cannot separate" without saying how big a gap
+            # WOULD have been separable. The MDE face puts both rulers on one difference
+            # series and publishes the minimum detectable gap at 80% power per rung pair.
+            # The legs pin the three words (the two thresholds differ: a gap can be
+            # significant and still underpowered), the square law behind "how many more
+            # bars", the frozen-seed width, the degenerate all-zero series claiming no
+            # direction, and the refusal paths (no control / control off / no arms).
+            ("product: etf_book_book_mde (smallest gap the 5-seat book can resolve)",
+             "scripts/etf_book_book_mde.py", ["--selftest"]),
+            ("product: etf_book_book_mde (published verdict still re-derives)",
+             "scripts/etf_book_book_mde.py", ["--check"]),
             # The money question ("how big can this book get before impact eats it")
             # rests entirely on this one script: it re-derives both arms off one
             # engine and pins k=1 to the flat path to 1e-12. A rot here would print

@@ -1,0 +1,420 @@
+{
+ "evidence_cutoff": "2026-11-13",
+ "panel_last_bar": "2026-11-13",
+ "script": "scripts/etf_book_book_mde.py",
+ "rule": {
+  "arms_cny": [
+   20000000.0,
+   40000000.0,
+   100000000.0,
+   200000000.0,
+   400000000.0,
+   1000000000.0
+  ],
+  "base_cny": 20000000.0,
+  "bump": [
+   100000000.0,
+   40000000.0
+  ],
+  "z80": 2.802,
+  "per_year": 252.0,
+  "block": 20,
+  "draws": 2000,
+  "seed": 20261116,
+  "control_tol_pp": 0.25,
+  "target_pp": 1.0,
+  "question": "the smallest annualised gap this book can tell from zero",
+  "mde": "z80 * SE of the block-bootstrap distribution of the mean paired daily return difference, annualised by the engine's own 252",
+  "frozen": "criteria written before the run; --check re-derives them"
+ },
+ "config": {
+  "book_seats": 5,
+  "rebal": 20,
+  "vol_target": 0.08,
+  "cost_bp_per_side": 10.0,
+  "universe_measured": 1520,
+  "universe_published": 1520,
+  "flips_repaired": 169,
+  "panel_build_seconds": 45.1,
+  "run_seconds": 84.0
+ },
+ "control": {
+  "cells": {
+   "20M": {
+    "arm_cagr": 0.0912,
+    "published_cagr": 0.0912,
+    "delta_pp": 0.0
+   },
+   "40M": {
+    "arm_cagr": 0.0812,
+    "published_cagr": 0.0812,
+    "delta_pp": 0.0
+   },
+   "100M": {
+    "arm_cagr": 0.0991,
+    "published_cagr": 0.0991,
+    "delta_pp": 0.0
+   },
+   "200M": {
+    "arm_cagr": 0.0765,
+    "published_cagr": 0.0765,
+    "delta_pp": 0.0
+   },
+   "400M": {
+    "arm_cagr": 0.0547,
+    "published_cagr": 0.0547,
+    "delta_pp": 0.0
+   },
+   "1000M": {
+    "arm_cagr": 0.0115,
+    "published_cagr": 0.0115,
+    "delta_pp": 0.0
+   }
+  },
+  "worst_delta_pp": 0.0,
+  "tol_pp": 0.25
+ },
+ "arms": {
+  "20M": {
+   "stats": {
+    "full": {
+     "cagr": 0.0912,
+     "sharpe": 0.876,
+     "maxdd": -0.1207,
+     "vol": 0.1107,
+     "years": 6.86
+    },
+    "is": {
+     "cagr": 0.0319,
+     "sharpe": 0.343,
+     "maxdd": -0.1207,
+     "vol": 0.1144,
+     "years": 3.99
+    },
+    "oos": {
+     "cagr": 0.1797,
+     "sharpe": 1.688,
+     "maxdd": -0.1203,
+     "vol": 0.1054,
+     "years": 2.86
+    }
+   },
+   "turnover_per_decision": 1.095
+  },
+  "40M": {
+   "stats": {
+    "full": {
+     "cagr": 0.0812,
+     "sharpe": 0.798,
+     "maxdd": -0.1161,
+     "vol": 0.1094,
+     "years": 6.86
+    },
+    "is": {
+     "cagr": 0.0185,
+     "sharpe": 0.226,
+     "maxdd": -0.1039,
+     "vol": 0.1124,
+     "years": 3.99
+    },
+    "oos": {
+     "cagr": 0.1751,
+     "sharpe": 1.657,
+     "maxdd": -0.1161,
+     "vol": 0.1049,
+     "years": 2.86
+    }
+   },
+   "turnover_per_decision": 1.093
+  },
+  "100M": {
+   "stats": {
+    "full": {
+     "cagr": 0.0991,
+     "sharpe": 0.975,
+     "maxdd": -0.1161,
+     "vol": 0.1067,
+     "years": 6.86
+    },
+    "is": {
+     "cagr": 0.0355,
+     "sharpe": 0.399,
+     "maxdd": -0.0925,
+     "vol": 0.1045,
+     "years": 3.99
+    },
+    "oos": {
+     "cagr": 0.1945,
+     "sharpe": 1.744,
+     "maxdd": -0.1161,
+     "vol": 0.1098,
+     "years": 2.86
+    }
+   },
+   "turnover_per_decision": 0.977
+  },
+  "200M": {
+   "stats": {
+    "full": {
+     "cagr": 0.0765,
+     "sharpe": 0.799,
+     "maxdd": -0.1459,
+     "vol": 0.1026,
+     "years": 6.86
+    },
+    "is": {
+     "cagr": 0.0247,
+     "sharpe": 0.302,
+     "maxdd": -0.1459,
+     "vol": 0.1003,
+     "years": 3.99
+    },
+    "oos": {
+     "cagr": 0.1528,
+     "sharpe": 1.454,
+     "maxdd": -0.0968,
+     "vol": 0.1058,
+     "years": 2.86
+    }
+   },
+   "turnover_per_decision": 0.884
+  },
+  "400M": {
+   "stats": {
+    "full": {
+     "cagr": 0.0547,
+     "sharpe": 0.578,
+     "maxdd": -0.2275,
+     "vol": 0.1054,
+     "years": 6.86
+    },
+    "is": {
+     "cagr": -0.0238,
+     "sharpe": -0.214,
+     "maxdd": -0.2275,
+     "vol": 0.0955,
+     "years": 3.99
+    },
+    "oos": {
+     "cagr": 0.1737,
+     "sharpe": 1.478,
+     "maxdd": -0.07,
+     "vol": 0.1177,
+     "years": 2.86
+    }
+   },
+   "turnover_per_decision": 0.726
+  },
+  "1000M": {
+   "stats": {
+    "full": {
+     "cagr": 0.0115,
+     "sharpe": 0.167,
+     "maxdd": -0.2671,
+     "vol": 0.1024,
+     "years": 6.86
+    },
+    "is": {
+     "cagr": -0.0422,
+     "sharpe": -0.442,
+     "maxdd": -0.2206,
+     "vol": 0.0916,
+     "years": 3.99
+    },
+    "oos": {
+     "cagr": 0.0898,
+     "sharpe": 0.832,
+     "maxdd": -0.0812,
+     "vol": 0.1158,
+     "years": 2.86
+    }
+   },
+   "turnover_per_decision": 0.491
+  }
+ },
+ "rows": [
+  {
+   "pair": "40M_vs_20M",
+   "high_cny": 40000000.0,
+   "low_cny": 20000000.0,
+   "seats": 5,
+   "obs_ann_pp": -0.9715,
+   "mde80_ann_pp": 2.7022,
+   "p_one_sided": 0.8471,
+   "p_direction": 0.1534,
+   "t": -1.007,
+   "cagr_delta_pp": -1.0,
+   "status": "NO_DIRECTION",
+   "bars_needed_for_1pp": 12129,
+   "years_needed_for_1pp": 50.1
+  },
+  {
+   "pair": "100M_vs_20M",
+   "high_cny": 100000000.0,
+   "low_cny": 20000000.0,
+   "seats": 5,
+   "obs_ann_pp": 0.7114,
+   "mde80_ann_pp": 4.3632,
+   "p_one_sided": 0.3183,
+   "p_direction": 0.3183,
+   "t": 0.457,
+   "cagr_delta_pp": 0.79,
+   "status": "NO_DIRECTION",
+   "bars_needed_for_1pp": 31622,
+   "years_needed_for_1pp": 130.6
+  },
+  {
+   "pair": "200M_vs_20M",
+   "high_cny": 200000000.0,
+   "low_cny": 20000000.0,
+   "seats": 5,
+   "obs_ann_pp": -1.4961,
+   "mde80_ann_pp": 6.7422,
+   "p_one_sided": 0.7421,
+   "p_direction": 0.2584,
+   "t": -0.622,
+   "cagr_delta_pp": -1.47,
+   "status": "NO_DIRECTION",
+   "bars_needed_for_1pp": 75505,
+   "years_needed_for_1pp": 311.8
+  },
+  {
+   "pair": "400M_vs_20M",
+   "high_cny": 400000000.0,
+   "low_cny": 20000000.0,
+   "seats": 5,
+   "obs_ann_pp": -3.6013,
+   "mde80_ann_pp": 11.0388,
+   "p_one_sided": 0.8221,
+   "p_direction": 0.1784,
+   "t": -0.914,
+   "cagr_delta_pp": -3.65,
+   "status": "NO_DIRECTION",
+   "bars_needed_for_1pp": 202402,
+   "years_needed_for_1pp": 835.9
+  },
+  {
+   "pair": "1000M_vs_20M",
+   "high_cny": 1000000000.0,
+   "low_cny": 20000000.0,
+   "seats": 5,
+   "obs_ann_pp": -7.9906,
+   "mde80_ann_pp": 10.8235,
+   "p_one_sided": 0.982,
+   "p_direction": 0.0185,
+   "t": -2.069,
+   "cagr_delta_pp": -7.97,
+   "status": "SIGNIFICANT_UNDERPOWERED",
+   "bars_needed_for_1pp": 194584,
+   "years_needed_for_1pp": 803.6
+  },
+  {
+   "pair": "100M_vs_40M",
+   "high_cny": 100000000.0,
+   "low_cny": 40000000.0,
+   "seats": 5,
+   "obs_ann_pp": 1.6828,
+   "mde80_ann_pp": 3.8124,
+   "p_one_sided": 0.1044,
+   "p_direction": 0.1044,
+   "t": 1.237,
+   "cagr_delta_pp": 1.79,
+   "status": "NO_DIRECTION",
+   "bars_needed_for_1pp": 24142,
+   "years_needed_for_1pp": 99.7
+  }
+ ],
+ "bootstrap": {
+  "40M_vs_20M": {
+   "bars": 1661,
+   "obs_ann_pp": -0.9715,
+   "se_ann_pp": 0.9644,
+   "mde80_ann_pp": 2.7022,
+   "t": -1.007,
+   "p_one_sided": 0.8471,
+   "p_direction": 0.1534,
+   "draws": 2000,
+   "block": 20,
+   "seed": 20261116
+  },
+  "100M_vs_20M": {
+   "bars": 1661,
+   "obs_ann_pp": 0.7114,
+   "se_ann_pp": 1.5572,
+   "mde80_ann_pp": 4.3632,
+   "t": 0.457,
+   "p_one_sided": 0.3183,
+   "p_direction": 0.3183,
+   "draws": 2000,
+   "block": 20,
+   "seed": 20261116
+  },
+  "200M_vs_20M": {
+   "bars": 1661,
+   "obs_ann_pp": -1.4961,
+   "se_ann_pp": 2.4062,
+   "mde80_ann_pp": 6.7422,
+   "t": -0.622,
+   "p_one_sided": 0.7421,
+   "p_direction": 0.2584,
+   "draws": 2000,
+   "block": 20,
+   "seed": 20261116
+  },
+  "400M_vs_20M": {
+   "bars": 1661,
+   "obs_ann_pp": -3.6013,
+   "se_ann_pp": 3.9396,
+   "mde80_ann_pp": 11.0388,
+   "t": -0.914,
+   "p_one_sided": 0.8221,
+   "p_direction": 0.1784,
+   "draws": 2000,
+   "block": 20,
+   "seed": 20261116
+  },
+  "1000M_vs_20M": {
+   "bars": 1661,
+   "obs_ann_pp": -7.9906,
+   "se_ann_pp": 3.8628,
+   "mde80_ann_pp": 10.8235,
+   "t": -2.069,
+   "p_one_sided": 0.982,
+   "p_direction": 0.0185,
+   "draws": 2000,
+   "block": 20,
+   "seed": 20261116
+  },
+  "100M_vs_40M": {
+   "bars": 1661,
+   "obs_ann_pp": 1.6828,
+   "se_ann_pp": 1.3606,
+   "mde80_ann_pp": 3.8124,
+   "t": 1.237,
+   "p_one_sided": 0.1044,
+   "p_direction": 0.1044,
+   "draws": 2000,
+   "block": 20,
+   "seed": 20261116
+  }
+ },
+ "crosscheck": {
+  "pair": "100M_vs_20M",
+  "gate_noise_p_published": 0.3183,
+  "gate_noise_p_here": 0.3183,
+  "arm_noise_ruler_pp": 1.36,
+  "arm_noise_diff_pp": 0.79,
+  "mde80_here_pp": 4.3632,
+  "obs_here_pp": 0.7114,
+  "p_agrees": true,
+  "diff_agrees": true,
+  "both_rulers_say_inside": true
+ },
+ "verdict": {
+  "verdict": "SIGNIFICANT_BUT_UNDERPOWERED",
+  "sentence": "6 个档差里，1 档方向站得住（p≤0.05）却没到 80% 效力（1000M_vs_20M（-7.99pp，MDE80 10.82pp））——把这本账再跑一遍，那 20% 的失败率就是这条差消失的概率；MDE80 区间 2.70~11.04pp，越小的差越没有射程。",
+  "seats": 5,
+  "min_mde_pp": 2.7022,
+  "max_mde_pp": 11.0388
+ }
+}
