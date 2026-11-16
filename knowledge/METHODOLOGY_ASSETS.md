@@ -16232,3 +16232,25 @@ bm-a 活书页停更的三条放在同一桶里，等于把自己的映射缺陷
 正身：`smoke_test.py::_page_elsewhere_verdict` + 三条腿拆 `_bad**p`（页面类）与结构类
 · `Tools/idle_trigger.py::line_excluded` · 切片复跑
 `C:\Users\Dasheng\.codely-cli\tmp\legs_r1789.py`（3 腿 0 FAIL）
+
+## E1389 · 「收益好得不像话的价差」先查对齐再查本事：两根 lag 才是同一根 bar（r1790 bm-c）
+
+把一本排名拿去当因子解释它自己那条腿，中间有一根 bar 的缝隙，缝错了就凭空造出一个 Sharpe 5 的策略。
+
+**实锚**：本面第一版把「当日打分前 10% 减后 10%」直接配在收益那一行上，回读 **+148.98pp/年**、
+波动 27.6pp——同一张排名、同一张面板上凭空长出一条夏普 5.4 的多空。根因不是数据，是**索引**：
+`returns_table` 把收益记在**落点 bar** t（跨度是 open(d)→open(t)），而引擎读的是 `score.shift(1)`，
+也就是 d 那根 bar 上能看到的是 `score[d-1]`。两件事合起来，落在 t 行的排名必须是 `score[t-2]`。
+写成 `score.shift(1)` 就变成「用 d 收盘才有的分数，去收 d 开盘到 t 开盘的涨幅」——一根 bar 的 look-ahead。
+
+**判据先于自觉**：价差类面出来先问三句——
+① 这条腿的收益落在哪根 bar？② 排名/信号读的是哪根 bar？③ 两者之间差几个 lag，代码里是否逐字写出？
+再加一道体检：**同族面（宽基、多头组合、单腿超额）年化不会突然十几倍于基准**。本面若首读 >40pp/年 就该停手查对齐，
+而不是先去找经济解释。自检腿把这条钉死（`L3` 读 look-ahead 那根 bar 必须**不动**，`L3b` 读得到的那根必须动）。
+
+**本面的结论（负）**：把倾斜对冲掉，选股腿地板 8.72pp → **7.95pp**、OOS R² **0.13**，没到 5pp；
+价签 2.30pp alpha/1pp 地板。而全书超额对同一价差 β=0.24、R² 0.19、对冲掉要付 3.97pp——
+**倾斜是这本书的钱，不是这条腿的噪声**。两侧都要印，否则「选股腿不载倾斜」会被误读成「这本书没有倾斜」。
+
+正身：`scripts/etf_book_tilt_neutral.py`（selftest 24/24 + --check）+ `results/etf_book_tilt_neutral.json`
++ `research/ETF_BOOK_TILT_NEUTRAL.md`。

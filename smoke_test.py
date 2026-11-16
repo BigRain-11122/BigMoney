@@ -5750,6 +5750,17 @@ def main() -> int:
              "scripts/etf_book_corr_select.py", ["--selftest"]),
             ("product: etf_book_corr_select (published verdict still re-derives)",
              "scripts/etf_book_corr_select.py", ["--check"]),
+            # r1790 asks the tilt itself: build this ranking's own top-vs-bottom decile spread
+            # as a tradable factor and hedge it out of the select leg with a beta taken only
+            # from bars before the one being hedged. The legs pin the two-lag rank (the first
+            # run read the rank off the return bar itself and the spread came back at +149pp a
+            # year -- a one-bar look-ahead, not an edge), the causal beta, the warm-up bars
+            # staying unhedged, the hedge identity, and the five verdict states including
+            # "the tilt is the book, not the noise".
+            ("product: etf_book_tilt_neutral (is the floor the ranking's own tilt)",
+             "scripts/etf_book_tilt_neutral.py", ["--selftest"]),
+            ("product: etf_book_tilt_neutral (published verdict still re-derives)",
+             "scripts/etf_book_tilt_neutral.py", ["--check"]),
             # r1766 stops asking for a smaller noise and changes the ruler instead: is the
             # select leg's alpha spread over its months or does a handful of them pay for
             # the window? The legs pin the additive decomposition (and the quarter buckets

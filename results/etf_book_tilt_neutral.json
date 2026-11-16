@@ -1,0 +1,142 @@
+{
+ "evidence_cutoff": "2026-11-16",
+ "control_face_cutoff": "2026-11-13",
+ "panel_last_bar": "2026-11-16",
+ "script": "scripts/etf_book_tilt_neutral.py",
+ "rule": {
+  "benchmark": "510300",
+  "gate_cny": 20000000.0,
+  "seats": 5,
+  "decile": 0.1,
+  "windows": [
+   252,
+   504
+  ],
+  "primary_window": 252,
+  "min_obs": 120,
+  "beta_clip": [
+   -1.0,
+   3.0
+  ],
+  "mde_target_pp": 5.0,
+  "min_improve_pp": 1.0,
+  "control_tol_pp": 0.25,
+  "z80": 2.802,
+  "block": 20,
+  "draws": 2000,
+  "seed": 20261116,
+  "question": "build this ranking's own tilt as a top-vs-bottom decile spread, hedge it out of the select leg with a beta from bars strictly before the hedged bar, and ask whether the select leg's MDE80 falls under 5pp -- and what alpha the hedge eats",
+  "causal": "rank at bar t uses the score the book could read at t-2 (engine shift(1) plus the return landing on t); beta at t uses bars < t only",
+  "frozen": "criteria written before the run; --check re-derives the verdict"
+ },
+ "config": {
+  "rebal": 20,
+  "vol_target": 0.08,
+  "cost_bp_per_side": 10.0,
+  "universe_measured": 1521,
+  "flips_repaired": 169,
+  "run_seconds": 51.9
+ },
+ "tilt_factor": {
+  "bars": 1003,
+  "ann_pp": 18.4503,
+  "vol_pp": 25.383,
+  "mean_names_top": 35.66999002991027,
+  "mean_names_bottom": 34.7617148554337
+ },
+ "book": {
+  "cagr_pct": 9.08,
+  "sharpe": 0.873,
+  "maxdd_pct": -12.07,
+  "replay_max_rel": 1.8236113426641405e-15,
+  "held_tilt_percentile": {
+   "decisions": 84,
+   "mean_percentile": 0.9864,
+   "median_percentile": 0.9918
+  }
+ },
+ "select_leg": {
+  "ann_pp": 7.6074,
+  "se_pp": 3.1138,
+  "mde80_pp": 8.725,
+  "p_direction": 0.005,
+  "bars": 1663
+ },
+ "control": {
+  "arm_cagr_pct": 9.08,
+  "published_cagr_pct": 9.12,
+  "delta_pp": -0.04,
+  "tol_pp": 0.25,
+  "replay_ok": true
+ },
+ "arms": [
+  {
+   "arm": "hedge_win252",
+   "window": 252,
+   "beta_mean": 0.0868,
+   "beta_median": 0.0976,
+   "beta_share_nonzero": 0.531,
+   "resid_ann_pp": 5.8174,
+   "resid_se_pp": 2.8357,
+   "resid_mde80_pp": 7.9458,
+   "resid_p_direction": 0.0175,
+   "floor_improve_pp": 0.7792,
+   "alpha_given_up_pp": 1.79,
+   "oos_r2": 0.1295,
+   "bars_hedged": 883
+  },
+  {
+   "arm": "hedge_win504",
+   "window": 504,
+   "beta_mean": 0.0802,
+   "beta_median": 0.0976,
+   "beta_share_nonzero": 0.531,
+   "resid_ann_pp": 5.8838,
+   "resid_se_pp": 2.8356,
+   "resid_mde80_pp": 7.9452,
+   "resid_p_direction": 0.0175,
+   "floor_improve_pp": 0.7798,
+   "alpha_given_up_pp": 1.7236,
+   "oos_r2": 0.1311,
+   "bars_hedged": 883
+  }
+ ],
+ "primary": {
+  "arm": "hedge_win252",
+  "window": 252,
+  "beta_mean": 0.0868,
+  "beta_median": 0.0976,
+  "beta_share_nonzero": 0.531,
+  "resid_ann_pp": 5.8174,
+  "resid_se_pp": 2.8357,
+  "resid_mde80_pp": 7.9458,
+  "resid_p_direction": 0.0175,
+  "floor_improve_pp": 0.7792,
+  "alpha_given_up_pp": 1.79,
+  "oos_r2": 0.1295,
+  "bars_hedged": 883
+ },
+ "book_excess": {
+  "leg": "net - r_bench (the whole book's excess, not the select leg)",
+  "ann_pp": 7.9391,
+  "mde80_pp": 19.1247,
+  "beta_mean": 0.2396,
+  "beta_median": 0.2421,
+  "oos_r2": 0.1918,
+  "hedged_ann_pp": 3.9735,
+  "hedged_mde80_pp": 16.267,
+  "alpha_given_up_pp": 3.9655,
+  "bars_hedged": 883
+ },
+ "coverage": {
+  "book_bars": 1663,
+  "factor_bars": 1003,
+  "factor_first_bar": "2022-07-12",
+  "hedged_bars": 883
+ },
+ "price_per_1pp_floor": 2.3,
+ "verdict": "TILT_NOT_THE_AXIS",
+ "mde80_pp": 7.9458,
+ "improve_pp": 0.7792,
+ "sentence": "对冲自身倾斜只把地板从 8.72pp 挪到 7.95pp（<1.0pp）：倾斜不是那把钥匙。"
+}

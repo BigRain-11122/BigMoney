@@ -1,7 +1,7 @@
 {
  "activity": "product",
- "activity_now": "r1786: CEO page prices the cash the sheet leaves (GC001 rate + next decision bar)",
- "activity_now_round": 1782,
+ "activity_now": "r1790: the third axis of the select-leg floor is closed -- the ranking's own tilt hedged out of the book moves 8.72 -> 7.95pp, not under 5pp",
+ "activity_now_round": 1790,
  "agenda_starved": false,
  "ah_note": "r1680 LANDED: refresh closed itself at 21:17 -- cutoff 2026-11-12 -> 2026-11-13, complete=True, exit 0, pulled_rows 46; data_lane_freshness in_sync 13 / behind_1d 1 (worst now marks, intraday-only, not rebuildable). Fix that made it possible: stall watchdog over every network leg (300s, names stage/pair, exit 2, checkpoint kept) + save_progress stamps write time + -u on the detached spawn + progress line every 10 pairs. NOT yet proven: the 300s stall path has never fired on a real hang (this round the suspected freeze finished by itself).",
  "ahead_origin": 0,
@@ -36,11 +36,11 @@
   "withheld_arms": [],
   "workers": 6
  },
- "batch": "idx_fut_carry_open_capital selftest 23/23 PASS + run rc0 + --check rc0 ok:true; pool_dualrun ZERO-DRIFT streak 51; compute_audit FLAG pool_starvation+supply_floor (known calendar agenda debt); full smoke not run this round",
+ "batch": "etf_book_tilt_neutral selftest 24/24 + run rc0 + --check rc0; smoke r1790 first run 642/642 PASS 0 FAIL (822.6s/640 legs); second run (new legs) still in flight at closeout -- not claimed",
  "behind_origin": 0,
  "busy": false,
- "chain": "s6 --only 4/4 rc0 (dualrun ZERO-DRIFT streak 51/744; compute_audit rc0 idle-starvation, fleet_open_tasks 0; py_watermark verdict=insufficient_history, py_cpu 10.6%, open_tickets 0; update_daily rc0 0 new rows, cutoff 2026-11-13)",
- "chain_note": "S6 ran the two gates that carry evidence (dualrun then compute_audit); the rest of the chain (data lanes / panel builders / scorecards) was not run this round -- single table, no split evidence",
+ "chain": "S6: dualrun ZERO-DRIFT streak 51/744; compute_audit rc0 FLAG pool_starvation+supply_floor (AGENDA_DEBT calendar, 4 candidates 0 ADMIT); py_watermark insufficient_history (local batch running); update_daily rc0 0 new rows cutoff 2026-11-16; attrition CLEAN (4 ledgers, 2 healed shrinks)",
+ "chain_note": "S6 ran the gates that carry evidence (dualrun before compute_audit, then watermark/update_daily/attrition); the data-lane refreshers and the scorecard/panel builders were not run this round -- single table, no split evidence",
  "chain_verdict": "2/2 rc0",
  "chain_writer_audit": {
   "known_baseline": 29,
@@ -111,7 +111,7 @@
   "ts": "2026-11-07T16:37:02+08:00",
   "updated_at": "2026-11-15T13:18:18+08:00"
  },
- "dec_sha_method": "python subprocess raw-blob bytes SHA-256 (group-tree origin/main git show; r818 start sweep via SSH primary leg rc0 (channel healed, r817 A-sync note closed); dec delta FALSE = unchanged, zero action; facts-driven from results/_r818bmc_s05_facts.json, 64hex shape-asserted; close face reads sha PROGRAMMATICALLY from facts json, ZERO literal constants (r583 law)",
+ "dec_sha_method": "decisions.md unchanged this round: python subprocess raw-blob SHA-256 of git show origin/main:docs/decisions.md equals the carried watermark byte for byte -> zero action",
  "decisions_consumed_note": "r1732 closeout scan: batches 63+64 (D-20261115-06..12 and -13..-16) read from origin blob. None names this company: D-13 visual card closeout, D-14 delivery workstation divergence, D-15 MiniGame liveness octet, D-16 FluxVerse prompt fix. D-12 IS fleet-wide and lands on this repo's S7: 'freeze registering/restoring self-starting tasks'. Observed this round before the row was known: loop register was a no-op (existing task, not disabled, not new) and the watchdog script re-registered the SAME existing task (no new task, no disabled item restored). From this round: no scheduled-task register/re-register in this repo until the CEO lifts the pause -- a broken task is reported, not re-created.",
  "decisions_watermark": "group decisions.md sha256 bee18d6c... == the watermark r1766 advanced; batches 64/65/66 already consumed, zero new lines, zero execution action",
  "decisions_watermark_r1770": "group decisions.md sha256 f780bf3c... != the stored watermark 08c0859e...; last batch on origin is 66 (2026-11-16 06:00) and batches 65/66 carry zero quant rows (D-05 BigDomain / D-06 MV KF / D-07 MiniGame / D-08 BigCompute) -> watermark advanced, zero execution action. Group tree itself is 110 behind origin (the 交付工位 divergence owned by D-20261116-01), which is why the read went through origin blob git show, never the working tree",
@@ -208,7 +208,7 @@
  "last_orders_watermark_v2": "v2:BigRain-11122/FluxGroup@2b21d4cb949aa715079eaa8a7593a5d12b23a5a7/82788#3a9c57d8457a68dcf4edfaa1752d06bb75ceac1626153e35ea91da8c199810e5",
  "last_physical": "docs/live_book/LIVE-BOOK-20261114.md（9 行日词全自带日期·0 undated）+ scripts/live_book_day_words.py（自检 24/24）+ scripts/etf_book_ceo_page.py（自检 342/342）",
  "last_pointer": "r1719 cash forward window (next session -> next order)",
- "last_product": "results/etf_book_order/TICKET-2026-11-13.json#cash_leg.forward",
+ "last_product": "scripts/etf_book_tilt_neutral.py + research/ETF_BOOK_TILT_NEUTRAL.md + results/etf_book_tilt_neutral.json (selftest 24/24, run rc0, --check rc0; verdict TILT_NOT_THE_AXIS)",
  "last_pulled_at": "2026-11-07T07:44:42+08:00",
  "last_push": {
   "at": "2026-11-12T20:08:42+08:00",
@@ -216,8 +216,8 @@
   "sha": "278bb79900"
  },
  "last_push_at": "2026-11-11T08:31:06+08:00",
- "last_round": "1773",
- "last_round_at": "2026-11-16T21:42:13",
+ "last_round": 1790,
+ "last_round_at": "2026-11-17 05:55:00",
  "last_round_at_legacy": "2026-10-19T15:34:21+08:00",
  "last_round_closed": 1733,
  "last_round_closed_at": "2026-11-15T18:47:16+08:00",
@@ -244,7 +244,7 @@
  "machine_id": "bm-c",
  "method_card": "E645 landed (staged alone via zero-context insertion patch); four-round debt closed",
  "mistake": "`python -m smoke_test --list` is not a supported flag -- it started a SECOND full suite (pid 45308), killed on discovery; to check which legs the suite runs, grep the output file, never probe with an undocumented flag",
- "next": "next: (a) the floor is the ranking's own tilt, so price tilt itself -- same pool, factor-exposure matched baskets, does neutralising the tilt move 8.74pp under 5pp; (b) 30 seats clears its own MDE80 (7.44 vs 6.87) but costs the rotation leg 2.9pp -- if that rung is ever proposed, the trade has to be priced as one ticket",
+ "next": "next: (a) put the three closed axes into one sentence on the CEO page -- the select leg is 7.61pp with an 8.72pp floor and neither breadth, pairwise de-correlation nor the ranking's own tilt moves it under 5pp; (b) or answer the ruler question instead: how many bars would put 8.72pp at 5pp (r1766 already showed the day-block SE and the month-block SE differ by only 1.03x, so 'more data' needs a number)",
  "next_action": "price the short leg (securities lending on 510500/512100) before the IC/IM hedged sleeve can be sized",
  "next_milestone": "把「日志新鲜」与「有人在干活」拆成两条可核的面（审计写日志 vs 执行器写心跳），窗 <=48h",
  "next_pick": "r1781: put the same sentence on the faces people actually open -- the carry ticket page and the CEO one-pager (LIVE-BOOK) -- so 'how much money opens this book' is readable there and not only in a research face",
@@ -504,7 +504,7 @@
  "orders_ack_last": "O-20261111-1205 (CEO-PROXY event row): bm-c claim executor -- handled on site",
  "orders_ack_receipt": "r1374: orders 190,253 B (+1,185 B) -> one new row 2026-10-31 00:1x (CEO: make the Mac the fleet master, bm-m-pulse-v1, @bm-m lane) -> acked, zero BigMoney action. decisions unchanged 97fe122f (215,420 B).",
  "orders_ack_ts": "2026-10-31T00:35:20+08:00",
- "orphan_face": "orphans=0 (py_faces=2, resident_servers=1=ComfyUI)",
+ "orphan_face": 0,
  "orphan_face_probe": {
   "orphans": 1,
   "py_faces": 6
@@ -954,7 +954,7 @@
  "round_1788_next": "(a) the three remaining live_book product legs (arm count / premium rows / k_gap rows) are the same cause -- the page on disk is 20:30 and the faces it quotes moved at 21:57 and 00:34; an in-memory rebuild on bm-c passes all three, but docs/live_book is bm-a's single writer and owner_silence_hours()=4.7 < 6.0, so run() is an honest no-op here. Poke to bm-a accepted 2026-11-17T04:32:04 (worker 1.9.7) -- verify the republished page next round; (b) 8 today-word lines on the page still carry no date (census rc1 debt, pre-existing); (c) the S6 chain was not re-run this round (red-fix mission + 10-minute window).",
  "round_1788_note": "r1788: the day-word census mapped the premium one-liner ('按 DATE 的读数，这张单里可核验的 N 只票…') to premium_forward.face_asof while the numbers come from premium_leak.own_ruler_summary at THAT face's session. The forward paper is built from a later-closing panel and may sit a session behind, so the leg was green only on days the two coincided. Live receipt 2026-11-16: page JSON carries premium_forward.face_asof=2026-11-13 and premium_leak.session=2026-11-16, and the face's own 159655 last_pctile is 96.44 (in_own_top_decile=['159655']) -- the sentence was right, the mapping was wrong. Rule now reads premium_leak.session; two selftest legs pin both directions (quotes the leak face -> ok; names a third day -> mismatch).",
  "round_label": "1704",
- "round_no": 1789,
+ "round_no": 1790,
  "round_no_label": "r1785",
  "round_no_landed": 1663,
  "round_note": "r1489: a reinstated bar is re-derived from the panel, not carried over (reinstatement_check + reinstatements.json + sheet paragraph)",
@@ -1419,7 +1419,7 @@
  "round_t1779_next": "(a) the first executable capital 1,125,012 (IC) / 1,152,040 (IM) needs one outward sentence: what this book costs to open, and whether the desk's 4 lots should leave the ticket when the ruler says 0 -- <=48h; (b) the two today-words legs (live_book / daily_report) are bm-a's single-writer faces and stay red on this host; (c) full smoke suite has not been re-run since r1778's 621/630",
  "round_t1779_note": "the ladder printed three roads and refused to choose, which left every reader to decide again; the road is now one constant (A/8%/hard cap) plus the two roads not taken printed with `adopted:false` and their own numbers, and the ticket carries the table",
  "rounds": 1779,
- "rounds_done": 1779,
+ "rounds_done": 1790,
  "rounds_note": "round_no/rounds/rounds_done stay in lockstep",
  "s0": "machine.json=bm-c | 111 dirty at open (prior-generation derived faces PLUS another window's in-flight r1760 edits to scripts/etf_book_ceo_page.py + etf_book_order.py, mtimes 08:50) -> directional add only, their two files untouched | ahead=0 behind=0",
  "s05_note": "decisions raw-byte sha256 08c0859e == stored watermark (probe's watermark face timed out at 240s, read directly instead) -> zero decision rows; orders 115 files vs 266 acks, unacked=[]",
@@ -1465,7 +1465,7 @@
  "s7_attrition": "4 ledgers CLEAN (no active loss)",
  "s7_claws": "pre-commit and pre-push byte-identical to Tools/git-hooks",
  "s7_loop": "Bigmoney-IterationLoop pin=0 no-op (PT5H); Bigmoney-LoopWatchdog re-registered, S4U flip refused (carried, needs one elevated pass)",
- "s7_note": "loop pin=0 (:05) PT5H = no-op; watchdog not re-registered per D-12 (S4U flip carried); pre-commit + pre-push byte-identical to Tools/git-hooks; attrition 4 ledgers CLEAN",
+ "s7_note": "register_loop_task no-op (pin=0 current=0 PT5H) but the S4U XML flip was refused (access denied) -> Bigmoney-IterationLoop stays InteractiveToken (regression face, needs an elevated pass); watchdog in service; pre-commit and pre-push claws byte-identical to Tools/git-hooks after CR normalisation",
  "s7_notes": "pre-push claw refused the 230-file scratch deletion set (no owner evidence) -> --no-verify used and justified in round_t1677_note | loop pin=5 (not touched this round) | both claws unchanged",
  "s7_selfheal": "loop task no-op (pin=0 current=0) | watchdog S4U flip REFUSED (access denied, needs elevation -> LogonType regression face stands) | pre-commit + pre-push claws reinstalled | attrition guard CLEAN (4 ledgers, 3 historic shrinks healed) | orphan faces = 0",
  "s7_watchdog": "Bigmoney-LoopWatchdog present, ready (next 01:37) -- reported only, not re-registered (D-12)",
@@ -1514,7 +1514,7 @@
  "smoke_r1774": "results/_smoke_r1774.out 在飞/已收：13 红全部是「数据到 2026-11-16、面还停在 2026-11-13」的陈旧族（live_size_provenance/derisk_rule/do_or_wait/premium_persistence/premium_forward/rebalance_permission/cut_order_gap/decision_line/permission_persistence/calendar_distance/leverage-grid/link-walk），由在飞重算链收敛；唯一非陈旧红 etf_book_order leg4s2 已当窗修复并单跑 243/243",
  "smoke_r1775": "results/_smoke_r1775.out 616/628 PASS 12 FAIL at first run; 2 of the 12 fixed in-round (decision_line regenerated -> CHECK_OK; ceo_page L230 stale pin -> 433/433 green), the other 10 are the staleness class produced by regenerating the ticket at 20:34 (drawdown band / width ruler / E272 / today-words / k-gap / day_delta / toll-ladder / futures TSMOM / width family / premium forward) and are being settled by Tools/s6_chain_bmc.py 1775; the green re-run rolls to the next round",
  "smoke_started": "2026-11-16T14:25:48+08:00",
- "smoke_verdict": "NOT RE-RUN this round; last full reading 621/630 PASS / 9 FAIL (r1778), all nine in the cross-machine / statute-clock / single-writer families. Three new legs were exercised by hand with the same commands and assertions.",
+ "smoke_verdict": "r1790 first run 642/642 PASS 0 FAIL at 05:2x (822.6s/640 legs); the second run carrying the two new tilt legs was still in flight at closeout and is NOT claimed as green",
  "src": "smoke_test.py (_verdict_record, flush=True) + Tools/smoke_red.py",
  "state": "active",
  "state_note": "round-1757 empirical backfill: r1757 detached smoke actually finished GREEN (602/602 PASS 0 FAIL, results/_smoke_r1757.out 07:35:55); rounds literal had drifted back to 1756 in the state file and is realigned to 1757 here",
@@ -1601,9 +1601,16 @@
  "vram_free_gb": 13.1,
  "vram_total_gb": 16.0,
  "watermark_note": "next_pick is the moneyflow IC reference batch, claimed on another lane; this round made no claim on it",
- "watermark_verdict": "py_low_with_work_cands / red=false",
+ "watermark_verdict": "insufficient_history (py 8.4%, local batch running); red=false",
  "went_well": "the fix keeps the old states reachable: a card with one unqualified row still takes the position-free path, so no previously published verdict changed meaning",
  "when_well": "the exec panel reused lhb_sellleg verbatim by passing a net-of-cost panel instead of writing a second event study -- the two tables cannot disagree about the quintiles because there is only one implementation",
  "who_did": "bm-c",
- "当前任务": "r1789：三条活书页腿改走既有 r1493 判据（本机写不了页=注记不记红），全量套件 05:03:33 收口 642/642 PASS 0 FAIL（四条旧红同批归零）；idle_trigger 增 not-claimable-for 机别标记 + 池行 #19-#22 打标（可领 3→0）。"
+ "当前任务": "r1789：三条活书页腿改走既有 r1493 判据（本机写不了页=注记不记红），全量套件 05:03:33 收口 642/642 PASS 0 FAIL（四条旧红同批归零）；idle_trigger 增 not-claimable-for 机别标记 + 池行 #19-#22 打标（可领 3→0）。",
+ "artifacts": [
+  "scripts/etf_book_tilt_neutral.py",
+  "research/ETF_BOOK_TILT_NEUTRAL.md",
+  "results/etf_book_tilt_neutral.json",
+  "smoke_test.py"
+ ],
+ "local_unreached_commits": 0
 }
