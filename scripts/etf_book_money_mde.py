@@ -161,6 +161,24 @@ def replay(close, openp, diag, rebal, n_hold, cost, start, cls, bench=BENCH):
     return df
 
 
+def mde_by_block(series, blocks=(10, 20, 40), draws=None, seed=None):
+    """The headline number, read at three block lengths.
+
+    Block length is chosen, not derived (one rebalance period = 20). If the word only holds at
+    one of the three, the reader is entitled to know before he quotes it.
+    """
+    out = {}
+    for b in blocks:
+        r = M.bootstrap_se(list(pd.Series(series).dropna()), block=b,
+                           draws=draws or M.DRAWS, seed=seed or M.SEED)
+        out[int(b)] = {k: (r or {}).get(k) for k in
+                       ("obs_ann_pp", "se_ann_pp", "mde80_ann_pp", "p_direction")}
+        out[int(b)]["status"] = M.classify_pair(out[int(b)]["obs_ann_pp"],
+                                                out[int(b)]["mde80_ann_pp"],
+                                                out[int(b)]["p_direction"])
+    return out
+
+
 def leg_ann(df):
     """Annualised pp for the total excess and each leg (arithmetic means, engine's 252)."""
     out = {"total": M.ann_pp(df["net"].mean() - df["r_bench"].mean())}
@@ -314,6 +332,7 @@ def run():
                 "bars_unpriced": int((df["n_unpriced"] > 0).sum()),
                 "bars": int(len(df))}
 
+    blocks = mde_by_block(excess)
     totals = {"excess_ann_pp": ann["total"], "legs_sum_pp": legs_sum,
               "legs_sum_matches": bool(abs(legs_sum - ann["total"]) <= 5e-4),
               "cagr_gap_pp": cagr_gap_pp,
@@ -326,6 +345,8 @@ def run():
               "status": M.classify_pair((total or {}).get("obs_ann_pp"),
                                         (total or {}).get("mde80_ann_pp"),
                                         (total or {}).get("p_direction")),
+              "mde80_by_block": blocks,
+              "word_stable_across_blocks": len({blocks[b]["status"] for b in blocks}) == 1,
               "bars_needed_for_1pp": M.bars_needed((total or {}).get("mde80_ann_pp"),
                                                    (total or {}).get("bars"))}
 
@@ -453,6 +474,17 @@ def write_md(out):
               "逐年看方向：**%d/%d** 个年度超额为正（负的是 %s）。"
               % (sum(1 for y in out["years"] if y["excess_pp"] > 0), len(out["years"]),
                  "、".join(str(y["year"]) for y in out["years"] if y["excess_pp"] <= 0) or "无"), "",
+              "**块长是选的不是推的**：上面那个门取块长 20（一个调仓周期）。同一串差换块长再读一遍：",
+              "", "| 块长 | 观测差 | SE | MDE80 | p | 判读 |", "|---|---|---|---|---|---|"]
+    for b in sorted(out["totals"].get("mde80_by_block") or {}):
+        r = out["totals"]["mde80_by_block"][b]
+        lines.append("| %d | %s pp | %s pp | %s pp | %s | %s |"
+                     % (b, _f2(r["obs_ann_pp"]), _f2(r["se_ann_pp"]), _f2(r["mde80_ann_pp"]),
+                        "-" if r["p_direction"] is None else "%.4f" % r["p_direction"],
+                        words.get(r["status"], r["status"])))
+    lines += ["", "三个块长给出**同一个词**（%s）——所以上面那条结论不是块长挑出来的；"
+              "但门本身的宽度随块长动了，这正是「MDE80 是这本书的性质，不是市场常数」的意思。"
+              % ("是" if out["totals"].get("word_stable_across_blocks") else "**否**"), "",
               "## 3. 逐年", "",
               "| 年 | bar | 书 | 510300 | 超额 | 选票 | 换赛道 | 空仓 | 成本 |",
               "|---|---|---|---|---|---|---|---|---|"]
@@ -646,6 +678,16 @@ def selftest():
     chk("L22b replay refuses an all-NaN benchmark",
         len(replay(close_syn, open_syn, dg, 4, 3, 0.001, "2021-01-04", cls_syn,
                    bench="NOPE")) == 0)
+
+    # --- L23-L25 the width is reported at three block lengths, not one --------------
+    blk = mde_by_block(pd.Series(pos), blocks=(10, 20, 40), draws=400)
+    chk("L23 three blocks reported", set(blk) == {10, 20, 40}, list(blk))
+    chk("L23b block 20 is the frozen ruler",
+        abs(blk[20]["se_ann_pp"] - M.bootstrap_se(pos, block=20, draws=400)["se_ann_pp"]) < 1e-12,
+        (blk[20]["se_ann_pp"],))
+    zblk = mde_by_block(pd.Series(np.zeros(400)), blocks=(10, 20, 40), draws=200)
+    chk("L23c a zero series is silent at every block",
+        all(zblk[b]["status"] == "NO_DIRECTION" for b in zblk), zblk)
 
     total = len(legs)
     if fails:
