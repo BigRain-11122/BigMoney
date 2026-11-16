@@ -11259,6 +11259,60 @@ def main() -> int:
     except Exception as e:
         check("product: the CEO page prices the carry book's zero (funding line)",
               False, repr(e)[:160])
+    # ---- r1784: the CEO page carries the executable sheet's own rows --------
+    # ⑥ answered "how has the book done" and never "what does following it mean
+    # tomorrow morning".  The page now prints one line per code (lots + shares +
+    # CNY) plus the cash that stays.  Asserted against the producing ticket, so
+    # a hand-typed second copy, a stale ticket, or a page that silently drops a
+    # code reads red.
+    try:
+        _to34 = os.path.join(PATHS.results_dir, "etf_book_order", "latest.json")
+        _lu34 = os.path.join(PATHS.root, "docs", "live_usage", "LIVE-latest.md")
+        _bad34 = []
+        _n34 = 0
+        if not os.path.exists(_to34):
+            _bad34.append("results/etf_book_order/latest.json missing")
+        elif not os.path.exists(_lu34):
+            _bad34.append("docs/live_usage/LIVE-latest.md missing")
+        else:
+            with open(_to34, encoding="utf-8") as _fh34:
+                _lt34 = json.load(_fh34)
+            _tk34 = os.path.join(PATHS.results_dir, "etf_book_order",
+                                 _lt34.get("file") or "")
+            with open(_lu34, encoding="utf-8") as _fh34:
+                _md34 = _fh34.read()
+            if not os.path.exists(_tk34):
+                _bad34.append("the ticket the pointer names is missing")
+            else:
+                with open(_tk34, encoding="utf-8") as _fh34:
+                    _t34 = json.load(_fh34)
+                _tkb34 = _t34.get("ticket") or {}
+                _rows34 = _tkb34.get("order") or []
+                _n34 = len(_rows34)
+                if not _rows34:
+                    _bad34.append("the ticket carries no order rows")
+                if "照做版执行单" not in _md34:
+                    _bad34.append("the page does not print the executable sheet")
+                for _r34 in _rows34:
+                    _ln34 = "%s｜%s 手（%s 份）" % (
+                        _r34.get("symbol"), _r34.get("lots"),
+                        _r34.get("shares"))
+                    if _ln34 not in _md34:
+                        _bad34.append("the page does not print %s" % _ln34)
+                _nav34 = _tkb34.get("nav")
+                if _nav34 is not None:
+                    _cash34 = _nav34 - sum(float(_r34.get("amount") or 0)
+                                           for _r34 in _rows34)
+                    if "{:,.0f}".format(_cash34) not in _md34:
+                        _bad34.append("the page does not print the cash left "
+                                      "(%s)" % "{:,.0f}".format(_cash34))
+        check("product: the CEO page prints what following the book means "
+              "tomorrow (lots + cash)",
+              not _bad34,
+              "; ".join(_bad34)[:220] or "%d codes on the page" % _n34)
+    except Exception as e:
+        check("product: the CEO page prints what following the book means "
+              "tomorrow (lots + cash)", False, repr(e)[:160])
     # ---- r1218: the battle report's ETF book section is the page's own payload ----
     # The report is where the CEO reads the book every morning; before this leg it
     # carried no book at all, so "the book is fine" and "nobody printed the book"

@@ -702,6 +702,71 @@ def _carry_book_face():
     }
 
 
+def _etf_order_face():
+    """v2.3 (r1784): the executable sheet's own rows, in lots and cash.
+
+    ⑥ has printed the ledger's return since r1580 and the identity line since
+    the same round explains that the desk's 5-name sheet is a different book --
+    but the sheet itself was still nowhere on the page.  A reader could see the
+    book made +0.68% in 17 bars and still not know what "follow this" means on
+    his own account (which five codes, how many lots, how much cash stays).
+
+    Read-only.  Three rules:
+
+    * a missing / empty ticket prints a reason, never 0 lots (r98);
+    * the page names the decision bar and the producing trip, because the fill
+      is the NEXT session's open while the ticket is priced on this bar's close
+      (r1771/r1781 day-word family);
+    * the list is the target build, not the rebalance delta -- the delta lives
+      in the ledger block; mixing them would print a buy list for someone who
+      is already holding the book.
+    """
+    latest = _read_json(ETF_TICKET_LATEST)
+    if not latest:
+        return {"present": False, "note": "执行单未产出（缺面不读 0）"}
+    fname = latest.get("file")
+    t = _read_json(os.path.join(os.path.dirname(ETF_TICKET_LATEST), fname)) \
+        if fname else None
+    if not t:
+        return {"present": False,
+                "note": "执行单指针指不到票面（不读 0）"}
+    tk = t.get("ticket") or {}
+    order = tk.get("order") or []
+    if not order:
+        return {"present": False,
+                "note": "票面零行（空单不冒充有单）"}
+    rows = []
+    for o in order:
+        rows.append({
+            "symbol": str(o.get("symbol") or ""),
+            "lots": o.get("lots"),
+            "shares": o.get("shares"),
+            "amount_cny": o.get("amount"),
+            "price": o.get("price"),
+            "note": o.get("note") or "",
+        })
+    spent = sum(r["amount_cny"] for r in rows
+                if r.get("amount_cny") is not None)
+    nav = tk.get("nav")
+    return {
+        "present": True,
+        "file": fname,
+        "bar": t.get("as_of") or latest.get("as_of"),
+        "decision_bar": t.get("base_bar") or t.get("as_of"),
+        "generated": latest.get("generated") or t.get("generated"),
+        "rows": rows,
+        "n": len(rows),
+        "nav_cny": nav,
+        "spent_cny": spent,
+        "cash_left_cny": None if nav is None else nav - spent,
+        "book_weight": tk.get("book_weight"),
+        "cash_weight": tk.get("cash_weight"),
+        "k_now": latest.get("k_now"),
+        "next_decision_bars": t.get("next_decision_bars"),
+        "cost_bp_per_side": t.get("cost_bp_per_side"),
+    }
+
+
 # r1580: the two-books face lives in scripts/etf_book_identity.py so this
 # page and the daily report read ONE implementation instead of two that drift.
 _scripts_dir = os.path.dirname(os.path.abspath(__file__))
@@ -920,6 +985,7 @@ def build_payload(day: str) -> dict:
         "recommendation": _recommendation_face(),
         "judgment_burns": _judgment_burn_face(),
         "etf_book": book,
+        "etf_order": _etf_order_face(),
         "book_identity": _book_identity_face(),
         "carry_book": _carry_book_face(),
         "freshness": _freshness_face(book, tape, regime.get("asof")),
@@ -1324,6 +1390,27 @@ def render_md(p: dict) -> str:
                      f"{eb.get('years_for_80pct_power')} 年。"
                      "这一行是实绩读数，不是判决。")
         L.append(f"  - 全页指针：`{eb['path']}`")
+    eo = p.get("etf_order") or {}
+    if not eo.get("present"):
+        L.append(f"- 照做版执行单：{eo.get('note') or '缺件（缺面不读 0）'}")
+    else:
+        _bw = eo.get("book_weight")
+        _cw = eo.get("cash_weight")
+        _w = ("｜敞口 {:.1%}｜现金 {:.1%}".format(_bw, _cw)
+              if _bw is not None and _cw is not None else "")
+        L.append(f"- **照做版执行单**（决策 bar {eo.get('decision_bar')}·"
+                 f"成交在下一交易日开盘·最小买入 100 份=1 手）："
+                 f"{eo.get('n')} 只，合计 ¥{_fmt_cny(eo.get('spent_cny') or 0)}"
+                 f"，留现金 ¥{_fmt_cny(eo.get('cash_left_cny') or 0)}{_w}")
+        for r in eo.get("rows") or []:
+            L.append(f"  - {r['symbol']}｜{r['lots']} 手（{r['shares']} 份）"
+                     f"｜约 ¥{_fmt_cny(r['amount_cny'] or 0)}｜价 {r['price']}")
+        L.append("  - 口径：这是 100 万账面按目标铺满的整手清单，**不是换仓差量**"
+                 "（差量看账本那一段，那本与这本不在同一决策 bar）；"
+                 "价=决策 bar 收盘，开盘成交价会不同。")
+        if eo.get("generated"):
+            L.append(f"  - 出处：`results/etf_book_order/{eo.get('file')}`"
+                     f"（generated {eo.get('generated')}·cutoff {eo.get('bar')}）")
     L.append("")
     L.append("## ⑦ 指数期货 carry 书 · 开仓资金线（纯读出）")
     L.append("")
@@ -1498,6 +1585,30 @@ def selftest() -> int:
           bi.get("verdict") in {"SAME_BOOK", "DIFFERENT_BOOKS",
                                 "NOT_COMPARABLE", "UNKNOWN"}
           and "这一页写的是哪本书（r1580）" in _md)
+    # --- r1784: the executable sheet itself is on the page. The ledger line
+    # answers "how has the book done"; until now nothing answered "what would
+    # following it cost me tomorrow morning".  Assert the rows are the face's
+    # own rows (lots x 100 == shares, one line per code) and that a missing
+    # ticket prints a reason instead of a zero.
+    _md_o = render_md(p1)
+    _eo = p1.get("etf_order") or {}
+    if _eo.get("present"):
+        _rows_o = _eo.get("rows") or []
+        check("order sheet: one line per code, lots x 100 == shares (r1784)",
+              len(_rows_o) == _eo.get("n")
+              and all(r.get("lots") is not None
+                      and r.get("shares") == r["lots"] * 100
+                      for r in _rows_o)
+              and all(r["symbol"] in _md_o for r in _rows_o))
+        check("order sheet: cash left == NAV - sum(amounts) (r1784)",
+              _eo.get("nav_cny") is None
+              or abs((_eo["spent_cny"] + _eo["cash_left_cny"])
+                     - _eo["nav_cny"]) < 1.0)
+        check("order sheet: the page names the decision bar and the trip",
+              str(_eo.get("decision_bar")) in _md_o)
+    else:
+        check("order sheet: absent face never renders as a zero (r1784)",
+              "缺面不读 0" in _md_o or "不读 0" in _md_o)
     _led = {"config": {"n_hold": 12, "vol_target": 0.08},
             "book_in_force": {"bar": "2026-11-11", "scale": 0.909384,
                               "names": ["a", "b", "c"]},

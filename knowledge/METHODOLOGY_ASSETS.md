@@ -16153,3 +16153,28 @@ r1781 已经把「开这本书要多少钱」接到 carry 票面（`research/IDX
 `docs/live_usage/LIVE-2026-11-17.md` 第 ⑦ 节 · `smoke_test.py` 新腿
 `product: the CEO page prices the carry book's zero (funding line)`
 （含链序断言：`idx_fut_carry_open_capital` 第 44 腿 < `ceo_live_usage` 第 185 腿）
+
+
+### E684 — 「引用了这本书的战绩」不等于「回答了照做要多少钱」（r1784 bm-c）
+
+**判例**：CEO 一页纸 ⑥ 节从 r1580 起就印着 ETF 复合书的前向战绩
+（17 个 bar、+0.681%、超额 +302.2bp），并且同一轮还加了一句
+「这一页写的是哪本书：不比较——账本 12 名 vs 执行单 5 名」。
+**但那张执行单本身一行都没上页**：读者能读到这本书赚了多少，
+读不到「照做的话，明天开盘我买哪几只、各几手、多少钱、剩多少现金」。
+战绩面与可执行面**是两个问题**，把前者讲清楚不等于交付后者——
+读者最终要的是**明天早上要下的那 5 行单**。
+
+**落地三则**：
+①**把票面的行原样搬上页**（代码｜手数｜份数｜金额｜价），不做二次计算：
+lots*100 == shares、Σamount + 现金 == NAV 两条在 selftest 里断言，
+页面出现的是产出面的行而不是页面的第二份抄写。
+②**决策 bar 与成交时点分开印**：票按决策 bar 的收盘定价，仓在**下一交易日开盘**成交
+（r1771/r1781 日词族姊妹面），并在节尾印产出面自己的 generated/cutoff。
+③**目标铺仓 ≠ 换仓差量**：同一本书的账本（12 名·11-11 bar）与执行单（5 名·11-16 bar）
+不在同一决策 bar，页面必须写明「这是铺满清单，不是差量」，
+否则已经持有这本书的读者会照着买第二遍。
+
+正身：scripts/ceo_live_usage.py::_etf_order_face（selftest 含 3 腿）·
+docs/live_usage/LIVE-2026-11-17.md ⑥ 节 · smoke_test.py 新腿
+product: the CEO page prints what following the book means tomorrow (lots + cash)

@@ -10919,9 +10919,15 @@ def selftest():
                                     "sentence": None, "verdict": None})
     _md_conc_broken = _render_conc({"status": "no_identity", "artifact": CONC_JSON,
                                     "sentence": None, "verdict": None})
+    # r1784: the bare token "22.1%" is not a judge. The vehicle section prints
+    # "IM 一手占 122.1%", and a substring test reads that as the concentration
+    # share, so this leg went red on a page that was telling the truth (r1744
+    # family: judge by the label the reader reads, not by a bare literal).
+    # "无法核验" still has to be there, and the labelled row must not be.
     chk("L65 concentration: absent or a broken identity prints 'cannot verify' and no numbers",
         "无法核验" in _md_conc_absent and "无法核验" in _md_conc_broken
-        and "22.1%" not in _md_conc_absent and "22.1%" not in _md_conc_broken, "")
+        and "前三名合计" not in _md_conc_absent
+        and "前三名合计" not in _md_conc_broken, "")
 
     # L66-L68 (r1193): the concentration section tells the reader the whole commodity
     # sleeve pays for the drawdown, and the reader's next question is "so should we gate

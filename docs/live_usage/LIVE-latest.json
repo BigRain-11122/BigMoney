@@ -2,7 +2,7 @@
  "schema": "ceo_live_usage_v1_9",
  "ticket": "T-202609-28-105",
  "day": "2026-11-17",
- "generated": "2026-11-17T01:42:40",
+ "generated": "2026-11-17T02:02:57",
  "market": {
   "state": "RED",
   "asof": "2026-11-16",
@@ -506,7 +506,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 58580.9
+    "last_append_age_min": 58601.2
    },
    {
     "family": "FUND-VALUE-P1",
@@ -514,7 +514,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 59425.4
+    "last_append_age_min": 59445.6
    },
    {
     "family": "FUND-DIVLOWVOL-P1",
@@ -522,7 +522,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 56218.7
+    "last_append_age_min": 56238.9
    }
   ]
  },
@@ -565,6 +565,64 @@
   "drift_gate": "settled_bars_only",
   "panel_last_bar": "2026-11-16",
   "cash_leg_note": "cash leg earns 0 in the ledger (disclosed, not modelled away)"
+ },
+ "etf_order": {
+  "present": true,
+  "file": "TICKET-2026-11-16.json",
+  "bar": "2026-11-16",
+  "decision_bar": "2026-11-16",
+  "generated": "2026-11-17T00:09:33+08:00",
+  "rows": [
+   {
+    "symbol": "510760",
+    "lots": 689,
+    "shares": 68900,
+    "amount_cny": 86400.6,
+    "price": 1.254,
+    "note": ""
+   },
+   {
+    "symbol": "512040",
+    "lots": 719,
+    "shares": 71900,
+    "amount_cny": 86351.9,
+    "price": 1.201,
+    "note": ""
+   },
+   {
+    "symbol": "159655",
+    "lots": 438,
+    "shares": 43800,
+    "amount_cny": 86286.0,
+    "price": 1.97,
+    "note": ""
+   },
+   {
+    "symbol": "513690",
+    "lots": 751,
+    "shares": 75100,
+    "amount_cny": 86365.0,
+    "price": 1.15,
+    "note": ""
+   },
+   {
+    "symbol": "159519",
+    "lots": 493,
+    "shares": 49300,
+    "amount_cny": 86324.3,
+    "price": 1.751,
+    "note": ""
+   }
+  ],
+  "n": 5,
+  "nav_cny": 1000000.0,
+  "spent_cny": 431727.8,
+  "cash_left_cny": 568272.2,
+  "book_weight": 0.432195,
+  "cash_weight": 0.567805,
+  "k_now": 0.432195,
+  "next_decision_bars": 17,
+  "cost_bp_per_side": 8.0
  },
  "book_identity": {
   "path_ledger": "results/etf_book_forward/LEDGER.json",
