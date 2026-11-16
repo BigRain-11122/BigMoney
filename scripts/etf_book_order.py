@@ -1705,6 +1705,23 @@ def raise_price_md(face="auto"):
             return []
 
 
+def arm_noise_md(face="auto"):
+    """r1760: 「可 5 座臂上 100M 反而更高」是不是厚票——唯一实现在 CEO 页，票面只转发。
+
+    同 r1759 的课：判定与措辞只写一份。这里不重算任何一档收益、也不自己定噪声带；
+    页面模块读 results/etf_book_raise_arm_noise.json 并出五态之一。
+    """
+    try:
+        from scripts import etf_book_ceo_page as _PAGE
+        return _PAGE.arm_noise_md(face)
+    except Exception:                                          # noqa: BLE001
+        try:
+            import etf_book_ceo_page as _PAGE2
+            return _PAGE2.arm_noise_md(face)
+        except Exception:                                      # noqa: BLE001
+            return []
+
+
 def capacity_per_seat_md(nav_cny, seats, book_weight=None, yg=None):
     """r1754: 「几个位置 × 每笔多大」与「这本书能装多少」并成一行。
 
@@ -1789,6 +1806,7 @@ def entry_gate_md(eg, seats=None, nav_cny=None, book_weight=None, capacity=None,
                     float(ratio)))
     L += entry_gate_seats_md(eg, seats, reach)
     L += raise_price_md()
+    L += arm_noise_md()
     L += capacity_per_seat_md(nav_cny, seats, book_weight, capacity)
     L.append("- 判定 **%s**｜出处 `%s`（证据截止 %s，面板末 bar %s；%gM 档复现本书申报格 "
              "%.3f pp，容差 %.2f pp）。"

@@ -285,7 +285,10 @@ def caveats_list():
         "k 每 %d 个交易日重算，段内实际β仍会漂移" % O.REBAL,
         "回测列读自 results/etf_book_return_regime.json（observed 档），非本页现算",
         "最坏窗口=决策日权重摆回整段面板的复利最坏 N 日，现金 0 息，非策略实际路径",
-        "GC001 单期限滚动假设零费；真实现金台应做期限梯",
+        # r1749: this line used to say "a real cash desk should ladder" as if that were free.
+        # The lock-gap face priced it, so the menu quotes the price instead of the advice --
+        # one implementation (etf_book_order.cash_ladder_caveat), never a second copy here.
+        O.cash_ladder_caveat()["line"].lstrip("- ").strip(),
     ]
 
 

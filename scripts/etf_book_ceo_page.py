@@ -3754,6 +3754,75 @@ def raise_price_md(face="auto"):
             % ("-" if gate_m is None else ("%g" % float(gate_m)), pair, tail, verdict_tail)]
 
 
+def _arm_noise_face():
+    """r1760: 5 座臂上 20M/100M 两格的厚薄之争（results/etf_book_raise_arm_noise.json）。
+
+    抬闸定价面只说「抬上去少赚 7.16pp」，可它自己的表上 5 座臂 100M 反而高 0.79pp。
+    这一面把那个差放进这本书自己的噪声带里量。本函数只读它，不重算任何一档收益。
+    """
+    p = os.path.join(ROOT, "results", "etf_book_raise_arm_noise.json")
+    if not os.path.exists(p):
+        return None
+    try:
+        return _load(p)
+    except (OSError, ValueError):
+        return None
+
+
+def arm_noise_md(face="auto"):
+    """r1760: 「100M 反而更高」是厚票还是五个位置自己的噪声——五态五话，不借别的数。
+
+    数全从发布面读：verdict.diff_pp / ruler_pp / alpha_gap_pp / gate_low_cagr /
+    gate_high_cagr，以及 book_overlap.mean_jaccard。噪声带不在这里算，也不在这里换。
+    """
+    if face == "auto":
+        face = _arm_noise_face()
+    if not face:
+        return ["- **那条「100M 反而更高」的微笑（r1760）**：这张面没有给——所以本页不印"
+                "「只是噪声」也不印「真的更厚」，两句都缺证据。"]
+    v = face.get("verdict") or {}
+    verdict = v.get("verdict")
+    seats = (face.get("rule") or {}).get("seats")
+    low_m = (face.get("rule") or {}).get("low_gate_cny")
+    high_m = (face.get("rule") or {}).get("high_gate_cny")
+    try:
+        pair = "%gM **%.2f%%** vs %gM **%.2f%%**" % (
+            float(low_m) / 1e6, float(v["gate_low_cagr"]) * 100.0,
+            float(high_m) / 1e6, float(v["gate_high_cagr"]) * 100.0)
+    except (KeyError, TypeError, ValueError):
+        pair = "两档的年化这张面没有给全"
+    try:
+        diff_s = "%+.2fpp" % float(v["diff_pp"])
+        ruler_s = "%.2fpp" % float(v["ruler_pp"])
+    except (KeyError, TypeError, ValueError):
+        diff_s = ruler_s = None
+    ov = v.get("book_overlap") or {}
+    jac = ov.get("mean_jaccard")
+    tail = ("；两档在同一决策日上的持仓平均只重合 %d%%——它们并不是在持有同一批票，"
+            "所以这个差也不是「同一个仓换了算法」造出来的"
+            % int(round(float(jac) * 100))) if jac is not None else ""
+    head = "- **那条「100M 反而更高」的微笑（r1760）**：%d 个位置上是 %s。" % (int(seats or 0), pair)
+    if verdict == "DIFFERENCE_INSIDE_NOISE":
+        return [head + ("差 %s，而这本书在 %d 个位置上自己的噪声就有 **%s**"
+                        "（随机排名臂的标准差）——**这一窗分不出哪一档更厚**，"
+                        "「抬闸换来了更好的票」这个解释在这条差上不成立%s。"
+                        % (diff_s, int(seats or 0), ruler_s, tail))]
+    if verdict == "RAISE_BOUGHT_A_THICKER_POOL":
+        return [head + ("扣掉各自的无选股基准后，抬闸这一档多出 **%+.2fpp** alpha，"
+                        "超过噪声带 %s——抬闸确实换来了更厚的票%s。"
+                        % (float(v.get("alpha_gap_pp") or 0.0), ruler_s, tail))]
+    if verdict == "RAISE_THINNED_THE_POOL":
+        return [head + ("扣掉各自的无选股基准后，抬闸这一档少 **%+.2fpp** alpha，"
+                        "超过噪声带 %s——抬闸把池子变薄了，不是变厚%s。"
+                        % (float(v.get("alpha_gap_pp") or 0.0), ruler_s, tail))]
+    if verdict == "DIFFERENCE_OUTSIDE_NOISE_NOT_ALPHA":
+        return [head + ("差 %s 超过噪声带 %s，但扣掉各自的无选股基准后 alpha 只差 %+.2fpp——"
+                        "差在基准本身，不在选股%s。"
+                        % (diff_s, ruler_s, float(v.get("alpha_gap_pp") or 0.0), tail))]
+    return [head + ("这张面判不了（%s）：没有噪声带就没有尺子，本页不把「只是噪声」当结论。"
+                    % (verdict or "无判定"))]
+
+
 def _year_gate_face():
     """r1754: 年闸自己算的容量面（`books[0].capacity_cny_1day_5pct`）。
 
@@ -3879,6 +3948,11 @@ def entry_gate_block(eg, seats=None, nav_cny=None, book_weight=None, capacity=No
     # r1759: 「那就抬闸啊」的下一问——抬到会响的那一档要付多少。与票面同一份实现。
     L += raise_price_md()
     L.append("")
+    # r1760: 紧接着的那句反问——「可 5 座臂上 100M 反而更高」。与票面同一份实现。
+    _noise = arm_noise_md()
+    if _noise:
+        L += _noise
+        L.append("")
     _cap = capacity_per_seat_md(nav_cny, seats, book_weight, capacity)
     if _cap:
         L += _cap
@@ -12022,6 +12096,36 @@ def selftest():
                                                 "reach": {"gate_m": 1000.0}}))
     chk("L141e raise price: a rung that cannot be priced is not a zero-cost raise",
         "不等于零" in _rp_unpriced and "0.00pp" not in _rp_unpriced, _rp_unpriced[-120:])
+    # L142a-e (r1760): 抬闸那一行的反问——「可 5 座臂上 100M 反而更高」。这句话在 r1759
+    # 的表上就是一个数（9.91% vs 9.12%），没人量过它是不是落在本书自己的噪声带里。
+    _an_face = {"rule": {"seats": 5, "low_gate_cny": 20000000.0, "high_gate_cny": 100000000.0},
+                "verdict": {"verdict": "DIFFERENCE_INSIDE_NOISE", "diff_pp": 0.79,
+                            "ruler_pp": 1.36, "alpha_gap_pp": 1.48,
+                            "gate_low_cagr": 0.0912, "gate_high_cagr": 0.0991,
+                            "book_overlap": {"mean_jaccard": 0.3728}}}
+    _an_line = "".join(arm_noise_md(face=_an_face))
+    chk("L142a arm noise: the smile is printed with both rungs, its own size, and the noise "
+        "band it sits inside -- 0.79pp against 1.36pp is 'cannot tell', not 'thicker pool'",
+        "20M" in _an_line and "9.12%" in _an_line and "100M" in _an_line and "9.91%" in _an_line
+        and "+0.79pp" in _an_line and "1.36pp" in _an_line and "分不出哪一档更厚" in _an_line,
+        _an_line[-200:])
+    chk("L142b arm noise: the overlap is quoted as a share, so nobody reads the difference as "
+        "the same book with a different rule", "37%" in _an_line and "同一批票" in _an_line,
+        _an_line[-140:])
+    _an_missing = "".join(arm_noise_md(face=None))
+    chk("L142c arm noise: with no face the page prints neither 'just noise' nor 'thicker', "
+        "and no reading at all", "这张面没有给" in _an_missing and "噪声带" not in _an_missing
+        and "0.79" not in _an_missing, _an_missing[-140:])
+    _an_thick = "".join(arm_noise_md(face=dict(_an_face, verdict=dict(
+        _an_face["verdict"], verdict="RAISE_BOUGHT_A_THICKER_POOL", alpha_gap_pp=4.2))))
+    chk("L142d arm noise: a thicker pool is named with its alpha gap, not with the raw "
+        "difference", "4.20pp" in _an_thick and "更厚的票" in _an_thick
+        and "0.79pp" not in _an_thick, _an_thick[-160:])
+    _an_cannot = "".join(arm_noise_md(face=dict(_an_face, verdict=dict(
+        _an_face["verdict"], verdict="CANNOT_JUDGE_NO_NULL"))))
+    chk("L142e arm noise: no null band means no ruler, and the page refuses to conclude "
+        "'just noise'", "判不了" in _an_cannot and "只是噪声" in _an_cannot
+        and "1.36pp" not in _an_cannot, _an_cannot[-140:])
     # L140f-h (r1754): 位置数换完了，下一个问题是「每个位置多大、什么时候会大到拖累成交」。
     # 那张数在年闸面里（今天这 5 个槽各按一日 5% 参与率），这里只换算不重算成交额。
     _cap_face = {"books": [{"capacity_cny_1day_5pct": 1200000.0}],

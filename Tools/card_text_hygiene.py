@@ -140,6 +140,16 @@ REPAIRS = [
         "restored": "\\time.time()\\",
         "proof": "the same sentence names the three clock readers: date.today() / time.time() / datetime.now()",
     },
+    # r1692: r1689's carry card came back through the same escape-stripping path, this time
+    # as `\v` -> 0x0b in front of an intact token: "—— verdict.criteria_revision" printed as
+    # "—— <VT>erdict.criteria_revision". Same repair as the two r1383 sites that had the
+    # escape inserted BEFORE the token -- drop the character, do not restore a letter.
+    {
+        "damaged": "—— \x0berdict.criteria_revision",
+        "restored": "—— verdict.criteria_revision",
+        "proof": "results/idx_fut_basis.json carries verdict.criteria_revision, and the card's "
+                 "next line names original/now/why from that same block",
+    },
 ]
 
 RECEIPT = os.path.join("results", "card_text_hygiene.json")
@@ -272,16 +282,31 @@ def _apply_prefixes(text, root=ROOT):
         return text, [], ("prefix repair touched lines %s, expected %s"
                           % (sorted(moved), sorted(expected)))
     rows = []
+    # r1692: more than one eaten prefix can sit on the same line (r1689's pointer line has
+    # two). The reversibility check therefore has to account for every letter this repair
+    # inserted on that line, not just the one it is looking at -- otherwise a two-site line
+    # is refused as "not reversible" while both sites are clearly damaged.
+    per_line = {}
     for start, tok, restored, proof in sites:
         ln = text.count("\n", 0, start)
         col = start - (text.rfind("\n", 0, start) + 1)
+        per_line.setdefault(ln, []).append((col, tok, restored, proof))
+    for ln in sorted(per_line):
         after_line = a_lines[ln]
-        if (after_line[col:col + len(restored)] != restored
-                or after_line[:col] + after_line[col + 1:] != b_lines[ln]):
+        cols = sorted(s[0] for s in per_line[ln])
+        probe = after_line
+        for i in sorted(range(len(cols)), reverse=True):
+            at = cols[i] + i
+            if probe[at:at + 1] != "r":
+                return text, [], ("prefix site not reversible on its own line: %r"
+                                  % per_line[ln][i][1][:40])
+            probe = probe[:at] + probe[at + 1:]
+        if probe != b_lines[ln]:
             return text, [], ("prefix site not reversible on its own line: %r"
-                              % tok[:40])
-        rows.append({"line": ln + 1, "damaged": tok, "restored": restored,
-                     "proof": proof})
+                              % per_line[ln][0][1][:40])
+        for col, tok, restored, proof in per_line[ln]:
+            rows.append({"line": ln + 1, "damaged": tok, "restored": restored,
+                         "proof": proof})
     if _prefix_iter(out, root):
         return text, [], "eaten path prefixes survive the repair"
     return out, rows, None
@@ -492,6 +517,23 @@ def selftest():
             and prefix_findings(tmp) == []
             and any(r["damaged"] == "esults/x.json" for r in rec.get("sites", [])),
             "rc=%d %s" % (rc, rec.get("error", "")))
+
+        # L16 r1692: two eaten prefixes on ONE line. The old reversibility check removed a
+        #     single letter and compared the line, so a two-site line failed as "not
+        #     reversible" while both sites were plainly damaged (r1689's pointer line). The
+        #     check must count every letter this repair inserted on that line.
+        os.makedirs(os.path.join(tmp, "research"), exist_ok=True)
+        _write(os.path.join(tmp, "research", "y.md"), "# y\n")
+        both = "pointer \\scripts/a.py\\ + esults/x.json\\ + esearch/y.md\\ end\n"
+        _write(reg, body + both)
+        pf2 = prefix_findings(tmp)
+        rc, rec = fix(tmp, apply=True)
+        _after2 = _read(reg)
+        leg("L16 two eaten prefixes on one line are both repaired",
+            len(pf2) == 2 and rc == 0
+            and "results/x.json" in _after2 and "research/y.md" in _after2
+            and prefix_findings(tmp) == [],
+            "rc=%d sites=%d %s" % (rc, len(pf2), rec.get("error", "")))
 
     print("[card_text_hygiene] selftest %s" % ("PASS" if ok else "FAIL"))
     return 0 if ok else 1
