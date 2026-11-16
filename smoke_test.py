@@ -5609,6 +5609,16 @@ def main() -> int:
              "scripts/etf_book_money_mde.py", ["--selftest"]),
             ("product: etf_book_money_mde (published split still re-derives)",
              "scripts/etf_book_money_mde.py", ["--check"]),
+            # r1764 asks whether holding fewer names can buy the select leg's noise floor down.
+            # The legs pin: the split must add back to the published leg bar by bar, the bench
+            # must not survive inside the name list as a duplicate column (that defect turned
+            # every cell into NaN and printed a 0.00 split), the name term must shrink like
+            # 1/sqrt(N) on independent synthetic names while the sleeve term must not, and the
+            # verdict must refuse before judging and name the seat it means.
+            ("product: etf_book_seat_mde (does breadth buy the noise floor down)",
+             "scripts/etf_book_seat_mde.py", ["--selftest"]),
+            ("product: etf_book_seat_mde (published verdict still re-derives)",
+             "scripts/etf_book_seat_mde.py", ["--check"]),
             # The money question ("how big can this book get before impact eats it")
             # rests entirely on this one script: it re-derives both arms off one
             # engine and pins k=1 to the flat path to 1e-12. A rot here would print
