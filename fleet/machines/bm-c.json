@@ -729,6 +729,7 @@
  "s6_note": "dualrun ZERO-DRIFT (744 entries, streak 51) | compute_audit FLAG pool_starvation+supply_floor (AGENDA_DEBT cause=calendar, 4 candidates refused) | py_watermark insufficient_history | update_daily rc0 0 new rows cutoff 2026-11-16 | regime_state RED (shadow)",
  "s7_attrition": "4 ledgers CLEAN (3 historic shrink rows healed)",
  "s7_claws": "pre-commit + pre-push present; pre-commit blocked an inconsistent GPU face and it was healed",
+ "s7_logon_type": "BOTH Bigmoney-IterationLoop and Bigmoney-LoopWatchdog read LogonType=InteractiveToken from their task XML (the earlier note named only the watchdog). Both actions are wrapped by wscript InvisibleRunner.vbs, so the exposure is the LogonType regression, not a popup. S4U needs admin.",
  "s7_loop": "register_loop_task no-op: machine=bm-c pin=0 current=0 PT5H",
  "s7_note": "loop no-op (pin 0, first fire 06:45); watchdog in service but the S4U XML flip was refused (access denied) -> left at InteractiveToken (r1790 regression face, needs admin); pre-commit claw fired for real this round on an inconsistent GPU face (healed via Tools/gpu_face.py apply, audit finds nothing).",
  "s7_notes": "r1688 S7: Bigmoney-IterationLoop re-registered (time-limit drift live=PT5H want=PT300M -> fixed), Bigmoney-LoopWatchdog re-registered; both S4U XML flips refused (拒绝访问) = the known LogonType regression face that needs one elevated re-pass; pre-commit + pre-push claws reinstalled (content identical, LF-normalised); attrition 4 ledgers CLEAN (5 historic shrinks healed).",
