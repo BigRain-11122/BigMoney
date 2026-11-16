@@ -5658,6 +5658,17 @@ def main() -> int:
              "scripts/etf_book_churn_hold.py", ["--selftest"]),
             ("product: etf_book_churn_hold (published verdict still re-derives)",
              "scripts/etf_book_churn_hold.py", ["--check"]),
+            # r1769 takes the question r1768 said needs a different arm: the book almost
+            # never holds (51 of 51 rebalances replaced it), so "churn vs hold" is its
+            # construction, not a choice. This face adds a forced-hold rule through the
+            # engine's own select_hook -- k=1 must be bit-identical to the published book
+            # (control), and the selftest pins the seat-age semantics plus the death of a
+            # forced seat. The check leg re-derives every bootstrap off the stored paired
+            # difference series instead of trusting the printed numbers.
+            ("product: etf_book_seat_hold (do forced seats change the book)",
+             "scripts/etf_book_seat_hold.py", ["--selftest"]),
+            ("product: etf_book_seat_hold (published verdict still re-derives)",
+             "scripts/etf_book_seat_hold.py", ["--check"]),
             # The money question ("how big can this book get before impact eats it")
             # rests entirely on this one script: it re-derives both arms off one
             # engine and pins k=1 to the flat path to 1e-12. A rot here would print
