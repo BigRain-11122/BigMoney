@@ -270,7 +270,7 @@
     "has_pending": false
    }
   },
-  "ledger_source": "K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\etf_book_forward\\LEDGER.json",
+  "ledger_source": "C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\results\\etf_book_forward\\LEDGER.json",
   "restatements_readable": true,
   "restatements_source": "restatements",
   "restated_bars": [
@@ -343,6 +343,7 @@
    "line": 0.7,
    "book": "nobond_vt08_adopted",
    "found": true,
+   "caliber": "decision_block",
    "phase": {
     "asof": "2026-11-16T18:15:57+08:00",
     "state": "CONDITIONAL",
@@ -354,6 +355,48 @@
     "path": "results/etf_book_phase_gate.json"
    },
    "last_bar": "2026-11-16",
+   "decision_verdict": "ADMIT",
+   "decision_book": "nobond_vt08_adopted",
+   "veto_rulers": [
+    "S1_oos_sharpe",
+    "A1_cagr_after_cost",
+    "K1_capacity_1pct_adv"
+   ],
+   "diagnostics_no_veto": [
+    "Y1_positive_years_share",
+    "Y2_median_positive",
+    "Y3_worst_year",
+    "Y4_top2_share"
+   ],
+   "decision_checks": {
+    "S1_oos_sharpe": true,
+    "A1_cagr_after_cost": true,
+    "K1_capacity_1pct_adv": true
+   },
+   "failed_checks": [],
+   "reads": {
+    "oos_sharpe": 1.8105,
+    "oos_sharpe_min": 0.7,
+    "oos_start": "2024-01-01",
+    "cagr_after_cost_pct": 11.45,
+    "cagr_min_pct": 6.0,
+    "capacity_by_capital": {
+     "1M": {
+      "capital_cny": 1000000.0,
+      "per_name_cny": 200000.0,
+      "impact_pct_of_adv": 0.319,
+      "within_1pct": true
+     },
+     "10M": {
+      "capital_cny": 10000000.0,
+      "per_name_cny": 2000000.0,
+      "impact_pct_of_adv": 3.1895,
+      "within_1pct": false
+     }
+    },
+    "capacity_veto_lens": "1M",
+    "impact_max_pct_of_adv": 1.0
+   },
    "verdict": "CONDITIONAL",
    "failed": [
     "Y4_top2_share"

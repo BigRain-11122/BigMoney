@@ -3188,6 +3188,10 @@ def card(ticket, mk, sched, asof, beta, extra):
                         r["shares"] if r["shares"] is not None else "-",
                         format(int(r["amount"]), ",") if r["amount"] else "-"))
         L += ["", "整手取整后欠投 %.2f%% NAV（留在现金腿，不重分配）。" % ticket["underspend_pct"]]
+        # r1296: this sheet sizes 43% of the book and never said under which admission the
+        # size is legitimate — the operator had to open a different page to learn whether the
+        # capital was cleared at all. Same reader as the card sheet, no second implementation.
+        L += admission_md(admission_read(asof), asof)
         L += permission_md(extra.get("permission"))
         L += band_md(extra.get("size_band"))
         # r1516: the sheet printed a TARGET and, elsewhere, a CURRENT book. The trades
@@ -4651,14 +4655,32 @@ def admission_read(last_bar=None, path=None, phase=None):
         return {"readable": False, "path": rel, "why": "unreadable: %s" % exc}
     books = d.get("books") or []
     b = next((x for x in books if x.get("book") == ADMITTED_BOOK), None)
+    # O-20261114-2325 §二: the gate publishes two verdicts from one file. `decision` carries
+    # the three rulers that may refuse capital (OOS Sharpe / after-cost CAGR / capacity at
+    # 1% ADV); the legacy yearly block's Y4 top-2-share ruler was demoted to a diagnostic by
+    # the signed order. This reader used to look only at the legacy block, so the card told
+    # the operator "CONDITIONAL because Y4" while the three reads that do have a veto sat
+    # unread in the same JSON -- the operator was being held by a ruler with no veto power.
+    dec = d.get("decision") or {}
+    dec_book = dec.get("book")
+    dec_ok = bool(dec.get("verdict")) and dec_book in (None, "", ADMITTED_BOOK)
     base = {"readable": True, "path": rel, "asof": d.get("asof"),
             "data_last": (d.get("data") or {}).get("last"),
             "prior_data_last": (d.get("prior") or {}).get("data_last"),
             "line": (d.get("gate_rules") or {}).get("top2_share_max"),
-            "book": ADMITTED_BOOK, "found": b is not None,
+            "book": ADMITTED_BOOK, "found": b is not None or dec_ok,
+            "caliber": "decision_block" if dec_ok else "legacy_yearly",
             "phase": (phase if phase is not None
                       else (_phase_reading() if path is None else None)),
             "last_bar": last_bar}
+    if dec_ok:
+        base.update({"decision_verdict": dec.get("verdict"),
+                     "decision_book": dec_book or ADMITTED_BOOK,
+                     "veto_rulers": dec.get("veto_rulers") or [],
+                     "diagnostics_no_veto": dec.get("diagnostics_have_no_veto") or [],
+                     "decision_checks": dec.get("checks") or {},
+                     "failed_checks": dec.get("failed_checks") or [],
+                     "reads": dec.get("reads") or {}})
     if b is None:
         return base
     checks = b.get("checks") or {}
@@ -4681,6 +4703,68 @@ def admission_read(last_bar=None, path=None, phase=None):
     return base
 
 
+def _decision_md(ad):
+    """The three veto rulers printed side by side, and which rulers have no veto any more.
+
+    O-20261114-2325 §二 froze the admission caliber on three measurable reads (OOS Sharpe,
+    after-cost CAGR, capacity at 1% ADV at the 1M lens) and demoted the yearly Y4 top-2
+    share to a diagnostic. The gate face carries both; a sheet that prints only the legacy
+    block hands the operator the demoted ruler as if it still refused capital.
+    """
+    reads = ad.get("reads") or {}
+    checks = ad.get("decision_checks") or {}
+    lens = reads.get("capacity_veto_lens") or "1M"
+    L = ["- 判决：**%s**（三读数口径；否决尺 %d 把，任一不过即不得扩资本）"
+         % (ad.get("decision_verdict") or "未知", len(ad.get("veto_rulers") or [])),
+         "- 闸面 asof %s，数据到 %s；本书 `%s`"
+         % (ad.get("asof") or "未知", ad.get("data_last") or "未知",
+            ad.get("decision_book") or ad.get("book")),
+         "| 否决尺 | 阈值 | 本书读数 | 判 |", "|---|---|---|---|"]
+    names = {"S1_oos_sharpe": "S1 样本外（2024-01-01 起）夏普",
+             "A1_cagr_after_cost": "A1 成本后全期年化",
+             "K1_capacity_1pct_adv": "K1 容量：单日冲击 ≤1% ADV"}
+    for r in (ad.get("veto_rulers") or []):
+        label = names.get(r, r)
+        cell, thr = "见产物", "见产物"
+        if r == "S1_oos_sharpe":
+            v, line = reads.get("oos_sharpe"), reads.get("oos_sharpe_min")
+            cell = ("%.4f" % float(v)) if v is not None else "未给"
+            thr = ("≥ %.2f" % float(line)) if line is not None else "≥ 未给"
+            if v is not None and line is not None:
+                cell += "（距线 %+.4f）" % (float(v) - float(line))
+        elif r == "A1_cagr_after_cost":
+            v, line = reads.get("cagr_after_cost_pct"), reads.get("cagr_min_pct")
+            cell = ("%.2f%%/年" % float(v)) if v is not None else "未给"
+            thr = ("≥ %.1f%%/年" % float(line)) if line is not None else "≥ 未给"
+            if v is not None and line is not None:
+                cell += "（距线 %+.2fpp）" % (float(v) - float(line))
+        elif r == "K1_capacity_1pct_adv":
+            cap = (reads.get("capacity_by_capital") or {}).get(lens) or {}
+            v, line = cap.get("impact_pct_of_adv"), reads.get("impact_max_pct_of_adv")
+            cell = ("%s 档 %.4f%% ADV" % (lens, float(v))) if v is not None else "未给"
+            thr = ("≤ %.1f%% ADV（%s 档判）" % (float(line), lens)) if line is not None else "≤ 未给"
+        ok = checks.get(r)
+        L.append("| %s | %s | %s | %s |"
+                 % (label, thr, cell,
+                    "过" if ok else ("**不过**" if ok is False else "未判")))
+    caps = reads.get("capacity_by_capital") or {}
+    for k in sorted(x for x in caps if x != lens):
+        c = caps[k] or {}
+        if c.get("impact_pct_of_adv") is None:
+            continue
+        L.append("- 只披露、不否决：**%s 档**同一本书要吃掉单日 %.2f%% ADV（该档%s），"
+                 "本判决只按 **%s 档**判 —— 把 %s 档设成否决线等于装一扇永远不开的门。"
+                 % (k, float(c["impact_pct_of_adv"]),
+                    "过 1% 线" if c.get("within_1pct") else "过不了 1% 线", lens, k))
+    diag = ad.get("diagnostics_no_veto") or []
+    if diag:
+        L.append("- 诊断尺（**无否决权**，只解释）：%s —— 照常打印，不得据此拒资本。"
+                 % "，".join(diag))
+    if ad.get("failed_checks"):
+        L.append("- 三读数里未过的：%s" % "，".join(ad["failed_checks"]))
+    return L
+
+
 def admission_md(ad, last_bar=None):
     """Print the gate's decision next to this sheet's fill, and say what it is not."""
     lines = ["## 准入判决（这本书能不能吃新增资本）"]
@@ -4694,13 +4778,21 @@ def admission_md(ad, last_bar=None):
                   % (ad.get("path"), ad.get("book")), ""]
         return lines
     ph = ad.get("phase")
-    _clash = bool(ph and ph.get("state") and ad.get("verdict")
-                  and ph["state"] != ad["verdict"])
-    lines.append("- 判决：**%s**%s（闸面 asof %s，数据到 %s）"
-                 % (ad.get("verdict") or "未知",
-                    ("（单相位）——与五相位面 **%s** 冲突，读下面的相位行"
-                     % ph["state"]) if _clash else "",
-                    ad.get("asof") or "未知", ad.get("data_last") or "未知"))
+    _dec = ad.get("caliber") == "decision_block"
+    _hv = (ad.get("decision_verdict") if _dec else ad.get("verdict"))
+    _clash = bool(ph and ph.get("state") and _hv and ph["state"] != _hv)
+    if _dec:
+        lines += _decision_md(ad)
+        lines.append("- 旧年度尺（同一张面 `books[]`，**已降级为诊断**）：**%s**"
+                     % (ad.get("verdict") or "未知"))
+    else:
+        lines.append("- 判决：**%s**%s（闸面 asof %s，数据到 %s）"
+                     % (ad.get("verdict") or "未知",
+                        ("（单相位）——与五相位面 **%s** 冲突，读下面的相位行"
+                         % ph["state"]) if _clash else "",
+                        ad.get("asof") or "未知", ad.get("data_last") or "未知"))
+        lines.append("- 本面用的是**旧年度尺**（Y4 有否决权）：三读数闸（S1/A1/K1）在这张"
+                     "面上缺席 —— 这一行不等于新口径的判决。")
     if ad.get("failed"):
         bits = []
         if "Y4_top2_share" in ad["failed"]:
@@ -4708,13 +4800,18 @@ def admission_md(ad, last_bar=None):
                         % (100.0 * float(ad.get("top2_share") or 0.0),
                            100.0 * float(ad.get("top2_share_full_only") or 0.0),
                            100.0 * float(ad.get("line") or 0.0)))
-        lines.append("- 未过项：%s" % "；".join(bits + [f for f in ad["failed"]
-                                                    if f != "Y4_top2_share"]))
+        lines.append("%s%s"
+                     % ("- 旧尺未过项（诊断，无否决权）：" if _dec else "- 未过项：",
+                        "；".join(bits + [f for f in ad["failed"]
+                                          if f != "Y4_top2_share"])))
     else:
-        lines.append("- 未过项：无（%d 项全过）" % len(ad.get("checks") or {}))
+        lines.append("%s无（%d 项全过）"
+                     % ("- 旧尺未过项（诊断）：" if _dec else "- 未过项：",
+                        len(ad.get("checks") or {})))
     if ad.get("margin_to_line") is not None:
-        lines.append("- 距线：%+.4f（%.4f 对线 %.4f，越大越安全）"
-                     % (float(ad["margin_to_line"]), float(ad.get("top2_share") or 0.0),
+        lines.append("%s%+.4f（%.4f 对线 %.4f，越大越安全）"
+                     % ("- 旧年度尺距线（诊断）：" if _dec else "- 距线：",
+                        float(ad["margin_to_line"]), float(ad.get("top2_share") or 0.0),
                         float(ad.get("line") or 0.0)))
     if ad.get("verdict_changed") and ad.get("prior"):
         pv = ad["prior"]
@@ -4748,11 +4845,18 @@ def admission_md(ad, last_bar=None):
                          "决定资本。"
                          % (_ph_last, ad.get("data_last"), ad.get("data_last")))
         if _clash:
-            lines.append("- **两面对不上**：单相位年度闸说 %s，五相位面说 %s —— 差别不在书，"
-                         "在决策网格从哪天开始。相位 spread %.2fpp 与单相位距线 %.4f 不是同一把尺子；"
-                         "本单**不得**因单相位这一行扩资本。"
-                         % (ad.get("verdict"), ph["state"], float(ph.get("spread_pp") or 0.0),
-                            float(ad.get("margin_to_line") or 0.0)))
+            if _dec:
+                lines.append("- **五相位面还在读旧年度尺**（%s，按 Y4 判）：它的 **%s** 与上面"
+                             "三读数的 **%s** 不是对同一把尺子下的判词 —— 相位面按新三读数重算"
+                             "之前，这一行不否决资本；但它说明这台闸在别的决策起点上曾读到过"
+                             "旧线之外，本单据此把「扩资本」限定在 1M 档。"
+                             % (ph.get("state"), ph["state"], ad.get("decision_verdict")))
+            else:
+                lines.append("- **两面对不上**：单相位年度闸说 %s，五相位面说 %s —— 差别不在书，"
+                             "在决策网格从哪天开始。相位 spread %.2fpp 与单相位距线 %.4f 不是同一把尺子；"
+                             "本单**不得**因单相位这一行扩资本。"
+                             % (ad.get("verdict"), ph["state"], float(ph.get("spread_pp") or 0.0),
+                                float(ad.get("margin_to_line") or 0.0)))
     lines.append("- 其它读数：%s/%s 正年｜中位 %+.2fpp｜最差年 %+.2fpp｜容量 %s"
                  % (ad.get("positive_years"), ad.get("years"), float(ad.get("median") or 0.0),
                     float(ad.get("worst") or 0.0),
@@ -4774,11 +4878,21 @@ def card_config_card(tk, width=None, ruler=None):
     cfg = tk["config"]
     _adm = rc.get("admission") or {}
     _ph = _adm.get("phase") or {}
-    if _adm.get("verdict") and _ph.get("state") and _ph["state"] != _adm["verdict"]:
-        _admit_line = ("准入：单相位 **%s** ／ 五相位 **%s** —— 两面对不上，本单不得因此扩资本"
-                       "（见 §准入判决）。" % (_adm["verdict"], _ph["state"]))
-    elif _adm.get("verdict"):
-        _admit_line = "准入：**%s**（见 §准入判决）。" % _adm["verdict"]
+    # r1296: the header must speak in the caliber that has a veto. Reading the legacy block
+    # here printed "准入：CONDITIONAL" three lines above a section that said ADMIT — the same
+    # page contradicting itself, with the demoted ruler winning the first line the operator sees.
+    _hv = (_adm.get("decision_verdict") if _adm.get("caliber") == "decision_block"
+           else _adm.get("verdict"))
+    if _hv and _ph.get("state") and _ph["state"] != _hv:
+        _admit_line = ("准入：**%s**（三读数口径；五相位面 **%s** —— 两面对不上，本单不得"
+                       "因此扩资本，见 §准入判决）。" % (_hv, _ph["state"])
+                       if _adm.get("caliber") == "decision_block" else
+                       "准入：单相位 **%s** ／ 五相位 **%s** —— 两面对不上，本单不得因此扩资本"
+                       "（见 §准入判决）。" % (_hv, _ph["state"]))
+    elif _hv:
+        _admit_line = "准入：**%s**%s（见 §准入判决）。" % (
+            _hv, "（三读数口径；旧年度尺已降级为诊断）"
+            if _adm.get("caliber") == "decision_block" else "")
     else:
         _admit_line = "准入：**无法核验**（见 §准入判决）。"
     L = ["# ETF 复合书 · 可执行订单单（%s，卡片配置口径）" % tk["priced_bar"], "",
@@ -7790,11 +7904,13 @@ def selftest():
     import shutil
     _tmp = tempfile.mkdtemp(prefix="adm_")
 
-    def _gate(path, book=None, verdict="CONDITIONAL", last="2026-11-09"):
+    def _gate(path, book=None, verdict="CONDITIONAL", last="2026-11-09", decision=None):
         doc = {"face": "etf_book_year_gate", "asof": "2026-11-10T00:50:41+0800",
                "gate_rules": {"top2_share_max": 0.70},
                "data": {"last": last},
                "prior": {"data_last": "2026-11-07"}, "books": []}
+        if decision is not None:
+            doc["decision"] = decision
         if book:
             doc["books"].append({
                 "book": book, "verdict": verdict, "capacity_cny_1day_5pct": 25_910_932.0,
@@ -7865,6 +7981,56 @@ def selftest():
         chk("legH the same panel prints each face's own bar and no panel-gap warning",
             "两行不在一块面板上" not in _smd and "算到 2026-11-11" in _smd,
             [l for l in _smd.splitlines() if "算到" in l][:1])
+        # legI-L (r1296 bm-a): O-20261114-2325 §二 froze the admission caliber on three
+        # rulers and demoted Y4 to a diagnostic. Both verdicts live in ONE file, so a reader
+        # that keeps opening the legacy block holds the book at the demoted ruler's mercy --
+        # the card said "CONDITIONAL because Y4" while `decision` already said ADMIT.
+        _dec = {"verdict": "ADMIT", "book": ADMITTED_BOOK,
+                "veto_rulers": ["S1_oos_sharpe", "A1_cagr_after_cost",
+                                "K1_capacity_1pct_adv"],
+                "diagnostics_have_no_veto": ["Y1_positive_years_share",
+                                             "Y2_median_positive", "Y3_worst_year",
+                                             "Y4_top2_share"],
+                "checks": {"S1_oos_sharpe": True, "A1_cagr_after_cost": True,
+                           "K1_capacity_1pct_adv": True},
+                "failed_checks": [],
+                "reads": {"oos_sharpe": 1.8105, "oos_sharpe_min": 0.7,
+                          "oos_start": "2024-01-01",
+                          "cagr_after_cost_pct": 11.45, "cagr_min_pct": 6.0,
+                          "capacity_veto_lens": "1M", "impact_max_pct_of_adv": 1.0,
+                          "capacity_by_capital": {
+                              "1M": {"impact_pct_of_adv": 0.319, "within_1pct": True},
+                              "10M": {"impact_pct_of_adv": 3.1895,
+                                      "within_1pct": False}}}}
+        _pd = _gate(os.path.join(_tmp, "g5.json"), ADMITTED_BOOK, decision=_dec)
+        _adrc = admission_read("2026-11-11", path=_pd)
+        _dmd = "\n".join(admission_md(_adrc, "2026-11-11"))
+        chk("legI the three veto rulers are printed side by side and carry the verdict",
+            _adrc["caliber"] == "decision_block"
+            and "ADMIT" in _dmd and "S1 样本外" in _dmd and "1.8105" in _dmd
+            and "11.45%" in _dmd and "0.3190% ADV" in _dmd,
+            "caliber=%s verdict=%s" % (_adrc["caliber"], _adrc.get("decision_verdict")))
+        chk("legJ the demoted Y4 ruler is printed as a diagnostic, not as a veto",
+            "诊断" in _dmd and "旧年度尺" in _dmd and "无否决权" in _dmd
+            and "未过项：Y4" not in _dmd,
+            [l for l in _dmd.splitlines() if "旧年度尺" in l][:1])
+        chk("legK the 10M lens is disclosed and does not flip the verdict",
+            "3.19% ADV" in _dmd and "只披露" in _dmd
+            and _adrc["decision_verdict"] == "ADMIT",
+            [l for l in _dmd.splitlines() if "只披露" in l][:1])
+        _other_dec = dict(_dec, book="some_other_book")
+        _po = _gate(os.path.join(_tmp, "g6.json"), ADMITTED_BOOK, decision=_other_dec)
+        _aod = admission_read("2026-11-11", path=_po)
+        chk("legL another book's decision block is never borrowed as this book's admission",
+            _aod["caliber"] == "legacy_yearly"
+            and "旧年度尺" in "\n".join(admission_md(_aod, "2026-11-11")),
+            "caliber=%s" % _aod["caliber"])
+        _pg = _gate(os.path.join(_tmp, "g7.json"), ADMITTED_BOOK)      # no decision block
+        _ag7 = admission_read("2026-11-11", path=_pg)
+        chk("legM a face without the three reads says which ruler is speaking",
+            _ag7["caliber"] == "legacy_yearly"
+            and "三读数闸（S1/A1/K1）在这张面上缺席" in "\n".join(admission_md(_ag7, "2026-11-11")),
+            "caliber=%s" % _ag7["caliber"])
     finally:
         shutil.rmtree(_tmp, ignore_errors=True)
 
