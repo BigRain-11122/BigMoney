@@ -5568,6 +5568,17 @@ def main() -> int:
              "scripts/etf_book_entry_gate.py", ["--selftest"]),
             ("product: etf_book_entry_gate (published verdict still re-derives)",
              "scripts/etf_book_entry_gate.py", ["--check"]),
+            # r1760: the gate ladder's reading is not monotone on the 5-seat arm (40M sits
+            # below 20M, 100M above both). Before anyone treats 100M as "the better cut",
+            # two tests have to pass: the books must actually differ (a swap share, not a
+            # re-priced same book) and the gap must clear its own noise (a seeded block
+            # bootstrap). The legs pin the four states, the bootstrap's two directions, the
+            # year table measuring from the previous close, and the fact that a raise which
+            # never leaves the book short of seats is not a capacity question at all.
+            ("product: etf_book_gate_raise_noise (100M bump: thicker pool or its own noise)",
+             "scripts/etf_book_gate_raise_noise.py", ["--selftest"]),
+            ("product: etf_book_gate_raise_noise (published verdict still re-derives)",
+             "scripts/etf_book_gate_raise_noise.py", ["--check"]),
             # The money question ("how big can this book get before impact eats it")
             # rests entirely on this one script: it re-derives both arms off one
             # engine and pins k=1 to the flat path to 1e-12. A rot here would print
@@ -7633,6 +7644,53 @@ def main() -> int:
     except Exception as e:
         check("product: the executable ticket decomposes its own headline", False,
               repr(e)[:160])
+    # r1749: the ticket's honest block used to tell the operator to run a 1/7/14-day cash
+    # ladder and stop there -- advice with no price, on a page whose whole job is costing
+    # choices. The desk has since priced it (etf_book_cash_lock_gap.json: a calendar-aware
+    # ladder holds, a ladder pinned to 7/14/28 calendar days does not). The leg reads the arms
+    # off that face and demands the same numbers on the sheet, so the advice cannot quietly
+    # go back to being free.
+    try:
+        _bad33 = []
+        _arms33 = {}
+        _clgp33 = os.path.join(PATHS.results_dir, "etf_book_cash_lock_gap.json")
+        _tk33 = json.load(open(os.path.join(PATHS.results_dir, "etf_book_order",
+                                            "latest.json"), encoding="utf-8"))
+        _mdp33 = os.path.join(PATHS.results_dir, "etf_book_order",
+                              "ORDER-%s.md" % str(_tk33.get("as_of") or ""))
+        if not os.path.exists(_clgp33):
+            _bad33.append("results/etf_book_cash_lock_gap.json missing")
+        elif not os.path.exists(_mdp33):
+            _bad33.append("executable ticket missing")
+        else:
+            with open(_clgp33, encoding="utf-8") as _fh33:
+                _clg33 = json.load(_fh33)
+            _rd33 = _clg33.get("readings") or {}
+            _arms33 = _rd33.get("arms") or {}
+            with open(_mdp33, encoding="utf-8") as _fh33:
+                _md33 = _fh33.read()
+            if _rd33.get("control_reproduces_published_cells") is not True:
+                _bad33.append("lock-gap face fails its own control, so it cannot be quoted")
+            for _arm33 in ("callable", "locked"):
+                _v33 = (_arms33.get(_arm33) or {}).get("cagr")
+                if _v33 is None:
+                    _bad33.append("lock-gap face publishes no %s arm" % _arm33)
+                elif ("%.2f%%" % (float(_v33) * 100.0)) not in _md33:
+                    _bad33.append("ticket omits the %s arm's %.2f%%"
+                                  % (_arm33, float(_v33) * 100.0))
+            _sh33 = (_arms33.get("locked") or {}).get("blocked_share_of_asks")
+            if isinstance(_sh33, (int, float)) \
+                    and ("%.1f%%" % (float(_sh33) * 100.0)) not in _md33:
+                _bad33.append("ticket omits why a pinned lock fails (%.1f%% of asks)"
+                              % (float(_sh33) * 100.0))
+        check("product: the ladder advice on the ticket carries the price measured since",
+              not _bad33, "; ".join(_bad33)[:220]
+              or "callable %.2f%% / locked %.2f%% straight off the lock-gap face"
+                 % (float((_arms33.get("callable") or {}).get("cagr") or 0.0) * 100.0,
+                    float((_arms33.get("locked") or {}).get("cagr") or 0.0) * 100.0))
+    except Exception as e:
+        check("product: the ladder advice on the ticket carries the price measured since",
+              False, repr(e)[:160])
     # r1371: a bar restated after it settled is a history change, and the ledger used to
     # keep that fact to itself. The leg recomputes the notice from LEDGER.json and demands
     # it on the sheet the operator actually holds -- a missing ledger must read as

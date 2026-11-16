@@ -1,0 +1,278 @@
+{
+ "evidence_cutoff": "2026-11-13",
+ "panel_last_bar": "2026-11-13",
+ "script": "scripts/etf_book_gate_raise_noise.py",
+ "rule": {
+  "gates_cny": [
+   20000000.0,
+   40000000.0,
+   100000000.0
+  ],
+  "high_cny": 100000000.0,
+  "low_cny": 40000000.0,
+  "shipped_cny": 20000000.0,
+  "control_tol_pp": 0.25,
+  "universe_tol_names": 20,
+  "block": 20,
+  "draws": 2000,
+  "seed": 20261116,
+  "p_sig": 0.05,
+  "swap_min": 0.1,
+  "year_major": 0.7,
+  "question": "the book arm's 100M reading vs its 40M reading",
+  "p_value": "one-sided circular block bootstrap on the paired daily return difference (block = one rebalance period)",
+  "frozen": "criteria written before the run; --check re-derives them"
+ },
+ "config": {
+  "book_seats": 5,
+  "card_seats": 12,
+  "rebal": 20,
+  "vol_target": 0.08,
+  "cost_bp_per_side": 10.0,
+  "universe_measured": 1520,
+  "universe_published": 1520,
+  "universe_delta_names": 0,
+  "flips_repaired": 169,
+  "panel_build_seconds": 46.9,
+  "run_seconds": 67.4
+ },
+ "control": {
+  "cells": {
+   "20M_card": {
+    "arm_cagr": 0.0841,
+    "published_cagr": 0.0841,
+    "delta_pp": 0.0
+   },
+   "40M_book": {
+    "arm_cagr": 0.0812,
+    "published_cagr": 0.0812,
+    "delta_pp": 0.0
+   },
+   "100M_book": {
+    "arm_cagr": 0.0991,
+    "published_cagr": 0.0991,
+    "delta_pp": 0.0
+   }
+  },
+  "worst_delta_pp": 0.0,
+  "tol_pp": 0.25
+ },
+ "arms": {
+  "20M": {
+   "stats": {
+    "full": {
+     "cagr": 0.0912,
+     "sharpe": 0.876,
+     "maxdd": -0.1207,
+     "vol": 0.1107,
+     "years": 6.86
+    },
+    "is": {
+     "cagr": 0.0319,
+     "sharpe": 0.343,
+     "maxdd": -0.1207,
+     "vol": 0.1144,
+     "years": 3.99
+    },
+    "oos": {
+     "cagr": 0.1797,
+     "sharpe": 1.688,
+     "maxdd": -0.1203,
+     "vol": 0.1054,
+     "years": 2.86
+    }
+   },
+   "turnover_per_decision": 1.095,
+   "decisions": 84,
+   "bars_below_seats": 0
+  },
+  "40M": {
+   "stats": {
+    "full": {
+     "cagr": 0.0812,
+     "sharpe": 0.798,
+     "maxdd": -0.1161,
+     "vol": 0.1094,
+     "years": 6.86
+    },
+    "is": {
+     "cagr": 0.0185,
+     "sharpe": 0.226,
+     "maxdd": -0.1039,
+     "vol": 0.1124,
+     "years": 3.99
+    },
+    "oos": {
+     "cagr": 0.1751,
+     "sharpe": 1.657,
+     "maxdd": -0.1161,
+     "vol": 0.1049,
+     "years": 2.86
+    }
+   },
+   "turnover_per_decision": 1.093,
+   "decisions": 84,
+   "bars_below_seats": 0
+  },
+  "100M": {
+   "stats": {
+    "full": {
+     "cagr": 0.0991,
+     "sharpe": 0.975,
+     "maxdd": -0.1161,
+     "vol": 0.1067,
+     "years": 6.86
+    },
+    "is": {
+     "cagr": 0.0355,
+     "sharpe": 0.399,
+     "maxdd": -0.0925,
+     "vol": 0.1045,
+     "years": 3.99
+    },
+    "oos": {
+     "cagr": 0.1945,
+     "sharpe": 1.744,
+     "maxdd": -0.1161,
+     "vol": 0.1098,
+     "years": 2.86
+    }
+   },
+   "turnover_per_decision": 0.977,
+   "decisions": 84,
+   "bars_below_seats": 0
+  }
+ },
+ "pairs": {
+  "high_vs_low": {
+   "bootstrap": {
+    "obs_mean_daily": 6.67796258723647e-05,
+    "p_one_sided": 0.1044,
+    "draws": 2000,
+    "block": 20,
+    "seed": 20261116,
+    "bars": 1661
+   },
+   "overlap": {
+    "decisions": 84,
+    "mean_overlap": 0.6881,
+    "mean_jaccard": 0.5776,
+    "swap_share": 0.7619,
+    "identical_days": 20,
+    "names_swapped_total": 131
+   },
+   "segment_split": {
+    "segments": 83,
+    "same_book_segments": 20,
+    "diff_book_segments": 63,
+    "gap_pp_same_book": 0.19,
+    "gap_pp_diff_book": 11.44
+   },
+   "years": {
+    "rows": [
+     {
+      "year": 2020,
+      "high": 0.0023,
+      "low": -0.0106,
+      "diff_pp": 1.29,
+      "high_leads": true
+     },
+     {
+      "year": 2021,
+      "high": 0.0481,
+      "low": 0.0415,
+      "diff_pp": 0.66,
+      "high_leads": true
+     },
+     {
+      "year": 2022,
+      "high": 0.0168,
+      "low": 0.0108,
+      "diff_pp": 0.6,
+      "high_leads": true
+     },
+     {
+      "year": 2023,
+      "high": 0.0757,
+      "low": 0.033,
+      "diff_pp": 4.26,
+      "high_leads": true
+     },
+     {
+      "year": 2024,
+      "high": 0.1128,
+      "low": 0.0854,
+      "diff_pp": 2.74,
+      "high_leads": true
+     },
+     {
+      "year": 2025,
+      "high": 0.4326,
+      "low": 0.3502,
+      "diff_pp": 8.24,
+      "high_leads": true
+     },
+     {
+      "year": 2026,
+      "high": 0.0442,
+      "low": 0.0836,
+      "diff_pp": -3.94,
+      "high_leads": false
+     }
+    ],
+    "years": 7,
+    "high_leads": 6
+   },
+   "cagr_delta_pp": 1.79
+  },
+  "high_vs_shipped": {
+   "bootstrap": {
+    "obs_mean_daily": 2.8228198328908484e-05,
+    "p_one_sided": 0.3183,
+    "draws": 2000,
+    "block": 20,
+    "seed": 20261116,
+    "bars": 1661
+   },
+   "overlap": {
+    "decisions": 84,
+    "mean_overlap": 0.4929,
+    "mean_jaccard": 0.3728,
+    "swap_share": 0.9405,
+    "identical_days": 5,
+    "names_swapped_total": 213
+   },
+   "cagr_delta_pp": 0.79
+  }
+ },
+ "binding_bars_below_seats": {
+  "book_20M": 0,
+  "book_40M": 0,
+  "book_100M": 0
+ },
+ "crosscheck": {
+  "published_face_present": true,
+  "published_verdict": "DIFFERENCE_INSIDE_NOISE",
+  "diff_pp_published": 0.79,
+  "diff_pp_here": 0.79,
+  "jaccard_published": 0.3728,
+  "jaccard_here": 0.3728,
+  "diff_tol_pp": 0.05,
+  "jaccard_tol": 0.02,
+  "diff_agrees": true,
+  "jaccard_agrees": true,
+  "identical_days_published": 5,
+  "identical_days_here": 5,
+  "agree": true
+ },
+ "verdict": {
+  "verdict": "DIFFERENT_TICKETS_NOT_SEPARABLE",
+  "swap_share": 0.7619,
+  "mean_overlap": 0.6881,
+  "p_one_sided": 0.1044,
+  "years": 7,
+  "high_leads": 6,
+  "binding_bars": 0,
+  "sentence": "两档闸确实挑了不同的票（76% 的决策日），但这个差在自己的噪声里分不开：块自助分不开（p=0.104）——把一个不到 2pp 的非单调凸起当「更优的闸」是在挑噪声"
+ }
+}
