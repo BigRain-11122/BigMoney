@@ -2441,3 +2441,5 @@ CEO 一页纸与执行单（同一个读者件） | 最近实物: `results/etf_b
 **捕获律**：新方法入 `knowledge/METHODOLOGY_ASSETS.md` **E1384**（拼接跳空的符号是「谁在付钱」的一半）。
 
 **本地未达 origin commit 数**：0（push 后复核）。
+
+**S7**：`register_loop_task.ps1` 重注册成功，但 **S4U XML 翻转仍失败（拒绝访问）** → 任务留在默认 principal（LogonType 回归面，需提权主机手动过一遍——CEO 物理件）；first fire 21:08。pre-commit 爪在位；pre-push 爪本轮重装，CR 归一后与正典一致。`attrition_ledger_guard scan` CLEAN（4 个账本，无 active loss，2 处历史 shrink 记 healed）。pre-commit 曾以「心跳 GPU 面自相矛盾」拦一次，已按正法 `Tools/gpu_face.py apply` 用单探针重写后通过（未用 --no-verify）。
