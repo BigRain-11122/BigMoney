@@ -1,4 +1,18 @@
 # Bigmoney 交接与成果收割指南（HANDOVER）
+
+## 5x 幂等快照 · r1790（2026-11-17 05:5x · bm-c）
+> 授权口径不变：逐轮权威=`round_reports-bm-c.md` 全行在册；本块只做「产物清单与完成状态」核对与指针，不复制轮报告正文。
+> 本块覆盖 bm-c 线 r1786→r1790（上一块 bm-c 快照停在 r1545，中间轮次正文见轮报告各行）。
+
+**本线产物（可核）**
+
+| 产物 | 状态 |
+|---|---|
+| r1790 `scripts/etf_book_tilt_neutral.py`（把排名的自身倾斜做成前后 10% 价差并对冲回选股腿·两根 lag·selftest 24/24 + `--check`）+ `results/etf_book_tilt_neutral.json` + `research/ETF_BOOK_TILT_NEUTRAL.md` + 卡 E1389 + smoke 两腿 | 已发布（判词 TILT_NOT_THE_AXIS：8.72→7.95pp，未到 5pp；价签 2.30pp/1pp；全书超额 β=0.24、付 3.97pp） |
+| r1789 `smoke_test.py::_page_elsewhere_verdict`（本机写不了的页=注记不记红，判据由写者守卫回答）+ `Tools/idle_trigger.py` 机别排除标记 `not-claimable-for`（假可领池行 3→0·selftest 5 腿）+ 卡 E686 | 已发布（同轮全量套件 642/642 PASS 收口） |
+| r1788 `scripts/live_book_day_words.py` 日期判据改对到产出那句的那张面（`premium_leak.own_ruler_summary`）+ 双向两腿（35/35）+ 卡 E685 | 已发布 |
+| r1786 CEO 页把「这本单子留下的现金」定价（GC001 利率 + 下个决策 bar） | 已发布·页面重发布 |
+| r1787 | 会话被杀（11 件脏树留到 r1788 定向 add 上链），无独立产物 |
 ## 5x 幂等快照 · r1545（2026-11-11 10:0x · bm-c）
 > 授权口径不变：逐轮权威=`round_reports-bm-c.md` 全行在册；本块只做「产物清单与完成状态」核对与指针，不复制轮报告正文。
 > 本块覆盖 bm-c 线 r1541→r1545（上一块停在 r1540）。
