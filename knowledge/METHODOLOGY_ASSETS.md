@@ -16092,3 +16092,18 @@ results/etf_book_order/ORDER-2026-11-16.md §溢价腿的三条路（r1775）· 
 
 **正身**：scripts/idx_fut_carry_paper.py vol_target_arm/hedge_block（selftest 31/31）·
 results/idx_fut_carry_paper/SIZING.json · research/IDX_FUT_CARRY_PAPER.md
+
+## E1386 · 「8% 波动目标 + 100 万资本」在整数手上是不相容的两个约束（r1778 bm-c）
+
+盘上把票的 4 手按 8% 目标换算成 0.89 手就收手了 —— 但期货合约不可分割，0.89 手不是仓位。
+把同一句话当**硬上限（vol ≤ target）**读：1,000,000 × 8% = 80,000 元波动预算，而对冲臂 1 手 IC = 90,001 元，
+**预算买不到一手 → 0 手**；当**最近整数**读 → 1 手（9.0001%）；当票自己的回撤尺子读 → 4 手（36%，**4.5 倍预算**）。
+同一句话三个仓位、最多差 4 手 —— 这不是舍入噪声，是规格没说清「目标」是上限还是参照点。
+
+**三条路各自标价，不排序**：A 保 8% 上移资本（1 手需 1,125,012 元，+125,012；票的 4 手需 4,500,049）；
+B 保资本下移目标（1 手需 9.0001%，+1.0001pp；票的 4 手需 36.0004%）；C 两者都不动（0 手 = 这本书不做）。
+任何一条都是**改规格**（资本台阶或波动目标），不是调仓 —— 所以面只印价钱，不印推荐。
+
+How：任何「目标 + 资本」双约束的面，先跑一遍整数网格再谈仓位；先问目标读成 ≤ 还是 ≈，再问资本是不是台阶上的数。
+正身：scripts/idx_fut_carry_capital_ladder.py（selftest 20/20 + check ok:true）·
+results/idx_fut_carry_capital_ladder.json · research/IDX_FUT_CARRY_CAPITAL_LADDER.md

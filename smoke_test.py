@@ -1204,6 +1204,31 @@ def main() -> int:
     except Exception as e:
         check("product: the desk sheet refuses a gap instead of printing zero (r1701)",
               False, str(e))
+    # r1778: the sleeve's 8% vol target was printed as a fraction of a lot, and a fraction
+    # of a contract is not a position -- one IC lot hedged to the discount is 9.00% of a
+    # 1,000,000 book, so the 8% budget (80,000 CNY) buys zero whole lots while the ticket
+    # holds four (4.5x the budget). The same sentence read as a hard cap, a nearest integer
+    # and the ticket's own size gives 0 / 1 / 4 lots, so the face prints the capital
+    # ladder, the target ladder and the grid, and this guard re-derives every cell.
+    try:
+        _r = _leg_memo([sys.executable, "scripts/idx_fut_carry_capital_ladder.py", "selftest"], 120)
+        _tail = ((_r.stdout or _r.stderr).strip().splitlines() or ["no output"])[-1]
+        check("product: carry sleeve integer ladder (selftest)",
+              _r.returncode == 0, f"exit={_r.returncode} | {_tail[:90]}")
+    except Exception as e:
+        check("product: carry sleeve integer ladder (selftest)", False, str(e))
+    try:
+        _r = _leg_memo([sys.executable, "scripts/idx_fut_carry_capital_ladder.py", "check"], 180)
+        _tail = ((_r.stdout or _r.stderr).strip().splitlines() or ["no output"])[-1]
+        try:
+            _lad = json.loads(_tail)
+        except Exception:
+            _lad = {}
+        check("product: carry sleeve integer ladder (every cell re-derived)",
+              _r.returncode == 0 and bool(_lad.get("ok")),
+              f"exit={_r.returncode} | {_tail[:140]}")
+    except Exception as e:
+        check("product: carry sleeve integer ladder (every cell re-derived)", False, str(e))
     # r1691: the treasury curve verdict (T vs TF, DIRECTION-20261114 section 3) closed a line
     # as KILL. A closed line is only worth closing if the file that says so cannot be edited
     # by hand -- so the verdict is re-derived here from its own criteria and the page's two

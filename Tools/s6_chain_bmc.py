@@ -284,6 +284,15 @@ LEGS = [
     # futures leg so the ticket's excess carry is separable from the index's own move.
     # ~4s, no network (cached panels), adopts nothing.
     ("idx_fut_carry_paper", ["python", "scripts/idx_fut_carry_paper.py", "run"]),
+    # r1778: the paper re-read the ticket under the book's 8% vol target and printed the
+    # fraction the eye skips -- one IC lot hedged to the discount is 9.00% of a 1,000,000
+    # book, so the 8% budget buys zero whole lots while the ticket holds four (4.5x the
+    # budget). This leg turns that into an integer face: the capital ladder, the target
+    # ladder, the capital x target grid, and the same cell read as a hard cap, a nearest
+    # integer and the ticket's own size -- which are 0, 1 and 4 lots. It reads SIZING.json
+    # and the ledger's ticket line; it re-derives no volatility and judges nothing.
+    # ~1s, no network, adopts nothing.
+    ("idx_fut_carry_capital_ladder", ["python", "scripts/idx_fut_carry_capital_ladder.py", "run"]),
     # r1136: the futures TSMOM sleeve was measured on 10-27 (standalone Sharpe 0.27, but
     # 50/50 with the ETF book 1.059 vs 0.98 alone at a smaller drawdown) and there was no
     # daily face for it -- the "produced but never read" class this repo keeps recording

@@ -67,6 +67,8 @@ LEDGER_DIR = os.path.join(ROOT, "results", "idx_fut_carry_paper")
 LEDGER_PATH = os.path.join(LEDGER_DIR, "LEDGER.json")
 LATEST_PATH = os.path.join(LEDGER_DIR, "latest.json")
 DESK_PATH = os.path.join(ROOT, "results", "idx_fut_desk_sheet.json")
+# r1778: the integer face that says what the vol target's fraction rounds to
+LADDER_PATH = os.path.join(ROOT, "results", "idx_fut_carry_capital_ladder.json")
 
 CAPITAL_CNY = 1_000_000.0   # the desk sheet's stated capital rung
 REPLAY_YEARS = 1.0          # the labelled comparison window, not part of the NAV series
@@ -770,6 +772,63 @@ def write_doc(latest, sizing=None):
                "cross-index hedge leaves that residual behind, and it is not netted out of "
                "the net-carry column.")
     out.append("")
+    # r1778: the section above prints the target's answer as a fraction of a lot, and a
+    # contract is not divisible -- one IC lot hedged to the discount is 9.00% of a 1,000,000
+    # book, so the 8% budget buys ZERO whole lots while the ticket holds four. The same
+    # sentence therefore names three positions depending on how it is read; that integer
+    # face lives in scripts/idx_fut_carry_capital_ladder.py and this page carries its
+    # answer rather than leaving the fraction to be read as a size.
+    lad = _load(LADDER_PATH)
+    out.append("## the same target read in whole lots")
+    out.append("")
+    if not lad or not (lad.get("accounts") or {}):
+        out.append("No integer-ladder face on disk, so the fraction above is arithmetic "
+                   "only -- this page does not guess what it rounds to.")
+        out.append("")
+    else:
+        out.append("| product | budget at the target | vol of 1 lot (hedged) | "
+                   "lots if the target is a ceiling | nearest integer | the ticket's lots | "
+                   "verdict |")
+        out.append("|---|---|---|---|---|---|---|")
+        for prod, d in sorted((lad.get("accounts") or {}).items()):
+            if d.get("status") != "ok":
+                out.append("| %s | -- | -- | -- | -- | -- | %s |"
+                           % (prod, d.get("status")))
+                continue
+            r = d.get("readings") or {}
+            out.append("| %s | %s CNY | %s CNY | %d | %d | %s | %s |"
+                       % (prod, "{:,.0f}".format(d["budget_cny_at_target"]),
+                          "{:,.0f}".format(d["per_lot_vol_cny_hedged"]),
+                          r.get("hard_cap_vol_le_target"), r.get("nearest_integer"),
+                          r.get("reference_ticket_lots"), d.get("verdict")))
+        out.append("")
+        out.append("**Read this beside the fraction above.**  The same sentence -- "
+                   "\"%g%% vol target\" -- names three positions: 0 / 1 / %s lots at "
+                   "1,000,000 CNY.  Each way out has a price, and the page prints it "
+                   "whole:"
+                   % (TARGET_VOL_PCT, (list((lad.get("accounts") or {}).values())[0]
+                                       .get("readings") or {}).get("reference_ticket_lots")))
+        out.append("")
+        for prod, d in sorted((lad.get("accounts") or {}).items()):
+            if d.get("status") != "ok":
+                continue
+            o = d.get("options") or {}
+            a = o.get("A_keep_target_raise_capital") or {}
+            b = o.get("B_keep_capital_lower_target") or {}
+            c = o.get("C_keep_both_no_trade") or {}
+            out.append("- **%s**  A keep %g%%: one lot needs %s CNY; B keep %s CNY: one lot "
+                       "needs %.4f%%; C keep both: %s lot."
+                       % (prod, d["target_pct"],
+                          "{:,.0f}".format(a.get("capital_for_one_lot_cny") or 0),
+                          "{:,.0f}".format(d["capital_cny"]),
+                          b.get("target_needed_pct_for_one_lot") or 0, c.get("lots")))
+        out.append("")
+        out.append("These are not a preference ordering -- A spends capital, B spends risk, "
+                   "C spends the sleeve -- and picking one changes either the capital rung "
+                   "or the vol target, which is a specification change rather than a sizing "
+                   "step.  The ladder face prints the full grid; this page only says that "
+                   "the fraction is not a size.")
+        out.append("")
     out.append("Entry is filled at the anchor close and rolls are booked at the same close "
                "(no slippage assumed, printed as `entry_fill_assumed_at_close` and "
                "`n_rolls` so a reader can charge them).")

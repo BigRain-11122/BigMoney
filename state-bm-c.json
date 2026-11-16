@@ -948,7 +948,7 @@
  "round_1689_next": "(a) price the rule, not the bucket: run the widest-quintile-only arm against hold-everything after the 8% vol leash and the repo leg -- the quintile table already says the entry with the least adverse widening is also the one with the most carry, so the open question is whether a book that waits costs more in idle cash than it collects; (b) moneyflow/LHB IC reference batch (the order second P1 candidate) is still claimed and its panel source-blocked -- check the collector self-heal before starting; (c) watchdog S4U needs one elevated re-register (28th).",
  "round_1689_note": "PRODUCT. r1686 left the basis line one untried axis: \"the discount-width timing test (basis percentile vs next 20d carry) is the cheapest way to turn a static premium into a rule\". Built: scripts/idx_fut_basis_timing.py (selftest 12/12) -- causal percentile over a trailing 250d window (60 obs min), forward window t+1..t+20 with roll days dropped, quintiles printed beside a stride-20 subsample that drops overlapping windows, Spearman on ranks, first/second half split. All four pairs pass the frozen H1/H2/H3: widest-quintile forward carry +0.584/+0.531/+0.513/+0.689pp per 20d at hit 82.5/77.4/86.0/80.6% vs narrowest -0.118/-0.032/-0.075/+0.271pp at 37.7/40.3/40.3/46.8%; spreads hold on stride-12 (0.854/0.513/0.670/0.133) and in both halves. The pair of numbers that decides what this is: fwd20-to-basis-change ratio 1.003/1.000/0.993/0.990 -> kind=convergence harvest, i.e. the rule is a prepayment schedule (wait for a wide discount, collect more of it closing), not a prediction. And the percentile adds nothing over the raw level (spearman level -0.478/-0.474/-0.443/-0.590 vs pct -0.429/-0.318/-0.432/-0.243; percentile_adds_over_level_pairs=[]), so any rule here can be written on the level directly. Adverse side is the surprise: entering at the widest discount had the SMALLEST subsequent widening (median 0.185/0.214/0.231/0.277pp) and the narrowest the largest (0.583/0.923/0.471/1.038pp) -- higher carry and less drawdown, not a risk trade. Two selftest legs caught real defects before publication: adverse_widening used max() and reported the discount closing as a drawdown (the basis is negative when wide, so the window MINIMUM is the adverse side), and convergence_share carried an off-by-one that double-counted a step the holder never takes (basis_face convention: spread[j] is the step dates[j]->dates[j+1]). Neither face had a chain leg -- both were typed by hand on 11-14 -- so both now ride straight behind update_futures; chain --only 2/2 rc0. Latest percentiles: IH 13.4 (widest quintile, fires), IF 23.8, IC 38.6, IM 48.2.",
  "round_label": "1704",
- "round_no": 1777,
+ "round_no": 1778,
  "round_no_label": "r1739",
  "round_no_landed": 1663,
  "round_note": "r1489: a reinstated bar is re-derived from the panel, not carried over (reinstatement_check + reinstatements.json + sheet paragraph)",
@@ -1517,7 +1517,7 @@
  "takeover_note": "the 2026-11-16 14:05 round was silence-killed at 14:38 with 25 min of no output; it had already written the whole face (14:19) plus card E679 and the CODELY lines, so this 14:40 round took over the closeout instead of redoing science: no script, number or verdict changed here",
  "task": "r1777: the ticket 4 lots re-read under the 8% vol target (0.89 lot hedged / 0.18 unhedged) with the hedge priced at the short leg own carry",
  "total_ram_gb": 55.9,
- "ts": "2026-11-16T17:01:22+08:00",
+ "ts": "2026-11-16T23:05:36+08:00",
  "ts_epoch": 1794812499,
  "unverified": [
   "全量套件未覆盖本轮改动（起跑早于两条新腿；上一绿 612/612 @11:44:38 同样早于本轮）",
@@ -1527,8 +1527,8 @@
   "正贡献月计数不含「贡献为零的月份」（83 月中 0 个零值月，此处恰好不影响）"
  ],
  "update_daily": "rc0 0 new rows, cutoff 2026-11-13 (Sunday, no new bar)",
- "updated": "2026-11-16T12:59:18+08:00",
- "updated_at": "2026-11-16 12:59:18",
+ "updated": "2026-11-16T23:05:36+08:00",
+ "updated_at": "2026-11-16 23:05:36",
  "vcpu": 32,
  "verdict": "NO_VISIBLE_CONDITION",
  "verify": "etf_book_order --selftest 238/238 PASS (new leg48m/48n/48o) | etf_book_ceo_page selftest 417/417 PASS (new L140e2/L140e3) | ORDER-2026-11-13.md and LIVE-BOOK-20261116.md regenerated, same sentence ('离座位线还有 **46 只**缓冲')",
@@ -1551,6 +1551,10 @@
  "verify_page_selftest": "etf_book_ceo_page selftest 408/408 PASS (unchanged); page rebuilt, same sentence now carries the decay line",
  "verify_premise": "the r1751 premise was re-derived, not inherited: 1.7731% comes from CL.roll_rung(..., fees=None) which subtracts fee_bp(name, FEE_BP) on every contract, and the vehicle face publishes the same rate under net_ann_pct -- so ¥10,075 was already net",
  "verify_print": "results/etf_book_order/ORDER-2026-11-13.md 第 262 行 + docs/live_book/LIVE-BOOK-20261116.md 第 821 行：5 个位置 / 中位 262 只 / 最薄 51 只 / 10.2 倍",
+ "verify_r1778": "idx_fut_carry_capital_ladder selftest 20/20 PASS | check rc0 ok=true problems=[] (re-derives every ladder/grid/option cell from SIZING.json, cross-reads the ticket lots from LEDGER.json, asserts the one-lot identity against the sizing face and the ladder monotonicity) | face: IC 1 lot 90,000.98 CNY (9.0001% of 1,000,000), budget 80,000, readings 0/1/4 -> THE_RULER_DECIDES_THE_LOTS | IM 1 lot 92,163.18 (9.2163%), readings 0/1/4 | overrun IC 4.5x the budget (36.00% of capital), IM 4.6082x (36.87%)",
+ "verify_r1778_face": "results/idx_fut_carry_capital_ladder.json + research/IDX_FUT_CARRY_CAPITAL_LADDER.md; the grid at 1,000,000 reads 8% -> 0 lots and 10% -> 1 lot, at 1,250,000 8% -> 1, at 3,000,000 12% -> 3",
+ "verify_r1778_roads": "road A (keep 8%) one lot needs 1,125,012 CNY (+125,012), the ticket's 4 lots need 4,500,049 | road B (keep 1,000,000) one lot needs 9.0001% (+1.0001pp), the ticket's 4 lots need 36.0004% | road C (keep both) 0 lots | IM: A 1,152,040 / B 9.2163% / C 0 -- printed as prices, never as a preference ordering",
+ "verify_r1778_wiring": "Tools/s6_chain_bmc.py leg idx_fut_carry_capital_ladder after idx_fut_carry_paper (single-leg run rc0 0.1s) | smoke_test.py two legs (selftest + check) added beside the r1701 desk-sheet pair | idx_fut_carry_paper write_doc gained the 'same target read in whole lots' section reading the ladder face (carry paper selftest 31/31 still PASS, run rc0 0 bars appended)",
  "verify_reader": "Tools/smoke_red.py --selftest 8 PASS 0 FAIL; live read on a missing record -> rc2 UNKNOWN, never a pass",
  "verify_record": "injected RESULTS on a probe path: 3 legs / fail 1 / failed[0]={leg b, boom detail}; a green run -> fail 0, failed []",
  "verify_ref": "research/MONEYFLOW_IC_VERDICT.md gains a pointer section so the sell-leg hunch in its section 3 item 2 is not acted on",
@@ -1586,5 +1590,5 @@
  "went_well": "the fix keeps the old states reachable: a card with one unqualified row still takes the position-free path, so no previously published verdict changed meaning",
  "when_well": "the exec panel reused lhb_sellleg verbatim by passing a net-of-cost panel instead of writing a second event study -- the two tables cannot disagree about the quintiles because there is only one implementation",
  "who_did": "bm-c",
- "当前任务": "r1769: 强制留座臂（r1768 指出的「换手 vs 持有在这条规则上不可观察」问题的正法）。规则写在引擎自己的 select_hook：第 t 次决策买入的名字至少留到 t+k-1 期，k=1 即出版规则。k2/k3/k5 三档：book 年化 9.12 -> 7.86/6.71/5.58，成本腿从 -1.40 省到 -0.46pp，但选股腿从 7.45 掉到 4.79/5.28/5.83pp；配对日收益差 -1.25/-2.40/-3.56pp，块自助 p 0.35/0.17/0.13，而 MDE80 是 8.31/7.49/8.71pp -> MIN_HOLD_NOT_SEPARABLE。结构面：强制留座把新座占比 78.1% 压到 47.4%/33.3%/21.9%，代价是每期 12/10/14 座被流动性闸拿走（诚实计数）。"
+ "当前任务": "r1778: the 8% vol target read as an integer problem. One IC lot hedged to the discount carries 90,001 CNY/yr against an 80,000 CNY budget (8% of 1,000,000), so the hard-cap reading buys ZERO whole lots while the ticket holds four (4.5x the budget); the nearest-integer reading buys one (9.0001%), the ticket's own ruler buys four (36%). Same sentence, three positions -> THE_RULER_DECIDES_THE_LOTS. The face prints the capital ladder (1 lot needs 1,125,012 CNY), the target ladder (1 lot needs 9.0001%), the capital x target grid, and each road's price, and the carry paper's own page now carries the table."
 }

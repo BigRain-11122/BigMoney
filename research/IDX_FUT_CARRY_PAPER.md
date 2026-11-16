@@ -1,6 +1,6 @@
 # the carry sleeve, booked forward
 
-evidence cutoff: **2026-11-16** | contract bars to **2026-11-16** | generated 2026-11-16T22:32:14 | source judgement: `results/idx_fut_desk_sheet.json`
+evidence cutoff: **2026-11-16** | contract bars to **2026-11-16** | generated 2026-11-16T23:03:23 | source judgement: `results/idx_fut_desk_sheet.json`
 
 The two dates are printed because they are two dates: the ticket is judged on the continuous panel and the contract cache can lag it by a few sessions, so a ticket stamped with the judgement date is not a fill at that date.
 
@@ -43,6 +43,20 @@ Vol is measured on the same replay window as the block above (2025-11-17..2026-1
 **Read the two arms together.**  The ticket sizes on drawdown survival -- how many lots survive the drawdown this sleeve has already seen.  That is a different ruler from the book's 8% vol target: unhedged, one lot is mostly index beta, so the target buys a fraction of a lot; hedged to the discount it buys a whole lot or more.  The hedge is priced at the short leg's own carry, which is why the cheap hedge is the contract sitting nearest par -- shorting a leg that carries as much as the long one hands the sleeve away, and that shows up as a negative net carry rather than as a caveat.
 
 Basis risk is printed as the daily-return correlation of the two indices: a cross-index hedge leaves that residual behind, and it is not netted out of the net-carry column.
+
+## the same target read in whole lots
+
+| product | budget at the target | vol of 1 lot (hedged) | lots if the target is a ceiling | nearest integer | the ticket's lots | verdict |
+|---|---|---|---|---|---|---|
+| IC | 80,000 CNY | 90,001 CNY | 0 | 1 | 4 | THE_RULER_DECIDES_THE_LOTS |
+| IM | 80,000 CNY | 92,163 CNY | 0 | 1 | 4 | THE_RULER_DECIDES_THE_LOTS |
+
+**Read this beside the fraction above.**  The same sentence -- "8% vol target" -- names three positions: 0 / 1 / 4 lots at 1,000,000 CNY.  Each way out has a price, and the page prints it whole:
+
+- **IC**  A keep 8%: one lot needs 1,125,012 CNY; B keep 1,000,000 CNY: one lot needs 9.0001%; C keep both: 0 lot.
+- **IM**  A keep 8%: one lot needs 1,152,040 CNY; B keep 1,000,000 CNY: one lot needs 9.2163%; C keep both: 0 lot.
+
+These are not a preference ordering -- A spends capital, B spends risk, C spends the sleeve -- and picking one changes either the capital rung or the vol target, which is a specification change rather than a sizing step.  The ladder face prints the full grid; this page only says that the fraction is not a size.
 
 Entry is filled at the anchor close and rolls are booked at the same close (no slippage assumed, printed as `entry_fill_assumed_at_close` and `n_rolls` so a reader can charge them).
 
