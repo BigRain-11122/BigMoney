@@ -134,9 +134,15 @@ def load_contracts(prefix, months, cache_dir=None, fetch=None, sleep_s=None,
                    refresh=False, max_pull=None):
     """Every contract of this span, cache-first.  Missing/never-listed codes come back empty.
 
-    max_pull caps how many new codes one run may fetch, newest month first: the live end of
+    max_pull caps how many codes one run may re-fetch, newest month first: the live end of
     the series is the end that goes stale, so a capped run heals that end and leaves the
     rest for the next run instead of holding a chain leg for minutes.
+
+    `refresh` re-fetches those newest codes only -- it does not discard the rest of the
+    cache.  Reading every code as "no cache" because a refresh was asked for turns a capped
+    run into a six-contract universe, and the naming face then reports the whole book as
+    OBSERVED_UNUSABLE; a refresh is about the end that goes stale, not about throwing the
+    other 115 codes away.
     """
     fetch = fetch or fetch_contract
     sleep_s = CRITERIA["sleep_s"] if sleep_s is None else sleep_s
@@ -144,21 +150,23 @@ def load_contracts(prefix, months, cache_dir=None, fetch=None, sleep_s=None,
     syms = contract_symbols(prefix, months)
     order = list(reversed(syms)) if max_pull is not None else syms
     for sym in order:
-        rows = None if refresh else read_cached(sym, cache_dir)
-        if rows is None:
-            if max_pull is not None and len(pulled) >= max_pull:
-                deferred.append(sym)
-                continue
+        cached_rows = read_cached(sym, cache_dir)
+        re_pull = refresh and (max_pull is None or len(pulled) < max_pull)
+        rows = None
+        if re_pull:
             rows = fetch(sym)
-            if rows is None:                 # transport failure: not a listing fact, do not cache
+            if rows is None:                 # transport failure: keep the cache, not the gap
                 deferred.append(sym)
-                continue
-            write_cached(sym, rows, cache_dir)
-            pulled.append(sym)
-            if sleep_s:
-                time.sleep(sleep_s)
+                rows = cached_rows
+            else:
+                write_cached(sym, rows, cache_dir)
+                pulled.append(sym)
+                if sleep_s:
+                    time.sleep(sleep_s)
         else:
-            cached.append(sym)
+            rows = cached_rows
+            if rows is not None:
+                cached.append(sym)
         if rows:
             out[sym] = {r["date"]: (float(r["close"]), float(r["hold"]),
                                     float(r["volume"])) for r in rows}
