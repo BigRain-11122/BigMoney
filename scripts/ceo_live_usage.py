@@ -167,6 +167,11 @@ ETF_TICKET_LATEST = os.path.join(ROOT, "results", "etf_book_order",
 CARRY_OPEN_JSON = os.path.join(ROOT, "results",
                                "idx_fut_carry_open_capital.json")
 CARRY_OPEN_REL = "results/idx_fut_carry_open_capital.json"
+# r1787: the capital line says how much money the first lot needs; the timing face says
+# whether today is a day the rule wants that lot at all.  A reader who only sees the
+# first will fund the book on a day the second says to wait.
+CARRY_TIMING_JSON = os.path.join(ROOT, "results", "idx_fut_basis_timing.json")
+CARRY_TIMING_REL = "results/idx_fut_basis_timing.json"
 
 # Position ladder, v2 frozen canonical (DECISION_CHAIN v2 prereg, adopted
 # bm-c 2026-09-28; owner-canon rows in market_clock POSITION_LADDER):
@@ -702,6 +707,70 @@ def _carry_book_face():
     }
 
 
+def _carry_timing_face():
+    """v2.3 r1787: is today a day the entry rule wants the lot at all?
+
+    The capital line (⑦) answers "how much money does the first lot need".  The
+    timing face answers the other half of the same decision: the rule that survived
+    its own test (`verdict.verdict == "RULE"`) says *enter only when the discount
+    sits in the widest fifth of its trailing year*.  A page that prints only the
+    money invites the reader to fund the book on a day the rule says to wait.
+
+    Three rules, same as the section above:
+      * a missing face prints no number at all -- "not in the band" must never be
+        how the page says "I could not read the rule" (r98);
+      * the band edge is derived from the face's own quintile ladder, never typed
+        from memory;
+      * the direction is spelled out.  A WIDER discount is a LOWER percentile --
+        the name says "percentile" and the number goes the other way, which is
+        exactly the kind of label that gets read backwards (r1234).
+    """
+    d = _read_json(CARRY_TIMING_JSON)
+    if not d:
+        return {"present": False, "path": CARRY_TIMING_REL,
+                "note": "择时面未产出（缺面不读 0）"}
+    v = d.get("verdict") or {}
+    pairs = d.get("pairs") or {}
+    if not pairs or not v.get("verdict"):
+        return {"present": False, "path": CARRY_TIMING_REL,
+                "note": "择时面在册但无判决（不完整面不冒充）"}
+    # the band edge comes off the quintile ladder the producer published
+    edge = None
+    for code, e in pairs.items():
+        qs = e.get("quintiles") or []
+        if len(qs) >= 2 and qs[0].get("quintile") is not None:
+            edge = qs[1].get("quintile")
+            break
+    rows = {}
+    for code, e in sorted(pairs.items()):
+        lt = e.get("latest") or {}
+        rows[code] = {
+            "basis_pct": lt.get("basis_pct"),
+            "percentile": lt.get("percentile"),
+            "in_band": lt.get("in_widest_quintile"),
+            "passes_rule": (e.get("verdict") == "RULE"),
+        }
+    cut = None
+    for e in pairs.values():
+        cut = (e.get("window") or {}).get("to")
+        if cut:
+            break
+    return {
+        "present": True,
+        "path": CARRY_TIMING_REL,
+        "verdict": v.get("verdict"),
+        "kind": v.get("kind"),
+        "rule": v.get("rule"),
+        "passing_pairs": v.get("passing_pairs") or [],
+        "percentile_adds_over_level_pairs": v.get("percentile_adds_over_level_pairs") or [],
+        "ratio": v.get("median_fwd_to_basis_change_ratio"),
+        "band_edge_pct": edge,
+        "accounts": rows,
+        "evidence_cutoff": cut,
+        "source_generated": d.get("generated"),
+    }
+
+
 # r1785: the sheet below is a full build; the reader who already followed the
 # page needs the DIFFERENCE.  The producer (etf_book_exec_delta) has printed
 # that difference since r1563 and nothing on the page ever showed it, so
@@ -1115,6 +1184,7 @@ def build_payload(day: str) -> dict:
         "etf_order": _etf_order_face(),
         "book_identity": _book_identity_face(),
         "carry_book": _carry_book_face(),
+        "carry_timing": _carry_timing_face(),
         "freshness": _freshness_face(book, tape, regime.get("asof")),
         "chain_versions": [
             {"version": v, "status": s} for v, s in _version_banner()],
@@ -1711,6 +1781,54 @@ def render_md(p: dict) -> str:
                  f"{cb.get('source_generated')}｜cutoff "
                  f"{cb.get('evidence_cutoff')}｜尺子 "
                  f"`{cb.get('source_face')}`／`{cb.get('ladder_face')}`")
+    ct = p.get("carry_timing") or {}
+    if not ct.get("present"):
+        L.append(f"- 贴水择时：{ct.get('note') or '择时面未产出'}"
+                 f"（指针 `{ct.get('path')}`）——**时机这一半今天读不到，"
+                 "资金到首档也先别下单**")
+    else:
+        rowst = ct.get("accounts") or {}
+        edge = ct.get("band_edge_pct")
+        inband = [c for c, r in rowst.items() if r.get("in_band")]
+        verdict = ct.get("verdict")
+        if verdict == "RULE":
+            L.append(f"- **贴水择时（{verdict}）**：规则＝{ct.get('rule')}"
+                     f"；进场带是分位 **≤ {edge}%**（贴水越宽＝分位越低，"
+                     "数字方向与「宽」相反）")
+        else:
+            L.append(f"- **贴水择时（{verdict}）**：规则未通过检验，"
+                     "这条线**不按时机进出**，一直拿着（口径见出处）")
+        parts = []
+        for c in ("IC", "IM", "IF", "IH"):
+            r = rowst.get(c)
+            if not r:
+                continue
+            mark = "**在带内**" if r.get("in_band") else "不在带内"
+            pct = r.get("percentile")
+            parts.append(f"{c} 分位 {('?' if pct is None else round(pct, 1))}"
+                         f"（basis {('?' if r.get('basis_pct') is None else round(r.get('basis_pct'), 2))}%）{mark}")
+        L.append("  - " + "；".join(parts) if parts else "  - 分位读数缺")
+        if inband:
+            acct_codes = set((cb.get("accounts") or {}).keys()) if cb.get("present") else set()
+            openable = [c for c in inband if c in acct_codes]
+            L.append(f"  - 今天在带内：**{'、'.join(inband)}** —— "
+                     "时机这一半是开的"
+                     + ("" if openable else
+                        "；但其中没有一只有资金线（IF/IH 只作读数披露，"
+                        "这本书只对 IC/IM 建仓）"))
+        else:
+            L.append("  - 今天**四个品种都不在带内**：时机这一半是关的，"
+                     "等贴水回到最宽的五分之一")
+        L.append("  - **两个条件同时满足才下单**：资金到首档 ∧ 时机在带内。"
+                 "钱够了但不在带内＝继续等（省下的是更贵的预付款）；"
+                 "在带内但钱不够＝仍是 0 手")
+        if ct.get("percentile_adds_over_level_pairs") == []:
+            L.append("  - 诚实一条：这张面前后测过「分位是否比贴水水平多带信息」，"
+                     "答案是**没有**（`percentile_adds_over_level_pairs` 为空）——"
+                     "分位只是贴水水平的单调重排，所以这条规则也可以直接写在水平上")
+        L.append(f"  - 出处：`{ct.get('path')}`｜cutoff {ct.get('evidence_cutoff')}"
+                 f"｜generated {ct.get('source_generated') or '面未自带（读 window.to）'}"
+                 f"｜收敛比 {ct.get('ratio')}")
     L.append("")
     L.append("## ⑧ 诚实免责")
     L.append("")
@@ -2298,6 +2416,26 @@ def selftest() -> int:
               (_nd1 is None and "票面未印（缺面不读 0）" in md1)
               or (isinstance(_nd1, int)
                   and "下一次决策还有 **{} 个 bar**".format(_nd1) in md1))
+        # r1787: the money line and the timing line must both be on the page, and
+        # the page must say that BOTH are needed -- funding on a day the rule says
+        # wait is the mistake this section exists to prevent.
+        _ct1 = p1.get("carry_timing") or {}
+        check("the carry section carries the entry-timing half (r1787)",
+              _ct1.get("present") is True
+              and "贴水择时" in md1
+              and "分位" in md1
+              and "两个条件同时满足才下单" in md1)
+        check("the timing band edge is derived from the face, not typed (r1787)",
+              _ct1.get("band_edge_pct") is not None
+              and "分位 **≤ {}%**".format(_ct1.get("band_edge_pct")) in md1)
+        # a missing timing face must NOT read as "not in the band": it must say
+        # "I could not read the half, do not fund" (r98: unknown is not zero)
+        _deg4 = json.loads(json.dumps(p1))
+        _deg4["carry_timing"] = {"present": False, "path": CARRY_TIMING_REL,
+                                 "note": "择时面未产出（缺面不读 0）"}
+        _md4 = render_md(_deg4)
+        check("a missing timing face blocks funding instead of reading as out-of-band (r1787)",
+              "时机这一半今天读不到" in _md4 and "不在带内" not in _md4)
         _deg3 = json.loads(json.dumps(p1))
         _deg3["etf_order"] = dict(_deg3.get("etf_order") or {})
         _deg3["etf_order"]["next_decision_bars"] = None

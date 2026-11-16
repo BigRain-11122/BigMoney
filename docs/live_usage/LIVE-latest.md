@@ -1,6 +1,6 @@
 # CEO 实盘使用一页纸 · 2026-11-17
 
-> 自动生成 2026-11-17T03:02:21 · T-105 v2.1 · 纯聚合面（零新判据）· [版本台账](../../research/DECISION_CHAIN_LEDGER.md)
+> 自动生成 2026-11-17T04:02:53 · T-105 v2.1 · 纯聚合面（零新判据）· [版本台账](../../research/DECISION_CHAIN_LEDGER.md)
 
 ## ⓪ 本页新鲜度（先读这个）
 
@@ -162,6 +162,12 @@
   - 纸面账本 8 手**不删不改**，标签 `FUNDED_BY_A_LARGER_CAPITAL`（它记的是那份更大资本账户的行为，不是这本书的）
   - 撤单是**条件的**不是判词：资金补到首档后同一规则自动还回 1 手（撤单对资本，不对袖面）
 - 出处：`results/idx_fut_carry_open_capital.json`｜generated 2026-11-17T01:09:22+08:00｜cutoff 2026-11-16｜尺子 `results/idx_fut_carry_sizing_spec.json`／`results/idx_fut_carry_capital_ladder.json`
+- **贴水择时（RULE）**：规则＝enter only when the discount sits in the widest 20% of its trailing year；进场带是分位 **≤ 20%**（贴水越宽＝分位越低，数字方向与「宽」相反）
+  - IC 分位 38.6（basis -1.4%）不在带内；IM 分位 48.2（basis -1.27%）不在带内；IF 分位 23.8（basis -1.49%）不在带内；IH 分位 13.4（basis -1.5%）**在带内**
+  - 今天在带内：**IH** —— 时机这一半是开的；但其中没有一只有资金线（IF/IH 只作读数披露，这本书只对 IC/IM 建仓）
+  - **两个条件同时满足才下单**：资金到首档 ∧ 时机在带内。钱够了但不在带内＝继续等（省下的是更贵的预付款）；在带内但钱不够＝仍是 0 手
+  - 诚实一条：这张面前后测过「分位是否比贴水水平多带信息」，答案是**没有**（`percentile_adds_over_level_pairs` 为空）——分位只是贴水水平的单调重排，所以这条规则也可以直接写在水平上
+  - 出处：`results/idx_fut_basis_timing.json`｜cutoff 2026-11-13｜generated 面未自带（读 window.to）｜收敛比 0.996
 
 ## ⑧ 诚实免责
 

@@ -16178,3 +16178,27 @@ lots*100 == shares、Σamount + 现金 == NAV 两条在 selftest 里断言，
 正身：scripts/ceo_live_usage.py::_etf_order_face（selftest 含 3 腿）·
 docs/live_usage/LIVE-2026-11-17.md ⑥ 节 · smoke_test.py 新腿
 product: the CEO page prints what following the book means tomorrow (lots + cash)
+
+### E685 — 「这个日期对不对」的判据必须指向产出那个数的那张面（r1788 bm-c）
+
+**判例**：活书页（`docs/live_book/LIVE-BOOK-*.md`）「一句话」里那句
+「按 **DATE** 的读数，这张单里可核验的 N 只票…」的数字来自
+`etf_book_premium_leak.own_ruler_summary`（该面自己的 session），
+而日词普查的日期规则把它对到了旁边那张 `premium_forward.face_asof`。
+两张纸不是同一份：溢价前瞻面是从更晚才收的盘建的，**可以合法地落后一个交易日**。
+于是这条腿在两张面恰巧同日的日子里绿、在它们分开的日子里红——
+**测的是两张面今天是否同一天，不是这句话说得对不对**（r1690 / r1282 / r1594 族第三例）。
+2026-11-16 实锚：页 JSON 自己写着 `premium_forward.face_asof=2026-11-13`、
+`premium_leak.session=2026-11-16`，句子印 11-16 并配 159655 96.44 分位
+（面里确实是 96.44 且 in_own_top_decile=['159655']）→ 句子对、映射错、腿红。
+
+**落地三则**：
+①**先问「这个数是哪张面出的」再写字段路径**——照面的 artifact 反查一行，别照邻近字段猜；
+②**方向要双向钉死**：句子印面自己的日子=ok、印第三天的日子=mismatch（两条 selftest 腿，
+本卡落地时在 `scripts/live_book_day_words.py` selftest 35/35 里）；
+③**误红的代价是一条红腿被长期归到「他机单写面」族**：上一轮（r1784 勘误）把这条与
+bm-a 活书页停更的三条放在同一桶里，等于把自己的映射缺陷记成了别人的欠账。
+
+正身：`scripts/live_book_day_words.py::CLAIM_RULES`（改前 `premium_forward.face_asof`
+→ 改后 `premium_leak.session`）+ 同名 selftest 两腿 +
+`python -c "import smoke_test as s; print(s._leg_day_words())"` → `PRINTED_BUT_UNANCHORED`（绿）

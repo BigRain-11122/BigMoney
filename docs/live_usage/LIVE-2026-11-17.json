@@ -2,7 +2,7 @@
  "schema": "ceo_live_usage_v1_9",
  "ticket": "T-202609-28-105",
  "day": "2026-11-17",
- "generated": "2026-11-17T03:02:21",
+ "generated": "2026-11-17T04:02:53",
  "market": {
   "state": "RED",
   "asof": "2026-11-16",
@@ -506,7 +506,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 58660.6
+    "last_append_age_min": 58721.1
    },
    {
     "family": "FUND-VALUE-P1",
@@ -514,7 +514,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 59505.0
+    "last_append_age_min": 59565.6
    },
    {
     "family": "FUND-DIVLOWVOL-P1",
@@ -522,7 +522,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 56298.3
+    "last_append_age_min": 56358.9
    }
   ]
  },
@@ -940,6 +940,50 @@
   "evidence_cutoff": "2026-11-16",
   "source_face": "results/idx_fut_carry_sizing_spec.json",
   "ladder_face": "results/idx_fut_carry_capital_ladder.json"
+ },
+ "carry_timing": {
+  "present": true,
+  "path": "results/idx_fut_basis_timing.json",
+  "verdict": "RULE",
+  "kind": "convergence harvest (the window's carry IS the discount closing)",
+  "rule": "enter only when the discount sits in the widest 20% of its trailing year",
+  "passing_pairs": [
+   "IF",
+   "IC",
+   "IH",
+   "IM"
+  ],
+  "percentile_adds_over_level_pairs": [],
+  "ratio": 0.996,
+  "band_edge_pct": 20,
+  "accounts": {
+   "IC": {
+    "basis_pct": -1.4,
+    "percentile": 38.6,
+    "in_band": false,
+    "passes_rule": true
+   },
+   "IF": {
+    "basis_pct": -1.486,
+    "percentile": 23.8,
+    "in_band": false,
+    "passes_rule": true
+   },
+   "IH": {
+    "basis_pct": -1.5,
+    "percentile": 13.4,
+    "in_band": true,
+    "passes_rule": true
+   },
+   "IM": {
+    "basis_pct": -1.266,
+    "percentile": 48.2,
+    "in_band": false,
+    "passes_rule": true
+   }
+  },
+  "evidence_cutoff": "2026-11-13",
+  "source_generated": null
  },
  "freshness": {
   "status": "ok",

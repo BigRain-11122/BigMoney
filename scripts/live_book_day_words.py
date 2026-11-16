@@ -78,7 +78,14 @@ CLAIM_RULES = [
     (re.compile(r"上一次定稿 \*\*" + _D + r"\*\*"), ["book_decided_at"]),
     (re.compile(r"按新的收盘价（\*\*" + _D + r"\*\*）"), ["priced_bar"]),
     (re.compile(r"下一个动手日是 \*\*" + _D + r"\*\*"), ["next_rebalance_date"]),
-    (re.compile(r"按 \*\*" + _D + r"\*\* 的读数"), ["premium_forward.face_asof"]),
+    # r1788: this sentence ("按 DATE 的读数，这张单里可核验的 N 只票…") is the premium
+    # one-liner, and its numbers come from premium_leak.own_ruler_summary at that face's
+    # own session -- NOT from the premium-forward paper printed further down. The two are
+    # different papers and the forward one may sit a session behind (it is built from a
+    # panel that closes later), so reading this date against `premium_forward.face_asof`
+    # went green on the days the two happened to coincide and red on every day they did
+    # not -- a ruler that only agrees with itself (r1690 family, r1282/r1594).
+    (re.compile(r"按 \*\*" + _D + r"\*\* 的读数"), ["premium_leak.session"]),
     (re.compile(r"账只记到 " + _D), ["positions.ledger_bar"]),
     (re.compile(r"（" + _D + r" 报价）"), ["cash_yield.rate_date"]),
     (re.compile(r"重放回 " + _D + "~" + _D), ["stress.first", "stress.last"]),
@@ -655,6 +662,7 @@ def selftest():
     _doc = {"generated_for_date": "2026-11-14", "book_decided_at": "2026-11-11",
             "priced_bar": "2026-11-13", "next_rebalance_date": "2026-12-09",
             "premium_forward": {"face_asof": "2026-11-13"},
+            "premium_leak": {"session": "2026-11-13"},
             "positions": {"ledger_bar": "2026-11-13"},
             "cash_yield": {"rate_date": "2026-11-13"},
             "stress": {"first": "2005-02-23", "last": "2026-11-13"}}
@@ -696,6 +704,27 @@ def selftest():
         _c_unmapped["verdict"] == "PRINTED_SELF_DATED"
         and _c_unmapped["date_claims"]["n_unmapped"] == 1
         and _c_unmapped["date_claims"]["n_claims"] == 0, _c_unmapped["date_claims"])
+
+    # r1788: the premium one-liner quotes premium_leak's own session. The forward paper beside
+    # it may legitimately sit a session behind, so a page whose two faces disagree is healthy
+    # -- and a page whose sentence names a day neither face carries is not. Both directions
+    # are pinned, because the old mapping passed the second case by accident.
+    _txt_leak = ("## 一句话\n\n**今天不用动手。** 按 **2026-11-13** 的读数，"
+                 "这张单里可核验的 5 只票有 **1 只**站在各自历史的最高一档溢价里。\n")
+    _doc_split = dict(_doc, premium_forward={"face_asof": "2026-11-11"},
+                      premium_leak={"session": "2026-11-13"})
+    _c_leak = census(_doc_split, artifact="fixture/claims.json", printed=_txt_leak)
+    leg("the premium one-liner is read against the leak face it quotes, not the forward paper",
+        _c_leak["date_claims"]["n_mismatch"] == 0
+        and [r["field"] for r in _c_leak["date_claims"]["claims"]]
+        == ["premium_leak.session"], _c_leak["date_claims"])
+    _c_leak_bad = census(_doc_split, artifact="fixture/claims.json",
+                         printed=_txt_leak.replace("2026-11-13", "2026-11-12"))
+    leg("a premium one-liner that names a day neither face carries is a mismatch",
+        _c_leak_bad["date_claims"]["n_mismatch"] == 1
+        and _c_leak_bad["date_claims"]["mismatches"][0]["field"] == "premium_leak.session"
+        and "2026-11-12" in _c_leak_bad["sentence"]
+        and "2026-11-13" in _c_leak_bad["sentence"], _c_leak_bad["date_claims"])
 
     _c_two = census(_doc, artifact="fixture/claims.json",
                     printed="## 最坏\n\n把今天这 5 只票重放回 2005-02-23~2026-11-13 的老面板。\n")
