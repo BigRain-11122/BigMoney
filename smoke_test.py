@@ -5669,6 +5669,15 @@ def main() -> int:
              "scripts/etf_book_seat_hold.py", ["--selftest"]),
             ("product: etf_book_seat_hold (published verdict still re-derives)",
              "scripts/etf_book_seat_hold.py", ["--check"]),
+            # Why the early window is small: the annualised gap is split into four cells
+            # (time in equity vs each state's own daily speed) by an identity that has to
+            # close, and the gap is then read through the same block bootstrap. The check
+            # leg re-derives every cell, every p and the verdict off the stored per-window
+            # daily series, so a printed reason that stopped following the data goes red.
+            ("product: etf_book_window_split (time in equity or the equity day itself)",
+             "scripts/etf_book_window_split.py", ["--selftest"]),
+            ("product: etf_book_window_split (cells and verdict still re-derive)",
+             "scripts/etf_book_window_split.py", ["--check"]),
             # The money question ("how big can this book get before impact eats it")
             # rests entirely on this one script: it re-derives both arms off one
             # engine and pins k=1 to the flat path to 1e-12. A rot here would print
