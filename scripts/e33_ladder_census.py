@@ -399,9 +399,15 @@ def main(argv):
     ap = argparse.ArgumentParser()
     ap.add_argument("cmd", nargs="?", default="run", choices=["run", "check"])
     ap.add_argument("--selftest", action="store_true")
+    # r1793: the docstring and the smoke leg both call this as `--check`, while argparse only
+    # knew the positional `check` -- so the reader-facing leg died on an unknown argument and
+    # the round that wired it reported a green it had never run. Accept both spellings.
+    ap.add_argument("--check", action="store_true")
     args = ap.parse_args(argv)
     if args.selftest:
         return selftest()
+    if args.check:
+        return check()
     if args.cmd == "check":
         return check()
     c = build()
