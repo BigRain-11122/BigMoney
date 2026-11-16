@@ -1,0 +1,175 @@
+{
+ "evidence_cutoff": "2026-11-13",
+ "panel_last_bar": "2026-11-13",
+ "script": "scripts/etf_book_corr_select.py",
+ "rule": {
+  "benchmark": "510300",
+  "gate_cny": 20000000.0,
+  "seats": 5,
+  "primary_arm": "pool15_win60",
+  "arms": [
+   {
+    "pool": 15,
+    "window": 60
+   },
+   {
+    "pool": 10,
+    "window": 60
+   },
+   {
+    "pool": 25,
+    "window": 60
+   },
+   {
+    "pool": 15,
+    "window": 120
+   },
+   {
+    "pool": 15,
+    "window": 40
+   }
+  ],
+  "mde_target_pp": 5.0,
+  "min_improve_pp": 1.0,
+  "cagr_give_back_pp": 1.0,
+  "control_tol_pp": 0.25,
+  "z80": 2.802,
+  "block": 20,
+  "draws": 2000,
+  "seed": 20261116,
+  "question": "with the seat count fixed, does picking the top-pool names that do not move together move the select leg's MDE80, and what does it cost in CAGR",
+  "causal": "the pick reads that bar's score row and returns up to that bar only",
+  "frozen": "criteria written before the run; --check re-derives the verdict"
+ },
+ "config": {
+  "rebal": 20,
+  "vol_target": 0.08,
+  "cost_bp_per_side": 10.0,
+  "universe_measured": 1520,
+  "flips_repaired": 169,
+  "run_seconds": 118.2
+ },
+ "control": {
+  "arm_cagr_pct": 9.12,
+  "published_cagr_pct": 9.12,
+  "delta_pp": -0.0,
+  "tol_pp": 0.25,
+  "replay_ok": true
+ },
+ "rows": [
+  {
+   "arm": "base",
+   "book_cagr_pct": 9.12,
+   "book_sharpe": 0.876,
+   "book_maxdd_pct": -12.07,
+   "select_ann_pp": 7.4451,
+   "select_mde80_pp": 8.7389,
+   "select_p_direction": 0.0055,
+   "excess_ann_pp": 7.7638,
+   "te_select_pp": 8.352,
+   "replay_max_rel": 9.709355455410595e-16,
+   "n_names_held": 119
+  },
+  {
+   "arm": "pool15_win60",
+   "book_cagr_pct": 4.87,
+   "book_sharpe": 0.536,
+   "book_maxdd_pct": -17.24,
+   "select_ann_pp": 5.3682,
+   "select_mde80_pp": 7.7241,
+   "select_p_direction": 0.0305,
+   "excess_ann_pp": 3.5661,
+   "te_select_pp": 7.765,
+   "replay_max_rel": 6.364546960005109e-16,
+   "n_names_held": 137,
+   "jaccard_vs_base": 0.5422,
+   "pool": 15,
+   "window": 60
+  },
+  {
+   "arm": "pool10_win60",
+   "book_cagr_pct": 5.39,
+   "book_sharpe": 0.562,
+   "book_maxdd_pct": -15.75,
+   "select_ann_pp": 5.4512,
+   "select_mde80_pp": 8.2444,
+   "select_p_direction": 0.037,
+   "excess_ann_pp": 4.0939,
+   "te_select_pp": 8.759,
+   "replay_max_rel": 1.5423865711295343e-15,
+   "n_names_held": 135,
+   "jaccard_vs_base": 0.6601,
+   "pool": 10,
+   "window": 60
+  },
+  {
+   "arm": "pool25_win60",
+   "book_cagr_pct": 4.44,
+   "book_sharpe": 0.5,
+   "book_maxdd_pct": -12.78,
+   "select_ann_pp": 2.7884,
+   "select_mde80_pp": 6.9779,
+   "select_p_direction": 0.1379,
+   "excess_ann_pp": 3.1501,
+   "te_select_pp": 7.196,
+   "replay_max_rel": 8.167549758269433e-16,
+   "n_names_held": 163,
+   "jaccard_vs_base": 0.4536,
+   "pool": 25,
+   "window": 60
+  },
+  {
+   "arm": "pool15_win120",
+   "book_cagr_pct": 4.63,
+   "book_sharpe": 0.507,
+   "book_maxdd_pct": -17.68,
+   "select_ann_pp": 5.2337,
+   "select_mde80_pp": 8.7771,
+   "select_p_direction": 0.049,
+   "excess_ann_pp": 3.3332,
+   "te_select_pp": 8.658,
+   "replay_max_rel": 2.102495513209147e-15,
+   "n_names_held": 141,
+   "jaccard_vs_base": 0.5569,
+   "pool": 15,
+   "window": 120
+  },
+  {
+   "arm": "pool15_win40",
+   "book_cagr_pct": 5.1,
+   "book_sharpe": 0.556,
+   "book_maxdd_pct": -19.13,
+   "select_ann_pp": 5.9818,
+   "select_mde80_pp": 8.0069,
+   "select_p_direction": 0.0205,
+   "excess_ann_pp": 3.81,
+   "te_select_pp": 8.08,
+   "replay_max_rel": 2.0359271905184335e-15,
+   "n_names_held": 140,
+   "jaccard_vs_base": 0.5325,
+   "pool": 15,
+   "window": 40
+  }
+ ],
+ "primary": {
+  "arm": "pool15_win60",
+  "book_cagr_pct": 4.87,
+  "book_sharpe": 0.536,
+  "book_maxdd_pct": -17.24,
+  "select_ann_pp": 5.3682,
+  "select_mde80_pp": 7.7241,
+  "select_p_direction": 0.0305,
+  "excess_ann_pp": 3.5661,
+  "te_select_pp": 7.765,
+  "replay_max_rel": 6.364546960005109e-16,
+  "n_names_held": 137,
+  "jaccard_vs_base": 0.5422,
+  "pool": 15,
+  "window": 60
+ },
+ "verdict": "CORR_MOVES_FLOOR",
+ "arm": "pool25_win60",
+ "mde80_pp": 6.9779,
+ "base_mde80_pp": 8.7389,
+ "sentence": "相关约束选股把地板从 8.74pp 挪到 **6.98pp**（pool25_win60 臂，1.76pp），但仍没到 5.0pp；年化 4.44% vs 9.12%。"
+}

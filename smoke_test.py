@@ -5619,6 +5619,16 @@ def main() -> int:
              "scripts/etf_book_seat_mde.py", ["--selftest"]),
             ("product: etf_book_seat_mde (published verdict still re-derives)",
              "scripts/etf_book_seat_mde.py", ["--check"]),
+            # r1765 closes the second axis after breadth: with the seat count fixed, does
+            # picking names that do not move together buy the same floor down? The legs pin
+            # the causal pick (the twin of the top name must be avoided, flat correlations
+            # must keep score order, a thin row must refuse rather than pad), the Jaccard
+            # identity, and the four verdict states including "a floor that moved is not yet
+            # the key".
+            ("product: etf_book_corr_select (does de-correlated picking buy the floor)",
+             "scripts/etf_book_corr_select.py", ["--selftest"]),
+            ("product: etf_book_corr_select (published verdict still re-derives)",
+             "scripts/etf_book_corr_select.py", ["--check"]),
             # The money question ("how big can this book get before impact eats it")
             # rests entirely on this one script: it re-derives both arms off one
             # engine and pins k=1 to the flat path to 1e-12. A rot here would print
