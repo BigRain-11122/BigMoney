@@ -1,0 +1,132 @@
+{
+ "accounts": {
+  "IC": {
+   "budget_cny_at_target": 80000.0,
+   "capital_cny": 1000000.0,
+   "desk_ticket": {
+    "capital_the_ticket_needs_cny": 4500049.0,
+    "conformance": "OUT_OF_RULER",
+    "lots": 4,
+    "multiple_of_budget": 4.5
+   },
+   "executable_ticket": {
+    "lots": 0,
+    "state": "WITHDRAWN",
+    "withdrawn_lots": 4
+   },
+   "forward_paper": {
+    "label": "FUNDED_BY_A_LARGER_CAPITAL",
+    "last_date": "2026-11-16",
+    "lots_in_ledger": 4,
+    "note": "kept as an append-only evidence line: it is what a capital_the_ticket_needs_cny account would have done",
+    "notional_basis_cny": 5100000.0
+   },
+   "funding": {
+    "first_rung_cny": 1125012.25,
+    "gap_cny": 125012.25,
+    "gap_pct_of_capital": 12.5012,
+    "rung_multiple_of_book": 1.125
+   },
+   "per_lot_vol_cny_hedged": 90000.98,
+   "ruler": {
+    "admissible_lots": 0,
+    "state": "BELOW_FIRST_RUNG"
+   },
+   "status": "ok",
+   "target_pct": 8.0
+  },
+  "IM": {
+   "budget_cny_at_target": 80000.0,
+   "capital_cny": 1000000.0,
+   "desk_ticket": {
+    "capital_the_ticket_needs_cny": 4608159.0,
+    "conformance": "OUT_OF_RULER",
+    "lots": 4,
+    "multiple_of_budget": 4.6082
+   },
+   "executable_ticket": {
+    "lots": 0,
+    "state": "WITHDRAWN",
+    "withdrawn_lots": 4
+   },
+   "forward_paper": {
+    "label": "FUNDED_BY_A_LARGER_CAPITAL",
+    "last_date": "2026-11-16",
+    "lots_in_ledger": 4,
+    "note": "kept as an append-only evidence line: it is what a capital_the_ticket_needs_cny account would have done",
+    "notional_basis_cny": 5021440.0
+   },
+   "funding": {
+    "first_rung_cny": 1152039.75,
+    "gap_cny": 152039.75,
+    "gap_pct_of_capital": 15.204,
+    "rung_multiple_of_book": 1.152
+   },
+   "per_lot_vol_cny_hedged": 92163.18,
+   "ruler": {
+    "admissible_lots": 0,
+    "state": "BELOW_FIRST_RUNG"
+   },
+   "status": "ok",
+   "target_pct": 8.0
+  }
+ },
+ "arm_used_for_decision": "hedged",
+ "book": {
+  "cheapest_to_open": {
+   "funding_cny": 1125012.25,
+   "product": "IC"
+  },
+  "executable_lots_total": 0,
+  "forward_paper_lots_total": 8,
+  "funding_for_all_legs_cny": 2277052.0,
+  "withdrawn_lots_total": 8
+ },
+ "evidence_cutoff": "2026-11-16",
+ "generated": "2026-11-17T00:57:35+08:00",
+ "kind": "idx_fut_carry_open_capital",
+ "ladder_source_face": "results/idx_fut_carry_capital_ladder.json",
+ "roads_that_bring_it_back": [
+  {
+   "adopted": true,
+   "gets": "1 lot (and one more lot per further rung)",
+   "needs_cny": 1125012.25,
+   "product": "IC",
+   "road": "fund_to_first_rung"
+  },
+  {
+   "adopted": false,
+   "because_not": "that road spends drawdown tolerance to fit a contract -- see the adoption record",
+   "gets": "1 lot(s)",
+   "needs_pct": 9.0001,
+   "product": "IC",
+   "road": "B_keep_capital_lower_target"
+  },
+  {
+   "adopted": true,
+   "gets": "1 lot (and one more lot per further rung)",
+   "needs_cny": 1152039.75,
+   "product": "IM",
+   "road": "fund_to_first_rung"
+  },
+  {
+   "adopted": false,
+   "because_not": "that road spends drawdown tolerance to fit a contract -- see the adoption record",
+   "gets": "1 lot(s)",
+   "needs_pct": 9.2163,
+   "product": "IM",
+   "road": "B_keep_capital_lower_target"
+  }
+ ],
+ "sentence": "To open this book at all needs 1,125,012 CNY of capital (IC account). IC is 125,012 CNY short of its first lot (capital 1,000,000, gap 12.50%). IM is 152,040 CNY short of its first lot (capital 1,000,000, gap 15.20%). IC: the desk's 4 lot(s) are withdrawn from the ticket and the executable line is 0; IM: the desk's 4 lot(s) are withdrawn from the ticket and the executable line is 0. The forward paper series that ran on 8 lot(s) across the accounts is kept and labelled FUNDED_BY_A_LARGER_CAPITAL: it is what a larger account would have done, not what this one can. It comes back the moment the capital does.",
+ "source_face": "results/idx_fut_carry_sizing_spec.json",
+ "upstream_source_face": "results/idx_fut_carry_capital_ladder.json",
+ "withdrawal": {
+  "because": "at today's capital the adopted 8% hard cap allows zero lots (r1779), so a ticket that carries the desk's four lots is an instruction the book's own risk standard forbids; leaving it there also keeps a forward paper series alive that no 1,000,000 CNY account could have held -- the series would read as performance when it is a counterfactual about a larger account",
+  "decided": "2026-11-17",
+  "decided_in": "bm-c round 1780",
+  "decision": "WITHDRAW_FROM_TICKET",
+  "reversal": "fund the account to the first rung and re-run: the same rule hands the ticket back one lot and this file prints it -- the withdrawal is conditional on capital, not a judgement about the sleeve",
+  "scope": "the executable ticket only. The forward paper series is an append-only evidence line: it is re-labelled FUNDED_BY_A_LARGER_CAPITAL, never rewritten, truncated or deleted"
+ }
+}
