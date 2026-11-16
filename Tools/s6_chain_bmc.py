@@ -269,6 +269,15 @@ LEGS = [
     # gap splits into +24.65bp commission and -75.45bp rate, so nearly half of "the market
     # pays less" is the vehicle's own fee. ~3s, no network, changes no ticket.
     ("etf_book_cash_caliber_band", ["python", "scripts/etf_book_cash_caliber_band.py"]),
+    # r1791: idx_fut_basis.load_index returns the on-disk cache the moment the file
+    # exists, so data/index_daily could only move when a human ran download_indexes.py.
+    # Nobody did -- on 2026-11-17 the four files ended 2026-11-13 while the futures panel
+    # had bars through 11-16, and r1777 recorded the carry book's discount legs as "a
+    # no-producer face, not a data-source failure". This is the producer: append-only,
+    # overlap-checked (a re-based vendor row is refused, not swallowed), 15:30
+    # completeness gate, zero-network no-op when current, bm-c lane (R31). It changes no
+    # reader -- it stops the cache from freezing. ~30s when stale, instant no-op after.
+    ("update_index_daily", ["python", "scripts/update_index_daily.py"]),
     # r1701: the carry family had a judgement but nothing a desk could act on -- no contract
     # name, no lot count, no margin, no next-roll answer, and the IM/IH gap was refused
     # without saying why. This leg publishes the morning sheet off the panels the legs above

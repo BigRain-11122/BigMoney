@@ -1321,6 +1321,41 @@ def main() -> int:
     except Exception as e:
         check("product: the ticket says what it costs to open and which line is executable",
               False, str(e))
+    # r1791: the index panel behind every carry discount leg had no producer -- the cache
+    # was frozen at whatever day a human last ran download_indexes.py (r1777 recorded it as
+    # a no-producer face). Two legs: the refresh's own merge rules, and the one thing a
+    # merge gate cannot check about itself -- that the panel on disk actually reaches the
+    # same bar the futures panel does, so a reader dividing by it is not dividing by a
+    # week-old close.
+    try:
+        _r = _leg_memo([sys.executable, "scripts/update_index_daily.py", "--selftest"], 120)
+        _tail = ((_r.stdout or _r.stderr).strip().splitlines() or ["no output"])[-1]
+        check("product: index daily panel has a producer (selftest)",
+              _r.returncode == 0, f"exit={_r.returncode} | {_tail[:90]}")
+    except Exception as e:
+        check("product: index daily panel has a producer (selftest)", False, str(e))
+    try:
+        import csv as _csv
+        _idx = os.path.join(PATHS.root, "data", "index_daily")
+        _tails = {}
+        for _f in sorted(os.listdir(_idx)) if os.path.isdir(_idx) else []:
+            if not _f.endswith(".csv"):
+                continue
+            with open(os.path.join(_idx, _f), encoding="utf-8", newline="") as _fh:
+                _rows = [str(r.get("date") or "") for r in _csv.DictReader(_fh)]
+            _tails[_f[:-4]] = _rows[-1] if _rows else ""
+        _fut = os.path.join(PATHS.root, "data", "futures_daily", "IF.csv")
+        _ftail = ""
+        if os.path.exists(_fut):
+            with open(_fut, encoding="utf-8", newline="") as _fh:
+                _rows = [str(r.get("date") or "") for r in _csv.DictReader(_fh)]
+            _ftail = _rows[-1] if _rows else ""
+        _behind = {k: v for k, v in _tails.items() if _ftail and v and v < _ftail}
+        check("product: every index panel reaches the futures panel's last bar",
+              bool(_tails) and not _behind,
+              f"index tails={_tails} futures tail={_ftail} behind={_behind}")
+    except Exception as e:
+        check("product: every index panel reaches the futures panel's last bar", False, str(e))
     # r1691: the treasury curve verdict (T vs TF, DIRECTION-20261114 section 3) closed a line
     # as KILL. A closed line is only worth closing if the file that says so cannot be edited
     # by hand -- so the verdict is re-derived here from its own criteria and the page's two

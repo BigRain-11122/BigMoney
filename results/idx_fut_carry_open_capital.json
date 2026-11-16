@@ -4,10 +4,10 @@
    "budget_cny_at_target": 80000.0,
    "capital_cny": 1000000.0,
    "desk_ticket": {
-    "capital_the_ticket_needs_cny": 4500049.0,
+    "capital_the_ticket_needs_cny": 4491130.0,
     "conformance": "OUT_OF_RULER",
     "lots": 4,
-    "multiple_of_budget": 4.5
+    "multiple_of_budget": 4.4911
    },
    "executable_ticket": {
     "lots": 0,
@@ -22,12 +22,12 @@
     "notional_basis_cny": 5100000.0
    },
    "funding": {
-    "first_rung_cny": 1125012.25,
-    "gap_cny": 125012.25,
-    "gap_pct_of_capital": 12.5012,
-    "rung_multiple_of_book": 1.125
+    "first_rung_cny": 1122782.5,
+    "gap_cny": 122782.5,
+    "gap_pct_of_capital": 12.2782,
+    "rung_multiple_of_book": 1.1228
    },
-   "per_lot_vol_cny_hedged": 90000.98,
+   "per_lot_vol_cny_hedged": 89822.6,
    "ruler": {
     "admissible_lots": 0,
     "state": "BELOW_FIRST_RUNG"
@@ -39,10 +39,10 @@
    "budget_cny_at_target": 80000.0,
    "capital_cny": 1000000.0,
    "desk_ticket": {
-    "capital_the_ticket_needs_cny": 4608159.0,
+    "capital_the_ticket_needs_cny": 4600921.5,
     "conformance": "OUT_OF_RULER",
     "lots": 4,
-    "multiple_of_budget": 4.6082
+    "multiple_of_budget": 4.6009
    },
    "executable_ticket": {
     "lots": 0,
@@ -57,12 +57,12 @@
     "notional_basis_cny": 5021440.0
    },
    "funding": {
-    "first_rung_cny": 1152039.75,
-    "gap_cny": 152039.75,
-    "gap_pct_of_capital": 15.204,
-    "rung_multiple_of_book": 1.152
+    "first_rung_cny": 1150230.38,
+    "gap_cny": 150230.38,
+    "gap_pct_of_capital": 15.023,
+    "rung_multiple_of_book": 1.1502
    },
-   "per_lot_vol_cny_hedged": 92163.18,
+   "per_lot_vol_cny_hedged": 92018.43,
    "ruler": {
     "admissible_lots": 0,
     "state": "BELOW_FIRST_RUNG"
@@ -74,23 +74,23 @@
  "arm_used_for_decision": "hedged",
  "book": {
   "cheapest_to_open": {
-   "funding_cny": 1125012.25,
+   "funding_cny": 1122782.5,
    "product": "IC"
   },
   "executable_lots_total": 0,
   "forward_paper_lots_total": 8,
-  "funding_for_all_legs_cny": 2277052.0,
+  "funding_for_all_legs_cny": 2273012.88,
   "withdrawn_lots_total": 8
  },
  "evidence_cutoff": "2026-11-16",
- "generated": "2026-11-17T01:09:22+08:00",
+ "generated": "2026-11-17T05:46:32+08:00",
  "kind": "idx_fut_carry_open_capital",
  "ladder_source_face": "results/idx_fut_carry_capital_ladder.json",
  "roads_that_bring_it_back": [
   {
    "adopted": true,
    "gets": "1 lot (and one more lot per further rung)",
-   "needs_cny": 1125012.25,
+   "needs_cny": 1122782.5,
    "product": "IC",
    "road": "fund_to_first_rung"
   },
@@ -98,14 +98,14 @@
    "adopted": false,
    "because_not": "that road spends drawdown tolerance to fit a contract -- see the adoption record",
    "gets": "1 lot(s)",
-   "needs_pct": 9.0001,
+   "needs_pct": 8.9823,
    "product": "IC",
    "road": "B_keep_capital_lower_target"
   },
   {
    "adopted": true,
    "gets": "1 lot (and one more lot per further rung)",
-   "needs_cny": 1152039.75,
+   "needs_cny": 1150230.38,
    "product": "IM",
    "road": "fund_to_first_rung"
   },
@@ -113,12 +113,12 @@
    "adopted": false,
    "because_not": "that road spends drawdown tolerance to fit a contract -- see the adoption record",
    "gets": "1 lot(s)",
-   "needs_pct": 9.2163,
+   "needs_pct": 9.2018,
    "product": "IM",
    "road": "B_keep_capital_lower_target"
   }
  ],
- "sentence": "To open this book at all needs 1,125,012 CNY of capital (IC account). IC is 125,012 CNY short of its first lot (capital 1,000,000, gap 12.50%). IM is 152,040 CNY short of its first lot (capital 1,000,000, gap 15.20%). IC: the desk's 4 lot(s) are withdrawn from the ticket and the executable line is 0; IM: the desk's 4 lot(s) are withdrawn from the ticket and the executable line is 0. The forward paper series that ran on 8 lot(s) across the accounts is kept and labelled FUNDED_BY_A_LARGER_CAPITAL: it is what a larger account would have done, not what this one can. It comes back the moment the capital does.",
+ "sentence": "To open this book at all needs 1,122,782 CNY of capital (IC account). IC is 122,782 CNY short of its first lot (capital 1,000,000, gap 12.28%). IM is 150,230 CNY short of its first lot (capital 1,000,000, gap 15.02%). IC: the desk's 4 lot(s) are withdrawn from the ticket and the executable line is 0; IM: the desk's 4 lot(s) are withdrawn from the ticket and the executable line is 0. The forward paper series that ran on 8 lot(s) across the accounts is kept and labelled FUNDED_BY_A_LARGER_CAPITAL: it is what a larger account would have done, not what this one can. It comes back the moment the capital does.",
  "source_face": "results/idx_fut_carry_sizing_spec.json",
  "upstream_source_face": "results/idx_fut_carry_capital_ladder.json",
  "withdrawal": {

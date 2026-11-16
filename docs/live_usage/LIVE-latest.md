@@ -1,6 +1,6 @@
 # CEO 实盘使用一页纸 · 2026-11-17
 
-> 自动生成 2026-11-17T04:02:53 · T-105 v2.1 · 纯聚合面（零新判据）· [版本台账](../../research/DECISION_CHAIN_LEDGER.md)
+> 自动生成 2026-11-17T05:46:33 · T-105 v2.1 · 纯聚合面（零新判据）· [版本台账](../../research/DECISION_CHAIN_LEDGER.md)
 
 ## ⓪ 本页新鲜度（先读这个）
 
@@ -155,13 +155,13 @@
 ## ⑦ 指数期货 carry 书 · 开仓资金线（纯读出）
 
 - **这本书当前不开仓**：按采纳的硬上限尺子（arm=hedged），现金下可执行 **0 手**；桌上仓单已撤出可执行票面（撤下合计 8 手）
-  - IC：目标 8.0% · 可执行 **0 手**（WITHDRAWN·撤 4 手）· 首档 **1,125,012 元** · 差 125,012 元（12.50% 资本）· 桌上 4 手 = 4.50 倍波动预算
-  - IM：目标 8.0% · 可执行 **0 手**（WITHDRAWN·撤 4 手）· 首档 **1,152,040 元** · 差 152,040 元（15.20% 资本）· 桌上 4 手 = 4.61 倍波动预算
-- 最便宜入门：**IC 账户 1,125,012 元**；两条腿同时开 2,277,052 元
+  - IC：目标 8.0% · 可执行 **0 手**（WITHDRAWN·撤 4 手）· 首档 **1,122,782 元** · 差 122,782 元（12.28% 资本）· 桌上 4 手 = 4.49 倍波动预算
+  - IM：目标 8.0% · 可执行 **0 手**（WITHDRAWN·撤 4 手）· 首档 **1,150,230 元** · 差 150,230 元（15.02% 资本）· 桌上 4 手 = 4.60 倍波动预算
+- 最便宜入门：**IC 账户 1,122,782 元**；两条腿同时开 2,273,013 元
 - 撤单范围：`WITHDRAW_FROM_TICKET`（2026-11-17·bm-c round 1780）＝只撤可执行票面；前向纸面序列是 append-only 证据行，改标签不重写、不截断、不删除
   - 纸面账本 8 手**不删不改**，标签 `FUNDED_BY_A_LARGER_CAPITAL`（它记的是那份更大资本账户的行为，不是这本书的）
   - 撤单是**条件的**不是判词：资金补到首档后同一规则自动还回 1 手（撤单对资本，不对袖面）
-- 出处：`results/idx_fut_carry_open_capital.json`｜generated 2026-11-17T01:09:22+08:00｜cutoff 2026-11-16｜尺子 `results/idx_fut_carry_sizing_spec.json`／`results/idx_fut_carry_capital_ladder.json`
+- 出处：`results/idx_fut_carry_open_capital.json`｜generated 2026-11-17T05:46:32+08:00｜cutoff 2026-11-16｜尺子 `results/idx_fut_carry_sizing_spec.json`／`results/idx_fut_carry_capital_ladder.json`
 - **贴水择时（RULE）**：规则＝enter only when the discount sits in the widest 20% of its trailing year；进场带是分位 **≤ 20%**（贴水越宽＝分位越低，数字方向与「宽」相反）
   - IC 分位 38.6（basis -1.4%）不在带内；IM 分位 48.2（basis -1.27%）不在带内；IF 分位 23.8（basis -1.49%）不在带内；IH 分位 13.4（basis -1.5%）**在带内**
   - 今天在带内：**IH** —— 时机这一半是开的；但其中没有一只有资金线（IF/IH 只作读数披露，这本书只对 IC/IM 建仓）
