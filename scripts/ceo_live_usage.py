@@ -158,6 +158,16 @@ ETF_BOOK_FWD = os.path.join(ROOT, "results", "etf_book_forward", "LEDGER.json")
 ETF_TICKET_LATEST = os.path.join(ROOT, "results", "etf_book_order",
                                  "latest.json")
 
+# v2.2 (r1782): the index-futures carry book is the second money candidate, and
+# until now its only sentence on this page was nothing at all -- "this book buys
+# zero lots" lived in a research file.  The reader needs the funding line that
+# prices that zero.  Read-only: the page quotes the producer's numbers and
+# prints the producer's own generation stamp (r1781: a section fed by another
+# script must self-stamp, or it silently shows the previous trip's face).
+CARRY_OPEN_JSON = os.path.join(ROOT, "results",
+                               "idx_fut_carry_open_capital.json")
+CARRY_OPEN_REL = "results/idx_fut_carry_open_capital.json"
+
 # Position ladder, v2 frozen canonical (DECISION_CHAIN v2 prereg, adopted
 # bm-c 2026-09-28; owner-canon rows in market_clock POSITION_LADDER):
 LADDER = [
@@ -616,6 +626,82 @@ def _etf_book_face():
     }
 
 
+def _carry_book_face():
+    """v2.2: what it costs to open the index-futures carry book (pure readout).
+
+    Every number is quoted from results/idx_fut_carry_open_capital.json, which
+    itself only quotes the sizing ruler -- no second engine, no re-derivation.
+    Three rules that keep this honest:
+
+    * a missing face prints nothing numeric.  "0 lots" must never be how a page
+      says "I could not read the book" (r98: unknown is not zero);
+    * the section carries the source's own `generated` / `evidence_cutoff`.
+      This page runs AFTER that face on the chain, so a face rewritten later
+      leaves an older stamp here -- printed rather than silently averaged in
+      (r1781);
+    * the withdrawal touched the executable ticket only.  The forward paper
+      series is printed as kept and re-labelled, never as erased, and the desk
+      ticket keeps its lots as a counterfactual.
+    """
+    d = _read_json(CARRY_OPEN_JSON)
+    if not d:
+        return {"present": False, "path": CARRY_OPEN_REL,
+                "note": "资金线面未产出（缺面不读 0）"}
+    accts = d.get("accounts") or {}
+    if not accts:
+        return {"present": False, "path": CARRY_OPEN_REL,
+                "note": "资金线面在册但零账户（不完整面不冒充）"}
+    rows = {}
+    for code, a in sorted(accts.items()):
+        ruler = a.get("ruler") or {}
+        fund = a.get("funding") or {}
+        ticket = a.get("desk_ticket") or {}
+        ex = a.get("executable_ticket") or {}
+        fwd = a.get("forward_paper") or {}
+        rows[code] = {
+            "capital_cny": a.get("capital_cny"),
+            "target_pct": a.get("target_pct"),
+            "lots": ruler.get("admissible_lots"),
+            "ruler_state": ruler.get("state"),
+            "executable_lots": ex.get("lots"),
+            "executable_state": ex.get("state"),
+            "withdrawn_lots": ex.get("withdrawn_lots"),
+            "first_rung_cny": fund.get("first_rung_cny"),
+            "gap_cny": fund.get("gap_cny"),
+            "gap_pct": fund.get("gap_pct_of_capital"),
+            "desk_lots": ticket.get("lots"),
+            "desk_multiple": ticket.get("multiple_of_budget"),
+            "paper_lots": fwd.get("lots_in_ledger"),
+            "paper_label": fwd.get("label"),
+        }
+    book = d.get("book") or {}
+    wd = d.get("withdrawal") or {}
+    labels = {r.get("paper_label") for r in rows.values()} - {None}
+    return {
+        "present": True,
+        "path": CARRY_OPEN_REL,
+        "arm": d.get("arm_used_for_decision"),
+        "accounts": rows,
+        "paper_label": sorted(labels)[0] if len(labels) == 1 else None,
+        "executable_lots_total": book.get("executable_lots_total"),
+        "withdrawn_lots_total": book.get("withdrawn_lots_total"),
+        "paper_lots_total": book.get("forward_paper_lots_total"),
+        "funding_all_cny": book.get("funding_for_all_legs_cny"),
+        "cheapest_product": (book.get("cheapest_to_open") or {}).get("product"),
+        "cheapest_cny": (book.get("cheapest_to_open") or {}).get("funding_cny"),
+        "decision": wd.get("decision"),
+        "decided": wd.get("decided"),
+        "decided_in": wd.get("decided_in"),
+        "scope": wd.get("scope"),
+        "reversal": wd.get("reversal"),
+        "sentence": d.get("sentence"),
+        "source_generated": d.get("generated"),
+        "evidence_cutoff": d.get("evidence_cutoff"),
+        "source_face": d.get("source_face"),
+        "ladder_face": d.get("ladder_source_face"),
+    }
+
+
 # r1580: the two-books face lives in scripts/etf_book_identity.py so this
 # page and the daily report read ONE implementation instead of two that drift.
 _scripts_dir = os.path.dirname(os.path.abspath(__file__))
@@ -835,6 +921,7 @@ def build_payload(day: str) -> dict:
         "judgment_burns": _judgment_burn_face(),
         "etf_book": book,
         "book_identity": _book_identity_face(),
+        "carry_book": _carry_book_face(),
         "freshness": _freshness_face(book, tape, regime.get("asof")),
         "chain_versions": [
             {"version": v, "status": s} for v, s in _version_banner()],
@@ -1238,7 +1325,58 @@ def render_md(p: dict) -> str:
                      "这一行是实绩读数，不是判决。")
         L.append(f"  - 全页指针：`{eb['path']}`")
     L.append("")
-    L.append("## ⑦ 诚实免责")
+    L.append("## ⑦ 指数期货 carry 书 · 开仓资金线（纯读出）")
+    L.append("")
+    cb = p.get("carry_book") or {}
+    if not cb.get("present"):
+        L.append(f"- {cb.get('note') or '资金线面未产出'}（指针 "
+                 f"`{cb.get('path')}`）")
+    else:
+        acc = cb.get("accounts") or {}
+        lots0 = cb.get("executable_lots_total")
+
+        def _n(x, pct=0):
+            return "?" if x is None else (
+                _fmt_cny(x) if pct == 0 else f"{x:.{pct}f}")
+
+        head = ("- **这本书今天不开仓**：按采纳的硬上限尺子"
+                f"（arm={cb.get('arm')}），现金下可执行 "
+                f"**{lots0} 手**；"
+                if lots0 == 0 else
+                f"- 可执行 **{lots0} 手**（尺子 arm={cb.get('arm')}）；")
+        L.append(head + "桌上仓单已撤出可执行票面（撤下合计 "
+                 f"{cb.get('withdrawn_lots_total')} 手）")
+        for code in ("IC", "IM"):
+            a = acc.get(code)
+            if not a:
+                continue
+            L.append(f"  - {code}：目标 {_n(a.get('target_pct'), 1)}% · "
+                     f"可执行 **{a.get('executable_lots')} 手**"
+                     f"（{a.get('executable_state')}·撤 "
+                     f"{a.get('withdrawn_lots')} 手）· 首档 "
+                     f"**{_n(a.get('first_rung_cny'))} 元** · 差 "
+                     f"{_n(a.get('gap_cny'))} 元"
+                     f"（{_n(a.get('gap_pct'), 2)}% 资本）· 桌上 "
+                     f"{a.get('desk_lots')} 手 = "
+                     f"{_n(a.get('desk_multiple'), 2)} 倍波动预算")
+        L.append(f"- 最便宜入门：**{cb.get('cheapest_product')} 账户 "
+                 f"{_n(cb.get('cheapest_cny'))} 元**；两条腿同时开 "
+                 f"{_n(cb.get('funding_all_cny'))} 元")
+        L.append(f"- 撤单范围：`{cb.get('decision')}`"
+                 f"（{cb.get('decided')}·{cb.get('decided_in')}）＝"
+                 f"{cb.get('scope')}")
+        L.append(f"  - 纸面账本 {cb.get('paper_lots_total')} 手**不删不改**，"
+                 f"标签 `{cb.get('paper_label')}`"
+                 "（它记的是那份更大资本账户的行为，不是这本书的）")
+        L.append(f"  - 撤单是条件的：{cb.get('reversal')}")
+        if cb.get("sentence"):
+            L.append(f"- 一句话（产出面原句）：{cb['sentence']}")
+        L.append(f"- 出处：`{cb.get('path')}`｜generated "
+                 f"{cb.get('source_generated')}｜cutoff "
+                 f"{cb.get('evidence_cutoff')}｜尺子 "
+                 f"`{cb.get('source_face')}`／`{cb.get('ladder_face')}`")
+    L.append("")
+    L.append("## ⑧ 诚实免责")
     L.append("")
     for d in p["disclaimers"]:
         L.append(f"- {d}")
@@ -1521,7 +1659,8 @@ def selftest() -> int:
           all(k in md1 for k in ("① 市场判定", "② 仓位指令",
                                  "③ 六员分配", "④ 决策链版本横幅",
                                  "⑤ 在飞判决批", "⑥ ETF 复合书",
-                                 "⑦ 诚实免责")))
+                                 "⑦ 指数期货 carry 书",
+                                 "⑧ 诚实免责")))
     fr = p1.get("freshness") or {}
     check("freshness banner rendered in md (v2.1)",
           "本页新鲜度" in md1 and fr.get("status") == "ok"
@@ -1577,6 +1716,37 @@ def selftest() -> int:
               eb["bench_ret_pct"] is None or eb["bench_ret_pct"] >= 0
               or (eb["bench_max_dd_pct"] is not None
                   and eb["bench_max_dd_pct"] < 0))
+    # --- v2.2 (r1782): the second money candidate's funding line.
+    cb = p1.get("carry_book") or {}
+    check("carry funding line rendered in md (v2.2)",
+          "指数期货 carry 书 · 开仓资金线" in md1
+          and (not cb.get("present")
+               or (bool(cb.get("decision")) and cb["decision"] in md1
+                   and _fmt_cny(cb["cheapest_cny"]) in md1)))
+    if cb.get("present"):
+        # r1781: this section is fed by another script, so it must print that
+        # script's own stamp -- a face rewritten on the next trip must show up
+        # as an older timestamp here, never as a silently fresher sentence.
+        check("the carry section self-stamps its source",
+              cb["source_generated"] in md1
+              and cb["evidence_cutoff"] in md1)
+        _cba = (cb.get("accounts") or {})
+        check("executable lots are the ruler's lots, per account",
+              bool(_cba) and all(a.get("executable_lots") == a.get("lots")
+                                 for a in _cba.values()))
+        check("the funding line is the shortfall to the first rung",
+              all(abs(a["gap_cny"] - (a["first_rung_cny"] - a["capital_cny"]))
+                  < 0.01 for a in _cba.values()))
+        check("the withdrawn desk lots are printed as kept, not erased",
+              cb.get("paper_lots_total") is not None
+              and (cb.get("paper_label") or "") in md1
+              and "不删不改" in md1)
+    _cb_miss = dict(p1)
+    _cb_miss["carry_book"] = {"present": False, "path": CARRY_OPEN_REL,
+                              "note": "资金线面未产出（缺面不读 0）"}
+    _mmd = render_md(_cb_miss)
+    check("a missing carry face never reads as zero lots",
+          "资金线面未产出" in _mmd and "可执行 **0 手**" not in _mmd)
     check("national-team row rendered in md",
           "国家队状态" in md1 and "T-106" in md1
           and "宇宙面注记" in md1 and "跟队信号面" in md1)

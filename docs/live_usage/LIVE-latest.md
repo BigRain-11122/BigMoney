@@ -1,6 +1,6 @@
-# CEO 实盘使用一页纸 · 2026-11-16
+# CEO 实盘使用一页纸 · 2026-11-17
 
-> 自动生成 2026-11-16T21:43:21 · T-105 v2.1 · 纯聚合面（零新判据）· [版本台账](../../research/DECISION_CHAIN_LEDGER.md)
+> 自动生成 2026-11-17T01:24:46 · T-105 v2.1 · 纯聚合面（零新判据）· [版本台账](../../research/DECISION_CHAIN_LEDGER.md)
 
 ## ⓪ 本页新鲜度（先读这个）
 
@@ -18,7 +18,7 @@
 - 沪深300ETF 收盘 4.054 vs MA200 4.6534（熔断线之下）
 - **市场时钟**：`RED_COOL`（asof 2026-11-13）· 温度计 LHB 当日 69 行 · 净买 -3.12 亿 vs 250日 p80=96.0 行（温度计=COOL）
 - 满热档判定（v1.3 已接线）：政体态 RED + 温度计 COOL → 满热档未触发（需 GREEN+HOT）
-- **市场风险面（前向池四面板·与每日战报§九同一实现）**：截止 2026-11-16 · 涨停池 32（-5） · 跌停池 60（+27） · 炸板池 16（-5） · 强势池 132（+26） · 封板率 66.7% · 连板 1板21 / 2板8 / 3板2 / 4板1 · 读法（机械口径）：跌停≥涨停 → 杀跌日，今日 是
+- **市场风险面（前向池四面板·与每日战报§九同一实现）**：截止 2026-11-16 · 涨停池 32（-5） · 跌停池 60（+27） · 炸板池 16（-5） · 强势池 132（+26） · 封板率 66.7% · 连板 1板21 / 2板8 / 3板2 / 4板1 · 读法（机械口径）：跌停≥涨停 → 杀跌日（bar 2026-11-16）是
 - **国家队状态：存量高控·近期无已验证增持动作** · 依据：最新年报 top-10 名义持仓（T-106 s2·证据截至 2026-08-31）：汇金两司合计 沪深300=82.76%、上证50=86.05%（extreme 控盘带·>=20% 披露表佐证）；2026 上半年份额段指纹=区间净撤离（T-106 s3 EXODUS 段：510300 -701 亿份·证据截至 2026-09-24）；增持公告面=外网窗口全灭·零已验证新增动作。白话：国家队年报纸面还握大头，但上半年份额在退，也没有可信的新买公告
   - 宇宙面注记（T-106 s4）：已验证高控两员=510300、510050（名义 510300=82.76%、510050=86.05%）；510500=75.58% heavy、512100=86.43% extreme：第二层持仓实测高于 CEO 两层命名暗示（UNDERSTATED如实注记）；588000=0 名义缺席；159915=54.03% 非 CEO 点名员
   - 跟队信号面：not_supported（诚实判负）——T-106 s3 事件窗复盘=零格（点事件公告面外网不可达→冻结条款转段级；段级 return_cells=0·N_eff=0·账本 +0）——无『跟国家队』可交易边缘证据 → 不开锦标赛 v4+ 臂，一页纸只挂宇宙面标注（s4 spec 证据门控 IF-not 路径）
@@ -40,7 +40,7 @@
 
 - 军种当值表按 MARKET_STAGE_TABLE 随政体态切换
 - 六员权重=B_MAXDIV 冠军组合面（T-27 锦标赛 winner，10-01 起 SPM-v1 enforce 接线）；持仓=纸盘在册实况（T-35 导出面）：
-- **六员合计：权益 ¥5,934,779（起始 ¥6,000,000·累计 -1.09%·-¥65,221）**；其中持仓 ¥2,276,399 / 现金 ¥3,658,380；今日 -¥10,197（对比 2026-11-13）
+- **六员合计：权益 ¥5,934,779（起始 ¥6,000,000·累计 -1.09%·-¥65,221）**；其中持仓 ¥2,276,399 / 现金 ¥3,658,380；较 2026-11-16 收盘 +¥0（本页无新 bar）
 
 ### COMPOSITE-CE-01（权重 3.69%｜权益 ¥983,628｜现金 ¥39,605）
   - 159996｜行业/主题或非五员宽基（O-1533/O-1555 收窄注记：非研究宇宙）｜市值 ¥191,681｜持有 2 日｜浮盈亏 1,681
@@ -76,11 +76,11 @@
   - 511260｜债券ETF（非宽基研究宇宙）｜市值 ¥99,526｜持有 5 日｜浮盈亏 -474
 
 ### 盘中档（T-104 分钟源·v1.4）
-- 最新 1m bar 2026-11-16 15:00:00（LIVE 0/2 员在流）
+- 今日尚未有 bar（上一场收盘档·09:15 起随源点亮）——在场 2 员照挂上一场收盘
   - 159920：T-104 分钟宇宙外（v1.2 收窄）·口径=最近收盘
   - 159980：T-104 分钟宇宙外（v1.2 收窄）·口径=最近收盘
   - 159996：T-104 分钟宇宙外（v1.2 收窄）·口径=最近收盘
-  - 510050：2.885（-0.14%·LAGGED·bar 2026-11-16 15:00:00·lag 403.4min）
+  - 510050：上一场收盘 2.885（上一场收盘档（今日 09:15 起随源点亮））
   - 511010：上一场收盘 140.684（上一场收盘档（今日 09:15 起随源点亮））
   - 511090：T-104 分钟宇宙外（v1.2 收窄）·口径=最近收盘
   - 511260：T-104 分钟宇宙外（v1.2 收窄）·口径=最近收盘
@@ -122,7 +122,19 @@
   - **还不能下结论**：账本只发了 17 个 bar，超额 1 年噪声带 ±16.566pp/年；80% 功效下 1 年窗只能分辨 23.683pp/年；要分辨它自己的在窗 alpha 需约 15.8 年。这一行是实绩读数，不是判决。
   - 全页指针：`results/etf_book_forward/LEDGER.json`
 
-## ⑦ 诚实免责
+## ⑦ 指数期货 carry 书 · 开仓资金线（纯读出）
+
+- **这本书今天不开仓**：按采纳的硬上限尺子（arm=hedged），现金下可执行 **0 手**；桌上仓单已撤出可执行票面（撤下合计 8 手）
+  - IC：目标 8.0% · 可执行 **0 手**（WITHDRAWN·撤 4 手）· 首档 **1,125,012 元** · 差 125,012 元（12.50% 资本）· 桌上 4 手 = 4.50 倍波动预算
+  - IM：目标 8.0% · 可执行 **0 手**（WITHDRAWN·撤 4 手）· 首档 **1,152,040 元** · 差 152,040 元（15.20% 资本）· 桌上 4 手 = 4.61 倍波动预算
+- 最便宜入门：**IC 账户 1,125,012 元**；两条腿同时开 2,277,052 元
+- 撤单范围：`WITHDRAW_FROM_TICKET`（2026-11-17·bm-c round 1780）＝the executable ticket only. The forward paper series is an append-only evidence line: it is re-labelled FUNDED_BY_A_LARGER_CAPITAL, never rewritten, truncated or deleted
+  - 纸面账本 8 手**不删不改**，标签 `FUNDED_BY_A_LARGER_CAPITAL`（它记的是那份更大资本账户的行为，不是这本书的）
+  - 撤单是条件的：fund the account to the first rung and re-run: the same rule hands the ticket back one lot and this file prints it -- the withdrawal is conditional on capital, not a judgement about the sleeve
+- 一句话（产出面原句）：To open this book at all needs 1,125,012 CNY of capital (IC account). IC is 125,012 CNY short of its first lot (capital 1,000,000, gap 12.50%). IM is 152,040 CNY short of its first lot (capital 1,000,000, gap 15.20%). IC: the desk's 4 lot(s) are withdrawn from the ticket and the executable line is 0; IM: the desk's 4 lot(s) are withdrawn from the ticket and the executable line is 0. The forward paper series that ran on 8 lot(s) across the accounts is kept and labelled FUNDED_BY_A_LARGER_CAPITAL: it is what a larger account would have done, not what this one can. It comes back the moment the capital does.
+- 出处：`results/idx_fut_carry_open_capital.json`｜generated 2026-11-17T01:09:22+08:00｜cutoff 2026-11-16｜尺子 `results/idx_fut_carry_sizing_spec.json`／`results/idx_fut_carry_capital_ladder.json`
+
+## ⑧ 诚实免责
 
 - 本页=决策链条研究产出的聚合展示，非投资建议；
 - CEO 手动跟随=CEO 直接权限；公司自动实盘开闸=月界（2026-10-01）+CEO 唯一门，本页不改变该门；

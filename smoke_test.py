@@ -11197,6 +11197,68 @@ def main() -> int:
     except Exception as e:
         check("config: the cap-vs-book producer runs before the faces that quote it",
               False, repr(e)[:160])
+    # ---- r1782: the CEO page carries the carry book's funding line ----------
+    # The zero-lot reading lived only in a research file; the page now prices it
+    # ("0 lots, and one lot needs 1,125,012").  Three things are asserted, none
+    # of them by re-deriving the number here: the decision token is printed, the
+    # per-account rung on the page is the face's own rung, and the page names
+    # which trip wrote the face it quotes (r1781 -- a section fed by another
+    # script must self-stamp, or the reader cannot tell the page is a trip
+    # behind).
+    try:
+        _co33p = os.path.join(PATHS.results_dir,
+                              "idx_fut_carry_open_capital.json")
+        _lu33p = os.path.join(PATHS.root, "docs", "live_usage",
+                              "LIVE-latest.md")
+        _bad33 = []
+        if not os.path.exists(_co33p):
+            _bad33.append("results/idx_fut_carry_open_capital.json missing")
+        elif not os.path.exists(_lu33p):
+            _bad33.append("docs/live_usage/LIVE-latest.md missing")
+        else:
+            with open(_co33p, encoding="utf-8") as _fh33:
+                _co33 = json.load(_fh33)
+            with open(_lu33p, encoding="utf-8") as _fh33:
+                _md33 = _fh33.read()
+            _wd33 = (_co33.get("withdrawal") or {}).get("decision")
+            if not _wd33:
+                _bad33.append("the funding face publishes no withdrawal decision")
+            elif _wd33 not in _md33:
+                _bad33.append("the page does not print the decision (%s)" % _wd33)
+            _ch33 = (_co33.get("book") or {}).get("cheapest_to_open") or {}
+            if _ch33.get("funding_cny") is None:
+                _bad33.append("the funding face publishes no cheapest rung")
+            elif "{:,.0f}".format(_ch33["funding_cny"]) not in _md33:
+                _bad33.append("the page does not print the cheapest rung %s"
+                              % "{:,.0f}".format(_ch33["funding_cny"]))
+            for _c33, _a33 in (_co33.get("accounts") or {}).items():
+                _r33 = (_a33.get("funding") or {}).get("first_rung_cny")
+                if _r33 is None or "{:,.0f}".format(_r33) not in _md33:
+                    _bad33.append("the page does not print %s's first rung"
+                                  % _c33)
+                _x33 = (_a33.get("executable_ticket") or {}).get("lots")
+                _l33 = (_a33.get("ruler") or {}).get("admissible_lots")
+                if _x33 != _l33:
+                    _bad33.append("%s: executable %s vs ruler %s"
+                                  % (_c33, _x33, _l33))
+            _g33 = _co33.get("generated")
+            if _g33 and _g33 not in _md33:
+                _bad33.append("the page hides which trip wrote the funding line")
+        _nm33 = [t[0] for t in importlib.import_module(
+            "Tools.s6_chain_bmc").LEGS]
+        if ("idx_fut_carry_open_capital" not in _nm33
+                or "ceo_live_usage" not in _nm33):
+            _bad33.append("the funding leg or the page leg is off the chain")
+        elif (_nm33.index("idx_fut_carry_open_capital")
+                > _nm33.index("ceo_live_usage")):
+            _bad33.append("ceo_live_usage runs before the funding line it quotes")
+        _i33 = ("0 lots beside the rung that would buy one (%s)"
+                % _wd33 if not _bad33 else "")
+        check("product: the CEO page prices the carry book's zero (funding line)",
+              not _bad33, "; ".join(_bad33)[:220] or _i33)
+    except Exception as e:
+        check("product: the CEO page prices the carry book's zero (funding line)",
+              False, repr(e)[:160])
     # ---- r1218: the battle report's ETF book section is the page's own payload ----
     # The report is where the CEO reads the book every morning; before this leg it
     # carried no book at all, so "the book is fine" and "nobody printed the book"

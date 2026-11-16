@@ -16107,3 +16107,49 @@ B 保资本下移目标（1 手需 9.0001%，+1.0001pp；票的 4 手需 36.0004
 How：任何「目标 + 资本」双约束的面，先跑一遍整数网格再谈仓位；先问目标读成 ≤ 还是 ≈，再问资本是不是台阶上的数。
 正身：scripts/idx_fut_carry_capital_ladder.py（selftest 20/20 + check ok:true）·
 results/idx_fut_carry_capital_ladder.json · research/IDX_FUT_CARRY_CAPITAL_LADDER.md
+
+## E1387 · 「不选」也是要花钱的：拒绝选路的面，每个读者都会重选一次（r1779 bm-c）
+
+r1778 把三条路都标了价、拒绝排序 —— 对，但**不可消费**。下游每一个读者（票面、论文页、三个月后的复核）
+都得自己再选一次，而每个人会选得不一样。**决定必须落成数据，且落在唯一一处**：
+`scripts/idx_fut_carry_sizing_spec.py` 里的 `ADOPTION` 常量（road A：保 8%、资本让步、目标读成硬上限），
+其余各面只读它、印它，禁各自再判。
+
+**选 A 的理由必须是因果的，不能是口味**。8% 是风险标尺、资本是建模参数：本司自己的
+`results/etf_vol_target_sweep.json`（n5 书）已经判过这条尺子是什么 —— 8% 目标印 11.49% / −10.56% / 夏普 1.13，
+不设目标印 15.56% / −16.04% / 夏普 1.00：**收益与回撤一起缩放、夏普只动 0.08**，所以目标是「买回撤」不是「买收益」。
+为了让一份合约凑整而把 8% 抬到 9%，是拿回撤容忍度换零收益 —— 方向反了。合约的最小风险单位去改公司级风险数字，
+等于让工具设定预算。
+
+**决定面的正确形状**：①采纳一条并写死（含 decided/decided_in/because）；②未采纳的两条仍带各自成真的数字一起印
+（road B 的目标 9.0012%、road C 的 0 手）并标 `adopted: false` —— 藏掉备选的决定是偏好不是决定；
+③对方的推荐值原样保留、只打一致性旗（`OUT_OF_RULER`），禁改写输入；④`--check` 里必须点名「哪些没重算」
+（每手波动、桌上推荐手数、8% 本身合不合理）。
+
+How：任何「三选一但各有价钱」的面，下一轮必须把选择落成一个常量 + 一张回执面；任何「改自己的标尺去凑工具」的
+方案，先问这把标尺当初是买什么用的。
+正身：scripts/idx_fut_carry_sizing_spec.py（selftest 23/23 + check ok:true）·
+results/idx_fut_carry_sizing_spec.json · research/IDX_FUT_CARRY_SIZING_SPEC.md · 票面 research/IDX_FUT_CARRY_PAPER.md
+「the road this book runs on」节
+
+## E1388 · 「0 手」被搬上读者那一页才算产品；搬过去的那一节必须自印产出面的时点（r1782 bm-c）
+
+r1781 已经把「开这本书要多少钱」接到 carry 票面（`research/IDX_FUT_CARRY_PAPER.md`），
+可 CEO 打开的那一页（`docs/live_usage/LIVE-*.md`）里这本书**一个字都没有**——
+读者要么去翻研究件，要么以为公司只有 ETF 一本书。同一个数在两张面上，
+「研究面可读」不等于「读者可读」。
+
+**三条可复用**：①**产品判据落在读者手上那张面**：一个数只有出现在读者会打开的文件里
+（本司=CEO 一页纸 / 战报），才算交付；JSON `ok: true` 与票面小节都不算。
+②**跨脚本节自印产出面的 `generated`／`cutoff`**：链序里本页排在产出面之后，
+产出面被下一趟重写时，这一节会静默落后一趟——印出来让读者自己看第几趟，
+而不是让人猜（r1781 律在页面上的落地）。
+③**缺面不许印成 0**：资金线面缺席时整节只印「未产出（缺面不读 0）」+指针；
+「可执行 0 手」是一个**结论**，不能兼任「我没读到」的表达（r98 族）。
+配套断言要落在**页面**上（决策 token＋逐账户首档＋产出面自己的时点三样同时出现），
+否则 JSON 采纳了、页面仍自相矛盾。
+
+正身：`scripts/ceo_live_usage.py`（selftest 69/69，含新增 7 腿）·
+`docs/live_usage/LIVE-2026-11-17.md` 第 ⑦ 节 · `smoke_test.py` 新腿
+`product: the CEO page prices the carry book's zero (funding line)`
+（含链序断言：`idx_fut_carry_open_capital` 第 44 腿 < `ceo_live_usage` 第 185 腿）
