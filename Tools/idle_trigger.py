@@ -62,6 +62,9 @@ ROUND_WINDOW_MIN = 11.0  # 10-min cadence + skew
 CNW = getattr(subprocess, "CREATE_NO_WINDOW", 0)
 
 CLAIM_RE = re.compile(r'claimed@([A-Za-z0-9\-]+)@(\S+)')
+# r1789 bm-c: a pool line may declare itself unclaimable for a named machine instead
+# of being handed a fake claim or a fake expiry. Comma list; other machines unaffected.
+EXCLUDE_RE = re.compile(r'not-claimable-for:\s*([A-Za-z0-9\-]+(?:\s*[,，]\s*[A-Za-z0-9\-]+)*)')
 
 
 def machine_id():
@@ -152,6 +155,21 @@ def probe_inflight(mid):
     return reasons
 
 
+def line_excluded(line, mid):
+    """True when the pool line names this machine as `not-claimable-for`.
+
+    r1789: three BigCompute GPU cards sat in the pool counting as claimable on a
+    machine whose GPU is parked by order (C-20261014-01 section 3) and whose disk has
+    none of the projects they name; two rounds in a row read GREEN-IDLE with work
+    available, which is exactly the reading the idle law punishes.
+    """
+    m = EXCLUDE_RE.search(line)
+    if not m:
+        return False
+    names = [x.strip() for x in re.split(u'[,\uff0c]', m.group(1)) if x.strip()]
+    return mid in names
+
+
 def parse_backlog(mid, now):
     """Return (claimable_lines, fresh_claim_ts_or_None)."""
     claimable = []
@@ -173,7 +191,8 @@ def parse_backlog(mid, now):
                     continue
                 # claimable = numbered pool line not yet claimed, not cleared
                 if re.match(r'\s*\d+\.\s+\S', line) and 'claimed@' not in line \
-                        and u'过期清出' not in line:
+                        and u'过期清出' not in line \
+                        and not line_excluded(line, mid):
                     claimable.append(line.strip()[:80])
     except Exception:
         pass
@@ -544,6 +563,22 @@ def selftest():
         if got != want:
             ok = False
         print('[%s] pool-ready %s -> %s' % (flag, name, got))
+    # r1789: a card that names its own excluded machines must not count as claimable for
+    # them, and must keep counting for everyone else (one machine's parked GPU is not
+    # another machine's excuse). No marker, no exclusion.
+    excl_cases = [
+        ('19. card not-claimable-for: bm-c (gpu parked)', 'bm-c', True),
+        ('19. card not-claimable-for: bm-c (gpu parked)', 'bm-b', False),
+        ('19. card not-claimable-for: bm-a, bm-c', 'bm-c', True),
+        ('19. card not-claimable-for: bm-b', 'bm-c', False),
+        ('19. card with no marker', 'bm-c', False),
+    ]
+    for line, mid_, want in excl_cases:
+        got = line_excluded(line, mid_)
+        flag = 'PASS' if got == want else 'FAIL'
+        if got != want:
+            ok = False
+        print('[%s] excluded %r for %s -> %s' % (flag, line[:34], mid_, got))
     print('selftest:', 'ALL PASS' if ok else 'FAIL')
     return 0 if ok else 1
 

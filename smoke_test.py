@@ -205,6 +205,25 @@ def _page_elsewhere_note(view, bar, what="", section=None):
             "content difference here is the writer's snapshot, not this host's defect%s"
             % (os.path.basename(view["path"]), page_bar, view.get("owner"), age, tail))
 
+def _page_elsewhere_verdict(bad_page, face_bar, what=""):
+    """(r1789) A page-content complaint on a host that cannot write the page is a note.
+
+    Three legs compare the CEO page row by row against faces rebuilt here. They never asked
+    the r1493 rule (`_page_elsewhere_note`), so on bm-c they were red every round for a fact
+    about bm-a's build hour -- and a permanent red is where a real defect hides. Returns
+    (ok, reason); ok stays False when this host may write the page, when the page is older
+    than MAX_LAG_SESSIONS, or when the page or the face bar cannot be read. Structural
+    complaints (a missing face, a pointer naming a page not on this disk) never come here.
+    """
+    bad_page = list(bad_page or [])
+    if not bad_page:
+        return True, ""
+    note = _page_elsewhere_note(_ceo_page_view(), face_bar, what="; ".join(bad_page)[:180])
+    if note:
+        return True, note
+    return False, "; ".join(bad_page)[:220]
+
+
 def capture_pinned(argv, timeout):
     """The one place a leg captures a child's text.
 
@@ -8236,6 +8255,8 @@ def main() -> int:
     # all three faces to carry the answer -- arm count included, not just the word.
     try:
         _bad46 = []
+        _bad46p = []          # page-only complaints: see _page_elsewhere_verdict (r1789)
+        _bar46 = None
         _verd46 = None
         _n46 = 0
         _sys46 = os.path.join(PATHS.root, "scripts")
@@ -8250,6 +8271,7 @@ def main() -> int:
                 _ar46 = json.load(_fh46) or {}
             _verd46 = (_ar46.get("panel_coherence") or {}).get("verdict")
             _n46 = len(_ar46.get("arms") or {})
+            _bar46 = ((_ar46.get("baseline") or {}).get("evidence_cutoff")) or None
             _fc46 = _P46.family_coherence()
             if _fc46.get("verdict") != _verd46:
                 _bad46.append("reader %r != artifact %r" % (_fc46.get("verdict"), _verd46))
@@ -8302,20 +8324,25 @@ def main() -> int:
                     if "名数的来历" not in _faces46["ticket"]:
                         _bad46.append("ticket does not print the width's lineage")
                     if "有。" not in _faces46["page"]:
-                        _bad46.append("page does not print the licensed state")
+                        _bad46p.append("page does not print the licensed state")
                     for _lab46 in ("ticket", "page"):
                         if ("%d 个宽度臂" % _n46) not in _faces46[_lab46]:
-                            _bad46.append("%s does not print the arm count" % _lab46)
+                            (_bad46p if _lab46 == "page" else _bad46).append(
+                                "%s does not print the arm count" % _lab46)
                 else:
                     for _lab46, _txt46 in _faces46.items():
                         if "ONE_WORLD" in _txt46:
-                            _bad46.append("%s prints ONE_WORLD for %r" % (_lab46, _verd46))
+                            (_bad46p if _lab46 == "page" else _bad46).append(
+                                "%s prints ONE_WORLD for %r" % (_lab46, _verd46))
                     if "名数没被证过" not in _faces46["ticket"]:
                         _bad46.append("ticket does not say the width is unproven")
                     if not ("没有。" in _faces46["page"] or "不知道。" in _faces46["page"]):
-                        _bad46.append("page does not say the width is unproven")
+                        _bad46p.append("page does not say the width is unproven")
+        _ok46, _why46 = _page_elsewhere_verdict(_bad46p, _bar46)
+        if _bad46:
+            _ok46, _why46 = False, "; ".join(_bad46)[:220]
         check("product: every face a reader holds says whether the width's family was one world",
-              not _bad46, "; ".join(_bad46)[:220]
+              _ok46, _why46
               or "card/ticket/page agree on %r (%d arms)" % (_verd46, _n46))
     except Exception as e:
         check("product: every face a reader holds says whether the width's family was one world",
@@ -12964,12 +12991,13 @@ def _legs_supply_and_book():
     # red, and a pointer naming a page that is not on this disk is named rather than skipped.
     try:
         _fw53 = os.path.join(PATHS.results_dir, "etf_premium", "PREMIUM-FORWARD.json")
-        _bad53, _legs53 = [], []
+        _bad53, _bad53p, _bar53, _legs53 = [], [], None, []
         if not os.path.exists(_fw53):
             _bad53.append("results/etf_premium/PREMIUM-FORWARD.json missing")
         else:
             with open(_fw53, encoding="utf-8") as _fh53:
                 _face53 = json.load(_fh53)
+            _bar53 = _face53.get("ticket_session") or _face53.get("evidence_cutoff") or None
             _hz53 = (_face53.get("horizons") or {}).get(
                 str(_face53.get("verdict_horizon"))) or {}
             _legs53 = [l for l in (_hz53.get("legs") or []) if isinstance(l, dict)]
@@ -12989,7 +13017,7 @@ def _legs_supply_and_book():
                 _bad53.append("docs/live_book/latest.json missing")
             if _md53:
                 if "付了溢价之后" not in _md53:
-                    _bad53.append("page carries no premium-forward section")
+                    _bad53p.append("page carries no premium-forward section")
                 for _l53 in _legs53:
                     _b53 = ((_l53.get("buckets") or {}).get(_l53.get("latest_bucket")) or {})
                     if _b53.get("mean_pct") is None:
@@ -13002,10 +13030,13 @@ def _legs_supply_and_book():
                         format(_l53.get("amount_cny") or 0, ",.0f"),
                         ("%+.0f" % float(_cny53)) if _cny53 is not None else "—")
                     if _row53 not in _md53:
-                        _bad53.append("page does not print %s's row"
-                                      % (_l53.get("symbol"),))
+                        _bad53p.append("page does not print %s's row"
+                                       % (_l53.get("symbol"),))
+        _ok53, _why53 = _page_elsewhere_verdict(_bad53p, _bar53)
+        if _bad53:
+            _ok53, _why53 = False, "; ".join(_bad53)[:220]
         check("product: the page prints what the price did after a premium reading like today's (same rows as the ticket)",
-              not _bad53, "; ".join(_bad53)[:220]
+              _ok53, _why53
               or "page == face (%d legs)" % len(_legs53))
     except Exception as e:
         check("product: the page prints what the price did after a premium reading like today's (same rows as the ticket)",
@@ -13602,6 +13633,8 @@ def _legs_supply_and_book():
     # leg derives both sides (face + page) instead of trusting either sentence.
     try:
         _bad55 = []
+        _bad55p = []          # page-only complaints: see _page_elsewhere_verdict (r1789)
+        _bar55 = None
         _kg55p = os.path.join(PATHS.results_dir, "etf_book_k_gap.json")
         _ptr55p = os.path.join(PATHS.root, "docs", "live_book", "latest.json")
         _kg55, _md55, _pb55 = None, "", None
@@ -13612,6 +13645,7 @@ def _legs_supply_and_book():
         else:
             with open(_kg55p, encoding="utf-8") as _fh55:
                 _kg55 = json.load(_fh55)
+            _bar55 = _kg55.get("bar") or None
             with open(_ptr55p, encoding="utf-8") as _fh55:
                 _ptr55 = json.load(_fh55)
             _page55 = os.path.join(PATHS.root, _ptr55.get("page") or "")
@@ -13630,11 +13664,11 @@ def _legs_supply_and_book():
             if _pb55 and _kg55.get("bar") and str(_kg55["bar"]) != str(_pb55):
                 # a face from another bar must be refused on the page, not printed
                 if "不是这一页这张单的" not in _md55:
-                    _bad55.append("face bar %s vs page %s: page still prints a table"
-                                  % (_kg55.get("bar"), _pb55))
+                    _bad55p.append("face bar %s vs page %s: page still prints a table"
+                                   % (_kg55.get("bar"), _pb55))
             elif _kg55.get("verdict") == "FLOOR_CUT_THIS_SHEET" and _rows55:
                 if "额度在这张单上具体砍掉了哪几手" not in _md55:
-                    _bad55.append("page has no per-name floor-cut section")
+                    _bad55p.append("page has no per-name floor-cut section")
                 for _r55 in _rows55:
                     _cell55 = ("| %s | %.3f | %s | %s | %s | ¥%s |" % (
                         _r55.get("symbol"), float(_r55.get("price") or 0.0),
@@ -13643,11 +13677,14 @@ def _legs_supply_and_book():
                         format(int(_r55.get("short_lots") or 0), ","),
                         format(float(_r55.get("short_cny") or 0.0), ",.2f")))
                     if _cell55 not in _md55:
-                        _bad55.append("page row differs from face: %s" % _r55.get("symbol"))
+                        _bad55p.append("page row differs from face: %s" % _r55.get("symbol"))
                 if format(float(_kg55.get("short_total_cny") or 0), ",.2f") not in _md55:
-                    _bad55.append("page does not print the face's own total")
+                    _bad55p.append("page does not print the face's own total")
+        _ok55, _why55 = _page_elsewhere_verdict(_bad55p, _bar55)
+        if _bad55:
+            _ok55, _why55 = False, "; ".join(_bad55)[:220]
         check("product: the page's per-name floor cut reproduces the k_gap face row by row",
-              not _bad55, "; ".join(_bad55)[:220]
+              _ok55, _why55
               or "page == k_gap (%d names)" % len(_rows55))
     except Exception as e:
         check("product: the page's per-name floor cut reproduces the k_gap face row by row",

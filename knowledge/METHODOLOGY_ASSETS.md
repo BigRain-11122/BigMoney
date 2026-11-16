@@ -16202,3 +16202,33 @@ bm-a 活书页停更的三条放在同一桶里，等于把自己的映射缺陷
 正身：`scripts/live_book_day_words.py::CLAIM_RULES`（改前 `premium_forward.face_asof`
 → 改后 `premium_leak.session`）+ 同名 selftest 两腿 +
 `python -c "import smoke_test as s; print(s._leg_day_words())"` → `PRINTED_BUT_UNANCHORED`（绿）
+
+### E686 — 一条「永久红」把真缺陷藏起来；判据要问「这张面本机写不写得了」（r1789 bm-c）
+
+**判例**：三条 product 腿（宽度家族臂数 / 溢价行逐行 / k_gap 逐行）把 CEO 活书页
+（`docs/live_book/LIVE-BOOK-*.md`）与**本机重算的面**逐字对撞。活书页由 bm-a 单写、
+单写窗口在本机整轮不刷新，于是这三条腿在 bm-c 上**每轮都红**——而红的原因是
+「别人 20:30 写的页面早于 21:57 才动的面」，不是本机任何算法错。
+同一份文件里 r1493/r1532 早就为这类情形立了规则（`_page_elsewhere_note`：本机写不了
+这个页 = 记注记不记红，页太旧或读数不可得则照样红），这三条腿从没接过它。
+**代价有实锚**：r1788 排红时，一条自己的映射缺陷（E685）被顺手归进「他机单写面」那一桶
+——**永久红会训练读者把真缺陷当背景噪声**，这是比一条红更贵的损失。
+
+**落地三则**：
+①**先问「这张面本机写不写得了」，再判它跟不跟得上**——判据由写者自己的守卫回答
+（`etf_book_ceo_page.writer_allowed(machine_id())`），禁写第二份规则副本；
+②**降级必须留字**：PASS 的理由里逐字印出页缺了什么、页主是谁、对方心跳多久没动
+（本面实测：「written by bm-a (owner heartbeat 5.2 h)…; page does not print 159519's row」），
+读者一眼能看出这是谁的账；
+③**反向三证**：作者机 / 页落后超 `MAX_LAG_SESSIONS` / 面 bar 读不到，三条都必须仍然红
+（`C:\Users\Dasheng\.codely-cli\tmp\legs_r1789_neg.py` 实跑：三向全红）。
+
+**姊妹面（同轮实锚）**：闲置判据把池行 #19–#22（BigCompute GPU 卡）算成 bm-c 可领，
+可这些卡要的 City3D/FluxVerse/吸嘟嘟 工程在本机盘一字不存在（`K:\Fluxgroup\projects`
+19 项零命中）——连续两轮读到「有活可领」的 GREEN-IDLE。正法同样是**让标的自己声明**：
+`Tools/idle_trigger.py` 新增机别标记 `not-claimable-for: <机>`（selftest 5 腿：
+命中本机=排除、他机=照计、逗号列表、无标记=不计），池行打标后 `parse_backlog` 可领 3→0。
+
+正身：`smoke_test.py::_page_elsewhere_verdict` + 三条腿拆 `_bad**p`（页面类）与结构类
+· `Tools/idle_trigger.py::line_excluded` · 切片复跑
+`C:\Users\Dasheng\.codely-cli\tmp\legs_r1789.py`（3 腿 0 FAIL）
