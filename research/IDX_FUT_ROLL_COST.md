@@ -4,7 +4,7 @@ The roll book switches both legs at the same close, so the seam itself is free b
 
 This page measures it from the only tape the repo has: each contract's own daily high and low. Corwin-Schultz (2012) effective spread from daily high/low, 20-day rolling median, one-bar lag; imported from etf_book_cost_tape.cs_spread. Per roll the cost is half the incumbent's spread plus half the successor's plus the fee, priced at the roll date with the estimator's own one-bar lag.
 
-Evidence cutoff: `2026-11-13`  ·  generated 2026-11-16T18:10:03
+Evidence cutoff: `2026-11-13`  ·  generated 2026-11-16T20:48:07
 
 ## §一 The measured cost of one roll (bp, per product)
 

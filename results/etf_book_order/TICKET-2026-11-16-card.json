@@ -209,7 +209,7 @@
   "same_scale_as_ledger": true,
   "ledger_book_bar": "2026-11-11",
   "ledger_last_bar": "2026-11-16",
-  "ledger_last_nav": 1.0068071635,
+  "ledger_last_nav": 1.006812175,
   "ledger_status": "live",
   "ledger_last_cash": 0.090616,
   "ledger_pending": null,
@@ -270,13 +270,14 @@
     "has_pending": false
    }
   },
-  "ledger_source": "C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\results\\etf_book_forward\\LEDGER.json",
+  "ledger_source": "K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\etf_book_forward\\LEDGER.json",
   "restatements_readable": true,
   "restatements_source": "restatements",
   "restated_bars": [
    "2026-10-29",
    "2026-11-03",
-   "2026-11-12"
+   "2026-11-12",
+   "2026-11-13"
   ],
   "restatements": [
    {
@@ -301,6 +302,14 @@
     "nav_published": 1.0110335008,
     "nav_settled": 1.0110284683,
     "delta": 5.0325e-06,
+    "reason": "published while the panel for that date was still gaining symbols"
+   },
+   {
+    "bar": "2026-11-13",
+    "ts": "2026-11-16T18:21:44+0800",
+    "nav_published": 1.0108942788,
+    "nav_settled": 1.0108993106,
+    "delta": 5.0318e-06,
     "reason": "published while the panel for that date was still gaining symbols"
    }
   ],
@@ -440,28 +449,28 @@
  ],
  "live_width_ruler": {
   "state": "inside_disagreement",
-  "detail": "paired median +0.150pp inside a 2.065pp engine disagreement",
+  "detail": "paired median +0.105pp inside a 1.980pp engine disagreement",
   "sheet": "card",
   "sheet_role": "measured_card",
   "verdict": "COIN_FLIP_INSIDE_ENGINE_DISAGREEMENT",
   "published_verdict": "COIN_FLIP_INSIDE_ENGINE_DISAGREEMENT",
-  "gap_pp": 0.15,
-  "disagreement_pp": 2.065,
-  "share_of_disagreement": 0.0726,
-  "resolution_pp": 0.783,
-  "gap_over_resolution": 0.192,
+  "gap_pp": 0.105,
+  "disagreement_pp": 1.98,
+  "share_of_disagreement": 0.053,
+  "resolution_pp": 0.792,
+  "gap_over_resolution": 0.133,
   "below_own_resolution": true,
   "power_target": 0.8,
-  "paired_sd_pp": 1.249,
-  "atlas_rung_pp": 0.535,
+  "paired_sd_pp": 1.264,
+  "atlas_rung_pp": 0.45,
   "capacity_rung_pp": -1.53,
   "sign_flips": true,
-  "sign_agreement": 0.55,
+  "sign_agreement": 0.5,
   "pairs": 20,
-  "positive_phases": 11,
-  "min_pp": -1.96,
-  "max_pp": 2.89,
-  "spread_pp": 4.85,
+  "positive_phases": 10,
+  "min_pp": -1.94,
+  "max_pp": 2.9,
+  "spread_pp": 4.84,
   "widths": {
    "ticket": {
     "live_n_hold": 5,
@@ -476,21 +485,22 @@
     "priced_rule": "vol_target"
    }
   },
-  "age_days": 3,
-  "evidence_cutoff": "2026-11-13",
+  "age_days": 0,
+  "evidence_cutoff": "2026-11-16",
   "asof": "2026-11-16",
   "source": "results/etf_book_live_width_ruler.json"
  },
  "family_coherence": {
   "artifact": "results/etf_book_phase_atlas_arms.json",
-  "verdict": "ONE_WORLD",
-  "detail": "all 11 faces priced e6f9d0e81a64ec75",
+  "verdict": "MIXED_WORLDS",
+  "detail": "11 faces priced 2 different panels (0988c653, e6f9d0e8): per-cell deltas across worlds are world differences, not rule effects",
   "panels": [
+   "0988c6530a481fa1",
    "e6f9d0e81a64ec75"
   ],
   "arms": 10,
-  "evidence_cutoff": "2026-11-13",
-  "priced_bar": "2026-11-13",
+  "evidence_cutoff": "2026-11-16",
+  "priced_bar": "2026-11-16",
   "pricing": {
    "mode": "engine",
    "reprices_bar": true,
@@ -502,12 +512,11 @@
   },
   "panels_detail": [
    {
-    "digest": "e6f9d0e81a64ec75",
+    "digest": "0988c6530a481fa1",
     "faces": [
      "baseline",
      "buffer_k02",
      "buffer_k05",
-     "buffer_k05_cost20",
      "buffer_k10",
      "buffer_k20",
      "buffer_k40",
@@ -516,17 +525,26 @@
      "cost20",
      "cost40"
     ],
+    "last": "2026-11-16",
+    "bars": 5281,
+    "columns": 1630,
+    "bars_fewer_than_newest": 0
+   },
+   {
+    "digest": "e6f9d0e81a64ec75",
+    "faces": [
+     "buffer_k05_cost20"
+    ],
     "last": "2026-11-13",
     "bars": 5280,
     "columns": 1629,
-    "bars_fewer_than_newest": 0
+    "bars_fewer_than_newest": 1
    }
   ],
-  "priced_same_panel": true,
+  "priced_same_panel": false,
   "comparable": [
    "buffer_k02",
    "buffer_k05",
-   "buffer_k05_cost20",
    "buffer_k10",
    "buffer_k20",
    "buffer_k40",
@@ -535,10 +553,14 @@
    "cost20",
    "cost40"
   ],
-  "withheld": [],
+  "withheld": [
+   "buffer_k05_cost20"
+  ],
   "cost_axis": {
-   "readable": true,
-   "withheld": [],
+   "readable": false,
+   "withheld": [
+    "buffer_k05_cost20"
+   ],
    "arms": [
     {
      "arm": "buffer_k02",
@@ -548,14 +570,14 @@
     },
     {
      "arm": "buffer_k05",
-     "verdict": "NOT-SEPARABLE",
+     "verdict": "REJECT",
      "readable": true,
      "description": "buffer k=0.05 on every cell (the r1325 arm, re-priced per phase)"
     },
     {
      "arm": "buffer_k05_cost20",
-     "verdict": "REJECT",
-     "readable": true,
+     "verdict": "WORLDS_NOT_COMPARABLE",
+     "readable": false,
      "description": "buffer k=0.05 at 20bp/side -- the interaction neither family tested: does a buffer that is harmless at 10bp recover any of the -1.41pp the 20bp toll costs?"
     },
     {
@@ -611,14 +633,14 @@
    "adopt_share": null,
    "trials": 20000,
    "label": "REJECT_IS_THE_DEFAULT",
-   "evidence_cutoff": "2026-11-13",
-   "bar_now": "2026-11-13"
+   "evidence_cutoff": "2026-11-16",
+   "bar_now": "2026-11-16"
   },
   "signflip": {
    "artifact": "results/etf_book_arms_signflip.json",
    "status": "ok",
-   "detail": "3 of 4 published REJECTs stand on their own cells (buffer_k05_cost20, cost20, cost40); the rest are inside sign noise and must not be read as findings",
-   "n_reject": 4,
+   "detail": "3 of 5 published REJECTs stand on their own cells (buffer_k05_cost20, cost20, cost40); the rest are inside sign noise and must not be read as findings",
+   "n_reject": 5,
    "n_reject_standing": 3,
    "standing": [
     "buffer_k05_cost20",
@@ -626,11 +648,13 @@
     "cost40"
    ],
    "overturned": [
+    "buffer_k05",
     "buffer_k40",
     "cost0",
     "cost05"
    ],
    "overstated": [
+    "buffer_k05",
     "buffer_k40"
    ],
    "understated": [
@@ -643,14 +667,14 @@
      "frozen_label": "NOT-SEPARABLE",
      "verdict": "NOT-SEPARABLE",
      "sign_cells": 12,
-     "cells_positive": 4
+     "cells_positive": 5
     },
     {
      "arm": "buffer_k05",
-     "frozen_label": "NOT-SEPARABLE",
+     "frozen_label": "REJECT",
      "verdict": "NOT-SEPARABLE",
      "sign_cells": 12,
-     "cells_positive": 5
+     "cells_positive": 6
     },
     {
      "arm": "buffer_k05_cost20",
@@ -664,7 +688,7 @@
      "frozen_label": "NOT-SEPARABLE",
      "verdict": "NOT-SEPARABLE",
      "sign_cells": 12,
-     "cells_positive": 9
+     "cells_positive": 10
     },
     {
      "arm": "buffer_k20",
@@ -678,7 +702,7 @@
      "frozen_label": "REJECT",
      "verdict": "NOT-SEPARABLE",
      "sign_cells": 12,
-     "cells_positive": 8
+     "cells_positive": 9
     },
     {
      "arm": "cost0",
@@ -710,8 +734,8 @@
     }
    ],
    "verdict": "SOME_REJECTS_STAND",
-   "evidence_cutoff": "2026-11-13",
-   "bar_now": "2026-11-13"
+   "evidence_cutoff": "2026-11-16",
+   "bar_now": "2026-11-16"
   },
   "receipt": {
    "present": null,
@@ -721,13 +745,13 @@
   "floor_extrapolation": {
    "artifact": "results/etf_book_buffer_floor_readback.json",
    "present": true,
-   "detail": "the fit says +0.220pp at k=0.30 (slope +0.801, intercept -0.020); the harvested arm's own 12 cells say +0.365pp (median); gap +0.145pp against tolerance 0.081pp = 3.0x the fit's largest in-sample residual (0.027pp, floored at 0.05); cell spread of the same arm: -0.635 .. +1.380pp (12 cells), i.e. the median is not the book; the line misses the point it never saw by more than its own residual band:",
-   "verdict": "REFUTED",
+   "detail": "the fit says +0.335pp at k=0.30 (slope +1.225, intercept -0.033); the harvested arm's own 12 cells say +0.385pp (median); gap +0.050pp against tolerance 0.172pp = 3.0x the fit's largest in-sample residual (0.057pp, floored at 0.05); cell spread of the same arm: -0.560 .. +1.495pp (12 cells), i.e. the median is not the book; the line predicts a point it never saw, on the widest gap it spans -- the ",
+   "verdict": "HOLDS",
    "buffer_k": 0.3,
-   "predicted_pp": 0.22,
-   "observed_pp": 0.365,
-   "gap_pp": 0.145,
-   "tolerance_pp": 0.081,
+   "predicted_pp": 0.335,
+   "observed_pp": 0.385,
+   "gap_pp": 0.05,
+   "tolerance_pp": 0.172,
    "evidence_cutoff": "2026-10-29"
   }
  }

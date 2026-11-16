@@ -1,6 +1,6 @@
 # The tail beta, with an interval
 
-Cutoff 2026-11-13 | 1587 bar pairs (2020-01-06..2026-11-13) | 2000 resamples of 21-bar blocks, seed 20261115.
+Cutoff 2026-11-16 | 1587 bar pairs (2020-01-06..2026-11-13) | 2000 resamples of 21-bar blocks, seed 20261115.
 
 Unconditional beta 0.0745 (corr 0.142).
 

@@ -129,12 +129,12 @@
     "spread_pp": 8.245
    },
    {
-    "band_pp": 6.742,
+    "band_pp": 6.735,
     "buffer_k": 0.0,
     "clears_band": false,
     "cost": 0.0005,
     "file": "etf_book_phase_atlas_cost05.json",
-    "spread_pp": 6.025
+    "spread_pp": 6.08
    },
    {
     "band_pp": 6.713,
@@ -145,27 +145,27 @@
     "spread_pp": 5.245
    },
    {
-    "band_pp": 6.664,
+    "band_pp": 6.663,
     "buffer_k": 0.0,
     "clears_band": false,
     "cost": 0.002,
     "file": "etf_book_phase_atlas_cost20.json",
-    "spread_pp": 3.535
+    "spread_pp": 3.63
    },
    {
-    "band_pp": 6.577,
+    "band_pp": 6.575,
     "buffer_k": 0.0,
     "clears_band": false,
     "cost": 0.004,
     "file": "etf_book_phase_atlas_cost40.json",
-    "spread_pp": 3.25
+    "spread_pp": 3.305
    }
   ]
  },
  "question": "the atlas's 12-cell ordering is judged against each cell's own phase band; both the spread and the band move with the toll. At what toll does the ordering stop clearing its own noise, and is the decay monotone?",
  "script": "scripts/etf_book_atlas_toll_ladder.py",
  "sources_bar": "2026-11-16",
- "sources_digest": "2a13733f52b6380e5b84720fe1195a81f13900074206ca5db06edae75a8a61e4",
+ "sources_digest": "72883df7a4a7b1e4b7f0f7eb0b61d0aa94c35dccdc49fd716481f3ea0aa0ec35",
  "spec": {
   "baseline_cost_fraction": 0.001,
   "cadence_pair": [
@@ -183,7 +183,7 @@
    12
   ]
  },
- "statement": "NOT QUOTABLE at the production toll: the ordering dies at 3.79bp/side.",
+ "statement": "NOT QUOTABLE at the production toll: the ordering dies at 3.87bp/side.",
  "toll_ladder": {
   "argmax_cells": [
    {
@@ -209,43 +209,43 @@
    },
    {
     "file": "etf_book_phase_atlas_cost20.json",
-    "median_cagr_pp": 9.45,
+    "median_cagr_pp": 9.46,
     "n_hold": 8,
     "rebal": 10,
     "toll_bp": 20.0
    },
    {
     "file": "etf_book_phase_atlas_cost40.json",
-    "median_cagr_pp": 6.115,
+    "median_cagr_pp": 6.07,
     "n_hold": 8,
     "rebal": 40,
     "toll_bp": 40.0
    }
   ],
   "argmax_identity_stable": false,
-  "band_at_production_toll_pp": 6.725,
+  "band_at_production_toll_pp": 6.722,
   "band_pp": [
    6.007,
-   6.742,
+   6.735,
    6.713,
-   6.664,
-   6.577
+   6.663,
+   6.575
   ],
-  "break_even_toll_bp": 3.787,
+  "break_even_toll_bp": 3.868,
   "cadence_effect_median_pp": [
    6.33,
-   4.522,
+   4.562,
    3.73,
-   2.047,
-   -1.408
+   2.06,
+   -1.387
   ],
   "cadence_sign_flip_toll_bp": 40.0,
   "cadence_spread_pp": [
    6.33,
-   4.523,
+   4.563,
    3.73,
-   2.047,
-   1.407
+   2.06,
+   1.387
   ],
   "clears_band": [
    true,
@@ -255,25 +255,25 @@
    false
   ],
   "reasons": [
-   "spread falls from 8.24pp at 0bp to 3.25pp at 40bp (rank corr -1.000)",
+   "spread falls from 8.24pp at 0bp to 3.31pp at 40bp (rank corr -1.000)",
    "median cell band stays 6.01 -> 6.58pp across the same rungs (band is not the mover)",
-   "the two series cross at 3.79bp/side",
-   "at the production toll (8bp) interpolated spread 5.56pp vs band 6.72pp",
-   "the FAST cadence is worth +6.33pp at 0bp and -1.41pp at 40bp -- the ranking of the cadence knob inverts at 40bp/side",
-   "the width knob moves the other way: -0.67 -> +1.72pp (rank corr +1.000), i.e. wider is worth more as the toll rises",
+   "the two series cross at 3.87bp/side",
+   "at the production toll (8bp) interpolated spread 5.58pp vs band 6.72pp",
+   "the FAST cadence is worth +6.33pp at 0bp and -1.39pp at 40bp -- the ranking of the cadence knob inverts at 40bp/side",
+   "the width knob moves the other way: -0.67 -> +1.68pp (rank corr +1.000), i.e. wider is worth more as the toll rises",
    "the ordering is monotone in the toll and gone by the production toll: no width/cadence sentence from this grid is quotable at 8bp/side"
   ],
   "rungs": 5,
   "rungs_that_clear": [
    "etf_book_phase_atlas_cost0.json"
   ],
-  "spread_at_production_toll_pp": 5.557,
+  "spread_at_production_toll_pp": 5.579,
   "spread_pp": [
    8.245,
-   6.025,
+   6.08,
    5.245,
-   3.535,
-   3.25
+   3.63,
+   3.305
   ],
   "spread_rank_corr_with_toll": -1.0,
   "toll_bp": [
@@ -286,18 +286,18 @@
   "verdict": "ORDERING_IS_A_TOLL_ARTEFACT",
   "width_effect_median_pp": [
    -0.665,
-   0.985,
+   0.995,
    1.05,
-   1.135,
-   1.715
+   1.245,
+   1.675
   ],
   "width_effect_rank_corr_with_toll": 1.0,
   "width_spread_pp": [
    1.265,
    1.54,
    1.57,
-   1.61,
-   1.82
+   1.65,
+   1.87
   ]
  },
  "units": {
