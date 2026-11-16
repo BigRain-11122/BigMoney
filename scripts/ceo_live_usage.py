@@ -1339,7 +1339,7 @@ def render_md(p: dict) -> str:
             return "?" if x is None else (
                 _fmt_cny(x) if pct == 0 else f"{x:.{pct}f}")
 
-        head = ("- **这本书今天不开仓**：按采纳的硬上限尺子"
+        head = ("- **这本书当前不开仓**：按采纳的硬上限尺子"
                 f"（arm={cb.get('arm')}），现金下可执行 "
                 f"**{lots0} 手**；"
                 if lots0 == 0 else
