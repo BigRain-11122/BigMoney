@@ -1,24 +1,24 @@
 {
  "script": "scripts/live_book_section_bars.py",
- "ts": "2026-11-17 22:26:40",
+ "ts": "2026-11-17 23:28:31",
  "page": {
   "path": "docs/live_book/LIVE-BOOK-20261117.md",
   "json": "docs/live_book/LIVE-BOOK-20261117.json"
  },
  "verdict": "PAGE_MIXES_BARS",
- "sentence": "页面头部写着按 2026-11-17 定价，但 68 个带日期的节里只有 57 节真在这一天；其余 11 节不在这一天（最旧停在 2026-11-13（最差 cash_caliber 落后 2 个交易日）），另外 3 节根本没有日期——它们不是同一根 bar 上的数，读的时候不能互相加减。2 节按设计没有 bar（sources=指针块（只列它引用的文件，本身不是一次测量）、authority=人事年龄（机器多久没写心跳，时间量不是价格日））——它们本来就不量某一天，催它们补日期是催不动的事。这 11 节里，3 节的产物有同名链腿在守；4 节（cash_handshake, cash_ladder, cash_money, cash_yield）是这一页每次生成时自己重算的，停的正是它读的那块面板的最后一天：data/repo_daily/GC001.csv（update_repo.py / bm-a · T-88 车道，本机只读，末行 2026-11-13）、data/repo_daily（update_repo.py / bm-a · T-88 车道，本机只读，末行 2026-11-13）——落后的是那块面板，不是没人重跑这节；`data/repo_daily` 末行 2026-11-13；最后写入 92.2 h 前；属主 bm-a（update_repo.py） 自己的心跳停在 22.8 h 前——是那条车道停了，不是页面慢；`data/repo_daily/GC001.csv` 末行 2026-11-13；最后写入 92.2 h 前；属主 bm-a（update_repo.py） 自己的心跳停在 22.8 h 前——是那条车道停了，不是页面慢；4 节（futures_hedge, futures_hedge_tail, futures_ladder, futures_sleeve）没有任何一条链腿重跑过它们——那是这一页真正的缺口；其中 1 节自己就带着两根以上的日期（fleet：2026-10-30/2026-11-16/2026-11-17）——它们不是「没写日期」，是写了两天的数，本面不替它们挑一天。",
+ "sentence": "页面头部写着按 2026-11-17 定价，但 69 个带日期的节里只有 58 节真在这一天；其余 11 节不在这一天（最旧停在 2026-11-13（最差 cash_caliber 落后 2 个交易日）），另外 3 节根本没有日期——它们不是同一根 bar 上的数，读的时候不能互相加减。2 节按设计没有 bar（sources=指针块（只列它引用的文件，本身不是一次测量）、authority=人事年龄（机器多久没写心跳，时间量不是价格日））——它们本来就不量某一天，催它们补日期是催不动的事。这 11 节里，3 节的产物有同名链腿在守；4 节（cash_handshake, cash_ladder, cash_money, cash_yield）是这一页每次生成时自己重算的，停的正是它读的那块面板的最后一天：data/repo_daily/GC001.csv（update_repo.py / bm-a · T-88 车道，本机只读，末行 2026-11-13）、data/repo_daily（update_repo.py / bm-a · T-88 车道，本机只读，末行 2026-11-13）——落后的是那块面板，不是没人重跑这节；`data/repo_daily` 末行 2026-11-13；最后写入 93.2 h 前；属主 bm-a（update_repo.py） 自己的心跳停在 23.8 h 前——是那条车道停了，不是页面慢；`data/repo_daily/GC001.csv` 末行 2026-11-13；最后写入 93.2 h 前；属主 bm-a（update_repo.py） 自己的心跳停在 23.8 h 前——是那条车道停了，不是页面慢；4 节（futures_hedge, futures_hedge_tail, futures_ladder, futures_sleeve）没有任何一条链腿重跑过它们——那是这一页真正的缺口；其中 1 节自己就带着两根以上的日期（fleet：2026-10-30/2026-11-16/2026-11-17）——它们不是「没写日期」，是写了两天的数，本面不替它们挑一天。",
  "evidence_cutoff": "2026-11-17",
  "headline_bar": "2026-11-17",
  "headline_field": "priced_bar",
- "n_sections": 68,
- "n_on_headline": 57,
+ "n_sections": 69,
+ "n_on_headline": 58,
  "unknown_sections": [
   "sources",
   "authority",
   "fleet"
  ],
  "bars": {
-  "2026-11-17": 57,
+  "2026-11-17": 58,
   "2026-11-16": 5,
   "2026-11-13": 6
  },
@@ -303,6 +303,7 @@
   "alias_census": "2026-11-17",
   "harvest_census": "2026-11-17",
   "alias_stability": "2026-11-17",
+  "capacity_edge": "2026-11-17",
   "floor_provenance": "2026-11-17",
   "vol_target_gate": "2026-11-17",
   "positions": "2026-11-17",
@@ -346,10 +347,10 @@
    "panel": "data/repo_daily",
    "panel_last_bar": "2026-11-13",
    "panel_last_write": "2026-11-14T02:14:00",
-   "panel_write_age_h": 92.2,
+   "panel_write_age_h": 93.2,
    "owner_machine": "bm-a",
    "owner_runner": "update_repo.py",
-   "owner_heartbeat_age_h": 22.8,
+   "owner_heartbeat_age_h": 23.8,
    "owner_state": "quiet",
    "sections": [
     "cash_ladder"
@@ -359,10 +360,10 @@
    "panel": "data/repo_daily/GC001.csv",
    "panel_last_bar": "2026-11-13",
    "panel_last_write": "2026-11-14T02:13:41",
-   "panel_write_age_h": 92.2,
+   "panel_write_age_h": 93.2,
    "owner_machine": "bm-a",
    "owner_runner": "update_repo.py",
-   "owner_heartbeat_age_h": 22.8,
+   "owner_heartbeat_age_h": 23.8,
    "owner_state": "quiet",
    "sections": [
     "cash_handshake",
@@ -371,7 +372,7 @@
    ]
   }
  ],
- "page_computed_debt_sentence": "`data/repo_daily` 末行 2026-11-13；最后写入 92.2 h 前；属主 bm-a（update_repo.py） 自己的心跳停在 22.8 h 前——是那条车道停了，不是页面慢；`data/repo_daily/GC001.csv` 末行 2026-11-13；最后写入 92.2 h 前；属主 bm-a（update_repo.py） 自己的心跳停在 22.8 h 前——是那条车道停了，不是页面慢",
+ "page_computed_debt_sentence": "`data/repo_daily` 末行 2026-11-13；最后写入 93.2 h 前；属主 bm-a（update_repo.py） 自己的心跳停在 23.8 h 前——是那条车道停了，不是页面慢；`data/repo_daily/GC001.csv` 末行 2026-11-13；最后写入 93.2 h 前；属主 bm-a（update_repo.py） 自己的心跳停在 23.8 h 前——是那条车道停了，不是页面慢",
  "n_no_writer": 4,
  "no_writer": [
   "futures_hedge",

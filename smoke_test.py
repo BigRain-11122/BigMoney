@@ -1990,6 +1990,15 @@ def main() -> int:
              "scripts/etf_alias_stability.py", ["selftest"]),
             ("product: etf_alias_stability (published rates re-derived from the published rows)",
              "scripts/etf_alias_stability.py", ["check"]),
+            # r1814: the capacity veto is a yes/no on a line the book misses by 0.87%. These two
+            # legs pin that the reading it reproduces is the gate's own, that the ceiling is
+            # backed out of that reading and lands exactly on the line, that a worst slot is
+            # chosen by argmax rather than by list order, that a missing ADV is named and never
+            # counted as a pass, and that the verdict name follows the pass count.
+            ("product: etf_book_capacity_edge (how far the capacity veto is from flipping)",
+             "scripts/etf_book_capacity_edge.py", ["selftest"]),
+            ("product: etf_book_capacity_edge (ceiling re-derived from the published rows)",
+             "scripts/etf_book_capacity_edge.py", ["check"]),
             # r1466: the swap was priced but the sheet carrying it did not say when to look
             # again. The legs pin that the action price is the round-trip toll (not a mean,
             # not a percentile), that a censored episode is reported rather than scored as

@@ -1034,7 +1034,22 @@ LEGS = [
     ("harvest_census",
      ["python", "scripts/etf_swap_harvest_census.py", "check"],
      ["python", "scripts/etf_swap_harvest_census.py", "run"]),
+    # r1811: every census statement above is a reading of ONE 250-session window. This leg
+    # re-asks the same two gates of the same pairs on the four years before it, so a reader can
+    # see whether the verdict is a property of the pair or of the window. Gates are imported
+    # from alias_census, so it must run after it and before the page that quotes it
+    # (r1318/r1781 ordering law); ~4s run / check.
+    ("alias_stability",
+     ["python", "scripts/etf_alias_stability.py", "check"],
+     ["python", "scripts/etf_alias_stability.py", "run"]),
     ("etf_book_ceo_page", ["python", "scripts/etf_book_ceo_page.py", "run"]),
+    # r1814: K1 is a yes/no on a ruler that, on 2026-11-17, misses its own line by 0.87%.
+    # This leg backs the line out into a capital figure and re-measures the same trade
+    # against 60 sessions' own ADV, so the page can say how far from flipping it is.
+    # Reads the year-gate face published above, so it must stay after it.
+    ("capacity_edge",
+     ["python", "scripts/etf_book_capacity_edge.py", "check"],
+     ["python", "scripts/etf_book_capacity_edge.py", "run"]),
     # r1639: r1638 found one sentence copied twice onto this page (the two copies read as
     # two independent pieces of evidence) and the block-level leg could not see it, because
     # `"..." in _md` is immune to repetition. That instance is fixed; this leg is the class:

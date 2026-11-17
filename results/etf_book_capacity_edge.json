@@ -1,0 +1,533 @@
+{
+ "artifact": "etf_book_capacity_edge",
+ "face": "results/etf_book_capacity_edge.json",
+ "script": "scripts/etf_book_capacity_edge.py",
+ "evidence_cutoff": "2026-11-17",
+ "session": "2026-11-17",
+ "published": {
+  "lens": "1M",
+  "capital_cny": 1000000.0,
+  "per_name_cny": 200000.0,
+  "impact_pct_of_adv": 1.0087,
+  "within_1pct": false,
+  "line_pct": 1.0
+ },
+ "criteria": {
+  "line_pct": 1.0,
+  "lens_cny": 1000000.0,
+  "lens_tag": "1M",
+  "window_sessions": 60,
+  "adv_bars": 20,
+  "adv_face": "close x volume, rolling 20 median; read as the median of its last 20 values",
+  "verdict_rule": "rate==0 BELOW_LINE_EVERY_SESSION / rate==1 ABOVE_LINE_EVERY_SESSION / 0.20<=rate<=0.80 COIN_FLIP_AT_THE_LINE / else minority side",
+  "coin_flip_band": [
+   0.2,
+   0.8
+  ]
+ },
+ "picks": [
+  "159207",
+  "562060",
+  "159549",
+  "513800",
+  "513690"
+ ],
+ "summary": {
+  "n_sessions": 60,
+  "n_measurable": 60,
+  "n_unmeasurable": 0,
+  "n_passes": 0,
+  "pass_rate": 0.0,
+  "reading_today_pct": 1.0087,
+  "binding_today": "159549",
+  "capital_where_at_line_today_cny": 991420.84,
+  "reading_worst_pct": 2.9339,
+  "reading_best_pct": 1.0087,
+  "capital_min_cny": 340837.76,
+  "capital_median_cny": 496475.93,
+  "capital_max_cny": 991420.84,
+  "n_distinct_readings": 42,
+  "distinct_readings_pct": [
+   1.0087,
+   1.0133,
+   1.0403,
+   1.0635,
+   1.0724,
+   1.0815,
+   1.0909,
+   1.1092,
+   1.1289,
+   1.1574,
+   1.1753,
+   1.1984,
+   1.2225,
+   1.2868,
+   1.3583,
+   1.4368,
+   1.4998,
+   1.5395,
+   1.5721,
+   1.6109,
+   1.6737,
+   1.8072,
+   1.8506,
+   1.9551,
+   2.0142,
+   2.0487,
+   2.1533,
+   2.187,
+   2.3506,
+   2.3831,
+   2.5316,
+   2.5684,
+   2.6106,
+   2.7181,
+   2.7255,
+   2.7812,
+   2.8428,
+   2.8442,
+   2.848,
+   2.8517,
+   2.8923,
+   2.9339
+  ],
+  "binding_names": [
+   "159549"
+  ],
+  "lens_cny": 1000000.0,
+  "line_pct": 1.0,
+  "gap_to_lens_cny": 8579.16,
+  "verdict": "BELOW_LINE_EVERY_SESSION",
+  "n_names": 5
+ },
+ "sessions": [
+  {
+   "bar": "2026-08-18",
+   "reading": 0.014998376781924805,
+   "binding": "159549",
+   "capital_where_at_line_cny": 666738.82,
+   "unmeasurable": []
+  },
+  {
+   "bar": "2026-08-19",
+   "reading": 0.015395126170159968,
+   "binding": "159549",
+   "capital_where_at_line_cny": 649556.22,
+   "unmeasurable": []
+  },
+  {
+   "bar": "2026-08-20",
+   "reading": 0.015395126170159968,
+   "binding": "159549",
+   "capital_where_at_line_cny": 649556.22,
+   "unmeasurable": []
+  },
+  {
+   "bar": "2026-08-21",
+   "reading": 0.015395126170159968,
+   "binding": "159549",
+   "capital_where_at_line_cny": 649556.22,
+   "unmeasurable": []
+  },
+  {
+   "bar": "2026-08-24",
+   "reading": 0.015395126170159968,
+   "binding": "159549",
+   "capital_where_at_line_cny": 649556.22,
+   "unmeasurable": []
+  },
+  {
+   "bar": "2026-08-25",
+   "reading": 0.015395126170159968,
+   "binding": "159549",
+   "capital_where_at_line_cny": 649556.22,
+   "unmeasurable": []
+  },
+  {
+   "bar": "2026-08-26",
+   "reading": 0.01572083522478726,
+   "binding": "159549",
+   "capital_where_at_line_cny": 636098.52,
+   "unmeasurable": []
+  },
+  {
+   "bar": "2026-08-27",
+   "reading": 0.016736739489670704,
+   "binding": "159549",
+   "capital_where_at_line_cny": 597487.94,
+   "unmeasurable": []
+  },
+  {
+   "bar": "2026-08-28",
+   "reading": 0.018506041847915995,
+   "binding": "159549",
+   "capital_where_at_line_cny": 540364.07,
+   "unmeasurable": []
+  },
+  {
+   "bar": "2026-08-31",
+   "reading": 0.02014196327633666,
+   "binding": "159549",
+   "capital_where_at_line_cny": 496475.93,
+   "unmeasurable": []
+  },
+  {
+   "bar": "2026-09-01",
+   "reading": 0.021532837937533883,
+   "binding": "159549",
+   "capital_where_at_line_cny": 464406.97,
+   "unmeasurable": []
+  },
+  {
+   "bar": "2026-09-02",
+   "reading": 0.023830606920521996,
+   "binding": "159549",
+   "capital_where_at_line_cny": 419628.42,
+   "unmeasurable": []
+  },
+  {
+   "bar": "2026-09-03",
+   "reading": 0.025316346230244192,
+   "binding": "159549",
+   "capital_where_at_line_cny": 395001.71,
+   "unmeasurable": []
+  },
+  {
+   "bar": "2026-09-04",
+   "reading": 0.025316346230244192,
+   "binding": "159549",
+   "capital_where_at_line_cny": 395001.71,
+   "unmeasurable": []
+  },
+  {
+   "bar": "2026-09-07",
+   "reading": 0.025316346230244192,
+   "binding": "159549",
+   "capital_where_at_line_cny": 395001.71,
+   "unmeasurable": []
+  },
+  {
+   "bar": "2026-09-08",
+   "reading": 0.026105670157438497,
+   "binding": "159549",
+   "capital_where_at_line_cny": 383058.54,
+   "unmeasurable": []
+  },
+  {
+   "bar": "2026-09-09",
+   "reading": 0.027255174382932464,
+   "binding": "159549",
+   "capital_where_at_line_cny": 366902.81,
+   "unmeasurable": []
+  },
+  {
+   "bar": "2026-09-10",
+   "reading": 0.028428150792961158,
+   "binding": "159549",
+   "capital_where_at_line_cny": 351764.0,
+   "unmeasurable": []
+  },
+  {
+   "bar": "2026-09-11",
+   "reading": 0.028922562005806285,
+   "binding": "159549",
+   "capital_where_at_line_cny": 345750.84,
+   "unmeasurable": []
+  },
+  {
+   "bar": "2026-09-14",
+   "reading": 0.028922562005806285,
+   "binding": "159549",
+   "capital_where_at_line_cny": 345750.84,
+   "unmeasurable": []
+  },
+  {
+   "bar": "2026-09-15",
+   "reading": 0.028922562005806285,
+   "binding": "159549",
+   "capital_where_at_line_cny": 345750.84,
+   "unmeasurable": []
+  },
+  {
+   "bar": "2026-09-16",
+   "reading": 0.028922562005806285,
+   "binding": "159549",
+   "capital_where_at_line_cny": 345750.84,
+   "unmeasurable": []
+  },
+  {
+   "bar": "2026-09-17",
+   "reading": 0.029339472031066394,
+   "binding": "159549",
+   "capital_where_at_line_cny": 340837.76,
+   "unmeasurable": []
+  },
+  {
+   "bar": "2026-09-18",
+   "reading": 0.029339472031066394,
+   "binding": "159549",
+   "capital_where_at_line_cny": 340837.76,
+   "unmeasurable": []
+  },
+  {
+   "bar": "2026-09-21",
+   "reading": 0.029339472031066394,
+   "binding": "159549",
+   "capital_where_at_line_cny": 340837.76,
+   "unmeasurable": []
+  },
+  {
+   "bar": "2026-09-22",
+   "reading": 0.029339472031066394,
+   "binding": "159549",
+   "capital_where_at_line_cny": 340837.76,
+   "unmeasurable": []
+  },
+  {
+   "bar": "2026-09-23",
+   "reading": 0.029339472031066394,
+   "binding": "159549",
+   "capital_where_at_line_cny": 340837.76,
+   "unmeasurable": []
+  },
+  {
+   "bar": "2026-09-24",
+   "reading": 0.029339472031066394,
+   "binding": "159549",
+   "capital_where_at_line_cny": 340837.76,
+   "unmeasurable": []
+  },
+  {
+   "bar": "2026-09-28",
+   "reading": 0.028922562005806285,
+   "binding": "159549",
+   "capital_where_at_line_cny": 345750.84,
+   "unmeasurable": []
+  },
+  {
+   "bar": "2026-09-29",
+   "reading": 0.02851733444710635,
+   "binding": "159549",
+   "capital_where_at_line_cny": 350663.91,
+   "unmeasurable": []
+  },
+  {
+   "bar": "2026-09-30",
+   "reading": 0.02851733444710635,
+   "binding": "159549",
+   "capital_where_at_line_cny": 350663.91,
+   "unmeasurable": []
+  },
+  {
+   "bar": "2026-10-08",
+   "reading": 0.02851733444710635,
+   "binding": "159549",
+   "capital_where_at_line_cny": 350663.91,
+   "unmeasurable": []
+  },
+  {
+   "bar": "2026-10-09",
+   "reading": 0.02847968208928315,
+   "binding": "159549",
+   "capital_where_at_line_cny": 351127.52,
+   "unmeasurable": []
+  },
+  {
+   "bar": "2026-10-12",
+   "reading": 0.028442129027604564,
+   "binding": "159549",
+   "capital_where_at_line_cny": 351591.12,
+   "unmeasurable": []
+  },
+  {
+   "bar": "2026-10-13",
+   "reading": 0.027811558972001625,
+   "binding": "159549",
+   "capital_where_at_line_cny": 359562.73,
+   "unmeasurable": []
+  },
+  {
+   "bar": "2026-10-14",
+   "reading": 0.02718122076638471,
+   "binding": "159549",
+   "capital_where_at_line_cny": 367901.06,
+   "unmeasurable": []
+  },
+  {
+   "bar": "2026-10-15",
+   "reading": 0.025683665629776423,
+   "binding": "159549",
+   "capital_where_at_line_cny": 389352.52,
+   "unmeasurable": []
+  },
+  {
+   "bar": "2026-10-16",
+   "reading": 0.0235056985246901,
+   "binding": "159549",
+   "capital_where_at_line_cny": 425428.75,
+   "unmeasurable": []
+  },
+  {
+   "bar": "2026-10-19",
+   "reading": 0.02186997552689596,
+   "binding": "159549",
+   "capital_where_at_line_cny": 457247.88,
+   "unmeasurable": []
+  },
+  {
+   "bar": "2026-10-20",
+   "reading": 0.020486939729574445,
+   "binding": "159549",
+   "capital_where_at_line_cny": 488115.85,
+   "unmeasurable": []
+  },
+  {
+   "bar": "2026-10-21",
+   "reading": 0.019550608156857816,
+   "binding": "159549",
+   "capital_where_at_line_cny": 511493.04,
+   "unmeasurable": []
+  },
+  {
+   "bar": "2026-10-22",
+   "reading": 0.018071793937761156,
+   "binding": "159549",
+   "capital_where_at_line_cny": 553348.5,
+   "unmeasurable": []
+  },
+  {
+   "bar": "2026-10-23",
+   "reading": 0.016108560226632623,
+   "binding": "159549",
+   "capital_where_at_line_cny": 620787.95,
+   "unmeasurable": []
+  },
+  {
+   "bar": "2026-10-26",
+   "reading": 0.014368344918269414,
+   "binding": "159549",
+   "capital_where_at_line_cny": 695974.38,
+   "unmeasurable": []
+  },
+  {
+   "bar": "2026-10-27",
+   "reading": 0.013582527897918067,
+   "binding": "159549",
+   "capital_where_at_line_cny": 736239.97,
+   "unmeasurable": []
+  },
+  {
+   "bar": "2026-10-28",
+   "reading": 0.012867822938782098,
+   "binding": "159549",
+   "capital_where_at_line_cny": 777132.23,
+   "unmeasurable": []
+  },
+  {
+   "bar": "2026-10-29",
+   "reading": 0.012224572810622255,
+   "binding": "159549",
+   "capital_where_at_line_cny": 818024.49,
+   "unmeasurable": []
+  },
+  {
+   "bar": "2026-10-30",
+   "reading": 0.011984216547123108,
+   "binding": "159549",
+   "capital_where_at_line_cny": 834430.85,
+   "unmeasurable": []
+  },
+  {
+   "bar": "2026-11-02",
+   "reading": 0.011753129671850679,
+   "binding": "159549",
+   "capital_where_at_line_cny": 850837.21,
+   "unmeasurable": []
+  },
+  {
+   "bar": "2026-11-03",
+   "reading": 0.011753129671850679,
+   "binding": "159549",
+   "capital_where_at_line_cny": 850837.21,
+   "unmeasurable": []
+  },
+  {
+   "bar": "2026-11-04",
+   "reading": 0.011573712998340428,
+   "binding": "159549",
+   "capital_where_at_line_cny": 864026.96,
+   "unmeasurable": []
+  },
+  {
+   "bar": "2026-11-05",
+   "reading": 0.011288519094061573,
+   "binding": "159549",
+   "capital_where_at_line_cny": 885855.79,
+   "unmeasurable": []
+  },
+  {
+   "bar": "2026-11-06",
+   "reading": 0.01109173360601843,
+   "binding": "159549",
+   "capital_where_at_line_cny": 901572.32,
+   "unmeasurable": []
+  },
+  {
+   "bar": "2026-11-09",
+   "reading": 0.010909227552124737,
+   "binding": "159549",
+   "capital_where_at_line_cny": 916655.19,
+   "unmeasurable": []
+  },
+  {
+   "bar": "2026-11-10",
+   "reading": 0.010814778899334637,
+   "binding": "159549",
+   "capital_where_at_line_cny": 924660.61,
+   "unmeasurable": []
+  },
+  {
+   "bar": "2026-11-11",
+   "reading": 0.010724235880565546,
+   "binding": "159549",
+   "capital_where_at_line_cny": 932467.37,
+   "unmeasurable": []
+  },
+  {
+   "bar": "2026-11-12",
+   "reading": 0.010635196354918325,
+   "binding": "159549",
+   "capital_where_at_line_cny": 940274.13,
+   "unmeasurable": []
+  },
+  {
+   "bar": "2026-11-13",
+   "reading": 0.01040253364629616,
+   "binding": "159549",
+   "capital_where_at_line_cny": 961304.27,
+   "unmeasurable": []
+  },
+  {
+   "bar": "2026-11-16",
+   "reading": 0.010132968614016353,
+   "binding": "159549",
+   "capital_where_at_line_cny": 986877.62,
+   "unmeasurable": []
+  },
+  {
+   "bar": "2026-11-17",
+   "reading": 0.010086533963501981,
+   "binding": "159549",
+   "capital_where_at_line_cny": 991420.84,
+   "unmeasurable": []
+  }
+ ],
+ "caveats": [
+  "这笔单子固定成今天的选票、等权：量的是尺子的余量，不是「重新选票后那些天会填成什么样」",
+  "成交额用的是闸自己的口径（收盘价×成交量、中位再取中位），不是成交明细：它是估计值而且是阶梯状的，所以读数一格一格跳",
+  "「1% ADV」是闸选定的线，不是量出来的线；换一条线，这里每个数按同一比例移动",
+  "读数在窗内上下走是市场成交额在走，不是这本书在走；这里没有一句话说明天会读到什么",
+  "资本上限是一个资本数，不是一张能下的单：整数手与 8% 波动目标都可能把它压得更低（见 etf_book_ticket_floor / etf_book_lot_floor）"
+ ],
+ "sentence": "同一笔单子（1,000,000 元、5 个名字等权），最近 60 个交易日里有 0 天过线、60 天不过线。今天这一行是 1.0087%（最弱的是 159549），闸线 1.00%；把这把尺子倒过来读，在今天的成交额上能过的资本上限是 991,421 元，离 1,000,000 元差 8,579 元。今天还是这段窗里最好的一天（读数最低），所以这个 DENY 不是当天的运气。按这段窗的中位算，上限是 496,476 元；按最差的一天算，只有 340,838 元——「装不下 100 万」这句要换成「平常装得下多少」。"
+}

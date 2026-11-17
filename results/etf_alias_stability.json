@@ -1,0 +1,921 @@
+{
+ "artifact": "etf_alias_stability",
+ "evidence_cutoff": "2026-11-17",
+ "session": "2026-11-17",
+ "panel": {
+  "window_from": "2025-11-06",
+  "window_to": "2026-11-17",
+  "window_days": 250
+ },
+ "source_faces": {
+  "gates": "scripts/etf_alias_census.py (share_divergent / despiked_drift / pair_verdict, imported)",
+  "board": "results/etf_book_sibling_entry.json (latest snapshot)",
+  "panels": "data/daily/*.csv (per-ticker close)"
+ },
+ "criteria": {
+  "year_days": 250,
+  "prior_windows": 4,
+  "share_max": 0.2,
+  "divergent_pp": 0.5,
+  "drift_pp_max": 1.0,
+  "step_sd": 3.0,
+  "floor_pp": 0.1,
+  "stable_min": 0.8,
+  "partial_min": 0.5
+ },
+ "windows": [
+  {
+   "label": "T",
+   "from": "2025-11-06",
+   "to": "2026-11-17",
+   "days": 250,
+   "n_in_screen": 581,
+   "n_excluded_short": 70
+  },
+  {
+   "label": "T-1y",
+   "from": "2024-10-28",
+   "to": "2025-11-05",
+   "days": 250,
+   "n_in_screen": 441,
+   "n_excluded_short": 142
+  },
+  {
+   "label": "T-2y",
+   "from": "2023-10-16",
+   "to": "2024-10-25",
+   "days": 250,
+   "n_in_screen": 366,
+   "n_excluded_short": 92
+  },
+  {
+   "label": "T-3y",
+   "from": "2022-09-28",
+   "to": "2023-10-13",
+   "days": 250,
+   "n_in_screen": 295,
+   "n_excluded_short": 75
+  },
+  {
+   "label": "T-4y",
+   "from": "2021-09-15",
+   "to": "2022-09-27",
+   "days": 250,
+   "n_in_screen": 226,
+   "n_excluded_short": 74
+  }
+ ],
+ "board": {
+  "n_rows": 1668,
+  "n_live": 660,
+  "n_with_panel": 651,
+  "n_in_screen": 581,
+  "n_pairs": 168490,
+  "verdict_counts_today": {
+   "DAYS_APART": 166279,
+   "SAME_BASKET": 867,
+   "WALKS_APART": 1344
+  },
+  "n_accepted_today": 867
+ },
+ "stability": {
+  "n_pairs": 867,
+  "n_measurable_before": 538,
+  "n_held_every_window": 137,
+  "n_refused_somewhere": 401,
+  "n_not_measurable": 329,
+  "hold_rate": 0.2546,
+  "refused_by_gate": {
+   "DAYS_APART": 35,
+   "WALKS_APART": 394
+  },
+  "verdict": "WINDOW_LUCK",
+  "per_window": [
+   {
+    "label": "T-1y",
+    "measured": 538,
+    "same_basket": 308,
+    "refused_days_apart": 8,
+    "refused_walks_apart": 222,
+    "no_history": 329,
+    "share": 0.5725
+   },
+   {
+    "label": "T-2y",
+    "measured": 388,
+    "same_basket": 221,
+    "refused_days_apart": 16,
+    "refused_walks_apart": 151,
+    "no_history": 479,
+    "share": 0.5696
+   },
+   {
+    "label": "T-3y",
+    "measured": 320,
+    "same_basket": 173,
+    "refused_days_apart": 15,
+    "refused_walks_apart": 132,
+    "no_history": 547,
+    "share": 0.5406
+   },
+   {
+    "label": "T-4y",
+    "measured": 226,
+    "same_basket": 115,
+    "refused_days_apart": 11,
+    "refused_walks_apart": 100,
+    "no_history": 641,
+    "share": 0.5088
+   }
+  ],
+  "by_trials": {
+   "1": {
+    "pairs": 139,
+    "held_every_window": 46,
+    "rate": 0.3309
+   },
+   "2": {
+    "pairs": 75,
+    "held_every_window": 17,
+    "rate": 0.2267
+   },
+   "3": {
+    "pairs": 113,
+    "held_every_window": 24,
+    "rate": 0.2124
+   },
+   "4": {
+    "pairs": 211,
+    "held_every_window": 50,
+    "rate": 0.237
+   }
+  },
+  "pooled_per_window_rate": 0.555,
+  "held_if_windows_were_independent": 139.58,
+  "refused": [
+   {
+    "pair": [
+     "159001",
+     "511620"
+    ],
+    "refused_by": [
+     [
+      "T-4y",
+      "WALKS_APART"
+     ]
+    ],
+    "trials": 4
+   },
+   {
+    "pair": [
+     "159300",
+     "159352"
+    ],
+    "refused_by": [
+     [
+      "T-1y",
+      "WALKS_APART"
+     ]
+    ],
+    "trials": 1
+   },
+   {
+    "pair": [
+     "159300",
+     "159592"
+    ],
+    "refused_by": [
+     [
+      "T-1y",
+      "WALKS_APART"
+     ]
+    ],
+    "trials": 1
+   },
+   {
+    "pair": [
+     "159300",
+     "510180"
+    ],
+    "refused_by": [
+     [
+      "T-1y",
+      "WALKS_APART"
+     ]
+    ],
+    "trials": 1
+   },
+   {
+    "pair": [
+     "159300",
+     "512090"
+    ],
+    "refused_by": [
+     [
+      "T-1y",
+      "WALKS_APART"
+     ]
+    ],
+    "trials": 1
+   },
+   {
+    "pair": [
+     "159300",
+     "515660"
+    ],
+    "refused_by": [
+     [
+      "T-1y",
+      "WALKS_APART"
+     ]
+    ],
+    "trials": 1
+   },
+   {
+    "pair": [
+     "159300",
+     "515800"
+    ],
+    "refused_by": [
+     [
+      "T-1y",
+      "WALKS_APART"
+     ]
+    ],
+    "trials": 1
+   },
+   {
+    "pair": [
+     "159300",
+     "515810"
+    ],
+    "refused_by": [
+     [
+      "T-1y",
+      "WALKS_APART"
+     ]
+    ],
+    "trials": 1
+   },
+   {
+    "pair": [
+     "159300",
+     "560510"
+    ],
+    "refused_by": [
+     [
+      "T-1y",
+      "WALKS_APART"
+     ]
+    ],
+    "trials": 1
+   },
+   {
+    "pair": [
+     "159327",
+     "159558"
+    ],
+    "refused_by": [
+     [
+      "T-1y",
+      "WALKS_APART"
+     ]
+    ],
+    "trials": 1
+   },
+   {
+    "pair": [
+     "159327",
+     "560780"
+    ],
+    "refused_by": [
+     [
+      "T-1y",
+      "WALKS_APART"
+     ]
+    ],
+    "trials": 1
+   },
+   {
+    "pair": [
+     "159330",
+     "159338"
+    ],
+    "refused_by": [
+     [
+      "T-1y",
+      "WALKS_APART"
+     ]
+    ],
+    "trials": 1
+   },
+   {
+    "pair": [
+     "159330",
+     "159352"
+    ],
+    "refused_by": [
+     [
+      "T-1y",
+      "WALKS_APART"
+     ]
+    ],
+    "trials": 1
+   },
+   {
+    "pair": [
+     "159330",
+     "159925"
+    ],
+    "refused_by": [
+     [
+      "T-1y",
+      "WALKS_APART"
+     ]
+    ],
+    "trials": 1
+   },
+   {
+    "pair": [
+     "159330",
+     "510330"
+    ],
+    "refused_by": [
+     [
+      "T-1y",
+      "WALKS_APART"
+     ]
+    ],
+    "trials": 1
+   },
+   {
+    "pair": [
+     "159330",
+     "510360"
+    ],
+    "refused_by": [
+     [
+      "T-1y",
+      "WALKS_APART"
+     ]
+    ],
+    "trials": 1
+   },
+   {
+    "pair": [
+     "159330",
+     "512090"
+    ],
+    "refused_by": [
+     [
+      "T-1y",
+      "WALKS_APART"
+     ]
+    ],
+    "trials": 1
+   },
+   {
+    "pair": [
+     "159330",
+     "563220"
+    ],
+    "refused_by": [
+     [
+      "T-1y",
+      "WALKS_APART"
+     ]
+    ],
+    "trials": 1
+   },
+   {
+    "pair": [
+     "159338",
+     "159919"
+    ],
+    "refused_by": [
+     [
+      "T-1y",
+      "WALKS_APART"
+     ]
+    ],
+    "trials": 1
+   },
+   {
+    "pair": [
+     "159338",
+     "510300"
+    ],
+    "refused_by": [
+     [
+      "T-1y",
+      "WALKS_APART"
+     ]
+    ],
+    "trials": 1
+   },
+   {
+    "pair": [
+     "159338",
+     "510360"
+    ],
+    "refused_by": [
+     [
+      "T-1y",
+      "WALKS_APART"
+     ]
+    ],
+    "trials": 1
+   },
+   {
+    "pair": [
+     "159338",
+     "515310"
+    ],
+    "refused_by": [
+     [
+      "T-1y",
+      "WALKS_APART"
+     ]
+    ],
+    "trials": 1
+   },
+   {
+    "pair": [
+     "159338",
+     "515390"
+    ],
+    "refused_by": [
+     [
+      "T-1y",
+      "WALKS_APART"
+     ]
+    ],
+    "trials": 1
+   },
+   {
+    "pair": [
+     "159338",
+     "560530"
+    ],
+    "refused_by": [
+     [
+      "T-1y",
+      "WALKS_APART"
+     ]
+    ],
+    "trials": 1
+   },
+   {
+    "pair": [
+     "159339",
+     "159673"
+    ],
+    "refused_by": [
+     [
+      "T-1y",
+      "WALKS_APART"
+     ]
+    ],
+    "trials": 1
+   },
+   {
+    "pair": [
+     "159339",
+     "159919"
+    ],
+    "refused_by": [
+     [
+      "T-1y",
+      "WALKS_APART"
+     ]
+    ],
+    "trials": 1
+   },
+   {
+    "pair": [
+     "159339",
+     "159925"
+    ],
+    "refused_by": [
+     [
+      "T-1y",
+      "WALKS_APART"
+     ]
+    ],
+    "trials": 1
+   },
+   {
+    "pair": [
+     "159339",
+     "510300"
+    ],
+    "refused_by": [
+     [
+      "T-1y",
+      "WALKS_APART"
+     ]
+    ],
+    "trials": 1
+   },
+   {
+    "pair": [
+     "159339",
+     "510330"
+    ],
+    "refused_by": [
+     [
+      "T-1y",
+      "WALKS_APART"
+     ]
+    ],
+    "trials": 1
+   },
+   {
+    "pair": [
+     "159339",
+     "563220"
+    ],
+    "refused_by": [
+     [
+      "T-1y",
+      "WALKS_APART"
+     ]
+    ],
+    "trials": 1
+   },
+   {
+    "pair": [
+     "159351",
+     "159352"
+    ],
+    "refused_by": [
+     [
+      "T-1y",
+      "WALKS_APART"
+     ]
+    ],
+    "trials": 1
+   },
+   {
+    "pair": [
+     "159351",
+     "159673"
+    ],
+    "refused_by": [
+     [
+      "T-1y",
+      "WALKS_APART"
+     ]
+    ],
+    "trials": 1
+   },
+   {
+    "pair": [
+     "159352",
+     "159919"
+    ],
+    "refused_by": [
+     [
+      "T-1y",
+      "WALKS_APART"
+     ]
+    ],
+    "trials": 1
+   },
+   {
+    "pair": [
+     "159352",
+     "159925"
+    ],
+    "refused_by": [
+     [
+      "T-1y",
+      "WALKS_APART"
+     ]
+    ],
+    "trials": 1
+   },
+   {
+    "pair": [
+     "159352",
+     "510330"
+    ],
+    "refused_by": [
+     [
+      "T-1y",
+      "WALKS_APART"
+     ]
+    ],
+    "trials": 1
+   },
+   {
+    "pair": [
+     "159352",
+     "510350"
+    ],
+    "refused_by": [
+     [
+      "T-1y",
+      "WALKS_APART"
+     ]
+    ],
+    "trials": 1
+   },
+   {
+    "pair": [
+     "159352",
+     "515310"
+    ],
+    "refused_by": [
+     [
+      "T-1y",
+      "WALKS_APART"
+     ]
+    ],
+    "trials": 1
+   },
+   {
+    "pair": [
+     "159353",
+     "159673"
+    ],
+    "refused_by": [
+     [
+      "T-1y",
+      "WALKS_APART"
+     ]
+    ],
+    "trials": 1
+   },
+   {
+    "pair": [
+     "159353",
+     "159919"
+    ],
+    "refused_by": [
+     [
+      "T-1y",
+      "WALKS_APART"
+     ]
+    ],
+    "trials": 1
+   },
+   {
+    "pair": [
+     "159353",
+     "510330"
+    ],
+    "refused_by": [
+     [
+      "T-1y",
+      "WALKS_APART"
+     ]
+    ],
+    "trials": 1
+   }
+  ],
+  "refused_total": 401,
+  "not_measurable": [
+   [
+    "159101",
+    "159636"
+   ],
+   [
+    "159102",
+    "159718"
+   ],
+   [
+    "159102",
+    "159892"
+   ],
+   [
+    "159102",
+    "513200"
+   ],
+   [
+    "159102",
+    "513700"
+   ],
+   [
+    "159102",
+    "520700"
+   ],
+   [
+    "159105",
+    "159718"
+   ],
+   [
+    "159105",
+    "513200"
+   ],
+   [
+    "159105",
+    "513280"
+   ],
+   [
+    "159105",
+    "513700"
+   ],
+   [
+    "159201",
+    "159222"
+   ],
+   [
+    "159202",
+    "159688"
+   ],
+   [
+    "159205",
+    "159908"
+   ],
+   [
+    "159213",
+    "560770"
+   ],
+   [
+    "159213",
+    "562500"
+   ],
+   [
+    "159217",
+    "159286"
+   ],
+   [
+    "159217",
+    "159567"
+   ],
+   [
+    "159232",
+    "159233"
+   ],
+   [
+    "159232",
+    "563390"
+   ],
+   [
+    "159232",
+    "563760"
+   ],
+   [
+    "159233",
+    "159235"
+   ],
+   [
+    "159235",
+    "563760"
+   ],
+   [
+    "159242",
+    "159246"
+   ],
+   [
+    "159242",
+    "159381"
+   ],
+   [
+    "159245",
+    "513230"
+   ],
+   [
+    "159246",
+    "159363"
+   ],
+   [
+    "159246",
+    "159381"
+   ],
+   [
+    "159246",
+    "159388"
+   ],
+   [
+    "159258",
+    "159526"
+   ],
+   [
+    "159258",
+    "159770"
+   ],
+   [
+    "159265",
+    "513070"
+   ],
+   [
+    "159265",
+    "513230"
+   ],
+   [
+    "159268",
+    "513070"
+   ],
+   [
+    "159269",
+    "513020"
+   ],
+   [
+    "159269",
+    "513150"
+   ],
+   [
+    "159269",
+    "513860"
+   ],
+   [
+    "159269",
+    "513980"
+   ],
+   [
+    "159272",
+    "159278"
+   ],
+   [
+    "159272",
+    "159559"
+   ],
+   [
+    "159279",
+    "159363"
+   ]
+  ]
+ },
+ "crosscheck": {
+  "census_present": true,
+  "census_session": "2026-11-16",
+  "census_window": [
+   "2025-11-06",
+   "2026-11-17"
+  ],
+  "census_n_in_screen": 577,
+  "census_same_basket": 830,
+  "same_window": true,
+  "same_universe": false,
+  "rule_identity_ok": null,
+  "note": "同一窗不同宇宙（普查面 577 票 / 本面 581 票）：面板在普查面写完之后又落了新票，差在宇宙不在规则"
+ },
+ "families": {
+  "n_alias": 41,
+  "n_cross_name": 12,
+  "n_chains": 40,
+  "n_over_material_line": 2,
+  "total_cost_cny": 1311.2,
+  "cost_where_every_pair_held_cny": 694.5,
+  "rows": [
+   {
+    "members": [
+     "159605",
+     "159607"
+    ],
+    "names": [
+     "中概互联ETF",
+     "中概互联网ETF"
+    ],
+    "money": {
+     "cheapest": "159607",
+     "cheapest_premium_pp": -2.1603,
+     "dearest": "159605",
+     "dearest_premium_pp": -1.5436,
+     "spread_pp": 0.6167,
+     "cost_cny": 616.7,
+     "material": true
+    },
+    "pair_stability": {
+     "n_pairs": 1,
+     "n_held_every_window": 0,
+     "all_pairs_hold": false
+    }
+   },
+   {
+    "members": [
+     "159813",
+     "159995"
+    ],
+    "names": [
+     "半导体ETF",
+     "芯片ETF"
+    ],
+    "money": {
+     "cheapest": "159995",
+     "cheapest_premium_pp": 0.122,
+     "dearest": "159813",
+     "dearest_premium_pp": 0.8164,
+     "spread_pp": 0.6945,
+     "cost_cny": 694.5,
+     "material": true
+    },
+    "pair_stability": {
+     "n_pairs": 1,
+     "n_held_every_window": 1,
+     "all_pairs_hold": true
+    }
+   }
+  ]
+ },
+ "sentence": "今天这张盘口有 867 对异名同篮；把同样两道门放到前 4 个年度窗上重问一遍，每窗只留下（T-1y 57.2%、T-2y 57.0%、T-3y 54.1%、T-4y 50.9%），能数到的 538 对里 137 对每窗都过（25.5%），401 对被某一窗拒过（日级 35 对 / 年级 394 对），329 对历史不够没法问——判词 WINDOW_LUCK。把每个历史窗当独立抽样，每窗 55.5% 的通过率下这些对应该活下来 139.6 对，实测 137 对——所以这不是「某些对不稳」而是这道年级线落在刀口上。过 0.50pp 物质线的 2 组一共 1,311 元的选择成本，其中每一对都过所有窗的只有 694 元。",
+ "caveats": [
+  "the earlier windows re-ask the SAME two gates of the SAME two tickers; a pair that holds in all of them is stable in price behaviour, not certified as the same asset",
+  "earlier windows carry membership only: premiums exist for one session on this board, so no earlier money number is published (a prior-year cost would be invented)",
+  "the screen is today's: a ticker that only began trading two years ago drops out of the earlier windows by name and is counted as not measurable, never as a hold",
+  "the drift line is still the census's chosen 1.0 pp; this face measures whether the verdicts move, not whether the line is the right one",
+  "windows are disjoint and exactly 250 sessions; the panel's own holiday calendar decides what a session is"
+ ]
+}

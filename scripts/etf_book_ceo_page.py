@@ -2593,6 +2593,197 @@ def label_census_face(path=LABEL_CENSUS_JSON):
     }
 
 
+CAPEDGE_JSON = os.path.join(ROOT, "results", "etf_book_capacity_edge.json")
+
+
+def capacity_edge_face(path=CAPEDGE_JSON):
+    """K1 prints DENY. How far from its own line is that, and does it move with the calendar?
+
+    Read-only, one face. An absent face is "cannot verify", never "there is room".
+    """
+    rel = _rel(path, ROOT).replace(os.sep, "/")
+    if not os.path.exists(path):
+        return {"status": "unreadable", "artifact": rel, "detail": "capacity edge face absent"}
+    f = _load(path) or {}
+    s = f.get("summary") or {}
+    if s.get("reading_today_pct") is None:
+        return {"status": "unreadable", "artifact": rel,
+                "detail": "face carries no reading", "session": f.get("session")}
+    return {"status": "ok", "artifact": rel,
+            "session": f.get("session"), "evidence_cutoff": f.get("evidence_cutoff"),
+            "sentence": f.get("sentence"), "summary": s,
+            "criteria": f.get("criteria") or {}, "caveats": f.get("caveats") or []}
+
+
+def capacity_edge_block(ce, page_bar=None, page_day=None):
+    """Page lines: the veto's margin in CNY, and the same trade re-measured against 60 days.
+
+    Every number is the face's own; this block counts nothing.
+    """
+    L = []
+    add = L.append
+
+    def _cny(v):
+        return "读不出" if v is None else "{:,.0f}".format(float(v))
+
+    def _pct(v):
+        return "读不出" if v is None else "%.4f%%" % float(v)
+
+    ce = ce or {}
+    head = "## 这条容量闸离翻转有多远（1% ADV 那一行）"
+    if ce.get("status") != "ok":
+        add(head)
+        add("")
+        add("这一节读不到容量边缘面（`%s`）：%s。**所以本页只说了 DENY，说不出这个 DENY 离闸线"
+            "还有多远**——缺面不读成「还有空间」。"
+            % (ce.get("artifact") or "results/etf_book_capacity_edge.json",
+               ce.get("detail") or "无读数"))
+        add("")
+        return L
+    s = ce.get("summary") or {}
+    words = {"BELOW_LINE_EVERY_SESSION": "整段窗里没有一天过线",
+             "ABOVE_LINE_EVERY_SESSION": "整段窗里每天都过线",
+             "COIN_FLIP_AT_THE_LINE": "过与不过翻在日历上",
+             "BELOW_LINE_MOST_SESSIONS": "多数日子不过线",
+             "ABOVE_LINE_MOST_SESSIONS": "多数日子过线",
+             "NO_MEASURABLE_SESSION": "一个可量的日子都没有"}
+    add(head)
+    add("")
+    add("**%s**" % (ce.get("sentence") or ""))
+    add("")
+    add("- 判词：**%s**。计价截止 %s（盘口 %s）。"
+        % (words.get(s.get("verdict"), s.get("verdict") or "读不出"),
+           str(ce.get("evidence_cutoff") or "")[:10] or "未标",
+           str(ce.get("session") or "")[:10] or "未标"))
+    add("- 闸线 %.2f%% ADV；今天的读数 **%s**（最弱席位 %s）。"
+        % (float(s.get("line_pct") or 0.0), _pct(s.get("reading_today_pct")),
+           s.get("binding_today") or "读不出"))
+    add("- 把这把尺子倒过来读：**能过的资本上限 %s 元**，与 %s 元这个整数差 %s 元。"
+        % (_cny(s.get("capital_where_at_line_today_cny")), _cny(s.get("lens_cny")),
+           _cny(s.get("gap_to_lens_cny"))))
+    add("- 同一笔单子按最近 %d 个交易日各自的成交额重量一遍：**%d 天过线 / %d 天不过线**；"
+        "窗内读数从 %s 到 %s，资本上限最低 %s 元、中位 %s 元、最高 %s 元。"
+        % (int(s.get("n_measurable") or 0), int(s.get("n_passes") or 0),
+           int(s.get("n_measurable") or 0) - int(s.get("n_passes") or 0),
+           _pct(s.get("reading_best_pct")), _pct(s.get("reading_worst_pct")),
+           _cny(s.get("capital_min_cny")), _cny(s.get("capital_median_cny")),
+           _cny(s.get("capital_max_cny"))))
+    if s.get("n_distinct_readings"):
+        add("- 这把尺子在窗内只落在 **%d 个不同的值**上（它是「20 日成交额中位」的「20 日中位」，"
+            "本来就是阶梯状的）——所以它能分辨的最小差别比这条闸的余量窄多少，要看这张表。"
+            % int(s["n_distinct_readings"]))
+    for c in (ce.get("caveats") or [])[:3]:
+        add("- 限制：%s。" % c.rstrip("."))
+    add("")
+    return L
+
+
+STABILITY_JSON = os.path.join(ROOT, "results", "etf_alias_stability.json")
+
+
+def alias_stability_face(path=STABILITY_JSON):
+    """The "same basket" verdict is a reading of ONE year. Was it the same answer a year earlier?
+
+    Read-only, one face. An absent face is "cannot verify", never "the verdicts are stable".
+    """
+    rel = _rel(path, ROOT).replace(os.sep, "/")
+    if not os.path.exists(path):
+        return {"status": "unreadable", "artifact": rel, "detail": "stability face absent"}
+    f = _load(path) or {}
+    stab = f.get("stability") or {}
+    if not stab.get("per_window"):
+        return {"status": "unreadable", "artifact": rel,
+                "detail": "face carries no prior window", "session": f.get("session")}
+    return {
+        "status": "ok",
+        "artifact": rel,
+        "session": f.get("session"),
+        "evidence_cutoff": f.get("evidence_cutoff"),
+        "sentence": f.get("sentence"),
+        "verdict": stab.get("verdict"),
+        "stability": stab,
+        "families": f.get("families") or {},
+        "crosscheck": f.get("crosscheck") or {},
+        "caveats": f.get("caveats") or [],
+    }
+
+
+def alias_stability_block(st, page_bar=None, page_day=None):
+    """Page lines: today's "same basket" list, re-asked on the years before it.
+
+    Every count is the stability face's own number; this block counts nothing.
+    """
+    L = []
+    add = L.append
+
+    def _cny(v):
+        return "读不出" if v is None else "{:,.0f}".format(float(v))
+
+    st = st or {}
+    if st.get("status") != "ok":
+        add("## 这些「同一篮子」的判词，换个年份还成立吗")
+        add("")
+        add("这一节读不到稳定性面（`%s`）：%s。**所以本页说不出这些同篮判词是不是只在这一年"
+            "成立**——缺面不读成「都成立」。"
+            % (st.get("artifact") or "results/etf_alias_stability.json",
+               st.get("detail") or "无读数"))
+        add("")
+        return L
+    s = st.get("stability") or {}
+    fam = st.get("families") or {}
+    words = {"STABLE": "换年份仍成立", "PARTIAL": "只有一部分成立",
+             "WINDOW_LUCK": "只在这一年成立", "NO_PRIOR_HISTORY": "没有历史窗可问"}
+    bar = str(st.get("evidence_cutoff") or st.get("session") or "")[:10]
+    add("## 这些「同一篮子」的判词，换个年份还成立吗")
+    add("")
+    add("**%s**" % (st.get("sentence") or ""))
+    add("")
+    add("- 判词：**%s**。计价截止 %s（盘口 %s）。"
+        % (words.get(s.get("verdict"), s.get("verdict") or "读不出"), bar or "未标",
+           str(st.get("session") or "未标")[:10]))
+    pw = s.get("per_window") or []
+    if pw:
+        add("- 每个历史年度窗单独看，留下的比例：%s。"
+            % "、".join("%s %.1f%%" % (r.get("label"), 100.0 * (r.get("share") or 0.0))
+                       for r in pw))
+    add("- 今天判同篮 %s 对；能在更早的窗里再问一遍的 %s 对，其中 **%s 对每个窗都过**（%s）。"
+        % (_n(s.get("n_pairs")), _n(s.get("n_measurable_before")),
+           _n(s.get("n_held_every_window")),
+           "读不出" if s.get("hold_rate") is None else "%.1f%%" % (100.0 * s["hold_rate"])))
+    gate = s.get("refused_by_gate") or {}
+    add("- 被某一窗拒过 %s 对（日级 %s 对 / 年级 %s 对）；另有 **%s 对历史不够**，"
+        "是「没法问」不是「过了」。"
+        % (_n(s.get("n_refused_somewhere")), _n(gate.get("DAYS_APART")),
+           _n(gate.get("WALKS_APART")), _n(s.get("n_not_measurable"))))
+    bt = s.get("by_trials") or {}
+    if bt:
+        add("- 考试次数不一样：%s。" % "、".join(
+            "%s 个历史窗可数的 %s 对里过 %s 对" % (k, _n(v.get("pairs")),
+                                             _n(v.get("held_every_window")))
+            for k, v in sorted(bt.items(), key=lambda kv: int(kv[0]))))
+        if s.get("held_if_windows_were_independent") is not None:
+            add("- 如果每一年都是一次独立的抽签（每窗通过率 %.1f%%），这些对里应该活下来 %.1f 对，"
+                "实测 %s 对——所以问题不在「某几对不稳」，在这道年级线本身落在刀口上。"
+                % (100.0 * (s.get("pooled_per_window_rate") or 0.0),
+                   float(s["held_if_windows_were_independent"]),
+                   _n(s.get("n_held_every_window"))))
+    if fam.get("n_over_material_line"):
+        add("- 过 0.50pp 物质线的 %s 组，合计 %s 元的选择成本；其中每一对都过所有窗的只有 %s 元。"
+            % (_n(fam.get("n_over_material_line")), _cny(fam.get("total_cost_cny")),
+               _cny(fam.get("cost_where_every_pair_held_cny"))))
+    cc = st.get("crosscheck") or {}
+    if cc.get("note"):
+        add("- 与在印普查面的口径：%s。" % cc["note"])
+    add("- 读法：**不要把「同一篮子」当成永久属性**——清单里每一对都要看它自己的历史窗；"
+        "一年级的判词只保证那一年。")
+    add("")
+    return L
+
+
+def _n(v):
+    return "—" if v is None else "{:,}".format(int(v))
+
+
 def label_census_block(lc, page_bar=None, page_day=None):
     """Page lines: which names on the whole board are one thing, and what the confusion costs.
 
@@ -9216,6 +9407,8 @@ def build(with_stress=False, window_label=None):
     page["label_census"] = label_census_face()
     page["alias_census"] = alias_census_face()
     page["harvest_census"] = harvest_census_face()
+    page["alias_stability"] = alias_stability_face()
+    page["capacity_edge"] = capacity_edge_face()
     page["floor_provenance"] = floor_provenance_face()
     page["vol_target_gate"] = vol_target_face()
     page["positions"] = positions_face()
@@ -9556,6 +9749,10 @@ def render_md(p, sb=None):
     # condition on the list, and a reader who stops at the table would never reach it.
     for _adm_line in admission_block(p.get("admission") or {}):
         add(_adm_line)
+    # r1814: the admission verdict above is a yes/no on a ruler that misses by 0.87% of
+    # its own line. Right after it, because that is the next question a reader asks.
+    for _ce_line in capacity_edge_block(p.get("capacity_edge") or {}):
+        add(_ce_line)
     for _vl_line in vt_ladder_block(p.get("vt_ladder") or {}):
         add(_vl_line)
     # r1614: right after the ladder, because it is a condition on the ladder's answer --
@@ -9659,6 +9856,10 @@ def render_md(p, sb=None):
                                          page_bar=p.get("priced_bar"),
                                          page_day=p.get("generated_for_date")):
         add(_hv_line)
+    for _st_line in alias_stability_block(p.get("alias_stability") or {},
+                                          page_bar=p.get("priced_bar"),
+                                          page_day=p.get("generated_for_date")):
+        add(_st_line)
     for _fp_line in floor_provenance_block(p.get("floor_provenance") or {},
                                            vt=p.get("vol_target_gate") or {},
                                            page_bar=p.get("priced_bar"),
@@ -15463,6 +15664,46 @@ def selftest():
         "自己两处对不上" in _yc_two_md and "68.81%" in _yc_two_md
         and "诊断行不是否决行" not in _yc_two_md,
         "cross-copy mismatch named, downstream sentences withheld")
+
+    # the stability face: today's "same basket" list re-asked on the years before it
+    _st_face = {"status": "ok", "artifact": "results/etf_alias_stability.json",
+                "session": "2026-11-17", "evidence_cutoff": "2026-11-17",
+                "sentence": "今天这张盘口有 867 对异名同篮；每窗只留下（T-1y 57.2%）——判词 WINDOW_LUCK。",
+                "verdict": "WINDOW_LUCK",
+                "stability": {"verdict": "WINDOW_LUCK", "n_pairs": 867,
+                              "n_measurable_before": 538, "n_held_every_window": 137,
+                              "n_refused_somewhere": 401, "n_not_measurable": 329,
+                              "hold_rate": 0.2546,
+                              "refused_by_gate": {"DAYS_APART": 35, "WALKS_APART": 394},
+                              "per_window": [{"label": "T-1y", "measured": 538, "same_basket": 308,
+                                              "share": 0.5725}],
+                              "by_trials": {"1": {"pairs": 118, "held_every_window": 79, "rate": 0.6695},
+                                            "4": {"pairs": 226, "held_every_window": 19, "rate": 0.0841}},
+                              "pooled_per_window_rate": 0.5555,
+                              "held_if_windows_were_independent": 139.6},
+                "families": {"n_over_material_line": 2, "total_cost_cny": 1311.2,
+                             "cost_where_every_pair_held_cny": 694.5},
+                "crosscheck": {"note": "同一窗不同宇宙：差在宇宙不在规则"}}
+    _st_md = "\n".join(alias_stability_block(_st_face))
+    chk("L330 stability: the face's own counts and yuan reach the page, and the date is the face's",
+        "867" in _st_md and "137" in _st_md and "538" in _st_md
+        and "1,311" in _st_md and "694" in _st_md and "2026-11-17" in _st_md,
+        "counts + money + face cutoff on the page")
+
+    chk("L331 stability: the exam-count split is printed, not folded into one rate",
+        "1 个历史窗可数的 118 对里过 79 对" in _st_md
+        and "4 个历史窗可数的 226 对里过 19 对" in _st_md
+        and "139.6" in _st_md,
+        "by-trials rows and the independence expectation")
+
+    _st_miss = "\n".join(alias_stability_block({}))
+    chk("L332 stability: a missing face says cannot-read and prints no counts",
+        "读不到" in _st_md or "读不到稳定性面" in _st_miss,
+        "cannot-read sentence")
+    chk("L333 stability: a WINDOW_LUCK verdict is not printed as 'still holds'; a missing face is not a pass",
+        "只在这一年成立" in _st_md and "换年份仍成立" not in _st_md
+        and "867" not in _st_miss and "读不到" in _st_miss,
+        "verdict word follows the face; absent face carries no counts")
 
     print("\nSummary: %d/%d PASS%s" % (ok, total, "" if ok == total else " -- %d FAIL" % (total - ok)))
     return 0 if ok == total else 1
