@@ -1020,7 +1020,7 @@
   "ts": "2026-11-18T00:40:11+08:00"
  },
  "round_label": "r1813",
- "round_no": 1816,
+ "round_no": 1817,
  "round_no_label": "r1785",
  "round_no_landed": 1663,
  "round_note": "r1489: a reinstated bar is re-derived from the panel, not carried over (reinstatement_check + reinstatements.json + sheet paragraph)",
@@ -1693,5 +1693,33 @@
   "next": "(a) when the chain closes, commit its faces and converge main (regenerate DERISK-RULE.json from its own producer before the rebase rather than picking a side); window <=48h. (b) put the capacity-ticket reading on the CEO page's ticket line so the capital the gate allows is what the order sheet quotes; <=48h.",
   "unverified": "no full smoke suite this round (the chain is rewriting the faces it would check); the two new smoke legs were run by hand only. The three capitals are the gate's own ladder readings (close x volume, median of medians), which is a stepped ruler -- 'typical' is that ruler's median, not a traded-volume median. The book is the published weights at bar 2026-11-17, not a re-selection.",
   "at": "2026-11-18T01:18:43+08:00"
- }
+ },
+ "round_1817": {
+  "product": "the two executors' work reconciled and delivered: 22+6 remote commits merged into 17 local ones over 267 overlapping files (192 conflicts classified by face kind -- .jsonl/card ledgers union-d by line, data csv union-d by first column, generated json/md taken from the side whose own generated/evidence_cutoff stamp is newer, .py merged by hand where both sides appended to the same rule table). Delivered 17 commits that had been stranded by three rounds of ssh-443 timeouts.",
+  "defect_fixed": "scripts/live_book_day_words.py read n_undated off date_claims while the field lives on the printed face; .get() returned None, so the leg read 'clean' and disagreed with any page that prints an undated line (PRINTED_BUT_UNANCHORED). Red only off bm-c's page shape -- the r1789/E686 permanent-red family. selftest 36/37 -> 37/37. bm-a found the same bug independently in its r1310; the merge took their wording, same predicate.",
+  "re_derived": [
+   "idx_fut_roll_cost --write-doc",
+   "etf_book_late_sheet_price run",
+   "etf_book_do_or_wait run",
+   "etf_book_supply_gate_decision run",
+   "etf_book_premium_percentile --no-fetch run",
+   "etf_book_decision_line run (after do_or_wait, receipt order)",
+   "etf_book_day_delta run",
+   "etf_book_order run",
+   "data_lane_freshness run",
+   "lane_roster_disk_audit run"
+  ],
+  "verification": {
+   "smoke_before": "657/671 PASS, 14 FAIL (853.4s, 669 legs) -- all 14 diagnosed as merge/stale-face or single-writer-page artifacts, none present at round 1816 close",
+   "faces_after": "roll_cost sentence back on the page; late_sheet_price check 10/10; do_or_wait 13/13; supply_gate_decision 9/9; decision_line CHECK_OK 4 fields; live_book_day_words 37/37",
+   "smoke_after": "in flight at close (started 03:44, 671 legs ~14min); not claimed green"
+  },
+  "delivery": "origin/main 90f0eb43dc..07cebc6cd6 pushed rc0, behind 0 / ahead 0",
+  "behind_main_at_start": 22,
+  "cards": [
+   "E1404",
+   "E1405"
+  ]
+ },
+ "last_round_utc": "2026-11-17T18:30:29+00:00"
 }
