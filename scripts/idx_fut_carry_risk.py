@@ -267,7 +267,14 @@ def product_spread(prod, cache_dir=None):
     cal_end, cal = [], [days[0]]
     rf, ri, forced = rn.book_returns(days, panel, held, idx, dates_out=cal_end)
     if len(rf) < CRITERIA.get("min_days", 400):
-        return None
+        # r1794: "no_contract_book" with no size reads like "there is no such trade". The
+        # panel here starts where the contract cache starts, so the refusal must carry the
+        # shortfall or a reader cannot tell a missing idea from a short sample.
+        _need = CRITERIA.get("min_days", 400)
+        return {"_refused": "panel_too_short",
+                "panel_days": len(days), "priced_days": len(rf), "need_days": _need,
+                "short_days": max(0, _need - len(rf)),
+                "panel_span": [first, last]}
     spread = [a - b for a, b in zip(rf, ri)]
     cal.extend(cal_end)
     # What the same window paid for holding the MATCHING ETF instead: the spread above is
@@ -643,7 +650,23 @@ def build(cache_dir=None, with_book=True):
                                       "detail": "%s: %s" % (type(exc).__name__, exc)}
             continue
         if sp is None:
-            face["products"][prod] = {"status": "no_contract_book"}
+            face["products"][prod] = {
+                "status": "no_contract_book",
+                "why": ("no contract-level daily panel for %s on this host "
+                        "(data/futures_contracts)" % prod)}
+            continue
+        if isinstance(sp, dict) and sp.get("_refused"):
+            # r1794: a refused reading still has a size. Publish it, or the desk sheet and
+            # the CEO page can only say "no execution block" over a sample that is simply short.
+            face["products"][prod] = {
+                "status": sp["_refused"],
+                "why": ("the contract panel prices %d day(s); this face needs %d "
+                        "(short %d, span %s..%s)"
+                        % (sp["priced_days"], sp["need_days"], sp["short_days"],
+                           sp["panel_span"][0], sp["panel_span"][1])),
+                "panel_days": sp["panel_days"], "priced_days": sp["priced_days"],
+                "need_days": sp["need_days"], "short_days": sp["short_days"],
+                "panel_span": sp["panel_span"]}
             continue
         if book is None:
             face["products"][prod] = {"status": "no_book_to_compare"}
@@ -663,7 +686,12 @@ def judge(face):
     rows = {}
     for prod, row in (face.get("products") or {}).items():
         if row.get("status"):
-            rows[prod] = {"verdict": row["status"], "why": None}
+            # r1794: a status row used to publish why=None, which reads as "nothing to
+            # report" instead of "this reading was refused, here is the size".
+            rows[prod] = {"verdict": row["status"], "why": row.get("why")}
+            for _k in ("panel_days", "priced_days", "need_days", "short_days", "panel_span"):
+                if row.get(_k) is not None:
+                    rows[prod][_k] = row[_k]
         else:
             rows[prod] = {"verdict": row["verdict"], "why": row["why"],
                           "carry_at_target_pct": (row.get("at_vol_target") or {}).get(
@@ -1231,9 +1259,26 @@ def selftest():
         and "neither ruler below is this face's own treatment" in own_is_not_the_ruler,
         "")
 
+    # r1794: a refusal must carry its size, and judge() must copy it through -- a status
+    # row publishing why=None is indistinguishable from "nothing to report".
+    _ref = {"_refused": "panel_too_short", "panel_days": 199, "priced_days": 198,
+            "need_days": 400, "short_days": 202,
+            "panel_span": ["2026-01-19", "2026-11-16"]}
+    leg("R1 a short panel is refused with its own size",
+        _ref["short_days"] == _ref["need_days"] - _ref["priced_days"]
+        and _ref["panel_span"][0] < _ref["panel_span"][1], str(_ref["short_days"]))
+    _face = {"products": {"IC": {"status": "panel_too_short",
+                                 "why": "the contract panel prices 198 day(s)",
+                                 "short_days": 202, "priced_days": 198,
+                                 "need_days": 400, "panel_days": 199,
+                                 "panel_span": ["2026-01-19", "2026-11-16"]}}}
+    _j = judge(_face)["rows"]["IC"]
+    leg("R2 judge() copies the size through instead of why=None",
+        bool(_j.get("why")) and _j.get("short_days") == 202 and _j.get("need_days") == 400,
+        str(_j)[:80])
+
     bad = sum(1 for _n, ok, _d in legs if not ok)
-    for n, ok, d in legs:
-        print("[%s] %s%s" % ("PASS" if ok else "FAIL", n, (" | " + d) if d else ""))
+    for n, ok, d in legs:        print("[%s] %s%s" % ("PASS" if ok else "FAIL", n, (" | " + d) if d else ""))
     print("selftest %d/%d" % (len(legs) - bad, len(legs)))
     return 0 if bad == 0 else 1
 
@@ -1298,6 +1343,28 @@ def main(argv):
         return 0
 
     face = build(cache_dir=args.cache_dir, with_book=not args.no_book)
+    # r1794: the contract cache is per-host, and bm-c's carries the history that makes this
+    # face readable. Overwriting a priced face with this host's "no data" refusal would
+    # destroy another machine's reading -- the r1290 family ("one machine's scan is not the
+    # fleet's state"), applied to a face rather than to a board. Refuse to overwrite.
+    _refused_all = bool(face.get("products")) and all(
+        (r or {}).get("status") for r in (face.get("products") or {}).values())
+    _prior_live = []
+    if os.path.isfile(OUT):
+        try:
+            with open(OUT, "r", encoding="utf-8") as f:
+                _prior = json.load(f)
+            _prior_live = [p for p, r in ((_prior or {}).get("products") or {}).items()
+                           if not (r or {}).get("status")]
+        except (ValueError, OSError):
+            _prior_live = []
+    if _refused_all and _prior_live:
+        print("carry risk: NO-OP -- this host's contract panel is short (%s), the face on "
+              "disk prices %s; another machine's reading is not overwritten"
+              % (", ".join(sorted({(r or {}).get("status")
+                                   for r in face["products"].values()})),
+                 ",".join(sorted(_prior_live))))
+        return 0
     with open(OUT, "w", encoding="utf-8", newline="\n") as f:
         json.dump(face, f, ensure_ascii=False, indent=1, sort_keys=False)
         f.write("\n")

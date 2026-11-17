@@ -7482,7 +7482,16 @@ def futures_sleeve_face():
     _behind = sorted(p for p, b in _legs.items()
                      if isinstance(b, str) and _cut and b < str(_cut))
     _priced = min(_bars + ([str(_cut)] if _cut else [])) if (_bars or _cut) else None
+    # r1794: when every row was refused for a short panel, the page must print the size of
+    # the shortfall -- otherwise "carry: ?" reads as "there is nothing to measure".
+    _first = next(iter(rows.values()), {}) if isinstance(rows, dict) else {}
+    _short = {"status": _first.get("source_status"),
+              "short_days": _first.get("source_short_days"),
+              "priced_days": _first.get("source_priced_days"),
+              "need_days": _first.get("source_need_days"),
+              "panel_span": _first.get("source_panel_span")}
     return {"status": "ok", "readable": True,
+            "panel_shortfall": _short,
             "evidence_cutoff": ds.get("evidence_cutoff"),
             # the oldest bar any printed number here was struck on, named with the legs behind
             "priced_bar": _priced,
@@ -7799,6 +7808,23 @@ def futures_sleeve_block(fs):
                       else "%.2f%%/年" % r["carry_ann_compound_pct"],
                       "?" if r.get("gap_net_pp") is None else "%+.2fpp" % r["gap_net_pp"]))
     out.append("")
+
+    out.append("")
+
+    # r1794: the carry column can be a column of "?" for one reason only -- the contract
+    # panel is shorter than the face's own floor. Name it with its size, so "?" stops
+    # reading like "nothing was measured".
+    _sh = fs.get("panel_shortfall") or {}
+    if (_sh.get("status") and _sh.get("priced_days") is not None
+            and all(r.get("carry_ann_compound_pct") is None for r in rows)):
+        _span = _sh.get("panel_span") or [None, None]
+        out.append("- **carry 为什么是问号**：逐合约面板只攒到 %s 天（%s..%s），这条线自己要求 %s 天，"
+                   "差 %s 天。缺的是合约级历史，不是这条思路的答案——所以这一节现在给不出方向，"
+                   "也不该被读成「不成立」。"
+                   % (_sh.get("priced_days"), _span[0] or "?",
+                      _span[1] or "?", _sh.get("need_days"),
+                      _sh.get("short_days")))
+        out.append("")
 
     ratio = [(r.get("product"), (r.get("notional_per_lot_cny") or 0.0) / cap)
              for r in rows] if cap else []
@@ -10160,8 +10186,13 @@ def render_md(p, sb=None):
             "（历史真实报价 / %s报价固定不变 / 干脆 0 息）。风险和收益档位也一并列出，"
             "因为要不要多加风险是你可以自己选的事：" % _qw_adj)
         add("")
-        add("| 风险档位 (beta) | 现金占比 | 回测年化（当时真实利率 %.2f%%） | 若一直只有今天的 %.2f%%（%s 报价） | 若现金 0 息 | 最大回撤 |"
-            % (rates.get("observed_mean_pct") or 0.0, rates.get("today_pct") or 0.0,
+        # r1302: this table header was the one sentence r1670 missed -- it hard-coded 今天的
+        # and then printed the quote's own date beside it, so a lagging cash lane produced
+        # 「今天的 1.26%（2026-11-13 报价）」 on a 2026-11-17 page. The word now comes from the
+        # same day_word every other sentence in this section uses.
+        add("| 风险档位 (beta) | 现金占比 | 回测年化（当时真实利率 %.2f%%） | 若一直只有%s %.2f%%（%s 报价） | 若现金 0 息 | 最大回撤 |"
+            % (rates.get("observed_mean_pct") or 0.0, _qw_adj,
+               rates.get("today_pct") or 0.0,
                cr.get("quote_date") or "日期未记"))
         add("|---|---|---|---|---|---|")
         for r in cr["rows"]:

@@ -59,7 +59,7 @@
     "pct": 1.772,
     "annual_cny": 10067.0,
     "source": "etf_book_idle_cash.json",
-    "asof": "2026-11-17T20:06:48",
+    "asof": "2026-11-17T21:46:59",
     "book_cagr_without_pct": 11.41,
     "book_cagr_with_pct": 12.0,
     "basis": "as_coded",
@@ -519,8 +519,8 @@
  "forward": {
   "bars": 18,
   "inception": "2026-10-23",
-  "nav": 1.0037812718,
-  "since_inception_pct": 0.3781,
+  "nav": 1.0037762754,
+  "since_inception_pct": 0.3776,
   "as_of": "2026-11-17",
   "book_bar": "2026-11-11",
   "book_n_hold": 12,
@@ -529,9 +529,9 @@
  },
  "vs_basket": {
   "bar": "2026-11-17",
-  "book_nav": 1.0037812718,
+  "book_nav": 1.0037762754,
   "basket_nav": 0.9749964488,
-  "excess_pp": 2.9523,
+  "excess_pp": 2.9518,
   "basket": {
    "518880": "gold ETF",
    "513100": "Nasdaq-100 QDII ETF",
@@ -1106,6 +1106,13 @@
  "futures_sleeve": {
   "status": "ok",
   "readable": true,
+  "panel_shortfall": {
+   "status": null,
+   "short_days": null,
+   "priced_days": null,
+   "need_days": null,
+   "panel_span": null
+  },
   "evidence_cutoff": "2026-11-17",
   "priced_bar": "2026-11-16",
   "leg_bars": {
@@ -1230,61 +1237,61 @@
  "futures_ladder": {
   "status": "ok",
   "readable": true,
-  "evidence_cutoff": "2026-11-16",
+  "evidence_cutoff": "2026-11-17",
   "dilution": {
    "verdict": "GAP_IS_ARITHMETIC",
    "identity_all_hold": true,
    "pairs": {
     "IC": {
-     "calendar_ann_pct": 9.793,
+     "calendar_ann_pct": 9.805,
      "deleted_real_days": 10,
      "gap_identity_holds": true,
-     "gap_pp": 6.898,
-     "kept_by_both_ann_pct": 9.837,
+     "gap_pp": 6.927,
+     "kept_by_both_ann_pct": 9.848,
      "missed_roll_days": 106,
-     "missed_roll_days_ann_pct": -144.773,
-     "published_ann_pct": 2.895,
+     "missed_roll_days_ann_pct": -145.466,
+     "published_ann_pct": 2.878,
      "reading": "MISSED_ROLLS_ARE_A_FAKE_LOSS",
-     "strictest_ann_pct": 9.837
+     "strictest_ann_pct": 9.848
     },
     "IF": {
-     "calendar_ann_pct": 5.795,
+     "calendar_ann_pct": 5.843,
      "deleted_real_days": 18,
      "gap_identity_holds": true,
-     "gap_pp": 3.872,
-     "kept_by_both_ann_pct": 6.5,
+     "gap_pp": 3.967,
+     "kept_by_both_ann_pct": 6.548,
      "missed_roll_days": 110,
-     "missed_roll_days_ann_pct": -91.585,
-     "published_ann_pct": 1.923,
+     "missed_roll_days_ann_pct": -93.598,
+     "published_ann_pct": 1.876,
      "reading": "MISSED_ROLLS_ARE_A_FAKE_LOSS",
-     "strictest_ann_pct": 6.5
+     "strictest_ann_pct": 6.548
     },
     "IH": {
-     "calendar_ann_pct": 5.324,
+     "calendar_ann_pct": 5.39,
      "deleted_real_days": 22,
      "gap_identity_holds": true,
-     "gap_pp": 3.707,
-     "kept_by_both_ann_pct": 5.135,
+     "gap_pp": 3.829,
+     "kept_by_both_ann_pct": 5.202,
      "missed_roll_days": 106,
-     "missed_roll_days_ann_pct": -72.838,
-     "published_ann_pct": 1.617,
+     "missed_roll_days_ann_pct": -75.52,
+     "published_ann_pct": 1.561,
      "reading": "MISSED_ROLLS_ARE_A_FAKE_LOSS",
-     "strictest_ann_pct": 5.135
+     "strictest_ann_pct": 5.202
     },
     "IM": {
-     "calendar_ann_pct": 11.954,
+     "calendar_ann_pct": 12.013,
      "deleted_real_days": 9,
      "gap_identity_holds": true,
-     "gap_pp": 6.026,
-     "kept_by_both_ann_pct": 11.562,
+     "gap_pp": 6.131,
+     "kept_by_both_ann_pct": 11.623,
      "missed_roll_days": 42,
-     "missed_roll_days_ann_pct": -126.203,
-     "published_ann_pct": 5.928,
+     "missed_roll_days_ann_pct": -128.902,
+     "published_ann_pct": 5.882,
      "reading": "MISSED_ROLLS_ARE_A_FAKE_LOSS",
-     "strictest_ann_pct": 11.562
+     "strictest_ann_pct": 11.623
     }
    },
-   "evidence_cutoff": "2026-11-16",
+   "evidence_cutoff": "2026-11-17",
    "path": "results\\idx_fut_roll_gap.json"
   },
   "capital_ladder_tiers": [
@@ -1296,21 +1303,21 @@
   "declared": {
    "vol_target": 0.08,
    "margin_rate": 0.15,
-   "cash_rate_pct": 1.327,
+   "cash_rate_pct": 1.326,
    "cash_rate_source": "data/repo_daily/GC001.csv yearly mean close"
   },
   "smallest_affordable_tier_cny": 3000000.0,
   "rows": [
    {
     "product": "IC",
-    "one_lot_notional_cny": 1243680.0,
+    "one_lot_notional_cny": 1238960.0,
     "first_affordable_tier_cny": 5000000.0,
     "read_on_tier_cny": 5000000.0,
-    "net_pct_of_capital": 2.22,
+    "net_pct_of_capital": 2.21,
     "net_pct_of_capital_by_mask": {
-     "published": 2.22,
-     "calendar": 3.08,
-     "strictest": 3.08
+     "published": 2.21,
+     "calendar": 3.07,
+     "strictest": 3.07
     },
     "admit": false,
     "admit_calendar": true,
@@ -1324,13 +1331,13 @@
    },
    {
     "product": "IF",
-    "one_lot_notional_cny": 1181700.0,
+    "one_lot_notional_cny": 1175460.0,
     "first_affordable_tier_cny": 3000000.0,
     "read_on_tier_cny": 3000000.0,
-    "net_pct_of_capital": 1.42,
+    "net_pct_of_capital": 1.4,
     "net_pct_of_capital_by_mask": {
-     "published": 1.42,
-     "calendar": 2.55,
+     "published": 1.4,
+     "calendar": 2.56,
      "strictest": 2.59
     },
     "admit": false,
@@ -1339,13 +1346,13 @@
     "ruler_stable": true,
     "lots_on_tier": 1.0,
     "notional_x_capital_on_tier": 0.39,
-    "stress_loss_pct_of_capital": 18.0,
+    "stress_loss_pct_of_capital": 17.9,
     "vol_contrib_pct": 6.9,
     "margin_pct_of_capital": 5.9
    },
    {
     "product": "IH",
-    "one_lot_notional_cny": 822720.0,
+    "one_lot_notional_cny": 818880.0,
     "first_affordable_tier_cny": 3000000.0,
     "read_on_tier_cny": 3000000.0,
     "net_pct_of_capital": 1.64,
@@ -1360,20 +1367,20 @@
     "ruler_stable": true,
     "lots_on_tier": 1.0,
     "notional_x_capital_on_tier": 0.27,
-    "stress_loss_pct_of_capital": 12.5,
+    "stress_loss_pct_of_capital": 12.4,
     "vol_contrib_pct": 4.5,
     "margin_pct_of_capital": 4.1
    },
    {
     "product": "IM",
-    "one_lot_notional_cny": 1221000.0,
+    "one_lot_notional_cny": 1204600.0,
     "first_affordable_tier_cny": 5000000.0,
     "read_on_tier_cny": 5000000.0,
-    "net_pct_of_capital": 2.66,
+    "net_pct_of_capital": 2.63,
     "net_pct_of_capital_by_mask": {
-     "published": 2.66,
-     "calendar": 3.45,
-     "strictest": 3.45
+     "published": 2.63,
+     "calendar": 3.42,
+     "strictest": 3.42
     },
     "admit": false,
     "admit_calendar": true,
@@ -1381,9 +1388,9 @@
     "ruler_stable": true,
     "lots_on_tier": 1.0,
     "notional_x_capital_on_tier": 0.24,
-    "stress_loss_pct_of_capital": 10.2,
+    "stress_loss_pct_of_capital": 10.0,
     "vol_contrib_pct": 6.1,
-    "margin_pct_of_capital": 3.7
+    "margin_pct_of_capital": 3.6
    }
   ],
   "path": "results\\idx_fut_carry_capital.json"
@@ -1392,19 +1399,19 @@
   "status": "ok",
   "readable": true,
   "evidence_cutoff": "2026-11-17",
-  "beta": 0.07458300567364223,
-  "corr": 0.1415643988218339,
-  "variance_removable_pct": 2.004047901378724,
+  "beta": 0.07185718963947142,
+  "corr": 0.1373365917783091,
+  "variance_removable_pct": 1.8861339441281915,
   "min_unit_notional": 818880.0,
-  "splice_days_dropped": 85,
+  "splice_days_dropped": 1,
   "verdict": "UNEXECUTABLE_AT_THIS_SIZE",
-  "sentence": "One IH lot is 10.98x the short beta asks for at 1,000,000 CNY, so the only tradeable version of this hedge is an oversized short, not a hedge.",
+  "sentence": "One IH lot is 11.40x the short beta asks for at 1,000,000 CNY, so the only tradeable version of this hedge is an oversized short, not a hedge.",
   "at_capital": 1000000.0,
-  "unit_over_target": 10.979444882970085,
-  "capital_for_one_lot": 10979444.882970085,
-  "vol_delta_pp": -0.10122922788117772,
-  "sharpe_delta": -0.020536000001067034,
-  "maxdd_delta_pp": -0.05485315943003499,
+  "unit_over_target": 11.395936914713209,
+  "capital_for_one_lot": 11395936.91471321,
+  "vol_delta_pp": -0.09457028960696418,
+  "sharpe_delta": 0.005735999804863057,
+  "maxdd_delta_pp": 1.5453866010586514,
   "path": "results\\etf_book_ih_hedge.json"
  },
  "futures_hedge_tail": {
@@ -1413,15 +1420,15 @@
   "evidence_cutoff": "2026-11-17",
   "slice": "ih_le_-2",
   "cuts_pct": -0.02,
-  "tail_n": 52,
-  "tail_beta": 0.6126419583867959,
-  "tail_ci_lo": 0.13021062460324065,
-  "tail_ci_hi": 0.8405742148706478,
-  "share_above_uncond": 0.9695,
-  "uncond_beta": 0.07458300567364223,
-  "dsharpe": -0.020536000001067034,
-  "dsharpe_lo": -0.0964202006837476,
-  "dsharpe_hi": 0.0719002244924948,
+  "tail_n": 57,
+  "tail_beta": 0.6115545672996576,
+  "tail_ci_lo": 0.12672451800387655,
+  "tail_ci_hi": 0.8343491781619469,
+  "share_above_uncond": 0.968,
+  "uncond_beta": 0.07185718963947142,
+  "dsharpe": 0.005735999804863057,
+  "dsharpe_lo": -0.06366444689345857,
+  "dsharpe_hi": 0.09446056903527693,
   "tail_verdict": "TAIL_BETA_IS_REAL",
   "hedge_verdict": "HEDGE_NOT_MEASURABLE",
   "resamples": 2000,
@@ -1532,12 +1539,12 @@
     "owner": "bm-a",
     "keying": null,
     "observed": "DECLARED_BUT_ABSENT",
-    "declared_n": 211,
-    "local_disk_n": 187,
+    "declared_n": 210,
+    "local_disk_n": 186,
     "laneside": {
      "value": 185,
      "source": "results/ah_panel_status.json:fresh_pairs",
-     "local_disk_n": 187,
+     "local_disk_n": 186,
      "note": null,
      "agree": false
     },
@@ -1562,9 +1569,9 @@
       "01456",
       "02218",
       "02245",
-      "02384",
       "03223",
       "03228",
+      "03308",
       "03678",
       "03757",
       "03993",
@@ -1581,11 +1588,11 @@
     "keying": "date",
     "observed": "ROSTER_UNREADABLE",
     "declared_n": null,
-    "local_disk_n": 1,
+    "local_disk_n": 27,
     "laneside": {
      "value": null,
      "source": null,
-     "local_disk_n": 1,
+     "local_disk_n": 27,
      "note": null,
      "agree": false
     },
@@ -1600,8 +1607,10 @@
   "defects": [
    {
     "lane": "astock_daily",
-    "verdict": "DECLARED_BUT_ABSENT",
-    "on_disk_not_declared": [],
+    "verdict": "ROSTER_OMITS_DISK",
+    "on_disk_not_declared": [
+     "002731"
+    ],
     "declared_not_on_disk": [
      "001235",
      "001381",
@@ -1615,15 +1624,16 @@
       "001235",
       "001381",
       "688827",
-      "688845",
       "689009"
      ],
      "pending": [],
-     "unexplained": []
+     "unexplained": [
+      "688845"
+     ]
     },
     "missing_disposition_note": null,
     "declared_n": 5226,
-    "disk_n": 5221
+    "disk_n": 5222
    }
   ]
  },
@@ -1837,34 +1847,33 @@
   "null_calibration": {
    "artifact": "results/etf_book_rule_null.json",
    "status": "ok",
-   "detail": "an effect-free panel reads REJECT 96.5% of the time, so a published REJECT transmits almost nothing; the rule's informative branch is the rare one (NOT-SEPARABLE 3.5%, ADOPT 0.0%, NOT-ASSESSED 0.0%). Mechanism: the cell floor -0.15pp is 13.6x smaller than one sigma (2.04pp) of these cells, so about half of them land under it by chance and the not-worse share (floor 0.80) fails by construction",
-   "reject_share": 0.9652,
-   "not_separable_share": 0.0348,
+   "detail": "an effect-free panel reads REJECT 96.5% of the time, so a published REJECT transmits almost nothing; the rule's informative branch is the rare one (NOT-SEPARABLE 3.5%, ADOPT 0.0%, NOT-ASSESSED 0.0%). Mechanism: the cell floor -0.15pp is 13.6x smaller than one sigma (2.05pp) of these cells, so about half of them land under it by chance and the not-worse share (floor 0.80) fails by construction",
+   "reject_share": 0.965,
+   "not_separable_share": 0.035,
    "adopt_share": null,
    "trials": 20000,
    "label": "REJECT_IS_THE_DEFAULT",
-   "evidence_cutoff": "2026-11-16",
+   "evidence_cutoff": "2026-11-17",
    "bar_now": "2026-11-17"
   },
   "signflip": {
    "artifact": "results/etf_book_arms_signflip.json",
    "status": "ok",
-   "detail": "2 of 4 published REJECTs stand on their own cells (cost20, cost40); the rest are inside sign noise and must not be read as findings",
+   "detail": "3 of 4 published REJECTs stand on their own cells (buffer_k05_cost20, cost20, cost40); the rest are inside sign noise and must not be read as findings",
    "n_reject": 4,
-   "n_reject_standing": 2,
+   "n_reject_standing": 3,
    "standing": [
+    "buffer_k05_cost20",
     "cost20",
     "cost40"
    ],
    "overturned": [
-    "buffer_k05_cost20",
-    "buffer_k40",
+    "buffer_k05",
     "cost0",
     "cost05"
    ],
    "overstated": [
-    "buffer_k05_cost20",
-    "buffer_k40"
+    "buffer_k05"
    ],
    "understated": [
     "cost0",
@@ -1875,12 +1884,12 @@
      "arm": "buffer_k02",
      "frozen_label": "NOT-SEPARABLE",
      "verdict": "NOT-SEPARABLE",
-     "sign_cells": 12,
-     "cells_positive": 6
+     "sign_cells": 11,
+     "cells_positive": 5
     },
     {
      "arm": "buffer_k05",
-     "frozen_label": "NOT-SEPARABLE",
+     "frozen_label": "REJECT",
      "verdict": "NOT-SEPARABLE",
      "sign_cells": 12,
      "cells_positive": 6
@@ -1888,30 +1897,30 @@
     {
      "arm": "buffer_k05_cost20",
      "frozen_label": "REJECT",
-     "verdict": "NOT-SEPARABLE",
+     "verdict": "WORSE",
      "sign_cells": 12,
-     "cells_positive": 3
+     "cells_positive": 0
     },
     {
      "arm": "buffer_k10",
      "frozen_label": "NOT-SEPARABLE",
      "verdict": "NOT-SEPARABLE",
      "sign_cells": 12,
-     "cells_positive": 10
+     "cells_positive": 8
     },
     {
      "arm": "buffer_k20",
      "frozen_label": "NOT-SEPARABLE",
      "verdict": "NOT-SEPARABLE",
      "sign_cells": 12,
-     "cells_positive": 8
+     "cells_positive": 7
     },
     {
      "arm": "buffer_k40",
-     "frozen_label": "REJECT",
+     "frozen_label": "NOT-SEPARABLE",
      "verdict": "NOT-SEPARABLE",
      "sign_cells": 12,
-     "cells_positive": 9
+     "cells_positive": 7
     },
     {
      "arm": "cost0",
@@ -1943,7 +1952,7 @@
     }
    ],
    "verdict": "SOME_REJECTS_STAND",
-   "evidence_cutoff": "2026-11-16",
+   "evidence_cutoff": "2026-11-17",
    "bar_now": "2026-11-17"
   },
   "receipt": {
@@ -1969,13 +1978,13 @@
   "floor_extrapolation": {
    "artifact": "results/etf_book_buffer_floor_readback.json",
    "present": true,
-   "detail": "the fit says +0.335pp at k=0.30 (slope +1.225, intercept -0.033); the harvested arm's own 12 cells say +0.385pp (median); gap +0.050pp against tolerance 0.172pp = 3.0x the fit's largest in-sample residual (0.057pp, floored at 0.05); cell spread of the same arm: -0.560 .. +1.495pp (12 cells), i.e. the median is not the book; the line predicts a point it never saw, on the widest gap it spans -- the ",
+   "detail": "the fit says +0.316pp at k=0.30 (slope +1.193, intercept -0.042); the harvested arm's own 12 cells say +0.430pp (median); gap +0.114pp against tolerance 0.139pp = 3.0x the fit's largest in-sample residual (0.046pp, floored at 0.05); cell spread of the same arm: -0.635 .. +1.550pp (12 cells), i.e. the median is not the book; the line predicts a point it never saw, on the widest gap it spans -- the ",
    "verdict": "HOLDS",
    "buffer_k": 0.3,
-   "predicted_pp": 0.335,
-   "observed_pp": 0.385,
-   "gap_pp": 0.05,
-   "tolerance_pp": 0.172,
+   "predicted_pp": 0.316,
+   "observed_pp": 0.43,
+   "gap_pp": 0.114,
+   "tolerance_pp": 0.139,
    "evidence_cutoff": "2026-10-29"
   }
  },
@@ -2018,33 +2027,33 @@
    {
     "beta": 0.1,
     "observed_pct": 6.98,
-    "flat_today_pct": 6.67,
+    "flat_today_pct": 6.59,
     "zero_pct": 5.62,
     "carry_pp": 1.36,
     "cash_share": 0.7819,
-    "pp_per_100bp": 0.436,
+    "pp_per_100bp": 0.487,
     "maxdd_pct": -2.77,
     "vol_pct": 3.7
    },
    {
     "beta": 0.2,
     "observed_pct": 12.45,
-    "flat_today_pct": 12.21,
+    "flat_today_pct": 12.15,
     "zero_pct": 11.41,
     "carry_pp": 1.04,
     "cash_share": 0.5637,
-    "pp_per_100bp": 0.337,
+    "pp_per_100bp": 0.375,
     "maxdd_pct": -5.78,
     "vol_pct": 7.38
    },
    {
     "beta": 0.3,
     "observed_pct": 18.04,
-    "flat_today_pct": 17.88,
+    "flat_today_pct": 17.84,
     "zero_pct": 17.36,
     "carry_pp": 0.68,
     "cash_share": 0.3456,
-    "pp_per_100bp": 0.225,
+    "pp_per_100bp": 0.25,
     "maxdd_pct": -8.72,
     "vol_pct": 11.06
    },
@@ -2055,7 +2064,7 @@
     "zero_pct": 25.94,
     "carry_pp": 0.05,
     "cash_share": 0.0188,
-    "pp_per_100bp": 0.028,
+    "pp_per_100bp": 0.025,
     "maxdd_pct": -14.39,
     "vol_pct": 16.33
    }
@@ -2063,20 +2072,20 @@
   "base": {
    "beta": 0.2,
    "observed_pct": 12.45,
-   "flat_today_pct": 12.21,
+   "flat_today_pct": 12.15,
    "zero_pct": 11.41,
    "carry_pp": 1.04,
    "cash_share": 0.5637,
-   "pp_per_100bp": 0.337,
+   "pp_per_100bp": 0.375,
    "maxdd_pct": -5.78,
    "vol_pct": 7.38
   },
   "cash_rates": {
-   "observed_mean_pct": 1.9766,
-   "today_pct": 1.265,
-   "today_date": "2026-11-13",
-   "today_bar_lag": 2,
-   "missing_bar_steps": 1,
+   "observed_mean_pct": 1.9757,
+   "today_pct": 1.175,
+   "today_date": "2026-11-17",
+   "today_bar_lag": 0,
+   "missing_bar_steps": 0,
    "convention": "rate(prior bar) * calendar_gap / 365, identical in all arms"
   },
   "identity": {
@@ -2101,8 +2110,8 @@
    "selection_survives_zero_cash": true
   },
   "source": "results/etf_book_return_regime.json",
-  "quote_date": "2026-11-13",
-  "quote_lag": 2,
+  "quote_date": "2026-11-17",
+  "quote_lag": 0,
   "evidence_cutoff": "2026-11-17"
  },
  "idle_cash": {
@@ -2189,7 +2198,7 @@
   "total_bp": -59.696,
   "commission_share_pct": 41.28,
   "split_readable": true,
-  "control_error_bp": 0.1143,
+  "control_error_bp": 0.0043,
   "window": {
    "start": "2020-01-03",
    "end": "2026-11-17",
@@ -4676,7 +4685,7 @@
    "turnover_arm": 0.9457,
    "turnover_declared": 0.959
   },
-  "elapsed_sec": 129.9,
+  "elapsed_sec": 50.0,
   "evidence_cutoff": "2026-11-17",
   "gross_rows": [
    {
@@ -5053,7 +5062,7 @@
    }
   ],
   "script": "scripts\\etf_book_causal_rebuild.py",
-  "ts": "2026-11-17T18:59:23+0800",
+  "ts": "2026-11-17T21:58:19+0800",
   "verdict": {
    "admissible_arms": [],
    "arms": [
@@ -5636,7 +5645,7 @@
   "expected": "2026-11-17",
   "writer": "quote_face",
   "quote_symbols": 48,
-  "snapshot_as_of": "2026-11-06",
+  "snapshot_as_of": "2026-11-17",
   "upstream": "results\\update_status.json",
   "artifact": "results\\etf_book_live_quote\\latest.json"
  },
@@ -6034,7 +6043,7 @@
    "up_quantile": 0.8,
    "verdict_rule": "ADOPT_GAP iff some gap arm beats `declared` on CAGR by >= gap_min_pp AND its Sharpe is >= this run's `declared` Sharpe AND its max drawdown is no deeper than declared - dd_tol_pp AND it beats declared on CAGR in >= phase_share_min of the phases; MIXED_ACROSS_PHASES if the return line is cleared but the phase share is not (or the reverse); NO_GAP_EDGE otherwise -- the gap stays information"
   },
-  "elapsed_sec": 82.4,
+  "elapsed_sec": 48.7,
   "evidence_cutoff": "2026-11-17",
   "gap_stats": {
    "entry_bars": 84,
@@ -6393,7 +6402,7 @@
    }
   ],
   "script": "scripts\\etf_book_overnight_gap.py",
-  "ts": "2026-11-17T18:55:02+0800",
+  "ts": "2026-11-17T21:59:08+0800",
   "verdict": {
    "admissible_arms": [],
    "arms": [
@@ -6507,8 +6516,8 @@
   "k_schedule_last": 0.460253,
   "consistency": {
    "generated": {
-    "permission": "2026-11-17T20:06:48+0800",
-    "gap": "2026-11-17T00:25:12+0800",
+    "permission": "2026-11-17T22:21:37+0800",
+    "gap": "2026-11-17T22:21:40+0800",
     "ledger": "2026-11-13T20:58:31+0800"
    },
    "permission_vs_gap": true,
@@ -6851,30 +6860,30 @@
   "rows": [
    {
     "symbol": "510760",
-    "bucket": "BOTTOM",
-    "latest_pctile": 0.5344021376085505,
-    "mean_pct": 0.9739309177408781,
-    "n": 134,
-    "t": 2.48618543532154,
+    "bucket": "LOW",
+    "latest_pctile": 15.6312625250501,
+    "mean_pct": 0.5223345213939685,
+    "n": 262,
+    "t": 1.9314301221169548,
     "nonoverlap_obs": 71,
     "amount_cny": 86347.8,
-    "same_bucket_move_cny": 840.967920989058
+    "same_bucket_move_cny": 451.0243678642211
    },
    {
     "symbol": "512040",
-    "bucket": "UPPER",
-    "latest_pctile": 78.91976927110645,
-    "mean_pct": 0.3459749989108973,
-    "n": 394,
-    "t": 0.9685142995814702,
+    "bucket": "MID",
+    "latest_pctile": 63.188253801782906,
+    "mean_pct": 0.1136316784152153,
+    "n": 770,
+    "t": 0.38385105751885035,
     "nonoverlap_obs": 92,
     "amount_cny": 86421.2,
-    "same_bucket_move_cny": 298.9957457587844
+    "same_bucket_move_cny": 98.20186006657005
    },
    {
     "symbol": "159655",
     "bucket": "UPPER",
-    "latest_pctile": 82.74111675126903,
+    "latest_pctile": 87.10659898477158,
     "mean_pct": 1.3009600310549645,
     "n": 263,
     "t": 4.358136164408279,
@@ -6885,7 +6894,7 @@
    {
     "symbol": "513690",
     "bucket": "LOW",
-    "latest_pctile": 14.33933933933934,
+    "latest_pctile": 19.894894894894893,
     "mean_pct": 0.5330778868734505,
     "n": 223,
     "t": 1.4009616177991417,
@@ -6896,7 +6905,7 @@
    {
     "symbol": "159519",
     "bucket": "LOW",
-    "latest_pctile": 11.741935483870968,
+    "latest_pctile": 13.161290322580646,
     "mean_pct": 1.3772998496472701,
     "n": 172,
     "t": 4.544192330848934,
@@ -6906,7 +6915,7 @@
    }
   ],
   "missing_legs": [],
-  "cny_total": 3913.6,
+  "cny_total": 3322.86,
   "sample_signature": "3600c87ce854",
   "sample_legs": [
    "159519",
@@ -54468,12 +54477,12 @@
   "max_k": 10,
   "inputs": {
    "cut_order_gap": {
-    "cutoff": "2026-11-16",
-    "digest": "3daa979bd33e1636"
+    "cutoff": "2026-11-17",
+    "digest": "872ac62cbf98c8f3"
    },
    "late_sheet_price": {
-    "cutoff": "2026-11-16",
-    "digest": "66a8f1f82822a76a"
+    "cutoff": "2026-11-17",
+    "digest": "0dd76a4772d3ac5e"
    }
   }
  },
@@ -55124,28 +55133,26 @@
   "no_bar_reason": "human_ages"
  },
  "fleet": {
-  "board_ts": "2026-11-17T19:54:34",
+  "board_ts": "2026-11-17T22:30:14",
   "verdict": "attention",
   "rows": [
    {
     "host": "bm-a",
-    "last_seen": "2026-11-17T19:48:03+08:00",
-    "age_h": 0.11,
+    "last_seen": "2026-11-17T21:16:04+08:00",
+    "age_h": 1.24,
     "alive": true,
     "lanes": [
+     "futures",
      "heat",
      "lhb",
-     "repo",
-     "futures"
+     "repo"
     ],
-    "taken_over": {
-     "repo": "bm-c"
-    }
+    "taken_over": {}
    },
    {
     "host": "bm-b",
     "last_seen": "2026-10-30T12:43:06+08:00",
-    "age_h": 439.19,
+    "age_h": 441.79,
     "alive": false,
     "lanes": [
      "marks",
@@ -55153,14 +55160,14 @@
     ],
     "taken_over": {
      "marks": "bm-c",
-     "astock_daily": "bm-c"
+     "astock_daily": "bm-a"
     }
    },
    {
     "host": "bm-c",
     "last_seen": "2026-11-17T18:19:19+08:00",
-    "age_h": 1.59,
-    "alive": true,
+    "age_h": 4.18,
+    "alive": false,
     "lanes": [
      "ths_panel",
      "sina_mf",

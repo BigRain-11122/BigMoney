@@ -139,19 +139,16 @@ holder would be looking at -- the row that has a call distance attached.
 
 | product | last roll | td since | median interval | next roll ~td | gap after roll cost (floor / median) |
 |---|---|---|---|---|---|
-| IC | 2026-09-14 (IC2609→IC2612) | 39 | 20.5 td (n=62) | -18 | +9.06 / +6.75 pp |
-| IF | 2026-09-11 (IF2609→IF2612) | 40 | 19.0 td (n=73) | -21 | +2.25 / +0.56 pp |
-| IM | 2026-09-14 (IM2609→IM2612) | 39 | 59.0 td (n=22) | +20 | +9.17 / +7.73 pp |
-| IH | 2026-09-14 (IH2609→IH2612) | 39 | 17.0 td (n=88) | -22 | ? / ? pp |
+| IC | 2026-09-14 (IC2609→IC2612) | 39 | ? td (n=0) | ? | +9.06 / +6.75 pp |
+| IF | 2026-09-11 (IF2609→IF2612) | 40 | ? td (n=0) | ? | +2.25 / +0.56 pp |
+| IM | 2026-09-14 (IM2609→IM2612) | 39 | ? td (n=0) | ? | +9.17 / +7.73 pp |
+| IH | 2026-09-14 (IH2609→IH2612) | 39 | ? td (n=0) | ? | ? / ? pp |
 
 The next-roll column is an estimate off this book's own switch history, not a
 calendar rule: the calendar rule was measured to catch half of the rolls while
 also eating market days near expiry. A negative number means the central
 interval has already elapsed -- read it against who is actually holding the book:
 
-- **IC** is 18 td past its median interval, and the incumbent still holds 82.41% of the product's open interest (median over 62 switches, IQR [11.0, 58.0] td): the series is irregular, so this is not a deadline.
-- **IF** is 21 td past its median interval, and the incumbent still holds 81.53% of the product's open interest (median over 73 switches, IQR [9.0, 42.0] td): the series is irregular, so this is not a deadline.
-- **IH** is 22 td past its median interval, and the incumbent still holds 81.69% of the product's open interest (median over 88 switches, IQR [5.0, 26.0] td): the series is irregular, so this is not a deadline.
 
 A missing gap is refused, not zero:
 

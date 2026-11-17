@@ -302,7 +302,15 @@ def desk_row(prod, face, cache_dir=None, capital=None):
         # travels in its own field below instead of masquerading as a refusal.
         "gap_refused_because": (
             None if band.get("file_floor") is not None
-            else (ex.get("etf_flag") or "the source face carries no execution block")),
+            else (ex.get("etf_flag") or verdict_row.get("why")
+                  or "the source face carries no execution block")),
+        # r1794: the source face now names the shortfall behind a refusal; copy the size
+        # through instead of leaving the page with a sentence and no number.
+        "source_status": src.get("status"),
+        "source_short_days": src.get("short_days"),
+        "source_priced_days": src.get("priced_days"),
+        "source_need_days": src.get("need_days"),
+        "source_panel_span": src.get("panel_span"),
         "etf_leg_note": ex.get("etf_flag"),
     }
 
@@ -927,8 +935,12 @@ def selftest():
                   "margin_call_at_recommended_lots", "margin_call_at_surviving_lots"):
             tampered2["rows"]["IH"][k] = None
         tp2 = render_md(tampered2)
+        # r1794: the sentence names EVERY product missing the ruler, and on the live face
+        # that is all four. Matching the literal "**IH**" made this leg depend on how many
+        # neighbours happened to be missing too; the judgement is "IH is in that list".
         leg("a product with no stress ruler prints ? for it and says why",
-            "No index worst drawdown on the source face for **IH**" in tp2, "")
+            any("No index worst drawdown on the source face for" in _ln and "IH" in _ln
+                for _ln in tp2.split("\n")), "")
         leg("a row with no stress ruler does not inherit a neighbour's fall",
             "| IH | ?% |" in tp2, "")
 
@@ -948,12 +960,22 @@ def selftest():
             str(r_ic.get("cash_lots_at_stated_capital")))
         # the risk-capital return is the carry divided by the capital ratio, not a second
         # estimate of carry: assert the identity at the printed precision
-        ratio = MAINTENANCE["IC"] + abs(r_ic["index_worst_drawdown_pct"]) / 100.0 * (1 - MAINTENANCE["IC"])
-        leg("return on risk capital == carry / (maintenance + fall funded)",
-            abs(r_ic["record_return_on_risk_capital_pct"]
-                - round(r_ic["carry_ann_compound_pct"] / ratio, 2)) < 0.006,
-            "%s vs %s" % (r_ic["record_return_on_risk_capital_pct"],
-                          round(r_ic["carry_ann_compound_pct"] / ratio, 2)))
+        # r1794: the IC row can be status=ok while the source face refused for a short
+        # panel, so the stress ruler is absent. Dividing through a None crashed this suite
+        # (it never ran green on a live face that was refused). One leg per branch: the
+        # identity where the ruler exists, and "None is the right answer, not a guessed
+        # divisor" where it does not.
+        if r_ic.get("index_worst_drawdown_pct") is None:
+            leg("no stress ruler means no risk-capital return (never a guessed divisor)",
+                r_ic.get("record_return_on_risk_capital_pct") is None,
+                str(r_ic.get("record_return_on_risk_capital_pct")))
+        else:
+            ratio = MAINTENANCE["IC"] + abs(r_ic["index_worst_drawdown_pct"]) / 100.0 * (1 - MAINTENANCE["IC"])
+            leg("return on risk capital == carry / (maintenance + fall funded)",
+                abs(r_ic["record_return_on_risk_capital_pct"]
+                    - round(r_ic["carry_ann_compound_pct"] / ratio, 2)) < 0.006,
+                "%s vs %s" % (r_ic["record_return_on_risk_capital_pct"],
+                              round(r_ic["carry_ann_compound_pct"] / ratio, 2)))
         leg("preparing for the index worst costs more capital than preparing for the sample",
             (r_ic.get("record_risk_capital_per_lot_cny") or 0)
             >= (r_ic.get("sample_risk_capital_per_lot_cny") or 0),

@@ -1,47 +1,28 @@
 {
  "script": "scripts/live_book_section_bars.py",
- "ts": "2026-11-17 21:11:35",
+ "ts": "2026-11-17 22:42:25",
  "page": {
   "path": "docs/live_book/LIVE-BOOK-20261117.md",
   "json": "docs/live_book/LIVE-BOOK-20261117.json"
  },
  "verdict": "PAGE_MIXES_BARS",
- "sentence": "页面头部写着按 2026-11-17 定价，但 67 个带日期的节里只有 65 节真在这一天；其余 2 节不在这一天（最旧停在 2026-11-16（最差 futures_ladder 落后 1 个交易日）），另外 3 节根本没有日期——它们不是同一根 bar 上的数，读的时候不能互相加减。2 节按设计没有 bar（sources=指针块（只列它引用的文件，本身不是一次测量）、authority=人事年龄（机器多久没写心跳，时间量不是价格日））——它们本来就不量某一天，催它们补日期是催不动的事。这 2 节里，0 节的产物有同名链腿在守；2 节（futures_ladder, futures_sleeve）没有任何一条链腿重跑过它们——那是这一页真正的缺口；其中 1 节自己就带着两根以上的日期（fleet：2026-10-30/2026-11-17）——它们不是「没写日期」，是写了两天的数，本面不替它们挑一天。",
+ "sentence": "页面头部写着按 2026-11-17 定价，但 67 个带日期的节里只有 66 节真在这一天；其余 1 节不在这一天（最旧停在 2026-11-16（最差 futures_sleeve 落后 1 个交易日）），另外 3 节根本没有日期——它们不是同一根 bar 上的数，读的时候不能互相加减。2 节按设计没有 bar（sources=指针块（只列它引用的文件，本身不是一次测量）、authority=人事年龄（机器多久没写心跳，时间量不是价格日））——它们本来就不量某一天，催它们补日期是催不动的事。这 1 节里，0 节的产物有同名链腿在守；1 节（futures_sleeve）没有任何一条链腿重跑过它们——那是这一页真正的缺口；其中 1 节自己就带着两根以上的日期（fleet：2026-10-30/2026-11-17）——它们不是「没写日期」，是写了两天的数，本面不替它们挑一天。",
  "evidence_cutoff": "2026-11-17",
  "headline_bar": "2026-11-17",
  "headline_field": "priced_bar",
  "n_sections": 67,
- "n_on_headline": 65,
+ "n_on_headline": 66,
  "unknown_sections": [
   "sources",
   "authority",
   "fleet"
  ],
  "bars": {
-  "2026-11-17": 65,
-  "2026-11-16": 2
+  "2026-11-17": 66,
+  "2026-11-16": 1
  },
- "n_off_headline": 2,
+ "n_off_headline": 1,
  "off_headline": [
-  {
-   "key": "futures_ladder",
-   "bar": "2026-11-16",
-   "field": "evidence_cutoff",
-   "lag_sessions": 1,
-   "ahead_of_headline": false,
-   "guarded_by": [],
-   "provenance": "no_writer",
-   "window": null,
-   "window_bound": false,
-   "pricing_mode": null,
-   "refresh_reprices": null,
-   "panel": null,
-   "panel_last_bar": null,
-   "panel_last_write": null,
-   "owner_machine": null,
-   "owner_runner": null,
-   "panel_owner": null
-  },
   {
    "key": "futures_sleeve",
    "bar": "2026-11-16",
@@ -83,7 +64,7 @@
   "vt_phases": "2026-11-17",
   "derisk": "2026-11-17",
   "futures_sleeve": "2026-11-16",
-  "futures_ladder": "2026-11-16",
+  "futures_ladder": "2026-11-17",
   "futures_hedge": "2026-11-17",
   "futures_hedge_tail": "2026-11-17",
   "lot_floor": "2026-11-17",
@@ -133,9 +114,8 @@
   "envelope": "2026-11-17",
   "stress": "2026-11-17"
  },
- "n_unguarded": 2,
+ "n_unguarded": 1,
  "unguarded": [
-  "futures_ladder",
   "futures_sleeve"
  ],
  "n_page_computed": 0,
@@ -144,9 +124,8 @@
  "page_computed_panels": [],
  "page_computed_debt": [],
  "page_computed_debt_sentence": null,
- "n_no_writer": 2,
+ "n_no_writer": 1,
  "no_writer": [
-  "futures_ladder",
   "futures_sleeve"
  ],
  "n_engine_priced": 0,
