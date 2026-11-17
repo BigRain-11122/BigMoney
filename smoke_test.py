@@ -9293,6 +9293,18 @@ def main() -> int:
                 if "`%s`" % (_r78c["key"],) not in _mdt78:
                     _bad78c.append("off-headline section %r is not named on the page"
                                    % (_r78c["key"],))
+        elif _sbp78.get("n_ahead_of_headline"):
+            # r1316: the third state. Nothing is behind the headline, but a section read a
+            # NEWER bar (a lane finished today while the book's own panel still sits on
+            # yesterday), so the page must not say "all priced on" -- that is the same false
+            # sentence this family keeps producing. Two states were pinned here and the
+            # producer grew a third, so the leg has to name it too.
+            if "比页头更新" not in _mdt78:
+                _bad78c.append("a page ahead of its own bar does not say so in one line")
+            for _r78c in (_sbp78.get("ahead_of_headline") or [])[:4]:
+                if "`%s`" % (_r78c["key"],) not in _mdt78:
+                    _bad78c.append("ahead-of-headline section %r is not named on the page"
+                                   % (_r78c["key"],))
         elif "全部定价在" not in _mdt78:
             _bad78c.append("a page on one bar does not say so in one line")
         check("product: the page itself names the sections that sit on an older bar",

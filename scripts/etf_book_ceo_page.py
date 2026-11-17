@@ -9623,9 +9623,22 @@ def section_bars_block(sb):
         return []
     off = sb.get("off_headline") or []
     unk = sb.get("unknown_sections") or []
+    # r1316: `ahead` is the mirror case. A lane that has already printed today's bar while
+    # the book's own panel still sits on yesterday used to fall through to "every section is
+    # priced on the headline", which is a false sentence on a page that carries one.
+    ahead = sb.get("ahead_of_headline") or []
+    _ahead_txt = ""
+    if ahead:
+        _ahead_txt = ("另有 **%d 个比页头更新**（%s 已到 %s）——那些节读的车道已经走完当天，"
+                      "而这本书自己的面板还停在前一根 bar 上，两类数不能相加。"
+                      % (len(ahead), "、".join("`%s`" % r.get("key") for r in ahead),
+                         "、".join(sorted({str(r.get("bar")) for r in ahead}))))
     out = []
-    if not off:
+    if not off and not ahead:
         out.append("> 这一页 %d 个带日期的节全部定价在 **%s**。" % (n, head))
+    elif not off and ahead:
+        out.append("> 这一页 %d 个带日期的节里 **%d 个在 %s**，%s"
+                   % (n, n - len(ahead), head, _ahead_txt))
     else:
         oldest = sb.get("oldest")
         lag = sb.get("max_lag_sessions")
@@ -9644,6 +9657,10 @@ def section_bars_block(sb):
                       "?" if lag is None else lag, "；".join(_parts)))
         out.append("> 那些节读的是各自面上一次生成时的数，不是今天的仓位；今天的数字只在前面那 %d 个里。"
                    % (n - len(off)))
+    if ahead and off:
+        # both directions at once: the line above counts only the sections behind, so the
+        # newer ones would otherwise disappear from the page entirely.
+        out.append("> %s" % _ahead_txt)
     # r1628: a section that measures a fixed window carries that window's END as its date, and
     # printing it in the same list as "stopped at an older bar" sends the reader looking for a
     # re-run that would not move it. The audit decides (single source: its rows carry `window`).

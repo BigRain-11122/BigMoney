@@ -16663,3 +16663,27 @@ E1411 立了一条正确的拒绝：容量面量的是 1,000,000 透镜、五个
 
 正身=`scripts/etf_book_capacity_at_size.py`（selftest 14/14 + check ok）+ `results/etf_book_capacity_at_size.json`
 + CEO 页 `docs/live_usage/LIVE-2026-11-18.md` L161-163；接线腿 `ceo_live_usage.py selftest`（r1827 五条）。
+
+## E1413 -- a verdict word is a claim about which direction the bars differ, not just that they do
+
+r1316: live_book_section_bars knew two words for three situations -- PAGE_ON_ONE_BAR (all
+sections on the headline) and PAGE_MIXES_BARS (some behind it). On 2026-11-17 the page carried
+70 sections on the headline, one BEHIND (futures_sleeve at 11-16) and one AHEAD
+(supply_capacity at 11-18), and the face printed MIXED for both directions. Three things were
+wrong at once and only the first was visible:
+
+1. the CEO page never printed the ahead section (the renderer's `if not off:` branch says "all
+   priced on the headline" whenever nothing lags), so the reader could not see that one lane
+   had already read today -- the page lost information by being "honest" about the lag;
+2. the smoke leg that demands MIXED have a lag behind it fires on a page whose only difference
+   is the other direction: a correct page scored as a defect;
+3. the leg that reads the page's own sentence knew only two states too, so growing the
+   producer turned the consumer red the next round.
+
+Fix: PAGE_AHEAD_OF_BAR for "nothing behind, something ahead"; the renderer prints one line per
+direction; both legs were taught the third state (selftest 58/58, fixture pins off=0/ahead=1 ->
+AHEAD, and the live page now carries both sentences).
+
+How: when a face grows an enum member, grep every consumer of that face -- including the
+sentences and the legs that read the sentences, not only the code that assigns the word. A word
+that answers "do they differ" while readers ask "who is behind" is the whole bug.

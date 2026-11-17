@@ -137,6 +137,10 @@ SINGLE = "PAGE_ON_ONE_BAR"
 # at all. MIXED claimed a lag the page's own counts denied (47 of 47 on one day), and the
 # smoke leg that demands MIXED have something behind it went red on a correct page.
 SINGLE_UNDATED = "PAGE_ON_ONE_BAR_WITH_UNDATED"
+# r1316: nothing behind the headline, but a section read a NEWER bar (a lane finished
+# today while the book's own panel still sits on yesterday). That is the opposite
+# finding from a lag, so it cannot share the word MIXED with it.
+AHEAD = "PAGE_AHEAD_OF_BAR"
 NO_PAGE = "NO_PAGE"
 NO_HEADLINE = "HEADLINE_UNKNOWN"
 
@@ -699,7 +703,13 @@ def assess(page=None, jsonp=None, cal=None, legs=None):
         face["verdict"] = SINGLE_UNDATED
         face["sentence"] = single_undated_sentence(sb) + _mix_txt
     else:
-        face["verdict"] = MIXED
+        # r1316: one branch, two findings. Nothing behind the headline but a section ahead
+        # of it is the reverse of a lag -- MIXED is literally true ("this page mixes bars")
+        # yet every reader, and the leg that demands MIXED have a lag behind it, takes it to
+        # mean someone is behind. The sentence below already names both directions; only the
+        # word was lying.
+        face["verdict"] = (AHEAD if (sb["n_off_headline"] == 0
+                                     and sb.get("n_ahead_of_headline")) else MIXED)
         # r1628: the worst lag must not be a section whose date is the end of its own window
         # (it would name the one row that cannot shrink by re-running a leg).
         _lagged = [r for r in (sb["off_headline"] or []) if not r.get("window_bound")]
@@ -998,7 +1008,27 @@ def selftest():
                                                              "lag_sessions": 0}]})]
     leg("L7e the sheet's ahead table names the section and how far past the headline it is",
         any("| new | 2026-11-12 | 2 |" in ln for ln in _am)
-        and any("不能与页头上的数相加减" in ln for ln in _am))
+        and         any("不能与页头上的数相加减" in ln for ln in _am))
+
+    # r1316: the third state. Nothing behind the headline, one section ahead: the face used
+    # to call that MIXED, a word every reader -- and the smoke leg that demands MIXED have a
+    # lag behind it -- takes to mean someone IS behind. Its own sentence already named both
+    # directions; only the word was lying.
+    _ahp = os.path.join(ROOT, "results", "_tmp_section_bars_ahead.json")
+    with open(_ahp, "w", encoding="utf-8") as fh:
+        json.dump({"priced_bar": "2026-11-17", "a": {"evidence_cutoff": "2026-11-17"},
+                   "new": {"evidence_cutoff": "2026-11-18"}}, fh)
+    try:
+        _ahf = assess(jsonp=_ahp, legs=[])
+        leg("L7f nothing behind the headline but a section ahead gets its own verdict",
+            _ahf["verdict"] == AHEAD and _ahf["n_off_headline"] == 0
+            and _ahf["n_ahead_of_headline"] == 1 and "2026-11-18" in _ahf["sentence"]
+            and "2026-11-17" in _ahf["sentence"])
+    finally:
+        try:
+            os.remove(_ahp)
+        except OSError:
+            pass
 
     # r1653: the live page had 47 dated sections all on 2026-11-13 plus 9 sections with no
     # date at all, and the face called that PAGE_MIXES_BARS -- a word its own counts deny.
