@@ -16582,3 +16582,18 @@ r1817 merged two machines' work: 192 conflicting files, 191 resolved by the *kin
 * code (`.py` and the rest) -> manual, never guessed
 
 Two refusals carried as legs: a **stamp-less face is never read as old** (it is AMBIGUOUS), and a csv whose header no longer matches is not merged into a table that never existed. Reading stages `:2:`/`:3:` (not the marker text) means the same tool works before and after `git checkout --ours`.
+
+## E1410 -- "highest yield" is not a candidate until you ask when the money has to be back
+
+The cash ladder (r1114) ranked six tenor policies by net yield and printed an instruction ticket stamped with its own cutoff (`roll GC001 on the first bar at/after 2026-10-27`). The CEO page priced the same sleeve at the 1-day rate and stopped there, so the reader's actual question -- which tenor do I buy this morning -- had no answer on any reader face.
+
+The new face (`scripts/etf_book_cash_roll_today.py`) adds the constraint the ladder never carried: the book's next decision bar is 2026-12-09 and the cash is needed there, so a contract that matures after it is not a candidate at any coupon. Live: GC014 1.0893%/yr net (matures 12-01) wins; GC028 quotes 1.355% -- higher than GC014 -- and is excluded because it matures 12-15, six days late; GC091/GC182 are out by 69/160 days. Worth versus rolling 1-day: +CNY 1,549/yr, +CNY 94 over the 22 days.
+
+Four things that make this reusable:
+
+* the deadline is an input, not a comment -- the exclusion is computed from `decision_date` and each contract's own maturity, so a new decision bar moves the whole table;
+* excluded is not deleted -- locked-out tenors are printed with their own quote and how many days late they are, because "highest yield, not eligible" is exactly the sentence a reader needs;
+* lots are part of the answer -- CNY 568,120 is CNY 500,000 (SH, 100k lots) + CNY 68,000 (SZ, 1k lots) + CNY 120 that cannot be placed;
+* no quote on the bar asked = excluded and named, never ffilled from an older bar.
+
+How: any "which instrument" face that ranks by yield should first ask which candidates are available at the time the money is needed; a ranking that ignores the deadline is a ranking of things you cannot buy.

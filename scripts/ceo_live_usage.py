@@ -162,6 +162,13 @@ ETF_TICKET_LATEST = os.path.join(ROOT, "results", "etf_book_order",
 # verdict (ENTRY_PREMIUM_WARN); the reader's page never carried it.  Read-only.
 ETF_PREMIUM_JSON = os.path.join(ROOT, "results", "etf_book_premium_leak.json")
 ETF_PREMIUM_REL = "results/etf_book_premium_leak.json"
+# r1824: the page prices the sleeve at the 1-day repo rate, which answers "how much does
+# the cash earn" and leaves "which tenor do I roll this morning" unanswered -- the ladder
+# face's own ticket is stamped with ITS cutoff (2026-10-27), so it reads as history. The
+# new face answers today's tenor under the constraint that the cash must be back by the
+# decision bar. Read-only, with a same-generation guard (r1780/r1781 class).
+ETF_CASH_ROLL_JSON = os.path.join(ROOT, "results", "etf_book_cash_roll_today.json")
+ETF_CASH_ROLL_REL = "results/etf_book_cash_roll_today.json"
 
 # v2.2 (r1782): the index-futures carry book is the second money candidate, and
 # until now its only sentence on this page was nothing at all -- "this book buys
@@ -1020,6 +1027,76 @@ def _etf_cash_leg_face(cl):
     }
 
 
+def _etf_order_with_cash_roll():
+    """The order face plus today's repo-roll instruction, guarded on the ticket's own bar."""
+    eo = _etf_order_face() or {}
+    eo["cash_roll"] = _etf_cash_roll_face(eo.get("bar"))
+    return eo
+
+
+def _etf_cash_roll_face(ticket_bar=None, decision_date=None):
+    """v2.5 (r1824): which repo tenor the sleeve rolls into TODAY.
+
+    The cash row prices the sleeve at the 1-day rate and stops there. The reader's next
+    question is a tenor, and the ladder face cannot answer it: its ticket says "roll GC001
+    on the first bar at/after 2026-10-27". `etf_book_cash_roll_today` answers it and adds
+    the constraint the ladder face never carried -- the cash has to be raisable on the
+    decision bar, so a high coupon that matures past it is excluded, not ranked.
+
+    Three rules, each with a selftest leg:
+
+    * a missing face, or one that names no tenor, prints a reason and NO number (r98);
+    * the block prints the face's own as_of and decision date, and refuses to speak when
+      they disagree with the ticket it sits under (r1780/r1781: two files agreeing by luck
+      is not a guard);
+    * the worth line is "versus rolling 1-day every session", never a forecast.
+    """
+    d = _read_json(ETF_CASH_ROLL_JSON)
+    if not d:
+        return {"present": False, "note": "闲钱滚仓面未产出（缺面不读 0）"}
+    verdict = d.get("verdict")
+    if not verdict:
+        return {"present": False, "note": "闲钱滚仓面无判词（空面不冒充有读数）"}
+    if verdict == "NO_INSTRUCTION":
+        return {"present": True, "verdict": verdict,
+                "reason": d.get("reason") or "面上没写原因",
+                "as_of": d.get("as_of"), "decision_date": d.get("decision_date")}
+    if ticket_bar and d.get("as_of") and d["as_of"] != ticket_bar:
+        return {"present": False, "verdict": verdict, "as_of": d.get("as_of"),
+                "ticket_bar": ticket_bar,
+                "note": "滚仓面读的是 {}，这张票面读的是 {}——不是同一趟，今天不印这个数"
+                        .format(d.get("as_of"), ticket_bar)}
+    if decision_date and d.get("decision_date") and d["decision_date"] != decision_date:
+        return {"present": False, "verdict": verdict,
+                "as_of": d.get("as_of"), "decision_date": d.get("decision_date"),
+                "ticket_decision_date": decision_date,
+                "note": "滚仓面说下一次决策是 {}，票面说 {}——两个日期不一致，今天不印这个数"
+                        .format(d.get("decision_date"), decision_date)}
+    best = d.get("best_sh") or d.get("best_sz") or {}
+    excl = d.get("excluded_locked") or []
+    return {
+        "present": True,
+        "verdict": verdict,
+        "as_of": d.get("as_of"),
+        "decision_date": d.get("decision_date"),
+        "window_days": d.get("window_days"),
+        "cash_cny": d.get("cash_cny"),
+        "contract": best.get("contract"),
+        "tenor_days": best.get("tenor_days"),
+        "net_ann_pct": best.get("net_ann_pct"),
+        "quoted_pct": best.get("quoted_pct"),
+        "matures": best.get("matures"),
+        "placeable": d.get("placeable") or {},
+        "worth_year_cny": d.get("worth_vs_daily_roll_cny_year"),
+        "worth_window_cny": d.get("worth_vs_daily_roll_cny_window"),
+        "locked_out": [{"contract": r.get("contract"), "quoted_pct": r.get("quoted_pct"),
+                        "matures": r.get("matures"),
+                        "late_days": r.get("locked_past_decision_days")} for r in excl[:3]],
+        "sentence": d.get("sentence"),
+        "source_rel": ETF_CASH_ROLL_REL,
+    }
+
+
 def _etf_premium_face():
     """v2.4 (r1820): what part of the build order is paid ABOVE NAV.
 
@@ -1373,7 +1450,7 @@ def build_payload(day: str) -> dict:
         "recommendation": _recommendation_face(),
         "judgment_burns": _judgment_burn_face(),
         "etf_book": book,
-        "etf_order": _etf_order_face(),
+        "etf_order": _etf_order_with_cash_roll(),
         "etf_premium": _etf_premium_face(),
         "book_identity": _book_identity_face(),
         "carry_book": _carry_book_face(),
@@ -1840,6 +1917,47 @@ def render_md(p: dict) -> str:
                              _cl["source"], _cl.get("tail") or "?"))
         else:
             L.append("  - 那笔现金赚什么：票面未印（缺面不读 0）")
+        # ---- r1824: the cash row prices the sleeve at the 1-day rate and stops. The
+        # reader's next question is a tenor, and the ladder face answers it only as of
+        # its own cutoff. This block prints TODAY's tenor under the constraint that the
+        # cash must be raisable on the decision bar.
+        _cr = eo.get("cash_roll") or {}
+        if not _cr.get("present"):
+            L.append("  - **今天这笔闲钱滚哪一档**：{}".format(
+                _cr.get("note") or "缺面不读 0 档"))
+        elif _cr.get("verdict") == "NO_INSTRUCTION":
+            L.append("  - **今天这笔闲钱滚哪一档**：读不到指令（{}）".format(
+                _cr.get("reason") or "面上没写原因"))
+        else:
+            L.append("  - **今天这笔闲钱滚哪一档**：**{}**（{} 天）——报价 {}% · "
+                     "扣手续费后净 {}%/年，{} 到期，{} 的决策 bar 用得上钱。".format(
+                         _cr.get("contract"), _cr.get("tenor_days"),
+                         _cr.get("quoted_pct"), _cr.get("net_ann_pct"),
+                         _cr.get("matures"), _cr.get("decision_date")))
+            _wy = _cr.get("worth_year_cny")
+            _ww = _cr.get("worth_window_cny")
+            if _wy is not None:
+                L.append("    - 比天天滚 GC001 多赚：**一年 ¥{}**（到下一次决策的 {} 天里 "
+                         "¥{}）——这是「选哪一档」的价值，不是已经赚到的钱。".format(
+                             _fmt_cny(_wy), _cr.get("window_days") or "?",
+                             _fmt_cny(_ww or 0)))
+            _lk = _cr.get("locked_out") or []
+            if _lk:
+                L.append("    - 看着更高但**今天不能碰**的档：{}。".format(
+                    "；".join("{} {}% 到 {} 才到期（晚 {} 天）".format(
+                        r.get("contract"), r.get("quoted_pct"), r.get("matures"),
+                        r.get("late_days")) for r in _lk)))
+            _pl = _cr.get("placeable") or {}
+            if _pl.get("placed_cny") is not None:
+                L.append("    - 钱怎么放：¥{} = 沪市 ¥{}（10 万起）+ 深市 ¥{}（1 千起），"
+                         "剩 ¥{} 放不进去。".format(
+                             _fmt_cny(_cr.get("cash_cny") or 0),
+                             _fmt_cny(_pl.get("sh_cny") or 0),
+                             _fmt_cny(_pl.get("sz_cny") or 0),
+                             _fmt_cny(_pl.get("leftover_cny") or 0)))
+            L.append("    - 出处：`{}`（本位 bar {}·决策日 {}）".format(
+                _cr.get("source_rel") or "?", _cr.get("as_of") or "?",
+                _cr.get("decision_date") or "?"))
         # ---- r1785: the difference a returning reader actually has to trade.
         eod = eo.get("delta") or {}
         if not eod.get("present"):
@@ -2902,6 +3020,39 @@ def selftest() -> int:
                   "不是同一张" in _md7
                   and (_paid1 is None or _fmt_cny(abs(_paid1)) not in _md7)
                   and "多付" not in _md7)
+        # ---- r1824: today's repo tenor for the uninvested sleeve
+        _cr1 = ((p1.get("etf_order") or {}).get("cash_roll")) or {}
+        if _cr1.get("present") and _cr1.get("verdict") != "NO_INSTRUCTION":
+            check("the page prints today's repo tenor with its own maturity (r1824)",
+                  str(_cr1.get("contract")) in md1
+                  and str(_cr1.get("matures")) in md1
+                  and str(_cr1.get("decision_date")) in md1)
+            check("the worth line is measured against rolling 1-day, not a forecast (r1824)",
+                  "比天天滚 GC001" in md1)
+            _lk1 = _cr1.get("locked_out") or []
+            check("tenors that lock past the decision bar are named, not dropped (r1824)",
+                  all(str(r.get("contract")) in md1 and str(r.get("matures")) in md1
+                      for r in _lk1) if _lk1 else True)
+            _deg8 = json.loads(json.dumps(p1))
+            _deg8["etf_order"] = dict(_deg8.get("etf_order") or {})
+            _deg8["etf_order"]["cash_roll"] = {
+                "present": False, "note": "闲钱滚仓面未产出（缺面不读 0）"}
+            _md8 = render_md(_deg8)
+            check("a missing roll face prints a reason, never a tenor (r1824)",
+                  "缺面不读 0" in _md8 and str(_cr1.get("contract")) not in _md8
+                  and "比天天滚 GC001" not in _md8)
+            _deg9 = json.loads(json.dumps(p1))
+            _deg9["etf_order"] = dict(_deg9.get("etf_order") or {})
+            _deg9["etf_order"]["cash_roll"] = {
+                "present": True, "verdict": "NO_INSTRUCTION",
+                "reason": "repo panel has no GC001 bar"}
+            _md9 = render_md(_deg9)
+            check("a roll face with no instruction prints its reason, not a tenor (r1824)",
+                  "读不到指令" in _md9 and "repo panel has no GC001 bar" in _md9
+                  and str(_cr1.get("contract")) not in _md9)
+            _mismatch = _etf_cash_roll_face(ticket_bar="TICKET-1999-01-01")
+            check("a roll instruction priced off another bar is refused, not quoted (r1824)",
+                  not _mismatch.get("present") and "不是同一趟" in str(_mismatch.get("note")))
         _deg3 = json.loads(json.dumps(p1))
         _deg3["etf_order"] = dict(_deg3.get("etf_order") or {})
         _deg3["etf_order"]["next_decision_bars"] = None

@@ -1137,6 +1137,17 @@ LEGS = [
     # ahead of the check, in dependency order: permission -> gap.
     ("cut_order_gap_write", ["python", "scripts/etf_book_cut_order_gap.py", "run"]),
     ("cut_order_gap", ["python", "scripts/etf_book_cut_order_gap.py", "check"]),
+    # r1824: the cash ladder priced six tenor policies over the whole history, but its ticket
+    # is stamped with ITS cutoff ("roll GC001 on the first bar at/after 2026-10-27"), so the
+    # reader of the CEO page got "the sleeve earns CNY 5,295/yr at the 1-day rate" and no
+    # answer to "which tenor do I buy this morning". This face answers that one question off
+    # three files (permission face for the cash and the decision date, repo panel for quotes)
+    # and adds the constraint the ladder face did not carry: the cash must be back by the
+    # decision bar, so a tenor whose maturity lands past 2026-12-09 is excluded with its own
+    # number instead of ranked. Reads cut_order_gap above, so it stays after it (0.1s).
+    ("cash_roll_today",
+     ["python", "scripts/etf_book_cash_roll_today.py", "--check"],
+     ["python", "scripts/etf_book_cash_roll_today.py"]),
     # r1453: cut_order_gap and cut_gate_pass answer two halves of the same 11-11 question --
     # what the desk must SELL, and whether obeying that sale moves the calendar gate. Neither
     # printed the other, so a desk had to hold two receipts at once. etf_book_decision_line

@@ -2,7 +2,7 @@
  "schema": "ceo_live_usage_v1_9",
  "ticket": "T-202609-28-105",
  "day": "2026-11-18",
- "generated": "2026-11-18T05:45:49",
+ "generated": "2026-11-18T06:24:36",
  "market": {
   "state": "RED",
   "asof": "2026-11-17",
@@ -492,7 +492,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 60264.0
+    "last_append_age_min": 60302.8
    },
    {
     "family": "FUND-VALUE-P1",
@@ -500,7 +500,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 61108.5
+    "last_append_age_min": 61147.3
    },
    {
     "family": "FUND-DIVLOWVOL-P1",
@@ -508,7 +508,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 57901.8
+    "last_append_age_min": 57940.6
    }
   ]
  },
@@ -819,6 +819,50 @@
    "declaration_bar": "2026-11-17",
    "declaration_actions": 0,
    "positions_source": "face@2026-11-17"
+  },
+  "cash_roll": {
+   "present": true,
+   "verdict": "ROLL_GC014_TODAY",
+   "as_of": "2026-11-17",
+   "decision_date": "2026-12-09",
+   "window_days": 22,
+   "cash_cny": 568120.0,
+   "contract": "GC014",
+   "tenor_days": 14,
+   "net_ann_pct": 1.0893,
+   "quoted_pct": 1.35,
+   "matures": "2026-12-01",
+   "placeable": {
+    "sh_cny": 500000.0,
+    "sz_cny": 68000.0,
+    "leftover_cny": 120.0,
+    "placed_cny": 568000.0,
+    "cash_cny": 568120.0
+   },
+   "worth_year_cny": 1549.02,
+   "worth_window_cny": 93.68,
+   "locked_out": [
+    {
+     "contract": "GC182",
+     "quoted_pct": 1.32,
+     "matures": "2027-05-18",
+     "late_days": 160
+    },
+    {
+     "contract": "GC091",
+     "quoted_pct": 1.315,
+     "matures": "2027-02-16",
+     "late_days": 69
+    },
+    {
+     "contract": "GC028",
+     "quoted_pct": 1.355,
+     "matures": "2026-12-15",
+     "late_days": 6
+    }
+   ],
+   "sentence": "GC014 pays 1.09%/yr net and still matures by 2026-12-09; versus rolling 1-day every session it is worth 1549.02 CNY a year (93.68 CNY over the 22 days to the next decision)",
+   "source_rel": "results/etf_book_cash_roll_today.json"
   }
  },
  "etf_premium": {

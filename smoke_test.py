@@ -2100,6 +2100,16 @@ def main() -> int:
              "scripts/etf_book_ticket_band.py", ["selftest"]),
             ("product: etf_book_ticket_band (face re-derives from the two source faces)",
              "scripts/etf_book_ticket_band.py", ["check"]),
+            # r1824: the cash ladder's ticket is stamped with its own cutoff, so "which tenor
+            # do I roll this morning" had no answer on any reader face. The legs pin that a
+            # tenor maturing after the decision bar is excluded (and named) rather than
+            # ranked, that the sleeve is split into the lots the two venues accept, that a
+            # tenor without a quote on the panel's own last bar is never ffilled, and that
+            # missing inputs yield NO_INSTRUCTION with a reason instead of a zero.
+            ("product: etf_book_cash_roll_today (today's roll under the decision deadline)",
+             "scripts/etf_book_cash_roll_today.py", ["--selftest"]),
+            ("product: etf_book_cash_roll_today (instruction re-derived from disk)",
+             "scripts/etf_book_cash_roll_today.py", ["--check"]),
             # r1466: the swap was priced but the sheet carrying it did not say when to look
             # again. The legs pin that the action price is the round-trip toll (not a mean,
             # not a percentile), that a censored episode is reported rather than scored as
