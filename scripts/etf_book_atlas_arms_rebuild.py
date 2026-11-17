@@ -175,6 +175,9 @@ def run(group, workers=None):
     ok = success(group, kind, publish_rc, audit_rc)
     out = {"group": group, "arms": arms, "faces": written, "panel": reading,
            "verdict": kind, "detail": detail,
+           # r1301: the receipt is read by a page that has to say how old it is, and a
+           # receipt with no stamp can only ever read "date unknown".
+           "generated": time.strftime("%Y-%m-%dT%H:%M:%S%z"),
            "audit_publish_rc": publish_rc, "audit_check_rc": audit_rc,
            "audit_steps": [" ".join(s) or "(publish)" for s in audit_steps(group)],
            "success": ok,
@@ -182,8 +185,10 @@ def run(group, workers=None):
            "publish_law": ("the `all` unit also republishes the arms face and then "
                            "checks it (r1181): a rebuilt family behind a stale "
                            "comparison face is still unread")}
-    with io.open(RECEIPT, "w", encoding="utf-8", newline="\n") as fh:
-        fh.write(json.dumps(out, indent=1, ensure_ascii=False) + "\n")
+    # r1301: atomic. A receipt is read by the CEO page, and a run killed mid-write (this
+    # one has been killed mid-write) would leave a half JSON the page cannot parse -- and
+    # an unparseable receipt and a missing one read the same, which hides the run.
+    _write_receipt(out)
     print("[rebuild] %s: %s (%s); publish rc=%s check rc=%s -> %s"
           % (group, kind, detail, publish_rc, audit_rc,
              "OK" if ok else "NOT DONE"), flush=True)
@@ -195,6 +200,15 @@ def run(group, workers=None):
 
 SPANNING = os.path.join(ROOT, "results", "etf_book_spanning.json")
 NEEDS_REBUILD = ("missing", "behind", "content", "unstamped")
+
+
+def _write_receipt(out, path=RECEIPT):
+    """Write the receipt atomically (r1301: a kill mid-write must not eat the last one)."""
+    p = path if os.path.isabs(path) else os.path.join(ROOT, path)
+    tmp = p + ".tmp"
+    with io.open(tmp, "w", encoding="utf-8", newline="\n") as fh:
+        fh.write(json.dumps(out, indent=1, ensure_ascii=False) + "\n")
+    os.replace(tmp, p)
 
 
 def _face_stamp(path):
@@ -318,6 +332,89 @@ def check_world(faces=None, world=None):
     return 0
 
 
+def receipt_state(path=RECEIPT, world=None, faces=None):
+    """Which world the last rebuild paid for, and whether that is still today's (r1301).
+
+    r1632 wired `etf_book_production.receipt_face()` to `RB.receipt_state()` and the
+    producer was never written: from 2026-11-13 the CEO page printed "receipt reader
+    failed (module 'etf_book_atlas_arms_rebuild' has no attribute 'receipt_state')" --
+    a caller leg proves nothing about a writer existing (r1471/r1594).
+
+    The receipt answers two questions and they must not be merged: which arms the run
+    covered (`--only=cost` legitimately prints ONE_WORLD for four of eleven), and
+    whether the world it paid for is still the family's. Only the publisher answers the
+    second -- `family_state()`, never a file mtime (r1371) and never the receipt's own
+    bytes (r1594: a receipt that re-derives itself is always self-consistent).
+    """
+    absent = {"present": False, "stale": None, "group": None, "group_arms": None,
+              "group_verdict": None, "world": None, "world_now": None, "bar": None,
+              "covers_family": None, "family": None,
+              "detail": "no rebuild receipt -- no run has paid for a world yet"}
+    p = path if os.path.isabs(path) else os.path.join(ROOT, path)
+    out = dict(absent, artifact=_display(p))
+    if not os.path.exists(p):
+        return out
+    try:
+        with io.open(p, encoding="utf-8") as fh:
+            doc = json.load(fh) or {}
+    except Exception as exc:                                    # noqa: BLE001
+        out["present"] = None
+        out["detail"] = "receipt unreadable (%s)" % str(exc)[:100]
+        return out
+    stamped = (doc.get("panel") or {}).get("stamped") or {}
+    digs = sorted(set(stamped.values()))
+    group = doc.get("group")
+    arms = doc.get("arms") or []
+    st = family_state(world=world, faces=faces)
+    behind = [r["arm"] for r in st["rows"] if r["status"] in NEEDS_REBUILD]
+    out.update({"present": True, "group": group, "group_arms": len(arms),
+                "group_verdict": doc.get("verdict"), "world_now": st["modal"],
+                "bar": st["world"], "covers_family": group == "all",
+                # r1301: the page prints these next to the world, so they travel with it
+                "generated": doc.get("generated"), "elapsed_sec": doc.get("elapsed_sec"),
+                "rebuilt": list(doc.get("rebuilt") or []),
+                "family": {"stale_arms": behind, "total": len(st["rows"])}})
+    if not digs:
+        out["detail"] = ("receipt cannot say which world it paid for -- unknown%s"
+                         % ("; it covers group %r" % group if group else ""))
+        return out
+    if len(digs) > 1:
+        out["stale"] = True
+        out["detail"] = ("the run itself left %d panels across its own faces (%s)"
+                         % (len(digs), ", ".join(d[:8] for d in digs)))
+        return out
+    paid = digs[0]
+    out["world"] = paid
+    scope = ("group %s (%d of %d arms)" % (group, len(arms), len(st["rows"]))
+             if group != "all" else "the whole family (%d arms)" % len(arms))
+    if st["modal"] and paid == st["modal"]:
+        out["stale"] = False
+        if doc.get("mode") == "refresh" and not (doc.get("rebuilt") or []):
+            # a refresh that found the family already on the world paid nothing, and that
+            # is the answer a reader wants ("nobody had to burn 11 sweeps today").
+            out["detail"] = ("the last refresh (%s) rebuilt nothing -- the family was already "
+                             "on world %s (bar %s)"
+                             % (doc.get("generated") or "date unknown", paid[:8], st["world"]))
+            return out
+        # r1301: a current receipt is not a coherent family. `run --only=cost` pays the
+        # family's own world and still leaves arms behind, and that is the case the page
+        # reads (coherence MIXED_WORLDS beside a fresh receipt) -- so say both.
+        out["detail"] = ("%s paid for %s -- still the family's world (bar %s)%s"
+                         % (scope, paid[:8], st["world"],
+                            ("; %d arm(s) are not on it: %s"
+                             % (len(behind), ", ".join(behind))) if behind else ""))
+    elif st["modal"]:
+        out["stale"] = True
+        out["detail"] = ("%s paid for %s; the family now prices %s (bar %s) and %d arm(s) "
+                         "still sit on another panel%s"
+                         % (scope, paid[:8], st["modal"][:8], st["world"], len(behind),
+                            (": " + ", ".join(behind)) if behind else ""))
+    else:
+        out["detail"] = ("%s paid for %s; the family's own world cannot be read, so "
+                         "freshness is unknown" % (scope, paid[:8]))
+    return out
+
+
 def refresh(budget=620.0, workers=None, faces=None, run_one=None, audit_run=None, world=None):
     """Re-price only the arms that are not on the current world, within a budget.
 
@@ -374,8 +471,25 @@ def refresh(budget=620.0, workers=None, faces=None, run_one=None, audit_run=None
     out = {"mode": "refresh", "status": status, "world": st["world"],
            "world_source": st["world_source"], "modal": st["modal"],
            "rebuilt": done, "left": left or remaining, "ahead": [r["arm"] for r in ahead],
+           "generated": time.strftime("%Y-%m-%dT%H:%M:%S%z"),
            "audit_publish_rc": publish_rc, "audit_check_rc": check_rc,
            "elapsed_sec": round(time.time() - t0, 1)}
+    # r1301: `refresh` is the way the family actually gets paid for, so it has to leave the
+    # receipt the page reads -- otherwise the only receipt on disk belongs to whatever
+    # `run --only=<group>` happened to write last (this round: a killed `--only=all` left a
+    # cost-group receipt under a family-wide name). The panel block is the POST-run state
+    # of every arm, so the receipt says what the family is, not what this run hoped for;
+    # `rebuilt: []` is a real answer ("nothing needed paying") and the reader says so.
+    _write_receipt({"mode": "refresh", "group": "all", "arms": GROUPS["all"],
+                    "period": "refresh",
+                    "rebuilt": done, "left": left or remaining,
+                    "status": status,
+                    "verdict": ("ONE_WORLD" if not (remaining or ahead) else "SPLIT_WORLDS"),
+                    "detail": out["status"],
+                    "generated": out["generated"], "elapsed_sec": out["elapsed_sec"],
+                    "audit_publish_rc": publish_rc, "audit_check_rc": check_rc,
+                    "panel": {"stamped": {"%s/%s" % (r["arm"], r["face"]): r["digest"]
+                                          for r in after["rows"] if r["digest"]}}})
     print(json.dumps(out, ensure_ascii=False), flush=True)
     if status == "REFRESH_NOOP":
         return 0
@@ -512,7 +626,40 @@ def selftest():
     refresh(budget=0, faces=mix, run_one=_boom, audit_run=lambda a: 0)
     if len(tried) > 1:
         bad.append("a failing arm did not consume the budget: %d attempts" % len(tried))
-    n_legs = 16 + 8 + 2  # 9 pre-r1181 + 7 publish-contract + the 8 world-gate legs + r1640
+    # r1301: the receipt reader the page has been failing to find since 2026-11-13. The two
+    # questions a receipt answers must stay apart, and `stale` must come from the publisher.
+    def _mk_receipt(name, group, arms, stamped, with_panel=True):
+        p = os.path.join(td, name)
+        doc = {"group": group, "arms": arms, "verdict": "ONE_WORLD"}
+        if with_panel:
+            doc["panel"] = {"stamped": stamped}
+        with io.open(p, "w", encoding="utf-8", newline="\n") as fh:
+            fh.write(json.dumps(doc))
+        return p
+
+    gone = receipt_state(path=os.path.join(td, "__no_receipt__.json"), world=new, faces=uni)
+    if gone["present"] is not False or gone["stale"] is not None:
+        bad.append("an absent receipt is not reported as absent (never as fresh)")
+    full = _mk_receipt("r_full.json", "all", names,
+                       {names[i]: "cccc3333dddd4444" for i in range(len(names))})
+    r_full = receipt_state(path=full, world=new, faces=uni)
+    if r_full["stale"] is not False or not r_full["covers_family"]:
+        bad.append("a receipt covering the family on the world is not read as current")
+    part = _mk_receipt("r_part.json", "cost", names[:4],
+                       {names[i]: "cccc3333dddd4444" for i in range(4)})
+    r_part = receipt_state(path=part, world=new, faces=uni)
+    if r_part["covers_family"] or "4 of %d" % len(names) not in (r_part["detail"] or ""):
+        bad.append("a sub-group receipt does not say how many arms it covers")
+    old_r = _mk_receipt("r_old.json", "all", names,
+                        {names[i]: "aaaa1111bbbb2222" for i in range(len(names))})
+    r_old = receipt_state(path=old_r, world=new, faces=mix)
+    if r_old["stale"] is not True or "cccc3333" not in (r_old["detail"] or ""):
+        bad.append("a receipt paid for an older world is not reported stale with both worlds")
+    blind = _mk_receipt("r_blind.json", "cost", names[:4], {}, with_panel=False)
+    r_blind = receipt_state(path=blind, world=new, faces=uni)
+    if r_blind["stale"] is not None or "cannot say" not in (r_blind["detail"] or ""):
+        bad.append("a receipt with no panel block reads as fresh instead of unknown")
+    n_legs = 16 + 8 + 2 + 5  # 9 pre-r1181 + 7 publish-contract + 8 world-gate + r1640 + receipt
     for b in bad:
         print("[FAIL] %s" % b)
     print("selftest: %d legs, %d failed" % (n_legs, len(bad)))

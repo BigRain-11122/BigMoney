@@ -10120,9 +10120,20 @@ def render_md(p, sb=None):
             % (rc.get("world") or "?", rc.get("generated") or "日期未记",
                rc.get("world_now") or "?"))
     elif rc.get("present") and rc.get("stale") is False:
-        add("- 上一次族面重定价的回执就在这个世界（`%s`，%s 秒、%s 条臂）——它不是旧账。"
-            % (rc.get("world") or "?", rc.get("elapsed_sec") if rc.get("elapsed_sec") is not None else "?",
-               len(rc.get("rebuilt") or [])))
+        # r1301: "same world" is a claim about the arms the run covered, never about the
+        # family -- `--only=cost` pays the family's own panel and still leaves arms behind.
+        # The old sentence also printed "0 条臂" for every run-mode receipt, because only
+        # refresh writes a `rebuilt` list; the scope now comes from the receipt itself.
+        _covered = ("整族 %s 条臂" % rc.get("group_arms") if rc.get("covers_family")
+                    else "组 `%s` 的 %s 条臂（族 %s 条）"
+                         % (rc.get("group"), rc.get("group_arms"),
+                            (rc.get("family") or {}).get("total")))
+        _behind = (rc.get("family") or {}).get("stale_arms") or []
+        add("- 上一次族面重定价的回执付的就是这个世界（`%s`，%s，覆盖%s）——它不是旧账；"
+            "但它说的「同世界」只管它付过的那些臂%s。"
+            % (rc.get("world") or "?", rc.get("generated") or "日期未记", _covered,
+               ("，另有 %d 条仍停在别的面板：%s" % (len(_behind), "、".join(_behind)))
+               if _behind else ""))
     elif rc.get("present") is False:
         add("- 族面重定价没有回执：谁付过这笔账、付了多少，这里看不到。")
     add("")
