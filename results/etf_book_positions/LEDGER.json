@@ -332,49 +332,46 @@
   },
   {
    "bar": "2026-11-17",
-   "kind": "valuation",
-   "from_bar": "2026-11-16",
+   "kind": "execution",
+   "ticket": "TICKET-2026-11-17.json",
+   "k": 0.43188,
+   "risk_book_cny": 431879.5,
+   "cash_cny": 568120.5,
    "holdings": [
     {
      "symbol": "159519",
-     "lots": 493,
+     "lots": 494,
      "price": 1.748,
-     "amount_cny": 86176.4
+     "amount_cny": 86351.2
     },
     {
      "symbol": "159655",
-     "lots": 438,
+     "lots": 446,
      "price": 1.937,
-     "amount_cny": 84840.6
+     "amount_cny": 86390.2
     },
     {
      "symbol": "510760",
-     "lots": 689,
+     "lots": 693,
      "price": 1.246,
-     "amount_cny": 85849.4
+     "amount_cny": 86347.8
     },
     {
      "symbol": "512040",
-     "lots": 719,
+     "lots": 716,
      "price": 1.207,
-     "amount_cny": 86783.3
+     "amount_cny": 86421.2
     },
     {
      "symbol": "513690",
-     "lots": 751,
+     "lots": 753,
      "price": 1.147,
-     "amount_cny": 86139.7
+     "amount_cny": 86369.1
     }
    ],
-   "risk_book_cny": 429789.4,
-   "cash_cny": 568272.2,
-   "nav_cny": 998061.6,
-   "ret": -0.0019384,
-   "cum_ret": -0.0019384,
-   "rf_step": 0.0,
-   "stale_price_symbols": [],
+   "actions": [],
    "source_face": "results/etf_book_swap_stack.json",
-   "written_ts": "2026-11-17T18:24:01+08:00"
+   "written_ts": "2026-11-17T19:16:20+08:00"
   }
  ],
  "restatements": [
@@ -1398,6 +1395,67 @@
      "symbol": "513690",
      "before": 754,
      "after": 751
+    }
+   ]
+  },
+  {
+   "bar": "2026-11-17",
+   "previous_written_ts": "2026-11-17T18:24:01+08:00",
+   "written_ts": "2026-11-17T19:16:20+08:00",
+   "before": {
+    "k": null,
+    "risk_book_cny": 429789.4,
+    "cash_cny": 568272.2,
+    "lots": {
+     "159519": 493,
+     "159655": 438,
+     "510760": 689,
+     "512040": 719,
+     "513690": 751
+    }
+   },
+   "after": {
+    "k": 0.43188,
+    "risk_book_cny": 431879.5,
+    "cash_cny": 568120.5,
+    "lots": {
+     "159519": 494,
+     "159655": 446,
+     "510760": 693,
+     "512040": 716,
+     "513690": 753
+    }
+   },
+   "delta": {
+    "k": null,
+    "risk_book_cny": 2090.1,
+    "cash_cny": -151.7
+   },
+   "lots_changed": [
+    {
+     "symbol": "159519",
+     "before": 493,
+     "after": 494
+    },
+    {
+     "symbol": "159655",
+     "before": 438,
+     "after": 446
+    },
+    {
+     "symbol": "510760",
+     "before": 689,
+     "after": 693
+    },
+    {
+     "symbol": "512040",
+     "before": 719,
+     "after": 716
+    },
+    {
+     "symbol": "513690",
+     "before": 751,
+     "after": 753
     }
    ]
   }

@@ -59,7 +59,7 @@
     "pct": 1.7731,
     "annual_cny": 10073.0,
     "source": "etf_book_idle_cash.json",
-    "asof": "2026-11-17T17:35:45",
+    "asof": "2026-11-17T18:33:13",
     "book_cagr_without_pct": 11.41,
     "book_cagr_with_pct": 12.0,
     "basis": "as_coded",
@@ -863,22 +863,22 @@
  "vt_ladder": {
   "status": "ok",
   "readable": true,
-  "evidence_cutoff": "2026-11-16",
+  "evidence_cutoff": "2026-11-17",
   "answer": "LADDER_HAS_RUNG",
   "n_rungs": 7,
   "n_admit": 4,
   "best_sharpe": {
    "rung": "vt08",
-   "sharpe": 1.129,
+   "sharpe": 1.125,
    "verdict": "CONDITIONAL",
-   "cagr_pct": 0.1145,
+   "cagr_pct": 0.1141,
    "maxdd_pct": -0.1056
   },
   "tightest_admit": {
    "rung": "vt15",
    "vol_target": 0.15,
-   "sharpe": 0.987,
-   "cagr_pct": 0.1417,
+   "sharpe": 0.984,
+   "cagr_pct": 0.1412,
    "maxdd_pct": -0.1604
   },
   "path": "results\\etf_book_vt_ladder\\VT-LADDER.json"
@@ -886,12 +886,12 @@
  "vt_phases": {
   "status": "ok",
   "readable": true,
-  "evidence_cutoff": "2026-11-16",
+  "evidence_cutoff": "2026-11-17",
   "answer": {
    "answer": "NO_RUNG_SURVIVES",
-   "detail": "every rung is refused on at least one phase, and so is the same universe held equally (top-2 1.60 on 0 of 4 phases) -- the line is not ranking these books, it is refusing the shape",
+   "detail": "every rung is refused on at least one phase, and so is the same universe held equally (top-2 1.62 on 0 of 4 phases) -- the line is not ranking these books, it is refusing the shape",
    "gate_comparability": "LINE_REFUSES_THE_MOST_DIVERSIFIED_SHAPE",
-   "reference_top2_median": 1.5952,
+   "reference_top2_median": 1.6171,
    "reference_pass_phases": 0,
    "drop_two": {
     "verdict": "BOOKS_STAND_WITHOUT_THEIR_TWO_BEST_YEARS",
@@ -917,12 +917,12 @@
   "line": 0.7,
   "reference": {
    "verdict": "REFERENCE_ALSO_REFUSED",
-   "top2_min": 1.5724,
-   "top2_max": 1.6134,
-   "top2_median": 1.5952,
+   "top2_min": 1.5931,
+   "top2_max": 1.6363,
+   "top2_median": 1.6171,
    "pass_phases": 0,
    "phases": 4,
-   "cagr_pct": 0.0399,
+   "cagr_pct": 0.039,
    "names_alive_at_start": 194,
    "method": "equal_weight_daily_rebalance_zero_cost"
   },
@@ -931,90 +931,90 @@
     "rung": "none",
     "phases": 4,
     "pass_phases": 2,
-    "top2_min": 0.6795,
-    "top2_max": 0.7757,
-    "spread": 0.0962,
-    "margin_to_line": -0.0757,
-    "top2_vs_reference": 0.4863,
+    "top2_min": 0.6763,
+    "top2_max": 0.7802,
+    "spread": 0.1039,
+    "margin_to_line": -0.0802,
+    "top2_vs_reference": 0.4825,
     "verdict": "PHASE_DEPENDENT"
    },
    {
     "rung": "vt08",
     "phases": 4,
     "pass_phases": 0,
-    "top2_min": 0.7084,
-    "top2_max": 0.864,
-    "spread": 0.1556,
-    "margin_to_line": -0.164,
-    "top2_vs_reference": 0.5416,
+    "top2_min": 0.7104,
+    "top2_max": 0.8458,
+    "spread": 0.1354,
+    "margin_to_line": -0.1458,
+    "top2_vs_reference": 0.523,
     "verdict": "PHASE_DEPENDENT"
    },
    {
     "rung": "vt10",
     "phases": 4,
     "pass_phases": 0,
-    "top2_min": 0.7226,
-    "top2_max": 0.8768,
-    "spread": 0.1542,
-    "margin_to_line": -0.1768,
-    "top2_vs_reference": 0.5496,
+    "top2_min": 0.7247,
+    "top2_max": 0.8581,
+    "spread": 0.1334,
+    "margin_to_line": -0.1581,
+    "top2_vs_reference": 0.5306,
     "verdict": "PHASE_DEPENDENT"
    },
    {
     "rung": "vt12",
     "phases": 4,
     "pass_phases": 0,
-    "top2_min": 0.7176,
-    "top2_max": 0.8759,
-    "spread": 0.1583,
-    "margin_to_line": -0.1759,
-    "top2_vs_reference": 0.5491,
+    "top2_min": 0.7196,
+    "top2_max": 0.8587,
+    "spread": 0.1391,
+    "margin_to_line": -0.1587,
+    "top2_vs_reference": 0.531,
     "verdict": "PHASE_DEPENDENT"
    },
    {
     "rung": "vt15",
     "phases": 4,
     "pass_phases": 1,
-    "top2_min": 0.6774,
-    "top2_max": 0.8399,
-    "spread": 0.1625,
-    "margin_to_line": -0.1399,
-    "top2_vs_reference": 0.5265,
+    "top2_min": 0.6792,
+    "top2_max": 0.8257,
+    "spread": 0.1465,
+    "margin_to_line": -0.1257,
+    "top2_vs_reference": 0.5106,
     "verdict": "PHASE_DEPENDENT"
    },
    {
     "rung": "vt20",
     "phases": 4,
     "pass_phases": 2,
-    "top2_min": 0.6715,
-    "top2_max": 0.7953,
-    "spread": 0.1238,
-    "margin_to_line": -0.0953,
-    "top2_vs_reference": 0.4986,
+    "top2_min": 0.6732,
+    "top2_max": 0.7991,
+    "spread": 0.1259,
+    "margin_to_line": -0.0991,
+    "top2_vs_reference": 0.4942,
     "verdict": "PHASE_DEPENDENT"
    },
    {
     "rung": "vt25",
     "phases": 4,
     "pass_phases": 2,
-    "top2_min": 0.6802,
-    "top2_max": 0.7858,
-    "spread": 0.1056,
-    "margin_to_line": -0.0858,
-    "top2_vs_reference": 0.4926,
+    "top2_min": 0.677,
+    "top2_max": 0.7802,
+    "spread": 0.1032,
+    "margin_to_line": -0.0802,
+    "top2_vs_reference": 0.4825,
     "verdict": "PHASE_DEPENDENT"
    }
   ],
   "drop_two": {
    "verdict": "BOOKS_STAND_WITHOUT_THEIR_TWO_BEST_YEARS",
    "reference_retained": [
-    -0.7362,
-    -0.7274,
-    -0.6934,
-    -0.6786
+    -0.7784,
+    -0.7689,
+    -0.7321,
+    -0.7162
    ],
-   "book_retained_min": 0.1114,
-   "book_retained_max": 0.6957,
+   "book_retained_min": 0.1312,
+   "book_retained_max": 0.6887,
    "more_robust": [
     "none",
     "vt08",
@@ -1033,8 +1033,8 @@
   "status": "ok",
   "readable": true,
   "n_phases": 5,
-  "evidence_cutoff": "2026-11-16",
-  "asof": "2026-11-16T21:05:57+0800",
+  "evidence_cutoff": "2026-11-17",
+  "asof": "2026-11-17T20:25:36+0800",
   "line": 0.7,
   "frozen": {
    "dd_soft_pct": 8.0,
@@ -1062,37 +1062,37 @@
    {
     "rule": "vt08",
     "de_risk_share": 0.8452,
-    "annual_sum_pp": 81.3254,
-    "delta_annual_sum_pp": -29.3843,
-    "top2_share": 0.7084,
-    "delta_top2": 0.0226,
+    "annual_sum_pp": 81.1015,
+    "delta_annual_sum_pp": -29.3353,
+    "top2_share": 0.7104,
+    "delta_top2": 0.0229,
     "delta_maxdd_pp": 5.48
    },
    {
     "rule": "dd_brake",
     "de_risk_share": 0.4405,
-    "annual_sum_pp": 88.0953,
-    "delta_annual_sum_pp": -22.6144,
-    "top2_share": 0.7547,
-    "delta_top2": 0.0689,
+    "annual_sum_pp": 87.9677,
+    "delta_annual_sum_pp": -22.4691,
+    "top2_share": 0.7558,
+    "delta_top2": 0.0683,
     "delta_maxdd_pp": 1.86
    },
    {
     "rule": "loss_cond_vt",
     "de_risk_share": 0.2143,
-    "annual_sum_pp": 102.0988,
-    "delta_annual_sum_pp": -8.6109,
-    "top2_share": 0.7394,
-    "delta_top2": 0.0536,
+    "annual_sum_pp": 101.8764,
+    "delta_annual_sum_pp": -8.5604,
+    "top2_share": 0.741,
+    "delta_top2": 0.0535,
     "delta_maxdd_pp": 1.74
    },
    {
     "rule": "trend_brake",
     "de_risk_share": 0.2738,
-    "annual_sum_pp": 86.5039,
-    "delta_annual_sum_pp": -24.2058,
-    "top2_share": 0.8008,
-    "delta_top2": 0.115,
+    "annual_sum_pp": 86.2309,
+    "delta_annual_sum_pp": -24.2059,
+    "top2_share": 0.8034,
+    "delta_top2": 0.1159,
     "delta_maxdd_pp": 0.0
    }
   ],
@@ -1105,32 +1105,32 @@
   },
   "instrument": {
    "vt08": {
-    "top2_min": 0.6685,
-    "top2_max": 0.7805,
-    "spread_pp": 11.2,
+    "top2_min": 0.6711,
+    "top2_max": 0.7677,
+    "spread_pp": 9.66,
     "straddles_line": true,
-    "distance_to_line_pp": 3.15
+    "distance_to_line_pp": 2.89
    },
    "dd_brake": {
-    "top2_min": 0.7433,
-    "top2_max": 0.9169,
-    "spread_pp": 17.36,
+    "top2_min": 0.7451,
+    "top2_max": 0.9139,
+    "spread_pp": 16.88,
     "straddles_line": false,
-    "distance_to_line_pp": 4.33
+    "distance_to_line_pp": 4.51
    },
    "loss_cond_vt": {
-    "top2_min": 0.6829,
-    "top2_max": 0.9205,
-    "spread_pp": 23.76,
+    "top2_min": 0.6853,
+    "top2_max": 0.9109,
+    "spread_pp": 22.56,
     "straddles_line": true,
-    "distance_to_line_pp": 1.71
+    "distance_to_line_pp": 1.47
    },
    "trend_brake": {
-    "top2_min": 0.6888,
-    "top2_max": 0.8989,
-    "spread_pp": 21.01,
+    "top2_min": 0.6903,
+    "top2_max": 0.8945,
+    "spread_pp": 20.42,
     "straddles_line": true,
-    "distance_to_line_pp": 1.12
+    "distance_to_line_pp": 0.97
    }
   },
   "control_straddles": true,
@@ -1752,21 +1752,22 @@
   "status": "ok",
   "verdict": "TWOISH_BETS",
   "sentence": "5 tickers (widest 20.0%) span 2.2 independent directions, not 5 (median pairwise correlation 0.55); the variance is still split fairly evenly across 5.0 equivalent names (5.0 under inverse-volatility weights), and the widest single name 159519 carries 21% of it",
-  "effective_bets": 2.1890155492443,
-  "risk_split": 4.993557513993795,
+  "effective_bets": 2.191118450504274,
+  "risk_split": 4.993741242228776,
   "nominal_bets": 4.999999999999999,
-  "evidence_cutoff": "2026-11-16"
+  "evidence_cutoff": "2026-11-17"
  },
  "family_coherence": {
   "artifact": "results/etf_book_phase_atlas_arms.json",
-  "verdict": "ONE_WORLD",
-  "detail": "all 11 faces priced 0988c6530a481fa1",
+  "verdict": "MIXED_WORLDS",
+  "detail": "11 faces priced 2 different panels (0988c653, 0d5a9cdc): per-cell deltas across worlds are world differences, not rule effects",
   "panels": [
-   "0988c6530a481fa1"
+   "0988c6530a481fa1",
+   "0d5a9cdcf2beffd5"
   ],
   "arms": 10,
-  "evidence_cutoff": "2026-11-16",
-  "priced_bar": "2026-11-16",
+  "evidence_cutoff": "2026-11-17",
+  "priced_bar": "2026-11-17",
   "pricing": {
    "mode": "engine",
    "reprices_bar": true,
@@ -1778,7 +1779,7 @@
   },
   "panels_detail": [
    {
-    "digest": "0988c6530a481fa1",
+    "digest": "0d5a9cdcf2beffd5",
     "faces": [
      "baseline",
      "buffer_k02",
@@ -1788,17 +1789,26 @@
      "buffer_k20",
      "buffer_k40",
      "cost0",
-     "cost05",
-     "cost20",
      "cost40"
+    ],
+    "last": "2026-11-17",
+    "bars": 5282,
+    "columns": 1631,
+    "bars_fewer_than_newest": 0
+   },
+   {
+    "digest": "0988c6530a481fa1",
+    "faces": [
+     "cost05",
+     "cost20"
     ],
     "last": "2026-11-16",
     "bars": 5281,
     "columns": 1630,
-    "bars_fewer_than_newest": 0
+    "bars_fewer_than_newest": 1
    }
   ],
-  "priced_same_panel": true,
+  "priced_same_panel": false,
   "comparable": [
    "buffer_k02",
    "buffer_k05",
@@ -1807,14 +1817,18 @@
    "buffer_k20",
    "buffer_k40",
    "cost0",
-   "cost05",
-   "cost20",
    "cost40"
   ],
-  "withheld": [],
+  "withheld": [
+   "cost05",
+   "cost20"
+  ],
   "cost_axis": {
-   "readable": true,
-   "withheld": [],
+   "readable": false,
+   "withheld": [
+    "cost05",
+    "cost20"
+   ],
    "arms": [
     {
      "arm": "buffer_k02",
@@ -1824,7 +1838,7 @@
     },
     {
      "arm": "buffer_k05",
-     "verdict": "REJECT",
+     "verdict": "NOT-SEPARABLE",
      "readable": true,
      "description": "buffer k=0.05 on every cell (the r1325 arm, re-priced per phase)"
     },
@@ -1848,7 +1862,7 @@
     },
     {
      "arm": "buffer_k40",
-     "verdict": "REJECT",
+     "verdict": "NOT-SEPARABLE",
      "readable": true,
      "description": "buffer k=0.40 on every cell (8x the r1325 arm -- the far end, where a real buffer finally has to hurt)"
     },
@@ -1860,14 +1874,14 @@
     },
     {
      "arm": "cost05",
-     "verdict": "NOT-SEPARABLE",
-     "readable": true,
+     "verdict": "WORLDS_NOT_COMPARABLE",
+     "readable": false,
      "description": "5bp/side on the whole grid (half the production toll)"
     },
     {
      "arm": "cost20",
-     "verdict": "REJECT",
-     "readable": true,
+     "verdict": "WORLDS_NOT_COMPARABLE",
+     "readable": false,
      "description": "20bp/side on the whole grid (double the production toll)"
     },
     {
@@ -1881,38 +1895,36 @@
   "null_calibration": {
    "artifact": "results/etf_book_rule_null.json",
    "status": "ok",
-   "detail": "an effect-free panel reads REJECT 96.5% of the time, so a published REJECT transmits almost nothing; the rule's informative branch is the rare one (NOT-SEPARABLE 3.5%, ADOPT 0.0%, NOT-ASSESSED 0.0%). Mechanism: the cell floor -0.15pp is 13.6x smaller than one sigma (2.04pp) of these cells, so about half of them land under it by chance and the not-worse share (floor 0.80) fails by construction",
-   "reject_share": 0.9652,
-   "not_separable_share": 0.0348,
+   "detail": "an effect-free panel reads REJECT 96.6% of the time, so a published REJECT transmits almost nothing; the rule's informative branch is the rare one (NOT-SEPARABLE 3.5%, ADOPT 0.0%, NOT-ASSESSED 0.0%). Mechanism: the cell floor -0.15pp is 14.4x smaller than one sigma (2.16pp) of these cells, so about half of them land under it by chance and the not-worse share (floor 0.80) fails by construction",
+   "reject_share": 0.9656,
+   "not_separable_share": 0.0345,
    "adopt_share": null,
    "trials": 20000,
    "label": "REJECT_IS_THE_DEFAULT",
-   "evidence_cutoff": "2026-11-16",
-   "bar_now": "2026-11-16"
+   "evidence_cutoff": "2026-11-17",
+   "bar_now": "2026-11-17"
   },
   "signflip": {
    "artifact": "results/etf_book_arms_signflip.json",
    "status": "ok",
-   "detail": "2 of 5 published REJECTs stand on their own cells (cost20, cost40); the rest are inside sign noise and must not be read as findings",
-   "n_reject": 5,
+   "detail": "2 of 3 published REJECTs stand on their own cells (cost20, cost40); the rest are inside sign noise and must not be read as findings",
+   "n_reject": 3,
    "n_reject_standing": 2,
    "standing": [
     "cost20",
     "cost40"
    ],
    "overturned": [
-    "buffer_k05",
     "buffer_k05_cost20",
-    "buffer_k40",
+    "buffer_k10",
     "cost0",
     "cost05"
    ],
    "overstated": [
-    "buffer_k05",
-    "buffer_k05_cost20",
-    "buffer_k40"
+    "buffer_k05_cost20"
    ],
    "understated": [
+    "buffer_k10",
     "cost0",
     "cost05"
    ],
@@ -1921,43 +1933,43 @@
      "arm": "buffer_k02",
      "frozen_label": "NOT-SEPARABLE",
      "verdict": "NOT-SEPARABLE",
-     "sign_cells": 12,
-     "cells_positive": 5
+     "sign_cells": 11,
+     "cells_positive": 7
     },
     {
      "arm": "buffer_k05",
-     "frozen_label": "REJECT",
-     "verdict": "NOT-SEPARABLE",
-     "sign_cells": 12,
-     "cells_positive": 6
-    },
-    {
-     "arm": "buffer_k05_cost20",
-     "frozen_label": "REJECT",
-     "verdict": "NOT-SEPARABLE",
-     "sign_cells": 12,
-     "cells_positive": 3
-    },
-    {
-     "arm": "buffer_k10",
-     "frozen_label": "NOT-SEPARABLE",
-     "verdict": "NOT-SEPARABLE",
-     "sign_cells": 12,
-     "cells_positive": 10
-    },
-    {
-     "arm": "buffer_k20",
      "frozen_label": "NOT-SEPARABLE",
      "verdict": "NOT-SEPARABLE",
      "sign_cells": 12,
      "cells_positive": 8
     },
     {
-     "arm": "buffer_k40",
+     "arm": "buffer_k05_cost20",
      "frozen_label": "REJECT",
+     "verdict": "SPLIT",
+     "sign_cells": 12,
+     "cells_positive": 1
+    },
+    {
+     "arm": "buffer_k10",
+     "frozen_label": "NOT-SEPARABLE",
+     "verdict": "BETTER",
+     "sign_cells": 12,
+     "cells_positive": 12
+    },
+    {
+     "arm": "buffer_k20",
+     "frozen_label": "NOT-SEPARABLE",
      "verdict": "NOT-SEPARABLE",
      "sign_cells": 12,
      "cells_positive": 9
+    },
+    {
+     "arm": "buffer_k40",
+     "frozen_label": "NOT-SEPARABLE",
+     "verdict": "NOT-SEPARABLE",
+     "sign_cells": 12,
+     "cells_positive": 8
     },
     {
      "arm": "cost0",
@@ -1989,8 +2001,8 @@
     }
    ],
    "verdict": "SOME_REJECTS_STAND",
-   "evidence_cutoff": "2026-11-16",
-   "bar_now": "2026-11-16"
+   "evidence_cutoff": "2026-11-17",
+   "bar_now": "2026-11-17"
   },
   "receipt": {
    "present": null,
@@ -2000,13 +2012,13 @@
   "floor_extrapolation": {
    "artifact": "results/etf_book_buffer_floor_readback.json",
    "present": true,
-   "detail": "the fit says +0.335pp at k=0.30 (slope +1.225, intercept -0.033); the harvested arm's own 12 cells say +0.385pp (median); gap +0.050pp against tolerance 0.172pp = 3.0x the fit's largest in-sample residual (0.057pp, floored at 0.05); cell spread of the same arm: -0.560 .. +1.495pp (12 cells), i.e. the median is not the book; the line predicts a point it never saw, on the widest gap it spans -- the ",
+   "detail": "the fit says +0.908pp at k=0.30 (slope +2.534, intercept +0.148); the harvested arm's own 12 cells say +0.510pp (median); gap -0.398pp against tolerance 2.420pp = 3.0x the fit's largest in-sample residual (0.807pp, floored at 0.05); cell spread of the same arm: -0.515 .. +2.285pp (12 cells), i.e. the median is not the book; the line predicts a point it never saw, on the widest gap it spans -- the ",
    "verdict": "HOLDS",
    "buffer_k": 0.3,
-   "predicted_pp": 0.335,
-   "observed_pp": 0.385,
-   "gap_pp": 0.05,
-   "tolerance_pp": 0.172,
+   "predicted_pp": 0.908,
+   "observed_pp": 0.51,
+   "gap_pp": -0.398,
+   "tolerance_pp": 2.42,
    "evidence_cutoff": "2026-10-29"
   }
  },
@@ -2111,16 +2123,16 @@
    "convention": "rate(prior bar) * calendar_gap / 365, identical in all arms"
   },
   "identity": {
-   "published_file": "results\\etf_book_order\\TICKET-2026-11-16.json",
-   "published_cagr": 0.1254,
-   "published_bars": 694,
+   "published_file": "results\\etf_book_order\\TICKET-2026-11-17.json",
+   "published_cagr": 0.1245,
+   "published_bars": 695,
    "rebuilt_cagr": 0.1245,
    "rebuilt_bars": 695,
-   "published_bar": "2026-11-16",
+   "published_bar": "2026-11-17",
    "panel_bar": "2026-11-17",
-   "matched": null,
-   "status": "NOT_EVALUATED",
-   "basis": "the newest ticket is priced on 2026-11-16 while this panel ends 2026-11-17 -- the identity leg is only evaluated on one bar"
+   "matched": true,
+   "status": "MATCHED",
+   "basis": "base cell (beta 0.20, observed repo) must equal the ticket's own headline"
   },
   "window": {
    "first": "2024-01-02",
@@ -2230,10 +2242,10 @@
  "leg_split": {
   "status": "ok",
   "artifact": "K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\etf_book_legs\\latest.json",
-  "evidence_cutoff": "2026-11-16",
-  "generated_ts": "2026-11-16T19:17:48+0800",
+  "evidence_cutoff": "2026-11-17",
+  "generated_ts": "2026-11-17T19:14:33+0800",
   "execution": "decide at close of bar d -> fill at open of bar d+1 -> hold to the next fill",
-  "priced_bar": "2026-11-16",
+  "priced_bar": "2026-11-17",
   "panel_first_bar": "2020-01-02",
   "arms": {
    "production": {
@@ -2241,56 +2253,56 @@
      "overnight": 0.19,
      "toll": -1.156,
      "intraday": -0.713,
-     "plain": 9.809
+     "plain": 9.759
     },
-    "total_log_pp": 8.13,
-    "plain_carry_pp_per_year": 9.81,
-    "fill_bar_drag_pp_per_year": -1.68,
+    "total_log_pp": 8.081,
+    "plain_carry_pp_per_year": 9.76,
+    "fill_bar_drag_pp_per_year": -1.679,
     "fill_bars": 84,
-    "plain_bars": 1579,
-    "bars": 1664,
-    "cagr_pct": 8.4,
-    "sharpe": 0.886
+    "plain_bars": 1580,
+    "bars": 1665,
+    "cagr_pct": 8.35,
+    "sharpe": 0.881
    },
    "base_book": {
     "buckets_pp_per_year": {
-     "overnight": 0.506,
+     "overnight": 0.505,
      "toll": -1.577,
-     "intraday": -0.648,
-     "plain": 14.079
+     "intraday": -0.647,
+     "plain": 14.022
     },
-    "total_log_pp": 12.36,
-    "plain_carry_pp_per_year": 14.08,
-    "fill_bar_drag_pp_per_year": -1.719,
+    "total_log_pp": 12.304,
+    "plain_carry_pp_per_year": 14.022,
+    "fill_bar_drag_pp_per_year": -1.718,
     "fill_bars": 84,
-    "plain_bars": 1579,
-    "bars": 1664,
-    "cagr_pct": 13.05,
-    "sharpe": 0.911
+    "plain_bars": 1580,
+    "bars": 1665,
+    "cagr_pct": 12.99,
+    "sharpe": 0.908
    },
    "control_ew": {
     "buckets_pp_per_year": {
      "overnight": -0.164,
      "toll": -0.074,
-     "intraday": -2.153,
-     "plain": 6.443
+     "intraday": -2.151,
+     "plain": 6.352
     },
-    "total_log_pp": 4.053,
-    "plain_carry_pp_per_year": 6.444,
-    "fill_bar_drag_pp_per_year": -2.39,
+    "total_log_pp": 3.963,
+    "plain_carry_pp_per_year": 6.351,
+    "fill_bar_drag_pp_per_year": -2.389,
     "fill_bars": 84,
-    "plain_bars": 1579,
-    "bars": 1664,
-    "cagr_pct": 4.1,
-    "sharpe": 0.314
+    "plain_bars": 1580,
+    "bars": 1665,
+    "cagr_pct": 4.01,
+    "sharpe": 0.309
    }
   },
   "selection_wedge_pp": {
-   "overnight": 0.67,
+   "overnight": 0.669,
    "toll": -1.503,
-   "intraday": 1.505,
-   "plain": 7.636,
-   "total": 8.307
+   "intraday": 1.504,
+   "plain": 7.67,
+   "total": 8.341
   }
  },
  "concentration": {
@@ -2811,11 +2823,11 @@
  "cost_tape": {
   "status": "ok",
   "artifact": "K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\etf_book_cost_tape.json",
-  "evidence_cutoff": "2026-11-16",
+  "evidence_cutoff": "2026-11-17",
   "verdict": "CONSERVATIVE | SURVIVES",
   "assumption_verdict": "CONSERVATIVE",
   "survives_verdict": "SURVIVES",
-  "sentence": "the names this book actually traded quote a measured one-way cost of 5.9 bp half-spread; the card charges 10 bp, which is more than the tape says (the card over-charges) -- on the tape's cost the same engine earns 10.0% CAGR / 1.03 Sharpe (each name at its own 75th percentile: 9.6% / 0.99), so the book survives the measured cost",
+  "sentence": "the names this book actually traded quote a measured one-way cost of 5.9 bp half-spread; the card charges 10 bp, which is more than the tape says (the card over-charges) -- on the tape's cost the same engine earns 9.9% CAGR / 1.02 Sharpe (each name at its own 75th percentile: 9.5% / 0.98), so the book survives the measured cost",
   "assumed_bp": 10.0,
   "measured_bp": 5.87,
   "upper_p75_bp": 9.02,
@@ -2823,24 +2835,24 @@
   "turnover_total": 78.8081,
   "arms": {
    "assumed_10bp": {
-    "cagr": 0.0951,
-    "sharpe": 0.98,
+    "cagr": 0.0941,
+    "sharpe": 0.971,
     "maxdd": -0.1177,
     "vol": 0.1018,
     "worst_month": -0.0362,
     "worst_year": -0.0199
    },
    "measured": {
-    "cagr": 0.1002,
-    "sharpe": 1.028,
+    "cagr": 0.0993,
+    "sharpe": 1.019,
     "maxdd": -0.1137,
     "vol": 0.1018,
     "worst_month": -0.0359,
     "worst_year": -0.0163
    },
    "upper_p75": {
-    "cagr": 0.0963,
-    "sharpe": 0.991,
+    "cagr": 0.0954,
+    "sharpe": 0.983,
     "maxdd": -0.1168,
     "vol": 0.1018,
     "worst_month": -0.0361,
@@ -2858,12 +2870,12 @@
      "symbol": "159967"
     },
     {
-     "p50_bp": 30.9,
+     "p50_bp": 30.8,
      "p90_bp": 74.3,
      "symbol": "512690"
     },
     {
-     "p50_bp": 26.8,
+     "p50_bp": 26.9,
      "p90_bp": 63.9,
      "symbol": "512010"
     }
@@ -2871,7 +2883,7 @@
   },
   "control": {
    "passes": true,
-   "engine_cagr": 0.0951,
+   "engine_cagr": 0.0941,
    "published_cagr": 0.096,
    "tolerance_pp": 0.5
   },
@@ -6493,12 +6505,12 @@
   "status": "ok",
   "artifact": "results/etf_book_rebalance_permission.json",
   "decision_date": "2026-12-09",
-  "ticket_file": "TICKET-2026-11-16.json",
-  "evidence_cutoff": "2026-11-16",
+  "ticket_file": "TICKET-2026-11-17.json",
+  "evidence_cutoff": "2026-11-17",
   "k_order": 0.432195,
   "k_allowed": 0.432195,
-  "ordered_cny": 431727.8,
-  "allowed_cny": 431728.0,
+  "ordered_cny": 431879.5,
+  "allowed_cny": 431880.0,
   "over_cny": 0.0,
   "over_pp": 0.0,
   "keep_allowed": true,
@@ -6538,8 +6550,8 @@
   "k_schedule_last": 0.460253,
   "consistency": {
    "generated": {
-    "permission": "2026-11-17T00:25:09+0800",
-    "gap": "2026-11-17T00:25:12+0800",
+    "permission": "2026-11-17T20:16:07+0800",
+    "gap": "2026-11-17T20:16:10+0800",
     "ledger": "2026-11-13T20:58:31+0800"
    },
    "permission_vs_gap": true,
@@ -6636,86 +6648,86 @@
  "premium_leak": {
   "status": "ok",
   "artifact": "results/etf_book_premium_leak.json",
-  "session": "2026-11-16",
-  "ticket_session": "2026-11-16",
+  "session": "2026-11-17",
+  "ticket_session": "2026-11-17",
   "session_match": true,
-  "verdict": "ENTRY_PREMIUM_SMALL",
-  "verdict_reason": "the ticket pays 0.93% above IOPV (below the 1.0% warn line)",
+  "verdict": "ENTRY_PREMIUM_WARN",
+  "verdict_reason": "the ticket pays 1.21% of its own amount above IOPV (CNY 5215)",
   "names": [
    {
     "symbol": "510760",
     "class": "equity",
-    "price": 1.254,
-    "shares": 68900.0,
-    "amount_cny": 86400.6,
-    "nav_session": "2026-11-16",
+    "price": 1.246,
+    "shares": 69300.0,
+    "amount_cny": 86347.8,
+    "nav_session": null,
     "status": "OK",
-    "iopv": 1.2579,
-    "premium_pct": -0.31,
-    "premium_paid_cny": -268.71,
-    "market_pctile": 26.18,
-    "market_rank": 1128,
-    "market_n": 1528
+    "iopv": 1.2492,
+    "premium_pct": -0.2562,
+    "premium_paid_cny": -221.76,
+    "market_pctile": 22.13,
+    "market_rank": 1277,
+    "market_n": 1640
    },
    {
     "symbol": "512040",
     "class": "equity",
-    "price": 1.201,
-    "shares": 71900.0,
-    "amount_cny": 86351.9,
-    "nav_session": "2026-11-16",
+    "price": 1.207,
+    "shares": 71600.0,
+    "amount_cny": 86421.2,
+    "nav_session": null,
     "status": "OK",
-    "iopv": 1.2037,
-    "premium_pct": -0.2243,
-    "premium_paid_cny": -194.13,
-    "market_pctile": 34.88,
-    "market_rank": 995,
-    "market_n": 1528
+    "iopv": 1.2075,
+    "premium_pct": -0.0414,
+    "premium_paid_cny": -35.8,
+    "market_pctile": 63.84,
+    "market_rank": 593,
+    "market_n": 1640
    },
    {
     "symbol": "159655",
     "class": "crossborder",
-    "price": 1.97,
-    "shares": 43800.0,
-    "amount_cny": 86286.0,
-    "nav_session": "2026-11-16",
+    "price": 1.937,
+    "shares": 44600.0,
+    "amount_cny": 86390.2,
+    "nav_session": null,
     "status": "OK",
-    "iopv": 1.8455,
-    "premium_pct": 6.7461,
-    "premium_paid_cny": 5453.1,
-    "market_pctile": 98.63,
-    "market_rank": 21,
-    "market_n": 1528
+    "iopv": 1.8016,
+    "premium_pct": 7.5155,
+    "premium_paid_cny": 6038.84,
+    "market_pctile": 98.78,
+    "market_rank": 20,
+    "market_n": 1640
    },
    {
     "symbol": "513690",
     "class": "crossborder",
-    "price": 1.15,
-    "shares": 75100.0,
-    "amount_cny": 86365.0,
-    "nav_session": "2026-11-16",
+    "price": 1.147,
+    "shares": 75300.0,
+    "amount_cny": 86369.1,
+    "nav_session": null,
     "status": "OK",
-    "iopv": 1.1541,
-    "premium_pct": -0.3553,
-    "premium_paid_cny": -307.91,
-    "market_pctile": 22.77,
-    "market_rank": 1180,
-    "market_n": 1528
+    "iopv": 1.1513,
+    "premium_pct": -0.3735,
+    "premium_paid_cny": -323.79,
+    "market_pctile": 9.94,
+    "market_rank": 1477,
+    "market_n": 1640
    },
    {
     "symbol": "159519",
     "class": "crossborder",
-    "price": 1.751,
-    "shares": 49300.0,
-    "amount_cny": 86324.3,
-    "nav_session": "2026-11-16",
+    "price": 1.748,
+    "shares": 49400.0,
+    "amount_cny": 86351.2,
+    "nav_session": null,
     "status": "OK",
-    "iopv": 1.7642,
-    "premium_pct": -0.7482,
-    "premium_paid_cny": -650.76,
-    "market_pctile": 12.04,
-    "market_rank": 1344,
-    "market_n": 1528
+    "iopv": 1.7529,
+    "premium_pct": -0.2795,
+    "premium_paid_cny": -242.06,
+    "market_pctile": 18.66,
+    "market_rank": 1334,
+    "market_n": 1640
    }
   ],
   "totals": {
@@ -6725,23 +6737,23 @@
    "n_cross_session": 0,
    "cross_session_symbols": [],
    "cross_session_amount_cny": 0,
-   "premium_paid_cny": 4031.59,
-   "verified_amount_cny": 431727.8,
-   "book_amount_cny": 431727.8,
+   "premium_paid_cny": 5215.43,
+   "verified_amount_cny": 431879.5,
+   "book_amount_cny": 431879.5,
    "nav_cny": 1000000.0,
-   "premium_share_of_order_pct": 0.9338,
-   "premium_share_of_nav_pct": 0.4032,
-   "book_cagr_pct": 12.54,
-   "years_of_backtest_return_paid": 0.07
+   "premium_share_of_order_pct": 1.2076,
+   "premium_share_of_nav_pct": 0.5215,
+   "book_cagr_pct": 12.45,
+   "years_of_backtest_return_paid": 0.1
   },
   "premium_names": [
    "159655"
   ],
   "stress": {
-   "if_premium_reverts_to_zero_cny": -4031.59,
-   "if_premium_reverts_to_zero_pct_of_nav": -0.4032,
-   "if_premium_reverts_to_own_median_cny": -2996.87,
-   "if_premium_reverts_to_own_median_pct_of_nav": -0.2997,
+   "if_premium_reverts_to_zero_cny": -5215.43,
+   "if_premium_reverts_to_zero_pct_of_nav": -0.5215,
+   "if_premium_reverts_to_own_median_cny": -4187.15,
+   "if_premium_reverts_to_own_median_pct_of_nav": -0.4187,
    "note": "reversion is a stress, not a forecast: the gap can persist while the sleeve stays hard to buy. Zero is the outer bound; each fund's own median is the realistic one -- these funds normally live above NAV."
   },
   "rulers": {
@@ -6751,25 +6763,25 @@
   "nav_ruler_history": {
    "510760": {
     "symbol": "510760",
-    "n_obs": 20,
+    "n_obs": 21,
     "status": "OK",
-    "median_pct": -0.0851,
+    "median_pct": -0.0841,
     "max_pct": 0.9456,
     "min_pct": -1.3199,
     "first_day": "2026-09-24",
-    "last_day": "2026-11-13",
-    "last_pct": -0.3393
+    "last_day": "2026-11-16",
+    "last_pct": -0.0558
    },
    "512040": {
     "symbol": "512040",
-    "n_obs": 20,
+    "n_obs": 21,
     "status": "OK",
-    "median_pct": -0.0125,
+    "median_pct": -0.0166,
     "max_pct": 0.615,
     "min_pct": -0.943,
     "first_day": "2026-09-24",
-    "last_day": "2026-11-13",
-    "last_pct": -0.042
+    "last_day": "2026-11-16",
+    "last_pct": -0.1828
    },
    "159655": {
     "symbol": "159655",
@@ -6784,25 +6796,25 @@
    },
    "513690": {
     "symbol": "513690",
-    "n_obs": 20,
+    "n_obs": 21,
     "status": "OK",
-    "median_pct": -0.8309,
+    "median_pct": -0.8279,
     "max_pct": 1.1803,
     "min_pct": -1.8377,
     "first_day": "2026-09-24",
-    "last_day": "2026-11-13",
-    "last_pct": -0.5558
+    "last_day": "2026-11-16",
+    "last_pct": -0.8279
    },
    "159519": {
     "symbol": "159519",
-    "n_obs": 20,
+    "n_obs": 21,
     "status": "OK",
-    "median_pct": -0.8032,
+    "median_pct": -0.8311,
     "max_pct": 0.3655,
     "min_pct": -1.5708,
     "first_day": "2026-09-24",
-    "last_day": "2026-11-13",
-    "last_pct": -0.8655
+    "last_day": "2026-11-16",
+    "last_pct": -0.9895
    }
   },
   "own_ruler": {
@@ -6912,7 +6924,7 @@
    "in_own_top_decile": [
     "159655"
    ],
-   "revert_to_own_median_cny": 2996.87,
+   "revert_to_own_median_cny": 4187.15,
    "revert_note": "stress, not a forecast: it gives back only the part ABOVE each fund's own median premium, and only for names this order is buying",
    "verdict": "SOME_NAMES_ABOVE_OWN_TOP_DECILE"
   },
@@ -6930,71 +6942,71 @@
  "premium_forward": {
   "status": "ok",
   "artifact": "results/etf_premium/PREMIUM-FORWARD.json",
-  "face_asof": "2026-11-16",
+  "face_asof": "2026-11-17",
   "stale": false,
   "verdict": "HIGH_PREMIUM_PAYS",
   "horizon": 20,
-  "sentence": "premium percentile rank-IC with the next 20 sessions is +0.023 (5 legs); 159519: after sessions in its top decile the next 20 sessions averaged +2.94% (n=49, t=+3.6); 159655: after sessions in its top decile the next 20 sessions averaged +0.24% (n=267, t=+0.9); 510760: after sessions in its top decile the next 20 sessions averaged +0.75% (n=143, t=+2.2); 512040: after sessions in its top decile the next 20 sessions averaged +1.01% (n=157, t=+2.3); 513690: after sessions in its top decile the next 20 sessions averaged +0.12% (n=171, t=+0.3) || one session: after sessions at or above the 98th percentile of the fund's own history, the NEXT session moved a median +0.34% (mean +0.39%, fell in 34% of 136 cases); no leg of this ticket sits in that band on 2026-11-16 || sample: legs 159519,159655,510760,512040,513690 replaced 159263,159501,159577,513100,513690 (last published 2026-11-10) -- not comparable across sessions",
+  "sentence": "premium percentile rank-IC with the next 20 sessions is +0.023 (5 legs); 159519: after sessions in its top decile the next 20 sessions averaged +2.94% (n=49, t=+3.6); 159655: after sessions in its top decile the next 20 sessions averaged +0.23% (n=268, t=+0.8); 510760: after sessions in its top decile the next 20 sessions averaged +0.75% (n=143, t=+2.2); 512040: after sessions in its top decile the next 20 sessions averaged +1.01% (n=157, t=+2.3); 513690: after sessions in its top decile the next 20 sessions averaged +0.12% (n=171, t=+0.3) || one session: after sessions at or above the 98th percentile of the fund's own history, the NEXT session moved a median +0.34% (mean +0.39%, fell in 34% of 136 cases); no leg of this ticket sits in that band on 2026-11-17 || sample: legs 159519,159655,510760,512040,513690 replaced 159263,159501,159577,513100,513690 (last published 2026-11-10) -- not comparable across sessions",
   "caveat": "five legs of one ticket: this is a description of these funds' own records, not a cross-sectional study and not a forecast. Overlapping windows are counted once per stride in the t-stat and reported in full only as coverage.",
   "rows": [
    {
     "symbol": "510760",
     "bucket": "BOTTOM",
-    "latest_pctile": 1.2032085561497325,
+    "latest_pctile": 0.5344021376085505,
     "mean_pct": 0.9739309177408781,
     "n": 134,
     "t": 2.48618543532154,
     "nonoverlap_obs": 71,
-    "amount_cny": 86400.6,
-    "same_bucket_move_cny": 841.4821565136252
+    "amount_cny": 86347.8,
+    "same_bucket_move_cny": 840.967920989058
    },
    {
     "symbol": "512040",
-    "bucket": "MID",
-    "latest_pctile": 59.28646379853095,
-    "mean_pct": 0.1136316784152153,
-    "n": 770,
-    "t": 0.38385105751885035,
+    "bucket": "UPPER",
+    "latest_pctile": 78.91976927110645,
+    "mean_pct": 0.3459749989108973,
+    "n": 394,
+    "t": 0.9685142995814702,
     "nonoverlap_obs": 92,
-    "amount_cny": 86351.9,
-    "same_bucket_move_cny": 98.12311331342829
+    "amount_cny": 86421.2,
+    "same_bucket_move_cny": 298.9957457587844
    },
    {
     "symbol": "159655",
-    "bucket": "TOP",
-    "latest_pctile": 90.7520325203252,
-    "mean_pct": 0.23910384745233929,
-    "n": 267,
-    "t": 0.8825032886927169,
+    "bucket": "UPPER",
+    "latest_pctile": 82.74111675126903,
+    "mean_pct": 1.3009600310549645,
+    "n": 263,
+    "t": 4.358136164408279,
     "nonoverlap_obs": 46,
-    "amount_cny": 86286.0,
-    "same_bucket_move_cny": 206.31314581272548
+    "amount_cny": 86390.2,
+    "same_bucket_move_cny": 1123.9019727484458
    },
    {
     "symbol": "513690",
     "bucket": "LOW",
-    "latest_pctile": 19.30879038317055,
+    "latest_pctile": 14.33933933933934,
     "mean_pct": 0.5330778868734505,
     "n": 223,
     "t": 1.4009616177991417,
     "nonoverlap_obs": 63,
-    "amount_cny": 86365.0,
-    "same_bucket_move_cny": 460.3927169982555
+    "amount_cny": 86369.1,
+    "same_bucket_move_cny": 460.41457319161736
    },
    {
     "symbol": "159519",
     "bucket": "LOW",
-    "latest_pctile": 14.728682170542635,
+    "latest_pctile": 11.741935483870968,
     "mean_pct": 1.3772998496472701,
     "n": 172,
     "t": 4.544192330848934,
     "nonoverlap_obs": 35,
-    "amount_cny": 86324.3,
-    "same_bucket_move_cny": 1188.9444541090584
+    "amount_cny": 86351.2,
+    "same_bucket_move_cny": 1189.3149477686136
    }
   ],
   "missing_legs": [],
-  "cny_total": 2795.26,
+  "cny_total": 3913.6,
   "sample_signature": "3600c87ce854",
   "sample_legs": [
    "159519",
@@ -7295,54 +7307,1066 @@
  "label_census": {
   "status": "ok",
   "artifact": "results/etf_label_census.json",
-  "session": "2026-11-16",
-  "sentence": "88 of 1190 labels are written on two or more live tickers; the price history calls 71 of those one basket, 5 a family and 11 none at all. 76 groups of true substitutes survive the clique test and 14 carry a premium spread over 0.50 pp (33763 CNY on a 100000 CNY swap)",
+  "session": "2026-11-17",
+  "sentence": "137 of 584 labels are written on two or more live tickers; the price history calls 102 of those one basket, 23 a family and 9 none at all. 123 groups of true substitutes survive the clique test and 21 carry a premium spread over 0.50 pp (26022 CNY on a 100000 CNY swap)",
   "board": {
-   "n_labels": 1190,
-   "n_labels_multi": 88,
-   "n_pairs": 452,
-   "n_pairs_priced": 416,
-   "n_rows": 1667
+   "n_labels": 584,
+   "n_labels_multi": 137,
+   "n_pairs": 1290,
+   "n_pairs_priced": 1160,
+   "n_rows": 1668
   },
   "class_counts": {
-   "MIXED": 5,
-   "NOT_A_BASKET": 11,
-   "ONE_BASKET": 71,
-   "UNPRICED": 1
+   "MIXED": 23,
+   "NOT_A_BASKET": 9,
+   "ONE_BASKET": 102,
+   "UNPRICED": 3
   },
   "money": {
-   "groups_over_line": 14,
+   "groups_over_line": 21,
    "notional_cny": 100000.0,
-   "total_cost_cny": 33762.8,
+   "total_cost_cny": 26022.5,
    "worst_group": {
     "labels": [
-     "科创芯片ETF"
+     "纳指ETF"
     ],
     "members": [
-     "588200",
-     "588290",
-     "588750",
-     "588810",
-     "588890",
-     "588920",
-     "588990",
-     "589100",
-     "589130",
-     "589160",
-     "589190"
+     "159501",
+     "159660",
+     "159696",
+     "159941",
+     "513100",
+     "513110",
+     "513870"
     ],
     "money": {
-     "cheapest": "589130",
-     "cheapest_premium_pp": -6.6641,
-     "cost_cny": 6686.5,
-     "dearest": "589160",
-     "dearest_premium_pp": 0.0224,
+     "cheapest": "513110",
+     "cheapest_premium_pp": 13.7289,
+     "cost_cny": 6083.8,
+     "dearest": "159501",
+     "dearest_premium_pp": 19.8127,
      "material": true,
-     "spread_pp": 6.6865
+     "spread_pp": 6.0838
     }
    }
   },
   "groups": [
+   {
+    "labels": [
+     "货币ETF"
+    ],
+    "members": [
+     "159001",
+     "511620",
+     "511660",
+     "511700"
+    ],
+    "money": null,
+    "n": 4,
+    "state": "GROUP",
+    "why": "premium unobservable for at least two members"
+   },
+   {
+    "labels": [
+     "粮食ETF"
+    ],
+    "members": [
+     "159030",
+     "159698"
+    ],
+    "money": {
+     "cheapest": "159698",
+     "cheapest_premium_pp": -0.1252,
+     "cost_cny": 151.8,
+     "dearest": "159030",
+     "dearest_premium_pp": 0.0266,
+     "material": false,
+     "spread_pp": 0.1518
+    },
+    "n": 2,
+    "state": "GROUP",
+    "why": ""
+   },
+   {
+    "labels": [
+     "巴西ETF"
+    ],
+    "members": [
+     "159100",
+     "520870"
+    ],
+    "money": {
+     "cheapest": "159100",
+     "cheapest_premium_pp": -0.7755,
+     "cost_cny": 797.0,
+     "dearest": "520870",
+     "dearest_premium_pp": 0.0214,
+     "material": true,
+     "spread_pp": 0.797
+    },
+    "n": 2,
+    "state": "GROUP",
+    "why": ""
+   },
+   {
+    "labels": [
+     "港股通科技ETF"
+    ],
+    "members": [
+     "159101",
+     "159125",
+     "159269",
+     "513150",
+     "520530"
+    ],
+    "money": {
+     "cheapest": "159125",
+     "cheapest_premium_pp": -0.0334,
+     "cost_cny": 525.1,
+     "dearest": "520530",
+     "dearest_premium_pp": 0.4917,
+     "material": true,
+     "spread_pp": 0.5251
+    },
+    "n": 5,
+    "state": "GROUP",
+    "why": ""
+   },
+   {
+    "labels": [
+     "恒生生物科技ETF"
+    ],
+    "members": [
+     "159105",
+     "159132",
+     "159615",
+     "513280",
+     "513930",
+     "520930"
+    ],
+    "money": {
+     "cheapest": "159132",
+     "cheapest_premium_pp": -0.6127,
+     "cost_cny": 496.6,
+     "dearest": "513930",
+     "dearest_premium_pp": -0.116,
+     "material": false,
+     "spread_pp": 0.4966
+    },
+    "n": 6,
+    "state": "GROUP",
+    "why": ""
+   },
+   {
+    "labels": [
+     "创业板软件ETF"
+    ],
+    "members": [
+     "159107",
+     "159256"
+    ],
+    "money": {
+     "cheapest": "159107",
+     "cheapest_premium_pp": 0.221,
+     "cost_cny": 22.8,
+     "dearest": "159256",
+     "dearest_premium_pp": 0.2438,
+     "material": false,
+     "spread_pp": 0.0228
+    },
+    "n": 2,
+    "state": "GROUP",
+    "why": ""
+   },
+   {
+    "labels": [
+     "港股科技ETF"
+    ],
+    "members": [
+     "159128",
+     "513020",
+     "513980"
+    ],
+    "money": {
+     "cheapest": "513980",
+     "cheapest_premium_pp": -0.2872,
+     "cost_cny": 247.8,
+     "dearest": "513020",
+     "dearest_premium_pp": -0.0395,
+     "material": false,
+     "spread_pp": 0.2478
+    },
+    "n": 3,
+    "state": "GROUP",
+    "why": ""
+   },
+   {
+    "labels": [
+     "港股通信息技术ETF"
+    ],
+    "members": [
+     "159131",
+     "159185",
+     "159196",
+     "159198",
+     "513240",
+     "526000",
+     "526050"
+    ],
+    "money": {
+     "cheapest": "159198",
+     "cheapest_premium_pp": -0.131,
+     "cost_cny": 415.2,
+     "dearest": "526000",
+     "dearest_premium_pp": 0.2843,
+     "material": false,
+     "spread_pp": 0.4152
+    },
+    "n": 7,
+    "state": "GROUP",
+    "why": ""
+   },
+   {
+    "labels": [
+     "化工ETF"
+    ],
+    "members": [
+     "159133",
+     "159870",
+     "516020",
+     "516120"
+    ],
+    "money": {
+     "cheapest": "516120",
+     "cheapest_premium_pp": -0.124,
+     "cost_cny": 214.6,
+     "dearest": "159870",
+     "dearest_premium_pp": 0.0906,
+     "material": false,
+     "spread_pp": 0.2146
+    },
+    "n": 4,
+    "state": "GROUP",
+    "why": ""
+   },
+   {
+    "labels": [
+     "港股通医疗ETF"
+    ],
+    "members": [
+     "159137",
+     "520510"
+    ],
+    "money": {
+     "cheapest": "520510",
+     "cheapest_premium_pp": -0.7316,
+     "cost_cny": 577.6,
+     "dearest": "159137",
+     "dearest_premium_pp": -0.1539,
+     "material": true,
+     "spread_pp": 0.5776
+    },
+    "n": 2,
+    "state": "GROUP",
+    "why": ""
+   },
+   {
+    "labels": [
+     "科创创业人工智能ETF"
+    ],
+    "members": [
+     "159139",
+     "159140",
+     "159141",
+     "159142"
+    ],
+    "money": {
+     "cheapest": "159141",
+     "cheapest_premium_pp": -0.0715,
+     "cost_cny": 490.9,
+     "dearest": "159139",
+     "dearest_premium_pp": 0.4193,
+     "material": false,
+     "spread_pp": 0.4909
+    },
+    "n": 4,
+    "state": "GROUP",
+    "why": ""
+   },
+   {
+    "labels": [
+     "电池ETF"
+    ],
+    "members": [
+     "159147",
+     "159796",
+     "561160",
+     "561910"
+    ],
+    "money": {
+     "cheapest": "159796",
+     "cheapest_premium_pp": 0.0,
+     "cost_cny": 214.0,
+     "dearest": "561160",
+     "dearest_premium_pp": 0.214,
+     "material": false,
+     "spread_pp": 0.214
+    },
+    "n": 4,
+    "state": "GROUP",
+    "why": ""
+   },
+   {
+    "labels": [
+     "自由现金流ETF"
+    ],
+    "members": [
+     "159201",
+     "159222",
+     "159232",
+     "159233"
+    ],
+    "money": {
+     "cheapest": "159232",
+     "cheapest_premium_pp": -0.1994,
+     "cost_cny": 154.1,
+     "dearest": "159233",
+     "dearest_premium_pp": -0.0453,
+     "material": false,
+     "spread_pp": 0.1541
+    },
+    "n": 4,
+    "state": "GROUP",
+    "why": ""
+   },
+   {
+    "labels": [
+     "恒生互联网ETF"
+    ],
+    "members": [
+     "159202",
+     "159688",
+     "513330"
+    ],
+    "money": {
+     "cheapest": "159688",
+     "cheapest_premium_pp": 0.1613,
+     "cost_cny": 428.5,
+     "dearest": "513330",
+     "dearest_premium_pp": 0.5898,
+     "material": false,
+     "spread_pp": 0.4285
+    },
+    "n": 3,
+    "state": "GROUP",
+    "why": ""
+   },
+   {
+    "labels": [
+     "创业板ETF"
+    ],
+    "members": [
+     "159205",
+     "159247",
+     "159908",
+     "159915",
+     "159948",
+     "159952",
+     "159957",
+     "159971",
+     "159977"
+    ],
+    "money": {
+     "cheapest": "159952",
+     "cheapest_premium_pp": -0.1356,
+     "cost_cny": 386.7,
+     "dearest": "159948",
+     "dearest_premium_pp": 0.2511,
+     "material": false,
+     "spread_pp": 0.3867
+    },
+    "n": 9,
+    "state": "GROUP",
+    "why": ""
+   },
+   {
+    "labels": [
+     "机器人ETF"
+    ],
+    "members": [
+     "159213",
+     "159258",
+     "159526",
+     "159770",
+     "560770",
+     "562500"
+    ],
+    "money": {
+     "cheapest": "159526",
+     "cheapest_premium_pp": -0.2738,
+     "cost_cny": 345.3,
+     "dearest": "159770",
+     "dearest_premium_pp": 0.0715,
+     "material": false,
+     "spread_pp": 0.3453
+    },
+    "n": 6,
+    "state": "GROUP",
+    "why": ""
+   },
+   {
+    "labels": [
+     "卫星ETF"
+    ],
+    "members": [
+     "159218",
+     "512630",
+     "563230",
+     "563530",
+     "563790"
+    ],
+    "money": {
+     "cheapest": "563230",
+     "cheapest_premium_pp": -0.0922,
+     "cost_cny": 176.8,
+     "dearest": "159218",
+     "dearest_premium_pp": 0.0846,
+     "material": false,
+     "spread_pp": 0.1768
+    },
+    "n": 5,
+    "state": "GROUP",
+    "why": ""
+   },
+   {
+    "labels": [
+     "航空航天ETF"
+    ],
+    "members": [
+     "159227",
+     "159241"
+    ],
+    "money": {
+     "cheapest": "159241",
+     "cheapest_premium_pp": 0.0331,
+     "cost_cny": 69.2,
+     "dearest": "159227",
+     "dearest_premium_pp": 0.1023,
+     "material": false,
+     "spread_pp": 0.0692
+    },
+    "n": 2,
+    "state": "GROUP",
+    "why": ""
+   },
+   {
+    "labels": [
+     "创业板人工智能ETF"
+    ],
+    "members": [
+     "159242",
+     "159243",
+     "159246",
+     "159279",
+     "159363",
+     "159381",
+     "159382",
+     "159388"
+    ],
+    "money": {
+     "cheapest": "159246",
+     "cheapest_premium_pp": 0.0412,
+     "cost_cny": 298.3,
+     "dearest": "159243",
+     "dearest_premium_pp": 0.3395,
+     "material": false,
+     "spread_pp": 0.2983
+    },
+    "n": 8,
+    "state": "GROUP",
+    "why": ""
+   },
+   {
+    "labels": [
+     "港股通消费ETF"
+    ],
+    "members": [
+     "159245",
+     "159268",
+     "513070",
+     "513230"
+    ],
+    "money": {
+     "cheapest": "159268",
+     "cheapest_premium_pp": -0.5782,
+     "cost_cny": 1055.4,
+     "dearest": "513070",
+     "dearest_premium_pp": 0.4772,
+     "material": true,
+     "spread_pp": 1.0554
+    },
+    "n": 4,
+    "state": "GROUP",
+    "why": ""
+   },
+   {
+    "labels": [
+     "港股通科技ETF"
+    ],
+    "members": [
+     "159262",
+     "520980"
+    ],
+    "money": {
+     "cheapest": "520980",
+     "cheapest_premium_pp": -0.0726,
+     "cost_cny": 27.4,
+     "dearest": "159262",
+     "dearest_premium_pp": -0.0452,
+     "material": false,
+     "spread_pp": 0.0274
+    },
+    "n": 2,
+    "state": "GROUP",
+    "why": ""
+   },
+   {
+    "labels": [
+     "港股消费ETF"
+    ],
+    "members": [
+     "159265",
+     "159735"
+    ],
+    "money": {
+     "cheapest": "159265",
+     "cheapest_premium_pp": -0.2548,
+     "cost_cny": 66.2,
+     "dearest": "159735",
+     "dearest_premium_pp": -0.1886,
+     "material": false,
+     "spread_pp": 0.0662
+    },
+    "n": 2,
+    "state": "GROUP",
+    "why": ""
+   },
+   {
+    "labels": [
+     "机器人ETF"
+    ],
+    "members": [
+     "159272",
+     "159278",
+     "159530",
+     "159559"
+    ],
+    "money": {
+     "cheapest": "159272",
+     "cheapest_premium_pp": -0.3137,
+     "cost_cny": 637.6,
+     "dearest": "159278",
+     "dearest_premium_pp": 0.324,
+     "material": true,
+     "spread_pp": 0.6376
+    },
+    "n": 4,
+    "state": "GROUP",
+    "why": ""
+   },
+   {
+    "labels": [
+     "沪深300ETF"
+    ],
+    "members": [
+     "159300",
+     "159330",
+     "159393",
+     "159673",
+     "159919",
+     "159925",
+     "510300",
+     "510310",
+     "510330",
+     "510350",
+     "510360",
+     "515310",
+     "515390",
+     "563520"
+    ],
+    "money": {
+     "cheapest": "515310",
+     "cheapest_premium_pp": -0.232,
+     "cost_cny": 294.2,
+     "dearest": "159300",
+     "dearest_premium_pp": 0.0622,
+     "material": false,
+     "spread_pp": 0.2942
+    },
+    "n": 14,
+    "state": "GROUP",
+    "why": ""
+   },
+   {
+    "labels": [
+     "恒生医疗ETF"
+    ],
+    "members": [
+     "159303",
+     "159557",
+     "513060"
+    ],
+    "money": {
+     "cheapest": "159557",
+     "cheapest_premium_pp": -0.9842,
+     "cost_cny": 724.2,
+     "dearest": "159303",
+     "dearest_premium_pp": -0.26,
+     "material": true,
+     "spread_pp": 0.7242
+    },
+    "n": 3,
+    "state": "GROUP",
+    "why": ""
+   },
+   {
+    "labels": [
+     "储能电池ETF"
+    ],
+    "members": [
+     "159305",
+     "159566"
+    ],
+    "money": {
+     "cheapest": "159566",
+     "cheapest_premium_pp": 0.0362,
+     "cost_cny": 44.7,
+     "dearest": "159305",
+     "dearest_premium_pp": 0.081,
+     "material": false,
+     "spread_pp": 0.0447
+    },
+    "n": 2,
+    "state": "GROUP",
+    "why": ""
+   },
+   {
+    "labels": [
+     "红利低波100ETF"
+    ],
+    "members": [
+     "159307",
+     "515100"
+    ],
+    "money": {
+     "cheapest": "159307",
+     "cheapest_premium_pp": -0.3344,
+     "cost_cny": 167.1,
+     "dearest": "515100",
+     "dearest_premium_pp": -0.1673,
+     "material": false,
+     "spread_pp": 0.1671
+    },
+    "n": 2,
+    "state": "GROUP",
+    "why": ""
+   },
+   {
+    "labels": [
+     "黄金股ETF"
+    ],
+    "members": [
+     "159321",
+     "159562",
+     "517400",
+     "517520"
+    ],
+    "money": {
+     "cheapest": "159562",
+     "cheapest_premium_pp": -0.2983,
+     "cost_cny": 385.3,
+     "dearest": "517400",
+     "dearest_premium_pp": 0.087,
+     "material": false,
+     "spread_pp": 0.3853
+    },
+    "n": 4,
+    "state": "GROUP",
+    "why": ""
+   },
+   {
+    "labels": [
+     "港股通汽车ETF"
+    ],
+    "members": [
+     "159323",
+     "520600"
+    ],
+    "money": {
+     "cheapest": "159323",
+     "cheapest_premium_pp": 0.1096,
+     "cost_cny": 303.0,
+     "dearest": "520600",
+     "dearest_premium_pp": 0.4127,
+     "material": false,
+     "spread_pp": 0.303
+    },
+    "n": 2,
+    "state": "GROUP",
+    "why": ""
+   },
+   {
+    "labels": [
+     "半导体ETF"
+    ],
+    "members": [
+     "159325",
+     "159813"
+    ],
+    "money": {
+     "cheapest": "159325",
+     "cheapest_premium_pp": 0.4222,
+     "cost_cny": 394.2,
+     "dearest": "159813",
+     "dearest_premium_pp": 0.8164,
+     "material": false,
+     "spread_pp": 0.3942
+    },
+    "n": 2,
+    "state": "GROUP",
+    "why": ""
+   },
+   {
+    "labels": [
+     "半导体设备ETF"
+    ],
+    "members": [
+     "159327",
+     "159516",
+     "159558",
+     "560780",
+     "562590"
+    ],
+    "money": {
+     "cheapest": "159516",
+     "cheapest_premium_pp": 0.1361,
+     "cost_cny": 432.7,
+     "dearest": "159327",
+     "dearest_premium_pp": 0.5688,
+     "material": false,
+     "spread_pp": 0.4327
+    },
+    "n": 5,
+    "state": "GROUP",
+    "why": ""
+   },
+   {
+    "labels": [
+     "中证A500ETF"
+    ],
+    "members": [
+     "159338",
+     "159353",
+     "159358"
+    ],
+    "money": {
+     "cheapest": "159338",
+     "cheapest_premium_pp": -0.1861,
+     "cost_cny": 51.5,
+     "dearest": "159353",
+     "dearest_premium_pp": -0.1346,
+     "material": false,
+     "spread_pp": 0.0515
+    },
+    "n": 3,
+    "state": "GROUP",
+    "why": ""
+   },
+   {
+    "labels": [
+     "A500ETF"
+    ],
+    "members": [
+     "159339",
+     "159351",
+     "159352",
+     "159356",
+     "159359",
+     "159360",
+     "159361",
+     "159362",
+     "512020",
+     "512050",
+     "560610",
+     "563220",
+     "563360",
+     "563800",
+     "563880"
+    ],
+    "money": {
+     "cheapest": "159356",
+     "cheapest_premium_pp": -0.2386,
+     "cost_cny": 301.9,
+     "dearest": "159360",
+     "dearest_premium_pp": 0.0633,
+     "material": false,
+     "spread_pp": 0.3019
+    },
+    "n": 15,
+    "state": "GROUP",
+    "why": ""
+   },
+   {
+    "labels": [
+     "港股医疗ETF"
+    ],
+    "members": [
+     "159366",
+     "513620"
+    ],
+    "money": {
+     "cheapest": "159366",
+     "cheapest_premium_pp": -0.6271,
+     "cost_cny": 248.8,
+     "dearest": "513620",
+     "dearest_premium_pp": -0.3783,
+     "material": false,
+     "spread_pp": 0.2488
+    },
+    "n": 2,
+    "state": "GROUP",
+    "why": ""
+   },
+   {
+    "labels": [
+     "创业板50ETF"
+    ],
+    "members": [
+     "159367",
+     "159369",
+     "159371",
+     "159681",
+     "159682",
+     "159949"
+    ],
+    "money": {
+     "cheapest": "159369",
+     "cheapest_premium_pp": -0.1711,
+     "cost_cny": 356.1,
+     "dearest": "159367",
+     "dearest_premium_pp": 0.185,
+     "material": false,
+     "spread_pp": 0.3561
+    },
+    "n": 6,
+    "state": "GROUP",
+    "why": ""
+   },
+   {
+    "labels": [
+     "创业板新能源ETF"
+    ],
+    "members": [
+     "159368",
+     "159387"
+    ],
+    "money": {
+     "cheapest": "159387",
+     "cheapest_premium_pp": 0.0183,
+     "cost_cny": 183.7,
+     "dearest": "159368",
+     "dearest_premium_pp": 0.202,
+     "material": false,
+     "spread_pp": 0.1837
+    },
+    "n": 2,
+    "state": "GROUP",
+    "why": ""
+   },
+   {
+    "labels": [
+     "现金流ETF"
+    ],
+    "members": [
+     "159399",
+     "563390"
+    ],
+    "money": {
+     "cheapest": "563390",
+     "cheapest_premium_pp": -0.2748,
+     "cost_cny": 222.4,
+     "dearest": "159399",
+     "dearest_premium_pp": -0.0524,
+     "material": false,
+     "spread_pp": 0.2224
+    },
+    "n": 2,
+    "state": "GROUP",
+    "why": ""
+   },
+   {
+    "labels": [
+     "纳指ETF"
+    ],
+    "members": [
+     "159501",
+     "159660",
+     "159696",
+     "159941",
+     "513100",
+     "513110",
+     "513870"
+    ],
+    "money": {
+     "cheapest": "513110",
+     "cheapest_premium_pp": 13.7289,
+     "cost_cny": 6083.8,
+     "dearest": "159501",
+     "dearest_premium_pp": 19.8127,
+     "material": true,
+     "spread_pp": 6.0838
+    },
+    "n": 7,
+    "state": "GROUP",
+    "why": ""
+   },
+   {
+    "labels": [
+     "通信ETF"
+    ],
+    "members": [
+     "159507",
+     "159695"
+    ],
+    "money": {
+     "cheapest": "159695",
+     "cheapest_premium_pp": -0.0322,
+     "cost_cny": 155.6,
+     "dearest": "159507",
+     "dearest_premium_pp": 0.1234,
+     "material": false,
+     "spread_pp": 0.1556
+    },
+    "n": 2,
+    "state": "GROUP",
+    "why": ""
+   },
+   {
+    "labels": [
+     "纳斯达克100ETF"
+    ],
+    "members": [
+     "159513",
+     "159659"
+    ],
+    "money": {
+     "cheapest": "159513",
+     "cheapest_premium_pp": 13.9441,
+     "cost_cny": 2721.7,
+     "dearest": "159659",
+     "dearest_premium_pp": 16.6658,
+     "material": true,
+     "spread_pp": 2.7217
+    },
+    "n": 2,
+    "state": "GROUP",
+    "why": ""
+   },
+   {
+    "labels": [
+     "标普油气ETF"
+    ],
+    "members": [
+     "159518",
+     "513350"
+    ],
+    "money": {
+     "cheapest": "159518",
+     "cheapest_premium_pp": 0.2074,
+     "cost_cny": 69.4,
+     "dearest": "513350",
+     "dearest_premium_pp": 0.2768,
+     "material": false,
+     "spread_pp": 0.0694
+    },
+    "n": 2,
+    "state": "GROUP",
+    "why": ""
+   },
+   {
+    "labels": [
+     "红利低波ETF"
+    ],
+    "members": [
+     "159525",
+     "159547",
+     "159549",
+     "512890",
+     "563020"
+    ],
+    "money": {
+     "cheapest": "159549",
+     "cheapest_premium_pp": -0.2623,
+     "cost_cny": 348.2,
+     "dearest": "159547",
+     "dearest_premium_pp": 0.0859,
+     "material": false,
+     "spread_pp": 0.3482
+    },
+    "n": 5,
+    "state": "GROUP",
+    "why": ""
+   },
+   {
+    "labels": [
+     "中证2000ETF"
+    ],
+    "members": [
+     "159531",
+     "159532",
+     "562660",
+     "563300"
+    ],
+    "money": {
+     "cheapest": "159531",
+     "cheapest_premium_pp": -0.4829,
+     "cost_cny": 575.2,
+     "dearest": "563300",
+     "dearest_premium_pp": 0.0924,
+     "material": true,
+     "spread_pp": 0.5752
+    },
+    "n": 4,
+    "state": "GROUP",
+    "why": ""
+   },
+   {
+    "labels": [
+     "芯片ETF"
+    ],
+    "members": [
+     "159560",
+     "159599",
+     "159801",
+     "159995",
+     "512760",
+     "516350",
+     "516640",
+     "516920"
+    ],
+    "money": {
+     "cheapest": "159599",
+     "cheapest_premium_pp": -0.0243,
+     "cost_cny": 415.4,
+     "dearest": "159560",
+     "dearest_premium_pp": 0.3911,
+     "material": false,
+     "spread_pp": 0.4154
+    },
+    "n": 8,
+    "state": "GROUP",
+    "why": ""
+   },
    {
     "labels": [
      "德国ETF"
@@ -7353,14 +8377,208 @@
     ],
     "money": {
      "cheapest": "159561",
-     "cheapest_premium_pp": -0.0606,
-     "cost_cny": 1807.2,
+     "cheapest_premium_pp": -0.4504,
+     "cost_cny": 2921.3,
      "dearest": "513030",
-     "dearest_premium_pp": 1.7466,
+     "dearest_premium_pp": 2.4709,
      "material": true,
-     "spread_pp": 1.8072
+     "spread_pp": 2.9213
     },
     "n": 2,
+    "state": "GROUP",
+    "why": ""
+   },
+   {
+    "labels": [
+     "港股互联网ETF"
+    ],
+    "members": [
+     "159568",
+     "513770"
+    ],
+    "money": {
+     "cheapest": "513770",
+     "cheapest_premium_pp": -0.0983,
+     "cost_cny": 6.3,
+     "dearest": "159568",
+     "dearest_premium_pp": -0.0919,
+     "material": false,
+     "spread_pp": 0.0063
+    },
+    "n": 2,
+    "state": "GROUP",
+    "why": ""
+   },
+   {
+    "labels": [
+     "创业板200ETF"
+    ],
+    "members": [
+     "159572",
+     "159573"
+    ],
+    "money": {
+     "cheapest": "159572",
+     "cheapest_premium_pp": -0.1112,
+     "cost_cny": 383.3,
+     "dearest": "159573",
+     "dearest_premium_pp": 0.2722,
+     "material": false,
+     "spread_pp": 0.3833
+    },
+    "n": 2,
+    "state": "GROUP",
+    "why": ""
+   },
+   {
+    "labels": [
+     "美国50ETF"
+    ],
+    "members": [
+     "159577",
+     "513850"
+    ],
+    "money": {
+     "cheapest": "159577",
+     "cheapest_premium_pp": 9.1007,
+     "cost_cny": 105.8,
+     "dearest": "513850",
+     "dearest_premium_pp": 9.2065,
+     "material": false,
+     "spread_pp": 0.1058
+    },
+    "n": 2,
+    "state": "GROUP",
+    "why": ""
+   },
+   {
+    "labels": [
+     "软件ETF"
+    ],
+    "members": [
+     "159590",
+     "159852",
+     "515230",
+     "562930"
+    ],
+    "money": {
+     "cheapest": "159852",
+     "cheapest_premium_pp": -0.1515,
+     "cost_cny": 168.0,
+     "dearest": "515230",
+     "dearest_premium_pp": 0.0165,
+     "material": false,
+     "spread_pp": 0.168
+    },
+    "n": 4,
+    "state": "GROUP",
+    "why": ""
+   },
+   {
+    "labels": [
+     "A50ETF"
+    ],
+    "members": [
+     "159591",
+     "159592",
+     "159593",
+     "159601"
+    ],
+    "money": {
+     "cheapest": "159601",
+     "cheapest_premium_pp": -0.2332,
+     "cost_cny": 184.6,
+     "dearest": "159591",
+     "dearest_premium_pp": -0.0487,
+     "material": false,
+     "spread_pp": 0.1846
+    },
+    "n": 4,
+    "state": "GROUP",
+    "why": ""
+   },
+   {
+    "labels": [
+     "中证A50ETF"
+    ],
+    "members": [
+     "159595",
+     "563080"
+    ],
+    "money": {
+     "cheapest": "563080",
+     "cheapest_premium_pp": -0.1299,
+     "cost_cny": 129.9,
+     "dearest": "159595",
+     "dearest_premium_pp": 0.0,
+     "material": false,
+     "spread_pp": 0.1299
+    },
+    "n": 2,
+    "state": "GROUP",
+    "why": ""
+   },
+   {
+    "labels": [
+     "中概互联ETF"
+    ],
+    "members": [
+     "159605",
+     "513220"
+    ],
+    "money": {
+     "cheapest": "513220",
+     "cheapest_premium_pp": -2.1803,
+     "cost_cny": 636.7,
+     "dearest": "159605",
+     "dearest_premium_pp": -1.5436,
+     "material": true,
+     "spread_pp": 0.6367
+    },
+    "n": 2,
+    "state": "GROUP",
+    "why": ""
+   },
+   {
+    "labels": [
+     "中概互联网ETF"
+    ],
+    "members": [
+     "159607",
+     "513050"
+    ],
+    "money": {
+     "cheapest": "513050",
+     "cheapest_premium_pp": -2.822,
+     "cost_cny": 661.7,
+     "dearest": "159607",
+     "dearest_premium_pp": -2.1603,
+     "material": true,
+     "spread_pp": 0.6617
+    },
+    "n": 2,
+    "state": "GROUP",
+    "why": ""
+   },
+   {
+    "labels": [
+     "稀有金属ETF"
+    ],
+    "members": [
+     "159608",
+     "159671",
+     "562800"
+    ],
+    "money": {
+     "cheapest": "159608",
+     "cheapest_premium_pp": -0.1815,
+     "cost_cny": 34.2,
+     "dearest": "159671",
+     "dearest_premium_pp": -0.1473,
+     "material": false,
+     "spread_pp": 0.0342
+    },
+    "n": 3,
     "state": "GROUP",
     "why": ""
    },
@@ -7374,12 +8592,12 @@
     ],
     "money": {
      "cheapest": "561560",
-     "cheapest_premium_pp": -0.1265,
-     "cost_cny": 107.3,
+     "cheapest_premium_pp": -0.1185,
+     "cost_cny": 41.7,
      "dearest": "159611",
-     "dearest_premium_pp": -0.0192,
+     "dearest_premium_pp": -0.0769,
      "material": false,
-     "spread_pp": 0.1073
+     "spread_pp": 0.0417
     },
     "n": 2,
     "state": "GROUP",
@@ -7387,20 +8605,183 @@
    },
    {
     "labels": [
-     "矿业ETF"
+     "绿色电力ETF"
     ],
     "members": [
-     "159690",
-     "561330"
+     "159625",
+     "561170",
+     "562960"
     ],
     "money": {
-     "cheapest": "159690",
-     "cheapest_premium_pp": -0.0485,
-     "cost_cny": 34.3,
-     "dearest": "561330",
-     "dearest_premium_pp": -0.0142,
+     "cheapest": "562960",
+     "cheapest_premium_pp": -0.1914,
+     "cost_cny": 116.4,
+     "dearest": "159625",
+     "dearest_premium_pp": -0.0751,
      "material": false,
-     "spread_pp": 0.0343
+     "spread_pp": 0.1164
+    },
+    "n": 3,
+    "state": "GROUP",
+    "why": ""
+   },
+   {
+    "labels": [
+     "中证1000ETF"
+    ],
+    "members": [
+     "159629",
+     "159633",
+     "159845",
+     "512100",
+     "560010",
+     "560110"
+    ],
+    "money": {
+     "cheapest": "159629",
+     "cheapest_premium_pp": -0.501,
+     "cost_cny": 501.0,
+     "dearest": "560110",
+     "dearest_premium_pp": 0.0,
+     "material": true,
+     "spread_pp": 0.501
+    },
+    "n": 6,
+    "state": "GROUP",
+    "why": ""
+   },
+   {
+    "labels": [
+     "纳斯达克ETF"
+    ],
+    "members": [
+     "159632",
+     "513300"
+    ],
+    "money": {
+     "cheapest": "159632",
+     "cheapest_premium_pp": 14.5208,
+     "cost_cny": 978.0,
+     "dearest": "513300",
+     "dearest_premium_pp": 15.4988,
+     "material": true,
+     "spread_pp": 0.978
+    },
+    "n": 2,
+    "state": "GROUP",
+    "why": ""
+   },
+   {
+    "labels": [
+     "有色ETF"
+    ],
+    "members": [
+     "159652",
+     "159871",
+     "159876",
+     "159880",
+     "512940"
+    ],
+    "money": {
+     "cheapest": "159871",
+     "cheapest_premium_pp": -0.2233,
+     "cost_cny": 478.0,
+     "dearest": "159652",
+     "dearest_premium_pp": 0.2547,
+     "material": false,
+     "spread_pp": 0.478
+    },
+    "n": 5,
+    "state": "GROUP",
+    "why": ""
+   },
+   {
+    "labels": [
+     "标普500ETF"
+    ],
+    "members": [
+     "159655",
+     "513500",
+     "513650"
+    ],
+    "money": {
+     "cheapest": "159655",
+     "cheapest_premium_pp": 7.5155,
+     "cost_cny": 1722.8,
+     "dearest": "513500",
+     "dearest_premium_pp": 9.2383,
+     "material": true,
+     "spread_pp": 1.7228
+    },
+    "n": 3,
+    "state": "GROUP",
+    "why": ""
+   },
+   {
+    "labels": [
+     "证券ETF"
+    ],
+    "members": [
+     "159692",
+     "159841",
+     "159993",
+     "512570",
+     "512880",
+     "512900",
+     "515010",
+     "515850",
+     "560090"
+    ],
+    "money": {
+     "cheapest": "515850",
+     "cheapest_premium_pp": -0.2268,
+     "cost_cny": 256.9,
+     "dearest": "512570",
+     "dearest_premium_pp": 0.0302,
+     "material": false,
+     "spread_pp": 0.2569
+    },
+    "n": 9,
+    "state": "GROUP",
+    "why": ""
+   },
+   {
+    "labels": [
+     "石油ETF"
+    ],
+    "members": [
+     "159697",
+     "561360"
+    ],
+    "money": {
+     "cheapest": "561360",
+     "cheapest_premium_pp": -0.3206,
+     "cost_cny": 212.8,
+     "dearest": "159697",
+     "dearest_premium_pp": -0.1078,
+     "material": false,
+     "spread_pp": 0.2128
+    },
+    "n": 2,
+    "state": "GROUP",
+    "why": ""
+   },
+   {
+    "labels": [
+     "恒生消费ETF"
+    ],
+    "members": [
+     "159699",
+     "513970"
+    ],
+    "money": {
+     "cheapest": "159699",
+     "cheapest_premium_pp": -0.3184,
+     "cost_cny": 378.0,
+     "dearest": "513970",
+     "dearest_premium_pp": 0.0596,
+     "material": false,
+     "spread_pp": 0.378
     },
     "n": 2,
     "state": "GROUP",
@@ -7412,19 +8793,41 @@
     ],
     "members": [
      "159713",
+     "159715",
      "516150",
      "516780"
     ],
     "money": {
      "cheapest": "516150",
-     "cheapest_premium_pp": -0.3868,
-     "cost_cny": 207.5,
-     "dearest": "159713",
-     "dearest_premium_pp": -0.1793,
-     "material": false,
-     "spread_pp": 0.2075
+     "cheapest_premium_pp": -0.374,
+     "cost_cny": 616.3,
+     "dearest": "159715",
+     "dearest_premium_pp": 0.2423,
+     "material": true,
+     "spread_pp": 0.6163
     },
-    "n": 3,
+    "n": 4,
+    "state": "GROUP",
+    "why": ""
+   },
+   {
+    "labels": [
+     "港股医药ETF"
+    ],
+    "members": [
+     "159718",
+     "159776"
+    ],
+    "money": {
+     "cheapest": "159776",
+     "cheapest_premium_pp": -0.5132,
+     "cost_cny": 82.9,
+     "dearest": "159718",
+     "dearest_premium_pp": -0.4303,
+     "material": false,
+     "spread_pp": 0.0829
+    },
+    "n": 2,
     "state": "GROUP",
     "why": ""
    },
@@ -7438,14 +8841,66 @@
     ],
     "money": {
      "cheapest": "516570",
-     "cheapest_premium_pp": -0.1761,
-     "cost_cny": 224.2,
+     "cheapest_premium_pp": -0.3735,
+     "cost_cny": 325.4,
      "dearest": "159731",
-     "dearest_premium_pp": 0.0481,
+     "dearest_premium_pp": -0.0481,
      "material": false,
-     "spread_pp": 0.2242
+     "spread_pp": 0.3254
     },
     "n": 2,
+    "state": "GROUP",
+    "why": ""
+   },
+   {
+    "labels": [
+     "食品饮料ETF"
+    ],
+    "members": [
+     "159736",
+     "515170",
+     "515710"
+    ],
+    "money": {
+     "cheapest": "515710",
+     "cheapest_premium_pp": -0.1908,
+     "cost_cny": 174.3,
+     "dearest": "159736",
+     "dearest_premium_pp": -0.0165,
+     "material": false,
+     "spread_pp": 0.1743
+    },
+    "n": 3,
+    "state": "GROUP",
+    "why": ""
+   },
+   {
+    "labels": [
+     "恒生科技ETF"
+    ],
+    "members": [
+     "159740",
+     "159741",
+     "159742",
+     "513010",
+     "513130",
+     "513180",
+     "513260",
+     "513380",
+     "513580",
+     "520570",
+     "520920"
+    ],
+    "money": {
+     "cheapest": "159741",
+     "cheapest_premium_pp": -0.5325,
+     "cost_cny": 1000.8,
+     "dearest": "513180",
+     "dearest_premium_pp": 0.4683,
+     "material": true,
+     "spread_pp": 1.0008
+    },
+    "n": 11,
     "state": "GROUP",
     "why": ""
    },
@@ -7459,12 +8914,78 @@
     ],
     "money": {
      "cheapest": "159766",
-     "cheapest_premium_pp": -0.1471,
-     "cost_cny": 219.4,
+     "cheapest_premium_pp": -0.2954,
+     "cost_cny": 295.4,
      "dearest": "562510",
-     "dearest_premium_pp": 0.0723,
+     "dearest_premium_pp": 0.0,
      "material": false,
-     "spread_pp": 0.2194
+     "spread_pp": 0.2954
+    },
+    "n": 2,
+    "state": "GROUP",
+    "why": ""
+   },
+   {
+    "labels": [
+     "科创创业50ETF"
+    ],
+    "members": [
+     "159780",
+     "159783",
+     "588300"
+    ],
+    "money": {
+     "cheapest": "159783",
+     "cheapest_premium_pp": -0.3129,
+     "cost_cny": 184.1,
+     "dearest": "159780",
+     "dearest_premium_pp": -0.1288,
+     "material": false,
+     "spread_pp": 0.1841
+    },
+    "n": 3,
+    "state": "GROUP",
+    "why": ""
+   },
+   {
+    "labels": [
+     "科创创业ETF"
+    ],
+    "members": [
+     "159781",
+     "588360",
+     "588380",
+     "588400"
+    ],
+    "money": {
+     "cheapest": "588380",
+     "cheapest_premium_pp": -0.1261,
+     "cost_cny": 212.1,
+     "dearest": "159781",
+     "dearest_premium_pp": 0.086,
+     "material": false,
+     "spread_pp": 0.2121
+    },
+    "n": 4,
+    "state": "GROUP",
+    "why": ""
+   },
+   {
+    "labels": [
+     "双创50ETF"
+    ],
+    "members": [
+     "159782",
+     "588330"
+    ],
+    "money": {
+     "cheapest": "159782",
+     "cheapest_premium_pp": -0.4982,
+     "cost_cny": 428.2,
+     "dearest": "588330",
+     "dearest_premium_pp": -0.07,
+     "material": false,
+     "spread_pp": 0.4282
     },
     "n": 2,
     "state": "GROUP",
@@ -7476,16 +8997,38 @@
     ],
     "members": [
      "159805",
-     "512980"
+     "512980",
+     "516190"
     ],
     "money": {
-     "cheapest": "159805",
-     "cheapest_premium_pp": -0.1603,
-     "cost_cny": 35.6,
-     "dearest": "512980",
-     "dearest_premium_pp": -0.1247,
+     "cheapest": "516190",
+     "cheapest_premium_pp": -0.2467,
+     "cost_cny": 163.4,
+     "dearest": "159805",
+     "dearest_premium_pp": -0.0833,
      "material": false,
-     "spread_pp": 0.0356
+     "spread_pp": 0.1634
+    },
+    "n": 3,
+    "state": "GROUP",
+    "why": ""
+   },
+   {
+    "labels": [
+     "人工智能ETF"
+    ],
+    "members": [
+     "159819",
+     "515070"
+    ],
+    "money": {
+     "cheapest": "515070",
+     "cheapest_premium_pp": -0.0604,
+     "cost_cny": 106.3,
+     "dearest": "159819",
+     "dearest_premium_pp": 0.0459,
+     "material": false,
+     "spread_pp": 0.1063
     },
     "n": 2,
     "state": "GROUP",
@@ -7500,13 +9043,13 @@
      "516810"
     ],
     "money": {
-     "cheapest": "159825",
-     "cheapest_premium_pp": 0.082,
-     "cost_cny": 50.4,
-     "dearest": "516810",
-     "dearest_premium_pp": 0.1325,
+     "cheapest": "516810",
+     "cheapest_premium_pp": -0.2132,
+     "cost_cny": 75.6,
+     "dearest": "159825",
+     "dearest_premium_pp": -0.1376,
      "material": false,
-     "spread_pp": 0.0504
+     "spread_pp": 0.0756
     },
     "n": 2,
     "state": "GROUP",
@@ -7521,13 +9064,13 @@
      "512170"
     ],
     "money": {
-     "cheapest": "512170",
-     "cheapest_premium_pp": -0.3253,
-     "cost_cny": 112.0,
-     "dearest": "159828",
-     "dearest_premium_pp": -0.2133,
+     "cheapest": "159828",
+     "cheapest_premium_pp": -0.26,
+     "cost_cny": 82.8,
+     "dearest": "512170",
+     "dearest_premium_pp": -0.1772,
      "material": false,
-     "spread_pp": 0.112
+     "spread_pp": 0.0828
     },
     "n": 2,
     "state": "GROUP",
@@ -7538,46 +9081,43 @@
      "金ETF"
     ],
     "members": [
+     "159830",
+     "159831",
      "159834",
      "518600",
      "518680"
     ],
     "money": {
-     "cheapest": "159834",
-     "cheapest_premium_pp": -0.0524,
-     "cost_cny": 390.1,
-     "dearest": "518680",
-     "dearest_premium_pp": 0.3377,
+     "cheapest": "518680",
+     "cheapest_premium_pp": -0.1845,
+     "cost_cny": 191.8,
+     "dearest": "159830",
+     "dearest_premium_pp": 0.0073,
      "material": false,
-     "spread_pp": 0.3901
+     "spread_pp": 0.1918
     },
-    "n": 3,
+    "n": 5,
     "state": "GROUP",
     "why": ""
    },
    {
     "labels": [
-     "证券ETF"
+     "生物医药ETF"
     ],
     "members": [
-     "159841",
-     "512570",
-     "512880",
-     "512900",
-     "515010",
-     "515850",
-     "560090"
+     "159839",
+     "159859"
     ],
     "money": {
-     "cheapest": "515850",
-     "cheapest_premium_pp": -0.2027,
-     "cost_cny": 304.9,
-     "dearest": "512900",
-     "dearest_premium_pp": 0.1022,
+     "cheapest": "159839",
+     "cheapest_premium_pp": -0.4237,
+     "cost_cny": 254.5,
+     "dearest": "159859",
+     "dearest_premium_pp": -0.1692,
      "material": false,
-     "spread_pp": 0.3049
+     "spread_pp": 0.2545
     },
-    "n": 7,
+    "n": 2,
     "state": "GROUP",
     "why": ""
    },
@@ -7591,12 +9131,12 @@
     ],
     "money": {
      "cheapest": "512000",
-     "cheapest_premium_pp": 0.0,
-     "cost_cny": 10.6,
+     "cheapest_premium_pp": -0.0847,
+     "cost_cny": 116.6,
      "dearest": "159842",
-     "dearest_premium_pp": 0.0106,
+     "dearest_premium_pp": 0.0319,
      "material": false,
-     "spread_pp": 0.0106
+     "spread_pp": 0.1166
     },
     "n": 2,
     "state": "GROUP",
@@ -7604,21 +9144,21 @@
    },
    {
     "labels": [
-     "软件ETF"
+     "金融科技ETF"
     ],
     "members": [
-     "159852",
-     "515230",
-     "562930"
+     "159851",
+     "516100",
+     "516860"
     ],
     "money": {
-     "cheapest": "562930",
-     "cheapest_premium_pp": -0.4322,
-     "cost_cny": 415.9,
-     "dearest": "515230",
-     "dearest_premium_pp": -0.0163,
+     "cheapest": "516100",
+     "cheapest_premium_pp": -0.067,
+     "cost_cny": 132.0,
+     "dearest": "516860",
+     "dearest_premium_pp": 0.065,
      "material": false,
-     "spread_pp": 0.4159
+     "spread_pp": 0.132
     },
     "n": 3,
     "state": "GROUP",
@@ -7633,13 +9173,13 @@
      "516620"
     ],
     "money": {
-     "cheapest": "159855",
-     "cheapest_premium_pp": 0.1586,
-     "cost_cny": 61.0,
-     "dearest": "516620",
-     "dearest_premium_pp": 0.2196,
-     "material": false,
-     "spread_pp": 0.061
+     "cheapest": "516620",
+     "cheapest_premium_pp": -0.7321,
+     "cost_cny": 573.3,
+     "dearest": "159855",
+     "dearest_premium_pp": -0.1589,
+     "material": true,
+     "spread_pp": 0.5733
     },
     "n": 2,
     "state": "GROUP",
@@ -7656,15 +9196,36 @@
      "562970"
     ],
     "money": {
-     "cheapest": "159857",
-     "cheapest_premium_pp": -0.4128,
-     "cost_cny": 289.9,
-     "dearest": "515370",
-     "dearest_premium_pp": -0.1229,
+     "cheapest": "515370",
+     "cheapest_premium_pp": -0.3436,
+     "cost_cny": 431.3,
+     "dearest": "159857",
+     "dearest_premium_pp": 0.0876,
      "material": false,
-     "spread_pp": 0.2899
+     "spread_pp": 0.4313
     },
     "n": 4,
+    "state": "GROUP",
+    "why": ""
+   },
+   {
+    "labels": [
+     "养殖ETF"
+    ],
+    "members": [
+     "159865",
+     "159867"
+    ],
+    "money": {
+     "cheapest": "159867",
+     "cheapest_premium_pp": -0.1442,
+     "cost_cny": 291.2,
+     "dearest": "159865",
+     "dearest_premium_pp": 0.147,
+     "material": false,
+     "spread_pp": 0.2912
+    },
+    "n": 2,
     "state": "GROUP",
     "why": ""
    },
@@ -7678,12 +9239,12 @@
     ],
     "money": {
      "cheapest": "159866",
-     "cheapest_premium_pp": 0.9879,
-     "cost_cny": 2001.5,
+     "cheapest_premium_pp": 3.1319,
+     "cost_cny": 874.7,
      "dearest": "513520",
-     "dearest_premium_pp": 2.9894,
+     "dearest_premium_pp": 4.0066,
      "material": true,
-     "spread_pp": 2.0015
+     "spread_pp": 0.8747
     },
     "n": 2,
     "state": "GROUP",
@@ -7699,13 +9260,13 @@
      "516770"
     ],
     "money": {
-     "cheapest": "516010",
-     "cheapest_premium_pp": 0.0203,
-     "cost_cny": 70.3,
-     "dearest": "159869",
-     "dearest_premium_pp": 0.0906,
+     "cheapest": "159869",
+     "cheapest_premium_pp": -0.1347,
+     "cost_cny": 427.2,
+     "dearest": "516010",
+     "dearest_premium_pp": 0.2925,
      "material": false,
-     "spread_pp": 0.0703
+     "spread_pp": 0.4272
     },
     "n": 3,
     "state": "GROUP",
@@ -7713,21 +9274,21 @@
    },
    {
     "labels": [
-     "化工ETF"
+     "新能源ETF"
     ],
     "members": [
-     "159870",
-     "516020",
-     "516120"
+     "159875",
+     "516090",
+     "516160"
     ],
     "money": {
-     "cheapest": "159870",
-     "cheapest_premium_pp": -0.2429,
-     "cost_cny": 118.1,
-     "dearest": "516120",
-     "dearest_premium_pp": -0.1248,
+     "cheapest": "516160",
+     "cheapest_premium_pp": -0.1358,
+     "cost_cny": 91.8,
+     "dearest": "159875",
+     "dearest_premium_pp": -0.044,
      "material": false,
-     "spread_pp": 0.1181
+     "spread_pp": 0.0918
     },
     "n": 3,
     "state": "GROUP",
@@ -7743,18 +9304,19 @@
      "512800",
      "512820",
      "515020",
+     "515290",
      "516310"
     ],
     "money": {
-     "cheapest": "515020",
-     "cheapest_premium_pp": -0.0612,
-     "cost_cny": 334.5,
-     "dearest": "512800",
-     "dearest_premium_pp": 0.2734,
+     "cheapest": "515290",
+     "cheapest_premium_pp": -0.2,
+     "cost_cny": 159.3,
+     "dearest": "515020",
+     "dearest_premium_pp": -0.0406,
      "material": false,
-     "spread_pp": 0.3345
+     "spread_pp": 0.1593
     },
-    "n": 6,
+    "n": 7,
     "state": "GROUP",
     "why": ""
    },
@@ -7768,12 +9330,58 @@
     ],
     "money": {
      "cheapest": "513660",
-     "cheapest_premium_pp": -0.4496,
-     "cost_cny": 134.0,
+     "cheapest_premium_pp": -0.3181,
+     "cost_cny": 107.4,
      "dearest": "159920",
-     "dearest_premium_pp": -0.3155,
+     "dearest_premium_pp": -0.2106,
      "material": false,
-     "spread_pp": 0.134
+     "spread_pp": 0.1074
+    },
+    "n": 2,
+    "state": "GROUP",
+    "why": ""
+   },
+   {
+    "labels": [
+     "中证500ETF"
+    ],
+    "members": [
+     "159922",
+     "510500",
+     "510510",
+     "510580",
+     "512500",
+     "561350"
+    ],
+    "money": {
+     "cheapest": "510500",
+     "cheapest_premium_pp": -0.2621,
+     "cost_cny": 305.9,
+     "dearest": "510510",
+     "dearest_premium_pp": 0.0438,
+     "material": false,
+     "spread_pp": 0.3059
+    },
+    "n": 6,
+    "state": "GROUP",
+    "why": ""
+   },
+   {
+    "labels": [
+     "医药ETF"
+    ],
+    "members": [
+     "159929",
+     "159938"
+    ],
+    "money": {
+     "cheapest": "159938",
+     "cheapest_premium_pp": -0.2387,
+     "cost_cny": 115.5,
+     "dearest": "159929",
+     "dearest_premium_pp": -0.1231,
+     "material": false,
+     "spread_pp": 0.1155
     },
     "n": 2,
     "state": "GROUP",
@@ -7785,68 +9393,65 @@
     ],
     "members": [
      "159934",
+     "159937",
      "518660",
      "518800",
      "518850",
      "518880"
     ],
     "money": {
-     "cheapest": "518660",
-     "cheapest_premium_pp": 0.4538,
-     "cost_cny": 37.7,
-     "dearest": "518880",
-     "dearest_premium_pp": 0.4915,
+     "cheapest": "518880",
+     "cheapest_premium_pp": -0.1833,
+     "cost_cny": 162.7,
+     "dearest": "159934",
+     "dearest_premium_pp": -0.0206,
      "material": false,
-     "spread_pp": 0.0377
+     "spread_pp": 0.1627
     },
-    "n": 5,
+    "n": 6,
     "state": "GROUP",
     "why": ""
    },
    {
     "labels": [
-     "纳指ETF"
+     "创新药ETF"
     ],
     "members": [
-     "159941",
-     "513100",
-     "513110",
-     "513870"
+     "159992",
+     "515120",
+     "516080"
     ],
     "money": {
-     "cheapest": "513110",
-     "cheapest_premium_pp": 10.7583,
-     "cost_cny": 4853.8,
-     "dearest": "513100",
-     "dearest_premium_pp": 15.6121,
-     "material": true,
-     "spread_pp": 4.8538
+     "cheapest": "515120",
+     "cheapest_premium_pp": -0.3396,
+     "cost_cny": 387.2,
+     "dearest": "516080",
+     "dearest_premium_pp": 0.0476,
+     "material": false,
+     "spread_pp": 0.3872
     },
-    "n": 4,
+    "n": 3,
     "state": "GROUP",
     "why": ""
    },
    {
     "labels": [
-     "芯片ETF"
+     "通信ETF"
     ],
     "members": [
-     "159995",
-     "512760",
-     "516350",
-     "516640",
-     "516920"
+     "159994",
+     "515050"
     ],
     "money": {
-     "cheapest": "516640",
-     "cheapest_premium_pp": -5.5132,
-     "cost_cny": 5463.0,
-     "dearest": "516350",
-     "dearest_premium_pp": -0.0502,
-     "material": true,
-     "spread_pp": 5.463
+     "cheapest": "515050",
+     "cheapest_premium_pp": 0.0674,
+     "cost_cny": 14.8,
+     "dearest": "159994",
+     "dearest_premium_pp": 0.0821,
+     "material": false,
+     "spread_pp": 0.0148
     },
-    "n": 5,
+    "n": 2,
     "state": "GROUP",
     "why": ""
    },
@@ -7859,13 +9464,13 @@
      "515260"
     ],
     "money": {
-     "cheapest": "515260",
-     "cheapest_premium_pp": -0.068,
-     "cost_cny": 0.2,
-     "dearest": "159997",
-     "dearest_premium_pp": -0.0678,
+     "cheapest": "159997",
+     "cheapest_premium_pp": -0.1218,
+     "cost_cny": 70.8,
+     "dearest": "515260",
+     "dearest_premium_pp": -0.051,
      "material": false,
-     "spread_pp": 0.0002
+     "spread_pp": 0.0708
     },
     "n": 2,
     "state": "GROUP",
@@ -7880,13 +9485,13 @@
      "510100"
     ],
     "money": {
-     "cheapest": "510050",
-     "cheapest_premium_pp": -0.0069,
-     "cost_cny": 49.1,
-     "dearest": "510100",
-     "dearest_premium_pp": 0.0422,
+     "cheapest": "510100",
+     "cheapest_premium_pp": -0.2742,
+     "cost_cny": 166.8,
+     "dearest": "510050",
+     "dearest_premium_pp": -0.1074,
      "material": false,
-     "spread_pp": 0.0491
+     "spread_pp": 0.1668
     },
     "n": 2,
     "state": "GROUP",
@@ -7903,65 +9508,15 @@
      "530060"
     ],
     "money": {
-     "cheapest": "510760",
-     "cheapest_premium_pp": -0.31,
-     "cost_cny": 430.3,
-     "dearest": "530060",
-     "dearest_premium_pp": 0.1202,
+     "cheapest": "510210",
+     "cheapest_premium_pp": -0.3749,
+     "cost_cny": 320.6,
+     "dearest": "510980",
+     "dearest_premium_pp": -0.0544,
      "material": false,
-     "spread_pp": 0.4303
+     "spread_pp": 0.3206
     },
     "n": 4,
-    "state": "GROUP",
-    "why": ""
-   },
-   {
-    "labels": [
-     "沪深300ETF"
-    ],
-    "members": [
-     "510300",
-     "510310",
-     "510330",
-     "510350",
-     "510360",
-     "515310",
-     "515390"
-    ],
-    "money": {
-     "cheapest": "510330",
-     "cheapest_premium_pp": -0.0544,
-     "cost_cny": 141.0,
-     "dearest": "510350",
-     "dearest_premium_pp": 0.0866,
-     "material": false,
-     "spread_pp": 0.141
-    },
-    "n": 7,
-    "state": "GROUP",
-    "why": ""
-   },
-   {
-    "labels": [
-     "中证500ETF"
-    ],
-    "members": [
-     "510500",
-     "510510",
-     "510580",
-     "512500",
-     "561350"
-    ],
-    "money": {
-     "cheapest": "561350",
-     "cheapest_premium_pp": -0.1986,
-     "cost_cny": 305.5,
-     "dearest": "510510",
-     "dearest_premium_pp": 0.1069,
-     "material": false,
-     "spread_pp": 0.3055
-    },
-    "n": 5,
     "state": "GROUP",
     "why": ""
    },
@@ -7975,53 +9530,14 @@
     ],
     "money": {
      "cheapest": "515180",
-     "cheapest_premium_pp": -0.0795,
-     "cost_cny": 12.4,
+     "cheapest_premium_pp": -0.2103,
+     "cost_cny": 61.2,
      "dearest": "510880",
-     "dearest_premium_pp": -0.067,
+     "dearest_premium_pp": -0.1491,
      "material": false,
-     "spread_pp": 0.0124
+     "spread_pp": 0.0612
     },
     "n": 2,
-    "state": "GROUP",
-    "why": ""
-   },
-   {
-    "labels": [
-     "货币ETF"
-    ],
-    "members": [
-     "511620",
-     "511700"
-    ],
-    "money": null,
-    "n": 2,
-    "state": "GROUP",
-    "why": "premium unobservable for at least two members"
-   },
-   {
-    "labels": [
-     "A500ETF"
-    ],
-    "members": [
-     "512020",
-     "512050",
-     "560610",
-     "563220",
-     "563360",
-     "563800",
-     "563880"
-    ],
-    "money": {
-     "cheapest": "563360",
-     "cheapest_premium_pp": -0.1387,
-     "cost_cny": 285.3,
-     "dearest": "563800",
-     "dearest_premium_pp": 0.1466,
-     "material": false,
-     "spread_pp": 0.2853
-    },
-    "n": 7,
     "state": "GROUP",
     "why": ""
    },
@@ -8034,37 +9550,15 @@
      "515630"
     ],
     "money": {
-     "cheapest": "515630",
-     "cheapest_premium_pp": -0.093,
-     "cost_cny": 238.7,
-     "dearest": "512070",
-     "dearest_premium_pp": 0.1457,
+     "cheapest": "512070",
+     "cheapest_premium_pp": -0.2777,
+     "cost_cny": 83.5,
+     "dearest": "515630",
+     "dearest_premium_pp": -0.1942,
      "material": false,
-     "spread_pp": 0.2387
+     "spread_pp": 0.0835
     },
     "n": 2,
-    "state": "GROUP",
-    "why": ""
-   },
-   {
-    "labels": [
-     "中证1000ETF"
-    ],
-    "members": [
-     "512100",
-     "560010",
-     "560110"
-    ],
-    "money": {
-     "cheapest": "560010",
-     "cheapest_premium_pp": -3.1151,
-     "cost_cny": 3031.4,
-     "dearest": "512100",
-     "dearest_premium_pp": -0.0837,
-     "material": true,
-     "spread_pp": 3.0314
-    },
-    "n": 3,
     "state": "GROUP",
     "why": ""
    },
@@ -8078,33 +9572,12 @@
     ],
     "money": {
      "cheapest": "512200",
-     "cheapest_premium_pp": -0.2375,
-     "cost_cny": 427.3,
+     "cheapest_premium_pp": -0.3591,
+     "cost_cny": 167.9,
      "dearest": "515060",
-     "dearest_premium_pp": 0.1898,
+     "dearest_premium_pp": -0.1912,
      "material": false,
-     "spread_pp": 0.4273
-    },
-    "n": 2,
-    "state": "GROUP",
-    "why": ""
-   },
-   {
-    "labels": [
-     "有色金属ETF"
-    ],
-    "members": [
-     "512400",
-     "516650"
-    ],
-    "money": {
-     "cheapest": "512400",
-     "cheapest_premium_pp": -0.2546,
-     "cost_cny": 254.6,
-     "dearest": "516650",
-     "dearest_premium_pp": 0.0,
-     "material": false,
-     "spread_pp": 0.2546
+     "spread_pp": 0.1679
     },
     "n": 2,
     "state": "GROUP",
@@ -8121,59 +9594,15 @@
      "512810"
     ],
     "money": {
-     "cheapest": "512560",
-     "cheapest_premium_pp": -0.1312,
-     "cost_cny": 220.4,
-     "dearest": "512810",
-     "dearest_premium_pp": 0.0892,
+     "cheapest": "512810",
+     "cheapest_premium_pp": -0.2869,
+     "cost_cny": 270.4,
+     "dearest": "512560",
+     "dearest_premium_pp": -0.0165,
      "material": false,
-     "spread_pp": 0.2204
+     "spread_pp": 0.2704
     },
     "n": 4,
-    "state": "GROUP",
-    "why": ""
-   },
-   {
-    "labels": [
-     "卫星ETF"
-    ],
-    "members": [
-     "512630",
-     "563230",
-     "563530",
-     "563790"
-    ],
-    "money": {
-     "cheapest": "512630",
-     "cheapest_premium_pp": -0.0561,
-     "cost_cny": 115.8,
-     "dearest": "563790",
-     "dearest_premium_pp": 0.0597,
-     "material": false,
-     "spread_pp": 0.1158
-    },
-    "n": 4,
-    "state": "GROUP",
-    "why": ""
-   },
-   {
-    "labels": [
-     "红利低波ETF"
-    ],
-    "members": [
-     "512890",
-     "563020"
-    ],
-    "money": {
-     "cheapest": "512890",
-     "cheapest_premium_pp": -0.2291,
-     "cost_cny": 92.3,
-     "dearest": "563020",
-     "dearest_premium_pp": -0.1368,
-     "material": false,
-     "spread_pp": 0.0923
-    },
-    "n": 2,
     "state": "GROUP",
     "why": ""
    },
@@ -8187,80 +9616,12 @@
     ],
     "money": {
      "cheapest": "513000",
-     "cheapest_premium_pp": 2.099,
-     "cost_cny": 1555.6,
+     "cheapest_premium_pp": 3.2999,
+     "cost_cny": 1237.6,
      "dearest": "513880",
-     "dearest_premium_pp": 3.6546,
+     "dearest_premium_pp": 4.5375,
      "material": true,
-     "spread_pp": 1.5556
-    },
-    "n": 2,
-    "state": "GROUP",
-    "why": ""
-   },
-   {
-    "labels": [
-     "恒生科技ETF"
-    ],
-    "members": [
-     "513010",
-     "513130",
-     "513180",
-     "513260",
-     "513380",
-     "513580",
-     "520570"
-    ],
-    "money": {
-     "cheapest": "513130",
-     "cheapest_premium_pp": -1.0131,
-     "cost_cny": 1117.8,
-     "dearest": "513180",
-     "dearest_premium_pp": 0.1047,
-     "material": true,
-     "spread_pp": 1.1178
-    },
-    "n": 7,
-    "state": "GROUP",
-    "why": ""
-   },
-   {
-    "labels": [
-     "港股通互联网ETF"
-    ],
-    "members": [
-     "513040",
-     "520650"
-    ],
-    "money": {
-     "cheapest": "513040",
-     "cheapest_premium_pp": -0.5464,
-     "cost_cny": 113.5,
-     "dearest": "520650",
-     "dearest_premium_pp": -0.4329,
-     "material": false,
-     "spread_pp": 0.1135
-    },
-    "n": 2,
-    "state": "GROUP",
-    "why": ""
-   },
-   {
-    "labels": [
-     "港股通消费ETF"
-    ],
-    "members": [
-     "513070",
-     "513230"
-    ],
-    "money": {
-     "cheapest": "513070",
-     "cheapest_premium_pp": -0.1784,
-     "cost_cny": 31.4,
-     "dearest": "513230",
-     "dearest_premium_pp": -0.147,
-     "material": false,
-     "spread_pp": 0.0314
+     "spread_pp": 1.2376
     },
     "n": 2,
     "state": "GROUP",
@@ -8276,12 +9637,12 @@
     ],
     "money": {
      "cheapest": "513700",
-     "cheapest_premium_pp": -1.3026,
-     "cost_cny": 91.3,
+     "cheapest_premium_pp": -0.3384,
+     "cost_cny": 16.5,
      "dearest": "513200",
-     "dearest_premium_pp": -1.2113,
+     "dearest_premium_pp": -0.3219,
      "material": false,
-     "spread_pp": 0.0913
+     "spread_pp": 0.0165
     },
     "n": 2,
     "state": "GROUP",
@@ -8289,64 +9650,20 @@
    },
    {
     "labels": [
-     "港股通信息技术ETF"
+     "港股通红利ETF"
     ],
     "members": [
-     "513240",
-     "526000",
-     "526050"
+     "513530",
+     "513820"
     ],
     "money": {
-     "cheapest": "513240",
-     "cheapest_premium_pp": -0.5547,
-     "cost_cny": 278.4,
-     "dearest": "526050",
-     "dearest_premium_pp": -0.2763,
+     "cheapest": "513820",
+     "cheapest_premium_pp": -0.0911,
+     "cost_cny": 202.3,
+     "dearest": "513530",
+     "dearest_premium_pp": 0.1112,
      "material": false,
-     "spread_pp": 0.2784
-    },
-    "n": 3,
-    "state": "GROUP",
-    "why": ""
-   },
-   {
-    "labels": [
-     "恒生生物科技ETF"
-    ],
-    "members": [
-     "513280",
-     "513930",
-     "520930"
-    ],
-    "money": {
-     "cheapest": "513280",
-     "cheapest_premium_pp": -1.7324,
-     "cost_cny": 239.3,
-     "dearest": "513930",
-     "dearest_premium_pp": -1.4932,
-     "material": false,
-     "spread_pp": 0.2393
-    },
-    "n": 3,
-    "state": "GROUP",
-    "why": ""
-   },
-   {
-    "labels": [
-     "标普500ETF"
-    ],
-    "members": [
-     "513500",
-     "513650"
-    ],
-    "money": {
-     "cheapest": "513650",
-     "cheapest_premium_pp": 6.2707,
-     "cost_cny": 1580.9,
-     "dearest": "513500",
-     "dearest_premium_pp": 7.8517,
-     "material": true,
-     "spread_pp": 1.5809
+     "spread_pp": 0.2023
     },
     "n": 2,
     "state": "GROUP",
@@ -8362,12 +9679,12 @@
     ],
     "money": {
      "cheapest": "513910",
-     "cheapest_premium_pp": -0.9419,
-     "cost_cny": 144.0,
+     "cheapest_premium_pp": -0.1957,
+     "cost_cny": 12.3,
      "dearest": "513920",
-     "dearest_premium_pp": -0.7979,
+     "dearest_premium_pp": -0.1834,
      "material": false,
-     "spread_pp": 0.144
+     "spread_pp": 0.0123
     },
     "n": 2,
     "state": "GROUP",
@@ -8383,12 +9700,12 @@
     ],
     "money": {
      "cheapest": "515030",
-     "cheapest_premium_pp": -0.1565,
-     "cost_cny": 4.7,
+     "cheapest_premium_pp": 0.0315,
+     "cost_cny": 162.2,
      "dearest": "515700",
-     "dearest_premium_pp": -0.1518,
+     "dearest_premium_pp": 0.1937,
      "material": false,
-     "spread_pp": 0.0047
+     "spread_pp": 0.1622
     },
     "n": 2,
     "state": "GROUP",
@@ -8396,62 +9713,20 @@
    },
    {
     "labels": [
-     "创新药ETF"
+     "中证800ETF"
     ],
     "members": [
-     "515120",
-     "516080"
+     "515800",
+     "515810"
     ],
     "money": {
-     "cheapest": "516080",
-     "cheapest_premium_pp": -0.2831,
-     "cost_cny": 98.3,
-     "dearest": "515120",
-     "dearest_premium_pp": -0.1848,
+     "cheapest": "515810",
+     "cheapest_premium_pp": -0.2732,
+     "cost_cny": 218.4,
+     "dearest": "515800",
+     "dearest_premium_pp": -0.0548,
      "material": false,
-     "spread_pp": 0.0983
-    },
-    "n": 2,
-    "state": "GROUP",
-    "why": ""
-   },
-   {
-    "labels": [
-     "食品饮料ETF"
-    ],
-    "members": [
-     "515170",
-     "515710"
-    ],
-    "money": {
-     "cheapest": "515710",
-     "cheapest_premium_pp": -0.1724,
-     "cost_cny": 234.0,
-     "dearest": "515170",
-     "dearest_premium_pp": 0.0615,
-     "material": false,
-     "spread_pp": 0.234
-    },
-    "n": 2,
-    "state": "GROUP",
-    "why": ""
-   },
-   {
-    "labels": [
-     "大数据ETF"
-    ],
-    "members": [
-     "515400",
-     "516000"
-    ],
-    "money": {
-     "cheapest": "515400",
-     "cheapest_premium_pp": -0.1379,
-     "cost_cny": 175.5,
-     "dearest": "516000",
-     "dearest_premium_pp": 0.0376,
-     "material": false,
-     "spread_pp": 0.1755
+     "spread_pp": 0.2184
     },
     "n": 2,
     "state": "GROUP",
@@ -8466,34 +9741,13 @@
      "560280"
     ],
     "money": {
-     "cheapest": "560280",
-     "cheapest_premium_pp": -0.0917,
-     "cost_cny": 159.9,
-     "dearest": "515970",
-     "dearest_premium_pp": 0.0682,
+     "cheapest": "515970",
+     "cheapest_premium_pp": -0.1231,
+     "cost_cny": 31.1,
+     "dearest": "560280",
+     "dearest_premium_pp": -0.092,
      "material": false,
-     "spread_pp": 0.1599
-    },
-    "n": 2,
-    "state": "GROUP",
-    "why": ""
-   },
-   {
-    "labels": [
-     "新能源ETF"
-    ],
-    "members": [
-     "516090",
-     "516160"
-    ],
-    "money": {
-     "cheapest": "516090",
-     "cheapest_premium_pp": 0.0,
-     "cost_cny": 155.3,
-     "dearest": "516160",
-     "dearest_premium_pp": 0.1553,
-     "material": false,
-     "spread_pp": 0.1553
+     "spread_pp": 0.0311
     },
     "n": 2,
     "state": "GROUP",
@@ -8509,75 +9763,12 @@
     ],
     "money": {
      "cheapest": "516510",
-     "cheapest_premium_pp": -0.1995,
-     "cost_cny": 124.0,
+     "cheapest_premium_pp": -0.0818,
+     "cost_cny": 142.6,
      "dearest": "516630",
-     "dearest_premium_pp": -0.0754,
+     "dearest_premium_pp": 0.0608,
      "material": false,
-     "spread_pp": 0.124
-    },
-    "n": 2,
-    "state": "GROUP",
-    "why": ""
-   },
-   {
-    "labels": [
-     "电网设备ETF"
-    ],
-    "members": [
-     "560390",
-     "561380"
-    ],
-    "money": {
-     "cheapest": "560390",
-     "cheapest_premium_pp": 0.7299,
-     "cost_cny": 840.8,
-     "dearest": "561380",
-     "dearest_premium_pp": 1.5707,
-     "material": true,
-     "spread_pp": 0.8408
-    },
-    "n": 2,
-    "state": "GROUP",
-    "why": ""
-   },
-   {
-    "labels": [
-     "机器人ETF"
-    ],
-    "members": [
-     "560770",
-     "562500"
-    ],
-    "money": {
-     "cheapest": "562500",
-     "cheapest_premium_pp": -3.0976,
-     "cost_cny": 3073.5,
-     "dearest": "560770",
-     "dearest_premium_pp": -0.0241,
-     "material": true,
-     "spread_pp": 3.0735
-    },
-    "n": 2,
-    "state": "GROUP",
-    "why": ""
-   },
-   {
-    "labels": [
-     "半导体设备ETF"
-    ],
-    "members": [
-     "560780",
-     "562590"
-    ],
-    "money": {
-     "cheapest": "560780",
-     "cheapest_premium_pp": -0.0412,
-     "cost_cny": 98.6,
-     "dearest": "562590",
-     "dearest_premium_pp": 0.0573,
-     "material": false,
-     "spread_pp": 0.0986
+     "spread_pp": 0.1426
     },
     "n": 2,
     "state": "GROUP",
@@ -8593,12 +9784,12 @@
     ],
     "money": {
      "cheapest": "562950",
-     "cheapest_premium_pp": -0.0723,
-     "cost_cny": 176.9,
+     "cheapest_premium_pp": -0.1092,
+     "cost_cny": 65.3,
      "dearest": "561100",
-     "dearest_premium_pp": 0.1046,
+     "dearest_premium_pp": -0.0439,
      "material": false,
-     "spread_pp": 0.1769
+     "spread_pp": 0.0653
     },
     "n": 2,
     "state": "GROUP",
@@ -8606,62 +9797,20 @@
    },
    {
     "labels": [
-     "电池ETF"
+     "中证500增强ETF"
     ],
     "members": [
-     "561160",
-     "561910"
+     "561550",
+     "563030"
     ],
     "money": {
-     "cheapest": "561160",
-     "cheapest_premium_pp": -0.3176,
-     "cost_cny": 531.2,
-     "dearest": "561910",
-     "dearest_premium_pp": 0.2136,
+     "cheapest": "563030",
+     "cheapest_premium_pp": -0.8094,
+     "cost_cny": 600.7,
+     "dearest": "561550",
+     "dearest_premium_pp": -0.2087,
      "material": true,
-     "spread_pp": 0.5312
-    },
-    "n": 2,
-    "state": "GROUP",
-    "why": ""
-   },
-   {
-    "labels": [
-     "绿色电力ETF"
-    ],
-    "members": [
-     "561170",
-     "562960"
-    ],
-    "money": {
-     "cheapest": "562960",
-     "cheapest_premium_pp": -0.2526,
-     "cost_cny": 139.8,
-     "dearest": "561170",
-     "dearest_premium_pp": -0.1128,
-     "material": false,
-     "spread_pp": 0.1398
-    },
-    "n": 2,
-    "state": "GROUP",
-    "why": ""
-   },
-   {
-    "labels": [
-     "中证2000ETF"
-    ],
-    "members": [
-     "562660",
-     "563300"
-    ],
-    "money": {
-     "cheapest": "562660",
-     "cheapest_premium_pp": -0.6989,
-     "cost_cny": 632.9,
-     "dearest": "563300",
-     "dearest_premium_pp": -0.066,
-     "material": true,
-     "spread_pp": 0.6329
+     "spread_pp": 0.6007
     },
     "n": 2,
     "state": "GROUP",
@@ -8682,18 +9831,20 @@
      "588280",
      "588870",
      "588940",
-     "589150"
+     "588950",
+     "589150",
+     "589850"
     ],
     "money": {
-     "cheapest": "588150",
-     "cheapest_premium_pp": -5.3891,
-     "cost_cny": 382.2,
-     "dearest": "588040",
-     "dearest_premium_pp": -5.0069,
+     "cheapest": "588060",
+     "cheapest_premium_pp": -0.1934,
+     "cost_cny": 446.0,
+     "dearest": "588940",
+     "dearest_premium_pp": 0.2526,
      "material": false,
-     "spread_pp": 0.3822
+     "spread_pp": 0.446
     },
-    "n": 11,
+    "n": 13,
     "state": "GROUP",
     "why": ""
    },
@@ -8707,13 +9858,13 @@
      "589180"
     ],
     "money": {
-     "cheapest": "588010",
-     "cheapest_premium_pp": -0.0535,
-     "cost_cny": 118.8,
-     "dearest": "589180",
-     "dearest_premium_pp": 0.0652,
+     "cheapest": "589180",
+     "cheapest_premium_pp": -0.0082,
+     "cost_cny": 115.4,
+     "dearest": "588010",
+     "dearest_premium_pp": 0.1072,
      "material": false,
-     "spread_pp": 0.1188
+     "spread_pp": 0.1154
     },
     "n": 3,
     "state": "GROUP",
@@ -8729,13 +9880,13 @@
      "589700"
     ],
     "money": {
-     "cheapest": "588020",
-     "cheapest_premium_pp": 0.1707,
-     "cost_cny": 265.0,
-     "dearest": "589700",
-     "dearest_premium_pp": 0.4357,
+     "cheapest": "588110",
+     "cheapest_premium_pp": -0.3427,
+     "cost_cny": 458.9,
+     "dearest": "588020",
+     "dearest_premium_pp": 0.1162,
      "material": false,
-     "spread_pp": 0.265
+     "spread_pp": 0.4589
     },
     "n": 3,
     "state": "GROUP",
@@ -8754,13 +9905,13 @@
      "588800"
     ],
     "money": {
-     "cheapest": "588220",
-     "cheapest_premium_pp": -0.2214,
-     "cost_cny": 307.5,
-     "dearest": "588210",
-     "dearest_premium_pp": 0.0861,
+     "cheapest": "588030",
+     "cheapest_premium_pp": -0.008,
+     "cost_cny": 192.3,
+     "dearest": "588220",
+     "dearest_premium_pp": 0.1843,
      "material": false,
-     "spread_pp": 0.3075
+     "spread_pp": 0.1923
     },
     "n": 6,
     "state": "GROUP",
@@ -8775,13 +9926,13 @@
      "588700"
     ],
     "money": {
-     "cheapest": "588130",
-     "cheapest_premium_pp": -0.0447,
-     "cost_cny": 56.1,
-     "dearest": "588700",
-     "dearest_premium_pp": 0.0114,
+     "cheapest": "588700",
+     "cheapest_premium_pp": -0.1269,
+     "cost_cny": 36.3,
+     "dearest": "588130",
+     "dearest_premium_pp": -0.0905,
      "material": false,
-     "spread_pp": 0.0561
+     "spread_pp": 0.0363
     },
     "n": 2,
     "state": "GROUP",
@@ -8805,13 +9956,13 @@
      "589190"
     ],
     "money": {
-     "cheapest": "589130",
-     "cheapest_premium_pp": -6.6641,
-     "cost_cny": 6686.5,
-     "dearest": "589160",
-     "dearest_premium_pp": 0.0224,
-     "material": true,
-     "spread_pp": 6.6865
+     "cheapest": "589100",
+     "cheapest_premium_pp": -0.157,
+     "cost_cny": 463.1,
+     "dearest": "589130",
+     "dearest_premium_pp": 0.3061,
+     "material": false,
+     "spread_pp": 0.4631
     },
     "n": 11,
     "state": "GROUP",
@@ -8825,61 +9976,19 @@
      "588230",
      "588240",
      "588270",
+     "588820",
      "589220"
     ],
     "money": {
-     "cheapest": "588240",
-     "cheapest_premium_pp": -0.3296,
-     "cost_cny": 586.7,
-     "dearest": "589220",
-     "dearest_premium_pp": 0.2571,
-     "material": true,
-     "spread_pp": 0.5867
-    },
-    "n": 4,
-    "state": "GROUP",
-    "why": ""
-   },
-   {
-    "labels": [
-     "科创创业ETF"
-    ],
-    "members": [
-     "588360",
-     "588380",
-     "588400"
-    ],
-    "money": {
-     "cheapest": "588380",
-     "cheapest_premium_pp": -5.6455,
-     "cost_cny": 268.6,
-     "dearest": "588400",
-     "dearest_premium_pp": -5.3769,
+     "cheapest": "588270",
+     "cheapest_premium_pp": -0.047,
+     "cost_cny": 327.0,
+     "dearest": "588230",
+     "dearest_premium_pp": 0.28,
      "material": false,
-     "spread_pp": 0.2686
+     "spread_pp": 0.327
     },
-    "n": 3,
-    "state": "GROUP",
-    "why": ""
-   },
-   {
-    "labels": [
-     "科创50增强ETF"
-    ],
-    "members": [
-     "588450",
-     "588460"
-    ],
-    "money": {
-     "cheapest": "588460",
-     "cheapest_premium_pp": 0.0664,
-     "cost_cny": 23.8,
-     "dearest": "588450",
-     "dearest_premium_pp": 0.0902,
-     "material": false,
-     "spread_pp": 0.0238
-    },
-    "n": 2,
+    "n": 5,
     "state": "GROUP",
     "why": ""
    },
@@ -8893,12 +10002,12 @@
     ],
     "money": {
      "cheapest": "588710",
-     "cheapest_premium_pp": -0.5533,
-     "cost_cny": 157.3,
+     "cheapest_premium_pp": 0.3104,
+     "cost_cny": 397.0,
      "dearest": "589020",
-     "dearest_premium_pp": -0.3959,
+     "dearest_premium_pp": 0.7073,
      "material": false,
-     "spread_pp": 0.1573
+     "spread_pp": 0.397
     },
     "n": 2,
     "state": "GROUP",
@@ -8916,13 +10025,13 @@
      "589520"
     ],
     "money": {
-     "cheapest": "588730",
-     "cheapest_premium_pp": -0.1225,
-     "cost_cny": 138.6,
-     "dearest": "588760",
-     "dearest_premium_pp": 0.0161,
+     "cheapest": "588760",
+     "cheapest_premium_pp": -0.2802,
+     "cost_cny": 248.3,
+     "dearest": "588930",
+     "dearest_premium_pp": -0.0319,
      "material": false,
-     "spread_pp": 0.1386
+     "spread_pp": 0.2483
     },
     "n": 5,
     "state": "GROUP",
@@ -8938,12 +10047,12 @@
     ],
     "money": {
      "cheapest": "589960",
-     "cheapest_premium_pp": -0.2393,
-     "cost_cny": 186.3,
+     "cheapest_premium_pp": -0.1975,
+     "cost_cny": 154.4,
      "dearest": "588830",
-     "dearest_premium_pp": -0.053,
+     "dearest_premium_pp": -0.043,
      "material": false,
-     "spread_pp": 0.1863
+     "spread_pp": 0.1544
     },
     "n": 2,
     "state": "GROUP",
@@ -8958,18 +10067,20 @@
      "589080",
      "589660",
      "589680",
-     "589800"
+     "589800",
+     "589880",
+     "589900"
     ],
     "money": {
-     "cheapest": "589800",
-     "cheapest_premium_pp": -5.6236,
-     "cost_cny": 351.9,
-     "dearest": "589660",
-     "dearest_premium_pp": -5.2717,
+     "cheapest": "589900",
+     "cheapest_premium_pp": -0.2544,
+     "cost_cny": 334.4,
+     "dearest": "589880",
+     "dearest_premium_pp": 0.08,
      "material": false,
-     "spread_pp": 0.3519
+     "spread_pp": 0.3344
     },
-    "n": 5,
+    "n": 7,
     "state": "GROUP",
     "why": ""
    },
@@ -8979,18 +10090,19 @@
     ],
     "members": [
      "589030",
+     "589070",
      "589210"
     ],
     "money": {
-     "cheapest": "589210",
-     "cheapest_premium_pp": -0.2641,
-     "cost_cny": 143.6,
-     "dearest": "589030",
-     "dearest_premium_pp": -0.1205,
+     "cheapest": "589070",
+     "cheapest_premium_pp": -0.1853,
+     "cost_cny": 415.0,
+     "dearest": "589210",
+     "dearest_premium_pp": 0.2297,
      "material": false,
-     "spread_pp": 0.1436
+     "spread_pp": 0.415
     },
-    "n": 2,
+    "n": 3,
     "state": "GROUP",
     "why": ""
    },
@@ -9003,13 +10115,13 @@
      "589720"
     ],
     "money": {
-     "cheapest": "589120",
-     "cheapest_premium_pp": -0.1306,
-     "cost_cny": 130.6,
-     "dearest": "589720",
-     "dearest_premium_pp": 0.0,
+     "cheapest": "589720",
+     "cheapest_premium_pp": 0.0684,
+     "cost_cny": 35.3,
+     "dearest": "589120",
+     "dearest_premium_pp": 0.1037,
      "material": false,
-     "spread_pp": 0.1306
+     "spread_pp": 0.0353
     },
     "n": 2,
     "state": "GROUP",
@@ -9018,146 +10130,293 @@
   ],
   "lying": [
    {
-    "class": "NOT_A_BASKET",
+    "class": "MIXED",
     "label": "有色ETF",
+    "n_live": 7,
+    "n_priced": 15,
+    "worst_pair": 1.3257
+   },
+   {
+    "class": "MIXED",
+    "label": "红利ETF",
+    "n_live": 3,
+    "n_priced": 3,
+    "worst_pair": 0.5592
+   },
+   {
+    "class": "MIXED",
+    "label": "通信ETF",
+    "n_live": 6,
+    "n_priced": 15,
+    "worst_pair": 0.534
+   },
+   {
+    "class": "MIXED",
+    "label": "半导体ETF",
+    "n_live": 3,
+    "n_priced": 3,
+    "worst_pair": 0.5156
+   },
+   {
+    "class": "NOT_A_BASKET",
+    "label": "红利质量ETF",
     "n_live": 2,
     "n_priced": 1,
-    "worst_pair": 1.3376
+    "worst_pair": 0.4616
    },
    {
-    "class": "NOT_A_BASKET",
-    "label": "消费ETF",
-    "n_live": 3,
-    "n_priced": 3,
-    "worst_pair": 0.5561
-   },
-   {
-    "class": "NOT_A_BASKET",
-    "label": "通信ETF",
-    "n_live": 3,
-    "n_priced": 3,
-    "worst_pair": 0.5227
+    "class": "MIXED",
+    "label": "电池ETF",
+    "n_live": 5,
+    "n_priced": 10,
+    "worst_pair": 0.4559
    },
    {
     "class": "MIXED",
     "label": "港股通央企红利ETF",
     "n_live": 3,
     "n_priced": 3,
-    "worst_pair": 0.4504
+    "worst_pair": 0.4522
+   },
+   {
+    "class": "MIXED",
+    "label": "港股科技ETF",
+    "n_live": 4,
+    "n_priced": 6,
+    "worst_pair": 0.4511
+   },
+   {
+    "class": "MIXED",
+    "label": "创新药ETF",
+    "n_live": 7,
+    "n_priced": 21,
+    "worst_pair": 0.4351
    },
    {
     "class": "MIXED",
     "label": "卫星ETF",
     "n_live": 6,
-    "n_priced": 10,
-    "worst_pair": 0.4311
+    "n_priced": 15,
+    "worst_pair": 0.4329
+   },
+   {
+    "class": "NOT_A_BASKET",
+    "label": "创业板成长ETF",
+    "n_live": 2,
+    "n_priced": 1,
+    "worst_pair": 0.4291
    },
    {
     "class": "MIXED",
-    "label": "创新药ETF",
+    "label": "港股通科技ETF",
+    "n_live": 7,
+    "n_priced": 21,
+    "worst_pair": 0.4249
+   },
+   {
+    "class": "MIXED",
+    "label": "机器人ETF",
+    "n_live": 12,
+    "n_priced": 45,
+    "worst_pair": 0.3971
+   },
+   {
+    "class": "NOT_A_BASKET",
+    "label": "港股红利ETF",
+    "n_live": 2,
+    "n_priced": 1,
+    "worst_pair": 0.3903
+   },
+   {
+    "class": "MIXED",
+    "label": "港股通红利ETF",
     "n_live": 3,
     "n_priced": 3,
-    "worst_pair": 0.4201
+    "worst_pair": 0.3899
    },
    {
-    "class": "NOT_A_BASKET",
-    "label": "港股科技ETF",
-    "n_live": 2,
-    "n_priced": 1,
-    "worst_pair": 0.4169
-   },
-   {
-    "class": "NOT_A_BASKET",
-    "label": "港股通科技ETF",
-    "n_live": 2,
-    "n_priced": 1,
-    "worst_pair": 0.4002
+    "class": "MIXED",
+    "label": "航空航天ETF",
+    "n_live": 4,
+    "n_priced": 6,
+    "worst_pair": 0.3897
    },
    {
     "class": "NOT_A_BASKET",
     "label": "价值ETF",
     "n_live": 2,
     "n_priced": 1,
-    "worst_pair": 0.385
-   },
-   {
-    "class": "MIXED",
-    "label": "电池ETF",
-    "n_live": 3,
-    "n_priced": 3,
-    "worst_pair": 0.3772
+    "worst_pair": 0.3849
    },
    {
     "class": "MIXED",
     "label": "半导体设备ETF",
+    "n_live": 6,
+    "n_priced": 15,
+    "worst_pair": 0.3849
+   },
+   {
+    "class": "MIXED",
+    "label": "房地产ETF",
     "n_live": 3,
     "n_priced": 3,
-    "worst_pair": 0.3636
+    "worst_pair": 0.379
    },
    {
-    "class": "NOT_A_BASKET",
+    "class": "MIXED",
     "label": "港股通创新药ETF",
-    "n_live": 2,
-    "n_priced": 1,
-    "worst_pair": 0.3555
+    "n_live": 8,
+    "n_priced": 28,
+    "worst_pair": 0.3722
+   },
+   {
+    "class": "MIXED",
+    "label": "医药ETF",
+    "n_live": 3,
+    "n_priced": 3,
+    "worst_pair": 0.3656
+   },
+   {
+    "class": "MIXED",
+    "label": "港股通互联网ETF",
+    "n_live": 5,
+    "n_priced": 10,
+    "worst_pair": 0.3652
    },
    {
     "class": "NOT_A_BASKET",
-    "label": "XD港股通红利ETF",
+    "label": "科技ETF",
     "n_live": 2,
     "n_priced": 1,
-    "worst_pair": 0.3406
+    "worst_pair": 0.3652
+   },
+   {
+    "class": "MIXED",
+    "label": "生物医药ETF",
+    "n_live": 3,
+    "n_priced": 3,
+    "worst_pair": 0.3589
+   },
+   {
+    "class": "MIXED",
+    "label": "消费电子ETF",
+    "n_live": 3,
+    "n_priced": 3,
+    "worst_pair": 0.3566
    },
    {
     "class": "NOT_A_BASKET",
     "label": "港股通金融ETF",
     "n_live": 2,
     "n_priced": 1,
-    "worst_pair": 0.3356
+    "worst_pair": 0.3353
    },
    {
     "class": "NOT_A_BASKET",
+    "label": "消费ETF",
+    "n_live": 2,
+    "n_priced": 1,
+    "worst_pair": 0.3284
+   },
+   {
+    "class": "MIXED",
     "label": "港股创新药ETF",
-    "n_live": 2,
-    "n_priced": 1,
-    "worst_pair": 0.3269
+    "n_live": 4,
+    "n_priced": 6,
+    "worst_pair": 0.3257
    },
    {
     "class": "NOT_A_BASKET",
-    "label": "医药ETF",
+    "label": "港股红利低波ETF",
     "n_live": 2,
     "n_priced": 1,
-    "worst_pair": 0.3068
+    "worst_pair": 0.3179
+   },
+   {
+    "class": "MIXED",
+    "label": "电网设备ETF",
+    "n_live": 4,
+    "n_priced": 6,
+    "worst_pair": 0.3172
+   },
+   {
+    "class": "NOT_A_BASKET",
+    "label": "港股央企红利ETF",
+    "n_live": 2,
+    "n_priced": 1,
+    "worst_pair": 0.3084
+   },
+   {
+    "class": "MIXED",
+    "label": "有色金属ETF",
+    "n_live": 3,
+    "n_priced": 3,
+    "worst_pair": 0.301
    }
   ],
   "partial": [
    {
-    "label": "科创50ETF",
+    "label": "机器人ETF",
     "n_live": 12,
-    "n_priced": 55,
+    "n_priced": 45,
     "n_pairs": 66,
+    "class": "MIXED"
+   },
+   {
+    "label": "科创50ETF",
+    "n_live": 14,
+    "n_priced": 78,
+    "n_pairs": 91,
     "class": "ONE_BASKET"
    },
    {
     "label": "银行ETF",
     "n_live": 8,
-    "n_priced": 15,
+    "n_priced": 21,
     "n_pairs": 28,
     "class": "ONE_BASKET"
    },
    {
-    "label": "科创芯片设计ETF",
+    "label": "粮食ETF",
     "n_live": 3,
     "n_priced": 1,
     "n_pairs": 3,
     "class": "ONE_BASKET"
    },
    {
-    "label": "卫星ETF",
+    "label": "稀有金属ETF",
+    "n_live": 4,
+    "n_priced": 3,
+    "n_pairs": 6,
+    "class": "ONE_BASKET"
+   },
+   {
+    "label": "科创芯片设计ETF",
     "n_live": 6,
-    "n_priced": 10,
+    "n_priced": 3,
     "n_pairs": 15,
+    "class": "ONE_BASKET"
+   },
+   {
+    "label": "有色ETF",
+    "n_live": 7,
+    "n_priced": 15,
+    "n_pairs": 21,
     "class": "MIXED"
+   },
+   {
+    "label": "港股通信息技术ETF",
+    "n_live": 10,
+    "n_priced": 21,
+    "n_pairs": 45,
+    "class": "ONE_BASKET"
+   },
+   {
+    "label": "创业板算力ETF",
+    "n_live": 9,
+    "n_priced": 0,
+    "n_pairs": 36,
+    "class": "UNPRICED"
    },
    {
     "label": "A股ETF",
@@ -9172,9 +10431,193 @@
     "n_priced": 6,
     "n_pairs": 10,
     "class": "ONE_BASKET"
+   },
+   {
+    "label": "创业板电池ETF",
+    "n_live": 2,
+    "n_priced": 0,
+    "n_pairs": 1,
+    "class": "UNPRICED"
    }
   ],
-  "chains": [],
+  "chains": [
+   {
+    "labels": [
+     "有色金属ETF"
+    ],
+    "members": [
+     "159157",
+     "512400",
+     "516650"
+    ],
+    "n": 3,
+    "pairs_not_accepted": [
+     [
+      "159157",
+      "516650"
+     ]
+    ],
+    "state": "CHAIN_NOT_CLIQUE",
+    "why": "A~B and B~C is not A~C; not every pair inside was accepted"
+   },
+   {
+    "labels": [
+     "港股通互联网ETF"
+    ],
+    "members": [
+     "159170",
+     "159792",
+     "513040",
+     "520650",
+     "520910"
+    ],
+    "n": 5,
+    "pairs_not_accepted": [
+     [
+      "159170",
+      "159792"
+     ],
+     [
+      "159170",
+      "513040"
+     ],
+     [
+      "159170",
+      "520910"
+     ]
+    ],
+    "state": "CHAIN_NOT_CLIQUE",
+    "why": "A~B and B~C is not A~C; not every pair inside was accepted"
+   },
+   {
+    "labels": [
+     "港股通创新药ETF"
+    ],
+    "members": [
+     "159217",
+     "159286",
+     "159297",
+     "159316",
+     "159570",
+     "520700",
+     "520880",
+     "520970"
+    ],
+    "n": 8,
+    "pairs_not_accepted": [
+     [
+      "159217",
+      "520970"
+     ],
+     [
+      "159286",
+      "520700"
+     ],
+     [
+      "159286",
+      "520970"
+     ],
+     [
+      "159297",
+      "520700"
+     ],
+     [
+      "159297",
+      "520970"
+     ],
+     [
+      "159316",
+      "520970"
+     ],
+     [
+      "159570",
+      "520970"
+     ],
+     [
+      "520700",
+      "520880"
+     ],
+     [
+      "520880",
+      "520970"
+     ]
+    ],
+    "state": "CHAIN_NOT_CLIQUE",
+    "why": "A~B and B~C is not A~C; not every pair inside was accepted"
+   },
+   {
+    "labels": [
+     "电网设备ETF"
+    ],
+    "members": [
+     "159320",
+     "159326",
+     "560390",
+     "561380"
+    ],
+    "n": 4,
+    "pairs_not_accepted": [
+     [
+      "159320",
+      "159326"
+     ]
+    ],
+    "state": "CHAIN_NOT_CLIQUE",
+    "why": "A~B and B~C is not A~C; not every pair inside was accepted"
+   },
+   {
+    "labels": [
+     "港股创新药ETF"
+    ],
+    "members": [
+     "159567",
+     "513120",
+     "513780",
+     "520690"
+    ],
+    "n": 4,
+    "pairs_not_accepted": [
+     [
+      "159567",
+      "513780"
+     ],
+     [
+      "513120",
+      "520690"
+     ],
+     [
+      "513780",
+      "520690"
+     ]
+    ],
+    "state": "CHAIN_NOT_CLIQUE",
+    "why": "A~B and B~C is not A~C; not every pair inside was accepted"
+   },
+   {
+    "labels": [
+     "创新药ETF"
+    ],
+    "members": [
+     "159622",
+     "159748",
+     "517110",
+     "517380"
+    ],
+    "n": 4,
+    "pairs_not_accepted": [
+     [
+      "159748",
+      "517380"
+     ],
+     [
+      "517110",
+      "517380"
+     ]
+    ],
+    "state": "CHAIN_NOT_CLIQUE",
+    "why": "A~B and B~C is not A~C; not every pair inside was accepted"
+   }
+  ],
   "criteria": {
    "gap_median_pp": 0.3,
    "liq_floor_cny": 20000000.0,
@@ -41417,6 +42860,853 @@
    "width is measured from the pair's own window median, so the unknown NAV-base constant cancels; that also means the face never claims to know which of the two tickers is the expensive one on a pair with no premium anchor"
   ]
  },
+ "alias_stability": {
+  "status": "ok",
+  "artifact": "results/etf_alias_stability.json",
+  "session": "2026-11-17",
+  "evidence_cutoff": "2026-11-17",
+  "sentence": "今天这张盘口有 867 对异名同篮；把同样两道门放到前 4 个年度窗上重问一遍，每窗只留下（T-1y 57.2%、T-2y 57.0%、T-3y 54.1%、T-4y 50.9%），能数到的 538 对里 137 对每窗都过（25.5%），401 对被某一窗拒过（日级 35 对 / 年级 394 对），329 对历史不够没法问——判词 WINDOW_LUCK。把每个历史窗当独立抽样，每窗 55.5% 的通过率下这些对应该活下来 139.6 对，实测 137 对——所以这不是「某些对不稳」而是这道年级线落在刀口上。过 0.50pp 物质线的 2 组一共 1,311 元的选择成本，其中每一对都过所有窗的只有 694 元。",
+  "verdict": "WINDOW_LUCK",
+  "stability": {
+   "n_pairs": 867,
+   "n_measurable_before": 538,
+   "n_held_every_window": 137,
+   "n_refused_somewhere": 401,
+   "n_not_measurable": 329,
+   "hold_rate": 0.2546,
+   "refused_by_gate": {
+    "DAYS_APART": 35,
+    "WALKS_APART": 394
+   },
+   "verdict": "WINDOW_LUCK",
+   "per_window": [
+    {
+     "label": "T-1y",
+     "measured": 538,
+     "same_basket": 308,
+     "refused_days_apart": 8,
+     "refused_walks_apart": 222,
+     "no_history": 329,
+     "share": 0.5725
+    },
+    {
+     "label": "T-2y",
+     "measured": 388,
+     "same_basket": 221,
+     "refused_days_apart": 16,
+     "refused_walks_apart": 151,
+     "no_history": 479,
+     "share": 0.5696
+    },
+    {
+     "label": "T-3y",
+     "measured": 320,
+     "same_basket": 173,
+     "refused_days_apart": 15,
+     "refused_walks_apart": 132,
+     "no_history": 547,
+     "share": 0.5406
+    },
+    {
+     "label": "T-4y",
+     "measured": 226,
+     "same_basket": 115,
+     "refused_days_apart": 11,
+     "refused_walks_apart": 100,
+     "no_history": 641,
+     "share": 0.5088
+    }
+   ],
+   "by_trials": {
+    "1": {
+     "pairs": 139,
+     "held_every_window": 46,
+     "rate": 0.3309
+    },
+    "2": {
+     "pairs": 75,
+     "held_every_window": 17,
+     "rate": 0.2267
+    },
+    "3": {
+     "pairs": 113,
+     "held_every_window": 24,
+     "rate": 0.2124
+    },
+    "4": {
+     "pairs": 211,
+     "held_every_window": 50,
+     "rate": 0.237
+    }
+   },
+   "pooled_per_window_rate": 0.555,
+   "held_if_windows_were_independent": 139.58,
+   "refused": [
+    {
+     "pair": [
+      "159001",
+      "511620"
+     ],
+     "refused_by": [
+      [
+       "T-4y",
+       "WALKS_APART"
+      ]
+     ],
+     "trials": 4
+    },
+    {
+     "pair": [
+      "159300",
+      "159352"
+     ],
+     "refused_by": [
+      [
+       "T-1y",
+       "WALKS_APART"
+      ]
+     ],
+     "trials": 1
+    },
+    {
+     "pair": [
+      "159300",
+      "159592"
+     ],
+     "refused_by": [
+      [
+       "T-1y",
+       "WALKS_APART"
+      ]
+     ],
+     "trials": 1
+    },
+    {
+     "pair": [
+      "159300",
+      "510180"
+     ],
+     "refused_by": [
+      [
+       "T-1y",
+       "WALKS_APART"
+      ]
+     ],
+     "trials": 1
+    },
+    {
+     "pair": [
+      "159300",
+      "512090"
+     ],
+     "refused_by": [
+      [
+       "T-1y",
+       "WALKS_APART"
+      ]
+     ],
+     "trials": 1
+    },
+    {
+     "pair": [
+      "159300",
+      "515660"
+     ],
+     "refused_by": [
+      [
+       "T-1y",
+       "WALKS_APART"
+      ]
+     ],
+     "trials": 1
+    },
+    {
+     "pair": [
+      "159300",
+      "515800"
+     ],
+     "refused_by": [
+      [
+       "T-1y",
+       "WALKS_APART"
+      ]
+     ],
+     "trials": 1
+    },
+    {
+     "pair": [
+      "159300",
+      "515810"
+     ],
+     "refused_by": [
+      [
+       "T-1y",
+       "WALKS_APART"
+      ]
+     ],
+     "trials": 1
+    },
+    {
+     "pair": [
+      "159300",
+      "560510"
+     ],
+     "refused_by": [
+      [
+       "T-1y",
+       "WALKS_APART"
+      ]
+     ],
+     "trials": 1
+    },
+    {
+     "pair": [
+      "159327",
+      "159558"
+     ],
+     "refused_by": [
+      [
+       "T-1y",
+       "WALKS_APART"
+      ]
+     ],
+     "trials": 1
+    },
+    {
+     "pair": [
+      "159327",
+      "560780"
+     ],
+     "refused_by": [
+      [
+       "T-1y",
+       "WALKS_APART"
+      ]
+     ],
+     "trials": 1
+    },
+    {
+     "pair": [
+      "159330",
+      "159338"
+     ],
+     "refused_by": [
+      [
+       "T-1y",
+       "WALKS_APART"
+      ]
+     ],
+     "trials": 1
+    },
+    {
+     "pair": [
+      "159330",
+      "159352"
+     ],
+     "refused_by": [
+      [
+       "T-1y",
+       "WALKS_APART"
+      ]
+     ],
+     "trials": 1
+    },
+    {
+     "pair": [
+      "159330",
+      "159925"
+     ],
+     "refused_by": [
+      [
+       "T-1y",
+       "WALKS_APART"
+      ]
+     ],
+     "trials": 1
+    },
+    {
+     "pair": [
+      "159330",
+      "510330"
+     ],
+     "refused_by": [
+      [
+       "T-1y",
+       "WALKS_APART"
+      ]
+     ],
+     "trials": 1
+    },
+    {
+     "pair": [
+      "159330",
+      "510360"
+     ],
+     "refused_by": [
+      [
+       "T-1y",
+       "WALKS_APART"
+      ]
+     ],
+     "trials": 1
+    },
+    {
+     "pair": [
+      "159330",
+      "512090"
+     ],
+     "refused_by": [
+      [
+       "T-1y",
+       "WALKS_APART"
+      ]
+     ],
+     "trials": 1
+    },
+    {
+     "pair": [
+      "159330",
+      "563220"
+     ],
+     "refused_by": [
+      [
+       "T-1y",
+       "WALKS_APART"
+      ]
+     ],
+     "trials": 1
+    },
+    {
+     "pair": [
+      "159338",
+      "159919"
+     ],
+     "refused_by": [
+      [
+       "T-1y",
+       "WALKS_APART"
+      ]
+     ],
+     "trials": 1
+    },
+    {
+     "pair": [
+      "159338",
+      "510300"
+     ],
+     "refused_by": [
+      [
+       "T-1y",
+       "WALKS_APART"
+      ]
+     ],
+     "trials": 1
+    },
+    {
+     "pair": [
+      "159338",
+      "510360"
+     ],
+     "refused_by": [
+      [
+       "T-1y",
+       "WALKS_APART"
+      ]
+     ],
+     "trials": 1
+    },
+    {
+     "pair": [
+      "159338",
+      "515310"
+     ],
+     "refused_by": [
+      [
+       "T-1y",
+       "WALKS_APART"
+      ]
+     ],
+     "trials": 1
+    },
+    {
+     "pair": [
+      "159338",
+      "515390"
+     ],
+     "refused_by": [
+      [
+       "T-1y",
+       "WALKS_APART"
+      ]
+     ],
+     "trials": 1
+    },
+    {
+     "pair": [
+      "159338",
+      "560530"
+     ],
+     "refused_by": [
+      [
+       "T-1y",
+       "WALKS_APART"
+      ]
+     ],
+     "trials": 1
+    },
+    {
+     "pair": [
+      "159339",
+      "159673"
+     ],
+     "refused_by": [
+      [
+       "T-1y",
+       "WALKS_APART"
+      ]
+     ],
+     "trials": 1
+    },
+    {
+     "pair": [
+      "159339",
+      "159919"
+     ],
+     "refused_by": [
+      [
+       "T-1y",
+       "WALKS_APART"
+      ]
+     ],
+     "trials": 1
+    },
+    {
+     "pair": [
+      "159339",
+      "159925"
+     ],
+     "refused_by": [
+      [
+       "T-1y",
+       "WALKS_APART"
+      ]
+     ],
+     "trials": 1
+    },
+    {
+     "pair": [
+      "159339",
+      "510300"
+     ],
+     "refused_by": [
+      [
+       "T-1y",
+       "WALKS_APART"
+      ]
+     ],
+     "trials": 1
+    },
+    {
+     "pair": [
+      "159339",
+      "510330"
+     ],
+     "refused_by": [
+      [
+       "T-1y",
+       "WALKS_APART"
+      ]
+     ],
+     "trials": 1
+    },
+    {
+     "pair": [
+      "159339",
+      "563220"
+     ],
+     "refused_by": [
+      [
+       "T-1y",
+       "WALKS_APART"
+      ]
+     ],
+     "trials": 1
+    },
+    {
+     "pair": [
+      "159351",
+      "159352"
+     ],
+     "refused_by": [
+      [
+       "T-1y",
+       "WALKS_APART"
+      ]
+     ],
+     "trials": 1
+    },
+    {
+     "pair": [
+      "159351",
+      "159673"
+     ],
+     "refused_by": [
+      [
+       "T-1y",
+       "WALKS_APART"
+      ]
+     ],
+     "trials": 1
+    },
+    {
+     "pair": [
+      "159352",
+      "159919"
+     ],
+     "refused_by": [
+      [
+       "T-1y",
+       "WALKS_APART"
+      ]
+     ],
+     "trials": 1
+    },
+    {
+     "pair": [
+      "159352",
+      "159925"
+     ],
+     "refused_by": [
+      [
+       "T-1y",
+       "WALKS_APART"
+      ]
+     ],
+     "trials": 1
+    },
+    {
+     "pair": [
+      "159352",
+      "510330"
+     ],
+     "refused_by": [
+      [
+       "T-1y",
+       "WALKS_APART"
+      ]
+     ],
+     "trials": 1
+    },
+    {
+     "pair": [
+      "159352",
+      "510350"
+     ],
+     "refused_by": [
+      [
+       "T-1y",
+       "WALKS_APART"
+      ]
+     ],
+     "trials": 1
+    },
+    {
+     "pair": [
+      "159352",
+      "515310"
+     ],
+     "refused_by": [
+      [
+       "T-1y",
+       "WALKS_APART"
+      ]
+     ],
+     "trials": 1
+    },
+    {
+     "pair": [
+      "159353",
+      "159673"
+     ],
+     "refused_by": [
+      [
+       "T-1y",
+       "WALKS_APART"
+      ]
+     ],
+     "trials": 1
+    },
+    {
+     "pair": [
+      "159353",
+      "159919"
+     ],
+     "refused_by": [
+      [
+       "T-1y",
+       "WALKS_APART"
+      ]
+     ],
+     "trials": 1
+    },
+    {
+     "pair": [
+      "159353",
+      "510330"
+     ],
+     "refused_by": [
+      [
+       "T-1y",
+       "WALKS_APART"
+      ]
+     ],
+     "trials": 1
+    }
+   ],
+   "refused_total": 401,
+   "not_measurable": [
+    [
+     "159101",
+     "159636"
+    ],
+    [
+     "159102",
+     "159718"
+    ],
+    [
+     "159102",
+     "159892"
+    ],
+    [
+     "159102",
+     "513200"
+    ],
+    [
+     "159102",
+     "513700"
+    ],
+    [
+     "159102",
+     "520700"
+    ],
+    [
+     "159105",
+     "159718"
+    ],
+    [
+     "159105",
+     "513200"
+    ],
+    [
+     "159105",
+     "513280"
+    ],
+    [
+     "159105",
+     "513700"
+    ],
+    [
+     "159201",
+     "159222"
+    ],
+    [
+     "159202",
+     "159688"
+    ],
+    [
+     "159205",
+     "159908"
+    ],
+    [
+     "159213",
+     "560770"
+    ],
+    [
+     "159213",
+     "562500"
+    ],
+    [
+     "159217",
+     "159286"
+    ],
+    [
+     "159217",
+     "159567"
+    ],
+    [
+     "159232",
+     "159233"
+    ],
+    [
+     "159232",
+     "563390"
+    ],
+    [
+     "159232",
+     "563760"
+    ],
+    [
+     "159233",
+     "159235"
+    ],
+    [
+     "159235",
+     "563760"
+    ],
+    [
+     "159242",
+     "159246"
+    ],
+    [
+     "159242",
+     "159381"
+    ],
+    [
+     "159245",
+     "513230"
+    ],
+    [
+     "159246",
+     "159363"
+    ],
+    [
+     "159246",
+     "159381"
+    ],
+    [
+     "159246",
+     "159388"
+    ],
+    [
+     "159258",
+     "159526"
+    ],
+    [
+     "159258",
+     "159770"
+    ],
+    [
+     "159265",
+     "513070"
+    ],
+    [
+     "159265",
+     "513230"
+    ],
+    [
+     "159268",
+     "513070"
+    ],
+    [
+     "159269",
+     "513020"
+    ],
+    [
+     "159269",
+     "513150"
+    ],
+    [
+     "159269",
+     "513860"
+    ],
+    [
+     "159269",
+     "513980"
+    ],
+    [
+     "159272",
+     "159278"
+    ],
+    [
+     "159272",
+     "159559"
+    ],
+    [
+     "159279",
+     "159363"
+    ]
+   ]
+  },
+  "families": {
+   "n_alias": 41,
+   "n_cross_name": 12,
+   "n_chains": 40,
+   "n_over_material_line": 2,
+   "total_cost_cny": 1311.2,
+   "cost_where_every_pair_held_cny": 694.5,
+   "rows": [
+    {
+     "members": [
+      "159605",
+      "159607"
+     ],
+     "names": [
+      "中概互联ETF",
+      "中概互联网ETF"
+     ],
+     "money": {
+      "cheapest": "159607",
+      "cheapest_premium_pp": -2.1603,
+      "dearest": "159605",
+      "dearest_premium_pp": -1.5436,
+      "spread_pp": 0.6167,
+      "cost_cny": 616.7,
+      "material": true
+     },
+     "pair_stability": {
+      "n_pairs": 1,
+      "n_held_every_window": 0,
+      "all_pairs_hold": false
+     }
+    },
+    {
+     "members": [
+      "159813",
+      "159995"
+     ],
+     "names": [
+      "半导体ETF",
+      "芯片ETF"
+     ],
+     "money": {
+      "cheapest": "159995",
+      "cheapest_premium_pp": 0.122,
+      "dearest": "159813",
+      "dearest_premium_pp": 0.8164,
+      "spread_pp": 0.6945,
+      "cost_cny": 694.5,
+      "material": true
+     },
+     "pair_stability": {
+      "n_pairs": 1,
+      "n_held_every_window": 1,
+      "all_pairs_hold": true
+     }
+    }
+   ]
+  },
+  "crosscheck": {
+   "census_present": true,
+   "census_session": "2026-11-16",
+   "census_window": [
+    "2025-11-06",
+    "2026-11-17"
+   ],
+   "census_n_in_screen": 577,
+   "census_same_basket": 830,
+   "same_window": true,
+   "same_universe": false,
+   "rule_identity_ok": null,
+   "note": "同一窗不同宇宙（普查面 577 票 / 本面 581 票）：面板在普查面写完之后又落了新票，差在宇宙不在规则"
+  },
+  "caveats": [
+   "the earlier windows re-ask the SAME two gates of the SAME two tickers; a pair that holds in all of them is stable in price behaviour, not certified as the same asset",
+   "earlier windows carry membership only: premiums exist for one session on this board, so no earlier money number is published (a prior-year cost would be invented)",
+   "the screen is today's: a ticker that only began trading two years ago drops out of the earlier windows by name and is counted as not measurable, never as a hold",
+   "the drift line is still the census's chosen 1.0 pp; this face measures whether the verdicts move, not whether the line is the right one",
+   "windows are disjoint and exactly 250 sessions; the panel's own holiday calendar decides what a session is"
+  ]
+ },
  "floor_provenance": {
   "status": "ok",
   "artifact": "results/etf_book_floor_provenance.json",
@@ -41426,31 +43716,31 @@
   "identity": [
    {
     "cell": "baseline_published",
-    "k": 0.46025345210279794,
-    "beta": 0.43454318286205895,
+    "k": 0.46025345210279783,
+    "beta": 0.43454318286205906,
     "k_x_beta": 0.2,
     "err_vs_target": 0.0
    },
    {
     "cell": "window",
-    "k": 0.7470863396940545,
-    "beta": 0.267706675083771,
+    "k": 0.7470863396940548,
+    "beta": 0.2677066750837709,
     "k_x_beta": 0.2,
     "err_vs_target": 0.0
    },
    {
     "cell": "universe",
-    "k": 0.43219500565693425,
-    "beta": 0.46275407485563375,
+    "k": 0.4321950056569343,
+    "beta": 0.4627540748556337,
     "k_x_beta": 0.2,
     "err_vs_target": 0.0
    },
    {
     "cell": "window_x_universe",
-    "k": 0.6676653272026057,
-    "beta": 0.2995512749448336,
-    "k_x_beta": 0.20000000000000004,
-    "err_vs_target": 2.7755575615628914e-17
+    "k": 0.6676653272026065,
+    "beta": 0.2995512749448332,
+    "k_x_beta": 0.2,
+    "err_vs_target": 0.0
    },
    {
     "cell": "denominator",
@@ -41463,42 +43753,42 @@
   "grid": {
    "common|all": {
     "cell": "window",
-    "k": 0.7470863396940545,
-    "beta": 0.267706675083771,
+    "k": 0.7470863396940548,
+    "beta": 0.2677066750837709,
     "bars": 771,
     "note": ""
    },
    "common|graded": {
     "cell": "window_x_universe",
-    "k": 0.6676653272026057,
-    "beta": 0.2995512749448336,
+    "k": 0.6676653272026065,
+    "beta": 0.2995512749448332,
     "bars": 771,
     "note": ""
    },
    "full|all": {
     "cell": "baseline_published",
-    "k": 0.46025345210279794,
-    "beta": 0.43454318286205895,
-    "bars": 1664,
+    "k": 0.46025345210279783,
+    "beta": 0.43454318286205906,
+    "bars": 1665,
     "note": ""
    },
    "full|graded": {
     "cell": "universe",
-    "k": 0.43219500565693425,
-    "beta": 0.46275407485563375,
-    "bars": 1664,
+    "k": 0.4321950056569343,
+    "beta": 0.4627540748556337,
+    "bars": 1665,
     "note": ""
    }
   },
   "effects": {
-   "floor_full_window": 0.43219500565693425,
-   "floor_common_window": 0.6676653272026057,
-   "floor_all_universe": 0.46025345210279794,
-   "floor_graded_universe": 0.43219500565693425,
-   "floor_full_all": 0.46025345210279794,
-   "floor_full_graded": 0.43219500565693425,
-   "floor_common_all": 0.7470863396940545,
-   "floor_common_graded": 0.6676653272026057,
+   "floor_full_window": 0.4321950056569343,
+   "floor_common_window": 0.6676653272026065,
+   "floor_all_universe": 0.46025345210279783,
+   "floor_graded_universe": 0.4321950056569343,
+   "floor_full_all": 0.46025345210279783,
+   "floor_full_graded": 0.4321950056569343,
+   "floor_common_all": 0.7470863396940548,
+   "floor_common_graded": 0.6676653272026065,
    "window_effect_k": -0.23547,
    "window_effect_pp": -23.55,
    "window_effect_cny": -235470.32,
@@ -41516,37 +43806,37 @@
   },
   "issuing_cell": {
    "cell": "universe",
-   "beta": 0.46275407485563375,
-   "k": 0.43219500565693425,
-   "bars": 1664,
+   "beta": 0.4627540748556337,
+   "k": 0.4321950056569343,
+   "bars": 1665,
    "window": "full",
    "universe": "graded (equity,commodity,convertible)"
   },
   "issuing_cell_is_the_floor": true,
-  "sentence": "the floor is not a version of the rule: k*beta == 0.2000 on all 5 cells, so the floor is the target divided by the largest beta measured -- issued by `universe` (1664 bars). Of the -20.74pp between the widest floor (k=0.460253) and the narrowest (k=0.667665), -23.55pp (114%) comes from shrinking the window from the full panel to 1664 bars and only 2.81pp from grading the universe on that same short stretch (2.81pp if the universe is graded on the full panel); the two knobs interact by -5.14pp. Read as money on CNY 1,000,000 NAV: the window alone accounts for CNY -235,470 of the gap.",
+  "sentence": "the floor is not a version of the rule: k*beta == 0.2000 on all 5 cells, so the floor is the target divided by the largest beta measured -- issued by `universe` (1665 bars). Of the -20.74pp between the widest floor (k=0.460253) and the narrowest (k=0.667665), -23.55pp (114%) comes from shrinking the window from the full panel to 1665 bars and only 2.81pp from grading the universe on that same short stretch (2.81pp if the universe is graded on the full panel); the two knobs interact by -5.14pp. Read as money on CNY 1,000,000 NAV: the window alone accounts for CNY -235,470 of the gap.",
   "not_measured": [
    "the short window is one calendar stretch (2025-07..2026-10), not a sample of stretches: a rolling 306-bar beta path would say whether the window knob is a level shift or a phase effect, and this face does not compute it",
    "whether a longer window is the RIGHT window: this face only prices the knob, it does not elect one (r1446's caliber prereg)",
    "the floor's own drift as the window slides: today's 306 bars end 2026-10-14, so the floor will be re-issued on a different stretch next month"
   ],
-  "evidence_cutoff": "2026-11-16"
+  "evidence_cutoff": "2026-11-17"
  },
  "vol_target_gate": {
   "status": "ok",
   "artifact": "results/etf_book_vol_target_gate.json",
   "verdict": "STILL_REFUSED",
   "reading": "no arm clears it; the wait in r1428 is not a scaling artifact",
-  "evidence_cutoff": "2026-11-16",
-  "generated": "2026-11-16T19:55:57",
-  "capacity_cny": 27645948.0,
+  "evidence_cutoff": "2026-11-17",
+  "generated": "2026-11-17T20:11:40",
+  "capacity_cny": 18582410.0,
   "arms": [
    {
     "arm": "unscaled",
     "vol_target": null,
     "word": "REFUSED",
-    "reason": "gate CONDITIONAL,REFUSE; ruler FAIL years_for_half",
-    "cagr_pct": 14.05,
-    "sharpe": 0.938,
+    "reason": "gate CAPACITY_LIMITED; ruler FAIL years_for_half",
+    "cagr_pct": 14.04,
+    "sharpe": 0.937,
     "maxdd_pct": -18.07,
     "years_for_half_state": "FAIL",
     "years_for_half_median": 2.0,
@@ -41557,9 +43847,9 @@
     "arm": "vt08",
     "vol_target": 0.08,
     "word": "REFUSED",
-    "reason": "gate CONDITIONAL; ruler FAIL years_for_half",
+    "reason": "gate CAPACITY_LIMITED; ruler FAIL years_for_half",
     "cagr_pct": 8.43,
-    "sharpe": 0.877,
+    "sharpe": 0.876,
     "maxdd_pct": -12.99,
     "years_for_half_state": "FAIL",
     "years_for_half_median": 2.0,
@@ -41570,9 +43860,9 @@
     "arm": "vt06",
     "vol_target": 0.06,
     "word": "REFUSED",
-    "reason": "gate CONDITIONAL; ruler FAIL years_for_half",
-    "cagr_pct": 6.3,
-    "sharpe": 0.842,
+    "reason": "gate CAPACITY_LIMITED; ruler FAIL years_for_half",
+    "cagr_pct": 6.27,
+    "sharpe": 0.841,
     "maxdd_pct": -9.97,
     "years_for_half_state": "FAIL",
     "years_for_half_median": 2.0,
@@ -41583,8 +43873,8 @@
     "arm": "vt04",
     "vol_target": 0.04,
     "word": "REFUSED",
-    "reason": "gate CONDITIONAL,REFUSE; ruler FAIL years_for_half",
-    "cagr_pct": 4.22,
+    "reason": "gate CAPACITY_LIMITED; ruler FAIL years_for_half",
+    "cagr_pct": 4.18,
     "sharpe": 0.812,
     "maxdd_pct": -6.69,
     "years_for_half_state": "FAIL",
@@ -41596,8 +43886,8 @@
     "arm": "vt03",
     "vol_target": 0.03,
     "word": "REFUSED",
-    "reason": "gate CONDITIONAL; ruler FAIL years_for_half",
-    "cagr_pct": 3.19,
+    "reason": "gate CAPACITY_LIMITED; ruler FAIL years_for_half",
+    "cagr_pct": 3.16,
     "sharpe": 0.812,
     "maxdd_pct": -5.05,
     "years_for_half_state": "FAIL",
@@ -41609,8 +43899,8 @@
     "arm": "vt02",
     "vol_target": 0.02,
     "word": "REFUSED",
-    "reason": "gate CONDITIONAL; ruler FAIL years_for_half",
-    "cagr_pct": 2.13,
+    "reason": "gate CAPACITY_LIMITED; ruler FAIL years_for_half",
+    "cagr_pct": 2.12,
     "sharpe": 0.812,
     "maxdd_pct": -3.39,
     "years_for_half_state": "FAIL",
@@ -41626,19 +43916,19 @@
     "arms_compared": 6,
     "pairs": 25,
     "unreadable_pairs": 0,
-    "max_abs_delta": 0.85295,
+    "max_abs_delta": 0.852892,
     "invariant": false,
     "median_by_arm": {
-     "unscaled": 4.654482,
-     "vt08": 4.995503,
-     "vt06": 4.874988,
-     "vt04": 4.603678,
-     "vt03": 4.570829,
-     "vt02": 4.623249
+     "unscaled": 4.643705,
+     "vt08": 4.986748,
+     "vt06": 4.865973,
+     "vt04": 4.594386,
+     "vt03": 4.561404,
+     "vt02": 4.613693
     },
-    "median_range": 0.424674,
+    "median_range": 0.425344,
     "arms_admitted": [],
-    "reason": "scaling does move this ruler (max |d| 0.85295) but the arm median moves 0.424674 and no arm admits: de-risking is not an admission lever here"
+    "reason": "scaling does move this ruler (max |d| 0.852892) but the arm median moves 0.425344 and no arm admits: de-risking is not an admission lever here"
    },
    "years_for_half": {
     "ruler": "years_for_half",
@@ -41665,9 +43955,9 @@
  "positions": {
   "status": "ok",
   "artifact": "results/etf_book_positions.json",
-  "asof": "2026-11-16",
+  "asof": "2026-11-17",
   "ledger_bar": "2026-11-17",
-  "ticket_bar": "2026-11-16",
+  "ticket_bar": "2026-11-17",
   "verdict": "PRINTED_ROWS_REBUILD_THE_BOOK",
   "printed_rows": 0,
   "book_rows": 5,
@@ -41676,42 +43966,42 @@
   "unexplained_unpriced_rows": 0,
   "ledger_action": "kept",
   "ledger_row": {
-   "bar": "2026-11-16",
+   "bar": "2026-11-17",
    "kind": "execution",
-   "ticket": "TICKET-2026-11-16.json",
-   "k": 0.431728,
-   "risk_book_cny": 431727.8,
-   "cash_cny": 568272.2,
+   "ticket": "TICKET-2026-11-17.json",
+   "k": 0.43188,
+   "risk_book_cny": 431879.5,
+   "cash_cny": 568120.5,
    "holdings": [
     {
      "symbol": "159519",
-     "lots": 493,
-     "price": 1.751,
-     "amount_cny": 86324.3
+     "lots": 494,
+     "price": 1.748,
+     "amount_cny": 86351.2
     },
     {
      "symbol": "159655",
-     "lots": 438,
-     "price": 1.97,
-     "amount_cny": 86286.0
+     "lots": 446,
+     "price": 1.937,
+     "amount_cny": 86390.2
     },
     {
      "symbol": "510760",
-     "lots": 689,
-     "price": 1.254,
-     "amount_cny": 86400.6
+     "lots": 693,
+     "price": 1.246,
+     "amount_cny": 86347.8
     },
     {
      "symbol": "512040",
-     "lots": 719,
-     "price": 1.201,
-     "amount_cny": 86351.9
+     "lots": 716,
+     "price": 1.207,
+     "amount_cny": 86421.2
     },
     {
      "symbol": "513690",
-     "lots": 751,
-     "price": 1.15,
-     "amount_cny": 86365.0
+     "lots": 753,
+     "price": 1.147,
+     "amount_cny": 86369.1
     }
    ],
    "actions": [],
@@ -41719,81 +44009,27 @@
   },
   "next_order_base": {
    "bar": "2026-11-17",
-   "kind": "valuation",
-   "arrival": null,
-   "arrival_actions": null,
-   "source": "accrued_valuation",
-   "risk_book_cny": 429789.4,
-   "cash_cny": 568272.2,
+   "kind": "execution",
+   "arrival": "declared",
+   "arrival_actions": 0,
+   "source": "execution_row",
+   "risk_book_cny": 431879.5,
+   "cash_cny": 568120.5,
    "holdings": 5,
-   "superseded_execution_bar": "2026-11-16"
+   "superseded_execution_bar": "2026-11-17"
   },
   "base_divergence": [],
   "base_divergence_total_cny": 0.0,
   "accrual": {
-   "status": "ACCRUED",
-   "from_bar": "2026-11-16",
-   "rows": 1,
-   "written": 1,
+   "status": "NO_NEW_BAR",
+   "from_bar": "2026-11-17",
+   "rows": 0,
+   "written": 0,
    "kept": 0,
    "skipped_execution_bars": [],
-   "rf_missing_bars": 1,
-   "last": {
-    "bar": "2026-11-17",
-    "kind": "valuation",
-    "from_bar": "2026-11-16",
-    "holdings": [
-     {
-      "symbol": "159519",
-      "lots": 493,
-      "price": 1.748,
-      "amount_cny": 86176.4
-     },
-     {
-      "symbol": "159655",
-      "lots": 438,
-      "price": 1.937,
-      "amount_cny": 84840.6
-     },
-     {
-      "symbol": "510760",
-      "lots": 689,
-      "price": 1.246,
-      "amount_cny": 85849.4
-     },
-     {
-      "symbol": "512040",
-      "lots": 719,
-      "price": 1.207,
-      "amount_cny": 86783.3
-     },
-     {
-      "symbol": "513690",
-      "lots": 751,
-      "price": 1.147,
-      "amount_cny": 86139.7
-     }
-    ],
-    "risk_book_cny": 429789.4,
-    "cash_cny": 568272.2,
-    "nav_cny": 998061.6,
-    "ret": -0.0019384,
-    "cum_ret": -0.0019384,
-    "rf_step": 0.0,
-    "stale_price_symbols": [],
-    "source_face": "results/etf_book_swap_stack.json"
-   },
-   "rows_detail": [
-    {
-     "bar": "2026-11-17",
-     "risk_book_cny": 429789.4,
-     "cash_cny": 568272.2,
-     "nav_cny": 998061.6,
-     "ret": -0.0019384,
-     "cum_ret": -0.0019384,
-     "rf_step": 0.0
-    }
-   ],
+   "rf_missing_bars": 0,
+   "last": null,
+   "rows_detail": [],
    "panel_missing_symbols": [],
    "repo_quotes": 3767,
    "rate_latest_bar": "2026-11-13",
@@ -41801,34 +44037,34 @@
    "valued_upto_bar": "2026-11-17"
   },
   "replay": {
-   "start_bar": "2026-10-19",
+   "start_bar": "2026-10-20",
    "bars": 20,
-   "legs_first_bar": 430417.7,
-   "legs_last_bar": 431727.8,
-   "legs_ret": 0.00304379,
-   "cash_interest_cny": 471.3,
+   "legs_first_bar": 430338.0,
+   "legs_last_bar": 431879.5,
+   "legs_ret": 0.00358207,
+   "cash_interest_cny": 449.68,
    "identity_delta_cny": 0.0,
    "identity_status": "PRICED_BAR",
    "identity_holds": true,
    "base_bar_missing_closes": [],
-   "base_bar_last_priced_day": "2026-11-16",
-   "rf_missing_bars": 1,
+   "base_bar_last_priced_day": "2026-11-17",
+   "rf_missing_bars": 2,
    "stale_bars": 0
   },
   "engine_book": {
    "tail": {
     "source": "results/etf_book_order/ledger.jsonl",
-    "bar": "2026-11-16",
-    "nav_units": 1.4670029,
+    "bar": "2026-11-17",
+    "nav_units": 1.46397034,
     "k": 0.460253,
-    "rf": 0.00010397
+    "rf": 0.0
    },
    "divergence": {
-    "book_k": 0.431728,
+    "book_k": 0.43188,
     "engine_k": 0.460253,
     "book_nav_cny": 1000000.0,
-    "k_gap": 0.028525,
-    "notional_gap_cny": 28525.0
+    "k_gap": 0.028373,
+    "notional_gap_cny": 28373.0
    }
   },
   "caveats": [
@@ -41847,11 +44083,11 @@
   "artifact": "K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\etf_book_do_or_wait.json",
   "why": null,
   "stale_receipts": [],
-  "evidence_cutoff": "2026-11-16",
+  "evidence_cutoff": "2026-11-17",
   "capital_cny": 1000000.0,
   "question": "Should this sheet be done today, or is waiting cheaper -- and does the per-sheet price still add up when the wait is several bars?",
   "verdict": "NOTHING_OWED_TODAY",
-  "sentence": "nothing is owed today (the ticket orders k under its own permission), so the baseline is 'do nothing'. doing it today is the cheapest rung of the ladder (every wait is more expensive); across k=1..10 the waits span +1783 .. +4071 CNY vs today. One open late is worth -929 CNY of NAV on the median sheet with waiting helping on 41% of them (t=-4.55), so the mean is priced but a single sheet is still a coin flip.",
+  "sentence": "nothing is owed today (the ticket orders k under its own permission), so the baseline is 'do nothing'. doing it today is the cheapest rung of the ladder (every wait is more expensive); across k=1..10 the waits span +1808 .. +4071 CNY vs today. One open late is worth -932 CNY of NAV on the median sheet with waiting helping on 41% of them (t=-4.60), so the mean is priced but a single sheet is still a coin flip.",
   "table": [
    {
     "k": 0,
@@ -41865,46 +44101,46 @@
    },
    {
     "k": 1,
-    "mean_cny": -1782.9320396821006,
+    "mean_cny": -1807.910394788851,
     "carry_cny": 0.0,
-    "cost_cny_vs_today": 1782.93,
-    "t": -4.551322911619218,
-    "share_late_helps": 0.4138755980861244,
+    "cost_cny_vs_today": 1807.91,
+    "t": -4.599190382634581,
+    "share_late_helps": 0.4128878281622912,
     "separable_from_zero": true
    },
    {
     "k": 2,
-    "mean_cny": -2628.365344486415,
+    "mean_cny": -2617.4471149547667,
     "carry_cny": 0.0,
-    "cost_cny_vs_today": 2628.37,
-    "t": -4.818043693212478,
-    "share_late_helps": 0.4172661870503597,
+    "cost_cny_vs_today": 2617.45,
+    "t": -4.811844064273783,
+    "share_late_helps": 0.41866028708133973,
     "separable_from_zero": true
    },
    {
     "k": 3,
-    "mean_cny": -2882.084463921774,
+    "mean_cny": -2863.6017836822743,
     "carry_cny": 0.0,
-    "cost_cny_vs_today": 2882.08,
-    "t": -4.205498567925245,
-    "share_late_helps": 0.4326923076923077,
+    "cost_cny_vs_today": 2863.6,
+    "t": -4.19293691840669,
+    "share_late_helps": 0.434052757793765,
     "separable_from_zero": true
    },
    {
     "k": 5,
-    "mean_cny": -4071.2099611560757,
+    "mean_cny": -4071.2099611560843,
     "carry_cny": 0.0,
     "cost_cny_vs_today": 4071.21,
-    "t": -4.290919841585323,
+    "t": -4.290919841585327,
     "share_late_helps": 0.41445783132530123,
     "separable_from_zero": true
    },
    {
     "k": 10,
-    "mean_cny": -4025.1582867884385,
+    "mean_cny": -4025.158286788445,
     "carry_cny": 0.0,
     "cost_cny_vs_today": 4025.16,
-    "t": -2.205379729243325,
+    "t": -2.2053797292433277,
     "share_late_helps": 0.4433734939759036,
     "separable_from_zero": true
    }
@@ -41913,20 +44149,20 @@
   "today_cost_cny": 0.0,
   "trim_owed": false,
   "one_open_late": {
-   "median_cny": -929.179677596404,
-   "mean_cny": -1782.9320396821006,
-   "t": -4.551322911619218,
-   "share_late_helps": 0.4138755980861244
+   "median_cny": -932.3031683309349,
+   "mean_cny": -1807.910394788851,
+   "t": -4.599190382634581,
+   "share_late_helps": 0.4128878281622912
   },
   "max_k": 10,
   "inputs": {
    "cut_order_gap": {
-    "cutoff": "2026-11-16",
-    "digest": "3daa979bd33e1636"
+    "cutoff": "2026-11-17",
+    "digest": "9260d649e11157e5"
    },
    "late_sheet_price": {
-    "cutoff": "2026-11-16",
-    "digest": "66a8f1f82822a76a"
+    "cutoff": "2026-11-17",
+    "digest": "db55281e051bb01f"
    }
   }
  },
@@ -42573,20 +44809,20 @@
  "authority": {
   "writer": "bm-c",
   "owner": "bm-a",
-  "owner_silent_h": 19.5,
+  "owner_silent_h": 21.6,
   "gate_h": 6.0,
   "took_over": true,
-  "why": "bm-a has not written its own heartbeat for 19.5 h (> 6 h): this host takes the pen for the page only -- a stopped heartbeat is not a dead machine",
+  "why": "bm-a has not written its own heartbeat for 21.6 h (> 6 h): this host takes the pen for the page only -- a stopped heartbeat is not a dead machine",
   "no_bar_reason": "human_ages"
  },
  "fleet": {
-  "board_ts": "2026-11-17T18:29:32",
+  "board_ts": "2026-11-17T20:18:05",
   "verdict": "attention",
   "rows": [
    {
     "host": "bm-a",
     "last_seen": "2026-11-16T23:39:02+08:00",
-    "age_h": 18.84,
+    "age_h": 20.65,
     "alive": false,
     "lanes": [
      "heat",
@@ -42601,7 +44837,7 @@
    {
     "host": "bm-b",
     "last_seen": "2026-10-30T12:43:06+08:00",
-    "age_h": 437.77,
+    "age_h": 439.58,
     "alive": false,
     "lanes": [
      "marks",
@@ -42615,16 +44851,16 @@
    {
     "host": "bm-c",
     "last_seen": "2026-11-17T18:19:19+08:00",
-    "age_h": 0.17,
+    "age_h": 1.98,
     "alive": true,
     "lanes": [
      "sina_mf",
      "lhb_inst",
      "ah_panel",
-     "minute_feed",
-     "ths_panel",
      "etf_panel",
+     "minute_feed",
      "moneyflow",
+     "ths_panel",
      "zt_pool"
     ],
     "taken_over": {}

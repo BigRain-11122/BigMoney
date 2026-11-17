@@ -44,6 +44,16 @@ import re
 import sys
 import time
 
+# r1812: this guard prints the page's own lines back as evidence, and the CEO paper carries
+# the yen sign (U+00A5), which the ANSI code page on this host (GBK) cannot encode -- the audit
+# then died with UnicodeEncodeError instead of naming the debt (the failure the chain runner
+# hit at r1578). An unprintable character is never a reason to lose the verdict.
+for _stream in (sys.stdout, sys.stderr):
+    try:
+        _stream.reconfigure(errors="replace")
+    except Exception:
+        pass
+
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 sys.path.insert(0, os.path.join(ROOT, "scripts"))
@@ -84,6 +94,29 @@ CLAIM_RULES = [
     (re.compile(r"执行单 \d+ 名 · k [\d.]+ · beta_target [\d.]+ · 决策 bar " + _D),
      ["book_identity.ticket.bar"]),
     (re.compile(r"未定稿 bar：" + _D), ["etf_book.provisional_bars[0]"]),
+    # r1812: section 6's "next look" sentence and section 7's withdrawal provenance were
+    # printed without a rule, so the audit could only say "cannot read that day" (2 lines).
+    # Both name the face that issued them, so they are claimable rather than exempt: the
+    # decision bar is the ledger's own bar, and section 7 stamps the carry face's
+    # decided/source_generated pair.
+    (re.compile(r"上一次决策 bar " + _D), ["book_identity.ledger.bar"]),
+    (re.compile(r"WITHDRAW_FROM_TICKET`?（" + _D), ["carry_book.decided"]),
+    # Engine files and provenance lines print the ticket's own date (its file name) beside the
+    # bar the sentence is about, so the rule has to claim BOTH dates in one match -- a rule
+    # that maps only the prose date leaves the file-name date unmapped and the line still red.
+    (re.compile(r"换仓差量面（`results/etf_book_order/TICKET-" + _D + r"\.json`·bar " + _D),
+     ["etf_order.bar", "etf_order.delta.current_bar"]),
+    (re.compile(r"idx_fut_carry_open_capital\.json`?｜generated " + _D +
+                r"T[\d:+]*(?:[+\-]\d{2}:\d{2})?｜cutoff " + _D),
+     ["carry_book.source_generated", "carry_book.evidence_cutoff"]),
+    (re.compile(r"（" + _D + r" → " + _D + r"，账面零成交）"),
+     ["etf_order.delta.current_bar", "etf_order.delta.declaration_bar"]),
+    (re.compile(r"账上那本按 " + _D + r" 的价、票面按 " + _D + r" 的价"),
+     ["etf_order.delta.mark_account_bar", "etf_order.bar"]),
+    (re.compile(r"账面持仓 bar " + _D + r" → 票面 bar " + _D),
+     ["etf_order.delta.current_bar", "etf_order.bar"]),
+    (re.compile(r"idx_fut_basis_timing\.json`?｜cutoff " + _D),
+     ["carry_timing.evidence_cutoff"]),
 ]
 
 # Dates that are rule constants, not data claims: 月界（2026-10-01）is when a gate opens, and
