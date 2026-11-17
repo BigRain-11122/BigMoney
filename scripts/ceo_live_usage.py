@@ -157,6 +157,11 @@ ETF_BOOK_FWD = os.path.join(ROOT, "results", "etf_book_forward", "LEDGER.json")
 # vol target, k~0.91).  Both are real and both run on the same 1,000,000 CNY.
 ETF_TICKET_LATEST = os.path.join(ROOT, "results", "etf_book_order",
                                  "latest.json")
+# r1820: the sheet says what to buy and at what price, but not what part of that
+# price is a premium over the fund's own NAV.  The producer exists and publishes a
+# verdict (ENTRY_PREMIUM_WARN); the reader's page never carried it.  Read-only.
+ETF_PREMIUM_JSON = os.path.join(ROOT, "results", "etf_book_premium_leak.json")
+ETF_PREMIUM_REL = "results/etf_book_premium_leak.json"
 
 # v2.2 (r1782): the index-futures carry book is the second money candidate, and
 # until now its only sentence on this page was nothing at all -- "this book buys
@@ -1015,6 +1020,68 @@ def _etf_cash_leg_face(cl):
     }
 
 
+def _etf_premium_face():
+    """v2.4 (r1820): what part of the build order is paid ABOVE NAV.
+
+    ⑥ tells the reader which five codes to buy and at what price; nothing on the
+    page said that one of those prices carries a premium.  The producer has published
+    the number for weeks (etf_book_premium_leak: the ticket pays 1.21% over IOPV, and
+    159655 alone carries 7.5% at the 98.8th percentile of its own year) -- it simply
+    never reached the reader's page.  That is the r1782 shape: research-readable is
+    not reader-readable.
+
+    Read-only, three rules:
+
+    * a missing face prints a reason and NO number (r98: an unread premium is not 0);
+    * the block names the ticket it priced and its own two sessions, because this
+      face is written by another script on its own trip (r1781);
+    * the percentile is each fund's OWN year -- "7.5% premium" means something
+      different at the 20th and the 99th percentile of the same fund, so both are
+      printed, and the stress rows say reversion, not forecast.
+    """
+    d = _read_json(ETF_PREMIUM_JSON)
+    if not d:
+        return {"present": False, "note": "溢价面未产出（缺面不读 0）"}
+    totals = d.get("totals") or {}
+    names = d.get("names") or []
+    if not names:
+        return {"present": False, "note": "溢价面零行（空面不冒充有读数）"}
+    rows = []
+    for n in names:
+        rows.append({
+            "symbol": str(n.get("symbol") or ""),
+            "premium_pct": n.get("premium_pct"),
+            "premium_paid_cny": n.get("premium_paid_cny"),
+            "market_pctile": n.get("market_pctile"),
+            "status": n.get("status"),
+        })
+    own = d.get("own_ruler_summary") or {}
+    return {
+        "present": True,
+        "verdict": d.get("verdict"),
+        "verdict_reason": d.get("verdict_reason"),
+        "ticket": d.get("ticket"),
+        "ticket_session": d.get("ticket_session"),
+        "iopv_session": d.get("iopv_session"),
+        "session_match": d.get("session_match"),
+        "premium_paid_cny": totals.get("premium_paid_cny"),
+        "premium_share_of_order_pct": totals.get("premium_share_of_order_pct"),
+        "premium_share_of_nav_pct": totals.get("premium_share_of_nav_pct"),
+        "verified_amount_cny": totals.get("verified_amount_cny"),
+        "n_verified": totals.get("n_verified"),
+        "n_unverifiable": totals.get("n_unverifiable"),
+        "book_cagr_pct": totals.get("book_cagr_pct"),
+        "years_of_backtest_return_paid": totals.get("years_of_backtest_return_paid"),
+        "rows": rows,
+        "stress": d.get("stress") or {},
+        "own_top_decile_pctile": own.get("top_decile_pctile"),
+        "own_in_top_decile": own.get("in_own_top_decile") or [],
+        "own_verdict": own.get("verdict"),
+        "own_revert_cny": own.get("revert_to_own_median_cny"),
+        "own_revert_note": own.get("revert_note"),
+    }
+
+
 def _etf_order_face():
     """v2.3 (r1784): the executable sheet's own rows, in lots and cash.
 
@@ -1307,6 +1374,7 @@ def build_payload(day: str) -> dict:
         "judgment_burns": _judgment_burn_face(),
         "etf_book": book,
         "etf_order": _etf_order_face(),
+        "etf_premium": _etf_premium_face(),
         "book_identity": _book_identity_face(),
         "carry_book": _carry_book_face(),
         "carry_timing": _carry_timing_face(),
@@ -1857,6 +1925,86 @@ def render_md(p: dict) -> str:
                      "（网格 {} bar·上一次决策 bar {}）；在那之前这本书不换仓。"
                      .format(_nd, eo.get("rebal") or "?",
                              eo.get("book_decided_bar") or "?"))
+    # ---- r1820: the sheet names five codes and their prices; nothing on this page
+    # said what part of that money is paid above the funds' own NAV.  One number per
+    # reader decision: how much of the ticket is premium, and what reversion would cost.
+    _pm = p.get("etf_premium") or {}
+    # r1820: this block is fed by another script on another trip.  Today the two
+    # agree, but nothing enforced it -- the premium face was written at 02:00 and
+    # the ticket re-issued at 02:36 under the same file name.  If that trip priced
+    # a DIFFERENT ticket, the numbers describe a different order: say so and print
+    # nothing, rather than quoting a premium against prices the reader is not
+    # being asked to pay (r1781 family).
+    _pm_tk = _pm.get("ticket")
+    _eo_tk = eo.get("file")
+    if _pm_tk and _eo_tk and _pm_tk != _eo_tk:
+        L.append("  - **这笔钱里有多少是溢价**：溢价面价的票面是 `{}`，"
+                 "与这一页的执行单 `{}` 不是同一张——今天不印这个数".format(
+                     _pm_tk, _eo_tk))
+    elif not _pm.get("present"):
+        L.append("  - **这笔钱里有多少是溢价**：{}——今天不印数".format(
+            _pm.get("note") or "溢价面未产出（缺面不读 0）"))
+    else:
+        _paid = _pm.get("premium_paid_cny")
+        _osh = _pm.get("premium_share_of_order_pct")
+        _nsh = _pm.get("premium_share_of_nav_pct")
+        _amt = _pm.get("verified_amount_cny")
+        _verb = "多付" if (_paid or 0) >= 0 else "少付（净折价）"
+        L.append(
+            "  - **这笔钱里有多少是溢价**（买价高于基金自己净值的那部分，"
+            "不是手续费、不是佣金）：票面 {} 只合计 ¥{}，{} **¥{}**"
+            "（＝票面的 {}%·账面的 {}%）".format(
+                _pm.get("n_verified"),
+                _fmt_cny(_amt) if _amt is not None else "?",
+                _verb,
+                _fmt_cny(abs(_paid)) if _paid is not None else "?",
+                "{:.2f}".format(_osh) if _osh is not None else "?",
+                "{:.2f}".format(_nsh) if _nsh is not None else "?"))
+        _own = set(_pm.get("own_in_top_decile") or [])
+        for _r in _pm.get("rows") or []:
+            _pp = _r.get("premium_pct")
+            _pc = _r.get("premium_paid_cny")
+            _pl = _r.get("market_pctile")
+            if _pp is None:
+                continue
+            _dir = "多付" if (_pc or 0) > 0 else "省"
+            _bits = ["{}｜{:+.2f}%｜{} ¥{}".format(
+                _r.get("symbol"), _pp, _dir, _fmt_cny(abs(_pc or 0)))]
+            if _pl is not None:
+                _bits.append("该基金近一年 {:.1f} 分位".format(_pl))
+            if _r.get("symbol") in _own:
+                _bits.append("**在它自己历史的前 10% 高位**")
+            L.append("    - " + "｜".join(_bits))
+        _st = _pm.get("stress") or {}
+        _z = _st.get("if_premium_reverts_to_zero_cny")
+        _zp = _st.get("if_premium_reverts_to_zero_pct_of_nav")
+        _rm = _pm.get("own_revert_cny")
+        _rmp = _st.get("if_premium_reverts_to_own_median_pct_of_nav")
+        if _z is not None:
+            L.append(
+                "    - 压力读数（是压力不是预测）：溢价若回到 0 → **-¥{}"
+                "（账面 -{}%）**；回到各基金自己的中位 → -¥{}（账面 -{}%）".format(
+                    _fmt_cny(abs(_z)),
+                    "{:.2f}".format(abs(_zp)) if _zp is not None else "?",
+                    _fmt_cny(abs(_rm)) if _rm is not None else "?",
+                    "{:.2f}".format(abs(_rmp)) if _rmp is not None else "?"))
+        _yrs = _pm.get("years_of_backtest_return_paid")
+        _cagr = _pm.get("book_cagr_pct")
+        if _yrs is not None and _cagr is not None:
+            _tail = ("；而且今天 {} 正站在它自己一年里最贵的那一头".format(
+                "、".join(sorted(_own))) if _own else "")
+            L.append(
+                "    - 白话：¥{} 约等于这本书 {}% 年化产出的 **{} 年**。"
+                "溢价不是手续费——赎回/套利恢复正常时它会吐回去，所以它是"
+                "「先垫出去的钱」；但它也确实不是净值{}".format(
+                    _fmt_cny(abs(_paid)) if _paid is not None else "?",
+                    "{:.2f}".format(_cagr), "{:.1f}".format(_yrs), _tail))
+        L.append(
+            "    - 出处：`{}`（它自己价的票面 {}·票面会话 {}·IOPV 会话 {}·"
+            "同会话={}）".format(
+                ETF_PREMIUM_REL, _pm.get("ticket"),
+                _pm.get("ticket_session"), _pm.get("iopv_session"),
+                "是" if _pm.get("session_match") else "否"))
     L.append("")
     L.append("## ⑦ 指数期货 carry 书 · 开仓资金线（纯读出）")
     L.append("")
@@ -2704,6 +2852,56 @@ def selftest() -> int:
             _md6 = render_md(_deg6)
             check("a missing roll-cost face says the gap was priced on the floor (r1820)",
                   "今天读不到换月成本" in _md6 and "换月不是免费的" not in _md6)
+        # r1820 bm-c: the build order now says what part of it is paid above NAV.  Three
+        # legs: the headline money reaches the page; each row's own premium and its own
+        # percentile come off the face (never typed); a missing face prints a reason
+        # and NO number (r98) -- and the block self-stamps the ticket it priced,
+        # because the producer is another script on another trip (r1781).
+        _pm1 = p1.get("etf_premium") or {}
+        if not _pm1.get("present"):
+            print("  [SKIP] premium block: the face is absent")
+        else:
+            _paid1 = _pm1.get("premium_paid_cny")
+            check("the page says what part of the build order is premium (r1820)",
+                  "这笔钱里有多少是溢价" in md1
+                  and _paid1 is not None
+                  and _fmt_cny(abs(_paid1)) in md1
+                  and "不是手续费" in md1)
+            _row_ok = True
+            for _r1 in _pm1.get("rows") or []:
+                _p1 = _r1.get("premium_pct")
+                if _p1 is None:
+                    continue
+                if "{:+.2f}%".format(_p1) not in md1:
+                    _row_ok = False
+            check("every name's own premium reaches the page, in percent not x100 (r1820)",
+                  _row_ok)
+            _ownset = set(_pm1.get("own_in_top_decile") or [])
+            check("the name that sits at its own top decile is labelled so (r1820)",
+                  all(("{}｜".format(s) in md1 and "前 10% 高位" in md1)
+                      for s in _ownset) if _ownset else True)
+            check("the premium block names the ticket and both sessions it read (r1781)",
+                  str(_pm1.get("ticket")) in md1
+                  and str(_pm1.get("ticket_session")) in md1
+                  and str(_pm1.get("iopv_session")) in md1)
+            _deg6 = json.loads(json.dumps(p1))
+            _deg6["etf_premium"] = {"present": False,
+                                    "note": "溢价面未产出（缺面不读 0）"}
+            _md6 = render_md(_deg6)
+            check("a missing premium face prints a reason, never ¥0 (r1820)",
+                  "今天不印数" in _md6
+                  and (_paid1 is None or _fmt_cny(abs(_paid1)) not in _md6)
+                  and "多付" not in _md6)
+            # the same block must refuse to quote a premium priced against a
+            # DIFFERENT ticket than the one this page is asking the reader to buy
+            _deg7 = json.loads(json.dumps(p1))
+            _deg7["etf_premium"] = dict(_deg7.get("etf_premium") or {})
+            _deg7["etf_premium"]["ticket"] = "TICKET-1999-01-01.json"
+            _md7 = render_md(_deg7)
+            check("a premium priced off another ticket is refused, not quoted (r1820)",
+                  "不是同一张" in _md7
+                  and (_paid1 is None or _fmt_cny(abs(_paid1)) not in _md7)
+                  and "多付" not in _md7)
         _deg3 = json.loads(json.dumps(p1))
         _deg3["etf_order"] = dict(_deg3.get("etf_order") or {})
         _deg3["etf_order"]["next_decision_bars"] = None

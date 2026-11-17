@@ -2,7 +2,7 @@
  "schema": "ceo_live_usage_v1_9",
  "ticket": "T-202609-28-105",
  "day": "2026-11-18",
- "generated": "2026-11-18T04:25:13",
+ "generated": "2026-11-18T05:01:40",
  "market": {
   "state": "RED",
   "asof": "2026-11-17",
@@ -133,7 +133,7 @@
    "behind_days": 0,
    "behind": [],
    "lane_owner": "bm-c",
-   "read_on": "bm-a"
+   "read_on": "bm-c"
   }
  },
  "ladder": {
@@ -492,7 +492,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 60176.1
+    "last_append_age_min": 60219.9
    },
    {
     "family": "FUND-VALUE-P1",
@@ -500,7 +500,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 61026.5
+    "last_append_age_min": 61064.4
    },
    {
     "family": "FUND-DIVLOWVOL-P1",
@@ -508,7 +508,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 57823.5
+    "last_append_age_min": 57857.7
    }
   ]
  },
@@ -820,6 +820,74 @@
    "declaration_actions": 0,
    "positions_source": "face@2026-11-17"
   }
+ },
+ "etf_premium": {
+  "present": true,
+  "verdict": "ENTRY_PREMIUM_WARN",
+  "verdict_reason": "the ticket pays 1.21% of its own amount above IOPV (CNY 5215)",
+  "ticket": "TICKET-2026-11-17.json",
+  "ticket_session": "2026-11-17",
+  "iopv_session": "2026-11-17",
+  "session_match": true,
+  "premium_paid_cny": 5215.43,
+  "premium_share_of_order_pct": 1.2076,
+  "premium_share_of_nav_pct": 0.5215,
+  "verified_amount_cny": 431879.5,
+  "n_verified": 5,
+  "n_unverifiable": 0,
+  "book_cagr_pct": 12.45,
+  "years_of_backtest_return_paid": 0.1,
+  "rows": [
+   {
+    "symbol": "510760",
+    "premium_pct": -0.2562,
+    "premium_paid_cny": -221.76,
+    "market_pctile": 22.13,
+    "status": "OK"
+   },
+   {
+    "symbol": "512040",
+    "premium_pct": -0.0414,
+    "premium_paid_cny": -35.8,
+    "market_pctile": 63.84,
+    "status": "OK"
+   },
+   {
+    "symbol": "159655",
+    "premium_pct": 7.5155,
+    "premium_paid_cny": 6038.84,
+    "market_pctile": 98.78,
+    "status": "OK"
+   },
+   {
+    "symbol": "513690",
+    "premium_pct": -0.3735,
+    "premium_paid_cny": -323.79,
+    "market_pctile": 9.94,
+    "status": "OK"
+   },
+   {
+    "symbol": "159519",
+    "premium_pct": -0.2795,
+    "premium_paid_cny": -242.06,
+    "market_pctile": 18.66,
+    "status": "OK"
+   }
+  ],
+  "stress": {
+   "if_premium_reverts_to_zero_cny": -5215.43,
+   "if_premium_reverts_to_zero_pct_of_nav": -0.5215,
+   "if_premium_reverts_to_own_median_cny": -4183.31,
+   "if_premium_reverts_to_own_median_pct_of_nav": -0.4183,
+   "note": "reversion is a stress, not a forecast: the gap can persist while the sleeve stays hard to buy. Zero is the outer bound; each fund's own median is the realistic one -- these funds normally live above NAV."
+  },
+  "own_top_decile_pctile": 90.0,
+  "own_in_top_decile": [
+   "159655"
+  ],
+  "own_verdict": "SOME_NAMES_ABOVE_OWN_TOP_DECILE",
+  "own_revert_cny": 4183.31,
+  "own_revert_note": "stress, not a forecast: it gives back only the part ABOVE each fund's own median premium, and only for names this order is buying"
  },
  "book_identity": {
   "path_ledger": "results/etf_book_forward/LEDGER.json",
