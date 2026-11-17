@@ -2503,3 +2503,18 @@ live_book_day_words=1 / live_usage_day_words=1 / daily_report_day_words=1：战�
 **本地未达 origin commit 数**：见推送后复核。
 
 **本地未达 origin commit 数**：0（push 41d743e49d..76eff7ea7b，fetch 复核 behind=0 / ahead=0）。
+
+**追加（同窗续做 2 段 · 2026-11-17T20:2x）——现金腿利率面板与本轮 12 个账面面**
+
+上一段只把页面的「可定价 bar」推到了 11-17，但页内 24 个节仍牵着旧面。本段按节的来源逐个解决，不是一次性批量重烧：
+
+1. **根因是数据面，不是文案**：`data/repo_daily/*.csv`（逆回购 11 系列，本机车道）停在 **2026-11-13**，而 `cash_yield / cash_money / cash_ladder / cash_caliber / cash_handshake / lookahead` 六节直接读它。`update_repo.py` 实跑 **11 系列各 +2 行 → 2026-11-17**（GC001..GC182 / R-001/R-003/R-007，逐行 overlap 校验通过）。这是本段唯一的真数据增量。
+2. **票面的现金 spot 跟着旧面板走**：`TICKET-2026-11-17.json` 的 `cash_leg.money.spot.date` 还是 11-13（建票时面板只到 11-13）。重出票面后变成 **2026-11-17 / 1.18% → 6,675 元/年**（均值 1.35% → 7,668 元/年，判 RATES_STEADY）。
+3. **按依赖序重出 12 个面**：cost_tape、derisk、do_or_wait、floor_provenance、ih_hedge、ih_tail_ci、idle_cash、k_gap、leg_attribution、lot_floor、lot_ladder、lookahead、premium_leak、premium_forward、rebalance_permission、vol_target_gate、vt_ladder、vt_phases、phase_atlas_arms、phase_atlas、production → 票 → swap_stack → positions → 页面。
+4. **结果读数**：页面带日期节落在 11-17 的从 **43/67 → 64/67**；`rebalance_permission` evidence_cutoff 11-16 → **11-17**（6/6 自检 OK，decision_date 仍 2026-12-09）；`live_book_day_words` 保持 **ANCHORED**（printed ok 29→**42 行** / 18 标题，offenders 0）；positions `CHECK_OK`、swap_stack `CHECK_OK`。
+5. **剩 3 节没解决，各有具体原因（不是没干）**：
+   - `futures_ladder` / `futures_sleeve`：面内 `provenance = no_writer`——页面上这两个节印的字段，本仓没有任何写入者。这是结构缺口（要有人写它，或页面承认它读不出），不是把日期改新就能解决的。
+   - `family_coherence`：`MIXED_WORLDS`，两个面板哈希并存（arms 逐只重建，一个家族分裂一周是常态，脚本 docstring 已写明）。推进它的正法 = 跑 `etf_book_atlas_arms_rebuild` 那只重建臂，本轮未跑。
+6. **如实披露一处操作事故（零污染）**：查链参数时误用 `--help`，运行器把它当成轮次标签直接起了**全量 278 腿链**，跑到第 20 腿被工具超时终止（20 腿全 rc=0，面部原子写，无半写件）。证据=`results/_r--helpbma_s6_chain.progress.jsonl`（含逐腿 rc/耗时）。该次误跑顺带推进了 `update_lhb`（+163 行 → 11-17）、`update_heat`（11-17 快照）、`update_futures`（+1 行），这些增量是合法的并随本段一并提交。
+
+**本地未达 origin commit 数**：见推送后复核（本段）。
