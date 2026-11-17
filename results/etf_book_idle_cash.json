@@ -1,6 +1,6 @@
 {
  "face": "etf_book_idle_cash",
- "asof": "2026-11-17T18:33:13",
+ "asof": "2026-11-17T20:06:48",
  "evidence_cutoff": "2026-11-17",
  "window": {
   "start": "2020-01-03",
@@ -51,7 +51,7 @@
    "2023": 5.877,
    "2024": 15.101,
    "2025": 44.097,
-   "2026": 2.587
+   "2026": 2.589
   },
   "without": {
    "label": "without_fix",
@@ -74,7 +74,7 @@
    "vol": 0.105,
    "sharpe": 1.177,
    "maxdd": -0.1047,
-   "worst_year": 0.0223,
+   "worst_year": 0.0224,
    "neg_years": 0,
    "worst_month": -0.0426,
    "pos_months_pct": 0.598
@@ -97,7 +97,7 @@
     "maxdd_oos": -0.1047
    }
   },
-  "cash_vehicle_net_pct_on_window": 1.7731,
+  "cash_vehicle_net_pct_on_window": 1.772,
   "cash_vehicle_published_pct": 1.7689,
   "cash_vehicle_reproduced_on_published_window_pct": 1.7733,
   "cash_vehicle_gap_bp": 0.4449
@@ -129,7 +129,7 @@
     "2023": 5.877,
     "2024": 15.101,
     "2025": 44.097,
-    "2026": 2.587
+    "2026": 2.589
    },
    "without": {
     "label": "without_fix",
@@ -152,7 +152,7 @@
     "vol": 0.105,
     "sharpe": 1.177,
     "maxdd": -0.1047,
-    "worst_year": 0.0223,
+    "worst_year": 0.0224,
     "neg_years": 0,
     "worst_month": -0.0426,
     "pos_months_pct": 0.598
@@ -202,7 +202,7 @@
     "2023": 3.67,
     "2024": 12.108,
     "2025": 38.5,
-    "2026": 5.559
+    "2026": 5.56
    },
    "without": {
     "label": "without_fix",
@@ -266,14 +266,14 @@
   "C0b_arm_reproduces_probe": true
  },
  "verdict": "ADMIT",
- "repo_contracts": 1661,
+ "repo_contracts": 1663,
  "repo_missing_quotes": 0,
  "honest": [
   "idle = 1 - scale held constant over a holding period, the engine's own nominal-weight convention; a drifting sleeve would move the number by less than the 3rd decimal",
   "the cash vehicle is a daily GC001 roll at the quoted rate, not a dealer quote; one contract per bar, exchange commission included, no bid-offer",
   "the composed curve is a book-return statement, not a ticket: it says the idle sleeve is worth paying, not which vehicle the account should use",
-  "1662 repo bars on the window, 0 missing quotes; cash accrual is carried across non-maturity bars by differencing the rung's cumulative growth"
+  "1664 repo bars on the window, 0 missing quotes; cash accrual is carried across non-maturity bars by differencing the rung's cumulative growth"
  ],
  "honest_arms": "both arms are the same universe, rule, cost and repo path; the only difference is the bar the score is read from, so arm_gap is the price of the execution basis and not a second strategy",
- "elapsed_sec": 41.03
+ "elapsed_sec": 28.55
 }

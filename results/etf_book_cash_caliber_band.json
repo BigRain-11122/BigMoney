@@ -1,11 +1,11 @@
 {
  "face": "etf_book_cash_caliber_band",
- "asof": "2026-11-17T18:33:14",
- "evidence_cutoff": "2026-11-13",
+ "asof": "2026-11-17T20:00:40",
+ "evidence_cutoff": "2026-11-17",
  "window": {
   "start": "2020-01-03",
-  "end": "2026-11-13",
-  "bars": 1662
+  "end": "2026-11-17",
+  "bars": 1664
  },
  "question": "the ticket prints -50.81bp between one session's quote and a net window roll, and calls them 'same caliber' within 1bp -- is that band a state the page can reach, and what is the gap made of?",
  "criteria_frozen": {
@@ -17,50 +17,50 @@
   "split_only": "commission and rate difference are printed side by side; they are never added into a single 'the market pays less' number"
  },
  "readings": {
-  "window_net_pct": 1.7731,
+  "window_net_pct": 1.772,
   "published_net_pct": 1.7731,
-  "control_error_bp": 0.004,
-  "window_gross_pct": 2.0196,
-  "commission_drag_pp": 0.2465,
-  "quote_pct": 1.265,
-  "quote_date": "2026-11-13",
+  "control_error_bp": 0.1143,
+  "window_gross_pct": 2.0184,
+  "commission_drag_pp": 0.2464,
+  "quote_pct": 1.175,
+  "quote_date": "2026-11-17",
   "band": {
-   "bars": 1662,
-   "share_within_band_pct": 1.264,
-   "median_abs_gap_bp": 33.5,
-   "p10_abs_gap_bp": 6.045,
-   "p90_abs_gap_bp": 90.405,
-   "band_covering_50pct_bp": 33.5,
-   "band_covering_90pct_bp": 90.405,
-   "mean_signed_gap_bp": -4.363
+   "bars": 1664,
+   "share_within_band_pct": 1.262,
+   "median_abs_gap_bp": 33.75,
+   "p10_abs_gap_bp": 6.165,
+   "p90_abs_gap_bp": 90.185,
+   "band_covering_50pct_bp": 33.75,
+   "band_covering_90pct_bp": 90.185,
+   "mean_signed_gap_bp": -4.335
   },
   "band_net_basis": {
-   "bars": 1662,
-   "share_within_band_pct": 2.407,
-   "median_abs_gap_bp": 29.306,
-   "p10_abs_gap_bp": 5.306,
-   "p90_abs_gap_bp": 90.256,
-   "band_covering_50pct_bp": 29.306,
-   "band_covering_90pct_bp": 90.256,
-   "mean_signed_gap_bp": 20.286
+   "bars": 1664,
+   "share_within_band_pct": 2.404,
+   "median_abs_gap_bp": 29.304,
+   "p10_abs_gap_bp": 5.304,
+   "p90_abs_gap_bp": 90.046,
+   "band_covering_50pct_bp": 29.304,
+   "band_covering_90pct_bp": 90.046,
+   "mean_signed_gap_bp": 20.305
   },
   "band_last_60_bars": {
    "bars": 60,
    "share_within_band_pct": 0.0,
-   "median_abs_gap_bp": 64.205,
-   "p10_abs_gap_bp": 55.405,
-   "p90_abs_gap_bp": 101.605,
-   "band_covering_50pct_bp": 64.205,
-   "band_covering_90pct_bp": 101.605,
-   "mean_signed_gap_bp": -73.705
+   "median_abs_gap_bp": 64.335,
+   "p10_abs_gap_bp": 55.285,
+   "p90_abs_gap_bp": 100.435,
+   "band_covering_50pct_bp": 64.335,
+   "band_covering_90pct_bp": 100.435,
+   "mean_signed_gap_bp": -73.36
   },
   "split": {
    "readable": true,
-   "total_vs_net_bp": -50.806,
-   "commission_bp": 24.649,
-   "rate_difference_vs_gross_bp": -75.455,
+   "total_vs_net_bp": -59.696,
+   "commission_bp": 24.639,
+   "rate_difference_vs_gross_bp": -84.335,
    "recombines": true,
-   "commission_share_of_total_pct": 48.52,
+   "commission_share_of_total_pct": 41.28,
    "merged": false,
    "rule": "两个部分分别印，不相加：一个是车辆成本，一个是利率差"
   }
@@ -77,7 +77,7 @@
   "the band is measured against a FIXED reference (the window's own rate); a real forward ticket would compare against a trailing window that moves, which would narrow the daily gap for a drifting rate regime and is not measured here",
   "the quote is one session's close, gross; the reference is the same window's roll, so the rate part is like-for-like and the commission part is the vehicle's own fee schedule, not a broker bill",
   "the 1bp band is a frozen constant in the ticket; this face measures how often the asset reaches it, it does not change the ticket",
-  "1662 repo bars, 0 missing quotes on the window"
+  "1664 repo bars, 0 missing quotes on the window"
  ],
- "elapsed_sec": 0.47
+ "elapsed_sec": 0.59
 }

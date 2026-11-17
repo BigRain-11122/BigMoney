@@ -1,34 +1,14 @@
 {
- "evidence_cutoff": "2026-11-07",
- "gaps_explained_by_quiet_window": [],
- "gaps_over_threshold": [
-  {
-   "from": "2026-11-05T21:00",
-   "gap_high_min": 2243.9,
-   "gap_low_min": 2234.9,
-   "quiet_window_min": 659.0,
-   "to": "2026-11-07T10:23",
-   "unexplained_high_min": 1584.9,
-   "unexplained_low_min": 1575.9
-  }
- ],
- "gaps_over_threshold_count": 1,
- "generated": "2026-11-08T03:22:46",
+ "evidence_cutoff": "2026-11-13",
+ "generated": "2026-11-17T19:54:36",
  "lane_tasks": {
   "absent": [],
   "disabled": [],
   "disabled_before_heal": [
-   "Bigmoney-LoopWatchdog",
    "HQ-Patrol-BigMoney"
   ],
   "heal": {
    "acts": [
-    {
-     "action": "enabled",
-     "detail": "",
-     "task": "Bigmoney-LoopWatchdog",
-     "verified": true
-    },
     {
      "action": "enabled",
      "detail": "",
@@ -37,11 +17,9 @@
     }
    ],
    "healed": [
-    "Bigmoney-LoopWatchdog",
     "HQ-Patrol-BigMoney"
    ],
    "readback": {
-    "Bigmoney-LoopWatchdog": "Ready",
     "HQ-Patrol-BigMoney": "Ready"
    }
   },
@@ -56,38 +34,13 @@
   "verdict": "LANE_ENABLED",
   "why": "every probeable lane task is switched on; the silence (if any) is not a switch"
  },
- "longest_silence": {
-  "from": "2026-11-05T21:00",
-  "gap_high_min": 2243.9,
-  "gap_low_min": 2234.9,
-  "quiet_window_min": 659.0,
-  "to": "2026-11-07T10:23",
-  "unexplained_high_min": 1584.9,
-  "unexplained_low_min": 1575.9
- },
  "machine": "bm-a",
- "median_gap_min": 18.0,
- "open_gap": {
-  "gap_high_min": 641.8,
-  "gap_low_min": 641.8,
-  "quiet_window_min": 0.0,
-  "since": "2026-11-07T16:41",
-  "unexplained_high_min": 641.8,
-  "unexplained_low_min": 641.8
- },
- "parse_precision_note": "stamps recorded with an 'x' digit are read as a 9-minute interval; a gap is only called when its pessimistic end clears the threshold",
- "quiet_windows": [
-  [
-   0,
-   9,
-   19
-  ]
- ],
- "rounds_in_ledger": 760,
- "rounds_in_window": 19,
- "silence_verdict": "OPEN_SILENCE",
+ "note": "fewer than two rounds inside the window; silence is unmeasurable",
+ "rounds_in_ledger": 787,
+ "rounds_in_window": 0,
+ "silence_verdict": "NO_DATA",
  "source": "round_reports-bm-a.md",
  "threshold_min": 90,
- "verdict": "OPEN_SILENCE",
+ "verdict": "NO_DATA",
  "window_days": 3
 }
