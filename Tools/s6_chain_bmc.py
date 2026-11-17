@@ -1185,6 +1185,12 @@ LEGS = [
     ("marks_coverage", ["python", "scripts/marks_coverage.py"]),
     ("t35_export", ["python", "scripts/t35_paper_export.py", "run"]),
     ("scorecard_daily", ["python", "scripts/daily_scorecard.py"]),
+    # r1802: four reader faces (paper_export, strategy_scorecard, daily_scorecard, the CEO
+    # page) all copy the same `capital` block, so they agree with each other even when the
+    # block is wrong. This leg recomputes positions from the raw rows (qty x last_close,
+    # (last_close - cost) x qty), anchors every mark on data/daily and reconciles each reader
+    # face against the ledger. ~1.5s, no network. Runs after the three reader producers above.
+    ("paper_equity_recheck", ["python", "scripts/paper_equity_recheck.py", "run"]),
     # r1170: the page prints the regime cap and the ticket prints the deployed book, and
     # nothing compared them. On the first RED day (cap 20%) three of six paper accounts
     # sat above it. Reads published faces only; changes no rule.

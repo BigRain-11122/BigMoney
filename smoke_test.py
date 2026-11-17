@@ -5745,6 +5745,15 @@ def main() -> int:
              "scripts/etf_book_day_delta.py", ["--selftest"]),
             ("product: etf_book_day_delta (published verdict still re-derives)",
              "scripts/etf_book_day_delta.py", ["--check"]),
+            # r1802: four reader faces copy one `capital` block, so they agree with each
+            # other even when it is wrong. This face recomputes positions from the raw rows
+            # and anchors every mark on data/daily; the second leg also runs live, so a
+            # drifted export or a mark that is not the panel's close turns the suite red
+            # instead of printing on four pages at once.
+            ("product: paper_equity_recheck (the book's own arithmetic vs the panel)",
+             "scripts/paper_equity_recheck.py", ["--selftest"]),
+            ("product: paper_equity_recheck (every reader face still equals the ledger)",
+             "scripts/paper_equity_recheck.py", ["run"]),
             # r1762: two faces both said "cannot separate" without saying how big a gap
             # WOULD have been separable. The MDE face puts both rulers on one difference
             # series and publishes the minimum detectable gap at 80% power per rung pair.

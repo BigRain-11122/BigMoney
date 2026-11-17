@@ -4,15 +4,15 @@ evidence set: `results/**/*.json` (depth <= 2), readable against `scripts/`, `To
 
 | tier | faces | what it means |
 | --- | --- | --- |
-| CODE_MULTI | 638 | >=2 source files name this face |
-| CODE_SINGLE | 804 | exactly one source file names it (producer or lone reader) |
+| CODE_MULTI | 639 | >=2 source files name this face |
+| CODE_SINGLE | 805 | exactly one source file names it (producer or lone reader) |
 | PROSE_ONLY | 59 | only docs/research names it |
 | ORPHAN | 334 | nothing names it (undated only) |
 | DATED_CODE | 344 | dated snapshot, named somewhere |
 | DATED_ORPHAN | 407 | dated snapshot, named nowhere |
-| SCRATCH | 3909 | not a face (receipts / backups / hash scratch) |
+| SCRATCH | 3918 | not a face (receipts / backups / hash scratch) |
 
-undated faces: **1835** of 6495 (dated snapshots and scratch excluded from every verdict below)
+undated faces: **1837** of 6506 (dated snapshots and scratch excluded from every verdict below)
 
 ## undated faces nothing names (334)
 
@@ -64,7 +64,7 @@ undated faces: **1835** of 6495 (dated snapshots and scratch excluded from every
 - `results/e34_cadence_rolling/CADENCE-ROLLING-3Y-X3.json` ← `research/digests/DIGEST-20261021-e35-broad-book-screens.md`
 - `results/e39_month_attribution/MONTH-2026-07.json` ← `research/digests/FACESCREEN-20261022.md`
 
-## named by exactly one source file (804, 39 money-ish)
+## named by exactly one source file (805, 40 money-ish)
 
 One file naming a face is not a consumer: it is usually the producer. These are the first place to look when asking "is this number read?"
 
@@ -80,8 +80,8 @@ One file naming a face is not a consumer: it is usually the producer. These are 
 - `results/etf_book_drawdown_guard.json` ← `scripts/etf_book_drawdown_guard.py`
 - `results/etf_book_exposure_ladder.json` ← `scripts/etf_book_exposure_ladder.py`
 - `results/etf_book_forward/CARRY_fee_free.json` ← `scripts/etf_book_forward.py`
+- `results/etf_book_lot_ladder.json` ← `scripts/etf_book_lot_ladder.py`
 - `results/etf_book_premium_phases.json` ← `scripts/etf_book_premium_phases.py`
 - `results/etf_book_premium_swap.json` ← `scripts/etf_book_premium_swap.py`
-- `results/etf_book_year_gate_idlecarry.json` ← `scripts/etf_book_year_gate_idlecarry.py`
 
-`generated` 2026-11-17T07:31:40+08:00 · every count above is a face count, not a read count.
+`generated` 2026-11-17T13:08:50+08:00 · every count above is a face count, not a read count.
