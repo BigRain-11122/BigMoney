@@ -12,6 +12,8 @@
 - [2026-11-07 r1266 bm-a] 「没人能动它」至少要两个前提判例（正身=knowledge/METHODOLOGY_ASSETS.md E401 + research/digests/DIGEST-20261107-r1266-undeclared-collector.md）：data_lane_freshness 的 marks 行写着 `writer: None`，于是板子对读者印「the row reads another face rather than a collector of its own, so there is nothing to reassign」——而 update_intraday_marks 从 r1101 起就带 `--takeover` 与标记句。「表没填写者」与「写者没有开关」是两种相反的人事状态，共用一个判词＝把「两台机都能动」印成「放弃吧」。同族第二枚：缺口计数必须带成因——marks_coverage 早有 holes_by_cause（host_down/host_offhours/lane_missed/takeover_possible），板子只读 last_captured；「缺 6 天」与「其中 2 天当时有机器醒着只是没人代班」是两个人事决定。How：任何「没人能接手」判词先问写者字段是不是真的空；任何「缺 N 天」先问对面账有没有成因表；两个数不同源（全史孔数 9 vs 尾后缺失 6）不许混印。
 
 
+- [2026-11-18 r1311 bm-a] 「记录输入指纹的面，rebase 之后一律当陈旧」判例：etf_book_do_or_wait 把 cut_order_gap/late_sheet_price 两张上游面的字节 digest 记进自己的 inputs，check 就是拿盘上字节重算再比。推送前 rebase 到 origin 时其中一张被换成 origin 版（本窗没碰它、rebase 也没报冲突），面立刻 STALE，而打印的两个 cutoff 一模一样（都是 2026-11-17）——**看起来「没变」是因为你只看日期，变化的是字节**。正法=重 derive 该面（run → check 13/13），判据从「这一窗我改没改这个文件」换成「面记的字节还是盘上的字节吗」。凡 *_staleness 族 / 记录 receipts 的面（do_or_wait、day_delta、live_book_section_bars），rebase 后重 derive 再宣称绿。姊妹实锚：本轮套件 9 红全属「面代差不是代码错」——上游 etf_book_cash_caliber_band 已由 11-13 推进到 11-17，四个下游面仍盖旧代，重生后 **673/673 PASS**。
+
 ### Reference
 
 - [2026-10-31 r1191] 冷层指针·热冷整编（r1225 E192 载体持续性 + r1266 E240 参数量纲 两行全文 verbatim=本档「热冷整编 2026-10-31 r1191 bm-a 窗批」节）：两卡正身仍在 knowledge/METHODOLOGY_ASSETS.md。
