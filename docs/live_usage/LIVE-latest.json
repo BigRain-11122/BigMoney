@@ -2,7 +2,7 @@
  "schema": "ceo_live_usage_v1_9",
  "ticket": "T-202609-28-105",
  "day": "2026-11-18",
- "generated": "2026-11-18T06:45:59",
+ "generated": "2026-11-18T07:08:18",
  "market": {
   "state": "RED",
   "asof": "2026-11-17",
@@ -492,7 +492,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 60324.2
+    "last_append_age_min": 60346.5
    },
    {
     "family": "FUND-VALUE-P1",
@@ -500,7 +500,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 61168.7
+    "last_append_age_min": 61191.0
    },
    {
     "family": "FUND-DIVLOWVOL-P1",
@@ -508,7 +508,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 57962.0
+    "last_append_age_min": 57984.3
    }
   ]
  },
@@ -948,6 +948,33 @@
   "own_verdict": "SOME_NAMES_ABOVE_OWN_TOP_DECILE",
   "own_revert_cny": 4183.31,
   "own_revert_note": "stress, not a forecast: it gives back only the part ABOVE each fund's own median premium, and only for names this order is buying"
+ },
+ "etf_capacity": {
+  "present": true,
+  "session": "2026-11-17",
+  "evidence_cutoff": "2026-11-17",
+  "verdict": "BELOW_LINE_EVERY_SESSION",
+  "line_pct": 1.0,
+  "lens_cny": 1000000.0,
+  "lens_tag": "1M",
+  "per_name_cny": 200000.0,
+  "reading_today_pct": 1.0087,
+  "binding_today": "159549",
+  "n_sessions": 60,
+  "n_passes": 0,
+  "n_unmeasurable": 0,
+  "capital_at_line_cny": 991420.84,
+  "capital_median_cny": 496475.93,
+  "capital_min_cny": 340837.76,
+  "gap_to_lens_cny": 8579.16,
+  "sentence": "同一笔单子（1,000,000 元、5 个名字等权），最近 60 个交易日里有 0 天过线、60 天不过线。今天这一行是 1.0087%（最弱的是 159549），闸线 1.00%；把这把尺子倒过来读，在今天的成交额上能过的资本上限是 991,421 元，离 1,000,000 元差 8,579 元。今天还是这段窗里最好的一天（读数最低），所以这个 DENY 不是当天的运气。按这段窗的中位算，上限是 496,476 元；按最差的一天算，只有 340,838 元——「装不下 100 万」这句要换成「平常装得下多少」。",
+  "caveats": [
+   "这笔单子固定成今天的选票、等权：量的是尺子的余量，不是「重新选票后那些天会填成什么样」",
+   "成交额用的是闸自己的口径（收盘价×成交量、中位再取中位），不是成交明细：它是估计值而且是阶梯状的，所以读数一格一格跳",
+   "「1% ADV」是闸选定的线，不是量出来的线；换一条线，这里每个数按同一比例移动",
+   "读数在窗内上下走是市场成交额在走，不是这本书在走；这里没有一句话说明天会读到什么",
+   "资本上限是一个资本数，不是一张能下的单：整数手与 8% 波动目标都可能把它压得更低（见 etf_book_ticket_floor / etf_book_lot_floor）"
+  ]
  },
  "book_identity": {
   "path_ledger": "results/etf_book_forward/LEDGER.json",

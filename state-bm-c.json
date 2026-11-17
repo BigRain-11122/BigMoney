@@ -1020,7 +1020,7 @@
   "ts": "2026-11-18T00:40:11+08:00"
  },
  "round_label": "r1813",
- "round_no": 1825,
+ "round_no": 1826,
  "round_no_label": "r1821",
  "round_no_landed": 1663,
  "round_note": "r1489: a reinstated bar is re-derived from the panel, not carried over (reinstatement_check + reinstatements.json + sheet paragraph)",
@@ -1813,5 +1813,19 @@
   "next": "(a) let a suite run on this code and confirm the new leg is green in the registry, window <=24h; (b) r1822's leftover: fold the 2026-11-17 one-off merge receipt (%TEMP%) into Tools/face_merge_triage.py's own output shape, window <=48h."
  },
  "decisions_watermark_r1825": "group decisions.md raw-blob sha256 b85f356a -> ddf2c0c5 (batches 73/74, D-20261118-01..08: fork ruling / GPU window gate / gateway to local-first / S4U receipt MISS / social line in-window) -- zero rows touch bigmoney, so the watermark advances and no execution follows. r1824 read the same batches and printed the new hash, but the key itself was never written; this round persists it. orders.md raw-blob sha256 810bb25d unchanged -> zero new orders. Method note: the pinned value is sha256 of the raw blob (git show), NOT a hash of a decoded string -- a PowerShell Out-String hash of the same file reads c6beff46 and would have looked like a third generation.",
- "orders_ack_note_r1825": "fleet/orders 115 files vs ack set; after stem normalisation 0 unacked; heartbeat carries 271 acks (29 more than the state face -- kept, not deleted)."
+ "orders_ack_note_r1825": "fleet/orders 115 files vs ack set; after stem normalisation 0 unacked; heartbeat carries 271 acks (29 more than the state face -- kept, not deleted).",
+ "round_1826": {
+  "at": "2026-11-18T07:10:45+08:00",
+  "watermark": "green: board/pool both empty, no claimable batch on this host; the only CPU work is this round's own smoke suite (pid 60472, started 07:02, pre-change code) plus one page regeneration",
+  "product": "The CEO one-pager now answers 'does this order fit through the market'. ⑥ printed five codes, lots, cash, premium and the next decision date, and not one word about how much of the market's own turnover the order is. results/etf_book_capacity_edge.json has measured it for weeks at the 1,000,000 lens (five names x 200,000): 1.0087% of ADV today against a 1.00% line, 0 of 60 sessions passing, the largest capital that fits on the best of those days = 991,421 CNY (8,579 short of the lens), window median 496,476, worst day 340,838, binding name 159549.",
+  "refusals": "three pinned by selftest: missing/reading-less face -> reason, never 0; a face whose own session is not the ticket's bar -> both dates printed, no number (r1781 family); and the one that mattered -- the face was measured at the FULL lens while today's order is 43.2% of NAV (431,880), so the page says 'the face was not re-measured at 43.2%' and refuses to print a pass/fail verdict for today (r98 family: a scaled number is not a reading).",
+  "verification": "ceo_live_usage.py selftest ALL PASS incl. 5 new r1826 legs (reading reaches the page / capital ceiling quoted not recomputed / the 'not re-measured at 43.2%' sentence / missing face prints a reason and no reading / another session refused). Page regenerated; the block reads verbatim '按 ¥1,000,000 全仓、5 个名字各 ¥200,000 量，最近 60 个交易日里 0 天过线，今天读数 1.0087%（最紧的一席 159549）。'",
+  "wiring": "no new smoke leg needed: the one-pager's own selftest has been a product leg since r1825, so these 5 legs enter the registry with it.",
+  "s05": "fleet/orders 115 files, 0 unacked after normalising '.md' and '-bm-X' stems; group decisions.md raw-blob sha256 ddf2c0c5 unchanged (batches 73/74 consumed at r1825); orders.md sha 810bb25d unchanged -> zero new orders, zero new decisions, zero actions; inbox empty.",
+  "s6": "attrition_ledger_guard scan CLEAN (4 ledgers, 3 historical shrink rows healed). Data lanes and panel chain not started: they share faces with the in-flight suite.",
+  "s7": "register_loop_task no-op (machine=bm-c pin=0, next fire 07:10); watchdog re-registered (S4U flip still refused = permission, default principal kept, known face); pre-commit and pre-push claws reinstalled from their LF-normalised masters.",
+  "not_verified": "(a) no suite has run on this round's code -- the 07:02 suite loaded the registry before these edits, so its result belongs to r1825's code; the 5 new legs have hand-run evidence only. (b) 1.0087% is the capacity face's own reading; this page quotes it and does not re-derive it.",
+  "next": "(a) let a suite run on this code and confirm the 5 new legs are green in the registry, window <=24h; (b) r1822 leftover: fold the 2026-11-17 one-off merge receipt into Tools/face_merge_triage.py's own output shape, window <=48h. (c) if the permission floor rises toward k=1.0 the ticket reaches the impact line -- the page will say so only once the face is re-measured at that size, which is the honest next step for that face, not a page change."
+ },
+ "decisions_watermark_r1826": "group decisions.md raw-blob sha256 ddf2c0c5... == the watermark written at r1825; orders.md raw-blob sha256 810bb25d... unchanged -> zero new decision rows, zero new orders, zero execution action."
 }

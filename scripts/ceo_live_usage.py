@@ -169,6 +169,13 @@ ETF_PREMIUM_REL = "results/etf_book_premium_leak.json"
 # decision bar. Read-only, with a same-generation guard (r1780/r1781 class).
 ETF_CASH_ROLL_JSON = os.path.join(ROOT, "results", "etf_book_cash_roll_today.json")
 ETF_CASH_ROLL_REL = "results/etf_book_cash_roll_today.json"
+# r1826: ⑥ tells the reader which five codes to buy and how many lots, but never how
+# much of the market's own turnover that order is.  The capacity face has measured it
+# for weeks (1.0087% of ADV against a 1.00% line, 0 of 60 sessions passing, the largest
+# capital that fits on the best of those days = 991,421 CNY) and the reader's page never
+# carried a word of it -- the r1782 shape again.  Read-only: the page quotes the face.
+ETF_CAPACITY_JSON = os.path.join(ROOT, "results", "etf_book_capacity_edge.json")
+ETF_CAPACITY_REL = "results/etf_book_capacity_edge.json"
 
 # v2.2 (r1782): the index-futures carry book is the second money candidate, and
 # until now its only sentence on this page was nothing at all -- "this book buys
@@ -1201,6 +1208,57 @@ def _next_decision_face(t):
     }
 
 
+def _etf_capacity_face():
+    """r1826: how much of the market's turnover this order is.
+
+    ⑥ names five codes, their lots and their cash, and says nothing about whether that
+    size fits through the market.  results/etf_book_capacity_edge.json has measured it
+    for weeks against the 1% ADV line -- and the reader's page never carried a word.
+
+    Read-only, and the one thing this block must NOT do is scale the reading by hand.
+    The face measured the 1,000,000 lens (five names, 200,000 each), not the 43%-sized
+    ticket the desk is holding today, so quoting "0 of 60 sessions pass" beside today's
+    order would read as "today's order breaches" -- a number nobody measured (r98
+    family: an unread reading is not a reading).  The block therefore prints the lens
+    it was measured at, the reader's own book weight beside it, and says the face was
+    not re-measured at this size.
+
+    * missing / reading-less face -> a reason, never 0 ("there is room" must be earned);
+    * a face whose own session is not the ticket's bar -> say so, print no number
+      (r1781 family: a section fed by another trip self-stamps or it lies);
+    * the 1% line is the gate's own choice, quoted as such (caveat carried verbatim).
+    """
+    d = _read_json(ETF_CAPACITY_JSON)
+    if not d:
+        return {"present": False, "note": "容量面未产出（缺面不读 0）"}
+    s = d.get("summary") or {}
+    if s.get("reading_today_pct") is None:
+        return {"present": False, "note": "容量面上没有读数（空面不冒充有空间）"}
+    pub = d.get("published") or {}
+    crit = d.get("criteria") or {}
+    return {
+        "present": True,
+        "session": d.get("session"),
+        "evidence_cutoff": d.get("evidence_cutoff"),
+        "verdict": s.get("verdict"),
+        "line_pct": s.get("line_pct", crit.get("line_pct")),
+        "lens_cny": s.get("lens_cny", crit.get("lens_cny")),
+        "lens_tag": crit.get("lens_tag"),
+        "per_name_cny": pub.get("per_name_cny"),
+        "reading_today_pct": s.get("reading_today_pct"),
+        "binding_today": s.get("binding_today"),
+        "n_sessions": s.get("n_sessions"),
+        "n_passes": s.get("n_passes"),
+        "n_unmeasurable": s.get("n_unmeasurable"),
+        "capital_at_line_cny": s.get("capital_where_at_line_today_cny"),
+        "capital_median_cny": s.get("capital_median_cny"),
+        "capital_min_cny": s.get("capital_min_cny"),
+        "gap_to_lens_cny": s.get("gap_to_lens_cny"),
+        "sentence": d.get("sentence"),
+        "caveats": d.get("caveats") or [],
+    }
+
+
 def _etf_order_face():
     """v2.3 (r1784): the executable sheet's own rows, in lots and cash.
 
@@ -1496,6 +1554,7 @@ def build_payload(day: str) -> dict:
         "etf_book": book,
         "etf_order": _etf_order_with_cash_roll(),
         "etf_premium": _etf_premium_face(),
+        "etf_capacity": _etf_capacity_face(),
         "book_identity": _book_identity_face(),
         "carry_book": _carry_book_face(),
         "carry_timing": _carry_timing_face(),
@@ -2114,6 +2173,58 @@ def render_md(p: dict) -> str:
                          "不是月末也不是月初。".format(
                              _nfd.get("date"), _nfd.get("n_claims") or 0,
                              _nfd.get("calendar_source") or "?"))
+    # ---- r1826: the sheet names the lots and the cash; nothing said how much of the
+    # market's own turnover that order is.  Everything below is quoted from the
+    # capacity face at the lens IT measured -- this block never scales it to today's
+    # smaller book, because that number was never measured.
+    _cap = p.get("etf_capacity") or {}
+    if not _cap.get("present"):
+        L.append("  - **这单装得进市场吗**（1% ADV 闸线）：{}——今天不印数".format(
+            _cap.get("note") or "容量面未产出（缺面不读 0）"))
+    elif (_cap.get("session") and eo.get("bar")
+          and str(_cap.get("session"))[:10] != str(eo.get("bar"))[:10]):
+        L.append("  - **这单装得进市场吗**（1% ADV 闸线）：容量面量的是 {} 的盘口，"
+                 "与这一页票面的 {} 不是同一天——今天不印这个数".format(
+                     str(_cap.get("session"))[:10], str(eo.get("bar"))[:10]))
+    else:
+        _cl = _cap.get("line_pct")
+        _cr = _cap.get("reading_today_pct")
+        _lens = _cap.get("lens_cny")
+        _capok = (_cl is not None and _cr is not None and _lens)
+        L.append(
+            "  - **这单装得进市场吗**（{:.2f}% ADV 闸线）：{}".format(
+                float(_cl or 0.0) if _capok else 0.0,
+                ("按 ¥{} 全仓、5 个名字各 ¥{} 量，最近 {} 个交易日里 **{} 天**过线，"
+                 "今天读数 **{:.4f}%**（最紧的一席 {}）。".format(
+                     _fmt_cny(_lens), _fmt_cny(_cap.get("per_name_cny") or 0),
+                     _cap.get("n_sessions"), _cap.get("n_passes"),
+                     _cr, _cap.get("binding_today") or "?"))
+                if _capok else "容量面读数不全（不印半张尺子）"))
+        if _capok:
+            _un = _cap.get("n_unmeasurable") or 0
+            L.append("    - 倒过来读：今天这个成交额下能过的资本上限 **¥{}**"
+                     "（比 ¥{} 少 ¥{}）；窗内中位 ¥{}、最差一天 ¥{}——"
+                     "「装不下 100 万」要换成「平常装得下多少」{}。".format(
+                         _fmt_cny(_cap.get("capital_at_line_cny")),
+                         _fmt_cny(_lens), _fmt_cny(_cap.get("gap_to_lens_cny")),
+                         _fmt_cny(_cap.get("capital_median_cny")),
+                         _fmt_cny(_cap.get("capital_min_cny")),
+                         "" if not _un else "（另有 {} 天不可量，既不算过也不算不过）"
+                         .format(_un)))
+            _bw = eo.get("book_weight")
+            _spend = eo.get("spent_cny")
+            if _bw is not None and _spend is not None:
+                L.append("    - 和上面这张单一起读：这把尺子是**按全仓量的**，"
+                         "而今天这单只用了账面 {:.1f}%（¥{}）——容量面没有在 {:.1f}% "
+                         "这个规模上重量，所以本页不印「今天这单过线/没过线」，"
+                         "只印它量过的那个规模。".format(
+                             float(_bw) * 100.0, _fmt_cny(_spend),
+                             float(_bw) * 100.0))
+            L.append("    - 1% 是闸自己选的线，不是量出来的线：换一条线，"
+                     "这里的每个数按同一比例移动。")
+        L.append("    - 出处：`{}`（盘口 {}·计价截止 {}）".format(
+            ETF_CAPACITY_REL, str(_cap.get("session") or "未标")[:10],
+            str(_cap.get("evidence_cutoff") or "未标")[:10]))
     # ---- r1820: the sheet names five codes and their prices; nothing on this page
     # said what part of that money is paid above the funds' own NAV.  One number per
     # reader decision: how much of the ticket is premium, and what reversion would cost.
@@ -3012,6 +3123,44 @@ def selftest() -> int:
             _md7 = render_md(_deg7)
             check("a date contradicting the ticket's own bar count prints neither (r1825)",
                   "今天不印" in _md7 and "两个数总有一个是陈的" in _md7)
+        # ---- r1826: the order's own size against the market's turnover.  Three legs:
+        # the measured reading and the capital ceiling reach the page; the block states
+        # that the face was measured at the full lens, not at today's smaller order;
+        # and a missing / other-session face prints a reason and NO number.
+        _cp1 = p1.get("etf_capacity") or {}
+        if not _cp1.get("present") or _cp1.get("reading_today_pct") is None:
+            print("  [SKIP] capacity block: the face is absent")
+        else:
+            _crd1 = _cp1.get("reading_today_pct")
+            check("the order's own share of market turnover reaches the page (r1826)",
+                  "这单装得进市场吗" in md1
+                  and "{:.4f}%".format(_crd1) in md1
+                  and str(_cp1.get("binding_today") or "?") in md1)
+            _ccap1 = _cp1.get("capital_at_line_cny")
+            check("the capital ceiling at the line is quoted, never recomputed (r1826)",
+                  _ccap1 is not None and _fmt_cny(_ccap1) in md1
+                  and _fmt_cny(_cp1.get("capital_median_cny")) in md1)
+            _csc1 = "没有在 {:.1f}% 这个规模上重量".format(
+                float((_eo1.get("book_weight") or 0.0)) * 100.0)
+            check("the block says the face was measured at the lens, not at today's size "
+                  "(r1826)", _csc1 in md1)
+            _deg8 = json.loads(json.dumps(p1))
+            _deg8["etf_capacity"] = {"present": False,
+                                     "note": "容量面未产出（缺面不读 0）"}
+            _md8 = render_md(_deg8)
+            check("a missing capacity face prints a reason, never a reading (r1826)",
+                  "今天不印数" in _md8
+                  and "{:.4f}%".format(_crd1) not in _md8
+                  and "能过的资本上限" not in _md8)
+            _deg9 = json.loads(json.dumps(p1))
+            _c9 = dict(_deg9.get("etf_capacity") or {})
+            _c9["session"] = "1999-01-01"
+            _deg9["etf_capacity"] = _c9
+            _md9 = render_md(_deg9)
+            check("a capacity face on another session is refused, not quoted (r1826)",
+                  "不是同一天" in _md9
+                  and "{:.4f}%".format(_crd1) not in _md9
+                  and "能过的资本上限" not in _md9)
         # r1787: the money line and the timing line must both be on the page, and
         # the page must say that BOTH are needed -- funding on a day the rule says
         # wait is the mistake this section exists to prevent.
