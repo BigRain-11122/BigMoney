@@ -9,7 +9,7 @@ Config: 12 names of a 1522-instrument bond-free pool, rebalance every 20 bars, 1
 | 2020-2023 -- as coded | 3.8% | 0.44 | -11.8% | 10.0% | 8% (1.25x) |
 | 2024 onwards -- as coded | 17.7% | 1.68 | -10.7% | 10.5% | 8% (1.31x) |
 
-**This card is the research basket, not today's ticket.** It ranks 12 names under the vol rule; the ticket priced on the 2026-11-17 bar buys **5 of the same names** under the beta rule at k=0.4322 (-1.20pp/yr apart on the same panel). Size from the ticket and read this card as the rule behind it -- results/etf_book_order/latest.json.
+**This card is the research basket, not today's ticket.** It ranks 12 names under the vol rule; the ticket priced on the 2026-11-17 bar buys **5 of the same names** under the beta rule at k=0.4322 (-1.15pp/yr apart on the same panel). Size from the ticket and read this card as the rule behind it -- results/etf_book_order/latest.json.
 
 Row 1 is the engine as coded (score off bar d's close, paid bar d's *open*); row 2 is the same rule with the score held one bar back -- the fill this card declares. Size off row 2.
 
@@ -24,13 +24,14 @@ Row 1 is the engine as coded (score off bar d's close, paid bar d's *open*); row
 
 **Panel digest:** `0d5a9cdcf2beffd5` (5282 bars x 1631 symbols, 2005-02-23->2026-11-17, covers close/open/amount) -- the executable sheet and the forward ledger print the same fingerprint only when all three priced one panel, on the same blocks.
 
-**Priced day: DIFFERENT_DAYS** -- card 2026-11-17 / ticket 2026-11-17 / page 2026-11-16 (compared at 2026-11-17 18:56:04); priced on different bars: card 2026-11-17 / ticket 2026-11-17 / page 2026-11-16. A reader comparing numbers across these papers is comparing two different books, so read the lagging one only as history.
+**Priced day: SAME_DAY** -- card 2026-11-17 / ticket 2026-11-17 / page 2026-11-17 (compared at 2026-11-17 22:18:40); this card, the executable sheet and the CEO page all priced the same closing bar.
 
-**Family coherence: ONE_WORLD** -- all 10 width arms priced `0988c6530a481fa1` (cutoff 2026-11-16); the verdicts that license this card's width are measurements on one panel.
+**Family coherence: MIXED_WORLDS** -- 11 faces priced 2 different panels (0988c653, 0d5a9cdc): per-cell deltas across worlds are world differences, not rule effects.
+8 of 10 arms priced the card's own panel and keep their labels (buffer_k02, buffer_k05, buffer_k05_cost20, buffer_k10, buffer_k20, buffer_k40, cost0, cost40); the 2 withheld one(s) still price another panel (cost05, cost20), so their verdicts are not part of this reading.
 
-**Label null: 96.5% REJECT** -- the same rule called an effect-free panel REJECT in that share of 20000 trials, so a published REJECT carries almost no information; the rare branch (NOT-SEPARABLE 3.5%, ADOPT 0.0%) is the one that reads.
+**Label null: 96.6% REJECT** -- the same rule called an effect-free panel REJECT in that share of 20000 trials, so a published REJECT carries almost no information; the rare branch (NOT-SEPARABLE 3.5%, ADOPT 0.0%) is the one that reads.
 
-**Width floor: an extrapolation that holds its test point** (priced at the unseen k=0.30 the line predicted +0.335pp and the arm's own cells said +0.385pp -- gap 0.050pp against a 0.172pp tolerance) -- the name count is still continued past the last measured arm, but the point it never saw sits on the line.
+**Width floor: an extrapolation that holds its test point** (priced at the unseen k=0.30 the line predicted +0.908pp and the arm's own cells said +0.510pp -- gap 0.398pp against a 2.420pp tolerance) -- the name count is still continued past the last measured arm, but the point it never saw sits on the line.
 
 **Today (2026-11-17 bar): HOLD: 16 bars until the next decision point** (last grid decision 2026-11-11).
 
@@ -167,28 +168,26 @@ All three were priced on evidence cutoff 2026-11-17; the preregs are the files n
 
 ## How bad can the drawdown be?
 
-The drawdown column above is one ordering of the trading days. Bootstrapping the book's own return path (blocks 1/5/10/20/40/60/120/250 bars, 2000 resamples) puts the 5th-percentile drawdown between **-25.2% and -17.6%** and the median between -14.8% and -12.5% -- a spread of 7.6pp produced by the block length alone, i.e. by how long the ruler remembers dependence.
+The drawdown column above is one ordering of the trading days. Bootstrapping the book's own return path (blocks 1/5/10/20/40/60/120/250 bars, 2000 resamples) puts the 5th-percentile drawdown between **-25.1% and -18.3%** and the median between -14.7% and -12.8% -- a spread of 6.8pp produced by the block length alone, i.e. by how long the ruler remembers dependence.
 
 | block (bars) | maxDD p5 | maxDD p50 | share worse than -20% | point maxDD pctile |
 |---|---|---|---|---|
-| 1 | -25.21% | -14.80% | 15.8% | 77.6 |
-| 5 | -24.70% | -14.66% | 15.9% | 77.7 |
-| 10 | -23.99% | -14.10% | 13.8% | 74.7 |
-| 20 | -21.60% | -13.34% | 7.3% | 67.6 |
-| 40 | -21.37% | -13.14% | 8.0% | 65.0 |
-| 60 | -22.00% | -13.31% | 8.6% | 67.5 |
-| 120 | -20.65% | -13.33% | 5.9% | 68.6 |
-| 250 | -17.63% | -12.50% | 1.7% | 61.1 |
+| 1 | -25.06% | -14.71% | 17.5% | 78.8 |
+| 5 | -24.89% | -14.63% | 17.5% | 77.5 |
+| 10 | -24.41% | -14.18% | 14.7% | 75.0 |
+| 20 | -21.62% | -13.42% | 7.8% | 69.5 |
+| 40 | -21.72% | -13.33% | 8.4% | 68.7 |
+| 60 | -22.35% | -13.50% | 9.6% | 69.0 |
+| 120 | -21.45% | -13.53% | 8.3% | 75.8 |
+| 250 | -18.26% | -12.84% | 2.3% | 76.4 |
 
-Read the card's own -11.8% as the median of that ruler, not its tail: size the position against the p5 column, which is 13.4pp worse than the headline at the widest block.
+Read the card's own -11.8% as the median of that ruler, not its tail: size the position against the p5 column, which is 13.3pp worse than the headline at the widest block.
 
-> Band priced on the **2026-11-16** bar from results/etf_book_bootstrap/BLOCKS-2026-11-16.json. A tail quoted without its block is a sentence without its parameter (E248).
-
-**⚠ 这根回撤带比表格旧（stale）：带站在 2026-11-16，表格站在 2026-11-17。** 带宽没有吃到最近这段行情，所以 p5 那一列只会比真实更窄——不要把窄当成安全。
+> Band priced on the **2026-11-17** bar from results/etf_book_bootstrap/BLOCKS-2026-11-17.json. A tail quoted without its block is a sentence without its parameter (E248).
 
 ## Caveats
 
-- THE DRAWDOWN LINE ABOVE IS A MEDIAN, NOT A TAIL: it is priced on one ordering of the trading days. Bootstrapping this book's own return path at blocks 1/5/10/20/40/60/120/250 (the block is a free parameter) puts the 5th-percentile drawdown between -25.2% and -17.6% and the share of resamples worse than -20% between 1.7% and 15.9%. Size against the p5 column. See results/etf_book_bootstrap/BLOCKS-2026-11-16.json (band priced on the 2026-11-16 bar, older than this card's 2026-11-17 -- stale, its tail can only be too narrow).
+- THE DRAWDOWN LINE ABOVE IS A MEDIAN, NOT A TAIL: it is priced on one ordering of the trading days. Bootstrapping this book's own return path at blocks 1/5/10/20/40/60/120/250 (the block is a free parameter) puts the 5th-percentile drawdown between -25.1% and -18.3% and the share of resamples worse than -20% between 2.3% and 17.5%. Size against the p5 column. See results/etf_book_bootstrap/BLOCKS-2026-11-17.json.
 - THE SIX FACTOR DIRECTIONS WERE CHOSEN WITH HINDSIGHT: every published number here uses a fixed sign block, and those signs are exactly this panel's full-sample IC signs (6 of 6 factors match). Re-priced with signs estimated only from already-realised windows, the same engine returns -10.83%/yr (Sharpe -0.41) against +6.01%/yr (+0.63) for the fixed signs -- and reversing the trailing sign does not recover it (-2.22%/yr). Read the headline as the size of a period, not the size of a rule. See results/etf_sign_pit.json.
 - ONE REGIME, NOT A VERIFIED EDGE: on the 224 ETFs that existed before 2020, priced 2015-2019 (a window this card never covered) the same engine returned -4.97%/yr against +3.89%/yr equal weight = -8.86pp excess, worse in 6 of 6 grid cells, random-score p=0.96. The published CAGR is the 2020+ regime, not a property of the factors. That cell is bond-inclusive, 5 names wide and has no sizing rule; 'The 2015-2019 reconciliation' below prices what each of those differences is worth. See results/etf_book_pre2020.json.
 - THE COMMODITY SLEEVE IS MOSTLY METAL BETA WITH A MODEST RANKING OVERLAY: it produced 30.1% of gross return; the same engine restricted to the 41 commodity ETFs returned +16.31%/yr against +11.45%/yr for holding those names equally (+4.86pp), and the deepest-turnover commodity name (518880) returned +13.91%/yr passively, i.e. the book beat holding the metal by +2.40pp. Read the sleeve as commodity/gold exposure plus a small selection add-on, not a commodity ranking that pays. See results/etf_book_commodity_split.json.

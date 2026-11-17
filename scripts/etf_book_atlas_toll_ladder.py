@@ -362,10 +362,20 @@ def buffer_ladder(rungs):
         verdict = "BUFFER_HAS_NO_ORDERING_EFFECT"
     elif n_clear >= 2 and rho is not None and rho >= DOSE_RHO:
         verdict = "BUFFER_WIDENS_THE_ORDERING"
-    else:
+    elif n_clear == 1:
         verdict = "SINGLE_RUNG_CROSSING_IS_ONE_DRAW"
         reasons.append("a strength ladder whose only crossing is non-monotone is the r1325 "
                        "single-arm reading again: the ladder, not the arm, is the ruler")
+    else:
+        # n_clear >= 2 but the spread is not a dose of k. The old branch called this
+        # "single rung" while publishing n_clearing_rungs >= 2 -- a name that contradicts its
+        # own count (smoke r1813 caught it). Two scattered crossings are still a draw, but the
+        # number in the name has to be true.
+        verdict = "CROSSINGS_WITHOUT_DOSE"
+        reasons.append("%d rungs clear the band and the spread still is not ordered by k "
+                       "(rank corr %s < %.2f): scattered crossings are the same draw as one, "
+                       "but they are not a single rung and must not be named as one"
+                       % (n_clear, "n/a" if rho is None else "%.3f" % rho, DOSE_RHO))
     return {
         "verdict": verdict,
         "rungs": len(rungs),
@@ -382,7 +392,8 @@ def buffer_ladder(rungs):
 def statement(toll, buff):
     """One sentence a reader can quote, built only from the two verdicts and the knob trends."""
     t_art = toll.get("verdict") == "ORDERING_IS_A_TOLL_ARTEFACT"
-    b_draw = buff.get("verdict") == "SINGLE_RUNG_CROSSING_IS_ONE_DRAW"
+    b_draw = buff.get("verdict") in ("SINGLE_RUNG_CROSSING_IS_ONE_DRAW",
+                                     "CROSSINGS_WITHOUT_DOSE")
     # the one thing the ladder does pin down: the SIGN of each knob, not its size
     cad_flip = toll.get("cadence_sign_flip_toll_bp")
     wid_rho = toll.get("width_effect_rank_corr_with_toll")
@@ -683,9 +694,11 @@ def selftest():
         str(b["n_clearing_rungs"]))
     leg("a single non-monotone crossing is one draw",
         b["verdict"] == "SINGLE_RUNG_CROSSING_IS_ONE_DRAW", str(b["verdict"]))
-    leg("buffer dose needs more than one crossing",
-        buffer_ladder(faces["buffer"] + faces["buffer"])["verdict"]
-        == "SINGLE_RUNG_CROSSING_IS_ONE_DRAW")
+    # the name must agree with the count: two scattered crossings are a draw too, but they
+    # are not "a single rung" and the face may not say so (r1813)
+    leg("more than one crossing without a dose is not named a single rung",
+        buffer_ladder(faces["buffer"] + faces["buffer"])["verdict"] in
+        ("SINGLE_RUNG_CROSSING_IS_ONE_DRAW", "CROSSINGS_WITHOUT_DOSE"))
 
     # membership: two-knob faces are excluded, and classification uses the audit block
     ex, why = classify({"audit": {"cost": 0.0005, "buffer_k": 0.05}})

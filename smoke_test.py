@@ -1981,6 +1981,15 @@ def main() -> int:
              "scripts/etf_alias_census.py", ["selftest"]),
             ("product: etf_alias_census (published families re-checked: clique, money arithmetic)",
              "scripts/etf_alias_census.py", ["check"]),
+            # r1811: every one of those census verdicts reads ONE 250-session window. These two
+            # legs pin that the same pairs are re-asked on the four years before it, that a pair
+            # measurable in one year is not scored like a pair measurable in four, that a missing
+            # history is named rather than counted as agreement, and that a per-window block can
+            # never grow a money number (premiums exist for one session only).
+            ("product: etf_alias_stability (the same-basket verdict re-asked on the years before)",
+             "scripts/etf_alias_stability.py", ["selftest"]),
+            ("product: etf_alias_stability (published rates re-derived from the published rows)",
+             "scripts/etf_alias_stability.py", ["check"]),
             # r1466: the swap was priced but the sheet carrying it did not say when to look
             # again. The legs pin that the action price is the round-trip toll (not a mean,
             # not a percentile), that a censored episode is reported rather than scored as
@@ -4499,9 +4508,21 @@ def main() -> int:
             # 逐字相等，只有"盘在别处"这一态改判在板面自证上。
             _heat_offhost = bool(_here and _heat_row.get("data_face_machine")
                                  and _heat_row["data_face_machine"] != _here)
+            # r1813: when the lane's own host is DOWN, the board says so in machine-readable
+            # form (verdict=stalled, host_alive=False, host_age_h present) and this host is
+            # forbidden from collecting it (R31 lane guard). Asking this leg to re-collect a
+            # stopped lane turns one real fact -- "bm-a has not run update_heat for 20.7h" --
+            # into a red that no machine here can clear. The fact still travels in the detail
+            # line; what turns green is only the agreement question this leg asks.
+            _heat_stalled_offhost = bool(
+                _heat_offhost
+                and _heat_row.get("verdict") == "stalled"
+                and _heat_row.get("host_alive") is False
+                and isinstance(_heat_row.get("host_age_h"), (int, float)))
             _heat_matches = ((_heat_row.get("tail") == _heat_tail)
                              if (_heat_tail and not _heat_offhost)
-                             else (_heat_uncertified or _heat_host_vouched))
+                             else (_heat_uncertified or _heat_host_vouched
+                                   or _heat_stalled_offhost))
             _zt_ok = _rows["zt_pool"]["tail"] == _zt_tail
         _ok_lf = (_heat_matches
                   and _zt_ok
@@ -5864,6 +5885,15 @@ def main() -> int:
              "scripts/etf_book_lot_ladder.py", ["--selftest"]),
             ("product: etf_book_lot_ladder (published rungs and caliber gap still re-derive)",
              "scripts/etf_book_lot_ladder.py", ["--check"]),
+            # r1813: r1794 asked how small an account can be; this asks the other half of the
+            # same question -- at the capital the card states (1,000,000), can each of the
+            # twelve names buy one whole lot at all, and does the rounding strand more than
+            # 0.5% of NAV. The ticket on disk is the input, so the face refuses when the
+            # ticket is missing rather than inventing a book.
+            ("product: etf_book_ticket_floor (twelve names fit whole lots at the stated capital)",
+             "scripts/etf_book_ticket_floor.py", ["--selftest"]),
+            ("product: etf_book_ticket_floor (published legs and floor re-derive from the ticket)",
+             "scripts/etf_book_ticket_floor.py", ["--check"]),
             # r1795: r1794 measured the engine's one-day caliber bulge with an independent
             # implementation; this face puts the switch inside the engine (entry_lag, default
             # 0 = bit-identical to every published face) and answers the only question a
@@ -6288,8 +6318,13 @@ def main() -> int:
                         <= _t["band_at_production_toll_pp"] + 1e-9
                         and (_t.get("spread_rank_corr_with_toll") or 0) <= -0.90)
             _b = _lj.get("buffer_ladder") or {}
+            # the name must agree with the count: "a single rung" only when exactly one rung
+            # clears the band; several scattered crossings get their own name (r1813: this
+            # face used to say "single rung" while publishing n_clearing_rungs == 2)
             if _b.get("verdict") == "SINGLE_RUNG_CROSSING_IS_ONE_DRAW":
                 _lok = _lok and _b.get("n_clearing_rungs") == 1
+            elif _b.get("verdict") == "CROSSINGS_WITHOUT_DOSE":
+                _lok = _lok and (_b.get("n_clearing_rungs") or 0) >= 2
             check("product: toll-ladder verdict is recomputable from the arm faces",
                   _lok, "verdict=%s break_even=%s rungs=%d spread@8bp=%s band=%s"
                   % (_t.get("verdict"), _t.get("break_even_toll_bp"), _t.get("rungs") or 0,

@@ -304,7 +304,13 @@ def _selftest():
     # L4 the published face's null frequencies are what a fresh simulation of the same size says
     pub = build()
     tot = sum(pub["null"]["label_frequency"].values())
-    chk(abs(tot - 1.0) < 1e-6, "the label frequencies sum to 1 (got %.6f)" % tot)
+    # simulate() publishes each class rounded to 4 decimals, so the sum of three such numbers
+    # can miss 1.0 by up to 3 x 0.5e-4. Comparing that rounded sum against an exact 1.0 at
+    # 1e-6 reads a formatting choice as a broken distribution (r1813: 1.000100 tripped it).
+    # The tolerance is the rounding error itself, not a wider door.
+    _tol = 0.5e-4 * max(1, len(pub["null"]["label_frequency"])) + 1e-9
+    chk(abs(tot - 1.0) <= _tol,
+        "the label frequencies sum to 1 (got %.6f, rounding tol %.6f)" % (tot, _tol))
     chk(sum(1 for x in pub["observed"]) == len(payload["arms"]),
         "every published arm is compared against the null")
     # L5 the verdict follows from its own published frequencies, not from a hand-written string

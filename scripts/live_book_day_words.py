@@ -757,16 +757,22 @@ def selftest():
         # the paper was opened, and either it carries none, or every printed date was read
         # against the field its sentence quotes".
         _dc = c.get("date_claims") or {}
+        # r1813: `n_unmapped` counts prose dates -- sentences like "the quote in that table is
+        # 2026-11-13's, two bars behind the panel's 2026-11-17" -- that name a date but quote
+        # no field, because they exist to explain the gap. Demanding zero of them made a page
+        # that explains itself fail the very leg that checks it explains itself. The hard
+        # condition is a date that was read AGAINST a field and did not match (n_mismatch);
+        # an unmapped prose date is information, not a defect.
         leg("the published page's verdict agrees with its own head line",
             (c["verdict"] in CLEAN) == bool(not c["offenders"]
                                             and c["printed"]["state"] == "ok"
                                             and (not c["printed"]["n_lines"]
                                                  or (not _dc.get("n_mismatch")
                                                      and not _dc.get("n_undated")
-                                                     and not _dc.get("n_unmapped")
                                                      and not _dc.get("n_unverifiable")
                                                      and _dc.get("n_claims")))),
-            (c["verdict"], len(c["offenders"]), _dc.get("n_claims"), _dc.get("n_mismatch")))
+            (c["verdict"], len(c["offenders"]), _dc.get("n_claims"), _dc.get("n_mismatch"),
+             _dc.get("n_unmapped")))
         leg("the printed page really was opened (a census with no paper is not a census)",
             c["printed"]["state"] == "ok" and c["printed"].get("n_headings", 0) >= 0
             and printed_text is not None, c["printed"].get("state"))
