@@ -4,7 +4,7 @@
  "activity_now_round": 1814,
  "agenda_starved": false,
  "ah_note": "r1680 LANDED: refresh closed itself at 21:17 -- cutoff 2026-11-12 -> 2026-11-13, complete=True, exit 0, pulled_rows 46; data_lane_freshness in_sync 13 / behind_1d 1 (worst now marks, intraday-only, not rebuildable). Fix that made it possible: stall watchdog over every network leg (300s, names stage/pair, exit 2, checkpoint kept) + save_progress stamps write time + -u on the detached spawn + progress line every 10 pairs. NOT yet proven: the 300s stall path has never fired on a real hang (this round the suspected freeze finished by itself).",
- "ahead_origin": 0,
+ "ahead_origin": 17,
  "arm_repricing": {
   "bars": 5279,
   "chain_leg": "etf_book_atlas_family (Tools/s6_chain_bmc.py)",
@@ -43,7 +43,7 @@
   "results/etf_book_day_delta.json"
  ],
  "batch": "etf_alias_census selftest 17/17 + run rc0 + --check ok；etf_book_ceo_page selftest 455/455（新腿 L415）+ run 重生成页；day_delta run→check UNEXPLAINED_MOVES unexplained=1(/stress/n_days 5281→5282，面板多了一根未定价的 11-17 bar，非本轮改动)",
- "behind_origin": 0,
+ "behind_origin": 20,
  "busy": false,
  "chain": "S6: dualrun ZERO-DRIFT streak 51/744；watermark insufficient_history（local_batch=1 套件在飞、pool 0、board 0、red=false）；attrition CLEAN（4 本账 1 处历史缩行 healed）；数据面推进到 11-17（1714 票各追加一行，已单独提交）",
  "chain_note": "S6 ran the gates that carry evidence (dualrun before compute_audit, then watermark/update_daily/attrition); the data-lane refreshers and the scorecard/panel builders were not run this round -- single table, no split evidence",
@@ -1020,7 +1020,7 @@
   "ts": "2026-11-18T00:40:11+08:00"
  },
  "round_label": "r1813",
- "round_no": 1815,
+ "round_no": 1816,
  "round_no_label": "r1785",
  "round_no_landed": 1663,
  "round_note": "r1489: a reinstated bar is re-derived from the panel, not carried over (reinstatement_check + reinstatements.json + sheet paragraph)",
@@ -1607,7 +1607,7 @@
   "watchdog/loop S4U flip still pending an elevated re-register (carried)"
  ],
  "update_daily": "rc0 0 new rows, cutoff 2026-11-13 (Sunday, no new bar)",
- "updated": "2026-11-17T23:00:26+08:00",
+ "updated": "2026-11-18T01:18:43+08:00",
  "updated_at": "2026-11-17T23:00:26+08:00",
  "vcpu": 32,
  "verdict": "product shipped: docs/live_usage/LIVE-*.md now carries the carry book's funding line -- executable 0 lots beside the first rung (1,125,012 IC / 1,152,040 IM, short by 125,012 / 152,040), the WITHDRAW_FROM_TICKET decision, the 8 desk lots as a counterfactual and the 8 paper lots kept under FUNDED_BY_A_LARGER_CAPITAL; the section self-stamps the producing face's generated/cutoff and a missing face prints no zero",
@@ -1681,5 +1681,17 @@
  "went_well": "the fix keeps the old states reachable: a card with one unqualified row still takes the position-free path, so no previously published verdict changed meaning",
  "when_well": "the exec panel reused lhb_sellleg verbatim by passing a net-of-cost panel instead of writing a second event study -- the two tables cannot disagree about the quintiles because there is only one implementation",
  "who_did": "bm-c",
- "当前任务": "r1792：把 face_consumer_census 指名的 15 张「算完没人读」阶梯胜率面聚合成一页三判词（e33_ladder_census，selftest 10/10 + check ok + S6 链腿 rc0），并修 etf_book_day_delta 的「标题 bar ≠ 节 bar」假红（258→29，selftest 26/26）。"
+ "当前任务": "r1792：把 face_consumer_census 指名的 15 张「算完没人读」阶梯胜率面聚合成一页三判词（e33_ladder_census，selftest 10/10 + check ok + S6 链腿 rc0），并修 etf_book_day_delta 的「标题 bar ≠ 节 bar」假红（258→29，selftest 26/26）。",
+ "round_1816": {
+  "product": "new face etf_book_capacity_ticket: the capacity gate prices three capitals (best 991,421 / typical 496,476 / worst 340,838) and the ticket is signed at 1,000,000 -- nobody had fed those three through the ticket floor. Verdict TRADABLE_ON_A_TYPICAL_DAY: the best and the typical day each buy one lot of all twelve names (residue 0.1562% / 0.2418% of NAV against the frozen 0.50% line), the worst day buys every name too but strands 0.5583% -- the fault there is the whole-lot residue, not a name that cannot buy. One-lot floor is only 14,876 CNY, so the binding constraint at bad-session capital is rounding, not affordability.",
+  "second_fix": "the first sentence printed '0 names cannot buy a single lot' beside 'it does not fit' -- two different failures behind one word. fault_of() now splits unfilled / residual / none and the sentence quotes the percentage and the line for the residual case; a selftest leg pins that a stranded rung is never printed as unbuyable, and the page carries the same block (two page legs).",
+  "evidence": "capacity_ticket selftest 14/14 PASS + check ok=true (three rungs re-derived, rung capitals byte-identical to the gate face, verdict re-derived from the count, page prints the verdict and carries no leaked escape); ceo_page selftest 459->461/461 PASS (L334 rungs+floor reach the page, L335 a missing face reads cannot-read and prints neither capitals nor floor); smoke legs added (selftest + check, suite was already in flight when they were written); S6 leg capacity_ticket wired between capacity_edge and etf_book_ceo_page, which moved below both so it reads this run's numbers instead of last run's.",
+  "chain": "the round-1815 S6 chain (pid 69076, started 00:10) was still in flight all round; this window ran no second chain. Its faces are left uncommitted on disk and are NOT part of this round's commits.",
+  "delivery": "the 13 commits stranded by earlier ssh-443 timeouts plus this round's 3 are on origin machine/bm-c-r1816 (push rc0, [new branch]). main convergence still blocked by the same real content conflict: results/etf_book_derisk_rule/DERISK-RULE.json. Diagnostic this round: both copies share the same script (no diff) and the same evidence_cutoff 2026-11-17 and the same verdict NO_RULE_CLEARS_BOTH; this machine's copy (20:25) carries the phase_dependent_rules block that bm-a's copy (20:03) does not -- i.e. it was produced by the newer code. Not resolved unilaterally; left for the regenerating pass as the r1815 plan said.",
+  "s7": "register_loop_task no-op (pin=0, first fire 01:20); Bigmoney-LoopWatchdog and Bigmoney-IterationLoop both present; attrition guard CLEAN (4 ledgers, 3 historical shrinks healed); orders_ack_scan 115 orders / 271 acks / unacked=[]; decisions and orders blobs both unchanged against the held watermarks (dec b85f356a..., ord 810bb25d...) -> zero new orders, zero new decisions, zero action; inbox empty.",
+  "s6": "pool_dualrun / compute_audit / data lanes are carried by the in-flight chain, so this window did not run them a second time. py_watermark probe: py_low/insufficient_history (1 sample, cpu 16.0%, py 3.5%, local_batch=true = the chain, board/pool empty, bars_present false), red=false; orphan probe py_faces=5 orphans=0.",
+  "next": "(a) when the chain closes, commit its faces and converge main (regenerate DERISK-RULE.json from its own producer before the rebase rather than picking a side); window <=48h. (b) put the capacity-ticket reading on the CEO page's ticket line so the capital the gate allows is what the order sheet quotes; <=48h.",
+  "unverified": "no full smoke suite this round (the chain is rewriting the faces it would check); the two new smoke legs were run by hand only. The three capitals are the gate's own ladder readings (close x volume, median of medians), which is a stepped ruler -- 'typical' is that ruler's median, not a traded-volume median. The book is the published weights at bar 2026-11-17, not a re-selection.",
+  "at": "2026-11-18T01:18:43+08:00"
+ }
 }

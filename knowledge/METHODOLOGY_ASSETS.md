@@ -16689,3 +16689,30 @@ L14 构造性收窄超过重排/L15 判词带自己的重排读数）+ `results/
 正身=`scripts/etf_book_phase_atlas_arms.py`（selftest 138/138 + check rc0）+
 `results/etf_book_buffer_resolution_floor.json`（intercept 0.2236pp / share 0.0314 / band 0.05 /
 verdict_without_intercept 同判）。
+### E689 · 两种「装不下」是两句话：名字买不到，和整手残差超线（2026-11-18 r1816 bm-c）
+
+容量闸（`etf_book_capacity_edge.py`）读得出「这本书在 1% 成交额下能装多大」，票面面
+（`etf_book_ticket_floor.py`）读得出「这个资本上十二个名字是不是都买得进一手」。两个面各自都对，
+而**它们之间那句问题没人问**：签出去的票按 1,000,000 定价，闸说平常的一天只装得下一半——
+把资本换成闸允许的数，十二名还下得进去吗。接线本身是发现：本面（`etf_book_capacity_ticket.py`）
+把闸的三档资本（最好 / 平常 / 最差）逐档喂进票面面自己的 `resolve()`（import，不重写）。
+
+第二枚是判词：第一版句子对最差的那一档印「那天有 **0** 个名字连一手都买不到」——
+因为该档的失败**不是**名字买不到，而是十二名都买了、整手残差 **0.5583%** 超过冻结的 0.50% 门。
+同一个「装不下」下藏着两种相反的诊断，共用一个句子就会印出「0 个买不到，但它装不下」，
+读者只能理解成程序有 bug，而成因（残差比门槛多 0.06pp）一个字都没说。
+
+**正法两件**：①`fault_of()` 三态（unfilled / residual / none）+ 句子按形态分支，残差那支必须
+带**百分比与门槛两个数**；②selftest 腿钉死「残差超线的档不得被印成『连一手都买不到』」，
+反向腿钉三态不互相冒充。
+
+实锚（2026-11-17 票，12 名）：最好的一天 991,421 元 → 残差 0.1562% `TRADABLE`；
+平常的一天 496,476 元 → 0.2418% `TRADABLE`；最差的一天 340,838 元 → 0.5583%
+`RESIDUAL_TOO_BIG`（**无一名掉队**，一手门槛只要 14,876 元，是整手取整的零头在咬）。
+判词 `TRADABLE_ON_A_TYPICAL_DAY`。
+
+**How**：任何「装不下 / 不行 / 不通过」的判词，先问被检对象有几种失败形态、各自由哪个计数决定；
+把两种形态印成一句话，等于把诊断换成噪声。任何两个各自正确的面被接起来时，先问
+「它们中间那句问题是谁的」——没人问的那句往往就是产品缺口。
+正身=`scripts/etf_book_capacity_ticket.py`（selftest 14/14 + check ok）+
+`results/etf_book_capacity_ticket.json` + `research/ETF_BOOK_CAPACITY_TICKET.md`。
