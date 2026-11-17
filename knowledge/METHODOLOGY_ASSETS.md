@@ -16571,3 +16571,14 @@ git 直接合出 **192 处冲突**。全按「取一边」处理会丢东西，�
 
 正身=smoke_test.py `_page_generation` + 两条腿（fleet: a lane whose clock is the statute
 reaches the page / product: the row the 11-08 enable decision reads）。
+
+## E1409 -- a merge rule that lives in a session is paid for every round
+
+r1817 merged two machines' work: 192 conflicting files, 191 resolved by the *kind of face*, one needed a human. The rule was right, but it lived in the session, so r1821 and every neighbour reached for a fresh throwaway `_rNNNbmc_merge_resolve.py`. Now `Tools/face_merge_triage.py`:
+
+* ledger `*.jsonl` -> line union (ours first, exact dupes dropped)
+* table `*.csv` -> union by first column; key collisions are **reported**, not silenced
+* generated `*.json` / `*.md` -> whichever side's own `generated`/`generated_at`/`evidence_cutoff`/`as_of` is newer
+* code (`.py` and the rest) -> manual, never guessed
+
+Two refusals carried as legs: a **stamp-less face is never read as old** (it is AMBIGUOUS), and a csv whose header no longer matches is not merged into a table that never existed. Reading stages `:2:`/`:3:` (not the marker text) means the same tool works before and after `git checkout --ours`.

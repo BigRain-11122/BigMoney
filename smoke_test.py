@@ -1471,6 +1471,14 @@ def main() -> int:
     check("suite: a selftest started early is already answered when its leg arrives (r1603)",
           *_leg_prefetch_probe())
     for _label, _script, _args in (
+            # r1822: E1405 ("classify by the kind of face") was the rule that let r1817
+            # merge 192 conflicting files with one human call -- and it lived in a session,
+            # so every later round reached for a fresh throwaway resolver. Its nineteen
+            # legs now build the conflict themselves (a conflicting merge in a temp repo)
+            # and pin the four classes plus the two honest refusals: a code face stays
+            # manual, and a stamp-less face is never read as "old".
+            ("product: face_merge_triage classifies and resolves by face kind (E1405)",
+             "Tools/face_merge_triage.py", ["selftest"]),
             # r1386: six rounds of gates had produced no candidate family, so this
             # probe is the first measurement of one since r1379. Its own two ruler
             # legs pin the exposure-share null in both directions (buy-and-hold must

@@ -1020,7 +1020,7 @@
   "ts": "2026-11-18T00:40:11+08:00"
  },
  "round_label": "r1813",
- "round_no": 1821,
+ "round_no": 1822,
  "round_no_label": "r1821",
  "round_no_landed": 1663,
  "round_note": "r1489: a reinstated bar is re-derived from the panel, not carried over (reinstatement_check + reinstatements.json + sheet paragraph)",
@@ -1721,7 +1721,7 @@
    "E1405"
   ]
  },
- "last_round_utc": "2026-11-17T20:59:42.055639+00:00",
+ "last_round_utc": "2026-11-18T05:16:22+08:00",
  "round_1818": {
   "product": "new face etf_book_ticket_band: the capacity gate and the ticket floor each told the truth about the same 1,000,000 and nobody had folded them onto one capital. Verdict IMPACT_LINE_BREACH_AT_SIGNED -- the ticket cuts into whole lots (residue 0.1078% vs the frozen 0.50% line, one-lot floor 14,876) but breaches the 1% ADV line on every one of 60 sessions: the best day in the window funds 991,421, so the signed size is 8,579 over. Largest grid size at which both hold = 991,000 (best rung), 496,000 (typical), 340,000 (worst); and it is POCKETS, not an interval -- 712 of 977 grid points at the best-day cap, 69 of 326 at the worst-day cap, because whole-lot residue sawtooths in capital.",
   "second_fix": "smoke leg product: the operator page prices the cash half -- this comparison spans two writers (the ticket is re-issued here, docs/live_book is written by whichever host owns it) and was red every round on bm-c with bm-a numbers (page 1.265%/7,187 vs sheet 1.175%/6,675). Divergences now go through _page_elsewhere_verdict: strict on the host that may write the page, a named note otherwise (r1789/E686 family).",
@@ -1759,5 +1759,12 @@
   "second_fix": "the first suite caught the guard one level down: the per-lane missing_periods/deadline comparisons still ran across two builds and printed 'page missing-periods disagree with the board' for a page built 25 min before the board. Both details now go through _page_generation; on a two-build page they are quoted in the note, on one build they stay red.",
   "merge": "origin had also added an r1820 block to scripts/ceo_live_usage.py (bm-a's round number, the roll charge -- the third thing that eats the sleeve). E1405 rule applied: two appends to one rule table are merged by hand, and the merged file is proven by the producer's own selftest -- python scripts/ceo_live_usage.py selftest = ALL PASS with both blocks' legs in it, then the page was regenerated from the merged code rather than picking a side. Generated faces (docs/live_usage, zh_page_prose_census, machine-health, attrition scan) were regenerated, not chosen; machine_health_face rebuild reads 3 machines, check 8/8 fields."
  },
- "decisions_watermark_r1821": "group decisions.md sha256 b85f356a... == the self-held watermark; orders sha 810bb25d... also unchanged -> zero new decision rows, zero new orders, zero execution action; fleet/orders 115 files / 242 acks / unacked=[]"
+ "decisions_watermark_r1821": "group decisions.md sha256 b85f356a... == the self-held watermark; orders sha 810bb25d... also unchanged -> zero new decision rows, zero new orders, zero execution action; fleet/orders 115 files / 242 acks / unacked=[]",
+ "round_1822": {
+  "at": "2026-11-18T05:16:22+08:00",
+  "product": "E1405 'classify by the kind of face' is now a script: Tools/face_merge_triage.py (selftest 19/19). It builds a real conflicting merge in a temp repo and pins four classes (ledger jsonl line-union / table csv union by first column with collisions reported / generated json+md newer self-declared build / code manual) plus two honest refusals (a code face is never guessed; a stamp-less face is never read as 'old').",
+  "wiring": "smoke leg 'product: face_merge_triage classifies and resolves by face kind (E1405)'",
+  "unverified": "the in-flight suite results/_smoke_r1821b.out (pid 15332) belongs to round 1821's code and was still running when this round closed; this round's leg has not been seen by a suite yet",
+  "orders": "d19 MATCH decisions b85f356a / orders unchanged; fleet/orders latest O-20261114-2325 already acked; inbox empty"
+ }
 }
