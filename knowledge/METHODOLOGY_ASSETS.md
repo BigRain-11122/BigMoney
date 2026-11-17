@@ -16624,3 +16624,22 @@ L14 构造性收窄超过重排/L15 判词带自己的重排读数）+ `results/
 用标记正则而不是子串包含，因为卡片正文会解释语法。三态（可领/候门/缺执行面）各自单独印，
 「候门」必须带它差哪个门多少——否则读者仍分不清饿和等。正身=Tools/idle_trigger.py
 classify_pool_line（selftest 19 腿，新增 9 条）+ fleet/backlog.md 卡 19-22 的 execution-face 行。
+
+## 门有三种写法，只有一种能被面自己判（r1305 bm-a · E1402）
+
+接 r1304「候门必须带它差哪个门多少」。补上的那一半是：**门的写法决定面能不能判它**。
+同一份 `fleet/backlog.md` 里，City3D 两张卡把 GPU 门写成 `headroom>=1.5GB`（数字），
+吸嘟嘟两张卡写成 `他司会话优先不抢` / `与他司产线协商让路`（协商），还有一张写成
+`与 B-CITY3D-01 同 gate`（引用）。读者原来一条都不解析，于是四张卡全算"可领"，
+而实测 GPU 只剩 1.49GB——差的那 0.01GB 只能靠人眼减。
+
+**How**：①数字门=读数，与探针直接比，印 `needs/have/short` 三件；②引用门=去被引用的那张卡
+上取数字（两遍扫描建 name→door 表），解不开的引用只能是 `gate_inherited`（带 ref），
+**绝不当成开着的门**——读不到的门和被判关上的门一样不能点；③探针读不到时出 `vram_unknown`
+而不是 claimable（不可测≠开）；④协商门面无法证明，就把条款原文印在卡旁 + 出一个
+`*_n_soft_gated` 计数，让"2 张可领"不能被读成"2 张现在就能点"。
+
+实锚：VRAM 1.49GB 时可领 4→2（卡 20 印 short 0.01），VRAM 回到 5.07GB 时卡 20 自动变回可领，
+而自声明 `gate=CLOSED` 的卡 19 与两张协商卡不动——面在两种硬件状态下都判对，这就是
+"读数"与"计数"的区别。正身=Tools/idle_trigger.py classify_pool_line + parse_backlog
+（selftest 19→28 腿）· results/idle_trigger.bm-a.json。
