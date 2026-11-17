@@ -275,15 +275,21 @@ CLASSES = ("equity", "bond", "money", "commodity", "convertible", "unclassified"
 
 
 def run_with_attribution(close, openp, amt, score, cls, rebal=REBAL, n_hold=N_HOLD,
-                         cost=COST, start=START):
-    """Same leg chain as R.open_to_open_equity; additionally books每 bar P&L by class."""
+                         cost=COST, start=START, entry_lag=0):
+    """Same leg chain as R.open_to_open_equity; additionally books每 bar P&L by class.
+
+    `entry_lag` mirrors the engine's switch (r1795 `scripts/etf_book_entry_lag.py`): 0 is the
+    caliber every number this face has ever printed -- a new book accrues from the DECISION
+    bar's own open, which happened before the close the picks were read from. 1 hands that
+    bar to the incumbent and starts the new book at the next open.
+    """
     hist = close.notna().cumsum()
     elig = (amt >= E.MIN_AMT) & (hist >= E.MIN_HIST)
     score = score.where(elig)
     op = openp.reindex(columns=close.columns)
     dates = [d for d in op.index if d >= pd.Timestamp(start)]
 
-    equity, held = 1.0, {}
+    equity, held, pending = 1.0, {}, None
     curve, contrib, turns, mixes = [], [], [], []
 
     for i in range(len(dates) - 1):
@@ -295,12 +301,15 @@ def run_with_attribution(close, openp, amt, score, cls, rebal=REBAL, n_hold=N_HO
                 picks = list(s.nlargest(n_hold).index)
                 w = {p: 1.0 / n_hold for p in picks}
                 turn = sum(abs(w.get(k, 0.0) - held.get(k, 0.0)) for k in set(w) | set(held))
-                cost_paid = cost * turn
-                equity *= (1.0 - cost_paid)
-                turns.append(turn)
-                held = w
-                mixes.append({c: sum(wt for p, wt in w.items() if cls[p] == c)
-                              for c in CLASSES})
+                if entry_lag:
+                    pending = (w, turn)
+                else:
+                    cost_paid = cost * turn
+                    equity *= (1.0 - cost_paid)
+                    turns.append(turn)
+                    held = w
+                    mixes.append({c: sum(wt for p, wt in w.items() if cls[p] == c)
+                                  for c in CLASSES})
         r_cls = {c: 0.0 for c in CLASSES}
         r_tot = 0.0
         for p, wt in held.items():
@@ -310,6 +319,15 @@ def run_with_attribution(close, openp, amt, score, cls, rebal=REBAL, n_hold=N_HO
                 r_tot += rp
                 r_cls[cls[p]] += rp
         equity *= (1.0 + r_tot)
+        if entry_lag and pending is not None:
+            w2, turn2 = pending
+            pending = None
+            cost_paid = cost * turn2
+            equity *= (1.0 - cost_paid)
+            turns.append(turn2)
+            held = w2
+            mixes.append({c: sum(wt for p, wt in w2.items() if cls[p] == c)
+                          for c in CLASSES})
         curve.append((nxt, equity))
         contrib.append((nxt, r_tot, r_cls, cost_paid))
 
@@ -392,9 +410,29 @@ def main():
         print(m, flush=True)
         return m
 
+    def attach_caliber(m, cl, opn, am, sc):
+        """Price the same cell on the corrected execution caliber (`entry_lag=1`).
+
+        The printed keys are untouched -- every reader's cagr/sharpe stays on the lag0 arm;
+        the correction is published beside them, and `check()` refuses a face whose penalty
+        is not the subtraction of the two arms it prints.
+        """
+        ser1, _, turn1, _ = run_with_attribution(cl, opn, am, sc, cls, entry_lag=1)
+        s1 = stats2(ser1, m["label"] + "_lag1")
+        m["caliber"] = {
+            "entry_lag0_cagr": m["cagr"],
+            "entry_lag1_cagr": s1.get("cagr"),
+            "entry_lag1_sharpe": s1.get("sharpe"),
+            "entry_lag1_maxdd": s1.get("maxdd"),
+            "cagr_penalty_pp": round((m["cagr"] - (s1.get("cagr") or 0.0)) * 100.0, 4),
+            "turnover_lag1": round(turn1, 2),
+        }
+        return m["caliber"]
+
     # 1) full universe (the production cell) + attribution
     ser_all, contrib, turn_all, mixes = run_with_attribution(close, openp, amt, score_all, cls)
-    add("all_classes", ser_all, {"turnover": round(turn_all, 2)})
+    m_all = add("all_classes", ser_all, {"turnover": round(turn_all, 2)})
+    attach_caliber(m_all, close, openp, amt, score_all)
 
     # 2) equity-only and bond/money-only universes (scores re-ranked inside the sleeve)
     for label, want in (("equity_only", ("equity",)),
@@ -408,7 +446,8 @@ def main():
         sc = E.build_score(close[cols], amt[cols], feats)
         ser, contrib_s, turn_s, _ = run_with_attribution(
             close[cols], openp[cols], amt[cols], sc, cls)
-        add(label, ser, {"turnover": round(turn_s, 2), "n_cols": len(cols)})
+        m = add(label, ser, {"turnover": round(turn_s, 2), "n_cols": len(cols)})
+        attach_caliber(m, close[cols], openp[cols], amt[cols], sc)
         # the matching benchmark: equal weight of the same sleeve
         add(label + "_ew_bench", ew_universe(close, amt, cls, want))
 
@@ -455,10 +494,173 @@ def main():
     print("yearly gross by class", json.dumps(per_year, ensure_ascii=False), flush=True)
 
     p = os.path.join(PATHS.results_dir, "etf_equity_alpha.json")
+    priced = [r for r in out["runs"] if r.get("caliber")]
+    penalties = {r["label"]: r["caliber"]["cagr_penalty_pp"] for r in priced}
+    prod = next((r for r in priced if r["label"] == "all_classes"), None)
+    out["caliber"] = {
+        "source_face": "results/etf_book_entry_lag.json",
+        "execution": "decide at close t, own from open t+1 (entry_lag=1) vs the decision "
+                     "bar's own open (entry_lag=0, every printed number in this face)",
+        "production_candidate": "all_classes",
+        "production_cagr_lag0_pct": round((prod["cagr"] or 0.0) * 100.0, 4) if prod else None,
+        "production_cagr_lag1_pct": round((prod["caliber"]["entry_lag1_cagr"] or 0.0) * 100.0, 4)
+                                    if prod else None,
+        "production_penalty_pp": prod["caliber"]["cagr_penalty_pp"] if prod else None,
+        "penalty_pp_by_arm": penalties,
+        "sign_stable": bool(penalties) and all(v > 0 for v in penalties.values()),
+        "verdict": ("CALIBER_COSTS_MONEY" if penalties and all(v > 0 for v in penalties.values())
+                    else "PENALTY_NOT_SIGN_STABLE"),
+    }
+    print("caliber", json.dumps({k: out["caliber"][k] for k in
+                                 ("production_cagr_lag0_pct", "production_cagr_lag1_pct",
+                                  "production_penalty_pp", "verdict")},
+                                ensure_ascii=False), flush=True)
     with open(p, "w", encoding="utf-8") as f:
         json.dump(out, f, ensure_ascii=False, indent=1)
     print("saved", p)
 
 
+def check():
+    """Re-derive the caliber block from the published face; never recompute a book.
+
+    Refuses a face that lost an arm, whose penalty was typed instead of subtracted, or whose
+    printed cagr was quietly moved onto the corrected arm (E662 family: a check that agrees
+    with itself proves nothing).
+    """
+    p = os.path.join(PATHS.results_dir, "etf_equity_alpha.json")
+    if not os.path.exists(p):
+        print("check FAIL: no face at", p)
+        return 1
+    with open(p, encoding="utf-8") as f:
+        face = json.load(f)
+    probs = []
+    runs = {r.get("label"): r for r in face.get("runs") or []}
+    cal = face.get("caliber") or {}
+    if not cal:
+        probs.append("no top-level caliber block")
+    for label, r in runs.items():
+        if label.endswith("_ew_bench"):
+            # the benchmark is equal weight with no rebalance: there is no decision whose
+            # fill could be booked a bar early, so it legitimately carries no caliber block
+            continue
+        if not r.get("caliber"):
+            probs.append("%s: no caliber block" % label)
+            continue
+        c = r["caliber"]
+        want = (c["entry_lag0_cagr"] - c["entry_lag1_cagr"]) * 100.0
+        if abs(want - c["cagr_penalty_pp"]) > 1e-6:
+            probs.append("%s: penalty %.4f != lag0-lag1 %.4f"
+                         % (label, c["cagr_penalty_pp"], want))
+        if abs(c["entry_lag0_cagr"] - r["cagr"]) > 1e-12:
+            probs.append("%s: printed cagr moved off the lag0 arm" % label)
+    if cal:
+        prod = runs.get(cal.get("production_candidate") or "")
+        if not prod:
+            probs.append("production candidate %r not in runs"
+                         % cal.get("production_candidate"))
+        elif abs(cal["production_penalty_pp"] - prod["caliber"]["cagr_penalty_pp"]) > 1e-9:
+            probs.append("production penalty disagrees with its own run")
+        signs = [v > 0 for v in (cal.get("penalty_pp_by_arm") or {}).values()]
+        if cal.get("sign_stable") != (all(signs) and bool(signs)):
+            probs.append("sign_stable does not match the per-arm penalties")
+        if cal.get("verdict") == "CALIBER_COSTS_MONEY" and not (signs and all(signs)):
+            probs.append("verdict claims a cost that some arm does not pay")
+    if probs:
+        print("check FAIL:")
+        for x in probs:
+            print("  -", x)
+        return 1
+    print("check ok: %d priced arms, production %s %.2f%% -> %.2f%% (penalty %.2fpp)"
+          % (len(cal.get("penalty_pp_by_arm") or {}), cal.get("production_candidate"),
+             cal.get("production_cagr_lag0_pct") or 0.0,
+             cal.get("production_cagr_lag1_pct") or 0.0,
+             cal.get("production_penalty_pp") or 0.0))
+    return 0
+
+
+def _synth_panel(n_bars=200, n_names=6):
+    """Deterministic panel for --selftest: non-trivial daily moves, opens lagging closes."""
+    idx = pd.bdate_range("2020-01-01", periods=n_bars)
+    cols = ["T%d" % i for i in range(n_names)]
+    t = np.arange(n_bars, dtype=float)
+    close = pd.DataFrame(
+        {c: 100.0 * (1.0 + 0.0006 * t * (1 + i) + 0.02 * np.sin(t / (7.0 + i)))
+         for i, c in enumerate(cols)}, index=idx)
+    openp = close.shift(1).fillna(close.iloc[0])
+    amt = pd.DataFrame(1e8, index=idx, columns=cols)
+    score = close.pct_change(5).fillna(0.0)
+    cls = pd.Series("equity", index=cols)
+    return close, openp, amt, score, cls
+
+
+def selftest():
+    """Offline: the lag switch must mean what the engine means, bit for bit."""
+    fails = []
+    close, openp, amt, score, cls = _synth_panel()
+    kw = dict(rebal=20, n_hold=3, cost=0.0010, start="2020-01-01")
+
+    # L1 default is the published caliber: no kwarg == entry_lag=0, bit for bit
+    a, _, _, _ = run_with_attribution(close, openp, amt, score, cls, **kw)
+    b, _, _, _ = run_with_attribution(close, openp, amt, score, cls, entry_lag=0, **kw)
+    if not np.allclose(a.values, b.values, rtol=0, atol=1e-15):
+        fails.append("L1 default is not entry_lag=0")
+
+    # L2/L3 both calibers reproduce the shared engine with the same arguments
+    for lag in (0, 1):
+        eng, _ = R.open_to_open_equity(close, openp, amt, score, **kw, entry_lag=lag)
+        mine, _, _, _ = run_with_attribution(close, openp, amt, score, cls, entry_lag=lag, **kw)
+        common = eng.index.intersection(mine.index)
+        d = float(np.max(np.abs(eng.loc[common].values - mine.loc[common].values)))
+        if d > 1e-12:
+            fails.append("L%d entry_lag=%d departs from the engine by %.2e" % (lag + 2, lag, d))
+
+    # L4 the two calibers are actually different on this panel
+    m1, _, _, _ = run_with_attribution(close, openp, amt, score, cls, entry_lag=1, **kw)
+    if abs(m1.iloc[-1] - a.iloc[-1]) < 1e-9:
+        fails.append("L4 the lag switch changed nothing")
+
+    # L5 one-rebalance hand check, taken after the MIN_HIST gate so bar 0 can trade:
+    # lag0 starts the new book on d0's open, lag1 on d1's open (bar 0 belongs to the old book)
+    idx = openp.index
+    late = str(idx[130].date())
+    ser0, _, _, _ = run_with_attribution(close, openp, amt, score, cls, rebal=10_000,
+                                         n_hold=2, cost=0.0, start=late, entry_lag=0)
+    ser1, _, _, _ = run_with_attribution(close, openp, amt, score, cls, rebal=10_000,
+                                         n_hold=2, cost=0.0, start=late, entry_lag=1)
+    dates = [d for d in idx if d >= pd.Timestamp(late)]
+    p0 = score.loc[dates[0]].dropna().nlargest(2)
+    if len(p0) < 2:
+        fails.append("L5 synth panel does not clear the MIN_HIST gate at %s" % late)
+    else:
+        picks = list(p0.index)
+        hand0 = np.mean([openp.at[dates[1], p] / openp.at[dates[0], p] - 1.0 for p in picks])
+        hand1 = np.mean([openp.at[dates[2], p] / openp.at[dates[1], p] - 1.0 for p in picks])
+        if abs(ser0.iloc[0] - (1.0 + hand0)) > 1e-12:
+            fails.append("L5 lag0 first bar %r != hand %r" % (ser0.iloc[0], 1.0 + hand0))
+        if abs(ser1.iloc[0] - 1.0) > 1e-12 or abs(ser1.iloc[1] - (1.0 + hand1)) > 1e-12:
+            fails.append("L5 lag1 bars %r/%r != 1/hand %r"
+                         % (ser1.iloc[0], ser1.iloc[1], 1.0 + hand1))
+
+    # L6 the per-bar class split adds up to the bar's own total
+    _, contrib, _, _ = run_with_attribution(close, openp, amt, score, cls, entry_lag=1, **kw)
+    worst = max(abs(r_tot - sum(rc.values())) for _d, r_tot, rc, _c in contrib)
+    if worst > 1e-15:
+        fails.append("L6 class split departs from the bar total by %.2e" % worst)
+
+    if fails:
+        print("selftest FAIL %d/%d" % (len(fails), 6))
+        for x in fails:
+            print("  -", x)
+        return 1
+    print("selftest 6/6 (default==lag0, both arms==engine, switch moves, "
+          "hand-checked first bars, class split adds up)")
+    return 0
+
+
 if __name__ == "__main__":
+    arg = sys.argv[1].lstrip("-") if len(sys.argv) > 1 else "run"
+    if arg == "check":
+        raise SystemExit(check())
+    if arg == "selftest":
+        raise SystemExit(selftest())
     main()

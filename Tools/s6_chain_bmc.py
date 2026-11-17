@@ -1871,6 +1871,11 @@ LEGS = [
     # the penalty stays attached to the published number instead of living in a research
     # note; the printed keys are untouched, so no downstream reading moves.
     ("etf_nobond_vt", ["python", "scripts/etf_nobond_vt.py"]),
+    # r1797: the equity/bond sleeve split face quotes the 9% headline every downstream
+    # reader (CEO page, order card) starts from, and it is the second copy of the same
+    # leg chain -- so it carried the same one-day bulge unread. This leg re-prices all
+    # four decision arms on both calibers; printed keys stay on the lag0 arm.
+    ("etf_equity_alpha", ["python", "scripts/etf_equity_alpha.py", "run"]),
 ]
 
 

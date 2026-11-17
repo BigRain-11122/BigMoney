@@ -1,6 +1,6 @@
 {
  "activity": "product",
- "activity_now": "r1795: the engine caliber is now a switch (entry_lag, default 0 = bit-identical to every published face); with the day it could not have bought removed the book still beats the index 7.48pp/yr (was 9.16pp), 8.98%->7.30% CAGR, sharpe 0.914->0.760, ranking does not flip",
+ "activity_now": "r1797: pricing the sleeve-split face on both execution calibers (8.98%->7.30% on the all-class arm)",
  "activity_now_round": 1795,
  "agenda_starved": false,
  "ah_note": "r1680 LANDED: refresh closed itself at 21:17 -- cutoff 2026-11-12 -> 2026-11-13, complete=True, exit 0, pulled_rows 46; data_lane_freshness in_sync 13 / behind_1d 1 (worst now marks, intraday-only, not rebuildable). Fix that made it possible: stall watchdog over every network leg (300s, names stage/pair, exit 2, checkpoint kept) + save_progress stamps write time + -u on the detached spawn + progress line every 10 pairs. NOT yet proven: the 300s stall path has never fired on a real hang (this round the suspected freeze finished by itself).",
@@ -76,9 +76,9 @@
  "cpus": 32,
  "cur_task": "r1703 carry-on-capital stress ruler",
  "current": "r1742: the visual card face stops claiming queued work (6 OPEN -> BLOCKED), and freshness in its log turned out to be the auditor, not an executor",
- "current_task": "r1765 correlation-constrained selection against the select-leg MDE80 (floor moved 1.76pp, cost 4.66pp alpha, target 5pp not reached)",
+ "current_task": "r1797: pricing the sleeve-split face on both execution calibers (8.98%->7.30% on the all-class arm)",
  "current_task_at": "2026-11-15T13:15:31+08:00",
- "current_task_short": "ah_panel: bounded silence + readable log",
+ "current_task_short": "r1797 two-caliber sleeve split",
  "current_task_ts": "2026-11-13T07:40:54+08:00",
  "d19_watermark_guard": {
   "advance": true,
@@ -953,7 +953,7 @@
  "ram_note": "RAM free 3.2/55.9GB (5.7%) -- ComfyUI pid 12616 started 00:51:38, 39.5GB working set, exemption; the 00:35 idle_trigger 70.8% reading is stale",
  "ram_total_gb": 23.9,
  "recent_artifact": "results/etf_book_gate_knobs.json + research/ETF_BOOK_GATE_KNOBS.md (2026-11-15T22:32, 6-cell grid, window 2020-01-03..2026-11-13)",
- "round": 1788,
+ "round": 1797,
  "round_1685_next": "next (P0): the second P1 candidate from the same order -- moneyflow/LHB IC reference batch (20 min, lane already claimed and parked on a source-blocked panel). Second: the basis face now needs the two things it explicitly did not do -- roll slippage + margin occupancy, and monthly vs quarterly roll -- before anyone sizes a position on it; and the discount-width timing test (basis percentile vs next 20d carry) is the cheapest way to turn a static premium into a rule.",
  "round_1685_note": "PRODUCT. O-20261114-2325 section 3 P1 named two candidates; the first (index-futures basis) was still PARTIAL because nobody had started it. Started and closed the kill test in one pass. The premium is real and decision-sized: net carry (futures carry minus the ETF that would otherwise be held) is IC +4.16%/yr and IM +6.00%/yr against the frozen 3.0% bar, IF +0.80 and IH +1.74 fail it -- OPEN. The number a reader must not miss is that the discount died in 2021-2024 (IC -3.19%/yr in 2024) and came back in 2025-2026 (IC +11.0/+9.4, IM +14.4/+11.7): the nine-year median blends a dead era with a live one, so both are printed. Data bias handled first: sina's main-continuous series is raw, so a roll is a price step a holder never eats; rolls are detected as a basis step 8x the median step and excluded, the gap reported separately. Index panel fetched and cached (4 indices, 2017-01-17..2026-11-13). One self-exposure: C3 was written as |ETF-index|<=1%/yr assuming a one-for-one tracker; this repo's own panel says the funds accrue +1.77/+0.88/+2.96%/yr of dividends the price index does not, so the ruler was revised to a dividend band plus net-of-drift carry and the original is preserved in verdict.criteria_revision -- read under the original ruler the face goes back to KILL. Selftest 9/9, pushed a3a7d8dace.",
  "round_1686_next": "next (P0): the order named moneyflow/LHB IC reference batch as the second P1 candidate and it stays claimed; the panel was source-blocked, so check the collector self-heal before starting. Second: if the basis line is kept alive, the only untried axis is roll timing (monthly vs quarterly) and the discount-width timing test (basis percentile vs next 20d carry) -- both change the notional percentage, neither changes the dilution that kills the money face at 8% vol.",
@@ -967,7 +967,7 @@
  "round_1788_next": "(a) the three remaining live_book product legs (arm count / premium rows / k_gap rows) are the same cause -- the page on disk is 20:30 and the faces it quotes moved at 21:57 and 00:34; an in-memory rebuild on bm-c passes all three, but docs/live_book is bm-a's single writer and owner_silence_hours()=4.7 < 6.0, so run() is an honest no-op here. Poke to bm-a accepted 2026-11-17T04:32:04 (worker 1.9.7) -- verify the republished page next round; (b) 8 today-word lines on the page still carry no date (census rc1 debt, pre-existing); (c) the S6 chain was not re-run this round (red-fix mission + 10-minute window).",
  "round_1788_note": "r1788: the day-word census mapped the premium one-liner ('按 DATE 的读数，这张单里可核验的 N 只票…') to premium_forward.face_asof while the numbers come from premium_leak.own_ruler_summary at THAT face's session. The forward paper is built from a later-closing panel and may sit a session behind, so the leg was green only on days the two coincided. Live receipt 2026-11-16: page JSON carries premium_forward.face_asof=2026-11-13 and premium_leak.session=2026-11-16, and the face's own 159655 last_pctile is 96.44 (in_own_top_decile=['159655']) -- the sentence was right, the mapping was wrong. Rule now reads premium_leak.session; two selftest legs pin both directions (quotes the leak face -> ok; names a third day -> mismatch).",
  "round_label": "1704",
- "round_no": 1796,
+ "round_no": 1797,
  "round_no_label": "r1785",
  "round_no_landed": 1663,
  "round_note": "r1489: a reinstated bar is re-derived from the panel, not carried over (reinstatement_check + reinstatements.json + sheet paragraph)",
@@ -1618,9 +1618,11 @@
  "vram_free_gb": 13.1,
  "vram_total_gb": 16.0,
  "watermark_note": "next_pick is the moneyflow IC reference batch, claimed on another lane; this round made no claim on it",
- "watermark_verdict": "insufficient_history (py 8.4%, local batch running); red=false",
+ "watermark_verdict": "py_low_board_clear",
  "went_well": "the fix keeps the old states reachable: a card with one unqualified row still takes the position-free path, so no previously published verdict changed meaning",
  "when_well": "the exec panel reused lhb_sellleg verbatim by passing a net-of-cost panel instead of writing a second event study -- the two tables cannot disagree about the quintiles because there is only one implementation",
  "who_did": "bm-c",
- "当前任务": "r1792：把 face_consumer_census 指名的 15 张「算完没人读」阶梯胜率面聚合成一页三判词（e33_ladder_census，selftest 10/10 + check ok + S6 链腿 rc0），并修 etf_book_day_delta 的「标题 bar ≠ 节 bar」假红（258→29，selftest 26/26）。"
+ "当前任务": "r1792：把 face_consumer_census 指名的 15 张「算完没人读」阶梯胜率面聚合成一页三判词（e33_ladder_census，selftest 10/10 + check ok + S6 链腿 rc0），并修 etf_book_day_delta 的「标题 bar ≠ 节 bar」假红（258→29，selftest 26/26）。",
+ "r1797_note": "r1797 PRODUCT (dept:研究/策略/组合): the equity/bond sleeve split -- the face every downstream reader starts from -- was the SECOND hand-written copy of the same leg chain, so it still booked the decision bar's own open. run_with_attribution now takes entry_lag (0 default, bit-identical), all four decision arms are priced on both calibers beside the printed keys, and --selftest pins both arms against the shared engine (max |diff| < 1e-12) plus a hand-checked lag1 first bar. Verdict CALIBER_COSTS_MONEY: all_classes 8.98%->7.30% (-1.68pp, sharpe 0.914->0.760), equity_only 12.54%->12.04%, no_bond_equity_mix 15.55%->15.23%, bond_money_only 0.07%->0.06%. New fact: the four arms run the SAME 20-bar rebalance, so the penalty is not a frequency effect -- it tracks rebalancing ACROSS classes (the all-class book is 71% bond/money in 44% of decisions).",
+ "r1797_next": "next: cascade the corrected caliber into the two reader faces that still quote lag0 -- the CEO live book page and the order card -- and re-ask top2_share (year gate Y4) on the lag1 arm so the concentration line is not the last un-reread number (window <=48h)."
 }

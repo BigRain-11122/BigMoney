@@ -5850,6 +5850,16 @@ def main() -> int:
             # arm, whose penalty was typed rather than subtracted, or whose sign flipped.
             ("product: etf_nobond_vt (production candidate priced on both calibers)",
              "scripts/etf_nobond_vt.py", ["--check"]),
+            # r1797: the same one-bar bulge lives in the equity/bond sleeve split face (the
+            # 9% headline every downstream reader quotes). The face now prices all four
+            # decision arms on both calibers, printed keys untouched. The selftest pins the
+            # switch inside a second implementation of the leg chain against the shared
+            # engine (both arms, bit for bit) plus a hand-checked lag1 first bar; the check
+            # re-derives every penalty from the face's own two readings.
+            ("product: etf_equity_alpha (both calibers reproduce the engine)",
+             "scripts/etf_equity_alpha.py", ["--selftest"]),
+            ("product: etf_equity_alpha (published penalties still re-derive)",
+             "scripts/etf_equity_alpha.py", ["--check"]),
             # r1767: the event profile could be forecastable or not. This face cuts the same
             # months on three states known at the month's start and reads the verdict off a
             # label-shuffle null (eight cells always have a best row). The selftest leg pins

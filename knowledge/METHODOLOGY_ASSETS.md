@@ -16358,3 +16358,32 @@ How：任何引擎口径修正落地后，先枚举**所有引用该引擎的在
 判词只读「修掉之后结论还成立吗」，并逐条点名哪些门没重算。
 正身=scripts/etf_nobond_vt.py（`--check` ok: 3 arms / penalty 1.03pp / sign_stable=True）＋
 results/etf_nobond_vt.json 的 `caliber` 块＋research/ETF_BOOK_ENTRY_LAG.md「生产候选那一支」节。
+
+## E1393 · 同一条 leg 链的第二份拷贝也要过同一把尺子：代价大小说明的是「跨类别换仓」，不是「换仓频率」（r1797 bm-c）
+
+**坑**：`scripts/etf_equity_alpha.py::run_with_attribution` 的 docstring 自己写着「same
+no-lookahead leg engine as etf_robust_pf.open_to_open_equity, not a reimplementation」——而它是手写的
+第二份 leg 链。r1795 把「决策 bar 收盘读分、却从这根 bar 的开盘起持有」修成引擎里的 `entry_lag`
+开关后，这份拷贝没跟上，于是它印的 `all_classes` 8.98% 仍带着那根买不到的 bar，而 CEO 页与订单卡
+都从这个数起笔。**「自称同引擎」骗过了三轮审计**：口径缺陷只被审计过一次（在引擎那份上）。
+
+**正法三件**：①开关默认 0 且逐位不变（读者的数不动），拷贝里按同一语义实现（决策 bar 归旧书、
+下一根开盘换书并扣成本、成本记在换书那根 bar 的归因行）；②自检**直接与共享引擎对撞**——两臂都
+逐位一致（误差 <1e-12），不是「我说我一样」；③再加一条**手算锚**（MIN_HIST 门后的第一根 bar：
+lag0 = op[d1]/op[d0]，lag1 第一根恒 1.0、第二根 = op[d2]/op[d1]）。
+
+**判决结构（本轮新事实）**：四臂同频（都是 20 日调仓）却差一个量级——`all_classes` **1.68pp**、
+`no_bond_equity_mix` 0.32pp、`equity_only` 0.50pp、`bond_money_only` 0.01pp。所以 penalty **不随
+换仓频率单调**（r1794 观察到 N3/N8/N5R10 同向只说明「多记一天」存在于每次换仓，不说明它的大小由
+频率决定），它随**换仓跨类别**的幅度走：全档位版 44% 的调仓期全防御（债+货币 71%），从债档整本
+切到权益档那天，旧书（债）吃掉本属于新书（权益）的 bar。
+
+**姊妹面**：基准臂（`*_ew_bench`，等权无换仓）**不配 caliber 是设计**，check 显式跳过它们而不是
+给它们编一个零——「没有会错时的决策」与「漏了一个臂」必须能被 check 分开。
+
+How：任何 docstring 写着「same engine」的第二实现，先问它上一次跟着引擎改是哪一轮；口径类修正
+落地时，**枚举所有手写拷贝**（grep 引擎函数名与「same ... engine」措辞），逐份加开关 + 与引擎对撞
++ 手算锚三件套；判词只读「修掉之后结论还成立吗」，并把「某一臂没有这个决策」与「忘了它」分开写。
+正身=scripts/etf_equity_alpha.py（`--selftest` 6/6 / `--check` ok: 4 priced arms / production
+8.98%→7.30% / penalty 1.68pp）＋ results/etf_equity_alpha.json 的 `caliber` 块 ＋
+research/ETF_BOOK_ENTRY_LAG.md「权益/债档袖拆分那一链」节。
