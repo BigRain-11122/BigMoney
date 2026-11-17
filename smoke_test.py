@@ -224,6 +224,41 @@ def _page_elsewhere_verdict(bad_page, face_bar, what=""):
     return False, "; ".join(bad_page)[:220]
 
 
+def _page_generation(page_stamp, board_stamp, page_rel, detail=""):
+    """(r1821) A page that stamps the input generation it was built from can only be
+    certified against that same generation.
+
+    `results/dashboard_status.json` is a single-writer face (D-20260928-03 batch-3,
+    host bm-a) and it records the board it read (`data.as_of`,
+    `data.lane_ownership.source_freshness_as_of`). Two legs here compare it against a
+    board this window just recomputed. Across two generations that comparison is not a
+    defect report: a page built at 04:06 cannot know a period that was filled, or a lane
+    that stopped looking unobserved, at 04:37 -- and the guard meant to soften it
+    (`shared_derive_write_allowed`) answers from the local `origin/main` ref, itself only
+    as fresh as the last fetch, so the same call returned "this page is mine to certify"
+    off a stale ref and printed the leg red every round (r1789/E686 family: a permanent
+    red is where a real defect hides).
+
+    Returns (comparable, note): True means both stamps name one build and the caller must
+    enforce equality; otherwise the note names both generations and the page's owner. An
+    unrecorded board stamp keeps legacy behaviour (enforce).
+    """
+    ps, bs = str(page_stamp or ""), str(board_stamp or "")
+    if not bs or (ps and ps == bs):
+        return True, ""
+    owner = None
+    try:
+        from config.lane_io import C_SINGLE_WRITER_HOSTS as _sw
+        owner = _sw.get(page_rel)
+    except Exception:                                  # noqa: BLE001
+        owner = None
+    return False, ("%s: the page was built off the %s generation, this window reads the "
+                   "%s one -- two builds, not a disagreement (page owner %s; both stamps "
+                   "are the page's own)%s"
+                   % (page_rel, ps or "unrecorded", bs, owner or "?",
+                      ("; " + detail) if detail else ""))
+
+
 def capture_pinned(argv, timeout):
     """The one place a leg captures a child's text.
 
@@ -4168,6 +4203,34 @@ def main() -> int:
         check("fleet: a lane that names its collector is not told nothing can be done",
               False, str(e))
     try:
+        # r1821: the two legs below soften an equality across a single-writer page, and
+        # a guard that is too soft is the same defect in the other direction. Pin the
+        # contract itself: one build enforces, two builds note and name both stamps and
+        # the owner, and an unrecorded board stamp keeps the old behaviour.
+        _g_same, _n_same = _page_generation("2026-11-18T04:37:02", "2026-11-18T04:37:02",
+                                            "results/dashboard_status.json")
+        _g_diff, _n_diff = _page_generation("2026-11-18T03:42:42", "2026-11-18T04:37:02",
+                                            "results/dashboard_status.json")
+        _g_none, _ = _page_generation("2026-11-18T03:42:42", None,
+                                      "results/dashboard_status.json")
+        _why_g = []
+        if not _g_same or _n_same:
+            _why_g.append("one build was not enforced")
+        if _g_diff:
+            _why_g.append("two builds were not treated as two builds")
+        if "2026-11-18T03:42:42" not in _n_diff or "2026-11-18T04:37:02" not in _n_diff:
+            _why_g.append("the note does not print both generations")
+        if "bm-a" not in _n_diff:
+            _why_g.append("the note does not name the page's owner")
+        if not _g_none:
+            _why_g.append("an unrecorded board stamp stopped enforcing")
+        check("meta: a page is certified against the one build it names, not across two",
+              not _why_g, "; ".join(_why_g) or
+              "same build -> enforce; two builds -> note naming 03:42:42, 04:37:02 and bm-a")
+    except Exception as e:
+        check("meta: a page is certified against the one build it names, not across two",
+              False, str(e))
+    try:
         # r1272 (D-20261108-14 follow-up): the board measures TWO clocks -- the
         # trading calendar and the statutory report period -- and only the first
         # one reached a human face. Measured 2026-11-09: fund_statements carried
@@ -4175,8 +4238,8 @@ def main() -> int:
         # and the dashboard said nothing, so a missed 三季报 looked like a
         # healthy board. This leg recomputes the block from the published face
         # and demands the page name the missing period rather than only a lane.
-        _pl7 = json.load(open("results/data_lane_freshness.json",
-                              encoding="utf-8")).get("period_lanes") or []
+        _lf7 = json.load(open("results/data_lane_freshness.json", encoding="utf-8"))
+        _pl7 = _lf7.get("period_lanes") or []
         _db7 = (json.load(open("results/dashboard_status.json",
                                encoding="utf-8")).get("data") or {}).get(
             "lane_freshness") or {}
@@ -4195,33 +4258,25 @@ def main() -> int:
                 _why7.append(f"{_p7.get('lane')}: deadline not carried")
         _missing7 = [p.get("lane") for p in _pl7
                      if (p.get("missing_periods") or [])]
-        # r1492: the dashboard is a single-writer face (D-20260928-03 batch-3). On a
-        # machine that is not its host the page is a stale copy by construction, so
-        # "page set != board set" is not drift here -- it is this machine reading
-        # somebody else's last build. The equality is still enforced on the host; a
-        # non-host asserts only that the block exists and NAMES the disagreement.
-        _may7, _owner7 = True, None
-        try:
-            from config.lane_io import (C_SINGLE_WRITER_HOSTS as _SW7,
-                                        machine_id as _mid7,
-                                        shared_derive_write_allowed as _ok7)
-            _owner7 = _SW7.get("results/dashboard_status.json")
-            _may7 = bool(_ok7("results/dashboard_status.json", verbose=False))
-            if not _may7 and not _db7:
-                _why7.append("the page carries no statutory-clock block at all "
-                             "(its writer is %s)" % _owner7)
-        except Exception:
-            _may7 = True
+        # r1492: the dashboard is a single-writer face (D-20260928-03 batch-3), so the
+        # page is a stale copy by construction whenever another host built it. r1821:
+        # the permission probe used to answer that question and answered from the local
+        # `origin/main` ref -- on a stale fetch it returned "this page is mine", turned
+        # an age into a defect, and the leg was red every round. The page stamps the
+        # board generation it read; only a same-generation page can be certified.
+        if not _db7:
+            _why7.append("the page carries no statutory-clock block at all")
+        _samegen7, _gen7 = _page_generation(
+            _db7.get("as_of"), _lf7.get("as_of"), "results/dashboard_status.json")
         _pm7 = set(_db7.get("period_missing_lanes") or [])
         if set(_missing7) != _pm7:
             _line7 = ("period_missing_lanes is not the set of lanes the board reads "
                       "as missing a statutory period (board=%s page=%s)"
                       % (sorted(_missing7), sorted(_pm7)))
-            if _may7:
+            if _samegen7:
                 _why7.append(_line7)
             else:
-                _note7 = ("page built by %s; this machine cannot certify it (%s)"
-                          % (_owner7, _line7))
+                _note7 = _gen7
         _html7 = open("dashboard.html", encoding="utf-8").read()
         if "lf.period_lanes" not in _html7 or "法定时钟道" not in _html7:
             _why7.append("the page renders no statutory-clock row")
@@ -4482,14 +4537,24 @@ def main() -> int:
             _decl_md = open(_decl_p, encoding="utf-8").read()
         _who_named = (not _exp_bh) or (("by_host" in _html)
                                        and all(k in _decl_md for k in _exp_bh))
+        # r1821: this row is the dashboard's copy of a declaration that is recomputed
+        # here from the freshness board. The page stamps which board it read
+        # (`source_freshness_as_of`); when that is an older generation, a count that
+        # moved (a lane that stopped looking unobserved) is an age, not drift, and
+        # this machine cannot rebuild the page to prove otherwise.
+        _samegen8, _gen8 = _page_generation(
+            _blk.get("source_freshness_as_of"), _decl.get("source_freshness_as_of"),
+            "results/dashboard_status.json")
+        _content8 = (_dash and _caveat and _retired_named and _who_named)
         check("product: the row the 11-08 enable decision reads agrees with the declaration",
-              _same and _dash and _caveat and _retired_named and _bh_ok and _who_named,
+              _content8 and (_samegen8 and (_same and _bh_ok) or not _samegen8),
               f'recomputed={_same} dashboard-wired={_dash} caveat={_caveat} '
               f"retired_named={_retired_named} by_host={_bh_ok} who_named={_who_named} "
               f"hosts={sorted(_exp_bh)} lanes={_blk.get('n_lanes')} "
               f"unobserved={_blk.get('n_declared_but_unobserved')} "
               f"live_unobserved={_blk.get('n_live_declared_but_unobserved')} "
-              f"decl_live={len(_live)} retired={_ret} verdict={_blk.get('verdict')}")
+              f"decl_live={len(_live)} retired={_ret} verdict={_blk.get('verdict')}"
+              + ("" if _samegen8 else " | " + _gen8))
     except Exception as e:
         check("product: the row the 11-08 enable decision reads agrees with the declaration",
               False, str(e))
@@ -11606,6 +11671,59 @@ def main() -> int:
     except Exception as e:
         check("product: the CEO page prints what following the book means "
               "tomorrow (lots + cash)", False, repr(e)[:160])
+    # ---- r1820: the sheet says what to buy; the page never said what part of
+    # that money is paid above the funds' own NAV.  The producer has published
+    # ENTRY_PREMIUM_WARN for weeks -- research-readable was never reader-readable
+    # (the r1782 shape).  Asserted against the producer's own rows, so a stale
+    # face, a page that prints a number the face does not carry, or a page that
+    # lets a missing face read as 0 reads red.
+    try:
+        _pl36 = os.path.join(PATHS.results_dir, "etf_book_premium_leak.json")
+        _lu36 = os.path.join(PATHS.root, "docs", "live_usage", "LIVE-latest.md")
+        _bad36 = []
+        _n36 = 0
+        if not os.path.exists(_pl36):
+            _bad36.append("results/etf_book_premium_leak.json missing")
+        elif not os.path.exists(_lu36):
+            _bad36.append("docs/live_usage/LIVE-latest.md missing")
+        else:
+            with open(_pl36, encoding="utf-8") as _fh36:
+                _p36 = json.load(_fh36)
+            with open(_lu36, encoding="utf-8") as _fh36:
+                _md36 = _fh36.read()
+            _tot36 = _p36.get("totals") or {}
+            _paid36 = _tot36.get("premium_paid_cny")
+            _rows36 = _p36.get("names") or []
+            _n36 = len(_rows36)
+            if "这笔钱里有多少是溢价" not in _md36:
+                _bad36.append("the page does not say what part of the order "
+                              "is premium")
+            if _paid36 is None:
+                _bad36.append("the face publishes no premium paid")
+            elif "{:,.0f}".format(abs(_paid36)) not in _md36:
+                _bad36.append("the page does not print the premium (%s)"
+                              % "{:,.0f}".format(abs(_paid36)))
+            for _r36 in _rows36:
+                _v36 = _r36.get("premium_pct")
+                if _v36 is None:
+                    continue
+                if "{:+.2f}%".format(_v36) not in _md36:
+                    _bad36.append("the page does not print %s's premium %.2f%%"
+                                  % (_r36.get("symbol"), _v36))
+            if _p36.get("ticket") and str(_p36["ticket"]) not in _md36:
+                _bad36.append("the page hides which ticket the premium was "
+                              "read off")
+            _own36 = (_p36.get("own_ruler_summary") or {}).get(
+                "in_own_top_decile") or []
+            if _own36 and "前 10% 高位" not in _md36:
+                _bad36.append("the face flags a top-decile name the page does "
+                              "not label")
+        check("product: the CEO page says what part of the build order is premium",
+              not _bad36, "; ".join(_bad36)[:220]
+              or "%d names priced against their own NAV" % _n36)
+    except Exception as e:
+        check("product: the CEO page says what part of the build order is premium",
+              False, repr(e)[:160])
     # ---- r1785: the sheet above is a full build; a reader who already followed
     # an earlier sheet needs the DIFFERENCE.  The ticket has published the
     # rebalance rows since r1563 and the page never showed them.  Re-derived

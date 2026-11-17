@@ -16546,3 +16546,28 @@ git 直接合出 **192 处冲突**。全按「取一边」处理会丢东西，�
 
 正身=scripts/idx_fut_carry_margin.py（selftest 7/7 + --check ok）+ results/idx_fut_carry_margin.json
 + research/IDX_FUT_CARRY_MARGIN.md；判词 VOL_RULER_IS_THE_GATE。
+
+## E1408 「守卫的答案取决于本地 ref 的新鲜度」（r1821 bm-c）
+
+两条冒烟腿把 shared 单写者页 `results/dashboard_status.json`（host=bm-a）和本节刚重算的板
+逐条对撞。腿里用 `shared_derive_write_allowed()` 当「这张页归我认证吗」的代理，而这个函数
+读的是本地 `origin/main` ref——只有上一次 fetch 那么新。于是同一份代码：fetch 之前跑 =
+「可接管」→ 把「页落后一代」报成硬红；fetch 之后跑 = 「宿主新鲜」→ 变注记。**判词随一次
+网络动作翻转，而两次跑的缺陷面一个字都没变**（本机连续两轮各挂同一条腿）。
+
+正法一件：**面自己记的输入代是唯一的比对口径**。页面已带 `data.as_of` 与
+`data.lane_ownership.source_freshness_as_of`；`_page_generation()` 只在两枚时点相同时放行
+等价性判据，不同代一律输出带两枚时点+页主名字的注记。承载机/同代时强制不变（CONTROL：
+同戳→enforce，无板戳→legacy enforce），所以这不是把红放宽，是把「两个构建」从「两个数打架」
+里分出来。
+
+实锚：board `as_of` 2026-11-18T04:37:02 / page 2026-11-18T03:42:42。04:37 这一代里
+`fund_statements` 补齐了 20260930（87/87 期、missing=[]），一条道也不再是 unobserved；
+03:42 构建的页无从知道——它报的「三季报缺」在它自己的时点上曾经是真的。
+
+**How**：任何「某台机能不能写这张面」的问题都不该由网络时点回答。①先问这张面记不记
+自己读的输入代，记了就以它为准；②判据写成「同一代才比」，不同代印时点不印红；
+③腿里留正反两具 fixture（同代必判/异代注记），否则下次有人把守卫改回去也没人发现。
+
+正身=smoke_test.py `_page_generation` + 两条腿（fleet: a lane whose clock is the statute
+reaches the page / product: the row the 11-08 enable decision reads）。
