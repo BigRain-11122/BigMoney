@@ -93,7 +93,7 @@
  "gpu_vram_free_mib": 1814,
  "gpu_vram_used_mb": 10468,
  "gpu_vram_used_mib": 10468,
- "head_sha": "82481df581",
+ "head_sha": "ccb0536531",
  "heartbeat_epoch_utc": 1794946294,
  "heartbeat_epoch_utc_type_int": true,
  "idle_note": "not idle: a foreign chain is writing data lanes; this round spent its window on code",
@@ -108,7 +108,7 @@
  "last_action_at": "2026-11-07T14:51:04+08:00",
  "last_artifact": "results/data_lane_freshness.json + docs/live_book/LIVE-BOOK-20261118.json + docs/live_usage/LIVE-2026-11-18.md",
  "last_artifact_at": "2026-11-18T04:04:39+08:00",
- "last_commit": "82481df581",
+ "last_commit": "ccb0536531",
  "last_decisions_at": "2026-11-17T22:12:42+08:00",
  "last_decisions_read_at": "2026-11-17T22:12:42+08:00",
  "last_decisions_seen": "2026-11-08T04:4x",
@@ -425,5 +425,6 @@
  "work_r1298": "the r1297 window's S6 chain was still walking legs 43 minutes later (one per-symbol CSV per second under data/astock_daily/per/) when r1298 started, and two things were missing: the runner wrote its record only after the LAST leg so a killed chain left nothing to read, and nothing stopped a second round from driving the same 263 legs over the same faces (the only guard was a session noticing the process). Progress jsonl per leg + a logs/ lock with the r1687 rules (live pid wins at any age, dead pid taken over, unparseable legacy lock only after 120 min). This round deliberately ran no chain leg: the in-flight chain owns those faces until it lands.",
  "work_r1307": "r1307: C1_capacity has failed in every phase for weeks, and a check that fails identically in every phase is not a calendar question -- it is a level question the gate never printed. The new face reads the three capacity receipts that already exist (the live 5-name sleeve's own ladder, the published 12-name card's arm, and the priced N5..N20 width ladder's second engine) and prints the level: floor 20,000,000 CNY against a best priced ceiling of 13,794,151 (69.0% of floor, gap 6,205,849). Reaching the floor takes ~29.6 names at R20 on the ladder's own slope, i.e. past the 20-name envelope that has ever been priced, and the widest priced width already costs 2.92pp of CAGR and 5.97pp of drawdown. Floor is imported from candidate_year_gate, never copied; readings from different engines stay labelled and are never averaged.",
  "work_r1308": "r1308: r1307 printed the level, but the reader still only saw the calendar. supply_candidate_face now carries a capacity layer whose numbers are copied from the capacity receipt (floor 20,000,000 / best priced ceiling 13,794,151 / 69.0% / gap 6,205,849), cross-checks that receipts floor against the gate that owns it, and appends it to the AGENDA_DEBT+calendar reading -- because \"no candidate passes its calendar\" invites waiting while \"the top priced width is 69% of the floor\" says waiting cannot finish the job. compute_audit carries that sentence verbatim into supply_floor.why (no second derivation), and the daily page prints it as its own line. An unreadable receipt prints unreadable, never a zero gap.",
- "work_r1310": "r1310: the two day-word legs were red for a printer reason, not a page reason. The crash happened while printing a DATE-UNMAPPED row that quoted a line containing U+00A5, so the leg never reached its own verdict -- a defect in the report was masking the report. With that removed, live_usage still failed honestly: 19 mapped-nowhere dates, all of them sentences that name a field which exists. A rule per sentence is the cheap half; the expensive half is refusing to call a file-name date 'checked', so it goes to a bucket."
+ "work_r1310": "r1310: the two day-word legs were red for a printer reason, not a page reason. The crash happened while printing a DATE-UNMAPPED row that quoted a line containing U+00A5, so the leg never reached its own verdict -- a defect in the report was masking the report. With that removed, live_usage still failed honestly: 19 mapped-nowhere dates, all of them sentences that name a field which exists. A rule per sentence is the cheap half; the expensive half is refusing to call a file-name date 'checked', so it goes to a bucket.",
+ "head_sha_note": "r1311: head_sha is the HEAD at the moment this heartbeat was written; the heartbeat commit itself advances HEAD one further, so a reader comparing this field to git rev-parse HEAD must allow that one commit -- unless local_unpushed_commits=0 and push_verified says 0/0, as now"
 }
