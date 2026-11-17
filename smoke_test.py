@@ -4245,6 +4245,19 @@ def main() -> int:
             "lane_freshness") or {}
         _pdb7 = {p.get("lane"): p for p in (_db7.get("period_lanes") or [])}
         _why7, _note7 = [], ""
+        # r1492: the dashboard is a single-writer face (D-20260928-03 batch-3), so the
+        # page is a stale copy by construction whenever another host built it. r1821:
+        # the permission probe used to answer that question and answered from the local
+        # `origin/main` ref -- on a stale fetch it returned "this page is mine", turned
+        # an age into a defect, and the leg was red every round. The page stamps the
+        # board generation it read; only a same-generation page can be certified, and
+        # that has to hold for EVERY comparison below, not just the set at the bottom
+        # (the suite caught the first version gating one of three).
+        if not _db7:
+            _why7.append("the page carries no statutory-clock block at all")
+        _samegen7, _gen7 = _page_generation(
+            _db7.get("as_of"), _lf7.get("as_of"), "results/dashboard_status.json")
+        _diff7 = []
         for _p7 in _pl7:
             _mine = _pdb7.get(_p7.get("lane"))
             if _mine is None:
@@ -4252,23 +4265,17 @@ def main() -> int:
                              "reached the dashboard block")
                 continue
             if (_mine.get("missing_periods") or []) != (_p7.get("missing_periods") or []):
-                _why7.append(f"{_p7.get('lane')}: page missing-periods disagree "
-                             "with the board")
+                _diff7.append(f"{_p7.get('lane')}: page missing-periods disagree "
+                              "with the board")
             if _mine.get("expected_deadline") != _p7.get("expected_deadline"):
-                _why7.append(f"{_p7.get('lane')}: deadline not carried")
+                _diff7.append(f"{_p7.get('lane')}: deadline not carried")
         _missing7 = [p.get("lane") for p in _pl7
                      if (p.get("missing_periods") or [])]
-        # r1492: the dashboard is a single-writer face (D-20260928-03 batch-3), so the
-        # page is a stale copy by construction whenever another host built it. r1821:
-        # the permission probe used to answer that question and answered from the local
-        # `origin/main` ref -- on a stale fetch it returned "this page is mine", turned
-        # an age into a defect, and the leg was red every round. The page stamps the
-        # board generation it read; only a same-generation page can be certified.
-        if not _db7:
-            _why7.append("the page carries no statutory-clock block at all")
-        _samegen7, _gen7 = _page_generation(
-            _db7.get("as_of"), _lf7.get("as_of"), "results/dashboard_status.json")
         _pm7 = set(_db7.get("period_missing_lanes") or [])
+        if not _samegen7:
+            _note7 = _gen7 + ((" | " + "; ".join(_diff7)) if _diff7 else "")
+        else:
+            _why7.extend(_diff7)
         if set(_missing7) != _pm7:
             _line7 = ("period_missing_lanes is not the set of lanes the board reads "
                       "as missing a statutory period (board=%s page=%s)"
