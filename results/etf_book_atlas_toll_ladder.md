@@ -1,25 +1,25 @@
 # ETF book atlas -- the toll ladder
 
-**NOT QUOTABLE: the 12-cell ordering clears its own phase noise only below 0.87bp/side, and the buffer knob never clears it on a dose -- both knobs are zero-cost objects.**
+**NOT QUOTABLE: the 12-cell ordering clears its own phase noise only below 0.85bp/side, and the buffer knob never clears it on a dose -- both knobs are zero-cost objects.**
 
 ## Toll ladder (buffer k=0)
 
 | toll bp | spread pp | band pp | clears | argmax | cadence eff | width eff |
 |---|---|---|---|---|---|---|
 | 0 | 6.96 | 6.82 | yes | n8/R10 | +5.49 | +0.71 |
-| 5 | 6.08 | 6.74 | no | n8/R10 | +4.56 | +0.99 |
+| 5 | 6.11 | 6.78 | no | n8/R10 | +4.65 | +0.83 |
 | 10 | 5.41 | 7.12 | no | n8/R10 | +3.57 | +1.23 |
-| 20 | 3.63 | 6.66 | no | n8/R10 | +2.06 | +1.25 |
+| 20 | 3.69 | 6.68 | no | n8/R10 | +2.10 | +1.17 |
 | 40 | 2.88 | 6.83 | no | n3/R10 | -1.14 | -0.79 |
 
 verdict: **ORDERING_IS_A_TOLL_ARTEFACT**
 
 - spread falls from 6.96pp at 0bp to 2.88pp at 40bp (rank corr -1.000)
 - median cell band stays 6.82 -> 6.83pp across the same rungs (band is not the mover)
-- the two series cross at 0.87bp/side
-- at the production toll (8bp) interpolated spread 5.67pp vs band 6.97pp
+- the two series cross at 0.85bp/side
+- at the production toll (8bp) interpolated spread 5.69pp vs band 6.98pp
 - the FAST cadence is worth +5.49pp at 0bp and -1.14pp at 40bp -- the ranking of the cadence knob inverts at 40bp/side
-- the width knob moves the other way: +0.71 -> -0.79pp (rank corr +0.000), i.e. wider is worth more as the toll rises
+- the width knob moves the other way: +0.71 -> -0.79pp (rank corr -0.100), i.e. wider is worth more as the toll rises
 - the ordering is monotone in the toll and gone by the production toll: no width/cadence sentence from this grid is quotable at 8bp/side
 
 ## Buffer ladder (production toll 10bp/side)

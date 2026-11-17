@@ -4,7 +4,7 @@ Official reference: last day that must exist by 15:30 = **2026-11-17** (8797 cal
 
 Verdict: **attention** -- 9/15 lanes in sync, 14/15 auditable from this machine, worst = `marks`.
 
-Built on **bm-c** at 2026-11-18T00:10:35: every tail and period below is a reading of that machine's disk. A copy of this file on another machine says nothing about that machine's panels -- run the board there to read its own bytes.
+Built on **bm-c** at 2026-11-18T01:14:01: every tail and period below is a reading of that machine's disk. A copy of this file on another machine says nothing about that machine's panels -- run the board there to read its own bytes.
 
 
 ## Whose disk these numbers are on
@@ -51,10 +51,10 @@ Each missing day below is classified by its own collector. `takeover_possible` m
 
 A different question from the section above: these machines have written no heartbeat for more than 24.0h, so the lanes they own are being judged from whatever was last committed. A lane here can still read `in_sync` -- the number is old, the owner is gone, and nobody would notice the day the file stops being written.
 
-- `bm-a`: last seen 2026-11-16T23:39:02+08:00 (24.53h ago) -- owns futures, heat, lhb, repo
+- `bm-a`: last seen 2026-11-16T23:39:02+08:00 (25.58h ago) -- owns futures, heat, lhb, repo
   - already covered by a declared stand-in: futures <- bm-c, repo <- bm-c (nothing to wait for)
   - nobody is covering these: heat, lhb
-- `bm-b`: last seen 2026-10-30T12:43:06+08:00 (443.46h ago) -- owns astock_daily, marks
+- `bm-b`: last seen 2026-10-30T12:43:06+08:00 (444.52h ago) -- owns astock_daily, marks
   - already covered by a declared stand-in: astock_daily <- bm-c, marks <- bm-c (nothing to wait for)
 
 ## Envelopes older than the panel they describe

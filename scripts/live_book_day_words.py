@@ -288,7 +288,17 @@ def census(doc, artifact=None, printed=_UNMEASURED):
         ret["day_source"] = "headline_bar"
     else:
         ret["day_source"] = "generated_for_date"
+    # r1817 bm-c: a page rendered after the close carries the last close's readings and says
+    # so (`evidence_cutoff`). The day a today-word must sit on is the page's own DATA day — a
+    # section older than THAT is the red one (a stale section). A page that reprints yesterday's
+    # close is the normal shape, not a day-word sitting on another day (r1788 family: the date a
+    # claim is judged against must be the face that produced the number).
+    data_day = str(doc.get("evidence_cutoff") or "")[:10] or None
+    judge_day = data_day or page_day
+    if data_day and page_day and data_day < page_day:
+        ret["day_source"] = "evidence_cutoff"
     ret["page_day"] = page_day
+    ret["judge_day"] = judge_day
     ret["headline_bar"] = str(head)[:10] if head else None
     ret["headline_field"] = head_field
     for key, sec in doc.items():
@@ -311,7 +321,7 @@ def census(doc, artifact=None, printed=_UNMEASURED):
             row["reading"] = "no_bar"
             ret["n_unverifiable"] += 1
             ret["unverifiable"].append(dict(row, sample=[h["text"][:160] for h in hits[:2]]))
-        elif page_day and bar != page_day:
+        elif judge_day and bar != judge_day:
             row["reading"] = "another_day"
             ret["offenders"].append(dict(row, sample=[h["text"][:160] for h in hits[:2]]))
         else:
@@ -400,8 +410,10 @@ def sentence(c):
         return ("页面这一版没有用「今天/今日/今晚」这类词（结构面 %d 节、印出来的纸上 0 行），"
                 "因此没有可核验的日词——这既不是「全部对上了」，也不欠什么。"
                 % c["n_sections"])
-    head = "页面自称 %s，%d 个节里 %d 节用了日词" % (c.get("page_day") or "?",
-                                                   c["n_sections"], c["n_with_day_word"])
+    head = "页面自称 %s、数据到 %s，%d 个节里 %d 节用了日词" % (c.get("page_day") or "?",
+                                                          c.get("judge_day") or "?",
+                                                          c["n_sections"],
+                                                          c["n_with_day_word"])
     if c["verdict"] == "ANCHORED":
         return ("%s：全部 %d 节的日词都落在页面自己那天上。"
                 % (head, c["n_anchored"]))
@@ -524,6 +536,25 @@ def selftest():
         c["verdict"] == "DAY_WORD_ON_ANOTHER_DAY" and len(c["offenders"]) == 1
         and c["offenders"][0]["key"] == "quote" and c["offenders"][0]["bar"] == "2026-11-13"
         and "2026-11-13" in c["sentence"], c)
+
+    postclose = {"generated_for_date": "2026-11-14",
+                 "evidence_cutoff": "2026-11-13",
+                 "quote": {"evidence_cutoff": "2026-11-13",
+                           "line": "今天的报价就在它自己的均值上"}}
+    c = census(postclose, artifact="fixture/postclose.json")
+    leg("a page that declares its own data day reprints the close without being an offender",
+        c["verdict"] == "ANCHORED" and c["judge_day"] == "2026-11-13"
+        and c["page_day"] == "2026-11-14" and c["day_source"] == "evidence_cutoff"
+        and not c["offenders"], c)
+
+    lagsec = {"generated_for_date": "2026-11-14",
+              "evidence_cutoff": "2026-11-13",
+              "quote": {"evidence_cutoff": "2026-11-12",
+                        "line": "今天的报价就在它自己的均值上"}}
+    c = census(lagsec, artifact="fixture/lagsec.json")
+    leg("a section older than the page's own declared data day is still an offender",
+        c["verdict"] == "DAY_WORD_ON_ANOTHER_DAY" and len(c["offenders"]) == 1
+        and c["offenders"][0]["bar"] == "2026-11-12", c)
 
     deep = {"generated_for_date": "2026-11-14",
             "stress": {"priced_bar": "2026-11-12",

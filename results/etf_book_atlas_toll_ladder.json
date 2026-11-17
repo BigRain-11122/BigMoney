@@ -130,12 +130,12 @@
     "spread_pp": 6.96
    },
    {
-    "band_pp": 6.735,
+    "band_pp": 6.777,
     "buffer_k": 0.0,
     "clears_band": false,
     "cost": 0.0005,
     "file": "etf_book_phase_atlas_cost05.json",
-    "spread_pp": 6.08
+    "spread_pp": 6.105
    },
    {
     "band_pp": 7.122,
@@ -146,12 +146,12 @@
     "spread_pp": 5.405
    },
    {
-    "band_pp": 6.663,
+    "band_pp": 6.681,
     "buffer_k": 0.0,
     "clears_band": false,
     "cost": 0.002,
     "file": "etf_book_phase_atlas_cost20.json",
-    "spread_pp": 3.63
+    "spread_pp": 3.695
    },
    {
     "band_pp": 6.835,
@@ -166,7 +166,7 @@
  "question": "the atlas's 12-cell ordering is judged against each cell's own phase band; both the spread and the band move with the toll. At what toll does the ordering stop clearing its own noise, and is the decay monotone?",
  "script": "scripts/etf_book_atlas_toll_ladder.py",
  "sources_bar": "2026-11-17",
- "sources_digest": "fab722ab231fc6d78fdb14530472f1d33b9adeaceaeee74c3443029ffe192a1e",
+ "sources_digest": "08e295f264e5713ac0962e98f78d905acb8f4c530bfd84b50ad29a50b37bb6f3",
  "spec": {
   "baseline_cost_fraction": 0.001,
   "cadence_pair": [
@@ -184,7 +184,7 @@
    12
   ]
  },
- "statement": "NOT QUOTABLE: the 12-cell ordering clears its own phase noise only below 0.87bp/side, and the buffer knob never clears it on a dose -- both knobs are zero-cost objects.",
+ "statement": "NOT QUOTABLE: the 12-cell ordering clears its own phase noise only below 0.85bp/side, and the buffer knob never clears it on a dose -- both knobs are zero-cost objects.",
  "toll_ladder": {
   "argmax_cells": [
    {
@@ -196,7 +196,7 @@
    },
    {
     "file": "etf_book_phase_atlas_cost05.json",
-    "median_cagr_pp": 13.085,
+    "median_cagr_pp": 13.2,
     "n_hold": 8,
     "rebal": 10,
     "toll_bp": 5.0
@@ -210,7 +210,7 @@
    },
    {
     "file": "etf_book_phase_atlas_cost20.json",
-    "median_cagr_pp": 9.46,
+    "median_cagr_pp": 9.575,
     "n_hold": 8,
     "rebal": 10,
     "toll_bp": 20.0
@@ -224,28 +224,28 @@
    }
   ],
   "argmax_identity_stable": false,
-  "band_at_production_toll_pp": 6.967,
+  "band_at_production_toll_pp": 6.984,
   "band_pp": [
    6.822,
-   6.735,
+   6.777,
    7.122,
-   6.663,
+   6.681,
    6.835
   ],
-  "break_even_toll_bp": 0.87,
+  "break_even_toll_bp": 0.852,
   "cadence_effect_median_pp": [
    5.485,
-   4.562,
+   4.647,
    3.572,
-   2.06,
+   2.098,
    -1.143
   ],
   "cadence_sign_flip_toll_bp": 40.0,
   "cadence_spread_pp": [
    5.485,
-   4.563,
+   4.647,
    3.573,
-   2.06,
+   2.097,
    1.807
   ],
   "clears_band": [
@@ -258,22 +258,22 @@
   "reasons": [
    "spread falls from 6.96pp at 0bp to 2.88pp at 40bp (rank corr -1.000)",
    "median cell band stays 6.82 -> 6.83pp across the same rungs (band is not the mover)",
-   "the two series cross at 0.87bp/side",
-   "at the production toll (8bp) interpolated spread 5.67pp vs band 6.97pp",
+   "the two series cross at 0.85bp/side",
+   "at the production toll (8bp) interpolated spread 5.69pp vs band 6.98pp",
    "the FAST cadence is worth +5.49pp at 0bp and -1.14pp at 40bp -- the ranking of the cadence knob inverts at 40bp/side",
-   "the width knob moves the other way: +0.71 -> -0.79pp (rank corr +0.000), i.e. wider is worth more as the toll rises",
+   "the width knob moves the other way: +0.71 -> -0.79pp (rank corr -0.100), i.e. wider is worth more as the toll rises",
    "the ordering is monotone in the toll and gone by the production toll: no width/cadence sentence from this grid is quotable at 8bp/side"
   ],
   "rungs": 5,
   "rungs_that_clear": [
    "etf_book_phase_atlas_cost0.json"
   ],
-  "spread_at_production_toll_pp": 5.675,
+  "spread_at_production_toll_pp": 5.685,
   "spread_pp": [
    6.96,
-   6.08,
+   6.105,
    5.405,
-   3.63,
+   3.695,
    2.885
   ],
   "spread_rank_corr_with_toll": -1.0,
@@ -287,17 +287,17 @@
   "verdict": "ORDERING_IS_A_TOLL_ARTEFACT",
   "width_effect_median_pp": [
    0.715,
-   0.995,
+   0.835,
    1.225,
-   1.245,
+   1.165,
    -0.79
   ],
-  "width_effect_rank_corr_with_toll": 0.0,
+  "width_effect_rank_corr_with_toll": -0.1,
   "width_spread_pp": [
    1.365,
-   1.54,
+   1.39,
    1.375,
-   1.65,
+   1.655,
    1.92
   ]
  },

@@ -1748,10 +1748,9 @@
  },
  "family_coherence": {
   "artifact": "results/etf_book_phase_atlas_arms.json",
-  "verdict": "MIXED_WORLDS",
-  "detail": "11 faces priced 2 different panels (0988c653, 0d5a9cdc): per-cell deltas across worlds are world differences, not rule effects",
+  "verdict": "ONE_WORLD",
+  "detail": "all 11 faces priced 0d5a9cdcf2beffd5",
   "panels": [
-   "0988c6530a481fa1",
    "0d5a9cdcf2beffd5"
   ],
   "arms": 10,
@@ -1778,26 +1777,17 @@
      "buffer_k20",
      "buffer_k40",
      "cost0",
+     "cost05",
+     "cost20",
      "cost40"
     ],
     "last": "2026-11-17",
     "bars": 5282,
     "columns": 1631,
     "bars_fewer_than_newest": 0
-   },
-   {
-    "digest": "0988c6530a481fa1",
-    "faces": [
-     "cost05",
-     "cost20"
-    ],
-    "last": "2026-11-16",
-    "bars": 5281,
-    "columns": 1630,
-    "bars_fewer_than_newest": 1
    }
   ],
-  "priced_same_panel": false,
+  "priced_same_panel": true,
   "comparable": [
    "buffer_k02",
    "buffer_k05",
@@ -1806,18 +1796,14 @@
    "buffer_k20",
    "buffer_k40",
    "cost0",
+   "cost05",
+   "cost20",
    "cost40"
   ],
-  "withheld": [
-   "cost05",
-   "cost20"
-  ],
+  "withheld": [],
   "cost_axis": {
-   "readable": false,
-   "withheld": [
-    "cost05",
-    "cost20"
-   ],
+   "readable": true,
+   "withheld": [],
    "arms": [
     {
      "arm": "buffer_k02",
@@ -1863,14 +1849,14 @@
     },
     {
      "arm": "cost05",
-     "verdict": "WORLDS_NOT_COMPARABLE",
-     "readable": false,
+     "verdict": "NOT-SEPARABLE",
+     "readable": true,
      "description": "5bp/side on the whole grid (half the production toll)"
     },
     {
      "arm": "cost20",
-     "verdict": "WORLDS_NOT_COMPARABLE",
-     "readable": false,
+     "verdict": "REJECT",
+     "readable": true,
      "description": "20bp/side on the whole grid (double the production toll)"
     },
     {
@@ -2001,13 +1987,13 @@
   "floor_extrapolation": {
    "artifact": "results/etf_book_buffer_floor_readback.json",
    "present": true,
-   "detail": "the fit says +0.908pp at k=0.30 (slope +2.534, intercept +0.148); the harvested arm's own 12 cells say +0.510pp (median); gap -0.398pp against tolerance 2.420pp = 3.0x the fit's largest in-sample residual (0.807pp, floored at 0.05); cell spread of the same arm: -0.515 .. +2.285pp (12 cells), i.e. the median is not the book; the line predicts a point it never saw, on the widest gap it spans -- the ",
+   "detail": "the fit says +0.595pp at k=0.30 (slope +1.238, intercept +0.224); the harvested arm's own 12 cells say +0.510pp (median); gap -0.085pp against tolerance 2.582pp = 3.0x the fit's largest in-sample residual (0.861pp, floored at 0.05); cell spread of the same arm: -0.515 .. +2.285pp (12 cells), i.e. the median is not the book; the line predicts a point it never saw, on the widest gap it spans -- the ",
    "verdict": "HOLDS",
    "buffer_k": 0.3,
-   "predicted_pp": 0.908,
+   "predicted_pp": 0.595,
    "observed_pp": 0.51,
-   "gap_pp": -0.398,
-   "tolerance_pp": 2.42,
+   "gap_pp": -0.085,
+   "tolerance_pp": 2.582,
    "evidence_cutoff": "2026-10-29"
   }
  },
@@ -56206,10 +56192,10 @@
  "authority": {
   "writer": "bm-c",
   "owner": "bm-a",
-  "owner_silent_h": 25.4,
+  "owner_silent_h": 25.5,
   "gate_h": 6.0,
   "took_over": true,
-  "why": "bm-a has not written its own heartbeat for 25.4 h (> 6 h): this host takes the pen for the page only -- a stopped heartbeat is not a dead machine",
+  "why": "bm-a has not written its own heartbeat for 25.5 h (> 6 h): this host takes the pen for the page only -- a stopped heartbeat is not a dead machine",
   "no_bar_reason": "human_ages"
  },
  "fleet": {

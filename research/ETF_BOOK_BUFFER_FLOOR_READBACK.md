@@ -6,10 +6,10 @@ r1354 用五个臂拟合出 **%+.3fpp / 单位 k**，再沿这条线外推到 k=
 
 | 读数 | 值 |
 |---|---|
-| 拟合预测 (k=0.30) | +0.908pp |
+| 拟合预测 (k=0.30) | +0.595pp |
 | 实测中位 | +0.510pp |
-| 差 | -0.398pp (容差 2.420pp) |
-| 拟合自身最大样本内残差 | 0.807pp |
+| 差 | -0.085pp (容差 2.582pp) |
+| 拟合自身最大样本内残差 | 0.861pp |
 
 判决：**HOLDS**
 
@@ -28,8 +28,8 @@ r1354 用五个臂拟合出 **%+.3fpp / 单位 k**，再沿这条线外推到 k=
 | 12 | 20 | +9.82pp | +9.43pp | +0.390pp |
 | 12 | 40 | +8.37pp | +7.80pp | +0.565pp |
 
-- the fit says +0.908pp at k=0.30 (slope +2.534, intercept +0.148)
+- the fit says +0.595pp at k=0.30 (slope +1.238, intercept +0.224)
 - the harvested arm's own 12 cells say +0.510pp (median)
-- gap -0.398pp against tolerance 2.420pp = 3.0x the fit's largest in-sample residual (0.807pp, floored at 0.05)
+- gap -0.085pp against tolerance 2.582pp = 3.0x the fit's largest in-sample residual (0.861pp, floored at 0.05)
 - cell spread of the same arm: -0.515 .. +2.285pp (12 cells), i.e. the median is not the book
 - the line predicts a point it never saw, on the widest gap it spans -- the extrapolated k is a continuation of a measured slope, not a guess
