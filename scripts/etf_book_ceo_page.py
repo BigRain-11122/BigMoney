@@ -11221,6 +11221,31 @@ def render_md(p, sb=None):
     return "\n".join(L) + "\n"
 
 
+def guest_page_writer(today, mid=None):
+    """Today's page exists but was written by ANOTHER host under a take-over.
+
+    r1327: a take-over is a loan of the pen, not a change of writer.  While the owner's
+    heartbeat was silent the guest wrote today's page off its OWN panel (its GC001 tail
+    was 11-13 while the owner's was 11-17), so the page printed one spot rate beside a
+    ticket priced on another.  When the owner is writing again the owner must take the
+    pen back on the same day, otherwise "no new bar" freezes the guest's world in place
+    for the rest of the session and every downstream reader sees two "today" rates.
+    Returns the guest's name (a truthy string) when the page must be rewritten here.
+    """
+    p = os.path.join(OUT_DIR, "LIVE-BOOK-%s.json" % today.replace("-", ""))
+    if not os.path.exists(p):
+        return None
+    try:
+        with open(p, encoding="utf-8") as fh:
+            d = json.load(fh)
+    except Exception:
+        return None
+    w = (d.get("authority") or {}).get("writer")
+    if w and mid and w != mid:
+        return w
+    return None
+
+
 def run():
     mid = machine_id()
     if not writer_allowed(mid):
@@ -11237,10 +11262,15 @@ def run():
     _asof = str(page.get("evidence_cutoff") or today)[:10]
     _prior = os.path.join(OUT_DIR, "LIVE-BOOK-%s.md" % _asof.replace("-", ""))
     if _asof != today and os.path.exists(_prior):
-        print("etf_book_ceo_page: no new bar -- today is %s, the pricing day is %s and that page "
-              "already exists; nothing written (a page named for a day its own closes did not "
-              "price would call yesterday today)" % (today, _asof))
-        return 0
+        _guest = guest_page_writer(today, mid)
+        if not _guest:
+            print("etf_book_ceo_page: no new bar -- today is %s, the pricing day is %s and that page "
+                  "already exists; nothing written (a page named for a day its own closes did not "
+                  "price would call yesterday today)" % (today, _asof))
+            return 0
+        print("etf_book_ceo_page: today's page was written by %s under take-over; %s is writing "
+              "again and takes the pen back (the guest's panel tail would otherwise stand beside "
+              "this host's ticket for the rest of the session)" % (_guest, mid))
     auth = takeover_authority(mid) or {"writer": mid, "owner": HOST, "took_over": False}
     auth = dict(auth, no_bar_reason=PAGE_NO_BAR_REASONS["authority"])
     page["authority"] = auth

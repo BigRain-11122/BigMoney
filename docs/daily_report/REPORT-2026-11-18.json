@@ -1,6 +1,6 @@
 {
  "report_date": "2026-11-18",
- "generated_at": "2026-11-18 00:49:50",
+ "generated_at": "2026-11-18 04:01:08",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -283,26 +283,33 @@
   "marks_asof": "2026-11-17"
  },
  "live_usage": {
-  "status": "missing",
-  "note": "LIVE-2026-11-18.json 未生成（ceo_live_usage.py 腿未跑或机制故障）——如实标注，禁编数"
+  "status": "ok",
+  "day": "2026-11-18",
+  "state": "RED",
+  "rung": "RED",
+  "cap": 0.2,
+  "heat": "COOL",
+  "clock_cell": "RED_COOL",
+  "members": 6,
+  "md_link": "../live_usage/LIVE-2026-11-18.md"
  },
  "rd": {
-  "commits_24h": 95,
-  "result_jsons_landed_24h": 221,
+  "commits_24h": 112,
+  "result_jsons_landed_24h": 230,
   "digests_landed_24h": 0,
-  "prereg_md_touched_24h": 74,
+  "prereg_md_touched_24h": 78,
   "compute_audit_latest": {
-   "ts": "2026-11-18 00:48:49",
-   "py_cpu_pct": 7.3,
+   "ts": "2026-11-18 03:58:50",
+   "py_cpu_pct": 3.1,
    "flags": [
     "pool_starvation",
     "supply_floor"
    ],
    "verdict": "FLAG:pool_starvation,supply_floor"
   },
-  "watermark_verdict": "py_low_with_work_cands",
+  "watermark_verdict": "insufficient_history",
   "pool_keys_n": 6,
-  "batch_in_flight": true
+  "batch_in_flight": false
  },
  "decisions_tail": [
   "- 2026-09-26 09:32 · T-74 市场时钟组合=六层既有件集成（v3 政体×热度复合×三军名册×选股面×仓位帽），零新策略族 · 理由=O-0932 CEO 令+反重复铁律（收敛声明入票） · 指针=research/MARKET_CLOCK_COMBO.md s0 v1.0",
@@ -643,11 +650,11 @@
  ],
  "token_line": {
   "total_state_tokens_est": 15889,
-  "total_report_tokens_est": 2412106,
+  "total_report_tokens_est": 2411636,
   "delta_vs_prev": {
-   "prev_generated": "2026-11-17 13:00:18",
+   "prev_generated": "2026-11-17 20:18:59",
    "state_tokens_growth": 0,
-   "report_tokens_growth": 470,
+   "report_tokens_growth": 0,
    "mandate_growth": 0
   },
   "method": {
@@ -658,11 +665,11 @@
  "utilization": {
   "machines": {
    "bm-a": {
-    "latest_ts": "2026-11-18 00:48:49",
-    "py_pct": 7.3,
-    "cpu_pct": 57.0,
+    "latest_ts": "2026-11-18 03:58:50",
+    "py_pct": 3.1,
+    "cpu_pct": 53.0,
     "ready": 0,
-    "streak_min": 11525.5,
+    "streak_min": 11549.7,
     "verdict": "FLAG:pool_starvation,supply_floor",
     "py_series_tail": [
      [
@@ -688,14 +695,22 @@
      [
       "00:48",
       7.3
+     ],
+     [
+      "01:57",
+      15.6
+     ],
+     [
+      "03:58",
+      3.1
      ]
     ],
-    "today_samples": 1,
+    "today_samples": 3,
     "today_floor_ok": 0,
     "today_sla_flags": 0,
     "today_supply_gap_flags": 0,
-    "own_samples": 6,
-    "unattributed_samples": 102,
+    "own_samples": 8,
+    "unattributed_samples": 100,
     "latest_attributed": true,
     "lane_machine": "bm-a",
     "supply_why": {
@@ -764,21 +779,13 @@
     "supply_why": null
    },
    "bm-c": {
-    "latest_ts": "2026-11-17 18:29:18",
-    "py_pct": 5.1,
-    "cpu_pct": 60.0,
+    "latest_ts": "2026-11-18 00:10:23",
+    "py_pct": 0.0,
+    "cpu_pct": 13.0,
     "ready": 0,
-    "streak_min": 11465.7,
+    "streak_min": 11632.7,
     "verdict": "FLAG:pool_starvation,supply_floor",
     "py_series_tail": [
-     [
-      "02:25",
-      0.7
-     ],
-     [
-      "03:04",
-      0.0
-     ],
      [
       "05:32",
       14.6
@@ -818,14 +825,22 @@
      [
       "18:29",
       5.1
+     ],
+     [
+      "00:04",
+      0.0
+     ],
+     [
+      "00:10",
+      0.0
      ]
     ],
-    "today_samples": 0,
+    "today_samples": 2,
     "today_floor_ok": 0,
     "today_sla_flags": 0,
     "today_supply_gap_flags": 0,
-    "own_samples": 93,
-    "unattributed_samples": 107,
+    "own_samples": 95,
+    "unattributed_samples": 105,
     "latest_attributed": true,
     "lane_machine": "bm-c",
     "supply_why": {
@@ -896,7 +911,7 @@
      "readable": true,
      "window_min": 60.0,
      "audit_batches": 0,
-     "audit_ts": "2026-11-18 00:48:49"
+     "audit_ts": "2026-11-18 03:58:50"
     }
    },
    "bm-b": {
@@ -932,7 +947,7 @@
      "readable": true,
      "window_min": 60.0,
      "audit_batches": 0,
-     "audit_ts": "2026-11-17 18:29:18"
+     "audit_ts": "2026-11-18 00:10:23"
     }
    }
   },
@@ -1754,10 +1769,10 @@
  },
  "lane_authority": {
   "present": true,
-  "as_of": "2026-11-17T22:30:14",
+  "as_of": "2026-11-18T03:42:42",
   "verdict": "attention",
   "observer": "bm-a",
-  "sentence": "以本机 bm-a 的盘为基准：14 条在役车道里有 6 条的数字不在本机盘上：6 条在 bm-c 的盘上（4.18h 未报到）；留在本机盘上的 8 条里 8 条可核实。",
+  "sentence": "以本机 bm-a 的盘为基准：14 条在役车道里有 6 条的数字不在本机盘上：6 条在 bm-c 的盘上（心跳 0.84h 前）；留在本机盘上的 8 条里 8 条可核实。",
   "n_lanes": 14,
   "n_offhost": 6,
   "n_here": 8,
@@ -1775,9 +1790,9 @@
      "zt_pool"
     ],
     "n": 6,
-    "alive": false,
-    "age_h": 4.18,
-    "last_seen": "2026-11-17T18:19:19+08:00"
+    "alive": true,
+    "age_h": 0.84,
+    "last_seen": "2026-11-18T02:52:29+08:00"
    }
   ],
   "offhost_lanes": [
@@ -1803,13 +1818,13 @@
     {
      "lane": "ah_panel",
      "local_tail": "2026-10-16",
-     "certified_tail": "2026-11-16",
-     "behind_days": 21,
+     "certified_tail": "2026-11-17",
+     "behind_days": 22,
      "host": "bm-c",
      "authority": "non_host_copy"
     }
    ],
-   "sentence": "本机副本落后：5 条可读面板里有 2 条读到的不是车道认证的那一天的数：moneyflow 差 25 个交易日（本盘 2026-10-13 / 车道 2026-11-17，数据在 bm-c 盘上）；ah_panel 差 21 个交易日（本盘 2026-10-16 / 车道 2026-11-16，数据在 bm-c 盘上）。本机发起的研究要用这些车道的数据，读的是旧盘。"
+   "sentence": "本机副本落后：5 条可读面板里有 2 条读到的不是车道认证的那一天的数：moneyflow 差 25 个交易日（本盘 2026-10-13 / 车道 2026-11-17，数据在 bm-c 盘上）；ah_panel 差 22 个交易日（本盘 2026-10-16 / 车道 2026-11-17，数据在 bm-c 盘上）。本机发起的研究要用这些车道的数据，读的是旧盘。"
   },
   "labels": {
    "ths_panel": "无主封套",
@@ -1817,12 +1832,12 @@
    "marks": "申报接管",
    "lhb_inst": "宿主自己写的封套",
    "ah_panel": "他机本地副本",
-   "minute_feed": "他机本地副本",
    "astock_daily": "申报接管",
    "etf_panel": "他机写的封套",
    "futures": "宿主自己写的封套",
    "heat": "宿主自己写的封套",
    "lhb": "宿主自己写的封套",
+   "minute_feed": "他机本地副本",
    "moneyflow": "宿主自己写的封套",
    "repo": "宿主自己写的封套",
    "zt_pool": "他机本地副本"
@@ -1830,7 +1845,7 @@
  },
  "lane_window": {
   "present": true,
-  "as_of": "2026-11-17T22:30:14",
+  "as_of": "2026-11-18T03:42:42",
   "n": 1,
   "windows": [
    {
