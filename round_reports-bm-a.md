@@ -2473,3 +2473,31 @@ live_book_day_words=1 / live_usage_day_words=1 / daily_report_day_words=1：战�
 **仍未绿的一条**：live_book_day_words = DAY_WORD_ON_ANOTHER_DAY（28 行日词、15 行读不出哪天）。原因是上游而非文案：书的可定价 bar 还是 11-16，而这一页是 11-17 的页——按本轮报告已列的里程碑，等定价车道推进后重出才会真消。未调规则迁就。
 
 **本地未达 origin commit 数**：见推送后复核。
+
+## r1300 — 2026-11-17T19:5x+08:00（bm-a·工程/产品）
+
+**水位 verdict**：red=false（lane=healthy）；bandit advisory next_pick=moneyflow IC 参考批（status=claimed，面板源阻塞 30min 自愈中）。
+
+**CEO 三行**
+- 当前活：把整本书重出到面板尾 bar（2026-11-17），清掉上一轮唯一遗留的产品红腿。
+- 最近实物：`docs/live_book/LIVE-BOOK-20261117.md`（订单 5 名 / 账面 431,880 / 现金 568,120 / 下次调仓 2026-12-09，2026-11-17T19:5x）。同轮 `results/etf_book_positions.json` asof=2026-11-17、`results/etf_swap_harvest_census.json` bar=2026-11-17。
+- 下个里程碑：24h 内把 `live_book_section_bars` 的 PAGE_MIXES_BARS 收窄——67 个带日期节里只有 43 节真在 11-17，最旧 cash_caliber 停在 11-13（落后 2 个交易日），另 3 节根本没日期。
+
+**本轮做了什么**
+
+1. **最要紧的一条：上轮遗留的产品红腿清零。** `live_book_day_words` 从 `DAY_WORD_ON_ANOTHER_DAY`（1 个越界节：harvest_census bar=11-16 而页是 11-17）变成 `ANCHORED`（offenders 0，sections 70，self-dated 14 / undated 15）。做法不是改判词阶梯，而是按依赖序把面重出到面板尾 bar：`etf_alias_census` → `etf_label_census` → `etf_swap_harvest_census` → `etf_book_swap_stack` → `etf_book_positions` → `etf_book_ceo_page`。
+
+2. **重出后数字确实变了，不是换个时间戳**（三个 census 自检 17/17、20/20、15/15 全绿）：
+   - `etf_swap_harvest_census`：候选 1,050→**1,495** 对、可测 837→**1,122**、收得回来 218→**325**、收不回来 619→797、样本不足 213→373；一手 100,000 元的捡回金额 102,755→**138,889 元**（过物质线 100→117 对、78,753→100,869 元）。判词仍带它自己的重排读数（p=1.00），没有因为数字变好就改口径。
+   - `etf_alias_census`：session 11-16→**11-17**，screen 内 581 只、2,211 对（SAME_BASKET 867 / WALKS_APART 1,344）。
+   - `etf_label_census`：session **11-17**，1,290 对 / 1,160 定价（ONE_BASKET 102、MIXED 23、NOT_A_BASKET 9、UNPRICED 3），lying 32、总成本 26,022.5 元。
+
+3. **书本身**：`etf_book_swap_stack` 指到 TICKET-2026-11-17（NOTHING_TO_NET，asof 11-17）；`etf_book_positions` 的 asof / ticket_bar 从 11-16 推到 **11-17**（ledger 8 bar，`check` = CHECK_OK，base_gap 0、unexplained 0）；页面重出 order 5 名 / 账面 431,880 / 现金 568,120 / 下次调仓 2026-12-09。
+
+4. **仍未绿的两条（如实记未完成）**：
+   - `live_usage_day_words` = `PRINTED_SELF_DATED`：一页纸上 8 行日词都自带日期，但 20 处日期**没有规则可核**。这是规则缺口不是页面缺陷，没为了转绿去动判词阶梯。
+   - `live_book_section_bars` = `PAGE_MIXES_BARS`：页头写按 2026-11-17 定价，67 个带日期节里只有 43 节真在这一天；其余 24 节不在（最旧 `cash_caliber` 停在 2026-11-13，落后 2 个交易日），另 3 节没有日期。已写进下轮指针。
+
+5. **其他面（每轮固定体检）**：orphan 面 0/27；attrition 账本 CLEAN（4 个账本，3 处历史 shrink 判 healed）；orders_ack 115 条令 / 124 回执 / 0 未回执 / 0 陈旧；D-19 集团面 decisions 101,011→**195,072 B**（sha 20dc804c）、orders 72,666→**84,734 B**（sha 810bb25d），尾部第 67–71 批无本司派单（quant 只出现在 chronic 面一行「尾行 11-12，回测轮判活不判停」）→ 水位推进、零动作；循环任务 pin=3 no-op（下次 19:48）；看门狗重注册（S4U 切换仍"拒绝访问"=CEO 物理件，照旧携带）；pre-commit / pre-push 两道爪重装（LF 归一）。
+
+**本地未达 origin commit 数**：见推送后复核。
