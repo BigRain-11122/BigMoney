@@ -73,6 +73,19 @@ EXCLUDE_RE = re.compile(r'not-claimable-for:\s*([A-Za-z0-9\-]+(?:\s*[,，]\s*[A-
 # merely MENTIONED the claim syntax, because the reader tested the bare substring.
 EXEC_FACE_RE = re.compile(r'execution-face:\s*([^\s·）)、,，]+)')
 GATE_CLOSED_RE = re.compile(r'gate\s*(?:现状\s*)?=\s*CLOSED')
+# r1305: a card can state its GPU door as a number (`headroom>=1.5GB`) or by pointing
+# at another card's door (`与 B-CITY3D-01 同 gate`). Both read as claimable work, so
+# the idle face printed four claimable lines on a machine whose only GPU held 1.48 GB
+# free and left the shortfall for the reader to subtract by hand.
+HEADROOM_RE = re.compile(r'headroom\s*(?:>=|\u2265|\uff1e=|\uff1e)\s*([\d.]+)\s*GB', re.I)
+REF_GATE_RE = re.compile(r'\u4e0e\s*([A-Za-z0-9\-]+)\s*\u540c\s*gate')
+CARD_NAME_RE = re.compile(r'\u3010[^/\u3011]*/([A-Za-z0-9\-]+)\u3011')
+# r1305b: some cards state their door as a deal, not a number -- `构建窗与他司产线协商
+# 让路`, `他司会话优先不抢`. The face cannot prove a deal is open (it has no reading of
+# another desk's session), so it must not print those cards as unqualified work either.
+# It prints the clause beside the card and says how many claimable cards carry one.
+SOFT_GATE_RE = re.compile(r'(\u4ed6\u53f8\u4f1a\u8bdd\u4f18\u5148[^\uff0c\u3002;\uff1b]*'
+                          r'|\u4e0e\u4ed6\u53f8[^\uff0c\u3002;\uff1b]*\u534f\u5546\u8ba9\u8def)')
 # the claim-by-file protocol writes completion as `done@<ts>+<commit>`; a card that
 # carries one is out of the pool however sloppily it wrote its claim marker (card 1 was
 # reading as claimable because `claimed@bm-c 生产泵@10-0x` has no `@<ts>` and the done
@@ -183,15 +196,18 @@ def line_excluded(line, mid):
     return mid in names
 
 
-def classify_pool_line(line, mid, exists=os.path.exists):
+def classify_pool_line(line, mid, exists=os.path.exists, vram_free_gb=None, gate_table=None):
     """Classify one fleet/backlog.md line for one machine.
 
     Returns (kind, detail):
       'claim'      -> {'mine': bool, 'ts': raw timestamp}
       'drop'       -> reason string (not a pool row / cleared / named not-claimable)
-      'struct_wait'-> {'card','reason','face'}  (door shut, or face missing on this disk)
+      'struct_wait'-> {'card','reason','face',...}  (door shut / face missing / vram)
       'claimable'  -> the trimmed line
     `exists` is injectable so the selftest can hold a fixture without touching disk.
+    `vram_free_gb` is the caller's probe reading (None = probe unavailable, disclosed);
+    `gate_table` maps a card name to the numeric GPU door that card declares, so a card
+    that only says `与 <card> 同 gate` inherits a real number instead of a guess.
     """
     m = CLAIM_RE.search(line)
     if m:
@@ -212,10 +228,40 @@ def classify_pool_line(line, mid, exists=os.path.exists):
         return ('struct_wait', {'card': card, 'reason': 'execution_face_missing', 'face': face})
     if GATE_CLOSED_RE.search(line):
         return ('struct_wait', {'card': card, 'reason': 'gate_closed', 'face': face})
-    return ('claimable', line.strip()[:80])
+    # r1305: the GPU door, when the card states one. A declared number and a number
+    # inherited through `同 gate` are the same door; a reference we cannot resolve is
+    # NOT an open door (a shut door we failed to read must not print as claimable).
+    need = None
+    how = None
+    hm = HEADROOM_RE.search(line)
+    if hm:
+        need, how = float(hm.group(1)), 'declared'
+    else:
+        rm = REF_GATE_RE.search(line)
+        if rm:
+            ref = rm.group(1)
+            if gate_table and ref in gate_table:
+                need, how = float(gate_table[ref]), 'inherited:%s' % ref
+            else:
+                return ('struct_wait', {'card': card, 'reason': 'gate_inherited',
+                                        'face': face, 'ref': ref, 'needs_gb': None})
+    if need is not None:
+        if vram_free_gb is None:
+            # a door we cannot measure is not a door we may call open
+            return ('struct_wait', {'card': card, 'reason': 'vram_unknown', 'face': face,
+                                    'needs_gb': need, 'how': how})
+        if float(vram_free_gb) < need:
+            return ('struct_wait', {'card': card, 'reason': 'vram_short', 'face': face,
+                                    'needs_gb': need,
+                                    'have_gb': round(float(vram_free_gb), 2),
+                                    'short_gb': round(need - float(vram_free_gb), 2),
+                                    'how': how})
+    return ('claimable', {'card': card, 'line': line.strip()[:80],
+                          'soft_gate': (SOFT_GATE_RE.search(line).group(1).strip()
+                                        if SOFT_GATE_RE.search(line) else None)})
 
 
-def parse_backlog(mid, now):
+def parse_backlog(mid, now, vram_free_gb=None):
     """Return (claimable_lines, fresh_claim_ts_or_None, struct_wait_rows).
 
     r1304: a pool line is claimable here only when nothing it says about itself
@@ -226,6 +272,11 @@ def parse_backlog(mid, now):
     moved from a bare substring to the claim marker itself: card 19 had been
     dropping out of every face for weeks because its text explains the syntax
     `claimed@<机>@<ts>` and the reader skipped the whole line.
+
+    r1305: the GPU door is read as a number. Pass 1 collects every card that
+    declares `headroom>=<n>GB` under its own name; pass 2 lets a card written as
+    `与 <card> 同 gate` inherit that number, so the two City3D cards are judged by
+    the same door the pool wrote down once.
     """
     claimable = []
     struct_wait = []
@@ -235,18 +286,29 @@ def parse_backlog(mid, now):
         return claimable, fresh_claim, struct_wait
     try:
         with open(p, encoding='utf-8') as f:
-            for line in f:
-                kind, detail = classify_pool_line(line, mid)
-                if kind == 'claim':
-                    if detail['mine']:
-                        # ts formats seen: 10-02 00:05 / 2026-10-07T22:33:00+08:00
-                        ts = parse_ts(detail['ts'])
-                        if ts and (now - ts) <= ROUND_WINDOW_MIN * 60:
-                            fresh_claim = detail['ts']
-                elif kind == 'struct_wait':
-                    struct_wait.append(detail)
-                elif kind == 'claimable':
-                    claimable.append(detail)
+            lines = f.readlines()
+    except Exception:
+        return claimable, fresh_claim, struct_wait
+    gate_table = {}
+    for line in lines:
+        nm = CARD_NAME_RE.search(line)
+        hm = HEADROOM_RE.search(line)
+        if nm and hm:
+            gate_table[nm.group(1)] = float(hm.group(1))
+    try:
+        for line in lines:
+            kind, detail = classify_pool_line(line, mid, vram_free_gb=vram_free_gb,
+                                              gate_table=gate_table)
+            if kind == 'claim':
+                if detail['mine']:
+                    # ts formats seen: 10-02 00:05 / 2026-10-07T22:33:00+08:00
+                    ts = parse_ts(detail['ts'])
+                    if ts and (now - ts) <= ROUND_WINDOW_MIN * 60:
+                        fresh_claim = detail['ts']
+            elif kind == 'struct_wait':
+                struct_wait.append(detail)
+            elif kind == 'claimable':
+                claimable.append(detail)
     except Exception:
         pass
     return claimable, fresh_claim, struct_wait
@@ -321,7 +383,7 @@ def bookkeeping(mid, now):
     ram = probe_ram()
     vram = probe_vram()
     inflight = probe_inflight(mid)
-    claimable, fresh_claim, struct_wait = parse_backlog(mid, now)
+    claimable, fresh_claim, struct_wait = parse_backlog(mid, now, vram_free_gb=vram)
     ram_ok = ram is None or ram >= RAM_GATE_PCT  # probe fail disclosed, not guessed
     vram_ok = vram is None or vram >= VRAM_GATE_GB
     # T-2026-10-10-183: vram_ok is disclosure-only (VRAM decoupled from the
@@ -354,6 +416,12 @@ def bookkeeping(mid, now):
         # face, and idle_rounds grew with no stated reason.
         'backlog_struct_wait_n': len(struct_wait),
         'backlog_struct_wait': struct_wait[:8],
+        # r1305b: claimable is not the same as unconditional. A card that asks for a
+        # negotiated window prints its clause here, and the count of such cards is
+        # published beside the claimable count so "2 claimable" cannot be read as
+        # "2 things this machine may start right now".
+        'backlog_claimable_n_soft_gated': len([c for c in claimable if c.get('soft_gate')]),
+        'backlog_claimable': claimable[:8],
         # deprecated alias: this is the BACKLOG line count, not the runnable
         # pool (see pool_ready_unclaimed / pool_count_note).
         'claimable_pool_lines': len(claimable),
@@ -671,6 +739,59 @@ def selftest():
             ok = False
         print('[%s] pool-state %r -> %s/%s' % (flag, line[:38], kind,
                                               detail.get('reason') if isinstance(detail, dict) else detail))
+    # r1305: the GPU door as a number. A card that states `headroom>=n GB` is claimable
+    # only when the probe reads at least n; an unmeasured door is not an open door; and
+    # `与 <card> 同 gate` inherits that card's number rather than inventing an open door.
+    gate_cases = [
+        # (line, vram_free_gb, gate_table, want_kind, want_reason, want_extra)
+        ('20. 【BigCompute/B-CITY3D-01】card headroom>=1.5GB', 1.48,
+         None, 'struct_wait', 'vram_short', {'needs_gb': 1.5, 'have_gb': 1.48,
+                                             'short_gb': 0.02}),
+        ('20. 【BigCompute/B-CITY3D-01】card headroom>=1.5GB', 3.0,
+         None, 'claimable', None, None),
+        ('20. 【BigCompute/B-CITY3D-01】card headroom>=1.5GB', None,
+         None, 'struct_wait', 'vram_unknown', {'needs_gb': 1.5}),
+        ('21. 【BigCompute/B-CITY3D-02】card 与 B-CITY3D-01 同 gate（vram 窗）', 1.48,
+         {'B-CITY3D-01': 1.5}, 'struct_wait', 'vram_short', {'how': 'inherited:B-CITY3D-01'}),
+        ('21. 【BigCompute/B-CITY3D-02】card 与 B-CITY3D-01 同 gate（vram 窗）', 1.48,
+         None, 'struct_wait', 'gate_inherited', {'ref': 'B-CITY3D-01'}),
+        # a card with no GPU door at all must not be dragged into one by the probe
+        ('22. 【BigCompute/B-XIDUDU-02】card **无算力门槛** 他司会话优先不抢', 0.1,
+         None, 'claimable', None, None),
+    ]
+    for line, vram, table, want_kind, want_reason, want_extra in gate_cases:
+        kind, detail = classify_pool_line(line, 'bm-a', exists=any_disk,
+                                          vram_free_gb=vram, gate_table=table)
+        good = kind == want_kind and (want_reason is None or detail.get('reason') == want_reason)
+        if good and want_extra:
+            for k, want_v in want_extra.items():
+                if detail.get(k) != want_v:
+                    good = False
+        flag = 'PASS' if good else 'FAIL'
+        if not good:
+            ok = False
+        print('[%s] gate %r vram=%s -> %s/%s %s' % (
+            flag, line[:40], vram, kind,
+            detail.get('reason') if isinstance(detail, dict) else detail,
+            {k: detail.get(k) for k in ('needs_gb', 'have_gb', 'short_gb', 'how', 'ref')}
+            if isinstance(detail, dict) else ''))
+    # r1305b: a card whose door is a negotiation is claimable, but the clause must be
+    # printed instead of hidden -- otherwise "2 claimable" reads as "2 may start now".
+    soft_cases = [
+        ('22. 【BigCompute/B-XIDUDU-02】card 资源=GUI 会话档，他司会话优先不抢；验收=截图',
+         '他司会话优先不抢'),
+        ('21. 【BigCompute/B-XIDUDU-01】card 构建窗与他司产线协商让路；验收=构建报告',
+         '与他司产线协商让路'),
+        ('23. 【BigCompute/B-OTHER】card 资源=CPU 档；验收=报告', None),
+    ]
+    for line, want_soft in soft_cases:
+        kind, detail = classify_pool_line(line, 'bm-a', exists=any_disk)
+        got = detail.get('soft_gate') if isinstance(detail, dict) else None
+        good = kind == 'claimable' and got == want_soft
+        flag = 'PASS' if good else 'FAIL'
+        if not good:
+            ok = False
+        print('[%s] soft-gate %r -> %s' % (flag, line[:38], got))
     print('selftest:', 'ALL PASS' if ok else 'FAIL')
     return 0 if ok else 1
 
