@@ -16326,6 +16326,11 @@ op[nxt]/op[d] - 1 记收益——即从 **d 自己的开盘**就持有。选股�
   并在 selftest 里钉一条：把 score 整体 shift(1) 后净值必须逐点不动（证明成交晚于信息）。
   未修引擎前，读者面必须两个数并列，禁只印高的那个（E685 同族：日期判据要对到产出那个数的面）。
 How：接手任何回测引擎先做一次「信息时点 vs 成交时点」对账；两口径差 1-3pp 时先怀疑这一天，
-再怀疑模型。正身=scripts/etf_book_lot_ladder.py（selftest 9/9、--check ok、
-
-esults/etf_book_lot_ladder.json 的 ngine_caliber / caliber_gap_pp）。
+再怀疑模型。修法不是改默认值（那会让每张已发布面失去可复现性），而是把口径做成开关
+`entry_lag`，默认 0 逐位复现已发布面、1 才是「决策之后的开盘才持有」，再用同一把尺子
+把十八格跑两遍回答读者唯一关心的问题（本面：修正后超额 9.16pp→7.48pp，**仍跑赢指数**；
+年化 8.98%→7.30%、夏普 0.914→0.760；排名不翻，N5_R20_5bp 两口径都最好）——
+判据是「修掉之后结论还成立吗」，不是「修正后数字变小了」。
+正身=scripts/etf_book_lot_ladder.py（selftest 9/9、--check ok、
+results/etf_book_lot_ladder.json 的 engine_caliber / caliber_gap_pp）＋
+scripts/etf_book_entry_lag.py（selftest 7/7、--check ok、results/etf_book_entry_lag.json 十八格双口径）。

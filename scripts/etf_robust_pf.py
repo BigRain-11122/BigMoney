@@ -27,7 +27,8 @@ TARGET_VOL = 0.08
 def open_to_open_equity(close, openp, amt, score, rebal, n_hold, cost,
                         vol_target=None, start=START, vol_window=60,
                         vol_cap=1.0, vol_floor=0.0, diag=None, ratio_hook=None,
-                        select_hook=None, weight_hook=None, scale_hook=None):
+                        select_hook=None, weight_hook=None, scale_hook=None,
+                        entry_lag=0):
     """vol_cap caps the sizing scale (1.0 = de-lever only, the published behaviour).
     vol_floor (default 0.0 = bit-identical to every published run) is a lower bound on the
     scale: the sizing rule may never take the book below this fraction. Without a floor a
@@ -62,7 +63,16 @@ def open_to_open_equity(close, openp, amt, score, rebal, n_hold, cost,
     it cannot be estimated). The returned scale must be in [0, 1] -- a rule may de-lever
     and never lever up -- and anything else raises instead of being silently clamped.
     scale_hook and vol_target are alternatives: passing both raises. `None` (default) is
-    bit-identical to the published behaviour."""
+    bit-identical to the published behaviour.
+
+    entry_lag selects the bar a NEW book starts accruing on. The decision uses bar d's
+    close, so the earliest it can be owned is the open of d+1. entry_lag=0 (the published
+    behaviour, kept bit-identical so every printed face stays reproducible) accrues the new
+    book from bar d's OPEN -- that open happened before the close the picks were read from,
+    i.e. one day of the move is booked before it could have been bought. entry_lag=1 gives
+    that bar to the OLD book and starts the new one at the next open, which is what the
+    module docstring promises. The difference is one bar per rebalance, so it grows with the
+    rebalance frequency; ``scripts/etf_book_entry_lag.py`` measures both and the cost."""
     hist = close.notna().cumsum()
     elig = (amt >= E.MIN_AMT) & (hist >= E.MIN_HIST)
     score = score.where(elig)
@@ -86,6 +96,7 @@ def open_to_open_equity(close, openp, amt, score, rebal, n_hold, cost,
 
     for i in range(len(dates) - 1):
         d = dates[i]
+        pending = None
         if i % rebal == 0:
             s = score.loc[d].dropna()
             if len(s) >= n_hold:
@@ -131,9 +142,12 @@ def open_to_open_equity(close, openp, amt, score, rebal, n_hold, cost,
                         scale = float(max(vol_floor, min(vol_cap, vol_target / (v * ratio))))
                 w = {k: v * scale for k, v in w.items()}
                 turn = sum(abs(w.get(k, 0.0) - held.get(k, 0.0)) for k in set(w) | set(held))
-                equity *= (1.0 - cost * turn)
-                turns.append(turn)
-                held = w
+                if entry_lag:
+                    pending = (w, turn)
+                else:
+                    equity *= (1.0 - cost * turn)
+                    turns.append(turn)
+                    held = w
                 if diag is not None:
                     diag.append({"date": str(d.date()), "est_vol": est, "scale": scale,
                                  "ratio": ratio, "book": list(picks),
@@ -146,6 +160,12 @@ def open_to_open_equity(close, openp, amt, score, rebal, n_hold, cost,
             if np.isfinite(a) and np.isfinite(b) and a > 0:
                 r += wt * (b / a - 1.0)
         equity *= (1.0 + r)
+        if entry_lag and pending is not None:
+            w2, turn2 = pending
+            pending = None
+            equity *= (1.0 - cost * turn2)
+            turns.append(turn2)
+            held = w2
         daily.append((nxt, equity))
     ser = pd.Series(dict(daily)).sort_index()
     return ser, (float(np.mean(turns)) if turns else 0.0)

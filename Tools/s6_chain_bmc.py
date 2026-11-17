@@ -1860,6 +1860,11 @@ LEGS = [
     # never been asked. This leg re-runs the whole-lot book at six account sizes and pins
     # them against the engine's own caliber, so the two numbers cannot drift apart.
     ("etf_book_lot_ladder", ["python", "scripts/etf_book_lot_ladder.py", "run"]),
+    # r1795: the engine's one-day caliber bulge (decision at close d, new book accruing
+    # from d's open) is now a switch -- entry_lag, default 0 keeps every published face
+    # bit-identical -- and this leg re-prices the eighteen cells on both calibers so the
+    # corrected excess cannot silently drift away from the printed one.
+    ("etf_book_entry_lag", ["python", "scripts/etf_book_entry_lag.py", "run"]),
 ]
 
 

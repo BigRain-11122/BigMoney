@@ -5833,6 +5833,16 @@ def main() -> int:
              "scripts/etf_book_lot_ladder.py", ["--selftest"]),
             ("product: etf_book_lot_ladder (published rungs and caliber gap still re-derive)",
              "scripts/etf_book_lot_ladder.py", ["--check"]),
+            # r1795: r1794 measured the engine's one-day caliber bulge with an independent
+            # implementation; this face puts the switch inside the engine (entry_lag, default
+            # 0 = bit-identical to every published face) and answers the only question a
+            # reader has -- does the book still beat the index once the day it could not have
+            # bought is removed. The selftest pins the default-bar identity; the check leg
+            # re-derives the eighteen cells and the cross-check from the face on disk.
+            ("product: etf_book_entry_lag (does the excess survive the caliber fix)",
+             "scripts/etf_book_entry_lag.py", ["--selftest"]),
+            ("product: etf_book_entry_lag (published eighteen cells still re-derive)",
+             "scripts/etf_book_entry_lag.py", ["--check"]),
             # r1767: the event profile could be forecastable or not. This face cuts the same
             # months on three states known at the month's start and reads the verdict off a
             # label-shuffle null (eight cells always have a best row). The selftest leg pins
