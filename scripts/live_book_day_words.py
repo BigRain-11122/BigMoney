@@ -812,16 +812,16 @@ def selftest():
         # that explains itself fail the very leg that checks it explains itself. The hard
         # condition is a date that was read AGAINST a field and did not match (n_mismatch);
         # an unmapped prose date is information, not a defect.
+        # r1310: `undated` is a field of the PRINTED face, not of `date_claims`. Reading it off
+        # the wrong dict made the right-hand side true whenever the paper carried undated lines
+        # (None is falsy), so this leg failed on every page with an undated line while bm-c's own
+        # page -- which has none -- stayed green. A leg that is red only off its own machine is
+        # the r1789 permanent-red shape: readers learn to skip it.
         leg("the published page's verdict agrees with its own head line",
             (c["verdict"] in CLEAN) == bool(not c["offenders"]
                                             and c["printed"]["state"] == "ok"
                                             and (not c["printed"]["n_lines"]
                                                  or (not _dc.get("n_mismatch")
-                                                     # r1817: n_undated lives on the printed
-                                                     # face; reading it off date_claims made it
-                                                     # always None, so every page that prints an
-                                                     # undated line failed this very leg
-                                                     # (PRINTED_BUT_UNANCHORED vs "clean").
                                                      and not c["printed"].get("n_undated")
                                                      and not _dc.get("n_unverifiable")
                                                      and _dc.get("n_claims")))),
@@ -839,7 +839,18 @@ def selftest():
     return 0 if ok == total else 1
 
 
+def _safe_stdout():
+    """The page carries U+00A5 (¥) inside quoted lines; a GBK console raises
+    UnicodeEncodeError mid-report and the chain reads a crash as rc=1 (r1310).
+    Keep the console's own encoding, only stop it from raising."""
+    try:
+        sys.stdout.reconfigure(errors="replace")
+    except Exception:
+        pass
+
+
 def main(argv=None):
+    _safe_stdout()
     argv = list(sys.argv[1:] if argv is None else argv)
     cmd = argv[0] if argv else "check"
     if cmd in ("--selftest", "selftest"):

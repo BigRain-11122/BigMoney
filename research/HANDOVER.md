@@ -1,5 +1,21 @@
 # Bigmoney 交接与成果收割指南（HANDOVER）
 
+## 5x 幂等快照 · r1310 · 2026-11-18 02:1x · bm-a
+> 授权口径不变：逐轮权威=`round_reports-bm-a.md` 全行在册；本块只做「产物清单与完成状态」核对与指针，不复述轮报告正文。
+> 本块覆盖 bm-a 线 r1306→r1310（上一块 bm-a 快照停在 r1235，中间轮次正文见轮报告各行）。
+
+**本线产物（可核）**
+
+| 产物 | 状态 |
+|---|---|
+| r1310 `scripts/live_usage_day_words.py`（+14 条日期规则，每条绑页面 JSON 已有字段；文件名里的日期走 identifier 桶只印不并入已核数；+3 自检腿 L9/L9b/L10·selftest 19/19）+ `results/day_words_evidence_r1310.txt` | 已发布（claims 23→53 / ok 53 / mismatch 0 / unmapped 0；`check` rc=0 PRINTED_DATES_AGREE）|
+| r1310 `scripts/live_book_day_words.py`（GBK stdout reconfigure；修继承自 r1813 的腿读错字典 `date_claims.n_undated`→`printed.n_undated`·selftest 37/37）| 已发布（判负未放宽：`check` 仍 rc=1 PRINTED_BUT_UNANCHORED）|
+| r1310 同窗第二捕：CEO 页 `.md` 与 `.json` 来自两趟（00:52:53 vs 01:14:10）→ 重跑 `ceo_live_usage` 让两半同源 | 已发布（LIVE-2026-11-18 两半 generated 同为 02:08:46）|
+| r1309 `scripts/etf_book_ceo_page.py` `supply_capacity_face()/supply_capacity_block()`（供给地板行走上 CEO 打开的那一页·selftest 458/458）| 已发布（待下一根 bar ≤48h 落到 LIVE-BOOK）|
+| r1308 `scripts/supply_candidate_face.capacity_layer()`（地板 20,000,000 / 最高定价 13,794,151=69.0% / 缺口 6,205,849·selftest 44 腿）| 已发布 |
+| r1307 `scripts/etf_book_capacity_floor_gap.py`（C1_capacity 第一次有数字·selftest 16/16）| 已发布 |
+| 本线未完成（如实）：`live_book`「逐行自带日期 vs 页面级定日」的判据设计未定（需与写作面一起改）；`futures_sleeve` 仍 off-bar（198/400 priced days＝数据供给）；供给地板仍 AGENDA_DEBT（startable 0）；全套 smoke 未在单轮窗口内跑完 | 记于 `state-bm-a.json` 的 `maintenance_r1310` / `next` |
+
 ## 5x 幂等快照 · r1790（2026-11-17 05:5x · bm-c）
 > 授权口径不变：逐轮权威=`round_reports-bm-c.md` 全行在册；本块只做「产物清单与完成状态」核对与指针，不复制轮报告正文。
 > 本块覆盖 bm-c 线 r1786→r1790（上一块 bm-c 快照停在 r1545，中间轮次正文见轮报告各行）。
