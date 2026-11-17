@@ -644,34 +644,33 @@
   "null_calibration": {
    "artifact": "results/etf_book_rule_null.json",
    "status": "ok",
-   "detail": "an effect-free panel reads REJECT 96.5% of the time, so a published REJECT transmits almost nothing; the rule's informative branch is the rare one (NOT-SEPARABLE 3.5%, ADOPT 0.0%, NOT-ASSESSED 0.0%). Mechanism: the cell floor -0.15pp is 13.6x smaller than one sigma (2.04pp) of these cells, so about half of them land under it by chance and the not-worse share (floor 0.80) fails by construction",
-   "reject_share": 0.9652,
-   "not_separable_share": 0.0348,
+   "detail": "an effect-free panel reads REJECT 96.5% of the time, so a published REJECT transmits almost nothing; the rule's informative branch is the rare one (NOT-SEPARABLE 3.5%, ADOPT 0.0%, NOT-ASSESSED 0.0%). Mechanism: the cell floor -0.15pp is 13.6x smaller than one sigma (2.05pp) of these cells, so about half of them land under it by chance and the not-worse share (floor 0.80) fails by construction",
+   "reject_share": 0.965,
+   "not_separable_share": 0.035,
    "adopt_share": null,
    "trials": 20000,
    "label": "REJECT_IS_THE_DEFAULT",
-   "evidence_cutoff": "2026-11-16",
+   "evidence_cutoff": "2026-11-17",
    "bar_now": "2026-11-17"
   },
   "signflip": {
    "artifact": "results/etf_book_arms_signflip.json",
    "status": "ok",
-   "detail": "2 of 4 published REJECTs stand on their own cells (cost20, cost40); the rest are inside sign noise and must not be read as findings",
+   "detail": "3 of 4 published REJECTs stand on their own cells (buffer_k05_cost20, cost20, cost40); the rest are inside sign noise and must not be read as findings",
    "n_reject": 4,
-   "n_reject_standing": 2,
+   "n_reject_standing": 3,
    "standing": [
+    "buffer_k05_cost20",
     "cost20",
     "cost40"
    ],
    "overturned": [
-    "buffer_k05_cost20",
-    "buffer_k40",
+    "buffer_k05",
     "cost0",
     "cost05"
    ],
    "overstated": [
-    "buffer_k05_cost20",
-    "buffer_k40"
+    "buffer_k05"
    ],
    "understated": [
     "cost0",
@@ -682,12 +681,12 @@
      "arm": "buffer_k02",
      "frozen_label": "NOT-SEPARABLE",
      "verdict": "NOT-SEPARABLE",
-     "sign_cells": 12,
-     "cells_positive": 6
+     "sign_cells": 11,
+     "cells_positive": 5
     },
     {
      "arm": "buffer_k05",
-     "frozen_label": "NOT-SEPARABLE",
+     "frozen_label": "REJECT",
      "verdict": "NOT-SEPARABLE",
      "sign_cells": 12,
      "cells_positive": 6
@@ -695,30 +694,30 @@
     {
      "arm": "buffer_k05_cost20",
      "frozen_label": "REJECT",
-     "verdict": "NOT-SEPARABLE",
+     "verdict": "WORSE",
      "sign_cells": 12,
-     "cells_positive": 3
+     "cells_positive": 0
     },
     {
      "arm": "buffer_k10",
      "frozen_label": "NOT-SEPARABLE",
      "verdict": "NOT-SEPARABLE",
      "sign_cells": 12,
-     "cells_positive": 10
+     "cells_positive": 8
     },
     {
      "arm": "buffer_k20",
      "frozen_label": "NOT-SEPARABLE",
      "verdict": "NOT-SEPARABLE",
      "sign_cells": 12,
-     "cells_positive": 8
+     "cells_positive": 7
     },
     {
      "arm": "buffer_k40",
-     "frozen_label": "REJECT",
+     "frozen_label": "NOT-SEPARABLE",
      "verdict": "NOT-SEPARABLE",
      "sign_cells": 12,
-     "cells_positive": 9
+     "cells_positive": 7
     },
     {
      "arm": "cost0",
@@ -750,7 +749,7 @@
     }
    ],
    "verdict": "SOME_REJECTS_STAND",
-   "evidence_cutoff": "2026-11-16",
+   "evidence_cutoff": "2026-11-17",
    "bar_now": "2026-11-17"
   },
   "receipt": {
@@ -776,13 +775,13 @@
   "floor_extrapolation": {
    "artifact": "results/etf_book_buffer_floor_readback.json",
    "present": true,
-   "detail": "the fit says +0.335pp at k=0.30 (slope +1.225, intercept -0.033); the harvested arm's own 12 cells say +0.385pp (median); gap +0.050pp against tolerance 0.172pp = 3.0x the fit's largest in-sample residual (0.057pp, floored at 0.05); cell spread of the same arm: -0.560 .. +1.495pp (12 cells), i.e. the median is not the book; the line predicts a point it never saw, on the widest gap it spans -- the ",
+   "detail": "the fit says +0.316pp at k=0.30 (slope +1.193, intercept -0.042); the harvested arm's own 12 cells say +0.430pp (median); gap +0.114pp against tolerance 0.139pp = 3.0x the fit's largest in-sample residual (0.046pp, floored at 0.05); cell spread of the same arm: -0.635 .. +1.550pp (12 cells), i.e. the median is not the book; the line predicts a point it never saw, on the widest gap it spans -- the ",
    "verdict": "HOLDS",
    "buffer_k": 0.3,
-   "predicted_pp": 0.335,
-   "observed_pp": 0.385,
-   "gap_pp": 0.05,
-   "tolerance_pp": 0.172,
+   "predicted_pp": 0.316,
+   "observed_pp": 0.43,
+   "gap_pp": 0.114,
+   "tolerance_pp": 0.139,
    "evidence_cutoff": "2026-10-29"
   }
  }

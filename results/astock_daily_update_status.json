@@ -1,25 +1,21 @@
 {
-  "ts": "2026-11-18T00:18:11",
-  "mode": "refresh in progress (todo=3535/5226, quarantined=11, settled=0)",
+  "ts": "2026-11-18T02:35:49",
+  "mode": "refresh incomplete (checkpoint preserved)",
   "panel": {
     "complete": false,
     "cutoff": "2026-11-17",
     "cutoff_is": "max tail across all per/*.csv -- read coverage_pct/coverage_90 before calling the panel current",
-    "coverage_pct": 32.3,
-    "coverage_90": "2026-11-16",
+    "coverage_pct": 99.8,
+    "coverage_90": "2026-11-17",
     "coverage_floor_pct": 90,
     "dates_tail": [
       [
         "2026-11-17",
-        1686
-      ],
-      [
-        "2026-11-16",
-        3524
+        5212
       ],
       [
         "2026-11-13",
-        5
+        1
       ],
       [
         "2026-11-12",
@@ -30,12 +26,16 @@
         1
       ],
       [
+        "2026-11-10",
+        3
+      ],
+      [
         "2026-11-09",
         1
       ]
     ],
     "universe_n": 5226,
-    "per_files": 5221
+    "per_files": 5222
   },
   "claim": "T-2026-09-26-87-bm-b-astock-daily-collector",
   "probe_ref": "results/_r280bmb_probe_akshare_daily.json",
@@ -49,73 +49,63 @@
     "9": 392
   },
   "last_refresh": {
-    "todo": 5221,
-    "fetched": 1992,
-    "appended": 1689,
-    "readjusted": 2,
+    "todo": 5222,
+    "fetched": 5219,
+    "appended": 21571,
+    "readjusted": 31,
     "readjusted_tail": [
-      "002007@2004-06-25",
-      "300121@2010-09-17"
+      "603998@2014-12-05",
+      "605033@2021-09-16",
+      "605098@2021-04-21",
+      "605100@2020-08-11",
+      "605338@2020-10-12",
+      "688150@2022-03-18",
+      "688188@2019-08-08",
+      "688777@2020-11-24"
     ],
     "failures_tail": [
-      "002364:conn:TimeoutError",
-      "002410:conn:TimeoutError",
-      "002629:conn:TimeoutError",
-      "002818:conn:TimeoutError",
-      "300241:conn:TimeoutError",
-      "300358:conn:TimeoutError",
-      "300533:conn:TimeoutError",
-      "300537:conn:TimeoutError",
-      "300538:conn:TimeoutError",
-      "300553:conn:TimeoutError",
-      "300554:conn:TimeoutError",
-      "300555:conn:TimeoutError"
+      "600919:OSError:[WinError 10055] 由于系统缓冲区空间不足或队列已满，不能执行套接字上的操作。",
+      "603040:conn:ConnectionError",
+      "688845:KeyError:'date'"
     ],
-    "failures_n": 13,
-    "conn_stopped": true,
-    "elapsed_min": 203.2,
-    "vwap_anchor_max": 0.128273,
+    "failures_n": 3,
+    "conn_stopped": false,
+    "elapsed_min": 287.2,
+    "vwap_anchor_max": 0.131288,
     "repull": false
   },
-  "quarantined_n": 11,
-  "last_spawn_attempt": "2026-11-18T00:18:08",
+  "quarantined_n": 4,
+  "last_spawn_attempt": "2026-11-17T21:48:32",
   "settled_n": 0,
   "settled": [],
-  "per_files_on_disk": 5221,
+  "per_files_on_disk": 5222,
   "validation": {
-    "suspended_rows": 0,
+    "suspended_rows": 3,
     "bracket_tolerated_rows": 1,
     "defect_rows": 0
   },
   "takeover": {
     "owner": "bm-b",
-    "by": "bm-c",
-    "reason": "owner bm-b silent 443.6h >= 120min",
-    "ts": "2026-11-18T00:18:08"
+    "by": "bm-a",
+    "reason": "owner bm-b silent 441.1h >= 120min",
+    "ts": "2026-11-17T21:48:32"
   },
   "authority": {
     "lane_owner": "bm-b",
-    "writer_machine": "bm-c",
-    "data_face_machine": "bm-c",
+    "writer_machine": "bm-a",
+    "data_face_machine": "bm-a",
     "declared_takeover": true,
-    "took_over_by": "bm-c",
-    "took_over_at": "2026-11-18T00:18:08",
-    "reason": "owner bm-b silent 443.6h >= 120min"
+    "took_over_by": "bm-a",
+    "took_over_at": "2026-11-17T21:48:32",
+    "reason": "owner bm-b silent 441.1h >= 120min"
   },
-  "machine": "bm-c",
-  "spawn_reason": "panel incomplete at cutoff 2026-11-17 (coverage 32.3%, expected 2026-11-17) -> continuation refresh, not a first pull",
+  "machine": "bm-a",
+  "spawn_reason": "panel incomplete at cutoff 2026-11-17 (coverage 29.8%, expected 2026-11-17) -> continuation refresh, not a first pull",
   "spawn_mode": "continuation",
   "quarantined": [
-    "000005",
-    "000023",
-    "000040",
-    "000413",
-    "000416",
     "001235",
     "001381",
-    "301139",
     "688827",
-    "688845",
     "689009"
   ]
 }
