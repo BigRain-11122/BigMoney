@@ -5,7 +5,7 @@
 - 判决：**UNEXPLAINED_MOVES**
 
 ## 一句话
-两天**是同一根 bar**（没有新数据进来），这页有 **265** 个数变了；其中 **6** 个是钟面（机器多久没说话之类，本来就该走）、**236** 个能给出解释（旧数还在页上／口径句改了／这一节换了代／这一节换了定价的输入／这个数只是转抄别面）、**23** 个没解释。新增 **17** 个数字叶子、消失 **3** 个。
+两天**是同一根 bar**（没有新数据进来），这页有 **265** 个数变了；其中 **6** 个是钟面（机器多久没说话之类，本来就该走）、**258** 个能给出解释（旧数还在页上／口径句改了／这一节换了代／这一节换了定价的输入／这个数只是转抄别面）、**1** 个没解释。新增 **17** 个数字叶子、消失 **3** 个。
 
 ## 动的数（全部 265 个）
 
@@ -113,10 +113,10 @@
 | `/futures_ladder/rows/3/one_lot_notional_cny` | 1255360.0 | 1221000.0 | SECTION_ADVANCED | 这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
 | `/futures_ladder/rows/3/stress_loss_pct_of_capital` | 10.4 | 10.2 | SECTION_ADVANCED | 这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
 | `/futures_ladder/rows/3/vol_contrib_pct` | 6.3 | 6.1 | SECTION_ADVANCED | 这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/futures_sleeve/rows/0/notional_per_lot_cny` | 1275000.0 | 1243680.0 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/futures_sleeve/rows/1/notional_per_lot_cny` | 1186980.0 | 1181700.0 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/futures_sleeve/rows/2/notional_per_lot_cny` | 820020.0 | 822720.0 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/futures_sleeve/rows/3/notional_per_lot_cny` | 1255360.0 | 1221000.0 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
+| `/futures_sleeve/rows/0/notional_per_lot_cny` | 1275000.0 | 1243680.0 | INPUT_IDENTITY_CHANGED | 这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数 |
+| `/futures_sleeve/rows/1/notional_per_lot_cny` | 1186980.0 | 1181700.0 | INPUT_IDENTITY_CHANGED | 这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数 |
+| `/futures_sleeve/rows/2/notional_per_lot_cny` | 820020.0 | 822720.0 | INPUT_IDENTITY_CHANGED | 这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数 |
+| `/futures_sleeve/rows/3/notional_per_lot_cny` | 1255360.0 | 1221000.0 | INPUT_IDENTITY_CHANGED | 这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数 |
 | `/gap/elapsed_sec` | 118.4 | 76.4 | CLOCK |  |
 | `/k_gap/account_base_gap_cny` | 28483.4 | 28525.2 | SECTION_ADVANCED | 这一节自己换了代：`k_gap` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
 | `/k_gap/cheapest_next_lot/lots_at_rule` | 774 | 766 | SECTION_ADVANCED | 这一节自己换了代：`k_gap` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
@@ -159,24 +159,24 @@
 | `/k_gap/rows/4/short_cny` | 5571.2 | 5603.2 | SECTION_ADVANCED | 这一节自己换了代：`k_gap` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
 | `/k_gap/short_share_of_book_pct` | 6.0961 | 6.1355 | SECTION_ADVANCED | 这一节自己换了代：`k_gap` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
 | `/k_gap/short_total_cny` | 28057.3 | 28238.9 | SECTION_ADVANCED | 这一节自己换了代：`k_gap` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/lot_floor/capital_needed/AU` | 2796666.666666667 | 2768533.3333333335 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/lot_floor/capital_needed/IC` | 4250000.0 | 4145600.0 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/lot_floor/capital_needed/IF` | 3956600.0 | 3939000.0 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/lot_floor/capital_needed/IH` | 2733400.0 | 2742400.0 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/lot_floor/capital_needed/IM` | 4184533.3333333335 | 4070000.0 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/lot_floor/capital_needed/SC` | 2085000.0 | 2069333.3333333335 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/lot_floor/capital_needed/T` | 3668166.666666667 | 3658500.0 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/lot_floor/capital_needed/TF` | 3558666.666666667 | 3555333.3333333335 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/lot_floor/capital_needed/TS` | 6842400.0 | 6842133.333333334 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/lot_floor/shares_at_1m/AU` | 0.839 | 0.83056 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/lot_floor/shares_at_1m/IC` | 1.275 | 1.24368 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/lot_floor/shares_at_1m/IF` | 1.18698 | 1.1817 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/lot_floor/shares_at_1m/IH` | 0.82002 | 0.82272 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/lot_floor/shares_at_1m/IM` | 1.25536 | 1.221 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/lot_floor/shares_at_1m/SC` | 0.6255 | 0.6208 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/lot_floor/shares_at_1m/T` | 1.10045 | 1.09755 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/lot_floor/shares_at_1m/TF` | 1.0676 | 1.0666 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/lot_floor/shares_at_1m/TS` | 2.05272 | 2.05264 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
+| `/lot_floor/capital_needed/AU` | 2796666.666666667 | 2768533.3333333335 | INPUT_IDENTITY_CHANGED | 这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数 |
+| `/lot_floor/capital_needed/IC` | 4250000.0 | 4145600.0 | INPUT_IDENTITY_CHANGED | 这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数 |
+| `/lot_floor/capital_needed/IF` | 3956600.0 | 3939000.0 | INPUT_IDENTITY_CHANGED | 这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数 |
+| `/lot_floor/capital_needed/IH` | 2733400.0 | 2742400.0 | INPUT_IDENTITY_CHANGED | 这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数 |
+| `/lot_floor/capital_needed/IM` | 4184533.3333333335 | 4070000.0 | INPUT_IDENTITY_CHANGED | 这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数 |
+| `/lot_floor/capital_needed/SC` | 2085000.0 | 2069333.3333333335 | INPUT_IDENTITY_CHANGED | 这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数 |
+| `/lot_floor/capital_needed/T` | 3668166.666666667 | 3658500.0 | INPUT_IDENTITY_CHANGED | 这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数 |
+| `/lot_floor/capital_needed/TF` | 3558666.666666667 | 3555333.3333333335 | INPUT_IDENTITY_CHANGED | 这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数 |
+| `/lot_floor/capital_needed/TS` | 6842400.0 | 6842133.333333334 | INPUT_IDENTITY_CHANGED | 这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数 |
+| `/lot_floor/shares_at_1m/AU` | 0.839 | 0.83056 | INPUT_IDENTITY_CHANGED | 这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数 |
+| `/lot_floor/shares_at_1m/IC` | 1.275 | 1.24368 | INPUT_IDENTITY_CHANGED | 这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数 |
+| `/lot_floor/shares_at_1m/IF` | 1.18698 | 1.1817 | INPUT_IDENTITY_CHANGED | 这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数 |
+| `/lot_floor/shares_at_1m/IH` | 0.82002 | 0.82272 | INPUT_IDENTITY_CHANGED | 这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数 |
+| `/lot_floor/shares_at_1m/IM` | 1.25536 | 1.221 | INPUT_IDENTITY_CHANGED | 这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数 |
+| `/lot_floor/shares_at_1m/SC` | 0.6255 | 0.6208 | INPUT_IDENTITY_CHANGED | 这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数 |
+| `/lot_floor/shares_at_1m/T` | 1.10045 | 1.09755 | INPUT_IDENTITY_CHANGED | 这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数 |
+| `/lot_floor/shares_at_1m/TF` | 1.0676 | 1.0666 | INPUT_IDENTITY_CHANGED | 这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数 |
+| `/lot_floor/shares_at_1m/TS` | 2.05272 | 2.05264 | INPUT_IDENTITY_CHANGED | 这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数 |
 | `/permission/allowed_cny` | 431770.0 | 431728.0 | SECTION_ADVANCED | 这一节自己换了代：`permission` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
 | `/permission/ordered_cny` | 431769.6 | 431727.8 | SECTION_ADVANCED | 这一节自己换了代：`permission` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
 | `/premium_forward/cny_total` | 3627.42 | 2795.26 | SECTION_ADVANCED | 这一节自己换了代：`premium_forward` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
@@ -387,10 +387,10 @@
 - `/futures_ladder/rows/3/one_lot_notional_cny`：**1255360.0 → 1221000.0**（差 -34360.0）｜SECTION_ADVANCED｜这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
 - `/futures_ladder/rows/3/stress_loss_pct_of_capital`：**10.4 → 10.2**（差 -0.2）｜SECTION_ADVANCED｜这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
 - `/futures_ladder/rows/3/vol_contrib_pct`：**6.3 → 6.1**（差 -0.2）｜SECTION_ADVANCED｜这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/futures_sleeve/rows/0/notional_per_lot_cny`：**1275000.0 → 1243680.0**（差 -31320.0）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/futures_sleeve/rows/1/notional_per_lot_cny`：**1186980.0 → 1181700.0**（差 -5280.0）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/futures_sleeve/rows/2/notional_per_lot_cny`：**820020.0 → 822720.0**（差 2700.0）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/futures_sleeve/rows/3/notional_per_lot_cny`：**1255360.0 → 1221000.0**（差 -34360.0）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
+- `/futures_sleeve/rows/0/notional_per_lot_cny`：**1275000.0 → 1243680.0**（差 -31320.0）｜INPUT_IDENTITY_CHANGED｜这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数
+- `/futures_sleeve/rows/1/notional_per_lot_cny`：**1186980.0 → 1181700.0**（差 -5280.0）｜INPUT_IDENTITY_CHANGED｜这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数
+- `/futures_sleeve/rows/2/notional_per_lot_cny`：**820020.0 → 822720.0**（差 2700.0）｜INPUT_IDENTITY_CHANGED｜这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数
+- `/futures_sleeve/rows/3/notional_per_lot_cny`：**1255360.0 → 1221000.0**（差 -34360.0）｜INPUT_IDENTITY_CHANGED｜这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数
 - `/k_gap/account_base_gap_cny`：**28483.4 → 28525.2**（差 41.8）｜SECTION_ADVANCED｜这一节自己换了代：`k_gap` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
 - `/k_gap/cheapest_next_lot/lots_at_rule`：**774 → 766**（差 -8）｜SECTION_ADVANCED｜这一节自己换了代：`k_gap` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
 - `/k_gap/cheapest_next_lot/lots_ordered`：**726 → 719**（差 -7）｜SECTION_ADVANCED｜这一节自己换了代：`k_gap` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
@@ -432,24 +432,24 @@
 - `/k_gap/rows/4/short_cny`：**5571.2 → 5603.2**（差 32.0）｜SECTION_ADVANCED｜这一节自己换了代：`k_gap` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
 - `/k_gap/short_share_of_book_pct`：**6.0961 → 6.1355**（差 0.0394）｜SECTION_ADVANCED｜这一节自己换了代：`k_gap` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
 - `/k_gap/short_total_cny`：**28057.3 → 28238.9**（差 181.6）｜SECTION_ADVANCED｜这一节自己换了代：`k_gap` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/lot_floor/capital_needed/AU`：**2796666.666666667 → 2768533.3333333335**（差 -28133.333333）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/lot_floor/capital_needed/IC`：**4250000.0 → 4145600.0**（差 -104400.0）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/lot_floor/capital_needed/IF`：**3956600.0 → 3939000.0**（差 -17600.0）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/lot_floor/capital_needed/IH`：**2733400.0 → 2742400.0**（差 9000.0）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/lot_floor/capital_needed/IM`：**4184533.3333333335 → 4070000.0**（差 -114533.333333）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/lot_floor/capital_needed/SC`：**2085000.0 → 2069333.3333333335**（差 -15666.666667）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/lot_floor/capital_needed/T`：**3668166.666666667 → 3658500.0**（差 -9666.666667）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/lot_floor/capital_needed/TF`：**3558666.666666667 → 3555333.3333333335**（差 -3333.333333）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/lot_floor/capital_needed/TS`：**6842400.0 → 6842133.333333334**（差 -266.666667）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/lot_floor/shares_at_1m/AU`：**0.839 → 0.83056**（差 -0.00844）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/lot_floor/shares_at_1m/IC`：**1.275 → 1.24368**（差 -0.03132）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/lot_floor/shares_at_1m/IF`：**1.18698 → 1.1817**（差 -0.00528）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/lot_floor/shares_at_1m/IH`：**0.82002 → 0.82272**（差 0.0027）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/lot_floor/shares_at_1m/IM`：**1.25536 → 1.221**（差 -0.03436）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/lot_floor/shares_at_1m/SC`：**0.6255 → 0.6208**（差 -0.0047）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/lot_floor/shares_at_1m/T`：**1.10045 → 1.09755**（差 -0.0029）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/lot_floor/shares_at_1m/TF`：**1.0676 → 1.0666**（差 -0.001）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/lot_floor/shares_at_1m/TS`：**2.05272 → 2.05264**（差 -8e-05）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
+- `/lot_floor/capital_needed/AU`：**2796666.666666667 → 2768533.3333333335**（差 -28133.333333）｜INPUT_IDENTITY_CHANGED｜这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数
+- `/lot_floor/capital_needed/IC`：**4250000.0 → 4145600.0**（差 -104400.0）｜INPUT_IDENTITY_CHANGED｜这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数
+- `/lot_floor/capital_needed/IF`：**3956600.0 → 3939000.0**（差 -17600.0）｜INPUT_IDENTITY_CHANGED｜这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数
+- `/lot_floor/capital_needed/IH`：**2733400.0 → 2742400.0**（差 9000.0）｜INPUT_IDENTITY_CHANGED｜这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数
+- `/lot_floor/capital_needed/IM`：**4184533.3333333335 → 4070000.0**（差 -114533.333333）｜INPUT_IDENTITY_CHANGED｜这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数
+- `/lot_floor/capital_needed/SC`：**2085000.0 → 2069333.3333333335**（差 -15666.666667）｜INPUT_IDENTITY_CHANGED｜这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数
+- `/lot_floor/capital_needed/T`：**3668166.666666667 → 3658500.0**（差 -9666.666667）｜INPUT_IDENTITY_CHANGED｜这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数
+- `/lot_floor/capital_needed/TF`：**3558666.666666667 → 3555333.3333333335**（差 -3333.333333）｜INPUT_IDENTITY_CHANGED｜这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数
+- `/lot_floor/capital_needed/TS`：**6842400.0 → 6842133.333333334**（差 -266.666667）｜INPUT_IDENTITY_CHANGED｜这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数
+- `/lot_floor/shares_at_1m/AU`：**0.839 → 0.83056**（差 -0.00844）｜INPUT_IDENTITY_CHANGED｜这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数
+- `/lot_floor/shares_at_1m/IC`：**1.275 → 1.24368**（差 -0.03132）｜INPUT_IDENTITY_CHANGED｜这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数
+- `/lot_floor/shares_at_1m/IF`：**1.18698 → 1.1817**（差 -0.00528）｜INPUT_IDENTITY_CHANGED｜这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数
+- `/lot_floor/shares_at_1m/IH`：**0.82002 → 0.82272**（差 0.0027）｜INPUT_IDENTITY_CHANGED｜这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数
+- `/lot_floor/shares_at_1m/IM`：**1.25536 → 1.221**（差 -0.03436）｜INPUT_IDENTITY_CHANGED｜这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数
+- `/lot_floor/shares_at_1m/SC`：**0.6255 → 0.6208**（差 -0.0047）｜INPUT_IDENTITY_CHANGED｜这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数
+- `/lot_floor/shares_at_1m/T`：**1.10045 → 1.09755**（差 -0.0029）｜INPUT_IDENTITY_CHANGED｜这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数
+- `/lot_floor/shares_at_1m/TF`：**1.0676 → 1.0666**（差 -0.001）｜INPUT_IDENTITY_CHANGED｜这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数
+- `/lot_floor/shares_at_1m/TS`：**2.05272 → 2.05264**（差 -8e-05）｜INPUT_IDENTITY_CHANGED｜这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数
 - `/permission/allowed_cny`：**431770.0 → 431728.0**（差 -42.0）｜SECTION_ADVANCED｜这一节自己换了代：`permission` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
 - `/permission/ordered_cny`：**431769.6 → 431727.8**（差 -41.8）｜SECTION_ADVANCED｜这一节自己换了代：`permission` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
 - `/premium_forward/cny_total`：**3627.42 → 2795.26**（差 -832.16）｜SECTION_ADVANCED｜这一节自己换了代：`premium_forward` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
@@ -552,10 +552,8 @@
 
 同一个隔夜、同一根 bar、同一笔钱，这页昨天给一个答案、今天给另一个。两个答案不可能都对：走 `RECOVERED_OLD_VALUE`／`DECLARED_RULER` 的那一条说明**是新答案改了算法**（旧数还在页上或口径句改了），读的人要按新口径重读昨天的判断；没有这两条说明的，就是这页偷偷换了数。
 
-## 还有哪些节在同 bar 上改了数（23 个）
+## 还有哪些节在同 bar 上改了数（1 个）
 
-- `lot_floor`：18 个
-- `futures_sleeve`：4 个
 - `admission`：1 个
 
 这几节的位移**没有任何解释**（不是转抄、不是换输入、不是换代）。页要在同一根 bar 上改这些数，就得自己写出理由；写不出来，读的人就分不清「今天变了」和「口径变了」。

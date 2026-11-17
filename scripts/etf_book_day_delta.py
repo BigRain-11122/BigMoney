@@ -284,6 +284,29 @@ def delta(today, prev, sec_a=None, sec_b=None):
                                  % (_k, _bb, _ba))
             else:
                 old = tb[p]
+                # r1800: the section face now writes down which bar EACH leg was priced on
+                # (`leg_bars` / `legs_behind`). A page generated before that declaration
+                # existed priced its legs on whatever bar the panel then held while still
+                # stamping the newest bar on the block -- so the same section can move
+                # without its date moving. One side declaring leg bars and the other not is
+                # exactly that generation change: name it instead of letting the number
+                # move with no alibi, and do not let a same-generation move slip through
+                # (both sides declared, or neither, keeps the strict path below).
+                if m.get("kind") is None:
+                    _decl_a = (_block_at(today, _k) or {}).get("leg_bars")
+                    _decl_b = (_block_at(prev, _k) or {}).get("leg_bars")
+                    if isinstance(_decl_a, dict) != isinstance(_decl_b, dict):
+                        if isinstance(_decl_a, dict):
+                            _have, _have_side, _miss = _decl_a, "今天", "昨天"
+                        else:
+                            _have, _have_side, _miss = _decl_b, "昨天", "今天"
+                        _bars = sorted({str(v) for v in _have.values()})
+                        m["kind"] = "INPUT_IDENTITY_CHANGED"
+                        m["evidence"] = (
+                            "这一节只在%s写了腿级价格日：`%s` 的 %d 条腿各自标在 %s，%s"
+                            "那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新"
+                            " bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
+                            % (_have_side, _k, len(_have), "、".join(_bars) or "（空）", _miss))
                 _da = dig_a.get(_k) or set()
                 _db = dig_b.get(_k) or set()
                 _gain = sorted(_da - _db)
@@ -663,6 +686,34 @@ def selftest():
     d = delta(a2, b)
     check("L17 same world-set -> still accused",
           d["counts"]["unexplained"] == 1, d["counts"])
+
+    # L19 r1800: one side writes down which bar EACH leg was priced on, the other does not.
+    # A page generated before that declaration existed priced its legs on the panel's
+    # then-last bar while stamping the newest bar on the block, so the same section can
+    # move without its date moving. That generation change is named, not silently allowed.
+    a4 = {"priced_bar": "2026-11-16",
+          "lot_floor": {"shares_at_1m": {"AU": 0.83056},
+                        "leg_bars": {"AU": "2026-11-16", "IC": "2026-11-16"},
+                        "legs_behind": []}}
+    b4 = {"priced_bar": "2026-11-16", "lot_floor": {"shares_at_1m": {"AU": 0.839}}}
+    d = delta(a4, b4)
+    k = {m["path"]: m for m in d["moves"]}
+    check("L19 leg-bar declaration change named",
+          (k.get("/lot_floor/shares_at_1m/AU") or {}).get("kind") == "INPUT_IDENTITY_CHANGED", k)
+    check("L19 alibi names the side that declared",
+          "昨天" in ((k.get("/lot_floor/shares_at_1m/AU") or {}).get("evidence") or ""), k)
+    check("L19 not an accusation", d["counts"]["unexplained"] == 0, d["counts"])
+
+    # L20 both sides declaring keeps the strict path -- the guard must still bite
+    b5 = {"priced_bar": "2026-11-16",
+          "lot_floor": {"shares_at_1m": {"AU": 0.839},
+                        "leg_bars": {"AU": "2026-11-16", "IC": "2026-11-16"},
+                        "legs_behind": []}}
+    d = delta(a4, b5)
+    check("L20 same declaration -> still accused", d["counts"]["unexplained"] == 1, d["counts"])
+    # ...and so must a page that declares legs on NEITHER side
+    d = delta({"priced_bar": "2026-11-16", "lot_floor": {"shares_at_1m": {"AU": 0.83056}}}, b4)
+    check("L20 neither declares -> still accused", d["counts"]["unexplained"] == 1, d["counts"])
 
     # L18 r1793: a number copied from a cited face is not this page's to explain
     cited = os.path.join(ROOT, "results", "_selftest_cited_day_delta.json")
