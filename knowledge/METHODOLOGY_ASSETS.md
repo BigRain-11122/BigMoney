@@ -16597,3 +16597,36 @@ Four things that make this reusable:
 * no quote on the bar asked = excluded and named, never ffilled from an older bar.
 
 How: any "which instrument" face that ranks by yield should first ask which candidates are available at the time the money is needed; a ranking that ignores the deadline is a ranking of things you cannot buy.
+
+## E1411 -- a reading measured at one size does not become a reading at another size by multiplying
+
+r1826 put the order's own market footprint on the CEO page. The producer
+(`results/etf_book_capacity_edge.json`) measures a **1,000,000 lens**: five names at 200,000 each,
+1.0087% of ADV against a 1.00% line, 0 of 60 sessions passing, the largest capital that fits on the
+best of those days 991,421 CNY. The desk's actual ticket that morning was 43.2% of NAV.
+
+Two ways to print that, and only one is honest:
+
+* multiply -- 1.0087% x 0.432 = 0.4359%, print "today's order is 0.44%, comfortably inside the line".
+  The arithmetic is right and the number is still nobody's reading: the impact face never ran at that
+  size, and the ratio is only linear if every name scales by the same factor, which the face does not
+  assert;
+* quote the lens, then say the face was not re-measured at this size -- the page prints
+  "这把尺子是**按全仓量的**，而今天这单只用了账面 43.2%（¥431,880）——容量面没有在 43.2% 这个规模上重量，
+  所以本页不印「今天这单过线/没过线」，只印它量过的那个规模".
+
+The second one is more useful than it looks: the reader learns the real constraint ahead of time --
+the 1% line is reached when the sizing permission rises toward a full book, so the face that should
+be re-measured is the impact face at that size, and the page change that matters then is a new
+reading, not a new sentence.
+
+Three companions, each pinned by a selftest leg:
+
+* a face with no reading is a reason, never 0 -- "there is still room" has to be earned (r98 family);
+* a face whose own session is not the ticket's bar prints both dates and no number (r1781 family);
+* the 1% line is the gate's own choice, printed as a choice: move the line and every number here
+  moves by the same ratio.
+
+How: any time a measured face and the reader's actual position are at different scales, ask "was
+this number measured at the size I am about to print it beside?" -- and if not, print the lens, print
+the reader's size, and refuse the ratio.
