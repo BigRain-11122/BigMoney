@@ -817,7 +817,12 @@ def selftest():
                                             and c["printed"]["state"] == "ok"
                                             and (not c["printed"]["n_lines"]
                                                  or (not _dc.get("n_mismatch")
-                                                     and not _dc.get("n_undated")
+                                                     # r1817: n_undated lives on the printed
+                                                     # face; reading it off date_claims made it
+                                                     # always None, so every page that prints an
+                                                     # undated line failed this very leg
+                                                     # (PRINTED_BUT_UNANCHORED vs "clean").
+                                                     and not c["printed"].get("n_undated")
                                                      and not _dc.get("n_unverifiable")
                                                      and _dc.get("n_claims")))),
             (c["verdict"], len(c["offenders"]), _dc.get("n_claims"), _dc.get("n_mismatch"),

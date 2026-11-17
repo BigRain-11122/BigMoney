@@ -16440,3 +16440,57 @@ classify_pool_line（selftest 19 腿，新增 9 条）+ fleet/backlog.md 卡 19-
 "读数"与"计数"的区别。正身=Tools/idle_trigger.py classify_pool_line + parse_backlog
 （selftest 19→28 腿）· results/idle_trigger.bm-a.json。
 
+
+## E1404 · 从一个不是它的字典里读字段：缺键被读成「没问题」，于是那条腿只在页面变差的那天才红（r1817 bm-c）
+
+一条判据可以**在错误的地方找数字**，而 `.get()` 会把「这里没有这个键」静默翻成一次断言。
+
+实锚：`scripts/live_book_day_words.py` 的自检腿「the published page's verdict agrees with its own
+head line」写的是
+
+    (c["verdict"] in CLEAN) == bool(not c["offenders"]
+                                    and c["printed"]["state"] == "ok"
+                                    and (not c["printed"]["n_lines"]
+                                         or (not _dc.get("n_mismatch")
+                                             and not _dc.get("n_undated")      # ← 这个键不在 _dc 里
+                                             and not _dc.get("n_unverifiable")
+                                             and _dc.get("n_claims"))))
+
+`n_undated` 只存在于 `printed` 面（第 244 行构造），`date_claims` 里没有它。于是
+`_dc.get("n_undated")` 恒 `None`、`not None` 恒真 —— 右边的「干净」判据只要有 offenders=0、
+有 n_claims 就成立，而左边是 `PRINTED_BUT_UNANCHORED`（这页确实印了未定日期的行），两边必然不等。
+2026-11-18 首跑就红在 36/37，而**页面本身是对的**。
+
+**Why 它藏了很久**：这条腿只在「页面第一次带上未定日期的行」的那天才失效。之前每一天的页面都是
+干净判词（`PRINTED_DATES_AGREE`），左边也是真、右边也是真，全绿。所以它不是「一直红」，而是
+**条件红**——红的那天恰好是新代码上线那天，看起来就像那次提交弄坏的（本次也确实先被当成合并副作用）。
+
+**How**：①凡 `d.get(k)` 出现在布尔判据里，先问「这个键真在这本字典里吗」；缺失必须与 False 区分
+（`k in d` / 显式 `None` 分支），否则缺字段永远读成「断言成立」。②自检腿要含一个**非 clean 判词的夹具**
+——只测干净页面的腿，等于只测了它自己开心的那条路。③同族：E686（永久红把读者训练成忽略红）、
+E319（状态列精确匹配）。正身=scripts/live_book_day_words.py:815-824（selftest 36/37 → **37/37**）。
+
+## E1405 · 两个执行体各自再生的面，合并要按「面的种类」选边，而合并后必须跑面自己的 check（r1817 bm-c）
+
+本机三轮离线（17 条本地提交）+ 远端 22 条提交，两侧改动 **322 / 379 个文件、重叠 267**，
+git 直接合出 **192 处冲突**。全按「取一边」处理会丢东西，全按「手合」会耗掉整轮。
+
+**正法（分类选边）**：
+① `.jsonl` 账本与 `knowledge/METHODOLOGY_ASSETS.md` 卡册 = **行/块级 union**（append-only 面，两侧都在追加）；
+② `data/*.csv` 面板 = **按首列 union**（同一 key 的行取先出现的，行序保持）；
+③ 生成面的 `.json` / `.md` = 读它**自己**的 `generated` / `evidence_cutoff` / `asof` 取新者，
+   解析不成 JSON 则回退到对侧（并如实记一行）——「哪个更新」必须由那个面自己说，不由文件的 mtime 说
+   （mtime 是 checkout 时间，不是产出时间）；
+④ `.py` = **手合**。git 自动合并成功 ≠ 合对：本轮 `scripts/live_usage_day_words.py` 两侧各自往同一张
+   规则表尾部加规则，共享的是**最后一行 tuple 的第二元素**，自动合出来的语法对、语义却把两条规则并成一条。
+   正法=各自接各自的收尾行。
+
+**合并后判据坑**：先跑面自己的 `--check`，别只跑全量套件。本轮 4 张面 check 红的成因全是「选边/次序」：
+`decision_line` 在我重算 `do_or_wait` **之前**跑，第二次 check 立刻 drift in: row ——
+同一批重算必须按收据依赖序（late_sheet → do_or_wait → decision_line），否则自己制造漂移。
+
+**Why**：多机同链会把同一张再生面写成两份不同的字节，冲突是结构性的、不是谁的错；
+而「取新」这件事必须查面内的戳，因为 checkout 会把所有 mtime 抹成同一刻。
+
+正身=bm-c r1817 合并 `d6de5bd5e3`（192 冲突 → 191 自动分类 + 1 手合，推送 rc0）；
+分类回执=$env:TEMP\bmc_merge_receipt.json。
