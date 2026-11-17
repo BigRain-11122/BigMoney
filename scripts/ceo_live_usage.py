@@ -179,6 +179,13 @@ CARRY_TIMING_REL = "results/idx_fut_basis_timing.json"
 # how far the index must fall before an account is called.
 CARRY_MARGIN_JSON = os.path.join(ROOT, "results", "idx_fut_carry_margin.json")
 CARRY_MARGIN_REL = "results/idx_fut_carry_margin.json"
+# r1820: every number above is priced at the exchange document floor (fee + one tick
+# each leg = 1.5bp per roll).  The repo now measures that roll from each contract's
+# own high/low, and the measured median is 20-31bp -- 13-20x the floor, worth
+# 1.5-2.4pp/yr of carry.  A page that sizes a lot on the floor and never shows the
+# measured drag lets the reader believe the sleeve keeps money it pays away.
+CARRY_RISK_JSON = os.path.join(ROOT, "results", "idx_fut_carry_risk.json")
+CARRY_RISK_REL = "results/idx_fut_carry_risk.json"
 
 # Position ladder, v2 frozen canonical (DECISION_CHAIN v2 prereg, adopted
 # bm-c 2026-09-28; owner-canon rows in market_clock POSITION_LADDER):
@@ -835,6 +842,60 @@ def _carry_margin_face():
     }
 
 
+def _carry_roll_cost_face():
+    """r1820: the roll is the third thing that eats this sleeve, and it was unpriced.
+
+    Sections ⑦ and ⑧ answer "how much money to open" and "is today's discount wide
+    enough"; both, and the desk sheet behind them, charge a roll at the exchange
+    document floor of 1.5bp.  `idx_fut_roll_cost` now measures that seam from each
+    contract's own daily high/low (Corwin-Schultz, one-bar lag) and the median is
+    19.8-30.8bp -- an order of magnitude above the floor.  At 5-11 rolls a year that
+    is 1.5-2.4pp/yr of carry, which is the same order as the whole gap between this
+    sleeve and the book.
+
+    Rules, same family as the blocks above:
+      * two calibers side by side (floor and measured), never one blended number --
+        neither end is a quote, and the measured end saturates on the day's range;
+      * the drag is quoted from the producer, with its generation stamp;
+      * a missing face prints no number (r98: unknown is not zero).
+    """
+    d = _read_json(CARRY_RISK_JSON)
+    if not d:
+        return {"present": False, "path": CARRY_RISK_REL,
+                "note": "换月成本面未产出（缺面不读 0）"}
+    products = d.get("products") or {}
+    if not products:
+        return {"present": False, "path": CARRY_RISK_REL,
+                "note": "换月成本面在册但无产品行（不完整面不冒充）"}
+    rows = {}
+    for code, p in sorted(products.items()):
+        ex = p.get("execution") or {}
+        band = ex.get("roll_cost_bp") or {}
+        drag = ex.get("roll_cost_drag_pp_per_year") or {}
+        gap = ex.get("gap_after_roll_cost_pp") or {}
+        if band.get("median_bp") is None:
+            continue
+        rows[code] = {
+            "median_bp": band.get("median_bp"),
+            "floor_bp": band.get("floor_bp"),
+            "rolls": p.get("rolls"),
+            "drag_floor_pp": drag.get("file_floor"),
+            "drag_measured_pp": drag.get("measured_median"),
+            "gap_floor_pp": gap.get("file_floor"),
+            "gap_measured_pp": gap.get("measured_median"),
+        }
+    if not rows:
+        return {"present": False, "path": CARRY_RISK_REL,
+                "note": "换月成本面无可读行（不完整面不冒充）"}
+    return {
+        "present": True,
+        "path": CARRY_RISK_REL,
+        "rows": rows,
+        "evidence_cutoff": d.get("evidence_cutoff"),
+        "source_generated": d.get("generated"),
+    }
+
+
 # r1785: the sheet below is a full build; the reader who already followed the
 # page needs the DIFFERENCE.  The producer (etf_book_exec_delta) has printed
 # that difference since r1563 and nothing on the page ever showed it, so
@@ -1250,6 +1311,7 @@ def build_payload(day: str) -> dict:
         "carry_book": _carry_book_face(),
         "carry_timing": _carry_timing_face(),
         "carry_margin": _carry_margin_face(),
+        "carry_roll_cost": _carry_roll_cost_face(),
         "freshness": _freshness_face(book, tape, regime.get("asof")),
         "chain_versions": [
             {"version": v, "status": s} for v, s in _version_banner()],
@@ -1950,6 +2012,48 @@ def render_md(p: dict) -> str:
         L.append(f"  - 出处：`{cm.get('path')}`｜generated {cm.get('source_generated')}"
                  f"｜cutoff {cm.get('evidence_cutoff')}"
                  "｜保证金率=规则参数扫描（非本书测度）")
+    # r1820: every number above is priced at the exchange document floor (1.5bp per
+    # roll).  The repo measures that seam now and the median is 20-31bp, so the gap
+    # this sleeve leaves behind is 1.5-2.4pp/yr smaller than the page implied.
+    cr = p.get("carry_roll_cost") or {}
+    if not cr.get("present"):
+        L.append(f"- 换月成本：{cr.get('note') or '换月成本面未产出'}"
+                 f"（指针 `{cr.get('path')}`）——**今天读不到换月成本，"
+                 "上面那些差距只按交易所文件底 1.5bp/次计**")
+    else:
+        rows_r = cr.get("rows") or {}
+
+        def _bp(code):
+            v = (rows_r.get(code) or {}).get("median_bp")
+            return None if v is None else float(v)
+
+        meds = [f"{c} {_bp(c):.1f}bp" for c in ("IC", "IM", "IF", "IH")
+                if _bp(c) is not None]
+        drags = [f"{c} {rows_r[c]['drag_measured_pp']:.2f}pp/年"
+                 for c in ("IC", "IM", "IF", "IH")
+                 if (rows_r.get(c) or {}).get("drag_measured_pp") is not None]
+        L.append("- **换月不是免费的**（`%s`）：桌面上一直按交易所文件底 **1.5bp/次** 计"
+                 "（手续费＋一个最小变动价），而本仓从各合约自己的日高/日低量出来的中位数是 "
+                 "**%s** —— 差一个数量级；按各自换月次数折成每年：**%s**"
+                 % (cr.get("path"), "、".join(meds), "、".join(drags)))
+        gaps_r = []
+        for c in ("IC", "IM", "IF"):
+            r = rows_r.get(c) or {}
+            f0, m0 = r.get("gap_floor_pp"), r.get("gap_measured_pp")
+            if f0 is None or m0 is None:
+                continue
+            gaps_r.append(f"{c} {f0:.2f} → {m0:.2f}pp")
+        if gaps_r:
+            L.append("  - 这条袖面与这本书的差距（前面是文件底、后面是实测中位）："
+                     + "、".join(gaps_r)
+                     + " —— 判决不改（IC/IM 仍进、IF/IH 仍不进），"
+                     "改的是「差距有多大」这件事本身")
+        L.append("  - 诚实一条：实测中位来自**日高/日低估计量**（Corwin-Schultz），"
+                 "它读的是当日振幅而不是报价带，所以高的一头会饱和；"
+                 "文件底与实测中位是两种口径，**不相加、不平均**，"
+                 "要一个确定数必须有一条报价带")
+        L.append(f"  - 出处：`{cr.get('path')}`｜generated {cr.get('source_generated')}"
+                 f"｜cutoff {cr.get('evidence_cutoff')}")
     L.append("")
     L.append("## ⑧ 诚实免责")
     L.append("")
@@ -2581,6 +2685,25 @@ def selftest() -> int:
             _md5 = render_md(_deg5)
             check("a missing margin face says the funding line was never checked (r1819)",
                   "今天读不到保证金读数" in _md5 and "保证金不是门槛" not in _md5)
+        # r1820: the roll charge is the third thing that eats this sleeve, and the page
+        # sized the lot on the document floor while the repo had measured the seam.
+        _cr1 = p1.get("carry_roll_cost") or {}
+        if not _cr1.get("present"):
+            print("  [SKIP] carry roll cost: the face is absent")
+        else:
+            check("the measured roll cost reaches the page beside the document floor (r1820)",
+                  "换月不是免费的" in md1 and "1.5bp/次" in md1)
+            _rr1 = _cr1.get("rows") or {}
+            check("the measured roll median is quoted from the face, never typed (r1820)",
+                  bool(_rr1) and all(("%.1fbp" % float(r["median_bp"])) in md1
+                                     for r in _rr1.values()
+                                     if r.get("median_bp") is not None))
+            _deg6 = json.loads(json.dumps(p1))
+            _deg6["carry_roll_cost"] = {"present": False, "path": CARRY_RISK_REL,
+                                        "note": "换月成本面未产出（缺面不读 0）"}
+            _md6 = render_md(_deg6)
+            check("a missing roll-cost face says the gap was priced on the floor (r1820)",
+                  "今天读不到换月成本" in _md6 and "换月不是免费的" not in _md6)
         _deg3 = json.loads(json.dumps(p1))
         _deg3["etf_order"] = dict(_deg3.get("etf_order") or {})
         _deg3["etf_order"]["next_decision_bars"] = None

@@ -2,7 +2,7 @@
  "schema": "ceo_live_usage_v1_9",
  "ticket": "T-202609-28-105",
  "day": "2026-11-18",
- "generated": "2026-11-18T04:06:40",
+ "generated": "2026-11-18T04:25:13",
  "market": {
   "state": "RED",
   "asof": "2026-11-17",
@@ -492,7 +492,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 60157.6
+    "last_append_age_min": 60176.1
    },
    {
     "family": "FUND-VALUE-P1",
@@ -500,7 +500,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 61008.0
+    "last_append_age_min": 61026.5
    },
    {
     "family": "FUND-DIVLOWVOL-P1",
@@ -508,7 +508,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 57805.0
+    "last_append_age_min": 57823.5
    }
   ]
  },
@@ -1020,6 +1020,50 @@
   ],
   "evidence_cutoff": "2026-11-17",
   "source_generated": "2026-11-18T03:33:17+0800"
+ },
+ "carry_roll_cost": {
+  "present": true,
+  "path": "results/idx_fut_carry_risk.json",
+  "rows": {
+   "IC": {
+    "median_bp": 30.792,
+    "floor_bp": 1.5,
+    "rolls": 63,
+    "drag_floor_pp": 0.118,
+    "drag_measured_pp": 2.424,
+    "gap_floor_pp": 9.059,
+    "gap_measured_pp": 6.753
+   },
+   "IF": {
+    "median_bp": 19.843,
+    "floor_bp": 1.5,
+    "rolls": 74,
+    "drag_floor_pp": 0.139,
+    "drag_measured_pp": 1.835,
+    "gap_floor_pp": 2.254,
+    "gap_measured_pp": 0.558
+   },
+   "IH": {
+    "median_bp": 21.071,
+    "floor_bp": 1.5,
+    "rolls": 89,
+    "drag_floor_pp": 0.167,
+    "drag_measured_pp": 2.343,
+    "gap_floor_pp": null,
+    "gap_measured_pp": null
+   },
+   "IM": {
+    "median_bp": 28.232,
+    "floor_bp": 1.5,
+    "rolls": 23,
+    "drag_floor_pp": 0.081,
+    "drag_measured_pp": 1.518,
+    "gap_floor_pp": 9.17,
+    "gap_measured_pp": 7.733
+   }
+  },
+  "evidence_cutoff": "2026-11-17",
+  "source_generated": "2026-11-18T00:12:23"
  },
  "freshness": {
   "status": "ok",
