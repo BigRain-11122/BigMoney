@@ -2434,6 +2434,7 @@ def harvest_census_face(path=HARVEST_CENSUS_JSON):
         "material_gap_pp": f.get("material_gap_pp"),
         "toll_pp": f.get("toll_pp"),
         "cost_bp_per_side": f.get("cost_bp_per_side"),
+        "null": f.get("null"),
         "pairs": f.get("pairs") or [],
         "caveats": f.get("caveats") or [],
     }
@@ -2463,8 +2464,15 @@ def harvest_census_block(hv, page_bar=None, page_day=None):
         return L
     c = hv.get("counts") or {}
     t = hv.get("totals") or {}
-    add("## 这些价差，收得回来吗：%s 个价差里 %s 个收得回来"
-        % (_labels(c.get("candidates")), _labels(t.get("pays_pairs"))))
+    nl = hv.get("null") or {}
+    if nl and not nl.get("beats_null"):
+        add("## 这些价差，收得回来吗：%s 个里数出 %s 个，但这个数没有超过尺子自己"
+            "（重排路径中位 %s 个）"
+            % (_labels(c.get("candidates")), _labels(t.get("pays_pairs")),
+               _labels(nl.get("pays_median"))))
+    else:
+        add("## 这些价差，收得回来吗：%s 个价差里 %s 个收得回来"
+            % (_labels(c.get("candidates")), _labels(t.get("pays_pairs"))))
     add("")
     add("前两节算的是「为了名字多花了多少钱」——那是**选择成本**，不是能落袋的钱。这一节问"
         "后半句：**历史上当价差也这么宽的时候，%s 个交易日后它收窄了吗，收窄的部分够不够付"
@@ -2491,6 +2499,26 @@ def harvest_census_block(hv, page_bar=None, page_day=None):
             % (_labels(int(hv.get("notional_cny") or 0)), format(float(_net), ",.0f"),
                float(hv.get("material_gap_pp") or 0.0), _labels(t.get("material_pairs")),
                format(float(t.get("material_cny") or 0.0), ",.0f")))
+        add("")
+    if nl:
+        add("**这个「收得回来」的数经不经得起一条尺子的检查**：同一条判据放到把同一批日子里"
+            "每天的涨跌打乱顺序重排出来的路径上跑 %s 次（增量、波动、漂移都一样，只拿掉「宽档"
+            "哪一天出现」），中位数出 **%s** 对（最小 %s、最大 %s），p=**%.2f**。"
+            % (_labels(nl.get("k")), _labels(nl.get("pays_median")),
+               _labels(nl.get("pays_min")), _labels(nl.get("pays_max")),
+               float(nl.get("p_value") or 0.0)))
+        add("")
+        if nl.get("beats_null"):
+            add("- 盘口数**超过**重排路径，所以「宽档之后价差收窄」不是尺子自己缩出来的。")
+        else:
+            add("- 盘口数**没有超过**重排路径：把日子打乱、时序信息全拿掉之后，同一条尺子"
+                "自己就能数出一大堆「收得回来」。**所以这一节前面的那一串对数与金额不能当成"
+                "「这批票历史上有多少真收窄」来读**——它测的是尺子的构造（在「今天这么宽」"
+                "上取样本，然后等一格看宽度，宽度本来就会往中位退）。钱是真的按一手算的，"
+                "但「历史给不给回来」这一句，本面默认不成立。")
+        add("")
+        add("- 这条检验只查判据（收窄能否付过四边成本），没查「换过去之后下一格会不会被别的"
+            "票挤掉」——后者是这本书自己的事。")
         add("")
     pays = [r for r in (hv.get("pairs") or []) if r.get("verdict") == "PAYS"]
     pays.sort(key=lambda r: -(r.get("net_after_toll_cny") or 0.0))

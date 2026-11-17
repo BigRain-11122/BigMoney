@@ -41,6 +41,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import random
 import statistics
 import sys
 
@@ -59,6 +60,9 @@ OUT_MD = os.path.join(ROOT, "results", "etf_swap_harvest_census.md")
 WINDOW_DAYS = 250      # the same year the census quotes its drift over
 HORIZON = 20           # one REBAL grid, matching r1523
 MIN_COHORT = 8         # fewer sessions than this is not a distribution
+NULL_K = 100           # shuffles per pair for the null the ruler is checked against
+NULL_SEED = 20261117   # fixed, so a re-run of the same panel is byte-identical
+NULL_ALPHA = 0.10      # a count the ruler would reach on its own is not a finding
 TAIL_EPS = 1e-9
 FLOOR_PP = 0.10        # the smallest daily move this face will call an event, whatever the sd
 NOTIONAL_CNY = lc.NOTIONAL_CNY
@@ -216,6 +220,52 @@ def forward_deltas(rec, width_today, horizon):
     return deltas, censored, members
 
 
+def shuffled_path(series, rng):
+    """The same days, dealt in another order: same increments, no timing.
+
+    This is the null the harvest is measured against. Keeping the increments keeps each pair's
+    own volatility and drift, so the only thing destroyed is *when* the wide days happened --
+    which is exactly the claim "a wide gap gets handed back inside one grid" makes.
+    """
+    steps = [series[i] - series[i - 1] for i in range(1, len(series))]
+    rng.shuffle(steps)
+    out = [series[0]]
+    for s in steps:
+        out.append(out[-1] + s)
+    return out
+
+
+def null_pays(series_list, toll, k=NULL_K, seed=NULL_SEED):
+    """How many pairs the ruler would call "pays" if timing carried no information.
+
+    The rule conditions on "at least as wide as today" and then reads the width 20 sessions
+    later; on a path with no memory that cohort sits at a local peak by construction and the
+    width shrinks back on its own. So a count is only a finding if it beats what the same rule
+    reaches on shuffled paths -- otherwise the reader is looking at the ruler, not the board.
+    """
+    series_list = [s for s in series_list if s]
+    if not series_list:
+        return None
+    rng = random.Random(seed)
+    counts = []
+    for _ in range(int(k)):
+        n = 0
+        for series in series_list:
+            row = measure_pair({"a": "null", "b": "null", "sources": ["null"]},
+                               shuffled_path(series, rng), toll)
+            if row["verdict"] == "PAYS":
+                n += 1
+        counts.append(n)
+    counts.sort()
+    return {"k": int(k), "seed": int(seed), "pairs": len(series_list),
+            "pays_min": counts[0], "pays_median": counts[len(counts) // 2],
+            "pays_p10": counts[max(0, int(0.10 * (len(counts) - 1)))],
+            "pays_p90": counts[min(len(counts) - 1, int(0.90 * (len(counts) - 1)))],
+            "pays_max": counts[-1],
+            "pays_mean": round(sum(counts) / float(len(counts)), 2),
+            "counts": counts}
+
+
 def measure_pair(cand, series, toll, notional=NOTIONAL_CNY):
     """One pair: is today's width inside a cohort that has ever handed the points back?"""
     row = {"a": cand["a"], "b": cand["b"], "sources": list(cand["sources"]),
@@ -288,13 +338,14 @@ def compute(ctx):
 
     cands = candidates(alias_face, label_face)
     face["candidates"] = len(cands)
-    cache, rows, skipped = {}, [], []
+    cache, rows, skipped, paths = {}, [], [], {}
     for cand in cands:
         series, why = gap_path(cand["a"], cand["b"], cache)
         if series is None:
             skipped.append({"a": cand["a"], "b": cand["b"], "why": why})
             continue
         rows.append(measure_pair(cand, series, toll))
+        paths[(cand["a"], cand["b"])] = series
 
     face["pairs"] = rows
     face["skipped"] = skipped
@@ -329,6 +380,19 @@ def compute(ctx):
     face["totals"]["material_cny"] = round(
         sum(r["net_after_toll_cny"] or 0.0 for r in material), 2)
     face["verdict"] = "PAYS" if face["totals"]["net_after_toll_cny"] > 0 else "DOES_NOT_PAY"
+    # The count above is produced by a rule that conditions on "at least as wide as today" and
+    # then reads the width one grid later. On a path with no memory that cohort sits at a local
+    # peak and the width shrinks back by itself -- so the count is only a finding if it beats the
+    # same rule run on the same days dealt in another order.
+    nl = null_pays([paths[(r["a"], r["b"])] for r in measured if (r["a"], r["b"]) in paths], toll)
+    if nl:
+        observed = face["counts"]["pays"]
+        at_least = sum(1 for c_ in nl["counts"] if c_ >= observed)
+        nl["observed_pays"] = observed
+        nl["p_value"] = round((at_least + 1.0) / (nl["k"] + 1.0), 4)
+        nl["beats_null"] = nl["p_value"] <= NULL_ALPHA
+        nl["alpha"] = NULL_ALPHA
+    face["null"] = nl
     face["sentence"] = sentence(face)
     return face
 
@@ -336,7 +400,7 @@ def compute(ctx):
 def sentence(face):
     c = face.get("counts") or {}
     t = face.get("totals") or {}
-    return ("%d 对「价格上是同一个篮子」里，%d 对今天这么宽的历史样本够厚：其中 %d 对"
+    base = ("%d 对「价格上是同一个篮子」里，%d 对今天这么宽的历史样本够厚：其中 %d 对"
             "二十个交易日后价差收窄到付完四边成本还有剩，%d 对收不回来；按一手 %s 元算，"
             "捡得回来的合计 %s 元（过物质线的 %d 对、%s 元）。"
             % (c.get("candidates", 0), c.get("measured", 0), t.get("pays_pairs", 0),
@@ -344,6 +408,17 @@ def sentence(face):
                format(t.get("net_after_toll_cny") or 0.0, ",.0f"),
                t.get("material_pairs") or 0,
                format(t.get("material_cny") or 0.0, ",.0f")))
+    nl = face.get("null")
+    if not nl:
+        return base
+    if nl.get("beats_null"):
+        return base + ("把同样的尺子放在把日子打乱的路径上，%d 次里中位只数出 %d 对（p=%.2f）"
+                       "——所以这个数不是尺子自己缩出来的。"
+                       % (nl["k"], nl["pays_median"], nl["p_value"]))
+    return base + ("但把同样的尺子放在把日子打乱的路径上，%d 次里中位就能数出 %d 对（p=%.2f，"
+                   "超过 %.0f%% 就算不成立）——**这个数没有超过尺子自己，所以「收得回来」"
+                   "有多少是真收窄、多少是宽档回归中位，这一面分不开。**"
+                   % (nl["k"], nl["pays_median"], nl["p_value"], 100.0 * (nl.get("alpha") or 0.0)))
 
 
 def _fmt_money(v):
@@ -396,6 +471,35 @@ def render_md(face):
         head += ["", "过物质线（净额 ≥ %s pp）的 %d 对合计 %s 元。"
                  % (_fmt_pp(face.get("material_gap_pp")), t["material_pairs"],
                     _fmt_money(t.get("material_cny")))]
+    head += ["", "## 这些「收得回来」是不是尺子自己缩出来的", ""]
+    nl = face.get("null")
+    if not nl:
+        head += ["这一问答不了：没有可用的重排路径（没有一对的样本够厚）。", ""]
+    else:
+        head += [
+            "同一条尺子（「今天这么宽」的全部历史样本 → 二十个交易日后宽度变化）放到**把同一批"
+            "日子里每天的涨跌打乱顺序**重排出来的路径上跑 %d 次——增量、波动、漂移都一样，"
+            "唯一被拿掉的是「宽档什么时候出现」。如果盘口这一数没超过它，就不算发现。"
+            % nl["k"],
+            "",
+            "| 读数 | 对数 |",
+            "| --- | --- |",
+            "| 盘口今天数出 | %d |" % nl.get("observed_pays", 0),
+            "| 重排路径最小 / 中位 / 最大 | %d / **%d** / %d |"
+            % (nl.get("pays_min", 0), nl.get("pays_median", 0), nl.get("pays_max", 0)),
+            "| 重排路径 10%% / 90%% 分位 | %d / %d |" % (nl.get("pays_p10", 0), nl.get("pays_p90", 0)),
+            "| p 值（重排 ≥ 盘口的次数占比） | **%.2f** |" % (nl.get("p_value") or 0.0),
+            "",
+            ("**判读：盘口数超过 %.0f%% 的重排路径，这个数不是尺子自己缩出来的。**"
+             % (100.0 * (1.0 - (nl.get("alpha") or 0.0)))) if nl.get("beats_null") else
+            ("**判读：盘口数没有超过重排路径（p=%.2f > %.0f%%）——「收得回来」里有多少是真收窄、"
+             "多少只是宽档回归中位，这一面分不开。**"
+             % (nl.get("p_value") or 0.0, 100.0 * (nl.get("alpha") or 0.0))),
+            "",
+            "注意这检验的是**尺子的判据**（收窄是否超过四边成本），不是整条策略：它没有回答"
+            "「换过去之后下一格会不会被别的票挤掉」。",
+            "",
+        ]
     head += ["", "## 收不回来的（前 10，按净额最差）", "",
              "| A | B | 今日价差 pp | 历史样本 | 收窄 pp | 净 pp |", "| --- | --- | --- | --- | --- | --- |"]
     worst = [r for r in (face.get("pairs") or []) if r.get("verdict") == "DOES_NOT_PAY"]
@@ -458,6 +562,30 @@ def check(face):
                 if (r.get("net_after_toll_pp") or 0.0) >= (face.get("material_gap_pp") or 0.0)]
     if totals.get("material_pairs") != len(material):
         problems.append("物质线以上对数与行不符")
+    # The null has to be re-derivable from the published distribution, or the verdict on it is
+    # just an assertion about itself.
+    nl = face.get("null")
+    if nl:
+        cnts = nl.get("counts") or []
+        observed = counts.get("pays")
+        if not cnts:
+            problems.append("null 缺重排分布")
+        else:
+            if len(cnts) != nl.get("k"):
+                problems.append("null 分布条数 ≠ k")
+            at_least = sum(1 for x in cnts if x >= (observed or 0))
+            want_p = round((at_least + 1.0) / (len(cnts) + 1.0), 4)
+            if abs((nl.get("p_value") or 0.0) - want_p) > 1e-4:
+                problems.append("null p 值 ≠ 从重排分布重算")
+            if bool(nl.get("beats_null")) != (want_p <= (nl.get("alpha") or 0.0)):
+                problems.append("null 判读与 p 值不符")
+            if nl.get("observed_pays") != observed:
+                problems.append("null 观测数 ≠ pays 计数")
+            srt = sorted(cnts)
+            if nl.get("pays_median") != srt[len(srt) // 2]:
+                problems.append("null 中位 ≠ 重排分布中位")
+            if nl.get("pays_min") != srt[0] or nl.get("pays_max") != srt[-1]:
+                problems.append("null 最小/最大 ≠ 重排分布两端")
     return {"artifact": face.get("artifact"), "ok": not problems, "problems": problems,
             "rows": len(rows), "measured": len(measured)}
 
@@ -572,6 +700,50 @@ def selftest():
         row = measure_pair({"a": "1", "b": "2", "sources": ["alias"]}, path, 0.32)
         assert (row["harvest_pp"] or 0.0) < 1.0, "剔除台阶后收成应近 0：%r" % (row["harvest_pp"],)
 
+    def L12_null_is_deterministic():
+        series = [0.0] * 60 + [3.0] * 20 + [0.0] * 60 + [2.0] * 30
+        a = null_pays([series], 0.32, k=5, seed=7)
+        b = null_pays([series], 0.32, k=5, seed=7)
+        assert a["counts"] == b["counts"], "同一面板同日重跑，重排分布必须逐位相同：%r vs %r" % (
+            a["counts"], b["counts"])
+        assert a["pairs"] == 1 and len(a["counts"]) == 5, "分布要覆盖每一对每一次"
+
+    def L13_random_walk_does_not_beat_the_ruler():
+        rng = random.Random(4242)
+        series, level = [], 0.0
+        for _ in range(260):
+            level += rng.gauss(0.0, 0.4)
+            series.append(level)
+        row = measure_pair({"a": "1", "b": "2", "sources": ["alias"]}, series, 0.32)
+        observed = 1 if row["verdict"] == "PAYS" else 0
+        nl = null_pays([series], 0.32, k=30, seed=99)
+        assert observed <= nl["pays_p90"], ("没有记忆的路径上，盘口数不该站到重排分布尾外："
+                                            "observed=%d p90=%d" % (observed, nl["pays_p90"]))
+
+    def L14_structure_beats_the_ruler():
+        # Wide plateaus that come back by construction: shuffling the same daily moves destroys
+        # exactly that, so the null must not reproduce the count.
+        series = ([0.0] * 40 + [5.0] * 20) * 3 + [0.0] * 40 + [5.0] * 10
+        row = measure_pair({"a": "1", "b": "2", "sources": ["alias"]}, series, 0.32)
+        assert row["verdict"] == "PAYS", "构造性收窄应判收得回来：%r" % (row["verdict"],)
+        nl = null_pays([series], 0.32, k=30, seed=99)
+        assert nl["pays_median"] < 1, ("打乱日子之后不该还能数出这一对：中位 %d" % nl["pays_median"])
+
+    def L15_sentence_carries_the_null():
+        face = {"counts": {"candidates": 10, "measured": 9, "pays": 4, "does_not_pay": 5},
+                "totals": {"pays_pairs": 4, "net_after_toll_cny": 900.0,
+                           "material_pairs": 1, "material_cny": 500.0},
+                "notional_cny": 100000,
+                "null": {"k": 100, "pays_median": 37, "p_value": 0.55, "alpha": 0.10,
+                         "beats_null": False}}
+        s = sentence(face)
+        for token in ("100", "37", "0.55", "分不开"):
+            assert token in s, "判词要把它自己的重排读数讲出来 %s：%s" % (token, s)
+        face["null"] = {"k": 100, "pays_median": 3, "p_value": 0.01, "alpha": 0.10,
+                        "beats_null": True}
+        s2 = sentence(face)
+        assert "不是尺子自己缩出来的" in s2, "超过重排时要明说：%s" % s2
+
     for name, fn in [
         ("L1 四边成本=4×单边", L1_toll),
         ("L2 平移不变（无溢价锚前提）", L2_shift_invariance),
@@ -584,6 +756,10 @@ def selftest():
         ("L9 总计/计数/物质线与行一致", L9_totals_and_counts),
         ("L10 句子引用自己的计数", L10_sentence_cites_counts),
         ("L11 拆分台阶不读成溢价", L11_split_is_not_a_premium),
+        ("L12 重排分布可复现", L12_null_is_deterministic),
+        ("L13 无记忆路径不越尾", L13_random_walk_does_not_beat_the_ruler),
+        ("L14 构造性收窄超过重排", L14_structure_beats_the_ruler),
+        ("L15 判词带自己的重排读数", L15_sentence_carries_the_null),
     ]:
         leg(name, fn)
     passed = sum(1 for _, ok, _ in legs if ok)

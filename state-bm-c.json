@@ -1,7 +1,7 @@
 {
   "activity": "product",
-  "activity_now": "r1807: 别名普查的标定账目名实归位（r1806 把「拒掉的」记成 kept，页面因此印「保住 163」而真保住是 169）；新增分门归属（日门/年门/两门）+ 超线远近分档 + 年门放宽的买卖两面表 + 线的决定记录（KEEP 1.0pp，理由与代价写在一处）。",
-  "activity_now_round": 1807,
+  "activity_now": "r1809: 上一轮那句「218 对收得回来」被同一条尺子按打乱时序问了一遍——重排路径中位 375 对（p=1.00），盘口的数落在尺子下面，所以它不能当作「历史真收窄」的证据；面/活书页/方法论卡 E1401 三处同改，selftest 15/15。",
+  "activity_now_round": 1809,
   "agenda_starved": false,
   "ah_note": "r1680 LANDED: refresh closed itself at 21:17 -- cutoff 2026-11-12 -> 2026-11-13, complete=True, exit 0, pulled_rows 46; data_lane_freshness in_sync 13 / behind_1d 1 (worst now marks, intraday-only, not rebuildable). Fix that made it possible: stall watchdog over every network leg (300s, names stage/pair, exit 2, checkpoint kept) + save_progress stamps write time + -u on the detached spawn + progress line every 10 pairs. NOT yet proven: the 300s stall path has never fired on a real hang (this round the suspected freeze finished by itself).",
   "ahead_origin": 0,
@@ -994,7 +994,7 @@
     ]
   },
   "round_label": "1704",
-  "round_no": 1808,
+  "round_no": 1809,
   "round_no_label": "r1785",
   "round_no_landed": 1663,
   "round_note": "r1489: a reinstated bar is re-derived from the panel, not carried over (reinstatement_check + reinstatements.json + sheet paragraph)",
