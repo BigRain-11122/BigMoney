@@ -5824,6 +5824,15 @@ def main() -> int:
              "scripts/e33_ladder_census.py", ["--selftest"]),
             ("product: e33_ladder_census (published verdict still re-derives)",
              "scripts/e33_ladder_census.py", ["--check"]),
+            # r1794: every ticket quotes a weight; a reader holds money. This face runs the
+            # whole-lot book at six account sizes (100-share lots, 5 CNY per-ticket floor)
+            # and prints the engine's own caliber beside it -- the engine books P&L from the
+            # decision bar's open while the score is that bar's close, so the two differ by
+            # a day of the move. Both legs are cheap (no network, ~40s).
+            ("product: etf_book_lot_ladder (smallest account the book can run)",
+             "scripts/etf_book_lot_ladder.py", ["--selftest"]),
+            ("product: etf_book_lot_ladder (published rungs and caliber gap still re-derive)",
+             "scripts/etf_book_lot_ladder.py", ["--check"]),
             # r1767: the event profile could be forecastable or not. This face cuts the same
             # months on three states known at the month's start and reads the verdict off a
             # label-shuffle null (eight cells always have a best row). The selftest leg pins

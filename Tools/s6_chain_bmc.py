@@ -1856,6 +1856,10 @@ LEGS = [
     # This leg re-states them in one page every round so the answer (and the hindsight
     # share inside it) is read, and so the table cannot drift away from the studies.
     ("e33_ladder_census", ["python", "scripts/e33_ladder_census.py", "run"]),
+    # r1794: every published ticket quotes a weight, and the smallest account question had
+    # never been asked. This leg re-runs the whole-lot book at six account sizes and pins
+    # them against the engine's own caliber, so the two numbers cannot drift apart.
+    ("etf_book_lot_ladder", ["python", "scripts/etf_book_lot_ladder.py", "run"]),
 ]
 
 

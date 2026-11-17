@@ -16308,3 +16308,24 @@ How：一节印两个来源的数，印章只能盖**最旧**那根 bar，并把
 
 正身：`scripts/etf_book_day_delta.py`（selftest 33/33，+L16/L17/L18/L18b）＋
 `scripts/etf_book_ceo_page.py`（selftest 437/437，+L315a-d）＋`results/etf_book_day_delta.json`。
+
+## E1391 · 「决策 bar 的开盘」不是你的成交价：同一批票、同一条规则，多记一天就是 1.79pp（r1794 bm-c）
+
+scripts/etf_robust_pf.py::open_to_open_equity 的 docstring 写「decide at close of t -> execute
+at OPEN of t+1」，代码却是：在 bar d 用 score.loc[d]（**d 的收盘**）选股，然后按
+op[nxt]/op[d] - 1 记收益——即从 **d 自己的开盘**就持有。选股用了当日收盘、成交却在当日开盘，
+每天多记一天它买不到的涨跌。
+
+- **量级（同一格 N5/R20/10bp、同一批票、同一成本）**：引擎口径 8.98% / 夏普 0.914，
+  次日开盘成交口径 7.19% / 0.746 → **1.79pp**。换格同向：N3_R20 1.30pp、N8_R40 2.42pp、
+  N5_R10 2.66pp（调仓越勤差越大，正是「每次调仓多吃一天」的签名）。
+- **隔离法**：把同一个自写引擎分别跑（a）20 日调仓+权重漂移、（b）每日再平衡、
+  （c）1 份粒度零摩擦 —— 三者全在 7.17~7.19pp；引擎(a)口径 8.98pp。所以差不是漂移、不是成本、
+  不是整手，是那一天。
+- **正法**：任何「收盘决策」的账面，成交价必须是**决策之后的**那根 bar 的开盘（或收盘），
+  并在 selftest 里钉一条：把 score 整体 shift(1) 后净值必须逐点不动（证明成交晚于信息）。
+  未修引擎前，读者面必须两个数并列，禁只印高的那个（E685 同族：日期判据要对到产出那个数的面）。
+How：接手任何回测引擎先做一次「信息时点 vs 成交时点」对账；两口径差 1-3pp 时先怀疑这一天，
+再怀疑模型。正身=scripts/etf_book_lot_ladder.py（selftest 9/9、--check ok、
+
+esults/etf_book_lot_ladder.json 的 ngine_caliber / caliber_gap_pp）。
