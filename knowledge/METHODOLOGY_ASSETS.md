@@ -16334,3 +16334,27 @@ How：接手任何回测引擎先做一次「信息时点 vs 成交时点」对�
 正身=scripts/etf_book_lot_ladder.py（selftest 9/9、--check ok、
 results/etf_book_lot_ladder.json 的 engine_caliber / caliber_gap_pp）＋
 scripts/etf_book_entry_lag.py（selftest 7/7、--check ok、results/etf_book_entry_lag.json 十八格双口径）。
+
+## E1392 · 同一把尺子量不同的书：杠杆层会放大口径代价，而「份额判据」不能靠余量免检（r1796 bm-c）
+
+**坑**：E1391 把「决策 bar 的开盘不是你的成交价」做成开关后，只量了整本书（含债档）。
+真正在册的生产候选 `nobond_vt08` 跑在同一个引擎上，头条同样带着那一天，却没人反着读过一次——
+于是「已修的缺陷」与「仍在印的头条」并存了整整一轮。
+
+**实锚（三支各跑两遍，printed 键逐位不动）**：`nobond_base` 15.55%→15.23%（**-0.32pp**）、
+`nobond_vt08` **11.45%→10.42%（-1.03pp·夏普 1.129→1.025）**、`nobond_vt12` 13.32%→12.51%（-0.81pp）。
+
+**两条可复用**：
+① **杠杆层放大代价**——波动目标这一层把 0.32pp 放大到 1.03pp，因为订仓用的波动是含那一天
+的序列估出来的，修正后同一套规则落在略不同的尺度上。所以「同一个引擎」不等于「同一个代价」，
+**每一支都要各自重跑**，禁按主格的比例外推。
+② **余量免检是假免检**——年闸唯一失败行 Y4 是**份额**判据（top2_share 70.84% vs 70%），
+收益类两行余量 17pp/100% 确实吞得下这一天的修正，但「份额」本身是否随口径移动**没有重算过**。
+正法：把「该判据与收益大小无关」与「该判据已在新口径下重算」分开写，只有后者才能说「不翻」。
+
+How：任何引擎口径修正落地后，先枚举**所有引用该引擎的在册书**（本例
+`candidate_year_gate_phases` / `etf_book_admission_eta` 的 `nobond_vt08_adopted` 臂），
+逐支重跑并把修正值**并列**发布（printed 键不动＝读者的数不动，修正键随件走）；
+判词只读「修掉之后结论还成立吗」，并逐条点名哪些门没重算。
+正身=scripts/etf_nobond_vt.py（`--check` ok: 3 arms / penalty 1.03pp / sign_stable=True）＋
+results/etf_nobond_vt.json 的 `caliber` 块＋research/ETF_BOOK_ENTRY_LAG.md「生产候选那一支」节。
