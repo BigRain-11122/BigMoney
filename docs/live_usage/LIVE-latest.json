@@ -2,7 +2,7 @@
  "schema": "ceo_live_usage_v1_9",
  "ticket": "T-202609-28-105",
  "day": "2026-11-18",
- "generated": "2026-11-18T06:24:36",
+ "generated": "2026-11-18T06:45:59",
  "market": {
   "state": "RED",
   "asof": "2026-11-17",
@@ -492,7 +492,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 60302.8
+    "last_append_age_min": 60324.2
    },
    {
     "family": "FUND-VALUE-P1",
@@ -500,7 +500,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 61147.3
+    "last_append_age_min": 61168.7
    },
    {
     "family": "FUND-DIVLOWVOL-P1",
@@ -508,7 +508,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 57940.6
+    "last_append_age_min": 57962.0
    }
   ]
  },
@@ -608,6 +608,22 @@
   "cash_weight": 0.567805,
   "k_now": 0.432195,
   "next_decision_bars": 16,
+  "next_decision_face": {
+   "present": true,
+   "date": "2026-12-09",
+   "bars_away": 16,
+   "rebal": 20,
+   "anchor_bar": "2026-11-11",
+   "anchor_source": "results/etf_book_production/latest.json#sheet.last_decision_bar",
+   "calendar_source": "data/exchange_calendar.csv",
+   "calendar_last": "2026-12-31",
+   "verdict": "AGREE",
+   "sentence": "下一根决策 bar = 2026-12-09（锚点 2026-11-11 起每 20 根，距 2026-11-17 16 根）。票面上三个面都这么说。",
+   "n_claims": 3,
+   "wrong_claims": [],
+   "off_grid_claims": [],
+   "agrees": true
+  },
   "book_decided_bar": "2026-11-11",
   "rebal": 20,
   "cost_bp_per_side": 8.0,

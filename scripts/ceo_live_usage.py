@@ -1159,6 +1159,48 @@ def _etf_premium_face():
     }
 
 
+def _next_decision_face(t):
+    """r1825: "16 bars away" is not a date.
+
+    The sheet has carried `next_decision_bars` since r1786 and this page prints
+    it, while the cash-roll block one line below hard-excludes any tenor that
+    matures after **2026-12-09** -- the same day, on the same page, in two
+    different currencies of language.  The sheet already answers in dates: its
+    own `next_decision` face signs the bar three independent ways (production
+    sheet, cut permission, swap units) against the official calendar.
+
+    Read that face instead of converting bars here (a second implementation of
+    the grid is exactly what r1822/r1823 spent two rounds removing).  Three
+    rules:
+
+    * missing face -> print the reason, never a computed guess (r98);
+    * its own signatures disagreeing (`wrong_claims`/`off_grid_claims`) -> print
+      the disagreeing names and NO date, rather than electing one (r1745 family);
+    * a date that contradicts the ticket's own bar count -> print neither.
+    """
+    nd = t.get("next_decision") or {}
+    if not nd:
+        return {"present": False, "note": "票面未带下次决策面（缺面不读 0）"}
+    grid = nd.get("grid") or {}
+    return {
+        "present": True,
+        "date": grid.get("next_bar"),
+        "bars_away": grid.get("bars_away"),
+        "rebal": grid.get("rebal"),
+        "anchor_bar": grid.get("anchor_bar"),
+        "anchor_source": grid.get("anchor_source"),
+        "calendar_source": nd.get("calendar_source"),
+        "calendar_last": nd.get("calendar_last"),
+        "verdict": nd.get("verdict"),
+        "sentence": nd.get("sentence"),
+        "n_claims": len(nd.get("claims") or []),
+        "wrong_claims": [c.get("name") for c in (nd.get("wrong_claims") or [])],
+        "off_grid_claims": [c.get("name") for c in
+                            (nd.get("off_grid_claims") or [])],
+        "agrees": nd.get("verdict") == "AGREE",
+    }
+
+
 def _etf_order_face():
     """v2.3 (r1784): the executable sheet's own rows, in lots and cash.
 
@@ -1221,6 +1263,8 @@ def _etf_order_face():
         "cash_weight": tk.get("cash_weight"),
         "k_now": latest.get("k_now"),
         "next_decision_bars": t.get("next_decision_bars"),
+        # r1825: the same sheet answers "when" in dates, not only in bars.
+        "next_decision_face": _next_decision_face(t),
         "book_decided_bar": t.get("book_decided_at"),
         "rebal": t.get("rebal"),
         "cost_bp_per_side": t.get("cost_bp_per_side"),
@@ -2043,6 +2087,33 @@ def render_md(p: dict) -> str:
                      "（网格 {} bar·上一次决策 bar {}）；在那之前这本书不换仓。"
                      .format(_nd, eo.get("rebal") or "?",
                              eo.get("book_decided_bar") or "?"))
+        # ---- r1825: a bar count is not a date, and this page already speaks dates
+        # four lines below (the cash tenor that matures on the permission date).
+        # Read the sheet's own next-decision face -- it signs the bar three ways.
+        _nfd = eo.get("next_decision_face") or {}
+        if _nfd.get("present") is False:
+            L.append("    - 换成日历日期：{}".format(
+                _nfd.get("note") or "缺面不读 0"))
+        elif _nfd.get("present"):
+            _bad = (_nfd.get("wrong_claims") or []) + \
+                   (_nfd.get("off_grid_claims") or [])
+            if not _nfd.get("agrees") or _bad:
+                L.append("    - 换成日历日期：**今天不印**——票面自己的下次决策面"
+                         "签名对不上（判定 {}·对不上的面：{}）；三个面说不到一天，"
+                         "就不挑一个印。".format(
+                             _nfd.get("verdict") or "?",
+                             "、".join(_bad) if _bad else "未点名"))
+            elif (_nd is not None and _nfd.get("bars_away") is not None
+                  and _nfd.get("bars_away") != _nd):
+                L.append("    - 换成日历日期：**今天不印**——面说 {} 根后是 {}，"
+                         "而这张票面说 {} 根后；两个数总有一个是陈的。".format(
+                             _nfd.get("bars_away"), _nfd.get("date"), _nd))
+            elif _nfd.get("date"):
+                L.append("    - 换成日历日期就是 **{}**（同一条票面的下次决策面，"
+                         "{} 个面签名一致·日历源 `{}`）——20 根网格落在这一天，"
+                         "不是月末也不是月初。".format(
+                             _nfd.get("date"), _nfd.get("n_claims") or 0,
+                             _nfd.get("calendar_source") or "?"))
     # ---- r1820: the sheet names five codes and their prices; nothing on this page
     # said what part of that money is paid above the funds' own NAV.  One number per
     # reader decision: how much of the ticket is premium, and what reversion would cost.
@@ -2907,6 +2978,40 @@ def selftest() -> int:
               (_nd1 is None and "票面未印（缺面不读 0）" in md1)
               or (isinstance(_nd1, int)
                   and "下一次决策还有 **{} 个 bar**".format(_nd1) in md1))
+        # r1825: "16 bars" is not a date -- the sheet's own next-decision face
+        # signs it three ways, and the page must read that instead of converting.
+        _nfd1 = _eo1.get("next_decision_face") or {}
+        if not _nfd1.get("present") or not _nfd1.get("date"):
+            print("  [SKIP] next-decision date: the face is absent")
+        else:
+            check("the bar count reaches the page as the calendar date it is (r1825)",
+                  _nfd1.get("agrees") is True
+                  and "换成日历日期就是 **{}**".format(_nfd1["date"]) in md1)
+            _deg5 = json.loads(json.dumps(p1))
+            _f5 = dict(_deg5["etf_order"]["next_decision_face"])
+            _f5.update({"agrees": False, "verdict": "SPLIT",
+                        "wrong_claims": ["cut_permission"],
+                        "off_grid_claims": []})
+            _deg5["etf_order"]["next_decision_face"] = _f5
+            _md5 = render_md(_deg5)
+            check("a face whose own signatures split prints no date (r1825)",
+                  "今天不印" in _md5 and "cut_permission" in _md5
+                  and "换成日历日期就是" not in _md5)
+            _deg6 = json.loads(json.dumps(p1))
+            _deg6["etf_order"]["next_decision_face"] = {
+                "present": False, "note": "票面未带下次决策面（缺面不读 0）"}
+            _md6 = render_md(_deg6)
+            check("a missing next-decision face prints a reason, not a guess (r1825)",
+                  "换成日历日期：票面未带下次决策面" in _md6
+                  and "换成日历日期就是" not in _md6)
+            _deg7 = json.loads(json.dumps(p1))
+            _f7 = dict(_deg7["etf_order"]["next_decision_face"])
+            _f7["bars_away"] = (0 if _nfd1.get("bars_away") is None
+                                else int(_nfd1["bars_away"]) + 3)
+            _deg7["etf_order"]["next_decision_face"] = _f7
+            _md7 = render_md(_deg7)
+            check("a date contradicting the ticket's own bar count prints neither (r1825)",
+                  "今天不印" in _md7 and "两个数总有一个是陈的" in _md7)
         # r1787: the money line and the timing line must both be on the page, and
         # the page must say that BOTH are needed -- funding on a day the rule says
         # wait is the mistake this section exists to prevent.

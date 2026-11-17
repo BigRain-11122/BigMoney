@@ -195,10 +195,10 @@
  "last_decisions_read_at": "2026-11-18T00:18:05+08:00",
  "last_decisions_read_note": "r1677: decisions raw-blob sha256 3bdddebd... (batch-61 execution addendum: D-20261114-01 already executed by the round itself / D-02 writer located nowhere) -> zero BigMoney action, watermark only",
  "last_decisions_seen": "188744b9ccd31da9a5a7bcb5e78d4883ca3193272c5ba6f54386d1108c20b9cb",
- "last_decisions_sha": "b85f356ad5258b7a2015b38cfdcba89bf9663085020afc795b53b250ce178bde",
+ "last_decisions_sha": "ddf2c0c5c25f8198894ff87e2b0f970dad754ab8eb909e9933527e1529adbe7e",
  "last_decisions_sha_method": "sha256(git show origin/main:docs/decisions.md raw bytes)",
- "last_decisions_watermark": "b85f356ad5258b7a@cdad673/207752",
- "last_decisions_watermark_v2": "v2:BigRain-11122/FluxGroup@cdad673846f6df78889a8ad711006adece84eaa8/207752#b85f356ad5258b7a2015b38cfdcba89bf9663085020afc795b53b250ce178bde",
+ "last_decisions_watermark": "ddf2c0c5c25f8198@3037b872/218033",
+ "last_decisions_watermark_v2": "v2:BigRain-11122/FluxGroup@3037b8729c6a907aa21cbd046909868b3f81f07b/218033#ddf2c0c5c25f8198894ff87e2b0f970dad754ab8eb909e9933527e1529adbe7e",
  "last_delivered_head": "d6b7a3775d",
  "last_orders_ack_receipt": "r1642: zero rows owed (BigStream row), ack set unchanged at 241",
  "last_orders_at": "2026-11-14T14:52:33+08:00",
@@ -211,7 +211,7 @@
  "last_orders_sha_method": "content-bytes sha256 of git show origin/main:docs/orders.md (s05_probe live)",
  "last_orders_sha_note": "r1141: stored r1140 value 9da3cb04 was face-inconsistent vs origin content-sha1 6cec19c3; recomputed with the pinned content-bytes sha1 method (r977). Tail rows 10-20 00:32 x2 + 00:5x already consumed r1140, zero rows owed.",
  "last_orders_watermark": "810bb25dec6adf1f@cdad673/84734",
- "last_orders_watermark_v2": "v2:BigRain-11122/FluxGroup@cdad673846f6df78889a8ad711006adece84eaa8/84734#810bb25dec6adf1f0db0783ff0595c0a0ae849be1d8b5f19477d8ea904f502a8",
+ "last_orders_watermark_v2": "v2:BigRain-11122/FluxGroup@3037b8729c6a907aa21cbd046909868b3f81f07b/84734#810bb25dec6adf1f0db0783ff0595c0a0ae849be1d8b5f19477d8ea904f502a8",
  "last_physical": "docs/live_book/LIVE-BOOK-20261114.md（9 行日词全自带日期·0 undated）+ scripts/live_book_day_words.py（自检 24/24）+ scripts/etf_book_ceo_page.py（自检 342/342）",
  "last_pointer": "r1719 cash forward window (next session -> next order)",
  "last_product": "scripts/etf_book_tilt_neutral.py + research/ETF_BOOK_TILT_NEUTRAL.md + results/etf_book_tilt_neutral.json (selftest 24/24, run rc0, --check rc0; verdict TILT_NOT_THE_AXIS)",
@@ -1020,7 +1020,7 @@
   "ts": "2026-11-18T00:40:11+08:00"
  },
  "round_label": "r1813",
- "round_no": 1824,
+ "round_no": 1825,
  "round_no_label": "r1821",
  "round_no_landed": 1663,
  "round_note": "r1489: a reinstated bar is re-derived from the panel, not carried over (reinstatement_check + reinstatements.json + sheet paragraph)",
@@ -1792,5 +1792,26 @@
   "s7": "register_loop_task no-op (machine=bm-c pin=0, next fire 06:30); pre-commit claw reinstalled (byte compare is CRLF vs its LF-normalised copy, installer is the authority); pre-push claw already matched; state round_no 1824.",
   "not_verified": "(a) no suite has run the new code -- the 06:13 suite loaded smoke_test.py before these edits; (b) the fee schedule is the ladder face's assumption, not re-checked against a broker page; (c) the +CNY 94 is a single-contract approximation that ignores the roll path and the 12-31 quarter-end pulse; (d) no intraday model -- quotes are the decision bar close.",
   "next": "(a) close out results/_smoke_r1824 note once the in-flight suite finishes, and let the next suite run the two new legs; (b) the page's own '16 bars to the next decision' and the roll face's 2026-12-09 come from different faces -- print the decision bar itself, not only the count, so a reader cannot reconcile two ways."
- }
+ },
+ "round_1825": {
+  "at": "2026-11-18T06:5x+08:00",
+  "watermark": "green: board/pool both empty, no claimable batch on this host; the only CPU work is this round's own smoke suite (pid 45412, started 06:41, pre-change code) -- compute_audit flags pool_starvation/supply_floor whose own cause is 'calendar' (four candidates judged and refused), not a missing topic.",
+  "product": "The CEO page printed 'the next decision is 16 bars away' while, four lines above it, the cash-tenor block already refuses any contract maturing after 2026-12-09 -- the same day, in two currencies of language, on one page. The sheet itself already answers in dates: TICKET-2026-11-17 carries a 'next_decision' face whose grid.next_bar = 2026-12-09 with three independent signatures (production_sheet bars_until_next_decision, cut_permission decision_date, swap_units next_decision_bar) all agreeing on the official calendar. The page now reads that face instead of converting bars itself (a second implementation of the grid is what r1822/r1823 spent two rounds removing).",
+  "reader_face": "docs/live_usage/LIVE-2026-11-18.md L157-158: the bar count, then '换成日历日期就是 **2026-12-09**（同一条票面的下次决策面，3 个面签名一致·日历源 data/exchange_calendar.csv）'.",
+  "single_source": "scripts/ceo_live_usage.py::_next_decision_face reads ticket.next_decision verbatim -- date, bars_away, anchor, calendar source and the disagreeing claim names all come off that face; nothing is recomputed here.",
+  "refusals": [
+   "face absent -> prints the reason, never a computed guess (r98)",
+   "its own signatures split (wrong_claims / off_grid_claims) -> prints the disagreeing names and NO date instead of electing one (r1745 family)",
+   "date contradicting the ticket's own next_decision_bars -> prints neither number, and says one of the two is stale"
+  ],
+  "verification": "ceo_live_usage.py selftest ALL PASS incl. 4 new r1825 legs (date reaches the page / split signatures print no date / missing face prints a reason / date-vs-bar contradiction prints neither); page regenerated and the three decision-date lines cross-read (L134 cash tenor, L138 source line, L158 new line) all say 2026-12-09.",
+  "wiring": "smoke_test.py now runs the CEO one-pager's own selftest as a product leg ('CEO one-pager (bars, dates and cash constraints agree)') -- before this round those forty-odd self-checks fired only when a human typed the command, so a page printing a bar count in place of a date could ship with nothing asking. The leg is NOT exercised by the 06:41 suite (it loaded the registry before this edit); it is covered by the hand-run ALL PASS.",
+  "s05": "decisions.md sha b85f356a -> c6beff46 = batches 73/74 (D-20261118-01..08: fork ruling, GPU window gate, gateway to local-first, S4U receipt, social line) -- zero rows touch this repo; orders.md untouched; fleet/orders 115 files, 0 unacked after stem normalisation; inbox empty.",
+  "s6": "pool_dualrun_reconcile ZERO-DRIFT (744 entries, streak 51, cutoff 2026-11-08T22:04); compute_audit v2.4.3 exit 0 FLAG:pool_starvation,supply_floor (cause=calendar); py_watermark insufficient_history (n=1, local_batch=1 = this suite); attrition guard CLEAN (4 ledgers, 3 historical shrinks healed). Data-pull lanes not started: they share faces with the in-flight suite.",
+  "s7": "register_loop_task no-op (machine=bm-c pin=0, next fire 06:55); watchdog re-registered (S4U flip still refused = permission, default principal kept, known face); pre-commit and pre-push claws byte-identical to their masters.",
+  "not_verified": "no suite ran on this round's code (the 06:41 suite predates both the page edit and the new leg); the new smoke leg has hand-run evidence only. The date is quoted from the sheet's own face -- the grid is not recomputed here, so a stale next_decision face would print a stale date; the page guards the two obvious contradictions but cannot tell a reconciled-but-old ticket.",
+  "next": "(a) let a suite run on this code and confirm the new leg is green in the registry, window <=24h; (b) r1822's leftover: fold the 2026-11-17 one-off merge receipt (%TEMP%) into Tools/face_merge_triage.py's own output shape, window <=48h."
+ },
+ "decisions_watermark_r1825": "group decisions.md raw-blob sha256 b85f356a -> ddf2c0c5 (batches 73/74, D-20261118-01..08: fork ruling / GPU window gate / gateway to local-first / S4U receipt MISS / social line in-window) -- zero rows touch bigmoney, so the watermark advances and no execution follows. r1824 read the same batches and printed the new hash, but the key itself was never written; this round persists it. orders.md raw-blob sha256 810bb25d unchanged -> zero new orders. Method note: the pinned value is sha256 of the raw blob (git show), NOT a hash of a decoded string -- a PowerShell Out-String hash of the same file reads c6beff46 and would have looked like a third generation.",
+ "orders_ack_note_r1825": "fleet/orders 115 files vs ack set; after stem normalisation 0 unacked; heartbeat carries 271 acks (29 more than the state face -- kept, not deleted)."
 }

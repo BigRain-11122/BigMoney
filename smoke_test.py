@@ -2379,6 +2379,16 @@ def main() -> int:
              "scripts/etf_book_order.py", ["--selftest"]),
             ("product: etf_book_width_audit (exit-code contract)",
              "scripts/etf_book_width_audit.py", ["--selftest"]),
+            # r1825: the CEO one-pager had forty-odd self-checks that no suite leg
+            # ever ran -- they fired only when a human typed the command, so a page
+            # that printed a bar count in place of a date shipped with nothing
+            # asking. The leg is hermetic (payload built from the real faces,
+            # read-only) and now also covers the four r1825 rules: the date reaches
+            # the page, split signatures print no date, a missing face prints a
+            # reason, and a date contradicting the ticket's own bar count prints
+            # neither number.
+            ("product: CEO one-pager (bars, dates and cash constraints agree)",
+             "scripts/ceo_live_usage.py", ["selftest"]),
             # r1153: the battle report now names the market's risk tape (limit-up /
             # limit-down / broken-seal / strong counts + the streak ladder) instead of
             # leaving it in a forward panel nobody reads. Its selftest builds a real
