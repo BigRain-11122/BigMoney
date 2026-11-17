@@ -1,6 +1,6 @@
 {
  "artifact": "etf_book_swap_trigger",
- "session": "2026-11-16",
+ "session": "2026-11-17",
  "ticket": "TICKET-2026-11-16.json",
  "source_face": "results/etf_book_sibling_gap.json",
  "criteria": {
@@ -29,13 +29,13 @@
    "sibling_symbol": "510210",
    "sibling_name": "上证指数ETF富国",
    "index": "LBL:上证指数ETF",
-   "source_verdict": "ALREADY_CHEAPEST",
-   "today_gap_pp": -0.1394,
-   "mean_gap_pp": -20.258,
+   "source_verdict": "GAP_IMMATERIAL",
+   "today_gap_pp": 0.1188,
+   "mean_gap_pp": -19.9894,
    "toll_pp": 0.16,
-   "today_excess_pp": 20.1186,
-   "window_share": 0.1364,
-   "percentile": 84.02,
+   "today_excess_pp": 20.1082,
+   "window_share": 0.157,
+   "percentile": 84.03,
    "expiry": {
     "n_episodes": 1,
     "n_completed": 0,
@@ -62,10 +62,49 @@
    },
    "advice": "the gap does not clear the toll of making the exchange (0.16 pp, 2 sides): swapping would pay more to move than it saves, so the trigger is the gap itself (re-read on the next decision bar; the whole manoeuvre is 0.32 pp (4 sides -- the unwind pays the exchange again))",
    "why": ""
+  },
+  {
+   "leg_symbol": "159655",
+   "sibling_symbol": "513650",
+   "sibling_name": "标普500ETF南方",
+   "index": "LBL:标普500ETF",
+   "source_verdict": "ALREADY_CHEAPEST",
+   "today_gap_pp": -0.0533,
+   "mean_gap_pp": 1.12,
+   "toll_pp": 0.16,
+   "today_excess_pp": -1.1733,
+   "window_share": 0.7343,
+   "percentile": 18.59,
+   "expiry": {
+    "n_episodes": 13,
+    "n_completed": 13,
+    "n_censored": 0,
+    "median_sessions": 4.0,
+    "p25_sessions": 2.0,
+    "p75_sessions": 23.0,
+    "max_sessions": 119.0
+   },
+   "repeatable_gain_cny": null,
+   "one_off_gain_cny": null,
+   "verdict": "NOT_ACTIONABLE",
+   "toll_scope": {
+    "name": "one_exchange",
+    "sides": 2,
+    "pp": 0.16,
+    "question": "换这一次要付多少",
+    "decision_use": "INCREMENTAL: the only cost a 'act again?' decision moves",
+    "trip_sides": 4,
+    "trip_pp": 0.32,
+    "trip_question": "一来一回总共多少",
+    "trip_is_not_the_threshold": true,
+    "why": "the exchange this desk already made is paid whether it acts again or not; an unwind pays the same exchange once more, and that total is a different number"
+   },
+   "advice": "the gap does not clear the toll of making the exchange (0.16 pp, 2 sides): swapping would pay more to move than it saves, so the trigger is the gap itself (re-read on the next decision bar; the whole manoeuvre is 0.32 pp (4 sides -- the unwind pays the exchange again))",
+   "why": ""
   }
  ],
  "verdict_counts": {
-  "NOT_ACTIONABLE": 1
+  "NOT_ACTIONABLE": 2
  },
  "repeatable_gain_cny": 0.0,
  "one_off_gain_cny": 0.0,

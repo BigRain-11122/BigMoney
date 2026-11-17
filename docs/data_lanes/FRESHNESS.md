@@ -4,7 +4,7 @@ Official reference: last day that must exist by 15:30 = **2026-11-17** (8797 cal
 
 Verdict: **attention** -- 5/15 lanes in sync, 14/15 auditable from this machine, worst = `marks`.
 
-Built on **bm-c** at 2026-11-17T17:30:18: every tail and period below is a reading of that machine's disk. A copy of this file on another machine says nothing about that machine's panels -- run the board there to read its own bytes.
+Built on **bm-c** at 2026-11-17T18:29:32: every tail and period below is a reading of that machine's disk. A copy of this file on another machine says nothing about that machine's panels -- run the board there to read its own bytes.
 
 
 ## Whose disk these numbers are on
@@ -51,7 +51,7 @@ Each missing day below is classified by its own collector. `takeover_possible` m
 
 A different question from the section above: these machines have written no heartbeat for more than 24.0h, so the lanes they own are being judged from whatever was last committed. A lane here can still read `in_sync` -- the number is old, the owner is gone, and nobody would notice the day the file stops being written.
 
-- `bm-b`: last seen 2026-10-30T12:43:06+08:00 (436.79h ago) -- owns astock_daily, marks
+- `bm-b`: last seen 2026-10-30T12:43:06+08:00 (437.77h ago) -- owns astock_daily, marks
   - already covered by a declared stand-in: astock_daily <- bm-c, marks <- bm-c (nothing to wait for)
 
 ## Envelopes older than the panel they describe
@@ -59,8 +59,6 @@ A different question from the section above: these machines have written no hear
 A status envelope is a committed file, so a branch switch or a rebase can restore an older copy of it. Where this host can read the panel itself the panel is the measurement: the staleness is printed here instead of being read as a stall.
 
 - `futures`: envelope says 2026-11-13, panel holds 2026-11-16 (1 official days behind)
-- `astock_daily`: envelope says 2026-11-16, panel holds 2026-11-17 (1 official days behind)
-- `moneyflow`: envelope says 2026-11-10, panel holds 2026-11-17 (5 official days behind)
 
 ## Members sitting outside the active cohort
 
@@ -72,9 +70,9 @@ These are named by the face that audits the panel, with the reason the lane's ow
 
 The per-symbol panels hold thousands of files, so their tail is read through an evenly spaced sample rather than a full sweep. A sample can miss a single laggard symbol; it cannot miss a panel that stopped weeks ago. Each row below says how many symbols were read out of how many.
 
-- `ah_panel`: 40 of 187 symbols read, tail 2026-11-16; the full scan holds it in 186 of 187 symbols (99.47%) (certified 2026-11-17T17:28:18)
-- `astock_daily`: 40 of 5221 symbols read, tail 2026-11-17; the full scan holds it in 519 of 5,221 symbols (9.94%) -- **thin tail**: that is a handful of symbols' bar, not the panel's state (certified 2026-11-17T17:28:18)
-- `moneyflow`: 40 of 5227 symbols read, tail 2026-11-17; the full scan holds it in 5,225 of 5,227 symbols (99.98%) (certified 2026-11-17T17:28:18)
+- `ah_panel`: 40 of 187 symbols read, tail 2026-11-16; the full scan holds it in 186 of 187 symbols (99.47%) (certified 2026-11-17T18:29:31)
+- `astock_daily`: 40 of 5221 symbols read, tail 2026-11-17; the full scan holds it in 1,090 of 5,221 symbols (20.88%) (certified 2026-11-17T18:29:31)
+- `moneyflow`: 40 of 5227 symbols read, tail 2026-11-17; the full scan holds it in 5,225 of 5,227 symbols (99.98%) (certified 2026-11-17T18:29:31)
 
 Full-scan certification of exactly these rows: `scripts/data_lane_freshness.py certify` -> `docs/data_lanes/TAIL_CERTIFICATION.md` (it re-reads every file and names the symbols that sit behind the newest bar).
 

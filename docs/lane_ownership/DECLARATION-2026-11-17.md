@@ -1,4 +1,4 @@
-# Lane ownership declaration (2026-11-17T17:30:18)
+# Lane ownership declaration (2026-11-17T18:29:32)
 
 > derived by `scripts/lane_ownership_declaration.py` from `results/data_lane_freshness.json`,
 > `config/lane_hosts.json` and the `owner` defaults inside `data_lane_freshness.LANES`.

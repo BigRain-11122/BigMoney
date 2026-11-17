@@ -1,15 +1,15 @@
 # 换票这一节，每个面该停在哪根 bar（r1530）
 
-STALE: 10 of 10 faces are older than the 2026-11-17 close -- worst sibling_entry on 2026-11-16 (1 session(s) behind the 2026-11-17 close). waiting on data/etf_premium/snap/2026-11-17.csv (newest copy here: 2026-11-16, written 2026-11-16T16:56:17; lane owner bm-c writes it; this copy cannot)
+STALE: 7 of 10 faces are older than the 2026-11-17 close -- worst swap_stack on 2026-11-16 (1 session(s) behind the 2026-11-17 close).
 
 - 该到位的 bar：**2026-11-17**（官方交易日历，收盘受理时点 15:30）
-- 判词：**STALE**（陈旧 10 / 不一致 0）
+- 判词：**STALE**（陈旧 7 / 不一致 0）
 
 | 面 | bar | 落后（交易日） | 状态 | 原因 | 生产者 |
 |---|---|---|---|---|---|
-| sibling_entry | 2026-11-16 | 1 | STALE | 1 session(s) behind the 2026-11-17 close | `scripts/etf_book_sibling_entry.py` |
-| sibling_gap | 2026-11-16 | 1 | STALE | 1 session(s) behind the 2026-11-17 close | `scripts/etf_book_sibling_gap.py` |
-| swap_trigger | 2026-11-16 | 1 | STALE | 1 session(s) behind the 2026-11-17 close | `scripts/etf_book_swap_trigger.py` |
+| sibling_entry | 2026-11-17 | 0 | FRESH | on the 2026-11-17 close | `scripts/etf_book_sibling_entry.py` |
+| sibling_gap | 2026-11-17 | 0 | FRESH | on the 2026-11-17 close | `scripts/etf_book_sibling_gap.py` |
+| swap_trigger | 2026-11-17 | 0 | FRESH | on the 2026-11-17 close | `scripts/etf_book_swap_trigger.py` |
 | swap_stack | 2026-11-16 | 1 | STALE | 1 session(s) behind the 2026-11-17 close | `scripts/etf_book_swap_stack.py` |
 | swap_toll | 2026-11-16 | 1 | STALE | 1 session(s) behind the 2026-11-17 close | `scripts/etf_book_swap_toll.py` |
 | toll_scope | 2026-11-16 | 1 | STALE | 1 session(s) behind the 2026-11-17 close | `scripts/etf_book_toll_scope.py` |
@@ -17,8 +17,6 @@ STALE: 10 of 10 faces are older than the 2026-11-17 close -- worst sibling_entry
 | swap_effect | 2026-11-16 | 1 | STALE | 1 session(s) behind the 2026-11-17 close | `scripts/etf_book_swap_effect.py` |
 | swap_units | 2026-11-16 | 1 | STALE | 1 session(s) behind the 2026-11-17 close | `scripts/etf_book_swap_units.py` |
 | swap_track | 2026-11-16 | 1 | STALE | 1 session(s) behind the 2026-11-17 close | `scripts/etf_book_swap_track.py` |
-
-**这三条还在等谁**：waiting on data/etf_premium/snap/2026-11-17.csv (newest copy here: 2026-11-16, written 2026-11-16T16:56:17; lane owner bm-c writes it; this copy cannot)
 
 ## 为什么这张面存在
 

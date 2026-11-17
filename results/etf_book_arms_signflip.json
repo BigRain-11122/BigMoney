@@ -19,27 +19,27 @@
  "rules_source": "results/etf_book_phase_atlas_arms.json rows (labels imported, not recomputed)",
  "source": {
   "face": "results/etf_book_phase_atlas_arms.json",
-  "inputs_sha256": "b6362d675049e20f08ed7b422397a8bbef80634256dcf4aa8c9906e5997c8bb5"
+  "inputs_sha256": "d0fa2d34bac75f27c5ac01a5c40fcecf331bf8d434c6bf9fa2342202dcdc5e27"
  },
  "arms": [
   {
    "arm": "buffer_k02",
    "frozen_label": "NOT-SEPARABLE",
-   "frozen_label_published": true,
-   "median_delta_pp": -0.01,
-   "mean_z": 0.002,
+   "frozen_label_published": false,
+   "median_delta_pp": 0.015,
+   "mean_z": 0.025,
    "cells": 12,
    "sign_cells": 12,
-   "cells_positive": 5,
-   "cells_negative": 7,
+   "cells_positive": 6,
+   "cells_negative": 6,
    "null_mode": "exact",
-   "sign_p_worse": 0.38721,
-   "sign_p_better": 0.80615,
-   "mag_p_worse": 0.52881,
-   "mag_p_better": 0.47144,
+   "sign_p_worse": 0.61279,
+   "sign_p_better": 0.61279,
+   "mag_p_worse": 0.88892,
+   "mag_p_better": 0.11133,
    "null_mean_z_band": [
-    -0.023,
-    0.023
+    -0.03,
+    0.03
    ],
    "verdict_sign": "NOT-SEPARABLE",
    "verdict_magnitude": "NOT-SEPARABLE",
@@ -49,10 +49,10 @@
   },
   {
    "arm": "buffer_k05",
-   "frozen_label": "REJECT",
-   "frozen_label_published": true,
-   "median_delta_pp": 0.033,
-   "mean_z": 0.026,
+   "frozen_label": "NOT-SEPARABLE",
+   "frozen_label_published": false,
+   "median_delta_pp": 0.035,
+   "mean_z": 0.05,
    "cells": 12,
    "sign_cells": 12,
    "cells_positive": 6,
@@ -60,17 +60,17 @@
    "null_mode": "exact",
    "sign_p_worse": 0.61279,
    "sign_p_better": 0.61279,
-   "mag_p_worse": 0.69019,
-   "mag_p_better": 0.31006,
+   "mag_p_worse": 0.81689,
+   "mag_p_better": 0.18335,
    "null_mean_z_band": [
-    -0.065,
-    0.065
+    -0.073,
+    0.073
    ],
    "verdict_sign": "NOT-SEPARABLE",
    "verdict_magnitude": "NOT-SEPARABLE",
    "verdict": "NOT-SEPARABLE",
    "verdict_stable": true,
-   "frozen_label_stands": false
+   "frozen_label_stands": true
   },
   {
    "arm": "buffer_k05_cost20",
@@ -274,10 +274,9 @@
   }
  ],
  "n_arms": 10,
- "n_reject": 5,
+ "n_reject": 4,
  "n_reject_standing": 2,
  "labels_overturned": [
-  "buffer_k05",
   "buffer_k05_cost20",
   "buffer_k40",
   "cost0",
@@ -285,7 +284,7 @@
  ],
  "verdict": "SOME_REJECTS_STAND",
  "verdict_reasons": [
-  "2 of 5 published REJECTs stand on their own cells (cost20, cost40); the rest are inside sign noise and must not be read as findings"
+  "2 of 4 published REJECTs stand on their own cells (cost20, cost40); the rest are inside sign noise and must not be read as findings"
  ],
  "evidence_cutoff": "2026-11-16"
 }

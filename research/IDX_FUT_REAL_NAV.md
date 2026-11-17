@@ -2,7 +2,7 @@
 
 Every carry number on the basis pages is a daily difference between the continuous series and its index with the splice days deleted -- a model of rolling, not a roll. This page books the roll: hold the contract with the most open interest, move to its successor when another one takes that over by 5.0%, and mark both legs at the same close, so the seam costs nothing by construction rather than by being masked out.
 
-Evidence cutoff: `2026-11-16`  ·  generated 2026-11-17T17:32:02
+Evidence cutoff: `2026-11-16`  ·  generated 2026-11-17T18:31:24
 
 ## The roll book against the published mask
 

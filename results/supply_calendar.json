@@ -18,35 +18,36 @@
     "word": "refuse"
    },
    "failing_checks": [
-    "Y4_top2_share"
+    "Y4_top2_share",
+    "C1_capacity"
    ],
-   "margin_pp": 10.12,
-   "median_top2_share": 0.8012,
+   "margin_pp": 9.92,
+   "median_top2_share": 0.7992,
    "pass": false,
    "phase_verdicts": [
-    "CONDITIONAL",
-    "CONDITIONAL",
-    "CONDITIONAL",
-    "CONDITIONAL",
-    "CONDITIONAL"
+    "CAPACITY_LIMITED",
+    "CAPACITY_LIMITED",
+    "CAPACITY_LIMITED",
+    "CAPACITY_LIMITED",
+    "CAPACITY_LIMITED"
    ],
    "phases": 5,
    "reading": "phase",
    "receipt": "results/etf_book_phase_gate.json",
-   "receipt_asof": "2026-11-16T18:15:57+08:00",
+   "receipt_asof": "2026-11-17T18:24:00+08:00",
    "refusal_survival": "REFUSAL_SURVIVES_TRUSTED_RULER",
-   "single_phase_verdict": "CONDITIONAL",
-   "spread_pp": 9.79,
-   "state": "CONDITIONAL",
+   "single_phase_verdict": "CAPACITY_LIMITED",
+   "spread_pp": 10.22,
+   "state": "UNADJUDICABLE_PHASE",
    "superseded_receipts": [
     "results/etf_book_year_gate/YEAR-GATE.json"
    ],
    "trusted_readings": {
     "effective_years": {
      "line": 3.0,
-     "margin": 1.995503,
-     "median": 4.995503,
-     "spread": 1.339056,
+     "margin": 1.986748,
+     "median": 4.986748,
+     "spread": 1.426382,
      "state": "PASS",
      "unit": "years (exp of entropy over gross shares)"
     },
@@ -63,7 +64,7 @@
     "effective_years": "PASS",
     "years_for_half": "FAIL"
    },
-   "undecidable_because": null
+   "undecidable_because": "phase_spread_wider_than_margin"
   },
   {
    "candidate": "nobond_base",
@@ -83,26 +84,27 @@
     "word": "refuse"
    },
    "failing_checks": [
+    "C1_capacity",
     "Y3_worst_year",
     "Y4_top2_share"
    ],
-   "margin_pp": 12.7,
-   "median_top2_share": 0.827,
+   "margin_pp": 13.07,
+   "median_top2_share": 0.8307,
    "pass": false,
    "phase_verdicts": [
-    "ADMIT",
-    "ADMIT",
-    "REFUSE",
-    "CONDITIONAL",
-    "CONDITIONAL"
+    "CAPACITY_LIMITED",
+    "CAPACITY_LIMITED",
+    "CAPACITY_LIMITED",
+    "CAPACITY_LIMITED",
+    "CAPACITY_LIMITED"
    ],
    "phases": 5,
    "reading": "phase",
    "receipt": "results/etf_book_phase_gate.json",
-   "receipt_asof": "2026-11-16T18:15:57+08:00",
+   "receipt_asof": "2026-11-17T18:24:00+08:00",
    "refusal_survival": "REFUSAL_SURVIVES_TRUSTED_RULER",
-   "single_phase_verdict": "ADMIT",
-   "spread_pp": 21.48,
+   "single_phase_verdict": "CAPACITY_LIMITED",
+   "spread_pp": 21.42,
    "state": "UNADJUDICABLE_PHASE",
    "superseded_receipts": [
     "results/etf_book_year_gate/YEAR-GATE.json"
@@ -110,10 +112,10 @@
    "trusted_readings": {
     "effective_years": {
      "line": 3.0,
-     "margin": 1.654482,
-     "median": 4.654482,
-     "spread": 1.646435,
-     "state": "PASS",
+     "margin": 1.643705,
+     "median": 4.643705,
+     "spread": 1.667928,
+     "state": "UNADJUDICABLE_CALIBER",
      "unit": "years (exp of entropy over gross shares)"
     },
     "years_for_half": {
@@ -126,10 +128,10 @@
     }
    },
    "trusted_states": {
-    "effective_years": "PASS",
+    "effective_years": "UNADJUDICABLE_CALIBER",
     "years_for_half": "FAIL"
    },
-   "undecidable_because": "phases_disagree_on_verdict"
+   "undecidable_because": "phase_spread_wider_than_margin"
   },
   {
    "candidate": "nobond_vt08_floor_050",
@@ -149,33 +151,34 @@
     "word": "refuse"
    },
    "failing_checks": [
+    "C1_capacity",
     "Y4_top2_share"
    ],
-   "margin_pp": 9.91,
-   "median_top2_share": 0.7991,
+   "margin_pp": 10.04,
+   "median_top2_share": 0.8004,
    "pass": false,
    "phase_verdicts": [
-    "ADMIT",
-    "CONDITIONAL",
-    "CONDITIONAL",
-    "CONDITIONAL",
-    "CONDITIONAL"
+    "CAPACITY_LIMITED",
+    "CAPACITY_LIMITED",
+    "CAPACITY_LIMITED",
+    "CAPACITY_LIMITED",
+    "CAPACITY_LIMITED"
    ],
    "phases": 5,
    "reading": "phase",
    "receipt": "results/etf_book_phase_gate.json",
-   "receipt_asof": "2026-11-16T18:15:57+08:00",
+   "receipt_asof": "2026-11-17T18:24:00+08:00",
    "refusal_survival": "REFUSAL_SURVIVES_TRUSTED_RULER",
-   "single_phase_verdict": "ADMIT",
-   "spread_pp": 14.69,
+   "single_phase_verdict": "CAPACITY_LIMITED",
+   "spread_pp": 14.49,
    "state": "UNADJUDICABLE_PHASE",
    "superseded_receipts": [],
    "trusted_readings": {
     "effective_years": {
      "line": 3.0,
-     "margin": 1.99925,
-     "median": 4.99925,
-     "spread": 1.345504,
+     "margin": 1.990465,
+     "median": 4.990465,
+     "spread": 1.410056,
      "state": "PASS",
      "unit": "years (exp of entropy over gross shares)"
     },
@@ -192,7 +195,7 @@
     "effective_years": "PASS",
     "years_for_half": "FAIL"
    },
-   "undecidable_because": "phases_disagree_on_verdict"
+   "undecidable_because": "phase_spread_wider_than_margin"
   },
   {
    "candidate": "all_classes_published",
@@ -226,7 +229,7 @@
  ],
  "elected_ruler": "years_for_half",
  "election_error": "",
- "generated": "2026-11-17T17:27:56+0800",
+ "generated": "2026-11-17T18:29:08+0800",
  "half_year": {
   "book": "nobond_vt08_adopted",
   "book_is_a_candidate": true,

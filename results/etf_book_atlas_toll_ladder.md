@@ -27,8 +27,8 @@ verdict: **ORDERING_IS_A_TOLL_ARTEFACT**
 | buffer k | spread pp | band pp | clears |
 |---|---|---|---|
 | 0.00 | 5.25 | 6.71 | no |
-| 0.02 | 5.18 | 6.68 | no |
-| 0.05 | 5.64 | 6.63 | no |
+| 0.02 | 5.19 | 6.72 | no |
+| 0.05 | 5.65 | 6.54 | no |
 | 0.10 | 6.18 | 6.51 | no |
 | 0.20 | 5.49 | 6.24 | no |
 | 0.30 | 6.25 | 5.89 | yes |
@@ -37,8 +37,8 @@ verdict: **ORDERING_IS_A_TOLL_ARTEFACT**
 verdict: **BUFFER_WIDENS_THE_ORDERING**
 
 - 2 of 7 buffer strengths clear the band (one draw in 7 if the label were coin-flip)
-- spread has no dose: 5.25 / 5.18 / 5.64 / 6.18 / 5.49 / 6.25 / 6.39 across k=0.00 / 0.02 / 0.05 / 0.10 / 0.20 / 0.30 / 0.40 (rank corr 0.857)
-- band is flat (5.89 .. 6.71pp), so the label moves on spread alone
+- spread has no dose: 5.25 / 5.19 / 5.65 / 6.18 / 5.49 / 6.25 / 6.39 across k=0.00 / 0.02 / 0.05 / 0.10 / 0.20 / 0.30 / 0.40 (rank corr 0.857)
+- band is flat (5.89 .. 6.72pp), so the label moves on spread alone
 
 ## Excluded (moves two knobs at once)
 - etf_book_phase_atlas_buffer_k05_cost05.json -- moves two knobs at once (cost=0.00050 k=0.050): not a rung of a one-dimensional ladder

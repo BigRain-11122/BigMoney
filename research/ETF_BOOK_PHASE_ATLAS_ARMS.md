@@ -4,31 +4,36 @@
 
 同日基线网格：格间 spread 5.25pp，格内 band 中位 6.71pp。
 
-**面板一致性：ONE_WORLD** — all 11 faces priced 0988c6530a481fa1
+**面板一致性：MIXED_WORLDS** — 11 faces priced 2 different panels (0988c653, 0d5a9cdc): per-cell deltas across worlds are world differences, not rule effects
 
-## buffer_k05 — **REJECT**
+（判词不发布：本表的每个 Δ 都是「同一格、臂减基线」，跨面板相减得到的是世界差，不是规则效应。标签原文保留在 `verdict_if_coherent`；把臂重建到同一面板后自动恢复。）
+
+## buffer_k05 — **WORLDS_NOT_COMPARABLE**
+
+（withheld: if coherent it would read **NOT-SEPARABLE**）
 
 buffer k=0.05 on every cell (the r1325 arm, re-priced per phase)
 
 | n_hold | rebal | 中位 CAGR | 基线 | Δ | 本格 band |
 |---|---|---|---|---|---|
-| 3 | 10 | +10.82pp | +10.67pp | +0.155pp | 5.45pp |
-| 3 | 20 | +8.46pp | +8.37pp | +0.090pp | 7.04pp |
-| 3 | 40 | +6.30pp | +6.62pp | -0.320pp | 12.90pp |
-| 5 | 10 | +11.82pp | +11.38pp | +0.440pp | 3.24pp |
-| 5 | 20 | +8.81pp | +9.03pp | -0.215pp | 6.22pp |
-| 5 | 40 | +8.12pp | +8.02pp | +0.105pp | 10.30pp |
-| 8 | 10 | +11.94pp | +11.87pp | +0.075pp | 3.46pp |
-| 8 | 20 | +9.72pp | +10.07pp | -0.350pp | 5.92pp |
-| 8 | 40 | +8.12pp | +8.19pp | -0.070pp | 8.41pp |
-| 12 | 10 | +11.44pp | +11.46pp | -0.020pp | 2.29pp |
-| 12 | 20 | +9.46pp | +9.47pp | -0.010pp | 7.11pp |
-| 12 | 40 | +7.82pp | +7.67pp | +0.145pp | 7.05pp |
+| 3 | 10 | +10.77pp | +10.67pp | +0.095pp | 5.44pp |
+| 3 | 20 | +8.47pp | +8.37pp | +0.110pp | 7.23pp |
+| 3 | 40 | +6.40pp | +6.62pp | -0.220pp | 12.80pp |
+| 5 | 10 | +11.92pp | +11.38pp | +0.540pp | 3.06pp |
+| 5 | 20 | +8.90pp | +9.03pp | -0.125pp | 6.20pp |
+| 5 | 40 | +8.15pp | +8.02pp | +0.135pp | 10.46pp |
+| 8 | 10 | +12.05pp | +11.87pp | +0.185pp | 3.49pp |
+| 8 | 20 | +9.80pp | +10.07pp | -0.270pp | 5.95pp |
+| 8 | 40 | +8.15pp | +8.19pp | -0.040pp | 8.49pp |
+| 12 | 10 | +11.43pp | +11.46pp | -0.025pp | 2.26pp |
+| 12 | 20 | +9.39pp | +9.47pp | -0.080pp | 6.88pp |
+| 12 | 40 | +7.86pp | +7.67pp | +0.190pp | 7.13pp |
 
 - cells 12/12 judged
-- not-worse share 0.750 (floor 0.80, cell floor -0.15pp)
-- median per-cell delta +0.033pp (floor -0.05pp)
+- not-worse share 0.833 (floor 0.80, cell floor -0.15pp)
+- median per-cell delta +0.035pp (floor -0.05pp)
 - resolvable share 0.000 (|delta| > the cell's own band; floor 0.50)
+- label withheld: this arm priced 0d5a9cdc, the baseline 0988c653
 
 ## cost05 — **NOT-SEPARABLE**
 
@@ -150,29 +155,32 @@ buffer k=0.20 on every cell (the strongest arm -- if even this stays inside ever
 - median per-cell delta +0.155pp (floor -0.05pp)
 - resolvable share 0.000 (|delta| > the cell's own band; floor 0.50)
 
-## buffer_k02 — **NOT-SEPARABLE**
+## buffer_k02 — **WORLDS_NOT_COMPARABLE**
+
+（withheld: if coherent it would read **NOT-SEPARABLE**）
 
 buffer k=0.02 on every cell (the near-zero end -- a knob that reads the same at 0.02 and at 0.20 is flat, not merely small)
 
 | n_hold | rebal | 中位 CAGR | 基线 | Δ | 本格 band |
 |---|---|---|---|---|---|
-| 3 | 10 | +10.69pp | +10.67pp | +0.015pp | 4.69pp |
-| 3 | 20 | +8.24pp | +8.37pp | -0.120pp | 7.09pp |
-| 3 | 40 | +6.66pp | +6.62pp | +0.035pp | 12.57pp |
-| 5 | 10 | +11.54pp | +11.38pp | +0.165pp | 3.50pp |
-| 5 | 20 | +8.99pp | +9.03pp | -0.030pp | 6.27pp |
-| 5 | 40 | +8.01pp | +8.02pp | -0.010pp | 10.08pp |
-| 8 | 10 | +11.84pp | +11.87pp | -0.025pp | 3.31pp |
-| 8 | 20 | +10.03pp | +10.07pp | -0.040pp | 6.08pp |
-| 8 | 40 | +8.18pp | +8.19pp | -0.010pp | 8.53pp |
-| 12 | 10 | +11.40pp | +11.46pp | -0.050pp | 2.33pp |
-| 12 | 20 | +9.51pp | +9.47pp | +0.035pp | 7.47pp |
-| 12 | 40 | +7.70pp | +7.67pp | +0.030pp | 7.30pp |
+| 3 | 10 | +10.63pp | +10.67pp | -0.040pp | 4.72pp |
+| 3 | 20 | +8.35pp | +8.37pp | -0.015pp | 7.16pp |
+| 3 | 40 | +6.76pp | +6.62pp | +0.145pp | 12.38pp |
+| 5 | 10 | +11.59pp | +11.38pp | +0.210pp | 3.31pp |
+| 5 | 20 | +9.12pp | +9.03pp | +0.095pp | 6.29pp |
+| 5 | 40 | +7.95pp | +8.02pp | -0.065pp | 10.11pp |
+| 8 | 10 | +11.96pp | +11.87pp | +0.090pp | 3.32pp |
+| 8 | 20 | +10.12pp | +10.07pp | +0.045pp | 6.01pp |
+| 8 | 40 | +8.12pp | +8.19pp | -0.075pp | 8.59pp |
+| 12 | 10 | +11.44pp | +11.46pp | -0.015pp | 2.30pp |
+| 12 | 20 | +9.45pp | +9.47pp | -0.030pp | 7.41pp |
+| 12 | 40 | +7.71pp | +7.67pp | +0.045pp | 7.32pp |
 
 - cells 12/12 judged
 - not-worse share 1.000 (floor 0.80, cell floor -0.15pp)
-- median per-cell delta -0.010pp (floor -0.05pp)
+- median per-cell delta +0.015pp (floor -0.05pp)
 - resolvable share 0.000 (|delta| > the cell's own band; floor 0.50)
+- label withheld: this arm priced 0d5a9cdc, the baseline 0988c653
 
 ## buffer_k40 — **REJECT**
 

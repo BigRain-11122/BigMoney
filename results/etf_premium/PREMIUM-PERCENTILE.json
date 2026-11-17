@@ -6,11 +6,13 @@
  "panel": {
   "ticket_session": "2026-11-16",
   "read_from_field": "base_bar",
-  "price_panel_last": "2026-11-16",
-  "state": "SAME_SESSION",
-  "bars_beyond_session": 0,
-  "bars_beyond": [],
-  "note": "the price panel ends on the ticket's own session (2026-11-16); every bar the panel holds is in this reading"
+  "price_panel_last": "2026-11-17",
+  "state": "PANEL_AHEAD",
+  "bars_beyond_session": 1,
+  "bars_beyond": [
+   "2026-11-17"
+  ],
+  "note": "the price panel has walked past the ticket's session by 1 bar(s) (2026-11-17); this reading stops at 2026-11-16 and those bars are not in it"
  },
  "ticket": {
   "path": "results\\etf_book_order\\TICKET-2026-11-16.json",
@@ -28,7 +30,7 @@
   "source": "scripts/etf_book_premium_subscription.py (closure_kind / hk_closure_kind; single producer for both calendars)",
   "us": "rule-derived (New York)",
   "hk": "measured (HSI series)",
-  "hk_status": "cache",
+  "hk_status": "cache-stale",
   "error": null
  },
  "legs": [
@@ -210,10 +212,10 @@
     }
    ],
    "lag_spread_pp": 0.4432303556070494,
-   "panel_last_date": "2026-11-16",
+   "panel_last_date": "2026-11-17",
    "price_session": "2026-11-16",
-   "session_state": "SAME_SESSION",
-   "bars_beyond_session": 0,
+   "session_state": "PANEL_AHEAD",
+   "bars_beyond_session": 1,
    "revert_to_median_cny": -2099.654349575334
   },
   {
@@ -392,10 +394,10 @@
     }
    ],
    "lag_spread_pp": 1.0347014288301537,
-   "panel_last_date": "2026-11-16",
+   "panel_last_date": "2026-11-17",
    "price_session": "2026-11-16",
-   "session_state": "SAME_SESSION",
-   "bars_beyond_session": 0,
+   "session_state": "PANEL_AHEAD",
+   "bars_beyond_session": 1,
    "revert_to_median_cny": 180.20888673452058
   },
   {
@@ -575,10 +577,10 @@
     }
    ],
    "lag_spread_pp": 1.416098074886385,
-   "panel_last_date": "2026-11-16",
+   "panel_last_date": "2026-11-17",
    "price_session": "2026-11-16",
-   "session_state": "SAME_SESSION",
-   "bars_beyond_session": 0,
+   "session_state": "PANEL_AHEAD",
+   "bars_beyond_session": 1,
    "revert_to_median_cny": 4209.798407643318
   },
   {
@@ -758,10 +760,10 @@
     }
    ],
    "lag_spread_pp": 0.5074349478876528,
-   "panel_last_date": "2026-11-16",
+   "panel_last_date": "2026-11-17",
    "price_session": "2026-11-16",
-   "session_state": "SAME_SESSION",
-   "bars_beyond_session": 0,
+   "session_state": "PANEL_AHEAD",
+   "bars_beyond_session": 1,
    "revert_to_median_cny": -969.8174640428572
   },
   {
@@ -940,10 +942,10 @@
     }
    ],
    "lag_spread_pp": 0.7324610637233997,
-   "panel_last_date": "2026-11-16",
+   "panel_last_date": "2026-11-17",
    "price_session": "2026-11-16",
-   "session_state": "SAME_SESSION",
-   "bars_beyond_session": 0,
+   "session_state": "PANEL_AHEAD",
+   "bars_beyond_session": 1,
    "revert_to_median_cny": -1129.6460967175112
   }
  ],
@@ -958,20 +960,20 @@
   "n_gap_excluded_total": 29,
   "n_sessions_total": 6496,
   "rulers_disagree": [],
-  "sentence": "159655(UPPER_TAIL, 第91%)；若这些腿各自回到自己的中位溢价，这张单值 ￥191；把 29 个「净值戳沿用上一日数字、分母当天不可能动」的会话剔掉后，没有一只腿的判词改变"
+  "sentence": "159655(UPPER_TAIL, 第91%)；若这些腿各自回到自己的中位溢价，这张单值 ￥191；把 29 个「净值戳沿用上一日数字、分母当天不可能动」的会话剔掉后，没有一只腿的判词改变；价格面板已经走到 2026-11-17，本页只读这张单的 2026-11-16 那一场（多出的 1 根不进这个读数）"
  },
  "gate": {
   "ok": true,
   "fails": [],
   "notes": [
-   "CNY figure 510760 is the linear amt*p form; at -0.31% the exact amt*p/(1+p) differs by CNY 0.83",
-   "CNY figure 159655 is the linear amt*p form; at 6.75% the exact amt*p/(1+p) differs by CNY 367.87",
-   "CNY figure 513690 is the linear amt*p form; at -0.36% the exact amt*p/(1+p) differs by CNY 1.09",
-   "CNY figure 159519 is the linear amt*p form; at -0.75% the exact amt*p/(1+p) differs by CNY 4.87"
+   "CNY figure 510760 is the linear amt*p form; at -0.26% the exact amt*p/(1+p) differs by CNY 0.57",
+   "CNY figure 159655 is the linear amt*p form; at 7.52% the exact amt*p/(1+p) differs by CNY 453.30",
+   "CNY figure 513690 is the linear amt*p form; at -0.37% the exact amt*p/(1+p) differs by CNY 1.21",
+   "CNY figure 159519 is the linear amt*p form; at -0.28% the exact amt*p/(1+p) differs by CNY 0.68"
   ],
   "cny_identity_forms": {
    "510760": "linear",
-   "512040": "linear",
+   "512040": "either",
    "159655": "linear",
    "513690": "linear",
    "159519": "linear"
@@ -983,7 +985,7 @@
    "513690": 0.0632,
    "159519": 0.0632
   },
-  "session": "2026-11-16",
+  "session": "2026-11-17",
   "checked_price": 5,
   "checked_premium": 5,
   "checked_cny_identity": 5,
@@ -1003,5 +1005,5 @@
   "The panel close is not the price the sheet pays; the sheet pays the next open plus slippage (tracked on the punctuality faces).",
   "This rank is read at the ticket's own session: bars the panel holds past that session are counted on `panel.bars_beyond_session` and excluded, so a panel that moves on overnight cannot reprice a sheet that has not moved."
  ],
- "premium_face": "results\\etf_premium\\PREMIUM-2026-11-16.json"
+ "premium_face": "results\\etf_premium\\PREMIUM-2026-11-17.json"
 }

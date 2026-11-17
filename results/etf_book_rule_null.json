@@ -15,7 +15,7 @@
  "rules_source": "scripts/etf_book_phase_atlas_arms.py::judge (imported, not copied)",
  "source": {
   "face": "results/etf_book_phase_atlas_arms.json",
-  "inputs_sha256": "b6362d675049e20f08ed7b422397a8bbef80634256dcf4aa8c9906e5997c8bb5"
+  "inputs_sha256": "d0fa2d34bac75f27c5ac01a5c40fcecf331bf8d434c6bf9fa2342202dcdc5e27"
  },
  "null": {
   "trials": 20000,
@@ -29,11 +29,11 @@
  "observed": [
   {
    "arm": "buffer_k05",
-   "median_delta_pp": 0.033,
+   "median_delta_pp": 0.035,
    "cells_beyond_own_band": 0,
-   "verdict": "REJECT",
-   "verdict_published_on_arms_face": true,
-   "null_p_same_or_worse": 0.9652
+   "verdict": "NOT-SEPARABLE",
+   "verdict_published_on_arms_face": false,
+   "null_p_same_or_worse": 0.0348
   },
   {
    "arm": "cost05",
@@ -77,10 +77,10 @@
   },
   {
    "arm": "buffer_k02",
-   "median_delta_pp": -0.01,
+   "median_delta_pp": 0.015,
    "cells_beyond_own_band": 0,
    "verdict": "NOT-SEPARABLE",
-   "verdict_published_on_arms_face": true,
+   "verdict_published_on_arms_face": false,
    "null_p_same_or_worse": 0.0348
   },
   {

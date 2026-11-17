@@ -4,9 +4,9 @@
 
 | 候选 | 读数 | 判决 | 未过的检查 | 收据 |
 |---|---|---|---|---|
-| nobond_vt08_adopted | phase | CONDITIONAL | Y4_top2_share | results/etf_book_phase_gate.json |
-| nobond_base | phase | UNADJUDICABLE_PHASE | Y3_worst_year, Y4_top2_share | results/etf_book_phase_gate.json |
-| nobond_vt08_floor_050 | phase | UNADJUDICABLE_PHASE | Y4_top2_share | results/etf_book_phase_gate.json |
+| nobond_vt08_adopted | phase | UNADJUDICABLE_PHASE | Y4_top2_share, C1_capacity | results/etf_book_phase_gate.json |
+| nobond_base | phase | UNADJUDICABLE_PHASE | C1_capacity, Y3_worst_year, Y4_top2_share | results/etf_book_phase_gate.json |
+| nobond_vt08_floor_050 | phase | UNADJUDICABLE_PHASE | C1_capacity, Y4_top2_share | results/etf_book_phase_gate.json |
 | all_classes_published | single_phase | CONDITIONAL | Y4_top2_share | results/etf_book_year_gate/YEAR-GATE.json |
 
 ## 拒的是书还是尺子（r1426 口径复读）

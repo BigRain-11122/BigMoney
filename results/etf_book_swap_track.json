@@ -1,6 +1,6 @@
 {
-  "anchor_behind_bar": false,
-  "anchor_session": "2026-11-16",
+  "anchor_behind_bar": true,
+  "anchor_session": "2026-11-17",
   "artifact": "etf_book_swap_track",
   "bar": "2026-11-16",
   "bars_per_year": 244.0,
@@ -17,21 +17,26 @@
   "merge": null,
   "min_sessions": 120,
   "nothing_measured": {
-    "pairs": 1,
+    "pairs": 2,
     "reason": "NOTHING_SWAPPED",
     "rows": 0,
-    "skipped": 1,
-    "swapped": -1
+    "skipped": 2,
+    "swapped": -2
   },
   "nw_lag": 5,
   "power_z": 2.802,
   "refused": null,
   "rows": [],
-  "sentence": "这一单印出的动作没有换出任何一只票（1 对候选里 1 只没有换出），所以没有成本可量——这不是「跟踪差为零」的结论。",
+  "sentence": "这一单印出的动作没有换出任何一只票（2 对候选里 2 只没有换出），所以没有成本可量——这不是「跟踪差为零」的结论。",
   "skipped": [
     {
       "leg_symbol": "510760",
       "sibling_symbol": "510210",
+      "why": "这张单没有换出这只票：它的漂移不是这笔交易的成本"
+    },
+    {
+      "leg_symbol": "159655",
+      "sibling_symbol": "513650",
       "why": "这张单没有换出这只票：它的漂移不是这笔交易的成本"
     }
   ],

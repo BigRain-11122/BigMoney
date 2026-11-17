@@ -1,6 +1,6 @@
 # index-futures carry: what it is worth in risk units
 
-Generated 2026-11-17T17:32:05 · evidence cutoff 2026-11-17 · `scripts/idx_fut_carry_risk.py`
+Generated 2026-11-17T18:31:27 · evidence cutoff 2026-11-17 · `scripts/idx_fut_carry_risk.py`
 
 The roll book (hold the deepest-open-interest contract, switch at the same close) is the one `idx_fut_real_nav` publishes in rupees of carry per year. This page asks the only question that allocates money: at the desk's own 8% volatility target, does that carry buy anything the adopted book does not already buy, and does it move with it?
 
@@ -53,9 +53,9 @@ The daily spread above is futures minus index: it is the *excess* return, and is
 
 | product | long the future %/yr | the matching ETF %/yr | gap pp | dividend drift pp | gap net of dividend pp |
 |---|---|---|---|---|---|
-| IC | 13.78 | 3.95 | +9.83 | 0.89 | +8.95 |
-| IF | 6.03 | 2.40 | +3.64 | 1.79 | +1.85 |
-| IM | 6.71 | -2.87 | +9.59 | 3.02 | +6.57 |
+| IC | 13.78 | 3.95 | +9.83 | 0.88 | +8.95 |
+| IF | 6.03 | 2.40 | +3.64 | 1.77 | +1.87 |
+| IM | 6.71 | -2.87 | +9.59 | 2.96 | +6.62 |
 | IH | 3.41 | - | - | 0.00 | - |
 
 The gap column is GROSS of a structural drift that is not a futures market reading: the ETF is paid the basket's cash dividend and the price index the future tracks is not. The drift column is the basis face's own C3 control arm (results/idx_fut_basis.json), measured on this repo's panel -- it is not a dividend announcement. Where that control could not be read the net column is blank, not equal to the gross one.
