@@ -2210,29 +2210,29 @@
   "status": "ok",
   "readable": true,
   "source": "results/etf_book_cash_caliber_band.json",
-  "evidence_cutoff": "2026-11-13",
+  "evidence_cutoff": "2026-11-17",
   "verdict": "CALIBER_BAND_IS_DECORATIVE",
   "fee_verdict": "PRINTED_GAP_IS_PARTLY_A_FEE",
   "band_bp": 1.0,
-  "share_in_band_pct": 1.264,
-  "bars": 1662,
-  "median_abs_bp": 33.5,
-  "band_50_bp": 33.5,
-  "band_90_bp": 90.405,
-  "window_net_pct": 1.7731,
-  "window_gross_pct": 2.0196,
-  "quote_pct": 1.265,
-  "quote_date": "2026-11-13",
-  "commission_bp": 24.649,
-  "rate_diff_bp": -75.455,
-  "total_bp": -50.806,
-  "commission_share_pct": 48.52,
+  "share_in_band_pct": 1.262,
+  "bars": 1664,
+  "median_abs_bp": 33.75,
+  "band_50_bp": 33.75,
+  "band_90_bp": 90.185,
+  "window_net_pct": 1.772,
+  "window_gross_pct": 2.0184,
+  "quote_pct": 1.175,
+  "quote_date": "2026-11-17",
+  "commission_bp": 24.639,
+  "rate_diff_bp": -84.335,
+  "total_bp": -59.696,
+  "commission_share_pct": 41.28,
   "split_readable": true,
-  "control_error_bp": 0.004,
+  "control_error_bp": 0.1143,
   "window": {
    "start": "2020-01-03",
-   "end": "2026-11-13",
-   "bars": 1662
+   "end": "2026-11-17",
+   "bars": 1664
   }
  },
  "leg_split": {
@@ -6547,7 +6547,7 @@
   "consistency": {
    "generated": {
     "permission": "2026-11-18T01:11:48+0800",
-    "gap": "2026-11-18T01:12:08+0800",
+    "gap": "2026-11-18T05:31:59+0800",
     "ledger": "2026-11-13T20:58:31+0800"
    },
    "permission_vs_gap": true,
@@ -55419,12 +55419,10 @@
   "detail": "这张票没有留下成交行（空票或本 bar 未换仓）"
  },
  "do_or_wait": {
-  "status": "stale",
+  "status": "current",
   "artifact": "C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\results\\etf_book_do_or_wait.json",
   "why": null,
-  "stale_receipts": [
-   "late_sheet_price"
-  ],
+  "stale_receipts": [],
   "evidence_cutoff": "2026-11-17",
   "capital_cny": 1000000.0,
   "question": "Should this sheet be done today, or is waiting cheaper -- and does the per-sheet price still add up when the wait is several bars?",
@@ -55500,7 +55498,7 @@
   "inputs": {
    "cut_order_gap": {
     "cutoff": "2026-11-17",
-    "digest": "2a7e429cb584da30"
+    "digest": "c35c4ae439954764"
    },
    "late_sheet_price": {
     "cutoff": "2026-11-17",
@@ -56170,13 +56168,13 @@
   "no_bar_reason": "human_ages"
  },
  "fleet": {
-  "board_ts": "2026-11-18T02:21:45",
+  "board_ts": "2026-11-18T04:37:02",
   "verdict": "attention",
   "rows": [
    {
     "host": "bm-a",
-    "last_seen": "2026-11-18T01:36:24+08:00",
-    "age_h": 0.76,
+    "last_seen": "2026-11-18T04:11:34+08:00",
+    "age_h": 0.42,
     "alive": true,
     "lanes": [
      "futures",
@@ -56189,7 +56187,7 @@
    {
     "host": "bm-b",
     "last_seen": "2026-10-30T12:43:06+08:00",
-    "age_h": 445.64,
+    "age_h": 447.9,
     "alive": false,
     "lanes": [
      "marks",
@@ -56197,13 +56195,13 @@
     ],
     "taken_over": {
      "marks": "bm-c",
-     "astock_daily": "bm-c"
+     "astock_daily": "bm-a"
     }
    },
    {
     "host": "bm-c",
-    "last_seen": "2026-11-18T01:18:43+08:00",
-    "age_h": 1.05,
+    "last_seen": "2026-11-18T04:13:58+08:00",
+    "age_h": 0.38,
     "alive": true,
     "lanes": [
      "sina_mf",

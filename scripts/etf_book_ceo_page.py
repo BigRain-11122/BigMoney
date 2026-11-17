@@ -2526,12 +2526,14 @@ def harvest_census_block(hv, page_bar=None, page_day=None):
     nl = hv.get("null") or {}
     if nl and not nl.get("beats_null"):
         add("## 这些价差，收得回来吗：%s 个里数出 %s 个，但这个数没有超过尺子自己"
-            "（重排路径中位 %s 个）"
+            "（重排路径中位 %s 个）%s"
             % (_labels(c.get("candidates")), _labels(t.get("pays_pairs")),
-               _labels(nl.get("pays_median"))))
+               _labels(nl.get("pays_median")),
+               ("；%s 的盘口" % _ds) if _ds else ""))
     else:
-        add("## 这些价差，收得回来吗：%s 个价差里 %s 个收得回来"
-            % (_labels(c.get("candidates")), _labels(t.get("pays_pairs"))))
+        add("## 这些价差，收得回来吗：%s 个价差里 %s 个收得回来%s"
+            % (_labels(c.get("candidates")), _labels(t.get("pays_pairs")),
+               ("；%s 的盘口" % _ds) if _ds else ""))
     add("")
     add("前两节算的是「为了名字多花了多少钱」——那是**选择成本**，不是能落袋的钱。这一节问"
         "后半句：**历史上当价差也这么宽的时候，%s 个交易日后它收窄了吗，收窄的部分够不够付"
@@ -2752,7 +2754,13 @@ def capacity_edge_block(ce, page_bar=None, page_day=None):
         return "读不出" if v is None else "%.4f%%" % float(v)
 
     ce = ce or {}
-    head = "## 这条容量闸离翻转有多远（1% ADV 那一行）"
+    # r1314: the heading names the day this section's numbers belong to, so every "今天"
+    # printed below it has a visible source. Left un-dated, 28 table/prose lines were
+    # counted as undatable by live_book_day_words even though the page knew the day.
+    _ce_bar = (str(ce.get("session") or ce.get("evidence_cutoff") or "")[:10]
+               or str(page_bar or "")[:10] or None)
+    head = ("## 这条容量闸离翻转有多远（1%% ADV 那一行；%s 的读数）" % _ce_bar
+            if _ce_bar else "## 这条容量闸离翻转有多远（1% ADV 那一行）")
     if ce.get("status") != "ok":
         add(head)
         add("")
@@ -2856,7 +2864,8 @@ def alias_stability_block(st, page_bar=None, page_day=None):
     words = {"STABLE": "换年份仍成立", "PARTIAL": "只有一部分成立",
              "WINDOW_LUCK": "只在这一年成立", "NO_PRIOR_HISTORY": "没有历史窗可问"}
     bar = str(st.get("evidence_cutoff") or st.get("session") or "")[:10]
-    add("## 这些「同一篮子」的判词，换个年份还成立吗")
+    add("## 这些「同一篮子」的判词，换个年份还成立吗%s"
+        % (("；%s 的盘口" % bar) if bar else ""))
     add("")
     add("**%s**" % (st.get("sentence") or ""))
     add("")
@@ -9817,7 +9826,10 @@ def render_md(p, sb=None):
     add("")
     add("> 一页纸，全部数字从机器面直接抄来：单子来自可执行票、预期来自生产卡片、账面来自前向账本。没有新增判断。")
     add("")
-    add("## 一句话")
+    # r1314: this section talks about 「今天」 in the reader's own day (the page's own day),
+    # not the pricing bar, so the heading names exactly that day. Below it, the paragraph
+    # that points at the older sections inherits it and stops being undatable.
+    add("## 一句话（本页 %s 这一版）" % p["generated_for_date"])
     inv = p["book_amount_cny"]
     act = p.get("today_action") or {"mode": "unknown"}
     mode = act.get("mode")
@@ -11261,7 +11273,12 @@ def run():
     # is a no-op when that pricing day's page already exists.
     _asof = str(page.get("evidence_cutoff") or today)[:10]
     _prior = os.path.join(OUT_DIR, "LIVE-BOOK-%s.md" % _asof.replace("-", ""))
-    if _asof != today and os.path.exists(_prior):
+    # r1314: the no-op guards against INVENTING a new reader-day page when no bar moved.
+    # It must not also forbid regenerating the page that already exists for today -- this
+    # window had to add a heading date and could not, because the pricing-day page was
+    # there. Same-day regeneration is idempotent (no date moves, nothing is renamed).
+    _today_page = os.path.join(OUT_DIR, "LIVE-BOOK-%s.md" % today.replace("-", ""))
+    if _asof != today and os.path.exists(_prior) and not os.path.exists(_today_page):
         _guest = guest_page_writer(today, mid)
         if not _guest:
             print("etf_book_ceo_page: no new bar -- today is %s, the pricing day is %s and that page "

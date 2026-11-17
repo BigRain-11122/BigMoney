@@ -228,21 +228,50 @@ def _printed_census(text):
     """
     rows = []
     heading = "(页首)"
+    heading_full = "(页首)"
+    heading_date = None
     for line in (text or "").split("\n"):
         if line.startswith("## "):
-            heading = line[3:].strip()[:46]
+            heading_full = line[3:].strip()
+            heading = heading_full[:46]
+            # the date is read off the FULL heading: a long title truncated for display
+            # would otherwise lose a day written at its end (r1314)
+            _hm = DATE_IN_TEXT.search(heading_full)
+            heading_date = _hm.group(1) if _hm else None
         if any(w in line for w in DAY_WORDS):
             shown = line.strip()[:180]
+            own = DATE_IN_TEXT.search(shown)
+            # r1314: a section heading that names a day is a date the reader can see, and
+            # every line under it inherits that day. Before this the inheritance was not
+            # read at all, so 28 table/prose lines printed under headings like
+            # 「2026-11-17 的收益，面板自己有了」 were counted as undatable -- the page was
+            # already telling the reader which day it meant, in the line above.
+            # It is NOT a loosening: a line with neither its own date nor a dated heading
+            # still lands in `undated` and still fails the page.
+            if own:
+                src, day = "self", own.group(1)
+            elif heading_date:
+                src, day = "section_heading", heading_date
+            else:
+                src, day = "none", None
             rows.append({"heading": heading, "line": shown,
-                         "self_dated": bool(DATE_IN_TEXT.search(shown))})
+                         "self_dated": bool(own), "day_source": src, "day": day})
     heads = []
     for r in rows:
         if r["heading"] not in heads:
             heads.append(r["heading"])
-    undated = [r for r in rows if not r["self_dated"]]
+    undated = [r for r in rows if r["day_source"] == "none"]
+    scope = [r for r in rows if r["day_source"] == "section_heading"]
+    sect = {}
+    for r in scope:
+        d = sect.setdefault(r["heading"], {"heading": r["heading"], "date": r["day"],
+                                          "n_lines": 0})
+        d["n_lines"] += 1
     return {"state": "ok", "n_lines": len(rows), "n_headings": len(heads),
-            "n_self_dated": len(rows) - len(undated), "n_undated": len(undated),
-            "undated": undated[:40],
+            "n_self_dated": sum(1 for r in rows if r["self_dated"]),
+            "n_scope_dated": len(scope), "n_undated": len(undated),
+            "undated": undated[:40], "scope_dated": scope[:40],
+            "section_days": list(sect.values())[:12],
             "headings": heads[:12], "rows": rows[:40]}
 
 
@@ -396,15 +425,22 @@ def sentence(c):
                 "这一面核的是「句子写的日子 == 那个字段写的日子」，不核那个字段本身对不对。"
                 % (pr["n_lines"], dc.get("n_claims", 0), dc.get("n_rules", 0), c["n_sections"]))
     if c["verdict"] == "PRINTED_SELF_DATED":
-        return ("**页面自己用的「今天/今日」有 %d 行，坐在 %d 个小节里；每一行都自带日期**"
+        _sc = pr.get("n_scope_dated") or 0
+        _how = ("每一行都自带日期" if not _sc
+                else "**%d 行自带日期、%d 行从所在小节标题的日期继承**"
+                     % (pr.get("n_self_dated", 0), _sc))
+        return ("**页面自己用的「今天/今日」有 %d 行，坐在 %d 个小节里；%s**"
                 "（结构面里 %d 节，日词 0 节）。这一面核了 %d 处日期：%d 处对上它所引用的字段，"
                 "**%d 处判不了（字段缺）**，**%d 处没有规则可核**——判不了的不算对上。"
-                % (pr["n_lines"], pr["n_headings"], c["n_sections"], dc.get("n_claims", 0),
-                   dc.get("n_ok", 0), dc.get("n_unverifiable", 0), dc.get("n_unmapped", 0)))
+                % (pr["n_lines"], pr["n_headings"], _how, c["n_sections"],
+                   dc.get("n_claims", 0), dc.get("n_ok", 0), dc.get("n_unverifiable", 0),
+                   dc.get("n_unmapped", 0)))
     if c["verdict"] == "PRINTED_BUT_UNANCHORED":
         _u = pr.get("undated") or []
-        _split = ("其中 **%d 行自己带了日期**（读者读得出它算哪一天），**%d 行没有**"
-                  % (pr.get("n_self_dated", 0), pr.get("n_undated", 0)))
+        _sc = pr.get("n_scope_dated") or 0
+        _split = ("其中 **%d 行自己带了日期**（读者读得出它算哪一天），"
+                  "**%d 行从所在小节标题的日期继承**，**%d 行没有日期来源**"
+                  % (pr.get("n_self_dated", 0), _sc, pr.get("n_undated", 0)))
         if _u:
             _split += "——没有的那几行是：%s%s" % (
                 "、".join("「%s」里的一句 `%s`" % (r["heading"], r["line"][:40])
@@ -433,6 +469,13 @@ def sentence(c):
                                                           c["n_sections"],
                                                           c["n_with_day_word"])
     if c["verdict"] == "ANCHORED":
+        _p = pr.get("n_lines") or 0
+        if _p:
+            _sc = pr.get("n_scope_dated") or 0
+            return ("%s：全部 %d 节的日词都落在页面自己那天上；印出来的纸 %d 行日词里，"
+                    "%d 行自带日期、%d 行从所在小节标题继承，%d 行无来源。"
+                    % (head, c["n_anchored"], _p, pr.get("n_self_dated", 0), _sc,
+                       pr.get("n_undated", 0)))
         return ("%s：全部 %d 节的日词都落在页面自己那天上。"
                 % (head, c["n_anchored"]))
     if c["verdict"] == "DAY_WORD_WITHOUT_A_BAR":
@@ -789,6 +832,29 @@ def selftest():
         _c_mixed["verdict"] == "PRINTED_BUT_UNANCHORED"
         and _c_mixed["date_claims"]["n_ok"] == 1
         and _c_mixed["printed"]["n_undated"] == 1, _c_mixed["date_claims"])
+
+    # r1314: a dated section heading is a date the reader can see, so the lines under it
+    # inherit it. Pinned in both directions -- inheriting must not turn an undated section
+    # green, or the split becomes a blanket exemption.
+    _pr_head = _printed_census(
+        "## 2026-11-17 的收益，面板自己有了\n\n"
+        "| 今天这么宽的历史样本够厚 | 1,122 |\n\n"
+        "## 这些价差，收得回来吗\n\n| 今天这么宽的历史不足 8 次 | 373 |\n")
+    leg("a line under a dated heading inherits that day; one under an undated heading does not",
+        _pr_head["n_scope_dated"] == 1 and _pr_head["n_undated"] == 1
+        and [r["day"] for r in _pr_head["scope_dated"]] == ["2026-11-17"],
+        _pr_head)
+    leg("an inherited day is carried on the row, so the reader is told where it came from",
+        all(r.get("day_source") == "section_heading" and r.get("day")
+            for r in _pr_head["scope_dated"]), _pr_head["scope_dated"])
+    # A long heading is displayed truncated but READ in full: a date at its end must not be
+    # invisible to the reader (the price-spread section is exactly this shape).
+    _pr_long = _printed_census(
+        "## 这些价差，收得回来吗：1,495 个里数出 325 个，但这个数没有超过尺子自己"
+        "（重排路径中位 1,122 个）；2026-11-17 的盘口\n\n今天这么宽的历史不足 8 次 | 373 |\n")
+    leg("a day written past the display cutoff is still read off the full heading",
+        _pr_long["n_undated"] == 0 and _pr_long["n_scope_dated"] == 1
+        and _pr_long["scope_dated"][0]["day"] == "2026-11-17", _pr_long)
 
     # The published page must go through the same function the fixtures do, on both papers.
     doc, rel, printed_text, err = _read()
