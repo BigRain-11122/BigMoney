@@ -1972,6 +1972,15 @@ def main() -> int:
              "scripts/etf_label_census.py", ["selftest"]),
             ("product: etf_label_census (face re-derived from its own pair table, ruler cross-checked)",
              "scripts/etf_label_census.py", ["check"]),
+            # r1806: the label census answers "is one name one thing"; a reader who wants to
+            # swap asks the mirror -- are two DIFFERENT names the same thing. The legs pin the
+            # two gates (a split is not a walk, a walking gap is not a basket), that a chain is
+            # not a family, and that the line is re-measured on the board's own verdicts each
+            # run rather than quoted.
+            ("product: etf_alias_census (two names, one basket: the two gates and the calibration)",
+             "scripts/etf_alias_census.py", ["selftest"]),
+            ("product: etf_alias_census (published families re-checked: clique, money arithmetic)",
+             "scripts/etf_alias_census.py", ["check"]),
             # r1466: the swap was priced but the sheet carrying it did not say when to look
             # again. The legs pin that the action price is the round-trip toll (not a mean,
             # not a percentile), that a censored episode is reported rather than scored as

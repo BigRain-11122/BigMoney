@@ -2382,6 +2382,23 @@ def _caveat_cn(text):
         return "0.30 pp 这条线是 r1803 校出来的；改线等于换一把尺子，不能说成一次静默的修正。"
     if "residual names" in t:
         return "名字是盘口在公司前缀剥掉之后剩下的字面，不同字面的同名族（纳指ETF / 纳斯达克100ETF）仍不在本判据里。"
+    # r1806: the alias face states its own limits in English for the same reason; same discipline,
+    # one mapping per key word, and an unrecognised caveat stays verbatim rather than being souped.
+    if "two gates, both on PRICE only" in t:
+        return ("两道门都只看价：一对过了门，说的是「一年的价里剔掉事件日后看不出差别」，"
+                "不是关于这两只票拿了什么的论断。")
+    if "calibrated on the board's own SAME-NAME families" in t:
+        return ("这条线是在盘口自己的同名族上标出来的；用到不同名字上是外推——"
+                "标定块每一轮都重算重发，不引用旧数。")
+    if "distribution policy is invisible here" in t:
+        return ("分红政策在这里看不见：同篮但分红不同的两只票价格会漂，会被第二道门误拒——"
+                "那是误拒，不是风险。")
+    if "dearest-vs-cheapest premium" in t:
+        return "那笔钱是族内最贵减最便宜的溢价，是「选错名字要付的价」，不是收益。"
+    if "the family membership rests on a year of closes" in t:
+        return "族是按一年收盘价定的，钱是某一天盘口的溢价快照；族不随一天变，钱会。"
+    if "did not trade every day of the window" in t:
+        return "窗口里没有每个交易日都交易的票会被剔除并计数，缺口绝不按 0 填进去。"
     return t
 
 
@@ -2546,6 +2563,161 @@ def label_census_block(lc, page_bar=None, page_day=None):
         add("> 这张名字账是拿 **%s** 的盘口建的，本页的价是 **%s**——盘口每天变，"
             "族表结论（谁和谁是同一个篮子）不随一天变，但「最贵那只差多少钱」是 %s 的溢价快照。"
             % (_ds, page_bar, _ds))
+        add("")
+    return L
+
+
+ALIAS_CENSUS_JSON = os.path.join(ROOT, "results", "etf_alias_census.json")
+
+
+def alias_census_face(path=ALIAS_CENSUS_JSON):
+    """The mirror of the label census: two tickers under DIFFERENT names that are one basket.
+
+    The label census answers "is one name one thing". A reader who wants to swap asks the
+    reverse -- "are these two different names the same thing" -- and names cannot answer that by
+    construction. `scripts/etf_alias_census.py` answers it with two price gates and publishes a
+    face; this function only reads that face. Read-only, and an absent face is "cannot verify",
+    never "no two tickers on this board are the same thing".
+    """
+    rel = _rel(path, ROOT).replace(os.sep, "/")
+    if not os.path.exists(path):
+        return {"status": "unreadable", "artifact": rel, "detail": "alias-census face absent"}
+    f = _load(path) or {}
+    fams = f.get("alias_families") or []
+    if not fams:
+        return {"status": "unreadable", "artifact": rel,
+                "detail": "face carries no family", "session": f.get("session")}
+    return {
+        "status": "ok",
+        "artifact": rel,
+        "session": f.get("session"),
+        "panel": f.get("panel") or {},
+        "board": f.get("board") or {},
+        "verdicts": f.get("verdict_counts") or {},
+        "sentence": f.get("sentence"),
+        "families": [x for x in fams if (x.get("n_names") or 0) > 1],
+        "n_families_total": len(fams),
+        "across": f.get("aliasing_across_names") or {},
+        "calibration": f.get("calibration") or {},
+        "sensitivity": f.get("sensitivity") or {},
+        "chains": f.get("chains") or [],
+        "criteria": f.get("criteria") or {},
+        "caveats": f.get("caveats") or [],
+    }
+
+
+def alias_census_block(al, page_bar=None, page_day=None):
+    """Page lines: which two differently-named tickers are the same thing, and what the name costs.
+
+    Every count and every yuan here is the alias face's own number; this block counts nothing.
+    The one judgement it adds is the same session check the label block carries: a family is
+    built on a year of closes, the money on one day's premiums, and a page rebuilt later has to
+    say which day that snapshot belongs to.
+    """
+    L = []
+    add = L.append
+    al = al or {}
+    _ds = str(al.get("session") or "")[:10] or None
+    if al.get("status") != "ok":
+        add("## 改名不换药：名字不同的两只票到底是不是同一个东西")
+        add("")
+        add("这一节读不到别名账（`%s`）：%s。%s**所以本页说不出盘口上有几组「换个名字还是同一个"
+            "篮子」、也说不出一手 10 万为了名字多花多少钱**——缺面不读成「一个都没有」。"
+            % (al.get("artifact") or "results/etf_alias_census.json",
+               al.get("detail") or "无读数",
+               ("这一面是拿 **%s** 的盘口建的（日期在，缺的是族表），" % al.get("session"))
+               if al.get("session") else ""))
+        add("")
+        return L
+    b = al.get("board") or {}
+    v = al.get("verdicts") or {}
+    crit = al.get("criteria") or {}
+    across = al.get("across") or {}
+    cal = al.get("calibration") or {}
+    fams = al.get("families") or []
+
+    add("## 改名不换药：%s 组名字不同的票其实是同一个篮子" % _labels(len(fams)))
+    add("")
+    add("上一节问「一个名字是不是一个东西」，这一节问反过来那一半：**两只名字不同的票，是不是"
+        "同一个东西**。名字不是答案——名字不同正是要测的东西。价能答，但要两道门："
+        "①在窗口的 %s 个交易日里，两只价格每天分道扬镳超过 %.2f pp 的日子不超过 **%.0f%%**；"
+        "②把拆分这类事件日剔掉以后，价差一年不能走出 **%.1f pp**。只有日级门会放过「每天"
+        "差一点、一年差一大截」的一对（盘口上「300万家」对「沪深300ETF」就是这样一对）。"
+        % (_labels((al.get("panel") or {}).get("window_days")),
+           float(crit.get("divergent_pp") or 0.0),
+           100.0 * float(crit.get("share_max") or 0.0),
+           float(crit.get("drift_pp_max") or 0.0)))
+    add("")
+    add("| 盘口（%s） | 读数 |" % (_ds or "日期未声明"))
+    add("|---|---|")
+    add("| 进筛子的票 / 历史不够被剔除 | %s / %s |"
+        % (_labels(b.get("n_in_screen")), _labels(b.get("n_excluded_short_history"))))
+    add("| 判过的对 | %s |" % _labels(b.get("n_pairs")))
+    add("| 同一个篮子 / 走得开 / 毫不相干 | **%s** / %s / %s |"
+        % (_labels(v.get("SAME_BASKET")), _labels(v.get("WALKS_APART")),
+           _labels(v.get("DAYS_APART"))))
+    add("| 通过团检的族 / 连通但不是团被拒 | %s / %s |"
+        % (_labels(al.get("n_families_total")), _labels(len(al.get("chains") or []))))
+    add("| 跨了不止一个名字的族 | **%s** |" % _labels(across.get("n_families")))
+    add("")
+    _total = across.get("total_cost_cny")
+    _over = across.get("families_over_material_line")
+    if _total is not None:
+        add("**就为了名字：在这些族里换票，一手 %s 元的单子，最贵那只比最便宜那只差 ￥%s——"
+            "%s 组过了 %.2f pp 的物质线。这是「本来可以不付的选择成本」，不是收益。**"
+            % (_labels((crit.get("notional_cny") or 0)), format(float(_total), ",.0f"),
+               _labels(_over), float(crit.get("material_gap_pp") or 0.0)))
+        add("")
+    _mat = [f for f in fams if (f.get("money") or {}).get("material")]
+    _mat.sort(key=lambda f: -float((f.get("money") or {}).get("cost_cny") or 0.0))
+    if _mat:
+        add("| 名字 | 成员 | 最便宜 | 最贵 | 一手 10 万差多少 |")
+        add("|---|---|---|---|---|")
+        for f in _mat[:6]:
+            m = f.get("money") or {}
+            add("| %s | %s | %s（%+.2fpp） | %s（%+.2fpp） | **￥%s** |"
+                % ("、".join(f.get("names") or []), "、".join(f.get("members") or []),
+                   m.get("cheapest"), float(m.get("cheapest_premium_pp") or 0.0),
+                   m.get("dearest"), float(m.get("dearest_premium_pp") or 0.0),
+                   format(float(m.get("cost_cny") or 0.0), ",.0f")))
+        add("")
+        if len(_mat) > 6:
+            add("- 其余 **%d 组**过线的名单见 `results/etf_alias_census.md`。" % (len(_mat) - 6))
+            add("")
+    _unread = [f for f in fams if f.get("unreadable")]
+    if _unread:
+        add("- **%d 个族里有成员的溢价盘口读不到**（金额只按读得到的算，所以只会少报不会多报）：%s。"
+            % (len(_unread), "、".join("%s（缺 %s）" % ("、".join(f.get("names") or []),
+                                                      "、".join(f.get("unreadable") or []))
+                                      for f in _unread[:4])))
+        add("")
+    if cal.get("available"):
+        a = cal.get("accepted_same_name") or {}
+        r = cal.get("refused_same_name") or {}
+        add("- **这把尺子自己量过**：在盘口已经裁决过的同名对上（名字说同一篮子、价也同意的那 "
+            "%s 对，价不同意的那 %s 对），本判据保住 %s 对、拒掉 %s 对——所以它不是凭空立的线；"
+            "代价是「分红费率不同导致漂移」的同篮对会被第二道门误拒。"
+            % (_labels(a.get("n")), _labels(r.get("n")), _labels(a.get("kept")),
+               _labels(r.get("kept"))))
+        if r.get("leaked"):
+            add("- **警告：有 %s 对盘口判过「不是同一个篮子」的，被这条判据收了进来**，号码在面上单列。"
+                % _labels(r.get("leaked")))
+        add("")
+    else:
+        add("- 这一轮**量不了这把尺子**（%s）：下面的族表是「按声明的线跑出来的」，不是「按标定过的线」。"
+            % (cal.get("reason") or "无标定面"))
+        add("")
+    _chains = al.get("chains") or []
+    if _chains:
+        add("- **连通但不是团**的 %s 组被单列（组内一分钱都不算）：两只各自和第三只同篮，推不出"
+            "它们彼此同篮——盘口上这种链子比想象的常见。" % _labels(_chains and len(_chains) or 0))
+        add("")
+    for c in (al.get("caveats") or [])[:4]:
+        add("- %s" % _caveat_cn(c))
+    add("")
+    if page_bar and _ds and str(page_bar)[:10] != str(_ds)[:10]:
+        add("> 这张别名账的族是按一年的收盘价建的，钱是 **%s** 那一盘口的溢价快照；本页的价是 "
+            "**%s**。族不随一天变，钱会。" % (_ds, page_bar))
         add("")
     return L
 
@@ -8853,6 +9025,7 @@ def build(with_stress=False, window_label=None):
     page["premium_forward"] = premium_forward_face(tk.get("ticket") or {})
     page["sibling_gap"] = sibling_gap_face()
     page["label_census"] = label_census_face()
+    page["alias_census"] = alias_census_face()
     page["floor_provenance"] = floor_provenance_face()
     page["vol_target_gate"] = vol_target_face()
     page["positions"] = positions_face()
@@ -9288,6 +9461,10 @@ def render_md(p, sb=None):
                                        page_bar=p.get("priced_bar"),
                                        page_day=p.get("generated_for_date")):
         add(_lc_line)
+    for _al_line in alias_census_block(p.get("alias_census") or {},
+                                       page_bar=p.get("priced_bar"),
+                                       page_day=p.get("generated_for_date")):
+        add(_al_line)
     for _fp_line in floor_provenance_block(p.get("floor_provenance") or {},
                                            vt=p.get("vol_target_gate") or {},
                                            page_bar=p.get("priced_bar"),
@@ -13120,6 +13297,62 @@ def selftest():
         "2026-11-16" in _lc_shift and "的盘口建的" in _lc_shift
         and "本页的价是 **2026-11-14**" in _lc_shift,
         _lc_shift[-220:])
+    # r1806: the alias face is the mirror question, and it lies in its own ways -- a line that
+    # was never measured printed as measured, a family whose premium is partly unreadable
+    # printed as a clean number, and a chain of three printed as one family.
+    _al_fix = {"status": "ok", "artifact": "results/etf_alias_census.json", "session": "2026-11-16",
+               "panel": {"window_days": 250},
+               "board": {"n_in_screen": 578, "n_excluded_short_history": 64, "n_pairs": 2086},
+               "verdicts": {"SAME_BASKET": 815, "WALKS_APART": 1271, "DAYS_APART": 164667},
+               "n_families_total": 42,
+               "families": [{"names": ["稀有金属", "稀有金属ETF"], "members": ["159608", "562800"],
+                             "n": 2, "n_names": 2, "unreadable": [],
+                             "money": {"cheapest": "159608", "cheapest_premium_pp": -4.16,
+                                       "dearest": "562800", "dearest_premium_pp": -0.04,
+                                       "spread_pp": 4.12, "cost_cny": 4119.0, "material": True}},
+                            {"names": ["保证金", "货币ETF"], "members": ["159001", "511660"],
+                             "n": 2, "n_names": 2, "unreadable": ["159001"],
+                             "money": {"cheapest": "511660", "cheapest_premium_pp": 0.01,
+                                       "dearest": "511660", "dearest_premium_pp": 0.01,
+                                       "spread_pp": 0.0, "cost_cny": 0.0, "material": False}}],
+               "across": {"n_families": 31, "families_over_material_line": 6,
+                          "total_cost_cny": 10236.2},
+               "calibration": {"available": True,
+                               "accepted_same_name": {"n": 322, "kept": 163},
+                               "refused_same_name": {"n": 24, "kept": 24, "leaked": 0}},
+               "chains": [{"names": ["A", "B", "C"], "members": ["1", "2", "3"], "n": 3,
+                           "pairs_not_accepted": [["1", "3"]]}],
+               "criteria": {"divergent_pp": 0.50, "share_max": 0.20, "drift_pp_max": 1.0,
+                            "material_gap_pp": 0.50, "notional_cny": 100000.0},
+               "caveats": []}
+    _al_txt = "\n".join(alias_census_block(_al_fix, page_bar="2026-11-16", page_day="2026-11-16"))
+    chk("L409 alias census: the face's own counts and money reach the page, and the money is the "
+        "face's number rather than the page's own arithmetic",
+        "**31**" in _al_txt and "2,086" in _al_txt and "**815**" in _al_txt
+        and "￥10,236" in _al_txt and "**￥4,119**" in _al_txt, _al_txt[:200])
+    chk("L410 alias census: a member whose premium cannot be read is named, so the money line "
+        "cannot pass as a complete one",
+        "溢价盘口读不到" in _al_txt and "只会少报不会多报" in _al_txt, _al_txt[-400:])
+    chk("L411 alias census: a chain of three is printed as a refused chain, not as one family",
+        "连通但不是团" in _al_txt and "一分钱都不算" in _al_txt, _al_txt[-400:])
+    _al_nocal = "\n".join(alias_census_block(
+        dict(_al_fix, calibration={"available": False, "reason": "label census face absent"}),
+        page_bar="2026-11-16", page_day="2026-11-16"))
+    chk("L412 alias census: an unmeasured line says it is unmeasured instead of implying it was "
+        "calibrated",
+        "量不了这把尺子" in _al_nocal and "按声明的线跑出来的" in _al_nocal, _al_nocal[-400:])
+    _al_missing = "\n".join(alias_census_block({"status": "unreadable",
+                                               "artifact": "results/etf_alias_census.json",
+                                               "detail": "face absent"}))
+    chk("L413 alias census: an absent face prints no counts -- 'no two names are one basket' is "
+        "not a reading of a missing face",
+        "读不到别名账" in _al_missing and "缺面不读成" in _al_missing
+        and "10,236" not in _al_missing, _al_missing[:200])
+    _al_shift = "\n".join(alias_census_block(_al_fix, page_bar="2026-11-14",
+                                             page_day="2026-11-14"))
+    chk("L414 alias census: a family built on an older board session names it rather than "
+        "letting one day's premium pass as the page's day",
+        "2026-11-16" in _al_shift and "本页的价是 **2026-11-14**" in _al_shift, _al_shift[-260:])
     # r1667: five rounds of this defect were all found by eye, so the family becomes a guard.
     _guard_ok, _guard_find = page_day_debt_guard()
     _ghost = ("def ghost_block(x):\n    return '今天的价差'\n\n"

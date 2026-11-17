@@ -1018,6 +1018,14 @@ LEGS = [
     ("label_census",
      ["python", "scripts/etf_label_census.py", "check"],
      ["python", "scripts/etf_label_census.py", "run"]),
+    # r1806: the mirror question -- two tickers under DIFFERENT names that are one basket. Two
+    # price gates (share of days apart, then the gap's walk with event days removed), families
+    # clique-tested with the label census's own functions, calibration re-measured each run on
+    # the board's adjudicated same-name pairs. It must run before the page that quotes it
+    # (same ordering law as label_census above): ~6s run / check.
+    ("alias_census",
+     ["python", "scripts/etf_alias_census.py", "check"],
+     ["python", "scripts/etf_alias_census.py", "run"]),
     ("etf_book_ceo_page", ["python", "scripts/etf_book_ceo_page.py", "run"]),
     # r1639: r1638 found one sentence copied twice onto this page (the two copies read as
     # two independent pieces of evidence) and the block-level leg could not see it, because

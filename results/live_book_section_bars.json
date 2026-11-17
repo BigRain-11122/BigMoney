@@ -1,24 +1,24 @@
 {
  "script": "scripts/live_book_section_bars.py",
- "ts": "2026-11-17 14:24:35",
+ "ts": "2026-11-17 15:27:53",
  "page": {
   "path": "docs/live_book/LIVE-BOOK-20261117.md",
   "json": "docs/live_book/LIVE-BOOK-20261117.json"
  },
  "verdict": "PAGE_MIXES_BARS",
- "sentence": "页面头部写着按 2026-11-16 定价，但 65 个带日期的节里只有 59 节真在这一天；其余 6 节不在这一天（最旧停在 2026-11-13（最差 cash_caliber 落后 1 个交易日）），另外 3 节根本没有日期——它们不是同一根 bar 上的数，读的时候不能互相加减。2 节按设计没有 bar（sources=指针块（只列它引用的文件，本身不是一次测量）、authority=人事年龄（机器多久没写心跳，时间量不是价格日））——它们本来就不量某一天，催它们补日期是催不动的事。这 6 节里，2 节的产物有同名链腿在守；4 节（cash_handshake, cash_ladder, cash_money, cash_yield）是这一页每次生成时自己重算的，停的正是它读的那块面板的最后一天：data/repo_daily/GC001.csv（update_repo.py / bm-a · T-88 车道，本机只读，末行 2026-11-13）、data/repo_daily（update_repo.py / bm-a · T-88 车道，本机只读，末行 2026-11-13）——落后的是那块面板，不是没人重跑这节；`data/repo_daily` 末行 2026-11-13；最后写入 84.2 h 前；属主 bm-a（update_repo.py） 自己的心跳停在 14.8 h 前——是那条车道停了，不是页面慢；`data/repo_daily/GC001.csv` 末行 2026-11-13；最后写入 84.2 h 前；属主 bm-a（update_repo.py） 自己的心跳停在 14.8 h 前——是那条车道停了，不是页面慢；其中 1 节自己就带着两根以上的日期（fleet：2026-10-30/2026-11-16/2026-11-17）——它们不是「没写日期」，是写了两天的数，本面不替它们挑一天。",
+ "sentence": "页面头部写着按 2026-11-16 定价，但 66 个带日期的节里只有 60 节真在这一天；其余 6 节不在这一天（最旧停在 2026-11-13（最差 cash_caliber 落后 1 个交易日）），另外 3 节根本没有日期——它们不是同一根 bar 上的数，读的时候不能互相加减。2 节按设计没有 bar（sources=指针块（只列它引用的文件，本身不是一次测量）、authority=人事年龄（机器多久没写心跳，时间量不是价格日））——它们本来就不量某一天，催它们补日期是催不动的事。这 6 节里，2 节的产物有同名链腿在守；4 节（cash_handshake, cash_ladder, cash_money, cash_yield）是这一页每次生成时自己重算的，停的正是它读的那块面板的最后一天：data/repo_daily/GC001.csv（update_repo.py / bm-a · T-88 车道，本机只读，末行 2026-11-13）、data/repo_daily（update_repo.py / bm-a · T-88 车道，本机只读，末行 2026-11-13）——落后的是那块面板，不是没人重跑这节；`data/repo_daily` 末行 2026-11-13；最后写入 85.2 h 前；属主 bm-a（update_repo.py） 自己的心跳停在 15.8 h 前——是那条车道停了，不是页面慢；`data/repo_daily/GC001.csv` 末行 2026-11-13；最后写入 85.2 h 前；属主 bm-a（update_repo.py） 自己的心跳停在 15.8 h 前——是那条车道停了，不是页面慢；其中 1 节自己就带着两根以上的日期（fleet：2026-10-30/2026-11-16/2026-11-17）——它们不是「没写日期」，是写了两天的数，本面不替它们挑一天。",
  "evidence_cutoff": "2026-11-16",
  "headline_bar": "2026-11-16",
  "headline_field": "priced_bar",
- "n_sections": 65,
- "n_on_headline": 59,
+ "n_sections": 66,
+ "n_on_headline": 60,
  "unknown_sections": [
   "sources",
   "authority",
   "fleet"
  ],
  "bars": {
-  "2026-11-16": 59,
+  "2026-11-16": 60,
   "2026-11-13": 6
  },
  "n_off_headline": 6,
@@ -202,6 +202,7 @@
   "premium_forward": "2026-11-16",
   "sibling_gap": "2026-11-16",
   "label_census": "2026-11-16",
+  "alias_census": "2026-11-16",
   "floor_provenance": "2026-11-16",
   "vol_target_gate": "2026-11-16",
   "positions": "2026-11-16",
@@ -241,10 +242,10 @@
    "panel": "data/repo_daily",
    "panel_last_bar": "2026-11-13",
    "panel_last_write": "2026-11-14T02:14:00",
-   "panel_write_age_h": 84.2,
+   "panel_write_age_h": 85.2,
    "owner_machine": "bm-a",
    "owner_runner": "update_repo.py",
-   "owner_heartbeat_age_h": 14.8,
+   "owner_heartbeat_age_h": 15.8,
    "owner_state": "quiet",
    "sections": [
     "cash_ladder"
@@ -254,10 +255,10 @@
    "panel": "data/repo_daily/GC001.csv",
    "panel_last_bar": "2026-11-13",
    "panel_last_write": "2026-11-14T02:13:41",
-   "panel_write_age_h": 84.2,
+   "panel_write_age_h": 85.2,
    "owner_machine": "bm-a",
    "owner_runner": "update_repo.py",
-   "owner_heartbeat_age_h": 14.8,
+   "owner_heartbeat_age_h": 15.8,
    "owner_state": "quiet",
    "sections": [
     "cash_handshake",
@@ -266,7 +267,7 @@
    ]
   }
  ],
- "page_computed_debt_sentence": "`data/repo_daily` 末行 2026-11-13；最后写入 84.2 h 前；属主 bm-a（update_repo.py） 自己的心跳停在 14.8 h 前——是那条车道停了，不是页面慢；`data/repo_daily/GC001.csv` 末行 2026-11-13；最后写入 84.2 h 前；属主 bm-a（update_repo.py） 自己的心跳停在 14.8 h 前——是那条车道停了，不是页面慢",
+ "page_computed_debt_sentence": "`data/repo_daily` 末行 2026-11-13；最后写入 85.2 h 前；属主 bm-a（update_repo.py） 自己的心跳停在 15.8 h 前——是那条车道停了，不是页面慢；`data/repo_daily/GC001.csv` 末行 2026-11-13；最后写入 85.2 h 前；属主 bm-a（update_repo.py） 自己的心跳停在 15.8 h 前——是那条车道停了，不是页面慢",
  "n_no_writer": 0,
  "no_writer": [],
  "n_engine_priced": 0,
