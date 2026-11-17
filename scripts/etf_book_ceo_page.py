@@ -2342,6 +2342,214 @@ def sibling_gap_block(sg, page_bar=None, page_day=None):
     return L
 
 
+LABEL_CENSUS_JSON = os.path.join(ROOT, "results", "etf_label_census.json")
+
+LABEL_CLASS_WORDS = {
+    "ONE_BASKET": "价格同意（同一篮子）",
+    "NOT_A_BASKET": "名字一样、价说不是同一篮子",
+    "MIXED": "名字覆盖不止一个篮子",
+    "UNPRICED": "没有一对能定价",
+}
+
+
+def _labels(v):
+    """A count as the page prints it: the number, or an honest dash -- never a fake zero."""
+    if v is None:
+        return "—"
+    if isinstance(v, float) and v == int(v):
+        return format(int(v), ",")
+    if isinstance(v, int):
+        return format(v, ",")
+    return str(v)
+
+
+def _caveat_cn(text):
+    """The census face states its own limits in English; the page must not invent new ones.
+
+    r1805: quoting them verbatim would put English inside a Chinese page, and paraphrasing
+    freely would let the page claim a caveat the face never made. So the face's caveats keep
+    their shape and are printed with their own key words, mapped one to one.
+    """
+    t = str(text or "")
+    if "same basket" in t and "worth its price" in t:
+        return ("价格只回答「这几只是不是同一个东西」，不回答「这个东西值不值这个价」——"
+                "溢价只是盘口一个 session 的快照。")
+    if "avoidable choice" in t:
+        return "那笔钱是「本来可以不付的选择成本」，不是收益。"
+    if "n_priced < n_pairs" in t or "unpriced pairs" in t:
+        return "有对没定价的族，缺的那些对是「不知道」，绝不当成「同一篮子」。"
+    if "0.30 pp line" in t:
+        return "0.30 pp 这条线是 r1803 校出来的；改线等于换一把尺子，不能说成一次静默的修正。"
+    if "residual names" in t:
+        return "名字是盘口在公司前缀剥掉之后剩下的字面，不同字面的同名族（纳指ETF / 纳斯达克100ETF）仍不在本判据里。"
+    return t
+
+
+def label_census_face(path=LABEL_CENSUS_JSON):
+    """The whole board's answer to "is one name one thing" (r1805).
+
+    r1803 taught this page a ruler -- two tickers writing the same index name are the same
+    basket when their daily premium gap moves less than 0.30 pp in the median -- and this page
+    could only apply it to its own five legs. The reader's question is wider: of the ~1,600
+    tickers on the board, which ones may I treat as the same thing and swap between, and
+    which labels are lying. That question is answered by `scripts/etf_label_census.py` and
+    published as a face; this function only reads it.
+
+    Read-only, and an absent face is "cannot verify" -- never "no label on the board lies".
+    """
+    rel = _rel(path, ROOT).replace(os.sep, "/")
+    if not os.path.exists(path):
+        return {"status": "unreadable", "artifact": rel,
+                "detail": "label-census face absent"}
+    f = _load(path) or {}
+    fams = f.get("families") or []
+    if not fams:
+        # A face that carries a session but no family is a day with nothing to say; it is not
+        # the same thing as a face that was never built, and the block below says which.
+        return {"status": "unreadable", "artifact": rel,
+                "detail": "face carries no family", "session": f.get("session")}
+    partial = []
+    for x in fams:
+        n_priced = x.get("n_priced")
+        n_pairs = x.get("n_pairs")
+        if isinstance(n_priced, int) and isinstance(n_pairs, int) and n_priced < n_pairs:
+            partial.append({"label": x.get("label"), "n_live": x.get("n_live"),
+                            "n_priced": n_priced, "n_pairs": n_pairs,
+                            "class": x.get("class")})
+    return {
+        "status": "ok",
+        "artifact": rel,
+        "session": f.get("session"),
+        "sentence": f.get("sentence"),
+        "board": f.get("board") or {},
+        "class_counts": f.get("label_class_counts") or {},
+        "money": f.get("money") or {},
+        "groups": f.get("groups") or [],
+        "lying": f.get("lying_labels") or [],
+        "partial": partial,
+        "chains": f.get("chains") or [],
+        "criteria": f.get("criteria") or {},
+        "caveats": f.get("caveats") or [],
+    }
+
+
+def label_census_block(lc, page_bar=None, page_day=None):
+    """Page lines: which names on the whole board are one thing, and what the confusion costs.
+
+    Every number here is the census face's own reading; this block counts nothing itself. The
+    one judgement it adds is the session check: the census is built on the board's session, so
+    on a page rebuilt later the reader is told which day the label census belongs to (r1667's
+    family of "today" defects, applied at the block's first line rather than after the fact).
+    """
+    L = []
+    add = L.append
+    lc = lc or {}
+    _ds = str(lc.get("session") or "")[:10] or None
+    _now = day_word(page_day, _ds)
+    if lc.get("status") != "ok":
+        add("## 整个盘口的名字账")
+        add("")
+        add("这一节读不到盘口名字账（`%s`）：%s。%s**所以本页说不出盘口上还有几个名字在骗人，"
+            "也说不出换票最贵的那一组差多少钱**——缺面不读成「一个都没有」。"
+            % (lc.get("artifact") or "results/etf_label_census.json",
+               lc.get("detail") or "无读数",
+               ("这一面是拿 **%s** 的盘口建的（日期在，缺的是族表），" % lc.get("session"))
+               if lc.get("session") else ""))
+        add("")
+        return L
+    b = lc.get("board") or {}
+    cc = lc.get("class_counts") or {}
+    mo = lc.get("money") or {}
+    crit = lc.get("criteria") or {}
+    _n_rows = b.get("n_rows")
+    _n_labels = b.get("n_labels")
+    _n_multi = b.get("n_labels_multi")
+    _n_pairs = b.get("n_pairs")
+    _n_priced = b.get("n_pairs_priced")
+    add("## 整个盘口的名字账：%s 个名字里有 %s 个写在两只以上的票上"
+        % (_labels(_n_labels), _labels(_n_multi)))
+    add("")
+    add("上一节那把尺子（同名两只票到底是不是同一个篮子，看每日价差变化的中位数）只在本页"
+        "五只腿上校过。同一个问题盘口上还有上千只票：**名字是盘口自己写的，价是历史给的，"
+        "哪几只可以当成同一个东西换，是可测的**。这一节把同一把尺子跑到盘口的每个名字上"
+        "（线 **%.2f pp**，共同交易日下限 **%s**，两侧都取盘口自己的名字，不读手写名单）。"
+        % (float(crit.get("gap_median_pp") or 0.0), _labels(crit.get("min_days"))))
+    add("")
+    add("| 盘口（%s） | 读数 |" % (_ds or "日期未声明"))
+    add("|---|---|")
+    add("| 盘口行 / 名字 | %s / %s |" % (_labels(_n_rows), _labels(_n_labels)))
+    add("| 写在两只以上票上的名字 | **%s** |" % _labels(_n_multi))
+    add("| 可比的对 / 其中能定价的 | %s / **%s** |" % (_labels(_n_pairs), _labels(_n_priced)))
+    add("| 价格同意 / 名字骗人 / 名字跨篮子 / 无法定价（按名字） | %s / **%s** / %s / %s |"
+        % (_labels(cc.get("ONE_BASKET")), _labels(cc.get("NOT_A_BASKET")),
+           _labels(cc.get("MIXED")), _labels(cc.get("UNPRICED"))))
+    add("")
+    _total = mo.get("total_cost_cny")
+    _over = mo.get("groups_over_line")
+    if _total is not None:
+        add("**就为了名字：在通过团检的同一篮子组里换票，一手 %s 元的单子，最贵那只比最便宜那只"
+            "差 ￥%s——%s 组过了 %.2f pp 的物质线。这是「本来可以不付的选择成本」，"
+            "不是收益，也不是这只票值不值这个价。**"
+            % (_labels(mo.get("notional_cny")), format(float(_total), ",.0f"),
+               _labels(_over), float(crit.get("material_gap_pp") or 0.0)))
+        add("")
+    _grp = [g for g in (lc.get("groups") or []) if (g.get("money") or {}).get("material")]
+    _grp.sort(key=lambda g: -float((g.get("money") or {}).get("cost_cny") or 0.0))
+    if _grp:
+        add("| 名字 | 组内活票 | 最便宜 | 最贵 | 一手 10 万差多少 |")
+        add("|---|---|---|---|---|")
+        for g in _grp[:6]:
+            m = g.get("money") or {}
+            add("| %s | %s | %s（%+.2fpp） | %s（%+.2fpp） | **￥%s** |"
+                % ("、".join(g.get("labels") or []),
+                   _labels(len(g.get("members") or [])),
+                   m.get("cheapest"), float(m.get("cheapest_premium_pp") or 0.0),
+                   m.get("dearest"), float(m.get("dearest_premium_pp") or 0.0),
+                   format(float(m.get("cost_cny") or 0.0), ",.0f")))
+        add("")
+        if len(_grp) > 6:
+            add("- 其余 **%d 组**过线（0.50pp 以上）的名单见 `results/etf_label_census.md`。"
+                % (len(_grp) - 6))
+            add("")
+    _lie = lc.get("lying") or []
+    _nb = [x for x in _lie if x.get("class") == "NOT_A_BASKET"]
+    _mix = [x for x in _lie if x.get("class") == "MIXED"]
+    if _nb:
+        add("- **名字骗人那 %d 个**（盘口写同一个名字，价说不是同一个篮子）：%s——"
+            "同名不等于同物，照名字换票会买到另一个东西。"
+            % (len(_nb), "、".join("%s（差 %+.2fpp）" % (x.get("label"),
+                                                       float(x.get("worst_pair") or 0.0))
+                                   for x in _nb[:6])))
+    if _mix:
+        add("- **名字跨篮子那 %s 个**（%s）：同名票里有几只同篮、有几只不同篮——"
+            "所以「A 与 B 同篮、B 与 C 同篮」推不出 A 与 C 同篮，本节的团只收逐对都通过的对，"
+            "连得通但不是团的族一分钱都不算。"
+            % (_labels((lc.get("class_counts") or {}).get("MIXED")),
+               "、".join(x.get("label") for x in _mix)))
+    if _nb or _mix:
+        add("")
+    _part = lc.get("partial") or []
+    if _part:
+        add("- **%d 个族没看全**（有对缺历史，缺的那些是「不知道」，不是「同一篮子」）：%s。"
+            % (len(_part), "、".join("%s %s/%s 对" % (x.get("label"), x.get("n_priced"), x.get("n_pairs"))
+                                    for x in _part)))
+        add("")
+    _chains = lc.get("chains") or []
+    if _chains:
+        add("- **连通但不是团**被单列的族 %d 个（组内一分钱都不算）：%s。"
+            % (len(_chains), "、".join(str(x.get("label") or x) for x in _chains)))
+        add("")
+    for c in (lc.get("caveats") or [])[:4]:
+        add("- %s" % _caveat_cn(c))
+    add("")
+    if page_bar and _ds and str(page_bar)[:10] != str(_ds)[:10]:
+        add("> 这张名字账是拿 **%s** 的盘口建的，本页的价是 **%s**——盘口每天变，"
+            "族表结论（谁和谁是同一个篮子）不随一天变，但「最贵那只差多少钱」是 %s 的溢价快照。"
+            % (_ds, page_bar, _ds))
+        add("")
+    return L
+
+
 # r1667: the "today" defect has now been repaired four rounds in a row (quote r1663, do-or-wait
 # r1664, fill r1665, premium r1666) and every one of those repairs was found by eye. This turns
 # the family into a mechanical guard: a block that prints 今天/今日/今晚 without taking a
@@ -8644,6 +8852,7 @@ def build(with_stress=False, window_label=None):
     page["premium_leak"] = premium_face()
     page["premium_forward"] = premium_forward_face(tk.get("ticket") or {})
     page["sibling_gap"] = sibling_gap_face()
+    page["label_census"] = label_census_face()
     page["floor_provenance"] = floor_provenance_face()
     page["vol_target_gate"] = vol_target_face()
     page["positions"] = positions_face()
@@ -9075,6 +9284,10 @@ def render_md(p, sb=None):
     for _sg_line in sibling_gap_block(p.get("sibling_gap") or {}, page_bar=p.get("priced_bar"),
                                       page_day=p.get("generated_for_date")):
         add(_sg_line)
+    for _lc_line in label_census_block(p.get("label_census") or {},
+                                       page_bar=p.get("priced_bar"),
+                                       page_day=p.get("generated_for_date")):
+        add(_lc_line)
     for _fp_line in floor_provenance_block(p.get("floor_provenance") or {},
                                            vt=p.get("vol_target_gate") or {},
                                            page_bar=p.get("priced_bar"),
@@ -12849,6 +13062,64 @@ def selftest():
         and "盘口上没有第二只活着的票写同一个指数名" in _sg_fam_txt
         and "线 0.45 pp 时过线的是 510760、512040" in _sg_fam_txt,
         _sg_fam_txt[-320:])
+    # r1805: the label census is a second reader of the same ruler, and its ways of lying are
+    # its own -- an absent face read as "nothing on the board lies", a family count quoted as a
+    # pair count, a material group whose money the page computes itself, and a face built on an
+    # older board session lending its premium snapshot to today.
+    _lc_fix = {"status": "ok", "artifact": "results/etf_label_census.json", "session": "2026-11-16",
+               "board": {"n_rows": 1667, "n_labels": 1190, "n_labels_multi": 88,
+                         "n_pairs": 452, "n_pairs_priced": 416},
+               "class_counts": {"ONE_BASKET": 71, "NOT_A_BASKET": 11, "MIXED": 5, "UNPRICED": 1},
+               "money": {"total_cost_cny": 33762.8, "groups_over_line": 14,
+                         "notional_cny": 100000.0},
+               "criteria": {"gap_median_pp": 0.30, "material_gap_pp": 0.50, "min_days": 120},
+               "groups": [{"labels": ["科创芯片ETF"], "members": ["589130", "589160"],
+                           "money": {"cheapest": "589130", "cheapest_premium_pp": -6.6641,
+                                     "dearest": "589160", "dearest_premium_pp": 0.0224,
+                                     "spread_pp": 6.6865, "cost_cny": 6687.0, "material": True}},
+                          {"labels": ["电池ETF"], "members": ["561160", "561910"],
+                           "money": {"cheapest": "561160", "cheapest_premium_pp": -0.3176,
+                                     "dearest": "561910", "dearest_premium_pp": 0.2136,
+                                     "spread_pp": 0.5312, "cost_cny": 531.2, "material": True}}],
+               "lying": [{"label": "有色ETF", "class": "NOT_A_BASKET", "n_live": 2,
+                          "n_priced": 1, "worst_pair": 1.3376},
+                         {"label": "电池ETF", "class": "MIXED", "n_live": 3,
+                          "n_priced": 3, "worst_pair": 0.3772}],
+               "partial": [{"label": "科创50ETF", "n_live": 12, "n_priced": 55, "n_pairs": 66}],
+               "chains": [],
+               "caveats": ["one session of premiums and one price history per pair: the group says "
+                           "these tickers hold the same basket, it does not say the basket is worth "
+                           "its price"]}
+    _lc_txt = "\n".join(label_census_block(_lc_fix, page_bar="2026-11-16", page_day="2026-11-16"))
+    chk("L404 label census: the board's own counts and the face's money reach the page, and the "
+        "money is the face's number rather than the page's own arithmetic",
+        "1,190" in _lc_txt and "**88**" in _lc_txt and "**11**" in _lc_txt
+        and "33,763" in _lc_txt and "14" in _lc_txt
+        and "**￥6,687**" in _lc_txt and "589130" in _lc_txt,
+        _lc_txt[:200])
+    chk("L405 label census: a family whose name spans two baskets is named and the clique rule is "
+        "printed -- connectivity does not make a group, and an unaccepted chain prices no money",
+        "电池ETF" in _lc_txt and "推不出 A 与 C 同篮" in _lc_txt and "一分钱都不算" in _lc_txt,
+        _lc_txt[:200])
+    chk("L406 label census: a family with unpriced pairs says how many it did not see instead of "
+        "reading the missing pairs as baskets",
+        "55/66 对" in _lc_txt and "「不知道」，不是「同一篮子」" in _lc_txt,
+        _lc_txt[:200])
+    _lc_missing = "\n".join(label_census_block({"status": "unreadable",
+                                                "artifact": "results/etf_label_census.json",
+                                                "detail": "face absent"}))
+    chk("L407 label census: an absent face says it cannot read and prints no counts -- 'no label "
+        "lies' is not a reading of a missing face",
+        "读不到盘口名字账" in _lc_missing and "缺面不读成" in _lc_missing
+        and "| 盘口（" not in _lc_missing and "33,763" not in _lc_missing,
+        _lc_missing[:200])
+    _lc_shift = "\n".join(label_census_block(_lc_fix, page_bar="2026-11-14",
+                                             page_day="2026-11-14"))
+    chk("L408 label census: a face built on an older board session names that session instead of "
+        "letting the premium snapshot pass as the page's day",
+        "2026-11-16" in _lc_shift and "的盘口建的" in _lc_shift
+        and "本页的价是 **2026-11-14**" in _lc_shift,
+        _lc_shift[-220:])
     # r1667: five rounds of this defect were all found by eye, so the family becomes a guard.
     _guard_ok, _guard_find = page_day_debt_guard()
     _ghost = ("def ghost_block(x):\n    return '今天的价差'\n\n"

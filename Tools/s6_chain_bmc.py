@@ -1006,6 +1006,18 @@ LEGS = [
     # r1471/r1594 "a reader with no writer" class). Local, deterministic, sub-second.
     ("etf_book_premium_leak_write",
      ["python", "scripts/etf_book_premium_leak.py", "run"]),
+    # r1804: the label test priced five legs and could not say whether its 0.30 pp line is
+    # calibrated for the board or for those five -- nor which of the other 1,600 tickers a
+    # reader may treat as the same thing. This leg runs the same ruler over every label,
+    # re-derives each pair from the panels, refuses a group published as a clique when a
+    # pair inside it was not accepted, and cross-checks the pairs it shares with sibling_gap
+    # (1.1s run / check).
+    # r1805: moved ahead of the page that now quotes it -- it sat ~500 legs later, so the
+    # section would have printed the previous chain run's census on every build (r1318/r1781
+    # ordering law: a leg that a reader face quotes must run before that face).
+    ("label_census",
+     ["python", "scripts/etf_label_census.py", "check"],
+     ["python", "scripts/etf_label_census.py", "run"]),
     ("etf_book_ceo_page", ["python", "scripts/etf_book_ceo_page.py", "run"]),
     # r1639: r1638 found one sentence copied twice onto this page (the two copies read as
     # two independent pieces of evidence) and the block-level leg could not see it, because
@@ -1496,15 +1508,6 @@ LEGS = [
     ("sibling_gap",
      ["python", "scripts/etf_book_sibling_gap.py", "check"],
      ["python", "scripts/etf_book_sibling_gap.py", "run"]),
-    # r1804: the label test priced five legs and could not say whether its 0.30 pp line is
-    # calibrated for the board or for those five -- nor which of the other 1,600 tickers a
-    # reader may treat as the same thing. This leg runs the same ruler over every label,
-    # re-derives each pair from the panels, refuses a group published as a clique when a
-    # pair inside it was not accepted, and cross-checks the pairs it shares with sibling_gap
-    # (1.1s run / check).
-    ("label_census",
-     ["python", "scripts/etf_label_census.py", "check"],
-     ["python", "scripts/etf_label_census.py", "run"]),
     # r1466: sibling_gap answers "does the gap repeat" and leaves the reader holding a sheet
     # with two numbers and no next action. This leg re-derives the trigger from the gap
     # face's own reconstruction: the round-trip toll as the action price, the measured
