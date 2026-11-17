@@ -4673,15 +4673,30 @@ def admission_read(last_bar=None, path=None, phase=None):
     dec = d.get("decision") or {}
     dec_book = dec.get("book")
     dec_ok = bool(dec.get("verdict")) and dec_book in (None, "", ADMITTED_BOOK)
+    _prior = d.get("prior") or {}
     base = {"readable": True, "path": rel, "asof": d.get("asof"),
             "data_last": (d.get("data") or {}).get("last"),
-            "prior_data_last": (d.get("prior") or {}).get("data_last"),
+            "prior_asof": _prior.get("asof"),
+            "prior_data_last": _prior.get("data_last"),
             "line": (d.get("gate_rules") or {}).get("top2_share_max"),
             "book": ADMITTED_BOOK, "found": b is not None or dec_ok,
             "caliber": "decision_block" if dec_ok else "legacy_yearly",
             "phase": (phase if phase is not None
                       else (_phase_reading() if path is None else None)),
             "last_bar": last_bar}
+    # r1801: the quoted "previous reading" is the one number on this card whose own date is
+    # somebody else's. It was copied out as {verdict, top2_share} and both stamps were left
+    # behind, so when the gate re-ran the card's prior reading moved (0.7039 -> 0.7084) while
+    # the section around it did not -- and the daily-diff face could only file that as a number
+    # that moved for no stated reason. The generation of that reading is a run, not a guess:
+    # carry its asof + panel bar and a digest over exactly those two (never over the values it
+    # produced, which would make every move self-explaining).
+    if base["prior_asof"] or base["prior_data_last"]:
+        base["prior_identity"] = {
+            "asof": base["prior_asof"], "data_last": base["prior_data_last"],
+            "digest": hashlib.sha256(
+                ("%s|%s|%s" % (base["prior_asof"] or "", base["prior_data_last"] or "",
+                               ADMITTED_BOOK)).encode("utf-8")).hexdigest()[:16]}
     if dec_ok:
         base.update({"decision_verdict": dec.get("verdict"),
                      "decision_book": dec_book or ADMITTED_BOOK,
@@ -4865,6 +4880,15 @@ def admission_md(ad, last_bar=None):
                      % ("- 旧年度尺距线（诊断）：" if _dec else "- 距线：",
                         float(ad["margin_to_line"]), float(ad.get("top2_share") or 0.0),
                         float(ad.get("line") or 0.0)))
+    if ad.get("prior"):
+        pv0 = ad["prior"]
+        _pid = ad.get("prior_identity") or {}
+        _gen = ("%s 那次跑" % _pid["asof"]) if _pid.get("asof") else "没记下是哪次跑"
+        lines.append("- 上一次读数（%s / top2 %.2f%%）的出处：**%s**，面板到 %s —— 这一行是"
+                     "转抄闸面上一次的判决，不是本页算的；面板一变它就会动，所以它动不等于这本书"
+                     "变了。"
+                     % (pv0.get("verdict"), 100.0 * float(pv0.get("top2_share") or 0.0),
+                        _gen, _pid.get("data_last") or ad.get("prior_data_last") or "未注明"))
     if ad.get("verdict_changed") and ad.get("prior"):
         pv = ad["prior"]
         moved = (None if pv.get("top2_share") is None or ad.get("top2_share") is None
@@ -7957,11 +7981,12 @@ def selftest():
     _tmp = tempfile.mkdtemp(prefix="adm_")
 
     def _gate(path, book=None, verdict="CONDITIONAL", last="2026-11-09", decision=None,
-              caliber=None):
+              caliber=None, prior=None):
         doc = {"face": "etf_book_year_gate", "asof": "2026-11-10T00:50:41+0800",
                "gate_rules": {"top2_share_max": 0.70},
                "data": {"last": last},
-               "prior": {"data_last": "2026-11-07"}, "books": []}
+               "prior": (prior if prior is not None else {"data_last": "2026-11-07"}),
+               "books": []}
         if decision is not None:
             doc["decision"] = decision
         if caliber is not None:
@@ -8112,6 +8137,44 @@ def selftest():
             and "没有双口径读数" in _nm
             and "73.94%" not in _nm,
             [l for l in _nm.splitlines() if "双口径" in l][:1])
+        # legP-R (r1801): the "previous reading" is the one number on the card whose date
+        # belongs to somebody else's run. Two legs hold the two halves that went wrong:
+        # the identity must be carried and printed, and the digest must be computed over the
+        # RUN (asof + panel bar), never over the value it produced -- a digest over the value
+        # would make every move explain itself and the daily-diff face would go quiet forever.
+        _pp = _gate(os.path.join(_tmp, "g10.json"), ADMITTED_BOOK, decision=_dec,
+                    prior={"asof": "2026-11-06T16:50:53+0800", "data_last": "2026-11-06"})
+        _ap2 = admission_read("2026-11-11", path=_pp)
+        _p2md = "\n".join(admission_md(_ap2, "2026-11-11"))
+        chk("legP the prior reading carries the run that produced it, and the card says so",
+            (_ap2.get("prior_identity") or {}).get("asof") == "2026-11-06T16:50:53+0800"
+            and (_ap2.get("prior_identity") or {}).get("data_last") == "2026-11-06"
+            and "2026-11-06T16:50:53+0800 那次跑" in _p2md and "转抄" in _p2md,
+            [l for l in _p2md.splitlines() if "上一次读数" in l][:1])
+        _same_run = _gate(os.path.join(_tmp, "g11.json"), ADMITTED_BOOK, decision=_dec,
+                          verdict="ADMIT",
+                          prior={"asof": "2026-11-06T16:50:53+0800",
+                                 "data_last": "2026-11-06"})
+        _asr = admission_read("2026-11-11", path=_same_run)
+        _other_run = _gate(os.path.join(_tmp, "g12.json"), ADMITTED_BOOK, decision=_dec,
+                           prior={"asof": "2026-11-09T09:00:00+0800",
+                                  "data_last": "2026-11-06"})
+        _aor = admission_read("2026-11-11", path=_other_run)
+        chk("legQ the identity digest follows the run, not the value it produced",
+            (_ap2["prior_identity"]["digest"] == _asr["prior_identity"]["digest"])
+            and (_aor["prior_identity"]["digest"] != _ap2["prior_identity"]["digest"]),
+            "same-run=%s other-run=%s" % (_ap2["prior_identity"]["digest"],
+                                          _aor["prior_identity"]["digest"]))
+        _noasof = _gate(os.path.join(_tmp, "g13.json"), ADMITTED_BOOK, decision=_dec,
+                        prior={"data_last": "2026-11-07"})
+        _ana = admission_read("2026-11-11", path=_noasof)
+        _namd = "\n".join(admission_md(_ana, "2026-11-11"))
+        _nline = [l for l in _namd.splitlines() if "上一次读数" in l]
+        chk("legR a prior reading with no run stamp says it has none instead of inventing one",
+            (_ana.get("prior_identity") or {}).get("asof") is None
+            and bool(_nline) and "没记下是哪次跑" in _nline[0]
+            and "2026-11-10T00:50" not in _nline[0],
+            _nline[:1])
     finally:
         shutil.rmtree(_tmp, ignore_errors=True)
 

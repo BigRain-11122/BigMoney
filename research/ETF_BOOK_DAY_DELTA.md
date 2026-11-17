@@ -2,17 +2,17 @@
 
 - 比较：`LIVE-BOOK-20261116.json` → `LIVE-BOOK-20261117.json`
 - 价格依据：2026-11-16（前一天 2026-11-16）｜数据截止：2026-11-16（前一天 2026-11-16）
-- 判决：**UNEXPLAINED_MOVES**
+- 判决：**EXPLAINED_MOVES**
 
 ## 一句话
-两天**是同一根 bar**（没有新数据进来），这页有 **265** 个数变了；其中 **6** 个是钟面（机器多久没说话之类，本来就该走）、**258** 个能给出解释（旧数还在页上／口径句改了／这一节换了代／这一节换了定价的输入／这个数只是转抄别面）、**1** 个没解释。新增 **17** 个数字叶子、消失 **3** 个。
+两天**是同一根 bar**（没有新数据进来），这页有 **265** 个数变了；其中 **6** 个是钟面（机器多久没说话之类，本来就该走）、**259** 个能给出解释（旧数还在页上／口径句改了／这一节换了代／这一节换了定价的输入／这个数只是转抄别面）、**0** 个没解释。新增 **17** 个数字叶子、消失 **3** 个。
 
 ## 动的数（全部 265 个）
 
 | 数字 | 昨天 | 今天 | 判读 | 依据 |
 |---|---|---|---|---|
-| `/admission/prior/top2_share` | 0.7039 | 0.7084 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/authority/owner_silent_h` | 68.4 | 11.2 | CLOCK |  |
+| `/admission/prior/top2_share` | 0.7039 | 0.7084 | INPUT_IDENTITY_CHANGED | 这一节的输入身份变了：`admission` 昨天按 （未声明） 定价、今天按 5d1848b8a9e57613 定价——数字换的是「拿什么算的」，不是同一根 bar 上的读数 |
+| `/authority/owner_silent_h` | 68.4 | 12.7 | CLOCK |  |
 | `/causal_rebuild/elapsed_sec` | 118.9 | 82.4 | CLOCK |  |
 | `/derisk/instrument/dd_brake/distance_to_line_pp` | 4.1 | 4.33 | SECTION_ADVANCED | 这一节自己换了代：`derisk` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
 | `/derisk/instrument/dd_brake/spread_pp` | 17.71 | 17.36 | SECTION_ADVANCED | 这一节自己换了代：`derisk` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
@@ -290,7 +290,7 @@
 
 ## 钱的两处（同一根 bar 上改了定价口径）
 
-- `/admission/prior/top2_share`：**0.7039 → 0.7084**（差 0.0045）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
+- `/admission/prior/top2_share`：**0.7039 → 0.7084**（差 0.0045）｜INPUT_IDENTITY_CHANGED｜这一节的输入身份变了：`admission` 昨天按 （未声明） 定价、今天按 5d1848b8a9e57613 定价——数字换的是「拿什么算的」，不是同一根 bar 上的读数
 - `/derisk/instrument/dd_brake/distance_to_line_pp`：**4.1 → 4.33**（差 0.23）｜SECTION_ADVANCED｜这一节自己换了代：`derisk` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
 - `/derisk/instrument/dd_brake/spread_pp`：**17.71 → 17.36**（差 -0.35）｜SECTION_ADVANCED｜这一节自己换了代：`derisk` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
 - `/derisk/instrument/dd_brake/top2_max`：**0.9181 → 0.9169**（差 -0.0012）｜SECTION_ADVANCED｜这一节自己换了代：`derisk` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
@@ -551,12 +551,6 @@
 - `/vt_phases/reference/top2_min`：**1.5112 → 1.5724**（差 0.0612）｜SECTION_ADVANCED｜这一节自己换了代：`vt_phases` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
 
 同一个隔夜、同一根 bar、同一笔钱，这页昨天给一个答案、今天给另一个。两个答案不可能都对：走 `RECOVERED_OLD_VALUE`／`DECLARED_RULER` 的那一条说明**是新答案改了算法**（旧数还在页上或口径句改了），读的人要按新口径重读昨天的判断；没有这两条说明的，就是这页偷偷换了数。
-
-## 还有哪些节在同 bar 上改了数（1 个）
-
-- `admission`：1 个
-
-这几节的位移**没有任何解释**（不是转抄、不是换输入、不是换代）。页要在同一根 bar 上改这些数，就得自己写出理由；写不出来，读的人就分不清「今天变了」和「口径变了」。
 
 ## 怎么读
 

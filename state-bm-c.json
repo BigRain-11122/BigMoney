@@ -1,7 +1,7 @@
 {
   "activity": "product",
-  "activity_now": "r1797: pricing the sleeve-split face on both execution calibers (8.98%->7.30% on the all-class arm)",
-  "activity_now_round": 1795,
+  "activity_now": "r1801: the page names which run produced its quoted prior reading, so the daily diff can attribute the move",
+  "activity_now_round": 1801,
   "agenda_starved": false,
   "ah_note": "r1680 LANDED: refresh closed itself at 21:17 -- cutoff 2026-11-12 -> 2026-11-13, complete=True, exit 0, pulled_rows 46; data_lane_freshness in_sync 13 / behind_1d 1 (worst now marks, intraday-only, not rebuildable). Fix that made it possible: stall watchdog over every network leg (300s, names stage/pair, exit 2, checkpoint kept) + save_progress stamps write time + -u on the detached spawn + progress line every 10 pairs. NOT yet proven: the 300s stall path has never fired on a real hang (this round the suspected freeze finished by itself).",
   "ahead_origin": 0,
@@ -37,10 +37,10 @@
     "workers": 6
   },
   "artifacts": [
-    "scripts/etf_book_tilt_neutral.py",
-    "research/ETF_BOOK_TILT_NEUTRAL.md",
-    "results/etf_book_tilt_neutral.json",
-    "smoke_test.py"
+    "scripts/etf_book_order.py",
+    "scripts/etf_book_ceo_page.py",
+    "docs/live_book/LIVE-BOOK-20261117.json",
+    "results/etf_book_day_delta.json"
   ],
   "batch": "etf_book_tilt_neutral selftest 24/24 + run rc0 + --check rc0; smoke r1790 first run 642/642 PASS 0 FAIL (822.6s/640 legs); second run (new legs) still in flight at closeout -- not claimed",
   "behind_origin": 0,
@@ -967,7 +967,7 @@
   "round_1788_next": "(a) the three remaining live_book product legs (arm count / premium rows / k_gap rows) are the same cause -- the page on disk is 20:30 and the faces it quotes moved at 21:57 and 00:34; an in-memory rebuild on bm-c passes all three, but docs/live_book is bm-a's single writer and owner_silence_hours()=4.7 < 6.0, so run() is an honest no-op here. Poke to bm-a accepted 2026-11-17T04:32:04 (worker 1.9.7) -- verify the republished page next round; (b) 8 today-word lines on the page still carry no date (census rc1 debt, pre-existing); (c) the S6 chain was not re-run this round (red-fix mission + 10-minute window).",
   "round_1788_note": "r1788: the day-word census mapped the premium one-liner ('按 DATE 的读数，这张单里可核验的 N 只票…') to premium_forward.face_asof while the numbers come from premium_leak.own_ruler_summary at THAT face's session. The forward paper is built from a later-closing panel and may sit a session behind, so the leg was green only on days the two coincided. Live receipt 2026-11-16: page JSON carries premium_forward.face_asof=2026-11-13 and premium_leak.session=2026-11-16, and the face's own 159655 last_pctile is 96.44 (in_own_top_decile=['159655']) -- the sentence was right, the mapping was wrong. Rule now reads premium_leak.session; two selftest legs pin both directions (quotes the leak face -> ok; names a third day -> mismatch).",
   "round_label": "1704",
-  "round_no": 1800,
+  "round_no": 1801,
   "round_no_label": "r1785",
   "round_no_landed": 1663,
   "round_note": "r1489: a reinstated bar is re-derived from the panel, not carried over (reinstatement_check + reinstatements.json + sheet paragraph)",

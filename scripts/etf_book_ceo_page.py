@@ -6951,6 +6951,153 @@ def derisk_block(dk):
     return out
 
 
+def year_gate_caliber_block(yg, page_bar=None):
+    """r1801: one line, three algorithms -- printed side by side, never one at a time.
+
+    The year gate publishes three readings of the same line (top-2 share of yearly net) on
+    one book: the frozen net-sum (partial years in the denominator), the full-years-only
+    sibling, and -- since r1798 -- the caliber the ticket actually promises (decide on the
+    close, own it from the next open).  The admission section quotes two of them in passing;
+    a reader who meets only two cannot tell whether the line is an artifact of whichever
+    arithmetic was in use.  This block puts all three in one table and re-reads the two
+    places the net-sum is stored against each other, so a face whose own copies disagree is
+    caught here instead of being cited.
+
+    Two sentences must never be folded into one: (1) this line is a DIAGNOSTIC --
+    `decision.diagnostics_have_no_veto` names Y4, and the verdict that admits or refuses the
+    book is the three veto rulers; (2) a missing block is "cannot read", never "the three
+    agree" and never a zero.
+    """
+    head = ["## 同一条线，三种算法各读一遍", ""]
+    cal = yg.get("caliber") if isinstance(yg, dict) else None
+    if (not isinstance(cal, dict) or not isinstance(cal.get("entry_lag0"), dict)
+            or not isinstance(cal.get("entry_lag1"), dict)):
+        return head + ["- **读不出来**：年闸面这一趟没有印两种成交口径的读数"
+                       "（缺这一行不等于「几种算法一样」）。", ""]
+
+    def _num(d, k):
+        v = (d or {}).get(k)
+        return float(v) if isinstance(v, (int, float)) else None
+
+    lag0, lag1 = cal["entry_lag0"], cal["entry_lag1"]
+    line = _num(cal, "line_top2_share_max_pct")
+    s0, s1 = _num(lag0, "top2_share_pct"), _num(lag1, "top2_share_pct")
+    c0, c1 = _num(lag0, "cagr_pct"), _num(lag1, "cagr_pct")
+    p0, p1 = lag0.get("passes"), lag1.get("passes")
+    if s0 is None or s1 is None:
+        return head + ["- **读不出来**：这一趟的 `caliber` 块里两种口径的集中度没有数"
+                       "（缺这一行不等于「几种算法一样」）。", ""]
+
+    books = yg.get("books") or []
+    b0 = books[0] if books and isinstance(books[0], dict) else {}
+    ym = b0.get("year_metrics") or {}
+    net, full = _num(ym, "top2_share"), _num(ym, "top2_share_full_only")
+    net_pct = None if net is None else net * 100.0
+    full_pct = None if full is None else full * 100.0
+
+    def _gap(v):
+        if v is None or line is None:
+            return "?"
+        d = v - line
+        tag = "高出" if d > 0 else ("低于" if d < 0 else "正好压")
+        return "%s %.2fpp" % (tag, abs(d))
+
+    out = list(head)
+    out.append("- 准入那一节顺手引了其中两个读数；这张面其实印了**三读**。三读并列，才能看"
+               "出「不过线」不是某一种算法算出来的：" if line is not None else
+               "- 准入那一节顺手引了其中两个读数；这张面其实印了**三读**（闸线这笔面没印）：")
+    out.append("")
+    out.append("| 算法 | top-2 年占比 | 对闸线 %s | 这是什么 |"
+               % (("%.2f%%" % line) if line is not None else "（未印）"))
+    out.append("|---|---|---|---|")
+    out.append("| 净和（不完整年也进分母） | %s | %s | 冻结线，本单认这一个 |"
+               % (("%.2f%%" % net_pct) if net_pct is not None else "未印", _gap(net_pct)))
+    out.append("| 只算完整年 | %s | %s | 同一张面的兄弟口径 |"
+               % (("%.2f%%" % full_pct) if full_pct is not None else "未印", _gap(full_pct)))
+    out.append("| 可成交（次日开盘才买得进） | %.2f%% | %s | 卡上声明的执行 |"
+               % (s1, _gap(s1)))
+    out.append("")
+
+    # the same number is stored in two places on this one face: the book's own year metrics
+    # and the caliber block's lag-0 arm.  If they disagree, the table above is not one book.
+    if net_pct is not None and abs(net_pct - s0) > 0.011:
+        out.append("- **这张面自己两处对不上**：`books[0].year_metrics.top2_share` 是 **%.2f%%**，"
+                   "`caliber.entry_lag0` 却是 **%.2f%%**——先按「读不出来」处理，上面的表别引用。"
+                   % (net_pct, s0))
+        out.append("")
+        return out
+
+    gap = s1 - s0
+    claimed = _num(cal, "top2_gap_pp")
+    if claimed is not None and abs(gap - claimed) > 0.011:
+        out.append("- **口径块自己对不上**：两个读数相减是 **%+.2fpp**，块里写的却是 **%+.2fpp**"
+                   "——先按「读不出来」处理，别引用这一行。" % (gap, claimed))
+        out.append("")
+        return out
+
+    if c0 is not None and c1 is not None:
+        out.append("- 越往真实成交走，这条线**越高**：年化 **%.2f%% → %.2f%%**（%+.2fpp），"
+                   "集中度 **%+.2fpp**。执行延迟少赚的是收益，留下的是更集中的收益——"
+                   "所以这条线不是口径造成的假象，它在真实成交下更站得住。"
+                   % (c0, c1, c1 - c0, gap))
+    else:
+        out.append("- 口径让集中度 **%+.2fpp**（年化两读有一侧没印，不做比较）。" % gap)
+
+    if p0 is not None and p1 is not None:
+        if bool(p0) and bool(p1):
+            out.append("- 两种成交口径**都过**这条线（面自己两侧 `passes` 都是 true）。")
+        elif not bool(p0) and not bool(p1):
+            out.append("- 两种成交口径**都过不了**这条线（面自己两侧 `passes` 都是 false）。")
+        else:
+            out.append("- **闸两边**：一种口径过、一种不过（`passes` = %s / %s）——这时换算术"
+                       "才有意义，别把两句话合起来读。" % (bool(p0), bool(p1)))
+
+    moved = (p0 is not None and p1 is not None and bool(p0) != bool(p1))
+    said = cal.get("verdict")
+    if said and "KEEPS" in str(said) and moved:
+        out.append("- **面自己矛盾**：块写 **%s**（判词不移动），可两侧 `passes` 是不同的。"
+                   "这一天先别引用判词。" % said)
+    elif said and "FLIPS" in str(said) and not moved:
+        out.append("- **面自己矛盾**：块写 **%s**（判词移动），可两侧 `passes` 相同。"
+                   "这一天先别引用判词。" % said)
+    elif said:
+        out.append("- 判词 **%s**：口径%s移动判词。" % (said, "**移动了**" if moved else "不"))
+    else:
+        out.append("- 判词：这一趟面没印（不按「不移动」默认读）。")
+
+    dec = yg.get("decision") if isinstance(yg, dict) else None
+    dec = dec if isinstance(dec, dict) else {}
+    if "Y4_top2_share" in (dec.get("diagnostics_have_no_veto") or []):
+        reads = dec.get("reads") or {}
+        bits = []
+        if reads.get("oos_sharpe") is not None and reads.get("oos_sharpe_min") is not None:
+            bits.append("样本外夏普 %.2f（线 %.2f）" % (reads["oos_sharpe"], reads["oos_sharpe_min"]))
+        if (reads.get("cagr_after_cost_pct") is not None
+                and reads.get("cagr_min_pct") is not None):
+            bits.append("扣费年化 %.2f%%（线 %.1f%%）"
+                        % (reads["cagr_after_cost_pct"], reads["cagr_min_pct"]))
+        caps = reads.get("capacity_by_capital") or {}
+        cap = caps.get(reads.get("capacity_veto_lens") or "") or {}
+        if cap.get("impact_pct_of_adv") is not None and reads.get("impact_max_pct_of_adv") is not None:
+            bits.append("容量 %.3f%% ADV（线 %.1f%%）"
+                        % (cap["impact_pct_of_adv"], reads["impact_max_pct_of_adv"]))
+        out.append("- 但这条线在本司是**诊断行不是否决行**（`decision.diagnostics_have_no_veto` "
+                   "点名 Y4）：放不放行看那三项否决尺，当前判词 **%s**%s。"
+                   "所以「集中度不过这条线」不拦这张单，它改的是你怎么读这本书赚钱。"
+                   % (dec.get("verdict") or "未印",
+                      ("（%s）" % "，".join(bits)) if bits else ""))
+
+    last = ((yg.get("data") or {}) if isinstance(yg, dict) else {}).get("last")
+    tail = ""
+    if isinstance(page_bar, str) and last and page_bar != last:
+        tail = "；本页 bar 是 **%s**，不是同一根 bar，三个数各按自己的那句读" % page_bar
+    out.append("- 数据到 %s（年闸面自己的 bar）%s，跑于 %s；出处 `results/etf_book_year_gate/"
+               "YEAR-GATE.json`（本页只读不重算）。"
+               % (last or "未标注", tail, yg.get("asof") or "未标注"))
+    out.append("")
+    return out
+
+
 def futures_sleeve_block(fs):
     """The index-futures carry sleeve, as three sentences a reader can act on.
 
@@ -8771,6 +8918,13 @@ def render_md(p, sb=None):
     # reaches for is de-risking in bad states, and it has been priced and refused.
     for _dk_line in derisk_block(p.get("derisk") or {}):
         add(_dk_line)
+    # r1801: the de-risk block ends on "the share moves up when the book shrinks". The same
+    # thing happens when the only change is the caliber -- so the two readings sit here, where
+    # the reader has just been told the line is hard to clear, not in a footnote.
+    for _ygc_line in year_gate_caliber_block(
+            p.get("year_gate") if "year_gate" in p else _year_gate_face(),
+            page_bar=p.get("priced_bar")):
+        add(_ygc_line)
     # r1708: right after the de-risk dead end, because it answers the same question from the
     # other side -- not "hold less", but "hold the same exposure as a future instead".
     for _fs_line in futures_sleeve_block(p.get("futures_sleeve") or {}):
@@ -14425,6 +14579,61 @@ def selftest():
         "是不是同一本" in _txt_none and "**0 名**" not in _txt_none
         and "同一本（都是" not in _txt_none,
         "cannot-tell sentence present")
+
+    # r1801: the concentration line priced on the caliber the ticket promises
+    _yc_base = {"data": {"last": "2026-11-16"},
+                "books": [{"year_metrics": {"top2_share": 0.7084,
+                                            "top2_share_full_only": 0.7278}}],
+                "decision": {"verdict": "ADMIT",
+                             "diagnostics_have_no_veto": ["Y4_top2_share"],
+                             "reads": {"oos_sharpe": 1.8105, "oos_sharpe_min": 0.7,
+                                       "cagr_after_cost_pct": 11.45, "cagr_min_pct": 6.0,
+                                       "impact_max_pct_of_adv": 1.0,
+                                       "capacity_veto_lens": "1M",
+                                       "capacity_by_capital": {"1M": {"impact_pct_of_adv": 0.319}}}}}
+    _yc_keep = dict(_yc_base, caliber={
+        "line_top2_share_max_pct": 70.0, "top2_gap_pp": 3.1, "verdict": "CALIBER_KEEPS_Y4",
+        "entry_lag0": {"top2_share_pct": 70.84, "passes": False, "cagr_pct": 11.45},
+        "entry_lag1": {"top2_share_pct": 73.94, "passes": False, "cagr_pct": 10.42}})
+    _yc_md = "\n".join(year_gate_caliber_block(_yc_keep))
+    chk("L325 year-gate caliber: all three readings reach the page and the line is named a diagnostic",
+        "70.84%" in _yc_md and "72.78%" in _yc_md and "73.94%" in _yc_md
+        and "诊断行不是否决行" in _yc_md
+        and "CALIBER_KEEPS_Y4" in _yc_md and "不移动判词" in _yc_md,
+        "three readings + diagnostic sentence + keeps verdict")
+
+    _yc_flip = dict(_yc_base, caliber={
+        "line_top2_share_max_pct": 70.0, "top2_gap_pp": 3.1, "verdict": "CALIBER_FLIPS_Y4",
+        "entry_lag0": {"top2_share_pct": 70.84, "passes": True, "cagr_pct": 11.45},
+        "entry_lag1": {"top2_share_pct": 73.94, "passes": False, "cagr_pct": 10.42}})
+    _yc_flip_md = "\n".join(year_gate_caliber_block(_yc_flip))
+    chk("L326 year-gate caliber: a caliber that DOES move the verdict is not printed as 'keeps'",
+        "移动了" in _yc_flip_md and "不移动判词" not in _yc_flip_md
+        and "闸两边" in _yc_flip_md,
+        "flip verdict printed as a move, both-side flag present")
+
+    _yc_miss_md = "\n".join(year_gate_caliber_block({}))
+    chk("L327 year-gate caliber: a missing block says cannot-read, never 'the readings agree' or a zero",
+        "读不出来" in _yc_miss_md and "0.00%" not in _yc_miss_md
+        and "几种算法一样" in _yc_miss_md,
+        "cannot-read sentence, no zero substitution")
+
+    _yc_bad = dict(_yc_keep, caliber=dict(_yc_keep["caliber"], top2_gap_pp=9.9))
+    _yc_bad_md = "\n".join(year_gate_caliber_block(_yc_bad))
+    chk("L328 year-gate caliber: a block whose own difference disagrees with its readings is caught",
+        "口径块自己对不上" in _yc_bad_md and _yc_bad_md.count("9.90") == 1
+        and "口径让集中度" not in _yc_bad_md and "越往真实成交走" not in _yc_bad_md,
+        "contradiction named once, and no downstream sentence reuses the stray figure")
+
+    # the same number lives in two places on one face: the book's own year metrics and the
+    # caliber block's lag-0 arm. A table built from two disagreeing copies is not one book.
+    _yc_two = dict(_yc_keep, books=[{"year_metrics": {"top2_share": 0.6881,
+                                                     "top2_share_full_only": 0.7278}}])
+    _yc_two_md = "\n".join(year_gate_caliber_block(_yc_two))
+    chk("L329 year-gate caliber: two stored copies of the net-sum that disagree are caught",
+        "自己两处对不上" in _yc_two_md and "68.81%" in _yc_two_md
+        and "诊断行不是否决行" not in _yc_two_md,
+        "cross-copy mismatch named, downstream sentences withheld")
 
     print("\nSummary: %d/%d PASS%s" % (ok, total, "" if ok == total else " -- %d FAIL" % (total - ok)))
     return 0 if ok == total else 1
