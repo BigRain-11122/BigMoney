@@ -5,14 +5,14 @@
 - 判决：**EXPLAINED_MOVES**
 
 ## 一句话
-两天**是同一根 bar**（没有新数据进来），这页有 **265** 个数变了；其中 **6** 个是钟面（机器多久没说话之类，本来就该走）、**259** 个能给出解释（旧数还在页上／口径句改了／这一节换了代／这一节换了定价的输入／这个数只是转抄别面）、**0** 个没解释。新增 **525** 个数字叶子、消失 **4** 个。
+两天**是同一根 bar**（没有新数据进来），这页有 **265** 个数变了；其中 **6** 个是钟面（机器多久没说话之类，本来就该走）、**259** 个能给出解释（旧数还在页上／口径句改了／这一节换了代／这一节换了定价的输入／这个数只是转抄别面）、**0** 个没解释。新增 **909** 个数字叶子、消失 **4** 个。
 
 ## 动的数（全部 265 个）
 
 | 数字 | 昨天 | 今天 | 判读 | 依据 |
 |---|---|---|---|---|
 | `/admission/prior/top2_share` | 0.7039 | 0.7084 | INPUT_IDENTITY_CHANGED | 这一节的输入身份变了：`admission` 昨天按 （未声明） 定价、今天按 5d1848b8a9e57613 定价——数字换的是「拿什么算的」，不是同一根 bar 上的读数 |
-| `/authority/owner_silent_h` | 68.4 | 14.8 | CLOCK |  |
+| `/authority/owner_silent_h` | 68.4 | 15.8 | CLOCK |  |
 | `/causal_rebuild/elapsed_sec` | 118.9 | 82.4 | CLOCK |  |
 | `/derisk/instrument/dd_brake/distance_to_line_pp` | 4.1 | 4.33 | SECTION_ADVANCED | 这一节自己换了代：`derisk` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
 | `/derisk/instrument/dd_brake/spread_pp` | 17.71 | 17.36 | SECTION_ADVANCED | 这一节自己换了代：`derisk` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
@@ -284,10 +284,20 @@
 - `/family_coherence/panels_detail/1/columns`
 - `/sibling_gap/verdict_counts/CANNOT_VERIFY`
 
-## 今天新出现的数（525 个）落在这几块上
+## 今天新出现的数（909 个）落在这几块上
 
 - `/admission/concentration_caliber`
 - `/admission/reads`
+- `/alias_census/across`
+- `/alias_census/board`
+- `/alias_census/calibration`
+- `/alias_census/chains`
+- `/alias_census/criteria`
+- `/alias_census/families`
+- `/alias_census/n_families_total`
+- `/alias_census/panel`
+- `/alias_census/sensitivity`
+- `/alias_census/verdicts`
 - `/label_census/board`
 - `/label_census/class_counts`
 - `/label_census/criteria`
@@ -296,13 +306,6 @@
 - `/label_census/money`
 - `/label_census/partial`
 - `/sibling_gap/criteria`
-- `/sibling_gap/immaterial_gain_cny`
-- `/sibling_gap/label_family`
-- `/sibling_gap/label_family_sensitivity`
-- `/sibling_gap/one_off_gain_cny`
-- `/sibling_gap/pairs`
-- `/sibling_gap/repeatable_gain_cny`
-- `/sibling_gap/today_gain_cny`
 
 ## 钱的两处（同一根 bar 上改了定价口径）
 

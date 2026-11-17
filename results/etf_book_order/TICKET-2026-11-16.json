@@ -1,7 +1,7 @@
 {
  "evidence_cutoff": "2026-11-16",
  "beta_target": 0.2,
- "generated": "2026-11-17T13:46:00+08:00",
+ "generated": "2026-11-17T15:44:36+08:00",
  "permission": {
   "status": "within_permission",
   "k_now": 0.432195,
@@ -275,10 +275,10 @@
  },
  "feed_status": {
   "ticket_bar": "2026-11-16",
-  "expected_bar": "2026-11-16",
-  "lag_days": 0,
-  "status": "current",
-  "detail": "the ticket is priced on the newest official bar that must exist"
+  "expected_bar": "2026-11-17",
+  "lag_days": 1,
+  "status": "stale_feed",
+  "detail": "the bar this ticket is priced on is 1 official day(s) behind the market; the signal is that old"
  },
  "k_now": 0.432195,
  "k_rule": 0.460253,
@@ -588,7 +588,7 @@
   "withdrawn_now": [],
   "withdrawal_note": "ledger withdrew 1 bar(s) at 2026-11-09 23:54:02 because the price panel then ended 2026-11-06 (2026-11-09); the panel has since carried 2026-11-09 again and that ledger row is live -- the withdrawal stays on record but it is not this sheet's pricing bar",
   "reinstatements": {
-   "at": "2026-11-17 13:46:00",
+   "at": "2026-11-17 15:44:36",
    "n_reinstated": 1,
    "rewritten": [],
    "verbatim_identical": [
@@ -753,10 +753,52 @@
    "trip_is_not_the_threshold": true,
    "why": "the exchange this desk already made is paid whether it acts again or not; an unwind pays the same exchange once more, and that total is a different number"
   },
-  "pairs": [],
-  "verdict_counts": {},
-  "repeatable_gain_cny": 0,
-  "one_off_gain_cny": 0,
+  "pairs": [
+   {
+    "leg_symbol": "510760",
+    "sibling_symbol": "510210",
+    "sibling_name": "上证指数ETF富国",
+    "index": "LBL:上证指数ETF",
+    "source_verdict": "ALREADY_CHEAPEST",
+    "today_gap_pp": -0.1394,
+    "mean_gap_pp": -20.258,
+    "toll_pp": 0.16,
+    "today_excess_pp": 20.1186,
+    "window_share": 0.1364,
+    "percentile": 84.02,
+    "expiry": {
+     "n_episodes": 1,
+     "n_completed": 0,
+     "n_censored": 1,
+     "median_sessions": null,
+     "p25_sessions": null,
+     "p75_sessions": null,
+     "max_sessions": null
+    },
+    "repeatable_gain_cny": null,
+    "one_off_gain_cny": null,
+    "verdict": "NOT_ACTIONABLE",
+    "toll_scope": {
+     "name": "one_exchange",
+     "sides": 2,
+     "pp": 0.16,
+     "question": "换这一次要付多少",
+     "decision_use": "INCREMENTAL: the only cost a 'act again?' decision moves",
+     "trip_sides": 4,
+     "trip_pp": 0.32,
+     "trip_question": "一来一回总共多少",
+     "trip_is_not_the_threshold": true,
+     "why": "the exchange this desk already made is paid whether it acts again or not; an unwind pays the same exchange once more, and that total is a different number"
+    },
+    "advice": "the gap does not clear the toll of making the exchange (0.16 pp, 2 sides): swapping would pay more to move than it saves, so the trigger is the gap itself (re-read on the next decision bar; the whole manoeuvre is 0.32 pp (4 sides -- the unwind pays the exchange again))",
+    "why": ""
+   }
+  ],
+  "verdict_counts": {
+   "NOT_ACTIONABLE": 1
+  },
+  "repeatable_gain_cny": 0.0,
+  "one_off_gain_cny": 0.0,
   "recheck_rule": "nothing to act on: no pair clears the toll of the exchange. After execution the only number that can bring the decision back is the toll of the exchange it would have to make: re-read this face on the next decision bar, and act again only if a pair's gap exceeds 0.16 pp (2 sides x 8 bp). Getting the book back where it came from pays that same exchange once more, so the whole manoeuvre is 0.32 pp (4 sides) -- that number answers 'did the discount pay for the trip', never 'may I act'.",
   "caveats": [
    "the trigger is priced in pp of notional and compared against the toll of ONE exchange (0.16 pp, 2 sides) only; the whole manoeuvre (0.32 pp, 4 sides) is published next to it and is never the threshold. It does not price tracking difference, fee, size or FX-hedge policy between the two tickers",
@@ -823,16 +865,16 @@
    "before": [
     "159519",
     "159655",
-    "510760",
     "512040",
-    "513690"
+    "513690",
+    "LBL:上证指数ETF"
    ],
    "after": [
     "159519",
     "159655",
-    "510760",
     "512040",
-    "513690"
+    "513690",
+    "LBL:上证指数ETF"
    ],
    "n_before": 5,
    "n_after": 5
@@ -1560,7 +1602,7 @@
  },
  "next_decision": {
   "artifact": "etf_book_next_decision",
-  "generated": "2026-11-17T13:46:01",
+  "generated": "2026-11-17T15:44:36",
   "evidence_cutoff": "2026-11-16",
   "calendar_source": "data/exchange_calendar.csv",
   "calendar_last": "2026-12-31",
@@ -1707,8 +1749,8 @@
  },
  "swap_freshness": {
   "artifact": "etf_book_swap_freshness",
-  "generated": "2026-11-17T13:46:01",
-  "evidence_cutoff": "2026-11-16",
+  "generated": "2026-11-17T15:44:39",
+  "evidence_cutoff": "2026-11-17",
   "calendar_source": "data/exchange_calendar.csv",
   "close_accept_time": "15:30",
   "legs": [
@@ -1718,9 +1760,10 @@
     "face": "results/etf_book_sibling_entry.json",
     "field": "session",
     "bar": "2026-11-16",
-    "lag_sessions": 0,
-    "status": "FRESH",
-    "reason": "on the 2026-11-16 close"
+    "lag_sessions": 1,
+    "status": "STALE",
+    "reason": "1 session(s) behind the 2026-11-17 close",
+    "waiting_on": "waiting on data/etf_premium/snap/2026-11-17.csv (newest copy here: 2026-11-16, written 2026-11-16T16:56:17; lane owner bm-c writes it; this copy cannot)"
    },
    {
     "leg": "sibling_gap",
@@ -1728,9 +1771,10 @@
     "face": "results/etf_book_sibling_gap.json",
     "field": "session",
     "bar": "2026-11-16",
-    "lag_sessions": 0,
-    "status": "FRESH",
-    "reason": "on the 2026-11-16 close"
+    "lag_sessions": 1,
+    "status": "STALE",
+    "reason": "1 session(s) behind the 2026-11-17 close",
+    "waiting_on": "waiting on data/etf_premium/snap/2026-11-17.csv (newest copy here: 2026-11-16, written 2026-11-16T16:56:17; lane owner bm-c writes it; this copy cannot)"
    },
    {
     "leg": "swap_trigger",
@@ -1738,9 +1782,10 @@
     "face": "results/etf_book_swap_trigger.json",
     "field": "session",
     "bar": "2026-11-16",
-    "lag_sessions": 0,
-    "status": "FRESH",
-    "reason": "on the 2026-11-16 close"
+    "lag_sessions": 1,
+    "status": "STALE",
+    "reason": "1 session(s) behind the 2026-11-17 close",
+    "waiting_on": "waiting on data/etf_premium/snap/2026-11-17.csv (newest copy here: 2026-11-16, written 2026-11-16T16:56:17; lane owner bm-c writes it; this copy cannot)"
    },
    {
     "leg": "swap_stack",
@@ -1748,9 +1793,9 @@
     "face": "results/etf_book_swap_stack.json",
     "field": "asof",
     "bar": "2026-11-16",
-    "lag_sessions": 0,
-    "status": "FRESH",
-    "reason": "on the 2026-11-16 close"
+    "lag_sessions": 1,
+    "status": "STALE",
+    "reason": "1 session(s) behind the 2026-11-17 close"
    },
    {
     "leg": "swap_toll",
@@ -1758,9 +1803,9 @@
     "face": "results/etf_book_swap_toll.json",
     "field": "bar",
     "bar": "2026-11-16",
-    "lag_sessions": 0,
-    "status": "FRESH",
-    "reason": "on the 2026-11-16 close"
+    "lag_sessions": 1,
+    "status": "STALE",
+    "reason": "1 session(s) behind the 2026-11-17 close"
    },
    {
     "leg": "toll_scope",
@@ -1768,9 +1813,9 @@
     "face": "results/etf_book_toll_scope.json",
     "field": "bar",
     "bar": "2026-11-16",
-    "lag_sessions": 0,
-    "status": "FRESH",
-    "reason": "on the 2026-11-16 close"
+    "lag_sessions": 1,
+    "status": "STALE",
+    "reason": "1 session(s) behind the 2026-11-17 close"
    },
    {
     "leg": "swap_convergence",
@@ -1778,9 +1823,9 @@
     "face": "results/etf_book_swap_convergence.json",
     "field": "bar",
     "bar": "2026-11-16",
-    "lag_sessions": 0,
-    "status": "FRESH",
-    "reason": "on the 2026-11-16 close"
+    "lag_sessions": 1,
+    "status": "STALE",
+    "reason": "1 session(s) behind the 2026-11-17 close"
    },
    {
     "leg": "swap_effect",
@@ -1788,9 +1833,9 @@
     "face": "results/etf_book_swap_effect.json",
     "field": "bar",
     "bar": "2026-11-16",
-    "lag_sessions": 0,
-    "status": "FRESH",
-    "reason": "on the 2026-11-16 close"
+    "lag_sessions": 1,
+    "status": "STALE",
+    "reason": "1 session(s) behind the 2026-11-17 close"
    },
    {
     "leg": "swap_units",
@@ -1798,9 +1843,9 @@
     "face": "results/etf_book_swap_units.json",
     "field": "bar",
     "bar": "2026-11-16",
-    "lag_sessions": 0,
-    "status": "FRESH",
-    "reason": "on the 2026-11-16 close"
+    "lag_sessions": 1,
+    "status": "STALE",
+    "reason": "1 session(s) behind the 2026-11-17 close"
    },
    {
     "leg": "swap_track",
@@ -1808,16 +1853,27 @@
     "face": "results/etf_book_swap_track.json",
     "field": "bar",
     "bar": "2026-11-16",
-    "lag_sessions": 0,
-    "status": "FRESH",
-    "reason": "on the 2026-11-16 close"
+    "lag_sessions": 1,
+    "status": "STALE",
+    "reason": "1 session(s) behind the 2026-11-17 close"
    }
   ],
   "n_legs": 10,
-  "stale_legs": [],
+  "stale_legs": [
+   "sibling_entry",
+   "sibling_gap",
+   "swap_trigger",
+   "swap_stack",
+   "swap_toll",
+   "toll_scope",
+   "swap_convergence",
+   "swap_effect",
+   "swap_units",
+   "swap_track"
+  ],
   "inconsistent_legs": [],
-  "verdict": "FRESH",
-  "sentence": "Every one of the 10 faces in the swap section is on the 2026-11-16 close.",
+  "verdict": "STALE",
+  "sentence": "STALE: 10 of 10 faces are older than the 2026-11-17 close -- worst sibling_entry on 2026-11-16 (1 session(s) behind the 2026-11-17 close). waiting on data/etf_premium/snap/2026-11-17.csv (newest copy here: 2026-11-16, written 2026-11-16T16:56:17; lane owner bm-c writes it; this copy cannot)",
   "caveats": [
    "The bar-to-be comes from the official exchange calendar, never from this chain's own panels: a panel cannot say which session should already be printed (r1286).",
    "A face AHEAD of the calendar is not stale -- its producer would not make it true, so the chain must keep it red instead of paying a refresh (r1345).",
@@ -1933,15 +1989,15 @@
    "vol": 0.0886
   },
   "width_effect": {
-   "beta": {
-    "ticket_width_cagr": 0.1098,
-    "card_width_cagr": 0.0959,
-    "pp": -1.39
-   },
    "vol": {
     "ticket_width_cagr": 0.1172,
     "card_width_cagr": 0.1218,
     "pp": 0.46
+   },
+   "beta": {
+    "ticket_width_cagr": 0.1098,
+    "card_width_cagr": 0.0959,
+    "pp": -1.39
    }
   },
   "rules_differ": true,

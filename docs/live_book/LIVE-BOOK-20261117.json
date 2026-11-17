@@ -3,9 +3,9 @@
  "generated_for_date": "2026-11-17",
  "evidence_cutoff": "2026-11-16",
  "priced_bar": "2026-11-16",
- "feed_status": "current",
- "feed_lag_days": 0,
- "expected_bar": "2026-11-16",
+ "feed_status": "stale_feed",
+ "feed_lag_days": 1,
+ "expected_bar": "2026-11-17",
  "capital_cny": 1000000.0,
  "book_amount_cny": 431727.8,
  "cash_amount_cny": 568272.2,
@@ -5643,14 +5643,79 @@
   }
  },
  "live_quote": {
-  "status": "panel_current",
-  "panel_bar": "2026-11-16",
-  "expected": "2026-11-16",
-  "writer": "quote_face",
-  "quote_symbols": 48,
-  "snapshot_as_of": "2026-11-06",
-  "upstream": "results\\update_status.json",
-  "artifact": "results\\etf_book_live_quote\\latest.json"
+  "status": "ok",
+  "artifact": "results\\etf_book_live_quote\\QUOTE-2026-11-06.json",
+  "verdict": "NO_NEW_BAR",
+  "panel_bar": "2026-11-06",
+  "quote_bar": "2026-11-06",
+  "quote_time": "16:29:30",
+  "lag_trading_days": null,
+  "n_held": 5,
+  "n_joined": 1,
+  "mismatch_share": 0.8,
+  "mismatch_share_max": 0.2,
+  "book_weight": 0.460253,
+  "cash_weight": 0.539747,
+  "held_leg_return": null,
+  "book_change": null,
+  "ticket_priced_bar": "2026-11-06",
+  "rows": [
+   {
+    "symbol": "159501",
+    "weight": 0.092051,
+    "panel_bar": "2026-11-06",
+    "panel_close": 2.069,
+    "quote_date": "2026-11-06",
+    "quote_prev_close": 2.132,
+    "quote_last": 2.069,
+    "joined": false,
+    "ret": null
+   },
+   {
+    "symbol": "513100",
+    "weight": 0.092051,
+    "panel_bar": "2026-11-06",
+    "panel_close": 2.158,
+    "quote_date": "2026-11-06",
+    "quote_prev_close": 2.229,
+    "quote_last": 2.158,
+    "joined": false,
+    "ret": null
+   },
+   {
+    "symbol": "513690",
+    "weight": 0.092051,
+    "panel_bar": "2026-11-06",
+    "panel_close": 1.158,
+    "quote_date": "2026-11-06",
+    "quote_prev_close": 1.155,
+    "quote_last": 1.158,
+    "joined": false,
+    "ret": null
+   },
+   {
+    "symbol": "159577",
+    "weight": 0.092051,
+    "panel_bar": "2026-11-06",
+    "panel_close": 1.612,
+    "quote_date": "2026-11-06",
+    "quote_prev_close": 1.674,
+    "quote_last": 1.612,
+    "joined": false,
+    "ret": null
+   },
+   {
+    "symbol": "159263",
+    "weight": 0.092051,
+    "panel_bar": "2026-11-06",
+    "panel_close": 1.143,
+    "quote_date": "2026-11-06",
+    "quote_prev_close": 1.142,
+    "quote_last": 1.143,
+    "joined": true,
+    "ret": 0.0008756567425569628
+   }
+  ]
  },
  "sellability": {
   "status": "ok",
@@ -16720,10 +16785,10 @@
  "authority": {
   "writer": "bm-c",
   "owner": "bm-a",
-  "owner_silent_h": 15.8,
+  "owner_silent_h": 16.1,
   "gate_h": 6.0,
   "took_over": true,
-  "why": "bm-a has not written its own heartbeat for 15.8 h (> 6 h): this host takes the pen for the page only -- a stopped heartbeat is not a dead machine",
+  "why": "bm-a has not written its own heartbeat for 16.1 h (> 6 h): this host takes the pen for the page only -- a stopped heartbeat is not a dead machine",
   "no_bar_reason": "human_ages"
  },
  "fleet": {
