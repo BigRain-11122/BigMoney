@@ -5,26 +5,13 @@
 - 判决：**UNEXPLAINED_MOVES**
 
 ## 一句话
-两天**是同一根 bar**（没有新数据进来），这页有 **80** 个数变了；其中 **5** 个是钟面（机器多久没说话之类，本来就该走）、**15** 个能给出解释（旧数还在页上／口径句改了／这一节换了代／这一节换了定价的输入／这个数只是转抄别面）、**60** 个没解释。新增 **210** 个数字叶子、消失 **0** 个。
+两天**是同一根 bar**（没有新数据进来），这页有 **67** 个数变了；其中 **5** 个是钟面（机器多久没说话之类，本来就该走）、**1** 个能给出解释（旧数还在页上／口径句改了／这一节换了代／这一节换了定价的输入／这个数只是转抄别面）、**61** 个没解释。新增 **210** 个数字叶子、消失 **0** 个。
 
-## 动的数（全部 80 个）
+## 动的数（全部 67 个）
 
 | 数字 | 昨天 | 今天 | 判读 | 依据 |
 |---|---|---|---|---|
-| `/cash_caliber/band_50_bp` | 33.75 | 33.5 | SECTION_ADVANCED | 这一节自己换了代：`cash_caliber` 2026-11-17 → 2026-11-13（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/cash_caliber/band_90_bp` | 90.185 | 90.405 | SECTION_ADVANCED | 这一节自己换了代：`cash_caliber` 2026-11-17 → 2026-11-13（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/cash_caliber/bars` | 1664 | 1662 | SECTION_ADVANCED | 这一节自己换了代：`cash_caliber` 2026-11-17 → 2026-11-13（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/cash_caliber/commission_bp` | 24.639 | 24.649 | SECTION_ADVANCED | 这一节自己换了代：`cash_caliber` 2026-11-17 → 2026-11-13（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/cash_caliber/commission_share_pct` | 41.28 | 48.52 | SECTION_ADVANCED | 这一节自己换了代：`cash_caliber` 2026-11-17 → 2026-11-13（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/cash_caliber/control_error_bp` | 0.0043 | 0.004 | SECTION_ADVANCED | 这一节自己换了代：`cash_caliber` 2026-11-17 → 2026-11-13（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/cash_caliber/median_abs_bp` | 33.75 | 33.5 | SECTION_ADVANCED | 这一节自己换了代：`cash_caliber` 2026-11-17 → 2026-11-13（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/cash_caliber/quote_pct` | 1.175 | 1.265 | SECTION_ADVANCED | 这一节自己换了代：`cash_caliber` 2026-11-17 → 2026-11-13（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/cash_caliber/rate_diff_bp` | -84.335 | -75.455 | SECTION_ADVANCED | 这一节自己换了代：`cash_caliber` 2026-11-17 → 2026-11-13（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/cash_caliber/share_in_band_pct` | 1.262 | 1.264 | SECTION_ADVANCED | 这一节自己换了代：`cash_caliber` 2026-11-17 → 2026-11-13（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/cash_caliber/total_bp` | -59.696 | -50.806 | SECTION_ADVANCED | 这一节自己换了代：`cash_caliber` 2026-11-17 → 2026-11-13（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/cash_caliber/window/bars` | 1664 | 1662 | SECTION_ADVANCED | 这一节自己换了代：`cash_caliber` 2026-11-17 → 2026-11-13（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/cash_caliber/window_gross_pct` | 2.0184 | 2.0196 | SECTION_ADVANCED | 这一节自己换了代：`cash_caliber` 2026-11-17 → 2026-11-13（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/cash_caliber/window_net_pct` | 1.772 | 1.7731 | SECTION_ADVANCED | 这一节自己换了代：`cash_caliber` 2026-11-17 → 2026-11-13（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
+| `/cash_caliber/control_error_bp` | 0.0043 | 0.1143 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
 | `/cash_money/block/book_rate/annual_cny` | 10067.0 | 10073.0 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
 | `/cash_money/block/book_rate/gap_vs_spot_bp` | -59.7 | -59.81 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
 | `/cash_money/block/book_rate/gap_vs_spot_cny` | -3392.0 | -3398.0 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
@@ -35,9 +22,9 @@
 | `/cash_money/forward/gap_bp_gross` | 59.7 | 59.81 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
 | `/cash_money/forward/gap_cny` | 280.0 | 281.0 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
 | `/causal_rebuild/elapsed_sec` | 50.0 | 81.5 | CLOCK |  |
-| `/fleet/rows/0/age_h` | 1.24 | 0.76 | CLOCK |  |
-| `/fleet/rows/1/age_h` | 441.79 | 445.64 | CLOCK |  |
-| `/fleet/rows/2/age_h` | 4.18 | 1.05 | CLOCK |  |
+| `/fleet/rows/0/age_h` | 1.24 | 0.42 | CLOCK |  |
+| `/fleet/rows/1/age_h` | 441.79 | 447.9 | CLOCK |  |
+| `/fleet/rows/2/age_h` | 4.18 | 0.38 | CLOCK |  |
 | `/futures_hedge/beta` | 0.07185718963947142 | 0.07458300567364223 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
 | `/futures_hedge/capital_for_one_lot` | 11395936.91471321 | 10979444.882970085 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
 | `/futures_hedge/corr` | 0.1373365917783091 | 0.1415643988218339 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
@@ -111,20 +98,7 @@
 
 ## 钱的两处（同一根 bar 上改了定价口径）
 
-- `/cash_caliber/band_50_bp`：**33.75 → 33.5**（差 -0.25）｜SECTION_ADVANCED｜这一节自己换了代：`cash_caliber` 2026-11-17 → 2026-11-13（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/cash_caliber/band_90_bp`：**90.185 → 90.405**（差 0.22）｜SECTION_ADVANCED｜这一节自己换了代：`cash_caliber` 2026-11-17 → 2026-11-13（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/cash_caliber/bars`：**1664 → 1662**（差 -2）｜SECTION_ADVANCED｜这一节自己换了代：`cash_caliber` 2026-11-17 → 2026-11-13（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/cash_caliber/commission_bp`：**24.639 → 24.649**（差 0.01）｜SECTION_ADVANCED｜这一节自己换了代：`cash_caliber` 2026-11-17 → 2026-11-13（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/cash_caliber/commission_share_pct`：**41.28 → 48.52**（差 7.24）｜SECTION_ADVANCED｜这一节自己换了代：`cash_caliber` 2026-11-17 → 2026-11-13（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/cash_caliber/control_error_bp`：**0.0043 → 0.004**（差 -0.0003）｜SECTION_ADVANCED｜这一节自己换了代：`cash_caliber` 2026-11-17 → 2026-11-13（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/cash_caliber/median_abs_bp`：**33.75 → 33.5**（差 -0.25）｜SECTION_ADVANCED｜这一节自己换了代：`cash_caliber` 2026-11-17 → 2026-11-13（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/cash_caliber/quote_pct`：**1.175 → 1.265**（差 0.09）｜SECTION_ADVANCED｜这一节自己换了代：`cash_caliber` 2026-11-17 → 2026-11-13（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/cash_caliber/rate_diff_bp`：**-84.335 → -75.455**（差 8.88）｜SECTION_ADVANCED｜这一节自己换了代：`cash_caliber` 2026-11-17 → 2026-11-13（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/cash_caliber/share_in_band_pct`：**1.262 → 1.264**（差 0.002）｜SECTION_ADVANCED｜这一节自己换了代：`cash_caliber` 2026-11-17 → 2026-11-13（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/cash_caliber/total_bp`：**-59.696 → -50.806**（差 8.89）｜SECTION_ADVANCED｜这一节自己换了代：`cash_caliber` 2026-11-17 → 2026-11-13（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/cash_caliber/window/bars`：**1664 → 1662**（差 -2）｜SECTION_ADVANCED｜这一节自己换了代：`cash_caliber` 2026-11-17 → 2026-11-13（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/cash_caliber/window_gross_pct`：**2.0184 → 2.0196**（差 0.0012）｜SECTION_ADVANCED｜这一节自己换了代：`cash_caliber` 2026-11-17 → 2026-11-13（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/cash_caliber/window_net_pct`：**1.772 → 1.7731**（差 0.0011）｜SECTION_ADVANCED｜这一节自己换了代：`cash_caliber` 2026-11-17 → 2026-11-13（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
+- `/cash_caliber/control_error_bp`：**0.0043 → 0.1143**（差 0.11）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
 - `/cash_money/block/book_rate/annual_cny`：**10067.0 → 10073.0**（差 6.0）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
 - `/cash_money/block/book_rate/gap_vs_spot_bp`：**-59.7 → -59.81**（差 -0.11）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
 - `/cash_money/block/book_rate/gap_vs_spot_cny`：**-3392.0 → -3398.0**（差 -6.0）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
@@ -189,7 +163,7 @@
 
 同一个隔夜、同一根 bar、同一笔钱，这页昨天给一个答案、今天给另一个。两个答案不可能都对：走 `RECOVERED_OLD_VALUE`／`DECLARED_RULER` 的那一条说明**是新答案改了算法**（旧数还在页上或口径句改了），读的人要按新口径重读昨天的判断；没有这两条说明的，就是这页偷偷换了数。
 
-## 还有哪些节在同 bar 上改了数（60 个）
+## 还有哪些节在同 bar 上改了数（61 个）
 
 - `premium_forward`：14 个
 - `futures_sleeve`：12 个
@@ -197,6 +171,7 @@
 - `futures_hedge_tail`：9 个
 - `futures_hedge`：8 个
 - `roster_audit`：6 个
+- `cash_caliber`：1 个
 - `futures_ladder`：1 个
 - `idle_cash`：1 个
 
