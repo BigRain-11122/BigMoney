@@ -1496,6 +1496,15 @@ LEGS = [
     ("sibling_gap",
      ["python", "scripts/etf_book_sibling_gap.py", "check"],
      ["python", "scripts/etf_book_sibling_gap.py", "run"]),
+    # r1804: the label test priced five legs and could not say whether its 0.30 pp line is
+    # calibrated for the board or for those five -- nor which of the other 1,600 tickers a
+    # reader may treat as the same thing. This leg runs the same ruler over every label,
+    # re-derives each pair from the panels, refuses a group published as a clique when a
+    # pair inside it was not accepted, and cross-checks the pairs it shares with sibling_gap
+    # (1.1s run / check).
+    ("label_census",
+     ["python", "scripts/etf_label_census.py", "check"],
+     ["python", "scripts/etf_label_census.py", "run"]),
     # r1466: sibling_gap answers "does the gap repeat" and leaves the reader holding a sheet
     # with two numbers and no next action. This leg re-derives the trigger from the gap
     # face's own reconstruction: the round-trip toll as the action price, the measured

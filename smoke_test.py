@@ -1959,6 +1959,19 @@ def main() -> int:
              "scripts/etf_book_sibling_gap.py", ["selftest"]),
             ("product: etf_book_sibling_gap (history re-derived from the panels, anchor re-checked)",
              "scripts/etf_book_sibling_gap.py", ["check"]),
+            # r1804: r1803 taught the label test to the book's five legs, which cannot say
+            # whether the 0.30 pp line is calibrated for the board or for those five, nor
+            # which of the other 1,600 tickers a reader may treat as the same thing. The
+            # census runs the same ruler over every label, publishes the groups a swap is
+            # legal inside (union-find then a clique test -- A~B~C is not A~C), the labels
+            # where the name and the price disagree, and the premium spread the dearest
+            # member of a group costs its holder. The legs pin the boundary, that an
+            # unpriced pair is never a basket, that a chain is not a clique, and that the
+            # money line is dearest-vs-cheapest on a stated notional.
+            ("product: etf_label_census (does the board's name survive the board's prices)",
+             "scripts/etf_label_census.py", ["selftest"]),
+            ("product: etf_label_census (face re-derived from its own pair table, ruler cross-checked)",
+             "scripts/etf_label_census.py", ["check"]),
             # r1466: the swap was priced but the sheet carrying it did not say when to look
             # again. The legs pin that the action price is the round-trip toll (not a mean,
             # not a percentile), that a censored episode is reported rather than scored as
