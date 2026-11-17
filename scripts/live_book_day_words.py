@@ -834,7 +834,18 @@ def selftest():
     return 0 if ok == total else 1
 
 
+def _safe_stdout():
+    """The page carries U+00A5 (¥) inside quoted lines; a GBK console raises
+    UnicodeEncodeError mid-report and the chain reads a crash as rc=1 (r1310).
+    Keep the console's own encoding, only stop it from raising."""
+    try:
+        sys.stdout.reconfigure(errors="replace")
+    except Exception:
+        pass
+
+
 def main(argv=None):
+    _safe_stdout()
     argv = list(sys.argv[1:] if argv is None else argv)
     cmd = argv[0] if argv else "check"
     if cmd in ("--selftest", "selftest"):

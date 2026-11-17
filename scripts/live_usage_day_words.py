@@ -122,7 +122,49 @@ CLAIM_RULES = [
     # false red into one foreign date.
     (re.compile(r"在 " + _D + r" 那根 bar 上\*\*四个品种都不在带内\*\*"),
      ["carry_timing.evidence_cutoff"]),
+    # r1310: r1779/r1787 put the ticket, the withdrawal decision and the "today's action"
+    # block on the page but taught no rule to read their dates -- 19 printed dates stayed
+    # unmapped and the face could never be green (the "permanent red" family, r1789: a report
+    # that is always red teaches readers to treat real defects as background noise). Every
+    # rule below names a field that already exists on the page's own JSON; the file-name
+    # dates sitting in the same lines are identifiers, sorted by _unmapped_classifier.
+    (re.compile(r"照做版执行单\*\*（决策 bar " + _D), ["etf_order.decision_bar"]),
+    (re.compile(r"（generated " + _D + r"T"), ["etf_order.generated"]),
+    (re.compile(r"etf_book_order[^·]*·cutoff " + _D), ["etf_order.bar"]),
+    (re.compile(r"最近一笔 [\d.]+%（" + _D + r"）"),
+     ["etf_order.cash_leg.bands.spot.as_of"]),
+    (re.compile(r"账面持仓 bar " + _D + r" → 票面 bar " + _D),
+     ["etf_order.delta.current_bar", "etf_order.delta.declaration_bar"]),
+    (re.compile(r"账上那本按 " + _D + r" 的价、票面按 " + _D + r" 的价"),
+     ["etf_order.delta.mark_account_bar", "etf_order.delta.declaration_bar"]),
+    (re.compile(r"（" + _D + r" → " + _D + r"，账面零成交）"),
+     ["etf_order.delta.current_bar", "etf_order.delta.declaration_bar"]),
+    (re.compile(r"换仓差量面[^）]*·bar " + _D), ["etf_order.delta.current_bar"]),
+    (re.compile(r"上一次决策 bar " + _D), ["etf_order.book_decided_bar"]),
+    (re.compile(r"WITHDRAW_FROM_TICKET`（" + _D), ["carry_book.decided"]),
+    (re.compile(r"idx_fut_carry_open_capital\.json`｜generated " + _D + r"T"),
+     ["carry_book.source_generated"]),
+    (re.compile(r"｜cutoff " + _D + r"｜尺子"), ["carry_book.evidence_cutoff"]),
+    (re.compile(r"在 " + _D + r" 那根 bar 上在带内"), ["carry_timing.evidence_cutoff"]),
+    (re.compile(r"idx_fut_basis_timing\.json`｜cutoff " + _D),
+     ["carry_timing.evidence_cutoff"]),
 ]
+
+# A date that rides inside a file name (`TICKET-2026-11-17.json`) names a paper; it does not
+# claim that a field carries that day. Sorted into its own bucket and printed, never counted
+# as checked (r1674's contract for `_date_claims.unmapped_classifier`).
+_FILE_DATE = re.compile(r"[\w\-.\\/]*-20\d{2}-\d{2}-\d{2}(?:T[\d:+\-]+)?\.[A-Za-z0-9]{2,5}")
+
+
+def _unmapped_classifier(rec):
+    line = rec.get("line") or ""
+    date = rec.get("date") or ""
+    if not date:
+        return None
+    for m in _FILE_DATE.finditer(line):
+        if date in m.group(0):
+            return "identifier"
+    return None
 
 # Dates that are rule constants, not data claims: 月界（2026-10-01）is when a gate opens, and
 # no field can disagree with it. They are counted and printed separately -- a policy date that
@@ -246,7 +288,8 @@ def census(doc, printed):
           "n_undated": len(undated), "undated": undated[:40],
           "headings": heads[:12], "rows": rows}
     ret["printed"] = pr
-    ret["date_claims"] = LBW._date_claims(rows, doc, rules=CLAIM_RULES)
+    ret["date_claims"] = LBW._date_claims(rows, doc, rules=CLAIM_RULES,
+                                          unmapped_classifier=_unmapped_classifier)
     policy = []
     if ret["date_claims"].get("unmapped"):
         keep = []
@@ -363,6 +406,11 @@ def check():
               % (r["heading"], r["date"], r["field"], r["expected"]))
     for r in dc.get("unmapped") or []:
         print("  DATE-UNMAPPED %s | %s | %s" % (r["heading"], r["date"], r["line"][:80]))
+    if dc.get("buckets"):
+        # a bucket is a reason a date is not checked; it is printed so the reader can see
+        # what was set aside, and it never joins the ok count (r1674 contract).
+        print("  DATE-BUCKETS %s" % ", ".join("%s=%s" % (k, v)
+                                              for k, v in sorted(dc["buckets"].items())))
     for r in dy.get("offenders") or []:
         print("  STALE-DAY %s | page %s vs bar %s | %s"
               % (r["heading"], r["page_day"], r["bar_day"], r["line"][:100]))
@@ -485,11 +533,53 @@ def selftest():
             "PRINTED_DATES_AGREE", "PRINTED_DATE_MISMATCH", "DAY_WORD_ON_STALE_PAGE",
             "PRINTED_SELF_DATED", "PRINTED_BUT_UNANCHORED"), live["verdict"])
 
+    # L9 (r1310) the ticket-provenance sentences r1779/r1787 put on the page name fields
+    # that exist; a file-name date in the same line is an identifier, not a claim. Both
+    # halves are pinned, because the failure mode this round fixed was 19 dates with no rule
+    # at all, and the failure mode of the fix would be a rule that matches the shape but
+    # never reads the field (a rule-shaped pass, r1471 family).
+    d9 = doc(day="2026-11-13", bar="2026-11-13", prior="2026-11-12")
+    d9["etf_order"] = {"decision_bar": "2026-11-13", "bar": "2026-11-13",
+                       "generated": "2026-11-13T10:00:00+08:00"}
+    p9 = page(day="2026-11-13", bar="2026-11-13", prior="2026-11-12", amount="1,234") + "\n" + "\n".join([
+        "- **照做版执行单**（决策 bar 2026-11-13·成交在下一交易日开盘）",
+        "- 出处：`results/etf_book_order/TICKET-2026-11-13.json`"
+        "（generated 2026-11-13T10:00:00·cutoff 2026-11-13）",
+    ])
+    c9 = census(d9, p9)
+    dc9 = c9["date_claims"]
+    leg("L9 ticket provenance dates are read, not left unmapped",
+        dc9.get("n_unmapped") == 0 and dc9.get("n_mismatch") == 0
+        and any(r.get("field") == "etf_order.decision_bar"
+                for r in dc9.get("claims") or []),
+        "unmapped=%s mismatch=%s fields=%s"
+        % (dc9.get("n_unmapped"), dc9.get("n_mismatch"),
+           sorted({r.get("field") for r in dc9.get("claims") or []})))
+    leg("L9b the file-name date is bucketed as an identifier, never counted as checked",
+        (dc9.get("buckets") or {}).get("identifier", 0) >= 1, dc9.get("buckets"))
+
+    d10 = dict(d9)
+    d10["etf_order"] = dict(d9["etf_order"], bar="2026-11-12")
+    c10 = census(d10, p9)
+    leg("L10 a provenance date the field does not carry is a mismatch",
+        c10["verdict"] == "PRINTED_DATE_MISMATCH", c10["verdict"])
+
     print("live_usage_day_words selftest %d/%d" % (ok, total))
     return 0 if ok == total else 1
 
 
+def _safe_stdout():
+    """The page carries U+00A5 (¥) inside quoted lines; a GBK console raises
+    UnicodeEncodeError mid-report and the chain reads a crash as rc=1 (r1310).
+    Keep the console's own encoding, only stop it from raising."""
+    try:
+        sys.stdout.reconfigure(errors="replace")
+    except Exception:
+        pass
+
+
 def main(argv):
+    _safe_stdout()
     arg = (argv[1] if len(argv) > 1 else "run").strip()
     if arg in ("--selftest", "selftest"):
         return selftest()
