@@ -1057,6 +1057,14 @@ LEGS = [
     ("capacity_ticket",
      ["python", "scripts/etf_book_capacity_ticket.py", "check"],
      ["python", "scripts/etf_book_capacity_ticket.py", "run"]),
+    # r1818: the gate says the signed 1,000,000 breaches the 1% ADV line on 0/60 sessions,
+    # the ticket floor says the same capital cuts into whole lots. The two faces each print
+    # true and a reader takes whichever they landed on; this leg folds both onto the signed
+    # capital and publishes which line holds, the yuan overage, and the largest size at which
+    # both hold. Reads the two faces published above, so it stays after both.
+    ("ticket_band",
+     ["python", "scripts/etf_book_ticket_band.py", "check"],
+     ["python", "scripts/etf_book_ticket_band.py", "run"]),
     ("etf_book_ceo_page", ["python", "scripts/etf_book_ceo_page.py", "run"]),
     # r1639: r1638 found one sentence copied twice onto this page (the two copies read as
     # two independent pieces of evidence) and the block-level leg could not see it, because

@@ -2008,6 +2008,17 @@ def main() -> int:
              "scripts/etf_book_capacity_ticket.py", ["selftest"]),
             ("product: etf_book_capacity_ticket (rungs re-derived from the gate face)",
              "scripts/etf_book_capacity_ticket.py", ["check"]),
+            # r1818: two faces each told the truth about the same 1,000,000 -- the capacity
+            # gate that it breaches the 1% ADV line on every one of 60 sessions, the ticket
+            # floor that it cuts into whole lots. Legs pin that the joint verdict comes from
+            # the two booleans (never from either face's own word), that the impact read
+            # scales linearly in capital instead of re-reading ADV, that a rung below the
+            # one-lot floor has no band rather than a zero, and that the sweep counts the
+            # pockets a sawtooth residue leaves instead of printing one interval.
+            ("product: etf_book_ticket_band (both lines folded onto the signed capital)",
+             "scripts/etf_book_ticket_band.py", ["selftest"]),
+            ("product: etf_book_ticket_band (face re-derives from the two source faces)",
+             "scripts/etf_book_ticket_band.py", ["check"]),
             # r1466: the swap was priced but the sheet carrying it did not say when to look
             # again. The legs pin that the action price is the round-trip toll (not a mean,
             # not a percentile), that a censored episode is reported rather than scored as
@@ -10393,6 +10404,7 @@ def main() -> int:
         _wt76 = ((_tk76.get("price_basis") or {}).get("panel_digest") or {})
         _wt76 = _wt76.get("digest") if isinstance(_wt76, dict) else None
         _split76 = bool(_wp76 and _wt76 and _wp76 != _wt76)
+        _pbad76, _why76 = [], ""
         if _cm76.get("status") != "ok":
             _bad76.append("the page prices no cash money (%r/%r)"
                           % (_cm76.get("status"), _cm76.get("note")))
@@ -10425,39 +10437,51 @@ def main() -> int:
                                       "(%r vs %r)" % (_tag76, _key, _ann76,
                                                       round(_pile76 * (_pct76 or 0.0) / 100.0, 0)))
         else:
+            # r1818: this comparison spans two writers -- the ticket is re-issued here, the
+            # page is written on whichever host owns it.  A page priced from ANOTHER host's
+            # own panel/code snapshot then disagrees with our freshly issued ticket, and the
+            # red reads "the page lies" when the truth is "that page was never this host's
+            # to write" (r1789/E686 family: a permanent red is where a real defect hides).
+            # Divergences go through the writer guard; a host that MAY write the page keeps
+            # every one of them strict.
+            _pbad76 = []
             for _key in ("spot", "mean_tail", "window"):
                 _a76 = (_pb76.get(_key) or {})
                 _b76 = (_money76.get(_key) or {})
                 for _fld in ("pct", "annual_cny"):
                     if _a76.get(_fld) != _b76.get(_fld):
-                        _bad76.append("%s.%s page=%r sheet=%r"
-                                      % (_key, _fld, _a76.get(_fld), _b76.get(_fld)))
+                        _pbad76.append("%s.%s page=%r sheet=%r"
+                                       % (_key, _fld, _a76.get(_fld), _b76.get(_fld)))
             if _pb76.get("verdict") != _money76.get("verdict"):
-                _bad76.append("verdict page=%r sheet=%r"
-                              % (_pb76.get("verdict"), _money76.get("verdict")))
+                _pbad76.append("verdict page=%r sheet=%r"
+                               % (_pb76.get("verdict"), _money76.get("verdict")))
             if abs(float(_pb76.get("cash_amount_cny") or 0)
                    - float(_page76.get("cash_amount_cny") or 0)) > 0.01:
-                _bad76.append("the block prices a different pile of money than the page")
+                _pbad76.append("the block prices a different pile of money than the page")
             if "同一笔现金" not in _md76:
-                _bad76.append("the section is gone from the page")
+                _pbad76.append("the section is gone from the page")
             for _key in ("spot", "mean_tail", "window"):
                 _cm_cny = ((_pb76.get(_key) or {}).get("annual_cny"))
                 if _cm_cny is not None and format(int(_cm_cny), ",") not in _md76:
-                    _bad76.append("%s annual (%s CNY) is not printed"
-                                  % (_key, format(int(_cm_cny), ",")))
+                    _pbad76.append("%s annual (%s CNY) is not printed"
+                                   % (_key, format(int(_cm_cny), ",")))
             if _pb76.get("verdict") == "RATES_FELL":
                 if "利率掉下来" not in _md76:
-                    _bad76.append("the face says rates fell but the page does not")
+                    _pbad76.append("the face says rates fell but the page does not")
             elif "利率掉下来" in _md76:
-                _bad76.append("the page calls it a fall while the face does not")
+                _pbad76.append("the page calls it a fall while the face does not")
+            _ok76, _why76 = _page_elsewhere_verdict(_pbad76, _tk76.get("asof_bar"))
+            if not _ok76:
+                _bad76.append(_why76)
         check("product: the operator page prices the cash half on the sheet's own three rates",
               not _bad76,
               "; ".join(_bad76)[:220] or
-              "spot %s / own mean %s / ledger window %s (%s)"
-              % (format(int((_pb76.get("spot") or {}).get("annual_cny") or 0), ","),
-                 format(int((_pb76.get("mean_tail") or {}).get("annual_cny") or 0), ","),
-                 format(int((_pb76.get("window") or {}).get("annual_cny") or 0), ","),
-                 _pb76.get("verdict")))
+              (_why76[:220] if _pbad76 else
+               "spot %s / own mean %s / ledger window %s (%s)"
+               % (format(int((_pb76.get("spot") or {}).get("annual_cny") or 0), ","),
+                  format(int((_pb76.get("mean_tail") or {}).get("annual_cny") or 0), ","),
+                  format(int((_pb76.get("window") or {}).get("annual_cny") or 0), ","),
+                  _pb76.get("verdict"))))
     except Exception as e:
         check("product: the operator page prices the cash half on the sheet's own three rates",
               False, repr(e)[:160])
