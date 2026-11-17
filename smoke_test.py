@@ -5843,6 +5843,13 @@ def main() -> int:
              "scripts/etf_book_entry_lag.py", ["--selftest"]),
             ("product: etf_book_entry_lag (published eighteen cells still re-derive)",
              "scripts/etf_book_entry_lag.py", ["--check"]),
+            # r1796: the production candidate is priced on the SAME engine, so its headline
+            # carries the same one-day bulge. The face now publishes both calibers side by
+            # side (printed keys untouched, so no reader's number moved); this leg re-derives
+            # the penalty from the face's own two readings and refuses a face that lost an
+            # arm, whose penalty was typed rather than subtracted, or whose sign flipped.
+            ("product: etf_nobond_vt (production candidate priced on both calibers)",
+             "scripts/etf_nobond_vt.py", ["--check"]),
             # r1767: the event profile could be forecastable or not. This face cuts the same
             # months on three states known at the month's start and reads the verdict off a
             # label-shuffle null (eight cells always have a best row). The selftest leg pins

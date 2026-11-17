@@ -1865,6 +1865,12 @@ LEGS = [
     # bit-identical -- and this leg re-prices the eighteen cells on both calibers so the
     # corrected excess cannot silently drift away from the printed one.
     ("etf_book_entry_lag", ["python", "scripts/etf_book_entry_lag.py", "run"]),
+    # r1796: the same engine prices the production candidate (nobond_vt08, the book the
+    # year gate admitted), so its headline was quoted on the same one-day bulge and nobody
+    # had ever read it the other way. This leg re-prices all three arms on both calibers so
+    # the penalty stays attached to the published number instead of living in a research
+    # note; the printed keys are untouched, so no downstream reading moves.
+    ("etf_nobond_vt", ["python", "scripts/etf_nobond_vt.py"]),
 ]
 
 

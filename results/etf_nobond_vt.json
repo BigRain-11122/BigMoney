@@ -2,94 +2,142 @@
  "runs": [
   {
    "label": "nobond_base",
-   "years": 6.8,
+   "years": 6.87,
    "start_level": 1.0108,
-   "cagr": 0.1556,
-   "vol": 0.1638,
+   "cagr": 0.1555,
+   "vol": 0.1637,
    "sharpe": 1.002,
    "maxdd": -0.1604,
    "worst_year": 0.0233,
    "neg_years": 0,
    "worst_month": -0.0813,
-   "pos_months_pct": 0.593,
+   "pos_months_pct": 0.585,
    "cagr_is": 0.1022,
    "sharpe_is": 0.685,
    "maxdd_is": -0.1418,
-   "cagr_oos": 0.2364,
-   "sharpe_oos": 1.489,
+   "cagr_oos": 0.2342,
+   "sharpe_oos": 1.478,
    "maxdd_oos": -0.1604,
-   "turnover": 1.53
+   "turnover": 1.53,
+   "caliber": {
+    "entry_lag0_cagr": 0.1555,
+    "entry_lag1_cagr": 0.1523,
+    "entry_lag0_sharpe": 1.002,
+    "entry_lag1_sharpe": 0.975,
+    "entry_lag1_maxdd": -0.1623,
+    "cagr_penalty_pp": 0.32,
+    "execution": "lag0 = decision bar's own open (published); lag1 = next open"
+   }
   },
   {
    "label": "nobond_vt08",
-   "years": 6.8,
+   "years": 6.87,
    "start_level": 1.008,
-   "cagr": 0.1149,
+   "cagr": 0.1145,
    "vol": 0.105,
-   "sharpe": 1.132,
+   "sharpe": 1.129,
    "maxdd": -0.1056,
-   "worst_year": 0.0169,
+   "worst_year": 0.0217,
    "neg_years": 0,
    "worst_month": -0.043,
-   "pos_months_pct": 0.605,
+   "pos_months_pct": 0.598,
    "cagr_is": 0.0581,
    "sharpe_is": 0.621,
    "maxdd_is": -0.088,
-   "cagr_oos": 0.2014,
-   "sharpe_oos": 1.836,
+   "cagr_oos": 0.1983,
+   "sharpe_oos": 1.811,
    "maxdd_oos": -0.1056,
-   "turnover": 1.08
+   "turnover": 1.08,
+   "caliber": {
+    "entry_lag0_cagr": 0.1145,
+    "entry_lag1_cagr": 0.1042,
+    "entry_lag0_sharpe": 1.129,
+    "entry_lag1_sharpe": 1.025,
+    "entry_lag1_maxdd": -0.1011,
+    "cagr_penalty_pp": 1.03,
+    "execution": "lag0 = decision bar's own open (published); lag1 = next open"
+   }
   },
   {
    "label": "nobond_vt12",
-   "years": 6.8,
+   "years": 6.87,
    "start_level": 1.0108,
-   "cagr": 0.1331,
-   "vol": 0.1388,
+   "cagr": 0.1332,
+   "vol": 0.1389,
    "sharpe": 1.008,
    "maxdd": -0.1499,
    "worst_year": 0.0179,
    "neg_years": 0,
    "worst_month": -0.0642,
-   "pos_months_pct": 0.617,
+   "pos_months_pct": 0.61,
    "cagr_is": 0.0659,
    "sharpe_is": 0.553,
    "maxdd_is": -0.1266,
-   "cagr_oos": 0.2364,
-   "sharpe_oos": 1.638,
+   "cagr_oos": 0.2342,
+   "sharpe_oos": 1.622,
    "maxdd_oos": -0.1499,
-   "turnover": 1.38
+   "turnover": 1.38,
+   "caliber": {
+    "entry_lag0_cagr": 0.1332,
+    "entry_lag1_cagr": 0.1251,
+    "entry_lag0_sharpe": 1.008,
+    "entry_lag1_sharpe": 0.945,
+    "entry_lag1_maxdd": -0.1428,
+    "cagr_penalty_pp": 0.81,
+    "execution": "lag0 = decision bar's own open (published); lag1 = next open"
+   }
   }
  ],
- "universe": 1499,
+ "universe": 1521,
+ "flips_repaired": 169,
+ "arms": [
+  "nobond_base",
+  "nobond_vt08",
+  "nobond_vt12"
+ ],
  "live_picks": {
-  "as_of": "2026-10-23",
+  "as_of": "2026-11-16",
   "picks": [
    {
-    "symbol": "515450",
-    "score": 0.689,
-    "class": "equity"
-   },
-   {
-    "symbol": "515300",
+    "symbol": "513690",
     "score": 0.654,
     "class": "equity"
    },
    {
-    "symbol": "511180",
-    "score": 0.616,
-    "class": "convertible"
-   },
-   {
-    "symbol": "510760",
-    "score": 0.579,
+    "symbol": "513800",
+    "score": 0.614,
     "class": "equity"
    },
    {
-    "symbol": "511380",
-    "score": 0.562,
-    "class": "convertible"
+    "symbol": "159207",
+    "score": 0.614,
+    "class": "equity"
+   },
+   {
+    "symbol": "513630",
+    "score": 0.577,
+    "class": "equity"
+   },
+   {
+    "symbol": "562060",
+    "score": 0.574,
+    "class": "equity"
    }
   ]
+ },
+ "caliber": {
+  "source_face": "results/etf_book_entry_lag.json",
+  "execution": "decide at close t, own from open t+1 (entry_lag=1) vs the decision bar's own open (entry_lag=0, every printed number)",
+  "production_candidate": "nobond_vt08",
+  "production_cagr_lag0_pct": 11.45,
+  "production_cagr_lag1_pct": 10.42,
+  "production_penalty_pp": 1.03,
+  "penalty_pp_by_arm": {
+   "nobond_base": 0.32,
+   "nobond_vt08": 1.03,
+   "nobond_vt12": 0.81
+  },
+  "sign_stable": true,
+  "verdict": "CALIBER_COSTS_MONEY"
  }
 }
