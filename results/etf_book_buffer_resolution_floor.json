@@ -11,67 +11,63 @@
   "degenerate_k": 1.0,
   "min_points": 4,
   "sweep_band_share_max": 0.25,
-  "anchor_intercept_share_max": 0.05,
-  "frozen": "written before the first read of the floor: the axis is fitted linearly on the published medians and the answer is a k, which only means anything inside [0,1]; amended 2026-11-18 (r1815) to state the intercept band as a share of the ruler"
+  "frozen": "written before the first read of the floor: the axis is fitted linearly on the published medians and the answer is a k, which only means anything inside [0,1]"
  },
- "ruler_pp": 7.1222,
+ "ruler_pp": 6.7365,
  "arms": {
   "buffer_k02": {
    "buffer_k": 0.02,
-   "median_delta_pp": 0.09,
+   "median_delta_pp": -0.007,
    "median_band_pp": 7.157,
    "resolvable_share": 0.0,
    "verdict": "NOT-SEPARABLE"
   },
   "buffer_k05": {
    "buffer_k": 0.05,
-   "median_delta_pp": 0.065,
+   "median_delta_pp": 0.003,
    "median_band_pp": 6.877,
    "resolvable_share": 0.0,
-   "verdict": "NOT-SEPARABLE"
+   "verdict": "REJECT"
   },
   "buffer_k10": {
    "buffer_k": 0.1,
-   "median_delta_pp": 1.208,
-   "median_band_pp": 6.305,
+   "median_delta_pp": 0.055,
+   "median_band_pp": 6.658,
    "resolvable_share": 0.0,
    "verdict": "NOT-SEPARABLE"
   },
   "buffer_k20": {
    "buffer_k": 0.2,
-   "median_delta_pp": 0.315,
+   "median_delta_pp": 0.15,
    "median_band_pp": 6.53,
    "resolvable_share": 0.0,
    "verdict": "NOT-SEPARABLE"
   },
   "buffer_k40": {
    "buffer_k": 0.4,
-   "median_delta_pp": 0.617,
-   "median_band_pp": 6.045,
+   "median_delta_pp": 0.465,
+   "median_band_pp": 6.251,
    "resolvable_share": 0.0,
    "verdict": "NOT-SEPARABLE"
   }
  },
  "rungs_skipped": {},
  "fit": {
-  "slope_pp_per_k": 1.2383,
-  "intercept_pp": 0.2236,
-  "intercept_share_of_ruler": 0.0314,
-  "r2": 0.163,
+  "slope_pp_per_k": 1.1933,
+  "intercept_pp": -0.0423,
+  "r2": 0.9663,
   "n_points": 6,
   "anchor": "k=0 (identity: the baseline's own delta is 0.0)"
  },
- "k_required": 5.571,
- "k_required_without_intercept": 5.751,
- "verdict_without_intercept": "UNREACHABLE_BY_CONSTRUCTION",
- "sweep_span_pp": 0.527,
- "sweep_share_of_ruler": 0.0741,
+ "k_required": 5.681,
+ "sweep_span_pp": 0.472,
+ "sweep_share_of_ruler": 0.0701,
  "verdict": "UNREACHABLE_BY_CONSTRUCTION",
  "verdict_reasons": [
-  "slope +1.238pp per unit k, r2 0.163 on 5 arms + the k=0 identity",
-  "ruler = baseline median cell band 7.12pp (a median effect that size is the floor)",
-  "k required to reach the floor = 5.57",
-  "the whole axis spans 0.527pp = 0.074 of the ruler (flag if >= 0.25)",
-  "k=5.57 sits past k=1, which is 'never trade': this design cannot resolve the axis at any setting that is still a buffer"
+  "slope +1.193pp per unit k, r2 0.966 on 5 arms + the k=0 identity",
+  "ruler = baseline median cell band 6.74pp (a median effect that size is the floor)",
+  "k required to reach the floor = 5.68",
+  "the whole axis spans 0.472pp = 0.070 of the ruler (flag if >= 0.25)",
+  "k=5.68 sits past k=1, which is 'never trade': this design cannot resolve the axis at any setting that is still a buffer"
  ]
 }

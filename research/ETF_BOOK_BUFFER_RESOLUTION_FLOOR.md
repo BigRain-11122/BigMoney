@@ -6,21 +6,18 @@ The family retired as 'unmeasurable at every strength'. This face is the size of
 
 | arm | k | median delta | median band | resolvable share | label |
 |---|---|---|---|---|---|
-| buffer_k02 | 0.02 | +0.090pp | 7.157pp | 0.000 | NOT-SEPARABLE |
-| buffer_k05 | 0.05 | +0.065pp | 6.877pp | 0.000 | NOT-SEPARABLE |
-| buffer_k10 | 0.10 | +1.208pp | 6.305pp | 0.000 | NOT-SEPARABLE |
-| buffer_k20 | 0.20 | +0.315pp | 6.530pp | 0.000 | NOT-SEPARABLE |
-| buffer_k40 | 0.40 | +0.617pp | 6.045pp | 0.000 | NOT-SEPARABLE |
+| buffer_k02 | 0.02 | -0.007pp | 7.157pp | 0.000 | NOT-SEPARABLE |
+| buffer_k05 | 0.05 | +0.003pp | 6.877pp | 0.000 | REJECT |
+| buffer_k10 | 0.10 | +0.055pp | 6.658pp | 0.000 | NOT-SEPARABLE |
+| buffer_k20 | 0.20 | +0.150pp | 6.530pp | 0.000 | NOT-SEPARABLE |
+| buffer_k40 | 0.40 | +0.465pp | 6.251pp | 0.000 | NOT-SEPARABLE |
 
-Fit (with the k=0 identity as one of its points): **+1.238pp per unit k**, intercept **+0.224pp** = 3.1% of the ruler (anchor band 5%), r2 0.163, 6 points. Ruler = **7.12pp**. k needed to reach the ruler = **5.571**.
-
-The intercept is free in that fit, so here is the same slope pinned through the identity: k = **5.751**, which reads **UNREACHABLE_BY_CONSTRUCTION**. The answer does not need the line to float off the anchor.
-
+Fit (through the k=0 identity): **+1.193pp per unit k**, r2 0.966, 6 points. Ruler = **6.74pp**. k needed to reach the ruler = **5.681**.
 
 Verdict: **UNREACHABLE_BY_CONSTRUCTION**
 
-- slope +1.238pp per unit k, r2 0.163 on 5 arms + the k=0 identity
-- ruler = baseline median cell band 7.12pp (a median effect that size is the floor)
-- k required to reach the floor = 5.57
-- the whole axis spans 0.527pp = 0.074 of the ruler (flag if >= 0.25)
-- k=5.57 sits past k=1, which is 'never trade': this design cannot resolve the axis at any setting that is still a buffer
+- slope +1.193pp per unit k, r2 0.966 on 5 arms + the k=0 identity
+- ruler = baseline median cell band 6.74pp (a median effect that size is the floor)
+- k required to reach the floor = 5.68
+- the whole axis spans 0.472pp = 0.070 of the ruler (flag if >= 0.25)
+- k=5.68 sits past k=1, which is 'never trade': this design cannot resolve the axis at any setting that is still a buffer

@@ -1,9 +1,9 @@
 {
-  "ts": "2026-11-18T00:00:22",
-  "mode": "full-history pull, append-only local, overlap-verified",
-  "no_op_reason": "local cutoff 2026-11-13 covers expected complete-bar date 2026-11-13",
-  "expected_cutoff": "2026-11-13",
-  "data_cutoff": "2026-11-13",
+  "ts": "2026-11-18T00:50:47",
+  "mode": "no-op: cutoff covered",
+  "no_op_reason": "local cutoff 2026-11-17 covers expected complete-bar date 2026-11-17",
+  "expected_cutoff": "2026-11-17",
+  "data_cutoff": "2026-11-17",
   "varieties_planned": [
     "IF",
     "IC",
@@ -149,16 +149,16 @@
   },
   "claim": "MSG-20260924-0645-bm-a-futures-cta-puller",
   "note": "main-continuous bars are raw price level at roll (unadjusted); roll-gap handling is a prereg design decision, not a puller concern",
-  "machine": "bm-c",
-  "last_attempt": "2026-11-18T00:00:22",
+  "machine": "bm-a",
+  "last_attempt": "2026-11-17T19:56:20",
   "authority": {
     "lane_owner": "bm-a",
-    "writer_machine": "bm-c",
-    "data_face_machine": "bm-c",
-    "declared_takeover": true,
-    "took_over_by": "bm-c",
-    "took_over_at": "2026-11-18T00:00:22",
-    "reason": "owner bm-a heartbeat silent 24.4h >= 120min"
+    "writer_machine": "bm-a",
+    "data_face_machine": "bm-a",
+    "declared_takeover": false,
+    "took_over_by": null,
+    "took_over_at": null,
+    "reason": null
   },
   "fetch_set": [
     "IF",
@@ -172,17 +172,6 @@
     "AU",
     "SC"
   ],
-  "laggards": [
-    "AU",
-    "IC",
-    "IF",
-    "IH",
-    "IM",
-    "RB",
-    "SC",
-    "T",
-    "TF",
-    "TS"
-  ],
+  "laggards": [],
   "unplanned_csvs": []
 }

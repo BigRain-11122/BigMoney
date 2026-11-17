@@ -912,16 +912,6 @@ results/data_lag_audit.json 把官方日历与本地面板逐日对账，判 in_
 - Verify: python scripts\e39_panel_census.py gaplimit --start 2018-01-01 (20s, rerun byte-identical, control_reproduces_published=true); selftest 286 -> 299; results/e44_midmonth/GAPLIMIT-20261026.json; research/digests/DIGEST-20261027-e103-gaplimit-ladder.md
 - 2026-10-27 r1168 bm-b (capture law O-20261002-2100 closing step)
 
-## E103 A parameter ladder is not a ladder of measurements -- group limits by their EDIT FACE before you burn cells (r1168 bm-b)
-- Situation: E102 published five screen arms and found gap1/gap2/gap5 give one identical delta on every era-book cell, leaving the question "is the gap limit 1/2/5 identified at all?" open. Walking gap_limit 1..20 and burning a cell per limit would have produced twenty near-identical columns and taught nothing.
-- Method: walk the ladder cheaply (screen_universe is ~0.5s per limit over 1,271 names), fingerprint each limit by the SET of bars it rewrites (every changed symbol|date cell, sha1), group limits with the same fingerprint into one object, and burn cells only on one representative per group plus the unscreened base. Publish, per limit, three separate counts -- symbols rewritten / prints repaired / bars rewritten -- plus the panel's own gapped-print spectrum by gap_sessions.
-- Measured: 20 limits collapse to 2 objects (limits 1-2 rewrite 36,184 bars, limits 3-20 rewrite 37,101). The single step is limit 3, named by date: sz159901 2010-11-22, an integer-like print with a 3-session gap. The panel's gap spectrum ends at 3 sessions (gapped/integer-like: 28/10 at 1, 4/0 at 2, 1/1 at 3), so nothing above 3 can ever bind, and no limit in 1..20 moves a published cell (published deltas reproduce 6/6 at abs_diff 0.0). Verdict: the limit is NOT identified, and three published columns are one reading under two objects.
-- Judgment: (1) an identical edit face is a proof of object identity, so limits inside one group may never be counted as independent measurements; (2) a flat ladder is a property of the data, not of the walk -- publish the spectrum (the largest gap actually present) beside it or flatness is indistinguishable from a broken probe; (3) print count and bar count are different measurements (one repaired print rewrites hundreds of downstream bars) and a face that publishes only one of them reads as either one print or a rewritten panel; (4) a parameter frontier names no chosen value -- gap1 stays the published control.
-- Verify: python scripts\e39_panel_census.py gaplimit --start 2018-01-01 (20s, rerun byte-identical, control_reproduces_published=true); selftest 286 -> 299; results/e44_midmonth/GAPLIMIT-20261026.json; research/digests/DIGEST-20261027-e103-gaplimit-ladder.md
-- 2026-10-27 r1168 bm-b (capture law O-20261002-2100 closing step)
-
-
-
 ## E100 -- split an arm LEVEL difference before you interpret it (2026-10-27 r1169 bm-b)
 - Claim: a difference between two screening arms' era LEVELs is not a statement about the book until it is split per transition AND the two arms are checked for holding the same names.
 - Practice: (1) split exactly -- a level is an equal-weight mean over that arm's OWN transitions, so each shared transition contributes a_gap/n_gap - a_unsr/n_unsr, a one-sided date keeps its own term, and the residual is PUBLISHED (a partial join must not pass as a decomposition); (2) name the drivers -- for each top window publish the swapped names with BOTH arms' forward reads, not just the alpha; (3) compare holdings first -- if held_only sets are empty and member counts match, the delta is a price-read difference and no screening story is warranted.
@@ -1829,17 +1819,11 @@ pre-declared constant with the raw rate retained, and (d) one exact reconciliati
 published column from the same family. A tie counts as a disagreement, never as an agreement.
 
 
-
-
 ## E171 A repair can move a level without moving a rate, and equality is not deterioration (2026-10-28 r1206 bm-b)
-
-
 
 Two findings from the screened twin of the tilt-vs-engine sign face
 
 (`results/e43_tilt_4member/TILT3SCREENSIGN-20261027.json`).
-
-
 
 1. **Level and rate answer different questions about the same repair.** The
 
@@ -1871,8 +1855,6 @@ Two findings from the screened twin of the tilt-vs-engine sign face
 
    the selftest. Same family as E94: the label was narrower than the evidence.
 
-
-
 How to apply: when a twin is expected to move only one column, split the join by
 
 column prefix (tilt_* vs engine_*) and report each bucket's moved count and its
@@ -1887,8 +1869,6 @@ allowed to print.
 
 
 ## E172 A constant nobody sweeps is a claim nobody checked (2026-10-28 r1207 bm-b)
-
-
 
 E169 declared a 10bp monthly deadband before its burn and published both the raw
 
@@ -1905,8 +1885,6 @@ every step, answers it: 2024_now reads 23.5 / 18.8 / 17.2 / 17.4% on 34 / 32 / 2
 / 23 months -- the rate is low at *every* band, so the collapse is not the band
 
 choosing its sample.
-
-
 
 1. **A band's rate is meaningless without its denominator.** The sweep publishes
 
@@ -1951,8 +1929,6 @@ choosing its sample.
    carried by the large months, theirs by the small ones. A single band value
 
    hides which kind of era you are looking at.
-
-
 
 How to apply: any pre-declared constant that gates a published rate gets a sweep
 
@@ -2318,41 +2294,6 @@ from one cell of one grid before decomposing anything, and (c) publish path sums
 endpoints' marginals, so an interaction cannot be silently charged to the last knob stepped.
 ## E176 Four published numbers, one book: reconcile the STACK before the rule (2026-10-28 r1320 bm-c)
 
-`scripts/etf_book_cagr_reconcile.py` -> `results/etf_book_cagr_reconcile.json`,
-`research/ETF_BOOK_CAGR_RECONCILE.md`. The ETF book had been published at 9.62% (card
-config: 12 names, 8% vol target, 10bp), 7.80% (5 names, beta 0.20, 8bp, no size), 7.38%
-(same at NAV 1e6) and 7.28% (1%-ADV ceiling), and r1319 put the 9.62 end next to the 7.28
-end and called the 2.34pp between them an unattributed "run diff". A 2x3x2 grid (width x
-risk rule x cost) run on ONE stack, plus the same grid on the other face's stack, closed
-it with nothing left over:
-
-1. **A "run diff" between two published faces is usually a STACK difference, and a stack
-   difference is a risk statement.** Holding the knobs fixed (5 names, flat, 10bp), the
-   production panel (class filter: equity/commodity/convertible only, 1,499 symbols)
-   returns 15.80%/yr at 16.4% vol while the capacity face's raw panel returns 7.29% at
-   10.3% vol -- 8.5pp apart, of which the engine accounts for 0.2-1.5pp. So the filter
-   buys return by forcing the book out of bonds/money funds: quote it as a risk choice
-   (Sharpe 1.02 vs 0.76), never as alpha, and never compare levels across the two faces.
-2. **The card headline is not the rule the order sheet trades.** On the production stack
-   the card is 9.62% (vol 10.17%, DD -11.8%) and the executable ticket (5 names, beta
-   0.20, 8bp) is 13.35% (vol 13.46%, DD -16.0%), +3.73pp: width +2.04, rule +1.29, cost
-   +0.40, **interaction -1.25pp**. Both path orders sum to exactly 3.73 and both endpoints
-   agree on the interaction, so the knobs must be quoted together or not at all.
-3. **Transfer a size effect as a DELTA, never as a level.** The capacity ladder's absolute
-   cagrs belong to its own universe; only its impact delta (no-size minus at-size) is
-   portable to the traded stack, and it must be priced at the DEPLOYED amount, not the
-   account size -- otherwise an account far above the ceiling pays the ladder's 50M
-   impact instead of the ceiling's.
-
-Result downstream: the book is the best vehicle at CNY 300k/1M/1.5M (+9,780 / +32,600 /
-+40,635 per year) and the four-ETF basket takes over from 3M -- the previous face had the
-basket winning all six tiers because it priced the book at the ceiling's 7.28%.
-
-How to apply: any face that compares two artefacts from different scripts must (a) run the
-same knobs on both stacks to size the stack term, (b) reproduce each published endpoint
-from one cell of one grid before decomposing anything, and (c) publish path sums AND both
-endpoints' marginals, so an interaction cannot be silently charged to the last knob stepped.
-
 ## E184 A census gate must gate the surface the reader opens -- and a comment naming a chain leg is not a chain leg (2026-10-28 r1322 bm-c)
 
 `scripts/reader_text_audit.py` -> `results/reader_text_audit.json`, chain leg
@@ -2418,8 +2359,6 @@ The finding that kills the obvious follow-up: **zero months in any of the four p
 
 Two transferable rules: (a) **before hunting a culprit month, count the months whose two readings disagree in sign** -- zero means there is no culprit and the search is misdirected; (b) **a carrier-share floor plus 1/HHI turns "is it one month or many" into a number**, which is the difference between a verdict a reader can act on and a verdict nobody can. Also: annualising the RATIO of the two growth multiples is not the same object as differencing two annualised levels (2.43bp apart here); the first is published as `effect_comp_ratio_bp`, the second as `effect_comp_bp`, and a selftest leg pins that they cannot be swapped.
 instead of silenced, (c) prove the leg exists in the runner, not in a comment.
-
-
 
 ## E187 A razor-thin cut line does not mean the trades are marginal -- measure the executed pairs, not the boundary (2026-10-28 r1324 bm-c)
 
@@ -2722,8 +2661,6 @@ per drop, and treat an empty mismatch list as "read it AND equal", never as "not
 (e) seeding: `zlib.crc32("era|name|k|seed")` per cell -- string hashing is not stable across processes,
 so a `hash()`-seeded draw is not reproducible; publish the draw count as randomisation draws, not as a
 strategy trial count.
-
-
 
 ## E204 Before you publish "this face should declare X", ask who reads the number: a defect is only a trap if a second script pulls it by name (2026-10-29 r1232 bm-b)
 
@@ -3726,33 +3663,6 @@ ref`), then resolve by CLASS, never by taste:
   (c) faces another host is the single writer of: owner-verbatim. Whoever writes them re-derives
       them next round, so taking the owner's copy cannot lose information.
 
-
-
-Situation: one shared quantitative repo, three hosts, each round adding its own measurement legs
-to the same few monster files. Main drifted to 29 local commits vs 38 remote ones because every
-round deferred the merge: rebase hangs on this blob:none clone, and mktree replay is banned after a
-previous replay silently reverted another machine's ledger.
-
-WRONG: rebase the 29 commits one at a time (29 conflict resolutions, and a rewritten history that
-makes the other hosts' verification receipts meaningless), or "resolve by union" at the text level
-(`git merge-file --union`). The text union produces a file that will not parse: both sides inserted
-complete statements at the same anchor and one side's insert lands *inside* an open list literal
-(`_e190_pair = [`), so the merged list closes with the wrong bracket.
-
-RIGHT: merge the two tips with `-c merge.renames=false` (the rename pass is what makes a partial
-clone try to lazily fetch objects the promisor remote no longer carries -- `upload-pack: not our
-ref`), then resolve by CLASS, never by taste:
-
-  (a) leg containers (main/selftest bodies, smoke leg lists, chain tables): statement-level union
-      built on the AST, keep ours' order then theirs' statements not already present, tail return
-      last; assert the result parses, compiles, and passes *the file's own selftest*. A green
-      selftest is the only proof that nothing upstream was dropped.
-  (b) append-only ledgers (card registry, feedback, decision logs): line union, then re-check by
-      COUNTING the identities (cards by number) -- "0 lost from either side" is the acceptance,
-      not "the file got bigger".
-  (c) faces another host is the single writer of: owner-verbatim. Whoever writes them re-derives
-      them next round, so taking the owner's copy cannot lose information.
-
 Three things that only show up when you actually run it: two lineages can define the same helper
 with different signatures (here `_wide_month_membership`, where each side spells the cash
 pseudo-name differently) -- that surfaces as 2 failing legs out of 745, not as a conflict; a
@@ -3912,18 +3822,6 @@ and a single-rung face that must say insufficient_rungs).
 Code: Tools/gpu_face.py (deep_family/_deep_unowned/restate/audit). Live: findings=[] after
 two applies (28 flat keys + the nested block rewritten from one nvidia-smi probe).
 
-Three things that only show up when you actually run it: two lineages can define the same helper
-with different signatures (here `_wide_month_membership`, where each side spells the cash
-pseudo-name differently) -- that surfaces as 2 failing legs out of 745, not as a conflict; a
-secondary worktree is not a comparable test bed (local untracked inputs such as fleet/machine.json
-are absent, and hook-path legs resolve to the worktree admin dir), so its reds must be attributed
-before they are believed; and the pre-push size claw is the real guard against the deletion you did
-not intend -- the first push was refused for 8 upstream artefacts this lineage had dropped.
-
-Pos: the throwaway-worktree merge recipe (git worktree add --detach + merge -c merge.renames=false +
-class-based resolution + ast/py_compile/selftest gates) landed 29 local and 38 remote commits into
-one merge commit b768f21763 with ahead 0 / behind 0 and zero files deleted relative to origin.
-
 ### E221 — for a calendar effect the sample size is MONTHS, not names (r1248 bm-b)
 
 The mid-month family (E61/E215/E218/E219/E220) closed with no quotable number at any
@@ -4061,13 +3959,9 @@ episodes x hold. Pit: a mean indistinguishable from zero produced years_needed =
 which reads as a measurement -- now suppressed to null with years_needed_unbounded = true.
 ## E221 An audit that walks only the top level of a face passes a face hiding a whole generation one level down (2026-10-29 r1334 bm-c; the nested "gpu" block was 236 MiB stale while every flat key agreed)
 
-
-
 WHEN: a merge-only shared face (the heartbeat) is audited for internal consistency so no
 
 reader can pick up a random round's number.
-
-
 
 WRONG: enumerate the spellings visible at the top level. Another writer nests the same
 
@@ -4081,8 +3975,6 @@ as the un-prefixed spelling, one level deeper: ownership has to be derived from 
 
 SHAPE, not from where the key happens to sit.
 
-
-
 RIGHT: derive family/unit from the key PATH (parent_sub), fold nested values into the same
 
 spread/balance legs, restate them from the ONE probe while preserving foreign sub-keys, and
@@ -4095,26 +3987,16 @@ silently re-age. Diagnosis note: what exposed it was a smoke leg, not a review -
 
 leg was the only reader that compared the face with itself.
 
-
-
 Code: Tools/gpu_face.py (deep_family/_deep_unowned/restate/audit). Live: findings=[] after
 
 two applies (28 flat keys + the nested block rewritten from one nvidia-smi probe).
 
 
-
-
-
-
 ## E222 A backtest whose factor SIGNS were read off the full sample is priced with hindsight, and the honest arm can be negative (2026-10-29 r1335 bm-c; signs matched the panel IC 6/6, pit arm -10.81%/yr vs +6.14%)
-
-
 
 WHEN: a composite score hard-codes factor directions (a SIGNS block) and every published
 
 number -- backtest, walk-forward, path test, card, ticket -- is produced by that one face.
-
-
 
 WRONG: run every path/robustness test you like on the ARM. The sign sits above the arm, so a
 
@@ -4127,8 +4009,6 @@ engine with signs estimated only from already-realised windows returns -10.81%/y
 -0.407, maxDD -67.5%) against +6.14%/yr (+0.645, -12.8%) for the fixed block -- and it is
 
 negative in BOTH halves, so it is not an early-learning artefact.
-
-
 
 RIGHT: (1) test the sign itself, point-in-time: at each decision, sign_k = sign of the mean
 
@@ -4160,15 +4040,11 @@ sentence the operator reads on the production card is derived from this artifact
 
 chain (r1290 class), not retyped into a doc.
 
-
-
 Consequence: the headline is the size of a REGIME, not of a rule. A defensible live claim
 
 needs a sign rule frozen before the sample (an economic prior per factor, or a per-regime sign
 
 with its own frozen test) -- that is a preregistered job, not a cleanup.
-
-
 
 Code: scripts/etf_sign_pit.py (ic_table/pit_signs/ic_persistence/score_face/gate, selftest
 
@@ -4177,13 +4053,7 @@ Code: scripts/etf_sign_pit.py (ic_table/pit_signs/ic_persistence/score_face/gate
 Digest: research/digests/DIGEST-20261029-e222-sign-pit.md.
 
 
-
-
-
-
 ## E223 A choice made above the test is priced by running the whole choice space, not by one more arm (2026-10-29 r1336 bm-c)
-
-
 
 WHEN: a published number rests on a free parameter that was set by looking at the data --
 
@@ -4192,8 +4062,6 @@ here six factor directions that turn out to be exactly the full-sample IC signs 
 honest question is not "was it fitted" (E207 already answered yes) but "how much is the fit
 
 worth".
-
-
 
 WRONG: answer it with a third arm. Fixed / trailing-IC / reversed all sit inside the same
 
@@ -4204,8 +4072,6 @@ space, and any one of them is another point, not a distribution -- so "the hones
 good arm is reproducible. The space here is 2^6 = 64, which is small enough to enumerate: one
 
 panel load, 82s, every sign set.
-
-
 
 RIGHT: run the whole space and publish three numbers -- where the production arm ranks
 
@@ -4224,8 +4090,6 @@ signs (8.5 of 11.4pp) and that one published direction (momentum, -1.37pp) is a 
 i.e. the headline is not even the best in-sample pick. Freeze the decision line (top decile of
 
 the space) and an all-arms-traded check, because a table of untraded arms passes everything.
-
-
 
 Code: scripts/etf_sign_enum.py (z_mats/score_from/main_effects/gate, selftest 13/13: the fast
 
@@ -5649,92 +5513,7 @@ printing forever.
 
 ### E225 -- a continuous weight buys sessions, not resolution; their payoff is not the gate's (r1252 bm-b)
 
-E224 ended on a cap: a hold of H sessions limits a gate to 252/H independent episodes a
-year, so no sampling rate can raise the count. Its named successor was the one design the
-accounting does not throttle -- a weight that varies continuously with the state, decided
-at every close, with no per-episode round trip. E225 prices that on the SAME signal and the
-SAME toll: trailing 20-session vol, tercile thresholds from its own previous 250 values,
-unit turnover |dw| pays 13.041bp, decision at the close of t applies to the return of t+1.
-
-Result on sh510300 (3,503 sessions to 2026-10-28, 1,401 OOS decisions): 0 of 5 arms adopt.
-The load-bearing number is not the verdict, it is that the sample is nearly independent:
-n_eff/sessions = 97% (1,363 of 1,401), so daily reweighting genuinely escapes E224's
-episode cap -- and the annual bar still lands at 1,006bp/yr against the episode-locked
-gate's 811bp/yr, a 0.81x move in the WRONG direction. More independent observations, worse
-annual resolution. Why: a weight between 0 and 1 spreads the same signal over more
-observations at lower amplitude, so per-observation dispersion falls by less than the count
-grows, and the toll is charged per unit of weight change (11.0 round-trip units a year for
-binary_low, 199bp/yr of cost) -- a cost the episode lock pays once per hold instead.
-
-The second rule is the one that keeps a negative result readable: **the null arm already
-prices the drift, so a gated arm's excess is not a verdict on the gate**. always_on (w=1,
-no turnover) reads -1,628bp/yr on the OOS window: that is the out-of-sample drift sitting
-below the in-sample drift the face normalises to, not a property of gating. Charging every
-arm that deficit in proportion to its average exposure leaves the gate-specific residual:
-binary_low -524, tilt_step -637, tilt_linear -704, voltarget -200 bp/yr -- so the tilt
-genuinely lost money beyond the drift, and the smallest loss (voltarget, 93.5% exposure,
-2.8 turnover/yr) is the arm that traded least, not the one that timed best.
-
-How to apply: any continuously-held overlay must publish (a) n_eff beside its session count
-or "more data" is an assumption, (b) the null arm's excess as the drift deficit, and (c)
-gate_specific = excess - avg_weight x null_excess, or a market-wide drift miss gets read as
-a verdict on the rule. Pieces: scripts/e225_state_tilt.py (run / selftest, 18 hermetic
-legs); face results/state_tilt/TILT-<cutoff>.json + latest.json + by_arm csv; S6 leg
-state_tilt after vol_gate; smoke leg re-derives each MDE from z*se_nw*252, refuses n_eff >
-n, and refuses a drift split that does not re-add. Pit: a HAC leg whose fixture is a
-sawtooth carries negative lag-1 correlation and fails the "NW >= iid" assertion the method
-needs -- the fixture noise must be white (LCG) before that leg means anything.
-
 ### E227 -- a break-even toll is a property of the line, and clearing a toll is not clearing a bar (r1253 bm-b)
-
-E225 left one arithmetic question open and it did not need a new study. Its gate-specific
-residual runs on a per-unit-turnover toll, so in the cost `c` it is a straight line:
-
-    gate_specific(c) = gate_specific(0) - c * D,   D = arm turnover/yr - avg_w * null turnover/yr
-
-One root, `c* = gate_specific(0) / D`, in bp per unit of turnover. The sweep (0 -> 3x the
-frozen 13.041bp) is the evidence and the closed form is the answer; they are asserted equal
-to 4.5e-13 bp/yr, and the root re-evaluated through the engine reads 1.1e-13.
-
-Result. On sh510300 (3,503 sessions to 2026-10-28, 1,401 OOS decisions) every gated arm is
-DEAD AT ANY PRICE: the largest gross gate-specific residual (voltarget) is -174 bp/yr before
-paying anything, and the highest break-even belongs to a DIFFERENT arm (binary_low, -21.2
-bp/unit) -- a negative cost would be needed, i.e. the gross rule loses before it trades. All
-four gated arms share that state. On the equal-weight basket one root does land above the
-model cost (binary_low, 36.5 bp/unit), and that is exactly where the second rule earns its
-keep: at 13.041bp that arm's excess is +1.8 bp/yr at t=0.01. It survives the toll by standing
-at ZERO, after a null arm that lost -662 bp/yr -- its +340 bp/yr gate-specific residual is
-the drift attribution, not money the tilt earned. 0 of 1 survivors clear the bar.
-
-**Ranking by residual and ranking by break-even name different arms** once every arm is
-below zero. The first version of this face printed "the best gate-specific arm (binary_low)
-stands at -324 bp/yr": binary_low has the highest ROOT, voltarget the highest residual.
-Publish both selectors separately (`best_gate_specific_arm` / `best_break_even_arm`) and
-have a selftest leg feed a fixture where they disagree -- a label picked by one criterion and
-written as the other is how a face lies with every number correct.
-
-How to apply:
-1. When an arm's residual is linear in a cost, publish the ROOT rather than only the
-   verdict at one cost -- and publish the ladder so the line is visible.
-2. Always read a "survives the cost" verdict again at that cost, with its t beside its
-   annual excess. Toll survival and statistical survival are different claims and a face
-   that prints only the first will be read as the second.
-3. Publish 1/D as root fragility: voltarget pays only 2.0 units/yr on the single panel, so
-   100bp/yr of measurement error moves its root 50 bp/unit. A flat line makes the root a
-   wild extrapolation even when the arithmetic is exact.
-4. **Do not assert an ORDERING between two roots whose direction depends on the sign of an
-   intercept.** gate_specific(c) and excess(c) differ by avg_w * null_excess, constant in c,
-   so which root is larger flips with the sign of the null arm's drift. My first leg
-   asserted "the excess-basis root is stricter" and failed on a negative root -- the fix is
-   to assert the IDENTITY `excess_root - gate_root == avg_w * null_excess / D`, which holds
-   whichever way the signs fall (measured 22.2140 vs expected 22.2140 bp/unit).
-
-Pieces: scripts/e226_tilt_breakeven.py (run / selftest, 18 hermetic legs); face
-results/state_tilt/BREAKEVEN-<cutoff>.json + breakeven_latest.json + breakeven_by_arm csv;
-S6 leg tilt_breakeven immediately after state_tilt; smoke leg re-derives every published
-root from its own line (c**D == g0), refuses a root published without a positive toll
-differential, refuses a sweep that rises with cost, and refuses a survivor recorded with no
-excess read at that cost.
 
 ### E228 -- an attributed share of the null's drift is already an exposure-matched benchmark, and what it lacks is an error bar (r1254 bm-b)
 
@@ -6041,8 +5820,6 @@ the per-member charge: the two return components both clear the bar (0.1085 [0.1
 0.0730 [0.0658, 0.0802], 7.4s / 9.7s against a 2.77 t bar over 9 pooled tests) but their
 intervals are disjoint, ratio 1.49.
 
-Three reusable pieces:
-
 1. **A control that is a component of y is not a control.** dy = d(common) + d(relative)
    identically, so controlling the relative part leaves only the common part and every other
    coefficient measures its covariance with d(common) -- the first draft would have stamped
@@ -6142,8 +5919,6 @@ The answer, and it is not the one E238's ordering suggested:
   1.425 against E238's published rest 0.771 -> ratio 0.541. The aggregate is not an additive
   sum of participant impact; roughly half of what a single counterparty carries does not
   survive in the sum.
-
-Reusable pieces:
 
 1. **"Rescale the aggregate" is not a control.** Dividing a regressor by a constant changes a
    coefficient by that constant and leaves the t-statistic, the interval width and the sign of
@@ -6386,8 +6161,6 @@ verdict `residual_is_own_turnover` in all four cells where a star exists (era 20
 2025–now −0.911, early-three −0.494). Volatility coefficients are all small and positive
 (0.027–0.044) and the drop they cause (−0.00504) sits inside the shuffled-drop band
 [−0.00888, +0.01343].
-
-Three reusable findings:
 
 (1) **A decomposition of a different number is not a decomposition.** The residual had to be
 E250's published `b1_with_loo_aggregate`, and the two faces agree to 0.0 (both
@@ -7558,8 +7331,6 @@ ticket)"*. Two faces, one book: the ticket is what an executor holds, the live-b
 what the CEO actually opens. A reading that lands only on the first is a measurement delivered
 to an audience of one script.
 
-**Two rules.**
-
 1. **Name the reader before calling a face published.** The question is not "does a face exist"
    but "which human face quotes it". Wiring ticket-only feels complete because something printed
    it; it is not complete for the person the book is reported to. The r1290 family (producer
@@ -8472,8 +8243,6 @@ A5 每条重建臂的滞后全部 ≥1（0 滞后臂是前瞻臂，不是重建�
 链腿 `etf_book_causal_rebuild`（排在 production 之后、读卡自己那两条臂当控制）·
 smoke 两腿（退出码 + 从已发布行重推判决并要求判据回声未漂）·队列 E25 消耗。
 
----
-
 **（E342）收盘到开盘之间只剩一个通道：先把它当信号测一遍，再当过滤器测一遍（r1226 bm-a）**
 
 **① 背景。** E341 判了「一根 bar 的价钱是信息，改规则捡不回来」（最好一臂 +0.07pp / 1.14pp，
@@ -8504,8 +8273,6 @@ signal +0.06 + cost +0.01）。既然是信息，剩下的唯一杠杆就是**�
 prereg `research/CASE_PREREG_E26_OVERNIGHT_GAP.md`（跑前冻结）、链腿
 `etf_book_overnight_gap`（排在 `etf_book_causal_rebuild` 之后、CEO 页之前）、
 CEO 一页纸新增节（page selftest 108/108，L103-L105）、smoke 两腿。
-
----
 
 **【E343】信息与价格都烧完之后，剩下的只有成交机制——而把它切成 k 个开盘，一个点也买不到（r1227 bm-a）**
 
@@ -9158,8 +8925,6 @@ How to apply：任何「用外部文件当快照」的闸，先问那个文件�
 
 `etf_book_exposure_timing` / `exposure_ladder` / `sleeve_paths` 的 `--check` 只回答「已发布的判词能不能从它自己的行里重推出来」；它们早就写了 `panel.digest`，`但没有任何一个读者拿它去和活面板对过——于是三张面在 2026-10-30 的面板上“绿”到了今天，而书/票价已经是 2026-11-03。
 
-三条可复用律：
-
 ① **一个检查如果只读它自己写的行，它正好能绕过「世界变了」这一类故障。** 要验的问题必须和面板相关：面板内容指纹（`A.panel_digest`）写进面的同时，`--check` 必须把它和活面板重算出来的原值对一次。不能拿另一张面的指纹做对照（=E289 族：两张陈面互相作证）。
 
 ② **“世界走了”不是“结论错了”，返码必须分开。** 面板走了=rc2 且消息必须带 `stale`（轮读器的自愈臂只认这一词；r1241）；判词/认同不一致=rc1 且不得带 `stale`，否则重建会把真分歧变成一致。同一律的另一面：面不存在时必须说 `FACE MISSING`（rc2），不能报一个 FileNotFoundError 尸体。
@@ -9330,8 +9095,6 @@ zoo #83 绝对动量月频切换（510300 vs 511260）在这张面板上读出�
 
 同份额零假设（把股票权重序列整段循环移位 200 次，份额与持续性都保留、只换相位）自己就赚 **+3.77pp/年（sd 4.40）**，实测 5.99 落在 1 个 sd 内 → p=0.353，判 REFUSE_AS_CANDIDATE。也就是说：**这张桌子上，一个随机相位、同样一半时间待在现金里的账本，已经买到了差额的 63%。**
 
-两条可复用：
-
 - **同份额零假设的「自身收益率」是必印项，与实测并排。** 只印 p 值时，读者会把 +5.99 读成本领；印出零假设 mean 后，同一句话变成「这条规则没有超过一个不施法的同等仓位」。凡零假设保留份额/持续性，它必然带正漂移，这个漂移就是头条的默认解释（E384 的尺子同一族：先量尺子，再量候选）。
 - **月频规则的分辨率单位是「决定数」，不是 bar 数。** 1,395 根 bar 只换来 71 次决定、4 次换手；`enough_bars`（≥750 根）判过，但它对分辨力毫无约束。判决条件里必须同时报 `decisions` 与换手，否则一张月频表会用 6 年日线伪装成 6 年证据。
 
@@ -9345,8 +9108,6 @@ zoo #83 绝对动量月频切换（510300 vs 511260）在这张面板上读出�
 横截面 20 bar 反转（在流动性合格的全 ETF 池里挑**跌得最惨**的 10 只等权持有 20 bar，次日开盘成交、8bp/边）实测：规则年化 **−8.15%**、回撤 −59.4%，而同池等权宇宙 **+1.86%/年、回撤 −39.9%** → 超额 **−10.01pp/年**，四项准入条件全败（REFUSE_AS_CANDIDATE）。
 
 真正的方法论收获不在判决，而在零假设的形状：200 次**同口径随机排名**（资格掩码、决策网格、持仓数、成本全同，只换排序）均值是 **−3.38pp/年（sd 3.44）**，不是 0。也就是说，在 1,624 只的宽池里只拿 10 只，光集中度 + 换手（实测 1.89/次、113.7 个槽位/年）就先吃掉 3.4pp——**这条「随机挑 10 只」的基线本身就是负 alpha**，任何候选必须先追平它才谈得上信号。
-
-两条可复用：
 
 - **零假设的均值是读数，不是 0。** 若把 permutation 型的「打乱因子」零假设套到集中度问题上，分布会以 0 为中心，于是 −10pp 的规则会被读成「只是倒霉」。同暴露零假设（同持仓数、同网格、同成本、只随机排序）才把「集中度税」显式化，p=1.0 才有意义（1,000 次里没有一次比它更差到值得注意的方向）。
 - **宽池 + 窄持仓必须分开报三个数：候选超额、零假设均值、零假设 sd。** 只报 p 值会把「比随机还差 1.9σ」读成「没通过检验」，读者无从知道差多少、差在哪。
@@ -9364,8 +9125,6 @@ results/supply_berth/zoo_supply_xs_reversal_probe.json·面板 5,275 bar × 1,62
 
 真正的机制读数在入场缺口：**事件次日开盘相对涨停收盘的中位跳空 +12.29%、97.2% 的事件跳空 >5%**。也就是说涨停那一天的信息，在你能成交的第一秒就已经定价完毕——「被强制交易的时刻」对被强制的一方是收益，对第二天才进场的追买者是成本。
 
-三条可复用：
-
 - **事件研究必须把入场价当成研究对象，而不是假设。** 只要把入场从「涨停收盘价」（不可成交）换成「次日开盘」（唯一可成交），同一批事件的超额符号由「顺理成章的正」变成 −1.2pp。任何事件族探针的 construct 段都要写明 entry bar 与它相对事件 bar 的位置，否则测的是幻觉收益率。
 - **封板判据要三重：涨幅触板 + 收盘等于最高价 + 板别限价按代码前缀取值**（300/301/688/689→20%，4/8/920→30%，其余 10%）。只判涨幅会把「盘中触板被砸开」的日子也当成事件；只用 10% 会把 20% 板全漏掉。ST 的 5% 板天然落在事件集之外，须在诚实面披露为覆盖面边界而非遗漏。
 - **同暴露零假设要按日配对抽样，并排除事件后 h bar 内的格子。** 若只按全样本均匀抽，零假设会掺入同批事件的后续 bar，把「事件后走弱」重复计一遍；按「同日同事件数」抽 + 排除事件后 h bar，零假设均值回到 +0.03pp，负读数才干净。
@@ -9382,8 +9141,6 @@ results/supply_berth/zoo_supply_xs_reversal_probe.json·面板 5,275 bar × 1,62
 读数：**h=5 毛超额 −0.54pp、净 −0.80pp（z=−14.53）；h=10 净 −0.97pp（z=−8.75）；h=20 净 −0.74pp，但毛 −0.48pp 与零假设 −0.47pp 几乎重合（z=−0.10）**。逐年 7 年里只有 2024 一年为正（+0.05pp），命中率 41.4%/40.1%/40.6%。判决 REFUSE_AS_CANDIDATE（四条准入全败）。
 
 入场缺口同侧：**事件次日开盘相对跌停收盘的中位跳空 −12.84%、99.6% 的事件跳空低于 −5%**——卖方被挡住的那一份恐慌，在你能买到的第一秒同样已经定价完毕。
-
-三条可复用：
 
 - **「跌得多所以便宜」是一个价格假设，不是一个信息假设。** 折价 √ 存在（中位 −12.8%），但买它之后 5/10 bar 跑输同池，20 bar 后与「随便哪一天买同一只」完全等价（z=−0.10）。区别在于：上涨封板侧是「追买者付溢价」，下跌封板侧是「接刀者付折价」，两边都是负的，但因为入场价不同，负的机制不同——事件研究必须两侧都测，不能用一侧的符号推另一侧。
 - **h 越大越接近零假设，这件事本身是读数。** 若某个 horizon 上事件与随机格子无法区分（本例 h=20），说明该事件的信息半衰期短于那个 horizon；把它写成「不显著」会丢掉「这只事件在 20 天尺度上根本不是事件」这个更强的结论。
@@ -9413,8 +9170,6 @@ zoo #93 处置效应 CGO 供给泊位批判定（Grinblatt-Han 2005 资本利得
 ### E391 · 水位写成「显示形态」就等于没有水位：16 位前缀被读成「从未核过」→ 每轮重读整本决策账（r1393 bm-c）
 
 D-19 决策水位在 state-bm-c.json 里存的是 `b8609238434092e2`（真实是 `b8609238434052e2`，此处示意）这样的 **16 位前缀**——那是打印给人看的形式。`_parse_wm` 只认 `<sha16>@<commit7>/<bytes>` 三元与 64-hex 裸摘要，前缀一路解析成 `None`；而 `main` 把 `None` 当「没有前值」，于是每轮都打 `D-19 CHANGED` 并把 87 行关键词决策行再念一遍。内容 sha 从头到尾没动过——**门在报新闻，其实什么都没发生**，而且因为不改写水位，这个假新闻是永久性的。
-
-三条可复用：
 
 - **「读不出」不等于「没有旧值」。** 水位/台账类字段解析失败必须当场声明（现在打 NOTE 说明形态不可识别、将按 CHANGED 处理并升级三元），禁静默退化成「第一次来」。否则一个坏格式能伪装成永续新消息，把每轮的读预算按天吃光。
 - **落盘形态必须是比较形态，不是展示形态。** 截断只属于打印层；凡是把显示用的 16 位前缀写回状态的地方，都等于把「可比较性」丢了。要截断就必须同时把长度档位一起存（`bytes` 字段存在的理由），否则下一轮无法判断眼前这串到底比的是什么。
@@ -9452,8 +9207,6 @@ D-19 决策水位在 state-bm-c.json 里存的是 `b8609238434092e2`（真实是
 
 zoo #98 资金面利率门（GC001 收盘对自身 252 日 pct_rank >= 0.90，连续 2 日确认 → 次日全现金 511260，否则满仓 510300）在 1,398 根 bar 上只把持仓关掉 48 根（3.4%），但它**每年仍换手 19.1 次**——因为触发点本身是按月的（月末季末钱紧），5.6 年 53 次进出，每次两腿，成本拖累 **2.49%/年**，而净超额是 **-0.43pp**、回撤还恶化 6.6pp。判决 REFUSE_AS_CANDIDATE。
 
-三条可复用：
-
 - **先算「换手/年 × 单边成本」，再谈 alpha。** 一个只在 3% 的时间离开市场的门，看起来几乎免费；实际的价格由「多久进出一次」决定，与占用时长无关。稀有门要能成立，它的候选边际必须先跨过 `turnover_per_year × 2 × 13.04bp` 这道地板——本例地板 2.49pp，而旧 facts 扫描里紧态期与常态的 20 日前向收益差只有 +0.07pp，结构上就不可能过。
 - **触发率同时限定了收益上限。** 若门只在 3.4% 的日子改变仓位，就算那几天全对，年化上限≈触发期收益差 × 触发率。把这条上限先算出来，能省掉整批「看起来有故事」的泊位。
 - **暴露份额接近 1.0 时，相位 null 的分布中心会偏向「随机错过几次上涨」。** 本例 equity_share 0.966，200 次旋转的均值是 -1.89pp（比观测 -0.43pp 更差），于是 p=0.896。**p 高在这里不是「规则比随机相位差」的强证据，而是 null 的退化信号**——但该规则本来就在净超额与回撤两条主判据上为负，判决不依赖 p。凡规则暴露 >0.95，p 值必须与份额一起读。
@@ -9470,8 +9223,6 @@ zoo #98 资金面利率门（GC001 收盘对自身 252 日 pct_rank >= 0.90，�
 **① 板面那一列叫 `基金折价率`，不是溢价率。** 159981 价格 1.801 / IOPV 1.806 / 板面 0.28——正的 0.28 对应的是**折价** 0.28%。整块板 1,639 行按符号翻转后与「价格/IOPV 重算」**逐行 0 分歧**，所以不是数据错、是**命名反号**：任何直接拿这一列当溢价去分档（at-par / watch / stretched）的面，会把所有溢价说成折价、把所有折价说成溢价，而且看起来毫无异常。正法=溢价一律用 `price/iopv-1` 重算，板面那一列只当交叉核对（分歧只数不平均），并在面上印出「可比 N 行 / 分歧 M 行」。
 
 **② 跨境 QDII 的 IOPV 当日无第二值可对。** 同一块板给 513100 打出 +21.3%、159501 +23.6%、159509 +41.6% 的「溢价」，看着像几十个点的免费套利；但净值板上这些基金当日 `单位净值` 全是 `---`（QDII 按 T+n 公布）。**IOPV 从篮子漂走的模样，与真实溢价从一张快照上看完全一样**，所以这个数不能进金额。正法=引入第三态 `unverified`：凡是当日没有公布单位净值的腿，保留原始 IOPV 读数但**不给 CNY 金额**、不进「多付」合计；有净值的腿（本例 513690 +0.08%、159263 −0.18%）才计价。
-
-三条可复用：
 
 - **符号先证，再谈分档。** 拿到任何「率」字段，先用两个能独立算出来的输入（价/IOPV）重算一遍并全表对差；全表 0 分歧但符号相反的字段，是最危险的一类——它每行都对，只有方向错。分档阈值（本例 ±0.30% / ±1.00%）只在符号被证实之后才有意义。
 - **一个快照里，第三态比第二态诚实。** 「有溢价」/「没溢价」之外必须允许「无法核对」：同一批腿里 3/5 属于第三态时，把合计印在 2/5 的已知金额上（本例 183,957 元 / −97 元），比把 3 条腿当 0 元或当 +20% 都更接近事实。
@@ -10675,8 +10426,6 @@ r1433 量出了「窗挪了，那句『2 年』不动」，然后按纪律**故�
 并原样注明「plain arm only, exploratory — decides nothing」。`Tools/fill_ladder.py` 的阶梯板
 把同一句接在后面（读者真正看的是那块板）。判决词零变化：4 拒→4 拒。
 
-三条可复用：
-
 ① **探索件的产出也有交付义务**。它不判决、不入账本，但它的读数一旦能解释桌面上的红字，就必须
 印在红字旁边——否则「我量过了」只对量的人成立。判据：一个探索读数如果回答的是操作员面对
 当前红灯时的下一个疑问，它就该出现在那个红灯的同一行。
@@ -10707,8 +10456,6 @@ net_top2/gross_top2），手写 `years_for_half` 就是把 r1429 的选举结果
 实读（3 本书 × 5 相位 = 15 格，同一引擎 import 不重写）：主年在三本里**全是 2025**——
 7 年表里最新一个完整年（2026 是残年），一本书一半的净额由这一年单独供给（53.1% / 48.8% / 50.2%）。
 `early` 在 15 格里出现 **0 次**。集中度在**末尾**，而桌面读成了开头。
-
-三条可复用：
 
 ① **顺序无关的统计量不许被读出方向**。任何「降序累加到 k」的读数只承诺集中度；把集中度
 翻译成前/后必须另行测量（本轮 `members` 按日历顺序列出、`direction` 用位置阈值判）。
@@ -10747,8 +10494,6 @@ r1435 把「一半净额由 2025 供给」这件事拆出来了，但那只回�
 （41 个商品名等权；只拿 2025 前三名黄金 518800/518660/518880 被动也有 45.98pp）。
 书的商品袖只吃到被动的 **36.5%**。读法不是「押中黄金」，而是**薄配**——
 5 名集中 + 8% 波动目标把黄金敞口压小了。`BETA_EXPLAINS`：这个袖不需要选择故事。
-
-三条可复用：
 
 ① **「能不能复现」要分轴问，一次问一条**。相位、成本、beta 是三个独立的脆弱面；
     一次全乘进一个「robustness」分里，就没法知道该修哪一个（本轮成本明确排除，
@@ -11037,8 +10782,6 @@ results/etf_book_live_size_provenance/SIZE-PROVENANCE.json ｜ S6 腿 live_size_
 唯一写下来的理由是现金腿那张表（beta 0.10/0.20/0.30 三档上 GC001 比 0% 现金多 +1.53/+1.00/+0.46pp）——
 **那张表给「现金那一半值多少钱」定价，没给「书那一半该放多少」定价**。刻度：同一引擎 9 档 target
 （0.02→1.00），全窗夏普 4.208→0.933、年化/回撤 5.49→0.98，**两条比率都随 target 单调**。
-
-**三条可复用。**
 
 1. **「有没有更优的档」在纯缩放轴上是个伪问题**——敞口一变分母跟着变：target 越小账越像现金，
    夏普越漂亮（0.02 档夏普 4.21 而年化只有 2.58%）。任何「哪个档夏普最高」的筛选都在奖励缩表。
@@ -11359,8 +11102,6 @@ How to apply：任何「这张单可以下」的结论，补一句「成交价�
 
 承 E469：那张 9.07% 买溢价的脸把「23% 算不算高」印成答不了（历史面只有 1 次观测）。可动作的比较不是「跟自己的过去比」，而是「同一篮子今天还有谁在卖」。2026-11-06 板上 12 只 NDX100 票：最便宜 159513 大成 +14.97%，最贵 159501 嘉实 +23.64%（就是书挑的那只），价差 8.67pp；513100 国泰 +21.26% 排第二贵。同现金换票，两腿多买篮子 5,612 + 4,149 = **9,762 元 = 本单 459,796 的 2.12%**。
 
-三条可复用律：
-
 1. **名字本身就是指数标签，去掉基金公司后缀即可**——后缀不靠手抄名单：2~4 字后缀在整个板上「结很多不同的标签」者即为公司（华夏 139 只、华泰柏瑞 68 只），阈值按板面规模取 1%。**4 字档必须排除含 ASCII 的后缀**（`F汇添富`/`TF华夏` 是标签末尾的 ETF 字母加公司名，按 4 字剪会把标签自己咬掉一个字母，实测把「美国50ETF」剪成「美国50ET」、四个家族全变死标签）。
 2. **同义词合并只能整词映射，且每个词必须在活面上有用例**——`纳指ETF`/`纳斯达克ETF`/`纳斯达克100ETF`/`纳指100ETF`→NDX100 是语言事实；但只按「纳指」前缀合并会把 513290 纳指生物科技（+5.36%）拉进 NDX100，凭空造出 18pp 的假节省。**少合并是安全方向**（只会低估节省），死词条一律判红。
 3. **一条腿的「无法核验」有三种，判词必须分开**：不在板上；在板上但标签没有第二个活成员（没有兄弟组）；在板上但该票没有 IOPV 行。首版把前两种印成同一句「no row for this ticker」，读者会去查一个不存在的数据缺口。
@@ -11385,8 +11126,6 @@ r1464 算出换票今天多买 9,762 元，然后没有任何一面回答「这�
 
 **钱的分法**才是可行动的读数：今天 9,762 元里，按历史平均价差只有 **1,540 元**是「以后还能再拿到」的，**8,222 元是今天这一次**。把价差当长期成本或当可持续收益，两边都错。
 
-三条可复用律：
-
 1. **水平量不了就量差分的积分**——两序列各自带任意常数时，先找一天两个水平都能观测的时刻钉住偏移，再回溯；不钉偏移直接读比价水平，会把 21pp 的「净值基准差」印成「溢价」。
 2. **假设要变成检测项**——「基准不变」不能写在脚注里就完事，要把它可能失效的形状（阶跃）做成检测器并把命中逐日列出；本次两步 1.5pp、美50 两天 -3.52/+3.47 的错位都被抓出。
 3. **一次性 vs 可重复必须分成两个数**——同一个「节省」的两种读法差 5 倍以上（9,762 vs 1,540）；只报一个数，无论报哪个，读者都会做错决定。
@@ -11406,8 +11145,6 @@ r1465 把换票拆成「可重复 1,540 / 一次性 8,222」，然后把那张�
 - `159501→159513` 今日 +8.67pp / 均值 +0.83pp：可比 episode 只有 1 例且**未愈合** → 愈合期「未测」，判词 ACT_ON_THIS_BAR（**不可测不等于可等**，缺失的测量必须倒向行动，不能倒向「不急」）；
 - `513100→159513` 今日 +6.29pp / 均值 +1.41pp：触发价之上占 85% 个交易日 → WINDOW_ALWAYS_OPEN（结构性宽，换票是永久重贴标签，两次决策之间无事可看）；
 - `159577→513850` 今日 +0.19pp：虽略高于 0.16pp 的来回成本，但上游面已判 GAP_IMMATERIAL → NOT_ACTIONABLE（**上游说不是行动的，不许在自己这一层复活**）。
-
-三条可复用律：
 
 1. **判词要能被执行**——「PERSISTENT_GAP / EPISODIC」是描述，手上的人需要的是「这根 bar 做 / 任意 bar 做 / 不做」；每个词后面必须跟一个动作。
 2. **缺失的测量倒向行动，不倒向等待**——愈合期没测出来时判「不急」等于用「没看见」当「没有」；反过来写才不会在真正要紧的一天静坐。
@@ -11444,8 +11181,6 @@ r1467 把两段话合成一笔净额单，并声明了执行后的账。两处�
 - **执行后账本与票面已不是同一批票**：票面还写着换出前的两只（444/426 手），账本里它们已归零、换成了 920 手兄弟票。下一张单若从上一张票面起算，就是在对一本不存在的账下单；按票面把账修回去要再打 **￥381,115**。
 
 **正法**：把执行后的账按决策 bar 写成一行（append-only 持仓账本），对账两条腿——① `打印动作 + 票面起点` 必须重建 `holdings_after`，重建不出就按腿点名手数与金额；② 下一张单的起点取账本里 ≤ 决策 bar 的最新一行，**没有行=拒绝起算**（不是空仓，空仓会把整个目标从现金开始买）。
-
-三条可复用律：
 
 1. **同一份产物里两个块互相描述时，必须能算术闭合**——动作列表与「执行后的账」是同一张纸上的两个断言，做不到 `起点 − 卖 + 买 = 账`，纸就是错的；错的不是顺序，是缺行。
 2. **执行后状态必须落成可被下游读的行**，不能只存在于上一张单的叙述里——否则下一次决策的起点是「上一次的意图」，不是「这一次的持仓」。
@@ -11487,8 +11222,6 @@ r1468 把执行后的账写下来、r1469 让现金腿逐 bar 计息——两轮
 那本账只存在 `results/etf_book_positions.json`。CEO 页仍在按「如果你今天才建仓」列整张单，
 等于对读者说**账上一股没有**，而账上实际有 4 只票 + ￥607,599 现金。
 
-三条可复用：
-
 1. **面存在 ≠ 面被读**。产出一张面之后第一问是「谁读它」；没人读=活没干完（E240 族同病）。
 2. **读者面要能被一句话证伪**。本窗 smoke 腿从面自己重 derive（现金数、持仓名、小节标题），
    不对字面量断言——拼音/换行/重排都改不动它；对字面量断言的腿只会保护那一次排版。
@@ -11509,8 +11242,6 @@ r1470 把执行后的账接进了 CEO 页，r1471 的票面因此改成「按执
 自检全绿。可链里这本账**从来没有人写过**：只有一个 `check` 腿排在票面之后约 600 步。
 于是票面读的是上一次手工跑留下的旧账，同一 bar、同一轮里两本账相差 ￥617
 （latest.json 09:10:27 k=0.391439 vs positions.json 09:10:28 k=0.390822）。
-
-三条可复用：
 
 1. **接一个新的输入面时，同一轮问「谁写它、多久写一次」**。消费者就位的自检是绿的，
    生产者缺席也一样绿——E240「有产无读」的镜像面：「有读无产」。
@@ -11951,8 +11682,6 @@ r1481 把一张票晚**一格**定价（-932 CNY 中位），桌面自然的下�
 base 五天 -4,526 CNY（3.12 倍），而 k=10 又回落（vt08 -1,583、base -3,745）。原因是
 迟到损失是「新旧书在那几根 bar 上的差」，不同 bar 的差不相等，乘 k 只是在假设它相等。
 
-**三律**
-
 1. **k 格价格 = k 根 bar 的差之和，逐根读，不许外推**。窗口取自同一条准时路径，一次全样本
    走完给出所有 k（不是每 k 一次回测）。十个 rung 的残差相对聚合臂最大 **7e-15**——可加性
    在每一格上都成立，所以在 k=1 上验过的结论不能只停在 k=1。
@@ -12313,8 +12042,6 @@ research/digests/DIGEST-20261110-r1497-premium-percentile.md。
 \data/etf_premium/nav_history/*.csv\ 只有 \date,nav\ 两列，写它的 \load_nav\ 也只读净值日期/单位净值。
 照那个指针建面，会印出一个由名词凭空长出来的数。
 
-**四律**：
-
 ① **接手指针先在盘上验存在**（文件在不在、列名对不对、函数读什么），再动手；名词不是数据结构。
    指针写错方向时，正解不是硬造那一列，而是把问题折成不依赖它的可证伪形式。
 ② **「为什么」先折成两个对立解释，各自给判词**：限购的可观测含义＝持续正水位（高 share>0、长半衰期、
@@ -12344,8 +12071,6 @@ symbol 都没检查；② 腿找行用的是 `startswith("| %s |")`，而 ORDER 
 第一张是权重表——即便取到 symbol，也会拿权重列去比溢价。两条同时存在的腿仍然"绿"，只因为它什么
 都没检查。
 
-**四律**：
-
 ① **腿必须先断言「我检查了 N 行，N>0」**——否则"空工作流"与"全对"的输出不可分（r1371 族：
    只在真面上断言答案的腿，会在分类器坏掉时照样绿）。
 ② **匹配行必须先切到那一段**（`split("## 溢价读数")` 再取表），不能在全页做前缀匹配：同形状的
@@ -12369,8 +12094,6 @@ research/digests/DIGEST-20261110-r1499-premium-on-the-sheet.md。
 免责，却把下单人真正的问题留空：*我按第 100 百分位付钱，这只基金自己的记录里，之后价格怎么走？*
 这不是新数据问题：`results/etf_premium/premium_history.csv` 已经有 date/symbol/close/nav/premium，
 前向收益在盘上。
-
-**四律**：
 
 ① **分位必须因果**——每个交易日只跟它**之前**的交易日比（≥60 个前置样本）。在整段样本里给自己排名，
    等于让未来给过去贴标签（selftest L8 钉住：高之后来一个低值必须读 0，不是 50+）。
@@ -13110,8 +12833,6 @@ rate >= max(60%, 3x 自己普通会话的发生率) **且**比另一本高 10pp 
 
 r1553 把「这条车道答不了 X」改写成「这件事已由另一把尺子回答」，为的是不让读者在「答不了」下面紧挨着看到「已答」。那个改法默认了另一把尺子总有答案。2026-11-11 换票后，三只跨境腿在另一把尺子上全都是 `NO_LOCAL_HISTORY`（本地没有净值回填），于是同一页相隔 16 行对同一个代码说了相反的话：一处「159655 答不了」，一处「这件事已由上一段回答」。
 
-三条可复用：
-
 1. **指针句要读目标的状态，不能读自己的意图。** `own_ruler[sym].status == "OK"` 才允许写「已回答」；否则写「两把尺子都答不了」，并说清差在哪（快照不够 N 次 / 没有够长的净值历史）——「没有历史可比」和「没有溢价」是两笔方向相反的钱。
 2. **覆盖度必须跟着金额走。** 「按各自历史中位重估 ¥178」在只有 1/5 只票可读时，必须把这 1/5 印在同一句里；否则读者会把 178 当成整张单的下限，而它其实只量了一只。
 3. **两个分支各留一条自检腿**（有答案 → 指针出现；无答案 → 「已回答」这个词必须不出现）。只测一个分支的腿，在另一个分支坏掉时照样绿。
@@ -13127,8 +12848,6 @@ r1553 把「这条车道答不了 X」改写成「这件事已由另一把尺子
 1. **下游比上游旧**。裁剪表 17:26 生成，它读的额度面 17:43 才被重写；两个 `permitted_k` 不同（0.393073 vs 0.432195）不是矛盾，是「这张表量的是上一版上限」。页面只有一个判据（值不等＝冲突），于是把「我读的是上一版」印成「两个面互相矛盾」——读者拿到了警报，却拿不到可行动的结论（重跑下游），也没人知道该卖几手。
 2. **冲突门拿两种口径互校**。可执行票面用 `rulers.k_floor`（**全部**读数最小值，含静态配比 0.343508）去比 `permitted_k`（**仅路径**读数最小值 0.432195）。r1557c 重建尺子面之前两者恰好是同一格，这条门看起来像恒等式；面板一变，它**每跑必红**，票面于是自称 `PERMISSION_FACES_CONFLICT`，拒绝把自己当可执行单。
 
-**三律**：
-
 1. **面与面比对先比 `generated`，再比值**。上游更新 → 下游 stale 是「重跑」，不是「对账」；页面遇到 stale 要印「这是上一版额度」，并且**不出那张表**（按旧上限算的卖出量会少卖）。
 2. **冲突门必须同口径**：静态配比没有决策 bar，不投票。要么用同一批格比较，要么把被排除的格名字印在同一句里。
 3. **一条「必须相等」的恒等式，只要两边定义不同，就会在数据一变时变成永久红灯**；红灯必须能靠「遵守它」变绿——否则它教人去做的是改数字。
@@ -13142,8 +12861,6 @@ r1553 把「这条车道答不了 X」改写成「这件事已由另一把尺子
 11-11 晚，`etf_book_size_rulers_decision.json` 的 `k_floor` 是 **0.343508**，而 `floor_memory` 与 `floor_ledger` 一直按 **0.432195** 定价，smoke 因此连红两条。不是谁算错了：`k_floor` 从诞生那天起就是「**这张表上所有尺子里的最小值**」，r1449 加进来的 `denominator` 尺子 beta 最大，于是它拿走了「最小值」这个位置——**r1449 没有改 `k_floor` 的代码，却改掉了它指的数**。同一个词，从「地板」变成了「最深的一格」。
 
 同族第二枚（同日修）：r1544 的腿用 `next_rebalance_date` 判断「今天是不是换仓日」。在 `mode=hold` 里它成立；在 `mode=rebalance`（今天既决定又定价）里它已经是**下一次**，于是正确的页面被判红。
-
-**两律**：
 
 1. **加成员就是改名字**。任何「取全体最小值/最大值/首尾」的字段，在它的成员集合扩张时必须同时做一件事：改字段名（`k_min_across_rulers`）、或加一个语义字段（`k_floor_semantics: "NOT the issued floor; see k_issued"`），并把真正被下游消费的那个量单列（本例 `k_issued`，从 provenance 的 issuing cell 单源读）。只加一格不改名＝下游两个面会在某天突然对不上，而且谁都没改过代码。
 2. **日期源要跟着世界的模式走**。同一个「下一次」，在持有世界里是 `next_rebalance_date`，在换仓世界里是 `priced_bar`；一条腿拿一个字段去覆盖两种世界，就会在第二种世界里把对的判成错的。判据先问「现在在哪个世界」，再问「哪个字段说这件事」。
@@ -13875,8 +13592,6 @@ SAME_SESSION）、实战样本 11-11 票面 × 今日面板（上段读数）。
 在面板末行 2026-11-12 上分位 **95.72**（掉到 P95_98，退出该档）。旧码读末行，于是句子写
 「没有任何一只腿在这个档」——一只**确实站在档里**的腿被无声地丢掉了，读者看不出少了谁。
 
-三条可复用：
-
 ① **「今天」必须走同一个助手**：pp.ticket_session（字段回退链）答「这张单是哪天」，
 pp.anchor_reading 答「这条腿自己那根 bar 上读数是多少、有没有那根 bar」。面侧不许再自己写一遍
 
@@ -13966,8 +13681,6 @@ r1613 把换档扫描放上了 CEO 页，并给出「vt15 清过全部门槛」�
 * vt15 的 top-2 年占比在 **67.02%～84.15%** 之间（相位极差 17.13pp），闸线 70%，最好那条日历的
   余量只有 2.98pp —— **噪声是余量的 5.7 倍**；
 * 年化同期一起漂（vt15 14.37%→11.81%），所以「采用」这件事在不同日历下连收益都不一样。
-
-三条可复用：
 
 ① **「能判自己」要连日历一起判**（承 E433）：一条判据在一个网格上给出通过/拒，必须再问
 「换一条同样合法的网格还成立吗」。四把尺子的自判稳定性和这里的相位稳定性是同一件事的不同刻度。
@@ -14692,8 +14405,6 @@ CEO 页每天印「今天不用动手（下一个动手日 12-09）」和「开�
 CEO 页那一节「上面那张表的三行，是谁按什么尺子量的」是 r1213 写的，从来没有一条自检腿覆盖它（页面主函数 call 它，selftest 里一次都没喂过它）。于是三处伤同时活到今天：①它引用的三个数字（12.78 / 9.60 / 18.35）来自写这一节的那一次运行，而上面那张表早已重定价（今天 7.66 / 12.59 / 9.59），**同一页并存两代数字**；②它把 held/causal/card（卡片宇宙，7.22 / 12.13）叫做「你手上这本」，而读者手上那本是票宇宙（held/causal/ticket，7.66 / 12.59）——同一页两个"这本书全窗年化"；③那个面自己发布了适用范围（identity_scope："对照臂按操作员页面定价的那根 bar 复现，所以旋钮价格解释的是本面自己的三行，不是页面当天的三行"），
 ead_published() 却**没把这个键交出去**——消费者无法遵守一个它拿不到的限制。
 
-三件可复用的：
-
 1. **"这一节自检过吗"要按函数扫，不按节标题扫**。块函数被主函数调用 ≠ 被自检覆盖；一个从没喂过 fixture 的块，里面的数字会随写它的那一次冻结，而周边数据继续往前走。
 2. **跨面引用的数字要么同源，要么带日期**。本轮把"按列读表（12.78 对 9.60）"这句换成从**本页表自己**算：只换起点这一项值 +4.91pp/年，比表第一行与最后一行在同一列里的差（+1.93）还大——同一个论点，数字与表同生同死（腿 L242 钉死旧三个数不许回来）。
 3. **面自己写下的限制必须随读者签名透出**。identity_scope 早就在产物里，读者的 
@@ -14706,8 +14417,6 @@ ead_published() 不返回它，等于这份诚实只写给了下一个读 JSON �
 
 本窗给 CEO 页的 18 个读器（每个都解析一份已发布产物）补了第一条自检腿：逐个用自己的产物跑一遍，18/18 活、零噪音。**然后重生成页面，stdout 第一行就喷出了 {"check": "OK", "state": "MIXED_ACROSS_PHASES"}。** 抓调用栈：build() -> gap_face -> etf_book_overnight_gap.check。同一个缺陷（只想要 check 的 rc，却让它把自己的回执打到页面 stdout）在本仓已有两份手工包裹（causal_rebuild r1661 当天修、underwater 早先就包了），这是第三份——而它只出现在 **build() 传的那个 path 上**，探针用读器自己的默认 path 跑，正好绕过。
 
-四条可复用：
-
 1. **断言必须落在生产路径上**。单件探针测的是「读器 + 它默认的那个文件」；页面跑的是「读器 + build 传进来的那个文件」。两者不同源时，单件全绿与组装时泄漏可以同时成立。正法=另加一条腿直接跑 build(with_stress=False)，断言它一个字节都不往 stdout 写（本轮 L249，0.9s 一次，成本可忽略）。
 2. **"只想要 rc" 的函数要主动闭麦**。凡是 X.check(path) != 0 这种用法，X 的回执就是未受控输出。三处同名缺陷说明这不是偶发：写 reader 时把 with contextlib.redirect_stdout(io.StringIO()) 当默认姿势，而不是等泄漏再补。
 3. **探针本身要有判别力自证**。18/18 绿可能只是探针瞎了——所以 L248 临时塞一个会 print 的假读器和一个会抛的假读器，要求探针把两个都点名（r1371 族：腿必须扰动它声称区分的那一类）。
@@ -14719,8 +14428,6 @@ ead_published() 不返回它，等于这份诚实只写给了下一个读 JSON �
 
 CEO 页标题是**「今日 ETF 实盘单 —— 2026-11-14」**，而全页每个数字都停在 **2026-11-13**。页里那句自证写的是：「整页数字的数据截止日也是 2026-11-13 —— **今天这两个碰巧是同一天**」。周六读它，两个日子确实彼此相同，但**没有一个今天是 11-13**。没有一个数字算错，套件 578 腿全绿，页面仍是仓里最准的一张纸——缺陷只对「知道今天是几号」的读者可见。
 
-三条可复用：
-
 1. **一个页面有三个日子**：页面日（`generated_for_date`）、定价 bar（`priced_bar`）、数据截止（`evidence_cutoff`）。句子里的「今天/今晚/当日」只允许在其中**全部相等**时使用；否则必须点名日期。本轮修法是把第三个日子取进来分支，而不是删句子。
 2. **这族缺陷不会让任何断言变红**：既有腿比的是「两个日期彼此是否相等」，而假话出在「它们与读者日历的关系」上。所以两侧都要有腿——同一天必须说「今天」（L250），标题晚于 bar 时必须不说且要印出两个日期（L251）。只删句子会让 L250 红，只留句子会让 L251 红。
 3. **周末是天然负控**：每周至少两天页面处在「标题是今天、数字是上周五」的状态。缺陷每七天有两天可被肉眼看见，发现成本低——前提是有人真的在那两天读页面。
@@ -14730,8 +14437,6 @@ CEO 页标题是**「今日 ETF 实盘单 —— 2026-11-14」**，而全页每�
 ### E624 · 修好一节的「今天」不等于修好这个词——同一个词在下一页块里还留着一份（r1663 bm-c）
 
 r1662 把页面末尾那句「今天这两个碰巧是同一天」修成三态分支，套件 320/320 全绿。同一张纸上，**晚报节**（live_quote_block）仍写着「## 今晚的收盘，面板自己有了」「这一节今天已经没有要回答的问题」「这一问今天没有新答案」。2026-11-14（周六）实读：页面标题是今天，这一节的标题却在承诺一个还没发生的收盘——最新的那根 bar 是 11-13 的。
-
-三条可复用：
 
 1. **词是跨块的，不是跨文件的**：修一处后 grep 全文件还不够，要按「输出块」分组。本轮 126 处命中里只有 3 处必须跟随 bar，其余（「今天的报价 = 票据上那一天的报价」）本来就点名了日期——逐处问「它指哪个日子」，别整批改。
 2. **函数签名里没有日子，就没有资格说「今天」**：live_quote_block(lq) 只拿到上游状态，拿不到页面日；正法是把 page_day 作为参数由知道页面日的那一层传进来（
@@ -14744,8 +14449,6 @@ ender_md 里 p['generated_for_date']），而不是让块自己去读钟。
 
 r1663 刚把晚报节的日期词修成三态，下一个块仍照旧。`do_or_wait_block` 印「## 今天动手，还是等几天？」「判决：**今天动手**」「**今天（基准）**」「比今天贵 / 便宜」；`premium_forward_block` 的表头印「今日档位」。周六（2026-11-14）实读：两节都停在 2026-11-13 那根 bar 上，「今天动手」是让人在休市日按单操作，「今日档位」把 11-13 的读数说成今天。
 
-三条可复用：
-
 1. **越是指令性的句子越要绑 bar**：描述句错日期只是不准，指令句错日期是让人做错事。修词时先按「这一节有没有让读者动手」排序，指令块先修。
 2. **签名带了 bar 还不够**：`premium_forward_block` 早就有 `page_bar`，可「今日」是读者的日历词，只有页面日能判——正法=再加 `page_day`，且要 `page_day == face_asof` 才允许说今日（三重同日）。
 3. **缺省必须是点名日期**：`page_day=None`（夹具/未知）一律走点名分支。新腿要加在全绿之前先改旧夹具：L234/L235/L239 原先不传日子，等于「替页面撒谎的腿」，改成显式传 11-13 后才有 L256（周六不得说今天）/L257（同日必须还说今天）/L174（表头按读数日命名）。
@@ -14757,8 +14460,6 @@ r1663 刚把晚报节的日期词修成三态，下一个块仍照旧。`do_or_w
 
 E625 给两个指令块加了 \page_day\，套件 327/327。同一页上第三节 \fill_block\ 的签名却是 \fill_block(fl, sheet=None)\ 内部 \dt.date.today().isoformat()\ 喂给 \pending_fill_md(...\——下游那个参数名叫 \today\，看起来「本来就有日子」，实际拿到的是这一台机器读页时的钟。周六（2026-11-14）实读：标题「## 今天开盘要成交的是什么」压着一根 11-13 的 bar，而周六没有开盘。
 
-三条可复用：
-
 1. **参数名会骗人**：\today\ / \asof\ / \row\ 这类形参存在，不代表调用方传的是「页面那一天」。修日期词之前先看**谁读钟**（\date.today()\ / \time.time()\ / \datetime.now()\），读钟的位置越靠上越要修——改词只改一次输出，改钟才让页面可重放。
 2. **没有待成交时判据要退到数据面**：\pending=None\ 时 \decided_bar\ 是空的，若只在有 pending 时才用 bar 判同日，一个周六页面会被读成「今天开盘」。正法=\decided_bar or last_bar\（这块面里能拿到的最新的那根 bar），于是「没有待成交」也是有日期的读数。
 3. **selftest 全绿 ≠ 真实产物变了**：第一次改完 329/329 全绿（同日/异日两条新腿都过），重新生成真实页面标题**还是旧的**——真实数据走的是 \pending=None\ 那条分支，夹具走的是有 pending 那条。修日期类缺陷必须「跑自检 + 重新生成真实产物 + 肉眼读那一行」三件齐全（本轮第二次生成才看到 \2026-11-13 那根 bar 之后开盘要成交的是什么\）。
@@ -14767,8 +14468,6 @@ E625 给两个指令块加了 \page_day\，套件 327/327。同一页上第三�
 ### E627 · 交叉引用有自己的 bar：句子主语是别的块时，日子跟着那个块走（r1666 bm-c）
 
 E625/E626 把两处指令块和待成交块按 page_day 分了三态，套件 332/332。同一页溢价节里还剩两句不描述自己、而描述**别的块**的话：溢价节收尾「所以这不是卖出的理由，是「这张单今天不便宜」的读数」（按溢价面 session 定价）、下一节开头的交叉引用「（上一节说的是**今天多付了多少**…）」（指的就是那个钱数，同一根 bar）。2026-11-14（周六）实读：两句都把 11-13 的读数说成读者的今天，而这一节正是全页唯一告诉读者「你多付了多少钱」的地方。
-
-三条可复用：
 
 1. **交叉引用的日子属于被引用者**：`premium_forward_block` 早就有自己的 `page_day`（r1664 加的），可它指向的上一节是另一个面（`face_asof`）；一个块里出现第二个「今天」时，先问这句话的主语是谁的日子。
 2. **「不知道今天是哪天」不是「今天」**：`page_day=None` 的正确输出是点名那根 bar（「在 2026-11-13 那天不便宜」），不是退回原文；退回原文＝默认读者就站在那根 bar 上。真正连 bar 都没有时才退到不带日子的泛句。
@@ -14781,8 +14480,6 @@ E625/E626 把两处指令块和待成交块按 page_day 分了三态，套件 33
 r1665 把「开盘要成交的是什么」这节的标题从「今天…」改成点名那根 bar（周六读页时标题压着一根 11-13 的 bar），套件随后红在 `_leg_page_fill_section`：它找的是**旧标题的那一串字**。同一类红在 r1664b 已经修过一次（另一条腿），这是第二份拷贝——修好的页面被自己的检查判成坏的，而检查自己还写着「the page has no 'what fills at the open' section」，读者会以为那一节没了。
 
 正法不是去掉断言，是把断言从「措辞」搬到「契约」：标题按锚 `开盘要成交的是什么` 定位（允许前后有日期前缀与括号说明），然后判三件事——说「今天」时，页面的日子必须就是账本那根 bar 的日子；不说今天时，标题点名的日期必须等于账本那根 bar；页面日子从文件名读不出来时说出口（不静默跳过，否则「读不到」被读成「同意」）。
-
-三条可复用：
 
 1. **生产者被允许改措辞＝消费者的字面检索必然过期**：腿里凡是 `if "某句原文" not in text`，先问这句是不是生产者可以合法改的；可以改就换成「锚 + 契约」。
 2. **判据要带两侧反例**：本轮实测三条负控（异日说「今天」→ 红；点名另一根 bar → 红；无日期文件名 → 红）加一条正控（同日说「今天」→ 绿）。只测正例等于只测「那串字还在不在」。
@@ -14797,8 +14494,6 @@ r1663..r1667 五轮手工修的是同一件事：页面上「今天」压着一�
 1. **源码层**（etf_book_ceo_page.page_day_debt_guard）：读模块自己，问「哪个函数印了今天/今日/今晚 却没被交到 page_day」，两向都判——修好的块留在台账上也会红，所以债只能有意地减。它答不了成品层：一个已经拿到 day 的块，仍可能把它用在错的 bar 上。
 2. **成品层**（scripts/live_book_day_words.py）：读读者真的打开的那张纸（docs/live_book/*.json），对每个带日期的节问「这句日词落在页面自己那天吗」。三种答案不许合并：落在别的日子＝红；**节里根本没有日期＝无法核验**（不是绿）；一句日词都没有＝第四种判词（不许借用「全部对上了」的句子）。
 
-两条可复用：
-
 1. **被消费者逐字引用的句子，日期词归生产者**：这句「今天的报价」不是页面写的，是票据 etf_book_order.cash_money() 写进 cash_leg.money.sentence、页面逐字抄的。只在页面端改，等于给第二份拷贝打补丁。正法＝生产者在自己的句子里点名自己的 bar（它本来就知道 spot_date）。
 2. **缓存件里的措辞是缓存身份的一部分**：压力面把 basis 句缓存在 STRESS-<bar>.json，inputs 摘要不含措辞，于是改了文案仍会端出旧句子。正法＝STRESS_BASIS_VERSION 进摘要（r6230：没有摘要就没有命中）。
 
@@ -14807,8 +14502,6 @@ r1663..r1667 五轮手工修的是同一件事：页面上「今天」压着一�
 ### E630 · 两张纸：核 JSON 的尺子量不到印出来的页面（r1668 bm-c）
 
 r1667 建的 `live_book_day_words.py` 读 `docs/live_book/LIVE-BOOK-*.json`，对 58 个节逐节问「用了『今天』的句子，这个节定价在页面自己那天吗」，跑出 `NO_DAY_WORDS`——一句读起来像「这一版很干净」的判词。可读者打开的是 `LIVE-BOOK-*.md`，那一版印着 **20 行**「今天/今日」，散在 **12 个小节**里。原因不是数据错，是**日词根本不在 JSON 里**：这些句子由 `render_md` 在渲染时从代码字面量拼出来（`day_word()` 决定用「今天」还是点名 bar），结构化面里一个都不存。手指的是正确的尺子，量的是另一张纸。
-
-三条可复用：
 
 1. **「读者打开哪张纸」必须写进 docstring，并且两处都读**。指针件里 `json` 与 `page` 两个字段并列，说明作者早就知道有两张；只说「the artifact a reader actually opens」却只读 JSON，是把设想当成了事实。正法＝结构面供 bar、印刷面供存在性，一次跑两张。
 2. **空桶不许借已验证的句子**：`NO_DAY_WORDS` 只在**两张纸都没有**日词时成立；结构面 0 而印刷面有 → 新判词 `PRINTED_BUT_UNANCHORED`（rc1，「有日词，且没人能给它定日」）。反过来，「结构面有、印刷面 0」也不能算干净，得单独说。
@@ -14821,8 +14514,6 @@ r1667 建的 `live_book_day_words.py` 读 `docs/live_book/LIVE-BOOK-*.json`，�
 ### E631 · 「20 行没人能定日」是一个计数，不是一个可行动项（r1669 bm-c）
 
 E630 的印刷面判词把债务数清楚了：**20 行**日词、坐在 **12 个节**里、rc1。下一轮打开它，读者读到的还是同一句话——数字没动，因为这一面只会数，不会分。真正能动手的信息在纸自己身上：其中 **10 行**已经在句子里带了日期（`今天的 1.26%（2026-11-13 报价）`、`今天没有新 bar，账只记到 2026-11-13`），另外 10 行没有。前者是「句子诚实、但没被核对过」，后者才是「读者无法定日」。把两桶分开，债务就从「20」变成 10 个**有名字**的行（`| 代码 | 期限 | 今日报价 |` 在周六印的是周五的收盘）。修完三处（现金腿表头改成 `day_word` 驱动的列名、一句话段与 `lookahead` 段的日词去掉或点名），20 行 → **17 行、undated 7 行**，剩下的每一行都在 `check` 输出里逐条点名。
-
-三条可复用：
 
 1. **一个只增不减的计数，下一轮必须升级成逐项点名**。`n_lines` 是读者围观不了的数字；`undated=[{heading,line}]` 才是能照着修的单子，并且「点名」必须来自纸上的原文（腿断言每条被点名的行是 `printed_text` 的子串），否则名单会变成第二份实现。
 2. **表格表头是日词的高发地，也是最好修的一处**。`| 今日报价 |` 在周六印的是周五的收盘，读者没有任何线索；正法是把「哪一天」交给已有的一次实现（`day_word(page_day, as_of)`），而不是在表头里再写一遍三分支。修它连带把 `PAGE_DAY_LEDGER` 里那条 `reader_day` 欠条删掉——守卫的两向性正好把「修好不删行」抓成红。
@@ -15173,8 +14864,6 @@ beta 是 0.613，而平均只有 0.0745」——这句话被当成事实印在�
 - 但按 beta 精确对冲，**夏普变化 -0.0205，区间 [-0.099, +0.071]** → 判决 **HEDGE_NOT_MEASURABLE**；
 - 同一组抽样里**波动变化 -0.10pp，区间 [-0.30pp, -0.01pp]**（整段在 0 以下）——对冲可稳定削掉的这点波动，
   **换不来可测的夏普**。
-
-四条可复用：
 
 1. **薄切片上的点估计不带区间就是把巧合当测量。** 判词必须由区间出，不由点估计出：同一个 -0.021 在「区间整段
    为负」与「区间跨过 0」下面是两个完全不同的结论。
@@ -15816,8 +15505,6 @@ pool15_win60 价签 2.05；pool15_win40 价签 2.00；pool10_win60 价签 4.03�
 **正身**：scripts/etf_book_corr_select.py（selftest 18/18 ＋ --check）·
 results/etf_book_corr_select.json（CORR_MOVES_FLOOR）· research/ETF_BOOK_CORR_SELECT.md ·
 smoke 两腿（selftest＋check）
-
----
 
 ## E675 「换尺子」要先量尺子换了几倍；加性分解要能对账（r1766）
 
@@ -16716,3 +16403,40 @@ verdict_without_intercept 同判）。
 「它们中间那句问题是谁的」——没人问的那句往往就是产品缺口。
 正身=`scripts/etf_book_capacity_ticket.py`（selftest 14/14 + check ok）+
 `results/etf_book_capacity_ticket.json` + `research/ETF_BOOK_CAPACITY_TICKET.md`。
+
+
+
+## 判据面把「候门」算成「有活」，把「已完成」算成「可领」（r1304 bm-a）
+
+闲置判据（Tools/idle_trigger.py 读 fleet/backlog.md）原来只有两态：行里没有认领标记 = 可领。
+两件事因此被读成工作：①卡自己声明 `gate 现状=CLOSED`（闸门关着，候窗）；②卡要的工程这台机
+根本没有。bm-a 连续 3 轮 GREEN-IDLE-with-work、一张没点着，而面上只有「3 行可领」这一个数，
+没人能从它推出「这里点不着火」。同一处还有两枚行读取缺陷：卡 19 因为正文解释了认领语法
+`claimed@<机>@<ts>`，被裸子串判断整行跳过（数周不在任何面里）；卡 1 已 done，但认领标记少写了
+`@<ts>`，于是又变成可领。
+
+**How**：任何「有活可领」的计数先问三件事——这张卡要不要本机没有的东西（`execution-face:` 声明
++ 存在性）、它是不是自己说了门关着（`gate=CLOSED`）、它是不是已经完成（`done@`）。认领判定一律
+用标记正则而不是子串包含，因为卡片正文会解释语法。三态（可领/候门/缺执行面）各自单独印，
+「候门」必须带它差哪个门多少——否则读者仍分不清饿和等。正身=Tools/idle_trigger.py
+classify_pool_line（selftest 19 腿，新增 9 条）+ fleet/backlog.md 卡 19-22 的 execution-face 行。
+
+## 门有三种写法，只有一种能被面自己判（r1305 bm-a · E1402）
+
+接 r1304「候门必须带它差哪个门多少」。补上的那一半是：**门的写法决定面能不能判它**。
+同一份 `fleet/backlog.md` 里，City3D 两张卡把 GPU 门写成 `headroom>=1.5GB`（数字），
+吸嘟嘟两张卡写成 `他司会话优先不抢` / `与他司产线协商让路`（协商），还有一张写成
+`与 B-CITY3D-01 同 gate`（引用）。读者原来一条都不解析，于是四张卡全算"可领"，
+而实测 GPU 只剩 1.49GB——差的那 0.01GB 只能靠人眼减。
+
+**How**：①数字门=读数，与探针直接比，印 `needs/have/short` 三件；②引用门=去被引用的那张卡
+上取数字（两遍扫描建 name→door 表），解不开的引用只能是 `gate_inherited`（带 ref），
+**绝不当成开着的门**——读不到的门和被判关上的门一样不能点；③探针读不到时出 `vram_unknown`
+而不是 claimable（不可测≠开）；④协商门面无法证明，就把条款原文印在卡旁 + 出一个
+`*_n_soft_gated` 计数，让"2 张可领"不能被读成"2 张现在就能点"。
+
+实锚：VRAM 1.49GB 时可领 4→2（卡 20 印 short 0.01），VRAM 回到 5.07GB 时卡 20 自动变回可领，
+而自声明 `gate=CLOSED` 的卡 19 与两张协商卡不动——面在两种硬件状态下都判对，这就是
+"读数"与"计数"的区别。正身=Tools/idle_trigger.py classify_pool_line + parse_backlog
+（selftest 19→28 腿）· results/idle_trigger.bm-a.json。
+

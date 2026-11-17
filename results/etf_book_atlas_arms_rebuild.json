@@ -1,38 +1,42 @@
 {
- "group": "buffer",
+ "mode": "refresh",
+ "group": "all",
  "arms": [
+  "base",
   "buffer_k02",
   "buffer_k05",
   "buffer_k10",
   "buffer_k20",
-  "buffer_k40"
+  "buffer_k40",
+  "cost0",
+  "cost05",
+  "cost20",
+  "cost40",
+  "buffer_k05_cost20"
  ],
- "faces": [
-  "results/etf_book_phase_atlas_buffer_k02.json",
-  "results/etf_book_phase_atlas_buffer_k05.json",
-  "results/etf_book_phase_atlas_buffer_k10.json",
-  "results/etf_book_phase_atlas_buffer_k20.json",
-  "results/etf_book_phase_atlas_buffer_k40.json"
- ],
+ "period": "refresh",
+ "rebuilt": [],
+ "left": [],
+ "status": "REFRESH_NOOP",
+ "verdict": "ONE_WORLD",
+ "detail": "REFRESH_NOOP",
+ "generated": "2026-11-17T21:10:24+0800",
+ "elapsed_sec": 0.0,
+ "audit_publish_rc": null,
+ "audit_check_rc": null,
  "panel": {
   "stamped": {
-   "results/etf_book_phase_atlas_buffer_k02.json": "58302d9ca988c138",
-   "results/etf_book_phase_atlas_buffer_k05.json": "58302d9ca988c138",
-   "results/etf_book_phase_atlas_buffer_k10.json": "58302d9ca988c138",
-   "results/etf_book_phase_atlas_buffer_k20.json": "58302d9ca988c138",
-   "results/etf_book_phase_atlas_buffer_k40.json": "58302d9ca988c138"
-  },
-  "unstamped": [],
-  "absent": []
- },
- "verdict": "ONE_WORLD",
- "detail": "all 5 faces priced 58302d9ca988c138",
- "audit_publish_rc": null,
- "audit_check_rc": 1,
- "audit_steps": [
-  "--check"
- ],
- "success": true,
- "stamp_law": "every face in a rebuilt group must price one panel (r1179)",
- "publish_law": "the `all` unit also republishes the arms face and then checks it (r1181): a rebuilt family behind a stale comparison face is still unread"
+   "base/results/etf_book_phase_atlas.json": "0d5a9cdcf2beffd5",
+   "buffer_k02/results/etf_book_phase_atlas_buffer_k02.json": "0d5a9cdcf2beffd5",
+   "buffer_k05/results/etf_book_phase_atlas_buffer_k05.json": "0d5a9cdcf2beffd5",
+   "buffer_k10/results/etf_book_phase_atlas_buffer_k10.json": "0d5a9cdcf2beffd5",
+   "buffer_k20/results/etf_book_phase_atlas_buffer_k20.json": "0d5a9cdcf2beffd5",
+   "buffer_k40/results/etf_book_phase_atlas_buffer_k40.json": "0d5a9cdcf2beffd5",
+   "cost0/results/etf_book_phase_atlas_cost0.json": "0d5a9cdcf2beffd5",
+   "cost05/results/etf_book_phase_atlas_cost05.json": "0d5a9cdcf2beffd5",
+   "cost20/results/etf_book_phase_atlas_cost20.json": "0d5a9cdcf2beffd5",
+   "cost40/results/etf_book_phase_atlas_cost40.json": "0d5a9cdcf2beffd5",
+   "buffer_k05_cost20/results/etf_book_phase_atlas_buffer_k05_cost20.json": "0d5a9cdcf2beffd5"
+  }
+ }
 }

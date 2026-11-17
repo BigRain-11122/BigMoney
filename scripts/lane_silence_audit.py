@@ -469,8 +469,10 @@ def run(days=DEFAULT_WINDOW_DAYS, threshold_min=DEFAULT_THRESHOLD_MIN, mid=None,
 
 def selftest():
     fails = []
+    ran = []
 
     def chk(name, cond, detail=""):
+        ran.append(name)
         if not cond:
             fails.append("%s %s" % (name, detail))
 
@@ -545,9 +547,22 @@ def selftest():
                 90, 3, now=_dt.datetime(2026, 11, 1, 11, 40), mid="bm-a")
     res["machine"] = "bm-a"
     s = sentence(res)
-    chk("L13-sentence", isinstance(s, str) and s.endswith(".")
-        and "OPEN_SILENCE" not in s and "still open since 2026-11-01T07:10" in s,
+    chk("L13-sentence", isinstance(s, str) and s.endswith("。")
+        and "OPEN_SILENCE" not in s and "仍未恢复，自 2026-11-01T07:10 起" in s,
         str(s))
+    # L13b the sentence is Chinese prose for the Chinese CEO pages (r1307): an
+    # English sentence inside a Chinese report is the same defect as a stale
+    # date -- the reader cannot tell which one is the content and which is debt.
+    chk("L13b-sentence-chinese", isinstance(s, str) and not any(
+        w in s for w in ("rounds in", "median gap", "unexplained gap")),
+        str(s))
+    # L13c an unmeasurable median prints as words, never as the token None
+    _thin = audit([(_dt.datetime(2026, 11, 1, 7, 0),) * 2 + (0,)], 90, 3,
+                  now=_dt.datetime(2026, 11, 1, 8, 0), mid="bm-a")
+    _thin["machine"] = "bm-a"
+    _ts = sentence(_thin)
+    chk("L13c-no-none-token", isinstance(_ts, str) and "None" not in _ts,
+        str(_ts))
     # L14 a face without a verdict has no sentence, and the reader refuses it
     chk("L14-no-verdict", sentence({"machine": "bm-a"}) is None
         and read_published("bm-a", root="/nonexistent")["present"] is False,
@@ -567,7 +582,7 @@ def selftest():
         json.dump(doc, fh)
     pub = read_published("bm-a", root=tmp)
     chk("L15-reader", pub["present"] is True and pub["verdict"] == "SILENT_GAP"
-        and "111.0-129.0 min" in (pub["sentence"] or ""),
+        and "111.0–129.0 分钟" in (pub["sentence"] or ""),
         str(pub.get("sentence")))
     # L16-L21 (r1216b): the switch behind the silence.  A Disabled task while the line
     # is silent is named as the cause; a task that cannot be read is never called
@@ -626,11 +641,11 @@ def selftest():
         all("Bigmoney-SatEngine-bm-b" in (LANE_TASKS.get(m) or [])
             for m in ("bm-a", "bm-b", "bm-c")), str(LANE_TASKS))
     if fails:
-        print("selftest FAIL %d/28" % len(fails))
+        print("selftest FAIL %d/%d" % (len(fails), len(ran)))
         for f in fails:
             print("  " + f)
         return 1
-    print("selftest 28/28 PASS")
+    print("selftest %d/%d PASS" % (len(ran), len(ran)))
     return 0
 
 
@@ -644,30 +659,30 @@ def sentence(res):
     """
     if not isinstance(res, dict) or not res.get("verdict"):
         return None
-    bits = ["%s: %d rounds in %sd, median gap %s min, %d unexplained gap(s) "
-            "over %s min"
+    med = res.get("median_gap_min")
+    bits = ["%s：窗内 %d 轮 / %s 天，相邻间隔中位数 %s 分钟，超过 %s 分钟且无解释的空档 %d 处"
             % (res.get("machine"), res.get("rounds_in_window") or 0,
-               res.get("window_days"), res.get("median_gap_min"),
-               res.get("gaps_over_threshold_count") or 0, res.get("threshold_min"))]
+               res.get("window_days"),
+               "不可测（不足两轮）" if med is None else "%.1f" % med,
+               res.get("threshold_min"),
+               res.get("gaps_over_threshold_count") or 0)]
     long = res.get("longest_silence") or {}
     if long:
-        bits.append("longest silence %s -> %s (%s-%s min, %s explained by its "
-                    "quiet window)"
+        bits.append("最长静默 %s → %s（%s–%s 分钟，其中 %s 分钟由其申报的静默窗解释）"
                     % (long.get("from"), long.get("to"), long.get("gap_low_min"),
                        long.get("gap_high_min"), long.get("quiet_window_min")))
     og = res.get("open_gap") or {}
     if og:
-        bits.append("still open since %s (%s-%s min unexplained)"
+        bits.append("仍未恢复，自 %s 起（未解释 %s–%s 分钟）"
                     % (og.get("since"), og.get("unexplained_low_min"),
                        og.get("unexplained_high_min")))
     lt = res.get("lane_tasks") or {}
     if lt.get("verdict") == "LANE_SWITCHED_OFF":
-        bits.append("the lane task itself is Disabled (%s), so the silence is a switch, "
-                    "not a slow round" % ", ".join(lt.get("disabled") or []))
+        bits.append("车道任务本身已被停用（%s），所以这段静默是开关造成的，不是轮次变慢"
+                    % ", ".join(lt.get("disabled") or []))
     elif lt.get("verdict") == "UNKNOWN":
-        bits.append("the scheduler could not be read, so whether the lane is switched "
-                    "off is unknown")
-    return "; ".join(bits) + "."
+        bits.append("调度器读不到，因此这条车道是否被停用是未知，不是「没有停用」")
+    return "；".join(bits) + "。"
 
 
 def read_published(mid=None, root=None):

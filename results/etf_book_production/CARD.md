@@ -24,14 +24,15 @@ Row 1 is the engine as coded (score off bar d's close, paid bar d's *open*); row
 
 **Panel digest:** `0d5a9cdcf2beffd5` (5282 bars x 1631 symbols, 2005-02-23->2026-11-17, covers close/open/amount) -- the executable sheet and the forward ledger print the same fingerprint only when all three priced one panel, on the same blocks.
 
-**Priced day: SAME_DAY** -- card 2026-11-17 / ticket 2026-11-17 / page 2026-11-17 (compared at 2026-11-18 00:28:48); this card, the executable sheet and the CEO page all priced the same closing bar.
+**Priced day: SAME_DAY** -- card 2026-11-17 / ticket 2026-11-17 / page 2026-11-17 (compared at 2026-11-17 21:56:54); this card, the executable sheet and the CEO page all priced the same closing bar.
 
-**Family coherence: MIXED_WORLDS** -- 11 faces priced 2 different panels (0988c653, 0d5a9cdc): per-cell deltas across worlds are world differences, not rule effects.
-8 of 10 arms priced the card's own panel and keep their labels (buffer_k02, buffer_k05, buffer_k05_cost20, buffer_k10, buffer_k20, buffer_k40, cost0, cost40); the 2 withheld one(s) still price another panel (cost05, cost20), so their verdicts are not part of this reading.
+**Family coherence: ONE_WORLD** -- all 10 width arms priced `0d5a9cdcf2beffd5` (cutoff 2026-11-17); the verdicts that license this card's width are measurements on one panel.
 
-**Label null: 96.6% REJECT** -- the same rule called an effect-free panel REJECT in that share of 20000 trials, so a published REJECT carries almost no information; the rare branch (NOT-SEPARABLE 3.5%, ADOPT 0.0%) is the one that reads.
+**Label null: 96.5% REJECT** -- the same rule called an effect-free panel REJECT in that share of 20000 trials, so a published REJECT carries almost no information; the rare branch (NOT-SEPARABLE 3.5%, ADOPT 0.0%) is the one that reads.
 
-**Width floor: an extrapolation that holds its test point** (priced at the unseen k=0.30 the line predicted +0.908pp and the arm's own cells said +0.510pp -- gap 0.398pp against a 2.420pp tolerance) -- the name count is still continued past the last measured arm, but the point it never saw sits on the line.
+The null was simulated on 2026-11-16; these arm faces price 2026-11-17 -- do not read the frequency as today's.
+
+**Width floor: an extrapolation that holds its test point** (priced at the unseen k=0.30 the line predicted +0.335pp and the arm's own cells said +0.385pp -- gap 0.050pp against a 0.172pp tolerance) -- the name count is still continued past the last measured arm, but the point it never saw sits on the line.
 
 **Today (2026-11-17 bar): HOLD: 16 bars until the next decision point** (last grid decision 2026-11-11).
 
@@ -75,7 +76,7 @@ A positive drawdown delta is a *shallower* drawdown than this card's; the dose c
 
 Closest arm: the vol gate improves the drawdown by +0.86pp (frozen bar 1.0pp) and beats its dose-matched placebo by +6.06pp on the same measure, so it is the only arm not explained by holding less sleeve -- it missed the bar and is therefore NOT adopted; re-test it on new data, do not move the bar.
 
-The placebo arm matters: switching a sleeve off a fixed share of decisions changes the exposure and the timing at once, so only the arm that beats its own untimed placebo is evidence of a signal rather than of a shorter holding period. See K:\Fluxgroup\FluxGroup\quant\bigmoney\results\etf_book_sleeve_gate.json.
+The placebo arm matters: switching a sleeve off a fixed share of decisions changes the exposure and the timing at once, so only the arm that beats its own untimed placebo is evidence of a signal rather than of a shorter holding period. See C:\Users\sjs20\Desktop\FluxGroup\quant\bigmoney\results\etf_book_sleeve_gate.json.
 
 ## What the rotation is worth
 

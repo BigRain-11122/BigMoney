@@ -1808,16 +1808,21 @@ def render_md(p: dict) -> str:
             parts.append(f"{c} 分位 {('?' if pct is None else round(pct, 1))}"
                          f"（basis {('?' if r.get('basis_pct') is None else round(r.get('basis_pct'), 2))}%）{mark}")
         L.append("  - " + "；".join(parts) if parts else "  - 分位读数缺")
+        # r1299: this sentence said 「今天」 over the carry face's own bar, which is one session
+        # behind the page whenever the basis panel has not been pulled yet (11-16 against a
+        # 11-17 page). Same one-word rule as the rest of this file: name the bar you read.
+        _dw_t = day_word(p.get("day"), ct.get("evidence_cutoff"))
+        _at_t = "今天" if _dw_t == "今天" else f"在 {_dw_t} 那根 bar 上"
         if inband:
             acct_codes = set((cb.get("accounts") or {}).keys()) if cb.get("present") else set()
             openable = [c for c in inband if c in acct_codes]
-            L.append(f"  - 今天在带内：**{'、'.join(inband)}** —— "
+            L.append(f"  - {_at_t}在带内：**{'、'.join(inband)}** —— "
                      "时机这一半是开的"
                      + ("" if openable else
                         "；但其中没有一只有资金线（IF/IH 只作读数披露，"
                         "这本书只对 IC/IM 建仓）"))
         else:
-            L.append("  - 今天**四个品种都不在带内**：时机这一半是关的，"
+            L.append(f"  - {_at_t}**四个品种都不在带内**：时机这一半是关的，"
                      "等贴水回到最宽的五分之一")
         L.append("  - **两个条件同时满足才下单**：资金到首档 ∧ 时机在带内。"
                  "钱够了但不在带内＝继续等（省下的是更贵的预付款）；"

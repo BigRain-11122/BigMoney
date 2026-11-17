@@ -98,6 +98,96 @@ def agenda_cause(verdict, startable, shortfall, calendar_verdict):
     return "unknown"
 
 
+CAPACITY_RECEIPT = "results/etf_book_capacity_floor_gap.json"
+
+
+def _capacity_floor_owner():
+    """The gate that owns the floor number (never copy a second 20,000,000)."""
+    sdir = os.path.join(ROOT, "scripts")
+    if sdir not in sys.path:
+        sys.path.insert(0, sdir)
+    import candidate_year_gate
+    return candidate_year_gate.CAPACITY_FLOOR_CNY
+
+
+def capacity_layer(path=None):
+    """The level the calendar cannot answer.
+
+    supply_calendar_face answers "did any judged candidate pass its own
+    calendar". It cannot answer "would passing change the floor question":
+    every priced width tops out below the floor, so "wait for the calendar"
+    is not the whole order and an operator who reads only the calendar keeps
+    waiting for a door that does not exist. Numbers are copied from the
+    capacity receipt (single owner scripts/etf_book_capacity_floor_gap.py);
+    that receipt's floor is cross-checked against the gate that owns it, and
+    a disagreement is flagged instead of silently preferring one. An
+    unreadable receipt is unreadable -- never a zero gap (r98).
+    """
+    path = path or os.path.join(ROOT, CAPACITY_RECEIPT)
+    if not os.path.exists(path):
+        return {"readable": False,
+                "why": "no capacity receipt at %s" % CAPACITY_RECEIPT}
+    try:
+        with io.open(path, encoding="utf-8") as f:
+            d = json.load(f)
+    except Exception as exc:                       # noqa: BLE001 - reported
+        return {"readable": False,
+                "why": "capacity receipt unreadable: %s" % exc}
+    floor = d.get("floor_cny")
+    ceiling = d.get("best_capacity_5pct_cny")
+    if floor is None or ceiling is None:
+        return {"readable": False,
+                "why": "capacity receipt lacks floor_cny / "
+                       "best_capacity_5pct_cny"}
+    try:
+        owner_floor = float(_capacity_floor_owner())
+    except Exception:                              # noqa: BLE001 - reported
+        owner_floor = None
+    return {
+        "readable": True,
+        "floor_cny": floor,
+        "ceiling_cny": ceiling,
+        "gap_cny": d.get("gap_to_floor_cny"),
+        "share_of_floor": d.get("best_share_of_floor"),
+        "verdict": d.get("verdict"),
+        "best_reading": d.get("best_reading"),
+        "receipt": CAPACITY_RECEIPT,
+        "floor_owner": d.get("floor_owner"),
+        "floor_matches_owner": (None if owner_floor is None
+                                else abs(float(floor) - owner_floor) < 1e-6),
+        "generated": d.get("generated"),
+    }
+
+
+def _cny(v):
+    return "{:,.0f}".format(v) if v is not None else "读不到"
+
+
+def _share(v):
+    return ("%.1f%%" % (100.0 * v)) if v is not None else "读不到"
+
+
+def capacity_sentence(cap):
+    """One sentence built from the receipt's own numbers (pinned by selftest).
+
+    It exists because the calendar sentence and this one answer different
+    questions: "no candidate passes its calendar" invites waiting, while
+    "the top priced ceiling is 69% of the floor" says waiting cannot finish
+    the job.
+    """
+    if not cap or not cap.get("readable"):
+        return ("已定价的天花板读不到（%s）——读不到不等于没有缺口（r98）"
+                % ((cap or {}).get("why") or "unknown"))
+    s = ("即使有一个候选过闸，已定价的最高上限 %s 也只有地板的 %s（差 %s）"
+         % (_cny(cap.get("ceiling_cny")), _share(cap.get("share_of_floor")),
+            _cny(cap.get("gap_cny"))))
+    if cap.get("best_reading"):
+        s += "，该上限出自 %s" % cap["best_reading"]
+    if cap.get("floor_matches_owner") is False:
+        s += "（注意：收据上的地板与 %s 不一致）" % (cap.get("floor_owner") or "属主门")
+    return s
+
+
 def count_backlog(path):
     """(unclaimed, claimed) rows of a claim-by-file backlog.
 
@@ -192,7 +282,7 @@ def classify(ready, tickets, floor):
 
 
 def build(pool_ready=None, pool_ids=None, tickets=None, backlog_path=None,
-          queue_paths=None, floor=None, calendar=None):
+          queue_paths=None, floor=None, calendar=None, capacity=None):
     """Assemble the face. Every input may be injected (selftest hermeticity)."""
     ca = _audit()
     floor = ca.SUPPLY_FLOOR_READY if floor is None else floor
@@ -226,6 +316,7 @@ def build(pool_ready=None, pool_ids=None, tickets=None, backlog_path=None,
         cal_face = calendar
     shortfall = (None if pool_ready is None else max(0, floor - pool_ready))
     cause = agenda_cause(verdict, startable, shortfall, cal_face.get("verdict"))
+    cap = capacity_layer() if capacity is None else capacity
     return {
         "tool": "supply_candidate_face",
         "floor": floor,
@@ -273,7 +364,11 @@ def build(pool_ready=None, pool_ids=None, tickets=None, backlog_path=None,
         "queue_open_names": queue.get("_rows", {}),
         "verdict": verdict,
         "agenda_cause": cause,
-        "reading": _reading(verdict, cause, cal_face),
+        # one layer under 'calendar': would passing its calendar reach the
+        # floor at all? Single owner = scripts/etf_book_capacity_floor_gap.py.
+        "capacity": cap,
+        "capacity_sentence": capacity_sentence(cap),
+        "reading": _reading(verdict, cause, cal_face, cap),
     }
 
 
@@ -287,18 +382,22 @@ READINGS = {
 }
 
 
-def _reading(verdict, cause, cal_face):
+def _reading(verdict, cause, cal_face, cap=None):
     """The sentence an operator acts on. For AGENDA_DEBT the calendar layer
     replaces the generic wording, because 'write a topic' and 'wait for the
-    book to pass its calendar' are different orders."""
+    book to pass its calendar' are different orders -- and 'waiting cannot
+    finish the job' is a third, which the capacity sentence carries."""
     if verdict == "AGENDA_DEBT" and cause == "calendar":
         try:
             cal = _calendar()
-            return cal.summary_line(cal_face)
+            s = cal.summary_line(cal_face)
         except Exception:                          # noqa: BLE001 - reported
             names = [c.get("candidate") for c in cal_face.get("candidates") or []]
-            return ("no candidate passes its calendar (%d refused: %s)"
-                    % (len(names), ", ".join(names)))
+            s = ("no candidate passes its calendar (%d refused: %s)"
+                 % (len(names), ", ".join(names)))
+        # r1308: the calendar alone reads as "keep waiting"; the level says
+        # whether waiting can ever be enough.
+        return s + "。另一层：" + capacity_sentence(cap)
     if verdict == "AGENDA_DEBT" and cause == "unknown":
         return ("nothing to enqueue, and the calendar reading could not be "
                 "made -- unknown is not 'no topics' (r98)")
@@ -353,6 +452,32 @@ def write_md(face, path):
             lines.append("读不到的收据：%s"
                          % json.dumps(cal["receipts_unreadable"], ensure_ascii=False))
         lines.append("")
+    cap = face.get("capacity") or {}
+    if cap.get("readable"):
+        lines += ["## 地板：日历过了也不够", "",
+                  "| 读法 | 数 | 出处 |", "|---|---|---|",
+                  "| 地板（产能门槛） | %s | %s |" % (
+                      _cny(cap.get("floor_cny")),
+                      cap.get("floor_owner") or "—"),
+                  "| 已定价的最高上限 | %s | %s |" % (
+                      _cny(cap.get("ceiling_cny")),
+                      cap.get("best_reading") or "—"),
+                  "| 缺口 | %s | %s |" % (_cny(cap.get("gap_cny")),
+                                          cap.get("receipt") or "—"),
+                  "| 上限／地板 | %s | %s |" % (_share(cap.get("share_of_floor")),
+                                              cap.get("verdict") or "—"),
+                  "",
+                  face.get("capacity_sentence") or "",
+                  ""]
+        if cap.get("floor_matches_owner") is False:
+            lines += ["**地板与属主门不一致**：收据写着 %s，属主是 %s。"
+                      "先修这个差，别在同一页上比较两个地板。" % (
+                          _cny(cap.get("floor_cny")),
+                          cap.get("floor_owner") or "—"), ""]
+    else:
+        lines += ["## 地板：读不到", "",
+                  "产能收据读不到（%s）。读不到不等于没有缺口（r98）。"
+                  % (cap.get("why") or "unknown"), ""]
     with io.open(path, "w", encoding="utf-8", newline="\n") as f:
         f.write("\n".join(lines))
 
@@ -444,13 +569,52 @@ def _selftest():
     check("open_queue_rows returns only the live row",
           [r[0] for r in open_queue_rows(q2)], ["E2"])
 
+    # (3c) the level under the calendar (r1308): a calendar sentence invites
+    # waiting, this one says whether waiting can finish the job. Numbers are
+    # copied from the receipt; an unreadable receipt is not a zero gap.
+    cap_path = os.path.join(d, "cap.json")
+
+    def _write_cap(floor, ceiling, share, gap, owner):
+        with io.open(cap_path, "w", encoding="utf-8") as f:
+            json.dump({"floor_cny": floor, "best_capacity_5pct_cny": ceiling,
+                       "gap_to_floor_cny": gap, "best_share_of_floor": share,
+                       "verdict": "FLOOR_BEYOND_PRICED_ENVELOPE",
+                       "best_reading": "priced_envelope_R20",
+                       "floor_owner": owner,
+                       "generated": "fixture"}, f)
+
+    _write_cap(20000000.0, 5000000.0, 0.25, 15000000.0,
+               "scripts/candidate_year_gate.py::CAPACITY_FLOOR_CNY")
+    cap1 = capacity_layer(cap_path)
+    check("receipt numbers are carried, not recomputed",
+          (cap1["ceiling_cny"], cap1["share_of_floor"]), (5000000.0, 0.25))
+    check("a receipt whose floor equals the owning gate agrees",
+          cap1["floor_matches_owner"], True)
+    check("the capacity sentence prints the receipt's own ratio",
+          "25.0%" in capacity_sentence(cap1), True)
+    check("the capacity sentence prints the ceiling it read",
+          "5,000,000" in capacity_sentence(cap1), True)
+    _write_cap(25000000.0, 7000000.0, 0.28, 18000000.0, "somewhere-else")
+    cap2 = capacity_layer(cap_path)
+    check("a different receipt moves the sentence (not a constant)",
+          "7,000,000" in capacity_sentence(cap2), True)
+    check("a floor that disagrees with the owning gate is flagged",
+          cap2["floor_matches_owner"], False)
+    check("the disagreement is said out loud",
+          "不一致" in capacity_sentence(cap2), True)
+    cap3 = capacity_layer(os.path.join(d, "nope.json"))
+    check("missing receipt is unreadable, not a zero gap",
+          cap3["readable"], False)
+    check("unreadable says so instead of printing 0",
+          "读不到" in capacity_sentence(cap3), True)
+
     # (4) end to end on fixtures, then the same call twice must be identical
     NO_TOPICS = {"verdict": "NO_CANDIDATES", "n_candidates": 0,
                  "n_refused": 0, "candidates": [], "receipts_unreadable": []}
     f1 = build(pool_ready=0, pool_ids=[], tickets=0, backlog_path=bl,
-               queue_paths=[q], floor=3, calendar=NO_TOPICS)
+               queue_paths=[q], floor=3, calendar=NO_TOPICS, capacity=cap1)
     f2 = build(pool_ready=0, pool_ids=[], tickets=0, backlog_path=bl,
-               queue_paths=[q], floor=3, calendar=NO_TOPICS)
+               queue_paths=[q], floor=3, calendar=NO_TOPICS, capacity=cap1)
     check("fixture verdict", f1["verdict"], "AGENDA_DEBT")
     check("fixture cause is no_topics", f1["agenda_cause"], "no_topics")
     check("deterministic", json.dumps(f1, sort_keys=True),
@@ -466,7 +630,7 @@ def _selftest():
                                "receipt": "results/x.json"}],
                "receipts_unreadable": []}
     f3 = build(pool_ready=0, pool_ids=[], tickets=0, backlog_path=bl,
-               queue_paths=[q], floor=3, calendar=REFUSED)
+               queue_paths=[q], floor=3, calendar=REFUSED, capacity=cap1)
     check("refused calendar keeps the same verdict", f3["verdict"],
           "AGENDA_DEBT")
     check("refused calendar changes the cause", f3["agenda_cause"], "calendar")
@@ -475,6 +639,8 @@ def _selftest():
            and "Y4_top2_share" in f3["reading"]), True)
     check("the cause sentence is not the generic agenda wording",
           f3["reading"] == READINGS["AGENDA_DEBT"], False)
+    check("the calendar sentence also carries the level (r1308)",
+          "5,000,000" in f3["reading"], True)
 
     print("selftest %d/%d PASS" % (ok[0], ok[1]))
     return 0 if ok[0] == ok[1] else 1
@@ -513,6 +679,23 @@ def check_published(path=None):
         if d.get("agenda_cause") != want_cause:
             problems.append("agenda_cause %r != recomputed %r"
                             % (d.get("agenda_cause"), want_cause))
+    # r1308: the level is a copy of a receipt that another script writes, so a
+    # published number that no longer matches it is a stale claim, and a
+    # sentence that does not follow from the published capacity is a constant
+    # pretending to be a reading.
+    cap = d.get("capacity") or {}
+    now_cap = capacity_layer()
+    if bool(cap.get("readable")) != bool(now_cap.get("readable")):
+        problems.append("capacity readability %r != receipt %r"
+                        % (cap.get("readable"), now_cap.get("readable")))
+    elif cap.get("readable"):
+        for k in ("floor_cny", "ceiling_cny", "gap_cny", "share_of_floor"):
+            if cap.get(k) != now_cap.get(k):
+                problems.append("capacity.%s %r != receipt %r"
+                                % (k, cap.get(k), now_cap.get(k)))
+        if d.get("capacity_sentence") != capacity_sentence(cap):
+            problems.append("capacity_sentence does not follow from the "
+                            "published capacity")
     if problems:
         print("supply_candidate_face: FAIL " + "; ".join(problems))
         return 1

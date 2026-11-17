@@ -2,7 +2,7 @@
  "schema": "ceo_live_usage_v1_9",
  "ticket": "T-202609-28-105",
  "day": "2026-11-17",
- "generated": "2026-11-17T21:16:12",
+ "generated": "2026-11-17T22:30:18",
  "market": {
   "state": "RED",
   "asof": "2026-11-17",
@@ -16,9 +16,9 @@
   "bench_close": 4.042,
   "bench_ma200": 4.6493,
   "clock_cell": "RED_COOL",
-  "clock_asof": "2026-11-13",
+  "clock_asof": "2026-11-17",
   "heat": "COOL",
-  "heat_basis": "LHB 当日 69 行 · 净买 -3.12 亿 vs 250日 p80=96.0 行（温度计=COOL）"
+  "heat_basis": "LHB 当日 93 行 · 净买 0.38 亿 vs 250日 p80=96.0 行（温度计=COOL）"
  },
  "national_team": {
   "status": "存量高控·近期无已验证增持动作",
@@ -133,7 +133,7 @@
    "behind_days": 0,
    "behind": [],
    "lane_owner": "bm-c",
-   "read_on": "bm-c"
+   "read_on": "bm-a"
   }
  },
  "ladder": {
@@ -380,7 +380,7 @@
  "intraday": {
   "feed": "T-104 minute_feed (rolling 1m archive, bm-b lane)",
   "today": "2026-11-17",
-  "asof": "2026-11-17 15:00:00",
+  "asof": null,
   "n_held_with_feed": 2,
   "n_live": 0,
   "rows": [
@@ -401,12 +401,12 @@
    },
    {
     "symbol": "510050",
-    "status": "LAGGED",
-    "latest_bar": "2026-11-17 15:00:00",
-    "latest_close": 2.884,
+    "status": "PREV_SESSION",
+    "latest_bar": null,
+    "latest_close": 2.885,
     "prev_session_close": 2.885,
-    "day_change_pct": -0.03,
-    "age_min": 376.2
+    "day_change_pct": null,
+    "note": "上一场收盘档（今日 09:15 起随源点亮）"
    },
    {
     "symbol": "511010",
@@ -492,7 +492,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 59754.4
+    "last_append_age_min": 59821.2
    },
    {
     "family": "FUND-VALUE-P1",
@@ -500,7 +500,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 60598.9
+    "last_append_age_min": 60671.6
    },
    {
     "family": "FUND-DIVLOWVOL-P1",
@@ -508,7 +508,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 57392.2
+    "last_append_age_min": 57468.6
    }
   ]
  },
@@ -519,7 +519,7 @@
   "first_bar": "2026-10-23",
   "last_bar": "2026-11-17",
   "n_bars": 18,
-  "book_nav": 1.003781,
+  "book_nav": 1.003776,
   "book_ret_pct": 0.378,
   "bench_nav": 0.974996,
   "bench_ret_pct": -2.5,
@@ -546,7 +546,6 @@
   },
   "years_for_80pct_power": 15.9,
   "provisional_bars": [
-   "2026-11-16",
    "2026-11-17"
   ],
   "drift_gate": "settled_bars_only",
@@ -558,7 +557,7 @@
   "file": "TICKET-2026-11-17.json",
   "bar": "2026-11-17",
   "decision_bar": "2026-11-17",
-  "generated": "2026-11-17T21:15:02+08:00",
+  "generated": "2026-11-17T22:08:41+08:00",
   "rows": [
    {
     "symbol": "510760",
@@ -619,25 +618,25 @@
    "bands": {
     "spot": {
      "label": "最近一笔",
-     "pct": 1.265,
-     "net_pct": 1.022,
-     "net_annual_cny": 5806.0,
-     "as_of": "2026-11-13",
+     "pct": 1.175,
+     "net_pct": 0.932,
+     "net_annual_cny": 5295.0,
+     "as_of": "2026-11-17",
      "quotes": 250
     },
     "mean_tail": {
      "label": "250 日均",
-     "pct": 1.3518,
-     "net_pct": 1.1088,
-     "net_annual_cny": 6299.0,
+     "pct": 1.3497,
+     "net_pct": 1.1067,
+     "net_annual_cny": 6287.0,
      "as_of": null,
      "quotes": null
     },
     "window": {
      "label": "有记录以来",
-     "pct": 2.0807,
-     "net_pct": 1.8377,
-     "net_annual_cny": 10440.0,
+     "pct": 2.0812,
+     "net_pct": 1.8382,
+     "net_annual_cny": 10443.0,
      "as_of": null,
      "quotes": null
     }
@@ -646,7 +645,7 @@
    "tail": 250,
    "verdict": "RATES_STEADY",
    "window_years": 6.87,
-   "missing_bar_steps": 1
+   "missing_bar_steps": 0
   },
   "delta": {
    "present": true,
@@ -923,7 +922,7 @@
   "scope": "the executable ticket only. The forward paper series is an append-only evidence line: it is re-labelled FUNDED_BY_A_LARGER_CAPITAL, never rewritten, truncated or deleted",
   "reversal": "fund the account to the first rung and re-run: the same rule hands the ticket back one lot and this file prints it -- the withdrawal is conditional on capital, not a judgement about the sleeve",
   "sentence": "To open this book at all needs 1,122,782 CNY of capital (IC account). IC is 122,782 CNY short of its first lot (capital 1,000,000, gap 12.28%). IM is 150,230 CNY short of its first lot (capital 1,000,000, gap 15.02%). IC: the desk's 4 lot(s) are withdrawn from the ticket and the executable line is 0; IM: the desk's 4 lot(s) are withdrawn from the ticket and the executable line is 0. The forward paper series that ran on 8 lot(s) across the accounts is kept and labelled FUNDED_BY_A_LARGER_CAPITAL: it is what a larger account would have done, not what this one can. It comes back the moment the capital does.",
-  "source_generated": "2026-11-17T18:33:16+08:00",
+  "source_generated": "2026-11-17T21:47:02+08:00",
   "evidence_cutoff": "2026-11-17",
   "source_face": "results/idx_fut_carry_sizing_spec.json",
   "ladder_face": "results/idx_fut_carry_capital_ladder.json"
@@ -945,31 +944,31 @@
   "band_edge_pct": 20,
   "accounts": {
    "IC": {
-    "basis_pct": -1.251,
-    "percentile": 46.2,
+    "basis_pct": -1.404,
+    "percentile": 37.8,
     "in_band": false,
     "passes_rule": true
    },
    "IF": {
-    "basis_pct": -1.025,
-    "percentile": 46.2,
+    "basis_pct": -1.465,
+    "percentile": 24.6,
     "in_band": false,
     "passes_rule": true
    },
    "IH": {
-    "basis_pct": -0.874,
-    "percentile": 34.6,
-    "in_band": false,
+    "basis_pct": -1.4,
+    "percentile": 17.4,
+    "in_band": true,
     "passes_rule": true
    },
    "IM": {
-    "basis_pct": -0.967,
-    "percentile": 63.8,
+    "basis_pct": -1.139,
+    "percentile": 54.2,
     "in_band": false,
     "passes_rule": true
    }
   },
-  "evidence_cutoff": "2026-11-16",
+  "evidence_cutoff": "2026-11-17",
   "source_generated": null
  },
  "freshness": {

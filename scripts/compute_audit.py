@@ -333,7 +333,11 @@ def supply_candidates_face(path=None):
                                   "startable_now", "shortfall", "floor",
                                   # r1421: agenda debt split one layer further
                                   # (mechanism / calendar / no_topics / unknown)
-                                  "agenda_cause", "calendar")}
+                                  "agenda_cause", "calendar",
+                                  # r1308: the level under the calendar -- a
+                                  # calendar sentence invites waiting; this one
+                                  # says whether waiting can reach the floor.
+                                  "capacity", "capacity_sentence")}
 
 
 SUPPLY_FLOOR_ACTIONS = {
@@ -397,6 +401,14 @@ def supply_floor_why(sc, breach):
             % (len(rows),
                len(spread), ", ".join(r["candidate"] for r in spread) or "-",
                len(disagree), ", ".join(r["candidate"] for r in disagree) or "-"))
+        # r1308: the calendar sentence alone reads as "keep waiting". The
+        # capacity sentence is CARRIED verbatim (single owner
+        # supply_candidate_face, which reads the capacity receipt) because
+        # re-deriving the level here would be a second place deciding it.
+        cs = sc.get("capacity_sentence")
+        if cs:
+            out["capacity_sentence"] = cs
+            out["sentence"] = out["sentence"] + "。" + cs
     else:
         out["what_would_move_it"] = None
         out["sentence"] = SUPPLY_FLOOR_ACTIONS.get(
@@ -1516,7 +1528,8 @@ def _selftest():
     _sc = supply_candidates_face(_scp)
     check("r1199 supply face verdict read", _sc.get("verdict"), "AGENDA_DEBT")
     check("r1199 supply face exposes only the published keys",
-          sorted(_sc), ["agenda_cause", "calendar", "floor", "pool_ready",
+          sorted(_sc), ["agenda_cause", "calendar", "capacity",
+                        "capacity_sentence", "floor", "pool_ready",
                         "shortfall", "startable_now", "tickets_unclaimed",
                         "verdict"])
     check("r1199/r1421 named extra key is dropped, named published keys survive",
@@ -1550,6 +1563,19 @@ def _selftest():
           None)
     check("r1657 a green floor never carries a cause",
           supply_floor_why(_cal_mix, False), None)
+
+    # ---- r1308 legs: the level under the calendar ------------------------
+    _cal_cap = dict(_cal_spread)
+    _cal_cap["capacity_sentence"] = "CAP-SENTENCE"
+    _wc = supply_floor_why(_cal_cap, True)
+    check("r1308 the capacity sentence is carried verbatim",
+          _wc.get("capacity_sentence"), "CAP-SENTENCE")
+    check("r1308 it is appended, not substituted for the calendar sentence",
+          (_wc.get("sentence") or "").endswith("CAP-SENTENCE"), True)
+    check("r1308 the calendar sentence still names its candidates",
+          "A" in (_wc.get("sentence") or ""), True)
+    check("r1308 no capacity sentence -> no capacity key",
+          "capacity_sentence" in supply_floor_why(_cal_spread, True), False)
 
     n_pass = sum(1 for _, ok, _, _ in cases if ok)
     print(f"compute_audit selftest: {n_pass}/{len(cases)} PASS")

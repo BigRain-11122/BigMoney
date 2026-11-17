@@ -10,18 +10,18 @@
  "buffer_k": 0.3,
  "floor_face": "etf_book_buffer_resolution_floor.json",
  "arm_face": "etf_book_phase_atlas_buffer_k30.json",
- "predicted_pp": 0.595,
- "observed_pp": 0.51,
- "gap_pp": -0.085,
- "tolerance_pp": 2.582,
- "max_in_sample_residual_pp": 0.861,
+ "predicted_pp": 0.316,
+ "observed_pp": 0.43,
+ "gap_pp": 0.114,
+ "tolerance_pp": 0.139,
+ "max_in_sample_residual_pp": 0.046,
  "cells": [
   {
    "n_hold": 3,
    "rebal": 10,
    "median_cagr_pp": 12.165,
-   "baseline_cagr_pp": 9.88,
-   "delta_pp": 2.285
+   "baseline_cagr_pp": 10.615,
+   "delta_pp": 1.55
   },
   {
    "n_hold": 3,
@@ -34,8 +34,8 @@
    "n_hold": 3,
    "rebal": 40,
    "median_cagr_pp": 6.06,
-   "baseline_cagr_pp": 6.575,
-   "delta_pp": -0.515
+   "baseline_cagr_pp": 6.695,
+   "delta_pp": -0.635
   },
   {
    "n_hold": 5,
@@ -48,8 +48,8 @@
    "n_hold": 5,
    "rebal": 20,
    "median_cagr_pp": 9.79,
-   "baseline_cagr_pp": 8.865,
-   "delta_pp": 0.925
+   "baseline_cagr_pp": 9.15,
+   "delta_pp": 0.64
   },
   {
    "n_hold": 5,
@@ -69,15 +69,15 @@
    "n_hold": 8,
    "rebal": 20,
    "median_cagr_pp": 10.0,
-   "baseline_cagr_pp": 9.545,
-   "delta_pp": 0.455
+   "baseline_cagr_pp": 10.155,
+   "delta_pp": -0.155
   },
   {
    "n_hold": 8,
    "rebal": 40,
    "median_cagr_pp": 8.6,
-   "baseline_cagr_pp": 7.69,
-   "delta_pp": 0.91
+   "baseline_cagr_pp": 8.13,
+   "delta_pp": 0.47
   },
   {
    "n_hold": 12,
@@ -97,16 +97,16 @@
    "n_hold": 12,
    "rebal": 40,
    "median_cagr_pp": 8.365,
-   "baseline_cagr_pp": 7.8,
-   "delta_pp": 0.565
+   "baseline_cagr_pp": 7.685,
+   "delta_pp": 0.68
   }
  ],
  "verdict": "HOLDS",
  "verdict_reasons": [
-  "the fit says +0.595pp at k=0.30 (slope +1.238, intercept +0.224)",
-  "the harvested arm's own 12 cells say +0.510pp (median)",
-  "gap -0.085pp against tolerance 2.582pp = 3.0x the fit's largest in-sample residual (0.861pp, floored at 0.05)",
-  "cell spread of the same arm: -0.515 .. +2.285pp (12 cells), i.e. the median is not the book",
+  "the fit says +0.316pp at k=0.30 (slope +1.193, intercept -0.042)",
+  "the harvested arm's own 12 cells say +0.430pp (median)",
+  "gap +0.114pp against tolerance 0.139pp = 3.0x the fit's largest in-sample residual (0.046pp, floored at 0.05)",
+  "cell spread of the same arm: -0.635 .. +1.550pp (12 cells), i.e. the median is not the book",
   "the line predicts a point it never saw, on the widest gap it spans -- the extrapolated k is a continuation of a measured slope, not a guess"
  ]
 }

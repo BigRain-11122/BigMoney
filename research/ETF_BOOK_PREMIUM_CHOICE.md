@@ -43,9 +43,9 @@
 |---|---|---|---|---|---|
 | A_buy_as_printed | 0 | 0 | — (—) | — | — |
 | B_same_market_twin | 3478 | 156 | 22.3 (1.77 年) | 4.5% | 划算 |
-| C_drop_to_cash | 6493 | 252 | 25.8 (2.04 年) | 3.9% | 划算 |
+| C_drop_to_cash | 6493 | 258 | 25.1 (2.00 年) | 4.0% | 划算 |
 
-> over the book's own 1.57-window hold, the substitution pays for itself at a 3.9% convergence probability; the annual ruler read the same numbers as 2.28 pp/yr against a 2.00 cap
+> over the book's own 1.57-window hold, the substitution pays for itself at a 4.0% convergence probability; the annual ruler read the same numbers as 2.28 pp/yr against a 2.00 cap
 
 * **513690**（crossborder，金额 86369）：溢价 -0.373%（-323 元），在 3.0 pp 门槛内 —— 不参与本面的选择。
 * **159519**（crossborder，金额 86351）：溢价 -0.280%（-241 元），在 3.0 pp 门槛内 —— 不参与本面的选择。
@@ -59,6 +59,6 @@
 
 r1773 的三个数（省 1,506 元、放弃 2.12 pp/年、上限 2.00 pp/年）在本面里逐字不变，本面新增的只有一件事：**那个「每」被漏掉了**。同一份数据，除以一窗得到 156 元，除以一年得到 1,829 元——读者拿哪个数下决定，取决于他打算持有多久；而这本题面自己的答案（1.573 窗）恰好是最短的那个。
 
-数据面：告票 `results/etf_book_order/TICKET-2026-11-17.json`，溢价快照 `data/etf_premium/snap/2026-11-17.csv`（1640 只），决策 bar `2026-11-17`，证据截止 `2026-11-17`；现金腿年化取票面 `carry_split.rate_today_pct` = 1.265%。
+数据面：告票 `results/etf_book_order/TICKET-2026-11-17.json`，溢价快照 `data/etf_premium/snap/2026-11-17.csv`（1640 只），决策 bar `2026-11-17`，证据截止 `2026-11-17`；现金腿年化取票面 `carry_split.rate_today_pct` = 1.175%。
 
 探索性：不是对这本书的判决，不是投资建议，不记账。

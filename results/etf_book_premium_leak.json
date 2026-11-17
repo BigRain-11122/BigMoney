@@ -113,71 +113,15 @@
  "stress": {
   "if_premium_reverts_to_zero_cny": -5215.43,
   "if_premium_reverts_to_zero_pct_of_nav": -0.5215,
-  "if_premium_reverts_to_own_median_cny": -4187.15,
-  "if_premium_reverts_to_own_median_pct_of_nav": -0.4187,
+  "if_premium_reverts_to_own_median_cny": -4183.31,
+  "if_premium_reverts_to_own_median_pct_of_nav": -0.4183,
   "note": "reversion is a stress, not a forecast: the gap can persist while the sleeve stays hard to buy. Zero is the outer bound; each fund's own median is the realistic one -- these funds normally live above NAV."
  },
  "rulers": {
   "entry": "price / IOPV - 1, same session (this is what the order pays)",
   "history": "close / published unit NAV - 1, disclosure-lagged (NOT the same quantity, printed separately, never blended)"
  },
- "nav_ruler_history": {
-  "510760": {
-   "symbol": "510760",
-   "n_obs": 21,
-   "status": "OK",
-   "median_pct": -0.0841,
-   "max_pct": 0.9456,
-   "min_pct": -1.3199,
-   "first_day": "2026-09-24",
-   "last_day": "2026-11-16",
-   "last_pct": -0.0558
-  },
-  "512040": {
-   "symbol": "512040",
-   "n_obs": 21,
-   "status": "OK",
-   "median_pct": -0.0166,
-   "max_pct": 0.615,
-   "min_pct": -0.943,
-   "first_day": "2026-09-24",
-   "last_day": "2026-11-16",
-   "last_pct": -0.1828
-  },
-  "159655": {
-   "symbol": "159655",
-   "n_obs": 3,
-   "status": "OK",
-   "median_pct": 8.0073,
-   "max_pct": 8.6886,
-   "min_pct": 7.5602,
-   "first_day": "2026-10-27",
-   "last_day": "2026-11-12",
-   "last_pct": 8.6886
-  },
-  "513690": {
-   "symbol": "513690",
-   "n_obs": 21,
-   "status": "OK",
-   "median_pct": -0.8279,
-   "max_pct": 1.1803,
-   "min_pct": -1.8377,
-   "first_day": "2026-09-24",
-   "last_day": "2026-11-16",
-   "last_pct": -0.8279
-  },
-  "159519": {
-   "symbol": "159519",
-   "n_obs": 21,
-   "status": "OK",
-   "median_pct": -0.8311,
-   "max_pct": 0.3655,
-   "min_pct": -1.5708,
-   "first_day": "2026-09-24",
-   "last_day": "2026-11-16",
-   "last_pct": -0.9895
-  }
- },
+ "nav_ruler_history": {},
  "own_criteria": {
   "min_obs": 60,
   "top_decile_pctile": 90.0
@@ -189,18 +133,18 @@
    "price_path": "data\\daily\\sh510760.csv",
    "nav_path": "data\\etf_premium\\nav_history\\510760.csv",
    "status": "OK",
-   "n_obs": 1494,
+   "n_obs": 1497,
    "first_day": "2020-09-09",
-   "last_day": "2026-11-11",
+   "last_day": "2026-11-16",
    "median_pct": 0.0094,
-   "p10_pct": -0.1623,
-   "p90_pct": 0.2148,
+   "p10_pct": -0.1627,
+   "p90_pct": 0.2146,
    "min_pct": -0.5452,
    "max_pct": 4.883,
-   "last_pct": -0.0701,
-   "last_pctile": 26.31,
-   "last_rank": 1101,
-   "above_own_median_pp": -0.0795
+   "last_pct": -0.0558,
+   "last_pctile": 31.26,
+   "last_rank": 1029,
+   "above_own_median_pp": -0.0652
   },
   "512040": {
    "symbol": "512040",
@@ -208,18 +152,18 @@
    "price_path": "data\\daily\\sh512040.csv",
    "nav_path": "data\\etf_premium\\nav_history\\512040.csv",
    "status": "OK",
-   "n_obs": 1905,
+   "n_obs": 1908,
    "first_day": "2019-01-02",
-   "last_day": "2026-11-11",
-   "median_pct": -0.052,
-   "p10_pct": -0.2728,
-   "p90_pct": 0.1454,
+   "last_day": "2026-11-16",
+   "median_pct": -0.0519,
+   "p10_pct": -0.2723,
+   "p90_pct": 0.1451,
    "min_pct": -1.9293,
    "max_pct": 100.0862,
-   "last_pct": -0.025,
-   "last_pctile": 56.12,
-   "last_rank": 836,
-   "above_own_median_pp": 0.0269
+   "last_pct": -0.1828,
+   "last_pctile": 20.91,
+   "last_rank": 1509,
+   "above_own_median_pp": -0.131
   },
   "159655": {
    "symbol": "159655",
@@ -227,18 +171,18 @@
    "price_path": "data\\daily\\sz159655.csv",
    "nav_path": "data\\etf_premium\\nav_history\\159655.csv",
    "status": "OK",
-   "n_obs": 982,
+   "n_obs": 984,
    "first_day": "2022-10-25",
-   "last_day": "2026-11-11",
-   "median_pct": 1.2231,
-   "p10_pct": -0.6498,
-   "p90_pct": 6.2027,
+   "last_day": "2026-11-13",
+   "median_pct": 1.2323,
+   "p10_pct": -0.6486,
+   "p90_pct": 6.2278,
    "min_pct": -8.5098,
    "max_pct": 17.5308,
-   "last_pct": 8.1154,
-   "last_pctile": 96.44,
-   "last_rank": 35,
-   "above_own_median_pp": 6.8923
+   "last_pct": 9.0909,
+   "last_pctile": 98.37,
+   "last_rank": 16,
+   "above_own_median_pp": 7.8586
   },
   "513690": {
    "symbol": "513690",
@@ -246,18 +190,18 @@
    "price_path": "data\\daily\\sh513690.csv",
    "nav_path": "data\\etf_premium\\nav_history\\513690.csv",
    "status": "OK",
-   "n_obs": 1329,
+   "n_obs": 1332,
    "first_day": "2021-05-20",
-   "last_day": "2026-11-11",
-   "median_pct": -0.0592,
-   "p10_pct": -1.0446,
-   "p90_pct": 1.1987,
+   "last_day": "2026-11-16",
+   "median_pct": -0.063,
+   "p10_pct": -1.0441,
+   "p90_pct": 1.1978,
    "min_pct": -10.4632,
    "max_pct": 4.1083,
-   "last_pct": -0.6964,
-   "last_pctile": 20.24,
-   "last_rank": 1060,
-   "above_own_median_pp": -0.6372
+   "last_pct": -0.8279,
+   "last_pctile": 15.62,
+   "last_rank": 1124,
+   "above_own_median_pp": -0.7649
   },
   "159519": {
    "symbol": "159519",
@@ -265,18 +209,18 @@
    "price_path": "data\\daily\\sz159519.csv",
    "nav_path": "data\\etf_premium\\nav_history\\159519.csv",
    "status": "OK",
-   "n_obs": 772,
+   "n_obs": 775,
    "first_day": "2023-08-31",
-   "last_day": "2026-11-11",
-   "median_pct": 0.1543,
-   "p10_pct": -0.8827,
-   "p90_pct": 1.5173,
+   "last_day": "2026-11-16",
+   "median_pct": 0.1539,
+   "p10_pct": -0.8857,
+   "p90_pct": 1.5163,
    "min_pct": -2.9571,
    "max_pct": 4.0993,
-   "last_pct": -0.4407,
-   "last_pctile": 25.0,
-   "last_rank": 579,
-   "above_own_median_pp": -0.5951
+   "last_pct": -0.9895,
+   "last_pctile": 7.1,
+   "last_rank": 720,
+   "above_own_median_pp": -1.1434
   }
  },
  "own_ruler_summary": {
@@ -289,7 +233,7 @@
   "in_own_top_decile": [
    "159655"
   ],
-  "revert_to_own_median_cny": 4187.15,
+  "revert_to_own_median_cny": 4183.31,
   "revert_note": "stress, not a forecast: it gives back only the part ABOVE each fund's own median premium, and only for names this order is buying",
   "verdict": "SOME_NAMES_ABOVE_OWN_TOP_DECILE"
  }

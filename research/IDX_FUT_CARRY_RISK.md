@@ -1,6 +1,6 @@
 # index-futures carry: what it is worth in risk units
 
-Generated 2026-11-18T00:12:23 · evidence cutoff 2026-11-17 · `scripts/idx_fut_carry_risk.py`
+Generated 2026-11-17T21:43:20 · evidence cutoff 2026-11-17 · `scripts/idx_fut_carry_risk.py`
 
 The roll book (hold the deepest-open-interest contract, switch at the same close) is the one `idx_fut_real_nav` publishes in rupees of carry per year. This page asks the only question that allocates money: at the desk's own 8% volatility target, does that carry buy anything the adopted book does not already buy, and does it move with it?
 
@@ -13,39 +13,35 @@ The roll book (hold the deepest-open-interest contract, switch at the same close
 
 | product | years | carry %/yr | vol % | Sharpe | max DD % | underwater bars (still open) | worst year % |
 |---|---|---|---|---|---|---|---|
-| IC | 8.02 | 8.78 | 5.87 | 1.464 | -5.64 | 174 (7) | -0.82 |
-| IF | 8.02 | 3.62 | 4.38 | 0.835 | -6.55 | 300 (7) | -3.15 |
-| IM | 4.28 | 10.26 | 6.81 | 1.468 | -5.05 | 122 (8) | 4.44 |
-| IH | 8.02 | 2.47 | 4.40 | 0.577 | -7.42 | 479 (4) | -3.63 |
+| IC | - | - | - | - | - | - | - |
+| IF | - | - | - | - | - | - | - |
+| IM | - | - | - | - | - | - | - |
+| IH | - | - | - | - | - | - | - |
 ## the caliber the carry column rides on
 
 Which days count as roll days moves the annualised carry by more than this sleeve's whole margin over the book, so the column above travels with both rulers the roll-mask face publishes for the same products (`results/idx_fut_roll_gap.json`, read, not recomputed). This face's own series performs every max-open-interest switch and drops no days, so neither ruler below is this face's own treatment.
 
 | product | this face carry %/yr | threshold ruler %/yr | calendar ruler %/yr | rulers disagree by pp | roll days the threshold ruler misses |
 |---|---|---|---|---|---|
-| IC | 8.78 | 2.88 | 9.80 | 6.93 | 106 |
-| IF | 3.62 | 1.88 | 5.84 | 3.97 | 110 |
-| IM | 10.26 | 5.88 | 12.01 | 6.13 | 42 |
-| IH | 2.47 | 1.56 | 5.39 | 3.83 | 106 |
+| IC | - | - | - | ? | ? |
+| IF | - | - | - | ? | ? |
+| IM | - | - | - | ? | ? |
+| IH | - | - | - | ? | ? |
 
-- **IC**: the two published rulers disagree by 6.93 pp on the same window; a single carry figure inside that band is a caliber choice, not a measurement.
-- **IF**: the two published rulers disagree by 3.97 pp on the same window; a single carry figure inside that band is a caliber choice, not a measurement.
-- **IM**: the two published rulers disagree by 6.13 pp on the same window; a single carry figure inside that band is a caliber choice, not a measurement.
-- **IH**: the two published rulers disagree by 3.83 pp on the same window; a single carry figure inside that band is a caliber choice, not a measurement.
+- **IC**: the roll-mask face is unreadable on this host, so the caliber is unknown here -- an unread ruler is not 'the rulers agree'.
+- **IF**: the roll-mask face is unreadable on this host, so the caliber is unknown here -- an unread ruler is not 'the rulers agree'.
+- **IM**: the roll-mask face is unreadable on this host, so the caliber is unknown here -- an unread ruler is not 'the rulers agree'.
+- **IH**: the roll-mask face is unreadable on this host, so the caliber is unknown here -- an unread ruler is not 'the rulers agree'.
 
 ## at the desk's 8% volatility target
 
 | product | leverage to 8% vol | carry %/yr | max DD % | corr with the book | best blend lam | blend Sharpe gain | verdict |
 |---|---|---|---|---|---|---|---|
-| IC | x1.36 | 12.06 | -7.67 | -0.040 | 0.30 | +0.325 | SLEEVE_CANDIDATE |
-| IF | x1.83 | 6.57 | -11.84 | 0.052 | 0.30 | +0.133 | REFUSE |
-| IM | x1.17 | 12.10 | -5.91 | -0.065 | 0.30 | +0.390 | SLEEVE_CANDIDATE |
-| IH | x1.82 | 4.38 | -13.34 | 0.055 | 0.30 | +0.087 | REFUSE |
+| IC | - | - | - | - | - | - | no_contract_book |
+| IF | - | - | - | - | - | - | no_contract_book |
+| IM | - | - | - | - | - | - | no_contract_book |
+| IH | - | - | - | - | - | - | no_contract_book |
 
-- **IC**: carry 12.06% at target risk, corr -0.04, blend Sharpe +0.325
-- **IF**: at 8.0% vol the sleeve earns 6.57% against the book's 11.51%
-- **IM**: carry 12.10% at target risk, corr -0.065, blend Sharpe +0.390
-- **IH**: at 8.0% vol the sleeve earns 4.38% against the book's 11.51%
 
 ## the form this desk can actually hold
 
@@ -53,15 +49,12 @@ The daily spread above is futures minus index: it is the *excess* return, and is
 
 | product | long the future %/yr | the matching ETF %/yr | gap pp | dividend drift pp | gap net of dividend pp |
 |---|---|---|---|---|---|
-| IC | 13.78 | 3.95 | +9.83 | 0.88 | +8.95 |
-| IF | 6.03 | 2.40 | +3.64 | 1.77 | +1.87 |
-| IM | 6.71 | -2.87 | +9.59 | 2.96 | +6.62 |
-| IH | 3.41 | - | - | 0.00 | - |
+| IC | - | - | - | - | - |
+| IF | - | - | - | - | - |
+| IM | - | - | - | - | - |
+| IH | - | - | - | - | - |
 
 The gap column is GROSS of a structural drift that is not a futures market reading: the ETF is paid the basket's cash dividend and the price index the future tracks is not. The drift column is the basis face's own C3 control arm (results/idx_fut_basis.json), measured on this repo's panel -- it is not a dividend announcement. Where that control could not be read the net column is blank, not equal to the gross one.
-- **IC leg priced, level change disclosed**: 1 share conversion(s) removed (2015-04-15 x3.486); level change is not a return
-- **IM leg priced, level change disclosed**: 1 share conversion(s) removed (2022-09-05 x2.763); level change is not a return
-- **IH leg not priced**: no ETF mapped to this index in the panel, so there is nothing to price against -- an unread leg is printed as a refusal, not as a zero gap
 
 ## the same book filled at the next open
 
@@ -69,17 +62,10 @@ Every number above buys at the close it decides at. A desk decides after the clo
 
 | product | futures open→open %/yr | ETF open→open %/yr | gap pp | gap at closes pp | gap after cost (file floor) pp | gap after cost (measured median) pp |
 |---|---|---|---|---|---|---|
-| IC | 13.73 | 4.55 | +9.18 | +9.83 | +9.06 | +6.75 |
-| IF | 5.29 | 2.90 | +2.39 | +3.64 | +2.25 | +0.56 |
-| IM | 7.17 | -2.08 | +9.25 | +9.59 | +9.17 | +7.73 |
-| IH | 2.95 | - | - | - | - | - |
-- **IC**: holds at both ends of the cost band: +9.06 pp/yr at the exchange file, +6.75 pp/yr at the measured median (63 rolls, drag 0.12 / 2.42 pp/yr)
-- **IF**: holds at both ends of the cost band: +2.25 pp/yr at the exchange file, +0.56 pp/yr at the measured median (74 rolls, drag 0.14 / 1.83 pp/yr)
-- **IM**: holds at both ends of the cost band: +9.17 pp/yr at the exchange file, +7.73 pp/yr at the measured median (23 rolls, drag 0.08 / 1.52 pp/yr)
-- **IH**: no open-to-open gap is printed because the other leg could not be priced (no ETF is mapped to this index, so there is no other leg to price); that is a missing price, not a zero gap
-- **IC leg priced, with the level change disclosed**: 1 share conversion(s) removed at the open (2015-04-15 x3.486); the level change is not a return
-- **IM leg priced, with the level change disclosed**: 1 share conversion(s) removed at the open (2022-09-05 x2.763); the level change is not a return
-- **IH leg not priced at the open**: no ETF is mapped to this index, so there is no other leg to price
+| IC | - | - | - | - | - | not built |
+| IF | - | - | - | - | - | not built |
+| IM | - | - | - | - | - | not built |
+| IH | - | - | - | - | - | not built |
 
 ## what one contract actually ties up (margin is an assumption)
 
@@ -87,10 +73,10 @@ Margin is not the capital: a book that cannot fund its own drawdown is not holdi
 
 | product | margin 10% | margin 12% | margin 15% |
 |---|---|---|---|
-| IC | 56.13% on capital, DD 36.06% | 49.77% on capital, DD 31.97% | 42.53% on capital, DD 27.32% |
-| IF | 21.91% on capital, DD 39.57% | 19.54% on capital, DD 35.31% | 16.82% on capital, DD 30.39% |
-| IM | 68.21% on capital, DD 33.54% | 60.20% on capital, DD 29.61% | 51.20% on capital, DD 25.18% |
-| IH | 14.18% on capital, DD 42.61% | 12.72% on capital, DD 38.22% | 11.02% on capital, DD 33.11% |
+| IC | - | - | - |
+| IF | - | - | - |
+| IM | - | - | - |
+| IH | - | - | - |
 
 ### the same carry sized against the index's worst drawdown
 
@@ -98,52 +84,14 @@ The table above buffers the margin with the drawdown this window produced. That 
 
 | product | index worst DD % | margin 10% | margin 12% | margin 15% |
 |---|---|---|---|---|
-| IC | 72.42 | 10.65% on capital, DD 87.87% | 10.40% on capital, DD 85.78% | 10.04% on capital, DD 82.84% |
-| IF | 72.30 | 4.40% on capital, DD 87.85% | 4.30% on capital, DD 85.77% | 4.15% on capital, DD 82.82% |
-| IM | 72.35 | 12.46% on capital, DD 87.86% | 12.17% on capital, DD 85.77% | 11.75% on capital, DD 82.83% |
-| IH | 72.41 | 3.00% on capital, DD 87.86% | 2.93% on capital, DD 85.78% | 2.83% on capital, DD 82.84% |
-
-The four holes sit within 0.11 pp of each other (72.30 to 72.42): these indices fell in the same crisis, so the buffer is one market-wide number, not four independent ones -- holding several products does not shrink it.
+| IC | - | - | - | - |
+| IF | - | - | - | - |
+| IM | - | - | - | - |
+| IH | - | - | - | - |
 
 ## blend grid
 
 (1-lam) x adopted book + lam x carry, rescaled to one 10% risk level so the columns are comparable: leverage is doing the risk normalisation, not the book.
-
-**IC**
-
-| lam | leverage | ann % | vol % | Sharpe | max DD % |
-|---|---|---|---|---|---|
-| 0.00 | x0.97 | 11.11 | 10.00 | 1.111 | -10.23 |
-| 0.10 | x1.08 | 12.03 | 10.00 | 1.203 | -10.12 |
-| 0.20 | x1.20 | 13.11 | 10.00 | 1.311 | -9.92 |
-| 0.30 | x1.36 | 14.36 | 10.00 | 1.436 | -9.59 |
-
-**IF**
-
-| lam | leverage | ann % | vol % | Sharpe | max DD % |
-|---|---|---|---|---|---|
-| 0.00 | x0.97 | 11.11 | 10.00 | 1.111 | -10.23 |
-| 0.10 | x1.07 | 11.49 | 10.00 | 1.149 | -10.12 |
-| 0.20 | x1.20 | 11.94 | 10.00 | 1.194 | -9.95 |
-| 0.30 | x1.35 | 12.44 | 10.00 | 1.244 | -9.69 |
-
-**IM**
-
-| lam | leverage | ann % | vol % | Sharpe | max DD % |
-|---|---|---|---|---|---|
-| 0.00 | x1.02 | 15.50 | 10.00 | 1.550 | -10.80 |
-| 0.10 | x1.14 | 16.67 | 10.00 | 1.667 | -10.62 |
-| 0.20 | x1.27 | 17.99 | 10.00 | 1.799 | -10.31 |
-| 0.30 | x1.43 | 19.40 | 10.00 | 1.940 | -9.79 |
-
-**IH**
-
-| lam | leverage | ann % | vol % | Sharpe | max DD % |
-|---|---|---|---|---|---|
-| 0.00 | x0.97 | 11.11 | 10.00 | 1.111 | -10.23 |
-| 0.10 | x1.07 | 11.37 | 10.00 | 1.137 | -10.14 |
-| 0.20 | x1.20 | 11.67 | 10.00 | 1.167 | -9.99 |
-| 0.30 | x1.35 | 11.98 | 10.00 | 1.198 | -9.76 |
 
 ## honest limits
 

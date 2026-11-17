@@ -4,22 +4,23 @@ evidence set: `results/**/*.json` (depth <= 2), readable against `scripts/`, `To
 
 | tier | faces | what it means |
 | --- | --- | --- |
-| CODE_MULTI | 645 | >=2 source files name this face |
-| CODE_SINGLE | 807 | exactly one source file names it (producer or lone reader) |
-| PROSE_ONLY | 59 | only docs/research names it |
-| ORPHAN | 334 | nothing names it (undated only) |
-| DATED_CODE | 347 | dated snapshot, named somewhere |
-| DATED_ORPHAN | 426 | dated snapshot, named nowhere |
-| SCRATCH | 3936 | not a face (receipts / backups / hash scratch) |
+| CODE_MULTI | 638 | >=2 source files name this face |
+| CODE_SINGLE | 808 | exactly one source file names it (producer or lone reader) |
+| PROSE_ONLY | 58 | only docs/research names it |
+| ORPHAN | 365 | nothing names it (undated only) |
+| DATED_CODE | 345 | dated snapshot, named somewhere |
+| DATED_ORPHAN | 427 | dated snapshot, named nowhere |
+| SCRATCH | 3512 | not a face (receipts / backups / hash scratch) |
 
-undated faces: **1845** of 6554 (dated snapshots and scratch excluded from every verdict below)
+undated faces: **1869** of 6153 (dated snapshots and scratch excluded from every verdict below)
 
-## undated faces nothing names (334)
+## undated faces nothing names (365)
 
-241 of them have no literal namesake at all (the name does not appear anywhere in source or prose, even without `.json`); 93 have their stem mentioned somewhere, which is what a runtime-composed path looks like from the outside.
+270 of them have no literal namesake at all (the name does not appear anywhere in source or prose, even without `.json`); 95 have their stem mentioned somewhere, which is what a runtime-composed path looks like from the outside.
 
-52 of them carry a money-ish name: `results/e24_overlay_breath/latest-ladder20.json`、`results/e33_ladder_baseline/Q1-LADDER-VS-510300-WIN-2016.json`、`results/e33_ladder_baseline/Q1-LADDER-VS-510300-WIN-2018-X3.json`、`results/e33_ladder_baseline/Q1-LADDER-VS-510300-WIN-2018.json`、`results/e33_ladder_baseline/Q1-LADDER-VS-510300-WIN-FULL.json`、`results/e33_ladder_baseline/Q2-LADDER-CADENCE-WIN-2016.json`、`results/e33_ladder_baseline/Q2-LADDER-CADENCE-WIN-2018-X3.json`、`results/e33_ladder_baseline/Q2-LADDER-CADENCE-WIN-2018.json`、`results/e33_ladder_baseline/Q2-LADDER-CADENCE-WIN-FULL-X3.json`、`results/e33_ladder_baseline/Q3-LADDER-MEMBERSHIP-WIN-2016.json`、`results/e33_ladder_baseline/Q3-LADDER-MEMBERSHIP-WIN-2018-X3.json`、`results/e33_ladder_baseline/Q3-LADDER-MEMBERSHIP-WIN-FULL-X3.json`
+55 of them carry a money-ish name: `results/decision_chain/done_x2_deep_DD.json`、`results/e24_overlay_breath/latest-ladder20.json`、`results/e33_ladder_baseline/Q1-LADDER-VS-510300-WIN-2016.json`、`results/e33_ladder_baseline/Q1-LADDER-VS-510300-WIN-2018-X3.json`、`results/e33_ladder_baseline/Q1-LADDER-VS-510300-WIN-2018.json`、`results/e33_ladder_baseline/Q1-LADDER-VS-510300-WIN-FULL.json`、`results/e33_ladder_baseline/Q2-LADDER-CADENCE-WIN-2016.json`、`results/e33_ladder_baseline/Q2-LADDER-CADENCE-WIN-2018-X3.json`、`results/e33_ladder_baseline/Q2-LADDER-CADENCE-WIN-2018.json`、`results/e33_ladder_baseline/Q2-LADDER-CADENCE-WIN-FULL-X3.json`、`results/e33_ladder_baseline/Q3-LADDER-MEMBERSHIP-WIN-2016.json`、`results/e33_ladder_baseline/Q3-LADDER-MEMBERSHIP-WIN-2018-X3.json`
 
+- `results/decision_chain/done_x2_deep_DD.json`  · money
 - `results/e24_overlay_breath/latest-ladder20.json`  · money
 - `results/e33_ladder_baseline/Q1-LADDER-VS-510300-WIN-2016.json`  · money
 - `results/e33_ladder_baseline/Q1-LADDER-VS-510300-WIN-2018-X3.json`  · money
@@ -44,9 +45,8 @@ undated faces: **1845** of 6554 (dated snapshots and scratch excluded from every
 - `results/lowamp_p2/cont_LA-EDGE_deep_base.json`  · money
 - `results/lowamp_p2/cont_LA-EDGE_deep_x2.json`  · money
 - `results/lowamp_p2/cont_LA-EDGE_legacy_base.json`  · money
-- `results/lowamp_p2/cont_LA-EDGE_legacy_x2.json`  · money
 
-## written up but never wired (59)
+## written up but never wired (58)
 
 - `results/e33_ladder_baseline/Q1-LADDER-VS-510300-WIN-FULL-X3.json` ← `research/digests/DIGEST-20261021-e34-ladder-followups.md`
 - `results/etf_book_capacity_carry_n12.json` ← `research/ETF_CAPACITY_WITH_CARRY.md`
@@ -59,12 +59,12 @@ undated faces: **1845** of 6554 (dated snapshots and scratch excluded from every
 - `results/csdn_probe_t57_s1_slice4.json` ← `research/digests/DIGEST-20260925-t57-s1-slice4.md`
 - `results/csdn_probe_t57_s1_slice4b.json` ← `research/digests/DIGEST-20260925-t57-s1-slice4.md`
 - `results/csdn_probe_t57_s1_slice5.json` ← `research/digests/DIGEST-20260925-t57-s1-slice5.md`
-- `results/d19_watermark.bm-c.json` ← `research/D19_WATERMARK_V2.md`
 - `results/div_lowvol_rot_probe.json` ← `research/CN_DIV_LOWVOL_ROT_PREREG.md`
 - `results/e34_cadence_rolling/CADENCE-ROLLING-3Y-X3.json` ← `research/digests/DIGEST-20261021-e35-broad-book-screens.md`
 - `results/e39_month_attribution/MONTH-2026-07.json` ← `research/digests/FACESCREEN-20261022.md`
+- `results/etf_grid_candidates/grid_ref.json` ← `research/digests/DIGEST-20261010-e7-etf-grid-candidates.md`
 
-## named by exactly one source file (807, 40 money-ish)
+## named by exactly one source file (808, 40 money-ish)
 
 One file naming a face is not a consumer: it is usually the producer. These are the first place to look when asking "is this number read?"
 
@@ -84,4 +84,4 @@ One file naming a face is not a consumer: it is usually the producer. These are 
 - `results/etf_book_premium_phases.json` ← `scripts/etf_book_premium_phases.py`
 - `results/etf_book_premium_swap.json` ← `scripts/etf_book_premium_swap.py`
 
-`generated` 2026-11-18T01:21:09+08:00 · every count above is a face count, not a read count.
+`generated` 2026-11-17T22:36:29+08:00 · every count above is a face count, not a read count.

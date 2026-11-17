@@ -204,19 +204,25 @@
   },
   {
    "bar": "2026-11-16",
-   "nav": 1.006812175,
-   "dd": -0.009083,
+   "nav": 1.0068071635,
+   "dd": -0.009088,
    "cash": 0.090616,
    "carry": 1.03525e-05,
    "n_held": 12,
    "filled": false,
    "turn": 0.0,
-   "provisional": true
+   "provisional": false,
+   "nav_published": 1.006812175,
+   "dd_published": -0.009083,
+   "cash_published": 0.090616,
+   "nav_factor_applied": 0.999995022408,
+   "later_rows_rescaled": 1,
+   "restated_at": "2026-11-17T21:49:05+0800"
   },
   {
    "bar": "2026-11-17",
-   "nav": 1.0037812718,
-   "dd": -0.012066,
+   "nav": 1.0037762754,
+   "dd": -0.012071,
    "cash": 0.090616,
    "carry": 3.4508e-06,
    "n_held": 12,
@@ -274,7 +280,6 @@
   "checked_bars": 18,
   "gate": "settled_bars_only",
   "settled_bars": [
-   "2026-11-02",
    "2026-11-03",
    "2026-11-04",
    "2026-11-05",
@@ -283,18 +288,20 @@
    "2026-11-10",
    "2026-11-11",
    "2026-11-12",
-   "2026-11-13"
+   "2026-11-13",
+   "2026-11-16"
   ],
   "provisional_bars": [
-   "2026-11-16",
    "2026-11-17"
   ],
-  "carry_last_bar": "2026-11-13",
+  "carry_last_bar": "2026-11-17",
   "settled_faces": [],
   "provisional_faces": [],
   "benchmark_settled_faces": [],
   "benchmark_provisional_faces": [],
-  "restated_bars": [],
+  "restated_bars": [
+   "2026-11-16"
+  ],
   "withdrawn_bars": []
  },
  "rebases": [
@@ -687,15 +694,15 @@
     "bar": "2026-11-16",
     "nav": 0.9765895222,
     "filled": false,
-    "book_nav": 1.006812175,
-    "excess": 0.0309471401
+    "book_nav": 1.0068071635,
+    "excess": 0.0309420085
    },
    {
     "bar": "2026-11-17",
     "nav": 0.9749964488,
     "filled": false,
-    "book_nav": 1.0037812718,
-    "excess": 0.0295230029
+    "book_nav": 1.0037762754,
+    "excess": 0.0295178784
    }
   ],
   "rebalance_friction": {
@@ -707,9 +714,9 @@
   "decisions": 84,
   "latest": {
    "bar": "2026-11-17",
-   "book_nav": 1.0037812718,
+   "book_nav": 1.0037762754,
    "basket_nav": 0.9749964488,
-   "excess_pp": 2.9523
+   "excess_pp": 2.9518
   },
   "significance": {
    "available": true,
@@ -881,6 +888,29 @@
      "gate": 1.1010000000000002e-09
     }
    ]
+  },
+  {
+   "ts": "2026-11-17T21:49:05+0800",
+   "bar": "2026-11-16",
+   "reason": "published while the panel for that date was still gaining symbols",
+   "panel_last_date": "2026-11-17",
+   "nav_published": 1.006812175,
+   "nav_settled": 1.0068071635,
+   "dd_published": -0.009083,
+   "cash_published": 0.090616,
+   "delta": 5.0115e-06,
+   "nav_factor_applied": 0.999995022408,
+   "later_rows_rescaled": 1,
+   "chain_checked_bars": 1,
+   "chain_intact": false,
+   "chain_breaks": [
+    {
+     "bar": "2026-11-17",
+     "expected_from_panel": 1.0037812718,
+     "ledger_after_rescale": 1.0037762754,
+     "gate": 1.1010000000000002e-09
+    }
+   ]
   }
  ],
  "ledger_history": {
@@ -933,10 +963,22 @@
     "rescaled_known": true,
     "restated_at": "2026-11-16T18:21:44+0800",
     "chain_intact": false
+   },
+   {
+    "bar": "2026-11-16",
+    "on_row": true,
+    "nav_published": 1.006812175,
+    "nav_settled": 1.0068071635,
+    "delta": 5.0115e-06,
+    "nav_factor_applied": 0.999995022408,
+    "later_rows_rescaled": 1,
+    "rescaled_known": true,
+    "restated_at": "2026-11-17T21:49:05+0800",
+    "chain_intact": false
    }
   ],
-  "n_restated": 4,
-  "n_restated_on_row": 2,
+  "n_restated": 5,
+  "n_restated_on_row": 3,
   "withdrawn": [
    {
     "bar": "2026-11-02",
@@ -944,7 +986,7 @@
    }
   ],
   "n_withdrawn": 1,
-  "verdict": "4 published bar(s) were restated after publication (2 recorded before rows carried the published value)"
+  "verdict": "5 published bar(s) were restated after publication (2 recorded before rows carried the published value)"
  },
  "pending_fill": null,
  "fill_log": [

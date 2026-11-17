@@ -50,7 +50,7 @@ is which splice days are left in the return series.
 | IF | +3.95 | +5.45 | +5.14 | +5.25 | +1.20 | -0.20 |
 | IC | +3.66 | +5.94 | +3.72 | +4.01 | +0.05 | -1.93 |
 | IH | +4.07 | +5.56 | +5.17 | +5.71 | +1.10 | +0.14 |
-| IM | +3.74 | +5.41 | +1.97 | +2.73 | -1.77 | -2.67 |
+| IM | +3.74 | +5.40 | +1.97 | +2.73 | -1.77 | -2.67 |
 
 The published run reproduces r1690's B column to the last decimal and its A
 column to within the extra roll charge (one calendar roll a month instead of

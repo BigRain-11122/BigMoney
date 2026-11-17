@@ -15,41 +15,39 @@ On this board's own prices, 867 pairs cannot be told apart for a year and do not
 
 ## the line, measured on the board's own verdicts
 
-Same-name pairs the prices accepted (r1804): n=870 -- this rule accepts 402 (46%) and refuses 468. Same-name pairs the prices refused: n=115 -- this rule accepts 1 and refuses 114. **REFUSED_PAIRS_PASS: 1 of the 115 pairs the board's own prices refused are accepted by this rule -- they are listed with their numbers**
+Same-name pairs the prices accepted (r1804): n=320 -- this rule accepts 169 (53%) and refuses 151. Same-name pairs the prices refused: n=22 -- this rule accepts 0 and refuses 22. **KEEPS_THE_ACCEPTED_AND_REFUSES_EVERY_REFUSED_PAIR: of the 320 same-name pairs the prices accepted this rule accepts 169 (53%) and refuses 151; of the 22 pairs the prices refused it accepts none**
 
-Which gate does the refusing: of the 468 accepted same-name pairs this rule refuses, **1 are refused by the day gate alone**, 439 by the year gate alone, 28 by both. The caveat below says the year gate costs recall; that line has to be read against this split.
+Which gate does the refusing: of the 151 accepted same-name pairs this rule refuses, **0 are refused by the day gate alone**, 148 by the year gate alone, 3 by both. The caveat below says the year gate costs recall; that line has to be read against this split.
 
-**What the labelled negatives can and cannot police**: all 114 pairs the prices refused are refused by the year gate as well (day gate alone 2, year gate alone 2, both 110), and the least-drifted of them still sits at 0.4 pp -- so a drift line below that is not opposed by a single labelled negative on this board. Loosening 1.0 -> 3.0 recovers 753 same-name pairs and lets in 1 of them: this set polices the far side of the line, not the near side.
+**What the labelled negatives can and cannot police**: all 22 pairs the prices refused are refused by the year gate as well (day gate alone 0, year gate alone 1, both 21), and the least-drifted of them still sits at 2.8 pp -- so a drift line below that is not opposed by a single labelled negative on this board. Loosening 1.0 -> 3.0 recovers 294 same-name pairs and lets in 0 of them: this set polices the far side of the line, not the near side.
 
-How far over the line the refusals sit (pp/yr of drift): 1.0-1.5: 137, 1.5-2.0: 109, 2.0-3.0: 115, 3.0+: 107.
+How far over the line the refusals sit (pp/yr of drift): 1.0-1.5: 43, 1.5-2.0: 45, 2.0-3.0: 39, 3.0+: 24.
 
 Pairs the day gate let through and the year gate refused (drift descending) -- this is the "different dividends or fees make them drift" set, and the drift sizes are printed so the reader can judge the caveat rather than take it:
 
 | a | b | drift pp/yr | share of days apart |
 |---|---|---|---|
-| 520700 | 159217 | 19.88 | 0.305 |
-| 159570 | 520700 | 15.33 | 0.349 |
-| 159501 | 159660 | 14.56 | 0.257 |
-| 159813 | 159325 | 12.82 | 0.229 |
-| 513120 | 159567 | 12.43 | 0.301 |
-| 159560 | 159801 | 12.02 | 0.157 |
-| 159316 | 520700 | 11.04 | 0.293 |
 | 562660 | 563300 | 10.93 | 0.229 |
-| 513100 | 159660 | 10.44 | 0.201 |
-| 159560 | 159995 | 9.77 | 0.120 |
-
-Refused pairs this rule would accept (the leak, named): 159320/159326 (0.86 pp drift on 0.149 of days)
+| 510760 | 510980 | 7.82 | 0.068 |
+| 159995 | 516350 | 7.55 | 0.088 |
+| 588830 | 589960 | 5.30 | 0.048 |
+| 588150 | 588040 | 5.15 | 0.149 |
+| 513110 | 513100 | 4.87 | 0.149 |
+| 588940 | 588040 | 4.61 | 0.149 |
+| 159995 | 512760 | 4.59 | 0.072 |
+| 510880 | 515180 | 4.32 | 0.092 |
+| 588050 | 588940 | 4.30 | 0.040 |
 
 What moving the year line buys and what it also lets in (same labelled set, day gate held fixed):
 
 | year line pp | accepted same-name pairs | price-refused pairs it would bless |
 |---|---|---|
-| 1.0 | 402 | 1 |
-| 1.5 | 534 | 1 |
-| 2.0 | 642 | 1 |
-| 3.0 | 753 | 1 |
+| 1.0 | 169 | 0 |
+| 1.5 | 211 | 0 |
+| 2.0 | 256 | 0 |
+| 3.0 | 294 | 0 |
 
-**The decision on the line is published, not left to each reader**: KEEP at 1.0 pp/yr -- no pair the board's own prices refused drifts less than 0.4 pp/yr, so the labelled set cannot place the line between 1.0 and there; the line is priced by what being wrong costs -- a swap made inside a 1.0 pp/yr band loses at most that band, while the 351 extra pairs a 3.0 pp line recovers each carry up to 3 pp/yr of drift. Cost: recall: 468 of the 870 same-name pairs the prices accepted are refused.
+**The decision on the line is published, not left to each reader**: KEEP at 1.0 pp/yr -- no pair the board's own prices refused drifts less than 2.8 pp/yr, so the labelled set cannot place the line between 1.0 and there; the line is priced by what being wrong costs -- a swap made inside a 1.0 pp/yr band loses at most that band, while the 125 extra pairs a 3.0 pp line recovers each carry up to 3 pp/yr of drift. Cost: recall: 151 of the 320 same-name pairs the prices accepted are refused.
 
 ## what the year gate costs
 

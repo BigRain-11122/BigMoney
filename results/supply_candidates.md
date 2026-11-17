@@ -1,6 +1,6 @@
 # 供给面：池子空着，是因为没有活，还是因为没人把活放进池子
 
-判词 **AGENDA_DEBT** —— no candidate passes its calendar (4 refused): nobond_vt08_adopted: UNADJUDICABLE_PHASE via Y4_top2_share, C1_capacity (phase spread 10.22pp vs margin 9.92pp -- the phase spread is wider than the distance from the median to the line); nobond_base: UNADJUDICABLE_PHASE via C1_capacity, Y3_worst_year, Y4_top2_share (phase spread 21.42pp vs margin 13.07pp -- the phase spread is wider than the distance from the median to the line); nobond_vt08_floor_050: UNADJUDICABLE_PHASE via C1_capacity, Y4_top2_share (phase spread 14.49pp vs margin 10.04pp -- the phase spread is wider than the distance from the median to the line); all_classes_published: CONDITIONAL via Y4_top2_share | ruler: 3 refusal(s) survive a self-adjudicable caliber (nobond_vt08_adopted, nobond_base, nobond_vt08_floor_050) | no phase set, ruler not re-read (all_classes_published) | reason: nobond_vt08_adopted refused at years_for_half median 2 vs line 3 (FAIL); nobond_base refused at years_for_half median 2 vs line 3 (FAIL); nobond_vt08_floor_050 refused at years_for_half median 2 vs line 3 (FAIL) | window: years_for_half median 2/3 vs line 3, 3 fail/2 undecidable/0 pass over 5 starts -> a wider window changes nothing where it can be judged (widest start 2013-01-01 cagr 8.060% maxdd -16.850%; plain arm only, exploratory -- decides nothing) | half_year: nobond_vt08_adopted: half of its 7-year net (+81.06pp) is supplied by 2025 +43.06pp, which is the newest FULL year (the last row is a partial year) (dominant year 2025 = +43.06pp = 53.1% of net) -> one year supplies the half [phase set: one_year 2/5 phases] (exploratory -- decides nothing)
+判词 **AGENDA_DEBT** —— no candidate passes its calendar (4 refused): nobond_vt08_adopted: UNADJUDICABLE_PHASE via Y4_top2_share, C1_capacity (phase spread 10.22pp vs margin 9.92pp -- the phase spread is wider than the distance from the median to the line); nobond_base: UNADJUDICABLE_PHASE via C1_capacity, Y3_worst_year, Y4_top2_share (phase spread 21.42pp vs margin 13.07pp -- the phase spread is wider than the distance from the median to the line); nobond_vt08_floor_050: UNADJUDICABLE_PHASE via C1_capacity, Y4_top2_share (phase spread 14.49pp vs margin 10.04pp -- the phase spread is wider than the distance from the median to the line); all_classes_published: CONDITIONAL via Y4_top2_share | ruler: 3 refusal(s) survive a self-adjudicable caliber (nobond_vt08_adopted, nobond_base, nobond_vt08_floor_050) | no phase set, ruler not re-read (all_classes_published) | reason: nobond_vt08_adopted refused at years_for_half median 2 vs line 3 (FAIL); nobond_base refused at years_for_half median 2 vs line 3 (FAIL); nobond_vt08_floor_050 refused at years_for_half median 2 vs line 3 (FAIL) | window: years_for_half median 2/3 vs line 3, 3 fail/2 undecidable/0 pass over 5 starts -> a wider window changes nothing where it can be judged (widest start 2013-01-01 cagr 8.060% maxdd -16.850%; plain arm only, exploratory -- decides nothing) | half_year: nobond_vt08_adopted: half of its 7-year net (+81.06pp) is supplied by 2025 +43.06pp, which is the newest FULL year (the last row is a partial year) (dominant year 2025 = +43.06pp = 53.1% of net) -> one year supplies the half [phase set: one_year 2/5 phases] (exploratory -- decides nothing)。另一层：即使有一个候选过闸，已定价的最高上限 13,794,151 也只有地板的 69.0%（差 6,205,849），该上限出自 priced_envelope_R20
 
 | 来源 | 数 | 能不能立刻点火 |
 |---|---|---|
@@ -26,3 +26,14 @@
 | nobond_vt08_floor_050 | UNADJUDICABLE_PHASE | C1_capacity, Y4_top2_share | results/etf_book_phase_gate.json |
 | all_classes_published | CONDITIONAL | Y4_top2_share | results/etf_book_year_gate/YEAR-GATE.json |
 
+
+## 地板：日历过了也不够
+
+| 读法 | 数 | 出处 |
+|---|---|---|
+| 地板（产能门槛） | 20,000,000 | scripts/candidate_year_gate.py::CAPACITY_FLOOR_CNY |
+| 已定价的最高上限 | 13,794,151 | priced_envelope_R20 |
+| 缺口 | 6,205,849 | results/etf_book_capacity_floor_gap.json |
+| 上限／地板 | 69.0% | FLOOR_BEYOND_PRICED_ENVELOPE |
+
+即使有一个候选过闸，已定价的最高上限 13,794,151 也只有地板的 69.0%（差 6,205,849），该上限出自 priced_envelope_R20

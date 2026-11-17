@@ -2,16 +2,12 @@
 
 Every carry number on the basis pages is a daily difference between the continuous series and its index with the splice days deleted -- a model of rolling, not a roll. This page books the roll: hold the contract with the most open interest, move to its successor when another one takes that over by 5.0%, and mark both legs at the same close, so the seam costs nothing by construction rather than by being masked out.
 
-Evidence cutoff: `2026-11-16`  ·  generated 2026-11-18T00:12:20
+Evidence cutoff: `None`  ·  generated 2026-11-17T21:43:19
 
 ## The roll book against the published mask
 
 | product | years | rolls/yr | futures %/yr | index %/yr | discount (gross) | discount net @ 1.5bp | published (observed mask) |
 |---|---|---|---|---|---|---|---|
-| IF | 8.02 | 9.23 | 6.03 | 2.48 | **3.625** | **3.486** | 3.595 |
-| IC | 8.02 | 7.85 | 13.78 | 4.77 | **8.778** | **8.661** | 7.242 |
-| IH | 8.02 | 11.1 | 3.41 | 1.07 | **2.471** | **2.305** | 2.366 |
-| IM | 4.28 | 5.37 | 6.71 | -3.04 | **10.263** | **10.183** | 8.807 |
 
 A negative futures column with a positive discount is the normal shape: the contract converges into the index without the index paying a dividend.
 
@@ -21,36 +17,21 @@ Cost is a ladder, not a claim: the floor is the exchange fee (0.46bp) plus one t
 
 | product | breakeven bp/roll | 0.0bp | 1.5bp | 4.0bp | 8.0bp | 15.0bp |
 |---|---|---|---|---|---|---|
-| IF | 6.77 | 3.625 | 3.486 | 3.256 | 2.887 ✗ | 2.241 ✗ |
-| IC | 73.56 | 8.778 | 8.661 | 8.464 | 8.15 | 7.6 |
-| IH | 0.0 | 2.471 ✗ | 2.305 ✗ | 2.027 ✗ | 1.583 ✗ | 0.807 ✗ |
-| IM | 135.25 | 10.263 | 10.183 | 10.049 | 9.834 | 9.458 |
-
-**No line breaks inside the floor cost band**: the weakest allows 6.77 bp per roll, i.e. roughly 4.5x the commission-plus-tick floor of 1.5 bp. The cost assumption was never what decided these lines -- the mask was.
 
 ## Admission
 
 | line | value |
 |---|---|
-| at/above 3.0% gross of cost | IC, IF, IM |
-| still above 3.0% net at 1.5bp/roll | IC, IF, IM |
-| below the line before any cost | IH |
+| at/above 3.0% gross of cost | none |
+| still above 3.0% net at 1.5bp/roll | none |
+| below the line before any cost | none |
 
 ## Per year
 
 The discount is not a constant, and an average over the whole span hides the years it was absent.
 
-| year | IF | IC | IH | IM |
-|---|---|---|---|---|
-| 2018 | -3.129 (49d) | -0.667 (49d) | -3.624 (49d) | — |
-| 2019 | 2.907 (244d) | 11.111 (244d) | 1.634 (244d) | — |
-| 2020 | 6.738 (243d) | 12.298 (243d) | 7.543 (243d) | — |
-| 2021 | 5.648 (243d) | 12.372 (243d) | 3.141 (243d) | — |
-| 2022 | 2.507 (242d) | 6.714 (242d) | 2.01 (242d) | 10.465 (109d) |
-| 2023 | 0.201 (242d) | 2.626 (242d) | -0.055 (242d) | 4.402 (242d) |
-| 2024 | 2.478 (242d) | 5.644 (242d) | 1.366 (242d) | 10.164 (242d) |
-| 2025 | 4.004 (243d) | 10.758 (243d) | 1.92 (243d) | 13.59 (243d) |
-| 2026 | 6.52 (209d) | 9.053 (209d) | 4.211 (209d) | 11.888 (209d) |
+| year |  |
+|---|
 
 ## What this does not measure
 

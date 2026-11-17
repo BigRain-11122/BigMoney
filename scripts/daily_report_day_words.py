@@ -84,7 +84,11 @@ CLAIM_RULES = [
      ["etf_book.priced_bar", "etf_book.book_decided_at", "etf_book.next_rebalance_date"]),
     (re.compile(r"前向账本 \d+ 根 bar（" + _D + "→" + _D + r"）"),
      ["etf_book.forward.inception", "etf_book.forward.as_of"]),
-    (re.compile(r"对「四只等权」[\d.]+ pp（bar " + _D + r"）"), ["etf_book.priced_bar"]),
+    # r1299: this sentence quotes `vs_basket.bar`, not the priced bar. Mapping it to
+    # `priced_bar` made every day on which the book's data cutoff (11-17) ran ahead of the
+    # price (11-16) read as a mismatch -- a false red that looks exactly like the defect the
+    # rule exists to catch. The bar a sentence is checked against is the field it quotes.
+    (re.compile(r"对「四只等权」[\d.]+ pp（bar " + _D + r"）"), ["etf_book.vs_basket.bar"]),
     (re.compile(r"块重抽 \d+ 次，截止 " + _D), ["etf_book.envelope.evidence_cutoff"]),
     (re.compile(r"账本 \d+ 名 · k [\d.]+ · vol_target [\d.]+% · 决策 bar " + _D),
      ["book_identity.ledger.bar"]),
@@ -385,6 +389,7 @@ def selftest():
                 "etf_book": {"priced_bar": bar, "book_decided_at": "2026-11-11",
                              "next_rebalance_date": "2026-12-09",
                              "forward": {"inception": "2026-10-23", "as_of": bar},
+                             "vs_basket": {"bar": "2026-11-17"},
                              "envelope": {"evidence_cutoff": bar}}}
 
     def page(day="2026-11-14", bar="2026-11-13", kill="（bar 2026-11-13）否",
@@ -411,6 +416,7 @@ def selftest():
             "- **定价日 " + bar + "**（决策 2026-11-11）· 下一次调仓 2026-12-09",
             "- " + action + "（继续持有到 2026-12-09）；现在换一次书=年化让出 17.29%",
             "- 前向账本 16 根 bar（2026-10-23→" + bar + "）：NAV 1.0108942788",
+            "- 对「四只等权」2.95 pp（bar 2026-11-17）；这个账本 6 个月能分辨的最小边际 33.5 pp/年",
         ])
 
     # L1 a Saturday paper whose kill-day word belongs to Friday is the r1672 defect, here
@@ -449,6 +455,16 @@ def selftest():
     # L7 the page day's own count is never stale (per-sentence bars, not one page-wide bar)
     c7 = census(doc(), page().replace("（总机 33.0%", "（总机 33.0%"))
     leg("L7 same-day sentences stay green", c7["verdict"] == "PRINTED_DATES_AGREE", c7["verdict"])
+
+    # L11 the 「四只等权」line quotes `vs_basket.bar`, and that bar may legitimately be LATER
+    # than the priced bar (the book's data cutoff runs ahead of the price it can act on).
+    # r1299: while that rule pointed at `priced_bar`, every such day printed a mismatch that
+    # was indistinguishable from the real defect the rule exists to catch.
+    c11 = census(doc(), page())
+    leg("L11 two bars, two fields: still green",
+        c11["verdict"] == "PRINTED_DATES_AGREE"
+        and (c11["date_claims"].get("n_mismatch") or 0) == 0,
+        "%s mismatch=%s" % (c11["verdict"], c11["date_claims"].get("n_mismatch")))
 
     # L8 an unreadable paper is never clean
     c8 = census(doc(), None)
