@@ -1162,6 +1162,25 @@ def main() -> int:
               _r.returncode == 0, f"exit={_r.returncode} | {_tail[:90]}")
     except Exception as e:
         check("product: index-futures roll gaps (selftest 17 legs)", False, str(e))
+    # r1313: DIRECTION-20261114 section 3 P1 opened with a gap it never priced -- the
+    # basis lane needs a same-day index print, and the stand-in everybody reaches for
+    # (the ETF close) had never been measured. Two legs: the estimator's own selftest
+    # (a proportional wedge must vanish, a structural drift must not be sold as noise,
+    # a wobbling wedge must break the rule) and the face re-deriving byte for byte.
+    try:
+        _r = _leg_memo([sys.executable, "scripts/idx_fut_proxy_noise.py", "--selftest"], 120)
+        _tail = ((_r.stdout or _r.stderr).strip().splitlines() or ["no output"])[-1]
+        check("product: index-futures proxy noise (selftest 21 legs)",
+              _r.returncode == 0, f"exit={_r.returncode} | {_tail[:90]}")
+    except Exception as e:
+        check("product: index-futures proxy noise (selftest 21 legs)", False, str(e))
+    try:
+        _r = _leg_memo([sys.executable, "scripts/idx_fut_proxy_noise.py", "--check"], 180)
+        _tail = ((_r.stdout or _r.stderr).strip().splitlines() or ["no output"])[-1]
+        check("product: index-futures proxy noise re-derived",
+              _r.returncode == 0, f"exit={_r.returncode} | {_tail[:110]}")
+    except Exception as e:
+        check("product: index-futures proxy noise re-derived", False, str(e))
     try:
         _r = _leg_memo([sys.executable, "scripts/idx_fut_roll_gap.py", "--check"], 120)
         _tail = ((_r.stdout or _r.stderr).strip().splitlines() or ["no output"])[-1]
