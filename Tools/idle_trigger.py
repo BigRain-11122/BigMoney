@@ -65,6 +65,19 @@ CLAIM_RE = re.compile(r'claimed@([A-Za-z0-9\-]+)@(\S+)')
 # r1789 bm-c: a pool line may declare itself unclaimable for a named machine instead
 # of being handed a fake claim or a fake expiry. Comma list; other machines unaffected.
 EXCLUDE_RE = re.compile(r'not-claimable-for:\s*([A-Za-z0-9\-]+(?:\s*[,，]\s*[A-Za-z0-9\-]+)*)')
+# r1304: three states, not two. A pool card can be (a) claimable here, (b) waiting on a
+# gate it declares itself (`gate 现状=CLOSED`), or (c) naming an execution face this disk
+# does not have. Before this round (b) and (c) both counted as "work available", so a
+# machine whose GPU is held by the CEO's own desktops read GREEN-IDLE-with-work for three
+# rounds running while nothing could light; and (a) was lost outright on any card that
+# merely MENTIONED the claim syntax, because the reader tested the bare substring.
+EXEC_FACE_RE = re.compile(r'execution-face:\s*([^\s·）)、,，]+)')
+GATE_CLOSED_RE = re.compile(r'gate\s*(?:现状\s*)?=\s*CLOSED')
+# the claim-by-file protocol writes completion as `done@<ts>+<commit>`; a card that
+# carries one is out of the pool however sloppily it wrote its claim marker (card 1 was
+# reading as claimable because `claimed@bm-c 生产泵@10-0x` has no `@<ts>` and the done
+# line right after it was never read at all).
+DONE_RE = re.compile(r'done@\S+')
 
 
 def machine_id():
@@ -170,33 +183,73 @@ def line_excluded(line, mid):
     return mid in names
 
 
+def classify_pool_line(line, mid, exists=os.path.exists):
+    """Classify one fleet/backlog.md line for one machine.
+
+    Returns (kind, detail):
+      'claim'      -> {'mine': bool, 'ts': raw timestamp}
+      'drop'       -> reason string (not a pool row / cleared / named not-claimable)
+      'struct_wait'-> {'card','reason','face'}  (door shut, or face missing on this disk)
+      'claimable'  -> the trimmed line
+    `exists` is injectable so the selftest can hold a fixture without touching disk.
+    """
+    m = CLAIM_RE.search(line)
+    if m:
+        return ('claim', {'mine': m.group(1) == mid, 'ts': m.group(2)})
+    if not re.match(r'\s*\d+\.\s+\S', line):
+        return ('drop', 'not-a-pool-row')
+    if u'过期清出' in line:
+        return ('drop', 'cleared')
+    if DONE_RE.search(line):
+        return ('drop', 'done')
+    if line_excluded(line, mid):
+        return ('drop', 'named-not-claimable')
+    cm = re.match(r'\s*(\d+)\.', line)
+    card = cm.group(1) if cm else '?'
+    fm = EXEC_FACE_RE.search(line)
+    face = fm.group(1) if fm else None
+    if face and not exists(face):
+        return ('struct_wait', {'card': card, 'reason': 'execution_face_missing', 'face': face})
+    if GATE_CLOSED_RE.search(line):
+        return ('struct_wait', {'card': card, 'reason': 'gate_closed', 'face': face})
+    return ('claimable', line.strip()[:80])
+
+
 def parse_backlog(mid, now):
-    """Return (claimable_lines, fresh_claim_ts_or_None)."""
+    """Return (claimable_lines, fresh_claim_ts_or_None, struct_wait_rows).
+
+    r1304: a pool line is claimable here only when nothing it says about itself
+    rules this machine out. Two things it can say are now read instead of being
+    counted as work: `execution-face: <path>` (the project a job needs -- a
+    missing path is a structural wait, not a job this disk can light) and
+    `gate 现状=CLOSED` (the card declares its own door shut). Claim detection
+    moved from a bare substring to the claim marker itself: card 19 had been
+    dropping out of every face for weeks because its text explains the syntax
+    `claimed@<机>@<ts>` and the reader skipped the whole line.
+    """
     claimable = []
+    struct_wait = []
     fresh_claim = None
     p = os.path.join(PROJECT, 'fleet', 'backlog.md')
     if not os.path.exists(p):
-        return claimable, fresh_claim
+        return claimable, fresh_claim, struct_wait
     try:
         with open(p, encoding='utf-8') as f:
             for line in f:
-                if 'claimed@' in line:
-                    m = CLAIM_RE.search(line)
-                    if m and m.group(1) == mid:
+                kind, detail = classify_pool_line(line, mid)
+                if kind == 'claim':
+                    if detail['mine']:
                         # ts formats seen: 10-02 00:05 / 2026-10-07T22:33:00+08:00
-                        ts_raw = m.group(2)
-                        ts = parse_ts(ts_raw)
+                        ts = parse_ts(detail['ts'])
                         if ts and (now - ts) <= ROUND_WINDOW_MIN * 60:
-                            fresh_claim = ts_raw
-                    continue
-                # claimable = numbered pool line not yet claimed, not cleared
-                if re.match(r'\s*\d+\.\s+\S', line) and 'claimed@' not in line \
-                        and u'过期清出' not in line \
-                        and not line_excluded(line, mid):
-                    claimable.append(line.strip()[:80])
+                            fresh_claim = detail['ts']
+                elif kind == 'struct_wait':
+                    struct_wait.append(detail)
+                elif kind == 'claimable':
+                    claimable.append(detail)
     except Exception:
         pass
-    return claimable, fresh_claim
+    return claimable, fresh_claim, struct_wait
 
 
 def parse_ts(ts_raw):
@@ -268,7 +321,7 @@ def bookkeeping(mid, now):
     ram = probe_ram()
     vram = probe_vram()
     inflight = probe_inflight(mid)
-    claimable, fresh_claim = parse_backlog(mid, now)
+    claimable, fresh_claim, struct_wait = parse_backlog(mid, now)
     ram_ok = ram is None or ram >= RAM_GATE_PCT  # probe fail disclosed, not guessed
     vram_ok = vram is None or vram >= VRAM_GATE_GB
     # T-2026-10-10-183: vram_ok is disclosure-only (VRAM decoupled from the
@@ -295,6 +348,12 @@ def bookkeeping(mid, now):
         'claimed_recent': fresh_claim is not None,
         'backlog_claimable_lines': len(claimable),
         'pool_ready_unclaimed': pool_ready_unclaimed(),
+        # r1304: a card that names a shut gate or a face this disk does not hold is a
+        # structural wait, published beside the count instead of inside it. Without this
+        # split "three lines are claimable" and "nothing here can light" printed the same
+        # face, and idle_rounds grew with no stated reason.
+        'backlog_struct_wait_n': len(struct_wait),
+        'backlog_struct_wait': struct_wait[:8],
         # deprecated alias: this is the BACKLOG line count, not the runnable
         # pool (see pool_ready_unclaimed / pool_count_note).
         'claimable_pool_lines': len(claimable),
@@ -579,6 +638,39 @@ def selftest():
         if got != want:
             ok = False
         print('[%s] excluded %r for %s -> %s' % (flag, line[:34], mid_, got))
+    # r1304: three states. Card 19 had been invisible for weeks because its own text
+    # spells the claim syntax; cards 20-22 counted as work while naming a shut gate.
+    # The reader now answers "can this disk light it", and a shut door is published
+    # beside the count rather than inside it.
+    no_disk = lambda _p: False
+    any_disk = lambda _p: True
+    state_cases = [
+        # (line, exists, want_kind, want_detail_key)
+        ('19. 【BigCompute】card (claimed 需写 claimed@<机>@<ts>)', no_disk,
+         'claimable', None),
+        ('19. 【BigCompute】card claimed@bm-b@2026-10-02T00:05:00+08:00', any_disk,
+         'claim', 'mine'),
+        ('20. 【BigCompute】card -workload=x execution-face: D:\\nowhere\\City3D', no_disk,
+         'struct_wait', 'execution_face_missing'),
+        ('20. 【BigCompute】card execution-face: D:\\here\\City3D', any_disk,
+         'claimable', None),
+        ('21. 【BigCompute】card **gate 现状=CLOSED** 算力窗到了才能点火', any_disk,
+         'struct_wait', 'gate_closed'),
+        ('22. 【BigCompute】card remains', any_disk, 'claimable', None),
+        ('23. 【BigCompute】card not-claimable-for: bm-a', any_disk, 'drop', None),
+        ('1. 【城线】card —claimed@bm-c 生产泵@10-01 → done@10-02 00:05+MiniGame 1ffc', any_disk,
+         'drop', None),
+        ('not a pool row', any_disk, 'drop', None),
+    ]
+    for line, exists, want_kind, want_reason in state_cases:
+        kind, detail = classify_pool_line(line, 'bm-a', exists=exists)
+        good = kind == want_kind and (want_reason is None or detail.get('reason') == want_reason
+                                     or (want_reason == 'mine' and detail.get('mine') is False))
+        flag = 'PASS' if good else 'FAIL'
+        if not good:
+            ok = False
+        print('[%s] pool-state %r -> %s/%s' % (flag, line[:38], kind,
+                                              detail.get('reason') if isinstance(detail, dict) else detail))
     print('selftest:', 'ALL PASS' if ok else 'FAIL')
     return 0 if ok else 1
 
