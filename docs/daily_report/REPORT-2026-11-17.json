@@ -1,6 +1,6 @@
 {
  "report_date": "2026-11-17",
- "generated_at": "2026-11-17 19:14:02",
+ "generated_at": "2026-11-17 19:26:01",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -294,13 +294,13 @@
   "md_link": "../live_usage/LIVE-2026-11-17.md"
  },
  "rd": {
-  "commits_24h": 96,
-  "result_jsons_landed_24h": 249,
+  "commits_24h": 100,
+  "result_jsons_landed_24h": 250,
   "digests_landed_24h": 0,
   "prereg_md_touched_24h": 101,
   "compute_audit_latest": {
-   "ts": "2026-11-17 17:28:06",
-   "py_cpu_pct": 0.9,
+   "ts": "2026-11-17 18:29:18",
+   "py_cpu_pct": 5.1,
    "flags": [
     "pool_starvation",
     "supply_floor"
@@ -706,17 +706,13 @@
     "supply_why": null
    },
    "bm-c": {
-    "latest_ts": "2026-11-17 17:28:06",
-    "py_pct": 0.9,
-    "cpu_pct": 49.0,
+    "latest_ts": "2026-11-17 18:29:18",
+    "py_pct": 5.1,
+    "cpu_pct": 60.0,
     "ready": 0,
-    "streak_min": 11943.1,
+    "streak_min": 11465.7,
     "verdict": "FLAG:pool_starvation,supply_floor",
     "py_series_tail": [
-     [
-      "01:26",
-      11.4
-     ],
      [
       "02:25",
       0.7
@@ -760,14 +756,18 @@
      [
       "17:28",
       0.9
+     ],
+     [
+      "18:29",
+      5.1
      ]
     ],
-    "today_samples": 15,
+    "today_samples": 16,
     "today_floor_ok": 0,
     "today_sla_flags": 0,
     "today_supply_gap_flags": 0,
-    "own_samples": 92,
-    "unattributed_samples": 108,
+    "own_samples": 93,
+    "unattributed_samples": 107,
     "latest_attributed": true,
     "lane_machine": "bm-c",
     "supply_why": {
@@ -777,17 +777,19 @@
      "candidates": [
       {
        "candidate": "nobond_vt08_adopted",
-       "state": "CONDITIONAL",
-       "undecidable_because": null,
+       "state": "UNADJUDICABLE_PHASE",
+       "undecidable_because": "phase_spread_wider_than_margin",
        "failing_checks": [
-        "Y4_top2_share"
+        "Y4_top2_share",
+        "C1_capacity"
        ]
       },
       {
        "candidate": "nobond_base",
        "state": "UNADJUDICABLE_PHASE",
-       "undecidable_because": "phases_disagree_on_verdict",
+       "undecidable_because": "phase_spread_wider_than_margin",
        "failing_checks": [
+        "C1_capacity",
         "Y3_worst_year",
         "Y4_top2_share"
        ]
@@ -795,8 +797,9 @@
       {
        "candidate": "nobond_vt08_floor_050",
        "state": "UNADJUDICABLE_PHASE",
-       "undecidable_because": "phases_disagree_on_verdict",
+       "undecidable_because": "phase_spread_wider_than_margin",
        "failing_checks": [
+        "C1_capacity",
         "Y4_top2_share"
        ]
       },
@@ -809,8 +812,8 @@
        ]
       }
      ],
-     "what_would_move_it": "the phase set",
-     "sentence": "4 candidate(s) were judged and none reads ADMIT: 0 cannot be judged because the phase spread is wider than the distance to the line (-), 2 because the phases disagree (nobond_base, nobond_vt08_floor_050)"
+     "what_would_move_it": "more years of evidence",
+     "sentence": "4 candidate(s) were judged and none reads ADMIT: 3 cannot be judged because the phase spread is wider than the distance to the line (nobond_vt08_adopted, nobond_base, nobond_vt08_floor_050), 0 because the phases disagree (-)"
     }
    }
   },
@@ -871,7 +874,7 @@
      "readable": true,
      "window_min": 60.0,
      "audit_batches": 0,
-     "audit_ts": "2026-11-17 17:28:06"
+     "audit_ts": "2026-11-17 18:29:18"
     }
    }
   },
@@ -1696,7 +1699,7 @@
  },
  "lane_authority": {
   "present": true,
-  "as_of": "2026-11-17T17:30:18",
+  "as_of": "2026-11-17T18:29:32",
   "verdict": "attention",
   "observer": "bm-c",
   "sentence": "以本机 bm-c 的盘为基准：14 条在役车道的数字全都落在本机盘上，其中 14 条有署名可核实。",
@@ -1732,7 +1735,7 @@
  },
  "lane_window": {
   "present": true,
-  "as_of": "2026-11-17T17:30:18",
+  "as_of": "2026-11-17T18:29:32",
   "n": 1,
   "windows": [
    {
@@ -1854,19 +1857,19 @@
  },
  "etf_book": {
   "status": "ok",
-  "priced_bar": "2026-11-16",
+  "priced_bar": "2026-11-17",
   "book_decided_at": "2026-11-11",
   "next_rebalance_date": "2026-12-09",
   "capital_cny": 1000000.0,
-  "book_amount_cny": 431727.8,
-  "cash_amount_cny": 568272.2,
+  "book_amount_cny": 431879.5,
+  "cash_amount_cny": 568120.5,
   "n_hold": 5,
   "k_now": 0.432195,
   "today_action": {
    "mode": "hold",
    "holding": true,
    "book_decided_at": "2026-11-11",
-   "priced_bar": "2026-11-16",
+   "priced_bar": "2026-11-17",
    "next_trade_date": "2026-12-09",
    "trade_day_is_today": false,
    "cost_if_retraded_pct_per_year": 17.29,
@@ -1922,36 +1925,36 @@
   },
   "envelope": {
    "status": "ok",
-   "evidence_cutoff": "2026-11-16",
-   "bars": 1663,
+   "evidence_cutoff": "2026-11-17",
+   "bars": 1664,
    "block": 20,
    "n_resamples": 2000,
    "cagr": {
-    "1": 0.005559480617982422,
-    "5": 0.033711809145927585,
-    "25": 0.06925117524910024,
-    "50": 0.0940981317463121,
-    "75": 0.12003029233774731,
-    "95": 0.16463910262547324,
-    "99": 0.19437574710146663
+    "1": 0.0068493272029104425,
+    "5": 0.03182967478401507,
+    "25": 0.06840924721419589,
+    "50": 0.09258712640461786,
+    "75": 0.11881646319576938,
+    "95": 0.16421597404174448,
+    "99": 0.19628802199236917
    },
    "maxdd": {
-    "1": -0.261135618699307,
-    "5": -0.21604681688105645,
-    "25": -0.15929677006952328,
-    "50": -0.1333660742210368,
-    "75": -0.11144700930051024,
-    "95": -0.08988407404011688,
-    "99": -0.07582647739086011
+    "1": -0.26652562701535354,
+    "5": -0.21617589625642036,
+    "25": -0.16121729286684902,
+    "50": -0.1342424164934698,
+    "75": -0.1130492342236108,
+    "95": -0.08945175849379519,
+    "99": -0.07610892387146369
    },
    "point_pctile": {
-    "cagr": 51.1,
-    "sharpe": 53.1,
-    "maxdd": 67.6
+    "cagr": 51.4,
+    "sharpe": 52.6,
+    "maxdd": 69.5
    },
    "shares": {
-    "cagr_le_zero": 0.006,
-    "maxdd_le_line": 0.073,
+    "cagr_le_zero": 0.007,
+    "maxdd_le_line": 0.078,
     "n_resamples": 2000
    },
    "reconciliation": "same_object"
@@ -1965,12 +1968,12 @@
      "universe",
      "window"
     ],
-    "why": "the table's rows are not one ruler: window +4.87pp、universe +0.43pp、ordering -0.48pp per year on the book the operator actually holds. The gap between the top row and the card row is the sum of these dials, not a property of the strategy.",
+    "why": "the table's rows are not one ruler: window +4.82pp、universe +0.43pp、ordering -0.51pp per year on the book the operator actually holds. The gap between the top row and the card row is the sum of these dials, not a property of the strategy.",
     "criteria": "ROWS_NOT_COMPARABLE iff at least one dial moves the held config by >= tol_pp_per_year on at least one window; SAME_RULER if none does. The published gap between row 1 and row 3 is decomposed into these dials, and no dial's price is inferred from another."
    }
   },
-  "feed_status": "stale_feed",
-  "feed_lag_days": 1
+  "feed_status": "current",
+  "feed_lag_days": 0
  },
  "canon_refs": [
   "T-75 ticket (O-20260926-0940)",

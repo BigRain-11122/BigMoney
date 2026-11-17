@@ -2464,3 +2464,12 @@ live_book_day_words=1 / live_usage_day_words=1 / daily_report_day_words=1：战�
 **其他面**：orphan 0/30；orders_ack 115/115/0（MISS 0）；D-19 decisions+orders 均前进，尾部行为集团面（FluxVerse 已 PARKED / MiniGame / BigLife），无一涉本仓机制 → 只推进水位零动作；ttrition_ledger_guard scan CLEAN（4 账本，两处历史 shrink 记 healed）；循环任务 pin=3 no-op；看门狗重注册，S4U 翻转仍拒绝访问（CEO 物理件，照旧携带）。
 
 **本地未达 origin commit 数**：0（push 后复核）。
+
+**追加（同窗续作 · 2026-11-17T19:30:19+08:00）· 三条日词红里聊掉两条**
+
+1. daily_report_day_words：**判词从假红变绿**（PRINTED_DATES_AGREE，36/36 处日期对上，0 处判不了，selftest 14/14）。根因不是页面，是规则指错了字段——「对「四只等权」X pp（bar Y）」引的是 s_basket.bar，规则却指向 priced_bar；于是每当账本数据截止（11-17）跑在可定价 bar（11-16）前面，这条就印一次「不符」，长得和它本来要抓的真缺陷一模一样。已改指 s_basket.bar，并补 selftest 腿 L11 钉死「两根 bar 两个字段仍绿」。改完立刻暴露第二条真问题（执行单行引 11-16 而身份面已到 11-17）→ 按依赖序重出日报，自然消失，未改任何字面。
+2. live_usage_day_words：**从「有人读不出这一天」推进到「这一处我还没规则可核」**（PRINTED_BUT_UNANCHORED→PRINTED_SELF_DATED，undated 2→0，mismatch 0，stale 0，selftest 16/16）。其中一行是真缺陷不是文风：一页纸写「今天四个品种都不在带内」，而这条读的贴水面板 evidence_cutoff 是 11-16（页面是 11-17）——正是这条面存在的理由。按本文件既有 day_word() 口径改成「在 2026-11-16 那根 bar 上」，并给检查器补了日期规则（否则把 bar 名写出来只是把一个假红换成一处 foreign date）。剩 20 处日期无规则覆盖，属规则缺口，未改判词阶梯。
+
+**仍未绿的一条**：live_book_day_words = DAY_WORD_ON_ANOTHER_DAY（28 行日词、15 行读不出哪天）。原因是上游而非文案：书的可定价 bar 还是 11-16，而这一页是 11-17 的页——按本轮报告已列的里程碑，等定价车道推进后重出才会真消。未调规则迁就。
+
+**本地未达 origin commit 数**：见推送后复核。

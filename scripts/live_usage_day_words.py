@@ -84,6 +84,11 @@ CLAIM_RULES = [
     (re.compile(r"执行单 \d+ 名 · k [\d.]+ · beta_target [\d.]+ · 决策 bar " + _D),
      ["book_identity.ticket.bar"]),
     (re.compile(r"未定稿 bar：" + _D), ["etf_book.provisional_bars[0]"]),
+    # r1299: the timing sentence now names the bar it read (instead of a bare 「今天」), so the
+    # date it prints must resolve to the field behind it -- otherwise naming the bar turns one
+    # false red into one foreign date.
+    (re.compile(r"在 " + _D + r" 那根 bar 上\*\*四个品种都不在带内\*\*"),
+     ["carry_timing.evidence_cutoff"]),
 ]
 
 # Dates that are rule constants, not data claims: 月界（2026-10-01）is when a gate opens, and
@@ -99,10 +104,21 @@ DAY_CLAIM_RULES = [
     (re.compile(r"今日 [+\-−]?¥[\d,]+"), "rollup.day_pnl_cny", "asserts today's P&L"),
     (re.compile(r"今日 \*\*未判\*\*"), "risk_tape.kill_day_unavailable", "asserts today's read"),
     (re.compile(r"杀跌日，今日 (是|否)"), "risk_tape.kill_day", "asserts today's session"),
+    # r1299: the basis-timing sentence read 「今天」 over the carry face's own bar, and that bar
+    # sits one session behind the page whenever the basis panel lags (11-16 against a 11-17
+    # page). Both halves -- in band and not in band -- are one claim about one field.
+    (re.compile(r"(今天|在 \d{4}-\d{2}-\d{2} 那根 bar 上)\*\*四个品种都不在带内\*\*"),
+     "carry_timing.evidence_cutoff", "asserts the timing state on the carry face's own bar"),
+    (re.compile(r"(今天|在 \d{4}-\d{2}-\d{2} 那根 bar 上)在带内：\*\*"),
+     "carry_timing.evidence_cutoff", "asserts the timing state on the carry face's own bar"),
 ]
 DAY_HONEST_RULES = [
     re.compile(r"今日尚未有 ?bar"),
     re.compile(r"今日 09:15 起随源点亮"),
+    # r1299: a quoted description of what a number IS (「这段现金按今天的利率值多少」 in a
+    # sentence that says it is not folded into NAV) states the reading's nature, not a number
+    # about a day. Anchored on the quote itself, so the same words outside 「」 stay unanchored.
+    re.compile(r"「这段现金按今天的利率值多少」"),
 ]
 
 CLEAN = ("PRINTED_DATES_AGREE",)
