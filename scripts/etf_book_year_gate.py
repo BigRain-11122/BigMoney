@@ -96,6 +96,75 @@ def _block(name: str, years: dict, capacity: float | None, ser: pd.Series | None
     return blk
 
 
+def caliber_reading(lag0_block: dict | None, lag1_block: dict | None,
+                    line: float) -> dict:
+    """The same frozen concentration line, read on two execution calibers.
+
+    r1798: every year check in this face was priced on `entry_lag=0` -- the score read off
+    bar d's own close, held from bar d's own open. The desk's declared execution is "decide
+    at close t, own from open t+1", and the shared engine gained that switch in r1795. A
+    concentration verdict read on a bar the book could not own is a ruler reading the wrong
+    day, so both readings are printed and the movement is named instead of assumed.
+
+    The word is derived from the two numbers, never hand-written; two `None`s are their own
+    state (E98: "I could not check it" is not "it is fine").
+    """
+    def lit(b):
+        # `year_metrics.top2_share` is a FRACTION of the annual sum (0.7084), the unit the
+        # frozen line is written in; the percent twin is printed beside it so a reader never
+        # has to guess which of the two they are looking at (r1775's 100x defect).
+        if not b:
+            return {"top2_share": None, "top2_share_pct": None, "passes": None,
+                    "cagr_pct": None, "verdict": None}
+        m = b.get("year_metrics") or {}
+        t2 = m.get("top2_share")
+        return {"top2_share": t2,
+                "top2_share_pct": None if t2 is None else round(float(t2) * 100.0, 4),
+                "passes": None if t2 is None else bool(float(t2) <= float(line)),
+                "cagr_pct": b.get("cagr_pct"),
+                "verdict": b.get("verdict")}
+    l0, l1 = lit(lag0_block), lit(lag1_block)
+    if l0["passes"] is None or l1["passes"] is None:
+        word = "CALIBER_UNREADABLE"
+    elif l0["passes"] == l1["passes"]:
+        word = "CALIBER_KEEPS_Y4"
+    else:
+        word = "CALIBER_FLIPS_Y4"
+    gap = (None if l0["top2_share"] is None or l1["top2_share"] is None
+           else round((float(l1["top2_share"]) - float(l0["top2_share"])) * 100.0, 4))
+    return {
+        "book": "nobond_vt08_adopted",
+        "line_top2_share_max": round(float(line), 4),
+        "line_top2_share_max_pct": round(float(line) * 100.0, 4),
+        "entry_lag0": l0,
+        "entry_lag1": l1,
+        "top2_gap_pp": gap,
+        "verdict": word,
+        "sentence": (
+            "the book's own concentration line reads %s%% on the decision bar and %s%% "
+            "once the picks can only be owned from the next open (line %.2f%%); %s"
+            % (l0["top2_share_pct"], l1["top2_share_pct"], float(line) * 100.0,
+               "the verdict does not move with the caliber" if word != "CALIBER_FLIPS_Y4"
+               else "the verdict moves with the caliber -- the failing row was a reading of "
+                    "the wrong bar, not of the book")),
+    }
+
+
+def _caliber_arm(lag1_ser: pd.Series | None, cap: float | None) -> dict | None:
+    """The execution-caliber twin of the adopted arm: same book, same line, entry_lag=1."""
+    if lag1_ser is None:
+        return None
+    blk = _block("nobond_vt08_adopted_lag1", yearly_returns(lag1_ser), cap, lag1_ser,
+                 "the adopted book repriced on the desk's declared execution: decide at "
+                 "close t, own from open t+1 -- read only by the caliber block, never "
+                 "substituted for a printed arm")
+    blk["capacity_cny_1day_5pct"] = None if cap is None else round(cap, 0)
+    blk["capacity_checked"] = cap is not None
+    blk["checks"]["C1_capacity"] = None if cap is None else cap >= G.CAPACITY_FLOOR_CNY
+    blk["verdict"] = G.verdict({"checks": blk["checks"]})
+    return blk
+
+
 def run() -> int:
     t0 = time.time()
     close, openp, amt, feats = E.build_panel()
@@ -128,6 +197,15 @@ def run() -> int:
                                   "calendar year (1.0 = fully invested); this is what "
                                   "moves the calendar, not the selection")
         arms.append(blk)
+
+    # r1798: the same adopted book on the desk's own execution caliber (decide at close t,
+    # own from open t+1). It is priced here only to be read by the concentration line --
+    # the printed arms above keep their published numbers bit for bit.
+    lag1_ser = None
+    if adopted_ser is not None:
+        lag1_ser, _turn_lag1 = R.open_to_open_equity(
+            close[cols], openp[cols], amt[cols], sc, 20, 5, 0.0010,
+            vol_target=0.08, entry_lag=1)
 
     last = sc.index[-1]
     picks = list(sc.loc[last].dropna().nlargest(5).index)
@@ -208,6 +286,13 @@ def run() -> int:
         a["verdict_changed_from_prior"] = (None if not pb
                                            else (pb.get("verdict") != a.get("verdict")))
 
+    cal = caliber_reading(
+        next((a for a in arms if a["book"] == "nobond_vt08_adopted"), None),
+        _caliber_arm(lag1_ser, cap), G.TOP2_SHARE_MAX)
+    if cal["verdict"] == "CALIBER_UNREADABLE":
+        cal["why"] = ("one of the two calibers produced no top2_share -- the line is not "
+                      "read as passing; the missing leg is named above")
+
     out = {
         "face": "etf_book_year_gate",
         "asof": time.strftime("%Y-%m-%dT%H:%M:%S%z"),
@@ -228,10 +313,13 @@ def run() -> int:
                  "live_picks": picks,
                  "live_picks_asof": str(last.date())},
         "books": arms,
+        "caliber": cal,
         "decision": decision,
         "prior": prior,
         "honest": [
             "the adopted book is judged by the same frozen line it never faced",
+            "the caliber block reads the SAME book on the desk's declared execution "
+            "(own from open t+1); the printed arms keep their published numbers untouched",
             "capacity is derived from the current five slots at 5% participation, "
             "not from a stated AUM",
             "the published all-classes arm carries no bar counts; its 2026 partial "
@@ -246,6 +334,10 @@ def run() -> int:
     os.replace(tmp, OUT)
     print(json.dumps({"verdicts": {a["book"]: a["verdict"] for a in arms},
                       "decision": decision["verdict"],
+                      "caliber": {"verdict": cal["verdict"],
+                                  "lag0_top2": cal["entry_lag0"]["top2_share_pct"],
+                                  "lag1_top2": cal["entry_lag1"]["top2_share_pct"],
+                                  "gap_pp": cal["top2_gap_pp"]},
                       "decision_reads": {k: v for k, v in decision["reads"].items()
                                          if k != "capacity_by_capital"},
                       "elapsed_sec": out["elapsed_sec"]}, ensure_ascii=False))
@@ -307,8 +399,12 @@ def check() -> int:
         print("FAIL %s" % _msg)
         return 1
     errs = []
+    _tally = [0, 0]
 
     def chk(ok, msg):
+        _tally[0] += 1
+        if ok:
+            _tally[1] += 1
         _chk(ok, msg, errs)
 
     books = d.get("books") or []
@@ -341,7 +437,37 @@ def check() -> int:
             and (moved is not True or b.get("margin_to_line") is not None),
             "%s states whether its verdict moved since the prior panel (%s)"
             % (b["book"], moved))
-    print("%d/%d PASS" % (6 + 6 * len(books) - len(errs), 6 + 6 * len(books)))
+    # r1798: the caliber block is the only place the concentration line is read twice. Its
+    # word must re-derive from its own two numbers, and its lag0 leg must quote the arm's
+    # own printed top2_share -- a second number for the same reading is how two calibers
+    # quietly become two books.
+    cal = d.get("caliber") or {}
+    l0 = (cal.get("entry_lag0") or {}).get("top2_share")
+    l1 = (cal.get("entry_lag1") or {}).get("top2_share")
+    chk(bool(cal), "the receipt carries a caliber block (the line read on both calibers)")
+    if l0 is None or l1 is None:
+        chk(cal.get("verdict") == "CALIBER_UNREADABLE",
+            "a leg without top2_share reads UNREADABLE, never 'keeps'")
+        chk(cal.get("top2_gap_pp") is None,
+            "an unreadable caliber publishes no gap instead of zero")
+    else:
+        p0 = float(l0) <= G.TOP2_SHARE_MAX
+        p1 = float(l1) <= G.TOP2_SHARE_MAX
+        want = "CALIBER_KEEPS_Y4" if p0 == p1 else "CALIBER_FLIPS_Y4"
+        chk(cal.get("verdict") == want,
+            "caliber word re-derives from its two readings: %s" % want)
+        chk(abs(float(cal.get("top2_gap_pp"))
+                - (float(l1) - float(l0)) * 100.0) < 1e-6,
+            "caliber gap equals the difference of the two published readings")
+    for leg in ("entry_lag0", "entry_lag1"):
+        b = cal.get(leg) or {}
+        f, p = b.get("top2_share"), b.get("top2_share_pct")
+        chk((f is None and p is None)
+            or (abs(float(p) - float(f) * 100.0) < 1e-6),
+            "%s prints the fraction and its percent twin from one reading" % leg)
+    chk(l0 == ((adopted.get("year_metrics") or {}).get("top2_share")),
+        "the lag0 leg quotes the adopted arm's own top2_share (one number, not two)")
+    print("%d/%d PASS" % (_tally[1], _tally[0]))
     return 0 if not errs else 1
 
 
@@ -405,7 +531,30 @@ def selftest() -> int:
          and freshness("2026-11-11", None)[0] == "unknown",
          "missing dates read unknown, never current", errs)
 
-    print("%d/%d PASS" % (14 - len(errs), 14))
+    # r1798: the caliber word is derived from the two readings and must speak in all three
+    # directions -- keep, flip, and "one leg was never measured". Fixtures use the gate's
+    # own unit (a FRACTION of the annual sum), which is what `year_metrics` publishes.
+    def _blk(t2):
+        return {"cagr_pct": 7.0, "verdict": "CONDITIONAL",
+                "year_metrics": {"top2_share": t2}}
+    c_keep = caliber_reading(_blk(0.65), _blk(0.68), G.TOP2_SHARE_MAX)
+    _chk(c_keep["verdict"] == "CALIBER_KEEPS_Y4"
+         and abs(c_keep["top2_gap_pp"] - 3.0) < 1e-9
+         and abs(c_keep["entry_lag1"]["top2_share_pct"] - 68.0) < 1e-9,
+         "both calibers under the line -> KEEPS, gap +3pp, percent twin printed", errs)
+    c_flip = caliber_reading(_blk(0.7084), _blk(0.68), G.TOP2_SHARE_MAX)
+    _chk(c_flip["verdict"] == "CALIBER_FLIPS_Y4" and c_flip["entry_lag0"]["passes"] is False
+         and c_flip["entry_lag1"]["passes"] is True,
+         "carried on bar d, spread on the executable caliber -> FLIPS", errs)
+    c_bad = caliber_reading(_blk(None), _blk(0.68), G.TOP2_SHARE_MAX)
+    _chk(c_bad["verdict"] == "CALIBER_UNREADABLE" and c_bad["top2_gap_pp"] is None,
+         "a leg with no top2_share is UNREADABLE, never KEEPS", errs)
+    c_side = caliber_reading(_blk(0.80), _blk(0.88), G.TOP2_SHARE_MAX)
+    _chk(c_side["verdict"] == "CALIBER_KEEPS_Y4"
+         and c_side["entry_lag0"]["passes"] is False,
+         "both calibers over the line -> KEEPS too (the word is about movement)", errs)
+
+    print("%d/%d PASS" % (18 - len(errs), 18))
     return 0 if not errs else 1
 
 

@@ -1,6 +1,6 @@
 {
  "face": "etf_book_year_gate",
- "asof": "2026-11-16T16:50:53+0800",
+ "asof": "2026-11-17T10:13:19+0800",
  "cell": "N5_R20_10bp",
  "gate_rules": {
   "source": "scripts/candidate_year_gate.py (imported, not copied)",
@@ -136,7 +136,7 @@
    "top2_share_full_only_note": "the frozen line reads the net sum (partial years included); reading only complete years gives 0.7278",
    "prior": {
     "verdict": "CONDITIONAL",
-    "top2_share": 0.7039
+    "top2_share": 0.7084
    },
    "verdict_changed_from_prior": false
   },
@@ -240,7 +240,7 @@
    "top2_share_full_only_note": "the frozen line reads the net sum (partial years included); reading only complete years gives 0.7176",
    "prior": {
     "verdict": "ADMIT",
-    "top2_share": 0.6819
+    "top2_share": 0.6858
    },
    "verdict_changed_from_prior": false
   },
@@ -349,6 +349,28 @@
    "verdict_changed_from_prior": false
   }
  ],
+ "caliber": {
+  "book": "nobond_vt08_adopted",
+  "line_top2_share_max": 0.7,
+  "line_top2_share_max_pct": 70.0,
+  "entry_lag0": {
+   "top2_share": 0.7084,
+   "top2_share_pct": 70.84,
+   "passes": false,
+   "cagr_pct": 11.45,
+   "verdict": "CONDITIONAL"
+  },
+  "entry_lag1": {
+   "top2_share": 0.7394,
+   "top2_share_pct": 73.94,
+   "passes": false,
+   "cagr_pct": 10.42,
+   "verdict": "CONDITIONAL"
+  },
+  "top2_gap_pp": 3.1,
+  "verdict": "CALIBER_KEEPS_Y4",
+  "sentence": "the book's own concentration line reads 70.84% on the decision bar and 73.94% once the picks can only be owned from the next open (line 70.00%); the verdict does not move with the caliber"
+ },
  "decision": {
   "verdict": "ADMIT",
   "veto_rulers": [
@@ -395,16 +417,16 @@
   "adv_note": "the weakest of the live five slots (20-bar median turnover), not their sum: an equal-weight book must fill its worst name"
  },
  "prior": {
-  "asof": "2026-11-14T23:34:45+0800",
-  "data_last": "2026-11-13",
+  "asof": "2026-11-16T16:50:53+0800",
+  "data_last": "2026-11-16",
   "books": {
    "nobond_vt08_adopted": {
     "verdict": "CONDITIONAL",
-    "top2_share": 0.7039
+    "top2_share": 0.7084
    },
    "nobond_base": {
     "verdict": "ADMIT",
-    "top2_share": 0.6819
+    "top2_share": 0.6858
    },
    "all_classes_published": {
     "verdict": "CONDITIONAL",
@@ -414,8 +436,9 @@
  },
  "honest": [
   "the adopted book is judged by the same frozen line it never faced",
+  "the caliber block reads the SAME book on the desk's declared execution (own from open t+1); the printed arms keep their published numbers untouched",
   "capacity is derived from the current five slots at 5% participation, not from a stated AUM",
   "the published all-classes arm carries no bar counts; its 2026 partial flag is inferred from the calendar and printed as such"
  ],
- "elapsed_sec": 44.6
+ "elapsed_sec": 52.1
 }
