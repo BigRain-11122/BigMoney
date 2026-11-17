@@ -895,3 +895,34 @@ Open (honest): the 1pp IMPROVE target was never reached by either axis, so the h
 "not measurable at this history length" (r1762 priced 1pp at 50-836 years), not "no edge". The
 next axis is not a smaller error bar but a different ruler: slice the same select leg by month
 and quarter and ask whether +7.45pp is a stable premium or five good windows.
+
+
+## 5x checkpoint -- bm-c r1825 (2026-11-18 07:0x) -- the reader faces stop making the
+## reader do calendar arithmetic
+
+This block covers the bm-c line r1766..r1825. Per-round authority is
+`round_reports-bm-c.md`; this is the product list and what is still open.
+
+Products (verifiable, all published):
+
+| Product | State |
+|---|---|
+| `scripts/etf_book_cash_roll_today.py` + `results/etf_book_cash_roll_today.json` (r1824) | published -- answers "which tenor do I buy this morning" under the constraint the ladder never carried (the cash must be raisable on the 2026-12-09 decision bar). Live: GC014 1.0893%/yr net; GC028 quotes higher (1.355%) and is excluded as 6 days late. selftest 20/20 + `--check` ok |
+| `docs/live_usage/LIVE-2026-11-18.md` L157-158 (r1825) | published -- the page now prints the decision DATE its own sheet signs (2026-12-09, three independent signatures) instead of leaving "16 bars" for the reader to convert; refuses to print any date when the signatures split, when the face is missing, or when the date contradicts the ticket's own bar count |
+| `docs/daily_report/REPORT-2026-11-18.md` section 12 (r1823) | published -- the buy price's premium over the funds' own NAV (CNY 5,215.43 = 1.21% of the order, 0.52% of capital), the five codes and their amounts, and the two stress rows |
+| `Tools/face_merge_triage.py` (r1822) | published -- the "resolve by face kind" rule that used to live only inside one session is a tool: ledger = line union, table = first-column union with conflicts reported, generated = the side that declares its own generation, code = human. selftest 19/19 |
+| CEO-page generation guard (r1821) | published -- a shared single-writer page is now compared on the generation it records, not on "did this window touch the file"; a stale fetch can no longer turn "the page is one generation behind" into a defect |
+
+Wiring added: `smoke_test.py` now runs the CEO one-pager's own selftest as a product
+leg (r1825). Before that, its forty-odd self-checks fired only when a human typed the
+command -- which is why a page could print a bar count in place of a date and ship.
+
+Open (honest):
+
+- r1822's one-off merge receipt (2026-11-17, %TEMP%) is still not in
+  `Tools/face_merge_triage.py`'s own output shape.
+- The next-decision date is QUOTED from the ticket's own face, never recomputed on the
+  page; a stale-yet-self-consistent ticket still prints a stale date (the three
+  refusals only catch absence, split signatures and a bar-count contradiction).
+- The book's select-leg excess still sits inside its own MDE80 (r1763/r1764/r1765):
+  the money question is unresolved, not refuted.
