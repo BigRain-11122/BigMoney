@@ -1,0 +1,74 @@
+r1310 day-word legs — before / after
+------------------------------------
+machine bm-a | window 2026-11-18 01:43..02:04 +08:00
+command: python scripts/live_usage_day_words.py check
+         python scripts/live_usage_day_words.py --selftest
+         python scripts/live_book_day_words.py  check / --selftest
+
+BEFORE (inherited red, chain leg rc=1)
+-------------------------------------
+live_usage_day_words check  -> rc 1  (and the rc was produced by a crash, not a verdict:
+    UnicodeEncodeError: 'gbk' codec can't encode character '\xa5' in position 123
+    raised on the DATE-UNMAPPED print of a line quoting U+00A5)
+    verdict PRINTED_SELF_DATED | DATES claims 23 | ok 23 | mismatch 0 | unmapped 19
+
+live_book_day_words  check  -> rc 1
+    UnicodeEncodeError: 'gbk' codec can't encode character '\xa5' in position 84
+    verdict PRINTED_BUT_UNANCHORED | DATES claims 10 | ok 10 | unmapped 2
+
+ROOT CAUSES (two, different)
+----------------------------
+1. printer: both legs print quoted page lines; a GBK console cannot encode U+00A5.
+   The chain reads the traceback exit code as a page verdict, so a printer bug
+   wore the label of a page defect for as long as the leg has been red.
+   fix: sys.stdout.reconfigure(errors="replace") in main() (keeps the console's
+   own encoding, only stops it from raising).
+2. coverage: live_usage_day_words had 23 claim rules for 40 printed dates. The 19
+   it could not read are exactly the sentences r1779/r1787 added to the page
+   (ticket provenance, withdrawal decision, today's-action swap block, carry
+   provenance, basis-timing in-band line). A face that can never be green is the
+   r1789 permanent-red family.
+   fix: 14 rules, each bound to a field that already exists on the page JSON.
+   A date that rides inside a file name (TICKET-2026-11-17.json) is an
+   identifier, not a claim -> _unmapped_classifier buckets it and the count is
+   printed as DATE-BUCKETS; it never joins the ok count.
+
+AFTER
+-----
+live_usage_day_words check  -> rc 0
+    verdict PRINTED_DATES_AGREE | page 2026-11-18 | bar 2026-11-17
+    DATES claims 40 | ok 40 | mismatch 0 | unverifiable 0 | unmapped 0 | rules 39
+    DATE-BUCKETS identifier=2
+live_usage_day_words --selftest -> 19/19 PASS  (was 16/16; new L9 read / L9b
+    bucket / L10 mismatch direction)
+
+live_book_day_words --selftest -> 35/35 PASS (unchanged)
+
+AFTER THE REBASE (the rules started working and immediately found a real defect)
+-------------------------------------------------------------------------------
+Re-running the same leg on the rebased tree reported PRINTED_DATE_MISMATCH with 6
+disagreements, and none of them was a rule bug:
+
+  market.clock_asof           page 2026-11-17   json 2026-11-13
+  etf_book.provisional_bars   page 2026-11-17   json 2026-11-16
+  etf_order.generated         page 2026-11-17   json 2026-11-18
+  etf_order.cash_leg.spot     page 2026-11-17   json 2026-11-13
+  carry_book.source_generated page 2026-11-17   json 2026-11-18   (x2 lines)
+
+Root cause is visible on the face itself: the .md said "自动生成 2026-11-18T00:52:53"
+while the .json said generated 2026-11-18T01:14:10 -- the two halves of one page were
+written by two different passes. The 23-rule version could never see this because 19 of
+those dates had no rule at all.
+
+Fix: re-ran scripts/ceo_live_usage.py so both halves come from one pass.
+  -> DATES claims 53 | ok 53 | mismatch 0 | unverifiable 0 | unmapped 0 | rules 47
+  -> verdict PRINTED_DATES_AGREE, check rc=0
+
+NOT FIXED ON PURPOSE
+--------------------
+live_book_day_words check stays rc 1: verdict PRINTED_BUT_UNANCHORED -- 44
+today-words in 18 sections, 12 self-dated / 32 undated (4 are section headings,
+28 are table/prose lines that inherit the page's own day). The gate demands every
+line carry its own date; that is a writer-face (LIVE-BOOK) design decision about
+how the page names its day, not a checker bug. Loosening the gate here would
+turn "unmapped becomes green" (r1671) into policy. Recorded, not touched.
