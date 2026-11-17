@@ -1,7 +1,7 @@
 {
  "schema": "etf-book-forward-settle-audit/v1",
- "generated": "2026-11-16T23:44:32+0800",
- "evidence_cutoff": "2026-11-16",
+ "generated": "2026-11-17T16:14:42+0800",
+ "evidence_cutoff": "2026-11-17",
  "ledger": {
   "path": "results\\etf_book_forward\\LEDGER.json",
   "status": "live",
@@ -22,7 +22,8 @@
    "2026-11-11",
    "2026-11-12",
    "2026-11-13",
-   "2026-11-16"
+   "2026-11-16",
+   "2026-11-17"
   ],
   "drift": {
    "faces": [],
@@ -60,7 +61,6 @@
   "daily_dir": "data\\daily",
   "universe_symbols": 1725,
   "coverage_by_day": {
-   "2026-11-03": 1723,
    "2026-11-04": 1723,
    "2026-11-05": 1723,
    "2026-11-06": 1723,
@@ -69,10 +69,10 @@
    "2026-11-11": 1723,
    "2026-11-12": 1723,
    "2026-11-13": 1719,
-   "2026-11-16": 1716
+   "2026-11-16": 1716,
+   "2026-11-17": 1714
   },
   "pending_symbols_by_day": {
-   "2026-11-03": 2,
    "2026-11-04": 2,
    "2026-11-05": 2,
    "2026-11-06": 2,
@@ -81,7 +81,8 @@
    "2026-11-11": 2,
    "2026-11-12": 2,
    "2026-11-13": 6,
-   "2026-11-16": 9
+   "2026-11-16": 9,
+   "2026-11-17": 11
   }
  },
  "classification": {
@@ -105,7 +106,8 @@
    "2026-11-13"
   ],
   "provisional": [
-   "2026-11-16"
+   "2026-11-16",
+   "2026-11-17"
   ],
   "drifted_bars": [],
   "max_abs": 0.0,
@@ -114,10 +116,10 @@
    "no_settled_bar_drifted": true,
    "worst_within_tol": true,
    "checked_bars": 17,
-   "published_bars": 17
+   "published_bars": 18
   },
-  "newest_bar": "2026-11-16",
-  "panel_last_date": "2026-11-16"
+  "newest_bar": "2026-11-17",
+  "panel_last_date": "2026-11-17"
  },
  "restatement": {
   "n_restated": 4,
@@ -134,7 +136,7 @@
     "rescaled_known": false,
     "chain_verdict": "not_measured",
     "restated_at": "2026-10-30T19:18:29+0800",
-    "tail_rows_total": 11,
+    "tail_rows_total": 12,
     "tail_rows_settled": 10,
     "restated_value_fails_gate_now": false,
     "history_commit": "e8547531da83",
@@ -156,7 +158,7 @@
     "rescaled_known": false,
     "chain_verdict": "not_measured",
     "restated_at": "2026-11-05T20:29:33+0800",
-    "tail_rows_total": 9,
+    "tail_rows_total": 10,
     "tail_rows_settled": 8,
     "restated_value_fails_gate_now": false,
     "history_status": "published_value_never_committed",
@@ -175,7 +177,7 @@
     "rescaled_known": true,
     "chain_verdict": "broken",
     "restated_at": "2026-11-13T23:20:05+0800",
-    "tail_rows_total": 2,
+    "tail_rows_total": 3,
     "tail_rows_settled": 1,
     "restated_value_fails_gate_now": false
    },
@@ -191,7 +193,7 @@
     "rescaled_known": true,
     "chain_verdict": "broken",
     "restated_at": "2026-11-16T18:21:44+0800",
-    "tail_rows_total": 1,
+    "tail_rows_total": 2,
     "tail_rows_settled": 0,
     "restated_value_fails_gate_now": false
    }
@@ -229,9 +231,8 @@
   "verdict": "restatement_left_a_broken_chain"
  },
  "data_lag_audit": {
-  "as_of": "2026-11-16T23:37:25",
+  "as_of": "2026-11-17T16:06:58",
   "coverage_by_day": {
-   "2026-11-03": 1.0,
    "2026-11-04": 1.0,
    "2026-11-05": 1.0,
    "2026-11-06": 1.0,
@@ -240,9 +241,10 @@
    "2026-11-11": 1.0,
    "2026-11-12": 1.0,
    "2026-11-13": 0.9994,
-   "2026-11-16": 0.9959
+   "2026-11-16": 0.9959,
+   "2026-11-17": 0.0279
   },
-  "detail": "the maintained panel covers every official trading day it should by now; 2 file(s) sit outside the active cohort: 510880_t73 (declared_out_of_scope; last bar 2026-09-22), sh512390 (source_ended; last bar 2026-09-04) -- every one of them is declared by the lane's own receipt",
+  "detail": "2026-11-17 is an official trading day; the market closed 0.6h ago and no bar has been published to this panel yet; 2 file(s) sit outside the active cohort: 510880_t73 (declared_out_of_scope; last bar 2026-09-22), sh512390 (source_ended; last bar 2026-09-04) -- every one of them is declared by the la",
   "ledger_last_bar": "2026-11-16"
  },
  "headline": "ledger re-derives clean | 4 published bar(s) restated after publication, 4 of them inside today's settled partition; chain verified on 2026-11-12, 2026-11-13; the record does not say how many later rows moved behind 2026-11-03; 2026-10-29 (no_later_rows_at_publication) is settled from the committed ledger: the ledger held no row behind 2026-10-29 when the published value was committed: the restatement had nothing to move; CHAIN BROKEN on 2026-11-12, 2026-11-13; every restated settled bar re-derives off the panel now",

@@ -16,7 +16,7 @@
  "section_bars_ref": "results/live_book_section_bars.json",
  "evidence_cutoff": "2026-11-16",
  "same_cut": true,
- "verdict": "EXPLAINED_MOVES",
+ "verdict": "UNEXPLAINED_MOVES",
  "cut_today": {
   "priced_bar": "2026-11-16",
   "evidence_cutoff": "2026-11-16"
@@ -26,20 +26,20 @@
   "evidence_cutoff": "2026-11-16"
  },
  "counts": {
-  "leaves_today": 5222,
+  "leaves_today": 5262,
   "leaves_prev": 4317,
   "shared": 4313,
-  "identical": 4048,
-  "moved": 265,
-  "clock": 6,
+  "identical": 3990,
+  "moved": 323,
+  "clock": 7,
   "data_advanced": 0,
   "recovered_old_value": 0,
   "declared_ruler": 0,
-  "input_identity_changed": 29,
-  "quoted_from_source": 1,
-  "section_advanced": 229,
-  "unexplained": 0,
-  "appeared": 909,
+  "input_identity_changed": 56,
+  "quoted_from_source": 0,
+  "section_advanced": 259,
+  "unexplained": 1,
+  "appeared": 949,
   "vanished": 4
  },
  "moves": [
@@ -54,8 +54,8 @@
   {
    "path": "/authority/owner_silent_h",
    "prev": 68.4,
-   "today": 15.8,
-   "delta": -52.60000000000001,
+   "today": 17.1,
+   "delta": -51.300000000000004,
    "kind": "CLOCK"
   },
   {
@@ -498,24 +498,31 @@
    "evidence": "这一节的输入身份变了：`family_coherence` 昨天按 0988c6530a481fa1、e6f9d0e81a64ec75 定价、今天按 0988c6530a481fa1 定价——数字换的是「拿什么算的」，不是同一根 bar 上的读数"
   },
   {
+   "path": "/feed_lag_days",
+   "prev": 0,
+   "today": 1,
+   "delta": 1,
+   "kind": "CLOCK"
+  },
+  {
    "path": "/fleet/rows/0/age_h",
    "prev": 66.91,
-   "today": 3.45,
-   "delta": -63.459999999999994,
+   "today": 16.47,
+   "delta": -50.44,
    "kind": "CLOCK"
   },
   {
    "path": "/fleet/rows/1/age_h",
    "prev": 413.39,
-   "today": 419.73,
-   "delta": 6.340000000000032,
+   "today": 435.4,
+   "delta": 22.00999999999999,
    "kind": "CLOCK"
   },
   {
    "path": "/fleet/rows/2/age_h",
    "prev": 1.09,
-   "today": 1.35,
-   "delta": 0.26,
+   "today": 0.52,
+   "delta": -0.5700000000000001,
    "kind": "CLOCK"
   },
   {
@@ -541,6 +548,30 @@
    "delta": 1,
    "kind": "SECTION_ADVANCED",
    "evidence": "这一节自己换了代：`floor_provenance` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json"
+  },
+  {
+   "path": "/forward/bars",
+   "prev": 17,
+   "today": 18,
+   "delta": 1,
+   "kind": "SECTION_ADVANCED",
+   "evidence": "这一节自己换了代：`forward` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json"
+  },
+  {
+   "path": "/forward/nav",
+   "prev": 1.006812175,
+   "today": 1.0037812718,
+   "delta": -0.0030309031999999902,
+   "kind": "SECTION_ADVANCED",
+   "evidence": "这一节自己换了代：`forward` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json"
+  },
+  {
+   "path": "/forward/since_inception_pct",
+   "prev": 0.6812,
+   "today": 0.3781,
+   "delta": -0.30310000000000004,
+   "kind": "SECTION_ADVANCED",
+   "evidence": "这一节自己换了代：`forward` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json"
   },
   {
    "path": "/futures_hedge/beta",
@@ -671,6 +702,134 @@
    "evidence": "这一节自己换了代：`futures_hedge_tail` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json"
   },
   {
+   "path": "/futures_ladder/dilution/pairs/IC/gap_pp",
+   "prev": 6.912,
+   "today": 6.898,
+   "delta": -0.014000000000000234,
+   "kind": "SECTION_ADVANCED",
+   "evidence": "这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json"
+  },
+  {
+   "path": "/futures_ladder/dilution/pairs/IC/missed_roll_days",
+   "prev": 105,
+   "today": 106,
+   "delta": 1,
+   "kind": "SECTION_ADVANCED",
+   "evidence": "这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json"
+  },
+  {
+   "path": "/futures_ladder/dilution/pairs/IC/missed_roll_days_ann_pct",
+   "prev": -146.492,
+   "today": -144.773,
+   "delta": 1.718999999999994,
+   "kind": "SECTION_ADVANCED",
+   "evidence": "这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json"
+  },
+  {
+   "path": "/futures_ladder/dilution/pairs/IC/published_ann_pct",
+   "prev": 2.881,
+   "today": 2.895,
+   "delta": 0.014000000000000234,
+   "kind": "SECTION_ADVANCED",
+   "evidence": "这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json"
+  },
+  {
+   "path": "/futures_ladder/dilution/pairs/IF/gap_pp",
+   "prev": 3.919,
+   "today": 3.872,
+   "delta": -0.04700000000000015,
+   "kind": "SECTION_ADVANCED",
+   "evidence": "这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json"
+  },
+  {
+   "path": "/futures_ladder/dilution/pairs/IF/missed_roll_days",
+   "prev": 109,
+   "today": 110,
+   "delta": 1,
+   "kind": "SECTION_ADVANCED",
+   "evidence": "这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json"
+  },
+  {
+   "path": "/futures_ladder/dilution/pairs/IF/missed_roll_days_ann_pct",
+   "prev": -93.463,
+   "today": -91.585,
+   "delta": 1.8780000000000001,
+   "kind": "SECTION_ADVANCED",
+   "evidence": "这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json"
+  },
+  {
+   "path": "/futures_ladder/dilution/pairs/IF/published_ann_pct",
+   "prev": 1.876,
+   "today": 1.923,
+   "delta": 0.04700000000000015,
+   "kind": "SECTION_ADVANCED",
+   "evidence": "这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json"
+  },
+  {
+   "path": "/futures_ladder/dilution/pairs/IH/gap_pp",
+   "prev": 3.772,
+   "today": 3.707,
+   "delta": -0.06499999999999995,
+   "kind": "SECTION_ADVANCED",
+   "evidence": "这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json"
+  },
+  {
+   "path": "/futures_ladder/dilution/pairs/IH/missed_roll_days",
+   "prev": 105,
+   "today": 106,
+   "delta": 1,
+   "kind": "SECTION_ADVANCED",
+   "evidence": "这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json"
+  },
+  {
+   "path": "/futures_ladder/dilution/pairs/IH/missed_roll_days_ann_pct",
+   "prev": -75.004,
+   "today": -72.838,
+   "delta": 2.166000000000011,
+   "kind": "SECTION_ADVANCED",
+   "evidence": "这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json"
+  },
+  {
+   "path": "/futures_ladder/dilution/pairs/IH/published_ann_pct",
+   "prev": 1.552,
+   "today": 1.617,
+   "delta": 0.06499999999999995,
+   "kind": "SECTION_ADVANCED",
+   "evidence": "这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json"
+  },
+  {
+   "path": "/futures_ladder/dilution/pairs/IM/gap_pp",
+   "prev": 6.09,
+   "today": 6.026,
+   "delta": -0.06400000000000006,
+   "kind": "SECTION_ADVANCED",
+   "evidence": "这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json"
+  },
+  {
+   "path": "/futures_ladder/dilution/pairs/IM/missed_roll_days",
+   "prev": 41,
+   "today": 42,
+   "delta": 1,
+   "kind": "SECTION_ADVANCED",
+   "evidence": "这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json"
+  },
+  {
+   "path": "/futures_ladder/dilution/pairs/IM/missed_roll_days_ann_pct",
+   "prev": -131.025,
+   "today": -126.203,
+   "delta": 4.822000000000003,
+   "kind": "SECTION_ADVANCED",
+   "evidence": "这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json"
+  },
+  {
+   "path": "/futures_ladder/dilution/pairs/IM/published_ann_pct",
+   "prev": 5.864,
+   "today": 5.928,
+   "delta": 0.06400000000000006,
+   "kind": "SECTION_ADVANCED",
+   "evidence": "这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json"
+  },
+  {
    "path": "/futures_ladder/rows/0/margin_pct_of_capital",
    "prev": 3.8,
    "today": 3.7,
@@ -743,6 +902,22 @@
    "evidence": "这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json"
   },
   {
+   "path": "/futures_ladder/rows/1/net_pct_of_capital_by_mask/calendar",
+   "prev": 2.55,
+   "today": 2.54,
+   "delta": -0.009999999999999787,
+   "kind": "SECTION_ADVANCED",
+   "evidence": "这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json"
+  },
+  {
+   "path": "/futures_ladder/rows/1/net_pct_of_capital_by_mask/strictest",
+   "prev": 2.59,
+   "today": 2.58,
+   "delta": -0.009999999999999787,
+   "kind": "SECTION_ADVANCED",
+   "evidence": "这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json"
+  },
+  {
    "path": "/futures_ladder/rows/1/notional_x_capital_on_tier",
    "prev": 0.4,
    "today": 0.39,
@@ -801,8 +976,8 @@
   {
    "path": "/futures_ladder/rows/3/net_pct_of_capital_by_mask/calendar",
    "prev": 3.51,
-   "today": 3.45,
-   "delta": -0.05999999999999961,
+   "today": 3.44,
+   "delta": -0.06999999999999984,
    "kind": "SECTION_ADVANCED",
    "evidence": "这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json"
   },
@@ -817,8 +992,8 @@
   {
    "path": "/futures_ladder/rows/3/net_pct_of_capital_by_mask/strictest",
    "prev": 3.51,
-   "today": 3.45,
-   "delta": -0.05999999999999961,
+   "today": 3.44,
+   "delta": -0.06999999999999984,
    "kind": "SECTION_ADVANCED",
    "evidence": "这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json"
   },
@@ -855,10 +1030,98 @@
    "evidence": "这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json"
   },
   {
+   "path": "/futures_sleeve/rows/0/carry_ann_compound_pct",
+   "prev": 8.763,
+   "today": 8.778,
+   "delta": 0.015000000000000568,
+   "kind": "INPUT_IDENTITY_CHANGED",
+   "evidence": "这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
+  },
+  {
+   "path": "/futures_sleeve/rows/0/carry_caliber/missed_roll_days",
+   "prev": 105,
+   "today": 106,
+   "delta": 1,
+   "kind": "INPUT_IDENTITY_CHANGED",
+   "evidence": "这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
+  },
+  {
+   "path": "/futures_sleeve/rows/0/carry_caliber/published_ann_pct",
+   "prev": 2.881,
+   "today": 2.895,
+   "delta": 0.014000000000000234,
+   "kind": "INPUT_IDENTITY_CHANGED",
+   "evidence": "这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
+  },
+  {
+   "path": "/futures_sleeve/rows/0/carry_caliber/spread_pp",
+   "prev": 6.912,
+   "today": 6.898,
+   "delta": -0.014000000000000234,
+   "kind": "INPUT_IDENTITY_CHANGED",
+   "evidence": "这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
+  },
+  {
+   "path": "/futures_sleeve/rows/0/gap_net_pp",
+   "prev": 6.856,
+   "today": 6.753,
+   "delta": -0.10299999999999976,
+   "kind": "INPUT_IDENTITY_CHANGED",
+   "evidence": "这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
+  },
+  {
    "path": "/futures_sleeve/rows/0/notional_per_lot_cny",
    "prev": 1275000.0,
    "today": 1243680.0,
    "delta": -31320.0,
+   "kind": "INPUT_IDENTITY_CHANGED",
+   "evidence": "这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
+  },
+  {
+   "path": "/futures_sleeve/rows/1/blend_gain_sharpe",
+   "prev": 0.131,
+   "today": 0.133,
+   "delta": 0.0020000000000000018,
+   "kind": "INPUT_IDENTITY_CHANGED",
+   "evidence": "这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
+  },
+  {
+   "path": "/futures_sleeve/rows/1/carry_ann_compound_pct",
+   "prev": 3.567,
+   "today": 3.625,
+   "delta": 0.05799999999999983,
+   "kind": "INPUT_IDENTITY_CHANGED",
+   "evidence": "这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
+  },
+  {
+   "path": "/futures_sleeve/rows/1/carry_caliber/missed_roll_days",
+   "prev": 109,
+   "today": 110,
+   "delta": 1,
+   "kind": "INPUT_IDENTITY_CHANGED",
+   "evidence": "这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
+  },
+  {
+   "path": "/futures_sleeve/rows/1/carry_caliber/published_ann_pct",
+   "prev": 1.876,
+   "today": 1.923,
+   "delta": 0.04700000000000015,
+   "kind": "INPUT_IDENTITY_CHANGED",
+   "evidence": "这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
+  },
+  {
+   "path": "/futures_sleeve/rows/1/carry_caliber/spread_pp",
+   "prev": 3.919,
+   "today": 3.872,
+   "delta": -0.04700000000000015,
+   "kind": "INPUT_IDENTITY_CHANGED",
+   "evidence": "这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
+  },
+  {
+   "path": "/futures_sleeve/rows/1/gap_net_pp",
+   "prev": 0.65,
+   "today": 0.558,
+   "delta": -0.09199999999999997,
    "kind": "INPUT_IDENTITY_CHANGED",
    "evidence": "这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
   },
@@ -871,10 +1134,98 @@
    "evidence": "这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
   },
   {
+   "path": "/futures_sleeve/rows/2/blend_gain_sharpe",
+   "prev": 0.084,
+   "today": 0.087,
+   "delta": 0.002999999999999989,
+   "kind": "INPUT_IDENTITY_CHANGED",
+   "evidence": "这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
+  },
+  {
+   "path": "/futures_sleeve/rows/2/carry_ann_compound_pct",
+   "prev": 2.392,
+   "today": 2.471,
+   "delta": 0.07900000000000018,
+   "kind": "INPUT_IDENTITY_CHANGED",
+   "evidence": "这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
+  },
+  {
+   "path": "/futures_sleeve/rows/2/carry_caliber/missed_roll_days",
+   "prev": 105,
+   "today": 106,
+   "delta": 1,
+   "kind": "INPUT_IDENTITY_CHANGED",
+   "evidence": "这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
+  },
+  {
+   "path": "/futures_sleeve/rows/2/carry_caliber/published_ann_pct",
+   "prev": 1.552,
+   "today": 1.617,
+   "delta": 0.06499999999999995,
+   "kind": "INPUT_IDENTITY_CHANGED",
+   "evidence": "这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
+  },
+  {
+   "path": "/futures_sleeve/rows/2/carry_caliber/spread_pp",
+   "prev": 3.772,
+   "today": 3.707,
+   "delta": -0.06499999999999995,
+   "kind": "INPUT_IDENTITY_CHANGED",
+   "evidence": "这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
+  },
+  {
    "path": "/futures_sleeve/rows/2/notional_per_lot_cny",
    "prev": 820020.0,
    "today": 822720.0,
    "delta": 2700.0,
+   "kind": "INPUT_IDENTITY_CHANGED",
+   "evidence": "这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
+  },
+  {
+   "path": "/futures_sleeve/rows/3/blend_gain_sharpe",
+   "prev": 0.387,
+   "today": 0.39,
+   "delta": 0.0030000000000000027,
+   "kind": "INPUT_IDENTITY_CHANGED",
+   "evidence": "这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
+  },
+  {
+   "path": "/futures_sleeve/rows/3/carry_ann_compound_pct",
+   "prev": 10.198,
+   "today": 10.263,
+   "delta": 0.0649999999999995,
+   "kind": "INPUT_IDENTITY_CHANGED",
+   "evidence": "这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
+  },
+  {
+   "path": "/futures_sleeve/rows/3/carry_caliber/missed_roll_days",
+   "prev": 41,
+   "today": 42,
+   "delta": 1,
+   "kind": "INPUT_IDENTITY_CHANGED",
+   "evidence": "这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
+  },
+  {
+   "path": "/futures_sleeve/rows/3/carry_caliber/published_ann_pct",
+   "prev": 5.864,
+   "today": 5.928,
+   "delta": 0.06400000000000006,
+   "kind": "INPUT_IDENTITY_CHANGED",
+   "evidence": "这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
+  },
+  {
+   "path": "/futures_sleeve/rows/3/carry_caliber/spread_pp",
+   "prev": 6.09,
+   "today": 6.026,
+   "delta": -0.06400000000000006,
+   "kind": "INPUT_IDENTITY_CHANGED",
+   "evidence": "这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
+  },
+  {
+   "path": "/futures_sleeve/rows/3/gap_net_pp",
+   "prev": 8.068,
+   "today": 7.733,
+   "delta": -0.33499999999999996,
    "kind": "INPUT_IDENTITY_CHANGED",
    "evidence": "这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
   },
@@ -1227,7 +1578,7 @@
    "today": 2768533.3333333335,
    "delta": -28133.33333333349,
    "kind": "INPUT_IDENTITY_CHANGED",
-   "evidence": "这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
+   "evidence": "这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16、2026-11-17，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
   },
   {
    "path": "/lot_floor/capital_needed/IC",
@@ -1235,7 +1586,7 @@
    "today": 4145600.0,
    "delta": -104400.0,
    "kind": "INPUT_IDENTITY_CHANGED",
-   "evidence": "这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
+   "evidence": "这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16、2026-11-17，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
   },
   {
    "path": "/lot_floor/capital_needed/IF",
@@ -1243,7 +1594,7 @@
    "today": 3939000.0,
    "delta": -17600.0,
    "kind": "INPUT_IDENTITY_CHANGED",
-   "evidence": "这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
+   "evidence": "这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16、2026-11-17，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
   },
   {
    "path": "/lot_floor/capital_needed/IH",
@@ -1251,7 +1602,7 @@
    "today": 2742400.0,
    "delta": 9000.0,
    "kind": "INPUT_IDENTITY_CHANGED",
-   "evidence": "这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
+   "evidence": "这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16、2026-11-17，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
   },
   {
    "path": "/lot_floor/capital_needed/IM",
@@ -1259,7 +1610,7 @@
    "today": 4070000.0,
    "delta": -114533.33333333349,
    "kind": "INPUT_IDENTITY_CHANGED",
-   "evidence": "这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
+   "evidence": "这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16、2026-11-17，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
   },
   {
    "path": "/lot_floor/capital_needed/SC",
@@ -1267,7 +1618,7 @@
    "today": 2069333.3333333335,
    "delta": -15666.666666666511,
    "kind": "INPUT_IDENTITY_CHANGED",
-   "evidence": "这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
+   "evidence": "这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16、2026-11-17，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
   },
   {
    "path": "/lot_floor/capital_needed/T",
@@ -1275,7 +1626,7 @@
    "today": 3658500.0,
    "delta": -9666.666666666977,
    "kind": "INPUT_IDENTITY_CHANGED",
-   "evidence": "这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
+   "evidence": "这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16、2026-11-17，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
   },
   {
    "path": "/lot_floor/capital_needed/TF",
@@ -1283,7 +1634,7 @@
    "today": 3555333.3333333335,
    "delta": -3333.3333333334886,
    "kind": "INPUT_IDENTITY_CHANGED",
-   "evidence": "这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
+   "evidence": "这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16、2026-11-17，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
   },
   {
    "path": "/lot_floor/capital_needed/TS",
@@ -1291,7 +1642,47 @@
    "today": 6842133.333333334,
    "delta": -266.6666666660458,
    "kind": "INPUT_IDENTITY_CHANGED",
-   "evidence": "这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
+   "evidence": "这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16、2026-11-17，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
+  },
+  {
+   "path": "/lot_floor/etf_shares_at_1m/510050",
+   "prev": 0.000289,
+   "today": 0.000288,
+   "delta": -9.9999999999997e-07,
+   "kind": "INPUT_IDENTITY_CHANGED",
+   "evidence": "这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16、2026-11-17，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
+  },
+  {
+   "path": "/lot_floor/etf_shares_at_1m/510300",
+   "prev": 0.000405,
+   "today": 0.000404,
+   "delta": -9.9999999999997e-07,
+   "kind": "INPUT_IDENTITY_CHANGED",
+   "evidence": "这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16、2026-11-17，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
+  },
+  {
+   "path": "/lot_floor/etf_shares_at_1m/510500",
+   "prev": 0.000633,
+   "today": 0.000632,
+   "delta": -1.0000000000000243e-06,
+   "kind": "INPUT_IDENTITY_CHANGED",
+   "evidence": "这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16、2026-11-17，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
+  },
+  {
+   "path": "/lot_floor/etf_shares_at_1m/512100",
+   "prev": 0.000251,
+   "today": 0.000247,
+   "delta": -3.999999999999989e-06,
+   "kind": "INPUT_IDENTITY_CHANGED",
+   "evidence": "这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16、2026-11-17，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
+  },
+  {
+   "path": "/lot_floor/etf_shares_at_1m/588000",
+   "prev": 0.000128,
+   "today": 0.000129,
+   "delta": 9.999999999999972e-07,
+   "kind": "INPUT_IDENTITY_CHANGED",
+   "evidence": "这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16、2026-11-17，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
   },
   {
    "path": "/lot_floor/shares_at_1m/AU",
@@ -1299,7 +1690,7 @@
    "today": 0.83056,
    "delta": -0.008440000000000003,
    "kind": "INPUT_IDENTITY_CHANGED",
-   "evidence": "这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
+   "evidence": "这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16、2026-11-17，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
   },
   {
    "path": "/lot_floor/shares_at_1m/IC",
@@ -1307,7 +1698,7 @@
    "today": 1.24368,
    "delta": -0.031320000000000014,
    "kind": "INPUT_IDENTITY_CHANGED",
-   "evidence": "这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
+   "evidence": "这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16、2026-11-17，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
   },
   {
    "path": "/lot_floor/shares_at_1m/IF",
@@ -1315,7 +1706,7 @@
    "today": 1.1817,
    "delta": -0.005279999999999951,
    "kind": "INPUT_IDENTITY_CHANGED",
-   "evidence": "这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
+   "evidence": "这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16、2026-11-17，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
   },
   {
    "path": "/lot_floor/shares_at_1m/IH",
@@ -1323,7 +1714,7 @@
    "today": 0.82272,
    "delta": 0.0027000000000000357,
    "kind": "INPUT_IDENTITY_CHANGED",
-   "evidence": "这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
+   "evidence": "这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16、2026-11-17，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
   },
   {
    "path": "/lot_floor/shares_at_1m/IM",
@@ -1331,7 +1722,7 @@
    "today": 1.221,
    "delta": -0.034359999999999946,
    "kind": "INPUT_IDENTITY_CHANGED",
-   "evidence": "这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
+   "evidence": "这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16、2026-11-17，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
   },
   {
    "path": "/lot_floor/shares_at_1m/SC",
@@ -1339,7 +1730,7 @@
    "today": 0.6208,
    "delta": -0.0046999999999999265,
    "kind": "INPUT_IDENTITY_CHANGED",
-   "evidence": "这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
+   "evidence": "这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16、2026-11-17，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
   },
   {
    "path": "/lot_floor/shares_at_1m/T",
@@ -1347,7 +1738,7 @@
    "today": 1.09755,
    "delta": -0.0028999999999999027,
    "kind": "INPUT_IDENTITY_CHANGED",
-   "evidence": "这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
+   "evidence": "这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16、2026-11-17，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
   },
   {
    "path": "/lot_floor/shares_at_1m/TF",
@@ -1355,7 +1746,7 @@
    "today": 1.0666,
    "delta": -0.001000000000000112,
    "kind": "INPUT_IDENTITY_CHANGED",
-   "evidence": "这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
+   "evidence": "这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16、2026-11-17，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
   },
   {
    "path": "/lot_floor/shares_at_1m/TS",
@@ -1363,7 +1754,7 @@
    "today": 2.05264,
    "delta": -8.000000000008001e-05,
    "kind": "INPUT_IDENTITY_CHANGED",
-   "evidence": "这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
+   "evidence": "这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16、2026-11-17，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
   },
   {
    "path": "/permission/allowed_cny",
@@ -1586,8 +1977,16 @@
    "prev": 187,
    "today": 185,
    "delta": -2,
-   "kind": "QUOTED_FROM_SOURCE",
-   "evidence": "这个数不是这页算的：`results/ah_panel_status.json:fresh_pairs` 现在读 185，与今天印的 185 相同——页只是转抄，动的是被引用的那张面"
+   "kind": "SECTION_ADVANCED",
+   "evidence": "这一节自己换了代：`roster_audit` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json"
+  },
+  {
+   "path": "/stress/n_days",
+   "prev": 5281,
+   "today": 5282,
+   "delta": 1,
+   "kind": "UNEXPLAINED",
+   "evidence": "没有旧值留存，也没有口径声明"
   },
   {
    "path": "/vol_target_gate/arms/0/cagr_pct",
@@ -1756,6 +2155,70 @@
    "delta": 0.017183999999999977,
    "kind": "SECTION_ADVANCED",
    "evidence": "这一节自己换了代：`vol_target_gate` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json"
+  },
+  {
+   "path": "/vs_basket/basket_nav",
+   "prev": 0.9765895222,
+   "today": 0.9749964488,
+   "delta": -0.0015930733999999225,
+   "kind": "SECTION_ADVANCED",
+   "evidence": "这一节自己换了代：`vs_basket` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json"
+  },
+  {
+   "path": "/vs_basket/book_nav",
+   "prev": 1.006812175,
+   "today": 1.0037812718,
+   "delta": -0.0030309031999999902,
+   "kind": "SECTION_ADVANCED",
+   "evidence": "这一节自己换了代：`vs_basket` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json"
+  },
+  {
+   "path": "/vs_basket/excess_pp",
+   "prev": 3.0947,
+   "today": 2.9523,
+   "delta": -0.14239999999999986,
+   "kind": "SECTION_ADVANCED",
+   "evidence": "这一节自己换了代：`vs_basket` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json"
+  },
+  {
+   "path": "/vs_basket/horizon/min_detectable_edge_pp/1y",
+   "prev": 23.683,
+   "today": 23.677,
+   "delta": -0.006000000000000227,
+   "kind": "SECTION_ADVANCED",
+   "evidence": "这一节自己换了代：`vs_basket` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json"
+  },
+  {
+   "path": "/vs_basket/horizon/min_detectable_edge_pp/2y",
+   "prev": 16.747,
+   "today": 16.742,
+   "delta": -0.004999999999999005,
+   "kind": "SECTION_ADVANCED",
+   "evidence": "这一节自己换了代：`vs_basket` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json"
+  },
+  {
+   "path": "/vs_basket/horizon/min_detectable_edge_pp/3y",
+   "prev": 13.674,
+   "today": 13.67,
+   "delta": -0.0039999999999995595,
+   "kind": "SECTION_ADVANCED",
+   "evidence": "这一节自己换了代：`vs_basket` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json"
+  },
+  {
+   "path": "/vs_basket/horizon/min_detectable_edge_pp/6m",
+   "prev": 33.493,
+   "today": 33.484,
+   "delta": -0.009000000000000341,
+   "kind": "SECTION_ADVANCED",
+   "evidence": "这一节自己换了代：`vs_basket` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json"
+  },
+  {
+   "path": "/vs_basket/horizon/years_for_80pct_power/pre-2020 measured alpha (single arm)",
+   "prev": 136.1,
+   "today": 136.0,
+   "delta": -0.09999999999999432,
+   "kind": "SECTION_ADVANCED",
+   "evidence": "这一节自己换了代：`vs_basket` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json"
   },
   {
    "path": "/vt_ladder/best_sharpe/cagr_pct",
@@ -2624,6 +3087,30 @@
    "evidence": "这一节自己换了代：`floor_provenance` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json"
   },
   {
+   "path": "/forward/bars",
+   "prev": 17,
+   "today": 18,
+   "delta": 1,
+   "kind": "SECTION_ADVANCED",
+   "evidence": "这一节自己换了代：`forward` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json"
+  },
+  {
+   "path": "/forward/nav",
+   "prev": 1.006812175,
+   "today": 1.0037812718,
+   "delta": -0.0030309031999999902,
+   "kind": "SECTION_ADVANCED",
+   "evidence": "这一节自己换了代：`forward` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json"
+  },
+  {
+   "path": "/forward/since_inception_pct",
+   "prev": 0.6812,
+   "today": 0.3781,
+   "delta": -0.30310000000000004,
+   "kind": "SECTION_ADVANCED",
+   "evidence": "这一节自己换了代：`forward` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json"
+  },
+  {
    "path": "/futures_hedge/beta",
    "prev": 0.07453700153927338,
    "today": 0.07447081363455153,
@@ -2752,6 +3239,134 @@
    "evidence": "这一节自己换了代：`futures_hedge_tail` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json"
   },
   {
+   "path": "/futures_ladder/dilution/pairs/IC/gap_pp",
+   "prev": 6.912,
+   "today": 6.898,
+   "delta": -0.014000000000000234,
+   "kind": "SECTION_ADVANCED",
+   "evidence": "这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json"
+  },
+  {
+   "path": "/futures_ladder/dilution/pairs/IC/missed_roll_days",
+   "prev": 105,
+   "today": 106,
+   "delta": 1,
+   "kind": "SECTION_ADVANCED",
+   "evidence": "这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json"
+  },
+  {
+   "path": "/futures_ladder/dilution/pairs/IC/missed_roll_days_ann_pct",
+   "prev": -146.492,
+   "today": -144.773,
+   "delta": 1.718999999999994,
+   "kind": "SECTION_ADVANCED",
+   "evidence": "这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json"
+  },
+  {
+   "path": "/futures_ladder/dilution/pairs/IC/published_ann_pct",
+   "prev": 2.881,
+   "today": 2.895,
+   "delta": 0.014000000000000234,
+   "kind": "SECTION_ADVANCED",
+   "evidence": "这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json"
+  },
+  {
+   "path": "/futures_ladder/dilution/pairs/IF/gap_pp",
+   "prev": 3.919,
+   "today": 3.872,
+   "delta": -0.04700000000000015,
+   "kind": "SECTION_ADVANCED",
+   "evidence": "这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json"
+  },
+  {
+   "path": "/futures_ladder/dilution/pairs/IF/missed_roll_days",
+   "prev": 109,
+   "today": 110,
+   "delta": 1,
+   "kind": "SECTION_ADVANCED",
+   "evidence": "这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json"
+  },
+  {
+   "path": "/futures_ladder/dilution/pairs/IF/missed_roll_days_ann_pct",
+   "prev": -93.463,
+   "today": -91.585,
+   "delta": 1.8780000000000001,
+   "kind": "SECTION_ADVANCED",
+   "evidence": "这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json"
+  },
+  {
+   "path": "/futures_ladder/dilution/pairs/IF/published_ann_pct",
+   "prev": 1.876,
+   "today": 1.923,
+   "delta": 0.04700000000000015,
+   "kind": "SECTION_ADVANCED",
+   "evidence": "这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json"
+  },
+  {
+   "path": "/futures_ladder/dilution/pairs/IH/gap_pp",
+   "prev": 3.772,
+   "today": 3.707,
+   "delta": -0.06499999999999995,
+   "kind": "SECTION_ADVANCED",
+   "evidence": "这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json"
+  },
+  {
+   "path": "/futures_ladder/dilution/pairs/IH/missed_roll_days",
+   "prev": 105,
+   "today": 106,
+   "delta": 1,
+   "kind": "SECTION_ADVANCED",
+   "evidence": "这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json"
+  },
+  {
+   "path": "/futures_ladder/dilution/pairs/IH/missed_roll_days_ann_pct",
+   "prev": -75.004,
+   "today": -72.838,
+   "delta": 2.166000000000011,
+   "kind": "SECTION_ADVANCED",
+   "evidence": "这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json"
+  },
+  {
+   "path": "/futures_ladder/dilution/pairs/IH/published_ann_pct",
+   "prev": 1.552,
+   "today": 1.617,
+   "delta": 0.06499999999999995,
+   "kind": "SECTION_ADVANCED",
+   "evidence": "这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json"
+  },
+  {
+   "path": "/futures_ladder/dilution/pairs/IM/gap_pp",
+   "prev": 6.09,
+   "today": 6.026,
+   "delta": -0.06400000000000006,
+   "kind": "SECTION_ADVANCED",
+   "evidence": "这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json"
+  },
+  {
+   "path": "/futures_ladder/dilution/pairs/IM/missed_roll_days",
+   "prev": 41,
+   "today": 42,
+   "delta": 1,
+   "kind": "SECTION_ADVANCED",
+   "evidence": "这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json"
+  },
+  {
+   "path": "/futures_ladder/dilution/pairs/IM/missed_roll_days_ann_pct",
+   "prev": -131.025,
+   "today": -126.203,
+   "delta": 4.822000000000003,
+   "kind": "SECTION_ADVANCED",
+   "evidence": "这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json"
+  },
+  {
+   "path": "/futures_ladder/dilution/pairs/IM/published_ann_pct",
+   "prev": 5.864,
+   "today": 5.928,
+   "delta": 0.06400000000000006,
+   "kind": "SECTION_ADVANCED",
+   "evidence": "这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json"
+  },
+  {
    "path": "/futures_ladder/rows/0/margin_pct_of_capital",
    "prev": 3.8,
    "today": 3.7,
@@ -2824,6 +3439,22 @@
    "evidence": "这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json"
   },
   {
+   "path": "/futures_ladder/rows/1/net_pct_of_capital_by_mask/calendar",
+   "prev": 2.55,
+   "today": 2.54,
+   "delta": -0.009999999999999787,
+   "kind": "SECTION_ADVANCED",
+   "evidence": "这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json"
+  },
+  {
+   "path": "/futures_ladder/rows/1/net_pct_of_capital_by_mask/strictest",
+   "prev": 2.59,
+   "today": 2.58,
+   "delta": -0.009999999999999787,
+   "kind": "SECTION_ADVANCED",
+   "evidence": "这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json"
+  },
+  {
    "path": "/futures_ladder/rows/1/notional_x_capital_on_tier",
    "prev": 0.4,
    "today": 0.39,
@@ -2882,8 +3513,8 @@
   {
    "path": "/futures_ladder/rows/3/net_pct_of_capital_by_mask/calendar",
    "prev": 3.51,
-   "today": 3.45,
-   "delta": -0.05999999999999961,
+   "today": 3.44,
+   "delta": -0.06999999999999984,
    "kind": "SECTION_ADVANCED",
    "evidence": "这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json"
   },
@@ -2898,8 +3529,8 @@
   {
    "path": "/futures_ladder/rows/3/net_pct_of_capital_by_mask/strictest",
    "prev": 3.51,
-   "today": 3.45,
-   "delta": -0.05999999999999961,
+   "today": 3.44,
+   "delta": -0.06999999999999984,
    "kind": "SECTION_ADVANCED",
    "evidence": "这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json"
   },
@@ -2936,10 +3567,98 @@
    "evidence": "这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json"
   },
   {
+   "path": "/futures_sleeve/rows/0/carry_ann_compound_pct",
+   "prev": 8.763,
+   "today": 8.778,
+   "delta": 0.015000000000000568,
+   "kind": "INPUT_IDENTITY_CHANGED",
+   "evidence": "这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
+  },
+  {
+   "path": "/futures_sleeve/rows/0/carry_caliber/missed_roll_days",
+   "prev": 105,
+   "today": 106,
+   "delta": 1,
+   "kind": "INPUT_IDENTITY_CHANGED",
+   "evidence": "这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
+  },
+  {
+   "path": "/futures_sleeve/rows/0/carry_caliber/published_ann_pct",
+   "prev": 2.881,
+   "today": 2.895,
+   "delta": 0.014000000000000234,
+   "kind": "INPUT_IDENTITY_CHANGED",
+   "evidence": "这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
+  },
+  {
+   "path": "/futures_sleeve/rows/0/carry_caliber/spread_pp",
+   "prev": 6.912,
+   "today": 6.898,
+   "delta": -0.014000000000000234,
+   "kind": "INPUT_IDENTITY_CHANGED",
+   "evidence": "这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
+  },
+  {
+   "path": "/futures_sleeve/rows/0/gap_net_pp",
+   "prev": 6.856,
+   "today": 6.753,
+   "delta": -0.10299999999999976,
+   "kind": "INPUT_IDENTITY_CHANGED",
+   "evidence": "这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
+  },
+  {
    "path": "/futures_sleeve/rows/0/notional_per_lot_cny",
    "prev": 1275000.0,
    "today": 1243680.0,
    "delta": -31320.0,
+   "kind": "INPUT_IDENTITY_CHANGED",
+   "evidence": "这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
+  },
+  {
+   "path": "/futures_sleeve/rows/1/blend_gain_sharpe",
+   "prev": 0.131,
+   "today": 0.133,
+   "delta": 0.0020000000000000018,
+   "kind": "INPUT_IDENTITY_CHANGED",
+   "evidence": "这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
+  },
+  {
+   "path": "/futures_sleeve/rows/1/carry_ann_compound_pct",
+   "prev": 3.567,
+   "today": 3.625,
+   "delta": 0.05799999999999983,
+   "kind": "INPUT_IDENTITY_CHANGED",
+   "evidence": "这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
+  },
+  {
+   "path": "/futures_sleeve/rows/1/carry_caliber/missed_roll_days",
+   "prev": 109,
+   "today": 110,
+   "delta": 1,
+   "kind": "INPUT_IDENTITY_CHANGED",
+   "evidence": "这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
+  },
+  {
+   "path": "/futures_sleeve/rows/1/carry_caliber/published_ann_pct",
+   "prev": 1.876,
+   "today": 1.923,
+   "delta": 0.04700000000000015,
+   "kind": "INPUT_IDENTITY_CHANGED",
+   "evidence": "这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
+  },
+  {
+   "path": "/futures_sleeve/rows/1/carry_caliber/spread_pp",
+   "prev": 3.919,
+   "today": 3.872,
+   "delta": -0.04700000000000015,
+   "kind": "INPUT_IDENTITY_CHANGED",
+   "evidence": "这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
+  },
+  {
+   "path": "/futures_sleeve/rows/1/gap_net_pp",
+   "prev": 0.65,
+   "today": 0.558,
+   "delta": -0.09199999999999997,
    "kind": "INPUT_IDENTITY_CHANGED",
    "evidence": "这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
   },
@@ -2952,10 +3671,98 @@
    "evidence": "这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
   },
   {
+   "path": "/futures_sleeve/rows/2/blend_gain_sharpe",
+   "prev": 0.084,
+   "today": 0.087,
+   "delta": 0.002999999999999989,
+   "kind": "INPUT_IDENTITY_CHANGED",
+   "evidence": "这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
+  },
+  {
+   "path": "/futures_sleeve/rows/2/carry_ann_compound_pct",
+   "prev": 2.392,
+   "today": 2.471,
+   "delta": 0.07900000000000018,
+   "kind": "INPUT_IDENTITY_CHANGED",
+   "evidence": "这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
+  },
+  {
+   "path": "/futures_sleeve/rows/2/carry_caliber/missed_roll_days",
+   "prev": 105,
+   "today": 106,
+   "delta": 1,
+   "kind": "INPUT_IDENTITY_CHANGED",
+   "evidence": "这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
+  },
+  {
+   "path": "/futures_sleeve/rows/2/carry_caliber/published_ann_pct",
+   "prev": 1.552,
+   "today": 1.617,
+   "delta": 0.06499999999999995,
+   "kind": "INPUT_IDENTITY_CHANGED",
+   "evidence": "这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
+  },
+  {
+   "path": "/futures_sleeve/rows/2/carry_caliber/spread_pp",
+   "prev": 3.772,
+   "today": 3.707,
+   "delta": -0.06499999999999995,
+   "kind": "INPUT_IDENTITY_CHANGED",
+   "evidence": "这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
+  },
+  {
    "path": "/futures_sleeve/rows/2/notional_per_lot_cny",
    "prev": 820020.0,
    "today": 822720.0,
    "delta": 2700.0,
+   "kind": "INPUT_IDENTITY_CHANGED",
+   "evidence": "这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
+  },
+  {
+   "path": "/futures_sleeve/rows/3/blend_gain_sharpe",
+   "prev": 0.387,
+   "today": 0.39,
+   "delta": 0.0030000000000000027,
+   "kind": "INPUT_IDENTITY_CHANGED",
+   "evidence": "这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
+  },
+  {
+   "path": "/futures_sleeve/rows/3/carry_ann_compound_pct",
+   "prev": 10.198,
+   "today": 10.263,
+   "delta": 0.0649999999999995,
+   "kind": "INPUT_IDENTITY_CHANGED",
+   "evidence": "这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
+  },
+  {
+   "path": "/futures_sleeve/rows/3/carry_caliber/missed_roll_days",
+   "prev": 41,
+   "today": 42,
+   "delta": 1,
+   "kind": "INPUT_IDENTITY_CHANGED",
+   "evidence": "这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
+  },
+  {
+   "path": "/futures_sleeve/rows/3/carry_caliber/published_ann_pct",
+   "prev": 5.864,
+   "today": 5.928,
+   "delta": 0.06400000000000006,
+   "kind": "INPUT_IDENTITY_CHANGED",
+   "evidence": "这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
+  },
+  {
+   "path": "/futures_sleeve/rows/3/carry_caliber/spread_pp",
+   "prev": 6.09,
+   "today": 6.026,
+   "delta": -0.06400000000000006,
+   "kind": "INPUT_IDENTITY_CHANGED",
+   "evidence": "这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
+  },
+  {
+   "path": "/futures_sleeve/rows/3/gap_net_pp",
+   "prev": 8.068,
+   "today": 7.733,
+   "delta": -0.33499999999999996,
    "kind": "INPUT_IDENTITY_CHANGED",
    "evidence": "这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
   },
@@ -3301,7 +4108,7 @@
    "today": 2768533.3333333335,
    "delta": -28133.33333333349,
    "kind": "INPUT_IDENTITY_CHANGED",
-   "evidence": "这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
+   "evidence": "这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16、2026-11-17，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
   },
   {
    "path": "/lot_floor/capital_needed/IC",
@@ -3309,7 +4116,7 @@
    "today": 4145600.0,
    "delta": -104400.0,
    "kind": "INPUT_IDENTITY_CHANGED",
-   "evidence": "这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
+   "evidence": "这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16、2026-11-17，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
   },
   {
    "path": "/lot_floor/capital_needed/IF",
@@ -3317,7 +4124,7 @@
    "today": 3939000.0,
    "delta": -17600.0,
    "kind": "INPUT_IDENTITY_CHANGED",
-   "evidence": "这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
+   "evidence": "这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16、2026-11-17，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
   },
   {
    "path": "/lot_floor/capital_needed/IH",
@@ -3325,7 +4132,7 @@
    "today": 2742400.0,
    "delta": 9000.0,
    "kind": "INPUT_IDENTITY_CHANGED",
-   "evidence": "这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
+   "evidence": "这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16、2026-11-17，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
   },
   {
    "path": "/lot_floor/capital_needed/IM",
@@ -3333,7 +4140,7 @@
    "today": 4070000.0,
    "delta": -114533.33333333349,
    "kind": "INPUT_IDENTITY_CHANGED",
-   "evidence": "这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
+   "evidence": "这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16、2026-11-17，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
   },
   {
    "path": "/lot_floor/capital_needed/SC",
@@ -3341,7 +4148,7 @@
    "today": 2069333.3333333335,
    "delta": -15666.666666666511,
    "kind": "INPUT_IDENTITY_CHANGED",
-   "evidence": "这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
+   "evidence": "这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16、2026-11-17，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
   },
   {
    "path": "/lot_floor/capital_needed/T",
@@ -3349,7 +4156,7 @@
    "today": 3658500.0,
    "delta": -9666.666666666977,
    "kind": "INPUT_IDENTITY_CHANGED",
-   "evidence": "这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
+   "evidence": "这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16、2026-11-17，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
   },
   {
    "path": "/lot_floor/capital_needed/TF",
@@ -3357,7 +4164,7 @@
    "today": 3555333.3333333335,
    "delta": -3333.3333333334886,
    "kind": "INPUT_IDENTITY_CHANGED",
-   "evidence": "这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
+   "evidence": "这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16、2026-11-17，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
   },
   {
    "path": "/lot_floor/capital_needed/TS",
@@ -3365,7 +4172,47 @@
    "today": 6842133.333333334,
    "delta": -266.6666666660458,
    "kind": "INPUT_IDENTITY_CHANGED",
-   "evidence": "这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
+   "evidence": "这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16、2026-11-17，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
+  },
+  {
+   "path": "/lot_floor/etf_shares_at_1m/510050",
+   "prev": 0.000289,
+   "today": 0.000288,
+   "delta": -9.9999999999997e-07,
+   "kind": "INPUT_IDENTITY_CHANGED",
+   "evidence": "这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16、2026-11-17，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
+  },
+  {
+   "path": "/lot_floor/etf_shares_at_1m/510300",
+   "prev": 0.000405,
+   "today": 0.000404,
+   "delta": -9.9999999999997e-07,
+   "kind": "INPUT_IDENTITY_CHANGED",
+   "evidence": "这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16、2026-11-17，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
+  },
+  {
+   "path": "/lot_floor/etf_shares_at_1m/510500",
+   "prev": 0.000633,
+   "today": 0.000632,
+   "delta": -1.0000000000000243e-06,
+   "kind": "INPUT_IDENTITY_CHANGED",
+   "evidence": "这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16、2026-11-17，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
+  },
+  {
+   "path": "/lot_floor/etf_shares_at_1m/512100",
+   "prev": 0.000251,
+   "today": 0.000247,
+   "delta": -3.999999999999989e-06,
+   "kind": "INPUT_IDENTITY_CHANGED",
+   "evidence": "这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16、2026-11-17，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
+  },
+  {
+   "path": "/lot_floor/etf_shares_at_1m/588000",
+   "prev": 0.000128,
+   "today": 0.000129,
+   "delta": 9.999999999999972e-07,
+   "kind": "INPUT_IDENTITY_CHANGED",
+   "evidence": "这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16、2026-11-17，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
   },
   {
    "path": "/lot_floor/shares_at_1m/AU",
@@ -3373,7 +4220,7 @@
    "today": 0.83056,
    "delta": -0.008440000000000003,
    "kind": "INPUT_IDENTITY_CHANGED",
-   "evidence": "这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
+   "evidence": "这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16、2026-11-17，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
   },
   {
    "path": "/lot_floor/shares_at_1m/IC",
@@ -3381,7 +4228,7 @@
    "today": 1.24368,
    "delta": -0.031320000000000014,
    "kind": "INPUT_IDENTITY_CHANGED",
-   "evidence": "这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
+   "evidence": "这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16、2026-11-17，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
   },
   {
    "path": "/lot_floor/shares_at_1m/IF",
@@ -3389,7 +4236,7 @@
    "today": 1.1817,
    "delta": -0.005279999999999951,
    "kind": "INPUT_IDENTITY_CHANGED",
-   "evidence": "这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
+   "evidence": "这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16、2026-11-17，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
   },
   {
    "path": "/lot_floor/shares_at_1m/IH",
@@ -3397,7 +4244,7 @@
    "today": 0.82272,
    "delta": 0.0027000000000000357,
    "kind": "INPUT_IDENTITY_CHANGED",
-   "evidence": "这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
+   "evidence": "这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16、2026-11-17，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
   },
   {
    "path": "/lot_floor/shares_at_1m/IM",
@@ -3405,7 +4252,7 @@
    "today": 1.221,
    "delta": -0.034359999999999946,
    "kind": "INPUT_IDENTITY_CHANGED",
-   "evidence": "这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
+   "evidence": "这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16、2026-11-17，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
   },
   {
    "path": "/lot_floor/shares_at_1m/SC",
@@ -3413,7 +4260,7 @@
    "today": 0.6208,
    "delta": -0.0046999999999999265,
    "kind": "INPUT_IDENTITY_CHANGED",
-   "evidence": "这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
+   "evidence": "这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16、2026-11-17，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
   },
   {
    "path": "/lot_floor/shares_at_1m/T",
@@ -3421,7 +4268,7 @@
    "today": 1.09755,
    "delta": -0.0028999999999999027,
    "kind": "INPUT_IDENTITY_CHANGED",
-   "evidence": "这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
+   "evidence": "这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16、2026-11-17，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
   },
   {
    "path": "/lot_floor/shares_at_1m/TF",
@@ -3429,7 +4276,7 @@
    "today": 1.0666,
    "delta": -0.001000000000000112,
    "kind": "INPUT_IDENTITY_CHANGED",
-   "evidence": "这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
+   "evidence": "这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16、2026-11-17，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
   },
   {
    "path": "/lot_floor/shares_at_1m/TS",
@@ -3437,7 +4284,7 @@
    "today": 2.05264,
    "delta": -8.000000000008001e-05,
    "kind": "INPUT_IDENTITY_CHANGED",
-   "evidence": "这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
+   "evidence": "这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16、2026-11-17，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数"
   },
   {
    "path": "/permission/allowed_cny",
@@ -3660,8 +4507,16 @@
    "prev": 187,
    "today": 185,
    "delta": -2,
-   "kind": "QUOTED_FROM_SOURCE",
-   "evidence": "这个数不是这页算的：`results/ah_panel_status.json:fresh_pairs` 现在读 185，与今天印的 185 相同——页只是转抄，动的是被引用的那张面"
+   "kind": "SECTION_ADVANCED",
+   "evidence": "这一节自己换了代：`roster_audit` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json"
+  },
+  {
+   "path": "/stress/n_days",
+   "prev": 5281,
+   "today": 5282,
+   "delta": 1,
+   "kind": "UNEXPLAINED",
+   "evidence": "没有旧值留存，也没有口径声明"
   },
   {
    "path": "/vol_target_gate/arms/0/cagr_pct",
@@ -3830,6 +4685,70 @@
    "delta": 0.017183999999999977,
    "kind": "SECTION_ADVANCED",
    "evidence": "这一节自己换了代：`vol_target_gate` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json"
+  },
+  {
+   "path": "/vs_basket/basket_nav",
+   "prev": 0.9765895222,
+   "today": 0.9749964488,
+   "delta": -0.0015930733999999225,
+   "kind": "SECTION_ADVANCED",
+   "evidence": "这一节自己换了代：`vs_basket` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json"
+  },
+  {
+   "path": "/vs_basket/book_nav",
+   "prev": 1.006812175,
+   "today": 1.0037812718,
+   "delta": -0.0030309031999999902,
+   "kind": "SECTION_ADVANCED",
+   "evidence": "这一节自己换了代：`vs_basket` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json"
+  },
+  {
+   "path": "/vs_basket/excess_pp",
+   "prev": 3.0947,
+   "today": 2.9523,
+   "delta": -0.14239999999999986,
+   "kind": "SECTION_ADVANCED",
+   "evidence": "这一节自己换了代：`vs_basket` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json"
+  },
+  {
+   "path": "/vs_basket/horizon/min_detectable_edge_pp/1y",
+   "prev": 23.683,
+   "today": 23.677,
+   "delta": -0.006000000000000227,
+   "kind": "SECTION_ADVANCED",
+   "evidence": "这一节自己换了代：`vs_basket` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json"
+  },
+  {
+   "path": "/vs_basket/horizon/min_detectable_edge_pp/2y",
+   "prev": 16.747,
+   "today": 16.742,
+   "delta": -0.004999999999999005,
+   "kind": "SECTION_ADVANCED",
+   "evidence": "这一节自己换了代：`vs_basket` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json"
+  },
+  {
+   "path": "/vs_basket/horizon/min_detectable_edge_pp/3y",
+   "prev": 13.674,
+   "today": 13.67,
+   "delta": -0.0039999999999995595,
+   "kind": "SECTION_ADVANCED",
+   "evidence": "这一节自己换了代：`vs_basket` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json"
+  },
+  {
+   "path": "/vs_basket/horizon/min_detectable_edge_pp/6m",
+   "prev": 33.493,
+   "today": 33.484,
+   "delta": -0.009000000000000341,
+   "kind": "SECTION_ADVANCED",
+   "evidence": "这一节自己换了代：`vs_basket` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json"
+  },
+  {
+   "path": "/vs_basket/horizon/years_for_80pct_power/pre-2020 measured alpha (single arm)",
+   "prev": 136.1,
+   "today": 136.0,
+   "delta": -0.09999999999999432,
+   "kind": "SECTION_ADVANCED",
+   "evidence": "这一节自己换了代：`vs_basket` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json"
   },
   {
    "path": "/vt_ladder/best_sharpe/cagr_pct",
@@ -4296,12 +5215,12 @@
   "/alias_census/board/n_rows",
   "/alias_census/board/n_same_name_pairs",
   "/alias_census/board/n_with_panel",
-  "/alias_census/calibration/accepted_same_name/kept",
-  "/alias_census/calibration/accepted_same_name/kept_pairs/0/drift_pp",
-  "/alias_census/calibration/accepted_same_name/kept_pairs/0/share",
-  "/alias_census/calibration/accepted_same_name/kept_pairs/1/drift_pp",
-  "/alias_census/calibration/accepted_same_name/kept_pairs/1/share",
-  "/alias_census/calibration/accepted_same_name/kept_pairs/2/drift_pp"
+  "/alias_census/calibration/accepted_same_name/accepted_by_rule",
+  "/alias_census/calibration/accepted_same_name/accepted_pairs/0/drift_pp",
+  "/alias_census/calibration/accepted_same_name/accepted_pairs/0/share",
+  "/alias_census/calibration/accepted_same_name/accepted_pairs/1/drift_pp",
+  "/alias_census/calibration/accepted_same_name/accepted_pairs/1/share",
+  "/alias_census/calibration/accepted_same_name/accepted_pairs/2/drift_pp"
  ],
  "vanished_paths": [
   "/family_coherence/panels_detail/1/bars",

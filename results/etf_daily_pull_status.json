@@ -1,10 +1,10 @@
 {
- "ts": "2026-11-16T23:43:21",
+ "ts": "2026-11-17T16:12:32",
  "machine": "bm-c",
  "lane_owner": "bm-c",
  "status": "ok",
- "last_attempt": "2026-11-16T23:43:21",
- "mode": "no-op: panel cutoff covered",
+ "last_attempt": "2026-11-17T16:12:32",
+ "mode": "full-history pull, append-only, overlap-verified, all-or-nothing panel write",
  "no_op_reason": "panel cutoff 2026-11-16 covers expected complete-bar date 2026-11-16",
  "expected_cutoff": "2026-11-16",
  "data_cutoff": "2026-11-16",
@@ -18,64 +18,64 @@
  "takeover": {
   "owner": "bm-b",
   "by": "bm-c",
-  "reason": "owner bm-b silent 344.4h >= 120min",
-  "ts": "2026-11-13T21:08:45"
+  "reason": "owner bm-b silent 435.5h >= 120min",
+  "ts": "2026-11-17T16:12:32"
  },
  "per_member": [
   {
    "code": "510300",
    "tier": "tier1-HS300",
-   "appended": 1,
-   "overlap": 3514,
+   "appended": 0,
+   "overlap": 3516,
    "mismatch": null,
    "error": null,
-   "rows_local": 3515,
+   "rows_local": 3516,
    "first": "2012-05-28",
-   "last": "2026-11-13"
+   "last": "2026-11-16"
   },
   {
    "code": "510050",
    "tier": "tier1-SSE50",
-   "appended": 1,
-   "overlap": 5279,
+   "appended": 0,
+   "overlap": 5281,
    "mismatch": null,
    "error": null,
-   "rows_local": 5280,
+   "rows_local": 5281,
    "first": "2005-02-23",
-   "last": "2026-11-13"
+   "last": "2026-11-16"
   },
   {
    "code": "510500",
    "tier": "tier2-CSI500",
-   "appended": 1,
-   "overlap": 3317,
+   "appended": 0,
+   "overlap": 3319,
    "mismatch": null,
    "error": null,
-   "rows_local": 3318,
+   "rows_local": 3319,
    "first": "2013-03-15",
-   "last": "2026-11-13"
+   "last": "2026-11-16"
   },
   {
    "code": "512100",
    "tier": "tier2-CSI1000",
-   "appended": 1,
-   "overlap": 2433,
+   "appended": 0,
+   "overlap": 2435,
    "mismatch": null,
    "error": null,
-   "rows_local": 2434,
+   "rows_local": 2435,
    "first": "2016-11-04",
-   "last": "2026-11-13"
+   "last": "2026-11-16"
   },
   {
    "code": "588000",
    "tier": "tier2-STAR50-20cm",
-   "appended": 1,
-   "overlap": 1453,
+   "appended": 0,
+   "overlap": 1455,
    "mismatch": null,
    "error": null,
-   "rows_local": 1454,
+   "rows_local": 1455,
    "first": "2020-11-16",
-   "last": "2026-11-13"
+   "last": "2026-11-16"
   }
  ],
  "files_written": 5,
@@ -83,9 +83,9 @@
   "members": 5,
   "failures": 0,
   "mismatches": 0,
-  "total_appended": 5,
-  "data_cutoff": "2026-11-13",
-  "quote_topup_appended": 0
+  "total_appended": 0,
+  "data_cutoff": "2026-11-17",
+  "quote_topup_appended": 5
  },
  "claim": "T-2026-09-28-111-bm-b-five-member-etf-daily-refresh-leg",
  "note": "as-traded basis (sina klc_kl.js; ETF qfq factor s=1.0 all events -- fund-share dividends not back-priced); frozen consumers truncate post-cutoff rows via D2 lockbox",
@@ -95,15 +95,15 @@
   "data_face_machine": "bm-c",
   "declared_takeover": true,
   "took_over_by": "bm-c",
-  "took_over_at": "2026-11-16T23:43:21",
-  "reason": "owner bm-b silent 419.0h >= 120min"
+  "took_over_at": "2026-11-17T16:12:32",
+  "reason": "owner bm-b silent 435.5h >= 120min"
  },
  "quote_topup": {
-  "status": "noop_current",
-  "target": "2026-11-13",
-  "appended": 0,
+  "status": "appended",
+  "target": "2026-11-17",
+  "appended": 5,
   "refused": [],
-  "detail": "every core file already carries 2026-11-13"
+  "detail": "5/5 lagging core files topped up from the batch quote face at 2026-11-17"
  },
  "last_attempt_topup": "2026-11-11T15:49:33"
 }

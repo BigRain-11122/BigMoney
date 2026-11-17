@@ -517,21 +517,21 @@
   }
  ],
  "forward": {
-  "bars": 17,
+  "bars": 18,
   "inception": "2026-10-23",
-  "nav": 1.006812175,
-  "since_inception_pct": 0.6812,
-  "as_of": "2026-11-16",
+  "nav": 1.0037812718,
+  "since_inception_pct": 0.3781,
+  "as_of": "2026-11-17",
   "book_bar": "2026-11-11",
   "book_n_hold": 12,
   "ticket_n_hold": 5,
   "names_overlap": 5
  },
  "vs_basket": {
-  "bar": "2026-11-16",
-  "book_nav": 1.006812175,
-  "basket_nav": 0.9765895222,
-  "excess_pp": 3.0947,
+  "bar": "2026-11-17",
+  "book_nav": 1.0037812718,
+  "basket_nav": 0.9749964488,
+  "excess_pp": 2.9523,
   "basket": {
    "518880": "gold ETF",
    "513100": "Nasdaq-100 QDII ETF",
@@ -541,13 +541,13 @@
   "basis": "等权 1/4、同一换仓日、次日开盘成交",
   "horizon": {
    "min_detectable_edge_pp": {
-    "6m": 33.493,
-    "1y": 23.683,
-    "2y": 16.747,
-    "3y": 13.674
+    "6m": 33.484,
+    "1y": 23.677,
+    "2y": 16.742,
+    "3y": 13.67
    },
    "years_for_80pct_power": {
-    "pre-2020 measured alpha (single arm)": 136.1,
+    "pre-2020 measured alpha (single arm)": 136.0,
     "in-window measured alpha (single arm)": 15.8
    },
    "candidate_sources": {
@@ -662,7 +662,7 @@
  },
  "caveats": [
   "回测票池是现存 ETF（有幸存者偏差）；2020-2023 段弱、收益主要集中在 2024 之后。",
-  "前向账本只有 17 个交易日，自起始净值 1.0068 不构成业绩记录。",
+  "前向账本只有 18 个交易日，自起始净值 1.0038 不构成业绩记录。",
   "现金腿若不下单，账本按 GC001 (1-day repo, observed close) 计息；不买逆回购则实际是 0 息。",
   "这是研究产出，不是投资建议；实盘下单是 CEO 的直接权限，公司自动实盘仍是 CEO 唯一门。"
  ],
@@ -767,7 +767,7 @@
    "data_last": "2026-11-16",
    "path": "results/etf_book_phase_gate.json"
   },
-  "last_bar": "2026-11-16",
+  "last_bar": "2026-11-17",
   "prior_identity": {
    "asof": "2026-11-16T16:50:53+0800",
    "data_last": "2026-11-16",
@@ -851,7 +851,7 @@
   "median": 5.6072,
   "worst": 2.1656,
   "capacity_cny": 27645948.0,
-  "trails_ledger": false,
+  "trails_ledger": true,
   "status": "ok",
   "evidence_cutoff": "2026-11-16",
   "panel_gap": false,
@@ -1161,18 +1161,18 @@
     "notional_per_lot_cny": 1243680.0,
     "cash_lots_at_stated_capital": 0.0,
     "lots_that_survive_index_worst": 1.0,
-    "carry_ann_compound_pct": 8.763,
-    "gap_net_pp": 6.856,
+    "carry_ann_compound_pct": 8.778,
+    "gap_net_pp": 6.753,
     "index_worst_drawdown_pct": 72.42,
     "verdict": "SLEEVE_CANDIDATE",
     "blend_gain_sharpe": 0.325,
     "blend_lambda": 0.3,
     "carry_caliber": {
      "status": "ok",
-     "published_ann_pct": 2.881,
+     "published_ann_pct": 2.895,
      "calendar_ann_pct": 9.793,
-     "spread_pp": 6.912,
-     "missed_roll_days": 105,
+     "spread_pp": 6.898,
+     "missed_roll_days": 106,
      "deleted_real_days": 10,
      "reading": "MISSED_ROLLS_ARE_A_FAKE_LOSS",
      "face_verdict": "GAP_IS_ARITHMETIC"
@@ -1184,18 +1184,18 @@
     "notional_per_lot_cny": 1181700.0,
     "cash_lots_at_stated_capital": 0.0,
     "lots_that_survive_index_worst": 1.0,
-    "carry_ann_compound_pct": 3.567,
-    "gap_net_pp": 0.65,
+    "carry_ann_compound_pct": 3.625,
+    "gap_net_pp": 0.558,
     "index_worst_drawdown_pct": 72.3,
     "verdict": "REFUSE",
-    "blend_gain_sharpe": 0.131,
+    "blend_gain_sharpe": 0.133,
     "blend_lambda": 0.3,
     "carry_caliber": {
      "status": "ok",
-     "published_ann_pct": 1.876,
+     "published_ann_pct": 1.923,
      "calendar_ann_pct": 5.795,
-     "spread_pp": 3.919,
-     "missed_roll_days": 109,
+     "spread_pp": 3.872,
+     "missed_roll_days": 110,
      "deleted_real_days": 18,
      "reading": "MISSED_ROLLS_ARE_A_FAKE_LOSS",
      "face_verdict": "GAP_IS_ARITHMETIC"
@@ -1207,18 +1207,18 @@
     "notional_per_lot_cny": 822720.0,
     "cash_lots_at_stated_capital": 1.0,
     "lots_that_survive_index_worst": 1.0,
-    "carry_ann_compound_pct": 2.392,
+    "carry_ann_compound_pct": 2.471,
     "gap_net_pp": null,
     "index_worst_drawdown_pct": 72.41,
     "verdict": "REFUSE",
-    "blend_gain_sharpe": 0.084,
+    "blend_gain_sharpe": 0.087,
     "blend_lambda": 0.3,
     "carry_caliber": {
      "status": "ok",
-     "published_ann_pct": 1.552,
+     "published_ann_pct": 1.617,
      "calendar_ann_pct": 5.324,
-     "spread_pp": 3.772,
-     "missed_roll_days": 105,
+     "spread_pp": 3.707,
+     "missed_roll_days": 106,
      "deleted_real_days": 22,
      "reading": "MISSED_ROLLS_ARE_A_FAKE_LOSS",
      "face_verdict": "GAP_IS_ARITHMETIC"
@@ -1230,18 +1230,18 @@
     "notional_per_lot_cny": 1221000.0,
     "cash_lots_at_stated_capital": 0.0,
     "lots_that_survive_index_worst": 1.0,
-    "carry_ann_compound_pct": 10.198,
-    "gap_net_pp": 8.068,
+    "carry_ann_compound_pct": 10.263,
+    "gap_net_pp": 7.733,
     "index_worst_drawdown_pct": 72.35,
     "verdict": "SLEEVE_CANDIDATE",
-    "blend_gain_sharpe": 0.387,
+    "blend_gain_sharpe": 0.39,
     "blend_lambda": 0.3,
     "carry_caliber": {
      "status": "ok",
-     "published_ann_pct": 5.864,
+     "published_ann_pct": 5.928,
      "calendar_ann_pct": 11.954,
-     "spread_pp": 6.09,
-     "missed_roll_days": 41,
+     "spread_pp": 6.026,
+     "missed_roll_days": 42,
      "deleted_real_days": 9,
      "reading": "MISSED_ROLLS_ARE_A_FAKE_LOSS",
      "face_verdict": "GAP_IS_ARITHMETIC"
@@ -1264,11 +1264,11 @@
      "calendar_ann_pct": 9.793,
      "deleted_real_days": 10,
      "gap_identity_holds": true,
-     "gap_pp": 6.912,
+     "gap_pp": 6.898,
      "kept_by_both_ann_pct": 9.837,
-     "missed_roll_days": 105,
-     "missed_roll_days_ann_pct": -146.492,
-     "published_ann_pct": 2.881,
+     "missed_roll_days": 106,
+     "missed_roll_days_ann_pct": -144.773,
+     "published_ann_pct": 2.895,
      "reading": "MISSED_ROLLS_ARE_A_FAKE_LOSS",
      "strictest_ann_pct": 9.837
     },
@@ -1276,11 +1276,11 @@
      "calendar_ann_pct": 5.795,
      "deleted_real_days": 18,
      "gap_identity_holds": true,
-     "gap_pp": 3.919,
+     "gap_pp": 3.872,
      "kept_by_both_ann_pct": 6.5,
-     "missed_roll_days": 109,
-     "missed_roll_days_ann_pct": -93.463,
-     "published_ann_pct": 1.876,
+     "missed_roll_days": 110,
+     "missed_roll_days_ann_pct": -91.585,
+     "published_ann_pct": 1.923,
      "reading": "MISSED_ROLLS_ARE_A_FAKE_LOSS",
      "strictest_ann_pct": 6.5
     },
@@ -1288,11 +1288,11 @@
      "calendar_ann_pct": 5.324,
      "deleted_real_days": 22,
      "gap_identity_holds": true,
-     "gap_pp": 3.772,
+     "gap_pp": 3.707,
      "kept_by_both_ann_pct": 5.135,
-     "missed_roll_days": 105,
-     "missed_roll_days_ann_pct": -75.004,
-     "published_ann_pct": 1.552,
+     "missed_roll_days": 106,
+     "missed_roll_days_ann_pct": -72.838,
+     "published_ann_pct": 1.617,
      "reading": "MISSED_ROLLS_ARE_A_FAKE_LOSS",
      "strictest_ann_pct": 5.135
     },
@@ -1300,16 +1300,16 @@
      "calendar_ann_pct": 11.954,
      "deleted_real_days": 9,
      "gap_identity_holds": true,
-     "gap_pp": 6.09,
+     "gap_pp": 6.026,
      "kept_by_both_ann_pct": 11.562,
-     "missed_roll_days": 41,
-     "missed_roll_days_ann_pct": -131.025,
-     "published_ann_pct": 5.864,
+     "missed_roll_days": 42,
+     "missed_roll_days_ann_pct": -126.203,
+     "published_ann_pct": 5.928,
      "reading": "MISSED_ROLLS_ARE_A_FAKE_LOSS",
      "strictest_ann_pct": 11.562
     }
    },
-   "evidence_cutoff": "2026-11-13",
+   "evidence_cutoff": "2026-11-16",
    "path": "results\\idx_fut_roll_gap.json"
   },
   "capital_ladder_tiers": [
@@ -1355,8 +1355,8 @@
     "net_pct_of_capital": 1.41,
     "net_pct_of_capital_by_mask": {
      "published": 1.41,
-     "calendar": 2.55,
-     "strictest": 2.59
+     "calendar": 2.54,
+     "strictest": 2.58
     },
     "admit": false,
     "admit_calendar": false,
@@ -1397,8 +1397,8 @@
     "net_pct_of_capital": 2.65,
     "net_pct_of_capital_by_mask": {
      "published": 2.65,
-     "calendar": 3.45,
-     "strictest": 3.45
+     "calendar": 3.44,
+     "strictest": 3.44
     },
     "admit": false,
     "admit_calendar": true,
@@ -1456,7 +1456,7 @@
  "lot_floor": {
   "status": "ok",
   "readable": true,
-  "evidence_cutoff": "2026-11-16",
+  "evidence_cutoff": "2026-11-17",
   "priced_bar": "2026-11-16",
   "leg_bars": {
    "AU": "2026-11-16",
@@ -1469,13 +1469,24 @@
    "T": "2026-11-16",
    "TF": "2026-11-16",
    "TS": "2026-11-16",
-   "510300": "2026-11-16",
-   "510050": "2026-11-16",
-   "510500": "2026-11-16",
-   "512100": "2026-11-16",
-   "588000": "2026-11-16"
+   "510300": "2026-11-17",
+   "510050": "2026-11-17",
+   "510500": "2026-11-17",
+   "512100": "2026-11-17",
+   "588000": "2026-11-17"
   },
-  "legs_behind": [],
+  "legs_behind": [
+   "AU",
+   "IC",
+   "IF",
+   "IH",
+   "IM",
+   "RB",
+   "SC",
+   "T",
+   "TF",
+   "TS"
+  ],
   "leg_max_share": 0.3,
   "one_lot_is_the_book": [
    "AU",
@@ -1514,11 +1525,11 @@
    "TS": 2.05264
   },
   "etf_shares_at_1m": {
-   "510300": 0.000405,
-   "510050": 0.000289,
-   "510500": 0.000633,
-   "512100": 0.000251,
-   "588000": 0.000128
+   "510300": 0.000404,
+   "510050": 0.000288,
+   "510500": 0.000632,
+   "512100": 0.000247,
+   "588000": 0.000129
   },
   "capital_needed": {
    "AU": 2768533.3333333335,
@@ -1531,12 +1542,12 @@
    "TF": 3555333.3333333335,
    "TS": 6842133.333333334
   },
-  "face_cutoff": "2026-11-16"
+  "face_cutoff": "2026-11-17"
  },
  "roster_audit": {
   "status": "ok",
   "readable": true,
-  "evidence_cutoff": "2026-11-16",
+  "evidence_cutoff": "2026-11-17",
   "lanes": 9,
   "matched": 4,
   "not_applicable": 1,
@@ -1570,14 +1581,23 @@
      "source": "results/ah_panel_status.json:quarantined",
      "threshold": null,
      "quarantined": [
+      "00568",
+      "02636"
+     ],
+     "pending": [],
+     "unexplained": [
+      "00038",
       "00187",
       "00553",
       "00719",
+      "00956",
       "01057",
       "01108",
+      "01330",
       "01349",
       "01456",
       "02218",
+      "02245",
       "02384",
       "03223",
       "03228",
@@ -1588,15 +1608,6 @@
       "06727",
       "09607",
       "09976"
-     ],
-     "pending": [],
-     "unexplained": [
-      "00038",
-      "00568",
-      "00956",
-      "01330",
-      "02245",
-      "02636"
      ]
     }
    },
@@ -1655,8 +1666,8 @@
  "fill": {
   "status": "ok",
   "source": "results\\etf_book_forward\\LEDGER.json",
-  "evidence_cutoff": "2026-11-16",
-  "last_bar": "2026-11-16",
+  "evidence_cutoff": "2026-11-17",
+  "last_bar": "2026-11-17",
   "last_cash": 0.090616,
   "pending": null,
   "decided_bar": null,
@@ -1723,7 +1734,7 @@
    "code": "no_pending",
    "problems": [],
    "checked": {
-    "head_bar": "2026-11-16",
+    "head_bar": "2026-11-17",
     "has_pending": false
    }
   },
@@ -5643,79 +5654,14 @@
   }
  },
  "live_quote": {
-  "status": "ok",
-  "artifact": "results\\etf_book_live_quote\\QUOTE-2026-11-06.json",
-  "verdict": "NO_NEW_BAR",
-  "panel_bar": "2026-11-06",
-  "quote_bar": "2026-11-06",
-  "quote_time": "16:29:30",
-  "lag_trading_days": null,
-  "n_held": 5,
-  "n_joined": 1,
-  "mismatch_share": 0.8,
-  "mismatch_share_max": 0.2,
-  "book_weight": 0.460253,
-  "cash_weight": 0.539747,
-  "held_leg_return": null,
-  "book_change": null,
-  "ticket_priced_bar": "2026-11-06",
-  "rows": [
-   {
-    "symbol": "159501",
-    "weight": 0.092051,
-    "panel_bar": "2026-11-06",
-    "panel_close": 2.069,
-    "quote_date": "2026-11-06",
-    "quote_prev_close": 2.132,
-    "quote_last": 2.069,
-    "joined": false,
-    "ret": null
-   },
-   {
-    "symbol": "513100",
-    "weight": 0.092051,
-    "panel_bar": "2026-11-06",
-    "panel_close": 2.158,
-    "quote_date": "2026-11-06",
-    "quote_prev_close": 2.229,
-    "quote_last": 2.158,
-    "joined": false,
-    "ret": null
-   },
-   {
-    "symbol": "513690",
-    "weight": 0.092051,
-    "panel_bar": "2026-11-06",
-    "panel_close": 1.158,
-    "quote_date": "2026-11-06",
-    "quote_prev_close": 1.155,
-    "quote_last": 1.158,
-    "joined": false,
-    "ret": null
-   },
-   {
-    "symbol": "159577",
-    "weight": 0.092051,
-    "panel_bar": "2026-11-06",
-    "panel_close": 1.612,
-    "quote_date": "2026-11-06",
-    "quote_prev_close": 1.674,
-    "quote_last": 1.612,
-    "joined": false,
-    "ret": null
-   },
-   {
-    "symbol": "159263",
-    "weight": 0.092051,
-    "panel_bar": "2026-11-06",
-    "panel_close": 1.143,
-    "quote_date": "2026-11-06",
-    "quote_prev_close": 1.142,
-    "quote_last": 1.143,
-    "joined": true,
-    "ret": 0.0008756567425569628
-   }
-  ]
+  "status": "panel_current",
+  "panel_bar": "2026-11-17",
+  "expected": "2026-11-17",
+  "writer": "quote_face",
+  "quote_symbols": 48,
+  "snapshot_as_of": "2026-11-06",
+  "upstream": "results\\update_status.json",
+  "artifact": "results\\etf_book_live_quote\\latest.json"
  },
  "sellability": {
   "status": "ok",
@@ -9149,25 +9095,25 @@
   "session": "2026-11-16",
   "panel": {
    "window_days": 250,
-   "window_from": "2025-11-05",
-   "window_to": "2026-11-16"
+   "window_from": "2025-11-06",
+   "window_to": "2026-11-17"
   },
   "board": {
-   "n_cross_name_pairs": 1767,
-   "n_excluded_short_history": 64,
-   "n_in_screen": 578,
+   "n_cross_name_pairs": 1768,
+   "n_excluded_short_history": 65,
+   "n_in_screen": 577,
    "n_live": 649,
-   "n_pairs": 2086,
+   "n_pairs": 2087,
    "n_rows": 1667,
    "n_same_name_pairs": 319,
    "n_with_panel": 642
   },
   "verdicts": {
-   "DAYS_APART": 164667,
-   "SAME_BASKET": 815,
-   "WALKS_APART": 1271
+   "DAYS_APART": 164089,
+   "SAME_BASKET": 830,
+   "WALKS_APART": 1257
   },
-  "sentence": "On this board's own prices, 815 pairs cannot be told apart for a year and do not walk apart; 656 of them are written under two different names. Those pairs gather into 31 families that span more than one name, and in 6 of them the dearest member carries more than 0.50 pp of extra premium over the cheapest -- on a 100,000 CNY ticket that is 10,236 CNY for nothing but picking the wrong name. A further 1271 pairs move together day to day but walk apart over the year (a swap is a bet), and 164,667 do not move together at all.",
+  "sentence": "On this board's own prices, 830 pairs cannot be told apart for a year and do not walk apart; 661 of them are written under two different names. Those pairs gather into 26 families that span more than one name, and in 5 of them the dearest member carries more than 0.50 pp of extra premium over the cheapest -- on a 100,000 CNY ticket that is 8,477 CNY for nothing but picking the wrong name. A further 1257 pairs move together day to day but walk apart over the year (a swap is a bet), and 164,089 do not move together at all.",
   "families": [
    {
     "members": [
@@ -9273,30 +9219,6 @@
    },
    {
     "members": [
-     "159262",
-     "513160"
-    ],
-    "money": {
-     "cheapest": "159262",
-     "cheapest_premium_pp": -0.4425,
-     "cost_cny": 160.1,
-     "dearest": "513160",
-     "dearest_premium_pp": -0.2823,
-     "material": false,
-     "spread_pp": 0.1601
-    },
-    "n": 2,
-    "n_names": 2,
-    "names": [
-     "港股科技ETF",
-     "科技HK"
-    ],
-    "state": "ALIAS_FAMILY",
-    "unreadable": [],
-    "why": ""
-   },
-   {
-    "members": [
      "159303",
      "513060"
     ],
@@ -9338,30 +9260,6 @@
     "names": [
      "电网ETF",
      "电网设备"
-    ],
-    "state": "ALIAS_FAMILY",
-    "unreadable": [],
-    "why": ""
-   },
-   {
-    "members": [
-     "159323",
-     "520600"
-    ],
-    "money": {
-     "cheapest": "159323",
-     "cheapest_premium_pp": -0.3258,
-     "cost_cny": 165.2,
-     "dearest": "520600",
-     "dearest_premium_pp": -0.1606,
-     "material": false,
-     "spread_pp": 0.1652
-    },
-    "n": 2,
-    "n_names": 2,
-    "names": [
-     "港股汽车",
-     "港股通汽车ETF"
     ],
     "state": "ALIAS_FAMILY",
     "unreadable": [],
@@ -9417,30 +9315,6 @@
    },
    {
     "members": [
-     "159532",
-     "563300"
-    ],
-    "money": {
-     "cheapest": "563300",
-     "cheapest_premium_pp": -0.066,
-     "cost_cny": 8.4,
-     "dearest": "159532",
-     "dearest_premium_pp": -0.0576,
-     "material": false,
-     "spread_pp": 0.0084
-    },
-    "n": 2,
-    "n_names": 2,
-    "names": [
-     "2000E",
-     "中证2000ETF"
-    ],
-    "state": "ALIAS_FAMILY",
-    "unreadable": [],
-    "why": ""
-   },
-   {
-    "members": [
      "159545",
      "513950"
     ],
@@ -9465,71 +9339,24 @@
    },
    {
     "members": [
-     "159549",
-     "515100"
+     "159590",
+     "159852",
+     "515230"
     ],
     "money": {
-     "cheapest": "515100",
-     "cheapest_premium_pp": -0.2489,
-     "cost_cny": 1759.3,
-     "dearest": "159549",
-     "dearest_premium_pp": 1.5105,
-     "material": true,
-     "spread_pp": 1.7593
-    },
-    "n": 2,
-    "n_names": 2,
-    "names": [
-     "红利100",
-     "红利低波100ETF景顺"
-    ],
-    "state": "ALIAS_FAMILY",
-    "unreadable": [],
-    "why": ""
-   },
-   {
-    "members": [
-     "159568",
-     "513770"
-    ],
-    "money": {
-     "cheapest": "159568",
-     "cheapest_premium_pp": -0.4669,
-     "cost_cny": 116.7,
-     "dearest": "513770",
-     "dearest_premium_pp": -0.3502,
+     "cheapest": "159590",
+     "cheapest_premium_pp": -0.0509,
+     "cost_cny": 34.6,
+     "dearest": "515230",
+     "dearest_premium_pp": -0.0163,
      "material": false,
-     "spread_pp": 0.1167
+     "spread_pp": 0.0346
     },
-    "n": 2,
+    "n": 3,
     "n_names": 2,
     "names": [
-     "港股互联",
-     "港股互联网ETF"
-    ],
-    "state": "ALIAS_FAMILY",
-    "unreadable": [],
-    "why": ""
-   },
-   {
-    "members": [
-     "159577",
-     "513850"
-    ],
-    "money": {
-     "cheapest": "159577",
-     "cheapest_premium_pp": 7.3065,
-     "cost_cny": 96.5,
-     "dearest": "513850",
-     "dearest_premium_pp": 7.4031,
-     "material": false,
-     "spread_pp": 0.0965
-    },
-    "n": 2,
-    "n_names": 2,
-    "names": [
-     "美国50",
-     "美国50ETF"
+     "软件50",
+     "软件ETF"
     ],
     "state": "ALIAS_FAMILY",
     "unreadable": [],
@@ -9585,6 +9412,32 @@
    },
    {
     "members": [
+     "159622",
+     "159748",
+     "517110"
+    ],
+    "money": {
+     "cheapest": "159748",
+     "cheapest_premium_pp": -0.8212,
+     "cost_cny": 184.5,
+     "dearest": "159622",
+     "dearest_premium_pp": -0.6367,
+     "material": false,
+     "spread_pp": 0.1845
+    },
+    "n": 3,
+    "n_names": 3,
+    "names": [
+     "AH创新药",
+     "创新药AH",
+     "创新药ETF"
+    ],
+    "state": "ALIAS_FAMILY",
+    "unreadable": [],
+    "why": ""
+   },
+   {
+    "members": [
      "159655",
      "513650"
     ],
@@ -9609,6 +9462,30 @@
    },
    {
     "members": [
+     "159707",
+     "159768"
+    ],
+    "money": {
+     "cheapest": "159768",
+     "cheapest_premium_pp": -0.2421,
+     "cost_cny": 177.0,
+     "dearest": "159707",
+     "dearest_premium_pp": -0.0652,
+     "material": false,
+     "spread_pp": 0.177
+    },
+    "n": 2,
+    "n_names": 2,
+    "names": [
+     "地产ETF",
+     "地产龙头"
+    ],
+    "state": "ALIAS_FAMILY",
+    "unreadable": [],
+    "why": ""
+   },
+   {
+    "members": [
      "159755",
      "159840"
     ],
@@ -9626,30 +9503,6 @@
     "names": [
      "电池ETF",
      "锂电池50"
-    ],
-    "state": "ALIAS_FAMILY",
-    "unreadable": [],
-    "why": ""
-   },
-   {
-    "members": [
-     "159796",
-     "561160"
-    ],
-    "money": {
-     "cheapest": "561160",
-     "cheapest_premium_pp": -0.3176,
-     "cost_cny": 348.0,
-     "dearest": "159796",
-     "dearest_premium_pp": 0.0305,
-     "material": false,
-     "spread_pp": 0.348
-    },
-    "n": 2,
-    "n_names": 2,
-    "names": [
-     "电池",
-     "电池ETF"
     ],
     "state": "ALIAS_FAMILY",
     "unreadable": [],
@@ -9825,23 +9678,23 @@
    },
    {
     "members": [
-     "513530",
-     "513820"
+     "513160",
+     "520980"
     ],
     "money": {
-     "cheapest": "513530",
-     "cheapest_premium_pp": -0.6364,
-     "cost_cny": 109.9,
-     "dearest": "513820",
-     "dearest_premium_pp": -0.5266,
+     "cheapest": "520980",
+     "cheapest_premium_pp": -0.5415,
+     "cost_cny": 259.1,
+     "dearest": "513160",
+     "dearest_premium_pp": -0.2823,
      "material": false,
-     "spread_pp": 0.1099
+     "spread_pp": 0.2591
     },
     "n": 2,
     "n_names": 2,
     "names": [
-     "XD港股通红利ETF",
-     "港股通红利ETF"
+     "港股科技ETF",
+     "港股通科技ETF"
     ],
     "state": "ALIAS_FAMILY",
     "unreadable": [],
@@ -9894,39 +9747,15 @@
     "state": "ALIAS_FAMILY",
     "unreadable": [],
     "why": ""
-   },
-   {
-    "members": [
-     "588170",
-     "588710"
-    ],
-    "money": {
-     "cheapest": "588710",
-     "cheapest_premium_pp": -0.5533,
-     "cost_cny": 297.2,
-     "dearest": "588170",
-     "dearest_premium_pp": -0.2561,
-     "material": false,
-     "spread_pp": 0.2972
-    },
-    "n": 2,
-    "n_names": 2,
-    "names": [
-     "科创半导体ETF",
-     "科创半导体设备ETF"
-    ],
-    "state": "ALIAS_FAMILY",
-    "unreadable": [],
-    "why": ""
    }
   ],
-  "n_families_total": 42,
+  "n_families_total": 43,
   "across": {
-   "families_over_material_line": 6,
-   "n_families": 31,
-   "n_members": 66,
-   "n_pairs": 656,
-   "total_cost_cny": 10236.2,
+   "families_over_material_line": 5,
+   "n_families": 26,
+   "n_members": 58,
+   "n_pairs": 661,
+   "total_cost_cny": 8476.9,
    "worst": {
     "members": [
      "159608",
@@ -9949,240 +9778,462 @@
   },
   "calibration": {
    "accepted_same_name": {
-    "kept": 163,
-    "kept_pairs": [
-     {
-      "a": "588450",
-      "b": "588460",
-      "drift_pp": 8.637,
-      "share": 0.3494
-     },
-     {
-      "a": "562660",
-      "b": "563300",
-      "drift_pp": 10.431,
-      "share": 0.2289
-     },
-     {
-      "a": "513880",
-      "b": "513000",
-      "drift_pp": 2.034,
-      "share": 0.2249
-     },
-     {
-      "a": "513500",
-      "b": "513650",
-      "drift_pp": 1.129,
-      "share": 0.2048
-     },
-     {
-      "a": "159866",
-      "b": "513520",
-      "drift_pp": 1.814,
-      "share": 0.1888
-     },
+    "accepted_by_rule": 169,
+    "accepted_pairs": [
      {
       "a": "513920",
       "b": "513910",
-      "drift_pp": 1.423,
+      "drift_pp": 0.936,
+      "gate": null,
       "share": 0.1767
-     },
-     {
-      "a": "513030",
-      "b": "159561",
-      "drift_pp": 1.954,
-      "share": 0.1687
-     },
-     {
-      "a": "588000",
-      "b": "588040",
-      "drift_pp": 3.107,
-      "share": 0.1566
-     },
-     {
-      "a": "588060",
-      "b": "588040",
-      "drift_pp": 4.0,
-      "share": 0.1566
-     },
-     {
-      "a": "589700",
-      "b": "588110",
-      "drift_pp": 2.291,
-      "share": 0.1566
-     }
-    ],
-    "leaked": 159,
-    "leaked_pairs": [
-     {
-      "a": "588160",
-      "b": "589180",
-      "drift_pp": 0.986,
-      "share": 0.1325
      },
      {
       "a": "589700",
       "b": "588020",
-      "drift_pp": 0.385,
-      "share": 0.1124
-     },
-     {
-      "a": "513580",
-      "b": "513260",
-      "drift_pp": 0.821,
-      "share": 0.1044
+      "drift_pp": 0.51,
+      "gate": null,
+      "share": 0.1165
      },
      {
       "a": "516620",
       "b": "159855",
-      "drift_pp": 0.085,
-      "share": 0.1044
+      "drift_pp": 0.118,
+      "gate": null,
+      "share": 0.1084
      },
      {
       "a": "515230",
       "b": "159852",
-      "drift_pp": 0.419,
+      "drift_pp": 0.837,
+      "gate": null,
       "share": 0.1004
      },
      {
       "a": "513180",
       "b": "513580",
-      "drift_pp": 0.374,
+      "drift_pp": 0.445,
+      "gate": null,
       "share": 0.0964
      },
      {
-      "a": "589800",
-      "b": "589080",
-      "drift_pp": 0.955,
-      "share": 0.0924
+      "a": "588710",
+      "b": "589020",
+      "drift_pp": 0.816,
+      "gate": null,
+      "share": 0.0763
      },
      {
       "a": "159828",
       "b": "512170",
-      "drift_pp": 0.582,
+      "drift_pp": 0.469,
+      "gate": null,
       "share": 0.0683
      },
      {
       "a": "516650",
       "b": "512400",
       "drift_pp": 0.475,
+      "gate": null,
       "share": 0.0683
      },
      {
       "a": "588220",
       "b": "588210",
-      "drift_pp": 0.922,
+      "drift_pp": 0.588,
+      "gate": null,
       "share": 0.0683
+     },
+     {
+      "a": "588210",
+      "b": "588120",
+      "drift_pp": 0.573,
+      "gate": null,
+      "share": 0.0643
      }
     ],
+    "by_gate": {
+     "BOTH": 4,
+     "DAY": 0,
+     "YEAR": 149
+    },
+    "drift_buckets": {
+     "1.0-1.5": 44,
+     "1.5-2.0": 45,
+     "2.0-3.0": 39,
+     "3.0+": 25
+    },
+    "drift_max": 10.925,
+    "drift_min": 1.01,
     "n": 322,
-    "share_max": 0.3494,
-    "share_median": 0.0281
+    "refused_by_rule": 153,
+    "refused_pairs": [
+     {
+      "a": "562660",
+      "b": "563300",
+      "drift_pp": 10.925,
+      "gate": "BOTH",
+      "share": 0.2289
+     },
+     {
+      "a": "510760",
+      "b": "510980",
+      "drift_pp": 7.816,
+      "gate": "YEAR",
+      "share": 0.0683
+     },
+     {
+      "a": "159995",
+      "b": "516350",
+      "drift_pp": 7.549,
+      "gate": "YEAR",
+      "share": 0.0884
+     },
+     {
+      "a": "588450",
+      "b": "588460",
+      "drift_pp": 6.194,
+      "gate": "BOTH",
+      "share": 0.3454
+     },
+     {
+      "a": "588830",
+      "b": "589960",
+      "drift_pp": 5.298,
+      "gate": "YEAR",
+      "share": 0.0482
+     },
+     {
+      "a": "588150",
+      "b": "588040",
+      "drift_pp": 5.148,
+      "gate": "YEAR",
+      "share": 0.1486
+     },
+     {
+      "a": "513110",
+      "b": "513100",
+      "drift_pp": 4.872,
+      "gate": "YEAR",
+      "share": 0.1486
+     },
+     {
+      "a": "588940",
+      "b": "588040",
+      "drift_pp": 4.609,
+      "gate": "YEAR",
+      "share": 0.1486
+     },
+     {
+      "a": "159995",
+      "b": "512760",
+      "drift_pp": 4.592,
+      "gate": "YEAR",
+      "share": 0.0723
+     },
+     {
+      "a": "510880",
+      "b": "515180",
+      "drift_pp": 4.318,
+      "gate": "YEAR",
+      "share": 0.0924
+     }
+    ],
+    "share_max": 0.3454,
+    "share_median": 0.0281,
+    "year_killed_pairs": [
+     {
+      "a": "562660",
+      "b": "563300",
+      "drift_pp": 10.925,
+      "gate": "BOTH",
+      "share": 0.2289
+     },
+     {
+      "a": "510760",
+      "b": "510980",
+      "drift_pp": 7.816,
+      "gate": "YEAR",
+      "share": 0.0683
+     },
+     {
+      "a": "159995",
+      "b": "516350",
+      "drift_pp": 7.549,
+      "gate": "YEAR",
+      "share": 0.0884
+     },
+     {
+      "a": "588450",
+      "b": "588460",
+      "drift_pp": 6.194,
+      "gate": "BOTH",
+      "share": 0.3454
+     },
+     {
+      "a": "588830",
+      "b": "589960",
+      "drift_pp": 5.298,
+      "gate": "YEAR",
+      "share": 0.0482
+     },
+     {
+      "a": "588150",
+      "b": "588040",
+      "drift_pp": 5.148,
+      "gate": "YEAR",
+      "share": 0.1486
+     },
+     {
+      "a": "513110",
+      "b": "513100",
+      "drift_pp": 4.872,
+      "gate": "YEAR",
+      "share": 0.1486
+     },
+     {
+      "a": "588940",
+      "b": "588040",
+      "drift_pp": 4.609,
+      "gate": "YEAR",
+      "share": 0.1486
+     },
+     {
+      "a": "159995",
+      "b": "512760",
+      "drift_pp": 4.592,
+      "gate": "YEAR",
+      "share": 0.0723
+     },
+     {
+      "a": "510880",
+      "b": "515180",
+      "drift_pp": 4.318,
+      "gate": "YEAR",
+      "share": 0.0924
+     }
+    ]
    },
    "available": true,
    "line": 0.2,
    "refused_same_name": {
-    "kept": 24,
-    "kept_pairs": [
+    "accepted_by_rule": 0,
+    "accepted_pairs": [],
+    "by_gate": {
+     "BOTH": 23,
+     "DAY": 0,
+     "YEAR": 1
+    },
+    "drift_buckets": {
+     "1.0-1.5": 0,
+     "1.5-2.0": 0,
+     "2.0-3.0": 1,
+     "3.0+": 23
+    },
+    "drift_max": 21.741,
+    "drift_min": 2.793,
+    "n": 24,
+    "refused_by_rule": 24,
+    "refused_pairs": [
      {
       "a": "515050",
       "b": "159695",
-      "drift_pp": 20.6,
-      "share": 0.5542
+      "drift_pp": 21.741,
+      "gate": "BOTH",
+      "share": 0.5582
      },
      {
-      "a": "510150",
-      "b": "159928",
-      "drift_pp": 4.902,
-      "share": 0.5301
+      "a": "520690",
+      "b": "513120",
+      "drift_pp": 18.609,
+      "gate": "BOTH",
+      "share": 0.3092
      },
      {
-      "a": "510150",
-      "b": "510630",
-      "drift_pp": 4.231,
-      "share": 0.4819
+      "a": "561980",
+      "b": "560780",
+      "drift_pp": 17.204,
+      "gate": "BOTH",
+      "share": 0.4016
      },
      {
-      "a": "515880",
-      "b": "159695",
-      "drift_pp": 9.675,
-      "share": 0.4779
-     },
-     {
-      "a": "520660",
-      "b": "513920",
-      "drift_pp": 2.221,
-      "share": 0.4739
-     },
-     {
-      "a": "561910",
-      "b": "159755",
-      "drift_pp": 7.156,
-      "share": 0.4659
-     },
-     {
-      "a": "561160",
-      "b": "159755",
-      "drift_pp": 6.681,
-      "share": 0.4578
-     },
-     {
-      "a": "516080",
-      "b": "517110",
-      "drift_pp": 9.759,
-      "share": 0.4177
-     },
-     {
-      "a": "159206",
-      "b": "563230",
-      "drift_pp": 7.409,
-      "share": 0.4056
+      "a": "520880",
+      "b": "520970",
+      "drift_pp": 16.515,
+      "gate": "BOTH",
+      "share": 0.3373
      },
      {
       "a": "561980",
       "b": "562590",
-      "drift_pp": 10.509,
-      "share": 0.4056
+      "drift_pp": 12.481,
+      "gate": "BOTH",
+      "share": 0.4016
+     },
+     {
+      "a": "515880",
+      "b": "159695",
+      "drift_pp": 10.623,
+      "gate": "BOTH",
+      "share": 0.4819
+     },
+     {
+      "a": "516080",
+      "b": "517110",
+      "drift_pp": 10.155,
+      "gate": "BOTH",
+      "share": 0.4177
+     },
+     {
+      "a": "520980",
+      "b": "513150",
+      "drift_pp": 9.272,
+      "gate": "BOTH",
+      "share": 0.3655
+     },
+     {
+      "a": "513160",
+      "b": "513020",
+      "drift_pp": 9.118,
+      "gate": "BOTH",
+      "share": 0.3655
+     },
+     {
+      "a": "159206",
+      "b": "563230",
+      "drift_pp": 8.596,
+      "gate": "BOTH",
+      "share": 0.4096
      }
     ],
-    "leaked": 0,
-    "leaked_pairs": [],
-    "n": 24,
-    "share_max": 0.5542,
-    "share_median": 0.3996
+    "share_max": 0.5582,
+    "share_median": 0.3996,
+    "year_killed_pairs": [
+     {
+      "a": "515050",
+      "b": "159695",
+      "drift_pp": 21.741,
+      "gate": "BOTH",
+      "share": 0.5582
+     },
+     {
+      "a": "520690",
+      "b": "513120",
+      "drift_pp": 18.609,
+      "gate": "BOTH",
+      "share": 0.3092
+     },
+     {
+      "a": "561980",
+      "b": "560780",
+      "drift_pp": 17.204,
+      "gate": "BOTH",
+      "share": 0.4016
+     },
+     {
+      "a": "520880",
+      "b": "520970",
+      "drift_pp": 16.515,
+      "gate": "BOTH",
+      "share": 0.3373
+     },
+     {
+      "a": "561980",
+      "b": "562590",
+      "drift_pp": 12.481,
+      "gate": "BOTH",
+      "share": 0.4016
+     },
+     {
+      "a": "515880",
+      "b": "159695",
+      "drift_pp": 10.623,
+      "gate": "BOTH",
+      "share": 0.4819
+     },
+     {
+      "a": "516080",
+      "b": "517110",
+      "drift_pp": 10.155,
+      "gate": "BOTH",
+      "share": 0.4177
+     },
+     {
+      "a": "520980",
+      "b": "513150",
+      "drift_pp": 9.272,
+      "gate": "BOTH",
+      "share": 0.3655
+     },
+     {
+      "a": "513160",
+      "b": "513020",
+      "drift_pp": 9.118,
+      "gate": "BOTH",
+      "share": 0.3655
+     },
+     {
+      "a": "159206",
+      "b": "563230",
+      "drift_pp": 8.596,
+      "gate": "BOTH",
+      "share": 0.4096
+     }
+    ]
    },
-   "verdict": "KEEPS_THE_ACCEPTED_AND_REFUSES_EVERY_REFUSED_PAIR: of the 322 pairs the prices accepted this rule keeps 163 (51%); of the 24 the prices refused it refuses all of them"
+   "verdict": "KEEPS_THE_ACCEPTED_AND_REFUSES_EVERY_REFUSED_PAIR: of the 322 same-name pairs the prices accepted this rule accepts 169 (52%) and refuses 153; of the 24 pairs the prices refused it accepts none",
+   "year_line_cost": {
+    "1.0": {
+     "price_refused_accepted": 0,
+     "same_name_accepted": 169,
+     "year_line_pp": 1.0
+    },
+    "1.5": {
+     "price_refused_accepted": 0,
+     "same_name_accepted": 212,
+     "year_line_pp": 1.5
+    },
+    "2.0": {
+     "price_refused_accepted": 0,
+     "same_name_accepted": 257,
+     "year_line_pp": 2.0
+    },
+    "3.0": {
+     "price_refused_accepted": 0,
+     "same_name_accepted": 295,
+     "year_line_pp": 3.0
+    }
+   }
   },
   "sensitivity": {
    "0.5": {
-    "accepted_pairs": 457,
-    "chains": 27,
-    "cross_name_families": 26,
-    "cross_name_pairs": 364,
+    "accepted_pairs": 468,
+    "chains": 28,
+    "cross_name_families": 24,
+    "cross_name_pairs": 378,
     "drift_pp_max": 0.5,
-    "families": 38,
-    "families_over_material_line": 7,
-    "total_cost_cny": 8345.6
+    "families": 35,
+    "families_over_material_line": 5,
+    "total_cost_cny": 9098.4
    },
    "1.0": {
-    "accepted_pairs": 815,
+    "accepted_pairs": 830,
     "chains": 38,
-    "cross_name_families": 31,
-    "cross_name_pairs": 656,
+    "cross_name_families": 26,
+    "cross_name_pairs": 661,
     "drift_pp_max": 1.0,
-    "families": 42,
-    "families_over_material_line": 6,
-    "total_cost_cny": 10236.2
+    "families": 43,
+    "families_over_material_line": 5,
+    "total_cost_cny": 8476.9
    },
    "2.0": {
-    "accepted_pairs": 1365,
+    "accepted_pairs": 1357,
     "chains": 44,
-    "cross_name_families": 33,
-    "cross_name_pairs": 1107,
+    "cross_name_families": 31,
+    "cross_name_pairs": 1100,
     "drift_pp_max": 2.0,
-    "families": 51,
+    "families": 50,
     "families_over_material_line": 4,
-    "total_cost_cny": 2835.5
+    "total_cost_cny": 6201.8
    }
   },
   "chains": [
@@ -10255,10 +10306,6 @@
      ],
      [
       "159105",
-      "513280"
-     ],
-     [
-      "159105",
       "513780"
      ],
      [
@@ -10268,6 +10315,10 @@
      [
       "159105",
       "520970"
+     ],
+     [
+      "159615",
+      "159718"
      ],
      [
       "159615",
@@ -10456,20 +10507,20 @@
       "159971"
      ],
      [
-      "159908",
-      "159977"
-     ],
-     [
-      "159915",
-      "159948"
-     ],
-     [
       "159915",
       "159957"
      ],
      [
       "159915",
+      "159958"
+     ],
+     [
+      "159915",
       "159977"
+     ],
+     [
+      "159948",
+      "159957"
      ],
      [
       "159948",
@@ -10482,6 +10533,10 @@
      [
       "159957",
       "159971"
+     ],
+     [
+      "159957",
+      "159977"
      ],
      [
       "159958",
@@ -10523,11 +10578,19 @@
       "159526"
      ],
      [
+      "159213",
+      "159770"
+     ],
+     [
       "159258",
       "560770"
      ],
      [
       "159258",
+      "562500"
+     ],
+     [
+      "159526",
       "562500"
      ],
      [
@@ -10570,10 +10633,6 @@
      ],
      [
       "159217",
-      "159567"
-     ],
-     [
-      "159217",
       "159570"
      ],
      [
@@ -10586,11 +10645,7 @@
      ],
      [
       "159286",
-      "159567"
-     ],
-     [
-      "159286",
-      "159570"
+      "159316"
      ],
      [
       "159286",
@@ -10605,15 +10660,7 @@
       "159567"
      ],
      [
-      "159297",
-      "159570"
-     ],
-     [
       "159316",
-      "159570"
-     ],
-     [
-      "159567",
       "159570"
      ],
      [
@@ -10649,6 +10696,10 @@
      [
       "159233",
       "563390"
+     ],
+     [
+      "159233",
+      "563760"
      ],
      [
       "159235",
@@ -10722,27 +10773,70 @@
    },
    {
     "members": [
+     "159268",
+     "513070",
+     "513230"
+    ],
+    "n": 3,
+    "n_names": 2,
+    "names": [
+     "HK消费",
+     "港股通消费ETF"
+    ],
+    "pairs_not_accepted": [
+     [
+      "159268",
+      "513230"
+     ]
+    ],
+    "state": "CHAIN_NOT_CLIQUE",
+    "why": "A~B and B~C is not A~C; not every pair inside was accepted"
+   },
+   {
+    "members": [
      "159269",
+     "159750",
      "159751",
      "513020",
      "513150",
      "513860",
      "513980"
     ],
-    "n": 6,
-    "n_names": 6,
+    "n": 7,
+    "n_names": 7,
     "names": [
      "港科技",
      "港科技NF",
      "港股科技ETF",
      "港股科技ETF景顺",
      "港股通科技ETF",
-     "港股通科技ETF海富通"
+     "港股通科技ETF海富通",
+     "科技HK50"
     ],
     "pairs_not_accepted": [
      [
       "159269",
+      "159750"
+     ],
+     [
+      "159269",
       "159751"
+     ],
+     [
+      "159750",
+      "513020"
+     ],
+     [
+      "159750",
+      "513150"
+     ],
+     [
+      "159750",
+      "513860"
+     ],
+     [
+      "159750",
+      "513980"
      ],
      [
       "159751",
@@ -10790,10 +10884,10 @@
     "pairs_not_accepted": [
      [
       "159272",
-      "159278"
+      "159530"
      ],
      [
-      "159272",
+      "159278",
       "159530"
      ],
      [
@@ -10896,6 +10990,10 @@
     "pairs_not_accepted": [
      [
       "159300",
+      "159330"
+     ],
+     [
+      "159300",
       "159338"
      ],
      [
@@ -10908,11 +11006,15 @@
      ],
      [
       "159300",
-      "159356"
+      "159353"
      ],
      [
       "159300",
       "159358"
+     ],
+     [
+      "159300",
+      "159361"
      ],
      [
       "159300",
@@ -10985,10 +11087,6 @@
      [
       "159300",
       "560050"
-     ],
-     [
-      "159300",
-      "560510"
      ],
      [
       "159300",
@@ -11036,7 +11134,15 @@
      ],
      [
       "159330",
+      "159359"
+     ],
+     [
+      "159330",
       "159360"
+     ],
+     [
+      "159330",
+      "159361"
      ],
      [
       "159330",
@@ -11045,6 +11151,10 @@
      [
       "159330",
       "159393"
+     ],
+     [
+      "159330",
+      "159593"
      ],
      [
       "159330",
@@ -11057,6 +11167,14 @@
      [
       "159330",
       "159919"
+     ],
+     [
+      "159330",
+      "510180"
+     ],
+     [
+      "159330",
+      "510300"
      ],
      [
       "159330",
@@ -11116,7 +11234,11 @@
      ],
      [
       "159338",
-      "159352"
+      "159339"
+     ],
+     [
+      "159338",
+      "159353"
      ],
      [
       "159338",
@@ -11129,6 +11251,10 @@
      [
       "159338",
       "159360"
+     ],
+     [
+      "159338",
+      "159362"
      ],
      [
       "159338",
@@ -11149,6 +11275,10 @@
      [
       "159338",
       "159673"
+     ],
+     [
+      "159338",
+      "159925"
      ],
      [
       "159338",
@@ -11213,6 +11343,10 @@
      [
       "159338",
       "563860"
+     ],
+     [
+      "159338",
+      "563880"
      ],
      [
       "159339",
@@ -11228,15 +11362,15 @@
      ],
      [
       "159339",
+      "159358"
+     ],
+     [
+      "159339",
       "159359"
      ],
      [
       "159339",
       "159362"
-     ],
-     [
-      "159339",
-      "159393"
      ],
      [
       "159339",
@@ -11249,10 +11383,6 @@
      [
       "159339",
       "159601"
-     ],
-     [
-      "159339",
-      "159919"
      ],
      [
       "159339",
@@ -11304,10 +11434,6 @@
      ],
      [
       "159339",
-      "560610"
-     ],
-     [
-      "159339",
       "562890"
      ],
      [
@@ -11328,7 +11454,7 @@
      ],
      [
       "159351",
-      "159361"
+      "159360"
      ],
      [
       "159351",
@@ -11361,6 +11487,10 @@
      [
       "159351",
       "510300"
+     ],
+     [
+      "159351",
+      "510310"
      ],
      [
       "159351",
@@ -11425,6 +11555,10 @@
      [
       "159351",
       "563220"
+     ],
+     [
+      "159351",
+      "563330"
      ],
      [
       "159351",
@@ -11484,10 +11618,6 @@
      ],
      [
       "159352",
-      "510330"
-     ],
-     [
-      "159352",
       "510360"
      ],
      [
@@ -11500,11 +11630,11 @@
      ],
      [
       "159352",
-      "515310"
+      "515380"
      ],
      [
       "159352",
-      "515380"
+      "515390"
      ],
      [
       "159352",
@@ -11541,10 +11671,6 @@
      [
       "159352",
       "563360"
-     ],
-     [
-      "159352",
-      "563800"
      ],
      [
       "159352",
@@ -11572,10 +11698,6 @@
      ],
      [
       "159353",
-      "159393"
-     ],
-     [
-      "159353",
       "159593"
      ],
      [
@@ -11592,11 +11714,11 @@
      ],
      [
       "159353",
-      "510310"
+      "510300"
      ],
      [
       "159353",
-      "510350"
+      "510310"
      ],
      [
       "159353",
@@ -11652,15 +11774,7 @@
      ],
      [
       "159353",
-      "563800"
-     ],
-     [
-      "159353",
       "563880"
-     ],
-     [
-      "159356",
-      "159361"
      ],
      [
       "159356",
@@ -11705,10 +11819,6 @@
      [
       "159356",
       "512080"
-     ],
-     [
-      "159356",
-      "515310"
      ],
      [
       "159356",
@@ -11757,10 +11867,6 @@
      [
       "159356",
       "563800"
-     ],
-     [
-      "159356",
-      "563880"
      ],
      [
       "159358",
@@ -11780,10 +11886,6 @@
      ],
      [
       "159358",
-      "159393"
-     ],
-     [
-      "159358",
       "159593"
      ],
      [
@@ -11796,7 +11898,7 @@
      ],
      [
       "159358",
-      "159673"
+      "159919"
      ],
      [
       "159358",
@@ -11820,15 +11922,19 @@
      ],
      [
       "159358",
-      "512090"
-     ],
-     [
-      "159358",
       "515310"
      ],
      [
       "159358",
       "515380"
+     ],
+     [
+      "159358",
+      "515390"
+     ],
+     [
+      "159358",
+      "515800"
      ],
      [
       "159358",
@@ -11844,6 +11950,10 @@
      ],
      [
       "159358",
+      "560610"
+     ],
+     [
+      "159358",
       "562890"
      ],
      [
@@ -11852,11 +11962,7 @@
      ],
      [
       "159358",
-      "563220"
-     ],
-     [
-      "159358",
-      "563800"
+      "563360"
      ],
      [
       "159358",
@@ -11904,19 +12010,7 @@
      ],
      [
       "159359",
-      "510310"
-     ],
-     [
-      "159359",
       "510330"
-     ],
-     [
-      "159359",
-      "512020"
-     ],
-     [
-      "159359",
-      "512050"
      ],
      [
       "159359",
@@ -11944,7 +12038,11 @@
      ],
      [
       "159359",
-      "563800"
+      "563860"
+     ],
+     [
+      "159360",
+      "159361"
      ],
      [
       "159360",
@@ -11980,11 +12078,11 @@
      ],
      [
       "159360",
-      "510310"
+      "510300"
      ],
      [
       "159360",
-      "510350"
+      "510310"
      ],
      [
       "159360",
@@ -12000,7 +12098,7 @@
      ],
      [
       "159360",
-      "512090"
+      "512080"
      ],
      [
       "159360",
@@ -12033,6 +12131,10 @@
      [
       "159360",
       "563080"
+     ],
+     [
+      "159360",
+      "563220"
      ],
      [
       "159360",
@@ -12176,19 +12278,11 @@
      ],
      [
       "159362",
-      "510330"
-     ],
-     [
-      "159362",
       "510350"
      ],
      [
       "159362",
       "510360"
-     ],
-     [
-      "159362",
-      "512020"
      ],
      [
       "159362",
@@ -12276,10 +12370,6 @@
      ],
      [
       "159393",
-      "159925"
-     ],
-     [
-      "159393",
       "510180"
      ],
      [
@@ -12293,6 +12383,10 @@
      [
       "159393",
       "510330"
+     ],
+     [
+      "159393",
+      "510350"
      ],
      [
       "159393",
@@ -12392,6 +12486,10 @@
      ],
      [
       "159593",
+      "510330"
+     ],
+     [
+      "159593",
       "510350"
      ],
      [
@@ -12413,10 +12511,6 @@
      [
       "159593",
       "512090"
-     ],
-     [
-      "159593",
-      "515310"
      ],
      [
       "159593",
@@ -12568,10 +12662,6 @@
      ],
      [
       "159595",
-      "563080"
-     ],
-     [
-      "159595",
       "563220"
      ],
      [
@@ -12596,7 +12686,7 @@
      ],
      [
       "159601",
-      "159673"
+      "159925"
      ],
      [
       "159601",
@@ -12608,7 +12698,7 @@
      ],
      [
       "159601",
-      "510310"
+      "510330"
      ],
      [
       "159601",
@@ -12625,10 +12715,6 @@
      [
       "159601",
       "512090"
-     ],
-     [
-      "159601",
-      "515310"
      ],
      [
       "159601",
@@ -12685,6 +12771,10 @@
      [
       "159673",
       "510180"
+     ],
+     [
+      "159673",
+      "510300"
      ],
      [
       "159673",
@@ -12768,15 +12858,15 @@
      ],
      [
       "159919",
+      "510330"
+     ],
+     [
+      "159919",
       "510350"
      ],
      [
       "159919",
       "512050"
-     ],
-     [
-      "159919",
-      "512090"
      ],
      [
       "159919",
@@ -12828,6 +12918,10 @@
      ],
      [
       "159919",
+      "563800"
+     ],
+     [
+      "159919",
       "563860"
      ],
      [
@@ -12849,6 +12943,10 @@
      [
       "159925",
       "512020"
+     ],
+     [
+      "159925",
+      "512080"
      ],
      [
       "159925",
@@ -12893,6 +12991,10 @@
      [
       "159925",
       "563860"
+     ],
+     [
+      "510180",
+      "510300"
      ],
      [
       "510180",
@@ -13016,6 +13118,10 @@
      ],
      [
       "510300",
+      "515390"
+     ],
+     [
+      "510300",
       "560050"
      ],
      [
@@ -13045,10 +13151,6 @@
      [
       "510300",
       "563360"
-     ],
-     [
-      "510300",
-      "563800"
      ],
      [
       "510300",
@@ -13128,6 +13230,10 @@
      ],
      [
       "510330",
+      "512080"
+     ],
+     [
+      "510330",
       "515390"
      ],
      [
@@ -13168,10 +13274,6 @@
      ],
      [
       "510350",
-      "512050"
-     ],
-     [
-      "510350",
       "515310"
      ],
      [
@@ -13197,10 +13299,6 @@
      [
       "510350",
       "563330"
-     ],
-     [
-      "510350",
-      "563800"
      ],
      [
       "510350",
@@ -13224,10 +13322,6 @@
      ],
      [
       "510360",
-      "512090"
-     ],
-     [
-      "510360",
       "515310"
      ],
      [
@@ -13264,11 +13358,11 @@
      ],
      [
       "510360",
-      "563860"
+      "563800"
      ],
      [
-      "512020",
-      "512050"
+      "510360",
+      "563860"
      ],
      [
       "512020",
@@ -13293,10 +13387,6 @@
      [
       "512020",
       "560530"
-     ],
-     [
-      "512020",
-      "560610"
      ],
      [
       "512020",
@@ -13340,10 +13430,6 @@
      ],
      [
       "512050",
-      "560530"
-     ],
-     [
-      "512050",
       "562890"
      ],
      [
@@ -13361,6 +13447,10 @@
      [
       "512080",
       "515310"
+     ],
+     [
+      "512080",
+      "515380"
      ],
      [
       "512080",
@@ -13492,19 +13582,11 @@
      ],
      [
       "515310",
-      "563220"
-     ],
-     [
-      "515310",
       "563330"
      ],
      [
       "515310",
       "563860"
-     ],
-     [
-      "515310",
-      "563880"
      ],
      [
       "515330",
@@ -13557,6 +13639,10 @@
      [
       "515380",
       "560050"
+     ],
+     [
+      "515380",
+      "560510"
      ],
      [
       "515380",
@@ -13601,6 +13687,10 @@
      [
       "515390",
       "515800"
+     ],
+     [
+      "515390",
+      "560050"
      ],
      [
       "515390",
@@ -13888,6 +13978,28 @@
    },
    {
     "members": [
+     "159307",
+     "159549",
+     "515100"
+    ],
+    "n": 3,
+    "n_names": 3,
+    "names": [
+     "100红利",
+     "红利100",
+     "红利低波100ETF景顺"
+    ],
+    "pairs_not_accepted": [
+     [
+      "159307",
+      "515100"
+     ]
+    ],
+    "state": "CHAIN_NOT_CLIQUE",
+    "why": "A~B and B~C is not A~C; not every pair inside was accepted"
+   },
+   {
+    "members": [
      "159321",
      "159562",
      "517400",
@@ -13937,10 +14049,6 @@
      [
       "159516",
       "159558"
-     ],
-     [
-      "159558",
-      "560780"
      ]
     ],
     "state": "CHAIN_NOT_CLIQUE",
@@ -14005,10 +14113,6 @@
      ],
      [
       "159547",
-      "515450"
-     ],
-     [
-      "159547",
       "563020"
      ],
      [
@@ -14055,7 +14159,7 @@
     "pairs_not_accepted": [
      [
       "159369",
-      "159375"
+      "159371"
      ],
      [
       "159369",
@@ -14080,6 +14184,10 @@
      [
       "159681",
       "159814"
+     ],
+     [
+      "159681",
+      "159949"
      ],
      [
       "159682",
@@ -14136,10 +14244,6 @@
      ],
      [
       "159513",
-      "513300"
-     ],
-     [
-      "159513",
       "513390"
      ],
      [
@@ -14156,7 +14260,7 @@
      ],
      [
       "159632",
-      "513300"
+      "513870"
      ],
      [
       "159659",
@@ -14165,6 +14269,10 @@
      [
       "159659",
       "513300"
+     ],
+     [
+      "159659",
+      "513390"
      ],
      [
       "159659",
@@ -14176,11 +14284,11 @@
      ],
      [
       "159696",
-      "513100"
+      "513110"
      ],
      [
       "159696",
-      "513110"
+      "513300"
      ],
      [
       "159696",
@@ -14229,10 +14337,28 @@
      [
       "513300",
       "513390"
-     ],
+     ]
+    ],
+    "state": "CHAIN_NOT_CLIQUE",
+    "why": "A~B and B~C is not A~C; not every pair inside was accepted"
+   },
+   {
+    "members": [
+     "159531",
+     "159532",
+     "563300"
+    ],
+    "n": 3,
+    "n_names": 3,
+    "names": [
+     "2000E",
+     "中证2000",
+     "中证2000ETF"
+    ],
+    "pairs_not_accepted": [
      [
-      "513300",
-      "513870"
+      "159531",
+      "563300"
      ]
     ],
     "state": "CHAIN_NOT_CLIQUE",
@@ -14280,6 +14406,10 @@
       "516350"
      ],
      [
+      "512760",
+      "516640"
+     ],
+     [
       "516350",
       "516640"
      ],
@@ -14293,21 +14423,21 @@
    },
    {
     "members": [
-     "159590",
-     "159852",
-     "515230",
-     "562930"
+     "159568",
+     "159792",
+     "513770"
     ],
-    "n": 4,
-    "n_names": 2,
+    "n": 3,
+    "n_names": 3,
     "names": [
-     "软件50",
-     "软件ETF"
+     "互联网",
+     "港股互联",
+     "港股互联网ETF"
     ],
     "pairs_not_accepted": [
      [
-      "515230",
-      "562930"
+      "159568",
+      "159792"
      ]
     ],
     "state": "CHAIN_NOT_CLIQUE",
@@ -14373,29 +14503,8 @@
    },
    {
     "members": [
-     "159622",
-     "159748",
-     "517110"
-    ],
-    "n": 3,
-    "n_names": 3,
-    "names": [
-     "AH创新药",
-     "创新药AH",
-     "创新药ETF"
-    ],
-    "pairs_not_accepted": [
-     [
-      "159748",
-      "517110"
-     ]
-    ],
-    "state": "CHAIN_NOT_CLIQUE",
-    "why": "A~B and B~C is not A~C; not every pair inside was accepted"
-   },
-   {
-    "members": [
      "159629",
+     "159633",
      "159845",
      "159922",
      "510500",
@@ -14404,13 +14513,15 @@
      "512500",
      "560010",
      "560110",
+     "561350",
      "561550"
     ],
-    "n": 10,
-    "n_names": 6,
+    "n": 12,
+    "n_names": 7,
     "names": [
      "1000ETF",
      "500ETF",
+     "ZZ1000",
      "中证1000",
      "中证1000ETF",
      "中证500ETF",
@@ -14419,6 +14530,10 @@
     "pairs_not_accepted": [
      [
       "159629",
+      "159633"
+     ],
+     [
+      "159629",
       "159922"
      ],
      [
@@ -14443,6 +14558,46 @@
      ],
      [
       "159629",
+      "561350"
+     ],
+     [
+      "159629",
+      "561550"
+     ],
+     [
+      "159633",
+      "159845"
+     ],
+     [
+      "159633",
+      "159922"
+     ],
+     [
+      "159633",
+      "510500"
+     ],
+     [
+      "159633",
+      "510510"
+     ],
+     [
+      "159633",
+      "512100"
+     ],
+     [
+      "159633",
+      "512500"
+     ],
+     [
+      "159633",
+      "560110"
+     ],
+     [
+      "159633",
+      "561350"
+     ],
+     [
+      "159633",
       "561550"
      ],
      [
@@ -14467,6 +14622,10 @@
      ],
      [
       "159845",
+      "561350"
+     ],
+     [
+      "159845",
       "561550"
      ],
      [
@@ -14487,6 +14646,10 @@
      ],
      [
       "159922",
+      "561350"
+     ],
+     [
+      "159922",
       "561550"
      ],
      [
@@ -14507,10 +14670,6 @@
      ],
      [
       "510510",
-      "512500"
-     ],
-     [
-      "510510",
       "560010"
      ],
      [
@@ -14527,6 +14686,10 @@
      ],
      [
       "512100",
+      "561350"
+     ],
+     [
+      "512100",
       "561550"
      ],
      [
@@ -14536,6 +14699,10 @@
      [
       "512500",
       "560110"
+     ],
+     [
+      "512500",
+      "561350"
      ],
      [
       "512500",
@@ -14543,10 +14710,22 @@
      ],
      [
       "560010",
+      "561350"
+     ],
+     [
+      "560010",
       "561550"
      ],
      [
       "560110",
+      "561350"
+     ],
+     [
+      "560110",
+      "561550"
+     ],
+     [
+      "561350",
       "561550"
      ]
     ],
@@ -14580,6 +14759,10 @@
      [
       "159652",
       "159876"
+     ],
+     [
+      "159652",
+      "512400"
      ],
      [
       "159652",
@@ -14664,11 +14847,11 @@
      ],
      [
       "159692",
-      "512570"
+      "512880"
      ],
      [
       "159692",
-      "512880"
+      "512900"
      ],
      [
       "159692",
@@ -14683,6 +14866,14 @@
       "515630"
      ],
      [
+      "159841",
+      "515850"
+     ],
+     [
+      "159842",
+      "159993"
+     ],
+     [
       "159842",
       "512000"
      ],
@@ -14723,6 +14914,10 @@
       "515850"
      ],
      [
+      "159993",
+      "560090"
+     ],
+     [
       "512000",
       "512570"
      ],
@@ -14741,10 +14936,6 @@
      [
       "512000",
       "515850"
-     ],
-     [
-      "512570",
-      "512900"
      ],
      [
       "512570",
@@ -14804,7 +14995,7 @@
     ],
     "pairs_not_accepted": [
      [
-      "515170",
+      "159736",
       "515710"
      ]
     ],
@@ -14838,19 +15029,15 @@
      ],
      [
       "159740",
+      "513580"
+     ],
+     [
+      "159740",
       "520920"
      ],
      [
       "159741",
       "513180"
-     ],
-     [
-      "159741",
-      "513260"
-     ],
-     [
-      "513010",
-      "513130"
      ],
      [
       "513010",
@@ -14866,6 +15053,10 @@
      ],
      [
       "513130",
+      "513580"
+     ],
+     [
+      "513260",
       "513580"
      ],
      [
@@ -14891,18 +15082,16 @@
      "159782",
      "159783",
      "588300",
-     "588320",
      "588330",
      "588360",
      "588380",
      "588400"
     ],
-    "n": 10,
-    "n_names": 8,
+    "n": 9,
+    "n_names": 7,
     "names": [
      "双创50",
      "双创50ETF",
-     "双创50增强ETF",
      "双创ETF",
      "双创基金",
      "科创创业",
@@ -14920,23 +15109,11 @@
      ],
      [
       "159780",
-      "588320"
-     ],
-     [
-      "159780",
       "588330"
      ],
      [
       "159781",
-      "159782"
-     ],
-     [
-      "159781",
       "588300"
-     ],
-     [
-      "159781",
-      "588320"
      ],
      [
       "159781",
@@ -14956,27 +15133,7 @@
      ],
      [
       "159782",
-      "588320"
-     ],
-     [
-      "159782",
-      "588330"
-     ],
-     [
-      "159782",
-      "588380"
-     ],
-     [
-      "159782",
       "588400"
-     ],
-     [
-      "159783",
-      "588320"
-     ],
-     [
-      "588300",
-      "588320"
      ],
      [
       "588300",
@@ -14989,18 +15146,6 @@
      [
       "588300",
       "588380"
-     ],
-     [
-      "588320",
-      "588330"
-     ],
-     [
-      "588320",
-      "588380"
-     ],
-     [
-      "588320",
-      "588400"
      ],
      [
       "588330",
@@ -15016,10 +15161,6 @@
      ],
      [
       "588360",
-      "588400"
-     ],
-     [
-      "588380",
       "588400"
      ]
     ],
@@ -15176,6 +15317,14 @@
       "515020"
      ],
      [
+      "512800",
+      "516310"
+     ],
+     [
+      "512820",
+      "515290"
+     ],
+     [
       "512820",
       "516310"
      ],
@@ -15255,26 +15404,6 @@
    },
    {
     "members": [
-     "512660",
-     "512680",
-     "512810"
-    ],
-    "n": 3,
-    "n_names": 1,
-    "names": [
-     "军工ETF"
-    ],
-    "pairs_not_accepted": [
-     [
-      "512660",
-      "512810"
-     ]
-    ],
-    "state": "CHAIN_NOT_CLIQUE",
-    "why": "A~B and B~C is not A~C; not every pair inside was accepted"
-   },
-   {
-    "members": [
      "588000",
      "588050",
      "588060",
@@ -15312,10 +15441,6 @@
      [
       "588000",
       "588940"
-     ],
-     [
-      "588000",
-      "588950"
      ],
      [
       "588050",
@@ -15366,8 +15491,12 @@
       "588950"
      ],
      [
+      "588060",
+      "589850"
+     ],
+     [
       "588080",
-      "588150"
+      "588090"
      ],
      [
       "588080",
@@ -15376,10 +15505,6 @@
      [
       "588080",
       "588950"
-     ],
-     [
-      "588080",
-      "589850"
      ],
      [
       "588090",
@@ -15399,19 +15524,11 @@
      ],
      [
       "588150",
-      "588870"
-     ],
-     [
-      "588150",
       "588940"
      ],
      [
       "588150",
       "588950"
-     ],
-     [
-      "588150",
-      "589850"
      ],
      [
       "588180",
@@ -15452,26 +15569,6 @@
      [
       "588940",
       "589850"
-     ]
-    ],
-    "state": "CHAIN_NOT_CLIQUE",
-    "why": "A~B and B~C is not A~C; not every pair inside was accepted"
-   },
-   {
-    "members": [
-     "588010",
-     "588160",
-     "589180"
-    ],
-    "n": 3,
-    "n_names": 1,
-    "names": [
-     "科创新材料ETF"
-    ],
-    "pairs_not_accepted": [
-     [
-      "588010",
-      "589180"
      ]
     ],
     "state": "CHAIN_NOT_CLIQUE",
@@ -15531,10 +15628,6 @@
     "pairs_not_accepted": [
      [
       "588200",
-      "588290"
-     ],
-     [
-      "588200",
       "588890"
      ],
      [
@@ -15548,6 +15641,10 @@
      [
       "588290",
       "588810"
+     ],
+     [
+      "588290",
+      "588890"
      ],
      [
       "588750",
@@ -15567,10 +15664,6 @@
      ],
      [
       "588890",
-      "588990"
-     ],
-     [
-      "588920",
       "588990"
      ]
     ],
@@ -15618,16 +15711,8 @@
       "589010"
      ],
      [
-      "588760",
-      "589520"
-     ],
-     [
       "588790",
       "588930"
-     ],
-     [
-      "588790",
-      "589010"
      ],
      [
       "588930",
@@ -15642,21 +15727,39 @@
      "589000",
      "589080",
      "589660",
-     "589800"
+     "589800",
+     "589880"
     ],
-    "n": 4,
-    "n_names": 1,
+    "n": 5,
+    "n_names": 2,
     "names": [
-     "科创综指ETF"
+     "科创综指ETF",
+     "科创综指ETF建信"
     ],
     "pairs_not_accepted": [
+     [
+      "589000",
+      "589880"
+     ],
      [
       "589080",
       "589660"
      ],
      [
+      "589080",
+      "589800"
+     ],
+     [
+      "589080",
+      "589880"
+     ],
+     [
       "589660",
       "589800"
+     ],
+     [
+      "589800",
+      "589880"
      ]
     ],
     "state": "CHAIN_NOT_CLIQUE",
@@ -15680,7 +15783,7 @@
    "distribution policy is invisible here: two same-basket tickers that pay different dividends drift in price and are refused by gate 2 (a false refusal, not a risk)",
    "the money line is the dearest-vs-cheapest premium INSIDE an accepted family on a 100000 CNY ticket; it is the price of picking the wrong name, not a return",
    "one session of premiums: the family membership rests on a year of closes, the money on one day's board",
-   "the screen drops tickers that did not trade every day of the window (64 here); they are counted, never filled with zeros"
+   "the screen drops tickers that did not trade every day of the window (65 here); they are counted, never filled with zeros"
   ]
  },
  "floor_provenance": {
@@ -16717,9 +16820,9 @@
   "reading": "block bootstrap (2000 resamples, block=20 bars): CAGR p5/p50/p95 = 3.37%/9.41%/16.46% per year, Sharpe 0.38/0.96/1.59, maxDD -21.60%/-13.34%/-8.99%; the published point estimate 9.51% sits at the 51.1 pctile; 0.6% of resamples lose money and 7.3% break a -20% drawdown | these are the published book's own numbers: this series reads 9.51% against the production cell n12_vt08 at 9.51%"
  },
  "stress": {
-  "n_days": 5281,
+  "n_days": 5282,
   "first": "2005-02-23",
-  "last": "2026-11-16",
+  "last": "2026-11-17",
   "worst": {
    "1d": {
     "pct": -3.64,
@@ -16780,25 +16883,25 @@
   },
   "basis": "账面权重（2026-11-16 收盘）原封不动摆回整段面板（现金 0 息），取最坏的连续 N 个交易日；不是策略实际路径，是同一批票的最坏窗口",
   "priced_bar": "2026-11-16",
-  "inputs_sha256": "0726a57b92a47199b09b31b6d4dd9a828552ef40b53ec4fc409ecf2afa3f21d5"
+  "inputs_sha256": "ce4ce005f77522abb192ba8a9cdae63f3caba0610f19bf1abd9d5a836070650e"
  },
  "authority": {
   "writer": "bm-c",
   "owner": "bm-a",
-  "owner_silent_h": 16.1,
+  "owner_silent_h": 17.1,
   "gate_h": 6.0,
   "took_over": true,
-  "why": "bm-a has not written its own heartbeat for 16.1 h (> 6 h): this host takes the pen for the page only -- a stopped heartbeat is not a dead machine",
+  "why": "bm-a has not written its own heartbeat for 17.1 h (> 6 h): this host takes the pen for the page only -- a stopped heartbeat is not a dead machine",
   "no_bar_reason": "human_ages"
  },
  "fleet": {
-  "board_ts": "2026-11-17T00:26:37",
+  "board_ts": "2026-11-17T16:07:00",
   "verdict": "attention",
   "rows": [
    {
     "host": "bm-a",
-    "last_seen": "2026-11-16T20:59:33+08:00",
-    "age_h": 3.45,
+    "last_seen": "2026-11-16T23:39:02+08:00",
+    "age_h": 16.47,
     "alive": false,
     "lanes": [
      "heat",
@@ -16813,7 +16916,7 @@
    {
     "host": "bm-b",
     "last_seen": "2026-10-30T12:43:06+08:00",
-    "age_h": 419.73,
+    "age_h": 435.4,
     "alive": false,
     "lanes": [
      "marks",
@@ -16826,8 +16929,8 @@
    },
    {
     "host": "bm-c",
-    "last_seen": "2026-11-16T23:05:36+08:00",
-    "age_h": 1.35,
+    "last_seen": "2026-11-17T15:35:56+08:00",
+    "age_h": 0.52,
     "alive": true,
     "lanes": [
      "sina_mf",

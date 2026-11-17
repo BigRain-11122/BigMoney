@@ -1,6 +1,6 @@
 {
  "face": "index_daily_update_status",
- "generated": "2026-11-17T05:46:31",
+ "generated": "2026-11-17T16:10:22",
  "host": "bm-c",
  "machine": "bm-c",
  "codes": [
@@ -9,10 +9,15 @@
   "sh000852",
   "sh000905"
  ],
- "expected_complete_date": "2026-11-16",
- "behind": {},
- "action": "no-op",
- "reason": "every code already covers 2026-11-16",
+ "expected_complete_date": "2026-11-17",
+ "behind": {
+  "sh000016": "2026-11-16",
+  "sh000300": "2026-11-16",
+  "sh000852": "2026-11-16",
+  "sh000905": "2026-11-16"
+ },
+ "action": "throttled",
  "exit": 0,
+ "reason": "last attempt 312s ago (< 1800s)",
  "lane_machine": "bm-c"
 }

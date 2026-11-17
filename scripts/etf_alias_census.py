@@ -215,27 +215,107 @@ def calibrate(verdict_of, census):
                 neg.add(key)
 
     def measure(pairs):
-        shares, kept, leaked = [], [], []
+        shares, accepted, refused = [], [], []
         for a, b in pairs:
             v = verdict_of(a, b)
             if not v:
                 continue
             shares.append(v["share"])
-            (leaked if v["state"] == "SAME_BASKET" else kept).append(
-                {"a": a, "b": b, "share": round(v["share"], 4),
-                 "drift_pp": round(v["drift_pp"], 3)})
+            rec = {"a": a, "b": b, "share": round(v["share"], 4),
+                   "drift_pp": round(v["drift_pp"], 3), "gate": gate_named(v)}
+            (accepted if v["state"] == "SAME_BASKET" else refused).append(rec)
         if not shares:
-            return {"n": 0, "kept": 0, "leaked": 0, "kept_pairs": [], "leaked_pairs": []}
+            return {"n": 0, "accepted_by_rule": 0, "refused_by_rule": 0, "by_gate": {},
+                    "drift_buckets": {}, "accepted_pairs": [], "refused_pairs": [],
+                    "year_killed_pairs": []}
         arr = np.array(shares, dtype=float)
-        return {"n": int(arr.size), "kept": len(kept), "leaked": len(leaked),
+        # All three keys are printed even at zero: "no pair was refused by the day gate" is a
+        # reading, not a missing one (the page's rule is "never a fake zero", and a zero the face
+        # counted is not fake).
+        by_gate = {"DAY": 0, "YEAR": 0, "BOTH": 0}
+        for r in refused:
+            by_gate[r["gate"]] = by_gate.get(r["gate"], 0) + 1
+        # How far over the line a refusal is: a pair refused at 1.1 pp is a different decision
+        # from one refused at 8 pp, and only the buckets make that visible without listing 150
+        # pairs on the page.
+        buckets = {"1.0-1.5": 0, "1.5-2.0": 0, "2.0-3.0": 0, "3.0+": 0}
+        for r in refused:
+            d = r["drift_pp"]
+            if d <= 1.5:
+                buckets["1.0-1.5"] += 1
+            elif d <= 2.0:
+                buckets["1.5-2.0"] += 1
+            elif d <= 3.0:
+                buckets["2.0-3.0"] += 1
+            else:
+                buckets["3.0+"] += 1
+        # Each count is named after the side it is on. r1806 shipped them the other way round
+        # (`kept` carried the pairs the rule REFUSED) and both the md and the reader page then
+        # printed "keeps 163" for a rule that kept 159 -- the number was fine, the noun was not
+        # (r1807). The day/year split is published because the caveat says the YEAR gate costs
+        # recall; a reader cannot check that claim without knowing which gate refused what.
+        return {"n": int(arr.size),
+                "accepted_by_rule": len(accepted), "refused_by_rule": len(refused),
+                "by_gate": by_gate, "drift_buckets": buckets,
                 "share_median": round(float(np.median(arr)), 4),
                 "share_max": round(float(arr.max()), 4),
-                "kept_pairs": sorted(kept, key=lambda r: -r["share"])[:10],
-                "leaked_pairs": sorted(leaked, key=lambda r: -r["share"])[:10]}
+                "drift_min": (round(min(r["drift_pp"] for r in refused), 3) if refused else None),
+                "drift_max": (round(max(r["drift_pp"] for r in refused), 3) if refused else None),
+                "accepted_pairs": sorted(accepted, key=lambda r: -r["share"])[:10],
+                "refused_pairs": sorted(refused, key=lambda r: -r["drift_pp"])[:10],
+                "year_killed_pairs": sorted(
+                    [r for r in refused if r["gate"] in ("YEAR", "BOTH")],
+                    key=lambda r: -r["drift_pp"])[:10]}
 
     a, b = measure(sorted(pos)), measure(sorted(neg))
     out.update({"available": True, "accepted_same_name": a, "refused_same_name": b,
-                "line": SHARE_MAX, "verdict": _calibration_word(a, b)})
+                "line": SHARE_MAX, "verdict": _calibration_word(a, b),
+                "year_line_cost": year_line_cost(verdict_of, sorted(pos), sorted(neg))})
+    return out
+
+
+def gate_named(v):
+    """Which gate refused a pair -- None if it was not refused.
+
+    The verdict string already says the shape (DAYS_APART vs WALKS_APART), but a pair can be
+    refused by both and still only carry the first name the branch hit; the calibration split
+    has to add up to n, so both flags are read here rather than inferred from the state word.
+    """
+    share, drift = v.get("share"), v.get("drift_pp")
+    day = share is not None and share > SHARE_MAX
+    year = drift is not None and drift > DRIFT_PP_MAX
+    if day and year:
+        return "BOTH"
+    if day:
+        return "DAY"
+    if year:
+        return "YEAR"
+    return None
+
+
+def year_line_cost(verdict_of, pos, neg, lines=(1.0, 1.5, 2.0, 3.0)):
+    """What moving the year line buys and what it also lets in, on the board's labelled set.
+
+    The drift line is the one threshold this face chose rather than measured, so the reader is
+    owed both sides of it: pairs the prices accepted that a looser line would recover, and pairs
+    the prices refused that the same looser line would bless. Publishing only the first is how a
+    threshold gets sold as free recall.
+    """
+    out = {}
+    for dl in lines:
+        got_pos = got_neg = 0
+        for a, b in pos:
+            v = verdict_of(a, b)
+            if v and v.get("share") is not None and v["share"] <= SHARE_MAX and \
+                    v["drift_pp"] <= dl:
+                got_pos += 1
+        for a, b in neg:
+            v = verdict_of(a, b)
+            if v and v.get("share") is not None and v["share"] <= SHARE_MAX and \
+                    v["drift_pp"] <= dl:
+                got_neg += 1
+        out["%.1f" % dl] = {"year_line_pp": dl, "same_name_accepted": got_pos,
+                            "price_refused_accepted": got_neg}
     return out
 
 
@@ -243,16 +323,52 @@ def _calibration_word(pos, neg):
     if not pos.get("n") or not neg.get("n"):
         return ("NOT_CALIBRATED (one side of the labelled set is empty in this window: "
                 "accepted n=%d, refused n=%d)" % (pos.get("n", 0), neg.get("n", 0)))
-    if neg.get("leaked"):
+    if neg.get("accepted_by_rule"):
         return ("REFUSED_PAIRS_PASS: %d of the %d pairs the board's own prices refused are "
                 "accepted by this rule -- they are listed with their numbers" %
-                (neg["leaked"], neg["n"]))
-    return ("KEEPS_THE_ACCEPTED_AND_REFUSES_EVERY_REFUSED_PAIR: of the %d pairs the prices "
-            "accepted this rule keeps %d (%.0f%%); of the %d the prices refused it refuses all "
-            "of them" % (pos["n"], pos["kept"], 100.0 * pos["kept"] / max(pos["n"], 1), neg["n"]))
+                (neg["accepted_by_rule"], neg["n"]))
+    return ("KEEPS_THE_ACCEPTED_AND_REFUSES_EVERY_REFUSED_PAIR: of the %d same-name pairs the "
+            "prices accepted this rule accepts %d (%.0f%%) and refuses %d; of the %d pairs the "
+            "prices refused it accepts none" %
+            (pos["n"], pos.get("accepted_by_rule", 0),
+             100.0 * pos.get("accepted_by_rule", 0) / max(pos["n"], 1),
+             pos.get("refused_by_rule", 0), neg["n"]))
 
 
 # ---------------------------------------------------------------- face
+
+def year_line_decision(cal):
+    """The year line is the one threshold this face chose, so the choice is published as a record.
+
+    The labelled set cannot place it: no pair the prices refused drifts less than a few pp/yr, so
+    every line under that is unopposed. A threshold with no measured optimum still has to sit
+    somewhere, and leaving it unstated makes each reader re-decide it differently (r1779). The
+    reason therefore comes from what being wrong costs -- the drift the swap would eat.
+    """
+    pos = (cal or {}).get("accepted_same_name") or {}
+    neg = (cal or {}).get("refused_same_name") or {}
+    ylc = (cal or {}).get("year_line_cost") or {}
+    lo = ylc.get("%.1f" % DRIFT_PP_MAX) or {}
+    hi = ylc.get("3.0") or {}
+    gain = max(0, hi.get("same_name_accepted", 0) - lo.get("same_name_accepted", 0))
+    return {
+        "value_pp": DRIFT_PP_MAX,
+        "decision": "KEEP",
+        "undetermined_band_pp": ([DRIFT_PP_MAX, neg.get("drift_min")]
+                                 if neg.get("drift_min") is not None else None),
+        "because": ("no pair the board's own prices refused drifts less than %.1f pp/yr, so the "
+                    "labelled set cannot place the line between %.1f and there; the line is "
+                    "priced by what being wrong costs -- a swap made inside a %.1f pp/yr band "
+                    "loses at most that band, while the %d extra pairs a 3.0 pp line recovers "
+                    "each carry up to 3 pp/yr of drift"
+                    % (neg.get("drift_min") or 0.0, DRIFT_PP_MAX, DRIFT_PP_MAX, gain)),
+        "what_it_costs": ("recall: %d of the %d same-name pairs the prices accepted are refused"
+                          % (pos.get("refused_by_rule", 0), pos.get("n", 0))),
+        "recovered_at_3pp": gain,
+        "refused_by_rule": pos.get("refused_by_rule", 0),
+        "accepted_same_name_n": pos.get("n", 0),
+    }
+
 
 def build():
     board, session = gap.board_labels()
@@ -328,6 +444,7 @@ def build():
     # DAYS_APART was counted inside the loop before a pair record was ever built, so `counts`
     # is already complete; rebuilding it from `pairs` here would silently drop every refused-
     # at-gate-1 pair from the tally.
+    cal = calibrate(verdict_of, census)
     face = {
         "artifact": "etf_alias_census",
         "session": session,
@@ -359,7 +476,8 @@ def build():
                       {"members": biggest["members"], "names": biggest["names"],
                        "money": biggest["money"]}),
         },
-        "calibration": calibrate(verdict_of, census),
+        "calibration": cal,
+        "year_line_decision": year_line_decision(cal),
         "sensitivity": sensitivity(pairs, labels, premiums),
         "sentence": sentence(counts, cross_pairs, cross, over, total),
         "caveats": [
@@ -454,16 +572,73 @@ def render_md(face):
               % (cal.get("reason") or "no calibration face"), ""]
     else:
         a, b = cal["accepted_same_name"], cal["refused_same_name"]
-        L += ["Same-name pairs the prices accepted (r1804): n=%d, this rule keeps %d (%.0f%%). "
-              "Same-name pairs the prices refused: n=%d, this rule refuses %d. **%s**"
-              % (a.get("n"), a.get("kept"), 100.0 * a.get("kept", 0) / max(a.get("n", 1), 1),
-                 b.get("n"), b.get("kept"), cal["verdict"]), ""]
-        if b.get("leaked_pairs"):
-            L.append("Refused pairs this rule would accept: %s"
-                     % ", ".join("%s/%s (%.2f pp on %.3f of days)"
-                                 % (x["a"], x["b"], x["drift_pp"], x["share"])
-                                 for x in b["leaked_pairs"]))
+        L += ["Same-name pairs the prices accepted (r1804): n=%d -- this rule accepts %d "
+              "(%.0f%%) and refuses %d. Same-name pairs the prices refused: n=%d -- this rule "
+              "accepts %d and refuses %d. **%s**"
+              % (a.get("n"), a.get("accepted_by_rule", 0),
+                 100.0 * a.get("accepted_by_rule", 0) / max(a.get("n", 1), 1),
+                 a.get("refused_by_rule", 0), b.get("n"), b.get("accepted_by_rule", 0),
+                 b.get("refused_by_rule", 0), cal["verdict"]), ""]
+        gate = a.get("by_gate") or {}
+        if a.get("refused_by_rule"):
+            L += ["Which gate does the refusing: of the %d accepted same-name pairs this rule "
+                  "refuses, **%d are refused by the day gate alone**, %d by the year gate "
+                  "alone, %d by both. The caveat below says the year gate costs recall; that "
+                  "line has to be read against this split."
+                  % (a.get("refused_by_rule", 0), gate.get("DAY", 0), gate.get("YEAR", 0),
+                     gate.get("BOTH", 0)), ""]
+        nbg = b.get("by_gate") or {}
+        ylc = cal.get("year_line_cost") or {}
+        if b.get("refused_by_rule") and b.get("drift_min") is not None and ylc:
+            hi = max(ylc, key=float)
+            hs = ylc[hi]
+            L += ["**What the labelled negatives can and cannot police**: all %d pairs the "
+                  "prices refused are refused by the year gate as well (day gate alone %d, year "
+                  "gate alone %d, both %d), and the least-drifted of them still sits at %.1f pp "
+                  "-- so a drift line below that is not opposed by a single labelled negative on "
+                  "this board. Loosening 1.0 -> %s recovers %d same-name pairs and lets in %d of "
+                  "them: this set polices the far side of the line, not the near side."
+                  % (b.get("refused_by_rule", 0), nbg.get("DAY", 0), nbg.get("YEAR", 0),
+                     nbg.get("BOTH", 0), b.get("drift_min"), hi,
+                     hs.get("same_name_accepted", 0), hs.get("price_refused_accepted", 0)), ""]
+        bk = a.get("drift_buckets") or {}
+        if bk:
+            L += ["How far over the line the refusals sit (pp/yr of drift): %s."
+                  % ", ".join("%s: %d" % (k, bk[k]) for k in
+                              ("1.0-1.5", "1.5-2.0", "2.0-3.0", "3.0+") if k in bk), ""]
+        if a.get("year_killed_pairs"):
+            L += ["Pairs the day gate let through and the year gate refused (drift descending) "
+                  "-- this is the \"different dividends or fees make them drift\" set, and the "
+                  "drift sizes are printed so the reader can judge the caveat rather than take "
+                  "it:", "",
+                  "| a | b | drift pp/yr | share of days apart |", "|---|---|---|---|"]
+            L += ["| %s | %s | %.2f | %.3f |" % (x["a"], x["b"], x["drift_pp"], x["share"])
+                  for x in a["year_killed_pairs"]]
             L.append("")
+        if b.get("accepted_pairs"):
+            L.append("Refused pairs this rule would accept (the leak, named): %s"
+                     % ", ".join("%s/%s (%.2f pp drift on %.3f of days)"
+                                 % (x["a"], x["b"], x["drift_pp"], x["share"])
+                                 for x in b["accepted_pairs"]))
+            L.append("")
+        yl = cal.get("year_line_cost") or {}
+        if yl:
+            L += ["What moving the year line buys and what it also lets in (same labelled set, "
+                  "day gate held fixed):", "",
+                  "| year line pp | accepted same-name pairs | price-refused pairs it would "
+                  "bless |", "|---|---|---|"]
+            for k in sorted(yl, key=float):
+                s = yl[k]
+                L.append("| %.1f | %d | %d |"
+                         % (s["year_line_pp"], s["same_name_accepted"],
+                            s["price_refused_accepted"]))
+            L.append("")
+        dec = face.get("year_line_decision") or {}
+        if dec:
+            L += ["**The decision on the line is published, not left to each reader**: %s at %.1f "
+                  "pp/yr -- %s. Cost: %s."
+                  % (dec.get("decision"), dec.get("value_pp", DRIFT_PP_MAX),
+                     dec.get("because"), dec.get("what_it_costs")), ""]
 
     sens = face.get("sensitivity") or {}
     if sens:
@@ -678,7 +853,8 @@ def selftest():
              ("C", "D"): {"share": 0.02, "drift_pp": 0.1, "state": "SAME_BASKET"}}
     cal = calibrate(lambda a, b: leaks.get((a, b)), fake)
     leg("L13 a refused pair the rule accepts is a named leak, not a blessed line",
-        "REFUSED_PAIRS_PASS" in str(cal.get("verdict")) and cal["refused_same_name"]["leaked"] == 1,
+        "REFUSED_PAIRS_PASS" in str(cal.get("verdict"))
+        and cal["refused_same_name"]["accepted_by_rule"] == 1,
         str(cal.get("verdict")))
     # L14 the r1806 lesson: a refused pair that clears gate 1 but fails gate 2 is NOT a leak
     ok = {("A", "B"): {"share": 0.02, "drift_pp": 0.1, "state": "SAME_BASKET"},
@@ -686,6 +862,37 @@ def selftest():
     cal = calibrate(lambda a, b: ok.get((a, b)), fake)
     leg("L14 a refused pair holding on the year gate does not count as a leak",
         "KEEPS_THE_ACCEPTED" in str(cal.get("verdict")), str(cal.get("verdict")))
+    # L15 r1807: the counts are named after the side they are on. The accepted side's
+    #     `accepted_by_rule` must be the number of pairs whose verdict IS SAME_BASKET -- the
+    #     r1806 keys held the opposite set and the page printed 163 for a rule that kept 159.
+    two = {("A", "B"): {"share": 0.02, "drift_pp": 0.1, "state": "SAME_BASKET"},
+           ("E", "F"): {"share": 0.30, "drift_pp": 0.2, "state": "DAYS_APART"},
+           ("G", "H"): {"share": 0.02, "drift_pp": 9.0, "state": "WALKS_APART"},
+           ("I", "J"): {"share": 0.02, "drift_pp": 1.5, "state": "WALKS_APART"},
+           ("K", "L"): {"share": 0.02, "drift_pp": 0.5, "state": "SAME_BASKET"}}
+    fake2 = {"families": [{"pairs": [{"a": "A", "b": "B", "state": "BASKET"},
+                                     {"a": "E", "b": "F", "state": "BASKET"},
+                                     {"a": "G", "b": "H", "state": "BASKET"},
+                                     {"a": "I", "b": "J", "state": "BASKET"},
+                                     {"a": "K", "b": "L", "state": "NOT_BASKET"}]}]}
+    cal = calibrate(lambda a, b: two.get((a, b)), fake2)
+    pos = cal["accepted_same_name"]
+    leg("L15 accepted_by_rule counts the pairs the rule accepted, not the ones it refused",
+        pos["n"] == 4 and pos["accepted_by_rule"] == 1 and pos["refused_by_rule"] == 3,
+        "n=%s accepted=%s refused=%s" % (pos.get("n"), pos.get("accepted_by_rule"),
+                                         pos.get("refused_by_rule")))
+    # L16 the day/year split adds up to the refusals and names the gate that actually refused
+    leg("L16 the refusal split sums to n and attributes DAY/YEAR/BOTH separately",
+        pos["by_gate"] == {"DAY": 1, "YEAR": 2, "BOTH": 0}
+        and sum(pos["by_gate"].values()) == pos["refused_by_rule"],
+        str(pos.get("by_gate")))
+    # L17 loosening the year line must publish what it also lets in
+    yl = cal.get("year_line_cost") or {}
+    leg("L17 the year line's cost table counts both sides (recovered and blessed-anyway)",
+        yl.get("1.0", {}).get("same_name_accepted") == 1
+        and yl.get("2.0", {}).get("same_name_accepted") == 2
+        and yl.get("1.0", {}).get("price_refused_accepted") == 1,
+        str(yl))
 
     passed = sum(1 for _, ok, _ in legs if ok)
     for name, ok, detail in legs:

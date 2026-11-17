@@ -2695,13 +2695,59 @@ def alias_census_block(al, page_bar=None, page_day=None):
         a = cal.get("accepted_same_name") or {}
         r = cal.get("refused_same_name") or {}
         add("- **这把尺子自己量过**：在盘口已经裁决过的同名对上（名字说同一篮子、价也同意的那 "
-            "%s 对，价不同意的那 %s 对），本判据保住 %s 对、拒掉 %s 对——所以它不是凭空立的线；"
-            "代价是「分红费率不同导致漂移」的同篮对会被第二道门误拒。"
-            % (_labels(a.get("n")), _labels(r.get("n")), _labels(a.get("kept")),
-               _labels(r.get("kept"))))
-        if r.get("leaked"):
+            "%s 对，价不同意的那 %s 对），本判据收下 %s 对、拒掉 %s 对；盘口判过「不是同篮」的，"
+            "它收下 %s 对——所以这条线不是凭空立的。"
+            % (_labels(a.get("n")), _labels(r.get("n")), _labels(a.get("accepted_by_rule")),
+               _labels(a.get("refused_by_rule")), _labels(r.get("accepted_by_rule"))))
+        _bg = a.get("by_gate") or {}
+        if a.get("refused_by_rule"):
+            add("- **拒掉的那些是被哪道门拒的**：%s 对里，白天就走开（日门）%s 对、一年慢慢走开"
+                "（年门）%s 对、两门都不过 %s 对——「年门太严」这句话得先看这个分配。"
+                % (_labels(a.get("refused_by_rule")), _labels(_bg.get("DAY")),
+                   _labels(_bg.get("YEAR")), _labels(_bg.get("BOTH"))))
+        _nbg = r.get("by_gate") or {}
+        _ylo = cal.get("year_line_cost") or {}
+        if r.get("refused_by_rule") and r.get("drift_min") is not None and _ylo:
+            _h = max(_ylo, key=float)
+            _hs = _ylo[_h]
+            add("- **年门的线能校到哪一步**：价不同意的那 %s 对里，日门单独拒 %s 对、年门单独拒 %s 对、"
+                "两门都拒 %s 对，最轻的一对也漂了 %.1f pp——线放在 %.1f pp 以下时，这张盘口没有一个"
+                "反例能反对它；放宽到 %s pp 会多收 %s 对同名同篮、混进来 %s 对。它管住的是线远的那一侧。"
+                % (_labels(r.get("refused_by_rule")), _labels(_nbg.get("DAY")),
+                   _labels(_nbg.get("YEAR")), _labels(_nbg.get("BOTH")), r.get("drift_min"),
+                   r.get("drift_min"), _h, _labels(_hs.get("same_name_accepted")),
+                   _labels(_hs.get("price_refused_accepted"))))
+        _bk = a.get("drift_buckets") or {}
+        if _bk:
+            add("- 超线多远（一年漂移 pp）：%s。超一点点与超一大截是两种决定，所以分开列。"
+                % "、".join("%s 档 %s 对" % (k, _labels(_bk.get(k)))
+                            for k in ("1.0-1.5", "1.5-2.0", "2.0-3.0", "3.0+") if k in _bk))
+        _yl = cal.get("year_line_cost") or {}
+        if _yl:
+            _k = sorted(_yl, key=float)
+            _lo, _hi = _yl[_k[0]], _yl[_k[-1]]
+            add("- **把年门放宽会怎样**：线 %.1f 时同名同篮收 %s 对，放到 %.1f 收 %s 对；"
+                "被盘口拒过的那些在这两档分别混进来 %s 对 / %s 对——买回多少与混进多少同时给。"
+                % (_lo["year_line_pp"], _labels(_lo["same_name_accepted"]),
+                   _hi["year_line_pp"], _labels(_hi["same_name_accepted"]),
+                   _labels(_lo["price_refused_accepted"]),
+                   _labels(_hi["price_refused_accepted"])))
+        if r.get("accepted_by_rule"):
             add("- **警告：有 %s 对盘口判过「不是同一个篮子」的，被这条判据收了进来**，号码在面上单列。"
-                % _labels(r.get("leaked")))
+                % _labels(r.get("accepted_by_rule")))
+        _dec = al.get("year_line_decision") or {}
+        if _dec:
+            _band = _dec.get("undetermined_band_pp") or []
+            add("- **线的决定写在这里，不留给每个读者自己拍**：年门定在 %.1f pp/年（%s）——盘口拒过的"
+                "最轻一对也漂 %s pp，所以 %s 之间没有样本能判定该放哪；坚持 %.1f 的理由是「错了付多少」："
+                "带内换票最多损失这条带的宽度，而放到 3.0 会多收 %s 对、每对都可能漂到 3 pp/年。"
+                "代价是 %s 对里有 %s 对被拒（已明列）。"
+                % (float(_dec.get("value_pp") or 0), _dec.get("decision"),
+                   _labels(_band[1] if len(_band) > 1 else None),
+                   "到".join(_labels(x) for x in _band) if _band else "—",
+                   float(_dec.get("value_pp") or 0), _labels(_dec.get("recovered_at_3pp")),
+                   _labels(_dec.get("accepted_same_name_n")),
+                   _labels(_dec.get("refused_by_rule"))))
         add("")
     else:
         add("- 这一轮**量不了这把尺子**（%s）：下面的族表是「按声明的线跑出来的」，不是「按标定过的线」。"
@@ -13317,9 +13363,29 @@ def selftest():
                                        "spread_pp": 0.0, "cost_cny": 0.0, "material": False}}],
                "across": {"n_families": 31, "families_over_material_line": 6,
                           "total_cost_cny": 10236.2},
+               "year_line_decision": {"value_pp": 1.0, "decision": "KEEP",
+                                      "undetermined_band_pp": [1.0, 8.596],
+                                      "recovered_at_3pp": 126,
+                                      "accepted_same_name_n": 322, "refused_by_rule": 153},
                "calibration": {"available": True,
-                               "accepted_same_name": {"n": 322, "kept": 163},
-                               "refused_same_name": {"n": 24, "kept": 24, "leaked": 0}},
+                               "accepted_same_name": {"n": 322, "accepted_by_rule": 169,
+                                                     "refused_by_rule": 153,
+                                                     "by_gate": {"YEAR": 149, "BOTH": 4},
+                                                     "drift_buckets": {"1.0-1.5": 43,
+                                                                       "1.5-2.0": 45,
+                                                                       "2.0-3.0": 38,
+                                                                       "3.0+": 27}},
+                               "refused_same_name": {"n": 24, "accepted_by_rule": 0,
+                                                     "refused_by_rule": 24,
+                                                     "by_gate": {"DAY": 0, "YEAR": 1,
+                                                                 "BOTH": 23},
+                                                     "drift_min": 8.596},
+                               "year_line_cost": {"1.0": {"year_line_pp": 1.0,
+                                                          "same_name_accepted": 169,
+                                                          "price_refused_accepted": 0},
+                                                  "3.0": {"year_line_pp": 3.0,
+                                                          "same_name_accepted": 295,
+                                                          "price_refused_accepted": 0}}},
                "chains": [{"names": ["A", "B", "C"], "members": ["1", "2", "3"], "n": 3,
                            "pairs_not_accepted": [["1", "3"]]}],
                "criteria": {"divergent_pp": 0.50, "share_max": 0.20, "drift_pp_max": 1.0,
@@ -13353,6 +13419,16 @@ def selftest():
     chk("L414 alias census: a family built on an older board session names it rather than "
         "letting one day's premium pass as the page's day",
         "2026-11-16" in _al_shift and "本页的价是 **2026-11-14**" in _al_shift, _al_shift[-260:])
+    # r1807: the face's calibration keys used to carry the opposite set under these names, so
+    # the page printed "keeps 163" for a rule that kept 159. The leg pins the nouns, the gate
+    # split and the two-sided year-line table, because a wrong noun reads perfectly well.
+    chk("L415 alias census: each calibration count is named after the side it is on, the gate "
+        "that refused is attributed, and loosening the year line prints what it also lets in",
+        "本判据收下 169 对、拒掉 153 对" in _al_txt and "（年门）149 对" in _al_txt
+        and "买回多少与混进多少同时给" in _al_txt and "年门的线能校到哪一步" in _al_txt
+        and "8.6 pp" in _al_txt and "它管住的是线远的那一侧" in _al_txt
+        and "线的决定写在这里" in _al_txt
+        and "保住 163" not in _al_txt, _al_txt[:200])
     # r1667: five rounds of this defect were all found by eye, so the family becomes a guard.
     _guard_ok, _guard_find = page_day_debt_guard()
     _ghost = ("def ghost_block(x):\n    return '今天的价差'\n\n"

@@ -1,16 +1,7 @@
 {
- "evidence_cutoff": "2026-11-16",
+ "evidence_cutoff": "2026-11-17",
  "gaps_explained_by_quiet_window": [],
  "gaps_over_threshold": [
-  {
-   "from": "2026-11-14T09:10",
-   "gap_high_min": 325.0,
-   "gap_low_min": 325.0,
-   "quiet_window_min": 0.0,
-   "to": "2026-11-14T14:35",
-   "unexplained_high_min": 325.0,
-   "unexplained_low_min": 325.0
-  },
   {
    "from": "2026-11-14T21:00",
    "gap_high_min": 129.0,
@@ -46,10 +37,37 @@
    "to": "2026-11-16T01:00",
    "unexplained_high_min": 129.0,
    "unexplained_low_min": 111.0
+  },
+  {
+   "from": "2026-11-16T10:10",
+   "gap_high_min": 870.0,
+   "gap_low_min": 870.0,
+   "quiet_window_min": 0.0,
+   "to": "2026-11-17T00:40",
+   "unexplained_high_min": 870.0,
+   "unexplained_low_min": 870.0
+  },
+  {
+   "from": "2026-11-17T01:55",
+   "gap_high_min": 141.0,
+   "gap_low_min": 141.0,
+   "quiet_window_min": 0.0,
+   "to": "2026-11-17T04:16",
+   "unexplained_high_min": 141.0,
+   "unexplained_low_min": 141.0
+  },
+  {
+   "from": "2026-11-17T11:31",
+   "gap_high_min": 138.0,
+   "gap_low_min": 138.0,
+   "quiet_window_min": 0.0,
+   "to": "2026-11-17T13:49",
+   "unexplained_high_min": 138.0,
+   "unexplained_low_min": 138.0
   }
  ],
- "gaps_over_threshold_count": 5,
- "generated": "2026-11-16T23:37:30",
+ "gaps_over_threshold_count": 7,
+ "generated": "2026-11-17T16:07:02",
  "lane_tasks": {
   "absent": [],
   "disabled": [],
@@ -63,35 +81,35 @@
   "states": {
    "Bigmoney-IterationLoop": "Running",
    "Bigmoney-LoopWatchdog": "Ready",
-   "Bigmoney-SatEngine-bm-b": "Ready"
+   "Bigmoney-SatEngine-bm-b": "Running"
   },
   "threshold_min": 90,
   "verdict": "LANE_ENABLED",
   "why": "every probeable lane task is switched on; the silence (if any) is not a switch"
  },
  "longest_silence": {
-  "from": "2026-11-14T09:10",
-  "gap_high_min": 325.0,
-  "gap_low_min": 325.0,
+  "from": "2026-11-16T10:10",
+  "gap_high_min": 870.0,
+  "gap_low_min": 870.0,
   "quiet_window_min": 0.0,
-  "to": "2026-11-14T14:35",
-  "unexplained_high_min": 325.0,
-  "unexplained_low_min": 325.0
+  "to": "2026-11-17T00:40",
+  "unexplained_high_min": 870.0,
+  "unexplained_low_min": 870.0
  },
  "machine": "bm-c",
- "median_gap_min": 10.0,
+ "median_gap_min": 15.0,
  "open_gap": {
-  "gap_high_min": 807.5,
-  "gap_low_min": 807.5,
+  "gap_high_min": 117.0,
+  "gap_low_min": 117.0,
   "quiet_window_min": 0.0,
-  "since": "2026-11-16T10:10",
-  "unexplained_high_min": 807.5,
-  "unexplained_low_min": 807.5
+  "since": "2026-11-17T14:10",
+  "unexplained_high_min": 117.0,
+  "unexplained_low_min": 117.0
  },
  "parse_precision_note": "stamps recorded with an 'x' digit are read as a 9-minute interval; a gap is only called when its pessimistic end clears the threshold",
  "quiet_windows": [],
- "rounds_in_ledger": 1236,
- "rounds_in_window": 127,
+ "rounds_in_ledger": 1257,
+ "rounds_in_window": 120,
  "silence_verdict": "OPEN_SILENCE",
  "source": "round_reports-bm-c.md",
  "threshold_min": 90,

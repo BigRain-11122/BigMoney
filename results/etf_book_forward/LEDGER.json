@@ -212,6 +212,17 @@
    "filled": false,
    "turn": 0.0,
    "provisional": true
+  },
+  {
+   "bar": "2026-11-17",
+   "nav": 1.0037812718,
+   "dd": -0.012066,
+   "cash": 0.090616,
+   "carry": 3.4508e-06,
+   "n_held": 12,
+   "filled": false,
+   "turn": 0.0,
+   "provisional": true
   }
  ],
  "books": {
@@ -306,11 +317,6 @@
   }
  ],
  "runs": [
-  {
-   "ts": "2026-10-28T21:33:02+0800",
-   "new_bars": 0,
-   "last_bar": "2026-10-28"
-  },
   {
    "ts": "2026-10-29T00:46:39+0800",
    "new_bars": 0,
@@ -505,15 +511,20 @@
    "ts": "2026-11-16T18:21:49+0800",
    "new_bars": 0,
    "last_bar": "2026-11-16"
+  },
+  {
+   "ts": "2026-11-17T16:14:21+0800",
+   "new_bars": 1,
+   "last_bar": "2026-11-17"
   }
  ],
  "panel": {
-  "n_instruments": 1630,
+  "n_instruments": 1631,
   "flips_repaired": 169,
-  "digest": "0988c6530a481fa1",
-  "bars_named": 5281,
+  "digest": "0d5a9cdcf2beffd5",
+  "bars_named": 5282,
   "first_bar": "2005-02-23",
-  "last_bar": "2026-11-16",
+  "last_bar": "2026-11-17",
   "covers": [
    "close",
    "open",
@@ -521,10 +532,10 @@
   ],
   "sibling_faces": {
    "priced_face": "prefixed (sh|sz<code>.csv; _dedupe prefers it)",
-   "priced_tail": "2026-11-16",
-   "bare_face_tail": "2026-11-16",
+   "priced_tail": "2026-11-17",
+   "bare_face_tail": "2026-11-17",
    "bare_face_symbols": 49,
-   "wide_face_tail": "2026-11-16",
+   "wide_face_tail": "2026-11-17",
    "wide_face_symbols": 1676,
    "priced_face_lags_bare_sessions": null
   }
@@ -677,6 +688,13 @@
     "filled": false,
     "book_nav": 1.006812175,
     "excess": 0.0309471401
+   },
+   {
+    "bar": "2026-11-17",
+    "nav": 0.9749964488,
+    "filled": false,
+    "book_nav": 1.0037812718,
+    "excess": 0.0295230029
    }
   ],
   "rebalance_friction": {
@@ -687,34 +705,34 @@
   },
   "decisions": 84,
   "latest": {
-   "bar": "2026-11-16",
-   "book_nav": 1.006812175,
-   "basket_nav": 0.9765895222,
-   "excess_pp": 3.0947
+   "bar": "2026-11-17",
+   "book_nav": 1.0037812718,
+   "basket_nav": 0.9749964488,
+   "excess_pp": 2.9523
   },
   "significance": {
    "available": true,
-   "bars_used": 1663,
-   "windows": "2020-01-02..2026-11-16",
-   "daily_vol_pct": 0.5411,
-   "annual_vol_pct": 8.452,
+   "bars_used": 1664,
+   "windows": "2020-01-02..2026-11-17",
+   "daily_vol_pct": 0.54095,
+   "annual_vol_pct": 8.45,
    "noise_band_pp": {
-    "1m": 4.743,
-    "3m": 8.215,
-    "1y": 16.566,
-    "3y": 28.694
+    "1m": 4.742,
+    "3m": 8.213,
+    "1y": 16.562,
+    "3y": 28.686
    },
-   "noise_band_pp_at_published": 4.373,
-   "published_bars": 17,
+   "noise_band_pp_at_published": 4.498,
+   "published_bars": 18,
    "bars_needed_for_edge": {
-    "3pp/yr": 7748,
-    "5pp/yr": 2790,
-    "10pp/yr": 698
+    "3pp/yr": 7744,
+    "5pp/yr": 2788,
+    "10pp/yr": 697
    },
    "min_detectable_edge_pp": {
-    "1y": 16.905,
-    "3y": 9.76,
-    "5y": 7.56
+    "1y": 16.9,
+    "3y": 9.757,
+    "5y": 7.558
    },
    "power": {
     "units": {
@@ -725,15 +743,15 @@
     "power": 0.8,
     "alpha_two_sided": 0.05,
     "z": 2.802,
-    "annual_vol_pct": 8.452,
+    "annual_vol_pct": 8.45,
     "min_detectable_edge_pp": {
-     "6m": 33.493,
-     "1y": 23.683,
-     "2y": 16.747,
-     "3y": 13.674
+     "6m": 33.484,
+     "1y": 23.677,
+     "2y": 16.742,
+     "3y": 13.67
     },
     "years_for_80pct_power": {
-     "pre-2020 measured alpha (single arm)": 136.1,
+     "pre-2020 measured alpha (single arm)": 136.0,
      "in-window measured alpha (single arm)": 15.8
     },
     "candidate_sources": {
@@ -751,7 +769,7 @@
     "available": true,
     "read": "a spread inside these bands is not evidence either way: at 12 months this ledger can only resolve edges above its 1y band, and the two edges this book actually published need years, not months"
    },
-   "book_cagr_pct_on_same_window": 9.063,
+   "book_cagr_pct_on_same_window": 9.01,
    "read": "a spread smaller than the band at the bar count it was measured over is indistinguishable from noise; the band shrinks as sqrt(bars), not faster"
   }
  },
@@ -981,7 +999,7 @@
   "code": "no_pending",
   "problems": [],
   "checked": {
-   "head_bar": "2026-11-16",
+   "head_bar": "2026-11-17",
    "has_pending": false
   }
  },

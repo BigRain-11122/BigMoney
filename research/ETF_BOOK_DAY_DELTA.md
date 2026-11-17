@@ -2,17 +2,17 @@
 
 - 比较：`LIVE-BOOK-20261116.json` → `LIVE-BOOK-20261117.json`
 - 价格依据：2026-11-16（前一天 2026-11-16）｜数据截止：2026-11-16（前一天 2026-11-16）
-- 判决：**EXPLAINED_MOVES**
+- 判决：**UNEXPLAINED_MOVES**
 
 ## 一句话
-两天**是同一根 bar**（没有新数据进来），这页有 **265** 个数变了；其中 **6** 个是钟面（机器多久没说话之类，本来就该走）、**259** 个能给出解释（旧数还在页上／口径句改了／这一节换了代／这一节换了定价的输入／这个数只是转抄别面）、**0** 个没解释。新增 **909** 个数字叶子、消失 **4** 个。
+两天**是同一根 bar**（没有新数据进来），这页有 **323** 个数变了；其中 **7** 个是钟面（机器多久没说话之类，本来就该走）、**315** 个能给出解释（旧数还在页上／口径句改了／这一节换了代／这一节换了定价的输入／这个数只是转抄别面）、**1** 个没解释。新增 **949** 个数字叶子、消失 **4** 个。
 
-## 动的数（全部 265 个）
+## 动的数（全部 323 个）
 
 | 数字 | 昨天 | 今天 | 判读 | 依据 |
 |---|---|---|---|---|
 | `/admission/prior/top2_share` | 0.7039 | 0.7084 | INPUT_IDENTITY_CHANGED | 这一节的输入身份变了：`admission` 昨天按 （未声明） 定价、今天按 5d1848b8a9e57613 定价——数字换的是「拿什么算的」，不是同一根 bar 上的读数 |
-| `/authority/owner_silent_h` | 68.4 | 15.8 | CLOCK |  |
+| `/authority/owner_silent_h` | 68.4 | 17.1 | CLOCK |  |
 | `/causal_rebuild/elapsed_sec` | 118.9 | 82.4 | CLOCK |  |
 | `/derisk/instrument/dd_brake/distance_to_line_pp` | 4.1 | 4.33 | SECTION_ADVANCED | 这一节自己换了代：`derisk` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
 | `/derisk/instrument/dd_brake/spread_pp` | 17.71 | 17.36 | SECTION_ADVANCED | 这一节自己换了代：`derisk` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
@@ -68,12 +68,16 @@
 | `/family_coherence/floor_extrapolation/tolerance_pp` | 0.081 | 0.172 | INPUT_IDENTITY_CHANGED | 这一节的输入身份变了：`family_coherence` 昨天按 0988c6530a481fa1、e6f9d0e81a64ec75 定价、今天按 0988c6530a481fa1 定价——数字换的是「拿什么算的」，不是同一根 bar 上的读数 |
 | `/family_coherence/signflip/arms/2/cells_positive` | 0 | 3 | INPUT_IDENTITY_CHANGED | 这一节的输入身份变了：`family_coherence` 昨天按 0988c6530a481fa1、e6f9d0e81a64ec75 定价、今天按 0988c6530a481fa1 定价——数字换的是「拿什么算的」，不是同一根 bar 上的读数 |
 | `/family_coherence/signflip/n_reject_standing` | 3 | 2 | INPUT_IDENTITY_CHANGED | 这一节的输入身份变了：`family_coherence` 昨天按 0988c6530a481fa1、e6f9d0e81a64ec75 定价、今天按 0988c6530a481fa1 定价——数字换的是「拿什么算的」，不是同一根 bar 上的读数 |
-| `/fleet/rows/0/age_h` | 66.91 | 3.45 | CLOCK |  |
-| `/fleet/rows/1/age_h` | 413.39 | 419.73 | CLOCK |  |
-| `/fleet/rows/2/age_h` | 1.09 | 1.35 | CLOCK |  |
+| `/feed_lag_days` | 0 | 1 | CLOCK |  |
+| `/fleet/rows/0/age_h` | 66.91 | 16.47 | CLOCK |  |
+| `/fleet/rows/1/age_h` | 413.39 | 435.4 | CLOCK |  |
+| `/fleet/rows/2/age_h` | 1.09 | 0.52 | CLOCK |  |
 | `/floor_provenance/grid/full|all/bars` | 1663 | 1664 | SECTION_ADVANCED | 这一节自己换了代：`floor_provenance` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
 | `/floor_provenance/grid/full|graded/bars` | 1663 | 1664 | SECTION_ADVANCED | 这一节自己换了代：`floor_provenance` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
 | `/floor_provenance/issuing_cell/bars` | 1663 | 1664 | SECTION_ADVANCED | 这一节自己换了代：`floor_provenance` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
+| `/forward/bars` | 17 | 18 | SECTION_ADVANCED | 这一节自己换了代：`forward` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
+| `/forward/nav` | 1.006812175 | 1.0037812718 | SECTION_ADVANCED | 这一节自己换了代：`forward` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
+| `/forward/since_inception_pct` | 0.6812 | 0.3781 | SECTION_ADVANCED | 这一节自己换了代：`forward` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
 | `/futures_hedge/beta` | 0.07453700153927338 | 0.07447081363455153 | SECTION_ADVANCED | 这一节自己换了代：`futures_hedge` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
 | `/futures_hedge/capital_for_one_lot` | 11001515.798404276 | 11047549.500899909 | SECTION_ADVANCED | 这一节自己换了代：`futures_hedge` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
 | `/futures_hedge/corr` | 0.14152934655175411 | 0.14138168578950164 | SECTION_ADVANCED | 这一节自己换了代：`futures_hedge` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
@@ -90,6 +94,22 @@
 | `/futures_hedge_tail/tail_ci_hi` | 0.8328393159433894 | 0.8414217707501334 | SECTION_ADVANCED | 这一节自己换了代：`futures_hedge_tail` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
 | `/futures_hedge_tail/tail_ci_lo` | 0.10957277748333087 | 0.12206311855461444 | SECTION_ADVANCED | 这一节自己换了代：`futures_hedge_tail` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
 | `/futures_hedge_tail/uncond_beta` | 0.07453700153927338 | 0.07447081363455153 | SECTION_ADVANCED | 这一节自己换了代：`futures_hedge_tail` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
+| `/futures_ladder/dilution/pairs/IC/gap_pp` | 6.912 | 6.898 | SECTION_ADVANCED | 这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
+| `/futures_ladder/dilution/pairs/IC/missed_roll_days` | 105 | 106 | SECTION_ADVANCED | 这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
+| `/futures_ladder/dilution/pairs/IC/missed_roll_days_ann_pct` | -146.492 | -144.773 | SECTION_ADVANCED | 这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
+| `/futures_ladder/dilution/pairs/IC/published_ann_pct` | 2.881 | 2.895 | SECTION_ADVANCED | 这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
+| `/futures_ladder/dilution/pairs/IF/gap_pp` | 3.919 | 3.872 | SECTION_ADVANCED | 这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
+| `/futures_ladder/dilution/pairs/IF/missed_roll_days` | 109 | 110 | SECTION_ADVANCED | 这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
+| `/futures_ladder/dilution/pairs/IF/missed_roll_days_ann_pct` | -93.463 | -91.585 | SECTION_ADVANCED | 这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
+| `/futures_ladder/dilution/pairs/IF/published_ann_pct` | 1.876 | 1.923 | SECTION_ADVANCED | 这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
+| `/futures_ladder/dilution/pairs/IH/gap_pp` | 3.772 | 3.707 | SECTION_ADVANCED | 这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
+| `/futures_ladder/dilution/pairs/IH/missed_roll_days` | 105 | 106 | SECTION_ADVANCED | 这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
+| `/futures_ladder/dilution/pairs/IH/missed_roll_days_ann_pct` | -75.004 | -72.838 | SECTION_ADVANCED | 这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
+| `/futures_ladder/dilution/pairs/IH/published_ann_pct` | 1.552 | 1.617 | SECTION_ADVANCED | 这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
+| `/futures_ladder/dilution/pairs/IM/gap_pp` | 6.09 | 6.026 | SECTION_ADVANCED | 这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
+| `/futures_ladder/dilution/pairs/IM/missed_roll_days` | 41 | 42 | SECTION_ADVANCED | 这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
+| `/futures_ladder/dilution/pairs/IM/missed_roll_days_ann_pct` | -131.025 | -126.203 | SECTION_ADVANCED | 这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
+| `/futures_ladder/dilution/pairs/IM/published_ann_pct` | 5.864 | 5.928 | SECTION_ADVANCED | 这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
 | `/futures_ladder/rows/0/margin_pct_of_capital` | 3.8 | 3.7 | SECTION_ADVANCED | 这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
 | `/futures_ladder/rows/0/net_pct_of_capital` | 2.24 | 2.21 | SECTION_ADVANCED | 这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
 | `/futures_ladder/rows/0/net_pct_of_capital_by_mask/calendar` | 3.12 | 3.08 | SECTION_ADVANCED | 这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
@@ -99,6 +119,8 @@
 | `/futures_ladder/rows/0/one_lot_notional_cny` | 1275000.0 | 1243680.0 | SECTION_ADVANCED | 这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
 | `/futures_ladder/rows/0/stress_loss_pct_of_capital` | 10.7 | 10.4 | SECTION_ADVANCED | 这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
 | `/futures_ladder/rows/0/vol_contrib_pct` | 5.7 | 5.6 | SECTION_ADVANCED | 这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
+| `/futures_ladder/rows/1/net_pct_of_capital_by_mask/calendar` | 2.55 | 2.54 | SECTION_ADVANCED | 这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
+| `/futures_ladder/rows/1/net_pct_of_capital_by_mask/strictest` | 2.59 | 2.58 | SECTION_ADVANCED | 这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
 | `/futures_ladder/rows/1/notional_x_capital_on_tier` | 0.4 | 0.39 | SECTION_ADVANCED | 这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
 | `/futures_ladder/rows/1/one_lot_notional_cny` | 1186980.0 | 1181700.0 | SECTION_ADVANCED | 这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
 | `/futures_ladder/rows/2/net_pct_of_capital_by_mask/calendar` | 2.23 | 2.24 | SECTION_ADVANCED | 这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
@@ -106,16 +128,38 @@
 | `/futures_ladder/rows/2/stress_loss_pct_of_capital` | 12.4 | 12.5 | SECTION_ADVANCED | 这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
 | `/futures_ladder/rows/3/margin_pct_of_capital` | 3.8 | 3.7 | SECTION_ADVANCED | 这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
 | `/futures_ladder/rows/3/net_pct_of_capital` | 2.68 | 2.65 | SECTION_ADVANCED | 这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/futures_ladder/rows/3/net_pct_of_capital_by_mask/calendar` | 3.51 | 3.45 | SECTION_ADVANCED | 这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
+| `/futures_ladder/rows/3/net_pct_of_capital_by_mask/calendar` | 3.51 | 3.44 | SECTION_ADVANCED | 这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
 | `/futures_ladder/rows/3/net_pct_of_capital_by_mask/published` | 2.68 | 2.65 | SECTION_ADVANCED | 这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/futures_ladder/rows/3/net_pct_of_capital_by_mask/strictest` | 3.51 | 3.45 | SECTION_ADVANCED | 这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
+| `/futures_ladder/rows/3/net_pct_of_capital_by_mask/strictest` | 3.51 | 3.44 | SECTION_ADVANCED | 这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
 | `/futures_ladder/rows/3/notional_x_capital_on_tier` | 0.25 | 0.24 | SECTION_ADVANCED | 这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
 | `/futures_ladder/rows/3/one_lot_notional_cny` | 1255360.0 | 1221000.0 | SECTION_ADVANCED | 这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
 | `/futures_ladder/rows/3/stress_loss_pct_of_capital` | 10.4 | 10.2 | SECTION_ADVANCED | 这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
 | `/futures_ladder/rows/3/vol_contrib_pct` | 6.3 | 6.1 | SECTION_ADVANCED | 这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
+| `/futures_sleeve/rows/0/carry_ann_compound_pct` | 8.763 | 8.778 | INPUT_IDENTITY_CHANGED | 这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数 |
+| `/futures_sleeve/rows/0/carry_caliber/missed_roll_days` | 105 | 106 | INPUT_IDENTITY_CHANGED | 这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数 |
+| `/futures_sleeve/rows/0/carry_caliber/published_ann_pct` | 2.881 | 2.895 | INPUT_IDENTITY_CHANGED | 这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数 |
+| `/futures_sleeve/rows/0/carry_caliber/spread_pp` | 6.912 | 6.898 | INPUT_IDENTITY_CHANGED | 这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数 |
+| `/futures_sleeve/rows/0/gap_net_pp` | 6.856 | 6.753 | INPUT_IDENTITY_CHANGED | 这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数 |
 | `/futures_sleeve/rows/0/notional_per_lot_cny` | 1275000.0 | 1243680.0 | INPUT_IDENTITY_CHANGED | 这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数 |
+| `/futures_sleeve/rows/1/blend_gain_sharpe` | 0.131 | 0.133 | INPUT_IDENTITY_CHANGED | 这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数 |
+| `/futures_sleeve/rows/1/carry_ann_compound_pct` | 3.567 | 3.625 | INPUT_IDENTITY_CHANGED | 这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数 |
+| `/futures_sleeve/rows/1/carry_caliber/missed_roll_days` | 109 | 110 | INPUT_IDENTITY_CHANGED | 这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数 |
+| `/futures_sleeve/rows/1/carry_caliber/published_ann_pct` | 1.876 | 1.923 | INPUT_IDENTITY_CHANGED | 这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数 |
+| `/futures_sleeve/rows/1/carry_caliber/spread_pp` | 3.919 | 3.872 | INPUT_IDENTITY_CHANGED | 这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数 |
+| `/futures_sleeve/rows/1/gap_net_pp` | 0.65 | 0.558 | INPUT_IDENTITY_CHANGED | 这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数 |
 | `/futures_sleeve/rows/1/notional_per_lot_cny` | 1186980.0 | 1181700.0 | INPUT_IDENTITY_CHANGED | 这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数 |
+| `/futures_sleeve/rows/2/blend_gain_sharpe` | 0.084 | 0.087 | INPUT_IDENTITY_CHANGED | 这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数 |
+| `/futures_sleeve/rows/2/carry_ann_compound_pct` | 2.392 | 2.471 | INPUT_IDENTITY_CHANGED | 这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数 |
+| `/futures_sleeve/rows/2/carry_caliber/missed_roll_days` | 105 | 106 | INPUT_IDENTITY_CHANGED | 这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数 |
+| `/futures_sleeve/rows/2/carry_caliber/published_ann_pct` | 1.552 | 1.617 | INPUT_IDENTITY_CHANGED | 这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数 |
+| `/futures_sleeve/rows/2/carry_caliber/spread_pp` | 3.772 | 3.707 | INPUT_IDENTITY_CHANGED | 这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数 |
 | `/futures_sleeve/rows/2/notional_per_lot_cny` | 820020.0 | 822720.0 | INPUT_IDENTITY_CHANGED | 这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数 |
+| `/futures_sleeve/rows/3/blend_gain_sharpe` | 0.387 | 0.39 | INPUT_IDENTITY_CHANGED | 这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数 |
+| `/futures_sleeve/rows/3/carry_ann_compound_pct` | 10.198 | 10.263 | INPUT_IDENTITY_CHANGED | 这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数 |
+| `/futures_sleeve/rows/3/carry_caliber/missed_roll_days` | 41 | 42 | INPUT_IDENTITY_CHANGED | 这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数 |
+| `/futures_sleeve/rows/3/carry_caliber/published_ann_pct` | 5.864 | 5.928 | INPUT_IDENTITY_CHANGED | 这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数 |
+| `/futures_sleeve/rows/3/carry_caliber/spread_pp` | 6.09 | 6.026 | INPUT_IDENTITY_CHANGED | 这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数 |
+| `/futures_sleeve/rows/3/gap_net_pp` | 8.068 | 7.733 | INPUT_IDENTITY_CHANGED | 这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数 |
 | `/futures_sleeve/rows/3/notional_per_lot_cny` | 1255360.0 | 1221000.0 | INPUT_IDENTITY_CHANGED | 这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数 |
 | `/gap/elapsed_sec` | 118.4 | 76.4 | CLOCK |  |
 | `/k_gap/account_base_gap_cny` | 28483.4 | 28525.2 | SECTION_ADVANCED | 这一节自己换了代：`k_gap` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
@@ -159,24 +203,29 @@
 | `/k_gap/rows/4/short_cny` | 5571.2 | 5603.2 | SECTION_ADVANCED | 这一节自己换了代：`k_gap` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
 | `/k_gap/short_share_of_book_pct` | 6.0961 | 6.1355 | SECTION_ADVANCED | 这一节自己换了代：`k_gap` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
 | `/k_gap/short_total_cny` | 28057.3 | 28238.9 | SECTION_ADVANCED | 这一节自己换了代：`k_gap` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/lot_floor/capital_needed/AU` | 2796666.666666667 | 2768533.3333333335 | INPUT_IDENTITY_CHANGED | 这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数 |
-| `/lot_floor/capital_needed/IC` | 4250000.0 | 4145600.0 | INPUT_IDENTITY_CHANGED | 这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数 |
-| `/lot_floor/capital_needed/IF` | 3956600.0 | 3939000.0 | INPUT_IDENTITY_CHANGED | 这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数 |
-| `/lot_floor/capital_needed/IH` | 2733400.0 | 2742400.0 | INPUT_IDENTITY_CHANGED | 这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数 |
-| `/lot_floor/capital_needed/IM` | 4184533.3333333335 | 4070000.0 | INPUT_IDENTITY_CHANGED | 这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数 |
-| `/lot_floor/capital_needed/SC` | 2085000.0 | 2069333.3333333335 | INPUT_IDENTITY_CHANGED | 这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数 |
-| `/lot_floor/capital_needed/T` | 3668166.666666667 | 3658500.0 | INPUT_IDENTITY_CHANGED | 这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数 |
-| `/lot_floor/capital_needed/TF` | 3558666.666666667 | 3555333.3333333335 | INPUT_IDENTITY_CHANGED | 这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数 |
-| `/lot_floor/capital_needed/TS` | 6842400.0 | 6842133.333333334 | INPUT_IDENTITY_CHANGED | 这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数 |
-| `/lot_floor/shares_at_1m/AU` | 0.839 | 0.83056 | INPUT_IDENTITY_CHANGED | 这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数 |
-| `/lot_floor/shares_at_1m/IC` | 1.275 | 1.24368 | INPUT_IDENTITY_CHANGED | 这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数 |
-| `/lot_floor/shares_at_1m/IF` | 1.18698 | 1.1817 | INPUT_IDENTITY_CHANGED | 这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数 |
-| `/lot_floor/shares_at_1m/IH` | 0.82002 | 0.82272 | INPUT_IDENTITY_CHANGED | 这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数 |
-| `/lot_floor/shares_at_1m/IM` | 1.25536 | 1.221 | INPUT_IDENTITY_CHANGED | 这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数 |
-| `/lot_floor/shares_at_1m/SC` | 0.6255 | 0.6208 | INPUT_IDENTITY_CHANGED | 这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数 |
-| `/lot_floor/shares_at_1m/T` | 1.10045 | 1.09755 | INPUT_IDENTITY_CHANGED | 这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数 |
-| `/lot_floor/shares_at_1m/TF` | 1.0676 | 1.0666 | INPUT_IDENTITY_CHANGED | 这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数 |
-| `/lot_floor/shares_at_1m/TS` | 2.05272 | 2.05264 | INPUT_IDENTITY_CHANGED | 这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数 |
+| `/lot_floor/capital_needed/AU` | 2796666.666666667 | 2768533.3333333335 | INPUT_IDENTITY_CHANGED | 这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16、2026-11-17，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数 |
+| `/lot_floor/capital_needed/IC` | 4250000.0 | 4145600.0 | INPUT_IDENTITY_CHANGED | 这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16、2026-11-17，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数 |
+| `/lot_floor/capital_needed/IF` | 3956600.0 | 3939000.0 | INPUT_IDENTITY_CHANGED | 这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16、2026-11-17，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数 |
+| `/lot_floor/capital_needed/IH` | 2733400.0 | 2742400.0 | INPUT_IDENTITY_CHANGED | 这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16、2026-11-17，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数 |
+| `/lot_floor/capital_needed/IM` | 4184533.3333333335 | 4070000.0 | INPUT_IDENTITY_CHANGED | 这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16、2026-11-17，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数 |
+| `/lot_floor/capital_needed/SC` | 2085000.0 | 2069333.3333333335 | INPUT_IDENTITY_CHANGED | 这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16、2026-11-17，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数 |
+| `/lot_floor/capital_needed/T` | 3668166.666666667 | 3658500.0 | INPUT_IDENTITY_CHANGED | 这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16、2026-11-17，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数 |
+| `/lot_floor/capital_needed/TF` | 3558666.666666667 | 3555333.3333333335 | INPUT_IDENTITY_CHANGED | 这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16、2026-11-17，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数 |
+| `/lot_floor/capital_needed/TS` | 6842400.0 | 6842133.333333334 | INPUT_IDENTITY_CHANGED | 这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16、2026-11-17，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数 |
+| `/lot_floor/etf_shares_at_1m/510050` | 0.000289 | 0.000288 | INPUT_IDENTITY_CHANGED | 这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16、2026-11-17，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数 |
+| `/lot_floor/etf_shares_at_1m/510300` | 0.000405 | 0.000404 | INPUT_IDENTITY_CHANGED | 这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16、2026-11-17，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数 |
+| `/lot_floor/etf_shares_at_1m/510500` | 0.000633 | 0.000632 | INPUT_IDENTITY_CHANGED | 这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16、2026-11-17，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数 |
+| `/lot_floor/etf_shares_at_1m/512100` | 0.000251 | 0.000247 | INPUT_IDENTITY_CHANGED | 这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16、2026-11-17，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数 |
+| `/lot_floor/etf_shares_at_1m/588000` | 0.000128 | 0.000129 | INPUT_IDENTITY_CHANGED | 这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16、2026-11-17，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数 |
+| `/lot_floor/shares_at_1m/AU` | 0.839 | 0.83056 | INPUT_IDENTITY_CHANGED | 这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16、2026-11-17，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数 |
+| `/lot_floor/shares_at_1m/IC` | 1.275 | 1.24368 | INPUT_IDENTITY_CHANGED | 这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16、2026-11-17，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数 |
+| `/lot_floor/shares_at_1m/IF` | 1.18698 | 1.1817 | INPUT_IDENTITY_CHANGED | 这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16、2026-11-17，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数 |
+| `/lot_floor/shares_at_1m/IH` | 0.82002 | 0.82272 | INPUT_IDENTITY_CHANGED | 这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16、2026-11-17，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数 |
+| `/lot_floor/shares_at_1m/IM` | 1.25536 | 1.221 | INPUT_IDENTITY_CHANGED | 这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16、2026-11-17，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数 |
+| `/lot_floor/shares_at_1m/SC` | 0.6255 | 0.6208 | INPUT_IDENTITY_CHANGED | 这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16、2026-11-17，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数 |
+| `/lot_floor/shares_at_1m/T` | 1.10045 | 1.09755 | INPUT_IDENTITY_CHANGED | 这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16、2026-11-17，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数 |
+| `/lot_floor/shares_at_1m/TF` | 1.0676 | 1.0666 | INPUT_IDENTITY_CHANGED | 这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16、2026-11-17，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数 |
+| `/lot_floor/shares_at_1m/TS` | 2.05272 | 2.05264 | INPUT_IDENTITY_CHANGED | 这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16、2026-11-17，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数 |
 | `/permission/allowed_cny` | 431770.0 | 431728.0 | SECTION_ADVANCED | 这一节自己换了代：`permission` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
 | `/permission/ordered_cny` | 431769.6 | 431727.8 | SECTION_ADVANCED | 这一节自己换了代：`permission` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
 | `/premium_forward/cny_total` | 3627.42 | 2795.26 | SECTION_ADVANCED | 这一节自己换了代：`premium_forward` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
@@ -204,7 +253,8 @@
 | `/premium_forward/rows/4/n` | 107 | 172 | SECTION_ADVANCED | 这一节自己换了代：`premium_forward` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
 | `/premium_forward/rows/4/same_bucket_move_cny` | 1783.4714146678095 | 1188.9444541090584 | SECTION_ADVANCED | 这一节自己换了代：`premium_forward` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
 | `/premium_forward/rows/4/t` | 3.899475787273565 | 4.544192330848934 | SECTION_ADVANCED | 这一节自己换了代：`premium_forward` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/roster_audit/local_copies/0/laneside/value` | 187 | 185 | QUOTED_FROM_SOURCE | 这个数不是这页算的：`results/ah_panel_status.json:fresh_pairs` 现在读 185，与今天印的 185 相同——页只是转抄，动的是被引用的那张面 |
+| `/roster_audit/local_copies/0/laneside/value` | 187 | 185 | SECTION_ADVANCED | 这一节自己换了代：`roster_audit` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
+| `/stress/n_days` | 5281 | 5282 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
 | `/vol_target_gate/arms/0/cagr_pct` | 14.16 | 14.05 | SECTION_ADVANCED | 这一节自己换了代：`vol_target_gate` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
 | `/vol_target_gate/arms/0/sharpe` | 0.943 | 0.938 | SECTION_ADVANCED | 这一节自己换了代：`vol_target_gate` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
 | `/vol_target_gate/arms/1/cagr_pct` | 8.51 | 8.43 | SECTION_ADVANCED | 这一节自己换了代：`vol_target_gate` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
@@ -226,6 +276,14 @@
 | `/vol_target_gate/shape/effective_years/median_by_arm/vt06` | 4.853644 | 4.874988 | SECTION_ADVANCED | 这一节自己换了代：`vol_target_gate` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
 | `/vol_target_gate/shape/effective_years/median_by_arm/vt08` | 4.974762 | 4.995503 | SECTION_ADVANCED | 这一节自己换了代：`vol_target_gate` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
 | `/vol_target_gate/shape/effective_years/median_range` | 0.40749 | 0.424674 | SECTION_ADVANCED | 这一节自己换了代：`vol_target_gate` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
+| `/vs_basket/basket_nav` | 0.9765895222 | 0.9749964488 | SECTION_ADVANCED | 这一节自己换了代：`vs_basket` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
+| `/vs_basket/book_nav` | 1.006812175 | 1.0037812718 | SECTION_ADVANCED | 这一节自己换了代：`vs_basket` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
+| `/vs_basket/excess_pp` | 3.0947 | 2.9523 | SECTION_ADVANCED | 这一节自己换了代：`vs_basket` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
+| `/vs_basket/horizon/min_detectable_edge_pp/1y` | 23.683 | 23.677 | SECTION_ADVANCED | 这一节自己换了代：`vs_basket` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
+| `/vs_basket/horizon/min_detectable_edge_pp/2y` | 16.747 | 16.742 | SECTION_ADVANCED | 这一节自己换了代：`vs_basket` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
+| `/vs_basket/horizon/min_detectable_edge_pp/3y` | 13.674 | 13.67 | SECTION_ADVANCED | 这一节自己换了代：`vs_basket` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
+| `/vs_basket/horizon/min_detectable_edge_pp/6m` | 33.493 | 33.484 | SECTION_ADVANCED | 这一节自己换了代：`vs_basket` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
+| `/vs_basket/horizon/years_for_80pct_power/pre-2020 measured alpha (single arm)` | 136.1 | 136.0 | SECTION_ADVANCED | 这一节自己换了代：`vs_basket` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
 | `/vt_ladder/best_sharpe/cagr_pct` | 0.1155 | 0.1145 | SECTION_ADVANCED | 这一节自己换了代：`vt_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
 | `/vt_ladder/best_sharpe/sharpe` | 1.137 | 1.129 | SECTION_ADVANCED | 这一节自己换了代：`vt_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
 | `/vt_ladder/tightest_admit/cagr_pct` | 0.1429 | 0.1417 | SECTION_ADVANCED | 这一节自己换了代：`vt_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
@@ -284,7 +342,7 @@
 - `/family_coherence/panels_detail/1/columns`
 - `/sibling_gap/verdict_counts/CANNOT_VERIFY`
 
-## 今天新出现的数（909 个）落在这几块上
+## 今天新出现的数（949 个）落在这几块上
 
 - `/admission/concentration_caliber`
 - `/admission/reads`
@@ -367,6 +425,9 @@
 - `/floor_provenance/grid/full|all/bars`：**1663 → 1664**（差 1）｜SECTION_ADVANCED｜这一节自己换了代：`floor_provenance` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
 - `/floor_provenance/grid/full|graded/bars`：**1663 → 1664**（差 1）｜SECTION_ADVANCED｜这一节自己换了代：`floor_provenance` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
 - `/floor_provenance/issuing_cell/bars`：**1663 → 1664**（差 1）｜SECTION_ADVANCED｜这一节自己换了代：`floor_provenance` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
+- `/forward/bars`：**17 → 18**（差 1）｜SECTION_ADVANCED｜这一节自己换了代：`forward` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
+- `/forward/nav`：**1.006812175 → 1.0037812718**（差 -0.003031）｜SECTION_ADVANCED｜这一节自己换了代：`forward` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
+- `/forward/since_inception_pct`：**0.6812 → 0.3781**（差 -0.3031）｜SECTION_ADVANCED｜这一节自己换了代：`forward` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
 - `/futures_hedge/beta`：**0.07453700153927338 → 0.07447081363455153**（差 -6.6e-05）｜SECTION_ADVANCED｜这一节自己换了代：`futures_hedge` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
 - `/futures_hedge/capital_for_one_lot`：**11001515.798404276 → 11047549.500899909**（差 46033.702496）｜SECTION_ADVANCED｜这一节自己换了代：`futures_hedge` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
 - `/futures_hedge/corr`：**0.14152934655175411 → 0.14138168578950164**（差 -0.000148）｜SECTION_ADVANCED｜这一节自己换了代：`futures_hedge` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
@@ -383,6 +444,22 @@
 - `/futures_hedge_tail/tail_ci_hi`：**0.8328393159433894 → 0.8414217707501334**（差 0.008582）｜SECTION_ADVANCED｜这一节自己换了代：`futures_hedge_tail` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
 - `/futures_hedge_tail/tail_ci_lo`：**0.10957277748333087 → 0.12206311855461444**（差 0.01249）｜SECTION_ADVANCED｜这一节自己换了代：`futures_hedge_tail` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
 - `/futures_hedge_tail/uncond_beta`：**0.07453700153927338 → 0.07447081363455153**（差 -6.6e-05）｜SECTION_ADVANCED｜这一节自己换了代：`futures_hedge_tail` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
+- `/futures_ladder/dilution/pairs/IC/gap_pp`：**6.912 → 6.898**（差 -0.014）｜SECTION_ADVANCED｜这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
+- `/futures_ladder/dilution/pairs/IC/missed_roll_days`：**105 → 106**（差 1）｜SECTION_ADVANCED｜这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
+- `/futures_ladder/dilution/pairs/IC/missed_roll_days_ann_pct`：**-146.492 → -144.773**（差 1.719）｜SECTION_ADVANCED｜这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
+- `/futures_ladder/dilution/pairs/IC/published_ann_pct`：**2.881 → 2.895**（差 0.014）｜SECTION_ADVANCED｜这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
+- `/futures_ladder/dilution/pairs/IF/gap_pp`：**3.919 → 3.872**（差 -0.047）｜SECTION_ADVANCED｜这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
+- `/futures_ladder/dilution/pairs/IF/missed_roll_days`：**109 → 110**（差 1）｜SECTION_ADVANCED｜这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
+- `/futures_ladder/dilution/pairs/IF/missed_roll_days_ann_pct`：**-93.463 → -91.585**（差 1.878）｜SECTION_ADVANCED｜这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
+- `/futures_ladder/dilution/pairs/IF/published_ann_pct`：**1.876 → 1.923**（差 0.047）｜SECTION_ADVANCED｜这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
+- `/futures_ladder/dilution/pairs/IH/gap_pp`：**3.772 → 3.707**（差 -0.065）｜SECTION_ADVANCED｜这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
+- `/futures_ladder/dilution/pairs/IH/missed_roll_days`：**105 → 106**（差 1）｜SECTION_ADVANCED｜这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
+- `/futures_ladder/dilution/pairs/IH/missed_roll_days_ann_pct`：**-75.004 → -72.838**（差 2.166）｜SECTION_ADVANCED｜这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
+- `/futures_ladder/dilution/pairs/IH/published_ann_pct`：**1.552 → 1.617**（差 0.065）｜SECTION_ADVANCED｜这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
+- `/futures_ladder/dilution/pairs/IM/gap_pp`：**6.09 → 6.026**（差 -0.064）｜SECTION_ADVANCED｜这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
+- `/futures_ladder/dilution/pairs/IM/missed_roll_days`：**41 → 42**（差 1）｜SECTION_ADVANCED｜这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
+- `/futures_ladder/dilution/pairs/IM/missed_roll_days_ann_pct`：**-131.025 → -126.203**（差 4.822）｜SECTION_ADVANCED｜这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
+- `/futures_ladder/dilution/pairs/IM/published_ann_pct`：**5.864 → 5.928**（差 0.064）｜SECTION_ADVANCED｜这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
 - `/futures_ladder/rows/0/margin_pct_of_capital`：**3.8 → 3.7**（差 -0.1）｜SECTION_ADVANCED｜这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
 - `/futures_ladder/rows/0/net_pct_of_capital`：**2.24 → 2.21**（差 -0.03）｜SECTION_ADVANCED｜这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
 - `/futures_ladder/rows/0/net_pct_of_capital_by_mask/calendar`：**3.12 → 3.08**（差 -0.04）｜SECTION_ADVANCED｜这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
@@ -392,6 +469,8 @@
 - `/futures_ladder/rows/0/one_lot_notional_cny`：**1275000.0 → 1243680.0**（差 -31320.0）｜SECTION_ADVANCED｜这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
 - `/futures_ladder/rows/0/stress_loss_pct_of_capital`：**10.7 → 10.4**（差 -0.3）｜SECTION_ADVANCED｜这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
 - `/futures_ladder/rows/0/vol_contrib_pct`：**5.7 → 5.6**（差 -0.1）｜SECTION_ADVANCED｜这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
+- `/futures_ladder/rows/1/net_pct_of_capital_by_mask/calendar`：**2.55 → 2.54**（差 -0.01）｜SECTION_ADVANCED｜这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
+- `/futures_ladder/rows/1/net_pct_of_capital_by_mask/strictest`：**2.59 → 2.58**（差 -0.01）｜SECTION_ADVANCED｜这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
 - `/futures_ladder/rows/1/notional_x_capital_on_tier`：**0.4 → 0.39**（差 -0.01）｜SECTION_ADVANCED｜这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
 - `/futures_ladder/rows/1/one_lot_notional_cny`：**1186980.0 → 1181700.0**（差 -5280.0）｜SECTION_ADVANCED｜这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
 - `/futures_ladder/rows/2/net_pct_of_capital_by_mask/calendar`：**2.23 → 2.24**（差 0.01）｜SECTION_ADVANCED｜这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
@@ -399,16 +478,38 @@
 - `/futures_ladder/rows/2/stress_loss_pct_of_capital`：**12.4 → 12.5**（差 0.1）｜SECTION_ADVANCED｜这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
 - `/futures_ladder/rows/3/margin_pct_of_capital`：**3.8 → 3.7**（差 -0.1）｜SECTION_ADVANCED｜这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
 - `/futures_ladder/rows/3/net_pct_of_capital`：**2.68 → 2.65**（差 -0.03）｜SECTION_ADVANCED｜这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/futures_ladder/rows/3/net_pct_of_capital_by_mask/calendar`：**3.51 → 3.45**（差 -0.06）｜SECTION_ADVANCED｜这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
+- `/futures_ladder/rows/3/net_pct_of_capital_by_mask/calendar`：**3.51 → 3.44**（差 -0.07）｜SECTION_ADVANCED｜这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
 - `/futures_ladder/rows/3/net_pct_of_capital_by_mask/published`：**2.68 → 2.65**（差 -0.03）｜SECTION_ADVANCED｜这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/futures_ladder/rows/3/net_pct_of_capital_by_mask/strictest`：**3.51 → 3.45**（差 -0.06）｜SECTION_ADVANCED｜这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
+- `/futures_ladder/rows/3/net_pct_of_capital_by_mask/strictest`：**3.51 → 3.44**（差 -0.07）｜SECTION_ADVANCED｜这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
 - `/futures_ladder/rows/3/notional_x_capital_on_tier`：**0.25 → 0.24**（差 -0.01）｜SECTION_ADVANCED｜这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
 - `/futures_ladder/rows/3/one_lot_notional_cny`：**1255360.0 → 1221000.0**（差 -34360.0）｜SECTION_ADVANCED｜这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
 - `/futures_ladder/rows/3/stress_loss_pct_of_capital`：**10.4 → 10.2**（差 -0.2）｜SECTION_ADVANCED｜这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
 - `/futures_ladder/rows/3/vol_contrib_pct`：**6.3 → 6.1**（差 -0.2）｜SECTION_ADVANCED｜这一节自己换了代：`futures_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
+- `/futures_sleeve/rows/0/carry_ann_compound_pct`：**8.763 → 8.778**（差 0.015）｜INPUT_IDENTITY_CHANGED｜这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数
+- `/futures_sleeve/rows/0/carry_caliber/missed_roll_days`：**105 → 106**（差 1）｜INPUT_IDENTITY_CHANGED｜这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数
+- `/futures_sleeve/rows/0/carry_caliber/published_ann_pct`：**2.881 → 2.895**（差 0.014）｜INPUT_IDENTITY_CHANGED｜这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数
+- `/futures_sleeve/rows/0/carry_caliber/spread_pp`：**6.912 → 6.898**（差 -0.014）｜INPUT_IDENTITY_CHANGED｜这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数
+- `/futures_sleeve/rows/0/gap_net_pp`：**6.856 → 6.753**（差 -0.103）｜INPUT_IDENTITY_CHANGED｜这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数
 - `/futures_sleeve/rows/0/notional_per_lot_cny`：**1275000.0 → 1243680.0**（差 -31320.0）｜INPUT_IDENTITY_CHANGED｜这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数
+- `/futures_sleeve/rows/1/blend_gain_sharpe`：**0.131 → 0.133**（差 0.002）｜INPUT_IDENTITY_CHANGED｜这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数
+- `/futures_sleeve/rows/1/carry_ann_compound_pct`：**3.567 → 3.625**（差 0.058）｜INPUT_IDENTITY_CHANGED｜这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数
+- `/futures_sleeve/rows/1/carry_caliber/missed_roll_days`：**109 → 110**（差 1）｜INPUT_IDENTITY_CHANGED｜这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数
+- `/futures_sleeve/rows/1/carry_caliber/published_ann_pct`：**1.876 → 1.923**（差 0.047）｜INPUT_IDENTITY_CHANGED｜这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数
+- `/futures_sleeve/rows/1/carry_caliber/spread_pp`：**3.919 → 3.872**（差 -0.047）｜INPUT_IDENTITY_CHANGED｜这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数
+- `/futures_sleeve/rows/1/gap_net_pp`：**0.65 → 0.558**（差 -0.092）｜INPUT_IDENTITY_CHANGED｜这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数
 - `/futures_sleeve/rows/1/notional_per_lot_cny`：**1186980.0 → 1181700.0**（差 -5280.0）｜INPUT_IDENTITY_CHANGED｜这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数
+- `/futures_sleeve/rows/2/blend_gain_sharpe`：**0.084 → 0.087**（差 0.003）｜INPUT_IDENTITY_CHANGED｜这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数
+- `/futures_sleeve/rows/2/carry_ann_compound_pct`：**2.392 → 2.471**（差 0.079）｜INPUT_IDENTITY_CHANGED｜这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数
+- `/futures_sleeve/rows/2/carry_caliber/missed_roll_days`：**105 → 106**（差 1）｜INPUT_IDENTITY_CHANGED｜这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数
+- `/futures_sleeve/rows/2/carry_caliber/published_ann_pct`：**1.552 → 1.617**（差 0.065）｜INPUT_IDENTITY_CHANGED｜这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数
+- `/futures_sleeve/rows/2/carry_caliber/spread_pp`：**3.772 → 3.707**（差 -0.065）｜INPUT_IDENTITY_CHANGED｜这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数
 - `/futures_sleeve/rows/2/notional_per_lot_cny`：**820020.0 → 822720.0**（差 2700.0）｜INPUT_IDENTITY_CHANGED｜这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数
+- `/futures_sleeve/rows/3/blend_gain_sharpe`：**0.387 → 0.39**（差 0.003）｜INPUT_IDENTITY_CHANGED｜这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数
+- `/futures_sleeve/rows/3/carry_ann_compound_pct`：**10.198 → 10.263**（差 0.065）｜INPUT_IDENTITY_CHANGED｜这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数
+- `/futures_sleeve/rows/3/carry_caliber/missed_roll_days`：**41 → 42**（差 1）｜INPUT_IDENTITY_CHANGED｜这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数
+- `/futures_sleeve/rows/3/carry_caliber/published_ann_pct`：**5.864 → 5.928**（差 0.064）｜INPUT_IDENTITY_CHANGED｜这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数
+- `/futures_sleeve/rows/3/carry_caliber/spread_pp`：**6.09 → 6.026**（差 -0.064）｜INPUT_IDENTITY_CHANGED｜这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数
+- `/futures_sleeve/rows/3/gap_net_pp`：**8.068 → 7.733**（差 -0.335）｜INPUT_IDENTITY_CHANGED｜这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数
 - `/futures_sleeve/rows/3/notional_per_lot_cny`：**1255360.0 → 1221000.0**（差 -34360.0）｜INPUT_IDENTITY_CHANGED｜这一节只在今天写了腿级价格日：`futures_sleeve` 的 4 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数
 - `/k_gap/account_base_gap_cny`：**28483.4 → 28525.2**（差 41.8）｜SECTION_ADVANCED｜这一节自己换了代：`k_gap` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
 - `/k_gap/cheapest_next_lot/lots_at_rule`：**774 → 766**（差 -8）｜SECTION_ADVANCED｜这一节自己换了代：`k_gap` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
@@ -451,24 +552,29 @@
 - `/k_gap/rows/4/short_cny`：**5571.2 → 5603.2**（差 32.0）｜SECTION_ADVANCED｜这一节自己换了代：`k_gap` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
 - `/k_gap/short_share_of_book_pct`：**6.0961 → 6.1355**（差 0.0394）｜SECTION_ADVANCED｜这一节自己换了代：`k_gap` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
 - `/k_gap/short_total_cny`：**28057.3 → 28238.9**（差 181.6）｜SECTION_ADVANCED｜这一节自己换了代：`k_gap` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/lot_floor/capital_needed/AU`：**2796666.666666667 → 2768533.3333333335**（差 -28133.333333）｜INPUT_IDENTITY_CHANGED｜这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数
-- `/lot_floor/capital_needed/IC`：**4250000.0 → 4145600.0**（差 -104400.0）｜INPUT_IDENTITY_CHANGED｜这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数
-- `/lot_floor/capital_needed/IF`：**3956600.0 → 3939000.0**（差 -17600.0）｜INPUT_IDENTITY_CHANGED｜这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数
-- `/lot_floor/capital_needed/IH`：**2733400.0 → 2742400.0**（差 9000.0）｜INPUT_IDENTITY_CHANGED｜这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数
-- `/lot_floor/capital_needed/IM`：**4184533.3333333335 → 4070000.0**（差 -114533.333333）｜INPUT_IDENTITY_CHANGED｜这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数
-- `/lot_floor/capital_needed/SC`：**2085000.0 → 2069333.3333333335**（差 -15666.666667）｜INPUT_IDENTITY_CHANGED｜这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数
-- `/lot_floor/capital_needed/T`：**3668166.666666667 → 3658500.0**（差 -9666.666667）｜INPUT_IDENTITY_CHANGED｜这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数
-- `/lot_floor/capital_needed/TF`：**3558666.666666667 → 3555333.3333333335**（差 -3333.333333）｜INPUT_IDENTITY_CHANGED｜这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数
-- `/lot_floor/capital_needed/TS`：**6842400.0 → 6842133.333333334**（差 -266.666667）｜INPUT_IDENTITY_CHANGED｜这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数
-- `/lot_floor/shares_at_1m/AU`：**0.839 → 0.83056**（差 -0.00844）｜INPUT_IDENTITY_CHANGED｜这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数
-- `/lot_floor/shares_at_1m/IC`：**1.275 → 1.24368**（差 -0.03132）｜INPUT_IDENTITY_CHANGED｜这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数
-- `/lot_floor/shares_at_1m/IF`：**1.18698 → 1.1817**（差 -0.00528）｜INPUT_IDENTITY_CHANGED｜这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数
-- `/lot_floor/shares_at_1m/IH`：**0.82002 → 0.82272**（差 0.0027）｜INPUT_IDENTITY_CHANGED｜这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数
-- `/lot_floor/shares_at_1m/IM`：**1.25536 → 1.221**（差 -0.03436）｜INPUT_IDENTITY_CHANGED｜这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数
-- `/lot_floor/shares_at_1m/SC`：**0.6255 → 0.6208**（差 -0.0047）｜INPUT_IDENTITY_CHANGED｜这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数
-- `/lot_floor/shares_at_1m/T`：**1.10045 → 1.09755**（差 -0.0029）｜INPUT_IDENTITY_CHANGED｜这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数
-- `/lot_floor/shares_at_1m/TF`：**1.0676 → 1.0666**（差 -0.001）｜INPUT_IDENTITY_CHANGED｜这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数
-- `/lot_floor/shares_at_1m/TS`：**2.05272 → 2.05264**（差 -8e-05）｜INPUT_IDENTITY_CHANGED｜这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数
+- `/lot_floor/capital_needed/AU`：**2796666.666666667 → 2768533.3333333335**（差 -28133.333333）｜INPUT_IDENTITY_CHANGED｜这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16、2026-11-17，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数
+- `/lot_floor/capital_needed/IC`：**4250000.0 → 4145600.0**（差 -104400.0）｜INPUT_IDENTITY_CHANGED｜这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16、2026-11-17，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数
+- `/lot_floor/capital_needed/IF`：**3956600.0 → 3939000.0**（差 -17600.0）｜INPUT_IDENTITY_CHANGED｜这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16、2026-11-17，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数
+- `/lot_floor/capital_needed/IH`：**2733400.0 → 2742400.0**（差 9000.0）｜INPUT_IDENTITY_CHANGED｜这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16、2026-11-17，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数
+- `/lot_floor/capital_needed/IM`：**4184533.3333333335 → 4070000.0**（差 -114533.333333）｜INPUT_IDENTITY_CHANGED｜这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16、2026-11-17，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数
+- `/lot_floor/capital_needed/SC`：**2085000.0 → 2069333.3333333335**（差 -15666.666667）｜INPUT_IDENTITY_CHANGED｜这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16、2026-11-17，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数
+- `/lot_floor/capital_needed/T`：**3668166.666666667 → 3658500.0**（差 -9666.666667）｜INPUT_IDENTITY_CHANGED｜这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16、2026-11-17，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数
+- `/lot_floor/capital_needed/TF`：**3558666.666666667 → 3555333.3333333335**（差 -3333.333333）｜INPUT_IDENTITY_CHANGED｜这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16、2026-11-17，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数
+- `/lot_floor/capital_needed/TS`：**6842400.0 → 6842133.333333334**（差 -266.666667）｜INPUT_IDENTITY_CHANGED｜这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16、2026-11-17，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数
+- `/lot_floor/etf_shares_at_1m/510050`：**0.000289 → 0.000288**（差 -1e-06）｜INPUT_IDENTITY_CHANGED｜这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16、2026-11-17，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数
+- `/lot_floor/etf_shares_at_1m/510300`：**0.000405 → 0.000404**（差 -1e-06）｜INPUT_IDENTITY_CHANGED｜这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16、2026-11-17，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数
+- `/lot_floor/etf_shares_at_1m/510500`：**0.000633 → 0.000632**（差 -1e-06）｜INPUT_IDENTITY_CHANGED｜这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16、2026-11-17，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数
+- `/lot_floor/etf_shares_at_1m/512100`：**0.000251 → 0.000247**（差 -4e-06）｜INPUT_IDENTITY_CHANGED｜这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16、2026-11-17，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数
+- `/lot_floor/etf_shares_at_1m/588000`：**0.000128 → 0.000129**（差 1e-06）｜INPUT_IDENTITY_CHANGED｜这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16、2026-11-17，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数
+- `/lot_floor/shares_at_1m/AU`：**0.839 → 0.83056**（差 -0.00844）｜INPUT_IDENTITY_CHANGED｜这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16、2026-11-17，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数
+- `/lot_floor/shares_at_1m/IC`：**1.275 → 1.24368**（差 -0.03132）｜INPUT_IDENTITY_CHANGED｜这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16、2026-11-17，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数
+- `/lot_floor/shares_at_1m/IF`：**1.18698 → 1.1817**（差 -0.00528）｜INPUT_IDENTITY_CHANGED｜这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16、2026-11-17，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数
+- `/lot_floor/shares_at_1m/IH`：**0.82002 → 0.82272**（差 0.0027）｜INPUT_IDENTITY_CHANGED｜这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16、2026-11-17，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数
+- `/lot_floor/shares_at_1m/IM`：**1.25536 → 1.221**（差 -0.03436）｜INPUT_IDENTITY_CHANGED｜这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16、2026-11-17，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数
+- `/lot_floor/shares_at_1m/SC`：**0.6255 → 0.6208**（差 -0.0047）｜INPUT_IDENTITY_CHANGED｜这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16、2026-11-17，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数
+- `/lot_floor/shares_at_1m/T`：**1.10045 → 1.09755**（差 -0.0029）｜INPUT_IDENTITY_CHANGED｜这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16、2026-11-17，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数
+- `/lot_floor/shares_at_1m/TF`：**1.0676 → 1.0666**（差 -0.001）｜INPUT_IDENTITY_CHANGED｜这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16、2026-11-17，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数
+- `/lot_floor/shares_at_1m/TS`：**2.05272 → 2.05264**（差 -8e-05）｜INPUT_IDENTITY_CHANGED｜这一节只在今天写了腿级价格日：`lot_floor` 的 15 条腿各自标在 2026-11-16、2026-11-17，昨天那一版没写——没写的那版是拿面板当时最后一根 bar 定价、却按最新 bar 落章。数字换的是「腿价来自哪根 bar」，不是同一根 bar 上的读数
 - `/permission/allowed_cny`：**431770.0 → 431728.0**（差 -42.0）｜SECTION_ADVANCED｜这一节自己换了代：`permission` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
 - `/permission/ordered_cny`：**431769.6 → 431727.8**（差 -41.8）｜SECTION_ADVANCED｜这一节自己换了代：`permission` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
 - `/premium_forward/cny_total`：**3627.42 → 2795.26**（差 -832.16）｜SECTION_ADVANCED｜这一节自己换了代：`premium_forward` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
@@ -496,7 +602,8 @@
 - `/premium_forward/rows/4/n`：**107 → 172**（差 65）｜SECTION_ADVANCED｜这一节自己换了代：`premium_forward` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
 - `/premium_forward/rows/4/same_bucket_move_cny`：**1783.4714146678095 → 1188.9444541090584**（差 -594.526961）｜SECTION_ADVANCED｜这一节自己换了代：`premium_forward` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
 - `/premium_forward/rows/4/t`：**3.899475787273565 → 4.544192330848934**（差 0.644717）｜SECTION_ADVANCED｜这一节自己换了代：`premium_forward` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/roster_audit/local_copies/0/laneside/value`：**187 → 185**（差 -2）｜QUOTED_FROM_SOURCE｜这个数不是这页算的：`results/ah_panel_status.json:fresh_pairs` 现在读 185，与今天印的 185 相同——页只是转抄，动的是被引用的那张面
+- `/roster_audit/local_copies/0/laneside/value`：**187 → 185**（差 -2）｜SECTION_ADVANCED｜这一节自己换了代：`roster_audit` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
+- `/stress/n_days`：**5281 → 5282**（差 1）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
 - `/vol_target_gate/arms/0/cagr_pct`：**14.16 → 14.05**（差 -0.11）｜SECTION_ADVANCED｜这一节自己换了代：`vol_target_gate` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
 - `/vol_target_gate/arms/0/sharpe`：**0.943 → 0.938**（差 -0.005）｜SECTION_ADVANCED｜这一节自己换了代：`vol_target_gate` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
 - `/vol_target_gate/arms/1/cagr_pct`：**8.51 → 8.43**（差 -0.08）｜SECTION_ADVANCED｜这一节自己换了代：`vol_target_gate` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
@@ -518,6 +625,14 @@
 - `/vol_target_gate/shape/effective_years/median_by_arm/vt06`：**4.853644 → 4.874988**（差 0.021344）｜SECTION_ADVANCED｜这一节自己换了代：`vol_target_gate` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
 - `/vol_target_gate/shape/effective_years/median_by_arm/vt08`：**4.974762 → 4.995503**（差 0.020741）｜SECTION_ADVANCED｜这一节自己换了代：`vol_target_gate` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
 - `/vol_target_gate/shape/effective_years/median_range`：**0.40749 → 0.424674**（差 0.017184）｜SECTION_ADVANCED｜这一节自己换了代：`vol_target_gate` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
+- `/vs_basket/basket_nav`：**0.9765895222 → 0.9749964488**（差 -0.001593）｜SECTION_ADVANCED｜这一节自己换了代：`vs_basket` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
+- `/vs_basket/book_nav`：**1.006812175 → 1.0037812718**（差 -0.003031）｜SECTION_ADVANCED｜这一节自己换了代：`vs_basket` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
+- `/vs_basket/excess_pp`：**3.0947 → 2.9523**（差 -0.1424）｜SECTION_ADVANCED｜这一节自己换了代：`vs_basket` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
+- `/vs_basket/horizon/min_detectable_edge_pp/1y`：**23.683 → 23.677**（差 -0.006）｜SECTION_ADVANCED｜这一节自己换了代：`vs_basket` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
+- `/vs_basket/horizon/min_detectable_edge_pp/2y`：**16.747 → 16.742**（差 -0.005）｜SECTION_ADVANCED｜这一节自己换了代：`vs_basket` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
+- `/vs_basket/horizon/min_detectable_edge_pp/3y`：**13.674 → 13.67**（差 -0.004）｜SECTION_ADVANCED｜这一节自己换了代：`vs_basket` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
+- `/vs_basket/horizon/min_detectable_edge_pp/6m`：**33.493 → 33.484**（差 -0.009）｜SECTION_ADVANCED｜这一节自己换了代：`vs_basket` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
+- `/vs_basket/horizon/years_for_80pct_power/pre-2020 measured alpha (single arm)`：**136.1 → 136.0**（差 -0.1）｜SECTION_ADVANCED｜这一节自己换了代：`vs_basket` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
 - `/vt_ladder/best_sharpe/cagr_pct`：**0.1155 → 0.1145**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vt_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
 - `/vt_ladder/best_sharpe/sharpe`：**1.137 → 1.129**（差 -0.008）｜SECTION_ADVANCED｜这一节自己换了代：`vt_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
 - `/vt_ladder/tightest_admit/cagr_pct`：**0.1429 → 0.1417**（差 -0.0012）｜SECTION_ADVANCED｜这一节自己换了代：`vt_ladder` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
@@ -570,6 +685,12 @@
 - `/vt_phases/reference/top2_min`：**1.5112 → 1.5724**（差 0.0612）｜SECTION_ADVANCED｜这一节自己换了代：`vt_phases` 2026-11-13 → 2026-11-16（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
 
 同一个隔夜、同一根 bar、同一笔钱，这页昨天给一个答案、今天给另一个。两个答案不可能都对：走 `RECOVERED_OLD_VALUE`／`DECLARED_RULER` 的那一条说明**是新答案改了算法**（旧数还在页上或口径句改了），读的人要按新口径重读昨天的判断；没有这两条说明的，就是这页偷偷换了数。
+
+## 还有哪些节在同 bar 上改了数（1 个）
+
+- `stress`：1 个
+
+这几节的位移**没有任何解释**（不是转抄、不是换输入、不是换代）。页要在同一根 bar 上改这些数，就得自己写出理由；写不出来，读的人就分不清「今天变了」和「口径变了」。
 
 ## 怎么读
 

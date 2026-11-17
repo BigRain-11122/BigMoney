@@ -1,9 +1,9 @@
 {
   "arm_sensitivity": {
-    "B_minus_A_shift_pp_median": -1.155,
-    "gap_moved_pp_max": 1.981,
-    "gap_moved_pp_median": 1.155,
-    "gap_moved_pp_min": 0.899,
+    "B_minus_A_shift_pp_median": -1.145,
+    "gap_moved_pp_max": 1.971,
+    "gap_moved_pp_median": 1.145,
+    "gap_moved_pp_min": 0.87,
     "note": "gap = A minus B. A positive movement means the complete mask widens the always-in arm over the waiting arm; the r1690 verdict was HOLD-ALWAYS on bars W1/W2 (B-A >= 0.5pp) plus W3 (both halves)",
     "pairs": 4
   },
@@ -29,11 +29,11 @@
         "calendar_ann_pct": 9.793,
         "deleted_real_days": 10,
         "gap_identity_holds": true,
-        "gap_pp": 6.912,
+        "gap_pp": 6.898,
         "kept_by_both_ann_pct": 9.837,
-        "missed_roll_days": 105,
-        "missed_roll_days_ann_pct": -146.492,
-        "published_ann_pct": 2.881,
+        "missed_roll_days": 106,
+        "missed_roll_days_ann_pct": -144.773,
+        "published_ann_pct": 2.895,
         "reading": "MISSED_ROLLS_ARE_A_FAKE_LOSS",
         "strictest_ann_pct": 9.837
       },
@@ -41,11 +41,11 @@
         "calendar_ann_pct": 5.795,
         "deleted_real_days": 18,
         "gap_identity_holds": true,
-        "gap_pp": 3.919,
+        "gap_pp": 3.872,
         "kept_by_both_ann_pct": 6.5,
-        "missed_roll_days": 109,
-        "missed_roll_days_ann_pct": -93.463,
-        "published_ann_pct": 1.876,
+        "missed_roll_days": 110,
+        "missed_roll_days_ann_pct": -91.585,
+        "published_ann_pct": 1.923,
         "reading": "MISSED_ROLLS_ARE_A_FAKE_LOSS",
         "strictest_ann_pct": 6.5
       },
@@ -53,11 +53,11 @@
         "calendar_ann_pct": 5.324,
         "deleted_real_days": 22,
         "gap_identity_holds": true,
-        "gap_pp": 3.772,
+        "gap_pp": 3.707,
         "kept_by_both_ann_pct": 5.135,
-        "missed_roll_days": 105,
-        "missed_roll_days_ann_pct": -75.004,
-        "published_ann_pct": 1.552,
+        "missed_roll_days": 106,
+        "missed_roll_days_ann_pct": -72.838,
+        "published_ann_pct": 1.617,
         "reading": "MISSED_ROLLS_ARE_A_FAKE_LOSS",
         "strictest_ann_pct": 5.135
       },
@@ -65,20 +65,20 @@
         "calendar_ann_pct": 11.954,
         "deleted_real_days": 9,
         "gap_identity_holds": true,
-        "gap_pp": 6.09,
+        "gap_pp": 6.026,
         "kept_by_both_ann_pct": 11.562,
-        "missed_roll_days": 41,
-        "missed_roll_days_ann_pct": -131.025,
-        "published_ann_pct": 5.864,
+        "missed_roll_days": 42,
+        "missed_roll_days_ann_pct": -126.203,
+        "published_ann_pct": 5.928,
         "reading": "MISSED_ROLLS_ARE_A_FAKE_LOSS",
         "strictest_ann_pct": 11.562
       }
     },
     "verdict": "GAP_IS_ARITHMETIC"
   },
-  "evidence_cutoff": "2026-11-13",
+  "evidence_cutoff": "2026-11-16",
   "face": "idx_fut_roll_gap",
-  "generated": "2026-11-16T23:39:17",
+  "generated": "2026-11-17T16:08:41",
   "incomplete_pairs": [
     "IF",
     "IC",
@@ -88,85 +88,84 @@
   "pairs": {
     "IC": {
       "arm_sensitivity": {
-        "A_pp_moved": 2.276,
+        "A_pp_moved": 2.265,
         "B_minus_A_pp": {
-          "calendar": -2.034,
-          "published": -0.053
+          "calendar": -1.93,
+          "published": 0.041
         },
-        "B_pp_moved": 0.295,
+        "B_pp_moved": 0.294,
         "calendar_mask": {
           "arms": {
             "A": {
-              "ann_pct": 6.05,
-              "maxdd_pct": -10.976,
-              "vol_pct": 8.009
+              "ann_pct": 5.943,
+              "maxdd_pct": -10.972,
+              "vol_pct": 8.01
             },
             "B": {
-              "ann_pct": 4.016,
-              "maxdd_pct": -9.212,
-              "vol_pct": 4.455
+              "ann_pct": 4.013,
+              "maxdd_pct": -9.209,
+              "vol_pct": 4.453
             },
             "C": {
-              "ann_pct": 2.432,
+              "ann_pct": 2.431,
               "maxdd_pct": 0.0,
               "vol_pct": 0.222
             }
           },
-          "gap_A_minus_B_pp": 2.034,
-          "leverage": 0.3461,
+          "gap_A_minus_B_pp": 1.93,
+          "leverage": 0.346,
           "repo_rows_missing": 0,
           "roll_days_held": 6,
-          "time_in_market_pct": 21.91,
+          "time_in_market_pct": 21.9,
           "window": {
-            "days": 2324,
+            "days": 2325,
             "from": "2017-04-19",
-            "to": "2026-11-13"
+            "to": "2026-11-16"
           }
         },
-        "gap_pp_moved": 1.981,
+        "gap_pp_moved": 1.971,
         "published_mask": {
           "arms": {
             "A": {
-              "ann_pct": 3.774,
-              "maxdd_pct": -12.227,
-              "vol_pct": 8.011
+              "ann_pct": 3.678,
+              "maxdd_pct": -12.223,
+              "vol_pct": 8.012
             },
             "B": {
-              "ann_pct": 3.721,
-              "maxdd_pct": -10.057,
-              "vol_pct": 4.414
+              "ann_pct": 3.719,
+              "maxdd_pct": -10.054,
+              "vol_pct": 4.411
             },
             "C": {
-              "ann_pct": 2.432,
+              "ann_pct": 2.431,
               "maxdd_pct": 0.0,
               "vol_pct": 0.222
             }
           },
-          "gap_A_minus_B_pp": 0.053,
-          "leverage": 0.3462,
+          "gap_A_minus_B_pp": -0.041,
+          "leverage": 0.3461,
           "repo_rows_missing": 0,
           "roll_days_held": 6,
-          "time_in_market_pct": 21.91,
+          "time_in_market_pct": 21.9,
           "window": {
-            "days": 2324,
+            "days": 2325,
             "from": "2017-04-19",
-            "to": "2026-11-13"
+            "to": "2026-11-16"
           }
         }
       },
       "detector": {
-        "months_covered_pct": 98.32,
-        "months_hit": 117,
+        "months_covered_pct": 99.16,
+        "months_hit": 118,
         "months_missing": [
-          "2026-02",
-          "2026-11"
+          "2026-02"
         ],
         "months_total": 119,
         "offsets_from_expiry": {
           "-1": 6,
           "-2": 3,
           "-3": 11,
-          "-4": 13,
+          "-4": 14,
           "0": 47,
           "3": 37
         }
@@ -174,11 +173,11 @@
       "index": "sh000905",
       "mask_split": {
         "counts_closed": true,
-        "days_total": 2382,
+        "days_total": 2383,
         "gap_identity": {
-          "face_gap_pp": 6.912,
+          "face_gap_pp": 6.898,
           "holds": true,
-          "rebuilt_gap_pp": 6.912
+          "rebuilt_gap_pp": 6.898
         },
         "groups": {
           "both": {
@@ -186,8 +185,8 @@
             "n": 12
           },
           "extra": {
-            "ann_pct": -146.492,
-            "n": 105
+            "ann_pct": -144.773,
+            "n": 106
           },
           "neither": {
             "ann_pct": 9.837,
@@ -199,18 +198,18 @@
           }
         },
         "kept_cal_rebuilt_ann_pct": 9.793,
-        "kept_pub_rebuilt_ann_pct": 2.881,
+        "kept_pub_rebuilt_ann_pct": 2.895,
         "reading": "MISSED_ROLLS_ARE_A_FAKE_LOSS"
       },
       "readings": {
         "calendar_mask": {
-          "calendar_years": 9.827,
+          "calendar_years": 9.836,
           "carry_ann_pct": 9.793,
-          "days": 2382,
+          "days": 2383,
           "kept_days": 2265,
-          "masked_days": 117,
-          "removed_mean_pct": -0.007621,
-          "spliced_total_ann_pct": 0.178,
+          "masked_days": 118,
+          "removed_mean_pct": -0.007544,
+          "spliced_total_ann_pct": 0.193,
           "stats": {
             "hit_rate_pct": 55.7,
             "mean_ann_pct": 9.793,
@@ -218,33 +217,33 @@
             "n": 2265,
             "trimmed_mean_ann_pct": 9.334
           },
-          "years": 9.762
+          "years": 9.766
         },
         "published_threshold_mask": {
-          "calendar_years": 9.827,
-          "carry_ann_pct": 2.881,
-          "days": 2382,
-          "kept_days": 2360,
+          "calendar_years": 9.836,
+          "carry_ann_pct": 2.895,
+          "days": 2383,
+          "kept_days": 2361,
           "masked_days": 22,
           "removed_mean_pct": -0.011877,
-          "spliced_total_ann_pct": 0.178,
+          "spliced_total_ann_pct": 0.193,
           "stats": {
             "hit_rate_pct": 53.3,
-            "mean_ann_pct": 2.881,
-            "median_ann_pct": 5.041,
-            "n": 2360,
-            "trimmed_mean_ann_pct": 3.981
+            "mean_ann_pct": 2.895,
+            "median_ann_pct": 5.051,
+            "n": 2361,
+            "trimmed_mean_ann_pct": 3.996
           },
-          "years": 9.762
+          "years": 9.766
         },
         "strictest_mask": {
-          "calendar_years": 9.827,
+          "calendar_years": 9.836,
           "carry_ann_pct": 9.837,
-          "days": 2382,
+          "days": 2383,
           "kept_days": 2255,
-          "masked_days": 127,
-          "removed_mean_pct": -0.007021,
-          "spliced_total_ann_pct": 0.178,
+          "masked_days": 128,
+          "removed_mean_pct": -0.006955,
+          "spliced_total_ann_pct": 0.193,
           "stats": {
             "hit_rate_pct": 55.7,
             "mean_ann_pct": 9.837,
@@ -252,14 +251,14 @@
             "n": 2255,
             "trimmed_mean_ann_pct": 9.332
           },
-          "years": 9.762
+          "years": 9.766
         }
       },
       "roll_days": {
-        "calendar_mask_days": 117,
-        "carry_gap_pp": 6.912,
-        "missed_days": 95,
-        "missed_share_pct": 81.2,
+        "calendar_mask_days": 118,
+        "carry_gap_pp": 6.898,
+        "missed_days": 96,
+        "missed_share_pct": 81.4,
         "published_mask_days": 22
       },
       "roll_steps": {
@@ -301,106 +300,105 @@
             "sum_pct": -13.04
           },
           "2026": {
-            "rolls": 9,
-            "sum_pct": -8.18
+            "rolls": 10,
+            "sum_pct": -8.032
           }
         },
-        "count": 117,
-        "mean_pct": -0.7621,
-        "median_pct": -0.6202,
-        "per_year": 11.99,
-        "positive_steps": 1,
-        "sum_ann_pct": -9.133
+        "count": 118,
+        "mean_pct": -0.7543,
+        "median_pct": -0.619,
+        "per_year": 12.08,
+        "positive_steps": 2,
+        "sum_ann_pct": -9.114
       },
       "span": {
-        "days": 2383,
+        "days": 2384,
         "from": "2017-01-17",
-        "to": "2026-11-13"
+        "to": "2026-11-16"
       },
       "state": "MASK_INCOMPLETE",
       "status": "ok"
     },
     "IF": {
       "arm_sensitivity": {
-        "A_pp_moved": 1.483,
+        "A_pp_moved": 1.461,
         "B_minus_A_pp": {
-          "calendar": -0.226,
-          "published": 1.153
+          "calendar": -0.185,
+          "published": 1.173
         },
-        "B_pp_moved": 0.104,
+        "B_pp_moved": 0.103,
         "calendar_mask": {
           "arms": {
             "A": {
-              "ann_pct": 5.478,
+              "ann_pct": 5.433,
               "maxdd_pct": -11.32,
               "vol_pct": 8.007
             },
             "B": {
-              "ann_pct": 5.252,
+              "ann_pct": 5.248,
               "maxdd_pct": -6.024,
-              "vol_pct": 3.908
+              "vol_pct": 3.907
             },
             "C": {
-              "ann_pct": 2.432,
+              "ann_pct": 2.431,
               "maxdd_pct": 0.0,
               "vol_pct": 0.222
             }
           },
-          "gap_A_minus_B_pp": 0.226,
+          "gap_A_minus_B_pp": 0.185,
           "leverage": 0.4041,
           "repo_rows_missing": 0,
           "roll_days_held": 8,
-          "time_in_market_pct": 21.01,
+          "time_in_market_pct": 21.0,
           "window": {
-            "days": 2324,
+            "days": 2325,
             "from": "2017-04-19",
-            "to": "2026-11-13"
+            "to": "2026-11-16"
           }
         },
-        "gap_pp_moved": 1.379,
+        "gap_pp_moved": 1.358,
         "published_mask": {
           "arms": {
             "A": {
-              "ann_pct": 3.995,
-              "maxdd_pct": -16.046,
+              "ann_pct": 3.972,
+              "maxdd_pct": -16.051,
               "vol_pct": 8.009
             },
             "B": {
-              "ann_pct": 5.148,
-              "maxdd_pct": -4.98,
+              "ann_pct": 5.145,
+              "maxdd_pct": -4.981,
               "vol_pct": 3.781
             },
             "C": {
-              "ann_pct": 2.432,
+              "ann_pct": 2.431,
               "maxdd_pct": 0.0,
               "vol_pct": 0.222
             }
           },
-          "gap_A_minus_B_pp": -1.153,
-          "leverage": 0.4143,
+          "gap_A_minus_B_pp": -1.173,
+          "leverage": 0.4144,
           "repo_rows_missing": 0,
           "roll_days_held": 8,
-          "time_in_market_pct": 21.01,
+          "time_in_market_pct": 21.0,
           "window": {
-            "days": 2324,
+            "days": 2325,
             "from": "2017-04-19",
-            "to": "2026-11-13"
+            "to": "2026-11-16"
           }
         }
       },
       "detector": {
-        "months_covered_pct": 98.32,
-        "months_hit": 117,
+        "months_covered_pct": 99.16,
+        "months_hit": 118,
         "months_missing": [
-          "2026-02",
-          "2026-11"
+          "2026-02"
         ],
         "months_total": 119,
         "offsets_from_expiry": {
           "-1": 7,
           "-2": 15,
           "-3": 12,
-          "-4": 14,
+          "-4": 15,
           "0": 38,
           "3": 31
         }
@@ -408,11 +406,11 @@
       "index": "sh000300",
       "mask_split": {
         "counts_closed": true,
-        "days_total": 2382,
+        "days_total": 2383,
         "gap_identity": {
-          "face_gap_pp": 3.919,
+          "face_gap_pp": 3.872,
           "holds": true,
-          "rebuilt_gap_pp": 3.919
+          "rebuilt_gap_pp": 3.872
         },
         "groups": {
           "both": {
@@ -420,8 +418,8 @@
             "n": 8
           },
           "extra": {
-            "ann_pct": -93.463,
-            "n": 109
+            "ann_pct": -91.585,
+            "n": 110
           },
           "neither": {
             "ann_pct": 6.5,
@@ -433,18 +431,18 @@
           }
         },
         "kept_cal_rebuilt_ann_pct": 5.795,
-        "kept_pub_rebuilt_ann_pct": 1.876,
+        "kept_pub_rebuilt_ann_pct": 1.923,
         "reading": "MISSED_ROLLS_ARE_A_FAKE_LOSS"
       },
       "readings": {
         "calendar_mask": {
-          "calendar_years": 9.827,
+          "calendar_years": 9.836,
           "carry_ann_pct": 5.795,
-          "days": 2382,
+          "days": 2383,
           "kept_days": 2265,
-          "masked_days": 117,
-          "removed_mean_pct": -0.004477,
-          "spliced_total_ann_pct": 0.145,
+          "masked_days": 118,
+          "removed_mean_pct": -0.0044,
+          "spliced_total_ann_pct": 0.193,
           "stats": {
             "hit_rate_pct": 54.6,
             "mean_ann_pct": 5.795,
@@ -452,33 +450,33 @@
             "n": 2265,
             "trimmed_mean_ann_pct": 6.215
           },
-          "years": 9.762
+          "years": 9.766
         },
         "published_threshold_mask": {
-          "calendar_years": 9.827,
-          "carry_ann_pct": 1.876,
-          "days": 2382,
-          "kept_days": 2356,
+          "calendar_years": 9.836,
+          "carry_ann_pct": 1.923,
+          "days": 2383,
+          "kept_days": 2357,
           "masked_days": 26,
           "removed_mean_pct": -0.006421,
-          "spliced_total_ann_pct": 0.145,
+          "spliced_total_ann_pct": 0.193,
           "stats": {
             "hit_rate_pct": 52.2,
-            "mean_ann_pct": 1.876,
-            "median_ann_pct": 2.565,
-            "n": 2356,
-            "trimmed_mean_ann_pct": 2.536
+            "mean_ann_pct": 1.923,
+            "median_ann_pct": 2.605,
+            "n": 2357,
+            "trimmed_mean_ann_pct": 2.579
           },
-          "years": 9.762
+          "years": 9.766
         },
         "strictest_mask": {
-          "calendar_years": 9.827,
+          "calendar_years": 9.836,
           "carry_ann_pct": 6.5,
-          "days": 2382,
+          "days": 2383,
           "kept_days": 2247,
-          "masked_days": 135,
-          "removed_mean_pct": -0.004329,
-          "spliced_total_ann_pct": 0.145,
+          "masked_days": 136,
+          "removed_mean_pct": -0.004263,
+          "spliced_total_ann_pct": 0.193,
           "stats": {
             "hit_rate_pct": 54.7,
             "mean_ann_pct": 6.5,
@@ -486,14 +484,14 @@
             "n": 2247,
             "trimmed_mean_ann_pct": 6.281
           },
-          "years": 9.762
+          "years": 9.766
         }
       },
       "roll_days": {
-        "calendar_mask_days": 117,
-        "carry_gap_pp": 3.919,
-        "missed_days": 91,
-        "missed_share_pct": 77.8,
+        "calendar_mask_days": 118,
+        "carry_gap_pp": 3.872,
+        "missed_days": 92,
+        "missed_share_pct": 78.0,
         "published_mask_days": 26
       },
       "roll_steps": {
@@ -535,106 +533,105 @@
             "sum_pct": -5.828
           },
           "2026": {
-            "rolls": 9,
-            "sum_pct": -2.37
+            "rolls": 10,
+            "sum_pct": -1.909
           }
         },
-        "count": 117,
-        "mean_pct": -0.4476,
-        "median_pct": -0.3849,
-        "per_year": 11.99,
-        "positive_steps": 1,
-        "sum_ann_pct": -5.364
+        "count": 118,
+        "mean_pct": -0.4399,
+        "median_pct": -0.3756,
+        "per_year": 12.08,
+        "positive_steps": 2,
+        "sum_ann_pct": -5.315
       },
       "span": {
-        "days": 2383,
+        "days": 2384,
         "from": "2017-01-17",
-        "to": "2026-11-13"
+        "to": "2026-11-16"
       },
       "state": "MASK_INCOMPLETE",
       "status": "ok"
     },
     "IH": {
       "arm_sensitivity": {
-        "A_pp_moved": 1.471,
+        "A_pp_moved": 1.441,
         "B_minus_A_pp": {
           "calendar": 0.147,
-          "published": 1.079
+          "published": 1.078
         },
-        "B_pp_moved": 0.539,
+        "B_pp_moved": 0.51,
         "calendar_mask": {
           "arms": {
             "A": {
-              "ann_pct": 5.55,
-              "maxdd_pct": -14.573,
-              "vol_pct": 8.001
+              "ann_pct": 5.531,
+              "maxdd_pct": -14.577,
+              "vol_pct": 8.002
             },
             "B": {
-              "ann_pct": 5.697,
-              "maxdd_pct": -5.892,
+              "ann_pct": 5.678,
+              "maxdd_pct": -5.894,
               "vol_pct": 3.665
             },
             "C": {
-              "ann_pct": 2.432,
+              "ann_pct": 2.431,
               "maxdd_pct": 0.0,
               "vol_pct": 0.222
             }
           },
           "gap_A_minus_B_pp": -0.147,
-          "leverage": 0.4166,
+          "leverage": 0.4167,
           "repo_rows_missing": 0,
-          "roll_days_held": 8,
-          "time_in_market_pct": 22.64,
+          "roll_days_held": 9,
+          "time_in_market_pct": 22.68,
           "window": {
-            "days": 2324,
+            "days": 2325,
             "from": "2017-04-19",
-            "to": "2026-11-13"
+            "to": "2026-11-16"
           }
         },
-        "gap_pp_moved": 0.932,
+        "gap_pp_moved": 0.931,
         "published_mask": {
           "arms": {
             "A": {
-              "ann_pct": 4.079,
-              "maxdd_pct": -17.685,
-              "vol_pct": 8.005
+              "ann_pct": 4.09,
+              "maxdd_pct": -17.689,
+              "vol_pct": 8.006
             },
             "B": {
-              "ann_pct": 5.158,
-              "maxdd_pct": -6.791,
+              "ann_pct": 5.168,
+              "maxdd_pct": -6.792,
               "vol_pct": 3.696
             },
             "C": {
-              "ann_pct": 2.432,
+              "ann_pct": 2.431,
               "maxdd_pct": 0.0,
               "vol_pct": 0.222
             }
           },
-          "gap_A_minus_B_pp": -1.079,
-          "leverage": 0.4294,
+          "gap_A_minus_B_pp": -1.078,
+          "leverage": 0.4295,
           "repo_rows_missing": 0,
-          "roll_days_held": 8,
-          "time_in_market_pct": 22.64,
+          "roll_days_held": 9,
+          "time_in_market_pct": 22.68,
           "window": {
-            "days": 2324,
+            "days": 2325,
             "from": "2017-04-19",
-            "to": "2026-11-13"
+            "to": "2026-11-16"
           }
         }
       },
       "detector": {
-        "months_covered_pct": 98.32,
-        "months_hit": 117,
+        "months_covered_pct": 99.16,
+        "months_hit": 118,
         "months_missing": [
-          "2026-02",
-          "2026-11"
+          "2026-02"
         ],
         "months_total": 119,
         "offsets_from_expiry": {
           "-1": 12,
           "-2": 19,
           "-3": 12,
-          "-4": 17,
+          "-4": 18,
           "0": 32,
           "3": 25
         }
@@ -642,11 +639,11 @@
       "index": "sh000016",
       "mask_split": {
         "counts_closed": true,
-        "days_total": 2382,
+        "days_total": 2383,
         "gap_identity": {
-          "face_gap_pp": 3.772,
+          "face_gap_pp": 3.707,
           "holds": true,
-          "rebuilt_gap_pp": 3.772
+          "rebuilt_gap_pp": 3.707
         },
         "groups": {
           "both": {
@@ -654,8 +651,8 @@
             "n": 12
           },
           "extra": {
-            "ann_pct": -75.004,
-            "n": 105
+            "ann_pct": -72.838,
+            "n": 106
           },
           "neither": {
             "ann_pct": 5.135,
@@ -667,18 +664,18 @@
           }
         },
         "kept_cal_rebuilt_ann_pct": 5.324,
-        "kept_pub_rebuilt_ann_pct": 1.552,
+        "kept_pub_rebuilt_ann_pct": 1.617,
         "reading": "MISSED_ROLLS_ARE_A_FAKE_LOSS"
       },
       "readings": {
         "calendar_mask": {
-          "calendar_years": 9.827,
+          "calendar_years": 9.836,
           "carry_ann_pct": 5.324,
-          "days": 2382,
+          "days": 2383,
           "kept_days": 2265,
-          "masked_days": 117,
-          "removed_mean_pct": -0.004136,
-          "spliced_total_ann_pct": 0.106,
+          "masked_days": 118,
+          "removed_mean_pct": -0.004047,
+          "spliced_total_ann_pct": 0.171,
           "stats": {
             "hit_rate_pct": 54.2,
             "mean_ann_pct": 5.324,
@@ -686,33 +683,33 @@
             "n": 2265,
             "trimmed_mean_ann_pct": 4.833
           },
-          "years": 9.762
+          "years": 9.766
         },
         "published_threshold_mask": {
-          "calendar_years": 9.827,
-          "carry_ann_pct": 1.552,
-          "days": 2382,
-          "kept_days": 2348,
+          "calendar_years": 9.836,
+          "carry_ann_pct": 1.617,
+          "days": 2383,
+          "kept_days": 2349,
           "masked_days": 34,
           "removed_mean_pct": -0.004086,
-          "spliced_total_ann_pct": 0.106,
+          "spliced_total_ann_pct": 0.171,
           "stats": {
             "hit_rate_pct": 51.8,
-            "mean_ann_pct": 1.552,
-            "median_ann_pct": 1.741,
-            "n": 2348,
-            "trimmed_mean_ann_pct": 1.744
+            "mean_ann_pct": 1.617,
+            "median_ann_pct": 1.745,
+            "n": 2349,
+            "trimmed_mean_ann_pct": 1.783
           },
-          "years": 9.762
+          "years": 9.766
         },
         "strictest_mask": {
-          "calendar_years": 9.827,
+          "calendar_years": 9.836,
           "carry_ann_pct": 5.135,
-          "days": 2382,
+          "days": 2383,
           "kept_days": 2243,
-          "masked_days": 139,
-          "removed_mean_pct": -0.003322,
-          "spliced_total_ann_pct": 0.106,
+          "masked_days": 140,
+          "removed_mean_pct": -0.003253,
+          "spliced_total_ann_pct": 0.171,
           "stats": {
             "hit_rate_pct": 54.2,
             "mean_ann_pct": 5.135,
@@ -720,14 +717,14 @@
             "n": 2243,
             "trimmed_mean_ann_pct": 4.65
           },
-          "years": 9.762
+          "years": 9.766
         }
       },
       "roll_days": {
-        "calendar_mask_days": 117,
-        "carry_gap_pp": 3.772,
-        "missed_days": 83,
-        "missed_share_pct": 70.9,
+        "calendar_mask_days": 118,
+        "carry_gap_pp": 3.707,
+        "missed_days": 84,
+        "missed_share_pct": 71.2,
         "published_mask_days": 34
       },
       "roll_steps": {
@@ -769,107 +766,106 @@
             "sum_pct": -3.81
           },
           "2026": {
-            "rolls": 9,
-            "sum_pct": -6.04
+            "rolls": 10,
+            "sum_pct": -5.414
           }
         },
-        "count": 117,
-        "mean_pct": -0.4137,
-        "median_pct": -0.2712,
-        "per_year": 11.99,
-        "positive_steps": 1,
-        "sum_ann_pct": -4.958
+        "count": 118,
+        "mean_pct": -0.4048,
+        "median_pct": -0.2674,
+        "per_year": 12.08,
+        "positive_steps": 2,
+        "sum_ann_pct": -4.892
       },
       "span": {
-        "days": 2383,
+        "days": 2384,
         "from": "2017-01-17",
-        "to": "2026-11-13"
+        "to": "2026-11-16"
       },
       "state": "MASK_INCOMPLETE",
       "status": "ok"
     },
     "IM": {
       "arm_sensitivity": {
-        "A_pp_moved": 1.662,
+        "A_pp_moved": 1.63,
         "B_minus_A_pp": {
-          "calendar": -2.999,
-          "published": -2.1
+          "calendar": -2.745,
+          "published": -1.875
         },
-        "B_pp_moved": 0.763,
+        "B_pp_moved": 0.76,
         "calendar_mask": {
           "arms": {
             "A": {
-              "ann_pct": 5.734,
-              "maxdd_pct": -11.53,
-              "vol_pct": 8.005
+              "ann_pct": 5.476,
+              "maxdd_pct": -11.518,
+              "vol_pct": 8.007
             },
             "B": {
-              "ann_pct": 2.735,
-              "maxdd_pct": -7.312,
-              "vol_pct": 4.829
+              "ann_pct": 2.731,
+              "maxdd_pct": -7.305,
+              "vol_pct": 4.821
             },
             "C": {
-              "ann_pct": 1.86,
+              "ann_pct": 1.859,
               "maxdd_pct": 0.0,
               "vol_pct": 0.12
             }
           },
-          "gap_A_minus_B_pp": 2.999,
-          "leverage": 0.3076,
+          "gap_A_minus_B_pp": 2.745,
+          "leverage": 0.3073,
           "repo_rows_missing": 0,
           "roll_days_held": 4,
-          "time_in_market_pct": 28.22,
+          "time_in_market_pct": 28.19,
           "window": {
-            "days": 986,
+            "days": 987,
             "from": "2022-10-21",
-            "to": "2026-11-13"
+            "to": "2026-11-16"
           }
         },
-        "gap_pp_moved": 0.899,
+        "gap_pp_moved": 0.87,
         "published_mask": {
           "arms": {
             "A": {
-              "ann_pct": 4.072,
-              "maxdd_pct": -13.124,
-              "vol_pct": 8.006
+              "ann_pct": 3.846,
+              "maxdd_pct": -13.115,
+              "vol_pct": 8.008
             },
             "B": {
-              "ann_pct": 1.972,
-              "maxdd_pct": -7.867,
-              "vol_pct": 4.746
+              "ann_pct": 1.971,
+              "maxdd_pct": -7.862,
+              "vol_pct": 4.74
             },
             "C": {
-              "ann_pct": 1.86,
+              "ann_pct": 1.859,
               "maxdd_pct": 0.0,
               "vol_pct": 0.12
             }
           },
-          "gap_A_minus_B_pp": 2.1,
-          "leverage": 0.3084,
+          "gap_A_minus_B_pp": 1.875,
+          "leverage": 0.3082,
           "repo_rows_missing": 0,
           "roll_days_held": 4,
-          "time_in_market_pct": 28.22,
+          "time_in_market_pct": 28.19,
           "window": {
-            "days": 986,
+            "days": 987,
             "from": "2022-10-21",
-            "to": "2026-11-13"
+            "to": "2026-11-16"
           }
         }
       },
       "detector": {
-        "months_covered_pct": 94.34,
-        "months_hit": 50,
+        "months_covered_pct": 96.23,
+        "months_hit": 51,
         "months_missing": [
           "2022-07",
-          "2026-02",
-          "2026-11"
+          "2026-02"
         ],
         "months_total": 53,
         "offsets_from_expiry": {
           "-1": 5,
           "-2": 4,
           "-3": 6,
-          "-4": 7,
+          "-4": 8,
           "0": 11,
           "3": 17
         }
@@ -877,11 +873,11 @@
       "index": "sh000852",
       "mask_split": {
         "counts_closed": true,
-        "days_total": 1044,
+        "days_total": 1045,
         "gap_identity": {
-          "face_gap_pp": 6.09,
+          "face_gap_pp": 6.026,
           "holds": true,
-          "rebuilt_gap_pp": 6.09
+          "rebuilt_gap_pp": 6.026
         },
         "groups": {
           "both": {
@@ -889,8 +885,8 @@
             "n": 9
           },
           "extra": {
-            "ann_pct": -131.025,
-            "n": 41
+            "ann_pct": -126.203,
+            "n": 42
           },
           "neither": {
             "ann_pct": 11.562,
@@ -902,18 +898,18 @@
           }
         },
         "kept_cal_rebuilt_ann_pct": 11.954,
-        "kept_pub_rebuilt_ann_pct": 5.864,
+        "kept_pub_rebuilt_ann_pct": 5.928,
         "reading": "MISSED_ROLLS_ARE_A_FAKE_LOSS"
       },
       "readings": {
         "calendar_mask": {
-          "calendar_years": 4.315,
+          "calendar_years": 4.323,
           "carry_ann_pct": 11.954,
-          "days": 1044,
+          "days": 1045,
           "kept_days": 994,
-          "masked_days": 50,
-          "removed_mean_pct": -0.009473,
-          "spliced_total_ann_pct": 0.311,
+          "masked_days": 51,
+          "removed_mean_pct": -0.00923,
+          "spliced_total_ann_pct": 0.38,
           "stats": {
             "hit_rate_pct": 58.2,
             "mean_ann_pct": 11.954,
@@ -921,33 +917,33 @@
             "n": 994,
             "trimmed_mean_ann_pct": 11.48
           },
-          "years": 4.279
+          "years": 4.283
         },
         "published_threshold_mask": {
-          "calendar_years": 4.315,
-          "carry_ann_pct": 5.864,
-          "days": 1044,
-          "kept_days": 1026,
+          "calendar_years": 4.323,
+          "carry_ann_pct": 5.928,
+          "days": 1045,
+          "kept_days": 1027,
           "masked_days": 18,
           "removed_mean_pct": -0.012959,
-          "spliced_total_ann_pct": 0.311,
+          "spliced_total_ann_pct": 0.38,
           "stats": {
-            "hit_rate_pct": 55.9,
-            "mean_ann_pct": 5.864,
-            "median_ann_pct": 8.968,
-            "n": 1026,
-            "trimmed_mean_ann_pct": 6.844
+            "hit_rate_pct": 56.0,
+            "mean_ann_pct": 5.928,
+            "median_ann_pct": 9.03,
+            "n": 1027,
+            "trimmed_mean_ann_pct": 6.914
           },
-          "years": 4.279
+          "years": 4.283
         },
         "strictest_mask": {
-          "calendar_years": 4.315,
+          "calendar_years": 4.323,
           "carry_ann_pct": 11.562,
-          "days": 1044,
+          "days": 1045,
           "kept_days": 985,
-          "masked_days": 59,
-          "removed_mean_pct": -0.007685,
-          "spliced_total_ann_pct": 0.311,
+          "masked_days": 60,
+          "removed_mean_pct": -0.007508,
+          "spliced_total_ann_pct": 0.38,
           "stats": {
             "hit_rate_pct": 58.3,
             "mean_ann_pct": 11.562,
@@ -955,14 +951,14 @@
             "n": 985,
             "trimmed_mean_ann_pct": 11.291
           },
-          "years": 4.279
+          "years": 4.283
         }
       },
       "roll_days": {
-        "calendar_mask_days": 50,
-        "carry_gap_pp": 6.09,
-        "missed_days": 32,
-        "missed_share_pct": 64.0,
+        "calendar_mask_days": 51,
+        "carry_gap_pp": 6.026,
+        "missed_days": 33,
+        "missed_share_pct": 64.7,
         "published_mask_days": 18
       },
       "roll_steps": {
@@ -984,21 +980,21 @@
             "sum_pct": -15.99
           },
           "2026": {
-            "rolls": 9,
-            "sum_pct": -9.204
+            "rolls": 10,
+            "sum_pct": -8.906
           }
         },
-        "count": 50,
-        "mean_pct": -0.9471,
-        "median_pct": -0.544,
-        "per_year": 11.68,
-        "positive_steps": 0,
-        "sum_ann_pct": -11.067
+        "count": 51,
+        "mean_pct": -0.9227,
+        "median_pct": -0.511,
+        "per_year": 11.91,
+        "positive_steps": 1,
+        "sum_ann_pct": -10.987
       },
       "span": {
-        "days": 1045,
+        "days": 1046,
         "from": "2022-07-22",
-        "to": "2026-11-13"
+        "to": "2026-11-16"
       },
       "state": "MASK_INCOMPLETE",
       "status": "ok"

@@ -1,6 +1,6 @@
 # Index-futures roll days: how many the mask finds, and what the misses cost
 
-Face `results/idx_fut_roll_gap.json` · evidence cutoff **2026-11-13** · verdict **ROLL_MASK_INCOMPLETE**
+Face `results/idx_fut_roll_gap.json` · evidence cutoff **2026-11-16** · verdict **ROLL_MASK_INCOMPLETE**
 
 ## Why the mask is not optional
 
@@ -11,16 +11,16 @@ same money. The jump is a level reset (like a split), not a return. So the
 roller's return is the series with the splice days masked, and what those
 surviving days add up to is the carry. The unmasked price series is printed below
 only to show what happens when a splice is left in: on IF it reads
-+0.14%/yr against a carry of +5.79%/yr.
++0.19%/yr against a carry of +5.79%/yr.
 
 ## What the published detector actually finds
 
 | pair | published mask days | calendar roll days | missed | missed share | carry under published mask | carry under calendar mask | gap | state |
 |---|---|---|---|---|---|---|---|---|
-| IF | 26 | 117 | 91 | 78% | +1.88%/yr | +5.79%/yr | +3.92 | MASK_INCOMPLETE |
-| IC | 22 | 117 | 95 | 81% | +2.88%/yr | +9.79%/yr | +6.91 | MASK_INCOMPLETE |
-| IH | 34 | 117 | 83 | 71% | +1.55%/yr | +5.32%/yr | +3.77 | MASK_INCOMPLETE |
-| IM | 18 | 50 | 32 | 64% | +5.86%/yr | +11.95%/yr | +6.09 | MASK_INCOMPLETE |
+| IF | 26 | 118 | 92 | 78% | +1.92%/yr | +5.79%/yr | +3.87 | MASK_INCOMPLETE |
+| IC | 22 | 118 | 96 | 81% | +2.90%/yr | +9.79%/yr | +6.90 | MASK_INCOMPLETE |
+| IH | 34 | 118 | 84 | 71% | +1.62%/yr | +5.32%/yr | +3.71 | MASK_INCOMPLETE |
+| IM | 18 | 51 | 33 | 65% | +5.93%/yr | +11.95%/yr | +6.03 | MASK_INCOMPLETE |
 
 The index futures expire once a month. The published rule (`8x the median basis
 step and above 0.5%`) fires a few times a year, so most splices stay in the
@@ -31,10 +31,10 @@ size of the misses.
 
 | pair | rolls | per year | step median | step mean | sum %%/yr | positive steps | months covered |
 |---|---|---|---|---|---|---|---|
-| IF | 117 | 12.0 | -0.385% | -0.448% | -5.36 | 1/117 | 98.3% |
-| IC | 117 | 12.0 | -0.620% | -0.762% | -9.13 | 1/117 | 98.3% |
-| IH | 117 | 12.0 | -0.271% | -0.414% | -4.96 | 1/117 | 98.3% |
-| IM | 50 | 11.7 | -0.544% | -0.947% | -11.07 | 0/50 | 94.3% |
+| IF | 118 | 12.1 | -0.376% | -0.440% | -5.32 | 2/118 | 99.2% |
+| IC | 118 | 12.1 | -0.619% | -0.754% | -9.11 | 2/118 | 99.2% |
+| IH | 118 | 12.1 | -0.267% | -0.405% | -4.89 | 2/118 | 99.2% |
+| IM | 51 | 11.9 | -0.511% | -0.923% | -10.99 | 1/51 | 96.2% |
 
 A negative step is the discount the next contract hands you; the month after pays
 it back as it converges. That is why the step is not a cost to add on top — it is
@@ -47,15 +47,15 @@ is which splice days are left in the return series.
 
 | pair | A published | A calendar | B published | B calendar | B-A published | B-A calendar |
 |---|---|---|---|---|---|---|
-| IF | +4.00 | +5.48 | +5.15 | +5.25 | +1.15 | -0.23 |
-| IC | +3.77 | +6.05 | +3.72 | +4.02 | -0.05 | -2.03 |
-| IH | +4.08 | +5.55 | +5.16 | +5.70 | +1.08 | +0.15 |
-| IM | +4.07 | +5.73 | +1.97 | +2.73 | -2.10 | -3.00 |
+| IF | +3.97 | +5.43 | +5.14 | +5.25 | +1.17 | -0.18 |
+| IC | +3.68 | +5.94 | +3.72 | +4.01 | +0.04 | -1.93 |
+| IH | +4.09 | +5.53 | +5.17 | +5.68 | +1.08 | +0.15 |
+| IM | +3.85 | +5.48 | +1.97 | +2.73 | -1.88 | -2.75 |
 
 The published run reproduces r1690's B column to the last decimal and its A
 column to within the extra roll charge (one calendar roll a month instead of
 the two or three a year the detector caught). Under the complete mask the
-waiting arm's margin moves by **-1.16pp** median (A-over-B +1.16pp, range +0.90 .. +1.98).
+waiting arm's margin moves by **-1.15pp** median (A-over-B +1.15pp, range +0.87 .. +1.97).
 
 W1 asks for +0.50pp. The margin the published reading gave the waiting arm on
 IF and IH is smaller than this movement and has the same sign as it, so the
