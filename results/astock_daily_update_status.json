@@ -1,21 +1,21 @@
 {
-  "ts": "2026-11-17T18:35:36",
-  "mode": "refresh in progress (lock alive)",
+  "ts": "2026-11-18T00:18:11",
+  "mode": "refresh in progress (todo=3535/5226, quarantined=11, settled=0)",
   "panel": {
     "complete": false,
     "cutoff": "2026-11-17",
     "cutoff_is": "max tail across all per/*.csv -- read coverage_pct/coverage_90 before calling the panel current",
-    "coverage_pct": 22.3,
+    "coverage_pct": 32.3,
     "coverage_90": "2026-11-16",
     "coverage_floor_pct": 90,
     "dates_tail": [
       [
         "2026-11-17",
-        1162
+        1686
       ],
       [
         "2026-11-16",
-        4048
+        3524
       ],
       [
         "2026-11-13",
@@ -35,9 +35,7 @@
       ]
     ],
     "universe_n": 5226,
-    "per_files": 5221,
-    "cycle_cutoff": "2026-11-16",
-    "cycle_cutoff_is": "the cutoff the last completed refresh cycle built its todo against -- always <= cutoff (cutoff is the disk max tail)"
+    "per_files": 5221
   },
   "claim": "T-2026-09-26-87-bm-b-astock-daily-collector",
   "probe_ref": "results/_r280bmb_probe_akshare_daily.json",
@@ -52,46 +50,48 @@
   },
   "last_refresh": {
     "todo": 5221,
-    "fetched": 5212,
-    "appended": 5202,
-    "readjusted": 3,
+    "fetched": 1992,
+    "appended": 1689,
+    "readjusted": 2,
     "readjusted_tail": [
-      "601881@2017-01-23",
-      "603273@2023-10-23",
-      "688188@2019-08-08"
+      "002007@2004-06-25",
+      "300121@2010-09-17"
     ],
     "failures_tail": [
-      "000721:conn:TimeoutError",
-      "001301:conn:TimeoutError",
-      "001389:conn:TimeoutError",
-      "002235:conn:TimeoutError",
-      "002431:conn:TimeoutError",
-      "600429:conn:TimeoutError",
-      "605507:conn:TimeoutError",
-      "688318:conn:TimeoutError",
-      "688579:conn:TimeoutError"
+      "002364:conn:TimeoutError",
+      "002410:conn:TimeoutError",
+      "002629:conn:TimeoutError",
+      "002818:conn:TimeoutError",
+      "300241:conn:TimeoutError",
+      "300358:conn:TimeoutError",
+      "300533:conn:TimeoutError",
+      "300537:conn:TimeoutError",
+      "300538:conn:TimeoutError",
+      "300553:conn:TimeoutError",
+      "300554:conn:TimeoutError",
+      "300555:conn:TimeoutError"
     ],
-    "failures_n": 9,
-    "conn_stopped": false,
-    "elapsed_min": 535.7,
-    "vwap_anchor_max": 0.131288,
+    "failures_n": 13,
+    "conn_stopped": true,
+    "elapsed_min": 203.2,
+    "vwap_anchor_max": 0.128273,
     "repull": false
   },
   "quarantined_n": 11,
-  "last_spawn_attempt": "2026-11-17T16:12:32",
+  "last_spawn_attempt": "2026-11-18T00:18:08",
   "settled_n": 0,
   "settled": [],
   "per_files_on_disk": 5221,
   "validation": {
-    "suspended_rows": 3,
+    "suspended_rows": 0,
     "bracket_tolerated_rows": 1,
     "defect_rows": 0
   },
   "takeover": {
     "owner": "bm-b",
     "by": "bm-c",
-    "reason": "owner bm-b silent 437.9h >= 120min",
-    "ts": "2026-11-17T18:35:36"
+    "reason": "owner bm-b silent 443.6h >= 120min",
+    "ts": "2026-11-18T00:18:08"
   },
   "authority": {
     "lane_owner": "bm-b",
@@ -99,11 +99,11 @@
     "data_face_machine": "bm-c",
     "declared_takeover": true,
     "took_over_by": "bm-c",
-    "took_over_at": "2026-11-17T18:35:36",
-    "reason": "owner bm-b silent 437.9h >= 120min"
+    "took_over_at": "2026-11-18T00:18:08",
+    "reason": "owner bm-b silent 443.6h >= 120min"
   },
   "machine": "bm-c",
-  "spawn_reason": "refresh in progress: panel incomplete at cutoff 2026-11-17 (coverage 22.3%, 90% date 2026-11-16)",
+  "spawn_reason": "panel incomplete at cutoff 2026-11-17 (coverage 32.3%, expected 2026-11-17) -> continuation refresh, not a first pull",
   "spawn_mode": "continuation",
   "quarantined": [
     "000005",

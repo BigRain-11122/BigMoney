@@ -21,7 +21,7 @@
       ],
       "face": "year_gate",
       "name": "nobond_base",
-      "top2_share": 0.6858,
+      "top2_share": 0.6875,
       "top2_share_full_only": 0.7176
     },
     {
@@ -56,17 +56,20 @@
   "counts_by_caliber": {
     "A": {
       "ADMIT": 8,
-      "CONDITIONAL": 14,
+      "CAPACITY_LIMITED": 1,
+      "CONDITIONAL": 13,
       "REFUSE": 4
     },
     "B": {
       "ADMIT": 7,
-      "CONDITIONAL": 15,
+      "CAPACITY_LIMITED": 1,
+      "CONDITIONAL": 14,
       "REFUSE": 4
     },
     "P": {
       "ADMIT": 6,
-      "CONDITIONAL": 16,
+      "CAPACITY_LIMITED": 1,
+      "CONDITIONAL": 15,
       "REFUSE": 4
     }
   },
@@ -81,7 +84,7 @@
       ],
       "face": "year_gate",
       "name": "nobond_base",
-      "top2_share": 0.6858,
+      "top2_share": 0.6875,
       "top2_share_full_only": 0.7176
     },
     {
@@ -118,7 +121,7 @@
       "top2_share_full_only": 0.7176
     }
   ],
-  "generated": "2026-11-17T00:29:28+08:00",
+  "generated": "2026-11-17T20:21:40+08:00",
   "honest": [
     "no repricing and no engine call: every number is recomputed from the years block each receipt already published",
     "caliber P is a proposal; nothing in the chain reads it and production stays on A this round",
@@ -133,28 +136,28 @@
       "calibers": {
         "A": {
           "checks": {
-            "C1_capacity": true,
+            "C1_capacity": false,
             "Y1_positive_years_share": true,
             "Y2_median_positive": true,
             "Y3_worst_year": true,
             "Y4_top2_share": false
           },
           "metrics": {
-            "annual_sum": 81.3254,
+            "annual_sum": 81.1015,
             "best": 43.0627,
             "median": 5.6072,
             "positive_years": 7,
-            "top2_share": 0.7084,
+            "top2_share": 0.7104,
             "top2_share_full_only": 0.7278,
-            "worst": 2.1656,
+            "worst": 1.9416,
             "worst_full_only": 2.8393,
             "years": 7
           },
-          "verdict": "CONDITIONAL"
+          "verdict": "CAPACITY_LIMITED"
         },
         "B": {
           "checks": {
-            "C1_capacity": true,
+            "C1_capacity": false,
             "Y1_positive_years_share": true,
             "Y2_median_positive": true,
             "Y3_worst_year": true,
@@ -171,28 +174,28 @@
             "worst_full_only": 2.8393,
             "years": 6
           },
-          "verdict": "CONDITIONAL"
+          "verdict": "CAPACITY_LIMITED"
         },
         "P": {
           "checks": {
-            "C1_capacity": true,
+            "C1_capacity": false,
             "Y1_positive_years_share": true,
             "Y2_median_positive": true,
             "Y3_worst_year": true,
             "Y4_top2_share": false
           },
           "metrics": {
-            "annual_sum": 81.3254,
+            "annual_sum": 81.1015,
             "best": 43.0627,
             "median": 5.6072,
             "positive_years": 7,
-            "top2_share": 0.7084,
+            "top2_share": 0.7104,
             "top2_share_full_only": 0.7278,
-            "worst": 2.1656,
+            "worst": 1.9416,
             "worst_full_only": 2.8393,
             "years": 7
           },
-          "verdict": "CONDITIONAL"
+          "verdict": "CAPACITY_LIMITED"
         }
       },
       "checks_moved_A_to_B": [],
@@ -202,7 +205,7 @@
       "partial_years": [
         "2026"
       ],
-      "published_verdict": "CONDITIONAL",
+      "published_verdict": "CAPACITY_LIMITED",
       "source": "results/etf_book_year_gate/YEAR-GATE.json",
       "years": 7
     },
@@ -217,11 +220,11 @@
             "Y4_top2_share": true
           },
           "metrics": {
-            "annual_sum": 110.7097,
+            "annual_sum": 110.4368,
             "best": 53.7327,
             "median": 9.3091,
             "positive_years": 7,
-            "top2_share": 0.6858,
+            "top2_share": 0.6875,
             "top2_share_full_only": 0.7176,
             "worst": 2.3313,
             "worst_full_only": 2.3313,
@@ -259,11 +262,11 @@
             "Y4_top2_share": false
           },
           "metrics": {
-            "annual_sum": 110.7097,
+            "annual_sum": 110.4368,
             "best": 53.7327,
             "median": 9.3091,
             "positive_years": 7,
-            "top2_share": 0.6858,
+            "top2_share": 0.6875,
             "top2_share_full_only": 0.7176,
             "worst": 2.3313,
             "worst_full_only": 2.3313,

@@ -4,17 +4,17 @@
   "cell": "RED_COOL",
   "asof": "2026-11-13",
   "regime_state": "RED",
-  "regime_asof": "2026-11-16",
-  "days_in_state": 9
+  "regime_asof": "2026-11-17",
+  "days_in_state": 10
  },
  "ladder_cap": 0.2,
  "ladder_rule": "REGIME_GUARD v3 政体阶梯（RED 20%/ORANGE 50%/YELLOW 65%/GREEN 80%/GREEN×HOT 95%）",
  "engine": {
   "rule": "风配3 R-配3（跌破 MA250 且自 250 日高点回撤≥20% 才压到 20%）",
-  "as_of": "2026-11-16",
-  "close": 4.054,
-  "ma250": 4.67,
-  "dd_from_250d_high": -0.2037,
+  "as_of": "2026-11-17",
+  "close": 4.042,
+  "ma250": 4.6672,
+  "dd_from_250d_high": -0.206,
   "below_ma250": true,
   "is_major_bear": true,
   "position_cap": 0.2
@@ -52,30 +52,30 @@
   {
    "name": "COMPOSITE-CE-01",
    "kind": "ladder",
-   "deployed_weight": 0.9597,
-   "deployed_cny": 944023.66,
-   "equity_cny": 983628.17,
+   "deployed_weight": 0.9598,
+   "deployed_cny": 946021.72,
+   "equity_cny": 985626.24,
    "status": "above_cap",
-   "gap_pp": 75.97,
-   "headroom_pp": -75.97,
+   "gap_pp": 75.98,
+   "headroom_pp": -75.98,
    "multiple_of_cap": 4.8
   },
   {
    "name": "COMPOSITE-CE-02",
    "kind": "ladder",
-   "deployed_weight": 0.9087,
-   "deployed_cny": 890209.96,
-   "equity_cny": 979618.58,
+   "deployed_weight": 0.9088,
+   "deployed_cny": 890610.14,
+   "equity_cny": 980018.77,
    "status": "above_cap",
-   "gap_pp": 70.87,
-   "headroom_pp": -70.87,
+   "gap_pp": 70.88,
+   "headroom_pp": -70.88,
    "multiple_of_cap": 4.54
   },
   {
    "name": "ETF-BOOK (beta x vol target, own rule)",
    "kind": "own_rule",
    "deployed_weight": 0.4322,
-   "deployed_cny": 431727.8,
+   "deployed_cny": 431879.5,
    "equity_cny": 1000000.0,
    "status": "own_rule",
    "gap_pp": 23.22,
@@ -85,24 +85,13 @@
   {
    "name": "VOLATILITY-CE-01",
    "kind": "ladder",
-   "deployed_weight": 0.3987,
-   "deployed_cny": 394485.03,
-   "equity_cny": 989465.31,
+   "deployed_weight": 0.3994,
+   "deployed_cny": 395618.17,
+   "equity_cny": 990598.43,
    "status": "above_cap",
-   "gap_pp": 19.87,
-   "headroom_pp": -19.87,
-   "multiple_of_cap": 1.99
-  },
-  {
-   "name": "ENGULF-CE-01",
-   "kind": "ladder",
-   "deployed_weight": 0.0483,
-   "deployed_cny": 47680.69,
-   "equity_cny": 987616.61,
-   "status": "inside_cap",
-   "gap_pp": -15.17,
-   "headroom_pp": 15.17,
-   "multiple_of_cap": 0.24
+   "gap_pp": 19.94,
+   "headroom_pp": -19.94,
+   "multiple_of_cap": 2.0
   },
   {
    "name": "DROUGHT-CE-01",
@@ -110,6 +99,17 @@
    "deployed_weight": 0.0,
    "deployed_cny": 0,
    "equity_cny": 994450.43,
+   "status": "inside_cap",
+   "gap_pp": -20.0,
+   "headroom_pp": 20.0,
+   "multiple_of_cap": 0.0
+  },
+  {
+   "name": "ENGULF-CE-01",
+   "kind": "ladder",
+   "deployed_weight": 0.0,
+   "deployed_cny": 0,
+   "equity_cny": 986854.16,
    "status": "inside_cap",
    "gap_pp": -20.0,
    "headroom_pp": 20.0,
@@ -133,18 +133,18 @@
   "n_above": 3,
   "worst_above": {
    "name": "COMPOSITE-CE-01",
-   "deployed_weight": 0.9597,
-   "gap_pp": 75.97
+   "deployed_weight": 0.9598,
+   "gap_pp": 75.98
   },
   "rule": "风配3 R-配3（跌破 MA250 且自 250 日高点回撤≥20% 才压到 20%）",
   "verdict": "ABOVE_CAP"
  },
  "last_day_moves": {
-  "date": "2026-11-16",
-  "prev_date": "2026-11-13",
+  "date": "2026-11-17",
+  "prev_date": "2026-11-16",
   "accounts": {
    "COMPOSITE-CE-01": {
-    "prev_weight": 0.96,
+    "prev_weight": 0.9597,
     "entries": []
    },
    "COMPOSITE-CE-02": {
@@ -156,7 +156,7 @@
     "entries": []
    },
    "ENGULF-CE-01": {
-    "prev_weight": 0.0508,
+    "prev_weight": 0.0483,
     "entries": []
    },
    "NEEDLE-DE-01": {
@@ -164,7 +164,7 @@
     "entries": []
    },
    "VOLATILITY-CE-01": {
-    "prev_weight": 0.4,
+    "prev_weight": 0.3987,
     "entries": []
    }
   }

@@ -1,7 +1,7 @@
 {
  "evidence_cutoff": "2026-11-17",
  "beta_target": 0.2,
- "generated": "2026-11-17T21:15:02+08:00",
+ "generated": "2026-11-18T00:44:42+08:00",
  "permission": {
   "status": "within_permission",
   "k_now": 0.432195,
@@ -515,7 +515,7 @@
     "pct": 1.7731,
     "annual_cny": 10073.0,
     "source": "etf_book_idle_cash.json",
-    "asof": "2026-11-17T18:33:13",
+    "asof": "2026-11-18T00:14:00",
     "book_cagr_without_pct": 11.41,
     "book_cagr_with_pct": 12.0,
     "basis": "as_coded",
@@ -588,7 +588,7 @@
   "withdrawn_now": [],
   "withdrawal_note": "ledger withdrew 1 bar(s) at 2026-11-09 23:54:02 because the price panel then ended 2026-11-06 (2026-11-09); the panel has since carried 2026-11-09 again and that ledger row is live -- the withdrawal stays on record but it is not this sheet's pricing bar",
   "reinstatements": {
-   "at": "2026-11-17 21:15:02",
+   "at": "2026-11-18 00:44:42",
    "n_reinstated": 1,
    "rewritten": [],
    "verbatim_identical": [
@@ -1646,7 +1646,7 @@
  },
  "next_decision": {
   "artifact": "etf_book_next_decision",
-  "generated": "2026-11-17T21:15:02",
+  "generated": "2026-11-18T00:44:42",
   "evidence_cutoff": "2026-11-17",
   "calendar_source": "data/exchange_calendar.csv",
   "calendar_last": "2026-12-31",
@@ -1798,7 +1798,7 @@
  },
  "swap_freshness": {
   "artifact": "etf_book_swap_freshness",
-  "generated": "2026-11-17T21:15:02",
+  "generated": "2026-11-18T00:44:42",
   "evidence_cutoff": "2026-11-17",
   "calendar_source": "data/exchange_calendar.csv",
   "close_accept_time": "15:30",
@@ -1917,21 +1917,21 @@
  },
  "premium_roads": {
   "status": "produced",
-  "face_asof": "2026-11-16",
-  "stale": true,
+  "face_asof": "2026-11-17",
+  "stale": false,
   "verdict": "RULERS_DISAGREE_SWAP_AT_HORIZON",
   "legs": [
    {
     "symbol": "159655",
     "class": "crossborder",
-    "amount_cny": 86286.0,
-    "premium_pct": 6.746139,
-    "premium_cny": 5820.97,
-    "leg_score": 0.425284,
+    "amount_cny": 86390.2,
+    "premium_pct": 7.515542,
+    "premium_cny": 6492.69,
+    "leg_score": 0.365168,
     "verdict": "SWAP_AT_BOOK_HORIZON",
     "annual_ruler": "HOLD",
     "rulers_disagree": true,
-    "note": "over the book's own 1.57-window hold, the substitution pays for itself at a 5.3% convergence probability; the annual ruler read the same numbers as 2.12 pp/yr against a 2.00 cap",
+    "note": "over the book's own 1.57-window hold, the substitution pays for itself at a 3.9% convergence probability; the annual ruler read the same numbers as 2.28 pp/yr against a 2.00 cap",
     "roads": [
      {
       "road": "A_buy_as_printed",
@@ -1944,33 +1944,33 @@
       "breakeven_convergence_p": null,
       "floor_convergence_p": null,
       "twin": null,
-      "note": "baseline: pay 5821 CNY of premium once, substitute nothing, so there is neither a saving nor a give-up to compare"
+      "note": "baseline: pay 6493 CNY of premium once, substitute nothing, so there is neither a saving nor a give-up to compare"
      },
      {
       "road": "B_same_market_twin",
       "label": "B 换同市场孪生",
-      "saving_cny_once": 1506.35,
-      "giveup_cny_per_window": 145.4,
-      "giveup_pp_per_year": 2.1233,
-      "breakeven_tenure_windows": 10.36,
-      "breakeven_tenure_years": 0.8222,
-      "breakeven_convergence_p": 0.096527,
+      "saving_cny_once": 3478.03,
+      "giveup_cny_per_window": 156.07,
+      "giveup_pp_per_year": 2.2763,
+      "breakeven_tenure_windows": 22.285,
+      "breakeven_tenure_years": 1.7686,
+      "breakeven_convergence_p": 0.044874,
       "floor_convergence_p": 0.5,
       "twin": "159529",
-      "note": "the swap pays for itself if the premium gap closes by more than 9.7% before exit; it takes 10.4 windows of give-up to eat the whole saving"
+      "note": "the swap pays for itself if the premium gap closes by more than 4.5% before exit; it takes 22.3 windows of give-up to eat the whole saving"
      },
      {
       "road": "C_drop_to_cash",
       "label": "C 落现金腿",
-      "saving_cny_once": 5820.97,
-      "giveup_cny_per_window": 307.47,
+      "saving_cny_once": 6492.69,
+      "giveup_cny_per_window": 252.07,
       "giveup_pp_per_year": null,
-      "breakeven_tenure_windows": 18.932,
-      "breakeven_tenure_years": 1.5025,
-      "breakeven_convergence_p": 0.052821,
+      "breakeven_tenure_windows": 25.758,
+      "breakeven_tenure_years": 2.0443,
+      "breakeven_convergence_p": 0.038823,
       "floor_convergence_p": 0.5,
       "twin": null,
-      "note": "the swap pays for itself if the premium gap closes by more than 5.3% before exit; it takes 18.9 windows of give-up to eat the whole saving"
+      "note": "the swap pays for itself if the premium gap closes by more than 3.9% before exit; it takes 25.8 windows of give-up to eat the whole saving"
      }
     ]
    }
@@ -1978,19 +1978,19 @@
   "unstretched": [
    {
     "symbol": "510760",
-    "premium_pct": -0.310041
+    "premium_pct": -0.256164
    },
    {
     "symbol": "512040",
-    "premium_pct": -0.224308
+    "premium_pct": -0.041408
    },
    {
     "symbol": "513690",
-    "premium_pct": -0.355255
+    "premium_pct": -0.373491
    },
    {
     "symbol": "159519",
-    "premium_pct": -0.748214
+    "premium_pct": -0.279537
    }
   ],
   "tenure": {

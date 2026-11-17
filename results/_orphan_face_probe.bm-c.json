@@ -1,133 +1,67 @@
 {
- "ts": "2026-11-17T18:55:50",
+ "ts": "2026-11-18T00:46:25",
  "mode": "probe",
- "py_faces_seen": 13,
+ "py_faces_seen": 5,
  "orphans": 0,
- "orphans_cleared": 0,
+ "orphans_cleared": 1,
  "killed": [],
  "idle_servers_exempt": 0,
  "resident_servers_exempt": 1,
  "faces": [
   {
-   "pid": 21908,
-   "name": "pythonw.exe",
-   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\pythonw.exe K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\_r181",
-   "age_min": 8.4,
-   "cpu_delta_20s": 20.547,
-   "face1_parent_dead": false,
-   "face2_no_hidden_host_ancestor": true,
-   "face3_cpu_stalled": false,
-   "ancestor_chain": [
-    "wmiprvse.exe",
-    "svchost.exe",
-    "services.exe",
-    "wininit.exe",
-    "DEAD"
-   ]
-  },
-  {
-   "pid": 38960,
+   "pid": 59936,
    "name": "python.exe",
-   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe -u Tools\\s6_chain_bmc.py",
-   "age_min": 88.4,
-   "cpu_delta_20s": 20.422,
-   "face1_parent_dead": true,
-   "face2_no_hidden_host_ancestor": true,
-   "face3_cpu_stalled": false,
-   "ancestor_chain": [
-    "DEAD"
-   ]
-  },
-  {
-   "pid": 60148,
-   "name": "pythonw.exe",
-   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\pythonw.exe Tools\\s6_chain_bmc.py 1810",
-   "age_min": 27.2,
+   "cmd": "D:\\ComfyUI\\python_embeded\\python.exe -s D:\\ComfyUI\\ComfyUI\\main.py --listen 127.0.0.1 --port 8188 --disable-smart-memory",
+   "age_min": 279.2,
    "cpu_delta_20s": 0.0,
    "face1_parent_dead": true,
    "face2_no_hidden_host_ancestor": true,
-   "face3_cpu_stalled": false,
+   "face3_cpu_stalled": true,
    "ancestor_chain": [
     "DEAD"
+   ],
+   "confirm_cpu_20s": 0.0,
+   "confirm_new_children": 0,
+   "listen_ports": [
+    8188
    ]
   },
   {
-   "pid": 63312,
+   "pid": 65800,
    "name": "python.exe",
-   "cmd": "python scripts/etf_book_vol_window_edge.py run",
-   "age_min": 1.4,
-   "cpu_delta_20s": 20.422,
-   "face1_parent_dead": false,
-   "face2_no_hidden_host_ancestor": true,
-   "face3_cpu_stalled": false,
-   "ancestor_chain": [
-    "python.exe",
-    "DEAD"
-   ]
-  },
-  {
-   "pid": 65600,
-   "name": "python.exe",
-   "cmd": "python scripts/etf_book_min_capital.py run",
-   "age_min": 0.4,
+   "cmd": "python scripts/etf_book_shock_day.py run",
+   "age_min": 0.5,
    "cpu_delta_20s": 999.0,
    "face1_parent_dead": false,
-   "face2_no_hidden_host_ancestor": false,
-   "face3_cpu_stalled": false,
-   "ancestor_chain": [
-    "pythonw.exe"
-   ]
-  },
-  {
-   "pid": 69560,
-   "name": "pythonw.exe",
-   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\pythonw.exe K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\_r181",
-   "age_min": 4.3,
-   "cpu_delta_20s": 0.016,
-   "face1_parent_dead": false,
    "face2_no_hidden_host_ancestor": true,
-   "face3_cpu_stalled": false,
-   "ancestor_chain": [
-    "wmiprvse.exe",
-    "svchost.exe",
-    "services.exe",
-    "wininit.exe",
-    "DEAD"
-   ]
-  },
-  {
-   "pid": 70180,
-   "name": "python.exe",
-   "cmd": "python scripts/etf_book_open_slicing.py run",
-   "age_min": 1.3,
-   "cpu_delta_20s": 20.547,
-   "face1_parent_dead": false,
-   "face2_no_hidden_host_ancestor": false,
    "face3_cpu_stalled": false,
    "ancestor_chain": [
     "python.exe",
-    "pythonw.exe"
-   ]
-  },
-  {
-   "pid": 71856,
-   "name": "python.exe",
-   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\scripts\\update",
-   "age_min": 163.8,
-   "cpu_delta_20s": 1.406,
-   "face1_parent_dead": true,
-   "face2_no_hidden_host_ancestor": true,
-   "face3_cpu_stalled": false,
-   "ancestor_chain": [
     "DEAD"
    ]
   },
   {
-   "pid": 74708,
+   "pid": 69076,
+   "name": "python.exe",
+   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe Tools\\s6_chain_bmc.py 1815",
+   "age_min": 36.7,
+   "cpu_delta_20s": 0.0,
+   "face1_parent_dead": true,
+   "face2_no_hidden_host_ancestor": true,
+   "face3_cpu_stalled": true,
+   "ancestor_chain": [
+    "DEAD"
+   ],
+   "confirm_cpu_20s": 0.0,
+   "confirm_new_children": 1,
+   "confirm": "working"
+  },
+  {
+   "pid": 76856,
    "name": "python.exe",
    "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe Tools\\orphan_face_probe.py",
    "age_min": 0.5,
-   "cpu_delta_20s": 0.578,
+   "cpu_delta_20s": 0.641,
    "face1_parent_dead": false,
    "face2_no_hidden_host_ancestor": false,
    "face3_cpu_stalled": false,
@@ -139,72 +73,26 @@
    ]
   },
   {
-   "pid": 75076,
-   "name": "pythonw.exe",
-   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\pythonw.exe -u Tools/s6_chain_bmc.py --round 1810 --only=etf_si",
-   "age_min": 4.3,
-   "cpu_delta_20s": 0.016,
-   "face1_parent_dead": false,
-   "face2_no_hidden_host_ancestor": false,
-   "face3_cpu_stalled": false,
-   "ancestor_chain": [
-    "pythonw.exe"
-   ]
-  },
-  {
-   "pid": 76728,
+   "pid": 76876,
    "name": "python.exe",
-   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe -u Tools/s6_chain_bmc.py --round 1810 --only=etf_sig",
-   "age_min": 8.4,
-   "cpu_delta_20s": 20.547,
-   "face1_parent_dead": false,
-   "face2_no_hidden_host_ancestor": false,
-   "face3_cpu_stalled": false,
-   "ancestor_chain": [
-    "pythonw.exe"
-   ]
-  },
-  {
-   "pid": 77192,
-   "name": "python.exe",
-   "cmd": "python scripts/etf_book_causal_headline.py run",
-   "age_min": 0.3,
-   "cpu_delta_20s": 999.0,
-   "face1_parent_dead": false,
-   "face2_no_hidden_host_ancestor": false,
-   "face3_cpu_stalled": false,
-   "ancestor_chain": [
-    "pythonw.exe"
-   ]
-  },
-  {
-   "pid": 77592,
-   "name": "python.exe",
-   "cmd": "D:\\ComfyUI\\python_embeded\\python.exe -s D:\\ComfyUI\\ComfyUI\\main.py --listen 127.0.0.1 --port 8188 --disable-smart-memory",
-   "age_min": 397.8,
-   "cpu_delta_20s": 0.0,
+   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\scripts\\update",
+   "age_min": 28.8,
+   "cpu_delta_20s": 3.953,
    "face1_parent_dead": true,
    "face2_no_hidden_host_ancestor": true,
-   "face3_cpu_stalled": true,
+   "face3_cpu_stalled": false,
    "ancestor_chain": [
     "DEAD"
-   ],
-   "confirm_cpu_20s": 0.016,
-   "confirm_new_children": 0,
-   "listen_ports": [
-    8188
    ]
   }
  ],
  "orphan_details": [],
- "orphan_cleared_details": [],
- "idle_server_details": [],
- "resident_server_details": [
+ "orphan_cleared_details": [
   {
-   "pid": 77592,
+   "pid": 69076,
    "name": "python.exe",
-   "cmd": "D:\\ComfyUI\\python_embeded\\python.exe -s D:\\ComfyUI\\ComfyUI\\main.py --listen 127.0.0.1 --port 8188 --disable-smart-memory",
-   "age_min": 397.8,
+   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe Tools\\s6_chain_bmc.py 1815",
+   "age_min": 36.7,
    "cpu_delta_20s": 0.0,
    "face1_parent_dead": true,
    "face2_no_hidden_host_ancestor": true,
@@ -212,7 +100,26 @@
    "ancestor_chain": [
     "DEAD"
    ],
-   "confirm_cpu_20s": 0.016,
+   "confirm_cpu_20s": 0.0,
+   "confirm_new_children": 1,
+   "confirm": "working"
+  }
+ ],
+ "idle_server_details": [],
+ "resident_server_details": [
+  {
+   "pid": 59936,
+   "name": "python.exe",
+   "cmd": "D:\\ComfyUI\\python_embeded\\python.exe -s D:\\ComfyUI\\ComfyUI\\main.py --listen 127.0.0.1 --port 8188 --disable-smart-memory",
+   "age_min": 279.2,
+   "cpu_delta_20s": 0.0,
+   "face1_parent_dead": true,
+   "face2_no_hidden_host_ancestor": true,
+   "face3_cpu_stalled": true,
+   "ancestor_chain": [
+    "DEAD"
+   ],
+   "confirm_cpu_20s": 0.0,
    "confirm_new_children": 0,
    "listen_ports": [
     8188

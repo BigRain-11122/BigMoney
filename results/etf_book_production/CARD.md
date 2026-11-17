@@ -24,7 +24,7 @@ Row 1 is the engine as coded (score off bar d's close, paid bar d's *open*); row
 
 **Panel digest:** `0d5a9cdcf2beffd5` (5282 bars x 1631 symbols, 2005-02-23->2026-11-17, covers close/open/amount) -- the executable sheet and the forward ledger print the same fingerprint only when all three priced one panel, on the same blocks.
 
-**Priced day: SAME_DAY** -- card 2026-11-17 / ticket 2026-11-17 / page 2026-11-17 (compared at 2026-11-17 22:18:40); this card, the executable sheet and the CEO page all priced the same closing bar.
+**Priced day: SAME_DAY** -- card 2026-11-17 / ticket 2026-11-17 / page 2026-11-17 (compared at 2026-11-18 00:28:48); this card, the executable sheet and the CEO page all priced the same closing bar.
 
 **Family coherence: MIXED_WORLDS** -- 11 faces priced 2 different panels (0988c653, 0d5a9cdc): per-cell deltas across worlds are world differences, not rule effects.
 8 of 10 arms priced the card's own panel and keep their labels (buffer_k02, buffer_k05, buffer_k05_cost20, buffer_k10, buffer_k20, buffer_k40, cost0, cost40); the 2 withheld one(s) still price another panel (cost05, cost20), so their verdicts are not part of this reading.

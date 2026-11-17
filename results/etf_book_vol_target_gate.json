@@ -1,7 +1,7 @@
 {
  "tool": "etf_book_vol_target_gate",
- "evidence_cutoff": "2026-11-16",
- "generated": "2026-11-16T19:55:57",
+ "evidence_cutoff": "2026-11-17",
+ "generated": "2026-11-17T20:11:40",
  "question": "is there a vol target under which this book clears the calendar today, rather than after the N years r1428 estimated?",
  "rule": {
   "arms": [
@@ -43,25 +43,25 @@
   "does_not_change_production": "this file prices alternative scalings of the same selection; it wires nothing and adopts nothing",
   "frozen_before_read": true
  },
- "capacity_cny_1day_5pct": 27645948.0,
+ "capacity_cny_1day_5pct": 18582410.0,
  "panel": {
-  "digest": "0988c6530a481fa1",
-  "last_bar": "2026-11-16",
-  "priced_last_bar": "2026-11-16",
-  "symbols": 1521,
-  "bars": 5281
+  "digest": "0d5a9cdcf2beffd5",
+  "last_bar": "2026-11-17",
+  "priced_last_bar": "2026-11-17",
+  "symbols": 1522,
+  "bars": 5282
  },
  "arms": [
   {
    "arm": "unscaled",
    "word": "REFUSED",
-   "reason": "gate CONDITIONAL,REFUSE; ruler FAIL years_for_half",
+   "reason": "gate CAPACITY_LIMITED; ruler FAIL years_for_half",
    "gate_verdicts": [
-    "ADMIT",
-    "ADMIT",
-    "REFUSE",
-    "CONDITIONAL",
-    "CONDITIONAL"
+    "CAPACITY_LIMITED",
+    "CAPACITY_LIMITED",
+    "CAPACITY_LIMITED",
+    "CAPACITY_LIMITED",
+    "CAPACITY_LIMITED"
    ],
    "rulers": {
     "effective_years": {
@@ -71,8 +71,8 @@
      "unit": "years (exp of entropy over gross shares)",
      "phases": 5,
      "phases_read": 5,
-     "median": 4.654482,
-     "spread": 1.646435,
+     "median": 4.643705,
+     "spread": 1.667928,
      "side": "pass",
      "state": "PASS"
     },
@@ -92,8 +92,8 @@
    "phases": 5,
    "vol_target": null,
    "money": {
-    "cagr_pct": 14.05,
-    "sharpe": 0.938,
+    "cagr_pct": 14.04,
+    "sharpe": 0.937,
     "maxdd_pct": -18.07,
     "turnover": 1.54
    },
@@ -101,25 +101,25 @@
     {
      "start": "2020-01-01",
      "years": 7,
-     "gate_verdict": "ADMIT",
+     "gate_verdict": "CAPACITY_LIMITED",
      "checks": {
       "Y1_positive_years_share": true,
       "Y2_median_positive": true,
       "Y3_worst_year": true,
       "Y4_top2_share": true,
-      "C1_capacity": true
+      "C1_capacity": false
      },
      "calibers": {
       "years": 7,
-      "net_sum_pct": 110.709736,
-      "gross_sum_pct": 110.709736,
-      "net_top2_share": 0.685821,
-      "gross_top2_share": 0.685821,
-      "effective_years": 4.466944,
+      "net_sum_pct": 110.4368,
+      "gross_sum_pct": 110.4368,
+      "net_top2_share": 0.687515,
+      "gross_top2_share": 0.687515,
+      "effective_years": 4.4488,
       "years_for_half": 2
      },
-     "cagr_pct": 15.55,
-     "sharpe": 1.002,
+     "cagr_pct": 15.5,
+     "sharpe": 0.999,
      "maxdd_pct": -16.04,
      "turnover": 1.53,
      "year_net_pct": {
@@ -129,31 +129,31 @@
       "2023": 5.2676,
       "2024": 12.969,
       "2025": 53.7327,
-      "2026": 4.9057
+      "2026": 4.6327
      }
     },
     {
      "start": "2020-01-08",
      "years": 7,
-     "gate_verdict": "ADMIT",
+     "gate_verdict": "CAPACITY_LIMITED",
      "checks": {
       "Y1_positive_years_share": true,
       "Y2_median_positive": true,
       "Y3_worst_year": true,
       "Y4_top2_share": true,
-      "C1_capacity": true
+      "C1_capacity": false
      },
      "calibers": {
       "years": 7,
-      "net_sum_pct": 147.738391,
-      "gross_sum_pct": 158.064799,
-      "net_top2_share": 0.675351,
-      "gross_top2_share": 0.631231,
-      "effective_years": 4.654482,
+      "net_sum_pct": 147.930811,
+      "gross_sum_pct": 157.87238,
+      "net_top2_share": 0.674473,
+      "gross_top2_share": 0.632,
+      "effective_years": 4.643705,
       "years_for_half": 2
      },
-     "cagr_pct": 20.21,
-     "sharpe": 1.191,
+     "cagr_pct": 20.23,
+     "sharpe": 1.192,
      "maxdd_pct": -17.93,
      "turnover": 1.53,
      "year_net_pct": {
@@ -163,32 +163,32 @@
       "2023": 22.1927,
       "2024": 35.7054,
       "2025": 64.0699,
-      "2026": -5.1632
+      "2026": -4.9708
      }
     },
     {
      "start": "2020-01-15",
      "years": 7,
-     "gate_verdict": "REFUSE",
+     "gate_verdict": "CAPACITY_LIMITED",
      "checks": {
       "Y1_positive_years_share": true,
       "Y2_median_positive": true,
       "Y3_worst_year": false,
       "Y4_top2_share": false,
-      "C1_capacity": true
+      "C1_capacity": false
      },
      "calibers": {
       "years": 7,
-      "net_sum_pct": 91.736799,
-      "gross_sum_pct": 151.539962,
-      "net_top2_share": 0.827001,
-      "gross_top2_share": 0.500637,
-      "effective_years": 5.788988,
+      "net_sum_pct": 91.326758,
+      "gross_sum_pct": 151.950003,
+      "net_top2_share": 0.830715,
+      "gross_top2_share": 0.499286,
+      "effective_years": 5.801784,
       "years_for_half": 2
      },
-     "cagr_pct": 11.73,
-     "sharpe": 0.698,
-     "maxdd_pct": -22.92,
+     "cagr_pct": 11.65,
+     "sharpe": 0.694,
+     "maxdd_pct": -23.27,
      "turnover": 1.61,
      "year_net_pct": {
       "2020": 37.3895,
@@ -197,31 +197,31 @@
       "2023": 4.7013,
       "2024": 31.1582,
       "2025": 38.477,
-      "2026": -11.361
+      "2026": -11.771
      }
     },
     {
      "start": "2020-01-22",
      "years": 7,
-     "gate_verdict": "CONDITIONAL",
+     "gate_verdict": "CAPACITY_LIMITED",
      "checks": {
       "Y1_positive_years_share": true,
       "Y2_median_positive": true,
       "Y3_worst_year": true,
       "Y4_top2_share": false,
-      "C1_capacity": true
+      "C1_capacity": false
      },
      "calibers": {
       "years": 7,
-      "net_sum_pct": 81.967569,
-      "gross_sum_pct": 94.979737,
-      "net_top2_share": 0.890175,
-      "gross_top2_share": 0.768221,
-      "effective_years": 4.142553,
+      "net_sum_pct": 82.102744,
+      "gross_sum_pct": 94.844562,
+      "net_top2_share": 0.888709,
+      "gross_top2_share": 0.769316,
+      "effective_years": 4.133856,
       "years_for_half": 2
      },
-     "cagr_pct": 11.25,
-     "sharpe": 0.738,
+     "cagr_pct": 11.27,
+     "sharpe": 0.739,
      "maxdd_pct": -18.95,
      "turnover": 1.54,
      "year_net_pct": {
@@ -231,31 +231,31 @@
       "2023": 4.7929,
       "2024": 3.7593,
       "2025": 36.2126,
-      "2026": -5.3114
+      "2026": -5.1762
      }
     },
     {
      "start": "2020-01-29",
      "years": 7,
-     "gate_verdict": "CONDITIONAL",
+     "gate_verdict": "CAPACITY_LIMITED",
      "checks": {
       "Y1_positive_years_share": true,
       "Y2_median_positive": true,
       "Y3_worst_year": true,
       "Y4_top2_share": false,
-      "C1_capacity": true
+      "C1_capacity": false
      },
      "calibers": {
       "years": 7,
-      "net_sum_pct": 104.383513,
-      "gross_sum_pct": 130.732754,
-      "net_top2_share": 0.836356,
-      "gross_top2_share": 0.667788,
-      "effective_years": 4.962661,
+      "net_sum_pct": 104.395092,
+      "gross_sum_pct": 130.721175,
+      "net_top2_share": 0.836263,
+      "gross_top2_share": 0.667847,
+      "effective_years": 4.962186,
       "years_for_half": 2
      },
-     "cagr_pct": 14.05,
-     "sharpe": 0.938,
+     "cagr_pct": 14.04,
+     "sharpe": 0.937,
      "maxdd_pct": -18.07,
      "turnover": 1.56,
      "year_net_pct": {
@@ -265,7 +265,7 @@
       "2023": 11.4526,
       "2024": 7.0748,
       "2025": 52.1045,
-      "2026": -8.9367
+      "2026": -8.9251
      }
     }
    ]
@@ -273,13 +273,13 @@
   {
    "arm": "vt08",
    "word": "REFUSED",
-   "reason": "gate CONDITIONAL; ruler FAIL years_for_half",
+   "reason": "gate CAPACITY_LIMITED; ruler FAIL years_for_half",
    "gate_verdicts": [
-    "CONDITIONAL",
-    "CONDITIONAL",
-    "CONDITIONAL",
-    "CONDITIONAL",
-    "CONDITIONAL"
+    "CAPACITY_LIMITED",
+    "CAPACITY_LIMITED",
+    "CAPACITY_LIMITED",
+    "CAPACITY_LIMITED",
+    "CAPACITY_LIMITED"
    ],
    "rulers": {
     "effective_years": {
@@ -289,8 +289,8 @@
      "unit": "years (exp of entropy over gross shares)",
      "phases": 5,
      "phases_read": 5,
-     "median": 4.995503,
-     "spread": 1.339056,
+     "median": 4.986748,
+     "spread": 1.426382,
      "side": "pass",
      "state": "PASS"
     },
@@ -311,7 +311,7 @@
    "vol_target": 0.08,
    "money": {
     "cagr_pct": 8.43,
-    "sharpe": 0.877,
+    "sharpe": 0.876,
     "maxdd_pct": -12.99,
     "turnover": 1.08
    },
@@ -319,25 +319,25 @@
     {
      "start": "2020-01-01",
      "years": 7,
-     "gate_verdict": "CONDITIONAL",
+     "gate_verdict": "CAPACITY_LIMITED",
      "checks": {
       "Y1_positive_years_share": true,
       "Y2_median_positive": true,
       "Y3_worst_year": true,
       "Y4_top2_share": false,
-      "C1_capacity": true
+      "C1_capacity": false
      },
      "calibers": {
       "years": 7,
-      "net_sum_pct": 81.325438,
-      "gross_sum_pct": 81.325438,
-      "net_top2_share": 0.708416,
-      "gross_top2_share": 0.708416,
-      "effective_years": 4.246979,
+      "net_sum_pct": 81.101474,
+      "gross_sum_pct": 81.101474,
+      "net_top2_share": 0.710372,
+      "gross_top2_share": 0.710372,
+      "effective_years": 4.220885,
       "years_for_half": 1
      },
-     "cagr_pct": 11.45,
-     "sharpe": 1.129,
+     "cagr_pct": 11.41,
+     "sharpe": 1.125,
      "maxdd_pct": -10.56,
      "turnover": 1.08,
      "year_net_pct": {
@@ -347,31 +347,31 @@
       "2023": 5.473,
       "2024": 14.5496,
       "2025": 43.0627,
-      "2026": 2.1656
+      "2026": 1.9416
      }
     },
     {
      "start": "2020-01-08",
      "years": 7,
-     "gate_verdict": "CONDITIONAL",
+     "gate_verdict": "CAPACITY_LIMITED",
      "checks": {
       "Y1_positive_years_share": true,
       "Y2_median_positive": true,
       "Y3_worst_year": true,
       "Y4_top2_share": false,
-      "C1_capacity": true
+      "C1_capacity": false
      },
      "calibers": {
       "years": 7,
-      "net_sum_pct": 79.829902,
-      "gross_sum_pct": 91.018786,
-      "net_top2_share": 0.78538,
-      "gross_top2_share": 0.688834,
-      "effective_years": 4.391256,
+      "net_sum_pct": 80.014671,
+      "gross_sum_pct": 90.834017,
+      "net_top2_share": 0.783566,
+      "gross_top2_share": 0.690235,
+      "effective_years": 4.379433,
       "years_for_half": 2
      },
-     "cagr_pct": 11.1,
-     "sharpe": 1.053,
+     "cagr_pct": 11.13,
+     "sharpe": 1.055,
      "maxdd_pct": -13.19,
      "turnover": 1.03,
      "year_net_pct": {
@@ -381,31 +381,31 @@
       "2023": 14.1691,
       "2024": 23.4099,
       "2025": 39.2869,
-      "2026": -5.5944
+      "2026": -5.4097
      }
     },
     {
      "start": "2020-01-15",
      "years": 7,
-     "gate_verdict": "CONDITIONAL",
+     "gate_verdict": "CAPACITY_LIMITED",
      "checks": {
       "Y1_positive_years_share": true,
       "Y2_median_positive": true,
       "Y3_worst_year": true,
       "Y4_top2_share": false,
-      "C1_capacity": true
+      "C1_capacity": false
      },
      "calibers": {
       "years": 7,
-      "net_sum_pct": 58.758343,
-      "gross_sum_pct": 86.526527,
-      "net_top2_share": 0.806335,
-      "gross_top2_share": 0.547565,
-      "effective_years": 5.586035,
+      "net_sum_pct": 58.303642,
+      "gross_sum_pct": 86.981228,
+      "net_top2_share": 0.812623,
+      "gross_top2_share": 0.544703,
+      "effective_years": 5.647267,
       "years_for_half": 2
      },
-     "cagr_pct": 8.17,
-     "sharpe": 0.756,
+     "cagr_pct": 8.09,
+     "sharpe": 0.75,
      "maxdd_pct": -15.87,
      "turnover": 1.1,
      "year_net_pct": {
@@ -415,31 +415,31 @@
       "2023": 4.0923,
       "2024": 22.4433,
       "2025": 24.9357,
-      "2026": -1.7068
+      "2026": -2.1615
      }
     },
     {
      "start": "2020-01-22",
      "years": 7,
-     "gate_verdict": "CONDITIONAL",
+     "gate_verdict": "CAPACITY_LIMITED",
      "checks": {
       "Y1_positive_years_share": true,
       "Y2_median_positive": true,
       "Y3_worst_year": true,
       "Y4_top2_share": false,
-      "C1_capacity": true
+      "C1_capacity": false
      },
      "calibers": {
       "years": 7,
-      "net_sum_pct": 48.835725,
-      "gross_sum_pct": 61.351229,
-      "net_top2_share": 0.801159,
-      "gross_top2_share": 0.637725,
-      "effective_years": 4.995503,
+      "net_sum_pct": 48.954063,
+      "gross_sum_pct": 61.232891,
+      "net_top2_share": 0.799223,
+      "gross_top2_share": 0.638957,
+      "effective_years": 4.986748,
       "years_for_half": 2
      },
-     "cagr_pct": 6.97,
-     "sharpe": 0.674,
+     "cagr_pct": 6.99,
+     "sharpe": 0.675,
      "maxdd_pct": -12.99,
      "turnover": 1.08,
      "year_net_pct": {
@@ -449,31 +449,31 @@
       "2023": 2.6739,
       "2024": 4.1239,
       "2025": 22.3104,
-      "2026": -5.0094
+      "2026": -4.891
      }
     },
     {
      "start": "2020-01-29",
      "years": 7,
-     "gate_verdict": "CONDITIONAL",
+     "gate_verdict": "CAPACITY_LIMITED",
      "checks": {
       "Y1_positive_years_share": true,
       "Y2_median_positive": true,
       "Y3_worst_year": true,
       "Y4_top2_share": false,
-      "C1_capacity": true
+      "C1_capacity": false
      },
      "calibers": {
       "years": 7,
-      "net_sum_pct": 61.185979,
-      "gross_sum_pct": 80.476387,
-      "net_top2_share": 0.801685,
-      "gross_top2_share": 0.609519,
-      "effective_years": 5.110797,
+      "net_sum_pct": 61.196074,
+      "gross_sum_pct": 80.466292,
+      "net_top2_share": 0.801553,
+      "gross_top2_share": 0.609595,
+      "effective_years": 5.11014,
       "years_for_half": 1
      },
      "cagr_pct": 8.43,
-     "sharpe": 0.877,
+     "sharpe": 0.876,
      "maxdd_pct": -12.56,
      "turnover": 1.11,
      "year_net_pct": {
@@ -483,7 +483,7 @@
       "2023": 10.1634,
       "2024": 4.3865,
       "2025": 35.6294,
-      "2026": -5.661
+      "2026": -5.6509
      }
     }
    ]
@@ -491,13 +491,13 @@
   {
    "arm": "vt06",
    "word": "REFUSED",
-   "reason": "gate CONDITIONAL; ruler FAIL years_for_half",
+   "reason": "gate CAPACITY_LIMITED; ruler FAIL years_for_half",
    "gate_verdicts": [
-    "CONDITIONAL",
-    "CONDITIONAL",
-    "CONDITIONAL",
-    "CONDITIONAL",
-    "CONDITIONAL"
+    "CAPACITY_LIMITED",
+    "CAPACITY_LIMITED",
+    "CAPACITY_LIMITED",
+    "CAPACITY_LIMITED",
+    "CAPACITY_LIMITED"
    ],
    "rulers": {
     "effective_years": {
@@ -507,8 +507,8 @@
      "unit": "years (exp of entropy over gross shares)",
      "phases": 5,
      "phases_read": 5,
-     "median": 4.874988,
-     "spread": 1.342671,
+     "median": 4.865973,
+     "spread": 1.433192,
      "side": "pass",
      "state": "PASS"
     },
@@ -528,8 +528,8 @@
    "phases": 5,
    "vol_target": 0.06,
    "money": {
-    "cagr_pct": 6.3,
-    "sharpe": 0.842,
+    "cagr_pct": 6.27,
+    "sharpe": 0.841,
     "maxdd_pct": -9.97,
     "turnover": 0.85
    },
@@ -537,25 +537,25 @@
     {
      "start": "2020-01-01",
      "years": 7,
-     "gate_verdict": "CONDITIONAL",
+     "gate_verdict": "CAPACITY_LIMITED",
      "checks": {
       "Y1_positive_years_share": true,
       "Y2_median_positive": true,
       "Y3_worst_year": true,
       "Y4_top2_share": false,
-      "C1_capacity": true
+      "C1_capacity": false
      },
      "calibers": {
       "years": 7,
-      "net_sum_pct": 62.44089,
-      "gross_sum_pct": 62.44089,
-      "net_top2_share": 0.713825,
-      "gross_top2_share": 0.713825,
-      "effective_years": 4.345601,
+      "net_sum_pct": 62.273709,
+      "gross_sum_pct": 62.273709,
+      "net_top2_share": 0.715741,
+      "gross_top2_share": 0.715741,
+      "effective_years": 4.320078,
       "years_for_half": 2
      },
-     "cagr_pct": 8.94,
-     "sharpe": 1.143,
+     "cagr_pct": 8.91,
+     "sharpe": 1.14,
      "maxdd_pct": -8.01,
      "turnover": 0.85,
      "year_net_pct": {
@@ -565,31 +565,31 @@
       "2023": 4.1644,
       "2024": 13.5611,
       "2025": 31.0108,
-      "2026": 1.6835
+      "2026": 1.5164
      }
     },
     {
      "start": "2020-01-08",
      "years": 7,
-     "gate_verdict": "CONDITIONAL",
+     "gate_verdict": "CAPACITY_LIMITED",
      "checks": {
       "Y1_positive_years_share": true,
       "Y2_median_positive": true,
       "Y3_worst_year": true,
       "Y4_top2_share": false,
-      "C1_capacity": true
+      "C1_capacity": false
      },
      "calibers": {
       "years": 7,
-      "net_sum_pct": 59.112287,
-      "gross_sum_pct": 67.415014,
-      "net_top2_share": 0.77717,
-      "gross_top2_share": 0.681455,
-      "effective_years": 4.424556,
+      "net_sum_pct": 59.252983,
+      "gross_sum_pct": 67.274319,
+      "net_top2_share": 0.775324,
+      "gross_top2_share": 0.68288,
+      "effective_years": 4.412392,
       "years_for_half": 2
      },
-     "cagr_pct": 8.39,
-     "sharpe": 1.048,
+     "cagr_pct": 8.41,
+     "sharpe": 1.051,
      "maxdd_pct": -9.97,
      "turnover": 0.79,
      "year_net_pct": {
@@ -599,31 +599,31 @@
       "2023": 10.7812,
       "2024": 17.5374,
       "2025": 28.4029,
-      "2026": -4.1514
+      "2026": -4.0107
      }
     },
     {
      "start": "2020-01-15",
      "years": 7,
-     "gate_verdict": "CONDITIONAL",
+     "gate_verdict": "CAPACITY_LIMITED",
      "checks": {
       "Y1_positive_years_share": true,
       "Y2_median_positive": true,
       "Y3_worst_year": true,
       "Y4_top2_share": false,
-      "C1_capacity": true
+      "C1_capacity": false
      },
      "calibers": {
       "years": 7,
-      "net_sum_pct": 44.360886,
-      "gross_sum_pct": 65.465239,
-      "net_top2_share": 0.790748,
-      "gross_top2_share": 0.535831,
-      "effective_years": 5.688272,
+      "net_sum_pct": 43.99307,
+      "gross_sum_pct": 65.833056,
+      "net_top2_share": 0.797359,
+      "gross_top2_share": 0.532837,
+      "effective_years": 5.75327,
       "years_for_half": 2
      },
-     "cagr_pct": 6.3,
-     "sharpe": 0.755,
+     "cagr_pct": 6.24,
+     "sharpe": 0.748,
      "maxdd_pct": -12.25,
      "turnover": 0.85,
      "year_net_pct": {
@@ -633,31 +633,31 @@
       "2023": 3.6696,
       "2024": 16.7264,
       "2025": 18.3519,
-      "2026": -1.3301
+      "2026": -1.698
      }
     },
     {
      "start": "2020-01-22",
      "years": 7,
-     "gate_verdict": "CONDITIONAL",
+     "gate_verdict": "CAPACITY_LIMITED",
      "checks": {
       "Y1_positive_years_share": true,
       "Y2_median_positive": true,
       "Y3_worst_year": true,
       "Y4_top2_share": false,
-      "C1_capacity": true
+      "C1_capacity": false
      },
      "calibers": {
       "years": 7,
-      "net_sum_pct": 35.148051,
-      "gross_sum_pct": 45.072363,
-      "net_top2_share": 0.826763,
-      "gross_top2_share": 0.644721,
-      "effective_years": 4.874988,
+      "net_sum_pct": 35.238023,
+      "gross_sum_pct": 44.982391,
+      "net_top2_share": 0.824652,
+      "gross_top2_share": 0.64601,
+      "effective_years": 4.865973,
       "years_for_half": 2
      },
-     "cagr_pct": 5.08,
-     "sharpe": 0.632,
+     "cagr_pct": 5.09,
+     "sharpe": 0.634,
      "maxdd_pct": -9.89,
      "turnover": 0.84,
      "year_net_pct": {
@@ -667,31 +667,31 @@
       "2023": 0.9213,
       "2024": 3.1739,
       "2025": 16.46,
-      "2026": -3.706
+      "2026": -3.6161
      }
     },
     {
      "start": "2020-01-29",
      "years": 7,
-     "gate_verdict": "CONDITIONAL",
+     "gate_verdict": "CAPACITY_LIMITED",
      "checks": {
       "Y1_positive_years_share": true,
       "Y2_median_positive": true,
       "Y3_worst_year": true,
       "Y4_top2_share": false,
-      "C1_capacity": true
+      "C1_capacity": false
      },
      "calibers": {
       "years": 7,
-      "net_sum_pct": 44.800058,
-      "gross_sum_pct": 60.202666,
-      "net_top2_share": 0.816092,
-      "gross_top2_share": 0.607298,
-      "effective_years": 5.145881,
+      "net_sum_pct": 44.807746,
+      "gross_sum_pct": 60.194979,
+      "net_top2_share": 0.815952,
+      "gross_top2_share": 0.607376,
+      "effective_years": 5.14521,
       "years_for_half": 1
      },
      "cagr_pct": 6.27,
-     "sharpe": 0.842,
+     "sharpe": 0.841,
      "maxdd_pct": -10.24,
      "turnover": 0.87,
      "year_net_pct": {
@@ -701,7 +701,7 @@
       "2023": 7.3106,
       "2024": 3.0702,
       "2025": 26.5572,
-      "2026": -4.2141
+      "2026": -4.2064
      }
     }
    ]
@@ -709,13 +709,13 @@
   {
    "arm": "vt04",
    "word": "REFUSED",
-   "reason": "gate CONDITIONAL,REFUSE; ruler FAIL years_for_half",
+   "reason": "gate CAPACITY_LIMITED; ruler FAIL years_for_half",
    "gate_verdicts": [
-    "CONDITIONAL",
-    "CONDITIONAL",
-    "CONDITIONAL",
-    "REFUSE",
-    "CONDITIONAL"
+    "CAPACITY_LIMITED",
+    "CAPACITY_LIMITED",
+    "CAPACITY_LIMITED",
+    "CAPACITY_LIMITED",
+    "CAPACITY_LIMITED"
    ],
    "rulers": {
     "effective_years": {
@@ -725,8 +725,8 @@
      "unit": "years (exp of entropy over gross shares)",
      "phases": 5,
      "phases_read": 5,
-     "median": 4.603678,
-     "spread": 1.238331,
+     "median": 4.594386,
+     "spread": 1.331234,
      "side": "pass",
      "state": "PASS"
     },
@@ -746,7 +746,7 @@
    "phases": 5,
    "vol_target": 0.04,
    "money": {
-    "cagr_pct": 4.22,
+    "cagr_pct": 4.18,
     "sharpe": 0.812,
     "maxdd_pct": -6.69,
     "turnover": 0.57
@@ -755,25 +755,25 @@
     {
      "start": "2020-01-01",
      "years": 7,
-     "gate_verdict": "CONDITIONAL",
+     "gate_verdict": "CAPACITY_LIMITED",
      "checks": {
       "Y1_positive_years_share": true,
       "Y2_median_positive": true,
       "Y3_worst_year": true,
       "Y4_top2_share": false,
-      "C1_capacity": true
+      "C1_capacity": false
      },
      "calibers": {
       "years": 7,
-      "net_sum_pct": 40.917299,
-      "gross_sum_pct": 40.917299,
-      "net_top2_share": 0.703231,
-      "gross_top2_share": 0.703231,
-      "effective_years": 4.448515,
+      "net_sum_pct": 40.806417,
+      "gross_sum_pct": 40.806417,
+      "net_top2_share": 0.705141,
+      "gross_top2_share": 0.705141,
+      "effective_years": 4.422995,
       "years_for_half": 2
      },
-     "cagr_pct": 5.95,
-     "sharpe": 1.137,
+     "cagr_pct": 5.93,
+     "sharpe": 1.134,
      "maxdd_pct": -5.4,
      "turnover": 0.57,
      "year_net_pct": {
@@ -783,31 +783,31 @@
       "2023": 2.8034,
       "2024": 8.9218,
       "2025": 19.8525,
-      "2026": 1.1615
+      "2026": 1.0506
      }
     },
     {
      "start": "2020-01-08",
      "years": 7,
-     "gate_verdict": "CONDITIONAL",
+     "gate_verdict": "CAPACITY_LIMITED",
      "checks": {
       "Y1_positive_years_share": true,
       "Y2_median_positive": true,
       "Y3_worst_year": true,
       "Y4_top2_share": false,
-      "C1_capacity": true
+      "C1_capacity": false
      },
      "calibers": {
       "years": 7,
-      "net_sum_pct": 38.783104,
-      "gross_sum_pct": 44.256534,
-      "net_top2_share": 0.766056,
-      "gross_top2_share": 0.671314,
-      "effective_years": 4.512299,
+      "net_sum_pct": 38.878286,
+      "gross_sum_pct": 44.161353,
+      "net_top2_share": 0.76418,
+      "gross_top2_share": 0.67276,
+      "effective_years": 4.499742,
       "years_for_half": 2
      },
-     "cagr_pct": 5.61,
-     "sharpe": 1.049,
+     "cagr_pct": 5.62,
+     "sharpe": 1.051,
      "maxdd_pct": -6.69,
      "turnover": 0.53,
      "year_net_pct": {
@@ -817,31 +817,31 @@
       "2023": 7.2396,
       "2024": 11.4573,
       "2025": 18.2527,
-      "2026": -2.7367
+      "2026": -2.6415
      }
     },
     {
      "start": "2020-01-15",
      "years": 7,
-     "gate_verdict": "CONDITIONAL",
+     "gate_verdict": "CAPACITY_LIMITED",
      "checks": {
       "Y1_positive_years_share": true,
       "Y2_median_positive": true,
       "Y3_worst_year": true,
       "Y4_top2_share": false,
-      "C1_capacity": true
+      "C1_capacity": false
      },
      "calibers": {
       "years": 7,
-      "net_sum_pct": 29.149573,
-      "gross_sum_pct": 43.233754,
-      "net_top2_share": 0.788601,
-      "gross_top2_share": 0.5317,
-      "effective_years": 5.686846,
+      "net_sum_pct": 28.903128,
+      "gross_sum_pct": 43.480199,
+      "net_top2_share": 0.795325,
+      "gross_top2_share": 0.528686,
+      "effective_years": 5.754229,
       "years_for_half": 2
      },
-     "cagr_pct": 4.22,
-     "sharpe": 0.747,
+     "cagr_pct": 4.18,
+     "sharpe": 0.74,
      "maxdd_pct": -8.3,
      "turnover": 0.57,
      "year_net_pct": {
@@ -851,31 +851,31 @@
       "2023": 2.362,
       "2024": 10.9859,
       "2025": 12.0015,
-      "2026": -0.8336
+      "2026": -1.0801
      }
     },
     {
      "start": "2020-01-22",
      "years": 7,
-     "gate_verdict": "REFUSE",
+     "gate_verdict": "CAPACITY_LIMITED",
      "checks": {
       "Y1_positive_years_share": false,
       "Y2_median_positive": true,
       "Y3_worst_year": true,
       "Y4_top2_share": false,
-      "C1_capacity": true
+      "C1_capacity": false
      },
      "calibers": {
       "years": 7,
-      "net_sum_pct": 22.713982,
-      "gross_sum_pct": 29.268852,
-      "net_top2_share": 0.844137,
-      "gross_top2_share": 0.655089,
-      "effective_years": 4.603678,
+      "net_sum_pct": 22.774755,
+      "gross_sum_pct": 29.20808,
+      "net_top2_share": 0.841884,
+      "gross_top2_share": 0.656452,
+      "effective_years": 4.594386,
       "years_for_half": 2
      },
-     "cagr_pct": 3.32,
-     "sharpe": 0.607,
+     "cagr_pct": 3.33,
+     "sharpe": 0.608,
      "maxdd_pct": -6.68,
      "turnover": 0.57,
      "year_net_pct": {
@@ -885,27 +885,27 @@
       "2023": -0.0515,
       "2024": 2.1767,
       "2025": 10.7907,
-      "2026": -2.4356
+      "2026": -2.3748
      }
     },
     {
      "start": "2020-01-29",
      "years": 7,
-     "gate_verdict": "CONDITIONAL",
+     "gate_verdict": "CAPACITY_LIMITED",
      "checks": {
       "Y1_positive_years_share": true,
       "Y2_median_positive": true,
       "Y3_worst_year": true,
       "Y4_top2_share": false,
-      "C1_capacity": true
+      "C1_capacity": false
      },
      "calibers": {
       "years": 7,
-      "net_sum_pct": 28.997255,
-      "gross_sum_pct": 39.155443,
-      "net_top2_share": 0.818305,
-      "gross_top2_share": 0.606011,
-      "effective_years": 5.190862,
+      "net_sum_pct": 29.002456,
+      "gross_sum_pct": 39.150242,
+      "net_top2_share": 0.818159,
+      "gross_top2_share": 0.606091,
+      "effective_years": 5.190174,
       "years_for_half": 1
      },
      "cagr_pct": 4.15,
@@ -919,7 +919,7 @@
       "2023": 4.501,
       "2024": 2.1094,
       "2025": 17.1033,
-      "2026": -2.7874
+      "2026": -2.7821
      }
     }
    ]
@@ -927,13 +927,13 @@
   {
    "arm": "vt03",
    "word": "REFUSED",
-   "reason": "gate CONDITIONAL; ruler FAIL years_for_half",
+   "reason": "gate CAPACITY_LIMITED; ruler FAIL years_for_half",
    "gate_verdicts": [
-    "ADMIT",
-    "CONDITIONAL",
-    "CONDITIONAL",
-    "CONDITIONAL",
-    "CONDITIONAL"
+    "CAPACITY_LIMITED",
+    "CAPACITY_LIMITED",
+    "CAPACITY_LIMITED",
+    "CAPACITY_LIMITED",
+    "CAPACITY_LIMITED"
    ],
    "rulers": {
     "effective_years": {
@@ -943,8 +943,8 @@
      "unit": "years (exp of entropy over gross shares)",
      "phases": 5,
      "phases_read": 5,
-     "median": 4.570829,
-     "spread": 1.197769,
+     "median": 4.561404,
+     "spread": 1.29191,
      "side": "pass",
      "state": "PASS"
     },
@@ -964,7 +964,7 @@
    "phases": 5,
    "vol_target": 0.03,
    "money": {
-    "cagr_pct": 3.19,
+    "cagr_pct": 3.16,
     "sharpe": 0.812,
     "maxdd_pct": -5.05,
     "turnover": 0.43
@@ -973,25 +973,25 @@
     {
      "start": "2020-01-01",
      "years": 7,
-     "gate_verdict": "ADMIT",
+     "gate_verdict": "CAPACITY_LIMITED",
      "checks": {
       "Y1_positive_years_share": true,
       "Y2_median_positive": true,
       "Y3_worst_year": true,
       "Y4_top2_share": true,
-      "C1_capacity": true
+      "C1_capacity": false
      },
      "calibers": {
       "years": 7,
-      "net_sum_pct": 30.434462,
-      "gross_sum_pct": 30.434462,
-      "net_top2_share": 0.697821,
-      "gross_top2_share": 0.697821,
-      "effective_years": 4.500439,
+      "net_sum_pct": 30.351528,
+      "gross_sum_pct": 30.351528,
+      "net_top2_share": 0.699728,
+      "gross_top2_share": 0.699728,
+      "effective_years": 4.474935,
       "years_for_half": 2
      },
-     "cagr_pct": 4.46,
-     "sharpe": 1.137,
+     "cagr_pct": 4.44,
+     "sharpe": 1.134,
      "maxdd_pct": -4.07,
      "turnover": 0.43,
      "year_net_pct": {
@@ -1001,31 +1001,31 @@
       "2023": 2.1177,
       "2024": 6.6466,
       "2025": 14.5912,
-      "2026": 0.8856
+      "2026": 0.8027
      }
     },
     {
      "start": "2020-01-08",
      "years": 7,
-     "gate_verdict": "CONDITIONAL",
+     "gate_verdict": "CAPACITY_LIMITED",
      "checks": {
       "Y1_positive_years_share": true,
       "Y2_median_positive": true,
       "Y3_worst_year": true,
       "Y4_top2_share": false,
-      "C1_capacity": true
+      "C1_capacity": false
      },
      "calibers": {
       "years": 7,
-      "net_sum_pct": 28.817513,
-      "gross_sum_pct": 32.898761,
-      "net_top2_share": 0.761568,
-      "gross_top2_share": 0.667092,
-      "effective_years": 4.55377,
+      "net_sum_pct": 28.88941,
+      "gross_sum_pct": 32.826864,
+      "net_top2_share": 0.759673,
+      "gross_top2_share": 0.668553,
+      "effective_years": 4.541012,
       "years_for_half": 2
      },
-     "cagr_pct": 4.21,
-     "sharpe": 1.049,
+     "cagr_pct": 4.22,
+     "sharpe": 1.051,
      "maxdd_pct": -5.04,
      "turnover": 0.4,
      "year_net_pct": {
@@ -1035,31 +1035,31 @@
       "2023": 5.4071,
       "2024": 8.5058,
       "2025": 13.4407,
-      "2026": -2.0406
+      "2026": -1.9687
      }
     },
     {
      "start": "2020-01-15",
      "years": 7,
-     "gate_verdict": "CONDITIONAL",
+     "gate_verdict": "CAPACITY_LIMITED",
      "checks": {
       "Y1_positive_years_share": true,
       "Y2_median_positive": true,
       "Y3_worst_year": true,
       "Y4_top2_share": false,
-      "C1_capacity": true
+      "C1_capacity": false
      },
      "calibers": {
       "years": 7,
-      "net_sum_pct": 21.762315,
-      "gross_sum_pct": 32.330487,
-      "net_top2_share": 0.785334,
-      "gross_top2_share": 0.528624,
-      "effective_years": 5.698208,
+      "net_sum_pct": 21.577056,
+      "gross_sum_pct": 32.515746,
+      "net_top2_share": 0.792076,
+      "gross_top2_share": 0.525612,
+      "effective_years": 5.766845,
       "years_for_half": 2
      },
-     "cagr_pct": 3.19,
-     "sharpe": 0.747,
+     "cagr_pct": 3.16,
+     "sharpe": 0.74,
      "maxdd_pct": -6.27,
      "turnover": 0.43,
      "year_net_pct": {
@@ -1069,31 +1069,31 @@
       "2023": 1.8022,
       "2024": 8.1769,
       "2025": 8.9138,
-      "2026": -0.6052
+      "2026": -0.7904
      }
     },
     {
      "start": "2020-01-22",
      "years": 7,
-     "gate_verdict": "CONDITIONAL",
+     "gate_verdict": "CAPACITY_LIMITED",
      "checks": {
       "Y1_positive_years_share": true,
       "Y2_median_positive": true,
       "Y3_worst_year": true,
       "Y4_top2_share": false,
-      "C1_capacity": true
+      "C1_capacity": false
      },
      "calibers": {
       "years": 7,
-      "net_sum_pct": 17.059142,
-      "gross_sum_pct": 21.835494,
-      "net_top2_share": 0.83845,
-      "gross_top2_share": 0.655045,
-      "effective_years": 4.570829,
+      "net_sum_pct": 17.105012,
+      "gross_sum_pct": 21.789624,
+      "net_top2_share": 0.836202,
+      "gross_top2_share": 0.656424,
+      "effective_years": 4.561404,
       "years_for_half": 2
      },
      "cagr_pct": 2.52,
-     "sharpe": 0.607,
+     "sharpe": 0.608,
      "maxdd_pct": -5.05,
      "turnover": 0.42,
      "year_net_pct": {
@@ -1103,27 +1103,27 @@
       "2023": 0.0075,
       "2024": 1.6549,
       "2025": 8.0245,
-      "2026": -1.8132
+      "2026": -1.7673
      }
     },
     {
      "start": "2020-01-29",
      "years": 7,
-     "gate_verdict": "CONDITIONAL",
+     "gate_verdict": "CAPACITY_LIMITED",
      "checks": {
       "Y1_positive_years_share": true,
       "Y2_median_positive": true,
       "Y3_worst_year": true,
       "Y4_top2_share": false,
-      "C1_capacity": true
+      "C1_capacity": false
      },
      "calibers": {
       "years": 7,
-      "net_sum_pct": 21.588237,
-      "gross_sum_pct": 29.164461,
-      "net_top2_share": 0.813402,
-      "gross_top2_share": 0.602099,
-      "effective_years": 5.226713,
+      "net_sum_pct": 21.592166,
+      "gross_sum_pct": 29.160532,
+      "net_top2_share": 0.813254,
+      "gross_top2_share": 0.602181,
+      "effective_years": 5.226019,
       "years_for_half": 1
      },
      "cagr_pct": 3.12,
@@ -1137,7 +1137,7 @@
       "2023": 3.3973,
       "2024": 1.6051,
       "2025": 12.6078,
-      "2026": -2.082
+      "2026": -2.078
      }
     }
    ]
@@ -1145,13 +1145,13 @@
   {
    "arm": "vt02",
    "word": "REFUSED",
-   "reason": "gate CONDITIONAL; ruler FAIL years_for_half",
+   "reason": "gate CAPACITY_LIMITED; ruler FAIL years_for_half",
    "gate_verdicts": [
-    "ADMIT",
-    "CONDITIONAL",
-    "CONDITIONAL",
-    "CONDITIONAL",
-    "CONDITIONAL"
+    "CAPACITY_LIMITED",
+    "CAPACITY_LIMITED",
+    "CAPACITY_LIMITED",
+    "CAPACITY_LIMITED",
+    "CAPACITY_LIMITED"
    ],
    "rulers": {
     "effective_years": {
@@ -1161,8 +1161,8 @@
      "unit": "years (exp of entropy over gross shares)",
      "phases": 5,
      "phases_read": 5,
-     "median": 4.623249,
-     "spread": 1.157004,
+     "median": 4.613693,
+     "spread": 1.252411,
      "side": "pass",
      "state": "PASS"
     },
@@ -1182,7 +1182,7 @@
    "phases": 5,
    "vol_target": 0.02,
    "money": {
-    "cagr_pct": 2.13,
+    "cagr_pct": 2.12,
     "sharpe": 0.812,
     "maxdd_pct": -3.39,
     "turnover": 0.28
@@ -1191,25 +1191,25 @@
     {
      "start": "2020-01-01",
      "years": 7,
-     "gate_verdict": "ADMIT",
+     "gate_verdict": "CAPACITY_LIMITED",
      "checks": {
       "Y1_positive_years_share": true,
       "Y2_median_positive": true,
       "Y3_worst_year": true,
       "Y4_top2_share": true,
-      "C1_capacity": true
+      "C1_capacity": false
      },
      "calibers": {
       "years": 7,
-      "net_sum_pct": 20.123842,
-      "gross_sum_pct": 20.123842,
-      "net_top2_share": 0.692421,
-      "gross_top2_share": 0.692421,
-      "effective_years": 4.552025,
+      "net_sum_pct": 20.068709,
+      "gross_sum_pct": 20.068709,
+      "net_top2_share": 0.694323,
+      "gross_top2_share": 0.694323,
+      "effective_years": 4.526546,
       "years_for_half": 2
      },
-     "cagr_pct": 2.97,
-     "sharpe": 1.137,
+     "cagr_pct": 2.96,
+     "sharpe": 1.134,
      "maxdd_pct": -2.73,
      "turnover": 0.28,
      "year_net_pct": {
@@ -1219,31 +1219,31 @@
       "2023": 1.4217,
       "2024": 4.4011,
       "2025": 9.533,
-      "2026": 0.6001
+      "2026": 0.5449
      }
     },
     {
      "start": "2020-01-08",
      "years": 7,
-     "gate_verdict": "CONDITIONAL",
+     "gate_verdict": "CAPACITY_LIMITED",
      "checks": {
       "Y1_positive_years_share": true,
       "Y2_median_positive": true,
       "Y3_worst_year": true,
       "Y4_top2_share": false,
-      "C1_capacity": true
+      "C1_capacity": false
      },
      "calibers": {
       "years": 7,
-      "net_sum_pct": 19.034573,
-      "gross_sum_pct": 21.739222,
-      "net_top2_share": 0.757067,
-      "gross_top2_share": 0.662878,
-      "effective_years": 4.594879,
+      "net_sum_pct": 19.082841,
+      "gross_sum_pct": 21.690954,
+      "net_top2_share": 0.755152,
+      "gross_top2_share": 0.664353,
+      "effective_years": 4.581919,
       "years_for_half": 2
      },
      "cagr_pct": 2.81,
-     "sharpe": 1.049,
+     "sharpe": 1.052,
      "maxdd_pct": -3.37,
      "turnover": 0.26,
      "year_net_pct": {
@@ -1253,31 +1253,31 @@
       "2023": 3.5894,
       "2024": 5.6128,
       "2025": 8.7976,
-      "2026": -1.3523
+      "2026": -1.3041
      }
     },
     {
      "start": "2020-01-15",
      "years": 7,
-     "gate_verdict": "CONDITIONAL",
+     "gate_verdict": "CAPACITY_LIMITED",
      "checks": {
       "Y1_positive_years_share": true,
       "Y2_median_positive": true,
       "Y3_worst_year": true,
       "Y4_top2_share": false,
-      "C1_capacity": true
+      "C1_capacity": false
      },
      "calibers": {
       "years": 7,
-      "net_sum_pct": 14.440088,
-      "gross_sum_pct": 21.488695,
-      "net_top2_share": 0.782107,
-      "gross_top2_share": 0.525564,
-      "effective_years": 5.709029,
+      "net_sum_pct": 14.316315,
+      "gross_sum_pct": 21.612469,
+      "net_top2_share": 0.788868,
+      "gross_top2_share": 0.522554,
+      "effective_years": 5.778957,
       "years_for_half": 2
      },
-     "cagr_pct": 2.13,
-     "sharpe": 0.747,
+     "cagr_pct": 2.12,
+     "sharpe": 0.74,
      "maxdd_pct": -4.22,
      "turnover": 0.29,
      "year_net_pct": {
@@ -1287,31 +1287,31 @@
       "2023": 1.2216,
       "2024": 5.4093,
       "2025": 5.8844,
-      "2026": -0.39
+      "2026": -0.5138
      }
     },
     {
      "start": "2020-01-22",
      "years": 7,
-     "gate_verdict": "CONDITIONAL",
+     "gate_verdict": "CAPACITY_LIMITED",
      "checks": {
       "Y1_positive_years_share": true,
       "Y2_median_positive": true,
       "Y3_worst_year": true,
       "Y4_top2_share": false,
-      "C1_capacity": true
+      "C1_capacity": false
      },
      "calibers": {
       "years": 7,
-      "net_sum_pct": 11.387269,
-      "gross_sum_pct": 14.529467,
-      "net_top2_share": 0.832783,
-      "gross_top2_share": 0.652682,
-      "effective_years": 4.623249,
+      "net_sum_pct": 11.41804,
+      "gross_sum_pct": 14.498696,
+      "net_top2_share": 0.830538,
+      "gross_top2_share": 0.654067,
+      "effective_years": 4.613693,
       "years_for_half": 2
      },
-     "cagr_pct": 1.69,
-     "sharpe": 0.607,
+     "cagr_pct": 1.7,
+     "sharpe": 0.608,
      "maxdd_pct": -3.39,
      "turnover": 0.28,
      "year_net_pct": {
@@ -1321,27 +1321,27 @@
       "2023": 0.0357,
       "2024": 1.118,
       "2025": 5.3039,
-      "2026": -1.1997
+      "2026": -1.1689
      }
     },
     {
      "start": "2020-01-29",
      "years": 7,
-     "gate_verdict": "CONDITIONAL",
+     "gate_verdict": "CAPACITY_LIMITED",
      "checks": {
       "Y1_positive_years_share": true,
       "Y2_median_positive": true,
       "Y3_worst_year": true,
       "Y4_top2_share": false,
-      "C1_capacity": true
+      "C1_capacity": false
      },
      "calibers": {
       "years": 7,
-      "net_sum_pct": 14.287434,
-      "gross_sum_pct": 19.309493,
-      "net_top2_share": 0.808493,
-      "gross_top2_share": 0.598218,
-      "effective_years": 5.261935,
+      "net_sum_pct": 14.290072,
+      "gross_sum_pct": 19.306855,
+      "net_top2_share": 0.808344,
+      "gross_top2_share": 0.5983,
+      "effective_years": 5.261232,
       "years_for_half": 1
      },
      "cagr_pct": 2.09,
@@ -1355,7 +1355,7 @@
       "2023": 2.2788,
       "2024": 1.0853,
       "2025": 8.2614,
-      "2026": -1.3822
+      "2026": -1.3795
      }
     }
    ]
@@ -1369,19 +1369,19 @@
    "arms_compared": 6,
    "pairs": 25,
    "unreadable_pairs": 0,
-   "max_abs_delta": 0.85295,
+   "max_abs_delta": 0.852892,
    "invariant": false,
    "median_by_arm": {
-    "unscaled": 4.654482,
-    "vt08": 4.995503,
-    "vt06": 4.874988,
-    "vt04": 4.603678,
-    "vt03": 4.570829,
-    "vt02": 4.623249
+    "unscaled": 4.643705,
+    "vt08": 4.986748,
+    "vt06": 4.865973,
+    "vt04": 4.594386,
+    "vt03": 4.561404,
+    "vt02": 4.613693
    },
-   "median_range": 0.424674,
+   "median_range": 0.425344,
    "arms_admitted": [],
-   "reason": "scaling does move this ruler (max |d| 0.85295) but the arm median moves 0.424674 and no arm admits: de-risking is not an admission lever here"
+   "reason": "scaling does move this ruler (max |d| 0.852892) but the arm median moves 0.425344 and no arm admits: de-risking is not an admission lever here"
   },
   "years_for_half": {
    "ruler": "years_for_half",
@@ -1405,5 +1405,5 @@
   }
  },
  "verdict_reading": "no arm clears it; the wait in r1428 is not a scaling artifact",
- "elapsed_sec": 102.1
+ "elapsed_sec": 109.9
 }

@@ -1,6 +1,6 @@
 # index-futures carry: what it is worth in risk units
 
-Generated 2026-11-17T18:31:27 · evidence cutoff 2026-11-17 · `scripts/idx_fut_carry_risk.py`
+Generated 2026-11-18T00:12:23 · evidence cutoff 2026-11-17 · `scripts/idx_fut_carry_risk.py`
 
 The roll book (hold the deepest-open-interest contract, switch at the same close) is the one `idx_fut_real_nav` publishes in rupees of carry per year. This page asks the only question that allocates money: at the desk's own 8% volatility target, does that carry buy anything the adopted book does not already buy, and does it move with it?
 
@@ -23,15 +23,15 @@ Which days count as roll days moves the annualised carry by more than this sleev
 
 | product | this face carry %/yr | threshold ruler %/yr | calendar ruler %/yr | rulers disagree by pp | roll days the threshold ruler misses |
 |---|---|---|---|---|---|
-| IC | 8.78 | 2.90 | 9.79 | 6.90 | 106 |
-| IF | 3.62 | 1.92 | 5.79 | 3.87 | 110 |
-| IM | 10.26 | 5.93 | 11.95 | 6.03 | 42 |
-| IH | 2.47 | 1.62 | 5.32 | 3.71 | 106 |
+| IC | 8.78 | 2.88 | 9.80 | 6.93 | 106 |
+| IF | 3.62 | 1.88 | 5.84 | 3.97 | 110 |
+| IM | 10.26 | 5.88 | 12.01 | 6.13 | 42 |
+| IH | 2.47 | 1.56 | 5.39 | 3.83 | 106 |
 
-- **IC**: the two published rulers disagree by 6.90 pp on the same window; a single carry figure inside that band is a caliber choice, not a measurement.
-- **IF**: the two published rulers disagree by 3.87 pp on the same window; a single carry figure inside that band is a caliber choice, not a measurement.
-- **IM**: the two published rulers disagree by 6.03 pp on the same window; a single carry figure inside that band is a caliber choice, not a measurement.
-- **IH**: the two published rulers disagree by 3.71 pp on the same window; a single carry figure inside that band is a caliber choice, not a measurement.
+- **IC**: the two published rulers disagree by 6.93 pp on the same window; a single carry figure inside that band is a caliber choice, not a measurement.
+- **IF**: the two published rulers disagree by 3.97 pp on the same window; a single carry figure inside that band is a caliber choice, not a measurement.
+- **IM**: the two published rulers disagree by 6.13 pp on the same window; a single carry figure inside that band is a caliber choice, not a measurement.
+- **IH**: the two published rulers disagree by 3.83 pp on the same window; a single carry figure inside that band is a caliber choice, not a measurement.
 
 ## at the desk's 8% volatility target
 
