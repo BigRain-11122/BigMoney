@@ -1,6 +1,6 @@
 # The card's headline trades one bar of the future
 
-`2026-11-17T20:05:42+0800` · evidence cutoff **2026-11-17** · 1522 symbols · 5282 bars
+`2026-11-17T22:06:31+0800` · evidence cutoff **2026-11-17** · 1522 symbols · 5282 bars
 
 ## Verdict
 

@@ -209,7 +209,7 @@
   "same_scale_as_ledger": true,
   "ledger_book_bar": "2026-11-11",
   "ledger_last_bar": "2026-11-17",
-  "ledger_last_nav": 1.0037812718,
+  "ledger_last_nav": 1.0037762754,
   "ledger_status": "live",
   "ledger_last_cash": 0.090616,
   "ledger_pending": null,
@@ -270,14 +270,15 @@
     "has_pending": false
    }
   },
-  "ledger_source": "K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\etf_book_forward\\LEDGER.json",
+  "ledger_source": "C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\results\\etf_book_forward\\LEDGER.json",
   "restatements_readable": true,
   "restatements_source": "restatements",
   "restated_bars": [
    "2026-10-29",
    "2026-11-03",
    "2026-11-12",
-   "2026-11-13"
+   "2026-11-13",
+   "2026-11-16"
   ],
   "restatements": [
    {
@@ -310,6 +311,14 @@
     "nav_published": 1.0108942788,
     "nav_settled": 1.0108993106,
     "delta": 5.0318e-06,
+    "reason": "published while the panel for that date was still gaining symbols"
+   },
+   {
+    "bar": "2026-11-16",
+    "ts": "2026-11-17T21:49:05+0800",
+    "nav_published": 1.006812175,
+    "nav_settled": 1.0068071635,
+    "delta": 5.0115e-06,
     "reason": "published while the panel for that date was still gaining symbols"
    }
   ],
@@ -470,28 +479,28 @@
  ],
  "live_width_ruler": {
   "state": "inside_disagreement",
-  "detail": "paired median +0.105pp inside a 1.980pp engine disagreement",
+  "detail": "paired median +0.070pp inside a 1.810pp engine disagreement",
   "sheet": "card",
   "sheet_role": "measured_card",
   "verdict": "COIN_FLIP_INSIDE_ENGINE_DISAGREEMENT",
   "published_verdict": "COIN_FLIP_INSIDE_ENGINE_DISAGREEMENT",
-  "gap_pp": 0.105,
-  "disagreement_pp": 1.98,
-  "share_of_disagreement": 0.053,
-  "resolution_pp": 0.792,
-  "gap_over_resolution": 0.133,
+  "gap_pp": 0.07,
+  "disagreement_pp": 1.81,
+  "share_of_disagreement": 0.0387,
+  "resolution_pp": 0.8,
+  "gap_over_resolution": 0.087,
   "below_own_resolution": true,
   "power_target": 0.8,
-  "paired_sd_pp": 1.264,
-  "atlas_rung_pp": 0.45,
+  "paired_sd_pp": 1.277,
+  "atlas_rung_pp": 0.28,
   "capacity_rung_pp": -1.53,
   "sign_flips": true,
   "sign_agreement": 0.5,
   "pairs": 20,
   "positive_phases": 10,
-  "min_pp": -1.94,
-  "max_pp": 2.9,
-  "spread_pp": 4.84,
+  "min_pp": -2.0,
+  "max_pp": 2.87,
+  "spread_pp": 4.87,
   "widths": {
    "ticket": {
     "live_n_hold": 5,
@@ -506,21 +515,21 @@
     "priced_rule": "vol_target"
    }
   },
-  "age_days": 1,
-  "evidence_cutoff": "2026-11-16",
+  "age_days": 0,
+  "evidence_cutoff": "2026-11-17",
   "asof": "2026-11-17",
   "source": "results/etf_book_live_width_ruler.json"
  },
  "family_coherence": {
   "artifact": "results/etf_book_phase_atlas_arms.json",
   "verdict": "ONE_WORLD",
-  "detail": "all 11 faces priced 0988c6530a481fa1",
+  "detail": "all 11 faces priced 0d5a9cdcf2beffd5",
   "panels": [
-   "0988c6530a481fa1"
+   "0d5a9cdcf2beffd5"
   ],
   "arms": 10,
-  "evidence_cutoff": "2026-11-16",
-  "priced_bar": "2026-11-16",
+  "evidence_cutoff": "2026-11-17",
+  "priced_bar": "2026-11-17",
   "pricing": {
    "mode": "engine",
    "reprices_bar": true,
@@ -532,7 +541,7 @@
   },
   "panels_detail": [
    {
-    "digest": "0988c6530a481fa1",
+    "digest": "0d5a9cdcf2beffd5",
     "faces": [
      "baseline",
      "buffer_k02",
@@ -546,9 +555,9 @@
      "cost20",
      "cost40"
     ],
-    "last": "2026-11-16",
-    "bars": 5281,
-    "columns": 1630,
+    "last": "2026-11-17",
+    "bars": 5282,
+    "columns": 1631,
     "bars_fewer_than_newest": 0
    }
   ],
@@ -602,7 +611,7 @@
     },
     {
      "arm": "buffer_k40",
-     "verdict": "REJECT",
+     "verdict": "NOT-SEPARABLE",
      "readable": true,
      "description": "buffer k=0.40 on every cell (8x the r1325 arm -- the far end, where a real buffer finally has to hurt)"
     },
@@ -642,27 +651,25 @@
    "trials": 20000,
    "label": "REJECT_IS_THE_DEFAULT",
    "evidence_cutoff": "2026-11-16",
-   "bar_now": "2026-11-16"
+   "bar_now": "2026-11-17"
   },
   "signflip": {
    "artifact": "results/etf_book_arms_signflip.json",
    "status": "ok",
-   "detail": "2 of 5 published REJECTs stand on their own cells (cost20, cost40); the rest are inside sign noise and must not be read as findings",
-   "n_reject": 5,
+   "detail": "2 of 4 published REJECTs stand on their own cells (cost20, cost40); the rest are inside sign noise and must not be read as findings",
+   "n_reject": 4,
    "n_reject_standing": 2,
    "standing": [
     "cost20",
     "cost40"
    ],
    "overturned": [
-    "buffer_k05",
     "buffer_k05_cost20",
     "buffer_k40",
     "cost0",
     "cost05"
    ],
    "overstated": [
-    "buffer_k05",
     "buffer_k05_cost20",
     "buffer_k40"
    ],
@@ -676,11 +683,11 @@
      "frozen_label": "NOT-SEPARABLE",
      "verdict": "NOT-SEPARABLE",
      "sign_cells": 12,
-     "cells_positive": 5
+     "cells_positive": 6
     },
     {
      "arm": "buffer_k05",
-     "frozen_label": "REJECT",
+     "frozen_label": "NOT-SEPARABLE",
      "verdict": "NOT-SEPARABLE",
      "sign_cells": 12,
      "cells_positive": 6
@@ -744,12 +751,27 @@
    ],
    "verdict": "SOME_REJECTS_STAND",
    "evidence_cutoff": "2026-11-16",
-   "bar_now": "2026-11-16"
+   "bar_now": "2026-11-17"
   },
   "receipt": {
-   "present": null,
-   "detail": "receipt reader failed (module 'etf_book_atlas_arms_rebuild' has no attribute 'receipt_state')",
-   "stale": null
+   "present": true,
+   "stale": false,
+   "group": "all",
+   "group_arms": 11,
+   "group_verdict": "ONE_WORLD",
+   "world": "0d5a9cdcf2beffd5",
+   "world_now": "0d5a9cdcf2beffd5",
+   "bar": "2026-11-17",
+   "covers_family": true,
+   "family": {
+    "stale_arms": [],
+    "total": 11
+   },
+   "detail": "the last refresh (2026-11-17T21:10:24+0800) rebuilt nothing -- the family was already on world 0d5a9cdc (bar 2026-11-17)",
+   "artifact": "results/etf_book_atlas_arms_rebuild.json",
+   "generated": "2026-11-17T21:10:24+0800",
+   "elapsed_sec": 0.0,
+   "rebuilt": []
   },
   "floor_extrapolation": {
    "artifact": "results/etf_book_buffer_floor_readback.json",

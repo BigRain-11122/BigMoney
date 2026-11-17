@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-17 20:20:59",
+ "ts": "2026-11-17 21:56:54",
  "evidence_cutoff": "2026-11-17",
  "feed_status": {
   "ticket_bar": "2026-11-17",
@@ -32,15 +32,14 @@
  },
  "family_coherence": {
   "artifact": "results/etf_book_phase_atlas_arms.json",
-  "verdict": "MIXED_WORLDS",
-  "detail": "11 faces priced 2 different panels (0988c653, 0d5a9cdc): per-cell deltas across worlds are world differences, not rule effects",
+  "verdict": "ONE_WORLD",
+  "detail": "all 11 faces priced 0d5a9cdcf2beffd5",
   "panels": [
-   "0988c6530a481fa1",
    "0d5a9cdcf2beffd5"
   ],
   "arms": 10,
-  "evidence_cutoff": "2026-11-16",
-  "priced_bar": "2026-11-16",
+  "evidence_cutoff": "2026-11-17",
+  "priced_bar": "2026-11-17",
   "pricing": {
    "mode": "engine",
    "reprices_bar": true,
@@ -54,18 +53,9 @@
    {
     "digest": "0d5a9cdcf2beffd5",
     "faces": [
-     "buffer_k02",
-     "buffer_k05"
-    ],
-    "last": "2026-11-17",
-    "bars": 5282,
-    "columns": 1631,
-    "bars_fewer_than_newest": 0
-   },
-   {
-    "digest": "0988c6530a481fa1",
-    "faces": [
      "baseline",
+     "buffer_k02",
+     "buffer_k05",
      "buffer_k05_cost20",
      "buffer_k10",
      "buffer_k20",
@@ -75,14 +65,16 @@
      "cost20",
      "cost40"
     ],
-    "last": "2026-11-16",
-    "bars": 5281,
-    "columns": 1630,
-    "bars_fewer_than_newest": 1
+    "last": "2026-11-17",
+    "bars": 5282,
+    "columns": 1631,
+    "bars_fewer_than_newest": 0
    }
   ],
-  "priced_same_panel": false,
+  "priced_same_panel": true,
   "comparable": [
+   "buffer_k02",
+   "buffer_k05",
    "buffer_k05_cost20",
    "buffer_k10",
    "buffer_k20",
@@ -92,27 +84,21 @@
    "cost20",
    "cost40"
   ],
-  "withheld": [
-   "buffer_k02",
-   "buffer_k05"
-  ],
+  "withheld": [],
   "cost_axis": {
-   "readable": false,
-   "withheld": [
-    "buffer_k02",
-    "buffer_k05"
-   ],
+   "readable": true,
+   "withheld": [],
    "arms": [
     {
      "arm": "buffer_k02",
-     "verdict": "WORLDS_NOT_COMPARABLE",
-     "readable": false,
+     "verdict": "NOT-SEPARABLE",
+     "readable": true,
      "description": "buffer k=0.02 on every cell (the near-zero end -- a knob that reads the same at 0.02 and at 0.20 is flat, not merely small)"
     },
     {
      "arm": "buffer_k05",
-     "verdict": "WORLDS_NOT_COMPARABLE",
-     "readable": false,
+     "verdict": "REJECT",
+     "readable": true,
      "description": "buffer k=0.05 on every cell (the r1325 arm, re-priced per phase)"
     },
     {
@@ -135,7 +121,7 @@
     },
     {
      "arm": "buffer_k40",
-     "verdict": "REJECT",
+     "verdict": "NOT-SEPARABLE",
      "readable": true,
      "description": "buffer k=0.40 on every cell (8x the r1325 arm -- the far end, where a real buffer finally has to hurt)"
     },
@@ -175,7 +161,7 @@
    "trials": 20000,
    "label": "REJECT_IS_THE_DEFAULT",
    "evidence_cutoff": "2026-11-16",
-   "bar_now": "2026-11-16"
+   "bar_now": "2026-11-17"
   },
   "signflip": {
    "artifact": "results/etf_book_arms_signflip.json",
@@ -275,12 +261,27 @@
    ],
    "verdict": "SOME_REJECTS_STAND",
    "evidence_cutoff": "2026-11-16",
-   "bar_now": "2026-11-16"
+   "bar_now": "2026-11-17"
   },
   "receipt": {
-   "present": null,
-   "detail": "receipt reader failed (module 'etf_book_atlas_arms_rebuild' has no attribute 'receipt_state')",
-   "stale": null
+   "present": true,
+   "stale": false,
+   "group": "all",
+   "group_arms": 11,
+   "group_verdict": "ONE_WORLD",
+   "world": "0d5a9cdcf2beffd5",
+   "world_now": "0d5a9cdcf2beffd5",
+   "bar": "2026-11-17",
+   "covers_family": true,
+   "family": {
+    "stale_arms": [],
+    "total": 11
+   },
+   "detail": "the last refresh (2026-11-17T21:10:24+0800) rebuilt nothing -- the family was already on world 0d5a9cdc (bar 2026-11-17)",
+   "artifact": "results/etf_book_atlas_arms_rebuild.json",
+   "generated": "2026-11-17T21:10:24+0800",
+   "elapsed_sec": 0.0,
+   "rebuilt": []
   },
   "floor_extrapolation": {
    "artifact": "results/etf_book_buffer_floor_readback.json",

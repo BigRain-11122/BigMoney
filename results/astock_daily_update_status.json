@@ -1,36 +1,36 @@
 {
-  "ts": "2026-11-17T18:35:36",
-  "mode": "refresh in progress (lock alive)",
+  "ts": "2026-11-17T21:48:36",
+  "mode": "refresh in progress (todo=5222/5226, quarantined=4, settled=0)",
   "panel": {
     "complete": false,
     "cutoff": "2026-11-17",
     "cutoff_is": "max tail across all per/*.csv -- read coverage_pct/coverage_90 before calling the panel current",
-    "coverage_pct": 22.3,
-    "coverage_90": "2026-11-16",
+    "coverage_pct": 29.8,
+    "coverage_90": "2026-11-06",
     "coverage_floor_pct": 90,
     "dates_tail": [
       [
-        "2026-11-17",
-        1162
-      ],
-      [
         "2026-11-16",
-        4048
-      ],
-      [
-        "2026-11-13",
-        5
+        1556
       ],
       [
         "2026-11-12",
         1
       ],
       [
-        "2026-11-11",
+        "2026-11-10",
+        2725
+      ],
+      [
+        "2026-11-06",
+        937
+      ],
+      [
+        "2026-10-28",
         1
       ],
       [
-        "2026-11-09",
+        "2026-10-12",
         1
       ]
     ],
@@ -78,10 +78,10 @@
     "repull": false
   },
   "quarantined_n": 11,
-  "last_spawn_attempt": "2026-11-17T16:12:32",
+  "last_spawn_attempt": "2026-11-17T21:48:32",
   "settled_n": 0,
   "settled": [],
-  "per_files_on_disk": 5221,
+  "per_files_on_disk": 5222,
   "validation": {
     "suspended_rows": 3,
     "bracket_tolerated_rows": 1,
@@ -89,21 +89,21 @@
   },
   "takeover": {
     "owner": "bm-b",
-    "by": "bm-c",
-    "reason": "owner bm-b silent 437.9h >= 120min",
-    "ts": "2026-11-17T18:35:36"
+    "by": "bm-a",
+    "reason": "owner bm-b silent 441.1h >= 120min",
+    "ts": "2026-11-17T21:48:32"
   },
   "authority": {
     "lane_owner": "bm-b",
-    "writer_machine": "bm-c",
-    "data_face_machine": "bm-c",
+    "writer_machine": "bm-a",
+    "data_face_machine": "bm-a",
     "declared_takeover": true,
-    "took_over_by": "bm-c",
-    "took_over_at": "2026-11-17T18:35:36",
-    "reason": "owner bm-b silent 437.9h >= 120min"
+    "took_over_by": "bm-a",
+    "took_over_at": "2026-11-17T21:48:32",
+    "reason": "owner bm-b silent 441.1h >= 120min"
   },
-  "machine": "bm-c",
-  "spawn_reason": "refresh in progress: panel incomplete at cutoff 2026-11-17 (coverage 22.3%, 90% date 2026-11-16)",
+  "machine": "bm-a",
+  "spawn_reason": "panel incomplete at cutoff 2026-11-17 (coverage 29.8%, expected 2026-11-17) -> continuation refresh, not a first pull",
   "spawn_mode": "continuation",
   "quarantined": [
     "000005",

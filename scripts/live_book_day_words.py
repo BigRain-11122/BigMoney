@@ -319,24 +319,34 @@ def census(doc, artifact=None, printed=_UNMEASURED):
             ret["n_anchored"] += 1
         ret["rows"].append(row)
     pr = ret["printed"]
+    dc = ret.get("date_claims") or {}
+    # r1302: the printed-date audit used to live only inside the "no section day word"
+    # branch, so a page that GREW anchored sections stopped being audited at all -- the
+    # improvement laundered the debt. The published page did exactly that on 2026-11-17:
+    # ten sections carried an anchored day word, so this face said ANCHORED while a printed
+    # line read 「今天的 1.26%（2026-11-13 报价）」 against `cash_yield.rate_date` = 2026-11-17.
+    # Two findings, kept apart: a printed date that contradicts its own field is VERIFIED
+    # WRONG and outranks anchoring; leftover date debts (undated / unmapped / unverifiable)
+    # do not borrow the clean names either, but they are not that same red.
+    _mismatch = bool(dc.get("n_mismatch"))
+    _owed = bool(dc.get("n_unmapped") or dc.get("n_unverifiable") or pr.get("n_undated"))
     if ret["offenders"]:
         ret["verdict"] = "DAY_WORD_ON_ANOTHER_DAY"
     elif pr["state"] == "unreadable":
         ret["verdict"] = "UNVERIFIED_PRINTED_FACE"
+    elif pr["state"] == "ok" and pr["n_lines"] and _mismatch:
+        ret["verdict"] = "PRINTED_DATE_MISMATCH"
     elif pr["state"] == "ok" and pr["n_lines"] and not ret["n_with_day_word"]:
         # r1670: "N printed lines say 今天 and the reader cannot date them" and "every printed
         # line carries its own date" are two different debts, and both stay red -- nothing in
         # this face checks that a printed date is the RIGHT date. Splitting the name is what
         # lets the reader tell "still owed" from "paid, not yet audited".
-        # r1671: the audit is what this branch now also carries. A printed date that names a
-        # day its own field does not is a mismatch and is named with both dates; a date no
-        # rule claims, or one whose field is missing, keeps the page on the self-dated name --
-        # "I could not check it" never graduates to green.
-        dc = ret["date_claims"]
-        if dc.get("n_mismatch"):
-            ret["verdict"] = "PRINTED_DATE_MISMATCH"
-        elif (dc.get("n_claims") and not dc.get("n_unmapped") and not pr.get("n_undated")
-              and not dc.get("n_unverifiable") and dc.get("n_ok") == dc.get("n_claims")):
+        # r1671: the audit is what this branch now also carries -- a date no rule claims, or
+        # one whose field is missing, keeps the page on the self-dated name, because "I could
+        # not check it" never graduates to green. (The mismatch arm moved above in r1302 so
+        # that anchoring cannot hide it.)
+        if (dc.get("n_claims") and not dc.get("n_unmapped") and not pr.get("n_undated")
+                and not dc.get("n_unverifiable") and dc.get("n_ok") == dc.get("n_claims")):
             ret["verdict"] = "PRINTED_DATES_AGREE"
         elif pr.get("n_undated") == 0 and pr.get("n_self_dated"):
             ret["verdict"] = "PRINTED_SELF_DATED"
@@ -344,8 +354,10 @@ def census(doc, artifact=None, printed=_UNMEASURED):
             ret["verdict"] = "PRINTED_BUT_UNANCHORED"
     elif ret["n_unverifiable"]:
         ret["verdict"] = "DAY_WORD_WITHOUT_A_BAR"
-    elif not ret["n_with_day_word"] and pr["state"] == "ok" and not pr["n_lines"]:
-        ret["verdict"] = "NO_DAY_WORDS"
+    elif pr["state"] == "ok" and pr["n_lines"] and _owed:
+        # Anchored sections, but the paper still owes dates: the structured half being clean
+        # is not a claim about the printed one (r1670), so the clean names stay unavailable.
+        ret["verdict"] = "PRINTED_BUT_UNANCHORED"
     elif not ret["n_with_day_word"]:
         ret["verdict"] = "NO_DAY_WORDS"
     else:
@@ -388,10 +400,16 @@ def sentence(c):
                 "、".join("「%s」里的一句 `%s`" % (r["heading"], r["line"][:40])
                          for r in _u[:4]),
                 "…" if len(_u) > 4 else "")
+        # r1302: this name is also reached when the sections ARE anchored and only the paper
+        # owes dates, so the structured half has to be described as it really is.
+        _sec = ("结构面里 %d 节，日词 0 节" % c["n_sections"]
+                if not c["n_with_day_word"]
+                else "结构面里 %d 节，其中 %d 节的日词落在页面自己那天上"
+                     % (c["n_sections"], c["n_anchored"]))
         return ("**页面自己用的「今天/今日」有 %d 行，坐在 %d 个小节里；这一面核不到它们算哪一天**"
-                "（结构面里 %d 节，日词 0 节）。%s。自带日期只说明句子诚实，不说明那个日期是对的。"
+                "（%s）。%s。自带日期只说明句子诚实，不说明那个日期是对的。"
                 "所以这不是「没有日词」，是「有，且没人能给它定日」。"
-                % (pr["n_lines"], pr["n_headings"], c["n_sections"], _split))
+                % (pr["n_lines"], pr["n_headings"], _sec, _split))
     if c["verdict"] == "UNVERIFIED_PRINTED_FACE":
         return ("页面件读得出来（%d 节），但**印出来的那张纸读不到**——"
                 "「没核到」不是「没有」。"

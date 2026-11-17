@@ -1,15 +1,15 @@
 {
   "book": {
-    "bars": 1589,
+    "bars": 1662,
     "first": "2020-01-06",
     "last": "2026-11-17",
     "series": "results\\etf_book_series\\NAV-2026-11-17.json"
   },
   "bootstrap": {
     "beta_draws_ci": {
-      "hi": 0.128571013910639,
-      "lo": 0.02957628326523398,
-      "median": 0.0729772642168877,
+      "hi": 0.12141085774197061,
+      "lo": 0.028278305639498662,
+      "median": 0.06933653140952717,
       "n": 2000
     },
     "block_bars": 21,
@@ -22,12 +22,12 @@
     "unit": "bar pairs (book return, IH return)"
   },
   "deepest_tail": "ih_le_-2",
-  "elapsed_sec": 11.4,
+  "elapsed_sec": 10.8,
   "evidence_cutoff": "2026-11-17",
-  "generated": "2026-11-17T20:06:18",
+  "generated": "2026-11-17T21:43:58",
   "index": {
     "product": "IH",
-    "splice_days_dropped": 85
+    "splice_days_dropped": 1
   },
   "kind": "etf_book_ih_tail_ci",
   "not_measured": [
@@ -37,31 +37,31 @@
     "this is arithmetic on published series, not a broker fill record"
   ],
   "perf_at_1beta": {
-    "base_sharpe": 0.9523274830681303,
-    "dmaxdd": -0.0005485315943003499,
+    "base_sharpe": 0.9521533112142327,
+    "dmaxdd": 0.015453866010586514,
     "dmaxdd_ci": {
-      "hi": 0.029539214942005974,
-      "lo": -0.005849593471753645,
-      "median": 0.0076262170329732815,
+      "hi": 0.030047849686331136,
+      "lo": -0.0009323774032403587,
+      "median": 0.009447378498512515,
       "n": 2000
     },
-    "dsharpe": -0.020536000001067034,
+    "dsharpe": 0.005735999804863057,
     "dsharpe_ci": {
-      "hi": 0.0719002244924948,
-      "lo": -0.0964202006837476,
-      "median": -0.015905479347439633,
+      "hi": 0.09446056903527693,
+      "lo": -0.06366444689345857,
+      "median": 0.006472996749656235,
       "n": 2000
     },
-    "dvol": -0.0010122922788117772,
+    "dvol": -0.0009457028960696418,
     "dvol_ci": {
-      "hi": -0.0001628046571166616,
-      "lo": -0.0029230232764141085,
-      "median": -0.0009604356802863506,
+      "hi": -0.00014728560383043618,
+      "lo": -0.002645163913261698,
+      "median": -0.0008859598125666862,
       "n": 2000
     },
-    "full_sharpe": 0.9317914830670633,
+    "full_sharpe": 0.9578893110190958,
     "k": 1.0,
-    "share_dsharpe_positive": 0.3545
+    "share_dsharpe_positive": 0.57
   },
   "reading_rules": {
     "R1": "sampling interval conditional on this window's tail days, not a regime claim",
@@ -72,44 +72,44 @@
   },
   "tail": {
     "ih_le_-1": {
-      "beta": 0.317850738141136,
+      "beta": 0.31054795423509307,
       "beta_ci": {
-        "hi": 0.5228065393683683,
-        "lo": 0.016716114401564827,
-        "median": 0.3051319528856816,
+        "hi": 0.504212927311589,
+        "lo": 0.02428582744823273,
+        "median": 0.2964809713725482,
         "n": 2000
       },
-      "corr": 0.4287098034231727,
+      "corr": 0.4190190204867408,
       "cut": -0.01,
-      "median_tail_days": 235.0,
-      "n": 235,
-      "share_above_uncond": 0.9015,
-      "share_above_zero": 0.9655
+      "median_tail_days": 254.0,
+      "n": 254,
+      "share_above_uncond": 0.8985,
+      "share_above_zero": 0.972
     },
     "ih_le_-2": {
-      "beta": 0.6126419583867959,
+      "beta": 0.6115545672996576,
       "beta_ci": {
-        "hi": 0.8405742148706478,
-        "lo": 0.13021062460324065,
-        "median": 0.6023774991636272,
+        "hi": 0.8343491781619469,
+        "lo": 0.12672451800387655,
+        "median": 0.598590136893167,
         "n": 2000
       },
-      "corr": 0.752018480779259,
+      "corr": 0.7528530636112462,
       "cut": -0.02,
-      "median_tail_days": 52.0,
-      "n": 52,
-      "share_above_uncond": 0.9695,
-      "share_above_zero": 0.985
+      "median_tail_days": 56.0,
+      "n": 57,
+      "share_above_uncond": 0.968,
+      "share_above_zero": 0.987
     }
   },
   "unconditional": {
-    "bars": 1589,
-    "beta": 0.07458300567364223,
-    "corr": 0.1415643988218339
+    "bars": 1662,
+    "beta": 0.07185718963947142,
+    "corr": 0.1373365917783091
   },
   "verdict": {
     "hedge": "HEDGE_NOT_MEASURABLE",
-    "sentence": "尾部 beta 0.613 建在 52 天上，90% 的抽样区间是 [0.130, 0.841]；按 beta 精确对冲的夏普变化 -0.021，区间 [-0.096, +0.072]。",
+    "sentence": "尾部 beta 0.612 建在 57 天上，90% 的抽样区间是 [0.127, 0.834]；按 beta 精确对冲的夏普变化 0.006，区间 [-0.064, +0.094]。",
     "tail": "TAIL_BETA_IS_REAL"
   }
 }

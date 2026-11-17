@@ -1,6 +1,6 @@
 {
  "face": "etf_book_calendar_distance",
- "asof": "2026-11-17T00:29:16+08:00",
+ "asof": "2026-11-17T22:32:38+08:00",
  "evidence_cutoff": "2026",
  "question": "how far is each refused supply candidate from passing its own calendar?",
  "rule": {
@@ -21,56 +21,50 @@
  "sources": {
   "supply": {
    "path": "results/supply_calendar.json",
-   "sha16": "5d409ded04332e14"
+   "sha16": "f13fd2115b03dea2"
   },
   "year_gate": {
    "path": "results/etf_book_year_gate/YEAR-GATE.json",
-   "sha16": "b42d81e660ec6581"
+   "sha16": "1c0692b1ddb62965"
   },
   "candidates": {
    "path": "results/admission/CANDIDATES.json",
-   "sha16": "8b1707e8346b9444"
+   "sha16": "3ce4390df7d5e49f"
   }
  },
  "candidates": [
   {
-   "state": "FINITE_DISTANCE",
-   "verdict_now": "CONDITIONAL",
+   "state": "CAPACITY_LIMITED",
+   "verdict_now": "CAPACITY_LIMITED",
    "checks_now": {
     "Y1_positive_years_share": true,
     "Y2_median_positive": true,
     "Y3_worst_year": true,
     "Y4_top2_share": false,
-    "C1_capacity": true
+    "C1_capacity": false
    },
    "metrics_now": {
     "years": 7,
     "positive_years": 7,
     "median": 5.6072,
-    "worst": 2.1656,
+    "worst": 1.9416,
     "best": 43.0627,
-    "annual_sum": 81.3254,
-    "top2_share": 0.7084,
+    "annual_sum": 81.1015,
+    "top2_share": 0.7104,
     "worst_full_only": 2.8393,
     "top2_share_full_only": 0.7278
    },
-   "partial_year": "2026",
-   "partial_now_pct": 2.1656,
-   "cohorts": 3,
-   "cohorts_booked": 3,
-   "cohorts_left": 1,
-   "flip_min_pct": 3.14,
-   "distance_pp": 0.9744,
-   "hurdle_pct": 0.9538,
-   "note": "the remaining cohorts of this year must return hurdle_pct to end it at flip_min_pct and pass every calendar check",
+   "note": "capacity is not a calendar check; nothing here can flip it",
+   "flip_min_pct": null,
+   "hurdle_pct": null,
    "candidate": "nobond_vt08_adopted",
-   "supply_state": "CONDITIONAL",
+   "supply_state": "UNADJUDICABLE_PHASE",
    "supply_pass": false,
-   "supply_median_top2": 0.8012,
+   "supply_median_top2": 0.7992,
    "supply_phases": 5,
    "supply_receipt": "results/etf_book_phase_gate.json",
    "yearly_receipt": "results/etf_book_year_gate/YEAR-GATE.json",
-   "capacity_cny": 27645948.0,
+   "capacity_cny": 18582410.0,
    "years": [
     {
      "year": "2020",
@@ -104,7 +98,7 @@
     },
     {
      "year": "2026",
-     "net_pct": 2.1656,
+     "net_pct": 1.9416,
      "cohorts": 3
     }
    ],
@@ -126,13 +120,13 @@
     "median": 9.3091,
     "worst": 2.3313,
     "best": 53.7327,
-    "annual_sum": 110.7097,
-    "top2_share": 0.6858,
+    "annual_sum": 110.4368,
+    "top2_share": 0.6875,
     "worst_full_only": 2.3313,
     "top2_share_full_only": 0.7176
    },
    "partial_year": "2026",
-   "partial_now_pct": 4.9057,
+   "partial_now_pct": 4.6327,
    "cohorts": 3,
    "flip_min_pct": null,
    "distance_pp": null,
@@ -141,7 +135,7 @@
    "candidate": "nobond_base",
    "supply_state": "UNADJUDICABLE_PHASE",
    "supply_pass": false,
-   "supply_median_top2": 0.827,
+   "supply_median_top2": 0.8307,
    "supply_phases": 5,
    "supply_receipt": "results/etf_book_phase_gate.json",
    "yearly_receipt": "results/etf_book_year_gate/YEAR-GATE.json",
@@ -179,7 +173,7 @@
     },
     {
      "year": "2026",
-     "net_pct": 4.9057,
+     "net_pct": 4.6327,
      "cohorts": 3
     }
    ],
@@ -272,14 +266,14 @@
  ],
  "summary": {
   "verdict": "WAIT_ON_A_WATCHABLE_NUMBER",
-  "sentence": "nobond_vt08_adopted is 0.97pp of 2026 return away from ADMIT; the remaining 1 cohort(s) must return 0.95%",
+  "sentence": "all_classes_published is 7.20pp of 2026 return away from ADMIT; the remaining 1 cohort(s) must return 7.15%",
   "n_candidates": 4,
-  "n_finite": 2,
+  "n_finite": 1,
   "n_unreachable": 0,
   "n_admit_now": 0,
   "n_readings_disagree": 1,
-  "nearest": "nobond_vt08_adopted",
-  "nearest_distance_pp": 0.9744
+  "nearest": "all_classes_published",
+  "nearest_distance_pp": 7.2
  },
  "honest": [
   "no book is re-priced here: every yearly row is copied from a published receipt",
@@ -287,5 +281,5 @@
   "a finite distance is not a forecast: it says what the current year must deliver for the calendar gate to pass, not what it will deliver",
   "distance is measured on the return of one year; a book can also be re-cut, and that path is not priced here"
  ],
- "elapsed_sec": 0.2
+ "elapsed_sec": 0.1
 }

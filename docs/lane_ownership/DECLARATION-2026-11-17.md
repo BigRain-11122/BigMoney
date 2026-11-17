@@ -1,4 +1,4 @@
-# Lane ownership declaration (2026-11-17T19:54:34)
+# Lane ownership declaration (2026-11-17T21:41:28)
 
 > derived by `scripts/lane_ownership_declaration.py` from `results/data_lane_freshness.json`,
 > `config/lane_hosts.json` and the `owner` defaults inside `data_lane_freshness.LANES`.
@@ -9,21 +9,21 @@
 
 | lane | declared host | authority | code default | observed writer | host alive | verdict |
 |---|---|---|---|---|---|---|
-| options | bm-c | config/lane_hosts.json | bm-a | none (unattributed) | yes | **DECLARED_ONLY** |
-| ths_panel | bm-c | config/lane_hosts.json | - | none (unattributed) | yes | **DECLARED_ONLY** |
-| sina_mf | bm-c | config/lane_hosts.json | - | bm-c | yes | **DECLARED_AND_OBSERVED** |
+| options | bm-c | config/lane_hosts.json | bm-a | none (unattributed) | no | **DECLARED_ONLY** |
+| ths_panel | bm-c | config/lane_hosts.json | - | none (unattributed) | no | **DECLARED_ONLY** |
+| sina_mf | bm-c | config/lane_hosts.json | - | bm-c | no | **DECLARED_AND_OBSERVED** |
 | marks | bm-b | data_lane_freshness.LANES | bm-b | bm-c | no | **DECLARED_TAKEOVER** |
+| lhb_inst | bm-c | config/lane_hosts.json | bm-c | bm-c | no | **DECLARED_AND_OBSERVED** |
+| ah_panel | bm-c | config/lane_hosts.json | - | none (non_host_copy) | no | **DECLARED_ONLY** |
+| minute_feed | bm-c | config/lane_hosts.json | - | none (non_host_copy) | no | **DECLARED_ONLY** |
+| astock_daily | bm-b | data_lane_freshness.LANES | bm-b | bm-c | no | **DECLARED_TAKEOVER** |
+| etf_panel | bm-c | config/lane_hosts.json | bm-a | bm-a | no | **STALE_ENVELOPE** |
+| futures | bm-a | data_lane_freshness.LANES | bm-a | bm-a | yes | **DECLARED_AND_OBSERVED** |
 | heat | bm-a | config/lane_hosts.json | bm-a | bm-a | yes | **DECLARED_AND_OBSERVED** |
 | lhb | bm-a | data_lane_freshness.LANES | bm-a | bm-a | yes | **DECLARED_AND_OBSERVED** |
-| lhb_inst | bm-c | config/lane_hosts.json | bm-c | bm-c | yes | **DECLARED_AND_OBSERVED** |
-| repo | bm-a | config/lane_hosts.json | bm-a | bm-c | yes | **DECLARED_TAKEOVER** |
-| ah_panel | bm-c | config/lane_hosts.json | - | none (non_host_copy) | yes | **DECLARED_ONLY** |
-| futures | bm-a | data_lane_freshness.LANES | bm-a | bm-a | yes | **DECLARED_AND_OBSERVED** |
-| minute_feed | bm-c | config/lane_hosts.json | - | none (non_host_copy) | yes | **DECLARED_ONLY** |
-| astock_daily | bm-b | data_lane_freshness.LANES | bm-b | bm-c | no | **DECLARED_TAKEOVER** |
-| etf_panel | bm-c | config/lane_hosts.json | bm-a | bm-a | yes | **STALE_ENVELOPE** |
-| moneyflow | bm-c | config/lane_hosts.json | bm-a | bm-c | yes | **DECLARED_AND_OBSERVED** |
-| zt_pool | bm-c | config/lane_hosts.json | bm-a | none (non_host_copy) | yes | **DECLARED_ONLY** |
+| moneyflow | bm-c | config/lane_hosts.json | bm-a | bm-c | no | **DECLARED_AND_OBSERVED** |
+| repo | bm-a | config/lane_hosts.json | bm-a | bm-a | yes | **DECLARED_AND_OBSERVED** |
+| zt_pool | bm-c | config/lane_hosts.json | bm-a | none (non_host_copy) | no | **DECLARED_ONLY** |
 
 ## Where the two sources disagree
 
@@ -35,5 +35,5 @@ Declared on a host that has not produced an envelope this machine can read: opti
 
 ## Owned, currently served by a declared stand-in
 
-astock_daily (by bm-c), marks (by bm-c), repo (by bm-c) -- the owner is unchanged and the envelope names both the owner and the stand-in, so this is a standby rule in force, not two writers. The 2026-11-08 enable decision should check whether the owner has come back before re-enabling anything that would run on both.
+astock_daily (by bm-c), marks (by bm-c) -- the owner is unchanged and the envelope names both the owner and the stand-in, so this is a standby rule in force, not two writers. The 2026-11-08 enable decision should check whether the owner has come back before re-enabling anything that would run on both.
 

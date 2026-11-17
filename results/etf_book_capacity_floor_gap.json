@@ -1,0 +1,77 @@
+{
+ "best_capacity_5pct_cny": 13794151.0,
+ "best_reading": "priced_envelope_R20",
+ "best_share_of_floor": 0.689708,
+ "floor_cny": 20000000.0,
+ "floor_owner": "scripts/candidate_year_gate.py::CAPACITY_FLOOR_CNY",
+ "gap_to_floor_cny": 6205849.0,
+ "generated": "2026-11-18T00:16:05+0800",
+ "method_note": "aggregation only -- every capacity number is copied from the receipt named beside it, and readings from different engines are labelled, never averaged",
+ "question": "C1_capacity fails in every phase -- how far below the floor is the ceiling, and what would close the gap?",
+ "readings": [
+  {
+   "cagr_5pct": 6.49,
+   "capacity_1pct": 1529426.2,
+   "capacity_2pct": 3058852.3,
+   "capacity_5pct": 7647130.8,
+   "engine": "scripts/etf_book_capacity_rule.py",
+   "evidence_cutoff": "2026-11-17",
+   "maxdd_5pct": -13.39,
+   "reading": "adopted_5name_rule",
+   "units": "CNY deployable at the stated participation cap (this book's own engine)"
+  },
+  {
+   "cagr_5pct": 9.62,
+   "capacity_1pct": 1824788.0,
+   "capacity_5pct": 9123940.0,
+   "engine": "scripts/etf_book_publish_decision.py",
+   "evidence_cutoff": "2026-10-27",
+   "maxdd_5pct": -11.77,
+   "reading": "published_card_12@vol",
+   "source": "results/etf_book_production/latest.json::backtest.n12_vt08.full",
+   "units": "CNY ceiling p90 participation at 1%/5% of ADV"
+  },
+  {
+   "cagr_5pct": 12.64,
+   "capacity_1pct": 2758830.0,
+   "capacity_5pct": 13794151.0,
+   "cell": "N20_R20",
+   "engine": "results/etf_capacity_frontier.json",
+   "evidence_cutoff": null,
+   "maxdd_5pct": -22.01,
+   "reading": "priced_envelope_R20",
+   "sharpe_5pct": 0.91,
+   "units": "CNY ceiling p90 participation at 1%/5% of ADV (a second engine, its own universe)"
+  }
+ ],
+ "script": "scripts/etf_book_capacity_floor_gap.py",
+ "units": "capacity_* are CNY; cagr/maxdd are printed in percent; gap and share are CNY / fraction-of-floor",
+ "unreadable": [],
+ "verdict": "FLOOR_BEYOND_PRICED_ENVELOPE",
+ "widen_cost": {
+  "cagr_cost_pp": 2.92,
+  "cagr_from_pct": 15.56,
+  "cagr_to_pct": 12.64,
+  "from_cell": "N5_R20",
+  "maxdd_cost_pp": -5.97,
+  "maxdd_from_pct": -16.04,
+  "maxdd_to_pct": -22.01,
+  "sharpe_from": 1.002,
+  "sharpe_to": 0.91,
+  "to_cell": "N20_R20",
+  "units": "pp of annualised return / pp of drawdown, same engine, same cadence"
+ },
+ "widen_plan": {
+  "intercept_cny": 1225144.3,
+  "names_needed_for_floor": 29.6,
+  "priced_width_max": 20.0,
+  "slope_cny_per_name": 634643.1,
+  "state": "OUTSIDE_PRICED_ENVELOPE",
+  "widths_priced": [
+   5.0,
+   8.0,
+   12.0,
+   20.0
+  ]
+ }
+}

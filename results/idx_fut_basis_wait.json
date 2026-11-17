@@ -20,19 +20,19 @@
    "index": "sh000300",
    "window": {
     "from": "2017-04-19",
-    "to": "2026-11-16",
-    "days": 2325
+    "to": "2026-11-17",
+    "days": 2326
    },
-   "n_obs": 2324,
+   "n_obs": 2325,
    "repo": {
     "source": "data/repo_daily/GC001.csv",
     "rows_missing_ffill": 0,
     "accrual": "rate% x calendar_days_to_next_trading_day / 365"
    },
    "leash": {
-    "exposure_vol_pct": 19.305,
+    "exposure_vol_pct": 19.302,
     "target_pct": 8.0,
-    "leverage": 0.4144,
+    "leverage": 0.4145,
     "note": "same leash on A and B; never above 1.0"
    },
    "costs": {
@@ -43,47 +43,47 @@
    },
    "arms": {
     "A": {
-     "ann_pct": 4.07,
-     "vol_pct": 8.006,
-     "maxdd_pct": -15.773,
-     "growth_x": 1.4656,
-     "n_days": 2324,
-     "sharpe_vs_cash": 0.205
+     "ann_pct": 4.045,
+     "vol_pct": 8.007,
+     "maxdd_pct": -15.778,
+     "growth_x": 1.4625,
+     "n_days": 2325,
+     "sharpe_vs_cash": 0.202
     },
     "B": {
      "ann_pct": 5.148,
      "vol_pct": 3.782,
-     "maxdd_pct": -4.991,
-     "growth_x": 1.6179,
-     "n_days": 2324,
+     "maxdd_pct": -4.992,
+     "growth_x": 1.618,
+     "n_days": 2325,
      "sharpe_vs_cash": 0.718
     },
     "C": {
      "ann_pct": 2.431,
      "vol_pct": 0.222,
      "maxdd_pct": 0.0,
-     "growth_x": 1.2588,
-     "n_days": 2324,
+     "growth_x": 1.2589,
+     "n_days": 2325,
      "sharpe_vs_cash": 0.0
     }
    },
-   "time_in_market_pct": 21.0,
+   "time_in_market_pct": 20.99,
    "decomposition": {
-    "A_minus_B_ann_pp": -1.078,
-    "foregone_inmarket_pp_per_yr": -0.907,
+    "A_minus_B_ann_pp": -1.103,
+    "foregone_inmarket_pp_per_yr": -0.93,
     "identity_gap_pp": -0.0,
     "note": "A - B is what the waiting arm did not earn (index drift plus carry on the out-days) net of the costs only B pays; residual is the check"
    },
    "halves": {
     "first": {
-     "A_ann": 6.65,
-     "B_ann": 6.013,
+     "A_ann": 6.651,
+     "B_ann": 6.014,
      "B_minus_A_pp": -0.637
     },
     "second": {
-     "A_ann": 1.572,
-     "B_ann": 4.298,
-     "B_minus_A_pp": 2.726
+     "A_ann": 1.525,
+     "B_ann": 4.297,
+     "B_minus_A_pp": 2.772
     }
    },
    "W1": true,
@@ -93,26 +93,26 @@
     "W3"
    ],
    "verdict": "HOLD-ALWAYS",
-   "sharpe_gain_B_over_A": 0.513
+   "sharpe_gain_B_over_A": 0.516
   },
   "IC": {
    "status": "ok",
    "index": "sh000905",
    "window": {
     "from": "2017-04-19",
-    "to": "2026-11-16",
-    "days": 2325
+    "to": "2026-11-17",
+    "days": 2326
    },
-   "n_obs": 2324,
+   "n_obs": 2325,
    "repo": {
     "source": "data/repo_daily/GC001.csv",
     "rows_missing_ffill": 0,
     "accrual": "rate% x calendar_days_to_next_trading_day / 365"
    },
    "leash": {
-    "exposure_vol_pct": 23.114,
+    "exposure_vol_pct": 23.109,
     "target_pct": 8.0,
-    "leverage": 0.3461,
+    "leverage": 0.3462,
     "note": "same leash on A and B; never above 1.0"
    },
    "costs": {
@@ -123,47 +123,47 @@
    },
    "arms": {
     "A": {
-     "ann_pct": 3.779,
-     "vol_pct": 8.008,
-     "maxdd_pct": -12.126,
-     "growth_x": 1.4269,
-     "n_days": 2324,
-     "sharpe_vs_cash": 0.168
+     "ann_pct": 3.765,
+     "vol_pct": 8.009,
+     "maxdd_pct": -12.13,
+     "growth_x": 1.4251,
+     "n_days": 2325,
+     "sharpe_vs_cash": 0.167
     },
     "B": {
      "ann_pct": 3.721,
-     "vol_pct": 4.411,
-     "maxdd_pct": -10.045,
-     "growth_x": 1.4192,
-     "n_days": 2324,
+     "vol_pct": 4.412,
+     "maxdd_pct": -10.049,
+     "growth_x": 1.4193,
+     "n_days": 2325,
      "sharpe_vs_cash": 0.292
     },
     "C": {
      "ann_pct": 2.431,
      "vol_pct": 0.222,
      "maxdd_pct": 0.0,
-     "growth_x": 1.2588,
-     "n_days": 2324,
+     "growth_x": 1.2589,
+     "n_days": 2325,
      "sharpe_vs_cash": 0.0
     }
    },
-   "time_in_market_pct": 21.9,
+   "time_in_market_pct": 21.89,
    "decomposition": {
-    "A_minus_B_ann_pp": 0.058,
-    "foregone_inmarket_pp_per_yr": 0.132,
+    "A_minus_B_ann_pp": 0.044,
+    "foregone_inmarket_pp_per_yr": 0.119,
     "identity_gap_pp": -0.0,
     "note": "A - B is what the waiting arm did not earn (index drift plus carry on the out-days) net of the costs only B pays; residual is the check"
    },
    "halves": {
     "first": {
      "A_ann": 4.539,
-     "B_ann": 6.548,
-     "B_minus_A_pp": 2.009
+     "B_ann": 6.549,
+     "B_minus_A_pp": 2.01
     },
     "second": {
-     "A_ann": 3.031,
+     "A_ann": 3.002,
      "B_ann": 0.99,
-     "B_minus_A_pp": -2.041
+     "B_minus_A_pp": -2.012
     }
    },
    "W1": false,
@@ -174,24 +174,24 @@
     "W3"
    ],
    "verdict": "HOLD-ALWAYS",
-   "sharpe_gain_B_over_A": 0.124
+   "sharpe_gain_B_over_A": 0.125
   },
   "IH": {
    "status": "ok",
    "index": "sh000016",
    "window": {
     "from": "2017-04-19",
-    "to": "2026-11-16",
-    "days": 2325
+    "to": "2026-11-17",
+    "days": 2326
    },
-   "n_obs": 2324,
+   "n_obs": 2325,
    "repo": {
     "source": "data/repo_daily/GC001.csv",
     "rows_missing_ffill": 0,
     "accrual": "rate% x calendar_days_to_next_trading_day / 365"
    },
    "leash": {
-    "exposure_vol_pct": 18.628,
+    "exposure_vol_pct": 18.624,
     "target_pct": 8.0,
     "leverage": 0.4295,
     "note": "same leash on A and B; never above 1.0"
@@ -199,39 +199,39 @@
    "costs": {
     "slip_bp_per_side": 1.0,
     "roll_bp_per_held_roll_day": 1.0,
-    "flips": 229,
+    "flips": 230,
     "roll_days_held": 12
    },
    "arms": {
     "A": {
-     "ann_pct": 4.178,
-     "vol_pct": 8.003,
+     "ann_pct": 4.155,
+     "vol_pct": 8.002,
      "maxdd_pct": -17.557,
-     "growth_x": 1.4803,
-     "n_days": 2324,
-     "sharpe_vs_cash": 0.218
+     "growth_x": 1.4774,
+     "n_days": 2325,
+     "sharpe_vs_cash": 0.215
     },
     "B": {
-     "ann_pct": 5.165,
-     "vol_pct": 3.696,
+     "ann_pct": 5.163,
+     "vol_pct": 3.695,
      "maxdd_pct": -6.802,
-     "growth_x": 1.6203,
-     "n_days": 2324,
-     "sharpe_vs_cash": 0.74
+     "growth_x": 1.6202,
+     "n_days": 2325,
+     "sharpe_vs_cash": 0.739
     },
     "C": {
      "ann_pct": 2.431,
      "vol_pct": 0.222,
      "maxdd_pct": 0.0,
-     "growth_x": 1.2588,
-     "n_days": 2324,
+     "growth_x": 1.2589,
+     "n_days": 2325,
      "sharpe_vs_cash": 0.0
     }
    },
-   "time_in_market_pct": 22.68,
+   "time_in_market_pct": 22.67,
    "decomposition": {
-    "A_minus_B_ann_pp": -0.987,
-    "foregone_inmarket_pp_per_yr": -0.789,
+    "A_minus_B_ann_pp": -1.008,
+    "foregone_inmarket_pp_per_yr": -0.809,
     "identity_gap_pp": -0.0,
     "note": "A - B is what the waiting arm did not earn (index drift plus carry on the out-days) net of the costs only B pays; residual is the check"
    },
@@ -242,9 +242,9 @@
      "B_minus_A_pp": -0.08
     },
     "second": {
-     "A_ann": 1.691,
-     "B_ann": 3.696,
-     "B_minus_A_pp": 2.005
+     "A_ann": 1.649,
+     "B_ann": 3.693,
+     "B_minus_A_pp": 2.044
     }
    },
    "W1": true,
@@ -254,24 +254,24 @@
     "W3"
    ],
    "verdict": "HOLD-ALWAYS",
-   "sharpe_gain_B_over_A": 0.522
+   "sharpe_gain_B_over_A": 0.524
   },
   "IM": {
    "status": "ok",
    "index": "sh000852",
    "window": {
     "from": "2022-10-21",
-    "to": "2026-11-16",
-    "days": 987
+    "to": "2026-11-17",
+    "days": 988
    },
-   "n_obs": 986,
+   "n_obs": 987,
    "repo": {
     "source": "data/repo_daily/GC001.csv",
     "rows_missing_ffill": 0,
     "accrual": "rate% x calendar_days_to_next_trading_day / 365"
    },
    "leash": {
-    "exposure_vol_pct": 25.961,
+    "exposure_vol_pct": 25.956,
     "target_pct": 8.0,
     "leverage": 0.3082,
     "note": "same leash on A and B; never above 1.0"
@@ -284,34 +284,34 @@
    },
    "arms": {
     "A": {
-     "ann_pct": 3.923,
-     "vol_pct": 8.004,
+     "ann_pct": 3.815,
+     "vol_pct": 8.003,
      "maxdd_pct": -13.045,
-     "growth_x": 1.1697,
-     "n_days": 986,
-     "sharpe_vs_cash": 0.258
+     "growth_x": 1.1649,
+     "n_days": 987,
+     "sharpe_vs_cash": 0.244
     },
     "B": {
      "ann_pct": 1.968,
-     "vol_pct": 4.74,
+     "vol_pct": 4.737,
      "maxdd_pct": -7.871,
      "growth_x": 1.0827,
-     "n_days": 986,
+     "n_days": 987,
      "sharpe_vs_cash": 0.023
     },
     "C": {
      "ann_pct": 1.859,
      "vol_pct": 0.12,
      "maxdd_pct": 0.0,
-     "growth_x": 1.0779,
-     "n_days": 986,
+     "growth_x": 1.078,
+     "n_days": 987,
      "sharpe_vs_cash": 0.0
     }
    },
-   "time_in_market_pct": 28.19,
+   "time_in_market_pct": 28.17,
    "decomposition": {
-    "A_minus_B_ann_pp": 1.955,
-    "foregone_inmarket_pp_per_yr": 1.992,
+    "A_minus_B_ann_pp": 1.847,
+    "foregone_inmarket_pp_per_yr": 1.889,
     "identity_gap_pp": 0.0,
     "note": "A - B is what the waiting arm did not earn (index drift plus carry on the out-days) net of the costs only B pays; residual is the check"
    },
@@ -322,9 +322,9 @@
      "B_minus_A_pp": 0.696
     },
     "second": {
-     "A_ann": 6.207,
-     "B_ann": 1.544,
-     "B_minus_A_pp": -4.663
+     "A_ann": 5.984,
+     "B_ann": 1.543,
+     "B_minus_A_pp": -4.441
     }
    },
    "W1": false,
@@ -336,142 +336,142 @@
     "W3"
    ],
    "verdict": "HOLD-ALWAYS",
-   "sharpe_gain_B_over_A": -0.235
+   "sharpe_gain_B_over_A": -0.221
   }
  },
  "roll_mask": {
   "face": "idx_fut_roll_gap",
   "available": true,
-  "generated": "2026-11-17T17:32:01",
-  "evidence_cutoff": "2026-11-16",
+  "generated": "2026-11-17T21:39:36",
+  "evidence_cutoff": "2026-11-17",
   "verdict": "ROLL_MASK_INCOMPLETE",
   "published_rule": "single-leg basis step > 8x the median step and > 0.5%",
   "carry_pct": {
    "IC": {
-    "published": 2.895,
-    "calendar": 9.793,
+    "published": 2.878,
+    "calendar": 9.805,
     "missed_share_pct": 81.4,
     "published_stats": {
      "hit_rate_pct": 53.3,
-     "mean_ann_pct": 2.895,
-     "median_ann_pct": 5.051,
-     "n": 2361,
-     "trimmed_mean_ann_pct": 3.996
+     "mean_ann_pct": 2.878,
+     "median_ann_pct": 5.041,
+     "n": 2362,
+     "trimmed_mean_ann_pct": 3.976
     },
     "calendar_stats": {
      "hit_rate_pct": 55.7,
-     "mean_ann_pct": 9.793,
-     "median_ann_pct": 8.523,
-     "n": 2265,
-     "trimmed_mean_ann_pct": 9.334
+     "mean_ann_pct": 9.805,
+     "median_ann_pct": 8.524,
+     "n": 2266,
+     "trimmed_mean_ann_pct": 9.347
     },
-    "strictest": 9.837,
+    "strictest": 9.848,
     "strictest_stats": {
      "hit_rate_pct": 55.7,
-     "mean_ann_pct": 9.837,
-     "median_ann_pct": 8.523,
-     "n": 2255,
-     "trimmed_mean_ann_pct": 9.332
+     "mean_ann_pct": 9.848,
+     "median_ann_pct": 8.524,
+     "n": 2256,
+     "trimmed_mean_ann_pct": 9.345
     }
    },
    "IF": {
-    "published": 1.923,
-    "calendar": 5.795,
+    "published": 1.876,
+    "calendar": 5.843,
     "missed_share_pct": 78.0,
     "published_stats": {
      "hit_rate_pct": 52.2,
-     "mean_ann_pct": 1.923,
-     "median_ann_pct": 2.605,
-     "n": 2357,
-     "trimmed_mean_ann_pct": 2.579
+     "mean_ann_pct": 1.876,
+     "median_ann_pct": 2.565,
+     "n": 2358,
+     "trimmed_mean_ann_pct": 2.533
     },
     "calendar_stats": {
      "hit_rate_pct": 54.6,
-     "mean_ann_pct": 5.795,
-     "median_ann_pct": 5.465,
-     "n": 2265,
-     "trimmed_mean_ann_pct": 6.215
+     "mean_ann_pct": 5.843,
+     "median_ann_pct": 5.517,
+     "n": 2266,
+     "trimmed_mean_ann_pct": 6.26
     },
-    "strictest": 6.5,
+    "strictest": 6.548,
     "strictest_stats": {
      "hit_rate_pct": 54.7,
-     "mean_ann_pct": 6.5,
-     "median_ann_pct": 5.568,
-     "n": 2247,
-     "trimmed_mean_ann_pct": 6.281
+     "mean_ann_pct": 6.548,
+     "median_ann_pct": 5.592,
+     "n": 2248,
+     "trimmed_mean_ann_pct": 6.326
     }
    },
    "IH": {
-    "published": 1.617,
-    "calendar": 5.324,
+    "published": 1.561,
+    "calendar": 5.39,
     "missed_share_pct": 71.2,
     "published_stats": {
      "hit_rate_pct": 51.8,
-     "mean_ann_pct": 1.617,
-     "median_ann_pct": 1.745,
-     "n": 2349,
-     "trimmed_mean_ann_pct": 1.783
+     "mean_ann_pct": 1.561,
+     "median_ann_pct": 1.741,
+     "n": 2350,
+     "trimmed_mean_ann_pct": 1.745
     },
     "calendar_stats": {
      "hit_rate_pct": 54.2,
-     "mean_ann_pct": 5.324,
-     "median_ann_pct": 3.913,
-     "n": 2265,
-     "trimmed_mean_ann_pct": 4.833
+     "mean_ann_pct": 5.39,
+     "median_ann_pct": 3.931,
+     "n": 2266,
+     "trimmed_mean_ann_pct": 4.874
     },
-    "strictest": 5.135,
+    "strictest": 5.202,
     "strictest_stats": {
      "hit_rate_pct": 54.2,
-     "mean_ann_pct": 5.135,
-     "median_ann_pct": 3.893,
-     "n": 2243,
-     "trimmed_mean_ann_pct": 4.65
+     "mean_ann_pct": 5.202,
+     "median_ann_pct": 3.901,
+     "n": 2244,
+     "trimmed_mean_ann_pct": 4.689
     }
    },
    "IM": {
-    "published": 5.928,
-    "calendar": 11.954,
+    "published": 5.882,
+    "calendar": 12.013,
     "missed_share_pct": 64.7,
     "published_stats": {
-     "hit_rate_pct": 56.0,
-     "mean_ann_pct": 5.928,
-     "median_ann_pct": 9.03,
-     "n": 1027,
-     "trimmed_mean_ann_pct": 6.914
+     "hit_rate_pct": 55.9,
+     "mean_ann_pct": 5.882,
+     "median_ann_pct": 8.968,
+     "n": 1028,
+     "trimmed_mean_ann_pct": 6.861
     },
     "calendar_stats": {
-     "hit_rate_pct": 58.2,
-     "mean_ann_pct": 11.954,
-     "median_ann_pct": 12.258,
-     "n": 994,
-     "trimmed_mean_ann_pct": 11.48
+     "hit_rate_pct": 58.3,
+     "mean_ann_pct": 12.013,
+     "median_ann_pct": 12.259,
+     "n": 995,
+     "trimmed_mean_ann_pct": 11.547
     },
-    "strictest": 11.562,
+    "strictest": 11.623,
     "strictest_stats": {
      "hit_rate_pct": 58.3,
-     "mean_ann_pct": 11.562,
-     "median_ann_pct": 12.257,
-     "n": 985,
-     "trimmed_mean_ann_pct": 11.291
+     "mean_ann_pct": 11.623,
+     "median_ann_pct": 12.258,
+     "n": 986,
+     "trimmed_mean_ann_pct": 11.359
     }
    }
   },
   "arms_gap_pp": {
    "IC": {
-    "calendar": -1.93,
-    "published": 0.041
+    "calendar": -1.928,
+    "published": 0.054
    },
    "IF": {
-    "calendar": -0.185,
-    "published": 1.173
+    "calendar": -0.201,
+    "published": 1.197
    },
    "IH": {
-    "calendar": 0.147,
-    "published": 1.078
+    "calendar": 0.144,
+    "published": 1.1
    },
    "IM": {
-    "calendar": -2.745,
-    "published": -1.875
+    "calendar": -2.674,
+    "published": -1.769
    }
   }
  },
@@ -479,32 +479,32 @@
   "waiting_pairs": [],
   "pooled": "HOLD-ALWAYS",
   "B_minus_A_pp_by_pair": {
-   "IF": 1.078,
-   "IC": -0.058,
-   "IH": 0.987,
-   "IM": -1.955
+   "IF": 1.103,
+   "IC": -0.044,
+   "IH": 1.008,
+   "IM": -1.847
   },
-  "median_time_in_market_pct": 22.29,
+  "median_time_in_market_pct": 22.28,
   "sharpe_by_pair": {
    "IF": {
-    "A": 0.205,
+    "A": 0.202,
     "B": 0.718,
-    "gain": 0.513
+    "gain": 0.516
    },
    "IC": {
-    "A": 0.168,
+    "A": 0.167,
     "B": 0.292,
-    "gain": 0.124
+    "gain": 0.125
    },
    "IH": {
-    "A": 0.218,
-    "B": 0.74,
-    "gain": 0.522
+    "A": 0.215,
+    "B": 0.739,
+    "gain": 0.524
    },
    "IM": {
-    "A": 0.258,
+    "A": 0.244,
     "B": 0.023,
-    "gain": -0.235
+    "gain": -0.221
    }
   },
   "money_but_unstable_pairs": [

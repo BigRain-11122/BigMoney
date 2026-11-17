@@ -8,15 +8,15 @@
   "live",
   "monitor"
  ],
- "files_scanned": 2444,
- "n_hits": 796,
+ "files_scanned": 2456,
+ "n_hits": 791,
  "counts": {
   "bare-root-literal": 2,
   "deployment-root-literal": 2,
   "exempt-resolver": 20,
   "group-root-hint": 7,
-  "one-off": 216,
-  "repo-root-literal": 537,
+  "one-off": 215,
+  "repo-root-literal": 533,
   "sibling-repo-literal": 11,
   "validated-walk": 1
  },
@@ -27,18 +27,9 @@
    {
     "kind": "literal",
     "mode": "group-root",
-    "line": 152,
-    "text": "\"最近实物＝`K:\\\\Fluxgroup\\\\FluxGroup\\\\cph4\\\\fleet\\\\rt\\\\visual\\\\receipts\\\\D02-RECONCILE-20261116-bmc.md`\"",
-    "file": "scripts/_r1742bmc_closeout.py",
-    "bucket": "one-off",
-    "uses_resolver": false
-   },
-   {
-    "kind": "literal",
-    "mode": "group-root",
-    "line": 12,
-    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\"",
-    "file": "scripts/_r1742bmc_relaunch_group.py",
+    "line": 3,
+    "text": "GR = r'K:\\Fluxgroup\\FluxGroup'",
+    "file": "scripts/_tmp_r1248_d19.py",
     "bucket": "one-off",
     "uses_resolver": false
    },
@@ -383,6 +374,15 @@
     "file": "Tools/_r665bmc_s05.py",
     "bucket": "one-off",
     "uses_resolver": false
+   },
+   {
+    "kind": "climb",
+    "mode": "group-root",
+    "line": 24,
+    "text": "GROUP = os.path.normpath(os.path.join(ROOT, \"..\", \"..\"))  # bigmoney -> quant -> FluxGroup",
+    "file": "Tools/_r666bmc_s05.py",
+    "bucket": "one-off",
+    "uses_resolver": false
    }
   ],
   "exempt-resolver": [
@@ -601,42 +601,6 @@
     "line": 5,
     "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
     "file": "Tools/_r1071bmc_close.py",
-    "bucket": "repo-root-literal",
-    "uses_resolver": false
-   },
-   {
-    "kind": "literal",
-    "mode": "repo-root",
-    "line": 38,
-    "text": "\"最近实物＝`K:\\\\Fluxgroup\\\\FluxGroup\\\\quant\\\\bigmoney\\\\results\\\\etf_book_order\\\\ORDER-2026-11-13.md` 第 **262** 行\"",
-    "file": "Tools/_r1753bmc_report.py",
-    "bucket": "repo-root-literal",
-    "uses_resolver": false
-   },
-   {
-    "kind": "literal",
-    "mode": "repo-root",
-    "line": 146,
-    "text": "\"`K:\\\\Fluxgroup\\\\FluxGroup\\\\quant\\\\bigmoney\\\\research\\\\ETF_BOOK_SEAT_HOLD.md` ＋ \"",
-    "file": "Tools/_r1769bmc_close.py",
-    "bucket": "repo-root-literal",
-    "uses_resolver": false
-   },
-   {
-    "kind": "literal",
-    "mode": "repo-root",
-    "line": 147,
-    "text": "\"`K:\\\\Fluxgroup\\\\FluxGroup\\\\quant\\\\bigmoney\\\\results\\\\etf_book_seat_hold.json` ＋ \"",
-    "file": "Tools/_r1769bmc_close.py",
-    "bucket": "repo-root-literal",
-    "uses_resolver": false
-   },
-   {
-    "kind": "literal",
-    "mode": "repo-root",
-    "line": 148,
-    "text": "\"`K:\\\\Fluxgroup\\\\FluxGroup\\\\quant\\\\bigmoney\\\\scripts\\\\etf_book_seat_hold.py`\"",
-    "file": "Tools/_r1769bmc_close.py",
     "bucket": "repo-root-literal",
     "uses_resolver": false
    },
@@ -927,6 +891,42 @@
     "file": "Tools/_r547bmc_verdict_fix.py",
     "bucket": "repo-root-literal",
     "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "repo-root",
+    "line": 8,
+    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
+    "file": "Tools/_r548bmc_bookkeeping.py",
+    "bucket": "repo-root-literal",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "repo-root",
+    "line": 10,
+    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
+    "file": "Tools/_r549bmc_bookkeeping.py",
+    "bucket": "repo-root-literal",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "repo-root",
+    "line": 12,
+    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
+    "file": "Tools/_r550bmc_bookkeeping.py",
+    "bucket": "repo-root-literal",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "repo-root",
+    "line": 12,
+    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
+    "file": "Tools/_r551bmc_bookkeeping.py",
+    "bucket": "repo-root-literal",
+    "uses_resolver": false
    }
   ],
   "deployment-root-literal": [
@@ -1155,18 +1155,11 @@
   "scripts/group_root_sweep.py"
  ],
  "by_file": {
-  "scripts/_r1742bmc_closeout.py": [
+  "scripts/_tmp_r1248_d19.py": [
    {
     "bucket": "one-off",
     "mode": "group-root",
-    "line": 152
-   }
-  ],
-  "scripts/_r1742bmc_relaunch_group.py": [
-   {
-    "bucket": "one-off",
-    "mode": "group-root",
-    "line": 12
+    "line": 3
    }
   ],
   "scripts/group_root_sweep.py": [
@@ -1281,30 +1274,6 @@
     "bucket": "repo-root-literal",
     "mode": "repo-root",
     "line": 5
-   }
-  ],
-  "Tools/_r1753bmc_report.py": [
-   {
-    "bucket": "repo-root-literal",
-    "mode": "repo-root",
-    "line": 38
-   }
-  ],
-  "Tools/_r1769bmc_close.py": [
-   {
-    "bucket": "repo-root-literal",
-    "mode": "repo-root",
-    "line": 146
-   },
-   {
-    "bucket": "repo-root-literal",
-    "mode": "repo-root",
-    "line": 147
-   },
-   {
-    "bucket": "repo-root-literal",
-    "mode": "repo-root",
-    "line": 148
    }
   ],
   "Tools/_r309bmc_close.py": [

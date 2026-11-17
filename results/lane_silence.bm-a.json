@@ -1,28 +1,12 @@
 {
- "evidence_cutoff": "2026-11-13",
- "generated": "2026-11-17T19:54:36",
+ "evidence_cutoff": "2026-11-18",
+ "gaps_explained_by_quiet_window": [],
+ "gaps_over_threshold": [],
+ "gaps_over_threshold_count": 0,
+ "generated": "2026-11-18T00:22:45",
  "lane_tasks": {
   "absent": [],
   "disabled": [],
-  "disabled_before_heal": [
-   "HQ-Patrol-BigMoney"
-  ],
-  "heal": {
-   "acts": [
-    {
-     "action": "enabled",
-     "detail": "",
-     "task": "HQ-Patrol-BigMoney",
-     "verified": true
-    }
-   ],
-   "healed": [
-    "HQ-Patrol-BigMoney"
-   ],
-   "readback": {
-    "HQ-Patrol-BigMoney": "Ready"
-   }
-  },
   "probeable": 4,
   "states": {
    "Bigmoney-IterationLoop": "Running",
@@ -34,13 +18,38 @@
   "verdict": "LANE_ENABLED",
   "why": "every probeable lane task is switched on; the silence (if any) is not a switch"
  },
+ "longest_silence": {
+  "from": "2026-11-17T21:16",
+  "gap_high_min": 58.3,
+  "gap_low_min": 58.3,
+  "quiet_window_min": 0.0,
+  "to": "2026-11-17T22:14",
+  "unexplained_high_min": 58.3,
+  "unexplained_low_min": 58.3
+ },
  "machine": "bm-a",
- "note": "fewer than two rounds inside the window; silence is unmeasurable",
- "rounds_in_ledger": 787,
- "rounds_in_window": 0,
- "silence_verdict": "NO_DATA",
+ "median_gap_min": 16.3,
+ "open_gap": {
+  "gap_high_min": 19.8,
+  "gap_low_min": 19.8,
+  "quiet_window_min": 0.0,
+  "since": "2026-11-18T00:03",
+  "unexplained_high_min": 19.8,
+  "unexplained_low_min": 19.8
+ },
+ "parse_precision_note": "stamps recorded with an 'x' digit are read as a 9-minute interval; a gap is only called when its pessimistic end clears the threshold",
+ "quiet_windows": [
+  [
+   0,
+   9,
+   19
+  ]
+ ],
+ "rounds_in_ledger": 795,
+ "rounds_in_window": 8,
+ "silence_verdict": "OK",
  "source": "round_reports-bm-a.md",
  "threshold_min": 90,
- "verdict": "NO_DATA",
+ "verdict": "OK",
  "window_days": 3
 }

@@ -1,13 +1,13 @@
 {
  "report_date": "2026-11-17",
- "generated_at": "2026-11-17 19:26:01",
+ "generated_at": "2026-11-17 22:30:16",
  "combat": {
   "paper_summary": {
    "traders": 6,
-   "total_equity_cny": 5934779.1,
-   "total_positions": 19,
+   "total_equity_cny": 5937548.03,
+   "total_positions": 18,
    "entries_today": 0,
-   "exits_today": 0,
+   "exits_today": 1,
    "exits_not_derivable_first_snapshot": false
   },
   "traders": [
@@ -15,9 +15,9 @@
     "trader": "COMPOSITE-CE-01",
     "capital_cny": {
      "initial": 1000000.0,
-     "equity": 983628.17,
-     "positions_value": 944023.66,
-     "cash": 39604.51,
+     "equity": 985626.24,
+     "positions_value": 946021.72,
+     "cash": 39604.52,
      "denomination": "CNY"
     },
     "positions": 5,
@@ -31,9 +31,9 @@
     "trader": "COMPOSITE-CE-02",
     "capital_cny": {
      "initial": 1000000.0,
-     "equity": 979618.58,
-     "positions_value": 890209.96,
-     "cash": 89408.62,
+     "equity": 980018.77,
+     "positions_value": 890610.14,
+     "cash": 89408.63,
      "denomination": "CNY"
     },
     "positions": 8,
@@ -63,12 +63,12 @@
     "trader": "ENGULF-CE-01",
     "capital_cny": {
      "initial": 1000000.0,
-     "equity": 987616.61,
-     "positions_value": 47680.69,
-     "cash": 939935.92,
+     "equity": 986854.16,
+     "positions_value": 0,
+     "cash": 986854.16,
      "denomination": "CNY"
     },
-    "positions": 1,
+    "positions": 0,
     "dd": -0.017,
     "guard": {
      "mode": "enforce",
@@ -95,9 +95,9 @@
     "trader": "VOLATILITY-CE-01",
     "capital_cny": {
      "initial": 1000000.0,
-     "equity": 989465.31,
-     "positions_value": 394485.03,
-     "cash": 594980.28,
+     "equity": 990598.43,
+     "positions_value": 395618.17,
+     "cash": 594980.26,
      "denomination": "CNY"
     },
     "positions": 5,
@@ -273,14 +273,14 @@
    }
   ],
   "market_clock": {
-   "asof": "2026-11-13",
+   "asof": "2026-11-17",
    "clock_cell": "RED_COOL",
    "position_cap_ladder": 0.2,
    "active_sleeves": [
     "air-defense cash leg ACTIVATED (structural cash >=80%; strategy risk-leg NOT activated -- no RED-state evidence)"
    ]
   },
-  "marks_asof": "2026-11-16"
+  "marks_asof": "2026-11-17"
  },
  "live_usage": {
   "status": "ok",
@@ -294,20 +294,20 @@
   "md_link": "../live_usage/LIVE-2026-11-17.md"
  },
  "rd": {
-  "commits_24h": 100,
-  "result_jsons_landed_24h": 250,
+  "commits_24h": 93,
+  "result_jsons_landed_24h": 212,
   "digests_landed_24h": 0,
-  "prereg_md_touched_24h": 101,
+  "prereg_md_touched_24h": 70,
   "compute_audit_latest": {
-   "ts": "2026-11-17 18:29:18",
-   "py_cpu_pct": 5.1,
+   "ts": "2026-11-17 21:41:15",
+   "py_cpu_pct": 3.9,
    "flags": [
     "pool_starvation",
     "supply_floor"
    ],
    "verdict": "FLAG:pool_starvation,supply_floor"
   },
-  "watermark_verdict": "py_low_with_work_cands",
+  "watermark_verdict": "insufficient_history",
   "pool_keys_n": 6,
   "batch_in_flight": true
  },
@@ -665,27 +665,83 @@
  "utilization": {
   "machines": {
    "bm-a": {
-    "latest_ts": "2026-11-13 19:59:02",
-    "py_pct": 5.1,
-    "cpu_pct": 33.0,
+    "latest_ts": "2026-11-17 21:41:15",
+    "py_pct": 3.9,
+    "cpu_pct": 45.0,
     "ready": 0,
-    "streak_min": 17306.7,
+    "streak_min": 11404.1,
     "verdict": "FLAG:pool_starvation,supply_floor",
     "py_series_tail": [
      [
       "19:59",
       5.1
+     ],
+     [
+      "19:54",
+      5.9
+     ],
+     [
+      "21:37",
+      22.7
+     ],
+     [
+      "21:41",
+      3.9
      ]
     ],
-    "today_samples": 0,
+    "today_samples": 3,
     "today_floor_ok": 0,
     "today_sla_flags": 0,
     "today_supply_gap_flags": 0,
-    "own_samples": 1,
-    "unattributed_samples": 200,
+    "own_samples": 4,
+    "unattributed_samples": 104,
     "latest_attributed": true,
     "lane_machine": "bm-a",
-    "supply_why": null
+    "supply_why": {
+     "cause": "calendar",
+     "action": "the gap is a book's own calendar, not a missing topic: the candidates named here were judged and refused",
+     "shortfall": 3,
+     "candidates": [
+      {
+       "candidate": "nobond_vt08_adopted",
+       "state": "UNADJUDICABLE_PHASE",
+       "undecidable_because": "phase_spread_wider_than_margin",
+       "failing_checks": [
+        "Y4_top2_share",
+        "C1_capacity"
+       ]
+      },
+      {
+       "candidate": "nobond_base",
+       "state": "UNADJUDICABLE_PHASE",
+       "undecidable_because": "phase_spread_wider_than_margin",
+       "failing_checks": [
+        "C1_capacity",
+        "Y3_worst_year",
+        "Y4_top2_share"
+       ]
+      },
+      {
+       "candidate": "nobond_vt08_floor_050",
+       "state": "UNADJUDICABLE_PHASE",
+       "undecidable_because": "phase_spread_wider_than_margin",
+       "failing_checks": [
+        "C1_capacity",
+        "Y4_top2_share"
+       ]
+      },
+      {
+       "candidate": "all_classes_published",
+       "state": "CONDITIONAL",
+       "undecidable_because": null,
+       "failing_checks": [
+        "Y4_top2_share"
+       ]
+      }
+     ],
+     "what_would_move_it": "more years of evidence",
+     "sentence": "4 candidate(s) were judged and none reads ADMIT: 3 cannot be judged because the phase spread is wider than the distance to the line (nobond_vt08_adopted, nobond_base, nobond_vt08_floor_050), 0 because the phases disagree (-)"
+    }
    },
    "bm-b": {
     "latest_ts": "2026-10-30 07:20:32",
@@ -838,7 +894,7 @@
      "readable": true,
      "window_min": 60.0,
      "audit_batches": 0,
-     "audit_ts": "2026-11-13 19:59:02"
+     "audit_ts": "2026-11-17 21:41:15"
     }
    },
    "bm-b": {
@@ -901,24 +957,24 @@
    "rows": [
     {
      "trader": "COMPOSITE-CE-01",
-     "equity_cny": 983628.17,
-     "day_pnl_cny": -6105.39,
-     "day_ret": -0.006169,
+     "equity_cny": 985626.24,
+     "day_pnl_cny": 1998.07,
+     "day_ret": 0.002031,
      "status": "ok",
      "top_position": {
       "symbol": "513500",
-      "unrealized_pnl_cny": -3510.56
+      "unrealized_pnl_cny": -5659.88
      }
     },
     {
      "trader": "COMPOSITE-CE-02",
-     "equity_cny": 979618.58,
-     "day_pnl_cny": 588.89,
-     "day_ret": 0.000602,
+     "equity_cny": 980018.77,
+     "day_pnl_cny": 400.19,
+     "day_ret": 0.000409,
      "status": "ok",
      "top_position": {
       "symbol": "512800",
-      "unrealized_pnl_cny": 4850.4
+      "unrealized_pnl_cny": 4715.66
      }
     },
     {
@@ -931,14 +987,11 @@
     },
     {
      "trader": "ENGULF-CE-01",
-     "equity_cny": 987616.61,
-     "day_pnl_cny": -2589.0,
-     "day_ret": -0.002615,
+     "equity_cny": 986854.16,
+     "day_pnl_cny": -762.45,
+     "day_ret": -0.000772,
      "status": "ok",
-     "top_position": {
-      "symbol": "515000",
-      "unrealized_pnl_cny": -2319.31
-     }
+     "top_position": null
     },
     {
      "trader": "NEEDLE-DE-01",
@@ -950,9 +1003,9 @@
     },
     {
      "trader": "VOLATILITY-CE-01",
-     "equity_cny": 989465.31,
-     "day_pnl_cny": -2091.94,
-     "day_ret": -0.00211,
+     "equity_cny": 990598.43,
+     "day_pnl_cny": 1133.12,
+     "day_ret": 0.001145,
      "status": "ok",
      "top_position": {
       "symbol": "159980",
@@ -960,9 +1013,9 @@
      }
     }
    ],
-   "asof": "2026-11-16",
-   "prior": "2026-11-13",
-   "family_day_pnl_cny": -10197.44
+   "asof": "2026-11-17",
+   "prior": "2026-11-16",
+   "family_day_pnl_cny": 2768.93
   },
   "families": [
    {
@@ -1330,7 +1383,7 @@
     "missing_n": 0
    }
   ],
-  "grand_day_pnl_cny": 16596.76,
+  "grand_day_pnl_cny": 29563.13,
   "accounts_attributed": 40,
   "accounts_missing": 0,
   "method_note": "日对日差分=各面自带序列尾两行/六员逐日 export 链（聚合面零新判据）",
@@ -1699,43 +1752,83 @@
  },
  "lane_authority": {
   "present": true,
-  "as_of": "2026-11-17T18:29:32",
+  "as_of": "2026-11-17T22:30:14",
   "verdict": "attention",
-  "observer": "bm-c",
-  "sentence": "以本机 bm-c 的盘为基准：14 条在役车道的数字全都落在本机盘上，其中 14 条有署名可核实。",
+  "observer": "bm-a",
+  "sentence": "以本机 bm-a 的盘为基准：14 条在役车道里有 6 条的数字不在本机盘上：6 条在 bm-c 的盘上（4.18h 未报到）；留在本机盘上的 8 条里 8 条可核实。",
   "n_lanes": 14,
-  "n_offhost": 0,
-  "n_here": 14,
-  "n_auditable_here": 14,
+  "n_offhost": 6,
+  "n_here": 8,
+  "n_auditable_here": 8,
   "n_unsigned_here": 0,
-  "groups": [],
-  "offhost_lanes": [],
+  "groups": [
+   {
+    "machine": "bm-c",
+    "lanes": [
+     "ah_panel",
+     "etf_panel",
+     "marks",
+     "minute_feed",
+     "ths_panel",
+     "zt_pool"
+    ],
+    "n": 6,
+    "alive": false,
+    "age_h": 4.18,
+    "last_seen": "2026-11-17T18:19:19+08:00"
+   }
+  ],
+  "offhost_lanes": [
+   "ah_panel",
+   "etf_panel",
+   "marks",
+   "minute_feed",
+   "ths_panel",
+   "zt_pool"
+  ],
   "local_replicas": {
-   "n_lagging": 0,
+   "n_lagging": 2,
    "n_readable": 5,
-   "lanes": [],
-   "sentence": "本机可读的 5 条面板副本都追上了各自车道认证的尾日（研究可以直接读本机盘）。"
+   "lanes": [
+    {
+     "lane": "moneyflow",
+     "local_tail": "2026-10-13",
+     "certified_tail": "2026-11-17",
+     "behind_days": 25,
+     "host": "bm-c",
+     "authority": "host_envelope"
+    },
+    {
+     "lane": "ah_panel",
+     "local_tail": "2026-10-16",
+     "certified_tail": "2026-11-16",
+     "behind_days": 21,
+     "host": "bm-c",
+     "authority": "non_host_copy"
+    }
+   ],
+   "sentence": "本机副本落后：5 条可读面板里有 2 条读到的不是车道认证的那一天的数：moneyflow 差 25 个交易日（本盘 2026-10-13 / 车道 2026-11-17，数据在 bm-c 盘上）；ah_panel 差 21 个交易日（本盘 2026-10-16 / 车道 2026-11-16，数据在 bm-c 盘上）。本机发起的研究要用这些车道的数据，读的是旧盘。"
   },
   "labels": {
+   "ths_panel": "无主封套",
    "sina_mf": "宿主自己写的封套",
    "marks": "申报接管",
+   "lhb_inst": "宿主自己写的封套",
+   "ah_panel": "他机本地副本",
+   "minute_feed": "他机本地副本",
+   "astock_daily": "申报接管",
+   "etf_panel": "他机写的封套",
+   "futures": "宿主自己写的封套",
    "heat": "宿主自己写的封套",
    "lhb": "宿主自己写的封套",
-   "lhb_inst": "宿主自己写的封套",
-   "repo": "申报接管",
-   "ah_panel": "宿主本机副本",
-   "futures": "宿主自己写的封套",
-   "minute_feed": "宿主本机副本",
-   "ths_panel": "宿主自己写的封套",
-   "astock_daily": "申报接管",
-   "etf_panel": "宿主自己写的封套",
    "moneyflow": "宿主自己写的封套",
-   "zt_pool": "宿主本机副本"
+   "repo": "宿主自己写的封套",
+   "zt_pool": "他机本地副本"
   }
  },
  "lane_window": {
   "present": true,
-  "as_of": "2026-11-17T18:29:32",
+  "as_of": "2026-11-17T22:30:14",
   "n": 1,
   "windows": [
    {
@@ -1755,74 +1848,27 @@
  "lane_silence": {
   "present": true,
   "machine": "bm-a",
-  "verdict": "OPEN_SILENCE",
+  "verdict": "NO_DATA",
   "threshold_min": 90,
   "window_days": 3,
-  "median_gap_min": 18.0,
-  "rounds_in_window": 19,
-  "rounds_in_ledger": 760,
-  "gaps_over_threshold_count": 1,
-  "longest_silence": {
-   "from": "2026-11-05T21:00",
-   "gap_high_min": 2243.9,
-   "gap_low_min": 2234.9,
-   "quiet_window_min": 659.0,
-   "to": "2026-11-07T10:23",
-   "unexplained_high_min": 1584.9,
-   "unexplained_low_min": 1575.9
-  },
-  "open_gap": {
-   "gap_high_min": 641.8,
-   "gap_low_min": 641.8,
-   "quiet_window_min": 0.0,
-   "since": "2026-11-07T16:41",
-   "unexplained_high_min": 641.8,
-   "unexplained_low_min": 641.8
-  },
-  "gaps_over_threshold": [
-   {
-    "from": "2026-11-05T21:00",
-    "gap_high_min": 2243.9,
-    "gap_low_min": 2234.9,
-    "quiet_window_min": 659.0,
-    "to": "2026-11-07T10:23",
-    "unexplained_high_min": 1584.9,
-    "unexplained_low_min": 1575.9
-   }
-  ],
-  "evidence_cutoff": "2026-11-07",
-  "generated": "2026-11-08T03:22:46",
-  "silence_verdict": "OPEN_SILENCE",
+  "median_gap_min": null,
+  "rounds_in_window": 1,
+  "rounds_in_ledger": 788,
+  "gaps_over_threshold_count": null,
+  "longest_silence": null,
+  "open_gap": null,
+  "gaps_over_threshold": [],
+  "evidence_cutoff": "2026-11-17",
+  "generated": "2026-11-17T21:41:29",
+  "silence_verdict": "NO_DATA",
   "lane_tasks": {
    "absent": [],
    "disabled": [],
-   "disabled_before_heal": [
-    "Bigmoney-LoopWatchdog",
-    "HQ-Patrol-BigMoney"
-   ],
+   "disabled_before_heal": [],
    "heal": {
-    "acts": [
-     {
-      "action": "enabled",
-      "detail": "",
-      "task": "Bigmoney-LoopWatchdog",
-      "verified": true
-     },
-     {
-      "action": "enabled",
-      "detail": "",
-      "task": "HQ-Patrol-BigMoney",
-      "verified": true
-     }
-    ],
-    "healed": [
-     "Bigmoney-LoopWatchdog",
-     "HQ-Patrol-BigMoney"
-    ],
-    "readback": {
-     "Bigmoney-LoopWatchdog": "Ready",
-     "HQ-Patrol-BigMoney": "Ready"
-    }
+    "acts": [],
+    "healed": [],
+    "readback": {}
    },
    "probeable": 4,
    "states": {
@@ -1835,7 +1881,7 @@
    "verdict": "LANE_ENABLED",
    "why": "every probeable lane task is switched on; the silence (if any) is not a switch"
   },
-  "sentence": "bm-a: 19 rounds in 3d, median gap 18.0 min, 1 unexplained gap(s) over 90 min; longest silence 2026-11-05T21:00 -> 2026-11-07T10:23 (2234.9-2243.9 min, 659.0 explained by its quiet window); still open since 2026-11-07T16:41 (641.8-641.8 min unexplained)."
+  "sentence": "bm-a: 1 rounds in 3d, median gap None min, 0 unexplained gap(s) over 90 min."
  },
  "cap_vs_book": {
   "status": "ok",
@@ -1848,12 +1894,12 @@
   "n_above": 3,
   "widest_above": {
    "name": "COMPOSITE-CE-01",
-   "deployed_weight": 0.9597,
-   "gap_pp": 75.97,
+   "deployed_weight": 0.9598,
+   "gap_pp": 75.98,
    "multiple_of_cap": 4.8
   },
   "state": "RED",
-  "priced_on": "2026-11-16"
+  "priced_on": "2026-11-17"
  },
  "etf_book": {
   "status": "ok",
@@ -1878,8 +1924,8 @@
   "forward": {
    "bars": 18,
    "inception": "2026-10-23",
-   "nav": 1.0037812718,
-   "since_inception_pct": 0.3781,
+   "nav": 1.0037762754,
+   "since_inception_pct": 0.3776,
    "as_of": "2026-11-17",
    "book_bar": "2026-11-11",
    "book_n_hold": 12,
@@ -1888,9 +1934,9 @@
   },
   "vs_basket": {
    "bar": "2026-11-17",
-   "book_nav": 1.0037812718,
+   "book_nav": 1.0037762754,
    "basket_nav": 0.9749964488,
-   "excess_pp": 2.9523,
+   "excess_pp": 2.9518,
    "basket": {
     "518880": "gold ETF",
     "513100": "Nasdaq-100 QDII ETF",

@@ -3994,6 +3994,7 @@ def main() -> int:
         # leg re-reads the archives and re-derives the holes with the writer's
         # own predicate, so the published block cannot be decorative.
         import update_minute_feed as _umf
+        _frozen_note6 = ""
         _mf = json.load(open("results/minute_feed_status.json", encoding="utf-8"))
         _cov = _mf.get("coverage") or {}
         _why6 = []
@@ -4016,18 +4017,44 @@ def main() -> int:
                 _re = _umf._session_coverage(
                     {c: [(f"{d} 15:00",)] for c, d in _disk.items() if d},
                     _umf._calendar_days(), dt.datetime.now())
-                if _re["missing_sessions"] != (_cov.get("missing_sessions") or {}):
-                    _why6.append("the named holes differ from the holes the "
-                                 "archives actually have")
-                if _cov.get("last_completed_session") != _re["last_completed_session"]:
-                    _why6.append("the last completed session is not the one the "
-                                 "calendar allows")
-                if _cov.get("symbols_covering") != (len(_disk)
-                                                    - len(_re["missing_sessions"])):
-                    _why6.append("covering count does not follow the named holes")
+                # r1307: the block is only as new as its host's last run, so the
+                # calendar can walk past it while the disk stays put -- and then
+                # this leg used to read "the lane fell behind" as a defect in a
+                # repo whose only writer is another machine (r1789 family: a red
+                # that no reader can act on teaches readers to skip reds).
+                # PASS is narrow and proven by three faces: this machine is NOT
+                # the writer, the stated tails equal the archives, and every
+                # recomputed hole is a session AFTER the block's own last
+                # completed session (i.e. the block is behind, not wrong).
+                _blk_last = _cov.get("last_completed_session") or ""
+                _behind_only = (bool(_blk_last) and not (_cov.get("missing_sessions") or {})
+                                and all(days and all(str(d) > _blk_last for d in days)
+                                        for days in (_re["missing_sessions"] or {}).values()))
+                _owner = _umf.resolved_lane_owner()
+                _me = (json.load(open(os.path.join("fleet", "machine.json"),
+                                      encoding="utf-8")).get("machine_id")
+                       if os.path.exists(os.path.join("fleet", "machine.json")) else None)
+                _frozen_foreign = _behind_only and bool(_owner) and _owner != _me
+                if not _frozen_foreign:
+                    if _re["missing_sessions"] != (_cov.get("missing_sessions") or {}):
+                        _why6.append("the named holes differ from the holes the "
+                                     "archives actually have")
+                    if _cov.get("last_completed_session") != _re["last_completed_session"]:
+                        _why6.append("the last completed session is not the one the "
+                                     "calendar allows")
+                    if _cov.get("symbols_covering") != (len(_disk)
+                                                        - len(_re["missing_sessions"])):
+                        _why6.append("covering count does not follow the named holes")
+                else:
+                    _behind_n = len(_re["missing_sessions"] or {})
+                    _frozen_note6 = (f"block computed for {_blk_last}; the calendar now "
+                                     f"allows {_re['last_completed_session']} and "
+                                     f"{_behind_n} symbol(s) miss it -- writer is "
+                                     f"{_owner}, not this machine, so no run here can "
+                                     f"advance it (frozen foreign lane, not a defect)")
         check("fleet: a lane that appended nothing still says whether it reaches "
               "the last session",
-              not _why6, "; ".join(_why6) or
+              not _why6, "; ".join(_why6) or _frozen_note6 or
               f"{_cov.get('symbols_covering')}/{_cov.get('symbols_total')} "
               f"archive(s) reach {_cov.get('last_completed_session')}, "
               f"{len(_cov.get('missing_sessions') or {})} hole(s) named")
@@ -5958,6 +5985,13 @@ def main() -> int:
              "scripts/etf_book_premium_roads.py", ["--selftest"]),
             ("product: etf_book_premium_roads (published roads still re-derive)",
              "scripts/etf_book_premium_roads.py", ["--check"]),
+            # r1307: C1_capacity has failed in every phase for weeks, and a check that
+            # fails identically everywhere is a level question no calendar can close.
+            # The gap face is the only place the floor is compared with the ceilings
+            # that actually exist, so its fixture legs (unknown is not zero, a shortfall
+            # is never rounded to zero, the floor is imported not copied) have to run.
+            ("product: etf_book_capacity_floor_gap floor vs ceilings (exit-code contract)",
+             "scripts/etf_book_capacity_floor_gap.py", ["--selftest"]),
             # The money question ("how big can this book get before impact eats it")
             # rests entirely on this one script: it re-derives both arms off one
             # engine and pins k=1 to the flat path to 1e-12. A rot here would print

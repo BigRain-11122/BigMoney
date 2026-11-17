@@ -12,8 +12,8 @@
     "R-003",
     "R-007"
   ],
-  "ts": "2026-11-17T19:58:11",
-  "mode": "full-history pull, append-only local, overlap-verified",
+  "ts": "2026-11-17T21:48:30",
+  "mode": "no-op: cutoff covered",
   "per_term": [
     {
       "term": "GC001",
@@ -251,7 +251,7 @@
     "why": "stamped by the pre-r1276 no-op branch; no fetch occurred (data_cutoff unchanged)"
   },
   "last_attempt": "2026-11-17T19:58:11",
-  "last_noop_ts": "2026-11-13T23:07:38",
+  "last_noop_ts": "2026-11-17T21:48:30",
   "data_cutoff_max": "2026-11-17",
   "laggards": [],
   "last_bars": {
@@ -266,5 +266,6 @@
     "R-001": "2026-11-17",
     "R-003": "2026-11-17",
     "R-007": "2026-11-17"
-  }
+  },
+  "no_op_reason": "local cutoff 2026-11-17 covers expected complete-bar date 2026-11-17"
 }

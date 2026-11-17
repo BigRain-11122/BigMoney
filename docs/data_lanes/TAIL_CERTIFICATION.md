@@ -1,6 +1,6 @@
 # Panel tail certification
 
-As of 2026-11-17T19:54:27. The board reads the big per-symbol panels through a 40-file sample; this reads every file and says whether the sample got the same answer — and how many symbols actually hold the newest bar.
+As of 2026-11-17T21:37:21. The board reads the big per-symbol panels through a 40-file sample; this reads every file and says whether the sample got the same answer — and how many symbols actually hold the newest bar.
 
 Read on **bm-a**'s disk — another machine's board reads this as a foreign scan and will not quote these counts against its own copy.
 
@@ -8,11 +8,19 @@ Verdict: **sample_understated** — 5 panel(s), 10651 file(s) scanned.
 
 | lane | full tail | sample tail | agree | files read | symbols holding the newest bar |
 |---|---|---|---|---|---|
-| futures | 2026-11-16 | 2026-11-16 | yes | 10/10 | 10 (100.00%) |
-| repo | 2026-11-13 | 2026-11-13 | yes | 11/11 | 11 (100.00%) |
+| futures | 2026-11-17 | 2026-11-17 | yes | 10/10 | 10 (100.00%) |
+| repo | 2026-11-17 | 2026-11-17 | yes | 11/11 | 11 (100.00%) |
 | moneyflow | 2026-10-19 | 2026-10-13 | **no** (sample_understated) | 5222/5222 | 2 (0.04%) |
 | astock_daily | 2026-11-16 | 2026-11-16 | yes | 5222/5222 | 1556 (29.80%) |
 | ah_panel | 2026-10-16 | 2026-10-16 | yes | 186/186 | 186 (100.00%) |
+
+## 3 row(s) carried forward
+
+A lane whose panel bytes are unchanged since it was last scanned is not re-read; its numbers stand as of that scan (the `as_of` above is the newest full read, not this run).
+
+- **moneyflow**: carried from `2026-11-17T19:54:28` (5222/5222 files unchanged)
+- **astock_daily**: carried from `2026-11-17T19:54:30` (5222/5222 files unchanged)
+- **ah_panel**: carried from `2026-11-17T19:54:34` (186/186 files unchanged)
 
 ## The newest bar is held by a handful of symbols
 

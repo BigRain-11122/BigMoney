@@ -1195,6 +1195,7 @@ def render_md(rep):
     L.append("")
     L.append("## 六、算力利用率（O-1614 满载机制 · T-107 面）")
     u = rep.get("utilization") or {}
+    _why_printed = None
     for mid, m in (u.get("machines") or {}).items():
         series = " ".join(f"{t}={p}%" for t, p in (m.get("py_series_tail") or [])
                           if p is not None)
@@ -1230,10 +1231,22 @@ def render_md(rep):
             mover = _mover_cn.get(why.get("what_would_move_it"))
             tail = ("要动的是%s（再等一天不会变）" % mover if mover
                     else "无法判断等什么才有用")
-            L.append("  - 供给底线为什么红：%d 个候选全被自己的日历拒 —— %s；%s"
-                     "（成因 `%s`，缺口 %s）"
-                     % (len(_cands), "；".join(bits) or "成因面没给出可分类的候选",
-                        tail, why.get("cause"), why.get("shortfall")))
+            # r1307: two machine rows quote the SAME cause face word for word, and
+            # this page is one sheet -- printing it twice reads as two independent
+            # measurements of one number (the same defect class r1290 fixed for the
+            # utilisation series). The second row points at the first instead.
+            _sig = (why.get("cause"), why.get("shortfall"),
+                    tuple(sorted(c.get("candidate") or "" for c in _cands)),
+                    why.get("what_would_move_it"))
+            if _sig == _why_printed:
+                L.append("  - 供给底线为什么红：与上一行同因（`%s`，缺口 %s）——同一张成因面，不重复印"
+                         % (why.get("cause"), why.get("shortfall")))
+            else:
+                _why_printed = _sig
+                L.append("  - 供给底线为什么红：%d 个候选全被自己的日历拒 —— %s；%s"
+                         "（成因 `%s`，缺口 %s）"
+                         % (len(_cands), "；".join(bits) or "成因面没给出可分类的候选",
+                            tail, why.get("cause"), why.get("shortfall")))
         elif "supply_floor" in str(m.get("verdict") or ""):
             # Honest label: a lane written before r1657 has the flag but no
             # cause. Printing nothing would read as "no cause exists"; printing

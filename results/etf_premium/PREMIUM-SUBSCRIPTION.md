@@ -1,28 +1,28 @@
-# Premium vs the fund's own purchase channel -- 2026-11-16
+# Premium vs the fund's own purchase channel -- 2026-11-17
 
-**Answer (derived):** 5/5 legs show no open primary subscription anywhere in coverage; exchange-only on their latest stamp: 510760, 512040, 159655, 513690, 159519; the 186 hard-suspended sessions are 99 runs (74 of them a single NAV row); with the 74 one-row valuation gaps removed the block still sits wider on 159519 and not on 159655, 513690; 510760 has no real suspension left at all; 159519's gap sits in its single 3-session run (own gap +2.58) while its other 21 runs read -0.01; the single-row runs are not spread over the calendar: Tue carries 43% of them against 20% of priced sessions (chance 6e-06), so a one-row word is a word printed that session, not a fund policy; what those one-row words are is a valuation gap, not an announcement: 74/74 of them suspend 赎回 on the same row, they move the NAV by 0.16 of a normal session (median), and 45/74 sit on a session the HKEX calendar explains against 5.9% of ordinary sessions (10.2x); closed channel is consistent with a standing premium, not a verdict on it
+**Answer (derived):** 5/5 legs show no open primary subscription anywhere in coverage; exchange-only on their latest stamp: 510760, 512040, 159655, 513690, 159519; the 186 hard-suspended sessions are 99 runs (74 of them a single NAV row); with the 74 one-row valuation gaps removed the block still sits wider on 159519 and not on 159655, 513690; 510760 has no real suspension left at all; 159519's gap sits in its single 3-session run (own gap +2.59) while its other 21 runs read -0.01; the single-row runs are not spread over the calendar: Tue carries 43% of them against 20% of priced sessions (chance 6e-06), so a one-row word is a word printed that session, not a fund policy; what those one-row words are is a valuation gap, not an announcement: 74/74 of them suspend 赎回 on the same row, they move the NAV by 0.16 of a normal session (median), and 45/74 sit on a session the HKEX calendar explains against 5.9% of ordinary sessions (10.3x); closed channel is consistent with a standing premium, not a verdict on it
 
-**Session (derived):** premiums priced on 2026-11-16 against a ticket of 2026-11-16 -- every leg prices the ticket's own session; the price/IOPV column comes from the 2026-11-16 board face (ticket_session)
+**Session (derived):** premiums priced on 2026-11-17 against a ticket of 2026-11-17 -- every leg prices the ticket's own session; the price/IOPV column comes from the 2026-11-17 board face (ticket_session)
 
 Ruler: panel close / the newest unit NAV stamped strictly before that close - 1. Status joined on: 申购状态 printed on the NAV stamp the premium used.
 
 | leg | class | amount CNY | premium (NAV ruler) | board (price/IOPV) | ruler gap pp | priced session | stamp | 申购状态 on stamp | hard-suspended sessions | premium>=10% sessions | share closed at high | window verdict |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
-| 510760 | equity | 86,401 | -2.33% | -0.31% | -2.02 | 2026-11-16 | 2026-11-11 | 场内买入 | 1 | 1 | 100% | CHANNEL_CLOSED_THROUGHOUT |
-| 512040 | equity | 86,352 | +0.23% | -0.22% | +0.45 | 2026-11-16 | 2026-11-11 | 场内买入 | 0 | 0 | n/a | CHANNEL_CLOSED_THROUGHOUT |
-| 159655 | crossborder | 86,286 | +6.44% | +6.75% | -0.31 | 2026-11-16 | 2026-11-11 | 场内买入 | 91 | 11 | 100% | CHANNEL_CLOSED_THROUGHOUT |
-| 513690 | crossborder | 86,365 | -1.13% | -0.36% | -0.77 | 2026-11-16 | 2026-11-11 | 场内买入 | 64 | 0 | n/a | CHANNEL_CLOSED_THROUGHOUT |
-| 159519 | crossborder | 86,324 | -1.06% | -0.75% | -0.31 | 2026-11-16 | 2026-11-11 | 场内买入 | 30 | 0 | n/a | CHANNEL_CLOSED_THROUGHOUT |
+| 510760 | equity | 86,348 | -0.69% | -0.26% | -0.44 | 2026-11-17 | 2026-11-16 | 场内买入 | 1 | 1 | 100% | CHANNEL_CLOSED_THROUGHOUT |
+| 512040 | equity | 86,421 | +0.32% | -0.04% | +0.36 | 2026-11-17 | 2026-11-16 | 场内买入 | 0 | 0 | n/a | CHANNEL_CLOSED_THROUGHOUT |
+| 159655 | crossborder | 86,390 | +5.44% | +7.52% | -2.07 | 2026-11-17 | 2026-11-13 | 场内买入 | 91 | 11 | 100% | CHANNEL_CLOSED_THROUGHOUT |
+| 513690 | crossborder | 86,369 | -1.09% | -0.37% | -0.71 | 2026-11-17 | 2026-11-16 | 场内买入 | 64 | 0 | n/a | CHANNEL_CLOSED_THROUGHOUT |
+| 159519 | crossborder | 86,351 | -1.16% | -0.28% | -0.88 | 2026-11-17 | 2026-11-16 | 场内买入 | 30 | 0 | n/a | CHANNEL_CLOSED_THROUGHOUT |
 
 ## Within-leg contrast: hard-suspended vs exchange-only
 
 | leg | verdict | median premium, 暂停申购 | median premium, 场内买入 | gap pp | n |
 |---|---|---|---|---|---|
-| 510760 | NO_CONTRAST | +1.19% | +0.04% | n/a | 1 / 1496 |
-| 512040 | NO_CONTRAST | n/a | +0.02% | n/a | 0 / 1907 |
-| 159655 | BLOCK_DOES_NOT_WIDEN | +1.91% | +0.94% | +0.97 | 91 / 894 |
-| 513690 | BLOCK_DOES_NOT_WIDEN | +0.50% | -0.02% | +0.52 | 64 / 1268 |
-| 159519 | BLOCK_DOES_NOT_WIDEN | +0.50% | +0.23% | +0.27 | 30 / 745 |
+| 510760 | NO_CONTRAST | +1.19% | +0.04% | n/a | 1 / 1497 |
+| 512040 | NO_CONTRAST | n/a | +0.02% | n/a | 0 / 1908 |
+| 159655 | BLOCK_DOES_NOT_WIDEN | +1.91% | +0.94% | +0.96 | 91 / 895 |
+| 513690 | BLOCK_DOES_NOT_WIDEN | +0.50% | -0.02% | +0.52 | 64 / 1269 |
+| 159519 | BLOCK_DOES_NOT_WIDEN | +0.50% | +0.23% | +0.28 | 30 / 746 |
 
 ### The same contrast with the valuation gaps removed
 
@@ -36,7 +36,7 @@ itself chose to shut, or was the wider reading the calendar all along?
 |---|---|---|---|---|---|---|
 | 510760 | NO_CONTRAST | n/a | +0.04% | n/a | 0 | 1 |
 | 512040 | NO_CONTRAST | n/a | +0.02% | n/a | 0 | 0 |
-| 159655 | BLOCK_DOES_NOT_WIDEN | +1.93% | +0.94% | +0.99 | 58 | 33 |
+| 159655 | BLOCK_DOES_NOT_WIDEN | +1.93% | +0.94% | +0.98 | 58 | 33 |
 | 513690 | BLOCK_DOES_NOT_WIDEN | +0.62% | -0.02% | +0.64 | 40 | 24 |
 | 159519 | BLOCK_WIDENS_PREMIUM | +1.40% | +0.23% | +1.17 | 14 | 16 |
 
@@ -55,9 +55,9 @@ the same fact repeated. The table above counts days; this one counts runs.
 |---|---|---|---|---|---|---|---|---|---|
 | 510760 | 3 | 1 | 1 | 1 | 1 (2024-08-15..2024-08-15) | +1.15 | +1.15 | n/a | TOO_FEW_EPISODES |
 | 512040 | 1 | 0 | 0 | n/a | 0 (n/a..n/a) | n/a | n/a | n/a | NO_BLOCKED_EPISODES |
-| 159655 | 69 | 34 | 33 | 1 | 58 (2024-03-07..2024-06-03) | +0.68 | +0.99 | +0.38 | EPISODE_GAP_DOES_NOT_WIDEN |
+| 159655 | 69 | 34 | 33 | 1 | 58 (2024-03-07..2024-06-03) | +0.68 | +0.98 | +0.37 | EPISODE_GAP_DOES_NOT_WIDEN |
 | 513690 | 85 | 42 | 24 | 1 | 3 (2021-09-17..2021-09-23) | +0.17 | -0.68 | +0.20 | EPISODE_GAP_DOES_NOT_WIDEN |
-| 159519 | 45 | 22 | 16 | 1 | 3 (2024-12-25..2024-12-27) | +0.25 | +2.58 | -0.01 | EPISODE_GAP_DOES_NOT_WIDEN |
+| 159519 | 45 | 22 | 16 | 1 | 3 (2024-12-25..2024-12-27) | +0.26 | +2.59 | -0.01 | EPISODE_GAP_DOES_NOT_WIDEN |
 
 Run-level gap = median over blocked runs of (that run's own median premium - the
 leg's exchange-only median), so one long block cannot stand in for hundreds of
@@ -114,11 +114,11 @@ does not.
 |---|---|---|---|---|---|---|---|---|---|
 | 510760 | 1 | Thu | 100% | 20% | 0.2 | 1 | 1 | 15(1) | TOO_FEW_BLIPS |
 | 512040 | 0 | n/a | n/a | n/a | n/a | 0 | 0 | n/a | TOO_FEW_BLIPS |
-| 159655 | 33 | Tue | 55% | 20% | 1.5e-05 | 33 | 0 | 20(5), 26(4), 5(3) | BLIP_WEEKDAY_CADENCE |
-| 513690 | 24 | Tue | 38% | 20% | 0.037 | 24 | 0 | 2(5), 4(2), 10(2) | BLIP_NO_CADENCE |
+| 159655 | 33 | Tue | 55% | 20% | 1.6e-05 | 33 | 0 | 20(5), 26(4), 5(3) | BLIP_WEEKDAY_CADENCE |
+| 513690 | 24 | Tue | 38% | 20% | 0.038 | 24 | 0 | 2(5), 4(2), 10(2) | BLIP_NO_CADENCE |
 | 159519 | 16 | Mon | 31% | 20% | 0.19 | 16 | 0 | 2(4), 4(1), 5(1) | BLIP_NO_CADENCE |
 
-**Pooled:** 74 single-row runs out of 99 blocked runs; **Tue carries 43% of them against 20% of all priced sessions** (one-sided chance 5.8e-06). Peak days of the month: 2(9), 20(5), 5(4). 74 of the runs are bracketed by 场内买入 on both sides, and 1 carry a NAV jump larger than 3% -- a split or a big distribution, not a quota.
+**Pooled:** 74 single-row runs out of 99 blocked runs; **Tue carries 43% of them against 20% of all priced sessions** (one-sided chance 6.2e-06). Peak days of the month: 2(9), 20(5), 5(4). 74 of the runs are bracketed by 场内买入 on both sides, and 1 carry a NAV jump larger than 3% -- a split or a big distribution, not a quota.
 
 
 Only 1 of 5 legs clear the line on their own (159655); the rest lean the same way with too few runs to call it, which is why the pooled reading above -- not a per-leg one -- is the sentence this section quotes.
@@ -139,10 +139,10 @@ closure calendar (NYSE closures, rule-derived: New Year, MLK, Presidents, Good F
 
 | leg | one-row runs | 赎回 also suspended | NAV unchanged exactly | median |dNAV| vs a normal session | share <= quarter | closure in the gap (full/early) | unmatched | closure rate | ordinary-session rate | lift | verdict |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| 510760 | 1 | 1 | 0 | 9.848 | 0% | 0/0 | 1 | 0% | 4.8% | 0.0x | CAUSE_UNRESOLVED |
+| 510760 | 1 | 1 | 0 | 9.841 | 0% | 0/0 | 1 | 0% | 4.7% | 0.0x | CAUSE_UNRESOLVED |
 | 512040 | 0 | 0 | 0 | n/a | 0% | 0/0 | 0 | n/a | 4.7% | n/a | NO_ONE_ROW_RUNS |
-| 159655 | 33 | 33 | 2 | 0.193 | 64% | 32/0 | 1 | 97% | 1.8% | 54.2x | CALENDAR_GAP |
-| 513690 | 24 | 24 | 0 | 0.127 | 58% | 1/0 | 23 | 4% | 4.8% | 0.9x | CALENDAR_GAP |
+| 159655 | 33 | 33 | 2 | 0.193 | 64% | 32/0 | 1 | 97% | 1.8% | 54.3x | CALENDAR_GAP |
+| 513690 | 24 | 24 | 0 | 0.127 | 58% | 1/0 | 23 | 4% | 4.7% | 0.9x | CALENDAR_GAP |
 | 159519 | 16 | 16 | 0 | 0.130 | 69% | 1/0 | 15 | 6% | 4.9% | 1.3x | CALENDAR_GAP |
 
 **Pooled:** 74 one-row runs of 99 blocked runs. **74/74 suspend 赎回 on the very same row** -- an announcement that closes subscription does not close redemption, and this one always does. They move the NAV by **0.16 of the leg's own median move** (median over legs; 62% of the runs sit at a quarter or less) and 2 carry the previous NAV exactly, so a distribution is not what these rows are: the largest move on any of them is 5.0722% at 2024-08-14 and the 90th percentile is 5.0722%. **34/74 land on a session whose gap contains an NYSE closure** (full 34, early 0) against **4.3% of ordinary sessions** -- 10.7x.
@@ -152,9 +152,9 @@ closure calendar (NYSE closures, rule-derived: New Year, MLK, Presidents, Good F
 | calendar | how it is known | runs it explains | rate | ordinary-session rate | lift | named |
 |---|---|---|---|---|---|---|
 | NYSE | rule list, window (prev_stamp, stamp] | 34/74 | 46% | 4.3% | 10.7x | no |
-| HKEX | measured on HSI (no bar / half day / shut weekday in the gap) | 45/74 | 61% | 5.9% | 10.2x | yes |
+| HKEX | measured on HSI (no bar / half day / shut weekday in the gap) | 45/74 | 61% | 5.9% | 10.3x | yes |
 
-HKEX series used here: **3258 sessions, 2013-08-20..2026-11-13** (read: fetched). The half-day cutoff is a ruler, so the Hong Kong reading is printed at three of them -- 43/74 runs at 50% of trailing turnover, 45 at 60%, 49 at 70% -- and the page quotes no single one as the answer.
+HKEX series used here: **3260 sessions, 2013-08-20..2026-11-17** (read: fetched). The half-day cutoff is a ruler, so the Hong Kong reading is printed at three of them -- 43/74 runs at 50% of trailing turnover, 45 at 60%, 49 at 70% -- and the page quotes no single one as the answer.
 
 **Named per leg:** HKEX explains 513690, 159519; NYSE explains 159655; left unnamed: 510760. The pool word above is a different question from these: it asks which calendar explains most of the 116 runs, not which one explains a given leg.
 
