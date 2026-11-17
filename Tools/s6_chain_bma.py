@@ -30,6 +30,7 @@ Usage:
 Exit 0 always (legs are recorded; non-zero legs are reported, not fatal) -- the
 round report must surface any rc!=0 leg verbatim.
 """
+import hashlib
 import json
 import os
 import re
@@ -75,6 +76,24 @@ def resolve(cmd):
 def _progress_path(round_no, scope):
     return os.path.join(ROOT, "results",
                         f"_r{round_no}bma_s6_chain{scope}.progress.jsonl")
+
+
+def _scope_tag(legs):
+    """A bounded filename tag for a `--only=` run.
+
+    r1299: a fifteen-leg `--only=` filter built a 262-character filename, so the
+    chain paid every leg and then died on its own record write (OSError 22) --
+    and because `_append_progress` swallows OSError, the per-leg evidence was
+    silently gone too. The scope still has to be readable, so a short list keeps
+    its names and a long one keeps the leg count plus a hash of the same set.
+    """
+    names = sorted({t[0] for t in legs})
+    tag = ".only-" + "-".join(names)
+    budget = 150 - len(f"_r{99999}bma_s6_chain{''}.progress.jsonl")
+    if len(tag) <= budget:
+        return tag
+    digest = hashlib.sha1("-".join(names).encode("utf-8")).hexdigest()[:8]
+    return f".only-{len(names)}legs-{digest}"
 
 
 def _append_progress(path, rec):
@@ -309,7 +328,7 @@ def main(argv):
     # stop a torn file, not a small run wearing the big run's name.
     scope = ""
     if only is not None:
-        scope = ".only-" + "-".join(sorted({t[0] for t in legs}))
+        scope = _scope_tag(legs)
     path = os.path.join(ROOT, "results", f"_r{round_no}bma_s6_chain{scope}.json")
     prog = _progress_path(round_no, scope)
     _append_progress(prog, {"started": datetime.now().isoformat(timespec="seconds"),

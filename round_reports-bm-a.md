@@ -2443,3 +2443,24 @@ CEO 一页纸与执行单（同一个读者件） | 最近实物: `results/etf_b
 **本地未达 origin commit 数**：0（push 后复核）。
 
 **S7**：`register_loop_task.ps1` 重注册成功，但 **S4U XML 翻转仍失败（拒绝访问）** → 任务留在默认 principal（LogonType 回归面，需提权主机手动过一遍——CEO 物理件）；first fire 21:08。pre-commit 爪在位；pre-push 爪本轮重装，CR 归一后与正典一致。`attrition_ledger_guard scan` CLEAN（4 个账本，无 active loss，2 处历史 shrink 记 healed）。pre-commit 曾以「心跳 GPU 面自相矛盾」拦一次，已按正法 `Tools/gpu_face.py apply` 用单探针重写后通过（未用 --no-verify）。
+
+
+## r1299 · 2026-11-17T19:18:57+08:00
+
+- **watermark**：red=false · lane=healthy（
+esults/watermark_red.json，work_cand 本地批 1 / 池 0 / 板 0）。
+- **当前活**：本机 15 腿产品链过滤跑，证据首次真正落盘。
+- **最近实物**：
+esults/_r1299bma_s6_chain.only-15legs-0fcd7bf4.json（19:14）与 docs/live_usage/LIVE-2026-11-17.md（19:14）。
+- **下个里程碑**：账本定价面从 11-16 追到 11-17（等定价车道推进后重出，窗 ≤48h）。
+
+**本轮做了什么（1 件真修 + 1 次整链）**
+1. **修 Tools/s6_chain_bma.py 的证据文件名溢出**：--only= 过滤跑把整份腿清单拼进文件名，15 腿时路径 262 字符——链条付完 15 条腿的代价后在自己写记录时抛 OSError: [Errno 22]，而且 _append_progress 是吞 OSError 的（r1298 立的「不丢自己的尾巴」在这条支路上正好没生效），于是逐腿证据一并消失。正法=_scope_tag()：短清单保留原名，长清单独取「腿数 + 集合哈希」；预算按最坏轮号长度扣。复跑同一 15 腿过滤：记录落 ...only-15legs-0fcd7bf4.json，链条 **12/15 rc0**，非零腿在文件里点名。零腿改动、零判据改动。
+2. **S0 整合 74 个 commit**（本地 0 ahead）：接手时工作树 280 个脏面（含已暂存面），整包 git stash push -u 收进 stash 后快进到 origin；stash **保留不 pop**——这些是派生面，按 r1288b 律重出而不是回灌。
+
+**诚实的三个红（同一类，未修，留指针）**
+live_book_day_words=1 / live_usage_day_words=1 / daily_report_day_words=1：战报第十二节里 2026-11-17 是**前向账本 as_of 与对基准 bar**，而 etf_book.priced_bar 是 2026-11-16——两面都是真的，检查器只认一个日期。r1809 addendum 已判过这类不是页面编辑引入的。正法应是让检查器分清「定价日」与「数据截止日／前向账本日」两个量，而不是改页面凑一个日期；本轮不动判据。
+
+**其他面**：orphan 0/30；orders_ack 115/115/0（MISS 0）；D-19 decisions+orders 均前进，尾部行为集团面（FluxVerse 已 PARKED / MiniGame / BigLife），无一涉本仓机制 → 只推进水位零动作；ttrition_ledger_guard scan CLEAN（4 账本，两处历史 shrink 记 healed）；循环任务 pin=3 no-op；看门狗重注册，S4U 翻转仍拒绝访问（CEO 物理件，照旧携带）。
+
+**本地未达 origin commit 数**：0（push 后复核）。
