@@ -1011,6 +1011,65 @@ def do_or_wait_face(path=DO_OR_WAIT_JSON):
                 "detail": "reading failed (%s)" % str(exc)[:120]}
 
 
+def supply_capacity_face():
+    """The level the calendar sentence cannot answer (r1309).
+
+    The wait-state sentence a reader keeps meeting here is "no candidate has passed its
+    calendar", which invites waiting. But every priced width tops out below the supply
+    floor, so waiting cannot finish that job -- the numbers already exist in
+    `results/etf_book_capacity_floor_gap.json` and they were printed in the audit face and
+    the daily report only. The reader is `scripts/supply_candidate_face.capacity_layer`,
+    which copies the receipt and cross-checks its floor against the gate that owns it
+    (`candidate_year_gate.CAPACITY_FLOOR_CNY`). Nothing is re-derived here: a second copy
+    of 20,000,000 is how two faces start disagreeing. An unreadable receipt is unreadable,
+    never a zero gap (r98)."""
+    scripts_dir = os.path.dirname(os.path.abspath(__file__))
+    if scripts_dir not in sys.path:
+        sys.path.insert(0, scripts_dir)
+    try:
+        import supply_candidate_face as _SC
+    except Exception as exc:                                    # noqa: BLE001
+        return {"readable": False, "why": "reader failed (%s)" % str(exc)[:120]}
+    try:
+        cap = dict(_SC.capacity_layer())
+        cap["sentence"] = _SC.capacity_sentence(cap)
+        cap["status"] = "ok" if cap.get("readable") else "unreadable"
+        return cap
+    except Exception as exc:                                    # noqa: BLE001
+        return {"readable": False, "status": "unreadable",
+                "why": "reading failed (%s)" % str(exc)[:120]}
+
+
+def supply_capacity_block(cap):
+    """Page lines: how far below its own floor this book's ceiling sits (r1309).
+
+    Pure formatting -- every number is the receipt's, read through the face that owns it.
+    The disagreement branch is printed rather than resolved: two owners' numbers side by
+    side, neither preferred."""
+    L = []
+    add = L.append
+    cap = cap or {}
+    add("")
+    if not cap.get("readable"):
+        add("- **供给地板读不到**：%s。读不到不等于缺口为零（r98），也不算「继续等」。"
+            % (cap.get("why") or "本页没有读到容量收据"))
+        add("")
+        return L
+    _share = cap.get("share_of_floor")
+    add("- **供给地板 ¥%s**。%s。"
+        % (format(cap.get("floor_cny") or 0, ",.0f"),
+           cap.get("sentence") or ""))
+    if _share is None:
+        add("- 上限占地板的比例读不到（不按 0 处理）。")
+    if cap.get("floor_matches_owner") is False:
+        add("- 注意：容量收据上的地板与属主门 %s 不一致——两个数各自贴出处，谁也不优先。"
+            % (cap.get("floor_owner") or "candidate_year_gate.CAPACITY_FLOOR_CNY"))
+    add("> 面：`%s`"
+        % str(cap.get("receipt") or "results/etf_book_capacity_floor_gap.json").replace(os.sep, "/"))
+    add("")
+    return L
+
+
 def window_label_face(path=WINDOW_LABEL_JSON):
     """Is the first row's 全窗年化 actually a full-window number? (r1216)
 
@@ -9247,6 +9306,7 @@ def build(with_stress=False, window_label=None):
     page["positions"] = positions_face()
     page["executed"] = executed_face(tk, fills=(page.get("fill") or {}).get("fills"))
     page["do_or_wait"] = do_or_wait_face()
+    page["supply_capacity"] = supply_capacity_face()
     page["band_ruler"] = band_ruler_face()
     page["window_label"] = page_window_label
     page["envelope"] = envelope_face()
@@ -9637,6 +9697,11 @@ def render_md(p, sb=None):
     for _dw_line in do_or_wait_block(p.get("do_or_wait") or {},
                                      page_day=p.get("generated_for_date")):
         add(_dw_line)
+    # r1309: the wait-state sentence the reader keeps meeting is the calendar one ("no
+    # candidate past its gate"), which invites waiting. The level that sentence cannot
+    # answer -- every priced width tops out below the supply floor -- belongs beside it.
+    for _sc_line in supply_capacity_block(p.get("supply_capacity") or {}):
+        add(_sc_line)
     # r1670: "如果你今天才建仓" is a condition on the reader, not a claim about a bar -- but
     # on the printed page it reads exactly like the five sentences this family just repaired,
     # and it was the only undated line left in the top half. A hypothetical needs no date word.
@@ -10894,6 +10959,19 @@ def run():
               % (mid, HOST))
         return 0
     page, today = build(with_stress=True)
+    # r1308: the page is ONE day's ledger, and that day is the PRICING day.
+    # Rebuilt at 00:5x on a calendar day whose bar does not exist yet, it moved
+    # the page's own day to 11-18 while every close in it was 11-17, so each
+    # "today" named a session the reader was not standing in -- caught by the
+    # live_book_day_words leg as DAY_WORD_ON_ANOTHER_DAY. A run with no new bar
+    # is a no-op when that pricing day's page already exists.
+    _asof = str(page.get("evidence_cutoff") or today)[:10]
+    _prior = os.path.join(OUT_DIR, "LIVE-BOOK-%s.md" % _asof.replace("-", ""))
+    if _asof != today and os.path.exists(_prior):
+        print("etf_book_ceo_page: no new bar -- today is %s, the pricing day is %s and that page "
+              "already exists; nothing written (a page named for a day its own closes did not "
+              "price would call yesterday today)" % (today, _asof))
+        return 0
     auth = takeover_authority(mid) or {"writer": mid, "owner": HOST, "took_over": False}
     auth = dict(auth, no_bar_reason=PAGE_NO_BAR_REASONS["authority"])
     page["authority"] = auth
@@ -10959,6 +11037,7 @@ _REAL_FILE_READERS = (
     ("envelope", envelope_face),
     ("cost_tape", cost_tape_face),
     ("derisk", derisk_face),
+    ("supply_capacity", supply_capacity_face),
 )
 _READER_STATUS = ("ok", "absent", "unreadable", "drifted")
 
@@ -14765,6 +14844,32 @@ def selftest():
         "无法核验" in _dw_stale_md and "+1798" not in _dw_stale_md
         and "cut_order_gap" in _dw_stale_md,
         _dw_stale_md[:200])
+    # ---- r1309: the capacity level reaches the reader, not only the audit and the daily --
+    _sc_ok = {"readable": True, "floor_cny": 20000000.0, "ceiling_cny": 13794151.0,
+              "gap_cny": 6205849.0, "share_of_floor": 0.689708,
+              "best_reading": "priced_envelope_R20",
+              "receipt": "results/etf_book_capacity_floor_gap.json",
+              "floor_owner": "scripts/candidate_year_gate.py::CAPACITY_FLOOR_CNY",
+              "floor_matches_owner": True,
+              "sentence": "即使有一个候选过闸，已定价的最高上限 13,794,151 也只有地板的 69.0%"
+                          "（差 6,205,849）"}
+    _sc_md = "\n".join(supply_capacity_block(dict(_sc_ok)))
+    chk("L258 the supply floor reaches the page with its priced ceiling, share and gap",
+        "20,000,000" in _sc_md and "13,794,151" in _sc_md and "69.0%" in _sc_md
+        and "6,205,849" in _sc_md and "候选过闸" in _sc_md
+        and _sc_md.count("13,794,151") == 1,
+        _sc_md[:200])
+    _sc_gone = "\n".join(supply_capacity_block(
+        {"readable": False, "why": "no capacity receipt at results/x.json"}))
+    chk("L259 an unreadable capacity receipt prints unreadable, never a zero gap",
+        "读不到" in _sc_gone and "缺口为零" in _sc_gone
+        and "20,000,000" not in _sc_gone and "¥0" not in _sc_gone,
+        _sc_gone[:200])
+    _sc_dis = "\n".join(supply_capacity_block(dict(_sc_ok, floor_matches_owner=False)))
+    chk("L260 a floor that disagrees with its owner gate is flagged, not silently preferred",
+        "不一致" in _sc_dis and "candidate_year_gate.py::CAPACITY_FLOOR_CNY" in _sc_dis
+        and "20,000,000" in _sc_dis,
+        _sc_dis[:240])
     _dw_unk = "\n".join(do_or_wait_block(dict(_dw_ok, status="unknown", why="no receipts")))
     chk("L237 an unknown face reads as unverifiable, not as 'nothing owed today'",
         "无法核验" in _dw_unk and "no receipts" in _dw_unk and "没有到期" not in _dw_unk,
