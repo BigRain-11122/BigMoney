@@ -1042,7 +1042,6 @@ LEGS = [
     ("alias_stability",
      ["python", "scripts/etf_alias_stability.py", "check"],
      ["python", "scripts/etf_alias_stability.py", "run"]),
-    ("etf_book_ceo_page", ["python", "scripts/etf_book_ceo_page.py", "run"]),
     # r1814: K1 is a yes/no on a ruler that, on 2026-11-17, misses its own line by 0.87%.
     # This leg backs the line out into a capital figure and re-measures the same trade
     # against 60 sessions' own ADV, so the page can say how far from flipping it is.
@@ -1050,6 +1049,15 @@ LEGS = [
     ("capacity_edge",
      ["python", "scripts/etf_book_capacity_edge.py", "check"],
      ["python", "scripts/etf_book_capacity_edge.py", "run"]),
+    # r1816: the gate prices three capitals (best / typical / worst session) and the ticket
+    # is signed at the sheet's own 1,000,000. This leg feeds those three through the ticket
+    # floor's resolver, so the page can say whether the same twelve names still place on a
+    # typical day. It reads the capacity face published immediately above, so it stays after
+    # it; the CEO page moved below both so it reads this run's numbers, not last run's.
+    ("capacity_ticket",
+     ["python", "scripts/etf_book_capacity_ticket.py", "check"],
+     ["python", "scripts/etf_book_capacity_ticket.py", "run"]),
+    ("etf_book_ceo_page", ["python", "scripts/etf_book_ceo_page.py", "run"]),
     # r1639: r1638 found one sentence copied twice onto this page (the two copies read as
     # two independent pieces of evidence) and the block-level leg could not see it, because
     # `"..." in _md` is immune to repetition. That instance is fixed; this leg is the class:

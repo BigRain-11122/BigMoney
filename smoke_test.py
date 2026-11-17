@@ -1999,6 +1999,15 @@ def main() -> int:
              "scripts/etf_book_capacity_edge.py", ["selftest"]),
             ("product: etf_book_capacity_edge (ceiling re-derived from the published rows)",
              "scripts/etf_book_capacity_edge.py", ["check"]),
+            # r1816: the gate says a typical day carries about half the sheet's capital, and
+            # nothing had asked whether the twelve names still place at that number. The legs
+            # pin that the three rungs are the gate's own capitals, that the verdict is a count
+            # of rungs that place, that a rung stranding too much cash is never printed as
+            # "names cannot buy", and that the row arithmetic is the ticket floor's own.
+            ("product: etf_book_capacity_ticket (does the ticket place at the capital the gate allows)",
+             "scripts/etf_book_capacity_ticket.py", ["selftest"]),
+            ("product: etf_book_capacity_ticket (rungs re-derived from the gate face)",
+             "scripts/etf_book_capacity_ticket.py", ["check"]),
             # r1466: the swap was priced but the sheet carrying it did not say when to look
             # again. The legs pin that the action price is the round-trip toll (not a mean,
             # not a percentile), that a censored episode is reported rather than scored as

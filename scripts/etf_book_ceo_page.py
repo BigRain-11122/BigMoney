@@ -2596,6 +2596,69 @@ def label_census_face(path=LABEL_CENSUS_JSON):
 CAPEDGE_JSON = os.path.join(ROOT, "results", "etf_book_capacity_edge.json")
 
 
+CAPT_JSON = os.path.join(ROOT, "results", "etf_book_capacity_ticket.json")
+
+
+def capacity_ticket_face(path=CAPT_JSON):
+    """The gate priced three capitals. Does the same twelve-name ticket still place at them?
+
+    Read-only, one face. A missing face is "cannot verify", never "it places".
+    """
+    rel = _rel(path, ROOT).replace(os.sep, "/")
+    if not os.path.exists(path):
+        return {"status": "unreadable", "artifact": rel,
+                "detail": "capacity ticket face absent"}
+    f = _load(path) or {}
+    if not f.get("verdict"):
+        return {"status": "unreadable", "artifact": rel, "detail": "face carries no verdict",
+                "evidence_cutoff": f.get("evidence_cutoff")}
+    return {"status": "ok", "artifact": rel, "verdict": f.get("verdict"),
+            "sentence": f.get("sentence"), "rungs": f.get("rungs") or [],
+            "one_lot_floor_cny": f.get("one_lot_floor_cny"),
+            "shortfall_to_typical_cny": f.get("shortfall_to_typical_cny"),
+            "evidence_cutoff": f.get("evidence_cutoff"),
+            "ticket_file": f.get("ticket_file")}
+
+
+def capacity_ticket_block(ct):
+    """Page lines: can the book be placed at the capital the gate allows, on a typical day.
+
+    Every number is the face's own; this block re-derives nothing.
+    """
+    L = []
+    add = L.append
+    ct = ct or {}
+    head = "## 闸允许的资本上，这十二名还下得进去吗"
+    if ct.get("status") != "ok":
+        add(head)
+        add("")
+        add("这一节读不到容量票面（`%s`）：%s。**缺面不读成「下得进去」。**"
+            % (ct.get("artifact") or "results/etf_book_capacity_ticket.json",
+               ct.get("detail") or "无读数"))
+        add("")
+        return L
+    add(head)
+    add("")
+    add("**%s**" % (ct.get("sentence") or ""))
+    add("")
+    add("- 判词：**%s**；计价截止 %s；票面 `%s`。"
+        % (ct.get("verdict"), str(ct.get("evidence_cutoff") or "")[:10] or "未标",
+           ct.get("ticket_file") or "未标"))
+    names = {"best": "60 天最好的一天", "typical": "平常的一天", "worst": "60 天最差的一天"}
+    for r in ct.get("rungs") or []:
+        cap = r.get("capital_cny")
+        add("- %s：资本 %s 元 → %s%s。"
+            % (names.get(r.get("tag"), r.get("tag")),
+               "读不出" if cap is None else "{:,.0f}".format(float(cap)),
+               r.get("verdict") or "读不出",
+               ("，填不满 " + "、".join(r.get("unfilled") or [])) if r.get("n_unfilled") else ""))
+    if ct.get("one_lot_floor_cny") is not None:
+        add("- 每一名至少一手所需的资本：**%s 元**。"
+            % "{:,.0f}".format(float(ct["one_lot_floor_cny"])))
+    add("")
+    return L
+
+
 def capacity_edge_face(path=CAPEDGE_JSON):
     """K1 prints DENY. How far from its own line is that, and does it move with the calendar?
 
@@ -9409,6 +9472,7 @@ def build(with_stress=False, window_label=None):
     page["harvest_census"] = harvest_census_face()
     page["alias_stability"] = alias_stability_face()
     page["capacity_edge"] = capacity_edge_face()
+    page["capacity_ticket"] = capacity_ticket_face()
     page["floor_provenance"] = floor_provenance_face()
     page["vol_target_gate"] = vol_target_face()
     page["positions"] = positions_face()
@@ -9753,6 +9817,10 @@ def render_md(p, sb=None):
     # its own line. Right after it, because that is the next question a reader asks.
     for _ce_line in capacity_edge_block(p.get("capacity_edge") or {}):
         add(_ce_line)
+    # r1816: the block above prices how far the veto is from its line; this one asks whether
+    # the same twelve names place at the capitals that line allows. Reads the ticket face.
+    for _ct_line in capacity_ticket_block(p.get("capacity_ticket") or {}):
+        add(_ct_line)
     for _vl_line in vt_ladder_block(p.get("vt_ladder") or {}):
         add(_vl_line)
     # r1614: right after the ladder, because it is a condition on the ladder's answer --

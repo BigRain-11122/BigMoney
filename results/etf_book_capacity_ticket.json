@@ -1,0 +1,63 @@
+{
+ "rungs": [
+  {
+   "tag": "best",
+   "source_key": "capital_max_cny",
+   "capital_cny": 991420.84,
+   "verdict": "TRADABLE_AT_991420",
+   "unfilled": [],
+   "n_unfilled": 0,
+   "residual_pct_nav": 0.1562,
+   "traded_amount_cny": 900248.0,
+   "floor_cny": 14875.99,
+   "binding": "511180"
+  },
+  {
+   "tag": "typical",
+   "source_key": "capital_median_cny",
+   "capital_cny": 496475.93,
+   "verdict": "TRADABLE_AT_496475",
+   "unfilled": [],
+   "n_unfilled": 0,
+   "residual_pct_nav": 0.2418,
+   "traded_amount_cny": 450393.9,
+   "floor_cny": 14875.99,
+   "binding": "511180"
+  },
+  {
+   "tag": "worst",
+   "source_key": "capital_min_cny",
+   "capital_cny": 340837.76,
+   "verdict": "RESIDUAL_TOO_BIG_AT_340837",
+   "unfilled": [],
+   "n_unfilled": 0,
+   "residual_pct_nav": 0.5583,
+   "traded_amount_cny": 308123.2,
+   "floor_cny": 14875.99,
+   "binding": "511180"
+  }
+ ],
+ "verdict": "TRADABLE_ON_A_TYPICAL_DAY",
+ "one_lot_floor_cny": 14875.99,
+ "shortfall_to_typical_cny": -481599.94,
+ "n_rungs_tradable": 2,
+ "artifact": "etf_book_capacity_ticket",
+ "face": "results/etf_book_capacity_ticket.json",
+ "script": "scripts/etf_book_capacity_ticket.py",
+ "ticket_file": "results/etf_book_order/TICKET-2026-11-17-card.json",
+ "capacity_face": "results/etf_book_capacity_edge.json",
+ "capacity_verdict": "BELOW_LINE_EVERY_SESSION",
+ "n_sessions_read": 60,
+ "evidence_cutoff": "2026-11-17",
+ "frozen": {
+  "lot_shares": 100,
+  "fee_floor_cny": 5.0,
+  "residual_max_pct": 0.5,
+  "rung_order": [
+   "best",
+   "typical",
+   "worst"
+  ]
+ },
+ "sentence": "平常的一天（496,475 元）装得下这张票，最差的一天（340,837 元）装不下——那天没有名字买不到，但整手残差 0.5583% 的净值超过冻结的 0.50% 门。"
+}
