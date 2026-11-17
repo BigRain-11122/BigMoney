@@ -81,6 +81,7 @@ def main():
     prod = [r for r in out if r["label"] == "nobond_vt08"][0]
     penalties = [r["caliber"]["cagr_penalty_pp"] for r in out]
     face = {
+        "evidence_cutoff": str(last.date()),
         "runs": out,
         "universe": len(cols),
         "flips_repaired": n_flip,
