@@ -1,7 +1,7 @@
 {
  "evidence_cutoff": "2026-11-17",
  "beta_target": 0.2,
- "generated": "2026-11-18T02:27:42+08:00",
+ "generated": "2026-11-18T02:36:18+08:00",
  "permission": {
   "status": "within_permission",
   "k_now": 0.432195,
@@ -588,7 +588,7 @@
   "withdrawn_now": [],
   "withdrawal_note": "ledger withdrew 1 bar(s) at 2026-11-09 23:54:02 because the price panel then ended 2026-11-06 (2026-11-09); the panel has since carried 2026-11-09 again and that ledger row is live -- the withdrawal stays on record but it is not this sheet's pricing bar",
   "reinstatements": {
-   "at": "2026-11-18 02:27:42",
+   "at": "2026-11-18 02:36:18",
    "n_reinstated": 1,
    "rewritten": [],
    "verbatim_identical": [
@@ -1646,7 +1646,7 @@
  },
  "next_decision": {
   "artifact": "etf_book_next_decision",
-  "generated": "2026-11-18T02:27:42",
+  "generated": "2026-11-18T02:36:18",
   "evidence_cutoff": "2026-11-17",
   "calendar_source": "data/exchange_calendar.csv",
   "calendar_last": "2026-12-31",
@@ -1798,7 +1798,7 @@
  },
  "swap_freshness": {
   "artifact": "etf_book_swap_freshness",
-  "generated": "2026-11-18T02:27:42",
+  "generated": "2026-11-18T02:36:18",
   "evidence_cutoff": "2026-11-17",
   "calendar_source": "data/exchange_calendar.csv",
   "close_accept_time": "15:30",
@@ -2556,16 +2556,16 @@
    {
     "symbol": "510760",
     "class": "equity",
-    "latest_pct": -0.6933928429106451,
+    "latest_pct": -2.9519432977646254,
     "median_pct": 0.042643571225375876,
     "lag_median_pp": 0.11041475491916364,
-    "lag_latest_pp": 2.2585504548539803,
-    "nav_lag_days": 1,
+    "lag_latest_pp": 0.9958894620659353,
+    "nav_lag_days": 6,
     "nav_source": "cache-stale",
     "session_state": "SAME_SESSION",
     "price_session": "2026-11-17",
     "counted": true,
-    "verdict": "LAG_DOMINATED",
+    "verdict": "MEAN_REVERTING",
     "rank": 0.0053404539385847796,
     "rank_n": 1498,
     "rank_verdict": "LOWER_TAIL",
@@ -2578,11 +2578,11 @@
    {
     "symbol": "512040",
     "class": "equity",
-    "latest_pct": 0.315824468085113,
-    "median_pct": 0.01782649488255572,
-    "lag_median_pp": 0.27573138884851023,
-    "lag_latest_pp": 1.5184369528986164,
-    "nav_lag_days": 1,
+    "latest_pct": 0.7260285404322886,
+    "median_pct": 0.01682928709370035,
+    "lag_median_pp": 0.2767285966373656,
+    "lag_latest_pp": 1.4253292397329864,
+    "nav_lag_days": 6,
     "nav_source": "cache-stale",
     "session_state": "SAME_SESSION",
     "price_session": "2026-11-17",
@@ -2600,16 +2600,16 @@
    {
     "symbol": "159655",
     "class": "crossborder",
-    "latest_pct": 5.443658138268925,
+    "latest_pct": 4.6574454290036815,
     "median_pct": 1.2521401381227704,
     "lag_median_pp": 0.7036514658424475,
-    "lag_latest_pp": 1.3923766350532496,
-    "nav_lag_days": 4,
+    "lag_latest_pp": 3.78505821000652,
+    "nav_lag_days": 6,
     "nav_source": "cache-stale",
     "session_state": "SAME_SESSION",
     "price_session": "2026-11-17",
     "counted": true,
-    "verdict": "MIXED",
+    "verdict": "LAG_DOMINATED",
     "rank": 0.8265720081135902,
     "rank_n": 986,
     "rank_verdict": "ORDINARY",
@@ -2622,16 +2622,16 @@
    {
     "symbol": "513690",
     "class": "crossborder",
-    "latest_pct": -1.086581579855117,
+    "latest_pct": -1.3842317943427052,
     "median_pct": -0.01811266074985829,
     "lag_median_pp": 0.07730179916268787,
-    "lag_latest_pp": 1.365329539455129,
-    "nav_lag_days": 1,
+    "lag_latest_pp": 0.5061112045453342,
+    "nav_lag_days": 6,
     "nav_source": "cache-stale",
     "session_state": "SAME_SESSION",
     "price_session": "2026-11-17",
     "counted": true,
-    "verdict": "LAG_DOMINATED",
+    "verdict": "MEAN_REVERTING",
     "rank": 0.14328582145536384,
     "rank_n": 1333,
     "rank_verdict": "ORDINARY",
@@ -2644,16 +2644,16 @@
    {
     "symbol": "159519",
     "class": "crossborder",
-    "latest_pct": -1.1591744416171834,
+    "latest_pct": -1.231777601988926,
     "median_pct": 0.23215565940373217,
     "lag_median_pp": 0.38541600221362327,
-    "lag_latest_pp": 1.275634787895752,
-    "nav_lag_days": 1,
+    "lag_latest_pp": 0.7312061332886866,
+    "nav_lag_days": 6,
     "nav_source": "cache-stale",
     "session_state": "SAME_SESSION",
     "price_session": "2026-11-17",
     "counted": true,
-    "verdict": "LAG_DOMINATED",
+    "verdict": "MEAN_REVERTING",
     "rank": 0.1172680412371134,
     "rank_n": 776,
     "rank_verdict": "ORDINARY",
@@ -2668,19 +2668,17 @@
   "face_session_field": "base_bar",
   "face_off_session_legs": [],
   "lag_dominated": [
-   "510760",
    "512040",
-   "513690",
-   "159519"
+   "159655"
   ],
   "unpriced": [],
   "missing_legs": [],
   "nav_lag_days": [
-   1,
-   1,
-   4,
-   1,
-   1
+   6,
+   6,
+   6,
+   6,
+   6
   ],
   "pct_status": "produced",
   "pct_face_asof": "2026-11-17",
@@ -2701,30 +2699,30 @@
   "fwd_rows": [
    {
     "symbol": "510760",
-    "bucket": "LOW",
-    "latest_pctile": 15.6312625250501,
-    "mean_pct": 0.5223345213939685,
-    "n": 262,
-    "t": 1.9314301221169548,
+    "bucket": "BOTTOM",
+    "latest_pctile": 0.5344021376085505,
+    "mean_pct": 0.9739309177408781,
+    "n": 134,
+    "t": 2.48618543532154,
     "nonoverlap_obs": 71,
     "amount_cny": 86347.8,
-    "same_bucket_move_cny": 451.0243678642211
+    "same_bucket_move_cny": 840.967920989058
    },
    {
     "symbol": "512040",
-    "bucket": "MID",
-    "latest_pctile": 63.188253801782906,
-    "mean_pct": 0.1136316784152153,
-    "n": 770,
-    "t": 0.38385105751885035,
+    "bucket": "UPPER",
+    "latest_pctile": 78.91976927110645,
+    "mean_pct": 0.3459749989108973,
+    "n": 394,
+    "t": 0.9685142995814702,
     "nonoverlap_obs": 92,
     "amount_cny": 86421.2,
-    "same_bucket_move_cny": 98.20186006657005
+    "same_bucket_move_cny": 298.9957457587844
    },
    {
     "symbol": "159655",
     "bucket": "UPPER",
-    "latest_pctile": 87.10659898477158,
+    "latest_pctile": 82.74111675126903,
     "mean_pct": 1.3009600310549645,
     "n": 263,
     "t": 4.358136164408279,
@@ -2735,7 +2733,7 @@
    {
     "symbol": "513690",
     "bucket": "LOW",
-    "latest_pctile": 19.894894894894893,
+    "latest_pctile": 14.33933933933934,
     "mean_pct": 0.5330778868734505,
     "n": 223,
     "t": 1.4009616177991417,
@@ -2746,7 +2744,7 @@
    {
     "symbol": "159519",
     "bucket": "LOW",
-    "latest_pctile": 13.161290322580646,
+    "latest_pctile": 11.741935483870968,
     "mean_pct": 1.3772998496472701,
     "n": 172,
     "t": 4.544192330848934,
@@ -2756,7 +2754,7 @@
    }
   ],
   "fwd_missing_legs": [],
-  "fwd_cny_total": 3322.86,
+  "fwd_cny_total": 3913.6,
   "fwd_sample_signature": "3600c87ce854",
   "fwd_sample_legs": [
    "159519",
@@ -2781,7 +2779,7 @@
    {
     "symbol": "510760",
     "band": null,
-    "latest_pctile": 15.6312625250501,
+    "latest_pctile": 0.5344021376085505,
     "n": 28,
     "median_pct": 0.24254593948100922,
     "share_down": 0.32142857142857145
@@ -2789,7 +2787,7 @@
    {
     "symbol": "512040",
     "band": null,
-    "latest_pctile": 63.188253801782906,
+    "latest_pctile": 78.91976927110645,
     "n": 18,
     "median_pct": 0.7928535801374426,
     "share_down": 0.2777777777777778
@@ -2797,7 +2795,7 @@
    {
     "symbol": "159655",
     "band": null,
-    "latest_pctile": 87.10659898477158,
+    "latest_pctile": 82.74111675126903,
     "n": 44,
     "median_pct": 0.23847704273124437,
     "share_down": 0.4090909090909091
@@ -2805,7 +2803,7 @@
    {
     "symbol": "513690",
     "band": null,
-    "latest_pctile": 19.894894894894893,
+    "latest_pctile": 14.33933933933934,
     "n": 34,
     "median_pct": 0.4556476186771463,
     "share_down": 0.3235294117647059
@@ -2813,7 +2811,7 @@
    {
     "symbol": "159519",
     "band": null,
-    "latest_pctile": 13.161290322580646,
+    "latest_pctile": 11.741935483870968,
     "n": 12,
     "median_pct": 0.2591991530661586,
     "share_down": 0.25
