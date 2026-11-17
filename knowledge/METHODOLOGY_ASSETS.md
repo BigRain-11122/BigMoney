@@ -16670,3 +16670,22 @@ L14 构造性收窄超过重排/L15 判词带自己的重排读数）+ `results/
 两件事都要落在读者打开的那一页上，且复现口径要 import 不许重写。
 正身=`scripts/etf_book_capacity_edge.py`（selftest 10/10 + check ok）+
 `results/etf_book_capacity_edge.json` + `docs/live_book/LIVE-BOOK-20261117.md` 「这条容量闸离翻转有多远」节。
+
+### E688 · 容差写在绝对 pp 上，尺子一挪就变成假红（2026-11-18 r1815 bm-c）
+
+**判例**：分辨率地板面的闸把「拟合截距」钉死在 **0.15pp**——那是按五点拟合冻结的绝对值。
+`buffer_k40` 的面板重新对齐、第六条梯回来进拟合之后，同一个设计读出 **+0.224pp**，
+腿就红了，而设计一个字都没改。绝对值容差在一个会移动的尺子上不表达任何意思：
+本面自己的尺子是 **7.12pp**，0.224pp 只占 **3.14%**。
+
+**正法两件**：①把容差改写成**尺子自身的份额**（本面 5% = 当前 0.36pp），并在 `frozen` 字段里
+逐字记下改法与日期（不是删旧值，是说明旧值冻结在什么地方失效）；②**证明判词不被那个自由
+参数承载**——同一条斜率钉死在 k=0 的单位点上重算一遍（本面 k 需求 5.571 → 5.751，
+判词同为 `UNREACHABLE_BY_CONSTRUCTION`），反事实与发布值并排列出。没有②，放宽阈值就只是
+「看到红之后把线挪开」。
+
+**How**：任何以 pp 计的容差，先问这条线的尺子多粗、会不会换；会换就写成份额。任何放宽阈值
+的动作必须同时发布一个「把这个参数拿掉，判词还一样吗」的反事实，否则不许改。
+正身=`scripts/etf_book_phase_atlas_arms.py`（selftest 138/138 + check rc0）+
+`results/etf_book_buffer_resolution_floor.json`（intercept 0.2236pp / share 0.0314 / band 0.05 /
+verdict_without_intercept 同判）。

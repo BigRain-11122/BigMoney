@@ -396,8 +396,18 @@ FLOOR_RULE = {
     "degenerate_k": 1.0,
     "min_points": 4,
     "sweep_band_share_max": 0.25,   # the whole axis should span a small share of the ruler
+    # r1815: the intercept tolerance is a SHARE OF THE RULER, not a bare pp constant. The
+    # original 0.15pp was frozen against a five-point fit; when buffer_k40's panel re-aligned
+    # with the baseline and the sixth rung returned to the fit, the same design read +0.224pp
+    # and the leg went red with nothing about the design changed. What the leg actually asks
+    # is "does the extrapolation to the k=0 identity cost a meaningful share of the
+    # measurement" -- so the tolerance is stated in the ruler's own units (5% = 0.36pp on the
+    # current 7.12pp ruler). The verdict is separately proved independent of the intercept
+    # (`k_required_without_intercept`), so a looser anchor band cannot carry the conclusion.
+    "anchor_intercept_share_max": 0.05,
     "frozen": ("written before the first read of the floor: the axis is fitted linearly on the "
-               "published medians and the answer is a k, which only means anything inside [0,1]"),
+               "published medians and the answer is a k, which only means anything inside [0,1]; "
+               "amended 2026-11-18 (r1815) to state the intercept band as a share of the ruler"),
 }
 
 
@@ -419,6 +429,26 @@ def _ols(points):
     ss_tot = sum((p[1] - my) ** 2 for p in points)
     ss_res = sum((p[1] - (inter + slope * p[0])) ** 2 for p in points)
     return slope, inter, (1.0 - ss_res / ss_tot if ss_tot else 0.0)
+
+
+def _floor_label(k_req):
+    """Pure: the verdict a required k implies -> (label, one-sentence reason).
+
+    Split out of floor_of at r1815 so the counterfactual (the same slope with the line pinned
+    through the k=0 identity) can be labelled by the SAME function and compared with the
+    published verdict instead of a second copy of the thresholds.
+    """
+    if k_req is None:
+        return ("UNREACHABLE_BY_CONSTRUCTION",
+                "no measured strength rises with k, so no strength reaches the ruler")
+    if k_req > FLOOR_RULE["degenerate_k"]:
+        return ("UNREACHABLE_BY_CONSTRUCTION",
+                "k=%.2f sits past k=%.0f, which is 'never trade': this design cannot "
+                "resolve the axis at any setting that is still a buffer"
+                % (k_req, FLOOR_RULE["degenerate_k"]))
+    return ("REACHABLE_DECLARE_A_RUN",
+            "k=%.2f is inside the axis: declare a run there instead of extrapolating "
+            "into it" % k_req)
 
 
 def floor_of(payload):
@@ -486,22 +516,21 @@ def floor_of(payload):
         "the whole axis spans %.3fpp = %.3f of the ruler (flag if >= %.2f)"
         % (sweep, share, FLOOR_RULE["sweep_band_share_max"]),
     ]
-    if k_req is None:
-        label = "UNREACHABLE_BY_CONSTRUCTION"
-        reasons.append("no measured strength rises with k, so no strength reaches the ruler")
-    elif k_req > FLOOR_RULE["degenerate_k"]:
-        label = "UNREACHABLE_BY_CONSTRUCTION"
-        reasons.append("k=%.2f sits past k=%.0f, which is 'never trade': this design cannot "
-                       "resolve the axis at any setting that is still a buffer"
-                       % (k_req, FLOOR_RULE["degenerate_k"]))
-    else:
-        label = "REACHABLE_DECLARE_A_RUN"
-        reasons.append("k=%.2f is inside the axis: declare a run there instead of extrapolating "
-                       "into it" % k_req)
+    label, why = _floor_label(k_req)
+    reasons.append(why)
+    # r1815: the intercept is free in the fit, so it is also free to carry the verdict. The
+    # counterfactual (the same slope with the line pinned through the k=0 identity) is published
+    # beside the answer: if the two disagree, the size came from the intercept and not the axis.
+    k_req0 = (base_band / slope) if slope > 0 else None
+    label0, why0 = _floor_label(k_req0)
     out.update({"fit": {"slope_pp_per_k": round(slope, 4), "intercept_pp": round(inter, 4),
+                        "intercept_share_of_ruler": (round(inter / base_band, 4)
+                                                     if base_band else None),
                         "r2": round(r2, 4), "n_points": len(pts) + 1,
                         "anchor": "k=0 (identity: the baseline's own delta is 0.0)"},
                 "k_required": None if k_req is None else round(k_req, 3),
+                "k_required_without_intercept": (None if k_req0 is None else round(k_req0, 3)),
+                "verdict_without_intercept": label0,
                 "sweep_span_pp": round(sweep, 3),
                 "sweep_share_of_ruler": round(share, 4),
                 "verdict": label, "verdict_reasons": reasons})
@@ -553,10 +582,19 @@ def render_floor_md(p):
                     a["resolvable_share"], a["verdict"]))
     L.append("")
     if p.get("fit"):
-        L.append("Fit (through the k=0 identity): **%+.3fpp per unit k**, r2 %.3f, %d points. "
-                 "Ruler = **%.2fpp**. k needed to reach the ruler = **%s**."
-                 % (p["fit"]["slope_pp_per_k"], p["fit"]["r2"], p["fit"]["n_points"],
+        L.append("Fit (with the k=0 identity as one of its points): **%+.3fpp per unit k**, "
+                 "intercept **%+.3fpp** = %s of the ruler (anchor band %.0f%%), r2 %.3f, %d "
+                 "points. Ruler = **%.2fpp**. k needed to reach the ruler = **%s**."
+                 % (p["fit"]["slope_pp_per_k"], p["fit"]["intercept_pp"],
+                    "n/a" if p["fit"].get("intercept_share_of_ruler") is None
+                    else "%.1f%%" % (100.0 * p["fit"]["intercept_share_of_ruler"]),
+                    100.0 * p["rule"]["anchor_intercept_share_max"],
+                    p["fit"]["r2"], p["fit"]["n_points"],
                     p["ruler_pp"], p["k_required"]))
+        L.append("\nThe intercept is free in that fit, so here is the same slope pinned through "
+                 "the identity: k = **%s**, which reads **%s**. The answer does not need the "
+                 "line to float off the anchor.\n"
+                 % (p["k_required_without_intercept"], p["verdict_without_intercept"]))
         L.append("\nVerdict: **%s**\n" % p["verdict"])
     for x in p["verdict_reasons"]:
         L.append("- %s" % x)
@@ -1761,9 +1799,34 @@ def _selftest():
         rows = p["arms"][name]["rows"]
         worst = max(worst, abs(a["median_delta_pp"] - round(_median([r["delta_pp"] for r in rows]), 3)))
     chk(worst < 1e-9, "every arm median in the floor equals the arm face's own rows (max %r)" % worst)
-    # L13 the fitted line passes through the k=0 identity: at k=0 the effect must be zero-ish
-    chk(abs(fl["fit"]["intercept_pp"]) < 0.15,
-        "the fit's intercept stays near the k=0 identity (%+.3fpp)" % fl["fit"]["intercept_pp"])
+    # L13 the fitted line passes through the k=0 identity: at k=0 the effect must be zero-ish.
+    # r1815: measured against the ruler, not a bare pp constant -- 0.15pp was frozen on a
+    # five-point fit and went red when the sixth rung came back to the same panel.
+    _share = fl["fit"]["intercept_share_of_ruler"]
+    chk(_share is not None and abs(_share) <= FLOOR_RULE["anchor_intercept_share_max"],
+        "the fit's intercept stays near the k=0 identity (%+.3fpp = %s of the %.2fpp ruler, "
+        "band %.0f%%)" % (fl["fit"]["intercept_pp"],
+                          "n/a" if _share is None else "%.1f%%" % (100.0 * _share),
+                          fl["ruler_pp"], 100.0 * FLOOR_RULE["anchor_intercept_share_max"]))
+    # L13b the intercept may not carry the answer: pinning the line through the identity must
+    # leave the verdict where it is. A design whose size exists only because the line was
+    # allowed to float off the anchor is measuring the intercept, not the axis.
+    chk(fl["verdict_without_intercept"] == fl["verdict"],
+        "the verdict survives pinning the fit to the k=0 identity (%s at k=%s / %s at k=%s)"
+        % (fl["verdict"], fl["k_required"], fl["verdict_without_intercept"],
+           fl["k_required_without_intercept"]))
+    # L13c and the anchor band is not vacuous: a design whose arms all sit a whole ruler off
+    # the k=0 identity is caught by L13, while the face as published clears it.
+    _lift = json.loads(json.dumps(p))
+    for name in BUFFER_ARMS:
+        for r in _lift["arms"].get(name, {}).get("rows", []):
+            r["delta_pp"] = r["delta_pp"] + fl["ruler_pp"]     # a whole ruler of lift, flat axis
+    _lifted = floor_of(_lift)["fit"]["intercept_share_of_ruler"]
+    chk(_lifted is not None and abs(_lifted) > FLOOR_RULE["anchor_intercept_share_max"]
+        and abs(_share) <= FLOOR_RULE["anchor_intercept_share_max"],
+        "an axis lifted a whole ruler off the identity breaks the anchor band (%.0f%% lifted "
+        "vs %.1f%% as published)"
+        % (100.0 * _lifted, 100.0 * (_share or 0.0)))
     # L14 the published reading: the whole axis spans a small share of the ruler. This is the
     # sentence the family retires on, so it is asserted rather than narrated.
     chk(fl["sweep_share_of_ruler"] < FLOOR_RULE["sweep_band_share_max"],
