@@ -1247,6 +1247,13 @@ def render_md(rep):
                          "（成因 `%s`，缺口 %s）"
                          % (len(_cands), "；".join(bits) or "成因面没给出可分类的候选",
                             tail, why.get("cause"), why.get("shortfall")))
+                # r1308: "the phase set has to move" / "more years of evidence"
+                # and "the top priced width is 69% of the floor" are different
+                # orders. The second is carried verbatim from the face that
+                # read the capacity receipt; re-deriving it here would be a
+                # second place deciding the same level.
+                if why.get("capacity_sentence"):
+                    L.append("  - 而且日历过了也不够：%s" % why["capacity_sentence"])
         elif "supply_floor" in str(m.get("verdict") or ""):
             # Honest label: a lane written before r1657 has the flag but no
             # cause. Printing nothing would read as "no cause exists"; printing
