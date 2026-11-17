@@ -172,6 +172,13 @@ CARRY_OPEN_REL = "results/idx_fut_carry_open_capital.json"
 # first will fund the book on a day the second says to wait.
 CARRY_TIMING_JSON = os.path.join(ROOT, "results", "idx_fut_basis_timing.json")
 CARRY_TIMING_REL = "results/idx_fut_basis_timing.json"
+# r1819: the funding line and the timing rule were both on the page, but neither said
+# whether a *broker's margin* -- a floor that has nothing to do with the 8% risk dial --
+# could be the thing that actually decides the lot size.  Until now the page implied the
+# vol ruler was the only constraint.  The margin face answers which one bites first and
+# how far the index must fall before an account is called.
+CARRY_MARGIN_JSON = os.path.join(ROOT, "results", "idx_fut_carry_margin.json")
+CARRY_MARGIN_REL = "results/idx_fut_carry_margin.json"
 
 # Position ladder, v2 frozen canonical (DECISION_CHAIN v2 prereg, adopted
 # bm-c 2026-09-28; owner-canon rows in market_clock POSITION_LADDER):
@@ -771,6 +778,63 @@ def _carry_timing_face():
     }
 
 
+def _carry_margin_face():
+    """v2.4 r1819: which constraint actually sets the lot -- the risk dial or the broker.
+
+    Section ⑦ prints two halves of one decision (how much cash the first lot needs, and
+    whether today's discount is inside the entry band) and both of them assume the 8% vol
+    ruler is the only constraint.  It is not the only one: a 200-CNY-per-point contract
+    carries ~1.24M of notional, so a broker's 12-15% initial margin is 149k-186k of the
+    same account's cash.  If margin were binding, every number above it would be the wrong
+    rung -- this block is the check, on the same page, next to the number it could overturn.
+
+    Three rules, same family as the two blocks above:
+      * a missing face prints no number at all (r98: unknown is not zero);
+      * the sweep is labelled as a RULE PARAMETER, because the margin rate is an exchange
+        rule plus a broker add-on -- never a measurement of this book;
+      * the reader is told which arm wins and by how much, because "margin does not bind"
+        is only useful when the size of the gap is printed beside it.
+    """
+    d = _read_json(CARRY_MARGIN_JSON)
+    if not d:
+        return {"present": False, "path": CARRY_MARGIN_REL,
+                "note": "保证金面未产出（缺面不读 0）"}
+    v = d.get("verdict") or {}
+    products = d.get("products") or {}
+    if not products or not v.get("verdict"):
+        return {"present": False, "path": CARRY_MARGIN_REL,
+                "note": "保证金面在册但无判词（不完整面不冒充）"}
+    rows = {}
+    for code, p in sorted(products.items()):
+        if p.get("status") != "ok":
+            continue
+        at14 = (p.get("margin_sweep") or {}).get("14") or {}
+        rows[code] = {
+            "notional_cny": p.get("notional_per_lot_cny"),
+            "vol_rung_cny": p.get("vol_ruler_first_rung_cny"),
+            "margin_rung_cny": at14.get("capital_the_margin_arm_needs_cny"),
+            "initial_margin_cny": at14.get("initial_margin_cny"),
+            "call_trigger_pct": at14.get("call_trigger_pct"),
+            "breakeven_rate_pct": p.get("breakeven_margin_rate_pct"),
+            "worst_intraday_pct": (p.get("adverse") or {}).get("worst_intraday_pct"),
+            "worst_intraday_date": (p.get("adverse") or {}).get("worst_intraday_date"),
+            "gate": p.get("gate"),
+        }
+    return {
+        "present": True,
+        "path": CARRY_MARGIN_REL,
+        "verdict": v.get("verdict"),
+        "sentence": v.get("sentence"),
+        "gates": v.get("gates") or {},
+        "breakeven_rate_pct": v.get("breakeven_margin_rate_pct") or {},
+        "ruler_gap": v.get("ruler_gap_vol_over_margin_at_14pct") or {},
+        "accounts": rows,
+        "rates_swept_pct": d.get("margin_rates_swept_pct") or [],
+        "evidence_cutoff": d.get("evidence_cutoff"),
+        "source_generated": d.get("generated"),
+    }
+
+
 # r1785: the sheet below is a full build; the reader who already followed the
 # page needs the DIFFERENCE.  The producer (etf_book_exec_delta) has printed
 # that difference since r1563 and nothing on the page ever showed it, so
@@ -1185,6 +1249,7 @@ def build_payload(day: str) -> dict:
         "book_identity": _book_identity_face(),
         "carry_book": _carry_book_face(),
         "carry_timing": _carry_timing_face(),
+        "carry_margin": _carry_margin_face(),
         "freshness": _freshness_face(book, tape, regime.get("asof")),
         "chain_versions": [
             {"version": v, "status": s} for v, s in _version_banner()],
@@ -1834,6 +1899,57 @@ def render_md(p: dict) -> str:
         L.append(f"  - 出处：`{ct.get('path')}`｜cutoff {ct.get('evidence_cutoff')}"
                  f"｜generated {ct.get('source_generated') or '面未自带（读 window.to）'}"
                  f"｜收敛比 {ct.get('ratio')}")
+    # r1819: the two halves above both assume the 8% vol ruler is the only constraint.
+    # A broker's margin is a second floor, and the page owes the reader the check.
+    cm = p.get("carry_margin") or {}
+    if not cm.get("present"):
+        L.append(f"- 保证金这一路：{cm.get('note') or '保证金面未产出'}"
+                 f"（指针 `{cm.get('path')}`）——**今天读不到保证金读数，"
+                 "上面那条首档资金线只按波动尺算，未与券商的保证金核对**")
+    else:
+        rows_m = cm.get("accounts") or {}
+        gap = cm.get("ruler_gap") or {}
+        gates = cm.get("gates") or {}
+        if cm.get("verdict") == "VOL_RULER_IS_THE_GATE":
+            L.append("- **保证金不是门槛**（`%s`）：两把尺子里先咬住的是 8%% 波动尺。"
+                     "让保证金臂追平波动臂首档，初始保证金率要涨到 "
+                     % cm.get("verdict")
+                     + "、".join(f"{k} {v:.2f}%"
+                                 for k, v in (cm.get("breakeven_rate_pct") or {}).items())
+                     + "（本面扫了 " + "、".join("%.0f%%" % float(x) for x in
+                                               (cm.get("rates_swept_pct") or []))
+                     + " 四档，所有现实费率都远低于这个临界值）")
+        elif cm.get("verdict") == "MARGIN_IS_THE_GATE":
+            L.append("- **保证金才是门槛**（`%s`）：按扫描到的保证金率，保证金臂已经高于波动臂首档 —— "
+                     "上面那条首档资金线是低估的，应按保证金口径重算"
+                     % cm.get("verdict")
+                     + f"（超出的品种：{'、'.join(k for k, g in gates.items() if g == 'MARGIN')}）")
+        else:
+            L.append(f"- 保证金读数无法判断：{cm.get('verdict')}")
+        parts_m = []
+        for code in ("IC", "IM"):
+            r = rows_m.get(code)
+            if not r:
+                continue
+            parts_m.append(
+                f"{code} 每手名义 {_fmt_cny(r.get('notional_cny'))}"
+                f"·14% 初始保证金 {_fmt_cny(r.get('initial_margin_cny'))}"
+                f"·保证金臂首档 {_fmt_cny(r.get('margin_rung_cny'))}")
+        if parts_m:
+            L.append("  - " + "；".join(parts_m))
+        if gap:
+            L.append("  - **两把尺子差 "
+                     + "、".join(f"{k} {v:.2f}×" for k, v in gap.items())
+                     + "**：按保证金口径能开的杠杆是波动预算的这么多倍 —— "
+                     "多出来的部分就是这本书故意不用的风险空间")
+        worst = [f"{k} {r.get('worst_intraday_pct'):.2f}%"
+                 for k, r in rows_m.items() if r.get("worst_intraday_pct") is not None]
+        if worst:
+            L.append("  - 追缴不是这条线的风险：四个品种历史最差盘中（"
+                     + "、".join(worst) + "）离追缴线还差一个数量级")
+        L.append(f"  - 出处：`{cm.get('path')}`｜generated {cm.get('source_generated')}"
+                 f"｜cutoff {cm.get('evidence_cutoff')}"
+                 "｜保证金率=规则参数扫描（非本书测度）")
     L.append("")
     L.append("## ⑧ 诚实免责")
     L.append("")
@@ -2441,6 +2557,30 @@ def selftest() -> int:
         _md4 = render_md(_deg4)
         check("a missing timing face blocks funding instead of reading as out-of-band (r1787)",
               "时机这一半今天读不到" in _md4 and "不在带内" not in _md4)
+        # r1819: the margin arm is the second floor under the same number. Three legs:
+        # the verdict reaches the page, the breakeven rate comes off the face (not typed),
+        # and a missing margin face says "I could not check the broker's floor" rather
+        # than letting the vol ruler stand unexamined.
+        _cm1 = p1.get("carry_margin") or {}
+        if not _cm1.get("present"):
+            print("  [SKIP] carry margin: the face is absent")
+        else:
+            check("the page says which floor sets the lot (r1819)",
+                  _cm1.get("verdict") in md1
+                  and ("保证金不是门槛" in md1 or "保证金才是门槛" in md1))
+            _beh1 = _cm1.get("breakeven_rate_pct") or {}
+            check("the breakeven margin rate is read off the face, never typed (r1819)",
+                  bool(_beh1) and all(("%.2f%%" % float(v)) in md1
+                                      for v in _beh1.values()))
+            _gap1 = _cm1.get("ruler_gap") or {}
+            check("the size of the gap between the two rulers reaches the page (r1819)",
+                  bool(_gap1) and all("%.2f×" % v in md1 for v in _gap1.values()))
+            _deg5 = json.loads(json.dumps(p1))
+            _deg5["carry_margin"] = {"present": False, "path": CARRY_MARGIN_REL,
+                                     "note": "保证金面未产出（缺面不读 0）"}
+            _md5 = render_md(_deg5)
+            check("a missing margin face says the funding line was never checked (r1819)",
+                  "今天读不到保证金读数" in _md5 and "保证金不是门槛" not in _md5)
         _deg3 = json.loads(json.dumps(p1))
         _deg3["etf_order"] = dict(_deg3.get("etf_order") or {})
         _deg3["etf_order"]["next_decision_bars"] = None

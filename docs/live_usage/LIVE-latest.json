@@ -2,7 +2,7 @@
  "schema": "ceo_live_usage_v1_9",
  "ticket": "T-202609-28-105",
  "day": "2026-11-18",
- "generated": "2026-11-18T02:44:32",
+ "generated": "2026-11-18T03:35:38",
  "market": {
   "state": "RED",
   "asof": "2026-11-17",
@@ -133,7 +133,7 @@
    "behind_days": 0,
    "behind": [],
    "lane_owner": "bm-c",
-   "read_on": "bm-a"
+   "read_on": "bm-c"
   }
  },
  "ladder": {
@@ -492,7 +492,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 60075.5
+    "last_append_age_min": 60133.9
    },
    {
     "family": "FUND-VALUE-P1",
@@ -500,7 +500,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 60925.8
+    "last_append_age_min": 60978.3
    },
    {
     "family": "FUND-DIVLOWVOL-P1",
@@ -508,7 +508,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 57722.9
+    "last_append_age_min": 57771.6
    }
   ]
  },
@@ -557,7 +557,7 @@
   "file": "TICKET-2026-11-17.json",
   "bar": "2026-11-17",
   "decision_bar": "2026-11-17",
-  "generated": "2026-11-18T02:31:41+08:00",
+  "generated": "2026-11-18T02:36:18+08:00",
   "rows": [
    {
     "symbol": "510760",
@@ -970,6 +970,56 @@
   },
   "evidence_cutoff": "2026-11-17",
   "source_generated": null
+ },
+ "carry_margin": {
+  "present": true,
+  "path": "results/idx_fut_carry_margin.json",
+  "verdict": "VOL_RULER_IS_THE_GATE",
+  "sentence": "保证金不是门槛：保证金臂要追平波动臂首档，需要初始保证金率到 90.6%、95.5%（IC/IM 各自的临界值），而现实中券商收 12-15%。所以开仓资金线仍由 8% 波动尺决定；保证金只吃掉其中一部分现金，不改变 1 手首档。反过来说——若改用保证金口径，账户能开的杠杆是波动预算的若干倍，风险会失控，这正是不能拿保证金当尺子的原因。",
+  "gates": {
+   "IC": "VOL_RULER",
+   "IM": "VOL_RULER"
+  },
+  "breakeven_rate_pct": {
+   "IC": 90.623,
+   "IM": 95.4865
+  },
+  "ruler_gap": {
+   "IC": 3.956,
+   "IM": 4.072
+  },
+  "accounts": {
+   "IC": {
+    "notional_cny": 1238960.0,
+    "vol_rung_cny": 1122782.5,
+    "margin_rung_cny": 283845.74,
+    "initial_margin_cny": 173454.4,
+    "call_trigger_pct": 66.7129,
+    "breakeven_rate_pct": 90.623,
+    "worst_intraday_pct": -8.91,
+    "worst_intraday_date": "2018-06-19",
+    "gate": "VOL_RULER"
+   },
+   "IM": {
+    "notional_cny": 1204600.0,
+    "vol_rung_cny": 1150230.38,
+    "margin_rung_cny": 282496.77,
+    "initial_margin_cny": 168644.0,
+    "call_trigger_pct": 69.0151,
+    "breakeven_rate_pct": 95.4865,
+    "worst_intraday_pct": -9.4515,
+    "worst_intraday_date": "2024-02-05",
+    "gate": "VOL_RULER"
+   }
+  },
+  "rates_swept_pct": [
+   10.0,
+   12.0,
+   14.000000000000002,
+   15.0
+  ],
+  "evidence_cutoff": "2026-11-17",
+  "source_generated": "2026-11-18T03:33:17+0800"
  },
  "freshness": {
   "status": "ok",

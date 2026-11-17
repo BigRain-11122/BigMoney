@@ -1321,6 +1321,25 @@ def main() -> int:
     except Exception as e:
         check("product: the ticket says what it costs to open and which line is executable",
               False, str(e))
+    # r1819: the funding line above assumes the 8% vol ruler is the only floor. A broker's
+    # initial margin is a second one, and until this face existed nothing on the book had
+    # ever asked which bites first. Two legs: the arithmetic re-derives, and the breakeven
+    # rate -- the number that decides the question -- is recomputed from published inputs.
+    try:
+        _r = _leg_memo([sys.executable, "scripts/idx_fut_carry_margin.py", "selftest"], 120)
+        _tail = ((_r.stdout or _r.stderr).strip().splitlines() or ["no output"])[-1]
+        check("product: carry sleeve margin arm (selftest)",
+              _r.returncode == 0, f"exit={_r.returncode} | {_tail[:90]}")
+    except Exception as e:
+        check("product: carry sleeve margin arm (selftest)", False, str(e))
+    try:
+        _r = _leg_memo([sys.executable, "scripts/idx_fut_carry_margin.py", "--check"], 180)
+        _tail = ((_r.stdout or _r.stderr).strip().splitlines() or ["no output"])[-1]
+        check("product: carry sleeve margin arm (which floor wins, re-derived)",
+              _r.returncode == 0 and "CHECK OK" in _tail,
+              f"exit={_r.returncode} | {_tail[:140]}")
+    except Exception as e:
+        check("product: carry sleeve margin arm (which floor wins, re-derived)", False, str(e))
     # r1791: the index panel behind every carry discount leg had no producer -- the cache
     # was frozen at whatever day a human last ran download_indexes.py (r1777 recorded it as
     # a no-producer face). Two legs: the refresh's own merge rules, and the one thing a
@@ -10470,7 +10489,12 @@ def main() -> int:
                     _pbad76.append("the face says rates fell but the page does not")
             elif "利率掉下来" in _md76:
                 _pbad76.append("the page calls it a fall while the face does not")
-            _ok76, _why76 = _page_elsewhere_verdict(_pbad76, _tk76.get("asof_bar"))
+            # r1819: the ticket body names its bar `as_of`; this leg asked for `asof_bar`,
+            # read None, and then the elsewhere-guard had no bar to judge the page against
+            # -- so a page written by another host went permanently red for a field-name
+            # mismatch (r1788 family: ask the artifact which field holds the number).
+            _ok76, _why76 = _page_elsewhere_verdict(
+                _pbad76, _tk76.get("asof_bar") or _tk76.get("as_of"))
             if not _ok76:
                 _bad76.append(_why76)
         check("product: the operator page prices the cash half on the sheet's own three rates",

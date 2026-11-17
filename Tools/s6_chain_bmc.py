@@ -315,6 +315,14 @@ LEGS = [
     # as FUNDED_BY_A_LARGER_CAPITAL. r1781 puts that sentence on the reader's page. Reads
     # the sizing face; ~0.1s, no network, rewrites no ledger line.
     ("idx_fut_carry_open_capital", ["python", "scripts/idx_fut_carry_open_capital.py", "run"]),
+    # r1819: every rung above is priced by ONE ruler -- the 8% vol target -- and the book
+    # had never asked whether a broker's initial margin could be the thing that actually
+    # sets the lot. It cannot, and this leg is the proof: the margin arm needs a 90.6%
+    # (IC) / 95.5% (IM) initial rate to overtake the vol rung, ~4x stricter than anything
+    # a broker charges; the worst measured intraday move (-8.91% IC, -9.45% IM) is an
+    # order of magnitude away from a call. Reads the ladder + open-capital faces and the
+    # futures panel; ~0.3s, no network, rewrites no ledger line.
+    ("idx_fut_carry_margin", ["python", "scripts/idx_fut_carry_margin.py", "run"]),
     # r1136: the futures TSMOM sleeve was measured on 10-27 (standalone Sharpe 0.27, but
     # 50/50 with the ETF book 1.059 vs 0.98 alone at a smaller drawdown) and there was no
     # daily face for it -- the "produced but never read" class this repo keeps recording
