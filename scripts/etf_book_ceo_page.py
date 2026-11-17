@@ -1645,6 +1645,10 @@ def premium_face(path=PREMIUM_LEAK_JSON):
         "session": f.get("iopv_session"),
         "ticket_session": f.get("ticket_session"),
         "session_match": f.get("session_match"),
+        # r1823: the face names the ticket it priced. Carrying it here is what lets a
+        # reader ask "is this the same ticket I am looking at" instead of assuming two
+        # bodies of numbers with equal fields came off the same sheet (r1781/r1820).
+        "ticket": f.get("ticket"),
         "verdict": f.get("verdict"),
         "verdict_reason": f.get("verdict_reason"),
         "names": f.get("names") or [],

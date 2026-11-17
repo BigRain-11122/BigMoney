@@ -1078,8 +1078,73 @@ def _etf_book_face():
             "status": br.get("status"),
             "verdict": br.get("verdict"),
         } if br else None),
+        # r1823: the page's ⑥ has said since r1820 what part of the build order is paid
+        # ABOVE NAV; the reader who opens the daily report instead of the page still saw
+        # only prices.  Same shape as r1782 -- research-readable is not reader-readable.
+        # Read through the payload (one price source), and carry the face's own ticket
+        # name so the report can refuse to quote a premium priced off a different sheet.
+        "premium": _premium_passthrough(payload),
+        # r1823: the premium line says "这张执行单" -- a reader holding only the report had
+        # no way to see WHICH five codes it means (r1784's question: "what does follow this
+        # mean on my own account").  Rows come from the same payload as the price.
+        "order": [{"symbol": str(o.get("symbol") or ""),
+                   "class_zh": o.get("class_zh"),
+                   "lots": o.get("lots"),
+                   "amount_cny": o.get("amount_cny"),
+                   "price": o.get("price")}
+                  for o in (payload.get("order") or [])],
         "feed_status": payload.get("feed_status"),
         "feed_lag_days": payload.get("feed_lag_days"),
+    }
+
+
+def _pct_given(v, nd=2):
+    """A number that is ALREADY a percentage, formatted as one.
+
+    r1775's live case: `premium_pct=7.5155` means 7.5155%, and multiplying by 100 printed
+    a plausible-looking 751%.  This report's `_pc()` (inside the envelope block) converts
+    fractions; this one must never do that, and the two must not be swapped."""
+    if v is None:
+        return "—"
+    return f"{float(v):.{nd}f}%"
+
+
+def _premium_passthrough(payload):
+    """The premium-leak block as the payload reads it, plus its own ticket identity.
+
+    Three rules, all of them someone else's hard-won one:
+
+    * a face that is absent stays absent (`None`), never 0 and never "fine" (r98);
+    * the block names the ticket it priced AND the ticket this report is printing, and
+      the two are compared by NAME -- r1820's live case was two files with identical
+      fields written on different trips, so equal numbers are not equal tickets;
+    * `premium_pct` / `*_pct` in that face are already percentages (r1775's 100x trap)."""
+    prem = payload.get("premium_leak") or {}
+    if not prem:
+        return None
+    src = (payload.get("sources") or {})
+    sheet = os.path.basename(str(src.get("ticket") or "").replace("\\", "/"))
+    priced = os.path.basename(str(prem.get("ticket") or "").replace("\\", "/"))
+    return {
+        "status": prem.get("status"),
+        "artifact": prem.get("artifact"),
+        "ticket": priced or None,
+        "sheet_ticket": sheet or None,
+        "ticket_matches_sheet": bool(priced and sheet and priced == sheet),
+        "session": prem.get("session"),
+        "ticket_session": prem.get("ticket_session"),
+        "session_match": prem.get("session_match"),
+        "verdict": prem.get("verdict"),
+        "verdict_reason": prem.get("verdict_reason"),
+        "totals": prem.get("totals") or {},
+        "own": prem.get("own_ruler_summary") or {},
+        "stress": prem.get("stress") or {},
+        "names": [{"symbol": str(n.get("symbol") or ""),
+                   "premium_pct": n.get("premium_pct"),
+                   "premium_paid_cny": n.get("premium_paid_cny"),
+                   "market_pctile": n.get("market_pctile"),
+                   "status": n.get("status")}
+                  for n in (prem.get("names") or [])],
     }
 
 
@@ -1569,6 +1634,80 @@ def render_md(rep):
         # a sentence they read as one book, so a reader following either face
         # bought a portfolio the other never described.
         L.extend(book_identity.lines(book_identity.face()))
+        # r1823: the premium sentence below says "这张执行单"; without the rows a reader
+        # holding only this report cannot tell which five codes that is.
+        _ordr = eb.get("order") or []
+        if _ordr:
+            L.append("- **这张执行单买的是这 {} 只**（合计 ￥{:,.2f} · 留现金 ￥{:,.2f}）：{}".format(
+                len(_ordr),
+                round(sum(float(r.get("amount_cny") or 0) for r in _ordr), 2),
+                round(float(eb.get("cash_amount_cny") or 0), 2),
+                "、".join("**{}（{} 手 · ￥{:,.0f}）**".format(
+                    r.get("symbol"), r.get("lots"), float(r.get("amount_cny") or 0))
+                    for r in _ordr)))
+        # r1823: the price lines above are what the reader pays; this is how much of it
+        # is paid above the funds' own NAV.  Refuses to print the number off another sheet.
+        pr = eb.get("premium") or {}
+        _ptot = pr.get("totals") or {}
+        if pr.get("status") == "ok" and pr.get("ticket_matches_sheet"):
+            _paid = _ptot.get("premium_paid_cny")
+            if _paid is None:
+                L.append("- 溢价面这次没有可核验的合计（%d 名里核到 %d 名）——不印数，"
+                         "缺面禁读成 0" % (_ptot.get("n_names") or 0,
+                                          _ptot.get("n_verified") or 0))
+            else:
+                L.append(
+                    "- **这张执行单买入时，有 ￥{:,} 是高于基金净值付出去的**"
+                    "（买入金额的 {} · 本金的 {}）——溢价面 `{}` 判 `{}`".format(
+                        round(float(_paid), 2),
+                        _pct_given(_ptot.get("premium_share_of_order_pct")),
+                        _pct_given(_ptot.get("premium_share_of_nav_pct")),
+                        pr.get("artifact"), pr.get("verdict")))
+                _rows = [n for n in (pr.get("names") or [])
+                         if n.get("premium_pct") is not None]
+                _dear = [n for n in _rows if float(n["premium_pct"]) > 0]
+                _cheap = [n for n in _rows if float(n["premium_pct"]) <= 0]
+                if _dear:
+                    L.append("  - 贵在谁头上："
+                             + "、".join(
+                                 "**{}({:+.2f}%，￥{:,.2f}，它自己近一年 {} 分位)**".format(
+                                     n["symbol"], float(n["premium_pct"]),
+                                     round(float(n.get("premium_paid_cny") or 0), 2),
+                                     _pct_given(n.get("market_pctile")))
+                                 for n in _dear))
+                if _cheap:
+                    L.append("  - 折价买到的 {} 只合计 **-￥{:,.2f}**（比净值便宜）".format(
+                        len(_cheap),
+                        round(-sum(float(n.get("premium_paid_cny") or 0)
+                                   for n in _cheap), 2)))
+                _st = pr.get("stress") or {}
+                _own = pr.get("own") or {}
+                if _st or _own:
+                    _bits = []
+                    if _st.get("if_premium_reverts_to_zero_cny") is not None:
+                        _bits.append("溢价归零 **-￥{:,.2f}**".format(
+                            round(-float(_st["if_premium_reverts_to_zero_cny"]), 2)))
+                    if _st.get("if_premium_reverts_to_own_median_cny") is not None:
+                        _bits.append("回落到各自中位 **-￥{:,.2f}**（只吐中位以上那段）".format(
+                            round(-float(_st["if_premium_reverts_to_own_median_cny"]), 2)))
+                    if _bits:
+                        L.append("  - 压力读数（是压力，不是预测）：" + "；".join(_bits))
+                _yrs = _ptot.get("years_of_backtest_return_paid")
+                _cagr = _ptot.get("book_cagr_pct")
+                if _yrs is not None and _cagr is not None:
+                    L.append("  - 白话：￥{:,.0f} ≈ 这本书 {}% 年化产出的 {} 年——**先垫出去的钱**，"
+                             "不是手续费；票面与净值同为 {} 那天".format(
+                                 round(float(_paid), 0), _cagr, _yrs,
+                                 pr.get("session") or "—"))
+        elif pr.get("status") == "ok":
+            # The face is fine; the ticket is not this report's ticket. Quoting it would
+            # price a premium the reader is not paying (r1820 live case).
+            L.append("- 溢价面这次价的是另一张票（`{}`），本报告的执行单是 `{}`"
+                     "——**不是同一张，今天不印这个数**".format(
+                         pr.get("ticket") or "无署名", pr.get("sheet_ticket") or "无"))
+        elif pr:
+            L.append("- 溢价面（这份价买得比净值贵多少）**{}**——不印数，缺面禁读成 0".format(
+                pr.get("status") or "无载荷"))
         ta = eb.get("today_action") or {}
         # r1674: 「今天：不动」 was the reader's day over Friday's bar. Same one-word fix as the
         # kill-day line above, through the one implementation of the word (etf_book_ceo_page
@@ -2053,6 +2192,72 @@ def selftest():
                "今天：**不动**", "470208.47", "运气分布", "9.56%", "0.40%",
                "`ROWS_NOT_COMPARABLE`", "`same_object`"):
         assert _m in _md_eb, _m
+    # ---- r1823 premium legs: the reader's report says how much of the price is paid
+    # above NAV, in percent-not-fraction, and refuses to quote a premium the payload
+    # priced off a different ticket (r1820: equal fields, different trip).
+    _prem_ok = {
+        "status": "ok", "artifact": "results/etf_book_premium_leak.json",
+        "ticket": "TICKET-2026-10-30.json", "sheet_ticket": "TICKET-2026-10-30.json",
+        "ticket_matches_sheet": True, "session": "2026-10-30",
+        "ticket_session": "2026-10-30", "session_match": True,
+        "verdict": "ENTRY_PREMIUM_WARN",
+        "totals": {"n_names": 5, "n_verified": 5, "premium_paid_cny": 5215.43,
+                   "premium_share_of_order_pct": 1.2076,
+                   "premium_share_of_nav_pct": 0.5215,
+                   "book_cagr_pct": 12.45, "years_of_backtest_return_paid": 0.1},
+        "own": {"revert_to_own_median_cny": 4183.31},
+        "stress": {"if_premium_reverts_to_zero_cny": -5215.43,
+                   "if_premium_reverts_to_own_median_cny": -4183.31},
+        "names": [{"symbol": "159655", "premium_pct": 7.5155,
+                   "premium_paid_cny": 6038.84, "market_pctile": 98.78,
+                   "status": "OK"},
+                  {"symbol": "510760", "premium_pct": -0.2562,
+                   "premium_paid_cny": -221.76, "market_pctile": 22.13,
+                   "status": "OK"},
+                  {"symbol": "512040", "premium_pct": -0.0414,
+                   "premium_paid_cny": -35.80, "market_pctile": 63.84,
+                   "status": "OK"},
+                  {"symbol": "513690", "premium_pct": -0.3735,
+                   "premium_paid_cny": -323.79, "market_pctile": 9.94,
+                   "status": "OK"},
+                  {"symbol": "159519", "premium_pct": -0.1379,
+                   "premium_paid_cny": -242.06, "market_pctile": 31.42,
+                   "status": "OK"}]}
+    _eb_prem = {"status": "ok", "priced_bar": "2026-10-30", "n_hold": 5,
+                "book_amount_cny": 470208.47, "capital_cny": 1000000.0,
+                "cash_amount_cny": 529791.53,
+                "order": [{"symbol": "159655", "lots": 446, "amount_cny": 86390.2,
+                           "price": 1.937, "class_zh": "跨境"},
+                          {"symbol": "510760", "lots": 693, "amount_cny": 86347.8,
+                           "price": 1.246, "class_zh": "A股"}],
+                "premium": _prem_ok}
+    _etf_book_face = lambda: _eb_prem
+    _md_p = render_md(build_report(datetime(2026, 9, 26, 10, 0, 0)))
+    # r1784 shape: "这张执行单" needs a referent the report itself prints
+    assert "446 手" in _md_p and "159655" in _md_p, "the sheet's own rows never reached the report"
+    assert "5,215.43" in _md_p, "the premium the reader pays never reached the report"
+    # 7.5155 is 7.5155%, not 751.55% (r1775) and not "1.21%%" (double-formatted)
+    assert "1.21%" in _md_p and "121.0%" not in _md_p and "1.21%%" not in _md_p, _md_p[:400]
+    assert "7.52%" in _md_p and "751.5%" not in _md_p, "the premium face's percent was scaled"
+    assert "823.41" in _md_p, "the offsetting discounts were dropped"
+    assert "4,183.31" in _md_p, "the own-median stress read was dropped"
+    # a face priced off another ticket prints the refusal, never the number
+    _eb_prem2 = dict(_eb_prem)
+    _eb_prem2["premium"] = dict(_prem_ok, ticket="TICKET-2026-10-29.json",
+                                ticket_matches_sheet=False)
+    _etf_book_face = lambda: _eb_prem2
+    _md_p2 = render_md(build_report(datetime(2026, 9, 26, 10, 0, 0)))
+    assert "不是同一张" in _md_p2, "two different tickets read as one sheet"
+    assert "5,215.43" not in _md_p2, "a premium priced off another ticket leaked a number"
+    # a face with no verifiable total prints a reason, never 0
+    _eb_prem3 = dict(_eb_prem)
+    _eb_prem3["premium"] = dict(_prem_ok,
+                                totals={"n_names": 5, "n_verified": 0,
+                                        "premium_paid_cny": None})
+    _etf_book_face = lambda: _eb_prem3
+    _md_p3 = render_md(build_report(datetime(2026, 9, 26, 10, 0, 0)))
+    assert "不印数" in _md_p3 and "5,215.43" not in _md_p3, "an unverified premium read as fine"
+    _etf_book_face = _saved_eb
     _etf_book_face = lambda: {"status": "unreadable", "detail": "boom"}
     _md_eb_bad = render_md(build_report(datetime(2026, 9, 26, 10, 0, 0)))
     _etf_book_face = _saved_eb
@@ -2069,7 +2274,7 @@ def selftest():
     assert rep["live_usage"]["status"] == "ok"
     assert rep["pnl_attribution"]["grand_day_pnl_cny"] == 617.0
     print("daily_report selftest: PASS (5 faces + token line + clock cell "
-          "+ A2/G4 attribution ledger legs)")
+          "+ A2/G4 attribution ledger legs + r1823 premium-to-reader legs)")
     return 0
 
 

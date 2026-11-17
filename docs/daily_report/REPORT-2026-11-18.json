@@ -1,6 +1,6 @@
 {
  "report_date": "2026-11-18",
- "generated_at": "2026-11-18 04:01:08",
+ "generated_at": "2026-11-18 05:46:31",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -294,13 +294,13 @@
   "md_link": "../live_usage/LIVE-2026-11-18.md"
  },
  "rd": {
-  "commits_24h": 112,
-  "result_jsons_landed_24h": 230,
+  "commits_24h": 130,
+  "result_jsons_landed_24h": 255,
   "digests_landed_24h": 0,
-  "prereg_md_touched_24h": 78,
+  "prereg_md_touched_24h": 79,
   "compute_audit_latest": {
-   "ts": "2026-11-18 03:58:50",
-   "py_cpu_pct": 3.1,
+   "ts": "2026-11-18 05:06:09",
+   "py_cpu_pct": 25.7,
    "flags": [
     "pool_starvation",
     "supply_floor"
@@ -309,7 +309,7 @@
   },
   "watermark_verdict": "insufficient_history",
   "pool_keys_n": 6,
-  "batch_in_flight": false
+  "batch_in_flight": true
  },
  "decisions_tail": [
   "- 2026-09-26 09:32 · T-74 市场时钟组合=六层既有件集成（v3 政体×热度复合×三军名册×选股面×仓位帽），零新策略族 · 理由=O-0932 CEO 令+反重复铁律（收敛声明入票） · 指针=research/MARKET_CLOCK_COMBO.md s0 v1.0",
@@ -650,11 +650,11 @@
  ],
  "token_line": {
   "total_state_tokens_est": 15889,
-  "total_report_tokens_est": 2411636,
+  "total_report_tokens_est": 2412106,
   "delta_vs_prev": {
-   "prev_generated": "2026-11-17 20:18:59",
+   "prev_generated": "2026-11-18 01:14:42",
    "state_tokens_growth": 0,
-   "report_tokens_growth": 0,
+   "report_tokens_growth": 470,
    "mandate_growth": 0
   },
   "method": {
@@ -665,11 +665,11 @@
  "utilization": {
   "machines": {
    "bm-a": {
-    "latest_ts": "2026-11-18 03:58:50",
-    "py_pct": 3.1,
-    "cpu_pct": 53.0,
+    "latest_ts": "2026-11-18 05:06:09",
+    "py_pct": 25.7,
+    "cpu_pct": 66.0,
     "ready": 0,
-    "streak_min": 11549.7,
+    "streak_min": 11581.3,
     "verdict": "FLAG:pool_starvation,supply_floor",
     "py_series_tail": [
      [
@@ -703,14 +703,22 @@
      [
       "03:58",
       3.1
+     ],
+     [
+      "04:25",
+      9.7
+     ],
+     [
+      "05:06",
+      25.7
      ]
     ],
-    "today_samples": 3,
+    "today_samples": 5,
     "today_floor_ok": 0,
     "today_sla_flags": 0,
     "today_supply_gap_flags": 0,
-    "own_samples": 8,
-    "unattributed_samples": 100,
+    "own_samples": 10,
+    "unattributed_samples": 98,
     "latest_attributed": true,
     "lane_machine": "bm-a",
     "supply_why": {
@@ -911,7 +919,7 @@
      "readable": true,
      "window_min": 60.0,
      "audit_batches": 0,
-     "audit_ts": "2026-11-18 03:58:50"
+     "audit_ts": "2026-11-18 05:06:09"
     }
    },
    "bm-b": {
@@ -1677,7 +1685,7 @@
    "behind_days": 0,
    "behind": [],
    "lane_owner": "bm-c",
-   "read_on": "bm-a"
+   "read_on": "bm-c"
   },
   "seal_rate": 0.6491,
   "down_over_up": 1.811,
@@ -1769,83 +1777,56 @@
  },
  "lane_authority": {
   "present": true,
-  "as_of": "2026-11-18T03:42:42",
+  "as_of": "2026-11-18T04:37:02",
   "verdict": "attention",
-  "observer": "bm-a",
-  "sentence": "以本机 bm-a 的盘为基准：14 条在役车道里有 6 条的数字不在本机盘上：6 条在 bm-c 的盘上（心跳 0.84h 前）；留在本机盘上的 8 条里 8 条可核实。",
+  "observer": "bm-c",
+  "sentence": "以本机 bm-c 的盘为基准：14 条在役车道里有 1 条的数字不在本机盘上：1 条在 bm-a 的盘上（心跳 0.42h 前）；留在本机盘上的 13 条里 12 条可核实，1 条连署名都没有。",
   "n_lanes": 14,
-  "n_offhost": 6,
-  "n_here": 8,
-  "n_auditable_here": 8,
-  "n_unsigned_here": 0,
+  "n_offhost": 1,
+  "n_here": 13,
+  "n_auditable_here": 12,
+  "n_unsigned_here": 1,
   "groups": [
    {
-    "machine": "bm-c",
+    "machine": "bm-a",
     "lanes": [
-     "ah_panel",
-     "etf_panel",
-     "marks",
-     "minute_feed",
-     "ths_panel",
-     "zt_pool"
+     "astock_daily"
     ],
-    "n": 6,
+    "n": 1,
     "alive": true,
-    "age_h": 0.84,
-    "last_seen": "2026-11-18T02:52:29+08:00"
+    "age_h": 0.42,
+    "last_seen": "2026-11-18T04:11:34+08:00"
    }
   ],
   "offhost_lanes": [
-   "ah_panel",
-   "etf_panel",
-   "marks",
-   "minute_feed",
-   "ths_panel",
-   "zt_pool"
+   "astock_daily"
   ],
   "local_replicas": {
-   "n_lagging": 2,
+   "n_lagging": 0,
    "n_readable": 5,
-   "lanes": [
-    {
-     "lane": "moneyflow",
-     "local_tail": "2026-10-13",
-     "certified_tail": "2026-11-17",
-     "behind_days": 25,
-     "host": "bm-c",
-     "authority": "host_envelope"
-    },
-    {
-     "lane": "ah_panel",
-     "local_tail": "2026-10-16",
-     "certified_tail": "2026-11-17",
-     "behind_days": 22,
-     "host": "bm-c",
-     "authority": "non_host_copy"
-    }
-   ],
-   "sentence": "本机副本落后：5 条可读面板里有 2 条读到的不是车道认证的那一天的数：moneyflow 差 25 个交易日（本盘 2026-10-13 / 车道 2026-11-17，数据在 bm-c 盘上）；ah_panel 差 22 个交易日（本盘 2026-10-16 / 车道 2026-11-17，数据在 bm-c 盘上）。本机发起的研究要用这些车道的数据，读的是旧盘。"
+   "lanes": [],
+   "sentence": "本机可读的 5 条面板副本都追上了各自车道认证的尾日（研究可以直接读本机盘）。"
   },
   "labels": {
-   "ths_panel": "无主封套",
    "sina_mf": "宿主自己写的封套",
    "marks": "申报接管",
    "lhb_inst": "宿主自己写的封套",
-   "ah_panel": "他机本地副本",
+   "ah_panel": "宿主本机副本",
    "astock_daily": "申报接管",
    "etf_panel": "他机写的封套",
    "futures": "宿主自己写的封套",
    "heat": "宿主自己写的封套",
    "lhb": "宿主自己写的封套",
-   "minute_feed": "他机本地副本",
+   "minute_feed": "宿主本机副本",
    "moneyflow": "宿主自己写的封套",
    "repo": "宿主自己写的封套",
-   "zt_pool": "他机本地副本"
+   "ths_panel": "宿主自己写的封套",
+   "zt_pool": "宿主本机副本"
   }
  },
  "lane_window": {
   "present": true,
-  "as_of": "2026-11-18T03:42:42",
+  "as_of": "2026-11-18T04:37:02",
   "n": 1,
   "windows": [
    {
@@ -1864,50 +1845,128 @@
  },
  "lane_silence": {
   "present": true,
-  "machine": "bm-a",
-  "verdict": "OK",
+  "machine": "bm-c",
+  "verdict": "SILENT_GAP",
   "threshold_min": 90,
   "window_days": 3,
-  "median_gap_min": 16.3,
-  "rounds_in_window": 8,
-  "rounds_in_ledger": 795,
-  "gaps_over_threshold_count": 0,
+  "median_gap_min": 17.0,
+  "rounds_in_window": 107,
+  "rounds_in_ledger": 1267,
+  "gaps_over_threshold_count": 8,
   "longest_silence": {
-   "from": "2026-11-17T21:16",
-   "gap_high_min": 58.3,
-   "gap_low_min": 58.3,
+   "from": "2026-11-16T10:10",
+   "gap_high_min": 870.0,
+   "gap_low_min": 870.0,
    "quiet_window_min": 0.0,
-   "to": "2026-11-17T22:14",
-   "unexplained_high_min": 58.3,
-   "unexplained_low_min": 58.3
+   "to": "2026-11-17T00:40",
+   "unexplained_high_min": 870.0,
+   "unexplained_low_min": 870.0
   },
   "open_gap": {
-   "gap_high_min": 19.8,
-   "gap_low_min": 19.8,
+   "gap_high_min": 65.6,
+   "gap_low_min": 65.6,
    "quiet_window_min": 0.0,
-   "since": "2026-11-18T00:03",
-   "unexplained_high_min": 19.8,
-   "unexplained_low_min": 19.8
+   "since": "2026-11-17T23:05",
+   "unexplained_high_min": 65.6,
+   "unexplained_low_min": 65.6
   },
-  "gaps_over_threshold": [],
-  "evidence_cutoff": "2026-11-18",
-  "generated": "2026-11-18T00:22:45",
-  "silence_verdict": "OK",
+  "gaps_over_threshold": [
+   {
+    "from": "2026-11-15T11:00",
+    "gap_high_min": 189.0,
+    "gap_low_min": 171.0,
+    "quiet_window_min": 0.0,
+    "to": "2026-11-15T14:00",
+    "unexplained_high_min": 189.0,
+    "unexplained_low_min": 171.0
+   },
+   {
+    "from": "2026-11-15T15:00",
+    "gap_high_min": 110.5,
+    "gap_low_min": 110.5,
+    "quiet_window_min": 0.0,
+    "to": "2026-11-15T16:51",
+    "unexplained_high_min": 110.5,
+    "unexplained_low_min": 110.5
+   },
+   {
+    "from": "2026-11-15T23:00",
+    "gap_high_min": 129.0,
+    "gap_low_min": 111.0,
+    "quiet_window_min": 0.0,
+    "to": "2026-11-16T01:00",
+    "unexplained_high_min": 129.0,
+    "unexplained_low_min": 111.0
+   },
+   {
+    "from": "2026-11-16T10:10",
+    "gap_high_min": 870.0,
+    "gap_low_min": 870.0,
+    "quiet_window_min": 0.0,
+    "to": "2026-11-17T00:40",
+    "unexplained_high_min": 870.0,
+    "unexplained_low_min": 870.0
+   },
+   {
+    "from": "2026-11-17T01:55",
+    "gap_high_min": 141.0,
+    "gap_low_min": 141.0,
+    "quiet_window_min": 0.0,
+    "to": "2026-11-17T04:16",
+    "unexplained_high_min": 141.0,
+    "unexplained_low_min": 141.0
+   },
+   {
+    "from": "2026-11-17T11:31",
+    "gap_high_min": 138.0,
+    "gap_low_min": 138.0,
+    "quiet_window_min": 0.0,
+    "to": "2026-11-17T13:49",
+    "unexplained_high_min": 138.0,
+    "unexplained_low_min": 138.0
+   },
+   {
+    "from": "2026-11-17T14:10",
+    "gap_high_min": 170.0,
+    "gap_low_min": 170.0,
+    "quiet_window_min": 0.0,
+    "to": "2026-11-17T17:00",
+    "unexplained_high_min": 170.0,
+    "unexplained_low_min": 170.0
+   },
+   {
+    "from": "2026-11-17T17:55",
+    "gap_high_min": 140.0,
+    "gap_low_min": 140.0,
+    "quiet_window_min": 0.0,
+    "to": "2026-11-17T20:15",
+    "unexplained_high_min": 140.0,
+    "unexplained_low_min": 140.0
+   }
+  ],
+  "evidence_cutoff": "2026-11-17",
+  "generated": "2026-11-18T00:10:38",
+  "silence_verdict": "SILENT_GAP",
   "lane_tasks": {
    "absent": [],
    "disabled": [],
-   "probeable": 4,
+   "disabled_before_heal": [],
+   "heal": {
+    "acts": [],
+    "healed": [],
+    "readback": {}
+   },
+   "probeable": 3,
    "states": {
     "Bigmoney-IterationLoop": "Running",
     "Bigmoney-LoopWatchdog": "Ready",
-    "Bigmoney-SatEngine-bm-b": "Ready",
-    "HQ-Patrol-BigMoney": "Ready"
+    "Bigmoney-SatEngine-bm-b": "Ready"
    },
    "threshold_min": 90,
    "verdict": "LANE_ENABLED",
    "why": "every probeable lane task is switched on; the silence (if any) is not a switch"
   },
-  "sentence": "bm-a：窗内 8 轮 / 3 天，相邻间隔中位数 16.3 分钟，超过 90 分钟且无解释的空档 0 处；最长静默 2026-11-17T21:16 → 2026-11-17T22:14（58.3–58.3 分钟，其中 0.0 分钟由其申报的静默窗解释）；仍未恢复，自 2026-11-18T00:03 起（未解释 19.8–19.8 分钟）。"
+  "sentence": "bm-c：窗内 107 轮 / 3 天，相邻间隔中位数 17.0 分钟，超过 90 分钟且无解释的空档 8 处；最长静默 2026-11-16T10:10 → 2026-11-17T00:40（870.0–870.0 分钟，其中 0.0 分钟由其申报的静默窗解释）；仍未恢复，自 2026-11-17T23:05 起（未解释 65.6–65.6 分钟）。"
  },
  "cap_vs_book": {
   "status": "ok",
@@ -2044,6 +2103,129 @@
     "criteria": "ROWS_NOT_COMPARABLE iff at least one dial moves the held config by >= tol_pp_per_year on at least one window; SAME_RULER if none does. The published gap between row 1 and row 3 is decomposed into these dials, and no dial's price is inferred from another."
    }
   },
+  "premium": {
+   "status": "ok",
+   "artifact": "results/etf_book_premium_leak.json",
+   "ticket": "TICKET-2026-11-17.json",
+   "sheet_ticket": "TICKET-2026-11-17.json",
+   "ticket_matches_sheet": true,
+   "session": "2026-11-17",
+   "ticket_session": "2026-11-17",
+   "session_match": true,
+   "verdict": "ENTRY_PREMIUM_WARN",
+   "verdict_reason": "the ticket pays 1.21% of its own amount above IOPV (CNY 5215)",
+   "totals": {
+    "n_names": 5,
+    "n_verified": 5,
+    "n_unverifiable": 0,
+    "n_cross_session": 0,
+    "cross_session_symbols": [],
+    "cross_session_amount_cny": 0,
+    "premium_paid_cny": 5215.43,
+    "verified_amount_cny": 431879.5,
+    "book_amount_cny": 431879.5,
+    "nav_cny": 1000000.0,
+    "premium_share_of_order_pct": 1.2076,
+    "premium_share_of_nav_pct": 0.5215,
+    "book_cagr_pct": 12.45,
+    "years_of_backtest_return_paid": 0.1
+   },
+   "own": {
+    "ruler": "close / published unit NAV - 1 (this fund's own history, one ruler, paired by date)",
+    "top_decile_pctile": 90.0,
+    "n_names": 5,
+    "n_readable": 5,
+    "n_unreadable": 0,
+    "unreadable": [],
+    "in_own_top_decile": [
+     "159655"
+    ],
+    "revert_to_own_median_cny": 4183.31,
+    "revert_note": "stress, not a forecast: it gives back only the part ABOVE each fund's own median premium, and only for names this order is buying",
+    "verdict": "SOME_NAMES_ABOVE_OWN_TOP_DECILE"
+   },
+   "stress": {
+    "if_premium_reverts_to_zero_cny": -5215.43,
+    "if_premium_reverts_to_zero_pct_of_nav": -0.5215,
+    "if_premium_reverts_to_own_median_cny": -4183.31,
+    "if_premium_reverts_to_own_median_pct_of_nav": -0.4183,
+    "note": "reversion is a stress, not a forecast: the gap can persist while the sleeve stays hard to buy. Zero is the outer bound; each fund's own median is the realistic one -- these funds normally live above NAV."
+   },
+   "names": [
+    {
+     "symbol": "510760",
+     "premium_pct": -0.2562,
+     "premium_paid_cny": -221.76,
+     "market_pctile": 22.13,
+     "status": "OK"
+    },
+    {
+     "symbol": "512040",
+     "premium_pct": -0.0414,
+     "premium_paid_cny": -35.8,
+     "market_pctile": 63.84,
+     "status": "OK"
+    },
+    {
+     "symbol": "159655",
+     "premium_pct": 7.5155,
+     "premium_paid_cny": 6038.84,
+     "market_pctile": 98.78,
+     "status": "OK"
+    },
+    {
+     "symbol": "513690",
+     "premium_pct": -0.3735,
+     "premium_paid_cny": -323.79,
+     "market_pctile": 9.94,
+     "status": "OK"
+    },
+    {
+     "symbol": "159519",
+     "premium_pct": -0.2795,
+     "premium_paid_cny": -242.06,
+     "market_pctile": 18.66,
+     "status": "OK"
+    }
+   ]
+  },
+  "order": [
+   {
+    "symbol": "510760",
+    "class_zh": "A股",
+    "lots": 693,
+    "amount_cny": 86347.8,
+    "price": 1.246
+   },
+   {
+    "symbol": "512040",
+    "class_zh": "A股",
+    "lots": 716,
+    "amount_cny": 86421.2,
+    "price": 1.207
+   },
+   {
+    "symbol": "159655",
+    "class_zh": "跨境",
+    "lots": 446,
+    "amount_cny": 86390.2,
+    "price": 1.937
+   },
+   {
+    "symbol": "513690",
+    "class_zh": "跨境",
+    "lots": 753,
+    "amount_cny": 86369.1,
+    "price": 1.147
+   },
+   {
+    "symbol": "159519",
+    "class_zh": "跨境",
+    "lots": 494,
+    "amount_cny": 86351.2,
+    "price": 1.748
+   }
+  ],
   "feed_status": "current",
   "feed_lag_days": 0
  },
