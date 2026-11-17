@@ -3,16 +3,16 @@
  "face": "descriptive flip-rate sweep; selects no arm, changes no book, places no order",
  "anchor": {
   "book_vol": 0.1018,
-  "book_cagr": 0.0962,
-  "book_sharpe": 0.99,
+  "book_cagr": 0.0953,
+  "book_sharpe": 0.982,
   "book_maxdd": -0.1177,
   "blend_weight": 0.3333
  },
  "legs": {
   "etf_book": {
-   "names": 1521,
+   "names": 1522,
    "flips_repaired": 169,
-   "cutoff": "2026-11-16"
+   "cutoff": "2026-11-17"
   },
   "futures_sleeve": {
    "source": "data/futures_daily main-continuous",
@@ -42,7 +42,7 @@
   "tsmom60": {
    "lookback": 60,
    "control_arm": "tsmom60_base",
-   "verdict": "tsmom60_strength_hold_0.02 clears the base at 3/5/10bp: 72.0% fewer flips, turnover cut 83.4%, gross -0.41 pp; breakeven moves to 10bp (+0.41 pp at that cost, +0.41 pp at 10bp)",
+   "verdict": "tsmom60_strength_hold_0.02 clears the base at 3/5/10bp: 72.0% fewer flips, turnover cut 83.4%, gross -0.41 pp; breakeven moves to 10bp (+0.50 pp at that cost, +0.50 pp at 10bp)",
    "robustness": {
     "theta_levels_tested": [
      0.02,
@@ -80,7 +80,7 @@
        "blend_cagr": 0.0758,
        "blend_sharpe": 1.072,
        "equal_risk_cagr": 0.105,
-       "equal_risk_delta_cagr_pp": 0.88,
+       "equal_risk_delta_cagr_pp": 0.97,
        "equal_risk_delta_maxdd_pp": -0.23
       },
       {
@@ -89,7 +89,7 @@
        "blend_cagr": 0.0688,
        "blend_sharpe": 0.98,
        "equal_risk_cagr": 0.0952,
-       "equal_risk_delta_cagr_pp": -0.1,
+       "equal_risk_delta_cagr_pp": -0.01,
        "equal_risk_delta_maxdd_pp": -1.32
       },
       {
@@ -98,7 +98,7 @@
        "blend_cagr": 0.0619,
        "blend_sharpe": 0.888,
        "equal_risk_cagr": 0.0854,
-       "equal_risk_delta_cagr_pp": -1.08,
+       "equal_risk_delta_cagr_pp": -0.99,
        "equal_risk_delta_maxdd_pp": -2.39
       },
       {
@@ -107,7 +107,7 @@
        "blend_cagr": 0.0448,
        "blend_sharpe": 0.657,
        "equal_risk_cagr": 0.0613,
-       "equal_risk_delta_cagr_pp": -3.49,
+       "equal_risk_delta_cagr_pp": -3.4,
        "equal_risk_delta_maxdd_pp": -5.0
       }
      ],
@@ -142,7 +142,7 @@
        "blend_cagr": 0.0764,
        "blend_sharpe": 1.077,
        "equal_risk_cagr": 0.1056,
-       "equal_risk_delta_cagr_pp": 0.94,
+       "equal_risk_delta_cagr_pp": 1.03,
        "equal_risk_delta_maxdd_pp": 1.51
       },
       {
@@ -151,7 +151,7 @@
        "blend_cagr": 0.0756,
        "blend_sharpe": 1.066,
        "equal_risk_cagr": 0.1044,
-       "equal_risk_delta_cagr_pp": 0.82,
+       "equal_risk_delta_cagr_pp": 0.91,
        "equal_risk_delta_maxdd_pp": 1.5
       },
       {
@@ -160,7 +160,7 @@
        "blend_cagr": 0.0747,
        "blend_sharpe": 1.055,
        "equal_risk_cagr": 0.1032,
-       "equal_risk_delta_cagr_pp": 0.7,
+       "equal_risk_delta_cagr_pp": 0.79,
        "equal_risk_delta_maxdd_pp": 1.5
       },
       {
@@ -169,7 +169,7 @@
        "blend_cagr": 0.0727,
        "blend_sharpe": 1.028,
        "equal_risk_cagr": 0.1003,
-       "equal_risk_delta_cagr_pp": 0.41,
+       "equal_risk_delta_cagr_pp": 0.5,
        "equal_risk_delta_maxdd_pp": 1.47
       }
      ],
@@ -204,7 +204,7 @@
        "blend_cagr": 0.0614,
        "blend_sharpe": 0.872,
        "equal_risk_cagr": 0.0832,
-       "equal_risk_delta_cagr_pp": -1.3,
+       "equal_risk_delta_cagr_pp": -1.21,
        "equal_risk_delta_maxdd_pp": -0.04
       },
       {
@@ -213,8 +213,8 @@
        "blend_cagr": 0.0607,
        "blend_sharpe": 0.863,
        "equal_risk_cagr": 0.0823,
-       "equal_risk_delta_cagr_pp": -1.39,
-       "equal_risk_delta_maxdd_pp": -0.05
+       "equal_risk_delta_cagr_pp": -1.3,
+       "equal_risk_delta_maxdd_pp": -0.04
       },
       {
        "cost_per_side_bp": 5.0,
@@ -222,7 +222,7 @@
        "blend_cagr": 0.06,
        "blend_sharpe": 0.854,
        "equal_risk_cagr": 0.0813,
-       "equal_risk_delta_cagr_pp": -1.49,
+       "equal_risk_delta_cagr_pp": -1.4,
        "equal_risk_delta_maxdd_pp": -0.05
       },
       {
@@ -231,7 +231,7 @@
        "blend_cagr": 0.0583,
        "blend_sharpe": 0.831,
        "equal_risk_cagr": 0.0789,
-       "equal_risk_delta_cagr_pp": -1.73,
+       "equal_risk_delta_cagr_pp": -1.64,
        "equal_risk_delta_maxdd_pp": -0.07
       }
      ],
@@ -266,7 +266,7 @@
        "blend_cagr": 0.0723,
        "blend_sharpe": 1.015,
        "equal_risk_cagr": 0.0986,
-       "equal_risk_delta_cagr_pp": 0.24,
+       "equal_risk_delta_cagr_pp": 0.33,
        "equal_risk_delta_maxdd_pp": -0.15
       },
       {
@@ -275,7 +275,7 @@
        "blend_cagr": 0.0694,
        "blend_sharpe": 0.977,
        "equal_risk_cagr": 0.0945,
-       "equal_risk_delta_cagr_pp": -0.17,
+       "equal_risk_delta_cagr_pp": -0.08,
        "equal_risk_delta_maxdd_pp": -0.68
       },
       {
@@ -284,7 +284,7 @@
        "blend_cagr": 0.0665,
        "blend_sharpe": 0.939,
        "equal_risk_cagr": 0.0904,
-       "equal_risk_delta_cagr_pp": -0.58,
+       "equal_risk_delta_cagr_pp": -0.49,
        "equal_risk_delta_maxdd_pp": -1.2
       },
       {
@@ -293,7 +293,7 @@
        "blend_cagr": 0.0593,
        "blend_sharpe": 0.843,
        "equal_risk_cagr": 0.0802,
-       "equal_risk_delta_cagr_pp": -1.6,
+       "equal_risk_delta_cagr_pp": -1.51,
        "equal_risk_delta_maxdd_pp": -2.49
       }
      ],
@@ -328,7 +328,7 @@
        "blend_cagr": 0.0768,
        "blend_sharpe": 1.072,
        "equal_risk_cagr": 0.1047,
-       "equal_risk_delta_cagr_pp": 0.85,
+       "equal_risk_delta_cagr_pp": 0.94,
        "equal_risk_delta_maxdd_pp": -0.15
       },
       {
@@ -337,7 +337,7 @@
        "blend_cagr": 0.0747,
        "blend_sharpe": 1.045,
        "equal_risk_cagr": 0.1018,
-       "equal_risk_delta_cagr_pp": 0.56,
+       "equal_risk_delta_cagr_pp": 0.65,
        "equal_risk_delta_maxdd_pp": -0.56
       },
       {
@@ -346,7 +346,7 @@
        "blend_cagr": 0.0726,
        "blend_sharpe": 1.018,
        "equal_risk_cagr": 0.0989,
-       "equal_risk_delta_cagr_pp": 0.27,
+       "equal_risk_delta_cagr_pp": 0.36,
        "equal_risk_delta_maxdd_pp": -0.96
       },
       {
@@ -355,7 +355,7 @@
        "blend_cagr": 0.0674,
        "blend_sharpe": 0.951,
        "equal_risk_cagr": 0.0917,
-       "equal_risk_delta_cagr_pp": -0.45,
+       "equal_risk_delta_cagr_pp": -0.36,
        "equal_risk_delta_maxdd_pp": -1.95
       }
      ],
@@ -371,7 +371,7 @@
   "tsmom120": {
    "lookback": 120,
    "control_arm": "tsmom120_base",
-   "verdict": "tsmom120_strength_hold_0.02 clears the base at 3/5/10bp: 69.1% fewer flips, turnover cut 76.5%, gross -0.33 pp; breakeven moves to 5bp (+0.22 pp at that cost, -0.06 pp at 10bp)",
+   "verdict": "tsmom120_strength_hold_0.02 clears the base at 3/5/10bp: 69.1% fewer flips, turnover cut 76.5%, gross -0.33 pp; breakeven moves to 10bp (+0.02 pp at that cost, +0.02 pp at 10bp)",
    "robustness": {
     "theta_levels_tested": [
      0.02,
@@ -409,7 +409,7 @@
        "blend_cagr": 0.0737,
        "blend_sharpe": 1.056,
        "equal_risk_cagr": 0.1034,
-       "equal_risk_delta_cagr_pp": 0.72,
+       "equal_risk_delta_cagr_pp": 0.81,
        "equal_risk_delta_maxdd_pp": 0.47
       },
       {
@@ -418,7 +418,7 @@
        "blend_cagr": 0.0693,
        "blend_sharpe": 0.998,
        "equal_risk_cagr": 0.0972,
-       "equal_risk_delta_cagr_pp": 0.1,
+       "equal_risk_delta_cagr_pp": 0.19,
        "equal_risk_delta_maxdd_pp": -0.28
       },
       {
@@ -427,7 +427,7 @@
        "blend_cagr": 0.065,
        "blend_sharpe": 0.94,
        "equal_risk_cagr": 0.0909,
-       "equal_risk_delta_cagr_pp": -0.53,
+       "equal_risk_delta_cagr_pp": -0.44,
        "equal_risk_delta_maxdd_pp": -1.03
       },
       {
@@ -436,7 +436,7 @@
        "blend_cagr": 0.0542,
        "blend_sharpe": 0.794,
        "equal_risk_cagr": 0.0755,
-       "equal_risk_delta_cagr_pp": -2.07,
+       "equal_risk_delta_cagr_pp": -1.98,
        "equal_risk_delta_maxdd_pp": -2.85
       }
      ],
@@ -471,7 +471,7 @@
        "blend_cagr": 0.072,
        "blend_sharpe": 1.031,
        "equal_risk_cagr": 0.1007,
-       "equal_risk_delta_cagr_pp": 0.45,
+       "equal_risk_delta_cagr_pp": 0.54,
        "equal_risk_delta_maxdd_pp": 1.66
       },
       {
@@ -479,8 +479,8 @@
        "turnover_total": 149.1,
        "blend_cagr": 0.0712,
        "blend_sharpe": 1.021,
-       "equal_risk_cagr": 0.0996,
-       "equal_risk_delta_cagr_pp": 0.34,
+       "equal_risk_cagr": 0.0995,
+       "equal_risk_delta_cagr_pp": 0.42,
        "equal_risk_delta_maxdd_pp": 1.62
       },
       {
@@ -489,7 +489,7 @@
        "blend_cagr": 0.0704,
        "blend_sharpe": 1.01,
        "equal_risk_cagr": 0.0984,
-       "equal_risk_delta_cagr_pp": 0.22,
+       "equal_risk_delta_cagr_pp": 0.31,
        "equal_risk_delta_maxdd_pp": 1.59
       },
       {
@@ -497,12 +497,12 @@
        "turnover_total": 149.1,
        "blend_cagr": 0.0684,
        "blend_sharpe": 0.983,
-       "equal_risk_cagr": 0.0956,
-       "equal_risk_delta_cagr_pp": -0.06,
+       "equal_risk_cagr": 0.0955,
+       "equal_risk_delta_cagr_pp": 0.02,
        "equal_risk_delta_maxdd_pp": 1.5
       }
      ],
-     "breakeven_bp": 5.0,
+     "breakeven_bp": 10.0,
      "flip_cut_pct": 69.1,
      "turnover_cut_pct": 76.5,
      "gross_give_up_pp": -0.33,
@@ -533,7 +533,7 @@
        "blend_cagr": 0.0597,
        "blend_sharpe": 0.867,
        "equal_risk_cagr": 0.0831,
-       "equal_risk_delta_cagr_pp": -1.31,
+       "equal_risk_delta_cagr_pp": -1.22,
        "equal_risk_delta_maxdd_pp": 0.8
       },
       {
@@ -542,7 +542,7 @@
        "blend_cagr": 0.0591,
        "blend_sharpe": 0.859,
        "equal_risk_cagr": 0.0822,
-       "equal_risk_delta_cagr_pp": -1.4,
+       "equal_risk_delta_cagr_pp": -1.31,
        "equal_risk_delta_maxdd_pp": 0.77
       },
       {
@@ -551,7 +551,7 @@
        "blend_cagr": 0.0584,
        "blend_sharpe": 0.85,
        "equal_risk_cagr": 0.0813,
-       "equal_risk_delta_cagr_pp": -1.49,
+       "equal_risk_delta_cagr_pp": -1.4,
        "equal_risk_delta_maxdd_pp": 0.74
       },
       {
@@ -560,7 +560,7 @@
        "blend_cagr": 0.0568,
        "blend_sharpe": 0.828,
        "equal_risk_cagr": 0.079,
-       "equal_risk_delta_cagr_pp": -1.72,
+       "equal_risk_delta_cagr_pp": -1.63,
        "equal_risk_delta_maxdd_pp": 0.66
       }
      ],
@@ -595,7 +595,7 @@
        "blend_cagr": 0.0665,
        "blend_sharpe": 0.937,
        "equal_risk_cagr": 0.0906,
-       "equal_risk_delta_cagr_pp": -0.56,
+       "equal_risk_delta_cagr_pp": -0.47,
        "equal_risk_delta_maxdd_pp": 0.55
       },
       {
@@ -604,7 +604,7 @@
        "blend_cagr": 0.0648,
        "blend_sharpe": 0.915,
        "equal_risk_cagr": 0.0882,
-       "equal_risk_delta_cagr_pp": -0.8,
+       "equal_risk_delta_cagr_pp": -0.71,
        "equal_risk_delta_maxdd_pp": 0.52
       },
       {
@@ -613,7 +613,7 @@
        "blend_cagr": 0.0631,
        "blend_sharpe": 0.892,
        "equal_risk_cagr": 0.0858,
-       "equal_risk_delta_cagr_pp": -1.04,
+       "equal_risk_delta_cagr_pp": -0.95,
        "equal_risk_delta_maxdd_pp": 0.42
       },
       {
@@ -622,7 +622,7 @@
        "blend_cagr": 0.0588,
        "blend_sharpe": 0.836,
        "equal_risk_cagr": 0.0798,
-       "equal_risk_delta_cagr_pp": -1.64,
+       "equal_risk_delta_cagr_pp": -1.55,
        "equal_risk_delta_maxdd_pp": -0.19
       }
      ],
@@ -657,7 +657,7 @@
        "blend_cagr": 0.0719,
        "blend_sharpe": 1.005,
        "equal_risk_cagr": 0.0979,
-       "equal_risk_delta_cagr_pp": 0.17,
+       "equal_risk_delta_cagr_pp": 0.26,
        "equal_risk_delta_maxdd_pp": 1.21
       },
       {
@@ -666,7 +666,7 @@
        "blend_cagr": 0.0703,
        "blend_sharpe": 0.985,
        "equal_risk_cagr": 0.0957,
-       "equal_risk_delta_cagr_pp": -0.05,
+       "equal_risk_delta_cagr_pp": 0.04,
        "equal_risk_delta_maxdd_pp": 1.19
       },
       {
@@ -675,7 +675,7 @@
        "blend_cagr": 0.0688,
        "blend_sharpe": 0.965,
        "equal_risk_cagr": 0.0936,
-       "equal_risk_delta_cagr_pp": -0.26,
+       "equal_risk_delta_cagr_pp": -0.17,
        "equal_risk_delta_maxdd_pp": 1.16
       },
       {
@@ -684,11 +684,11 @@
        "blend_cagr": 0.0649,
        "blend_sharpe": 0.915,
        "equal_risk_cagr": 0.0882,
-       "equal_risk_delta_cagr_pp": -0.8,
+       "equal_risk_delta_cagr_pp": -0.71,
        "equal_risk_delta_maxdd_pp": 0.98
       }
      ],
-     "breakeven_bp": 1.0,
+     "breakeven_bp": 3.0,
      "flip_cut_pct": 71.7,
      "turnover_cut_pct": 63.4,
      "gross_give_up_pp": -0.72,

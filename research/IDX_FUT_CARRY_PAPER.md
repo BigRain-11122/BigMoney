@@ -1,6 +1,6 @@
 # the carry sleeve, booked forward
 
-evidence cutoff: **2026-11-16** | contract bars to **2026-11-16** | generated 2026-11-17T16:10:22 | source judgement: `results/idx_fut_desk_sheet.json`
+evidence cutoff: **2026-11-17** | contract bars to **2026-11-16** | generated 2026-11-17T17:35:59 | source judgement: `results/idx_fut_desk_sheet.json`
 
 The two dates are printed because they are two dates: the ticket is judged on the continuous panel and the contract cache can lag it by a few sessions, so a ticket stamped with the judgement date is not a fill at that date.
 
@@ -38,7 +38,7 @@ Vol is measured on the same replay window as the block above (2025-11-17..2026-1
 | product | long carry | cheapest hedge | hedge cost | net carry | verdict | index corr |
 |---|---|---|---|---|---|---|
 | IC | 6.753 pp/yr | short IF | 0.558 pp/yr | +6.195 pp/yr | HEDGE_KEEPS_THE_CARRY | 0.886 |
-| IM | 7.733 pp/yr | short IF | 0.558 pp/yr | +7.175 pp/yr | HEDGE_KEEPS_THE_CARRY | 0.835 |
+| IM | 7.733 pp/yr | short IF | 0.558 pp/yr | +7.175 pp/yr | HEDGE_KEEPS_THE_CARRY | 0.834 |
 
 **Read the two arms together.**  The ticket sizes on drawdown survival -- how many lots survive the drawdown this sleeve has already seen.  That is a different ruler from the book's 8% vol target: unhedged, one lot is mostly index beta, so the target buys a fraction of a lot; hedged to the discount it buys a whole lot or more.  The hedge is priced at the short leg's own carry, which is why the cheap hedge is the contract sitting nearest par -- shorting a leg that carries as much as the long one hands the sleeve away, and that shows up as a negative net carry rather than as a caveat.
 
@@ -71,7 +71,7 @@ Zero lots at this capital is the rule's answer, not a missing measurement: one h
 
 To open this book at all needs 1,122,782 CNY of capital (IC account). IC is 122,782 CNY short of its first lot (capital 1,000,000, gap 12.28%). IM is 150,230 CNY short of its first lot (capital 1,000,000, gap 15.02%). IC: the desk's 4 lot(s) are withdrawn from the ticket and the executable line is 0; IM: the desk's 4 lot(s) are withdrawn from the ticket and the executable line is 0. The forward paper series that ran on 8 lot(s) across the accounts is kept and labelled FUNDED_BY_A_LARGER_CAPITAL: it is what a larger account would have done, not what this one can. It comes back the moment the capital does.
 
-Funding line read from `results/idx_fut_carry_open_capital.json` (generated 2026-11-17T16:05:23+08:00, cutoff 2026-11-16), so a reader can see which pass it came from.
+Funding line read from `results/idx_fut_carry_open_capital.json` (generated 2026-11-17T16:10:23+08:00, cutoff 2026-11-16), so a reader can see which pass it came from.
 
 | product | executable lots | desk lots withdrawn | forward paper lots (relabelled) | first rung (CNY) | gap at this capital (CNY) | capital those desk lots would need (CNY) |
 |---|---|---|---|---|---|---|

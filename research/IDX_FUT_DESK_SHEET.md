@@ -1,6 +1,6 @@
 # the carry sleeve as a morning sheet
 
-evidence cutoff: **2026-11-16** | source judgement: `results/idx_fut_carry_risk.json`
+evidence cutoff: **2026-11-17** | source judgement: `results/idx_fut_carry_risk.json`
 
 The judgement face says whether the sleeve is worth holding. It does not say
 which contract, how many lots, or when it rolls. This sheet answers only that.
@@ -56,9 +56,9 @@ The sample column prepares for the hole this window produced (5.64% for IC); the
  A return computed on the smaller capital is not a better trade, it is the same
  trade with less money held against the day the larger number happens.
 
-Read against the adopted book on the same source face (n=1662 bars, 10.33% vol, Sharpe 1.111, max drawdown -10.56%):
+Read against the adopted book on the same source face (n=1663 bars, 10.33% vol, Sharpe 1.107, max drawdown -10.56%):
 
-- the book compounds **11.56%/yr** and its worst drawdown is **-10.56%**;
+- the book compounds **11.51%/yr** and its worst drawdown is **-10.56%**;
 - **IC** pays **11.76%/yr** on the capital that funds its index worst (928079), and that capital is the size of a 72.42% fall.
 - **IF** pays **4.86%/yr** on the capital that funds its index worst (880599), and that capital is the size of a 72.30% fall.
 - **IM** pays **13.76%/yr** on the capital that funds its index worst (910391), and that capital is the size of a 72.35% fall.
@@ -68,7 +68,7 @@ A sleeve that pays the book's rate while requiring its holder to fund a
 72.42% fall is not the same instrument at the same price; that comparison is the one this sheet refuses to make for the reader.
 
 So the money question has one answer on this face: the best sleeve is
-**IM** at 13.76%/yr against the book's 11.56%/yr (+2.20pp), and the 2.20pp is paid for by holding capital sized for a 72.35% fall rather than the book's 10.56% worst. A reader who wants the book's risk shape should not substitute this; a reader who will fund a 72.42% hole for +2.20pp is being quoted the whole price here, not a partial one.
+**IM** at 13.76%/yr against the book's 11.51%/yr (+2.25pp), and the 2.25pp is paid for by holding capital sized for a 72.35% fall rather than the book's 10.56% worst. A reader who wants the book's risk shape should not substitute this; a reader who will fund a 72.42% hole for +2.25pp is being quoted the whole price here, not a partial one.
 
 ## how far the index must fall before someone calls
 

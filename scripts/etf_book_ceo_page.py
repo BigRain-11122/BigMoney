@@ -2343,6 +2343,7 @@ def sibling_gap_block(sg, page_bar=None, page_day=None):
 
 
 LABEL_CENSUS_JSON = os.path.join(ROOT, "results", "etf_label_census.json")
+HARVEST_CENSUS_JSON = os.path.join(ROOT, "results", "etf_swap_harvest_census.json")
 
 LABEL_CLASS_WORDS = {
     "ONE_BASKET": "价格同意（同一篮子）",
@@ -2400,6 +2401,120 @@ def _caveat_cn(text):
     if "did not trade every day of the window" in t:
         return "窗口里没有每个交易日都交易的票会被剔除并计数，缺口绝不按 0 填进去。"
     return t
+
+
+def harvest_census_face(path=HARVEST_CENSUS_JSON):
+    """Do the wide gaps the two census faces found ever come back? Read-only, one face.
+
+    The census faces print the *choice cost* of holding the expensive twin. This face asks the
+    follow-up a reader cannot get from a gap level: among the pairs whose prices agree, how many
+    have historically handed the points back inside one rebalancing grid, after paying four
+    sides. An absent face is "cannot verify", never "none of them pay".
+    """
+    rel = _rel(path, ROOT).replace(os.sep, "/")
+    if not os.path.exists(path):
+        return {"status": "unreadable", "artifact": rel, "detail": "harvest-census face absent"}
+    f = _load(path) or {}
+    counts = f.get("counts") or {}
+    if not f.get("pairs"):
+        return {"status": "unreadable", "artifact": rel,
+                "detail": "face carries no pair", "session": f.get("bar")}
+    return {
+        "status": "ok",
+        "artifact": rel,
+        "session": f.get("bar"),
+        "sentence": f.get("sentence"),
+        "verdict": f.get("verdict"),
+        "counts": counts,
+        "totals": f.get("totals") or {},
+        "horizon": f.get("horizon"),
+        "window_days": f.get("window_days"),
+        "min_cohort": f.get("min_cohort"),
+        "notional_cny": f.get("notional_cny"),
+        "material_gap_pp": f.get("material_gap_pp"),
+        "toll_pp": f.get("toll_pp"),
+        "cost_bp_per_side": f.get("cost_bp_per_side"),
+        "pairs": f.get("pairs") or [],
+        "caveats": f.get("caveats") or [],
+    }
+
+
+def harvest_census_block(hv, page_bar=None, page_day=None):
+    """Page lines: of the gaps the census priced, which ones history hands back.
+
+    Every count and every yuan is the harvest face's own number; this block counts nothing.
+    """
+    L = []
+    add = L.append
+
+    def _ppn(v):
+        return "读不出" if v is None else ("%+.2f" % float(v))
+
+    hv = hv or {}
+    _ds = str(hv.get("session") or "")[:10] or None
+    if hv.get("status") != "ok":
+        add("## 这些价差，收得回来吗")
+        add("")
+        add("这一节读不到换票收割面（`%s`）：%s。**所以本页说不出这些价差里有多少是历史上"
+            "真收得回来的**——缺面不读成「一分钱都收不回来」。"
+            % (hv.get("artifact") or "results/etf_swap_harvest_census.json",
+               hv.get("detail") or "无读数"))
+        add("")
+        return L
+    c = hv.get("counts") or {}
+    t = hv.get("totals") or {}
+    add("## 这些价差，收得回来吗：%s 个价差里 %s 个收得回来"
+        % (_labels(c.get("candidates")), _labels(t.get("pays_pairs"))))
+    add("")
+    add("前两节算的是「为了名字多花了多少钱」——那是**选择成本**，不是能落袋的钱。这一节问"
+        "后半句：**历史上当价差也这么宽的时候，%s 个交易日后它收窄了吗，收窄的部分够不够付"
+        "四次手续费（%.2f pp）**。口径：窗 %s 个交易日、持有 %s 个交易日（一个调仓网格）、"
+        "一手 %s 元的名义额；拆分这类单日台阶先剔掉，否则一次 5 拆 1 会被读成 160 pp 的「收窄」。"
+        % (_labels(hv.get("horizon")), float(hv.get("toll_pp") or 0.0),
+           _labels(hv.get("window_days")), _labels(hv.get("horizon")),
+           _labels(int(hv.get("notional_cny") or 0))))
+    add("")
+    add("| 盘口（%s） | 读数 |" % (_ds or "日期未声明"))
+    add("|---|---|")
+    add("| 候选对（两普查面去重） | %s |" % _labels(c.get("candidates")))
+    add("| 今天这么宽的历史样本够厚 | %s |" % _labels(c.get("measured")))
+    add("| 收得回来 / 收不回来 | **%s** / %s |"
+        % (_labels(c.get("pays")), _labels(c.get("does_not_pay"))))
+    add("| 今天这么宽的历史不足 %s 次 | %s |"
+        % (_labels(hv.get("min_cohort")), _labels(c.get("cohort_too_small"))))
+    add("")
+    _net = t.get("net_after_toll_cny")
+    if _net is not None:
+        add("**按一手 %s 元算，这些收得回来的对每一对能捡 ￥%s；过了 %.2f pp 物质线的 %s 对、"
+            "￥%s。**注意这些对彼此是**替代关系不是组合**——一笔钱只能做其中一个选择，"
+            "所以这串数字是清单不是收益。"
+            % (_labels(int(hv.get("notional_cny") or 0)), format(float(_net), ",.0f"),
+               float(hv.get("material_gap_pp") or 0.0), _labels(t.get("material_pairs")),
+               format(float(t.get("material_cny") or 0.0), ",.0f")))
+        add("")
+    pays = [r for r in (hv.get("pairs") or []) if r.get("verdict") == "PAYS"]
+    pays.sort(key=lambda r: -(r.get("net_after_toll_cny") or 0.0))
+    if pays:
+        add("| A | B | 同名 | 今日价差 pp | 今日宽度 pp | 历史样本 | 收窄 pp | 净额 元 |")
+        add("|---|---|---|---|---|---|---|---|")
+        for r in pays[:6]:
+            add("| %s | %s | %s | %s | %s | %s | %s | %s |"
+                % (r.get("a"), r.get("b"), "是" if r.get("same_name") else "否",
+                   _ppn(r.get("gap_today_pp")), _ppn(r.get("width_today_pp")),
+                   _labels((r.get("cohort") or {}).get("n")),
+                   _ppn(r.get("harvest_pp")), _labels(r.get("net_after_toll_cny"))))
+        add("")
+        if len(pays) > 6:
+            add("- 其余 %s 对的名单见 `results/etf_swap_harvest_census.md`。"
+                % _labels(len(pays) - 6))
+            add("")
+    add("- **样本不足的对不判负**：今天这么宽的历史不足 %s 次的有 %s 对，单列在面里，"
+        "没有写成「收不回来」。" % (_labels(hv.get("min_cohort")),
+                                _labels(c.get("cohort_too_small"))))
+    add("- **没有溢价锚时不认方向**：这一面量的是「相对这只票自己窗内中位的宽度」，"
+        "所以它不会告诉你两只是哪只贵——那是上一节溢价表的事。")
+    add("")
+    return L
 
 
 def label_census_face(path=LABEL_CENSUS_JSON):
@@ -9072,6 +9187,7 @@ def build(with_stress=False, window_label=None):
     page["sibling_gap"] = sibling_gap_face()
     page["label_census"] = label_census_face()
     page["alias_census"] = alias_census_face()
+    page["harvest_census"] = harvest_census_face()
     page["floor_provenance"] = floor_provenance_face()
     page["vol_target_gate"] = vol_target_face()
     page["positions"] = positions_face()
@@ -9511,6 +9627,10 @@ def render_md(p, sb=None):
                                        page_bar=p.get("priced_bar"),
                                        page_day=p.get("generated_for_date")):
         add(_al_line)
+    for _hv_line in harvest_census_block(p.get("harvest_census") or {},
+                                         page_bar=p.get("priced_bar"),
+                                         page_day=p.get("generated_for_date")):
+        add(_hv_line)
     for _fp_line in floor_provenance_block(p.get("floor_provenance") or {},
                                            vt=p.get("vol_target_gate") or {},
                                            page_bar=p.get("priced_bar"),

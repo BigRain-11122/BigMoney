@@ -1026,6 +1026,14 @@ LEGS = [
     ("alias_census",
      ["python", "scripts/etf_alias_census.py", "check"],
      ["python", "scripts/etf_alias_census.py", "run"]),
+    # r1808: the follow-up question the two censuses do not answer -- of the wide gaps they
+    # priced, how many has history handed back inside one rebalancing grid after four sides of
+    # cost. Candidates are read from the two censuses above (same-basket only, deduped); steps
+    # (splits) are removed from the path before any width is measured. Must run before the page
+    # that quotes it (r1318/r1781 ordering law); ~20s run / check.
+    ("harvest_census",
+     ["python", "scripts/etf_swap_harvest_census.py", "check"],
+     ["python", "scripts/etf_swap_harvest_census.py", "run"]),
     ("etf_book_ceo_page", ["python", "scripts/etf_book_ceo_page.py", "run"]),
     # r1639: r1638 found one sentence copied twice onto this page (the two copies read as
     # two independent pieces of evidence) and the block-level leg could not see it, because

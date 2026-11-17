@@ -1,9 +1,9 @@
 {
  "face": "paper_equity_recheck",
  "why": "four reader faces copy one capital block; this face recomputes from the raw position fields and anchors every mark on data/daily",
- "evidence_cutoff": "2026-11-16",
+ "evidence_cutoff": "2026-11-17",
  "n_traders": 6,
- "total_equity_cny": 5934779.1,
+ "total_equity_cny": 5937548.03,
  "identities": [
   "L1 positions_value",
   "L2 market_value fields",
@@ -18,33 +18,33 @@
  "traders": [
   {
    "trader": "COMPOSITE-CE-01",
-   "cutoff": "2026-11-16",
+   "cutoff": "2026-11-17",
    "n_positions": 5,
-   "equity_cny": 983628.17,
+   "equity_cny": 985626.24,
    "problems": [],
    "price_lags": [],
    "prices_unverified": [],
-   "positions_value_recalc": 944023.66,
-   "positions_value_field": 944023.66,
-   "unrealized_recalc": -5976.89,
-   "unrealized_field": -5976.89
+   "positions_value_recalc": 946021.73,
+   "positions_value_field": 946021.72,
+   "unrealized_recalc": -3978.82,
+   "unrealized_field": -3978.82
   },
   {
    "trader": "COMPOSITE-CE-02",
-   "cutoff": "2026-11-16",
+   "cutoff": "2026-11-17",
    "n_positions": 8,
-   "equity_cny": 979618.58,
+   "equity_cny": 980018.77,
    "problems": [],
    "price_lags": [],
    "prices_unverified": [],
-   "positions_value_recalc": 890209.95,
-   "positions_value_field": 890209.96,
-   "unrealized_recalc": -41.02,
-   "unrealized_field": -41.02
+   "positions_value_recalc": 890610.14,
+   "positions_value_field": 890610.14,
+   "unrealized_recalc": 359.18,
+   "unrealized_field": 359.18
   },
   {
    "trader": "DROUGHT-CE-01",
-   "cutoff": "2026-11-16",
+   "cutoff": "2026-11-17",
    "n_positions": 0,
    "equity_cny": 994450.43,
    "problems": [],
@@ -57,20 +57,20 @@
   },
   {
    "trader": "ENGULF-CE-01",
-   "cutoff": "2026-11-16",
-   "n_positions": 1,
-   "equity_cny": 987616.61,
+   "cutoff": "2026-11-17",
+   "n_positions": 0,
+   "equity_cny": 986854.16,
    "problems": [],
    "price_lags": [],
    "prices_unverified": [],
-   "positions_value_recalc": 47680.69,
-   "positions_value_field": 47680.69,
-   "unrealized_recalc": -2319.31,
-   "unrealized_field": -2319.31
+   "positions_value_recalc": 0.0,
+   "positions_value_field": 0.0,
+   "unrealized_recalc": 0.0,
+   "unrealized_field": 0.0
   },
   {
    "trader": "NEEDLE-DE-01",
-   "cutoff": "2026-11-16",
+   "cutoff": "2026-11-17",
    "n_positions": 0,
    "equity_cny": 1000000.0,
    "problems": [],
@@ -83,16 +83,16 @@
   },
   {
    "trader": "VOLATILITY-CE-01",
-   "cutoff": "2026-11-16",
+   "cutoff": "2026-11-17",
    "n_positions": 5,
-   "equity_cny": 989465.31,
+   "equity_cny": 990598.43,
    "problems": [],
    "price_lags": [],
    "prices_unverified": [],
-   "positions_value_recalc": 394485.04,
-   "positions_value_field": 394485.03,
-   "unrealized_recalc": -5514.06,
-   "unrealized_field": -5514.06
+   "positions_value_recalc": 395618.16,
+   "positions_value_field": 395618.17,
+   "unrealized_recalc": -4380.93,
+   "unrealized_field": -4380.93
   }
  ],
  "readers": {
@@ -139,8 +139,17 @@
  },
  "price_lags": [],
  "prices_unverified": [],
- "problems": [],
- "verdict": "PASS",
+ "problems": [
+  "R1 COMPOSITE-CE-01 equity: export 983628.17 vs ledger 985626.24 (d -1998.07)",
+  "R1 COMPOSITE-CE-01 positions_value: export 944023.66 vs ledger 946021.72 (d -1998.06)",
+  "R1 COMPOSITE-CE-02 equity: export 979618.58 vs ledger 980018.77 (d -400.19)",
+  "R1 COMPOSITE-CE-02 positions_value: export 890209.96 vs ledger 890610.14 (d -400.18)",
+  "R1 ENGULF-CE-01 equity: export 987616.61 vs ledger 986854.16 (d +762.45)",
+  "R1 ENGULF-CE-01 positions_value: export 47680.69 vs ledger 0.00 (d +47680.69)",
+  "R1 VOLATILITY-CE-01 equity: export 989465.31 vs ledger 990598.43 (d -1133.12)",
+  "R1 VOLATILITY-CE-01 positions_value: export 394485.03 vs ledger 395618.17 (d -1133.14)"
+ ],
+ "verdict": "BREACH",
  "zeros": {
   "engine_runs": 0,
   "ledger_trials_added": 0,

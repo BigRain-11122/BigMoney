@@ -6,16 +6,16 @@ session `2026-11-16` | ticket `TICKET-2026-11-16.json` | source `results\etf_boo
 
 | leg | sibling | index | today gap | history mean | sd | days | percentile | verdict |
 |---|---|---|---|---|---|---|---|---|
-| 510760 | 510210 上证指数ETF富国 | LBL:上证指数ETF | -0.1394 pp | -20.258 pp | 42.8999 | 1496 | 84.02 | NO_GAP |
+| 510760 | 510210 上证指数ETF富国 | LBL:上证指数ETF | -0.1394 pp | -20.2476 pp | 42.8887 | 1497 | 84.03 | NO_GAP |
 
 ## 510760 -> 510210 (NO_GAP)
 
 today's gap is under the 0.5 pp materiality line: nothing to swap
 
-- window 2020-09-09..2026-11-16 (1496 common sessions), reconstructed gap mean -20.258 pp, median -5.0381 pp, sd 42.8999 pp
-- today z = 0.469, percentile = 84.02, positive on 15% of sessions
-- half-split means -39.3182 pp / -1.1977 pp; last 250 sessions mean -2.6546 pp
-- NAV-base offset pinned today = 29.3872 pp (the raw close ratio level, 29.25 pp, is not a premium)
+- window 2020-09-09..2026-11-17 (1497 common sessions), reconstructed gap mean -20.2476 pp, median -5.0412 pp, sd 42.8887 pp
+- today z = 0.469, percentile = 84.03, positive on 15% of sessions
+- half-split means -39.3213 pp / -1.1993 pp; last 250 sessions mean -2.6417 pp
+- NAV-base offset pinned today = 29.3903 pp (the raw close ratio level, 29.25 pp, is not a premium)
 - 1 step(s) > 3.0 sd: 2021-01-25 +160.72pp
 
 ## legs the sibling face could not price

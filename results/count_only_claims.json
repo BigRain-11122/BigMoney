@@ -2,7 +2,7 @@
  "counts_no_one_here_can_check": [
   "moneyflow"
  ],
- "generated": "2026-11-17T16:09:39",
+ "generated": "2026-11-17T17:32:59",
  "host": "bm-c",
  "lanes": [
   {
@@ -68,10 +68,10 @@
    "names": null,
    "owner": "bm-a",
    "panel": "data/moneyflow/per",
-   "panel_files_here": 5226,
+   "panel_files_here": 5227,
    "tracked": false,
-   "verdict": "COUNT_CHECKED_LOCAL",
-   "why": "n_symbols=5226 equals this machine's own 5226 files; the panel is gitignored, so only bm-c can re-count it, and only for as long as its copy holds"
+   "verdict": "COUNT_DISAGREES",
+   "why": "n_symbols=5226 against 5227 local files in a gitignored panel (bm-c: a non-owner host's copy proves nothing; the owner host adjudicates)"
   },
   {
    "claim": {
@@ -344,8 +344,8 @@
  ],
  "law": "a receipt that says HOW MANY and never WHICH cannot be checked by identity; equal counts also describe a different set",
  "verdict_counts": {
-  "COUNT_CHECKED_LOCAL": 1,
   "COUNT_CHECKED_TRACKED": 1,
+  "COUNT_DISAGREES": 1,
   "COUNT_RECONCILED": 1,
   "NAMES_IN_FACE": 1,
   "NAMES_PARTIAL": 3,
