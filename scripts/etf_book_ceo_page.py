@@ -2158,7 +2158,10 @@ def sibling_gap_face(path=SIBLING_GAP_JSON):
                 "session": f.get("session"),
                 "sentence": f.get("sentence"),
                 "verdict_counts": f.get("verdict_counts") or {},
-                "skipped_legs": f.get("skipped_legs") or []}
+                "skipped_legs": f.get("skipped_legs") or [],
+                "label_family": f.get("label_family") or [],
+                "label_family_board_session": f.get("label_family_board_session"),
+                "label_family_sensitivity": f.get("label_family_sensitivity") or []}
     return {
         "status": "ok",
         "artifact": _rel(path, ROOT).replace(os.sep, "/"),
@@ -2172,6 +2175,9 @@ def sibling_gap_face(path=SIBLING_GAP_JSON):
         "immaterial_gain_cny": f.get("immaterial_gain_cny"),
         "criteria": f.get("criteria") or {},
         "caveats": f.get("caveats") or [],
+        "label_family": f.get("label_family") or [],
+        "label_family_board_session": f.get("label_family_board_session"),
+        "label_family_sensitivity": f.get("label_family_sensitivity") or [],
     }
 
 
@@ -2201,8 +2207,23 @@ def sibling_gap_block(sg, page_bar=None, page_day=None):
         _counts = sg.get("verdict_counts") or {}
         _why = ""
         if _counts:
-            _why = "；这一天的 %d 只腿全部落在 %s（同类标签上没有第二只活着的票）" % (
-                sum(_counts.values()), "、".join(_counts))
+            # r1803: the cause is no longer a single sentence. A leg can be unpriced because the
+            # board offers no second ticker under its label, or because it does and the prices
+            # say the two are not one basket. Printing "没有第二只活着的票" for the second case
+            # would state a fact the face contradicts.
+            _lf_states = {}
+            for _n in sg.get("label_family") or []:
+                _lf_states[_n.get("state")] = _lf_states.get(_n.get("state"), 0) + 1
+            _parts = []
+            if _lf_states.get("NO_ALTERNATIVE"):
+                _parts.append("%d 只的名字在盘上没有第二只活票" % _lf_states["NO_ALTERNATIVE"])
+            if _lf_states.get("LABEL_NOT_A_BASKET"):
+                _parts.append("%d 只名字一样但价说不是同一篮子" % _lf_states["LABEL_NOT_A_BASKET"])
+            if _lf_states.get("CANNOT_VERIFY"):
+                _parts.append("%d 只读不出" % _lf_states["CANNOT_VERIFY"])
+            _cause = ("（%s）" % "；".join(_parts)) if _parts else "（同类标签上没有第二只活着的票）"
+            _why = "；这一天的 %d 只腿全部落在 %s%s" % (
+                sum(_counts.values()), "、".join(_counts), _cause)
         add("这一节读不到价差历史面（`%s`）：%s。%s**因此本页只有 %s 的价差，说不出它会不会天天有**%s——"
             "把 %s 的一次价差当成长期成本，和把它当成可以永远重复的收益，都是本页现在不能支持的说法。"
             % (sg.get("artifact") or "results/etf_book_sibling_gap.json", sg.get("detail") or "无读数",
@@ -2257,11 +2278,66 @@ def sibling_gap_block(sg, page_bar=None, page_day=None):
                           d["today_percentile"], _now))
             add("- %s→%s：%s" % (pr.get("leg_symbol"), pr.get("sibling_symbol"), say))
     if sg.get("skipped_legs"):
-        add("- 这一节读不出价的腿：%s。**读不出不是「没有价差」**——这几只票的同类标签上 %s 没有"
-            "第二只活着的票，所以页面只能给「无法核验」。"
+        add("- 这一节读不出价的腿：%s。**读不出不是「没有价差」**——每只腿各自的理由就写在下面那句里。"
             % ("；".join("%s（%s）" % (x.get("leg_symbol"), x.get("label") or "无同类标签")
                        if x.get("label") else "%s（无同类标签）" % x.get("leg_symbol")
-                       for x in sg["skipped_legs"]), _now))
+                       for x in sg["skipped_legs"])))
+        _lf_map = {n.get("leg_symbol"): n for n in (sg.get("label_family") or [])}
+        _line_pp = (sg.get("criteria") or {}).get("label_family_gap_median_pp")
+        for x in sg["skipped_legs"]:
+            _n = _lf_map.get(x.get("leg_symbol")) or {}
+            if _n.get("state") == "LABEL_NOT_A_BASKET" and _n.get("gap_median_pp") is not None:
+                add("  - %s：盘口上写同一个指数名的有 %s 只、可换的活票 %s 只，可是两只票的价差每天要变 "
+                    "%.3f pp（线 %s pp）——价说它们不是同一个篮子，所以不给它算换票的钱。"
+                    % (x.get("leg_symbol"), _n.get("same_label_tickers"), _n.get("live_alternatives"),
+                       _n["gap_median_pp"],
+                       "%.2f" % _line_pp if isinstance(_line_pp, (int, float)) else "—"))
+            elif _n.get("state") in ("NO_ALTERNATIVE", "NOT_ON_BOARD"):
+                add("  - %s：盘口上没有第二只活着的票写同一个指数名（同名票数 %s），没有可换的对象。"
+                    % (x.get("leg_symbol"), _n.get("same_label_tickers")))
+            else:
+                add("  - %s：%s" % (x.get("leg_symbol"), x.get("why") or "无读数"))
+    add("")
+    _lf = sg.get("label_family") or []
+    if _lf:
+        _lf_day = sg.get("label_family_board_session") or _sg_ds or "这一天的盘口"
+        _line = ((sg.get("criteria") or {}).get("label_family_gap_median_pp"))
+        add("还有一件本页先前说不出的事：这几只票的名字里都写着指数名，"
+            "**同一张盘口上写同一个名字的票不止一只**，所以「有没有更便宜的同一篮子」是可测的。"
+            "测法是拿两只票的价比历史看它们每天的价差抖多少：同一个指数的两只票只差溢价漂移，"
+            "不同指数会天天差得多。线是每天价差变化的中位数 %s pp（用中位数不用标准差："
+            "一次 5 拆 1 会在标准差里变成几十 pp 的台阶，那不是两只票的差别）。"
+            % ("%.2f" % _line if isinstance(_line, (int, float)) else "—"))
+        add("")
+        add("| 这只票 | 名字里的指数 | 同名票数 | 可换的活票 | 价差日中位变化 | 结论 |")
+        add("|---|---|---|---|---|---|")
+        for _n in _lf:
+            _state = {"LABEL_IS_A_BASKET": "名字对，价也认=同一篮子",
+                      "LABEL_NOT_A_BASKET": "名字一样，价说不是同一篮子",
+                      "NO_ALTERNATIVE": "盘上没有第二只活票",
+                      "CANNOT_VERIFY": "读不出",
+                      "NOT_ON_BOARD": "不在本日盘口"}.get(_n.get("state"), _n.get("state") or "")
+            add("| %s | %s | %s | %s | %s | %s |" % (
+                _n.get("leg_symbol"), _n.get("label") or "—", _n.get("same_label_tickers"),
+                _n.get("live_alternatives"),
+                "—" if _n.get("gap_median_pp") is None else "%.3f pp" % _n["gap_median_pp"],
+                _state))
+        add("")
+        _acc = [n for n in _lf if n.get("state") == "LABEL_IS_A_BASKET"]
+        _ref = [n for n in _lf if n.get("state") == "LABEL_NOT_A_BASKET"]
+        if _acc:
+            add("- 名字与价都认的那 %d 只，已经进了上面的价差表：它们**不是**「没有同类」，"
+                "是本页以前的手写名单里没写它们。" % len(_acc))
+        if _ref:
+            add("- %s 是**名字骗人**那一类：盘口写同一个指数名，价却说不是同一篮子"
+                "（日中位变化超过 %.2f pp），所以本页不给它算换票的钱。"
+                % ("、".join(n.get("leg_symbol") for n in _ref),
+                   _line if isinstance(_line, (int, float)) else 0.0))
+        _sens = sg.get("label_family_sensitivity") or []
+        if _sens:
+            add("- 这条线挪到别处会不会翻案：%s。"
+                % "；".join("线 %.2f pp 时过线的是 %s" % (
+                    s.get("line_pp"), "、".join(s.get("accepted")) or "无") for s in _sens))
     add("")
     return L
 
@@ -12748,6 +12824,31 @@ def selftest():
         and ("今天" not in _sg_next and "2026-11-06价差" in _sg_next)
         and ("只有 今天 才有" in _sg_noday),
         _sg_next[:160])
+    # r1803: the face stopped calling every unnamed leg "no sibling on this board". Two different
+    # findings now reach this block -- a label whose prices say it is NOT one basket, and a label
+    # with no second live ticker -- and the page must print each leg's own reason instead of one
+    # blanket sentence, plus the line-move sensitivity so a reader can see the call has margin.
+    _sg_fam = dict(_sg_fix,
+                   criteria={"min_days": 120, "label_family_gap_median_pp": 0.30},
+                   label_family_board_session="2026-11-16",
+                   skipped_legs=[{"leg_symbol": "512040", "label": "价值ETF",
+                                  "verdict": "CANNOT_VERIFY", "why": "the board writes the same label, ..."},
+                                 {"leg_symbol": "159655", "label": "标普ETF",
+                                  "verdict": "CANNOT_VERIFY", "why": "no other live ticker writes this label"}],
+                   label_family=[{"leg_symbol": "512040", "label": "价值ETF",
+                                  "same_label_tickers": 3, "live_alternatives": 1,
+                                  "gap_median_pp": 0.385, "state": "LABEL_NOT_A_BASKET"},
+                                 {"leg_symbol": "159655", "label": "标普ETF",
+                                  "same_label_tickers": 1, "live_alternatives": 0,
+                                  "gap_median_pp": None, "state": "NO_ALTERNATIVE"}],
+                   label_family_sensitivity=[{"line_pp": 0.25, "accepted": ["510760"], "refused": ["512040"]},
+                                             {"line_pp": 0.45, "accepted": ["510760", "512040"], "refused": []}])
+    _sg_fam_txt = "\n".join(sibling_gap_block(_sg_fam, page_bar="2026-11-06"))
+    chk("L403 sibling gap: a leg whose label the prices refuse is not printed as 'no sibling on the board'",
+        "价说它们不是同一个篮子" in _sg_fam_txt and "0.385 pp" in _sg_fam_txt
+        and "盘口上没有第二只活着的票写同一个指数名" in _sg_fam_txt
+        and "线 0.45 pp 时过线的是 510760、512040" in _sg_fam_txt,
+        _sg_fam_txt[-320:])
     # r1667: five rounds of this defect were all found by eye, so the family becomes a guard.
     _guard_ok, _guard_find = page_day_debt_guard()
     _ghost = ("def ghost_block(x):\n    return '今天的价差'\n\n"

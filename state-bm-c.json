@@ -1,7 +1,7 @@
 {
  "activity": "product",
- "activity_now": "r1801: the page names which run produced its quoted prior reading, so the daily diff can attribute the move",
- "activity_now_round": 1801,
+ "activity_now": "r1803: 兄弟价差面改成「同名即候选、价格来裁决」，把本书 CANNOT_VERIFY 从 5 只压到 3 只，并抓出 512040 名字骗人（同名 3 只、日中位 0.385pp）",
+ "activity_now_round": 1803,
  "agenda_starved": false,
  "ah_note": "r1680 LANDED: refresh closed itself at 21:17 -- cutoff 2026-11-12 -> 2026-11-13, complete=True, exit 0, pulled_rows 46; data_lane_freshness in_sync 13 / behind_1d 1 (worst now marks, intraday-only, not rebuildable). Fix that made it possible: stall watchdog over every network leg (300s, names stage/pair, exit 2, checkpoint kept) + save_progress stamps write time + -u on the detached spawn + progress line every 10 pairs. NOT yet proven: the 300s stall path has never fired on a real hang (this round the suspected freeze finished by itself).",
  "ahead_origin": 0,
@@ -967,7 +967,7 @@
  "round_1788_next": "(a) the three remaining live_book product legs (arm count / premium rows / k_gap rows) are the same cause -- the page on disk is 20:30 and the faces it quotes moved at 21:57 and 00:34; an in-memory rebuild on bm-c passes all three, but docs/live_book is bm-a's single writer and owner_silence_hours()=4.7 < 6.0, so run() is an honest no-op here. Poke to bm-a accepted 2026-11-17T04:32:04 (worker 1.9.7) -- verify the republished page next round; (b) 8 today-word lines on the page still carry no date (census rc1 debt, pre-existing); (c) the S6 chain was not re-run this round (red-fix mission + 10-minute window).",
  "round_1788_note": "r1788: the day-word census mapped the premium one-liner ('按 DATE 的读数，这张单里可核验的 N 只票…') to premium_forward.face_asof while the numbers come from premium_leak.own_ruler_summary at THAT face's session. The forward paper is built from a later-closing panel and may sit a session behind, so the leg was green only on days the two coincided. Live receipt 2026-11-16: page JSON carries premium_forward.face_asof=2026-11-13 and premium_leak.session=2026-11-16, and the face's own 159655 last_pctile is 96.44 (in_own_top_decile=['159655']) -- the sentence was right, the mapping was wrong. Rule now reads premium_leak.session; two selftest legs pin both directions (quotes the leak face -> ok; names a third day -> mismatch).",
  "round_label": "1704",
- "round_no": 1802,
+ "round_no": 1803,
  "round_no_label": "r1785",
  "round_no_landed": 1663,
  "round_note": "r1489: a reinstated bar is re-derived from the panel, not carried over (reinstatement_check + reinstatements.json + sheet paragraph)",
@@ -1633,5 +1633,20 @@
  "r1802_note": "r1802 PRODUCT (dept: research/strategy/portfolio): four reader faces (paper_export, strategy_scorecard, daily_scorecard, CEO page) all copy the same capital block, so they agree with each other even when the block is wrong. New face scripts/paper_equity_recheck.py recomputes every position from the raw rows (qty x last_close, (last_close - cost) x qty), anchors every mark on data/daily, and reconciles each reader face against the ledger. Live reading 2026-11-17: PASS, 6 traders, total equity 5,934,779.10 (from 6,000,000 at each account's start = -1.09%), 0 problems, 0 price lags, 0 unverified marks. Wired into the S6 chain (leg sits after the three reader producers, rc0 0.1s) and into smoke_test.py as two legs.",
  "r1802_next": "(a) compute_audit's supply_floor still lists Y4_top2_share as a failing check on all four book candidates, but r1798 established Y4 is a diagnostic line and the veto belongs to decision_block's three items -- the supply face is the fourth copy of the old caliber; move Y4 into diagnostics so AGENDA_DEBT reads 'waiting on its own calendar' instead of '4 candidates refused' (<=48h); (b) render this recheck on the CEO page with pinned legs (a face nobody reads is the r1800 class); (c) results/quant-nav-recompute.json (2026-10-21, first_day after last_day) is superseded by this face -- retire it through treasure_guard instead of leaving two net-worth faces; (d) full smoke closed 658/658 PASS with both new legs inside it (r1802_smoke).",
  "verify_r1802": "paper_equity_recheck selftest 16/16 PASS (L1-L7 identities incl. a mark that is not the panel's close while the book stays self-consistent; L8 panel lag disclosed not called a breach; L9 two panel families disagreeing reported not resolved; L10 missing panel = unverified not breach; R1-R3 reader drift caught; T1 sub-cent rounding not a breach; T2 no ledger = NO_LEDGERS not a pass) | run rc0 verdict=PASS traders=6 total_equity=5934779.10 problems=0 price_lags=0 unverified=0 | S6 --only paper_equity_recheck rc0 0.1s | pool_dualrun ZERO-DRIFT streak 51 | attrition CLEAN (4 ledgers, 2 historical shrinks healed) | py_watermark py_low_with_work_cands (local_batch=1 = the suite in flight) | compute_audit FLAG pool_starvation,supply_floor (AGENDA_DEBT, cause=calendar, 4 candidates refused on Y4) | s05 orders_delta=true decisions_delta=true, zero rows touch this repo, watermark advanced dec=20dc804c ord=810bb25d (read-back full-string equality, 9 heartbeat mirrors synced)",
- "r1802_smoke": "results/_smoke_r1802.out: Summary 658/658 PASS, 0 FAIL, wall clock 757.8s over 656 legs. BOTH new legs ran inside this suite and passed: 'paper_equity_recheck (the book's own arithmetic vs the panel)' selftest 16/16 and 'paper_equity_recheck (every reader face still equals the ledger)' verdict=PASS traders=6 total_equity=5934779.10 problems=0. record logs/smoke_legs.json failed=0. NOTE: the first launch at 13:07 died on argument splitting (Start-Process ate the -c payload); the suite that closed is the 13:09 relaunch, started AFTER both legs were written."
+ "r1802_smoke": "results/_smoke_r1802.out: Summary 658/658 PASS, 0 FAIL, wall clock 757.8s over 656 legs. BOTH new legs ran inside this suite and passed: 'paper_equity_recheck (the book's own arithmetic vs the panel)' selftest 16/16 and 'paper_equity_recheck (every reader face still equals the ledger)' verdict=PASS traders=6 total_equity=5934779.10 problems=0. record logs/smoke_legs.json failed=0. NOTE: the first launch at 13:07 died on argument splitting (Start-Process ate the -c payload); the suite that closed is the 13:09 relaunch, started AFTER both legs were written.",
+ "round_1803": {
+  "product": "etf_book_sibling_gap label_family + ceo page L403",
+  "label_family": {
+   "510760": "LABEL_IS_A_BASKET (median 0.170pp) -> priced, NO_GAP",
+   "512040": "LABEL_NOT_A_BASKET (median 0.385pp > 0.30 line)",
+   "159655/513690/159519": "NO_ALTERNATIVE (single ticker under the label)"
+  },
+  "ruler": "median |day change| of the gap, line 0.30pp; the first version used sd of the level and read 42.90pp on a 5:1 split (510210, 2021-01-25)",
+  "sensitivity": "0.25/0.35 same verdicts; only 0.45 flips 512040",
+  "unverified": [
+   "full smoke not run this round",
+   "0.30pp line calibrated only on this book's five labels",
+   "alias families (different words, same basket) still hand-mapped only"
+  ]
+ }
 }

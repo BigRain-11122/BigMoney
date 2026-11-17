@@ -1,7 +1,7 @@
 {
  "evidence_cutoff": "2026-11-16",
  "beta_target": 0.2,
- "generated": "2026-11-17T12:20:31+08:00",
+ "generated": "2026-11-17T13:46:00+08:00",
  "permission": {
   "status": "within_permission",
   "k_now": 0.432195,
@@ -588,7 +588,7 @@
   "withdrawn_now": [],
   "withdrawal_note": "ledger withdrew 1 bar(s) at 2026-11-09 23:54:02 because the price panel then ended 2026-11-06 (2026-11-09); the panel has since carried 2026-11-09 again and that ledger row is live -- the withdrawal stays on record but it is not this sheet's pricing bar",
   "reinstatements": {
-   "at": "2026-11-17 12:20:31",
+   "at": "2026-11-17 13:46:00",
    "n_reinstated": 1,
    "rewritten": [],
    "verbatim_identical": [
@@ -1479,7 +1479,14 @@
    "the reconstruction inherits the sibling-gap face's single IOPV anchor; a premium base that shifted between the two tickers would move the level, not the change"
   ],
   "cost_bp_per_side": 8.0,
-  "toll_pp": 0.32
+  "toll_pp": 0.32,
+  "skipped": [
+   {
+    "leg_symbol": "510760",
+    "sibling_symbol": "510210",
+    "why": "这张单没有换出这只票"
+   }
+  ]
  },
  "swap_effect": {
   "artifact": "etf_book_swap_effect",
@@ -1553,7 +1560,7 @@
  },
  "next_decision": {
   "artifact": "etf_book_next_decision",
-  "generated": "2026-11-17T12:20:31",
+  "generated": "2026-11-17T13:46:01",
   "evidence_cutoff": "2026-11-16",
   "calendar_source": "data/exchange_calendar.csv",
   "calendar_last": "2026-12-31",
@@ -1653,9 +1660,15 @@
   "evidence_cutoff": "2026-11-16",
   "verdict": "NOTHING_MEASURED",
   "rows": [],
-  "skipped": [],
+  "skipped": [
+   {
+    "leg_symbol": "510760",
+    "sibling_symbol": "510210",
+    "why": "这张单没有换出这只票：它的漂移不是这笔交易的成本"
+   }
+  ],
   "merge": null,
-  "sentence": "这一单没有换出任何票：价差面在这根 bar 上没有可配对的腿，所以没有成本可量——这不是「跟踪差为零」的结论。",
+  "sentence": "这一单印出的动作没有换出任何一只票（1 对候选里 1 只没有换出），所以没有成本可量——这不是「跟踪差为零」的结论。",
   "refused": null,
   "bars_per_year": 244.0,
   "power_z": 2.802,
@@ -1685,16 +1698,16 @@
   "anchor_session": "2026-11-16",
   "anchor_behind_bar": false,
   "nothing_measured": {
-   "reason": "NO_PAIRS",
-   "pairs": 0,
-   "swapped": 0,
-   "skipped": 0,
+   "reason": "NOTHING_SWAPPED",
+   "pairs": 1,
+   "swapped": -1,
+   "skipped": 1,
    "rows": 0
   }
  },
  "swap_freshness": {
   "artifact": "etf_book_swap_freshness",
-  "generated": "2026-11-17T12:20:31",
+  "generated": "2026-11-17T13:46:01",
   "evidence_cutoff": "2026-11-16",
   "calendar_source": "data/exchange_calendar.csv",
   "close_accept_time": "15:30",
@@ -1920,15 +1933,15 @@
    "vol": 0.0886
   },
   "width_effect": {
-   "vol": {
-    "ticket_width_cagr": 0.1172,
-    "card_width_cagr": 0.1218,
-    "pp": 0.46
-   },
    "beta": {
     "ticket_width_cagr": 0.1098,
     "card_width_cagr": 0.0959,
     "pp": -1.39
+   },
+   "vol": {
+    "ticket_width_cagr": 0.1172,
+    "card_width_cagr": 0.1218,
+    "pp": 0.46
    }
   },
   "rules_differ": true,

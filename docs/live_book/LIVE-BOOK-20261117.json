@@ -6994,44 +6994,188 @@
   "sample_previous_session": "2026-11-10"
  },
  "sibling_gap": {
-  "status": "unreadable",
+  "status": "ok",
   "artifact": "results/etf_book_sibling_gap.json",
-  "detail": "face carries no priced pair",
   "session": "2026-11-16",
-  "sentence": "no pair carries both a premium gap and a local price history",
-  "verdict_counts": {
-   "CANNOT_VERIFY": 5
-  },
-  "skipped_legs": [
+  "pairs": [
    {
     "leg_symbol": "510760",
+    "sibling_symbol": "510210",
+    "sibling_name": "上证指数ETF富国",
+    "index": "LBL:上证指数ETF",
+    "amount_cny": 86400.6,
+    "source_verdict": "ALREADY_CHEAPEST",
+    "today_gain_cny": 0.0,
+    "gap_today_pp": -0.1394,
+    "daily_files": [
+     "data\\daily\\sh510760.csv",
+     "data\\daily\\sh510210.csv"
+    ],
+    "verdict": "NO_GAP",
+    "why": "",
+    "stats": {
+     "days": 1496,
+     "first_date": "2020-09-09",
+     "last_date": "2026-11-16",
+     "today_gap_pp": -0.1394,
+     "mean_pp": -20.258,
+     "median_pp": -5.0381,
+     "sd_pp": 42.8999,
+     "min_pp": -188.0528,
+     "max_pp": 6.7541,
+     "share_days_positive": 0.1497,
+     "today_percentile": 84.02,
+     "today_z": 0.469,
+     "last_year_mean_pp": -2.6546,
+     "half_split_mean_pp": [
+      -39.3182,
+      -1.1977
+     ],
+     "nav_base_offset_pp": 29.3872,
+     "gap_change_median_pp": 0.1704
+    },
+    "repeatable_gain_cny": null,
+    "one_off_gain_cny": null,
+    "steps": [
+     {
+      "date": "2021-01-25",
+      "jump_pp": 160.7249
+     }
+    ],
+    "flags": {
+     "mean_clears_materiality": true,
+     "today_is_tail": false
+    },
+    "advice": "today's gap is under the 0.5 pp materiality line: nothing to swap",
+    "family_basis": "board_label",
     "label": "上证指数ETF",
-    "verdict": "CANNOT_VERIFY",
-    "why": "label 上证指数ETF names no other live ticker on this board (no sibling group)"
-   },
+    "label_gap_median_pp": 0.1704
+   }
+  ],
+  "skipped_legs": [
    {
     "leg_symbol": "512040",
     "label": "价值ETF",
     "verdict": "CANNOT_VERIFY",
-    "why": "label 价值ETF names no other live ticker on this board (no sibling group)"
+    "why": "the board writes the same label, but the gap's median day change is 0.385 pp (> 0.30): these are not the same basket, so no swap is priced"
    },
    {
     "leg_symbol": "159655",
     "label": "标普ETF",
     "verdict": "CANNOT_VERIFY",
-    "why": "label 标普ETF names no other live ticker on this board (no sibling group)"
+    "why": "no other live ticker writes this label on the board"
    },
    {
     "leg_symbol": "513690",
     "label": "港股红利ETF",
     "verdict": "CANNOT_VERIFY",
-    "why": "label 港股红利ETF names no other live ticker on this board (no sibling group)"
+    "why": "no other live ticker writes this label on the board"
    },
    {
     "leg_symbol": "159519",
     "label": "港股国企",
     "verdict": "CANNOT_VERIFY",
-    "why": "label 港股国企 names no other live ticker on this board (no sibling group)"
+    "why": "no other live ticker writes this label on the board"
+   }
+  ],
+  "sentence": "no pair carries a gap that can be read: 1 pair(s) unverifiable or immaterial",
+  "today_gain_cny": 0,
+  "repeatable_gain_cny": 0.0,
+  "one_off_gain_cny": 0.0,
+  "immaterial_gain_cny": 0,
+  "criteria": {
+   "min_days": 120,
+   "step_sd": 3.0,
+   "material_gap_pp": 0.5,
+   "half_note_days": 250,
+   "label_family_gap_median_pp": 0.3
+  },
+  "caveats": [
+   "the reconstructed gap is anchored on ONE session's IOPV pair; every earlier value inherits the assumption that the two funds' NAV-per-unit ratio has not moved, and steps are published as the evidence against that assumption",
+   "closes are as-traded, not total-return: a distribution to one fund only lands as a step and is flagged, not corrected",
+   "same index, not same basket: tracking difference, fee, size, quotation width and FX-hedge policy are NOT priced here",
+   "premium history from our own board starts at one session; this face uses the price ratio for history precisely because it is the only long series we have",
+   "a step is a flag, not an error: the level after a step is still the level a buyer would pay today",
+   "a leg the hand map could not name is retried on the board's own label, and the price history has to agree before a swap is priced (label_family block); a label match alone is never treated as the same basket"
+  ],
+  "label_family": [
+   {
+    "leg_symbol": "510760",
+    "label": "上证指数ETF",
+    "same_label_tickers": 5,
+    "live_alternatives": 4,
+    "gap_median_pp": 0.1704,
+    "state": "LABEL_IS_A_BASKET",
+    "why": "the board writes the same label and the gap's median day change is 0.170 pp (<= 0.30): the price history agrees these hold the same basket",
+    "sibling_symbol": "510210",
+    "inner_verdict": "NO_GAP"
+   },
+   {
+    "leg_symbol": "512040",
+    "label": "价值ETF",
+    "same_label_tickers": 3,
+    "live_alternatives": 1,
+    "gap_median_pp": 0.385,
+    "state": "LABEL_NOT_A_BASKET",
+    "why": "the board writes the same label, but the gap's median day change is 0.385 pp (> 0.30): these are not the same basket, so no swap is priced",
+    "sibling_symbol": "159263",
+    "inner_verdict": "NO_GAP"
+   },
+   {
+    "leg_symbol": "159655",
+    "label": "标普ETF",
+    "same_label_tickers": 1,
+    "live_alternatives": 0,
+    "gap_median_pp": null,
+    "state": "NO_ALTERNATIVE",
+    "why": "no other live ticker writes this label on the board"
+   },
+   {
+    "leg_symbol": "513690",
+    "label": "港股红利ETF",
+    "same_label_tickers": 1,
+    "live_alternatives": 0,
+    "gap_median_pp": null,
+    "state": "NO_ALTERNATIVE",
+    "why": "no other live ticker writes this label on the board"
+   },
+   {
+    "leg_symbol": "159519",
+    "label": "港股国企",
+    "same_label_tickers": 1,
+    "live_alternatives": 0,
+    "gap_median_pp": null,
+    "state": "NO_ALTERNATIVE",
+    "why": "no other live ticker writes this label on the board"
+   }
+  ],
+  "label_family_board_session": "2026-11-16",
+  "label_family_sensitivity": [
+   {
+    "line_pp": 0.25,
+    "accepted": [
+     "510760"
+    ],
+    "refused": [
+     "512040"
+    ]
+   },
+   {
+    "line_pp": 0.35,
+    "accepted": [
+     "510760"
+    ],
+    "refused": [
+     "512040"
+    ]
+   },
+   {
+    "line_pp": 0.45,
+    "accepted": [
+     "510760",
+     "512040"
+    ],
+    "refused": []
    }
   ]
  },
@@ -8137,10 +8281,10 @@
  "authority": {
   "writer": "bm-c",
   "owner": "bm-a",
-  "owner_silent_h": 12.7,
+  "owner_silent_h": 14.1,
   "gate_h": 6.0,
   "took_over": true,
-  "why": "bm-a has not written its own heartbeat for 12.7 h (> 6 h): this host takes the pen for the page only -- a stopped heartbeat is not a dead machine",
+  "why": "bm-a has not written its own heartbeat for 14.1 h (> 6 h): this host takes the pen for the page only -- a stopped heartbeat is not a dead machine",
   "no_bar_reason": "human_ages"
  },
  "fleet": {

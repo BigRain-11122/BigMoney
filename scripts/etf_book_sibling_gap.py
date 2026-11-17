@@ -66,12 +66,47 @@ MIN_DAYS = 120          # below this a "history" is a few observations wearing a
 STEP_SD = 3.0           # a day-move this many sd wide is an event, not premium drift
 HALF_NOTE_DAYS = 250    # ~one trading year: the window the reader will quote
 
+LABEL_GAP_MEDIAN_PP = 0.30   # median |day change| of the gap: same basket sits below, another index above
+
 CRITERIA = {
     "min_days": MIN_DAYS,
     "step_sd": STEP_SD,
     "material_gap_pp": sib.MATERIAL_PP,
     "half_note_days": HALF_NOTE_DAYS,
+    "label_family_gap_median_pp": LABEL_GAP_MEDIAN_PP,
 }
+
+
+def label_family_verdict(gap_median_pp, n_live_alt, inner_verdict):
+    """The board proposes a sibling by writing the same index label twice; its prices adjudicate.
+
+    The hand map in etf_book_sibling_entry.LABEL_CANON covers two baskets, so every other labelled
+    leg used to come back CANNOT_VERIFY even when the board listed four other tickers under the
+    identical label. That is under-coverage, not caution -- but the opposite error (merging two
+    tickers whose labels happen to match while the indices differ, e.g. 价值ETF) would price a
+    swap that is not a swap. So the acceptance is empirical: two funds on one index differ only by
+    premium drift, and the median day-over-day change of their gap is the robust way to see it.
+
+    The MEDIAN OF DAY CHANGES, not the sd of the level: 510210 split 5:1 on 2021-01-25, which
+    leaves one 160 pp step in the level series and inflates its sd to 42.9 pp against a same-basket
+    pair whose median day change is 0.17 pp. A ruler that calls that pair "not a basket" is
+    measuring the split, not the two funds. Returns (state, why).
+    """
+    if n_live_alt <= 0:
+        return "NO_ALTERNATIVE", "no other live ticker writes this label on the board"
+    if inner_verdict == "CANNOT_VERIFY":
+        return "CANNOT_VERIFY", "the pair cannot be priced (see pair row)"
+    if gap_median_pp is None:
+        return "CANNOT_VERIFY", "no common history to adjudicate the label with"
+    if gap_median_pp > LABEL_GAP_MEDIAN_PP:
+        return ("LABEL_NOT_A_BASKET",
+                "the board writes the same label, but the gap's median day change is %.3f pp "
+                "(> %.2f): these are not the same basket, so no swap is priced"
+                % (gap_median_pp, LABEL_GAP_MEDIAN_PP))
+    return ("LABEL_IS_A_BASKET",
+            "the board writes the same label and the gap's median day change is %.3f pp "
+            "(<= %.2f): the price history agrees these hold the same basket"
+            % (gap_median_pp, LABEL_GAP_MEDIAN_PP))
 
 
 def find_daily(code):
@@ -111,6 +146,21 @@ def reconstruct(g, gap_today):
         return None, None
     offset = g[-1] - gap_today
     return [x - offset for x in g], offset
+
+
+def median_abs_change(series):
+    """Median |day-over-day change|. Immune to a split, which is a step and not a tracking gap.
+
+    The level series of a pair where one fund split 5:1 carries one 160 pp step; its sd reads that
+    step every session, while the median day change does not see it at all. Same-basket pairs on
+    this board read 0.145-0.206 pp, pairs holding different indices read 0.385+.
+    """
+    if not series or len(series) < 2:
+        return None
+    diffs = sorted(abs(series[i] - series[i - 1]) for i in range(1, len(series)))
+    n = len(diffs)
+    mid = n // 2
+    return diffs[mid] if n % 2 else 0.5 * (diffs[mid - 1] + diffs[mid])
 
 
 def percentile_rank(series, value):
@@ -237,6 +287,7 @@ def assess_pair(a, b, gap_today, sib_row):
     rec, offset = reconstruct(g, gap_today)
     d = describe(rec, dates, gap_today)
     d["nav_base_offset_pp"] = round(offset, 4)
+    d["gap_change_median_pp"] = round(median_abs_change(g), 4)
     verdict, flags = classify(d)
     row.update({"verdict": verdict, "stats": d, "flags": flags, "advice": advice(verdict, d, flags),
                 "steps": detect_steps(g, dates)})
@@ -254,21 +305,90 @@ def assess_pair(a, b, gap_today, sib_row):
     return row
 
 
+def board_labels():
+    """The session board keyed by code, each row carrying the label its own name writes.
+
+    Same reader as the sibling face (load_rows/derive_houses/strip_house) so the two faces cannot
+    disagree about what a name says. Returns ({code: row}, session).
+    """
+    snap = sib.latest_snapshot()
+    if not snap:
+        return {}, None
+    rows, session = sib.load_rows(snap)
+    houses = sib.derive_houses([r["name"] for r in rows])
+    resid = sib.strip_house([r["name"] for r in rows], houses)
+    for r in rows:
+        r["label"] = resid[r["name"]]
+    return {r["code"]: r for r in rows}, session
+
+
+def label_family_price(leg, board):
+    """Second chance for a leg the hand canon could not name: same board label, prices decide.
+
+    Returns (pair_row_or_None, note). A None row means "not a sibling after all" and the note
+    says why, so the reader sees the refusal instead of a silent gap.
+    """
+    code = str(leg.get("symbol"))
+    me = board.get(code)
+    if me is None:
+        return None, {"leg_symbol": code, "label": None, "same_label_tickers": 0,
+                      "live_alternatives": 0, "gap_median_pp": None, "state": "NOT_ON_BOARD",
+                      "why": "this ticker is not on the board the label test reads"}
+    label = me.get("label")
+    members = [r for r in board.values()
+               if r.get("label") == label and sib.premium_dec(r.get("premium_pct")) is not None]
+    live_alt = [r for r in members
+                if r["code"] != code and (r.get("amount") or 0.0) >= sib.LIQ_FLOOR_CNY]
+    note = {"leg_symbol": code, "label": label, "same_label_tickers": len(members),
+            "live_alternatives": len(live_alt), "gap_median_pp": None, "state": "", "why": ""}
+    state, why = label_family_verdict(None, len(live_alt), "NO_PAIR")
+    if not live_alt:
+        note.update({"state": state, "why": why})
+        return None, note
+    # the economics come from the sibling face's own assess(), never a second copy of it
+    fam = {"LBL:%s" % label: members}
+    summary = sib.assess([{"symbol": code, "amount": leg.get("amount_cny")}], fam, board)
+    sib_leg = summary["legs"][0]
+    if not sib_leg.get("cheapest") or sib_leg.get("gap_pp") is None:
+        note.update({"state": "NO_LIVE_ALTERNATIVE",
+                     "why": sib_leg.get("why") or "no live alternative under this label"})
+        return None, note
+    row = assess_pair(code, sib_leg["cheapest"]["code"], sib_leg["gap_pp"], sib_leg)
+    med = (row.get("stats") or {}).get("gap_change_median_pp")
+    state, why = label_family_verdict(med, len(live_alt), row.get("verdict"))
+    note.update({"state": state, "why": why, "gap_median_pp": med,
+                 "sibling_symbol": sib_leg["cheapest"]["code"],
+                 "inner_verdict": row.get("verdict")})
+    if state != "LABEL_IS_A_BASKET":
+        return None, note
+    row["family_basis"] = "board_label"
+    row["label"] = label
+    row["label_gap_median_pp"] = med
+    return row, note
+
+
 def build():
-    if not os.path.exists(SIB_JSON):
-        raise SystemExit("no published sibling face at %s" % SIB_JSON)
     with open(SIB_JSON, encoding="utf-8") as fh:
         found = json.load(fh)
     legs = ((found.get("summary") or {}).get("legs")) or []
-    pairs, skipped = [], []
+    board, board_session = board_labels()
+    pairs, skipped, label_family = [], [], []
     for leg in legs:
         ch = leg.get("cheapest")
         gap = leg.get("gap_pp")
         if not ch or gap is None:
+            priced = label_family_price(leg, board)
+            if priced is not None:
+                row, note = priced
+                label_family.append(note)
+                if row is not None:
+                    pairs.append(row)
+                    continue
             skipped.append({"leg_symbol": leg.get("symbol"),
                             "label": leg.get("label"),
                             "verdict": "CANNOT_VERIFY",
-                            "why": leg.get("why") or "the sibling face priced no alternative for this leg"})
+                            "why": (priced[1]["why"] if priced is not None
+                                    else (leg.get("why") or "the sibling face priced no alternative for this leg"))})
             continue
         pairs.append(assess_pair(leg["symbol"], ch["code"], gap, leg))
     counts = {}
@@ -308,9 +428,29 @@ def build():
             "ratio for history precisely because it is the only long series we have",
             "a step is a flag, not an error: the level after a step is still the level a buyer "
             "would pay today",
+            "a leg the hand map could not name is retried on the board's own label, and the price "
+            "history has to agree before a swap is priced (label_family block); a label match "
+            "alone is never treated as the same basket",
         ],
+        "label_family": label_family,
+        "label_family_board_session": board_session,
+        "label_family_sensitivity": label_family_sensitivity(label_family),
     }
     return face
+
+
+def label_family_sensitivity(label_family, lines=(0.25, 0.35, 0.45)):
+    """Which legs change side if the frozen line moves by ~1/6 and ~1/2 (a call with no margin is a guess)."""
+    out = []
+    for line in lines:
+        accepted, refused = [], []
+        for n in label_family:
+            med = n.get("gap_median_pp")
+            if med is None:
+                continue
+            (accepted if med <= line else refused).append(n.get("leg_symbol"))
+        out.append({"line_pp": line, "accepted": accepted, "refused": refused})
+    return out
 
 
 def sentence(pairs, today_gain, repeatable, one_off):
@@ -381,6 +521,27 @@ def render_md(face):
         for s in face["skipped_legs"]:
             L.append("- %s: %s" % (s["leg_symbol"], s["why"]))
         L.append("")
+    lf = face.get("label_family") or []
+    if lf:
+        L.append("## the board's own labels, adjudicated by the prices (%s)" % (face.get("label_family_board_session") or "-"))
+        L.append("")
+        L.append("A leg the hand map could not name is retried here: if two live tickers carry the "
+                 "identical index label, the median day-over-day change of their gap decides whether "
+                 "they are one basket. The line is %.2f pp (median, not sd: a 5:1 split is one step "
+                 "and must not be read as a tracking gap)." % CRITERIA["label_family_gap_median_pp"])
+        L.append("")
+        L.append("| leg | label | same-label | live alts | gap median day change | state |")
+        L.append("|---|---|---|---|---|---|")
+        for n in lf:
+            L.append("| %s | %s | %s | %s | %s | %s |" % (
+                n.get("leg_symbol"), n.get("label") or "-", n.get("same_label_tickers"),
+                n.get("live_alternatives"),
+                "-" if n.get("gap_median_pp") is None else "%.3f pp" % n["gap_median_pp"],
+                n.get("state")))
+        L.append("")
+        for n in lf:
+            L.append("- %s: %s" % (n.get("leg_symbol"), n.get("why")))
+        L.append("")
     L.append("## caveats")
     L.append("")
     for c in face["caveats"]:
@@ -430,9 +591,23 @@ def check():
                 bad.append("%s is not in the source ticket" % p["leg_symbol"])
                 continue
             if (leg.get("cheapest") or {}).get("code") != p["sibling_symbol"]:
-                bad.append("%s quotes sibling %s, source says %s"
-                           % (p["leg_symbol"], p["sibling_symbol"], (leg.get("cheapest") or {}).get("code")))
-            if abs((leg.get("gap_pp") or 0.0) - p["gap_today_pp"]) > 1e-3:
+                if p.get("family_basis") == "board_label":
+                    # this pair was found past the hand map, on the board's own label; re-adjudicate
+                    # it here so a published board-label pair is checked instead of excused
+                    board, _ = board_labels()
+                    again = label_family_price(leg, board)
+                    if again is None or again[0] is None:
+                        bad.append("%s was priced off the board label but no longer adjudicates as one basket"
+                                   % p["leg_symbol"])
+                    elif again[0].get("sibling_symbol") != p["sibling_symbol"]:
+                        bad.append("%s board-label sibling drifted: published %s, now %s"
+                                   % (p["leg_symbol"], p["sibling_symbol"], again[0]["sibling_symbol"]))
+                    elif abs((again[0].get("gap_today_pp") or 0.0) - p["gap_today_pp"]) > 1e-3:
+                        bad.append("%s board-label gap drifted" % p["leg_symbol"])
+                else:
+                    bad.append("%s quotes sibling %s, source says %s"
+                               % (p["leg_symbol"], p["sibling_symbol"], (leg.get("cheapest") or {}).get("code")))
+            if p.get("family_basis") != "board_label" and abs((leg.get("gap_pp") or 0.0) - p["gap_today_pp"]) > 1e-3:
                 bad.append("%s quotes gap %s, source says %s"
                            % (p["leg_symbol"], p["gap_today_pp"], leg.get("gap_pp")))
             # the anchor identity: a reconstruction that does not land on today's gap is a bug
@@ -541,7 +716,25 @@ def selftest():
     # --- refuse reading the raw ratio level as a premium (the whole point of the anchor)
     eq("L16 the published criteria echo the constants", CRITERIA["material_gap_pp"], sib.MATERIAL_PP)
 
-    print("selftest: %d PASS, %d FAIL" % (16 - len(fails), len(fails)))
+    # --- a board label is a proposal, the price history is the judge (r1803)
+    eq("L17 no live ticker under the label = NO_ALTERNATIVE",
+       label_family_verdict(None, 0, "NO_PAIR")[0], "NO_ALTERNATIVE")
+    eq("L18 a same-basket median day change accepts the label",
+       label_family_verdict(0.145, 3, "ALREADY_CHEAPEST")[0], "LABEL_IS_A_BASKET")
+    eq("L19 a different-index median day change refuses it",
+       label_family_verdict(LABEL_GAP_MEDIAN_PP + 0.01, 3, "ALREADY_CHEAPEST")[0], "LABEL_NOT_A_BASKET")
+    eq("L20 the line is inclusive (median == the frozen line still accepts)",
+       label_family_verdict(LABEL_GAP_MEDIAN_PP, 1, "ALREADY_CHEAPEST")[0], "LABEL_IS_A_BASKET")
+    eq("L21 an unpriceable inner pair stays CANNOT_VERIFY whatever the median says",
+       label_family_verdict(0.10, 2, "CANNOT_VERIFY")[0], "CANNOT_VERIFY")
+    # the ruler itself: one 160 pp split step must not move the median while it moves the sd
+    stepped = [1.0] * 200 + [1.05] * 200
+    eq("L22 a single split-sized step leaves the median day change at zero",
+       round(median_abs_change(stepped), 6), 0.0)
+    eq("L23 ... while the same series carries a non-zero sd",
+       describe(stepped, dates[:400], stepped[-1])["sd_pp"] > 0.0, True)
+
+    print("selftest: %d PASS, %d FAIL" % (23 - len(fails), len(fails)))
     return 0 if not fails else 1
 
 
