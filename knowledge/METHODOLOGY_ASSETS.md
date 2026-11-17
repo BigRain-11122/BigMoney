@@ -16417,3 +16417,23 @@ How：任何被上一轮写成「未在 X 口径下重算」的边界，下一�
 正身=scripts/etf_book_year_gate.py（--selftest 18/18 / check 27/27 / caliber 块
 KEEPS_Y4 gap +3.10pp）＋ results/etf_book_year_gate/YEAR-GATE.json ＋
 research/ETF_BOOK_ENTRY_LAG.md「集中度那条线也在这一天上面」节。
+## E1395 · 读数上了生产者面，不等于上了读者面：渲染层是第二份拷贝（r1799 bm-c）
+
+**坑**：r1798 把年闸的集中度做成两个执行口径的并列读数，落在 `YEAR-GATE.json` 的 `caliber` 块里。
+那一刻「测试全绿、check 全过、面里有数」——可是 CEO 打开的一页纸（`docs/live_book/LIVE-BOOK-*.md`）
+和订单卡（`results/etf_book_order/ORDER-*.md`）仍只印决策 bar 的那个数（11.45%、70.84%），
+因为渲染是**另一份拷贝**：`etf_book_order.admission_read()` 只从 `decision` / `books[]` 两个块
+取数，`caliber` 在它眼里不存在。生产者面写对了，读者面读不到，等于没做。
+
+**正法三件**：①消费者显式提取新块（`concentration_caliber`），并在渲染层**两个位置**接线——
+否决尺行（A1 附带可成交口径）与诊断尺行（集中度两读数）；②缺块必须说「没有双口径读数、
+本页不把它当已核验」，禁把单读数据印成两读数的结论（E98：查不到 ≠ 没问题）；③判词仍在
+消费者处**由两个读数派生**（都过 / 都不过 / 翻面三分支），禁手写方向。
+
+**判决（本轮）**：两个口径**都不过** 70% 线（70.84% / 73.94%），所以那行 Y4 诊断不是口径造出来
+的假象；A1 行同时印 11.45%（决策 bar）与 10.42%（卡上声明的执行），仍过 6% 线。
+
+How：任何「把新读数写进 JSON」的轮次，收口前先问一句「谁会打开这一页」——把那份文件里的渲染
+函数点名，看它取数的键清单里有没有这个新块；有 = 本轮完成，没有 = 生产面写了一半。
+正身=scripts/etf_book_order.py（--selftest 250/250・legN/legO）＋ docs/live_book/LIVE-BOOK-20261117.md
+第 35/39 行 ＋ results/etf_book_order/ORDER-2026-11-16.md 第 68/72 行。

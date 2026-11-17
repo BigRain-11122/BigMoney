@@ -4690,6 +4690,23 @@ def admission_read(last_bar=None, path=None, phase=None):
                      "decision_checks": dec.get("checks") or {},
                      "failed_checks": dec.get("failed_checks") or [],
                      "reads": dec.get("reads") or {}})
+    # r1799: the yearly gate now reads its own concentration line on BOTH execution
+    # calibers (r1798, `caliber` block). A card that prints only the decision-bar reading
+    # hands the operator a Y4 diagnostic that was measured on a bar the book cannot own --
+    # the same "wrong day" defect the A1 ruler already names in its own block.
+    _cal = d.get("caliber") or {}
+    if _cal.get("verdict"):
+        base["concentration_caliber"] = {
+            "verdict": _cal.get("verdict"),
+            "line_pct": _cal.get("line_top2_share_max_pct"),
+            "lag0_pct": ((_cal.get("entry_lag0") or {}).get("top2_share_pct")),
+            "lag1_pct": ((_cal.get("entry_lag1") or {}).get("top2_share_pct")),
+            "lag0_cagr_pct": ((_cal.get("entry_lag0") or {}).get("cagr_pct")),
+            "lag1_cagr_pct": ((_cal.get("entry_lag1") or {}).get("cagr_pct")),
+            "lag0_passes": ((_cal.get("entry_lag0") or {}).get("passes")),
+            "lag1_passes": ((_cal.get("entry_lag1") or {}).get("passes")),
+            "gap_pp": _cal.get("top2_gap_pp"),
+            "sentence": _cal.get("sentence")}
     if b is None:
         return base
     checks = b.get("checks") or {}
@@ -4747,6 +4764,11 @@ def _decision_md(ad):
             thr = ("≥ %.1f%%/年" % float(line)) if line is not None else "≥ 未给"
             if v is not None and line is not None:
                 cell += "（距线 %+.2fpp）" % (float(v) - float(line))
+            # r1799: the same book priced on the execution the card itself declares.
+            # Printed beside the decision-bar reading, never in place of it.
+            _c1 = (ad.get("concentration_caliber") or {}).get("lag1_cagr_pct")
+            if v is not None and _c1 is not None:
+                cell += "；按卡上声明的执行（收盘决策、次日开盘成交）%.2f%%/年" % float(_c1)
         elif r == "K1_capacity_1pct_adv":
             cap = (reads.get("capacity_by_capital") or {}).get(lens) or {}
             v, line = cap.get("impact_pct_of_adv"), reads.get("impact_max_pct_of_adv")
@@ -4769,6 +4791,27 @@ def _decision_md(ad):
     if diag:
         L.append("- 诊断尺（**无否决权**，只解释）：%s —— 照常打印，不得据此拒资本。"
                  % "，".join(diag))
+    # r1799: the demoted Y4 ruler is itself read on two execution calibers. Printing one of
+    # them would let a reader call the diagnostic a false alarm (or a real one) without
+    # knowing whether the bar it was measured on is one the book could own.
+    cc = ad.get("concentration_caliber") or {}
+    if cc.get("lag0_pct") is not None and cc.get("lag1_pct") is not None:
+        _both_fail = (cc.get("lag0_passes") is False and cc.get("lag1_passes") is False)
+        L.append("- 集中度这条线自己也在两种执行口径上读过：决策 bar **%.2f%%** / 可成交口径"
+                 " **%.2f%%**（线 %.2f%%，移动 %+.2fpp）——%s"
+                 % (float(cc["lag0_pct"]), float(cc["lag1_pct"]),
+                    float(cc.get("line_pct") or 0.0), float(cc.get("gap_pp") or 0.0),
+                    "两个口径**都**不过线，所以这一行不是口径造的假象，执行延迟让它更集中。"
+                    if _both_fail else
+                    ("两个口径**都过线**——这一行是口径造的假象。" if cc.get("lag0_passes")
+                     is True and cc.get("lag1_passes") is True else
+                     "**判决随口径翻面**：它是读错了那根 bar，不是这本书的属性。")))
+    elif ad.get("concentration_caliber"):
+        L.append("- 集中度这条线的双口径读数不完整（`%s`）：本页不把它当已核验。"
+                 % (cc.get("verdict") or "缺两读数"))
+    elif ad.get("caliber") == "decision_block":
+        L.append("- 集中度这条线**没有双口径读数**（年闸面缺 `caliber` 块）：这一行仍只按决策"
+                 "bar 读过一次，本页不把它当已核验。")
     if ad.get("failed_checks"):
         L.append("- 三读数里未过的：%s" % "，".join(ad["failed_checks"]))
     return L
@@ -7913,13 +7956,16 @@ def selftest():
     import shutil
     _tmp = tempfile.mkdtemp(prefix="adm_")
 
-    def _gate(path, book=None, verdict="CONDITIONAL", last="2026-11-09", decision=None):
+    def _gate(path, book=None, verdict="CONDITIONAL", last="2026-11-09", decision=None,
+              caliber=None):
         doc = {"face": "etf_book_year_gate", "asof": "2026-11-10T00:50:41+0800",
                "gate_rules": {"top2_share_max": 0.70},
                "data": {"last": last},
                "prior": {"data_last": "2026-11-07"}, "books": []}
         if decision is not None:
             doc["decision"] = decision
+        if caliber is not None:
+            doc["caliber"] = caliber
         if book:
             doc["books"].append({
                 "book": book, "verdict": verdict, "capacity_cny_1day_5pct": 25_910_932.0,
@@ -8040,6 +8086,32 @@ def selftest():
             _ag7["caliber"] == "legacy_yearly"
             and "三读数闸（S1/A1/K1）在这张面上缺席" in "\n".join(admission_md(_ag7, "2026-11-11")),
             "caliber=%s" % _ag7["caliber"])
+        # legN-O (r1799): the demoted Y4 ruler is itself read on two execution calibers
+        # (r1798's `caliber` block). One reading alone cannot say whether the diagnostic
+        # was a false alarm, so both are printed -- and a face without the block must say
+        # "not verified" instead of printing the one number as if it were both.
+        _cal = {"verdict": "CALIBER_KEEPS_Y4", "line_top2_share_max_pct": 70.0,
+                "entry_lag0": {"top2_share_pct": 70.84, "passes": False, "cagr_pct": 11.45},
+                "entry_lag1": {"top2_share_pct": 73.94, "passes": False, "cagr_pct": 10.42},
+                "top2_gap_pp": 3.1}
+        _pc = _gate(os.path.join(_tmp, "g8.json"), ADMITTED_BOOK, decision=_dec,
+                    caliber=_cal)
+        _ac = admission_read("2026-11-11", path=_pc)
+        _cmd = "\n".join(admission_md(_ac, "2026-11-11"))
+        chk("legN both execution calibers of the concentration line reach the card",
+            _ac.get("concentration_caliber") is not None
+            and "70.84%" in _cmd and "73.94%" in _cmd and "3.10pp" in _cmd
+            and "都**不过线" in _cmd
+            and "10.42%/年" in _cmd,
+            "cc=%r" % (_ac.get("concentration_caliber"),))
+        _pnc = _gate(os.path.join(_tmp, "g9.json"), ADMITTED_BOOK, decision=_dec)
+        _anc = admission_read("2026-11-11", path=_pnc)
+        _nm = "\n".join(admission_md(_anc, "2026-11-11"))
+        chk("legO a face without the caliber block says so instead of reading one bar twice",
+            _anc.get("concentration_caliber") is None
+            and "没有双口径读数" in _nm
+            and "73.94%" not in _nm,
+            [l for l in _nm.splitlines() if "双口径" in l][:1])
     finally:
         shutil.rmtree(_tmp, ignore_errors=True)
 
