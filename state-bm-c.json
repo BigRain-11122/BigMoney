@@ -1020,7 +1020,7 @@
   "ts": "2026-11-18T00:40:11+08:00"
  },
  "round_label": "r1813",
- "round_no": 1817,
+ "round_no": 1818,
  "round_no_label": "r1785",
  "round_no_landed": 1663,
  "round_note": "r1489: a reinstated bar is re-derived from the panel, not carried over (reinstatement_check + reinstatements.json + sheet paragraph)",
@@ -1681,7 +1681,7 @@
  "went_well": "the fix keeps the old states reachable: a card with one unqualified row still takes the position-free path, so no previously published verdict changed meaning",
  "when_well": "the exec panel reused lhb_sellleg verbatim by passing a net-of-cost panel instead of writing a second event study -- the two tables cannot disagree about the quintiles because there is only one implementation",
  "who_did": "bm-c",
- "当前任务": "r1792：把 face_consumer_census 指名的 15 张「算完没人读」阶梯胜率面聚合成一页三判词（e33_ladder_census，selftest 10/10 + check ok + S6 链腿 rc0），并修 etf_book_day_delta 的「标题 bar ≠ 节 bar」假红（258→29，selftest 26/26）。",
+ "当前任务": "r1818：把容量闸的成交额线与票面面的整手线折到同一个资本上（新面 etf_book_ticket_band，selftest 14/14 + check ok + S6 链腿），并让「操作页现金半」那条冒烟腿按写者守卫判（bm-c 不再因 bm-a 的页面快照报假红）。",
  "round_1816": {
   "product": "new face etf_book_capacity_ticket: the capacity gate prices three capitals (best 991,421 / typical 496,476 / worst 340,838) and the ticket is signed at 1,000,000 -- nobody had fed those three through the ticket floor. Verdict TRADABLE_ON_A_TYPICAL_DAY: the best and the typical day each buy one lot of all twelve names (residue 0.1562% / 0.2418% of NAV against the frozen 0.50% line), the worst day buys every name too but strands 0.5583% -- the fault there is the whole-lot residue, not a name that cannot buy. One-lot floor is only 14,876 CNY, so the binding constraint at bad-session capital is rounding, not affordability.",
   "second_fix": "the first sentence printed '0 names cannot buy a single lot' beside 'it does not fit' -- two different failures behind one word. fault_of() now splits unfilled / residual / none and the sentence quotes the percentage and the line for the residual case; a selftest leg pins that a stranded rung is never printed as unbuyable, and the page carries the same block (two page legs).",
@@ -1721,5 +1721,16 @@
    "E1405"
   ]
  },
- "last_round_utc": "2026-11-17T18:30:29+00:00"
+ "last_round_utc": "2026-11-17T18:51:38.450694+00:00",
+ "round_1818": {
+  "product": "new face etf_book_ticket_band: the capacity gate and the ticket floor each told the truth about the same 1,000,000 and nobody had folded them onto one capital. Verdict IMPACT_LINE_BREACH_AT_SIGNED -- the ticket cuts into whole lots (residue 0.1078% vs the frozen 0.50% line, one-lot floor 14,876) but breaches the 1% ADV line on every one of 60 sessions: the best day in the window funds 991,421, so the signed size is 8,579 over. Largest grid size at which both hold = 991,000 (best rung), 496,000 (typical), 340,000 (worst); and it is POCKETS, not an interval -- 712 of 977 grid points at the best-day cap, 69 of 326 at the worst-day cap, because whole-lot residue sawtooths in capital.",
+  "second_fix": "smoke leg product: the operator page prices the cash half -- this comparison spans two writers (the ticket is re-issued here, docs/live_book is written by whichever host owns it) and was red every round on bm-c with bm-a numbers (page 1.265%/7,187 vs sheet 1.175%/6,675). Divergences now go through _page_elsewhere_verdict: strict on the host that may write the page, a named note otherwise (r1789/E686 family).",
+  "evidence": "ticket_band selftest 14/14 PASS; check ok=true (verdict, signed capital, impact reading, overage, three band uppers, residue and one-lot floor all re-derived; page prints the verdict and no literal double percent); rung capitals byte-identical to the capacity face; face+md published (results/etf_book_ticket_band.json, research/ETF_BOOK_TICKET_BAND.md); S6 leg ticket_band wired directly after capacity_ticket; two smoke legs added (selftest+check) while a suite was already in flight, so this run does not carry them -- run by hand instead.",
+  "smoke": "the suite the previous window left in flight closed 02:46 at 667/671 PASS, 4 FAIL (down from 657/671 / 14 FAIL at its own start). This round started a fresh suite at 02:56 writing results/_smoke_r1818.out; zero FAIL through the first half; not claimed green at close.",
+  "reds_left": "(1) fleet: a lane whose clock is the statute reaches the page -- fund_statements page missing-periods disagree with the board; (2) product: the row the 11-08 enable decision reads -- by_host=False, hosts=[bm-c], verdict OWNERSHIP_UNIQUE; (3) product: the CEO page prices the cash the sheet leaves behind (5,295/year). (2) and (3) are content of faces this host cannot write; (1) needs the fund_statements page writer looked at on its own host.",
+  "s7": "attrition guard CLEAN (4 ledgers, 3 historical shrinks healed); d19 probe: decisions and orders blobs both unchanged against the held watermarks -> zero new orders, zero new decisions, zero action; fleet/orders 115 files / 271 acks / unacked=[]; orphan probe py_faces=5 orphans=0; py_watermark insufficient_history (cpu 68%, py 4.2%, local_batch=true = the smoke + astock_daily refresh, board/pool empty).",
+  "next": "(a) read results/_smoke_r1818.out to close -- the two new legs and the cash-page guard are only proven if it says 0 FAIL; window <=48h. (b) route the two remaining foreign-page legs (11-08 declaration, CEO page cash 5,295/year) through the same writer guard, or name their owner; <=48h.",
+  "unverified": "no full suite of my own edits inside this round (the running suite was loaded before the two legs were written and before the cash-leg edit landed in the leg it checks); the band uppers are grid readings (1,000 CNY) not continuous optima; the impact reading is scaled from the gate face, not re-derived from ADV.",
+  "at": "2026-11-18T02:51:38.450694+08:00"
+ }
 }
