@@ -2533,3 +2533,4 @@ live_book_day_words=1 / live_usage_day_words=1 / daily_report_day_words=1：战�
   | smoke 227 PASS / 0 FAIL before the 5-min tool ceiling cut the suite (its own harness leg says the suite cannot close in a round window) -- NOT claimed green
   | backlog claimable 3 but all three are other-machine execution faces (B-CITY3D-01/02 gate CLOSED vram 1.49<1.5GB, B-XIDUDU-01/02 negotiation-gated) -> nothing this repo can light
   | next: the supply-floor shortfall is a calendar question, not a topic question -- the next real move is a candidate whose phase spread fits inside its margin
+  | S7: IterationLoop running(next 00:08) + LoopWatchdog ready(next 00:06), both InteractiveToken (S4U flip carried, needs elevation) | push ff16a6d12a..666fceb5b0 | behind 0 ahead 0

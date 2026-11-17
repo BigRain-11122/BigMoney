@@ -124,8 +124,8 @@
  "last_orders_watermark": "810bb25dec6adf1f@e8ec709/84734",
  "last_orders_watermark_v2": "v2:BigRain-11122/FluxGroup@e8ec709d7f8892835d3ff85ae698e8edd00ef329/84734#810bb25dec6adf1f0db0783ff0595c0a0ae849be1d8b5f19477d8ea904f502a8",
  "last_product": "r1302: the carry sleeve face stopped being a silent refusal AND stopped being overwritable by a host with less data. (a) idx_fut_carry_risk refuses a short contract panel with its size (this host: 198 priced days / needs 400 / short 202 / span 2026-01-19..2026-11-16) and judge() copies it through instead of why=None; (b) a NO-OP guard stops this host from overwriting a priced face with its own no-data refusal (bm-c cache carries the history: IC 8.78%/yr, IM 10.26%/yr, candidates IC,IM were being erased by this round's first run and were restored); (c) idx_fut_desk_sheet carries source_status/short_days/priced_days/need_days/panel_span and gap_refused_because prints the real reason; (d) two inherited suite defects fixed (None stress ruler divided through; literal **IH** match that depended on neighbours). Suites: carry 36/36 (+R1/R2), desk-sheet 42/42, page 455/455.",
- "last_push_at": "2026-11-17T19:49:53+08:00",
- "last_push_note": "push 41d743e49d..76eff7ea7b (fetch-verified behind 0 ahead 0)",
+ "last_push_at": "2026-11-18T00:04:37+08:00",
+ "last_push_note": "ff16a6d12a..666fceb5b0 main -> main, verified 0 behind / 0 ahead after fetch",
  "last_result": "admission consumer fixed: both published sheets print the three veto rulers with margins (selftest 248/248, legs I-M); the demoted Y4 ruler no longer reads as a veto",
  "last_round": "r1302",
  "last_round_at": "2026-11-17T19:48:03+08:00",
@@ -141,7 +141,7 @@
  "latest_artifact": "docs/daily_report/REPORT-2026-11-13.md",
  "latest_deliverable": "docs/live_book/LIVE-BOOK-20261103.md + results/etf_book_order/TICKET-2026-11-03.json @2026-11-03T22:1x",
  "live_now": "the operator's card no longer refuses capital with the ruler the signed order demoted",
- "local_behind_origin": 12,
+ "local_behind_origin": 0,
  "local_unpushed_commits": 0,
  "machine": "bm-a",
  "machine_id": "bm-a",
@@ -410,5 +410,6 @@
  "work_r1270": "lane_hosts 把「谁动这条车道」写成了一个 liveness 问题：2026-10-21 的 CEO 红线只把 bm-a 从 akshare/EM 拉取族上摘下来，没说过这条车道在宿主死掉之后该由谁负责。bm-b 静默 206.7h 后，九条车道里七条既没人动也没人有路可动，钱不是问题、机器不是问题，缺的只是一句「换谁」。本轮按消费者落位（书吃 repo→留 bm-a；科学批吃 moneyflow 等→给 bm-c），并把「写者不再主张的声明必须撤回」这条补进 update_repo（旧 takeover{} 块会在车道回家后永远留着，让板子把一条健康车道读成「声明了看不见的顶班」）。",
  "work_r1290": "data_lane_freshness: the certification is one machine's full scan committed to a path every machine reads, and it named nobody. On this machine ah_panel's copy held 186 files ending 2026-10-16 while the committed certification said 187 of 187 symbols hold 2026-11-12 -- printed as `current` with 100% coverage, because the tail test only caught a scan OLDER than the row. The certification now names the machine, the tail test is symmetric, foreign/unattributed scans quote no counts, and the page says which disk was read.",
  "work_r1296": "the gate had already been re-calibrated (three veto rulers, Y4 demoted to a diagnostic) but the operator's card still read the demoted ruler and printed 'CONDITIONAL because Y4' -- the consumer, not the judge, was refusing capital. The card and the 5-name sheet now print the three rulers side by side with their margins, disclose the 10M lens without letting it veto, label Y1-Y4 as diagnostics, and print one relation sentence between the phase face's legacy CONDITIONAL and the three-read ADMIT.",
- "work_r1298": "the r1297 window's S6 chain was still walking legs 43 minutes later (one per-symbol CSV per second under data/astock_daily/per/) when r1298 started, and two things were missing: the runner wrote its record only after the LAST leg so a killed chain left nothing to read, and nothing stopped a second round from driving the same 263 legs over the same faces (the only guard was a session noticing the process). Progress jsonl per leg + a logs/ lock with the r1687 rules (live pid wins at any age, dead pid taken over, unparseable legacy lock only after 120 min). This round deliberately ran no chain leg: the in-flight chain owns those faces until it lands."
+ "work_r1298": "the r1297 window's S6 chain was still walking legs 43 minutes later (one per-symbol CSV per second under data/astock_daily/per/) when r1298 started, and two things were missing: the runner wrote its record only after the LAST leg so a killed chain left nothing to read, and nothing stopped a second round from driving the same 263 legs over the same faces (the only guard was a session noticing the process). Progress jsonl per leg + a logs/ lock with the r1687 rules (live pid wins at any age, dead pid taken over, unparseable legacy lock only after 120 min). This round deliberately ran no chain leg: the in-flight chain owns those faces until it lands.",
+ "s7_r1306": "IterationLoop running, next 00:08; LoopWatchdog ready, next 00:06; both LogonType=InteractiveToken (S4U flip still needs elevation, carried C-20261016-04)"
 }
