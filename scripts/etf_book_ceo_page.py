@@ -15773,6 +15773,31 @@ def selftest():
         and "867" not in _st_miss and "读不到" in _st_miss,
         "verdict word follows the face; absent face carries no counts")
 
+    # r1816: the capacity block prices the veto's distance; this one asks whether the same
+    # twelve names place at the capitals that veto allows. A missing face must read as
+    # "cannot verify", never as "it places", and the rung capitals are the gate's own.
+    _ct_face = {"status": "ok", "artifact": "results/etf_book_capacity_ticket.json",
+                "verdict": "TRADABLE_ON_A_TYPICAL_DAY",
+                "sentence": "平常的一天（496,475 元）装得下；最差的一天（340,837 元）装不下。",
+                "rungs": [{"tag": "best", "capital_cny": 991420.84,
+                           "verdict": "TRADABLE_AT_991420", "n_unfilled": 0},
+                          {"tag": "typical", "capital_cny": 496475.93,
+                           "verdict": "TRADABLE_AT_496475", "n_unfilled": 0},
+                          {"tag": "worst", "capital_cny": 340837.76,
+                           "verdict": "RESIDUAL_TOO_BIG_AT_340837", "n_unfilled": 0}],
+                "one_lot_floor_cny": 14875.99, "evidence_cutoff": "2026-11-17",
+                "ticket_file": "results/etf_book_order/TICKET-2026-11-17-card.json"}
+    _ct_md = "\n".join(capacity_ticket_block(_ct_face))
+    chk("L334 capacity ticket: the three rungs and the one-lot floor reach the page",
+        "496,476" in _ct_md and "340,838" in _ct_md and "14,876" in _ct_md
+        and "TRADABLE_ON_A_TYPICAL_DAY" in _ct_md and "2026-11-17" in _ct_md,
+        "rung capitals + floor + verdict + face cutoff")
+    _ct_miss = "\n".join(capacity_ticket_block({}))
+    chk("L335 capacity ticket: a missing face says cannot-read and prints no rung",
+        "读不到" in _ct_miss and "496,476" not in _ct_miss
+        and "每一名至少一手所需的资本" not in _ct_miss,
+        "cannot-read sentence, no capitals, no floor")
+
     print("\nSummary: %d/%d PASS%s" % (ok, total, "" if ok == total else " -- %d FAIL" % (total - ok)))
     return 0 if ok == total else 1
 
