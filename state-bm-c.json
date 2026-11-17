@@ -1,7 +1,7 @@
 {
  "activity": "product",
- "activity_now": "r1814: the capacity veto priced as a number -- ceiling 991,421 CNY, 60/60 sessions below the line",
- "activity_now_round": 1814,
+ "activity_now": "r1827: today's order measured on its own five names -- 0.3425% of ADV, and the published 1.0087% turns out to be about another five",
+ "activity_now_round": 1827,
  "agenda_starved": false,
  "ah_note": "r1680 LANDED: refresh closed itself at 21:17 -- cutoff 2026-11-12 -> 2026-11-13, complete=True, exit 0, pulled_rows 46; data_lane_freshness in_sync 13 / behind_1d 1 (worst now marks, intraday-only, not rebuildable). Fix that made it possible: stall watchdog over every network leg (300s, names stage/pair, exit 2, checkpoint kept) + save_progress stamps write time + -u on the detached spawn + progress line every 10 pairs. NOT yet proven: the 300s stall path has never fired on a real hang (this round the suspected freeze finished by itself).",
  "ahead_origin": 17,
@@ -1020,7 +1020,7 @@
   "ts": "2026-11-18T00:40:11+08:00"
  },
  "round_label": "r1813",
- "round_no": 1826,
+ "round_no": 1827,
  "round_no_label": "r1821",
  "round_no_landed": 1663,
  "round_note": "r1489: a reinstated bar is re-derived from the panel, not carried over (reinstatement_check + reinstatements.json + sheet paragraph)",
@@ -1829,5 +1829,18 @@
   "suite": "full suite on 07:02 code: 683/683 PASS, 0 FAIL (results/_smoke_r1826.out, 803.3s over 681 legs, reused 59). The CEO one-pager leg runs ceo_live_usage.py selftest and came after this round's edits (log line 263), so it exercised the five r1826 legs; the same selftest was re-run by hand on the final code: ALL PASS.",
   "delivery": "1b144e27c3..c49293604f -> main; HEAD...origin/main 0/0; origin page L159 carries the capacity sentence verbatim."
  },
- "decisions_watermark_r1826": "group decisions.md raw-blob sha256 ddf2c0c5... == the watermark written at r1825; orders.md raw-blob sha256 810bb25d... unchanged -> zero new decision rows, zero new orders, zero execution action."
+ "decisions_watermark_r1826": "group decisions.md raw-blob sha256 ddf2c0c5... == the watermark written at r1825; orders.md raw-blob sha256 810bb25d... unchanged -> zero new decision rows, zero new orders, zero execution action.",
+ "round_1827": {
+  "at": "2026-11-18T07:20:00+08:00",
+  "watermark": "green: board/pool both empty (pool_ready_count=0, fleet_open_tasks=0), no claimable batch on this host; py_watermark verdict=py_low_with_work_cands whose only work cand is local_batch=1 = this round's own suite",
+  "product": "The CEO page finally answers 'does THIS order fit through the market' with a reading instead of a refusal. r1826 printed 1.0087% of ADV and said the face was never measured at the ticket's 43.2% size (E1411). This round measured it, and the reason the refusal was right turns out to be stronger than size: the published reading's five names are 159207/562060/159549/513800/513690, the ticket's five are 510760/512040/159655/513690/159519 -- only 1 of 5 overlaps. New face scripts/etf_book_capacity_at_size.py (ADV ruler imported from etf_book_capacity_edge, no second copy) prints per-name amount/ADV: binding 159519 = 0.3425% against the 1.00% line -> ADMIT at this size; the same five names can be scaled about 2.92x (to CNY 1,261,085) before touching the line.",
+  "refusals": "pinned by selftest (14/14): a name without ADV -> that share is null and the aggregate verdict is refused (an unmeasured name is not a passing name); a non-positive amount is rejected by name, never dropped from the denominator; a ticket priced on another bar prints both dates and no number; the two readings are printed side by side but explicitly as different books (name overlap + the names that differ), never as one confirming the other.",
+  "wiring": "ceo_live_usage.py: new _etf_capacity_at_size_face() + page lines (LIVE-2026-11-18.md L161-163); 5 new selftest legs replace the r1826 'never measured at this size' leg (that sentence is now retired), and the missing-face / other-bar refusals fall back to the r1826 paragraph rather than to a number.",
+  "verification": "etf_book_capacity_at_size selftest 14/14 PASS + check ok; ceo_live_usage.py selftest ALL PASS incl. the 5 r1827 legs; page regenerated and the three lines read: 0.3425% / 2.92x / the other-five-names caveat.",
+  "s0": "fleet/machine.json = bm-c; no other executor in this tree at start (git status showed only 3 machine-regenerated faces); HEAD vs origin/main 0/0 after fetch.",
+  "s05": "Tools/d19_check.py D-19 MATCH (decisions watermark ddf2c0c5c25f8198 unchanged); fleet/orders 115 files, latest O-20261114-2325-bm-c already receipted in-header; fleet/inbox empty -> no new order, no new decision, zero action.",
+  "s6": "pool_dualrun_reconcile ZERO-DRIFT (744 entries, streak 51, cutoff 2026-11-08T22:04); compute_audit v2.4.3 exit 0 FLAG:pool_starvation,supply_floor (cause=calendar, the four candidates were judged and none ADMIT); py_watermark py_low_with_work_cands (local_batch=1 = own suite); attrition_ledger_guard scan CLEAN (4 ledgers, 2 historical shrinks healed).",
+  "s7": "register_loop_task no-op (machine=bm-c pin=0, next 07:35); watchdog re-registered (S4U flip still refused = permissions, known face); pre-commit / pre-push claws reinstalled LF-normalized.",
+  "unverified": "the suite this round started at 07:20 loaded the pre-change registry; the 5 new legs are hand-run backed only until it reaches them; impact cost (8bp/side) is a separate leg not measured here; the ADV is the gate's close x volume median, an estimate that moves in steps."
+ }
 }

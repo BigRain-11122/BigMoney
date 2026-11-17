@@ -2,7 +2,7 @@
  "schema": "ceo_live_usage_v1_9",
  "ticket": "T-202609-28-105",
  "day": "2026-11-18",
- "generated": "2026-11-18T07:08:18",
+ "generated": "2026-11-18T07:32:42",
  "market": {
   "state": "RED",
   "asof": "2026-11-17",
@@ -492,7 +492,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 60346.5
+    "last_append_age_min": 60370.9
    },
    {
     "family": "FUND-VALUE-P1",
@@ -500,7 +500,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 61191.0
+    "last_append_age_min": 61215.4
    },
    {
     "family": "FUND-DIVLOWVOL-P1",
@@ -508,7 +508,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 57984.3
+    "last_append_age_min": 58008.7
    }
   ]
  },
@@ -974,6 +974,45 @@
    "「1% ADV」是闸选定的线，不是量出来的线；换一条线，这里每个数按同一比例移动",
    "读数在窗内上下走是市场成交额在走，不是这本书在走；这里没有一句话说明天会读到什么",
    "资本上限是一个资本数，不是一张能下的单：整数手与 8% 波动目标都可能把它压得更低（见 etf_book_ticket_floor / etf_book_lot_floor）"
+  ]
+ },
+ "etf_capacity_at_size": {
+  "present": true,
+  "verdict": "ADMIT_AT_THIS_SIZE",
+  "reading_pct": 0.3425,
+  "binding": "159519",
+  "line_pct": 1.0,
+  "spent_cny": 431879.5,
+  "headroom_cny": 1261084.76,
+  "headroom_multiple": 2.9199921830848905,
+  "n_names": 5,
+  "n_measurable": 5,
+  "unmeasurable": [],
+  "bar": "2026-11-17",
+  "panel_bar": "2026-11-17",
+  "ticket_file": "results/etf_book_order/TICKET-2026-11-17.json",
+  "name_set": {
+   "same_book": false,
+   "n_overlap": 1,
+   "only_in_ticket": [
+    "159519",
+    "159655",
+    "510760",
+    "512040"
+   ],
+   "only_in_published": [
+    "159207",
+    "159549",
+    "513800",
+    "562060"
+   ]
+  },
+  "sentence": "按今天这张单自己的五个名字、自己的金额量：最紧的一席 159519 占它自己成交额的 0.3425%，闸线 1.00% → **过线**。注意：准入面印的 1.0087% 是**另一组名字**量的（只有 1 个重合，它量的是 159207、159549、513800、562060），两个数不是同一把尺子上的同一件事。",
+  "caveats": [
+   "成交额用的是闸自己的口径（收盘价×成交量，中位再取中位），是估计值而且是阶梯状的",
+   "「1% ADV」是闸选的线，不是量出来的线；换线，每个数按同一比例移动",
+   "这里量的是「这张单能不能从这个市场的成交额里过」，不是「下单后价格会被推到哪」：冲击成本是另一条腿（既有回测里按 8bp/边记）",
+   "放大倍数 x2.9200 是一个资本比例，不是一张能下的单：整数手与波动目标都可能把它压得更低"
   ]
  },
  "book_identity": {

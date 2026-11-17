@@ -1,0 +1,99 @@
+{
+ "artifact": "etf_book_capacity_at_size",
+ "face": "results/etf_book_capacity_at_size.json",
+ "script": "scripts/etf_book_capacity_at_size.py",
+ "ticket_file": "results/etf_book_order/TICKET-2026-11-17.json",
+ "ticket_stem": "2026-11-17",
+ "bar": "2026-11-17",
+ "panel_bar": "2026-11-17",
+ "evidence_cutoff": "2026-11-17",
+ "book_weight": 0.432195,
+ "cash_cny": 568120.5,
+ "published": {
+  "lens": "1M",
+  "capital_cny": 1000000.0,
+  "per_name_cny": 200000.0,
+  "impact_pct_of_adv": 1.0087
+ },
+ "criteria": {
+  "line_pct": 1.0,
+  "adv_face": "close x volume, rolling 20 median, read as the median of its last 20 values (imported from etf_book_capacity_edge)",
+  "numerator": "the ticket's own per-name amount, not an equal-weight lens",
+  "verdict_rule": "binding share <= line ADMIT / > line DENY / any name without ADV UNMEASURABLE"
+ },
+ "verdict": "ADMIT_AT_THIS_SIZE",
+ "rows": [
+  {
+   "sym": "510760",
+   "amount_cny": 86347.8,
+   "lots": 693,
+   "adv_cny": 513380376.23,
+   "share": 0.00016819458631062915
+  },
+  {
+   "sym": "512040",
+   "amount_cny": 86421.2,
+   "lots": 716,
+   "adv_cny": 242460669.45,
+   "share": 0.00035643389171546315
+  },
+  {
+   "sym": "159655",
+   "amount_cny": 86390.2,
+   "lots": 446,
+   "adv_cny": 155974723.33,
+   "share": 0.000553873077334797
+  },
+  {
+   "sym": "513690",
+   "amount_cny": 86369.1,
+   "lots": 753,
+   "adv_cny": 98402773.5,
+   "share": 0.0008777100169844299
+  },
+  {
+   "sym": "159519",
+   "amount_cny": 86351.2,
+   "lots": 494,
+   "adv_cny": 25214482.9,
+   "share": 0.0034246667021674278
+  }
+ ],
+ "summary": {
+  "n_names": 5,
+  "n_measurable": 5,
+  "line_pct": 1.0,
+  "spent_cny": 431879.5,
+  "reading_pct": 0.3425,
+  "binding": "159519",
+  "headroom_cny_at_line": 1261084.76,
+  "verdict": "ADMIT_AT_THIS_SIZE",
+  "binding_amount_cny": 86351.2,
+  "headroom_multiple": 2.9199921830848905,
+  "unmeasurable": [],
+  "rejected_amounts": []
+ },
+ "name_set": {
+  "same_book": false,
+  "n_overlap": 1,
+  "only_in_ticket": [
+   "159519",
+   "159655",
+   "510760",
+   "512040"
+  ],
+  "only_in_published": [
+   "159207",
+   "159549",
+   "513800",
+   "562060"
+  ]
+ },
+ "sentence": "按今天这张单自己的五个名字、自己的金额量：最紧的一席 159519 占它自己成交额的 0.3425%，闸线 1.00% → **过线**。注意：准入面印的 1.0087% 是**另一组名字**量的（只有 1 个重合，它量的是 159207、159549、513800、562060），两个数不是同一把尺子上的同一件事。",
+ "caveats": [
+  "成交额用的是闸自己的口径（收盘价×成交量，中位再取中位），是估计值而且是阶梯状的",
+  "「1% ADV」是闸选的线，不是量出来的线；换线，每个数按同一比例移动",
+  "这里量的是「这张单能不能从这个市场的成交额里过」，不是「下单后价格会被推到哪」：冲击成本是另一条腿（既有回测里按 8bp/边记）",
+  "放大倍数 x2.9200 是一个资本比例，不是一张能下的单：整数手与波动目标都可能把它压得更低"
+ ]
+}

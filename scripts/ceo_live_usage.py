@@ -176,6 +176,9 @@ ETF_CASH_ROLL_REL = "results/etf_book_cash_roll_today.json"
 # carried a word of it -- the r1782 shape again.  Read-only: the page quotes the face.
 ETF_CAPACITY_JSON = os.path.join(ROOT, "results", "etf_book_capacity_edge.json")
 ETF_CAPACITY_REL = "results/etf_book_capacity_edge.json"
+# r1827: the same question asked of THIS ticket's own five names and its own amounts
+ETF_CAPACITY_SIZE_JSON = os.path.join(ROOT, "results", "etf_book_capacity_at_size.json")
+ETF_CAPACITY_SIZE_REL = "results/etf_book_capacity_at_size.json"
 
 # v2.2 (r1782): the index-futures carry book is the second money candidate, and
 # until now its only sentence on this page was nothing at all -- "this book buys
@@ -1259,6 +1262,54 @@ def _etf_capacity_face():
     }
 
 
+def _etf_capacity_at_size_face():
+    """r1827: the same capacity question, asked of THIS ticket's names and amounts.
+
+    r1826 printed the reading the capacity face had measured and said, correctly, that
+    today's order was never measured at its own size -- the face's five names are not the
+    ticket's five (only 1 of 5 overlapped on 2026-11-17).  A page that answers "may I size
+    this order" with a number about another five names is the r1782 shape: the face is
+    readable, the reader's question is not answered.
+
+    `results/etf_book_capacity_at_size.json` measures exactly that (the ADV ruler is
+    imported from the capacity face, never re-derived).  Read-only here, and the block
+    keeps the one distinction that matters:
+
+    * the measured verdict is quoted, never recomputed on this page (r1826 rule);
+    * when the two faces are about different name sets the page prints BOTH and says they
+      are different books -- it does not put them side by side as if one confirmed the
+      other (E685 family: a number and its ruler travel together);
+    * no face / no reading / an order priced on another bar -> a reason, never 0 and never
+      "there is room" (r98).
+    """
+    d = _read_json(ETF_CAPACITY_SIZE_JSON)
+    if not d:
+        return {"present": False, "note": "同规模容量面未产出（缺面不读 0）"}
+    s = d.get("summary") or {}
+    if s.get("reading_pct") is None:
+        return {"present": False,
+                "note": d.get("sentence") or "同规模容量面没有读数（不冒充有空间）"}
+    return {
+        "present": True,
+        "verdict": d.get("verdict"),
+        "reading_pct": s.get("reading_pct"),
+        "binding": s.get("binding"),
+        "line_pct": s.get("line_pct"),
+        "spent_cny": s.get("spent_cny"),
+        "headroom_cny": s.get("headroom_cny_at_line"),
+        "headroom_multiple": s.get("headroom_multiple"),
+        "n_names": s.get("n_names"),
+        "n_measurable": s.get("n_measurable"),
+        "unmeasurable": s.get("unmeasurable") or [],
+        "bar": d.get("bar"),
+        "panel_bar": d.get("panel_bar"),
+        "ticket_file": d.get("ticket_file"),
+        "name_set": d.get("name_set") or {},
+        "sentence": d.get("sentence"),
+        "caveats": d.get("caveats") or [],
+    }
+
+
 def _etf_order_face():
     """v2.3 (r1784): the executable sheet's own rows, in lots and cash.
 
@@ -1555,6 +1606,7 @@ def build_payload(day: str) -> dict:
         "etf_order": _etf_order_with_cash_roll(),
         "etf_premium": _etf_premium_face(),
         "etf_capacity": _etf_capacity_face(),
+        "etf_capacity_at_size": _etf_capacity_at_size_face(),
         "book_identity": _book_identity_face(),
         "carry_book": _carry_book_face(),
         "carry_timing": _carry_timing_face(),
@@ -2211,15 +2263,50 @@ def render_md(p: dict) -> str:
                          _fmt_cny(_cap.get("capital_min_cny")),
                          "" if not _un else "（另有 {} 天不可量，既不算过也不算不过）"
                          .format(_un)))
-            _bw = eo.get("book_weight")
-            _spend = eo.get("spent_cny")
-            if _bw is not None and _spend is not None:
+            # ---- r1827: the paragraph above measures the full lens on ITS five names.
+            # The reader's question is about THIS sheet's five names at THIS size, which
+            # r1826 could only refuse.  Now it is measured; quote it and keep the
+            # distinction between the two books explicit.
+            _cs = p.get("etf_capacity_at_size") or {}
+            _cs_bar_ok = (not _cs.get("bar") or not eo.get("bar")
+                          or str(_cs.get("bar"))[:10] == str(eo.get("bar"))[:10])
+            if _cs.get("present") and _cs_bar_ok:
+                _csr = _cs.get("reading_pct")
+                _csv = _cs.get("verdict")
+                _csword = {"ADMIT_AT_THIS_SIZE": "**过线**",
+                           "DENY_AT_THIS_SIZE": "**没过线**",
+                           "UNMEASURABLE_AT_THIS_SIZE": "不给判词"}.get(
+                               _csv, "不给判词")
+                L.append("    - 换成本单**自己的名字与金额**重量：最紧一席 {} 占它自己"
+                         "成交额的 **{:.4f}%**，闸线 {:.2f}% → {}。".format(
+                             _cs.get("binding") or "?", _csr,
+                             float(_cs.get("line_pct") or 0.0), _csword))
+                _csh = _cs.get("headroom_cny")
+                _csm = _cs.get("headroom_multiple")
+                if _csv in ("ADMIT_AT_THIS_SIZE", "DENY_AT_THIS_SIZE") and _csh and _csm:
+                    L.append("      - 同样这五个名字、同样的比例，还能放大约 **{:.2f}×**"
+                             "（到 ¥{}）才碰到闸线。".format(float(_csm), _fmt_cny(_csh)))
+                _csun = _cs.get("unmeasurable") or []
+                if _csun:
+                    L.append("      - 但 {} 读不到成交额，所以「这单装得下」这句话"
+                             "缺一块（缺的读数不当成过线）。".format("、".join(_csun)))
+                _csns = _cs.get("name_set") or {}
+                if _csns and _csns.get("same_book") is False:
+                    L.append("      - 上面那个 {:.4f}% 是**另一组名字**量的（只有 {} 个重合，"
+                             "它量的是 {}）——两个数不是同一把尺子，本行用的是本单自己的名字。"
+                             .format(float(_cr or 0.0), _csns.get("n_overlap") or 0,
+                                     "、".join(_csns.get("only_in_published") or []) or "不同名单"))
+            else:
+                _cs_why = (_cs.get("note") or "同规模容量面未产出（缺面不读 0）")
+                if _cs.get("present") and not _cs_bar_ok:
+                    _cs_why = ("同规模容量面量的是 {} 的盘口，与这一页票面的 {} 不是同一天"
+                               "——今天不印这个数".format(str(_cs.get("bar"))[:10],
+                                                    str(eo.get("bar"))[:10]))
                 L.append("    - 和上面这张单一起读：这把尺子是**按全仓量的**，"
-                         "而今天这单只用了账面 {:.1f}%（¥{}）——容量面没有在 {:.1f}% "
-                         "这个规模上重量，所以本页不印「今天这单过线/没过线」，"
-                         "只印它量过的那个规模。".format(
-                             float(_bw) * 100.0, _fmt_cny(_spend),
-                             float(_bw) * 100.0))
+                         "而今天这单只用了账面 {:.1f}%（¥{}）——{}，"
+                         "所以本页不印「今天这单过线/没过线」，只印它量过的那个规模。".format(
+                             float((eo.get("book_weight") or 0.0)) * 100.0,
+                             _fmt_cny(eo.get("spent_cny")), _cs_why))
             L.append("    - 1% 是闸自己选的线，不是量出来的线：换一条线，"
                      "这里的每个数按同一比例移动。")
         L.append("    - 出处：`{}`（盘口 {}·计价截止 {}）".format(
@@ -3140,10 +3227,38 @@ def selftest() -> int:
             check("the capital ceiling at the line is quoted, never recomputed (r1826)",
                   _ccap1 is not None and _fmt_cny(_ccap1) in md1
                   and _fmt_cny(_cp1.get("capital_median_cny")) in md1)
-            _csc1 = "没有在 {:.1f}% 这个规模上重量".format(
-                float((_eo1.get("book_weight") or 0.0)) * 100.0)
-            check("the block says the face was measured at the lens, not at today's size "
-                  "(r1826)", _csc1 in md1)
+            _csz1 = p1.get("etf_capacity_at_size") or {}
+            _csc1 = "同规模容量面未产出"
+            if _csz1.get("present") and _csz1.get("reading_pct") is not None:
+                # r1827: the block now measures the ticket's own names at its own size,
+                # so the r1826 "never measured at this size" sentence must be gone.
+                check("the order is measured on its own names at its own size (r1827)",
+                      "本单**自己的名字与金额**" in md1
+                      and "{:.4f}%".format(_csz1.get("reading_pct")) in md1
+                      and str(_csz1.get("binding") or "?") in md1)
+                check("the r1826 'never measured at this size' refusal is retired (r1827)",
+                      "没有在 {:.1f}% 这个规模上重量".format(
+                          float((_eo1.get("book_weight") or 0.0)) * 100.0) not in md1)
+                _csns1 = _csz1.get("name_set") or {}
+                if _csns1.get("same_book") is False:
+                    check("a reading on another five names is named as another book (r1827)",
+                          "另一组名字" in md1
+                          and str(_csns1.get("n_overlap")) not in ("", "None"))
+                _degs = json.loads(json.dumps(p1))
+                _degs["etf_capacity_at_size"] = {"present": False,
+                                                 "note": "同规模容量面未产出（缺面不读 0）"}
+                _mds = render_md(_degs)
+                check("a missing at-size face falls back to the refusal, not a number (r1827)",
+                      "只印它量过的那个规模" in _mds
+                      and "{:.4f}%".format(_csz1.get("reading_pct")) not in _mds)
+                _degq = json.loads(json.dumps(p1))
+                _cq = dict(_degq.get("etf_capacity_at_size") or {})
+                _cq["bar"] = "1999-01-01"
+                _degq["etf_capacity_at_size"] = _cq
+                _mdq = render_md(_degq)
+                check("an at-size face on another bar is refused, not quoted (r1827)",
+                      "不是同一天" in _mdq
+                      and "{:.4f}%".format(_csz1.get("reading_pct")) not in _mdq)
             _deg8 = json.loads(json.dumps(p1))
             _deg8["etf_capacity"] = {"present": False,
                                      "note": "容量面未产出（缺面不读 0）"}
