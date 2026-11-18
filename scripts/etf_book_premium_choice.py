@@ -39,6 +39,7 @@ Outputs:
 Exploratory: not a verdict on the book, not investment advice, no ledger booking.
 """
 import glob
+import hashlib
 import json
 import os
 import sys
@@ -57,6 +58,83 @@ RESULTS = os.path.join(ROOT, "results")
 OUT_JSON = os.path.join(RESULTS, "etf_book_premium_choice.json")
 OUT_MD = os.path.join(ROOT, "research", "ETF_BOOK_PREMIUM_CHOICE.md")
 ORDER_DIR = os.path.join(RESULTS, "etf_book_order")
+SWAP_SCRIPT = os.path.join(ROOT, "scripts", "etf_book_premium_swap.py")
+
+# --- rebuild gate (r1835): the CEO page now quotes this face every round, so the chain has to
+# carry a producer -- and a build costs ~50s for inputs that move about once a trading day (one
+# ticket, one snapshot csv).  The key is INPUTS ONLY: ticket bytes, snapshot bytes, a
+# name/size/mtime census of the daily panel, and the bytes of this script and the swap module it
+# imports.  No wall clock: a key that moves with the clock is a gate that never fires (r1832).
+# Skipping leaves both files untouched, so the only thing a reader can lose is the wait.
+
+
+def _sha_file(path):
+    if not path or not os.path.exists(path):
+        return None
+    h = hashlib.sha256()
+    with open(path, "rb") as f:
+        for chunk in iter(lambda: f.read(1 << 20), b""):
+            h.update(chunk)
+    return h.hexdigest()[:16]
+
+
+def inputs_sig(ticket_path=None, snap_path=None):
+    """The bytes a rebuild would read; the ticket and the snapshot are named, not guessed."""
+    if ticket_path is None:
+        _t, ticket_path = P.latest_ticket()
+    if snap_path is None:
+        t, _tp = P.latest_ticket()
+        asof = t.get("as_of") or t.get("evidence_cutoff")
+        _prem, _names, snap_path = P.load_premium_snapshot(asof)
+    from config import PATHS
+    daily_dir = PATHS.daily_dir
+    names = hashlib.sha256()
+    n = size = 0
+    newest = 0
+    if daily_dir and os.path.isdir(daily_dir):
+        for fn in sorted(os.listdir(daily_dir)):
+            if not fn.endswith(".csv"):
+                continue
+            try:
+                st = os.stat(os.path.join(daily_dir, fn))
+            except OSError:
+                continue
+            n += 1
+            size += st.st_size
+            newest = max(newest, st.st_mtime_ns)
+            names.update(fn.encode("utf-8"))
+    return {
+        "panel_files": n,
+        "panel_bytes": size,
+        "panel_newest_mtime_ns": newest,
+        "panel_names_sha": names.hexdigest()[:16],
+        "ticket": (os.path.basename(ticket_path) if ticket_path else None),
+        "ticket_sha": _sha_file(ticket_path),
+        "snapshot": (os.path.basename(snap_path) if snap_path else None),
+        "snapshot_sha": _sha_file(snap_path),
+        "script_sha": _sha_file(os.path.abspath(__file__)),
+        "swap_script_sha": _sha_file(SWAP_SCRIPT),
+    }
+
+
+def input_key(sig):
+    return hashlib.sha256(json.dumps(sig, sort_keys=True).encode("utf-8")).hexdigest()
+
+
+def gate_decision(prev, key):
+    """Rebuild unless the face on disk already answered exactly these inputs.
+
+    Conservative on purpose: a missing face, a face written before this key existed, or any
+    input byte moving all rebuild.  A failed read is never "same inputs".
+    """
+    if not isinstance(prev, dict) or not prev:
+        return False, "NO_PREVIOUS_FACE"
+    stored = (prev.get("inputs") or {}).get("key")
+    if not stored:
+        return False, "PREVIOUS_FACE_HAS_NO_INPUT_KEY"
+    if stored != key:
+        return False, "INPUTS_CHANGED"
+    return True, "SAME_INPUTS"
 
 # --- frozen before the first run, echoed into the payload -------------------------------
 REBAL = 20                  # the book's own decision grid (bars between decisions)
@@ -255,7 +333,7 @@ def decide_leg(leg, amount_cny, prem_pct, candidate, slope_per_window, tenure, c
 
 
 # ------------------------------------------------------------------ sheet
-def paths():
+def paths(sig=None, key=None):
     ticket, tpath = P.latest_ticket()
     order = (ticket.get("ticket") or {}).get("order") or []
     if not order:
@@ -352,6 +430,10 @@ def paths():
                                                  and x["road"] != "A_buy_as_printed"] or [0.0]), 2),
         "rulers_disagreeing_legs": sum(1 for r in legs_out if r.get("rulers_disagree")),
     }
+    if key is None:
+        sig = inputs_sig(tpath, snap_path)
+        key = input_key(sig)
+    payload["inputs"] = {"key": key, "sig": sig}
     with open(OUT_JSON, "w", encoding="utf-8") as f:
         json.dump(payload, f, ensure_ascii=False, indent=1)
     write_md(payload, os.path.relpath(tpath, ROOT).replace("\\", "/"))
@@ -683,6 +765,26 @@ def selftest():
     leg(out["verdict"] in ("SWAP_AT_BOOK_HORIZON", "HOLD_AT_BOOK_HORIZON", "NOT_PRICED"),
         "L12c the leg still gets a word")
 
+    # L13 the rebuild gate skips ONLY a face that answered exactly these inputs
+    k = input_key({"a": 1})
+    leg(gate_decision({"inputs": {"key": k}}, k) == (True, "SAME_INPUTS"),
+        "L13 same inputs -> SAME_INPUTS (the build is skipped)")
+    leg(gate_decision({"inputs": {"key": k}}, input_key({"a": 2})) == (False, "INPUTS_CHANGED"),
+        "L13b one input byte moving -> INPUTS_CHANGED (the build runs)")
+    leg(gate_decision({}, k) == (False, "NO_PREVIOUS_FACE"),
+        "L13c no face on disk is not 'same inputs'")
+    leg(gate_decision({"verdict": "X"}, k) == (False, "PREVIOUS_FACE_HAS_NO_INPUT_KEY"),
+        "L13d a face written before the key existed is rebuilt, not trusted")
+
+    # L14 the key moves with every input it claims to read, and with none that it does not
+    base = {"ticket_sha": "aa", "snapshot_sha": "bb", "script_sha": "cc",
+            "swap_script_sha": "dd", "panel_files": 3}
+    k0 = input_key(base)
+    leg(all(input_key(dict(base, **{f: "zz"})) != k0
+            for f in ("ticket_sha", "snapshot_sha", "script_sha", "swap_script_sha", "panel_files")),
+        "L14 every named input is part of the key (an edit cannot ride a face it did not rebuild)")
+    leg(input_key(base) == k0, "L14b the key is a function of the inputs, not of the clock")
+
     print("premium-choice selftest %d/%d" % (ok, total))
     return 0 if ok == total else 1
 
@@ -695,14 +797,37 @@ def pub_tenure():
         return (json.load(f) or {}).get("seat_tenure")
 
 
+def if_stale():
+    """Chain entry: rebuild only when the inputs behind the published face have moved."""
+    sig = inputs_sig()
+    key = input_key(sig)
+    prev = None
+    if os.path.exists(OUT_JSON):
+        try:
+            with open(OUT_JSON, "r", encoding="utf-8") as f:
+                prev = json.load(f)
+        except (OSError, ValueError):
+            prev = None
+    skip, why = gate_decision(prev, key)
+    if skip:
+        print("premium_choice: SAME_INPUTS key=%s -- face left untouched (%s)"
+              % (key[:16], (prev or {}).get("verdict")))
+        return 0
+    print("premium_choice: %s key=%s -- rebuilding" % (why, key[:16]))
+    paths(sig=sig, key=key)
+    return 0
+
+
 def main(argv):
     cmd = [a for a in argv[1:] if not a.startswith("-")]
     if "--selftest" in argv:
         return selftest()
     if "--check" in argv:
         return check()
+    if "--if-stale" in argv:
+        return if_stale()
     if cmd and cmd[0] not in ("paths", "sheet"):
-        print("usage: etf_book_premium_choice.py [paths|--check|--selftest]")
+        print("usage: etf_book_premium_choice.py [paths|--if-stale|--check|--selftest]")
         return 2
     paths()
     return 0

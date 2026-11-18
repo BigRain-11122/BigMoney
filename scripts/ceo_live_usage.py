@@ -162,6 +162,8 @@ ETF_TICKET_LATEST = os.path.join(ROOT, "results", "etf_book_order",
 # verdict (ENTRY_PREMIUM_WARN); the reader's page never carried it.  Read-only.
 ETF_PREMIUM_JSON = os.path.join(ROOT, "results", "etf_book_premium_leak.json")
 ETF_PREMIUM_REL = "results/etf_book_premium_leak.json"
+ETF_PREMIUM_CHOICE_JSON = os.path.join(ROOT, "results", "etf_book_premium_choice.json")
+ETF_PREMIUM_CHOICE_REL = "results/etf_book_premium_choice.json"
 # r1824: the page prices the sleeve at the 1-day repo rate, which answers "how much does
 # the cash earn" and leaves "which tenor do I roll this morning" unanswered -- the ladder
 # face's own ticket is stamped with ITS cutoff (2026-10-27), so it reads as history. The
@@ -1196,6 +1198,72 @@ def _etf_premium_face():
     }
 
 
+def _etf_premium_choice_face():
+    """r1835: the premium block names the expensive leg and stops there.
+
+    It prints "159655 多付 ¥6,039｜98.8 分位｜在它自己历史的前 10% 高位" and then
+    says nothing about the one thing a reader would ask next: buy a different,
+    cheaper fund instead?  The answer exists (etf_book_premium_choice, r1775) and
+    is priced two ways -- a one-off CNY saving at the order versus a give-up in
+    expected return per window -- and the two rulers disagree.  A page that only
+    prints the premium invites the reader to invent the swap himself.
+
+    Read-only.  The block keeps the currencies apart (one-off CNY / CNY per window
+    / pp per year are never summed) and prints the convergence threshold as a
+    THRESHOLD, not as a probability: a single session snapshot cannot measure
+    whether the premium gap closes before exit.
+    """
+    d = _read_json(ETF_PREMIUM_CHOICE_JSON)
+    if not d:
+        return {"present": False, "note": "换腿面未产出（缺面不读 0）"}
+    legs = d.get("legs") or []
+    if not legs:
+        return {"present": False, "note": "换腿面零行（空面不冒充有读数）"}
+    stretched = []
+    for leg in legs:
+        if not leg.get("stretched"):
+            continue
+        roads = {r.get("road"): r for r in (leg.get("roads") or [])}
+        b = roads.get("B_same_market_twin") or {}
+        twin = b.get("twin") or {}
+        stretched.append({
+            "symbol": leg.get("symbol"),
+            "premium_pct": leg.get("premium_pct"),
+            "premium_cny": leg.get("premium_cny"),
+            "leg_score": leg.get("leg_score"),
+            "verdict": leg.get("verdict"),
+            "twin": twin.get("symbol"),
+            "twin_premium_pct": twin.get("premium_pct"),
+            "twin_score_gap": twin.get("score_gap"),
+            "saving_cny_once": b.get("saving_cny_once"),
+            "giveup_cny_per_window": b.get("giveup_cny_per_window"),
+            "giveup_pp_per_year": b.get("giveup_pp_per_year"),
+            "breakeven_convergence_p": b.get("breakeven_convergence_p"),
+            "breakeven_tenure_windows": b.get("breakeven_tenure_windows"),
+            "breakeven_tenure_years": b.get("breakeven_tenure_years"),
+            "drop_to_cash_saving_cny": (roads.get("C_drop_to_cash") or {}).get(
+                "saving_cny_once"),
+        })
+    crit = d.get("criteria") or {}
+    tenure = d.get("seat_tenure") or {}
+    totals = d.get("totals") or {}
+    return {
+        "present": True,
+        "verdict": d.get("verdict"),
+        "ticket": d.get("ticket"),
+        "as_of": d.get("as_of"),
+        "threshold_pp": crit.get("premium_swap_pp"),
+        "annual_giveup_cap_pp": crit.get("max_giveup_pp_per_year_annual_ruler"),
+        "stretched": stretched,
+        "n_stretched": len(stretched),
+        "mean_tenure_windows": tenure.get("mean_tenure_decisions"),
+        "median_tenure_windows": tenure.get("median_tenure_decisions"),
+        "share_one_window": tenure.get("share_held_one_window"),
+        "best_saving_cny": totals.get("best_saving_cny"),
+        "best_giveup_cny_per_window": totals.get("best_giveup_cny_per_window"),
+    }
+
+
 def _next_decision_face(t):
     """r1825: "16 bars away" is not a date.
 
@@ -1773,6 +1841,7 @@ def build_payload(day: str) -> dict:
         "etf_book": book,
         "etf_order": _etf_order_with_cash_roll(),
         "etf_premium": _etf_premium_face(),
+        "etf_premium_choice": _etf_premium_choice_face(),
         "etf_capacity": _etf_capacity_face(),
         "etf_capacity_at_size": _etf_capacity_at_size_face(),
         "etf_punctuality": _etf_punctuality_face(),
@@ -2706,6 +2775,97 @@ def render_md(p: dict) -> str:
                 ETF_PREMIUM_REL, _pm.get("ticket"),
                 _pm.get("ticket_session"), _pm.get("iopv_session"),
                 "是" if _pm.get("session_match") else "否"))
+    # ---- r1835: the block above tells the reader one leg stands at the top decile
+    # of its own year and stops there.  The next question ("buy a cheaper twin then?")
+    # is already priced (etf_book_premium_choice) and the two rulers that answer it
+    # DISAGREE -- so both are printed, and neither is applied silently.
+    _pc = p.get("etf_premium_choice") or {}
+    _pc_tk = os.path.basename(str(_pc.get("ticket") or ""))
+    # the swap is priced off the same snapshot the premium block reads; when that
+    # block could not be read (missing, or priced on another ticket) this one has no
+    # business quoting a saving -- the reader would be told "we cannot read the
+    # premium" and "you could save ¥X" in the same breath.
+    _pm_readable = bool(_pm.get("present")) and (
+        not _pm_tk or not _eo_tk
+        or os.path.basename(str(_pm_tk)) == os.path.basename(str(_eo_tk)))
+    if not _pm_readable:
+        L.append("  - **这一腿要不要换成更便宜的**：溢价面今天读不到"
+                 "（或价的不是这张票），换腿判断跟着缓一次——今天不印数")
+    elif _pc_tk and _eo_tk and _pc_tk != os.path.basename(str(_eo_tk)):
+        L.append("  - **这一腿要不要换成更便宜的**：换腿面价的票面是 `{}`，"
+                 "与这一页的执行单 `{}` 不是同一张——今天不印这个数".format(
+                     _pc_tk, _eo_tk))
+    elif not _pc.get("present"):
+        L.append("  - **这一腿要不要换成更便宜的**：{}——今天不印数".format(
+            _pc.get("note") or "换腿面未产出（缺面不读 0）"))
+    else:
+        _cap = _pc.get("annual_giveup_cap_pp")
+        _med = _pc.get("median_tenure_windows")
+        _mean = _pc.get("mean_tenure_windows")
+        _sh1 = _pc.get("share_one_window")
+        for _lg in _pc.get("stretched") or []:
+            _sym = _lg.get("symbol")
+            _ppc = _lg.get("premium_pct")
+            _cny = _lg.get("premium_cny")
+            if _ppc is None:
+                continue
+            L.append(
+                "    - **{} 这一腿换不换**：它自己溢价 {:+.2f}%（多付 ¥{}）"
+                "超过换腿门槛 {}pp".format(
+                    _sym, _ppc,
+                    _fmt_cny(abs(_cny)) if _cny is not None else "?",
+                    "{:.1f}".format(_pc.get("threshold_pp"))
+                    if _pc.get("threshold_pp") is not None else "?"))
+            if _lg.get("twin"):
+                _twpp = _lg.get("twin_premium_pct")
+                L.append(
+                    "      - 同一市场的孪生 **{}** 溢价 {} → 一次省 **¥{}**；"
+                    "但它在这本书自己的打分里落后 {:.3f}".format(
+                        _lg.get("twin"),
+                        "{:+.2f}%".format(_twpp) if _twpp is not None else "?",
+                        _fmt_cny(_lg.get("saving_cny_once"))
+                        if _lg.get("saving_cny_once") is not None else "?",
+                        _lg.get("twin_score_gap") or 0.0))
+                _gpp = _lg.get("giveup_pp_per_year")
+                _gcn = _lg.get("giveup_cny_per_window")
+                _bp = _lg.get("breakeven_convergence_p")
+                _bw = _lg.get("breakeven_tenure_windows")
+                if _gpp is not None and _cap is not None:
+                    L.append(
+                        "      - 尺子一（年化）：换过去每年放弃 **{:.2f}pp**，"
+                        "门槛 {:.1f}pp → **不换**".format(_gpp, _cap))
+                if _gcn is not None and _bw is not None:
+                    _by = _lg.get("breakeven_tenure_years")
+                    L.append(
+                        "      - 尺子二（这本实测只持 {} 窗：中位 {} 窗、均值 {} 窗、"
+                        "{}% 的座位只坐一窗）：每窗放弃 ¥{}，要 **{} 窗**{}"
+                        "才吃掉省下的钱".format(
+                            "{:.2f}".format(_mean) if _mean is not None else "?",
+                            "{:.0f}".format(_med) if _med is not None else "?",
+                            "{:.2f}".format(_mean) if _mean is not None else "?",
+                            "{:.0f}".format((_sh1 or 0) * 100)
+                            if _sh1 is not None else "?",
+                            _fmt_cny(_gcn),
+                            "{:.1f}".format(_bw),
+                            "（{} 年）".format("{:.1f}".format(_by))
+                            if _by is not None else ""))
+                if _bp is not None:
+                    L.append(
+                        "      - 够本的门槛（不是预测）：离场前这段溢价差收敛超过 "
+                        "**{:.1f}%** 换就划算；单日快照量不出它会不会收敛，"
+                        "所以这里只印门槛".format(_bp * 100))
+            if _lg.get("drop_to_cash_saving_cny") is not None:
+                L.append(
+                    "      - 第三条路（先不买、拿现金）：省 ¥{}，但放弃整段敞口"
+                    "——它比孪生那条省得多，也把这本书的仓位改小了".format(
+                        _fmt_cny(_lg.get("drop_to_cash_saving_cny"))))
+        L.append(
+            "    - 换腿面的判词是 **{}**：两把尺子在这张单上给相反答案，"
+            "页面按预注册把两个都印、不合并、不替你选".format(
+                _pc.get("verdict") or "未印"))
+        L.append(
+            "    - 出处：`{}`（票面 {}·as_of {}·换腿门槛与年化上限都是冻结常量）".format(
+                ETF_PREMIUM_CHOICE_REL, _pc.get("ticket"), _pc.get("as_of")))
     L.append("")
     L.append("## ⑦ 指数期货 carry 书 · 开仓资金线（纯读出）")
     L.append("")
@@ -3854,6 +4014,35 @@ def selftest() -> int:
               and "在它的月度节律内" in _mdm2)
         check("a list this machine cannot rebuild says so, in words (r1833)",
               "data/cache/p1c_local" in _mdm2 and "不在本机" in _mdm2)
+        # ---- r1835: ⑥ names the leg standing at the top decile of its own year and
+        # stopped there.  The swap question is priced on another face; the page must
+        # print BOTH rulers that answer it (they disagree) and must not print a number
+        # when that face priced a different ticket.
+        _pc1 = p1.get("etf_premium_choice") or {}
+        check("the swap answer reaches the page (r1835)",
+              _pc1.get("present") is True
+              and _pc1.get("n_stretched", 0) >= 1
+              and bool((_pc1.get("stretched") or [{}])[0].get("twin")))
+        _mdpc = render_md(p1)
+        _leg0 = (_pc1.get("stretched") or [{}])[0]
+        check("both rulers are printed, side by side (r1835)",
+              "尺子一（年化）" in _mdpc and "尺子二（这本实测只持" in _mdpc
+              and "不合并、不替你选" in _mdpc)
+        check("the premium is printed as a percent, never rescaled (r1835)",
+              "{} 这一腿换不换".format(_leg0.get("symbol")) in _mdpc
+              and "{:+.2f}%".format(_leg0.get("premium_pct")) in _mdpc
+              and "{:+.2f}%".format((_leg0.get("premium_pct") or 0) * 100)
+              not in _mdpc)
+        _pcx = json.loads(json.dumps(p1))
+        _pcx["etf_premium_choice"] = {"present": False, "note": "换腿面未产出"}
+        _mdx = render_md(_pcx)
+        check("an unread swap face prints a reason, not a zero (r1835)",
+              "换腿面未产出" in _mdx and "今天不印数" in _mdx)
+        _pcy = json.loads(json.dumps(p1))
+        _pcy["etf_premium_choice"] = dict(_pc1, ticket="TICKET-1999-01-01.json")
+        _mdy = render_md(_pcy)
+        check("a swap face priced on another ticket is refused (r1835)",
+              "不是同一张" in _mdy and "不换**" not in _mdy)
     print(f"selftest: {'ALL PASS' if not fails else f'FAIL {fails}'}")
     return 0 if not fails else 1
 

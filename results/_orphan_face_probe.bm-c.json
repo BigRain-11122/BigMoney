@@ -1,19 +1,37 @@
 {
- "ts": "2026-11-18T11:11:05",
+ "ts": "2026-11-18T12:46:09",
  "mode": "probe",
  "py_faces_seen": 2,
  "orphans": 0,
  "orphans_cleared": 0,
  "killed": [],
  "idle_servers_exempt": 0,
- "resident_servers_exempt": 0,
+ "resident_servers_exempt": 1,
  "faces": [
   {
-   "pid": 59312,
+   "pid": 60696,
+   "name": "python.exe",
+   "cmd": "D:\\ComfyUI\\python_embeded\\python.exe -s D:\\ComfyUI\\ComfyUI\\main.py --listen 127.0.0.1 --port 8188 --disable-smart-memory",
+   "age_min": 143.2,
+   "cpu_delta_20s": 0.047,
+   "face1_parent_dead": true,
+   "face2_no_hidden_host_ancestor": true,
+   "face3_cpu_stalled": true,
+   "ancestor_chain": [
+    "DEAD"
+   ],
+   "confirm_cpu_20s": 0.016,
+   "confirm_new_children": 0,
+   "listen_ports": [
+    8188
+   ]
+  },
+  {
+   "pid": 76748,
    "name": "python.exe",
    "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe Tools\\orphan_face_probe.py",
    "age_min": 0.5,
-   "cpu_delta_20s": 0.188,
+   "cpu_delta_20s": 0.109,
    "face1_parent_dead": false,
    "face2_no_hidden_host_ancestor": false,
    "face3_cpu_stalled": false,
@@ -23,25 +41,31 @@
     "powershell.exe",
     "wscript.exe"
    ]
-  },
-  {
-   "pid": 60696,
-   "name": "python.exe",
-   "cmd": "D:\\ComfyUI\\python_embeded\\python.exe -s D:\\ComfyUI\\ComfyUI\\main.py --listen 127.0.0.1 --port 8188 --disable-smart-memory",
-   "age_min": 48.1,
-   "cpu_delta_20s": 20.234,
-   "face1_parent_dead": true,
-   "face2_no_hidden_host_ancestor": true,
-   "face3_cpu_stalled": false,
-   "ancestor_chain": [
-    "DEAD"
-   ]
   }
  ],
  "orphan_details": [],
  "orphan_cleared_details": [],
  "idle_server_details": [],
- "resident_server_details": [],
+ "resident_server_details": [
+  {
+   "pid": 60696,
+   "name": "python.exe",
+   "cmd": "D:\\ComfyUI\\python_embeded\\python.exe -s D:\\ComfyUI\\ComfyUI\\main.py --listen 127.0.0.1 --port 8188 --disable-smart-memory",
+   "age_min": 143.2,
+   "cpu_delta_20s": 0.047,
+   "face1_parent_dead": true,
+   "face2_no_hidden_host_ancestor": true,
+   "face3_cpu_stalled": true,
+   "ancestor_chain": [
+    "DEAD"
+   ],
+   "confirm_cpu_20s": 0.016,
+   "confirm_new_children": 0,
+   "listen_ports": [
+    8188
+   ]
+  }
+ ],
  "sample_sec": 20.0,
  "stall_cpu_sec": 0.1,
  "grace_min": 30.0,

@@ -1540,6 +1540,18 @@ LEGS = [
      ["python", "scripts/etf_premium_session_delta.py", "run"]),
     ("premium_session_delta",
      ["python", "scripts/etf_premium_session_delta.py", "check"]),
+    # r1835: the CEO page now answers "buy a cheaper twin instead?" with this face
+    # (etf_book_premium_choice, r1775), and the face still had NO producer -- hand-run only, so
+    # the page quotes whatever ticket and snapshot a human last ran it on (the r1282 class this
+    # chain has already paid for twice). A build costs ~50s and its inputs move about once a
+    # trading day, so the writer is content-gated on inputs only (ticket bytes + snapshot bytes
+    # + a daily-panel census + this and the swap module's own bytes, no clock): unchanged =>
+    # SAME_INPUTS in 1.4s and neither file touched; anything moving => INPUTS_CHANGED and the
+    # build runs. `--check` re-derives the published arithmetic from those same inputs.
+    ("premium_choice_write",
+     ["python", "scripts/etf_book_premium_choice.py", "--if-stale"]),
+    ("premium_choice",
+     ["python", "scripts/etf_book_premium_choice.py", "--check"]),
     # r1530: the ten faces below carry `check` legs only, and a check can prove a face is
     # self-consistent with the world it was built in -- never that the world moved on. The
     # entry, the gap history and the trigger therefore sat on the 2026-11-06 close while the

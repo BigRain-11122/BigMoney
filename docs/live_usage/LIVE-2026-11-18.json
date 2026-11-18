@@ -2,7 +2,7 @@
  "schema": "ceo_live_usage_v1_9",
  "ticket": "T-202609-28-105",
  "day": "2026-11-18",
- "generated": "2026-11-18T10:49:11",
+ "generated": "2026-11-18T12:57:06",
  "market": {
   "state": "RED",
   "asof": "2026-11-17",
@@ -495,7 +495,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 60567.4
+    "last_append_age_min": 60695.3
    },
    {
     "family": "FUND-VALUE-P1",
@@ -503,7 +503,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 61411.9
+    "last_append_age_min": 61539.8
    },
    {
     "family": "FUND-DIVLOWVOL-P1",
@@ -511,7 +511,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 58205.2
+    "last_append_age_min": 58333.1
    }
   ]
  },
@@ -952,6 +952,39 @@
   "own_revert_cny": 4183.31,
   "own_revert_note": "stress, not a forecast: it gives back only the part ABOVE each fund's own median premium, and only for names this order is buying"
  },
+ "etf_premium_choice": {
+  "present": true,
+  "verdict": "RULERS_DISAGREE_SWAP_AT_HORIZON",
+  "ticket": "results/etf_book_order/TICKET-2026-11-17.json",
+  "as_of": "2026-11-17",
+  "threshold_pp": 3.0,
+  "annual_giveup_cap_pp": 2.0,
+  "stretched": [
+   {
+    "symbol": "159655",
+    "premium_pct": 7.515542,
+    "premium_cny": 6492.69,
+    "leg_score": 0.365168,
+    "verdict": "SWAP_AT_BOOK_HORIZON",
+    "twin": "159529",
+    "twin_premium_pct": 3.4895911337426977,
+    "twin_score_gap": 0.1682194826481387,
+    "saving_cny_once": 3478.03,
+    "giveup_cny_per_window": 156.07,
+    "giveup_pp_per_year": 2.2763,
+    "breakeven_convergence_p": 0.044874,
+    "breakeven_tenure_windows": 22.285,
+    "breakeven_tenure_years": 1.7686,
+    "drop_to_cash_saving_cny": 6492.69
+   }
+  ],
+  "n_stretched": 1,
+  "mean_tenure_windows": 1.573,
+  "median_tenure_windows": 1.0,
+  "share_one_window": 0.794,
+  "best_saving_cny": 6492.69,
+  "best_giveup_cny_per_window": 156.07
+ },
  "etf_capacity": {
   "present": true,
   "session": "2026-11-17",
@@ -1035,35 +1068,35 @@
    {
     "k": 2,
     "cost_cny": 2617.45,
-    "t": -4.811844064273783,
+    "t": -4.811844064273784,
     "share_late_helps": 0.41866028708133973,
     "separable": true
    },
    {
     "k": 3,
     "cost_cny": 2863.6,
-    "t": -4.19293691840669,
+    "t": -4.192936918406691,
     "share_late_helps": 0.434052757793765,
     "separable": true
    },
    {
     "k": 5,
     "cost_cny": 4071.21,
-    "t": -4.290919841585327,
+    "t": -4.29091984158533,
     "share_late_helps": 0.41445783132530123,
     "separable": true
    },
    {
     "k": 10,
     "cost_cny": 4025.16,
-    "t": -2.2053797292433277,
+    "t": -2.2053797292433295,
     "share_late_helps": 0.4433734939759036,
     "separable": true
    }
   ],
   "one_open_late": {
-   "median_cny": -932.3031683309349,
-   "mean_cny": -1807.910394788851,
+   "median_cny": -932.3031683309347,
+   "mean_cny": -1807.9103947888514,
    "t": -4.599190382634581,
    "share_late_helps": 0.4128878281622912
   },
