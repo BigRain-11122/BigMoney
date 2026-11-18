@@ -4043,21 +4043,34 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
     # across them describes a book nobody is holding. Re-price the grid on THIS ranking.
     _wc = None
     if dec_bar is not None:
+        # r1325: the ranking was cut at the decision bar but the ADV window was not -- a
+        # ticket labelled decision_bar=2026-11-11 read its turnover off the panel's LAST
+        # bar, overstating 1% capacity by 321,668 CNY (0.2717pp). The window is causal too:
+        # 20 bars ending on the bar that ranked the book, the same way
+        # etf_book_width_fit.adv20_at reads the panel tail.
+        _amt_dec = amt[cols].loc[:dec_bar]
         _grid = []
         for _n in (N_HOLD, 6, 7, 8, 10, 12):
             if any(g["n"] == _n for g in _grid):
                 continue
-            _grid.append(width_capacity(score.loc[dec_bar], amt[cols], _n, nav))
+            _grid.append(width_capacity(score.loc[dec_bar], _amt_dec, _n, nav))
         _live_w = next((r for r in _grid if r["n"] == N_HOLD), None)
         _fit_w = next((r for r in _grid if r.get("fits") is True), None)
         _wc = {"kind": "width_capacity_on_ticket_ranking", "asof": asof,
-               "decision_bar": str(dec_bar.date()), "nav_cny": float(nav),
+               "decision_bar": str(dec_bar.date()),
+               "amount_window_end": str(dec_bar.date()),
+               "amount_window_bars": 20,
+               "panel_last_bar": str(amt.index[-1].date()) if len(amt.index) else None,
+               "nav_cny": float(nav),
                "line_pct": 1.0, "widths": _grid,
                "live_width": _live_w, "min_width_row": _fit_w,
                "verdict": "MIN_WIDTH_THAT_FITS" if _fit_w else "NO_WIDTH_FITS",
                "gate_face_reading": _esc,
-               "note": ("本表按本票决策日的排名重算；准入节引用的宽度表按面板最后一根 bar "
-                        "排名，两者口径不同不得相加。")}
+               "note": ("本表的排名与成交额窗口都截到本票决策日（%s）：排名日=成交额窗口末日；"
+                        "准入节引用的宽度表按面板最后一根 bar（%s）排名并读成交额，"
+                        "两者口径不同不得相加。"
+                        % (str(dec_bar.date()),
+                           str(amt.index[-1].date()) if len(amt.index) else "-"))}
         payload["width_capacity"] = _wc
     if _wc and _wc.get("min_width_row") and dec_bar is not None:
         _fw = _wc["min_width_row"]
@@ -8677,6 +8690,20 @@ def selftest():
         chk("legAB a ticket that needs no widening says the price above is not its move",
             "不需要" in _wcm6 and "不是本票今天的动作" in _wcm6 and "-1.5000" in _wcm6,
             _wcm6.splitlines()[-1:])
+        # legAC (r1325): a capacity number labelled decision_bar has to read turnover up to
+        # that bar. The fixture keeps 20 unchanged bars, then multiplies every later bar by
+        # 10 -- a reader that uses the panel tail reports a capacity ten times larger.
+        _days = pd.date_range("2026-10-01", periods=40, freq="D")
+        _amt_fx = pd.DataFrame({"A": 1.0e7, "B": 2.0e7, "C": 5.0e6}, index=_days)
+        _dec = _days[19]
+        _amt_fx.loc[_days[_days > _dec], :] = _amt_fx.loc[_days[_days > _dec], :] * 10.0
+        _rank_fx = pd.Series({"A": 3.0, "B": 2.0, "C": 1.0})
+        _causal = width_capacity(_rank_fx, _amt_fx.loc[:_dec], 2, 1.0e6)
+        _whole = width_capacity(_rank_fx, _amt_fx, 2, 1.0e6)
+        chk("legAC a capacity labelled decision_bar reads turnover up to that bar, not the panel tail",
+            _causal["adv_weakest_cny"] == 1.0e7 and _whole["adv_weakest_cny"] == 1.0e8
+            and _causal["capital_at_line_cny"] != _whole["capital_at_line_cny"],
+            [_causal["adv_weakest_cny"], _whole["adv_weakest_cny"]])
     finally:
         shutil.rmtree(_tmp, ignore_errors=True)
 

@@ -16983,3 +16983,25 @@ results/supply_candidates.{json,md}、results/compute_audit.json、docs/daily_re
 并**两个都印**；②重算时对 `amt` 也要 `loc[:bar]` 做因果切片，只切 score 不够；③跨面比差之前先确认
 两块在同一根窗上（同窗之差才是名字差），否则先修牌子再谈数字。
 正身=scripts/etf_book_width_bar_ladder.py + results/etf_book_width_bar_ladder.json。
+
+## E1597 — 修了根因，还要让自检在「不修就会红」的输入上跑一次（r1325 bm-a）
+
+r1324 已点名根因：`scripts/etf_book_order.py:4050` 排名切了 `dec_bar`、成交额面板没切，
+`width_capacity` 内部 `amt[sym].tail(20)` 永远取面板尾部。本轮真修：`_amt_dec = amt[cols].loc[:dec_bar]`，
+票面随之整体重出——5 名 0.7932%→**1.0649% ADV**（不过线），6 名 1,189,705→**1,126,867 元**，
+5 名容量 1,260,724→**939,056 元**（牌子先前高报 321,668 元）。
+
+**可复用的那一半是自检的构造**：修完之后「看起来对」和「真因果」没有区别，除非自检在一个
+**不修就会红**的输入上跑。本轮 fixture = 20 根不变 + 之后每根 ×10，断言因果切片读到 1e7、
+整面板读到 1e8；一个只切排名不切窗口的实现会立刻在第二项上读到 1e8 而第一项也读到 1e8（红）。
+
+**第二件**：牌子自己要说清它读了哪根 bar —— payload 加 `amount_window_end` / `amount_window_bars` /
+`panel_last_bar` 三字段，读者不必读注释。缺一不可：只加 end 不索引 `panel_last_bar`，当天两值相等时
+仍然看不出「这条规则本可以读到别的日子」。
+
+**How to apply**：①凡「按某 bar 算」的修复，自检必须有尾部放大/位移 fixture，证伪「窗口没切」；
+②修复轮必须重出消费面（本轮 TICKET/ORDER/WIDTH-ESCAPE 三件同轮再生），否则下游仍读旧数；
+③牌子上的日子成对印（排名日 + 窗口末日 + 面板末日），不靠注释。
+
+正身=scripts/etf_book_order.py（selftest legAC，264/264）+ results/etf_book_order/TICKET-2026-11-17.json
+`width_capacity` 块。
