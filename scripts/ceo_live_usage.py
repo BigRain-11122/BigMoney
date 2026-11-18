@@ -2444,7 +2444,13 @@ def render_md(p: dict) -> str:
             _cs = p.get("etf_capacity_at_size") or {}
             _cs_bar_ok = (not _cs.get("bar") or not eo.get("bar")
                           or str(_cs.get("bar"))[:10] == str(eo.get("bar"))[:10])
-            if _cs.get("present") and _cs_bar_ok:
+            # r1830: the bar test above catches a face priced on another session, but not
+            # the commoner shape -- a new ticket lands, the face still answers the old one,
+            # and both are stamped with the same bar. The reading is about a different
+            # order, so it is another book (E685: a number travels with its ruler).
+            _cs_tk = os.path.basename(str(_cs.get("ticket_file") or "").replace("\\", "/"))
+            _cs_tk_ok = (not _cs_tk or not eo.get("file") or _cs_tk == eo.get("file"))
+            if _cs.get("present") and _cs_bar_ok and _cs_tk_ok:
                 _csr = _cs.get("reading_pct")
                 _csv = _cs.get("verdict")
                 _csword = {"ADMIT_AT_THIS_SIZE": "**过线**",
@@ -2476,6 +2482,9 @@ def render_md(p: dict) -> str:
                     _cs_why = ("同规模容量面量的是 {} 的盘口，与这一页票面的 {} 不是同一天"
                                "——今天不印这个数".format(str(_cs.get("bar"))[:10],
                                                     str(eo.get("bar"))[:10]))
+                elif _cs.get("present") and not _cs_tk_ok:
+                    _cs_why = ("同规模容量面回答的是 {}，而这一页印的票面是 {}"
+                               "——不是同一张单，今天不印这个数".format(_cs_tk, eo.get("file")))
                 L.append("    - 和上面这张单一起读：这把尺子是**按全仓量的**，"
                          "而今天这单只用了账面 {:.1f}%（¥{}）——{}，"
                          "所以本页不印「今天这单过线/没过线」，只印它量过的那个规模。".format(
@@ -3488,6 +3497,20 @@ def selftest() -> int:
                 check("an at-size face on another bar is refused, not quoted (r1827)",
                       "不是同一天" in _mdq
                       and "{:.4f}%".format(_csz1.get("reading_pct")) not in _mdq)
+                # r1830: same day, same bar, DIFFERENT ticket -- the shape a new sheet
+                # landing under an unwritten face makes.  Both directions pinned: the
+                # foreign ticket must be refused by name, and the same ticket still reads.
+                _degt = json.loads(json.dumps(p1))
+                _ct = dict(_degt.get("etf_capacity_at_size") or {})
+                _ct["ticket_file"] = "results/etf_book_order/TICKET-1999-01-01.json"
+                _degt["etf_capacity_at_size"] = _ct
+                _mdt = render_md(_degt)
+                check("an at-size face answering another ticket is refused (r1830)",
+                      "不是同一张单" in _mdt
+                      and "TICKET-1999-01-01" in _mdt
+                      and "{:.4f}%".format(_csz1.get("reading_pct")) not in _mdt)
+                check("the same ticket still prints its reading (r1830)",
+                      "{:.4f}%".format(_csz1.get("reading_pct")) in md1)
             # ---- r1828: the timing half.  A reader holding the action lines must be
             # able to read "today or tomorrow" on the same page, and must not be able to
             # read a cost that was measured on another bar.

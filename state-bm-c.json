@@ -1020,7 +1020,7 @@
   "ts": "2026-11-18T00:40:11+08:00"
  },
  "round_label": "r1813",
- "round_no": 1830,
+ "round_no": 1831,
  "round_no_label": "r1821",
  "round_no_landed": 1663,
  "round_note": "r1489: a reinstated bar is re-derived from the panel, not carried over (reinstatement_check + reinstatements.json + sheet paragraph)",
@@ -1859,5 +1859,23 @@
   "next": "(a) a suite that loads the open_gap legs clean, window <=24h; (b) r1827 leftover: etf_book_capacity_at_size has no chain producer (the page can print a reading for a ticket it no longer prices), window <=48h.",
   "accounting": "round report 1 + state 1 + heartbeat 1 + methodology card 1 (E691, written by the inherited session) = 4"
  },
- "decisions_watermark_r1829": "group decisions.md raw-blob sha256 ddf2c0c5... unchanged at this window (D-19 MATCH); orders.md unchanged -> zero new decision rows, zero new orders, zero execution action."
+ "decisions_watermark_r1829": "group decisions.md raw-blob sha256 ddf2c0c5... unchanged at this window (D-19 MATCH); orders.md unchanged -> zero new decision rows, zero new orders, zero execution action.",
+ "round_1830": {
+  "at": "2026-11-18 09:10-10:0x",
+  "watermark": "green: board/pool both empty (pool_ready_count=0, fleet_open_tasks=0), no claimable batch on this host; the only CPU work is this window own suite",
+  "product": "the reading the CEO page has quoted since r1827 is finally written by the chain, and the page can no longer attribute it to a ticket it does not price. Two holes: (a) results/etf_book_capacity_at_size.json had no producer, so the 0.3425% the reader saw was whatever ticket a human last ran it on (r1282 class); (b) the page tested only the BAR of that face, not its TICKET -- a new sheet landing under an unwritten face is stamped with the same bar, so the guard could not see it and the page would print the old order reading as 这本单.",
+  "fix": "Tools/s6_chain_bmc.py gains capacity_at_size_write + capacity_at_size (placed after open_gap; run=43.6s measured, it rebuilds the pooled panel, check=0.1s). etf_book_capacity_at_size.check() gains the freshness tooth: a face whose ticket_stem is not the newest TICKET-* on disk is STALE whatever its rows say. ceo_live_usage.py render block gains the ticket-identity guard (basename of face ticket_file vs the page order face file) with its own refusal sentence.",
+  "refusals": "pinned by selftest: capacity_at_size L15 (stale ticket refused AND the same payload on the newest ticket still accepted -- both directions); page r1830 two legs (face answering TICKET-1999-01-01 refused by name with no number / the same ticket still prints its reading).",
+  "verification": "etf_book_capacity_at_size selftest 15/15 PASS; run idempotent (byte-identical face, zero git diff after re-run) + check ok; chain --only capacity_at_size_write,capacity_at_size 2/2 rc0; ceo_live_usage selftest ALL PASS (incl. the two r1830 legs); page regenerated, L166 still reads 0.3425%; full suite 687/687 PASS 0 FAIL on the final code (both new capacity legs green in the registry).",
+  "reds_healed": "suite pass 1 (683/685) found two real reds, both the r1311 family -- an upstream receipt moved and the downstream face still carried the old fingerprints while its verdict was unchanged: (1) etf_book_supply_gate_decision CHECK FAIL 8/9 drift=sources (CALIBER.json b73824d7->bfe59832, WRAPPER-GATE.json 1d3c5bfa->996ee694) -> re-derive -> CHECK OK 9/9; (2) etf_book_decision_line CHECK_FAIL drift in: row -> re-derive -> CHECK_OK 4 fields. Neither was a code defect and neither was left as \"seen and passed\".",
+  "s0": "fleet/machine.json = bm-c; tree at open had only the heartbeat face dirty; HEAD vs origin/main 0/0 after fetch.",
+  "s05": "Tools/d19_check.py D-19 MATCH (decisions watermark ddf2c0c5c25f8198 unchanged); fleet/orders 115 files vs 271 acks, stem-normalised unacked=0; inbox empty -> zero new order, zero new decision, zero action.",
+  "s6": "pool_dualrun_reconcile ZERO-DRIFT (744 entries, streak 51, cutoff 2026-11-08T22:04); compute_audit v2.4.3 exit 0 FLAG:pool_starvation,supply_floor (cause=calendar: 4 candidates judged, 0 ADMIT, 3 UNADJUDICABLE_PHASE, action=more years of evidence); attrition_ledger_guard scan CLEAN (4 ledgers, 2 historical shrinks healed).",
+  "s7": "register_loop_task no-op (machine=bm-c pin=0, first fire 09:50 kept); watchdog re-registered (S4U flip still refused = permissions, default principal kept, known face); pre-commit / pre-push claws reinstalled LF-normalised.",
+  "suite": "687/687 PASS, 0 FAIL, 937.2s over 685 legs (reused 59, prefetched 3); log C:/Users/Dasheng/AppData/Local/Temp/smoke_bmc_r1830c.log.",
+  "unverified": "(a) the 43.6s run cost is measured once on this host (it rebuilds the pooled panel) -- the chain pays it every round the face is reached; (b) the ticket-identity guard fires on the file name, so two tickets with the same name (never seen) would slip through; (c) the ADV is still the gate own close x volume median, an estimate that moves in steps.",
+  "next": "(a) r1829 leftover: let a suite run is done -- next is the page capacity face at a size the ticket no longer holds (the guard now refuses, but the reader gets no reading at all until run catches up, which is the honest order); (b) a chain leg that would cost 43.6s per round deserves a content gate (same ticket + same panel cutoff = no-op) if the chain grows.",
+  "accounting": "round report 1 + state 1 + heartbeat 1 = 3"
+ },
+ "decisions_watermark_r1830": "group decisions.md raw-blob sha256 ddf2c0c5... unchanged at this window (D-19 MATCH); orders.md unchanged -> zero new decision rows, zero new orders, zero execution action."
 }

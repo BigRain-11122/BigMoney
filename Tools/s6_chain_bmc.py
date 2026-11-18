@@ -1160,6 +1160,14 @@ LEGS = [
     # the page that it cannot be added to the commission line.
     ("open_gap_write", ["python", "scripts/etf_book_open_gap.py", "run"]),
     ("open_gap", ["python", "scripts/etf_book_open_gap.py", "check"]),
+    # r1830: the CEO page has quoted this face since r1827 ("this order is 0.3425% of its
+    # own ADV -> fits, room for 2.92x more"), and the face still had no producer -- exactly
+    # the r1282 class the open_gap legs above were added for, so the reading the reader saw
+    # was whatever ticket a human happened to last run it on. `run` costs 44s (it rebuilds
+    # the pooled panel; measured 43.6s on bm-c r1830) and its check now also refuses a face whose
+    # ticket_stem is not the newest TICKET-* on disk, so the pair cannot drift silently.
+    ("capacity_at_size_write", ["python", "scripts/etf_book_capacity_at_size.py", "run"]),
+    ("capacity_at_size", ["python", "scripts/etf_book_capacity_at_size.py", "check"]),
     # r1453: cut_order_gap and cut_gate_pass answer two halves of the same 11-11 question --
     # what the desk must SELL, and whether obeying that sale moves the calendar gate. Neither
     # printed the other, so a desk had to hold two receipts at once. etf_book_decision_line

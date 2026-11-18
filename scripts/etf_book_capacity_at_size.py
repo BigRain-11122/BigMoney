@@ -320,6 +320,16 @@ def check(payload):
     problems = []
     s = payload.get("summary") or {}
     v = payload.get("verdict")
+    # r1830: a face that only re-derives from its own rows reads perfectly consistent while
+    # it answers a ticket the desk no longer holds (r1788/r1311 family: the tooth is "does
+    # the face still sit on the bytes that are on disk", not "is the face internally tidy").
+    # The chain runs `run` immediately before this check, so this guard is what makes that
+    # pairing worth having: a face whose ticket_stem is not the newest TICKET-* on disk is
+    # STALE however tidy its rows are.
+    _path, _stem = latest_ticket()
+    if _stem and payload.get("ticket_stem") and payload["ticket_stem"] != _stem:
+        problems.append("面回答的是 %s 的票面，盘上最新是 %s（陈旧面：先跑 run）"
+                        % (payload["ticket_stem"], _stem))
     if v in ("ADMIT_AT_THIS_SIZE", "DENY_AT_THIS_SIZE"):
         if s.get("reading_pct") is None or s.get("binding") is None:
             problems.append("给了判词却没有读数/最紧席位")
@@ -509,6 +519,26 @@ def selftest():
         assert chk["ok"] is False, "有名字没量到却给判词应被抓"
         assert any("没量到" in p for p in chk["problems"]), chk
 
+    def L15_a_face_answering_an_older_ticket_is_stale():
+        payload = {"verdict": "ADMIT_AT_THIS_SIZE", "ticket_stem": "2026-11-17",
+                   "summary": {"verdict": "ADMIT_AT_THIS_SIZE", "reading_pct": 0.4,
+                               "binding": "A", "line_pct": 1.0, "n_measurable": 1,
+                               "unmeasurable": []},
+                   "rows": [{"sym": "A", "share": 0.004}]}
+        real = globals()["latest_ticket"]
+        try:
+            globals()["latest_ticket"] = lambda dirpath=None: (
+                "results/etf_book_order/TICKET-2026-11-18.json", "2026-11-18")
+            chk = check(payload)
+            assert chk["ok"] is False, "回答旧票面的面看起来自洽，必须被拒"
+            assert any("盘上最新" in p for p in chk["problems"]), chk
+            # the other direction: the same payload on the newest ticket is accepted, so
+            # the leg fails only when the tooth fires and never when it should not
+            payload["ticket_stem"] = "2026-11-18"
+            assert check(payload)["ok"] is True, check(payload)
+        finally:
+            globals()["latest_ticket"] = real
+
     for name, fn in [("L1 占比=金额/成交额", L1_share_is_amount_over_adv),
                      ("L2 最紧席位是最大值不是均值", L2_binding_is_the_max_not_the_average),
                      ("L3 判词用分数闸线", L3_verdict_uses_the_fractional_line),
@@ -522,7 +552,8 @@ def selftest():
                      ("L11 异 bar 印两个日期不印数", L11_other_bar_prints_both_dates_and_no_number),
                      ("L12 缺票面不印 0", L12_missing_ticket_prints_no_reading),
                      ("L13 读数不是最大占比时自检抓", L13_check_catches_a_reading_that_is_not_the_max),
-                     ("L14 未量全不留判词", L14_check_refuses_a_verdict_on_unmeasured_names)]:
+                     ("L14 未量全不留判词", L14_check_refuses_a_verdict_on_unmeasured_names),
+                     ("L15 回答旧票面的面判陈旧", L15_a_face_answering_an_older_ticket_is_stale)]:
         leg(name, fn)
 
     ok = all(p for _n, p, _m in legs)

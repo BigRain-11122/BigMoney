@@ -1,5 +1,23 @@
 # Bigmoney 交接与成果收割指南（HANDOVER）
 
+## 5x 幂等快照 · r1830（2026-11-18 10:0x · bm-c）
+> 授权口径不变：逐轮权威=
+ound_reports-bm-c.md 全行在册；本块只做「产物清单与完成状态」核对与指针，不复述轮报告正文。
+> 本块覆盖 bm-c 线 r1826→r1830（上一块 bm-c 快照停在 r1790，中间轮次正文见轮报告各行）。
+
+**本线产物（可核）**
+
+| 产物 | 状态 |
+|---|---|
+| r1830 Tools/s6_chain_bmc.py 新增 capacity_at_size_write + capacity_at_size 两腿（run 43.6s 实测／check 0.1s）＋ tf_book_capacity_at_size.check() 陈旧牙（	icket_stem ≠ 盘上最新 TICKET-* 即 STALE）＋ ceo_live_usage.py 票面同一性守卫（另一张单按名拒印、不印数）＋ smoke 两条产品腿 | 已发布（面 selftest 15/15·run 幂等零 diff·链 2/2 rc0·全量套件 **687/687 PASS 0 FAIL**·卡 E1414） |
+| r1829 scripts/etf_book_open_gap.py（隔夜跳空中位 +0.0bp / 中间六成 -30.4..+25.6bp，按本单 ¥431,880 折 ¥2,419 对 ¥691 双边费·selftest 11/11 + check 5/5）＋链两腿 ＋smoke 两腿 | 已发布（CEO 页 L171） |
+| r1828 CEO 页时点面接线 tf_punctuality（等 1 根 bar 贵 ¥1,808／3 根 ¥2,864／5 根 ¥4,071，判词 NOTHING_OWED_TODAY，单张纸与均值并列·4 条自检腿） | 已发布 |
+| r1827 scripts/etf_book_capacity_at_size.py（本单自己五个名字 × 自己金额 = 0.3425% 对 1.00% 闸线·可放 2.92× 到 ¥1,261,085·selftest 14/14） | 已发布（生产者由 r1830 补齐） |
+| r1826 CEO 页接入容量面（1.0087% @100 万全仓口径，含「没在 43.2% 这个规模上重量」的拒绝·5 条自检腿） | 已发布 |
+| 本线未完成（如实）：容量链腿每轮付 43.6s 且无内容闸（同票面＋同 cutoff 应 no-op）；watchdog 的 S4U 转换仍被拒（需管理员一次性重注册）；r1830 三趟套件里前两趟分别加载旧注册表/被本窗击杀，只有第三趟是最终代码的全绿 | 记于 state-bm-c.json 的 
+ound_1830 / 
+ext |
+
 ## 5x 幂等快照 · r1310 · 2026-11-18 02:1x · bm-a
 > 授权口径不变：逐轮权威=`round_reports-bm-a.md` 全行在册；本块只做「产物清单与完成状态」核对与指针，不复述轮报告正文。
 > 本块覆盖 bm-a 线 r1306→r1310（上一块 bm-a 快照停在 r1235，中间轮次正文见轮报告各行）。

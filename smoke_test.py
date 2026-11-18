@@ -2121,6 +2121,16 @@ def main() -> int:
              "scripts/etf_book_open_gap.py", ["selftest"]),
             ("product: etf_book_open_gap (band re-derived from the ticket's own panels)",
              "scripts/etf_book_open_gap.py", ["check"]),
+            # r1830: the CEO page has quoted the capacity-at-size face since r1827 while the
+            # face had no producer -- the reader's reading was whatever ticket a human last
+            # ran it on (r1282 class). The legs pin the two things that make the pairing
+            # hold: the measurement itself (per-name share of ADV, room left, the published
+            # reading being a different five names), and the freshness tooth -- a face whose
+            # ticket_stem is not the newest TICKET-* on disk must be refused as STALE.
+            ("product: etf_book_capacity_at_size (this order against its own five names' ADV)",
+             "scripts/etf_book_capacity_at_size.py", ["selftest"]),
+            ("product: etf_book_capacity_at_size (face still answers the newest ticket)",
+             "scripts/etf_book_capacity_at_size.py", ["check"]),
             # r1466: the swap was priced but the sheet carrying it did not say when to look
             # again. The legs pin that the action price is the round-trip toll (not a mean,
             # not a percentile), that a censored episode is reported rather than scored as

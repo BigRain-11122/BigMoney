@@ -16742,3 +16742,30 @@ CEO 页 ⑥ 段每一行都按决策 bar 的收盘价定价，成交在下一交
 （计价截止 2026-11-17）+ CEO 页 `docs/live_usage/LIVE-2026-11-18.md` ⑥ 段「开盘价和票面价隔多远」；
 接线腿 `ceo_live_usage.py selftest`（r1829 四条：带以本单金额印出／跳空不是成本不可相加／异 bar 拒印／
 缺面只说理由）。
+
+
+## E1414 -- a freshness test on the bar cannot see a different ticket, and that is the shape a new sheet makes
+
+r1830: the CEO page has quoted 
+esults/etf_book_capacity_at_size.json since r1827 ("this order is
+0.3425% of its own ADV -> fits, room for 2.92x more"). Two holes sat underneath that number:
+
+1. the face had no producer at all, so the reading the reader saw was whatever ticket a human last
+   ran it on (r1282 class -- the same defect the open_gap legs were added for one round earlier);
+2. the page's only freshness test compared the face's ar with the sheet's bar. A new ticket
+   landing under an unwritten face carries the SAME bar, so the test could not see it and the page
+   would print the previous order's reading under the words "本单" (E685 family: a number travels
+   with its ruler, and the ruler includes which order it was measured on).
+
+Fix: the chain gains capacity_at_size_write + capacity_at_size; the face's check refuses a
+face whose 	icket_stem is not the newest TICKET-* on disk; the page refuses by name when the
+face's 	icket_file is not the sheet it is printing. Both directions pinned (stale refused, current
+still reads) -- a one-directional leg would let a guard that refuses everything pass.
+
+Same round, the same family on the input side: two faces came back red as drift=sources /
+drift in: row because CALIBER.json and WRAPPER-GATE.json had been re-derived while the downstream
+verdict did not move. A face is stale when its inputs' bytes moved, not when its conclusion did --
+that is the tooth working, and the repair is re-derive, never edit the receipt.
+
+正身=scripts/etf_book_capacity_at_size.py（selftest 15/15）+ Tools/s6_chain_bmc.py 两条腿
++ scripts/ceo_live_usage.py 两条 r1830 腿（另一张票面按名拒印／同一张仍印读数）。
