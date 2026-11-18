@@ -2110,6 +2110,17 @@ def main() -> int:
              "scripts/etf_book_cash_roll_today.py", ["--selftest"]),
             ("product: etf_book_cash_roll_today (instruction re-derived from disk)",
              "scripts/etf_book_cash_roll_today.py", ["--check"]),
+            # r1829: the executable sheet is priced at a close and filled at the next open,
+            # and the page's only account of that distance was "the open price will differ".
+            # The legs pin that the gap is measured on the ticket's own five names and
+            # translated onto the ticket's own traded amount, that a quote-face flip is
+            # neutralised AND counted (the same frozen 35% line repair_flips uses), that both
+            # calibers are published without being averaged, and that a missing panel is a
+            # reason rather than a zero.
+            ("product: etf_book_open_gap (how far the paid open sits from the printed close)",
+             "scripts/etf_book_open_gap.py", ["selftest"]),
+            ("product: etf_book_open_gap (band re-derived from the ticket's own panels)",
+             "scripts/etf_book_open_gap.py", ["check"]),
             # r1466: the swap was priced but the sheet carrying it did not say when to look
             # again. The legs pin that the action price is the round-trip toll (not a mean,
             # not a percentile), that a censored episode is reported rather than scored as

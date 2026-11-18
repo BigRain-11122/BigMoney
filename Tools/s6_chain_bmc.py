@@ -1148,6 +1148,18 @@ LEGS = [
     ("cash_roll_today",
      ["python", "scripts/etf_book_cash_roll_today.py", "--check"],
      ["python", "scripts/etf_book_cash_roll_today.py"]),
+    # r1829: every line on the executable sheet is priced at the decision bar's close and the
+    # fill happens at the next open -- and the page's whole account of that distance was the
+    # five words "open price will differ". This face measures it on the ticket's OWN five
+    # names (overnight gap open_t/close_{t-1}-1, pooled, in bp and in CNY on the ticket's own
+    # traded amount): median +0.0bp, the middle six tenths -30.4..+25.6bp = CNY 2,419 against
+    # a CNY 691 double-sided fee. Without a producer the reader's band is whatever bar a human
+    # last ran it on (r1282 class), so `run` (0.4s, ticket + five daily panels, no network)
+    # writes it immediately before the check. A gap is a price level move, not a cost -- it
+    # moves the exposure by the same percentage and is paid to nobody, so the block says on
+    # the page that it cannot be added to the commission line.
+    ("open_gap_write", ["python", "scripts/etf_book_open_gap.py", "run"]),
+    ("open_gap", ["python", "scripts/etf_book_open_gap.py", "check"]),
     # r1453: cut_order_gap and cut_gate_pass answer two halves of the same 11-11 question --
     # what the desk must SELL, and whether obeying that sale moves the calendar gate. Neither
     # printed the other, so a desk had to hold two receipts at once. etf_book_decision_line

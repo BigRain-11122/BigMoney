@@ -184,6 +184,12 @@ ETF_CAPACITY_SIZE_REL = "results/etf_book_capacity_at_size.json"
 # ladder vs the ticket's own permission); the page quotes it, never recomputes it.
 ETF_DO_OR_WAIT_JSON = os.path.join(ROOT, "results", "etf_book_do_or_wait.json")
 ETF_DO_OR_WAIT_REL = "results/etf_book_do_or_wait.json"
+# r1829: every line on the sheet is priced at the decision bar's close and filled at the
+# next open, and the page's own caveat said only "开盘成交价会不同" -- a promise nobody
+# measured.  results/etf_book_open_gap.json measures that gap on the ticket's own five
+# names.  Read-only; the page quotes the face and never re-derives the series.
+ETF_OPEN_GAP_JSON = os.path.join(ROOT, "results", "etf_book_open_gap.json")
+ETF_OPEN_GAP_REL = "results/etf_book_open_gap.json"
 
 # v2.2 (r1782): the index-futures carry book is the second money candidate, and
 # until now its only sentence on this page was nothing at all -- "this book buys
@@ -1315,6 +1321,50 @@ def _etf_capacity_at_size_face():
     }
 
 
+def _etf_open_gap_face():
+    """r1829: how far the next open sits from the close this sheet is priced at.
+
+    ⑥ prices every line at the decision bar's close and the sheet is filled at the next
+    open; the page's caveat admitted that ("开盘成交价会不同") and never put a number on
+    it.  `results/etf_book_open_gap.py` measures the overnight gap on the ticket's own
+    five names and converts the band to CNY on the ticket's own amount.
+
+    Read-only, and the block keeps the three distinctions that make the number honest:
+
+    * a gap is a price level, not a cost -- it moves `k` by the same percentage and is
+      paid to nobody, so it may never be added to the commission line;
+    * the median and the band are two readings (a typical session vs the middle 60%),
+      both printed, never averaged into one "expected slippage" number;
+    * the face's cutoff must be the ticket's bar -- another bar's distribution is
+      another book (r1781/E685 family), and a missing face is a reason, never 0 (r98).
+    """
+    d = _read_json(ETF_OPEN_GAP_JSON)
+    if not d:
+        return {"present": False, "note": "开盘间隔面未产出（缺面不读 0）"}
+    recent = (d.get("pooled") or {}).get("recent") or {}
+    if recent.get("median_bp") is None:
+        return {"present": False,
+                "note": d.get("sentence") or "开盘间隔面上没有读数（不冒充量过）"}
+    return {
+        "present": True,
+        "verdict": d.get("verdict"),
+        "evidence_cutoff": d.get("evidence_cutoff"),
+        "ticket": d.get("ticket"),
+        "n_names": d.get("n_names"),
+        "traded_amount_cny": d.get("traded_amount_cny"),
+        "recent_sessions": d.get("recent_sessions"),
+        "recent": recent,
+        "all_history": (d.get("pooled") or {}).get("all_history") or {},
+        "money": d.get("money") or {},
+        "band_ratio_vs_fee": d.get("band_ratio_vs_fee"),
+        "fee_double_sided_cny": d.get("fee_double_sided_cny"),
+        "names": d.get("names") or [],
+        "missing": d.get("missing") or [],
+        "sentence": d.get("sentence"),
+        "caveats": d.get("caveats") or [],
+    }
+
+
 def _etf_punctuality_face():
     """r1828: "do it today, or is waiting cheaper" -- printed for the sheet, not a book.
 
@@ -1670,6 +1720,7 @@ def build_payload(day: str) -> dict:
         "etf_capacity": _etf_capacity_face(),
         "etf_capacity_at_size": _etf_capacity_at_size_face(),
         "etf_punctuality": _etf_punctuality_face(),
+        "etf_open_gap": _etf_open_gap_face(),
         "book_identity": _book_identity_face(),
         "carry_book": _carry_book_face(),
         "carry_timing": _carry_timing_face(),
@@ -2435,6 +2486,61 @@ def render_md(p: dict) -> str:
         L.append("    - 出处：`{}`（盘口 {}·计价截止 {}）".format(
             ETF_CAPACITY_REL, str(_cap.get("session") or "未标")[:10],
             str(_cap.get("evidence_cutoff") or "未标")[:10]))
+    # ---- r1829: the sheet is priced at a close and filled at the next open.  The
+    # caveat "开盘成交价会不同" was the only word on it; measure it on the ticket's own
+    # five names and give it in CNY on the ticket's own amount.  Never added to the
+    # commission line -- one is a price level, the other is a transfer.
+    _og = p.get("etf_open_gap") or {}
+    _og_ok = (not _og.get("evidence_cutoff") or not eo.get("bar")
+              or str(_og.get("evidence_cutoff"))[:10] == str(eo.get("bar"))[:10])
+    _ogr = _og.get("recent") or {}
+    if _og.get("present") and _og_ok and _ogr.get("median_bp") is not None:
+        _ogm = _fmt_cny(abs(_og.get("money", {}).get("band_cny") or 0.0))
+        _ogf = _og.get("fee_double_sided_cny")
+        _ogr_ratio = _og.get("band_ratio_vs_fee")
+        _ogword = {"OVERNIGHT_BAND_DWARFS_THE_FEE": "跳空这条带比成本大得多",
+                   "THE_FEE_IS_THE_BIGGER_UNKNOWN": "成本比跳空这条带更大",
+                   "COMPARABLE_BANDS": "两者量级相当"}.get(
+                       _og.get("verdict"), "不给判词")
+        L.append("    - **开盘价和票面价隔多远**（上面那句「开盘成交价会不同」的量化）："
+                 "这 {} 只票近 {} 个交易日的隔夜跳空中位 **{:+.1f}bp**、"
+                 "中间六成落 **{:+.1f}..{:+.1f}bp**；按本单 ¥{} 建仓，"
+                 "这条带值 **¥{}**，而整张单的双边成本是 ¥{} → {}。".format(
+                     _og.get("n_names") or "?", _og.get("recent_sessions") or "?",
+                     float(_ogr["median_bp"]), float(_ogr.get("p20_bp") or 0.0),
+                     float(_ogr.get("p80_bp") or 0.0),
+                     _fmt_cny(_og.get("traded_amount_cny")), _ogm,
+                     _fmt_cny(_ogf) if _ogf is not None else "（票面没写成本口径）",
+                     _ogword))
+        if _og.get("verdict") == "OVERNIGHT_BAND_DWARFS_THE_FEE" and _ogr_ratio:
+            L.append("      - 换句话读：**成交价会飘多少，是手续费那个数的 {:.1f} 倍**"
+                     "——这张单真正的不确定不在佣金上。".format(float(_ogr_ratio)))
+        L.append("      - **跳空不是成本**：它是价格水平的变化，同一次跳空也把敞口 k（{:.2f}%）"
+                 "按同一比例搬家，没有付给任何人——所以这一行**不能**与上面的手续费相加。".format(
+                     float((eo.get("book_weight") or 0.0)) * 100.0))
+        L.append("      - 中位与带是两把尺子，不平均：中位说的是「平常那一天」，"
+                 "带说的是「中间六成的日子」。")
+        _oga = _og.get("all_history") or {}
+        if _oga.get("median_bp") is not None:
+            L.append("      - 全史口径（第二把尺子·{:d} 段）：中位 {:+.1f}bp、"
+                     "中间六成 {:+.1f}..{:+.1f}bp——换成全史看，答案没有变。".format(
+                         int(_oga.get("n") or 0), float(_oga["median_bp"]),
+                         float(_oga.get("p20_bp") or 0.0),
+                         float(_oga.get("p80_bp") or 0.0)))
+        if _og.get("missing"):
+            L.append("      - 读不出的名字：{}（缺读数不当成 0）".format(
+                "、".join(_og["missing"])))
+        L.append("      - 出处：`{}`（计价截止 {}·票面 {}）".format(
+            ETF_OPEN_GAP_REL, str(_og.get("evidence_cutoff") or "未标")[:10],
+            _og.get("ticket") or "未标"))
+    else:
+        _og_why = _og.get("note") or "开盘间隔面未产出（缺面不读 0）"
+        if _og.get("present") and not _og_ok:
+            _og_why = ("开盘间隔面量的是 {} 的数据，与这一页票面的 {} 不是同一天"
+                       "——今天不印这个数".format(
+                           str(_og.get("evidence_cutoff"))[:10],
+                           str(eo.get("bar"))[:10]))
+        L.append("    - 上面那句「开盘成交价会不同」今天没有量过：{}。".format(_og_why))
     # ---- r1820: the sheet names five codes and their prices; nothing on this page
     # said what part of that money is paid above the funds' own NAV.  One number per
     # reader decision: how much of the ticket is premium, and what reversion would cost.
@@ -3413,6 +3519,34 @@ def selftest() -> int:
                 check("a timing face on another bar is refused, not quoted (r1828)",
                       "不是同一天" in _mdpb
                       and _fmt_cny(abs(_k1["cost_cny"])) not in _mdpb)
+            # ---- r1829: the gap between the printed close and the open the reader
+            # actually pays.  Three legs: the measured band reaches the page in CNY on
+            # the ticket's own amount; the block says it is not a cost; another bar's
+            # distribution and a missing face both print a reason and no number.
+            _og1 = p1.get("etf_open_gap") or {}
+            _ogr1 = _og1.get("recent") or {}
+            if _og1.get("present") and _ogr1.get("median_bp") is not None:
+                _ogband = _fmt_cny(abs((_og1.get("money") or {}).get("band_cny") or 0.0))
+                check("the gap between the paid open and the printed close reaches the page (r1829)",
+                      "开盘价和票面价隔多远" in md1
+                      and "{:+.1f}bp".format(float(_ogr1["median_bp"])) in md1
+                      and _ogband in md1)
+                check("the block says a gap is not a cost and cannot be added (r1829)",
+                      "跳空不是成本" in md1 and "不能" in md1
+                      and "按同一比例搬家" in md1)
+                _degog = json.loads(json.dumps(p1))
+                _ogb = dict(_degog.get("etf_open_gap") or {})
+                _ogb["evidence_cutoff"] = "1999-01-01"
+                _degog["etf_open_gap"] = _ogb
+                _mdog = render_md(_degog)
+                check("a gap face on another bar is refused, not quoted (r1829)",
+                      "不是同一天" in _mdog and _ogband not in _mdog)
+                _degog2 = json.loads(json.dumps(p1))
+                _degog2["etf_open_gap"] = {"present": False,
+                                           "note": "开盘间隔面未产出（缺面不读 0）"}
+                _mdog2 = render_md(_degog2)
+                check("a missing gap face prints the caveat's reason, never a number (r1829)",
+                      "今天没有量过" in _mdog2 and _ogband not in _mdog2)
             _deg8 = json.loads(json.dumps(p1))
             _deg8["etf_capacity"] = {"present": False,
                                      "note": "容量面未产出（缺面不读 0）"}
