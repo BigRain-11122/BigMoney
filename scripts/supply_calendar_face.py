@@ -58,6 +58,10 @@ OUT_MD = os.path.join(ROOT, "results", "supply_calendar.md")
 
 PASS_WORD = "ADMIT"
 
+# r1837: one string for the page and the check -- a page that says something and
+# a gate that looks for something else is the same defect one layer up.
+DISCARDED_ADMISSION_MARK = "被弃掉的那份读数里有 ADMIT"
+
 # "the caller said nothing about the ruler" -- distinct from "the caller proved
 # there is no elected ruler" (r1432 selftest leg: no_election must be reachable).
 _AUTO = object()
@@ -525,6 +529,64 @@ READING = {
 }
 
 
+def _superseded_entry(row):
+    """One losing receipt's reading, in its own words (r1837).
+
+    Keys mirror the row keys they come from so a reader can compare the two
+    readings field by field instead of being told only that a second receipt
+    exists. Nothing here decides anything: the winner's `pass` is untouched.
+    """
+    return {
+        "receipt": row.get("receipt"),
+        "reading": row.get("reading"),
+        "state": row.get("state"),
+        "pass": bool(row.get("pass")),
+        "failing_checks": list(row.get("failing_checks") or []),
+        "unchecked_checks": list(row.get("unchecked_checks") or []),
+        "receipt_asof": row.get("receipt_asof"),
+    }
+
+
+def superseded_words(row):
+    """Compact `STATE [reading · receipt]` strings for a row's discarded readings.
+
+    Accepts the pre-r1837 shape (a bare path) and says so rather than inventing
+    a word for it (r98: unknown is not a reading).
+    """
+    out = []
+    for s in row.get("superseded_receipts") or []:
+        if isinstance(s, str):
+            out.append("%s (older face: word not recorded)" % s)
+            continue
+        extra = (" via " + ", ".join(s["failing_checks"])
+                 if s.get("failing_checks") else "")
+        out.append("%s%s [%s · %s]" % (s.get("state") or "?", extra,
+                                       s.get("reading") or "?",
+                                       s.get("receipt") or "?"))
+    return out
+
+
+def superseded_admissions(rows):
+    """Candidates whose DISCARDED reading was an ADMIT.
+
+    The face's verdict is decided by the winning reading only (A2: a reporting
+    change may only ever refuse more, never fewer). This block exists because
+    "no candidate passes its calendar" is true of the elected reading and
+    false of another reading the desk actually made — a reader is owed both.
+    """
+    out = []
+    for r in rows:
+        for s in r.get("superseded_receipts") or []:
+            if isinstance(s, dict) and s.get("pass"):
+                out.append({"candidate": r["candidate"],
+                            "receipt": s.get("receipt"),
+                            "reading": s.get("reading"),
+                            "state": s.get("state"),
+                            "failing_checks": list(s.get("failing_checks") or []),
+                            "unchecked_checks": list(s.get("unchecked_checks") or [])})
+    return out
+
+
 def build(receipts=None, root=None, elected=_AUTO):
     """Assemble the face. Injection exists for hermetic selftests."""
     root = root or ROOT
@@ -546,8 +608,14 @@ def build(receipts=None, root=None, elected=_AUTO):
         for r in got:
             # first declaration wins for a given candidate (phase beats
             # single-phase because it is listed first); the loser is recorded
+            # WITH ITS OWN WORD (r1837). A path alone says "another receipt
+            # spoke about this book" and nothing about what it said, so a
+            # discarded ADMIT and a discarded REFUSE printed the same -- the
+            # live case is nobond_base: phase gate UNADJUDICABLE_PHASE (spread
+            # wider than the margin), year gate ADMIT.
             if r["candidate"] in by_name:
-                by_name[r["candidate"]]["superseded_receipts"].append(r["receipt"])
+                by_name[r["candidate"]]["superseded_receipts"].append(
+                    _superseded_entry(r))
                 continue
             r["superseded_receipts"] = []
             by_name[r["candidate"]] = r
@@ -591,6 +659,14 @@ def build(receipts=None, root=None, elected=_AUTO):
         "n_refused": sum(1 for r in rows if not r["pass"]),
         "n_admitted": sum(1 for r in rows if r["pass"]),
         "ruler_split": ruler_split(rows),
+        # r1837: every reading the merge discarded, with its own word, plus the
+        # subset that admitted the book. The verdict above is unchanged -- this
+        # is what the desk said under the other ruler, not a second verdict.
+        "superseded_readings": [
+            dict(candidate=r["candidate"], **s)
+            for r in rows for s in (r.get("superseded_receipts") or [])
+            if isinstance(s, dict)],
+        "superseded_admissions": superseded_admissions(rows),
         "elected_ruler": elected,
         "election_error": election_err,
         "elected_reasons": sentences,
@@ -672,6 +748,15 @@ def summary_line(face):
             line += " | " + face["window_sensitivity"]["sentence"]
         if (face.get("half_year") or {}).get("sentence"):
             line += " | " + face["half_year"]["sentence"]
+        # r1837: "no candidate passes" was true of the elected reading and could
+        # be false of another reading the desk made. Print the discarded ADMITs
+        # here, or the sentence is a property of the merge order, not the book.
+        adm = face.get("superseded_admissions") or []
+        if adm:
+            line += (" | discarded reading(s) that ADMIT: %s -- the sentence above "
+                     "is the elected reading, not the only one made"
+                     % ", ".join("%s under %s (%s)" % (a["candidate"], a["reading"],
+                                                       a["receipt"]) for a in adm))
         return line
     return face["reading"]
 
@@ -682,13 +767,24 @@ def write_md(face, path):
         "",
         "判词 **%s** —— %s" % (face["verdict"], face["reading"]),
         "",
-        "| 候选 | 读数 | 判决 | 未过的检查 | 收据 |",
-        "|---|---|---|---|---|",
+        "| 候选 | 读数 | 判决 | 未过的检查 | 收据 | 被取代的读数 |",
+        "|---|---|---|---|---|---|",
     ]
     for r in face["candidates"]:
-        lines.append("| %s | %s | %s | %s | %s |" % (
+        lines.append("| %s | %s | %s | %s | %s | %s |" % (
             r["candidate"], r["reading"], r.get("state"),
-            ", ".join(r.get("failing_checks") or []) or "—", r["receipt"]))
+            ", ".join(r.get("failing_checks") or []) or "—", r["receipt"],
+            "; ".join(superseded_words(r)) or "—"))
+    adm = face.get("superseded_admissions") or []
+    if adm:
+        lines += ["",
+                  "**被弃掉的那份读数里有 ADMIT**：%s。同一本书、同一天，两张收据"
+                  "给了不同的话，合并按列序只留第一张（相位）；上面的判词说的是"
+                  "**留下来的那份读数**，不是这本书的全部记录。两份都印出来，读者"
+                  "才知道「池子空」是书的结论还是合并顺序的结论。"
+                  % "、".join("%s 在 %s（%s）读 %s" % (
+                      a["candidate"], a["reading"], a["receipt"], a["state"])
+                      for a in adm)]
     if face["receipts_unreadable"]:
         lines += ["", "读不到的收据（未知不是空）："]
         for u in face["receipts_unreadable"]:
@@ -893,6 +989,29 @@ def _selftest():
           len(r_phase[same]["superseded_receipts"]), 1)
     check("one row per candidate after the merge",
           len(f_phase["candidates"]), 1)
+    # r1837: the loser is recorded with its own word -- the live case is a book
+    # the phase ruler cannot judge and the year receipt admits.
+    lost = r_phase[same]["superseded_receipts"][0]
+    check("the discarded receipt keeps its own state word",
+          (lost.get("state"), lost.get("pass")), ("ADMIT", True))
+    check("the discarded receipt is named by path",
+          lost.get("receipt"), os.path.basename(yg_same))
+    check("the discarded word reaches the row's printable form",
+          superseded_words(r_phase[same])[0].startswith("ADMIT ["), True)
+    check("the face names the discarded admission",
+          [(a["candidate"], a["reading"]) for a in f_phase["superseded_admissions"]],
+          [(same, "single_phase")])
+    check("the operator summary says the ADMIT was discarded",
+          "discarded reading(s) that ADMIT" in summary_line(f_phase), True)
+    check("the admission block does not turn the verdict",
+          f_phase["verdict"], "NO_CANDIDATE_PASSES_CALENDAR")
+    check("when the ADMIT wins there is no discarded admission to report",
+          f_year["superseded_admissions"], [])
+    check("and that row still names the discarded phase reading",
+          superseded_words(r_year[same])[0].startswith("UNADJUDICABLE_PHASE"), True)
+    check("a pre-r1837 face shape is not given an invented word",
+          superseded_words({"superseded_receipts": ["old.json"]}),
+          ["old.json (older face: word not recorded)"])
 
     # (5) absent receipt is not "no candidates" and not a pass
     f5 = build(receipts=[(os.path.join(tmp, "__absent__.json"), "year_gate")],
@@ -1205,6 +1324,35 @@ def check_published(path=None):
                         "(a hand-written year-provenance clause is red)")
     if (d.get("half_year_error") or "") != (half_err or "") and want_half is None:
         problems.append("half_year_error %r != %r" % (d.get("half_year_error"), half_err))
+    # r1837: a discarded reading must carry its own word -- a bare path is the
+    # defect this face was fixed for, and it must not be typeable back in. The
+    # admission list is re-derived from the rows, and the printed page must
+    # agree with both (the lost ADMIT is exactly what a reader came for).
+    for r in d.get("candidates") or []:
+        for s in r.get("superseded_receipts") or []:
+            if isinstance(s, str):
+                problems.append("%s: discarded reading recorded as a bare path"
+                                % r.get("candidate"))
+            elif not s.get("state"):
+                problems.append("%s: discarded reading carries no state word"
+                                % r.get("candidate"))
+    want_adm = superseded_admissions(d.get("candidates") or [])
+    if (d.get("superseded_admissions") or []) != want_adm:
+        problems.append("superseded_admissions %r != re-derived %r"
+                        % (d.get("superseded_admissions"), want_adm))
+    md_path = path.replace(".json", ".md") if path.endswith(".json") else None
+    if md_path and os.path.exists(md_path):
+        with io.open(md_path, encoding="utf-8") as fh:
+            page = fh.read()
+        for r in d.get("candidates") or []:
+            for w in superseded_words(r):
+                if w not in page:
+                    problems.append("%s: the page does not print its discarded "
+                                    "reading %r" % (r.get("candidate"), w))
+        if want_adm and DISCARDED_ADMISSION_MARK not in page:
+            problems.append("the page carries a discarded ADMIT without saying so")
+        if not want_adm and DISCARDED_ADMISSION_MARK in page:
+            problems.append("the page claims a discarded ADMIT the rows do not carry")
     if problems:
         print("supply_calendar_face: FAIL " + "; ".join(problems))
         return 1

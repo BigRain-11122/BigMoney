@@ -1,6 +1,6 @@
 {
  "report_date": "2026-11-18",
- "generated_at": "2026-11-18 10:58:33",
+ "generated_at": "2026-11-18 14:08:46",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -294,13 +294,13 @@
   "md_link": "../live_usage/LIVE-2026-11-18.md"
  },
  "rd": {
-  "commits_24h": 144,
-  "result_jsons_landed_24h": 239,
+  "commits_24h": 152,
+  "result_jsons_landed_24h": 255,
   "digests_landed_24h": 0,
-  "prereg_md_touched_24h": 81,
+  "prereg_md_touched_24h": 80,
   "compute_audit_latest": {
-   "ts": "2026-11-18 10:07:22",
-   "py_cpu_pct": 0.6,
+   "ts": "2026-11-18 14:06:16",
+   "py_cpu_pct": 0.5,
    "flags": [
     "pool_starvation",
     "supply_floor"
@@ -665,11 +665,11 @@
  "utilization": {
   "machines": {
    "bm-a": {
-    "latest_ts": "2026-11-18 09:16:33",
-    "py_pct": 11.4,
-    "cpu_pct": 56.0,
+    "latest_ts": "2026-11-18 12:36:41",
+    "py_pct": 9.9,
+    "cpu_pct": 65.0,
     "ready": 0,
-    "streak_min": 11409.2,
+    "streak_min": 11433.0,
     "verdict": "FLAG:pool_starvation,supply_floor",
     "py_series_tail": [
      [
@@ -713,8 +713,8 @@
       25.7
      ],
      [
-      "09:16",
-      11.4
+      "12:36",
+      9.9
      ]
     ],
     "today_samples": 6,
@@ -722,7 +722,7 @@
     "today_sla_flags": 0,
     "today_supply_gap_flags": 0,
     "own_samples": 11,
-    "unattributed_samples": 91,
+    "unattributed_samples": 87,
     "latest_attributed": true,
     "lane_machine": "bm-a",
     "supply_why": {
@@ -791,53 +791,13 @@
     "supply_why": null
    },
    "bm-c": {
-    "latest_ts": "2026-11-18 10:07:22",
-    "py_pct": 0.6,
-    "cpu_pct": 53.0,
+    "latest_ts": "2026-11-18 14:06:16",
+    "py_pct": 0.5,
+    "cpu_pct": 48.0,
     "ready": 0,
-    "streak_min": 11438.9,
+    "streak_min": 11241.0,
     "verdict": "FLAG:pool_starvation,supply_floor",
     "py_series_tail": [
-     [
-      "16:01",
-      0.0
-     ],
-     [
-      "16:06",
-      0.0
-     ],
-     [
-      "17:28",
-      0.9
-     ],
-     [
-      "18:29",
-      5.1
-     ],
-     [
-      "06:49",
-      5.0
-     ],
-     [
-      "07:18",
-      0.0
-     ],
-     [
-      "07:33",
-      1.2
-     ],
-     [
-      "08:00",
-      4.9
-     ],
-     [
-      "08:38",
-      0.0
-     ],
-     [
-      "08:50",
-      10.5
-     ],
      [
       "09:48",
       0.0
@@ -845,14 +805,54 @@
      [
       "10:07",
       0.6
+     ],
+     [
+      "10:39",
+      5.0
+     ],
+     [
+      "11:22",
+      11.2
+     ],
+     [
+      "12:59",
+      10.9
+     ],
+     [
+      "13:23",
+      9.9
+     ],
+     [
+      "13:24",
+      5.2
+     ],
+     [
+      "13:25",
+      5.1
+     ],
+     [
+      "13:26",
+      3.9
+     ],
+     [
+      "14:03",
+      10.4
+     ],
+     [
+      "14:04",
+      9.9
+     ],
+     [
+      "14:06",
+      0.5
      ]
     ],
-    "today_samples": 8,
+    "today_samples": 18,
     "today_floor_ok": 0,
     "today_sla_flags": 0,
     "today_supply_gap_flags": 0,
-    "own_samples": 101,
-    "unattributed_samples": 90,
+    "own_samples": 111,
+    "unattributed_samples": 79,
     "latest_attributed": true,
     "lane_machine": "bm-c",
     "supply_why": {
@@ -867,6 +867,10 @@
        "failing_checks": [
         "Y4_top2_share",
         "C1_capacity"
+       ],
+       "unchecked_checks": null,
+       "superseded_words": [
+        "CAPACITY_LIMITED via Y4_top2_share, C1_capacity [single_phase · results/etf_book_year_gate/YEAR-GATE.json]"
        ]
       },
       {
@@ -877,6 +881,10 @@
         "C1_capacity",
         "Y3_worst_year",
         "Y4_top2_share"
+       ],
+       "unchecked_checks": null,
+       "superseded_words": [
+        "ADMIT [single_phase · results/etf_book_year_gate/YEAR-GATE.json]"
        ]
       },
       {
@@ -886,7 +894,9 @@
        "failing_checks": [
         "C1_capacity",
         "Y4_top2_share"
-       ]
+       ],
+       "unchecked_checks": null,
+       "superseded_words": []
       },
       {
        "candidate": "all_classes_published",
@@ -894,11 +904,35 @@
        "undecidable_because": null,
        "failing_checks": [
         "Y4_top2_share"
-       ]
+       ],
+       "unchecked_checks": [
+        "C1_capacity"
+       ],
+       "superseded_words": []
       }
      ],
      "what_would_move_it": "more years of evidence",
-     "sentence": "4 candidate(s) were judged and none reads ADMIT: 3 cannot be judged because the phase spread is wider than the distance to the line (nobond_vt08_adopted, nobond_base, nobond_vt08_floor_050), 0 because the phases disagree (-)。即使有一个候选过闸，已定价的最高上限 13,794,151 也只有地板的 69.0%（差 6,205,849），该上限出自 priced_envelope_R20",
+     "superseded_words": {
+      "nobond_vt08_adopted": [
+       "CAPACITY_LIMITED via Y4_top2_share, C1_capacity [single_phase · results/etf_book_year_gate/YEAR-GATE.json]"
+      ],
+      "nobond_base": [
+       "ADMIT [single_phase · results/etf_book_year_gate/YEAR-GATE.json]"
+      ]
+     },
+     "superseded_admissions": [
+      {
+       "candidate": "nobond_base",
+       "failing_checks": [],
+       "reading": "single_phase",
+       "receipt": "results/etf_book_year_gate/YEAR-GATE.json",
+       "state": "ADMIT",
+       "unchecked_checks": [
+        "C1_capacity"
+       ]
+      }
+     ],
+     "sentence": "4 candidate(s) in the calendar reading; 3 cannot be judged because the phase spread is wider than the distance to the line (nobond_vt08_adopted, nobond_base, nobond_vt08_floor_050); 1 was judged and none of the kept readings reads ADMIT (all_classes_published: CONDITIONAL via Y4_top2_share); columns nobody measured: all_classes_published: C1_capacity; readings the merge discarded: nobond_vt08_adopted: CAPACITY_LIMITED via Y4_top2_share, C1_capacity [single_phase · results/etf_book_year_gate/YEAR-GATE.json], nobond_base: ADMIT [single_phase · results/etf_book_year_gate/YEAR-GATE.json]。即使有一个候选过闸，已定价的最高上限 13,794,151 也只有地板的 69.0%（差 6,205,849），该上限出自 priced_envelope_R20",
      "capacity_sentence": "即使有一个候选过闸，已定价的最高上限 13,794,151 也只有地板的 69.0%（差 6,205,849），该上限出自 priced_envelope_R20"
     }
    }
@@ -924,7 +958,7 @@
      "readable": true,
      "window_min": 60.0,
      "audit_batches": 0,
-     "audit_ts": "2026-11-18 09:16:33"
+     "audit_ts": "2026-11-18 12:36:41"
     }
    },
    "bm-b": {
@@ -960,7 +994,7 @@
      "readable": true,
      "window_min": 60.0,
      "audit_batches": 0,
-     "audit_ts": "2026-11-18 10:07:22"
+     "audit_ts": "2026-11-18 14:06:16"
     }
    }
   },
@@ -1690,7 +1724,7 @@
    "behind_days": 0,
    "behind": [],
    "lane_owner": "bm-c",
-   "read_on": "bm-a"
+   "read_on": "bm-c"
   },
   "seal_rate": 0.6491,
   "down_over_up": 1.811,
@@ -1877,50 +1911,128 @@
  },
  "lane_silence": {
   "present": true,
-  "machine": "bm-a",
-  "verdict": "OK",
+  "machine": "bm-c",
+  "verdict": "SILENT_GAP",
   "threshold_min": 90,
   "window_days": 3,
-  "median_gap_min": 16.3,
-  "rounds_in_window": 8,
-  "rounds_in_ledger": 795,
-  "gaps_over_threshold_count": 0,
+  "median_gap_min": 17.0,
+  "rounds_in_window": 107,
+  "rounds_in_ledger": 1267,
+  "gaps_over_threshold_count": 8,
   "longest_silence": {
-   "from": "2026-11-17T21:16",
-   "gap_high_min": 58.3,
-   "gap_low_min": 58.3,
+   "from": "2026-11-16T10:10",
+   "gap_high_min": 870.0,
+   "gap_low_min": 870.0,
    "quiet_window_min": 0.0,
-   "to": "2026-11-17T22:14",
-   "unexplained_high_min": 58.3,
-   "unexplained_low_min": 58.3
+   "to": "2026-11-17T00:40",
+   "unexplained_high_min": 870.0,
+   "unexplained_low_min": 870.0
   },
   "open_gap": {
-   "gap_high_min": 19.8,
-   "gap_low_min": 19.8,
+   "gap_high_min": 65.6,
+   "gap_low_min": 65.6,
    "quiet_window_min": 0.0,
-   "since": "2026-11-18T00:03",
-   "unexplained_high_min": 19.8,
-   "unexplained_low_min": 19.8
+   "since": "2026-11-17T23:05",
+   "unexplained_high_min": 65.6,
+   "unexplained_low_min": 65.6
   },
-  "gaps_over_threshold": [],
-  "evidence_cutoff": "2026-11-18",
-  "generated": "2026-11-18T00:22:45",
-  "silence_verdict": "OK",
+  "gaps_over_threshold": [
+   {
+    "from": "2026-11-15T11:00",
+    "gap_high_min": 189.0,
+    "gap_low_min": 171.0,
+    "quiet_window_min": 0.0,
+    "to": "2026-11-15T14:00",
+    "unexplained_high_min": 189.0,
+    "unexplained_low_min": 171.0
+   },
+   {
+    "from": "2026-11-15T15:00",
+    "gap_high_min": 110.5,
+    "gap_low_min": 110.5,
+    "quiet_window_min": 0.0,
+    "to": "2026-11-15T16:51",
+    "unexplained_high_min": 110.5,
+    "unexplained_low_min": 110.5
+   },
+   {
+    "from": "2026-11-15T23:00",
+    "gap_high_min": 129.0,
+    "gap_low_min": 111.0,
+    "quiet_window_min": 0.0,
+    "to": "2026-11-16T01:00",
+    "unexplained_high_min": 129.0,
+    "unexplained_low_min": 111.0
+   },
+   {
+    "from": "2026-11-16T10:10",
+    "gap_high_min": 870.0,
+    "gap_low_min": 870.0,
+    "quiet_window_min": 0.0,
+    "to": "2026-11-17T00:40",
+    "unexplained_high_min": 870.0,
+    "unexplained_low_min": 870.0
+   },
+   {
+    "from": "2026-11-17T01:55",
+    "gap_high_min": 141.0,
+    "gap_low_min": 141.0,
+    "quiet_window_min": 0.0,
+    "to": "2026-11-17T04:16",
+    "unexplained_high_min": 141.0,
+    "unexplained_low_min": 141.0
+   },
+   {
+    "from": "2026-11-17T11:31",
+    "gap_high_min": 138.0,
+    "gap_low_min": 138.0,
+    "quiet_window_min": 0.0,
+    "to": "2026-11-17T13:49",
+    "unexplained_high_min": 138.0,
+    "unexplained_low_min": 138.0
+   },
+   {
+    "from": "2026-11-17T14:10",
+    "gap_high_min": 170.0,
+    "gap_low_min": 170.0,
+    "quiet_window_min": 0.0,
+    "to": "2026-11-17T17:00",
+    "unexplained_high_min": 170.0,
+    "unexplained_low_min": 170.0
+   },
+   {
+    "from": "2026-11-17T17:55",
+    "gap_high_min": 140.0,
+    "gap_low_min": 140.0,
+    "quiet_window_min": 0.0,
+    "to": "2026-11-17T20:15",
+    "unexplained_high_min": 140.0,
+    "unexplained_low_min": 140.0
+   }
+  ],
+  "evidence_cutoff": "2026-11-17",
+  "generated": "2026-11-18T00:10:38",
+  "silence_verdict": "SILENT_GAP",
   "lane_tasks": {
    "absent": [],
    "disabled": [],
-   "probeable": 4,
+   "disabled_before_heal": [],
+   "heal": {
+    "acts": [],
+    "healed": [],
+    "readback": {}
+   },
+   "probeable": 3,
    "states": {
     "Bigmoney-IterationLoop": "Running",
     "Bigmoney-LoopWatchdog": "Ready",
-    "Bigmoney-SatEngine-bm-b": "Ready",
-    "HQ-Patrol-BigMoney": "Ready"
+    "Bigmoney-SatEngine-bm-b": "Ready"
    },
    "threshold_min": 90,
    "verdict": "LANE_ENABLED",
    "why": "every probeable lane task is switched on; the silence (if any) is not a switch"
   },
-  "sentence": "bm-a：窗内 8 轮 / 3 天，相邻间隔中位数 16.3 分钟，超过 90 分钟且无解释的空档 0 处；最长静默 2026-11-17T21:16 → 2026-11-17T22:14（58.3–58.3 分钟，其中 0.0 分钟由其申报的静默窗解释）；仍未恢复，自 2026-11-18T00:03 起（未解释 19.8–19.8 分钟）。"
+  "sentence": "bm-c：窗内 107 轮 / 3 天，相邻间隔中位数 17.0 分钟，超过 90 分钟且无解释的空档 8 处；最长静默 2026-11-16T10:10 → 2026-11-17T00:40（870.0–870.0 分钟，其中 0.0 分钟由其申报的静默窗解释）；仍未恢复，自 2026-11-17T23:05 起（未解释 65.6–65.6 分钟）。"
  },
  "cap_vs_book": {
   "status": "ok",

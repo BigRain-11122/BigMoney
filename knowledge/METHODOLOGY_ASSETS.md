@@ -16934,3 +16934,24 @@ smoke_test.py `open()` 修复与 `no_writer` 判红 + results/live_book_section_
 正身=scripts/supply_calendar_face.py `read_year_gate`/`_one_line` + scripts/supply_candidate_face.py（md 表列）
 + scripts/compute_audit.py `supply_floor_why`（selftest 86/86）；面=results/supply_candidates.{json,md} 与
 results/compute_audit.json `supply_floor.why.sentence`。
+
+## E1596 — 合并只记「落败者是谁」，等于把那天说过的两个词读成一个（r1837 bm-c）
+
+同一本书、同一份日历，两张收据可以给相反的话：`nobond_base` 在相位闸里是 `UNADJUDICABLE_PHASE`
+（相位差 21.42pp > 到线的距离 13.07pp），在年闸里是 **`ADMIT`**。合并按列序只留第一张（相位），
+落败者只记了一个**路径**——于是「池子空、没有候选过闸」读起来像书的结论，实际是**合并顺序**的结论。
+这是 r1836 那句下面压着的下一层：读者拿到的三元组里，第三元（被弃读数）从来没有词。
+
+**正法三件**：①落败收据**带着自己的词**入册（state/pass/failing_checks/reading/asof），路径只是地址；
+②**被弃的 ADMIT 单独成列表**并印到页面，同时把「无一 ADMIT」限定为「留下来的读数」——两个词同一天
+存在时，只印一边就是半句；③判决不许因此翻面（A2：报告改动只能更严），只把丢弃的那半印出来。
+跨层同律：供给面、审计句、战报三处要么都带，要么都不带。
+
+自检要钉：落败词被记录、页面有那一行、ADMIT 被点名，以及**反向**（ADMIT 赢时不得谎称有被弃 ADMIT）；
+`--check` 要拒绝退回「只记路径」的旧形状（一条字符串即红）。可复用问句：任何 `first wins` 的合并，
+落败项除了地址还丢了什么？
+
+正身=scripts/supply_calendar_face.py（`_superseded_entry`/`superseded_words`/`superseded_admissions`/
+`check_published`，selftest 77/77）+ scripts/supply_candidate_face.py（md 列 + 警告行，selftest 51/51）
++ scripts/compute_audit.py `supply_floor_why`（selftest 95/95）；面=results/supply_calendar.{json,md}、
+results/supply_candidates.{json,md}、results/compute_audit.json、docs/daily_report/REPORT-2026-11-18.json。

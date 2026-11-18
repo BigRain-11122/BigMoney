@@ -379,7 +379,11 @@ def supply_floor_why(sc, breach):
              "failing_checks": c.get("failing_checks"),
              # r1836: carried, not decided here -- a column the receipt never
              # measured is not a pass (the year receipt's own words).
-             "unchecked_checks": c.get("unchecked_checks")}
+             "unchecked_checks": c.get("unchecked_checks"),
+             # r1837: the readings the calendar merge discarded, with their own
+             # words. This block used to inherit only the winner, so a book the
+             # year receipt ADMITs read here as "every candidate was refused".
+             "superseded_words": c.get("superseded_words")}
             for c in (cal.get("candidates") or [])]
     out = {"cause": cause,
            "action": SUPPLY_FLOOR_ACTIONS.get(cause, SUPPLY_FLOOR_ACTIONS["unknown"]),
@@ -418,9 +422,15 @@ def supply_floor_why(sc, breach):
                                ", ".join(r["candidate"] for r in disagree)))
             parts.append("; ".join(bits))
         if judged:
+            # r1837: when another receipt's word was dropped by the merge, this
+            # "none reads ADMIT" is about the KEPT readings only -- the
+            # discarded clause below says so too, and the two must not be read
+            # as contradicting each other.
+            kept = "none of the kept readings reads ADMIT"\
+                if any(r.get("superseded_words") for r in rows) else "none reads ADMIT"
             parts.append(
-                "%d %s judged and none reads ADMIT (%s)"
-                % (len(judged), "was" if len(judged) == 1 else "were",
+                "%d %s judged and %s (%s)"
+                % (len(judged), "was" if len(judged) == 1 else "were", kept,
                    ", ".join("%s: %s via %s" % (
                        r["candidate"], r.get("state"),
                        ", ".join(r.get("failing_checks") or []) or "no named check")
@@ -434,6 +444,23 @@ def supply_floor_why(sc, breach):
                 % ", ".join("%s: %s" % (r["candidate"],
                                         ", ".join(r["unchecked_checks"]))
                             for r in unmeasured))
+        # r1837: a candidate can carry two words from the same day -- the merge
+        # keeps one and drops the other, and the dropped one had only ever been
+        # a path here. "None reads ADMIT" is true of the kept words; printing
+        # the discarded ones beside it is what makes that sentence a statement
+        # about the merge rather than about the books.
+        discarded = [r for r in rows if r.get("superseded_words")]
+        if discarded:
+            parts.append(
+                "readings the merge discarded: %s"
+                % ", ".join("%s: %s" % (r["candidate"],
+                                        "; ".join(r["superseded_words"]))
+                            for r in discarded))
+            out["superseded_words"] = {r["candidate"]: list(r["superseded_words"])
+                                       for r in discarded}
+        adm = cal.get("superseded_admissions") or []
+        if adm:
+            out["superseded_admissions"] = list(adm)
         out["sentence"] = "; ".join(parts)
         # r1308: the calendar sentence alone reads as "keep waiting". The
         # capacity sentence is CARRIED verbatim (single owner
@@ -1618,6 +1645,46 @@ def _selftest():
                         "undecidable_because": "phases_disagree_on_verdict"}]}}
     check("r1657 disagreeing phases -> the phase set has to move",
           supply_floor_why(_cal_mix, True).get("what_would_move_it"), "the phase set")
+    # ---- r1837 legs: the reading the merge discarded is printed, and the
+    # sentence says whose "none reads ADMIT" it is ----------------------
+    _cal_disc = {"agenda_cause": "calendar", "shortfall": 3, "calendar": {
+        "candidates": [
+            {"candidate": "nobond_base", "state": "UNADJUDICABLE_PHASE",
+             "undecidable_because": "phase_spread_wider_than_margin",
+             "superseded_words": ["ADMIT [single_phase · results/year.json]"]},
+            {"candidate": "plain", "state": "CONDITIONAL",
+             "undecidable_because": None, "failing_checks": ["Y4_top2_share"],
+             "superseded_words": []}],
+        "superseded_admissions": [
+            {"candidate": "nobond_base", "reading": "single_phase",
+             "receipt": "results/year.json"}]}}
+    _wd = supply_floor_why(_cal_disc, True)
+    check("r1837 the discarded ADMIT is named in the sentence",
+          "readings the merge discarded: nobond_base: ADMIT [single_phase"
+          in (_wd.get("sentence") or ""), True)
+    check("r1837 the kept-word sentence is still there",
+          "1 cannot be judged because the phase spread is wider" in (_wd.get("sentence") or ""),
+          True)
+    check("r1837 a candidate with nothing discarded adds no clause",
+          "plain" in (_wd.get("sentence") or "").split("merge discarded: ", 1)[-1],
+          False)
+    check("r1837 the discarded readings travel as data, per candidate",
+          _wd.get("superseded_words"),
+          {"nobond_base": ["ADMIT [single_phase · results/year.json]"]})
+    check("r1837 admissions are carried verbatim, not re-decided",
+          [a["candidate"] for a in (_wd.get("superseded_admissions") or [])],
+          ["nobond_base"])
+    check("r1837 a face with no discarded reading says nothing about them",
+          "merge discarded" in (supply_floor_why(_cal_mixed, True).get("sentence") or ""),
+          False)
+    check("r1837 the block still refuses to make it a pass",
+          _wd.get("cause"), "calendar")
+    check("r1837 'none reads ADMIT' is scoped to the kept readings once a word was dropped",
+          "1 was judged and none of the kept readings reads ADMIT"
+          in (_wd.get("sentence") or ""), True)
+    check("r1837 the unscoped wording is untouched when nothing was dropped",
+          "none reads ADMIT (B: CONDITIONAL via Y4_top2_share)"
+          in (_wm.get("sentence") or ""), True)
     check("r1657 mechanism cause is not read as a calendar cause",
           supply_floor_why({"agenda_cause": "mechanism"}, True).get("what_would_move_it"),
           None)

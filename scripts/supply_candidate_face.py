@@ -310,8 +310,9 @@ def build(pool_ready=None, pool_ids=None, tickets=None, backlog_path=None,
         if sc and sc["live"]:
             queue.setdefault("_rows", {})[name] = sc["live"]
     verdict, startable = classify(pool_ready, tickets, floor)
+    cal_mod = _calendar()
     if calendar is None:
-        cal_face = _calendar().build()
+        cal_face = cal_mod.build()
     else:
         cal_face = calendar
     shortfall = (None if pool_ready is None else max(0, floor - pool_ready))
@@ -335,6 +336,13 @@ def build(pool_ready=None, pool_ids=None, tickets=None, backlog_path=None,
             "n_refused": cal_face.get("n_refused"),
             "receipts_declared": cal_face.get("receipts_declared"),
             "receipts_unreadable": cal_face.get("receipts_unreadable"),
+            # r1837: a book can be refused by the reading the merge kept while
+            # another receipt the desk actually ran said ADMIT. Carried at both
+            # levels -- per row (what was discarded) and here (which of those
+            # discarded readings were admissions) -- because a reader of this
+            # layer is the audit floor, and it was the audit floor that read
+            # "no candidate passes" as "nothing was ever admitted".
+            "superseded_admissions": cal_face.get("superseded_admissions") or [],
             "candidates": [
                 {"candidate": c.get("candidate"), "state": c.get("state"),
                  "failing_checks": c.get("failing_checks"),
@@ -342,6 +350,9 @@ def build(pool_ready=None, pool_ids=None, tickets=None, backlog_path=None,
                  # reader one layer up used to see only the False ones and read
                  # "the rest passed" out of "the rest was never looked at".
                  "unchecked_checks": c.get("unchecked_checks"),
+                 # r1837: the readings this row's merge threw away, in their own
+                 # words (state + receipt), not just their paths.
+                 "superseded_words": cal_mod.superseded_words(c),
                  "receipt": c.get("receipt"),
                  # r1657: carry the numbers that make the third word a fact
                  # rather than a label. Without them a reader one layer up
@@ -439,16 +450,30 @@ def write_md(face, path):
         lines += ["## 归因：%s" % face["agenda_cause"], ""]
         if face["agenda_cause"] == "calendar":
             lines += ["已判过的候选，一个都没过自己的日历闸：", "",
-                      "| 候选 | 判决 | 未过的检查 | 没测的列 | 收据 |",
-                      "|---|---|---|---|---|"]
+                      "| 候选 | 判决 | 未过的检查 | 没测的列 | 收据 | 被取代的读数 |",
+                      "|---|---|---|---|---|---|"]
             for c in cal.get("candidates") or []:
                 # r1836: "未过的检查" alone reads as "the rest passed". A column
                 # the receipt never measured has its own place on the row.
-                lines.append("| %s | %s | %s | %s | %s |" % (
+                # r1837: nor does "判决" alone mean "the only word the desk
+                # said" -- the merge discarded one reading per overlap, and its
+                # word now stands beside the winner's.
+                lines.append("| %s | %s | %s | %s | %s | %s |" % (
                     c.get("candidate"), c.get("state"),
                     ", ".join(c.get("failing_checks") or []) or "—",
                     ", ".join(c.get("unchecked_checks") or []) or "—",
-                    c.get("receipt")))
+                    c.get("receipt"),
+                    "; ".join(c.get("superseded_words") or []) or "—"))
+            adm = cal.get("superseded_admissions") or []
+            if adm:
+                lines += ["",
+                          "**被弃掉的读数里有 ADMIT**：%s。合并按列序只留第一张收据，"
+                          "上面那句「一个都没过」说的是留下来的那份读数——不是这本书"
+                          "的全部记录。要动它得改合并序或让两张收据一起进审判，"
+                          "本页不替任何一方说话。"
+                          % "、".join("%s 在 %s 读 ADMIT（%s）" % (
+                              a.get("candidate"), a.get("reading"), a.get("receipt"))
+                              for a in adm)]
             lines.append("")
         elif face["agenda_cause"] == "no_topics":
             lines.append("日历面里没有「被判过但被拒」的候选：确实是没人写题（开题）。")
@@ -649,6 +674,52 @@ def _selftest():
           f3["reading"] == READINGS["AGENDA_DEBT"], False)
     check("the calendar sentence also carries the level (r1308)",
           "5,000,000" in f3["reading"], True)
+
+    # (4c) r1837: "every candidate was refused" is a statement about the reading
+    # the merge kept. The live shape is nobond_base -- UNADJUDICABLE_PHASE from
+    # the phase receipt, ADMIT from the year receipt, and the ADMIT was only
+    # ever a path in this layer.
+    DISCARDED = {"verdict": CHECK_WORD, "n_candidates": 2, "n_refused": 2,
+                 "candidates": [
+                     {"candidate": "nobond_base", "state": "UNADJUDICABLE_PHASE",
+                      "failing_checks": ["Y4_top2_share"],
+                      "receipt": "results/phase.json",
+                      "superseded_receipts": [
+                          {"receipt": "results/etf_book_year_gate/YEAR-GATE.json",
+                           "reading": "single_phase", "state": "ADMIT",
+                           "pass": True, "failing_checks": [],
+                           "unchecked_checks": ["C1_capacity"]}]},
+                     {"candidate": "other", "state": "CONDITIONAL",
+                      "failing_checks": ["Y4_top2_share"],
+                      "receipt": "results/x.json", "superseded_receipts": []}],
+                 "superseded_admissions": [
+                     {"candidate": "nobond_base", "reading": "single_phase",
+                      "receipt": "results/etf_book_year_gate/YEAR-GATE.json"}],
+                 "receipts_unreadable": []}
+    f4 = build(pool_ready=0, pool_ids=[], tickets=0, backlog_path=bl,
+               queue_paths=[q], floor=3, calendar=DISCARDED, capacity=cap1)
+    row4 = {c["candidate"]: c for c in f4["calendar"]["candidates"]}
+    check("r1837 the discarded word survives this layer",
+          any(w.startswith("ADMIT") for w in row4["nobond_base"]["superseded_words"]),
+          True)
+    check("r1837 a row with no discarded reading prints none",
+          row4["other"]["superseded_words"], [])
+    check("r1837 the admission list is carried, not re-decided",
+          [a["candidate"] for a in f4["calendar"]["superseded_admissions"]],
+          ["nobond_base"])
+    md4 = os.path.join(d, "cand4.md")
+    write_md(f4, md4)
+    with io.open(md4, encoding="utf-8") as fh:
+        text4 = fh.read()
+    check("r1837 the page prints the discarded reading on its row",
+          "ADMIT [single_phase" in text4, True)
+    check("r1837 the page says the refusal is the kept reading, not the only one",
+          "被弃掉的读数里有 ADMIT" in text4, True)
+    check("r1837 the page still names the winner's word",
+          "UNADJUDICABLE_PHASE" in text4, True)
+    # the verdict has not moved: this is a reporting block
+    check("r1837 the verdict is unchanged by the discarded admission",
+          (f4["verdict"], f4["agenda_cause"]), ("AGENDA_DEBT", "calendar"))
 
     print("selftest %d/%d PASS" % (ok[0], ok[1]))
     return 0 if ok[0] == ok[1] else 1

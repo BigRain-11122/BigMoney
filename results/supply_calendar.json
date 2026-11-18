@@ -40,7 +40,18 @@
    "spread_pp": 10.22,
    "state": "UNADJUDICABLE_PHASE",
    "superseded_receipts": [
-    "results/etf_book_year_gate/YEAR-GATE.json"
+    {
+     "failing_checks": [
+      "Y4_top2_share",
+      "C1_capacity"
+     ],
+     "pass": false,
+     "reading": "single_phase",
+     "receipt": "results/etf_book_year_gate/YEAR-GATE.json",
+     "receipt_asof": "2026-11-17T16:53:31+0800",
+     "state": "CAPACITY_LIMITED",
+     "unchecked_checks": []
+    }
    ],
    "trusted_readings": {
     "effective_years": {
@@ -107,7 +118,17 @@
    "spread_pp": 21.42,
    "state": "UNADJUDICABLE_PHASE",
    "superseded_receipts": [
-    "results/etf_book_year_gate/YEAR-GATE.json"
+    {
+     "failing_checks": [],
+     "pass": true,
+     "reading": "single_phase",
+     "receipt": "results/etf_book_year_gate/YEAR-GATE.json",
+     "receipt_asof": "2026-11-17T16:53:31+0800",
+     "state": "ADMIT",
+     "unchecked_checks": [
+      "C1_capacity"
+     ]
+    }
    ],
    "trusted_readings": {
     "effective_years": {
@@ -233,7 +254,7 @@
  ],
  "elected_ruler": "years_for_half",
  "election_error": "",
- "generated": "2026-11-18T13:26:28+0800",
+ "generated": "2026-11-18T14:04:37+0800",
  "half_year": {
   "book": "nobond_vt08_adopted",
   "book_is_a_candidate": true,
@@ -300,6 +321,45 @@
   ],
   "uncertified": []
  },
+ "superseded_admissions": [
+  {
+   "candidate": "nobond_base",
+   "failing_checks": [],
+   "reading": "single_phase",
+   "receipt": "results/etf_book_year_gate/YEAR-GATE.json",
+   "state": "ADMIT",
+   "unchecked_checks": [
+    "C1_capacity"
+   ]
+  }
+ ],
+ "superseded_readings": [
+  {
+   "candidate": "nobond_vt08_adopted",
+   "failing_checks": [
+    "Y4_top2_share",
+    "C1_capacity"
+   ],
+   "pass": false,
+   "reading": "single_phase",
+   "receipt": "results/etf_book_year_gate/YEAR-GATE.json",
+   "receipt_asof": "2026-11-17T16:53:31+0800",
+   "state": "CAPACITY_LIMITED",
+   "unchecked_checks": []
+  },
+  {
+   "candidate": "nobond_base",
+   "failing_checks": [],
+   "pass": true,
+   "reading": "single_phase",
+   "receipt": "results/etf_book_year_gate/YEAR-GATE.json",
+   "receipt_asof": "2026-11-17T16:53:31+0800",
+   "state": "ADMIT",
+   "unchecked_checks": [
+    "C1_capacity"
+   ]
+  }
+ ],
  "tool": "supply_calendar_face",
  "verdict": "NO_CANDIDATE_PASSES_CALENDAR",
  "window_sensitivity": {
