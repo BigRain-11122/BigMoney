@@ -2,7 +2,7 @@
  "schema": "ceo_live_usage_v1_9",
  "ticket": "T-202609-28-105",
  "day": "2026-11-18",
- "generated": "2026-11-18T07:32:42",
+ "generated": "2026-11-18T07:58:35",
  "market": {
   "state": "RED",
   "asof": "2026-11-17",
@@ -492,7 +492,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 60370.9
+    "last_append_age_min": 60396.8
    },
    {
     "family": "FUND-VALUE-P1",
@@ -500,7 +500,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 61215.4
+    "last_append_age_min": 61241.3
    },
    {
     "family": "FUND-DIVLOWVOL-P1",
@@ -508,7 +508,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 58008.7
+    "last_append_age_min": 58034.6
    }
   ]
  },
@@ -1014,6 +1014,60 @@
    "这里量的是「这张单能不能从这个市场的成交额里过」，不是「下单后价格会被推到哪」：冲击成本是另一条腿（既有回测里按 8bp/边记）",
    "放大倍数 x2.9200 是一个资本比例，不是一张能下的单：整数手与波动目标都可能把它压得更低"
   ]
+ },
+ "etf_punctuality": {
+  "present": true,
+  "verdict": "NOTHING_OWED_TODAY",
+  "best_k": 0,
+  "today_cost_cny": 0.0,
+  "trim_owed": false,
+  "rows": [
+   {
+    "k": 1,
+    "cost_cny": 1807.91,
+    "t": -4.599190382634581,
+    "share_late_helps": 0.4128878281622912,
+    "separable": true
+   },
+   {
+    "k": 2,
+    "cost_cny": 2617.45,
+    "t": -4.811844064273784,
+    "share_late_helps": 0.41866028708133973,
+    "separable": true
+   },
+   {
+    "k": 3,
+    "cost_cny": 2863.6,
+    "t": -4.192936918406691,
+    "share_late_helps": 0.434052757793765,
+    "separable": true
+   },
+   {
+    "k": 5,
+    "cost_cny": 4071.21,
+    "t": -4.29091984158533,
+    "share_late_helps": 0.41445783132530123,
+    "separable": true
+   },
+   {
+    "k": 10,
+    "cost_cny": 4025.16,
+    "t": -2.2053797292433295,
+    "share_late_helps": 0.4433734939759036,
+    "separable": true
+   }
+  ],
+  "one_open_late": {
+   "median_cny": -932.3031683309347,
+   "mean_cny": -1807.9103947888514,
+   "t": -4.599190382634581,
+   "share_late_helps": 0.4128878281622912
+  },
+  "evidence_cutoff": "2026-11-17",
+  "capital_cny": 1000000.0,
+  "sentence": "nothing is owed today (the ticket orders k under its own permission), so the baseline is 'do nothing'. doing it today is the cheapest rung of the ladder (every wait is more expensive); across k=1..10 the waits span +1808 .. +4071 CNY vs today. One open late is worth -932 CNY of NAV on the median sheet with waiting helping on 41% of them (t=-4.60), so the mean is priced but a single sheet is still a coin flip.",
+  "file": "results/etf_book_do_or_wait.json"
  },
  "book_identity": {
   "path_ledger": "results/etf_book_forward/LEDGER.json",

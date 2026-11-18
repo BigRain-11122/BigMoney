@@ -16687,3 +16687,27 @@ AHEAD, and the live page now carries both sentences).
 How: when a face grows an enum member, grep every consumer of that face -- including the
 sentences and the legs that read the sentences, not only the code that assigns the word. A word
 that answers "do they differ" while readers ask "who is behind" is the whole bug.
+
+### E690 · 印了动作、没印时点：读者手里的清单缺的不是读数而是问题（2026-11-18 r1828 bm-c）
+
+CEO 页 ⑥ 段一直印三样东西：今天要动的单（先卖 3 只、再买 5 只）、下一次调度决策（2026-12-09）、
+以及这单装不装得进市场。缺的是读者捧着清单时最自然的那一句——**今天做便宜，还是等两天便宜**。
+仓里早就有答案（`etf_book_do_or_wait.py` 从 r1478–r1481 起把延迟拆成 k 根 bar 的价差，还顺手拒绝了
+「单张纸」这种读法），可它躺在研究件里，页上一个字都没有：**这不是缺一个数，是缺一个问题**
+（r1782/r1388 同族：产品判据落在读者手上那张面）。接线本身不产生新判据，页上印出的是
+等 1 根 bar 贵 ￥1,808、3 根 ￥2,864、5 根 ￥4,071（均值 t −4.60/−4.19/−4.29）。
+
+**正法三件**：①**「欠 0」是一等答案**——判词 NOTHING_OWED_TODAY 不是「读不到」，页上必须照抄并当场
+说清它为什么不是催单（这张单是把账面拉到今天的票面，不是一次到期的调度决策）；把「今天做成本 0」
+和「今天必须做」印成同一句，读者会以为自己被催。②**均值与单次硬币必须并列**——均值 −￥1,808 要很多次
+才兑现，而单张纸里晚一天更好占 41.3%、中位 −￥932；两条印成一条，就是把「多次可兑现」说成「这次会赢」。
+③**数与尺同行**——面里的 `evidence_cutoff` 必须等于票面的 bar，否则整块退化成「不是同一天，今天不印
+这个数」，而不是把上一个 bar 的价当今天的价（E685/r1311 族）。
+
+**How**：一张给动作的页面，逐个动作问「今天做还是等」——若仓里已有该问题的实测，把它接到动作旁边；
+若没有，明写「没量过」，不要让读者自己去研究件里翻。判词为「不该做 / 欠 0」时，页面的责任比判词为
+「该做」时更大：它必须同时解释「不做的基线是什么」，否则会被读成「系统没数」。
+
+正身=`results/etf_book_do_or_wait.json`（evidence_cutoff 2026-11-17）+ CEO 页
+`docs/live_usage/LIVE-2026-11-18.md` ⑥ 段「今天做，还是分开几天做」；接线腿
+`ceo_live_usage.py selftest`（r1828 四条：阶梯印出／单张纸并列／缺面退化成理由／异 bar 拒印）。

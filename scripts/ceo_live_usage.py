@@ -179,6 +179,11 @@ ETF_CAPACITY_REL = "results/etf_book_capacity_edge.json"
 # r1827: the same question asked of THIS ticket's own five names and its own amounts
 ETF_CAPACITY_SIZE_JSON = os.path.join(ROOT, "results", "etf_book_capacity_at_size.json")
 ETF_CAPACITY_SIZE_REL = "results/etf_book_capacity_at_size.json"
+# r1828: the sheet says what to do today but never whether today is the cheap day.
+# results/etf_book_do_or_wait.json has priced that question on the panel (k-bar
+# ladder vs the ticket's own permission); the page quotes it, never recomputes it.
+ETF_DO_OR_WAIT_JSON = os.path.join(ROOT, "results", "etf_book_do_or_wait.json")
+ETF_DO_OR_WAIT_REL = "results/etf_book_do_or_wait.json"
 
 # v2.2 (r1782): the index-futures carry book is the second money candidate, and
 # until now its only sentence on this page was nothing at all -- "this book buys
@@ -1310,6 +1315,63 @@ def _etf_capacity_at_size_face():
     }
 
 
+def _etf_punctuality_face():
+    """r1828: "do it today, or is waiting cheaper" -- printed for the sheet, not a book.
+
+    ⑥ already tells the reader what to do today (the delta) and when the next scheduled
+    decision is.  What it never answered is the question a reader asks while looking at
+    the action lines: *is today the cheap day, or does waiting a few sessions cost less?*
+    `results/etf_book_do_or_wait.json` has priced exactly that on the panel (a k-bar
+    ladder against the ticket's own permission + carry), and r1481 already refused to
+    call a single sheet's coin flip a decision.  Read-only here.
+
+    Three rules, all of them shapes this repo has already been burned by:
+
+    * the face's own verdict is quoted, never upgraded -- and NOTHING_OWED_TODAY is a
+      first-class answer ("nothing is due"), not a missing number (r98 family);
+    * the face's evidence_cutoff must be the ticket's bar, or the block prints the
+      mismatch instead of the cost (E685/r1311: a number and its ruler travel together);
+    * the mean and the single-sheet coin flip are printed side by side and never
+      averaged into one sentence (r1481/E682: the mean is a many-times number).
+    """
+    d = _read_json(ETF_DO_OR_WAIT_JSON)
+    if not d:
+        return {"present": False, "note": "时点面未产出（缺面不读 0）"}
+    dec = d.get("decision") or {}
+    table = dec.get("table") or []
+    if not table:
+        return {"present": False,
+                "note": dec.get("sentence") or "时点面没有阶梯（不冒充测过）"}
+    rows = []
+    for r in table:
+        if r.get("k") in (None, 0):
+            continue
+        rows.append({"k": r.get("k"),
+                     "cost_cny": r.get("cost_cny_vs_today"),
+                     "t": r.get("t"),
+                     "share_late_helps": r.get("share_late_helps"),
+                     "separable": r.get("separable_from_zero")})
+    one = dec.get("one_open_late") or {}
+    return {
+        "present": True,
+        "verdict": dec.get("verdict"),
+        "best_k": dec.get("best_k"),
+        "today_cost_cny": dec.get("today_cost_cny"),
+        "trim_owed": dec.get("trim_owed"),
+        "rows": rows,
+        "one_open_late": {
+            "median_cny": one.get("median_cny"),
+            "mean_cny": one.get("mean_cny"),
+            "t": one.get("t"),
+            "share_late_helps": one.get("share_late_helps"),
+        },
+        "evidence_cutoff": d.get("evidence_cutoff"),
+        "capital_cny": d.get("capital_cny"),
+        "sentence": dec.get("sentence"),
+        "file": ETF_DO_OR_WAIT_REL,
+    }
+
+
 def _etf_order_face():
     """v2.3 (r1784): the executable sheet's own rows, in lots and cash.
 
@@ -1607,6 +1669,7 @@ def build_payload(day: str) -> dict:
         "etf_premium": _etf_premium_face(),
         "etf_capacity": _etf_capacity_face(),
         "etf_capacity_at_size": _etf_capacity_at_size_face(),
+        "etf_punctuality": _etf_punctuality_face(),
         "book_identity": _book_identity_face(),
         "carry_book": _carry_book_face(),
         "carry_timing": _carry_timing_face(),
@@ -2185,6 +2248,66 @@ def render_md(p: dict) -> str:
             L.append("    - 出处：同一张票面里的换仓差量面（`{}`·bar {}）".format(
                 "results/etf_book_order/" + str(eo.get("file")),
                 eod.get("current_bar")))
+        # ---- r1828: the sheet says what to do today and when the next decision is, but
+        # not whether today is the cheap day.  The desk has priced that on the panel
+        # (a k-bar ladder against the ticket's own permission); a reader about to place
+        # five orders should not have to open a research file to learn it.  Quoted, never
+        # recomputed; a face on another bar is refused rather than quoted (E685/r1311).
+        _pw = p.get("etf_punctuality") or {}
+        if not _pw.get("present"):
+            L.append("  - **今天做还是分开几天做**：{}——今天不印数".format(
+                _pw.get("note") or "时点面未产出（缺面不读 0）"))
+        elif (_pw.get("evidence_cutoff") and eo.get("bar")
+              and str(_pw.get("evidence_cutoff"))[:10] != str(eo.get("bar"))[:10]):
+            L.append("  - **今天做还是分开几天做**：时点面量的是 {} 的面板，与这一页"
+                     "票面的 {} 不是同一天——今天不印这个数".format(
+                         str(_pw.get("evidence_cutoff"))[:10],
+                         str(eo.get("bar"))[:10]))
+        else:
+            _prow = {(r.get("k")): r for r in (_pw.get("rows") or [])}
+            _picks = [k for k in (1, 3, 5) if _prow.get(k)]
+            _pbits = []
+            for _k in _picks:
+                _r = _prow[_k]
+                if _r.get("cost_cny") is None:
+                    continue
+                _pbits.append("等 {} 根 bar 贵 ￥{}".format(
+                    _k, _fmt_cny(abs(_r.get("cost_cny")))))
+            _pt = [(_prow[k].get("t")) for k in _picks if _prow[k].get("t") is not None]
+            _psep = all(_prow[k].get("separable") for k in _picks
+                        if _prow[k].get("separable") is not None)
+            if _pbits:
+                L.append("  - **今天做，还是分开几天做**（同一张单自己的时点价·"
+                         "把延迟拆成 k 根 bar 的价差）：{}；今天做的成本记 0。".format(
+                             "、".join(_pbits)))
+                if _pt:
+                    L.append("    - 这三档都以均值读，而且都能与 0 分开（t {}）"
+                             "——「等一等再买」在这本书上有价，不是免费的选择{}。".format(
+                                 " / ".join("{:+.2f}".format(v) for v in _pt),
+                                 "" if _psep else "（但有一档不能与 0 分开，别当三份证据）"))
+            else:
+                L.append("    - 这几档没有读数（不印半个阶梯）。")
+            _verdict = _pw.get("verdict")
+            if _verdict == "NOTHING_OWED_TODAY":
+                L.append("    - 这不是催单：时点面自己的判词是 **NOTHING_OWED_TODAY**"
+                         "（票面按它自己的许可下单·命令欠 0）——这张单是把账面拉到今天"
+                         "的票面，不是一次到期的调度决策；所以「今天做」不欠你什么，"
+                         "贵的是「拖几天做」。")
+            elif _verdict:
+                L.append("    - 时点面自己的判词：**{}**（照抄，不改写）。".format(_verdict))
+            _one = _pw.get("one_open_late") or {}
+            if _one.get("median_cny") is not None:
+                L.append("    - 单张纸仍然是抛硬币：晚一天更好的情况占 {}，中位 {}¥{}"
+                         "（均值 {}¥{}）——均值要很多次才兑现，只做一次不一定。".format(
+                             "{:.1f}%".format(float(_one.get("share_late_helps")) * 100.0)
+                             if _one.get("share_late_helps") is not None else "?",
+                             "-" if _one.get("median_cny") < 0 else "",
+                             _fmt_cny(abs(_one.get("median_cny"))),
+                             "-" if (_one.get("mean_cny") or 0) < 0 else "",
+                             _fmt_cny(abs(_one.get("mean_cny") or 0))))
+            L.append("    - 出处：`{}`（计价截止 {}·与票面 bar 同日）".format(
+                _pw.get("file") or "results/etf_book_do_or_wait.json",
+                str(_pw.get("evidence_cutoff"))[:10]))
         # ---- r1786: the sheet also says when it will change again; a reader who
         # has followed it should not have to guess how long the position stands.
         _nd = eo.get("next_decision_bars")
@@ -3259,6 +3382,37 @@ def selftest() -> int:
                 check("an at-size face on another bar is refused, not quoted (r1827)",
                       "不是同一天" in _mdq
                       and "{:.4f}%".format(_csz1.get("reading_pct")) not in _mdq)
+            # ---- r1828: the timing half.  A reader holding the action lines must be
+            # able to read "today or tomorrow" on the same page, and must not be able to
+            # read a cost that was measured on another bar.
+            _pw1 = p1.get("etf_punctuality") or {}
+            if _pw1.get("present") and _pw1.get("rows"):
+                _k1 = next((r for r in _pw1["rows"] if r.get("k") == 1), {})
+                check("the page prices doing it today vs waiting a bar (r1828)",
+                      "今天做，还是分开几天做" in md1
+                      and _k1.get("cost_cny") is not None
+                      and _fmt_cny(abs(_k1["cost_cny"])) in md1
+                      and str(_pw1.get("verdict") or "?") in md1)
+                _one1 = _pw1.get("one_open_late") or {}
+                check("the single-sheet coin flip is printed beside the mean (r1828)",
+                      _one1.get("share_late_helps") is not None
+                      and "{:.1f}%".format(float(_one1["share_late_helps"]) * 100.0) in md1
+                      and _fmt_cny(abs(_one1.get("median_cny"))) in md1)
+                _degp = json.loads(json.dumps(p1))
+                _degp["etf_punctuality"] = {"present": False,
+                                            "note": "时点面未产出（缺面不读 0）"}
+                _mdp = render_md(_degp)
+                check("a missing timing face prints a reason, never a cost (r1828)",
+                      "今天不印数" in _mdp
+                      and _fmt_cny(abs(_k1["cost_cny"])) not in _mdp)
+                _degpb = json.loads(json.dumps(p1))
+                _pb = dict(_degpb.get("etf_punctuality") or {})
+                _pb["evidence_cutoff"] = "1999-01-01"
+                _degpb["etf_punctuality"] = _pb
+                _mdpb = render_md(_degpb)
+                check("a timing face on another bar is refused, not quoted (r1828)",
+                      "不是同一天" in _mdpb
+                      and _fmt_cny(abs(_k1["cost_cny"])) not in _mdpb)
             _deg8 = json.loads(json.dumps(p1))
             _deg8["etf_capacity"] = {"present": False,
                                      "note": "容量面未产出（缺面不读 0）"}
