@@ -4,12 +4,12 @@ Official reference: last day that must exist by 15:30 = **2026-11-17** (8797 cal
 
 Verdict: **attention** -- 7/15 lanes in sync, 9/15 auditable from this machine, worst = `ths_panel`.
 
-Built on **bm-a** at 2026-11-18T08:14:19: every tail and period below is a reading of that machine's disk. A copy of this file on another machine says nothing about that machine's panels -- run the board there to read its own bytes.
+Built on **bm-a** at 2026-11-18T08:31:17: every tail and period below is a reading of that machine's disk. A copy of this file on another machine says nothing about that machine's panels -- run the board there to read its own bytes.
 
 
 ## Whose disk these numbers are on
 
-以本机 bm-a 的盘为基准：14 条在役车道里有 6 条的数字不在本机盘上：6 条在 bm-c 的盘上（心跳 0.62h 前）；留在本机盘上的 8 条里 8 条可核实。
+以本机 bm-a 的盘为基准：14 条在役车道里有 6 条的数字不在本机盘上：6 条在 bm-c 的盘上（心跳 0.44h 前）；留在本机盘上的 8 条里 8 条可核实。
 
 - `bm-c`: ah_panel, etf_panel, marks, minute_feed, ths_panel, zt_pool
 | lane | host | tail | missing (official days) | verdict | authority |
@@ -51,7 +51,7 @@ Each missing day below is classified by its own collector. `takeover_possible` m
 
 A different question from the section above: these machines have written no heartbeat for more than 24.0h, so the lanes they own are being judged from whatever was last committed. A lane here can still read `in_sync` -- the number is old, the owner is gone, and nobody would notice the day the file stops being written.
 
-- `bm-b`: last seen 2026-10-30T12:43:06+08:00 (451.52h ago) -- owns astock_daily, marks
+- `bm-b`: last seen 2026-10-30T12:43:06+08:00 (451.8h ago) -- owns astock_daily, marks
   - already covered by a declared stand-in: astock_daily <- bm-a, marks <- bm-c (nothing to wait for)
 
 ## Why some lanes cannot be certified here
@@ -97,5 +97,5 @@ A quarterly report period cannot be judged by an official trading day: the unit 
 |---|---|---|---|---|---|---|
 | `fund_statements` | bm-c | 20260630 | 20260930 (due 2026-10-31) | 1 | period_missing | yes |
 
-- `fund_statements`: the statute demanded 20260930 from 2026-10-31; the panel on this disk stops at 20260630 (1 period(s) missing) -- host `bm-c` silent 0.62h
+- `fund_statements`: the statute demanded 20260930 from 2026-10-31; the panel on this disk stops at 20260630 (1 period(s) missing) -- host `bm-c` silent 0.44h
 

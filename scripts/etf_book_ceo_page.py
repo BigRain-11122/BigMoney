@@ -2663,6 +2663,84 @@ CAPEDGE_JSON = os.path.join(ROOT, "results", "etf_book_capacity_edge.json")
 
 CAPT_JSON = os.path.join(ROOT, "results", "etf_book_capacity_ticket.json")
 
+WIDTHFIT_JSON = os.path.join(ROOT, "results", "etf_book_width_fit.json")
+
+
+def width_fit_face(path=WIDTHFIT_JSON):
+    """The lever the two capacity blocks above never price: buy MORE names.
+
+    `capacity_edge` re-measures the same five names and says what fits; `capacity_ticket`
+    asks whether a twelve-name ticket places at the capitals that allows. Neither answers
+    "would six names carry the 1,000,000 the gate refuses", so the reader is left with
+    "shrink it" and no second road. Read-only, one face; absent is "cannot verify".
+    """
+    rel = _rel(path, ROOT).replace(os.sep, "/")
+    if not os.path.exists(path):
+        return {"status": "unreadable", "artifact": rel, "detail": "width fit face absent"}
+    f = _load(path) or {}
+    s = f.get("summary") or {}
+    if not s.get("verdict") or not f.get("rows"):
+        return {"status": "unreadable", "artifact": rel, "detail": "face carries no verdict",
+                "evidence_cutoff": f.get("evidence_cutoff")}
+    return {"status": "ok", "artifact": rel, "verdict": s.get("verdict"),
+            "min_width": s.get("min_width"), "rows": f.get("rows") or [],
+            "sentence": f.get("sentence"), "evidence_cutoff": f.get("evidence_cutoff"),
+            "line_pct": f.get("line_pct"), "caveats": f.get("caveats") or []}
+
+
+def width_fit_block(wf):
+    """Page lines: per-width impact for the same ticket, and the smallest width that fits."""
+    L = []
+    add = L.append
+    wf = wf or {}
+    rowfix = next((r for r in (wf.get("rows") or []) if r.get("n") == 5), None)
+    _bar = str(wf.get("evidence_cutoff") or "")[:10]
+    head = ("## 加一个名字够不够（同一笔单子、宽度 5 名往上；%s 的读数）" % _bar
+            if _bar else "## 加一个名字够不够（同一笔单子、宽度 5 名往上）")
+    if wf.get("status") != "ok":
+        add(head)
+        add("")
+        add("这一节读不到宽度容量面（`%s`）：%s。**缺面不读成「加名字就够了」**。"
+            % (wf.get("artifact") or "results/etf_book_width_fit.json",
+               wf.get("detail") or "无读数"))
+        add("")
+        return L
+    words = {"MIN_WIDTH_THAT_FITS": "有宽度能装下",
+             "NO_WIDTH_FITS": "加名字也装不下",
+             "UNMEASURABLE": "读不到最弱席位"}
+    add(head)
+    add("")
+    add("**%s**" % (wf.get("sentence") or ""))
+    add("")
+    add("- 判词：**%s**（最小可行宽度 %s 名）。闸线 %.2f%% ADV。"
+        % (words.get(wf.get("verdict"), wf.get("verdict") or "读不出"),
+           wf.get("min_width") if wf.get("min_width") is not None else "—",
+           float(wf.get("line_pct") or 0.0)))
+    add("")
+    add("| 宽度 | 每名金额 | 最弱席位 | 单日冲击 | 过 1% 线 | 该宽度当天容量上限 |")
+    add("|---|---|---|---|---|---|")
+    for r in wf.get("rows") or []:
+        _imp = r.get("impact_pct_of_adv")
+        _cap = r.get("capital_at_line_cny")
+        # the width column is written "宽度 N 名" on purpose: a bare "| 5 名" prefix is what
+        # the window-label leg uses to find ITS row, and a second table starting that way
+        # made that leg read this table (r1317 -- a prefix that broad belongs to one face).
+        add("| 宽度 %d 名 | %s | %s | %s | %s | %s |"
+            % (int(r.get("n") or 0),
+               "—" if r.get("per_name_cny") is None else "{:,.0f}".format(r["per_name_cny"]),
+               r.get("adv_weakest_sym") or "—",
+               "—" if _imp is None else "%.4f%%" % _imp,
+               "过" if r.get("fits") is True else ("不过" if r.get("fits") is False else "读不到"),
+               "—" if _cap is None else "{:,.0f} 元".format(_cap)))
+    add("")
+    for c in (wf.get("caveats") or [])[:3]:
+        add("- 限制：%s。" % c.rstrip("."))
+    if rowfix is not None and rowfix.get("fits") is False:
+        add("- 这一行不是「这本书不行」，是「这张 %d 名的票在这一天的成交额上多吃了一点价」——"
+            "上面的表里同一笔钱换一个宽度就落在闸线内。" % int(rowfix.get("n") or 5))
+    add("")
+    return L
+
 
 def capacity_ticket_face(path=CAPT_JSON):
     """The gate priced three capitals. Does the same twelve-name ticket still place at them?
@@ -9571,6 +9649,7 @@ def build(with_stress=False, window_label=None):
     page["alias_stability"] = alias_stability_face()
     page["capacity_edge"] = capacity_edge_face()
     page["capacity_ticket"] = capacity_ticket_face()
+    page["width_fit"] = width_fit_face()
     page["floor_provenance"] = floor_provenance_face()
     page["vol_target_gate"] = vol_target_face()
     page["positions"] = positions_face()
@@ -9940,6 +10019,10 @@ def render_md(p, sb=None):
     # the same twelve names place at the capitals that line allows. Reads the ticket face.
     for _ct_line in capacity_ticket_block(p.get("capacity_ticket") or {}):
         add(_ct_line)
+    # r1317: "shrink the ticket" was the only road the two blocks above offered. Buying
+    # more names is the second road, and it is decidable on the same bar.
+    for _wf_line in width_fit_block(p.get("width_fit") or {}):
+        add(_wf_line)
     for _vl_line in vt_ladder_block(p.get("vt_ladder") or {}):
         add(_vl_line)
     # r1614: right after the ladder, because it is a condition on the ladder's answer --
