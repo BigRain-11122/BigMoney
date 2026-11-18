@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-18T05:04:41",
+ "generated": "2026-11-18T18:19:24",
  "who_pays": "The discount exists because someone with a cash equity book pays it: a hedge that has to be short the future, and the snowball/autocallable desks that buy the index and sell the future to finance the coupon. Neither of them is trying to earn the basis; they are paying it to be somewhere else. An index print and an ETF print both let a reader see that payment -- but only if the ETF print carries the same day-to-day shape, which is what this face measures.",
  "prereg": {
   "noise_max_bp": 10.0,
@@ -15,37 +15,37 @@
    "etf": "sh510300",
    "window": {
     "from": "2017-01-17",
-    "to": "2026-11-17",
-    "days": 2385,
+    "to": "2026-11-18",
+    "days": 2386,
     "anchor": "2017-01-17",
     "anchor_factor": 985.295024
    },
    "splits_repaired": [],
    "splits_note": "as-traded panel re-denominations undone; each one is listed here, none is silent",
-   "tracking_drift_ann_pct": 0.07,
+   "tracking_drift_ann_pct": 0.092,
    "tracking_drift_ann_pct_by_convention": {
-    "mean_of_daily_spreads": 0.07,
-    "median_of_daily_spreads": 1.91,
-    "from_cumulative_ratio": 0.016,
+    "mean_of_daily_spreads": 0.092,
+    "median_of_daily_spreads": 1.921,
+    "from_cumulative_ratio": 0.037,
     "note": "three summaries of one panel; the parent face's C3 control reads the median, a holder experiences the cumulative ratio, and neither may be quoted as if it were the other"
    },
    "tracking_drift_note": "structural wedge between the ETF and the price index; reported, never subtracted from noise",
    "level_offset_pct": 0.247,
    "level_offset_note": "the wedge expressed at the basis' own scale; structural, not signal error",
    "daily_noise_bp": 20.72,
-   "median_abs_daily_noise_bp": 8.47,
-   "corr_daily_basis_change": 0.7376,
+   "median_abs_daily_noise_bp": 8.48,
+   "corr_daily_basis_change": 0.7375,
    "rule": {
     "widest_pct": 20.0,
     "agreement": {
-     "days": 2326,
-     "agree_pct": 67.58,
+     "days": 2327,
+     "agree_pct": 67.55,
      "both_in": 183,
      "index_only": 305,
-     "etf_only": 449
+     "etf_only": 450
     },
     "agreement_detrended": {
-     "days": 2326,
+     "days": 2327,
      "agree_pct": 100.0,
      "both_in": 488,
      "index_only": 0,
@@ -54,8 +54,8 @@
    },
    "basis_range_bp": 736.5,
    "carry": {
-    "index_median_ann_pct": 2.565,
-    "etf_median_ann_pct": 0.352,
+    "index_median_ann_pct": 2.605,
+    "etf_median_ann_pct": 0.345,
     "published_c1_line_pct": 3.0,
     "C1_index": false,
     "C1_etf": false,
@@ -64,8 +64,8 @@
    "verdict": "PROXY_NOT_A_SUBSTITUTE",
    "why": "noise_bp 20.72 > 10.00",
    "latest": {
-    "basis_index_pct": -1.465,
-    "basis_etf_pct": -1.616
+    "basis_index_pct": -1.39,
+    "basis_etf_pct": -1.749
    }
   },
   "IC": {
@@ -137,8 +137,8 @@
    "etf": "sh512100",
    "window": {
     "from": "2022-07-22",
-    "to": "2026-11-17",
-    "days": 1046,
+    "to": "2026-11-18",
+    "days": 1047,
     "anchor": "2022-07-22",
     "anchor_factor": 2476.896524
    },
@@ -149,30 +149,30 @@
     }
    ],
    "splits_note": "as-traded panel re-denominations undone; each one is listed here, none is silent",
-   "tracking_drift_ann_pct": 0.075,
+   "tracking_drift_ann_pct": 0.132,
    "tracking_drift_ann_pct_by_convention": {
-    "mean_of_daily_spreads": 0.075,
-    "median_of_daily_spreads": 0.681,
-    "from_cumulative_ratio": 0.126,
+    "mean_of_daily_spreads": 0.132,
+    "median_of_daily_spreads": 0.782,
+    "from_cumulative_ratio": 0.184,
     "note": "three summaries of one panel; the parent face's C3 control reads the median, a holder experiences the cumulative ratio, and neither may be quoted as if it were the other"
    },
    "tracking_drift_note": "structural wedge between the ETF and the price index; reported, never subtracted from noise",
    "level_offset_pct": 0.301,
    "level_offset_note": "the wedge expressed at the basis' own scale; structural, not signal error",
    "daily_noise_bp": 22.53,
-   "median_abs_daily_noise_bp": 8.86,
-   "corr_daily_basis_change": 0.8795,
+   "median_abs_daily_noise_bp": 8.87,
+   "corr_daily_basis_change": 0.8793,
    "rule": {
     "widest_pct": 20.0,
     "agreement": {
-     "days": 987,
-     "agree_pct": 78.72,
+     "days": 988,
+     "agree_pct": 78.74,
      "both_in": 220,
      "index_only": 57,
      "etf_only": 153
     },
     "agreement_detrended": {
-     "days": 987,
+     "days": 988,
      "agree_pct": 100.0,
      "both_in": 277,
      "index_only": 0,
@@ -181,8 +181,8 @@
    },
    "basis_range_bp": 853.0,
    "carry": {
-    "index_median_ann_pct": 8.907,
-    "etf_median_ann_pct": 6.66,
+    "index_median_ann_pct": 8.968,
+    "etf_median_ann_pct": 6.605,
     "published_c1_line_pct": 3.0,
     "C1_index": true,
     "C1_etf": true,
@@ -191,8 +191,8 @@
    "verdict": "PROXY_NOT_A_SUBSTITUTE",
    "why": "noise_bp 22.53 > 10.00",
    "latest": {
-    "basis_index_pct": -1.139,
-    "basis_etf_pct": -1.671
+    "basis_index_pct": -1.081,
+    "basis_etf_pct": -1.855
    }
   }
  },

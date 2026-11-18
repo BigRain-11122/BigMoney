@@ -1,6 +1,6 @@
 # ETF book -- the sibling premium gap: a price today, or a rule?
 
-session `2026-11-17` | ticket `TICKET-2026-11-16.json` | source `results\etf_book_sibling_entry.json`
+session `2026-11-17` | ticket `TICKET-2026-11-17.json` | source `results\etf_book_sibling_entry.json`
 
 **no pair carries a gap that can be read: 2 pair(s) unverifiable or immaterial**
 

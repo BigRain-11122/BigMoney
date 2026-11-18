@@ -4,15 +4,15 @@ evidence set: `results/**/*.json` (depth <= 2), readable against `scripts/`, `To
 
 | tier | faces | what it means |
 | --- | --- | --- |
-| CODE_MULTI | 638 | >=2 source files name this face |
-| CODE_SINGLE | 808 | exactly one source file names it (producer or lone reader) |
+| CODE_MULTI | 651 | >=2 source files name this face |
+| CODE_SINGLE | 809 | exactly one source file names it (producer or lone reader) |
 | PROSE_ONLY | 58 | only docs/research names it |
 | ORPHAN | 365 | nothing names it (undated only) |
-| DATED_CODE | 345 | dated snapshot, named somewhere |
-| DATED_ORPHAN | 427 | dated snapshot, named nowhere |
-| SCRATCH | 3512 | not a face (receipts / backups / hash scratch) |
+| DATED_CODE | 346 | dated snapshot, named somewhere |
+| DATED_ORPHAN | 428 | dated snapshot, named nowhere |
+| SCRATCH | 3521 | not a face (receipts / backups / hash scratch) |
 
-undated faces: **1869** of 6153 (dated snapshots and scratch excluded from every verdict below)
+undated faces: **1883** of 6178 (dated snapshots and scratch excluded from every verdict below)
 
 ## undated faces nothing names (365)
 
@@ -64,7 +64,7 @@ undated faces: **1869** of 6153 (dated snapshots and scratch excluded from every
 - `results/e39_month_attribution/MONTH-2026-07.json` ← `research/digests/FACESCREEN-20261022.md`
 - `results/etf_grid_candidates/grid_ref.json` ← `research/digests/DIGEST-20261010-e7-etf-grid-candidates.md`
 
-## named by exactly one source file (808, 40 money-ish)
+## named by exactly one source file (809, 40 money-ish)
 
 One file naming a face is not a consumer: it is usually the producer. These are the first place to look when asking "is this number read?"
 
@@ -84,4 +84,4 @@ One file naming a face is not a consumer: it is usually the producer. These are 
 - `results/etf_book_premium_phases.json` ← `scripts/etf_book_premium_phases.py`
 - `results/etf_book_premium_swap.json` ← `scripts/etf_book_premium_swap.py`
 
-`generated` 2026-11-17T22:36:29+08:00 · every count above is a face count, not a read count.
+`generated` 2026-11-18T14:11:56+08:00 · every count above is a face count, not a read count.

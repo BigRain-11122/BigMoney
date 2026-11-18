@@ -1,6 +1,6 @@
 {
  "report_date": "2026-11-18",
- "generated_at": "2026-11-18 14:08:46",
+ "generated_at": "2026-11-18 18:04:20",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -294,13 +294,13 @@
   "md_link": "../live_usage/LIVE-2026-11-18.md"
  },
  "rd": {
-  "commits_24h": 152,
-  "result_jsons_landed_24h": 255,
+  "commits_24h": 151,
+  "result_jsons_landed_24h": 246,
   "digests_landed_24h": 0,
-  "prereg_md_touched_24h": 80,
+  "prereg_md_touched_24h": 81,
   "compute_audit_latest": {
-   "ts": "2026-11-18 14:06:16",
-   "py_cpu_pct": 0.5,
+   "ts": "2026-11-18 18:03:39",
+   "py_cpu_pct": 1.0,
    "flags": [
     "pool_starvation",
     "supply_floor"
@@ -652,10 +652,10 @@
   "total_state_tokens_est": 15889,
   "total_report_tokens_est": 2412106,
   "delta_vs_prev": {
-   "prev_generated": "2026-11-18 01:14:42",
+   "prev_generated": "2026-11-18 04:01:58",
    "state_tokens_growth": 0,
-   "report_tokens_growth": 470,
-   "mandate_growth": 0
+   "report_tokens_growth": 0,
+   "mandate_growth": 131
   },
   "method": {
    "bpe_proxy": 3.5,
@@ -665,29 +665,13 @@
  "utilization": {
   "machines": {
    "bm-a": {
-    "latest_ts": "2026-11-18 12:36:41",
-    "py_pct": 9.9,
-    "cpu_pct": 65.0,
+    "latest_ts": "2026-11-18 18:03:39",
+    "py_pct": 1.0,
+    "cpu_pct": 61.0,
     "ready": 0,
-    "streak_min": 11433.0,
+    "streak_min": 11281.6,
     "verdict": "FLAG:pool_starvation,supply_floor",
     "py_series_tail": [
-     [
-      "19:59",
-      5.1
-     ],
-     [
-      "19:54",
-      5.9
-     ],
-     [
-      "21:37",
-      22.7
-     ],
-     [
-      "21:41",
-      3.9
-     ],
      [
       "23:56",
       5.4
@@ -715,14 +699,34 @@
      [
       "12:36",
       9.9
+     ],
+     [
+      "14:41",
+      3.4
+     ],
+     [
+      "16:17",
+      0.4
+     ],
+     [
+      "16:32",
+      2.1
+     ],
+     [
+      "16:52",
+      10.2
+     ],
+     [
+      "18:03",
+      1.0
      ]
     ],
-    "today_samples": 6,
+    "today_samples": 11,
     "today_floor_ok": 0,
     "today_sla_flags": 0,
     "today_supply_gap_flags": 0,
-    "own_samples": 11,
-    "unattributed_samples": 87,
+    "own_samples": 16,
+    "unattributed_samples": 74,
     "latest_attributed": true,
     "lane_machine": "bm-a",
     "supply_why": {
@@ -737,6 +741,10 @@
        "failing_checks": [
         "Y4_top2_share",
         "C1_capacity"
+       ],
+       "unchecked_checks": null,
+       "superseded_words": [
+        "CAPACITY_LIMITED via Y4_top2_share, C1_capacity [single_phase · results/etf_book_year_gate/YEAR-GATE.json]"
        ]
       },
       {
@@ -747,6 +755,10 @@
         "C1_capacity",
         "Y3_worst_year",
         "Y4_top2_share"
+       ],
+       "unchecked_checks": null,
+       "superseded_words": [
+        "ADMIT [single_phase · results/etf_book_year_gate/YEAR-GATE.json]"
        ]
       },
       {
@@ -756,7 +768,9 @@
        "failing_checks": [
         "C1_capacity",
         "Y4_top2_share"
-       ]
+       ],
+       "unchecked_checks": null,
+       "superseded_words": []
       },
       {
        "candidate": "all_classes_published",
@@ -764,11 +778,35 @@
        "undecidable_because": null,
        "failing_checks": [
         "Y4_top2_share"
-       ]
+       ],
+       "unchecked_checks": [
+        "C1_capacity"
+       ],
+       "superseded_words": []
       }
      ],
      "what_would_move_it": "more years of evidence",
-     "sentence": "4 candidate(s) were judged and none reads ADMIT: 3 cannot be judged because the phase spread is wider than the distance to the line (nobond_vt08_adopted, nobond_base, nobond_vt08_floor_050), 0 because the phases disagree (-)。即使有一个候选过闸，已定价的最高上限 13,794,151 也只有地板的 69.0%（差 6,205,849），该上限出自 priced_envelope_R20",
+     "superseded_words": {
+      "nobond_vt08_adopted": [
+       "CAPACITY_LIMITED via Y4_top2_share, C1_capacity [single_phase · results/etf_book_year_gate/YEAR-GATE.json]"
+      ],
+      "nobond_base": [
+       "ADMIT [single_phase · results/etf_book_year_gate/YEAR-GATE.json]"
+      ]
+     },
+     "superseded_admissions": [
+      {
+       "candidate": "nobond_base",
+       "failing_checks": [],
+       "reading": "single_phase",
+       "receipt": "results/etf_book_year_gate/YEAR-GATE.json",
+       "state": "ADMIT",
+       "unchecked_checks": [
+        "C1_capacity"
+       ]
+      }
+     ],
+     "sentence": "4 candidate(s) in the calendar reading; 3 cannot be judged because the phase spread is wider than the distance to the line (nobond_vt08_adopted, nobond_base, nobond_vt08_floor_050); 1 was judged and none of the kept readings reads ADMIT (all_classes_published: CONDITIONAL via Y4_top2_share); columns nobody measured: all_classes_published: C1_capacity; readings the merge discarded: nobond_vt08_adopted: CAPACITY_LIMITED via Y4_top2_share, C1_capacity [single_phase · results/etf_book_year_gate/YEAR-GATE.json], nobond_base: ADMIT [single_phase · results/etf_book_year_gate/YEAR-GATE.json]。即使有一个候选过闸，已定价的最高上限 13,794,151 也只有地板的 69.0%（差 6,205,849），该上限出自 priced_envelope_R20",
      "capacity_sentence": "即使有一个候选过闸，已定价的最高上限 13,794,151 也只有地板的 69.0%（差 6,205,849），该上限出自 priced_envelope_R20"
     }
    },
@@ -958,7 +996,7 @@
      "readable": true,
      "window_min": 60.0,
      "audit_batches": 0,
-     "audit_ts": "2026-11-18 12:36:41"
+     "audit_ts": "2026-11-18 18:03:39"
     }
    },
    "bm-b": {
@@ -1719,12 +1757,15 @@
   ],
   "aligned": true,
   "freshness": {
-   "status": "current",
-   "expected_last_bar_day": "2026-11-17",
-   "behind_days": 0,
-   "behind": [],
+   "status": "stale",
+   "expected_last_bar_day": "2026-11-18",
+   "behind_days": 1,
+   "behind": [
+    "2026-11-18"
+   ],
    "lane_owner": "bm-c",
-   "read_on": "bm-c"
+   "read_on": "bm-a",
+   "note": "读到的是 2026-11-17 的副本：最后采集日 2026-11-17，比应有最新 bar 日 2026-11-18 落后 1 个交易日（车道宿主 bm-c）"
   },
   "seal_rate": 0.6491,
   "down_over_up": 1.811,
@@ -1816,14 +1857,14 @@
  },
  "lane_authority": {
   "present": true,
-  "as_of": "2026-11-18T10:56:14",
+  "as_of": "2026-11-18T16:52:46",
   "verdict": "attention",
   "observer": "bm-a",
-  "sentence": "以本机 bm-a 的盘为基准：14 条在役车道里有 6 条的数字不在本机盘上：6 条在 bm-c 的盘上（心跳 0.78h 前）；留在本机盘上的 8 条里 8 条可核实。",
+  "sentence": "以本机 bm-a 的盘为基准：14 条在役车道里有 5 条的数字不在本机盘上：5 条在 bm-c 的盘上（2.63h 未报到）；留在本机盘上的 9 条里 9 条可核实。",
   "n_lanes": 14,
-  "n_offhost": 6,
-  "n_here": 8,
-  "n_auditable_here": 8,
+  "n_offhost": 5,
+  "n_here": 9,
+  "n_auditable_here": 9,
   "n_unsigned_here": 0,
   "groups": [
    {
@@ -1831,21 +1872,19 @@
     "lanes": [
      "ah_panel",
      "etf_panel",
-     "marks",
      "minute_feed",
      "ths_panel",
      "zt_pool"
     ],
-    "n": 6,
-    "alive": true,
-    "age_h": 0.78,
-    "last_seen": "2026-11-18T10:09:13+08:00"
+    "n": 5,
+    "alive": false,
+    "age_h": 2.63,
+    "last_seen": "2026-11-18T14:14:56.038867+08:00"
    }
   ],
   "offhost_lanes": [
    "ah_panel",
    "etf_panel",
-   "marks",
    "minute_feed",
    "ths_panel",
    "zt_pool"
@@ -1876,142 +1915,88 @@
   "labels": {
    "ths_panel": "无主封套",
    "sina_mf": "宿主自己写的封套",
-   "marks": "申报接管",
    "lhb_inst": "宿主自己写的封套",
    "ah_panel": "他机本地副本",
    "astock_daily": "申报接管",
    "etf_panel": "他机写的封套",
-   "futures": "宿主自己写的封套",
-   "heat": "宿主自己写的封套",
    "lhb": "宿主自己写的封套",
    "minute_feed": "他机本地副本",
    "moneyflow": "宿主自己写的封套",
-   "repo": "宿主自己写的封套",
-   "zt_pool": "他机本地副本"
+   "zt_pool": "他机本地副本",
+   "futures": "宿主自己写的封套",
+   "heat": "宿主自己写的封套",
+   "marks": "申报接管",
+   "repo": "宿主自己写的封套"
   }
  },
  "lane_window": {
   "present": true,
-  "as_of": "2026-11-18T10:56:14",
+  "as_of": "2026-11-18T16:52:46",
   "n": 1,
   "windows": [
    {
     "lane": "sina_mf",
     "host": "bm-c",
     "tail": "2026-10-26",
-    "days_behind": 16,
+    "days_behind": 17,
     "window_trading_days": 20,
-    "sessions_left": 5,
+    "sessions_left": 4,
     "verdict": "in_sync",
     "basis": "采集器自己的 no-op 规则：只有面板尾部落后超过 20 个交易日才刷新",
     "basis_repeat": false,
-    "sentence": "`sina_mf`：尾部 2026-10-26，落后官方日历 **16** 个交易日，滚动窗 **20** 个交易日 → 还可再走 **5** 个交易日才欠一次刷新（差距超过 20 即读 `stalled`）。依据：采集器自己的 no-op 规则：只有面板尾部落后超过 20 个交易日才刷新"
+    "sentence": "`sina_mf`：尾部 2026-10-26，落后官方日历 **17** 个交易日，滚动窗 **20** 个交易日 → 还可再走 **4** 个交易日才欠一次刷新（差距超过 20 即读 `stalled`）。依据：采集器自己的 no-op 规则：只有面板尾部落后超过 20 个交易日才刷新"
    }
   ]
  },
  "lane_silence": {
   "present": true,
-  "machine": "bm-c",
+  "machine": "bm-a",
   "verdict": "SILENT_GAP",
   "threshold_min": 90,
   "window_days": 3,
-  "median_gap_min": 17.0,
-  "rounds_in_window": 107,
-  "rounds_in_ledger": 1267,
-  "gaps_over_threshold_count": 8,
+  "median_gap_min": 24.6,
+  "rounds_in_window": 35,
+  "rounds_in_ledger": 822,
+  "gaps_over_threshold_count": 2,
   "longest_silence": {
-   "from": "2026-11-16T10:10",
-   "gap_high_min": 870.0,
-   "gap_low_min": 870.0,
+   "from": "2026-11-18T05:35",
+   "gap_high_min": 161.5,
+   "gap_low_min": 161.5,
    "quiet_window_min": 0.0,
-   "to": "2026-11-17T00:40",
-   "unexplained_high_min": 870.0,
-   "unexplained_low_min": 870.0
+   "to": "2026-11-18T08:16",
+   "unexplained_high_min": 161.5,
+   "unexplained_low_min": 161.5
   },
   "open_gap": {
-   "gap_high_min": 65.6,
-   "gap_low_min": 65.6,
-   "quiet_window_min": 0.0,
-   "since": "2026-11-17T23:05",
-   "unexplained_high_min": 65.6,
-   "unexplained_low_min": 65.6
+   "gap_high_min": 66.3,
+   "gap_low_min": 66.3,
+   "quiet_window_min": 66.3,
+   "since": "2026-11-18T15:46",
+   "unexplained_high_min": 0.0,
+   "unexplained_low_min": 0.0
   },
   "gaps_over_threshold": [
    {
-    "from": "2026-11-15T11:00",
-    "gap_high_min": 189.0,
-    "gap_low_min": 171.0,
+    "from": "2026-11-18T02:04",
+    "gap_high_min": 125.0,
+    "gap_low_min": 116.0,
     "quiet_window_min": 0.0,
-    "to": "2026-11-15T14:00",
-    "unexplained_high_min": 189.0,
-    "unexplained_low_min": 171.0
+    "to": "2026-11-18T04:00",
+    "unexplained_high_min": 125.0,
+    "unexplained_low_min": 116.0
    },
    {
-    "from": "2026-11-15T15:00",
-    "gap_high_min": 110.5,
-    "gap_low_min": 110.5,
+    "from": "2026-11-18T05:35",
+    "gap_high_min": 161.5,
+    "gap_low_min": 161.5,
     "quiet_window_min": 0.0,
-    "to": "2026-11-15T16:51",
-    "unexplained_high_min": 110.5,
-    "unexplained_low_min": 110.5
-   },
-   {
-    "from": "2026-11-15T23:00",
-    "gap_high_min": 129.0,
-    "gap_low_min": 111.0,
-    "quiet_window_min": 0.0,
-    "to": "2026-11-16T01:00",
-    "unexplained_high_min": 129.0,
-    "unexplained_low_min": 111.0
-   },
-   {
-    "from": "2026-11-16T10:10",
-    "gap_high_min": 870.0,
-    "gap_low_min": 870.0,
-    "quiet_window_min": 0.0,
-    "to": "2026-11-17T00:40",
-    "unexplained_high_min": 870.0,
-    "unexplained_low_min": 870.0
-   },
-   {
-    "from": "2026-11-17T01:55",
-    "gap_high_min": 141.0,
-    "gap_low_min": 141.0,
-    "quiet_window_min": 0.0,
-    "to": "2026-11-17T04:16",
-    "unexplained_high_min": 141.0,
-    "unexplained_low_min": 141.0
-   },
-   {
-    "from": "2026-11-17T11:31",
-    "gap_high_min": 138.0,
-    "gap_low_min": 138.0,
-    "quiet_window_min": 0.0,
-    "to": "2026-11-17T13:49",
-    "unexplained_high_min": 138.0,
-    "unexplained_low_min": 138.0
-   },
-   {
-    "from": "2026-11-17T14:10",
-    "gap_high_min": 170.0,
-    "gap_low_min": 170.0,
-    "quiet_window_min": 0.0,
-    "to": "2026-11-17T17:00",
-    "unexplained_high_min": 170.0,
-    "unexplained_low_min": 170.0
-   },
-   {
-    "from": "2026-11-17T17:55",
-    "gap_high_min": 140.0,
-    "gap_low_min": 140.0,
-    "quiet_window_min": 0.0,
-    "to": "2026-11-17T20:15",
-    "unexplained_high_min": 140.0,
-    "unexplained_low_min": 140.0
+    "to": "2026-11-18T08:16",
+    "unexplained_high_min": 161.5,
+    "unexplained_low_min": 161.5
    }
   ],
-  "evidence_cutoff": "2026-11-17",
-  "generated": "2026-11-18T00:10:38",
+  "evidence_cutoff": "2026-11-18",
+  "generated": "2026-11-18T16:52:47",
   "silence_verdict": "SILENT_GAP",
   "lane_tasks": {
    "absent": [],
@@ -2022,17 +2007,18 @@
     "healed": [],
     "readback": {}
    },
-   "probeable": 3,
+   "probeable": 4,
    "states": {
     "Bigmoney-IterationLoop": "Running",
     "Bigmoney-LoopWatchdog": "Ready",
-    "Bigmoney-SatEngine-bm-b": "Ready"
+    "Bigmoney-SatEngine-bm-b": "Ready",
+    "HQ-Patrol-BigMoney": "Ready"
    },
    "threshold_min": 90,
    "verdict": "LANE_ENABLED",
    "why": "every probeable lane task is switched on; the silence (if any) is not a switch"
   },
-  "sentence": "bm-c：窗内 107 轮 / 3 天，相邻间隔中位数 17.0 分钟，超过 90 分钟且无解释的空档 8 处；最长静默 2026-11-16T10:10 → 2026-11-17T00:40（870.0–870.0 分钟，其中 0.0 分钟由其申报的静默窗解释）；仍未恢复，自 2026-11-17T23:05 起（未解释 65.6–65.6 分钟）。"
+  "sentence": "bm-a：窗内 35 轮 / 3 天，相邻间隔中位数 24.6 分钟，超过 90 分钟且无解释的空档 2 处；最长静默 2026-11-18T05:35 → 2026-11-18T08:16（161.5–161.5 分钟，其中 0.0 分钟由其申报的静默窗解释）；仍未恢复，自 2026-11-18T15:46 起（未解释 0.0–0.0 分钟）。"
  },
  "cap_vs_book": {
   "status": "ok",
@@ -2165,7 +2151,7 @@
      "universe",
      "window"
     ],
-    "why": "the table's rows are not one ruler: window +4.82pp、universe +0.43pp、ordering -0.51pp per year on the book the operator actually holds. The gap between the top row and the card row is the sum of these dials, not a property of the strategy.",
+    "why": "the table's rows are not one ruler: window +4.78pp、universe +0.43pp、ordering -0.55pp per year on the book the operator actually holds. The gap between the top row and the card row is the sum of these dials, not a property of the strategy.",
     "criteria": "ROWS_NOT_COMPARABLE iff at least one dial moves the held config by >= tol_pp_per_year on at least one window; SAME_RULER if none does. The published gap between row 1 and row 3 is decomposed into these dials, and no dial's price is inferred from another."
    }
   },
@@ -2292,8 +2278,8 @@
     "price": 1.748
    }
   ],
-  "feed_status": "current",
-  "feed_lag_days": 0
+  "feed_status": "stale_feed",
+  "feed_lag_days": 1
  },
  "canon_refs": [
   "T-75 ticket (O-20260926-0940)",

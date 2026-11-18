@@ -1,6 +1,6 @@
 {
  "face": "index_daily_update_status",
- "generated": "2026-11-17T21:47:01",
+ "generated": "2026-11-18T18:12:41",
  "host": "bm-c",
  "machine": "bm-a",
  "codes": [
@@ -9,8 +9,53 @@
   "sh000852",
   "sh000905"
  ],
- "action": "no-op",
- "reason": "lane owned by bm-c (R31); this host only reads",
+ "authority": {
+  "lane_owner": "bm-c",
+  "writer_machine": "bm-a",
+  "data_face_machine": "bm-a",
+  "declared_takeover": true,
+  "took_over_by": "bm-a",
+  "took_over_at": "2026-11-18T18:12:41",
+  "reason": "owner bm-c silent 4.0h >= 120min"
+ },
+ "expected_complete_date": "2026-11-18",
+ "behind": {
+  "sh000016": "2026-11-17",
+  "sh000300": "2026-11-17",
+  "sh000852": "2026-11-17",
+  "sh000905": "2026-11-17"
+ },
+ "last_attempt_epoch": 1794996761,
+ "fetched_rows": {
+  "sh000016": 5555,
+  "sh000300": 6033,
+  "sh000852": 2939,
+  "sh000905": 5312
+ },
+ "appended_rows": {
+  "sh000016": 1,
+  "sh000300": 1,
+  "sh000852": 1,
+  "sh000905": 1
+ },
+ "source_tails": {
+  "sh000016": "2026-11-18",
+  "sh000300": "2026-11-18",
+  "sh000852": "2026-11-18",
+  "sh000905": "2026-11-18"
+ },
+ "source_tails_observed": "2026-11-18",
+ "overlap_mismatch": {},
+ "source_failures": {},
+ "tails": {
+  "sh000016": "2026-11-18",
+  "sh000300": "2026-11-18",
+  "sh000852": "2026-11-18",
+  "sh000905": "2026-11-18"
+ },
+ "panel_cutoff": "2026-11-18",
+ "action": "refreshed",
  "exit": 0,
+ "reason": "appended 4 rows",
  "lane_machine": "bm-a"
 }

@@ -1,5 +1,5 @@
 {
- "as_of": "2026-11-18T03:23:24",
+ "as_of": "2026-11-18T16:52:45",
  "machine": "bm-a",
  "verdict": "sample_understated",
  "thin_tail_share": 0.1,
@@ -8,7 +8,7 @@
   "lanes_reused": 4,
   "files_scanned": 10651,
   "sample_disagreed": 1,
-  "lanes_with_laggards": 2,
+  "lanes_with_laggards": 4,
   "thin_tails": 1
  },
  "lanes": [
@@ -16,14 +16,14 @@
    "lane": "futures",
    "machine": "bm-a",
    "dir": "data/futures_daily",
-   "scanned_at": "2026-11-17T21:37:21",
+   "scanned_at": "2026-11-18T16:32:20",
    "panel_fingerprint": {
     "files": 10,
-    "max_mtime": 1794916609.0,
-    "bytes": 1347784
+    "max_mtime": 1794990018.633,
+    "bytes": 1347991
    },
-   "full_tail": "2026-11-17",
-   "sample_tail": "2026-11-17",
+   "full_tail": "2026-11-18",
+   "sample_tail": "2026-11-18",
    "agree": true,
    "direction": "agree",
    "files": 10,
@@ -31,27 +31,34 @@
    "files_read_by_sample": 10,
    "sample_disclosed": false,
    "unread": 0,
-   "n_laggards": 0,
-   "tail_holders": 10,
-   "tail_holder_share": 1.0,
-   "laggards": [],
+   "n_laggards": 6,
+   "tail_holders": 4,
+   "tail_holder_share": 0.4,
+   "laggards": [
+    "AU.csv",
+    "IC.csv",
+    "IH.csv",
+    "SC.csv",
+    "T.csv",
+    "TF.csv"
+   ],
    "laggards_truncated": false,
    "reused": true,
-   "elapsed_sec": 0.0,
+   "elapsed_sec": 0.01,
    "thin_tail": false
   },
   {
    "lane": "repo",
    "machine": "bm-a",
    "dir": "data/repo_daily",
-   "scanned_at": "2026-11-17T21:37:21",
+   "scanned_at": "2026-11-18T16:52:45",
    "panel_fingerprint": {
     "files": 11,
-    "max_mtime": 1794916824.894,
-    "bytes": 1522128
+    "max_mtime": 1794991290.469,
+    "bytes": 1522449
    },
-   "full_tail": "2026-11-17",
-   "sample_tail": "2026-11-17",
+   "full_tail": "2026-11-18",
+   "sample_tail": "2026-11-18",
    "agree": true,
    "direction": "agree",
    "files": 11,
@@ -59,13 +66,17 @@
    "files_read_by_sample": 11,
    "sample_disclosed": false,
    "unread": 0,
-   "n_laggards": 0,
-   "tail_holders": 11,
-   "tail_holder_share": 1.0,
-   "laggards": [],
+   "n_laggards": 3,
+   "tail_holders": 8,
+   "tail_holder_share": 0.7273,
+   "laggards": [
+    "GC001.csv",
+    "R-001.csv",
+    "R-007.csv"
+   ],
    "laggards_truncated": false,
-   "reused": true,
-   "elapsed_sec": 0.0,
+   "reused": false,
+   "elapsed_sec": 0.03,
    "thin_tail": false
   },
   {
@@ -126,11 +137,11 @@
    "lane": "astock_daily",
    "machine": "bm-a",
    "dir": "data/astock_daily/per",
-   "scanned_at": "2026-11-18T03:23:24",
+   "scanned_at": "2026-11-18T16:17:29",
    "panel_fingerprint": {
     "files": 5222,
-    "max_mtime": 1794940543.277,
-    "bytes": 1235970233
+    "max_mtime": 1794980210.344,
+    "bytes": 1235971038
    },
    "full_tail": "2026-11-17",
    "sample_tail": "2026-11-17",
@@ -141,24 +152,22 @@
    "files_read_by_sample": 40,
    "sample_disclosed": true,
    "unread": 0,
-   "n_laggards": 10,
-   "tail_holders": 5212,
-   "tail_holder_share": 0.9981,
+   "n_laggards": 8,
+   "tail_holders": 5214,
+   "tail_holder_share": 0.9985,
    "laggards": [
     "000635.csv",
     "002717.csv",
     "002731.csv",
     "600185.csv",
-    "600919.csv",
-    "603040.csv",
     "605255.csv",
     "688121.csv",
     "688496.csv",
     "688798.csv"
    ],
    "laggards_truncated": false,
-   "reused": false,
-   "elapsed_sec": 1.64,
+   "reused": true,
+   "elapsed_sec": 3.51,
    "thin_tail": false
   },
   {

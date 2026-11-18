@@ -1,22 +1,24 @@
 # 换票这一节，每个面该停在哪根 bar（r1530）
 
-Every one of the 10 faces in the swap section is on the 2026-11-17 close.
+STALE: 10 of 10 faces are older than the 2026-11-18 close -- worst sibling_entry on 2026-11-17 (1 session(s) behind the 2026-11-18 close). waiting on data/etf_premium/snap/2026-11-18.csv (newest copy here: 2026-11-17, written 2026-11-17T19:04:08; lane owner bm-c writes it; this copy cannot)
 
-- 该到位的 bar：**2026-11-17**（官方交易日历，收盘受理时点 15:30）
-- 判词：**FRESH**（陈旧 0 / 不一致 0）
+- 该到位的 bar：**2026-11-18**（官方交易日历，收盘受理时点 15:30）
+- 判词：**STALE**（陈旧 10 / 不一致 0）
 
 | 面 | bar | 落后（交易日） | 状态 | 原因 | 生产者 |
 |---|---|---|---|---|---|
-| sibling_entry | 2026-11-17 | 0 | FRESH | on the 2026-11-17 close | `scripts/etf_book_sibling_entry.py` |
-| sibling_gap | 2026-11-17 | 0 | FRESH | on the 2026-11-17 close | `scripts/etf_book_sibling_gap.py` |
-| swap_trigger | 2026-11-17 | 0 | FRESH | on the 2026-11-17 close | `scripts/etf_book_swap_trigger.py` |
-| swap_stack | 2026-11-17 | 0 | FRESH | on the 2026-11-17 close | `scripts/etf_book_swap_stack.py` |
-| swap_toll | 2026-11-17 | 0 | FRESH | on the 2026-11-17 close | `scripts/etf_book_swap_toll.py` |
-| toll_scope | 2026-11-17 | 0 | FRESH | on the 2026-11-17 close | `scripts/etf_book_toll_scope.py` |
-| swap_convergence | 2026-11-17 | 0 | FRESH | on the 2026-11-17 close | `scripts/etf_book_swap_convergence.py` |
-| swap_effect | 2026-11-17 | 0 | FRESH | on the 2026-11-17 close | `scripts/etf_book_swap_effect.py` |
-| swap_units | 2026-11-17 | 0 | FRESH | on the 2026-11-17 close | `scripts/etf_book_swap_units.py` |
-| swap_track | 2026-11-17 | 0 | FRESH | on the 2026-11-17 close | `scripts/etf_book_swap_track.py` |
+| sibling_entry | 2026-11-17 | 1 | STALE | 1 session(s) behind the 2026-11-18 close | `scripts/etf_book_sibling_entry.py` |
+| sibling_gap | 2026-11-17 | 1 | STALE | 1 session(s) behind the 2026-11-18 close | `scripts/etf_book_sibling_gap.py` |
+| swap_trigger | 2026-11-17 | 1 | STALE | 1 session(s) behind the 2026-11-18 close | `scripts/etf_book_swap_trigger.py` |
+| swap_stack | 2026-11-17 | 1 | STALE | 1 session(s) behind the 2026-11-18 close | `scripts/etf_book_swap_stack.py` |
+| swap_toll | 2026-11-17 | 1 | STALE | 1 session(s) behind the 2026-11-18 close | `scripts/etf_book_swap_toll.py` |
+| toll_scope | 2026-11-17 | 1 | STALE | 1 session(s) behind the 2026-11-18 close | `scripts/etf_book_toll_scope.py` |
+| swap_convergence | 2026-11-17 | 1 | STALE | 1 session(s) behind the 2026-11-18 close | `scripts/etf_book_swap_convergence.py` |
+| swap_effect | 2026-11-17 | 1 | STALE | 1 session(s) behind the 2026-11-18 close | `scripts/etf_book_swap_effect.py` |
+| swap_units | 2026-11-17 | 1 | STALE | 1 session(s) behind the 2026-11-18 close | `scripts/etf_book_swap_units.py` |
+| swap_track | 2026-11-17 | 1 | STALE | 1 session(s) behind the 2026-11-18 close | `scripts/etf_book_swap_track.py` |
+
+**这三条还在等谁**：waiting on data/etf_premium/snap/2026-11-18.csv (newest copy here: 2026-11-17, written 2026-11-17T19:04:08; lane owner bm-c writes it; this copy cannot)
 
 ## 为什么这张面存在
 

@@ -1,0 +1,440 @@
+{
+ "betas": [
+  0.1,
+  0.2,
+  0.3,
+  0.5
+ ],
+ "book_decided_at": "2026-11-11",
+ "caveats": [
+  "票池=现存 ETF，存在幸存者偏差",
+  "票面按收盘价折算，未计冲击成本与涨跌停",
+  "k 每 20 个交易日重算，段内实际β仍会漂移",
+  "回测列读自 results/etf_book_return_regime.json（observed 档），非本页现算",
+  "最坏窗口=决策日权重摆回整段面板的复利最坏 N 日，现金 0 息，非策略实际路径",
+  "GC001 单期限且滚动假设零费；**「该做梯队」这句话本身有价格**：同一块面板上的三种期限政策都已定价（`etf_book_cash_lock_gap.json`，cutoff 2026-11-13，判 **CALLABLE_LADDER_HOLDS**）——按日历把每一档停到下一个决策日之前（callable）年化 **12.15%**，与隔夜滚动 12.13% 差 +0.02pp；不看日历硬锁 7/14/28 天（locked）只有 **8.98%**，因为 **88.0%** 的买单在钱到期之前就到了（55 次），最坏时现金短 **55.1%**。所以梯队的期限必须跟着调仓日历走。"
+ ],
+ "ceo_page_recon": {
+  "checked": [],
+  "diffs": [
+   "k not reproduced: page 0.43219 vs nearest tier 0.47149 (beta 0.20)"
+  ],
+  "matched_beta": 0.2,
+  "matched_k": 0.47149,
+  "ok": false,
+  "page": "docs\\live_book\\LIVE-BOOK-20261118.json",
+  "page_k": 0.432195
+ },
+ "cost_bp_per_side": 8.0,
+ "evidence_cutoff": "2026-11-18",
+ "menu": [
+  {
+   "beta": 0.1,
+   "k": 0.235745,
+   "published": {
+    "bars": 695,
+    "cagr_pct": 6.98,
+    "cash_share": 0.7819,
+    "last_bar": "2026-11-17",
+    "maxdd_pct": -2.77,
+    "sharpe": 1.889
+   },
+   "stress": {
+    "capital_cny": 1000000.0,
+    "first": "2005-02-23",
+    "last": "2026-11-18",
+    "n_days": 5283,
+    "worst": {
+     "1d": {
+      "cny": -22718.0,
+      "end_date": "2023-10-11",
+      "pct": -2.27
+     },
+     "20d": {
+      "cny": -37007.0,
+      "end_date": "2023-10-23",
+      "pct": -3.7
+     },
+     "5d": {
+      "cny": -24118.0,
+      "end_date": "2023-10-11",
+      "pct": -2.41
+     }
+    }
+   },
+   "ticket": {
+    "basket_drift": [],
+    "beta_k": 0.235745,
+    "beta_k_rule": null,
+    "book_amount": 235360.4,
+    "book_weight": 0.235745,
+    "cash_amount": 764639.6,
+    "cash_leg": "GC001 (1-day repo, observed close)",
+    "cash_weight": 0.764255,
+    "nav": 1000000.0,
+    "order": [
+     {
+      "amount": 47086.1,
+      "class": "equity",
+      "lots": 367,
+      "note": "",
+      "price": 1.283,
+      "shares": 36700,
+      "symbol": "510760",
+      "weight": 0.047149
+     },
+     {
+      "amount": 47081.4,
+      "class": "equity",
+      "lots": 393,
+      "note": "",
+      "price": 1.198,
+      "shares": 39300,
+      "symbol": "512040",
+      "weight": 0.047149
+     },
+     {
+      "amount": 47023.5,
+      "class": "crossborder",
+      "lots": 235,
+      "note": "",
+      "price": 2.001,
+      "shares": 23500,
+      "symbol": "159655",
+      "weight": 0.047149
+     },
+     {
+      "amount": 47124.0,
+      "class": "crossborder",
+      "lots": 408,
+      "note": "",
+      "price": 1.155,
+      "shares": 40800,
+      "symbol": "513690",
+      "weight": 0.047149
+     },
+     {
+      "amount": 47045.4,
+      "class": "crossborder",
+      "lots": 267,
+      "note": "",
+      "price": 1.762,
+      "shares": 26700,
+      "symbol": "159519",
+      "weight": 0.047149
+     }
+    ],
+    "underspend_pct": 0.0385
+   }
+  },
+  {
+   "beta": 0.2,
+   "k": 0.47149,
+   "published": {
+    "bars": 695,
+    "cagr_pct": 12.45,
+    "cash_share": 0.5637,
+    "last_bar": "2026-11-17",
+    "maxdd_pct": -5.78,
+    "sharpe": 1.688
+   },
+   "stress": {
+    "capital_cny": 1000000.0,
+    "first": "2005-02-23",
+    "last": "2026-11-18",
+    "n_days": 5283,
+    "worst": {
+     "1d": {
+      "cny": -45435.0,
+      "end_date": "2023-10-11",
+      "pct": -4.54
+     },
+     "20d": {
+      "cny": -73202.0,
+      "end_date": "2023-10-23",
+      "pct": -7.32
+     },
+     "5d": {
+      "cny": -48170.0,
+      "end_date": "2023-10-11",
+      "pct": -4.82
+     }
+    }
+   },
+   "ticket": {
+    "basket_drift": [],
+    "beta_k": 0.47149,
+    "beta_k_rule": null,
+    "book_amount": 471216.9,
+    "book_weight": 0.47149,
+    "cash_amount": 528783.1,
+    "cash_leg": "GC001 (1-day repo, observed close)",
+    "cash_weight": 0.52851,
+    "nav": 1000000.0,
+    "order": [
+     {
+      "amount": 94172.2,
+      "class": "equity",
+      "lots": 734,
+      "note": "",
+      "price": 1.283,
+      "shares": 73400,
+      "symbol": "510760",
+      "weight": 0.094298
+     },
+     {
+      "amount": 94282.6,
+      "class": "equity",
+      "lots": 787,
+      "note": "",
+      "price": 1.198,
+      "shares": 78700,
+      "symbol": "512040",
+      "weight": 0.094298
+     },
+     {
+      "amount": 94247.1,
+      "class": "crossborder",
+      "lots": 471,
+      "note": "",
+      "price": 2.001,
+      "shares": 47100,
+      "symbol": "159655",
+      "weight": 0.094298
+     },
+     {
+      "amount": 94248.0,
+      "class": "crossborder",
+      "lots": 816,
+      "note": "",
+      "price": 1.155,
+      "shares": 81600,
+      "symbol": "513690",
+      "weight": 0.094298
+     },
+     {
+      "amount": 94267.0,
+      "class": "crossborder",
+      "lots": 535,
+      "note": "",
+      "price": 1.762,
+      "shares": 53500,
+      "symbol": "159519",
+      "weight": 0.094298
+     }
+    ],
+    "underspend_pct": 0.0274
+   }
+  },
+  {
+   "beta": 0.3,
+   "k": 0.707236,
+   "published": {
+    "bars": 695,
+    "cagr_pct": 18.04,
+    "cash_share": 0.3456,
+    "last_bar": "2026-11-17",
+    "maxdd_pct": -8.72,
+    "sharpe": 1.631
+   },
+   "stress": {
+    "capital_cny": 1000000.0,
+    "first": "2005-02-23",
+    "last": "2026-11-18",
+    "n_days": 5283,
+    "worst": {
+     "1d": {
+      "cny": -68153.0,
+      "end_date": "2023-10-11",
+      "pct": -6.82
+     },
+     "20d": {
+      "cny": -108595.0,
+      "end_date": "2023-10-23",
+      "pct": -10.86
+     },
+     "5d": {
+      "cny": -72158.0,
+      "end_date": "2023-10-11",
+      "pct": -7.22
+     }
+    }
+   },
+   "ticket": {
+    "basket_drift": [],
+    "beta_k": 0.707236,
+    "beta_k_rule": null,
+    "book_amount": 706705.6,
+    "book_weight": 0.707236,
+    "cash_amount": 293294.4,
+    "cash_leg": "GC001 (1-day repo, observed close)",
+    "cash_weight": 0.292764,
+    "nav": 1000000.0,
+    "order": [
+     {
+      "amount": 141386.6,
+      "class": "equity",
+      "lots": 1102,
+      "note": "",
+      "price": 1.283,
+      "shares": 110200,
+      "symbol": "510760",
+      "weight": 0.141447
+     },
+     {
+      "amount": 141364.0,
+      "class": "equity",
+      "lots": 1180,
+      "note": "",
+      "price": 1.198,
+      "shares": 118000,
+      "symbol": "512040",
+      "weight": 0.141447
+     },
+     {
+      "amount": 141270.6,
+      "class": "crossborder",
+      "lots": 706,
+      "note": "",
+      "price": 2.001,
+      "shares": 70600,
+      "symbol": "159655",
+      "weight": 0.141447
+     },
+     {
+      "amount": 141372.0,
+      "class": "crossborder",
+      "lots": 1224,
+      "note": "",
+      "price": 1.155,
+      "shares": 122400,
+      "symbol": "513690",
+      "weight": 0.141447
+     },
+     {
+      "amount": 141312.4,
+      "class": "crossborder",
+      "lots": 802,
+      "note": "",
+      "price": 1.762,
+      "shares": 80200,
+      "symbol": "159519",
+      "weight": 0.141447
+     }
+    ],
+    "underspend_pct": 0.053
+   }
+  },
+  {
+   "beta": 0.5,
+   "k": 1.0,
+   "published": {
+    "bars": 695,
+    "cagr_pct": 25.99,
+    "cash_share": 0.0188,
+    "last_bar": "2026-11-17",
+    "maxdd_pct": -14.39,
+    "sharpe": 1.592
+   },
+   "stress": {
+    "capital_cny": 1000000.0,
+    "first": "2005-02-23",
+    "last": "2026-11-18",
+    "n_days": 5283,
+    "worst": {
+     "1d": {
+      "cny": -96365.0,
+      "end_date": "2023-10-11",
+      "pct": -9.64
+     },
+     "20d": {
+      "cny": -151451.0,
+      "end_date": "2023-10-23",
+      "pct": -15.15
+     },
+     "5d": {
+      "cny": -101856.0,
+      "end_date": "2023-10-11",
+      "pct": -10.19
+     }
+    }
+   },
+   "ticket": {
+    "basket_drift": [],
+    "beta_k": 1.0,
+    "beta_k_rule": null,
+    "book_amount": 999655.0,
+    "book_weight": 1.0,
+    "cash_amount": 345.0,
+    "cash_leg": "GC001 (1-day repo, observed close)",
+    "cash_weight": 0.0,
+    "nav": 1000000.0,
+    "order": [
+     {
+      "amount": 199891.4,
+      "class": "equity",
+      "lots": 1558,
+      "note": "",
+      "price": 1.283,
+      "shares": 155800,
+      "symbol": "510760",
+      "weight": 0.2
+     },
+     {
+      "amount": 199946.2,
+      "class": "equity",
+      "lots": 1669,
+      "note": "",
+      "price": 1.198,
+      "shares": 166900,
+      "symbol": "512040",
+      "weight": 0.2
+     },
+     {
+      "amount": 199899.9,
+      "class": "crossborder",
+      "lots": 999,
+      "note": "",
+      "price": 2.001,
+      "shares": 99900,
+      "symbol": "159655",
+      "weight": 0.2
+     },
+     {
+      "amount": 199930.5,
+      "class": "crossborder",
+      "lots": 1731,
+      "note": "",
+      "price": 1.155,
+      "shares": 173100,
+      "symbol": "513690",
+      "weight": 0.2
+     },
+     {
+      "amount": 199987.0,
+      "class": "crossborder",
+      "lots": 1135,
+      "note": "",
+      "price": 1.762,
+      "shares": 113500,
+      "symbol": "159519",
+      "weight": 0.2
+     }
+    ],
+    "underspend_pct": 0.0345
+   }
+  }
+ ],
+ "n_hold": 5,
+ "nav": 1000000.0,
+ "published_found": true,
+ "published_source": "results\\etf_book_return_regime.json",
+ "rebal": 20,
+ "ticket_age": {
+  "decided_at": "2026-11-11",
+  "page_day": "2026-11-18",
+  "rebal_every": 20,
+  "td_gap": 5,
+  "td_to_next_rebalance": 15
+ }
+}

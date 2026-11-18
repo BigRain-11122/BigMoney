@@ -1,7 +1,7 @@
 {
  "kind": "idx_fut_carry_margin",
- "generated": "2026-11-18T03:33:17+0800",
- "evidence_cutoff": "2026-11-17",
+ "generated": "2026-11-18T18:19:10+0800",
+ "evidence_cutoff": "2026-11-18",
  "target_pct": 8.0,
  "margin_rates_swept_pct": [
   10.0,
@@ -25,10 +25,10 @@
    "bar": "2026-11-17",
    "multiplier": 200.0,
    "notional_per_lot_cny": 1238960.0,
-   "per_lot_vol_cny": 89822.6,
-   "vol_ruler_first_rung_cny": 1122782.5,
+   "per_lot_vol_cny": 89673.2496,
+   "vol_ruler_first_rung_cny": 1120915.62,
    "capital_cny": 1000000.0,
-   "breakeven_margin_rate_pct": 90.623,
+   "breakeven_margin_rate_pct": 90.4723,
    "adverse": {
     "n_days": 2301,
     "roll_days_excluded": 83,
@@ -94,16 +94,16 @@
   "IM": {
    "status": "ok",
    "product": "IM",
-   "close": 6023.0,
-   "bar": "2026-11-17",
+   "close": 5987.4,
+   "bar": "2026-11-18",
    "multiplier": 200.0,
-   "notional_per_lot_cny": 1204600.0,
-   "per_lot_vol_cny": 92018.4304,
-   "vol_ruler_first_rung_cny": 1150230.38,
+   "notional_per_lot_cny": 1197480.0,
+   "per_lot_vol_cny": 91874.86,
+   "vol_ruler_first_rung_cny": 1148435.75,
    "capital_cny": 1000000.0,
-   "breakeven_margin_rate_pct": 95.4865,
+   "breakeven_margin_rate_pct": 95.9044,
    "adverse": {
-    "n_days": 1000,
+    "n_days": 1001,
     "roll_days_excluded": 46,
     "worst_close_to_close_pct": -7.4175,
     "worst_close_to_close_date": "2024-01-22",
@@ -113,42 +113,42 @@
    "margin_sweep": {
     "10": {
      "rate_pct": 10.0,
-     "initial_margin_cny": 120460.0,
-     "margin_share_of_capital_pct": 12.046,
-     "free_buffer_cny": 879540.0,
-     "call_trigger_pct": 73.0151,
+     "initial_margin_cny": 119748.0,
+     "margin_share_of_capital_pct": 11.9748,
+     "free_buffer_cny": 880252.0,
+     "call_trigger_pct": 73.5087,
      "called_by_worst_measured_day": false,
-     "capital_the_margin_arm_needs_cny": 234312.77,
+     "capital_the_margin_arm_needs_cny": 232927.82,
      "margin_arm_above_vol_arm": false
     },
     "12": {
      "rate_pct": 12.0,
-     "initial_margin_cny": 144552.0,
-     "margin_share_of_capital_pct": 14.4552,
-     "free_buffer_cny": 855448.0,
-     "call_trigger_pct": 71.0151,
+     "initial_margin_cny": 143697.6,
+     "margin_share_of_capital_pct": 14.3698,
+     "free_buffer_cny": 856302.4,
+     "call_trigger_pct": 71.5087,
      "called_by_worst_measured_day": false,
-     "capital_the_margin_arm_needs_cny": 258404.77,
+     "capital_the_margin_arm_needs_cny": 256877.42,
      "margin_arm_above_vol_arm": false
     },
     "14": {
      "rate_pct": 14.000000000000002,
-     "initial_margin_cny": 168644.0,
-     "margin_share_of_capital_pct": 16.8644,
-     "free_buffer_cny": 831356.0,
-     "call_trigger_pct": 69.0151,
+     "initial_margin_cny": 167647.2,
+     "margin_share_of_capital_pct": 16.7647,
+     "free_buffer_cny": 832352.8,
+     "call_trigger_pct": 69.5087,
      "called_by_worst_measured_day": false,
-     "capital_the_margin_arm_needs_cny": 282496.77,
+     "capital_the_margin_arm_needs_cny": 280827.02,
      "margin_arm_above_vol_arm": false
     },
     "15": {
      "rate_pct": 15.0,
-     "initial_margin_cny": 180690.0,
-     "margin_share_of_capital_pct": 18.069,
-     "free_buffer_cny": 819310.0,
-     "call_trigger_pct": 68.0151,
+     "initial_margin_cny": 179622.0,
+     "margin_share_of_capital_pct": 17.9622,
+     "free_buffer_cny": 820378.0,
+     "call_trigger_pct": 68.5087,
      "called_by_worst_measured_day": false,
-     "capital_the_margin_arm_needs_cny": 294542.77,
+     "capital_the_margin_arm_needs_cny": 292801.82,
      "margin_arm_above_vol_arm": false
     }
    },
@@ -157,28 +157,28 @@
     "published_notional_basis_cny": 5021440.0,
     "published_lots": 4,
     "per_lot_from_published_basis": 1255360.0,
-    "per_lot_from_close_and_multiplier": 1204600.0,
+    "per_lot_from_close_and_multiplier": 1197480.0,
     "implied_level_published": 6276.8,
-    "implied_level_today": 6023.0,
-    "level_gap_pct": -4.0435,
+    "implied_level_today": 5987.4,
+    "level_gap_pct": -4.6106,
     "agree_within_5pct": true
    }
   }
  },
  "verdict": {
   "verdict": "VOL_RULER_IS_THE_GATE",
-  "sentence": "保证金不是门槛：保证金臂要追平波动臂首档，需要初始保证金率到 90.6%、95.5%（IC/IM 各自的临界值），而现实中券商收 12-15%。所以开仓资金线仍由 8% 波动尺决定；保证金只吃掉其中一部分现金，不改变 1 手首档。反过来说——若改用保证金口径，账户能开的杠杆是波动预算的若干倍，风险会失控，这正是不能拿保证金当尺子的原因。",
+  "sentence": "保证金不是门槛：保证金臂要追平波动臂首档，需要初始保证金率到 90.5%、95.9%（IC/IM 各自的临界值），而现实中券商收 12-15%。所以开仓资金线仍由 8% 波动尺决定；保证金只吃掉其中一部分现金，不改变 1 手首档。反过来说——若改用保证金口径，账户能开的杠杆是波动预算的若干倍，风险会失控，这正是不能拿保证金当尺子的原因。",
   "gates": {
    "IC": "VOL_RULER",
    "IM": "VOL_RULER"
   },
   "breakeven_margin_rate_pct": {
-   "IC": 90.623,
-   "IM": 95.4865
+   "IC": 90.4723,
+   "IM": 95.9044
   },
   "ruler_gap_vol_over_margin_at_14pct": {
-   "IC": 3.956,
-   "IM": 4.072
+   "IC": 3.949,
+   "IM": 4.089
   },
   "margin_call_readings_at_14pct": [
    {
@@ -195,10 +195,10 @@
    {
     "product": "IM",
     "rate_pct": 14.000000000000002,
-    "initial_margin_cny": 168644.0,
-    "margin_share_of_capital_pct": 16.8644,
-    "free_buffer_cny": 831356.0,
-    "call_trigger_pct": 69.0151,
+    "initial_margin_cny": 167647.2,
+    "margin_share_of_capital_pct": 16.7647,
+    "free_buffer_cny": 832352.8,
+    "call_trigger_pct": 69.5087,
     "worst_measured_intraday_pct": -9.4515,
     "worst_measured_date": "2024-02-05",
     "called_by_history": false

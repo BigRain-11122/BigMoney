@@ -1423,10 +1423,32 @@ def main() -> int:
             with open(_fut, encoding="utf-8", newline="") as _fh:
                 _rows = [str(r.get("date") or "") for r in _csv.DictReader(_fh)]
             _ftail = _rows[-1] if _rows else ""
-        _behind = {k: v for k, v in _tails.items() if _ftail and v and v < _ftail}
+        # r1328: futures publish their session before the index vendor does, so
+        # "index tail < futures tail" alone calls a healthy panel stale every
+        # evening.  The panel is behind only against a bar its own vendor has
+        # published -- read off today's refresh attempt, never assumed: a
+        # missing/yesterday-stamped reading falls back to the strict test, so a
+        # dead producer cannot use this as an excuse.
+        _src, _obs = {}, ""
+        try:
+            with open(os.path.join(PATHS.root, "results", "index_daily_update_status.json"),
+                      encoding="utf-8") as _fh:
+                _st = json.load(_fh)
+            _obs = str(_st.get("source_tails_observed") or "")
+            if _obs == dt.datetime.now().date().isoformat():
+                _src = _st.get("source_tails") or {}
+        except Exception:
+            _src, _obs = {}, ""
+        _targets = {}
+        for _k, _v in _tails.items():
+            _t = _src.get(_k) or ""
+            _targets[_k] = min(_ftail, _t) if _t else _ftail
+        _behind = {k: v for k, v in _tails.items()
+                   if _ftail and v and v < _targets.get(k, _ftail)}
         check("product: every index panel reaches the futures panel's last bar",
               bool(_tails) and not _behind,
-              f"index tails={_tails} futures tail={_ftail} behind={_behind}")
+              f"index tails={_tails} futures tail={_ftail} behind={_behind} "
+              f"vendor tails={_src or 'unread'}(observed {_obs or 'never'})")
     except Exception as e:
         check("product: every index panel reaches the futures panel's last bar", False, str(e))
     # r1691: the treasury curve verdict (T vs TF, DIRECTION-20261114 section 3) closed a line

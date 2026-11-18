@@ -2,32 +2,32 @@
  "accounts": {
   "IC": {
    "capital_cny": 1000000.0,
-   "drawdown_pct": -12.528,
+   "drawdown_pct": -14.416,
    "entry_fill_assumed_at_close": true,
    "index_anchor": 6465.485,
-   "last_date": "2026-11-16",
+   "last_date": "2026-11-17",
    "lots": 4,
    "multiplier": 200,
    "n_rolls": 0,
-   "nav_cny": 874720.0,
+   "nav_cny": 855840.0,
    "notional_basis_cny": 5100000.0,
    "peak_nav_cny": 1000000.0,
    "product": "IC",
    "replay": {
-    "days": 241,
-    "excess_pct_of_capital": 59.716,
-    "excess_pnl_cny": 597156.18,
-    "index_pnl_cny": -740996.18,
+    "days": 242,
+    "excess_pct_of_capital": 58.947,
+    "excess_pnl_cny": 589468.9,
+    "index_pnl_cny": -752188.9,
     "label": "REPLAY_NOT_FORWARD",
     "max_drawdown_pct": -69.52,
-    "nav_end_cny": 856160.0,
+    "nav_end_cny": 837280.0,
     "nav_start_cny": 1000000.0,
     "note": "history with this position held daily -- a backtest, kept out of the forward series on purpose (see WHY THIS FILE EXISTS)",
-    "total_pct": -14.384,
-    "total_pnl_cny": -143840.0,
+    "total_pct": -16.272,
+    "total_pnl_cny": -162720.0,
     "window": [
      "2025-11-17",
-     "2026-11-16"
+     "2026-11-17"
     ]
    },
    "rows": [
@@ -50,38 +50,50 @@
      "nav_cny": 874720.0,
      "pnl_cny": -125280.0,
      "prev_date": "2026-11-13"
+    },
+    {
+     "close": 6194.8,
+     "contract": "IC2612",
+     "date": "2026-11-17",
+     "event": null,
+     "excess_pnl_cum_cny": -224.58,
+     "index_close": 6283.012,
+     "index_pnl_cum_cny": -143935.42,
+     "nav_cny": 855840.0,
+     "pnl_cny": -18880.0,
+     "prev_date": "2026-11-16"
     }
    ],
    "source_verdict": "SLEEVE_CANDIDATE"
   },
   "IM": {
    "capital_cny": 1000000.0,
-   "drawdown_pct": -13.744,
+   "drawdown_pct": -20.304,
    "entry_fill_assumed_at_close": true,
    "index_anchor": 6357.258,
-   "last_date": "2026-11-16",
+   "last_date": "2026-11-17",
    "lots": 4,
    "multiplier": 200,
    "n_rolls": 0,
-   "nav_cny": 862560.0,
+   "nav_cny": 796960.0,
    "notional_basis_cny": 5021440.0,
    "peak_nav_cny": 1000000.0,
    "product": "IM",
    "replay": {
-    "days": 241,
-    "excess_pct_of_capital": 78.513,
-    "excess_pnl_cny": 785134.23,
-    "index_pnl_cny": -1068174.23,
+    "days": 242,
+    "excess_pct_of_capital": 77.633,
+    "excess_pnl_cny": 776328.31,
+    "index_pnl_cny": -1124968.31,
     "label": "REPLAY_NOT_FORWARD",
-    "max_drawdown_pct": -72.665,
-    "nav_end_cny": 716960.0,
+    "max_drawdown_pct": -74.483,
+    "nav_end_cny": 651360.0,
     "nav_start_cny": 1000000.0,
     "note": "history with this position held daily -- a backtest, kept out of the forward series on purpose (see WHY THIS FILE EXISTS)",
-    "total_pct": -28.304,
-    "total_pnl_cny": -283040.0,
+    "total_pct": -34.864,
+    "total_pnl_cny": -348640.0,
     "window": [
      "2025-11-17",
-     "2026-11-16"
+     "2026-11-17"
     ]
    },
    "rows": [
@@ -104,138 +116,150 @@
      "nav_cny": 862560.0,
      "pnl_cny": -137440.0,
      "prev_date": "2026-11-13"
+    },
+    {
+     "close": 6023.0,
+     "contract": "IM2612",
+     "date": "2026-11-17",
+     "event": null,
+     "excess_pnl_cum_cny": 6168.7,
+     "index_close": 6092.395,
+     "index_pnl_cum_cny": -209208.7,
+     "nav_cny": 796960.0,
+     "pnl_cny": -65600.0,
+     "prev_date": "2026-11-16"
     }
    ],
    "source_verdict": "SLEEVE_CANDIDATE"
   }
  },
- "contract_cutoff": "2026-11-16",
+ "contract_cutoff": "2026-11-17",
  "evidence_cutoff": "2026-11-17",
- "generated": "2026-11-18T00:14:02",
+ "generated": "2026-11-18T16:56:33",
  "kind": "idx_fut_carry_paper",
  "note": "forward lines only; a replay block is published beside each account and never merged into its NAV series",
  "sizing": {
   "IC": {
    "capital_cny": 1000000.0,
-   "days": 241,
+   "days": 242,
    "forced_rolls": 0,
    "hedge": {
     "candidates": [
      {
       "cost_basis": "measured_median",
-      "cost_pp_per_year": 0.558,
+      "cost_pp_per_year": 0.651,
       "hedge_product": "IF"
      },
      {
       "cost_basis": "measured_median",
-      "cost_pp_per_year": 7.733,
+      "cost_pp_per_year": 7.847,
       "hedge_product": "IM"
      }
     ],
     "cheapest": {
      "cost_basis": "measured_median",
-     "cost_pp_per_year": 0.558,
+     "cost_pp_per_year": 0.651,
      "hedge_product": "IF"
     },
     "index_corr_with_long": 0.8864,
     "long_carry_basis": "measured_median",
-    "long_carry_pp": 6.753,
-    "net_carry_after_hedge_pp": 6.195,
+    "long_carry_pp": 6.644,
+    "net_carry_after_hedge_pp": 5.993,
     "status": "ok",
     "verdict": "HEDGE_KEEPS_THE_CARRY"
    },
    "hedged": {
-    "ann_vol_per_lot_cny": 89822.6,
-    "capital_for_one_lot_at_target": 1122782.51,
+    "ann_vol_per_lot_cny": 89673.25,
+    "capital_for_one_lot_at_target": 1120915.58,
     "lots_at_or_below_budget": 0,
-    "lots_float": 0.8906,
-    "vol_pct_of_capital_per_lot": 8.9823
+    "lots_float": 0.8921,
+    "vol_pct_of_capital_per_lot": 8.9673
    },
    "status": "ok",
    "target_pct": 8.0,
    "unhedged": {
-    "ann_vol_per_lot_cny": 450208.26,
-    "capital_for_one_lot_at_target": 5627603.19,
+    "ann_vol_per_lot_cny": 449297.45,
+    "capital_for_one_lot_at_target": 5616218.17,
     "lots_at_or_below_budget": 0,
-    "lots_float": 0.1777,
-    "vol_pct_of_capital_per_lot": 45.0208
+    "lots_float": 0.1781,
+    "vol_pct_of_capital_per_lot": 44.9297
    },
    "window": [
     "2025-11-17",
-    "2026-11-16"
+    "2026-11-17"
    ]
   },
   "IM": {
    "capital_cny": 1000000.0,
-   "days": 241,
+   "days": 242,
    "forced_rolls": 0,
    "hedge": {
     "candidates": [
      {
       "cost_basis": "measured_median",
-      "cost_pp_per_year": 6.753,
+      "cost_pp_per_year": 6.644,
       "hedge_product": "IC"
      },
      {
       "cost_basis": "measured_median",
-      "cost_pp_per_year": 0.558,
+      "cost_pp_per_year": 0.651,
       "hedge_product": "IF"
      }
     ],
     "cheapest": {
      "cost_basis": "measured_median",
-     "cost_pp_per_year": 0.558,
+     "cost_pp_per_year": 0.651,
      "hedge_product": "IF"
     },
     "index_corr_with_long": 0.8343,
     "long_carry_basis": "measured_median",
-    "long_carry_pp": 7.733,
-    "net_carry_after_hedge_pp": 7.175,
+    "long_carry_pp": 7.847,
+    "net_carry_after_hedge_pp": 7.196,
     "status": "ok",
     "verdict": "HEDGE_KEEPS_THE_CARRY"
    },
    "hedged": {
-    "ann_vol_per_lot_cny": 92018.43,
-    "capital_for_one_lot_at_target": 1150230.44,
+    "ann_vol_per_lot_cny": 91874.86,
+    "capital_for_one_lot_at_target": 1148435.71,
     "lots_at_or_below_budget": 0,
-    "lots_float": 0.8694,
-    "vol_pct_of_capital_per_lot": 9.2018
+    "lots_float": 0.8707,
+    "vol_pct_of_capital_per_lot": 9.1875
    },
    "status": "ok",
    "target_pct": 8.0,
    "unhedged": {
-    "ann_vol_per_lot_cny": 430386.64,
-    "capital_for_one_lot_at_target": 5379832.96,
+    "ann_vol_per_lot_cny": 429807.16,
+    "capital_for_one_lot_at_target": 5372589.47,
     "lots_at_or_below_budget": 0,
-    "lots_float": 0.1859,
-    "vol_pct_of_capital_per_lot": 43.0387
+    "lots_float": 0.1861,
+    "vol_pct_of_capital_per_lot": 42.9807
    },
    "window": [
     "2025-11-17",
-    "2026-11-16"
+    "2026-11-17"
    ]
   }
  },
  "source_face": "results/idx_fut_desk_sheet.json",
  "ticket": {
   "IC": {
-   "bar": "2026-11-16",
-   "close": 6218.4,
+   "bar": "2026-11-17",
+   "close": 6194.8,
    "contract": "IC2612",
-   "distance_to_call_pct": 13.15,
+   "distance_to_call_pct": 13.24,
    "lots": 4,
-   "margin_per_lot_cny": 149242.0,
+   "margin_per_lot_cny": 148675.0,
    "multiplier": 200,
    "product": "IC",
    "verdict": "SLEEVE_CANDIDATE"
   },
   "IM": {
-   "bar": "2026-11-16",
-   "close": 6105.0,
+   "bar": "2026-11-17",
+   "close": 6023.0,
    "contract": "IM2612",
-   "distance_to_call_pct": 13.56,
+   "distance_to_call_pct": 13.86,
    "lots": 4,
-   "margin_per_lot_cny": 146520.0,
+   "margin_per_lot_cny": 144552.0,
    "multiplier": 200,
    "product": "IM",
    "verdict": "SLEEVE_CANDIDATE"

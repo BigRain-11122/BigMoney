@@ -4,7 +4,7 @@
    "admissible_lots": 0,
    "budget_cny_at_target": 80000.0,
    "capital_cny": 1000000.0,
-   "capital_gap_to_first_lot_cny": 122782.5,
+   "capital_gap_to_first_lot_cny": 120915.62,
    "capital_rungs": [
     {
      "capital_cny": 1000000.0,
@@ -12,24 +12,24 @@
      "lots": 0
     },
     {
-     "capital_cny": 1122782.5,
-     "capital_multiple_of_book": 1.1228,
+     "capital_cny": 1120915.62,
+     "capital_multiple_of_book": 1.1209,
      "lots": 1
     },
     {
-     "capital_cny": 2245565.0,
-     "capital_multiple_of_book": 2.2456,
+     "capital_cny": 2241831.25,
+     "capital_multiple_of_book": 2.2418,
      "lots": 2
     }
    ],
-   "capital_the_ticket_needs_cny": 4491130.0,
-   "first_executable_capital_cny": 1122782.5,
-   "lots_float": 0.8906,
-   "per_lot_vol_cny_hedged": 89822.6,
+   "capital_the_ticket_needs_cny": 4483662.5,
+   "first_executable_capital_cny": 1120915.62,
+   "lots_float": 0.8921,
+   "per_lot_vol_cny_hedged": 89673.25,
    "roads": {
     "A_keep_target_raise_capital": {
      "adopted": true,
-     "capital_for_one_lot_cny": 1122782.5,
+     "capital_for_one_lot_cny": 1120915.62,
      "lots_at_book_capital": 0,
      "target_pct": 8.0
     },
@@ -37,7 +37,7 @@
      "adopted": false,
      "capital_cny": 1000000.0,
      "lots_at_that_target": 1,
-     "target_for_one_lot_pct": 8.9823
+     "target_for_one_lot_pct": 8.9673
     },
     "C_keep_both_no_trade": {
      "adopted": false,
@@ -51,7 +51,7 @@
    "ticket": {
     "conformance": "OUT_OF_RULER",
     "lots": 4,
-    "multiple_of_budget": 4.4911
+    "multiple_of_budget": 4.4837
    },
    "verdict": "ONE_LOT_IS_NOT_A_SMALL_ALLOCATION"
   },
@@ -59,7 +59,7 @@
    "admissible_lots": 0,
    "budget_cny_at_target": 80000.0,
    "capital_cny": 1000000.0,
-   "capital_gap_to_first_lot_cny": 150230.38,
+   "capital_gap_to_first_lot_cny": 148435.75,
    "capital_rungs": [
     {
      "capital_cny": 1000000.0,
@@ -67,24 +67,24 @@
      "lots": 0
     },
     {
-     "capital_cny": 1150230.38,
-     "capital_multiple_of_book": 1.1502,
+     "capital_cny": 1148435.75,
+     "capital_multiple_of_book": 1.1484,
      "lots": 1
     },
     {
-     "capital_cny": 2300460.75,
-     "capital_multiple_of_book": 2.3005,
+     "capital_cny": 2296871.5,
+     "capital_multiple_of_book": 2.2969,
      "lots": 2
     }
    ],
-   "capital_the_ticket_needs_cny": 4600921.5,
-   "first_executable_capital_cny": 1150230.38,
-   "lots_float": 0.8694,
-   "per_lot_vol_cny_hedged": 92018.43,
+   "capital_the_ticket_needs_cny": 4593743.0,
+   "first_executable_capital_cny": 1148435.75,
+   "lots_float": 0.8707,
+   "per_lot_vol_cny_hedged": 91874.86,
    "roads": {
     "A_keep_target_raise_capital": {
      "adopted": true,
-     "capital_for_one_lot_cny": 1150230.38,
+     "capital_for_one_lot_cny": 1148435.75,
      "lots_at_book_capital": 0,
      "target_pct": 8.0
     },
@@ -92,7 +92,7 @@
      "adopted": false,
      "capital_cny": 1000000.0,
      "lots_at_that_target": 1,
-     "target_for_one_lot_pct": 9.2018
+     "target_for_one_lot_pct": 9.1875
     },
     "C_keep_both_no_trade": {
      "adopted": false,
@@ -106,7 +106,7 @@
    "ticket": {
     "conformance": "OUT_OF_RULER",
     "lots": 4,
-    "multiple_of_budget": 4.6009
+    "multiple_of_budget": 4.5937
    },
    "verdict": "ONE_LOT_IS_NOT_A_SMALL_ALLOCATION"
   }
@@ -127,7 +127,7 @@
  },
  "arm_used_for_decision": "hedged",
  "evidence_cutoff": "2026-11-17",
- "generated": "2026-11-18T00:14:02+08:00",
+ "generated": "2026-11-18T16:56:33+08:00",
  "kind": "idx_fut_carry_sizing_spec",
  "rule": "lots = floor(target_pct/100 * capital / ann_vol_of_one_lot_hedged); one lot needs ann_vol_of_one_lot_hedged / (target_pct/100) CNY of capital",
  "source_face": "results/idx_fut_carry_capital_ladder.json",

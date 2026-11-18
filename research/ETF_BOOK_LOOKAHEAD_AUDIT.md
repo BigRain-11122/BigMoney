@@ -1,6 +1,6 @@
 # The card's headline trades one bar of the future
 
-`2026-11-17T22:06:31+0800` · evidence cutoff **2026-11-17** · 1522 symbols · 5282 bars
+`2026-11-18T17:16:23+0800` · evidence cutoff **2026-11-17** · 1522 symbols · 5282 bars
 
 ## Verdict
 
@@ -40,7 +40,7 @@ Bar level — published vs causal: 1663 overlapping bars, max daily difference 0
 
 ## What is affected
 
-Scripts that price through this ordering (mechanical scan, 94 files):
+Scripts that price through this ordering (mechanical scan, 96 files):
 
 - `scripts/candidate_year_gate_phases.py`
 - `scripts/etf_book_2025_repro.py`
@@ -119,8 +119,10 @@ Scripts that price through this ordering (mechanical scan, 94 files):
 - `scripts/etf_book_vt_phases.py`
 - `scripts/etf_book_weight_scheme.py`
 - `scripts/etf_book_width_cross.py`
+- `scripts/etf_book_width_neighbors.py`
 - `scripts/etf_book_width_null_production.py`
 - `scripts/etf_book_width_positive_control.py`
+- `scripts/etf_book_width_return.py`
 - `scripts/etf_book_window_decomp.py`
 - `scripts/etf_book_window_split.py`
 - `scripts/etf_book_wrapper_year_gate.py`

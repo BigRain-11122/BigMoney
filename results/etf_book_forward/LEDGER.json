@@ -294,7 +294,7 @@
   "provisional_bars": [
    "2026-11-17"
   ],
-  "carry_last_bar": "2026-11-17",
+  "carry_last_bar": "2026-11-18",
   "settled_faces": [],
   "provisional_faces": [],
   "benchmark_settled_faces": [],
@@ -536,14 +536,19 @@
    "open",
    "amount"
   ],
+  "refused_trailing_rows": 1,
+  "refused_last_bar": "2026-11-18",
+  "coverage_floor": 0.5,
+  "reference_coverage": 1629,
   "sibling_faces": {
    "priced_face": "prefixed (sh|sz<code>.csv; _dedupe prefers it)",
    "priced_tail": "2026-11-17",
-   "bare_face_tail": "2026-11-17",
+   "bare_face_tail": "2026-11-18",
    "bare_face_symbols": 49,
-   "wide_face_tail": "2026-11-17",
+   "wide_face_tail": "2026-11-18",
    "wide_face_symbols": 1676,
-   "priced_face_lags_bare_sessions": null
+   "priced_face_lags_bare_sessions": 1,
+   "note": "bare 面 49 只已到 2026-11-18，账本价格面停在 2026-11-17（落后 1 个交易日）：这里的 NO-OP 说的是「价格面没走到下一根 bar」，不是「这一天没有数据」"
   }
  },
  "caveats": [

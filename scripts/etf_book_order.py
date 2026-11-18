@@ -3192,9 +3192,19 @@ def card(ticket, mk, sched, asof, beta, extra):
         # r1296: this sheet sizes 43% of the book and never said under which admission the
         # size is legitimate — the operator had to open a different page to learn whether the
         # capital was cleared at all. Same reader as the card sheet, no second implementation.
-        L += admission_md(admission_read(asof), asof)
+        _adm_face = admission_read(asof)
+        L += admission_md(_adm_face, asof)
         # r1318: and the same capacity question answered on the ranking THIS sheet holds.
-        L += width_capacity_md(extra.get("width_capacity"))
+        # r1790: the admission block above already prints the cost of widening whenever K1
+        # fails, and this block used to print the same sentence again two paragraphs later --
+        # one measurement read as two independent pieces of evidence (r1639's class). The
+        # second copy is dropped when the first one is on the page and nothing needs widening.
+        _adm_priced_widen = bool(
+            (((_adm_face or {}).get("decision_checks") or {}).get("K1_capacity_1pct_adv")
+             is False)
+            or (((_adm_face or {}).get("checks") or {}).get("K1_capacity_1pct_adv") is False))
+        L += width_capacity_md(extra.get("width_capacity"),
+                               cost_already_shown=_adm_priced_widen)
         L += permission_md(extra.get("permission"))
         L += band_md(extra.get("size_band"))
         # r1516: the sheet printed a TARGET and, elsewhere, a CURRENT book. The trades
@@ -5089,25 +5099,35 @@ def width_cost_md(cost):
     return [_line]
 
 
-def width_capacity_md(wc, cost=None):
+def width_capacity_md(wc, cost=None, cost_already_shown=False):
     """Capacity AND its price, side by side: the pair a reader needs to choose a road.
 
     r1323: this printed only the capacity half, so "widen to six" arrived with no price and
     the operator had to open a second page to learn what the sixth name earns or costs.
     `cost` is injectable for the selftest only.
+
+    r1790: `cost_already_shown` says the admission block above already printed this same
+    cost sentence. When it did AND this ticket needs no widening, the price is not reprinted
+    -- two prints of one measurement read as two independent results (r1639's class).
     """
     _base = _width_capacity_base_md(wc)
     if not _base:
         return _base
-    _c = cost if cost is not None else width_return_cost()
-    _out = list(_base) + width_cost_md(_c)
     fw_n = (wc.get("min_width_row") or {}).get("n")
     lw_n = (wc.get("live_width") or {}).get("n")
-    if fw_n is not None and lw_n is not None and int(fw_n) == int(lw_n):
+    _same_width = (fw_n is not None and lw_n is not None and int(fw_n) == int(lw_n))
+    _c = cost if cost is not None else width_return_cost()
+    _skip_cost = bool(cost_already_shown)
+    _out = list(_base) + ([] if _skip_cost else width_cost_md(_c))
+    if _same_width:
         # The ticket's own book already clears the line, so the price above is what the
         # admission section's DENY road would cost -- not something to do today.
-        _out.append("- 口径提醒：本票自己的名册这一天**不需要**加宽（见上句）—— 上面那行是"
-                    "准入节那条 DENY 路的价钱，不是本票今天的动作。")
+        _out.append("- 口径提醒：本票自己的名册这一天**不需要**加宽（见上句）—— " +
+                    ("上面那行是准入节那条 DENY 路的价钱，不是本票今天的动作。"
+                     if not _skip_cost else
+                     "加宽的价钱与出处见上面准入节那句（同一张面、同一口径），此处不重印。"))
+    elif _skip_cost:
+        _out.append("- 加宽的价钱与出处见上面准入节那句（同一张面、同一口径），此处不重印。")
     _needs_widen = (fw_n is not None and lw_n is not None and int(fw_n) != int(lw_n))
     if (_c.get("status") == "ok" and _needs_widen and _c.get("to_n") is not None
             and int(fw_n) != int(_c["to_n"])):
@@ -8691,6 +8711,19 @@ def selftest():
         chk("legAB a ticket that needs no widening says the price above is not its move",
             "不需要" in _wcm6 and "不是本票今天的动作" in _wcm6 and "-1.5000" in _wcm6,
             _wcm6.splitlines()[-1:])
+        # legAD (r1790): when the admission block above already printed the widening cost,
+        # the ticket's own block must not print it a second time -- one measurement on one
+        # page twice reads as two independent pieces of evidence (r1639's class).
+        _wcm7 = "\n".join(width_capacity_md(_wc_fit, cost=width_return_cost(_cf),
+                                           cost_already_shown=True))
+        chk("legAD a cost already printed above is not printed twice on the same page",
+            "-1.5000" not in _wcm7 and "不重印" in _wcm7 and "不需要" in _wcm7,
+            _wcm7.splitlines()[-1:])
+        _wcm8 = "\n".join(width_capacity_md(_wc_wide, cost=width_return_cost(_cf),
+                                           cost_already_shown=True))
+        chk("legAE a ticket that DOES need widening still names the width, and the cost is not reprinted",
+            "-1.5000" not in _wcm8 and "不重印" in _wcm8 and "6 名" in _wcm8,
+            _wcm8.splitlines()[:1])
         # legAC (r1325): a capacity number labelled decision_bar has to read turnover up to
         # that bar. The fixture keeps 20 unchanged bars, then multiplies every later bar by
         # 10 -- a reader that uses the panel tail reports a capacity ten times larger.

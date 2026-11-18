@@ -2,107 +2,107 @@
  "accounts": {
   "IC": {
    "capital_cny": 1000000.0,
-   "days": 241,
+   "days": 242,
    "forced_rolls": 0,
    "hedge": {
     "candidates": [
      {
       "cost_basis": "measured_median",
-      "cost_pp_per_year": 0.558,
+      "cost_pp_per_year": 0.651,
       "hedge_product": "IF"
      },
      {
       "cost_basis": "measured_median",
-      "cost_pp_per_year": 7.733,
+      "cost_pp_per_year": 7.847,
       "hedge_product": "IM"
      }
     ],
     "cheapest": {
      "cost_basis": "measured_median",
-     "cost_pp_per_year": 0.558,
+     "cost_pp_per_year": 0.651,
      "hedge_product": "IF"
     },
     "index_corr_with_long": 0.8864,
     "long_carry_basis": "measured_median",
-    "long_carry_pp": 6.753,
-    "net_carry_after_hedge_pp": 6.195,
+    "long_carry_pp": 6.644,
+    "net_carry_after_hedge_pp": 5.993,
     "status": "ok",
     "verdict": "HEDGE_KEEPS_THE_CARRY"
    },
    "hedged": {
-    "ann_vol_per_lot_cny": 89822.6,
-    "capital_for_one_lot_at_target": 1122782.51,
+    "ann_vol_per_lot_cny": 89673.25,
+    "capital_for_one_lot_at_target": 1120915.58,
     "lots_at_or_below_budget": 0,
-    "lots_float": 0.8906,
-    "vol_pct_of_capital_per_lot": 8.9823
+    "lots_float": 0.8921,
+    "vol_pct_of_capital_per_lot": 8.9673
    },
    "status": "ok",
    "target_pct": 8.0,
    "unhedged": {
-    "ann_vol_per_lot_cny": 450208.26,
-    "capital_for_one_lot_at_target": 5627603.19,
+    "ann_vol_per_lot_cny": 449297.45,
+    "capital_for_one_lot_at_target": 5616218.17,
     "lots_at_or_below_budget": 0,
-    "lots_float": 0.1777,
-    "vol_pct_of_capital_per_lot": 45.0208
+    "lots_float": 0.1781,
+    "vol_pct_of_capital_per_lot": 44.9297
    },
    "window": [
     "2025-11-17",
-    "2026-11-16"
+    "2026-11-17"
    ]
   },
   "IM": {
    "capital_cny": 1000000.0,
-   "days": 241,
+   "days": 242,
    "forced_rolls": 0,
    "hedge": {
     "candidates": [
      {
       "cost_basis": "measured_median",
-      "cost_pp_per_year": 6.753,
+      "cost_pp_per_year": 6.644,
       "hedge_product": "IC"
      },
      {
       "cost_basis": "measured_median",
-      "cost_pp_per_year": 0.558,
+      "cost_pp_per_year": 0.651,
       "hedge_product": "IF"
      }
     ],
     "cheapest": {
      "cost_basis": "measured_median",
-     "cost_pp_per_year": 0.558,
+     "cost_pp_per_year": 0.651,
      "hedge_product": "IF"
     },
     "index_corr_with_long": 0.8343,
     "long_carry_basis": "measured_median",
-    "long_carry_pp": 7.733,
-    "net_carry_after_hedge_pp": 7.175,
+    "long_carry_pp": 7.847,
+    "net_carry_after_hedge_pp": 7.196,
     "status": "ok",
     "verdict": "HEDGE_KEEPS_THE_CARRY"
    },
    "hedged": {
-    "ann_vol_per_lot_cny": 92018.43,
-    "capital_for_one_lot_at_target": 1150230.44,
+    "ann_vol_per_lot_cny": 91874.86,
+    "capital_for_one_lot_at_target": 1148435.71,
     "lots_at_or_below_budget": 0,
-    "lots_float": 0.8694,
-    "vol_pct_of_capital_per_lot": 9.2018
+    "lots_float": 0.8707,
+    "vol_pct_of_capital_per_lot": 9.1875
    },
    "status": "ok",
    "target_pct": 8.0,
    "unhedged": {
-    "ann_vol_per_lot_cny": 430386.64,
-    "capital_for_one_lot_at_target": 5379832.96,
+    "ann_vol_per_lot_cny": 429807.16,
+    "capital_for_one_lot_at_target": 5372589.47,
     "lots_at_or_below_budget": 0,
-    "lots_float": 0.1859,
-    "vol_pct_of_capital_per_lot": 43.0387
+    "lots_float": 0.1861,
+    "vol_pct_of_capital_per_lot": 42.9807
    },
    "window": [
     "2025-11-17",
-    "2026-11-16"
+    "2026-11-17"
    ]
   }
  },
  "evidence_cutoff": "2026-11-17",
- "generated": "2026-11-18T00:14:02",
+ "generated": "2026-11-18T16:56:33",
  "kind": "idx_fut_carry_paper_sizing",
  "note": "the ticket sizes on drawdown survival; this face re-reads the same position under the book's 8% vol target, unhedged and hedged, and prices the hedge",
  "source_face": "results/idx_fut_desk_sheet.json",

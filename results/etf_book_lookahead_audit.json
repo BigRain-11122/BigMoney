@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-17T22:06:31+0800",
+ "generated": "2026-11-18T17:16:23+0800",
  "script": "scripts/etf_book_lookahead_audit.py",
  "criteria": {
   "tol_pp_per_year": 0.25,
@@ -244,8 +244,10 @@
   "scripts/etf_book_vt_phases.py",
   "scripts/etf_book_weight_scheme.py",
   "scripts/etf_book_width_cross.py",
+  "scripts/etf_book_width_neighbors.py",
   "scripts/etf_book_width_null_production.py",
   "scripts/etf_book_width_positive_control.py",
+  "scripts/etf_book_width_return.py",
   "scripts/etf_book_window_decomp.py",
   "scripts/etf_book_window_split.py",
   "scripts/etf_book_wrapper_year_gate.py",
@@ -279,5 +281,5 @@
   "rule": "LOOKAHEAD_PRESENT iff the published engine still takes its signal from bar d (`score.loc[d]`) while paying the book from bar d's open to the next bar's open -- a source pin read at run time -- AND pricing the same rule one bar later costs >= tol_pp_per_year; MECHANISM_ABSENT if the engine no longer reads its own bar (the pin flips, the claim must be re-derived); WITHIN_TOL if the pin holds but the one-bar price is under the line",
   "why": "the published engine ranks on `score.loc[d]` -- built from bar d's own close and amount -- and then earns open[d]->open[d+1]: the book buys at a price that was set before the information it ranks on. Delaying that information one bar costs 0.96 pp/yr, and the whole ladder is monotone in delay (-2:+15.65, -1:+12.43, +0:+9.41, +1:+8.45, +5:+7.73, +20:+5.03)"
  },
- "elapsed_sec": 52.8
+ "elapsed_sec": 46.2
 }

@@ -5,14 +5,15 @@
   "results",
   "docs"
  ],
- "files_scanned": 14150,
- "n_hits": 796,
+ "files_scanned": 14193,
+ "n_hits": 795,
  "counts": {
   "closed-round-evidence": 303,
   "code-string": 44,
   "frozen-evidence": 299,
+  "machine-status": 1,
   "pool-record": 100,
-  "self-census": 50
+  "self-census": 48
  },
  "gated_buckets": [
   "live-face",
@@ -229,6 +230,23 @@
     }
    ]
   },
+  "machine-status": {
+   "n": 1,
+   "files": [
+    "results/etf_wide_update_status.json"
+   ],
+   "sample": [
+    {
+     "file": "results/etf_wide_update_status.json",
+     "json_path": "/quote_face",
+     "key": "quote_face",
+     "kind": "brace-token",
+     "token": "{syms}",
+     "bucket": "machine-status",
+     "text": "https://hq.sinajs.cn/list={syms}"
+    }
+   ]
+  },
   "pool-record": {
    "n": 100,
    "files": [
@@ -286,7 +304,7 @@
    ]
   },
   "self-census": {
-   "n": 50,
+   "n": 48,
    "files": [
     "results/reader_text_audit.json"
    ],

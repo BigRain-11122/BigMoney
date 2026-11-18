@@ -1,16 +1,16 @@
 {
- "as_of": "2026-11-17T22:30:13",
+ "as_of": "2026-11-18T14:06:18",
  "lane_start": "2026-09-24",
  "first_trading_day_seen": "1990-12-19",
- "last_trading_day_seen": "2026-11-17",
- "capture_window_open": false,
+ "last_trading_day_seen": "2026-11-18",
+ "capture_window_open": true,
  "counters": {
-  "trading_days_since_lane_start": 33,
-  "closed_days": 32,
+  "trading_days_since_lane_start": 34,
+  "closed_days": 33,
   "captured": 18,
   "holes": 15,
   "pending": 0,
-  "coverage_pct_closed": 56.25
+  "coverage_pct_closed": 54.55
  },
  "holes": [
   "2026-10-22",
@@ -98,7 +98,7 @@
    "cause": "takeover_possible"
   }
  ],
- "last_captured": "2026-11-12",
+ "last_captured": "2026-11-18",
  "verdict": "holes=15",
  "days": [
   {
@@ -299,16 +299,23 @@
   },
   {
    "date": "2026-11-17",
-   "status": "missing_today",
+   "status": "missing_historical",
    "cause": "takeover_possible"
+  },
+  {
+   "date": "2026-11-18",
+   "status": "captured",
+   "rows": 1,
+   "non_forced": 1,
+   "traders": 0
   }
  ],
  "authority": {
   "lane_owner": "bm-b",
-  "data_face_machine": "bm-c",
-  "writer_machine": "bm-c",
-  "took_over_by": "bm-c",
-  "took_over_at": "2026-11-12T10:43:09",
-  "reason": "owner bm-b silent 310.0h >= 120min"
+  "data_face_machine": "bm-a",
+  "writer_machine": "bm-a",
+  "took_over_by": "bm-a",
+  "took_over_at": "2026-11-18T14:06:17",
+  "reason": "owner bm-b silent 457.4h >= 120min"
  }
 }

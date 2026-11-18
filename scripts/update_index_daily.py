@@ -26,12 +26,18 @@ Rules (update_futures family -- same laws, one implementation style)
   COMPLETE bar date (calendar from update_futures -- the exchange calendar is
   not re-implemented here), nothing is fetched.
 * Throttle: 30 min between attempts; the attempt mirror is written BEFORE the
-  fetch so a crash mid-run still throttles (r18 lesson).
+  fetch so a crash mid-run still throttles (r18 lesson).  ``--force`` bypasses
+  it for a verification run (four requests; same precedent as the minute feed).
 * Shape drift is fail-closed: a source frame that no longer has date/close
   stops the run with exit 3 instead of writing an empty panel.
 * Lane ownership: this face feeds the idx_fut_* family that bm-c builds, so
   bm-c owns it.  Any other machine prints an honest no-op (R31 precedent) --
   a second writer is exactly how two panels drift apart.
+* Stale takeover (r1328): an explicit ``--takeover`` plus an owner heartbeat
+  silent for >= the shared TAKEOVER_STALE_MIN legalises a declared takeover by
+  a healthy machine.  The rule itself is imported from update_etf_daily, never
+  copied.  Without the flag the no-op stands, so a live owner is never raced;
+  the takeover is recorded in the status JSON under ``authority``.
 
 Exit codes: 0 = ok / no-op; 2 = source failure (honest, never masked);
 3 = overlap mismatch or shape drift (local untouched).
@@ -172,14 +178,28 @@ def main(argv=None):
         "machine": mid,
         "codes": codes_on_disk(),
     }
+    status["authority"] = _authority(None, mid)
+    takeover = None
     if mid != LANE_HOST:
-        status.update({"action": "no-op", "reason":
-                       "lane owned by %s (R31); this host only reads"
-                       % LANE_HOST, "exit": 0})
-        _write_status(status)
-        print("index_daily: no-op (lane owned by %s, this host=%s)"
-              % (LANE_HOST, mid))
-        return 0
+        # A dead owner must not freeze the panel every reader divides by; a
+        # live one must not be raced.  Both questions are answered by the
+        # shared takeover gate (single implementation in update_etf_daily).
+        import scripts.update_etf_daily as ETF
+        ok, reason = ETF.takeover_decision("--takeover" in argv,
+                                          ETF._owner_stale_min(LANE_HOST),
+                                          LANE_HOST)
+        if not ok:
+            status.update({"action": "no-op", "reason":
+                           "lane owned by %s (R31); this host only reads | %s"
+                           % (LANE_HOST, reason), "exit": 0})
+            _write_status(status)
+            print("index_daily: no-op (lane owned by %s, this host=%s) | %s"
+                  % (LANE_HOST, mid, reason))
+            return 0
+        takeover = {"by": mid, "ts": now.isoformat(timespec="seconds"),
+                    "reason": reason}
+        print("index_daily: TAKEOVER by %s -- %s" % (mid, reason))
+    status["authority"] = _authority(takeover, mid)
     want = expected_date(now)
     pend = behind(status["codes"], want)
     status["expected_complete_date"] = want
@@ -192,7 +212,7 @@ def main(argv=None):
               % (len(status["codes"]), want))
         return 0
     since = (now.timestamp() - _last_attempt())
-    if since < MIN_ATTEMPT_S:
+    if since < MIN_ATTEMPT_S and "--force" not in argv:
         status.update({"action": "throttled", "exit": 0,
                        "reason": "last attempt %.0fs ago (< %ds)"
                                  % (since, MIN_ATTEMPT_S)})
@@ -204,6 +224,7 @@ def main(argv=None):
     _write_status(status)
 
     fetched, appended, mism, failed = {}, {}, {}, {}
+    src_tails = {}
     for code in sorted(pend):
         try:
             rows = fetch_index(code)
@@ -213,6 +234,9 @@ def main(argv=None):
             time.sleep(SLEEP_S)
             continue
         fetched[code] = len(rows)
+        # the vendor's own last bar: what makes "the panel is behind" readable
+        # as "the vendor has not published it yet" instead of an excuse
+        src_tails[code] = rows[-1]["date"] if rows else ""
         local = read_rows(os.path.join(IDX_DIR, code + ".csv"))
         merged, n_new, bad = merge_rows(local, [(r["date"], r["close"]) for r in rows])
         if bad:
@@ -231,6 +255,8 @@ def main(argv=None):
     status.update({
         "fetched_rows": fetched,
         "appended_rows": appended,
+        "source_tails": src_tails,
+        "source_tails_observed": now.date().isoformat() if src_tails else "",
         "overlap_mismatch": mism,
         "source_failures": failed,
         "tails": tails,
@@ -250,11 +276,24 @@ def main(argv=None):
         return 2
     status.update({"action": "refreshed" if appended else "no-change", "exit": 0,
                    "reason": ("appended %d rows" % sum(appended.values()))
-                             if appended else "source already current"})
+                             if appended else
+                             ("vendor has not published past %s"
+                              % (min(src_tails.values()) if src_tails else "?"))})
     _write_status(status)
     print("index_daily: %s %s -> tails %s"
           % (status["action"], appended or "{}", tails))
     return 2 if failed else 0
+
+
+def _authority(takeover, mid):
+    """Canonical authority envelope (single implementation, r1256/r1257).
+
+    Readers that decide whether a lane's number may be trusted look for
+    ``authority.took_over_by``; a takeover written in any other shape is a
+    declaration nobody can see.
+    """
+    import scripts.update_etf_daily as ETF
+    return ETF.authority_block(takeover, LANE_HOST, mid)
 
 
 def _write_status(status):
@@ -345,6 +384,25 @@ def _selftest():
     chk("L8c a good frame reads through",
         rows_from_frame(_F(["date", "close"], [("2026-11-16", 4016.29)]))
         == [("2026-11-16", 4016.29)])
+
+    # r1328: a dead owner must not freeze the panel every reader divides by,
+    # and a live one must not be raced.  Both answers come from the shared
+    # gate, so these legs ride it instead of restating the threshold.
+    try:
+        import scripts.update_etf_daily as ETF
+        chk("L9 no flag -> no takeover even for a dead owner",
+            not ETF.takeover_decision(False, 999.0, LANE_HOST)[0])
+        okf, why = ETF.takeover_decision(True, 5.0, LANE_HOST)
+        chk("L9b a fresh owner is never raced", not okf and "fresh" in why)
+        chk("L9c a silent owner legalises the declared takeover",
+            ETF.takeover_decision(True, ETF.TAKEOVER_STALE_MIN + 1, LANE_HOST)[0])
+        chk("L9d unreadable heartbeat refuses the takeover",
+            not ETF.takeover_decision(True, None, LANE_HOST)[0])
+        blk = _authority({"by": "bm-a", "ts": "t", "reason": "r"}, "bm-a")
+        chk("L9e the takeover lands where readers look",
+            blk.get("took_over_by") == "bm-a" and blk.get("lane_owner") == LANE_HOST)
+    except Exception:
+        chk("L9 takeover gate rides the single implementation", False)
 
     failed = [n for n, c in ok if not c]
     for n, c in ok:
