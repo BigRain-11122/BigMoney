@@ -16836,3 +16836,25 @@ CEO 页 ⓪ 节用官方交易日历做参照尺，逐面问「欠几个会话�
 正身=scripts/ceo_live_usage.py（owed_firings / _freshness_face(rec=) / _recommendation_face 的
 picks_asof+picks_panel_present + selftest 七条）
 + docs/live_usage/LIVE-2026-11-18.md（⓪ 第 12 行 · L98–L99）。
+
+### E1417 · 引用的那一格会让「三个周期」变成两次实测，而单钟的绿和复现失败的绿长得一模一样（2026-11-18 r1321 bm-a）
+
+「第 6 名在 10/20/40 日都赢」读起来是三次测量。实际是**两次**：20 日那格直接读
+`etf_book_width_return.json` 省算力，于是判词有一部分压在引用上——三个周期里有一个不是它量的。
+同源的两个假绿一并被抓出来：
+
+① **单钟也能印「扛过每一个周期」**。面板不可用时回落成只剩 20 日一格，`judge` 的分支是
+「可读的钟都为真 → SURVIVES_EVERY_CLOCK」，一个钟全真就全绿。正法=**可读钟数 < 2 单独成一个判词**
+（`ONE_CLOCK_IS_NOT_A_SURVIVAL_TEST`），禁与「都赢」共用一句话。
+
+② **复现失败会被平均掉**。共同格对不上已发布面时，若只把它当噪声，两组数相加取中间就是
+「三个钟的中间数」——那是把两张面混成一本书。正法=**未被复现的共同格 = 判词作废**
+（`CLOCKS_DISAGREE_ON_THE_SAME_CELL`），并且复现数字（`max_abs_diff` 对容差）必须印在读者那一页，
+不是脚注：读者要能看见这条判词压在三格实测上。
+
+**How to apply**：任何「跨参数都成立」的判词，先问被跨的每一格是不是本面量的；引用的那一格要么
+当场重算并印出与上游的差，要么判词降级为「引用格 + N 格实测」。任何「单点成立」的判词，先问
+只剩一个点可读时它会不会照样绿。
+
+正身=scripts/etf_book_width_neighbors.py `reproduce`/`judge`（selftest 17/17）+ results/etf_book_width_neighbors.json
+（复现 0.0e+00，容差 1e-09）+ scripts/etf_book_ceo_page.py 复现行 + smoke_test.py r1321 两腿。
