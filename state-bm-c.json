@@ -1020,7 +1020,7 @@
   "ts": "2026-11-18T00:40:11+08:00"
  },
  "round_label": "r1813",
- "round_no": 1832,
+ "round_no": 1833,
  "round_no_label": "r1821",
  "round_no_landed": 1663,
  "round_note": "r1489: a reinstated bar is re-derived from the panel, not carried over (reinstatement_check + reinstatements.json + sheet paragraph)",
@@ -1495,7 +1495,7 @@
  "rounds_note": "round_no/rounds/rounds_done stay in lockstep",
  "s0": "machine.json=bm-c | 111 dirty at open (prior-generation derived faces PLUS another window's in-flight r1760 edits to scripts/etf_book_ceo_page.py + etf_book_order.py, mtimes 08:50) -> directional add only, their two files untouched | ahead=0 behind=0",
  "s05_note": "decisions raw-byte sha256 08c0859e == stored watermark (probe's watermark face timed out at 240s, read directly instead) -> zero decision rows; orders 115 files vs 266 acks, unacked=[]",
- "s05_scan": "Tools/s05_probe.py rc0 orders_delta=false decisions_delta=false unacked=[] -> zero action",
+ "s05_scan": "fleet/orders 115 件 vs 271 回执 stem 归一后未回执=0; fleet/inbox 空 -> 零新令",
  "s05_second_scan": "closeout rescan Tools/s05_probe.py rc0 orders_delta=false decisions_delta=false unacked=[] (zero action); fleet/inbox empty",
  "s0_collision": "no other executor: tree dirty at open with 109 derived faces + 4 rounds of code that never reached origin (r1749 cash caveat / r1760 arm-noise block / r1692 VT escape / r1768 churn face); all committed this round in 4 commits; zero foreign uncommitted work taken",
  "s0_collision_r1770": "no other executor in this repo: round opened with 2 dirty derived faces (both written by the in-flight s6 chain, not by a foreign session); zero foreign uncommitted work taken; the chain itself is bm-c's own prior-round regen and was left running (killing it would have re-burned 263 legs)",
@@ -1504,7 +1504,7 @@
  "s0_collision_r1774": "no other executor: 轮首 13 个 modify 全是本机 r1773 重算链写的派生面（mtime 18:13-18:16），零他窗未提交改动；两条重算链属本机前轮与上一轮遗留，本轮只做定向 add，不吞它们的中间态",
  "s0_collision_r1775": "no foreign executor: the 283 dirty faces at round open were all derived faces written by bm-c own chain (20:11-20:27); 9 of them overlapped bm-a r1296 (6 ticket faces + post_review + attrition scan) and were restored to origin so the host keeps them; the other 276 were committed as round 1774 data and rebased onto origin (15ab9274fd pushed)",
  "s0_note": "machine.json=bm-c | 150 dirty faces at open (dead-window chain output + prior generation derived faces) -> directional add only | ahead=0 behind=1 at open",
- "s0_orphans": "py_faces=6 orphans=0 / resident=0",
+ "s0_orphans": "py_faces=5 orphans=0 resident=0 (orphan_face_probe)",
  "s1_note": "full suite GREEN 602/602 PASS 0 FAIL at 08:28:31 (results/_smoke_r1759.out, 753.6s) covering the r1759 tree, and this round had not edited any module when it closed; the new face stands on its own selftest 24/24 + --check verdict re-derivation",
  "s4u_note": "watchdog S4U flip still pending a one-time elevated re-register (carried, not this round defect)",
  "s6_chain": "Tools/s6_chain_bmc.py 1779 (started 23:37 by a dead session, left running): 241 legs, 3 nonzero -- t35_open_fill_verify=1 (marks permanent hole, known), live_book_day_words=1 and daily_report_day_words=1 (bm-a single-writer today-words family); tail 25 legs were never reached, 24 of them re-run by --only -> 24/24 rc0, the 25th is this round's new leg (rc0)",
@@ -1677,11 +1677,11 @@
  "vram_free_gb": 13.1,
  "vram_total_gb": 16.0,
  "watermark_note": "cpu 25% / py 0.3%, local_batch=true is this round's own smoke suite; board and pool empty; astock_daily refresh lock is bm-b's lane -> honest no-op here",
- "watermark_verdict": "insufficient_history",
+ "watermark_verdict": "green: board/pool 双空, 唯一 work cand = 本窗自己的套件 (local_batch=1), red=false",
  "went_well": "the fix keeps the old states reachable: a card with one unqualified row still takes the position-free path, so no previously published verdict changed meaning",
  "when_well": "the exec panel reused lhb_sellleg verbatim by passing a net-of-cost panel instead of writing a second event study -- the two tables cannot disagree about the quintiles because there is only one implementation",
  "who_did": "bm-c",
- "当前任务": "r1821：把「页落后一代」与「两个数打架」分开——两条连续多轮常红的冒烟腿改由页面自己记的输入代判（_page_generation），并核实三季报 20260930 在本机面板已补齐 87/87 期。",
+ "当前任务": "r1833: 页面上唯一给股票代码的那份推荐名单，终于说出来它已经错过了自己的月首换仓日，而且它在本机算不出来",
  "round_1816": {
   "product": "new face etf_book_capacity_ticket: the capacity gate prices three capitals (best 991,421 / typical 496,476 / worst 340,838) and the ticket is signed at 1,000,000 -- nobody had fed those three through the ticket floor. Verdict TRADABLE_ON_A_TYPICAL_DAY: the best and the typical day each buy one lot of all twelve names (residue 0.1562% / 0.2418% of NAV against the frozen 0.50% line), the worst day buys every name too but strands 0.5583% -- the fault there is the whole-lot residue, not a name that cannot buy. One-lot floor is only 14,876 CNY, so the binding constraint at bad-session capital is rounding, not affordability.",
   "second_fix": "the first sentence printed '0 names cannot buy a single lot' beside 'it does not fit' -- two different failures behind one word. fault_of() now splits unfilled / residual / none and the sentence quotes the percentage and the line for the residual case; a selftest leg pins that a stranded rung is never printed as unbuyable, and the page carries the same block (two page legs).",
@@ -1877,5 +1877,8 @@
   "next": "(a) r1829 leftover: let a suite run is done -- next is the page capacity face at a size the ticket no longer holds (the guard now refuses, but the reader gets no reading at all until run catches up, which is the honest order); (b) a chain leg that would cost 43.6s per round deserves a content gate (same ticket + same panel cutoff = no-op) if the chain grows.",
   "accounting": "round report 1 + state 1 + heartbeat 1 = 3"
  },
- "decisions_watermark_r1830": "group decisions.md raw-blob sha256 ddf2c0c5... unchanged at this window (D-19 MATCH); orders.md unchanged -> zero new decision rows, zero new orders, zero execution action."
+ "decisions_watermark_r1830": "group decisions.md raw-blob sha256 ddf2c0c5... unchanged at this window (D-19 MATCH); orders.md unchanged -> zero new decision rows, zero new orders, zero execution action.",
+ "round_r1833_note": "CEO page: the config-reference list is a MONTHLY sleeve; freshness face now owes firings (not sessions), prints 2026-11-02 as the missed month-start, forbids new positions on it, and says the p1c_local panel is not on this machine (bm-b writes that face). selftest 7 new legs ALL PASS.",
+ "smoke_r1833": "in flight at closeout: python -m smoke_test -> results/_smoke_r1833.log (started 10:50, ~19min); the 10:26 leg (r1832c) closed 685/687 with 2 stale-family reds, both healed in-window (do_or_wait re-derived 13/13, ceo_page selftest 464/464)",
+ "s6_r1833": "pool_dualrun ZERO-DRIFT streak 51/744; compute_audit FLAG pool_starvation+supply_floor (cause=calendar, 4 candidates 0 ADMIT); update_daily rc0 cutoff 2026-11-17"
 }
