@@ -62,7 +62,10 @@ def read_fit(face=FIT_FACE):
         "min_width": s.get("min_width"),
         "capital_cny": s.get("capital_cny"),
         "line_pct": doc.get("line_pct"),
-        "bar": doc.get("evidence_cutoff"),
+        # r1326: the capacity numbers are measured on the ticket's decision bar, which is no
+        # longer the face's evidence_cutoff (that one is the page's bar) -- quote the bar the
+        # numbers actually sit on.
+        "bar": doc.get("decision_bar") or doc.get("evidence_cutoff"),
         "width5": {
             "impact_pct_of_adv": five.get("impact_pct_of_adv"),
             "capital_at_line_cny": five.get("capital_at_line_cny"),
@@ -77,7 +80,9 @@ def engine_curve(n_hold, rebal=REBAL, cost=COST):
     import etf_book_width_fit as W
     import etf_robust_pf as R
 
-    rank_row, amt, last = W.score_row()
+    # r1326: score_row now also returns the bar it used and the panel's last bar; this face
+    # prices full-history engine curves, so it keeps the panel tail for its own label.
+    _rank_row, _amt, last, _panel_last = W.score_row()
     # the engine wants whole panels, not one bar: rebuild through the same two calls
     import etf_composite_pf as E
     import etf_equity_alpha as A

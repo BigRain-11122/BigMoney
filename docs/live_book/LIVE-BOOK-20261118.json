@@ -4710,7 +4710,7 @@
    "turnover_arm": 0.9457,
    "turnover_declared": 0.959
   },
-  "elapsed_sec": 81.5,
+  "elapsed_sec": 41.7,
   "evidence_cutoff": "2026-11-17",
   "gross_rows": [
    {
@@ -5087,7 +5087,7 @@
    }
   ],
   "script": "scripts\\etf_book_causal_rebuild.py",
-  "ts": "2026-11-18T00:30:58+0800",
+  "ts": "2026-11-18T13:44:36+0800",
   "verdict": {
    "admissible_arms": [],
    "arms": [
@@ -5665,14 +5665,79 @@
   }
  },
  "live_quote": {
-  "status": "panel_current",
+  "status": "ok",
+  "artifact": "results\\etf_book_live_quote\\QUOTE-2026-11-18.json",
+  "verdict": "QUOTE_AHEAD",
   "panel_bar": "2026-11-17",
-  "expected": "2026-11-17",
-  "writer": "quote_face",
-  "quote_symbols": 48,
-  "snapshot_as_of": "2026-11-17",
-  "upstream": "results\\update_status.json",
-  "artifact": "results\\etf_book_live_quote\\latest.json"
+  "quote_bar": "2026-11-18",
+  "quote_time": "14:01:29",
+  "lag_trading_days": 1,
+  "n_held": 5,
+  "n_joined": 5,
+  "mismatch_share": 0.0,
+  "mismatch_share_max": 0.2,
+  "book_weight": 0.432195,
+  "cash_weight": 0.567805,
+  "held_leg_return": -0.0008033695270644342,
+  "book_change": -0.00034721229274961313,
+  "ticket_priced_bar": "2026-11-17",
+  "rows": [
+   {
+    "symbol": "510760",
+    "weight": 0.086439,
+    "panel_bar": "2026-11-17",
+    "panel_close": 1.246,
+    "quote_date": "2026-11-18",
+    "quote_prev_close": 1.246,
+    "quote_last": 1.248,
+    "joined": true,
+    "ret": 0.0016051364365972098
+   },
+   {
+    "symbol": "512040",
+    "weight": 0.086439,
+    "panel_bar": "2026-11-17",
+    "panel_close": 1.207,
+    "quote_date": "2026-11-18",
+    "quote_prev_close": 1.207,
+    "quote_last": 1.2,
+    "joined": true,
+    "ret": -0.0057995028997515075
+   },
+   {
+    "symbol": "159655",
+    "weight": 0.086439,
+    "panel_bar": "2026-11-17",
+    "panel_close": 1.937,
+    "quote_date": "2026-11-18",
+    "quote_prev_close": 1.937,
+    "quote_last": 1.941,
+    "joined": true,
+    "ret": 0.0020650490449147796
+   },
+   {
+    "symbol": "513690",
+    "weight": 0.086439,
+    "panel_bar": "2026-11-17",
+    "panel_close": 1.147,
+    "quote_date": "2026-11-18",
+    "quote_prev_close": 1.147,
+    "quote_last": 1.146,
+    "joined": true,
+    "ret": -0.0008718395815171531
+   },
+   {
+    "symbol": "159519",
+    "weight": 0.086439,
+    "panel_bar": "2026-11-17",
+    "panel_close": 1.748,
+    "quote_date": "2026-11-18",
+    "quote_prev_close": 1.748,
+    "quote_last": 1.737,
+    "joined": true,
+    "ret": -0.0062929061784896545
+   }
+  ]
  },
  "sellability": {
   "status": "ok",
@@ -6068,7 +6133,7 @@
    "up_quantile": 0.8,
    "verdict_rule": "ADOPT_GAP iff some gap arm beats `declared` on CAGR by >= gap_min_pp AND its Sharpe is >= this run's `declared` Sharpe AND its max drawdown is no deeper than declared - dd_tol_pp AND it beats declared on CAGR in >= phase_share_min of the phases; MIXED_ACROSS_PHASES if the return line is cleared but the phase share is not (or the reverse); NO_GAP_EDGE otherwise -- the gap stays information"
   },
-  "elapsed_sec": 81.8,
+  "elapsed_sec": 40.6,
   "evidence_cutoff": "2026-11-17",
   "gap_stats": {
    "entry_bars": 84,
@@ -6427,7 +6492,7 @@
    }
   ],
   "script": "scripts\\etf_book_overnight_gap.py",
-  "ts": "2026-11-18T00:32:21+0800",
+  "ts": "2026-11-18T13:45:18+0800",
   "verdict": {
    "admissible_arms": [],
    "arms": [
@@ -6541,8 +6606,8 @@
   "k_schedule_last": 0.460253,
   "consistency": {
    "generated": {
-    "permission": "2026-11-18T01:11:48+0800",
-    "gap": "2026-11-18T05:31:59+0800",
+    "permission": "2026-11-18T14:04:13+0800",
+    "gap": "2026-11-18T14:04:15+0800",
     "ledger": "2026-11-13T20:58:31+0800"
    },
    "permission_vs_gap": true,
@@ -6886,30 +6951,30 @@
   "rows": [
    {
     "symbol": "510760",
-    "bucket": "BOTTOM",
-    "latest_pctile": 0.5344021376085505,
-    "mean_pct": 0.9739309177408781,
-    "n": 134,
-    "t": 2.48618543532154,
+    "bucket": "LOW",
+    "latest_pctile": 15.6312625250501,
+    "mean_pct": 0.5223345213939685,
+    "n": 262,
+    "t": 1.9314301221169548,
     "nonoverlap_obs": 71,
     "amount_cny": 86347.8,
-    "same_bucket_move_cny": 840.967920989058
+    "same_bucket_move_cny": 451.0243678642211
    },
    {
     "symbol": "512040",
-    "bucket": "UPPER",
-    "latest_pctile": 78.91976927110645,
-    "mean_pct": 0.3459749989108973,
-    "n": 394,
-    "t": 0.9685142995814702,
+    "bucket": "MID",
+    "latest_pctile": 63.188253801782906,
+    "mean_pct": 0.1136316784152153,
+    "n": 770,
+    "t": 0.38385105751885035,
     "nonoverlap_obs": 92,
     "amount_cny": 86421.2,
-    "same_bucket_move_cny": 298.9957457587844
+    "same_bucket_move_cny": 98.20186006657005
    },
    {
     "symbol": "159655",
     "bucket": "UPPER",
-    "latest_pctile": 82.74111675126903,
+    "latest_pctile": 87.10659898477158,
     "mean_pct": 1.3009600310549645,
     "n": 263,
     "t": 4.358136164408279,
@@ -6920,7 +6985,7 @@
    {
     "symbol": "513690",
     "bucket": "LOW",
-    "latest_pctile": 14.33933933933934,
+    "latest_pctile": 19.894894894894893,
     "mean_pct": 0.5330778868734505,
     "n": 223,
     "t": 1.4009616177991417,
@@ -6931,7 +6996,7 @@
    {
     "symbol": "159519",
     "bucket": "LOW",
-    "latest_pctile": 11.741935483870968,
+    "latest_pctile": 13.161290322580646,
     "mean_pct": 1.3772998496472701,
     "n": 172,
     "t": 4.544192330848934,
@@ -6941,7 +7006,7 @@
    }
   ],
   "missing_legs": [],
-  "cny_total": 3913.6,
+  "cny_total": 3322.86,
   "sample_signature": "3600c87ce854",
   "sample_legs": [
    "159519",
@@ -55052,213 +55117,317 @@
    {
     "n": 5,
     "picks": [
-     "159207",
-     "562060",
-     "159549",
-     "513800",
-     "513690"
+     "510760",
+     "512040",
+     "159655",
+     "513690",
+     "159519"
     ],
     "n_measurable": 5,
-    "adv_weakest_cny": 19828417.0,
-    "adv_weakest_sym": "159549",
+    "adv_weakest_cny": 18781121.0,
+    "adv_weakest_sym": "159519",
     "per_name_cny": 200000.0,
-    "impact_pct_of_adv": 1.0087,
+    "impact_pct_of_adv": 1.0649,
     "fits": false,
-    "capital_at_line_cny": 991421.0,
+    "capital_at_line_cny": 939056.0,
     "unmeasurable": []
    },
    {
     "n": 6,
     "picks": [
-     "159207",
-     "562060",
-     "159549",
-     "513800",
+     "510760",
+     "512040",
+     "159655",
      "513690",
-     "515650"
+     "159519",
+     "513650"
     ],
     "n_measurable": 6,
-    "adv_weakest_cny": 19828417.0,
-    "adv_weakest_sym": "159549",
+    "adv_weakest_cny": 18781121.0,
+    "adv_weakest_sym": "159519",
     "per_name_cny": 166667.0,
-    "impact_pct_of_adv": 0.8405,
+    "impact_pct_of_adv": 0.8874,
     "fits": true,
-    "capital_at_line_cny": 1189705.0,
+    "capital_at_line_cny": 1126867.0,
     "unmeasurable": []
    },
    {
     "n": 7,
     "picks": [
-     "159207",
-     "562060",
-     "159549",
-     "513800",
+     "510760",
+     "512040",
+     "159655",
      "513690",
-     "515650",
-     "560570"
+     "159519",
+     "513650",
+     "510210"
     ],
     "n_measurable": 7,
-    "adv_weakest_cny": 19828417.0,
-    "adv_weakest_sym": "159549",
+    "adv_weakest_cny": 18781121.0,
+    "adv_weakest_sym": "159519",
     "per_name_cny": 142857.0,
-    "impact_pct_of_adv": 0.7205,
+    "impact_pct_of_adv": 0.7606,
     "fits": true,
-    "capital_at_line_cny": 1387989.0,
+    "capital_at_line_cny": 1314678.0,
     "unmeasurable": []
    },
    {
     "n": 8,
     "picks": [
-     "159207",
-     "562060",
-     "159549",
-     "513800",
+     "510760",
+     "512040",
+     "159655",
      "513690",
-     "515650",
-     "560570",
-     "159307"
+     "159519",
+     "513650",
+     "510210",
+     "562060"
     ],
     "n_measurable": 8,
-    "adv_weakest_cny": 19828417.0,
-    "adv_weakest_sym": "159549",
+    "adv_weakest_cny": 18781121.0,
+    "adv_weakest_sym": "159519",
     "per_name_cny": 125000.0,
-    "impact_pct_of_adv": 0.6304,
+    "impact_pct_of_adv": 0.6656,
     "fits": true,
-    "capital_at_line_cny": 1586273.0,
+    "capital_at_line_cny": 1502490.0,
     "unmeasurable": []
    },
    {
     "n": 10,
     "picks": [
-     "159207",
-     "562060",
-     "159549",
-     "513800",
+     "510760",
+     "512040",
+     "159655",
      "513690",
-     "515650",
-     "560570",
-     "159307",
-     "513190",
-     "562550"
+     "159519",
+     "513650",
+     "510210",
+     "562060",
+     "513630",
+     "159207"
     ],
     "n_measurable": 10,
-    "adv_weakest_cny": 19828417.0,
-    "adv_weakest_sym": "159549",
+    "adv_weakest_cny": 18781121.0,
+    "adv_weakest_sym": "159519",
     "per_name_cny": 100000.0,
-    "impact_pct_of_adv": 0.5043,
+    "impact_pct_of_adv": 0.5324,
     "fits": true,
-    "capital_at_line_cny": 1982842.0,
+    "capital_at_line_cny": 1878112.0,
     "unmeasurable": []
    },
    {
     "n": 12,
     "picks": [
-     "159207",
-     "562060",
-     "159549",
-     "513800",
+     "510760",
+     "512040",
+     "159655",
      "513690",
-     "515650",
-     "560570",
-     "159307",
-     "513190",
-     "562550",
-     "512890",
-     "512040"
+     "159519",
+     "513650",
+     "510210",
+     "562060",
+     "513630",
+     "159207",
+     "511180",
+     "513500"
     ],
     "n_measurable": 12,
-    "adv_weakest_cny": 19828417.0,
-    "adv_weakest_sym": "159549",
+    "adv_weakest_cny": 18781121.0,
+    "adv_weakest_sym": "159519",
     "per_name_cny": 83333.0,
-    "impact_pct_of_adv": 0.4203,
+    "impact_pct_of_adv": 0.4437,
     "fits": true,
-    "capital_at_line_cny": 2379410.0,
+    "capital_at_line_cny": 2253735.0,
     "unmeasurable": []
    },
    {
     "n": 15,
     "picks": [
-     "159207",
-     "562060",
-     "159549",
-     "513800",
-     "513690",
-     "515650",
-     "560570",
-     "159307",
-     "513190",
-     "562550",
-     "512890",
+     "510760",
      "512040",
-     "517900",
-     "159547",
-     "515450"
+     "159655",
+     "513690",
+     "159519",
+     "513650",
+     "510210",
+     "562060",
+     "513630",
+     "159207",
+     "511180",
+     "513500",
+     "513190",
+     "513140",
+     "159612"
     ],
     "n_measurable": 15,
-    "adv_weakest_cny": 19828417.0,
-    "adv_weakest_sym": "159549",
+    "adv_weakest_cny": 18781121.0,
+    "adv_weakest_sym": "159519",
     "per_name_cny": 66667.0,
-    "impact_pct_of_adv": 0.3362,
+    "impact_pct_of_adv": 0.355,
     "fits": true,
-    "capital_at_line_cny": 2974263.0,
+    "capital_at_line_cny": 2817168.0,
     "unmeasurable": []
    },
    {
     "n": 20,
     "picks": [
-     "159207",
-     "562060",
-     "159549",
-     "513800",
-     "513690",
-     "515650",
-     "560570",
-     "159307",
-     "513190",
-     "562550",
-     "512890",
+     "510760",
      "512040",
-     "517900",
-     "159547",
-     "515450",
-     "159525",
-     "159980",
-     "512820",
+     "159655",
+     "513690",
+     "159519",
+     "513650",
+     "510210",
+     "562060",
+     "513630",
+     "159207",
+     "511180",
+     "513500",
+     "513190",
      "513140",
-     "513920"
+     "159612",
+     "159569",
+     "513920",
+     "159549",
+     "159996",
+     "510980"
     ],
     "n_measurable": 20,
-    "adv_weakest_cny": 19828417.0,
+    "adv_weakest_cny": 18649347.0,
     "adv_weakest_sym": "159549",
     "per_name_cny": 50000.0,
-    "impact_pct_of_adv": 0.2522,
+    "impact_pct_of_adv": 0.2681,
     "fits": true,
-    "capital_at_line_cny": 3965683.0,
+    "capital_at_line_cny": 3729869.0,
     "unmeasurable": []
    }
   ],
-  "sentence": "同一笔 1,000,000 元、5 名等权在 2026-11-17 这一天打 1.0087% ADV（最弱 159549，闸线 1.00%）；把宽度加到 **6 名** 就落到 0.8405% —— 每名从 200,000 元降到 166,667 元。最弱席还是同一只（159549，19,828,417 元）——冲击下降全部来自每名字少买，不是换到了更厚的票。宽 6 名在这一天的容量上限是 1,189,705 元。",
+  "sentence": "同一笔 1,000,000 元、5 名等权在 2026-11-11 这一天打 1.0649% ADV（最弱 159519，闸线 1.00%）；把宽度加到 **6 名** 就落到 0.8874% —— 每名从 200,000 元降到 166,667 元。最弱席还是同一只（159519，18,781,121 元）——冲击下降全部来自每名字少买，不是换到了更厚的票。宽 6 名在这一天的容量上限是 1,126,867 元。",
   "evidence_cutoff": "2026-11-17",
   "line_pct": 1.0,
   "caveats": [
    "This face prices CAPACITY only. A wider book's annual return is not re-priced here (that needs a full engine run) -- the per-name drop is printed instead.",
    "ADV is the gate's own reading: median of the slot's last 20 values of `close x volume` (itself a rolling 20-bar median), so both steps are causal.",
    "The binding slot is the worst ADV among the n names, never their sum: an equal-weight book must fill its worst name.",
-   "A name whose ADV cannot be read makes that width's weakest-slot reading incomplete, and it is listed rather than silently dropped."
+   "A name whose ADV cannot be read makes that width's weakest-slot reading incomplete, and it is listed rather than silently dropped.",
+   "The ranking bar and the turnover window both end on the TICKET's decision bar (2026-11-11); the panel runs to 2026-11-17. Numbers from the two bars are not interchangeable."
+  ],
+  "decision_bar": "2026-11-11",
+  "panel_last_bar": "2026-11-17",
+  "bar_source": "ticket_decision_bar",
+  "ticket_agreement": {
+   "ticket_face": "results/etf_book_order/TICKET-2026-11-17.json",
+   "decision_bar": "2026-11-11",
+   "checks": [
+    {
+     "name": "width5_impact",
+     "mine": 1.0649,
+     "ticket": 1.0649,
+     "same": true
+    },
+    {
+     "name": "width5_per_name_cny",
+     "mine": 200000.0,
+     "ticket": 200000.0,
+     "same": true
+    },
+    {
+     "name": "width5_weakest_adv_cny",
+     "mine": 18781121.0,
+     "ticket": 18781121.0,
+     "same": true
+    },
+    {
+     "name": "width5_weakest_sym",
+     "mine": "159519",
+     "ticket": "159519",
+     "same": true
+    },
+    {
+     "name": "width5_picks",
+     "mine": [
+      "159519",
+      "159655",
+      "510760",
+      "512040",
+      "513690"
+     ],
+     "ticket": [
+      "159519",
+      "159655",
+      "510760",
+      "512040",
+      "513690"
+     ],
+     "same": true
+    }
+   ],
+   "mismatched": [],
+   "ok": true,
+   "status": "AGREES_WITH_TICKET",
+   "sentence": "宽度 5 与票面同书：同一批名字、同一个含决策日的 20 日成交额窗口、同一个冲击读数（1.0649% ADV，容量 939,056 元）——两张面可并列读。"
+  },
+  "gate_vs_ticket": {
+   "ticket_picks": [
+    "510760",
+    "512040",
+    "159655",
+    "513690",
+    "159519"
+   ],
+   "gate_picks": [
+    "159207",
+    "562060",
+    "159549",
+    "513800",
+    "513690"
+   ],
+   "shared_names": [
+    "513690"
+   ],
+   "shared_n": 1,
+   "note": "准入闸的容量读数在它自己的排名上算（5 只），本表在票面决策日排名上算（5 只），两边共同名字 1 只：两个数回答的是两个问题，不得相加，也不得把闸的读数当成「本书装不装得下」。",
+   "same_rule_on_this_book": {
+    "rule": "per-name impact <= 1.00% of that name's ADV",
+    "gate_verdict": "DENY",
+    "gate_impact_pct_of_adv": 1.0087,
+    "book_width": 5,
+    "book_impact_pct_of_adv": 1.0649,
+    "book_fits": false,
+    "gate_fits": false,
+    "status": "SAME_VERDICT",
+    "sentence": "同一条规矩（单名冲击 ≤ 1.00% ADV）分别读两本书：闸的 5 只 1.0087% → 不过线，本册的 5 只 1.0649% → 不过线 —— **结论相同**。所以那 1/5 的重合差不改今天的判断：闸拒的和本册被拒的是同一件事（每名买太多），要改的是宽度或单子大小，不是名册。"
+   }
+  },
+  "gate_reads": {
+   "verdict": "DENY",
+   "lens": "1M",
+   "capital_cny": 1000000.0,
+   "per_name_cny": 200000.0,
+   "impact_pct_of_adv": 1.0087,
+   "line_pct": 1.0,
+   "evidence_cutoff": null
+  },
+  "gate_live_picks": [
+   "159207",
+   "562060",
+   "159549",
+   "513800",
+   "513690"
   ]
  },
  "width_return": {
   "status": "ok",
   "artifact": "results/etf_book_width_return.json",
   "verdict": "WIDEN_IS_CHEAPER",
-  "gap_pp": 1.633,
+  "gap_pp": 2.4446,
   "shrink": {
    "readable": true,
    "must_shrink": true,
-   "capital_after_cny": 991421.0,
-   "capital_given_up_cny": 8579.0,
-   "given_up_pct": 0.8579,
-   "cagr_cost_pp": 0.133
+   "capital_after_cny": 939056.0,
+   "capital_given_up_cny": 60944.0,
+   "given_up_pct": 6.0944,
+   "cagr_cost_pp": 0.9446
   },
   "widen": {
    "readable": true,
@@ -55372,7 +55541,7 @@
     "universe": 1522
    }
   ],
-  "sentence": "同一笔 1,000,000 元在 2026-11-17 这一天，5 名打 1.0087% ADV（闸线 1.00%），6 名落到 0.8405%。把这笔单子塞进线内的两条路，年化代价分别是：缩仓到 991,421 元放弃 0.1330 pp/年，加宽到 6 名放弃 -1.5000 pp/年（0.1550 → 0.1700）。加宽便宜 1.6330 pp/年 —— 第 6 名确实在摊薄容量而不伤收益。但 7 名 14.6100% / 8 名 14.9500% 都低于 6 名 —— 这是第 6 名的一个局部最优，不是「越宽越好」。",
+  "sentence": "同一笔 1,000,000 元在 2026-11-11 这一天，5 名打 1.0649% ADV（闸线 1.00%），6 名落到 0.8874%。把这笔单子塞进线内的两条路，年化代价分别是：缩仓到 939,056 元放弃 0.9446 pp/年，加宽到 6 名放弃 -1.5000 pp/年（0.1550 → 0.1700）。加宽便宜 2.4446 pp/年 —— 第 6 名确实在摊薄容量而不伤收益。但 7 名 14.6100% / 8 名 14.9500% 都低于 6 名 —— 这是第 6 名的一个局部最优，不是「越宽越好」。",
   "evidence_cutoff": "2026-11-17",
   "caliber": {
    "universe": "equity + commodity + convertible only (the capacity face's own score_row class filter, so the 5 names are the same 5 names)",
@@ -55894,7 +56063,7 @@
   "inputs": {
    "cut_order_gap": {
     "cutoff": "2026-11-17",
-    "digest": "c35c4ae439954764"
+    "digest": "f499a3936812f3bf"
    },
    "late_sheet_price": {
     "cutoff": "2026-11-17",
@@ -56564,13 +56733,13 @@
   "no_bar_reason": "human_ages"
  },
  "fleet": {
-  "board_ts": "2026-11-18T10:56:14",
+  "board_ts": "2026-11-18T14:06:19",
   "verdict": "attention",
   "rows": [
    {
     "host": "bm-a",
-    "last_seen": "2026-11-18T10:31:09+08:00",
-    "age_h": 0.42,
+    "last_seen": "2026-11-18T13:54:04+08:00",
+    "age_h": 0.2,
     "alive": true,
     "lanes": [
      "futures",
@@ -56583,21 +56752,21 @@
    {
     "host": "bm-b",
     "last_seen": "2026-10-30T12:43:06+08:00",
-    "age_h": 454.22,
+    "age_h": 457.39,
     "alive": false,
     "lanes": [
-     "marks",
-     "astock_daily"
+     "astock_daily",
+     "marks"
     ],
     "taken_over": {
-     "marks": "bm-c",
-     "astock_daily": "bm-a"
+     "astock_daily": "bm-a",
+     "marks": "bm-a"
     }
    },
    {
     "host": "bm-c",
-    "last_seen": "2026-11-18T10:09:13+08:00",
-    "age_h": 0.78,
+    "last_seen": "2026-11-18T13:32:18+08:00",
+    "age_h": 0.57,
     "alive": true,
     "lanes": [
      "ths_panel",

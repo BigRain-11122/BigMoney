@@ -2685,7 +2685,18 @@ def width_fit_face(path=WIDTHFIT_JSON):
     return {"status": "ok", "artifact": rel, "verdict": s.get("verdict"),
             "min_width": s.get("min_width"), "rows": f.get("rows") or [],
             "sentence": f.get("sentence"), "evidence_cutoff": f.get("evidence_cutoff"),
-            "line_pct": f.get("line_pct"), "caveats": f.get("caveats") or []}
+            "line_pct": f.get("line_pct"), "caveats": f.get("caveats") or [],
+            # r1326: the table ranks the bar the TICKET decided on, so the page must print
+            # which bar that is and prove it is the ticket's book (width 5 == its live row).
+            # The gate's own reading is carried separately: it ranks its own five names,
+            # which on 2026-11-17 shared ONE name with the held book.
+            "decision_bar": f.get("decision_bar") or f.get("evidence_cutoff"),
+            "panel_last_bar": f.get("panel_last_bar"),
+            "bar_source": f.get("bar_source"),
+            "ticket_agreement": f.get("ticket_agreement") or {},
+            "gate_vs_ticket": f.get("gate_vs_ticket") or {},
+            "gate_reads": f.get("gate_reads") or {},
+            "gate_live_picks": f.get("gate_live_picks") or []}
 
 
 WIDTHRET_JSON = os.path.join(ROOT, "results", "etf_book_width_return.json")
@@ -2861,6 +2872,37 @@ def width_fit_block(wf):
     if rowfix is not None and rowfix.get("fits") is False:
         add("- 这一行不是「这本书不行」，是「这张 %d 名的票在这一天的成交额上多吃了一点价」——"
             "上面的表里同一笔钱换一个宽度就落在闸线内。" % int(rowfix.get("n") or 5))
+    # r1326: which bar this table ranks, and whether it is the ticket's own book. Before
+    # this, the table ranked the panel's last bar while the ticket ranked its decision bar:
+    # on 2026-11-17 the two books shared ONE name out of five, so "six names passes" was
+    # priced on a book nobody held.
+    _dec = str(wf.get("decision_bar") or "")[:10]
+    _pl = str(wf.get("panel_last_bar") or "")[:10]
+    _src = wf.get("bar_source") or ""
+    if _dec:
+        add("- 这张表的排名日和成交额窗口都截到 **%s**（来源：%s），面板已跑到 %s；"
+            "两根 bar 的数不互换。"
+            % (_dec,
+               "票面自己的决策日" if _src == "ticket_decision_bar" else "面板最后一根 bar（无票面对）",
+               _pl or "—"))
+    _ag = wf.get("ticket_agreement") or {}
+    if _ag.get("status"):
+        add("- 与票面同书校验：**%s**。%s"
+            % (_ag.get("status"), _ag.get("sentence") or ""))
+    _gv = wf.get("gate_vs_ticket") or {}
+    _gr = wf.get("gate_reads") or {}
+    if _gv.get("gate_picks"):
+        add("- 准入闸的容量读数（%.4f%% ADV）算在它自己的排名上（%s），与本书共同名字 **%d/%d** —— "
+            "它回答「这批候选装不装得下」，本表回答「我们手上这本书装不装得下」，两个数不得相加。"
+            % (float(_gr.get("impact_pct_of_adv") or 0.0),
+               "、".join(_gv.get("gate_picks") or []),
+               int(_gv.get("shared_n") or 0), len(_gv.get("ticket_picks") or [])))
+    # r1327: two numbers answer two questions -- but "would the gate refuse THIS book too?"
+    # is a verdict comparison, and it is the question a reader sizes an order on.
+    _sr = _gv.get("same_rule_on_this_book") or {}
+    if _sr.get("status"):
+        add("- 同一条规矩换读本书：**%s** — %s"
+            % (_sr.get("status"), _sr.get("sentence") or ""))
     add("")
     return L
 
@@ -16223,6 +16265,54 @@ def selftest():
         "读不到" in _ct_miss and "496,476" not in _ct_miss
         and "每一名至少一手所需的资本" not in _ct_miss,
         "cannot-read sentence, no capitals, no floor")
+
+    # r1326: the width table ranks the TICKET's decision bar; the page must name that bar,
+    # say where it came from, and keep the gate's own reading labelled as another book.
+    _wf_row = {"n": 5, "per_name_cny": 200000.0, "adv_weakest_sym": "159519",
+               "impact_pct_of_adv": 1.0649, "fits": False, "capital_at_line_cny": 939056.0}
+    _wf_face = {"status": "ok", "artifact": "results/etf_book_width_fit.json",
+                "verdict": "MIN_WIDTH_THAT_FITS", "min_width": 6,
+                "rows": [_wf_row], "sentence": "s", "line_pct": 1.0,
+                "decision_bar": "2026-11-11", "panel_last_bar": "2026-11-17",
+                "bar_source": "ticket_decision_bar",
+                "ticket_agreement": {"status": "AGREES_WITH_TICKET",
+                                     "sentence": "宽度 5 与票面同书"},
+                "gate_vs_ticket": {"gate_picks": ["159207", "562060", "159549",
+                                                  "513800", "513690"],
+                                   "ticket_picks": ["510760", "512040", "159655",
+                                                    "513690", "159519"],
+                                   "shared_names": ["513690"], "shared_n": 1},
+                "gate_reads": {"impact_pct_of_adv": 1.0087}}
+    _wf_md = "\n".join(width_fit_block(_wf_face))
+    chk("L336 width fit: the decision bar, its source and the newer panel bar are all printed",
+        "2026-11-11" in _wf_md and "2026-11-17" in _wf_md and "票面自己的决策日" in _wf_md
+        and "两根 bar 的数不互换" in _wf_md,
+        "two bars named + source sentence")
+    chk("L337 width fit: the gate's reading is labelled as its own ranking, never added to this one",
+        "1.0087" in _wf_md and "共同名字 **1/5**" in _wf_md and "不得相加" in _wf_md,
+        "gate number + shared-name count + no-addition sentence")
+    _wf_bad = dict(_wf_face, ticket_agreement={"status": "DISAGREES_WITH_TICKET",
+                                               "mismatched": ["width5_impact"],
+                                               "sentence": "宽度 5 与票面**不是同一本书**"})
+    _wf_bad_md = "\n".join(width_fit_block(_wf_bad))
+    chk("L338 width fit: a table priced on another book is printed as a disagreement",
+        "DISAGREES_WITH_TICKET" in _wf_bad_md and "不是同一本书" in _wf_bad_md,
+        "disagreement verdict + its own sentence on the page")
+
+    # r1327: the gate's rule read on this book -- a verdict comparison, and a missing
+    # comparison must read as missing, never as agreement.
+    _wf_same = dict(_wf_face, gate_vs_ticket=dict(_wf_face["gate_vs_ticket"],
+                    same_rule_on_this_book={"status": "SAME_VERDICT",
+                                            "sentence": "闸的 1.0087% → 不过线，本册的 1.0649% → 不过线 —— 结论相同"}))
+    _wf_same_md = "\n".join(width_fit_block(_wf_same))
+    chk("L339 width fit: the verdict the gate would give THIS book is printed side by side, not implied",
+        "SAME_VERDICT" in _wf_same_md and "1.0087" in _wf_same_md and "1.0649" in _wf_same_md,
+        "same-verdict token + both readings on the page")
+    _wf_nosr = "\n".join(width_fit_block(dict(_wf_face, gate_vs_ticket=dict(
+        _wf_face["gate_vs_ticket"], same_rule_on_this_book={}))))
+    chk("L340 width fit: a missing verdict comparison prints nothing rather than 'agrees'",
+        "SAME_VERDICT" not in _wf_nosr and "同一条规矩换读本书" not in _wf_nosr,
+        "absent comparison stays absent")
 
     print("\nSummary: %d/%d PASS%s" % (ok, total, "" if ok == total else " -- %d FAIL" % (total - ok)))
     return 0 if ok == total else 1

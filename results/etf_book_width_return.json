@@ -1,7 +1,7 @@
 {
  "kind": "etf_book_width_return",
  "script": "scripts/etf_book_width_return.py",
- "generated": "2026-11-18T10:21:29",
+ "generated": "2026-11-18T15:15:03",
  "evidence_cutoff": "2026-11-17",
  "capacity_face": "results/etf_book_width_fit.json",
  "engine": "etf_robust_pf.open_to_open_equity (n_hold is a parameter)",
@@ -20,12 +20,12 @@
   "min_width": 6,
   "capital_cny": 1000000.0,
   "line_pct": 1.0,
-  "bar": "2026-11-17",
+  "bar": "2026-11-11",
   "width5": {
-   "impact_pct_of_adv": 1.0087,
-   "capital_at_line_cny": 991421.0,
+   "impact_pct_of_adv": 1.0649,
+   "capital_at_line_cny": 939056.0,
    "per_name_cny": 200000.0,
-   "adv_weakest_sym": "159549"
+   "adv_weakest_sym": "159519"
   }
  },
  "caliber": {
@@ -39,8 +39,8 @@
  },
  "widen_capacity": {
   "n": 6,
-  "impact": 0.8405,
-  "capital_at_line_cny": 1189705.0
+  "impact": 0.8874,
+  "capital_at_line_cny": 1126867.0
  },
  "rows": [
   {
@@ -143,10 +143,10 @@
  "shrink": {
   "readable": true,
   "must_shrink": true,
-  "capital_after_cny": 991421.0,
-  "capital_given_up_cny": 8579.0,
-  "given_up_pct": 0.8579,
-  "cagr_cost_pp": 0.133
+  "capital_after_cny": 939056.0,
+  "capital_given_up_cny": 60944.0,
+  "given_up_pct": 6.0944,
+  "cagr_cost_pp": 0.9446
  },
  "widen": {
   "readable": true,
@@ -163,9 +163,9 @@
   "turnover_to": 1.46
  },
  "decision": {
-  "shrink_pp": 0.133,
+  "shrink_pp": 0.9446,
   "widen_pp": -1.5,
-  "gap_pp": 1.633,
+  "gap_pp": 2.4446,
   "tolerance_pp": 0.05,
   "verdict": "WIDEN_IS_CHEAPER"
  },
@@ -174,5 +174,5 @@
   "The shrink road assumes an equal-weight book shrank by w earns w of the return (linear in size). It ignores that a smaller ticket has the same fixed costs -- which makes shrinking look slightly BETTER than it is, so a SHRINK_IS_CHEAPER verdict is conservative.",
   "One extra name against one shrink, on one bar. This is not a walk down the width ladder and it does not re-price the book at 7 or 8 names."
  ],
- "sentence": "同一笔 1,000,000 元在 2026-11-17 这一天，5 名打 1.0087% ADV（闸线 1.00%），6 名落到 0.8405%。把这笔单子塞进线内的两条路，年化代价分别是：缩仓到 991,421 元放弃 0.1330 pp/年，加宽到 6 名放弃 -1.5000 pp/年（0.1550 → 0.1700）。加宽便宜 1.6330 pp/年 —— 第 6 名确实在摊薄容量而不伤收益。但 7 名 14.6100% / 8 名 14.9500% 都低于 6 名 —— 这是第 6 名的一个局部最优，不是「越宽越好」。"
+ "sentence": "同一笔 1,000,000 元在 2026-11-11 这一天，5 名打 1.0649% ADV（闸线 1.00%），6 名落到 0.8874%。把这笔单子塞进线内的两条路，年化代价分别是：缩仓到 939,056 元放弃 0.9446 pp/年，加宽到 6 名放弃 -1.5000 pp/年（0.1550 → 0.1700）。加宽便宜 2.4446 pp/年 —— 第 6 名确实在摊薄容量而不伤收益。但 7 名 14.6100% / 8 名 14.9500% 都低于 6 名 —— 这是第 6 名的一个局部最优，不是「越宽越好」。"
 }

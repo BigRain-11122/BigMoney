@@ -17005,3 +17005,16 @@ r1324 已点名根因：`scripts/etf_book_order.py:4050` 排名切了 `dec_bar`�
 
 正身=scripts/etf_book_order.py（selftest legAC，264/264）+ results/etf_book_order/TICKET-2026-11-17.json
 `width_capacity` 块。
+
+## E1598 — 两本书两个数，但「换本书结论变不变」是判词比较（r1327 bm-a）
+
+r1326 已经把「准入闸的容量读在它自己的排名上、本表读票面决策日」并排印出来，并写明两数不得相加。可读者真正下单前要问的是另一个问题：**如果这条规矩读的是我手上这本，结论会不会变？** 并排表答不了它，因为表比的是量级，问题比的是判词。
+
+**正法**：把闸自己的规则（单名冲击 ≤ 线 % ADV）原样套到票面自己的那条宽度行上，只比较两边**过线/不过线**，并让这一块从两条已发布的读数派生（`same_rule()` 纯函数，`check` 再从 `gate_reads` + `summary.live_width` 重算比对），不许自己重排名 —— 重排名就是第三本书。
+
+**三个诚实的零**：①闸面读不到 = `GATE_UNREADABLE`（缺面 ≠ 一致）；②本书宽度不可测 = `BOOK_UNMEASURABLE`（不借闸的答案）；③判词 DENY 而它自己的算术过线 = `GATE_FACE_INCONSISTENT`，先修闸面再比较。
+
+实锚：2026-11-11 两本书（闸 5 只 1.0087%、本册 5 只 1.0649%，共同名 1/5）→ **SAME_VERDICT**：名册差 4 只不改判断，该改的是宽度或单子大小，不是名册。若哪天两书判词相反，页面必须印 `VERDICTS_DIVERGE` 而不是折中。
+
+**How to apply**：凡是「同一规则、两个样本」的并排面，除「不能相加」外必答第三句——**换样本判词变不变**；并让这句从两边的数派生、被 check 重算。
+正身=scripts/etf_book_width_fit.py（selftest 22/22·check CHECK_OK）+ scripts/etf_book_ceo_page.py（selftest 469/469·L339/L340）+ results/etf_book_width_fit.json `gate_vs_ticket.same_rule_on_this_book`

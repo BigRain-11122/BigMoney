@@ -1,7 +1,7 @@
 {
  "evidence_cutoff": "2026-11-17",
  "beta_target": 0.2,
- "generated": "2026-11-18T14:41:05+08:00",
+ "generated": "2026-11-18T15:04:30+08:00",
  "permission": {
   "status": "within_permission",
   "k_now": 0.432195,
@@ -588,7 +588,7 @@
   "withdrawn_now": [],
   "withdrawal_note": "ledger withdrew 1 bar(s) at 2026-11-09 23:54:02 because the price panel then ended 2026-11-06 (2026-11-09); the panel has since carried 2026-11-09 again and that ledger row is live -- the withdrawal stays on record but it is not this sheet's pricing bar",
   "reinstatements": {
-   "at": "2026-11-18 14:41:05",
+   "at": "2026-11-18 15:04:30",
    "n_reinstated": 1,
    "rewritten": [],
    "verbatim_identical": [
@@ -1646,7 +1646,7 @@
  },
  "next_decision": {
   "artifact": "etf_book_next_decision",
-  "generated": "2026-11-18T14:41:05",
+  "generated": "2026-11-18T15:04:30",
   "evidence_cutoff": "2026-11-17",
   "calendar_source": "data/exchange_calendar.csv",
   "calendar_last": "2026-12-31",
@@ -1798,7 +1798,7 @@
  },
  "swap_freshness": {
   "artifact": "etf_book_swap_freshness",
-  "generated": "2026-11-18T14:41:05",
+  "generated": "2026-11-18T15:04:30",
   "evidence_cutoff": "2026-11-17",
   "calendar_source": "data/exchange_calendar.csv",
   "close_accept_time": "15:30",
@@ -2024,15 +2024,15 @@
    "vol": 0.0886
   },
   "width_effect": {
-   "beta": {
-    "ticket_width_cagr": 0.1089,
-    "card_width_cagr": 0.0952,
-    "pp": -1.37
-   },
    "vol": {
     "ticket_width_cagr": 0.1157,
     "card_width_cagr": 0.1204,
     "pp": 0.47
+   },
+   "beta": {
+    "ticket_width_cagr": 0.1089,
+    "card_width_cagr": 0.0952,
+    "pp": -1.37
    }
   },
   "rules_differ": true,
@@ -2823,35 +2823,36 @@
  "width_escape": {
   "status": "ok",
   "path": "results/etf_book_width_fit.json",
-  "bar": "2026-11-17",
+  "bar": "2026-11-11",
   "line_pct": 1.0,
   "live_width": 5,
-  "live_impact_pct": 1.0087,
+  "live_impact_pct": 1.0649,
   "width": 6,
-  "impact_pct": 0.8405,
+  "impact_pct": 0.8874,
   "picks": [
-   "159207",
-   "562060",
-   "159549",
-   "513800",
+   "510760",
+   "512040",
+   "159655",
    "513690",
-   "515650"
+   "159519",
+   "513650"
   ],
   "per_name_cny": 166667.0,
   "capital_cny": 1000000.0,
-  "capital_at_line_cny": 1189705.0,
+  "capital_at_line_cny": 1126867.0,
   "extra_names": 1,
   "per_name_drop_cny": 33333.0,
   "same_weakest_seat": true,
-  "weakest_sym": "159549",
-  "weakest_adv_cny": 19828417.0,
+  "weakest_sym": "159519",
+  "weakest_adv_cny": 18781121.0,
   "caveats": [
    "This face prices CAPACITY only. A wider book's annual return is not re-priced here (that needs a full engine run) -- the per-name drop is printed instead.",
    "ADV is the gate's own reading: median of the slot's last 20 values of `close x volume` (itself a rolling 20-bar median), so both steps are causal.",
    "The binding slot is the worst ADV among the n names, never their sum: an equal-weight book must fill its worst name.",
-   "A name whose ADV cannot be read makes that width's weakest-slot reading incomplete, and it is listed rather than silently dropped."
+   "A name whose ADV cannot be read makes that width's weakest-slot reading incomplete, and it is listed rather than silently dropped.",
+   "The ranking bar and the turnover window both end on the TICKET's decision bar (2026-11-11); the panel runs to 2026-11-17. Numbers from the two bars are not interchangeable."
   ],
-  "sentence": "**K1 不过不是终点，是把宽度调一档**：同一笔 1,000,000 元在 2026-11-17 这天的 5 名票打 1.0087% ADV（线 1.00%）；加宽到 **6 名** 落到 0.8405%，每名从 200,000 元降到 166,667 元，该宽度在这一天的容量是 **1,189,705 元**。最弱的席位两个宽度下是同一只（159549，19,828,417 元）——省下的冲击全部来自每名少买，不是换到了更厚的票。更宽那本书的收益代价见下一行（生产者 etf_book_width_return，同一张面板）。出处：results/etf_book_width_fit.json（生产者 etf_book_width_fit，本页只读）注意：上面这组数字是**宽度表自己那根 bar 的排名**（6 名：159207、562060、159549、513800、513690、515650）算出来的，不等于本票名册；票面自带的 WIDTH-ESCAPE 票按本票**决策日**的排名重算，两张面口径不同不得相加。"
+  "sentence": "**K1 不过不是终点，是把宽度调一档**：同一笔 1,000,000 元在 2026-11-11 这天的 5 名票打 1.0649% ADV（线 1.00%）；加宽到 **6 名** 落到 0.8874%，每名从 200,000 元降到 166,667 元，该宽度在这一天的容量是 **1,126,867 元**。最弱的席位两个宽度下是同一只（159519，18,781,121 元）——省下的冲击全部来自每名少买，不是换到了更厚的票。更宽那本书的收益代价见下一行（生产者 etf_book_width_return，同一张面板）。出处：results/etf_book_width_fit.json（生产者 etf_book_width_fit，本页只读）注意：上面这组数字是**宽度表自己那根 bar 的排名**（6 名：510760、512040、159655、513690、159519、513650）算出来的，不等于本票名册；票面自带的 WIDTH-ESCAPE 票按本票**决策日**的排名重算，两张面口径不同不得相加。"
  },
  "width_capacity": {
   "kind": "width_capacity_on_ticket_ranking",
@@ -3031,36 +3032,37 @@
   "gate_face_reading": {
    "status": "ok",
    "path": "results/etf_book_width_fit.json",
-   "bar": "2026-11-17",
+   "bar": "2026-11-11",
    "line_pct": 1.0,
    "live_width": 5,
-   "live_impact_pct": 1.0087,
+   "live_impact_pct": 1.0649,
    "width": 6,
-   "impact_pct": 0.8405,
+   "impact_pct": 0.8874,
    "picks": [
-    "159207",
-    "562060",
-    "159549",
-    "513800",
+    "510760",
+    "512040",
+    "159655",
     "513690",
-    "515650"
+    "159519",
+    "513650"
    ],
    "per_name_cny": 166667.0,
    "capital_cny": 1000000.0,
-   "capital_at_line_cny": 1189705.0,
+   "capital_at_line_cny": 1126867.0,
    "extra_names": 1,
    "per_name_drop_cny": 33333.0,
    "same_weakest_seat": true,
-   "weakest_sym": "159549",
-   "weakest_adv_cny": 19828417.0,
+   "weakest_sym": "159519",
+   "weakest_adv_cny": 18781121.0,
    "caveats": [
     "This face prices CAPACITY only. A wider book's annual return is not re-priced here (that needs a full engine run) -- the per-name drop is printed instead.",
     "ADV is the gate's own reading: median of the slot's last 20 values of `close x volume` (itself a rolling 20-bar median), so both steps are causal.",
     "The binding slot is the worst ADV among the n names, never their sum: an equal-weight book must fill its worst name.",
-    "A name whose ADV cannot be read makes that width's weakest-slot reading incomplete, and it is listed rather than silently dropped."
+    "A name whose ADV cannot be read makes that width's weakest-slot reading incomplete, and it is listed rather than silently dropped.",
+    "The ranking bar and the turnover window both end on the TICKET's decision bar (2026-11-11); the panel runs to 2026-11-17. Numbers from the two bars are not interchangeable."
    ],
-   "sentence": "**K1 不过不是终点，是把宽度调一档**：同一笔 1,000,000 元在 2026-11-17 这天的 5 名票打 1.0087% ADV（线 1.00%）；加宽到 **6 名** 落到 0.8405%，每名从 200,000 元降到 166,667 元，该宽度在这一天的容量是 **1,189,705 元**。最弱的席位两个宽度下是同一只（159549，19,828,417 元）——省下的冲击全部来自每名少买，不是换到了更厚的票。更宽那本书的收益代价见下一行（生产者 etf_book_width_return，同一张面板）。出处：results/etf_book_width_fit.json（生产者 etf_book_width_fit，本页只读）注意：上面这组数字是**宽度表自己那根 bar 的排名**（6 名：159207、562060、159549、513800、513690、515650）算出来的，不等于本票名册；票面自带的 WIDTH-ESCAPE 票按本票**决策日**的排名重算，两张面口径不同不得相加。"
+   "sentence": "**K1 不过不是终点，是把宽度调一档**：同一笔 1,000,000 元在 2026-11-11 这天的 5 名票打 1.0649% ADV（线 1.00%）；加宽到 **6 名** 落到 0.8874%，每名从 200,000 元降到 166,667 元，该宽度在这一天的容量是 **1,126,867 元**。最弱的席位两个宽度下是同一只（159519，18,781,121 元）——省下的冲击全部来自每名少买，不是换到了更厚的票。更宽那本书的收益代价见下一行（生产者 etf_book_width_return，同一张面板）。出处：results/etf_book_width_fit.json（生产者 etf_book_width_fit，本页只读）注意：上面这组数字是**宽度表自己那根 bar 的排名**（6 名：510760、512040、159655、513690、159519、513650）算出来的，不等于本票名册；票面自带的 WIDTH-ESCAPE 票按本票**决策日**的排名重算，两张面口径不同不得相加。"
   },
-  "note": "本表的排名与成交额窗口都截到本票决策日（2026-11-11）：排名日=成交额窗口末日；准入节引用的宽度表按面板最后一根 bar（2026-11-17）排名并读成交额，两者口径不同不得相加。"
+  "note": "本表的排名与成交额窗口都截到本票决策日（2026-11-11）：排名日=成交额窗口末日；准入节的宽度表（r1326 起）读同一个决策日，并在 width 5 上与本金逐位对账（同名字、同窗口、同冲击）后才并列。面板已跑到 2026-11-17 —— 那根 bar 上的读数只作诊断，与本票相加即错。"
  }
 }

@@ -4067,8 +4067,9 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
                "verdict": "MIN_WIDTH_THAT_FITS" if _fit_w else "NO_WIDTH_FITS",
                "gate_face_reading": _esc,
                "note": ("本表的排名与成交额窗口都截到本票决策日（%s）：排名日=成交额窗口末日；"
-                        "准入节引用的宽度表按面板最后一根 bar（%s）排名并读成交额，"
-                        "两者口径不同不得相加。"
+                        "准入节的宽度表（r1326 起）读同一个决策日，并在 width 5 上与本金"
+                        "逐位对账（同名字、同窗口、同冲击）后才并列。面板已跑到 %s —— "
+                        "那根 bar 上的读数只作诊断，与本票相加即错。"
                         % (str(dec_bar.date()),
                            str(amt.index[-1].date()) if len(amt.index) else "-"))}
         payload["width_capacity"] = _wc

@@ -19,8 +19,16 @@ score, no second panel, no hand-copied 1,000,000.
 The honest limit: this face prices CAPACITY only. It does not re-price the return of a wider
 book (that is a full engine run and lives elsewhere), so it prints what widening costs in
 per-name size and refuses to claim what it costs in annual return.
+
+r1326: the table now ranks the bar the TICKET decided on, not the panel's last bar. On
+2026-11-17 those two books shared one name out of five, so "six names passes" was priced on a
+book nobody holds. The decision bar is read from the ticket's own published block (single
+source), the turnover window is sliced to that bar, and width 5 must equal the ticket's own
+live row before this face may be printed beside it. The gate's last-bar reading is still
+published -- labelled, with its own picks -- because the two answer different questions.
 """
 import argparse
+import glob
 import io
 import json
 import os
@@ -35,6 +43,7 @@ if SCRIPTS not in sys.path:
 OUT_DIR = os.path.join(ROOT, "results")
 OUT = os.path.join(OUT_DIR, "etf_book_width_fit.json")
 GATE_FACE = os.path.join(ROOT, "results", "etf_book_year_gate", "YEAR-GATE.json")
+TICKET_GLOB = os.path.join(ROOT, "results", "etf_book_order", "TICKET-*.json")
 
 # The widths we price. 5 is the live book; the rest ask how much room each extra name buys.
 WIDTHS = (5, 6, 7, 8, 10, 12, 15, 20)
@@ -67,9 +76,11 @@ def gate_reads(doc):
     }
 
 
-def score_row():
+def score_row(bar=None):
     """The gate's own panel, repair, class map and score -- copied from its code path, not
-    re-implemented. Returns (score_row, amt, last_bar)."""
+    re-implemented. `bar` cuts BOTH the ranking row and the turnover window: nothing after
+    the decision bar is visible to it (r1325 made the window causal; this face must read
+    the same causal face the ticket printed). Returns (rank_row, amt, bar_used, panel_last)."""
     import etf_composite_pf as E
     import etf_equity_alpha as A
 
@@ -80,8 +91,89 @@ def score_row():
     cols = [c for c in close.columns
             if cls[c] in ("equity", "commodity", "convertible")]
     sc = E.build_score(close[cols], amt[cols], feats)
-    last = sc.index[-1]
-    return sc.loc[last].dropna(), amt[cols], last
+    panel_last = sc.index[-1]
+    use = panel_last
+    if bar is not None:
+        import pandas as pd
+        cut = pd.Timestamp(str(bar)[:10])
+        upto = sc.index[sc.index <= cut]
+        if len(upto):
+            use = upto[-1]
+    return sc.loc[use].dropna(), amt[cols].loc[:use], use, panel_last
+
+
+def ticket_reads(pattern=TICKET_GLOB):
+    """The ticket's own capacity block -- the only place the book's decision bar is written.
+
+    The ticket publishes it after slicing its ranking and its turnover window to that bar;
+    copying the bar from there (instead of re-deriving a grid) keeps one source of truth.
+    Returns None when no ticket has been published, so the caller can label the fallback."""
+    paths = sorted(glob.glob(pattern))
+    if not paths:
+        return None
+    try:
+        with io.open(paths[-1], encoding="utf-8") as fh:
+            doc = json.load(fh)
+    except Exception:                                          # noqa: BLE001
+        return None
+    wc = doc.get("width_capacity") or {}
+    if not wc.get("decision_bar"):
+        return None
+    return {
+        "path": os.path.relpath(paths[-1], ROOT).replace("\\", "/"),
+        "asof": doc.get("asof"),
+        "decision_bar": str(wc.get("decision_bar")),
+        "amount_window_end": str(wc.get("amount_window_end") or ""),
+        "panel_last_bar": (str(wc.get("panel_last_bar")) if wc.get("panel_last_bar")
+                           else None),
+        "nav_cny": wc.get("nav_cny"),
+        "live_width": wc.get("live_width") or {},
+        "min_width_row": wc.get("min_width_row") or {},
+        "widths": [r.get("n") for r in (wc.get("widths") or [])],
+    }
+
+
+def agreement(rows, t):
+    """Is this table the same book the ticket printed? Width 5 is the whole test: same slots,
+    same turnover window, same price. A face that quotes a ticket's number must re-derive it."""
+    out = {"ticket_face": (t or {}).get("path"),
+           "decision_bar": (t or {}).get("decision_bar"),
+           "checks": [], "mismatched": []}
+    if not t:
+        out["status"] = "NO_TICKET_FACE"
+        out["ok"] = None
+        out["sentence"] = ("没有票面可对：本表退回面板最后一根 bar 排名/读成交额，"
+                           "这一张数不得与任何票面数字并列或相加。")
+        return out
+    lw = t.get("live_width") or {}
+    base = next((r for r in rows if r["n"] == 5), None) or {}
+    for name, mine, theirs in (
+            ("width5_impact", base.get("impact_pct_of_adv"), lw.get("impact_pct_of_adv")),
+            ("width5_per_name_cny", base.get("per_name_cny"), lw.get("per_name_cny")),
+            ("width5_weakest_adv_cny", base.get("adv_weakest_cny"), lw.get("adv_weakest_cny")),
+            ("width5_weakest_sym", base.get("adv_weakest_sym"), lw.get("adv_weakest_sym")),
+            ("width5_picks", sorted(base.get("picks") or []), sorted(lw.get("picks") or []))):
+        bad = False
+        if isinstance(mine, (int, float)) and isinstance(theirs, (int, float)):
+            # impact is a percentage (rounds at 4dp); CNY fields round at whole CNY
+            tol = 2e-4 if name.endswith("impact") else 1.0
+            bad = abs(float(mine) - float(theirs)) > tol
+        else:
+            bad = mine != theirs
+        out["checks"].append({"name": name, "mine": mine, "ticket": theirs, "same": not bad})
+        if bad:
+            out["mismatched"].append(name)
+    out["ok"] = not out["mismatched"]
+    out["status"] = "AGREES_WITH_TICKET" if out["ok"] else "DISAGREES_WITH_TICKET"
+    if out["ok"]:
+        out["sentence"] = ("宽度 5 与票面同书：同一批名字、同一个含决策日的 20 日成交额窗口、"
+                           "同一个冲击读数（%.4f%% ADV，容量 %s 元）——两张面可并列读。"
+                           % (float(lw.get("impact_pct_of_adv") or 0.0),
+                              format(int(lw.get("capital_at_line_cny") or 0), ",")))
+    else:
+        out["sentence"] = ("宽度 5 与票面**不是同一本书**（%s）——本表不得与票面数字并列，"
+                           "要么重跑本表、要么票面重出。" % "、".join(out["mismatched"]))
+    return out
 
 
 def adv20_at(amt, sym, bars=ADV_BARS):
@@ -198,22 +290,54 @@ def sentence(s):
 def build(capital=None):
     doc = load_gate()
     g = gate_reads(doc)
-    rank_row, amt, last = score_row()
+    t = ticket_reads()
+    rank_row, amt, used, panel_last = score_row(t["decision_bar"] if t else None)
     cap = capital if capital is not None else g["capital_cny"]
     if cap is None:
         cap = 1_000_000.0
     rows = [price_width(rank_row, amt, n, cap) for n in WIDTHS]
     s = summarise(rows, cap, g["line_pct"] if g["line_pct"] is not None else IMPACT_MAX * 100.0)
-    s["bar"] = str(last)[:10]
+    s["bar"] = str(used)[:10]
+    s["bar_source"] = "ticket_decision_bar" if t else "panel_last_bar"
+    agree = agreement(rows, t)
+    base_picks = list((next((r for r in rows if r["n"] == 5), {}) or {}).get("picks") or [])
+    gate_picks = list(g.get("live_picks") or [])
+    shared = sorted(set(base_picks) & set(gate_picks))
     payload = {
         "kind": "etf_book_width_fit",
         "script": "scripts/etf_book_width_fit.py",
         "generated": time.strftime("%Y-%m-%dT%H:%M:%S"),
-        "evidence_cutoff": s["bar"],
+        # two dates, both printed (r1781): the panel this face stands on runs to `panel_last`,
+        # while the ranking row and the turnover window are cut at the ticket's decision bar.
+        # `evidence_cutoff` is the page's bar (same convention as the ticket's as_of); the
+        # decision bar is carried beside it and never merged into it.
+        "evidence_cutoff": str(panel_last)[:10],
+        "decision_bar": s["bar"],
+        "amount_window_end": s["bar"],
+        "amount_window_bars": ADV_BARS,
+        "panel_last_bar": str(panel_last)[:10],
+        "bar_source": s["bar_source"],
         "gate_face": "results/etf_book_year_gate/YEAR-GATE.json",
         "gate_reads": {k: g[k] for k in ("verdict", "lens", "capital_cny", "per_name_cny",
                                         "impact_pct_of_adv", "line_pct", "evidence_cutoff")},
-        "live_picks": g["live_picks"],
+        "gate_live_picks": gate_picks,
+        "ticket": ({k: t[k] for k in ("path", "asof", "decision_bar", "amount_window_end",
+                                     "panel_last_bar", "nav_cny", "widths")} if t else None),
+        "ticket_agreement": agree,
+        "gate_vs_ticket": {
+            "ticket_picks": base_picks,
+            "gate_picks": gate_picks,
+            "shared_names": shared,
+            "shared_n": len(shared),
+            "note": ("准入闸的容量读数在它自己的排名上算（%d 只），本表在票面决策日排名上算（%d 只），"
+                     "两边共同名字 %d 只：两个数回答的是两个问题，不得相加，也不得把闸的读数"
+                     "当成「本书装不装得下」。" % (len(gate_picks), len(base_picks), len(shared))),
+            # r1327: the side-by-side table says the two numbers answer two questions, but
+            # not whether the VERDICT changes if the gate read this book. Same rule, the
+            # book's own row -- derived from the two published readings, never re-ranked.
+            "same_rule_on_this_book": same_rule(g, s.get("live_width") or {}),
+        },
+        "live_picks": base_picks,
         "line_pct": s["line_pct"],
         "widths": list(WIDTHS),
         "rows": rows,
@@ -228,39 +352,127 @@ def build(capital=None):
             "equal-weight book must fill its worst name.",
             "A name whose ADV cannot be read makes that width's weakest-slot reading "
             "incomplete, and it is listed rather than silently dropped.",
+            "The ranking bar and the turnover window both end on the TICKET's decision bar "
+            "(%s); the panel runs to %s. Numbers from the two bars are not interchangeable."
+            % (s["bar"], str(panel_last)[:10]),
         ],
     }
     return payload
 
 
+def same_rule(g, live_row):
+    """Run the GATE's own rule on the book this ticket actually holds.
+
+    The gate and this table rank different five-name sets (they shared one name on
+    2026-11-17), so the two capacity numbers answer two questions and are never summed.
+    What the reader still needs is the one thing the side-by-side table cannot say: if the
+    gate read THIS book, would its verdict change? That is a comparison of verdicts on the
+    same rule, not of magnitudes -- and it is derived from the two published readings
+    rather than from either face's wording.
+    """
+    g = g or {}
+    live_row = live_row or {}
+    line = g.get("line_pct")
+    impact_gate = g.get("impact_pct_of_adv")
+    impact_live = live_row.get("impact_pct_of_adv")
+    out = {"rule": "per-name impact <= %.2f%% of that name's ADV" % (line if line is not None else IMPACT_MAX * 100.0),
+           "gate_verdict": g.get("verdict"),
+           "gate_impact_pct_of_adv": impact_gate,
+           "book_width": live_row.get("n"),
+           "book_impact_pct_of_adv": impact_live,
+           "book_fits": live_row.get("fits")}
+    if impact_gate is None or line is None:
+        out["status"] = "GATE_UNREADABLE"
+        out["sentence"] = ("准入闸的读数读不到 —— 这一页不印「同一条规矩换本书结论会不会变」，"
+                          "缺面不等于两边一致。")
+        return out
+    if impact_live is None or out["book_fits"] is None:
+        out["status"] = "BOOK_UNMEASURABLE"
+        out["sentence"] = ("本书这一档的读数读不到（宽度 %s 有名字缺 ADV）—— 不拿闸的结论代替本书的结论。"
+                          % out["book_width"])
+        return out
+    gate_fits = impact_gate <= line + 1e-9
+    out["gate_fits"] = gate_fits
+    out["status"] = "SAME_VERDICT" if gate_fits == bool(out["book_fits"]) else "VERDICTS_DIVERGE"
+    # the verdict word and the arithmetic must agree, or the gate's own face is the problem
+    if (g.get("verdict") == "DENY") is not (not gate_fits):
+        out["status"] = "GATE_FACE_INCONSISTENT"
+    if out["status"] == "SAME_VERDICT":
+        out["sentence"] = (
+            "同一条规矩（单名冲击 ≤ %.2f%% ADV）分别读两本书：闸的 %d 只 %.4f%% → %s，"
+            "本册的 %d 只 %.4f%% → %s —— **结论相同**。所以那 1/%d 的重合差不改今天的判断："
+            "闸拒的和本册被拒的是同一件事（每名买太多），要改的是宽度或单子大小，不是名册。"
+            % (line, len(g.get("live_picks") or []) or 5, impact_gate,
+               "过线" if gate_fits else "不过线",
+               out["book_width"] or 5, impact_live,
+               "过线" if out["book_fits"] else "不过线",
+               max(1, (live_row.get("n") or 5))))
+    elif out["status"] == "VERDICTS_DIVERGE":
+        out["sentence"] = (
+            "同一条规矩读两本书给出相反结论：闸的 %.4f%% → %s，本册的 %d 只 %.4f%% → %s。"
+            "这不是可以折中的分歧 —— 两本书各自的名册不同，读者必须知道闸拒的到底是哪一本。"
+            % (impact_gate, "过线" if gate_fits else "不过线",
+               out["book_width"] or 5, impact_live,
+               "过线" if out["book_fits"] else "不过线"))
+    else:
+        out["sentence"] = ("准入闸面自己不成立：判词 %r 与它自己的读数 %.4f%% 对 %.2f%% 线不符 —— "
+                          "先修闸面，不再往下比较。"
+                          % (g.get("verdict"), impact_gate, line))
+    return out
+
+
 def check(payload):
-    """Re-derive the three readings the gate published and the arithmetic between them."""
+    """Re-derive the readings this face publishes, and prove it is the ticket's own book."""
     problems = []
     g = payload.get("gate_reads") or {}
     rows = payload.get("rows") or []
     base = next((r for r in rows if r["n"] == 5), None)
+    t = ticket_reads()
+    agree = payload.get("ticket_agreement") or {}
 
-    # 1. the five names this face buys must be the five the gate published
+    # 1. the bar this table ranks must be the bar the ticket decided on -- or, when no
+    #    ticket exists, the fallback must say so instead of silently reading the panel tail
+    if t is None:
+        if payload.get("bar_source") != "panel_last_bar":
+            problems.append("no ticket face, but bar_source=%s"
+                            % payload.get("bar_source"))
+        if (agree.get("status") or "NO_TICKET_FACE") != "NO_TICKET_FACE":
+            problems.append("no ticket face, but agreement claims %s"
+                            % agree.get("status"))
+    else:
+        if payload.get("decision_bar") != t["decision_bar"]:
+            problems.append("decision_bar %s != ticket %s"
+                            % (payload.get("decision_bar"), t["decision_bar"]))
+        if payload.get("amount_window_end") != payload.get("decision_bar"):
+            problems.append("amount window ends %s, ranking ends %s"
+                            % (payload.get("amount_window_end"),
+                               payload.get("decision_bar")))
+        if agree.get("status") != "AGREES_WITH_TICKET":
+            problems.append("ticket agreement %s (mismatched: %s)"
+                            % (agree.get("status"),
+                               "、".join(agree.get("mismatched") or []) or "-"))
+
+    # 2. width 5 IS the ticket's live row: same slots, same price, re-derived from the face
+    if t is not None and base is not None:
+        lw = t.get("live_width") or {}
+        if sorted(base.get("picks") or []) != sorted(lw.get("picks") or []):
+            problems.append("width 5 picks %s != ticket %s"
+                            % (sorted(base.get("picks") or []),
+                               sorted(lw.get("picks") or [])))
+        if (base.get("impact_pct_of_adv") is not None
+                and lw.get("impact_pct_of_adv") is not None
+                and abs(base["impact_pct_of_adv"] - lw["impact_pct_of_adv"]) > 2e-4):
+            problems.append("width 5 impact %.4f%% != ticket %.4f%%"
+                            % (base["impact_pct_of_adv"], lw["impact_pct_of_adv"]))
+        if (base.get("per_name_cny") is not None and lw.get("per_name_cny") is not None
+                and abs(base["per_name_cny"] - lw["per_name_cny"]) > 1.0):
+            problems.append("width 5 per-name %s != ticket %s"
+                            % (base["per_name_cny"], lw["per_name_cny"]))
+
+    # 3. the gate's reading is carried, never recomputed: if the gate face is unreadable
+    #    there is nothing to quote and the face must not print a capacity verdict
     if g.get("verdict") is None:
         problems.append("gate face unreadable: nothing to agree with")
-    elif base is not None:
-        mine = sorted(base.get("picks") or [])
-        theirs = sorted(payload.get("live_picks") or [])
-        if mine != theirs:
-            problems.append("width 5 picks %s != gate live_picks %s" % (mine, theirs))
-
-    # 2. the same slot, the same impact, the same line
-    if base is not None and g.get("impact_pct_of_adv") is not None:
-        if base.get("impact_pct_of_adv") is None:
-            problems.append("width 5 reading unmeasurable while the gate measures it")
-        elif abs(base["impact_pct_of_adv"] - g["impact_pct_of_adv"]) > 1e-4:
-            problems.append("width 5 impact %.4f%% != gate %.4f%%"
-                            % (base["impact_pct_of_adv"], g["impact_pct_of_adv"]))
-    if base is not None and g.get("per_name_cny") is not None:
-        if base.get("per_name_cny") is None or abs(base["per_name_cny"]
-                                                   - g["per_name_cny"]) > 1.0:
-            problems.append("width 5 per-name %s != gate %s"
-                            % (base.get("per_name_cny"), g["per_name_cny"]))
 
     # 3. every row is its own arithmetic
     cap = payload.get("summary", {}).get("capital_cny")
@@ -298,6 +510,19 @@ def check(payload):
     if min_n != payload.get("summary", {}).get("min_width"):
         problems.append("min_width %s != re-derived %s"
                         % (payload.get("summary", {}).get("min_width"), min_n))
+
+    # 6. the verdict comparison must re-derive from the two published readings: a side
+    #    block that can drift from the numbers above it is a second, silent opinion
+    sr = (payload.get("gate_vs_ticket") or {}).get("same_rule_on_this_book") or {}
+    if not sr.get("status"):
+        problems.append("gate_vs_ticket carries no same_rule_on_this_book status")
+    else:
+        want = same_rule(g, payload.get("summary", {}).get("live_width") or {})
+        if sr.get("status") != want["status"]:
+            problems.append("same_rule status %s != re-derived %s"
+                            % (sr.get("status"), want["status"]))
+        if sr.get("status") == "SAME_VERDICT" and not sr.get("sentence"):
+            problems.append("same_rule says the verdicts agree but prints no sentence")
     return problems
 
 
@@ -307,7 +532,9 @@ def run():
     with io.open(OUT, "w", encoding="utf-8") as fh:
         json.dump(payload, fh, ensure_ascii=False, indent=1)
     s = payload["summary"]
-    print(s["verdict"], "min_width=%s" % s.get("min_width"), "bar=%s" % payload["evidence_cutoff"])
+    print(s["verdict"], "min_width=%s" % s.get("min_width"),
+          "decision_bar=%s(%s)" % (payload["decision_bar"], payload["bar_source"]),
+          "panel_last=%s" % payload["panel_last_bar"])
     for r in payload["rows"]:
         print("  n=%-3d impact=%-9s fits=%-5s weakest=%-10s per_name=%s"
               % (r["n"],
@@ -315,6 +542,13 @@ def run():
                  r.get("fits"), r.get("adv_weakest_sym") or "-",
                  r.get("per_name_cny")))
     print(payload["sentence"])
+    ag = payload.get("ticket_agreement") or {}
+    print("ticket:", ag.get("status"), "--", ag.get("sentence"))
+    print("gate vs ticket:", payload["gate_vs_ticket"]["shared_n"],
+          "shared names of", len(payload["gate_vs_ticket"]["gate_picks"]), "/",
+          len(payload["gate_vs_ticket"]["ticket_picks"]))
+    sr = payload["gate_vs_ticket"].get("same_rule_on_this_book") or {}
+    print("same rule on this book:", sr.get("status"), "--", sr.get("sentence"))
     print("->", OUT)
     return 0
 
@@ -328,8 +562,10 @@ def main_check():
         for p in problems:
             print("  -", p)
         return 1
-    print("CHECK_OK width 5 agrees with the gate (%s) and every row re-derives"
-          % payload["gate_reads"].get("impact_pct_of_adv"))
+    print("CHECK_OK width 5 IS the ticket's live row on bar %s (%.4f%%) and every row "
+          "re-derives" % (payload.get("decision_bar"),
+                          (payload.get("ticket_agreement") or {}).get("checks", [{}])[0].get("mine")
+                          or 0.0))
     return 0
 
 
@@ -342,7 +578,7 @@ def selftest():
     have_panel = False
     rank_row = amt = None
     try:
-        rank_row, amt, last = score_row()
+        rank_row, amt, _used, _panel_last = score_row()
         have_panel = True
     except Exception as exc:                                  # noqa: BLE001
         leg("panel unavailable (%s) -> structural legs still run" % str(exc)[:60], True)
@@ -378,6 +614,62 @@ def selftest():
     leg("no fitting width is its own verdict", v == "NO_WIDTH_FITS" and n is None)
     v, n = verdict_name([{"n": 5, "fits": None}])
     leg("an unmeasurable width is not a pass", v == "UNMEASURABLE" and n is None)
+
+    # --- r1326: this table must be the ticket's own book, on the ticket's own bar --------
+    fake_t = {"path": "fixture/TICKET-x.json", "decision_bar": "2026-01-05",
+              "live_width": {"n": 5, "picks": ["AAA", "BBB"], "impact_pct_of_adv": 1.0,
+                             "per_name_cny": 200000.0, "adv_weakest_cny": 20000000.0,
+                             "adv_weakest_sym": "AAA"}}
+    fake_rows = [{"n": 5, "picks": ["BBB", "AAA"], "impact_pct_of_adv": 1.0,
+                  "per_name_cny": 200000.0, "adv_weakest_cny": 20000000.0,
+                  "adv_weakest_sym": "AAA", "fits": True}]
+    leg("a table identical to the ticket agrees (pick order is not a difference)",
+        agreement(fake_rows, fake_t)["status"] == "AGREES_WITH_TICKET")
+    ag = agreement([dict(fake_rows[0], impact_pct_of_adv=1.0087)], fake_t)
+    leg("a table priced on another bar is caught, not averaged",
+        ag["status"] == "DISAGREES_WITH_TICKET" and "width5_impact" in ag["mismatched"])
+    ag = agreement([dict(fake_rows[0], picks=["AAA"])], fake_t)
+    leg("a table ranking another book is caught by its picks",
+        ag["status"] == "DISAGREES_WITH_TICKET" and "width5_picks" in ag["mismatched"])
+    ag = agreement(fake_rows, None)
+    leg("no ticket face is its own status and blocks side-by-side reading",
+        ag["status"] == "NO_TICKET_FACE" and ag["ok"] is None)
+
+    if have_panel:
+        import pandas as pd
+        full_rank, full_amt, last, panel_last = score_row()
+        leg("the default bar is the panel's last bar",
+            str(last)[:10] == str(panel_last)[:10])
+        cut = (pd.Timestamp(str(last)[:10]) - pd.Timedelta(days=1)).strftime("%Y-%m-%d")
+        _r, sliced_amt, used, _pl = score_row(cut)
+        leg("a decision bar slices the turnover window (no bar after it survives)",
+            len(sliced_amt.index) > 0
+            and sliced_amt.index[-1] <= pd.Timestamp(cut)
+            and used <= pd.Timestamp(cut))
+        leg("the slice is strictly shorter than the panel tail",
+            len(sliced_amt.index) < len(full_amt.index))
+
+    # --- r1327: the gate's rule read on THIS book, compared verdict to verdict ----------
+    g_fit = {"verdict": "ADMIT", "line_pct": 1.0, "impact_pct_of_adv": 0.84,
+             "live_picks": ["A", "B", "C", "D", "E"]}
+    row_fit = {"n": 5, "fits": True, "impact_pct_of_adv": 0.91}
+    sr = same_rule(g_fit, row_fit)
+    leg("two books that both pass are SAME_VERDICT, not a shared number",
+        sr["status"] == "SAME_VERDICT" and sr.get("gate_fits") is True
+        and "0.8400" in sr["sentence"] and "0.9100" in sr["sentence"])
+    sr = same_rule({"verdict": "DENY", "line_pct": 1.0, "impact_pct_of_adv": 1.0087,
+                    "live_picks": ["A", "B", "C", "D", "E"]}, row_fit)
+    leg("a gate that refuses while this book passes is DIVERGENCE, not an average",
+        sr["status"] == "VERDICTS_DIVERGE" and "相反结论" in sr["sentence"])
+    sr = same_rule({"verdict": None, "line_pct": None, "impact_pct_of_adv": None}, row_fit)
+    leg("an unreadable gate is not 'the same verdict'",
+        sr["status"] == "GATE_UNREADABLE" and "缺面" in sr["sentence"])
+    sr = same_rule(g_fit, {"n": 5, "fits": None, "impact_pct_of_adv": None})
+    leg("an unmeasurable book does not borrow the gate's answer",
+        sr["status"] == "BOOK_UNMEASURABLE")
+    sr = same_rule({"verdict": "DENY", "line_pct": 1.0, "impact_pct_of_adv": 0.84}, row_fit)
+    leg("a gate whose word fights its own arithmetic is caught before comparison",
+        sr["status"] == "GATE_FACE_INCONSISTENT")
 
     ok = sum(1 for _n, o in legs if o)
     for name, o in legs:
