@@ -1,14 +1,14 @@
 {
  "bm-a": {
-  "cpu": 23.5,
+  "cpu": 27.1,
   "gpu": {
    "free_gb": 1.8,
    "util": 0.0
   },
-  "ram_free_gb": 38.54,
-  "ts": "2026-11-18T10:31",
+  "ram_free_gb": 40.8,
+  "ts": "2026-11-18T11:20",
   "util": "round-closed",
-  "work": "r1319: 加宽到 6 名到底花多少钱，现在有数了 —— 而且答案是「不花钱」。容量面（r1318）只说 6 名装得下 1,000,000，自己写明不重算收益。本轮用同一引擎（etf_robust_pf.open_to_open_equity，n_hold 本就是参数）、同一条评分行、同一成本 10bp/20日调仓，把 5/6/7/8 名各跑一遍：5 名年化 15.50%/夏普 0.999/回撤"
+  "work": "r1320: 上一轮被静默击杀，留下三件宽度的面（fit/return/neighbors）没人跑——页面一直在印「第 6 名三个周期都赢」，而没有任何一条链腿重算它，面板一动这句话就悄悄过期。本轮把这三件接进 S6 链（依赖序 fit→return→neighbors，全部排在 etf_book_ceo_page 之前），并加一条冒烟腿钉死「三腿在位且都在页面前」——接线被断言，不靠人记得。实弹"
  },
  "bm-b": {
   "cpu": 1.0,
@@ -28,7 +28,7 @@
    "util": 5.0
   },
   "ram_free_gb": 29.4,
-  "ts": "2026-11-18T10:09",
+  "ts": "2026-11-18T10:51",
   "util": "active",
   "work": "r1829: open-vs-close gap face landed + wired into the S6 chain + page regenerated"
  }

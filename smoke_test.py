@@ -5363,6 +5363,33 @@ def main() -> int:
     except Exception as e:
         check("product: the width family is re-derived before the page that quotes it",
               False, str(e))
+    # r1321: "three clocks" was two measured cells and one quoted cell -- the 20-day pair was
+    # read out of the return face, so the survival verdict rested on a quotation. The face now
+    # re-derives that pair and prints whether it landed; a survival verdict that is not backed
+    # by a readable, passing reproduction is the old bug wearing a new sentence.
+    try:
+        _nb = json.load(io.open(os.path.join(ROOT, "results",
+                                             "etf_book_width_neighbors.json"),
+                                encoding="utf-8"))
+        _v = (_nb.get("judgement") or {}).get("verdict")
+        _rp = _nb.get("reproduction") or {}
+        _clocks = sorted({c.get("rebal") for c in (_nb.get("cells") or [])})
+        _survives = _v == "SIX_NAMES_SURVIVES_EVERY_CLOCK"
+        check("product: a survival verdict stands on a reproduced shared cell",
+              (not _survives) or (bool(_rp.get("readable")) and bool(_rp.get("ok"))),
+              "verdict=%s repro_readable=%s repro_ok=%s" % (_v, _rp.get("readable"),
+                                                            _rp.get("ok")))
+        check("product: the width survival test measures every clock it judges",
+              len(_clocks) >= 2
+              and not [c for c in (_nb.get("cells") or [])
+                       if c.get("rebal") == 20 and c.get("source") != "measured"]
+              if _survives else True,
+              "clocks=%s quoted=%s" % (_clocks,
+                                       [c.get("n") for c in (_nb.get("cells") or [])
+                                        if c.get("rebal") == 20
+                                        and c.get("source") != "measured"]))
+    except Exception as e:
+        check("product: a survival verdict stands on a reproduced shared cell", False, str(e))
     # r1561: two premium faces had no writer in the chain at all, so the first cycle
     # after every 15:30 premium_history snapshot judged a stale face against the grown
     # CSV (2026-11-11: published 20:03, history 20:24 -> 28 failures, four legs "missing"

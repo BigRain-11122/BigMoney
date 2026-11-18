@@ -10,9 +10,15 @@ month; 10 is a fortnight; 40 is two months. A sixth name that beats the fifth at
 a width effect. One that only wins at 20 is the calendar talking.
 
 Only widths 5 and 6 are run here on purpose: the question is a pairwise survival test, not a
-walk down the ladder. The 20-day pair is read from `etf_book_width_return.json` rather than
-re-run, so the three clocks are measured on the same code path but only two of them cost
-compute this round.
+walk down the ladder.
+
+All three clocks are measured here, including the 20-day one. The earlier version read that
+pair out of `etf_book_width_return.json` to save compute, which made "three clocks" three
+readings of two measured cells and one quoted cell -- and a survival verdict that rests on a
+quoted cell is a verdict about the quotation. So the 20-day pair is now re-derived on this
+face's own code path and the published pair is kept as the thing to reproduce: if the two
+disagree the clocks are not readings of the same cell, and the verdict says so instead of
+averaging them.
 """
 import argparse
 import io
@@ -31,9 +37,12 @@ OUT = os.path.join(OUT_DIR, "etf_book_width_neighbors.json")
 WR_FACE = os.path.join(OUT_DIR, "etf_book_width_return.json")
 
 COST = 0.0010
-CLOCKS = (10, 20, 40)          # the 20 is read from the width_return face, not re-run
+CLOCKS = (10, 20, 40)
 PAIR = (5, 6)
 IS_END = "2023-12-31"
+# The same engine, panel and score on the same bar is a deterministic computation, so the
+# reproduction is exact; a tolerance here would be hiding a real disagreement behind rounding.
+REPRO_TOL = 1e-9
 
 
 def panel():
@@ -57,6 +66,7 @@ def run_cell(close, openp, amt, score, rebal, n_hold):
     m = R.stats(ser, "N%d_R%d_%dbp" % (n_hold, rebal, COST * 1e4))
     m["n"] = n_hold
     m["rebal"] = rebal
+    m["source"] = "measured"
     m["turnover"] = round(turn, 2)
     for lbl, sl in (("is", ser[ser.index <= IS_END]), ("oos", ser[ser.index > IS_END])):
         mm = R.stats(sl, m["label"] + "_" + lbl)
@@ -66,7 +76,7 @@ def run_cell(close, openp, amt, score, rebal, n_hold):
 
 
 def read_twenty():
-    """The 20-day pair as published -- re-running it would be a second measurement of one cell."""
+    """The 20-day pair as published -- the thing this face has to reproduce, not quote."""
     if not os.path.exists(WR_FACE):
         return None, "width_return face absent (run scripts/etf_book_width_return.py first)"
     with io.open(WR_FACE, encoding="utf-8") as fh:
@@ -75,12 +85,40 @@ def read_twenty():
     five, six = rows.get(5), rows.get(6)
     if not five or not six:
         return None, "width_return face has no width 5/6 pair"
-    return ({"n": 5, "rebal": 20, "cagr": five.get("cagr"), "sharpe": five.get("sharpe"),
-             "maxdd": five.get("maxdd"), "turnover": five.get("turnover"),
-             "bar": five.get("bar")},
-            {"n": 6, "rebal": 20, "cagr": six.get("cagr"), "sharpe": six.get("sharpe"),
-             "maxdd": six.get("maxdd"), "turnover": six.get("turnover"),
-             "bar": six.get("bar")}), None
+
+    def _pick(r):
+        return {"n": r.get("n"), "rebal": 20, "cagr": r.get("cagr"),
+                "sharpe": r.get("sharpe"), "maxdd": r.get("maxdd"),
+                "turnover": r.get("turnover"), "bar": r.get("bar")}
+
+    return {5: _pick(five), 6: _pick(six)}, None
+
+
+def reproduce(measured, upstream, tol=REPRO_TOL):
+    """Does this face's 20-day pair land on the pair the published face printed?
+
+    Three clocks only add up to one answer if the cell they share is the same cell. Reading
+    the 20-day number from upstream makes that true by construction and therefore untested --
+    the clocks then differ only by a quotation. Re-deriving it here turns "we agree" into a
+    number, and a disagreement into a verdict rather than an average.
+    """
+    if not upstream:
+        return {"readable": False, "why": "no published 5/6 pair to reproduce"}
+    by_n = {c["n"]: c for c in measured
+            if c.get("rebal") == 20 and c.get("source") == "measured"}
+    rows, worst = {}, 0.0
+    for n in PAIR:
+        up, mine = upstream.get(n) or {}, by_n.get(n) or {}
+        a, b = up.get("cagr"), mine.get("cagr")
+        if a is None or b is None:
+            return {"readable": False,
+                    "why": "width %s has no cagr on one side (published=%s, measured=%s)"
+                           % (n, a, b)}
+        d = abs(float(a) - float(b))
+        worst = max(worst, d)
+        rows[str(n)] = {"upstream_cagr": a, "measured_cagr": b, "abs_diff": d}
+    return {"readable": True, "tol": tol, "max_abs_diff": worst,
+            "ok": bool(worst <= tol), "rows": rows}
 
 
 def judge(cells):
@@ -106,6 +144,11 @@ def judge(cells):
     readable = [c for c in clocks if c["readable"]]
     if not readable:
         return {"verdict": "UNREADABLE", "clocks": clocks}
+    if len(readable) < 2:
+        # one clock cannot survive anything: a survival test whose second clock failed to
+        # measure reads exactly like a green one, so it gets its own verdict.
+        return {"verdict": "ONE_CLOCK_IS_NOT_A_SURVIVAL_TEST", "clocks": clocks,
+                "n_readable": len(readable)}
     wins = [c for c in readable if c["six_wins"]]
     losses = [c for c in readable if not c["six_wins"]]
     if not losses:
@@ -133,6 +176,20 @@ def sentence(payload):
         return "邻域稳健性读不到：这一页不印「第 6 名稳不稳」的结论。"
     parts = "、".join("%d 日 %+.4f pp" % (c["rebal"], c["delta_pp"]) for c in clocks)
     head = "把调仓钟从 20 日挪到别处再问一次第 6 名（5 名→6 名的年化差）：%s。" % parts
+    repro = payload.get("reproduction") or {}
+    if repro.get("readable") and repro.get("ok"):
+        head += "（20 日那格本面重跑，与已发布面逐位一致，最大差 %.1e）" % repro["max_abs_diff"]
+    elif repro.get("readable"):
+        head += ("（20 日那格本面重跑对不上已发布面，最大差 %.1e —— 三个周期不是同一格的"
+                 "三个读数）" % repro["max_abs_diff"])
+    else:
+        head += "（20 日那格这次没能本面复算：%s）" % (repro.get("why") or "无读数")
+    if v == "ONE_CLOCK_IS_NOT_A_SURVIVAL_TEST":
+        return head + ("只有 %s 个周期的读数可用 —— **一个钟不能「扛过」任何东西**；"
+                       "先把另外两个周期的读数补齐。" % (j.get("n_readable") or 0))
+    if v == "CLOCKS_DISAGREE_ON_THE_SAME_CELL":
+        return head + ("**这一页不印「第 6 名稳不稳」**：三个周期的共同那格没有复现，"
+                       "先把两张面拉到同一格再来问。")
     if v == "SIX_NAMES_SURVIVES_EVERY_CLOCK":
         return head + ("三个周期里第 6 名都赢 —— 这不是 20 日调仓的巧合，是宽度效应。"
                        "最差一格仍有 %+.4f pp。" % j["min_delta_pp"])
@@ -147,10 +204,8 @@ def sentence(payload):
 
 
 def build():
-    twenty, why = read_twenty()
+    upstream, why = read_twenty()
     cells = []
-    if twenty is not None:
-        cells.extend(twenty)
     close = openp = amt = score = None
     try:
         close, openp, amt, score = panel()
@@ -158,11 +213,22 @@ def build():
         why = "panel unavailable: %s" % str(exc)[:80]
     if close is not None:
         for rebal in CLOCKS:
-            if rebal == 20:
-                continue
             for n in PAIR:
                 cells.append(run_cell(close, openp, amt, score, rebal, n))
+    elif upstream:
+        for n in PAIR:
+            cells.append(dict(upstream[n], source="upstream"))
+        why = why or ("panel unavailable: the 20-day pair is the upstream face's reading, "
+                      "not this face's")
+    repro = reproduce(cells, upstream)
     j = judge(cells)
+    if repro.get("readable") and not repro.get("ok"):
+        # two clocks that disagree about their shared cell are not three clocks: the verdict
+        # about clocks cannot stand on cells that stopped being the same cell.
+        j = dict(j, verdict="CLOCKS_DISAGREE_ON_THE_SAME_CELL", reproduced=False,
+                 note="the 20-day pair does not reproduce the published face "
+                      "(max |diff| %.3e > %.0e), so the clocks are not three readings of one cell"
+                      % (repro.get("max_abs_diff") or 0.0, repro.get("tol") or 0.0))
     payload = {
         "kind": "etf_book_width_neighbors",
         "script": "scripts/etf_book_width_neighbors.py",
@@ -171,13 +237,17 @@ def build():
         "upstream": "results/etf_book_width_return.json",
         "params": {"cost": COST, "clocks": list(CLOCKS), "pair": list(PAIR)},
         "cells": cells,
+        "reproduction": repro,
         "judgement": j,
         "why": why,
         "caveats": [
             "Only widths 5 and 6 are run: the question is whether that pair survives the "
             "rebalance clock, not a walk down the ladder.",
-            "The 20-day pair is READ from the upstream face, not re-measured, so the three "
-            "clocks are not three independent measurements of the same cell.",
+            "The 20-day pair is re-derived here and checked against the published pair "
+            "(%s). A failed reproduction turns the verdict into a disagreement rather than "
+            "an average of two different cells."
+            % ("reproduced" if repro.get("ok") else
+               ("not readable" if not repro.get("readable") else "NOT reproduced")),
             "Same repaired, class-filtered panel and the same 10bp one-way cost as the "
             "upstream face. A different panel would make the deltas incomparable.",
         ],
@@ -213,14 +283,46 @@ def check(payload):
     readable = [c for c in (j.get("clocks") or []) if c.get("readable")]
     if readable:
         wins = [c for c in readable if c["six_wins"]]
-        if not wins:
+        if len(readable) < 2:
+            want_v = "ONE_CLOCK_IS_NOT_A_SURVIVAL_TEST"
+        elif not wins:
             want_v = "SIX_NAMES_WINS_NOWHERE"
         elif len(wins) == len(readable):
             want_v = "SIX_NAMES_SURVIVES_EVERY_CLOCK"
         else:
             want_v = "SIX_NAMES_IS_A_CLOCK_ARTIFACT"
-        if want_v != j.get("verdict"):
+        if want_v != j.get("verdict") and j.get("verdict") != "CLOCKS_DISAGREE_ON_THE_SAME_CELL":
             problems.append("verdict %s != re-derived %s" % (j.get("verdict"), want_v))
+
+    # 2b. the disagreement verdict is only allowed when the shared cell actually failed to
+    #     reproduce -- otherwise it is a verdict that blames a cell which just reproduced.
+    repro = payload.get("reproduction") or {}
+    if j.get("verdict") == "CLOCKS_DISAGREE_ON_THE_SAME_CELL":
+        if not repro.get("readable"):
+            problems.append("verdict blames the shared cell while reproduction is unreadable")
+        elif repro.get("ok"):
+            problems.append("verdict blames the shared cell, but it reproduced it")
+    if repro.get("readable") and not repro.get("ok") \
+            and j.get("verdict") != "CLOCKS_DISAGREE_ON_THE_SAME_CELL":
+        problems.append("reproduction failed but the clock verdict was left standing")
+
+    # 2c. every reproduction row must re-derive from the cells printed beside it
+    if repro.get("readable"):
+        meas = {c["n"]: c for c in cells
+                if c.get("rebal") == 20 and c.get("source") == "measured"}
+        worst = 0.0
+        for k, row in (repro.get("rows") or {}).items():
+            m = meas.get(int(k))
+            if not m or m.get("cagr") is None:
+                problems.append("reproduction row n=%s has no measured 20-day cell" % k)
+                continue
+            d = abs(float(row["upstream_cagr"]) - float(m["cagr"]))
+            worst = max(worst, d)
+            if abs(d - float(row["abs_diff"])) > 1e-12:
+                problems.append("reproduction diff for n=%s does not re-derive" % k)
+        if abs(worst - float(repro.get("max_abs_diff") or 0.0)) > 1e-12:
+            problems.append("max_abs_diff %.3e != %.3e re-derived from the rows"
+                            % (repro.get("max_abs_diff") or 0.0, worst))
 
     # 3. the three clocks are distinct and the pair is exactly 5/6
     rebals = sorted({c.get("rebal") for c in cells})
@@ -288,10 +390,14 @@ def selftest():
     leg("a sixth name that wins nowhere is its own verdict",
         j["verdict"] == "SIX_NAMES_WINS_NOWHERE")
     leg("an unreadable clock does not vote",
-        judge([cell(5, 20, 0.155), cell(6, 20, 0.17),
-               {"n": 5, "rebal": 10, "cagr": None, "bar": "b"},
-               {"n": 6, "rebal": 10, "cagr": None, "bar": "b"}])["verdict"]
+        judge([cell(5, 10, 0.10), cell(6, 10, 0.12),
+               cell(5, 20, 0.155), cell(6, 20, 0.17),
+               {"n": 5, "rebal": 40, "cagr": None, "bar": "b"},
+               {"n": 6, "rebal": 40, "cagr": None, "bar": "b"}])["verdict"]
         == "SIX_NAMES_SURVIVES_EVERY_CLOCK")
+    leg("a single readable clock is not a survival test",
+        judge([cell(5, 20, 0.155), cell(6, 20, 0.17)])["verdict"]
+        == "ONE_CLOCK_IS_NOT_A_SURVIVAL_TEST")
 
     payload = {"cells": [cell(5, 20, 0.155), cell(6, 20, 0.17),
                          cell(5, 10, 0.10), cell(6, 10, 0.12)],
@@ -309,6 +415,42 @@ def selftest():
     one = {"cells": [cell(5, 20, 0.155), cell(6, 20, 0.17)],
            "judgement": judge([cell(5, 20, 0.155), cell(6, 20, 0.17)])}
     leg("one clock is not a survival test", any("survival test" in p for p in check(one)))
+
+    # r1321: three clocks are one cell measured three times only if the cell they share lands
+    # where the published face says it landed.
+    up = {5: {"n": 5, "rebal": 20, "cagr": 0.155}, 6: {"n": 6, "rebal": 20, "cagr": 0.17}}
+    meas = [{"n": 5, "rebal": 20, "cagr": 0.155, "sharpe": 0.99, "maxdd": -0.16,
+             "turnover": 1.53, "bar": "2026-11-17", "source": "measured"},
+            {"n": 6, "rebal": 20, "cagr": 0.17, "sharpe": 1.08, "maxdd": -0.16,
+             "turnover": 1.46, "bar": "2026-11-17", "source": "measured"},
+            {"n": 5, "rebal": 10, "cagr": 0.1943, "sharpe": 1.14, "maxdd": -0.15,
+             "turnover": 1.33, "bar": "2026-11-17", "source": "measured"},
+            {"n": 6, "rebal": 10, "cagr": 0.2018, "sharpe": 1.18, "maxdd": -0.15,
+             "turnover": 1.28, "bar": "2026-11-17", "source": "measured"}]
+    r = reproduce(meas, up)
+    leg("the shared 20-day cell reproduces the published pair", r["readable"] and r["ok"])
+    r2 = reproduce([{"n": 5, "rebal": 20, "cagr": 0.1501, "source": "measured"},
+                    {"n": 6, "rebal": 20, "cagr": 0.17, "source": "measured"}], up)
+    leg("a shared cell that does not reproduce is caught", r2["readable"] and not r2["ok"])
+    leg("an absent published pair is unreadable, never a pass", not reproduce(meas, None)["readable"])
+    leg("an upstream-quoted cell cannot reproduce itself",
+        not reproduce([{"n": 5, "rebal": 20, "cagr": 0.155, "source": "upstream"},
+                       {"n": 6, "rebal": 20, "cagr": 0.17, "source": "upstream"}], up)["readable"])
+    repro_payload = {"cells": meas, "judgement": judge(meas), "reproduction": r}
+    leg("check passes a payload whose shared cell reproduced", check(repro_payload) == [])
+    leg("check catches a verdict that blames a cell which just reproduced",
+        any("reproduced it" in p for p in check(dict(
+            repro_payload,
+            judgement=dict(repro_payload["judgement"],
+                           verdict="CLOCKS_DISAGREE_ON_THE_SAME_CELL")))))
+    leg("check catches a failed reproduction left standing as a survival verdict",
+        any("left standing" in p for p in check(dict(repro_payload, reproduction=r2))))
+    leg("check catches a reproduction row that does not re-derive",
+        any("re-derive" in p for p in check(dict(
+            repro_payload,
+            reproduction=dict(r, max_abs_diff=0.5,
+                              rows=dict(r["rows"], **{"5": dict(r["rows"]["5"],
+                                                                abs_diff=0.5)}))))))
 
     ok = sum(1 for _n, o in legs if o)
     for name, o in legs:

@@ -55426,8 +55426,26 @@
     40
    ],
    "losses": [],
-   "sentence": "把调仓钟从 20 日挪到别处再问一次第 6 名（5 名→6 名的年化差）：10 日 +0.7500 pp、20 日 +1.5000 pp、40 日 +1.9500 pp。三个周期里第 6 名都赢 —— 这不是 20 日调仓的巧合，是宽度效应。最差一格仍有 +0.7500 pp。",
-   "evidence_cutoff": "2026-11-17"
+   "sentence": "把调仓钟从 20 日挪到别处再问一次第 6 名（5 名→6 名的年化差）：10 日 +0.7500 pp、20 日 +1.5000 pp、40 日 +1.9500 pp。（20 日那格本面重跑，与已发布面逐位一致，最大差 0.0e+00）三个周期里第 6 名都赢 —— 这不是 20 日调仓的巧合，是宽度效应。最差一格仍有 +0.7500 pp。",
+   "evidence_cutoff": null,
+   "reproduction": {
+    "readable": true,
+    "tol": 1e-09,
+    "max_abs_diff": 0.0,
+    "ok": true,
+    "rows": {
+     "5": {
+      "upstream_cagr": 0.155,
+      "measured_cagr": 0.155,
+      "abs_diff": 0.0
+     },
+     "6": {
+      "upstream_cagr": 0.17,
+      "measured_cagr": 0.17,
+      "abs_diff": 0.0
+     }
+    }
+   }
   }
  },
  "floor_provenance": {
@@ -55802,10 +55820,12 @@
   "detail": "这张票没有留下成交行（空票或本 bar 未换仓）"
  },
  "do_or_wait": {
-  "status": "current",
+  "status": "stale",
   "artifact": "C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\results\\etf_book_do_or_wait.json",
   "why": null,
-  "stale_receipts": [],
+  "stale_receipts": [
+   "late_sheet_price"
+  ],
   "evidence_cutoff": "2026-11-17",
   "capital_cny": 1000000.0,
   "question": "Should this sheet be done today, or is waiting cheaper -- and does the per-sheet price still add up when the wait is several bars?",
@@ -55824,7 +55844,7 @@
    },
    {
     "k": 1,
-    "mean_cny": -1807.9103947888514,
+    "mean_cny": -1807.910394788851,
     "carry_cny": 0.0,
     "cost_cny_vs_today": 1807.91,
     "t": -4.599190382634581,
@@ -55833,10 +55853,10 @@
    },
    {
     "k": 2,
-    "mean_cny": -2617.447114954767,
+    "mean_cny": -2617.4471149547667,
     "carry_cny": 0.0,
     "cost_cny_vs_today": 2617.45,
-    "t": -4.811844064273784,
+    "t": -4.811844064273783,
     "share_late_helps": 0.41866028708133973,
     "separable_from_zero": true
    },
@@ -55845,25 +55865,25 @@
     "mean_cny": -2863.6017836822743,
     "carry_cny": 0.0,
     "cost_cny_vs_today": 2863.6,
-    "t": -4.192936918406691,
+    "t": -4.19293691840669,
     "share_late_helps": 0.434052757793765,
     "separable_from_zero": true
    },
    {
     "k": 5,
-    "mean_cny": -4071.2099611560852,
+    "mean_cny": -4071.2099611560843,
     "carry_cny": 0.0,
     "cost_cny_vs_today": 4071.21,
-    "t": -4.29091984158533,
+    "t": -4.290919841585327,
     "share_late_helps": 0.41445783132530123,
     "separable_from_zero": true
    },
    {
     "k": 10,
-    "mean_cny": -4025.158286788448,
+    "mean_cny": -4025.158286788445,
     "carry_cny": 0.0,
     "cost_cny_vs_today": 4025.16,
-    "t": -2.2053797292433295,
+    "t": -2.2053797292433277,
     "share_late_helps": 0.4433734939759036,
     "separable_from_zero": true
    }
@@ -55872,8 +55892,8 @@
   "today_cost_cny": 0.0,
   "trim_owed": false,
   "one_open_late": {
-   "median_cny": -932.3031683309347,
-   "mean_cny": -1807.9103947888514,
+   "median_cny": -932.3031683309349,
+   "mean_cny": -1807.910394788851,
    "t": -4.599190382634581,
    "share_late_helps": 0.4128878281622912
   },
@@ -55885,7 +55905,7 @@
    },
    "late_sheet_price": {
     "cutoff": "2026-11-17",
-    "digest": "0dd76a4772d3ac5e"
+    "digest": "b9e56235ecea2f5e"
    }
   }
  },
@@ -56551,13 +56571,13 @@
   "no_bar_reason": "human_ages"
  },
  "fleet": {
-  "board_ts": "2026-11-18T09:03:20",
+  "board_ts": "2026-11-18T10:56:14",
   "verdict": "attention",
   "rows": [
    {
     "host": "bm-a",
-    "last_seen": "2026-11-18T08:46:57+08:00",
-    "age_h": 0.27,
+    "last_seen": "2026-11-18T10:31:09+08:00",
+    "age_h": 0.42,
     "alive": true,
     "lanes": [
      "futures",
@@ -56570,7 +56590,7 @@
    {
     "host": "bm-b",
     "last_seen": "2026-10-30T12:43:06+08:00",
-    "age_h": 452.34,
+    "age_h": 454.22,
     "alive": false,
     "lanes": [
      "marks",
@@ -56583,17 +56603,17 @@
    },
    {
     "host": "bm-c",
-    "last_seen": "2026-11-18T08:59:34+08:00",
-    "age_h": 0.06,
+    "last_seen": "2026-11-18T10:09:13+08:00",
+    "age_h": 0.78,
     "alive": true,
     "lanes": [
+     "ths_panel",
      "sina_mf",
      "lhb_inst",
      "ah_panel",
      "etf_panel",
      "minute_feed",
      "moneyflow",
-     "ths_panel",
      "zt_pool"
     ],
     "taken_over": {}

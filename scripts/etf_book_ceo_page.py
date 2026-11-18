@@ -2712,7 +2712,12 @@ def width_neighbors_face(path=WIDTHNB_JSON):
             "clocks": [c for c in (j.get("clocks") or []) if c.get("readable")],
             "min_delta_pp": j.get("min_delta_pp"), "max_delta_pp": j.get("max_delta_pp"),
             "wins": j.get("wins") or [], "losses": j.get("losses") or [],
-            "sentence": f.get("sentence"), "evidence_cutoff": f.get("evidence_cutoff")}
+            "sentence": f.get("sentence"), "evidence_cutoff": f.get("evidence_cutoff"),
+            # r1321: the 20-day clock used to be quoted from the upstream face, so "three
+            # clocks" was really two measurements plus a quotation. The face now re-derives
+            # it and prints whether it landed; the page carries that number so a reader can
+            # see the survival verdict rests on three measured cells.
+            "reproduction": f.get("reproduction") or {}}
 
 
 def width_return_face(path=WIDTHRET_JSON):
@@ -2777,10 +2782,26 @@ def width_return_block(wr):
                            for c in nb.get("clocks") or [])
         words = {"SIX_NAMES_SURVIVES_EVERY_CLOCK": "三个周期都赢 —— 是宽度效应，不是 20 日调仓的巧合",
                  "SIX_NAMES_IS_A_CLOCK_ARTIFACT": "只在部分周期赢 —— **是调仓钟给的，不是宽度给的**",
-                 "SIX_NAMES_WINS_NOWHERE": "哪个周期都不赢 —— 上格的正号本身要重审"}
+                 "SIX_NAMES_WINS_NOWHERE": "哪个周期都不赢 —— 上格的正号本身要重审",
+                 "CLOCKS_DISAGREE_ON_THE_SAME_CELL": "**三个周期的共同那格没复现，这一页不印「稳」**",
+                 "ONE_CLOCK_IS_NOT_A_SURVIVAL_TEST": "**只有一个钟的读数，一个钟不能「扛过」任何东西**"}
         add("- 换调仓钟再问一次（5 名→6 名的年化差）：%s。**%s**。"
             % (clocks or "—",
                words.get(nb.get("verdict"), nb.get("verdict") or "读不出")))
+        _rp = nb.get("reproduction") or {}
+        if _rp.get("readable") and _rp.get("ok"):
+            add("- 20 日那格不是抄上游面：本面重跑复现到 %.1e（容差 %.0e，5 名 %.4f / 6 名 %.4f）"
+                " —— 三个周期是同一格的三个读数。"
+                % (_rp.get("max_abs_diff") or 0.0, _rp.get("tol") or 0.0,
+                   (_rp.get("rows") or {}).get("5", {}).get("measured_cagr") or 0.0,
+                   (_rp.get("rows") or {}).get("6", {}).get("measured_cagr") or 0.0))
+        elif _rp.get("readable"):
+            add("- **20 日那格本面重跑对不上上游面（差 %.1e > %.0e）**：三个周期的共同格不成立，"
+                "上面那张「都赢」的判读不能用，先把两张面拉到同一格。"
+                % (_rp.get("max_abs_diff") or 0.0, _rp.get("tol") or 0.0))
+        else:
+            add("- 20 日那格这次没能本面复算（%s）：**未复现不等于复现**。"
+                % (_rp.get("why") or "无读数"))
         add("")
     elif nb.get("status"):
         add("- 换调仓钟再问一次的读数这一窗缺（`%s`）：%s。**缺面不读成「稳」**。"
