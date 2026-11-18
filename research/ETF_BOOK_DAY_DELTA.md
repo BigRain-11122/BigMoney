@@ -5,9 +5,9 @@
 - 判决：**UNEXPLAINED_MOVES**
 
 ## 一句话
-两天**是同一根 bar**（没有新数据进来），这页有 **67** 个数变了；其中 **5** 个是钟面（机器多久没说话之类，本来就该走）、**2** 个能给出解释（旧数还在页上／口径句改了／这一节换了代／这一节换了定价的输入／这个数只是转抄别面）、**60** 个没解释。新增 **373** 个数字叶子、消失 **0** 个。
+两天**是同一根 bar**（没有新数据进来），这页有 **71** 个数变了；其中 **5** 个是钟面（机器多久没说话之类，本来就该走）、**18** 个能给出解释（旧数还在页上／口径句改了／这一节换了代／这一节换了定价的输入／这个数只是转抄别面）、**48** 个没解释。新增 **381** 个数字叶子、消失 **0** 个。
 
-## 动的数（全部 67 个）
+## 动的数（全部 71 个）
 
 | 数字 | 昨天 | 今天 | 判读 | 依据 |
 |---|---|---|---|---|
@@ -22,9 +22,9 @@
 | `/cash_money/forward/gap_bp_gross` | 59.7 | 59.81 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
 | `/cash_money/forward/gap_cny` | 280.0 | 281.0 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
 | `/causal_rebuild/elapsed_sec` | 50.0 | 81.5 | CLOCK |  |
-| `/fleet/rows/0/age_h` | 1.24 | 0.27 | CLOCK |  |
-| `/fleet/rows/1/age_h` | 441.79 | 452.34 | CLOCK |  |
-| `/fleet/rows/2/age_h` | 4.18 | 0.06 | CLOCK |  |
+| `/fleet/rows/0/age_h` | 1.24 | 0.42 | CLOCK |  |
+| `/fleet/rows/1/age_h` | 441.79 | 454.22 | CLOCK |  |
+| `/fleet/rows/2/age_h` | 4.18 | 0.78 | CLOCK |  |
 | `/futures_hedge/beta` | 0.07185718963947142 | 0.07458300567364223 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
 | `/futures_hedge/capital_for_one_lot` | 11395936.91471321 | 10979444.882970085 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
 | `/futures_hedge/corr` | 0.1373365917783091 | 0.1415643988218339 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
@@ -44,18 +44,22 @@
 | `/futures_hedge_tail/tail_n` | 57 | 52 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
 | `/futures_hedge_tail/uncond_beta` | 0.07185718963947142 | 0.07458300567364223 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
 | `/futures_ladder/declared/cash_rate_pct` | 1.326 | 1.327 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/futures_sleeve/rows/0/carry_caliber/calendar_ann_pct` | 9.793 | 9.805 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/futures_sleeve/rows/0/carry_caliber/published_ann_pct` | 2.895 | 2.878 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/futures_sleeve/rows/0/carry_caliber/spread_pp` | 6.898 | 6.927 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/futures_sleeve/rows/1/carry_caliber/calendar_ann_pct` | 5.795 | 5.843 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/futures_sleeve/rows/1/carry_caliber/published_ann_pct` | 1.923 | 1.876 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/futures_sleeve/rows/1/carry_caliber/spread_pp` | 3.872 | 3.967 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/futures_sleeve/rows/2/carry_caliber/calendar_ann_pct` | 5.324 | 5.39 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/futures_sleeve/rows/2/carry_caliber/published_ann_pct` | 1.617 | 1.561 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/futures_sleeve/rows/2/carry_caliber/spread_pp` | 3.707 | 3.829 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/futures_sleeve/rows/3/carry_caliber/calendar_ann_pct` | 11.954 | 12.013 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/futures_sleeve/rows/3/carry_caliber/published_ann_pct` | 5.928 | 5.882 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/futures_sleeve/rows/3/carry_caliber/spread_pp` | 6.026 | 6.131 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
+| `/futures_sleeve/rows/0/carry_caliber/calendar_ann_pct` | 9.793 | 9.805 | SECTION_ADVANCED | 这一节自己换了代：`futures_sleeve` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
+| `/futures_sleeve/rows/0/carry_caliber/published_ann_pct` | 2.895 | 2.878 | SECTION_ADVANCED | 这一节自己换了代：`futures_sleeve` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
+| `/futures_sleeve/rows/0/carry_caliber/spread_pp` | 6.898 | 6.927 | SECTION_ADVANCED | 这一节自己换了代：`futures_sleeve` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
+| `/futures_sleeve/rows/0/notional_per_lot_cny` | 1243680.0 | 1238960.0 | SECTION_ADVANCED | 这一节自己换了代：`futures_sleeve` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
+| `/futures_sleeve/rows/1/carry_caliber/calendar_ann_pct` | 5.795 | 5.843 | SECTION_ADVANCED | 这一节自己换了代：`futures_sleeve` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
+| `/futures_sleeve/rows/1/carry_caliber/published_ann_pct` | 1.923 | 1.876 | SECTION_ADVANCED | 这一节自己换了代：`futures_sleeve` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
+| `/futures_sleeve/rows/1/carry_caliber/spread_pp` | 3.872 | 3.967 | SECTION_ADVANCED | 这一节自己换了代：`futures_sleeve` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
+| `/futures_sleeve/rows/1/notional_per_lot_cny` | 1181700.0 | 1175460.0 | SECTION_ADVANCED | 这一节自己换了代：`futures_sleeve` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
+| `/futures_sleeve/rows/2/carry_caliber/calendar_ann_pct` | 5.324 | 5.39 | SECTION_ADVANCED | 这一节自己换了代：`futures_sleeve` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
+| `/futures_sleeve/rows/2/carry_caliber/published_ann_pct` | 1.617 | 1.561 | SECTION_ADVANCED | 这一节自己换了代：`futures_sleeve` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
+| `/futures_sleeve/rows/2/carry_caliber/spread_pp` | 3.707 | 3.829 | SECTION_ADVANCED | 这一节自己换了代：`futures_sleeve` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
+| `/futures_sleeve/rows/2/notional_per_lot_cny` | 822720.0 | 818880.0 | SECTION_ADVANCED | 这一节自己换了代：`futures_sleeve` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
+| `/futures_sleeve/rows/3/carry_caliber/calendar_ann_pct` | 11.954 | 12.013 | SECTION_ADVANCED | 这一节自己换了代：`futures_sleeve` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
+| `/futures_sleeve/rows/3/carry_caliber/published_ann_pct` | 5.928 | 5.882 | SECTION_ADVANCED | 这一节自己换了代：`futures_sleeve` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
+| `/futures_sleeve/rows/3/carry_caliber/spread_pp` | 6.026 | 6.131 | SECTION_ADVANCED | 这一节自己换了代：`futures_sleeve` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
+| `/futures_sleeve/rows/3/notional_per_lot_cny` | 1221000.0 | 1204600.0 | SECTION_ADVANCED | 这一节自己换了代：`futures_sleeve` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
 | `/gap/elapsed_sec` | 48.7 | 81.8 | CLOCK |  |
 | `/idle_cash/vehicle_net_pct` | 1.772 | 1.7731 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
 | `/premium_forward/cny_total` | 3322.86 | 3913.6 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
@@ -79,7 +83,7 @@
 | `/roster_audit/local_copies/1/laneside/local_disk_n` | 27 | 1 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
 | `/roster_audit/local_copies/1/local_disk_n` | 27 | 1 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
 
-## 今天新出现的数（373 个）落在这几块上
+## 今天新出现的数（381 个）落在这几块上
 
 - `/alias_stability/crosscheck`
 - `/alias_stability/families`
@@ -133,18 +137,22 @@
 - `/futures_hedge_tail/tail_n`：**57 → 52**（差 -5）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
 - `/futures_hedge_tail/uncond_beta`：**0.07185718963947142 → 0.07458300567364223**（差 0.002726）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
 - `/futures_ladder/declared/cash_rate_pct`：**1.326 → 1.327**（差 0.001）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/futures_sleeve/rows/0/carry_caliber/calendar_ann_pct`：**9.793 → 9.805**（差 0.012）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/futures_sleeve/rows/0/carry_caliber/published_ann_pct`：**2.895 → 2.878**（差 -0.017）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/futures_sleeve/rows/0/carry_caliber/spread_pp`：**6.898 → 6.927**（差 0.029）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/futures_sleeve/rows/1/carry_caliber/calendar_ann_pct`：**5.795 → 5.843**（差 0.048）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/futures_sleeve/rows/1/carry_caliber/published_ann_pct`：**1.923 → 1.876**（差 -0.047）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/futures_sleeve/rows/1/carry_caliber/spread_pp`：**3.872 → 3.967**（差 0.095）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/futures_sleeve/rows/2/carry_caliber/calendar_ann_pct`：**5.324 → 5.39**（差 0.066）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/futures_sleeve/rows/2/carry_caliber/published_ann_pct`：**1.617 → 1.561**（差 -0.056）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/futures_sleeve/rows/2/carry_caliber/spread_pp`：**3.707 → 3.829**（差 0.122）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/futures_sleeve/rows/3/carry_caliber/calendar_ann_pct`：**11.954 → 12.013**（差 0.059）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/futures_sleeve/rows/3/carry_caliber/published_ann_pct`：**5.928 → 5.882**（差 -0.046）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/futures_sleeve/rows/3/carry_caliber/spread_pp`：**6.026 → 6.131**（差 0.105）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
+- `/futures_sleeve/rows/0/carry_caliber/calendar_ann_pct`：**9.793 → 9.805**（差 0.012）｜SECTION_ADVANCED｜这一节自己换了代：`futures_sleeve` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
+- `/futures_sleeve/rows/0/carry_caliber/published_ann_pct`：**2.895 → 2.878**（差 -0.017）｜SECTION_ADVANCED｜这一节自己换了代：`futures_sleeve` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
+- `/futures_sleeve/rows/0/carry_caliber/spread_pp`：**6.898 → 6.927**（差 0.029）｜SECTION_ADVANCED｜这一节自己换了代：`futures_sleeve` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
+- `/futures_sleeve/rows/0/notional_per_lot_cny`：**1243680.0 → 1238960.0**（差 -4720.0）｜SECTION_ADVANCED｜这一节自己换了代：`futures_sleeve` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
+- `/futures_sleeve/rows/1/carry_caliber/calendar_ann_pct`：**5.795 → 5.843**（差 0.048）｜SECTION_ADVANCED｜这一节自己换了代：`futures_sleeve` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
+- `/futures_sleeve/rows/1/carry_caliber/published_ann_pct`：**1.923 → 1.876**（差 -0.047）｜SECTION_ADVANCED｜这一节自己换了代：`futures_sleeve` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
+- `/futures_sleeve/rows/1/carry_caliber/spread_pp`：**3.872 → 3.967**（差 0.095）｜SECTION_ADVANCED｜这一节自己换了代：`futures_sleeve` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
+- `/futures_sleeve/rows/1/notional_per_lot_cny`：**1181700.0 → 1175460.0**（差 -6240.0）｜SECTION_ADVANCED｜这一节自己换了代：`futures_sleeve` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
+- `/futures_sleeve/rows/2/carry_caliber/calendar_ann_pct`：**5.324 → 5.39**（差 0.066）｜SECTION_ADVANCED｜这一节自己换了代：`futures_sleeve` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
+- `/futures_sleeve/rows/2/carry_caliber/published_ann_pct`：**1.617 → 1.561**（差 -0.056）｜SECTION_ADVANCED｜这一节自己换了代：`futures_sleeve` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
+- `/futures_sleeve/rows/2/carry_caliber/spread_pp`：**3.707 → 3.829**（差 0.122）｜SECTION_ADVANCED｜这一节自己换了代：`futures_sleeve` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
+- `/futures_sleeve/rows/2/notional_per_lot_cny`：**822720.0 → 818880.0**（差 -3840.0）｜SECTION_ADVANCED｜这一节自己换了代：`futures_sleeve` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
+- `/futures_sleeve/rows/3/carry_caliber/calendar_ann_pct`：**11.954 → 12.013**（差 0.059）｜SECTION_ADVANCED｜这一节自己换了代：`futures_sleeve` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
+- `/futures_sleeve/rows/3/carry_caliber/published_ann_pct`：**5.928 → 5.882**（差 -0.046）｜SECTION_ADVANCED｜这一节自己换了代：`futures_sleeve` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
+- `/futures_sleeve/rows/3/carry_caliber/spread_pp`：**6.026 → 6.131**（差 0.105）｜SECTION_ADVANCED｜这一节自己换了代：`futures_sleeve` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
+- `/futures_sleeve/rows/3/notional_per_lot_cny`：**1221000.0 → 1204600.0**（差 -16400.0）｜SECTION_ADVANCED｜这一节自己换了代：`futures_sleeve` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
 - `/idle_cash/vehicle_net_pct`：**1.772 → 1.7731**（差 0.0011）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
 - `/premium_forward/cny_total`：**3322.86 → 3913.6**（差 590.74）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
 - `/premium_forward/rows/0/latest_pctile`：**15.6312625250501 → 0.5344021376085505**（差 -15.09686）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
@@ -169,10 +177,9 @@
 
 同一个隔夜、同一根 bar、同一笔钱，这页昨天给一个答案、今天给另一个。两个答案不可能都对：走 `RECOVERED_OLD_VALUE`／`DECLARED_RULER` 的那一条说明**是新答案改了算法**（旧数还在页上或口径句改了），读的人要按新口径重读昨天的判断；没有这两条说明的，就是这页偷偷换了数。
 
-## 还有哪些节在同 bar 上改了数（60 个）
+## 还有哪些节在同 bar 上改了数（48 个）
 
 - `premium_forward`：14 个
-- `futures_sleeve`：12 个
 - `cash_money`：9 个
 - `futures_hedge`：8 个
 - `futures_hedge_tail`：8 个

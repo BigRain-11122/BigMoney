@@ -318,8 +318,90 @@ def selftest():
         and ss["is"]["years"] > 1 and ss["oos"]["years"] > 1,
         "is %.2fy oos %.2fy" % (ss["is"]["years"], ss["oos"]["years"]))
 
+    # L11-L14: the freshness gate (r1322). This face is printed as a section of the live
+    # book page and had no chain leg at all, so it sat one bar behind the page for a full
+    # round while nothing noticed. The gate must ask the PANEL, and the four states must
+    # stay four answers -- a "fresh" that also covers "no bar named" is the r98 defect.
+    chk("L11 a face on the panel's last bar is fresh",
+        check_verdict("2026-11-17", "2026-11-17")[0] == "fresh",
+        "verdict %s" % (check_verdict("2026-11-17", "2026-11-17"),))
+    chk("L12 a face behind the panel is stale and says which side",
+        check_verdict("2026-11-16", "2026-11-17")[0] == "stale"
+        and "face_behind_panel" in check_verdict("2026-11-16", "2026-11-17")[1],
+        check_verdict("2026-11-16", "2026-11-17")[1])
+    chk("L13 a face ahead of the panel is not printed as a fresh one",
+        check_verdict("2026-11-18", "2026-11-17")[0] == "stale"
+        and "face_ahead_of_panel" in check_verdict("2026-11-18", "2026-11-17")[1],
+        check_verdict("2026-11-18", "2026-11-17")[1])
+    chk("L14 a face that names no bar is not fresh",
+        check_verdict(None, "2026-11-17")[0] == "no_cutoff",
+        "verdict %s" % (check_verdict(None, "2026-11-17")[0],))
+
     print("\nselftest %d/%d" % (ok, total), flush=True)
     return 0 if ok == total else 1
+
+
+def check_verdict(face_cut, panel_last):
+    """(state, detail) for one face cutoff against the panel's last bar -- pure.
+
+    Split out so a fixture can ask the three questions without a panel on disk: the same
+    reason `guarded_by` returns None rather than [] when the leg list is unreadable (r98)
+    -- a face we could not read must not print as a clean one.
+    """
+    if face_cut is None:
+        return "no_cutoff", "the face names no bar"
+    if face_cut == panel_last:
+        return "fresh", "face=panel=%s" % face_cut
+    if face_cut < panel_last:
+        # Work owed: the panel moved on and this face is a reading of a shorter history.
+        return "stale", "face_behind_panel face=%s panel=%s" % (face_cut, panel_last)
+    # A face AHEAD of the panel is not "stale by -1": the panel was rebuilt shorter
+    # (source revision). Same repair, different cause, so it gets its own sentence.
+    return "stale", "face_ahead_of_panel face=%s panel=%s" % (face_cut, panel_last)
+
+
+def check(path=None):
+    """Is the published face still priced on the panel that is on disk right now?
+
+    (r1322) The live-book page prints this face as its `futures_sleeve` section, and that
+    section carried NO chain leg: `live_book_section_bars` reported guarded_by=[] /
+    provenance=no_writer while the page's headline bar had already moved to 2026-11-17 and
+    this face still said 2026-11-16. Nothing was wrong with the arithmetic -- nobody re-ran
+    it. A stale number that no leg refreshes reads exactly like a measured one, so the
+    missing writer was the defect.
+
+    The judgement is made on the INPUT (the panel's last bar), never on this file's own
+    timestamp: a gate that re-derives from the artifact it is checking always agrees with
+    itself (r1594).
+    """
+    path = path or os.path.join(PATHS.results_dir, "futures_sleeve_economics.json")
+    if not os.path.exists(path):
+        print("[check] MISSING %s -- the face has never been built" % path, flush=True)
+        return 3
+    try:
+        with open(path, encoding="utf-8") as f:
+            face = json.load(f) or {}
+    except Exception as e:
+        print("[check] UNREADABLE %s (%r)" % (path, e), flush=True)
+        return 2
+    face_cut = str(face.get("evidence_cutoff") or "")[:10] or None
+    try:
+        close = P.load_panel()
+        panel_last = str(close.index[-1].date())
+    except Exception as e:
+        print("[check] PANEL_UNREADABLE (%r) -- cannot ask the question" % (e,), flush=True)
+        return 2
+    if face_cut is None:
+        print("[check] NO_CUTOFF %s -- a face that does not say which bar it measured"
+              % os.path.basename(path), flush=True)
+        return 3
+    state, detail = check_verdict(face_cut, panel_last)
+    if state == "fresh":
+        print("[check] FRESH %s" % detail, flush=True)
+        return 0
+    print("[check] STALE %s -- run: python scripts/futures_sleeve_economics.py"
+          % detail, flush=True)
+    return 3
 
 
 def main():
@@ -466,4 +548,6 @@ def main():
 if __name__ == "__main__":
     if "--selftest" in sys.argv[1:]:
         sys.exit(selftest())
+    if "--check" in sys.argv[1:]:
+        sys.exit(check())
     sys.exit(main())

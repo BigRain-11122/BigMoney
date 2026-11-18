@@ -1147,19 +1147,14 @@
    "panel_span": null
   },
   "evidence_cutoff": "2026-11-17",
-  "priced_bar": "2026-11-16",
+  "priced_bar": "2026-11-17",
   "leg_bars": {
-   "IC": "2026-11-16",
-   "IF": "2026-11-16",
-   "IH": "2026-11-16",
-   "IM": "2026-11-16"
+   "IC": "2026-11-17",
+   "IF": "2026-11-17",
+   "IH": "2026-11-17",
+   "IM": "2026-11-17"
   },
-  "legs_behind": [
-   "IC",
-   "IF",
-   "IH",
-   "IM"
-  ],
+  "legs_behind": [],
   "capital_cny": 1000000.0,
   "book": {
    "ann_compound_pct": 11.514,
@@ -1173,7 +1168,7 @@
    {
     "product": "IC",
     "capital_cny": 1000000.0,
-    "notional_per_lot_cny": 1243680.0,
+    "notional_per_lot_cny": 1238960.0,
     "cash_lots_at_stated_capital": 0.0,
     "lots_that_survive_index_worst": 1.0,
     "carry_ann_compound_pct": 8.778,
@@ -1196,7 +1191,7 @@
    {
     "product": "IF",
     "capital_cny": 1000000.0,
-    "notional_per_lot_cny": 1181700.0,
+    "notional_per_lot_cny": 1175460.0,
     "cash_lots_at_stated_capital": 0.0,
     "lots_that_survive_index_worst": 1.0,
     "carry_ann_compound_pct": 3.625,
@@ -1219,7 +1214,7 @@
    {
     "product": "IH",
     "capital_cny": 1000000.0,
-    "notional_per_lot_cny": 822720.0,
+    "notional_per_lot_cny": 818880.0,
     "cash_lots_at_stated_capital": 1.0,
     "lots_that_survive_index_worst": 1.0,
     "carry_ann_compound_pct": 2.471,
@@ -1242,7 +1237,7 @@
    {
     "product": "IM",
     "capital_cny": 1000000.0,
-    "notional_per_lot_cny": 1221000.0,
+    "notional_per_lot_cny": 1204600.0,
     "cash_lots_at_stated_capital": 0.0,
     "lots_that_survive_index_worst": 1.0,
     "carry_ann_compound_pct": 10.263,
@@ -55820,12 +55815,10 @@
   "detail": "这张票没有留下成交行（空票或本 bar 未换仓）"
  },
  "do_or_wait": {
-  "status": "stale",
+  "status": "current",
   "artifact": "C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\results\\etf_book_do_or_wait.json",
   "why": null,
-  "stale_receipts": [
-   "late_sheet_price"
-  ],
+  "stale_receipts": [],
   "evidence_cutoff": "2026-11-17",
   "capital_cny": 1000000.0,
   "question": "Should this sheet be done today, or is waiting cheaper -- and does the per-sheet price still add up when the wait is several bars?",
@@ -55844,7 +55837,7 @@
    },
    {
     "k": 1,
-    "mean_cny": -1807.910394788851,
+    "mean_cny": -1807.9103947888514,
     "carry_cny": 0.0,
     "cost_cny_vs_today": 1807.91,
     "t": -4.599190382634581,
@@ -55853,10 +55846,10 @@
    },
    {
     "k": 2,
-    "mean_cny": -2617.4471149547667,
+    "mean_cny": -2617.447114954767,
     "carry_cny": 0.0,
     "cost_cny_vs_today": 2617.45,
-    "t": -4.811844064273783,
+    "t": -4.811844064273784,
     "share_late_helps": 0.41866028708133973,
     "separable_from_zero": true
    },
@@ -55865,25 +55858,25 @@
     "mean_cny": -2863.6017836822743,
     "carry_cny": 0.0,
     "cost_cny_vs_today": 2863.6,
-    "t": -4.19293691840669,
+    "t": -4.192936918406691,
     "share_late_helps": 0.434052757793765,
     "separable_from_zero": true
    },
    {
     "k": 5,
-    "mean_cny": -4071.2099611560843,
+    "mean_cny": -4071.2099611560852,
     "carry_cny": 0.0,
     "cost_cny_vs_today": 4071.21,
-    "t": -4.290919841585327,
+    "t": -4.29091984158533,
     "share_late_helps": 0.41445783132530123,
     "separable_from_zero": true
    },
    {
     "k": 10,
-    "mean_cny": -4025.158286788445,
+    "mean_cny": -4025.158286788448,
     "carry_cny": 0.0,
     "cost_cny_vs_today": 4025.16,
-    "t": -2.2053797292433277,
+    "t": -2.2053797292433295,
     "share_late_helps": 0.4433734939759036,
     "separable_from_zero": true
    }
@@ -55892,8 +55885,8 @@
   "today_cost_cny": 0.0,
   "trim_owed": false,
   "one_open_late": {
-   "median_cny": -932.3031683309349,
-   "mean_cny": -1807.910394788851,
+   "median_cny": -932.3031683309347,
+   "mean_cny": -1807.9103947888514,
    "t": -4.599190382634581,
    "share_late_helps": 0.4128878281622912
   },
@@ -55905,7 +55898,7 @@
    },
    "late_sheet_price": {
     "cutoff": "2026-11-17",
-    "digest": "b9e56235ecea2f5e"
+    "digest": "0dd76a4772d3ac5e"
    }
   }
  },

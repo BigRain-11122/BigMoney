@@ -16887,3 +16887,31 @@ check FAIL: counts.leaves_today, counts.recovered_old_value, counts.unexplained,
 
 正身=scripts/etf_book_day_delta.py（page_identity / check_published / selftest L21–L21f 六腿）
 + Tools/s6_chain_bmc.py（etf_book_day_delta_write / etf_book_day_delta 两腿）。
+
+### E1419 · 「名字在册」不等于「有人在跑」：链腿齐全而全链零次运行、冒烟腿引用未 import 的模块、落后节没有闸（2026-11-18 r1322 bm-a）
+
+CEO 活书页头部写着「按 2026-11-17 定价」，73 个带日期的节里 71 节在这一天，落后那一节是
+`futures_sleeve`（停在 11-16）。三处「看着在守」其实都没人跑，各自是一个假绿：
+
+① **链腿齐全 ≠ 链在跑**。`idx_fut_desk_sheet` 早在 LEGS 第 286 行，`Tools/s6_chain_bma.py`
+也能跑它——但本机**没有任何一条 `_r*bma_s6_chain*.json` 记录**：292 腿的共享链在 bm-a 上一次都没跑过。
+于是数据推到 11-17 之后，desk_sheet 的行 cutoff 仍停在 11-16，页面照读旧数。正法=给链一个**驱动者**
+（Tools/iteration_prompt.txt 的 S6 段首腿：每轮必跑一次，时间不够用 `--only=<族>` 分批，禁静默跳过），
+并记住判据：**有腿 ≠ 有跑，问「上一次运行记录在哪」而不是「腿在不在表里」**。
+
+② **引用未 import 的模块 = 永久红，而永久红会被读成背景噪声**。`smoke_test.py` 那条「生存判词必须压在
+可复现的共同格上」的守卫用了 `io.open(...)`，而该文件顶部没有 `import io`：自写下的那一刻起每次都抛
+`NameError`，报 `name 'io' is not defined`——它从未读过那张面，却让读者以为 r1321 的复现证据有腿在守。
+正法=改 `open(..., encoding=...)`；更一般地，**新守卫必须先证明它能在失败输入上说出自己该说的话**
+（写一个必然失败的反例跑一次），否则「红」与「守住了」长得一样。
+
+③ **落后节的诊断只在旁文件里，没有闸**。`live_book_section_bars` 早已算出 `provenance=no_writer`，
+可冒烟只检查「on/off/ahead 计数相加对不对」——一个既落后又没人重跑的面，计数完全自洽。正法=把
+`off_headline` 里 `provenance == "no_writer"` 直接判红（它在链里连一条腿都没有，不是「别的机器的一天」）。
+
+**How to apply**：任何「我们有 XX 守/链/闸」的句子，先要一份**运行记录**（不是清单）；任何新加的守卫，
+先在必然失败的输入上跑一次确认它真会报出来；任何「落后 N 天」的披露，若同时写着「没有写者」，
+那就是缺陷而不只是注记——把它变成红，或把它变成一条腿。
+
+正身=Tools/s6_chain_bmc.py `futures_sleeve_economics` 腿（check 派生自面板最后一根 bar）+ Tools/iteration_prompt.txt S6 首腿 +
+smoke_test.py `open()` 修复与 `no_writer` 判红 + results/live_book_section_bars.json（verdict PAGE_AHEAD_OF_BAR, off=0）。

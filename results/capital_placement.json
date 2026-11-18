@@ -1,6 +1,6 @@
 {
   "schema": "capital_placement/v1",
-  "ts": "2026-11-18T00:50:45+08:00",
+  "ts": "2026-11-18T12:16:44+08:00",
   "evidence_cutoff": "2026-11-17",
   "config": {
     "book_participation_cap": 0.01,
@@ -106,17 +106,17 @@
     "futures_sleeve": {
       "source": "results/futures_sleeve_economics.json",
       "available": true,
-      "capital_floor_cny": 8078625,
+      "capital_floor_cny": 7422063,
       "cells": {
-        "300000.0": 0.0035,
-        "500000.0": 0.0032,
-        "1000000.0": 0.0015,
-        "2000000.0": 0.0029,
-        "3000000.0": -0.0016,
-        "5000000.0": 0.0024,
-        "10000000.0": 0.0078,
-        "20000000.0": 0.0108,
-        "50000000.0": 0.013
+        "300000.0": 0.004,
+        "500000.0": 0.0033,
+        "1000000.0": 0.0018,
+        "2000000.0": 0.0028,
+        "3000000.0": -0.0012,
+        "5000000.0": 0.0044,
+        "10000000.0": 0.0104,
+        "20000000.0": 0.0095,
+        "50000000.0": 0.0134
       },
       "continuous_cagr": 0.0137
     }
@@ -153,7 +153,7 @@
         },
         "futures_sleeve": {
           "status": "below_floor",
-          "capital_floor_cny": 8078625.0,
+          "capital_floor_cny": 7422063.0,
           "annual_profit_cny": 5331.0,
           "source": "results/futures_sleeve_economics.json",
           "note": "below the one-lot floor the sleeve can only hold repo; profit shown is the cash leg"
@@ -210,7 +210,7 @@
         },
         "futures_sleeve": {
           "status": "below_floor",
-          "capital_floor_cny": 8078625.0,
+          "capital_floor_cny": 7422063.0,
           "annual_profit_cny": 17770.0,
           "source": "results/futures_sleeve_economics.json",
           "note": "below the one-lot floor the sleeve can only hold repo; profit shown is the cash leg"
@@ -267,7 +267,7 @@
         },
         "futures_sleeve": {
           "status": "below_floor",
-          "capital_floor_cny": 8078625.0,
+          "capital_floor_cny": 7422063.0,
           "annual_profit_cny": 26655.0,
           "source": "results/futures_sleeve_economics.json",
           "note": "below the one-lot floor the sleeve can only hold repo; profit shown is the cash leg"
@@ -324,7 +324,7 @@
         },
         "futures_sleeve": {
           "status": "below_floor",
-          "capital_floor_cny": 8078625.0,
+          "capital_floor_cny": 7422063.0,
           "annual_profit_cny": 53310.0,
           "source": "results/futures_sleeve_economics.json",
           "note": "below the one-lot floor the sleeve can only hold repo; profit shown is the cash leg"
@@ -380,11 +380,14 @@
           "note": "bought once and held (turnover 1.0 over the window); capacity is an entry-print question, not a daily one, and is not modelled here"
         },
         "futures_sleeve": {
-          "status": "below_floor",
-          "capital_floor_cny": 8078625.0,
-          "annual_profit_cny": 142160.0,
+          "status": "ok",
+          "deployed_cny": 8000000.0,
+          "cagr": 0.0104,
+          "lot_cagr_cell_capital_cny": 10000000.0,
+          "annual_profit_cny": 83200.0,
           "source": "results/futures_sleeve_economics.json",
-          "note": "below the one-lot floor the sleeve can only hold repo; profit shown is the cash leg"
+          "note": "lot-sized arm at the nearest measured capital cell; the continuous-weight 1.37%/yr is not reachable at these sizes",
+          "disclosure_cell_distance_cny": 2000000.0
         }
       },
       "best_vehicle": "four_etf_basket",
@@ -439,9 +442,9 @@
         "futures_sleeve": {
           "status": "ok",
           "deployed_cny": 50000000.0,
-          "cagr": 0.013,
+          "cagr": 0.0134,
           "lot_cagr_cell_capital_cny": 50000000.0,
-          "annual_profit_cny": 650000.0,
+          "annual_profit_cny": 670000.0,
           "source": "results/futures_sleeve_economics.json",
           "note": "lot-sized arm at the nearest measured capital cell; the continuous-weight 1.37%/yr is not reachable at these sizes",
           "disclosure_cell_distance_cny": 0.0

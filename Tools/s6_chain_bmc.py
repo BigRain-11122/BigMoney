@@ -712,6 +712,15 @@ LEGS = [
     # the spanning / capacity / futures faces already refreshed above: it measures
     # nothing, so its only failure mode is a missing input, which it reports instead of
     # zeroing. <1s, no network, no judge.
+    # r1322 bm-a: `capital_placement` below reads results/futures_sleeve_economics.json as
+    # its futures vehicle, and that face had NO leg of its own -- so the allocator priced a
+    # sleeve off whatever bar a session last happened to rebuild it on (this round: 11-16
+    # while the futures panel was already 11-17). Writer before reader (r1781 order law).
+    # 1s pure in-repo re-derive, no network: `--check` asks the PANEL's last bar, so a fresh
+    # face costs nothing and only a stale one pays the rebuild.
+    ("futures_sleeve_economics",
+     ["python", "scripts/futures_sleeve_economics.py", "--check"],
+     ["python", "scripts/futures_sleeve_economics.py"]),
     ("capital_placement", ["python", "scripts/capital_placement.py", "run"]),
     # r1320: capital_placement put the card's 9.62% next to the capacity ladder's 7.28%
     # and called the 2.34pp between them an unattributed "run diff". They are three

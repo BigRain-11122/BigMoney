@@ -5368,9 +5368,9 @@ def main() -> int:
     # re-derives that pair and prints whether it landed; a survival verdict that is not backed
     # by a readable, passing reproduction is the old bug wearing a new sentence.
     try:
-        _nb = json.load(io.open(os.path.join(ROOT, "results",
-                                             "etf_book_width_neighbors.json"),
-                                encoding="utf-8"))
+        _nb = json.load(open(os.path.join(ROOT, "results",
+                                          "etf_book_width_neighbors.json"),
+                             encoding="utf-8"))
         _v = (_nb.get("judgement") or {}).get("verdict")
         _rp = _nb.get("reproduction") or {}
         _clocks = sorted({c.get("rebal") for c in (_nb.get("cells") or [])})
@@ -9336,6 +9336,14 @@ def main() -> int:
             for _r78 in _doc78.get("off_headline") or []:
                 if _doc78.get("headline_bar") and _r78.get("bar") >= _doc78["headline_bar"]:
                     _bad78.append("section %r is called off-headline but is not older"
+                                  % (_r78.get("key"),))
+                # r1322: a section that is both BEHIND the page and has no chain leg is not
+                # "another day's number" -- it is a face nothing re-runs. That is how the
+                # futures_sleeve section sat a bar behind for a full round while this leg
+                # stayed green (it only asked whether the counts added up). The repair is a
+                # leg in Tools/s6_chain_bmc.py, so name it here rather than let it drift.
+                if _r78.get("provenance") == "no_writer":
+                    _bad78.append("section %r is behind the page and no chain leg re-runs it"
                                   % (_r78.get("key"),))
             # r1294: the other direction has to be labelled too -- a section on a NEWER bar
             # than the book's own is not a lag, and putting it in off_headline hides the one

@@ -9,10 +9,10 @@ which contract, how many lots, or when it rolls. This sheet answers only that.
 
 | product | judgement | contract | close | OI share | notional/lot | margin/lot |
 |---|---|---|---|---|---|---|
-| IC | SLEEVE_CANDIDATE | IC2612 | 6218.4 | 82.41% | 1243680 | 149242 |
-| IF | REFUSE | IF2612 | 3939.0 | 81.53% | 1181700 | 141804 |
-| IM | SLEEVE_CANDIDATE | IM2612 | 6105.0 | 80.50% | 1221000 | 146520 |
-| IH | REFUSE | IH2612 | 2742.4 | 81.69% | 822720 | 98726 |
+| IC | SLEEVE_CANDIDATE | IC2612 | 6194.8 | 84.90% | 1238960 | 148675 |
+| IF | REFUSE | IF2612 | 3918.2 | 83.54% | 1175460 | 141055 |
+| IM | SLEEVE_CANDIDATE | IM2612 | 6023.0 | 82.02% | 1204600 | 144552 |
+| IH | REFUSE | IH2612 | 2729.6 | 82.89% | 818880 | 98266 |
 
 Margin is the exchange minimum at 12%; a broker adds its own, which this host cannot measure. Notional and margin are per lot = price x multiplier (IF/IH 300, IC/IM 200).
 
@@ -47,10 +47,10 @@ committed, and the answer depends on which fall you prepare for.
 
 | product | carry on notional | capital/lot for sample DD | return on it | capital/lot for index worst | return on it |
 |---|---|---|---|---|---|
-| IC | 8.78% | 164015 | 66.56% | 928079 | 11.76% |
-| IF | 3.62% | 165734 | 25.85% | 880599 | 4.86% |
-| IM | 10.26% | 154374 | 81.17% | 910391 | 13.76% |
-| IH | 2.47% | 122018 | 16.66% | 613860 | 3.31% |
+| IC | 8.78% | 163393 | 66.56% | 924557 | 11.76% |
+| IF | 3.62% | 164859 | 25.85% | 875949 | 4.86% |
+| IM | 10.26% | 152300 | 81.17% | 898163 | 13.76% |
+| IH | 2.47% | 121448 | 16.66% | 610995 | 3.31% |
 
 The sample column prepares for the hole this window produced (5.64% for IC); the index column prepares for the index's own worst (72.42%).
  A return computed on the smaller capital is not a better trade, it is the same
@@ -59,10 +59,10 @@ The sample column prepares for the hole this window produced (5.64% for IC); the
 Read against the adopted book on the same source face (n=1663 bars, 10.33% vol, Sharpe 1.107, max drawdown -10.56%):
 
 - the book compounds **11.51%/yr** and its worst drawdown is **-10.56%**;
-- **IC** pays **11.76%/yr** on the capital that funds its index worst (928079), and that capital is the size of a 72.42% fall.
-- **IF** pays **4.86%/yr** on the capital that funds its index worst (880599), and that capital is the size of a 72.30% fall.
-- **IM** pays **13.76%/yr** on the capital that funds its index worst (910391), and that capital is the size of a 72.35% fall.
-- **IH** pays **3.31%/yr** on the capital that funds its index worst (613860), and that capital is the size of a 72.41% fall.
+- **IC** pays **11.76%/yr** on the capital that funds its index worst (924557), and that capital is the size of a 72.42% fall.
+- **IF** pays **4.86%/yr** on the capital that funds its index worst (875949), and that capital is the size of a 72.30% fall.
+- **IM** pays **13.76%/yr** on the capital that funds its index worst (898163), and that capital is the size of a 72.35% fall.
+- **IH** pays **3.31%/yr** on the capital that funds its index worst (610995), and that capital is the size of a 72.41% fall.
 
 A sleeve that pays the book's rate while requiring its holder to fund a
 72.42% fall is not the same instrument at the same price; that comparison is the one this sheet refuses to make for the reader.
@@ -74,10 +74,10 @@ So the money question has one answer on this face: the best sleeve is
 
 | product | index worst DD on record | fall that calls the own-DD count | with +2pp maintenance | fall that calls the surviving count |
 |---|---|---|---|---|
-| IC | 72.42% | 4 lots → 13.2% | 11.2% | 1 lots → 78.7% |
-| IF | 72.30% | 4 lots → 14.3% | 12.4% | 1 lots → 83.3% |
-| IM | 72.35% | 4 lots → 13.6% | 11.6% | 1 lots → 80.3% |
-| IH | 72.41% | 6 lots → 13.3% | 11.4% | 1 lots → >100% |
+| IC | 72.42% | 4 lots → 13.2% | 11.3% | 1 lots → 79.0% |
+| IF | 72.30% | 4 lots → 14.4% | 12.5% | 1 lots → 83.8% |
+| IM | 72.35% | 4 lots → 13.9% | 11.9% | 1 lots → 81.5% |
+| IH | 72.41% | 6 lots → 13.4% | 11.5% | 1 lots → >100% |
 
 The fall column is not a scenario, it is arithmetic:
 
@@ -93,9 +93,9 @@ Counts this table would call **inside the record**, i.e. the own-drawdown
 count is not a position a broker lets you keep:
 
 - **IC** — 4 lots are called after a 13.2% fall; the index has fallen 72.4% before.
-- **IF** — 4 lots are called after a 14.3% fall; the index has fallen 72.3% before.
-- **IM** — 4 lots are called after a 13.6% fall; the index has fallen 72.3% before.
-- **IH** — 6 lots are called after a 13.3% fall; the index has fallen 72.4% before.
+- **IF** — 4 lots are called after a 14.4% fall; the index has fallen 72.3% before.
+- **IM** — 4 lots are called after a 13.9% fall; the index has fallen 72.3% before.
+- **IH** — 6 lots are called after a 13.4% fall; the index has fallen 72.4% before.
 
 Two things this table does not model, both of which can only make the distance
 shorter: the broker's surcharge (printed as the +2pp column, not as a guess at one number) and the fact that CFFEX may raise the maintenance level mid-crisis, which is exactly when the distance is being used.
@@ -110,26 +110,26 @@ here, and the repo rate on that cash is another host's panel.
 
 | product | capital | cash lots | cash earns /yr | cash occupancy | margin lots | margin earns /yr |
 |---|---|---|---|---|---|---|
-| IC | 300000 | 0 | 0 | 0.0% | 2 | 218340 |
-| IC | 1000000 | 0 | 0 | 0.0% | 6 | 655021 |
-| IC | 3000000 | 2 | 218340 | 82.9% | 20 | 2183405 |
-| IC | 10000000 | 8 | 873362 | 99.5% | 67 | 7314405 |
-| IC | 50000000 | 40 | 4366809 | 99.5% | 335 | 36572027 |
-| IF | 300000 | 0 | 0 | 0.0% | 2 | 85673 |
-| IF | 1000000 | 0 | 0 | 0.0% | 7 | 299856 |
-| IF | 3000000 | 2 | 85673 | 78.8% | 21 | 899569 |
-| IF | 10000000 | 8 | 342693 | 94.5% | 70 | 2998564 |
-| IF | 50000000 | 42 | 1799138 | 99.3% | 352 | 15078492 |
-| IM | 300000 | 0 | 0 | 0.0% | 2 | 250622 |
-| IM | 1000000 | 0 | 0 | 0.0% | 6 | 751867 |
-| IM | 3000000 | 2 | 250622 | 81.4% | 20 | 2506225 |
-| IM | 10000000 | 8 | 1002490 | 97.7% | 68 | 8521164 |
-| IM | 50000000 | 40 | 5012449 | 97.7% | 341 | 42731129 |
-| IH | 300000 | 0 | 0 | 0.0% | 3 | 60988 |
-| IH | 1000000 | 1 | 20329 | 82.3% | 10 | 203294 |
-| IH | 3000000 | 3 | 60988 | 82.3% | 30 | 609882 |
-| IH | 10000000 | 12 | 243953 | 98.7% | 101 | 2053271 |
-| IH | 50000000 | 60 | 1219765 | 98.7% | 506 | 10286682 |
+| IC | 300000 | 0 | 0 | 0.0% | 2 | 217512 |
+| IC | 1000000 | 0 | 0 | 0.0% | 6 | 652535 |
+| IC | 3000000 | 2 | 217512 | 82.6% | 20 | 2175118 |
+| IC | 10000000 | 8 | 870047 | 99.1% | 67 | 7286646 |
+| IC | 50000000 | 40 | 4350236 | 99.1% | 336 | 36541985 |
+| IF | 300000 | 0 | 0 | 0.0% | 2 | 85221 |
+| IF | 1000000 | 0 | 0 | 0.0% | 7 | 298273 |
+| IF | 3000000 | 2 | 85221 | 78.4% | 21 | 894819 |
+| IF | 10000000 | 8 | 340883 | 94.0% | 70 | 2982730 |
+| IF | 50000000 | 42 | 1789638 | 98.7% | 354 | 15084090 |
+| IM | 300000 | 0 | 0 | 0.0% | 2 | 247256 |
+| IM | 1000000 | 0 | 0 | 0.0% | 6 | 741769 |
+| IM | 3000000 | 2 | 247256 | 80.3% | 20 | 2472562 |
+| IM | 10000000 | 8 | 989025 | 96.4% | 69 | 8530339 |
+| IM | 50000000 | 41 | 5068752 | 98.8% | 345 | 42651694 |
+| IH | 300000 | 0 | 0 | 0.0% | 3 | 60704 |
+| IH | 1000000 | 1 | 20235 | 81.9% | 10 | 202345 |
+| IH | 3000000 | 3 | 60704 | 81.9% | 30 | 607036 |
+| IH | 10000000 | 12 | 242814 | 98.3% | 101 | 2043687 |
+| IH | 50000000 | 61 | 1234306 | 99.9% | 508 | 10279139 |
 
 A zero in the cash column is not a small position: it means one lot costs
 more than the whole account, and the margin column is what a leveraged
@@ -139,16 +139,19 @@ holder would be looking at -- the row that has a call distance attached.
 
 | product | last roll | td since | median interval | next roll ~td | gap after roll cost (floor / median) |
 |---|---|---|---|---|---|
-| IC | 2026-09-14 (IC2609→IC2612) | 39 | ? td (n=0) | ? | +9.06 / +6.75 pp |
-| IF | 2026-09-11 (IF2609→IF2612) | 40 | ? td (n=0) | ? | +2.25 / +0.56 pp |
-| IM | 2026-09-14 (IM2609→IM2612) | 39 | ? td (n=0) | ? | +9.17 / +7.73 pp |
-| IH | 2026-09-14 (IH2609→IH2612) | 39 | ? td (n=0) | ? | ? / ? pp |
+| IC | 2026-09-14 (IC2609→IC2612) | 40 | 20.5 td (n=62) | -20 | +9.06 / +6.75 pp |
+| IF | 2026-09-11 (IF2609→IF2612) | 41 | 19.0 td (n=73) | -22 | +2.25 / +0.56 pp |
+| IM | 2026-09-14 (IM2609→IM2612) | 40 | 59.0 td (n=22) | +19 | +9.17 / +7.73 pp |
+| IH | 2026-09-14 (IH2609→IH2612) | 40 | 17.0 td (n=88) | -23 | ? / ? pp |
 
 The next-roll column is an estimate off this book's own switch history, not a
 calendar rule: the calendar rule was measured to catch half of the rolls while
 also eating market days near expiry. A negative number means the central
 interval has already elapsed -- read it against who is actually holding the book:
 
+- **IC** is 20 td past its median interval, and the incumbent still holds 84.90% of the product's open interest (median over 62 switches, IQR [11.0, 58.0] td): the series is irregular, so this is not a deadline.
+- **IF** is 22 td past its median interval, and the incumbent still holds 83.54% of the product's open interest (median over 73 switches, IQR [9.0, 42.0] td): the series is irregular, so this is not a deadline.
+- **IH** is 23 td past its median interval, and the incumbent still holds 82.89% of the product's open interest (median over 88 switches, IQR [5.0, 26.0] td): the series is irregular, so this is not a deadline.
 
 A missing gap is refused, not zero:
 
