@@ -16711,3 +16711,7 @@ CEO 页 ⑥ 段一直印三样东西：今天要动的单（先卖 3 只、再�
 正身=`results/etf_book_do_or_wait.json`（evidence_cutoff 2026-11-17）+ CEO 页
 `docs/live_usage/LIVE-2026-11-18.md` ⑥ 段「今天做，还是分开几天做」；接线腿
 `ceo_live_usage.py selftest`（r1828 四条：阶梯印出／单张纸并列／缺面退化成理由／异 bar 拒印）。
+### E1414 共享面里不许写「谁在读」（r1316 bm-a）
+
+esults/data_lane_freshness.json 是共享面，但每行的 cert.state 是拿「读者机」判出来的：同一份认证在认证它的机器上读 current，在任何别的机器上读 oreign。于是 bm-c 渲染的面被 bm-a 拉回后，两条冒烟腿在两边各红一次（r1789 永久红族）。正法=状态只由文件里的事实决定：按行自己声明的盘权威（data_face_machine → lane_host → owner）与认证机比对，读者机只在行没声明盘时兜底（fixture/ad-hoc 面）。自检腿 L44 钉死「同一 cert+同一行，bm-a 与 bm-c 读到同一个状态」与「非权威副本的扫描恒为 foreign」。How：任何写进共享路径的判词，先问它会不会随读者变；会变=把读者的名字也写进事实，或改成与读者无关的判据。
+

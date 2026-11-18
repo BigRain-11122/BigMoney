@@ -1112,7 +1112,8 @@ def cert_row_state(cert_row, board_row, cert_machine=None, here=None):
     * "current"      -- the scan read the same tail this row prints; quote counts.
     * "stale"        -- any other tail; its counts describe another panel state
                         and must not be quoted, but it must be named.
-    * "foreign"      -- the scan describes ANOTHER machine's disk. r1290: this
+    * "foreign"      -- the scan describes a disk other than the one this row's
+                        tail comes from. r1290: this
                         file is shared across the fleet and every machine reads
                         it as its own; on 2026-11-12 this machine's ah_panel held
                         186 files ending 2026-10-16 while the certification (run
@@ -1133,7 +1134,20 @@ def cert_row_state(cert_row, board_row, cert_machine=None, here=None):
     full_tail = cert_row.get("full_tail")
     if cert_machine is None:
         return "unattributed", full_tail, board_tail
-    if here is not None and str(cert_machine) != str(here):
+    # r1316: "is this scan usable for THIS row" was answered against the machine
+    # doing the asking, and this row is committed to a shared path -- so the same
+    # bytes read `current` on the machine that certified them and `foreign` on
+    # every other one, and a gate that recomputes here went red on both. The
+    # question has an answer that does not depend on the reader: does the scan
+    # describe the disk this row's tail comes from? Rows name that disk
+    # (`data_face_machine` = whose envelope the tail is, else `lane_host` /
+    # `owner`); when a row names none (fixtures, ad-hoc reads) the reader stands
+    # in, which is the pre-r1316 behaviour.
+    disk = (board_row or {}).get("data_face_machine") \
+        or (board_row or {}).get("lane_host") \
+        or (board_row or {}).get("owner") \
+        or here
+    if disk is not None and str(cert_machine) != str(disk):
         return "foreign", full_tail, board_tail
     if full_tail and board_tail and str(full_tail) != str(board_tail):
         return "stale", full_tail, board_tail
@@ -1201,6 +1215,8 @@ def attach_cert(report, days=None, cert=None, here=None):
         state, full_tail, board_tail = cert_row_state(
             cr, r, cert_machine=cert_machine, here=here)
         blk = {"state": state, "machine": cert_machine,
+               "judged_disk": ((r.get("data_face_machine") or r.get("lane_host")
+                                or r.get("owner"))),
                "full_tail": full_tail, "board_tail": board_tail,
                "direction": cert_tail_direction(full_tail, board_tail),
                "certified_as_of": as_of,
@@ -1238,6 +1254,11 @@ def _holder_sentence(row, cert_row, cert_as_of, cert_machine=None, here=None):
         return (" (this certification does not name the machine whose disk it "
                 "read -- run `certify` here to certify this copy)")
     if state == "foreign":
+        _disk = (blk or {}).get("judged_disk")
+        if _disk:
+            return (f" (this certification describes **{cert_machine}**'s disk, "
+                    f"while this row prints **{_disk}**'s tail -- certify where "
+                    f"the panel lives)")
         return (f" (this certification describes **{cert_machine}**'s disk, not "
                 f"this machine's -- run `certify` here to certify this copy)")
     if state == "stale":
@@ -2963,10 +2984,32 @@ def selftest():
         print("[PASS] L43 the board names the machine whose disk it read",
               flush=True)
 
+    # L44 (r1316) the state a row publishes must not depend on who reads it. The
+    # row is committed to a shared path, so "current on the machine that certified
+    # it, foreign on every other one" is red on both sides of the same file and a
+    # permanent red gets read as background noise (r1789). The row names the disk
+    # its tail comes from; that disk decides, and only a row naming none falls
+    # back to the reader.
+    _row44 = {"panel_tail": "2026-11-17", "data_face_machine": "bm-c"}
+    _same44 = cert_row_state({"full_tail": "2026-11-17"}, _row44,
+                             cert_machine="bm-c", here="bm-a")
+    _self44 = cert_row_state({"full_tail": "2026-11-17"}, _row44,
+                             cert_machine="bm-c", here="bm-c")
+    assert _same44[0] == _self44[0] == "current", (_same44, _self44)
+    _other44 = cert_row_state({"full_tail": "2026-10-19"}, _row44,
+                              cert_machine="bm-a", here="bm-a")
+    assert _other44[0] == "foreign", _other44
+    _bare44 = cert_row_state({"full_tail": "2026-11-17"},
+                             {"panel_tail": "2026-11-17"},
+                             cert_machine="bm-c", here="bm-a")
+    assert _bare44[0] == "foreign", _bare44
+    print("[PASS] L44 a certification is judged against the row's own disk, "
+          "not against whoever reads it", flush=True)
+
     # NB: this counter is typed, not derived. It was 40/40 with 41 legs running
     # (L35b added in r1639) -- a suite that prints a smaller number than it ran
     # reads as "the new leg never executed". Bump it with every leg added.
-    print("selftest: 44/44 PASS", flush=True)
+    print("selftest: 45/45 PASS", flush=True)
     return 0
 
 
