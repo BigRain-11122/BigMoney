@@ -5368,7 +5368,8 @@ def main() -> int:
     # re-derives that pair and prints whether it landed; a survival verdict that is not backed
     # by a readable, passing reproduction is the old bug wearing a new sentence.
     try:
-        _nb = json.load(open(os.path.join(ROOT, "results",
+        _nb = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                                          "results",
                                           "etf_book_width_neighbors.json"),
                              encoding="utf-8"))
         _v = (_nb.get("judgement") or {}).get("verdict")
