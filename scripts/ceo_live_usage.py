@@ -476,6 +476,14 @@ def _recommendation_face() -> dict:
     stage = rec.get("stage_view") or {}
     best_combo = dec.get("best_combo") or {}
     best_unc = dec.get("best_unconditional") or {}
+    try:
+        picks = _read_json(os.path.join(
+            ROOT, "results", "divlowvol_live", "latest.json"))
+    except (OSError, ValueError):
+        picks = {}
+    picks_panel_rel = ((picks.get("panel") or {}).get("path")
+                       or os.path.join("data", "cache", "p1c_local"))
+    picks_panel_present = os.path.isdir(os.path.join(ROOT, picks_panel_rel))
     return {
         "present": True,
         "path": REC_REL,
@@ -496,6 +504,14 @@ def _recommendation_face() -> dict:
         "turnover": live.get("one_way_turnover"),
         "codes": live.get("codes") or [],
         "sha16": rec.get("sha16"),
+        # The recommendation is the one block on this page that hands the
+        # reader actual stock codes, and it is a MONTHLY sleeve built from a
+        # 5,225-name panel that lives on bm-b.  Both facts have to travel with
+        # the list: the page must be able to say when it next changes, and
+        # whether this machine could rebuild it at all.
+        "picks_asof": (picks or {}).get("as_of"),
+        "picks_panel": picks_panel_rel,
+        "picks_panel_present": picks_panel_present,
     }
 
 
@@ -1550,7 +1566,24 @@ def owed_sessions(cutoff, expected, days):
     return sum(1 for d in days if cutoff < d <= expected)
 
 
-def _freshness_face(book, tape, market_asof, now=None):
+def owed_firings(entry, expected, days):
+    """Month-start sessions strictly after *entry*, up to *expected*.
+
+    A monthly face is not measured with the daily yardstick: thirty calendar
+    days of lag is what this rule looks like when it is perfectly on time.
+    What it is owed is one firing per month-start session that has already
+    happened since the one it last fired on.  Empty list = on schedule;
+    None = one side unknown (never printed as "current")."""
+    if not entry or not expected:
+        return None
+    first_by_month = {}
+    for d in days:
+        first_by_month.setdefault(d[:7], d)   # days are ascending sessions
+    return [d for _k, d in sorted(first_by_month.items())
+            if entry < d <= expected]
+
+
+def _freshness_face(book, tape, market_asof, rec=None, now=None):
     try:
         days, expected = _calendar_yardstick(now)
     except Exception as exc:                                     # noqa: BLE001
@@ -1569,12 +1602,25 @@ def _freshness_face(book, tape, market_asof, now=None):
                                "current" if owed == 0 else "behind")})
     behind = [r for r in rows if r["state"] == "behind"]
     worst = max(behind, key=lambda r: r["owed_sessions"]) if behind else None
+    monthly = []
+    if rec and rec.get("present"):
+        dues = owed_firings(rec.get("entry_date"), expected, days)
+        monthly.append({
+            "face": "recommendation",
+            "label": "配置参考名单（DIVLOWVOL·月度）",
+            "cutoff": rec.get("entry_date"),
+            "dues": dues or [],
+            "owed_firings": (None if dues is None else len(dues)),
+            "state": ("unreadable" if dues is None else
+                      "behind" if dues else "current"),
+        })
     return {
         "status": "ok",
         "source": "exchange_calendar_audit.load_calendar/expected_last_day",
         "calendar_last": days[-1] if days else None,
         "expected_bar": expected,
         "rows": rows,
+        "monthly": monthly,
         "worst_face": worst["label"] if worst else None,
         "worst_owed_sessions": worst["owed_sessions"] if worst else 0,
         "unreadable": [r["label"] for r in rows if r["state"] == "unreadable"],
@@ -1604,6 +1650,15 @@ def _freshness_lines(fr):
     if fr.get("book_panel_last_bar"):
         L.append(f"  - 书的定价面板尾 bar：**{fr['book_panel_last_bar']}**"
                  "（书的 bar 不可能比它定价的面板新）")
+    for r in fr.get("monthly") or []:
+        if r["state"] == "current":
+            tail = "**在它的月度节律内**"
+        elif r["state"] == "unreadable":
+            tail = "**无法核实**（读不到换仓日，不按同步记）"
+        else:
+            tail = (f"**欠 {r['owed_firings']} 次调仓**"
+                    f"（最近该换的是 {r['dues'][0]}·月度网格每根月首交易日一次）")
+        L.append(f"  - {r['label']}：上次换仓 {r['cutoff']} · {tail}")
     if fr.get("worst_face"):
         L.append(f"- 结论：本页**不是** {fr['expected_bar']} 收盘后的读数——"
                  f"最旧的一面（{fr['worst_face']}）欠 {fr['worst_owed_sessions']} 个会话。"
@@ -1670,6 +1725,7 @@ def build_payload(day: str) -> dict:
                    for pos in m["positions"]})
     book = _etf_book_face()
     tape = _risk_tape_face()
+    rec_face = _recommendation_face()
     return {
         "schema": "ceo_live_usage_v1_9",
         "ticket": "T-202609-28-105",
@@ -1712,7 +1768,7 @@ def build_payload(day: str) -> dict:
         "cap_vs_book": _cap_vs_book_face(regime.get("asof")),
         "rollup": _rollup_face(paper, day),
         "intraday": _intraday_face(held, day),
-        "recommendation": _recommendation_face(),
+        "recommendation": rec_face,
         "judgment_burns": _judgment_burn_face(),
         "etf_book": book,
         "etf_order": _etf_order_with_cash_roll(),
@@ -1726,7 +1782,8 @@ def build_payload(day: str) -> dict:
         "carry_timing": _carry_timing_face(),
         "carry_margin": _carry_margin_face(),
         "carry_roll_cost": _carry_roll_cost_face(),
-        "freshness": _freshness_face(book, tape, regime.get("asof")),
+        "freshness": _freshness_face(book, tape, regime.get("asof"),
+                                     rec=rec_face),
         "chain_versions": [
             {"version": v, "status": s} for v, s in _version_banner()],
         "disclaimers": [
@@ -2067,6 +2124,25 @@ def render_md(p: dict) -> str:
                  f"{rec['turnover']:.2f}")
         if rec["codes"]:
             L.append(f"  - 名单：{' '.join(rec['codes'])}")
+        _mrec = next((m for m in ((p.get("freshness") or {})
+                                  .get("monthly") or [])
+                      if m.get("face") == "recommendation"), None)
+        if _mrec is not None:
+            if _mrec["state"] == "behind":
+                L.append(f"  - **这份名单已经过期**：它是月度网格，它的下一个月首"
+                         f"交易日（{_mrec['dues'][0]}）已经过去，共欠 "
+                         f"{_mrec['owed_firings']} 次换仓——**不要照这份名单新开仓**，"
+                         "它记的是上一次 fired 的那一组名字。")
+            elif _mrec["state"] == "current":
+                L.append(f"  - 名单在它的节律内：月度网格，下一次换仓在 "
+                         f"{(p.get('freshness') or {}).get('expected_bar')} 之后"
+                         "的下一个月首交易日。")
+        L.append("  - 本机可再生性：面板 "
+                 f"`{rec['picks_panel']}` "
+                 + ("**在位**" if rec["picks_panel_present"] else
+                    "**不在本机**（该面由 bm-b 生成，本机只读；改不了名单也"
+                    "重算不了它）")
+                 + f"｜picks 面 as_of {rec['picks_asof'] or '未载'}")
         L.append(f"  - 全页指针：`{rec['path']}`（sha16 "
                  f"{rec['sha16']}）——三族 P1 判决 verdict 均 "
                  "insufficient-sample，如实随源携带")
@@ -3740,6 +3816,44 @@ def selftest() -> int:
         check("an unknown next decision is not printed as 0 bars (r1786)",
               "下一个 bar 到来" not in _md3
               and "票面未印（缺面不读 0）" in _md3)
+        # ---- r1833: the recommendation block hands the reader actual stock codes,
+        # and it is a MONTHLY sleeve.  Measured with the daily yardstick an on-time
+        # list reads 30 days stale; measured with no yardstick at all, a list that
+        # missed its month-start goes on being offered for new positions.  What it
+        # is owed is one firing per month-start session.
+        _cal33 = ["2026-10-08", "2026-10-09", "2026-10-30",
+                  "2026-11-02", "2026-11-03", "2026-12-01"]
+        check("a monthly face owes firings, not sessions (r1833)",
+              owed_firings("2026-10-08", "2026-11-03", _cal33) == ["2026-11-02"])
+        check("a monthly face short of its own month-start is on time (r1833)",
+              owed_firings("2026-10-08", "2026-10-30", _cal33) == [])
+        check("an unreadable monthly face is never read as on time (r1833)",
+              owed_firings(None, "2026-11-03", _cal33) is None)
+        _degm = json.loads(json.dumps(p1))
+        _fm = dict(_degm.get("freshness") or {})
+        _fm["monthly"] = [{"face": "recommendation",
+                           "label": "配置参考名单（DIVLOWVOL·月度）",
+                           "cutoff": "2026-10-08", "dues": ["2026-11-02"],
+                           "owed_firings": 1, "state": "behind"}]
+        _degm["freshness"] = _fm
+        _mdm = render_md(_degm)
+        check("the page says how many firings a monthly list owes (r1833)",
+              "欠 1 次调仓" in _mdm and "2026-11-02" in _mdm)
+        check("an overdue list is not offered for new positions (r1833)",
+              "不要照这份名单新开仓" in _mdm)
+        _fm2 = dict(_fm)
+        _fm2["monthly"] = [dict(_fm["monthly"][0], dues=[], owed_firings=0,
+                                state="current")]
+        _degm["freshness"] = _fm2
+        _degm["recommendation"] = dict(_degm.get("recommendation") or {},
+                                       picks_panel_present=False,
+                                       picks_panel="data/cache/p1c_local")
+        _mdm2 = render_md(_degm)
+        check("a list inside its own monthly rhythm is not called overdue (r1833)",
+              "不要照这份名单新开仓" not in _mdm2
+              and "在它的月度节律内" in _mdm2)
+        check("a list this machine cannot rebuild says so, in words (r1833)",
+              "data/cache/p1c_local" in _mdm2 and "不在本机" in _mdm2)
     print(f"selftest: {'ALL PASS' if not fails else f'FAIL {fails}'}")
     return 0 if not fails else 1
 
