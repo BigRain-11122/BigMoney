@@ -262,6 +262,35 @@ def name_set(ticket_syms, published_syms):
             "only_in_published": sorted(b - a)}
 
 
+def pricing(spent_cny):
+    """What putting this size on and taking it off costs — a scale answer is not a free one.
+
+    The audit asked this face a fair question: it printed ADMIT_AT_THIS_SIZE and never
+    said what the size costs, so a reader could take "it fits" for "it is free". The
+    rate is imported from knowledge.cost_spec (Face A active canonical) rather than
+    typed again — a second copy of 13.041bp is how two faces start disagreeing.
+    """
+    from knowledge import cost_spec
+    buy = float(cost_spec.x1_side_rate())
+    sell = float(cost_spec.x1_sell_side_rate())
+    spent = float(spent_cny or 0.0)
+    return {
+        "entry_convention": "next open (D+1): the ticket's own amounts at the next "
+                            "session's open. This face measures whether the size passes "
+                            "through the tape, not the price it fills at",
+        "cost_model": "knowledge.cost_spec Face A (x1 active canonical), derived not typed",
+        "cost_per_side_bp": round(buy * 10000.0, 3),
+        "sell_side_bp": round(sell * 10000.0, 3),
+        "money": {
+            "spent_cny": round(spent, 2),
+            "entry_cost_cny": round(spent * buy, 2),
+            "exit_cost_cny": round(spent * sell, 2),
+            "round_trip_cost_cny": round(spent * (buy + sell), 2),
+            "round_trip_cost_pct_of_order": round((buy + sell) * 100.0, 4),
+        },
+    }
+
+
 def sentence(summary, ns, published_pct):
     """One plain sentence, and it never compares two readings that are not one ruler."""
     if summary.get("reading_pct") is None:
@@ -303,6 +332,20 @@ def render_md(payload):
              payload["published"].get("impact_pct_of_adv"),
              "同一组名字" if ns.get("same_book") else
              "另一组名字，仅 %d 个重合" % (ns.get("n_overlap") or 0)), ""]
+    pr = payload.get("pricing") or {}
+    if pr.get("money"):
+        m = pr["money"]
+        L += ["## 装得下的价格（不是免费的）", "",
+              "| 项 | 读数 |", "| --- | ---: |",
+              "| 单边成本（Face A 单源） | %.3f bp |" % (pr.get("cost_per_side_bp") or 0.0),
+              "| 卖出侧加回（ETF 默认无印花税） | %.3f bp |" % (pr.get("sell_side_bp") or 0.0),
+              "| 这张单买入金额 | %s 元 |" % "{:,.2f}".format(m.get("spent_cny") or 0),
+              "| 买进成本 | %s 元 |" % "{:,.2f}".format(m.get("entry_cost_cny") or 0),
+              "| 卖出成本（同额） | %s 元 |" % "{:,.2f}".format(m.get("exit_cost_cny") or 0),
+              "| 双边合计（占这张单） | %s 元（%.4f%%） |" % (
+                  "{:,.2f}".format(m.get("round_trip_cost_cny") or 0),
+                  m.get("round_trip_cost_pct_of_order") or 0.0), "",
+              "入场约定：%s。" % (pr.get("entry_convention") or "—"), ""]
     L += ["## 逐名", "", "| 代码 | 买入金额（元） | 手数 | 该名成交额（元） | 占比% |",
           "| --- | ---: | ---: | ---: | ---: |"]
     for r in payload["rows"]:
@@ -392,12 +435,15 @@ def build():
         "rows": measured,
         "summary": summary,
         "name_set": ns,
+        "pricing": pricing(summary.get("spent_cny")),
         "sentence": sentence(summary, ns, (pub.get("impact_pct_of_adv") or 0.0)),
         "caveats": [
             "成交额用的是闸自己的口径（收盘价×成交量，中位再取中位），是估计值而且是阶梯状的",
             "「1% ADV」是闸选的线，不是量出来的线；换线，每个数按同一比例移动",
             "这里量的是「这张单能不能从这个市场的成交额里过」，不是「下单后价格会被推到哪」："
             "冲击成本是另一条腿（既有回测里按 8bp/边记）",
+            "「装得下」不等于「免费」：pricing.money 一行给出这张单自己的双边成本（费率单源 "
+            "knowledge.cost_spec，禁手抄）",
             "放大倍数 x%.4f 是一个资本比例，不是一张能下的单：整数手与波动目标都可能把它压得更低" %
             (summary.get("headroom_multiple") or 0.0),
         ],
@@ -442,6 +488,23 @@ def check(payload):
             problems.append("n_measurable 与逐名表不一致")
     if v == "UNMEASURABLE_AT_THIS_SIZE" and not (s.get("unmeasurable") or []):
         problems.append("判 UNMEASURABLE 却没点名读不到的名字")
+    # r1329: an admission that names no price is the defect event_exec_gate audit reports
+    # (`published_trading=1`). The cure is not a keyword in the payload but a derived
+    # number, so the check re-derives it from the same single source the builder used.
+    pr = payload.get("pricing") or {}
+    if not pr.get("money"):
+        problems.append("给了规模判词却没有定价（准入无价）")
+    else:
+        from knowledge import cost_spec
+        buy = float(cost_spec.x1_side_rate())
+        if abs((pr.get("cost_per_side_bp") or 0.0) - buy * 10000.0) > 5e-4:
+            problems.append("单边成本不是 knowledge.cost_spec 当前的费率（第二份意见）")
+        m = pr["money"]
+        if abs((m.get("entry_cost_cny") or 0.0) - (m.get("spent_cny") or 0.0) * buy) > 0.02:
+            problems.append("买进成本与金额×费率不一致")
+        if abs((m.get("entry_cost_cny") or 0.0) + (m.get("exit_cost_cny") or 0.0)
+               - (m.get("round_trip_cost_cny") or 0.0)) > 0.02:
+            problems.append("双边成本不等于两侧之和")
     return {"ok": not problems, "problems": problems, "verdict": v,
             "reading_pct": s.get("reading_pct")}
 
@@ -613,7 +676,8 @@ def selftest():
                    "summary": {"verdict": "ADMIT_AT_THIS_SIZE", "reading_pct": 0.5,
                                "binding": "A", "line_pct": 1.0, "n_measurable": 2,
                                "unmeasurable": []},
-                   "rows": [{"sym": "A", "share": 0.005}, {"sym": "B", "share": 0.004}]}
+                   "rows": [{"sym": "A", "share": 0.005}, {"sym": "B", "share": 0.004}],
+                   "pricing": pricing(100000.0)}
         assert check(payload)["ok"] is True, check(payload)
         payload["summary"]["reading_pct"] = 2.0
         assert check(payload)["ok"] is False, "读数与逐名表不符应被抓"
@@ -633,7 +697,8 @@ def selftest():
                    "summary": {"verdict": "ADMIT_AT_THIS_SIZE", "reading_pct": 0.4,
                                "binding": "A", "line_pct": 1.0, "n_measurable": 1,
                                "unmeasurable": []},
-                   "rows": [{"sym": "A", "share": 0.004}]}
+                   "rows": [{"sym": "A", "share": 0.004}],
+                   "pricing": pricing(100000.0)}
         real = globals()["latest_ticket"]
         try:
             globals()["latest_ticket"] = lambda dirpath=None: (
@@ -711,6 +776,22 @@ def selftest():
         assert gate_decision({}, "K")[0] is False
         assert gate_decision(None, "K")[0] is False
 
+    def L21_an_admission_without_a_price_is_refused():
+        payload = {"verdict": "ADMIT_AT_THIS_SIZE",
+                   "summary": {"verdict": "ADMIT_AT_THIS_SIZE", "reading_pct": 0.4,
+                               "binding": "A", "line_pct": 1.0, "n_measurable": 1,
+                               "unmeasurable": [], "spent_cny": 100000.0},
+                   "rows": [{"sym": "A", "share": 0.004}]}
+        chk = check(payload)
+        assert chk["ok"] is False, "准入无价必须判红（event_exec_gate audit 的问法）"
+        assert any("没有定价" in p for p in chk["problems"]), chk
+        payload["pricing"] = pricing(100000.0)
+        assert check(payload)["ok"] is True, check(payload)
+        # a second copy of the rate is the defect: the check re-derives it from the source
+        payload["pricing"]["cost_per_side_bp"] = 13.0
+        chk2 = check(payload)
+        assert chk2["ok"] is False and any("第二份意见" in p for p in chk2["problems"]), chk2
+
     def L20_an_unreadable_ticket_is_not_a_standin():
         import tempfile
         d = tempfile.mkdtemp()
@@ -743,7 +824,8 @@ def selftest():
                      ("L17 新票面移动输入键", L17_a_new_ticket_moves_the_key),
                      ("L18 面板增/改移动输入键", L18_a_panel_add_or_rewrite_moves_the_key),
                      ("L19 只有同一份输入才跳过重建", L19_only_the_same_inputs_skip_the_build),
-                     ("L20 读不出的票面不给假指纹", L20_an_unreadable_ticket_is_not_a_standin)]:
+                     ("L20 读不出的票面不给假指纹", L20_an_unreadable_ticket_is_not_a_standin),
+                     ("L21 准入无价被判红", L21_an_admission_without_a_price_is_refused)]:
         leg(name, fn)
 
     ok = all(p for _n, p, _m in legs)
