@@ -1310,6 +1310,12 @@ def audit_period_lanes(now, lanes=None, root=ROOT, machines_dir=None):
         writer = spec.get("writer")
         row = {"lane": spec["lane"], "kind": "period_status",
                "writer": writer, "unit": spec.get("unit"),
+               # r1320: the facts below come off THIS machine's panel copy, and the page
+               # already knows how to say "read from X's disk" -- it just never had the
+               # name. Without it a row written where the period exists and read where it
+               # does not are indistinguishable, and every downstream check re-derives
+               # one machine's row against another machine's disk.
+               "machine": _machine_id(),
                "loss_mode": spec.get("loss_mode")}
         try:
             mod = importlib.import_module(writer)
@@ -1344,6 +1350,13 @@ def audit_period_lanes(now, lanes=None, root=ROOT, machines_dir=None):
             except Exception:
                 host = None
         row["lane_host"] = host or spec.get("owner")
+        if missing and row["machine"] and row["lane_host"] \
+                and row["machine"] != row["lane_host"]:
+            # the reader must not take this for the lane's state: the period exists on
+            # the host's disk (that is why the lane is not stalled), this row is what
+            # this machine's copy looks like
+            row["why"] += (f" -- this is {row['machine']}'s copy; lane host is "
+                           f"{row['lane_host']}")
         hh = _host_health(row["lane_host"], now, machines_dir)
         row["host_last_seen"] = hh["last_seen"]
         row["host_age_h"] = hh["age_h"]
@@ -2305,8 +2318,12 @@ def selftest():
         _prow.get("missing_periods")), _prow
     # and this round's fix is visible to the same reader the board uses
     assert _prow["takeover_capable"] is True, _prow
+    # r1320: every statutory row must name the disk its facts came off, or a row
+    # written where the period exists cannot be told from one written here
+    assert _prow.get("machine") == _machine_id(), _prow.get("machine")
     _pmd = render_period_md([_prow])
     assert "fund_statements" in _pmd and "takeover path" in _pmd, _pmd
+    assert "disk" in _pmd.splitlines()[2] or "disk" in _pmd, _pmd[:400]
     # a lane with a missing period whose host is silent AND whose writer cannot
     # declare a stand-in is a decision, not a wait (r1258 split, new clock)
     _froz = dict(_prow, takeover_capable=False, host_alive=False)

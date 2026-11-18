@@ -1,0 +1,176 @@
+{
+ "kind": "etf_book_width_neighbors",
+ "script": "scripts/etf_book_width_neighbors.py",
+ "generated": "2026-11-18T10:32:57",
+ "evidence_cutoff": "2026-11-17",
+ "upstream": "results/etf_book_width_return.json",
+ "params": {
+  "cost": 0.001,
+  "clocks": [
+   10,
+   20,
+   40
+  ],
+  "pair": [
+   5,
+   6
+  ]
+ },
+ "cells": [
+  {
+   "n": 5,
+   "rebal": 20,
+   "cagr": 0.155,
+   "sharpe": 0.999,
+   "maxdd": -0.1604,
+   "turnover": 1.53,
+   "bar": "2026-11-17"
+  },
+  {
+   "n": 6,
+   "rebal": 20,
+   "cagr": 0.17,
+   "sharpe": 1.082,
+   "maxdd": -0.1638,
+   "turnover": 1.46,
+   "bar": "2026-11-17"
+  },
+  {
+   "label": "N5_R10_10bp",
+   "years": 6.87,
+   "start_level": 1.0108,
+   "cagr": 0.1943,
+   "vol": 0.1751,
+   "sharpe": 1.143,
+   "maxdd": -0.149,
+   "calmar": 1.3,
+   "worst_year": -0.0222,
+   "neg_years": 2,
+   "worst_month": -0.0834,
+   "pos_months_pct": 0.634,
+   "n": 5,
+   "rebal": 10,
+   "turnover": 1.33,
+   "cagr_is": 0.1538,
+   "sharpe_is": 0.983,
+   "maxdd_is": -0.1416,
+   "cagr_oos": 0.2535,
+   "sharpe_oos": 1.344,
+   "maxdd_oos": -0.149
+  },
+  {
+   "label": "N6_R10_10bp",
+   "years": 6.87,
+   "start_level": 1.0102,
+   "cagr": 0.2018,
+   "vol": 0.1752,
+   "sharpe": 1.18,
+   "maxdd": -0.1523,
+   "calmar": 1.32,
+   "worst_year": -0.04,
+   "neg_years": 1,
+   "worst_month": -0.0888,
+   "pos_months_pct": 0.634,
+   "n": 6,
+   "rebal": 10,
+   "turnover": 1.28,
+   "cagr_is": 0.1529,
+   "sharpe_is": 0.984,
+   "maxdd_is": -0.1358,
+   "cagr_oos": 0.2736,
+   "sharpe_oos": 1.422,
+   "maxdd_oos": -0.1523
+  },
+  {
+   "label": "N5_R40_10bp",
+   "years": 6.87,
+   "start_level": 1.0108,
+   "cagr": 0.0998,
+   "vol": 0.1871,
+   "sharpe": 0.623,
+   "maxdd": -0.1681,
+   "calmar": 0.59,
+   "worst_year": -0.0485,
+   "neg_years": 2,
+   "worst_month": -0.0692,
+   "pos_months_pct": 0.573,
+   "n": 5,
+   "rebal": 40,
+   "turnover": 1.63,
+   "cagr_is": 0.0928,
+   "sharpe_is": 0.626,
+   "maxdd_is": -0.145,
+   "cagr_oos": 0.1099,
+   "sharpe_oos": 0.626,
+   "maxdd_oos": -0.162
+  },
+  {
+   "label": "N6_R40_10bp",
+   "years": 6.87,
+   "start_level": 1.0102,
+   "cagr": 0.1193,
+   "vol": 0.1896,
+   "sharpe": 0.714,
+   "maxdd": -0.163,
+   "calmar": 0.73,
+   "worst_year": 0.0021,
+   "neg_years": 0,
+   "worst_month": -0.0768,
+   "pos_months_pct": 0.61,
+   "n": 6,
+   "rebal": 40,
+   "turnover": 1.58,
+   "cagr_is": 0.1006,
+   "sharpe_is": 0.666,
+   "maxdd_is": -0.163,
+   "cagr_oos": 0.1459,
+   "sharpe_oos": 0.775,
+   "maxdd_oos": -0.1613
+  }
+ ],
+ "judgement": {
+  "verdict": "SIX_NAMES_SURVIVES_EVERY_CLOCK",
+  "clocks": [
+   {
+    "rebal": 10,
+    "readable": true,
+    "cagr5": 0.1943,
+    "cagr6": 0.2018,
+    "delta_pp": 0.75,
+    "six_wins": true
+   },
+   {
+    "rebal": 20,
+    "readable": true,
+    "cagr5": 0.155,
+    "cagr6": 0.17,
+    "delta_pp": 1.5,
+    "six_wins": true
+   },
+   {
+    "rebal": 40,
+    "readable": true,
+    "cagr5": 0.0998,
+    "cagr6": 0.1193,
+    "delta_pp": 1.95,
+    "six_wins": true
+   }
+  ],
+  "n_readable": 3,
+  "wins": [
+   10,
+   20,
+   40
+  ],
+  "losses": [],
+  "min_delta_pp": 0.75,
+  "max_delta_pp": 1.95
+ },
+ "why": null,
+ "caveats": [
+  "Only widths 5 and 6 are run: the question is whether that pair survives the rebalance clock, not a walk down the ladder.",
+  "The 20-day pair is READ from the upstream face, not re-measured, so the three clocks are not three independent measurements of the same cell.",
+  "Same repaired, class-filtered panel and the same 10bp one-way cost as the upstream face. A different panel would make the deltas incomparable."
+ ],
+ "sentence": "把调仓钟从 20 日挪到别处再问一次第 6 名（5 名→6 名的年化差）：10 日 +0.7500 pp、20 日 +1.5000 pp、40 日 +1.9500 pp。三个周期里第 6 名都赢 —— 这不是 20 日调仓的巧合，是宽度效应。最差一格仍有 +0.7500 pp。"
+}

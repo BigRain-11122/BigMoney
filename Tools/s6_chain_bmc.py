@@ -1073,6 +1073,21 @@ LEGS = [
     ("ticket_band",
      ["python", "scripts/etf_book_ticket_band.py", "check"],
      ["python", "scripts/etf_book_ticket_band.py", "run"]),
+    # r1320: the width family (fit -> return -> neighbors) was built by three consecutive
+    # sessions and published straight to results/, so the page quoted a verdict that no leg
+    # re-derived. That is the r1282 orphan-face class: the reader sees a number forever and
+    # nothing notices when the panel it was measured on moves. They run in dependency order
+    # and BEFORE the page, which prints all three (r1318/r1781 ordering law). The pair form
+    # means check gates each refresh, so a fresh face costs no compute.
+    ("etf_book_width_fit",
+     ["python", "scripts/etf_book_width_fit.py", "check"],
+     ["python", "scripts/etf_book_width_fit.py", "run"]),
+    ("etf_book_width_return",
+     ["python", "scripts/etf_book_width_return.py", "check"],
+     ["python", "scripts/etf_book_width_return.py", "run"]),
+    ("etf_book_width_neighbors",
+     ["python", "scripts/etf_book_width_neighbors.py", "check"],
+     ["python", "scripts/etf_book_width_neighbors.py", "run"]),
     ("etf_book_ceo_page", ["python", "scripts/etf_book_ceo_page.py", "run"]),
     # r1639: r1638 found one sentence copied twice onto this page (the two copies read as
     # two independent pieces of evidence) and the block-level leg could not see it, because

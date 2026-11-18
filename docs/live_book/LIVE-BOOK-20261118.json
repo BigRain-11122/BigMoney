@@ -55387,6 +55387,47 @@
     "etf_robust_pf.json N5_R20_10bp 9.13%: FULL unrepaired universe, a different caliber -- not a disagreement, a different question",
     "etf_nobond_vt.json 11.49%: same no-bond universe WITH the 8% vol target -- this face runs naked, so it reads higher"
    ]
+  },
+  "neighbors": {
+   "status": "ok",
+   "artifact": "results/etf_book_width_neighbors.json",
+   "verdict": "SIX_NAMES_SURVIVES_EVERY_CLOCK",
+   "clocks": [
+    {
+     "rebal": 10,
+     "readable": true,
+     "cagr5": 0.1943,
+     "cagr6": 0.2018,
+     "delta_pp": 0.75,
+     "six_wins": true
+    },
+    {
+     "rebal": 20,
+     "readable": true,
+     "cagr5": 0.155,
+     "cagr6": 0.17,
+     "delta_pp": 1.5,
+     "six_wins": true
+    },
+    {
+     "rebal": 40,
+     "readable": true,
+     "cagr5": 0.0998,
+     "cagr6": 0.1193,
+     "delta_pp": 1.95,
+     "six_wins": true
+    }
+   ],
+   "min_delta_pp": 0.75,
+   "max_delta_pp": 1.95,
+   "wins": [
+    10,
+    20,
+    40
+   ],
+   "losses": [],
+   "sentence": "把调仓钟从 20 日挪到别处再问一次第 6 名（5 名→6 名的年化差）：10 日 +0.7500 pp、20 日 +1.5000 pp、40 日 +1.9500 pp。三个周期里第 6 名都赢 —— 这不是 20 日调仓的巧合，是宽度效应。最差一格仍有 +0.7500 pp。",
+   "evidence_cutoff": "2026-11-17"
   }
  },
  "floor_provenance": {
@@ -55783,7 +55824,7 @@
    },
    {
     "k": 1,
-    "mean_cny": -1807.910394788851,
+    "mean_cny": -1807.9103947888514,
     "carry_cny": 0.0,
     "cost_cny_vs_today": 1807.91,
     "t": -4.599190382634581,
@@ -55792,10 +55833,10 @@
    },
    {
     "k": 2,
-    "mean_cny": -2617.4471149547667,
+    "mean_cny": -2617.447114954767,
     "carry_cny": 0.0,
     "cost_cny_vs_today": 2617.45,
-    "t": -4.811844064273783,
+    "t": -4.811844064273784,
     "share_late_helps": 0.41866028708133973,
     "separable_from_zero": true
    },
@@ -55804,25 +55845,25 @@
     "mean_cny": -2863.6017836822743,
     "carry_cny": 0.0,
     "cost_cny_vs_today": 2863.6,
-    "t": -4.19293691840669,
+    "t": -4.192936918406691,
     "share_late_helps": 0.434052757793765,
     "separable_from_zero": true
    },
    {
     "k": 5,
-    "mean_cny": -4071.2099611560843,
+    "mean_cny": -4071.2099611560852,
     "carry_cny": 0.0,
     "cost_cny_vs_today": 4071.21,
-    "t": -4.290919841585327,
+    "t": -4.29091984158533,
     "share_late_helps": 0.41445783132530123,
     "separable_from_zero": true
    },
    {
     "k": 10,
-    "mean_cny": -4025.158286788445,
+    "mean_cny": -4025.158286788448,
     "carry_cny": 0.0,
     "cost_cny_vs_today": 4025.16,
-    "t": -2.2053797292433277,
+    "t": -2.2053797292433295,
     "share_late_helps": 0.4433734939759036,
     "separable_from_zero": true
    }
@@ -55831,8 +55872,8 @@
   "today_cost_cny": 0.0,
   "trim_owed": false,
   "one_open_late": {
-   "median_cny": -932.3031683309349,
-   "mean_cny": -1807.910394788851,
+   "median_cny": -932.3031683309347,
+   "mean_cny": -1807.9103947888514,
    "t": -4.599190382634581,
    "share_late_helps": 0.4128878281622912
   },
@@ -55844,7 +55885,7 @@
    },
    "late_sheet_price": {
     "cutoff": "2026-11-17",
-    "digest": "db55281e051bb01f"
+    "digest": "0dd76a4772d3ac5e"
    }
   }
  },

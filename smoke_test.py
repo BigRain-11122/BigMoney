@@ -4119,7 +4119,39 @@ def main() -> int:
         _md5 = open("docs/data_lanes/FRESHNESS.md", encoding="utf-8").read()
         if "clock is the statute" not in _md5:
             _why5.append("the human page carries no statute-clock section")
+        _here5 = (getattr(_lfd5, "machine", None) or "")
+        try:
+            import scripts.data_lane_freshness as _dlf5
+            _here5 = _dlf5._machine_id() or ""
+        except Exception:
+            _here5 = ""
+        _foreign5 = []
         for _r5 in _pl5:
+            # (a) the row must agree with the numbers it prints -- no disk needed, so
+            # this half must hold for a row written on any machine
+            if (_r5.get("verdict") == "period_missing") != bool(
+                    _r5.get("missing_periods") or []):
+                _why5.append(f"{_r5['lane']}: verdict does not follow the "
+                             f"missing periods it prints "
+                             f"(row={_r5.get('verdict')})")
+            if _r5.get("verdict") == "period_missing" and not _r5.get("why"):
+                _why5.append(f"{_r5['lane']}: a missing period is printed with "
+                             "no sentence saying why")
+            if (_r5.get("host_alive") is False
+                    and not _r5.get("takeover_capable")
+                    and _r5.get("frozen_without_takeover") is not True):
+                _why5.append(f"{_r5['lane']}: a hostage statutory lane is not "
+                             "named as a decision")
+            # (b) re-deriving the panel reading needs the disk the row read; r1320:
+            # the row now names it, and a row written on the collecting host must
+            # not be re-judged against this machine's (older) copy
+            if not _r5.get("machine"):
+                _why5.append(f"{_r5['lane']}: the row does not name the disk it "
+                             "read")
+                continue
+            if _here5 and _r5["machine"] != _here5:
+                _foreign5.append(f"{_r5['lane']}@{_r5['machine']}")
+                continue
             _mod5 = importlib.import_module(_r5["writer"])
             _f5 = _mod5.panel_period_facts(
                 dt.datetime.fromisoformat(_r5["as_of"]))
@@ -4130,19 +4162,13 @@ def main() -> int:
                     _f5["missing_periods"]):
                 _why5.append(f"{_r5['lane']}: verdict does not follow the "
                              "missing periods")
-            if _r5.get("verdict") == "period_missing" and not _r5.get("why"):
-                _why5.append(f"{_r5['lane']}: a missing period is printed with "
-                             "no sentence saying why")
-            if (_r5.get("host_alive") is False
-                    and not _r5.get("takeover_capable")
-                    and _r5.get("frozen_without_takeover") is not True):
-                _why5.append(f"{_r5['lane']}: a hostage statutory lane is not "
-                             "named as a decision")
         check("fleet: a lane whose clock is the statute is judged on the statute",
               not _why5, "; ".join(_why5) or
               f"{len(_pl5)} statutory lane(s) re-derived from the writer, "
               f"{sum(len(r.get('missing_periods') or []) for r in _pl5)} "
-              "period(s) missing")
+              "period(s) missing"
+              + (f"; {len(_foreign5)} row(s) name another disk and are not "
+                 f"re-derived here ({', '.join(_foreign5)})" if _foreign5 else ""))
     except Exception as e:
         check("fleet: a lane whose clock is the statute is judged on the statute",
               False, str(e))
@@ -5319,6 +5345,24 @@ def main() -> int:
                                     _lq_order.index("etf_book_ceo_page")))
     except Exception as e:
         check("product: the live quote is priced before the page that prints it", False, str(e))
+    # r1320: the width family (fit -> return -> neighbors) was published by three consecutive
+    # sessions and run by no leg, so the page kept quoting a verdict measured on whatever
+    # panel that session saw -- the r1282 orphan-face class. Wiring is asserted, not trusted:
+    # all three legs present and all three ahead of the page that prints them.
+    try:
+        _wd = [t[0] for t in importlib.import_module("Tools.s6_chain_bmc").LEGS]
+        _wd_names = ("etf_book_width_fit", "etf_book_width_return",
+                     "etf_book_width_neighbors")
+        _wd_missing = [n for n in _wd_names if n not in _wd]
+        _wd_late = [n for n in _wd_names if n in _wd
+                    and "etf_book_ceo_page" in _wd
+                    and _wd.index(n) > _wd.index("etf_book_ceo_page")]
+        check("product: the width family is re-derived before the page that quotes it",
+              "etf_book_ceo_page" in _wd and not _wd_missing and not _wd_late,
+              "missing=%s later_than_page=%s" % (_wd_missing, _wd_late))
+    except Exception as e:
+        check("product: the width family is re-derived before the page that quotes it",
+              False, str(e))
     # r1561: two premium faces had no writer in the chain at all, so the first cycle
     # after every 15:30 premium_history snapshot judged a stale face against the grown
     # CSV (2026-11-11: published 20:03, history 20:24 -> 28 failures, four legs "missing"

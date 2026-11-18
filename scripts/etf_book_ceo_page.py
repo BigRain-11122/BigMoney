@@ -2691,6 +2691,30 @@ def width_fit_face(path=WIDTHFIT_JSON):
 WIDTHRET_JSON = os.path.join(ROOT, "results", "etf_book_width_return.json")
 
 
+WIDTHNB_JSON = os.path.join(ROOT, "results", "etf_book_width_neighbors.json")
+
+
+def width_neighbors_face(path=WIDTHNB_JSON):
+    """Does the sixth name survive a different rebalance clock, or is it the calendar talking?
+
+    The return face finds width 6 the best of 5/6/7/8 at 20 days -- a local optimum, which is
+    exactly the shape a coincidence takes. This reads the pairwise survival test that moves
+    the clock. Absent is "cannot verify", never "stable".
+    """
+    rel = _rel(path, ROOT).replace(os.sep, "/")
+    if not os.path.exists(path):
+        return {"status": "unreadable", "artifact": rel, "detail": "neighbor face absent"}
+    f = _load(path) or {}
+    j = f.get("judgement") or {}
+    if not j.get("verdict"):
+        return {"status": "unreadable", "artifact": rel, "detail": "face carries no verdict"}
+    return {"status": "ok", "artifact": rel, "verdict": j.get("verdict"),
+            "clocks": [c for c in (j.get("clocks") or []) if c.get("readable")],
+            "min_delta_pp": j.get("min_delta_pp"), "max_delta_pp": j.get("max_delta_pp"),
+            "wins": j.get("wins") or [], "losses": j.get("losses") or [],
+            "sentence": f.get("sentence"), "evidence_cutoff": f.get("evidence_cutoff")}
+
+
 def width_return_face(path=WIDTHRET_JSON):
     """The second half of the width question: what the sixth name costs in return.
 
@@ -2710,7 +2734,11 @@ def width_return_face(path=WIDTHRET_JSON):
             "gap_pp": d.get("gap_pp"), "shrink": f.get("shrink") or {},
             "widen": f.get("widen") or {}, "rows": f.get("rows") or [],
             "sentence": f.get("sentence"), "evidence_cutoff": f.get("evidence_cutoff"),
-            "caliber": f.get("caliber") or {}}
+            "caliber": f.get("caliber") or {},
+            # r1320: the width answer is a local optimum (7 and 8 both worse), so it is only
+            # usable if the pair survives a different rebalance clock -- read here, printed
+            # in the block below, absent means "cannot verify", never "stable".
+            "neighbors": width_neighbors_face()}
 
 
 def width_return_block(wr):
@@ -2740,6 +2768,25 @@ def width_return_block(wr):
            wid.get("cagr_cost_pp") or 0.0,
            (wr.get("caliber") or {}).get("universe") or "同容量面"))
     add("")
+    # r1319: a local optimum is the shape a coincidence takes, so the clock is moved and
+    # the pair is asked again -- printed here, not in a footnote, because it decides whether
+    # the block above may be acted on.
+    nb = wr.get("neighbors") or {}
+    if nb.get("status") == "ok":
+        clocks = "、".join("%d 日 %+.2f pp" % (c["rebal"], c["delta_pp"])
+                           for c in nb.get("clocks") or [])
+        words = {"SIX_NAMES_SURVIVES_EVERY_CLOCK": "三个周期都赢 —— 是宽度效应，不是 20 日调仓的巧合",
+                 "SIX_NAMES_IS_A_CLOCK_ARTIFACT": "只在部分周期赢 —— **是调仓钟给的，不是宽度给的**",
+                 "SIX_NAMES_WINS_NOWHERE": "哪个周期都不赢 —— 上格的正号本身要重审"}
+        add("- 换调仓钟再问一次（5 名→6 名的年化差）：%s。**%s**。"
+            % (clocks or "—",
+               words.get(nb.get("verdict"), nb.get("verdict") or "读不出")))
+        add("")
+    elif nb.get("status"):
+        add("- 换调仓钟再问一次的读数这一窗缺（`%s`）：%s。**缺面不读成「稳」**。"
+            % (nb.get("artifact") or "results/etf_book_width_neighbors.json",
+               nb.get("detail") or "无读数"))
+        add("")
     return L
 
 

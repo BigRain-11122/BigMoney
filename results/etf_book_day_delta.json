@@ -26,20 +26,20 @@
   "evidence_cutoff": "2026-11-17"
  },
  "counts": {
-  "leaves_today": 22693,
+  "leaves_today": 22806,
   "leaves_prev": 22433,
   "shared": 22433,
   "identical": 22366,
   "moved": 67,
   "clock": 5,
   "data_advanced": 0,
-  "recovered_old_value": 1,
+  "recovered_old_value": 2,
   "declared_ruler": 0,
   "input_identity_changed": 0,
   "quoted_from_source": 0,
   "section_advanced": 0,
-  "unexplained": 61,
-  "appeared": 260,
+  "unexplained": 60,
+  "appeared": 373,
   "vanished": 0
  },
  "moves": [
@@ -133,22 +133,22 @@
   {
    "path": "/fleet/rows/0/age_h",
    "prev": 1.24,
-   "today": 0.24,
-   "delta": -1.0,
+   "today": 0.27,
+   "delta": -0.97,
    "kind": "CLOCK"
   },
   {
    "path": "/fleet/rows/1/age_h",
    "prev": 441.79,
-   "today": 451.8,
-   "delta": 10.009999999999991,
+   "today": 452.34,
+   "delta": 10.549999999999955,
    "kind": "CLOCK"
   },
   {
    "path": "/fleet/rows/2/age_h",
    "prev": 4.18,
-   "today": 0.44,
-   "delta": -3.7399999999999998,
+   "today": 0.06,
+   "delta": -4.12,
    "kind": "CLOCK"
   },
   {
@@ -252,8 +252,8 @@
    "prev": 0.968,
    "today": 0.9695,
    "delta": 0.0015000000000000568,
-   "kind": "UNEXPLAINED",
-   "evidence": "没有旧值留存，也没有口径声明"
+   "kind": "RECOVERED_OLD_VALUE",
+   "evidence": "昨天的 0.968 今天仍在这页上：`/width_return/rows/2/sharpe`（改名，不是重算）"
   },
   {
    "path": "/futures_hedge_tail/tail_beta",
@@ -757,8 +757,8 @@
    "prev": 0.968,
    "today": 0.9695,
    "delta": 0.0015000000000000568,
-   "kind": "UNEXPLAINED",
-   "evidence": "没有旧值留存，也没有口径声明"
+   "kind": "RECOVERED_OLD_VALUE",
+   "evidence": "昨天的 0.968 今天仍在这页上：`/width_return/rows/2/sharpe`（改名，不是重算）"
   },
   {
    "path": "/futures_hedge_tail/tail_beta",
@@ -1090,7 +1090,12 @@
   "/supply_capacity/share_of_floor",
   "/width_fit/line_pct",
   "/width_fit/min_width",
-  "/width_fit/rows"
+  "/width_fit/rows",
+  "/width_return/gap_pp",
+  "/width_return/neighbors",
+  "/width_return/rows",
+  "/width_return/shrink",
+  "/width_return/widen"
  ],
  "appeared_paths": [
   "/alias_stability/crosscheck/census_n_in_screen",

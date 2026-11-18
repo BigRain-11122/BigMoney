@@ -5,7 +5,7 @@
 - 判决：**UNEXPLAINED_MOVES**
 
 ## 一句话
-两天**是同一根 bar**（没有新数据进来），这页有 **67** 个数变了；其中 **5** 个是钟面（机器多久没说话之类，本来就该走）、**1** 个能给出解释（旧数还在页上／口径句改了／这一节换了代／这一节换了定价的输入／这个数只是转抄别面）、**61** 个没解释。新增 **260** 个数字叶子、消失 **0** 个。
+两天**是同一根 bar**（没有新数据进来），这页有 **67** 个数变了；其中 **5** 个是钟面（机器多久没说话之类，本来就该走）、**2** 个能给出解释（旧数还在页上／口径句改了／这一节换了代／这一节换了定价的输入／这个数只是转抄别面）、**60** 个没解释。新增 **373** 个数字叶子、消失 **0** 个。
 
 ## 动的数（全部 67 个）
 
@@ -22,9 +22,9 @@
 | `/cash_money/forward/gap_bp_gross` | 59.7 | 59.81 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
 | `/cash_money/forward/gap_cny` | 280.0 | 281.0 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
 | `/causal_rebuild/elapsed_sec` | 50.0 | 81.5 | CLOCK |  |
-| `/fleet/rows/0/age_h` | 1.24 | 0.24 | CLOCK |  |
-| `/fleet/rows/1/age_h` | 441.79 | 451.8 | CLOCK |  |
-| `/fleet/rows/2/age_h` | 4.18 | 0.44 | CLOCK |  |
+| `/fleet/rows/0/age_h` | 1.24 | 0.27 | CLOCK |  |
+| `/fleet/rows/1/age_h` | 441.79 | 452.34 | CLOCK |  |
+| `/fleet/rows/2/age_h` | 4.18 | 0.06 | CLOCK |  |
 | `/futures_hedge/beta` | 0.07185718963947142 | 0.07458300567364223 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
 | `/futures_hedge/capital_for_one_lot` | 11395936.91471321 | 10979444.882970085 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
 | `/futures_hedge/corr` | 0.1373365917783091 | 0.1415643988218339 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
@@ -37,7 +37,7 @@
 | `/futures_hedge_tail/dsharpe` | 0.005735999804863057 | -0.020536000001067034 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
 | `/futures_hedge_tail/dsharpe_hi` | 0.09446056903527693 | 0.0719002244924948 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
 | `/futures_hedge_tail/dsharpe_lo` | -0.06366444689345857 | -0.0964202006837476 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/futures_hedge_tail/share_above_uncond` | 0.968 | 0.9695 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
+| `/futures_hedge_tail/share_above_uncond` | 0.968 | 0.9695 | RECOVERED_OLD_VALUE | 昨天的 0.968 今天仍在这页上：`/width_return/rows/2/sharpe`（改名，不是重算） |
 | `/futures_hedge_tail/tail_beta` | 0.6115545672996576 | 0.6126419583867959 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
 | `/futures_hedge_tail/tail_ci_hi` | 0.8343491781619469 | 0.8405742148706478 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
 | `/futures_hedge_tail/tail_ci_lo` | 0.12672451800387655 | 0.13021062460324065 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
@@ -79,7 +79,7 @@
 | `/roster_audit/local_copies/1/laneside/local_disk_n` | 27 | 1 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
 | `/roster_audit/local_copies/1/local_disk_n` | 27 | 1 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
 
-## 今天新出现的数（260 个）落在这几块上
+## 今天新出现的数（373 个）落在这几块上
 
 - `/alias_stability/crosscheck`
 - `/alias_stability/families`
@@ -98,6 +98,9 @@
 - `/width_fit/line_pct`
 - `/width_fit/min_width`
 - `/width_fit/rows`
+- `/width_return/gap_pp`
+- `/width_return/neighbors`
+- `/width_return/rows`
 
 ## 钱的两处（同一根 bar 上改了定价口径）
 
@@ -123,7 +126,7 @@
 - `/futures_hedge_tail/dsharpe`：**0.005735999804863057 → -0.020536000001067034**（差 -0.026272）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
 - `/futures_hedge_tail/dsharpe_hi`：**0.09446056903527693 → 0.0719002244924948**（差 -0.02256）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
 - `/futures_hedge_tail/dsharpe_lo`：**-0.06366444689345857 → -0.0964202006837476**（差 -0.032756）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/futures_hedge_tail/share_above_uncond`：**0.968 → 0.9695**（差 0.0015）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
+- `/futures_hedge_tail/share_above_uncond`：**0.968 → 0.9695**（差 0.0015）｜RECOVERED_OLD_VALUE｜昨天的 0.968 今天仍在这页上：`/width_return/rows/2/sharpe`（改名，不是重算）
 - `/futures_hedge_tail/tail_beta`：**0.6115545672996576 → 0.6126419583867959**（差 0.001087）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
 - `/futures_hedge_tail/tail_ci_hi`：**0.8343491781619469 → 0.8405742148706478**（差 0.006225）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
 - `/futures_hedge_tail/tail_ci_lo`：**0.12672451800387655 → 0.13021062460324065**（差 0.003486）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
@@ -166,13 +169,13 @@
 
 同一个隔夜、同一根 bar、同一笔钱，这页昨天给一个答案、今天给另一个。两个答案不可能都对：走 `RECOVERED_OLD_VALUE`／`DECLARED_RULER` 的那一条说明**是新答案改了算法**（旧数还在页上或口径句改了），读的人要按新口径重读昨天的判断；没有这两条说明的，就是这页偷偷换了数。
 
-## 还有哪些节在同 bar 上改了数（61 个）
+## 还有哪些节在同 bar 上改了数（60 个）
 
 - `premium_forward`：14 个
 - `futures_sleeve`：12 个
 - `cash_money`：9 个
-- `futures_hedge_tail`：9 个
 - `futures_hedge`：8 个
+- `futures_hedge_tail`：8 个
 - `roster_audit`：6 个
 - `cash_caliber`：1 个
 - `futures_ladder`：1 个
