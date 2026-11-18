@@ -2688,6 +2688,61 @@ def width_fit_face(path=WIDTHFIT_JSON):
             "line_pct": f.get("line_pct"), "caveats": f.get("caveats") or []}
 
 
+WIDTHRET_JSON = os.path.join(ROOT, "results", "etf_book_width_return.json")
+
+
+def width_return_face(path=WIDTHRET_JSON):
+    """The second half of the width question: what the sixth name costs in return.
+
+    `width_fit` answers "does 1,000,000 fit at each width" and says outright that it does not
+    price a wider book's return. Read on its own, that block tells a reader to buy six names
+    and hides the bill. Read-only; absent is "cannot verify", never "free".
+    """
+    rel = _rel(path, ROOT).replace(os.sep, "/")
+    if not os.path.exists(path):
+        return {"status": "unreadable", "artifact": rel, "detail": "width return face absent"}
+    f = _load(path) or {}
+    d = f.get("decision") or {}
+    if not d.get("verdict"):
+        return {"status": "unreadable", "artifact": rel, "detail": "face carries no verdict",
+                "evidence_cutoff": f.get("evidence_cutoff")}
+    return {"status": "ok", "artifact": rel, "verdict": d.get("verdict"),
+            "gap_pp": d.get("gap_pp"), "shrink": f.get("shrink") or {},
+            "widen": f.get("widen") or {}, "rows": f.get("rows") or [],
+            "sentence": f.get("sentence"), "evidence_cutoff": f.get("evidence_cutoff"),
+            "caliber": f.get("caliber") or {}}
+
+
+def width_return_block(wr):
+    """Three lines: the two roads, their annual cost, and which is cheaper."""
+    L = []
+    add = L.append
+    wr = wr or {}
+    if wr.get("status") != "ok":
+        add("")
+        add("> 加名字要花多少钱，这一窗读不到（`%s`）：%s。"
+            "**缺面不读成「加名字不要钱」**。"
+            % (wr.get("artifact") or "results/etf_book_width_return.json",
+               wr.get("detail") or "无读数"))
+        add("")
+        return L
+    shr, wid = wr.get("shrink") or {}, wr.get("widen") or {}
+    _bar = str(wr.get("evidence_cutoff") or "")[:10]
+    add("")
+    add("## 加这个名字要花多少钱（%s 的读数）" % _bar if _bar
+        else "## 加这个名字要花多少钱")
+    add("")
+    add("**%s**" % (wr.get("sentence") or ""))
+    add("")
+    add("- 缩仓放弃 %.4f pp/年；加宽到 %s 名放弃 %.4f pp/年（口径：%s）。"
+        % (shr.get("cagr_cost_pp") or 0.0,
+           wid.get("to_n") or "—",
+           wid.get("cagr_cost_pp") or 0.0,
+           (wr.get("caliber") or {}).get("universe") or "同容量面"))
+    add("")
+    return L
+
+
 def width_fit_block(wf):
     """Page lines: per-width impact for the same ticket, and the smallest width that fits."""
     L = []
@@ -9650,6 +9705,7 @@ def build(with_stress=False, window_label=None):
     page["capacity_edge"] = capacity_edge_face()
     page["capacity_ticket"] = capacity_ticket_face()
     page["width_fit"] = width_fit_face()
+    page["width_return"] = width_return_face()
     page["floor_provenance"] = floor_provenance_face()
     page["vol_target_gate"] = vol_target_face()
     page["positions"] = positions_face()
@@ -10023,6 +10079,10 @@ def render_md(p, sb=None):
     # more names is the second road, and it is decidable on the same bar.
     for _wf_line in width_fit_block(p.get("width_fit") or {}):
         add(_wf_line)
+    # r1319: the block above says six names fit. It says nothing about the bill, so the
+    # price of the sixth name is printed here -- two roads to the same line, one unit.
+    for _wr_line in width_return_block(p.get("width_return") or {}):
+        add(_wr_line)
     for _vl_line in vt_ladder_block(p.get("vt_ladder") or {}):
         add(_vl_line)
     # r1614: right after the ladder, because it is a condition on the ladder's answer --

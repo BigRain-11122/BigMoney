@@ -55252,6 +55252,143 @@
    "A name whose ADV cannot be read makes that width's weakest-slot reading incomplete, and it is listed rather than silently dropped."
   ]
  },
+ "width_return": {
+  "status": "ok",
+  "artifact": "results/etf_book_width_return.json",
+  "verdict": "WIDEN_IS_CHEAPER",
+  "gap_pp": 1.633,
+  "shrink": {
+   "readable": true,
+   "must_shrink": true,
+   "capital_after_cny": 991421.0,
+   "capital_given_up_cny": 8579.0,
+   "given_up_pct": 0.8579,
+   "cagr_cost_pp": 0.133
+  },
+  "widen": {
+   "readable": true,
+   "from_n": 5,
+   "to_n": 6,
+   "cagr_from": 0.155,
+   "cagr_to": 0.17,
+   "cagr_cost_pp": -1.5,
+   "sharpe_from": 0.999,
+   "sharpe_to": 1.082,
+   "maxdd_from": -0.1604,
+   "maxdd_to": -0.1638,
+   "turnover_from": 1.53,
+   "turnover_to": 1.46
+  },
+  "rows": [
+   {
+    "label": "N5_R20_10bp",
+    "years": 6.87,
+    "start_level": 1.0108,
+    "cagr": 0.155,
+    "vol": 0.1636,
+    "sharpe": 0.999,
+    "maxdd": -0.1604,
+    "calmar": 0.97,
+    "worst_year": 0.0233,
+    "neg_years": 0,
+    "worst_month": -0.0813,
+    "pos_months_pct": 0.585,
+    "n": 5,
+    "turnover": 1.53,
+    "cagr_is": 0.1022,
+    "sharpe_is": 0.685,
+    "maxdd_is": -0.1418,
+    "cagr_oos": 0.2329,
+    "sharpe_oos": 1.471,
+    "maxdd_oos": -0.1604,
+    "bar": "2026-11-17",
+    "universe": 1522
+   },
+   {
+    "label": "N6_R20_10bp",
+    "years": 6.87,
+    "start_level": 1.0102,
+    "cagr": 0.17,
+    "vol": 0.1636,
+    "sharpe": 1.082,
+    "maxdd": -0.1638,
+    "calmar": 1.04,
+    "worst_year": 0.0261,
+    "neg_years": 0,
+    "worst_month": -0.0875,
+    "pos_months_pct": 0.659,
+    "n": 6,
+    "turnover": 1.46,
+    "cagr_is": 0.1163,
+    "sharpe_is": 0.767,
+    "maxdd_is": -0.1468,
+    "cagr_oos": 0.2492,
+    "sharpe_oos": 1.545,
+    "maxdd_oos": -0.1638,
+    "bar": "2026-11-17",
+    "universe": 1522
+   },
+   {
+    "label": "N7_R20_10bp",
+    "years": 6.87,
+    "start_level": 1.0098,
+    "cagr": 0.1461,
+    "vol": 0.1601,
+    "sharpe": 0.968,
+    "maxdd": -0.1705,
+    "calmar": 0.86,
+    "worst_year": -0.0083,
+    "neg_years": 1,
+    "worst_month": -0.0891,
+    "pos_months_pct": 0.634,
+    "n": 7,
+    "turnover": 1.43,
+    "cagr_is": 0.0821,
+    "sharpe_is": 0.584,
+    "maxdd_is": -0.1705,
+    "cagr_oos": 0.2419,
+    "sharpe_oos": 1.534,
+    "maxdd_oos": -0.146,
+    "bar": "2026-11-17",
+    "universe": 1522
+   },
+   {
+    "label": "N8_R20_10bp",
+    "years": 6.87,
+    "start_level": 1.008,
+    "cagr": 0.1495,
+    "vol": 0.1592,
+    "sharpe": 0.992,
+    "maxdd": -0.1678,
+    "calmar": 0.89,
+    "worst_year": 0.0115,
+    "neg_years": 0,
+    "worst_month": -0.0849,
+    "pos_months_pct": 0.646,
+    "n": 8,
+    "turnover": 1.39,
+    "cagr_is": 0.0883,
+    "sharpe_is": 0.625,
+    "maxdd_is": -0.1678,
+    "cagr_oos": 0.241,
+    "sharpe_oos": 1.524,
+    "maxdd_oos": -0.1494,
+    "bar": "2026-11-17",
+    "universe": 1522
+   }
+  ],
+  "sentence": "同一笔 1,000,000 元在 2026-11-17 这一天，5 名打 1.0087% ADV（闸线 1.00%），6 名落到 0.8405%。把这笔单子塞进线内的两条路，年化代价分别是：缩仓到 991,421 元放弃 0.1330 pp/年，加宽到 6 名放弃 -1.5000 pp/年（0.1550 → 0.1700）。加宽便宜 1.6330 pp/年 —— 第 6 名确实在摊薄容量而不伤收益。但 7 名 14.6100% / 8 名 14.9500% 都低于 6 名 —— 这是第 6 名的一个局部最优，不是「越宽越好」。",
+  "evidence_cutoff": "2026-11-17",
+  "caliber": {
+   "universe": "equity + commodity + convertible only (the capacity face's own score_row class filter, so the 5 names are the same 5 names)",
+   "no_vol_target": true,
+   "relation_to_published_faces": [
+    "etf_equity_alpha.json no-bond arm: 15.56% / SR 1.002 / -16.0% -- this face's width 5 reproduces that caliber, which is how the reader can tell the two readings are the same book",
+    "etf_robust_pf.json N5_R20_10bp 9.13%: FULL unrepaired universe, a different caliber -- not a disagreement, a different question",
+    "etf_nobond_vt.json 11.49%: same no-bond universe WITH the 8% vol target -- this face runs naked, so it reads higher"
+   ]
+  }
+ },
  "floor_provenance": {
   "status": "ok",
   "artifact": "results/etf_book_floor_provenance.json",
@@ -55646,7 +55783,7 @@
    },
    {
     "k": 1,
-    "mean_cny": -1807.9103947888514,
+    "mean_cny": -1807.910394788851,
     "carry_cny": 0.0,
     "cost_cny_vs_today": 1807.91,
     "t": -4.599190382634581,
@@ -55655,10 +55792,10 @@
    },
    {
     "k": 2,
-    "mean_cny": -2617.447114954767,
+    "mean_cny": -2617.4471149547667,
     "carry_cny": 0.0,
     "cost_cny_vs_today": 2617.45,
-    "t": -4.811844064273784,
+    "t": -4.811844064273783,
     "share_late_helps": 0.41866028708133973,
     "separable_from_zero": true
    },
@@ -55667,25 +55804,25 @@
     "mean_cny": -2863.6017836822743,
     "carry_cny": 0.0,
     "cost_cny_vs_today": 2863.6,
-    "t": -4.192936918406691,
+    "t": -4.19293691840669,
     "share_late_helps": 0.434052757793765,
     "separable_from_zero": true
    },
    {
     "k": 5,
-    "mean_cny": -4071.2099611560852,
+    "mean_cny": -4071.2099611560843,
     "carry_cny": 0.0,
     "cost_cny_vs_today": 4071.21,
-    "t": -4.29091984158533,
+    "t": -4.290919841585327,
     "share_late_helps": 0.41445783132530123,
     "separable_from_zero": true
    },
    {
     "k": 10,
-    "mean_cny": -4025.158286788448,
+    "mean_cny": -4025.158286788445,
     "carry_cny": 0.0,
     "cost_cny_vs_today": 4025.16,
-    "t": -2.2053797292433295,
+    "t": -2.2053797292433277,
     "share_late_helps": 0.4433734939759036,
     "separable_from_zero": true
    }
@@ -55694,8 +55831,8 @@
   "today_cost_cny": 0.0,
   "trim_owed": false,
   "one_open_late": {
-   "median_cny": -932.3031683309347,
-   "mean_cny": -1807.9103947888514,
+   "median_cny": -932.3031683309349,
+   "mean_cny": -1807.910394788851,
    "t": -4.599190382634581,
    "share_late_helps": 0.4128878281622912
   },
@@ -55707,7 +55844,7 @@
    },
    "late_sheet_price": {
     "cutoff": "2026-11-17",
-    "digest": "0dd76a4772d3ac5e"
+    "digest": "db55281e051bb01f"
    }
   }
  },
@@ -56373,13 +56510,13 @@
   "no_bar_reason": "human_ages"
  },
  "fleet": {
-  "board_ts": "2026-11-18T08:31:17",
+  "board_ts": "2026-11-18T09:03:20",
   "verdict": "attention",
   "rows": [
    {
     "host": "bm-a",
-    "last_seen": "2026-11-18T08:16:57+08:00",
-    "age_h": 0.24,
+    "last_seen": "2026-11-18T08:46:57+08:00",
+    "age_h": 0.27,
     "alive": true,
     "lanes": [
      "futures",
@@ -56392,7 +56529,7 @@
    {
     "host": "bm-b",
     "last_seen": "2026-10-30T12:43:06+08:00",
-    "age_h": 451.8,
+    "age_h": 452.34,
     "alive": false,
     "lanes": [
      "marks",
@@ -56405,17 +56542,17 @@
    },
    {
     "host": "bm-c",
-    "last_seen": "2026-11-18T08:05:01+08:00",
-    "age_h": 0.44,
+    "last_seen": "2026-11-18T08:59:34+08:00",
+    "age_h": 0.06,
     "alive": true,
     "lanes": [
-     "ths_panel",
      "sina_mf",
      "lhb_inst",
      "ah_panel",
      "etf_panel",
      "minute_feed",
      "moneyflow",
+     "ths_panel",
      "zt_pool"
     ],
     "taken_over": {}
