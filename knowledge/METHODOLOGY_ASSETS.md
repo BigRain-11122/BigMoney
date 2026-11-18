@@ -16837,6 +16837,7 @@ CEO 页 ⓪ 节用官方交易日历做参照尺，逐面问「欠几个会话�
 picks_asof+picks_panel_present + selftest 七条）
 + docs/live_usage/LIVE-2026-11-18.md（⓪ 第 12 行 · L98–L99）。
 
+
 ### E1417 · 引用的那一格会让「三个周期」变成两次实测，而单钟的绿和复现失败的绿长得一模一样（2026-11-18 r1321 bm-a）
 
 「第 6 名在 10/20/40 日都赢」读起来是三次测量。实际是**两次**：20 日那格直接读
@@ -16858,3 +16859,31 @@ picks_asof+picks_panel_present + selftest 七条）
 
 正身=scripts/etf_book_width_neighbors.py `reproduce`/`judge`（selftest 17/17）+ results/etf_book_width_neighbors.json
 （复现 0.0e+00，容差 1e-09）+ scripts/etf_book_ceo_page.py 复现行 + smoke_test.py r1321 两腿。
+### E1418 · 检查腿必须能分清「输入在我写完以后动过」与「我这面算错了」（2026-11-18 r1834 bm-c）
+
+隔夜差面（day_delta）拿两张已发布日页比 ~23k 个数字叶子，而**其中一张日页有同链生成腿**
+（`etf_book_ceo_page`）。它只有 `--check`，没有生产者排序，于是每次链跑重写日页之后，这条面就
+拿着昨天的字节说话。冒烟腿印出来的是：
+
+```
+check FAIL: counts.leaves_today, counts.recovered_old_value, counts.unexplained,
+```
+
+这与「这面真的算错了」**一字不差**。两个代价：①读的人无法分辨陈旧与缺陷，看到红不知道要不要
+动它；②链上的修复规则只对文本里写着 stale 的那种付重算（其余重算=把闸变成抹红机器 r1345），
+所以它红到有人手工跑一次为止（r1282「人手工写过的面」同族）。
+
+正法三件：
+
+* **面自己记输入字节**：`inputs.{today,prev}` = `day/file/bytes/sha256`。判据从「这一窗我改没改
+  这个文件」换成「这面记的字节还是盘上的字节吗」（r1311 同律，这次记的是**依赖**不是产物自己，
+  避免 r1594「自洽的绿」）。
+* **三种结局各自开口**：页被重写 → `STALE`（点名页名 + 指纹前后各 8 位）；最新两张页换了一对 →
+  `STALE`；面里没有指纹（早于本版写的面）→ 也是 `STALE`，**fail-closed 不当作通过**；
+  只有字节对得上而数字对不上，才是 `FACE_DOES_NOT_REPRODUCE`。
+* **补生产者**：链上 `write → check` 紧挨在日页生成腿之后，让「陈旧」在同一个链里就被自愈。
+
+姊妹面：`NO_SECOND_PAGE` 那一支也要能在第二张页落地时翻成 STALE，否则「只有一天」会永远自洽。
+
+正身=scripts/etf_book_day_delta.py（page_identity / check_published / selftest L21–L21f 六腿）
++ Tools/s6_chain_bmc.py（etf_book_day_delta_write / etf_book_day_delta 两腿）。

@@ -1089,6 +1089,16 @@ LEGS = [
      ["python", "scripts/etf_book_width_neighbors.py", "check"],
      ["python", "scripts/etf_book_width_neighbors.py", "run"]),
     ("etf_book_ceo_page", ["python", "scripts/etf_book_ceo_page.py", "run"]),
+    # r1834: the overnight-diff face priced the two most recent day pages, and the page above
+    # is one of them -- but it had no producer here, so every chain run that regenerated the
+    # page left the face pricing yesterday's bytes. The smoke leg then printed a dozen
+    # `counts.*` mismatches, which read as a broken face rather than a stale one (r1282 class:
+    # a face a human last ran). The pair is ordered: write, then check. The check now names a
+    # moved page as STALE, which is the word that lets the chain pay the refresh below it.
+    ("etf_book_day_delta_write", ["python", "scripts/etf_book_day_delta.py", "run"]),
+    ("etf_book_day_delta",
+     ["python", "scripts/etf_book_day_delta.py", "--check"],
+     ["python", "scripts/etf_book_day_delta.py", "run"]),
     # r1639: r1638 found one sentence copied twice onto this page (the two copies read as
     # two independent pieces of evidence) and the block-level leg could not see it, because
     # `"..." in _md` is immune to repetition. That instance is fixed; this leg is the class:

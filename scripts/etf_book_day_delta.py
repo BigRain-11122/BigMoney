@@ -35,6 +35,7 @@ Usage:
   python scripts/etf_book_day_delta.py --check
   python scripts/etf_book_day_delta.py --md
 """
+import hashlib
 import json
 import os
 import re
@@ -83,6 +84,22 @@ def published_pages(pages_dir=None):
             names.append((m.group(1), os.path.join(d, name)))
     names.sort()
     return names
+
+
+def page_identity(path):
+    """Byte identity of one page: r1834, so 'the page moved' stops looking like 'the face is wrong'.
+
+    The face prices ~23k leaves off two 1.2MB pages that are rewritten during the day (the
+    CEO page has a producer in the same chain). Without this identity a check that runs after
+    the rewrite prints a dozen `counts.*` mismatches -- the same output it prints for a face
+    that genuinely does not reproduce. r1311 family: the judgement has to be "are the bytes
+    still the bytes this face read", not "did I happen to touch this file".
+    """
+    with open(path, "rb") as fh:
+        raw = fh.read()
+    return {"day": os.path.basename(path)[len("LIVE-BOOK-"):-len(".json")],
+            "file": os.path.basename(path), "bytes": len(raw),
+            "sha256": hashlib.sha256(raw).hexdigest()}
 
 
 # ----------------------------------------------------------------------------- leaf walking
@@ -423,6 +440,9 @@ def run(pages_dir=None):
         "section_bars_read": bool(sec_a and sec_b),
         "section_bars_ref": "results/live_book_section_bars.json",
         "evidence_cutoff": today.get("evidence_cutoff"),
+        # r1834: the two pages' own bytes, so --check can say "the page moved under me"
+        # instead of printing a dozen counts mismatches that read as a broken face.
+        "inputs": {"today": page_identity(path_a), "prev": page_identity(path_b)},
     }
     payload.update(d)
     payload["verdict"] = (
@@ -504,6 +524,16 @@ def write_md(p):
                   "这几节的位移**没有任何解释**（不是转抄、不是换输入、不是换代）。"
                   "页要在同一根 bar 上改这些数，就得自己写出理由；写不出来，读的人就分不清"
                   "「今天变了」和「口径变了」。"]
+
+    lines += ["", "## 这张面自己什么时候算陈旧（r1834）", "",
+              "- 本面在产物里记下它读的那两张日页的字节指纹（`inputs.today` / `inputs.prev`："
+              "`day`／`file`／`bytes`／`sha256`）。`--check` **先比字节，再比数字**："
+              "日页在写完面之后被重写过（CEO 页有同链生成腿，这是常态）→ 报 `STALE` 并点名是哪张页、"
+              "指纹从哪个前缀换到哪个前缀；最新两张日页已经换了一对 → 同样 `STALE`；"
+              "**面里没有指纹**（早于本版写的面）→ 也报 `STALE`，不当作通过。",
+              "- 只有字节仍然对得上、数字却对不上，才是 `FACE_DOES_NOT_REPRODUCE`——那才是本面算错了。",
+              "- 为什么要分开：两种失败以前都印成一串 `counts.*`，读的人分不清「页动过」和「面坏了」，"
+              "而链上的修复规则只对写着 stale 的那种付重算（别的重算=把闸变成抹红机器）。"]
 
     lines += ["", "## 怎么读", "",
               "- `CLOCK`＝钟面（`age_h`/`silent_h`/`lag_days` 这类）：没有新 bar 也该走，不构成问题；"
@@ -742,15 +772,114 @@ def selftest():
         except OSError:
             pass
 
+    # L21 r1834: a page rewritten after the face was written is STALE by name, never a
+    # `counts.*` accusation -- the ordinary case here, because this page has a same-chain
+    # producer, and the difference decides whether the chain may pay a rebuild (r1345).
+    import tempfile
+
+    def _dump_page(path, obj):
+        with open(path, "w", encoding="utf-8") as fh:
+            json.dump(obj, fh, ensure_ascii=False)
+
+    with tempfile.TemporaryDirectory() as td:
+        p_prev = os.path.join(td, "LIVE-BOOK-20261113.json")
+        p_today = os.path.join(td, "LIVE-BOOK-20261114.json")
+        face = os.path.join(td, "face.json")
+        _dump_page(p_prev, _page("2026-11-13", 50.81, "rate only", 40.5))
+        _dump_page(p_today, _page("2026-11-13", 50.81, "rate only", 40.5))
+        _dump_page(face, run(pages_dir=td))
+        out = []
+        rc = check_published(pages_dir=td, out_json=face, say=out.append)
+        check("L21 a face that matches its own bytes passes", rc == 0 and "check OK" in out[0],
+              (rc, out[-1:]))
+
+        # the page moves (same bar, one number rewritten) -> stale, and the file is named
+        _dump_page(p_today, _page("2026-11-13", 60.0, "rate only", 40.5))
+        out = []
+        rc = check_published(pages_dir=td, out_json=face, say=out.append)
+        check("L21b a rewritten page is STALE and names the file",
+              rc == 1 and "STALE" in out[0] and "LIVE-BOOK-20261114" in out[0], (rc, out[-1:]))
+        check("L21c stale is not printed as a counts mismatch",
+              "counts." not in out[0], out[-1:])
+
+        # same bytes, a count edited by hand -> the face does not reproduce its own page
+        wrong = run(pages_dir=td)
+        wrong["counts"]["unexplained"] = wrong["counts"]["unexplained"] + 1
+        _dump_page(face, wrong)
+        out = []
+        rc = check_published(pages_dir=td, out_json=face, say=out.append)
+        check("L21d same bytes, wrong count -> DOES_NOT_REPRODUCE",
+              rc == 1 and "FACE_DOES_NOT_REPRODUCE" in out[0], (rc, out[-1:]))
+
+        # a face written before the identity block existed is refused, not passed
+        legacy = json.loads(json.dumps(wrong))
+        legacy.pop("inputs", None)
+        _dump_page(face, legacy)
+        out = []
+        rc = check_published(pages_dir=td, out_json=face, say=out.append)
+        check("L21e no identity -> STALE, never a pass", rc == 1 and "STALE" in out[0],
+              (rc, out[-1:]))
+
+        # a third day page landing under a priced pair makes that pair stale too
+        _dump_page(face, run(pages_dir=td))
+        _dump_page(os.path.join(td, "LIVE-BOOK-20261117.json"),
+                   _page("2026-11-13", 50.81, "rate only", 40.5))
+        out = []
+        rc = check_published(pages_dir=td, out_json=face, say=out.append)
+        check("L21f a new day page makes the priced pair stale",
+              rc == 1 and "STALE" in out[0], (rc, out[-1:]))
+
     print("selftest %d/%d %s" % (total[0] - fails[0], total[0], "PASS" if not fails[0] else "FAIL"))
     return 0 if not fails[0] else 1
 
 
 # ----------------------------------------------------------------------------- check
-def check_published():
-    """Re-derive from disk and compare with the published payload, number for number."""
-    published = _load(OUT_JSON)
-    fresh = run()
+def check_published(pages_dir=None, out_json=None, say=print):
+    """Re-derive from disk and compare with the published payload, number for number.
+
+    r1834: two different failures used to print as one. "The page moved after this face was
+    written" and "this face does not reproduce the page it describes" both came out as a list
+    of `counts.*` mismatches, so a reader could not tell a stale face from a wrong one -- and
+    the first is the ordinary case, since the CEO page has a producer in the same chain. The
+    face now records the bytes of the two pages it read (r1311 family: the judgement is
+    "are the bytes still mine", not "did anyone touch the file"), a moved page is reported as
+    STALE by name, and only a face whose inputs still match is judged on its numbers.
+    """
+    published = _load(out_json or OUT_JSON)
+    names = published_pages(pages_dir)
+    if published.get("verdict") == "NO_SECOND_PAGE":
+        fresh = run(pages_dir)
+        if fresh.get("verdict") == "NO_SECOND_PAGE":
+            say("check OK: NO_SECOND_PAGE still true (one published day page)")
+            return 0
+        say("check STALE: a second day page landed since this face wrote NO_SECOND_PAGE "
+            "(%s); re-run to price the pair" % os.path.basename(fresh["today"]["file"]))
+        return 1
+    rec = published.get("inputs") or {}
+    if not (rec.get("today") or {}).get("sha256") or not (rec.get("prev") or {}).get("sha256"):
+        say("check STALE: the published face records no input identity, so 'the page moved "
+            "under it' cannot be told from 'the face is wrong'; re-run to price today's pages")
+        return 1
+    newest = [d for d, _ in names[-2:]]
+    if [rec["prev"].get("day"), rec["today"].get("day")] != newest:
+        say("check STALE: the newest two day pages are %s but this face priced %s"
+            % ("/".join(newest) or "none", "/".join([rec["prev"].get("day") or "?",
+                                                    rec["today"].get("day") or "?"])))
+        return 1
+    for side in ("prev", "today"):
+        r = rec[side]
+        on_disk = dict(names).get(r.get("day"))
+        if not on_disk:
+            say("check STALE: the %s page %s this face priced is no longer on disk"
+                % (side, r.get("file")))
+            return 1
+        got = page_identity(on_disk)
+        if got["sha256"] != r["sha256"]:
+            say("check STALE: %s moved since this face priced it (%s: %s -> %s, %d -> %d bytes)"
+                % (r["file"], r["day"], str(r["sha256"])[:8], got["sha256"][:8],
+                   int(r.get("bytes") or 0), got["bytes"]))
+            return 1
+    fresh = run(pages_dir)
     bad = []
     for k in ("verdict", "same_cut"):
         if published.get(k) != fresh.get(k):
@@ -761,10 +890,10 @@ def check_published():
     if len(published.get("moves") or []) != len(fresh["moves"]):
         bad.append("moves.len")
     if bad:
-        print("check FAIL: %s" % ", ".join(bad))
+        say("check FAIL (FACE_DOES_NOT_REPRODUCE): %s" % ", ".join(bad))
         return 1
-    print("check OK: verdict=%s moved=%d unexplained=%d (re-derived from the published pages)"
-          % (fresh["verdict"], fresh["counts"]["moved"], fresh["counts"]["unexplained"]))
+    say("check OK: verdict=%s moved=%d unexplained=%d (re-derived from the published pages)"
+        % (fresh["verdict"], fresh["counts"]["moved"], fresh["counts"]["unexplained"]))
     return 0
 
 
