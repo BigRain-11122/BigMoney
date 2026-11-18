@@ -16915,3 +16915,22 @@ CEO 活书页头部写着「按 2026-11-17 定价」，73 个带日期的节里 
 
 正身=Tools/s6_chain_bmc.py `futures_sleeve_economics` 腿（check 派生自面板最后一根 bar）+ Tools/iteration_prompt.txt S6 首腿 +
 smoke_test.py `open()` 修复与 `no_writer` 判红 + results/live_book_section_bars.json（verdict PAGE_AHEAD_OF_BAR, off=0）。
+
+## E1595 — 摘要句只数了它自己想到的那几类，剩下的沉默地掉出去（r1836 bm-c）
+
+供给地板那句话连续 35+ 轮印着「4 个候选被判过，无一 ADMIT：3 个因为相位差过宽，0 个因为相位矛盾」。
+算术上 3+0≠4，可没有人去减——因为句子读起来完整：它把「无法判定」的两条子因都数了，读者不会想到
+还有一个**被真正判过**的候选（`all_classes_published`，CONDITIONAL via Y4_top2_share）根本没进这句话。
+同一条面上还有第二个洞：该候选的 `C1_capacity` 在年闸收据里是 **null（从未测）**，而渲染只印值为 False
+的检查，于是「未过的检查=Y4_top2_share」被读成「其余都过了」——r98 族的又一枚。
+
+**正法两件**：①摘要句的分母必须等于行的总数，每一类（无法判定/已判/无读数）各自入账并点名；
+②收据里值为 null 的检查**单独成列**（`unchecked_checks`）一路带到最上层，缺面就印「谁都没测这一列」，
+禁把它折进「通过」也禁折进「失败」。判据用收据自己的 null，不在下游另立一张清单。
+
+自检要钉三面：被判过的候选不掉出算术、总数按全部候选计、全测过时不出现「nobody measured」这一句。
+姊妹面=任何 `if v is False` 的筛选都是在**默认** `None` 等于通过。
+
+正身=scripts/supply_calendar_face.py `read_year_gate`/`_one_line` + scripts/supply_candidate_face.py（md 表列）
++ scripts/compute_audit.py `supply_floor_why`（selftest 86/86）；面=results/supply_candidates.{json,md} 与
+results/compute_audit.json `supply_floor.why.sentence`。
