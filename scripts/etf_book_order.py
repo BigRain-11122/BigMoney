@@ -3193,6 +3193,8 @@ def card(ticket, mk, sched, asof, beta, extra):
         # size is legitimate — the operator had to open a different page to learn whether the
         # capital was cleared at all. Same reader as the card sheet, no second implementation.
         L += admission_md(admission_read(asof), asof)
+        # r1318: and the same capacity question answered on the ranking THIS sheet holds.
+        L += width_capacity_md(extra.get("width_capacity"))
         L += permission_md(extra.get("permission"))
         L += band_md(extra.get("size_band"))
         # r1516: the sheet printed a TARGET and, elsewhere, a CURRENT book. The trades
@@ -4029,6 +4031,106 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
     payload["cash_leg"]["forward"] = cash_forward_window(
         payload["cash_leg"]["money"],
         ((payload.get("next_decision") or {}).get("grid") or {}).get("next_bar"))
+    # r1318: the capacity veto refuses the TICKET at one width. When it fires, the sheet now
+    # carries the width that fits AND a whole-lot ticket at that width -- an artefact the desk
+    # can place, instead of a number it has to re-derive by hand. Capacity caliber (k=1.0) by
+    # construction: the gate's line is measured on the full capital spread over n names.
+    _adm_run = admission_read(asof)
+    _esc = width_escape(_adm_run)
+    payload["width_escape"] = _esc
+    # r1318: the width table ranks the panel's LAST bar; a ticket ranks its DECISION bar.
+    # On 2026-11-17 those two books shared one name out of five, so a capacity number copied
+    # across them describes a book nobody is holding. Re-price the grid on THIS ranking.
+    _wc = None
+    if dec_bar is not None:
+        _grid = []
+        for _n in (N_HOLD, 6, 7, 8, 10, 12):
+            if any(g["n"] == _n for g in _grid):
+                continue
+            _grid.append(width_capacity(score.loc[dec_bar], amt[cols], _n, nav))
+        _live_w = next((r for r in _grid if r["n"] == N_HOLD), None)
+        _fit_w = next((r for r in _grid if r.get("fits") is True), None)
+        _wc = {"kind": "width_capacity_on_ticket_ranking", "asof": asof,
+               "decision_bar": str(dec_bar.date()), "nav_cny": float(nav),
+               "line_pct": 1.0, "widths": _grid,
+               "live_width": _live_w, "min_width_row": _fit_w,
+               "verdict": "MIN_WIDTH_THAT_FITS" if _fit_w else "NO_WIDTH_FITS",
+               "gate_face_reading": _esc,
+               "note": ("本表按本票决策日的排名重算；准入节引用的宽度表按面板最后一根 bar "
+                        "排名，两者口径不同不得相加。")}
+        payload["width_capacity"] = _wc
+    if _wc and _wc.get("min_width_row") and dec_bar is not None:
+        _fw = _wc["min_width_row"]
+        _esc_tk = build_ticket(score.loc[dec_bar], close.loc[asof], 1.0,
+                               float(_fw["capital_at_line_cny"]),
+                               n_hold=int(_fw["n"]), classes=cls_map, k_rule=1.0)
+        _esc_doc = {"kind": "width_escape_ticket", "asof": asof, "generated": _stamp,
+                    "admission": {"verdict": _adm_run.get("decision_verdict"),
+                                  "failed": _adm_run.get("failed_checks") or [],
+                                  "path": _adm_run.get("path")},
+                    "capacity_on_ticket_ranking": _wc,
+                    "gate_face_reading": _esc, "ticket": _esc_tk,
+                    "caliber": ("容量口径：把闸线允许的资本按 %d 名等权分（k=1.0）；"
+                                "这不是本轮 beta 票，更宽的书收益代价不在本面"
+                                % int(_fw["n"]))}
+        _write("WIDTH-ESCAPE-%s.json" % asof, _esc_doc)
+        if _esc_tk:
+            _lw = _live_w or {}
+            _wl = ["# 宽度逃逸票 · %s（K1 容量不过时的可下版本）" % asof, "",
+                   "- 准入判决 **%s**，未过项：%s"
+                   % (_adm_run.get("decision_verdict") or "未知",
+                      "，".join(_adm_run.get("failed_checks") or []) or "无"),
+                   ("- 本票名册（决策日 %s）在 %d 名时打 %.4f%% ADV（最弱 %s，%s 元）——"
+                    "**它自己的宽度就过线**，这一天能承载 %s 元；准入节那个 DENY 来自"
+                    "今日排名的那本书，不是本票。"
+                    % (str(dec_bar.date()), int(N_HOLD),
+                       float(_lw.get("impact_pct_of_adv") or 0.0),
+                       _lw.get("adv_weakest_sym") or "-",
+                       format(int(_lw.get("adv_weakest_cny") or 0), ","),
+                       format(int(_fw["capital_at_line_cny"] or 0), ","))
+                    if int(_fw["n"]) == int(N_HOLD) else
+                    "- 本票名册（决策日 %s）在 %d 名时打 %.4f%% ADV（最弱 %s，%s 元）；"
+                    "加宽到 **%d 名** 落到 %.4f%%，每名从 %s 元降到 %s 元，该宽度在这一天的"
+                    "容量是 **%s 元**。"
+                    % (str(dec_bar.date()), int(N_HOLD),
+                       float(_lw.get("impact_pct_of_adv") or 0.0),
+                       _lw.get("adv_weakest_sym") or "-",
+                       format(int(_lw.get("adv_weakest_cny") or 0), ","),
+                       int(_fw["n"]), float(_fw["impact_pct_of_adv"] or 0.0),
+                       format(int(_lw.get("per_name_cny") or 0), ","),
+                       format(int(_fw["per_name_cny"] or 0), ","),
+                       format(int(_fw["capital_at_line_cny"] or 0), ","))),
+                   "- 口径差披露：准入节引用的宽度表按**面板最后一根 bar** 排名（%d 名：%s），"
+                   "与上句的本票名册不是同一本书，两组容量数字不得相加。"
+                   % (int(_esc.get("width") or 0),
+                      "、".join(_esc.get("picks") or []) or "见该面"),
+                   "", "| 代码 | 权重 | 收盘价 | 手 | 股 | 金额(元) |", "|---|---|---|---|---|---|"]
+            for r in _esc_tk["order"]:
+                _wl.append("| %s | %.4f%% | %s | %s | %s | %s |"
+                           % (r["symbol"], 100.0 * float(r["weight"]),
+                              "-" if r.get("price") is None else "%.4f" % r["price"],
+                              "-" if r.get("lots") is None else r["lots"],
+                              "-" if r.get("shares") is None else r["shares"],
+                              "待定" if r.get("amount") is None
+                              else format(int(r["amount"]), ",")))
+            _wl += ["", "- 票面合计 %s 元，余额 %s 元留在现金腿（整手取整后的零头不退不让）"
+                    % (format(int(_esc_tk["book_amount"]), ","),
+                       format(int(_esc_tk["cash_amount"]), ",")),
+                    "- 口径：容量口径满仓票（k=1.0，宽度 %d）；本轮 beta 票见 ORDER-%s.md。"
+                    % (int(_fw["n"]), asof),
+                    "- 边界：本票只保证单日冲击 ≤%.2f%% ADV；更宽的书收益多少要一次引擎跑，"
+                    "本面不回答（承 DIRECTION-20261114 §一 四门之 (b)）。"
+                    % float(_wc.get("line_pct") or 1.0)]
+            with open(os.path.join(OUT_DIR, "WIDTH-ESCAPE-%s.md" % asof), "w",
+                      encoding="utf-8") as f:
+                f.write("\n".join(_wl) + "\n")
+            print("width escape (own ranking): %s names -> %.4f%% ADV at %d names on the "
+                  "ticket's own decision bar %s; %d names fits (%.4f%%), capital %s CNY; "
+                  "wrote WIDTH-ESCAPE-%s.md/.json"
+                  % (int(_lw.get("n") or N_HOLD), float(_lw.get("impact_pct_of_adv") or 0.0),
+                     int(_lw.get("n") or N_HOLD), str(dec_bar.date()),
+                     int(_fw["n"]), float(_fw["impact_pct_of_adv"] or 0.0),
+                     format(int(_fw["capital_at_line_cny"]), ","), asof), flush=True)
     _write("TICKET-%s.json" % asof, payload)
     _write("latest.json", {"as_of": asof, "file": "TICKET-%s.json" % asof,
                            # r1597: same stamp the ticket carries -- the pointer is what a
@@ -4092,6 +4194,7 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
                       "family_coherence": fam,
                       "priced_faces": _priced_faces,
                       "price_basis": payload["price_basis"],
+                      "width_capacity": payload.get("width_capacity"),
                       "reprice": rp_block}))
 
     print("as_of=%s beta=%.2f k=%.6f (rule k=%.6f, base %s) nav=%.4f rows+=%d drift=%s"
@@ -4744,6 +4847,159 @@ def admission_read(last_bar=None, path=None, phase=None):
     return base
 
 
+WIDTH_FIT_FILE = os.path.join(PATHS.results_dir, "etf_book_width_fit.json")
+
+
+def width_escape(ad, path=None):
+    """Which width makes the capacity ruler stop refusing -- read off the width table.
+
+    r1318: `_decision_md` printed "K1 不过" and stopped. The width table
+    (scripts/etf_book_width_fit.py) has already measured the same score row at 5..20 names
+    against the same 1% ADV line, so the operator's real question -- shrink the ticket or
+    widen it, and how much fits -- has a one-line answer no sheet printed. This reads that
+    face; it never recomputes it, and it refuses to price the wider book's RETURN (a full
+    engine run owns that question and the face says so in its own caveats).
+    """
+    checks = ad.get("decision_checks") or {}
+    if checks.get("K1_capacity_1pct_adv") is not False:
+        return {"status": "not_needed"}
+    p = path or WIDTH_FIT_FILE
+    try:
+        rel = os.path.relpath(p, BASE).replace("\\", "/")
+    except ValueError:      # fixture on another drive (E289), same guard as admission_read
+        rel = p.replace("\\", "/")
+    if not os.path.exists(p):
+        return {"status": "unavailable", "path": rel,
+                "why": "width table not on disk -- run scripts/etf_book_width_fit.py"}
+    try:
+        with open(p, encoding="utf-8") as fh:
+            d = json.load(fh)
+    except Exception as exc:                                    # noqa: BLE001
+        return {"status": "unavailable", "path": rel, "why": "unreadable: %s" % exc}
+    s = d.get("summary") or {}
+    live = s.get("live_width") or {}
+    row = s.get("min_width_row") or {}
+    # `fits` is the producer's own verdict; when a face predates that field, fall back to the
+    # two numbers it does carry rather than reading an absent key as "no width fits" (a
+    # missing field is not a negative finding).
+    _fits = row.get("fits")
+    if _fits is None and row.get("impact_pct_of_adv") is not None \
+            and s.get("line_pct") is not None:
+        _fits = float(row["impact_pct_of_adv"]) <= float(s["line_pct"])
+    if s.get("verdict") != "MIN_WIDTH_THAT_FITS" or _fits is not True:
+        return {"status": "no_width_fits", "path": rel, "bar": s.get("bar"),
+                "live_width": live.get("n"),
+                "live_impact_pct": live.get("impact_pct_of_adv"),
+                "line_pct": s.get("line_pct"),
+                "why": "measured widths all miss the line on this bar"}
+    return {
+        "status": "ok", "path": rel, "bar": s.get("bar"),
+        "line_pct": s.get("line_pct"),
+        "live_width": live.get("n"), "live_impact_pct": live.get("impact_pct_of_adv"),
+        "width": row.get("n"), "impact_pct": row.get("impact_pct_of_adv"),
+        "picks": row.get("picks") or live.get("picks") or [],
+        "per_name_cny": row.get("per_name_cny"),
+        "capital_cny": s.get("capital_cny"),
+        "capital_at_line_cny": row.get("capital_at_line_cny"),
+        "extra_names": s.get("extra_names"),
+        "per_name_drop_cny": s.get("per_name_drop_cny"),
+        # Same weakest seat at both widths => the whole drop came from buying less per name,
+        # not from moving into a thicker ticket. Printed, never inferred by the reader.
+        "same_weakest_seat": (row.get("adv_weakest_sym") == live.get("adv_weakest_sym")),
+        "weakest_sym": row.get("adv_weakest_sym"),
+        "weakest_adv_cny": row.get("adv_weakest_cny"),
+        "caveats": d.get("caveats") or [],
+        "sentence": (
+            "**K1 不过不是终点，是把宽度调一档**：同一笔 %s 元在 %s 这天的 %s 名票打 "
+            "%.4f%% ADV（线 %.2f%%）；加宽到 **%s 名** 落到 %.4f%%，每名从 %s 元降到 "
+            "%s 元，该宽度在这一天的容量是 **%s 元**。%s宽度只回答容量，不回答更宽的书"
+            "收益多少（那是引擎跑的事，本面不算）。出处：%s（生产者 "
+            "etf_book_width_fit，本页只读）"
+            % (format(int(s.get("capital_cny") or 0), ","),
+               s.get("bar") or "-", live.get("n"), float(live.get("impact_pct_of_adv") or 0.0),
+               float(s.get("line_pct") or 1.0), row.get("n"),
+               float(row.get("impact_pct_of_adv") or 0.0),
+               format(int(live.get("per_name_cny") or 0), ","),
+               format(int(row.get("per_name_cny") or 0), ","),
+               format(int(row.get("capital_at_line_cny") or 0), ","),
+               ("最弱的席位两个宽度下是同一只（%s，%s 元）——省下的冲击全部来自每名少买，"
+                "不是换到了更厚的票。"
+                % (row.get("adv_weakest_sym"),
+                   format(int(row.get("adv_weakest_cny") or 0), ",")))
+               if row.get("adv_weakest_sym") == live.get("adv_weakest_sym") else "",
+               rel)
+            + ("注意：上面这组数字是**宽度表自己那根 bar 的排名**（%s 名：%s）算出来的，"
+               "不等于本票名册；票面自带的 WIDTH-ESCAPE 票按本票**决策日**的排名重算，"
+               "两张面口径不同不得相加。"
+               % (row.get("n"), "、".join(row.get("picks") or live.get("picks") or []))
+               if (row.get("picks") or live.get("picks")) else ""))}
+
+
+def width_capacity(rank_row, amt, n, capital, line=0.01, bars=20):
+    """One width priced on THIS ticket's own ranking -- never on another face's picks.
+
+    Same arithmetic as scripts/etf_book_width_fit.py (per-name = capital / n, ADV = that
+    slot's own median over its last `bars` amounts), but the ranking is the caller's. Two
+    faces can agree on the bar and still rank different books: the width table ranks the
+    panel's LAST bar, a ticket ranks its DECISION bar. On 2026-11-17 those two books shared
+    one name out of five, so a capacity number copied across them describes a book nobody
+    is holding.
+    """
+    picks = list(rank_row.dropna().nlargest(int(n)).index)
+    advs = {}
+    for sym in picks:
+        if amt is None or sym not in getattr(amt, "columns", []):
+            advs[sym] = None
+            continue
+        x = amt[sym].tail(bars).dropna()
+        med = float(x.median()) if len(x) >= bars else None
+        advs[sym] = med if (med is not None and med == med and med > 0) else None
+    measured = [(s, a) for s, a in advs.items() if a is not None]
+    if not measured:
+        return {"n": int(n), "picks": picks, "n_measurable": 0, "adv_weakest_cny": None,
+                "adv_weakest_sym": None, "per_name_cny": None,
+                "impact_pct_of_adv": None, "fits": None, "capital_at_line_cny": None,
+                "unmeasurable": picks}
+    weakest_sym, weakest_adv = min(measured, key=lambda kv: kv[1])
+    per_name = float(capital) / float(n)
+    share = per_name / weakest_adv
+    return {"n": int(n), "picks": picks, "n_measurable": len(measured),
+            "adv_weakest_cny": round(weakest_adv, 0), "adv_weakest_sym": weakest_sym,
+            "per_name_cny": round(per_name, 0),
+            "impact_pct_of_adv": round(share * 100.0, 4),
+            "fits": bool(share <= float(line)),
+            "capital_at_line_cny": round(float(line) * weakest_adv * float(n), 0),
+            "unmeasurable": [s for s, a in advs.items() if a is None]}
+
+
+def width_capacity_md(wc):
+    """One line on the operator's page: capacity measured on THIS ticket's own ranking.
+
+    r1318: the admission section quotes the width table, whose ranking is the panel's LAST
+    bar. That printed "K1 不过" on a ticket whose own book fits with room to spare -- a
+    cross-face difference read as a property of the book. This answers the same question on
+    the ranking the ticket actually holds.
+    """
+    if not wc or not wc.get("widths"):
+        return []
+    lw = wc.get("live_width") or {}
+    fw = wc.get("min_width_row") or {}
+    if not lw.get("impact_pct_of_adv"):
+        return ["- 本票名册的容量算不出来（ADV 缺失）—— 准入那一行不能当成本票的容量读数。"]
+    if fw.get("n") == lw.get("n"):
+        return ["- **按本票自己的名册重算**（决策日 %s，%d 名）：单日冲击 %.4f%% ADV，线 %.2f%%"
+                " —— 本票自己的宽度就过线，这一天能承载 **%s 元**；准入节引用的宽度表按"
+                "面板最后一根 bar 排名，那个 DENY 不是这本书的属性。"
+                % (wc.get("decision_bar"), int(lw["n"]),
+                   float(lw["impact_pct_of_adv"]), float(wc.get("line_pct") or 1.0),
+                   format(int(fw.get("capital_at_line_cny") or 0), ","))]
+    return ["- **按本票自己的名册加宽**（决策日 %s）：%d 名 %.4f%% ADV 不过线 → %d 名 "
+            "%.4f%%，该宽度容量 **%s 元**（票面见 WIDTH-ESCAPE-%s.md）。"
+            % (wc.get("decision_bar"), int(lw["n"]), float(lw["impact_pct_of_adv"]),
+               int(fw["n"]), float(fw.get("impact_pct_of_adv") or 0.0),
+               format(int(fw.get("capital_at_line_cny") or 0), ","), wc.get("asof"))]
+
+
 def _decision_md(ad):
     """The three veto rulers printed side by side, and which rulers have no veto any more.
 
@@ -4793,6 +5049,24 @@ def _decision_md(ad):
         L.append("| %s | %s | %s | %s |"
                  % (label, thr, cell,
                     "过" if ok else ("**不过**" if ok is False else "未判")))
+    # r1318: the capacity ruler is the one veto that refuses a ticket rather than the book,
+    # and it refuses it at ONE width. Printing "不过" and stopping left the operator with a
+    # number and no instruction; the width table already answers it on the same bar.
+    if checks.get("K1_capacity_1pct_adv") is False:
+        # `width_fit_path` is a test seam only: production faces carry no such key and the
+        # reader falls back to the live width table.
+        we = width_escape(ad, ad.get("width_fit_path"))
+        if we.get("status") == "ok":
+            L.append("- " + we["sentence"])
+        elif we.get("status") == "no_width_fits":
+            L.append("- 宽度表（%s）测到的最宽书在 %s 这天也过不了 %.2f%% ADV 线 —— "
+                     "**这不是加宽能救的**，只能缩票或等更厚的成交量。"
+                     % (we.get("path"), we.get("bar") or "-",
+                        float(we.get("line_pct") or 1.0)))
+        else:
+            L.append("- 宽度表读不到（%s：%s）—— K1 不过时本页无法回答「加宽几名能过、能下多少」，"
+                     "这一行缺口不得读成「怎么都下不了」。"
+                     % (we.get("path") or "-", we.get("why") or "-"))
     caps = reads.get("capacity_by_capital") or {}
     for k in sorted(x for x in caps if x != lens):
         c = caps[k] or {}
@@ -8175,6 +8449,95 @@ def selftest():
             and bool(_nline) and "没记下是哪次跑" in _nline[0]
             and "2026-11-10T00:50" not in _nline[0],
             _nline[:1])
+        # legS-U (r1318): the capacity ruler refuses a TICKET, not the book, and it refuses
+        # it at one width. Three states must not collapse into one sentence: a width that
+        # fits (the operator gets a number to place), every measured width failing (no
+        # amount of widening saves this bar), and no table at all (a gap, not a refusal).
+        _k1dec = {"verdict": "DENY", "book": ADMITTED_BOOK,
+                  "veto_rulers": ["S1_oos_sharpe", "A1_cagr_after_cost",
+                                  "K1_capacity_1pct_adv"],
+                  "diagnostics_have_no_veto": ["Y1_positive_years_share"],
+                  "checks": {"S1_oos_sharpe": True, "A1_cagr_after_cost": True,
+                             "K1_capacity_1pct_adv": False},
+                  "failed_checks": ["K1_capacity_1pct_adv"],
+                  "reads": {"capacity_veto_lens": "1M", "impact_max_pct_of_adv": 0.01,
+                            "capacity_by_capital": {
+                                "1M": {"capital_cny": 1000000, "per_name_cny": 200000,
+                                       "impact_pct_of_adv": 1.0087}}}}
+        _live_row = {"n": 5, "per_name_cny": 200000.0, "impact_pct_of_adv": 1.0087,
+                     "adv_weakest_sym": "159549", "adv_weakest_cny": 19828417.0}
+        _wf_ok = {"summary": {"verdict": "MIN_WIDTH_THAT_FITS", "capital_cny": 1000000.0,
+                              "line_pct": 1.0, "bar": "2026-11-17", "live_width": _live_row,
+                              "min_width_row": {"n": 6, "per_name_cny": 166667.0,
+                                                "impact_pct_of_adv": 0.8405,
+                                                "capital_at_line_cny": 1189705.0,
+                                                "adv_weakest_sym": "159549",
+                                                "adv_weakest_cny": 19828417.0},
+                              "extra_names": 1, "per_name_drop_cny": 33333.0},
+                 "caveats": []}
+        _wf_p = os.path.join(_tmp, "wf_ok.json")
+        with open(_wf_p, "w", encoding="utf-8") as fh:
+            json.dump(_wf_ok, fh)
+        _kp = _gate(os.path.join(_tmp, "g_k1.json"), ADMITTED_BOOK, verdict="DENY",
+                    decision=_k1dec)
+        _ak = admission_read("2026-11-11", path=_kp)
+        _ak["width_fit_path"] = _wf_p
+        _kmd = "\n".join(admission_md(_ak, "2026-11-11"))
+        chk("legS K1 不过时页面说加宽几名能过、能下多少，而不是只印不过",
+            "加宽到 **6 名**" in _kmd and "1,189,705" in _kmd and "0.8405%" in _kmd
+            and width_escape(_ak, _wf_p).get("status") == "ok",
+            [l for l in _kmd.splitlines() if "加宽到" in l][:1])
+        _wf_bad = {"summary": {"verdict": "NO_WIDTH_FITS", "capital_cny": 1000000.0,
+                               "line_pct": 1.0, "bar": "2026-11-17",
+                               "live_width": _live_row,
+                               "min_width_row": {"n": 20, "per_name_cny": 50000.0,
+                                                 "impact_pct_of_adv": 1.42,
+                                                 "capital_at_line_cny": 700000.0}},
+                   "caveats": []}
+        _wf_bad_p = os.path.join(_tmp, "wf_bad.json")
+        with open(_wf_bad_p, "w", encoding="utf-8") as fh:
+            json.dump(_wf_bad, fh)
+        _akb = dict(_ak, width_fit_path=_wf_bad_p)
+        _kbmd = "\n".join(admission_md(_akb, "2026-11-11"))
+        chk("legT a bar where even the widest book misses the line says widening cannot save it",
+            "不是加宽能救的" in _kbmd and width_escape(_akb, _wf_bad_p).get("status")
+            == "no_width_fits",
+            [l for l in _kbmd.splitlines() if "加宽能救" in l][:1])
+        _akn = dict(_ak, width_fit_path=os.path.join(_tmp, "wf_absent.json"))
+        _knmd = "\n".join(admission_md(_akn, "2026-11-11"))
+        chk("legU a missing width table reads as a gap, never as 'nothing fits'",
+            "宽度表读不到" in _knmd and "不得读成" in _knmd
+            and width_escape(_akn, os.path.join(_tmp, "wf_absent.json")).get("status")
+            == "unavailable",
+            [l for l in _knmd.splitlines() if "宽度表读不到" in l][:1])
+        chk("legV no K1 failure means no width instruction is printed at all",
+            width_escape(_a).get("status") == "not_needed"
+            and "加宽到" not in _md,
+            width_escape(_a).get("status"))
+        # legW-X (r1318): the ticket's own ranking and the width table's ranking are two
+        # books on the same bar. The page must say which one it is quoting and must not
+        # print "widen it" when nothing needs widening.
+        _wc_own = {"asof": "2026-11-17", "decision_bar": "2026-11-11", "line_pct": 1.0,
+                   "widths": [{"n": 5}, {"n": 6}],
+                   "live_width": {"n": 5, "impact_pct_of_adv": 0.7932,
+                                  "per_name_cny": 200000.0},
+                   "min_width_row": {"n": 5, "impact_pct_of_adv": 0.7932,
+                                     "capital_at_line_cny": 1260724.0}}
+        _wcm = "\n".join(width_capacity_md(_wc_own))
+        chk("legW a ticket whose own book already fits says so instead of asking for more names",
+            "本票自己的宽度就过线" in _wcm and "1,260,724" in _wcm
+            and "不是这本书的属性" in _wcm,
+            _wcm.splitlines()[:1])
+        _wc_wide = {"asof": "2026-11-17", "decision_bar": "2026-11-11", "line_pct": 1.0,
+                    "widths": [{"n": 5}, {"n": 6}],
+                    "live_width": {"n": 5, "impact_pct_of_adv": 1.0087},
+                    "min_width_row": {"n": 6, "impact_pct_of_adv": 0.8405,
+                                      "capital_at_line_cny": 1189705.0}}
+        _wcm2 = "\n".join(width_capacity_md(_wc_wide))
+        chk("legX a ticket that genuinely needs one more name says how much that width carries",
+            "加宽" in _wcm2 and "6 名" in _wcm2 and "1,189,705" in _wcm2
+            and "WIDTH-ESCAPE-2026-11-17.md" in _wcm2,
+            _wcm2.splitlines()[:1])
     finally:
         shutil.rmtree(_tmp, ignore_errors=True)
 
