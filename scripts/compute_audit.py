@@ -376,7 +376,10 @@ def supply_floor_why(sc, breach):
     cal = sc.get("calendar") or {}
     rows = [{"candidate": c.get("candidate"), "state": c.get("state"),
              "undecidable_because": c.get("undecidable_because"),
-             "failing_checks": c.get("failing_checks")}
+             "failing_checks": c.get("failing_checks"),
+             # r1836: carried, not decided here -- a column the receipt never
+             # measured is not a pass (the year receipt's own words).
+             "unchecked_checks": c.get("unchecked_checks")}
             for c in (cal.get("candidates") or [])]
     out = {"cause": cause,
            "action": SUPPLY_FLOOR_ACTIONS.get(cause, SUPPLY_FLOOR_ACTIONS["unknown"]),
@@ -394,13 +397,44 @@ def supply_floor_why(sc, breach):
         out["what_would_move_it"] = (
             "the phase set" if disagree
             else "more years of evidence" if spread else "unknown")
-        out["sentence"] = (
-            "%d candidate(s) were judged and none reads ADMIT: %d cannot be "
-            "judged because the phase spread is wider than the distance to the "
-            "line (%s), %d because the phases disagree (%s)"
-            % (len(rows),
-               len(spread), ", ".join(r["candidate"] for r in spread) or "-",
-               len(disagree), ", ".join(r["candidate"] for r in disagree) or "-"))
+        # r1836: the old sentence counted the two kinds of "cannot be judged"
+        # and stopped -- a candidate that WAS adjudicated (and came out
+        # CONDITIONAL on one check) simply fell out of the arithmetic, so
+        # "4 candidates ... 3 spread + 0 disagree" left one book unexplained and
+        # the phrase "none reads ADMIT" standing over rows nobody re-read here.
+        # Every candidate is now accounted for in the same sentence.
+        judged = [r for r in rows if not r.get("undecidable_because")]
+        parts = ["%d candidate(s) in the calendar reading" % len(rows)]
+        if spread or disagree:
+            bits = []
+            if spread:
+                bits.append("%d cannot be judged because the phase spread is "
+                            "wider than the distance to the line (%s)"
+                            % (len(spread),
+                               ", ".join(r["candidate"] for r in spread)))
+            if disagree:
+                bits.append("%d because the phases disagree (%s)"
+                            % (len(disagree),
+                               ", ".join(r["candidate"] for r in disagree)))
+            parts.append("; ".join(bits))
+        if judged:
+            parts.append(
+                "%d %s judged and none reads ADMIT (%s)"
+                % (len(judged), "was" if len(judged) == 1 else "were",
+                   ", ".join("%s: %s via %s" % (
+                       r["candidate"], r.get("state"),
+                       ", ".join(r.get("failing_checks") or []) or "no named check")
+                       for r in judged)))
+        unmeasured = [r for r in rows if r.get("unchecked_checks")]
+        if unmeasured:
+            # not a verdict, a missing measurement: an unchecked column has
+            # always meant "nobody looked", and the year receipt says so itself
+            parts.append(
+                "columns nobody measured: %s"
+                % ", ".join("%s: %s" % (r["candidate"],
+                                        ", ".join(r["unchecked_checks"]))
+                            for r in unmeasured))
+        out["sentence"] = "; ".join(parts)
         # r1308: the calendar sentence alone reads as "keep waiting". The
         # capacity sentence is CARRIED verbatim (single owner
         # supply_candidate_face, which reads the capacity receipt) because
@@ -1552,7 +1586,33 @@ def _selftest():
     check("r1657 the sentence names the candidate",
           "A" in (_w.get("sentence") or ""), True)
     check("r1657 both candidates are counted",
-          "2 candidate(s) were judged" in (_w.get("sentence") or ""), True)
+          "2 candidate(s) in the calendar reading" in (_w.get("sentence") or ""), True)
+    # ---- r1836 legs: every candidate is accounted for, and a column nobody
+    # measured is named instead of being read as a pass ------------------
+    _cal_mixed = {"agenda_cause": "calendar", "shortfall": 3, "calendar": {
+        "candidates": [
+            {"candidate": "A", "state": "UNADJUDICABLE_PHASE",
+             "undecidable_because": "phase_spread_wider_than_margin"},
+            {"candidate": "B", "state": "CONDITIONAL",
+             "undecidable_because": None,
+             "failing_checks": ["Y4_top2_share"]}]}}
+    _wm = supply_floor_why(_cal_mixed, True)
+    check("r1836 a judged candidate is not dropped from the arithmetic",
+          "1 was judged and none reads ADMIT (B: CONDITIONAL via Y4_top2_share)"
+          in (_wm.get("sentence") or ""), True)
+    check("r1836 the sentence accounts for all candidates, not just the spread ones",
+          "2 candidate(s) in the calendar reading" in (_wm.get("sentence") or ""), True)
+    check("r1836 no unchecked clause when every column was measured",
+          "nobody measured" in (_wm.get("sentence") or ""), False)
+    _cal_unchecked = {"agenda_cause": "calendar", "shortfall": 3, "calendar": {
+        "candidates": [
+            {"candidate": "B", "state": "ADMIT", "undecidable_because": None,
+             "failing_checks": [], "unchecked_checks": ["C1_capacity"]}]}}
+    _wu = supply_floor_why(_cal_unchecked, True)
+    check("r1836 a column nobody measured is named, not read as a pass",
+          "columns nobody measured: B: C1_capacity" in (_wu.get("sentence") or ""), True)
+    check("r1836 the unchecked row still carries its own list upward",
+          [r["unchecked_checks"] for r in _wu["candidates"]], [["C1_capacity"]])
     _cal_mix = {"agenda_cause": "calendar", "shortfall": 3, "calendar": {
         "candidates": [{"candidate": "A", "state": "UNADJUDICABLE_PHASE",
                         "undecidable_because": "phases_disagree_on_verdict"}]}}

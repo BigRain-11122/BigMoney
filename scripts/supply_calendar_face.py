@@ -467,7 +467,15 @@ def read_year_gate(path, obj, err, root=ROOT):
         name = b.get("book")
         if not name:
             continue
-        failing = [k for k, v in (b.get("checks") or {}).items() if v is False]
+        checks = b.get("checks") or {}
+        failing = [k for k, v in checks.items() if v is False]
+        # r1836: a check the receipt never measured is None, not True. Printing
+        # only the False ones lets a reader (and the audit floor above) read
+        # "the rest passed" out of "the rest was never looked at" -- the r98
+        # family. The year receipt says this itself ("that is not a pass and not
+        # a fail, it is an unchecked column"), so carry the list rather than
+        # deciding anything here.
+        unchecked = [k for k, v in checks.items() if v is None]
         vm = b.get("year_metrics") or {}
         rows.append({
             "candidate": name,
@@ -478,6 +486,8 @@ def read_year_gate(path, obj, err, root=ROOT):
             "state": b.get("verdict"),
             "pass": b.get("verdict") == PASS_WORD,
             "failing_checks": failing,
+            "unchecked_checks": unchecked,
+            "capacity_checked": b.get("capacity_checked"),
             "top2_share": vm.get("top2_share"),
             "positive_years": vm.get("positive_years"),
             "years": vm.get("years"),
@@ -632,6 +642,10 @@ def _one_line(row):
         extra = " (phase spread %.2fpp vs margin %spp%s)" % (
             row["spread_pp"], row.get("margin_pp"),
             (" -- %s" % UNDECIDABLE_WORDS.get(why, why)) if why else "")
+    # r1836: name the columns nobody measured, so "via <failing>" is never read
+    # as "everything else passed".
+    if row.get("unchecked_checks"):
+        extra += " (never measured: %s)" % ", ".join(row["unchecked_checks"])
     return "%s: %s via %s%s" % (row["candidate"], row.get("state"), checks, extra)
 
 
@@ -800,6 +814,12 @@ def _selftest():
                           "years": 7, "worst": 1.898}},
         {"book": "nobond_base", "verdict": "ADMIT",
          "checks": {"Y1_positive_years_share": True}, "year_metrics": {}},
+        # r1836: a column the receipt never measured (None) -- the live shape of
+        # all_classes_published, whose only printed failure was Y4 while its
+        # capacity column was simply unchecked.
+        {"book": "unmeasured", "verdict": "CONDITIONAL",
+         "checks": {"Y1_positive_years_share": True, "Y4_top2_share": False,
+                    "C1_capacity": None}, "year_metrics": {}},
     ]})
     f = build(receipts=[(yg, "year_gate")], root=tmp)
     check("year receipt read", f["verdict"], "ADMITTED_CANDIDATE_EXISTS")
@@ -808,6 +828,12 @@ def _selftest():
           by["nobond_vt08_adopted"]["failing_checks"], ["Y4_top2_share"])
     check("named in the one-line reason",
           "Y4_top2_share" in _one_line(by["nobond_vt08_adopted"]), True)
+    check("r1836 an unchecked column is carried, not dropped",
+          by["unmeasured"]["unchecked_checks"], ["C1_capacity"])
+    check("r1836 a checked column is not called unchecked",
+          by["nobond_vt08_adopted"]["unchecked_checks"], [])
+    check("r1836 the one-line reason says nothing was measured there",
+          "never measured: C1_capacity" in _one_line(by["unmeasured"]), True)
 
     # (3) phase adapter: state from summary, spread printed for cannot-tell
     pg = write("phase.json", {

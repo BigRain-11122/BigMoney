@@ -338,6 +338,10 @@ def build(pool_ready=None, pool_ids=None, tickets=None, backlog_path=None,
             "candidates": [
                 {"candidate": c.get("candidate"), "state": c.get("state"),
                  "failing_checks": c.get("failing_checks"),
+                 # r1836: the columns the receipt never measured (None). A
+                 # reader one layer up used to see only the False ones and read
+                 # "the rest passed" out of "the rest was never looked at".
+                 "unchecked_checks": c.get("unchecked_checks"),
                  "receipt": c.get("receipt"),
                  # r1657: carry the numbers that make the third word a fact
                  # rather than a label. Without them a reader one layer up
@@ -435,11 +439,15 @@ def write_md(face, path):
         lines += ["## 归因：%s" % face["agenda_cause"], ""]
         if face["agenda_cause"] == "calendar":
             lines += ["已判过的候选，一个都没过自己的日历闸：", "",
-                      "| 候选 | 判决 | 未过的检查 | 收据 |", "|---|---|---|---|"]
+                      "| 候选 | 判决 | 未过的检查 | 没测的列 | 收据 |",
+                      "|---|---|---|---|---|"]
             for c in cal.get("candidates") or []:
-                lines.append("| %s | %s | %s | %s |" % (
+                # r1836: "未过的检查" alone reads as "the rest passed". A column
+                # the receipt never measured has its own place on the row.
+                lines.append("| %s | %s | %s | %s | %s |" % (
                     c.get("candidate"), c.get("state"),
                     ", ".join(c.get("failing_checks") or []) or "—",
+                    ", ".join(c.get("unchecked_checks") or []) or "—",
                     c.get("receipt")))
             lines.append("")
         elif face["agenda_cause"] == "no_topics":
