@@ -16955,3 +16955,31 @@ results/compute_audit.json `supply_floor.why.sentence`。
 `check_published`，selftest 77/77）+ scripts/supply_candidate_face.py（md 列 + 警告行，selftest 51/51）
 + scripts/compute_audit.py `supply_floor_why`（selftest 95/95）；面=results/supply_calendar.{json,md}、
 results/supply_candidates.{json,md}、results/compute_audit.json、docs/daily_report/REPORT-2026-11-18.json。
+### E1420 · 挂牌子的那一天不是读数的那一天：一处 `decision_bar` 标签与它自己的成交额窗差 321,668 元（2026-11-18 r1324 bm-a）
+
+**症状**：票面 `width_capacity` 块标 `decision_bar=2026-11-11`、印 0.7932% / 容量 1,260,724 元；
+宽度表（`etf_book_width_fit`）对同一规则在 11-17 印 1.0087% / 991,421 元。两个数摆在读者面前
+像「同一批票两天之差」269,303 元，而没有人说这是不是同一个问题。
+
+**实测 2×2**（新面 `scripts/etf_book_width_bar_ladder.py`，selftest 10/10 + check，实跑 11-11/11-16/11-17）：
+
+| 五只名字 | 2026-11-17（面板最后一根） | 2026-11-11（票面自称的决策 bar） |
+| --- | --- | --- |
+| 今天的 live picks | 1.0087% / 991,421 元 | 1.0724% / 932,467 元 |
+| 票面那块用的五只 | **0.7932% / 1,260,724 元**（与已发布逐位相同） | 1.0649% / 939,056 元 |
+
+**判读两条**：①两块已发布的面其实读的是**同一根成交额窗**（面板最后一根），269,303 元的差
+**100% 来自换了名字、0% 来自换了日子**；②牌子错在别处——票面把成交额读成面板最后一根却标成
+决策 bar，若真按牌子那天算，同一批名字只有 939,056 元 → **标牌把容量说高 321,668 元（0.2717pp）**。
+读数本身完全可复现，可复现不等于牌子对。
+
+**根因（点名，不猜）**：`scripts/etf_book_order.py:4050`
+`width_capacity(score.loc[dec_bar], amt[cols], _n, nav)` —— 排名行按 `dec_bar` 切了，
+成交额面板没切；`width_capacity` 内部 `amt[sym].tail(20)` 永远取面板尾部。
+同一个洞在同一族里已经出现过：任何「按某 bar 算」的面只要切了一个输入、没切另一个，就同时
+拥有两个日子而只印一个牌子。
+
+**How to apply**：①任何「按某 bar 算」的面必须同时钉住两个 bar——排名取自哪根、成交额窗读到哪根，
+并**两个都印**；②重算时对 `amt` 也要 `loc[:bar]` 做因果切片，只切 score 不够；③跨面比差之前先确认
+两块在同一根窗上（同窗之差才是名字差），否则先修牌子再谈数字。
+正身=scripts/etf_book_width_bar_ladder.py + results/etf_book_width_bar_ladder.json。

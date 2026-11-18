@@ -1,0 +1,189 @@
+{
+ "kind": "etf_book_width_bar_ladder",
+ "script": "scripts/etf_book_width_bar_ladder.py",
+ "generated": "2026-11-18T14:19:05",
+ "evidence_cutoff": "2026-11-17",
+ "gate_face": "results/etf_book_year_gate/YEAR-GATE.json",
+ "gate_reads": {
+  "verdict": "DENY",
+  "lens": "1M",
+  "capital_cny": 1000000.0,
+  "per_name_cny": 200000.0,
+  "impact_pct_of_adv": 1.0087,
+  "line_pct": 1.0,
+  "live_picks_asof": "2026-11-17"
+ },
+ "picks": [
+  "159207",
+  "562060",
+  "159549",
+  "513800",
+  "513690"
+ ],
+ "picks_basis": "today's live picks, held constant on every bar",
+ "bars": [
+  "2026-11-11",
+  "2026-11-16",
+  "2026-11-17"
+ ],
+ "summary": {
+  "capital_cny": 1000000.0,
+  "line_pct": 1.0,
+  "verdict": "EVERY_BAR_REFUSES",
+  "governing_bar": "2026-11-17",
+  "panel_last_bar": "2026-11-17",
+  "rows": [
+   {
+    "bar": "2026-11-11",
+    "n": 5,
+    "picks": [
+     "159207",
+     "562060",
+     "159549",
+     "513800",
+     "513690"
+    ],
+    "n_measurable": 5,
+    "unmeasurable": [],
+    "adv_weakest_cny": 18649347.0,
+    "adv_weakest_sym": "159549",
+    "per_name_cny": 200000.0,
+    "impact_pct_of_adv": 1.0724,
+    "fits": false,
+    "capital_at_line_cny": 932467.0
+   },
+   {
+    "bar": "2026-11-16",
+    "n": 5,
+    "picks": [
+     "159207",
+     "562060",
+     "159549",
+     "513800",
+     "513690"
+    ],
+    "n_measurable": 5,
+    "unmeasurable": [],
+    "adv_weakest_cny": 19737552.0,
+    "adv_weakest_sym": "159549",
+    "per_name_cny": 200000.0,
+    "impact_pct_of_adv": 1.0133,
+    "fits": false,
+    "capital_at_line_cny": 986878.0
+   },
+   {
+    "bar": "2026-11-17",
+    "n": 5,
+    "picks": [
+     "159207",
+     "562060",
+     "159549",
+     "513800",
+     "513690"
+    ],
+    "n_measurable": 5,
+    "unmeasurable": [],
+    "adv_weakest_cny": 19828417.0,
+    "adv_weakest_sym": "159549",
+    "per_name_cny": 200000.0,
+    "impact_pct_of_adv": 1.0087,
+    "fits": false,
+    "capital_at_line_cny": 991421.0
+   }
+  ]
+ },
+ "sentence": "同一批 5 只（159207/562060/159549/513800/513690）、同一笔 1,000,000 元、同一条 1.00% ADV 线，按每个 bar 各自的 20 日成交额分开算：2026-11-11：1.0724%（容量 932,467 元）；2026-11-16：1.0133%（容量 986,878 元）；2026-11-17：1.0087%（容量 991,421 元）。窗口里每一根 bar 都说不下——这笔单子不是某一天运气不好。 两块已发布的面其实读的是同一根成交额窗（2026-11-17）——269,303 元的差**全部来自换了名字**（0.2155pp），没有一分来自换了日子。 牌子才是错的：票面把那块标成 2026-11-11，可它的成交额读到的是 2026-11-17。若真按牌子那天算，同一批名字只有 939,056 元——**牌子把容量说高 321,668 元（0.2717pp）**。（排名日 2026-11-11 与成交额日 2026-11-17 是两个日子，容量读数跟着后者走。）",
+ "caveats": [
+  "The names are held constant across bars: an earlier row answers \"what would these five cost that day\", not \"what the book held then\".",
+  "The rows are never averaged. A verdict is read off one bar; which bar governs is decided by the execution day, not by which reading fits.",
+  "ADV is the gate's own rule (median of the slot's last 20 close x volume values), with the panel sliced at the bar being asked about.",
+  "Capacity at the line is per-name capital x width: it is a capacity number, never a return number."
+ ],
+ "reconcile": {
+  "kind": "two_published_readings_decomposed",
+  "ticket": "results/etf_book_order/TICKET-2026-11-17.json",
+  "today_set": {
+   "picks": [
+    "159207",
+    "562060",
+    "159549",
+    "513800",
+    "513690"
+   ],
+   "bar": "2026-11-17",
+   "impact_pct_of_adv": 1.0087,
+   "capital_at_line_cny": 991421.0
+  },
+  "decision_bar_set": {
+   "picks": [
+    "510760",
+    "512040",
+    "159655",
+    "513690",
+    "159519"
+   ],
+   "bar": "2026-11-11",
+   "impact_pct_of_adv": 1.0649,
+   "capital_at_line_cny": 939056.0
+  },
+  "today_set_on_the_decision_bar": {
+   "bar": "2026-11-11",
+   "impact_pct_of_adv": 1.0724,
+   "capital_at_line_cny": 932467.0
+  },
+  "matrix": {
+   "cols": [
+    "2026-11-17",
+    "2026-11-11"
+   ],
+   "today_five": {
+    "2026-11-17": {
+     "impact_pct_of_adv": 1.0087,
+     "capital_at_line_cny": 991421.0
+    },
+    "2026-11-11": {
+     "impact_pct_of_adv": 1.0724,
+     "capital_at_line_cny": 932467.0
+    }
+   },
+   "ticket_five": {
+    "2026-11-17": {
+     "impact_pct_of_adv": 0.7932,
+     "capital_at_line_cny": 1260724.0
+    },
+    "2026-11-11": {
+     "impact_pct_of_adv": 1.0649,
+     "capital_at_line_cny": 939056.0
+    }
+   }
+  },
+  "published_gap": {
+   "today_cny": 991421.0,
+   "ticket_cny": 1260724.0,
+   "diff_cny": 269303.0,
+   "names_effect_pp": 0.2155,
+   "bar_effect_pp": 0.0,
+   "both_reads": "2026-11-17"
+  },
+  "decomposition": {
+   "impact_gap_pp": -0.0562,
+   "names_effect_pp": 0.0075,
+   "bar_effect_pp": -0.0637,
+   "unexplained_pp": 0.0
+  },
+  "decision_bar_set_on_panel_last_bar": {
+   "bar": "2026-11-17",
+   "impact_pct_of_adv": 0.7932,
+   "capital_at_line_cny": 1260724.0
+  },
+  "label_check": {
+   "published_impact_pct_of_adv": 0.7932,
+   "published_label_bar": "2026-11-11",
+   "reproduced_on_panel_last_bar": 0.7932,
+   "reproduced_on_named_bar": 1.0649,
+   "matched": "panel_last_bar",
+   "cells_differ_by_pp": 0.2717,
+   "where": "scripts/etf_book_order.py:4050 width_capacity(score.loc[dec_bar], amt[cols], _n, nav) -- the ranking row is sliced at the decision bar, the turnover panel is not"
+  }
+ }
+}
