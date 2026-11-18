@@ -5,7 +5,7 @@
 - 判决：**UNEXPLAINED_MOVES**
 
 ## 一句话
-两天**是同一根 bar**（没有新数据进来），这页有 **67** 个数变了；其中 **5** 个是钟面（机器多久没说话之类，本来就该走）、**1** 个能给出解释（旧数还在页上／口径句改了／这一节换了代／这一节换了定价的输入／这个数只是转抄别面）、**61** 个没解释。新增 **210** 个数字叶子、消失 **0** 个。
+两天**是同一根 bar**（没有新数据进来），这页有 **67** 个数变了；其中 **5** 个是钟面（机器多久没说话之类，本来就该走）、**1** 个能给出解释（旧数还在页上／口径句改了／这一节换了代／这一节换了定价的输入／这个数只是转抄别面）、**61** 个没解释。新增 **260** 个数字叶子、消失 **0** 个。
 
 ## 动的数（全部 67 个）
 
@@ -22,9 +22,9 @@
 | `/cash_money/forward/gap_bp_gross` | 59.7 | 59.81 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
 | `/cash_money/forward/gap_cny` | 280.0 | 281.0 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
 | `/causal_rebuild/elapsed_sec` | 50.0 | 81.5 | CLOCK |  |
-| `/fleet/rows/0/age_h` | 1.24 | 0.42 | CLOCK |  |
-| `/fleet/rows/1/age_h` | 441.79 | 447.9 | CLOCK |  |
-| `/fleet/rows/2/age_h` | 4.18 | 0.38 | CLOCK |  |
+| `/fleet/rows/0/age_h` | 1.24 | 0.24 | CLOCK |  |
+| `/fleet/rows/1/age_h` | 441.79 | 451.8 | CLOCK |  |
+| `/fleet/rows/2/age_h` | 4.18 | 0.44 | CLOCK |  |
 | `/futures_hedge/beta` | 0.07185718963947142 | 0.07458300567364223 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
 | `/futures_hedge/capital_for_one_lot` | 11395936.91471321 | 10979444.882970085 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
 | `/futures_hedge/corr` | 0.1373365917783091 | 0.1415643988218339 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
@@ -79,7 +79,7 @@
 | `/roster_audit/local_copies/1/laneside/local_disk_n` | 27 | 1 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
 | `/roster_audit/local_copies/1/local_disk_n` | 27 | 1 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
 
-## 今天新出现的数（210 个）落在这几块上
+## 今天新出现的数（260 个）落在这几块上
 
 - `/alias_stability/crosscheck`
 - `/alias_stability/families`
@@ -95,6 +95,9 @@
 - `/supply_capacity/floor_cny`
 - `/supply_capacity/gap_cny`
 - `/supply_capacity/share_of_floor`
+- `/width_fit/line_pct`
+- `/width_fit/min_width`
+- `/width_fit/rows`
 
 ## 钱的两处（同一根 bar 上改了定价口径）
 
