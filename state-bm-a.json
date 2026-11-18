@@ -45,23 +45,23 @@
  "d19_watermark_v2": {
   "compare_order": "repo+commit_sha+blob_bytes first, then sha256; source mismatch = stale",
   "decisions": {
-   "blob_bytes": 225599,
-   "commit_sha": "a8fdf678513f9aa012306b5118e2aae47f32ae07",
+   "blob_bytes": 233651,
+   "commit_sha": "9ebdf65e9c7a0a4c4ccb2f129f30edd7b8ef70a2",
    "path": "docs/decisions.md",
    "repo": "git@github.com:BigRain-11122/FluxGroup.git",
-   "sha256": "77816add108799dbdbb3cbde7dacaf29c2e2a9fd9211a8c3007e9a4a1db9c3fd"
+   "sha256": "8d01d8f3e1d8a1896d374be033c407a5359caa8a1360344c7e16d9e4809c9194"
   },
   "decisions_verdict": "consumed",
   "orders": {
-   "blob_bytes": 84734,
-   "commit_sha": "a8fdf678513f9aa012306b5118e2aae47f32ae07",
+   "blob_bytes": 92637,
+   "commit_sha": "9ebdf65e9c7a0a4c4ccb2f129f30edd7b8ef70a2",
    "path": "docs/orders.md",
    "repo": "git@github.com:BigRain-11122/FluxGroup.git",
-   "sha256": "810bb25dec6adf1f0db0783ff0595c0a0ae849be1d8b5f19477d8ea904f502a8"
+   "sha256": "1838670b703a2e073a9646574981f54a3aa03477a70c52c1aba8a799d7d6b48a"
   },
-  "orders_verdict": "unchanged",
-  "round_ref": 1325,
-  "updated_at": "2026-11-18T14:48:22+08:00"
+  "orders_verdict": "consumed",
+  "round_ref": 1329,
+  "updated_at": "2026-11-18T20:04:00+08:00"
  },
  "decisions_scan_r1105": "origin decisions.md hash advanced cf3cdeec->17c29359; decoded scan = 69 BigMoney rows, all 集团 dispatch echoes/尾行无新增 (latest rows 10-20 D-20261020-xx 派工通告板), zero rows requiring this repo to act -> watermark advanced, zero action",
  "decisions_scan_r1108": "origin decisions.md hash unchanged 17c2935984bd.. (== stored watermark); group orders.md hash unchanged 00caa345..; zero action",
@@ -161,11 +161,11 @@
  "last_decisions_note_r1309": "D-19 delta 20dc804c -> b85f356a (207,752 B @cf8f315): rows are group receipts and a coverage reading (quant 11-11 stale line); nothing assigns work to this book",
  "last_decisions_read_at": "2026-11-18T18:18:07+08:00",
  "last_decisions_seen": "2026-11-08T04:4x",
- "last_decisions_sha": "77816add108799dbdbb3cbde7dacaf29c2e2a9fd9211a8c3007e9a4a1db9c3fd",
+ "last_decisions_sha": "8d01d8f3e1d8a1896d374be033c407a5359caa8a1360344c7e16d9e4809c9194",
  "last_decisions_src": "C:\\Users\\sjs20\\Desktop\\FluxGroup (origin/main blob)",
  "last_decisions_ts": "2026-10-29T23:24:57+08:00",
- "last_decisions_watermark": "77816add108799db@f05818b/225599",
- "last_decisions_watermark_v2": "v2:BigRain-11122/FluxGroup@f05818b05f8a4224e3090beed822af2c25b547c4/225599#77816add108799dbdbb3cbde7dacaf29c2e2a9fd9211a8c3007e9a4a1db9c3fd",
+ "last_decisions_watermark": "8d01d8f3e1d8a189@9ebdf65/233651",
+ "last_decisions_watermark_v2": "v2:BigRain-11122/FluxGroup@9ebdf65e9c7a0a4c4ccb2f129f30edd7b8ef70a2/233651#8d01d8f3e1d8a1896d374be033c407a5359caa8a1360344c7e16d9e4809c9194",
  "last_delivery_verified_at": "2026-11-18T15:46:30+08:00",
  "last_heartbeat_epoch_utc": 1792420245,
  "last_orders_at": "2026-11-09T22:59:21+08:00",
@@ -173,8 +173,8 @@
  "last_orders_seen": "r1271: group tree absent (K: missing, C: not a git repo) -> sparse clone read origin main ea729be; decisions tail = 第48批 2026-11-06 (no 11-07/11-08 batch); orders tail carries 2026-11-07/11-08 fleet rows (OB-20261107-180106-609 lane split = MV production carrier, bm-b SVC_DOWN + bm-c probe-face notes) -- none scopes to this repo's mechanism; watermark advanced, zero action",
  "last_orders_sha": "1838670b703a2e07",
  "last_orders_ts": "2026-10-31T09:06:11+08:00",
- "last_orders_watermark": "62edd393147afa61@f05818b/87846",
- "last_orders_watermark_v2": "v2:BigRain-11122/FluxGroup@f05818b05f8a4224e3090beed822af2c25b547c4/87846#62edd393147afa61ccddfd4501a2d1b59ea290b8f5c1ddfaed973a3cd9be64a5",
+ "last_orders_watermark": "1838670b703a2e07@9ebdf65/92637",
+ "last_orders_watermark_v2": "v2:BigRain-11122/FluxGroup@9ebdf65e9c7a0a4c4ccb2f129f30edd7b8ef70a2/92637#1838670b703a2e073a9646574981f54a3aa03477a70c52c1aba8a799d7d6b48a",
  "last_pool_close_r1163": "E256-PHASE-ATLAS-BUFFER-K05/COST05/COST20 -> done",
  "last_product": "r1329: 容量面说「这个规模装得下」，却从没说过装下要多少钱——审计面把这条印成 1 个「准入但没定价」的交易面。本轮给该面补上定价：单边成本从 knowledge.cost_spec 单源派生（13.041bp，禁手抄），按这张单自己的 431,943 元量化出双边 1,126.59 元（0.2608%），并写明入场约定是次日开盘。check 同轮加了三条牙齿（无定价判红/费率必须等于单源/双边=两侧之和），自检 21/21；审计重扫 published_trading 1→0。",
  "last_push_at": "2026-11-18T15:46:30+08:00",
@@ -799,5 +799,9 @@
  "work_r1310": "r1310: the two day-word legs were red for a printer reason, not a page reason. The crash happened while printing a DATE-UNMAPPED row that quoted a line containing U+00A5, so the leg never reached its own verdict -- a defect in the report was masking the report. With that removed, live_usage still failed honestly: 19 mapped-nowhere dates, all of them sentences that name a field which exists. A rule per sentence is the cheap half; the expensive half is refusing to call a file-name date 'checked', so it goes to a bucket.",
  "work_r1328": "r1328: the four index panels sat on 11-17 while the futures panel already held 11-18, so one smoke leg reddened every evening -- and what it reddened was not a rotten panel, it was two lanes publishing in a different order. update_index_daily now stamps the vendor's own last bar (source_tails / source_tails_observed) into its status face so a reader can tell 'the panel is behind' from 'the vendor has not published yet', and it carries a declared takeover (--takeover, only when the owner's heartbeat has been silent >= TAKEOVER_STALE_MIN imported from update_etf_daily). Live fire: bm-c silent 237.6 min > 120 -> this host legitimately took the lane over and all four panels advanced one row to 2026-11-18 with authority.took_over_by=bm-a on the face. Second half: the operator sheet printed the widening cost twice in two paragraphs -- one measurement read as two pieces of evidence -- now printed once (+2 selftest legs).",
  "last_result": "etf_book_capacity_at_size selftest 21/21 + check ok; event_exec_gate audit published_trading 1->0; audit selftest 14/14",
- "last_deliverable": "results/etf_book_capacity_at_size.md（新增「装得下的价格」一节：13.041bp/边、双边 1,126.59 元）"
+ "last_deliverable": "results/etf_book_capacity_at_size.md（新增「装得下的价格」一节：13.041bp/边、双边 1,126.59 元）",
+ "d19_note_r1329": "r1329: decisions 77816add -> 8d01d8f3 (233,651 B @9ebdf65) = 第 75/76 批；75 批两行到点判 FAILED（养号线 D-09、入仓 D-10）且铭牌段自报 A 类仅入仓 90/137，76 批三行 executed（D-12 collect 浏览器路径修复 + 四段自测全通 / D-13 D 类 74 件 ignore 收口 / D-14 llm_client 座位模型名回退 qwen3.5:4b）与一行 no-op（D-15 收取面核销，chronic 面把 quant 记作11-17 19:04 有面活动）。逐行核对：无一条指派 quant/bigmoney 动作（D-14 改的是集团 Tools/fleet/llm_client.py，本仓 scripts/llm_assist.py 一直从 env 读模型名，零改动）。orders 1838670b 未变。→ 水位推进，零动作。",
+ "d19_watermark_note_r1329": "r1329: decisions 77816add -> 8d01d8f3 (233,651 B @9ebdf65) = 第 75/76 批；75 批两行到点判 FAILED（养号线 D-09、入仓 D-10）且铭牌段自报 A 类仅入仓 90/137，76 批三行 executed（D-12 collect 浏览器路径修复 + 四段自测全通 / D-13 D 类 74 件 ignore 收口 / D-14 llm_client 座位模型名回退 qwen3.5:4b）与一行 no-op（D-15 收取面核销，chronic 面把 quant 记作11-17 19:04 有面活动）。逐行核对：无一条指派 quant/bigmoney 动作（D-14 改的是集团 Tools/fleet/llm_client.py，本仓 scripts/llm_assist.py 一直从 env 读模型名，零改动）。orders 1838670b 未变。→ 水位推进，零动作。",
+ "last_decisions_note_r1329": "r1329: decisions 77816add -> 8d01d8f3 (233,651 B @9ebdf65) = 第 75/76 批；75 批两行到点判 FAILED（养号线 D-09、入仓 D-10）且铭牌段自报 A 类仅入仓 90/137，76 批三行 executed（D-12 collect 浏览器路径修复 + 四段自测全通 / D-13 D 类 74 件 ignore 收口 / D-14 llm_client 座位模型名回退 qwen3.5:4b）与一行 no-op（D-15 收取面核销，chronic 面把 quant 记作11-17 19:04 有面活动）。逐行核对：无一条指派 quant/bigmoney 动作（D-14 改的是集团 Tools/fleet/llm_client.py，本仓 scripts/llm_assist.py 一直从 env 读模型名，零改动）。orders 1838670b 未变。→ 水位推进，零动作。",
+ "decisions_scan_r1329": "r1329: decisions 77816add -> 8d01d8f3 (233,651 B @9ebdf65) = 第 75/76 批；75 批两行到点判 FAILED（养号线 D-09、入仓 D-10）且铭牌段自报 A 类仅入仓 90/137，76 批三行 executed（D-12 collect 浏览器路径修复 + 四段自测全通 / D-13 D 类 74 件 ignore 收口 / D-14 llm_client 座位模型名回退 qwen3.5:4b）与一行 no-op（D-15 收取面核销，chronic 面把 quant 记作11-17 19:04 有面活动）。逐行核对：无一条指派 quant/bigmoney 动作（D-14 改的是集团 Tools/fleet/llm_client.py，本仓 scripts/llm_assist.py 一直从 env 读模型名，零改动）。orders 1838670b 未变。→ 水位推进，零动作。"
 }
