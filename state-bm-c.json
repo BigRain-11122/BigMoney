@@ -1020,7 +1020,7 @@
   "ts": "2026-11-18T00:40:11+08:00"
  },
  "round_label": "r1813",
- "round_no": 1828,
+ "round_no": 1830,
  "round_no_label": "r1821",
  "round_no_landed": 1663,
  "round_note": "r1489: a reinstated bar is re-derived from the panel, not carried over (reinstatement_check + reinstatements.json + sheet paragraph)",
@@ -1842,5 +1842,22 @@
   "s6": "pool_dualrun_reconcile ZERO-DRIFT (744 entries, streak 51, cutoff 2026-11-08T22:04); compute_audit v2.4.3 exit 0 FLAG:pool_starvation,supply_floor (cause=calendar, the four candidates were judged and none ADMIT); py_watermark py_low_with_work_cands (local_batch=1 = own suite); attrition_ledger_guard scan CLEAN (4 ledgers, 2 historical shrinks healed).",
   "s7": "register_loop_task no-op (machine=bm-c pin=0, next 07:35); watchdog re-registered (S4U flip still refused = permissions, known face); pre-commit / pre-push claws reinstalled LF-normalized.",
   "unverified": "the suite this round started at 07:20 loaded the pre-change registry; the 5 new legs are hand-run backed only until it reaches them; impact cost (8bp/side) is a separate leg not measured here; the ADV is the gate's close x volume median, an estimate that moves in steps."
- }
+ },
+ "round_1829": {
+  "at": "2026-11-18T08:59:55+08:00",
+  "watermark": "green: board and pool both empty (pool_ready_count=0, fleet_open_tasks=0), no claimable batch on this host; py_watermark work cand = this window own suite",
+  "product": "the CEO page stopped saying \"the open price will differ\" and measured it. Every line of the executable sheet is priced at the decision bar close and filled at the next open; the page carried five words about that distance. New face scripts/etf_book_open_gap.py measures open_t/close_{t-1}-1 on the ticket own five names: median +0.0bp (no systematic slippage), middle six tenths -30.4..+25.6bp, which on the ticket own CNY 431,880 is CNY 2,419 against a CNY 691 double-sided fee -- the thing the reader was told to worry about (commission) is a third of what actually moves.",
+  "refusals": "pinned by selftest 11/11: a missing panel is a reason not a 0; a quote-face flip (|gap|>35%, same frozen line repair_flips uses) neutralises BOTH the flip day and the day after and counts them, never silently drops; the two calibers (per-name recent 250 sessions / each name full history) are printed side by side and never averaged; the names are the ticket own rows (a reading on another five names is another book, r1827 family).",
+  "verification": "etf_book_open_gap selftest 11/11 + check 5/5 (re-derived from disk); ceo_live_usage selftest ALL PASS incl. the four r1829 legs (band printed with the ticket own amount / a gap is not a cost and cannot be added / another bar refused / missing face prints the caveat reason); page regenerated on the post-rebase base and the block reads verbatim at LIVE-2026-11-18.md L171.",
+  "wiring": "Tools/s6_chain_bmc.py: new legs open_gap_write (run) + open_gap (check) placed after cash_roll_today -- ran them through the chain, 2/2 rc0 in 0.8s each. smoke_test.py: two product legs (selftest + check). Without the producer the reader band would be whatever bar a human last ran it on (r1282 class).",
+  "s0": "fleet/machine.json = bm-c. This window opened on an INHERITED dirty tree: scripts/etf_book_open_gap.py (08:29), ceo_live_usage.py (08:30), results pair, plus a dozen regenerated faces from a session that died before committing. No other executor in the tree (only Comfy 8188 resident, exempt); probe py_faces=2 orphans=0. 5 commits behind origin (bm-a r1316/r1317) -> rebase after commit.",
+  "s05": "Tools/d19_check.py D-19 MATCH (decisions watermark ddf2c0c5c25f8198 unchanged); fleet/orders 115 files vs 271 acks, stem-normalised unacked=[]; newest O-20261114-2325-bm-c acked in-header; inbox empty -> zero new order, zero new decision, zero action.",
+  "s6": "pool_dualrun_reconcile ZERO-DRIFT (744 entries, streak 51, cutoff 2026-11-08T22:04); compute_audit v2.4.3 exit 0 FLAG:pool_starvation,supply_floor (cause=calendar: 4 candidates judged, 0 ADMIT, 3 UNADJUDICABLE_PHASE); attrition_ledger_guard scan CLEAN (4 ledgers, 3 historical staleness rows healed).",
+  "s7": "register_loop_task no-op (machine=bm-c pin=0, next fire 08:55 kept); pre-commit/push claws not touched this window (no conflict markers staged).",
+  "red_healed": "the 08:47 suite found ONE real red: etf_book_late_sheet_price STALE (\"the panel file set moved since this face priced it\"). My own doing: earlier in this window I restored that face to HEAD along with the other non-mine faces, discarding the re-derivation an earlier session had made, and the panel had moved under it. Healed by re-derive: run + --check 10/10. Two further faces restored the same way were re-derived proactively: decision_line (CHECK_OK 4 fields) and do_or_wait (13/13).",
+  "unverified": "(a) the 08:47 suite loaded the pre-change registry, so the two new smoke legs and the four r1829 page legs are hand-run backed only; (b) the gap distribution is a price-level distribution, not an execution model -- it says how far the open sits from the close, not what a 431,880 order does to the open; (c) impact cost (8bp/side) is a separate leg not measured here.",
+  "next": "(a) a suite that loads the open_gap legs clean, window <=24h; (b) r1827 leftover: etf_book_capacity_at_size has no chain producer (the page can print a reading for a ticket it no longer prices), window <=48h.",
+  "accounting": "round report 1 + state 1 + heartbeat 1 + methodology card 1 (E691, written by the inherited session) = 4"
+ },
+ "decisions_watermark_r1829": "group decisions.md raw-blob sha256 ddf2c0c5... unchanged at this window (D-19 MATCH); orders.md unchanged -> zero new decision rows, zero new orders, zero execution action."
 }
