@@ -37,6 +37,7 @@ from __future__ import annotations
 
 import argparse
 import glob
+import hashlib
 import io
 import json
 import os
@@ -49,7 +50,12 @@ sys.path.insert(0, ROOT)
 OUT_JSON = os.path.join(ROOT, "results", "etf_book_capacity_at_size.json")
 OUT_MD = os.path.join(ROOT, "results", "etf_book_capacity_at_size.md")
 TICKET_DIR = os.path.join(ROOT, "results", "etf_book_order")
+STATUS_FACE = os.path.join(ROOT, "results", "etf_wide_update_status.json")
 REPRO_TOL_PCT = 0.0005      # the published reading is rounded to 4 dp of a percent
+# Verdicts this face is allowed to answer without rebuilding. NO_TICKET and BAR_MISMATCH
+# are excluded on purpose: they are the states where "no number" is the product, and a
+# stale copy of them must not be allowed to look like a fresh answer.
+GATED_VERDICTS = ("ADMIT_AT_THIS_SIZE", "DENY_AT_THIS_SIZE", "UNMEASURABLE_AT_THIS_SIZE")
 
 
 # ---------------------------------------------------------------- inputs
@@ -72,6 +78,89 @@ def latest_ticket(dirpath=TICKET_DIR):
     path = paths[-1]
     stem = os.path.basename(path)[len("TICKET-"):-len(".json")]
     return path, stem
+
+
+def _sha_file(path):
+    """Bytes of one file, or None when it is not readable (never a stand-in value)."""
+    if not path:
+        return None
+    h = hashlib.sha256()
+    try:
+        with open(path, "rb") as f:
+            for chunk in iter(lambda: f.read(1 << 20), b""):
+                h.update(chunk)
+    except OSError:
+        return None
+    return h.hexdigest()
+
+
+def input_signature(daily_dir=None, ticket_path=None, status_path=None, script_path=None):
+    """Fingerprint of what `build` reads, taken without parsing any of it.
+
+    The expensive half of this face is the panel build (~44s: 1,725 csv under data/daily).
+    What decides whether that build could return a different number is cheap: the bytes of
+    the ticket, the gate face and the collector's own status face, a name/size/mtime census
+    of the panel directory (an add, a delete or a rewrite moves one of the three) and this
+    script's own bytes, so an edit cannot ride the face it did not rebuild.
+
+    Inputs only, no wall clock: a key that moves with the clock is a gate that never fires.
+    """
+    if daily_dir is None:
+        from config import PATHS
+        daily_dir = PATHS.daily_dir
+    if ticket_path is None:
+        ticket_path, _stem = latest_ticket()
+    status_path = STATUS_FACE if status_path is None else status_path
+    script_path = os.path.abspath(__file__) if script_path is None else script_path
+
+    names = hashlib.sha256()
+    n, size, newest = 0, 0, 0
+    if daily_dir and os.path.isdir(daily_dir):
+        for fn in sorted(os.listdir(daily_dir)):
+            if not fn.endswith(".csv"):
+                continue
+            try:
+                st = os.stat(os.path.join(daily_dir, fn))
+            except OSError:
+                continue
+            n += 1
+            size += st.st_size
+            newest = max(newest, st.st_mtime_ns)
+            names.update(fn.encode("utf-8"))
+    return {
+        "daily_files": n,
+        "daily_bytes": size,
+        "daily_newest_mtime_ns": newest,
+        "daily_names_sha": names.hexdigest()[:16],
+        "ticket": (os.path.basename(ticket_path) if ticket_path else None),
+        "ticket_sha": _sha_file(ticket_path),
+        "status_sha": _sha_file(status_path),
+        "script_sha": _sha_file(script_path),
+    }
+
+
+def input_key(sig):
+    return hashlib.sha256(json.dumps(sig, sort_keys=True).encode("utf-8")).hexdigest()
+
+
+def gate_decision(prev, key):
+    """Rebuild unless the face on disk already answered exactly these inputs.
+
+    Conservative on purpose: a missing face, a verdict this face does not gate, or a face
+    written before this key existed all rebuild. Skipping leaves both files untouched, so
+    the only thing a reader can lose is the wait.
+    """
+    if not isinstance(prev, dict) or not prev:
+        return False, "NO_PREVIOUS_FACE"
+    verdict = prev.get("verdict")
+    if verdict not in GATED_VERDICTS:
+        return False, "PREVIOUS_VERDICT_%s" % verdict
+    stored = (prev.get("inputs") or {}).get("key")
+    if not stored:
+        return False, "PREVIOUS_FACE_HAS_NO_INPUT_KEY"
+    if stored != key:
+        return False, "INPUTS_CHANGED"
+    return True, "SAME_INPUTS"
 
 
 def ticket_rows(ticket):
@@ -357,14 +446,34 @@ def check(payload):
             "reading_pct": s.get("reading_pct")}
 
 
-def run():
+def run(force=False):
+    # r1832: this leg costs 43.6s (measured on bm-c r1830) and rides the chain every round,
+    # while its inputs move about once a trading day. The gate is what makes it affordable
+    # per round: same ticket bytes + same gate face + same panel census + same script bytes
+    # => the face on disk is already the answer, so print that it is and touch nothing.
+    sig = input_signature()
+    key = input_key(sig)
+    prev = _read_json(OUT_JSON)
+    skip, why = gate_decision(prev, key)
+    if skip and not force:
+        chk = check(prev)
+        print(json.dumps({"artifact": "etf_book_capacity_at_size", "ok": chk["ok"],
+                          "no_op": True, "reason": why, "input_key": key,
+                          "problems": chk["problems"], "verdict": prev.get("verdict"),
+                          "reading_pct": chk["reading_pct"],
+                          "binding": (prev.get("summary") or {}).get("binding"),
+                          "same_book": (prev.get("name_set") or {}).get("same_book")},
+                         ensure_ascii=False))
+        return 0 if chk["ok"] else 2
     payload = build()
+    payload["inputs"] = {"signature": sig, "key": key}
     with io.open(OUT_JSON, "w", encoding="utf-8") as f:
         json.dump(payload, f, ensure_ascii=False, indent=1)
     with io.open(OUT_MD, "w", encoding="utf-8") as f:
         f.write(render_md(payload))
     chk = check(payload)
     print(json.dumps({"artifact": "etf_book_capacity_at_size", "ok": chk["ok"],
+                      "no_op": False, "reason": why, "input_key": key,
                       "problems": chk["problems"], "verdict": payload["verdict"],
                       "reading_pct": chk["reading_pct"],
                       "binding": (payload.get("summary") or {}).get("binding"),
@@ -539,6 +648,82 @@ def selftest():
         finally:
             globals()["latest_ticket"] = real
 
+    def L16_the_input_key_carries_no_clock():
+        import tempfile
+        d = tempfile.mkdtemp()
+        daily = os.path.join(d, "daily")
+        os.makedirs(daily)
+        sig = input_signature(daily_dir=daily, ticket_path=None, status_path="",
+                              script_path="")
+        assert "generated" not in sig and "ts" not in sig, sig
+        assert input_key(sig) == input_key(dict(sig)), "同一份输入必须给同一个键"
+
+    def L17_a_new_ticket_moves_the_key():
+        import tempfile
+        d = tempfile.mkdtemp()
+        ticket = os.path.join(d, "TICKET-2026-11-17.json")
+        status = os.path.join(d, "status.json")
+        daily = os.path.join(d, "daily")
+        os.makedirs(daily)
+        with io.open(ticket, "w", encoding="utf-8") as f:
+            f.write('{"ticket": {"order": []}}')
+        with io.open(status, "w", encoding="utf-8") as f:
+            f.write("{}")
+        with io.open(os.path.join(daily, "sh510300.csv"), "w", encoding="utf-8") as f:
+            f.write("date,close\n2026-11-17,4.0\n")
+        kw = dict(daily_dir=daily, ticket_path=ticket, status_path=status, script_path="")
+        k1 = input_key(input_signature(**kw))
+        with io.open(ticket, "w", encoding="utf-8") as f:
+            f.write('{"ticket": {"order": [{"symbol": "sh510300"}]}}')
+        k2 = input_key(input_signature(**kw))
+        assert k1 != k2, "票面换了内容，键必须换"
+
+    def L18_a_panel_add_or_rewrite_moves_the_key():
+        import tempfile
+        d = tempfile.mkdtemp()
+        daily = os.path.join(d, "daily")
+        os.makedirs(daily)
+        a = os.path.join(daily, "sh510300.csv")
+        with io.open(a, "w", encoding="utf-8") as f:
+            f.write("date,close\n2026-11-17,4.0\n")
+        kw = dict(daily_dir=daily, ticket_path=None, status_path="", script_path="")
+        k0 = input_key(input_signature(**kw))
+        # a rewrite: same name, different length
+        with io.open(a, "w", encoding="utf-8") as f:
+            f.write("date,close,volume\n2026-11-17,4.0,1\n")
+        k1 = input_key(input_signature(**kw))
+        assert k0 != k1, "面板文件被重写，键必须换"
+        # an add: the name census has to see a file the size total alone would hide
+        with io.open(os.path.join(daily, "sh510500.csv"), "w", encoding="utf-8") as f:
+            f.write("date,close\n2026-11-17,6.0\n")
+        k2 = input_key(input_signature(**kw))
+        assert k1 != k2, "面板新增一只票，键必须换"
+
+    def L19_only_the_same_inputs_skip_the_build():
+        prev = {"verdict": "ADMIT_AT_THIS_SIZE", "inputs": {"key": "K"}}
+        assert gate_decision(prev, "K") == (True, "SAME_INPUTS"), gate_decision(prev, "K")
+        assert gate_decision(prev, "K2")[0] is False, "输入变了不许跳过"
+        assert gate_decision({"verdict": "NO_TICKET", "inputs": {"key": "K"}}, "K")[0] is False, \
+            "「没有票面」不是可以筛掉的答案"
+        assert gate_decision({"verdict": "BAR_MISMATCH", "inputs": {"key": "K"}}, "K")[0] is False
+        assert gate_decision({"verdict": "ADMIT_AT_THIS_SIZE"}, "K")[0] is False, \
+            "没有输入键的旧面必须重建"
+        assert gate_decision({}, "K")[0] is False
+        assert gate_decision(None, "K")[0] is False
+
+    def L20_an_unreadable_ticket_is_not_a_standin():
+        import tempfile
+        d = tempfile.mkdtemp()
+        sig = input_signature(daily_dir=d, ticket_path=os.path.join(d, "nope.json"),
+                              status_path=os.path.join(d, "nope2.json"), script_path="")
+        assert sig["ticket_sha"] is None and sig["status_sha"] is None, sig
+        # a missing file must not hash the same as an empty one
+        empty = os.path.join(d, "empty.json")
+        with io.open(empty, "w", encoding="utf-8") as f:
+            f.write("")
+        sig2 = input_signature(daily_dir=d, ticket_path=empty, status_path="", script_path="")
+        assert sig2["ticket_sha"] is not None and sig2["ticket_sha"] != sig["ticket_sha"]
+
     for name, fn in [("L1 占比=金额/成交额", L1_share_is_amount_over_adv),
                      ("L2 最紧席位是最大值不是均值", L2_binding_is_the_max_not_the_average),
                      ("L3 判词用分数闸线", L3_verdict_uses_the_fractional_line),
@@ -553,7 +738,12 @@ def selftest():
                      ("L12 缺票面不印 0", L12_missing_ticket_prints_no_reading),
                      ("L13 读数不是最大占比时自检抓", L13_check_catches_a_reading_that_is_not_the_max),
                      ("L14 未量全不留判词", L14_check_refuses_a_verdict_on_unmeasured_names),
-                     ("L15 回答旧票面的面判陈旧", L15_a_face_answering_an_older_ticket_is_stale)]:
+                     ("L15 回答旧票面的面判陈旧", L15_a_face_answering_an_older_ticket_is_stale),
+                     ("L16 输入键里没有钟", L16_the_input_key_carries_no_clock),
+                     ("L17 新票面移动输入键", L17_a_new_ticket_moves_the_key),
+                     ("L18 面板增/改移动输入键", L18_a_panel_add_or_rewrite_moves_the_key),
+                     ("L19 只有同一份输入才跳过重建", L19_only_the_same_inputs_skip_the_build),
+                     ("L20 读不出的票面不给假指纹", L20_an_unreadable_ticket_is_not_a_standin)]:
         leg(name, fn)
 
     ok = all(p for _n, p, _m in legs)
@@ -568,12 +758,14 @@ def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("cmd", nargs="?", default="run",
                     choices=["run", "check", "selftest"])
+    ap.add_argument("--force", action="store_true",
+                    help="rebuild even when the inputs are unchanged")
     ns = ap.parse_args(argv)
     if ns.cmd == "selftest":
         return selftest()
     if ns.cmd == "check":
         return main_check()
-    return run()
+    return run(force=ns.force)
 
 
 if __name__ == "__main__":

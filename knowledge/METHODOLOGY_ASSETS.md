@@ -16746,20 +16746,20 @@ CEO 页 ⑥ 段每一行都按决策 bar 的收盘价定价，成交在下一交
 
 ## E1414 -- a freshness test on the bar cannot see a different ticket, and that is the shape a new sheet makes
 
-r1830: the CEO page has quoted 
-esults/etf_book_capacity_at_size.json since r1827 ("this order is
+r1830: the CEO page has quoted
+results/etf_book_capacity_at_size.json since r1827 ("this order is
 0.3425% of its own ADV -> fits, room for 2.92x more"). Two holes sat underneath that number:
 
 1. the face had no producer at all, so the reading the reader saw was whatever ticket a human last
    ran it on (r1282 class -- the same defect the open_gap legs were added for one round earlier);
-2. the page's only freshness test compared the face's ar with the sheet's bar. A new ticket
+2. the page's only freshness test compared the face's bar with the sheet's bar. A new ticket
    landing under an unwritten face carries the SAME bar, so the test could not see it and the page
    would print the previous order's reading under the words "本单" (E685 family: a number travels
    with its ruler, and the ruler includes which order it was measured on).
 
 Fix: the chain gains capacity_at_size_write + capacity_at_size; the face's check refuses a
-face whose 	icket_stem is not the newest TICKET-* on disk; the page refuses by name when the
-face's 	icket_file is not the sheet it is printing. Both directions pinned (stale refused, current
+face whose ticket_stem is not the newest TICKET-* on disk; the page refuses by name when the
+face's ticket_file is not the sheet it is printing. Both directions pinned (stale refused, current
 still reads) -- a one-directional leg would let a guard that refuses everything pass.
 
 Same round, the same family on the input side: two faces came back red as drift=sources /
@@ -16787,3 +16787,21 @@ that is the tooth working, and the repair is re-derive, never edit the receipt.
 
 正身=scripts/etf_book_order.py `width_escape`/`width_capacity`/`width_capacity_md`（selftest
 259/259 含 legS-X）+ results/etf_book_order/WIDTH-ESCAPE-2026-11-17.md。
+
+## E1415 -- 花 38 秒去回答一个没变的输入，是每轮都在付的税；但闸的键里永远不许放钟，也不许漏掉构造器自己
+
+r1830 把容量面接上链（43.6s/轮），r1832 量了它的代价：38.0s 重建、0.2s no-op。输入（票面字节、
+闸面字节、采集器状态面、data/daily 的名字/大小/mtime 普查）一天才动一次，所以逐轮付 38s 的时间
+买的是同一句话。正法=内容闸，四条约束缺一不可：
+
+1. **键只能是输入**（E1594 同族）：票面 sha、闸面 sha、采集器状态 sha、面板普查（只数名字+尺寸+
+   最新 mtime，1,725 只 csv 约 0.1s）、以及**本脚本自己的字节**。第四项最容易被漏，而漏了它的闸
+   会让「改了构造逻辑」继续骑在旧面上——面新、码旧，比面旧更贵。
+2. **被闸挡的判词要白名单**：NO_TICKET / BAR_MISMATCH 是「没有数」本身就是产品的状态，绝不能跳过，
+   否则一张过期的「没有票面」会被当成今天的答案。gated_verdicts 只留真正有读数的三种。
+3. **跳过时仍跑 check()**：跳过重建不等于跳过核验。面在盘上仍须回答最新 TICKET-*，否则 rc2。
+4. **对照组要能点火**：本窗实弹 touch 一只面板 csv 的 mtime → INPUTS_CHANGED → 重建 38.4s，读数
+   0.3425% 与前一版逐位相同（同输入同输出），证明闸不是「永远跳过」也不是「跳过就变了数」。
+
+正身=scripts/etf_book_capacity_at_size.py（input_signature/input_key/gate_decision + selftest 20/20·L16-L20）
++ Tools/s6_chain_bmc.py capacity_at_size_write 腿（本轮链上实测 0.2s，rc0）。

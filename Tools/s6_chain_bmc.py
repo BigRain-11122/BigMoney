@@ -1166,6 +1166,12 @@ LEGS = [
     # was whatever ticket a human happened to last run it on. `run` costs 44s (it rebuilds
     # the pooled panel; measured 43.6s on bm-c r1830) and its check now also refuses a face whose
     # ticket_stem is not the newest TICKET-* on disk, so the pair cannot drift silently.
+    # r1832: 44s paid every round for inputs that move about once a trading day, so `run` is
+    # now content-gated on inputs only -- ticket bytes + gate face bytes + collector status
+    # bytes + a name/size/mtime census of data/daily + the script's own bytes. Same inputs
+    # => prints SAME_INPUTS and touches nothing (0.2s measured on bm-c r1832 vs 38.0s for the
+    # build); any of the five moving => INPUTS_CHANGED and the build runs. The key holds no
+    # clock: a gate that fires on the wall clock is a gate that never fires.
     ("capacity_at_size_write", ["python", "scripts/etf_book_capacity_at_size.py", "run"]),
     ("capacity_at_size", ["python", "scripts/etf_book_capacity_at_size.py", "check"]),
     # r1453: cut_order_gap and cut_gate_pass answer two halves of the same 11-11 question --
