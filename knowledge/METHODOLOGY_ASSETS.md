@@ -16769,3 +16769,21 @@ that is the tooth working, and the repair is re-derive, never edit the receipt.
 
 正身=scripts/etf_book_capacity_at_size.py（selftest 15/15）+ Tools/s6_chain_bmc.py 两条腿
 + scripts/ceo_live_usage.py 两条 r1830 腿（另一张票面按名拒印／同一张仍印读数）。
+
+
+### E692 · 准入节的 DENY 和票自己的容量是两个问题，问错一本书就会拒掉一张本来下得进去的票（2026-11-18 r1318 bm-a）
+
+准入节印 K1 不过，票面就停在「这单下不进去」。但准入节引的宽度表按**面板最后一根 bar（11-17）**
+的排名算，而这张票的决策 bar 是 **11-11**：票自己的名册在 11-11 上 5 名只吃 **0.7932% ADV**
+（线 1.00%），该宽度可承载 **1,260,724 元** —— 同一个 DENY，换个 bar 的排名就不成立。经营者真正的
+选择题（缩票还是加宽、各自能下多少）此前没有任何一张面回答过。
+
+**正法三条**：
+① **容量必须在票自己的名册、自己的决策 bar 上重算**，禁拿面板最新 bar 的排名代答；
+② **两张面不是同一本书，容量数字不得相加** —— 页上并列印「本票名册」与「准入节引用表」两组名字，
+并明写口径差；
+③ **缺面 ≠ 否定结论**：宽度表读不到时印「本面无法回答加宽几问」，禁读成「怎么都下不了」（与缺值
+不读 0 同族）。
+
+正身=scripts/etf_book_order.py `width_escape`/`width_capacity`/`width_capacity_md`（selftest
+259/259 含 legS-X）+ results/etf_book_order/WIDTH-ESCAPE-2026-11-17.md。
