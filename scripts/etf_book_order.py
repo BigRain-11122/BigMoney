@@ -4118,9 +4118,12 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
                        format(int(_esc_tk["cash_amount"]), ",")),
                     "- 口径：容量口径满仓票（k=1.0，宽度 %d）；本轮 beta 票见 ORDER-%s.md。"
                     % (int(_fw["n"]), asof),
-                    "- 边界：本票只保证单日冲击 ≤%.2f%% ADV；更宽的书收益多少要一次引擎跑，"
-                    "本面不回答（承 DIRECTION-20261114 §一 四门之 (b)）。"
+                    "- 边界：本票只保证单日冲击 ≤%.2f%% ADV（承 DIRECTION-20261114 §一 四门之 (b)）。"
                     % float(_wc.get("line_pct") or 1.0)]
+            # r1323: the escape ticket used to stop at capacity ("the wider book's return is
+            # a question for a full engine run"). That run now exists, so the price of the
+            # sixth name is printed here instead of being left to the reader's memory.
+            _wl += width_cost_md(width_return_cost())
             with open(os.path.join(OUT_DIR, "WIDTH-ESCAPE-%s.md" % asof), "w",
                       encoding="utf-8") as f:
                 f.write("\n".join(_wl) + "\n")
@@ -4912,8 +4915,8 @@ def width_escape(ad, path=None):
         "sentence": (
             "**K1 不过不是终点，是把宽度调一档**：同一笔 %s 元在 %s 这天的 %s 名票打 "
             "%.4f%% ADV（线 %.2f%%）；加宽到 **%s 名** 落到 %.4f%%，每名从 %s 元降到 "
-            "%s 元，该宽度在这一天的容量是 **%s 元**。%s宽度只回答容量，不回答更宽的书"
-            "收益多少（那是引擎跑的事，本面不算）。出处：%s（生产者 "
+            "%s 元，该宽度在这一天的容量是 **%s 元**。%s更宽那本书的收益代价见下一行"
+            "（生产者 etf_book_width_return，同一张面板）。出处：%s（生产者 "
             "etf_book_width_fit，本页只读）"
             % (format(int(s.get("capital_cny") or 0), ","),
                s.get("bar") or "-", live.get("n"), float(live.get("impact_pct_of_adv") or 0.0),
@@ -4972,7 +4975,7 @@ def width_capacity(rank_row, amt, n, capital, line=0.01, bars=20):
             "unmeasurable": [s for s, a in advs.items() if a is None]}
 
 
-def width_capacity_md(wc):
+def _width_capacity_base_md(wc):
     """One line on the operator's page: capacity measured on THIS ticket's own ranking.
 
     r1318: the admission section quotes the width table, whose ranking is the panel's LAST
@@ -4998,6 +5001,106 @@ def width_capacity_md(wc):
             % (wc.get("decision_bar"), int(lw["n"]), float(lw["impact_pct_of_adv"]),
                int(fw["n"]), float(fw.get("impact_pct_of_adv") or 0.0),
                format(int(fw.get("capital_at_line_cny") or 0), ","), wc.get("asof"))]
+
+
+WIDTH_RETURN_FILE = os.path.join(PATHS.results_dir, "etf_book_width_return.json")
+
+
+def width_return_cost(path=None):
+    """The other half of the width decision: what the sixth name costs in annual return.
+
+    r1323: `width_escape` answers "does 1,000,000 fit at six names" and, in its own words,
+    refuses to price that wider book. `etf_book_width_return` has since priced exactly that
+    pair (5 -> 6 on one engine cell), so the ticket's capacity block can print both halves
+    instead of handing the reader a number with no price -- two readers of one number
+    otherwise choose differently.
+
+    The face is READ, never re-derived: its cell ranks the capacity face's own bar, while a
+    ticket prices its decision bar, so the two are not addable and the printed line carries
+    the face's own generated/cutoff (r1781: a block that reads another script's product must
+    say when that product was written -- the two legs are not adjacent in the chain).
+    """
+    p = path or WIDTH_RETURN_FILE
+    try:
+        rel = os.path.relpath(p, BASE).replace("\\", "/")
+    except ValueError:      # fixture on another drive (E289), same guard as width_escape
+        rel = p.replace("\\", "/")
+    if not os.path.exists(p):
+        return {"status": "unavailable", "path": rel,
+                "why": "cost face not on disk -- run scripts/etf_book_width_return.py"}
+    try:
+        with open(p, encoding="utf-8") as fh:
+            d = json.load(fh)
+    except Exception as exc:                                    # noqa: BLE001
+        return {"status": "unavailable", "path": rel, "why": "unreadable: %s" % exc}
+    w = d.get("widen") or {}
+    s = d.get("shrink") or {}
+    dec = d.get("decision") or {}
+    if w.get("cagr_cost_pp") is None:
+        return {"status": "unavailable", "path": rel,
+                "why": "face carries no widen.cagr_cost_pp"}
+    return {"status": "ok", "path": rel, "generated": d.get("generated"),
+            "cutoff": d.get("evidence_cutoff"),
+            "from_n": w.get("from_n"), "to_n": w.get("to_n"),
+            # the face stores returns as fractions; printed as percent (no 100x ambiguity)
+            "cagr_from_pct": (None if w.get("cagr_from") is None
+                              else 100.0 * float(w["cagr_from"])),
+            "cagr_to_pct": (None if w.get("cagr_to") is None
+                            else 100.0 * float(w["cagr_to"])),
+            "cost_pp": float(w["cagr_cost_pp"]),
+            "shrink_pp": s.get("cagr_cost_pp"),
+            "gap_pp": dec.get("gap_pp"), "verdict": dec.get("verdict"),
+            "shrink_fits": s.get("must_shrink")}
+
+
+def width_cost_md(cost):
+    """One line: what widening costs, stamped by the face that measured it -- or an honest gap."""
+    if not cost or cost.get("status") != "ok":
+        why = (cost or {}).get("why") or "成本面状态未知"
+        return ["- 加宽那半边的年化代价这次读不到（%s）—— 这不等于「加宽不要钱」。" % why]
+    _from = ("%.4f%%" % cost["cagr_from_pct"] if cost.get("cagr_from_pct") is not None
+             else "?")
+    _to = ("%.4f%%" % cost["cagr_to_pct"] if cost.get("cagr_to_pct") is not None else "?")
+    _line = ("- **加宽那半边的价钱**（%s → %s 名，年化 %s → %s）：代价 **%+.4f pp/年**"
+             % (cost.get("from_n"), cost.get("to_n"), _from, _to, cost["cost_pp"]))
+    if cost.get("shrink_pp") is not None:
+        _line += "；缩仓那条路 %+.4f pp/年" % float(cost["shrink_pp"])
+    if cost.get("gap_pp") is not None:
+        _line += "，面自己的判词 %s（差 %+.4f pp）" % (cost.get("verdict") or "未标",
+                                                   float(cost["gap_pp"]))
+    _line += ("。出处 %s，generated %s，cutoff %s —— 该面算在宽度表自己那根 bar 的排名上，"
+              "与本票决策日名册不是一个口径，两个数不得相加。"
+              % (cost.get("path"), cost.get("generated") or "未标",
+                 cost.get("cutoff") or "未标"))
+    return [_line]
+
+
+def width_capacity_md(wc, cost=None):
+    """Capacity AND its price, side by side: the pair a reader needs to choose a road.
+
+    r1323: this printed only the capacity half, so "widen to six" arrived with no price and
+    the operator had to open a second page to learn what the sixth name earns or costs.
+    `cost` is injectable for the selftest only.
+    """
+    _base = _width_capacity_base_md(wc)
+    if not _base:
+        return _base
+    _c = cost if cost is not None else width_return_cost()
+    _out = list(_base) + width_cost_md(_c)
+    fw_n = (wc.get("min_width_row") or {}).get("n")
+    lw_n = (wc.get("live_width") or {}).get("n")
+    if fw_n is not None and lw_n is not None and int(fw_n) == int(lw_n):
+        # The ticket's own book already clears the line, so the price above is what the
+        # admission section's DENY road would cost -- not something to do today.
+        _out.append("- 口径提醒：本票自己的名册这一天**不需要**加宽（见上句）—— 上面那行是"
+                    "准入节那条 DENY 路的价钱，不是本票今天的动作。")
+    _needs_widen = (fw_n is not None and lw_n is not None and int(fw_n) != int(lw_n))
+    if (_c.get("status") == "ok" and _needs_widen and _c.get("to_n") is not None
+            and int(fw_n) != int(_c["to_n"])):
+        _out.append("- 口径差：本票要宽度 **%d**，上面那份代价面量的是 %s→%s 名 —— "
+                    "两者不是同一对宽度，读数只能作方向，不能当本票那一步的价。"
+                    % (int(fw_n), _c.get("from_n"), _c.get("to_n")))
+    return _out
 
 
 def _decision_md(ad):
@@ -5058,6 +5161,11 @@ def _decision_md(ad):
         we = width_escape(ad, ad.get("width_fit_path"))
         if we.get("status") == "ok":
             L.append("- " + we["sentence"])
+            # r1323: the width table answers capacity only, by its own design. The price of
+            # that wider book now exists as its own face, so it is printed beside the answer
+            # instead of being left to the reader's memory (and to two readers' different
+            # guesses). A missing cost face prints as a gap, never as "free".
+            L += width_cost_md(width_return_cost())
         elif we.get("status") == "no_width_fits":
             L.append("- 宽度表（%s）测到的最宽书在 %s 这天也过不了 %.2f%% ADV 线 —— "
                      "**这不是加宽能救的**，只能缩票或等更厚的成交量。"
@@ -8538,6 +8646,37 @@ def selftest():
             "加宽" in _wcm2 and "6 名" in _wcm2 and "1,189,705" in _wcm2
             and "WIDTH-ESCAPE-2026-11-17.md" in _wcm2,
             _wcm2.splitlines()[:1])
+        # legY-Z (r1323): the capacity half used to stand alone. A sheet that asks the desk to
+        # buy a sixth name must price that name, and a missing cost face must never read as
+        # "widening is free".
+        _cf = os.path.join(_tmp, "wr_ok.json")
+        with open(_cf, "w", encoding="utf-8") as _fhc:
+            json.dump({"generated": "2026-11-18T10:21:29", "evidence_cutoff": "2026-11-17",
+                       "widen": {"from_n": 5, "to_n": 6, "cagr_from": 0.155, "cagr_to": 0.17,
+                                 "cagr_cost_pp": -1.5},
+                       "shrink": {"cagr_cost_pp": 0.133, "must_shrink": True},
+                       "decision": {"gap_pp": 1.633, "verdict": "WIDEN_IS_CHEAPER"}}, _fhc)
+        _wcm3 = "\n".join(width_capacity_md(_wc_wide, cost=width_return_cost(_cf)))
+        chk("legY the ticket prices the sixth name beside the capacity that name buys",
+            "-1.5000" in _wcm3 and "0.1330" in _wcm3 and "2026-11-18T10:21:29" in _wcm3
+            and "15.5000%" in _wcm3 and "17.0000%" in _wcm3 and "不得相加" in _wcm3,
+            _wcm3.splitlines()[-1:])
+        _wcm4 = "\n".join(width_capacity_md(
+            _wc_wide, cost=width_return_cost(os.path.join(_tmp, "wr_absent.json"))))
+        chk("legZ a missing cost face reads as a gap, never as 'widening is free'",
+            "读不到" in _wcm4 and "不要钱" in _wcm4 and "-1.5000" not in _wcm4,
+            _wcm4.splitlines()[-1:])
+        _wc10 = dict(_wc_wide, min_width_row={"n": 10, "impact_pct_of_adv": 0.50,
+                                              "capital_at_line_cny": 2000000.0})
+        _wcm5 = "\n".join(width_capacity_md(_wc10, cost=width_return_cost(_cf)))
+        chk("legAA a cost measured on another pair of widths is a direction, not this ticket's price",
+            "口径差" in _wcm5 and "10" in _wcm5, _wcm5.splitlines()[-1:])
+        _wc_fit = dict(_wc_own, min_width_row={"n": 5, "impact_pct_of_adv": 0.7932,
+                                               "capital_at_line_cny": 1260724.0})
+        _wcm6 = "\n".join(width_capacity_md(_wc_fit, cost=width_return_cost(_cf)))
+        chk("legAB a ticket that needs no widening says the price above is not its move",
+            "不需要" in _wcm6 and "不是本票今天的动作" in _wcm6 and "-1.5000" in _wcm6,
+            _wcm6.splitlines()[-1:])
     finally:
         shutil.rmtree(_tmp, ignore_errors=True)
 
