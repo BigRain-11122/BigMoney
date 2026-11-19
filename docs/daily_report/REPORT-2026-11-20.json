@@ -1,6 +1,6 @@
 {
  "report_date": "2026-11-20",
- "generated_at": "2026-11-20 02:34:15",
+ "generated_at": "2026-11-20 04:06:26",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -273,7 +273,7 @@
    }
   ],
   "market_clock": {
-   "asof": "2026-11-17",
+   "asof": "2026-11-19",
    "clock_cell": "RED_COOL",
    "position_cap_ladder": 0.2,
    "active_sleeves": [
@@ -294,20 +294,20 @@
   "md_link": "../live_usage/LIVE-2026-11-20.md"
  },
  "rd": {
-  "commits_24h": 31,
-  "result_jsons_landed_24h": 272,
+  "commits_24h": 39,
+  "result_jsons_landed_24h": 276,
   "digests_landed_24h": 0,
-  "prereg_md_touched_24h": 77,
+  "prereg_md_touched_24h": 78,
   "compute_audit_latest": {
-   "ts": "2026-11-20 01:15:59",
-   "py_cpu_pct": 5.0,
+   "ts": "2026-11-20 03:16:28",
+   "py_cpu_pct": 0.7,
    "flags": [
     "pool_starvation",
     "supply_floor"
    ],
    "verdict": "FLAG:pool_starvation,supply_floor"
   },
-  "watermark_verdict": "py_low_with_work_cands",
+  "watermark_verdict": "insufficient_history",
   "pool_keys_n": 6,
   "batch_in_flight": true
  },
@@ -652,7 +652,7 @@
   "total_state_tokens_est": 15889,
   "total_report_tokens_est": 2411636,
   "delta_vs_prev": {
-   "prev_generated": "2026-11-19 18:22:26",
+   "prev_generated": "2026-11-20 00:53:36",
    "state_tokens_growth": 0,
    "report_tokens_growth": 0,
    "mandate_growth": 0
@@ -829,21 +829,13 @@
     "supply_why": null
    },
    "bm-c": {
-    "latest_ts": "2026-11-20 01:15:59",
-    "py_pct": 5.0,
-    "cpu_pct": 4.0,
+    "latest_ts": "2026-11-20 03:16:28",
+    "py_pct": 0.7,
+    "cpu_pct": 48.0,
     "ready": 0,
-    "streak_min": 12774.5,
+    "streak_min": 12815.8,
     "verdict": "FLAG:pool_starvation,supply_floor",
     "py_series_tail": [
-     [
-      "10:56",
-      0.0
-     ],
-     [
-      "11:08",
-      8.7
-     ],
      [
       "11:14",
       1.3
@@ -883,14 +875,22 @@
      [
       "01:15",
       5.0
+     ],
+     [
+      "02:42",
+      3.9
+     ],
+     [
+      "03:16",
+      0.7
      ]
     ],
-    "today_samples": 2,
+    "today_samples": 4,
     "today_floor_ok": 0,
     "today_sla_flags": 0,
     "today_supply_gap_flags": 0,
-    "own_samples": 123,
-    "unattributed_samples": 62,
+    "own_samples": 125,
+    "unattributed_samples": 60,
     "latest_attributed": true,
     "lane_machine": "bm-c",
     "supply_why": {
@@ -1032,7 +1032,7 @@
      "readable": true,
      "window_min": 60.0,
      "audit_batches": 0,
-     "audit_ts": "2026-11-20 01:15:59"
+     "audit_ts": "2026-11-20 03:16:28"
     }
    }
   },
@@ -1861,7 +1861,7 @@
  },
  "lane_authority": {
   "present": true,
-  "as_of": "2026-11-20T02:34:12",
+  "as_of": "2026-11-20T03:47:48",
   "verdict": "all_fresh",
   "observer": "bm-c",
   "sentence": "以本机 bm-c 的盘为基准：14 条在役车道的数字全都落在本机盘上，其中 14 条有署名可核实。",
@@ -1897,7 +1897,7 @@
  },
  "lane_window": {
   "present": true,
-  "as_of": "2026-11-20T02:34:12",
+  "as_of": "2026-11-20T03:47:48",
   "n": 2,
   "windows": [
    {

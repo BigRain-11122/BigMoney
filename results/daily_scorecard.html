@@ -166,6 +166,8 @@
 <table><tr><th>宣称</th><th>复验</th><th>宣称内容（一句话）</th><th>证据 derive</th></tr>
 <tr><td>T-22-FINALIZE</td><td class='pos'>✓</td><td>T-22 主轴 finalize：四门 PASS，主判 base 6m 两轴 6/6 FAIL 0.70 线（诚实负），分段表+账本 35,893 落盘</td><td class='dim'>file_exists:exists; json_field:predictions_vs_results=[{'axis': 'legac</td></tr>
 <tr><td>T-25-WATERMARK-C7</td><td class='pos'>✓</td><td>T-25 C7 腿 LIVE：watchdog 红牌判定+僵尸三查杀+watermark_red.json，自检 10/10 真杀</td><td class='dim'>file_contains:contains; file_exists:exists; file_exists:exists</td></tr>
+<tr><td>T-24-SLICE-A</td><td class='pos'>✓</td><td>T-24 slice-a PROSPECT 纸面跟踪道 22 员态+锚零漂移（canon s6 行 2）</td><td class='dim'>file_exists:exists; json_field:n_pass=22 (want 22); json_field:n_drift</td></tr>
+<tr><td>T-24-SLICE-B</td><td class='pos'>✓</td><td>T-24 slice-b 晋升门评估器 0/22 eligible 诚实三腿（canon s6 行 3）</td><td class='dim'>file_exists:exists; json_field:n_eligible=0 (want 0); count_glob:count</td></tr>
 <tr><td>T-26-EXPANSION</td><td class='pos'>✓</td><td>T-26 扩容验收包 v1.0：A1-A6 门+首单分片表（J-1 T-22 PROSPECT beat-rate）+双角色模板；A4 缺件已由 owner 闭环（R89 boot</td><td class='dim'>file_exists:exists; file_contains:contains; file_exists:exists</td></tr>
 <tr><td>T-27-BMAXDIV-WIRING</td><td class='dim'>🟡</td><td>T-27 五法锦标赛 v2 一次定稿 winner=B_MAXDIV（1.068/0.660/x2 0.614 存活），批准后零接线</td><td class='dim'>file_exists:exists; file_contains:contains</td></tr>
 <tr><td>T-28-STABLE-PROFIT</td><td class='pos'>✓</td><td>T-28 稳定盈利批 done 诚实负：J1/J2/J3 过、J4 12m pooled 0.4854<0.70 ✗ 如实（零合格=三道闸设计态）</td><td class='dim'>file_exists:exists; json_field:judgments={'J1_current_window_profit': </td></tr>
@@ -176,8 +178,6 @@
 <tr><td>O-2100-COMPUTE-DISPATCH</td><td class='dim'>🟡</td><td>O-2100 算力调度机制 d2 核心：runnable pool + autofill C8 + 10min schtasks + watchdog 自愈腿 + 真验收 laun</td><td class='dim'>file_exists:exists; file_exists:exists; json_field:launches.0.verdict=</td></tr>
 <tr><td>O-2115-POST-REVIEW</td><td class='dim'>🟡</td><td>O-2115 复审机制 d1：正典（GM 令 commit 预落）+确定性复审器 post_review.py（注入虚报样本必捕 selftest 7/7）+首批判据 regist</td><td class='dim'>git_log_file:git hit: 2115; file_exists:exists; file_exists:exists</td></tr>
 <tr><td>T-27-VETO-FIELD</td><td class='pos'>✓</td><td>T-27 产物时效字段：results/portfolio_blend_tournament.json 须带 verdict.veto_window_until（POST_REVI</td><td class='dim'>json_field:verdict.veto_window_until=2026-10-01</td></tr>
-<tr><td>T-24-SLICE-A</td><td class='pos'>✓</td><td>T-24 slice-a PROSPECT 纸面跟踪道 22 员态+锚零漂移（canon s6 行 2）</td><td class='dim'>file_exists:exists; json_field:n_pass=22 (want 22); json_field:n_drift</td></tr>
-<tr><td>T-24-SLICE-B</td><td class='pos'>✓</td><td>T-24 slice-b 晋升门评估器 0/22 eligible 诚实三腿（canon s6 行 3）</td><td class='dim'>file_exists:exists; json_field:n_eligible=0 (want 0); count_glob:count</td></tr>
 <tr><td>O-2012-T33-D2-ATTACK-WAVE</td><td class='pos'>✓</td><td>O-2012/T-33 d2 进攻招募波 G1' v2 0/20 诚实零（canon s6 行 10）</td><td class='dim'>file_exists:exists; json_field:summary.g1_prime_v2_pass=0 (want 0); js</td></tr>
 <tr><td>T-72-SINA-MF-COLLECTOR</td><td class='pos'>✓</td><td>T-72 sina 四档资金流采集器三切片交付：s1 采集器+离线 selftest 绿；s2 全宇宙首拉验收五线 PASS（fresh 5222≥5000·写盘面零违例 wors</td><td class='dim'>file_exists:exists; json_field:verdict=PASS (want PASS); json_gte:coun</td></tr>
 <tr><td>T-74-S2-MARKET-CLOCK-BACKTEST</td><td class='pos'>✓</td><td>T-74 s2 full-history backtest of the frozen clock tree (v1.1 s2b frozen pre-run, commit dc</td><td class='dim'>file_exists:exists; file_exists:exists; file_exists:exists; file_exist</td></tr>
