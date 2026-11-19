@@ -1568,6 +1568,35 @@ def main() -> int:
     except Exception as e:
         check("product: treasury curve verdict is re-derived from its own criteria (r1691)",
               False, str(e))
+    # r1864c: the residual signal's realisable half is a veto, not a short (A-shares
+    # cannot be shorted at portfolio scale). Two legs: the offline self-test, and the
+    # published verdict may only say VETO_ADDS_VALUE when the drop beats BOTH the
+    # do-nothing pool and a random drop of the same size -- a green that only clears
+    # the first door is what this face was built to refuse.
+    _rv_sel = capture_pinned([sys.executable,
+                              os.path.join("scripts", "astock_resid_veto_layer.py"),
+                              "selftest"], 90)
+    check("product: astock residual veto layer selftest (r1864c)",
+          _rv_sel.returncode == 0 and "9/9 PASS" in (_rv_sel.stdout or ""),
+          f"rc={_rv_sel.returncode} {((_rv_sel.stdout or '') + (_rv_sel.stderr or '')).strip()[:200]}")
+    try:
+        with open(os.path.join("results", "astock_resid_veto_layer.json"), encoding="utf-8") as _fh:
+            _rvf = json.load(_fh)
+        _pp = _rvf.get("paired_per_rebalance") or {}
+        _ta = (_pp.get("vs_A") or {}).get("t")
+        _tr = (_pp.get("vs_random") or {}).get("t")
+        _vd = _rvf.get("verdict")
+        _ok_v = True
+        if _vd == "VETO_ADDS_VALUE":
+            _ok_v = _ta is not None and _tr is not None and _ta >= 2.0 and _tr >= 2.0
+        check("product: the veto verdict only greens when it beats the random drop too (r1864c)",
+              _ok_v, f"verdict={_vd} t_vs_A={_ta} t_vs_random={_tr}")
+    except FileNotFoundError:
+        check("product: the veto verdict only greens when it beats the random drop too (r1864c)",
+              True, "face not on disk; nothing to mis-read")
+    except Exception as _e:
+        check("product: the veto verdict only greens when it beats the random drop too (r1864c)",
+              False, repr(_e)[:160])
     # r1602: the memo that lets the second copy of a leg ride on the first judgement is
     # itself a measurement, so it is driven here: a repeat is served from the cache and says
     # so, a `run` leg is never cached, and an edited script re-runs instead of reusing.
