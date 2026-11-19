@@ -1488,16 +1488,18 @@ def main() -> int:
                               and _c["C2_oos_sharpe_ge_0.70"]["pass"]
                               and _c["C3_permutation_p_lt_0.05"]["pass"]) else "KILL")
             _said = _v["verdict"]["verdict"]
-            with open(_pg, encoding="utf-8") as _fh:
-                _txt = _fh.read()
-            # the page must carry the same verb and the same two headline readings
-            _ann = "%.2f" % abs(_c["C1_capital_ann_ge_3pct"]["value"])
-            _sr = "%.2f" % abs(_c["C2_oos_sharpe_ge_0.70"]["value"])
-            _pg_ok = (_said in _txt) and (_ann in _txt) and (_sr in _txt)
-            # a KILL must also be reflected in the diagnostic column, not left blank
+            # r1860: the page's readings are no longer hand-copied -- they are a generated
+            # block, so "the page says the same number" belongs to the generator's own
+            # --check. Driving it means a page one generation behind its face fails here
+            # instead of matching on the two digits this leg happened to know how to read.
+            _rc = capture_pinned([sys.executable,
+                                  os.path.join("scripts", "treasury_curve_page.py"),
+                                  "--check"], 60)
+            _pg_ok = _rc.returncode == 0
             _ok = (_re == _said) and _pg_ok
             check("product: treasury curve verdict is re-derived from its own criteria (r1691)",
-                  _ok, f"derived={_re} said={_said} page_says={_pg_ok} ann={_ann} sr={_sr}")
+                  _ok, f"derived={_re} said={_said} page_check_rc={_rc.returncode} "
+                       f"{((_rc.stdout or '').strip() or (_rc.stderr or '').strip())[:160]}")
     except Exception as e:
         check("product: treasury curve verdict is re-derived from its own criteria (r1691)",
               False, str(e))
