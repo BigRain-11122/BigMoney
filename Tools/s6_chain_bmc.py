@@ -252,6 +252,17 @@ LEGS = [
     # answer from ageing: a face published next week that admits a position unpriced is named
     # the round it lands. ~3s, no network, reads results/*.json only.
     ("event_exec_gate_audit", ["python", "scripts/event_exec_gate.py", "audit"]),
+    # r1864: the DIVLOWVOL sleeve publishes a 20-name list and stops -- no face ever asked
+    # what that published list earned, so the CEO page's "欠 1 次调仓" was a bare count with
+    # no money in it. The producer enters on the first bar strictly after the list's own
+    # as_of (a close you only knew afterwards is not a fill), carries an unbuyable name as
+    # cash, measures a name that stops printing to its own last bar, and benchmarks against
+    # equal weight of every symbol with bars on both ends of the same window. The check leg
+    # re-derives the page from the panel; only the benchmark membership can move while the
+    # A-share collector is still writing, and when it does the line says BENCH_PANEL_MOVED
+    # rather than passing quietly. ~3s + ~3s, no network, no judge, selects nothing.
+    ("divlowvol_live_track", ["python", "scripts/divlowvol_live_track.py", "run"]),
+    ("divlowvol_live_track_check", ["python", "scripts/divlowvol_live_track.py", "check"]),
     # r1730: two published faces described the same carry position and never met. The desk
     # sheet's ladder sizes by the margin box and prints 1,000,000 CNY holding 3 IC lots at
     # 67%/yr; the capital face sizes by vol target and refuses at every tier. Both are

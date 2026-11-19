@@ -528,6 +528,41 @@ def _recommendation_face() -> dict:
         "picks_asof": (picks or {}).get("as_of"),
         "picks_panel": picks_panel_rel,
         "picks_panel_present": picks_panel_present,
+        # r1864: the list's own forward record travels with the list.  A reader who
+        # is told "don't open new positions on this list" still deserves to know what
+        # holding it has been worth; a face with no producer would age, so the number
+        # is read from the track face only when that face is about THIS list
+        # (same list_as_of) -- a newer list with an older track would be a lie.
+        "track": _divlowvol_track((picks or {}).get("as_of")),
+    }
+
+
+def _divlowvol_track(list_as_of):
+    """Published-list forward record, only when it is about that very list.
+
+    Returns a small dict or None.  None means "we cannot say" (face missing, or the
+    face tracks a different list) -- the page prints that absence rather than
+    borrowing numbers from another list.
+    """
+    if not list_as_of:
+        return None
+    try:
+        track = _read_json(os.path.join(ROOT, "results", "divlowvol_live",
+                                        "track_latest.json"))
+    except (OSError, ValueError):
+        return None
+    if not track or track.get("list_as_of") != list_as_of:
+        return None
+    bench = track.get("benchmark") or {}
+    return {
+        "entry_bar": track.get("entry_bar"),
+        "cutoff": track.get("cutoff"),
+        "sessions": track.get("window_sessions"),
+        "n_measured": track.get("n_measured"),
+        "ret_pct": track.get("portfolio_ret_pct"),
+        "bench_n": bench.get("n"),
+        "bench_ret_pct": bench.get("ret_pct"),
+        "excess_pp": track.get("excess_pp"),
     }
 
 
@@ -2430,6 +2465,22 @@ def render_md(p: dict) -> str:
                 L.append(f"  - 名单在它的节律内：月度网格，下一次换仓在 "
                          f"{(p.get('freshness') or {}).get('expected_bar')} 之后"
                          "的下一个月首交易日。")
+        _trk = rec.get("track")
+        if _trk and _trk.get("ret_pct") is not None:
+            L.append("  - **这份名单这段到底赚了多少**：{} 进、{} 出（{} 个交易日），"
+                     "{} 只按发布权重等权 **{:+.2f}%**；同一窗口全市场等权"
+                     "（{} 只有价）**{:+.2f}%** → 超额 **{:+.2f}pp**"
+                     "（机械读数·未扣成本·不构成新判据）".format(
+                         _trk.get("entry_bar"), _trk.get("cutoff"),
+                         _trk.get("sessions"), _trk.get("n_measured"),
+                         _trk["ret_pct"], _trk.get("bench_n"),
+                         _trk.get("bench_ret_pct") or 0.0,
+                         _trk.get("excess_pp") or 0.0))
+            L.append("    - 出处：`results/divlowvol_live/track_latest.json`"
+                     "（名单面自己不产结果，这一行是它的前向实绩面）")
+        else:
+            L.append("  - 这份名单这段赚了多少：**读不到**"
+                     "（前向实绩面缺，或它追的是另一份名单）——不借用别份名单的数")
         L.append("  - 本机可再生性：面板 "
                  f"`{rec['picks_panel']}` "
                  + ("**在位**" if rec["picks_panel_present"] else
@@ -4372,6 +4423,27 @@ def selftest() -> int:
               and "在它的月度节律内" in _mdm2)
         check("a list this machine cannot rebuild says so, in words (r1833)",
               "data/cache/p1c_local" in _mdm2 and "不在本机" in _mdm2)
+        # ---- r1864: "don't open new positions on this list" and "what holding it was
+        # worth" are two different sentences, and a reader who is told only the first
+        # has no money on the page.  The track face travels with the list only when it
+        # tracks THAT list; a newer list with an older track must print "read it nowhere"
+        # instead of borrowing numbers.
+        _degm["recommendation"]["track"] = {
+            "entry_bar": "2026-10-20", "cutoff": "2026-11-19", "sessions": 23,
+            "n_measured": 20, "ret_pct": -1.9533, "bench_n": 4479,
+            "bench_ret_pct": -11.2365, "excess_pp": 9.2832}
+        _mdm3 = render_md(_degm)
+        check("the page prints what the published list earned (r1864)",
+              "-1.95%" in _mdm3 and "-11.24%" in _mdm3 and "+9.28pp" in _mdm3)
+        check("the record is sourced to the face that produces it (r1864)",
+              "results/divlowvol_live/track_latest.json" in _mdm3)
+        _degm["recommendation"]["track"] = None
+        _mdm4 = render_md(_degm)
+        check("a missing record reads as unreadable, not as no money (r1864)",
+              "读不到" in _mdm4 and "不借用别份名单的数" in _mdm4)
+        check("a track about another list is refused (r1864)",
+              _divlowvol_track.__doc__ is not None
+              and _divlowvol_track("1999-01-01") is None)
         # ---- r1835: ⑥ names the leg standing at the top decile of its own year and
         # stopped there.  The swap question is priced on another face; the page must
         # print BOTH rulers that answer it (they disagree) and must not print a number
