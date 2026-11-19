@@ -17043,3 +17043,17 @@ _missing 并列；②**面里没有名字的读数要印成 unnamed，不能继�
 
 How to apply：任何「某条规则该不该更硬」的问题，先问**加硬之后被放进来的集合变不变**；答完之后再逐条看**多放进来的是谁**——如果多出来的是对照组，那这条规则的软硬其实是「对照组要不要出现在供给名单上」。
 正身=scripts/etf_book_year_gate_vote.py（selftest 10/10·--check 同判）+ results/etf_book_year_gate_vote.json + research/ETF_BOOK_YEAR_GATE_VOTE.md
+
+
+## E1601 — 「多放了七条」是七行，不是七个东西（r1841 bm-c）
+
+上一轮把「年闸该不该有否决权」换算成价钱，结论是松一票会多放 7 条读数进来。这个 7 随后被当成 7 个候选在读——而它只是**行数**。把同一份变更集按「面 + 两个数」重排，7 行塌成 **4 个不同的数**：其中 3 条住在同一个 knob 面（tf_book_gate_knobs 的两只现金袖 × 三个设定，年化 10.19/10.15/9.59），是**同一个机制被量了三次**；第 4 个数被两个面用两个名字各印了一次（
+5_gate_arm/cash_zero 与 cash_zero_control，年化 11.55、top-2 0.7039 逐位相同）；剩下 2 条一个数都没有（CALIBER 的 P/B 口径变体）。
+
+所以「供给会多七本候选」的真实形状是：**它多一个机制、一次重复计数、两条没有测量的行**。任何照这个计数去建供给名单的动作，都等于把一个对照臂登记两次、并把一张参数网格读成一个家族。
+
+两枚工具律：①**没有数就没有比较**——两条都没有 CAGR 的行不能被当成「彼此相同」（首版若把 None 当等值，两条空白会被配对成一条臂）；②**只有一半的数不能和完整的数撞键**（cagr 有而 top2 缺，必须与 cagr 相同但 top2=0.70 的行分开）。
+
+**How to apply**：任何「某条规则一松就会多出 N 个」的结论，在它变成行动之前先问三句——这 N 行里有几行来自同一张面（=同一个机制的不同设定）？有几行的两个数在别处已经印过（=同一个东西数了两次）？有几行根本没有数？
+
+正身=scripts/etf_book_promotion_provenance.py（selftest 10/10·--check 同判）+ results/etf_book_promotion_provenance.json（rows=7 distinct=6 numbers=4 faces=3 named=5 unmeasured=2）+ Tools/s6_chain_bmc.py 新链腿（0.1s）

@@ -6279,6 +6279,16 @@ def main() -> int:
              "scripts/etf_book_year_gate_vote.py", ["selftest"]),
             ("product: etf_book_year_gate_vote (census still re-derives from the faces)",
              "scripts/etf_book_year_gate_vote.py", ["--check"]),
+            # r1841: the vote's own headline was "seven readings the advisory rule would
+            # admit", and seven rows were then treated as seven things -- but five live in
+            # one knob face and one pair carries the same CAGR and top-2 share under two
+            # names. This face prints rows / distinct things / faces, and the selftest pins
+            # the three traps: identical numbers across faces, an unmeasured row never
+            # grouping with another blank, and a half-number never colliding with a full one.
+            ("product: etf_book_promotion_provenance (rows are not things)",
+             "scripts/etf_book_promotion_provenance.py", ["selftest"]),
+            ("product: etf_book_promotion_provenance (census re-derives from the vote)",
+             "scripts/etf_book_promotion_provenance.py", ["--check"]),
             # r1773 turns r1772's "stretched" label into a decision: if the sheet refuses a
             # leg paying 6.75% over its basket, what does it buy instead? Two cuts decide it
             # (asset class AND underlying market -- 标普A股红利ETF is not a US S&P leg, the

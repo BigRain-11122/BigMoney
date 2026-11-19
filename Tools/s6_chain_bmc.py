@@ -2032,6 +2032,16 @@ LEGS = [
     # leg chain -- so it carried the same one-day bulge unread. This leg re-prices all
     # four decision arms on both calibers; printed keys stay on the lag0 arm.
     ("etf_equity_alpha", ["python", "scripts/etf_equity_alpha.py", "run"]),
+    # r1841: the vote face answered "would the advisory rule admit seven readings?" and
+    # the seven were then read as seven things. Five of them live inside ONE knob face
+    # and one pair is the same two numbers under two different names, so a supply list
+    # built from that count would hold one arm twice and read a parameter sweep as a
+    # family. This leg keeps the census of what those rows describe (rows / distinct
+    # things / faces) attached to the vote and re-derives it every round, so the number
+    # cannot live only in the round that noticed it.
+    ("etf_book_promotion_provenance",
+     ["python", "scripts/etf_book_promotion_provenance.py", "--check"],
+     ["python", "scripts/etf_book_promotion_provenance.py", "run"]),
 ]
 
 

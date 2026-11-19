@@ -1,0 +1,120 @@
+{
+ "elapsed_sec": 0.0,
+ "evidence_cutoff": "2026-11-18",
+ "face": "etf_book_promotion_provenance",
+ "generated": "2026-11-19T12:01:11+08:00",
+ "honest": [
+  "SAME_NUMBERS_TWICE is a claim about the two published numbers only: two rows that agree on CAGR and top-2 share may still differ in cost, window or capacity, and this face does not read those.",
+  "SWEEP_MEMBER says the face publishes several promoted rows, not that those rows measure the same thing -- the knob face's own question is printed verbatim so the reader can judge it.",
+  "distinct things is a lower bound: two rows with different numbers can still be one mechanism, and this face has no way to see that.",
+  "nothing here changes the vote, the gate, or the supply list; it counts what the vote already said."
+ ],
+ "n_distinct_numbers": 4,
+ "n_distinct_things": 6,
+ "n_faces": 3,
+ "n_named": 5,
+ "n_promoted_rows": 7,
+ "n_unmeasured": 2,
+ "question": "if the concentration check stopped vetoing, how many of the seven readings it would promote are distinct things?",
+ "rows": [
+  {
+   "also_published_by": [],
+   "at": "/arms/5",
+   "book": "n12_forward_arm/ladder3",
+   "cagr_pct": 10.19,
+   "face": "results/etf_book_gate_knobs.json",
+   "fingerprint": "10.1900/0.725300",
+   "from": "CONDITIONAL",
+   "to": "ADMIT",
+   "top2_share": 0.7253,
+   "verdict": "SWEEP_MEMBER"
+  },
+  {
+   "also_published_by": [],
+   "at": "/arms/4",
+   "book": "n12_forward_arm/gc001_roll",
+   "cagr_pct": 10.15,
+   "face": "results/etf_book_gate_knobs.json",
+   "fingerprint": "10.1500/0.727300",
+   "from": "CONDITIONAL",
+   "to": "ADMIT",
+   "top2_share": 0.7273,
+   "verdict": "SWEEP_MEMBER"
+  },
+  {
+   "also_published_by": [],
+   "at": "/arms/3",
+   "book": "n12_forward_arm/cash_zero",
+   "cagr_pct": 9.59,
+   "face": "results/etf_book_gate_knobs.json",
+   "fingerprint": "9.5900/0.752400",
+   "from": "CONDITIONAL",
+   "to": "ADMIT",
+   "top2_share": 0.7524,
+   "verdict": "SWEEP_MEMBER"
+  },
+  {
+   "also_published_by": [
+    "results/etf_book_gate_knobs.json",
+    "results/etf_book_year_gate_idlecarry.json"
+   ],
+   "at": "/arms/0",
+   "book": "n5_gate_arm/cash_zero",
+   "cagr_pct": 11.55,
+   "face": "results/etf_book_gate_knobs.json",
+   "fingerprint": "11.5500/0.703900",
+   "from": "CONDITIONAL",
+   "to": "ADMIT",
+   "top2_share": 0.7039,
+   "verdict": "SAME_NUMBERS_TWICE"
+  },
+  {
+   "also_published_by": [
+    "results/etf_book_gate_knobs.json",
+    "results/etf_book_year_gate_idlecarry.json"
+   ],
+   "at": "/arms/0",
+   "book": "cash_zero_control",
+   "cagr_pct": 11.55,
+   "face": "results/etf_book_year_gate_idlecarry.json",
+   "fingerprint": "11.5500/0.703900",
+   "from": "CONDITIONAL",
+   "to": "ADMIT",
+   "top2_share": 0.7039,
+   "verdict": "SAME_NUMBERS_TWICE"
+  },
+  {
+   "also_published_by": [],
+   "at": "/rows/5/calibers/P",
+   "book": null,
+   "cagr_pct": null,
+   "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+   "fingerprint": null,
+   "from": "CONDITIONAL",
+   "to": "ADMIT",
+   "top2_share": null,
+   "verdict": "UNMEASURED"
+  },
+  {
+   "also_published_by": [],
+   "at": "/rows/5/calibers/B",
+   "book": null,
+   "cagr_pct": null,
+   "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+   "fingerprint": null,
+   "from": "CONDITIONAL",
+   "to": "ADMIT",
+   "top2_share": null,
+   "verdict": "UNMEASURED"
+  }
+ ],
+ "rows_per_face": {
+  "results/etf_book_gate_knobs.json": 4,
+  "results/etf_book_partial_year_caliber/CALIBER.json": 2,
+  "results/etf_book_year_gate_idlecarry.json": 1
+ },
+ "rule_read": "results/etf_book_year_gate_vote.json::rules.R2_advisory.changed",
+ "source_faces": [
+  "results/etf_book_year_gate_vote.json"
+ ]
+}
