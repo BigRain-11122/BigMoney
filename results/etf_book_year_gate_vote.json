@@ -1,0 +1,4489 @@
+{
+ "evidence_cutoff": "2026-11-18",
+ "evidence_cutoff_note": "the newest cutoff among the faces read; the books inside keep their own cutoff, printed in their producing face",
+ "face": "etf_book_year_gate_vote",
+ "generated": "2026-11-19T11:44:56+0800",
+ "honest": [
+  "no engine call and no repricing: every word below is a word an earlier face already printed, so a difference is a difference in the rule",
+  "R2 can only ever promote a book whose every non-Y4 check is True; a book with an unmeasured (null) check stays where it was, because unknown is not a pass",
+  "the cagr column is a reading of the books that would reach ADMIT, not a portfolio return: they are different books read on different panels",
+  "the same book is published by several faces (n_readings > n_distinct_names); both denominators are printed rather than picking one",
+  "no adoption: which rule should hold is a specification question (the weights and who holds the veto); this page prices the three and ranks none"
+ ],
+ "n_distinct_names": 42,
+ "n_readings": 153,
+ "n_y4_false": 101,
+ "n_y4_is_the_only_false_check": 7,
+ "n_y4_only_and_published_admit": 0,
+ "n_y4_unknown": 0,
+ "names": [
+  "all_classes_published",
+  "book_plus_execution_wrapper",
+  "breadth_book",
+  "cash_paid",
+  "cash_zero_control",
+  "control",
+  "n12_forward_arm/cash_zero",
+  "n12_forward_arm/gc001_roll",
+  "n12_forward_arm/ladder3",
+  "n5_gate_arm/cash_zero",
+  "n5_gate_arm/gc001_roll",
+  "n5_gate_arm/ladder3",
+  "n_hold=10",
+  "n_hold=3",
+  "n_hold=8",
+  "nobond_base",
+  "nobond_vt08_adopted",
+  "nobond_vt08_floor_0.00",
+  "nobond_vt08_floor_0.40",
+  "nobond_vt08_floor_0.50",
+  "nobond_vt08_floor_0.60",
+  "nobond_vt08_floor_0.70",
+  "nobond_vt08_floor_0.80",
+  "nobond_vt08_floor_1.00",
+  "none",
+  "permission_cap_applied_history",
+  "permission_cap_from_decision_date",
+  "plain_book_n5_r20_vt08",
+  "rebal=10",
+  "rebal=10@20bp",
+  "rebal=40",
+  "smallcap_book",
+  "ticket_construction_plain_plus_overlay",
+  "ticket_k_no_cut",
+  "vol_target=0.1",
+  "vol_target=None",
+  "vt08",
+  "vt10",
+  "vt12",
+  "vt15",
+  "vt20",
+  "vt25"
+ ],
+ "question": "the concentration check downgrades a book instead of refusing it -- how many books does the weight of that one vote actually move?",
+ "rows": [
+  {
+   "at": "/books/2",
+   "book": "all_classes_published",
+   "cagr_pct": null,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_year_gate/YEAR-GATE.json",
+   "published": "CONDITIONAL",
+   "top2_share": 0.7767,
+   "words": {
+    "R0_status_quo": "CONDITIONAL",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "CONDITIONAL"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/books/1",
+   "book": "nobond_base",
+   "cagr_pct": 15.49,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": true
+   },
+   "face": "results/etf_book_year_gate/YEAR-GATE.json",
+   "published": "ADMIT",
+   "top2_share": 0.6876,
+   "words": {
+    "R0_status_quo": "ADMIT",
+    "R1_veto": "ADMIT",
+    "R2_advisory": "ADMIT"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/books/0",
+   "book": "nobond_vt08_adopted",
+   "cagr_pct": 11.41,
+   "checks": {
+    "C1_capacity": false,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_year_gate/YEAR-GATE.json",
+   "published": "CAPACITY_LIMITED",
+   "top2_share": 0.7105,
+   "words": {
+    "R0_status_quo": "CAPACITY_LIMITED",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "CAPACITY_LIMITED"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/books/2",
+   "book": "ticket_construction_plain_plus_overlay",
+   "cagr_pct": 7.15,
+   "checks": {
+    "C1_capacity": true,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": true
+   },
+   "face": "results/etf_book_year_gate/WRAPPER-GATE.json",
+   "published": "ADMIT",
+   "top2_share": 0.6752,
+   "words": {
+    "R0_status_quo": "ADMIT",
+    "R1_veto": "ADMIT",
+    "R2_advisory": "ADMIT"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/books/1",
+   "book": "book_plus_execution_wrapper",
+   "cagr_pct": 11.61,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_year_gate/WRAPPER-GATE.json",
+   "published": "CONDITIONAL",
+   "top2_share": 0.7588,
+   "words": {
+    "R0_status_quo": "CONDITIONAL",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "CONDITIONAL"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/books/0",
+   "book": "plain_book_n5_r20_vt08",
+   "cagr_pct": 11.63,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_year_gate/WRAPPER-GATE.json",
+   "published": "CONDITIONAL",
+   "top2_share": 0.7574,
+   "words": {
+    "R0_status_quo": "CONDITIONAL",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "CONDITIONAL"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/rungs/6",
+   "book": "vt25",
+   "cagr_pct": 0.1538,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": true
+   },
+   "face": "results/etf_book_vt_ladder/VT-LADDER.json",
+   "published": "ADMIT",
+   "top2_share": 0.6851,
+   "words": {
+    "R0_status_quo": "ADMIT",
+    "R1_veto": "ADMIT",
+    "R2_advisory": "ADMIT"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/rungs/5",
+   "book": "vt20",
+   "cagr_pct": 0.1482,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": true
+   },
+   "face": "results/etf_book_vt_ladder/VT-LADDER.json",
+   "published": "ADMIT",
+   "top2_share": 0.6732,
+   "words": {
+    "R0_status_quo": "ADMIT",
+    "R1_veto": "ADMIT",
+    "R2_advisory": "ADMIT"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/rungs/4",
+   "book": "vt15",
+   "cagr_pct": 0.1412,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": true
+   },
+   "face": "results/etf_book_vt_ladder/VT-LADDER.json",
+   "published": "ADMIT",
+   "top2_share": 0.6792,
+   "words": {
+    "R0_status_quo": "ADMIT",
+    "R1_veto": "ADMIT",
+    "R2_advisory": "ADMIT"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/rungs/3",
+   "book": "vt12",
+   "cagr_pct": 0.1327,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_vt_ladder/VT-LADDER.json",
+   "published": "CONDITIONAL",
+   "top2_share": 0.7196,
+   "words": {
+    "R0_status_quo": "CONDITIONAL",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "CONDITIONAL"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/rungs/2",
+   "book": "vt10",
+   "cagr_pct": 0.1273,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_vt_ladder/VT-LADDER.json",
+   "published": "CONDITIONAL",
+   "top2_share": 0.7247,
+   "words": {
+    "R0_status_quo": "CONDITIONAL",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "CONDITIONAL"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/rungs/1",
+   "book": "vt08",
+   "cagr_pct": 0.1141,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_vt_ladder/VT-LADDER.json",
+   "published": "CONDITIONAL",
+   "top2_share": 0.7104,
+   "words": {
+    "R0_status_quo": "CONDITIONAL",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "CONDITIONAL"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/rungs/0",
+   "book": "none",
+   "cagr_pct": 0.155,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": true
+   },
+   "face": "results/etf_book_vt_ladder/VT-LADDER.json",
+   "published": "ADMIT",
+   "top2_share": 0.6875,
+   "words": {
+    "R0_status_quo": "ADMIT",
+    "R1_veto": "ADMIT",
+    "R2_advisory": "ADMIT"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/books/6/cells/3",
+   "book": null,
+   "cagr_pct": 0.1432,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_vt_phases/VT-PHASES.json",
+   "published": "CONDITIONAL",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "CONDITIONAL",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "CONDITIONAL"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/books/6/cells/2",
+   "book": null,
+   "cagr_pct": 0.136,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": false,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_vt_phases/VT-PHASES.json",
+   "published": "REFUSE",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "REFUSE",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "REFUSE"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/books/6/cells/1",
+   "book": null,
+   "cagr_pct": 0.1543,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": true
+   },
+   "face": "results/etf_book_vt_phases/VT-PHASES.json",
+   "published": "ADMIT",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "ADMIT",
+    "R1_veto": "ADMIT",
+    "R2_advisory": "ADMIT"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/books/6/cells/0",
+   "book": null,
+   "cagr_pct": 0.1538,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": true
+   },
+   "face": "results/etf_book_vt_phases/VT-PHASES.json",
+   "published": "ADMIT",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "ADMIT",
+    "R1_veto": "ADMIT",
+    "R2_advisory": "ADMIT"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/books/5/cells/3",
+   "book": null,
+   "cagr_pct": 0.1395,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_vt_phases/VT-PHASES.json",
+   "published": "CONDITIONAL",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "CONDITIONAL",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "CONDITIONAL"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/books/5/cells/2",
+   "book": null,
+   "cagr_pct": 0.13,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": false,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_vt_phases/VT-PHASES.json",
+   "published": "REFUSE",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "REFUSE",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "REFUSE"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/books/5/cells/1",
+   "book": null,
+   "cagr_pct": 0.151,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": true
+   },
+   "face": "results/etf_book_vt_phases/VT-PHASES.json",
+   "published": "ADMIT",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "ADMIT",
+    "R1_veto": "ADMIT",
+    "R2_advisory": "ADMIT"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/books/5/cells/0",
+   "book": null,
+   "cagr_pct": 0.1482,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": true
+   },
+   "face": "results/etf_book_vt_phases/VT-PHASES.json",
+   "published": "ADMIT",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "ADMIT",
+    "R1_veto": "ADMIT",
+    "R2_advisory": "ADMIT"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/books/4/cells/3",
+   "book": null,
+   "cagr_pct": 0.1219,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_vt_phases/VT-PHASES.json",
+   "published": "CONDITIONAL",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "CONDITIONAL",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "CONDITIONAL"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/books/4/cells/2",
+   "book": null,
+   "cagr_pct": 0.1128,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": false,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_vt_phases/VT-PHASES.json",
+   "published": "REFUSE",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "REFUSE",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "REFUSE"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/books/4/cells/1",
+   "book": null,
+   "cagr_pct": 0.1425,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_vt_phases/VT-PHASES.json",
+   "published": "CONDITIONAL",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "CONDITIONAL",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "CONDITIONAL"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/books/4/cells/0",
+   "book": null,
+   "cagr_pct": 0.1412,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": true
+   },
+   "face": "results/etf_book_vt_phases/VT-PHASES.json",
+   "published": "ADMIT",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "ADMIT",
+    "R1_veto": "ADMIT",
+    "R2_advisory": "ADMIT"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/books/3/cells/3",
+   "book": null,
+   "cagr_pct": 0.1032,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": false,
+    "Y2_median_positive": false,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_vt_phases/VT-PHASES.json",
+   "published": "REFUSE",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "REFUSE",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "REFUSE"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/books/3/cells/2",
+   "book": null,
+   "cagr_pct": 0.0999,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": false,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_vt_phases/VT-PHASES.json",
+   "published": "REFUSE",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "REFUSE",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "REFUSE"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/books/3/cells/1",
+   "book": null,
+   "cagr_pct": 0.1273,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_vt_phases/VT-PHASES.json",
+   "published": "CONDITIONAL",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "CONDITIONAL",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "CONDITIONAL"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/books/3/cells/0",
+   "book": null,
+   "cagr_pct": 0.1327,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_vt_phases/VT-PHASES.json",
+   "published": "CONDITIONAL",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "CONDITIONAL",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "CONDITIONAL"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/books/2/cells/3",
+   "book": null,
+   "cagr_pct": 0.0947,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": false,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_vt_phases/VT-PHASES.json",
+   "published": "REFUSE",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "REFUSE",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "REFUSE"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/books/2/cells/2",
+   "book": null,
+   "cagr_pct": 0.0856,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_vt_phases/VT-PHASES.json",
+   "published": "CONDITIONAL",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "CONDITIONAL",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "CONDITIONAL"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/books/2/cells/1",
+   "book": null,
+   "cagr_pct": 0.1102,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_vt_phases/VT-PHASES.json",
+   "published": "CONDITIONAL",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "CONDITIONAL",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "CONDITIONAL"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/books/2/cells/0",
+   "book": null,
+   "cagr_pct": 0.1273,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_vt_phases/VT-PHASES.json",
+   "published": "CONDITIONAL",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "CONDITIONAL",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "CONDITIONAL"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/books/1/cells/3",
+   "book": null,
+   "cagr_pct": 0.0823,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": false,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_vt_phases/VT-PHASES.json",
+   "published": "REFUSE",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "REFUSE",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "REFUSE"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/books/1/cells/2",
+   "book": null,
+   "cagr_pct": 0.072,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_vt_phases/VT-PHASES.json",
+   "published": "CONDITIONAL",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "CONDITIONAL",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "CONDITIONAL"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/books/1/cells/1",
+   "book": null,
+   "cagr_pct": 0.093,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_vt_phases/VT-PHASES.json",
+   "published": "CONDITIONAL",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "CONDITIONAL",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "CONDITIONAL"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/books/1/cells/0",
+   "book": null,
+   "cagr_pct": 0.1141,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_vt_phases/VT-PHASES.json",
+   "published": "CONDITIONAL",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "CONDITIONAL",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "CONDITIONAL"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/books/0/cells/3",
+   "book": null,
+   "cagr_pct": 0.1451,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_vt_phases/VT-PHASES.json",
+   "published": "CONDITIONAL",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "CONDITIONAL",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "CONDITIONAL"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/books/0/cells/2",
+   "book": null,
+   "cagr_pct": 0.136,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": false,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_vt_phases/VT-PHASES.json",
+   "published": "REFUSE",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "REFUSE",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "REFUSE"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/books/0/cells/1",
+   "book": null,
+   "cagr_pct": 0.1545,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": true
+   },
+   "face": "results/etf_book_vt_phases/VT-PHASES.json",
+   "published": "ADMIT",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "ADMIT",
+    "R1_veto": "ADMIT",
+    "R2_advisory": "ADMIT"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/books/0/cells/0",
+   "book": null,
+   "cagr_pct": 0.155,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": true
+   },
+   "face": "results/etf_book_vt_phases/VT-PHASES.json",
+   "published": "ADMIT",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "ADMIT",
+    "R1_veto": "ADMIT",
+    "R2_advisory": "ADMIT"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/rules/4",
+   "book": null,
+   "cagr_pct": 0.1201,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_derisk_rule/DERISK-RULE.json",
+   "published": "CONDITIONAL",
+   "top2_share": 0.8036,
+   "words": {
+    "R0_status_quo": "CONDITIONAL",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "CONDITIONAL"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/rules/3",
+   "book": null,
+   "cagr_pct": 0.1414,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_derisk_rule/DERISK-RULE.json",
+   "published": "CONDITIONAL",
+   "top2_share": 0.7411,
+   "words": {
+    "R0_status_quo": "CONDITIONAL",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "CONDITIONAL"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/rules/2",
+   "book": null,
+   "cagr_pct": 0.1213,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_derisk_rule/DERISK-RULE.json",
+   "published": "CONDITIONAL",
+   "top2_share": 0.7558,
+   "words": {
+    "R0_status_quo": "CONDITIONAL",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "CONDITIONAL"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/rules/1",
+   "book": null,
+   "cagr_pct": 0.1141,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_derisk_rule/DERISK-RULE.json",
+   "published": "CONDITIONAL",
+   "top2_share": 0.7105,
+   "words": {
+    "R0_status_quo": "CONDITIONAL",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "CONDITIONAL"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/rules/0",
+   "book": null,
+   "cagr_pct": 0.1549,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": true
+   },
+   "face": "results/etf_book_derisk_rule/DERISK-RULE.json",
+   "published": "ADMIT",
+   "top2_share": 0.6876,
+   "words": {
+    "R0_status_quo": "ADMIT",
+    "R1_veto": "ADMIT",
+    "R2_advisory": "ADMIT"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/cost_stress",
+   "book": "rebal=10@20bp",
+   "cagr_pct": 9.64,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_concentration_levers.json",
+   "published": "CONDITIONAL",
+   "top2_share": 0.7652,
+   "words": {
+    "R0_status_quo": "CONDITIONAL",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "CONDITIONAL"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/arms/6",
+   "book": "vol_target=0.1",
+   "cagr_pct": 12.77,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_concentration_levers.json",
+   "published": "CONDITIONAL",
+   "top2_share": 0.7258,
+   "words": {
+    "R0_status_quo": "CONDITIONAL",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "CONDITIONAL"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/arms/5",
+   "book": "vol_target=None",
+   "cagr_pct": 15.51,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": true
+   },
+   "face": "results/etf_book_concentration_levers.json",
+   "published": "ADMIT",
+   "top2_share": 0.6898,
+   "words": {
+    "R0_status_quo": "ADMIT",
+    "R1_veto": "ADMIT",
+    "R2_advisory": "ADMIT"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/arms/4",
+   "book": "rebal=40",
+   "cagr_pct": 6.78,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_concentration_levers.json",
+   "published": "CONDITIONAL",
+   "top2_share": 0.7528,
+   "words": {
+    "R0_status_quo": "CONDITIONAL",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "CONDITIONAL"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/arms/3",
+   "book": "rebal=10",
+   "cagr_pct": 12.17,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": true
+   },
+   "face": "results/etf_book_concentration_levers.json",
+   "published": "ADMIT",
+   "top2_share": 0.6846,
+   "words": {
+    "R0_status_quo": "ADMIT",
+    "R1_veto": "ADMIT",
+    "R2_advisory": "ADMIT"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/arms/2",
+   "book": "n_hold=10",
+   "cagr_pct": 10.0,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_concentration_levers.json",
+   "published": "CONDITIONAL",
+   "top2_share": 0.7332,
+   "words": {
+    "R0_status_quo": "CONDITIONAL",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "CONDITIONAL"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/arms/1",
+   "book": "n_hold=8",
+   "cagr_pct": 10.53,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_concentration_levers.json",
+   "published": "CONDITIONAL",
+   "top2_share": 0.7644,
+   "words": {
+    "R0_status_quo": "CONDITIONAL",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "CONDITIONAL"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/arms/0",
+   "book": "n_hold=3",
+   "cagr_pct": 10.67,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_concentration_levers.json",
+   "published": "CONDITIONAL",
+   "top2_share": 0.7292,
+   "words": {
+    "R0_status_quo": "CONDITIONAL",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "CONDITIONAL"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/control",
+   "book": "control",
+   "cagr_pct": 11.46,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_concentration_levers.json",
+   "published": "CONDITIONAL",
+   "top2_share": 0.7108,
+   "words": {
+    "R0_status_quo": "CONDITIONAL",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "CONDITIONAL"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/arms/5",
+   "book": "n12_forward_arm/ladder3",
+   "cagr_pct": 10.19,
+   "checks": {
+    "C1_capacity": true,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_gate_knobs.json",
+   "published": "CONDITIONAL",
+   "top2_share": 0.7253,
+   "words": {
+    "R0_status_quo": "CONDITIONAL",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "ADMIT"
+   },
+   "y4_is_the_only_false_check": true,
+   "y4_unknown": false
+  },
+  {
+   "at": "/arms/4",
+   "book": "n12_forward_arm/gc001_roll",
+   "cagr_pct": 10.15,
+   "checks": {
+    "C1_capacity": true,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_gate_knobs.json",
+   "published": "CONDITIONAL",
+   "top2_share": 0.7273,
+   "words": {
+    "R0_status_quo": "CONDITIONAL",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "ADMIT"
+   },
+   "y4_is_the_only_false_check": true,
+   "y4_unknown": false
+  },
+  {
+   "at": "/arms/3",
+   "book": "n12_forward_arm/cash_zero",
+   "cagr_pct": 9.59,
+   "checks": {
+    "C1_capacity": true,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_gate_knobs.json",
+   "published": "CONDITIONAL",
+   "top2_share": 0.7524,
+   "words": {
+    "R0_status_quo": "CONDITIONAL",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "ADMIT"
+   },
+   "y4_is_the_only_false_check": true,
+   "y4_unknown": false
+  },
+  {
+   "at": "/arms/2",
+   "book": "n5_gate_arm/ladder3",
+   "cagr_pct": 12.18,
+   "checks": {
+    "C1_capacity": true,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": true
+   },
+   "face": "results/etf_book_gate_knobs.json",
+   "published": "ADMIT",
+   "top2_share": 0.6836,
+   "words": {
+    "R0_status_quo": "ADMIT",
+    "R1_veto": "ADMIT",
+    "R2_advisory": "ADMIT"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/arms/1",
+   "book": "n5_gate_arm/gc001_roll",
+   "cagr_pct": 12.13,
+   "checks": {
+    "C1_capacity": true,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": true
+   },
+   "face": "results/etf_book_gate_knobs.json",
+   "published": "ADMIT",
+   "top2_share": 0.6854,
+   "words": {
+    "R0_status_quo": "ADMIT",
+    "R1_veto": "ADMIT",
+    "R2_advisory": "ADMIT"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/arms/0",
+   "book": "n5_gate_arm/cash_zero",
+   "cagr_pct": 11.55,
+   "checks": {
+    "C1_capacity": true,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_gate_knobs.json",
+   "published": "CONDITIONAL",
+   "top2_share": 0.7039,
+   "words": {
+    "R0_status_quo": "CONDITIONAL",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "ADMIT"
+   },
+   "y4_is_the_only_false_check": true,
+   "y4_unknown": false
+  },
+  {
+   "at": "/arms/6",
+   "book": "nobond_vt08_floor_1.00",
+   "cagr_pct": 15.5,
+   "checks": {
+    "C1_capacity": false,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": true
+   },
+   "face": "results/etf_book_scale_floor.json",
+   "published": "CAPACITY_LIMITED",
+   "top2_share": 0.6875,
+   "words": {
+    "R0_status_quo": "CAPACITY_LIMITED",
+    "R1_veto": "CAPACITY_LIMITED",
+    "R2_advisory": "CAPACITY_LIMITED"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/arms/5",
+   "book": "nobond_vt08_floor_0.80",
+   "cagr_pct": 13.69,
+   "checks": {
+    "C1_capacity": false,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": true
+   },
+   "face": "results/etf_book_scale_floor.json",
+   "published": "CAPACITY_LIMITED",
+   "top2_share": 0.6452,
+   "words": {
+    "R0_status_quo": "CAPACITY_LIMITED",
+    "R1_veto": "CAPACITY_LIMITED",
+    "R2_advisory": "CAPACITY_LIMITED"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/arms/4",
+   "book": "nobond_vt08_floor_0.70",
+   "cagr_pct": 13.15,
+   "checks": {
+    "C1_capacity": false,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": true
+   },
+   "face": "results/etf_book_scale_floor.json",
+   "published": "CAPACITY_LIMITED",
+   "top2_share": 0.6291,
+   "words": {
+    "R0_status_quo": "CAPACITY_LIMITED",
+    "R1_veto": "CAPACITY_LIMITED",
+    "R2_advisory": "CAPACITY_LIMITED"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/arms/3",
+   "book": "nobond_vt08_floor_0.60",
+   "cagr_pct": 12.63,
+   "checks": {
+    "C1_capacity": false,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": true
+   },
+   "face": "results/etf_book_scale_floor.json",
+   "published": "CAPACITY_LIMITED",
+   "top2_share": 0.6364,
+   "words": {
+    "R0_status_quo": "CAPACITY_LIMITED",
+    "R1_veto": "CAPACITY_LIMITED",
+    "R2_advisory": "CAPACITY_LIMITED"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/arms/2",
+   "book": "nobond_vt08_floor_0.50",
+   "cagr_pct": 12.03,
+   "checks": {
+    "C1_capacity": false,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": true
+   },
+   "face": "results/etf_book_scale_floor.json",
+   "published": "CAPACITY_LIMITED",
+   "top2_share": 0.6682,
+   "words": {
+    "R0_status_quo": "CAPACITY_LIMITED",
+    "R1_veto": "CAPACITY_LIMITED",
+    "R2_advisory": "CAPACITY_LIMITED"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/arms/1",
+   "book": "nobond_vt08_floor_0.40",
+   "cagr_pct": 11.69,
+   "checks": {
+    "C1_capacity": false,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": true
+   },
+   "face": "results/etf_book_scale_floor.json",
+   "published": "CAPACITY_LIMITED",
+   "top2_share": 0.695,
+   "words": {
+    "R0_status_quo": "CAPACITY_LIMITED",
+    "R1_veto": "CAPACITY_LIMITED",
+    "R2_advisory": "CAPACITY_LIMITED"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/arms/0",
+   "book": "nobond_vt08_floor_0.00",
+   "cagr_pct": 11.41,
+   "checks": {
+    "C1_capacity": false,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_scale_floor.json",
+   "published": "CAPACITY_LIMITED",
+   "top2_share": 0.7104,
+   "words": {
+    "R0_status_quo": "CAPACITY_LIMITED",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "CAPACITY_LIMITED"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/arms/1",
+   "book": "cash_paid",
+   "cagr_pct": 12.13,
+   "checks": {
+    "C1_capacity": true,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": true
+   },
+   "face": "results/etf_book_year_gate_idlecarry.json",
+   "published": "ADMIT",
+   "top2_share": 0.6854,
+   "words": {
+    "R0_status_quo": "ADMIT",
+    "R1_veto": "ADMIT",
+    "R2_advisory": "ADMIT"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/arms/0",
+   "book": "cash_zero_control",
+   "cagr_pct": 11.55,
+   "checks": {
+    "C1_capacity": true,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_year_gate_idlecarry.json",
+   "published": "CONDITIONAL",
+   "top2_share": 0.7039,
+   "words": {
+    "R0_status_quo": "CONDITIONAL",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "ADMIT"
+   },
+   "y4_is_the_only_false_check": true,
+   "y4_unknown": false
+  },
+  {
+   "at": "/rows/25/calibers/P",
+   "book": null,
+   "cagr_pct": null,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": false,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+   "published": "REFUSE",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "REFUSE",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "REFUSE"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/rows/25/calibers/B",
+   "book": null,
+   "cagr_pct": null,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": false,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+   "published": "REFUSE",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "REFUSE",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "REFUSE"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/rows/25/calibers/A",
+   "book": null,
+   "cagr_pct": null,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": false,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+   "published": "REFUSE",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "REFUSE",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "REFUSE"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/rows/24/calibers/P",
+   "book": null,
+   "cagr_pct": null,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": false,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+   "published": "REFUSE",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "REFUSE",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "REFUSE"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/rows/24/calibers/B",
+   "book": null,
+   "cagr_pct": null,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": false,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+   "published": "REFUSE",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "REFUSE",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "REFUSE"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/rows/24/calibers/A",
+   "book": null,
+   "cagr_pct": null,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": false,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+   "published": "REFUSE",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "REFUSE",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "REFUSE"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/rows/23/calibers/P",
+   "book": null,
+   "cagr_pct": null,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+   "published": "CONDITIONAL",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "CONDITIONAL",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "CONDITIONAL"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/rows/23/calibers/B",
+   "book": null,
+   "cagr_pct": null,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+   "published": "CONDITIONAL",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "CONDITIONAL",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "CONDITIONAL"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/rows/23/calibers/A",
+   "book": null,
+   "cagr_pct": null,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+   "published": "CONDITIONAL",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "CONDITIONAL",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "CONDITIONAL"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/rows/22/calibers/P",
+   "book": null,
+   "cagr_pct": null,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+   "published": "CONDITIONAL",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "CONDITIONAL",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "CONDITIONAL"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/rows/22/calibers/B",
+   "book": null,
+   "cagr_pct": null,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+   "published": "CONDITIONAL",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "CONDITIONAL",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "CONDITIONAL"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/rows/22/calibers/A",
+   "book": null,
+   "cagr_pct": null,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+   "published": "CONDITIONAL",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "CONDITIONAL",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "CONDITIONAL"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/rows/21/calibers/P",
+   "book": null,
+   "cagr_pct": null,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+   "published": "CONDITIONAL",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "CONDITIONAL",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "CONDITIONAL"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/rows/21/calibers/B",
+   "book": null,
+   "cagr_pct": null,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+   "published": "CONDITIONAL",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "CONDITIONAL",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "CONDITIONAL"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/rows/21/calibers/A",
+   "book": null,
+   "cagr_pct": null,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+   "published": "CONDITIONAL",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "CONDITIONAL",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "CONDITIONAL"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/rows/20/calibers/P",
+   "book": null,
+   "cagr_pct": null,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": true
+   },
+   "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+   "published": "ADMIT",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "ADMIT",
+    "R1_veto": "ADMIT",
+    "R2_advisory": "ADMIT"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/rows/20/calibers/B",
+   "book": null,
+   "cagr_pct": null,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": true
+   },
+   "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+   "published": "ADMIT",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "ADMIT",
+    "R1_veto": "ADMIT",
+    "R2_advisory": "ADMIT"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/rows/20/calibers/A",
+   "book": null,
+   "cagr_pct": null,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": true
+   },
+   "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+   "published": "ADMIT",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "ADMIT",
+    "R1_veto": "ADMIT",
+    "R2_advisory": "ADMIT"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/rows/19/calibers/P",
+   "book": null,
+   "cagr_pct": null,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+   "published": "CONDITIONAL",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "CONDITIONAL",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "CONDITIONAL"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/rows/19/calibers/B",
+   "book": null,
+   "cagr_pct": null,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+   "published": "CONDITIONAL",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "CONDITIONAL",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "CONDITIONAL"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/rows/19/calibers/A",
+   "book": null,
+   "cagr_pct": null,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+   "published": "CONDITIONAL",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "CONDITIONAL",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "CONDITIONAL"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/rows/18/calibers/P",
+   "book": null,
+   "cagr_pct": null,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+   "published": "CONDITIONAL",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "CONDITIONAL",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "CONDITIONAL"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/rows/18/calibers/B",
+   "book": null,
+   "cagr_pct": null,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+   "published": "CONDITIONAL",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "CONDITIONAL",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "CONDITIONAL"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/rows/18/calibers/A",
+   "book": null,
+   "cagr_pct": null,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+   "published": "CONDITIONAL",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "CONDITIONAL",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "CONDITIONAL"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/rows/17/calibers/P",
+   "book": null,
+   "cagr_pct": null,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+   "published": "CONDITIONAL",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "CONDITIONAL",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "CONDITIONAL"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/rows/17/calibers/B",
+   "book": null,
+   "cagr_pct": null,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+   "published": "CONDITIONAL",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "CONDITIONAL",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "CONDITIONAL"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/rows/17/calibers/A",
+   "book": null,
+   "cagr_pct": null,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+   "published": "CONDITIONAL",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "CONDITIONAL",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "CONDITIONAL"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/rows/16/calibers/P",
+   "book": null,
+   "cagr_pct": null,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+   "published": "CONDITIONAL",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "CONDITIONAL",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "CONDITIONAL"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/rows/16/calibers/B",
+   "book": null,
+   "cagr_pct": null,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+   "published": "CONDITIONAL",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "CONDITIONAL",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "CONDITIONAL"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/rows/16/calibers/A",
+   "book": null,
+   "cagr_pct": null,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": true
+   },
+   "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+   "published": "ADMIT",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "ADMIT",
+    "R1_veto": "ADMIT",
+    "R2_advisory": "ADMIT"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/rows/15/calibers/P",
+   "book": null,
+   "cagr_pct": null,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": true
+   },
+   "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+   "published": "ADMIT",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "ADMIT",
+    "R1_veto": "ADMIT",
+    "R2_advisory": "ADMIT"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/rows/15/calibers/B",
+   "book": null,
+   "cagr_pct": null,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": true
+   },
+   "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+   "published": "ADMIT",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "ADMIT",
+    "R1_veto": "ADMIT",
+    "R2_advisory": "ADMIT"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/rows/15/calibers/A",
+   "book": null,
+   "cagr_pct": null,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": true
+   },
+   "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+   "published": "ADMIT",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "ADMIT",
+    "R1_veto": "ADMIT",
+    "R2_advisory": "ADMIT"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/rows/14/calibers/P",
+   "book": null,
+   "cagr_pct": null,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": true
+   },
+   "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+   "published": "ADMIT",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "ADMIT",
+    "R1_veto": "ADMIT",
+    "R2_advisory": "ADMIT"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/rows/14/calibers/B",
+   "book": null,
+   "cagr_pct": null,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": true
+   },
+   "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+   "published": "ADMIT",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "ADMIT",
+    "R1_veto": "ADMIT",
+    "R2_advisory": "ADMIT"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/rows/14/calibers/A",
+   "book": null,
+   "cagr_pct": null,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": true
+   },
+   "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+   "published": "ADMIT",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "ADMIT",
+    "R1_veto": "ADMIT",
+    "R2_advisory": "ADMIT"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/rows/13/calibers/P",
+   "book": null,
+   "cagr_pct": null,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": false,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+   "published": "REFUSE",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "REFUSE",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "REFUSE"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/rows/13/calibers/B",
+   "book": null,
+   "cagr_pct": null,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": false,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+   "published": "REFUSE",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "REFUSE",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "REFUSE"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/rows/13/calibers/A",
+   "book": null,
+   "cagr_pct": null,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": false,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+   "published": "REFUSE",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "REFUSE",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "REFUSE"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/rows/12/calibers/P",
+   "book": null,
+   "cagr_pct": null,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": false,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+   "published": "REFUSE",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "REFUSE",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "REFUSE"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/rows/12/calibers/B",
+   "book": null,
+   "cagr_pct": null,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": false,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+   "published": "REFUSE",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "REFUSE",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "REFUSE"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/rows/12/calibers/A",
+   "book": null,
+   "cagr_pct": null,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": false,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+   "published": "REFUSE",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "REFUSE",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "REFUSE"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/rows/11/calibers/P",
+   "book": null,
+   "cagr_pct": null,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+   "published": "CONDITIONAL",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "CONDITIONAL",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "CONDITIONAL"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/rows/11/calibers/B",
+   "book": null,
+   "cagr_pct": null,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+   "published": "CONDITIONAL",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "CONDITIONAL",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "CONDITIONAL"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/rows/11/calibers/A",
+   "book": null,
+   "cagr_pct": null,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+   "published": "CONDITIONAL",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "CONDITIONAL",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "CONDITIONAL"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/rows/10/calibers/P",
+   "book": null,
+   "cagr_pct": null,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+   "published": "CONDITIONAL",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "CONDITIONAL",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "CONDITIONAL"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/rows/10/calibers/B",
+   "book": null,
+   "cagr_pct": null,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+   "published": "CONDITIONAL",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "CONDITIONAL",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "CONDITIONAL"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/rows/10/calibers/A",
+   "book": null,
+   "cagr_pct": null,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+   "published": "CONDITIONAL",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "CONDITIONAL",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "CONDITIONAL"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/rows/9/calibers/P",
+   "book": null,
+   "cagr_pct": null,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": true
+   },
+   "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+   "published": "ADMIT",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "ADMIT",
+    "R1_veto": "ADMIT",
+    "R2_advisory": "ADMIT"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/rows/9/calibers/B",
+   "book": null,
+   "cagr_pct": null,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": true
+   },
+   "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+   "published": "ADMIT",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "ADMIT",
+    "R1_veto": "ADMIT",
+    "R2_advisory": "ADMIT"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/rows/9/calibers/A",
+   "book": null,
+   "cagr_pct": null,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": true
+   },
+   "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+   "published": "ADMIT",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "ADMIT",
+    "R1_veto": "ADMIT",
+    "R2_advisory": "ADMIT"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/rows/8/calibers/P",
+   "book": null,
+   "cagr_pct": null,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": true
+   },
+   "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+   "published": "ADMIT",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "ADMIT",
+    "R1_veto": "ADMIT",
+    "R2_advisory": "ADMIT"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/rows/8/calibers/B",
+   "book": null,
+   "cagr_pct": null,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": true
+   },
+   "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+   "published": "ADMIT",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "ADMIT",
+    "R1_veto": "ADMIT",
+    "R2_advisory": "ADMIT"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/rows/8/calibers/A",
+   "book": null,
+   "cagr_pct": null,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": true
+   },
+   "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+   "published": "ADMIT",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "ADMIT",
+    "R1_veto": "ADMIT",
+    "R2_advisory": "ADMIT"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/rows/7/calibers/P",
+   "book": null,
+   "cagr_pct": null,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": true
+   },
+   "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+   "published": "ADMIT",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "ADMIT",
+    "R1_veto": "ADMIT",
+    "R2_advisory": "ADMIT"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/rows/7/calibers/B",
+   "book": null,
+   "cagr_pct": null,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": true
+   },
+   "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+   "published": "ADMIT",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "ADMIT",
+    "R1_veto": "ADMIT",
+    "R2_advisory": "ADMIT"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/rows/7/calibers/A",
+   "book": null,
+   "cagr_pct": null,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+   "published": "CONDITIONAL",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "CONDITIONAL",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "CONDITIONAL"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/rows/6/calibers/P",
+   "book": null,
+   "cagr_pct": null,
+   "checks": {
+    "C1_capacity": true,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": false,
+    "Y4_top2_share": true
+   },
+   "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+   "published": "CONDITIONAL",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "CONDITIONAL",
+    "R1_veto": "CONDITIONAL",
+    "R2_advisory": "CONDITIONAL"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/rows/6/calibers/B",
+   "book": null,
+   "cagr_pct": null,
+   "checks": {
+    "C1_capacity": true,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": true
+   },
+   "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+   "published": "ADMIT",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "ADMIT",
+    "R1_veto": "ADMIT",
+    "R2_advisory": "ADMIT"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/rows/6/calibers/A",
+   "book": null,
+   "cagr_pct": null,
+   "checks": {
+    "C1_capacity": true,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": false,
+    "Y4_top2_share": true
+   },
+   "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+   "published": "CONDITIONAL",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "CONDITIONAL",
+    "R1_veto": "CONDITIONAL",
+    "R2_advisory": "CONDITIONAL"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/rows/5/calibers/P",
+   "book": null,
+   "cagr_pct": null,
+   "checks": {
+    "C1_capacity": true,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+   "published": "CONDITIONAL",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "CONDITIONAL",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "ADMIT"
+   },
+   "y4_is_the_only_false_check": true,
+   "y4_unknown": false
+  },
+  {
+   "at": "/rows/5/calibers/B",
+   "book": null,
+   "cagr_pct": null,
+   "checks": {
+    "C1_capacity": true,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+   "published": "CONDITIONAL",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "CONDITIONAL",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "ADMIT"
+   },
+   "y4_is_the_only_false_check": true,
+   "y4_unknown": false
+  },
+  {
+   "at": "/rows/5/calibers/A",
+   "book": null,
+   "cagr_pct": null,
+   "checks": {
+    "C1_capacity": true,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": true
+   },
+   "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+   "published": "ADMIT",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "ADMIT",
+    "R1_veto": "ADMIT",
+    "R2_advisory": "ADMIT"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/rows/4/calibers/P",
+   "book": null,
+   "cagr_pct": null,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+   "published": "CONDITIONAL",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "CONDITIONAL",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "CONDITIONAL"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/rows/4/calibers/B",
+   "book": null,
+   "cagr_pct": null,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+   "published": "CONDITIONAL",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "CONDITIONAL",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "CONDITIONAL"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/rows/4/calibers/A",
+   "book": null,
+   "cagr_pct": null,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+   "published": "CONDITIONAL",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "CONDITIONAL",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "CONDITIONAL"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/rows/3/calibers/P",
+   "book": null,
+   "cagr_pct": null,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+   "published": "CONDITIONAL",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "CONDITIONAL",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "CONDITIONAL"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/rows/3/calibers/B",
+   "book": null,
+   "cagr_pct": null,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+   "published": "CONDITIONAL",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "CONDITIONAL",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "CONDITIONAL"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/rows/3/calibers/A",
+   "book": null,
+   "cagr_pct": null,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+   "published": "CONDITIONAL",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "CONDITIONAL",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "CONDITIONAL"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/rows/2/calibers/P",
+   "book": null,
+   "cagr_pct": null,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+   "published": "CONDITIONAL",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "CONDITIONAL",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "CONDITIONAL"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/rows/2/calibers/B",
+   "book": null,
+   "cagr_pct": null,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+   "published": "CONDITIONAL",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "CONDITIONAL",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "CONDITIONAL"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/rows/2/calibers/A",
+   "book": null,
+   "cagr_pct": null,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+   "published": "CONDITIONAL",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "CONDITIONAL",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "CONDITIONAL"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/rows/1/calibers/P",
+   "book": null,
+   "cagr_pct": null,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+   "published": "CONDITIONAL",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "CONDITIONAL",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "CONDITIONAL"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/rows/1/calibers/B",
+   "book": null,
+   "cagr_pct": null,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+   "published": "CONDITIONAL",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "CONDITIONAL",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "CONDITIONAL"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/rows/1/calibers/A",
+   "book": null,
+   "cagr_pct": null,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": true
+   },
+   "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+   "published": "ADMIT",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "ADMIT",
+    "R1_veto": "ADMIT",
+    "R2_advisory": "ADMIT"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/rows/0/calibers/P",
+   "book": null,
+   "cagr_pct": null,
+   "checks": {
+    "C1_capacity": false,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+   "published": "CAPACITY_LIMITED",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "CAPACITY_LIMITED",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "CAPACITY_LIMITED"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/rows/0/calibers/B",
+   "book": null,
+   "cagr_pct": null,
+   "checks": {
+    "C1_capacity": false,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+   "published": "CAPACITY_LIMITED",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "CAPACITY_LIMITED",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "CAPACITY_LIMITED"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/rows/0/calibers/A",
+   "book": null,
+   "cagr_pct": null,
+   "checks": {
+    "C1_capacity": false,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+   "published": "CAPACITY_LIMITED",
+   "top2_share": null,
+   "words": {
+    "R0_status_quo": "CAPACITY_LIMITED",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "CAPACITY_LIMITED"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/books/2",
+   "book": "permission_cap_from_decision_date",
+   "cagr_pct": 7.17,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": true
+   },
+   "face": "results/etf_book_cut_gate_pass/CUT-GATE-PASS.json",
+   "published": "ADMIT",
+   "top2_share": 0.6701,
+   "words": {
+    "R0_status_quo": "ADMIT",
+    "R1_veto": "ADMIT",
+    "R2_advisory": "ADMIT"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/books/1",
+   "book": "permission_cap_applied_history",
+   "cagr_pct": 6.83,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": true
+   },
+   "face": "results/etf_book_cut_gate_pass/CUT-GATE-PASS.json",
+   "published": "ADMIT",
+   "top2_share": 0.6552,
+   "words": {
+    "R0_status_quo": "ADMIT",
+    "R1_veto": "ADMIT",
+    "R2_advisory": "ADMIT"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/books/0",
+   "book": "ticket_k_no_cut",
+   "cagr_pct": 7.17,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": true
+   },
+   "face": "results/etf_book_cut_gate_pass/CUT-GATE-PASS.json",
+   "published": "ADMIT",
+   "top2_share": 0.6701,
+   "words": {
+    "R0_status_quo": "ADMIT",
+    "R1_veto": "ADMIT",
+    "R2_advisory": "ADMIT"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/candidates/1",
+   "book": "breadth_book",
+   "cagr_pct": 10.1104,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/admission/CANDIDATES.json",
+   "published": "CONDITIONAL",
+   "top2_share": 0.7934,
+   "words": {
+    "R0_status_quo": "CONDITIONAL",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "CONDITIONAL"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/candidates/0",
+   "book": "smallcap_book",
+   "cagr_pct": 25.3788,
+   "checks": {
+    "C1_capacity": true,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": false,
+    "Y4_top2_share": true
+   },
+   "face": "results/admission/CANDIDATES.json",
+   "published": "CONDITIONAL",
+   "top2_share": 0.6951,
+   "words": {
+    "R0_status_quo": "CONDITIONAL",
+    "R1_veto": "CONDITIONAL",
+    "R2_advisory": "CONDITIONAL"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  }
+ ],
+ "rules": {
+  "R0_status_quo": {
+   "admitted_cagr_by_face": {
+    "results/etf_book_concentration_levers.json": {
+     "max": 15.51,
+     "median": 15.51,
+     "min": 12.17,
+     "n_missing": 0,
+     "n_quoted": 2
+    },
+    "results/etf_book_cut_gate_pass/CUT-GATE-PASS.json": {
+     "max": 7.17,
+     "median": 7.17,
+     "min": 6.83,
+     "n_missing": 0,
+     "n_quoted": 3
+    },
+    "results/etf_book_derisk_rule/DERISK-RULE.json": {
+     "max": 0.1549,
+     "median": 0.1549,
+     "min": 0.1549,
+     "n_missing": 0,
+     "n_quoted": 1
+    },
+    "results/etf_book_gate_knobs.json": {
+     "max": 12.18,
+     "median": 12.18,
+     "min": 12.13,
+     "n_missing": 0,
+     "n_quoted": 2
+    },
+    "results/etf_book_partial_year_caliber/CALIBER.json": {
+     "max": null,
+     "median": null,
+     "min": null,
+     "n_missing": 21,
+     "n_quoted": 0
+    },
+    "results/etf_book_vt_ladder/VT-LADDER.json": {
+     "max": 0.155,
+     "median": 0.1538,
+     "min": 0.1412,
+     "n_missing": 0,
+     "n_quoted": 4
+    },
+    "results/etf_book_vt_phases/VT-PHASES.json": {
+     "max": 0.155,
+     "median": 0.1538,
+     "min": 0.1412,
+     "n_missing": 0,
+     "n_quoted": 7
+    },
+    "results/etf_book_year_gate/WRAPPER-GATE.json": {
+     "max": 7.15,
+     "median": 7.15,
+     "min": 7.15,
+     "n_missing": 0,
+     "n_quoted": 1
+    },
+    "results/etf_book_year_gate/YEAR-GATE.json": {
+     "max": 15.49,
+     "median": 15.49,
+     "min": 15.49,
+     "n_missing": 0,
+     "n_quoted": 1
+    },
+    "results/etf_book_year_gate_idlecarry.json": {
+     "max": 12.13,
+     "median": 12.13,
+     "min": 12.13,
+     "n_missing": 0,
+     "n_quoted": 1
+    }
+   },
+   "changed": [],
+   "n_admit": 43,
+   "n_changed_vs_published": 0,
+   "n_not_admit": 110
+  },
+  "R1_veto": {
+   "admitted_cagr_by_face": {
+    "results/etf_book_concentration_levers.json": {
+     "max": 15.51,
+     "median": 15.51,
+     "min": 12.17,
+     "n_missing": 0,
+     "n_quoted": 2
+    },
+    "results/etf_book_cut_gate_pass/CUT-GATE-PASS.json": {
+     "max": 7.17,
+     "median": 7.17,
+     "min": 6.83,
+     "n_missing": 0,
+     "n_quoted": 3
+    },
+    "results/etf_book_derisk_rule/DERISK-RULE.json": {
+     "max": 0.1549,
+     "median": 0.1549,
+     "min": 0.1549,
+     "n_missing": 0,
+     "n_quoted": 1
+    },
+    "results/etf_book_gate_knobs.json": {
+     "max": 12.18,
+     "median": 12.18,
+     "min": 12.13,
+     "n_missing": 0,
+     "n_quoted": 2
+    },
+    "results/etf_book_partial_year_caliber/CALIBER.json": {
+     "max": null,
+     "median": null,
+     "min": null,
+     "n_missing": 21,
+     "n_quoted": 0
+    },
+    "results/etf_book_vt_ladder/VT-LADDER.json": {
+     "max": 0.155,
+     "median": 0.1538,
+     "min": 0.1412,
+     "n_missing": 0,
+     "n_quoted": 4
+    },
+    "results/etf_book_vt_phases/VT-PHASES.json": {
+     "max": 0.155,
+     "median": 0.1538,
+     "min": 0.1412,
+     "n_missing": 0,
+     "n_quoted": 7
+    },
+    "results/etf_book_year_gate/WRAPPER-GATE.json": {
+     "max": 7.15,
+     "median": 7.15,
+     "min": 7.15,
+     "n_missing": 0,
+     "n_quoted": 1
+    },
+    "results/etf_book_year_gate/YEAR-GATE.json": {
+     "max": 15.49,
+     "median": 15.49,
+     "min": 15.49,
+     "n_missing": 0,
+     "n_quoted": 1
+    },
+    "results/etf_book_year_gate_idlecarry.json": {
+     "max": 12.13,
+     "median": 12.13,
+     "min": 12.13,
+     "n_missing": 0,
+     "n_quoted": 1
+    }
+   },
+   "changed": [
+    {
+     "at": "/books/2",
+     "book": "all_classes_published",
+     "cagr_pct": null,
+     "face": "results/etf_book_year_gate/YEAR-GATE.json",
+     "from": "CONDITIONAL",
+     "to": "REFUSE",
+     "top2_share": 0.7767
+    },
+    {
+     "at": "/books/0",
+     "book": "nobond_vt08_adopted",
+     "cagr_pct": 11.41,
+     "face": "results/etf_book_year_gate/YEAR-GATE.json",
+     "from": "CAPACITY_LIMITED",
+     "to": "REFUSE",
+     "top2_share": 0.7105
+    },
+    {
+     "at": "/books/1",
+     "book": "book_plus_execution_wrapper",
+     "cagr_pct": 11.61,
+     "face": "results/etf_book_year_gate/WRAPPER-GATE.json",
+     "from": "CONDITIONAL",
+     "to": "REFUSE",
+     "top2_share": 0.7588
+    },
+    {
+     "at": "/books/0",
+     "book": "plain_book_n5_r20_vt08",
+     "cagr_pct": 11.63,
+     "face": "results/etf_book_year_gate/WRAPPER-GATE.json",
+     "from": "CONDITIONAL",
+     "to": "REFUSE",
+     "top2_share": 0.7574
+    },
+    {
+     "at": "/rungs/3",
+     "book": "vt12",
+     "cagr_pct": 0.1327,
+     "face": "results/etf_book_vt_ladder/VT-LADDER.json",
+     "from": "CONDITIONAL",
+     "to": "REFUSE",
+     "top2_share": 0.7196
+    },
+    {
+     "at": "/rungs/2",
+     "book": "vt10",
+     "cagr_pct": 0.1273,
+     "face": "results/etf_book_vt_ladder/VT-LADDER.json",
+     "from": "CONDITIONAL",
+     "to": "REFUSE",
+     "top2_share": 0.7247
+    },
+    {
+     "at": "/rungs/1",
+     "book": "vt08",
+     "cagr_pct": 0.1141,
+     "face": "results/etf_book_vt_ladder/VT-LADDER.json",
+     "from": "CONDITIONAL",
+     "to": "REFUSE",
+     "top2_share": 0.7104
+    },
+    {
+     "at": "/books/6/cells/3",
+     "book": null,
+     "cagr_pct": 0.1432,
+     "face": "results/etf_book_vt_phases/VT-PHASES.json",
+     "from": "CONDITIONAL",
+     "to": "REFUSE",
+     "top2_share": null
+    },
+    {
+     "at": "/books/5/cells/3",
+     "book": null,
+     "cagr_pct": 0.1395,
+     "face": "results/etf_book_vt_phases/VT-PHASES.json",
+     "from": "CONDITIONAL",
+     "to": "REFUSE",
+     "top2_share": null
+    },
+    {
+     "at": "/books/4/cells/3",
+     "book": null,
+     "cagr_pct": 0.1219,
+     "face": "results/etf_book_vt_phases/VT-PHASES.json",
+     "from": "CONDITIONAL",
+     "to": "REFUSE",
+     "top2_share": null
+    },
+    {
+     "at": "/books/4/cells/1",
+     "book": null,
+     "cagr_pct": 0.1425,
+     "face": "results/etf_book_vt_phases/VT-PHASES.json",
+     "from": "CONDITIONAL",
+     "to": "REFUSE",
+     "top2_share": null
+    },
+    {
+     "at": "/books/3/cells/1",
+     "book": null,
+     "cagr_pct": 0.1273,
+     "face": "results/etf_book_vt_phases/VT-PHASES.json",
+     "from": "CONDITIONAL",
+     "to": "REFUSE",
+     "top2_share": null
+    },
+    {
+     "at": "/books/3/cells/0",
+     "book": null,
+     "cagr_pct": 0.1327,
+     "face": "results/etf_book_vt_phases/VT-PHASES.json",
+     "from": "CONDITIONAL",
+     "to": "REFUSE",
+     "top2_share": null
+    },
+    {
+     "at": "/books/2/cells/2",
+     "book": null,
+     "cagr_pct": 0.0856,
+     "face": "results/etf_book_vt_phases/VT-PHASES.json",
+     "from": "CONDITIONAL",
+     "to": "REFUSE",
+     "top2_share": null
+    },
+    {
+     "at": "/books/2/cells/1",
+     "book": null,
+     "cagr_pct": 0.1102,
+     "face": "results/etf_book_vt_phases/VT-PHASES.json",
+     "from": "CONDITIONAL",
+     "to": "REFUSE",
+     "top2_share": null
+    },
+    {
+     "at": "/books/2/cells/0",
+     "book": null,
+     "cagr_pct": 0.1273,
+     "face": "results/etf_book_vt_phases/VT-PHASES.json",
+     "from": "CONDITIONAL",
+     "to": "REFUSE",
+     "top2_share": null
+    },
+    {
+     "at": "/books/1/cells/2",
+     "book": null,
+     "cagr_pct": 0.072,
+     "face": "results/etf_book_vt_phases/VT-PHASES.json",
+     "from": "CONDITIONAL",
+     "to": "REFUSE",
+     "top2_share": null
+    },
+    {
+     "at": "/books/1/cells/1",
+     "book": null,
+     "cagr_pct": 0.093,
+     "face": "results/etf_book_vt_phases/VT-PHASES.json",
+     "from": "CONDITIONAL",
+     "to": "REFUSE",
+     "top2_share": null
+    },
+    {
+     "at": "/books/1/cells/0",
+     "book": null,
+     "cagr_pct": 0.1141,
+     "face": "results/etf_book_vt_phases/VT-PHASES.json",
+     "from": "CONDITIONAL",
+     "to": "REFUSE",
+     "top2_share": null
+    },
+    {
+     "at": "/books/0/cells/3",
+     "book": null,
+     "cagr_pct": 0.1451,
+     "face": "results/etf_book_vt_phases/VT-PHASES.json",
+     "from": "CONDITIONAL",
+     "to": "REFUSE",
+     "top2_share": null
+    },
+    {
+     "at": "/rules/4",
+     "book": null,
+     "cagr_pct": 0.1201,
+     "face": "results/etf_book_derisk_rule/DERISK-RULE.json",
+     "from": "CONDITIONAL",
+     "to": "REFUSE",
+     "top2_share": 0.8036
+    },
+    {
+     "at": "/rules/3",
+     "book": null,
+     "cagr_pct": 0.1414,
+     "face": "results/etf_book_derisk_rule/DERISK-RULE.json",
+     "from": "CONDITIONAL",
+     "to": "REFUSE",
+     "top2_share": 0.7411
+    },
+    {
+     "at": "/rules/2",
+     "book": null,
+     "cagr_pct": 0.1213,
+     "face": "results/etf_book_derisk_rule/DERISK-RULE.json",
+     "from": "CONDITIONAL",
+     "to": "REFUSE",
+     "top2_share": 0.7558
+    },
+    {
+     "at": "/rules/1",
+     "book": null,
+     "cagr_pct": 0.1141,
+     "face": "results/etf_book_derisk_rule/DERISK-RULE.json",
+     "from": "CONDITIONAL",
+     "to": "REFUSE",
+     "top2_share": 0.7105
+    },
+    {
+     "at": "/cost_stress",
+     "book": "rebal=10@20bp",
+     "cagr_pct": 9.64,
+     "face": "results/etf_book_concentration_levers.json",
+     "from": "CONDITIONAL",
+     "to": "REFUSE",
+     "top2_share": 0.7652
+    },
+    {
+     "at": "/arms/6",
+     "book": "vol_target=0.1",
+     "cagr_pct": 12.77,
+     "face": "results/etf_book_concentration_levers.json",
+     "from": "CONDITIONAL",
+     "to": "REFUSE",
+     "top2_share": 0.7258
+    },
+    {
+     "at": "/arms/4",
+     "book": "rebal=40",
+     "cagr_pct": 6.78,
+     "face": "results/etf_book_concentration_levers.json",
+     "from": "CONDITIONAL",
+     "to": "REFUSE",
+     "top2_share": 0.7528
+    },
+    {
+     "at": "/arms/2",
+     "book": "n_hold=10",
+     "cagr_pct": 10.0,
+     "face": "results/etf_book_concentration_levers.json",
+     "from": "CONDITIONAL",
+     "to": "REFUSE",
+     "top2_share": 0.7332
+    },
+    {
+     "at": "/arms/1",
+     "book": "n_hold=8",
+     "cagr_pct": 10.53,
+     "face": "results/etf_book_concentration_levers.json",
+     "from": "CONDITIONAL",
+     "to": "REFUSE",
+     "top2_share": 0.7644
+    },
+    {
+     "at": "/arms/0",
+     "book": "n_hold=3",
+     "cagr_pct": 10.67,
+     "face": "results/etf_book_concentration_levers.json",
+     "from": "CONDITIONAL",
+     "to": "REFUSE",
+     "top2_share": 0.7292
+    },
+    {
+     "at": "/control",
+     "book": "control",
+     "cagr_pct": 11.46,
+     "face": "results/etf_book_concentration_levers.json",
+     "from": "CONDITIONAL",
+     "to": "REFUSE",
+     "top2_share": 0.7108
+    },
+    {
+     "at": "/arms/5",
+     "book": "n12_forward_arm/ladder3",
+     "cagr_pct": 10.19,
+     "face": "results/etf_book_gate_knobs.json",
+     "from": "CONDITIONAL",
+     "to": "REFUSE",
+     "top2_share": 0.7253
+    },
+    {
+     "at": "/arms/4",
+     "book": "n12_forward_arm/gc001_roll",
+     "cagr_pct": 10.15,
+     "face": "results/etf_book_gate_knobs.json",
+     "from": "CONDITIONAL",
+     "to": "REFUSE",
+     "top2_share": 0.7273
+    },
+    {
+     "at": "/arms/3",
+     "book": "n12_forward_arm/cash_zero",
+     "cagr_pct": 9.59,
+     "face": "results/etf_book_gate_knobs.json",
+     "from": "CONDITIONAL",
+     "to": "REFUSE",
+     "top2_share": 0.7524
+    },
+    {
+     "at": "/arms/0",
+     "book": "n5_gate_arm/cash_zero",
+     "cagr_pct": 11.55,
+     "face": "results/etf_book_gate_knobs.json",
+     "from": "CONDITIONAL",
+     "to": "REFUSE",
+     "top2_share": 0.7039
+    },
+    {
+     "at": "/arms/0",
+     "book": "nobond_vt08_floor_0.00",
+     "cagr_pct": 11.41,
+     "face": "results/etf_book_scale_floor.json",
+     "from": "CAPACITY_LIMITED",
+     "to": "REFUSE",
+     "top2_share": 0.7104
+    },
+    {
+     "at": "/arms/0",
+     "book": "cash_zero_control",
+     "cagr_pct": 11.55,
+     "face": "results/etf_book_year_gate_idlecarry.json",
+     "from": "CONDITIONAL",
+     "to": "REFUSE",
+     "top2_share": 0.7039
+    },
+    {
+     "at": "/rows/23/calibers/P",
+     "book": null,
+     "cagr_pct": null,
+     "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+     "from": "CONDITIONAL",
+     "to": "REFUSE",
+     "top2_share": null
+    },
+    {
+     "at": "/rows/23/calibers/B",
+     "book": null,
+     "cagr_pct": null,
+     "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+     "from": "CONDITIONAL",
+     "to": "REFUSE",
+     "top2_share": null
+    },
+    {
+     "at": "/rows/23/calibers/A",
+     "book": null,
+     "cagr_pct": null,
+     "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+     "from": "CONDITIONAL",
+     "to": "REFUSE",
+     "top2_share": null
+    },
+    {
+     "at": "/rows/22/calibers/P",
+     "book": null,
+     "cagr_pct": null,
+     "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+     "from": "CONDITIONAL",
+     "to": "REFUSE",
+     "top2_share": null
+    },
+    {
+     "at": "/rows/22/calibers/B",
+     "book": null,
+     "cagr_pct": null,
+     "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+     "from": "CONDITIONAL",
+     "to": "REFUSE",
+     "top2_share": null
+    },
+    {
+     "at": "/rows/22/calibers/A",
+     "book": null,
+     "cagr_pct": null,
+     "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+     "from": "CONDITIONAL",
+     "to": "REFUSE",
+     "top2_share": null
+    },
+    {
+     "at": "/rows/21/calibers/P",
+     "book": null,
+     "cagr_pct": null,
+     "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+     "from": "CONDITIONAL",
+     "to": "REFUSE",
+     "top2_share": null
+    },
+    {
+     "at": "/rows/21/calibers/B",
+     "book": null,
+     "cagr_pct": null,
+     "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+     "from": "CONDITIONAL",
+     "to": "REFUSE",
+     "top2_share": null
+    },
+    {
+     "at": "/rows/21/calibers/A",
+     "book": null,
+     "cagr_pct": null,
+     "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+     "from": "CONDITIONAL",
+     "to": "REFUSE",
+     "top2_share": null
+    },
+    {
+     "at": "/rows/19/calibers/P",
+     "book": null,
+     "cagr_pct": null,
+     "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+     "from": "CONDITIONAL",
+     "to": "REFUSE",
+     "top2_share": null
+    },
+    {
+     "at": "/rows/19/calibers/B",
+     "book": null,
+     "cagr_pct": null,
+     "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+     "from": "CONDITIONAL",
+     "to": "REFUSE",
+     "top2_share": null
+    },
+    {
+     "at": "/rows/19/calibers/A",
+     "book": null,
+     "cagr_pct": null,
+     "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+     "from": "CONDITIONAL",
+     "to": "REFUSE",
+     "top2_share": null
+    },
+    {
+     "at": "/rows/18/calibers/P",
+     "book": null,
+     "cagr_pct": null,
+     "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+     "from": "CONDITIONAL",
+     "to": "REFUSE",
+     "top2_share": null
+    },
+    {
+     "at": "/rows/18/calibers/B",
+     "book": null,
+     "cagr_pct": null,
+     "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+     "from": "CONDITIONAL",
+     "to": "REFUSE",
+     "top2_share": null
+    },
+    {
+     "at": "/rows/18/calibers/A",
+     "book": null,
+     "cagr_pct": null,
+     "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+     "from": "CONDITIONAL",
+     "to": "REFUSE",
+     "top2_share": null
+    },
+    {
+     "at": "/rows/17/calibers/P",
+     "book": null,
+     "cagr_pct": null,
+     "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+     "from": "CONDITIONAL",
+     "to": "REFUSE",
+     "top2_share": null
+    },
+    {
+     "at": "/rows/17/calibers/B",
+     "book": null,
+     "cagr_pct": null,
+     "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+     "from": "CONDITIONAL",
+     "to": "REFUSE",
+     "top2_share": null
+    },
+    {
+     "at": "/rows/17/calibers/A",
+     "book": null,
+     "cagr_pct": null,
+     "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+     "from": "CONDITIONAL",
+     "to": "REFUSE",
+     "top2_share": null
+    },
+    {
+     "at": "/rows/16/calibers/P",
+     "book": null,
+     "cagr_pct": null,
+     "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+     "from": "CONDITIONAL",
+     "to": "REFUSE",
+     "top2_share": null
+    },
+    {
+     "at": "/rows/16/calibers/B",
+     "book": null,
+     "cagr_pct": null,
+     "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+     "from": "CONDITIONAL",
+     "to": "REFUSE",
+     "top2_share": null
+    },
+    {
+     "at": "/rows/11/calibers/P",
+     "book": null,
+     "cagr_pct": null,
+     "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+     "from": "CONDITIONAL",
+     "to": "REFUSE",
+     "top2_share": null
+    },
+    {
+     "at": "/rows/11/calibers/B",
+     "book": null,
+     "cagr_pct": null,
+     "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+     "from": "CONDITIONAL",
+     "to": "REFUSE",
+     "top2_share": null
+    },
+    {
+     "at": "/rows/11/calibers/A",
+     "book": null,
+     "cagr_pct": null,
+     "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+     "from": "CONDITIONAL",
+     "to": "REFUSE",
+     "top2_share": null
+    },
+    {
+     "at": "/rows/10/calibers/P",
+     "book": null,
+     "cagr_pct": null,
+     "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+     "from": "CONDITIONAL",
+     "to": "REFUSE",
+     "top2_share": null
+    },
+    {
+     "at": "/rows/10/calibers/B",
+     "book": null,
+     "cagr_pct": null,
+     "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+     "from": "CONDITIONAL",
+     "to": "REFUSE",
+     "top2_share": null
+    },
+    {
+     "at": "/rows/10/calibers/A",
+     "book": null,
+     "cagr_pct": null,
+     "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+     "from": "CONDITIONAL",
+     "to": "REFUSE",
+     "top2_share": null
+    },
+    {
+     "at": "/rows/7/calibers/A",
+     "book": null,
+     "cagr_pct": null,
+     "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+     "from": "CONDITIONAL",
+     "to": "REFUSE",
+     "top2_share": null
+    },
+    {
+     "at": "/rows/5/calibers/P",
+     "book": null,
+     "cagr_pct": null,
+     "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+     "from": "CONDITIONAL",
+     "to": "REFUSE",
+     "top2_share": null
+    },
+    {
+     "at": "/rows/5/calibers/B",
+     "book": null,
+     "cagr_pct": null,
+     "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+     "from": "CONDITIONAL",
+     "to": "REFUSE",
+     "top2_share": null
+    },
+    {
+     "at": "/rows/4/calibers/P",
+     "book": null,
+     "cagr_pct": null,
+     "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+     "from": "CONDITIONAL",
+     "to": "REFUSE",
+     "top2_share": null
+    },
+    {
+     "at": "/rows/4/calibers/B",
+     "book": null,
+     "cagr_pct": null,
+     "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+     "from": "CONDITIONAL",
+     "to": "REFUSE",
+     "top2_share": null
+    },
+    {
+     "at": "/rows/4/calibers/A",
+     "book": null,
+     "cagr_pct": null,
+     "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+     "from": "CONDITIONAL",
+     "to": "REFUSE",
+     "top2_share": null
+    },
+    {
+     "at": "/rows/3/calibers/P",
+     "book": null,
+     "cagr_pct": null,
+     "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+     "from": "CONDITIONAL",
+     "to": "REFUSE",
+     "top2_share": null
+    },
+    {
+     "at": "/rows/3/calibers/B",
+     "book": null,
+     "cagr_pct": null,
+     "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+     "from": "CONDITIONAL",
+     "to": "REFUSE",
+     "top2_share": null
+    },
+    {
+     "at": "/rows/3/calibers/A",
+     "book": null,
+     "cagr_pct": null,
+     "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+     "from": "CONDITIONAL",
+     "to": "REFUSE",
+     "top2_share": null
+    },
+    {
+     "at": "/rows/2/calibers/P",
+     "book": null,
+     "cagr_pct": null,
+     "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+     "from": "CONDITIONAL",
+     "to": "REFUSE",
+     "top2_share": null
+    },
+    {
+     "at": "/rows/2/calibers/B",
+     "book": null,
+     "cagr_pct": null,
+     "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+     "from": "CONDITIONAL",
+     "to": "REFUSE",
+     "top2_share": null
+    },
+    {
+     "at": "/rows/2/calibers/A",
+     "book": null,
+     "cagr_pct": null,
+     "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+     "from": "CONDITIONAL",
+     "to": "REFUSE",
+     "top2_share": null
+    },
+    {
+     "at": "/rows/1/calibers/P",
+     "book": null,
+     "cagr_pct": null,
+     "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+     "from": "CONDITIONAL",
+     "to": "REFUSE",
+     "top2_share": null
+    },
+    {
+     "at": "/rows/1/calibers/B",
+     "book": null,
+     "cagr_pct": null,
+     "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+     "from": "CONDITIONAL",
+     "to": "REFUSE",
+     "top2_share": null
+    },
+    {
+     "at": "/rows/0/calibers/P",
+     "book": null,
+     "cagr_pct": null,
+     "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+     "from": "CAPACITY_LIMITED",
+     "to": "REFUSE",
+     "top2_share": null
+    },
+    {
+     "at": "/rows/0/calibers/B",
+     "book": null,
+     "cagr_pct": null,
+     "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+     "from": "CAPACITY_LIMITED",
+     "to": "REFUSE",
+     "top2_share": null
+    },
+    {
+     "at": "/rows/0/calibers/A",
+     "book": null,
+     "cagr_pct": null,
+     "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+     "from": "CAPACITY_LIMITED",
+     "to": "REFUSE",
+     "top2_share": null
+    },
+    {
+     "at": "/candidates/1",
+     "book": "breadth_book",
+     "cagr_pct": 10.1104,
+     "face": "results/admission/CANDIDATES.json",
+     "from": "CONDITIONAL",
+     "to": "REFUSE",
+     "top2_share": 0.7934
+    }
+   ],
+   "n_admit": 43,
+   "n_changed_vs_published": 81,
+   "n_not_admit": 110
+  },
+  "R2_advisory": {
+   "admitted_cagr_by_face": {
+    "results/etf_book_concentration_levers.json": {
+     "max": 15.51,
+     "median": 15.51,
+     "min": 12.17,
+     "n_missing": 0,
+     "n_quoted": 2
+    },
+    "results/etf_book_cut_gate_pass/CUT-GATE-PASS.json": {
+     "max": 7.17,
+     "median": 7.17,
+     "min": 6.83,
+     "n_missing": 0,
+     "n_quoted": 3
+    },
+    "results/etf_book_derisk_rule/DERISK-RULE.json": {
+     "max": 0.1549,
+     "median": 0.1549,
+     "min": 0.1549,
+     "n_missing": 0,
+     "n_quoted": 1
+    },
+    "results/etf_book_gate_knobs.json": {
+     "max": 12.18,
+     "median": 11.55,
+     "min": 9.59,
+     "n_missing": 0,
+     "n_quoted": 6
+    },
+    "results/etf_book_partial_year_caliber/CALIBER.json": {
+     "max": null,
+     "median": null,
+     "min": null,
+     "n_missing": 23,
+     "n_quoted": 0
+    },
+    "results/etf_book_vt_ladder/VT-LADDER.json": {
+     "max": 0.155,
+     "median": 0.1538,
+     "min": 0.1412,
+     "n_missing": 0,
+     "n_quoted": 4
+    },
+    "results/etf_book_vt_phases/VT-PHASES.json": {
+     "max": 0.155,
+     "median": 0.1538,
+     "min": 0.1412,
+     "n_missing": 0,
+     "n_quoted": 7
+    },
+    "results/etf_book_year_gate/WRAPPER-GATE.json": {
+     "max": 7.15,
+     "median": 7.15,
+     "min": 7.15,
+     "n_missing": 0,
+     "n_quoted": 1
+    },
+    "results/etf_book_year_gate/YEAR-GATE.json": {
+     "max": 15.49,
+     "median": 15.49,
+     "min": 15.49,
+     "n_missing": 0,
+     "n_quoted": 1
+    },
+    "results/etf_book_year_gate_idlecarry.json": {
+     "max": 12.13,
+     "median": 12.13,
+     "min": 11.55,
+     "n_missing": 0,
+     "n_quoted": 2
+    }
+   },
+   "changed": [
+    {
+     "at": "/arms/5",
+     "book": "n12_forward_arm/ladder3",
+     "cagr_pct": 10.19,
+     "face": "results/etf_book_gate_knobs.json",
+     "from": "CONDITIONAL",
+     "to": "ADMIT",
+     "top2_share": 0.7253
+    },
+    {
+     "at": "/arms/4",
+     "book": "n12_forward_arm/gc001_roll",
+     "cagr_pct": 10.15,
+     "face": "results/etf_book_gate_knobs.json",
+     "from": "CONDITIONAL",
+     "to": "ADMIT",
+     "top2_share": 0.7273
+    },
+    {
+     "at": "/arms/3",
+     "book": "n12_forward_arm/cash_zero",
+     "cagr_pct": 9.59,
+     "face": "results/etf_book_gate_knobs.json",
+     "from": "CONDITIONAL",
+     "to": "ADMIT",
+     "top2_share": 0.7524
+    },
+    {
+     "at": "/arms/0",
+     "book": "n5_gate_arm/cash_zero",
+     "cagr_pct": 11.55,
+     "face": "results/etf_book_gate_knobs.json",
+     "from": "CONDITIONAL",
+     "to": "ADMIT",
+     "top2_share": 0.7039
+    },
+    {
+     "at": "/arms/0",
+     "book": "cash_zero_control",
+     "cagr_pct": 11.55,
+     "face": "results/etf_book_year_gate_idlecarry.json",
+     "from": "CONDITIONAL",
+     "to": "ADMIT",
+     "top2_share": 0.7039
+    },
+    {
+     "at": "/rows/5/calibers/P",
+     "book": null,
+     "cagr_pct": null,
+     "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+     "from": "CONDITIONAL",
+     "to": "ADMIT",
+     "top2_share": null
+    },
+    {
+     "at": "/rows/5/calibers/B",
+     "book": null,
+     "cagr_pct": null,
+     "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+     "from": "CONDITIONAL",
+     "to": "ADMIT",
+     "top2_share": null
+    }
+   ],
+   "n_admit": 50,
+   "n_changed_vs_published": 7,
+   "n_not_admit": 103
+  }
+ },
+ "rules_note": {
+  "R0_status_quo": "the word the producing face printed",
+  "R1_veto": "Y4 False -> REFUSE, whatever the other checks say",
+  "R2_advisory": "Y4 printed and not counted; only non-Y4 checks can fail a book"
+ },
+ "sources": [
+  "results/etf_book_year_gate/YEAR-GATE.json",
+  "results/etf_book_year_gate/WRAPPER-GATE.json",
+  "results/etf_book_vt_ladder/VT-LADDER.json",
+  "results/etf_book_vt_phases/VT-PHASES.json",
+  "results/etf_book_phase_gate.json",
+  "results/etf_book_gate_forward/GATE-FORWARD.json",
+  "results/etf_book_derisk_rule/DERISK-RULE.json",
+  "results/etf_book_sleeve_cap_phases.json",
+  "results/etf_book_vol_target_gate.json",
+  "results/etf_book_concentration_levers.json",
+  "results/etf_book_gate_knobs.json",
+  "results/etf_book_scale_floor.json",
+  "results/etf_book_gate_causal.json",
+  "results/etf_book_admission_eta.json",
+  "results/etf_book_year_gate_idlecarry.json",
+  "results/etf_book_partial_year_caliber/CALIBER.json",
+  "results/etf_book_cut_gate_pass/CUT-GATE-PASS.json",
+  "results/etf_book_supply_gate_decision/DECISION.json",
+  "results/supply_candidates.json",
+  "results/admission/CANDIDATES.json"
+ ]
+}

@@ -6269,6 +6269,16 @@ def main() -> int:
              "scripts/etf_book_window_split.py", ["--selftest"]),
             ("product: etf_book_window_split (cells and verdict still re-derive)",
              "scripts/etf_book_window_split.py", ["--check"]),
+            # r1837_next (b) turned into a priced page instead of a prose question: the
+            # concentration check downgrades a book instead of refusing it, and this face
+            # asks what each of three voting rules would admit across every published
+            # book-reading. Nothing is re-run, so a difference is a difference in the rule.
+            # The selftest pins the three rules, the null-check rule (unknown is not a
+            # pass), the two denominators, and the ban on pooling cagr across faces.
+            ("product: etf_book_year_gate_vote (how much does the concentration check weigh)",
+             "scripts/etf_book_year_gate_vote.py", ["selftest"]),
+            ("product: etf_book_year_gate_vote (census still re-derives from the faces)",
+             "scripts/etf_book_year_gate_vote.py", ["--check"]),
             # r1773 turns r1772's "stretched" label into a decision: if the sheet refuses a
             # leg paying 6.75% over its basket, what does it buy instead? Two cuts decide it
             # (asset class AND underlying market -- 标普A股红利ETF is not a US S&P leg, the
