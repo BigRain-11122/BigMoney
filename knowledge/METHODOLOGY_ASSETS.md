@@ -17074,3 +17074,11 @@ How to apply：任何「某条规则该不该更硬」的问题，先问**加硬
 - **Rule**: when a producer already prices a question in more than one cell, the reader face must carry every cell that changes the reading, in one sentence, with the producer's own generated/cutoff. "Positive here" and "negative there" belong to the same paragraph, not to two different files.
 - **Rule**: a page that prints the track record but not its birth date invites extrapolation. Name the cells in the sentence so the reader cannot quote one.
 - **Evidence**: results/etf_book_pre2020.json cells A/B/C -> -5.81..-8.86pp/yr (2015-2019, U_pre), +1.70..+4.74 (2020+, U_pre), +3.00..+5.88 (2020+, U_all); now printed at docs/live_usage/LIVE-2026-11-19.md L128-130; 3 selftest legs pin the render (present / absent-prints-reason / non-negative-not-called-negative).
+
+## Card r1847 -- 一个目录没人写，不等于它「冻结」，等于它的每个读者都在用一个看不见的日期
+
+- **Trigger**: `data/futures_contracts` 最后写入 2026-11-16 22:30，`git ls-files` 计数 0，全仓无脚本写它。上两轮（r1843/r1845）都把它当成「冻结快照」来报告，只能做到「如实说分不出来」。
+- **Rule**: 判「这份面板是不是新鲜」之前，先判「有没有人在写它」，且这个判断要落在三个可执行证据上：目录 mtime、`git ls-files` 计数、全仓 `rg <dirname>` 命中。三者同为 0 = 没有生产者，此时「数据落后」是**结构缺口**不是延迟，修法是给它一个写入腿，不是催它的宿主。
+- **Rule**: 补盘与判读必须同轮完成。补盘只证明「能补」，判据（这根 bar 是丢行还是抄错源）要等 overlap 校验零失配之后才立得住——重叠处的逐位一致把「两套口径」这个解释排除掉，剩下的只能是缺行。
+- **Evidence**: 8 个在交易合约 11-16→11-19 追加 23 行、0 失配；`futures_book_marks` 判词 `BOOK_MARKS_UNSUPPORTED (2 bars / CNY 84,480)` → `BOOK_MARKS_SUPPORTED (0 / 0)`；源端 IC2612 2026-11-17 收盘 6194.800 与账本 6194.8 逐位相同（那两天它就是当月合约，与主力连续同价是正常态）。
+- **Corollary**: 一个「无生产者的目录」被两个不同的面同时读（roll book 挑合约、paper book 核价），缺口会以两种完全不同的形状出现（一个是定价日期错，一个是 bar 找不到报价）。修一次目录，两个症状一起消失——这就是为什么该修目录而不是修读者。

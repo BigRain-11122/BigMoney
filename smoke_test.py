@@ -1188,6 +1188,24 @@ def main() -> int:
               _r.returncode == 0, f"exit={_r.returncode} | {_tail[:110]}")
     except Exception as e:
         check("product: index-futures roll-gap states re-derived", False, str(e))
+    # r1847: data/futures_contracts had no writer anywhere in this repo (r1843), so the roll
+    # book priced 11-18 off an 11-16 panel and two book bars looked unsupported (r1845).
+    # The first leg pins the producer's merge and guards; the second re-derives the published
+    # refresh from the panel on disk (no network).
+    try:
+        _r = _leg_memo([sys.executable, "scripts/update_futures_contracts.py", "--selftest"], 120)
+        _tail = ((_r.stdout or _r.stderr).strip().splitlines() or ["no output"])[-1]
+        check("product: futures contract panel has a producer (selftest 8 legs)",
+              _r.returncode == 0, f"exit={_r.returncode} | {_tail[:90]}")
+    except Exception as e:
+        check("product: futures contract panel has a producer (selftest 8 legs)", False, str(e))
+    try:
+        _r = _leg_memo([sys.executable, "scripts/update_futures_contracts.py", "--check"], 180)
+        _tail = ((_r.stdout or _r.stderr).strip().splitlines() or ["no output"])[-1]
+        check("product: futures contract refresh re-derived from the panel",
+              _r.returncode == 0, f"exit={_r.returncode} | {_tail[:110]}")
+    except Exception as e:
+        check("product: futures contract refresh re-derived from the panel", False, str(e))
     # r1698: the roll cost is the last input on the index-futures carry lines that was a
     # document rather than a tape, and the face that replaced it concluded it CANNOT settle
     # the question (the range-implied spread saturates at ~20x the tick). That is the shape
@@ -6285,6 +6303,11 @@ def main() -> int:
             # names. This face prints rows / distinct things / faces, and the selftest pins
             # the three traps: identical numbers across faces, an unmeasured row never
             # grouping with another blank, and a half-number never colliding with a full one.
+            # r1842 descends the same question to the arm-name layer: three rows carrying
+            # the prefix n12_forward_arm are one mechanism at three settings (not a sweep of
+            # a face), two arm names that print the same numbers merge only on those numbers
+            # and print the token span their names share, and a row whose face never printed
+            # a name is never folded into a named mechanism. Both legs below run that layer.
             ("product: etf_book_promotion_provenance (rows are not things)",
              "scripts/etf_book_promotion_provenance.py", ["selftest"]),
             ("product: etf_book_promotion_provenance (census re-derives from the vote)",

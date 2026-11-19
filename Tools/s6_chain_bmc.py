@@ -300,6 +300,12 @@ LEGS = [
     # itself -- is every published bar still on the contract panel, and if not, is the
     # number the other panel's close or a number no panel produces. Reads the ledger and
     # both panels; writes only its own two files. ~1s, no network, no judge.
+    # r1847: the contract panel that question reads had no producer in the repo at all, so
+    # it froze at 11-16 while the book priced 11-18. This leg is that producer: the eight
+    # still-trading contracts refreshed from the same sina daily endpoint the continuous
+    # panel uses, append-only with row overlap validation, ~25s, 2.5s per request. It must
+    # run BEFORE futures_book_marks, or the reader audits yesterday's panel.
+    ("update_futures_contracts", ["python", "scripts/update_futures_contracts.py", "run"]),
     ("futures_book_marks", ["python", "scripts/futures_book_marks.py", "run"]),
     # r1778: the paper re-read the ticket under the book's 8% vol target and printed the
     # fraction the eye skips -- one IC lot hedged to the discount is 9.00% of a 1,000,000
