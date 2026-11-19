@@ -24,14 +24,14 @@ Row 1 is the engine as coded (score off bar d's close, paid bar d's *open*); row
 
 **Panel digest:** `7d93f5cd045aab6d` (5284 bars x 1635 symbols, 2005-02-23->2026-11-19, covers close/open/amount) -- the executable sheet and the forward ledger print the same fingerprint only when all three priced one panel, on the same blocks.
 
-**Priced day: SAME_DAY** -- card 2026-11-19 / ticket 2026-11-19 / page 2026-11-19 (compared at 2026-11-19 20:38:49); this card, the executable sheet and the CEO page all priced the same closing bar.
+**Priced day: SAME_DAY** -- card 2026-11-19 / ticket 2026-11-19 / page 2026-11-19 (compared at 2026-11-20 00:54:42); this card, the executable sheet and the CEO page all priced the same closing bar.
 
 **Family coherence: MIXED_WORLDS** -- 11 faces priced 2 different panels (0d5a9cdc, 7d93f5cd): per-cell deltas across worlds are world differences, not rule effects.
 5 of 10 arms priced the card's own panel and keep their labels (buffer_k02, buffer_k05, buffer_k10, buffer_k20, buffer_k40); the 5 withheld one(s) still price another panel (buffer_k05_cost20, cost0, cost05, cost20, cost40), so their verdicts are not part of this reading.
 
 **Label null: 96.5% REJECT** -- the same rule called an effect-free panel REJECT in that share of 20000 trials, so a published REJECT carries almost no information; the rare branch (NOT-SEPARABLE 3.5%, ADOPT 0.0%) is the one that reads.
 
-**Width floor: an extrapolation that holds its test point** (priced at the unseen k=0.30 the line predicted +0.316pp and the arm's own cells said +0.407pp -- gap 0.092pp against a 0.139pp tolerance) -- the name count is still continued past the last measured arm, but the point it never saw sits on the line.
+**Width floor: an extrapolation that holds its test point** (priced at the unseen k=0.30 the line predicted +0.327pp and the arm's own cells said +0.407pp -- gap 0.080pp against a 0.976pp tolerance) -- the name count is still continued past the last measured arm, but the point it never saw sits on the line.
 
 **Today (2026-11-19 bar): HOLD: 14 bars until the next decision point** (last grid decision 2026-11-11).
 

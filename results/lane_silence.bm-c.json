@@ -1,5 +1,5 @@
 {
- "evidence_cutoff": "2026-11-19",
+ "evidence_cutoff": "2026-11-20",
  "gaps_explained_by_quiet_window": [],
  "gaps_over_threshold": [
   {
@@ -64,10 +64,28 @@
    "to": "2026-11-19T13:57",
    "unexplained_high_min": 122.0,
    "unexplained_low_min": 122.0
+  },
+  {
+   "from": "2026-11-19T17:05",
+   "gap_high_min": 140.0,
+   "gap_low_min": 140.0,
+   "quiet_window_min": 0.0,
+   "to": "2026-11-19T19:25",
+   "unexplained_high_min": 140.0,
+   "unexplained_low_min": 140.0
+  },
+  {
+   "from": "2026-11-19T22:00",
+   "gap_high_min": 130.0,
+   "gap_low_min": 121.0,
+   "quiet_window_min": 0.0,
+   "to": "2026-11-20T00:10",
+   "unexplained_high_min": 130.0,
+   "unexplained_low_min": 121.0
   }
  ],
- "gaps_over_threshold_count": 7,
- "generated": "2026-11-19T17:20:25",
+ "gaps_over_threshold_count": 9,
+ "generated": "2026-11-20T00:53:00",
  "lane_tasks": {
   "absent": [],
   "disabled": [],
@@ -81,7 +99,7 @@
   "states": {
    "Bigmoney-IterationLoop": "Running",
    "Bigmoney-LoopWatchdog": "Ready",
-   "Bigmoney-SatEngine-bm-b": "Ready"
+   "Bigmoney-SatEngine-bm-b": "Running"
   },
   "threshold_min": 90,
   "verdict": "LANE_ENABLED",
@@ -97,22 +115,22 @@
   "unexplained_low_min": 1451.0
  },
  "machine": "bm-c",
- "median_gap_min": 33.0,
+ "median_gap_min": 43.0,
  "open_gap": {
-  "gap_high_min": 95.4,
-  "gap_low_min": 95.4,
+  "gap_high_min": 43.0,
+  "gap_low_min": 43.0,
   "quiet_window_min": 0.0,
-  "since": "2026-11-19T15:45",
-  "unexplained_high_min": 95.4,
-  "unexplained_low_min": 95.4
+  "since": "2026-11-20T00:10",
+  "unexplained_high_min": 43.0,
+  "unexplained_low_min": 43.0
  },
  "parse_precision_note": "stamps recorded with an 'x' digit are read as a 9-minute interval; a gap is only called when its pessimistic end clears the threshold",
  "quiet_windows": [],
- "rounds_in_ledger": 1279,
- "rounds_in_window": 43,
- "silence_verdict": "OPEN_SILENCE",
+ "rounds_in_ledger": 1285,
+ "rounds_in_window": 48,
+ "silence_verdict": "SILENT_GAP",
  "source": "round_reports-bm-c.md",
  "threshold_min": 90,
- "verdict": "OPEN_SILENCE",
+ "verdict": "SILENT_GAP",
  "window_days": 3
 }

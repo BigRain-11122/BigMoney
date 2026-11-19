@@ -1,29 +1,29 @@
 {
- "as_of": "2026-11-19T17:20:18",
+ "as_of": "2026-11-20T00:49:47",
  "machine": "bm-c",
  "verdict": "certified",
  "thin_tail_share": 0.1,
  "counts": {
   "lanes": 5,
-  "lanes_reused": 4,
+  "lanes_reused": 2,
   "files_scanned": 10656,
   "sample_disagreed": 0,
-  "lanes_with_laggards": 5,
-  "thin_tails": 1
+  "lanes_with_laggards": 4,
+  "thin_tails": 0
  },
  "lanes": [
   {
    "lane": "futures",
    "machine": "bm-c",
    "dir": "data/futures_daily",
-   "scanned_at": "2026-11-19T11:09:11",
+   "scanned_at": "2026-11-20T00:49:47",
    "panel_fingerprint": {
     "files": 10,
-    "max_mtime": 1795056762.793,
-    "bytes": 1369399
+    "max_mtime": 1795095011.087,
+    "bytes": 1348847
    },
-   "full_tail": "2026-11-18",
-   "sample_tail": "2026-11-18",
+   "full_tail": "2026-11-19",
+   "sample_tail": "2026-11-19",
    "agree": true,
    "direction": "agree",
    "files": 10,
@@ -31,16 +31,13 @@
    "files_read_by_sample": 10,
    "sample_disclosed": false,
    "unread": 0,
-   "n_laggards": 2,
-   "tail_holders": 8,
-   "tail_holder_share": 0.8,
-   "laggards": [
-    "IC.csv",
-    "TF.csv"
-   ],
+   "n_laggards": 0,
+   "tail_holders": 10,
+   "tail_holder_share": 1.0,
+   "laggards": [],
    "laggards_truncated": false,
-   "reused": true,
-   "elapsed_sec": 0.06,
+   "reused": false,
+   "elapsed_sec": 0.0,
    "thin_tail": false
   },
   {
@@ -109,11 +106,11 @@
    "lane": "astock_daily",
    "machine": "bm-c",
    "dir": "data/astock_daily/per",
-   "scanned_at": "2026-11-19T17:20:18",
+   "scanned_at": "2026-11-20T00:49:47",
    "panel_fingerprint": {
     "files": 5221,
-    "max_mtime": 1795080018.387,
-    "bytes": 1208610073
+    "max_mtime": 1795090179.714,
+    "bytes": 1208851542
    },
    "full_tail": "2026-11-19",
    "sample_tail": "2026-11-19",
@@ -124,9 +121,9 @@
    "files_read_by_sample": 40,
    "sample_disclosed": true,
    "unread": 0,
-   "n_laggards": 4721,
-   "tail_holders": 500,
-   "tail_holder_share": 0.0958,
+   "n_laggards": 3113,
+   "tail_holders": 2108,
+   "tail_holder_share": 0.4038,
    "laggards": [
     "000001.csv",
     "000002.csv",
@@ -156,21 +153,21 @@
    ],
    "laggards_truncated": true,
    "reused": false,
-   "elapsed_sec": 1.27,
-   "thin_tail": true
+   "elapsed_sec": 48.61,
+   "thin_tail": false
   },
   {
    "lane": "ah_panel",
    "machine": "bm-c",
    "dir": "data/ah_panel/per",
-   "scanned_at": "2026-11-19T16:06:06",
+   "scanned_at": "2026-11-20T00:50:35",
    "panel_fingerprint": {
     "files": 187,
-    "max_mtime": 1795073535.634,
-    "bytes": 16566813
+    "max_mtime": 1795085112.699,
+    "bytes": 16576128
    },
-   "full_tail": "2026-11-18",
-   "sample_tail": "2026-11-18",
+   "full_tail": "2026-11-19",
+   "sample_tail": "2026-11-19",
    "agree": true,
    "direction": "agree",
    "files": 187,
@@ -186,8 +183,8 @@
     "02493.csv"
    ],
    "laggards_truncated": false,
-   "reused": true,
-   "elapsed_sec": 0.02,
+   "reused": false,
+   "elapsed_sec": 1.57,
    "thin_tail": false
   }
  ]
