@@ -1182,6 +1182,16 @@ LEGS = [
      ["python", "scripts/etf_book_rebalance_permission.py", "run"]),
     ("rebalance_permission",
      ["python", "scripts/etf_book_rebalance_permission.py", "check"]),
+    # r1856: this receipt is the gap face's input (its only file input is the permission
+    # JSON), yet the write leg sat eight legs BELOW cut_order_gap, so any standalone
+    # refresh of the permission left the gap face priced against an older receipt and its
+    # own check went red with "the permission receipt was rewritten after this face was
+    # priced" -- a red the chain could not clear except by re-running the writer by hand
+    # (2026-11-20 00:54 receipt vs 11-19 18:14 face). Dependency order is the chain's whole
+    # contract, so the pair moves up to sit immediately after the permission it certifies.
+    # Content-gated (same permission numbers + same panel cutoff = no-op 1s; rebuild 44s).
+    ("cut_gate_pass_write", ["python", "scripts/etf_book_cut_gate_pass.py", "run"]),
+    ("cut_gate_pass", ["python", "scripts/etf_book_cut_gate_pass.py", "--check"]),
     # r1451: the permission says what the desk MAY hold; it says nothing about what the desk
     # will ORDER. The order path derives its own k from an expanding beta and reads no
     # permission, so this leg measures the gap between the two published surfaces and scans
@@ -1246,8 +1256,7 @@ LEGS = [
     # it re-derives the receipt from its own rows, so a stale receipt reads perfectly
     # consistent. `run` is content-gated (same permission numbers + same panel cutoff =
     # no-op 1s; it rebuilds in 44s only when an input actually moved).
-    ("cut_gate_pass_write", ["python", "scripts/etf_book_cut_gate_pass.py", "run"]),
-    ("cut_gate_pass", ["python", "scripts/etf_book_cut_gate_pass.py", "--check"]),
+    # (the cut_gate_pass pair moved above cut_order_gap at r1856: it is that face's input)
     # r1282: this face had a `check` and no producer. Its own selftest says it re-derives in
     # 0.1s from files already on disk, so on every new bar the published row was a bar behind
     # its own inputs and the check could only ever read drift -- a red nobody could clear
