@@ -2,7 +2,7 @@
  "schema": "ceo_live_usage_v1_9",
  "ticket": "T-202609-28-105",
  "day": "2026-11-19",
- "generated": "2026-11-19T17:46:55",
+ "generated": "2026-11-19T19:38:42",
  "market": {
   "state": "RED",
   "asof": "2026-11-19",
@@ -356,13 +356,13 @@
   "n_above": 3,
   "widest_above": {
    "name": "COMPOSITE-CE-01",
-   "deployed_weight": 0.9598,
-   "gap_pp": 75.98,
+   "deployed_weight": 0.9599,
+   "gap_pp": 75.99,
    "multiple_of_cap": 4.8
   },
   "state": "RED",
-  "priced_on": "2026-11-18",
-  "stale": true
+  "priced_on": "2026-11-19",
+  "stale": false
  },
  "rollup": {
   "n_traders": 6,
@@ -383,7 +383,7 @@
  "intraday": {
   "feed": "T-104 minute_feed (rolling 1m archive, bm-b lane)",
   "today": "2026-11-19",
-  "asof": "2026-11-19 14:57:00",
+  "asof": "2026-11-19 15:00:00",
   "n_held_with_feed": 2,
   "n_live": 0,
   "rows": [
@@ -400,11 +400,11 @@
    {
     "symbol": "510050",
     "status": "LAGGED",
-    "latest_bar": "2026-11-19 14:57:00",
-    "latest_close": 2.884,
+    "latest_bar": "2026-11-19 15:00:00",
+    "latest_close": 2.883,
     "prev_session_close": 2.883,
-    "day_change_pct": 0.03,
-    "age_min": 169.9
+    "day_change_pct": 0.0,
+    "age_min": 278.7
    },
    {
     "symbol": "511010",
@@ -498,7 +498,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 62425.1
+    "last_append_age_min": 62536.9
    },
    {
     "family": "FUND-VALUE-P1",
@@ -506,7 +506,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 63269.6
+    "last_append_age_min": 63381.4
    },
    {
     "family": "FUND-DIVLOWVOL-P1",
@@ -514,7 +514,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 60062.9
+    "last_append_age_min": 60174.7
    }
   ]
  },
@@ -602,7 +602,7 @@
   "file": "TICKET-2026-11-19.json",
   "bar": "2026-11-19",
   "decision_bar": "2026-11-19",
-  "generated": "2026-11-19T17:43:10+08:00",
+  "generated": "2026-11-19T19:32:05+08:00",
   "rows": [
    {
     "symbol": "510760",
@@ -879,7 +879,7 @@
    "declaration_status": "UNEXPLAINED_TARGET_WITHOUT_TRADES",
    "declaration_bar": "2026-11-19",
    "declaration_actions": 0,
-   "positions_source": "ticket_embedded"
+   "positions_source": "face@2026-11-19"
   },
   "cash_roll": {
    "present": false,
@@ -892,61 +892,61 @@
  "etf_premium": {
   "present": true,
   "verdict": "ENTRY_PREMIUM_WARN",
-  "verdict_reason": "the ticket pays 1.04% of its own amount above IOPV (CNY 4495)",
-  "ticket": "TICKET-2026-11-18.json",
-  "ticket_session": "2026-11-18",
-  "iopv_session": "2026-11-18",
+  "verdict_reason": "the ticket pays 1.01% of its own amount above IOPV (CNY 4342)",
+  "ticket": "TICKET-2026-11-19.json",
+  "ticket_session": "2026-11-19",
+  "iopv_session": "2026-11-19",
   "session_match": true,
-  "premium_paid_cny": 4494.97,
-  "premium_share_of_order_pct": 1.0406,
-  "premium_share_of_nav_pct": 0.4495,
-  "verified_amount_cny": 431943.3,
+  "premium_paid_cny": 4342.24,
+  "premium_share_of_order_pct": 1.0054,
+  "premium_share_of_nav_pct": 0.4342,
+  "verified_amount_cny": 431880.4,
   "n_verified": 5,
   "n_unverifiable": 0,
-  "book_cagr_pct": 12.39,
+  "book_cagr_pct": 12.29,
   "years_of_backtest_return_paid": 0.08,
   "rows": [
    {
     "symbol": "510760",
-    "premium_pct": -0.096,
-    "premium_paid_cny": -83.04,
-    "market_pctile": 51.24,
+    "premium_pct": -0.2324,
+    "premium_paid_cny": -201.26,
+    "market_pctile": 32.29,
     "status": "OK"
    },
    {
     "symbol": "512040",
-    "premium_pct": -0.1578,
-    "premium_paid_cny": -136.61,
-    "market_pctile": 40.38,
+    "premium_pct": -0.1251,
+    "premium_paid_cny": -108.15,
+    "market_pctile": 45.65,
     "status": "OK"
    },
    {
     "symbol": "159655",
-    "premium_pct": 7.5108,
-    "premium_paid_cny": 6034.2,
-    "market_pctile": 98.69,
+    "premium_pct": 8.8493,
+    "premium_paid_cny": 7022.1,
+    "market_pctile": 98.82,
     "status": "OK"
    },
    {
     "symbol": "513690",
-    "premium_pct": -0.4702,
-    "premium_paid_cny": -408.24,
-    "market_pctile": 17.8,
+    "premium_pct": -1.6993,
+    "premium_paid_cny": -1493.7,
+    "market_pctile": 4.26,
     "status": "OK"
    },
    {
     "symbol": "159519",
-    "premium_pct": -1.0449,
-    "premium_paid_cny": -911.34,
-    "market_pctile": 10.14,
+    "premium_pct": -1.0055,
+    "premium_paid_cny": -876.75,
+    "market_pctile": 10.09,
     "status": "OK"
    }
   ],
   "stress": {
-   "if_premium_reverts_to_zero_cny": -4494.97,
-   "if_premium_reverts_to_zero_pct_of_nav": -0.4495,
-   "if_premium_reverts_to_own_median_cny": -3466.09,
-   "if_premium_reverts_to_own_median_pct_of_nav": -0.3466,
+   "if_premium_reverts_to_zero_cny": -4342.24,
+   "if_premium_reverts_to_zero_pct_of_nav": -0.4342,
+   "if_premium_reverts_to_own_median_cny": -3325.99,
+   "if_premium_reverts_to_own_median_pct_of_nav": -0.3326,
    "note": "reversion is a stress, not a forecast: the gap can persist while the sleeve stays hard to buy. Zero is the outer bound; each fund's own median is the realistic one -- these funds normally live above NAV."
   },
   "own_top_decile_pctile": 90.0,
@@ -954,41 +954,41 @@
    "159655"
   ],
   "own_verdict": "SOME_NAMES_ABOVE_OWN_TOP_DECILE",
-  "own_revert_cny": 3466.09,
+  "own_revert_cny": 3325.99,
   "own_revert_note": "stress, not a forecast: it gives back only the part ABOVE each fund's own median premium, and only for names this order is buying"
  },
  "etf_premium_choice": {
   "present": true,
   "verdict": "RULERS_DISAGREE_SWAP_AT_HORIZON",
-  "ticket": "results/etf_book_order/TICKET-2026-11-18.json",
-  "as_of": "2026-11-18",
+  "ticket": "results/etf_book_order/TICKET-2026-11-19.json",
+  "as_of": "2026-11-19",
   "threshold_pp": 3.0,
   "annual_giveup_cap_pp": 2.0,
   "stretched": [
    {
     "symbol": "159655",
-    "premium_pct": 7.510801,
-    "premium_cny": 6487.42,
-    "leg_score": 0.500035,
+    "premium_pct": 8.84926,
+    "premium_cny": 7643.5,
+    "leg_score": 0.555552,
     "verdict": "SWAP_AT_BOOK_HORIZON",
     "twin": "159529",
-    "twin_premium_pct": 2.33742882828889,
-    "twin_score_gap": 0.26863966331733047,
-    "saving_cny_once": 4468.47,
-    "giveup_cny_per_window": 249.2,
-    "giveup_pp_per_year": 3.6352,
-    "breakeven_convergence_p": 0.055768,
-    "breakeven_tenure_windows": 17.931,
-    "breakeven_tenure_years": 1.4231,
-    "drop_to_cash_saving_cny": 6487.42
+    "twin_premium_pct": 4.196597353497156,
+    "twin_score_gap": 0.2515224813574165,
+    "saving_cny_once": 4018.71,
+    "giveup_cny_per_window": 233.32,
+    "giveup_pp_per_year": 3.4036,
+    "breakeven_convergence_p": 0.058058,
+    "breakeven_tenure_windows": 17.224,
+    "breakeven_tenure_years": 1.367,
+    "drop_to_cash_saving_cny": 7643.5
    }
   ],
   "n_stretched": 1,
   "mean_tenure_windows": 1.573,
   "median_tenure_windows": 1.0,
   "share_one_window": 0.794,
-  "best_saving_cny": 6487.42,
-  "best_giveup_cny_per_window": 249.2
+  "best_saving_cny": 7643.5,
+  "best_giveup_cny_per_window": 233.32
  },
  "etf_capacity": {
   "present": true,
@@ -1069,48 +1069,48 @@
    {
     "k": 1,
     "cost_cny": 1786.06,
-    "t": -4.562446075953971,
+    "t": -4.562446075953968,
     "share_late_helps": 0.4142857142857143,
     "separable": true
    },
    {
     "k": 2,
-    "cost_cny": 2634.04,
-    "t": -4.840777421711681,
-    "share_late_helps": 0.41766109785202865,
+    "cost_cny": 2592.25,
+    "t": -4.783805305959651,
+    "share_late_helps": 0.41904761904761906,
     "separable": true
    },
    {
     "k": 3,
-    "cost_cny": 2815.59,
-    "t": -4.1497689050609985,
-    "share_late_helps": 0.4354066985645933,
+    "cost_cny": 2806.47,
+    "t": -4.147026268691905,
+    "share_late_helps": 0.43675417661097854,
     "separable": true
    },
    {
     "k": 5,
-    "cost_cny": 4059.59,
-    "t": -4.28923900875369,
-    "share_late_helps": 0.41586538461538464,
+    "cost_cny": 4008.49,
+    "t": -4.254465438770218,
+    "share_late_helps": 0.4172661870503597,
     "separable": true
    },
    {
     "k": 10,
     "cost_cny": 4025.16,
-    "t": -2.2053797292433286,
+    "t": -2.2053797292433184,
     "share_late_helps": 0.4433734939759036,
     "separable": true
    }
   ],
   "one_open_late": {
-   "median_cny": -929.179677596403,
-   "mean_cny": -1786.0584921749205,
-   "t": -4.562446075953971,
+   "median_cny": -929.1796775964033,
+   "mean_cny": -1786.0584921749248,
+   "t": -4.562446075953968,
    "share_late_helps": 0.4142857142857143
   },
-  "evidence_cutoff": "2026-11-18",
+  "evidence_cutoff": "2026-11-19",
   "capital_cny": 1000000.0,
-  "sentence": "nothing is owed today (the ticket orders k under its own permission), so the baseline is 'do nothing'. doing it today is the cheapest rung of the ladder (every wait is more expensive); across k=1..10 the waits span +1786 .. +4060 CNY vs today. One open late is worth -929 CNY of NAV on the median sheet with waiting helping on 41% of them (t=-4.56), so the mean is priced but a single sheet is still a coin flip.",
+  "sentence": "nothing is owed today (the ticket orders k under its own permission), so the baseline is 'do nothing'. doing it today is the cheapest rung of the ladder (every wait is more expensive); across k=1..10 the waits span +1786 .. +4025 CNY vs today. One open late is worth -929 CNY of NAV on the median sheet with waiting helping on 41% of them (t=-4.56), so the mean is priced but a single sheet is still a coin flip.",
   "file": "results/etf_book_do_or_wait.json"
  },
  "etf_open_gap": {
@@ -1553,25 +1553,25 @@
     "floor_bp": 1.5,
     "rolls": 63,
     "drag_floor_pp": 0.118,
-    "drag_measured_pp": 2.424,
-    "gap_floor_pp": 9.059,
-    "gap_measured_pp": 6.753
+    "drag_measured_pp": 2.421,
+    "gap_floor_pp": 8.987,
+    "gap_measured_pp": 6.684
    },
    "IF": {
     "median_bp": 19.843,
     "floor_bp": 1.5,
     "rolls": 74,
     "drag_floor_pp": 0.139,
-    "drag_measured_pp": 1.835,
-    "gap_floor_pp": 2.254,
-    "gap_measured_pp": 0.558
+    "drag_measured_pp": 1.833,
+    "gap_floor_pp": 2.271,
+    "gap_measured_pp": 0.577
    },
    "IH": {
     "median_bp": 21.071,
     "floor_bp": 1.5,
     "rolls": 89,
     "drag_floor_pp": 0.167,
-    "drag_measured_pp": 2.343,
+    "drag_measured_pp": 2.341,
     "gap_floor_pp": null,
     "gap_measured_pp": null
    },
@@ -1579,14 +1579,14 @@
     "median_bp": 28.232,
     "floor_bp": 1.5,
     "rolls": 23,
-    "drag_floor_pp": 0.081,
-    "drag_measured_pp": 1.518,
-    "gap_floor_pp": 9.17,
-    "gap_measured_pp": 7.733
+    "drag_floor_pp": 0.08,
+    "drag_measured_pp": 1.515,
+    "gap_floor_pp": 9.21,
+    "gap_measured_pp": 7.775
    }
   },
-  "evidence_cutoff": "2026-11-18",
-  "source_generated": "2026-11-19T16:08:50"
+  "evidence_cutoff": "2026-11-19",
+  "source_generated": "2026-11-19T19:32:14"
  },
  "carry_marks": {
   "present": true,

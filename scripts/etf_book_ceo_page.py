@@ -12758,13 +12758,16 @@ def selftest():
         "is a well-formed header + separator + three rows",
         "典型" in _env_lines and "块长 20" in _env_lines and len(_tbl) == 5
         and all(ln.count("|") == 4 for ln in _tbl), str(len(_tbl)))
-    _md_env_gone = _render_env({"status": "missing", "artifact": ENVELOPE_JSON})
-    _md_env_drift = _render_env({"status": "drift", "artifact": ENVELOPE_JSON})
+    # r1850: these two were asserted against the WHOLE rendered page, so any other section
+    # that happened to print 23.15% made "3.15% not in page" fail without one envelope
+    # percentile being printed -- the substring was the reader's, not the page's. The
+    # question is what the envelope block itself says, so ask that block.
+    _env_gone_txt = "\n".join(envelope_block({"status": "missing", "artifact": ENVELOPE_JSON}))
+    _env_drift_txt = "\n".join(envelope_block({"status": "drift", "artifact": ENVELOPE_JSON}))
     chk("L87 envelope: absent or a face whose rows no longer recompute reads 'cannot "
         "verify' and prints no percentiles",
-        "无法核验" in _md_env_gone and "无法核验" in _md_env_drift
-        and "3.15%" not in _md_env_gone and "3.15%" not in _md_env_drift
-        and "16.33%" not in _md_env_drift, "")
+        "无法核验" in _env_gone_txt and "无法核验" in _env_drift_txt
+        and "3.15%" not in _env_gone_txt and "16.33%" not in _env_drift_txt, "")
     _env_foreign = dict(_env_ok)
     _env_foreign["reconciliation"] = "different_object"
     chk("L88 envelope: a face describing another book is flagged BEFORE its numbers",

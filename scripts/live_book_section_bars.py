@@ -397,7 +397,12 @@ def leg_names():
 # heuristic cannot.
 COMMON_STEMS = {"latest", "index", "status", "summary", "state", "today", "result"}
 LEG_ALIASES = {"leg_split": ["etf_book_leg_attribution"],
-               "sample_window": ["etf_book_spanning"]}
+               "sample_window": ["etf_book_spanning"],
+               # r1850: the ladder section is copied off the capital face, whose leg is
+               # named for the product family rather than the section -- the name match
+               # could not see it and printed "no chain leg re-runs it" about a face that
+               # had just been re-run.
+               "futures_ladder": ["idx_fut_carry_capital"]}
 
 
 def probes_for(key, section):

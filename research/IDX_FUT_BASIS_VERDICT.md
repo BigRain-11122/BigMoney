@@ -105,7 +105,7 @@
 | IH | 4.16% | 5.16% | 2.43% | 22.7% | 0.43× | +1.01 | 0.22 → 0.74 | HOLD-ALWAYS（缺 W3） |
 | IM | 3.77% | 1.97% | 1.86% | 28.1% | 0.31× | -1.80 | 0.24 → 0.02 | HOLD-ALWAYS（缺 W1/W2/W3） |
 
-**遮罩口径（r1694）**：上表三条臂按**已发布尺寸式遮罩**（single-leg basis step > 8x the median step and > 0.5%）定价；同一批面板按日历锚定遮罩重跑，B−A（等待臂减一直持有，pp/年）是 IC +0.05→-1.93、IF +1.20→-0.20、IH +1.10→+0.14、IM -1.77→-2.67 —— 等待臂的边际在完整遮罩下普遍变差，HOLD-ALWAYS 不受影响。
+**遮罩口径（r1694）**：上表三条臂按**已发布尺寸式遮罩**（single-leg basis step > 8x the median step and > 0.5%）定价；同一批面板按日历锚定遮罩重跑，B−A（等待臂减一直持有，pp/年）是 IC +0.05→-1.93、IF +1.19→-0.21、IH +1.10→+0.14、IM -1.72→-2.63 —— 等待臂的边际在完整遮罩下普遍变差，HOLD-ALWAYS 不受影响。
 
 **总判词：HOLD-ALWAYS。** no 2-of-4 -- waiting for the wide discount costs more drift than the prepayment it collects; hold the average instead
 

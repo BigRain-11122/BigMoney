@@ -1,1634 +1,2289 @@
 # 隔夜差：同一根 bar 上，这页动了哪些数（r1761）
 
-- 比较：`LIVE-BOOK-20261117.json` → `LIVE-BOOK-20261118.json`
-- 价格依据：2026-11-17（前一天 2026-11-17）｜数据截止：2026-11-17（前一天 2026-11-17）
-- 判决：**UNEXPLAINED_MOVES**
+- 比较：`LIVE-BOOK-20261118.json` → `LIVE-BOOK-20261119.json`
+- 价格依据：2026-11-19（前一天 2026-11-17）｜数据截止：2026-11-19（前一天 2026-11-17）
+- 判决：**DATA_ADVANCED**
 
 ## 一句话
-两天**是同一根 bar**（没有新数据进来），这页有 **790** 个数变了；其中 **6** 个是钟面（机器多久没说话之类，本来就该走）、**708** 个能给出解释（旧数还在页上／口径句改了／这一节换了代／这一节换了定价的输入／这个数只是转抄别面）、**76** 个没解释。新增 **395** 个数字叶子、消失 **0** 个。
+两天**不是同一根 bar**（2026-11-17 → 2026-11-19），数据推进了，先分不清“数据动”和“口径动”；这一面在数据日推进的隔夜不给任何指控，只记录 **2221** 个位移与 **40** 个新增叶子。
 
-## 动的数（全部 790 个）
+## 动的数（全部 2221 个）
 
 | 数字 | 昨天 | 今天 | 判读 | 依据 |
 |---|---|---|---|---|
-| `/admission/capacity_cny` | 18582410.0 | 15993296.0 | SECTION_ADVANCED | 这一节自己换了代：`admission` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/admission/concentration_caliber/gap_pp` | 3.13 | 3.14 | SECTION_ADVANCED | 这一节自己换了代：`admission` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/admission/concentration_caliber/lag0_pct` | 71.04 | 71.05 | SECTION_ADVANCED | 这一节自己换了代：`admission` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/admission/concentration_caliber/lag1_cagr_pct` | 10.38 | 10.37 | SECTION_ADVANCED | 这一节自己换了代：`admission` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/admission/concentration_caliber/lag1_pct` | 74.17 | 74.19 | SECTION_ADVANCED | 这一节自己换了代：`admission` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/admission/margin_to_line` | -0.0104 | -0.0105 | SECTION_ADVANCED | 这一节自己换了代：`admission` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/admission/prior/top2_share` | 0.7084 | 0.7104 | SECTION_ADVANCED | 这一节自己换了代：`admission` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/admission/reads/capacity_by_capital/10M/impact_pct_of_adv` | 10.0865 | 10.028 | SECTION_ADVANCED | 这一节自己换了代：`admission` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/admission/reads/capacity_by_capital/1M/impact_pct_of_adv` | 1.0087 | 1.0028 | SECTION_ADVANCED | 这一节自己换了代：`admission` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/admission/reads/oos_sharpe` | 1.8016 | 1.7997 | SECTION_ADVANCED | 这一节自己换了代：`admission` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/admission/top2_share` | 0.7104 | 0.7105 | SECTION_ADVANCED | 这一节自己换了代：`admission` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/admission/worst` | 1.9416 | 1.9241 | SECTION_ADVANCED | 这一节自己换了代：`admission` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/backtest_band/5 名·可执行单口径（本单这份账）/full/cagr_pct` | 7.6 | 7.58 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/band_ruler/cells/book/card/causal/full/bars` | 1665 | 1666 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/book/card/causal/full/cagr` | 0.1542 | 0.1537 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/book/card/causal/full/cagr_pp` | 15.42 | 15.37 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/book/card/causal/full/sharpe` | 0.984 | 0.981 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/book/card/causal/full/vol` | 0.1659 | 0.1658 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/book/card/causal/full/years` | 6.87 | 6.88 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/book/card/causal/oos/bars` | 695 | 696 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/book/card/causal/oos/cagr` | 0.2473 | 0.246 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/book/card/causal/oos/cagr_pp` | 24.73 | 24.6 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/book/card/causal/oos/sharpe` | 1.51 | 1.504 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/book/card/causal/oos/vol` | 0.1614 | 0.1613 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/book/card/causal/oos/years` | 2.87 | 2.88 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/book/card/causal/ticket_window/bars` | 695 | 696 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/book/card/causal/ticket_window/cagr` | 0.2473 | 0.246 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/book/card/causal/ticket_window/cagr_pp` | 24.73 | 24.6 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/book/card/causal/ticket_window/sharpe` | 1.51 | 1.504 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/book/card/causal/ticket_window/vol` | 0.1614 | 0.1613 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/book/card/causal/ticket_window/years` | 2.87 | 2.88 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/book/card/published/full/bars` | 1664 | 1665 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/book/card/published/full/cagr` | 0.1593 | 0.1592 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/book/card/published/full/cagr_pp` | 15.93 | 15.92 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/book/card/published/full/sharpe` | 1.023 | 1.022 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/book/card/published/oos/bars` | 695 | 696 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/book/card/published/oos/cagr` | 0.2379 | 0.2375 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/book/card/published/oos/cagr_pp` | 23.79 | 23.75 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/book/card/published/oos/sharpe` | 1.498 | 1.496 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/book/card/published/oos/vol` | 0.157 | 0.1569 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/book/card/published/oos/years` | 2.87 | 2.88 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/book/card/published/ticket_window/bars` | 695 | 696 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/book/card/published/ticket_window/cagr` | 0.2379 | 0.2375 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/book/card/published/ticket_window/cagr_pp` | 23.79 | 23.75 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/book/card/published/ticket_window/sharpe` | 1.498 | 1.496 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/book/card/published/ticket_window/vol` | 0.157 | 0.1569 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/book/card/published/ticket_window/years` | 2.87 | 2.88 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/book/ticket/causal/full/bars` | 1665 | 1666 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/book/ticket/causal/full/cagr` | 0.1657 | 0.1652 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/book/ticket/causal/full/cagr_pp` | 16.57 | 16.52 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/book/ticket/causal/full/sharpe` | 1.014 | 1.011 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/book/ticket/causal/full/years` | 6.87 | 6.88 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/book/ticket/causal/oos/bars` | 695 | 696 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/book/ticket/causal/oos/cagr` | 0.263 | 0.2617 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/book/ticket/causal/oos/cagr_pp` | 26.3 | 26.17 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/book/ticket/causal/oos/sharpe` | 1.556 | 1.55 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/book/ticket/causal/oos/vol` | 0.1655 | 0.1654 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/book/ticket/causal/oos/years` | 2.87 | 2.88 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/book/ticket/causal/ticket_window/bars` | 695 | 696 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/book/ticket/causal/ticket_window/cagr` | 0.263 | 0.2617 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/book/ticket/causal/ticket_window/cagr_pp` | 26.3 | 26.17 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/book/ticket/causal/ticket_window/sharpe` | 1.556 | 1.55 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/book/ticket/causal/ticket_window/vol` | 0.1655 | 0.1654 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/book/ticket/causal/ticket_window/years` | 2.87 | 2.88 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/book/ticket/published/full/bars` | 1664 | 1665 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/book/ticket/published/full/cagr` | 0.1747 | 0.1746 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/book/ticket/published/full/cagr_pp` | 17.47 | 17.46 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/book/ticket/published/oos/bars` | 695 | 696 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/book/ticket/published/oos/cagr` | 0.2581 | 0.2578 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/book/ticket/published/oos/cagr_pp` | 25.81 | 25.78 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/book/ticket/published/oos/sharpe` | 1.563 | 1.562 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/book/ticket/published/oos/vol` | 0.1617 | 0.1616 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/book/ticket/published/oos/years` | 2.87 | 2.88 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/book/ticket/published/ticket_window/bars` | 695 | 696 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/book/ticket/published/ticket_window/cagr` | 0.2581 | 0.2578 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/book/ticket/published/ticket_window/cagr_pp` | 25.81 | 25.78 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/book/ticket/published/ticket_window/sharpe` | 1.563 | 1.562 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/book/ticket/published/ticket_window/vol` | 0.1617 | 0.1616 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/book/ticket/published/ticket_window/years` | 2.87 | 2.88 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/card/12/vol08/full/bars` | 1664 | 1665 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/card/12/vol08/full/cagr` | 0.0941 | 0.0943 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/card/12/vol08/full/cagr_pp` | 9.41 | 9.43 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/card/12/vol08/full/sharpe` | 0.971 | 0.973 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/card/12/vol08/oos/bars` | 695 | 696 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/card/12/vol08/oos/cagr` | 0.1772 | 0.1776 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/card/12/vol08/oos/cagr_pp` | 17.72 | 17.76 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/card/12/vol08/oos/sharpe` | 1.681 | 1.685 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/card/12/vol08/oos/vol` | 0.1046 | 0.1045 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/card/12/vol08/oos/years` | 2.87 | 2.88 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/card/12/vol08/ticket_window/bars` | 695 | 696 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/card/12/vol08/ticket_window/cagr` | 0.1772 | 0.1776 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/card/12/vol08/ticket_window/cagr_pp` | 17.72 | 17.76 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/card/12/vol08/ticket_window/sharpe` | 1.681 | 1.685 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/card/12/vol08/ticket_window/vol` | 0.1046 | 0.1045 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/card/12/vol08/ticket_window/years` | 2.87 | 2.88 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/held/causal/card/cost10/full/bars` | 1537 | 1538 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/held/causal/card/cost10/full/cagr` | 0.0702 | 0.07 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/held/causal/card/cost10/full/cagr_pp` | 7.02 | 7.0 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/held/causal/card/cost10/full/sharpe` | 1.269 | 1.266 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/held/causal/card/cost10/oos/bars` | 695 | 696 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/held/causal/card/cost10/oos/cagr` | 0.1178 | 0.1173 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/held/causal/card/cost10/oos/cagr_pp` | 11.78 | 11.73 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/held/causal/card/cost10/oos/sharpe` | 1.631 | 1.625 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/held/causal/card/cost10/oos/years` | 2.87 | 2.88 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/held/causal/card/cost10/ticket_window/bars` | 695 | 696 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/held/causal/card/cost10/ticket_window/cagr` | 0.1178 | 0.1173 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/held/causal/card/cost10/ticket_window/cagr_pp` | 11.78 | 11.73 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/held/causal/card/cost10/ticket_window/sharpe` | 1.631 | 1.625 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/held/causal/card/cost10/ticket_window/years` | 2.87 | 2.88 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/held/causal/card/full/bars` | 1537 | 1538 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/held/causal/card/full/cagr` | 0.0717 | 0.0715 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/held/causal/card/full/cagr_pp` | 7.17 | 7.15 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/held/causal/card/full/sharpe` | 1.295 | 1.291 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/held/causal/card/full/vol` | 0.0569 | 0.0568 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/held/causal/card/oos/bars` | 695 | 696 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/held/causal/card/oos/cagr` | 0.1199 | 0.1193 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/held/causal/card/oos/cagr_pp` | 11.99 | 11.93 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/held/causal/card/oos/sharpe` | 1.657 | 1.65 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/held/causal/card/oos/vol` | 0.073 | 0.0729 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/held/causal/card/oos/years` | 2.87 | 2.88 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/held/causal/card/ticket_window/bars` | 695 | 696 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/held/causal/card/ticket_window/cagr` | 0.1199 | 0.1193 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/held/causal/card/ticket_window/cagr_pp` | 11.99 | 11.93 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/held/causal/card/ticket_window/sharpe` | 1.657 | 1.65 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/held/causal/card/ticket_window/vol` | 0.073 | 0.0729 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/held/causal/card/ticket_window/years` | 2.87 | 2.88 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/held/causal/ticket/full/bars` | 1537 | 1538 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/held/causal/ticket/full/cagr` | 0.076 | 0.0758 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/held/causal/ticket/full/cagr_pp` | 7.6 | 7.58 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/held/causal/ticket/full/sharpe` | 1.324 | 1.32 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/held/causal/ticket/oos/bars` | 695 | 696 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/held/causal/ticket/oos/cagr` | 0.1245 | 0.1239 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/held/causal/ticket/oos/cagr_pp` | 12.45 | 12.39 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/held/causal/ticket/oos/sharpe` | 1.697 | 1.691 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/held/causal/ticket/oos/vol` | 0.0738 | 0.0737 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/held/causal/ticket/oos/years` | 2.87 | 2.88 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/held/causal/ticket/ticket_window/bars` | 695 | 696 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/held/causal/ticket/ticket_window/cagr` | 0.1245 | 0.1239 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/held/causal/ticket/ticket_window/cagr_pp` | 12.45 | 12.39 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/held/causal/ticket/ticket_window/sharpe` | 1.697 | 1.691 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/held/causal/ticket/ticket_window/vol` | 0.0738 | 0.0737 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/cells/held/causal/ticket/ticket_window/years` | 2.87 | 2.88 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/dial_prices/ordering/price_pp` | -0.51 | -0.55 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/dial_prices/window/price_pp` | 4.82 | 4.78 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/identity/card 18.35% (2024+) reproduced on its own ruler/measured_pp` | 17.97 | 17.72 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/identity/card 18.35% (2024+) reproduced on its own ruler/published_pp` | 17.97 | 17.72 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/identity/card 9.60% reproduced on its own ruler/measured_pp` | 9.51 | 9.41 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/identity/card 9.60% reproduced on its own ruler/published_pp` | 9.51 | 9.41 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/identity/ticket 12.78% reproduced on its own ruler/measured_pp` | 12.54 | 12.45 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/identity/ticket 12.78% reproduced on its own ruler/published_pp` | 12.54 | 12.45 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/published_faces/card_full` | 9.51 | 9.41 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/published_faces/card_oos` | 17.97 | 17.72 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/published_faces/rows/0/full` | 7.64 | 7.6 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/published_faces/rows/0/oos` | 12.54 | 12.45 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/published_faces/rows/1/full` | 15.55 | 15.5 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/published_faces/rows/1/oos` | 23.42 | 23.29 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/published_faces/rows/2/full` | 9.51 | 9.41 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/published_faces/rows/2/oos` | 17.97 | 17.72 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/published_faces/ticket` | 7.64 | 7.6 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/band_ruler/published_faces/ticket_oos` | 12.54 | 12.45 | SECTION_ADVANCED | 这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/cash_caliber/control_error_bp` | 0.0043 | 0.0357 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/cash_ladder/rolls/GC028` | 12 | 13 | RECOVERED_OLD_VALUE | 昨天的 12 今天仍在这页上：`/alias_stability/families/n_cross_name`（改名，不是重算） |
-| `/cash_ladder/tenors/1/annual_cny_spot` | 7016.0 | 7045.0 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/cash_ladder/tenors/1/mean250_pct` | 1.3611 | 1.3607 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/cash_ladder/tenors/1/spot_pct` | 1.235 | 1.24 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/cash_ladder/tenors/2/annual_cny_spot` | 7414.0 | 7670.0 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/cash_ladder/tenors/2/mean250_pct` | 1.4624 | 1.462 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/cash_ladder/tenors/2/spot_pct` | 1.305 | 1.35 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/cash_ladder/tenors/3/annual_cny_spot` | 7670.0 | 7755.0 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/cash_ladder/tenors/3/mean250_pct` | 1.4673 | 1.4669 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/cash_ladder/tenors/3/spot_pct` | 1.35 | 1.365 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/cash_ladder/tenors/4/annual_cny_realized_1y` | 8372.0 | 8325.0 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/cash_ladder/tenors/4/annual_cny_spot` | 7698.0 | 7812.0 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/cash_ladder/tenors/4/edge_bp/1` | 16.6 | 15.8 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/cash_ladder/tenors/4/edge_bp/5` | 9.0 | 8.0 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/cash_ladder/tenors/4/idle_share_1y` | 0.0059 | 0.0055 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/cash_ladder/tenors/4/mean250_pct` | 1.4628 | 1.4624 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/cash_ladder/tenors/4/realized/1/days` | 338 | 366 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/cash_ladder/tenors/4/realized/1/idle_share` | 0.0059 | 0.0055 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/cash_ladder/tenors/4/realized/1/realized_pct` | 1.4737 | 1.4654 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/cash_ladder/tenors/4/realized/1/rolls` | 12 | 13 | RECOVERED_OLD_VALUE | 昨天的 12 今天仍在这页上：`/alias_stability/families/n_cross_name`（改名，不是重算） |
-| `/cash_ladder/tenors/4/realized/5/days` | 1798 | 1826 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/cash_ladder/tenors/4/realized/5/realized_pct` | 1.9789 | 1.9695 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/cash_ladder/tenors/4/realized/5/rolls` | 64 | 65 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/cash_ladder/tenors/4/rolls_1y` | 12 | 13 | RECOVERED_OLD_VALUE | 昨天的 12 今天仍在这页上：`/alias_stability/families/n_cross_name`（改名，不是重算） |
-| `/cash_ladder/tenors/4/spot_pct` | 1.355 | 1.375 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/cash_ladder/tenors/5/annual_cny_spot` | 7471.0 | 7499.0 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/cash_ladder/tenors/5/mean250_pct` | 1.4335 | 1.4329 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/cash_ladder/tenors/5/spot_pct` | 1.315 | 1.32 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/cash_money/block/book_rate/annual_cny` | 10067.0 | 10065.0 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/cash_money/block/book_rate/gap_vs_spot_bp` | -59.7 | -59.66 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/cash_money/block/book_rate/gap_vs_spot_cny` | -3392.0 | -3389.0 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/cash_money/block/book_rate/pct` | 1.772 | 1.7716 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/cash_money/forward/book/pct` | 1.772 | 1.7716 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/cash_money/forward/gap_bp` | 85.77 | 85.73 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/cash_money/forward/gap_bp_gross` | 59.7 | 59.66 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/causal_rebuild/elapsed_sec` | 50.0 | 47.7 | CLOCK |  |
-| `/cost_tape/arms/assumed_10bp/cagr` | 0.0941 | 0.0943 | SECTION_ADVANCED | 这一节自己换了代：`cost_tape` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/cost_tape/arms/assumed_10bp/sharpe` | 0.971 | 0.973 | SECTION_ADVANCED | 这一节自己换了代：`cost_tape` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/cost_tape/arms/measured/cagr` | 0.0993 | 0.0995 | SECTION_ADVANCED | 这一节自己换了代：`cost_tape` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/cost_tape/arms/measured/sharpe` | 1.019 | 1.021 | SECTION_ADVANCED | 这一节自己换了代：`cost_tape` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/cost_tape/arms/upper_p75/cagr` | 0.0954 | 0.0955 | SECTION_ADVANCED | 这一节自己换了代：`cost_tape` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/cost_tape/arms/upper_p75/sharpe` | 0.983 | 0.985 | SECTION_ADVANCED | 这一节自己换了代：`cost_tape` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/cost_tape/control/engine_cagr` | 0.0941 | 0.0943 | SECTION_ADVANCED | 这一节自己换了代：`cost_tape` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/cost_tape/tape/widest_traded/1/p50_bp` | 30.8 | 30.7 | SECTION_ADVANCED | 这一节自己换了代：`cost_tape` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/exposure_timing/arms/constant/cagr` | 0.0996 | 0.0993 | SECTION_ADVANCED | 这一节自己换了代：`exposure_timing` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/exposure_timing/arms/constant/sharpe` | 0.965 | 0.962 | SECTION_ADVANCED | 这一节自己换了代：`exposure_timing` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/exposure_timing/arms/full/cagr` | 0.1307 | 0.1303 | SECTION_ADVANCED | 这一节自己换了代：`exposure_timing` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/exposure_timing/arms/full/sharpe` | 0.913 | 0.911 | SECTION_ADVANCED | 这一节自己换了代：`exposure_timing` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/exposure_timing/arms/full/vol` | 0.153 | 0.1529 | SECTION_ADVANCED | 这一节自己换了代：`exposure_timing` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/exposure_timing/arms/production/cagr` | 0.0898 | 0.0895 | SECTION_ADVANCED | 这一节自己换了代：`exposure_timing` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/exposure_timing/arms/production/delevered_share` | 0.8799 | 0.88 | SECTION_ADVANCED | 这一节自己换了代：`exposure_timing` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/exposure_timing/arms/production/mean_exposure` | 0.7078 | 0.7079 | SECTION_ADVANCED | 这一节自己换了代：`exposure_timing` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/exposure_timing/arms/production/sharpe` | 0.941 | 0.938 | SECTION_ADVANCED | 这一节自己换了代：`exposure_timing` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/exposure_timing/bars` | 1665 | 1666 | SECTION_ADVANCED | 这一节自己换了代：`exposure_timing` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/exposure_timing/placebo/cagr_mean` | 0.0996 | 0.0994 | SECTION_ADVANCED | 这一节自己换了代：`exposure_timing` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/exposure_timing/verdict/de_risking_pp` | -3.11 | -3.1 | SECTION_ADVANCED | 这一节自己换了代：`exposure_timing` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/exposure_timing/verdict/placebo_p05_pp` | -1.74 | -1.75 | SECTION_ADVANCED | 这一节自己换了代：`exposure_timing` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/feed_lag_days` | 0 | 1 | CLOCK |  |
-| `/fleet/rows/0/age_h` | 1.24 | 1.1 | CLOCK |  |
-| `/fleet/rows/1/age_h` | 441.79 | 460.16 | CLOCK |  |
-| `/fleet/rows/2/age_h` | 4.18 | 2.63 | CLOCK |  |
-| `/futures_hedge/beta` | 0.07185718963947142 | 0.07458300567364223 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/futures_hedge/capital_for_one_lot` | 11395936.91471321 | 10985880.665433725 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/futures_hedge/corr` | 0.1373365917783091 | 0.1415643988218339 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/futures_hedge/maxdd_delta_pp` | 1.5453866010586514 | -0.05485315943003499 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/futures_hedge/min_unit_notional` | 818880.0 | 819360.0 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/futures_hedge/sharpe_delta` | 0.005735999804863057 | -0.020536000001067034 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/futures_hedge/splice_days_dropped` | 1 | 85 | RECOVERED_OLD_VALUE | 昨天的 1 今天仍在这页上：`/alias_stability/families/rows/0/pair_stability/n_pairs`（改名，不是重算） |
-| `/futures_hedge/unit_over_target` | 11.395936914713209 | 10.985880665433726 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/futures_hedge/variance_removable_pct` | 1.8861339441281915 | 2.004047901378724 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/futures_hedge/vol_delta_pp` | -0.09457028960696418 | -0.10122922788117772 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/futures_hedge_tail/dsharpe` | 0.005735999804863057 | -0.020536000001067034 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/futures_hedge_tail/dsharpe_hi` | 0.09446056903527693 | 0.0719002244924948 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/futures_hedge_tail/dsharpe_lo` | -0.06366444689345857 | -0.0964202006837476 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/futures_hedge_tail/share_above_uncond` | 0.968 | 0.9695 | RECOVERED_OLD_VALUE | 昨天的 0.968 今天仍在这页上：`/width_return/rows/2/sharpe`（改名，不是重算） |
-| `/futures_hedge_tail/tail_beta` | 0.6115545672996576 | 0.6126419583867959 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/futures_hedge_tail/tail_ci_hi` | 0.8343491781619469 | 0.8405742148706478 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/futures_hedge_tail/tail_ci_lo` | 0.12672451800387655 | 0.13021062460324065 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/futures_hedge_tail/tail_n` | 57 | 52 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/futures_hedge_tail/uncond_beta` | 0.07185718963947142 | 0.07458300567364223 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/futures_ladder/rows/1/one_lot_notional_cny` | 1175460.0 | 1178520.0 | SECTION_ADVANCED | 这一节自己换了代：`futures_ladder` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/futures_ladder/rows/2/one_lot_notional_cny` | 818880.0 | 819360.0 | SECTION_ADVANCED | 这一节自己换了代：`futures_ladder` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/futures_ladder/rows/3/net_pct_of_capital` | 2.63 | 2.62 | SECTION_ADVANCED | 这一节自己换了代：`futures_ladder` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/futures_ladder/rows/3/net_pct_of_capital_by_mask/calendar` | 3.42 | 3.41 | SECTION_ADVANCED | 这一节自己换了代：`futures_ladder` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/futures_ladder/rows/3/net_pct_of_capital_by_mask/published` | 2.63 | 2.62 | SECTION_ADVANCED | 这一节自己换了代：`futures_ladder` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/futures_ladder/rows/3/net_pct_of_capital_by_mask/strictest` | 3.42 | 3.41 | SECTION_ADVANCED | 这一节自己换了代：`futures_ladder` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/futures_ladder/rows/3/one_lot_notional_cny` | 1204600.0 | 1197480.0 | SECTION_ADVANCED | 这一节自己换了代：`futures_ladder` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/futures_ladder/rows/3/vol_contrib_pct` | 6.1 | 6.0 | SECTION_ADVANCED | 这一节自己换了代：`futures_ladder` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/futures_sleeve/rows/0/carry_ann_compound_pct` | 8.778 | 8.753 | SECTION_ADVANCED | 这一节自己换了代：`futures_sleeve` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/futures_sleeve/rows/0/carry_caliber/calendar_ann_pct` | 9.793 | 9.805 | SECTION_ADVANCED | 这一节自己换了代：`futures_sleeve` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/futures_sleeve/rows/0/carry_caliber/published_ann_pct` | 2.895 | 2.878 | SECTION_ADVANCED | 这一节自己换了代：`futures_sleeve` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/futures_sleeve/rows/0/carry_caliber/spread_pp` | 6.898 | 6.927 | SECTION_ADVANCED | 这一节自己换了代：`futures_sleeve` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/futures_sleeve/rows/0/gap_net_pp` | 6.753 | 6.644 | SECTION_ADVANCED | 这一节自己换了代：`futures_sleeve` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/futures_sleeve/rows/0/notional_per_lot_cny` | 1243680.0 | 1238960.0 | SECTION_ADVANCED | 这一节自己换了代：`futures_sleeve` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/futures_sleeve/rows/1/blend_gain_sharpe` | 0.133 | 0.131 | SECTION_ADVANCED | 这一节自己换了代：`futures_sleeve` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/futures_sleeve/rows/1/carry_ann_compound_pct` | 3.625 | 3.565 | SECTION_ADVANCED | 这一节自己换了代：`futures_sleeve` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/futures_sleeve/rows/1/carry_caliber/calendar_ann_pct` | 5.795 | 5.843 | SECTION_ADVANCED | 这一节自己换了代：`futures_sleeve` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/futures_sleeve/rows/1/carry_caliber/published_ann_pct` | 1.923 | 1.876 | SECTION_ADVANCED | 这一节自己换了代：`futures_sleeve` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/futures_sleeve/rows/1/carry_caliber/spread_pp` | 3.872 | 3.967 | SECTION_ADVANCED | 这一节自己换了代：`futures_sleeve` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/futures_sleeve/rows/1/gap_net_pp` | 0.558 | 0.651 | SECTION_ADVANCED | 这一节自己换了代：`futures_sleeve` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/futures_sleeve/rows/1/notional_per_lot_cny` | 1181700.0 | 1175460.0 | SECTION_ADVANCED | 这一节自己换了代：`futures_sleeve` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/futures_sleeve/rows/2/blend_gain_sharpe` | 0.087 | 0.084 | SECTION_ADVANCED | 这一节自己换了代：`futures_sleeve` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/futures_sleeve/rows/2/carry_ann_compound_pct` | 2.471 | 2.402 | SECTION_ADVANCED | 这一节自己换了代：`futures_sleeve` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/futures_sleeve/rows/2/carry_caliber/calendar_ann_pct` | 5.324 | 5.39 | SECTION_ADVANCED | 这一节自己换了代：`futures_sleeve` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/futures_sleeve/rows/2/carry_caliber/published_ann_pct` | 1.617 | 1.561 | SECTION_ADVANCED | 这一节自己换了代：`futures_sleeve` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/futures_sleeve/rows/2/carry_caliber/spread_pp` | 3.707 | 3.829 | SECTION_ADVANCED | 这一节自己换了代：`futures_sleeve` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/futures_sleeve/rows/2/notional_per_lot_cny` | 822720.0 | 818880.0 | SECTION_ADVANCED | 这一节自己换了代：`futures_sleeve` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/futures_sleeve/rows/3/blend_gain_sharpe` | 0.39 | 0.388 | SECTION_ADVANCED | 这一节自己换了代：`futures_sleeve` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/futures_sleeve/rows/3/carry_ann_compound_pct` | 10.263 | 10.209 | SECTION_ADVANCED | 这一节自己换了代：`futures_sleeve` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/futures_sleeve/rows/3/carry_caliber/calendar_ann_pct` | 11.954 | 12.013 | SECTION_ADVANCED | 这一节自己换了代：`futures_sleeve` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/futures_sleeve/rows/3/carry_caliber/published_ann_pct` | 5.928 | 5.882 | SECTION_ADVANCED | 这一节自己换了代：`futures_sleeve` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/futures_sleeve/rows/3/carry_caliber/spread_pp` | 6.026 | 6.131 | SECTION_ADVANCED | 这一节自己换了代：`futures_sleeve` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/futures_sleeve/rows/3/gap_net_pp` | 7.733 | 7.847 | SECTION_ADVANCED | 这一节自己换了代：`futures_sleeve` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/futures_sleeve/rows/3/notional_per_lot_cny` | 1221000.0 | 1204600.0 | SECTION_ADVANCED | 这一节自己换了代：`futures_sleeve` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/gap/elapsed_sec` | 48.7 | 48.1 | CLOCK |  |
-| `/idle_cash/vehicle_net_pct` | 1.772 | 1.7716 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/leg_split/arms/base_book/bars` | 1665 | 1666 | SECTION_ADVANCED | 这一节自己换了代：`leg_split` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/leg_split/arms/base_book/buckets_pp_per_year/plain` | 14.022 | 13.986 | SECTION_ADVANCED | 这一节自己换了代：`leg_split` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/leg_split/arms/base_book/buckets_pp_per_year/toll` | -1.577 | -1.576 | SECTION_ADVANCED | 这一节自己换了代：`leg_split` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/leg_split/arms/base_book/cagr_pct` | 12.99 | 12.95 | SECTION_ADVANCED | 这一节自己换了代：`leg_split` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/leg_split/arms/base_book/fill_bar_drag_pp_per_year` | -1.718 | -1.717 | SECTION_ADVANCED | 这一节自己换了代：`leg_split` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/leg_split/arms/base_book/plain_bars` | 1580 | 1581 | SECTION_ADVANCED | 这一节自己换了代：`leg_split` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/leg_split/arms/base_book/plain_carry_pp_per_year` | 14.022 | 13.986 | SECTION_ADVANCED | 这一节自己换了代：`leg_split` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/leg_split/arms/base_book/sharpe` | 0.908 | 0.906 | SECTION_ADVANCED | 这一节自己换了代：`leg_split` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/leg_split/arms/base_book/total_log_pp` | 12.304 | 12.268 | SECTION_ADVANCED | 这一节自己换了代：`leg_split` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/leg_split/arms/control_ew/bars` | 1665 | 1666 | SECTION_ADVANCED | 这一节自己换了代：`leg_split` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/leg_split/arms/control_ew/buckets_pp_per_year/intraday` | -2.151 | -2.15 | SECTION_ADVANCED | 这一节自己换了代：`leg_split` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/leg_split/arms/control_ew/buckets_pp_per_year/plain` | 6.352 | 6.328 | SECTION_ADVANCED | 这一节自己换了代：`leg_split` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/leg_split/arms/control_ew/cagr_pct` | 4.01 | 3.99 | SECTION_ADVANCED | 这一节自己换了代：`leg_split` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/leg_split/arms/control_ew/fill_bar_drag_pp_per_year` | -2.389 | -2.388 | SECTION_ADVANCED | 这一节自己换了代：`leg_split` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/leg_split/arms/control_ew/plain_bars` | 1580 | 1581 | SECTION_ADVANCED | 这一节自己换了代：`leg_split` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/leg_split/arms/control_ew/plain_carry_pp_per_year` | 6.351 | 6.328 | SECTION_ADVANCED | 这一节自己换了代：`leg_split` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/leg_split/arms/control_ew/sharpe` | 0.309 | 0.308 | SECTION_ADVANCED | 这一节自己换了代：`leg_split` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/leg_split/arms/control_ew/total_log_pp` | 3.963 | 3.94 | SECTION_ADVANCED | 这一节自己换了代：`leg_split` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/leg_split/arms/production/bars` | 1665 | 1666 | SECTION_ADVANCED | 这一节自己换了代：`leg_split` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/leg_split/arms/production/buckets_pp_per_year/intraday` | -0.713 | -0.712 | SECTION_ADVANCED | 这一节自己换了代：`leg_split` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/leg_split/arms/production/buckets_pp_per_year/overnight` | 0.19 | 0.189 | SECTION_ADVANCED | 这一节自己换了代：`leg_split` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/leg_split/arms/production/buckets_pp_per_year/plain` | 9.759 | 9.728 | SECTION_ADVANCED | 这一节自己换了代：`leg_split` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/leg_split/arms/production/buckets_pp_per_year/toll` | -1.156 | -1.155 | SECTION_ADVANCED | 这一节自己换了代：`leg_split` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/leg_split/arms/production/cagr_pct` | 8.35 | 8.32 | SECTION_ADVANCED | 这一节自己换了代：`leg_split` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/leg_split/arms/production/fill_bar_drag_pp_per_year` | -1.679 | -1.678 | SECTION_ADVANCED | 这一节自己换了代：`leg_split` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/leg_split/arms/production/plain_bars` | 1580 | 1581 | SECTION_ADVANCED | 这一节自己换了代：`leg_split` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/leg_split/arms/production/plain_carry_pp_per_year` | 9.76 | 9.727 | SECTION_ADVANCED | 这一节自己换了代：`leg_split` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/leg_split/arms/production/sharpe` | 0.881 | 0.878 | SECTION_ADVANCED | 这一节自己换了代：`leg_split` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/leg_split/arms/production/total_log_pp` | 8.081 | 8.05 | SECTION_ADVANCED | 这一节自己换了代：`leg_split` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/leg_split/selection_wedge_pp/intraday` | 1.504 | 1.503 | SECTION_ADVANCED | 这一节自己换了代：`leg_split` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/leg_split/selection_wedge_pp/plain` | 7.67 | 7.658 | SECTION_ADVANCED | 这一节自己换了代：`leg_split` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/leg_split/selection_wedge_pp/toll` | -1.503 | -1.502 | SECTION_ADVANCED | 这一节自己换了代：`leg_split` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/leg_split/selection_wedge_pp/total` | 8.341 | 8.328 | SECTION_ADVANCED | 这一节自己换了代：`leg_split` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/lookahead/affected_faces` | 94 | 96 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/lot_floor/capital_needed/AU` | 2782200.0 | 2714400.0 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/lot_floor/capital_needed/IF` | 3918200.0 | 3928400.0 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/lot_floor/capital_needed/IH` | 2729600.0 | 2731200.0 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/lot_floor/capital_needed/IM` | 4015333.3333333335 | 3991600.0 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/lot_floor/capital_needed/SC` | 1938000.0 | 1920333.3333333335 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/lot_floor/capital_needed/T` | 3667000.0 | 3667833.3333333335 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/lot_floor/capital_needed/TS` | 6843066.666666667 | 6843866.666666667 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/lot_floor/etf_shares_at_1m/510300` | 0.000404 | 0.000406 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/lot_floor/etf_shares_at_1m/510500` | 0.000632 | 0.000631 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/lot_floor/etf_shares_at_1m/512100` | 0.000247 | 0.000246 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/lot_floor/etf_shares_at_1m/588000` | 0.000129 | 0.000132 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/lot_floor/shares_at_1m/AU` | 0.83466 | 0.81432 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/lot_floor/shares_at_1m/IF` | 1.17546 | 1.17852 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/lot_floor/shares_at_1m/IH` | 0.81888 | 0.81936 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/lot_floor/shares_at_1m/IM` | 1.2046 | 1.19748 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/lot_floor/shares_at_1m/SC` | 0.5814 | 0.5761 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/lot_floor/shares_at_1m/T` | 1.1001 | 1.10035 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/lot_floor/shares_at_1m/TS` | 2.05292 | 2.05316 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/roster_audit/local_copies/1/laneside/local_disk_n` | 27 | 28 | SECTION_ADVANCED | 这一节自己换了代：`roster_audit` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/roster_audit/local_copies/1/local_disk_n` | 27 | 28 | SECTION_ADVANCED | 这一节自己换了代：`roster_audit` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/sibling_gap/immaterial_gain_cny` | 103.3 | 103.2 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/sibling_gap/pairs/0/amount_cny` | 86400.6 | 86347.8 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/sibling_gap/pairs/0/today_gain_cny` | 103.3 | 103.2 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/sibling_gap/pairs/1/amount_cny` | 86286.0 | 86390.2 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/stress/n_days` | 5282 | 5283 | UNEXPLAINED | 没有旧值留存，也没有口径声明 |
-| `/vol_window/paired/rows/0/bars` | 1663 | 1664 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/paired/rows/0/ci_p05_p95_pp/0` | -0.084 | -0.106 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/paired/rows/0/ci_p05_p95_pp/1` | 2.004 | 1.973 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/paired/rows/0/mean_pp` | 0.873 | 0.867 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/paired/rows/0/share_positive` | 0.936 | 0.937 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/paired/rows/1/bars` | 1658 | 1659 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/paired/rows/1/ci_p05_p95_pp/0` | 0.637 | 0.715 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/paired/rows/1/ci_p05_p95_pp/1` | 3.05 | 3.043 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/paired/rows/1/mean_pp` | 1.805 | 1.804 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/paired/rows/1/share_positive` | 0.999 | 0.998 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/paired/rows/2/bars` | 1653 | 1654 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/paired/rows/2/ci_p05_p95_pp/0` | 0.159 | 0.138 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/paired/rows/2/ci_p05_p95_pp/1` | 2.383 | 2.397 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/paired/rows/2/mean_pp` | 1.197 | 1.192 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/paired/rows/2/share_positive` | 0.974 | 0.968 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/paired/rows/3/bars` | 1648 | 1649 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/paired/rows/3/ci_p05_p95_pp/0` | -0.364 | -0.337 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/paired/rows/3/ci_p05_p95_pp/1` | 1.194 | 1.167 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/paired/rows/3/mean_pp` | 0.41 | 0.409 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/paired/rows/3/share_positive` | 0.82 | 0.824 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/paired/verdict/min_ci_low_pp` | -0.364 | -0.337 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/paired/verdict/min_share_positive` | 0.82 | 0.824 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/panel/bars_named` | 5282 | 5283 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/phase_rows/0/cagr` | 0.1032 | 0.1033 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/phase_rows/0/oos_cagr` | 0.19 | 0.1902 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/phase_rows/0/oos_sharpe` | 1.76 | 1.763 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/phase_rows/0/sharpe` | 1.043 | 1.044 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/phase_rows/1/cagr` | 0.1005 | 0.1006 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/phase_rows/1/oos_cagr` | 0.1831 | 0.1835 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/phase_rows/1/oos_sharpe` | 1.731 | 1.734 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/phase_rows/1/sharpe` | 1.035 | 1.036 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/phase_rows/10/cagr` | 0.0995 | 0.0999 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/phase_rows/10/oos_cagr` | 0.1863 | 0.187 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/phase_rows/10/oos_sharpe` | 1.622 | 1.628 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/phase_rows/10/sharpe` | 0.982 | 0.985 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/phase_rows/10/vol` | 0.1065 | 0.1064 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/phase_rows/11/cagr` | 0.0942 | 0.0946 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/phase_rows/11/oos_cagr` | 0.1753 | 0.1761 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/phase_rows/11/oos_sharpe` | 1.558 | 1.565 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/phase_rows/11/sharpe` | 0.936 | 0.94 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/phase_rows/12/cagr` | 0.0871 | 0.0874 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/phase_rows/12/oos_cagr` | 0.1655 | 0.1664 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/phase_rows/12/oos_sharpe` | 1.463 | 1.47 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/phase_rows/12/sharpe` | 0.877 | 0.88 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/phase_rows/13/cagr` | 0.0731 | 0.0734 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/phase_rows/13/oos_cagr` | 0.1491 | 0.1499 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/phase_rows/13/oos_sharpe` | 1.375 | 1.382 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/phase_rows/13/sharpe` | 0.767 | 0.77 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/phase_rows/14/cagr` | 0.0671 | 0.0675 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/phase_rows/14/oos_cagr` | 0.1373 | 0.1381 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/phase_rows/14/oos_sharpe` | 1.331 | 1.338 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/phase_rows/14/sharpe` | 0.741 | 0.744 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/phase_rows/14/vol` | 0.0979 | 0.0978 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/phase_rows/15/cagr` | 0.1154 | 0.1157 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/phase_rows/15/oos_cagr` | 0.1474 | 0.148 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/phase_rows/15/oos_sharpe` | 1.409 | 1.414 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/phase_rows/15/sharpe` | 1.205 | 1.207 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/phase_rows/15/vol` | 0.0982 | 0.0981 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/phase_rows/16/cagr` | 0.1086 | 0.1089 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/phase_rows/16/oos_cagr` | 0.1337 | 0.1343 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/phase_rows/16/oos_sharpe` | 1.253 | 1.258 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/phase_rows/16/sharpe` | 1.117 | 1.12 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/phase_rows/17/cagr` | 0.111 | 0.1112 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/phase_rows/17/oos_cagr` | 0.1451 | 0.1457 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/phase_rows/17/oos_sharpe` | 1.378 | 1.383 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/phase_rows/17/sharpe` | 1.154 | 1.157 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/phase_rows/17/vol` | 0.0989 | 0.0988 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/phase_rows/18/cagr` | 0.0962 | 0.0964 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/phase_rows/18/oos_cagr` | 0.1209 | 0.1214 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/phase_rows/18/oos_sharpe` | 1.228 | 1.232 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/phase_rows/18/sharpe` | 1.046 | 1.048 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/phase_rows/18/vol` | 0.0956 | 0.0955 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/phase_rows/19/cagr` | 0.091 | 0.0912 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/phase_rows/19/oos_cagr` | 0.1162 | 0.1166 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/phase_rows/19/oos_sharpe` | 1.228 | 1.232 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/phase_rows/19/sharpe` | 1.023 | 1.025 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/phase_rows/2/cagr` | 0.0941 | 0.0943 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/phase_rows/2/oos_cagr` | 0.1772 | 0.1776 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/phase_rows/2/oos_sharpe` | 1.681 | 1.685 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/phase_rows/2/sharpe` | 0.971 | 0.973 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/phase_rows/3/cagr` | 0.0754 | 0.0756 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/phase_rows/3/oos_cagr` | 0.1353 | 0.1357 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/phase_rows/3/oos_sharpe` | 1.455 | 1.46 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/phase_rows/3/sharpe` | 0.833 | 0.835 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/phase_rows/4/cagr` | 0.0706 | 0.0708 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/phase_rows/4/oos_cagr` | 0.1277 | 0.1281 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/phase_rows/4/oos_sharpe` | 1.422 | 1.427 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/phase_rows/4/sharpe` | 0.811 | 0.813 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/phase_rows/5/cagr` | 0.1133 | 0.1139 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/phase_rows/5/oos_cagr` | 0.1942 | 0.1956 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/phase_rows/5/oos_sharpe` | 1.583 | 1.593 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/phase_rows/5/sharpe` | 1.072 | 1.077 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/phase_rows/6/cagr` | 0.0993 | 0.0999 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/phase_rows/6/oos_cagr` | 0.1654 | 0.1668 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/phase_rows/6/oos_sharpe` | 1.415 | 1.426 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/phase_rows/6/sharpe` | 0.97 | 0.975 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/phase_rows/7/cagr` | 0.0945 | 0.0951 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/phase_rows/7/oos_cagr` | 0.1651 | 0.1665 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/phase_rows/7/oos_sharpe` | 1.412 | 1.423 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/phase_rows/7/sharpe` | 0.929 | 0.935 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/phase_rows/8/cagr` | 0.085 | 0.0856 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/phase_rows/8/oos_cagr` | 0.1544 | 0.1558 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/phase_rows/8/oos_sharpe` | 1.411 | 1.423 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/phase_rows/8/sharpe` | 0.876 | 0.882 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/phase_rows/9/cagr` | 0.0804 | 0.081 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/phase_rows/9/oos_cagr` | 0.1375 | 0.1389 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/phase_rows/9/oos_sharpe` | 1.317 | 1.329 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/phase_rows/9/sharpe` | 0.863 | 0.869 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/recomputed/largest_sharpe_gap_vs_shipped` | 0.259 | 0.258 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/recomputed/windows/0/oos_sharpe_delta_by_phase/0` | 0.079 | 0.078 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/recomputed/windows/0/oos_sharpe_delta_by_phase/1` | 0.171 | 0.17 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/recomputed/windows/0/oos_sharpe_delta_by_phase/2` | 0.159 | 0.158 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/recomputed/windows/0/sharpe_delta_by_phase/0` | 0.072 | 0.071 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/recomputed/windows/0/sharpe_delta_by_phase/1` | 0.143 | 0.142 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/recomputed/windows/0/sharpe_delta_by_phase/3` | 0.051 | 0.05 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/recomputed/windows/0/sharpe_delta_max` | 0.143 | 0.142 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/recomputed/windows/0/sharpe_delta_min` | 0.051 | 0.05 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/recomputed/windows/1/oos_sharpe_delta_by_phase/0` | 0.05 | 0.049 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/recomputed/windows/1/sharpe_delta_by_phase/0` | 0.064 | 0.063 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/recomputed/windows/1/sharpe_delta_by_phase/1` | 0.041 | 0.04 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/recomputed/windows/1/sharpe_delta_by_phase/2` | 0.059 | 0.06 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/recomputed/windows/1/sharpe_delta_max` | 0.064 | 0.063 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/recomputed/windows/2/oos_sharpe_delta_by_phase/0` | -0.226 | -0.225 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/recomputed/windows/2/oos_sharpe_delta_by_phase/1` | -0.001 | 0.0 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/recomputed/windows/2/oos_sharpe_delta_by_phase/3` | -0.15 | -0.151 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/recomputed/windows/2/sharpe_delta_by_phase/3` | -0.108 | -0.109 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/recomputed/windows/3/oos_sharpe_delta_by_phase/0` | -0.259 | -0.258 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/recomputed/windows/3/oos_sharpe_delta_by_phase/1` | -0.095 | -0.094 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/recomputed/windows/3/oos_sharpe_delta_by_phase/3` | -0.15 | -0.151 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/recomputed/windows/3/sharpe_delta_by_phase/3` | -0.131 | -0.132 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/verdict/largest_sharpe_gap_vs_shipped` | 0.259 | 0.258 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/verdict/windows/0/oos_sharpe_delta_by_phase/0` | 0.079 | 0.078 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/verdict/windows/0/oos_sharpe_delta_by_phase/1` | 0.171 | 0.17 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/verdict/windows/0/oos_sharpe_delta_by_phase/2` | 0.159 | 0.158 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/verdict/windows/0/sharpe_delta_by_phase/0` | 0.072 | 0.071 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/verdict/windows/0/sharpe_delta_by_phase/1` | 0.143 | 0.142 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/verdict/windows/0/sharpe_delta_by_phase/3` | 0.051 | 0.05 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/verdict/windows/0/sharpe_delta_max` | 0.143 | 0.142 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/verdict/windows/0/sharpe_delta_min` | 0.051 | 0.05 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/verdict/windows/1/oos_sharpe_delta_by_phase/0` | 0.05 | 0.049 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/verdict/windows/1/sharpe_delta_by_phase/0` | 0.064 | 0.063 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/verdict/windows/1/sharpe_delta_by_phase/1` | 0.041 | 0.04 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/verdict/windows/1/sharpe_delta_by_phase/2` | 0.059 | 0.06 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/verdict/windows/1/sharpe_delta_max` | 0.064 | 0.063 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/verdict/windows/2/oos_sharpe_delta_by_phase/0` | -0.226 | -0.225 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/verdict/windows/2/oos_sharpe_delta_by_phase/1` | -0.001 | 0.0 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/verdict/windows/2/oos_sharpe_delta_by_phase/3` | -0.15 | -0.151 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/verdict/windows/2/sharpe_delta_by_phase/3` | -0.108 | -0.109 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/verdict/windows/3/oos_sharpe_delta_by_phase/0` | -0.259 | -0.258 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/verdict/windows/3/oos_sharpe_delta_by_phase/1` | -0.095 | -0.094 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/verdict/windows/3/oos_sharpe_delta_by_phase/3` | -0.15 | -0.151 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window/verdict/windows/3/sharpe_delta_by_phase/3` | -0.131 | -0.132 | SECTION_ADVANCED | 这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/edge/best_mean_sharpe` | 1.105 | 1.1078 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/edge/curve/0/max_sharpe` | 1.173 | 1.175 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/edge/curve/0/mean_sharpe` | 1.105 | 1.1078 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/edge/curve/0/min_sharpe` | 1.029 | 1.032 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/edge/curve/1/max_sharpe` | 1.184 | 1.186 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/edge/curve/1/mean_sharpe` | 1.1025 | 1.1053 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/edge/curve/1/min_sharpe` | 1.021 | 1.024 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/edge/curve/2/max_sharpe` | 1.205 | 1.207 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/edge/curve/2/mean_sharpe` | 1.0755 | 1.0782 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/edge/curve/2/min_sharpe` | 0.982 | 0.985 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/edge/curve/3/max_sharpe` | 1.154 | 1.157 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/edge/curve/3/mean_sharpe` | 0.9828 | 0.9862 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/edge/curve/3/min_sharpe` | 0.877 | 0.88 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/edge/gain_of_best_over_shipped` | 0.1222 | 0.1216 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/edge/shipped/max_sharpe` | 1.154 | 1.157 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/edge/shipped/mean_sharpe` | 0.9828 | 0.9862 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/edge/shipped/min_sharpe` | 0.877 | 0.88 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/paired/rows/0/bars` | 1663 | 1664 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/paired/rows/0/ci_p05_p95_pp/0` | 0.371 | 0.347 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/paired/rows/0/ci_p05_p95_pp/1` | 3.111 | 3.008 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/paired/rows/0/mean_pp` | 1.61 | 1.602 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/paired/rows/0/share_positive` | 0.981 | 0.983 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/paired/rows/1/bars` | 1658 | 1659 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/paired/rows/1/ci_p05_p95_pp/0` | 1.092 | 1.085 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/paired/rows/1/ci_p05_p95_pp/1` | 4.197 | 4.182 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/paired/rows/1/mean_pp` | 2.593 | 2.592 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/paired/rows/2/bars` | 1653 | 1654 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/paired/rows/2/ci_p05_p95_pp/0` | 0.01 | -0.007 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/paired/rows/2/ci_p05_p95_pp/1` | 2.732 | 2.76 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/paired/rows/2/mean_pp` | 1.348 | 1.34 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/paired/rows/2/share_positive` | 0.95 | 0.948 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/paired/rows/3/bars` | 1648 | 1649 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/paired/rows/3/ci_p05_p95_pp/0` | -0.67 | -0.708 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/paired/rows/3/ci_p05_p95_pp/1` | 1.75 | 1.742 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/paired/rows/3/mean_pp` | 0.501 | 0.497 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/paired/rows/3/share_positive` | 0.764 | 0.749 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/paired/verdict/min_ci_low_pp` | -0.67 | -0.708 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/paired/verdict/min_share_positive` | 0.764 | 0.749 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/panel/bars_named` | 5282 | 5283 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/0/cagr` | 0.1401 | 0.1403 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/0/oos_cagr` | 0.2348 | 0.2352 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/0/oos_sharpe` | 1.56 | 1.563 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/0/sharpe` | 0.969 | 0.97 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/0/vol` | 0.1531 | 0.153 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/1/cagr` | 0.1401 | 0.1403 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/1/oos_cagr` | 0.2348 | 0.2352 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/1/oos_sharpe` | 1.56 | 1.563 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/1/sharpe` | 0.969 | 0.97 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/1/vol` | 0.1531 | 0.153 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/10/cagr` | 0.1218 | 0.1224 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/10/oos_cagr` | 0.2041 | 0.2055 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/10/oos_sharpe` | 1.653 | 1.663 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/10/sharpe` | 1.146 | 1.151 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/11/cagr` | 0.1186 | 0.1192 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/11/oos_cagr` | 0.2017 | 0.2031 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/11/oos_sharpe` | 1.636 | 1.646 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/11/sharpe` | 1.113 | 1.118 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/12/cagr` | 0.1133 | 0.1139 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/12/oos_cagr` | 0.1942 | 0.1956 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/12/oos_sharpe` | 1.583 | 1.593 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/12/sharpe` | 1.072 | 1.077 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/13/cagr` | 0.0945 | 0.0951 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/13/oos_cagr` | 0.1651 | 0.1665 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/13/oos_sharpe` | 1.412 | 1.423 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/13/sharpe` | 0.929 | 0.935 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/14/cagr` | 0.1354 | 0.1358 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/14/oos_cagr` | 0.2185 | 0.2193 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/14/oos_sharpe` | 1.196 | 1.2 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/14/sharpe` | 0.871 | 0.873 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/15/cagr` | 0.1354 | 0.1358 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/15/oos_cagr` | 0.2185 | 0.2193 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/15/oos_sharpe` | 1.196 | 1.2 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/15/sharpe` | 0.871 | 0.873 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/16/cagr` | 0.1354 | 0.1358 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/16/oos_cagr` | 0.2185 | 0.2193 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/16/oos_sharpe` | 1.196 | 1.2 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/16/sharpe` | 0.871 | 0.873 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/17/cagr` | 0.1015 | 0.1018 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/17/oos_cagr` | 0.1915 | 0.1922 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/17/oos_sharpe` | 1.73 | 1.736 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/17/sharpe` | 1.029 | 1.032 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/17/vol` | 0.1031 | 0.103 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/18/cagr` | 0.1033 | 0.1036 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/18/oos_cagr` | 0.1919 | 0.1925 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/18/oos_sharpe` | 1.668 | 1.674 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/18/sharpe` | 1.021 | 1.024 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/19/cagr` | 0.0995 | 0.0999 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/19/oos_cagr` | 0.1863 | 0.187 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/19/oos_sharpe` | 1.622 | 1.628 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/19/sharpe` | 0.982 | 0.985 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/19/vol` | 0.1065 | 0.1064 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/2/cagr` | 0.1401 | 0.1403 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/2/oos_cagr` | 0.2348 | 0.2352 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/2/oos_sharpe` | 1.56 | 1.563 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/2/sharpe` | 0.969 | 0.97 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/2/vol` | 0.1531 | 0.153 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/20/cagr` | 0.0871 | 0.0874 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/20/oos_cagr` | 0.1655 | 0.1664 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/20/oos_sharpe` | 1.463 | 1.47 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/20/sharpe` | 0.877 | 0.88 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/21/cagr` | 0.1593 | 0.1596 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/21/oos_cagr` | 0.1919 | 0.1926 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/21/oos_sharpe` | 1.29 | 1.294 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/21/sharpe` | 1.13 | 1.132 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/21/vol` | 0.1452 | 0.1451 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/22/cagr` | 0.1593 | 0.1596 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/22/oos_cagr` | 0.1919 | 0.1926 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/22/oos_sharpe` | 1.29 | 1.294 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/22/sharpe` | 1.13 | 1.132 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/22/vol` | 0.1452 | 0.1451 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/23/cagr` | 0.1593 | 0.1596 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/23/oos_cagr` | 0.1919 | 0.1926 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/23/oos_sharpe` | 1.29 | 1.294 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/23/sharpe` | 1.13 | 1.132 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/23/vol` | 0.1452 | 0.1451 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/24/cagr` | 0.1161 | 0.1163 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/24/oos_cagr` | 0.1519 | 0.1523 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/24/oos_sharpe` | 1.368 | 1.372 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/24/sharpe` | 1.173 | 1.175 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/25/cagr` | 0.1139 | 0.1141 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/25/oos_cagr` | 0.1458 | 0.1463 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/25/oos_sharpe` | 1.374 | 1.379 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/25/sharpe` | 1.184 | 1.186 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/26/cagr` | 0.1154 | 0.1157 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/26/oos_cagr` | 0.1474 | 0.148 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/26/oos_sharpe` | 1.409 | 1.414 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/26/sharpe` | 1.205 | 1.207 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/26/vol` | 0.0982 | 0.0981 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/27/cagr` | 0.111 | 0.1112 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/27/oos_cagr` | 0.1451 | 0.1457 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/27/oos_sharpe` | 1.378 | 1.383 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/27/sharpe` | 1.154 | 1.157 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/27/vol` | 0.0989 | 0.0988 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/3/cagr` | 0.1106 | 0.1107 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/3/oos_cagr` | 0.1971 | 0.1974 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/3/oos_sharpe` | 1.762 | 1.764 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/3/sharpe` | 1.072 | 1.073 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/3/vol` | 0.1073 | 0.1072 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/4/cagr` | 0.1116 | 0.1117 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/4/oos_cagr` | 0.2045 | 0.2048 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/4/oos_sharpe` | 1.824 | 1.826 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/4/sharpe` | 1.092 | 1.093 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/5/cagr` | 0.1032 | 0.1033 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/5/oos_cagr` | 0.19 | 0.1902 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/5/oos_sharpe` | 1.76 | 1.763 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/5/sharpe` | 1.043 | 1.044 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/6/cagr` | 0.0941 | 0.0943 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/6/oos_cagr` | 0.1772 | 0.1776 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/6/oos_sharpe` | 1.681 | 1.685 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/6/sharpe` | 0.971 | 0.973 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/7/cagr` | 0.1391 | 0.1396 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/7/oos_cagr` | 0.2038 | 0.2052 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/7/oos_sharpe` | 1.181 | 1.188 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/7/sharpe` | 0.905 | 0.908 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/8/cagr` | 0.1391 | 0.1396 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/8/oos_cagr` | 0.2038 | 0.2052 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/8/oos_sharpe` | 1.181 | 1.188 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/8/sharpe` | 0.905 | 0.908 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/9/cagr` | 0.1391 | 0.1396 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/9/oos_cagr` | 0.2038 | 0.2052 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/9/oos_sharpe` | 1.181 | 1.188 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/phase_rows/9/sharpe` | 0.905 | 0.908 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/recomputed_edge/best_mean_sharpe` | 1.105 | 1.1078 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/recomputed_edge/curve/0/max_sharpe` | 1.173 | 1.175 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/recomputed_edge/curve/0/mean_sharpe` | 1.105 | 1.1078 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/recomputed_edge/curve/0/min_sharpe` | 1.029 | 1.032 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/recomputed_edge/curve/1/max_sharpe` | 1.184 | 1.186 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/recomputed_edge/curve/1/mean_sharpe` | 1.1025 | 1.1053 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/recomputed_edge/curve/1/min_sharpe` | 1.021 | 1.024 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/recomputed_edge/curve/2/max_sharpe` | 1.205 | 1.207 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/recomputed_edge/curve/2/mean_sharpe` | 1.0755 | 1.0782 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/recomputed_edge/curve/2/min_sharpe` | 0.982 | 0.985 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/recomputed_edge/curve/3/max_sharpe` | 1.154 | 1.157 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/recomputed_edge/curve/3/mean_sharpe` | 0.9828 | 0.9862 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/recomputed_edge/curve/3/min_sharpe` | 0.877 | 0.88 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/recomputed_edge/gain_of_best_over_shipped` | 0.1222 | 0.1216 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/recomputed_edge/shipped/max_sharpe` | 1.154 | 1.157 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/recomputed_edge/shipped/mean_sharpe` | 0.9828 | 0.9862 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/recomputed_edge/shipped/min_sharpe` | 0.877 | 0.88 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/recomputed_verdict/largest_sharpe_gap_vs_shipped` | 0.267 | 0.27 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/recomputed_verdict/windows/0/oos_sharpe_delta_by_phase/0` | -0.121 | -0.122 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/recomputed_verdict/windows/0/oos_sharpe_delta_by_phase/1` | -0.231 | -0.235 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/recomputed_verdict/windows/0/oos_sharpe_delta_by_phase/2` | -0.267 | -0.27 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/recomputed_verdict/windows/0/oos_sharpe_delta_by_phase/3` | -0.088 | -0.089 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/recomputed_verdict/windows/0/sharpe_delta_by_phase/0` | -0.002 | -0.003 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/recomputed_verdict/windows/0/sharpe_delta_by_phase/1` | -0.024 | -0.027 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/recomputed_verdict/windows/0/sharpe_delta_by_phase/2` | -0.006 | -0.007 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/recomputed_verdict/windows/0/sharpe_delta_by_phase/3` | -0.024 | -0.025 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/recomputed_verdict/windows/0/sharpe_delta_max` | -0.002 | -0.003 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/recomputed_verdict/windows/0/sharpe_delta_min` | -0.024 | -0.027 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/recomputed_verdict/windows/1/oos_sharpe_delta_by_phase/0` | -0.121 | -0.122 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/recomputed_verdict/windows/1/oos_sharpe_delta_by_phase/1` | -0.231 | -0.235 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/recomputed_verdict/windows/1/oos_sharpe_delta_by_phase/2` | -0.267 | -0.27 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/recomputed_verdict/windows/1/oos_sharpe_delta_by_phase/3` | -0.088 | -0.089 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/recomputed_verdict/windows/1/sharpe_delta_by_phase/0` | -0.002 | -0.003 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/recomputed_verdict/windows/1/sharpe_delta_by_phase/1` | -0.024 | -0.027 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/recomputed_verdict/windows/1/sharpe_delta_by_phase/2` | -0.006 | -0.007 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/recomputed_verdict/windows/1/sharpe_delta_by_phase/3` | -0.024 | -0.025 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/recomputed_verdict/windows/1/sharpe_delta_max` | -0.002 | -0.003 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/recomputed_verdict/windows/1/sharpe_delta_min` | -0.024 | -0.027 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/recomputed_verdict/windows/2/oos_sharpe_delta_by_phase/0` | -0.121 | -0.122 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/recomputed_verdict/windows/2/oos_sharpe_delta_by_phase/1` | -0.231 | -0.235 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/recomputed_verdict/windows/2/oos_sharpe_delta_by_phase/2` | -0.267 | -0.27 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/recomputed_verdict/windows/2/oos_sharpe_delta_by_phase/3` | -0.088 | -0.089 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/recomputed_verdict/windows/2/sharpe_delta_by_phase/0` | -0.002 | -0.003 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/recomputed_verdict/windows/2/sharpe_delta_by_phase/1` | -0.024 | -0.027 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/recomputed_verdict/windows/2/sharpe_delta_by_phase/2` | -0.006 | -0.007 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/recomputed_verdict/windows/2/sharpe_delta_by_phase/3` | -0.024 | -0.025 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/recomputed_verdict/windows/2/sharpe_delta_max` | -0.002 | -0.003 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/recomputed_verdict/windows/2/sharpe_delta_min` | -0.024 | -0.027 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/recomputed_verdict/windows/3/oos_sharpe_delta_by_phase/0` | 0.081 | 0.079 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/recomputed_verdict/windows/3/oos_sharpe_delta_by_phase/1` | 0.241 | 0.24 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/recomputed_verdict/windows/3/oos_sharpe_delta_by_phase/2` | 0.267 | 0.266 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/recomputed_verdict/windows/3/oos_sharpe_delta_by_phase/3` | -0.01 | -0.011 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/recomputed_verdict/windows/3/sharpe_delta_by_phase/0` | 0.101 | 0.1 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/recomputed_verdict/windows/3/sharpe_delta_by_phase/1` | 0.217 | 0.216 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/recomputed_verdict/windows/3/sharpe_delta_by_phase/3` | 0.019 | 0.018 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/recomputed_verdict/windows/3/sharpe_delta_max` | 0.217 | 0.216 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/recomputed_verdict/windows/3/sharpe_delta_min` | 0.019 | 0.018 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/recomputed_verdict/windows/4/oos_sharpe_delta_by_phase/0` | 0.143 | 0.141 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/recomputed_verdict/windows/4/oos_sharpe_delta_by_phase/1` | 0.224 | 0.223 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/recomputed_verdict/windows/4/oos_sharpe_delta_by_phase/2` | 0.205 | 0.204 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/recomputed_verdict/windows/4/sharpe_delta_by_phase/0` | 0.121 | 0.12 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/recomputed_verdict/windows/4/sharpe_delta_by_phase/1` | 0.184 | 0.183 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/recomputed_verdict/windows/4/sharpe_delta_by_phase/3` | 0.03 | 0.029 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/recomputed_verdict/windows/4/sharpe_delta_max` | 0.184 | 0.183 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/recomputed_verdict/windows/4/sharpe_delta_min` | 0.03 | 0.029 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/recomputed_verdict/windows/5/oos_sharpe_delta_by_phase/0` | 0.079 | 0.078 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/recomputed_verdict/windows/5/oos_sharpe_delta_by_phase/1` | 0.171 | 0.17 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/recomputed_verdict/windows/5/oos_sharpe_delta_by_phase/2` | 0.159 | 0.158 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/recomputed_verdict/windows/5/sharpe_delta_by_phase/0` | 0.072 | 0.071 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/recomputed_verdict/windows/5/sharpe_delta_by_phase/1` | 0.143 | 0.142 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/recomputed_verdict/windows/5/sharpe_delta_by_phase/3` | 0.051 | 0.05 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/recomputed_verdict/windows/5/sharpe_delta_max` | 0.143 | 0.142 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/recomputed_verdict/windows/5/sharpe_delta_min` | 0.051 | 0.05 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/verdict/largest_sharpe_gap_vs_shipped` | 0.267 | 0.27 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/verdict/windows/0/oos_sharpe_delta_by_phase/0` | -0.121 | -0.122 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/verdict/windows/0/oos_sharpe_delta_by_phase/1` | -0.231 | -0.235 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/verdict/windows/0/oos_sharpe_delta_by_phase/2` | -0.267 | -0.27 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/verdict/windows/0/oos_sharpe_delta_by_phase/3` | -0.088 | -0.089 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/verdict/windows/0/sharpe_delta_by_phase/0` | -0.002 | -0.003 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/verdict/windows/0/sharpe_delta_by_phase/1` | -0.024 | -0.027 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/verdict/windows/0/sharpe_delta_by_phase/2` | -0.006 | -0.007 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/verdict/windows/0/sharpe_delta_by_phase/3` | -0.024 | -0.025 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/verdict/windows/0/sharpe_delta_max` | -0.002 | -0.003 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/verdict/windows/0/sharpe_delta_min` | -0.024 | -0.027 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/verdict/windows/1/oos_sharpe_delta_by_phase/0` | -0.121 | -0.122 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/verdict/windows/1/oos_sharpe_delta_by_phase/1` | -0.231 | -0.235 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/verdict/windows/1/oos_sharpe_delta_by_phase/2` | -0.267 | -0.27 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/verdict/windows/1/oos_sharpe_delta_by_phase/3` | -0.088 | -0.089 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/verdict/windows/1/sharpe_delta_by_phase/0` | -0.002 | -0.003 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/verdict/windows/1/sharpe_delta_by_phase/1` | -0.024 | -0.027 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/verdict/windows/1/sharpe_delta_by_phase/2` | -0.006 | -0.007 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/verdict/windows/1/sharpe_delta_by_phase/3` | -0.024 | -0.025 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/verdict/windows/1/sharpe_delta_max` | -0.002 | -0.003 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/verdict/windows/1/sharpe_delta_min` | -0.024 | -0.027 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/verdict/windows/2/oos_sharpe_delta_by_phase/0` | -0.121 | -0.122 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/verdict/windows/2/oos_sharpe_delta_by_phase/1` | -0.231 | -0.235 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/verdict/windows/2/oos_sharpe_delta_by_phase/2` | -0.267 | -0.27 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/verdict/windows/2/oos_sharpe_delta_by_phase/3` | -0.088 | -0.089 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/verdict/windows/2/sharpe_delta_by_phase/0` | -0.002 | -0.003 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/verdict/windows/2/sharpe_delta_by_phase/1` | -0.024 | -0.027 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/verdict/windows/2/sharpe_delta_by_phase/2` | -0.006 | -0.007 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/verdict/windows/2/sharpe_delta_by_phase/3` | -0.024 | -0.025 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/verdict/windows/2/sharpe_delta_max` | -0.002 | -0.003 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/verdict/windows/2/sharpe_delta_min` | -0.024 | -0.027 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/verdict/windows/3/oos_sharpe_delta_by_phase/0` | 0.081 | 0.079 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/verdict/windows/3/oos_sharpe_delta_by_phase/1` | 0.241 | 0.24 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/verdict/windows/3/oos_sharpe_delta_by_phase/2` | 0.267 | 0.266 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/verdict/windows/3/oos_sharpe_delta_by_phase/3` | -0.01 | -0.011 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/verdict/windows/3/sharpe_delta_by_phase/0` | 0.101 | 0.1 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/verdict/windows/3/sharpe_delta_by_phase/1` | 0.217 | 0.216 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/verdict/windows/3/sharpe_delta_by_phase/3` | 0.019 | 0.018 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/verdict/windows/3/sharpe_delta_max` | 0.217 | 0.216 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/verdict/windows/3/sharpe_delta_min` | 0.019 | 0.018 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/verdict/windows/4/oos_sharpe_delta_by_phase/0` | 0.143 | 0.141 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/verdict/windows/4/oos_sharpe_delta_by_phase/1` | 0.224 | 0.223 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/verdict/windows/4/oos_sharpe_delta_by_phase/2` | 0.205 | 0.204 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/verdict/windows/4/sharpe_delta_by_phase/0` | 0.121 | 0.12 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/verdict/windows/4/sharpe_delta_by_phase/1` | 0.184 | 0.183 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/verdict/windows/4/sharpe_delta_by_phase/3` | 0.03 | 0.029 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/verdict/windows/4/sharpe_delta_max` | 0.184 | 0.183 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/verdict/windows/4/sharpe_delta_min` | 0.03 | 0.029 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/verdict/windows/5/oos_sharpe_delta_by_phase/0` | 0.079 | 0.078 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/verdict/windows/5/oos_sharpe_delta_by_phase/1` | 0.171 | 0.17 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/verdict/windows/5/oos_sharpe_delta_by_phase/2` | 0.159 | 0.158 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/verdict/windows/5/sharpe_delta_by_phase/0` | 0.072 | 0.071 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/verdict/windows/5/sharpe_delta_by_phase/1` | 0.143 | 0.142 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/verdict/windows/5/sharpe_delta_by_phase/3` | 0.051 | 0.05 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/verdict/windows/5/sharpe_delta_max` | 0.143 | 0.142 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/vol_window_edge/verdict/windows/5/sharpe_delta_min` | 0.051 | 0.05 | SECTION_ADVANCED | 这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/window_label/identity/the full-window cell's own window reproduces the ticket/delta_pp` | 0.0 | 0.06 | SECTION_ADVANCED | 这一节自己换了代：`window_label` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/window_label/identity/the full-window cell's own window reproduces the ticket/measured_pp` | 12.45 | 12.39 | SECTION_ADVANCED | 这一节自己换了代：`window_label` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/window_label/rows/printed_under_full_header/sharpe` | 1.687 | 1.688 | SECTION_ADVANCED | 这一节自己换了代：`window_label` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/window_label/rows/same_book_full_window/bars` | 1537 | 1538 | SECTION_ADVANCED | 这一节自己换了代：`window_label` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/window_label/rows/same_book_full_window/cagr_pp` | 7.6 | 7.58 | SECTION_ADVANCED | 这一节自己换了代：`window_label` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/window_label/rows/same_book_full_window/sharpe` | 1.324 | 1.32 | SECTION_ADVANCED | 这一节自己换了代：`window_label` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/window_label/table_row/full/cagr_pct` | 7.6 | 7.58 | SECTION_ADVANCED | 这一节自己换了代：`window_label` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/window_label/table_row/full/sharpe` | 1.324 | 1.32 | SECTION_ADVANCED | 这一节自己换了代：`window_label` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/window_label/table_row/full_window_bars` | 1537 | 1538 | SECTION_ADVANCED | 这一节自己换了代：`window_label` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/window_label/table_row/oos/sharpe` | 1.687 | 1.688 | SECTION_ADVANCED | 这一节自己换了代：`window_label` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
-| `/window_label/verdict/gap_pp` | 4.85 | 4.87 | SECTION_ADVANCED | 这一节自己换了代：`window_label` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json |
+| `/admission/capacity_cny` | 15993296.0 | 14679968.0 | DATA_ADVANCED |  |
+| `/admission/concentration_caliber/gap_pp` | 3.14 | 3.15 | DATA_ADVANCED |  |
+| `/admission/concentration_caliber/lag0_cagr_pct` | 11.41 | 11.38 | DATA_ADVANCED |  |
+| `/admission/concentration_caliber/lag0_pct` | 71.05 | 71.2 | DATA_ADVANCED |  |
+| `/admission/concentration_caliber/lag1_cagr_pct` | 10.37 | 10.34 | DATA_ADVANCED |  |
+| `/admission/concentration_caliber/lag1_pct` | 74.19 | 74.35 | DATA_ADVANCED |  |
+| `/admission/margin_to_line` | -0.0105 | -0.012 | DATA_ADVANCED |  |
+| `/admission/phase/margin_pp` | 9.92 | 9.69 | DATA_ADVANCED |  |
+| `/admission/phase/median_top2_share` | 0.7992 | 0.7969 | DATA_ADVANCED |  |
+| `/admission/phase/spread_pp` | 10.22 | 10.79 | DATA_ADVANCED |  |
+| `/admission/prior/top2_share` | 0.7104 | 0.7105 | DATA_ADVANCED |  |
+| `/admission/reads/cagr_after_cost_pct` | 11.41 | 11.38 | DATA_ADVANCED |  |
+| `/admission/reads/capacity_by_capital/10M/impact_pct_of_adv` | 10.028 | 9.97 | DATA_ADVANCED |  |
+| `/admission/reads/capacity_by_capital/1M/impact_pct_of_adv` | 1.0028 | 0.997 | DATA_ADVANCED |  |
+| `/admission/reads/oos_sharpe` | 1.7997 | 1.7928 | DATA_ADVANCED |  |
+| `/admission/top2_share` | 0.7105 | 0.712 | DATA_ADVANCED |  |
+| `/admission/worst` | 1.9241 | 1.7614 | DATA_ADVANCED |  |
+| `/backtest_band/12 名·8% 波动目标（生产卡片口径）/full/cagr_pct` | 9.41 | 9.39 | DATA_ADVANCED |  |
+| `/backtest_band/12 名·8% 波动目标（生产卡片口径）/oos/cagr_pct` | 17.72 | 17.65 | DATA_ADVANCED |  |
+| `/backtest_band/5 名·beta 覆盖/full/cagr_pct` | 15.5 | 15.45 | DATA_ADVANCED |  |
+| `/backtest_band/5 名·beta 覆盖/oos/cagr_pct` | 23.29 | 23.15 | DATA_ADVANCED |  |
+| `/backtest_band/5 名·beta 覆盖/oos/sharpe` | 1.47 | 1.46 | DATA_ADVANCED |  |
+| `/backtest_band/5 名·可执行单口径（本单这份账）/full/cagr_pct` | 7.58 | 7.54 | DATA_ADVANCED |  |
+| `/backtest_band/5 名·可执行单口径（本单这份账）/full/sharpe` | 1.32 | 1.31 | DATA_ADVANCED |  |
+| `/backtest_band/5 名·可执行单口径（本单这份账）/oos/cagr_pct` | 12.45 | 12.29 | DATA_ADVANCED |  |
+| `/backtest_band/5 名·可执行单口径（本单这份账）/oos/sharpe` | 1.69 | 1.67 | DATA_ADVANCED |  |
+| `/band_ruler/cells/book/card/causal/full/bars` | 1666 | 1667 | DATA_ADVANCED |  |
+| `/band_ruler/cells/book/card/causal/full/cagr` | 0.1537 | 0.1528 | DATA_ADVANCED |  |
+| `/band_ruler/cells/book/card/causal/full/cagr_pp` | 15.37 | 15.28 | DATA_ADVANCED |  |
+| `/band_ruler/cells/book/card/causal/full/sharpe` | 0.981 | 0.976 | DATA_ADVANCED |  |
+| `/band_ruler/cells/book/card/causal/oos/bars` | 696 | 697 | DATA_ADVANCED |  |
+| `/band_ruler/cells/book/card/causal/oos/cagr` | 0.246 | 0.2435 | DATA_ADVANCED |  |
+| `/band_ruler/cells/book/card/causal/oos/cagr_pp` | 24.6 | 24.35 | DATA_ADVANCED |  |
+| `/band_ruler/cells/book/card/causal/oos/sharpe` | 1.504 | 1.491 | DATA_ADVANCED |  |
+| `/band_ruler/cells/book/card/causal/oos/vol` | 0.1613 | 0.1612 | DATA_ADVANCED |  |
+| `/band_ruler/cells/book/card/causal/ticket_window/bars` | 696 | 697 | DATA_ADVANCED |  |
+| `/band_ruler/cells/book/card/causal/ticket_window/cagr` | 0.246 | 0.2435 | DATA_ADVANCED |  |
+| `/band_ruler/cells/book/card/causal/ticket_window/cagr_pp` | 24.6 | 24.35 | DATA_ADVANCED |  |
+| `/band_ruler/cells/book/card/causal/ticket_window/sharpe` | 1.504 | 1.491 | DATA_ADVANCED |  |
+| `/band_ruler/cells/book/card/causal/ticket_window/vol` | 0.1613 | 0.1612 | DATA_ADVANCED |  |
+| `/band_ruler/cells/book/card/published/full/bars` | 1665 | 1666 | DATA_ADVANCED |  |
+| `/band_ruler/cells/book/card/published/full/cagr` | 0.1592 | 0.1588 | DATA_ADVANCED |  |
+| `/band_ruler/cells/book/card/published/full/cagr_pp` | 15.92 | 15.88 | DATA_ADVANCED |  |
+| `/band_ruler/cells/book/card/published/full/sharpe` | 1.022 | 1.02 | DATA_ADVANCED |  |
+| `/band_ruler/cells/book/card/published/full/vol` | 0.1636 | 0.1635 | DATA_ADVANCED |  |
+| `/band_ruler/cells/book/card/published/full/years` | 6.87 | 6.88 | DATA_ADVANCED |  |
+| `/band_ruler/cells/book/card/published/oos/bars` | 696 | 697 | DATA_ADVANCED |  |
+| `/band_ruler/cells/book/card/published/oos/cagr` | 0.2375 | 0.2365 | DATA_ADVANCED |  |
+| `/band_ruler/cells/book/card/published/oos/cagr_pp` | 23.75 | 23.65 | DATA_ADVANCED |  |
+| `/band_ruler/cells/book/card/published/oos/sharpe` | 1.496 | 1.491 | DATA_ADVANCED |  |
+| `/band_ruler/cells/book/card/published/oos/vol` | 0.1569 | 0.1568 | DATA_ADVANCED |  |
+| `/band_ruler/cells/book/card/published/ticket_window/bars` | 696 | 697 | DATA_ADVANCED |  |
+| `/band_ruler/cells/book/card/published/ticket_window/cagr` | 0.2375 | 0.2365 | DATA_ADVANCED |  |
+| `/band_ruler/cells/book/card/published/ticket_window/cagr_pp` | 23.75 | 23.65 | DATA_ADVANCED |  |
+| `/band_ruler/cells/book/card/published/ticket_window/sharpe` | 1.496 | 1.491 | DATA_ADVANCED |  |
+| `/band_ruler/cells/book/card/published/ticket_window/vol` | 0.1569 | 0.1568 | DATA_ADVANCED |  |
+| `/band_ruler/cells/book/ticket/causal/full/bars` | 1666 | 1667 | DATA_ADVANCED |  |
+| `/band_ruler/cells/book/ticket/causal/full/cagr` | 0.1652 | 0.1643 | DATA_ADVANCED |  |
+| `/band_ruler/cells/book/ticket/causal/full/cagr_pp` | 16.52 | 16.43 | DATA_ADVANCED |  |
+| `/band_ruler/cells/book/ticket/causal/full/sharpe` | 1.011 | 1.007 | DATA_ADVANCED |  |
+| `/band_ruler/cells/book/ticket/causal/oos/bars` | 696 | 697 | DATA_ADVANCED |  |
+| `/band_ruler/cells/book/ticket/causal/oos/cagr` | 0.2617 | 0.2592 | DATA_ADVANCED |  |
+| `/band_ruler/cells/book/ticket/causal/oos/cagr_pp` | 26.17 | 25.92 | DATA_ADVANCED |  |
+| `/band_ruler/cells/book/ticket/causal/oos/sharpe` | 1.55 | 1.537 | DATA_ADVANCED |  |
+| `/band_ruler/cells/book/ticket/causal/oos/vol` | 0.1654 | 0.1653 | DATA_ADVANCED |  |
+| `/band_ruler/cells/book/ticket/causal/ticket_window/bars` | 696 | 697 | DATA_ADVANCED |  |
+| `/band_ruler/cells/book/ticket/causal/ticket_window/cagr` | 0.2617 | 0.2592 | DATA_ADVANCED |  |
+| `/band_ruler/cells/book/ticket/causal/ticket_window/cagr_pp` | 26.17 | 25.92 | DATA_ADVANCED |  |
+| `/band_ruler/cells/book/ticket/causal/ticket_window/sharpe` | 1.55 | 1.537 | DATA_ADVANCED |  |
+| `/band_ruler/cells/book/ticket/causal/ticket_window/vol` | 0.1654 | 0.1653 | DATA_ADVANCED |  |
+| `/band_ruler/cells/book/ticket/published/full/bars` | 1665 | 1666 | DATA_ADVANCED |  |
+| `/band_ruler/cells/book/ticket/published/full/cagr` | 0.1746 | 0.1742 | DATA_ADVANCED |  |
+| `/band_ruler/cells/book/ticket/published/full/cagr_pp` | 17.46 | 17.42 | DATA_ADVANCED |  |
+| `/band_ruler/cells/book/ticket/published/full/sharpe` | 1.071 | 1.068 | DATA_ADVANCED |  |
+| `/band_ruler/cells/book/ticket/published/full/vol` | 0.1701 | 0.17 | DATA_ADVANCED |  |
+| `/band_ruler/cells/book/ticket/published/full/years` | 6.87 | 6.88 | DATA_ADVANCED |  |
+| `/band_ruler/cells/book/ticket/published/oos/bars` | 696 | 697 | DATA_ADVANCED |  |
+| `/band_ruler/cells/book/ticket/published/oos/cagr` | 0.2578 | 0.2567 | DATA_ADVANCED |  |
+| `/band_ruler/cells/book/ticket/published/oos/cagr_pp` | 25.78 | 25.67 | DATA_ADVANCED |  |
+| `/band_ruler/cells/book/ticket/published/oos/sharpe` | 1.562 | 1.556 | DATA_ADVANCED |  |
+| `/band_ruler/cells/book/ticket/published/oos/vol` | 0.1616 | 0.1615 | DATA_ADVANCED |  |
+| `/band_ruler/cells/book/ticket/published/ticket_window/bars` | 696 | 697 | DATA_ADVANCED |  |
+| `/band_ruler/cells/book/ticket/published/ticket_window/cagr` | 0.2578 | 0.2567 | DATA_ADVANCED |  |
+| `/band_ruler/cells/book/ticket/published/ticket_window/cagr_pp` | 25.78 | 25.67 | DATA_ADVANCED |  |
+| `/band_ruler/cells/book/ticket/published/ticket_window/sharpe` | 1.562 | 1.556 | DATA_ADVANCED |  |
+| `/band_ruler/cells/book/ticket/published/ticket_window/vol` | 0.1616 | 0.1615 | DATA_ADVANCED |  |
+| `/band_ruler/cells/card/12/vol08/full/bars` | 1665 | 1666 | DATA_ADVANCED |  |
+| `/band_ruler/cells/card/12/vol08/full/cagr` | 0.0943 | 0.0939 | DATA_ADVANCED |  |
+| `/band_ruler/cells/card/12/vol08/full/cagr_pp` | 9.43 | 9.39 | DATA_ADVANCED |  |
+| `/band_ruler/cells/card/12/vol08/full/sharpe` | 0.973 | 0.969 | DATA_ADVANCED |  |
+| `/band_ruler/cells/card/12/vol08/full/years` | 6.87 | 6.88 | DATA_ADVANCED |  |
+| `/band_ruler/cells/card/12/vol08/oos/bars` | 696 | 697 | DATA_ADVANCED |  |
+| `/band_ruler/cells/card/12/vol08/oos/cagr` | 0.1776 | 0.1765 | DATA_ADVANCED |  |
+| `/band_ruler/cells/card/12/vol08/oos/cagr_pp` | 17.76 | 17.65 | DATA_ADVANCED |  |
+| `/band_ruler/cells/card/12/vol08/oos/sharpe` | 1.685 | 1.675 | DATA_ADVANCED |  |
+| `/band_ruler/cells/card/12/vol08/ticket_window/bars` | 696 | 697 | DATA_ADVANCED |  |
+| `/band_ruler/cells/card/12/vol08/ticket_window/cagr` | 0.1776 | 0.1765 | DATA_ADVANCED |  |
+| `/band_ruler/cells/card/12/vol08/ticket_window/cagr_pp` | 17.76 | 17.65 | DATA_ADVANCED |  |
+| `/band_ruler/cells/card/12/vol08/ticket_window/sharpe` | 1.685 | 1.675 | DATA_ADVANCED |  |
+| `/band_ruler/cells/held/causal/card/cost10/full/bars` | 1538 | 1539 | DATA_ADVANCED |  |
+| `/band_ruler/cells/held/causal/card/cost10/full/cagr` | 0.07 | 0.0695 | DATA_ADVANCED |  |
+| `/band_ruler/cells/held/causal/card/cost10/full/cagr_pp` | 7.0 | 6.95 | DATA_ADVANCED |  |
+| `/band_ruler/cells/held/causal/card/cost10/full/sharpe` | 1.266 | 1.258 | DATA_ADVANCED |  |
+| `/band_ruler/cells/held/causal/card/cost10/oos/bars` | 696 | 697 | DATA_ADVANCED |  |
+| `/band_ruler/cells/held/causal/card/cost10/oos/cagr` | 0.1173 | 0.1163 | DATA_ADVANCED |  |
+| `/band_ruler/cells/held/causal/card/cost10/oos/cagr_pp` | 11.73 | 11.63 | DATA_ADVANCED |  |
+| `/band_ruler/cells/held/causal/card/cost10/oos/sharpe` | 1.625 | 1.611 | DATA_ADVANCED |  |
+| `/band_ruler/cells/held/causal/card/cost10/oos/vol` | 0.0729 | 0.0728 | DATA_ADVANCED |  |
+| `/band_ruler/cells/held/causal/card/cost10/ticket_window/bars` | 696 | 697 | DATA_ADVANCED |  |
+| `/band_ruler/cells/held/causal/card/cost10/ticket_window/cagr` | 0.1173 | 0.1163 | DATA_ADVANCED |  |
+| `/band_ruler/cells/held/causal/card/cost10/ticket_window/cagr_pp` | 11.73 | 11.63 | DATA_ADVANCED |  |
+| `/band_ruler/cells/held/causal/card/cost10/ticket_window/sharpe` | 1.625 | 1.611 | DATA_ADVANCED |  |
+| `/band_ruler/cells/held/causal/card/cost10/ticket_window/vol` | 0.0729 | 0.0728 | DATA_ADVANCED |  |
+| `/band_ruler/cells/held/causal/card/full/bars` | 1538 | 1539 | DATA_ADVANCED |  |
+| `/band_ruler/cells/held/causal/card/full/cagr` | 0.0715 | 0.071 | DATA_ADVANCED |  |
+| `/band_ruler/cells/held/causal/card/full/cagr_pp` | 7.15 | 7.1 | DATA_ADVANCED |  |
+| `/band_ruler/cells/held/causal/card/full/sharpe` | 1.291 | 1.284 | DATA_ADVANCED |  |
+| `/band_ruler/cells/held/causal/card/oos/bars` | 696 | 697 | DATA_ADVANCED |  |
+| `/band_ruler/cells/held/causal/card/oos/cagr` | 0.1193 | 0.1183 | DATA_ADVANCED |  |
+| `/band_ruler/cells/held/causal/card/oos/cagr_pp` | 11.93 | 11.83 | DATA_ADVANCED |  |
+| `/band_ruler/cells/held/causal/card/oos/sharpe` | 1.65 | 1.637 | DATA_ADVANCED |  |
+| `/band_ruler/cells/held/causal/card/ticket_window/bars` | 696 | 697 | DATA_ADVANCED |  |
+| `/band_ruler/cells/held/causal/card/ticket_window/cagr` | 0.1193 | 0.1183 | DATA_ADVANCED |  |
+| `/band_ruler/cells/held/causal/card/ticket_window/cagr_pp` | 11.93 | 11.83 | DATA_ADVANCED |  |
+| `/band_ruler/cells/held/causal/card/ticket_window/sharpe` | 1.65 | 1.637 | DATA_ADVANCED |  |
+| `/band_ruler/cells/held/causal/ticket/full/bars` | 1538 | 1539 | DATA_ADVANCED |  |
+| `/band_ruler/cells/held/causal/ticket/full/cagr` | 0.0758 | 0.0754 | DATA_ADVANCED |  |
+| `/band_ruler/cells/held/causal/ticket/full/cagr_pp` | 7.58 | 7.54 | DATA_ADVANCED |  |
+| `/band_ruler/cells/held/causal/ticket/full/sharpe` | 1.32 | 1.313 | DATA_ADVANCED |  |
+| `/band_ruler/cells/held/causal/ticket/oos/bars` | 696 | 697 | DATA_ADVANCED |  |
+| `/band_ruler/cells/held/causal/ticket/oos/cagr` | 0.1239 | 0.1229 | DATA_ADVANCED |  |
+| `/band_ruler/cells/held/causal/ticket/oos/cagr_pp` | 12.39 | 12.29 | DATA_ADVANCED |  |
+| `/band_ruler/cells/held/causal/ticket/oos/sharpe` | 1.691 | 1.678 | DATA_ADVANCED |  |
+| `/band_ruler/cells/held/causal/ticket/ticket_window/bars` | 696 | 697 | DATA_ADVANCED |  |
+| `/band_ruler/cells/held/causal/ticket/ticket_window/cagr` | 0.1239 | 0.1229 | DATA_ADVANCED |  |
+| `/band_ruler/cells/held/causal/ticket/ticket_window/cagr_pp` | 12.39 | 12.29 | DATA_ADVANCED |  |
+| `/band_ruler/cells/held/causal/ticket/ticket_window/sharpe` | 1.691 | 1.678 | DATA_ADVANCED |  |
+| `/band_ruler/dial_prices/ordering/price_pp` | -0.55 | -0.6 | DATA_ADVANCED |  |
+| `/band_ruler/dial_prices/universe/price_pp` | 0.43 | 0.44 | DATA_ADVANCED |  |
+| `/band_ruler/dial_prices/window/price_pp` | 4.78 | 4.73 | DATA_ADVANCED |  |
+| `/band_ruler/identity/card 18.35% (2024+) reproduced on its own ruler/measured_pp` | 17.72 | 17.65 | DATA_ADVANCED |  |
+| `/band_ruler/identity/card 18.35% (2024+) reproduced on its own ruler/published_pp` | 17.72 | 17.65 | DATA_ADVANCED |  |
+| `/band_ruler/identity/card 9.60% reproduced on its own ruler/measured_pp` | 9.41 | 9.39 | DATA_ADVANCED |  |
+| `/band_ruler/identity/card 9.60% reproduced on its own ruler/published_pp` | 9.41 | 9.39 | DATA_ADVANCED |  |
+| `/band_ruler/identity/ticket 12.78% reproduced on its own ruler/delta_pp` | 0.0 | -0.1 | DATA_ADVANCED |  |
+| `/band_ruler/identity/ticket 12.78% reproduced on its own ruler/measured_pp` | 12.45 | 12.29 | DATA_ADVANCED |  |
+| `/band_ruler/identity/ticket 12.78% reproduced on its own ruler/published_pp` | 12.45 | 12.39 | DATA_ADVANCED |  |
+| `/band_ruler/published_faces/card_full` | 9.41 | 9.39 | DATA_ADVANCED |  |
+| `/band_ruler/published_faces/card_oos` | 17.72 | 17.65 | DATA_ADVANCED |  |
+| `/band_ruler/published_faces/rows/0/full` | 7.6 | 7.58 | DATA_ADVANCED |  |
+| `/band_ruler/published_faces/rows/0/oos` | 12.45 | 12.39 | DATA_ADVANCED |  |
+| `/band_ruler/published_faces/rows/1/full` | 15.5 | 15.45 | DATA_ADVANCED |  |
+| `/band_ruler/published_faces/rows/1/oos` | 23.29 | 23.15 | DATA_ADVANCED |  |
+| `/band_ruler/published_faces/rows/2/full` | 9.41 | 9.39 | DATA_ADVANCED |  |
+| `/band_ruler/published_faces/rows/2/oos` | 17.72 | 17.65 | DATA_ADVANCED |  |
+| `/band_ruler/published_faces/ticket` | 7.6 | 7.58 | DATA_ADVANCED |  |
+| `/band_ruler/published_faces/ticket_oos` | 12.45 | 12.39 | DATA_ADVANCED |  |
+| `/bets/effective_bets` | 2.191118450504274 | 2.204098894241983 | DATA_ADVANCED |  |
+| `/bets/risk_split` | 4.993741242228776 | 4.994310977854821 | DATA_ADVANCED |  |
+| `/book_amount_cny` | 431879.5 | 431880.4 | DATA_ADVANCED |  |
+| `/capacity_ticket/one_lot_floor_cny` | 14875.99 | 14507.92 | DATA_ADVANCED |  |
+| `/capacity_ticket/rungs/0/floor_cny` | 14875.99 | 14507.92 | DATA_ADVANCED |  |
+| `/capacity_ticket/rungs/0/residual_pct_nav` | 0.1562 | 0.0818 | DATA_ADVANCED |  |
+| `/capacity_ticket/rungs/0/traded_amount_cny` | 900248.0 | 900985.2 | DATA_ADVANCED |  |
+| `/capacity_ticket/rungs/1/floor_cny` | 14875.99 | 14507.92 | DATA_ADVANCED |  |
+| `/capacity_ticket/rungs/1/residual_pct_nav` | 0.2418 | 0.2399 | DATA_ADVANCED |  |
+| `/capacity_ticket/rungs/1/traded_amount_cny` | 450393.9 | 450403.7 | DATA_ADVANCED |  |
+| `/capacity_ticket/rungs/2/floor_cny` | 14875.99 | 14507.92 | DATA_ADVANCED |  |
+| `/capacity_ticket/rungs/2/residual_pct_nav` | 0.5583 | 0.4525 | DATA_ADVANCED |  |
+| `/capacity_ticket/rungs/2/traded_amount_cny` | 308123.2 | 308483.7 | DATA_ADVANCED |  |
+| `/capacity_ticket/shortfall_to_typical_cny` | -481599.94 | -481968.01 | DATA_ADVANCED |  |
+| `/capital/lot/cellwise_median` | 147129.12 | 147167.99 | DATA_ADVANCED |  |
+| `/capital/lot/holdable_at/0/share` | 0.29486 | 0.294506 | DATA_ADVANCED |  |
+| `/capital/lot/holdable_at/1/share` | 0.383779 | 0.383418 | DATA_ADVANCED |  |
+| `/capital/lot/holdable_at/2/share` | 0.42085 | 0.420444 | DATA_ADVANCED |  |
+| `/capital/lot/holdable_at/3/share` | 0.42085 | 0.420444 | DATA_ADVANCED |  |
+| `/capital/lot/holdable_at/4/share` | 0.708747 | 0.709096 | DATA_ADVANCED |  |
+| `/capital/lot/holdable_at/5/share` | 0.992386 | 0.992395 | DATA_ADVANCED |  |
+| `/capital/lot/p90` | 291682.86 | 291672.65 | DATA_ADVANCED |  |
+| `/capital/rounding/reference/bars` | 1664 | 1666 | DATA_ADVANCED |  |
+| `/capital/rounding/reference/names_effective` | 7.7317 | 7.7388 | DATA_ADVANCED |  |
+| `/capital/rounding/reference/names_effective_cellwise` | 7.7317 | 7.7388 | DATA_ADVANCED |  |
+| `/capital/rounding/reference/residue_cny` | 42683.92 | 42612.15 | DATA_ADVANCED |  |
+| `/capital/rounding/reference/residue_cny_cellwise` | 38238.09 | 38247.74 | DATA_ADVANCED |  |
+| `/capital/rounding/reference/under_pct` | 0.355696 | 0.355098 | DATA_ADVANCED |  |
+| `/capital/rounding/rows/0/names_effective` | 2.5312 | 2.5302 | DATA_ADVANCED |  |
+| `/capital/rounding/rows/0/residue_cny` | 5019.98 | 5020.53 | DATA_ADVANCED |  |
+| `/capital/rounding/rows/0/under_pct` | 0.789067 | 0.789152 | DATA_ADVANCED |  |
+| `/capital/rounding/rows/1/names_effective` | 3.5335 | 3.5333 | DATA_ADVANCED |  |
+| `/capital/rounding/rows/1/residue_cny` | 8977.24 | 8977.43 | DATA_ADVANCED |  |
+| `/capital/rounding/rows/1/under_pct` | 0.705545 | 0.705559 | DATA_ADVANCED |  |
+| `/capital/rounding/rows/2/names_effective` | 4.3897 | 4.3835 | DATA_ADVANCED |  |
+| `/capital/rounding/rows/2/residue_cny` | 20173.37 | 20189.79 | DATA_ADVANCED |  |
+| `/capital/rounding/rows/2/under_pct` | 0.634191 | 0.634707 | DATA_ADVANCED |  |
+| `/capital/rounding/rows/3/names_effective` | 4.7295 | 4.7275 | DATA_ADVANCED |  |
+| `/capital/rounding/rows/3/residue_cny` | 38545.1 | 38556.17 | DATA_ADVANCED |  |
+| `/capital/rounding/rows/3/under_pct` | 0.605872 | 0.606046 | DATA_ADVANCED |  |
+| `/capital/rounding/rows/4/names_effective` | 8.6352 | 8.6408 | DATA_ADVANCED |  |
+| `/capital/rounding/rows/4/residue_cny` | 35677.6 | 35618.68 | DATA_ADVANCED |  |
+| `/capital/rounding/rows/4/under_pct` | 0.280399 | 0.279936 | DATA_ADVANCED |  |
+| `/capital/rounding/rows/5/names_effective` | 10.1676 | 10.1668 | DATA_ADVANCED |  |
+| `/capital/rounding/rows/5/residue_cny` | 38859.19 | 38875.19 | DATA_ADVANCED |  |
+| `/capital/rounding/rows/5/under_pct` | 0.152702 | 0.152765 | DATA_ADVANCED |  |
+| `/capital/rounding/rows/6/names_effective` | 11.2471 | 11.2475 | DATA_ADVANCED |  |
+| `/capital/rounding/rows/6/residue_cny` | 39914.57 | 39892.14 | DATA_ADVANCED |  |
+| `/capital/rounding/rows/6/under_pct` | 0.06274 | 0.062705 | DATA_ADVANCED |  |
+| `/capital/rounding/rows/7/names_effective` | 11.4759 | 11.4749 | DATA_ADVANCED |  |
+| `/capital/rounding/rows/7/residue_cny` | 41677.81 | 41756.74 | DATA_ADVANCED |  |
+| `/capital/rounding/rows/7/under_pct` | 0.043674 | 0.043757 | DATA_ADVANCED |  |
+| `/capital/rounding/rows/8/names_effective` | 11.7515 | 11.7516 | DATA_ADVANCED |  |
+| `/capital/rounding/rows/8/residue_cny` | 39529.88 | 39511.62 | DATA_ADVANCED |  |
+| `/capital/rounding/rows/8/under_pct` | 0.020712 | 0.020702 | DATA_ADVANCED |  |
+| `/capital/rounding/rows/9/residue_cny` | 42075.74 | 42103.14 | DATA_ADVANCED |  |
+| `/capital/rounding/rows/9/under_pct` | 0.006614 | 0.006618 | DATA_ADVANCED |  |
+| `/capital/small_cagr` | -0.0813 | -0.0812 | DATA_ADVANCED |  |
+| `/capital/small_delta_pp` | -14.46 | -14.44 | DATA_ADVANCED |  |
+| `/capital/small_ref_cagr` | 0.0633 | 0.0632 | DATA_ADVANCED |  |
+| `/carry_regime/base/flat_today_pct` | 12.15 | 11.99 | DATA_ADVANCED |  |
+| `/carry_regime/base/observed_pct` | 12.45 | 12.29 | DATA_ADVANCED |  |
+| `/carry_regime/base/vol_pct` | 7.38 | 7.37 | DATA_ADVANCED |  |
+| `/carry_regime/base/zero_pct` | 11.41 | 11.25 | DATA_ADVANCED |  |
+| `/carry_regime/cash_rates/missing_bar_steps` | 0 | 1 | DATA_ADVANCED |  |
+| `/carry_regime/cash_rates/today_bar_lag` | 0 | 2 | DATA_ADVANCED |  |
+| `/carry_regime/identity/published_bars` | 695 | 696 | DATA_ADVANCED |  |
+| `/carry_regime/identity/published_cagr` | 0.1245 | 0.1239 | DATA_ADVANCED |  |
+| `/carry_regime/identity/rebuilt_bars` | 695 | 697 | DATA_ADVANCED |  |
+| `/carry_regime/identity/rebuilt_cagr` | 0.1245 | 0.1229 | DATA_ADVANCED |  |
+| `/carry_regime/quote_lag` | 0 | 2 | DATA_ADVANCED |  |
+| `/carry_regime/rows/0/cash_share` | 0.7819 | 0.7818 | DATA_ADVANCED |  |
+| `/carry_regime/rows/0/flat_today_pct` | 6.59 | 6.52 | DATA_ADVANCED |  |
+| `/carry_regime/rows/0/observed_pct` | 6.98 | 6.91 | DATA_ADVANCED |  |
+| `/carry_regime/rows/0/vol_pct` | 3.7 | 3.69 | DATA_ADVANCED |  |
+| `/carry_regime/rows/0/zero_pct` | 5.62 | 5.55 | DATA_ADVANCED |  |
+| `/carry_regime/rows/1/flat_today_pct` | 12.15 | 11.99 | DATA_ADVANCED |  |
+| `/carry_regime/rows/1/observed_pct` | 12.45 | 12.29 | DATA_ADVANCED |  |
+| `/carry_regime/rows/1/vol_pct` | 7.38 | 7.37 | DATA_ADVANCED |  |
+| `/carry_regime/rows/1/zero_pct` | 11.41 | 11.25 | DATA_ADVANCED |  |
+| `/carry_regime/rows/2/carry_pp` | 0.68 | 0.67 | DATA_ADVANCED |  |
+| `/carry_regime/rows/2/cash_share` | 0.3456 | 0.3455 | DATA_ADVANCED |  |
+| `/carry_regime/rows/2/flat_today_pct` | 17.84 | 17.59 | DATA_ADVANCED |  |
+| `/carry_regime/rows/2/observed_pct` | 18.04 | 17.79 | DATA_ADVANCED |  |
+| `/carry_regime/rows/2/vol_pct` | 11.06 | 11.05 | DATA_ADVANCED |  |
+| `/carry_regime/rows/2/zero_pct` | 17.36 | 17.12 | DATA_ADVANCED |  |
+| `/carry_regime/rows/3/cash_share` | 0.0188 | 0.0187 | DATA_ADVANCED |  |
+| `/carry_regime/rows/3/flat_today_pct` | 25.97 | 25.59 | DATA_ADVANCED |  |
+| `/carry_regime/rows/3/observed_pct` | 25.99 | 25.61 | DATA_ADVANCED |  |
+| `/carry_regime/rows/3/vol_pct` | 16.33 | 16.31 | DATA_ADVANCED |  |
+| `/carry_regime/rows/3/zero_pct` | 25.94 | 25.56 | DATA_ADVANCED |  |
+| `/cash_amount_cny` | 568120.5 | 568119.6 | DATA_ADVANCED |  |
+| `/cash_caliber/band_50_bp` | 33.75 | 33.802 | DATA_ADVANCED |  |
+| `/cash_caliber/band_90_bp` | 90.185 | 90.102 | DATA_ADVANCED |  |
+| `/cash_caliber/bars` | 1664 | 1665 | DATA_ADVANCED |  |
+| `/cash_caliber/commission_bp` | 24.639 | 24.644 | DATA_ADVANCED |  |
+| `/cash_caliber/commission_share_pct` | 41.28 | 41.31 | DATA_ADVANCED |  |
+| `/cash_caliber/control_error_bp` | 0.0357 | 0.0027 | DATA_ADVANCED |  |
+| `/cash_caliber/median_abs_bp` | 33.75 | 33.802 | DATA_ADVANCED |  |
+| `/cash_caliber/rate_diff_bp` | -84.335 | -84.302 | DATA_ADVANCED |  |
+| `/cash_caliber/share_in_band_pct` | 1.262 | 1.261 | DATA_ADVANCED |  |
+| `/cash_caliber/total_bp` | -59.696 | -59.657 | DATA_ADVANCED |  |
+| `/cash_caliber/window/bars` | 1664 | 1665 | DATA_ADVANCED |  |
+| `/cash_caliber/window_gross_pct` | 2.0184 | 2.018 | DATA_ADVANCED |  |
+| `/cash_caliber/window_net_pct` | 1.772 | 1.7716 | DATA_ADVANCED |  |
+| `/cash_handshake/cash_amount_cny` | 568120.5 | 568119.6 | DATA_ADVANCED |  |
+| `/cash_ladder/cash_amount_cny` | 568120.5 | 568119.6 | DATA_ADVANCED |  |
+| `/cash_money/block/book_rate/book_cagr_with_pct` | 12.0 | 11.99 | DATA_ADVANCED |  |
+| `/cash_money/block/book_rate/declared/cagr_with_pct` | 9.74 | 9.75 | DATA_ADVANCED |  |
+| `/cash_money/block/book_rate/declared/cagr_without_pct` | 9.16 | 9.17 | DATA_ADVANCED |  |
+| `/cash_money/block/book_rate/declared/sharpe_with` | 0.93 | 0.931 | DATA_ADVANCED |  |
+| `/cash_money/block/book_rate/declared_gap_pp` | -2.26 | -2.24 | DATA_ADVANCED |  |
+| `/cash_money/block/book_rate/per_year_net_pct/2026` | 1.065 | 1.064 | DATA_ADVANCED |  |
+| `/cash_money/block/cash_amount_cny` | 568120.5 | 568119.6 | DATA_ADVANCED |  |
+| `/cash_money/block/spread_vs_window_cny` | -5148.0 | -5137.0 | DATA_ADVANCED |  |
+| `/cash_money/block/window/annual_cny` | 11824.0 | 11812.0 | DATA_ADVANCED |  |
+| `/cash_money/block/window/net_annual_cny` | 10443.0 | 10432.0 | DATA_ADVANCED |  |
+| `/cash_money/block/window/net_pct` | 1.8382 | 1.8362 | DATA_ADVANCED |  |
+| `/cash_money/block/window/pct` | 2.0812 | 2.0792 | DATA_ADVANCED |  |
+| `/cash_money/forward/cash_amount_cny` | 568120.5 | 568119.6 | DATA_ADVANCED |  |
+| `/causal_rebuild/controls/0/got_cagr` | 0.0941 | 0.0939 | DATA_ADVANCED |  |
+| `/causal_rebuild/controls/0/published_cagr` | 0.0941 | 0.0939 | DATA_ADVANCED |  |
+| `/causal_rebuild/controls/1/got_cagr` | 0.0845 | 0.0839 | DATA_ADVANCED |  |
+| `/causal_rebuild/controls/1/published_cagr` | 0.0845 | 0.0839 | DATA_ADVANCED |  |
+| `/causal_rebuild/decomposition/cost_pp` | 0.01 | 0.02 | DATA_ADVANCED |  |
+| `/causal_rebuild/decomposition/signal_pp` | 0.24 | 0.25 | DATA_ADVANCED |  |
+| `/causal_rebuild/decomposition/total_pp` | 0.25 | 0.27 | DATA_ADVANCED |  |
+| `/causal_rebuild/elapsed_sec` | 47.7 | 91.4 | CLOCK |  |
+| `/causal_rebuild/gross_rows/0/bars` | 1664 | 1666 | DATA_ADVANCED |  |
+| `/causal_rebuild/gross_rows/0/cagr` | 0.0972 | 0.0966 | DATA_ADVANCED |  |
+| `/causal_rebuild/gross_rows/0/oos_cagr` | 0.1888 | 0.187 | DATA_ADVANCED |  |
+| `/causal_rebuild/gross_rows/0/oos_sharpe` | 1.78 | 1.765 | DATA_ADVANCED |  |
+| `/causal_rebuild/gross_rows/0/sharpe` | 0.991 | 0.986 | DATA_ADVANCED |  |
+| `/causal_rebuild/gross_rows/0/vol` | 0.1028 | 0.1027 | DATA_ADVANCED |  |
+| `/causal_rebuild/gross_rows/0/years` | 6.87 | 6.88 | DATA_ADVANCED |  |
+| `/causal_rebuild/gross_rows/1/bars` | 1664 | 1666 | DATA_ADVANCED |  |
+| `/causal_rebuild/gross_rows/1/cagr` | 0.0996 | 0.0991 | DATA_ADVANCED |  |
+| `/causal_rebuild/gross_rows/1/oos_cagr` | 0.1914 | 0.1901 | DATA_ADVANCED |  |
+| `/causal_rebuild/gross_rows/1/oos_sharpe` | 1.763 | 1.753 | DATA_ADVANCED |  |
+| `/causal_rebuild/gross_rows/1/sharpe` | 1.002 | 0.998 | DATA_ADVANCED |  |
+| `/causal_rebuild/gross_rows/1/vol` | 0.1041 | 0.104 | DATA_ADVANCED |  |
+| `/causal_rebuild/gross_rows/1/years` | 6.87 | 6.88 | DATA_ADVANCED |  |
+| `/causal_rebuild/published/as_coded_cagr` | 0.0941 | 0.0939 | DATA_ADVANCED |  |
+| `/causal_rebuild/published/declared_cagr` | 0.0845 | 0.0839 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/0/bars` | 1664 | 1666 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/0/cagr` | 0.0941 | 0.0939 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/0/oos_cagr` | 0.1772 | 0.1765 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/0/oos_sharpe` | 1.681 | 1.675 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/0/sharpe` | 0.971 | 0.969 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/0/years` | 6.87 | 6.88 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/1/bars` | 1664 | 1666 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/1/cagr` | 0.0845 | 0.0839 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/1/oos_cagr` | 0.1725 | 0.1708 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/1/oos_sharpe` | 1.645 | 1.63 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/1/sharpe` | 0.874 | 0.868 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/1/vol` | 0.1028 | 0.1027 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/1/years` | 6.87 | 6.88 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/10/bars` | 1659 | 1661 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/10/cagr` | 0.0875 | 0.0871 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/10/oos_cagr` | 0.1725 | 0.1712 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/10/oos_sharpe` | 1.459 | 1.449 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/10/sharpe` | 0.859 | 0.854 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/10/turnover` | 0.9136 | 0.9235 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/10/years` | 6.85 | 6.86 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/11/bars` | 1659 | 1661 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/11/cagr` | 0.0854 | 0.0849 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/11/oos_cagr` | 0.1674 | 0.166 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/11/oos_sharpe` | 1.512 | 1.5 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/11/sharpe` | 0.858 | 0.854 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/11/turnover` | 0.9187 | 0.9272 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/11/years` | 6.85 | 6.86 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/12/bars` | 1654 | 1656 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/12/cagr` | 0.0871 | 0.0867 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/12/oos_cagr` | 0.1655 | 0.1645 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/12/oos_sharpe` | 1.463 | 1.455 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/12/sharpe` | 0.877 | 0.874 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/12/years` | 6.83 | 6.84 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/13/bars` | 1654 | 1656 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/13/cagr` | 0.0801 | 0.0797 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/13/oos_cagr` | 0.1728 | 0.1715 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/13/oos_sharpe` | 1.433 | 1.424 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/13/sharpe` | 0.787 | 0.784 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/13/years` | 6.83 | 6.84 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/14/bars` | 1654 | 1656 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/14/cagr` | 0.0838 | 0.0836 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/14/oos_cagr` | 0.1606 | 0.1599 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/14/oos_sharpe` | 1.372 | 1.367 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/14/sharpe` | 0.829 | 0.827 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/14/years` | 6.83 | 6.84 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/15/bars` | 1654 | 1656 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/15/cagr` | 0.0871 | 0.0866 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/15/oos_cagr` | 0.17 | 0.1687 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/15/oos_sharpe` | 1.432 | 1.422 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/15/sharpe` | 0.853 | 0.849 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/15/years` | 6.83 | 6.84 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/16/bars` | 1654 | 1656 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/16/cagr` | 0.0838 | 0.0833 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/16/oos_cagr` | 0.1748 | 0.1733 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/16/oos_sharpe` | 1.499 | 1.488 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/16/sharpe` | 0.832 | 0.828 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/16/vol` | 0.1078 | 0.1077 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/16/years` | 6.83 | 6.84 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/17/bars` | 1654 | 1656 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/17/cagr` | 0.077 | 0.0766 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/17/oos_cagr` | 0.1468 | 0.1457 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/17/oos_sharpe` | 1.281 | 1.273 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/17/sharpe` | 0.772 | 0.769 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/17/vol` | 0.1076 | 0.1075 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/17/years` | 6.83 | 6.84 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/18/bars` | 1649 | 1651 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/18/cagr` | 0.111 | 0.1114 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/18/oos_cagr` | 0.1451 | 0.1462 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/18/oos_sharpe` | 1.378 | 1.388 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/18/sharpe` | 1.154 | 1.159 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/18/vol` | 0.0989 | 0.0988 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/19/bars` | 1649 | 1651 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/19/cagr` | 0.0612 | 0.0615 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/19/oos_cagr` | 0.0339 | 0.0346 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/19/oos_sharpe` | 0.387 | 0.394 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/19/sharpe` | 0.665 | 0.668 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/19/vol` | 0.1003 | 0.1002 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/2/bars` | 1664 | 1666 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/2/cagr` | 0.087 | 0.0866 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/2/oos_cagr` | 0.1752 | 0.1739 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/2/oos_sharpe` | 1.631 | 1.621 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/2/sharpe` | 0.888 | 0.884 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/2/vol` | 0.1041 | 0.104 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/2/years` | 6.87 | 6.88 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/20/bars` | 1649 | 1651 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/20/cagr` | 0.0571 | 0.0576 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/20/oos_cagr` | 0.0189 | 0.0201 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/20/oos_sharpe` | 0.242 | 0.255 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/20/sharpe` | 0.628 | 0.633 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/20/vol` | 0.0998 | 0.0997 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/21/bars` | 1649 | 1651 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/21/oos_cagr` | 0.0192 | 0.0194 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/21/oos_sharpe` | 0.246 | 0.247 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/22/bars` | 1649 | 1651 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/22/cagr` | 0.0435 | 0.0436 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/22/oos_cagr` | 0.0132 | 0.0136 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/22/oos_sharpe` | 0.184 | 0.189 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/22/sharpe` | 0.495 | 0.496 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/23/bars` | 1649 | 1651 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/23/cagr` | 0.051 | 0.0511 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/23/oos_cagr` | 0.0413 | 0.0416 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/23/oos_sharpe` | 0.459 | 0.462 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/23/sharpe` | 0.571 | 0.572 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/3/bars` | 1664 | 1666 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/3/cagr` | 0.0821 | 0.0816 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/3/oos_cagr` | 0.1716 | 0.1701 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/3/oos_sharpe` | 1.607 | 1.594 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/3/sharpe` | 0.842 | 0.837 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/3/vol` | 0.1041 | 0.104 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/3/years` | 6.87 | 6.88 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/4/bars` | 1664 | 1666 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/4/cagr` | 0.0784 | 0.0777 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/4/oos_cagr` | 0.1691 | 0.1672 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/4/oos_sharpe` | 1.592 | 1.577 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/4/sharpe` | 0.816 | 0.81 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/4/turnover` | 0.9502 | 0.9521 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/4/vol` | 0.1028 | 0.1027 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/4/years` | 6.87 | 6.88 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/5/bars` | 1664 | 1666 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/5/cagr` | 0.082 | 0.0823 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/5/oos_cagr` | 0.1533 | 0.1539 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/5/oos_sharpe` | 1.418 | 1.424 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/5/sharpe` | 0.838 | 0.841 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/5/years` | 6.87 | 6.88 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/6/bars` | 1659 | 1661 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/6/cagr` | 0.0945 | 0.0948 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/6/oos_cagr` | 0.1651 | 0.1657 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/6/oos_sharpe` | 1.412 | 1.417 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/6/sharpe` | 0.929 | 0.932 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/6/turnover` | 0.9613 | 0.9694 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/6/vol` | 0.1075 | 0.1074 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/6/years` | 6.85 | 6.86 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/7/bars` | 1659 | 1661 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/7/cagr` | 0.0784 | 0.0788 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/7/oos_cagr` | 0.155 | 0.1559 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/7/oos_sharpe` | 1.371 | 1.378 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/7/sharpe` | 0.8 | 0.804 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/7/turnover` | 0.9515 | 0.9592 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/7/years` | 6.85 | 6.86 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/8/bars` | 1659 | 1661 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/8/cagr` | 0.0842 | 0.0839 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/8/oos_cagr` | 0.1701 | 0.1691 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/8/oos_sharpe` | 1.45 | 1.442 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/8/sharpe` | 0.832 | 0.829 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/8/turnover` | 0.9529 | 0.9633 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/8/years` | 6.85 | 6.86 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/9/bars` | 1659 | 1661 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/9/cagr` | 0.0867 | 0.0863 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/9/oos_cagr` | 0.1713 | 0.17 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/9/oos_sharpe` | 1.448 | 1.438 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/9/sharpe` | 0.851 | 0.847 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/9/turnover` | 0.9223 | 0.9323 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/9/vol` | 0.1088 | 0.1087 | DATA_ADVANCED |  |
+| `/causal_rebuild/rows/9/years` | 6.85 | 6.86 | DATA_ADVANCED |  |
+| `/causal_rebuild/verdict/arms/0/recovered_pp` | 0.25 | 0.27 | DATA_ADVANCED |  |
+| `/causal_rebuild/verdict/arms/1/recovered_pp` | -0.24 | -0.23 | DATA_ADVANCED |  |
+| `/causal_rebuild/verdict/arms/2/recovered_pp` | -0.61 | -0.62 | DATA_ADVANCED |  |
+| `/causal_rebuild/verdict/arms/3/recovered_pp` | -0.25 | -0.16 | DATA_ADVANCED |  |
+| `/causal_rebuild/verdict/best_recovered_pp` | 0.25 | 0.27 | DATA_ADVANCED |  |
+| `/causal_rebuild/verdict/declared_cagr` | 0.0845 | 0.0839 | DATA_ADVANCED |  |
+| `/causal_rebuild/verdict/declared_sharpe` | 0.874 | 0.868 | DATA_ADVANCED |  |
+| `/concentration/baseline/cagr` | 0.0941 | 0.0939 | DATA_ADVANCED |  |
+| `/concentration/baseline/sharpe` | 0.971 | 0.969 | DATA_ADVANCED |  |
+| `/concentration/baseline/years` | 6.87 | 6.88 | DATA_ADVANCED |  |
+| `/concentration/sleeve/stats/full/cagr` | 0.0574 | 0.0572 | DATA_ADVANCED |  |
+| `/concentration/sleeve/stats/full/sharpe` | 0.627 | 0.626 | DATA_ADVANCED |  |
+| `/concentration/sleeve/stats/full/vol` | 0.1007 | 0.1006 | DATA_ADVANCED |  |
+| `/concentration/sleeve/stats/full/years` | 6.87 | 6.88 | DATA_ADVANCED |  |
+| `/concentration/sleeve/stats/oos/cagr` | 0.1271 | 0.1264 | DATA_ADVANCED |  |
+| `/concentration/sleeve/stats/oos/sharpe` | 1.283 | 1.278 | DATA_ADVANCED |  |
+| `/concentration/sleeve/stats/oos/vol` | 0.1013 | 0.1012 | DATA_ADVANCED |  |
+| `/concentration/sleeve/stats/oos/years` | 2.87 | 2.88 | DATA_ADVANCED |  |
+| `/concentration/top/0/share` | 0.0758 | 0.0759 | DATA_ADVANCED |  |
+| `/concentration/top/1/share` | 0.0751 | 0.0752 | DATA_ADVANCED |  |
+| `/concentration/top/2/share` | 0.0712 | 0.0713 | DATA_ADVANCED |  |
+| `/concentration/top3_share` | 0.2221 | 0.2224 | DATA_ADVANCED |  |
+| `/concentration/top_k_out/stats/full/cagr` | 0.0744 | 0.0742 | DATA_ADVANCED |  |
+| `/concentration/top_k_out/stats/full/sharpe` | 0.792 | 0.79 | DATA_ADVANCED |  |
+| `/concentration/top_k_out/stats/full/years` | 6.87 | 6.88 | DATA_ADVANCED |  |
+| `/concentration/top_k_out/stats/oos/cagr` | 0.1494 | 0.1487 | DATA_ADVANCED |  |
+| `/concentration/top_k_out/stats/oos/sharpe` | 1.47 | 1.465 | DATA_ADVANCED |  |
+| `/concentration/top_k_out/stats/oos/vol` | 0.1024 | 0.1023 | DATA_ADVANCED |  |
+| `/concentration/top_k_out/stats/oos/years` | 2.87 | 2.88 | DATA_ADVANCED |  |
+| `/cost_tape/arms/assumed_10bp/cagr` | 0.0943 | 0.0939 | DATA_ADVANCED |  |
+| `/cost_tape/arms/assumed_10bp/sharpe` | 0.973 | 0.969 | DATA_ADVANCED |  |
+| `/cost_tape/arms/measured/cagr` | 0.0995 | 0.0991 | DATA_ADVANCED |  |
+| `/cost_tape/arms/measured/sharpe` | 1.021 | 1.017 | DATA_ADVANCED |  |
+| `/cost_tape/arms/upper_p75/cagr` | 0.0955 | 0.0951 | DATA_ADVANCED |  |
+| `/cost_tape/arms/upper_p75/sharpe` | 0.985 | 0.981 | DATA_ADVANCED |  |
+| `/cost_tape/control/engine_cagr` | 0.0943 | 0.0939 | DATA_ADVANCED |  |
+| `/cost_tape/tape/widest_traded/1/p50_bp` | 30.7 | 30.5 | DATA_ADVANCED |  |
+| `/cost_tape/upper_p75_bp` | 9.02 | 9.03 | DATA_ADVANCED |  |
+| `/derisk/instrument/dd_brake/distance_to_line_pp` | 4.51 | 4.77 | DATA_ADVANCED |  |
+| `/derisk/instrument/dd_brake/spread_pp` | 16.88 | 16.45 | DATA_ADVANCED |  |
+| `/derisk/instrument/dd_brake/top2_max` | 0.9139 | 0.9122 | DATA_ADVANCED |  |
+| `/derisk/instrument/dd_brake/top2_min` | 0.7451 | 0.7477 | DATA_ADVANCED |  |
+| `/derisk/instrument/loss_cond_vt/distance_to_line_pp` | 1.47 | 1.15 | DATA_ADVANCED |  |
+| `/derisk/instrument/loss_cond_vt/spread_pp` | 22.56 | 21.69 | DATA_ADVANCED |  |
+| `/derisk/instrument/loss_cond_vt/top2_max` | 0.9109 | 0.9054 | DATA_ADVANCED |  |
+| `/derisk/instrument/loss_cond_vt/top2_min` | 0.6853 | 0.6885 | DATA_ADVANCED |  |
+| `/derisk/instrument/trend_brake/distance_to_line_pp` | 0.97 | 0.77 | DATA_ADVANCED |  |
+| `/derisk/instrument/trend_brake/spread_pp` | 20.42 | 19.96 | DATA_ADVANCED |  |
+| `/derisk/instrument/trend_brake/top2_max` | 0.8945 | 0.8919 | DATA_ADVANCED |  |
+| `/derisk/instrument/trend_brake/top2_min` | 0.6903 | 0.6923 | DATA_ADVANCED |  |
+| `/derisk/instrument/vt08/distance_to_line_pp` | 2.89 | 3.06 | DATA_ADVANCED |  |
+| `/derisk/instrument/vt08/spread_pp` | 9.66 | 9.1 | DATA_ADVANCED |  |
+| `/derisk/instrument/vt08/top2_max` | 0.7677 | 0.7604 | DATA_ADVANCED |  |
+| `/derisk/instrument/vt08/top2_min` | 0.6711 | 0.6694 | DATA_ADVANCED |  |
+| `/derisk/mechanism/0/annual_sum_pp` | 81.1015 | 80.9213 | DATA_ADVANCED |  |
+| `/derisk/mechanism/0/delta_annual_sum_pp` | -29.3353 | -29.296 | DATA_ADVANCED |  |
+| `/derisk/mechanism/0/delta_top2` | 0.0229 | 0.0231 | DATA_ADVANCED |  |
+| `/derisk/mechanism/0/top2_share` | 0.7104 | 0.712 | DATA_ADVANCED |  |
+| `/derisk/mechanism/1/annual_sum_pp` | 87.9677 | 87.865 | DATA_ADVANCED |  |
+| `/derisk/mechanism/1/delta_annual_sum_pp` | -22.4691 | -22.3523 | DATA_ADVANCED |  |
+| `/derisk/mechanism/1/delta_top2` | 0.0683 | 0.0677 | DATA_ADVANCED |  |
+| `/derisk/mechanism/1/top2_share` | 0.7558 | 0.7566 | DATA_ADVANCED |  |
+| `/derisk/mechanism/2/annual_sum_pp` | 101.8764 | 101.6974 | DATA_ADVANCED |  |
+| `/derisk/mechanism/2/delta_annual_sum_pp` | -8.5604 | -8.5199 | DATA_ADVANCED |  |
+| `/derisk/mechanism/2/delta_top2` | 0.0535 | 0.0534 | DATA_ADVANCED |  |
+| `/derisk/mechanism/2/top2_share` | 0.741 | 0.7423 | DATA_ADVANCED |  |
+| `/derisk/mechanism/3/annual_sum_pp` | 86.2309 | 86.0114 | DATA_ADVANCED |  |
+| `/derisk/mechanism/3/delta_top2` | 0.1159 | 0.1165 | DATA_ADVANCED |  |
+| `/derisk/mechanism/3/top2_share` | 0.8034 | 0.8054 | DATA_ADVANCED |  |
+| `/do_or_wait/one_open_late/mean_cny` | -1807.9103947888514 | -1786.0584921749248 | DATA_ADVANCED |  |
+| `/do_or_wait/one_open_late/median_cny` | -932.3031683309347 | -929.1796775964033 | DATA_ADVANCED |  |
+| `/do_or_wait/one_open_late/share_late_helps` | 0.4128878281622912 | 0.4142857142857143 | DATA_ADVANCED |  |
+| `/do_or_wait/one_open_late/t` | -4.599190382634581 | -4.562446075953968 | DATA_ADVANCED |  |
+| `/do_or_wait/table/1/cost_cny_vs_today` | 1807.91 | 1786.06 | DATA_ADVANCED |  |
+| `/do_or_wait/table/1/mean_cny` | -1807.9103947888514 | -1786.0584921749248 | DATA_ADVANCED |  |
+| `/do_or_wait/table/1/share_late_helps` | 0.4128878281622912 | 0.4142857142857143 | DATA_ADVANCED |  |
+| `/do_or_wait/table/1/t` | -4.599190382634581 | -4.562446075953968 | DATA_ADVANCED |  |
+| `/do_or_wait/table/2/cost_cny_vs_today` | 2617.45 | 2592.25 | DATA_ADVANCED |  |
+| `/do_or_wait/table/2/mean_cny` | -2617.447114954767 | -2592.248083450971 | DATA_ADVANCED |  |
+| `/do_or_wait/table/2/share_late_helps` | 0.41866028708133973 | 0.41904761904761906 | DATA_ADVANCED |  |
+| `/do_or_wait/table/2/t` | -4.811844064273784 | -4.783805305959651 | DATA_ADVANCED |  |
+| `/do_or_wait/table/3/cost_cny_vs_today` | 2863.6 | 2806.47 | DATA_ADVANCED |  |
+| `/do_or_wait/table/3/mean_cny` | -2863.6017836822743 | -2806.470571021039 | DATA_ADVANCED |  |
+| `/do_or_wait/table/3/share_late_helps` | 0.434052757793765 | 0.43675417661097854 | DATA_ADVANCED |  |
+| `/do_or_wait/table/3/t` | -4.192936918406691 | -4.147026268691905 | DATA_ADVANCED |  |
+| `/do_or_wait/table/4/cost_cny_vs_today` | 4071.21 | 4008.49 | DATA_ADVANCED |  |
+| `/do_or_wait/table/4/mean_cny` | -4071.2099611560852 | -4008.4854439798587 | DATA_ADVANCED |  |
+| `/do_or_wait/table/4/share_late_helps` | 0.41445783132530123 | 0.4172661870503597 | DATA_ADVANCED |  |
+| `/do_or_wait/table/4/t` | -4.29091984158533 | -4.254465438770218 | DATA_ADVANCED |  |
+| `/entry_gate/control/arm_declared_cagr` | 0.0845 | 0.0839 | DATA_ADVANCED |  |
+| `/entry_gate/control/published_declared_cagr` | 0.0845 | 0.0839 | DATA_ADVANCED |  |
+| `/entry_gate/gates/0/cagr` | 0.0867 | 0.0861 | DATA_ADVANCED |  |
+| `/entry_gate/gates/0/median_names` | 462 | 463 | DATA_ADVANCED |  |
+| `/entry_gate/gates/0/sharpe` | 0.891 | 0.885 | DATA_ADVANCED |  |
+| `/entry_gate/gates/1/cagr` | 0.0867 | 0.0861 | DATA_ADVANCED |  |
+| `/entry_gate/gates/1/sharpe` | 0.891 | 0.885 | DATA_ADVANCED |  |
+| `/entry_gate/gates/2/cagr` | 0.0845 | 0.0839 | DATA_ADVANCED |  |
+| `/entry_gate/gates/2/sharpe` | 0.874 | 0.868 | DATA_ADVANCED |  |
+| `/entry_gate/gates/3/cagr` | 0.0793 | 0.0792 | DATA_ADVANCED |  |
+| `/entry_gate/gates/3/delta_pp` | -0.52 | -0.47 | DATA_ADVANCED |  |
+| `/entry_gate/gates/3/sharpe` | 0.833 | 0.832 | DATA_ADVANCED |  |
+| `/entry_gate/gates/4/cagr` | 0.0853 | 0.0851 | DATA_ADVANCED |  |
+| `/entry_gate/gates/4/delta_pp` | 0.08 | 0.12 | DATA_ADVANCED |  |
+| `/entry_gate/gates/4/sharpe` | 0.88 | 0.878 | DATA_ADVANCED |  |
+| `/entry_gate/gates/5/cagr` | 0.0528 | 0.0524 | DATA_ADVANCED |  |
+| `/entry_gate/gates/5/delta_pp` | -3.17 | -3.15 | DATA_ADVANCED |  |
+| `/entry_gate/gates/5/sharpe` | 0.563 | 0.559 | DATA_ADVANCED |  |
+| `/entry_gate/gates/5/turnover` | 0.687 | 0.686 | DATA_ADVANCED |  |
+| `/entry_gate/near_max_pp` | 0.52 | 0.47 | DATA_ADVANCED |  |
+| `/entry_gate/universe_measured` | 1522 | 1526 | DATA_ADVANCED |  |
+| `/entry_gate/universe_published` | 1522 | 1526 | DATA_ADVANCED |  |
+| `/entry_gate/widest_names` | 462 | 463 | DATA_ADVANCED |  |
+| `/entry_gate/width_ratio` | 8.25 | 8.267857142857142 | DATA_ADVANCED |  |
+| `/envelope/bars` | 1664 | 1666 | DATA_ADVANCED |  |
+| `/envelope/cagr/1` | 0.0068493272029104425 | 0.00970374057052694 | DATA_ADVANCED |  |
+| `/envelope/cagr/25` | 0.06840924721419589 | 0.0691848523974436 | DATA_ADVANCED |  |
+| `/envelope/cagr/5` | 0.03182967478401507 | 0.03385342463704886 | DATA_ADVANCED |  |
+| `/envelope/cagr/50` | 0.09258712640461786 | 0.09258377819489294 | DATA_ADVANCED |  |
+| `/envelope/cagr/75` | 0.11881646319576938 | 0.11887875544305465 | DATA_ADVANCED |  |
+| `/envelope/cagr/95` | 0.16421597404174448 | 0.16418898553377706 | DATA_ADVANCED |  |
+| `/envelope/cagr/99` | 0.19628802199236917 | 0.19856431173963565 | DATA_ADVANCED |  |
+| `/envelope/maxdd/1` | -0.26652562701535354 | -0.26369907061700143 | DATA_ADVANCED |  |
+| `/envelope/maxdd/25` | -0.16121729286684902 | -0.15987349934356265 | DATA_ADVANCED |  |
+| `/envelope/maxdd/5` | -0.21617589625642036 | -0.21630319479833723 | DATA_ADVANCED |  |
+| `/envelope/maxdd/50` | -0.1342424164934698 | -0.13287652293348196 | DATA_ADVANCED |  |
+| `/envelope/maxdd/75` | -0.1130492342236108 | -0.11138812824361896 | DATA_ADVANCED |  |
+| `/envelope/maxdd/95` | -0.08945175849379519 | -0.08969624998406393 | DATA_ADVANCED |  |
+| `/envelope/maxdd/99` | -0.07610892387146369 | -0.07568516757989271 | DATA_ADVANCED |  |
+| `/envelope/point/cagr` | 0.0941 | 0.0939 | DATA_ADVANCED |  |
+| `/envelope/point/sharpe` | 0.971 | 0.969 | DATA_ADVANCED |  |
+| `/envelope/point_pctile/maxdd` | 69.5 | 68.0 | DATA_ADVANCED |  |
+| `/envelope/point_pctile/sharpe` | 52.6 | 51.9 | DATA_ADVANCED |  |
+| `/envelope/shares/maxdd_le_line` | 0.078 | 0.082 | DATA_ADVANCED |  |
+| `/envelope/sharpe/1` | 0.11870229208130641 | 0.1520253471242535 | DATA_ADVANCED |  |
+| `/envelope/sharpe/25` | 0.7184901338701648 | 0.7249142768782173 | DATA_ADVANCED |  |
+| `/envelope/sharpe/5` | 0.3656883006238914 | 0.3816164673822279 | DATA_ADVANCED |  |
+| `/envelope/sharpe/50` | 0.9468453341950163 | 0.9539348916255559 | DATA_ADVANCED |  |
+| `/envelope/sharpe/75` | 1.1881607575485154 | 1.1858163678578824 | DATA_ADVANCED |  |
+| `/envelope/sharpe/95` | 1.567898340563106 | 1.55813540806696 | DATA_ADVANCED |  |
+| `/envelope/sharpe/99` | 1.8506260957602108 | 1.8501784778683223 | DATA_ADVANCED |  |
+| `/excess_pp` | 9.74 | 9.55 | DATA_ADVANCED |  |
+| `/exposure_timing/arms/constant/cagr` | 0.0993 | 0.0988 | DATA_ADVANCED |  |
+| `/exposure_timing/arms/constant/sharpe` | 0.962 | 0.958 | DATA_ADVANCED |  |
+| `/exposure_timing/arms/full/cagr` | 0.1303 | 0.1295 | DATA_ADVANCED |  |
+| `/exposure_timing/arms/full/sharpe` | 0.911 | 0.906 | DATA_ADVANCED |  |
+| `/exposure_timing/arms/production/cagr` | 0.0895 | 0.0888 | DATA_ADVANCED |  |
+| `/exposure_timing/arms/production/mean_exposure` | 0.7079 | 0.708 | DATA_ADVANCED |  |
+| `/exposure_timing/arms/production/sharpe` | 0.938 | 0.932 | DATA_ADVANCED |  |
+| `/exposure_timing/bars` | 1666 | 1667 | DATA_ADVANCED |  |
+| `/exposure_timing/placebo/cagr_mean` | 0.0994 | 0.0988 | DATA_ADVANCED |  |
+| `/exposure_timing/verdict/de_risking_pp` | -3.1 | -3.07 | DATA_ADVANCED |  |
+| `/exposure_timing/verdict/placebo_p05_pp` | -1.75 | -1.77 | DATA_ADVANCED |  |
+| `/exposure_timing/verdict/timing_pp` | -0.98 | -1.0 | DATA_ADVANCED |  |
+| `/family_coherence/floor_extrapolation/gap_pp` | 0.114 | 0.092 | DATA_ADVANCED |  |
+| `/family_coherence/floor_extrapolation/observed_pp` | 0.43 | 0.407 | DATA_ADVANCED |  |
+| `/family_coherence/panels_detail/0/bars` | 5282 | 5284 | DATA_ADVANCED |  |
+| `/family_coherence/panels_detail/0/columns` | 1631 | 1635 | DATA_ADVANCED |  |
+| `/family_coherence/receipt/elapsed_sec` | 0.0 | 917.6 | CLOCK |  |
+| `/family_coherence/signflip/arms/0/sign_cells` | 11 | 12 | DATA_ADVANCED |  |
+| `/family_coherence/signflip/arms/1/cells_positive` | 6 | 10 | DATA_ADVANCED |  |
+| `/family_coherence/signflip/arms/3/cells_positive` | 8 | 7 | DATA_ADVANCED |  |
+| `/family_coherence/signflip/arms/3/sign_cells` | 12 | 11 | DATA_ADVANCED |  |
+| `/family_coherence/signflip/arms/5/cells_positive` | 7 | 8 | DATA_ADVANCED |  |
+| `/family_coherence/signflip/n_reject` | 4 | 3 | DATA_ADVANCED |  |
+| `/feed_lag_days` | 1 | 0 | CLOCK |  |
+| `/fleet/rows/0/age_h` | 1.1 | 22.48 | CLOCK |  |
+| `/fleet/rows/1/age_h` | 460.16 | 485.64 | CLOCK |  |
+| `/fleet/rows/2/age_h` | 2.63 | 0.2 | CLOCK |  |
+| `/floor_provenance/grid/full|all/bars` | 1665 | 1667 | DATA_ADVANCED |  |
+| `/floor_provenance/grid/full|graded/bars` | 1665 | 1667 | DATA_ADVANCED |  |
+| `/floor_provenance/issuing_cell/bars` | 1665 | 1667 | DATA_ADVANCED |  |
+| `/forward/bars` | 18 | 20 | DATA_ADVANCED |  |
+| `/forward/nav` | 1.0037762754 | 0.998050606 | DATA_ADVANCED |  |
+| `/forward/since_inception_pct` | 0.3776 | -0.1949 | DATA_ADVANCED |  |
+| `/futures_hedge/beta` | 0.07458300567364223 | 0.07458485214051068 | DATA_ADVANCED |  |
+| `/futures_hedge/capital_for_one_lot` | 10985880.665433725 | 10985608.692451447 | DATA_ADVANCED |  |
+| `/futures_hedge/corr` | 0.1415643988218339 | 0.14156670386872094 | DATA_ADVANCED |  |
+| `/futures_hedge/maxdd_delta_pp` | -0.05485315943003499 | -0.054882534673372785 | DATA_ADVANCED |  |
+| `/futures_hedge/sharpe_delta` | -0.020536000001067034 | -0.020573920795340817 | DATA_ADVANCED |  |
+| `/futures_hedge/unit_over_target` | 10.985880665433726 | 10.985608692451448 | DATA_ADVANCED |  |
+| `/futures_hedge/variance_removable_pct` | 2.004047901378724 | 2.004113164425413 | DATA_ADVANCED |  |
+| `/futures_hedge/vol_delta_pp` | -0.10122922788117772 | -0.10120159698399356 | DATA_ADVANCED |  |
+| `/futures_hedge_tail/dsharpe` | -0.020536000001067034 | -0.020573920795340817 | DATA_ADVANCED |  |
+| `/futures_hedge_tail/dsharpe_hi` | 0.0719002244924948 | 0.07320814130816604 | DATA_ADVANCED |  |
+| `/futures_hedge_tail/dsharpe_lo` | -0.0964202006837476 | -0.10003708788060439 | DATA_ADVANCED |  |
+| `/futures_hedge_tail/share_above_uncond` | 0.9695 | 0.9655 | DATA_ADVANCED |  |
+| `/futures_hedge_tail/tail_ci_hi` | 0.8405742148706478 | 0.8360922810425216 | DATA_ADVANCED |  |
+| `/futures_hedge_tail/tail_ci_lo` | 0.13021062460324065 | 0.12509835209681733 | DATA_ADVANCED |  |
+| `/futures_hedge_tail/uncond_beta` | 0.07458300567364223 | 0.07458485214051068 | DATA_ADVANCED |  |
+| `/futures_ladder/dilution/pairs/IF/calendar_ann_pct` | 5.843 | 5.848 | DATA_ADVANCED |  |
+| `/futures_ladder/dilution/pairs/IF/gap_pp` | 3.967 | 3.965 | DATA_ADVANCED |  |
+| `/futures_ladder/dilution/pairs/IF/kept_by_both_ann_pct` | 6.548 | 6.553 | DATA_ADVANCED |  |
+| `/futures_ladder/dilution/pairs/IF/published_ann_pct` | 1.876 | 1.883 | DATA_ADVANCED |  |
+| `/futures_ladder/dilution/pairs/IF/strictest_ann_pct` | 6.548 | 6.553 | DATA_ADVANCED |  |
+| `/futures_ladder/dilution/pairs/IH/calendar_ann_pct` | 5.39 | 5.409 | DATA_ADVANCED |  |
+| `/futures_ladder/dilution/pairs/IH/gap_pp` | 3.829 | 3.828 | DATA_ADVANCED |  |
+| `/futures_ladder/dilution/pairs/IH/kept_by_both_ann_pct` | 5.202 | 5.221 | DATA_ADVANCED |  |
+| `/futures_ladder/dilution/pairs/IH/published_ann_pct` | 1.561 | 1.581 | DATA_ADVANCED |  |
+| `/futures_ladder/dilution/pairs/IH/strictest_ann_pct` | 5.202 | 5.221 | DATA_ADVANCED |  |
+| `/futures_ladder/dilution/pairs/IM/calendar_ann_pct` | 12.013 | 12.016 | DATA_ADVANCED |  |
+| `/futures_ladder/dilution/pairs/IM/gap_pp` | 6.131 | 6.126 | DATA_ADVANCED |  |
+| `/futures_ladder/dilution/pairs/IM/kept_by_both_ann_pct` | 11.623 | 11.626 | DATA_ADVANCED |  |
+| `/futures_ladder/dilution/pairs/IM/published_ann_pct` | 5.882 | 5.89 | DATA_ADVANCED |  |
+| `/futures_ladder/dilution/pairs/IM/strictest_ann_pct` | 11.623 | 11.626 | DATA_ADVANCED |  |
+| `/futures_ladder/rows/1/net_pct_of_capital` | 1.4 | 1.41 | DATA_ADVANCED |  |
+| `/futures_ladder/rows/1/net_pct_of_capital_by_mask/calendar` | 2.56 | 2.57 | DATA_ADVANCED |  |
+| `/futures_ladder/rows/1/net_pct_of_capital_by_mask/published` | 1.4 | 1.41 | DATA_ADVANCED |  |
+| `/futures_ladder/rows/3/net_pct_of_capital_by_mask/calendar` | 3.41 | 3.4 | DATA_ADVANCED |  |
+| `/futures_ladder/rows/3/net_pct_of_capital_by_mask/strictest` | 3.41 | 3.4 | DATA_ADVANCED |  |
+| `/futures_sleeve/book/ann_compound_pct` | 11.514 | 11.504 | DATA_ADVANCED |  |
+| `/futures_sleeve/rows/0/blend_gain_sharpe` | 0.325 | 0.324 | DATA_ADVANCED |  |
+| `/futures_sleeve/rows/0/carry_ann_compound_pct` | 8.753 | 8.778 | DATA_ADVANCED |  |
+| `/futures_sleeve/rows/0/gap_net_pp` | 6.644 | 6.753 | DATA_ADVANCED |  |
+| `/futures_sleeve/rows/0/notional_per_lot_cny` | 1238960.0 | 1243680.0 | DATA_ADVANCED |  |
+| `/futures_sleeve/rows/1/carry_ann_compound_pct` | 3.565 | 3.625 | DATA_ADVANCED |  |
+| `/futures_sleeve/rows/1/carry_caliber/calendar_ann_pct` | 5.843 | 5.848 | DATA_ADVANCED |  |
+| `/futures_sleeve/rows/1/carry_caliber/published_ann_pct` | 1.876 | 1.883 | DATA_ADVANCED |  |
+| `/futures_sleeve/rows/1/carry_caliber/spread_pp` | 3.967 | 3.965 | DATA_ADVANCED |  |
+| `/futures_sleeve/rows/1/gap_net_pp` | 0.651 | 0.558 | DATA_ADVANCED |  |
+| `/futures_sleeve/rows/1/notional_per_lot_cny` | 1175460.0 | 1181700.0 | DATA_ADVANCED |  |
+| `/futures_sleeve/rows/2/blend_gain_sharpe` | 0.084 | 0.085 | DATA_ADVANCED |  |
+| `/futures_sleeve/rows/2/carry_ann_compound_pct` | 2.402 | 2.471 | DATA_ADVANCED |  |
+| `/futures_sleeve/rows/2/carry_caliber/calendar_ann_pct` | 5.39 | 5.409 | DATA_ADVANCED |  |
+| `/futures_sleeve/rows/2/carry_caliber/published_ann_pct` | 1.561 | 1.581 | DATA_ADVANCED |  |
+| `/futures_sleeve/rows/2/carry_caliber/spread_pp` | 3.829 | 3.828 | DATA_ADVANCED |  |
+| `/futures_sleeve/rows/2/notional_per_lot_cny` | 818880.0 | 822720.0 | DATA_ADVANCED |  |
+| `/futures_sleeve/rows/3/carry_ann_compound_pct` | 10.209 | 10.263 | DATA_ADVANCED |  |
+| `/futures_sleeve/rows/3/carry_caliber/calendar_ann_pct` | 12.013 | 12.016 | DATA_ADVANCED |  |
+| `/futures_sleeve/rows/3/carry_caliber/published_ann_pct` | 5.882 | 5.89 | DATA_ADVANCED |  |
+| `/futures_sleeve/rows/3/carry_caliber/spread_pp` | 6.131 | 6.126 | DATA_ADVANCED |  |
+| `/futures_sleeve/rows/3/gap_net_pp` | 7.847 | 7.733 | DATA_ADVANCED |  |
+| `/futures_sleeve/rows/3/notional_per_lot_cny` | 1204600.0 | 1221000.0 | DATA_ADVANCED |  |
+| `/gap/controls/0/got_cagr` | 0.0845 | 0.0839 | DATA_ADVANCED |  |
+| `/gap/controls/0/published_cagr` | 0.0845 | 0.0839 | DATA_ADVANCED |  |
+| `/gap/elapsed_sec` | 48.1 | 85.9 | CLOCK |  |
+| `/gap/gap_stats/excluded_names_per_decision/excl_upgap_q80` | 146.9 | 146.5 | DATA_ADVANCED |  |
+| `/gap/gap_stats/median_abs_gap_bp` | 24.27 | 24.29 | DATA_ADVANCED |  |
+| `/gap/published/as_coded_cagr` | 0.0941 | 0.0939 | DATA_ADVANCED |  |
+| `/gap/published/declared_cagr` | 0.0845 | 0.0839 | DATA_ADVANCED |  |
+| `/gap/rows/0/bars` | 1664 | 1666 | DATA_ADVANCED |  |
+| `/gap/rows/0/cagr` | 0.0845 | 0.0839 | DATA_ADVANCED |  |
+| `/gap/rows/0/oos_cagr` | 0.1725 | 0.1708 | DATA_ADVANCED |  |
+| `/gap/rows/0/oos_sharpe` | 1.645 | 1.63 | DATA_ADVANCED |  |
+| `/gap/rows/0/sharpe` | 0.874 | 0.868 | DATA_ADVANCED |  |
+| `/gap/rows/0/vol` | 0.1028 | 0.1027 | DATA_ADVANCED |  |
+| `/gap/rows/0/years` | 6.87 | 6.88 | DATA_ADVANCED |  |
+| `/gap/rows/1/bars` | 1664 | 1666 | DATA_ADVANCED |  |
+| `/gap/rows/1/cagr` | -0.0282 | -0.0287 | DATA_ADVANCED |  |
+| `/gap/rows/1/maxdd` | -0.286 | -0.2853 | DATA_ADVANCED |  |
+| `/gap/rows/1/oos_cagr` | -0.0382 | -0.0388 | DATA_ADVANCED |  |
+| `/gap/rows/1/oos_sharpe` | -0.381 | -0.387 | DATA_ADVANCED |  |
+| `/gap/rows/1/sharpe` | -0.274 | -0.279 | DATA_ADVANCED |  |
+| `/gap/rows/1/years` | 6.87 | 6.88 | DATA_ADVANCED |  |
+| `/gap/rows/10/bars` | 1659 | 1661 | DATA_ADVANCED |  |
+| `/gap/rows/10/cagr` | 0.0878 | 0.0882 | DATA_ADVANCED |  |
+| `/gap/rows/10/oos_cagr` | 0.1589 | 0.1597 | DATA_ADVANCED |  |
+| `/gap/rows/10/oos_sharpe` | 1.416 | 1.423 | DATA_ADVANCED |  |
+| `/gap/rows/10/sharpe` | 0.884 | 0.888 | DATA_ADVANCED |  |
+| `/gap/rows/10/turnover` | 0.9312 | 0.9392 | DATA_ADVANCED |  |
+| `/gap/rows/10/vol` | 0.1055 | 0.1054 | DATA_ADVANCED |  |
+| `/gap/rows/10/years` | 6.85 | 6.86 | DATA_ADVANCED |  |
+| `/gap/rows/11/bars` | 1659 | 1661 | DATA_ADVANCED |  |
+| `/gap/rows/11/cagr` | 0.0824 | 0.0822 | DATA_ADVANCED |  |
+| `/gap/rows/11/oos_cagr` | 0.1758 | 0.1749 | DATA_ADVANCED |  |
+| `/gap/rows/11/oos_sharpe` | 1.435 | 1.429 | DATA_ADVANCED |  |
+| `/gap/rows/11/sharpe` | 0.812 | 0.81 | DATA_ADVANCED |  |
+| `/gap/rows/11/turnover` | 0.9803 | 0.9895 | DATA_ADVANCED |  |
+| `/gap/rows/11/years` | 6.85 | 6.86 | DATA_ADVANCED |  |
+| `/gap/rows/12/bars` | 1654 | 1656 | DATA_ADVANCED |  |
+| `/gap/rows/12/cagr` | 0.0801 | 0.0797 | DATA_ADVANCED |  |
+| `/gap/rows/12/oos_cagr` | 0.1728 | 0.1715 | DATA_ADVANCED |  |
+| `/gap/rows/12/oos_sharpe` | 1.433 | 1.424 | DATA_ADVANCED |  |
+| `/gap/rows/12/sharpe` | 0.787 | 0.784 | DATA_ADVANCED |  |
+| `/gap/rows/12/years` | 6.83 | 6.84 | DATA_ADVANCED |  |
+| `/gap/rows/13/bars` | 1654 | 1656 | DATA_ADVANCED |  |
+| `/gap/rows/13/cagr` | -0.0216 | -0.0212 | DATA_ADVANCED |  |
+| `/gap/rows/13/oos_sharpe` | 0.092 | 0.091 | DATA_ADVANCED |  |
+| `/gap/rows/13/sharpe` | -0.195 | -0.19 | DATA_ADVANCED |  |
+| `/gap/rows/13/turnover` | 0.7145 | 0.7142 | DATA_ADVANCED |  |
+| `/gap/rows/13/years` | 6.83 | 6.84 | DATA_ADVANCED |  |
+| `/gap/rows/14/bars` | 1654 | 1656 | DATA_ADVANCED |  |
+| `/gap/rows/14/cagr` | 0.0443 | 0.042 | DATA_ADVANCED |  |
+| `/gap/rows/14/maxdd` | -0.2271 | -0.2261 | DATA_ADVANCED |  |
+| `/gap/rows/14/oos_cagr` | 0.0915 | 0.0852 | DATA_ADVANCED |  |
+| `/gap/rows/14/oos_sharpe` | 1.089 | 1.016 | DATA_ADVANCED |  |
+| `/gap/rows/14/sharpe` | 0.55 | 0.524 | DATA_ADVANCED |  |
+| `/gap/rows/14/turnover` | 0.6714 | 0.6708 | DATA_ADVANCED |  |
+| `/gap/rows/14/years` | 6.83 | 6.84 | DATA_ADVANCED |  |
+| `/gap/rows/15/bars` | 1654 | 1656 | DATA_ADVANCED |  |
+| `/gap/rows/15/cagr` | 0.0697 | 0.0692 | DATA_ADVANCED |  |
+| `/gap/rows/15/oos_cagr` | 0.1367 | 0.1355 | DATA_ADVANCED |  |
+| `/gap/rows/15/oos_sharpe` | 1.237 | 1.227 | DATA_ADVANCED |  |
+| `/gap/rows/15/sharpe` | 0.722 | 0.718 | DATA_ADVANCED |  |
+| `/gap/rows/15/years` | 6.83 | 6.84 | DATA_ADVANCED |  |
+| `/gap/rows/16/bars` | 1654 | 1656 | DATA_ADVANCED |  |
+| `/gap/rows/16/cagr` | 0.0798 | 0.0794 | DATA_ADVANCED |  |
+| `/gap/rows/16/oos_cagr` | 0.164 | 0.1628 | DATA_ADVANCED |  |
+| `/gap/rows/16/oos_sharpe` | 1.451 | 1.441 | DATA_ADVANCED |  |
+| `/gap/rows/16/sharpe` | 0.811 | 0.807 | DATA_ADVANCED |  |
+| `/gap/rows/16/vol` | 0.1056 | 0.1055 | DATA_ADVANCED |  |
+| `/gap/rows/16/years` | 6.83 | 6.84 | DATA_ADVANCED |  |
+| `/gap/rows/17/bars` | 1654 | 1656 | DATA_ADVANCED |  |
+| `/gap/rows/17/cagr` | 0.0627 | 0.0618 | DATA_ADVANCED |  |
+| `/gap/rows/17/oos_cagr` | 0.1288 | 0.1277 | DATA_ADVANCED |  |
+| `/gap/rows/17/oos_sharpe` | 1.188 | 1.178 | DATA_ADVANCED |  |
+| `/gap/rows/17/sharpe` | 0.657 | 0.649 | DATA_ADVANCED |  |
+| `/gap/rows/17/vol` | 0.1048 | 0.1047 | DATA_ADVANCED |  |
+| `/gap/rows/17/years` | 6.83 | 6.84 | DATA_ADVANCED |  |
+| `/gap/rows/18/bars` | 1649 | 1651 | DATA_ADVANCED |  |
+| `/gap/rows/18/cagr` | 0.0612 | 0.0615 | DATA_ADVANCED |  |
+| `/gap/rows/18/oos_cagr` | 0.0339 | 0.0346 | DATA_ADVANCED |  |
+| `/gap/rows/18/oos_sharpe` | 0.387 | 0.394 | DATA_ADVANCED |  |
+| `/gap/rows/18/sharpe` | 0.665 | 0.668 | DATA_ADVANCED |  |
+| `/gap/rows/18/vol` | 0.1003 | 0.1002 | DATA_ADVANCED |  |
+| `/gap/rows/19/bars` | 1649 | 1651 | DATA_ADVANCED |  |
+| `/gap/rows/19/cagr` | 0.0341 | 0.0331 | DATA_ADVANCED |  |
+| `/gap/rows/19/oos_cagr` | 0.0648 | 0.0624 | DATA_ADVANCED |  |
+| `/gap/rows/19/oos_sharpe` | 0.769 | 0.742 | DATA_ADVANCED |  |
+| `/gap/rows/19/sharpe` | 0.447 | 0.435 | DATA_ADVANCED |  |
+| `/gap/rows/2/bars` | 1664 | 1666 | DATA_ADVANCED |  |
+| `/gap/rows/2/cagr` | 0.0514 | 0.0497 | DATA_ADVANCED |  |
+| `/gap/rows/2/oos_cagr` | 0.0753 | 0.0724 | DATA_ADVANCED |  |
+| `/gap/rows/2/oos_sharpe` | 0.701 | 0.677 | DATA_ADVANCED |  |
+| `/gap/rows/2/sharpe` | 0.576 | 0.559 | DATA_ADVANCED |  |
+| `/gap/rows/2/turnover` | 0.7007 | 0.7 | DATA_ADVANCED |  |
+| `/gap/rows/2/vol` | 0.0992 | 0.099 | DATA_ADVANCED |  |
+| `/gap/rows/2/years` | 6.87 | 6.88 | DATA_ADVANCED |  |
+| `/gap/rows/20/bars` | 1649 | 1651 | DATA_ADVANCED |  |
+| `/gap/rows/20/cagr` | 0.0383 | 0.0366 | DATA_ADVANCED |  |
+| `/gap/rows/20/maxdd` | -0.2038 | -0.2019 | DATA_ADVANCED |  |
+| `/gap/rows/20/oos_cagr` | 0.0542 | 0.0492 | DATA_ADVANCED |  |
+| `/gap/rows/20/oos_sharpe` | 0.567 | 0.52 | DATA_ADVANCED |  |
+| `/gap/rows/20/sharpe` | 0.442 | 0.424 | DATA_ADVANCED |  |
+| `/gap/rows/20/turnover` | 0.7168 | 0.7187 | DATA_ADVANCED |  |
+| `/gap/rows/21/bars` | 1649 | 1651 | DATA_ADVANCED |  |
+| `/gap/rows/21/cagr` | 0.042 | 0.0422 | DATA_ADVANCED |  |
+| `/gap/rows/21/oos_cagr` | 0.0114 | 0.0121 | DATA_ADVANCED |  |
+| `/gap/rows/21/oos_sharpe` | 0.167 | 0.174 | DATA_ADVANCED |  |
+| `/gap/rows/21/sharpe` | 0.483 | 0.486 | DATA_ADVANCED |  |
+| `/gap/rows/21/vol` | 0.0983 | 0.0982 | DATA_ADVANCED |  |
+| `/gap/rows/22/bars` | 1649 | 1651 | DATA_ADVANCED |  |
+| `/gap/rows/22/cagr` | 0.0536 | 0.0539 | DATA_ADVANCED |  |
+| `/gap/rows/22/oos_cagr` | 0.0213 | 0.022 | DATA_ADVANCED |  |
+| `/gap/rows/22/oos_sharpe` | 0.265 | 0.272 | DATA_ADVANCED |  |
+| `/gap/rows/22/sharpe` | 0.595 | 0.598 | DATA_ADVANCED |  |
+| `/gap/rows/23/bars` | 1649 | 1651 | DATA_ADVANCED |  |
+| `/gap/rows/23/maxdd` | -0.2108 | -0.2119 | DATA_ADVANCED |  |
+| `/gap/rows/23/oos_cagr` | 0.0008 | 0.001 | DATA_ADVANCED |  |
+| `/gap/rows/23/oos_sharpe` | 0.058 | 0.061 | DATA_ADVANCED |  |
+| `/gap/rows/23/sharpe` | 0.443 | 0.445 | DATA_ADVANCED |  |
+| `/gap/rows/23/turnover` | 0.9697 | 0.9717 | DATA_ADVANCED |  |
+| `/gap/rows/23/vol` | 0.0963 | 0.0962 | DATA_ADVANCED |  |
+| `/gap/rows/3/bars` | 1664 | 1666 | DATA_ADVANCED |  |
+| `/gap/rows/3/cagr` | 0.0614 | 0.0608 | DATA_ADVANCED |  |
+| `/gap/rows/3/oos_cagr` | 0.141 | 0.1394 | DATA_ADVANCED |  |
+| `/gap/rows/3/oos_sharpe` | 1.328 | 1.315 | DATA_ADVANCED |  |
+| `/gap/rows/3/sharpe` | 0.656 | 0.65 | DATA_ADVANCED |  |
+| `/gap/rows/3/vol` | 0.1027 | 0.1026 | DATA_ADVANCED |  |
+| `/gap/rows/3/years` | 6.87 | 6.88 | DATA_ADVANCED |  |
+| `/gap/rows/4/bars` | 1664 | 1666 | DATA_ADVANCED |  |
+| `/gap/rows/4/cagr` | 0.0812 | 0.0806 | DATA_ADVANCED |  |
+| `/gap/rows/4/oos_cagr` | 0.1828 | 0.181 | DATA_ADVANCED |  |
+| `/gap/rows/4/oos_sharpe` | 1.72 | 1.705 | DATA_ADVANCED |  |
+| `/gap/rows/4/sharpe` | 0.848 | 0.842 | DATA_ADVANCED |  |
+| `/gap/rows/4/vol` | 0.1021 | 0.102 | DATA_ADVANCED |  |
+| `/gap/rows/4/years` | 6.87 | 6.88 | DATA_ADVANCED |  |
+| `/gap/rows/5/bars` | 1664 | 1666 | DATA_ADVANCED |  |
+| `/gap/rows/5/cagr` | 0.0918 | 0.0922 | DATA_ADVANCED |  |
+| `/gap/rows/5/maxdd` | -0.183 | -0.1809 | DATA_ADVANCED |  |
+| `/gap/rows/5/oos_cagr` | 0.1862 | 0.1855 | DATA_ADVANCED |  |
+| `/gap/rows/5/oos_sharpe` | 1.688 | 1.683 | DATA_ADVANCED |  |
+| `/gap/rows/5/sharpe` | 0.934 | 0.937 | DATA_ADVANCED |  |
+| `/gap/rows/5/turnover` | 0.9987 | 0.9957 | DATA_ADVANCED |  |
+| `/gap/rows/5/vol` | 0.1038 | 0.1037 | DATA_ADVANCED |  |
+| `/gap/rows/5/years` | 6.87 | 6.88 | DATA_ADVANCED |  |
+| `/gap/rows/6/bars` | 1659 | 1661 | DATA_ADVANCED |  |
+| `/gap/rows/6/cagr` | 0.0784 | 0.0788 | DATA_ADVANCED |  |
+| `/gap/rows/6/oos_cagr` | 0.155 | 0.1559 | DATA_ADVANCED |  |
+| `/gap/rows/6/oos_sharpe` | 1.371 | 1.378 | DATA_ADVANCED |  |
+| `/gap/rows/6/sharpe` | 0.8 | 0.804 | DATA_ADVANCED |  |
+| `/gap/rows/6/turnover` | 0.9515 | 0.9592 | DATA_ADVANCED |  |
+| `/gap/rows/6/years` | 6.85 | 6.86 | DATA_ADVANCED |  |
+| `/gap/rows/7/bars` | 1659 | 1661 | DATA_ADVANCED |  |
+| `/gap/rows/7/cagr` | -0.0159 | -0.016 | DATA_ADVANCED |  |
+| `/gap/rows/7/oos_cagr` | 0.0085 | 0.0079 | DATA_ADVANCED |  |
+| `/gap/rows/7/oos_sharpe` | 0.134 | 0.129 | DATA_ADVANCED |  |
+| `/gap/rows/7/sharpe` | -0.116 | -0.117 | DATA_ADVANCED |  |
+| `/gap/rows/7/turnover` | 0.7451 | 0.7422 | DATA_ADVANCED |  |
+| `/gap/rows/7/vol` | 0.1003 | 0.1002 | DATA_ADVANCED |  |
+| `/gap/rows/7/years` | 6.85 | 6.86 | DATA_ADVANCED |  |
+| `/gap/rows/8/bars` | 1659 | 1661 | DATA_ADVANCED |  |
+| `/gap/rows/8/cagr` | 0.0277 | 0.0264 | DATA_ADVANCED |  |
+| `/gap/rows/8/oos_cagr` | 0.0675 | 0.0641 | DATA_ADVANCED |  |
+| `/gap/rows/8/oos_sharpe` | 0.669 | 0.638 | DATA_ADVANCED |  |
+| `/gap/rows/8/sharpe` | 0.334 | 0.321 | DATA_ADVANCED |  |
+| `/gap/rows/8/turnover` | 0.6603 | 0.6581 | DATA_ADVANCED |  |
+| `/gap/rows/8/years` | 6.85 | 6.86 | DATA_ADVANCED |  |
+| `/gap/rows/9/bars` | 1659 | 1661 | DATA_ADVANCED |  |
+| `/gap/rows/9/cagr` | 0.0893 | 0.0897 | DATA_ADVANCED |  |
+| `/gap/rows/9/oos_cagr` | 0.1691 | 0.17 | DATA_ADVANCED |  |
+| `/gap/rows/9/oos_sharpe` | 1.432 | 1.439 | DATA_ADVANCED |  |
+| `/gap/rows/9/sharpe` | 0.881 | 0.885 | DATA_ADVANCED |  |
+| `/gap/rows/9/turnover` | 0.9538 | 0.9612 | DATA_ADVANCED |  |
+| `/gap/rows/9/vol` | 0.1077 | 0.1076 | DATA_ADVANCED |  |
+| `/gap/rows/9/years` | 6.85 | 6.86 | DATA_ADVANCED |  |
+| `/gap/verdict/arms/0/gained_pp` | -11.27 | -11.26 | DATA_ADVANCED |  |
+| `/gap/verdict/arms/1/gained_pp` | -3.31 | -3.42 | DATA_ADVANCED |  |
+| `/gap/verdict/arms/4/gained_pp` | 0.73 | 0.83 | DATA_ADVANCED |  |
+| `/gap/verdict/best_gained_pp` | 0.73 | 0.83 | DATA_ADVANCED |  |
+| `/gap/verdict/declared_cagr` | 0.0845 | 0.0839 | DATA_ADVANCED |  |
+| `/gap/verdict/declared_sharpe` | 0.874 | 0.868 | DATA_ADVANCED |  |
+| `/idle_cash/arm_gap/cagr_with_pct` | -2.26 | -2.24 | DATA_ADVANCED |  |
+| `/idle_cash/arm_gap/cagr_without_pct` | -2.25 | -2.24 | DATA_ADVANCED |  |
+| `/idle_cash/arm_gap/sharpe_with` | -0.247 | -0.245 | DATA_ADVANCED |  |
+| `/idle_cash/arms/as_coded/cagr_with_pct` | 12.0 | 11.99 | DATA_ADVANCED |  |
+| `/idle_cash/arms/as_coded/sharpe_with` | 1.177 | 1.176 | DATA_ADVANCED |  |
+| `/idle_cash/arms/declared/cagr_with_pct` | 9.74 | 9.75 | DATA_ADVANCED |  |
+| `/idle_cash/arms/declared/cagr_without_pct` | 9.16 | 9.17 | DATA_ADVANCED |  |
+| `/idle_cash/arms/declared/sharpe_with` | 0.93 | 0.931 | DATA_ADVANCED |  |
+| `/idle_cash/bars` | 1664 | 1665 | DATA_ADVANCED |  |
+| `/idle_cash/bars_with_cash` | 1404 | 1405 | DATA_ADVANCED |  |
+| `/idle_cash/cagr_with_pct` | 12.0 | 11.99 | DATA_ADVANCED |  |
+| `/idle_cash/cny_per_year_on_1m` | 5900.0 | 5800.0 | DATA_ADVANCED |  |
+| `/idle_cash/gain_pp` | 0.59 | 0.58 | DATA_ADVANCED |  |
+| `/idle_cash/idle_share_mean` | 0.303 | 0.3029 | DATA_ADVANCED |  |
+| `/idle_cash/sharpe_with` | 1.177 | 1.176 | DATA_ADVANCED |  |
+| `/idle_cash/sharpe_without` | 1.125 | 1.124 | DATA_ADVANCED |  |
+| `/k_gap/account_base_gap_cny` | 29571.45 | 28372.6 | DATA_ADVANCED |  |
+| `/k_gap/cheapest_next_lot/lots_at_rule` | 738 | 534 | DATA_ADVANCED |  |
+| `/k_gap/cheapest_next_lot/lots_ordered` | 693 | 501 | DATA_ADVANCED |  |
+| `/k_gap/cheapest_next_lot/next_lot_dk_pp` | 0.0167 | 0.0278 | DATA_ADVANCED |  |
+| `/k_gap/cheapest_next_lot/price` | 1.246 | 1.723 | DATA_ADVANCED |  |
+| `/k_gap/cheapest_next_lot/short_cny` | 5607.0 | 5685.9 | DATA_ADVANCED |  |
+| `/k_gap/cheapest_next_lot/short_lots` | 45 | 33 | DATA_ADVANCED |  |
+| `/k_gap/cheapest_next_lot/short_shares` | 4500 | 3300 | DATA_ADVANCED |  |
+| `/k_gap/nav_account_cny` | 998061.6 | 1000000.0 | DATA_ADVANCED |  |
+| `/k_gap/rows/0/lots_at_rule` | 738 | 739 | DATA_ADVANCED |  |
+| `/k_gap/rows/0/lots_ordered` | 693 | 694 | DATA_ADVANCED |  |
+| `/k_gap/rows/0/next_lot_dk_pp` | 0.0167 | 0.0443 | DATA_ADVANCED |  |
+| `/k_gap/rows/0/price` | 1.246 | 1.245 | DATA_ADVANCED |  |
+| `/k_gap/rows/0/short_cny` | 5607.0 | 5602.5 | DATA_ADVANCED |  |
+| `/k_gap/rows/1/lots_at_rule` | 762 | 768 | DATA_ADVANCED |  |
+| `/k_gap/rows/1/lots_ordered` | 716 | 721 | DATA_ADVANCED |  |
+| `/k_gap/rows/1/next_lot_dk_pp` | 0.0515 | 0.0283 | DATA_ADVANCED |  |
+| `/k_gap/rows/1/price` | 1.207 | 1.198 | DATA_ADVANCED |  |
+| `/k_gap/rows/1/short_cny` | 5552.2 | 5630.6 | DATA_ADVANCED |  |
+| `/k_gap/rows/1/short_lots` | 46 | 47 | DATA_ADVANCED |  |
+| `/k_gap/rows/1/short_shares` | 4600 | 4700 | DATA_ADVANCED |  |
+| `/k_gap/rows/2/lots_at_rule` | 475 | 474 | DATA_ADVANCED |  |
+| `/k_gap/rows/2/lots_ordered` | 446 | 445 | DATA_ADVANCED |  |
+| `/k_gap/rows/2/next_lot_dk_pp` | 0.0725 | 0.0648 | DATA_ADVANCED |  |
+| `/k_gap/rows/2/price` | 1.937 | 1.941 | DATA_ADVANCED |  |
+| `/k_gap/rows/2/short_cny` | 5617.3 | 5628.9 | DATA_ADVANCED |  |
+| `/k_gap/rows/3/lots_at_rule` | 802 | 816 | DATA_ADVANCED |  |
+| `/k_gap/rows/3/lots_ordered` | 753 | 766 | DATA_ADVANCED |  |
+| `/k_gap/rows/3/next_lot_dk_pp` | 0.0224 | 0.0393 | DATA_ADVANCED |  |
+| `/k_gap/rows/3/price` | 1.147 | 1.128 | DATA_ADVANCED |  |
+| `/k_gap/rows/3/short_cny` | 5620.3 | 5640.0 | DATA_ADVANCED |  |
+| `/k_gap/rows/3/short_lots` | 49 | 50 | DATA_ADVANCED |  |
+| `/k_gap/rows/3/short_shares` | 4900 | 5000 | DATA_ADVANCED |  |
+| `/k_gap/rows/4/lots_at_rule` | 526 | 534 | DATA_ADVANCED |  |
+| `/k_gap/rows/4/lots_ordered` | 494 | 501 | DATA_ADVANCED |  |
+| `/k_gap/rows/4/next_lot_dk_pp` | 0.0435 | 0.0278 | DATA_ADVANCED |  |
+| `/k_gap/rows/4/price` | 1.748 | 1.723 | DATA_ADVANCED |  |
+| `/k_gap/rows/4/short_cny` | 5593.6 | 5685.9 | DATA_ADVANCED |  |
+| `/k_gap/rows/4/short_lots` | 32 | 33 | DATA_ADVANCED |  |
+| `/k_gap/rows/4/short_shares` | 3200 | 3300 | DATA_ADVANCED |  |
+| `/k_gap/short_share_of_book_pct` | 6.0815 | 6.1244 | DATA_ADVANCED |  |
+| `/k_gap/short_total_cny` | 27990.4 | 28187.9 | DATA_ADVANCED |  |
+| `/label_census/board/n_labels` | 584 | 1187 | DATA_ADVANCED |  |
+| `/label_census/board/n_labels_multi` | 137 | 84 | DATA_ADVANCED |  |
+| `/label_census/board/n_pairs` | 1290 | 412 | DATA_ADVANCED |  |
+| `/label_census/board/n_pairs_priced` | 1160 | 390 | DATA_ADVANCED |  |
+| `/label_census/class_counts/MIXED` | 23 | 6 | DATA_ADVANCED |  |
+| `/label_census/class_counts/NOT_A_BASKET` | 9 | 10 | DATA_ADVANCED |  |
+| `/label_census/class_counts/ONE_BASKET` | 102 | 68 | DATA_ADVANCED |  |
+| `/label_census/groups/0/n` | 4 | 2 | DATA_ADVANCED |  |
+| `/label_census/groups/1/money/cheapest_premium_pp` | -0.1252 | 0.0158 | DATA_ADVANCED |  |
+| `/label_census/groups/1/money/cost_cny` | 151.8 | 41.7 | DATA_ADVANCED |  |
+| `/label_census/groups/1/money/dearest_premium_pp` | 0.0266 | 0.0574 | DATA_ADVANCED |  |
+| `/label_census/groups/1/money/spread_pp` | 0.1518 | 0.0417 | DATA_ADVANCED |  |
+| `/label_census/groups/10/money/cheapest_premium_pp` | -0.0715 | -0.1699 | DATA_ADVANCED |  |
+| `/label_census/groups/10/money/cost_cny` | 490.9 | 106.4 | DATA_ADVANCED |  |
+| `/label_census/groups/10/money/dearest_premium_pp` | 0.4193 | -0.0635 | DATA_ADVANCED |  |
+| `/label_census/groups/10/money/spread_pp` | 0.4909 | 0.1064 | DATA_ADVANCED |  |
+| `/label_census/groups/10/n` | 4 | 2 | DATA_ADVANCED |  |
+| `/label_census/groups/11/money/cheapest_premium_pp` | 0.0 | -0.1193 | DATA_ADVANCED |  |
+| `/label_census/groups/11/money/cost_cny` | 214.0 | 37.8 | DATA_ADVANCED |  |
+| `/label_census/groups/11/money/dearest_premium_pp` | 0.214 | -0.0815 | DATA_ADVANCED |  |
+| `/label_census/groups/11/money/spread_pp` | 0.214 | 0.0378 | DATA_ADVANCED |  |
+| `/label_census/groups/11/n` | 4 | 3 | DATA_ADVANCED |  |
+| `/label_census/groups/12/money/cheapest_premium_pp` | -0.1994 | -0.3827 | DATA_ADVANCED |  |
+| `/label_census/groups/12/money/cost_cny` | 154.1 | 159.5 | DATA_ADVANCED |  |
+| `/label_census/groups/12/money/dearest_premium_pp` | -0.0453 | -0.2232 | DATA_ADVANCED |  |
+| `/label_census/groups/12/money/spread_pp` | 0.1541 | 0.1595 | DATA_ADVANCED |  |
+| `/label_census/groups/12/n` | 4 | 2 | DATA_ADVANCED |  |
+| `/label_census/groups/13/money/cheapest_premium_pp` | 0.1613 | -0.3655 | DATA_ADVANCED |  |
+| `/label_census/groups/13/money/cost_cny` | 428.5 | 507.8 | DATA_ADVANCED |  |
+| `/label_census/groups/13/money/dearest_premium_pp` | 0.5898 | 0.1423 | DATA_ADVANCED |  |
+| `/label_census/groups/13/money/spread_pp` | 0.4285 | 0.5078 | DATA_ADVANCED |  |
+| `/label_census/groups/14/money/cheapest_premium_pp` | -0.1356 | 3.9355 | DATA_ADVANCED |  |
+| `/label_census/groups/14/money/cost_cny` | 386.7 | 763.6 | DATA_ADVANCED |  |
+| `/label_census/groups/14/money/dearest_premium_pp` | 0.2511 | 4.6991 | DATA_ADVANCED |  |
+| `/label_census/groups/14/money/spread_pp` | 0.3867 | 0.7636 | DATA_ADVANCED |  |
+| `/label_census/groups/14/n` | 9 | 2 | DATA_ADVANCED |  |
+| `/label_census/groups/15/money/cheapest_premium_pp` | -0.2738 | -0.0103 | DATA_ADVANCED |  |
+| `/label_census/groups/15/money/cost_cny` | 345.3 | 130.8 | DATA_ADVANCED |  |
+| `/label_census/groups/15/money/dearest_premium_pp` | 0.0715 | 0.1205 | DATA_ADVANCED |  |
+| `/label_census/groups/15/money/spread_pp` | 0.3453 | 0.1308 | DATA_ADVANCED |  |
+| `/label_census/groups/15/n` | 6 | 3 | DATA_ADVANCED |  |
+| `/label_census/groups/16/money/cheapest_premium_pp` | -0.0922 | -0.1288 | DATA_ADVANCED |  |
+| `/label_census/groups/16/money/cost_cny` | 176.8 | 212.6 | DATA_ADVANCED |  |
+| `/label_census/groups/16/money/dearest_premium_pp` | 0.0846 | 0.0839 | DATA_ADVANCED |  |
+| `/label_census/groups/16/money/spread_pp` | 0.1768 | 0.2126 | DATA_ADVANCED |  |
+| `/label_census/groups/16/n` | 5 | 3 | DATA_ADVANCED |  |
+| `/label_census/groups/17/money/cheapest_premium_pp` | 0.0331 | -0.1746 | DATA_ADVANCED |  |
+| `/label_census/groups/17/money/cost_cny` | 69.2 | 251.1 | DATA_ADVANCED |  |
+| `/label_census/groups/17/money/dearest_premium_pp` | 0.1023 | 0.0766 | DATA_ADVANCED |  |
+| `/label_census/groups/17/money/spread_pp` | 0.0692 | 0.2511 | DATA_ADVANCED |  |
+| `/label_census/groups/17/n` | 2 | 6 | DATA_ADVANCED |  |
+| `/label_census/groups/18/money/cheapest_premium_pp` | 0.0412 | -0.8055 | DATA_ADVANCED |  |
+| `/label_census/groups/18/money/cost_cny` | 298.3 | 189.0 | DATA_ADVANCED |  |
+| `/label_census/groups/18/money/dearest_premium_pp` | 0.3395 | -0.6165 | DATA_ADVANCED |  |
+| `/label_census/groups/18/money/spread_pp` | 0.2983 | 0.189 | DATA_ADVANCED |  |
+| `/label_census/groups/18/n` | 8 | 2 | DATA_ADVANCED |  |
+| `/label_census/groups/19/money/cheapest_premium_pp` | -0.5782 | -0.6159 | DATA_ADVANCED |  |
+| `/label_census/groups/19/money/cost_cny` | 1055.4 | 136.0 | DATA_ADVANCED |  |
+| `/label_census/groups/19/money/dearest_premium_pp` | 0.4772 | -0.4798 | DATA_ADVANCED |  |
+| `/label_census/groups/19/money/spread_pp` | 1.0554 | 0.136 | DATA_ADVANCED |  |
+| `/label_census/groups/19/n` | 4 | 5 | DATA_ADVANCED |  |
+| `/label_census/groups/2/money/cheapest_premium_pp` | -0.7755 | -0.2217 | DATA_ADVANCED |  |
+| `/label_census/groups/2/money/cost_cny` | 797.0 | 120.9 | DATA_ADVANCED |  |
+| `/label_census/groups/2/money/dearest_premium_pp` | 0.0214 | -0.1008 | DATA_ADVANCED |  |
+| `/label_census/groups/2/money/spread_pp` | 0.797 | 0.1209 | DATA_ADVANCED |  |
+| `/label_census/groups/20/money/cheapest_premium_pp` | -0.0726 | 16.195 | DATA_ADVANCED |  |
+| `/label_census/groups/20/money/cost_cny` | 27.4 | 4256.9 | DATA_ADVANCED |  |
+| `/label_census/groups/20/money/dearest_premium_pp` | -0.0452 | 20.4519 | DATA_ADVANCED |  |
+| `/label_census/groups/20/money/spread_pp` | 0.0274 | 4.2569 | DATA_ADVANCED |  |
+| `/label_census/groups/20/n` | 2 | 4 | DATA_ADVANCED |  |
+| `/label_census/groups/21/money/cheapest_premium_pp` | -0.2548 | -0.0594 | DATA_ADVANCED |  |
+| `/label_census/groups/21/money/cost_cny` | 66.2 | 130.1 | DATA_ADVANCED |  |
+| `/label_census/groups/21/money/dearest_premium_pp` | -0.1886 | 0.0707 | DATA_ADVANCED |  |
+| `/label_census/groups/21/money/spread_pp` | 0.0662 | 0.1301 | DATA_ADVANCED |  |
+| `/label_census/groups/21/n` | 2 | 5 | DATA_ADVANCED |  |
+| `/label_census/groups/22/money/cheapest_premium_pp` | -0.3137 | -0.1653 | DATA_ADVANCED |  |
+| `/label_census/groups/22/money/cost_cny` | 637.6 | 72.7 | DATA_ADVANCED |  |
+| `/label_census/groups/22/money/dearest_premium_pp` | 0.324 | -0.0926 | DATA_ADVANCED |  |
+| `/label_census/groups/22/money/spread_pp` | 0.6376 | 0.0727 | DATA_ADVANCED |  |
+| `/label_census/groups/22/n` | 4 | 2 | DATA_ADVANCED |  |
+| `/label_census/groups/23/money/cheapest_premium_pp` | -0.232 | -0.3147 | DATA_ADVANCED |  |
+| `/label_census/groups/23/money/cost_cny` | 294.2 | 2.2 | DATA_ADVANCED |  |
+| `/label_census/groups/23/money/dearest_premium_pp` | 0.0622 | -0.3124 | DATA_ADVANCED |  |
+| `/label_census/groups/23/money/spread_pp` | 0.2942 | 0.0022 | DATA_ADVANCED |  |
+| `/label_census/groups/23/n` | 14 | 2 | DATA_ADVANCED |  |
+| `/label_census/groups/24/money/cheapest_premium_pp` | -0.9842 | -0.3115 | DATA_ADVANCED |  |
+| `/label_census/groups/24/money/cost_cny` | 724.2 | 300.6 | DATA_ADVANCED |  |
+| `/label_census/groups/24/money/dearest_premium_pp` | -0.26 | -0.011 | DATA_ADVANCED |  |
+| `/label_census/groups/24/money/spread_pp` | 0.7242 | 0.3006 | DATA_ADVANCED |  |
+| `/label_census/groups/24/n` | 3 | 4 | DATA_ADVANCED |  |
+| `/label_census/groups/25/money/cheapest_premium_pp` | 0.0362 | -0.245 | DATA_ADVANCED |  |
+| `/label_census/groups/25/money/cost_cny` | 44.7 | 366.6 | DATA_ADVANCED |  |
+| `/label_census/groups/25/money/dearest_premium_pp` | 0.081 | 0.1217 | DATA_ADVANCED |  |
+| `/label_census/groups/25/money/spread_pp` | 0.0447 | 0.3666 | DATA_ADVANCED |  |
+| `/label_census/groups/25/n` | 2 | 5 | DATA_ADVANCED |  |
+| `/label_census/groups/26/money/cheapest_premium_pp` | -0.3344 | -0.1058 | DATA_ADVANCED |  |
+| `/label_census/groups/26/money/cost_cny` | 167.1 | 100.9 | DATA_ADVANCED |  |
+| `/label_census/groups/26/money/dearest_premium_pp` | -0.1673 | -0.0049 | DATA_ADVANCED |  |
+| `/label_census/groups/26/money/spread_pp` | 0.1671 | 0.1009 | DATA_ADVANCED |  |
+| `/label_census/groups/26/n` | 2 | 5 | DATA_ADVANCED |  |
+| `/label_census/groups/27/money/cheapest_premium_pp` | -0.2983 | -0.5217 | DATA_ADVANCED |  |
+| `/label_census/groups/27/money/cost_cny` | 385.3 | 375.5 | DATA_ADVANCED |  |
+| `/label_census/groups/27/money/dearest_premium_pp` | 0.087 | -0.1462 | DATA_ADVANCED |  |
+| `/label_census/groups/27/money/spread_pp` | 0.3853 | 0.3755 | DATA_ADVANCED |  |
+| `/label_census/groups/27/n` | 4 | 2 | DATA_ADVANCED |  |
+| `/label_census/groups/28/money/cheapest_premium_pp` | 0.1096 | -0.2159 | DATA_ADVANCED |  |
+| `/label_census/groups/28/money/cost_cny` | 303.0 | 256.3 | DATA_ADVANCED |  |
+| `/label_census/groups/28/money/dearest_premium_pp` | 0.4127 | 0.0405 | DATA_ADVANCED |  |
+| `/label_census/groups/28/money/spread_pp` | 0.303 | 0.2563 | DATA_ADVANCED |  |
+| `/label_census/groups/28/n` | 2 | 7 | DATA_ADVANCED |  |
+| `/label_census/groups/29/money/cheapest_premium_pp` | 0.4222 | -0.2281 | DATA_ADVANCED |  |
+| `/label_census/groups/29/money/cost_cny` | 394.2 | 281.0 | DATA_ADVANCED |  |
+| `/label_census/groups/29/money/dearest_premium_pp` | 0.8164 | 0.0529 | DATA_ADVANCED |  |
+| `/label_census/groups/29/money/spread_pp` | 0.3942 | 0.281 | DATA_ADVANCED |  |
+| `/label_census/groups/3/money/cheapest_premium_pp` | -0.0334 | -0.1145 | DATA_ADVANCED |  |
+| `/label_census/groups/3/money/cost_cny` | 525.1 | 137.3 | DATA_ADVANCED |  |
+| `/label_census/groups/3/money/dearest_premium_pp` | 0.4917 | 0.0229 | DATA_ADVANCED |  |
+| `/label_census/groups/3/money/spread_pp` | 0.5251 | 0.1373 | DATA_ADVANCED |  |
+| `/label_census/groups/3/n` | 5 | 3 | DATA_ADVANCED |  |
+| `/label_census/groups/30/money/cheapest_premium_pp` | 0.1361 | -1.953 | DATA_ADVANCED |  |
+| `/label_census/groups/30/money/cost_cny` | 432.7 | 1924.1 | DATA_ADVANCED |  |
+| `/label_census/groups/30/money/dearest_premium_pp` | 0.5688 | -0.029 | DATA_ADVANCED |  |
+| `/label_census/groups/30/money/spread_pp` | 0.4327 | 1.9241 | DATA_ADVANCED |  |
+| `/label_census/groups/30/n` | 5 | 3 | DATA_ADVANCED |  |
+| `/label_census/groups/31/money/cheapest_premium_pp` | -0.1861 | -0.236 | DATA_ADVANCED |  |
+| `/label_census/groups/31/money/cost_cny` | 51.5 | 216.4 | DATA_ADVANCED |  |
+| `/label_census/groups/31/money/dearest_premium_pp` | -0.1346 | -0.0196 | DATA_ADVANCED |  |
+| `/label_census/groups/31/money/spread_pp` | 0.0515 | 0.2164 | DATA_ADVANCED |  |
+| `/label_census/groups/31/n` | 3 | 2 | DATA_ADVANCED |  |
+| `/label_census/groups/32/money/cheapest_premium_pp` | -0.2386 | -0.2496 | DATA_ADVANCED |  |
+| `/label_census/groups/32/money/cost_cny` | 301.9 | 272.4 | DATA_ADVANCED |  |
+| `/label_census/groups/32/money/dearest_premium_pp` | 0.0633 | 0.0228 | DATA_ADVANCED |  |
+| `/label_census/groups/32/money/spread_pp` | 0.3019 | 0.2724 | DATA_ADVANCED |  |
+| `/label_census/groups/32/n` | 15 | 2 | DATA_ADVANCED |  |
+| `/label_census/groups/33/money/cheapest_premium_pp` | -0.6271 | -0.2137 | DATA_ADVANCED |  |
+| `/label_census/groups/33/money/cost_cny` | 248.8 | 307.5 | DATA_ADVANCED |  |
+| `/label_census/groups/33/money/dearest_premium_pp` | -0.3783 | 0.0938 | DATA_ADVANCED |  |
+| `/label_census/groups/33/money/spread_pp` | 0.2488 | 0.3075 | DATA_ADVANCED |  |
+| `/label_census/groups/33/n` | 2 | 4 | DATA_ADVANCED |  |
+| `/label_census/groups/34/money/cheapest_premium_pp` | -0.1711 | -0.3181 | DATA_ADVANCED |  |
+| `/label_census/groups/34/money/cost_cny` | 356.1 | 294.6 | DATA_ADVANCED |  |
+| `/label_census/groups/34/money/dearest_premium_pp` | 0.185 | -0.0236 | DATA_ADVANCED |  |
+| `/label_census/groups/34/money/spread_pp` | 0.3561 | 0.2946 | DATA_ADVANCED |  |
+| `/label_census/groups/34/n` | 6 | 4 | DATA_ADVANCED |  |
+| `/label_census/groups/35/money/cheapest_premium_pp` | 0.0183 | -0.2646 | DATA_ADVANCED |  |
+| `/label_census/groups/35/money/cost_cny` | 183.7 | 67.5 | DATA_ADVANCED |  |
+| `/label_census/groups/35/money/dearest_premium_pp` | 0.202 | -0.1971 | DATA_ADVANCED |  |
+| `/label_census/groups/35/money/spread_pp` | 0.1837 | 0.0675 | DATA_ADVANCED |  |
+| `/label_census/groups/36/money/cheapest_premium_pp` | -0.2748 | 4.235 | DATA_ADVANCED |  |
+| `/label_census/groups/36/money/cost_cny` | 222.4 | 1412.0 | DATA_ADVANCED |  |
+| `/label_census/groups/36/money/dearest_premium_pp` | -0.0524 | 5.647 | DATA_ADVANCED |  |
+| `/label_census/groups/36/money/spread_pp` | 0.2224 | 1.412 | DATA_ADVANCED |  |
+| `/label_census/groups/37/money/cheapest_premium_pp` | 13.7289 | -1.4518 | DATA_ADVANCED |  |
+| `/label_census/groups/37/money/cost_cny` | 6083.8 | 1517.7 | DATA_ADVANCED |  |
+| `/label_census/groups/37/money/dearest_premium_pp` | 19.8127 | 0.0658 | DATA_ADVANCED |  |
+| `/label_census/groups/37/money/spread_pp` | 6.0838 | 1.5177 | DATA_ADVANCED |  |
+| `/label_census/groups/38/money/cheapest_premium_pp` | -0.0322 | -4.7319 | DATA_ADVANCED |  |
+| `/label_census/groups/38/money/cost_cny` | 155.6 | 3984.7 | DATA_ADVANCED |  |
+| `/label_census/groups/38/money/dearest_premium_pp` | 0.1234 | -0.7473 | DATA_ADVANCED |  |
+| `/label_census/groups/38/money/spread_pp` | 0.1556 | 3.9847 | DATA_ADVANCED |  |
+| `/label_census/groups/38/n` | 2 | 3 | DATA_ADVANCED |  |
+| `/label_census/groups/39/money/cheapest_premium_pp` | 13.9441 | -0.9519 | DATA_ADVANCED |  |
+| `/label_census/groups/39/money/cost_cny` | 2721.7 | 353.0 | DATA_ADVANCED |  |
+| `/label_census/groups/39/money/dearest_premium_pp` | 16.6658 | -0.5989 | DATA_ADVANCED |  |
+| `/label_census/groups/39/money/spread_pp` | 2.7217 | 0.353 | DATA_ADVANCED |  |
+| `/label_census/groups/4/money/cheapest_premium_pp` | -0.6127 | -0.0966 | DATA_ADVANCED |  |
+| `/label_census/groups/4/money/cost_cny` | 496.6 | 85.6 | DATA_ADVANCED |  |
+| `/label_census/groups/4/money/dearest_premium_pp` | -0.116 | -0.0111 | DATA_ADVANCED |  |
+| `/label_census/groups/4/money/spread_pp` | 0.4966 | 0.0856 | DATA_ADVANCED |  |
+| `/label_census/groups/4/n` | 6 | 2 | DATA_ADVANCED |  |
+| `/label_census/groups/40/money/cheapest_premium_pp` | 0.2074 | -1.6791 | DATA_ADVANCED |  |
+| `/label_census/groups/40/money/cost_cny` | 69.4 | 237.3 | DATA_ADVANCED |  |
+| `/label_census/groups/40/money/dearest_premium_pp` | 0.2768 | -1.4418 | DATA_ADVANCED |  |
+| `/label_census/groups/40/money/spread_pp` | 0.0694 | 0.2373 | DATA_ADVANCED |  |
+| `/label_census/groups/41/money/cheapest_premium_pp` | -0.2623 | -1.5304 | DATA_ADVANCED |  |
+| `/label_census/groups/41/money/cost_cny` | 348.2 | 293.0 | DATA_ADVANCED |  |
+| `/label_census/groups/41/money/dearest_premium_pp` | 0.0859 | -1.2374 | DATA_ADVANCED |  |
+| `/label_census/groups/41/money/spread_pp` | 0.3482 | 0.293 | DATA_ADVANCED |  |
+| `/label_census/groups/41/n` | 5 | 3 | DATA_ADVANCED |  |
+| `/label_census/groups/42/money/cheapest_premium_pp` | -0.4829 | -1.865 | DATA_ADVANCED |  |
+| `/label_census/groups/42/money/cost_cny` | 575.2 | 329.5 | DATA_ADVANCED |  |
+| `/label_census/groups/42/money/dearest_premium_pp` | 0.0924 | -1.5355 | DATA_ADVANCED |  |
+| `/label_census/groups/42/money/spread_pp` | 0.5752 | 0.3295 | DATA_ADVANCED |  |
+| `/label_census/groups/42/n` | 4 | 2 | DATA_ADVANCED |  |
+| `/label_census/groups/43/money/cheapest_premium_pp` | -0.0243 | 8.6969 | DATA_ADVANCED |  |
+| `/label_census/groups/43/money/cost_cny` | 415.4 | 1527.9 | DATA_ADVANCED |  |
+| `/label_census/groups/43/money/dearest_premium_pp` | 0.3911 | 10.2247 | DATA_ADVANCED |  |
+| `/label_census/groups/43/money/spread_pp` | 0.4154 | 1.5279 | DATA_ADVANCED |  |
+| `/label_census/groups/43/n` | 8 | 2 | DATA_ADVANCED |  |
+| `/label_census/groups/44/money/cheapest_premium_pp` | -0.4504 | -1.3191 | DATA_ADVANCED |  |
+| `/label_census/groups/44/money/cost_cny` | 2921.3 | 554.7 | DATA_ADVANCED |  |
+| `/label_census/groups/44/money/dearest_premium_pp` | 2.4709 | -0.7644 | DATA_ADVANCED |  |
+| `/label_census/groups/44/money/spread_pp` | 2.9213 | 0.5547 | DATA_ADVANCED |  |
+| `/label_census/groups/45/money/cheapest_premium_pp` | -0.0983 | -1.7108 | DATA_ADVANCED |  |
+| `/label_census/groups/45/money/cost_cny` | 6.3 | 931.4 | DATA_ADVANCED |  |
+| `/label_census/groups/45/money/dearest_premium_pp` | -0.0919 | -0.7793 | DATA_ADVANCED |  |
+| `/label_census/groups/45/money/spread_pp` | 0.0063 | 0.9314 | DATA_ADVANCED |  |
+| `/label_census/groups/46/money/cheapest_premium_pp` | -0.1112 | -0.0774 | DATA_ADVANCED |  |
+| `/label_census/groups/46/money/cost_cny` | 383.3 | 61.5 | DATA_ADVANCED |  |
+| `/label_census/groups/46/money/dearest_premium_pp` | 0.2722 | -0.016 | DATA_ADVANCED |  |
+| `/label_census/groups/46/money/spread_pp` | 0.3833 | 0.0615 | DATA_ADVANCED |  |
+| `/label_census/groups/47/money/cheapest_premium_pp` | 9.1007 | -0.1935 | DATA_ADVANCED |  |
+| `/label_census/groups/47/money/cost_cny` | 105.8 | 90.1 | DATA_ADVANCED |  |
+| `/label_census/groups/47/money/dearest_premium_pp` | 9.2065 | -0.1033 | DATA_ADVANCED |  |
+| `/label_census/groups/47/money/spread_pp` | 0.1058 | 0.0901 | DATA_ADVANCED |  |
+| `/label_census/groups/48/money/cheapest_premium_pp` | -0.1515 | 0.0573 | DATA_ADVANCED |  |
+| `/label_census/groups/48/money/cost_cny` | 168.0 | 65.3 | DATA_ADVANCED |  |
+| `/label_census/groups/48/money/dearest_premium_pp` | 0.0165 | 0.1226 | DATA_ADVANCED |  |
+| `/label_census/groups/48/money/spread_pp` | 0.168 | 0.0653 | DATA_ADVANCED |  |
+| `/label_census/groups/48/n` | 4 | 2 | DATA_ADVANCED |  |
+| `/label_census/groups/49/money/cheapest_premium_pp` | -0.2332 | 0.0427 | DATA_ADVANCED |  |
+| `/label_census/groups/49/money/cost_cny` | 184.6 | 73.6 | DATA_ADVANCED |  |
+| `/label_census/groups/49/money/dearest_premium_pp` | -0.0487 | 0.1163 | DATA_ADVANCED |  |
+| `/label_census/groups/49/money/spread_pp` | 0.1846 | 0.0736 | DATA_ADVANCED |  |
+| `/label_census/groups/49/n` | 4 | 2 | DATA_ADVANCED |  |
+| `/label_census/groups/5/money/cheapest_premium_pp` | 0.221 | -0.2799 | DATA_ADVANCED |  |
+| `/label_census/groups/5/money/cost_cny` | 22.8 | 347.6 | DATA_ADVANCED |  |
+| `/label_census/groups/5/money/dearest_premium_pp` | 0.2438 | 0.0676 | DATA_ADVANCED |  |
+| `/label_census/groups/5/money/spread_pp` | 0.0228 | 0.3476 | DATA_ADVANCED |  |
+| `/label_census/groups/50/money/cheapest_premium_pp` | -0.1299 | -0.0137 | DATA_ADVANCED |  |
+| `/label_census/groups/50/money/cost_cny` | 129.9 | 6.0 | DATA_ADVANCED |  |
+| `/label_census/groups/50/money/dearest_premium_pp` | 0.0 | -0.0077 | DATA_ADVANCED |  |
+| `/label_census/groups/50/money/spread_pp` | 0.1299 | 0.006 | DATA_ADVANCED |  |
+| `/label_census/groups/51/money/cheapest_premium_pp` | -2.1803 | -0.0533 | DATA_ADVANCED |  |
+| `/label_census/groups/51/money/cost_cny` | 636.7 | 21.4 | DATA_ADVANCED |  |
+| `/label_census/groups/51/money/dearest_premium_pp` | -1.5436 | -0.0319 | DATA_ADVANCED |  |
+| `/label_census/groups/51/money/spread_pp` | 0.6367 | 0.0214 | DATA_ADVANCED |  |
+| `/label_census/groups/52/money/cheapest_premium_pp` | -2.822 | -0.0111 | DATA_ADVANCED |  |
+| `/label_census/groups/52/money/cost_cny` | 661.7 | 90.9 | DATA_ADVANCED |  |
+| `/label_census/groups/52/money/dearest_premium_pp` | -2.1603 | 0.0798 | DATA_ADVANCED |  |
+| `/label_census/groups/52/money/spread_pp` | 0.6617 | 0.0909 | DATA_ADVANCED |  |
+| `/label_census/groups/53/money/cheapest_premium_pp` | -0.1815 | -0.1597 | DATA_ADVANCED |  |
+| `/label_census/groups/53/money/cost_cny` | 34.2 | 136.4 | DATA_ADVANCED |  |
+| `/label_census/groups/53/money/dearest_premium_pp` | -0.1473 | -0.0233 | DATA_ADVANCED |  |
+| `/label_census/groups/53/money/spread_pp` | 0.0342 | 0.1364 | DATA_ADVANCED |  |
+| `/label_census/groups/53/n` | 3 | 2 | DATA_ADVANCED |  |
+| `/label_census/groups/54/money/cheapest_premium_pp` | -0.1185 | -0.5661 | DATA_ADVANCED |  |
+| `/label_census/groups/54/money/cost_cny` | 41.7 | 134.7 | DATA_ADVANCED |  |
+| `/label_census/groups/54/money/dearest_premium_pp` | -0.0769 | -0.4314 | DATA_ADVANCED |  |
+| `/label_census/groups/54/money/spread_pp` | 0.0417 | 0.1347 | DATA_ADVANCED |  |
+| `/label_census/groups/55/money/cheapest_premium_pp` | -0.1914 | 0.1778 | DATA_ADVANCED |  |
+| `/label_census/groups/55/money/cost_cny` | 116.4 | 60.6 | DATA_ADVANCED |  |
+| `/label_census/groups/55/money/dearest_premium_pp` | -0.0751 | 0.2383 | DATA_ADVANCED |  |
+| `/label_census/groups/55/money/spread_pp` | 0.1164 | 0.0606 | DATA_ADVANCED |  |
+| `/label_census/groups/55/n` | 3 | 2 | DATA_ADVANCED |  |
+| `/label_census/groups/56/money/cheapest_premium_pp` | -0.501 | -0.1211 | DATA_ADVANCED |  |
+| `/label_census/groups/56/money/cost_cny` | 501.0 | 40.4 | DATA_ADVANCED |  |
+| `/label_census/groups/56/money/dearest_premium_pp` | 0.0 | -0.0807 | DATA_ADVANCED |  |
+| `/label_census/groups/56/money/spread_pp` | 0.501 | 0.0404 | DATA_ADVANCED |  |
+| `/label_census/groups/56/n` | 6 | 2 | DATA_ADVANCED |  |
+| `/label_census/groups/57/money/cheapest_premium_pp` | 14.5208 | 0.0182 | DATA_ADVANCED |  |
+| `/label_census/groups/57/money/cost_cny` | 978.0 | 330.4 | DATA_ADVANCED |  |
+| `/label_census/groups/57/money/dearest_premium_pp` | 15.4988 | 0.3486 | DATA_ADVANCED |  |
+| `/label_census/groups/57/money/spread_pp` | 0.978 | 0.3304 | DATA_ADVANCED |  |
+| `/label_census/groups/58/money/cheapest_premium_pp` | -0.2233 | -0.2083 | DATA_ADVANCED |  |
+| `/label_census/groups/58/money/cost_cny` | 478.0 | 303.3 | DATA_ADVANCED |  |
+| `/label_census/groups/58/money/dearest_premium_pp` | 0.2547 | 0.0951 | DATA_ADVANCED |  |
+| `/label_census/groups/58/money/spread_pp` | 0.478 | 0.3033 | DATA_ADVANCED |  |
+| `/label_census/groups/58/n` | 5 | 2 | DATA_ADVANCED |  |
+| `/label_census/groups/59/money/cheapest_premium_pp` | 7.5155 | -0.3761 | DATA_ADVANCED |  |
+| `/label_census/groups/59/money/cost_cny` | 1722.8 | 150.8 | DATA_ADVANCED |  |
+| `/label_census/groups/59/money/dearest_premium_pp` | 9.2383 | -0.2253 | DATA_ADVANCED |  |
+| `/label_census/groups/59/money/spread_pp` | 1.7228 | 0.1508 | DATA_ADVANCED |  |
+| `/label_census/groups/59/n` | 3 | 2 | DATA_ADVANCED |  |
+| `/label_census/groups/6/money/cheapest_premium_pp` | -0.2872 | 0.0 | DATA_ADVANCED |  |
+| `/label_census/groups/6/money/cost_cny` | 247.8 | 108.8 | DATA_ADVANCED |  |
+| `/label_census/groups/6/money/dearest_premium_pp` | -0.0395 | 0.1088 | DATA_ADVANCED |  |
+| `/label_census/groups/6/money/spread_pp` | 0.2478 | 0.1088 | DATA_ADVANCED |  |
+| `/label_census/groups/6/n` | 3 | 2 | DATA_ADVANCED |  |
+| `/label_census/groups/60/money/cheapest_premium_pp` | -0.2268 | -0.1115 | DATA_ADVANCED |  |
+| `/label_census/groups/60/money/cost_cny` | 256.9 | 393.7 | DATA_ADVANCED |  |
+| `/label_census/groups/60/money/dearest_premium_pp` | 0.0302 | 0.2822 | DATA_ADVANCED |  |
+| `/label_census/groups/60/money/spread_pp` | 0.2569 | 0.3937 | DATA_ADVANCED |  |
+| `/label_census/groups/60/n` | 9 | 11 | DATA_ADVANCED |  |
+| `/label_census/groups/61/money/cheapest_premium_pp` | -0.3206 | -0.2366 | DATA_ADVANCED |  |
+| `/label_census/groups/61/money/cost_cny` | 212.8 | 169.3 | DATA_ADVANCED |  |
+| `/label_census/groups/61/money/dearest_premium_pp` | -0.1078 | -0.0673 | DATA_ADVANCED |  |
+| `/label_census/groups/61/money/spread_pp` | 0.2128 | 0.1693 | DATA_ADVANCED |  |
+| `/label_census/groups/62/money/cheapest_premium_pp` | -0.3184 | -0.1304 | DATA_ADVANCED |  |
+| `/label_census/groups/62/money/cost_cny` | 378.0 | 72.9 | DATA_ADVANCED |  |
+| `/label_census/groups/62/money/dearest_premium_pp` | 0.0596 | -0.0574 | DATA_ADVANCED |  |
+| `/label_census/groups/62/money/spread_pp` | 0.378 | 0.0729 | DATA_ADVANCED |  |
+| `/label_census/groups/63/money/cheapest_premium_pp` | -0.374 | -0.081 | DATA_ADVANCED |  |
+| `/label_census/groups/63/money/cost_cny` | 616.3 | 203.5 | DATA_ADVANCED |  |
+| `/label_census/groups/63/money/dearest_premium_pp` | 0.2423 | 0.1225 | DATA_ADVANCED |  |
+| `/label_census/groups/63/money/spread_pp` | 0.6163 | 0.2035 | DATA_ADVANCED |  |
+| `/label_census/groups/63/n` | 4 | 5 | DATA_ADVANCED |  |
+| `/label_census/groups/64/money/cheapest_premium_pp` | -0.5132 | -0.1883 | DATA_ADVANCED |  |
+| `/label_census/groups/64/money/cost_cny` | 82.9 | 26.4 | DATA_ADVANCED |  |
+| `/label_census/groups/64/money/dearest_premium_pp` | -0.4303 | -0.162 | DATA_ADVANCED |  |
+| `/label_census/groups/64/money/spread_pp` | 0.0829 | 0.0264 | DATA_ADVANCED |  |
+| `/label_census/groups/65/money/cheapest_premium_pp` | -0.3735 | -0.1821 | DATA_ADVANCED |  |
+| `/label_census/groups/65/money/cost_cny` | 325.4 | 1637.7 | DATA_ADVANCED |  |
+| `/label_census/groups/65/money/dearest_premium_pp` | -0.0481 | 1.4556 | DATA_ADVANCED |  |
+| `/label_census/groups/65/money/spread_pp` | 0.3254 | 1.6377 | DATA_ADVANCED |  |
+| `/label_census/groups/65/n` | 2 | 11 | DATA_ADVANCED |  |
+| `/label_census/groups/66/money/cheapest_premium_pp` | -0.1908 | -0.1053 | DATA_ADVANCED |  |
+| `/label_census/groups/66/money/cost_cny` | 174.3 | 311.5 | DATA_ADVANCED |  |
+| `/label_census/groups/66/money/dearest_premium_pp` | -0.0165 | 0.2062 | DATA_ADVANCED |  |
+| `/label_census/groups/66/money/spread_pp` | 0.1743 | 0.3115 | DATA_ADVANCED |  |
+| `/label_census/groups/66/n` | 3 | 4 | DATA_ADVANCED |  |
+| `/label_census/groups/67/money/cheapest_premium_pp` | -0.5325 | -0.2187 | DATA_ADVANCED |  |
+| `/label_census/groups/67/money/cost_cny` | 1000.8 | 437.8 | DATA_ADVANCED |  |
+| `/label_census/groups/67/money/dearest_premium_pp` | 0.4683 | 0.2191 | DATA_ADVANCED |  |
+| `/label_census/groups/67/money/spread_pp` | 1.0008 | 0.4378 | DATA_ADVANCED |  |
+| `/label_census/groups/67/n` | 11 | 3 | DATA_ADVANCED |  |
+| `/label_census/groups/68/money/cheapest_premium_pp` | -0.2954 | 0.0811 | DATA_ADVANCED |  |
+| `/label_census/groups/68/money/cost_cny` | 295.4 | 102.7 | DATA_ADVANCED |  |
+| `/label_census/groups/68/money/dearest_premium_pp` | 0.0 | 0.1838 | DATA_ADVANCED |  |
+| `/label_census/groups/68/money/spread_pp` | 0.2954 | 0.1027 | DATA_ADVANCED |  |
+| `/label_census/groups/69/money/cheapest_premium_pp` | -0.3129 | -2.1514 | DATA_ADVANCED |  |
+| `/label_census/groups/69/money/cost_cny` | 184.1 | 2278.9 | DATA_ADVANCED |  |
+| `/label_census/groups/69/money/dearest_premium_pp` | -0.1288 | 0.1275 | DATA_ADVANCED |  |
+| `/label_census/groups/69/money/spread_pp` | 0.1841 | 2.2789 | DATA_ADVANCED |  |
+| `/label_census/groups/69/n` | 3 | 5 | DATA_ADVANCED |  |
+| `/label_census/groups/7/money/cheapest_premium_pp` | -0.131 | -0.1504 | DATA_ADVANCED |  |
+| `/label_census/groups/7/money/cost_cny` | 415.2 | 222.7 | DATA_ADVANCED |  |
+| `/label_census/groups/7/money/dearest_premium_pp` | 0.2843 | 0.0723 | DATA_ADVANCED |  |
+| `/label_census/groups/7/money/spread_pp` | 0.4152 | 0.2227 | DATA_ADVANCED |  |
+| `/label_census/groups/7/n` | 7 | 2 | DATA_ADVANCED |  |
+| `/label_census/groups/70/money/cheapest_premium_pp` | -0.1261 | -0.0777 | DATA_ADVANCED |  |
+| `/label_census/groups/70/money/cost_cny` | 212.1 | 234.5 | DATA_ADVANCED |  |
+| `/label_census/groups/70/money/dearest_premium_pp` | 0.086 | 0.1567 | DATA_ADVANCED |  |
+| `/label_census/groups/70/money/spread_pp` | 0.2121 | 0.2345 | DATA_ADVANCED |  |
+| `/label_census/groups/70/n` | 4 | 2 | DATA_ADVANCED |  |
+| `/label_census/groups/71/money/cheapest_premium_pp` | -0.4982 | -0.504 | DATA_ADVANCED |  |
+| `/label_census/groups/71/money/cost_cny` | 428.2 | 237.0 | DATA_ADVANCED |  |
+| `/label_census/groups/71/money/dearest_premium_pp` | -0.07 | -0.267 | DATA_ADVANCED |  |
+| `/label_census/groups/71/money/spread_pp` | 0.4282 | 0.237 | DATA_ADVANCED |  |
+| `/label_census/groups/71/n` | 2 | 5 | DATA_ADVANCED |  |
+| `/label_census/groups/72/money/cheapest_premium_pp` | -0.2467 | -0.1373 | DATA_ADVANCED |  |
+| `/label_census/groups/72/money/cost_cny` | 163.4 | 242.5 | DATA_ADVANCED |  |
+| `/label_census/groups/72/money/dearest_premium_pp` | -0.0833 | 0.1052 | DATA_ADVANCED |  |
+| `/label_census/groups/72/money/spread_pp` | 0.1634 | 0.2425 | DATA_ADVANCED |  |
+| `/label_census/groups/72/n` | 3 | 2 | DATA_ADVANCED |  |
+| `/label_census/groups/73/money/cheapest_premium_pp` | -0.0604 | -0.2945 | DATA_ADVANCED |  |
+| `/label_census/groups/73/money/cost_cny` | 106.3 | 400.8 | DATA_ADVANCED |  |
+| `/label_census/groups/73/money/dearest_premium_pp` | 0.0459 | 0.1063 | DATA_ADVANCED |  |
+| `/label_census/groups/73/money/spread_pp` | 0.1063 | 0.4008 | DATA_ADVANCED |  |
+| `/label_census/groups/8/money/cheapest_premium_pp` | -0.124 | -0.5999 | DATA_ADVANCED |  |
+| `/label_census/groups/8/money/cost_cny` | 214.6 | 54.1 | DATA_ADVANCED |  |
+| `/label_census/groups/8/money/dearest_premium_pp` | 0.0906 | -0.5458 | DATA_ADVANCED |  |
+| `/label_census/groups/8/money/spread_pp` | 0.2146 | 0.0541 | DATA_ADVANCED |  |
+| `/label_census/groups/8/n` | 4 | 3 | DATA_ADVANCED |  |
+| `/label_census/groups/9/money/cheapest_premium_pp` | -0.7316 | -0.1317 | DATA_ADVANCED |  |
+| `/label_census/groups/9/money/cost_cny` | 577.6 | 292.6 | DATA_ADVANCED |  |
+| `/label_census/groups/9/money/dearest_premium_pp` | -0.1539 | 0.1609 | DATA_ADVANCED |  |
+| `/label_census/groups/9/money/spread_pp` | 0.5776 | 0.2926 | DATA_ADVANCED |  |
+| `/label_census/groups/9/n` | 2 | 7 | DATA_ADVANCED |  |
+| `/label_census/lying/0/n_live` | 7 | 2 | DATA_ADVANCED |  |
+| `/label_census/lying/0/n_priced` | 15 | 1 | DATA_ADVANCED |  |
+| `/label_census/lying/1/worst_pair` | 0.5592 | 0.5219 | DATA_ADVANCED |  |
+| `/label_census/lying/10/n_live` | 2 | 3 | DATA_ADVANCED |  |
+| `/label_census/lying/10/n_priced` | 1 | 3 | DATA_ADVANCED |  |
+| `/label_census/lying/10/worst_pair` | 0.4291 | 0.3653 | DATA_ADVANCED |  |
+| `/label_census/lying/11/n_live` | 7 | 2 | DATA_ADVANCED |  |
+| `/label_census/lying/11/n_priced` | 21 | 1 | DATA_ADVANCED |  |
+| `/label_census/lying/11/worst_pair` | 0.4249 | 0.3543 | DATA_ADVANCED |  |
+| `/label_census/lying/12/n_live` | 12 | 2 | DATA_ADVANCED |  |
+| `/label_census/lying/12/n_priced` | 45 | 1 | DATA_ADVANCED |  |
+| `/label_census/lying/12/worst_pair` | 0.3971 | 0.3346 | DATA_ADVANCED |  |
+| `/label_census/lying/13/worst_pair` | 0.3903 | 0.3306 | DATA_ADVANCED |  |
+| `/label_census/lying/14/n_live` | 3 | 2 | DATA_ADVANCED |  |
+| `/label_census/lying/14/n_priced` | 3 | 1 | DATA_ADVANCED |  |
+| `/label_census/lying/14/worst_pair` | 0.3899 | 0.3278 | DATA_ADVANCED |  |
+| `/label_census/lying/15/n_live` | 4 | 2 | DATA_ADVANCED |  |
+| `/label_census/lying/15/n_priced` | 6 | 1 | DATA_ADVANCED |  |
+| `/label_census/lying/15/worst_pair` | 0.3897 | 0.3068 | DATA_ADVANCED |  |
+| `/label_census/lying/2/n_live` | 6 | 3 | DATA_ADVANCED |  |
+| `/label_census/lying/2/n_priced` | 15 | 3 | DATA_ADVANCED |  |
+| `/label_census/lying/2/worst_pair` | 0.534 | 0.449 | DATA_ADVANCED |  |
+| `/label_census/lying/3/n_live` | 3 | 5 | DATA_ADVANCED |  |
+| `/label_census/lying/3/n_priced` | 3 | 10 | DATA_ADVANCED |  |
+| `/label_census/lying/3/worst_pair` | 0.5156 | 0.4329 | DATA_ADVANCED |  |
+| `/label_census/lying/4/n_live` | 2 | 3 | DATA_ADVANCED |  |
+| `/label_census/lying/4/n_priced` | 1 | 3 | DATA_ADVANCED |  |
+| `/label_census/lying/4/worst_pair` | 0.4616 | 0.4198 | DATA_ADVANCED |  |
+| `/label_census/lying/5/n_live` | 5 | 2 | DATA_ADVANCED |  |
+| `/label_census/lying/5/n_priced` | 10 | 1 | DATA_ADVANCED |  |
+| `/label_census/lying/5/worst_pair` | 0.4559 | 0.4164 | DATA_ADVANCED |  |
+| `/label_census/lying/6/n_live` | 3 | 2 | DATA_ADVANCED |  |
+| `/label_census/lying/6/n_priced` | 3 | 1 | DATA_ADVANCED |  |
+| `/label_census/lying/6/worst_pair` | 0.4522 | 0.4019 | DATA_ADVANCED |  |
+| `/label_census/lying/7/n_live` | 4 | 3 | DATA_ADVANCED |  |
+| `/label_census/lying/7/n_priced` | 6 | 3 | DATA_ADVANCED |  |
+| `/label_census/lying/7/worst_pair` | 0.4511 | 0.3899 | DATA_ADVANCED |  |
+| `/label_census/lying/8/n_live` | 7 | 2 | DATA_ADVANCED |  |
+| `/label_census/lying/8/n_priced` | 21 | 1 | DATA_ADVANCED |  |
+| `/label_census/lying/8/worst_pair` | 0.4351 | 0.3883 | DATA_ADVANCED |  |
+| `/label_census/lying/9/n_live` | 6 | 3 | DATA_ADVANCED |  |
+| `/label_census/lying/9/n_priced` | 15 | 3 | DATA_ADVANCED |  |
+| `/label_census/lying/9/worst_pair` | 0.4329 | 0.3775 | DATA_ADVANCED |  |
+| `/label_census/money/groups_over_line` | 21 | 12 | DATA_ADVANCED |  |
+| `/label_census/money/total_cost_cny` | 26022.5 | 21297.4 | DATA_ADVANCED |  |
+| `/label_census/money/worst_group/money/cheapest_premium_pp` | 13.7289 | 16.195 | DATA_ADVANCED |  |
+| `/label_census/money/worst_group/money/cost_cny` | 6083.8 | 4256.9 | DATA_ADVANCED |  |
+| `/label_census/money/worst_group/money/dearest_premium_pp` | 19.8127 | 20.4519 | DATA_ADVANCED |  |
+| `/label_census/money/worst_group/money/spread_pp` | 6.0838 | 4.2569 | DATA_ADVANCED |  |
+| `/label_census/partial/0/n_priced` | 45 | 55 | DATA_ADVANCED |  |
+| `/label_census/partial/1/n_live` | 14 | 5 | DATA_ADVANCED |  |
+| `/label_census/partial/1/n_pairs` | 91 | 10 | DATA_ADVANCED |  |
+| `/label_census/partial/1/n_priced` | 78 | 3 | DATA_ADVANCED |  |
+| `/label_census/partial/2/n_live` | 8 | 5 | DATA_ADVANCED |  |
+| `/label_census/partial/2/n_pairs` | 28 | 10 | DATA_ADVANCED |  |
+| `/label_census/partial/2/n_priced` | 21 | 6 | DATA_ADVANCED |  |
+| `/leg_split/arms/base_book/bars` | 1666 | 1667 | DATA_ADVANCED |  |
+| `/leg_split/arms/base_book/buckets_pp_per_year/plain` | 13.986 | 13.913 | DATA_ADVANCED |  |
+| `/leg_split/arms/base_book/buckets_pp_per_year/toll` | -1.576 | -1.575 | DATA_ADVANCED |  |
+| `/leg_split/arms/base_book/cagr_pct` | 12.95 | 12.88 | DATA_ADVANCED |  |
+| `/leg_split/arms/base_book/fill_bar_drag_pp_per_year` | -1.717 | -1.716 | DATA_ADVANCED |  |
+| `/leg_split/arms/base_book/plain_bars` | 1581 | 1582 | DATA_ADVANCED |  |
+| `/leg_split/arms/base_book/plain_carry_pp_per_year` | 13.986 | 13.912 | DATA_ADVANCED |  |
+| `/leg_split/arms/base_book/sharpe` | 0.906 | 0.901 | DATA_ADVANCED |  |
+| `/leg_split/arms/base_book/total_log_pp` | 12.268 | 12.197 | DATA_ADVANCED |  |
+| `/leg_split/arms/control_ew/bars` | 1666 | 1667 | DATA_ADVANCED |  |
+| `/leg_split/arms/control_ew/buckets_pp_per_year/overnight` | -0.164 | -0.163 | DATA_ADVANCED |  |
+| `/leg_split/arms/control_ew/buckets_pp_per_year/plain` | 6.328 | 6.207 | DATA_ADVANCED |  |
+| `/leg_split/arms/control_ew/cagr_pct` | 3.99 | 3.87 | DATA_ADVANCED |  |
+| `/leg_split/arms/control_ew/fill_bar_drag_pp_per_year` | -2.388 | -2.387 | DATA_ADVANCED |  |
+| `/leg_split/arms/control_ew/plain_bars` | 1581 | 1582 | DATA_ADVANCED |  |
+| `/leg_split/arms/control_ew/plain_carry_pp_per_year` | 6.328 | 6.208 | DATA_ADVANCED |  |
+| `/leg_split/arms/control_ew/sharpe` | 0.308 | 0.301 | DATA_ADVANCED |  |
+| `/leg_split/arms/control_ew/total_log_pp` | 3.94 | 3.82 | DATA_ADVANCED |  |
+| `/leg_split/arms/production/bars` | 1666 | 1667 | DATA_ADVANCED |  |
+| `/leg_split/arms/production/buckets_pp_per_year/plain` | 9.728 | 9.664 | DATA_ADVANCED |  |
+| `/leg_split/arms/production/buckets_pp_per_year/toll` | -1.155 | -1.154 | DATA_ADVANCED |  |
+| `/leg_split/arms/production/cagr_pct` | 8.32 | 8.25 | DATA_ADVANCED |  |
+| `/leg_split/arms/production/fill_bar_drag_pp_per_year` | -1.678 | -1.677 | DATA_ADVANCED |  |
+| `/leg_split/arms/production/plain_bars` | 1581 | 1582 | DATA_ADVANCED |  |
+| `/leg_split/arms/production/plain_carry_pp_per_year` | 9.727 | 9.663 | DATA_ADVANCED |  |
+| `/leg_split/arms/production/sharpe` | 0.878 | 0.871 | DATA_ADVANCED |  |
+| `/leg_split/arms/production/total_log_pp` | 8.05 | 7.987 | DATA_ADVANCED |  |
+| `/leg_split/selection_wedge_pp/overnight` | 0.669 | 0.668 | DATA_ADVANCED |  |
+| `/leg_split/selection_wedge_pp/plain` | 7.658 | 7.706 | DATA_ADVANCED |  |
+| `/leg_split/selection_wedge_pp/toll` | -1.502 | -1.501 | DATA_ADVANCED |  |
+| `/leg_split/selection_wedge_pp/total` | 8.328 | 8.377 | DATA_ADVANCED |  |
+| `/lot_floor/etf_shares_at_1m/510500` | 0.000631 | 0.000629 | DATA_ADVANCED |  |
+| `/lot_floor/etf_shares_at_1m/512100` | 0.000246 | 0.000242 | DATA_ADVANCED |  |
+| `/lot_floor/etf_shares_at_1m/588000` | 0.000132 | 0.000134 | DATA_ADVANCED |  |
+| `/money_cny/benchmark_annual_cny` | 27100.0 | 27400.0 | DATA_ADVANCED |  |
+| `/money_cny/excess_annual_cny` | 97400.0 | 95500.0 | DATA_ADVANCED |  |
+| `/money_cny/expected_annual_cny` | 124500.0 | 122900.0 | DATA_ADVANCED |  |
+| `/next_decision_bars` | 16 | 14 | DATA_ADVANCED |  |
+| `/order/0/amount_cny` | 86347.8 | 86403.0 | DATA_ADVANCED |  |
+| `/order/0/lots` | 693 | 694 | DATA_ADVANCED |  |
+| `/order/0/price` | 1.246 | 1.245 | DATA_ADVANCED |  |
+| `/order/0/shares` | 69300 | 69400 | DATA_ADVANCED |  |
+| `/order/1/amount_cny` | 86421.2 | 86375.8 | DATA_ADVANCED |  |
+| `/order/1/lots` | 716 | 721 | DATA_ADVANCED |  |
+| `/order/1/price` | 1.207 | 1.198 | DATA_ADVANCED |  |
+| `/order/1/shares` | 71600 | 72100 | DATA_ADVANCED |  |
+| `/order/2/amount_cny` | 86390.2 | 86374.5 | DATA_ADVANCED |  |
+| `/order/2/lots` | 446 | 445 | DATA_ADVANCED |  |
+| `/order/2/price` | 1.937 | 1.941 | DATA_ADVANCED |  |
+| `/order/2/shares` | 44600 | 44500 | DATA_ADVANCED |  |
+| `/order/3/amount_cny` | 86369.1 | 86404.8 | DATA_ADVANCED |  |
+| `/order/3/lots` | 753 | 766 | DATA_ADVANCED |  |
+| `/order/3/price` | 1.147 | 1.128 | DATA_ADVANCED |  |
+| `/order/3/shares` | 75300 | 76600 | DATA_ADVANCED |  |
+| `/order/4/amount_cny` | 86351.2 | 86322.3 | DATA_ADVANCED |  |
+| `/order/4/lots` | 494 | 501 | DATA_ADVANCED |  |
+| `/order/4/price` | 1.748 | 1.723 | DATA_ADVANCED |  |
+| `/order/4/shares` | 49400 | 50100 | DATA_ADVANCED |  |
+| `/permission/ordered_cny` | 431879.5 | 431880.4 | DATA_ADVANCED |  |
+| `/positions/engine_book/tail/nav_units` | 1.46397034 | 1.45899143 | DATA_ADVANCED |  |
+| `/positions/ledger_row/cash_cny` | 568120.5 | 568119.6 | DATA_ADVANCED |  |
+| `/positions/ledger_row/holdings/0/amount_cny` | 86351.2 | 86322.3 | DATA_ADVANCED |  |
+| `/positions/ledger_row/holdings/0/lots` | 494 | 501 | DATA_ADVANCED |  |
+| `/positions/ledger_row/holdings/0/price` | 1.748 | 1.723 | DATA_ADVANCED |  |
+| `/positions/ledger_row/holdings/1/amount_cny` | 86390.2 | 86374.5 | DATA_ADVANCED |  |
+| `/positions/ledger_row/holdings/1/lots` | 446 | 445 | DATA_ADVANCED |  |
+| `/positions/ledger_row/holdings/1/price` | 1.937 | 1.941 | DATA_ADVANCED |  |
+| `/positions/ledger_row/holdings/2/amount_cny` | 86347.8 | 86403.0 | DATA_ADVANCED |  |
+| `/positions/ledger_row/holdings/2/lots` | 693 | 694 | DATA_ADVANCED |  |
+| `/positions/ledger_row/holdings/2/price` | 1.246 | 1.245 | DATA_ADVANCED |  |
+| `/positions/ledger_row/holdings/3/amount_cny` | 86421.2 | 86375.8 | DATA_ADVANCED |  |
+| `/positions/ledger_row/holdings/3/lots` | 716 | 721 | DATA_ADVANCED |  |
+| `/positions/ledger_row/holdings/3/price` | 1.207 | 1.198 | DATA_ADVANCED |  |
+| `/positions/ledger_row/holdings/4/amount_cny` | 86369.1 | 86404.8 | DATA_ADVANCED |  |
+| `/positions/ledger_row/holdings/4/lots` | 753 | 766 | DATA_ADVANCED |  |
+| `/positions/ledger_row/holdings/4/price` | 1.147 | 1.128 | DATA_ADVANCED |  |
+| `/positions/ledger_row/risk_book_cny` | 431879.5 | 431880.4 | DATA_ADVANCED |  |
+| `/positions/next_order_base/cash_cny` | 568120.5 | 568119.6 | DATA_ADVANCED |  |
+| `/positions/next_order_base/risk_book_cny` | 431879.5 | 431880.4 | DATA_ADVANCED |  |
+| `/positions/replay/cash_interest_cny` | 526.17 | 490.73 | DATA_ADVANCED |  |
+| `/positions/replay/legs_first_bar` | 430338.0 | 427317.9 | DATA_ADVANCED |  |
+| `/positions/replay/legs_last_bar` | 431879.5 | 431880.4 | DATA_ADVANCED |  |
+| `/positions/replay/legs_ret` | 0.00358207 | 0.01067706 | DATA_ADVANCED |  |
+| `/positions/replay/rf_missing_bars` | 0 | 2 | DATA_ADVANCED |  |
+| `/premium_forward/cny_total` | 3322.86 | 4724.21 | DATA_ADVANCED |  |
+| `/premium_forward/rows/0/amount_cny` | 86347.8 | 86403.0 | DATA_ADVANCED |  |
+| `/premium_forward/rows/0/latest_pctile` | 15.6312625250501 | 0.533689126084056 | DATA_ADVANCED |  |
+| `/premium_forward/rows/0/mean_pct` | 0.5223345213939685 | 0.9538545023368754 | DATA_ADVANCED |  |
+| `/premium_forward/rows/0/n` | 262 | 135 | DATA_ADVANCED |  |
+| `/premium_forward/rows/0/same_bucket_move_cny` | 451.0243678642211 | 824.1589056541305 | DATA_ADVANCED |  |
+| `/premium_forward/rows/0/t` | 1.9314301221169548 | 2.449911587740772 | DATA_ADVANCED |  |
+| `/premium_forward/rows/1/amount_cny` | 86421.2 | 86375.8 | DATA_ADVANCED |  |
+| `/premium_forward/rows/1/latest_pctile` | 63.188253801782906 | 47.82608695652174 | DATA_ADVANCED |  |
+| `/premium_forward/rows/1/same_bucket_move_cny` | 98.20186006657005 | 98.15027128456956 | DATA_ADVANCED |  |
+| `/premium_forward/rows/2/amount_cny` | 86390.2 | 86374.5 | DATA_ADVANCED |  |
+| `/premium_forward/rows/2/latest_pctile` | 87.10659898477158 | 84.39716312056737 | DATA_ADVANCED |  |
+| `/premium_forward/rows/2/mean_pct` | 1.3009600310549645 | 1.2855946103992864 | DATA_ADVANCED |  |
+| `/premium_forward/rows/2/n` | 263 | 264 | DATA_ADVANCED |  |
+| `/premium_forward/rows/2/same_bucket_move_cny` | 1123.9019727484458 | 1110.4259167593316 | DATA_ADVANCED |  |
+| `/premium_forward/rows/2/t` | 4.358136164408279 | 4.3173101868989034 | DATA_ADVANCED |  |
+| `/premium_forward/rows/3/amount_cny` | 86369.1 | 86404.8 | DATA_ADVANCED |  |
+| `/premium_forward/rows/3/latest_pctile` | 19.894894894894893 | 3.2233883058470765 | DATA_ADVANCED |  |
+| `/premium_forward/rows/3/mean_pct` | 0.5330778868734505 | 1.0492967442516776 | DATA_ADVANCED |  |
+| `/premium_forward/rows/3/n` | 223 | 129 | DATA_ADVANCED |  |
+| `/premium_forward/rows/3/same_bucket_move_cny` | 460.41457319161736 | 906.6427532771736 | DATA_ADVANCED |  |
+| `/premium_forward/rows/3/t` | 1.4009616177991417 | 1.8093060925702986 | DATA_ADVANCED |  |
+| `/premium_forward/rows/4/amount_cny` | 86351.2 | 86322.3 | DATA_ADVANCED |  |
+| `/premium_forward/rows/4/latest_pctile` | 13.161290322580646 | 1.673101673101673 | DATA_ADVANCED |  |
+| `/premium_forward/rows/4/mean_pct` | 1.3772998496472701 | 2.0676407710174614 | DATA_ADVANCED |  |
+| `/premium_forward/rows/4/n` | 172 | 110 | DATA_ADVANCED |  |
+| `/premium_forward/rows/4/same_bucket_move_cny` | 1189.3149477686136 | 1784.8350692800059 | DATA_ADVANCED |  |
+| `/premium_forward/rows/4/t` | 4.544192330848934 | 4.012511028053157 | DATA_ADVANCED |  |
+| `/premium_leak/names/0/amount_cny` | 86347.8 | 86403.0 | DATA_ADVANCED |  |
+| `/premium_leak/names/0/iopv` | 1.2492 | 1.2479 | DATA_ADVANCED |  |
+| `/premium_leak/names/0/market_n` | 1640 | 1527 | DATA_ADVANCED |  |
+| `/premium_leak/names/0/market_pctile` | 22.13 | 32.29 | DATA_ADVANCED |  |
+| `/premium_leak/names/0/market_rank` | 1277 | 1034 | DATA_ADVANCED |  |
+| `/premium_leak/names/0/premium_paid_cny` | -221.76 | -201.26 | DATA_ADVANCED |  |
+| `/premium_leak/names/0/premium_pct` | -0.2562 | -0.2324 | DATA_ADVANCED |  |
+| `/premium_leak/names/0/price` | 1.246 | 1.245 | DATA_ADVANCED |  |
+| `/premium_leak/names/0/shares` | 69300.0 | 69400.0 | DATA_ADVANCED |  |
+| `/premium_leak/names/1/amount_cny` | 86421.2 | 86375.8 | DATA_ADVANCED |  |
+| `/premium_leak/names/1/iopv` | 1.2075 | 1.1995 | DATA_ADVANCED |  |
+| `/premium_leak/names/1/market_n` | 1640 | 1527 | DATA_ADVANCED |  |
+| `/premium_leak/names/1/market_pctile` | 63.84 | 45.65 | DATA_ADVANCED |  |
+| `/premium_leak/names/1/market_rank` | 593 | 830 | DATA_ADVANCED |  |
+| `/premium_leak/names/1/premium_paid_cny` | -35.8 | -108.15 | DATA_ADVANCED |  |
+| `/premium_leak/names/1/premium_pct` | -0.0414 | -0.1251 | DATA_ADVANCED |  |
+| `/premium_leak/names/1/price` | 1.207 | 1.198 | DATA_ADVANCED |  |
+| `/premium_leak/names/1/shares` | 71600.0 | 72100.0 | DATA_ADVANCED |  |
+| `/premium_leak/names/2/amount_cny` | 86390.2 | 86374.5 | DATA_ADVANCED |  |
+| `/premium_leak/names/2/iopv` | 1.8016 | 1.7832 | DATA_ADVANCED |  |
+| `/premium_leak/names/2/market_n` | 1640 | 1527 | DATA_ADVANCED |  |
+| `/premium_leak/names/2/market_pctile` | 98.78 | 98.82 | DATA_ADVANCED |  |
+| `/premium_leak/names/2/market_rank` | 20 | 18 | DATA_ADVANCED |  |
+| `/premium_leak/names/2/premium_paid_cny` | 6038.84 | 7022.1 | DATA_ADVANCED |  |
+| `/premium_leak/names/2/premium_pct` | 7.5155 | 8.8493 | DATA_ADVANCED |  |
+| `/premium_leak/names/2/price` | 1.937 | 1.941 | DATA_ADVANCED |  |
+| `/premium_leak/names/2/shares` | 44600.0 | 44500.0 | DATA_ADVANCED |  |
+| `/premium_leak/names/3/amount_cny` | 86369.1 | 86404.8 | DATA_ADVANCED |  |
+| `/premium_leak/names/3/iopv` | 1.1513 | 1.1475 | DATA_ADVANCED |  |
+| `/premium_leak/names/3/market_n` | 1640 | 1527 | DATA_ADVANCED |  |
+| `/premium_leak/names/3/market_pctile` | 9.94 | 4.26 | DATA_ADVANCED |  |
+| `/premium_leak/names/3/market_rank` | 1477 | 1462 | DATA_ADVANCED |  |
+| `/premium_leak/names/3/premium_paid_cny` | -323.79 | -1493.7 | DATA_ADVANCED |  |
+| `/premium_leak/names/3/premium_pct` | -0.3735 | -1.6993 | DATA_ADVANCED |  |
+| `/premium_leak/names/3/price` | 1.147 | 1.128 | DATA_ADVANCED |  |
+| `/premium_leak/names/3/shares` | 75300.0 | 76600.0 | DATA_ADVANCED |  |
+| `/premium_leak/names/4/amount_cny` | 86351.2 | 86322.3 | DATA_ADVANCED |  |
+| `/premium_leak/names/4/iopv` | 1.7529 | 1.7405 | DATA_ADVANCED |  |
+| `/premium_leak/names/4/market_n` | 1640 | 1527 | DATA_ADVANCED |  |
+| `/premium_leak/names/4/market_pctile` | 18.66 | 10.09 | DATA_ADVANCED |  |
+| `/premium_leak/names/4/market_rank` | 1334 | 1373 | DATA_ADVANCED |  |
+| `/premium_leak/names/4/premium_paid_cny` | -242.06 | -876.75 | DATA_ADVANCED |  |
+| `/premium_leak/names/4/premium_pct` | -0.2795 | -1.0055 | DATA_ADVANCED |  |
+| `/premium_leak/names/4/price` | 1.748 | 1.723 | DATA_ADVANCED |  |
+| `/premium_leak/names/4/shares` | 49400.0 | 50100.0 | DATA_ADVANCED |  |
+| `/premium_leak/own_ruler/159519/above_own_median_pp` | -1.1434 | -0.5951 | DATA_ADVANCED |  |
+| `/premium_leak/own_ruler/159519/last_pct` | -0.9895 | -0.4407 | DATA_ADVANCED |  |
+| `/premium_leak/own_ruler/159519/last_pctile` | 7.1 | 25.0 | DATA_ADVANCED |  |
+| `/premium_leak/own_ruler/159519/last_rank` | 720 | 579 | DATA_ADVANCED |  |
+| `/premium_leak/own_ruler/159519/median_pct` | 0.1539 | 0.1543 | DATA_ADVANCED |  |
+| `/premium_leak/own_ruler/159519/n_obs` | 775 | 772 | DATA_ADVANCED |  |
+| `/premium_leak/own_ruler/159519/p10_pct` | -0.8857 | -0.8827 | DATA_ADVANCED |  |
+| `/premium_leak/own_ruler/159519/p90_pct` | 1.5163 | 1.5173 | DATA_ADVANCED |  |
+| `/premium_leak/own_ruler/159655/above_own_median_pp` | 7.8586 | 6.8923 | DATA_ADVANCED |  |
+| `/premium_leak/own_ruler/159655/last_pct` | 9.0909 | 8.1154 | DATA_ADVANCED |  |
+| `/premium_leak/own_ruler/159655/last_pctile` | 98.37 | 96.44 | DATA_ADVANCED |  |
+| `/premium_leak/own_ruler/159655/last_rank` | 16 | 35 | DATA_ADVANCED |  |
+| `/premium_leak/own_ruler/159655/median_pct` | 1.2323 | 1.2231 | DATA_ADVANCED |  |
+| `/premium_leak/own_ruler/159655/n_obs` | 984 | 982 | DATA_ADVANCED |  |
+| `/premium_leak/own_ruler/159655/p10_pct` | -0.6486 | -0.6498 | DATA_ADVANCED |  |
+| `/premium_leak/own_ruler/159655/p90_pct` | 6.2278 | 6.2027 | DATA_ADVANCED |  |
+| `/premium_leak/own_ruler/510760/above_own_median_pp` | -0.0652 | -0.0795 | DATA_ADVANCED |  |
+| `/premium_leak/own_ruler/510760/last_pct` | -0.0558 | -0.0701 | DATA_ADVANCED |  |
+| `/premium_leak/own_ruler/510760/last_pctile` | 31.26 | 26.31 | DATA_ADVANCED |  |
+| `/premium_leak/own_ruler/510760/last_rank` | 1029 | 1101 | DATA_ADVANCED |  |
+| `/premium_leak/own_ruler/510760/n_obs` | 1497 | 1494 | DATA_ADVANCED |  |
+| `/premium_leak/own_ruler/510760/p10_pct` | -0.1627 | -0.1623 | DATA_ADVANCED |  |
+| `/premium_leak/own_ruler/510760/p90_pct` | 0.2146 | 0.2148 | DATA_ADVANCED |  |
+| `/premium_leak/own_ruler/512040/above_own_median_pp` | -0.131 | 0.0269 | DATA_ADVANCED |  |
+| `/premium_leak/own_ruler/512040/last_pct` | -0.1828 | -0.025 | DATA_ADVANCED |  |
+| `/premium_leak/own_ruler/512040/last_pctile` | 20.91 | 56.12 | DATA_ADVANCED |  |
+| `/premium_leak/own_ruler/512040/last_rank` | 1509 | 836 | DATA_ADVANCED |  |
+| `/premium_leak/own_ruler/512040/median_pct` | -0.0519 | -0.052 | DATA_ADVANCED |  |
+| `/premium_leak/own_ruler/512040/n_obs` | 1908 | 1905 | DATA_ADVANCED |  |
+| `/premium_leak/own_ruler/512040/p10_pct` | -0.2723 | -0.2728 | DATA_ADVANCED |  |
+| `/premium_leak/own_ruler/512040/p90_pct` | 0.1451 | 0.1454 | DATA_ADVANCED |  |
+| `/premium_leak/own_ruler/513690/above_own_median_pp` | -0.7649 | -0.6372 | DATA_ADVANCED |  |
+| `/premium_leak/own_ruler/513690/last_pct` | -0.8279 | -0.6964 | DATA_ADVANCED |  |
+| `/premium_leak/own_ruler/513690/last_pctile` | 15.62 | 20.24 | DATA_ADVANCED |  |
+| `/premium_leak/own_ruler/513690/last_rank` | 1124 | 1060 | DATA_ADVANCED |  |
+| `/premium_leak/own_ruler/513690/median_pct` | -0.063 | -0.0592 | DATA_ADVANCED |  |
+| `/premium_leak/own_ruler/513690/n_obs` | 1332 | 1329 | DATA_ADVANCED |  |
+| `/premium_leak/own_ruler/513690/p10_pct` | -1.0441 | -1.0446 | DATA_ADVANCED |  |
+| `/premium_leak/own_ruler/513690/p90_pct` | 1.1978 | 1.1987 | DATA_ADVANCED |  |
+| `/premium_leak/own_ruler_summary/revert_to_own_median_cny` | 4183.31 | 3325.99 | DATA_ADVANCED |  |
+| `/premium_leak/stress/if_premium_reverts_to_own_median_cny` | -4183.31 | -3325.99 | DATA_ADVANCED |  |
+| `/premium_leak/stress/if_premium_reverts_to_own_median_pct_of_nav` | -0.4183 | -0.3326 | DATA_ADVANCED |  |
+| `/premium_leak/stress/if_premium_reverts_to_zero_cny` | -5215.43 | -4342.24 | DATA_ADVANCED |  |
+| `/premium_leak/stress/if_premium_reverts_to_zero_pct_of_nav` | -0.5215 | -0.4342 | DATA_ADVANCED |  |
+| `/premium_leak/totals/book_amount_cny` | 431879.5 | 431880.4 | DATA_ADVANCED |  |
+| `/premium_leak/totals/book_cagr_pct` | 12.45 | 12.29 | DATA_ADVANCED |  |
+| `/premium_leak/totals/premium_paid_cny` | 5215.43 | 4342.24 | DATA_ADVANCED |  |
+| `/premium_leak/totals/premium_share_of_nav_pct` | 0.5215 | 0.4342 | DATA_ADVANCED |  |
+| `/premium_leak/totals/premium_share_of_order_pct` | 1.2076 | 1.0054 | DATA_ADVANCED |  |
+| `/premium_leak/totals/verified_amount_cny` | 431879.5 | 431880.4 | DATA_ADVANCED |  |
+| `/premium_leak/totals/years_of_backtest_return_paid` | 0.1 | 0.08 | DATA_ADVANCED |  |
+| `/research_arc/rows/0/best_pp` | 0.25 | 0.27 | DATA_ADVANCED |  |
+| `/research_arc/rows/1/best_pp` | 0.73 | 0.83 | DATA_ADVANCED |  |
+| `/roster_audit/defects/0/declared_n` | 5226 | 5227 | DATA_ADVANCED |  |
+| `/roster_audit/defects/0/disk_n` | 5222 | 5221 | DATA_ADVANCED |  |
+| `/roster_audit/local_copies/0/declared_n` | 210 | 211 | DATA_ADVANCED |  |
+| `/roster_audit/local_copies/0/laneside/local_disk_n` | 186 | 187 | DATA_ADVANCED |  |
+| `/roster_audit/local_copies/0/local_disk_n` | 186 | 187 | DATA_ADVANCED |  |
+| `/roster_audit/local_copies/1/laneside/local_disk_n` | 28 | 1 | DATA_ADVANCED |  |
+| `/roster_audit/local_copies/1/local_disk_n` | 28 | 1 | DATA_ADVANCED |  |
+| `/same_beta_benchmark/bars` | 695 | 697 | DATA_ADVANCED |  |
+| `/same_beta_benchmark/cagr` | 0.0271 | 0.0274 | DATA_ADVANCED |  |
+| `/same_beta_benchmark/sharpe` | 0.717 | 0.725 | DATA_ADVANCED |  |
+| `/sample_window/grid_post/ew_cagr` | 0.0318 | 0.0309 | DATA_ADVANCED |  |
+| `/sample_window/grid_post/excess_pp` | 3.59 | 3.68 | DATA_ADVANCED |  |
+| `/sample_window/grid_post/p_value` | 0.045 | 0.1 | DATA_ADVANCED |  |
+| `/sellability/combined_pp` | 0.2668 | 0.2661 | DATA_ADVANCED |  |
+| `/sellability/phases/1/positions` | 984 | 996 | DATA_ADVANCED |  |
+| `/sellability/phases/1/pp` | 0.0951 | 0.094 | DATA_ADVANCED |  |
+| `/sellability/phases/1/share` | 0.0285 | 0.0281 | DATA_ADVANCED |  |
+| `/sellability/positions` | 3948 | 3960 | DATA_ADVANCED |  |
+| `/sellability/share_below_gate` | 0.042 | 0.0419 | DATA_ADVANCED |  |
+| `/sellability/tail_pp` | 0.0503 | 0.05 | DATA_ADVANCED |  |
+| `/sellability/tail_pp_max` | 0.0951 | 0.094 | DATA_ADVANCED |  |
+| `/sellability/tail_share` | 0.0276 | 0.0275 | DATA_ADVANCED |  |
+| `/sellability/wait_pp` | 0.2165 | 0.2161 | DATA_ADVANCED |  |
+| `/sibling_gap/immaterial_gain_cny` | 103.2 | 68.7 | DATA_ADVANCED |  |
+| `/sibling_gap/label_family/0/gap_median_pp` | 0.1703 | 0.1458 | DATA_ADVANCED |  |
+| `/sibling_gap/label_family/1/gap_median_pp` | 0.3849 | 0.3883 | DATA_ADVANCED |  |
+| `/sibling_gap/label_family/1/same_label_tickers` | 10 | 3 | DATA_ADVANCED |  |
+| `/sibling_gap/label_family/2/live_alternatives` | 2 | 0 | DATA_ADVANCED |  |
+| `/sibling_gap/label_family/2/same_label_tickers` | 4 | 1 | DATA_ADVANCED |  |
+| `/sibling_gap/label_family/3/live_alternatives` | 1 | 0 | DATA_ADVANCED |  |
+| `/sibling_gap/label_family/3/same_label_tickers` | 2 | 1 | DATA_ADVANCED |  |
+| `/sibling_gap/label_family/4/same_label_tickers` | 2 | 1 | DATA_ADVANCED |  |
+| `/sibling_gap/pairs/0/amount_cny` | 86347.8 | 86403.0 | DATA_ADVANCED |  |
+| `/sibling_gap/pairs/0/gap_today_pp` | 0.1188 | 0.0791 | DATA_ADVANCED |  |
+| `/sibling_gap/pairs/0/label_gap_median_pp` | 0.1703 | 0.1458 | DATA_ADVANCED |  |
+| `/sibling_gap/pairs/0/stats/days` | 1497 | 718 | DATA_ADVANCED |  |
+| `/sibling_gap/pairs/0/stats/gap_change_median_pp` | 0.1703 | 0.1458 | DATA_ADVANCED |  |
+| `/sibling_gap/pairs/0/stats/half_split_mean_pp/0` | -39.0631 | 1.3233 | DATA_ADVANCED |  |
+| `/sibling_gap/pairs/0/stats/half_split_mean_pp/1` | -0.9411 | -3.4606 | DATA_ADVANCED |  |
+| `/sibling_gap/pairs/0/stats/last_year_mean_pp` | -2.3835 | -3.1716 | DATA_ADVANCED |  |
+| `/sibling_gap/pairs/0/stats/max_pp` | 7.0092 | 7.9648 | DATA_ADVANCED |  |
+| `/sibling_gap/pairs/0/stats/mean_pp` | -19.9894 | -1.0687 | DATA_ADVANCED |  |
+| `/sibling_gap/pairs/0/stats/median_pp` | -4.783 | -3.2572 | DATA_ADVANCED |  |
+| `/sibling_gap/pairs/0/stats/min_pp` | -187.7977 | -5.6187 | DATA_ADVANCED |  |
+| `/sibling_gap/pairs/0/stats/nav_base_offset_pp` | 29.1321 | -2.8516 | DATA_ADVANCED |  |
+| `/sibling_gap/pairs/0/stats/sd_pp` | 42.8887 | 4.1179 | DATA_ADVANCED |  |
+| `/sibling_gap/pairs/0/stats/share_days_positive` | 0.1717 | 0.2507 | DATA_ADVANCED |  |
+| `/sibling_gap/pairs/0/stats/today_gap_pp` | 0.1188 | 0.0791 | DATA_ADVANCED |  |
+| `/sibling_gap/pairs/0/stats/today_percentile` | 84.03 | 75.35 | DATA_ADVANCED |  |
+| `/sibling_gap/pairs/0/stats/today_z` | 0.469 | 0.279 | DATA_ADVANCED |  |
+| `/sibling_gap/pairs/0/steps/0/jump_pp` | 160.7249 | -4.4503 | DATA_ADVANCED |  |
+| `/sibling_gap/pairs/0/today_gain_cny` | 103.2 | 68.7 | DATA_ADVANCED |  |
+| `/sleeve_gate/baseline/cagr` | 0.0941 | 0.0939 | DATA_ADVANCED |  |
+| `/sleeve_gate/gates/0/cagr_keep` | 0.9671 | 0.967 | DATA_ADVANCED |  |
+| `/sleeve_gate/gates/2/cagr_keep` | 0.9809 | 0.9808 | DATA_ADVANCED |  |
+| `/sleeve_paths/identity/mine_cagr` | 0.0943 | 0.0941 | DATA_ADVANCED |  |
+| `/sleeve_paths/identity/reference_cagr` | 0.0943 | 0.0941 | DATA_ADVANCED |  |
+| `/sleeve_paths/rows/1/placebo_cagr_edge_pp` | 1.33 | 1.34 | DATA_ADVANCED |  |
+| `/sleeve_paths/rows/10/cagr_keep` | 0.9658 | 0.9668 | DATA_ADVANCED |  |
+| `/sleeve_paths/rows/11/cagr_keep` | 0.9658 | 0.9668 | DATA_ADVANCED |  |
+| `/sleeve_paths/rows/11/placebo_cagr_edge_pp` | 0.31 | 0.32 | DATA_ADVANCED |  |
+| `/sleeve_paths/rows/3/cagr_keep` | 0.9598 | 0.9599 | DATA_ADVANCED |  |
+| `/sleeve_paths/rows/3/decisions` | 83 | 84 | DATA_ADVANCED |  |
+| `/sleeve_paths/rows/3/placebo_cagr_edge_pp` | 0.44 | -0.29 | DATA_ADVANCED |  |
+| `/sleeve_paths/rows/3/placebo_dd_edge_pp` | 3.5 | 1.0 | DATA_ADVANCED |  |
+| `/sleeve_paths/rows/4/cagr_keep` | 0.9598 | 0.9599 | DATA_ADVANCED |  |
+| `/sleeve_paths/rows/4/decisions` | 83 | 84 | DATA_ADVANCED |  |
+| `/sleeve_paths/rows/4/placebo_cagr_edge_pp` | 1.04 | 2.19 | DATA_ADVANCED |  |
+| `/sleeve_paths/rows/5/cagr_keep` | 0.9598 | 0.9599 | DATA_ADVANCED |  |
+| `/sleeve_paths/rows/5/decisions` | 83 | 84 | DATA_ADVANCED |  |
+| `/sleeve_paths/rows/5/placebo_cagr_edge_pp` | 1.9 | 0.51 | DATA_ADVANCED |  |
+| `/sleeve_paths/rows/5/placebo_dd_edge_pp` | 3.34 | 3.5 | DATA_ADVANCED |  |
+| `/sleeve_paths/rows/6/cagr_keep` | 0.9885 | 0.9896 | DATA_ADVANCED |  |
+| `/sleeve_paths/rows/7/cagr_keep` | 0.9885 | 0.9896 | DATA_ADVANCED |  |
+| `/sleeve_paths/rows/8/cagr_keep` | 0.9885 | 0.9896 | DATA_ADVANCED |  |
+| `/sleeve_paths/rows/8/placebo_cagr_edge_pp` | 1.31 | 1.28 | DATA_ADVANCED |  |
+| `/sleeve_paths/rows/9/cagr_keep` | 0.9658 | 0.9668 | DATA_ADVANCED |  |
+| `/stress/n_days` | 5283 | 5284 | DATA_ADVANCED |  |
+| `/ticket_book/bars` | 695 | 697 | DATA_ADVANCED |  |
+| `/ticket_book/cagr` | 0.1245 | 0.1229 | DATA_ADVANCED |  |
+| `/ticket_book/sharpe` | 1.688 | 1.668 | DATA_ADVANCED |  |
+| `/ticket_book/vol` | 0.0738 | 0.0737 | DATA_ADVANCED |  |
+| `/underwater/bars` | 1664 | 1666 | DATA_ADVANCED |  |
+| `/underwater/control/published/cagr` | 0.0941 | 0.0939 | DATA_ADVANCED |  |
+| `/underwater/control/published/published_bar_note/columns` | 1631 | 1635 | DATA_ADVANCED |  |
+| `/underwater/control/published/published_bar_note/panel_digest/amount_columns` | 1631 | 1635 | DATA_ADVANCED |  |
+| `/underwater/control/published/published_bar_note/panel_digest/columns` | 1631 | 1635 | DATA_ADVANCED |  |
+| `/underwater/control/published/published_bar_note/panel_digest/dates` | 5282 | 5284 | DATA_ADVANCED |  |
+| `/underwater/control/recomputed/cagr` | 0.0941 | 0.0939 | DATA_ADVANCED |  |
+| `/underwater/forward/1y/entries` | 1422 | 1424 | DATA_ADVANCED |  |
+| `/underwater/forward/1y/p5` | -0.015304 | -0.01524 | DATA_ADVANCED |  |
+| `/underwater/forward/1y/p50` | 0.080715 | 0.080441 | DATA_ADVANCED |  |
+| `/underwater/forward/1y/share_negative` | 0.0795 | 0.0794 | DATA_ADVANCED |  |
+| `/underwater/forward/2y/entries` | 1179 | 1181 | DATA_ADVANCED |  |
+| `/underwater/forward/2y/p5` | 0.016631 | 0.016635 | DATA_ADVANCED |  |
+| `/underwater/forward/2y/p50` | 0.067824 | 0.067921 | DATA_ADVANCED |  |
+| `/underwater/forward/3y/skipped_no_full_horizon` | 725 | 727 | DATA_ADVANCED |  |
+| `/underwater/recovery/censored` | 14 | 15 | DATA_ADVANCED |  |
+| `/underwater/recovery/censored_share` | 0.0084 | 0.009 | DATA_ADVANCED |  |
+| `/underwater/recovery/entries` | 1664 | 1666 | DATA_ADVANCED |  |
+| `/underwater/recovery/p90_bars` | 14.100000000000136 | 14.0 | DATA_ADVANCED |  |
+| `/universe_lock/control/arms/as_coded/diff_pp` | 0.1 | 0.04 | DATA_ADVANCED |  |
+| `/universe_lock/control/arms/as_coded/published` | 0.0951 | 0.0943 | DATA_ADVANCED |  |
+| `/universe_lock/control/arms/as_coded/recomputed` | 0.0941 | 0.0939 | DATA_ADVANCED |  |
+| `/universe_lock/control/arms/declared/diff_pp` | 0.06 | 0.05 | DATA_ADVANCED |  |
+| `/universe_lock/control/arms/declared/published` | 0.0839 | 0.0844 | DATA_ADVANCED |  |
+| `/universe_lock/control/arms/declared/recomputed` | 0.0845 | 0.0839 | DATA_ADVANCED |  |
+| `/universe_lock/delta_max_pp` | 0.88 | 0.93 | DATA_ADVANCED |  |
+| `/universe_lock/delta_mean_pp` | 0.0825 | 0.0925 | DATA_ADVANCED |  |
+| `/universe_lock/delta_min_pp` | -1.88 | -1.83 | DATA_ADVANCED |  |
+| `/universe_lock/full_n` | 1522 | 1526 | DATA_ADVANCED |  |
+| `/universe_lock/ladder/0/cagr` | 0.0845 | 0.0839 | DATA_ADVANCED |  |
+| `/universe_lock/ladder/0/n_funds` | 1522 | 1526 | DATA_ADVANCED |  |
+| `/universe_lock/ladder/0/sharpe` | 0.874 | 0.868 | DATA_ADVANCED |  |
+| `/universe_lock/ladder/0/vol` | 0.1028 | 0.1027 | DATA_ADVANCED |  |
+| `/universe_lock/ladder/1/cagr` | 0.0509 | 0.0499 | DATA_ADVANCED |  |
+| `/universe_lock/ladder/1/sharpe` | 0.552 | 0.542 | DATA_ADVANCED |  |
+| `/universe_lock/ladder/1/vol` | 0.1035 | 0.1034 | DATA_ADVANCED |  |
+| `/universe_lock/ladder/2/cagr` | 0.0789 | 0.0786 | DATA_ADVANCED |  |
+| `/universe_lock/ladder/2/sharpe` | 0.831 | 0.828 | DATA_ADVANCED |  |
+| `/universe_lock/ladder/2/vol` | 0.1014 | 0.1013 | DATA_ADVANCED |  |
+| `/universe_lock/ladder/3/cagr` | 0.0884 | 0.0883 | DATA_ADVANCED |  |
+| `/universe_lock/ladder/3/vol` | 0.1047 | 0.1046 | DATA_ADVANCED |  |
+| `/universe_lock/phases/0/delta_pp` | 0.56 | 0.53 | DATA_ADVANCED |  |
+| `/universe_lock/phases/0/locked` | 0.0789 | 0.0786 | DATA_ADVANCED |  |
+| `/universe_lock/phases/0/unlocked` | 0.0845 | 0.0839 | DATA_ADVANCED |  |
+| `/universe_lock/phases/1/delta_pp` | 0.88 | 0.93 | DATA_ADVANCED |  |
+| `/universe_lock/phases/1/locked` | 0.0696 | 0.0695 | DATA_ADVANCED |  |
+| `/universe_lock/phases/1/unlocked` | 0.0784 | 0.0788 | DATA_ADVANCED |  |
+| `/universe_lock/phases/2/delta_pp` | 0.77 | 0.74 | DATA_ADVANCED |  |
+| `/universe_lock/phases/2/locked` | 0.0724 | 0.0723 | DATA_ADVANCED |  |
+| `/universe_lock/phases/2/unlocked` | 0.0801 | 0.0797 | DATA_ADVANCED |  |
+| `/universe_lock/phases/3/delta_pp` | -1.88 | -1.83 | DATA_ADVANCED |  |
+| `/universe_lock/phases/3/locked` | 0.08 | 0.0798 | DATA_ADVANCED |  |
+| `/universe_lock/phases/3/unlocked` | 0.0612 | 0.0615 | DATA_ADVANCED |  |
+| `/vol_target_gate/arms/0/cagr_pct` | 14.04 | 14.0 | DATA_ADVANCED |  |
+| `/vol_target_gate/arms/0/sharpe` | 0.937 | 0.935 | DATA_ADVANCED |  |
+| `/vol_target_gate/arms/1/cagr_pct` | 8.43 | 8.39 | DATA_ADVANCED |  |
+| `/vol_target_gate/arms/1/sharpe` | 0.876 | 0.873 | DATA_ADVANCED |  |
+| `/vol_target_gate/arms/2/cagr_pct` | 6.27 | 6.24 | DATA_ADVANCED |  |
+| `/vol_target_gate/arms/2/sharpe` | 0.841 | 0.838 | DATA_ADVANCED |  |
+| `/vol_target_gate/arms/3/cagr_pct` | 4.18 | 4.14 | DATA_ADVANCED |  |
+| `/vol_target_gate/arms/3/sharpe` | 0.812 | 0.809 | DATA_ADVANCED |  |
+| `/vol_target_gate/arms/4/cagr_pct` | 3.16 | 3.12 | DATA_ADVANCED |  |
+| `/vol_target_gate/arms/4/sharpe` | 0.812 | 0.809 | DATA_ADVANCED |  |
+| `/vol_target_gate/arms/5/cagr_pct` | 2.12 | 2.09 | DATA_ADVANCED |  |
+| `/vol_target_gate/arms/5/sharpe` | 0.812 | 0.809 | DATA_ADVANCED |  |
+| `/vol_target_gate/capacity_cny` | 18582410.0 | 14679968.0 | DATA_ADVANCED |  |
+| `/vol_target_gate/shape/effective_years/max_abs_delta` | 0.852892 | 0.852717 | DATA_ADVANCED |  |
+| `/vol_target_gate/shape/effective_years/median_by_arm/unscaled` | 4.643705 | 4.653384 | DATA_ADVANCED |  |
+| `/vol_target_gate/shape/effective_years/median_by_arm/vt02` | 4.613693 | 4.602024 | DATA_ADVANCED |  |
+| `/vol_target_gate/shape/effective_years/median_by_arm/vt03` | 4.561404 | 4.552061 | DATA_ADVANCED |  |
+| `/vol_target_gate/shape/effective_years/median_by_arm/vt04` | 4.594386 | 4.583048 | DATA_ADVANCED |  |
+| `/vol_target_gate/shape/effective_years/median_by_arm/vt06` | 4.865973 | 4.854966 | DATA_ADVANCED |  |
+| `/vol_target_gate/shape/effective_years/median_by_arm/vt08` | 4.986748 | 4.97606 | DATA_ADVANCED |  |
+| `/vol_target_gate/shape/effective_years/median_range` | 0.425344 | 0.423999 | DATA_ADVANCED |  |
+| `/vol_window/paired/rows/0/bars` | 1664 | 1665 | DATA_ADVANCED |  |
+| `/vol_window/paired/rows/0/ci_p05_p95_pp/0` | -0.106 | -0.043 | DATA_ADVANCED |  |
+| `/vol_window/paired/rows/0/ci_p05_p95_pp/1` | 1.973 | 1.99 | DATA_ADVANCED |  |
+| `/vol_window/paired/rows/0/mean_pp` | 0.867 | 0.874 | DATA_ADVANCED |  |
+| `/vol_window/paired/rows/1/bars` | 1659 | 1660 | DATA_ADVANCED |  |
+| `/vol_window/paired/rows/1/ci_p05_p95_pp/0` | 0.715 | 0.681 | DATA_ADVANCED |  |
+| `/vol_window/paired/rows/1/ci_p05_p95_pp/1` | 3.043 | 3.006 | DATA_ADVANCED |  |
+| `/vol_window/paired/rows/1/share_positive` | 0.998 | 0.999 | DATA_ADVANCED |  |
+| `/vol_window/paired/rows/2/bars` | 1654 | 1655 | DATA_ADVANCED |  |
+| `/vol_window/paired/rows/2/ci_p05_p95_pp/0` | 0.138 | 0.144 | DATA_ADVANCED |  |
+| `/vol_window/paired/rows/2/ci_p05_p95_pp/1` | 2.397 | 2.421 | DATA_ADVANCED |  |
+| `/vol_window/paired/rows/2/mean_pp` | 1.192 | 1.198 | DATA_ADVANCED |  |
+| `/vol_window/paired/rows/2/share_positive` | 0.968 | 0.971 | DATA_ADVANCED |  |
+| `/vol_window/paired/rows/3/bars` | 1649 | 1650 | DATA_ADVANCED |  |
+| `/vol_window/paired/rows/3/ci_p05_p95_pp/0` | -0.337 | -0.356 | DATA_ADVANCED |  |
+| `/vol_window/paired/rows/3/ci_p05_p95_pp/1` | 1.167 | 1.185 | DATA_ADVANCED |  |
+| `/vol_window/paired/rows/3/mean_pp` | 0.409 | 0.408 | DATA_ADVANCED |  |
+| `/vol_window/paired/rows/3/share_positive` | 0.824 | 0.829 | DATA_ADVANCED |  |
+| `/vol_window/paired/verdict/min_ci_low_pp` | -0.337 | -0.356 | DATA_ADVANCED |  |
+| `/vol_window/paired/verdict/min_share_positive` | 0.824 | 0.829 | DATA_ADVANCED |  |
+| `/vol_window/panel/bars_named` | 5283 | 5284 | DATA_ADVANCED |  |
+| `/vol_window/phase_rows/0/cagr` | 0.1033 | 0.103 | DATA_ADVANCED |  |
+| `/vol_window/phase_rows/0/oos_cagr` | 0.1902 | 0.1893 | DATA_ADVANCED |  |
+| `/vol_window/phase_rows/0/oos_sharpe` | 1.763 | 1.755 | DATA_ADVANCED |  |
+| `/vol_window/phase_rows/0/sharpe` | 1.044 | 1.041 | DATA_ADVANCED |  |
+| `/vol_window/phase_rows/1/cagr` | 0.1006 | 0.1003 | DATA_ADVANCED |  |
+| `/vol_window/phase_rows/1/oos_cagr` | 0.1835 | 0.1824 | DATA_ADVANCED |  |
+| `/vol_window/phase_rows/1/oos_sharpe` | 1.734 | 1.725 | DATA_ADVANCED |  |
+| `/vol_window/phase_rows/1/sharpe` | 1.036 | 1.033 | DATA_ADVANCED |  |
+| `/vol_window/phase_rows/10/cagr` | 0.0999 | 0.0992 | DATA_ADVANCED |  |
+| `/vol_window/phase_rows/10/oos_cagr` | 0.187 | 0.1852 | DATA_ADVANCED |  |
+| `/vol_window/phase_rows/10/oos_sharpe` | 1.628 | 1.614 | DATA_ADVANCED |  |
+| `/vol_window/phase_rows/10/sharpe` | 0.985 | 0.979 | DATA_ADVANCED |  |
+| `/vol_window/phase_rows/11/cagr` | 0.0946 | 0.0939 | DATA_ADVANCED |  |
+| `/vol_window/phase_rows/11/oos_cagr` | 0.1761 | 0.1743 | DATA_ADVANCED |  |
+| `/vol_window/phase_rows/11/oos_sharpe` | 1.565 | 1.55 | DATA_ADVANCED |  |
+| `/vol_window/phase_rows/11/sharpe` | 0.94 | 0.933 | DATA_ADVANCED |  |
+| `/vol_window/phase_rows/12/cagr` | 0.0874 | 0.0867 | DATA_ADVANCED |  |
+| `/vol_window/phase_rows/12/oos_cagr` | 0.1664 | 0.1645 | DATA_ADVANCED |  |
+| `/vol_window/phase_rows/12/oos_sharpe` | 1.47 | 1.455 | DATA_ADVANCED |  |
+| `/vol_window/phase_rows/12/sharpe` | 0.88 | 0.874 | DATA_ADVANCED |  |
+| `/vol_window/phase_rows/13/cagr` | 0.0734 | 0.0727 | DATA_ADVANCED |  |
+| `/vol_window/phase_rows/13/oos_cagr` | 0.1499 | 0.1481 | DATA_ADVANCED |  |
+| `/vol_window/phase_rows/13/oos_maxdd` | -0.1207 | -0.1222 | DATA_ADVANCED |  |
+| `/vol_window/phase_rows/13/oos_sharpe` | 1.382 | 1.367 | DATA_ADVANCED |  |
+| `/vol_window/phase_rows/13/sharpe` | 0.77 | 0.764 | DATA_ADVANCED |  |
+| `/vol_window/phase_rows/14/cagr` | 0.0675 | 0.0668 | DATA_ADVANCED |  |
+| `/vol_window/phase_rows/14/oos_cagr` | 0.1381 | 0.1365 | DATA_ADVANCED |  |
+| `/vol_window/phase_rows/14/oos_maxdd` | -0.1132 | -0.1136 | DATA_ADVANCED |  |
+| `/vol_window/phase_rows/14/oos_sharpe` | 1.338 | 1.324 | DATA_ADVANCED |  |
+| `/vol_window/phase_rows/14/sharpe` | 0.744 | 0.738 | DATA_ADVANCED |  |
+| `/vol_window/phase_rows/15/cagr` | 0.1157 | 0.1159 | DATA_ADVANCED |  |
+| `/vol_window/phase_rows/15/oos_cagr` | 0.148 | 0.1485 | DATA_ADVANCED |  |
+| `/vol_window/phase_rows/15/oos_sharpe` | 1.414 | 1.419 | DATA_ADVANCED |  |
+| `/vol_window/phase_rows/15/sharpe` | 1.207 | 1.209 | DATA_ADVANCED |  |
+| `/vol_window/phase_rows/16/cagr` | 0.1089 | 0.1091 | DATA_ADVANCED |  |
+| `/vol_window/phase_rows/16/oos_cagr` | 0.1343 | 0.1348 | DATA_ADVANCED |  |
+| `/vol_window/phase_rows/16/oos_sharpe` | 1.258 | 1.263 | DATA_ADVANCED |  |
+| `/vol_window/phase_rows/16/sharpe` | 1.12 | 1.122 | DATA_ADVANCED |  |
+| `/vol_window/phase_rows/16/vol` | 0.1003 | 0.1002 | DATA_ADVANCED |  |
+| `/vol_window/phase_rows/17/cagr` | 0.1112 | 0.1114 | DATA_ADVANCED |  |
+| `/vol_window/phase_rows/17/oos_cagr` | 0.1457 | 0.1462 | DATA_ADVANCED |  |
+| `/vol_window/phase_rows/17/oos_sharpe` | 1.383 | 1.388 | DATA_ADVANCED |  |
+| `/vol_window/phase_rows/17/sharpe` | 1.157 | 1.159 | DATA_ADVANCED |  |
+| `/vol_window/phase_rows/18/cagr` | 0.0964 | 0.0966 | DATA_ADVANCED |  |
+| `/vol_window/phase_rows/18/oos_cagr` | 0.1214 | 0.1218 | DATA_ADVANCED |  |
+| `/vol_window/phase_rows/18/oos_sharpe` | 1.232 | 1.236 | DATA_ADVANCED |  |
+| `/vol_window/phase_rows/18/sharpe` | 1.048 | 1.05 | DATA_ADVANCED |  |
+| `/vol_window/phase_rows/19/cagr` | 0.0912 | 0.0914 | DATA_ADVANCED |  |
+| `/vol_window/phase_rows/19/oos_cagr` | 0.1166 | 0.117 | DATA_ADVANCED |  |
+| `/vol_window/phase_rows/19/oos_sharpe` | 1.232 | 1.236 | DATA_ADVANCED |  |
+| `/vol_window/phase_rows/19/sharpe` | 1.025 | 1.027 | DATA_ADVANCED |  |
+| `/vol_window/phase_rows/2/cagr` | 0.0943 | 0.0939 | DATA_ADVANCED |  |
+| `/vol_window/phase_rows/2/oos_cagr` | 0.1776 | 0.1765 | DATA_ADVANCED |  |
+| `/vol_window/phase_rows/2/oos_sharpe` | 1.685 | 1.675 | DATA_ADVANCED |  |
+| `/vol_window/phase_rows/2/sharpe` | 0.973 | 0.969 | DATA_ADVANCED |  |
+| `/vol_window/phase_rows/3/cagr` | 0.0756 | 0.0752 | DATA_ADVANCED |  |
+| `/vol_window/phase_rows/3/oos_cagr` | 0.1357 | 0.1347 | DATA_ADVANCED |  |
+| `/vol_window/phase_rows/3/oos_sharpe` | 1.46 | 1.45 | DATA_ADVANCED |  |
+| `/vol_window/phase_rows/3/sharpe` | 0.835 | 0.831 | DATA_ADVANCED |  |
+| `/vol_window/phase_rows/4/cagr` | 0.0708 | 0.0705 | DATA_ADVANCED |  |
+| `/vol_window/phase_rows/4/oos_cagr` | 0.1281 | 0.1271 | DATA_ADVANCED |  |
+| `/vol_window/phase_rows/4/oos_sharpe` | 1.427 | 1.417 | DATA_ADVANCED |  |
+| `/vol_window/phase_rows/4/sharpe` | 0.813 | 0.809 | DATA_ADVANCED |  |
+| `/vol_window/phase_rows/4/vol` | 0.093 | 0.0929 | DATA_ADVANCED |  |
+| `/vol_window/phase_rows/5/cagr` | 0.1139 | 0.1136 | DATA_ADVANCED |  |
+| `/vol_window/phase_rows/5/mean_scale` | 0.7298 | 0.7309 | DATA_ADVANCED |  |
+| `/vol_window/phase_rows/5/oos_cagr` | 0.1956 | 0.1948 | DATA_ADVANCED |  |
+| `/vol_window/phase_rows/5/oos_sharpe` | 1.593 | 1.588 | DATA_ADVANCED |  |
+| `/vol_window/phase_rows/5/sharpe` | 1.077 | 1.075 | DATA_ADVANCED |  |
+| `/vol_window/phase_rows/5/turnover_per_decision` | 0.998 | 1.005 | DATA_ADVANCED |  |
+| `/vol_window/phase_rows/5/vol` | 0.11 | 0.1099 | DATA_ADVANCED |  |
+| `/vol_window/phase_rows/6/cagr` | 0.0999 | 0.0996 | DATA_ADVANCED |  |
+| `/vol_window/phase_rows/6/mean_scale` | 0.7172 | 0.7196 | DATA_ADVANCED |  |
+| `/vol_window/phase_rows/6/oos_cagr` | 0.1668 | 0.1661 | DATA_ADVANCED |  |
+| `/vol_window/phase_rows/6/oos_sharpe` | 1.426 | 1.42 | DATA_ADVANCED |  |
+| `/vol_window/phase_rows/6/sharpe` | 0.975 | 0.972 | DATA_ADVANCED |  |
+| `/vol_window/phase_rows/6/turnover_per_decision` | 0.968 | 0.975 | DATA_ADVANCED |  |
+| `/vol_window/phase_rows/7/cagr` | 0.0951 | 0.0948 | DATA_ADVANCED |  |
+| `/vol_window/phase_rows/7/mean_scale` | 0.7126 | 0.7155 | DATA_ADVANCED |  |
+| `/vol_window/phase_rows/7/oos_cagr` | 0.1665 | 0.1657 | DATA_ADVANCED |  |
+| `/vol_window/phase_rows/7/oos_sharpe` | 1.423 | 1.417 | DATA_ADVANCED |  |
+| `/vol_window/phase_rows/7/sharpe` | 0.935 | 0.932 | DATA_ADVANCED |  |
+| `/vol_window/phase_rows/7/turnover_per_decision` | 0.961 | 0.969 | DATA_ADVANCED |  |
+| `/vol_window/phase_rows/7/vol` | 0.1075 | 0.1074 | DATA_ADVANCED |  |
+| `/vol_window/phase_rows/8/cagr` | 0.0856 | 0.0853 | DATA_ADVANCED |  |
+| `/vol_window/phase_rows/8/mean_scale` | 0.6931 | 0.6948 | DATA_ADVANCED |  |
+| `/vol_window/phase_rows/8/oos_cagr` | 0.1558 | 0.155 | DATA_ADVANCED |  |
+| `/vol_window/phase_rows/8/oos_sharpe` | 1.423 | 1.417 | DATA_ADVANCED |  |
+| `/vol_window/phase_rows/8/sharpe` | 0.882 | 0.879 | DATA_ADVANCED |  |
+| `/vol_window/phase_rows/8/turnover_per_decision` | 0.932 | 0.939 | DATA_ADVANCED |  |
+| `/vol_window/phase_rows/8/vol` | 0.1031 | 0.103 | DATA_ADVANCED |  |
+| `/vol_window/phase_rows/9/cagr` | 0.081 | 0.0807 | DATA_ADVANCED |  |
+| `/vol_window/phase_rows/9/mean_scale` | 0.6717 | 0.6726 | DATA_ADVANCED |  |
+| `/vol_window/phase_rows/9/oos_cagr` | 0.1389 | 0.1382 | DATA_ADVANCED |  |
+| `/vol_window/phase_rows/9/oos_sharpe` | 1.329 | 1.323 | DATA_ADVANCED |  |
+| `/vol_window/phase_rows/9/sharpe` | 0.869 | 0.866 | DATA_ADVANCED |  |
+| `/vol_window/phase_rows/9/turnover_per_decision` | 0.903 | 0.91 | DATA_ADVANCED |  |
+| `/vol_window/recomputed/windows/0/oos_sharpe_delta_by_phase/0` | 0.078 | 0.08 | DATA_ADVANCED |  |
+| `/vol_window/recomputed/windows/0/oos_sharpe_delta_by_phase/1` | 0.17 | 0.171 | DATA_ADVANCED |  |
+| `/vol_window/recomputed/windows/0/oos_sharpe_delta_by_phase/2` | 0.158 | 0.159 | DATA_ADVANCED |  |
+| `/vol_window/recomputed/windows/0/sharpe_delta_by_phase/0` | 0.071 | 0.072 | DATA_ADVANCED |  |
+| `/vol_window/recomputed/windows/0/sharpe_delta_by_phase/1` | 0.142 | 0.143 | DATA_ADVANCED |  |
+| `/vol_window/recomputed/windows/0/sharpe_delta_max` | 0.142 | 0.143 | DATA_ADVANCED |  |
+| `/vol_window/recomputed/windows/1/oos_sharpe_delta_by_phase/0` | 0.049 | 0.05 | DATA_ADVANCED |  |
+| `/vol_window/recomputed/windows/1/sharpe_delta_by_phase/0` | 0.063 | 0.064 | DATA_ADVANCED |  |
+| `/vol_window/recomputed/windows/1/sharpe_delta_by_phase/2` | 0.06 | 0.059 | DATA_ADVANCED |  |
+| `/vol_window/recomputed/windows/1/sharpe_delta_max` | 0.063 | 0.064 | DATA_ADVANCED |  |
+| `/vol_window/recomputed/windows/2/oos_sharpe_delta_by_phase/3` | -0.151 | -0.152 | DATA_ADVANCED |  |
+| `/vol_window/recomputed/windows/3/oos_sharpe_delta_by_phase/2` | -0.132 | -0.131 | DATA_ADVANCED |  |
+| `/vol_window/recomputed/windows/3/oos_sharpe_delta_by_phase/3` | -0.151 | -0.152 | DATA_ADVANCED |  |
+| `/vol_window/verdict/windows/0/oos_sharpe_delta_by_phase/0` | 0.078 | 0.08 | DATA_ADVANCED |  |
+| `/vol_window/verdict/windows/0/oos_sharpe_delta_by_phase/1` | 0.17 | 0.171 | DATA_ADVANCED |  |
+| `/vol_window/verdict/windows/0/oos_sharpe_delta_by_phase/2` | 0.158 | 0.159 | DATA_ADVANCED |  |
+| `/vol_window/verdict/windows/0/sharpe_delta_by_phase/0` | 0.071 | 0.072 | DATA_ADVANCED |  |
+| `/vol_window/verdict/windows/0/sharpe_delta_by_phase/1` | 0.142 | 0.143 | DATA_ADVANCED |  |
+| `/vol_window/verdict/windows/0/sharpe_delta_max` | 0.142 | 0.143 | DATA_ADVANCED |  |
+| `/vol_window/verdict/windows/1/oos_sharpe_delta_by_phase/0` | 0.049 | 0.05 | DATA_ADVANCED |  |
+| `/vol_window/verdict/windows/1/sharpe_delta_by_phase/0` | 0.063 | 0.064 | DATA_ADVANCED |  |
+| `/vol_window/verdict/windows/1/sharpe_delta_by_phase/2` | 0.06 | 0.059 | DATA_ADVANCED |  |
+| `/vol_window/verdict/windows/1/sharpe_delta_max` | 0.063 | 0.064 | DATA_ADVANCED |  |
+| `/vol_window/verdict/windows/2/oos_sharpe_delta_by_phase/3` | -0.151 | -0.152 | DATA_ADVANCED |  |
+| `/vol_window/verdict/windows/3/oos_sharpe_delta_by_phase/2` | -0.132 | -0.131 | DATA_ADVANCED |  |
+| `/vol_window/verdict/windows/3/oos_sharpe_delta_by_phase/3` | -0.151 | -0.152 | DATA_ADVANCED |  |
+| `/vol_window_edge/edge/best_mean_sharpe` | 1.1078 | 1.1055 | DATA_ADVANCED |  |
+| `/vol_window_edge/edge/curve/0/max_sharpe` | 1.175 | 1.176 | DATA_ADVANCED |  |
+| `/vol_window_edge/edge/curve/0/mean_sharpe` | 1.1078 | 1.1055 | DATA_ADVANCED |  |
+| `/vol_window_edge/edge/curve/0/min_sharpe` | 1.032 | 1.026 | DATA_ADVANCED |  |
+| `/vol_window_edge/edge/curve/1/max_sharpe` | 1.186 | 1.188 | DATA_ADVANCED |  |
+| `/vol_window_edge/edge/curve/1/mean_sharpe` | 1.1053 | 1.103 | DATA_ADVANCED |  |
+| `/vol_window_edge/edge/curve/1/min_sharpe` | 1.024 | 1.018 | DATA_ADVANCED |  |
+| `/vol_window_edge/edge/curve/2/max_sharpe` | 1.207 | 1.209 | DATA_ADVANCED |  |
+| `/vol_window_edge/edge/curve/2/mean_sharpe` | 1.0782 | 1.076 | DATA_ADVANCED |  |
+| `/vol_window_edge/edge/curve/2/min_sharpe` | 0.985 | 0.979 | DATA_ADVANCED |  |
+| `/vol_window_edge/edge/curve/3/max_sharpe` | 1.157 | 1.159 | DATA_ADVANCED |  |
+| `/vol_window_edge/edge/curve/3/mean_sharpe` | 0.9862 | 0.9835 | DATA_ADVANCED |  |
+| `/vol_window_edge/edge/curve/3/min_sharpe` | 0.88 | 0.874 | DATA_ADVANCED |  |
+| `/vol_window_edge/edge/gain_of_best_over_shipped` | 0.1216 | 0.122 | DATA_ADVANCED |  |
+| `/vol_window_edge/edge/shipped/max_sharpe` | 1.157 | 1.159 | DATA_ADVANCED |  |
+| `/vol_window_edge/edge/shipped/mean_sharpe` | 0.9862 | 0.9835 | DATA_ADVANCED |  |
+| `/vol_window_edge/edge/shipped/min_sharpe` | 0.88 | 0.874 | DATA_ADVANCED |  |
+| `/vol_window_edge/paired/rows/0/bars` | 1664 | 1665 | DATA_ADVANCED |  |
+| `/vol_window_edge/paired/rows/0/ci_p05_p95_pp/0` | 0.347 | 0.327 | DATA_ADVANCED |  |
+| `/vol_window_edge/paired/rows/0/ci_p05_p95_pp/1` | 3.008 | 3.032 | DATA_ADVANCED |  |
+| `/vol_window_edge/paired/rows/0/mean_pp` | 1.602 | 1.612 | DATA_ADVANCED |  |
+| `/vol_window_edge/paired/rows/1/bars` | 1659 | 1660 | DATA_ADVANCED |  |
+| `/vol_window_edge/paired/rows/1/ci_p05_p95_pp/0` | 1.085 | 1.067 | DATA_ADVANCED |  |
+| `/vol_window_edge/paired/rows/1/ci_p05_p95_pp/1` | 4.182 | 4.171 | DATA_ADVANCED |  |
+| `/vol_window_edge/paired/rows/1/mean_pp` | 2.592 | 2.591 | DATA_ADVANCED |  |
+| `/vol_window_edge/paired/rows/1/share_positive` | 0.998 | 0.999 | DATA_ADVANCED |  |
+| `/vol_window_edge/paired/rows/2/bars` | 1654 | 1655 | DATA_ADVANCED |  |
+| `/vol_window_edge/paired/rows/2/ci_p05_p95_pp/0` | -0.007 | 0.032 | DATA_ADVANCED |  |
+| `/vol_window_edge/paired/rows/2/ci_p05_p95_pp/1` | 2.76 | 2.753 | DATA_ADVANCED |  |
+| `/vol_window_edge/paired/rows/2/mean_pp` | 1.34 | 1.351 | DATA_ADVANCED |  |
+| `/vol_window_edge/paired/rows/2/share_positive` | 0.948 | 0.952 | DATA_ADVANCED |  |
+| `/vol_window_edge/paired/rows/3/bars` | 1649 | 1650 | DATA_ADVANCED |  |
+| `/vol_window_edge/paired/rows/3/ci_p05_p95_pp/0` | -0.708 | -0.694 | DATA_ADVANCED |  |
+| `/vol_window_edge/paired/rows/3/ci_p05_p95_pp/1` | 1.742 | 1.721 | DATA_ADVANCED |  |
+| `/vol_window_edge/paired/rows/3/mean_pp` | 0.497 | 0.493 | DATA_ADVANCED |  |
+| `/vol_window_edge/paired/rows/3/share_positive` | 0.749 | 0.758 | DATA_ADVANCED |  |
+| `/vol_window_edge/paired/verdict/min_ci_low_pp` | -0.708 | -0.694 | DATA_ADVANCED |  |
+| `/vol_window_edge/paired/verdict/min_share_positive` | 0.749 | 0.758 | DATA_ADVANCED |  |
+| `/vol_window_edge/panel/bars_named` | 5283 | 5284 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/0/cagr` | 0.1403 | 0.1398 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/0/oos_cagr` | 0.2352 | 0.2339 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/0/oos_sharpe` | 1.563 | 1.555 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/0/sharpe` | 0.97 | 0.967 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/1/cagr` | 0.1403 | 0.1398 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/1/oos_cagr` | 0.2352 | 0.2339 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/1/oos_sharpe` | 1.563 | 1.555 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/1/sharpe` | 0.97 | 0.967 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/10/cagr` | 0.1224 | 0.1221 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/10/decisions` | 83 | 84 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/10/est_covered` | 83 | 84 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/10/mean_scale` | 0.7375 | 0.738 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/10/oos_cagr` | 0.2055 | 0.2047 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/10/oos_sharpe` | 1.663 | 1.658 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/10/sharpe` | 1.151 | 1.149 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/10/turnover_per_decision` | 1.014 | 1.02 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/11/cagr` | 0.1192 | 0.1189 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/11/decisions` | 83 | 84 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/11/est_covered` | 83 | 84 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/11/mean_scale` | 0.7351 | 0.7356 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/11/oos_cagr` | 0.2031 | 0.2023 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/11/oos_sharpe` | 1.646 | 1.641 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/11/sharpe` | 1.118 | 1.116 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/11/turnover_per_decision` | 1.006 | 1.012 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/12/cagr` | 0.1139 | 0.1136 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/12/decisions` | 83 | 84 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/12/est_covered` | 83 | 84 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/12/mean_scale` | 0.7298 | 0.7309 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/12/oos_cagr` | 0.1956 | 0.1948 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/12/oos_sharpe` | 1.593 | 1.588 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/12/sharpe` | 1.077 | 1.075 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/12/turnover_per_decision` | 0.998 | 1.005 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/12/vol` | 0.11 | 0.1099 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/13/cagr` | 0.0951 | 0.0948 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/13/decisions` | 83 | 84 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/13/est_covered` | 83 | 84 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/13/mean_scale` | 0.7126 | 0.7155 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/13/oos_cagr` | 0.1665 | 0.1657 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/13/oos_sharpe` | 1.423 | 1.417 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/13/sharpe` | 0.935 | 0.932 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/13/turnover_per_decision` | 0.961 | 0.969 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/13/vol` | 0.1075 | 0.1074 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/14/cagr` | 0.1358 | 0.135 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/14/oos_cagr` | 0.2193 | 0.2173 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/14/oos_sharpe` | 1.2 | 1.191 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/14/sharpe` | 0.873 | 0.868 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/14/vol` | 0.1682 | 0.1681 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/15/cagr` | 0.1358 | 0.135 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/15/oos_cagr` | 0.2193 | 0.2173 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/15/oos_sharpe` | 1.2 | 1.191 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/15/sharpe` | 0.873 | 0.868 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/15/vol` | 0.1682 | 0.1681 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/16/cagr` | 0.1358 | 0.135 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/16/oos_cagr` | 0.2193 | 0.2173 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/16/oos_sharpe` | 1.2 | 1.191 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/16/sharpe` | 0.873 | 0.868 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/16/vol` | 0.1682 | 0.1681 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/17/cagr` | 0.1018 | 0.1012 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/17/oos_cagr` | 0.1922 | 0.1906 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/17/oos_sharpe` | 1.736 | 1.722 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/17/sharpe` | 1.032 | 1.026 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/18/cagr` | 0.1036 | 0.103 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/18/oos_cagr` | 0.1925 | 0.1909 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/18/oos_sharpe` | 1.674 | 1.661 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/18/sharpe` | 1.024 | 1.018 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/19/cagr` | 0.0999 | 0.0992 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/19/oos_cagr` | 0.187 | 0.1852 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/19/oos_sharpe` | 1.628 | 1.614 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/19/sharpe` | 0.985 | 0.979 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/2/cagr` | 0.1403 | 0.1398 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/2/oos_cagr` | 0.2352 | 0.2339 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/2/oos_sharpe` | 1.563 | 1.555 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/2/sharpe` | 0.97 | 0.967 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/20/cagr` | 0.0874 | 0.0867 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/20/oos_cagr` | 0.1664 | 0.1645 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/20/oos_sharpe` | 1.47 | 1.455 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/20/sharpe` | 0.88 | 0.874 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/21/cagr` | 0.1596 | 0.1599 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/21/oos_cagr` | 0.1926 | 0.1932 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/21/oos_sharpe` | 1.294 | 1.298 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/21/sharpe` | 1.132 | 1.134 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/22/cagr` | 0.1596 | 0.1599 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/22/oos_cagr` | 0.1926 | 0.1932 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/22/oos_sharpe` | 1.294 | 1.298 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/22/sharpe` | 1.132 | 1.134 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/23/cagr` | 0.1596 | 0.1599 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/23/oos_cagr` | 0.1926 | 0.1932 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/23/oos_sharpe` | 1.294 | 1.298 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/23/sharpe` | 1.132 | 1.134 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/24/cagr` | 0.1163 | 0.1164 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/24/oos_cagr` | 0.1523 | 0.1527 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/24/oos_sharpe` | 1.372 | 1.376 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/24/sharpe` | 1.175 | 1.176 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/24/vol` | 0.1016 | 0.1015 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/25/cagr` | 0.1141 | 0.1143 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/25/oos_cagr` | 0.1463 | 0.1468 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/25/oos_sharpe` | 1.379 | 1.383 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/25/sharpe` | 1.186 | 1.188 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/26/cagr` | 0.1157 | 0.1159 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/26/oos_cagr` | 0.148 | 0.1485 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/26/oos_sharpe` | 1.414 | 1.419 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/26/sharpe` | 1.207 | 1.209 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/27/cagr` | 0.1112 | 0.1114 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/27/oos_cagr` | 0.1457 | 0.1462 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/27/oos_sharpe` | 1.383 | 1.388 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/27/sharpe` | 1.157 | 1.159 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/3/cagr` | 0.1107 | 0.1104 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/3/oos_cagr` | 0.1974 | 0.1965 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/3/oos_sharpe` | 1.764 | 1.757 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/3/sharpe` | 1.073 | 1.071 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/4/cagr` | 0.1117 | 0.1114 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/4/oos_cagr` | 0.2048 | 0.2038 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/4/oos_sharpe` | 1.826 | 1.819 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/4/sharpe` | 1.093 | 1.09 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/4/vol` | 0.1061 | 0.106 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/5/cagr` | 0.1033 | 0.103 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/5/oos_cagr` | 0.1902 | 0.1893 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/5/oos_sharpe` | 1.763 | 1.755 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/5/sharpe` | 1.044 | 1.041 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/6/cagr` | 0.0943 | 0.0939 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/6/oos_cagr` | 0.1776 | 0.1765 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/6/oos_sharpe` | 1.685 | 1.675 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/6/sharpe` | 0.973 | 0.969 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/7/cagr` | 0.1396 | 0.1393 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/7/decisions` | 83 | 84 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/7/est_missing` | 83 | 84 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/7/oos_cagr` | 0.2052 | 0.2044 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/7/oos_sharpe` | 1.188 | 1.184 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/7/sharpe` | 0.908 | 0.907 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/7/turnover_per_decision` | 1.313 | 1.317 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/7/vol` | 0.165 | 0.1649 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/8/cagr` | 0.1396 | 0.1393 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/8/decisions` | 83 | 84 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/8/est_missing` | 83 | 84 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/8/oos_cagr` | 0.2052 | 0.2044 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/8/oos_sharpe` | 1.188 | 1.184 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/8/sharpe` | 0.908 | 0.907 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/8/turnover_per_decision` | 1.313 | 1.317 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/8/vol` | 0.165 | 0.1649 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/9/cagr` | 0.1396 | 0.1393 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/9/decisions` | 83 | 84 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/9/est_missing` | 83 | 84 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/9/oos_cagr` | 0.2052 | 0.2044 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/9/oos_sharpe` | 1.188 | 1.184 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/9/sharpe` | 0.908 | 0.907 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/9/turnover_per_decision` | 1.313 | 1.317 | DATA_ADVANCED |  |
+| `/vol_window_edge/phase_rows/9/vol` | 0.165 | 0.1649 | DATA_ADVANCED |  |
+| `/vol_window_edge/recomputed_edge/best_mean_sharpe` | 1.1078 | 1.1055 | DATA_ADVANCED |  |
+| `/vol_window_edge/recomputed_edge/curve/0/max_sharpe` | 1.175 | 1.176 | DATA_ADVANCED |  |
+| `/vol_window_edge/recomputed_edge/curve/0/mean_sharpe` | 1.1078 | 1.1055 | DATA_ADVANCED |  |
+| `/vol_window_edge/recomputed_edge/curve/0/min_sharpe` | 1.032 | 1.026 | DATA_ADVANCED |  |
+| `/vol_window_edge/recomputed_edge/curve/1/max_sharpe` | 1.186 | 1.188 | DATA_ADVANCED |  |
+| `/vol_window_edge/recomputed_edge/curve/1/mean_sharpe` | 1.1053 | 1.103 | DATA_ADVANCED |  |
+| `/vol_window_edge/recomputed_edge/curve/1/min_sharpe` | 1.024 | 1.018 | DATA_ADVANCED |  |
+| `/vol_window_edge/recomputed_edge/curve/2/max_sharpe` | 1.207 | 1.209 | DATA_ADVANCED |  |
+| `/vol_window_edge/recomputed_edge/curve/2/mean_sharpe` | 1.0782 | 1.076 | DATA_ADVANCED |  |
+| `/vol_window_edge/recomputed_edge/curve/2/min_sharpe` | 0.985 | 0.979 | DATA_ADVANCED |  |
+| `/vol_window_edge/recomputed_edge/curve/3/max_sharpe` | 1.157 | 1.159 | DATA_ADVANCED |  |
+| `/vol_window_edge/recomputed_edge/curve/3/mean_sharpe` | 0.9862 | 0.9835 | DATA_ADVANCED |  |
+| `/vol_window_edge/recomputed_edge/curve/3/min_sharpe` | 0.88 | 0.874 | DATA_ADVANCED |  |
+| `/vol_window_edge/recomputed_edge/gain_of_best_over_shipped` | 0.1216 | 0.122 | DATA_ADVANCED |  |
+| `/vol_window_edge/recomputed_edge/shipped/max_sharpe` | 1.157 | 1.159 | DATA_ADVANCED |  |
+| `/vol_window_edge/recomputed_edge/shipped/mean_sharpe` | 0.9862 | 0.9835 | DATA_ADVANCED |  |
+| `/vol_window_edge/recomputed_edge/shipped/min_sharpe` | 0.88 | 0.874 | DATA_ADVANCED |  |
+| `/vol_window_edge/recomputed_verdict/largest_sharpe_gap_vs_shipped` | 0.27 | 0.267 | DATA_ADVANCED |  |
+| `/vol_window_edge/recomputed_verdict/windows/0/oos_sharpe_delta_by_phase/0` | -0.122 | -0.12 | DATA_ADVANCED |  |
+| `/vol_window_edge/recomputed_verdict/windows/0/oos_sharpe_delta_by_phase/1` | -0.235 | -0.233 | DATA_ADVANCED |  |
+| `/vol_window_edge/recomputed_verdict/windows/0/oos_sharpe_delta_by_phase/2` | -0.27 | -0.264 | DATA_ADVANCED |  |
+| `/vol_window_edge/recomputed_verdict/windows/0/oos_sharpe_delta_by_phase/3` | -0.089 | -0.09 | DATA_ADVANCED |  |
+| `/vol_window_edge/recomputed_verdict/windows/0/sharpe_delta_by_phase/0` | -0.003 | -0.002 | DATA_ADVANCED |  |
+| `/vol_window_edge/recomputed_verdict/windows/0/sharpe_delta_by_phase/1` | -0.027 | -0.025 | DATA_ADVANCED |  |
+| `/vol_window_edge/recomputed_verdict/windows/0/sharpe_delta_by_phase/2` | -0.007 | -0.006 | DATA_ADVANCED |  |
+| `/vol_window_edge/recomputed_verdict/windows/0/sharpe_delta_max` | -0.003 | -0.002 | DATA_ADVANCED |  |
+| `/vol_window_edge/recomputed_verdict/windows/0/sharpe_delta_min` | -0.027 | -0.025 | DATA_ADVANCED |  |
+| `/vol_window_edge/recomputed_verdict/windows/1/oos_sharpe_delta_by_phase/0` | -0.122 | -0.12 | DATA_ADVANCED |  |
+| `/vol_window_edge/recomputed_verdict/windows/1/oos_sharpe_delta_by_phase/1` | -0.235 | -0.233 | DATA_ADVANCED |  |
+| `/vol_window_edge/recomputed_verdict/windows/1/oos_sharpe_delta_by_phase/2` | -0.27 | -0.264 | DATA_ADVANCED |  |
+| `/vol_window_edge/recomputed_verdict/windows/1/oos_sharpe_delta_by_phase/3` | -0.089 | -0.09 | DATA_ADVANCED |  |
+| `/vol_window_edge/recomputed_verdict/windows/1/sharpe_delta_by_phase/0` | -0.003 | -0.002 | DATA_ADVANCED |  |
+| `/vol_window_edge/recomputed_verdict/windows/1/sharpe_delta_by_phase/1` | -0.027 | -0.025 | DATA_ADVANCED |  |
+| `/vol_window_edge/recomputed_verdict/windows/1/sharpe_delta_by_phase/2` | -0.007 | -0.006 | DATA_ADVANCED |  |
+| `/vol_window_edge/recomputed_verdict/windows/1/sharpe_delta_max` | -0.003 | -0.002 | DATA_ADVANCED |  |
+| `/vol_window_edge/recomputed_verdict/windows/1/sharpe_delta_min` | -0.027 | -0.025 | DATA_ADVANCED |  |
+| `/vol_window_edge/recomputed_verdict/windows/2/oos_sharpe_delta_by_phase/0` | -0.122 | -0.12 | DATA_ADVANCED |  |
+| `/vol_window_edge/recomputed_verdict/windows/2/oos_sharpe_delta_by_phase/1` | -0.235 | -0.233 | DATA_ADVANCED |  |
+| `/vol_window_edge/recomputed_verdict/windows/2/oos_sharpe_delta_by_phase/2` | -0.27 | -0.264 | DATA_ADVANCED |  |
+| `/vol_window_edge/recomputed_verdict/windows/2/oos_sharpe_delta_by_phase/3` | -0.089 | -0.09 | DATA_ADVANCED |  |
+| `/vol_window_edge/recomputed_verdict/windows/2/sharpe_delta_by_phase/0` | -0.003 | -0.002 | DATA_ADVANCED |  |
+| `/vol_window_edge/recomputed_verdict/windows/2/sharpe_delta_by_phase/1` | -0.027 | -0.025 | DATA_ADVANCED |  |
+| `/vol_window_edge/recomputed_verdict/windows/2/sharpe_delta_by_phase/2` | -0.007 | -0.006 | DATA_ADVANCED |  |
+| `/vol_window_edge/recomputed_verdict/windows/2/sharpe_delta_max` | -0.003 | -0.002 | DATA_ADVANCED |  |
+| `/vol_window_edge/recomputed_verdict/windows/2/sharpe_delta_min` | -0.027 | -0.025 | DATA_ADVANCED |  |
+| `/vol_window_edge/recomputed_verdict/windows/3/oos_sharpe_delta_by_phase/0` | 0.079 | 0.082 | DATA_ADVANCED |  |
+| `/vol_window_edge/recomputed_verdict/windows/3/oos_sharpe_delta_by_phase/1` | 0.24 | 0.241 | DATA_ADVANCED |  |
+| `/vol_window_edge/recomputed_verdict/windows/3/oos_sharpe_delta_by_phase/2` | 0.266 | 0.267 | DATA_ADVANCED |  |
+| `/vol_window_edge/recomputed_verdict/windows/3/oos_sharpe_delta_by_phase/3` | -0.011 | -0.012 | DATA_ADVANCED |  |
+| `/vol_window_edge/recomputed_verdict/windows/3/sharpe_delta_by_phase/0` | 0.1 | 0.102 | DATA_ADVANCED |  |
+| `/vol_window_edge/recomputed_verdict/windows/3/sharpe_delta_by_phase/1` | 0.216 | 0.217 | DATA_ADVANCED |  |
+| `/vol_window_edge/recomputed_verdict/windows/3/sharpe_delta_by_phase/3` | 0.018 | 0.017 | DATA_ADVANCED |  |
+| `/vol_window_edge/recomputed_verdict/windows/3/sharpe_delta_max` | 0.216 | 0.217 | DATA_ADVANCED |  |
+| `/vol_window_edge/recomputed_verdict/windows/3/sharpe_delta_min` | 0.018 | 0.017 | DATA_ADVANCED |  |
+| `/vol_window_edge/recomputed_verdict/windows/4/oos_sharpe_delta_by_phase/0` | 0.141 | 0.144 | DATA_ADVANCED |  |
+| `/vol_window_edge/recomputed_verdict/windows/4/oos_sharpe_delta_by_phase/1` | 0.223 | 0.224 | DATA_ADVANCED |  |
+| `/vol_window_edge/recomputed_verdict/windows/4/oos_sharpe_delta_by_phase/2` | 0.204 | 0.206 | DATA_ADVANCED |  |
+| `/vol_window_edge/recomputed_verdict/windows/4/oos_sharpe_delta_by_phase/3` | -0.004 | -0.005 | DATA_ADVANCED |  |
+| `/vol_window_edge/recomputed_verdict/windows/4/sharpe_delta_by_phase/0` | 0.12 | 0.121 | DATA_ADVANCED |  |
+| `/vol_window_edge/recomputed_verdict/windows/4/sharpe_delta_by_phase/1` | 0.183 | 0.184 | DATA_ADVANCED |  |
+| `/vol_window_edge/recomputed_verdict/windows/4/sharpe_delta_max` | 0.183 | 0.184 | DATA_ADVANCED |  |
+| `/vol_window_edge/recomputed_verdict/windows/5/oos_sharpe_delta_by_phase/0` | 0.078 | 0.08 | DATA_ADVANCED |  |
+| `/vol_window_edge/recomputed_verdict/windows/5/oos_sharpe_delta_by_phase/1` | 0.17 | 0.171 | DATA_ADVANCED |  |
+| `/vol_window_edge/recomputed_verdict/windows/5/oos_sharpe_delta_by_phase/2` | 0.158 | 0.159 | DATA_ADVANCED |  |
+| `/vol_window_edge/recomputed_verdict/windows/5/sharpe_delta_by_phase/0` | 0.071 | 0.072 | DATA_ADVANCED |  |
+| `/vol_window_edge/recomputed_verdict/windows/5/sharpe_delta_by_phase/1` | 0.142 | 0.143 | DATA_ADVANCED |  |
+| `/vol_window_edge/recomputed_verdict/windows/5/sharpe_delta_max` | 0.142 | 0.143 | DATA_ADVANCED |  |
+| `/vol_window_edge/verdict/largest_sharpe_gap_vs_shipped` | 0.27 | 0.267 | DATA_ADVANCED |  |
+| `/vol_window_edge/verdict/windows/0/oos_sharpe_delta_by_phase/0` | -0.122 | -0.12 | DATA_ADVANCED |  |
+| `/vol_window_edge/verdict/windows/0/oos_sharpe_delta_by_phase/1` | -0.235 | -0.233 | DATA_ADVANCED |  |
+| `/vol_window_edge/verdict/windows/0/oos_sharpe_delta_by_phase/2` | -0.27 | -0.264 | DATA_ADVANCED |  |
+| `/vol_window_edge/verdict/windows/0/oos_sharpe_delta_by_phase/3` | -0.089 | -0.09 | DATA_ADVANCED |  |
+| `/vol_window_edge/verdict/windows/0/sharpe_delta_by_phase/0` | -0.003 | -0.002 | DATA_ADVANCED |  |
+| `/vol_window_edge/verdict/windows/0/sharpe_delta_by_phase/1` | -0.027 | -0.025 | DATA_ADVANCED |  |
+| `/vol_window_edge/verdict/windows/0/sharpe_delta_by_phase/2` | -0.007 | -0.006 | DATA_ADVANCED |  |
+| `/vol_window_edge/verdict/windows/0/sharpe_delta_max` | -0.003 | -0.002 | DATA_ADVANCED |  |
+| `/vol_window_edge/verdict/windows/0/sharpe_delta_min` | -0.027 | -0.025 | DATA_ADVANCED |  |
+| `/vol_window_edge/verdict/windows/1/oos_sharpe_delta_by_phase/0` | -0.122 | -0.12 | DATA_ADVANCED |  |
+| `/vol_window_edge/verdict/windows/1/oos_sharpe_delta_by_phase/1` | -0.235 | -0.233 | DATA_ADVANCED |  |
+| `/vol_window_edge/verdict/windows/1/oos_sharpe_delta_by_phase/2` | -0.27 | -0.264 | DATA_ADVANCED |  |
+| `/vol_window_edge/verdict/windows/1/oos_sharpe_delta_by_phase/3` | -0.089 | -0.09 | DATA_ADVANCED |  |
+| `/vol_window_edge/verdict/windows/1/sharpe_delta_by_phase/0` | -0.003 | -0.002 | DATA_ADVANCED |  |
+| `/vol_window_edge/verdict/windows/1/sharpe_delta_by_phase/1` | -0.027 | -0.025 | DATA_ADVANCED |  |
+| `/vol_window_edge/verdict/windows/1/sharpe_delta_by_phase/2` | -0.007 | -0.006 | DATA_ADVANCED |  |
+| `/vol_window_edge/verdict/windows/1/sharpe_delta_max` | -0.003 | -0.002 | DATA_ADVANCED |  |
+| `/vol_window_edge/verdict/windows/1/sharpe_delta_min` | -0.027 | -0.025 | DATA_ADVANCED |  |
+| `/vol_window_edge/verdict/windows/2/oos_sharpe_delta_by_phase/0` | -0.122 | -0.12 | DATA_ADVANCED |  |
+| `/vol_window_edge/verdict/windows/2/oos_sharpe_delta_by_phase/1` | -0.235 | -0.233 | DATA_ADVANCED |  |
+| `/vol_window_edge/verdict/windows/2/oos_sharpe_delta_by_phase/2` | -0.27 | -0.264 | DATA_ADVANCED |  |
+| `/vol_window_edge/verdict/windows/2/oos_sharpe_delta_by_phase/3` | -0.089 | -0.09 | DATA_ADVANCED |  |
+| `/vol_window_edge/verdict/windows/2/sharpe_delta_by_phase/0` | -0.003 | -0.002 | DATA_ADVANCED |  |
+| `/vol_window_edge/verdict/windows/2/sharpe_delta_by_phase/1` | -0.027 | -0.025 | DATA_ADVANCED |  |
+| `/vol_window_edge/verdict/windows/2/sharpe_delta_by_phase/2` | -0.007 | -0.006 | DATA_ADVANCED |  |
+| `/vol_window_edge/verdict/windows/2/sharpe_delta_max` | -0.003 | -0.002 | DATA_ADVANCED |  |
+| `/vol_window_edge/verdict/windows/2/sharpe_delta_min` | -0.027 | -0.025 | DATA_ADVANCED |  |
+| `/vol_window_edge/verdict/windows/3/oos_sharpe_delta_by_phase/0` | 0.079 | 0.082 | DATA_ADVANCED |  |
+| `/vol_window_edge/verdict/windows/3/oos_sharpe_delta_by_phase/1` | 0.24 | 0.241 | DATA_ADVANCED |  |
+| `/vol_window_edge/verdict/windows/3/oos_sharpe_delta_by_phase/2` | 0.266 | 0.267 | DATA_ADVANCED |  |
+| `/vol_window_edge/verdict/windows/3/oos_sharpe_delta_by_phase/3` | -0.011 | -0.012 | DATA_ADVANCED |  |
+| `/vol_window_edge/verdict/windows/3/sharpe_delta_by_phase/0` | 0.1 | 0.102 | DATA_ADVANCED |  |
+| `/vol_window_edge/verdict/windows/3/sharpe_delta_by_phase/1` | 0.216 | 0.217 | DATA_ADVANCED |  |
+| `/vol_window_edge/verdict/windows/3/sharpe_delta_by_phase/3` | 0.018 | 0.017 | DATA_ADVANCED |  |
+| `/vol_window_edge/verdict/windows/3/sharpe_delta_max` | 0.216 | 0.217 | DATA_ADVANCED |  |
+| `/vol_window_edge/verdict/windows/3/sharpe_delta_min` | 0.018 | 0.017 | DATA_ADVANCED |  |
+| `/vol_window_edge/verdict/windows/4/oos_sharpe_delta_by_phase/0` | 0.141 | 0.144 | DATA_ADVANCED |  |
+| `/vol_window_edge/verdict/windows/4/oos_sharpe_delta_by_phase/1` | 0.223 | 0.224 | DATA_ADVANCED |  |
+| `/vol_window_edge/verdict/windows/4/oos_sharpe_delta_by_phase/2` | 0.204 | 0.206 | DATA_ADVANCED |  |
+| `/vol_window_edge/verdict/windows/4/oos_sharpe_delta_by_phase/3` | -0.004 | -0.005 | DATA_ADVANCED |  |
+| `/vol_window_edge/verdict/windows/4/sharpe_delta_by_phase/0` | 0.12 | 0.121 | DATA_ADVANCED |  |
+| `/vol_window_edge/verdict/windows/4/sharpe_delta_by_phase/1` | 0.183 | 0.184 | DATA_ADVANCED |  |
+| `/vol_window_edge/verdict/windows/4/sharpe_delta_max` | 0.183 | 0.184 | DATA_ADVANCED |  |
+| `/vol_window_edge/verdict/windows/5/oos_sharpe_delta_by_phase/0` | 0.078 | 0.08 | DATA_ADVANCED |  |
+| `/vol_window_edge/verdict/windows/5/oos_sharpe_delta_by_phase/1` | 0.17 | 0.171 | DATA_ADVANCED |  |
+| `/vol_window_edge/verdict/windows/5/oos_sharpe_delta_by_phase/2` | 0.158 | 0.159 | DATA_ADVANCED |  |
+| `/vol_window_edge/verdict/windows/5/sharpe_delta_by_phase/0` | 0.071 | 0.072 | DATA_ADVANCED |  |
+| `/vol_window_edge/verdict/windows/5/sharpe_delta_by_phase/1` | 0.142 | 0.143 | DATA_ADVANCED |  |
+| `/vol_window_edge/verdict/windows/5/sharpe_delta_max` | 0.142 | 0.143 | DATA_ADVANCED |  |
+| `/vs_basket/basket_nav` | 0.9749964488 | 0.9683029843 | DATA_ADVANCED |  |
+| `/vs_basket/book_nav` | 1.0037762754 | 0.998050606 | DATA_ADVANCED |  |
+| `/vs_basket/excess_pp` | 2.9518 | 3.0721 | DATA_ADVANCED |  |
+| `/vs_basket/horizon/candidate_sources/in-window measured alpha (single arm)/edge_pp_per_year` | 5.94 | 5.95 | DATA_ADVANCED |  |
+| `/vs_basket/horizon/min_detectable_edge_pp/1y` | 23.677 | 23.666 | DATA_ADVANCED |  |
+| `/vs_basket/horizon/min_detectable_edge_pp/2y` | 16.742 | 16.734 | DATA_ADVANCED |  |
+| `/vs_basket/horizon/min_detectable_edge_pp/3y` | 13.67 | 13.664 | DATA_ADVANCED |  |
+| `/vs_basket/horizon/min_detectable_edge_pp/6m` | 33.484 | 33.469 | DATA_ADVANCED |  |
+| `/vs_basket/horizon/years_for_80pct_power/in-window measured alpha (single arm)` | 15.9 | 15.8 | DATA_ADVANCED |  |
+| `/vs_basket/horizon/years_for_80pct_power/pre-2020 measured alpha (single arm)` | 136.0 | 135.9 | DATA_ADVANCED |  |
+| `/vt_ladder/best_sharpe/cagr_pct` | 0.1141 | 0.1138 | DATA_ADVANCED |  |
+| `/vt_ladder/best_sharpe/sharpe` | 1.125 | 1.122 | DATA_ADVANCED |  |
+| `/vt_ladder/tightest_admit/cagr_pct` | 0.1412 | 0.1407 | DATA_ADVANCED |  |
+| `/vt_ladder/tightest_admit/sharpe` | 0.984 | 0.981 | DATA_ADVANCED |  |
+| `/vt_phases/answer/reference_top2_median` | 1.6171 | 1.652 | DATA_ADVANCED |  |
+| `/vt_phases/books/0/margin_to_line` | -0.0802 | -0.0862 | DATA_ADVANCED |  |
+| `/vt_phases/books/0/spread` | 0.1039 | 0.1118 | DATA_ADVANCED |  |
+| `/vt_phases/books/0/top2_max` | 0.7802 | 0.7862 | DATA_ADVANCED |  |
+| `/vt_phases/books/0/top2_min` | 0.6763 | 0.6744 | DATA_ADVANCED |  |
+| `/vt_phases/books/0/top2_vs_reference` | 0.4825 | 0.4759 | DATA_ADVANCED |  |
+| `/vt_phases/books/1/margin_to_line` | -0.1458 | -0.1413 | DATA_ADVANCED |  |
+| `/vt_phases/books/1/spread` | 0.1354 | 0.1293 | DATA_ADVANCED |  |
+| `/vt_phases/books/1/top2_max` | 0.8458 | 0.8413 | DATA_ADVANCED |  |
+| `/vt_phases/books/1/top2_min` | 0.7104 | 0.712 | DATA_ADVANCED |  |
+| `/vt_phases/books/1/top2_vs_reference` | 0.523 | 0.5093 | DATA_ADVANCED |  |
+| `/vt_phases/books/2/margin_to_line` | -0.1581 | -0.1534 | DATA_ADVANCED |  |
+| `/vt_phases/books/2/spread` | 0.1334 | 0.127 | DATA_ADVANCED |  |
+| `/vt_phases/books/2/top2_max` | 0.8581 | 0.8534 | DATA_ADVANCED |  |
+| `/vt_phases/books/2/top2_min` | 0.7247 | 0.7264 | DATA_ADVANCED |  |
+| `/vt_phases/books/2/top2_vs_reference` | 0.5306 | 0.5166 | DATA_ADVANCED |  |
+| `/vt_phases/books/3/margin_to_line` | -0.1587 | -0.1544 | DATA_ADVANCED |  |
+| `/vt_phases/books/3/spread` | 0.1391 | 0.1332 | DATA_ADVANCED |  |
+| `/vt_phases/books/3/top2_max` | 0.8587 | 0.8544 | DATA_ADVANCED |  |
+| `/vt_phases/books/3/top2_min` | 0.7196 | 0.7212 | DATA_ADVANCED |  |
+| `/vt_phases/books/3/top2_vs_reference` | 0.531 | 0.5172 | DATA_ADVANCED |  |
+| `/vt_phases/books/4/margin_to_line` | -0.1257 | -0.1221 | DATA_ADVANCED |  |
+| `/vt_phases/books/4/spread` | 0.1465 | 0.1414 | DATA_ADVANCED |  |
+| `/vt_phases/books/4/top2_max` | 0.8257 | 0.8221 | DATA_ADVANCED |  |
+| `/vt_phases/books/4/top2_min` | 0.6792 | 0.6807 | DATA_ADVANCED |  |
+| `/vt_phases/books/4/top2_vs_reference` | 0.5106 | 0.4976 | DATA_ADVANCED |  |
+| `/vt_phases/books/5/margin_to_line` | -0.0991 | -0.1053 | DATA_ADVANCED |  |
+| `/vt_phases/books/5/spread` | 0.1259 | 0.1307 | DATA_ADVANCED |  |
+| `/vt_phases/books/5/top2_max` | 0.7991 | 0.8053 | DATA_ADVANCED |  |
+| `/vt_phases/books/5/top2_min` | 0.6732 | 0.6746 | DATA_ADVANCED |  |
+| `/vt_phases/books/5/top2_vs_reference` | 0.4942 | 0.4875 | DATA_ADVANCED |  |
+| `/vt_phases/books/6/margin_to_line` | -0.0802 | -0.0862 | DATA_ADVANCED |  |
+| `/vt_phases/books/6/spread` | 0.1032 | 0.111 | DATA_ADVANCED |  |
+| `/vt_phases/books/6/top2_max` | 0.7802 | 0.7862 | DATA_ADVANCED |  |
+| `/vt_phases/books/6/top2_min` | 0.677 | 0.6752 | DATA_ADVANCED |  |
+| `/vt_phases/books/6/top2_vs_reference` | 0.4825 | 0.4759 | DATA_ADVANCED |  |
+| `/vt_phases/drop_two/book_retained_max` | 0.6887 | 0.6844 | DATA_ADVANCED |  |
+| `/vt_phases/drop_two/book_retained_min` | 0.1312 | 0.136 | DATA_ADVANCED |  |
+| `/vt_phases/drop_two/reference_retained/0` | -0.7784 | -0.8482 | DATA_ADVANCED |  |
+| `/vt_phases/drop_two/reference_retained/1` | -0.7689 | -0.8374 | DATA_ADVANCED |  |
+| `/vt_phases/drop_two/reference_retained/2` | -0.7321 | -0.796 | DATA_ADVANCED |  |
+| `/vt_phases/drop_two/reference_retained/3` | -0.7162 | -0.778 | DATA_ADVANCED |  |
+| `/vt_phases/reference/cagr_pct` | 0.039 | 0.0376 | DATA_ADVANCED |  |
+| `/vt_phases/reference/top2_max` | 1.6363 | 1.6727 | DATA_ADVANCED |  |
+| `/vt_phases/reference/top2_median` | 1.6171 | 1.652 | DATA_ADVANCED |  |
+| `/vt_phases/reference/top2_min` | 1.5931 | 1.6261 | DATA_ADVANCED |  |
+| `/width_fit/gate_reads/impact_pct_of_adv` | 1.0087 | 0.997 | DATA_ADVANCED |  |
+| `/width_fit/gate_vs_ticket/same_rule_on_this_book/gate_impact_pct_of_adv` | 1.0087 | 0.997 | DATA_ADVANCED |  |
+| `/width_fit/gate_vs_ticket/shared_n` | 1 | 0 | DATA_ADVANCED |  |
+| `/window_label/identity/the full-window cell's own window reproduces the ticket/delta_pp` | 0.06 | 0.0 | DATA_ADVANCED |  |
+| `/window_label/identity/the full-window cell's own window reproduces the ticket/measured_pp` | 12.39 | 12.29 | DATA_ADVANCED |  |
+| `/window_label/identity/the full-window cell's own window reproduces the ticket/published_pp` | 12.45 | 12.29 | DATA_ADVANCED |  |
+| `/window_label/rows/printed_under_full_header/bars` | 695 | 697 | DATA_ADVANCED |  |
+| `/window_label/rows/printed_under_full_header/cagr_pp` | 12.45 | 12.29 | DATA_ADVANCED |  |
+| `/window_label/rows/printed_under_full_header/sharpe` | 1.688 | 1.668 | DATA_ADVANCED |  |
+| `/window_label/rows/same_book_full_window/bars` | 1538 | 1539 | DATA_ADVANCED |  |
+| `/window_label/rows/same_book_full_window/cagr_pp` | 7.58 | 7.54 | DATA_ADVANCED |  |
+| `/window_label/rows/same_book_full_window/sharpe` | 1.32 | 1.313 | DATA_ADVANCED |  |
+| `/window_label/table_row/full/cagr_pct` | 7.58 | 7.54 | DATA_ADVANCED |  |
+| `/window_label/table_row/full/sharpe` | 1.32 | 1.313 | DATA_ADVANCED |  |
+| `/window_label/table_row/full_window_bars` | 1538 | 1539 | DATA_ADVANCED |  |
+| `/window_label/table_row/oos/cagr_pct` | 12.45 | 12.29 | DATA_ADVANCED |  |
+| `/window_label/table_row/oos/sharpe` | 1.688 | 1.668 | DATA_ADVANCED |  |
+| `/window_label/table_row/short_window_bars` | 695 | 697 | DATA_ADVANCED |  |
+| `/window_label/verdict/gap_pp` | 4.87 | 4.75 | DATA_ADVANCED |  |
 
-## 今天新出现的数（395 个）落在这几块上
+## 今天没有了的数（358 个，列前 40）
 
-- `/alias_stability/crosscheck`
-- `/alias_stability/families`
-- `/alias_stability/stability`
-- `/capacity_edge/criteria`
-- `/capacity_edge/summary`
-- `/capacity_ticket/one_lot_floor_cny`
-- `/capacity_ticket/rungs`
-- `/capacity_ticket/shortfall_to_typical_cny`
-- `/derisk/instrument`
-- `/derisk/n_phases`
-- `/supply_capacity/ceiling_cny`
-- `/supply_capacity/floor_cny`
-- `/supply_capacity/gap_cny`
-- `/supply_capacity/share_of_floor`
-- `/width_fit/gate_reads`
-- `/width_fit/gate_vs_ticket`
-- `/width_fit/line_pct`
-- `/width_fit/min_width`
-- `/width_fit/rows`
-- `/width_fit/ticket_agreement`
+- `/label_census/chains/0/n`
+- `/label_census/chains/1/n`
+- `/label_census/chains/2/n`
+- `/label_census/chains/3/n`
+- `/label_census/chains/4/n`
+- `/label_census/chains/5/n`
+- `/label_census/class_counts/UNPRICED`
+- `/label_census/groups/100/money/cheapest_premium_pp`
+- `/label_census/groups/100/money/cost_cny`
+- `/label_census/groups/100/money/dearest_premium_pp`
+- `/label_census/groups/100/money/spread_pp`
+- `/label_census/groups/100/n`
+- `/label_census/groups/101/money/cheapest_premium_pp`
+- `/label_census/groups/101/money/cost_cny`
+- `/label_census/groups/101/money/dearest_premium_pp`
+- `/label_census/groups/101/money/spread_pp`
+- `/label_census/groups/101/n`
+- `/label_census/groups/102/money/cheapest_premium_pp`
+- `/label_census/groups/102/money/cost_cny`
+- `/label_census/groups/102/money/dearest_premium_pp`
+- `/label_census/groups/102/money/spread_pp`
+- `/label_census/groups/102/n`
+- `/label_census/groups/103/money/cheapest_premium_pp`
+- `/label_census/groups/103/money/cost_cny`
+- `/label_census/groups/103/money/dearest_premium_pp`
+- `/label_census/groups/103/money/spread_pp`
+- `/label_census/groups/103/n`
+- `/label_census/groups/104/money/cheapest_premium_pp`
+- `/label_census/groups/104/money/cost_cny`
+- `/label_census/groups/104/money/dearest_premium_pp`
+- `/label_census/groups/104/money/spread_pp`
+- `/label_census/groups/104/n`
+- `/label_census/groups/105/money/cheapest_premium_pp`
+- `/label_census/groups/105/money/cost_cny`
+- `/label_census/groups/105/money/dearest_premium_pp`
+- `/label_census/groups/105/money/spread_pp`
+- `/label_census/groups/105/n`
+- `/label_census/groups/106/money/cheapest_premium_pp`
+- `/label_census/groups/106/money/cost_cny`
+- `/label_census/groups/106/money/dearest_premium_pp`
 
-## 钱的两处（同一根 bar 上改了定价口径）
+## 今天新出现的数（40 个）落在这几块上
 
-- `/admission/capacity_cny`：**18582410.0 → 15993296.0**（差 -2589114.0）｜SECTION_ADVANCED｜这一节自己换了代：`admission` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/admission/concentration_caliber/gap_pp`：**3.13 → 3.14**（差 0.01）｜SECTION_ADVANCED｜这一节自己换了代：`admission` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/admission/concentration_caliber/lag0_pct`：**71.04 → 71.05**（差 0.01）｜SECTION_ADVANCED｜这一节自己换了代：`admission` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/admission/concentration_caliber/lag1_cagr_pct`：**10.38 → 10.37**（差 -0.01）｜SECTION_ADVANCED｜这一节自己换了代：`admission` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/admission/concentration_caliber/lag1_pct`：**74.17 → 74.19**（差 0.02）｜SECTION_ADVANCED｜这一节自己换了代：`admission` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/admission/margin_to_line`：**-0.0104 → -0.0105**（差 -0.0001）｜SECTION_ADVANCED｜这一节自己换了代：`admission` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/admission/prior/top2_share`：**0.7084 → 0.7104**（差 0.002）｜SECTION_ADVANCED｜这一节自己换了代：`admission` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/admission/reads/capacity_by_capital/10M/impact_pct_of_adv`：**10.0865 → 10.028**（差 -0.0585）｜SECTION_ADVANCED｜这一节自己换了代：`admission` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/admission/reads/capacity_by_capital/1M/impact_pct_of_adv`：**1.0087 → 1.0028**（差 -0.0059）｜SECTION_ADVANCED｜这一节自己换了代：`admission` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/admission/reads/oos_sharpe`：**1.8016 → 1.7997**（差 -0.0019）｜SECTION_ADVANCED｜这一节自己换了代：`admission` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/admission/top2_share`：**0.7104 → 0.7105**（差 0.0001）｜SECTION_ADVANCED｜这一节自己换了代：`admission` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/admission/worst`：**1.9416 → 1.9241**（差 -0.0175）｜SECTION_ADVANCED｜这一节自己换了代：`admission` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/backtest_band/5 名·可执行单口径（本单这份账）/full/cagr_pct`：**7.6 → 7.58**（差 -0.02）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/band_ruler/cells/book/card/causal/full/bars`：**1665 → 1666**（差 1）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/book/card/causal/full/cagr`：**0.1542 → 0.1537**（差 -0.0005）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/book/card/causal/full/cagr_pp`：**15.42 → 15.37**（差 -0.05）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/book/card/causal/full/sharpe`：**0.984 → 0.981**（差 -0.003）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/book/card/causal/full/vol`：**0.1659 → 0.1658**（差 -0.0001）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/book/card/causal/full/years`：**6.87 → 6.88**（差 0.01）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/book/card/causal/oos/bars`：**695 → 696**（差 1）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/book/card/causal/oos/cagr`：**0.2473 → 0.246**（差 -0.0013）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/book/card/causal/oos/cagr_pp`：**24.73 → 24.6**（差 -0.13）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/book/card/causal/oos/sharpe`：**1.51 → 1.504**（差 -0.006）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/book/card/causal/oos/vol`：**0.1614 → 0.1613**（差 -0.0001）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/book/card/causal/oos/years`：**2.87 → 2.88**（差 0.01）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/book/card/causal/ticket_window/bars`：**695 → 696**（差 1）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/book/card/causal/ticket_window/cagr`：**0.2473 → 0.246**（差 -0.0013）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/book/card/causal/ticket_window/cagr_pp`：**24.73 → 24.6**（差 -0.13）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/book/card/causal/ticket_window/sharpe`：**1.51 → 1.504**（差 -0.006）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/book/card/causal/ticket_window/vol`：**0.1614 → 0.1613**（差 -0.0001）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/book/card/causal/ticket_window/years`：**2.87 → 2.88**（差 0.01）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/book/card/published/full/bars`：**1664 → 1665**（差 1）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/book/card/published/full/cagr`：**0.1593 → 0.1592**（差 -0.0001）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/book/card/published/full/cagr_pp`：**15.93 → 15.92**（差 -0.01）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/book/card/published/full/sharpe`：**1.023 → 1.022**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/book/card/published/oos/bars`：**695 → 696**（差 1）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/book/card/published/oos/cagr`：**0.2379 → 0.2375**（差 -0.0004）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/book/card/published/oos/cagr_pp`：**23.79 → 23.75**（差 -0.04）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/book/card/published/oos/sharpe`：**1.498 → 1.496**（差 -0.002）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/book/card/published/oos/vol`：**0.157 → 0.1569**（差 -0.0001）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/book/card/published/oos/years`：**2.87 → 2.88**（差 0.01）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/book/card/published/ticket_window/bars`：**695 → 696**（差 1）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/book/card/published/ticket_window/cagr`：**0.2379 → 0.2375**（差 -0.0004）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/book/card/published/ticket_window/cagr_pp`：**23.79 → 23.75**（差 -0.04）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/book/card/published/ticket_window/sharpe`：**1.498 → 1.496**（差 -0.002）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/book/card/published/ticket_window/vol`：**0.157 → 0.1569**（差 -0.0001）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/book/card/published/ticket_window/years`：**2.87 → 2.88**（差 0.01）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/book/ticket/causal/full/bars`：**1665 → 1666**（差 1）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/book/ticket/causal/full/cagr`：**0.1657 → 0.1652**（差 -0.0005）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/book/ticket/causal/full/cagr_pp`：**16.57 → 16.52**（差 -0.05）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/book/ticket/causal/full/sharpe`：**1.014 → 1.011**（差 -0.003）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/book/ticket/causal/full/years`：**6.87 → 6.88**（差 0.01）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/book/ticket/causal/oos/bars`：**695 → 696**（差 1）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/book/ticket/causal/oos/cagr`：**0.263 → 0.2617**（差 -0.0013）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/book/ticket/causal/oos/cagr_pp`：**26.3 → 26.17**（差 -0.13）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/book/ticket/causal/oos/sharpe`：**1.556 → 1.55**（差 -0.006）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/book/ticket/causal/oos/vol`：**0.1655 → 0.1654**（差 -0.0001）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/book/ticket/causal/oos/years`：**2.87 → 2.88**（差 0.01）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/book/ticket/causal/ticket_window/bars`：**695 → 696**（差 1）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/book/ticket/causal/ticket_window/cagr`：**0.263 → 0.2617**（差 -0.0013）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/book/ticket/causal/ticket_window/cagr_pp`：**26.3 → 26.17**（差 -0.13）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/book/ticket/causal/ticket_window/sharpe`：**1.556 → 1.55**（差 -0.006）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/book/ticket/causal/ticket_window/vol`：**0.1655 → 0.1654**（差 -0.0001）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/book/ticket/causal/ticket_window/years`：**2.87 → 2.88**（差 0.01）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/book/ticket/published/full/bars`：**1664 → 1665**（差 1）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/book/ticket/published/full/cagr`：**0.1747 → 0.1746**（差 -0.0001）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/book/ticket/published/full/cagr_pp`：**17.47 → 17.46**（差 -0.01）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/book/ticket/published/oos/bars`：**695 → 696**（差 1）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/book/ticket/published/oos/cagr`：**0.2581 → 0.2578**（差 -0.0003）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/book/ticket/published/oos/cagr_pp`：**25.81 → 25.78**（差 -0.03）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/book/ticket/published/oos/sharpe`：**1.563 → 1.562**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/book/ticket/published/oos/vol`：**0.1617 → 0.1616**（差 -0.0001）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/book/ticket/published/oos/years`：**2.87 → 2.88**（差 0.01）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/book/ticket/published/ticket_window/bars`：**695 → 696**（差 1）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/book/ticket/published/ticket_window/cagr`：**0.2581 → 0.2578**（差 -0.0003）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/book/ticket/published/ticket_window/cagr_pp`：**25.81 → 25.78**（差 -0.03）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/book/ticket/published/ticket_window/sharpe`：**1.563 → 1.562**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/book/ticket/published/ticket_window/vol`：**0.1617 → 0.1616**（差 -0.0001）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/book/ticket/published/ticket_window/years`：**2.87 → 2.88**（差 0.01）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/card/12/vol08/full/bars`：**1664 → 1665**（差 1）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/card/12/vol08/full/cagr`：**0.0941 → 0.0943**（差 0.0002）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/card/12/vol08/full/cagr_pp`：**9.41 → 9.43**（差 0.02）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/card/12/vol08/full/sharpe`：**0.971 → 0.973**（差 0.002）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/card/12/vol08/oos/bars`：**695 → 696**（差 1）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/card/12/vol08/oos/cagr`：**0.1772 → 0.1776**（差 0.0004）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/card/12/vol08/oos/cagr_pp`：**17.72 → 17.76**（差 0.04）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/card/12/vol08/oos/sharpe`：**1.681 → 1.685**（差 0.004）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/card/12/vol08/oos/vol`：**0.1046 → 0.1045**（差 -0.0001）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/card/12/vol08/oos/years`：**2.87 → 2.88**（差 0.01）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/card/12/vol08/ticket_window/bars`：**695 → 696**（差 1）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/card/12/vol08/ticket_window/cagr`：**0.1772 → 0.1776**（差 0.0004）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/card/12/vol08/ticket_window/cagr_pp`：**17.72 → 17.76**（差 0.04）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/card/12/vol08/ticket_window/sharpe`：**1.681 → 1.685**（差 0.004）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/card/12/vol08/ticket_window/vol`：**0.1046 → 0.1045**（差 -0.0001）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/card/12/vol08/ticket_window/years`：**2.87 → 2.88**（差 0.01）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/held/causal/card/cost10/full/bars`：**1537 → 1538**（差 1）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/held/causal/card/cost10/full/cagr`：**0.0702 → 0.07**（差 -0.0002）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/held/causal/card/cost10/full/cagr_pp`：**7.02 → 7.0**（差 -0.02）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/held/causal/card/cost10/full/sharpe`：**1.269 → 1.266**（差 -0.003）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/held/causal/card/cost10/oos/bars`：**695 → 696**（差 1）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/held/causal/card/cost10/oos/cagr`：**0.1178 → 0.1173**（差 -0.0005）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/held/causal/card/cost10/oos/cagr_pp`：**11.78 → 11.73**（差 -0.05）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/held/causal/card/cost10/oos/sharpe`：**1.631 → 1.625**（差 -0.006）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/held/causal/card/cost10/oos/years`：**2.87 → 2.88**（差 0.01）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/held/causal/card/cost10/ticket_window/bars`：**695 → 696**（差 1）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/held/causal/card/cost10/ticket_window/cagr`：**0.1178 → 0.1173**（差 -0.0005）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/held/causal/card/cost10/ticket_window/cagr_pp`：**11.78 → 11.73**（差 -0.05）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/held/causal/card/cost10/ticket_window/sharpe`：**1.631 → 1.625**（差 -0.006）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/held/causal/card/cost10/ticket_window/years`：**2.87 → 2.88**（差 0.01）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/held/causal/card/full/bars`：**1537 → 1538**（差 1）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/held/causal/card/full/cagr`：**0.0717 → 0.0715**（差 -0.0002）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/held/causal/card/full/cagr_pp`：**7.17 → 7.15**（差 -0.02）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/held/causal/card/full/sharpe`：**1.295 → 1.291**（差 -0.004）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/held/causal/card/full/vol`：**0.0569 → 0.0568**（差 -0.0001）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/held/causal/card/oos/bars`：**695 → 696**（差 1）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/held/causal/card/oos/cagr`：**0.1199 → 0.1193**（差 -0.0006）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/held/causal/card/oos/cagr_pp`：**11.99 → 11.93**（差 -0.06）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/held/causal/card/oos/sharpe`：**1.657 → 1.65**（差 -0.007）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/held/causal/card/oos/vol`：**0.073 → 0.0729**（差 -0.0001）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/held/causal/card/oos/years`：**2.87 → 2.88**（差 0.01）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/held/causal/card/ticket_window/bars`：**695 → 696**（差 1）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/held/causal/card/ticket_window/cagr`：**0.1199 → 0.1193**（差 -0.0006）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/held/causal/card/ticket_window/cagr_pp`：**11.99 → 11.93**（差 -0.06）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/held/causal/card/ticket_window/sharpe`：**1.657 → 1.65**（差 -0.007）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/held/causal/card/ticket_window/vol`：**0.073 → 0.0729**（差 -0.0001）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/held/causal/card/ticket_window/years`：**2.87 → 2.88**（差 0.01）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/held/causal/ticket/full/bars`：**1537 → 1538**（差 1）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/held/causal/ticket/full/cagr`：**0.076 → 0.0758**（差 -0.0002）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/held/causal/ticket/full/cagr_pp`：**7.6 → 7.58**（差 -0.02）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/held/causal/ticket/full/sharpe`：**1.324 → 1.32**（差 -0.004）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/held/causal/ticket/oos/bars`：**695 → 696**（差 1）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/held/causal/ticket/oos/cagr`：**0.1245 → 0.1239**（差 -0.0006）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/held/causal/ticket/oos/cagr_pp`：**12.45 → 12.39**（差 -0.06）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/held/causal/ticket/oos/sharpe`：**1.697 → 1.691**（差 -0.006）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/held/causal/ticket/oos/vol`：**0.0738 → 0.0737**（差 -0.0001）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/held/causal/ticket/oos/years`：**2.87 → 2.88**（差 0.01）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/held/causal/ticket/ticket_window/bars`：**695 → 696**（差 1）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/held/causal/ticket/ticket_window/cagr`：**0.1245 → 0.1239**（差 -0.0006）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/held/causal/ticket/ticket_window/cagr_pp`：**12.45 → 12.39**（差 -0.06）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/held/causal/ticket/ticket_window/sharpe`：**1.697 → 1.691**（差 -0.006）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/held/causal/ticket/ticket_window/vol`：**0.0738 → 0.0737**（差 -0.0001）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/cells/held/causal/ticket/ticket_window/years`：**2.87 → 2.88**（差 0.01）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/dial_prices/ordering/price_pp`：**-0.51 → -0.55**（差 -0.04）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/dial_prices/window/price_pp`：**4.82 → 4.78**（差 -0.04）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/identity/card 18.35% (2024+) reproduced on its own ruler/measured_pp`：**17.97 → 17.72**（差 -0.25）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/identity/card 18.35% (2024+) reproduced on its own ruler/published_pp`：**17.97 → 17.72**（差 -0.25）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/identity/card 9.60% reproduced on its own ruler/measured_pp`：**9.51 → 9.41**（差 -0.1）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/identity/card 9.60% reproduced on its own ruler/published_pp`：**9.51 → 9.41**（差 -0.1）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/identity/ticket 12.78% reproduced on its own ruler/measured_pp`：**12.54 → 12.45**（差 -0.09）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/identity/ticket 12.78% reproduced on its own ruler/published_pp`：**12.54 → 12.45**（差 -0.09）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/published_faces/card_full`：**9.51 → 9.41**（差 -0.1）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/published_faces/card_oos`：**17.97 → 17.72**（差 -0.25）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/published_faces/rows/0/full`：**7.64 → 7.6**（差 -0.04）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/published_faces/rows/0/oos`：**12.54 → 12.45**（差 -0.09）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/published_faces/rows/1/full`：**15.55 → 15.5**（差 -0.05）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/published_faces/rows/1/oos`：**23.42 → 23.29**（差 -0.13）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/published_faces/rows/2/full`：**9.51 → 9.41**（差 -0.1）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/published_faces/rows/2/oos`：**17.97 → 17.72**（差 -0.25）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/published_faces/ticket`：**7.64 → 7.6**（差 -0.04）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/band_ruler/published_faces/ticket_oos`：**12.54 → 12.45**（差 -0.09）｜SECTION_ADVANCED｜这一节自己换了代：`band_ruler` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/cash_caliber/control_error_bp`：**0.0043 → 0.0357**（差 0.0314）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/cash_ladder/rolls/GC028`：**12 → 13**（差 1）｜RECOVERED_OLD_VALUE｜昨天的 12 今天仍在这页上：`/alias_stability/families/n_cross_name`（改名，不是重算）
-- `/cash_ladder/tenors/1/annual_cny_spot`：**7016.0 → 7045.0**（差 29.0）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/cash_ladder/tenors/1/mean250_pct`：**1.3611 → 1.3607**（差 -0.0004）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/cash_ladder/tenors/1/spot_pct`：**1.235 → 1.24**（差 0.005）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/cash_ladder/tenors/2/annual_cny_spot`：**7414.0 → 7670.0**（差 256.0）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/cash_ladder/tenors/2/mean250_pct`：**1.4624 → 1.462**（差 -0.0004）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/cash_ladder/tenors/2/spot_pct`：**1.305 → 1.35**（差 0.045）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/cash_ladder/tenors/3/annual_cny_spot`：**7670.0 → 7755.0**（差 85.0）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/cash_ladder/tenors/3/mean250_pct`：**1.4673 → 1.4669**（差 -0.0004）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/cash_ladder/tenors/3/spot_pct`：**1.35 → 1.365**（差 0.015）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/cash_ladder/tenors/4/annual_cny_realized_1y`：**8372.0 → 8325.0**（差 -47.0）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/cash_ladder/tenors/4/annual_cny_spot`：**7698.0 → 7812.0**（差 114.0）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/cash_ladder/tenors/4/edge_bp/1`：**16.6 → 15.8**（差 -0.8）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/cash_ladder/tenors/4/edge_bp/5`：**9.0 → 8.0**（差 -1.0）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/cash_ladder/tenors/4/idle_share_1y`：**0.0059 → 0.0055**（差 -0.0004）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/cash_ladder/tenors/4/mean250_pct`：**1.4628 → 1.4624**（差 -0.0004）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/cash_ladder/tenors/4/realized/1/days`：**338 → 366**（差 28）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/cash_ladder/tenors/4/realized/1/idle_share`：**0.0059 → 0.0055**（差 -0.0004）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/cash_ladder/tenors/4/realized/1/realized_pct`：**1.4737 → 1.4654**（差 -0.0083）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/cash_ladder/tenors/4/realized/1/rolls`：**12 → 13**（差 1）｜RECOVERED_OLD_VALUE｜昨天的 12 今天仍在这页上：`/alias_stability/families/n_cross_name`（改名，不是重算）
-- `/cash_ladder/tenors/4/realized/5/days`：**1798 → 1826**（差 28）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/cash_ladder/tenors/4/realized/5/realized_pct`：**1.9789 → 1.9695**（差 -0.0094）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/cash_ladder/tenors/4/realized/5/rolls`：**64 → 65**（差 1）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/cash_ladder/tenors/4/rolls_1y`：**12 → 13**（差 1）｜RECOVERED_OLD_VALUE｜昨天的 12 今天仍在这页上：`/alias_stability/families/n_cross_name`（改名，不是重算）
-- `/cash_ladder/tenors/4/spot_pct`：**1.355 → 1.375**（差 0.02）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/cash_ladder/tenors/5/annual_cny_spot`：**7471.0 → 7499.0**（差 28.0）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/cash_ladder/tenors/5/mean250_pct`：**1.4335 → 1.4329**（差 -0.0006）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/cash_ladder/tenors/5/spot_pct`：**1.315 → 1.32**（差 0.005）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/cash_money/block/book_rate/annual_cny`：**10067.0 → 10065.0**（差 -2.0）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/cash_money/block/book_rate/gap_vs_spot_bp`：**-59.7 → -59.66**（差 0.04）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/cash_money/block/book_rate/gap_vs_spot_cny`：**-3392.0 → -3389.0**（差 3.0）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/cash_money/block/book_rate/pct`：**1.772 → 1.7716**（差 -0.0004）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/cash_money/forward/book/pct`：**1.772 → 1.7716**（差 -0.0004）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/cash_money/forward/gap_bp`：**85.77 → 85.73**（差 -0.04）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/cash_money/forward/gap_bp_gross`：**59.7 → 59.66**（差 -0.04）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/cost_tape/arms/assumed_10bp/cagr`：**0.0941 → 0.0943**（差 0.0002）｜SECTION_ADVANCED｜这一节自己换了代：`cost_tape` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/cost_tape/arms/assumed_10bp/sharpe`：**0.971 → 0.973**（差 0.002）｜SECTION_ADVANCED｜这一节自己换了代：`cost_tape` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/cost_tape/arms/measured/cagr`：**0.0993 → 0.0995**（差 0.0002）｜SECTION_ADVANCED｜这一节自己换了代：`cost_tape` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/cost_tape/arms/measured/sharpe`：**1.019 → 1.021**（差 0.002）｜SECTION_ADVANCED｜这一节自己换了代：`cost_tape` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/cost_tape/arms/upper_p75/cagr`：**0.0954 → 0.0955**（差 0.0001）｜SECTION_ADVANCED｜这一节自己换了代：`cost_tape` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/cost_tape/arms/upper_p75/sharpe`：**0.983 → 0.985**（差 0.002）｜SECTION_ADVANCED｜这一节自己换了代：`cost_tape` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/cost_tape/control/engine_cagr`：**0.0941 → 0.0943**（差 0.0002）｜SECTION_ADVANCED｜这一节自己换了代：`cost_tape` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/cost_tape/tape/widest_traded/1/p50_bp`：**30.8 → 30.7**（差 -0.1）｜SECTION_ADVANCED｜这一节自己换了代：`cost_tape` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/exposure_timing/arms/constant/cagr`：**0.0996 → 0.0993**（差 -0.0003）｜SECTION_ADVANCED｜这一节自己换了代：`exposure_timing` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/exposure_timing/arms/constant/sharpe`：**0.965 → 0.962**（差 -0.003）｜SECTION_ADVANCED｜这一节自己换了代：`exposure_timing` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/exposure_timing/arms/full/cagr`：**0.1307 → 0.1303**（差 -0.0004）｜SECTION_ADVANCED｜这一节自己换了代：`exposure_timing` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/exposure_timing/arms/full/sharpe`：**0.913 → 0.911**（差 -0.002）｜SECTION_ADVANCED｜这一节自己换了代：`exposure_timing` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/exposure_timing/arms/full/vol`：**0.153 → 0.1529**（差 -0.0001）｜SECTION_ADVANCED｜这一节自己换了代：`exposure_timing` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/exposure_timing/arms/production/cagr`：**0.0898 → 0.0895**（差 -0.0003）｜SECTION_ADVANCED｜这一节自己换了代：`exposure_timing` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/exposure_timing/arms/production/delevered_share`：**0.8799 → 0.88**（差 0.0001）｜SECTION_ADVANCED｜这一节自己换了代：`exposure_timing` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/exposure_timing/arms/production/mean_exposure`：**0.7078 → 0.7079**（差 0.0001）｜SECTION_ADVANCED｜这一节自己换了代：`exposure_timing` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/exposure_timing/arms/production/sharpe`：**0.941 → 0.938**（差 -0.003）｜SECTION_ADVANCED｜这一节自己换了代：`exposure_timing` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/exposure_timing/bars`：**1665 → 1666**（差 1）｜SECTION_ADVANCED｜这一节自己换了代：`exposure_timing` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/exposure_timing/placebo/cagr_mean`：**0.0996 → 0.0994**（差 -0.0002）｜SECTION_ADVANCED｜这一节自己换了代：`exposure_timing` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/exposure_timing/verdict/de_risking_pp`：**-3.11 → -3.1**（差 0.01）｜SECTION_ADVANCED｜这一节自己换了代：`exposure_timing` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/exposure_timing/verdict/placebo_p05_pp`：**-1.74 → -1.75**（差 -0.01）｜SECTION_ADVANCED｜这一节自己换了代：`exposure_timing` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/futures_hedge/beta`：**0.07185718963947142 → 0.07458300567364223**（差 0.002726）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/futures_hedge/capital_for_one_lot`：**11395936.91471321 → 10985880.665433725**（差 -410056.249279）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/futures_hedge/corr`：**0.1373365917783091 → 0.1415643988218339**（差 0.004228）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/futures_hedge/maxdd_delta_pp`：**1.5453866010586514 → -0.05485315943003499**（差 -1.60024）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/futures_hedge/min_unit_notional`：**818880.0 → 819360.0**（差 480.0）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/futures_hedge/sharpe_delta`：**0.005735999804863057 → -0.020536000001067034**（差 -0.026272）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/futures_hedge/splice_days_dropped`：**1 → 85**（差 84）｜RECOVERED_OLD_VALUE｜昨天的 1 今天仍在这页上：`/alias_stability/families/rows/0/pair_stability/n_pairs`（改名，不是重算）
-- `/futures_hedge/unit_over_target`：**11.395936914713209 → 10.985880665433726**（差 -0.410056）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/futures_hedge/variance_removable_pct`：**1.8861339441281915 → 2.004047901378724**（差 0.117914）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/futures_hedge/vol_delta_pp`：**-0.09457028960696418 → -0.10122922788117772**（差 -0.006659）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/futures_hedge_tail/dsharpe`：**0.005735999804863057 → -0.020536000001067034**（差 -0.026272）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/futures_hedge_tail/dsharpe_hi`：**0.09446056903527693 → 0.0719002244924948**（差 -0.02256）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/futures_hedge_tail/dsharpe_lo`：**-0.06366444689345857 → -0.0964202006837476**（差 -0.032756）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/futures_hedge_tail/share_above_uncond`：**0.968 → 0.9695**（差 0.0015）｜RECOVERED_OLD_VALUE｜昨天的 0.968 今天仍在这页上：`/width_return/rows/2/sharpe`（改名，不是重算）
-- `/futures_hedge_tail/tail_beta`：**0.6115545672996576 → 0.6126419583867959**（差 0.001087）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/futures_hedge_tail/tail_ci_hi`：**0.8343491781619469 → 0.8405742148706478**（差 0.006225）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/futures_hedge_tail/tail_ci_lo`：**0.12672451800387655 → 0.13021062460324065**（差 0.003486）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/futures_hedge_tail/tail_n`：**57 → 52**（差 -5）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/futures_hedge_tail/uncond_beta`：**0.07185718963947142 → 0.07458300567364223**（差 0.002726）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/futures_ladder/rows/1/one_lot_notional_cny`：**1175460.0 → 1178520.0**（差 3060.0）｜SECTION_ADVANCED｜这一节自己换了代：`futures_ladder` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/futures_ladder/rows/2/one_lot_notional_cny`：**818880.0 → 819360.0**（差 480.0）｜SECTION_ADVANCED｜这一节自己换了代：`futures_ladder` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/futures_ladder/rows/3/net_pct_of_capital`：**2.63 → 2.62**（差 -0.01）｜SECTION_ADVANCED｜这一节自己换了代：`futures_ladder` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/futures_ladder/rows/3/net_pct_of_capital_by_mask/calendar`：**3.42 → 3.41**（差 -0.01）｜SECTION_ADVANCED｜这一节自己换了代：`futures_ladder` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/futures_ladder/rows/3/net_pct_of_capital_by_mask/published`：**2.63 → 2.62**（差 -0.01）｜SECTION_ADVANCED｜这一节自己换了代：`futures_ladder` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/futures_ladder/rows/3/net_pct_of_capital_by_mask/strictest`：**3.42 → 3.41**（差 -0.01）｜SECTION_ADVANCED｜这一节自己换了代：`futures_ladder` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/futures_ladder/rows/3/one_lot_notional_cny`：**1204600.0 → 1197480.0**（差 -7120.0）｜SECTION_ADVANCED｜这一节自己换了代：`futures_ladder` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/futures_ladder/rows/3/vol_contrib_pct`：**6.1 → 6.0**（差 -0.1）｜SECTION_ADVANCED｜这一节自己换了代：`futures_ladder` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/futures_sleeve/rows/0/carry_ann_compound_pct`：**8.778 → 8.753**（差 -0.025）｜SECTION_ADVANCED｜这一节自己换了代：`futures_sleeve` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/futures_sleeve/rows/0/carry_caliber/calendar_ann_pct`：**9.793 → 9.805**（差 0.012）｜SECTION_ADVANCED｜这一节自己换了代：`futures_sleeve` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/futures_sleeve/rows/0/carry_caliber/published_ann_pct`：**2.895 → 2.878**（差 -0.017）｜SECTION_ADVANCED｜这一节自己换了代：`futures_sleeve` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/futures_sleeve/rows/0/carry_caliber/spread_pp`：**6.898 → 6.927**（差 0.029）｜SECTION_ADVANCED｜这一节自己换了代：`futures_sleeve` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/futures_sleeve/rows/0/gap_net_pp`：**6.753 → 6.644**（差 -0.109）｜SECTION_ADVANCED｜这一节自己换了代：`futures_sleeve` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/futures_sleeve/rows/0/notional_per_lot_cny`：**1243680.0 → 1238960.0**（差 -4720.0）｜SECTION_ADVANCED｜这一节自己换了代：`futures_sleeve` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/futures_sleeve/rows/1/blend_gain_sharpe`：**0.133 → 0.131**（差 -0.002）｜SECTION_ADVANCED｜这一节自己换了代：`futures_sleeve` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/futures_sleeve/rows/1/carry_ann_compound_pct`：**3.625 → 3.565**（差 -0.06）｜SECTION_ADVANCED｜这一节自己换了代：`futures_sleeve` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/futures_sleeve/rows/1/carry_caliber/calendar_ann_pct`：**5.795 → 5.843**（差 0.048）｜SECTION_ADVANCED｜这一节自己换了代：`futures_sleeve` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/futures_sleeve/rows/1/carry_caliber/published_ann_pct`：**1.923 → 1.876**（差 -0.047）｜SECTION_ADVANCED｜这一节自己换了代：`futures_sleeve` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/futures_sleeve/rows/1/carry_caliber/spread_pp`：**3.872 → 3.967**（差 0.095）｜SECTION_ADVANCED｜这一节自己换了代：`futures_sleeve` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/futures_sleeve/rows/1/gap_net_pp`：**0.558 → 0.651**（差 0.093）｜SECTION_ADVANCED｜这一节自己换了代：`futures_sleeve` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/futures_sleeve/rows/1/notional_per_lot_cny`：**1181700.0 → 1175460.0**（差 -6240.0）｜SECTION_ADVANCED｜这一节自己换了代：`futures_sleeve` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/futures_sleeve/rows/2/blend_gain_sharpe`：**0.087 → 0.084**（差 -0.003）｜SECTION_ADVANCED｜这一节自己换了代：`futures_sleeve` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/futures_sleeve/rows/2/carry_ann_compound_pct`：**2.471 → 2.402**（差 -0.069）｜SECTION_ADVANCED｜这一节自己换了代：`futures_sleeve` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/futures_sleeve/rows/2/carry_caliber/calendar_ann_pct`：**5.324 → 5.39**（差 0.066）｜SECTION_ADVANCED｜这一节自己换了代：`futures_sleeve` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/futures_sleeve/rows/2/carry_caliber/published_ann_pct`：**1.617 → 1.561**（差 -0.056）｜SECTION_ADVANCED｜这一节自己换了代：`futures_sleeve` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/futures_sleeve/rows/2/carry_caliber/spread_pp`：**3.707 → 3.829**（差 0.122）｜SECTION_ADVANCED｜这一节自己换了代：`futures_sleeve` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/futures_sleeve/rows/2/notional_per_lot_cny`：**822720.0 → 818880.0**（差 -3840.0）｜SECTION_ADVANCED｜这一节自己换了代：`futures_sleeve` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/futures_sleeve/rows/3/blend_gain_sharpe`：**0.39 → 0.388**（差 -0.002）｜SECTION_ADVANCED｜这一节自己换了代：`futures_sleeve` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/futures_sleeve/rows/3/carry_ann_compound_pct`：**10.263 → 10.209**（差 -0.054）｜SECTION_ADVANCED｜这一节自己换了代：`futures_sleeve` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/futures_sleeve/rows/3/carry_caliber/calendar_ann_pct`：**11.954 → 12.013**（差 0.059）｜SECTION_ADVANCED｜这一节自己换了代：`futures_sleeve` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/futures_sleeve/rows/3/carry_caliber/published_ann_pct`：**5.928 → 5.882**（差 -0.046）｜SECTION_ADVANCED｜这一节自己换了代：`futures_sleeve` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/futures_sleeve/rows/3/carry_caliber/spread_pp`：**6.026 → 6.131**（差 0.105）｜SECTION_ADVANCED｜这一节自己换了代：`futures_sleeve` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/futures_sleeve/rows/3/gap_net_pp`：**7.733 → 7.847**（差 0.114）｜SECTION_ADVANCED｜这一节自己换了代：`futures_sleeve` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/futures_sleeve/rows/3/notional_per_lot_cny`：**1221000.0 → 1204600.0**（差 -16400.0）｜SECTION_ADVANCED｜这一节自己换了代：`futures_sleeve` 2026-11-16 → 2026-11-17（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/idle_cash/vehicle_net_pct`：**1.772 → 1.7716**（差 -0.0004）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/leg_split/arms/base_book/bars`：**1665 → 1666**（差 1）｜SECTION_ADVANCED｜这一节自己换了代：`leg_split` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/leg_split/arms/base_book/buckets_pp_per_year/plain`：**14.022 → 13.986**（差 -0.036）｜SECTION_ADVANCED｜这一节自己换了代：`leg_split` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/leg_split/arms/base_book/buckets_pp_per_year/toll`：**-1.577 → -1.576**（差 0.001）｜SECTION_ADVANCED｜这一节自己换了代：`leg_split` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/leg_split/arms/base_book/cagr_pct`：**12.99 → 12.95**（差 -0.04）｜SECTION_ADVANCED｜这一节自己换了代：`leg_split` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/leg_split/arms/base_book/fill_bar_drag_pp_per_year`：**-1.718 → -1.717**（差 0.001）｜SECTION_ADVANCED｜这一节自己换了代：`leg_split` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/leg_split/arms/base_book/plain_bars`：**1580 → 1581**（差 1）｜SECTION_ADVANCED｜这一节自己换了代：`leg_split` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/leg_split/arms/base_book/plain_carry_pp_per_year`：**14.022 → 13.986**（差 -0.036）｜SECTION_ADVANCED｜这一节自己换了代：`leg_split` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/leg_split/arms/base_book/sharpe`：**0.908 → 0.906**（差 -0.002）｜SECTION_ADVANCED｜这一节自己换了代：`leg_split` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/leg_split/arms/base_book/total_log_pp`：**12.304 → 12.268**（差 -0.036）｜SECTION_ADVANCED｜这一节自己换了代：`leg_split` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/leg_split/arms/control_ew/bars`：**1665 → 1666**（差 1）｜SECTION_ADVANCED｜这一节自己换了代：`leg_split` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/leg_split/arms/control_ew/buckets_pp_per_year/intraday`：**-2.151 → -2.15**（差 0.001）｜SECTION_ADVANCED｜这一节自己换了代：`leg_split` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/leg_split/arms/control_ew/buckets_pp_per_year/plain`：**6.352 → 6.328**（差 -0.024）｜SECTION_ADVANCED｜这一节自己换了代：`leg_split` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/leg_split/arms/control_ew/cagr_pct`：**4.01 → 3.99**（差 -0.02）｜SECTION_ADVANCED｜这一节自己换了代：`leg_split` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/leg_split/arms/control_ew/fill_bar_drag_pp_per_year`：**-2.389 → -2.388**（差 0.001）｜SECTION_ADVANCED｜这一节自己换了代：`leg_split` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/leg_split/arms/control_ew/plain_bars`：**1580 → 1581**（差 1）｜SECTION_ADVANCED｜这一节自己换了代：`leg_split` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/leg_split/arms/control_ew/plain_carry_pp_per_year`：**6.351 → 6.328**（差 -0.023）｜SECTION_ADVANCED｜这一节自己换了代：`leg_split` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/leg_split/arms/control_ew/sharpe`：**0.309 → 0.308**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`leg_split` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/leg_split/arms/control_ew/total_log_pp`：**3.963 → 3.94**（差 -0.023）｜SECTION_ADVANCED｜这一节自己换了代：`leg_split` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/leg_split/arms/production/bars`：**1665 → 1666**（差 1）｜SECTION_ADVANCED｜这一节自己换了代：`leg_split` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/leg_split/arms/production/buckets_pp_per_year/intraday`：**-0.713 → -0.712**（差 0.001）｜SECTION_ADVANCED｜这一节自己换了代：`leg_split` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/leg_split/arms/production/buckets_pp_per_year/overnight`：**0.19 → 0.189**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`leg_split` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/leg_split/arms/production/buckets_pp_per_year/plain`：**9.759 → 9.728**（差 -0.031）｜SECTION_ADVANCED｜这一节自己换了代：`leg_split` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/leg_split/arms/production/buckets_pp_per_year/toll`：**-1.156 → -1.155**（差 0.001）｜SECTION_ADVANCED｜这一节自己换了代：`leg_split` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/leg_split/arms/production/cagr_pct`：**8.35 → 8.32**（差 -0.03）｜SECTION_ADVANCED｜这一节自己换了代：`leg_split` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/leg_split/arms/production/fill_bar_drag_pp_per_year`：**-1.679 → -1.678**（差 0.001）｜SECTION_ADVANCED｜这一节自己换了代：`leg_split` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/leg_split/arms/production/plain_bars`：**1580 → 1581**（差 1）｜SECTION_ADVANCED｜这一节自己换了代：`leg_split` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/leg_split/arms/production/plain_carry_pp_per_year`：**9.76 → 9.727**（差 -0.033）｜SECTION_ADVANCED｜这一节自己换了代：`leg_split` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/leg_split/arms/production/sharpe`：**0.881 → 0.878**（差 -0.003）｜SECTION_ADVANCED｜这一节自己换了代：`leg_split` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/leg_split/arms/production/total_log_pp`：**8.081 → 8.05**（差 -0.031）｜SECTION_ADVANCED｜这一节自己换了代：`leg_split` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/leg_split/selection_wedge_pp/intraday`：**1.504 → 1.503**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`leg_split` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/leg_split/selection_wedge_pp/plain`：**7.67 → 7.658**（差 -0.012）｜SECTION_ADVANCED｜这一节自己换了代：`leg_split` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/leg_split/selection_wedge_pp/toll`：**-1.503 → -1.502**（差 0.001）｜SECTION_ADVANCED｜这一节自己换了代：`leg_split` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/leg_split/selection_wedge_pp/total`：**8.341 → 8.328**（差 -0.013）｜SECTION_ADVANCED｜这一节自己换了代：`leg_split` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/lookahead/affected_faces`：**94 → 96**（差 2）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/lot_floor/capital_needed/AU`：**2782200.0 → 2714400.0**（差 -67800.0）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/lot_floor/capital_needed/IF`：**3918200.0 → 3928400.0**（差 10200.0）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/lot_floor/capital_needed/IH`：**2729600.0 → 2731200.0**（差 1600.0）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/lot_floor/capital_needed/IM`：**4015333.3333333335 → 3991600.0**（差 -23733.333333）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/lot_floor/capital_needed/SC`：**1938000.0 → 1920333.3333333335**（差 -17666.666667）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/lot_floor/capital_needed/T`：**3667000.0 → 3667833.3333333335**（差 833.333333）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/lot_floor/capital_needed/TS`：**6843066.666666667 → 6843866.666666667**（差 800.0）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/lot_floor/etf_shares_at_1m/510300`：**0.000404 → 0.000406**（差 2e-06）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/lot_floor/etf_shares_at_1m/510500`：**0.000632 → 0.000631**（差 -1e-06）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/lot_floor/etf_shares_at_1m/512100`：**0.000247 → 0.000246**（差 -1e-06）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/lot_floor/etf_shares_at_1m/588000`：**0.000129 → 0.000132**（差 3e-06）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/lot_floor/shares_at_1m/AU`：**0.83466 → 0.81432**（差 -0.02034）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/lot_floor/shares_at_1m/IF`：**1.17546 → 1.17852**（差 0.00306）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/lot_floor/shares_at_1m/IH`：**0.81888 → 0.81936**（差 0.00048）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/lot_floor/shares_at_1m/IM`：**1.2046 → 1.19748**（差 -0.00712）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/lot_floor/shares_at_1m/SC`：**0.5814 → 0.5761**（差 -0.0053）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/lot_floor/shares_at_1m/T`：**1.1001 → 1.10035**（差 0.00025）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/lot_floor/shares_at_1m/TS`：**2.05292 → 2.05316**（差 0.00024）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/roster_audit/local_copies/1/laneside/local_disk_n`：**27 → 28**（差 1）｜SECTION_ADVANCED｜这一节自己换了代：`roster_audit` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/roster_audit/local_copies/1/local_disk_n`：**27 → 28**（差 1）｜SECTION_ADVANCED｜这一节自己换了代：`roster_audit` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/sibling_gap/immaterial_gain_cny`：**103.3 → 103.2**（差 -0.1）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/sibling_gap/pairs/0/amount_cny`：**86400.6 → 86347.8**（差 -52.8）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/sibling_gap/pairs/0/today_gain_cny`：**103.3 → 103.2**（差 -0.1）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/sibling_gap/pairs/1/amount_cny`：**86286.0 → 86390.2**（差 104.2）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/stress/n_days`：**5282 → 5283**（差 1）｜UNEXPLAINED｜没有旧值留存，也没有口径声明
-- `/vol_window/paired/rows/0/bars`：**1663 → 1664**（差 1）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/paired/rows/0/ci_p05_p95_pp/0`：**-0.084 → -0.106**（差 -0.022）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/paired/rows/0/ci_p05_p95_pp/1`：**2.004 → 1.973**（差 -0.031）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/paired/rows/0/mean_pp`：**0.873 → 0.867**（差 -0.006）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/paired/rows/0/share_positive`：**0.936 → 0.937**（差 0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/paired/rows/1/bars`：**1658 → 1659**（差 1）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/paired/rows/1/ci_p05_p95_pp/0`：**0.637 → 0.715**（差 0.078）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/paired/rows/1/ci_p05_p95_pp/1`：**3.05 → 3.043**（差 -0.007）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/paired/rows/1/mean_pp`：**1.805 → 1.804**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/paired/rows/1/share_positive`：**0.999 → 0.998**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/paired/rows/2/bars`：**1653 → 1654**（差 1）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/paired/rows/2/ci_p05_p95_pp/0`：**0.159 → 0.138**（差 -0.021）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/paired/rows/2/ci_p05_p95_pp/1`：**2.383 → 2.397**（差 0.014）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/paired/rows/2/mean_pp`：**1.197 → 1.192**（差 -0.005）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/paired/rows/2/share_positive`：**0.974 → 0.968**（差 -0.006）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/paired/rows/3/bars`：**1648 → 1649**（差 1）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/paired/rows/3/ci_p05_p95_pp/0`：**-0.364 → -0.337**（差 0.027）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/paired/rows/3/ci_p05_p95_pp/1`：**1.194 → 1.167**（差 -0.027）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/paired/rows/3/mean_pp`：**0.41 → 0.409**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/paired/rows/3/share_positive`：**0.82 → 0.824**（差 0.004）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/paired/verdict/min_ci_low_pp`：**-0.364 → -0.337**（差 0.027）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/paired/verdict/min_share_positive`：**0.82 → 0.824**（差 0.004）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/panel/bars_named`：**5282 → 5283**（差 1）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/phase_rows/0/cagr`：**0.1032 → 0.1033**（差 0.0001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/phase_rows/0/oos_cagr`：**0.19 → 0.1902**（差 0.0002）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/phase_rows/0/oos_sharpe`：**1.76 → 1.763**（差 0.003）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/phase_rows/0/sharpe`：**1.043 → 1.044**（差 0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/phase_rows/1/cagr`：**0.1005 → 0.1006**（差 0.0001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/phase_rows/1/oos_cagr`：**0.1831 → 0.1835**（差 0.0004）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/phase_rows/1/oos_sharpe`：**1.731 → 1.734**（差 0.003）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/phase_rows/1/sharpe`：**1.035 → 1.036**（差 0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/phase_rows/10/cagr`：**0.0995 → 0.0999**（差 0.0004）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/phase_rows/10/oos_cagr`：**0.1863 → 0.187**（差 0.0007）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/phase_rows/10/oos_sharpe`：**1.622 → 1.628**（差 0.006）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/phase_rows/10/sharpe`：**0.982 → 0.985**（差 0.003）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/phase_rows/10/vol`：**0.1065 → 0.1064**（差 -0.0001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/phase_rows/11/cagr`：**0.0942 → 0.0946**（差 0.0004）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/phase_rows/11/oos_cagr`：**0.1753 → 0.1761**（差 0.0008）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/phase_rows/11/oos_sharpe`：**1.558 → 1.565**（差 0.007）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/phase_rows/11/sharpe`：**0.936 → 0.94**（差 0.004）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/phase_rows/12/cagr`：**0.0871 → 0.0874**（差 0.0003）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/phase_rows/12/oos_cagr`：**0.1655 → 0.1664**（差 0.0009）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/phase_rows/12/oos_sharpe`：**1.463 → 1.47**（差 0.007）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/phase_rows/12/sharpe`：**0.877 → 0.88**（差 0.003）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/phase_rows/13/cagr`：**0.0731 → 0.0734**（差 0.0003）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/phase_rows/13/oos_cagr`：**0.1491 → 0.1499**（差 0.0008）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/phase_rows/13/oos_sharpe`：**1.375 → 1.382**（差 0.007）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/phase_rows/13/sharpe`：**0.767 → 0.77**（差 0.003）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/phase_rows/14/cagr`：**0.0671 → 0.0675**（差 0.0004）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/phase_rows/14/oos_cagr`：**0.1373 → 0.1381**（差 0.0008）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/phase_rows/14/oos_sharpe`：**1.331 → 1.338**（差 0.007）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/phase_rows/14/sharpe`：**0.741 → 0.744**（差 0.003）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/phase_rows/14/vol`：**0.0979 → 0.0978**（差 -0.0001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/phase_rows/15/cagr`：**0.1154 → 0.1157**（差 0.0003）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/phase_rows/15/oos_cagr`：**0.1474 → 0.148**（差 0.0006）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/phase_rows/15/oos_sharpe`：**1.409 → 1.414**（差 0.005）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/phase_rows/15/sharpe`：**1.205 → 1.207**（差 0.002）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/phase_rows/15/vol`：**0.0982 → 0.0981**（差 -0.0001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/phase_rows/16/cagr`：**0.1086 → 0.1089**（差 0.0003）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/phase_rows/16/oos_cagr`：**0.1337 → 0.1343**（差 0.0006）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/phase_rows/16/oos_sharpe`：**1.253 → 1.258**（差 0.005）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/phase_rows/16/sharpe`：**1.117 → 1.12**（差 0.003）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/phase_rows/17/cagr`：**0.111 → 0.1112**（差 0.0002）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/phase_rows/17/oos_cagr`：**0.1451 → 0.1457**（差 0.0006）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/phase_rows/17/oos_sharpe`：**1.378 → 1.383**（差 0.005）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/phase_rows/17/sharpe`：**1.154 → 1.157**（差 0.003）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/phase_rows/17/vol`：**0.0989 → 0.0988**（差 -0.0001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/phase_rows/18/cagr`：**0.0962 → 0.0964**（差 0.0002）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/phase_rows/18/oos_cagr`：**0.1209 → 0.1214**（差 0.0005）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/phase_rows/18/oos_sharpe`：**1.228 → 1.232**（差 0.004）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/phase_rows/18/sharpe`：**1.046 → 1.048**（差 0.002）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/phase_rows/18/vol`：**0.0956 → 0.0955**（差 -0.0001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/phase_rows/19/cagr`：**0.091 → 0.0912**（差 0.0002）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/phase_rows/19/oos_cagr`：**0.1162 → 0.1166**（差 0.0004）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/phase_rows/19/oos_sharpe`：**1.228 → 1.232**（差 0.004）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/phase_rows/19/sharpe`：**1.023 → 1.025**（差 0.002）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/phase_rows/2/cagr`：**0.0941 → 0.0943**（差 0.0002）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/phase_rows/2/oos_cagr`：**0.1772 → 0.1776**（差 0.0004）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/phase_rows/2/oos_sharpe`：**1.681 → 1.685**（差 0.004）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/phase_rows/2/sharpe`：**0.971 → 0.973**（差 0.002）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/phase_rows/3/cagr`：**0.0754 → 0.0756**（差 0.0002）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/phase_rows/3/oos_cagr`：**0.1353 → 0.1357**（差 0.0004）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/phase_rows/3/oos_sharpe`：**1.455 → 1.46**（差 0.005）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/phase_rows/3/sharpe`：**0.833 → 0.835**（差 0.002）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/phase_rows/4/cagr`：**0.0706 → 0.0708**（差 0.0002）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/phase_rows/4/oos_cagr`：**0.1277 → 0.1281**（差 0.0004）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/phase_rows/4/oos_sharpe`：**1.422 → 1.427**（差 0.005）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/phase_rows/4/sharpe`：**0.811 → 0.813**（差 0.002）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/phase_rows/5/cagr`：**0.1133 → 0.1139**（差 0.0006）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/phase_rows/5/oos_cagr`：**0.1942 → 0.1956**（差 0.0014）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/phase_rows/5/oos_sharpe`：**1.583 → 1.593**（差 0.01）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/phase_rows/5/sharpe`：**1.072 → 1.077**（差 0.005）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/phase_rows/6/cagr`：**0.0993 → 0.0999**（差 0.0006）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/phase_rows/6/oos_cagr`：**0.1654 → 0.1668**（差 0.0014）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/phase_rows/6/oos_sharpe`：**1.415 → 1.426**（差 0.011）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/phase_rows/6/sharpe`：**0.97 → 0.975**（差 0.005）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/phase_rows/7/cagr`：**0.0945 → 0.0951**（差 0.0006）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/phase_rows/7/oos_cagr`：**0.1651 → 0.1665**（差 0.0014）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/phase_rows/7/oos_sharpe`：**1.412 → 1.423**（差 0.011）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/phase_rows/7/sharpe`：**0.929 → 0.935**（差 0.006）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/phase_rows/8/cagr`：**0.085 → 0.0856**（差 0.0006）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/phase_rows/8/oos_cagr`：**0.1544 → 0.1558**（差 0.0014）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/phase_rows/8/oos_sharpe`：**1.411 → 1.423**（差 0.012）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/phase_rows/8/sharpe`：**0.876 → 0.882**（差 0.006）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/phase_rows/9/cagr`：**0.0804 → 0.081**（差 0.0006）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/phase_rows/9/oos_cagr`：**0.1375 → 0.1389**（差 0.0014）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/phase_rows/9/oos_sharpe`：**1.317 → 1.329**（差 0.012）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/phase_rows/9/sharpe`：**0.863 → 0.869**（差 0.006）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/recomputed/largest_sharpe_gap_vs_shipped`：**0.259 → 0.258**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/recomputed/windows/0/oos_sharpe_delta_by_phase/0`：**0.079 → 0.078**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/recomputed/windows/0/oos_sharpe_delta_by_phase/1`：**0.171 → 0.17**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/recomputed/windows/0/oos_sharpe_delta_by_phase/2`：**0.159 → 0.158**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/recomputed/windows/0/sharpe_delta_by_phase/0`：**0.072 → 0.071**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/recomputed/windows/0/sharpe_delta_by_phase/1`：**0.143 → 0.142**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/recomputed/windows/0/sharpe_delta_by_phase/3`：**0.051 → 0.05**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/recomputed/windows/0/sharpe_delta_max`：**0.143 → 0.142**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/recomputed/windows/0/sharpe_delta_min`：**0.051 → 0.05**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/recomputed/windows/1/oos_sharpe_delta_by_phase/0`：**0.05 → 0.049**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/recomputed/windows/1/sharpe_delta_by_phase/0`：**0.064 → 0.063**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/recomputed/windows/1/sharpe_delta_by_phase/1`：**0.041 → 0.04**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/recomputed/windows/1/sharpe_delta_by_phase/2`：**0.059 → 0.06**（差 0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/recomputed/windows/1/sharpe_delta_max`：**0.064 → 0.063**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/recomputed/windows/2/oos_sharpe_delta_by_phase/0`：**-0.226 → -0.225**（差 0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/recomputed/windows/2/oos_sharpe_delta_by_phase/1`：**-0.001 → 0.0**（差 0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/recomputed/windows/2/oos_sharpe_delta_by_phase/3`：**-0.15 → -0.151**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/recomputed/windows/2/sharpe_delta_by_phase/3`：**-0.108 → -0.109**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/recomputed/windows/3/oos_sharpe_delta_by_phase/0`：**-0.259 → -0.258**（差 0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/recomputed/windows/3/oos_sharpe_delta_by_phase/1`：**-0.095 → -0.094**（差 0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/recomputed/windows/3/oos_sharpe_delta_by_phase/3`：**-0.15 → -0.151**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/recomputed/windows/3/sharpe_delta_by_phase/3`：**-0.131 → -0.132**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/verdict/largest_sharpe_gap_vs_shipped`：**0.259 → 0.258**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/verdict/windows/0/oos_sharpe_delta_by_phase/0`：**0.079 → 0.078**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/verdict/windows/0/oos_sharpe_delta_by_phase/1`：**0.171 → 0.17**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/verdict/windows/0/oos_sharpe_delta_by_phase/2`：**0.159 → 0.158**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/verdict/windows/0/sharpe_delta_by_phase/0`：**0.072 → 0.071**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/verdict/windows/0/sharpe_delta_by_phase/1`：**0.143 → 0.142**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/verdict/windows/0/sharpe_delta_by_phase/3`：**0.051 → 0.05**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/verdict/windows/0/sharpe_delta_max`：**0.143 → 0.142**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/verdict/windows/0/sharpe_delta_min`：**0.051 → 0.05**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/verdict/windows/1/oos_sharpe_delta_by_phase/0`：**0.05 → 0.049**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/verdict/windows/1/sharpe_delta_by_phase/0`：**0.064 → 0.063**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/verdict/windows/1/sharpe_delta_by_phase/1`：**0.041 → 0.04**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/verdict/windows/1/sharpe_delta_by_phase/2`：**0.059 → 0.06**（差 0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/verdict/windows/1/sharpe_delta_max`：**0.064 → 0.063**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/verdict/windows/2/oos_sharpe_delta_by_phase/0`：**-0.226 → -0.225**（差 0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/verdict/windows/2/oos_sharpe_delta_by_phase/1`：**-0.001 → 0.0**（差 0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/verdict/windows/2/oos_sharpe_delta_by_phase/3`：**-0.15 → -0.151**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/verdict/windows/2/sharpe_delta_by_phase/3`：**-0.108 → -0.109**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/verdict/windows/3/oos_sharpe_delta_by_phase/0`：**-0.259 → -0.258**（差 0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/verdict/windows/3/oos_sharpe_delta_by_phase/1`：**-0.095 → -0.094**（差 0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/verdict/windows/3/oos_sharpe_delta_by_phase/3`：**-0.15 → -0.151**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window/verdict/windows/3/sharpe_delta_by_phase/3`：**-0.131 → -0.132**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/edge/best_mean_sharpe`：**1.105 → 1.1078**（差 0.0028）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/edge/curve/0/max_sharpe`：**1.173 → 1.175**（差 0.002）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/edge/curve/0/mean_sharpe`：**1.105 → 1.1078**（差 0.0028）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/edge/curve/0/min_sharpe`：**1.029 → 1.032**（差 0.003）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/edge/curve/1/max_sharpe`：**1.184 → 1.186**（差 0.002）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/edge/curve/1/mean_sharpe`：**1.1025 → 1.1053**（差 0.0028）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/edge/curve/1/min_sharpe`：**1.021 → 1.024**（差 0.003）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/edge/curve/2/max_sharpe`：**1.205 → 1.207**（差 0.002）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/edge/curve/2/mean_sharpe`：**1.0755 → 1.0782**（差 0.0027）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/edge/curve/2/min_sharpe`：**0.982 → 0.985**（差 0.003）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/edge/curve/3/max_sharpe`：**1.154 → 1.157**（差 0.003）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/edge/curve/3/mean_sharpe`：**0.9828 → 0.9862**（差 0.0034）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/edge/curve/3/min_sharpe`：**0.877 → 0.88**（差 0.003）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/edge/gain_of_best_over_shipped`：**0.1222 → 0.1216**（差 -0.0006）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/edge/shipped/max_sharpe`：**1.154 → 1.157**（差 0.003）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/edge/shipped/mean_sharpe`：**0.9828 → 0.9862**（差 0.0034）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/edge/shipped/min_sharpe`：**0.877 → 0.88**（差 0.003）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/paired/rows/0/bars`：**1663 → 1664**（差 1）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/paired/rows/0/ci_p05_p95_pp/0`：**0.371 → 0.347**（差 -0.024）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/paired/rows/0/ci_p05_p95_pp/1`：**3.111 → 3.008**（差 -0.103）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/paired/rows/0/mean_pp`：**1.61 → 1.602**（差 -0.008）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/paired/rows/0/share_positive`：**0.981 → 0.983**（差 0.002）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/paired/rows/1/bars`：**1658 → 1659**（差 1）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/paired/rows/1/ci_p05_p95_pp/0`：**1.092 → 1.085**（差 -0.007）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/paired/rows/1/ci_p05_p95_pp/1`：**4.197 → 4.182**（差 -0.015）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/paired/rows/1/mean_pp`：**2.593 → 2.592**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/paired/rows/2/bars`：**1653 → 1654**（差 1）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/paired/rows/2/ci_p05_p95_pp/0`：**0.01 → -0.007**（差 -0.017）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/paired/rows/2/ci_p05_p95_pp/1`：**2.732 → 2.76**（差 0.028）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/paired/rows/2/mean_pp`：**1.348 → 1.34**（差 -0.008）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/paired/rows/2/share_positive`：**0.95 → 0.948**（差 -0.002）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/paired/rows/3/bars`：**1648 → 1649**（差 1）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/paired/rows/3/ci_p05_p95_pp/0`：**-0.67 → -0.708**（差 -0.038）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/paired/rows/3/ci_p05_p95_pp/1`：**1.75 → 1.742**（差 -0.008）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/paired/rows/3/mean_pp`：**0.501 → 0.497**（差 -0.004）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/paired/rows/3/share_positive`：**0.764 → 0.749**（差 -0.015）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/paired/verdict/min_ci_low_pp`：**-0.67 → -0.708**（差 -0.038）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/paired/verdict/min_share_positive`：**0.764 → 0.749**（差 -0.015）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/panel/bars_named`：**5282 → 5283**（差 1）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/0/cagr`：**0.1401 → 0.1403**（差 0.0002）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/0/oos_cagr`：**0.2348 → 0.2352**（差 0.0004）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/0/oos_sharpe`：**1.56 → 1.563**（差 0.003）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/0/sharpe`：**0.969 → 0.97**（差 0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/0/vol`：**0.1531 → 0.153**（差 -0.0001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/1/cagr`：**0.1401 → 0.1403**（差 0.0002）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/1/oos_cagr`：**0.2348 → 0.2352**（差 0.0004）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/1/oos_sharpe`：**1.56 → 1.563**（差 0.003）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/1/sharpe`：**0.969 → 0.97**（差 0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/1/vol`：**0.1531 → 0.153**（差 -0.0001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/10/cagr`：**0.1218 → 0.1224**（差 0.0006）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/10/oos_cagr`：**0.2041 → 0.2055**（差 0.0014）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/10/oos_sharpe`：**1.653 → 1.663**（差 0.01）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/10/sharpe`：**1.146 → 1.151**（差 0.005）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/11/cagr`：**0.1186 → 0.1192**（差 0.0006）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/11/oos_cagr`：**0.2017 → 0.2031**（差 0.0014）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/11/oos_sharpe`：**1.636 → 1.646**（差 0.01）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/11/sharpe`：**1.113 → 1.118**（差 0.005）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/12/cagr`：**0.1133 → 0.1139**（差 0.0006）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/12/oos_cagr`：**0.1942 → 0.1956**（差 0.0014）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/12/oos_sharpe`：**1.583 → 1.593**（差 0.01）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/12/sharpe`：**1.072 → 1.077**（差 0.005）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/13/cagr`：**0.0945 → 0.0951**（差 0.0006）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/13/oos_cagr`：**0.1651 → 0.1665**（差 0.0014）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/13/oos_sharpe`：**1.412 → 1.423**（差 0.011）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/13/sharpe`：**0.929 → 0.935**（差 0.006）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/14/cagr`：**0.1354 → 0.1358**（差 0.0004）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/14/oos_cagr`：**0.2185 → 0.2193**（差 0.0008）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/14/oos_sharpe`：**1.196 → 1.2**（差 0.004）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/14/sharpe`：**0.871 → 0.873**（差 0.002）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/15/cagr`：**0.1354 → 0.1358**（差 0.0004）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/15/oos_cagr`：**0.2185 → 0.2193**（差 0.0008）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/15/oos_sharpe`：**1.196 → 1.2**（差 0.004）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/15/sharpe`：**0.871 → 0.873**（差 0.002）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/16/cagr`：**0.1354 → 0.1358**（差 0.0004）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/16/oos_cagr`：**0.2185 → 0.2193**（差 0.0008）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/16/oos_sharpe`：**1.196 → 1.2**（差 0.004）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/16/sharpe`：**0.871 → 0.873**（差 0.002）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/17/cagr`：**0.1015 → 0.1018**（差 0.0003）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/17/oos_cagr`：**0.1915 → 0.1922**（差 0.0007）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/17/oos_sharpe`：**1.73 → 1.736**（差 0.006）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/17/sharpe`：**1.029 → 1.032**（差 0.003）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/17/vol`：**0.1031 → 0.103**（差 -0.0001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/18/cagr`：**0.1033 → 0.1036**（差 0.0003）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/18/oos_cagr`：**0.1919 → 0.1925**（差 0.0006）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/18/oos_sharpe`：**1.668 → 1.674**（差 0.006）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/18/sharpe`：**1.021 → 1.024**（差 0.003）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/19/cagr`：**0.0995 → 0.0999**（差 0.0004）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/19/oos_cagr`：**0.1863 → 0.187**（差 0.0007）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/19/oos_sharpe`：**1.622 → 1.628**（差 0.006）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/19/sharpe`：**0.982 → 0.985**（差 0.003）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/19/vol`：**0.1065 → 0.1064**（差 -0.0001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/2/cagr`：**0.1401 → 0.1403**（差 0.0002）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/2/oos_cagr`：**0.2348 → 0.2352**（差 0.0004）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/2/oos_sharpe`：**1.56 → 1.563**（差 0.003）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/2/sharpe`：**0.969 → 0.97**（差 0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/2/vol`：**0.1531 → 0.153**（差 -0.0001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/20/cagr`：**0.0871 → 0.0874**（差 0.0003）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/20/oos_cagr`：**0.1655 → 0.1664**（差 0.0009）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/20/oos_sharpe`：**1.463 → 1.47**（差 0.007）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/20/sharpe`：**0.877 → 0.88**（差 0.003）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/21/cagr`：**0.1593 → 0.1596**（差 0.0003）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/21/oos_cagr`：**0.1919 → 0.1926**（差 0.0007）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/21/oos_sharpe`：**1.29 → 1.294**（差 0.004）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/21/sharpe`：**1.13 → 1.132**（差 0.002）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/21/vol`：**0.1452 → 0.1451**（差 -0.0001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/22/cagr`：**0.1593 → 0.1596**（差 0.0003）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/22/oos_cagr`：**0.1919 → 0.1926**（差 0.0007）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/22/oos_sharpe`：**1.29 → 1.294**（差 0.004）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/22/sharpe`：**1.13 → 1.132**（差 0.002）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/22/vol`：**0.1452 → 0.1451**（差 -0.0001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/23/cagr`：**0.1593 → 0.1596**（差 0.0003）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/23/oos_cagr`：**0.1919 → 0.1926**（差 0.0007）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/23/oos_sharpe`：**1.29 → 1.294**（差 0.004）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/23/sharpe`：**1.13 → 1.132**（差 0.002）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/23/vol`：**0.1452 → 0.1451**（差 -0.0001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/24/cagr`：**0.1161 → 0.1163**（差 0.0002）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/24/oos_cagr`：**0.1519 → 0.1523**（差 0.0004）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/24/oos_sharpe`：**1.368 → 1.372**（差 0.004）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/24/sharpe`：**1.173 → 1.175**（差 0.002）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/25/cagr`：**0.1139 → 0.1141**（差 0.0002）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/25/oos_cagr`：**0.1458 → 0.1463**（差 0.0005）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/25/oos_sharpe`：**1.374 → 1.379**（差 0.005）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/25/sharpe`：**1.184 → 1.186**（差 0.002）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/26/cagr`：**0.1154 → 0.1157**（差 0.0003）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/26/oos_cagr`：**0.1474 → 0.148**（差 0.0006）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/26/oos_sharpe`：**1.409 → 1.414**（差 0.005）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/26/sharpe`：**1.205 → 1.207**（差 0.002）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/26/vol`：**0.0982 → 0.0981**（差 -0.0001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/27/cagr`：**0.111 → 0.1112**（差 0.0002）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/27/oos_cagr`：**0.1451 → 0.1457**（差 0.0006）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/27/oos_sharpe`：**1.378 → 1.383**（差 0.005）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/27/sharpe`：**1.154 → 1.157**（差 0.003）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/27/vol`：**0.0989 → 0.0988**（差 -0.0001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/3/cagr`：**0.1106 → 0.1107**（差 0.0001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/3/oos_cagr`：**0.1971 → 0.1974**（差 0.0003）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/3/oos_sharpe`：**1.762 → 1.764**（差 0.002）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/3/sharpe`：**1.072 → 1.073**（差 0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/3/vol`：**0.1073 → 0.1072**（差 -0.0001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/4/cagr`：**0.1116 → 0.1117**（差 0.0001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/4/oos_cagr`：**0.2045 → 0.2048**（差 0.0003）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/4/oos_sharpe`：**1.824 → 1.826**（差 0.002）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/4/sharpe`：**1.092 → 1.093**（差 0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/5/cagr`：**0.1032 → 0.1033**（差 0.0001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/5/oos_cagr`：**0.19 → 0.1902**（差 0.0002）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/5/oos_sharpe`：**1.76 → 1.763**（差 0.003）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/5/sharpe`：**1.043 → 1.044**（差 0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/6/cagr`：**0.0941 → 0.0943**（差 0.0002）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/6/oos_cagr`：**0.1772 → 0.1776**（差 0.0004）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/6/oos_sharpe`：**1.681 → 1.685**（差 0.004）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/6/sharpe`：**0.971 → 0.973**（差 0.002）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/7/cagr`：**0.1391 → 0.1396**（差 0.0005）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/7/oos_cagr`：**0.2038 → 0.2052**（差 0.0014）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/7/oos_sharpe`：**1.181 → 1.188**（差 0.007）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/7/sharpe`：**0.905 → 0.908**（差 0.003）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/8/cagr`：**0.1391 → 0.1396**（差 0.0005）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/8/oos_cagr`：**0.2038 → 0.2052**（差 0.0014）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/8/oos_sharpe`：**1.181 → 1.188**（差 0.007）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/8/sharpe`：**0.905 → 0.908**（差 0.003）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/9/cagr`：**0.1391 → 0.1396**（差 0.0005）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/9/oos_cagr`：**0.2038 → 0.2052**（差 0.0014）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/9/oos_sharpe`：**1.181 → 1.188**（差 0.007）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/phase_rows/9/sharpe`：**0.905 → 0.908**（差 0.003）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/recomputed_edge/best_mean_sharpe`：**1.105 → 1.1078**（差 0.0028）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/recomputed_edge/curve/0/max_sharpe`：**1.173 → 1.175**（差 0.002）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/recomputed_edge/curve/0/mean_sharpe`：**1.105 → 1.1078**（差 0.0028）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/recomputed_edge/curve/0/min_sharpe`：**1.029 → 1.032**（差 0.003）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/recomputed_edge/curve/1/max_sharpe`：**1.184 → 1.186**（差 0.002）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/recomputed_edge/curve/1/mean_sharpe`：**1.1025 → 1.1053**（差 0.0028）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/recomputed_edge/curve/1/min_sharpe`：**1.021 → 1.024**（差 0.003）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/recomputed_edge/curve/2/max_sharpe`：**1.205 → 1.207**（差 0.002）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/recomputed_edge/curve/2/mean_sharpe`：**1.0755 → 1.0782**（差 0.0027）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/recomputed_edge/curve/2/min_sharpe`：**0.982 → 0.985**（差 0.003）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/recomputed_edge/curve/3/max_sharpe`：**1.154 → 1.157**（差 0.003）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/recomputed_edge/curve/3/mean_sharpe`：**0.9828 → 0.9862**（差 0.0034）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/recomputed_edge/curve/3/min_sharpe`：**0.877 → 0.88**（差 0.003）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/recomputed_edge/gain_of_best_over_shipped`：**0.1222 → 0.1216**（差 -0.0006）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/recomputed_edge/shipped/max_sharpe`：**1.154 → 1.157**（差 0.003）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/recomputed_edge/shipped/mean_sharpe`：**0.9828 → 0.9862**（差 0.0034）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/recomputed_edge/shipped/min_sharpe`：**0.877 → 0.88**（差 0.003）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/recomputed_verdict/largest_sharpe_gap_vs_shipped`：**0.267 → 0.27**（差 0.003）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/recomputed_verdict/windows/0/oos_sharpe_delta_by_phase/0`：**-0.121 → -0.122**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/recomputed_verdict/windows/0/oos_sharpe_delta_by_phase/1`：**-0.231 → -0.235**（差 -0.004）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/recomputed_verdict/windows/0/oos_sharpe_delta_by_phase/2`：**-0.267 → -0.27**（差 -0.003）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/recomputed_verdict/windows/0/oos_sharpe_delta_by_phase/3`：**-0.088 → -0.089**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/recomputed_verdict/windows/0/sharpe_delta_by_phase/0`：**-0.002 → -0.003**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/recomputed_verdict/windows/0/sharpe_delta_by_phase/1`：**-0.024 → -0.027**（差 -0.003）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/recomputed_verdict/windows/0/sharpe_delta_by_phase/2`：**-0.006 → -0.007**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/recomputed_verdict/windows/0/sharpe_delta_by_phase/3`：**-0.024 → -0.025**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/recomputed_verdict/windows/0/sharpe_delta_max`：**-0.002 → -0.003**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/recomputed_verdict/windows/0/sharpe_delta_min`：**-0.024 → -0.027**（差 -0.003）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/recomputed_verdict/windows/1/oos_sharpe_delta_by_phase/0`：**-0.121 → -0.122**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/recomputed_verdict/windows/1/oos_sharpe_delta_by_phase/1`：**-0.231 → -0.235**（差 -0.004）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/recomputed_verdict/windows/1/oos_sharpe_delta_by_phase/2`：**-0.267 → -0.27**（差 -0.003）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/recomputed_verdict/windows/1/oos_sharpe_delta_by_phase/3`：**-0.088 → -0.089**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/recomputed_verdict/windows/1/sharpe_delta_by_phase/0`：**-0.002 → -0.003**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/recomputed_verdict/windows/1/sharpe_delta_by_phase/1`：**-0.024 → -0.027**（差 -0.003）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/recomputed_verdict/windows/1/sharpe_delta_by_phase/2`：**-0.006 → -0.007**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/recomputed_verdict/windows/1/sharpe_delta_by_phase/3`：**-0.024 → -0.025**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/recomputed_verdict/windows/1/sharpe_delta_max`：**-0.002 → -0.003**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/recomputed_verdict/windows/1/sharpe_delta_min`：**-0.024 → -0.027**（差 -0.003）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/recomputed_verdict/windows/2/oos_sharpe_delta_by_phase/0`：**-0.121 → -0.122**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/recomputed_verdict/windows/2/oos_sharpe_delta_by_phase/1`：**-0.231 → -0.235**（差 -0.004）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/recomputed_verdict/windows/2/oos_sharpe_delta_by_phase/2`：**-0.267 → -0.27**（差 -0.003）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/recomputed_verdict/windows/2/oos_sharpe_delta_by_phase/3`：**-0.088 → -0.089**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/recomputed_verdict/windows/2/sharpe_delta_by_phase/0`：**-0.002 → -0.003**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/recomputed_verdict/windows/2/sharpe_delta_by_phase/1`：**-0.024 → -0.027**（差 -0.003）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/recomputed_verdict/windows/2/sharpe_delta_by_phase/2`：**-0.006 → -0.007**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/recomputed_verdict/windows/2/sharpe_delta_by_phase/3`：**-0.024 → -0.025**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/recomputed_verdict/windows/2/sharpe_delta_max`：**-0.002 → -0.003**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/recomputed_verdict/windows/2/sharpe_delta_min`：**-0.024 → -0.027**（差 -0.003）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/recomputed_verdict/windows/3/oos_sharpe_delta_by_phase/0`：**0.081 → 0.079**（差 -0.002）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/recomputed_verdict/windows/3/oos_sharpe_delta_by_phase/1`：**0.241 → 0.24**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/recomputed_verdict/windows/3/oos_sharpe_delta_by_phase/2`：**0.267 → 0.266**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/recomputed_verdict/windows/3/oos_sharpe_delta_by_phase/3`：**-0.01 → -0.011**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/recomputed_verdict/windows/3/sharpe_delta_by_phase/0`：**0.101 → 0.1**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/recomputed_verdict/windows/3/sharpe_delta_by_phase/1`：**0.217 → 0.216**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/recomputed_verdict/windows/3/sharpe_delta_by_phase/3`：**0.019 → 0.018**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/recomputed_verdict/windows/3/sharpe_delta_max`：**0.217 → 0.216**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/recomputed_verdict/windows/3/sharpe_delta_min`：**0.019 → 0.018**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/recomputed_verdict/windows/4/oos_sharpe_delta_by_phase/0`：**0.143 → 0.141**（差 -0.002）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/recomputed_verdict/windows/4/oos_sharpe_delta_by_phase/1`：**0.224 → 0.223**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/recomputed_verdict/windows/4/oos_sharpe_delta_by_phase/2`：**0.205 → 0.204**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/recomputed_verdict/windows/4/sharpe_delta_by_phase/0`：**0.121 → 0.12**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/recomputed_verdict/windows/4/sharpe_delta_by_phase/1`：**0.184 → 0.183**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/recomputed_verdict/windows/4/sharpe_delta_by_phase/3`：**0.03 → 0.029**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/recomputed_verdict/windows/4/sharpe_delta_max`：**0.184 → 0.183**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/recomputed_verdict/windows/4/sharpe_delta_min`：**0.03 → 0.029**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/recomputed_verdict/windows/5/oos_sharpe_delta_by_phase/0`：**0.079 → 0.078**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/recomputed_verdict/windows/5/oos_sharpe_delta_by_phase/1`：**0.171 → 0.17**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/recomputed_verdict/windows/5/oos_sharpe_delta_by_phase/2`：**0.159 → 0.158**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/recomputed_verdict/windows/5/sharpe_delta_by_phase/0`：**0.072 → 0.071**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/recomputed_verdict/windows/5/sharpe_delta_by_phase/1`：**0.143 → 0.142**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/recomputed_verdict/windows/5/sharpe_delta_by_phase/3`：**0.051 → 0.05**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/recomputed_verdict/windows/5/sharpe_delta_max`：**0.143 → 0.142**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/recomputed_verdict/windows/5/sharpe_delta_min`：**0.051 → 0.05**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/verdict/largest_sharpe_gap_vs_shipped`：**0.267 → 0.27**（差 0.003）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/verdict/windows/0/oos_sharpe_delta_by_phase/0`：**-0.121 → -0.122**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/verdict/windows/0/oos_sharpe_delta_by_phase/1`：**-0.231 → -0.235**（差 -0.004）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/verdict/windows/0/oos_sharpe_delta_by_phase/2`：**-0.267 → -0.27**（差 -0.003）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/verdict/windows/0/oos_sharpe_delta_by_phase/3`：**-0.088 → -0.089**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/verdict/windows/0/sharpe_delta_by_phase/0`：**-0.002 → -0.003**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/verdict/windows/0/sharpe_delta_by_phase/1`：**-0.024 → -0.027**（差 -0.003）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/verdict/windows/0/sharpe_delta_by_phase/2`：**-0.006 → -0.007**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/verdict/windows/0/sharpe_delta_by_phase/3`：**-0.024 → -0.025**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/verdict/windows/0/sharpe_delta_max`：**-0.002 → -0.003**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/verdict/windows/0/sharpe_delta_min`：**-0.024 → -0.027**（差 -0.003）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/verdict/windows/1/oos_sharpe_delta_by_phase/0`：**-0.121 → -0.122**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/verdict/windows/1/oos_sharpe_delta_by_phase/1`：**-0.231 → -0.235**（差 -0.004）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/verdict/windows/1/oos_sharpe_delta_by_phase/2`：**-0.267 → -0.27**（差 -0.003）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/verdict/windows/1/oos_sharpe_delta_by_phase/3`：**-0.088 → -0.089**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/verdict/windows/1/sharpe_delta_by_phase/0`：**-0.002 → -0.003**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/verdict/windows/1/sharpe_delta_by_phase/1`：**-0.024 → -0.027**（差 -0.003）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/verdict/windows/1/sharpe_delta_by_phase/2`：**-0.006 → -0.007**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/verdict/windows/1/sharpe_delta_by_phase/3`：**-0.024 → -0.025**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/verdict/windows/1/sharpe_delta_max`：**-0.002 → -0.003**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/verdict/windows/1/sharpe_delta_min`：**-0.024 → -0.027**（差 -0.003）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/verdict/windows/2/oos_sharpe_delta_by_phase/0`：**-0.121 → -0.122**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/verdict/windows/2/oos_sharpe_delta_by_phase/1`：**-0.231 → -0.235**（差 -0.004）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/verdict/windows/2/oos_sharpe_delta_by_phase/2`：**-0.267 → -0.27**（差 -0.003）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/verdict/windows/2/oos_sharpe_delta_by_phase/3`：**-0.088 → -0.089**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/verdict/windows/2/sharpe_delta_by_phase/0`：**-0.002 → -0.003**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/verdict/windows/2/sharpe_delta_by_phase/1`：**-0.024 → -0.027**（差 -0.003）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/verdict/windows/2/sharpe_delta_by_phase/2`：**-0.006 → -0.007**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/verdict/windows/2/sharpe_delta_by_phase/3`：**-0.024 → -0.025**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/verdict/windows/2/sharpe_delta_max`：**-0.002 → -0.003**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/verdict/windows/2/sharpe_delta_min`：**-0.024 → -0.027**（差 -0.003）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/verdict/windows/3/oos_sharpe_delta_by_phase/0`：**0.081 → 0.079**（差 -0.002）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/verdict/windows/3/oos_sharpe_delta_by_phase/1`：**0.241 → 0.24**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/verdict/windows/3/oos_sharpe_delta_by_phase/2`：**0.267 → 0.266**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/verdict/windows/3/oos_sharpe_delta_by_phase/3`：**-0.01 → -0.011**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/verdict/windows/3/sharpe_delta_by_phase/0`：**0.101 → 0.1**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/verdict/windows/3/sharpe_delta_by_phase/1`：**0.217 → 0.216**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/verdict/windows/3/sharpe_delta_by_phase/3`：**0.019 → 0.018**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/verdict/windows/3/sharpe_delta_max`：**0.217 → 0.216**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/verdict/windows/3/sharpe_delta_min`：**0.019 → 0.018**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/verdict/windows/4/oos_sharpe_delta_by_phase/0`：**0.143 → 0.141**（差 -0.002）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/verdict/windows/4/oos_sharpe_delta_by_phase/1`：**0.224 → 0.223**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/verdict/windows/4/oos_sharpe_delta_by_phase/2`：**0.205 → 0.204**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/verdict/windows/4/sharpe_delta_by_phase/0`：**0.121 → 0.12**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/verdict/windows/4/sharpe_delta_by_phase/1`：**0.184 → 0.183**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/verdict/windows/4/sharpe_delta_by_phase/3`：**0.03 → 0.029**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/verdict/windows/4/sharpe_delta_max`：**0.184 → 0.183**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/verdict/windows/4/sharpe_delta_min`：**0.03 → 0.029**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/verdict/windows/5/oos_sharpe_delta_by_phase/0`：**0.079 → 0.078**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/verdict/windows/5/oos_sharpe_delta_by_phase/1`：**0.171 → 0.17**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/verdict/windows/5/oos_sharpe_delta_by_phase/2`：**0.159 → 0.158**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/verdict/windows/5/sharpe_delta_by_phase/0`：**0.072 → 0.071**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/verdict/windows/5/sharpe_delta_by_phase/1`：**0.143 → 0.142**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/verdict/windows/5/sharpe_delta_by_phase/3`：**0.051 → 0.05**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/verdict/windows/5/sharpe_delta_max`：**0.143 → 0.142**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/vol_window_edge/verdict/windows/5/sharpe_delta_min`：**0.051 → 0.05**（差 -0.001）｜SECTION_ADVANCED｜这一节自己换了代：`vol_window_edge` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/window_label/identity/the full-window cell's own window reproduces the ticket/delta_pp`：**0.0 → 0.06**（差 0.06）｜SECTION_ADVANCED｜这一节自己换了代：`window_label` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/window_label/identity/the full-window cell's own window reproduces the ticket/measured_pp`：**12.45 → 12.39**（差 -0.06）｜SECTION_ADVANCED｜这一节自己换了代：`window_label` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/window_label/rows/printed_under_full_header/sharpe`：**1.687 → 1.688**（差 0.001）｜SECTION_ADVANCED｜这一节自己换了代：`window_label` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/window_label/rows/same_book_full_window/bars`：**1537 → 1538**（差 1）｜SECTION_ADVANCED｜这一节自己换了代：`window_label` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/window_label/rows/same_book_full_window/cagr_pp`：**7.6 → 7.58**（差 -0.02）｜SECTION_ADVANCED｜这一节自己换了代：`window_label` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/window_label/rows/same_book_full_window/sharpe`：**1.324 → 1.32**（差 -0.004）｜SECTION_ADVANCED｜这一节自己换了代：`window_label` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/window_label/table_row/full/cagr_pct`：**7.6 → 7.58**（差 -0.02）｜SECTION_ADVANCED｜这一节自己换了代：`window_label` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/window_label/table_row/full/sharpe`：**1.324 → 1.32**（差 -0.004）｜SECTION_ADVANCED｜这一节自己换了代：`window_label` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/window_label/table_row/full_window_bars`：**1537 → 1538**（差 1）｜SECTION_ADVANCED｜这一节自己换了代：`window_label` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/window_label/table_row/oos/sharpe`：**1.687 → 1.688**（差 0.001）｜SECTION_ADVANCED｜这一节自己换了代：`window_label` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-- `/window_label/verdict/gap_pp`：**4.85 → 4.87**（差 0.02）｜SECTION_ADVANCED｜这一节自己换了代：`window_label` 2026-11-17 → 2026-11-18（标题那根 bar 两天相同，这一节不同）；分节 bar 面：results/live_book_section_bars.json
-
-同一个隔夜、同一根 bar、同一笔钱，这页昨天给一个答案、今天给另一个。两个答案不可能都对：走 `RECOVERED_OLD_VALUE`／`DECLARED_RULER` 的那一条说明**是新答案改了算法**（旧数还在页上或口径句改了），读的人要按新口径重读昨天的判断；没有这两条说明的，就是这页偷偷换了数。
-
-## 还有哪些节在同 bar 上改了数（76 个）
-
-- `cash_ladder`：25 个
-- `lot_floor`：18 个
-- `futures_hedge`：9 个
-- `futures_hedge_tail`：8 个
-- `cash_money`：7 个
-- `sibling_gap`：4 个
-- `backtest_band`：1 个
-- `cash_caliber`：1 个
-- `idle_cash`：1 个
-- `lookahead`：1 个
-- `stress`：1 个
-
-这几节的位移**没有任何解释**（不是转抄、不是换输入、不是换代）。页要在同一根 bar 上改这些数，就得自己写出理由；写不出来，读的人就分不清「今天变了」和「口径变了」。
+- `/authority/gate_h`
+- `/authority/owner_silent_h`
+- `/family_coherence/panels_detail`
+- `/label_census/groups`
+- `/premium_leak/nav_ruler_history`
+- `/sibling_gap/pairs`
 
 ## 这张面自己什么时候算陈旧（r1834）
 

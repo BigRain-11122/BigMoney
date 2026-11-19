@@ -1,6 +1,6 @@
 # IH as a hedge for the ETF book
 
-Cutoff 2026-11-18 | book bars 1590 (2020-01-06..2026-11-18) | IH IH, one lot 819360 CNY.
+Cutoff 2026-11-19 | book bars 1590 (2020-01-06..2026-11-18) | IH IH, one lot 819360 CNY.
 
 ## What the hedge would have to be
 

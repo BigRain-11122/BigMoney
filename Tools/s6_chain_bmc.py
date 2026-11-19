@@ -712,6 +712,10 @@ LEGS = [
     # panel), r1290 (card) and r1291 (width face) -- so it rides the chain behind the
     # panel those legs already warmed (~110s, no network, no judge).
     ("etf_book_capacity_rule", ["python", "scripts/etf_book_capacity_rule.py", "run"]),
+    # r1850: the page's supply_capacity section quotes this receipt, and until now no leg
+    # wrote it -- the section sat a bar behind carrying provenance=no_writer, which reads
+    # as "nobody produces this" about a script that exists. Hand-run only since r1309.
+    ("etf_book_capacity_floor_gap", ["python", "scripts/etf_book_capacity_floor_gap.py"]),
     # r1293: the register of every live book face. The legs above each refresh ONE
     # face; nothing listed them together, so a face could be added, go stale, or sit
     # outside the chain with no single place to notice (r1290 and r1291 were both that
