@@ -34,6 +34,7 @@ Gates: recorded bars are re-derived every run; if any published mark no longer r
 quietly rewriting history -- `--rebase` is the logged escape and stays visible in the file.
 It trades nothing, touches no registry, and claims no edge.
 """
+import hashlib
 import json
 import os
 import sys
@@ -522,6 +523,9 @@ class Forward:
                 "n_held": len(self.held),
                 "filled": filled,
                 "turn": round(float(turn), 6),
+                # r1853: which names this mark was priced on, so _indexed can fingerprint
+                # exactly those closes instead of the whole panel
+                "held_names": sorted(self.held),
             }))
             if d in rebal_days:
                 self._decide(d)
@@ -1607,7 +1611,30 @@ def compute_marks(vol_target=CONFIG["vol_target"], carry_on=True):
     return fwd, marks, dates, cls, n_flip
 
 
-def _indexed(marks, seed_bar):
+def _price_fp(px, bar, names):
+    """Fingerprint of the closes this bar was marked on -- the ledger's own receipt.
+
+    A reader who re-derives a bar and lands somewhere else can only ask "did the book
+    compute wrongly, or did the panel move under it?" -- and until the ledger records the
+    numbers it actually used, nothing on disk can tell those two apart (r1852 left a
+    4.93e-06 identity deviation on 2026-11-18 that no reader could attribute). Storing the
+    closes' digest makes the question answerable from the record: same digest + different
+    nav = the arithmetic; different digest = the panel was revised after publication.
+    Rounded to 6dp so a float tail cannot read as a revision.
+    """
+    if px is None or not names or bar not in px.index:
+        return None
+    try:
+        vals = [float(px.at[bar, n]) for n in sorted(names)]
+    except Exception:
+        return None
+    if not all(np.isfinite(v) for v in vals):
+        return None
+    payload = ",".join("%.6f" % v for v in vals)
+    return hashlib.sha256(payload.encode("ascii")).hexdigest()[:16]
+
+
+def _indexed(marks, seed_bar, px=None):
     """Marks rebased so the seed bar is 1.0; drawdown measured from the seed peak."""
     out, base, peak = [], None, 1.0
     for d, m in marks:
@@ -1618,6 +1645,7 @@ def _indexed(marks, seed_bar):
             base = m["nav"]
         nav = m["nav"] / base
         peak = max(peak, nav)
+        _held = sorted(m.get("held_names") or [])
         out.append({
             "bar": bar,
             "nav": round(nav, 10),
@@ -1627,6 +1655,10 @@ def _indexed(marks, seed_bar):
             "n_held": m["n_held"],
             "filled": m["filled"],
             "turn": m["turn"],
+            # r1853: the closes this mark was computed on, so a later reader can separate
+            # "the panel was revised" from "the book computed wrongly" (see _price_fp).
+            "panel_fp": _price_fp(px, pd.Timestamp(bar), _held),
+            "panel_fp_names": _held,
         })
     return out
 
@@ -1731,7 +1763,7 @@ def seed(capital=1_000_000.0):
         "bars_since_last_decision": (len(dates) - 1) % CONFIG["rebal"],
         "note": "marks are indexed to 1.0 at this bar; nothing before it is a track record",
     }
-    led["bars"] = _indexed(marks, last_bar)
+    led["bars"] = _indexed(marks, last_bar, fwd.px)
     # the seed bar is priced on the panel as it stands at seeding time; say so, so a later
     # settle-time restatement is a recorded promotion rather than a silent mark change
     for b in led["bars"]:
@@ -1790,7 +1822,7 @@ def run(rebase=False):
 
     fwd, marks, dates, cls, n_flip = compute_marks()
     seed_bar = led["seed"]["bar"]
-    fresh = {b["bar"]: b for b in _indexed(marks, seed_bar)}
+    fresh = {b["bar"]: b for b in _indexed(marks, seed_bar, fwd.px)}
     panel_last = str(dates[-1].date()) if dates else None
     # a bar past the last priceable repo bar is still filling (r1372)
     carry_last = carry_last_bar() if fwd.carry is not None else None
@@ -1847,6 +1879,46 @@ def run(rebase=False):
     bench_faces, bench_prov = split_faces(bench_all, settled)
     faces_settled, faces_prov = split_faces(faces, settled)
     blocking = bool(faces_settled or bench_faces)
+    # r1853: "the published mark no longer re-derives" has two causes, and the record can
+    # now name which. The ledger stores the closes each bar was priced on (`panel_fp`), so
+    # a digest that no longer matches the panel means the PANEL was revised after
+    # publication; a matching digest with a moved nav is the book's own arithmetic. Before
+    # this field existed every deviation had to be read as the second kind, and r1852 spent
+    # a whole round proving a 4.93e-06 gap was neither.
+    panel_moved, cause = {}, {}
+    for b in published_bars(led):
+        bar = b["bar"]
+        f = fresh.get(bar) or {}
+        rec_fp, now_fp = b.get("panel_fp"), f.get("panel_fp")
+        if rec_fp and now_fp and rec_fp != now_fp:
+            panel_moved[bar] = {
+                "recorded": rec_fp, "now": now_fp,
+                "nav_delta": abs(float(f.get("nav", 0.0)) - float(b.get("nav", 0.0))),
+                "names": b.get("panel_fp_names") or [],
+            }
+            cause[bar] = "PANEL_MOVED_SINCE"
+        elif rec_fp and now_fp:
+            # a digest stamped after publication is a baseline, not a witness (same reading
+            # the card face applies, so two readers cannot answer this differently)
+            cause[bar] = ("FP_BASELINE_ONLY" if b.get("panel_fp_backfilled")
+                          else "PANEL_SAME")
+        else:
+            cause[bar] = "NO_FP_LEGACY"
+    legacy_at_publish = [b["bar"] for b in published_bars(led) if not b.get("panel_fp")]
+    # r1853: bars published before the field existed get a BASELINE digest stamped from
+    # today's panel, and say so. It cannot prove what the closes were on the day -- a panel
+    # revised in between would read as unchanged -- but from this stamp forward it is a real
+    # witness, which is exactly the question a reader will ask next round.
+    _stamp = time.strftime("%Y-%m-%dT%H:%M:%S%z")
+    for b in published_bars(led):
+        if b.get("panel_fp"):
+            continue
+        f = fresh.get(b["bar"]) or {}
+        if not f.get("panel_fp"):
+            continue
+        b["panel_fp"] = f["panel_fp"]
+        b["panel_fp_names"] = f.get("panel_fp_names") or []
+        b["panel_fp_backfilled"] = _stamp
     led["drift"] = {
         "faces": (faces_settled + faces_prov)[:20],
         "max_abs": worst,
@@ -1861,6 +1933,24 @@ def run(rebase=False):
         "benchmark_provisional_faces": bench_prov,
         "restated_bars": [r["bar"] for r in restated],
         "withdrawn_bars": [r["bar"] for r in withdrawn],
+        # r1853: which published bars were priced on closes the panel no longer carries
+        # (names + old/new digest + the size of the nav the revision moved), which bars
+        # this run could attribute at all, and which predate the fingerprint field.
+        "panel_moved_bars": sorted(panel_moved),
+        "panel_moved": panel_moved,
+        "identity_cause": cause,
+        "panel_fp_legacy_bars": legacy_at_publish,
+        "panel_fp_backfilled_bars": [b["bar"] for b in published_bars(led)
+                                     if b.get("panel_fp_backfilled")],
+        "panel_fp_backfill_note": (
+            "bars in panel_fp_legacy_bars were published before this field existed; each now "
+            "carries a digest stamped from the panel as it stands (panel_fp_backfilled_bars). "
+            "That stamp is a BASELINE, not a witness for the bar's own publication -- it can "
+            "only report revisions from the stamp forward, and readers must not read its "
+            "agreement as 'the closes never moved'"),
+        "panel_fp_note": ("each bar records the digest of the closes it was marked on; a "
+                          "digest that no longer matches the panel means the bar was "
+                          "re-marked after publication, not mis-computed"),
     }
     if withdrawn:
         print("WITHDRAWN %s: published on a bar the coverage gate has since refused "
@@ -1878,7 +1968,8 @@ def run(rebase=False):
     led["ledger_history"] = ledger_history(led)
     print(history_md(led["ledger_history"]), flush=True)
 
-    new_bars = [f for f in _indexed(marks, seed_bar) if f["bar"] > led["bars"][-1]["bar"]]
+    new_bars = [f for f in _indexed(marks, seed_bar, fwd.px)
+                if f["bar"] > led["bars"][-1]["bar"]]
     born = born_provisional([b["bar"] for b in published_bars(led)],
                             [nb["bar"] for nb in new_bars], panel_last, carry_last)
     for nb in new_bars:
@@ -1899,7 +1990,7 @@ def run(rebase=False):
             # r1404: a rewrite that did not keep the value it replaced is unauditable
             "rows": rows,
         })
-        led["bars"] = _indexed(marks, seed_bar)
+        led["bars"] = _indexed(marks, seed_bar, fwd.px)
         # the re-derived series already contains every bar, so nothing is left to append
         new_bars = []
         led["status"] = "live"

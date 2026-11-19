@@ -234,8 +234,8 @@
   "sha": "278bb79900"
  },
  "last_push_at": "2026-11-11T08:31:06+08:00",
- "last_round": 1851,
- "last_round_at": "2026-11-19T22:08:12+08:00",
+ "last_round": 1853,
+ "last_round_at": "2026-11-20T00:28:03+08:00",
  "last_round_at_legacy": "2026-10-19T15:34:21+08:00",
  "last_round_closed": 1733,
  "last_round_closed_at": "2026-11-15T18:47:16+08:00",
@@ -1254,7 +1254,7 @@
   "watermark": "green: board/pool both empty (pool_ready_count=0, fleet_open_tasks=0), no claimable batch on this host; py_watermark insufficient_history (window n=1, local_batch=1 = this round own suite)"
  },
  "round_label": "r1813",
- "round_no": 1852,
+ "round_no": 1854,
  "round_no_label": "r1821",
  "round_no_landed": 1663,
  "round_note": "r1489: a reinstated bar is re-derived from the panel, not carried over (reinstatement_check + reinstatements.json + sheet paragraph)",
@@ -1919,5 +1919,8 @@
  "round_r1851_next": "(a) card track NAV identity: find which constituent's 2026-11-18 close was re-pulled (ledger land time vs data/daily mtime), then either store a panel fingerprint in the ledger or add a documented panel-rewritten exemption; (b) full smoke suite needs its own window; (c) S6 full chain needs its own window (the r1842 chain has been inflight since 13:38).",
  "verify_r1852": "etf_book_card_track selftest 43/43 PASS (new L10/L10b/L10c: a ledger-provisional bar is withheld but its size is printed; a 0.2bp level defect still fails) | run GATE rc=0 AGREE maxdev 1.50e-09 over 4 policed bars, 2026-11-18/19 disclosed as provisional at 4.93e-06/5.98e-06 | step identity exact (0.000bp) on every settled bar; level carries the ledger's own 10-dp rounding + restatement rescale | idx_fut_proxy_noise --check CHECK_OK byte-for-byte | capital_ladder ok:true (IC 1 lot 89,643 CNY/yr) | carry_margin CHECK OK VOL_RULER_IS_THE_GATE | day_delta --check DATA_ADVANCED moved=12984 unexplained=0 | sizing_spec check ok:true | open_capital rc0 (IC first rung 1,120,540) | S6 --only=etf_book_ceo_page rc0 52.6s | pool_dualrun ZERO-DRIFT streak 51 | attrition CLEAN | orphans=0 | full suite run 1: 694 legs 5 FAIL (four stale faces + this one); after the fixes run 2: 693/696 PASS, 3 FAIL -- all three were ORDER, not arithmetic (ceo_live_usage and day_delta run before open_capital/ladder on the chain); re-ran in dependency order and each criterion then held (decision token + 1,120,540 + 1,146,317 printed on the page; sizing_spec check ok:true; day_delta moved=12984 unexplained=0). No third full run: 841s fills the window, so this round claims three reds closed one by one, not a green suite",
  "round_r1852_note": "the bar that jumped was not the ledger's arithmetic: 2026-11-18 carries provisional:true, i.e. the producer already declared it published while the panel was still gaining symbols. The reader had implemented only half the settle rule (panel dates) and skipped the half the producer states about itself.",
- "round_r1852_next": "(a) let the second full suite finish and confirm failed=[]; (b) S6 full chain needs its own window (only one leg ran this round); (c) give ledger rows a panel fingerprint so 'the panel was rewritten' and 'the ledger is wrong' stop sharing one verdict."
+ "round_r1852_next": "(a) let the second full suite finish and confirm failed=[]; (b) S6 full chain needs its own window (only one leg ran this round); (c) give ledger rows a panel fingerprint so 'the panel was rewritten' and 'the ledger is wrong' stop sharing one verdict.",
+ "verify_r1853": "etf_book_card_track --selftest 46/46 PASS (new L10d same-closes->book owns / L10e fake fp->names the panel / L10f no fp->says legacy); run GATE rc=0 AGREE maxdev 1.80e-09 over 5 policed bars | etf_book_forward run rc0, 20/20 bars carry panel_fp (all 20 stamped as backfilled baseline) and 2026-11-18 restated 1.0020575433->1.0020464916 (factor 0.9999889710) in the same run | full suite inherited from the killed round completed: 696/696 PASS 0 FAIL, record 2026-11-20T00:18:25 green | S6 --only etf_book_card_track,etf_book_forward 2/2 rc0 (50.6s/41.4s) | attrition CLEAN (4 ledgers, 3 historical shrinks healed) | pool_dualrun ZERO-DRIFT streak 51 | orphans=0 | 31 scratch files quarantined to results/_quarantine/r1853-scratch with sha256 manifest after prescan zero hits",
+ "round_r1853_note": "the previous headless round was silence-killed at 00:06 mid-window; its uncommitted work (panel fingerprints on ledger bars) was the r1852 next-pointer item, so this round verified and landed it instead of starting a new thread. The 4.93e-06 identity jump on 2026-11-18 is now attributed: the panel was revised after that bar was published, not a book arithmetic error. Legacy bars can only carry a baseline digest and say so.",
+ "round_r1853_next": "(a) let the next freshly published bar prove the witness path (PANEL_SAME on a live bar, not just BASELINE_ONLY); (b) full S6 chain needs its own window (only two legs ran this round); (c) the killed round's silence-kill leaves the suite as the only whole-face check -- keep the 696-leg record as the baseline for the next diff."
 }

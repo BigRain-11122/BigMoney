@@ -346,6 +346,33 @@ def drift(led, close, openp, cost_per_side=None):
     # on the wider raw panel index shifts the modulo-20 grid and misreports the countdown.
     eng = openp.index[openp.index >= pd.Timestamp(R.START)]
     gp = P.grid_position(list(eng), pd.Timestamp(last_bar), F.CONFIG["rebal"])
+
+    # r1853: a deviation has two possible owners and this face used to have to guess. The
+    # ledger now records the digest of the closes each bar was priced on, so asking the same
+    # question of today's panel says which: a digest that no longer matches means the bar was
+    # RE-MARKED after publication (the panel moved under the book), a matching digest with a
+    # moved nav is the book's own arithmetic. Bars published before r1853 carry no digest and
+    # are reported as such instead of being assumed into either bucket.
+    identity_cause, panel_moved = {}, {}
+    for b in bars:
+        bar = str(b.get("bar"))
+        rec_fp = b.get("panel_fp")
+        if not rec_fp:
+            identity_cause[bar] = "NO_FP_LEGACY"
+            continue
+        _fp_names = b.get("panel_fp_names") or names
+        now_fp = F._price_fp(close, pd.Timestamp(bar), [str(x) for x in _fp_names])
+        if now_fp is None:
+            identity_cause[bar] = "FP_UNREADABLE"
+        elif now_fp != rec_fp:
+            identity_cause[bar] = "PANEL_MOVED_SINCE"
+            panel_moved[bar] = {"recorded": rec_fp, "now": now_fp,
+                                "baseline_stamped": b.get("panel_fp_backfilled")}
+        else:
+            # a digest stamped after the fact is a baseline, not a witness: it can only
+            # speak for revisions that happen from its stamp forward.
+            identity_cause[bar] = ("FP_BASELINE_ONLY" if b.get("panel_fp_backfilled")
+                                   else "PANEL_SAME")
     return {
         "available": True,
         "decision_bar": decision,
@@ -393,6 +420,20 @@ def drift(led, close, openp, cost_per_side=None):
             "the ledger published these bars while the panel for their date was still gaining "
             "symbols; its own gate restates or promotes them, so this face prints their live "
             "deviation instead of failing on work that belongs to the producer"),
+        # r1853: who owns the deviation -- the panel (re-marked after publication) or the
+        # book (same closes, different arithmetic). Only computable on bars whose row carries
+        # a closes digest; `NO_FP_LEGACY` says the record predates the field instead of
+        # letting the reader read silence as "nothing moved".
+        "identity_cause": identity_cause,
+        "identity_panel_moved_bars": sorted(panel_moved),
+        "identity_panel_moved": panel_moved,
+        "identity_cause_note": ("PANEL_MOVED_SINCE = the closes this bar was marked on are no "
+                                "longer the closes on disk (baseline_stamped says the digest "
+                                "was taken after publication, so the move is dated from that "
+                                "stamp); PANEL_SAME = same closes, so a deviation there is the "
+                                "book's own; FP_BASELINE_ONLY = the digest was stamped after "
+                                "the fact and can only witness later revisions; NO_FP_LEGACY = "
+                                "published before the ledger recorded its closes"),
         # r1402: why a bar was not policed has to be readable, not just that it wasn't.
         # `carry_last` is the newest bar the repo ladder can actually price; every book bar
         # after it rode a forward-filled rate, so its cash leg is filling by definition.
@@ -651,6 +692,33 @@ def selftest():
     d_l = drift(led_l, px, op, cost_per_side=0.001)
     chk("L10c a 0.2bp level defect still fails the identity",
         d_l["available"] and d_l["nav_identity_ok"] is False, str(d_l.get("nav_identity_max_dev")))
+
+    # r1853: the record now carries the closes each bar was priced on, so this face can say
+    # WHOSE deviation a red is. Three directions, because "no digest" must not read as
+    # "nothing moved" and a fingerprint that silently never matches is worse than none.
+    _fp_bar = str(dates[3].date())
+    led_fp = json.loads(json.dumps(led))
+    for _b in led_fp["bars"]:
+        if _b["bar"] == _fp_bar:
+            _b["panel_fp"] = F._price_fp(px, dates[3], ["A", "B"])
+            _b["panel_fp_names"] = ["A", "B"]
+    d_fp = drift(led_fp, px, op, cost_per_side=0.001)
+    chk("L10d the same closes -> the book owns its deviation",
+        (d_fp.get("identity_cause") or {}).get(_fp_bar) == "PANEL_SAME",
+        str((d_fp.get("identity_cause") or {}).get(_fp_bar)))
+    led_mv = json.loads(json.dumps(led_fp))
+    for _b in led_mv["bars"]:
+        if _b["bar"] == _fp_bar:
+            _b["panel_fp"] = "0000000000000000"
+    d_mv = drift(led_mv, px, op, cost_per_side=0.001)
+    chk("L10e a re-marked bar is named as the panel's, not the book's",
+        (d_mv.get("identity_cause") or {}).get(_fp_bar) == "PANEL_MOVED_SINCE"
+        and _fp_bar in (d_mv.get("identity_panel_moved_bars") or []),
+        "%s / %s" % ((d_mv.get("identity_cause") or {}).get(_fp_bar),
+                     d_mv.get("identity_panel_moved_bars")))
+    chk("L10f a bar published before the field says so instead of reading clean",
+        (d.get("identity_cause") or {}).get(_fp_bar) == "NO_FP_LEGACY",
+        str((d.get("identity_cause") or {}).get(_fp_bar)))
 
     led3 = {"book_in_force": {"bar": "2025-12-31", "scale": 0.8, "names": ["A", "B"]},
             "seed": {"bar": "2026-01-02"}, "bars": [{"bar": "2026-01-05", "nav": 1.0}]}

@@ -17121,3 +17121,17 @@ How to apply：①任何「fit/回归/求解」结果被下游直接下标时，
 **自检三腿**（L10/L10b/L10c）：provisional 行不判红但仍印尺寸；0.2bp 水平缺陷照样红；未改动夹具仍绿。
 
 **How to apply**：任何「A 说某行还没定稿、B 却已经判它红」的冲突，先问 A 有没有把结论写在**被检物自己身上**（这里是账本行）；有就照读，别再自推一半。第二句：任何容差要么能说出自己是哪条噪声的量化（舍入/样本/尺度），要么它就是一张嘴。
+
+## E-20261119-r1853 · 「账本得记下它用的是哪批价，才谈得上分清谁改了」
+
+正身：`scripts/etf_book_forward.py` `_price_fp` / `_indexed` / `run()` 的 `identity_cause`；读者侧 `scripts/etf_book_card_track.py` `drift()` 的 `identity_cause`；面=`results/etf_book_forward/LEDGER.json` + `results/etf_book_card_track.json`。
+
+**判例**：r1852 把一条 NAV identity 红查出「那根 bar 生产者自己标了 provisional」，但**谁动了什么**仍然无从判定——账本只记 nav，不记它算这个 nav 用的收盘价。于是「面板被修订」与「账本算错」在盘上长得一模一样，读者只能猜（r1851/r1852 两轮都在猜）。
+
+**正法**：账本逐 bar 存它自己用的那批 close 的指纹（`panel_fp` = 该 bar 持有名的 close 六位小数串 sha256 前 16；`panel_fp_names` 说明对的是哪几只）。读者拿同一问题去问今天的面板：指纹不同 = **发表之后面板被改过**（PANEL_MOVED_SINCE），指纹相同而 nav 变了 = **账本自身算术**（PANEL_SAME）。字段之前发表的行只能盖一个事后基线，命名为 `panel_fp_backfilled` / `FP_BASELINE_ONLY`——它就只对**盖章之后**的修订作证，不许被读成「价从来没动过」。
+
+**实证**（本轮实弹）：账本 run 在补指纹的同一次里把 2026-11-18 从 1.0020575433 重述到 1.0020464916（factor 0.9999889710），随后卡册 identity 从 4.93e-06 落到 **1.8e-09（5 根受检）**——即那 4.93e-06 是「面板在该 bar 发表后修订」的残影，不是账本错。没有指纹字段时，这一整段只能靠两轮推理。
+
+**自检**：card_track L10d/L10e/L10f 三向钉死（同价 → 账本自负；伪指纹 → 点名面板；无指纹 → 说 legacy 而不是说干净）；forward 侧同一判断写进 drift 块（`identity_cause` / `panel_moved` / `panel_fp_legacy_bars`），两个读者不许答得不一样。
+
+**How to apply**：凡是「账面数与重算不一致」的面，先问**被检物有没有记下它的输入**。没记就先补一条输入指纹（并对历史行诚实标 baseline-only），否则每一轮都在重新推理同一个不能判定的问题。
