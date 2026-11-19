@@ -324,6 +324,13 @@ LEGS = [
     # panel uses, append-only with row overlap validation, ~25s, 2.5s per request. It must
     # run BEFORE futures_book_marks, or the reader audits yesterday's panel.
     ("update_futures_contracts", ["python", "scripts/update_futures_contracts.py", "run"]),
+    # r1866: the leg above answers "did the panel move", never "who writes this panel, how
+    # often, or which day's panel picked the contracts" -- and 418 files sit on disk of which
+    # 83 never printed a bar and 327 are expired tails nothing will extend again. This leg
+    # derives that census and the pick rule from the writer's own face plus its own
+    # live_symbols() (imported, not copied), so the provenance answer moves with the
+    # producer instead of with this file. ~1s, no network, reads the panel only.
+    ("futures_panel_provenance", ["python", "scripts/futures_panel_provenance.py"]),
     ("futures_book_marks", ["python", "scripts/futures_book_marks.py", "run"]),
     # r1778: the paper re-read the ticket under the book's 8% vol target and printed the
     # fraction the eye skips -- one IC lot hedged to the discount is 9.00% of a 1,000,000

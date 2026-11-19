@@ -1,0 +1,99 @@
+{
+ "census": {
+  "contracts_inside_the_writers_window": 0,
+  "contracts_on_disk": 418,
+  "contracts_whose_last_bar_equals_panel_max": 8,
+  "contracts_with_bars": 335,
+  "contracts_with_no_bars_ever": 83,
+  "dead_tail_by_age": {
+   "1_to_30_days": 0,
+   "31_to_90_days": 12,
+   "91_to_365_days": 36,
+   "over_365_days": 279
+  },
+  "dead_tail_count": 327,
+  "dead_tail_first_named": [
+   {
+    "calendar_days_old": 34,
+    "last_bar": "2026-10-16",
+    "symbol": "IC2610"
+   },
+   {
+    "calendar_days_old": 34,
+    "last_bar": "2026-10-16",
+    "symbol": "IF2610"
+   },
+   {
+    "calendar_days_old": 34,
+    "last_bar": "2026-10-16",
+    "symbol": "IH2610"
+   },
+   {
+    "calendar_days_old": 34,
+    "last_bar": "2026-10-16",
+    "symbol": "IM2610"
+   },
+   {
+    "calendar_days_old": 62,
+    "last_bar": "2026-09-18",
+    "symbol": "IC2609"
+   }
+  ],
+  "newest_dead_tail": {
+   "calendar_days_old": 34,
+   "last_bar": "2026-10-16",
+   "symbol": "IC2610"
+  },
+  "oldest_dead_tail": {
+   "calendar_days_old": 2806,
+   "last_bar": "2019-03-15",
+   "symbol": "IH1903"
+  },
+  "tail_free_share_of_contracts_with_bars": 0.0239,
+  "window_cut_date": "2026-11-10"
+ },
+ "evidence_cutoff": "2026-11-19",
+ "generated": "2026-11-20T05:41:51+08:00",
+ "live_set": {
+  "agree": true,
+  "declared_by_face": [
+   "IC2611",
+   "IC2612",
+   "IF2611",
+   "IF2612",
+   "IH2611",
+   "IH2612",
+   "IM2611",
+   "IM2612"
+  ],
+  "recomputed_from_panel": [
+   "IC2611",
+   "IC2612",
+   "IF2611",
+   "IF2612",
+   "IH2611",
+   "IH2612",
+   "IM2611",
+   "IM2612"
+  ]
+ },
+ "panel": "data/futures_contracts",
+ "pick_rule": {
+  "panel_date_used_by_the_writer": "2026-11-19",
+  "reading": "a contract is live if its last bar is on/after 2026-11-10; the universe is the panel as of 2026-11-19, not today",
+  "stated_by": "scripts/update_futures_contracts.py::live_symbols",
+  "window_cut_date": "2026-11-10",
+  "window_days_param": 5,
+  "window_is": "calendar days = window*7//5 + 2"
+ },
+ "schema": "futures_panel_provenance/1",
+ "verdict": "TAILS_ARE_EXPIRY_NOT_STALL | SOME_CONTRACTS_NEVER_PRINTED_YET",
+ "writer": {
+  "cadence": "every S6 chain pass (Tools/s6_chain_bmc.py leg update_futures_contracts)",
+  "face": "results/futures_contracts_refresh.json",
+  "face_generated": "2026-11-20T01:24:00+0800",
+  "face_verdict": "ALREADY_CURRENT",
+  "runs_in_s6_chain": true,
+  "script": "scripts/update_futures_contracts.py"
+ }
+}
