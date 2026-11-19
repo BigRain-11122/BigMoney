@@ -1,7 +1,7 @@
 {
- "activity": "r1868: the admission gate now answers on the five decision starts it was always shown beside -- 4/5 ADMIT, one DENY on S1 (2020-01-22, OOS Sharpe 0.693 vs 0.70), and the spread (1.0998) is wider than the distance to the line (0.5339), so the ADMIT is one draw, not a property. New face scripts/etf_book_phase_admission.py (selftest 7/7); ticket + CEO page consume it; the card-text hygiene red (eaten path prefix in the r1865 card) repaired.",
- "activity_now": "the contract-panel provenance face is built and wired; next is printing it where readers look",
- "activity_now_round": 1866,
+ "activity": "r1869: the five-point phase face wrote its own limit down -- five weekly starts are one rebalance block and a sixth start is a sixth coin toss -- so this round exhausts the block: 25 consecutive bar starts, 22 ADMIT / 3 DENY. The new reading is the one-bar step of the same ruler (median 0.2006 Sharpe / 1.035pp CAGR) placed against each refusal: the closest S1 refusal is 0.0070 away (inside the step, i.e. a coin toss) while the WORST A1 refusal is 1.78pp = 1.72 steps (outside), so 'every refusal is noise' is false on the CAGR ruler. Printing only the closest refusal would have hidden that -- the defect was caught and fixed inside this same round (self-leg L6). Cross-face leg: the five phase starts reproduce etf_book_phase_admission price-for-price (delta 0.000000).",
+ "activity_now": "the block-exhaustive start grid is built, printed on the ticket and wired into the chain; next is the same treatment for the era axis (the 2015 block)",
+ "activity_now_round": 1869,
  "agenda_starved": false,
  "ah_note": "r1680 LANDED: refresh closed itself at 21:17 -- cutoff 2026-11-12 -> 2026-11-13, complete=True, exit 0, pulled_rows 46; data_lane_freshness in_sync 13 / behind_1d 1 (worst now marks, intraday-only, not rebuildable). Fix that made it possible: stall watchdog over every network leg (300s, names stage/pair, exit 2, checkpoint kept) + save_progress stamps write time + -u on the detached spawn + progress line every 10 pairs. NOT yet proven: the 300s stall path has never fired on a real hang (this round the suspected freeze finished by itself).",
  "ahead_origin": 0,
@@ -42,7 +42,13 @@
   "docs/divlowvol_live/TRACK-2026-11-19.md",
   "scripts/ceo_live_usage.py",
   "docs/live_usage/LIVE-2026-11-20.md",
-  "Tools/s6_chain_bmc.py"
+  "Tools/s6_chain_bmc.py",
+  "scripts/etf_book_start_grid.py",
+  "results/etf_book_start_grid.json",
+  "research/ETF_BOOK_START_GRID.md",
+  "scripts/etf_book_order.py",
+  "smoke_test.py",
+  "knowledge/METHODOLOGY_ASSETS.md"
  ],
  "batch": "divlowvol_live_track --selftest 11/11 + run/check rc0 (BENCH_PANEL_MOVED named while the astock collector writes); ceo_live_usage --selftest ALL PASS (+4 r1864 legs: prints the record / sources it / missing reads unreadable / a track about another list is refused) + page rewritten; S6 --only=divlowvol_live_track,divlowvol_live_track_check 2/2 rc0; s6_chain --selftest 17/17",
  "behind_origin": 0,
@@ -1249,7 +1255,7 @@
   "watermark": "green: board/pool both empty (pool_ready_count=0, fleet_open_tasks=0), no claimable batch on this host; py_watermark insufficient_history (window n=1, local_batch=1 = this round own suite)"
  },
  "round_label": "r1813",
- "round_no": 1868,
+ "round_no": 1869,
  "round_no_label": "r1821",
  "round_no_landed": 1663,
  "round_note": "r1489: a reinstated bar is re-derived from the panel, not carried over (reinstatement_check + reinstatements.json + sheet paragraph)",

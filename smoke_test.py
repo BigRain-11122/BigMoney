@@ -1873,6 +1873,17 @@ def main() -> int:
              "scripts/etf_book_phase_admission.py", ["selftest"]),
             ("product: etf_book_phase_admission (verdicts re-derived from its rows)",
              "scripts/etf_book_phase_admission.py", ["check"]),
+            # r1869: the five-point face printed its own limit -- five weekly starts are one
+            # rebalance block, and a sixth start is a sixth coin toss. The block-exhaustive
+            # face prices every start and places each refusal against the one-bar step of
+            # the same ruler. The legs pin that the block is wider than the rebalance
+            # period, that a coin-flip refusal cannot hide a real one (both are printed),
+            # that the refusal list is re-derived rather than remembered, and that the five
+            # shared starts reproduce the phase face price-for-price.
+            ("product: etf_book_start_grid (every start of one rebalance block)",
+             "scripts/etf_book_start_grid.py", ["selftest"]),
+            ("product: etf_book_start_grid (refusals and steps re-derived from its rows)",
+             "scripts/etf_book_start_grid.py", ["check"]),
             # r1446: two true receipts that a desk cannot hold at once (the caliber dispute
             # says the gate is one decision from disagreeing with itself; the forward read
             # says the deciding check is decorative). The legs pin the four frozen classes

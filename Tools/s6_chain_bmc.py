@@ -618,6 +618,17 @@ LEGS = [
     ("phase_admission_write",
      ["python", "scripts/etf_book_phase_admission.py", "check"],
      ["python", "scripts/etf_book_phase_admission.py", "run"]),
+    # r1869: the five-point phase face printed its own limit -- five weekly starts are one
+    # rebalance block and a sixth start is a sixth coin toss. This leg exhausts the block
+    # (25 consecutive bar starts) and prints, per ruler, how far the closest AND the worst
+    # refusal sit from the line against how far one bar of start movement moves that same
+    # ruler. Two refusals, not one: printing only the closest would let a real refusal hide
+    # behind a coin-flip one. Rides behind the phase face it reads (its check compares the
+    # five shared starts price-for-price, so a divergence turns this leg red). ~80s on
+    # refresh, ~1s check.
+    ("start_grid_write",
+     ["python", "scripts/etf_book_start_grid.py", "check"],
+     ["python", "scripts/etf_book_start_grid.py", "run"]),
     # r1471: the ticket below now sizes itself off the EXECUTED account (the positions face)
     # instead of the engine's own never-trimmed book -- but nothing in this chain ever WROTE
     # that face, only checked it ~600 legs later. So the sheet priced off whatever the last

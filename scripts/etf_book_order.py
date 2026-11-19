@@ -4793,6 +4793,100 @@ def _phase_admission_reading(path=None, book=ADMITTED_BOOK):
     }
 
 
+START_GRID_PATH = os.path.join(PATHS.results_dir, "etf_book_start_grid.json")
+
+
+def _start_grid_reading(path=None, book=ADMITTED_BOOK):
+    """The same gate over EVERY start of one rebalance block (r1869).
+
+    The five-point face said its own limit out loud: five weekly starts are one rebalance
+    block, and a sixth start is a sixth coin toss. This face closes that by exhausting the
+    block. What a reader needs from it is not another verdict word but two distances per
+    ruler: how far the closest refusal sits from the line, how far the worst does, and how
+    far the same ruler moves when the start moves one bar. Copied verbatim, never
+    re-derived here.
+    """
+    p = path or START_GRID_PATH
+    try:
+        with open(p, encoding="utf-8") as fh:
+            d = json.load(fh)
+    except Exception:                                          # noqa: BLE001
+        return None
+    if d.get("book") != book:
+        return None
+    dist = d.get("distribution") or {}
+    if not dist.get("starts"):
+        return None
+
+    def ruler(key):
+        b = dist.get(key) or {}
+        def refusal(r):
+            if not r:
+                return None
+            return {"start": r.get("start"), "distance": r.get("distance_to_line"),
+                    "inside": r.get("inside_start_noise")}
+        return {"line": b.get("line"), "min": b.get("min"), "median": b.get("median"),
+                "max": b.get("max"), "spread": b.get("spread"),
+                "neighbour_jump_median": b.get("neighbour_jump_median"),
+                "refusals": len(b.get("refusals") or []),
+                "closest": refusal(b.get("closest_refusal")),
+                "worst": refusal(b.get("worst_refusal")),
+                "any_outside_noise": b.get("any_refusal_outside_start_noise"),
+                "sentence": b.get("resolution_sentence")}
+
+    return {"state": (d.get("adjudication") or {}).get("state"),
+            "starts": dist.get("starts"), "admit": dist.get("admit"),
+            "deny": dist.get("deny"), "insufficient": dist.get("insufficient"),
+            "grid": d.get("grid") or {},
+            "S1": ruler("S1_oos_sharpe"), "A1": ruler("A1_cagr_after_cost"),
+            "evidence_cutoff": d.get("evidence_cutoff"), "asof": d.get("asof"),
+            "cross_face_disagreements": len(
+                (d.get("cross_face_vs_phase_admission") or {}).get("disagreements") or []),
+            "path": "results/etf_book_start_grid.json",
+            "producer": "scripts/etf_book_start_grid.py"}
+
+
+def _start_grid_md(g):
+    """Print the block-exhaustive reading under the five-point one."""
+    if not g:
+        return ["  - **整块穷举这一轮没有读数**：`results/etf_book_start_grid.json` 缺或读不出。"
+                "缺这一行不等于「每个起点都过」——上面那五个起点仍然只是一次抽样。"]
+    n = g.get("starts") or 0
+    L = ["  - **整块穷举（%s 个起点，不是五个抽样）**：%s 过 / %s 拒 / %s 读不出"
+         "（算到 %s，asof %s）"
+         % (n, g.get("admit"), g.get("deny"), g.get("insufficient"),
+            g.get("evidence_cutoff") or "未注明", g.get("asof") or "未知")]
+    for key, unit, fmt in (("S1", "夏普", "%.4f"), ("A1", "成本后年化", "%.2fpp")):
+        r = g.get(key) or {}
+        if r.get("min") is None:
+            L.append("    - %s：这一轮读不出" % unit)
+            continue
+        if not r.get("refusals"):
+            L.append("    - %s：%s ~ %s（跨度 %s，闸线 %s）——没有起点被拒，无拒绝可放到分辨率上"
+                     % (unit, fmt % r["min"], fmt % r["max"], fmt % r["spread"],
+                        fmt % r["line"] if key == "S1" else "%.1f%%" % r["line"]))
+            continue
+        cl, wo = r.get("closest") or {}, r.get("worst") or {}
+        L.append("    - %s：%d 个起点被拒；最接近线的 %s 差 %s，最差的 %s 差 %s；"
+                 "而同一条尺在相邻起点之间一跳的中位是 %s —— 最接近的那个%s，最差的%s"
+                 % (unit, r["refusals"],
+                    cl.get("start") or "未注明", fmt % (cl.get("distance") or 0.0),
+                    wo.get("start") or "未注明", fmt % (wo.get("distance") or 0.0),
+                    fmt % (r.get("neighbour_jump_median") or 0.0),
+                    "在起点噪声之内" if cl.get("inside") else "**在起点噪声之外**",
+                    "**在起点噪声之外（这一条不是抽签）**" if wo.get("inside") is False
+                    else "也在起点噪声之内"))
+        if r.get("any_outside_noise"):
+            L.append("      - 读法：这块网格上有拒绝**超出了它自己的分辨率**，所以不能把"
+                     "「所有拒绝都是抽签」当作这段的结论。")
+    if g.get("cross_face_disagreements"):
+        L.append("    - **与五相位面对不上（%d 处）**：同一批起点在两面上被定价成不同读数，"
+                 "先查引擎面，别用这一段。" % g["cross_face_disagreements"])
+    L.append("    - 出处：`%s`（生产者 `%s`，逐起点判定与聚合直接调用相位面的函数；本页只读）"
+             % (g.get("path"), g.get("producer")))
+    return L
+
+
 def _phase_reading(path=None, book=ADMITTED_BOOK):
     """The same book judged over five decision phases -- the other half of the admission.
 
@@ -5301,7 +5395,7 @@ def _decision_md(ad):
     return L
 
 
-def _phase_admission_md(pa, ad, dec=False):
+def _phase_admission_md(pa, ad, dec=False, grid="auto"):
     """The five starts on the three veto rulers -- copied off its own face.
 
     r1868: the admission section used to end on a sentence that told the operator the
@@ -5364,6 +5458,7 @@ def _phase_admission_md(pa, ad, dec=False):
                  % (pa["evidence_cutoff"], ad.get("data_last")))
     L.append("  - 出处：`%s`（生产者 `scripts/etf_book_phase_admission.py`，判据 "
              "`candidate_year_gate` 导入；本页只读）" % pa.get("path"))
+    L += _start_grid_md(_start_grid_reading() if grid == "auto" else grid)
     return L
 
 
@@ -8887,6 +8982,34 @@ def selftest():
         _md_old = "\n".join(_phase_admission_md(_pa_old, _adm, True))
         chk("legAH a phase face on an older bar says so instead of comparing verdicts",
             "两行不在一块面板上" in _md_old, _md_old[:200])
+        # legAI-AK (r1869): the block-exhaustive face prints TWO refusals per ruler, and a
+        # refusal that sits outside the grid's own one-bar step may not be flattened into
+        # "every refusal is a coin toss". Each of those has a wrong answer that reads fine.
+        _g = {"state": "REFUSED_AT_SOME_PHASE", "starts": 25, "admit": 22, "deny": 3,
+              "insufficient": 0, "evidence_cutoff": "2026-11-19",
+              "asof": "2026-11-20T07:20:00+08:00",
+              "S1": {"line": 0.7, "min": 0.6002, "median": 1.612, "max": 1.9903,
+                     "spread": 1.3901, "neighbour_jump_median": 0.2006, "refusals": 2,
+                     "closest": {"start": "2020-01-22", "distance": 0.007, "inside": True},
+                     "worst": {"start": "2020-01-17", "distance": 0.0998, "inside": True},
+                     "any_outside_noise": False},
+              "A1": {"line": 6.0, "min": 4.22, "median": 11.09, "max": 13.37,
+                     "spread": 9.15, "neighbour_jump_median": 1.035, "refusals": 2,
+                     "closest": {"start": "2020-01-17", "distance": 0.07, "inside": True},
+                     "worst": {"start": "2020-01-20", "distance": 1.78, "inside": False},
+                     "any_outside_noise": True},
+              "cross_face_disagreements": 0,
+              "path": "results/etf_book_start_grid.json",
+              "producer": "scripts/etf_book_start_grid.py"}
+        _md_grid = "\n".join(_phase_admission_md(_pa, _adm, True, grid=_g))
+        chk("legAI the block-exhaustive reading names both the closest and the worst refusal",
+            "整块穷举" in _md_grid and "2020-01-22" in _md_grid and "2020-01-17" in _md_grid
+            and "2020-01-20" in _md_grid, _md_grid[-400:])
+        chk("legAJ a refusal outside the grid's own step is not printed as a coin flip",
+            "不是抽签" in _md_grid, _md_grid[-400:])
+        _md_grid_missing = "\n".join(_phase_admission_md(_pa, _adm, True, grid=None))
+        chk("legAK a missing grid face is not printed as 'every start passed'",
+            "整块穷举这一轮没有读数" in _md_grid_missing, _md_grid_missing[-200:])
     finally:
         shutil.rmtree(_tmp, ignore_errors=True)
 
