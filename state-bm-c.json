@@ -68,7 +68,7 @@
  "clock_tz": "+08:00",
  "codely_live_count": 2,
  "comfy_free_vram_mb": 14015,
- "control_scan": "S0.5: 115 orders / 271 acks / unacked [] ; group decisions.md raw-blob sha256 79e3083b... 250586B (was 77816add@225599) -- newest batch is still the 78th (2026-11-19 06:00, D-04..D-08 zero quant rows) -> watermark advanced, zero execution action; orders blob 1838670b unchanged",
+ "control_scan": "S0.5: 115 orders / 256 acks(normalised) / unacked [] ; group decisions.md raw-blob sha256 79e3083b... 250586B unchanged -> zero action; saturation engine rc0 alive; inbox empty",
  "cores": 32,
  "cpu_cores": 32,
  "cpu_idle_pct": 88.6,
@@ -1249,7 +1249,7 @@
   "watermark": "green: board/pool both empty (pool_ready_count=0, fleet_open_tasks=0), no claimable batch on this host; py_watermark insufficient_history (window n=1, local_batch=1 = this round own suite)"
  },
  "round_label": "r1813",
- "round_no": 1866,
+ "round_no": 1867,
  "round_no_label": "r1821",
  "round_no_landed": 1663,
  "round_note": "r1489: a reinstated bar is re-derived from the panel, not carried over (reinstatement_check + reinstatements.json + sheet paragraph)",
@@ -1942,7 +1942,8 @@
  "went_well": "the fix keeps the old states reachable: a card with one unqualified row still takes the position-free path, so no previously published verdict changed meaning",
  "when_well": "the exec panel reused lhb_sellleg verbatim by passing a net-of-cost panel instead of writing a second event study -- the two tables cannot disagree about the quintiles because there is only one implementation",
  "who_did": "bm-c",
- "下个里程碑": "把合约盘来源与死尾普查（418/335/83/327/8）印到 CEO 活书页期货节（窗 ≤48h）",
- "当前任务": "r1866: 期货合约盘来源面 + 死尾普查",
- "最近实物": "scripts/futures_panel_provenance.py + results/futures_panel_provenance.json @r1866 (2026-11-20T05:42:49+08:00)"
+ "下个里程碑": "给 futures_panel_provenance 加一条链腿写作契约（谁写、多久一次）并在 CEO 页期货节并列「活跃集 vs 报价缺口」——窗 ≤48h",
+ "当前任务": "r1867: 合约盘家底印上 CEO 期货节",
+ "最近实物": "docs/live_usage/LIVE-2026-11-20.md ⑦ 合约盘家底节 + scripts/ceo_live_usage.py::_futures_panel_face @r1867",
+ "verify_r1867": "ceo_live_usage selftest ALL PASS with 5 new legs (contract census on real faces / four counts + size!=depth line / producer self-stamp / live-set disagreement prints both sides / missing census prints a reason not a small panel) | page regenerated docs/live_usage/LIVE-2026-11-20.md ⑦ now prints: 418 contract files, 335 ever printed, 83 never, 327 dead tails (0/12/36/279 by age), live 8 = IC2611/IC2612/IF2611/IF2612/IH2611/IH2612/IM2611/IM2612, oldest tail IH1903 2019-03-15 (2806d), writer update_futures_contracts.py ALREADY_CURRENT 2026-11-20T01:24, panel date 2026-11-19 | S6 legs rc0: ceo_live_usage 0.8s + daily_report 1.9s | pool_dualrun ZERO-DRIFT streak 51 | compute_audit FLAG:pool_starvation,supply_floor (calendar family, unchanged) | attrition CLEAN 4 ledgers, 2 historical shrinks healed | py_watermark insufficient_history (own suite = only local batch) | smoke record green 697/697 @2026-11-20T05:11:59 | orphans=0 | orders 115 / ack 256 / unacked 0 | decisions sha 79e3083b 250586B unchanged"
 }

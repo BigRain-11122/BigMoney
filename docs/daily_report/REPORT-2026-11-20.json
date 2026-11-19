@@ -1,6 +1,6 @@
 {
  "report_date": "2026-11-20",
- "generated_at": "2026-11-20 04:06:26",
+ "generated_at": "2026-11-20 05:57:12",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -294,13 +294,13 @@
   "md_link": "../live_usage/LIVE-2026-11-20.md"
  },
  "rd": {
-  "commits_24h": 39,
-  "result_jsons_landed_24h": 276,
-  "digests_landed_24h": 0,
-  "prereg_md_touched_24h": 78,
+  "commits_24h": 50,
+  "result_jsons_landed_24h": 286,
+  "digests_landed_24h": 1,
+  "prereg_md_touched_24h": 79,
   "compute_audit_latest": {
-   "ts": "2026-11-20 03:16:28",
-   "py_cpu_pct": 0.7,
+   "ts": "2026-11-20 05:55:41",
+   "py_cpu_pct": 5.0,
    "flags": [
     "pool_starvation",
     "supply_floor"
@@ -829,21 +829,13 @@
     "supply_why": null
    },
    "bm-c": {
-    "latest_ts": "2026-11-20 03:16:28",
-    "py_pct": 0.7,
-    "cpu_pct": 48.0,
+    "latest_ts": "2026-11-20 05:55:41",
+    "py_pct": 5.0,
+    "cpu_pct": 5.0,
     "ready": 0,
-    "streak_min": 12815.8,
+    "streak_min": 12892.5,
     "verdict": "FLAG:pool_starvation,supply_floor",
     "py_series_tail": [
-     [
-      "11:14",
-      1.3
-     ],
-     [
-      "12:04",
-      6.4
-     ],
      [
       "13:25",
       5.3
@@ -883,14 +875,22 @@
      [
       "03:16",
       0.7
+     ],
+     [
+      "04:07",
+      4.9
+     ],
+     [
+      "05:55",
+      5.0
      ]
     ],
-    "today_samples": 4,
+    "today_samples": 6,
     "today_floor_ok": 0,
     "today_sla_flags": 0,
     "today_supply_gap_flags": 0,
-    "own_samples": 125,
-    "unattributed_samples": 60,
+    "own_samples": 127,
+    "unattributed_samples": 58,
     "latest_attributed": true,
     "lane_machine": "bm-c",
     "supply_why": {
@@ -1032,7 +1032,7 @@
      "readable": true,
      "window_min": 60.0,
      "audit_batches": 0,
-     "audit_ts": "2026-11-20 03:16:28"
+     "audit_ts": "2026-11-20 05:55:41"
     }
    }
   },
@@ -1861,7 +1861,7 @@
  },
  "lane_authority": {
   "present": true,
-  "as_of": "2026-11-20T03:47:48",
+  "as_of": "2026-11-20T04:35:44",
   "verdict": "all_fresh",
   "observer": "bm-c",
   "sentence": "以本机 bm-c 的盘为基准：14 条在役车道的数字全都落在本机盘上，其中 14 条有署名可核实。",
@@ -1897,7 +1897,7 @@
  },
  "lane_window": {
   "present": true,
-  "as_of": "2026-11-20T03:47:48",
+  "as_of": "2026-11-20T04:35:44",
   "n": 2,
   "windows": [
    {
@@ -1932,9 +1932,9 @@
   "verdict": "SILENT_GAP",
   "threshold_min": 90,
   "window_days": 3,
-  "median_gap_min": 45.0,
-  "rounds_in_window": 47,
-  "rounds_in_ledger": 1285,
+  "median_gap_min": 41.2,
+  "rounds_in_window": 50,
+  "rounds_in_ledger": 1291,
   "gaps_over_threshold_count": 9,
   "longest_silence": {
    "from": "2026-11-18T10:35",
@@ -1946,23 +1946,14 @@
    "unexplained_low_min": 1451.0
   },
   "open_gap": {
-   "gap_high_min": 66.3,
-   "gap_low_min": 66.3,
+   "gap_high_min": 19.9,
+   "gap_low_min": 19.9,
    "quiet_window_min": 0.0,
-   "since": "2026-11-20T00:10",
-   "unexplained_high_min": 66.3,
-   "unexplained_low_min": 66.3
+   "since": "2026-11-20T03:47",
+   "unexplained_high_min": 19.9,
+   "unexplained_low_min": 19.9
   },
   "gaps_over_threshold": [
-   {
-    "from": "2026-11-17T01:55",
-    "gap_high_min": 141.0,
-    "gap_low_min": 141.0,
-    "quiet_window_min": 0.0,
-    "to": "2026-11-17T04:16",
-    "unexplained_high_min": 141.0,
-    "unexplained_low_min": 141.0
-   },
    {
     "from": "2026-11-17T11:31",
     "gap_high_min": 138.0,
@@ -2034,10 +2025,19 @@
     "to": "2026-11-20T00:10",
     "unexplained_high_min": 130.0,
     "unexplained_low_min": 121.0
+   },
+   {
+    "from": "2026-11-20T00:10",
+    "gap_high_min": 106.0,
+    "gap_low_min": 106.0,
+    "quiet_window_min": 0.0,
+    "to": "2026-11-20T01:56",
+    "unexplained_high_min": 106.0,
+    "unexplained_low_min": 106.0
    }
   ],
   "evidence_cutoff": "2026-11-20",
-  "generated": "2026-11-20T01:16:16",
+  "generated": "2026-11-20T04:07:24",
   "silence_verdict": "SILENT_GAP",
   "lane_tasks": {
    "absent": [],
@@ -2058,7 +2058,7 @@
    "verdict": "LANE_ENABLED",
    "why": "every probeable lane task is switched on; the silence (if any) is not a switch"
   },
-  "sentence": "bm-c：窗内 47 轮 / 3 天，相邻间隔中位数 45.0 分钟，超过 90 分钟且无解释的空档 9 处；最长静默 2026-11-18T10:35 → 2026-11-19T10:46（1451.0–1451.0 分钟，其中 0.0 分钟由其申报的静默窗解释）；仍未恢复，自 2026-11-20T00:10 起（未解释 66.3–66.3 分钟）。"
+  "sentence": "bm-c：窗内 50 轮 / 3 天，相邻间隔中位数 41.2 分钟，超过 90 分钟且无解释的空档 9 处；最长静默 2026-11-18T10:35 → 2026-11-19T10:46（1451.0–1451.0 分钟，其中 0.0 分钟由其申报的静默窗解释）；仍未恢复，自 2026-11-20T03:47 起（未解释 19.9–19.9 分钟）。"
  },
  "cap_vs_book": {
   "status": "ok",

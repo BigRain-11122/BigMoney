@@ -2,7 +2,7 @@
  "schema": "ceo_live_usage_v1_9",
  "ticket": "T-202609-28-105",
  "day": "2026-11-20",
- "generated": "2026-11-20T05:10:01",
+ "generated": "2026-11-20T05:56:56",
  "market": {
   "state": "RED",
   "asof": "2026-11-19",
@@ -502,10 +502,10 @@
    "cutoff": "2026-11-19",
    "sessions": 23,
    "n_measured": 20,
-   "ret_pct": -1.9533,
-   "bench_n": 4498,
-   "bench_ret_pct": -11.217,
-   "excess_pp": 9.2637
+   "ret_pct": -2.0692,
+   "bench_n": 4711,
+   "bench_ret_pct": -11.4331,
+   "excess_pp": 9.3638
   }
  },
  "judgment_burns": {
@@ -519,7 +519,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 63108.2
+    "last_append_age_min": 63155.2
    },
    {
     "family": "FUND-VALUE-P1",
@@ -527,7 +527,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 63952.7
+    "last_append_age_min": 63999.6
    },
    {
     "family": "FUND-DIVLOWVOL-P1",
@@ -535,7 +535,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 60746.0
+    "last_append_age_min": 60792.9
    }
   ]
  },
@@ -1601,6 +1601,59 @@
   ],
   "evidence_cutoff": "2026-11-19",
   "source_generated": "2026-11-20T01:24:19+0800"
+ },
+ "futures_panel": {
+  "present": true,
+  "path": "results/futures_panel_provenance.json",
+  "verdict": "TAILS_ARE_EXPIRY_NOT_STALL | SOME_CONTRACTS_NEVER_PRINTED_YET",
+  "on_disk": 418,
+  "with_bars": 335,
+  "never_printed": 83,
+  "dead_tails": 327,
+  "dead_by_age": {
+   "1_to_30_days": 0,
+   "31_to_90_days": 12,
+   "91_to_365_days": 36,
+   "over_365_days": 279
+  },
+  "newest_dead": {
+   "calendar_days_old": 34,
+   "last_bar": "2026-10-16",
+   "symbol": "IC2610"
+  },
+  "oldest_dead": {
+   "calendar_days_old": 2806,
+   "last_bar": "2019-03-15",
+   "symbol": "IH1903"
+  },
+  "live_named": [
+   "IC2611",
+   "IC2612",
+   "IF2611",
+   "IF2612",
+   "IH2611",
+   "IH2612",
+   "IM2611",
+   "IM2612"
+  ],
+  "live_recomputed": [
+   "IC2611",
+   "IC2612",
+   "IF2611",
+   "IF2612",
+   "IH2611",
+   "IH2612",
+   "IM2611",
+   "IM2612"
+  ],
+  "live_agree": true,
+  "panel_date": "2026-11-19",
+  "window_cut": "2026-11-10",
+  "writer_script": "scripts/update_futures_contracts.py",
+  "writer_verdict": "ALREADY_CURRENT",
+  "writer_generated": "2026-11-20T01:24:00+0800",
+  "source_generated": "2026-11-20T05:41:51+08:00",
+  "evidence_cutoff": "2026-11-19"
  },
  "carry_roll_cost": {
   "present": true,

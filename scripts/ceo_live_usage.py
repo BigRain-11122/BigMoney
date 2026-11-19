@@ -235,6 +235,15 @@ CARRY_RISK_REL = "results/idx_fut_carry_risk.json"
 # reader to trust a number whose evidence may be gone.
 CARRY_MARKS_JSON = os.path.join(ROOT, "results", "futures_book_marks.json")
 CARRY_MARKS_REL = "results/futures_book_marks.json"
+# r1867: every IC/IM quote above comes out of data/futures_contracts, and until now
+# the page never said what that panel is.  418 CSVs sit there; 335 ever printed a
+# bar, 327 stopped on an expiry, 83 never printed at all -- so "the panel is big"
+# and "the panel is deep" are different claims, and a reader who sees only the
+# marks cannot tell whether a missing contract means "not listed yet" or
+# "collected wrong".
+FUTURES_PROV_JSON = os.path.join(ROOT, "results",
+                                 "futures_panel_provenance.json")
+FUTURES_PROV_REL = "results/futures_panel_provenance.json"
 
 # Position ladder, v2 frozen canonical (DECISION_CHAIN v2 prereg, adopted
 # bm-c 2026-09-28; owner-canon rows in market_clock POSITION_LADDER):
@@ -1971,6 +1980,57 @@ def _data_lane_lines(dl):
     return L
 
 
+def _futures_panel_face():
+    """r1867: what the contract panel actually contains, before a single quote.
+
+    Numbers are quoted from results/futures_panel_provenance.json, which itself
+    re-reads data/futures_contracts rather than remembering it.  Three rules:
+
+    * a missing face prints a reason and no counts -- "418 files" must never be
+      how the page says "I could not read the panel" (r98);
+    * the live set disagreement is printed, not smoothed.  The writer names eight
+      contracts; if a re-read of the panel names a different eight, the page says
+      so instead of picking one side (r1290);
+    * the section carries the source's own `generated` / `evidence_cutoff`.  This
+      page runs after that face on the chain, so a face rewritten later leaves an
+      older stamp here -- printed rather than silently averaged in (r1781).
+    """
+    d = _read_json(FUTURES_PROV_JSON)
+    if not d:
+        return {"present": False, "path": FUTURES_PROV_REL,
+                "note": "合约盘来源面未产出（缺面不读 0）"}
+    census = d.get("census") or {}
+    if not census.get("contracts_on_disk"):
+        return {"present": False, "path": FUTURES_PROV_REL,
+                "note": "来源面在册但零合约（不完整面不冒充）"}
+    live = d.get("live_set") or {}
+    writer = d.get("writer") or {}
+    ages = census.get("dead_tail_by_age") or {}
+    return {
+        "present": True,
+        "path": FUTURES_PROV_REL,
+        "verdict": d.get("verdict"),
+        "on_disk": census.get("contracts_on_disk"),
+        "with_bars": census.get("contracts_with_bars"),
+        "never_printed": census.get("contracts_with_no_bars_ever"),
+        "dead_tails": census.get("dead_tail_count"),
+        "dead_by_age": ages,
+        "newest_dead": census.get("newest_dead_tail"),
+        "oldest_dead": census.get("oldest_dead_tail"),
+        "live_named": live.get("declared_by_face") or [],
+        "live_recomputed": live.get("recomputed_from_panel") or [],
+        "live_agree": live.get("agree"),
+        "panel_date": (d.get("pick_rule") or {}).get(
+            "panel_date_used_by_the_writer"),
+        "window_cut": census.get("window_cut_date"),
+        "writer_script": writer.get("script"),
+        "writer_verdict": writer.get("face_verdict"),
+        "writer_generated": writer.get("face_generated"),
+        "source_generated": d.get("generated"),
+        "evidence_cutoff": d.get("evidence_cutoff"),
+    }
+
+
 def build_payload(day: str) -> dict:
     regime = _read_json(REGIME_JSON)
     clock = _read_json(CLOCK_JSON)
@@ -2092,6 +2152,7 @@ def build_payload(day: str) -> dict:
         "carry_book": _carry_book_face(),
         "carry_timing": _carry_timing_face(),
         "carry_margin": _carry_margin_face(),
+        "futures_panel": _futures_panel_face(),
         "carry_roll_cost": _carry_roll_cost_face(),
         "carry_marks": _carry_marks_face(),
         "freshness": _freshness_face(book, tape, regime.get("asof"),
@@ -3236,6 +3297,43 @@ def render_md(p: dict) -> str:
                  f"{cb.get('source_generated')}｜cutoff "
                  f"{cb.get('evidence_cutoff')}｜尺子 "
                  f"`{cb.get('source_face')}`／`{cb.get('ladder_face')}`")
+    fp = p.get("futures_panel") or {}
+    if not fp.get("present"):
+        L.append(f"- 合约盘家底：{fp.get('note') or '来源面未产出'}"
+                 f"（指针 `{fp.get('path')}`）——**读不到盘上家底，"
+                 "上面那些报价就不知道是从多大的盘子里挑出来的**")
+    else:
+        ages = fp.get("dead_by_age") or {}
+        oldest = fp.get("oldest_dead") or {}
+        live = fp.get("live_named") or []
+        again = fp.get("live_recomputed") or []
+        L.append(f"- **合约盘家底（{fp.get('verdict')}）**：盘上 "
+                 f"**{fp.get('on_disk')} 个合约文件**，其中 "
+                 f"{fp.get('with_bars')} 个有过 bar、"
+                 f"**{fp.get('never_printed')} 个从未出过数**；"
+                 f"死尾 {fp.get('dead_tails')} 个（1–30 天 "
+                 f"{ages.get('1_to_30_days')}／31–90 天 "
+                 f"{ages.get('31_to_90_days')}／91–365 天 "
+                 f"{ages.get('91_to_365_days')}／一年以上 "
+                 f"{ages.get('over_365_days')}）——还活着的只有 "
+                 f"**{len(live)} 个**：{'、'.join(live)}")
+        L.append(f"  - 死尾是**到期**不是断供：最老的那根停在 "
+                 f"{oldest.get('last_bar')}（{oldest.get('symbol')}，"
+                 f"{oldest.get('calendar_days_old')} 天前）。所以"
+                 f"「这盘子里有 {fp.get('on_disk')} 个合约」**不等于**"
+                 f"「它有 {fp.get('on_disk')} 个合约的历史」")
+        if fp.get("live_agree"):
+            L.append("  - 写手自认的活跃集与盘子重读：**一致**")
+        else:
+            L.append(f"  - 写手自认的活跃集与盘子重读：**不一致**——写手写 "
+                     f"{'、'.join(live) or '空'}，重读得 "
+                     f"{'、'.join(again) or '空'}（两边都印，不替读者挑一边）")
+        L.append(f"  - 出处：`{fp.get('path')}`｜面板日 {fp.get('panel_date')}"
+                 f"｜活跃窗自 {fp.get('window_cut')} 起｜写手 "
+                 f"`{fp.get('writer_script')}`（S6 链每趟·本趟 "
+                 f"{fp.get('writer_verdict')}·{fp.get('writer_generated')}）"
+                 f"｜generated {fp.get('source_generated')}｜cutoff "
+                 f"{fp.get('evidence_cutoff')}")
     ct = p.get("carry_timing") or {}
     if not ct.get("present"):
         L.append(f"- 贴水择时：{ct.get('note') or '择时面未产出'}"
@@ -3896,6 +3994,36 @@ def selftest() -> int:
     _mmd = render_md(_cb_miss)
     check("a missing carry face never reads as zero lots",
           "资金线面未产出" in _mmd and "可执行 **0 手**" not in _mmd)
+    # --- r1867: the contract panel's family background, printed before the quotes.
+    _fp = p1.get("futures_panel") or {}
+    check("the contract panel census is on the real faces", _fp.get("present"))
+    if _fp.get("present"):
+        check("the census prints its own four counts and the size!=depth line",
+              all(str(_fp.get(k)) in md1 for k in
+                  ("on_disk", "with_bars", "never_printed", "dead_tails"))
+              and "不等于" in md1)
+        check("the census section self-stamps its producer",
+              _fp["writer_script"] in md1 and _fp["source_generated"] in md1)
+    _fp_bad = dict(p1)
+    _fp_bad["futures_panel"] = {
+        "present": True, "path": FUTURES_PROV_REL,
+        "verdict": "TAILS_ARE_EXPIRY_NOT_STALL",
+        "on_disk": 418, "with_bars": 335, "never_printed": 83,
+        "dead_tails": 327, "dead_by_age": {}, "oldest_dead": {},
+        "live_named": ["IC2611"], "live_recomputed": ["IC9999"],
+        "live_agree": False, "panel_date": "x", "window_cut": "x",
+        "writer_script": "s.py", "writer_verdict": "OK",
+        "writer_generated": "g", "source_generated": "g",
+        "evidence_cutoff": "c"}
+    _bmd = render_md(_fp_bad)
+    check("a live-set disagreement prints both sides instead of picking one",
+          "不一致" in _bmd and "IC2611" in _bmd and "IC9999" in _bmd)
+    _fp_miss = dict(p1)
+    _fp_miss["futures_panel"] = {"present": False, "path": FUTURES_PROV_REL,
+                                 "note": "合约盘来源面未产出（缺面不读 0）"}
+    _fmd = render_md(_fp_miss)
+    check("a missing contract census never reads as a small panel",
+          "读不到盘上家底" in _fmd and "个合约文件" not in _fmd)
     check("national-team row rendered in md",
           "国家队状态" in md1 and "T-106" in md1
           and "宇宙面注记" in md1 and "跟队信号面" in md1)
