@@ -2,7 +2,7 @@
  "schema": "ceo_live_usage_v1_9",
  "ticket": "T-202609-28-105",
  "day": "2026-11-20",
- "generated": "2026-11-20T01:49:21",
+ "generated": "2026-11-20T02:34:21",
  "market": {
   "state": "RED",
   "asof": "2026-11-19",
@@ -509,7 +509,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 62907.6
+    "last_append_age_min": 62952.6
    },
    {
     "family": "FUND-VALUE-P1",
@@ -517,7 +517,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 63752.0
+    "last_append_age_min": 63797.0
    },
    {
     "family": "FUND-DIVLOWVOL-P1",
@@ -525,7 +525,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 60545.4
+    "last_append_age_min": 60590.3
    }
   ]
  },
@@ -613,7 +613,7 @@
   "file": "TICKET-2026-11-19.json",
   "bar": "2026-11-19",
   "decision_bar": "2026-11-19",
-  "generated": "2026-11-20T00:48:14+08:00",
+  "generated": "2026-11-20T01:57:35+08:00",
   "rows": [
    {
     "symbol": "510760",
@@ -893,11 +893,48 @@
    "positions_source": "face@2026-11-19"
   },
   "cash_roll": {
-   "present": false,
-   "verdict": "ROLL_GC001_TODAY",
-   "as_of": "2026-11-17",
-   "ticket_bar": "2026-11-19",
-   "note": "滚仓面读的是 2026-11-17，这张票面读的是 2026-11-19——不是同一趟，今天不印这个数"
+   "present": true,
+   "verdict": "ROLL_GC014_TODAY",
+   "as_of": "2026-11-19",
+   "decision_date": "2026-12-09",
+   "window_days": 20,
+   "cash_cny": 568120.0,
+   "contract": "GC014",
+   "tenor_days": 14,
+   "net_ann_pct": 1.1243,
+   "quoted_pct": 1.385,
+   "matures": "2026-12-03",
+   "placeable": {
+    "sh_cny": 500000.0,
+    "sz_cny": 68000.0,
+    "leftover_cny": 120.0,
+    "placed_cny": 568000.0,
+    "cash_cny": 568120.0
+   },
+   "worth_year_cny": 1945.42,
+   "worth_window_cny": 106.81,
+   "locked_out": [
+    {
+     "contract": "GC182",
+     "quoted_pct": 1.315,
+     "matures": "2027-05-20",
+     "late_days": 162
+    },
+    {
+     "contract": "GC091",
+     "quoted_pct": 1.315,
+     "matures": "2027-02-18",
+     "late_days": 71
+    },
+    {
+     "contract": "GC028",
+     "quoted_pct": 1.375,
+     "matures": "2026-12-17",
+     "late_days": 8
+    }
+   ],
+   "sentence": "GC014 pays 1.12%/yr net and still matures by 2026-12-09; versus rolling 1-day every session it is worth 1945.42 CNY a year (106.81 CNY over the 20 days to the next decision)",
+   "source_rel": "results/etf_book_cash_roll_today.json"
   }
  },
  "etf_premium": {
@@ -1676,77 +1713,30 @@
  },
  "data_lanes": {
   "status": "ok",
-  "as_of": "2026-11-20T01:38:24",
-  "verdict": "attention",
+  "as_of": "2026-11-20T02:34:12",
+  "verdict": "all_fresh",
   "counts": {
    "retired": 1,
-   "in_sync": 11,
-   "stalled": 1,
-   "behind_1d": 2
+   "in_sync": 14
   },
   "n_lanes": 15,
   "machine": "bm-c",
   "expected": "2026-11-19",
-  "rows": [
-   {
-    "lane": "lhb",
-    "host": "bm-a",
-    "host_alive": false,
-    "host_age_h": 29.76,
-    "state": "stalled",
-    "tail": "2026-11-17",
-    "expected": "2026-11-19",
-    "missing_days": [
-     "2026-11-18",
-     "2026-11-19"
-    ],
-    "loss_mode": null,
-    "takeover_capable": true
-   },
-   {
-    "lane": "heat",
-    "host": "bm-a",
-    "host_alive": false,
-    "host_age_h": 29.76,
-    "state": "behind_1d",
-    "tail": "2026-11-18",
-    "expected": "2026-11-19",
-    "missing_days": [
-     "2026-11-19"
-    ],
-    "loss_mode": "a missed day is permanent: the guba rank is a live rolling list with no retrievable history (HEAT_ATTENTION_SPEC §1)",
-    "takeover_capable": true
-   },
-   {
-    "lane": "repo",
-    "host": "bm-a",
-    "host_alive": false,
-    "host_age_h": 29.76,
-    "state": "behind_1d",
-    "tail": "2026-11-18",
-    "expected": "2026-11-19",
-    "missing_days": [
-     "2026-11-19"
-    ],
-    "loss_mode": null,
-    "takeover_capable": true
-   }
-  ],
+  "rows": [],
   "hosts": {
    "bm-a": {
-    "age_h": 29.76,
+    "age_h": 30.69,
     "alive": false,
-    "silent_waiting": [
-     "heat",
-     "lhb",
-     "repo"
-    ],
+    "silent_waiting": [],
     "silent_taken_over": {
-     "futures": "bm-c"
+     "futures": "bm-c",
+     "heat": "bm-c",
+     "lhb": "bm-c",
+     "repo": "bm-c"
     }
    },
    "bm-b": {
-    "age_h": 492.92,
+    "age_h": 493.85,
     "alive": false,
     "silent_waiting": [],
     "silent_taken_over": {

@@ -10,8 +10,8 @@ The book, the four-ETF basket and the futures sleeve were each measured in their
 | CNY 1,000,000 | CNY 93,900 | CNY 130,000 | CNY 94,400 | floor not met (repo only CNY 17,770) | etf_book | +0.05pp/yr | -3.61pp/yr | +0.00pp/yr | +0.00pp/yr |
 | CNY 1,500,000 | CNY 140,850 | CNY 186,585 | CNY 141,600 | floor not met (repo only CNY 26,655) | etf_book | +0.05pp/yr | -3.61pp/yr | +0.56pp/yr | -0.00pp/yr |
 | CNY 3,000,000 | CNY 281,700 | CNY 216,281 (capped at CNY 1,529,426) | CNY 283,200 | floor not met (repo only CNY 53,310) | four_etf_basket | +0.05pp/yr | -3.61pp/yr | +0.57pp/yr | +5.22pp/yr |
-| CNY 8,000,000 | CNY 751,200 | CNY 305,131 (capped at CNY 1,529,426) | CNY 755,200 | CNY 86,400 | four_etf_basket | +0.05pp/yr | -3.61pp/yr | +0.57pp/yr | +8.62pp/yr |
-| CNY 50,000,000 | CNY 4,695,000 | CNY 1,051,471 (capped at CNY 1,529,426) | CNY 4,720,000 | CNY 675,000 | four_etf_basket | +0.05pp/yr | -3.61pp/yr | +0.57pp/yr | +10.33pp/yr |
+| CNY 8,000,000 | CNY 751,200 | CNY 305,131 (capped at CNY 1,529,426) | CNY 755,200 | CNY 84,800 | four_etf_basket | +0.05pp/yr | -3.61pp/yr | +0.57pp/yr | +8.62pp/yr |
+| CNY 50,000,000 | CNY 4,695,000 | CNY 1,051,471 (capped at CNY 1,529,426) | CNY 4,720,000 | CNY 680,000 | four_etf_basket | +0.05pp/yr | -3.61pp/yr | +0.57pp/yr | +10.33pp/yr |
 
 Four columns, four different statements, and they add up exactly to the gap in the table above (a selftest leg enforces the sum). **basket vs card**: the basket beats the card's own configuration, size-free -- the book loses that one on its own terms. **card vs ticket**: the card headline is not the rule the order sheet executes; this is that distance, measured knob by knob in `research/ETF_BOOK_CAGR_RECONCILE.md`. **ticket vs size**: impact only, taken from the capacity ladder's own delta rather than from its absolute levels (which are priced on a different universe). **size vs effective**: the part of the account that cannot be deployed and earns repo.
 

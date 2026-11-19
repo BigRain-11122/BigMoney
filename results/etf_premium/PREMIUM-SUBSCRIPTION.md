@@ -2,17 +2,17 @@
 
 **Answer (derived):** 5/5 legs show no open primary subscription anywhere in coverage; exchange-only on their latest stamp: 510760, 512040, 159655, 513690, 159519; the 186 hard-suspended sessions are 99 runs (74 of them a single NAV row); with the 74 one-row valuation gaps removed the block still sits wider on 159519 and not on 159655, 513690; 510760 has no real suspension left at all; 159519's gap sits in its single 3-session run (own gap +2.59) while its other 21 runs read -0.01; the single-row runs are not spread over the calendar: Tue carries 43% of them against 20% of priced sessions (chance 6e-06), so a one-row word is a word printed that session, not a fund policy; what those one-row words are is a valuation gap, not an announcement: 74/74 of them suspend 赎回 on the same row, they move the NAV by 0.16 of a normal session (median), and 45/74 sit on a session the HKEX calendar explains against 5.9% of ordinary sessions (10.2x); closed channel is consistent with a standing premium, not a verdict on it
 
-**Session (derived):** premiums priced on 2026-11-19 against a ticket of 2026-11-18 -- these legs do NOT price the ticket's day and are printed as their own reading: 510760 (2026-11-19, ahead the ticket), 512040 (2026-11-19, ahead the ticket), 159655 (2026-11-19, ahead the ticket), 513690 (2026-11-19, ahead the ticket), 159519 (2026-11-19, ahead the ticket); the price/IOPV column comes from the 2026-11-18 board face (ticket_session)
+**Session (derived):** premiums priced on 2026-11-19 against a ticket of 2026-11-19 -- every leg prices the ticket's own session; the price/IOPV column comes from the 2026-11-19 board face (ticket_session)
 
 Ruler: panel close / the newest unit NAV stamped strictly before that close - 1. Status joined on: 申购状态 printed on the NAV stamp the premium used.
 
 | leg | class | amount CNY | premium (NAV ruler) | board (price/IOPV) | ruler gap pp | priced session | stamp | 申购状态 on stamp | hard-suspended sessions | premium>=10% sessions | share closed at high | window verdict |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
-| 510760 | equity | 86,431 | -3.03% | -0.10% | -2.93 | 2026-11-19 | 2026-11-11 | 场内买入 | 1 | 1 | 100% | CHANNEL_CLOSED_THROUGHOUT |
-| 512040 | equity | 86,424 | -0.03% | -0.16% | +0.13 | 2026-11-19 | 2026-11-11 | 场内买入 | 0 | 0 | n/a | CHANNEL_CLOSED_THROUGHOUT |
-| 159655 | crossborder | 86,374 | +4.87% | +7.51% | -2.64 | 2026-11-19 | 2026-11-11 | 场内买入 | 91 | 11 | 100% | CHANNEL_CLOSED_THROUGHOUT |
-| 513690 | crossborder | 86,411 | -3.02% | -0.47% | -2.55 | 2026-11-19 | 2026-11-11 | 场内买入 | 64 | 0 | n/a | CHANNEL_CLOSED_THROUGHOUT |
-| 159519 | crossborder | 86,303 | -2.64% | -1.04% | -1.60 | 2026-11-19 | 2026-11-11 | 场内买入 | 30 | 0 | n/a | CHANNEL_CLOSED_THROUGHOUT |
+| 510760 | equity | 86,403 | -3.03% | -0.23% | -2.80 | 2026-11-19 | 2026-11-11 | 场内买入 | 1 | 1 | 100% | CHANNEL_CLOSED_THROUGHOUT |
+| 512040 | equity | 86,376 | -0.03% | -0.13% | +0.10 | 2026-11-19 | 2026-11-11 | 场内买入 | 0 | 0 | n/a | CHANNEL_CLOSED_THROUGHOUT |
+| 159655 | crossborder | 86,374 | +4.87% | +8.85% | -3.98 | 2026-11-19 | 2026-11-11 | 场内买入 | 91 | 11 | 100% | CHANNEL_CLOSED_THROUGHOUT |
+| 513690 | crossborder | 86,405 | -3.02% | -1.70% | -1.32 | 2026-11-19 | 2026-11-11 | 场内买入 | 64 | 0 | n/a | CHANNEL_CLOSED_THROUGHOUT |
+| 159519 | crossborder | 86,322 | -2.64% | -1.01% | -1.64 | 2026-11-19 | 2026-11-11 | 场内买入 | 30 | 0 | n/a | CHANNEL_CLOSED_THROUGHOUT |
 
 ## Within-leg contrast: hard-suspended vs exchange-only
 
@@ -154,7 +154,7 @@ closure calendar (NYSE closures, rule-derived: New Year, MLK, Presidents, Good F
 | NYSE | rule list, window (prev_stamp, stamp] | 34/74 | 46% | 4.3% | 10.7x | no |
 | HKEX | measured on HSI (no bar / half day / shut weekday in the gap) | 45/74 | 61% | 5.9% | 10.2x | yes |
 
-HKEX series used here: **3261 sessions, 2013-08-20..2026-11-18** (read: cache). The half-day cutoff is a ruler, so the Hong Kong reading is printed at three of them -- 43/74 runs at 50% of trailing turnover, 45 at 60%, 49 at 70% -- and the page quotes no single one as the answer.
+HKEX series used here: **3262 sessions, 2013-08-20..2026-11-19** (read: fetched). The half-day cutoff is a ruler, so the Hong Kong reading is printed at three of them -- 43/74 runs at 50% of trailing turnover, 45 at 60%, 49 at 70% -- and the page quotes no single one as the answer.
 
 **Named per leg:** HKEX explains 513690, 159519; NYSE explains 159655; left unnamed: 510760. The pool word above is a different question from these: it asks which calendar explains most of the 116 runs, not which one explains a given leg.
 

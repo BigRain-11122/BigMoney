@@ -47,10 +47,10 @@ committed, and the answer depends on which fall you prepare for.
 
 | product | carry on notional | capital/lot for sample DD | return on it | capital/lot for index worst | return on it |
 |---|---|---|---|---|---|
-| IC | 8.75% | 162976 | 66.33% | 922199 | 11.72% |
-| IF | 3.57% | 165179 | 25.48% | 877648 | 4.79% |
-| IM | 10.21% | 148604 | 80.79% | 876361 | 13.70% |
-| IH | 2.43% | 121519 | 16.36% | 611353 | 3.25% |
+| IC | 8.78% | 162976 | 66.55% | 922199 | 11.76% |
+| IF | 3.56% | 165179 | 25.38% | 877648 | 4.78% |
+| IM | 10.21% | 148604 | 80.78% | 876361 | 13.70% |
+| IH | 2.38% | 121519 | 16.07% | 611353 | 3.19% |
 
 The sample column prepares for the hole this window produced (5.64% for IC); the index column prepares for the index's own worst (72.42%).
  A return computed on the smaller capital is not a better trade, it is the same
@@ -59,10 +59,10 @@ The sample column prepares for the hole this window produced (5.64% for IC); the
 Read against the adopted book on the same source face (n=1665 bars, 10.32% vol, Sharpe 1.104, max drawdown -10.56%):
 
 - the book compounds **11.47%/yr** and its worst drawdown is **-10.56%**;
-- **IC** pays **11.72%/yr** on the capital that funds its index worst (922199), and that capital is the size of a 72.42% fall.
-- **IF** pays **4.79%/yr** on the capital that funds its index worst (877648), and that capital is the size of a 72.30% fall.
+- **IC** pays **11.76%/yr** on the capital that funds its index worst (922199), and that capital is the size of a 72.42% fall.
+- **IF** pays **4.78%/yr** on the capital that funds its index worst (877648), and that capital is the size of a 72.30% fall.
 - **IM** pays **13.70%/yr** on the capital that funds its index worst (876361), and that capital is the size of a 72.35% fall.
-- **IH** pays **3.25%/yr** on the capital that funds its index worst (611353), and that capital is the size of a 72.41% fall.
+- **IH** pays **3.19%/yr** on the capital that funds its index worst (611353), and that capital is the size of a 72.41% fall.
 
 A sleeve that pays the book's rate while requiring its holder to fund a
 72.42% fall is not the same instrument at the same price; that comparison is the one this sheet refuses to make for the reader.
@@ -110,26 +110,26 @@ here, and the repo rate on that cash is another host's panel.
 
 | product | capital | cash lots | cash earns /yr | cash occupancy | margin lots | margin earns /yr |
 |---|---|---|---|---|---|---|
-| IC | 300000 | 0 | 0 | 0.0% | 2 | 216216 |
-| IC | 1000000 | 0 | 0 | 0.0% | 6 | 648647 |
-| IC | 3000000 | 2 | 216216 | 82.4% | 20 | 2162156 |
-| IC | 10000000 | 8 | 864862 | 98.9% | 67 | 7243222 |
-| IC | 50000000 | 40 | 4324311 | 98.9% | 337 | 36432323 |
-| IF | 300000 | 0 | 0 | 0.0% | 2 | 84161 |
-| IF | 1000000 | 0 | 0 | 0.0% | 7 | 294565 |
-| IF | 3000000 | 2 | 84161 | 78.5% | 21 | 883694 |
-| IF | 10000000 | 8 | 336645 | 94.2% | 70 | 2945646 |
-| IF | 50000000 | 42 | 1767387 | 98.9% | 353 | 14854470 |
-| IM | 300000 | 0 | 0 | 0.0% | 2 | 240103 |
-| IM | 1000000 | 0 | 0 | 0.0% | 7 | 840359 |
-| IM | 3000000 | 2 | 240103 | 78.4% | 21 | 2521077 |
-| IM | 10000000 | 8 | 960410 | 94.0% | 70 | 8403589 |
-| IM | 50000000 | 42 | 5042153 | 98.7% | 354 | 42498150 |
-| IH | 300000 | 0 | 0 | 0.0% | 3 | 59633 |
-| IH | 1000000 | 1 | 19878 | 81.9% | 10 | 198777 |
-| IH | 3000000 | 3 | 59633 | 81.9% | 30 | 596330 |
-| IH | 10000000 | 12 | 238532 | 98.3% | 101 | 2007645 |
-| IH | 50000000 | 61 | 1212538 | 100.0% | 508 | 10097858 |
+| IC | 300000 | 0 | 0 | 0.0% | 2 | 216908 |
+| IC | 1000000 | 0 | 0 | 0.0% | 6 | 650723 |
+| IC | 3000000 | 2 | 216908 | 82.4% | 20 | 2169076 |
+| IC | 10000000 | 8 | 867630 | 98.9% | 67 | 7266405 |
+| IC | 50000000 | 40 | 4338152 | 98.9% | 337 | 36548933 |
+| IF | 300000 | 0 | 0 | 0.0% | 2 | 83832 |
+| IF | 1000000 | 0 | 0 | 0.0% | 7 | 293410 |
+| IF | 3000000 | 2 | 83832 | 78.5% | 21 | 880231 |
+| IF | 10000000 | 8 | 335326 | 94.2% | 70 | 2934104 |
+| IF | 50000000 | 42 | 1760462 | 98.9% | 353 | 14796266 |
+| IM | 300000 | 0 | 0 | 0.0% | 2 | 240079 |
+| IM | 1000000 | 0 | 0 | 0.0% | 7 | 840277 |
+| IM | 3000000 | 2 | 240079 | 78.4% | 21 | 2520830 |
+| IM | 10000000 | 8 | 960316 | 94.0% | 70 | 8402766 |
+| IM | 50000000 | 42 | 5041660 | 98.7% | 354 | 42493989 |
+| IH | 300000 | 0 | 0 | 0.0% | 3 | 58576 |
+| IH | 1000000 | 1 | 19525 | 81.9% | 10 | 195253 |
+| IH | 3000000 | 3 | 58576 | 81.9% | 30 | 585760 |
+| IH | 10000000 | 12 | 234304 | 98.3% | 101 | 1972060 |
+| IH | 50000000 | 61 | 1191046 | 100.0% | 508 | 9918877 |
 
 A zero in the cash column is not a small position: it means one lot costs
 more than the whole account, and the margin column is what a leveraged
@@ -139,9 +139,9 @@ holder would be looking at -- the row that has a call distance attached.
 
 | product | last roll | td since | median interval | next roll ~td | gap after roll cost (floor / median) |
 |---|---|---|---|---|---|
-| IC | 2026-09-14 (IC2609→IC2612) | 42 | 20.5 td (n=62) | -22 | +8.99 / +6.68 pp |
-| IF | 2026-09-11 (IF2609→IF2612) | 43 | 19.0 td (n=73) | -24 | +2.27 / +0.58 pp |
-| IM | 2026-09-14 (IM2609→IM2612) | 42 | 59.0 td (n=22) | +17 | +9.21 / +7.78 pp |
+| IC | 2026-09-14 (IC2609→IC2612) | 42 | 20.5 td (n=62) | -22 | +8.93 / +6.63 pp |
+| IF | 2026-09-11 (IF2609→IF2612) | 43 | 19.0 td (n=73) | -24 | +2.31 / +0.62 pp |
+| IM | 2026-09-14 (IM2609→IM2612) | 42 | 59.0 td (n=22) | +17 | +9.09 / +7.66 pp |
 | IH | 2026-09-14 (IH2609→IH2612) | 42 | 17.0 td (n=88) | -25 | ? / ? pp |
 
 The next-roll column is an estimate off this book's own switch history, not a
@@ -171,6 +171,6 @@ The call distance is arithmetic on those assumptions, not a record: this host ha
 
 What the source face says, copied verbatim so it cannot drift here:
 
-- **IC** — carry 12.03% at target risk, corr -0.039, blend Sharpe +0.324
-- **IM** — carry 12.06% at target risk, corr -0.064, blend Sharpe +0.388
+- **IC** — carry 12.07% at target risk, corr -0.039, blend Sharpe +0.326
+- **IM** — carry 12.06% at target risk, corr -0.064, blend Sharpe +0.389
 

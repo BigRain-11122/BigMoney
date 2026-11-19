@@ -32,59 +32,53 @@ buffer k=0.05 on every cell (the r1325 arm, re-priced per phase)
 - median per-cell delta +0.438pp (floor -0.05pp)
 - resolvable share 0.000 (|delta| > the cell's own band; floor 0.50)
 
-## cost05 — **WORLDS_NOT_COMPARABLE**
-
-（withheld: if coherent it would read **NOT-SEPARABLE**）
+## cost05 — **NOT-SEPARABLE**
 
 5bp/side on the whole grid (half the production toll)
 
 | n_hold | rebal | 中位 CAGR | 基线 | Δ | 本格 band |
 |---|---|---|---|---|---|
-| 3 | 10 | +11.99pp | +10.61pp | +1.385pp | 4.57pp |
-| 3 | 20 | +9.23pp | +8.48pp | +0.745pp | 7.16pp |
-| 3 | 40 | +7.09pp | +6.67pp | +0.420pp | 12.40pp |
-| 5 | 10 | +12.69pp | +11.44pp | +1.250pp | 3.47pp |
-| 5 | 20 | +9.87pp | +9.18pp | +0.690pp | 6.46pp |
-| 5 | 40 | +8.30pp | +7.88pp | +0.425pp | 10.09pp |
-| 8 | 10 | +13.20pp | +11.96pp | +1.240pp | 3.27pp |
-| 8 | 20 | +10.86pp | +10.18pp | +0.675pp | 6.40pp |
-| 8 | 40 | +8.48pp | +8.17pp | +0.315pp | 8.80pp |
-| 12 | 10 | +12.61pp | +11.46pp | +1.155pp | 2.84pp |
-| 12 | 20 | +10.06pp | +9.44pp | +0.630pp | 7.46pp |
-| 12 | 40 | +8.03pp | +7.67pp | +0.365pp | 7.09pp |
+| 3 | 10 | +11.97pp | +10.61pp | +1.370pp | 4.58pp |
+| 3 | 20 | +9.22pp | +8.48pp | +0.735pp | 7.28pp |
+| 3 | 40 | +7.08pp | +6.67pp | +0.405pp | 12.38pp |
+| 5 | 10 | +12.71pp | +11.44pp | +1.275pp | 3.45pp |
+| 5 | 20 | +9.91pp | +9.18pp | +0.730pp | 6.50pp |
+| 5 | 40 | +8.23pp | +7.88pp | +0.355pp | 10.08pp |
+| 8 | 10 | +13.19pp | +11.96pp | +1.225pp | 3.27pp |
+| 8 | 20 | +10.89pp | +10.18pp | +0.715pp | 6.39pp |
+| 8 | 40 | +8.53pp | +8.17pp | +0.355pp | 8.76pp |
+| 12 | 10 | +12.59pp | +11.46pp | +1.135pp | 2.86pp |
+| 12 | 20 | +10.06pp | +9.44pp | +0.630pp | 7.42pp |
+| 12 | 40 | +8.01pp | +7.67pp | +0.340pp | 7.08pp |
 
 - cells 12/12 judged
 - not-worse share 1.000 (floor 0.80, cell floor -0.15pp)
-- median per-cell delta +0.682pp (floor -0.05pp)
+- median per-cell delta +0.722pp (floor -0.05pp)
 - resolvable share 0.000 (|delta| > the cell's own band; floor 0.50)
-- label withheld: this arm priced 0d5a9cdc, the baseline 7d93f5cd
 
-## cost20 — **WORLDS_NOT_COMPARABLE**
-
-（withheld: if coherent it would read **REJECT**）
+## cost20 — **REJECT**
 
 20bp/side on the whole grid (double the production toll)
 
 | n_hold | rebal | 中位 CAGR | 基线 | Δ | 本格 band |
 |---|---|---|---|---|---|
-| 3 | 10 | +7.92pp | +10.61pp | -2.685pp | 4.31pp |
-| 3 | 20 | +7.02pp | +8.48pp | -1.465pp | 7.12pp |
-| 3 | 40 | +5.88pp | +6.67pp | -0.795pp | 12.42pp |
-| 5 | 10 | +8.93pp | +11.44pp | -2.515pp | 3.24pp |
-| 5 | 20 | +7.71pp | +9.18pp | -1.465pp | 6.31pp |
-| 5 | 40 | +7.24pp | +7.88pp | -0.645pp | 9.99pp |
-| 8 | 10 | +9.57pp | +11.96pp | -2.385pp | 3.10pp |
-| 8 | 20 | +8.76pp | +10.18pp | -1.425pp | 6.34pp |
-| 8 | 40 | +7.42pp | +8.17pp | -0.750pp | 8.70pp |
-| 12 | 10 | +9.23pp | +11.46pp | -2.225pp | 2.76pp |
-| 12 | 20 | +8.19pp | +9.44pp | -1.250pp | 7.36pp |
-| 12 | 40 | +7.00pp | +7.67pp | -0.660pp | 7.02pp |
+| 3 | 10 | +7.92pp | +10.61pp | -2.690pp | 4.28pp |
+| 3 | 20 | +7.01pp | +8.48pp | -1.470pp | 7.21pp |
+| 3 | 40 | +5.86pp | +6.67pp | -0.820pp | 12.32pp |
+| 5 | 10 | +8.92pp | +11.44pp | -2.520pp | 3.21pp |
+| 5 | 20 | +7.74pp | +9.18pp | -1.440pp | 6.39pp |
+| 5 | 40 | +7.17pp | +7.88pp | -0.705pp | 9.98pp |
+| 8 | 10 | +9.54pp | +11.96pp | -2.420pp | 3.08pp |
+| 8 | 20 | +8.77pp | +10.18pp | -1.410pp | 6.33pp |
+| 8 | 40 | +7.46pp | +8.17pp | -0.710pp | 8.66pp |
+| 12 | 10 | +9.21pp | +11.46pp | -2.240pp | 2.76pp |
+| 12 | 20 | +8.18pp | +9.44pp | -1.260pp | 7.32pp |
+| 12 | 40 | +6.99pp | +7.67pp | -0.680pp | 7.00pp |
 
 - cells 12/12 judged
 - not-worse share 0.000 (floor 0.80, cell floor -0.15pp)
-- median per-cell delta -1.445pp (floor -0.05pp)
+- median per-cell delta -1.425pp (floor -0.05pp)
 - resolvable share 0.000 (|delta| > the cell's own band; floor 0.50)
-- label withheld: this arm priced 0d5a9cdc, the baseline 7d93f5cd
 
 ## cost40 — **WORLDS_NOT_COMPARABLE**
 
@@ -236,30 +230,27 @@ buffer k=0.05 at 20bp/side -- the interaction neither family tested: does a buff
 - resolvable share 0.000 (|delta| > the cell's own band; floor 0.50)
 - label withheld: this arm priced 0d5a9cdc, the baseline 7d93f5cd
 
-## cost0 — **WORLDS_NOT_COMPARABLE**
-
-（withheld: if coherent it would read **NOT-SEPARABLE**）
+## cost0 — **NOT-SEPARABLE**
 
 0bp/side on the whole grid (no toll at all) -- if the ordering only appears here, the ordering is bought with the toll and the 10bp reading stands
 
 | n_hold | rebal | 中位 CAGR | 基线 | Δ | 本格 band |
 |---|---|---|---|---|---|
-| 3 | 10 | +13.37pp | +10.61pp | +2.765pp | 4.68pp |
-| 3 | 20 | +9.97pp | +8.48pp | +1.490pp | 7.18pp |
-| 3 | 40 | +7.48pp | +6.67pp | +0.805pp | 12.38pp |
-| 5 | 10 | +13.97pp | +11.44pp | +2.530pp | 3.55pp |
-| 5 | 20 | +10.60pp | +9.18pp | +1.415pp | 6.52pp |
-| 5 | 40 | +8.66pp | +7.88pp | +0.785pp | 10.11pp |
-| 8 | 10 | +14.44pp | +11.96pp | +2.480pp | 3.33pp |
-| 8 | 20 | +11.56pp | +10.18pp | +1.380pp | 6.42pp |
-| 8 | 40 | +8.85pp | +8.17pp | +0.675pp | 8.84pp |
-| 12 | 10 | +13.74pp | +11.46pp | +2.290pp | 2.87pp |
-| 12 | 20 | +10.69pp | +9.44pp | +1.255pp | 7.50pp |
-| 12 | 40 | +8.37pp | +7.67pp | +0.705pp | 7.12pp |
+| 3 | 10 | +13.37pp | +10.61pp | +2.760pp | 4.72pp |
+| 3 | 20 | +9.96pp | +8.48pp | +1.480pp | 7.31pp |
+| 3 | 40 | +7.49pp | +6.67pp | +0.815pp | 12.39pp |
+| 5 | 10 | +14.01pp | +11.44pp | +2.565pp | 3.54pp |
+| 5 | 20 | +10.64pp | +9.18pp | +1.465pp | 6.57pp |
+| 5 | 40 | +8.60pp | +7.88pp | +0.715pp | 10.10pp |
+| 8 | 10 | +14.43pp | +11.96pp | +2.465pp | 3.34pp |
+| 8 | 20 | +11.61pp | +10.18pp | +1.425pp | 6.41pp |
+| 8 | 40 | +8.88pp | +8.17pp | +0.715pp | 8.80pp |
+| 12 | 10 | +13.72pp | +11.46pp | +2.265pp | 2.89pp |
+| 12 | 20 | +10.70pp | +9.44pp | +1.265pp | 7.45pp |
+| 12 | 40 | +8.35pp | +7.67pp | +0.680pp | 7.12pp |
 
 - cells 12/12 judged
 - not-worse share 1.000 (floor 0.80, cell floor -0.15pp)
-- median per-cell delta +1.397pp (floor -0.05pp)
+- median per-cell delta +1.445pp (floor -0.05pp)
 - resolvable share 0.000 (|delta| > the cell's own band; floor 0.50)
-- label withheld: this arm priced 0d5a9cdc, the baseline 7d93f5cd
 

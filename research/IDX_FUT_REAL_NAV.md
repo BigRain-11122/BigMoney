@@ -2,15 +2,15 @@
 
 Every carry number on the basis pages is a daily difference between the continuous series and its index with the splice days deleted -- a model of rolling, not a roll. This page books the roll: hold the contract with the most open interest, move to its successor when another one takes that over by 5.0%, and mark both legs at the same close, so the seam costs nothing by construction rather than by being masked out.
 
-Evidence cutoff: `2026-11-19`  ·  generated 2026-11-19T21:32:35
+Evidence cutoff: `2026-11-19`  ·  generated 2026-11-20T01:18:42
 
 ## The roll book against the published mask
 
 | product | years | rolls/yr | futures %/yr | index %/yr | discount (gross) | discount net @ 1.5bp | published (observed mask) |
 |---|---|---|---|---|---|---|---|
-| IF | 8.03 | 9.21 | 5.98 | 2.49 | **3.559** | **3.421** | 3.604 |
-| IC | 8.03 | 7.84 | 13.67 | 4.67 | **8.776** | **8.658** | 7.242 |
-| IH | 8.03 | 11.08 | 3.35 | 1.1 | **2.383** | **2.217** | 2.395 |
+| IF | 8.03 | 9.21 | 5.98 | 2.49 | **3.559** | **3.421** | 3.588 |
+| IC | 8.03 | 7.84 | 13.67 | 4.67 | **8.776** | **8.658** | 7.269 |
+| IH | 8.03 | 11.08 | 3.35 | 1.1 | **2.383** | **2.217** | 2.344 |
 | IM | 4.3 | 5.35 | 5.75 | -3.87 | **10.213** | **10.132** | 8.812 |
 
 A negative futures column with a positive discount is the normal shape: the contract converges into the index without the index paying a dividend.
