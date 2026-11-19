@@ -17018,3 +17018,14 @@ r1326 已经把「准入闸的容量读在它自己的排名上、本表读票�
 
 **How to apply**：凡是「同一规则、两个样本」的并排面，除「不能相加」外必答第三句——**换样本判词变不变**；并让这句从两边的数派生、被 check 重算。
 正身=scripts/etf_book_width_fit.py（selftest 22/22·check CHECK_OK）+ scripts/etf_book_ceo_page.py（selftest 469/469·L339/L340）+ results/etf_book_width_fit.json `gate_vs_ticket.same_rule_on_this_book`
+
+## E1599 — 漂移报告只给键名，等于递了一把没有刻度的尺子（r1838 bm-c）
+
+`etf_book_decision_line.py --check` 三年来的红项只有一句 `CHECK_FAIL drift in: row`。它是对的，也不可用：`row` 是一整块行，里面 40 个读数（迟付一张单的均价、t、帮助占比，逐 k 档的 `cost_cny_vs_today`，持书的 top2_share）全被折叠成一个词。读者要么相信「有漂移」，要么自己 import 模块手工重算——诊断成本高到没人做，于是这类红被当成背景噪声放过（r1789 永久红同族：判词不给尺寸，读者就会训练自己忽略它）。
+
+**正法**：`_drift_lines(old, new)` 递归 dict/list，路径点名到叶子（`row.gate.held_top2_share: 0.7104 -> 0.7105`），列表长度变化印 `2 rows -> 3 rows` 而不是比前缀，只在一侧存在的键印 `null`；报告有界（40 行，超出印 `... N more moved fields`），值截断 70 字符——否则诊断面本身会长成第二张面。
+
+**实锚**：同一份过期发布，旧输出一行 `drift in: row`；新输出第一条就点名 `held_top2_share 0.7104 -> 0.7105`，其下是迟付一张单 932→929 元、419→420 张、`t -4.60 -> -4.56`。刷新后 `CHECK_OK 4 fields re-derived`。
+
+**How to apply**：任何 `--check`/`--verify` 的红项如果只说「哪个顶层键变了」，它就欠读者两样东西——**字段路径**与**两边的值**；并把报告做成有界的，因为诊断不是为了完整，是为了让人当场做决定。
+正身=scripts/etf_book_decision_line.py（selftest 22/22·新增 4 腿）+ results/etf_book_decision_line.json（重建后 CHECK_OK 4 fields）

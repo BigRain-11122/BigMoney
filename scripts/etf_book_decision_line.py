@@ -293,6 +293,40 @@ def cmd_run():
     return 0 if res["verdict"] != "CONFLICT_BETWEEN_RECEIPTS" else 1
 
 
+DRIFT_MAX_LINES = 40   # a drift report that never ends is a second face, not a diagnosis
+DRIFT_MAX_VALUE = 70   # long enough for `the receipts do not agree with each other; ...`
+
+
+def _short(v):
+    s = v if isinstance(v, str) else json.dumps(v, ensure_ascii=False, sort_keys=True)
+    return s if len(s) <= DRIFT_MAX_VALUE else s[:DRIFT_MAX_VALUE - 1] + "~"
+
+
+def _drift_lines(old, new, prefix="", out=None):
+    """Name which numbers moved, not just which top-level key moved (r1838).
+
+    `--check` used to print `drift in: row` -- true, and useless: the reader still had to
+    import this module to learn that top2_share went 0.7104 -> 0.7105 and that the
+    sentence lost one clause.  A face that reports a drift owes its size (the r1594
+    family: a conflict without a size is a blank).
+    """
+    out = [] if out is None else out
+    if isinstance(old, dict) and isinstance(new, dict):
+        for k in sorted(set(old) | set(new)):
+            _drift_lines(old.get(k), new.get(k), (prefix + "." + k) if prefix else k, out)
+        return out
+    if isinstance(old, list) and isinstance(new, list):
+        if len(old) != len(new):
+            out.append("%s: %d rows -> %d rows" % (prefix, len(old), len(new)))
+            return out
+        for i, (x, y) in enumerate(zip(old, new)):
+            _drift_lines(x, y, "%s[%d]" % (prefix, i), out)
+        return out
+    if old != new:
+        out.append("%s: %s -> %s" % (prefix, _short(old), _short(new)))
+    return out
+
+
 def cmd_check():
     old = _load(OUT)
     if old is None:
@@ -308,6 +342,12 @@ def cmd_check():
             diffs.append(k)
     if diffs:
         print("CHECK_FAIL drift in: " + ", ".join(diffs))
+        lines = _drift_lines({k: v for k, v in a.items() if k != "face"},
+                            {k: v for k, v in b.items() if k != "face"})
+        for line in lines[:DRIFT_MAX_LINES]:
+            print("  " + line)
+        if len(lines) > DRIFT_MAX_LINES:
+            print("  ... %d more moved fields" % (len(lines) - DRIFT_MAX_LINES))
         return 1
     print("CHECK_OK %d fields re-derived from the same receipts" % len([k for k in b if k != "face"]))
     return 0
@@ -449,6 +489,19 @@ def cmd_selftest():
     leg("missing ladder face is UNKNOWN, not 'do it today'",
         r12["row"]["do_or_wait"]["status"] == "UNKNOWN_MISSING_FACE"
         and "today-or-wait: UNKNOWN" in r12["row"]["sentence"])
+
+    # the drift report: naming the field is not enough, the field's size must ride along
+    d1 = _drift_lines({"row": {"gate": {"held_top2_share": 0.7104}},
+                       "row2": {"sentence": "a"}}, {"row": {"gate": {"held_top2_share": 0.7105}},
+                                                    "row2": {"sentence": "a"}})
+    leg("drift report names the nested number and both values",
+        d1 == ["row.gate.held_top2_share: 0.7104 -> 0.7105"], "|".join(d1))
+    leg("an unchanged body produces no drift lines",
+        _drift_lines({"a": {"b": 1}, "c": [1, 2]}, {"a": {"b": 1}, "c": [1, 2]}) == [])
+    leg("a list that changes length says so instead of comparing prefixes",
+        _drift_lines({"t": [1, 2]}, {"t": [1, 2, 3]}) == ["t: 2 rows -> 3 rows"])
+    leg("a key that only exists on one side is printed with its side missing",
+        _drift_lines({"a": 1}, {}) == ["a: 1 -> null"])
 
     ok = all(x[1] for x in legs)
     for name, passed, note in legs:
