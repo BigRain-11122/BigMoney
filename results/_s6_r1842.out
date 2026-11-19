@@ -1,0 +1,299 @@
+  0 dualrun                0.3s [pool_dualrun] ZERO-DRIFT (merged view == shared blob, 744 entries, drift-free streak 51, cutoff 2026-11-08T22
+  0 supply_calendar        1.0s supply_calendar_face: no candidate passes its calendar (4 refused): nobond_vt08_adopted: UNADJUDICABLE_PHASE v
+  0 supply_candidates      1.1s supply_candidate_face: AGENDA_DEBT ready=0 startable=0 shortfall=3
+  0 compute_audit          8.9s {"ts": "2026-11-19 13:38:26", "machine": "bm-c", "audit_version": "v2.4.3", "cpu_total_pct": 4.0, "py_cpu_pct"
+  0 ladder_face            1.1s [ladder-face]   INNOVATION-QUOTA-SLOT-3: blocked (prereg closed (???§à?): research/INNOVATION_QUOTA_W3_PREREG.m
+  0 py_watermark           6.8s {"ts": "2026-11-19 13:38:35", "epoch": 1795066709.0, "machine": "bm-c", "cpu_total_pct": 7.0, "cores": 32, "py
+  0 update_daily           2.2s status -> K:\Fluxgroup\FluxGroup\quant\bigmoney\results\update_status.json
+  0 cal_audit              2.1s data_lag_audit: in_sync | calendar 1990-12-19..2026-12-31 (8797d) | expected 2026-11-18 | active 1723/1725 sym
+  0 data_lane_tail_certification    55.6s verdict=certified counts={'lanes': 5, 'lanes_reused': 4, 'files_scanned': 10656, 'sample_disagreed': 0, 'lanes
+  0 data_lane_freshness     3.5s verdict=attention counts={'retired': 1, 'in_sync': 9, 'stalled': 1, 'behind_1d': 4} worst=lhb_inst
+  0 lane_ownership_declaration     0.2s   OWNERSHIP_UNIQUE | 15 lanes | conflicts: none | config overrides code: ['options', 'moneyflow', 'etf_panel',
+  0 lane_silence           2.7s   SILENT 2026-11-18T10:35 -> 2026-11-19T10:46 : gap 1451.0..1451.0 min, quiet 0.0 min, unexplained 1451.0..145
+  0 market_regime          1.1s   trigger: breadth 0.85>=65%
+  0 scorecard            108.4s strategy_scorecard: 6 strategy / 28 trader / 7 portfolio cards -> K:\Fluxgroup\FluxGroup\quant\bigmoney\result
+  0 market_clock           7.0s call written: K:\Fluxgroup\FluxGroup\quant\bigmoney\results\market_clock\CALL-2026-11-17.md cell=RED_COOL slee
+  0 update_lhb             0.8s lhb lane host bm-a; this machine (bm-c) stdout-only (R31 lane-guard); takeover refused: no --takeover flag
+  0 update_zt_pool         0.8s no-op: panel covers all bar-landed trading days
+  0 update_heat            0.8s no-op: heat lane host bm-a authority, this machine (bm-c) stdout-only (R31 lane-guard); takeover refused: no -
+  0 update_futures         0.3s futures lane host bm-a; this machine (bm-c) stdout-only (R31 lane-guard); takeover refused: no --takeover flag
+  0 idx_fut_basis          0.4s   IM CSI1000 carry med +9.03%/yr trim +6.87%/yr  basis -1.08%  idx -3.44%/yr mdd -41.6%
+  0 idx_fut_basis_timing     0.5s IM RULE spread full=0.418 stride=0.133 h1=0.044 h2=0.595 rho=-0.243 latest_pct=56.6
+  0 idx_fut_basis_wait     0.6s IM HOLD-ALWAYS A=3.77 B=1.97 C=1.86 in=28.1% lev=0.31 B-A=-1.80
+  0 treasury_curve_spread     0.5s }
+  0 treasury_curve_mask_audit     0.8s {"verdicts": ["KILL"], "ann": {"published": -9.6, "none": -13.07, "market_kept": -9.81, "single_only": -12.52}
+  0 idx_fut_roll_gap       0.8s }
+  0 idx_fut_contract_roll     0.7s contract roll: cutoff=2026-11-18 recall_size=16.2 recall_cal=49.6 admitted=['IC', 'IF', 'IM'] -> K:\Fluxgroup\
+  0 idx_fut_real_nav       0.5s real-roll book: admitted gross=['IC', 'IF', 'IM'] net=['IC', 'IF', 'IM'] weakest breakeven=6.77bp (cutoff 2026
+  0 idx_fut_roll_cost      3.0s roll cost: measured median {'IF': 19.843, 'IC': 30.792, 'IH': 21.071, 'IM': 28.232} | admitted floor=['IC', 'I
+  0 idx_fut_carry_risk    43.8s   IH: carry 2.47%/yr vol 4.40% mdd -7.42% | @8%vol x1.82 -> 4.38% (mdd -13.34%) corr 0.055 | REFUSE
+  0 idx_fut_carry_capital     0.3s page block replaced (research\IDX_FUT_BASIS_VERDICT.md, face 2026-11-19T13:42:32)
+  0 etf_book_ih_hedge      0.2s one lot 819360 vs 1beta target 74585 at 1M (10.99x) ; capital for one lot at 1beta 10985609
+  0 etf_book_ih_tail_ci    17.1s tail TAIL_BETA_IS_REAL | hedge HEDGE_NOT_MEASURABLE | dsharpe -0.021 [-0.100, 0.073]
+  0 etf_book_lot_floor     0.2s wrote results\etf_book_lot_floor.json and research\ETF_BOOK_LOT_FLOOR.md
+  0 lane_roster_disk_audit     5.1s   heat: LOCAL_COPY_ONLY -- this panel is gitignored (machine-local) and the lane is bm-a's -- what was read he
+  0 count_only_claims      1.0s {"host": "bm-c", "verdict_counts": {"NAMES_PARTIAL": 2, "COUNT_DISAGREES": 1, "PANEL_ABSENT_HERE": 1, "COUNT_C
+  0 event_exec_gate      158.1s {"families": {"lhb_bought": {"verdict": "NOT_TRADABLE", "info": 1.8283, "gap": 1.4855, "cost": 0.0008, "net": 
+  0 event_exec_gate_audit     2.2s {"scanned": 3891, "claiming_admission": {"published": 4, "probe": 252}, "unpriced": {"published_trading": 0, "
+  0 idx_fut_leverage_washout     0.3s     10000000: 28 lots -> WIPED 2023-10-19 (day 300, equity 3777685, -62.2% of capital, mdd -69.2%)
+  0 etf_book_idle_cash    46.7s saved K:\Fluxgroup\FluxGroup\quant\bigmoney\results\etf_book_idle_cash.json
+  0 etf_book_cash_caliber_band     1.5s saved K:\Fluxgroup\FluxGroup\quant\bigmoney\results\etf_book_cash_caliber_band.json
+  0 update_index_daily     0.3s index_daily: no-op (all 4 codes cover 2026-11-18)
+  0 idx_fut_desk_sheet     0.5s wrote K:\Fluxgroup\FluxGroup\quant\bigmoney\research\IDX_FUT_DESK_SHEET.md
+  0 idx_fut_carry_paper     0.4s   IM: ticket 4 lot(s) vs 0.87 at the 8% vol target (hedged arm)
+  0 idx_fut_carry_capital_ladder     0.2s IM: 1 lot = 92,018 CNY/yr (9.2018% of 1,000,000) | budget at 8% = 80,000 | readings 0/1/4 -> THE_RULER_DECIDES
+  0 idx_fut_carry_sizing_spec     0.2s IM rule=0 lots (0.8694) state=BELOW_FIRST_RUNG ticket=4/OUT_OF_RULER first_rung=1,150,230
+  0 idx_fut_carry_open_capital     0.2s cheapest_to_open=IC 1,122,782
+  0 idx_fut_carry_margin     0.2s   ?????????????????????????????????????????????? 90.6%??96.1%??IC/IM ????????????????????????? 12-15%?????????
+  0 futures_tsmom_signal     1.0s [tsmom] adopted tsmom60_strength_hold_2pct: flips 1475->412, same_day=False, differs=SC
+  0 futures_overlay_sweep    48.8s saved K:\Fluxgroup\FluxGroup\quant\bigmoney\results\futures_overlay_sweep.json
+  0 futures_overlay_fliprate    47.4s saved K:\Fluxgroup\FluxGroup\quant\bigmoney\research\ETF_BOOK_FUTURES_FLIPRATE.md
+  0 futures_overlay_fliprate_paths    56.1s saved K:\Fluxgroup\FluxGroup\quant\bigmoney\research\FUTURES_OVERLAY_FLIPRATE_PATHS.md
+  0 update_repo            0.3s no-op: repo rates lane owned by bm-a, not this machine (bm-c); takeover refused: no --takeover flag
+  0 update_options         0.3s [RETIRED] update_options: options face closed per O-20261009-1105 (consumer audit: historical wave-2 batch onl
+  0 update_moneyflow       0.4s spawned detached rank pass: rank stamp 2026-11-17 lags expected 2026-11-18
+  0 update_sina_mf         0.3s no-op: panel cutoff 2026-10-26 within 20 trading days of 2026-11-18 (rolling 250td window keeps it gapless) ->
+  0 update_astock_daily     2.9s refresh already in progress (lock alive) -> no-op
+  0 update_etf_daily       0.3s no-op: panel cutoff 2026-11-18 covers expected complete-bar date 2026-11-18 -> zero network
+  0 update_etf_wide_quote    22.1s }
+  0 update_etf_wide       22.0s }
+  0 etf_book_forward      53.8s POWER (80% at 5% two-sided, sd 8.45%/yr): smallest edge this ledger can resolve is 6m 33.5pp/yr, 1y 23.7pp/yr,
+  0 json_face_guard       21.6s   skipped 4 file(s) over 4194304 bytes or unreadable
+  0 etf_book_settle_audit     3.9s wrote K:\Fluxgroup\FluxGroup\quant\bigmoney\results\etf_book_forward_settle_audit.json
+  0 etf_book_spanning     70.6s }
+  0 etf_book_pre2020_write     1.1s {"mode": "refresh", "status": "REFRESH_NOOP", "face_bar": "2026-11-18", "upstream_bar": "2026-11-18", "ran": f
+  0 etf_book_universe_lock_write     1.0s {"mode": "refresh", "status": "REFRESH_NOOP", "face_bar": "2026-11-18", "upstream_bar": "2026-11-18", "ran": f
+  0 etf_book_universe_lock     1.0s CHECK OK: MIXED_ACROSS_PHASES (delta +0.09pp over 4 phases, control reproduces both published arms)
+  0 etf_sign_pit          79.3s }
+  0 etf_sign_enum         66.0s }
+  0 etf_sign_stability    67.4s }
+  0 etf_sign_cells       130.6s }
+  0 etf_lowvol_book       42.2s }
+  0 etf_sign_pit_combo   126.7s }
+  0 etf_book_block_write     1.1s -> results\etf_book_bootstrap\BLOCKS-2026-11-18.json
+  0 etf_book_production    58.9s }
+  0 etf_book_causal_headline    55.0s   No further change is called for on this face: the card's table prints both arms with their basis in the row 
+  0 etf_book_causal_rebuild   104.5s   audits: A3=True A4=True A5=True
+  0 etf_book_overnight_gap    89.7s   audits: A6=True A7=True A8=True
+  0 etf_book_open_slicing    98.3s cutoff   2026-11-18   97.1s
+  0 etf_book_exit_liquidity    53.5s verdict MIXED_ACROSS_PHASES | share_below_gate mean 0.042 | drag 0.2165 pp/yr | 52.3s
+  0 etf_book_forced_hold    53.7s verdict CENSORED_TAIL_IS_IMMATERIAL | tail 109/3948 priced 109 open_at_end 0 | 0.0503 pp/yr (range 0.0132..0.0
+  0 etf_book_min_capital   358.4s   10000000  wan2.5+0     6.21%   +0.56pp      0.00%      166118
+  0 etf_book_entry_gate    75.7s }
+  0 etf_book_underwater    45.5s }
+  0 etf_book_lookahead_write     1.1s {"mode": "refresh", "status": "UPSTREAM_BEHIND", "face_bar": "2026-11-17", "upstream_bar": "2026-11-12", "ran"
+  0 etf_book_lookahead     1.1s CHECK OK: LOOKAHEAD_PRESENT ?? one-bar price 0.96 pp/yr ?? mark basis 0.06 pp/yr ?? 96 faces inherit it
+  0 etf_book_return_regime    46.1s wrote results\etf_book_return_regime.json
+  0 etf_book_bets_face     0.3s }
+  0 etf_book_concentration    59.8s CHECK OK: criteria echoed, identity exact (0), control inert, verdict BROAD|SURVIVES_WITHOUT_TOP3 reproduces f
+  0 year_gate_write        1.1s 27/27 PASS
+  0 phase_gate_write       1.1s PASS phase face and yearly gate are both on 2026-11-18
+  0 positions_ledger_write     1.2s wrote results/etf_book_positions.json + results/etf_book_positions/LEDGER.json
+  0 premium_percentile_write     3.7s }
+  0 etf_book_live_widths_pre     0.8s live-width face matches its own sources on cutoff 2026-11-18: COIN_FLIP_INSIDE_ENGINE_DISAGREEMENT (paired gap +refresh(rc=0,0.3s)
+  0 etf_book_order        49.7s wrote K:\Fluxgroup\FluxGroup\quant\bigmoney\results\etf_book_order\TICKET-2026-11-18.json
+  0 etf_book_base_basis_audit     0.2s lane guard: docs/live_book is bm-a's face; this machine (bm-c) stdout-only, zero writes
+  0 etf_book_exec_delta     0.2s wrote results\etf_book_exec_delta.json
+  0 etf_book_exec_delta_check     0.2s CHECK_OK rows=8 turnover=668435.10 verdict=SHEET_IMPLIES_A_SWAP
+  0 etf_book_order_card     1.2s wrote K:\Fluxgroup\FluxGroup\quant\bigmoney\results\etf_book_order\ORDER-2026-11-18-card.md
+  0 etf_book_size_rulers_write    49.4s }
+  0 etf_book_restatement_shadow     1.1s wrote results\etf_book_order\restatement_shadow.json
+  0 etf_premium            0.8s fetch: no-op -- before the 15:30 close -- an intraday board is not the session
+  0 etf_book_flip_contamination    63.4s 169 flip prints on the panel move the book's own numbers by +1.16pp of annual return, +1.13pp of drawdown and 
+  0 etf_book_shock_day    43.1s the book's realized beta to 510300 is 0.12 over its whole history and 0.21 on the last 250 bars (the ticket tr
+  1 etf_book_card_track    44.2s GATE rc=1 NAV_IDENTITY_BROKEN
+  0 etf_book_volgate     104.3s wrote results\etf_book_volgate\VOLGATE-2026-11-18.json
+  0 etf_book_width_audit    52.3s wrote K:\Fluxgroup\FluxGroup\quant\bigmoney\results\etf_book_width_audit.json
+  0 etf_book_capacity_rule    61.2s wrote K:\Fluxgroup\FluxGroup\quant\bigmoney\results\etf_book_capacity_rule.json
+  0 futures_sleeve_economics     0.9s [check] FRESH face=panel=2026-11-18
+  0 capital_placement      0.2s wrote results\capital_placement.json + research\CAPITAL_PLACEMENT.md
+  0 etf_book_cagr_reconcile     1.0s reconcile OK cutoff=2026-11-18 card=9.43% ticket=13.04% total=3.61pp interaction=-1.27pp
+  0 etf_book_hysteresis     1.0s hysteresis face OK (cutoff 2026-11-18, grid [0.0, 0.05, 0.1, 0.2, 0.35, 0.5])
+  0 etf_book_buffer_adoption     1.0s buffer-adoption face OK (cutoff 2026-11-18, verdict REJECT, 60 cells)
+  0 etf_book_hysteresis_paths     1.0s CHECK OK: 4 arms, 100 cells, family=MIXED_NO_SURVIVOR
+  0 etf_book_buffer_price_of_size     1.0s CHECK OK: 4 arms, 80 cells, cost_ref=20.26bp at 10M
+  0 etf_book_sleeve_gate    84.5s check OK (0 problem(s), verdict NO_GATE)
+  0 etf_book_sleeve_paths    44.5s check ok: 15 paths, face verdict NO_GATE reproduced from the rows
+  0 etf_book_exposure_timing    44.3s CHECK OK: AVERAGE_EXPOSURE_ONLY (timing -0.98pp)
+  0 etf_book_exposure_ladder    44.5s CHECK OK: CONSTANT_LADDER_DOMINATES (best fixed const_0.70, 3/4 phases)
+  0 etf_book_fill_venue     1.1s CHECK OK: INFORMATION_DOMINATES (gap +1.14pp, recovered -0.03pp, share -0.0263, budget NONE)
+  0 etf_book_vol_window_phase    44.2s vol-window phases: ADOPT_WINDOW | best 30d 4/4 phases | paired MIXED_ACROSS_PHASES | identity FAIL | 2026-11-1
+  0 etf_book_vol_window_edge    44.3s vol-window edge: EDGE_AT_FLOOR | best 20d vs shipped 60 | rule ADOPT_WINDOW | paired MIXED_ACROSS_PHASES | 202
+  0 etf_book_nav_envelope     1.1s OK: 2000 resample rows re-judged, every percentile and share matches
+  0 etf_book_tail_dependence     1.1s check: verdict ROBUST_TO_TAILS (stored ROBUST_TO_TAILS) OK | top share reproduced OK
+  0 etf_book_block_length     1.1s OK: 8 block arms re-judged against their own rows (1, 5, 10, 20, 40, 60, 120, 250)
+  0 etf_book_voltarget_tail     1.2s OK: 5 paired block arms re-judged against their rows
+  0 etf_book_quantile_floor    16.8s OK: 8 arms, 52 pairs re-derived from rows; every percentile, interval, permutation p and verdict matches
+  2 etf_book_atlas_family   998.7s stale: 5 of 11 arm faces are not on world db4a41cb0d162516 (bar 2026-11-18) -- cost0@2026-11-17/behind, cost05 +refresh(rc=2,998.3s)
+  0 etf_book_phase_atlas     1.1s CHECK OK: 12 cells re-derived from 280 rows; verdict=CONFIG_ORDER_WITHIN_PHASE_NOISE; spread 5.22pp vs band 6.
+  0 etf_book_phase_atlas_arms     0.2s   priced bar 2026-11-18 comes from ENGINE runs (10 arm faces x 280 cells each); this leg only re-aggregates th
+  1 etf_book_buffer_floor     0.2s floor is inconsistent: the published rule is not the rule in this file
+  0 etf_book_width_floor     0.2s width face matches its own sources on cutoff 2026-11-18: DIRECTION_NOT_A_SIZE (width required 66.06)
+  0 etf_book_buffer_readback     0.2s readback matches its own sources: HOLDS (predicted +0.316, observed +0.410)
+  0 etf_book_live_widths     0.2s live-width face matches its own sources on cutoff 2026-11-18: COIN_FLIP_INSIDE_ENGINE_DISAGREEMENT (paired gap
+  0 etf_book_rule_null     1.4s null face matches a re-simulation (seed 20261030, 20000 trials): REJECT_IS_THE_DEFAULT +refresh(rc=0,0.5s)
+  0 etf_book_arms_signflip     0.9s sign-flip face matches a rebuild: 3/4 REJECTs stand (2026-11-18) +refresh(rc=0,0.3s)
+  0 etf_book_atlas_toll_ladder     0.9s OK: toll ladder ORDERING_IS_A_TOLL_ARTEFACT (5 rungs, break-even 0.852 bp) / buffer ladder SINGLE_RUNG_CROSSIN +refresh(rc=0,0.3s)
+  0 etf_book_leg_attribution    46.1s FACE-OK 2026-11-18 (3 arms, production 8.05pp/yr = plain +9.73 + fill drag -1.68)
+  0 etf_book_voltarget_lag     1.0s FACE OK results/etf_book_voltarget_lag.json verdict=KEEP arms=4 lag_slots=79
+  0 etf_book_voltarget_phase     1.0s voltarget_phase --check OK {'cells': 16, 'share_up': 1.0, 'median_pp': 1.5, 'noise_pp': 1.81} -> within noise:
+  0 etf_book_cost_tape    48.1s {"check": "OK", "problems": [], "verdict": "CONSERVATIVE | SURVIVES"}
+  0 etf_book_band_ruler    50.4s check OK: ROWS_NOT_COMPARABLE | window +4.78pp, universe +0.43pp, ordering -0.55pp, cost -0.15pp
+  0 etf_book_window_label     4.0s check OK: ROW_LABELED_BY_WINDOW | gap +4.81 pp/yr | full 7.58% / 2020-2023 3.71 / 2024+ 12.39% | 2026-11-18 +refresh(rc=0,1.3s)
+  0 etf_book_live_quote     0.3s host=bm-c: etf_book_live_quote is bm-a's face -- honest no-op
+  0 etf_book_premium_leak_write     1.4s   vs its own median: CNY -3,466 (-0.35% of NAV); vs zero: CNY -4,495
+  0 label_census           0.2s {"ok": true, "problems": [], "labels_multi": 88, "groups": 78, "shared_pairs_crosschecked": 2}
+  0 alias_census          20.4s {"ok": true, "problems": [], "families": 41, "chains": 40}
+  0 harvest_census         0.2s CHECK OK problems=[] rows=1495 measured=1122
+  0 alias_stability        0.3s {"artifact": "etf_alias_stability", "ok": true, "problems": [], "n_pairs": 867, "verdict": "WINDOW_LUCK"}
+  0 capacity_edge          0.2s {"ok": true, "problems": []}
+  1 capacity_ticket        1.1s {"ok": false, "problems": ["verdict re-derives to TRADABLE_IN_EVERY_READ_SESSION, face says TRADABLE_ON_A_TYPI
+  1 ticket_band            1.2s {"ok": false, "problems": ["one_lot_floor_cny re-derives to 14759.89, face says 14875.99", "residue at the sig
+  0 etf_book_width_fit     0.2s CHECK_OK width 5 IS the ticket's live row on bar 2026-11-11 (1.0649%) and every row re-derives
+  0 etf_book_width_return     0.2s CHECK_OK both roads re-derive from the printed rows (WIDEN_IS_CHEAPER, gap 2.4446 pp)
+  0 etf_book_width_neighbors     0.2s CHECK_OK SIX_NAMES_SURVIVES_EVERY_CLOCK across clocks 10/20/40
+  0 etf_book_ceo_page     45.8s etf_book_ceo_page: no new bar -- today is 2026-11-19, the pricing day is 2026-11-18 and that page already exis
+  0 etf_book_day_delta_write     1.1s   SECTION_ADVANCED       /window_label/verdict/gap_pp  4.85 -> 4.87  ???????????????`window_label` 2026-11-17 
+  0 etf_book_day_delta     1.0s check OK: verdict=UNEXPLAINED_MOVES moved=790 unexplained=76 (re-derived from the published pages)
+  0 page_repeat_guard      0.2s [repeat] 4 face(s) scanned, 0 repeated sentence(s)
+  0 etf_book_beta_menu     1.2s etf_book_beta_menu: machine=bm-c is not the writer (bm-a) -> honest no-op, nothing written
+  0 etf_book_width_null_production    79.7s wrote K:\Fluxgroup\FluxGroup\quant\bigmoney\results\etf_book_width_null_production.json
+  0 etf_book_width_positive_control    79.0s RESOLUTION the width sign is still read correctly when the oracle carries only 50% of the score's variance, wh
+  0 etf_paper_signal      43.9s   sleeve 1 next_due None est 2026-11-27 pos 5289 anchor pos n 5
+  0 etf_book_size_rulers     0.2s [check] 7 field(s) re-derived, 0 mismatch
+  0 rebalance_permission_write     0.3s }
+  0 rebalance_permission     0.2s [check] 6/6 OK
+  0 cut_order_gap_write     2.6s }
+  0 cut_order_gap          2.7s [check] 9/9 OK
+  1 cash_roll_today        1.1s }
+  0 open_gap_write         0.8s }
+  0 open_gap               0.8s check 5/5 PASS
+  0 capacity_at_size_write    37.9s {"artifact": "etf_book_capacity_at_size", "ok": true, "no_op": false, "reason": "INPUTS_CHANGED", "input_key":
+  0 capacity_at_size       0.3s {"ok": true, "problems": [], "verdict": "ADMIT_AT_THIS_SIZE", "reading_pct": 0.3423}
+  0 cut_gate_pass_write    47.3s saved K:\Fluxgroup\FluxGroup\quant\bigmoney\results\etf_book_cut_gate_pass\CUT-GATE-PASS.json
+  0 cut_gate_pass          1.0s 15/15 PASS
+  0 decision_line_write     0.2s   -> K:\Fluxgroup\FluxGroup\quant\bigmoney\results\etf_book_decision_line.json
+  0 decision_line          0.2s CHECK_OK 4 fields re-derived from the same receipts
+  0 wrapper_year_gate      1.1s 15/15 PASS
+  3 scale_floor            1.0s CHECK_FAIL 3 field(s) drifted -- rerun `python scripts/etf_book_scale_floor.py` (panel build, off-chain by des
+  0 permission_persistence    45.7s [check] CHECK_OK (6 leg(s) checked)
+  0 floor_ledger           0.4s CHECK_OK floor=0.432195 verdict=REISSUE_REQUIRED rows=6
+  0 floor_toll             1.1s [check] CHECK_OK  verdict=CONTINUOUS_EQUALS_DECISIONS  |dk|=0.0  price_of_obedience=0.68pp/yr
+  0 etf_book_registry      0.3s wrote results\etf_book_registry.json
+  0 regime_thermo          0.8s regime_thermo_build: Money02 bars panel absent on this machine -- stdout-only honest no-op
+  0 regime_dualarm         0.2s regime_gate_dualarm: not lane owner (bm-b), honest no-op
+  0 rev_osc_export         0.8s rev_osc_signal_export: lane guard (owner=bm-b, this=bm-c) -- stdout-only honest no-op
+  0 minute_feed            4.4s update_minute_feed: done, +2375 rows across 5 symbols (kind=gated)
+  0 ths_panel              0.8s wait: day file missing but window blocks: weekday 2026-11-19 inside 09:15-15:30 (calendar lag -> conservative 
+  0 ah_panel               0.3s spawned detached refresh: panel not complete (first run or prior fuse-stop)
+  0 fund_premium           0.2s no-op: before 15:30:00 (close-data alignment, update_heat precedent)
+  0 fundamental          102.8s status -> K:\Fluxgroup\FluxGroup\quant\bigmoney\results\fundamental_status.json
+  0 b_layer                0.9s verdict -> K:\Fluxgroup\FluxGroup\quant\bigmoney\results\fundamental_b_layer_filter.json
+  0 fund_statements        2.0s no-op: panel complete: 87 periods x 3 faces cover latest statutory-complete 20260930 -> zero network
+  0 t24_paper             67.3s prospect tracking: OK pass=22/22 drift=0 months_total=22 cutoff=2026-11-18
+  0 t24_promote            0.6s promotion gate: eligible=0/22 legs_pass={'paper_months': 22, 'g2_full': 0, 't22_beat_passive': 0} cutoff=2026-
+  0 aggr_paper           108.4s aggr paper: 20/20 accounts marked through 2026-11-18 -> K:\Fluxgroup\FluxGroup\quant\bigmoney\results\aggr_pap
+  0 alloc_paper            0.8s no-op: alloc_paper lane owned by bm-b, not this machine (bm-c)
+  0 grid_paper             1.3s grid paper: 5/5 accounts marked through 2026-11-18 -> K:\Fluxgroup\FluxGroup\quant\bigmoney\results\grid_paper
+  0 system_v1              0.8s system_v1_paper: lane guard (owner=bm-a, this=bm-c) -- stdout-only honest no-op
+  0 marks_capture          3.1s intraday_marks: settle tick appended (19 positions, source fund_etf_category_sina, 1.1s) -> K:\Fluxgroup\FluxG
+  0 marks_coverage         0.6s   permanent holes: 2026-10-22 (host_offhours), 2026-10-23 (host_offhours), 2026-10-26 (takeover_possible), 202
+  0 t35_export             0.4s -> K:\Fluxgroup\FluxGroup\quant\bigmoney\results\paper_export\export-2026-11-18.json + latest.json
+  0 scorecard_daily        0.5s scorecard written: K:\Fluxgroup\FluxGroup\quant\bigmoney\results\daily_scorecard.html traders: 6 o1600 rows: 6
+  0 paper_equity_recheck     0.2s paper_equity_recheck: verdict=PASS traders=6 total_equity=5934588.04 problems=0 price_lags=0 unverified=0 -> r
+  0 data_lane_freshness_close     4.2s verdict=attention counts={'retired': 1, 'in_sync': 11, 'stalled': 1, 'behind_1d': 2} worst=lhb_inst
+  0 regime_cap_vs_book     0.8s cap=CAP_SOURCES_AGREE | book=ABOVE_CAP | wrote K:\Fluxgroup\FluxGroup\quant\bigmoney\results\regime_cap_vs_boo
+  0 daily_report           2.4s daily report written: REPORT-2026-11-19.md/.json faces=5 token=1
+  0 ceo_live_usage         1.0s ceo_live_usage: K:\Fluxgroup\FluxGroup\quant\bigmoney\docs\live_usage\LIVE-2026-11-19.md (+ .json twin + LIVE-
+  0 machine_health_write     0.2s machine-health: rebuilt 3 entries (was=ok) kept=- gaps=-
+  0 machine_health_face     0.2s machine-health: OK machines=3 dropped_junk=0 fields=8/8 bm-a,bm-b,bm-c
+  0 t35_open_fill_verify     0.4s open_fill_verify day=2026-11-18: PASS (tier marks, matched 1, dropped 0, breach 0, zero-pending traders 5) -> 
+  0 face_input_staleness     0.2s verdict=FRESH compared=2 stale=0 unreadable=0 -> results/face_input_staleness.json
+  0 build_status          38.2s   factors=10 backtest=432combos/0pass traders=6 milestones=5/7
+  0 token_meter            0.2s L2 local-LLM legs: 0 today / 14 total (~0 tokens today, by_cmd={'retro': 3, 'selftest': 8, 'ask': 1, 'review':
+  0 gpu_face               0.4s {"ack_after": 271, "ack_before": 271, "applied": ["gpu_face", "gpu_note", "gpu_face_ts", "gpu_util_pct", "gpu_
+  0 tree_shrink            5.7s tree-shrink guard CLEAN: 20 commit(s) in K:\Fluxgroup\FluxGroup\quant\bigmoney, tip has 35058 file(s), no unre
+  0 tree_shrink_group      2.6s tree-shrink guard CLEAN: group origin/main @ K:\Fluxgroup\FluxGroup, 8 commit(s), tip 6134 file(s)
+  0 tree_shrink_gates      0.3s tree-shrink gates wired: bigmoney pre-push installed+matches source, canonical gate 4 tokens present | group g
+  0 group_root_sweep       4.7s   resolver users: Tools/content_loop_step.py, Tools/d19_check.py, Tools/git-atomic-push-bmc.py, Tools/krea2_kf
+  0 group_root_dialect_census     2.0s [d11]   research/IM_IC_PAIR.md FROZEN_PREREG_SHA(8ee695f3cc5f7a26) frozen at 8003833e62, 1 amendment(s) since
+  0 etf_pool_survival      1.8s   -> K:\Fluxgroup\FluxGroup\quant\bigmoney\results\etf_pool_survival.json
+  0 reader_text_audit    116.8s   self-census        50
+  0 premium_phases         1.0s premium_phases --check OK {'phases': 4, 'positive_phases': 4, 'median_pp': 6.59} -> level: the premium is posi
+  0 year_caliber           1.0s check PASS: primary=effective_years composite=FAIL
+  0 half_year_provenance     1.1s check PASS: 3 book(s), 0 problem(s)
+  0 book_2025_repro        1.0s check OK: verdict PHASE_FRAGILE, beta BETA_EXPLAINS
+  0 sign_flip_phase        1.0s OK results/etf_sign_flip_phase_test.json verdict=PHASE_FRAGILE cells=40 median=+1.25pp
+  0 calendar_distance      0.3s   all_classes_published      FINITE_DISTANCE        7.21
+  0 concentration_levers     1.0s [check] CHECK_OK  verdict=Y4_PASSABLE_WITHOUT_A_TOLL  arms=7  control_cagr=11.4600
+  0 rebal_adoption         1.0s [check] CHECK_OK  verdict=PHASE_DEPENDENT  cells=20  phases=5  pass_share_10bp=0.40
+  0 premium_leak           0.2s [check] CHECK_OK verdict=ENTRY_PREMIUM_WARN premium=CNY 4494.97 (1.04% of the order) names>=95.0 pctile: 15965
+  0 premium_session_delta_write     0.2s WROTE PREMIUM-SESSION-DELTA.json sessions=2026-11-17,2026-11-18 NO-NUMBER (cross-session=0 convention-boundary
+  0 premium_session_delta     0.2s CHECK_OK no-comparable-legs sessions=2026-11-17,2026-11-18 named=0/5
+  0 premium_choice_write    42.0s {"verdict": "RULERS_DISAGREE_SWAP_AT_HORIZON", "totals": {"legs": 5, "stretched_legs": 1, "roads_priced": 2, "
+  0 premium_choice         1.1s {"ok": true, "problems": [], "verdict": "RULERS_DISAGREE_SWAP_AT_HORIZON", "tenure_windows": 1.573, "re_derive
+  0 swap_freshness         0.2s [swap_freshness] Every one of the 10 faces in the swap section is on the 2026-11-18 close.
+  0 next_decision          1.1s CHECK_OK verdict=AGREE next=2026-12-09 claims=3 off_grid=0
+  1 k_grid                 1.1s [check] face cutoff 2026-11-17 is behind the ledger's last bar 2026-11-18
+  0 ceo_page_ticket_days     1.2s verdict AGREE | both papers write priced 2026-11-17 and data cut 2026-11-17
+  1 ceo_page_card_days     1.2s verdict DIFFERENT_DAYS | priced_bar 2026-11-17 vs 2026-11-18 / evidence_cutoff 2026-11-17 vs 2026-11-18
+  0 live_book_section_bars     0.3s [check] CHECK_OK verdict=PAGE_AHEAD_OF_BAR headline=2026-11-17 off=0 unknown=4
+  1 live_book_day_words     0.3s   UNDATED ????????????????????? | ## ?????????????????????
+  1 live_usage_day_words     0.6s **????? 10 ??????3 ?§Ø????????????**???????????????§»???????????????????????????? +refresh(rc=1,0.2s)
+  0 daily_report_day_words     0.2s **????? 36 ???????????????????????????**??29 ??????0 ???§Ó?????????? 16 ????????????????/?????????????????34 ??
+  0 sibling_entry          0.2s [sibling_entry] CHECK_OK the ticket already buys the cheapest live ticker of every index it holds: no swap sav
+  0 sibling_gap            0.2s [sibling_gap] CHECK_OK no pair carries a gap that can be read: 1 pair(s) unverifiable or immaterial
+  0 swap_trigger           1.1s CHECK_OK: 1 pair(s), threshold 0.16 pp = one exchange (2 sides); manoeuvre 0.32 pp (4 sides) is published, not
+  0 swap_stack             0.2s CHECK_OK: NOTHING_TO_NET (results/etf_book_swap_stack.json, 0 action(s))
+  0 swap_toll              0.2s CHECK_OK rows=0
+  0 toll_scope             0.2s CHECK_OK
+  0 swap_convergence       0.2s CHECK_OK measured=0
+  0 swap_effect            0.2s CHECK_OK rows=0 level=None path=None combined=None
+  0 swap_units             0.2s CHECK_OK rows=0 shares=None lots=None realised=None
+  0 swap_track             1.1s CHECK_OK rows=0 drift=None merge_sigma=None
+  0 positions_ledger       1.1s CHECK_OK: PRINTED_ROWS_REBUILD_THE_BOOK (results/etf_book_positions.json, 0 gap row(s), ledger 9 bar(s))
+  0 positions_unpriced_bar     1.1s }
+  0 floor_memory           1.0s CHECK_OK verdict=CONTROL_FAILED cells=20
+  0 floor_provenance_write     0.2s REFRESHED evidence_cutoff=2026-11-18 verdict=FLOOR_IS_A_BETA_RECIPROCAL floor=0.432195 (0.0s)
+  0 floor_provenance       0.2s CHECK_OK floor=0.432195 verdict=FLOOR_IS_A_BETA_RECIPROCAL window_pp=-23.55 universe_pp=2.81
+  0 execution_admission_gap     0.2s next: two legal sentences on one desk: the ticket executes nobond_vt08_adopted at book_weight 0.432 while the 
+  0 partial_year_caliber     0.2s [caliber] wrote results\etf_book_partial_year_caliber\CALIBER.json
+  0 supply_gate_decision     0.2s   the executed book's word does not depend on the caliber choice (A and P agree), so the caliber argument cann
+  0 live_size_provenance_write    48.6s wrote results/etf_book_live_size_provenance/SIZE-PROVENANCE.json | verdict=DIFFERENT_BOOK_AND_SIZE | k_beta=0.
+  0 live_size_provenance     0.2s check: 12/12
+  0 punctuality            1.0s check 6/6
+  0 derisk_rule           42.7s CHECK_OK rules=5 answer=NO_RULE_CLEARS_BOTH
+  0 late_sheet_price       1.0s check 10/10
+  0 do_or_wait            71.8s check 13/13 +refresh(rc=0,69.8s)
+  0 cash_vehicle           1.0s 18/18 PASS
+  0 vt_ladder             59.4s REFRESH_RAN 2026-11-17 -> 2026-11-18 answer=LADDER_HAS_RUNG (49.4s)
+  0 vt_ladder_check        1.0s CHECK_OK rungs=7 answer=LADDER_HAS_RUNG
+  0 vt_phases             79.9s elapsed 69.6s
+  0 vt_phases_check        1.0s CHECK_OK books=7 answer=NO_RUNG_SURVIVES
+  0 weight_provenance      1.0s 11/11
+  0 admission_eta          1.0s eta check: identity_ok=True max|d|=0.0 books=3
+  0 ruler_election         1.0s check OK | elected years_for_half | witness REFUSE | floor {'effective_years': 3, 'years_for_half': 5} | refus
+  0 refusal_caliber_adoption     1.0s check OK: verdict=ADOPT derived from 5 conditions
+  0 vol_target_gate      196.2s check OK +refresh(rc=0,111.1s)
+  0 beta_paths             0.2s CHECK UNDECIDABLE @ 2026-11-06 :: the two windows differ by 0.0577 beta=5.77pp of size, and the same book over
+  0 sizing_prereg          0.2s CHECK PREREG_PINNED @ 2026-11-06 :: the floor is signed by a 306-bar window and the reading carries 10.43pp of
+  0 ladderdropcarrier      1.2s {"leg": "tilt3ladderdropcarrier", "file": "results\\e43_tilt_4member\\LADDERDROPCARRIER-20261027.json", "verdi
+  0 reviewwindowcross      4.1s {"leg": "reviewwindowcross", "file": "results\\reviewwindow_cross\\REVIEWWINDOWCROSS-20261118.json", "verdict"
+  0 card_ledger_guard      0.3s card_ledger_guard: CLEAN head=656 tree=656 max=692->692 lost=[] levels={'##': 376, '###': 280}  | out-of-order
+  0 reviewwindowfloor      5.5s {"leg": "reviewwindowfloor", "file": "results\\reviewwindow_floor\\REVIEWWINDOWFLOOR-20261118.json", "verdict"
+  0 premium_percentile     0.3s check: OK (5 legs, 6506 observations)
+  0 premium_persistence_write     4.3s   159519  MEAN_REVERTING      n=777  med=  0.23% today=  -2.08% share>0=0.566 lag_spread= 0.72
+  0 premium_persistence     0.2s [persistence] CHECK_OK verdict=TODAYS_PREMIUM_IS_A_CONVENTION (2 leg(s) (512040,159655) move more when the NAV
+  0 premium_forward_write     3.6s wrote results\etf_premium\PREMIUM-FORWARD.json
+  0 premium_forward        3.6s OK: sample 3600c87ce854 (5 legs) is on the ledger; changed_from_previous=True
+  0 premium_subscription_write    31.2s wrote K:\Fluxgroup\FluxGroup\quant\bigmoney\results\etf_premium\PREMIUM-SUBSCRIPTION.md
+  0 premium_subscription     0.3s check OK
+  0 face_consumer_census    16.5s wrote results/face_consumer_census.json and research/FACE_CONSUMER_CENSUS.md
+  0 e33_ladder_census      0.2s wrote results/e33_ladder_census.json and research/E33_LADDER_CENSUS.md
+  0 etf_book_lot_ladder    49.5s md -> K:\Fluxgroup\FluxGroup\quant\bigmoney\research\ETF_BOOK_LOT_LADDER.md
+  0 etf_book_entry_lag    75.6s md -> K:\Fluxgroup\FluxGroup\quant\bigmoney\research\ETF_BOOK_ENTRY_LAG.md
+  0 etf_nobond_vt         48.6s saved K:\Fluxgroup\FluxGroup\quant\bigmoney\results\etf_nobond_vt.json
+  0 etf_equity_alpha     238.2s saved K:\Fluxgroup\FluxGroup\quant\bigmoney\results\etf_equity_alpha.json
+  0 etf_book_promotion_provenance     0.2s CHECK_OK 7 promoted rows, 6 distinct things, 2 mechanisms, re-derived from results/etf_book_year_gate_vote.jso
+chain: 286/297 rc0 -> results/_r1842bmc_s6_chain.json (2026-11-19T15:24:45)
+NONZERO: etf_book_card_track=1, etf_book_atlas_family=2, etf_book_buffer_floor=1, capacity_ticket=1, ticket_band=1, cash_roll_today=1, scale_floor=3, k_grid=1, ceo_page_card_days=1, live_book_day_words=1, live_usage_day_words=1

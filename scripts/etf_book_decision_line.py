@@ -302,6 +302,28 @@ def _short(v):
     return s if len(s) <= DRIFT_MAX_VALUE else s[:DRIFT_MAX_VALUE - 1] + "~"
 
 
+NUM_TOL = 1e-12   # r1848: a receipt read back from JSON re-parses to the same double;
+                  # 4.562446075953973 vs 4.5624460759539796 is a print/reparse tail,
+                  # not a moved number -- strict `!=` made this face red every round.
+
+
+def _same(x, y):
+    """Equality that treats two doubles within NUM_TOL as the same published number."""
+    if isinstance(x, bool) or isinstance(y, bool):
+        return isinstance(x, bool) and isinstance(y, bool) and x == y
+    if isinstance(x, (int, float)) and isinstance(y, (int, float)):
+        if x == y:
+            return True
+        return abs(x - y) <= NUM_TOL * max(1.0, abs(x), abs(y))
+    if isinstance(x, dict) and isinstance(y, dict):
+        if set(x) != set(y):
+            return False
+        return all(_same(x[k], y[k]) for k in x)
+    if isinstance(x, list) and isinstance(y, list):
+        return len(x) == len(y) and all(_same(i, j) for i, j in zip(x, y))
+    return x == y
+
+
 def _drift_lines(old, new, prefix="", out=None):
     """Name which numbers moved, not just which top-level key moved (r1838).
 
@@ -322,7 +344,7 @@ def _drift_lines(old, new, prefix="", out=None):
         for i, (x, y) in enumerate(zip(old, new)):
             _drift_lines(x, y, "%s[%d]" % (prefix, i), out)
         return out
-    if old != new:
+    if not _same(old, new):
         out.append("%s: %s -> %s" % (prefix, _short(old), _short(new)))
     return out
 
@@ -338,7 +360,7 @@ def cmd_check():
     for k in sorted(set(a) | set(b)):
         if k == "face":
             continue
-        if a.get(k) != b.get(k):
+        if not _same(a.get(k), b.get(k)):
             diffs.append(k)
     if diffs:
         print("CHECK_FAIL drift in: " + ", ".join(diffs))
@@ -502,6 +524,14 @@ def cmd_selftest():
         _drift_lines({"t": [1, 2]}, {"t": [1, 2, 3]}) == ["t: 2 rows -> 3 rows"])
     leg("a key that only exists on one side is printed with its side missing",
         _drift_lines({"a": 1}, {}) == ["a: 1 -> null"])
+    # r1848: the face went red every round on a reparse tail (t: -4.562446075953973 vs
+    # ...796 in the published JSON). A tolerance is the ruler's job, not the reader's.
+    leg("a reparse tail inside NUM_TOL is the same published number, not a drift",
+        _drift_lines({"t": -4.562446075953973}, {"t": -4.5624460759539796}) == [])
+    leg("a move well outside NUM_TOL still names the field and both values",
+        _drift_lines({"t": -4.5624}, {"t": -4.5631}) == ["t: -4.5624 -> -4.5631"])
+    leg("a boolean is not silently equal to the number it scans as",
+        _drift_lines({"a": True}, {"a": 1}) == ["a: true -> 1"])
 
     ok = all(x[1] for x in legs)
     for name, passed, note in legs:

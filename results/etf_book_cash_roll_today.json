@@ -1,18 +1,18 @@
 {
  "face": "etf_book_cash_roll_today",
  "question": "which repo tenor does the book's uninvested sleeve roll into today, and is the answer constrained by the next decision bar?",
- "generated": "2026-11-18T06:21:09+0800",
+ "generated": "2026-11-19T12:15:07+0800",
  "panel_last_bars": {
   "GC001": "2026-11-17",
-  "GC003": "2026-11-17",
-  "GC004": "2026-11-17",
-  "GC007": "2026-11-17",
-  "GC014": "2026-11-17",
-  "GC028": "2026-11-17",
-  "GC091": "2026-11-17",
-  "GC182": "2026-11-17",
+  "GC003": "2026-11-18",
+  "GC004": "2026-11-18",
+  "GC007": "2026-11-18",
+  "GC014": "2026-11-18",
+  "GC028": "2026-11-18",
+  "GC091": "2026-11-18",
+  "GC182": "2026-11-18",
   "R-001": "2026-11-17",
-  "R-003": "2026-11-17",
+  "R-003": "2026-11-18",
   "R-007": "2026-11-17"
  },
  "inputs": {
@@ -37,30 +37,6 @@
  },
  "eligible": [
   {
-   "contract": "GC014",
-   "tenor_days": 14,
-   "venue": "SH",
-   "quoted_pct": 1.35,
-   "fee_bp_per_contract": 1.0,
-   "fee_pp_per_year": 0.2607,
-   "net_ann_pct": 1.0893,
-   "matures": "2026-12-01",
-   "fits_before_decision": true,
-   "window_return_pct": 0.0657
-  },
-  {
-   "contract": "GC007",
-   "tenor_days": 7,
-   "venue": "SH",
-   "quoted_pct": 1.305,
-   "fee_bp_per_contract": 0.5,
-   "fee_pp_per_year": 0.2607,
-   "net_ann_pct": 1.0443,
-   "matures": "2026-11-24",
-   "fits_before_decision": true,
-   "window_return_pct": 0.0629
-  },
-  {
    "contract": "R-007",
    "tenor_days": 7,
    "venue": "SZ",
@@ -71,42 +47,6 @@
    "matures": "2026-11-24",
    "fits_before_decision": true,
    "window_return_pct": 0.0623
-  },
-  {
-   "contract": "GC004",
-   "tenor_days": 4,
-   "venue": "SH",
-   "quoted_pct": 1.27,
-   "fee_bp_per_contract": 0.4,
-   "fee_pp_per_year": 0.365,
-   "net_ann_pct": 0.905,
-   "matures": "2026-11-21",
-   "fits_before_decision": true,
-   "window_return_pct": 0.0545
-  },
-  {
-   "contract": "GC003",
-   "tenor_days": 3,
-   "venue": "SH",
-   "quoted_pct": 1.235,
-   "fee_bp_per_contract": 0.3,
-   "fee_pp_per_year": 0.365,
-   "net_ann_pct": 0.87,
-   "matures": "2026-11-20",
-   "fits_before_decision": true,
-   "window_return_pct": 0.0524
-  },
-  {
-   "contract": "R-003",
-   "tenor_days": 3,
-   "venue": "SZ",
-   "quoted_pct": 1.21,
-   "fee_bp_per_contract": 0.3,
-   "fee_pp_per_year": 0.365,
-   "net_ann_pct": 0.845,
-   "matures": "2026-11-20",
-   "fits_before_decision": true,
-   "window_return_pct": 0.0509
   },
   {
    "contract": "GC001",
@@ -133,48 +73,49 @@
    "window_return_pct": 0.0476
   }
  ],
- "excluded_locked": [
+ "excluded_locked": [],
+ "excluded_no_quote": [
   {
-   "contract": "GC182",
-   "tenor_days": 182,
-   "venue": "SH",
-   "quoted_pct": 1.32,
-   "fee_bp_per_contract": 3.0,
-   "fee_pp_per_year": 0.0602,
-   "net_ann_pct": 1.2598,
-   "matures": "2027-05-18",
-   "fits_before_decision": false,
-   "window_return_pct": 0.0759,
-   "locked_past_decision_days": 160
+   "contract": "GC003",
+   "quote_bar": "2026-11-18",
+   "asked_bar": "2026-11-17"
   },
   {
-   "contract": "GC091",
-   "tenor_days": 91,
-   "venue": "SH",
-   "quoted_pct": 1.315,
-   "fee_bp_per_contract": 3.0,
-   "fee_pp_per_year": 0.1203,
-   "net_ann_pct": 1.1947,
-   "matures": "2027-02-16",
-   "fits_before_decision": false,
-   "window_return_pct": 0.072,
-   "locked_past_decision_days": 69
+   "contract": "GC004",
+   "quote_bar": "2026-11-18",
+   "asked_bar": "2026-11-17"
+  },
+  {
+   "contract": "GC007",
+   "quote_bar": "2026-11-18",
+   "asked_bar": "2026-11-17"
+  },
+  {
+   "contract": "GC014",
+   "quote_bar": "2026-11-18",
+   "asked_bar": "2026-11-17"
   },
   {
    "contract": "GC028",
-   "tenor_days": 28,
-   "venue": "SH",
-   "quoted_pct": 1.355,
-   "fee_bp_per_contract": 2.0,
-   "fee_pp_per_year": 0.2607,
-   "net_ann_pct": 1.0943,
-   "matures": "2026-12-15",
-   "fits_before_decision": false,
-   "window_return_pct": 0.066,
-   "locked_past_decision_days": 6
+   "quote_bar": "2026-11-18",
+   "asked_bar": "2026-11-17"
+  },
+  {
+   "contract": "GC091",
+   "quote_bar": "2026-11-18",
+   "asked_bar": "2026-11-17"
+  },
+  {
+   "contract": "GC182",
+   "quote_bar": "2026-11-18",
+   "asked_bar": "2026-11-17"
+  },
+  {
+   "contract": "R-003",
+   "quote_bar": "2026-11-18",
+   "asked_bar": "2026-11-17"
   }
  ],
- "excluded_no_quote": [],
  "baseline": {
   "contract": "GC001",
   "tenor_days": 1,
@@ -188,16 +129,16 @@
   "window_return_pct": 0.0488
  },
  "best_sh": {
-  "contract": "GC014",
-  "tenor_days": 14,
+  "contract": "GC001",
+  "tenor_days": 1,
   "venue": "SH",
-  "quoted_pct": 1.35,
-  "fee_bp_per_contract": 1.0,
-  "fee_pp_per_year": 0.2607,
-  "net_ann_pct": 1.0893,
-  "matures": "2026-12-01",
+  "quoted_pct": 1.175,
+  "fee_bp_per_contract": 0.1,
+  "fee_pp_per_year": 0.365,
+  "net_ann_pct": 0.81,
+  "matures": "2026-11-18",
   "fits_before_decision": true,
-  "window_return_pct": 0.0657
+  "window_return_pct": 0.0488
  },
  "best_sz": {
   "contract": "R-007",
@@ -211,9 +152,9 @@
   "fits_before_decision": true,
   "window_return_pct": 0.0623
  },
- "worth_vs_daily_roll_cny_year": 1549.02,
- "worth_vs_daily_roll_cny_window": 93.68,
- "verdict": "ROLL_GC014_TODAY",
- "sentence": "GC014 pays 1.09%/yr net and still matures by 2026-12-09; versus rolling 1-day every session it is worth 1549.02 CNY a year (93.68 CNY over the 22 days to the next decision)",
- "elapsed_sec": 0.08
+ "worth_vs_daily_roll_cny_year": 152.52,
+ "worth_vs_daily_roll_cny_window": 9.18,
+ "verdict": "ROLL_GC001_TODAY",
+ "sentence": "the sleeve is worth 0.81%/yr net on 2026-11-17 and rolling it every day is already the best tenor that gets the cash back by 2026-12-09 -- the ladder buys 152.52 CNY a year, which is nothing",
+ "elapsed_sec": 0.09
 }

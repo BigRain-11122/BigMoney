@@ -1,58 +1,61 @@
 {
- "as_of": "2026-11-18T16:52:40",
+ "as_of": "2026-11-19T17:20:14",
  "calendar": {
   "path": "data/exchange_calendar.csv",
   "refresh": {
    "error": null,
-   "fetched": false,
-   "reason": "coverage_and_ttl_ok"
+   "fetched": true,
+   "reason": "refreshed",
+   "rows_after": 8797,
+   "rows_before": 8797,
+   "sha256": "e393f45ff7137bddbfc670c178676df40eaf34bb494b29e44049d81a4b9305f3"
   },
   "rows": 8797,
   "scope_end": "2026-12-31",
   "scope_start": "1990-12-19"
  },
  "coverage_by_day": {
-  "2026-11-05": 1.0,
   "2026-11-06": 1.0,
   "2026-11-09": 1.0,
   "2026-11-10": 1.0,
   "2026-11-11": 1.0,
   "2026-11-12": 1.0,
-  "2026-11-13": 0.9994,
-  "2026-11-16": 0.9959,
-  "2026-11-17": 0.9948,
-  "2026-11-18": 0.0279
+  "2026-11-13": 1.0,
+  "2026-11-16": 1.0,
+  "2026-11-17": 1.0,
+  "2026-11-18": 0.9959,
+  "2026-11-19": 0.9936
  },
- "detail": "2026-11-18 is an official trading day; the market closed 1.4h ago and no bar has been published to this panel yet; 2 file(s) sit outside the active cohort: 510880_t73 (declared_out_of_scope; last bar 2026-09-22), sh512390 (source_ended; last bar 2026-09-04) -- every one of them is declared by the lane's own receipt",
- "expected_last_official_day": "2026-11-18",
+ "detail": "the maintained panel covers every official trading day it should by now; 3 file(s) sit outside the active cohort: 510880_t73 (declared_out_of_scope; last bar 2026-09-22), sh512390 (source_ended; last bar 2026-09-04), sh530080 (no_trade; last bar 2026-11-12) -- every one of them is declared by the lane's own receipt",
+ "expected_last_official_day": "2026-11-19",
  "forward_impact": {
   "blocked": true,
-  "ledger_last_bar": "2026-11-17",
+  "ledger_last_bar": "2026-11-19",
   "note": "one mark per new panel bar; a lagging feed pauses accrual without any error"
  },
- "machine": "bm-a",
- "missing_official_days": [
-  "2026-11-18"
- ],
+ "machine": "bm-c",
+ "missing_official_days": [],
  "note": "Descriptive face. The calendar is the independent reference; the panel is ours. source_lag is a publication delay (self-heals), panel_gap is a stopped feed (needs a human/lane owner).",
  "panel": {
-  "active_floor": "2026-11-12",
-  "cutoff_max": "2026-11-18",
+  "active_floor": "2026-11-13",
+  "cutoff_max": "2026-11-19",
   "cutoff_min": "2026-09-04",
-  "effective_cutoff": "2026-11-17",
+  "effective_cutoff": "2026-11-19",
   "lagging_active_sample": [
-   "sh530080",
+   "sh511930",
+   "sh511950",
+   "sz159115",
    "sz159119",
    "sz159209",
-   "sz159220",
    "sz159333",
    "sz159399",
+   "sz159528",
    "sz159576",
    "sz159581",
    "sz159589"
   ],
-  "n_active": 1723,
-  "n_stale_cohort": 2,
+  "n_active": 1722,
+  "n_stale_cohort": 3,
   "n_symbols": 1725,
   "stale_cohort_names": [
    {
@@ -64,6 +67,11 @@
     "reason": "source_ended",
     "stem": "sh512390",
     "tail_bar": "2026-09-04"
+   },
+   {
+    "reason": "no_trade",
+    "stem": "sh530080",
+    "tail_bar": "2026-11-12"
    }
   ],
   "stale_cohort_truncated": false,
@@ -73,12 +81,12 @@
  "stale_scope": {
   "by_reason": {
    "declared_out_of_scope": 1,
-   "no_trade": 1,
+   "no_trade": 3,
    "source_ended": 1
   },
-  "declared": 3,
+  "declared": 5,
   "error": null,
   "receipt": "results/etf_wide_update_status.json"
  },
- "verdict": "source_lag"
+ "verdict": "in_sync"
 }

@@ -1,6 +1,6 @@
 {
  "face": "index_daily_update_status",
- "generated": "2026-11-18T00:14:01",
+ "generated": "2026-11-19T16:10:41",
  "host": "bm-c",
  "machine": "bm-c",
  "codes": [
@@ -9,10 +9,48 @@
   "sh000852",
   "sh000905"
  ],
- "expected_complete_date": "2026-11-17",
- "behind": {},
- "action": "no-op",
- "reason": "every code already covers 2026-11-17",
+ "authority": {
+  "lane_owner": "bm-c",
+  "writer_machine": "bm-c",
+  "data_face_machine": "bm-c",
+  "declared_takeover": false,
+  "took_over_by": null,
+  "took_over_at": null,
+  "reason": null
+ },
+ "expected_complete_date": "2026-11-19",
+ "behind": {
+  "sh000016": "2026-11-18",
+  "sh000300": "2026-11-18",
+  "sh000852": "2026-11-18",
+  "sh000905": "2026-11-18"
+ },
+ "last_attempt_epoch": 1795075841,
+ "fetched_rows": {
+  "sh000016": 5555,
+  "sh000300": 6033,
+  "sh000852": 2939,
+  "sh000905": 5312
+ },
+ "appended_rows": {},
+ "source_tails": {
+  "sh000016": "2026-11-18",
+  "sh000300": "2026-11-18",
+  "sh000852": "2026-11-18",
+  "sh000905": "2026-11-18"
+ },
+ "source_tails_observed": "2026-11-19",
+ "overlap_mismatch": {},
+ "source_failures": {},
+ "tails": {
+  "sh000016": "2026-11-18",
+  "sh000300": "2026-11-18",
+  "sh000852": "2026-11-18",
+  "sh000905": "2026-11-18"
+ },
+ "panel_cutoff": "2026-11-18",
+ "action": "no-change",
  "exit": 0,
+ "reason": "vendor has not published past 2026-11-18",
  "lane_machine": "bm-c"
 }

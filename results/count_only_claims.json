@@ -1,10 +1,9 @@
 {
  "counts_no_one_here_can_check": [
-  "moneyflow",
-  "sina_mf"
+  "moneyflow"
  ],
- "generated": "2026-11-18T16:55:50",
- "host": "bm-a",
+ "generated": "2026-11-19T16:09:53",
+ "host": "bm-c",
  "lanes": [
   {
    "claim": {
@@ -25,7 +24,7 @@
     }
    ],
    "face": "results/astock_daily_update_status.json",
-   "host": "bm-a",
+   "host": "bm-c",
    "lane": "astock_daily",
    "names": {
     "kind": "list",
@@ -35,7 +34,7 @@
    "names_cover_claims": [],
    "owner": "bm-b",
    "panel": "data/astock_daily/per",
-   "panel_files_here": 5222,
+   "panel_files_here": 5221,
    "tracked": false,
    "verdict": "NAMES_PARTIAL",
    "why": "the receipt names 4 members at /quarantined while the number it quotes is universe_n=5226; the named set is not the quoted set"
@@ -64,15 +63,15 @@
     }
    ],
    "face": "results/moneyflow_update_status.json",
-   "host": "bm-a",
+   "host": "bm-c",
    "lane": "moneyflow",
    "names": null,
    "owner": "bm-a",
    "panel": "data/moneyflow/per",
-   "panel_files_here": 5222,
+   "panel_files_here": 5227,
    "tracked": false,
    "verdict": "COUNT_DISAGREES",
-   "why": "n_symbols=5226 against 5222 local files in a gitignored panel (bm-a: a non-owner host's copy proves nothing; the owner host adjudicates)"
+   "why": "n_symbols=5226 against 5227 local files in a gitignored panel (bm-c: a non-owner host's copy proves nothing; the owner host adjudicates)"
   },
   {
    "claim": {
@@ -93,15 +92,15 @@
     }
    ],
    "face": "results/sina_mf_update_status.json",
-   "host": "bm-a",
+   "host": "bm-c",
    "lane": "sina_mf",
    "names": null,
    "owner": "bm-a",
    "panel": "data/sina_mf/per",
-   "panel_files_here": 5228,
+   "panel_files_here": null,
    "tracked": false,
-   "verdict": "COUNT_DISAGREES",
-   "why": "n_symbols=5227 against 5228 local files in a gitignored panel (bm-a: a non-owner host's copy proves nothing; the owner host adjudicates)"
+   "verdict": "PANEL_ABSENT_HERE",
+   "why": "the receipt claims 5227 n_symbols, but data/sina_mf/per does not exist on this machine (lane host: bm-a); nothing local checks the number"
   },
   {
    "claim": {
@@ -117,7 +116,7 @@
     }
    ],
    "face": "results/options_update_status.json",
-   "host": "bm-a",
+   "host": "bm-c",
    "lane": "options",
    "names": null,
    "owner": "bm-a",
@@ -151,20 +150,20 @@
     }
    ],
    "face": "results/ah_panel_status.json",
-   "host": "bm-a",
+   "host": "bm-c",
    "lane": "ah_panel",
    "names": {
     "kind": "dict",
-    "n": 9,
+    "n": 13,
     "path": "/quarantined"
    },
    "names_cover_claims": [],
    "owner": "bm-a",
    "panel": "data/ah_panel/per",
-   "panel_files_here": 186,
+   "panel_files_here": 187,
    "tracked": false,
    "verdict": "NAMES_PARTIAL",
-   "why": "the receipt names 9 members at /quarantined while the number it quotes is universe_em_total=211; the named set is not the quoted set"
+   "why": "the receipt names 13 members at /quarantined while the number it quotes is universe_em_total=211; the named set is not the quoted set"
   },
   {
    "claim": {
@@ -185,7 +184,7 @@
     }
    ],
    "face": "results/fund_history_status.json",
-   "host": "bm-a",
+   "host": "bm-c",
    "lane": "fund_history",
    "names": {
     "kind": "list",
@@ -194,15 +193,15 @@
    },
    "owner": "bm-a",
    "panel": "data/fund_history",
-   "panel_files_here": null,
-   "tracked": true,
+   "panel_files_here": 2,
+   "tracked": false,
    "verdict": "NO_MEMBER_LAYOUT",
    "why": "universe_n=5229 counts members, but data/fund_history is not laid out one file per member (it is bucketed), so a file count cannot check it -- this face refuses to compare"
   },
   {
    "claim_fields": [],
    "face": "results/zt_pool_update_status.json",
-   "host": "bm-a",
+   "host": "bm-c",
    "lane": "zt_pool",
    "names": null,
    "owner": "bm-a",
@@ -226,7 +225,7 @@
     }
    ],
    "face": "results/futures_update_status.json",
-   "host": "bm-a",
+   "host": "bm-c",
    "lane": "futures",
    "names": {
     "kind": "list",
@@ -257,7 +256,7 @@
     }
    ],
    "face": "results/repo_update_status.json",
-   "host": "bm-a",
+   "host": "bm-c",
    "lane": "repo",
    "names": {
     "kind": "list",
@@ -277,7 +276,7 @@
   {
    "claim_fields": [],
    "face": "results/minute_feed_status.json",
-   "host": "bm-a",
+   "host": "bm-c",
    "lane": "minute_feed",
    "names": {
     "kind": "dict",
@@ -306,11 +305,11 @@
     {
      "key": "coverage_total",
      "path": "/coverage_total",
-     "value": 1722
+     "value": 1723
     }
    ],
    "face": "results/etf_wide_update_status.json",
-   "host": "bm-a",
+   "host": "bm-c",
    "lane": "etf_wide",
    "names": null,
    "owner": "bm-b",
@@ -334,12 +333,12 @@
     }
    ],
    "face": "results/fund_statement_update_status.json",
-   "host": "bm-a",
+   "host": "bm-c",
    "lane": "fund_statement",
    "names": null,
    "owner": "bm-a",
    "panel": "data/fund_statement_export",
-   "panel_files_here": 6,
+   "panel_files_here": 5,
    "tracked": false,
    "verdict": "NO_MEMBER_LAYOUT",
    "why": "n_periods_present=87 counts members, but data/fund_statement_export is not laid out one file per member (it is bucketed), so a file count cannot check it -- this face refuses to compare"
@@ -348,11 +347,12 @@
  "law": "a receipt that says HOW MANY and never WHICH cannot be checked by identity; equal counts also describe a different set",
  "verdict_counts": {
   "COUNT_CHECKED_TRACKED": 1,
-  "COUNT_DISAGREES": 2,
+  "COUNT_DISAGREES": 1,
   "COUNT_RECONCILED": 1,
   "NAMES_IN_FACE": 2,
   "NAMES_PARTIAL": 2,
   "NO_COVERAGE_CLAIM": 2,
-  "NO_MEMBER_LAYOUT": 2
+  "NO_MEMBER_LAYOUT": 2,
+  "PANEL_ABSENT_HERE": 1
  }
 }

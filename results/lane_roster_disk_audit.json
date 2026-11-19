@@ -1,6 +1,6 @@
 {
- "generated": "2026-11-18T16:55:49",
- "evidence_cutoff": "2026-11-18",
+ "generated": "2026-11-19T16:09:52",
+ "evidence_cutoff": "2026-11-19",
  "lanes": [
   {
    "lane": "futures",
@@ -51,7 +51,7 @@
    ],
    "verdict": "ROSTER_MATCHES_DISK",
    "why": "every roster member has a file and every file is named",
-   "panel_newest_bar": "2026-11-17"
+   "panel_newest_bar": "2026-11-19"
   },
   {
    "lane": "zt_pool",
@@ -74,28 +74,27 @@
    "dir": "data/astock_daily/per",
    "scope": "closed",
    "roster_source": "update_astock_daily.universe_codes() over data/fundamental/eligibility.csv (lane's own market_of() skip rule applied)",
-   "declared_n": 5226,
-   "disk_n": 5222,
+   "declared_n": 5227,
+   "disk_n": 5221,
    "declared_not_on_disk": [
     "001235",
     "001381",
+    "301661",
     "688827",
     "688845",
     "689009"
    ],
-   "on_disk_not_declared": [
-    "002731"
-   ],
+   "on_disk_not_declared": [],
    "declared_frozen": [],
-   "verdict": "ROSTER_OMITS_DISK",
-   "why": "a file sits on disk that the lane's own roster does not name -- nobody refreshes it (the TS class)",
+   "verdict": "DECLARED_BUT_ABSENT",
+   "why": "a roster member has no panel file",
    "skip_buckets": {
     "0": 1495,
     "2": 36,
-    "3": 1411,
+    "3": 1412,
     "4": 513,
     "6": 2320,
-    "8": 5365,
+    "8": 5364,
     "9": 399
    },
    "skip_note": "eligibility rows the lane itself skips (B shares 2/9, Beijing 4/8/920); not counted as missing",
@@ -105,15 +104,16 @@
      "001235",
      "001381",
      "688827",
+     "688845",
      "689009"
     ],
-    "pending": [
-     "688845"
-    ],
-    "unexplained": []
+    "pending": [],
+    "unexplained": [
+     "301661"
+    ]
    },
    "missing_disposition_note": null,
-   "panel_newest_bar": "2026-11-17"
+   "panel_newest_bar": "2026-11-18"
   },
   {
    "lane": "options",
@@ -139,8 +139,8 @@
    "dir": "data/ah_panel/per",
    "scope": "closed",
    "roster_source": "data/ah_panel/_universe_em.json:h_code (frozen EM mapping, 211 pairs)",
-   "declared_n": 210,
-   "disk_n": 186,
+   "declared_n": 211,
+   "disk_n": 187,
    "declared_not_on_disk": [
     "00038",
     "00187",
@@ -155,10 +155,10 @@
     "01456",
     "02218",
     "02245",
+    "02384",
     "02636",
     "03223",
     "03228",
-    "03308",
     "03678",
     "03757",
     "03993",
@@ -171,18 +171,23 @@
    "declared_frozen": [],
    "verdict": "LOCAL_COPY_ONLY",
    "why": "this panel is gitignored (machine-local) and the lane is bm-a's -- what was read here is THIS machine's copy (observed: DECLARED_BUT_ABSENT); it is not the lane's statement about itself",
-   "roster_rows": 210,
-   "roster_declared_total": 210,
-   "roster_fetched_at": "2026-10-19 10:48:36",
+   "roster_rows": 211,
+   "roster_declared_total": 211,
+   "roster_fetched_at": "2026-11-18 01:12:56",
    "missing_disposition": {
     "source": "results/ah_panel_status.json:quarantined",
     "threshold": null,
     "quarantined": [
      "00038",
      "00568",
+     "00956",
      "01330",
+     "02218",
      "02245",
+     "02384",
      "02636",
+     "03993",
+     "06066",
      "09607"
     ],
     "pending": [],
@@ -190,32 +195,27 @@
      "00187",
      "00553",
      "00719",
-     "00956",
      "01057",
      "01108",
      "01349",
      "01456",
-     "02218",
      "03223",
      "03228",
-     "03308",
      "03678",
      "03757",
-     "03993",
-     "06066",
      "06727",
      "09976"
     ]
    },
    "missing_disposition_note": null,
-   "panel_newest_bar": "2026-10-16",
+   "panel_newest_bar": "2026-11-18",
    "observed_verdict": "DECLARED_BUT_ABSENT",
    "local_copy": true,
    "owner": "bm-a",
    "laneside": {
     "value": 185,
     "source": "results/ah_panel_status.json:fresh_pairs",
-    "local_disk_n": 186,
+    "local_disk_n": 187,
     "note": null,
     "agree": false
    }
@@ -227,7 +227,7 @@
    "scope": "closed",
    "roster_source": "no member roster -- the directory is keyed by day (one snapshot per trading day)",
    "declared_n": null,
-   "disk_n": 28,
+   "disk_n": 1,
    "declared_not_on_disk": [],
    "on_disk_not_declared": [],
    "declared_frozen": [],
@@ -241,7 +241,7 @@
    "laneside": {
     "value": null,
     "source": null,
-    "local_disk_n": 28,
+    "local_disk_n": 1,
     "note": null,
     "agree": false
    }
@@ -259,12 +259,12 @@
    "declared_frozen": [],
    "verdict": "UNPLANNED_CHECK_NOT_APPLICABLE",
    "why": "this directory holds a market-wide universe, so an unnamed file is not evidence of neglect; only declared->disk is asked",
-   "panel_newest_bar": "2026-11-18"
+   "panel_newest_bar": "2026-11-19"
   }
  ],
  "verdict_counts": {
   "ROSTER_MATCHES_DISK": 4,
-  "ROSTER_OMITS_DISK": 1,
+  "DECLARED_BUT_ABSENT": 1,
   "MEMBER_NAMES_NOT_PUBLISHED": 1,
   "LOCAL_COPY_ONLY": 2,
   "UNPLANNED_CHECK_NOT_APPLICABLE": 1

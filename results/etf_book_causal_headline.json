@@ -1,45 +1,45 @@
 {
  "arms": {
   "as_coded": {
-   "bars": 1664,
-   "cagr": 0.0941,
-   "cagr_pp": 9.41,
+   "bars": 1666,
+   "cagr": 0.0939,
+   "cagr_pp": 9.39,
    "convention": "lag 0: score(bar d) selects, the book earns open[d] -> open[d+1]",
    "lag": 0,
    "maxdd": -0.1177,
    "maxdd_pp": -11.77,
-   "sharpe": 0.971,
+   "sharpe": 0.969,
    "turnover_per_decision": 0.938,
    "vol": 0.1018
   },
   "declared": {
-   "bars": 1664,
-   "cagr": 0.0845,
-   "cagr_pp": 8.45,
+   "bars": 1666,
+   "cagr": 0.0839,
+   "cagr_pp": 8.39,
    "convention": "lag +1: score(bar d-1) selects, the book earns open[d] -> open[d+1] -- the same lattice point as 'decide at close d, fill at open d+1', which is what the card's config.execution string claims",
    "lag": 1,
    "maxdd": -0.1656,
    "maxdd_pp": -16.56,
-   "sharpe": 0.874,
+   "sharpe": 0.868,
    "turnover_per_decision": 0.959,
-   "vol": 0.1028
+   "vol": 0.1027
   },
   "ledger_live": {
-   "cagr": 0.0898,
-   "cagr_pp": 8.98,
+   "cagr": 0.0888,
+   "cagr_pp": 8.88,
    "carry_note": "ladder3 (GC007/GC014/GC028) commission charged",
    "convention": "etf_book_forward: decide at close d, fill open d+1, mark to close, repo ladder credited",
    "maxdd": -0.1326,
    "maxdd_pp": -13.26,
-   "sharpe": 0.941,
+   "sharpe": 0.932,
    "vol": 0.1005
   }
  },
  "claim": {
   "execution": "decide at close t -> fill at open t+1 -> hold to next rebalance",
   "payload_bars_window": "full",
-  "payload_cagr": 0.0941,
-  "payload_sharpe": 0.971,
+  "payload_cagr": 0.0939,
+  "payload_sharpe": 0.969,
   "reads_as_next_open_fill": true,
   "source": "results\\etf_book_production\\latest.json"
  },
@@ -54,22 +54,22 @@
  },
  "criteria_digest": "{\"conventions\": {\"as_coded\": \"lag 0: score(bar d) selects, the book earns open[d] -> open[d+1]\", \"declared\": \"lag +1: score(bar d-1) selects, the book earns open[d] -> open[d+1] -- the same lattice point as 'decide at close d, fill at open d+1', which is what the card's config.execution string claims\"}, \"frozen\": \"thresholds and the reading rule were written before the first run; --check re-derives the verdict from the published rows and refuses a face whose criteria moved\", \"tol_pp\": 0.25, \"verdict_rule\": \"CONSISTENT iff |printed_cagr - declared_cagr| <= tol_pp; else, iff the printed number reproduces the as-coded arm (|printed - as_coded| <= tol_pp): DISCLOSED when the card also publishes a declared arm that agrees with this face's declared arm to within tol_pp on BOTH arms, DISCLOSURE_DISAGREES when it publishes one that does not, and EXECUTION_CLAIM_MISMATCH when the card publishes no declared arm at all; PRINTED_MATCHES_NEITHER_ARM when both sides are readable but the printed number reproduces neither arm; CANNOT_VERIFY when a side is unreadable (an unreadable disclosure is not evidence of a breach)\"}",
  "disclosure": {
-  "as_coded_cagr": 0.0941,
-  "declared_cagr": 0.0845,
-  "gap_pp": 0.96,
+  "as_coded_cagr": 0.0939,
+  "declared_cagr": 0.0839,
+  "gap_pp": 1.0,
   "present": true,
   "source": "results\\etf_book_production\\latest.json",
   "verdict": "SAME_OPEN_ARM"
  },
- "elapsed_sec": 31.8,
- "evidence_cutoff": "2026-11-17",
- "generated": "2026-11-18T17:07:25+0800",
+ "elapsed_sec": 54.3,
+ "evidence_cutoff": "2026-11-19",
+ "generated": "2026-11-19T17:42:10+0800",
  "panel": {
-  "bars": 5282,
+  "bars": 5284,
   "first_bar": "2005-02-23",
   "flips_repaired": 169,
-  "last_bar": "2026-11-17",
-  "symbols": 1522
+  "last_bar": "2026-11-19",
+  "symbols": 1526
  },
  "printed": {
   "cagr": 0.094,
@@ -80,7 +80,7 @@
     "label": "2020-01 onwards -- as coded"
    },
    "declared": {
-    "cagr": 0.085,
+    "cagr": 0.084,
     "label": "2020-01 onwards -- declared fill (close t -> open t+1)"
    }
   },
@@ -92,23 +92,23 @@
     "raw": "| 2020-01 onwards -- as coded | 9.4% | 0.97 | -11.8% | 10.2% | 8% (1.27x) |"
    },
    {
-    "cagr": 0.085,
+    "cagr": 0.084,
     "label": "2020-01 onwards -- declared fill (close t -> open t+1)",
-    "raw": "| 2020-01 onwards -- declared fill (close t -> open t+1) | 8.5% | 0.87 | -16.6% | 10.3% | 8% (1.28x) |"
+    "raw": "| 2020-01 onwards -- declared fill (close t -> open t+1) | 8.4% | 0.87 | -16.6% | 10.3% | 8% (1.28x) |"
    }
   ],
   "source": "results\\etf_book_production\\CARD.md"
  },
- "recommendation": "No further change is called for on this face: the card's table prints both arms with their basis in the row label (declared 8.50%/yr, as-coded 9.40%/yr) and both cells are this face's own measurements, so the operator can size off the tradeable row without reading prose.",
+ "recommendation": "No further change is called for on this face: the card's table prints both arms with their basis in the row label (declared 8.40%/yr, as-coded 9.40%/yr) and both cells are this face's own measurements, so the operator can size off the tradeable row without reading prose.",
  "script": "scripts/etf_book_causal_headline.py",
  "verdict": {
-  "printed_vs_as_coded_pp": 0.01,
-  "printed_vs_declared_pp": -0.95,
+  "printed_vs_as_coded_pp": -0.01,
+  "printed_vs_declared_pp": -1.01,
   "row_as_coded_pp": 9.4,
-  "row_declared_pp": 8.5,
-  "row_vs_face_as_coded_pp": -0.01,
-  "row_vs_face_declared_pp": 0.05,
+  "row_declared_pp": 8.4,
+  "row_vs_face_as_coded_pp": 0.01,
+  "row_vs_face_declared_pp": 0.01,
   "state": "TABLE_PRINTS_BOTH_ARMS",
-  "why": "the card's own table labels both arms (declared row 8.50%/yr, as-coded row 9.40%/yr); each labelled cell is this face's own measurement of the arm it names (+0.05pp and -0.01pp), so the eye cannot land on a number the sheet does not also label"
+  "why": "the card's own table labels both arms (declared row 8.40%/yr, as-coded row 9.40%/yr); each labelled cell is this face's own measurement of the arm it names (+0.01pp and +0.01pp), so the eye cannot land on a number the sheet does not also label"
  }
 }

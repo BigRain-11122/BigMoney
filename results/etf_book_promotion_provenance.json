@@ -2,20 +2,61 @@
  "elapsed_sec": 0.0,
  "evidence_cutoff": "2026-11-18",
  "face": "etf_book_promotion_provenance",
- "generated": "2026-11-19T12:01:11+08:00",
+ "generated": "2026-11-19T13:22:42+08:00",
  "honest": [
+  "SAME_MECHANISM is read off the name the publishing face chose, not off a rerun: two rows sharing an arm prefix are reported as one mechanism at several settings, and neither setting is re-measured here.",
   "SAME_NUMBERS_TWICE is a claim about the two published numbers only: two rows that agree on CAGR and top-2 share may still differ in cost, window or capacity, and this face does not read those.",
-  "SWEEP_MEMBER says the face publishes several promoted rows, not that those rows measure the same thing -- the knob face's own question is printed verbatim so the reader can judge it.",
-  "distinct things is a lower bound: two rows with different numbers can still be one mechanism, and this face has no way to see that.",
+  "when two rows share those numbers their names are also compared: a shared contiguous token span is printed as name evidence, and its absence is left as null -- the merge then rests on the numbers alone, which is the weaker claim this face has always made.",
+  "mechanisms count only rows whose faces printed a name; rows published at /arms/N are counted in rows_without_name and are never folded into a named mechanism.",
+  "distinct things is still a lower bound for unnamed rows, and it does not merge named arms whose numbers differ -- two sleeves of one book that print different CAGRs stay two things here even though they are one mechanism.",
   "nothing here changes the vote, the gate, or the supply list; it counts what the vote already said."
+ ],
+ "mechanism_groups": [
+  {
+   "arms": [
+    "n12_forward_arm"
+   ],
+   "n_rows": 3,
+   "numbers": [
+    "10.1500/0.727300",
+    "10.1900/0.725300",
+    "9.5900/0.752400"
+   ],
+   "settings": [
+    "cash_zero",
+    "gc001_roll",
+    "ladder3"
+   ]
+  },
+  {
+   "arms": [
+    "cash_zero_control",
+    "n5_gate_arm"
+   ],
+   "n_rows": 2,
+   "numbers": [
+    "11.5500/0.703900"
+   ],
+   "settings": [
+    "(no sleeve)",
+    "cash_zero"
+   ]
+  }
+ ],
+ "mechanisms": [
+  "cash_zero_control",
+  "n12_forward_arm",
+  "n5_gate_arm"
  ],
  "n_distinct_numbers": 4,
  "n_distinct_things": 6,
  "n_faces": 3,
+ "n_mechanisms": 2,
  "n_named": 5,
  "n_promoted_rows": 7,
+ "n_rows_without_name": 2,
  "n_unmeasured": 2,
- "question": "if the concentration check stopped vetoing, how many of the seven readings it would promote are distinct things?",
+ "question": "if the concentration check stopped vetoing, how many of the seven readings it would promote are distinct things -- and how many of those are the same mechanism under a published name?",
  "rows": [
   {
    "also_published_by": [],
@@ -25,9 +66,18 @@
    "face": "results/etf_book_gate_knobs.json",
    "fingerprint": "10.1900/0.725300",
    "from": "CONDITIONAL",
+   "mechanism": "n12_forward_arm",
+   "mechanism_rows": 3,
+   "settings": [
+    "cash_zero",
+    "gc001_roll",
+    "ladder3"
+   ],
+   "shared_name_span": null,
+   "sleeve": "ladder3",
    "to": "ADMIT",
    "top2_share": 0.7253,
-   "verdict": "SWEEP_MEMBER"
+   "verdict": "SAME_MECHANISM"
   },
   {
    "also_published_by": [],
@@ -37,9 +87,18 @@
    "face": "results/etf_book_gate_knobs.json",
    "fingerprint": "10.1500/0.727300",
    "from": "CONDITIONAL",
+   "mechanism": "n12_forward_arm",
+   "mechanism_rows": 3,
+   "settings": [
+    "cash_zero",
+    "gc001_roll",
+    "ladder3"
+   ],
+   "shared_name_span": null,
+   "sleeve": "gc001_roll",
    "to": "ADMIT",
    "top2_share": 0.7273,
-   "verdict": "SWEEP_MEMBER"
+   "verdict": "SAME_MECHANISM"
   },
   {
    "also_published_by": [],
@@ -49,9 +108,18 @@
    "face": "results/etf_book_gate_knobs.json",
    "fingerprint": "9.5900/0.752400",
    "from": "CONDITIONAL",
+   "mechanism": "n12_forward_arm",
+   "mechanism_rows": 3,
+   "settings": [
+    "cash_zero",
+    "gc001_roll",
+    "ladder3"
+   ],
+   "shared_name_span": null,
+   "sleeve": "cash_zero",
    "to": "ADMIT",
    "top2_share": 0.7524,
-   "verdict": "SWEEP_MEMBER"
+   "verdict": "SAME_MECHANISM"
   },
   {
    "also_published_by": [
@@ -64,6 +132,14 @@
    "face": "results/etf_book_gate_knobs.json",
    "fingerprint": "11.5500/0.703900",
    "from": "CONDITIONAL",
+   "mechanism": "n5_gate_arm",
+   "mechanism_rows": 1,
+   "settings": null,
+   "shared_name_span": [
+    "cash",
+    "zero"
+   ],
+   "sleeve": "cash_zero",
    "to": "ADMIT",
    "top2_share": 0.7039,
    "verdict": "SAME_NUMBERS_TWICE"
@@ -79,6 +155,14 @@
    "face": "results/etf_book_year_gate_idlecarry.json",
    "fingerprint": "11.5500/0.703900",
    "from": "CONDITIONAL",
+   "mechanism": "cash_zero_control",
+   "mechanism_rows": 1,
+   "settings": null,
+   "shared_name_span": [
+    "cash",
+    "zero"
+   ],
+   "sleeve": null,
    "to": "ADMIT",
    "top2_share": 0.7039,
    "verdict": "SAME_NUMBERS_TWICE"
@@ -91,6 +175,11 @@
    "face": "results/etf_book_partial_year_caliber/CALIBER.json",
    "fingerprint": null,
    "from": "CONDITIONAL",
+   "mechanism": null,
+   "mechanism_rows": 0,
+   "settings": null,
+   "shared_name_span": null,
+   "sleeve": null,
    "to": "ADMIT",
    "top2_share": null,
    "verdict": "UNMEASURED"
@@ -103,6 +192,11 @@
    "face": "results/etf_book_partial_year_caliber/CALIBER.json",
    "fingerprint": null,
    "from": "CONDITIONAL",
+   "mechanism": null,
+   "mechanism_rows": 0,
+   "settings": null,
+   "shared_name_span": null,
+   "sleeve": null,
    "to": "ADMIT",
    "top2_share": null,
    "verdict": "UNMEASURED"
@@ -114,6 +208,7 @@
   "results/etf_book_year_gate_idlecarry.json": 1
  },
  "rule_read": "results/etf_book_year_gate_vote.json::rules.R2_advisory.changed",
+ "sentence": "7 promoted reading(s) carry 4 distinct pair(s) of the two published numbers; n12_forward_arm is one mechanism at 3 settings (cash_zero/gc001_roll/ladder3); cash_zero_control and n5_gate_arm carry the same two numbers and are one mechanism; 2 row(s) carry no name at all and sit in no mechanism.",
  "source_faces": [
   "results/etf_book_year_gate_vote.json"
  ]

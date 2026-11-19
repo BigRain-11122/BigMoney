@@ -6,53 +6,53 @@
   "slope_pp_per_name": "pp of median CAGR per additional name",
   "ruler_pp": "the baseline grid's median per-cell band (p95-p05)"
  },
- "evidence_cutoff": "2026-11-17",
+ "evidence_cutoff": "2026-11-19",
  "rule": {
   "min_rungs": 4,
   "sign_agreement_min": 0.75,
   "priced_width_max": 20,
   "frozen": "written before the first read of the width floor: the axis is the published baseline grid's own medians, the ruler is the same baseline median cell band the buffer floor used, and the sign test runs before the slope"
  },
- "ruler_pp": 6.736,
+ "ruler_pp": 6.749,
  "widths": {
   "3": {
    "n_hold": 3,
    "cadences": 3,
-   "median_cagr_pp": 8.49,
+   "median_cagr_pp": 8.485,
    "by_cadence": {
-    "10": 10.615,
-    "20": 8.49,
-    "40": 6.695
+    "10": 10.605,
+    "20": 8.485,
+    "40": 6.675
    }
   },
   "5": {
    "n_hold": 5,
    "cadences": 3,
-   "median_cagr_pp": 9.15,
+   "median_cagr_pp": 9.18,
    "by_cadence": {
-    "10": 11.425,
-    "20": 9.15,
-    "40": 7.95
+    "10": 11.44,
+    "20": 9.18,
+    "40": 7.88
    }
   },
   "8": {
    "n_hold": 8,
    "cadences": 3,
-   "median_cagr_pp": 10.155,
+   "median_cagr_pp": 10.18,
    "by_cadence": {
-    "10": 11.98,
-    "20": 10.155,
-    "40": 8.13
+    "10": 11.96,
+    "20": 10.18,
+    "40": 8.17
    }
   },
   "12": {
    "n_hold": 12,
    "cadences": 3,
-   "median_cagr_pp": 9.43,
+   "median_cagr_pp": 9.435,
    "by_cadence": {
-    "10": 11.47,
-    "20": 9.43,
-    "40": 7.685
+    "10": 11.455,
+    "20": 9.435,
+    "40": 7.665
    }
   }
  },
@@ -61,63 +61,63 @@
    "rebal": 10,
    "from": 3,
    "to": 5,
-   "step_pp": 0.81,
+   "step_pp": 0.835,
    "up": true
   },
   {
    "rebal": 10,
    "from": 5,
    "to": 8,
-   "step_pp": 0.555,
+   "step_pp": 0.52,
    "up": true
   },
   {
    "rebal": 10,
    "from": 8,
    "to": 12,
-   "step_pp": -0.51,
+   "step_pp": -0.505,
    "up": false
   },
   {
    "rebal": 20,
    "from": 3,
    "to": 5,
-   "step_pp": 0.66,
+   "step_pp": 0.695,
    "up": true
   },
   {
    "rebal": 20,
    "from": 5,
    "to": 8,
-   "step_pp": 1.005,
+   "step_pp": 1.0,
    "up": true
   },
   {
    "rebal": 20,
    "from": 8,
    "to": 12,
-   "step_pp": -0.725,
+   "step_pp": -0.745,
    "up": false
   },
   {
    "rebal": 40,
    "from": 3,
    "to": 5,
-   "step_pp": 1.255,
+   "step_pp": 1.205,
    "up": true
   },
   {
    "rebal": 40,
    "from": 5,
    "to": 8,
-   "step_pp": 0.18,
+   "step_pp": 0.29,
    "up": true
   },
   {
    "rebal": 40,
    "from": 8,
    "to": 12,
-   "step_pp": -0.445,
+   "step_pp": -0.505,
    "up": false
   }
  ],
@@ -193,24 +193,24 @@
   "sign_flips_by_cadence": true
  },
  "fit": {
-  "slope_pp_per_name": 0.1097,
-  "intercept_pp": 8.5385,
-  "r2": 0.3879,
+  "slope_pp_per_name": 0.1099,
+  "intercept_pp": 8.5508,
+  "r2": 0.378,
   "n_points": 4
  },
  "dn_required": 61.42,
  "width_required": 64.42,
- "sweep_span_pp": 0.94,
- "sweep_share_of_ruler": 0.1395,
+ "sweep_span_pp": 0.95,
+ "sweep_share_of_ruler": 0.1408,
  "verdict": "DIRECTION_NOT_A_SIZE",
  "verdict_reasons": [
   "9 rungs over 4 widths (need >= 4)",
   "6 of 9 rungs point up (sign agreement 0.667; floor 0.75) -- a line through a hill has a slope, so the sign test runs first",
   "peak width 8 with turnover inside the tested grid = True",
-  "slope +0.1097pp per name, r2 0.388 on 4 widths",
-  "ruler = median cell band 6.74pp; names of runway required = 61.42",
+  "slope +0.1099pp per name, r2 0.378 on 4 widths",
+  "ruler = median cell band 6.75pp; names of runway required = 61.42",
   "width required = 64.4 (thinnest tested 3 + runway; widest PRICED rung = 20)",
-  "the whole ladder spans 0.940pp = 0.140 of the ruler",
+  "the whole ladder spans 0.950pp = 0.141 of the ruler",
   "the rungs disagree about the sign, so no single number of names buys the ruler: width is a trade (CAGR against capacity), not a resolution knob",
   "cross-check on the capacity face's own engine (7 rungs, 0.429 up): sign flips between cadences = True -- a hill that a second engine cannot reproduce is a panel artefact, not a property of width"
  ]

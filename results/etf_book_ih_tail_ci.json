@@ -1,15 +1,15 @@
 {
   "book": {
-    "bars": 1589,
+    "bars": 1590,
     "first": "2020-01-06",
-    "last": "2026-11-17",
-    "series": "results\\etf_book_series\\NAV-2026-11-17.json"
+    "last": "2026-11-18",
+    "series": "results\\etf_book_series\\NAV-2026-11-18.json"
   },
   "bootstrap": {
     "beta_draws_ci": {
-      "hi": 0.128571013910639,
-      "lo": 0.02957628326523398,
-      "median": 0.0729772642168877,
+      "hi": 0.12915870404727767,
+      "lo": 0.02848713430552486,
+      "median": 0.07168715452069724,
       "n": 2000
     },
     "block_bars": 21,
@@ -22,9 +22,9 @@
     "unit": "bar pairs (book return, IH return)"
   },
   "deepest_tail": "ih_le_-2",
-  "elapsed_sec": 10.7,
-  "evidence_cutoff": "2026-11-17",
-  "generated": "2026-11-18T16:55:45",
+  "elapsed_sec": 16.2,
+  "evidence_cutoff": "2026-11-18",
+  "generated": "2026-11-19T16:09:50",
   "index": {
     "product": "IH",
     "splice_days_dropped": 85
@@ -37,31 +37,31 @@
     "this is arithmetic on published series, not a broker fill record"
   ],
   "perf_at_1beta": {
-    "base_sharpe": 0.9523274830681303,
-    "dmaxdd": -0.0005485315943003499,
+    "base_sharpe": 0.9542601351519108,
+    "dmaxdd": -0.0005488253467337278,
     "dmaxdd_ci": {
-      "hi": 0.029539214942005974,
-      "lo": -0.005849593471753645,
-      "median": 0.0076262170329732815,
+      "hi": 0.029919688197734554,
+      "lo": -0.0055382299192279555,
+      "median": 0.0073110714556871015,
       "n": 2000
     },
-    "dsharpe": -0.020536000001067034,
+    "dsharpe": -0.020573920795340817,
     "dsharpe_ci": {
-      "hi": 0.0719002244924948,
-      "lo": -0.0964202006837476,
-      "median": -0.015905479347439633,
+      "hi": 0.07320814130816604,
+      "lo": -0.10003708788060439,
+      "median": -0.017196029380796507,
       "n": 2000
     },
-    "dvol": -0.0010122922788117772,
+    "dvol": -0.0010120159698399356,
     "dvol_ci": {
-      "hi": -0.0001628046571166616,
-      "lo": -0.0029230232764141085,
-      "median": -0.0009604356802863506,
+      "hi": -0.0001465310544828902,
+      "lo": -0.0029291281519096286,
+      "median": -0.0009385523602707946,
       "n": 2000
     },
-    "full_sharpe": 0.9317914830670633,
+    "full_sharpe": 0.93368621435657,
     "k": 1.0,
-    "share_dsharpe_positive": 0.3545
+    "share_dsharpe_positive": 0.3535
   },
   "reading_rules": {
     "R1": "sampling interval conditional on this window's tail days, not a regime claim",
@@ -74,42 +74,42 @@
     "ih_le_-1": {
       "beta": 0.317850738141136,
       "beta_ci": {
-        "hi": 0.5228065393683683,
-        "lo": 0.016716114401564827,
-        "median": 0.3051319528856816,
+        "hi": 0.5151852613663022,
+        "lo": 0.021762870584379077,
+        "median": 0.3046606608152914,
         "n": 2000
       },
       "corr": 0.4287098034231727,
       "cut": -0.01,
       "median_tail_days": 235.0,
       "n": 235,
-      "share_above_uncond": 0.9015,
-      "share_above_zero": 0.9655
+      "share_above_uncond": 0.89,
+      "share_above_zero": 0.966
     },
     "ih_le_-2": {
       "beta": 0.6126419583867959,
       "beta_ci": {
-        "hi": 0.8405742148706478,
-        "lo": 0.13021062460324065,
-        "median": 0.6023774991636272,
+        "hi": 0.8360922810425216,
+        "lo": 0.12509835209681733,
+        "median": 0.6015996392859901,
         "n": 2000
       },
       "corr": 0.752018480779259,
       "cut": -0.02,
       "median_tail_days": 52.0,
       "n": 52,
-      "share_above_uncond": 0.9695,
-      "share_above_zero": 0.985
+      "share_above_uncond": 0.9655,
+      "share_above_zero": 0.982
     }
   },
   "unconditional": {
-    "bars": 1589,
-    "beta": 0.07458300567364223,
-    "corr": 0.1415643988218339
+    "bars": 1590,
+    "beta": 0.07458485214051068,
+    "corr": 0.14156670386872094
   },
   "verdict": {
     "hedge": "HEDGE_NOT_MEASURABLE",
-    "sentence": "尾部 beta 0.613 建在 52 天上，90% 的抽样区间是 [0.130, 0.841]；按 beta 精确对冲的夏普变化 -0.021，区间 [-0.096, +0.072]。",
+    "sentence": "尾部 beta 0.613 建在 52 天上，90% 的抽样区间是 [0.125, 0.836]；按 beta 精确对冲的夏普变化 -0.021，区间 [-0.100, +0.073]。",
     "tail": "TAIL_BETA_IS_REAL"
   }
 }

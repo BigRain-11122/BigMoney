@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-18T17:45:29+0800",
+ "generated": "2026-11-19T14:52:04+0800",
  "script": "scripts/etf_book_window_label.py",
  "criteria": {
   "tol_pp_per_year": 0.25,
@@ -15,11 +15,11 @@
  },
  "rows": {
   "printed_under_full_header": {
-   "cagr_pp": 12.45,
-   "sharpe": 1.688,
+   "cagr_pp": 12.39,
+   "sharpe": 1.681,
    "maxdd_pp": -5.78,
-   "bars": 695,
-   "artifact": "results/etf_book_order/TICKET-2026-11-17.json",
+   "bars": 696,
+   "artifact": "results/etf_book_order/TICKET-2026-11-18.json",
    "source": "the ticket's own backtest, as the page prints it today"
   },
   "same_book_full_window": {
@@ -40,15 +40,15 @@
  "identity": {
   "the full-window cell's own window reproduces the ticket": {
    "measured_pp": 12.39,
-   "published_pp": 12.45,
-   "delta_pp": 0.06,
+   "published_pp": 12.39,
+   "delta_pp": 0.0,
    "pass": true
   }
  },
  "inputs": {
   "band_ruler_status": "ok",
   "band_ruler_artifact": "results/etf_book_band_ruler.json",
-  "ticket_artifact": "results/etf_book_order/TICKET-2026-11-17.json",
+  "ticket_artifact": "results/etf_book_order/TICKET-2026-11-18.json",
   "evidence_cutoff": "2026-11-18"
  },
  "panel": {
@@ -62,8 +62,8 @@
  },
  "verdict": {
   "state": "ROW_LABELED_BY_WINDOW",
-  "gap_pp": 4.87,
-  "why": "the value under the 全窗 header is the 2.87-year window; the same book over the full window reads 7.58%, i.e. +4.87 pp/yr and the header is not what the cell holds"
+  "gap_pp": 4.81,
+  "why": "the value under the 全窗 header is the 2.88-year window; the same book over the full window reads 7.58%, i.e. +4.81 pp/yr and the header is not what the cell holds"
  },
  "table_row": {
   "full": {
@@ -72,12 +72,12 @@
    "maxdd_pct": -5.78
   },
   "oos": {
-   "cagr_pct": 12.45,
-   "sharpe": 1.688,
+   "cagr_pct": 12.39,
+   "sharpe": 1.681,
    "maxdd_pct": -5.78
   },
   "full_window_bars": 1538,
-  "short_window_bars": 695,
+  "short_window_bars": 696,
   "is": {
    "cagr_pct": 3.71,
    "sharpe": 0.901,

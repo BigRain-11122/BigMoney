@@ -1,20 +1,20 @@
-# ETF book -- what the tape says a side costs (cutoff 2026-11-18)
+# ETF book -- what the tape says a side costs (cutoff 2026-11-19)
 
 the card charges every leg a flat 10 bp/side -- what do these names actually quote, and does the book survive the tape's answer?
 
 **Verdict: CONSERVATIVE | SURVIVES**
 
-the names this book actually traded quote a measured one-way cost of 5.9 bp half-spread; the card charges 10 bp, which is more than the tape says (the card over-charges) -- on the tape's cost the same engine earns 10.0% CAGR / 1.02 Sharpe (each name at its own 75th percentile: 9.6% / 0.98), so the book survives the measured cost
+the names this book actually traded quote a measured one-way cost of 5.9 bp half-spread; the card charges 10 bp, which is more than the tape says (the card over-charges) -- on the tape's cost the same engine earns 9.9% CAGR / 1.02 Sharpe (each name at its own 75th percentile: 9.5% / 0.98), so the book survives the measured cost
 
 | arm | cost / side | CAGR | Sharpe | max drawdown |
 |---|---|---|---|---|
 | the card's assumption | 10.0 bp | 9.4% | 0.97 | -11.8% |
-| the tape (turnover weighted) | 5.9 bp | 10.0% | 1.02 | -11.4% |
-| tape, every name at its own p75 | 9.0 bp | 9.6% | 0.98 | -11.7% |
+| the tape (turnover weighted) | 5.9 bp | 9.9% | 1.02 | -11.4% |
+| tape, every name at its own p75 | 9.0 bp | 9.5% | 0.98 | -11.7% |
 
 Control: the identical engine at 10 bp reproduces the published 9.6% within 0.5pp -> PASS.
 
-Tape: 189 traded names carry an estimate (median own-median 13.3 bp, median p75 27.3 bp of price). Widest traded names: 159967 31.8 bp, 512690 30.7 bp, 512010 26.9 bp, 159966 26.8 bp, 159952 26.6 bp.
+Tape: 189 traded names carry an estimate (median own-median 13.3 bp, median p75 27.3 bp of price). Widest traded names: 159967 31.8 bp, 512690 30.5 bp, 512010 26.9 bp, 159966 26.8 bp, 159952 26.6 bp.
 
 Decisions priced 84 of 84 (0 dropped: fewer than 60% of the traded weight had a tape on that bar).
 

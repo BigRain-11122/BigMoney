@@ -1,7 +1,7 @@
 # The size the permission refuses vs the size the desk orders
 
 - 判定：**ORDER_WITHIN_PERMISSION**
-- 决策日：2026-12-09 ｜ 票据：TICKET-2026-11-17.json ｜ 证据截止：2026-11-17
+- 决策日：2026-12-09 ｜ 票据：TICKET-2026-11-19.json ｜ 证据截止：2026-11-19
 
 ## 一句话
 

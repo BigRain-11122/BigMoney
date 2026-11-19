@@ -1,7 +1,7 @@
 {
  "schema": "etf-book-forward-settle-audit/v1",
- "generated": "2026-11-18T16:59:49+0800",
- "evidence_cutoff": "2026-11-18",
+ "generated": "2026-11-19T17:50:07+0800",
+ "evidence_cutoff": "2026-11-19",
  "ledger": {
   "path": "results\\etf_book_forward\\LEDGER.json",
   "status": "live",
@@ -23,15 +23,16 @@
    "2026-11-12",
    "2026-11-13",
    "2026-11-16",
-   "2026-11-17"
+   "2026-11-17",
+   "2026-11-18",
+   "2026-11-19"
   ],
   "drift": {
    "faces": [],
    "max_abs": 0.0,
-   "checked_bars": 18,
+   "checked_bars": 19,
    "gate": "settled_bars_only",
    "settled_bars": [
-    "2026-11-03",
     "2026-11-04",
     "2026-11-05",
     "2026-11-06",
@@ -40,10 +41,11 @@
     "2026-11-11",
     "2026-11-12",
     "2026-11-13",
-    "2026-11-16"
+    "2026-11-16",
+    "2026-11-17"
    ],
    "provisional_bars": [
-    "2026-11-17"
+    "2026-11-18"
    ],
    "carry_last_bar": "2026-11-18",
    "settled_faces": [],
@@ -61,28 +63,28 @@
   "daily_dir": "data\\daily",
   "universe_symbols": 1725,
   "coverage_by_day": {
-   "2026-11-05": 1723,
    "2026-11-06": 1723,
    "2026-11-09": 1721,
    "2026-11-10": 1722,
    "2026-11-11": 1723,
    "2026-11-12": 1723,
    "2026-11-13": 1719,
-   "2026-11-16": 1716,
-   "2026-11-17": 1714,
-   "2026-11-18": 53
+   "2026-11-16": 1722,
+   "2026-11-17": 1722,
+   "2026-11-18": 1712,
+   "2026-11-19": 1711
   },
   "pending_symbols_by_day": {
-   "2026-11-05": 2,
    "2026-11-06": 2,
    "2026-11-09": 4,
    "2026-11-10": 3,
    "2026-11-11": 2,
    "2026-11-12": 2,
    "2026-11-13": 6,
-   "2026-11-16": 9,
-   "2026-11-17": 11,
-   "2026-11-18": 1672
+   "2026-11-16": 3,
+   "2026-11-17": 3,
+   "2026-11-18": 13,
+   "2026-11-19": 14
   }
  },
  "classification": {
@@ -104,10 +106,12 @@
    "2026-11-11",
    "2026-11-12",
    "2026-11-13",
-   "2026-11-16"
+   "2026-11-16",
+   "2026-11-17",
+   "2026-11-18"
   ],
   "provisional": [
-   "2026-11-17"
+   "2026-11-19"
   ],
   "drifted_bars": [],
   "max_abs": 0.0,
@@ -115,14 +119,14 @@
    "drift_faces_are_provisional": true,
    "no_settled_bar_drifted": true,
    "worst_within_tol": true,
-   "checked_bars": 18,
-   "published_bars": 18
+   "checked_bars": 19,
+   "published_bars": 20
   },
-  "newest_bar": "2026-11-17",
-  "panel_last_date": "2026-11-18"
+  "newest_bar": "2026-11-19",
+  "panel_last_date": "2026-11-19"
  },
  "restatement": {
-  "n_restated": 5,
+  "n_restated": 6,
   "restated_bars": [
    {
     "bar": "2026-10-29",
@@ -136,8 +140,8 @@
     "rescaled_known": false,
     "chain_verdict": "not_measured",
     "restated_at": "2026-10-30T19:18:29+0800",
-    "tail_rows_total": 12,
-    "tail_rows_settled": 11,
+    "tail_rows_total": 14,
+    "tail_rows_settled": 13,
     "restated_value_fails_gate_now": false,
     "history_commit": "e8547531da83",
     "history_later_rows": 0,
@@ -158,8 +162,8 @@
     "rescaled_known": false,
     "chain_verdict": "not_measured",
     "restated_at": "2026-11-05T20:29:33+0800",
-    "tail_rows_total": 10,
-    "tail_rows_settled": 9,
+    "tail_rows_total": 12,
+    "tail_rows_settled": 11,
     "restated_value_fails_gate_now": false,
     "history_status": "published_value_never_committed",
     "history_note": "no committed ledger still carried nav 1.0037553579 for 2026-11-03 -- the movement happened between commits",
@@ -177,8 +181,8 @@
     "rescaled_known": true,
     "chain_verdict": "broken",
     "restated_at": "2026-11-13T23:20:05+0800",
-    "tail_rows_total": 3,
-    "tail_rows_settled": 2,
+    "tail_rows_total": 5,
+    "tail_rows_settled": 4,
     "restated_value_fails_gate_now": false
    },
    {
@@ -193,8 +197,8 @@
     "rescaled_known": true,
     "chain_verdict": "broken",
     "restated_at": "2026-11-16T18:21:44+0800",
-    "tail_rows_total": 2,
-    "tail_rows_settled": 1,
+    "tail_rows_total": 4,
+    "tail_rows_settled": 3,
     "restated_value_fails_gate_now": false
    },
    {
@@ -209,16 +213,33 @@
     "rescaled_known": true,
     "chain_verdict": "broken",
     "restated_at": "2026-11-17T21:49:05+0800",
-    "tail_rows_total": 1,
-    "tail_rows_settled": 0,
+    "tail_rows_total": 3,
+    "tail_rows_settled": 2,
+    "restated_value_fails_gate_now": false
+   },
+   {
+    "bar": "2026-11-17",
+    "now_settled": true,
+    "now_provisional": false,
+    "on_row": true,
+    "nav_published": 1.0037762754,
+    "nav_settled": 1.0037812718,
+    "nav_factor_applied": 1.000004977603,
+    "later_rows_rescaled": 1,
+    "rescaled_known": true,
+    "chain_verdict": "broken",
+    "restated_at": "2026-11-19T13:50:38+0800",
+    "tail_rows_total": 2,
+    "tail_rows_settled": 1,
     "restated_value_fails_gate_now": false
    }
   ],
-  "n_restated_now_settled": 5,
+  "n_restated_now_settled": 6,
   "chain_measured_on": [
    "2026-11-12",
    "2026-11-13",
-   "2026-11-16"
+   "2026-11-16",
+   "2026-11-17"
   ],
   "chain_unmeasured_on": [
    "2026-11-03"
@@ -234,11 +255,12 @@
   "chain_broken_on": [
    "2026-11-12",
    "2026-11-13",
-   "2026-11-16"
+   "2026-11-16",
+   "2026-11-17"
   ],
   "fail_gate_now": [],
-  "settled_bars_policed_now": 17,
-  "ledger_checked_bars_field": 18,
+  "settled_bars_policed_now": 19,
+  "ledger_checked_bars_field": 19,
   "ledger_checked_bars_note": "the ledger's checked_bars counts published bars, not re-derived ones; settled_bars_policed_now is the set this audit makes a claim about",
   "checks": {
    "restated_settled_bars_reproduce": true,
@@ -249,23 +271,23 @@
   "verdict": "restatement_left_a_broken_chain"
  },
  "data_lag_audit": {
-  "as_of": "2026-11-18T16:52:40",
+  "as_of": "2026-11-19T17:20:14",
   "coverage_by_day": {
-   "2026-11-05": 1.0,
    "2026-11-06": 1.0,
    "2026-11-09": 1.0,
    "2026-11-10": 1.0,
    "2026-11-11": 1.0,
    "2026-11-12": 1.0,
-   "2026-11-13": 0.9994,
-   "2026-11-16": 0.9959,
-   "2026-11-17": 0.9948,
-   "2026-11-18": 0.0279
+   "2026-11-13": 1.0,
+   "2026-11-16": 1.0,
+   "2026-11-17": 1.0,
+   "2026-11-18": 0.9959,
+   "2026-11-19": 0.9936
   },
-  "detail": "2026-11-18 is an official trading day; the market closed 1.4h ago and no bar has been published to this panel yet; 2 file(s) sit outside the active cohort: 510880_t73 (declared_out_of_scope; last bar 2026-09-22), sh512390 (source_ended; last bar 2026-09-04) -- every one of them is declared by the la",
-  "ledger_last_bar": "2026-11-17"
+  "detail": "the maintained panel covers every official trading day it should by now; 3 file(s) sit outside the active cohort: 510880_t73 (declared_out_of_scope; last bar 2026-09-22), sh512390 (source_ended; last bar 2026-09-04), sh530080 (no_trade; last bar 2026-11-12) -- every one of them is declared by the la",
+  "ledger_last_bar": "2026-11-19"
  },
- "headline": "ledger re-derives clean | 5 published bar(s) restated after publication, 5 of them inside today's settled partition; chain verified on 2026-11-12, 2026-11-13, 2026-11-16; the record does not say how many later rows moved behind 2026-11-03; 2026-10-29 (no_later_rows_at_publication) is settled from the committed ledger: the ledger held no row behind 2026-10-29 when the published value was committed: the restatement had nothing to move; CHAIN BROKEN on 2026-11-12, 2026-11-13, 2026-11-16; every restated settled bar re-derives off the panel now",
+ "headline": "ledger re-derives clean | 6 published bar(s) restated after publication, 6 of them inside today's settled partition; chain verified on 2026-11-12, 2026-11-13, 2026-11-16, 2026-11-17; the record does not say how many later rows moved behind 2026-11-03; 2026-10-29 (no_later_rows_at_publication) is settled from the committed ledger: the ledger held no row behind 2026-10-29 when the published value was committed: the restatement had nothing to move; CHAIN BROKEN on 2026-11-12, 2026-11-13, 2026-11-16, 2026-11-17; every restated settled bar re-derives off the panel now",
  "recommended_rule": "A drift gate may only police SETTLED bars. The newest published bar is provisional until its panel date stops gaining symbols (coverage stable across consecutive runs); while it is provisional, a re-derivation mismatch is expected and must be reported, not frozen on -- and never bought with a history rewrite.",
  "caveats": [
   "Point-in-time coverage at pricing time is not recorded anywhere, so 'the panel was still filling' is inferred from the panel's current shape (post-close arrivals) plus the timestamp of the run that priced the bar, not observed directly.",

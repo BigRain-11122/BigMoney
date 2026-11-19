@@ -19,7 +19,7 @@
  "rules_source": "results/etf_book_phase_atlas_arms.json rows (labels imported, not recomputed)",
  "source": {
   "face": "results/etf_book_phase_atlas_arms.json",
-  "inputs_sha256": "92f237f4dfd76336fddbb641a4baf1aa0e27d3cb8d95c41b3796ac94ec35b694"
+  "inputs_sha256": "e26992f372be5856f5fa625e556ff6f2860e6a1bed4364bcef083d955e594b9d"
  },
  "arms": [
   {
@@ -29,17 +29,17 @@
    "median_delta_pp": -0.007,
    "mean_z": 0.004,
    "cells": 12,
-   "sign_cells": 11,
+   "sign_cells": 12,
    "cells_positive": 5,
-   "cells_negative": 6,
+   "cells_negative": 7,
    "null_mode": "exact",
-   "sign_p_worse": 0.5,
-   "sign_p_better": 0.72559,
-   "mag_p_worse": 0.5459,
-   "mag_p_better": 0.45459,
+   "sign_p_worse": 0.38721,
+   "sign_p_better": 0.80615,
+   "mag_p_worse": 0.55884,
+   "mag_p_better": 0.44141,
    "null_mean_z_band": [
-    -0.023,
-    0.023
+    -0.024,
+    0.024
    ],
    "verdict_sign": "NOT-SEPARABLE",
    "verdict_magnitude": "NOT-SEPARABLE",
@@ -49,35 +49,35 @@
   },
   {
    "arm": "buffer_k05",
-   "frozen_label": "REJECT",
+   "frozen_label": "NOT-SEPARABLE",
    "frozen_label_published": true,
-   "median_delta_pp": 0.003,
-   "mean_z": 0.03,
+   "median_delta_pp": 0.438,
+   "mean_z": 0.5,
    "cells": 12,
    "sign_cells": 12,
-   "cells_positive": 6,
-   "cells_negative": 6,
+   "cells_positive": 10,
+   "cells_negative": 2,
    "null_mode": "exact",
-   "sign_p_worse": 0.61279,
-   "sign_p_better": 0.61279,
-   "mag_p_worse": 0.67651,
-   "mag_p_better": 0.32373,
+   "sign_p_worse": 0.99683,
+   "sign_p_better": 0.01929,
+   "mag_p_worse": 0.99878,
+   "mag_p_better": 0.00146,
    "null_mean_z_band": [
-    -0.072,
-    0.072
+    -0.382,
+    0.381
    ],
    "verdict_sign": "NOT-SEPARABLE",
-   "verdict_magnitude": "NOT-SEPARABLE",
-   "verdict": "NOT-SEPARABLE",
-   "verdict_stable": true,
+   "verdict_magnitude": "BETTER",
+   "verdict": "SPLIT",
+   "verdict_stable": false,
    "frozen_label_stands": false
   },
   {
    "arm": "buffer_k05_cost20",
    "frozen_label": "REJECT",
-   "frozen_label_published": true,
-   "median_delta_pp": -1.512,
-   "mean_z": -1.034,
+   "frozen_label_published": false,
+   "median_delta_pp": -1.525,
+   "mean_z": -1.031,
    "cells": 12,
    "sign_cells": 12,
    "cells_positive": 0,
@@ -100,18 +100,18 @@
   {
    "arm": "buffer_k10",
    "frozen_label": "NOT-SEPARABLE",
-   "frozen_label_published": true,
-   "median_delta_pp": 0.055,
-   "mean_z": 0.114,
+   "frozen_label_published": false,
+   "median_delta_pp": 0.033,
+   "mean_z": 0.122,
    "cells": 12,
-   "sign_cells": 12,
-   "cells_positive": 8,
+   "sign_cells": 11,
+   "cells_positive": 7,
    "cells_negative": 4,
    "null_mode": "exact",
-   "sign_p_worse": 0.927,
-   "sign_p_better": 0.19385,
-   "mag_p_worse": 0.90381,
-   "mag_p_better": 0.09644,
+   "sign_p_worse": 0.88672,
+   "sign_p_better": 0.27441,
+   "mag_p_worse": 0.93359,
+   "mag_p_better": 0.06689,
    "null_mean_z_band": [
     -0.127,
     0.127
@@ -125,9 +125,9 @@
   {
    "arm": "buffer_k20",
    "frozen_label": "NOT-SEPARABLE",
-   "frozen_label_published": true,
-   "median_delta_pp": 0.15,
-   "mean_z": 0.176,
+   "frozen_label_published": false,
+   "median_delta_pp": 0.175,
+   "mean_z": 0.183,
    "cells": 12,
    "sign_cells": 12,
    "cells_positive": 7,
@@ -135,11 +135,11 @@
    "null_mode": "exact",
    "sign_p_worse": 0.80615,
    "sign_p_better": 0.38721,
-   "mag_p_worse": 0.95361,
-   "mag_p_better": 0.04663,
+   "mag_p_worse": 0.96509,
+   "mag_p_better": 0.03516,
    "null_mean_z_band": [
-    -0.173,
-    0.172
+    -0.171,
+    0.171
    ],
    "verdict_sign": "NOT-SEPARABLE",
    "verdict_magnitude": "NOT-SEPARABLE",
@@ -150,21 +150,21 @@
   {
    "arm": "buffer_k40",
    "frozen_label": "NOT-SEPARABLE",
-   "frozen_label_published": true,
-   "median_delta_pp": 0.465,
-   "mean_z": 0.233,
+   "frozen_label_published": false,
+   "median_delta_pp": 0.445,
+   "mean_z": 0.238,
    "cells": 12,
    "sign_cells": 12,
-   "cells_positive": 7,
-   "cells_negative": 5,
+   "cells_positive": 8,
+   "cells_negative": 4,
    "null_mode": "exact",
-   "sign_p_worse": 0.80615,
-   "sign_p_better": 0.38721,
-   "mag_p_worse": 0.979,
-   "mag_p_better": 0.02124,
+   "sign_p_worse": 0.927,
+   "sign_p_better": 0.19385,
+   "mag_p_worse": 0.98071,
+   "mag_p_better": 0.01953,
    "null_mean_z_band": [
-    -0.199,
-    0.199
+    -0.201,
+    0.201
    ],
    "verdict_sign": "NOT-SEPARABLE",
    "verdict_magnitude": "NOT-SEPARABLE",
@@ -175,9 +175,9 @@
   {
    "arm": "cost0",
    "frozen_label": "NOT-SEPARABLE",
-   "frozen_label_published": true,
-   "median_delta_pp": 1.425,
-   "mean_z": 1.118,
+   "frozen_label_published": false,
+   "median_delta_pp": 1.397,
+   "mean_z": 1.121,
    "cells": 12,
    "sign_cells": 12,
    "cells_positive": 12,
@@ -188,8 +188,8 @@
    "mag_p_worse": 1.0,
    "mag_p_better": 0.00024,
    "null_mean_z_band": [
-    -0.707,
-    0.707
+    -0.711,
+    0.71
    ],
    "verdict_sign": "BETTER",
    "verdict_magnitude": "BETTER",
@@ -200,9 +200,9 @@
   {
    "arm": "cost05",
    "frozen_label": "NOT-SEPARABLE",
-   "frozen_label_published": true,
-   "median_delta_pp": 0.71,
-   "mean_z": 0.558,
+   "frozen_label_published": false,
+   "median_delta_pp": 0.682,
+   "mean_z": 0.56,
    "cells": 12,
    "sign_cells": 12,
    "cells_positive": 12,
@@ -213,8 +213,8 @@
    "mag_p_worse": 1.0,
    "mag_p_better": 0.00024,
    "null_mean_z_band": [
-    -0.353,
-    0.352
+    -0.356,
+    0.356
    ],
    "verdict_sign": "BETTER",
    "verdict_magnitude": "BETTER",
@@ -225,9 +225,9 @@
   {
    "arm": "cost20",
    "frozen_label": "REJECT",
-   "frozen_label_published": true,
-   "median_delta_pp": -1.417,
-   "mean_z": -1.102,
+   "frozen_label_published": false,
+   "median_delta_pp": -1.445,
+   "mean_z": -1.099,
    "cells": 12,
    "sign_cells": 12,
    "cells_positive": 0,
@@ -238,8 +238,8 @@
    "mag_p_worse": 0.00024,
    "mag_p_better": 1.0,
    "null_mean_z_band": [
-    -0.693,
-    0.693
+    -0.691,
+    0.69
    ],
    "verdict_sign": "WORSE",
    "verdict_magnitude": "WORSE",
@@ -250,9 +250,9 @@
   {
    "arm": "cost40",
    "frozen_label": "REJECT",
-   "frozen_label_published": true,
-   "median_delta_pp": -4.19,
-   "mean_z": -3.25,
+   "frozen_label_published": false,
+   "median_delta_pp": -4.217,
+   "mean_z": -3.248,
    "cells": 12,
    "sign_cells": 12,
    "cells_positive": 0,
@@ -263,8 +263,8 @@
    "mag_p_worse": 0.00024,
    "mag_p_better": 1.0,
    "null_mean_z_band": [
-    -2.04,
-    2.04
+    -2.041,
+    2.039
    ],
    "verdict_sign": "WORSE",
    "verdict_magnitude": "WORSE",
@@ -274,16 +274,16 @@
   }
  ],
  "n_arms": 10,
- "n_reject": 4,
+ "n_reject": 3,
  "n_reject_standing": 3,
  "labels_overturned": [
   "buffer_k05",
   "cost0",
   "cost05"
  ],
- "verdict": "SOME_REJECTS_STAND",
+ "verdict": "EVERY_PUBLISHED_REJECT_STANDS",
  "verdict_reasons": [
-  "3 of 4 published REJECTs stand on their own cells (buffer_k05_cost20, cost20, cost40); the rest are inside sign noise and must not be read as findings"
+  "all 3 REJECTs keep their median beyond the family-wise threshold under exact sign flipping, so their cells agree on a direction that noise does not"
  ],
- "evidence_cutoff": "2026-11-17"
+ "evidence_cutoff": "2026-11-19"
 }

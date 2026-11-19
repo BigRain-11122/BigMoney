@@ -2,18 +2,18 @@
  "artifact": "etf_book_capacity_at_size",
  "face": "results/etf_book_capacity_at_size.json",
  "script": "scripts/etf_book_capacity_at_size.py",
- "ticket_file": "results/etf_book_order/TICKET-2026-11-18.json",
- "ticket_stem": "2026-11-18",
- "bar": "2026-11-18",
- "panel_bar": "2026-11-18",
- "evidence_cutoff": "2026-11-18",
+ "ticket_file": "results/etf_book_order/TICKET-2026-11-19.json",
+ "ticket_stem": "2026-11-19",
+ "bar": "2026-11-19",
+ "panel_bar": "2026-11-19",
+ "evidence_cutoff": "2026-11-19",
  "book_weight": 0.432195,
- "cash_cny": 568056.7,
+ "cash_cny": 568119.6,
  "published": {
   "lens": "1M",
   "capital_cny": 1000000.0,
   "per_name_cny": 200000.0,
-  "impact_pct_of_adv": 1.0028
+  "impact_pct_of_adv": 0.997
  },
  "criteria": {
   "line_pct": 1.0,
@@ -25,66 +25,68 @@
  "rows": [
   {
    "sym": "510760",
-   "amount_cny": 86430.8,
-   "lots": 692,
-   "adv_cny": 537635095.01,
-   "share": 0.00016076108275393352
+   "amount_cny": 86403.0,
+   "lots": 694,
+   "adv_cny": 553099094.19,
+   "share": 0.00015621612999956172
   },
   {
    "sym": "512040",
-   "amount_cny": 86423.8,
-   "lots": 719,
+   "amount_cny": 86375.8,
+   "lots": 721,
    "adv_cny": 242460669.45,
-   "share": 0.0003564446151041509
+   "share": 0.0003562466448514543
   },
   {
    "sym": "159655",
    "amount_cny": 86374.5,
    "lots": 445,
-   "adv_cny": 161830205.34,
-   "share": 0.000533735342042791
+   "adv_cny": 175849629.8,
+   "share": 0.0004911838603170672
   },
   {
    "sym": "513690",
-   "amount_cny": 86410.8,
-   "lots": 756,
+   "amount_cny": 86404.8,
+   "lots": 766,
    "adv_cny": 98402773.5,
-   "share": 0.0008781337855279049
+   "share": 0.0008780728116367574
   },
   {
    "sym": "159519",
-   "amount_cny": 86303.4,
-   "lots": 498,
+   "amount_cny": 86322.3,
+   "lots": 501,
    "adv_cny": 25214482.9,
-   "share": 0.003422770966284619
+   "share": 0.003423520535493512
   }
  ],
  "summary": {
   "n_names": 5,
   "n_measurable": 5,
   "line_pct": 1.0,
-  "spent_cny": 431943.3,
-  "reading_pct": 0.3423,
+  "spent_cny": 431880.4,
+  "reading_pct": 0.3424,
   "binding": "159519",
-  "headroom_cny_at_line": 1261969.63,
+  "headroom_cny_at_line": 1261509.59,
   "verdict": "ADMIT_AT_THIS_SIZE",
-  "binding_amount_cny": 86303.4,
-  "headroom_multiple": 2.921609449917385,
+  "binding_amount_cny": 86322.3,
+  "headroom_multiple": 2.920969772584836,
   "unmeasurable": [],
   "rejected_amounts": []
  },
  "name_set": {
   "same_book": false,
-  "n_overlap": 1,
+  "n_overlap": 0,
   "only_in_ticket": [
    "159519",
    "159655",
    "510760",
-   "512040"
+   "512040",
+   "513690"
   ],
   "only_in_published": [
    "159207",
    "159549",
+   "515650",
    "560570",
    "562060"
   ]
@@ -95,32 +97,32 @@
   "cost_per_side_bp": 13.041,
   "sell_side_bp": 13.041,
   "money": {
-   "spent_cny": 431943.3,
-   "entry_cost_cny": 563.3,
-   "exit_cost_cny": 563.3,
-   "round_trip_cost_cny": 1126.59,
+   "spent_cny": 431880.4,
+   "entry_cost_cny": 563.22,
+   "exit_cost_cny": 563.22,
+   "round_trip_cost_cny": 1126.43,
    "round_trip_cost_pct_of_order": 0.2608
   }
  },
- "sentence": "按今天这张单自己的五个名字、自己的金额量：最紧的一席 159519 占它自己成交额的 0.3423%，闸线 1.00% → **过线**。注意：准入面印的 1.0028% 是**另一组名字**量的（只有 1 个重合，它量的是 159207、159549、560570、562060），两个数不是同一把尺子上的同一件事。",
+ "sentence": "按今天这张单自己的五个名字、自己的金额量：最紧的一席 159519 占它自己成交额的 0.3424%，闸线 1.00% → **过线**。注意：准入面印的 0.9970% 是**另一组名字**量的（只有 0 个重合，它量的是 159207、159549、515650、560570、562060），两个数不是同一把尺子上的同一件事。",
  "caveats": [
   "成交额用的是闸自己的口径（收盘价×成交量，中位再取中位），是估计值而且是阶梯状的",
   "「1% ADV」是闸选的线，不是量出来的线；换线，每个数按同一比例移动",
   "这里量的是「这张单能不能从这个市场的成交额里过」，不是「下单后价格会被推到哪」：冲击成本是另一条腿（既有回测里按 8bp/边记）",
   "「装得下」不等于「免费」：pricing.money 一行给出这张单自己的双边成本（费率单源 knowledge.cost_spec，禁手抄）",
-  "放大倍数 x2.9216 是一个资本比例，不是一张能下的单：整数手与波动目标都可能把它压得更低"
+  "放大倍数 x2.9210 是一个资本比例，不是一张能下的单：整数手与波动目标都可能把它压得更低"
  ],
  "inputs": {
   "signature": {
    "daily_files": 1725,
-   "daily_bytes": 92863515,
-   "daily_newest_mtime_ns": 1794993999292132800,
+   "daily_bytes": 92964913,
+   "daily_newest_mtime_ns": 1795076051336658400,
    "daily_names_sha": "469d156b7e2bda77",
-   "ticket": "TICKET-2026-11-18.json",
-   "ticket_sha": "4fa6f001cd8727a4163027055609020a13878d63650e60509cd5555429427993",
-   "status_sha": "0dda02ebe42d5a23d44bc91e2a8732fc9a510571d2e1f2b3815598f5e25fef35",
-   "script_sha": "bdcad28d4845a077a9f64a4e25be4550e40605dd4d8a8cb1d3d0c8a1914e36da"
+   "ticket": "TICKET-2026-11-19.json",
+   "ticket_sha": "5803ee55c2ed633a7c7309f066b23e76bd13e2731847b2cbddd61fbc92a62686",
+   "status_sha": "70e245c26709c3425c26b2391f387d72e2710bdb787ebd09c50f70a5fc770572",
+   "script_sha": "e4f175619c4030d1ced347e74936fa3c5fc7db47adc78334446e699ce34e83e0"
   },
-  "key": "c132745b5f032a62a17e5e6f3706635280345f9f11a0be14b5864d3ac48007b5"
+  "key": "7e6377ee0cb70d327f92861cf98dfecc376e451319a7947252f5de8870ce53e9"
  }
 }

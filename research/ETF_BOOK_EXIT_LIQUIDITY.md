@@ -2,7 +2,7 @@
 
 **Question.** Every name this book holds passed a 20-bar median turnover gate of 2000 万元 on the bar it was ranked. Nothing checks the same number on the bar it is sold. How often is the book asked to exit into a name it would not be allowed to buy, how long does the queue last, and what is the wait worth?
 
-**Panel.** 1522 funds x 5282 bars, 2005-02-23..2026-11-17, 169 quote flips repaired (the production panel's own repair, imported not copied).
+**Panel.** 1526 funds x 5284 bars, 2005-02-23..2026-11-19, 169 quote flips repaired (the production panel's own repair, imported not copied).
 
 **Arm.** declared fill (score held one bar back, close t -> open t+1); as-coded not measured.
 
@@ -11,19 +11,19 @@
 | phase | start | holds | positions | exit below gate | no bar | deferred | outside cap | share below | mean defer (bars) | drag (pp/yr) |
 |---|---|---|---|---|---|---|---|---|---|---|
 | 0 | 2020-01-02 | 83 | 996 | 39 | 0 | 14 | 25 | 3.92% | 10.57 | +0.430 |
-| 1 | 2020-01-09 | 82 | 984 | 46 | 0 | 18 | 28 | 4.67% | 6.83 | +0.128 |
+| 1 | 2020-01-09 | 83 | 996 | 46 | 0 | 18 | 28 | 4.62% | 6.83 | +0.126 |
 | 2 | 2020-01-16 | 82 | 984 | 46 | 0 | 13 | 33 | 4.67% | 7.69 | +0.014 |
 | 3 | 2020-01-23 | 82 | 984 | 35 | 0 | 12 | 23 | 3.56% | 10.33 | +0.295 |
 
-Totals over 3948 positions: 166 exits below the buy gate (4.20%), 0 with no bar at all, 109 that never found a qualifying bar inside 20 bars.
+Totals over 3960 positions: 166 exits below the buy gate (4.19%), 0 with no bar at all, 109 that never found a qualifying bar inside 20 bars.
 
-**Verdict: `MIXED_ACROSS_PHASES`** (mean share below gate 0.042, mean drag 0.2165 pp/yr, range 0.014..0.4298).
+**Verdict: `MIXED_ACROSS_PHASES`** (mean share below gate 0.0419, mean drag 0.2161 pp/yr, range 0.014..0.4298).
 
 The two readings behind that verdict, printed separately because the frozen rule requires both to be small (or both to be large) before it names a side:
 
-- **incidence**: 4.20% of held positions must be sold on a bar where the name would not pass the buy gate -- above the no-constraint line (2%), below the real-gate line (5%);
+- **incidence**: 4.19% of held positions must be sold on a bar where the name would not pass the buy gate -- above the no-constraint line (2%), below the real-gate line (5%);
 - **price**: the wait is worth +0.22 pp/yr on average and every phase sits inside +-0.57 pp of zero, so the queue is real but the money is not in it;
-- **the censored tail**: 109 of 3948 positions (2.76%) never found a qualifying bar inside 20 bars at all and are counted as outside_cap, not as a zero return -- those are forced holds, and they are the half of this face the panel cannot price.
+- **the censored tail**: 109 of 3960 positions (2.75%) never found a qualifying bar inside 20 bars at all and are counted as outside_cap, not as a zero return -- those are forced holds, and they are the half of this face the panel cannot price.
 
 ## 它量的是什么，不是什么
 

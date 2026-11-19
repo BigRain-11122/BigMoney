@@ -12,8 +12,8 @@
   },
   {
    "cell": "window",
-   "k": 0.7470863396940548,
-   "beta": 0.2677066750837709,
+   "k": 0.7470863396940551,
+   "beta": 0.2677066750837708,
    "k_x_beta": 0.2,
    "err_vs_target": 0.0
   },
@@ -26,10 +26,10 @@
   },
   {
    "cell": "window_x_universe",
-   "k": 0.6676653272026065,
-   "beta": 0.2995512749448332,
-   "k_x_beta": 0.2,
-   "err_vs_target": 0.0
+   "k": 0.6676653272026066,
+   "beta": 0.29955127494483313,
+   "k_x_beta": 0.19999999999999998,
+   "err_vs_target": -2.7755575615628914e-17
   },
   {
    "cell": "denominator",
@@ -44,15 +44,15 @@
  "grid": {
   "common|all": {
    "cell": "window",
-   "k": 0.7470863396940548,
-   "beta": 0.2677066750837709,
+   "k": 0.7470863396940551,
+   "beta": 0.2677066750837708,
    "bars": 771,
    "note": ""
   },
   "common|graded": {
    "cell": "window_x_universe",
-   "k": 0.6676653272026065,
-   "beta": 0.2995512749448332,
+   "k": 0.6676653272026066,
+   "beta": 0.29955127494483313,
    "bars": 771,
    "note": ""
   },
@@ -60,27 +60,27 @@
    "cell": "baseline_published",
    "k": 0.46025345210279783,
    "beta": 0.43454318286205906,
-   "bars": 1665,
+   "bars": 1666,
    "note": ""
   },
   "full|graded": {
    "cell": "universe",
    "k": 0.4321950056569343,
    "beta": 0.4627540748556337,
-   "bars": 1665,
+   "bars": 1666,
    "note": ""
   }
  },
  "grid_missing": [],
  "effects": {
   "floor_full_window": 0.4321950056569343,
-  "floor_common_window": 0.6676653272026065,
+  "floor_common_window": 0.6676653272026066,
   "floor_all_universe": 0.46025345210279783,
   "floor_graded_universe": 0.4321950056569343,
   "floor_full_all": 0.46025345210279783,
   "floor_full_graded": 0.4321950056569343,
-  "floor_common_all": 0.7470863396940548,
-  "floor_common_graded": 0.6676653272026065,
+  "floor_common_all": 0.7470863396940551,
+  "floor_common_graded": 0.6676653272026066,
   "window_effect_k": -0.23547,
   "window_effect_pp": -23.55,
   "window_effect_cny": -235470.32,
@@ -100,17 +100,17 @@
   "cell": "universe",
   "beta": 0.4627540748556337,
   "k": 0.4321950056569343,
-  "bars": 1665,
+  "bars": 1666,
   "window": "full",
   "universe": "graded (equity,commodity,convertible)"
  },
  "published_floor": 0.432195,
- "evidence_cutoff": "2026-11-17",
- "generated": "2026-11-17T20:04:49+0800",
+ "evidence_cutoff": "2026-11-18",
+ "generated": "2026-11-19T15:08:12+0800",
  "verdict": "FLOOR_IS_A_BETA_RECIPROCAL",
  "issuing_cell_is_the_floor": true,
  "issuing_cell_delta_pp": 0.0,
- "sentence": "the floor is not a version of the rule: k*beta == 0.2000 on all 5 cells, so the floor is the target divided by the largest beta measured -- issued by `universe` (1665 bars). Of the -20.74pp between the widest floor (k=0.460253) and the narrowest (k=0.667665), -23.55pp (114%) comes from shrinking the window from the full panel to 1665 bars and only 2.81pp from grading the universe on that same short stretch (2.81pp if the universe is graded on the full panel); the two knobs interact by -5.14pp. Read as money on CNY 1,000,000 NAV: the window alone accounts for CNY -235,470 of the gap.",
+ "sentence": "the floor is not a version of the rule: k*beta == 0.2000 on all 5 cells, so the floor is the target divided by the largest beta measured -- issued by `universe` (1666 bars). Of the -20.74pp between the widest floor (k=0.460253) and the narrowest (k=0.667665), -23.55pp (114%) comes from shrinking the window from the full panel to 1666 bars and only 2.81pp from grading the universe on that same short stretch (2.81pp if the universe is graded on the full panel); the two knobs interact by -5.14pp. Read as money on CNY 1,000,000 NAV: the window alone accounts for CNY -235,470 of the gap.",
  "not_measured": [
   "the short window is one calendar stretch (2025-07..2026-10), not a sample of stretches: a rolling 306-bar beta path would say whether the window knob is a level shift or a phase effect, and this face does not compute it",
   "whether a longer window is the RIGHT window: this face only prices the knob, it does not elect one (r1446's caliber prereg)",
