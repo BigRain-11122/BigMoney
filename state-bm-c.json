@@ -234,8 +234,8 @@
   "sha": "278bb79900"
  },
  "last_push_at": "2026-11-11T08:31:06+08:00",
- "last_round": 1857,
- "last_round_at": "2026-11-20T00:28:03+08:00",
+ "last_round": 1862,
+ "last_round_at": "2026-11-20T04:34",
  "last_round_at_legacy": "2026-10-19T15:34:21+08:00",
  "last_round_closed": 1733,
  "last_round_closed_at": "2026-11-15T18:47:16+08:00",
@@ -1254,7 +1254,7 @@
   "watermark": "green: board/pool both empty (pool_ready_count=0, fleet_open_tasks=0), no claimable batch on this host; py_watermark insufficient_history (window n=1, local_batch=1 = this round own suite)"
  },
  "round_label": "r1813",
- "round_no": 1861,
+ "round_no": 1862,
  "round_no_label": "r1821",
  "round_no_landed": 1663,
  "round_note": "r1489: a reinstated bar is re-derived from the panel, not carried over (reinstatement_check + reinstatements.json + sheet paragraph)",
@@ -1823,7 +1823,7 @@
  "smoke_r1775": "results/_smoke_r1775.out 616/628 PASS 12 FAIL at first run; 2 of the 12 fixed in-round (decision_line regenerated -> CHECK_OK; ceo_page L230 stale pin -> 433/433 green), the other 10 are the staleness class produced by regenerating the ticket at 20:34 (drawdown band / width ruler / E272 / today-words / k-gap / day_delta / toll-ladder / futures TSMOM / width family / premium forward) and are being settled by Tools/s6_chain_bmc.py 1775; the green re-run rolls to the next round",
  "smoke_r1833": "in flight at closeout: python -m smoke_test -> results/_smoke_r1833.log (started 10:50, ~19min); the 10:26 leg (r1832c) closed 685/687 with 2 stale-family reds, both healed in-window (do_or_wait re-derived 13/13, ceo_page selftest 464/464)",
  "smoke_started": "2026-11-16T14:25:48+08:00",
- "smoke_verdict": "record 01:29 = 694/696 PASS 2 FAIL，两条均为链竞态，本轮逐腿复验均已转绿（cut_order_gap 9/9 OK；CEO 页资金线出处与三个 token 同页）；record 本身仍是旧的，全量复跑待自己的窗",
+ "smoke_verdict": "record 2026-11-20T04:17:10 -> 697 legs, 696 PASS, 0 FAIL, 1 UNVERIFIED",
  "src": "smoke_test.py (_verdict_record, flush=True) + Tools/smoke_red.py",
  "state": "active",
  "state_note": "round-1757 empirical backfill: r1757 detached smoke actually finished GREEN (602/602 PASS 0 FAIL, results/_smoke_r1757.out 07:35:55); rounds literal had drifted back to 1756 in the state file and is realigned to 1757 here",
@@ -1949,5 +1949,7 @@
  "round_t1860_next": "(a) 全量冒烟需独立窗（本轮 258 腿 0 FAIL 后收轮）；(b) astock_daily 刷新（PID 27880·死窗父进程但活性）收口后确认面板 11-19 全覆盖；(c) 同族手抄页 research/TREASURY_CURVE_MASK_AUDIT.md 是否也搬进同一种生成块",
  "verify_r1861": "smoke_test snapshot guard: _face_moved/check_unsettled added (t0 stamped in main), two face-vs-face legs wired (dashboard marks gap; data-lane sample certification), one harness leg 'a face rewritten mid-run is named as moved, not judged' | results/_r1861_bmc_snapshot_guard_check.py 3/3 PASS (time base before/after/no-stamp; UNSETTLED counted apart from PASS: raw 2 -> pass 1; a tampered dashboard field still fails) | ast.parse smoke_test.py OK (14750 lines) | the two r1860 reds re-derived by hand and both now true: leg1 seven comparisons all True with marks_coverage 20/35/57.14 == dashboard 03:26:19; leg2 stale=[] after the 03:24 re-certify (repo full_tail 11-19 == board tail) | full suite NOT re-run this round (the 03:30 run executes the pre-change code and 14 min > window) -- 696-leg all-green stays the r1853 baseline | orphans=0 | orders 115 files / unacked 0 | queue head CLEAR (T22/E14)",
  "round_r1861_note": "both reds were the clock, not the arithmetic: the suite needs ~14 minutes and this repo rewrites its own faces inside that window (dashboard re-derived from marks_coverage every few minutes, certify landing a bar). r1854/r1860/r1861 are the same shape three times over, so the fix is a third verdict state rather than another round spent proving they were stale. UNVERIFIED is counted apart from PASS so 'not judged' never reads as 'clean', and the guard only relaxes when a compared face moved -- the selftest tampers with the dashboard field to prove a real disagreement still fails.",
- "round_r1861_next": "(a) the next full suite should print its own unverified count next to 0 FAIL; (b) if the same two legs go red WITHOUT the UNVERIFIED prefix, it is not a race -- go back to the predicate; (c) astock_daily refresh (PID 27880, 01:27) sampled 41/60 symbols at 11-19 -- confirm full coverage after it closes"
+ "round_r1861_next": "(a) the next full suite should print its own unverified count next to 0 FAIL; (b) if the same two legs go red WITHOUT the UNVERIFIED prefix, it is not a race -- go back to the predicate; (c) astock_daily refresh (PID 27880, 01:27) sampled 41/60 symbols at 11-19 -- confirm full coverage after it closes",
+ "round_r1862_note": "A股残差反转普查收口：selftest 8/8·run 24.4s·77 期·判决 NEUTRALISING_DID_NOT_HELP（残差 IC -0.0612 vs 原始 -0.0841；多头腿 -0.42%/年；空头腿 -1.10%/期不可实施）",
+ "round_r1862_next": "(a) 面板补齐同口径复跑；(b) logsize 暴露显式化撞闭合族须 CEO 一句话；(c) 全量套件独立窗复核 unverified 计数"
 }
