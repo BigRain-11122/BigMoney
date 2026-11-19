@@ -411,6 +411,7 @@ def panel_tail_csv_full(dirpath, pattern="*.csv", laggard_cap=25):
     behind = sorted(n for n, d in tails.items() if d < newest)
     return newest, {"files": len(names), "per_file": len(tails),
                     "unread": len(names) - len(tails),
+                    "oldest": min(tails.values()),
                     "n_laggards": len(behind),
                     "laggards": behind[:laggard_cap],
                     "laggards_truncated": len(behind) > laggard_cap}
@@ -621,10 +622,23 @@ def audit(days, now, lanes=None, root=ROOT, machines_dir=None):
                 # data/futures_daily held 11-06).
                 if spec.get("panel_csv") and tail is not None:
                     spec_dir = spec["panel_csv"]
-                    ptail, pinfo = panel_tail_csv(
-                        os.path.join(root, spec_dir["dir"]),
-                        spec_dir.get("pattern", "*.csv"))
+                    _pdir = os.path.join(root, spec_dir["dir"])
+                    _pat = spec_dir.get("pattern", "*.csv")
+                    ptail, pinfo = panel_tail_csv(_pdir, _pat)
+                    # r1844: a sample answers "did this panel move", not "did
+                    # every symbol in it move". For a panel small enough to
+                    # read whole, the cheap read IS the full read, so take it
+                    # and name the symbols that stopped. Live 2026-11-19: the
+                    # futures row printed `in_sync` off IF/IH/IM while IC and
+                    # TF sat one session behind (r1843 found it by hand).
+                    _pnames = _panel_names(_pdir, _pat)
+                    if _pnames and 1 < len(_pnames) <= 40:
+                        fptail, fpinfo = panel_tail_csv_full(_pdir, _pat)
+                        if fptail:
+                            ptail, pinfo = fptail, fpinfo
                     extra["panel_read"] = pinfo
+                    if pinfo.get("n_laggards"):
+                        extra["panel_uneven"] = True
                     if ptail:
                         extra["panel_tail"] = ptail
                         if ptail != tail:
@@ -1492,6 +1506,13 @@ def render_md(report, cert="auto"):
                         f"{r.get('window_trading_days')})")
         if r.get("copy_verdict"):
             verdict += f" (copy said `{r['copy_verdict']}`)"
+        if r.get("panel_uneven"):
+            # r1844: a green row over an uneven panel is the sentence this
+            # board exists to refuse. Name the count and the oldest bar.
+            _pr = r.get("panel_read") or {}
+            verdict += (f"; {_pr.get('n_laggards')} of "
+                        f"{_pr.get('per_file') or _pr.get('files')} symbols "
+                        f"stop at {_pr.get('oldest')}")
         body += (f"| `{r['lane']}` | {r.get('lane_host')} | {r.get('tail') or '--'} | "
                  f"{miss_s} | {verdict} | {r.get('authority')} |\n")
     tailnote = ""
@@ -1501,6 +1522,25 @@ def render_md(report, cert="auto"):
         tailnote = "\n## Lanes where a missed day cannot be recovered\n\n"
         for r in fatal:
             tailnote += f"- `{r['lane']}`: {r['loss_mode']}\n"
+    uneven = [r for r in report["lanes"] if r.get("panel_uneven")]
+    if uneven:
+        # r1844: the panel reached the day; some of its symbols did not. The
+        # table says how many, this says which -- "2 of 10 symbols behind" is
+        # actionable only once a reader can see whether their book reads one of
+        # them (the futures roll book picks contracts out of this panel).
+        tailnote += ("\n## Panels where not every symbol is current\n\n"
+                     "Each lane below has reached the official day, so its row "
+                     "is not late -- but some of the symbols inside it stop "
+                     "earlier. A reader who only watches the lane's tail reads "
+                     "a green row and trades one of these names at an older "
+                     "bar.\n\n")
+        for r in uneven:
+            _pr = r.get("panel_read") or {}
+            _lg = ", ".join(_pr.get("laggards") or [])
+            _more = " …" if _pr.get("laggards_truncated") else ""
+            tailnote += (f"- `{r['lane']}`: newest {r.get('panel_tail')}, "
+                         f"oldest {_pr.get('oldest')} -- "
+                         f"{_pr.get('n_laggards')} laggard(s): {_lg}{_more}\n")
     # r1575: a lane behind its own promise has one of two problems -- the source
     # refused us, or nobody ran it. The collector records which; print its words
     # rather than leaving the reader to re-diagnose the same red row every round.
@@ -3026,7 +3066,57 @@ def selftest():
     # NB: this counter is typed, not derived. It was 40/40 with 41 legs running
     # (L35b added in r1639) -- a suite that prints a smaller number than it ran
     # reads as "the new leg never executed". Bump it with every leg added.
-    print("selftest: 45/45 PASS", flush=True)
+    # L45 (r1844): a panel that reached the day while two of its symbols stopped
+    # earlier must not read as a plain green row -- name the count, the oldest
+    # bar and the symbols, in the row and in the page.
+    with tempfile.TemporaryDirectory() as td:
+        os.makedirs(os.path.join(td, "m"))
+        os.makedirs(os.path.join(td, "px"))
+        json.dump({"heartbeat_epoch_utc": int(dt.datetime.now().timestamp())},
+                  open(os.path.join(td, "m", "bm-a.json"), "w"))
+        json.dump({"machine": "bm-a", "data_cutoff": "2026-10-29"},
+                  open(os.path.join(td, "s.json"), "w"))
+        for name, day in (("IF.csv", "2026-10-29"), ("IH.csv", "2026-10-29"),
+                          ("IC.csv", "2026-10-28"), ("TF.csv", "2026-10-28")):
+            with open(os.path.join(td, "px", name), "w") as f:
+                f.write("2026-10-26,1,2,3,4\n" + day + ",9,9,9,9\n")
+        _spec45 = [{"lane": "futures", "kind": "status", "path": "s.json",
+                    "key": "data_cutoff", "owner": "bm-a",
+                    "panel_csv": {"dir": "px", "pattern": "*.csv"}}]
+        _rep45 = audit(days, now, root=td, machines_dir=os.path.join(td, "m"),
+                       lanes=_spec45)
+        _r45 = _rep45["lanes"][0]
+        assert _r45["panel_tail"] == "2026-10-29", _r45      # the panel reached it
+        assert _r45["verdict"] == "in_sync", _r45
+        assert _r45["panel_uneven"] is True, _r45
+        assert _r45["panel_read"]["n_laggards"] == 2, _r45
+        assert _r45["panel_read"]["oldest"] == "2026-10-28", _r45
+        assert sorted(_r45["panel_read"]["laggards"]) == ["IC.csv", "TF.csv"], _r45
+        _md45 = render_md(dict(_rep45, counts=_rep45["counts"]))
+        assert "2 of 4 symbols stop at 2026-10-28" in _md45, _md45[:1200]
+        assert "IC.csv, TF.csv" in _md45, _md45[:1200]
+
+        # L46 (r1844): the same rule must not invent a laggard on a uniform
+        # panel, and a panel too large to read whole must still say `sampled`
+        # instead of claiming every symbol is current.
+        for name in ("IC.csv", "TF.csv"):
+            with open(os.path.join(td, "px", name), "w") as f:
+                f.write("2026-10-26,1,2,3,4\n2026-10-29,9,9,9,9\n")
+        _r46 = audit(days, now, root=td, machines_dir=os.path.join(td, "m"),
+                     lanes=_spec45)["lanes"][0]
+        assert "panel_uneven" not in _r46, _r46
+        _big = os.path.join(td, "big")
+        os.makedirs(_big)
+        for i in range(60):
+            with open(os.path.join(_big, "s%02d.csv" % i), "w") as f:
+                f.write("2026-10-29,1,2,3,4\n")
+        _tail46, _info46 = panel_tail_csv(_big)
+        assert _tail46 == "2026-10-29" and _info46.get("sampled") is True, _info46
+        assert "n_laggards" not in _info46, _info46
+        print("[PASS] L45/L46 an uneven panel names its laggards; a uniform or "
+              "sampled one does not pretend it read them all", flush=True)
+
+    print("selftest: 47/47 PASS", flush=True)
     return 0
 
 
