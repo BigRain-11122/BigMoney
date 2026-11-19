@@ -2,7 +2,7 @@
  "schema": "ceo_live_usage_v1_9",
  "ticket": "T-202609-28-105",
  "day": "2026-11-20",
- "generated": "2026-11-20T00:48:59",
+ "generated": "2026-11-20T01:40:42",
  "market": {
   "state": "RED",
   "asof": "2026-11-19",
@@ -345,6 +345,17 @@
    ]
   }
  ],
+ "weight_face": {
+  "members_total": 28,
+  "face_sum": 0.999999,
+  "six_sum": 0.392535,
+  "others_sum": 0.607464,
+  "others_count": 9,
+  "top_other": [
+   "PROS-TMU-CE-01",
+   0.236321
+  ]
+ },
  "cap_vs_book": {
   "status": "ok",
   "source": "results/regime_cap_vs_book.json",
@@ -498,7 +509,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 62847.2
+    "last_append_age_min": 62898.9
    },
    {
     "family": "FUND-VALUE-P1",
@@ -506,7 +517,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 63691.7
+    "last_append_age_min": 63743.4
    },
    {
     "family": "FUND-DIVLOWVOL-P1",
@@ -514,7 +525,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 60485.0
+    "last_append_age_min": 60536.7
    }
   ]
  },
@@ -1445,7 +1456,7 @@
   "scope": "the executable ticket only. The forward paper series is an append-only evidence line: it is re-labelled FUNDED_BY_A_LARGER_CAPITAL, never rewritten, truncated or deleted",
   "reversal": "fund the account to the first rung and re-run: the same rule hands the ticket back one lot and this file prints it -- the withdrawal is conditional on capital, not a judgement about the sleeve",
   "sentence": "To open this book at all needs 1,120,540 CNY of capital (IC account). IC is 120,540 CNY short of its first lot (capital 1,000,000, gap 12.05%). IM is 146,317 CNY short of its first lot (capital 1,000,000, gap 14.63%). IC: the desk's 4 lot(s) are withdrawn from the ticket and the executable line is 0; IM: the desk's 4 lot(s) are withdrawn from the ticket and the executable line is 0. The forward paper series that ran on 8 lot(s) across the accounts is kept and labelled FUNDED_BY_A_LARGER_CAPITAL: it is what a larger account would have done, not what this one can. It comes back the moment the capital does.",
-  "source_generated": "2026-11-19T22:35:26+08:00",
+  "source_generated": "2026-11-20T01:24:19+08:00",
   "evidence_cutoff": "2026-11-19",
   "source_face": "results/idx_fut_carry_sizing_spec.json",
   "ladder_face": "results/idx_fut_carry_capital_ladder.json"
@@ -1463,35 +1474,35 @@
    "IM"
   ],
   "percentile_adds_over_level_pairs": [],
-  "ratio": 0.996,
+  "ratio": 0.997,
   "band_edge_pct": 20,
   "accounts": {
    "IC": {
-    "basis_pct": -1.404,
-    "percentile": 37.8,
+    "basis_pct": -1.167,
+    "percentile": 50.2,
     "in_band": false,
     "passes_rule": true
    },
    "IF": {
-    "basis_pct": -1.39,
-    "percentile": 28.6,
+    "basis_pct": -1.482,
+    "percentile": 24.2,
     "in_band": false,
     "passes_rule": true
    },
    "IH": {
-    "basis_pct": -1.206,
-    "percentile": 22.2,
-    "in_band": false,
+    "basis_pct": -1.524,
+    "percentile": 13.0,
+    "in_band": true,
     "passes_rule": true
    },
    "IM": {
-    "basis_pct": -1.081,
-    "percentile": 56.6,
+    "basis_pct": -1.046,
+    "percentile": 58.2,
     "in_band": false,
     "passes_rule": true
    }
   },
-  "evidence_cutoff": "2026-11-18",
+  "evidence_cutoff": "2026-11-19",
   "source_generated": null
  },
  "carry_margin": {
@@ -1542,7 +1553,7 @@
    15.0
   ],
   "evidence_cutoff": "2026-11-19",
-  "source_generated": "2026-11-19T22:33:06+0800"
+  "source_generated": "2026-11-20T01:24:19+0800"
  },
  "carry_roll_cost": {
   "present": true,
@@ -1553,25 +1564,25 @@
     "floor_bp": 1.5,
     "rolls": 63,
     "drag_floor_pp": 0.118,
-    "drag_measured_pp": 2.421,
-    "gap_floor_pp": 8.987,
-    "gap_measured_pp": 6.684
+    "drag_measured_pp": 2.42,
+    "gap_floor_pp": 8.933,
+    "gap_measured_pp": 6.631
    },
    "IF": {
     "median_bp": 19.843,
     "floor_bp": 1.5,
     "rolls": 74,
-    "drag_floor_pp": 0.139,
-    "drag_measured_pp": 1.833,
-    "gap_floor_pp": 2.271,
-    "gap_measured_pp": 0.577
+    "drag_floor_pp": 0.138,
+    "drag_measured_pp": 1.832,
+    "gap_floor_pp": 2.312,
+    "gap_measured_pp": 0.618
    },
    "IH": {
     "median_bp": 21.071,
     "floor_bp": 1.5,
     "rolls": 89,
     "drag_floor_pp": 0.167,
-    "drag_measured_pp": 2.341,
+    "drag_measured_pp": 2.339,
     "gap_floor_pp": null,
     "gap_measured_pp": null
    },
@@ -1580,13 +1591,13 @@
     "floor_bp": 1.5,
     "rolls": 23,
     "drag_floor_pp": 0.08,
-    "drag_measured_pp": 1.515,
-    "gap_floor_pp": 9.21,
-    "gap_measured_pp": 7.775
+    "drag_measured_pp": 1.513,
+    "gap_floor_pp": 9.093,
+    "gap_measured_pp": 7.66
    }
   },
   "evidence_cutoff": "2026-11-19",
-  "source_generated": "2026-11-19T20:35:12"
+  "source_generated": "2026-11-20T01:18:46"
  },
  "carry_marks": {
   "present": true,
@@ -1596,7 +1607,7 @@
    "IC": {
     "state": "backed",
     "contract": "IC2612",
-    "last": "2026-11-17",
+    "last": "2026-11-19",
     "panel_last": "2026-11-19",
     "unbacked": [],
     "unbacked_n": 0
@@ -1604,7 +1615,7 @@
    "IM": {
     "state": "backed",
     "contract": "IM2612",
-    "last": "2026-11-17",
+    "last": "2026-11-19",
     "panel_last": "2026-11-19",
     "unbacked": [],
     "unbacked_n": 0
@@ -1615,8 +1626,8 @@
    "unbacked_bars": 0,
    "unbacked_abs_pnl_cny": 0.0
   },
-  "evidence_cutoff": "2026-11-17",
-  "source_generated": "2026-11-19T16:56:04"
+  "evidence_cutoff": "2026-11-19",
+  "source_generated": "2026-11-20T01:24:19"
  },
  "freshness": {
   "status": "ok",
@@ -1662,6 +1673,88 @@
   "worst_owed_sessions": 0,
   "unreadable": [],
   "book_panel_last_bar": "2026-11-19"
+ },
+ "data_lanes": {
+  "status": "ok",
+  "as_of": "2026-11-20T01:38:24",
+  "verdict": "attention",
+  "counts": {
+   "retired": 1,
+   "in_sync": 11,
+   "stalled": 1,
+   "behind_1d": 2
+  },
+  "n_lanes": 15,
+  "machine": "bm-c",
+  "expected": "2026-11-19",
+  "rows": [
+   {
+    "lane": "lhb",
+    "host": "bm-a",
+    "host_alive": false,
+    "host_age_h": 29.76,
+    "state": "stalled",
+    "tail": "2026-11-17",
+    "expected": "2026-11-19",
+    "missing_days": [
+     "2026-11-18",
+     "2026-11-19"
+    ],
+    "loss_mode": null,
+    "takeover_capable": true
+   },
+   {
+    "lane": "heat",
+    "host": "bm-a",
+    "host_alive": false,
+    "host_age_h": 29.76,
+    "state": "behind_1d",
+    "tail": "2026-11-18",
+    "expected": "2026-11-19",
+    "missing_days": [
+     "2026-11-19"
+    ],
+    "loss_mode": "a missed day is permanent: the guba rank is a live rolling list with no retrievable history (HEAT_ATTENTION_SPEC §1)",
+    "takeover_capable": true
+   },
+   {
+    "lane": "repo",
+    "host": "bm-a",
+    "host_alive": false,
+    "host_age_h": 29.76,
+    "state": "behind_1d",
+    "tail": "2026-11-18",
+    "expected": "2026-11-19",
+    "missing_days": [
+     "2026-11-19"
+    ],
+    "loss_mode": null,
+    "takeover_capable": true
+   }
+  ],
+  "hosts": {
+   "bm-a": {
+    "age_h": 29.76,
+    "alive": false,
+    "silent_waiting": [
+     "heat",
+     "lhb",
+     "repo"
+    ],
+    "silent_taken_over": {
+     "futures": "bm-c"
+    }
+   },
+   "bm-b": {
+    "age_h": 492.92,
+    "alive": false,
+    "silent_waiting": [],
+    "silent_taken_over": {
+     "astock_daily": "bm-c",
+     "marks": "bm-c"
+    }
+   }
+  }
  },
  "chain_versions": [
   {

@@ -1846,6 +1846,96 @@ def _freshness_lines(fr):
     return L
 
 
+DATA_LANE_FACE = os.path.join(ROOT, "results", "data_lane_freshness.json")
+# The feed side of ⓪.  The banner above measures the faces this page prints; it
+# says nothing about the lanes that feed them, so a collector can be silent for a
+# day and a half while the page still reads "全部面都追到 X".  Read-only: every
+# field below comes off the lane board, nothing here re-measures a tail.
+_LANE_BAD = ("stalled", "behind_1d", "unverifiable")
+
+
+def _data_lane_face(path=None):
+    try:
+        d = _read_json(path or DATA_LANE_FACE)
+    except Exception as exc:                                     # noqa: BLE001
+        return {"status": "unavailable",
+                "detail": "results/data_lane_freshness.json 读不到（{}）".format(
+                    str(exc)[:80])}
+    rows = []
+    for r in d.get("lanes") or []:
+        if r.get("verdict") == "retired":
+            continue
+        state = r.get("copy_verdict") or r.get("verdict")
+        if state not in _LANE_BAD:
+            continue
+        rows.append({
+            "lane": r.get("lane"),
+            "host": r.get("lane_host") or r.get("owner"),
+            "host_alive": r.get("host_alive"),
+            "host_age_h": r.get("host_age_h"),
+            "state": state,
+            "tail": r.get("tail"),
+            "expected": r.get("expected"),
+            "missing_days": r.get("missing_days") or [],
+            "loss_mode": r.get("loss_mode"),
+            "takeover_capable": bool(r.get("takeover_capable")),
+        })
+    hosts = {}
+    for h, v in (d.get("hosts") or {}).items():
+        v = v or {}
+        if not v.get("silent"):
+            continue
+        hosts[h] = {"age_h": v.get("age_h"), "alive": v.get("alive"),
+                    "silent_waiting": v.get("silent_waiting") or [],
+                    "silent_taken_over": v.get("silent_taken_over") or {}}
+    return {"status": "ok", "as_of": d.get("as_of"),
+            "verdict": d.get("verdict"), "counts": d.get("counts") or {},
+            "n_lanes": d.get("n_lanes"), "machine": d.get("machine"),
+            "expected": d.get("expected_last_official_day"),
+            "rows": rows, "hosts": hosts}
+
+
+def _data_lane_lines(dl):
+    """Pure formatting over the lane board -- no new judgment, no re-measure."""
+    L = ["### ⓪b 数据供给面（上面那些数字是这些采集器喂出来的）", ""]
+    if dl.get("status") != "ok":
+        L.append("- 车道板读不到（{}）——**不能说数据是新的，"
+                 "也不能说它旧**。".format(dl.get("detail") or "原因未载"))
+        L.append("")
+        return L
+    c = dl.get("counts") or {}
+    L.append("- 车道板读数（{} 读自 {} 的盘）：**{} 条追平 / {} 条落后 1 天 / "
+             "{} 条停滞 / {} 条已退役**，参照日 {}".format(
+                 (dl.get("as_of") or "")[:16].replace("T", " "),
+                 dl.get("machine") or "本机",
+                 c.get("in_sync", 0), c.get("behind_1d", 0),
+                 c.get("stalled", 0), c.get("retired", 0),
+                 dl.get("expected") or "--"))
+    for h, v in sorted(dl.get("hosts", {}).items()):
+        wait = "、".join(v.get("silent_waiting") or []) or "--"
+        line = "  - 属主 **{}** 静默 {}h，等它的车道：{}".format(
+            h, v.get("age_h"), wait)
+        taken = v.get("silent_taken_over") or {}
+        if taken:
+            line += "（已由他机接手：" + "、".join(
+                "{}←{}".format(k, w) for k, w in sorted(taken.items())) + "）"
+        L.append(line)
+    for r in dl.get("rows") or []:
+        miss = "、".join((r.get("missing_days") or [])[:4])
+        L.append("  - `{}`（属主 {}·尾 {}·欠 {} 个会话{}）".format(
+            r.get("lane"), r.get("host") or "--", r.get("tail") or "--",
+            len(r.get("missing_days") or []), ("：" + miss) if miss else ""))
+        if r.get("loss_mode"):
+            L.append("    - 该车道自陈的缺失后果：{}".format(r["loss_mode"]))
+    if not dl.get("rows"):
+        L.append("- 全部 {} 条数据车道都追平参照日。".format(dl.get("n_lanes") or 0))
+    else:
+        L.append("- 这一节量的是**采集器**，不是书：书可以是当日收盘价、而喂它的"
+                 "一条车道停在两天前——两种「旧」不要互相顶替。")
+    L.append("")
+    return L
+
+
 def build_payload(day: str) -> dict:
     regime = _read_json(REGIME_JSON)
     clock = _read_json(CLOCK_JSON)
@@ -1864,6 +1954,20 @@ def build_payload(day: str) -> dict:
 
     weights = (blend.get("weights", {}).get("B_MAXDIV", {})
                .get("weights", {}))
+    weight_face = None
+    if weights:
+        others = {k: float(v) for k, v in weights.items() if k not in SIX}
+        top_other = (max(others.items(), key=lambda kv: kv[1])
+                     if others else None)
+        weight_face = {
+            "members_total": len(weights),
+            "face_sum": round(sum(float(v) for v in weights.values()), 6),
+            "six_sum": round(sum(float(weights.get(t, 0.0)) for t in SIX), 6),
+            "others_sum": round(sum(others.values()), 6),
+            "others_count": sum(1 for v in others.values() if v),
+            "top_other": ([top_other[0], round(top_other[1], 6)]
+                          if top_other else None),
+        }
     traders = {t["trader"]: t for t in paper.get("traders", [])}
 
     members = []
@@ -1934,6 +2038,7 @@ def build_payload(day: str) -> dict:
                        if state == "ORANGE" else
                        "军种当值表按 MARKET_STAGE_TABLE 随政体态切换"),
         "members": members,
+        "weight_face": weight_face,
         "cap_vs_book": _cap_vs_book_face(regime.get("asof")),
         "rollup": _rollup_face(paper, day),
         "intraday": _intraday_face(held, day),
@@ -1956,6 +2061,7 @@ def build_payload(day: str) -> dict:
         "carry_marks": _carry_marks_face(),
         "freshness": _freshness_face(book, tape, regime.get("asof"),
                                      rec=rec_face),
+        "data_lanes": _data_lane_face(),
         "chain_versions": [
             {"version": v, "status": s} for v, s in _version_banner()],
         "disclaimers": [
@@ -2087,6 +2193,7 @@ def render_md(p: dict) -> str:
              "(../../research/DECISION_CHAIN_LEDGER.md)")
     L.append("")
     L.extend(_freshness_lines(p.get("freshness") or {}))
+    L.extend(_data_lane_lines(p.get("data_lanes") or {}))
     L.append("## ① 市场判定")
     L.append("")
     L.append(f"- **当前政体态：{m['state']}**（shadow 探测·已连续 "
@@ -2216,6 +2323,20 @@ def render_md(p: dict) -> str:
     L.append(f"- {p['corps_note']}")
     L.append("- 六员权重=B_MAXDIV 冠军组合面（T-27 锦标赛 winner，10-01 起 "
              "SPM-v1 enforce 接线）；持仓=纸盘在册实况（T-35 导出面）：")
+    wf = p.get("weight_face")
+    if not wf:
+        L.append("  - 权重面读不到（B_MAXDIV 配件缺失）——本节的百分数**不印**，"
+                 "不按 0 记（r98 未知≠空）")
+    else:
+        L.append(f"  - **这六个百分数不是一块饼**：它们取自同一张 **{wf['members_total']} "
+                 f"名**的 B_MAXDIV 面（面自身合计 {wf['face_sum']:.2%}），六员只占 "
+                 f"**{wf['six_sum']:.2%}**，其余 **{wf['others_sum']:.2%}** 分给 "
+                 f"{wf['others_count']} 个不在本页纸盘在册的观察户"
+                 + (f"（最大 {wf['top_other'][0]} {wf['top_other'][1]:.2%}）"
+                    if wf.get("top_other") else "")
+                 + "——六个百分数相加不等于 100%，也不是「余额 60% 不知道去哪了」。")
+        L.append("  - 权重是组合面给这一员的配比，**不是纸盘账户的持股比例**：纸盘每户"
+                 "独立起始资本核算，权益与权重之间没有倍数关系。")
     ru = p.get("rollup") or {}
     if ru.get("return_pct") is None:
         L.append("- **六员合计：口径缺件**（起始资本不可得=诚实空档，不填 0）")
@@ -3596,6 +3717,27 @@ def selftest() -> int:
     check("member weights loaded",
           all(isinstance(m["b_maxdiv_weight"], float)
               for m in p1["members"]))
+    wf1 = p1.get("weight_face")
+    md1_pre = render_md(p1)
+    check("member weight sum names its own base (six of a wider face)",
+          (wf1 is not None
+           and abs(wf1["six_sum"] - round(sum(m["b_maxdiv_weight"]
+                                              for m in p1["members"]), 6)) < 5e-7
+           and (abs(wf1["six_sum"] - 1.0) < 0.005
+                or ("不是一块饼" in md1_pre
+                    and "相加不等于 100%" in md1_pre)))
+          or (wf1 is None and "权重面读不到" in md1_pre))
+    check("weight face sums to its own published total (not assumed 1.0)",
+          wf1 is not None
+          and abs(wf1["face_sum"] - wf1["six_sum"] - wf1["others_sum"]) < 1e-5
+          and abs(wf1["face_sum"] - 1.0) < 0.005)
+    _p_nw = dict(p1)
+    _p_nw["weight_face"] = None
+    _md_nw = render_md(_p_nw)
+    check("missing weight face prints no percentage and no zero",
+          "权重面读不到" in _md_nw
+          and "六员只占 0.00%" not in _md_nw
+          and "不是一块饼" not in _md_nw)
     check("positions carry category annotation",
           all("category" in pos for m in p1["members"]
               for pos in m["positions"]))
@@ -4284,6 +4426,44 @@ def selftest() -> int:
     _mdnn = render_md(_pnn)
     check("a pre-period that is not all negative is not printed as such (r1846)",
           "不全为负" in _mdnn and "全部为负" not in _mdnn)
+    # ---- r1855: ⓪ measures the faces the page prints; the lanes that feed them
+    # were never on the page, so a collector could go silent for a day and a half
+    # while ⓪ still read "全部面都追到 X".  The block must name the lane, its
+    # owner and the owner's silence -- and must not print a clean sheet when the
+    # lane board itself cannot be read.
+    _dl_ok = {"status": "ok", "as_of": "2026-11-20T01:40:00", "machine": "bm-c",
+              "verdict": "attention", "n_lanes": 15, "expected": "2026-11-19",
+              "counts": {"in_sync": 11, "stalled": 1, "behind_1d": 2,
+                         "retired": 1},
+              "rows": [{"lane": "heat", "host": "bm-a", "host_alive": False,
+                        "host_age_h": 29.8, "state": "behind_1d",
+                        "tail": "2026-11-18", "expected": "2026-11-19",
+                        "missing_days": ["2026-11-19"],
+                        "loss_mode": "a missed day is permanent: the guba rank "
+                                     "is a live rolling list",
+                        "takeover_capable": True}],
+              "hosts": {"bm-a": {"age_h": 29.8, "alive": False,
+                                 "silent_waiting": ["heat"],
+                                 "silent_taken_over": {"futures": "bm-c"}}}}
+    _md_dl = "\n".join(_data_lane_lines(_dl_ok))
+    check("the page names the lane that is behind and who owns it (r1855)",
+          "`heat`" in _md_dl and "bm-a" in _md_dl
+          and "2026-11-19" in _md_dl and "11 条追平" in _md_dl)
+    check("the carrier's own sentence about the missed day is carried verbatim "
+          "(r1855)", "a missed day is permanent" in _md_dl)
+    check("a silent owner is named with its age and what it owes (r1855)",
+          "静默 29.8h" in _md_dl and "futures←bm-c" in _md_dl)
+    _md_dl2 = "\n".join(_data_lane_lines(
+        dict(_dl_ok, verdict="all_fresh", rows=[], hosts={},
+             counts={"in_sync": 14, "retired": 1})))
+    check("an all-clear lane board says so instead of an empty list (r1855)",
+          "全部 15 条数据车道都追平" in _md_dl2 and "`heat`" not in _md_dl2)
+    _dl_missing = _data_lane_face(
+        path=os.path.join(ROOT, "results", "_no_such_lane_face.json"))
+    _md_dl3 = "\n".join(_data_lane_lines(_dl_missing))
+    check("a missing lane board prints a reason, not a clean sheet (r1855)",
+          "读不到" in _md_dl3 and "追平" not in _md_dl3
+          and "不能说数据是新的" in _md_dl3)
     print(f"selftest: {'ALL PASS' if not fails else f'FAIL {fails}'}")
     return 0 if not fails else 1
 
