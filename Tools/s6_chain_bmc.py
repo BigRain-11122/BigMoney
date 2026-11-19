@@ -2285,6 +2285,32 @@ def selftest():
            _long_path != _same_prefix and "+24-" in _same_prefix,
            "a=%r b=%r" % (_long_path, _same_prefix))
 
+    # r1858: a chain in flight must be readable without the end record. Prove the
+    # progress face names the machine that ran it and that appending cannot raise.
+    _ppath = progress_path()
+    _mid = "unknown"
+    try:
+        with open("fleet/machine.json", encoding="utf-8") as _f:
+            _mid = str(json.load(_f).get("machine_id") or "unknown")
+    except Exception:
+        pass
+    _check("the progress face is named after the machine that ran the chain",
+           _ppath.startswith("results/_s6chain_progress.")
+           and _ppath.endswith(".jsonl") and _mid in _ppath,
+           "path=%r machine=%r" % (_ppath, _mid))
+    with tempfile.TemporaryDirectory() as _td:
+        _p = os.path.join(_td, "prog.jsonl")
+        _ok1 = progress_append(_p, {"event": "chain_start", "n_legs": 2})
+        _ok2 = progress_append(_p, {"event": "leg_done", "leg": "x", "rc": 0})
+        _lines = open(_p, encoding="utf-8").read().splitlines()
+        _check("one finished leg appends one readable line",
+               _ok1 and _ok2 and len(_lines) == 2
+               and json.loads(_lines[1])["leg"] == "x",
+               "lines=%r" % (_lines,))
+        _check("an unwritable progress path is reported, never raised",
+               progress_append(os.path.join(_td, "nope", "x.jsonl"), {"a": 1}) is False,
+               "no exception expected")
+
     passed = sum(1 for _, ok, _ in legs if ok)
     for name, ok, detail in legs:
         print(("[PASS] " if ok else "[FAIL] ") + name + ("" if ok else " | " + detail))
@@ -2321,6 +2347,35 @@ def chain_record_path(round_no, only=None) -> str:
             slug = "%s+%d-%s" % (head.rstrip("-_"), len(names), digest)
         return f"results/_r{round_no}bmc_s6_chain.only-{slug}.json"
     return f"results/_r{round_no}bmc_s6_chain.json"
+
+
+def progress_path():
+    """Where the live per-leg progress line goes.
+
+    r1858: the record above is written once, at the end, so a chain still in flight
+    has no readable state at all. This round inherited a chain started 01:15 by a
+    dead window and had to reconstruct 75 minutes of progress by guessing from
+    results/ mtimes. One append-only line per finished leg answers "how far is it
+    and which leg is it paying for" without touching the record.
+    """
+    machine = "unknown"
+    try:
+        with open("fleet/machine.json", encoding="utf-8") as f:
+            machine = str(json.load(f).get("machine_id") or "unknown")
+    except Exception:
+        pass
+    safe = "".join(c if (c.isalnum() or c in "-_") else "_" for c in machine)
+    return "results/_s6chain_progress.%s.jsonl" % safe
+
+
+def progress_append(path, obj):
+    """Best effort: progress that can kill the chain is worse than no progress."""
+    try:
+        with open(path, "a", encoding="utf-8") as f:
+            f.write(json.dumps(obj, ensure_ascii=False) + "\n")
+        return True
+    except Exception:
+        return False
 
 
 def main():
@@ -2376,7 +2431,19 @@ def main():
         if missing:
             print(f"unknown leg(s): {missing}; known={[t[0] for t in LEGS]}")
             sys.exit(2)
-    out = [run_leg(name, cmd, *rest) for name, cmd, *rest in legs]
+    ppath = progress_path()
+    progress_append(ppath, {"ts": datetime.now().isoformat(timespec="seconds"),
+                            "event": "chain_start", "round": round_no,
+                            "only": only, "n_legs": len(legs)})
+    out = []
+    for i, (name, cmd, *rest) in enumerate(legs, start=1):
+        rec = run_leg(name, cmd, *rest)
+        out.append(rec)
+        progress_append(ppath, {"ts": datetime.now().isoformat(timespec="seconds"),
+                                "event": "leg_done", "round": round_no,
+                                "i": i, "n": len(legs), "leg": name,
+                                "rc": rec["rc"],
+                                "elapsed_sec": rec["elapsed_sec"]})
 
     path = chain_record_path(round_no, only)
     # r1343: an interrupted json.dump leaves a one-byte record behind
@@ -2390,6 +2457,10 @@ def main():
         os.fsync(f.fileno())
     os.replace(tmp, path)
     bad = [o for o in out if o["rc"] != 0]
+    progress_append(ppath, {"ts": datetime.now().isoformat(timespec="seconds"),
+                            "event": "chain_done", "round": round_no,
+                            "n_legs": len(out),
+                            "nonzero": [o["leg"] for o in bad]})
     print(f"chain: {len(out)-len(bad)}/{len(out)} rc0 -> {path} "
           f"({datetime.now().isoformat(timespec='seconds')})")
     if bad:

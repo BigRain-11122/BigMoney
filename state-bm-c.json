@@ -1254,7 +1254,7 @@
   "watermark": "green: board/pool both empty (pool_ready_count=0, fleet_open_tasks=0), no claimable batch on this host; py_watermark insufficient_history (window n=1, local_batch=1 = this round own suite)"
  },
  "round_label": "r1813",
- "round_no": 1857,
+ "round_no": 1858,
  "round_no_label": "r1821",
  "round_no_landed": 1663,
  "round_note": "r1489: a reinstated bar is re-derived from the panel, not carried over (reinstatement_check + reinstatements.json + sheet paragraph)",
@@ -1931,5 +1931,8 @@
  "verify_r1856": "S6 --only=cut_gate_pass_write,cut_gate_pass,cut_order_gap_write,cut_order_gap 4/4 rc0 (1.2s/1.3s/2.8s/2.8s, cut_gate_pass 15/15 PASS, cut_order_gap 9/9 OK, receipt no-op at permission k=0.432195 decision 2026-12-09 panel cutoff 2026-11-19) | legs 300 preserved after the move (rebalance_permission 167 -> cut_gate_pass 168/169 -> cut_order_gap 170/171) | ceo_live_usage regenerated 2026-11-20 (state RED, cap 20%): WITHDRAW_FROM_TICKET / 1,120,540 / 1,146,317 / generated 2026-11-20T01:24:19+08:00 all printed, executable==ruler on both accounts | orphans=0",
  "verify_r1857": "TAKEOVER 三条 bm-a 车道: repo rc0 11 员 +1~2 行 -> 2026-11-19 | heat rc0 snapshot as_of=2026-11-19 n_rows=100 | lhb rc0 +185 rows cutoff 2026-11-17 -> 2026-11-19 (total 268740) | data_lane_freshness verdict=all_fresh counts={retired:1,in_sync:14} worst=None (was attention: stalled 1 / behind_1d 2) | S6 --only=cash_roll_today,cash_vehicle,etf_book_cash_caliber_band,data_lane_freshness 4/4 rc0 (cash_vehicle 18/18 PASS) | cash_roll_today 重算 ROLL_GC014_TODAY: GC014 1.124%/yr net, +1,945.42 CNY/yr vs daily roll, 20 days -> +106.81 CNY before 2026-12-09 | 冒烟两条红逐腿复验绿: cut_order_gap --check 9/9 OK; CEO 页 generated 2026-11-20T01:24:19+08:00 与 WITHDRAW_FROM_TICKET/1,120,540/1,146,317 同页",
  "round_r1857_note": "attention 判词的根不是采集器，是属主：bm-a 沉默 30.3h、bm-b 493h，所以 lhb/heat/repo 三条道必须由本机声明接管才动 —— 而接管门（沉默>=120min）本来就已经放行，只是没人来敲。三条一拉，14 条道全绿，现金腿的今日选择面也跟着换了个数（GC014 1.124%/yr）。教训面：上周把这种局面记成「bm-a 属主道恒红」，实际是「有开关没人按」。",
- "round_r1857_next": "(a) 全量冒烟套件要自己的窗（本轮只逐腿复证两条旧红）；(b) bm-b 已沉默 493h（20.5 天），astock_daily/marks 两条道现挂在 bm-c 接管名下 —— 要么把它写进接管台账常态化，要么报 GM 判 bm-b 席位存废；(c) 接管后 lhb 面板长到 268,740 行，下游 lhb 消费面（lhb_inst / harvest_census 族）需要一轮跟刷确认尾巴一致性。"
+ "round_r1857_next": "(a) 全量冒烟套件要自己的窗（本轮只逐腿复证两条旧红）；(b) bm-b 已沉默 493h（20.5 天），astock_daily/marks 两条道现挂在 bm-c 接管名下 —— 要么把它写进接管台账常态化，要么报 GM 判 bm-b 席位存废；(c) 接管后 lhb 面板长到 268,740 行，下游 lhb 消费面（lhb_inst / harvest_census 族）需要一轮跟刷确认尾巴一致性。",
+ "verify_r1858": "s6_chain_bmc selftest 17/17 PASS（新增三腿：进度面按机器命名 / 一腿一行可读 / 不可写路径返 False 不抛）| --only=compute_audit 实跑 rc0 9.0s -> results/_r1858bmc_s6_chain.only-compute_audit.json | results/_s6chain_progress.bm-c.jsonl 三行 chain_start/leg_done/chain_done | 在飞全链 PID 38604（01:15 起）只读监护未打断，每腿面 mtime 推进：02:30:05..02:40:18 共 8 面 | attrition CLEAN（4 账本 3 历史缩行 healed）| orphans=0 | orders 115 文件 / ack 242 / 未回执 0 | inbox 空",
+ "round_r1858_note": "本轮撞上一个死窗遗留的全链（01:15 启动，父进程已死，子进程每腿在写面=活性律判 working 不杀）。它每写完一条腿就覆盖一个面，但整条链的进度只存在于进程内存里——我花了十分钟靠 results/ mtime 反推它走到第几腿。所以本轮唯一实物=把这个缺口补上：run_leg 之后即 append 一行 JSONL（start/leg_done/chain_done），失败绝不抛。在飞的那条链跑的是旧码，它的进度仍然只能猜——这条事实写进轮报告，不假装已经有。",
+ "round_r1858_next": "(a) 等 01:15 链跑到 chain_done（下一条新链就会自带进度面）；(b) 全量冒烟仍缺独立窗（r1853 的 696/696 仍是基线）；(c) bm-b 沉默已 >21 天，astock_daily/marks 两条道挂在本机接管名下，需要 GM 判席位或常态化接管台账。"
 }
