@@ -152,6 +152,12 @@ CAP_VS_BOOK_JSON = os.path.join(ROOT, "results", "regime_cap_vs_book.json")
 # its live record had no line on this page at all -- the only place the CEO
 # could read "how is the money candidate doing" was a research file.
 ETF_BOOK_FWD = os.path.join(ROOT, "results", "etf_book_forward", "LEDGER.json")
+# r1846: every headline number for this book lives in 2020+, and the face that
+# prices the SAME engine on the SAME panel BEFORE the ETF boom already exists
+# (three cells: pre-2020 universe pre-period / same universe post / full post).
+# It was never on this page, so the reader could only ever read the flattering
+# cell.  Read-only quote, the producer's own generated/cutoff carried.
+ETF_BOOK_PRE2020 = os.path.join(ROOT, "results", "etf_book_pre2020.json")
 # r1580: ⑥ reports the forward ledger, but the sheet the desk holds is a
 # DIFFERENT book (5 names on the beta target, k~0.43, vs 12 names on the 8%
 # vol target, k~0.91).  Both are real and both run on the same 1,000,000 CNY.
@@ -702,6 +708,54 @@ def _etf_book_face():
         "cash_leg_note": (cfg.get("cash")
                           if isinstance(cfg.get("cash"), str) else None),
     }
+
+
+def _etf_book_period_face():
+    """r1846: the book's edge has a birth date, and the page must print it.
+
+    results/etf_book_pre2020.json prices the same engine on the same file panel
+    over three cells: the pre-2020 universe before the boom (A), the same
+    universe after it (B), and the published full universe (C).  A-only and
+    C-only readers each get one half of the truth; this face carries all three.
+
+    Zero new judgment: no win/loss claim, no threshold.  Numbers are quoted
+    from that face and its own `generated` / `evidence_cutoff` are carried --
+    this page runs AFTER it on the chain, so a later rewrite would otherwise
+    leave a silent stale stamp here (r1781 family).
+    """
+    d = _read_json(ETF_BOOK_PRE2020)
+    rel = "results/etf_book_pre2020.json"
+    if not d:
+        return {"present": False, "path": rel,
+                "note": "分期间面未产出（缺面不读 0）"}
+    cells = d.get("cells") or {}
+
+    def _span(key):
+        c = cells.get(key) or {}
+        rows = c.get("cells") or {}
+        vals = [float(r["excess_cagr_pp"]) for r in rows.values()
+                if isinstance(r, dict) and r.get("excess_cagr_pp") is not None]
+        if not vals:
+            return None
+        return {"cell": key,
+                "universe_size": c.get("universe_size"),
+                "start": c.get("start"), "end": c.get("end"),
+                "n_cells": len(vals),
+                "worst_pp": round(min(vals), 2),
+                "best_pp": round(max(vals), 2),
+                "all_negative": all(v < 0 for v in vals),
+                "all_positive": all(v > 0 for v in vals)}
+
+    a = _span("A_pre_universe_pre_period")
+    b = _span("B_pre_universe_post_period")
+    c = _span("C_full_universe_post_period")
+    if not (a or b or c):
+        return {"present": False, "path": rel,
+                "note": "分期间面在册但无超额读数（不印 0）"}
+    return {"present": True, "path": rel,
+            "generated": d.get("generated"),
+            "cutoff": d.get("evidence_cutoff"),
+            "pre": a, "same_universe_post": b, "full_post": c}
 
 
 def _carry_book_face():
@@ -1886,6 +1940,7 @@ def build_payload(day: str) -> dict:
         "recommendation": rec_face,
         "judgment_burns": _judgment_burn_face(),
         "etf_book": book,
+        "etf_book_periods": _etf_book_period_face(),
         "etf_order": _etf_order_with_cash_roll(),
         "etf_premium": _etf_premium_face(),
         "etf_premium_choice": _etf_premium_choice_face(),
@@ -2321,6 +2376,35 @@ def render_md(p: dict) -> str:
                      f"{eb.get('years_for_80pct_power')} 年。"
                      "这一行是实绩读数，不是判决。")
         L.append(f"  - 全页指针：`{eb['path']}`")
+    # ---- r1846: the same engine, priced before the universe that carries it
+    _bp = p.get("etf_book_periods") or {}
+    if not _bp.get("present"):
+        L.append(f"- 分期间读数：{_bp.get('note') or '缺件（缺面不读 0）'}")
+    else:
+        _a = _bp.get("pre") or {}
+        _b = _bp.get("same_universe_post") or {}
+        _c = _bp.get("full_post") or {}
+        if _a and _b:
+            L.append(
+                f"- **这本书有出生日期**：同一引擎、同一批老标的"
+                f"（{_a.get('universe_size')} 只），"
+                f"{str(_a.get('start'))[:4]}–{str(_a.get('end'))[:4]} 的 "
+                f"{_a.get('n_cells')} 格超额在 **{_a['worst_pp']:+.2f} ~ "
+                f"{_a['best_pp']:+.2f}pp/年**"
+                f"（{'全部为负' if _a.get('all_negative') else '不全为负'}）；"
+                f"换成 {str(_b.get('start'))[:4]} 之后同宇宙读 "
+                f"**{_b['worst_pp']:+.2f} ~ {_b['best_pp']:+.2f}pp/年**"
+                f"（{'全部为正' if _b.get('all_positive') else '不全为正'}）")
+        if _c:
+            L.append(
+                f"  - 全宇宙（{_c.get('universe_size')} 只）"
+                f"{str(_c.get('start'))[:4]} 之后读 "
+                f"**{_c['worst_pp']:+.2f} ~ {_c['best_pp']:+.2f}pp/年**——"
+                "**这两段差不是因子的证据，是期间与截面的证据**：正的超额只在 "
+                "2020 年之后出现，且截面越宽读数越好看，所以上面那段实绩不能"
+                "外推成「一直都有效」")
+        L.append(f"  - 出处：`{_bp['path']}`（generated {_bp.get('generated')}"
+                 f"·cutoff {_bp.get('cutoff')}·零判决零记账）")
     eo = p.get("etf_order") or {}
     if not eo.get("present"):
         L.append(f"- 照做版执行单：{eo.get('note') or '缺件（缺面不读 0）'}")
@@ -4156,6 +4240,31 @@ def selftest() -> int:
         _mdy = render_md(_pcy)
         check("a swap face priced on another ticket is refused (r1835)",
               "不是同一张" in _mdy and "不换**" not in _mdy)
+    # ---- r1846: the birth date of the edge must reach the reader ----
+    _pp = _read_json(ETF_BOOK_PRE2020) or {}
+    _pra = ((_pp.get("cells") or {}).get("A_pre_universe_pre_period") or {})
+    _prrows = _pra.get("cells") or {}
+    _prvals = [float(r["excess_cagr_pp"]) for r in _prrows.values()
+               if isinstance(r, dict) and r.get("excess_cagr_pp") is not None]
+    check("the page prints the book's pre-2020 reading beside the headline (r1846)",
+          (not _prvals) or ("这本书有出生日期" in md1
+                            and "不是因子的证据" in md1
+                            and f"{min(_prvals):+.2f}" in md1
+                            and f"{max(_prvals):+.2f}" in md1))
+    _pmm = json.loads(json.dumps(p1))
+    _pmm["etf_book_periods"] = {"present": False,
+                                "note": "分期间面未产出（缺面不读 0）"}
+    _mdmm = render_md(_pmm)
+    check("an unread period face prints a reason, not a zero (r1846)",
+          "分期间面未产出" in _mdmm and "这本书有出生日期" not in _mdmm)
+    _pnn = json.loads(json.dumps(p1))
+    _pnn["etf_book_periods"] = dict(_pnn.get("etf_book_periods") or {})
+    _pnn["etf_book_periods"]["pre"] = dict(
+        (_pnn["etf_book_periods"].get("pre") or {}),
+        all_negative=False, worst_pp=1.0, best_pp=2.0)
+    _mdnn = render_md(_pnn)
+    check("a pre-period that is not all negative is not printed as such (r1846)",
+          "不全为负" in _mdnn and "全部为负" not in _mdnn)
     print(f"selftest: {'ALL PASS' if not fails else f'FAIL {fails}'}")
     return 0 if not fails else 1
 

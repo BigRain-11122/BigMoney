@@ -2,7 +2,7 @@
  "schema": "ceo_live_usage_v1_9",
  "ticket": "T-202609-28-105",
  "day": "2026-11-19",
- "generated": "2026-11-19T16:07:10",
+ "generated": "2026-11-19T16:31:46",
  "market": {
   "state": "RED",
   "asof": "2026-11-19",
@@ -55,88 +55,87 @@
    "zt": {
     "label": "涨停池",
     "status": "ok",
-    "count": 41,
-    "cutoff": "2026-11-18",
-    "prev_count": 37,
-    "prev_cutoff": "2026-11-17",
-    "asked_through": "2026-11-18",
+    "count": 23,
+    "cutoff": "2026-11-19",
+    "prev_count": 41,
+    "prev_cutoff": "2026-11-18",
+    "asked_through": "2026-11-19",
     "empty_days": [],
     "empty_days_count": 0,
-    "delta": 4
+    "delta": -18
    },
    "zbgc": {
     "label": "炸板池",
     "status": "ok",
     "count": 24,
-    "cutoff": "2026-11-18",
-    "prev_count": 20,
-    "prev_cutoff": "2026-11-17",
-    "asked_through": "2026-11-18",
+    "cutoff": "2026-11-19",
+    "prev_count": 24,
+    "prev_cutoff": "2026-11-18",
+    "asked_through": "2026-11-19",
     "empty_days": [],
     "empty_days_count": 0,
-    "delta": 4
+    "delta": 0
    },
    "dtgc": {
     "label": "跌停池",
     "status": "ok",
-    "count": 40,
-    "cutoff": "2026-11-18",
-    "prev_count": 67,
-    "prev_cutoff": "2026-11-17",
-    "asked_through": "2026-11-18",
+    "count": 68,
+    "cutoff": "2026-11-19",
+    "prev_count": 40,
+    "prev_cutoff": "2026-11-18",
+    "asked_through": "2026-11-19",
     "empty_days": [
      "2026-11-05",
      "2026-11-10",
      "2026-11-11"
     ],
     "empty_days_count": 3,
-    "delta": -27
+    "delta": 28
    },
    "strong": {
     "label": "强势池",
     "status": "ok",
-    "count": 135,
-    "cutoff": "2026-11-18",
-    "prev_count": 146,
-    "prev_cutoff": "2026-11-17",
-    "asked_through": "2026-11-18",
+    "count": 94,
+    "cutoff": "2026-11-19",
+    "prev_count": 135,
+    "prev_cutoff": "2026-11-18",
+    "asked_through": "2026-11-19",
     "empty_days": [],
     "empty_days_count": 0,
-    "delta": -11
+    "delta": -41
    }
   },
   "status": "ok",
-  "cutoff": "2026-11-18",
+  "cutoff": "2026-11-19",
   "cutoffs": [
-   "2026-11-18"
+   "2026-11-19"
   ],
   "aligned": true,
-  "seal_rate": 0.6308,
+  "seal_rate": 0.4894,
   "ladder": {
-   "1": 33,
-   "2": 7,
-   "4": 1
+   "1": 18,
+   "2": 2,
+   "3": 3
   },
   "top_streak": {
-   "streak": 4,
-   "n": 1,
+   "streak": 3,
+   "n": 3,
    "names": [
-    "华东重机"
+    "真视通",
+    "全筑股份",
+    "盛剑科技"
    ]
   },
-  "down_over_up": 0.976,
-  "kill_day": false,
+  "down_over_up": 2.957,
+  "kill_day": true,
   "kill_day_unavailable": null,
   "freshness": {
-   "status": "stale",
+   "status": "current",
    "expected_last_bar_day": "2026-11-19",
-   "behind_days": 1,
-   "behind": [
-    "2026-11-19"
-   ],
+   "behind_days": 0,
+   "behind": [],
    "lane_owner": "bm-c",
-   "read_on": "bm-c",
-   "note": "读到的是 2026-11-18 的副本：最后采集日 2026-11-18，比应有最新 bar 日 2026-11-19 落后 1 个交易日（车道宿主 bm-c）"
+   "read_on": "bm-c"
   }
  },
  "ladder": {
@@ -417,7 +416,7 @@
     "latest_close": 2.884,
     "prev_session_close": 2.883,
     "day_change_pct": 0.03,
-    "age_min": 70.2
+    "age_min": 94.8
    },
    {
     "symbol": "511010",
@@ -511,7 +510,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 62325.4
+    "last_append_age_min": 62350.0
    },
    {
     "family": "FUND-VALUE-P1",
@@ -519,7 +518,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 63169.8
+    "last_append_age_min": 63194.4
    },
    {
     "family": "FUND-DIVLOWVOL-P1",
@@ -527,7 +526,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 59963.2
+    "last_append_age_min": 59987.8
    }
   ]
  },
@@ -536,40 +535,79 @@
   "path": "results/etf_book_forward/LEDGER.json",
   "status": "live",
   "first_bar": "2026-10-23",
-  "last_bar": "2026-11-18",
-  "n_bars": 19,
-  "book_nav": 1.002058,
-  "book_ret_pct": 0.206,
-  "bench_nav": 0.970163,
-  "bench_ret_pct": -2.984,
-  "excess_bp": 318.9,
-  "book_max_dd_pct": -1.585,
-  "bench_max_dd_pct": -3.694,
+  "last_bar": "2026-11-19",
+  "n_bars": 20,
+  "book_nav": 0.998051,
+  "book_ret_pct": -0.195,
+  "bench_nav": 0.968303,
+  "bench_ret_pct": -3.17,
+  "excess_bp": 297.5,
+  "book_max_dd_pct": -1.771,
+  "bench_max_dd_pct": -3.879,
   "n_refills": 1,
   "rebal": 20,
   "n_hold": 12,
   "vol_target_pct": 8.0,
   "cost_bp_per_side": 10.0,
-  "published_bars": 19,
+  "published_bars": 20,
   "noise_band_pp": {
-   "1m": 4.741,
-   "3m": 8.211,
-   "1y": 16.559,
-   "3y": 28.68
+   "1m": 4.74,
+   "3m": 8.209,
+   "1y": 16.554,
+   "3y": 28.673
   },
   "min_detectable_edge_pp": {
-   "6m": 33.477,
-   "1y": 23.672,
-   "2y": 16.739,
-   "3y": 13.667
+   "6m": 33.469,
+   "1y": 23.666,
+   "2y": 16.734,
+   "3y": 13.664
   },
   "years_for_80pct_power": 15.8,
   "provisional_bars": [
    "2026-11-18"
   ],
   "drift_gate": "settled_bars_only",
-  "panel_last_bar": "2026-11-18",
+  "panel_last_bar": "2026-11-19",
   "cash_leg_note": "cash leg earns 0 in the ledger (disclosed, not modelled away)"
+ },
+ "etf_book_periods": {
+  "present": true,
+  "path": "results/etf_book_pre2020.json",
+  "generated": "2026-11-19T11:26:33",
+  "cutoff": "2026-11-18",
+  "pre": {
+   "cell": "A_pre_universe_pre_period",
+   "universe_size": 224,
+   "start": "2015-01-01",
+   "end": "2019-12-31",
+   "n_cells": 6,
+   "worst_pp": -8.86,
+   "best_pp": -5.81,
+   "all_negative": true,
+   "all_positive": false
+  },
+  "same_universe_post": {
+   "cell": "B_pre_universe_post_period",
+   "universe_size": 224,
+   "start": "2020-01-01",
+   "end": "2026-11-18",
+   "n_cells": 6,
+   "worst_pp": 1.7,
+   "best_pp": 4.74,
+   "all_negative": false,
+   "all_positive": true
+  },
+  "full_post": {
+   "cell": "C_full_universe_post_period",
+   "universe_size": 1632,
+   "start": "2020-01-01",
+   "end": "2026-11-18",
+   "n_cells": 6,
+   "worst_pp": 3.0,
+   "best_pp": 5.88,
+   "all_negative": false,
+   "all_positive": true
+  }
  },
  "etf_order": {
   "present": true,
@@ -1417,7 +1455,7 @@
   "scope": "the executable ticket only. The forward paper series is an append-only evidence line: it is re-labelled FUNDED_BY_A_LARGER_CAPITAL, never rewritten, truncated or deleted",
   "reversal": "fund the account to the first rung and re-run: the same rule hands the ticket back one lot and this file prints it -- the withdrawal is conditional on capital, not a judgement about the sleeve",
   "sentence": "To open this book at all needs 1,122,782 CNY of capital (IC account). IC is 122,782 CNY short of its first lot (capital 1,000,000, gap 12.28%). IM is 150,230 CNY short of its first lot (capital 1,000,000, gap 15.02%). IC: the desk's 4 lot(s) are withdrawn from the ticket and the executable line is 0; IM: the desk's 4 lot(s) are withdrawn from the ticket and the executable line is 0. The forward paper series that ran on 8 lot(s) across the accounts is kept and labelled FUNDED_BY_A_LARGER_CAPITAL: it is what a larger account would have done, not what this one can. It comes back the moment the capital does.",
-  "source_generated": "2026-11-19T13:46:26+08:00",
+  "source_generated": "2026-11-19T16:10:55+08:00",
   "evidence_cutoff": "2026-11-18",
   "source_face": "results/idx_fut_carry_sizing_spec.json",
   "ladder_face": "results/idx_fut_carry_capital_ladder.json"
@@ -1514,7 +1552,7 @@
    15.0
   ],
   "evidence_cutoff": "2026-11-18",
-  "source_generated": "2026-11-19T13:46:27+0800"
+  "source_generated": "2026-11-19T16:10:55+0800"
  },
  "carry_roll_cost": {
   "present": true,
@@ -1558,7 +1596,7 @@
    }
   },
   "evidence_cutoff": "2026-11-18",
-  "source_generated": "2026-11-19T13:41:48"
+  "source_generated": "2026-11-19T16:08:50"
  },
  "carry_marks": {
   "present": true,
@@ -1608,7 +1646,7 @@
    "unbacked_abs_pnl_cny": 84480.0
   },
   "evidence_cutoff": "2026-11-17",
-  "source_generated": "2026-11-19T16:02:27"
+  "source_generated": "2026-11-19T16:10:55"
  },
  "freshness": {
   "status": "ok",
@@ -1619,16 +1657,16 @@
    {
     "face": "etf_book",
     "label": "⑥ ETF 复合书",
-    "cutoff": "2026-11-18",
-    "owed_sessions": 1,
-    "state": "behind"
+    "cutoff": "2026-11-19",
+    "owed_sessions": 0,
+    "state": "current"
    },
    {
     "face": "risk_tape",
     "label": "③ 风险带（zt 四面板）",
-    "cutoff": "2026-11-18",
-    "owed_sessions": 1,
-    "state": "behind"
+    "cutoff": "2026-11-19",
+    "owed_sessions": 0,
+    "state": "current"
    },
    {
     "face": "market",
@@ -1650,10 +1688,10 @@
     "state": "behind"
    }
   ],
-  "worst_face": "⑥ ETF 复合书",
-  "worst_owed_sessions": 1,
+  "worst_face": null,
+  "worst_owed_sessions": 0,
   "unreadable": [],
-  "book_panel_last_bar": "2026-11-18"
+  "book_panel_last_bar": "2026-11-19"
  },
  "chain_versions": [
   {

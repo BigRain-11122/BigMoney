@@ -17067,3 +17067,10 @@ How to apply：任何「某条规则该不该更硬」的问题，先问**加硬
 **How to apply**：①任何「面板是否新鲜」的判据，先问它读的是哪个统计量 —— `max` 是面级的，`min`/`counting laggards` 才是成员级的，两句话不同；②成本门槛要按文件数分档，别让巨面板的省钱策略套到十个文件的小面上；③绿行与不齐事实必须同格出现（`in_sync; 2 of 10 symbols stop at 2026-11-17`），另起一段等于让只看表的人继续读错。
 
 正身=scripts/data_lane_freshness.py（selftest 47/47·新增 L45/L46）+ docs/data_lanes/FRESHNESS.md（第 25/27 行 + 「Panels where not every symbol is current」节）
+
+## E-numbered card r1846 -- the flattering cell is the one that gets rendered
+
+- **Trigger**: the CEO page carried the ETF book's forward record for months; the face that prices the SAME engine on the SAME panel before 2020 existed since 11-13 and was never quoted there. Reading only the 2020+ cell is how a period artefact and a cross-section artefact both get published as "the factor".
+- **Rule**: when a producer already prices a question in more than one cell, the reader face must carry every cell that changes the reading, in one sentence, with the producer's own generated/cutoff. "Positive here" and "negative there" belong to the same paragraph, not to two different files.
+- **Rule**: a page that prints the track record but not its birth date invites extrapolation. Name the cells in the sentence so the reader cannot quote one.
+- **Evidence**: results/etf_book_pre2020.json cells A/B/C -> -5.81..-8.86pp/yr (2015-2019, U_pre), +1.70..+4.74 (2020+, U_pre), +3.00..+5.88 (2020+, U_all); now printed at docs/live_usage/LIVE-2026-11-19.md L128-130; 3 selftest legs pin the render (present / absent-prints-reason / non-negative-not-called-negative).
