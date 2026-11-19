@@ -1,17 +1,29 @@
 {
-  "cutoff": "2026-11-17",
-  "new_rows": 0,
-  "verdict": "no-op: cutoff 2026-11-17 covers latest disclosure window (2026-11-17)",
-  "last_attempt": "2026-11-17 19:56:13.995850",
-  "updated": "2026-11-18 16:54:39",
+  "cutoff": "2026-11-19",
+  "cutoff_before": "2026-11-17",
+  "cutoff_after": "2026-11-19",
+  "new_rows": 185,
+  "quarters_refetched": [
+    "2026Q4"
+  ],
+  "total_rows": 268740,
+  "overlap": {
+    "old_rows": 93,
+    "new_rows": 93,
+    "netbuy_sum_old": 37935448.19,
+    "netbuy_sum_new": 37935448.19
+  },
+  "last_attempt": "2026-11-20 02:14:24.156165",
+  "verdict": "updated",
+  "updated": "2026-11-20 02:14:32",
   "authority": {
     "lane_owner": "bm-a",
-    "writer_machine": "bm-a",
-    "data_face_machine": "bm-a",
-    "declared_takeover": false,
-    "took_over_by": null,
+    "writer_machine": "bm-c",
+    "data_face_machine": "bm-c",
+    "declared_takeover": true,
+    "took_over_by": "bm-c",
     "took_over_at": null,
-    "reason": null
+    "reason": "owner bm-a heartbeat silent 30.4h >= 120min"
   },
-  "machine": "bm-a"
+  "machine": "bm-c"
 }

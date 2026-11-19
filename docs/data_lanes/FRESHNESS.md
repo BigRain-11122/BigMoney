@@ -2,9 +2,9 @@
 
 Official reference: last day that must exist by 15:30 = **2026-11-19** (8797 calendar days loaded).
 
-Verdict: **attention** -- 11/15 lanes in sync, 14/15 auditable from this machine, worst = `lhb`.
+Verdict: **all_fresh** -- 14/15 lanes in sync, 14/15 auditable from this machine.
 
-Built on **bm-c** at 2026-11-20T01:38:24: every tail and period below is a reading of that machine's disk. A copy of this file on another machine says nothing about that machine's panels -- run the board there to read its own bytes.
+Built on **bm-c** at 2026-11-20T02:15:39: every tail and period below is a reading of that machine's disk. A copy of this file on another machine says nothing about that machine's panels -- run the board there to read its own bytes.
 
 
 ## Whose disk these numbers are on
@@ -15,29 +15,19 @@ Built on **bm-c** at 2026-11-20T01:38:24: every tail and period below is a readi
 |---|---|---|---|---|---|
 | `options` | bm-c | 2026-09-30 | 31: 2026-10-08, 2026-10-09, 2026-10-12, 2026-10-13, 2026-10-14, 2026-10-15 … | retired (copy said `stalled`) | unattributed |
 | `sina_mf` | bm-c | 2026-10-26 | 18: 2026-10-27, 2026-10-28, 2026-10-29, 2026-10-30, 2026-11-02, 2026-11-03 … | in_sync (own window 18/20) | host_envelope |
-| `lhb` | bm-a | 2026-11-17 | 2: 2026-11-18, 2026-11-19 | stalled | host_envelope |
 | `moneyflow` | bm-c | 2026-11-17 | 2: 2026-11-18, 2026-11-19 | in_sync (own window 2/20) | host_envelope |
-| `heat` | bm-a | 2026-11-18 | 1: 2026-11-19 | behind_1d | host_envelope |
-| `repo` | bm-a | 2026-11-18 | 1: 2026-11-19 | behind_1d; 3 of 11 symbols stop at 2026-11-17 | host_envelope |
 | `ah_panel` | bm-c | 2026-11-19 | 0 | in_sync | host_copy |
 | `astock_daily` | bm-b | 2026-11-19 | 0 | in_sync | declared_takeover |
 | `etf_panel` | bm-c | 2026-11-19 | 0 | in_sync | host_envelope |
 | `futures` | bm-a | 2026-11-19 | 0 | in_sync | declared_takeover |
+| `heat` | bm-a | 2026-11-19 | 0 | in_sync | declared_takeover |
+| `lhb` | bm-a | 2026-11-19 | 0 | in_sync | declared_takeover |
 | `lhb_inst` | bm-c | 2026-11-19 | 0 | in_sync | host_envelope |
 | `marks` | bm-b | 2026-11-19 | 0 | in_sync | declared_takeover |
 | `minute_feed` | bm-c | 2026-11-19 | 0 | in_sync | host_copy |
+| `repo` | bm-a | 2026-11-19 | 0 | in_sync | declared_takeover |
 | `ths_panel` | bm-c | 2026-11-19 | 0 | in_sync | host_envelope |
 | `zt_pool` | bm-c | 2026-11-19 | 0 | in_sync | host_copy |
-
-## Lanes where a missed day cannot be recovered
-
-- `heat`: a missed day is permanent: the guba rank is a live rolling list with no retrievable history (HEAT_ATTENTION_SPEC §1)
-
-## Panels where not every symbol is current
-
-Each lane below has reached the official day, so its row is not late -- but some of the symbols inside it stop earlier. A reader who only watches the lane's tail reads a green row and trades one of these names at an older bar.
-
-- `repo`: newest 2026-11-18, oldest 2026-11-17 -- 3 laggard(s): GC001.csv, R-001.csv, R-007.csv
 
 ## Lanes judged against their own window
 
@@ -56,17 +46,10 @@ Each missing day below is classified by its own collector. `takeover_possible` m
 
 A different question from the section above: these machines have written no heartbeat for more than 24.0h, so the lanes they own are being judged from whatever was last committed. A lane here can still read `in_sync` -- the number is old, the owner is gone, and nobody would notice the day the file stops being written.
 
-- `bm-a`: last seen 2026-11-18T19:53:03+08:00 (29.76h ago) -- owns futures, heat, lhb, repo
-  - already covered by a declared stand-in: futures <- bm-c (nothing to wait for)
-  - nobody is covering these: heat, lhb, repo
-- `bm-b`: last seen 2026-10-30T12:43:06+08:00 (492.92h ago) -- owns astock_daily, marks
+- `bm-a`: last seen 2026-11-18T19:53:03+08:00 (30.38h ago) -- owns futures, heat, lhb, repo
+  - already covered by a declared stand-in: futures <- bm-c, heat <- bm-c, lhb <- bm-c, repo <- bm-c (nothing to wait for)
+- `bm-b`: last seen 2026-10-30T12:43:06+08:00 (493.54h ago) -- owns astock_daily, marks
   - already covered by a declared stand-in: astock_daily <- bm-c, marks <- bm-c (nothing to wait for)
-
-## Envelopes older than the panel they describe
-
-A status envelope is a committed file, so a branch switch or a rebase can restore an older copy of it. Where this host can read the panel itself the panel is the measurement: the staleness is printed here instead of being read as a stall.
-
-- `repo`: envelope says 2026-11-17, panel holds 2026-11-18 (1 official days behind)
 
 ## Members sitting outside the active cohort
 

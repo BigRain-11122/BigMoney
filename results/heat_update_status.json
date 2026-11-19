@@ -1,19 +1,21 @@
 {
-  "verdict": "no-op: snapshot for 2026-11-18 already collected",
-  "target_session": "2026-11-18",
-  "snapshots": 28,
-  "last_attempt": "2026-11-18 16:19:48.538513",
-  "updated": "2026-11-18 16:54:40",
-  "machine": "bm-a",
+  "verdict": "snapshot 2026-11-19 landed",
+  "target_session": "2026-11-19",
+  "label_basis": "post-close carry: the live ranking has not moved",
+  "snapshots": 2,
+  "n_rows": 100,
+  "last_attempt": "2026-11-20 02:14:00.155651",
+  "updated": "2026-11-20 02:14:02",
+  "machine": "bm-c",
   "lane_host": "bm-a",
   "authority": {
     "lane_owner": "bm-a",
-    "writer_machine": "bm-a",
-    "data_face_machine": "bm-a",
-    "declared_takeover": false,
-    "took_over_by": null,
-    "took_over_at": null,
-    "reason": null
+    "writer_machine": "bm-c",
+    "data_face_machine": "bm-c",
+    "declared_takeover": true,
+    "took_over_by": "bm-c",
+    "took_over_at": "2026-11-20T02:14:00",
+    "reason": "owner bm-a heartbeat silent 30.3h >= 120min"
   },
-  "latest_snapshot": "2026-11-18"
+  "latest_snapshot": "2026-11-19"
 }

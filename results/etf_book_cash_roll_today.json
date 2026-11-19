@@ -1,32 +1,32 @@
 {
  "face": "etf_book_cash_roll_today",
  "question": "which repo tenor does the book's uninvested sleeve roll into today, and is the answer constrained by the next decision bar?",
- "generated": "2026-11-19T12:15:07+0800",
+ "generated": "2026-11-20T02:15:15+0800",
  "panel_last_bars": {
-  "GC001": "2026-11-17",
-  "GC003": "2026-11-18",
-  "GC004": "2026-11-18",
-  "GC007": "2026-11-18",
-  "GC014": "2026-11-18",
-  "GC028": "2026-11-18",
-  "GC091": "2026-11-18",
-  "GC182": "2026-11-18",
-  "R-001": "2026-11-17",
-  "R-003": "2026-11-18",
-  "R-007": "2026-11-17"
+  "GC001": "2026-11-19",
+  "GC003": "2026-11-19",
+  "GC004": "2026-11-19",
+  "GC007": "2026-11-19",
+  "GC014": "2026-11-19",
+  "GC028": "2026-11-19",
+  "GC091": "2026-11-19",
+  "GC182": "2026-11-19",
+  "R-001": "2026-11-19",
+  "R-003": "2026-11-19",
+  "R-007": "2026-11-19"
  },
  "inputs": {
   "permission_face": "results\\etf_book_cut_order_gap.json",
   "nav_cny": 1000000.0,
   "ordered_book_cny": 431880.0,
   "cash_cny": 568120.0,
-  "book_as_of": "2026-11-17",
+  "book_as_of": "2026-11-19",
   "decision_date": "2026-12-09",
-  "repo_panel_as_of": "2026-11-17"
+  "repo_panel_as_of": "2026-11-19"
  },
- "as_of": "2026-11-17",
+ "as_of": "2026-11-19",
  "decision_date": "2026-12-09",
- "window_days": 22,
+ "window_days": 20,
  "cash_cny": 568120.0,
  "placeable": {
   "sh_cny": 500000.0,
@@ -37,124 +37,183 @@
  },
  "eligible": [
   {
+   "contract": "GC014",
+   "tenor_days": 14,
+   "venue": "SH",
+   "quoted_pct": 1.385,
+   "fee_bp_per_contract": 1.0,
+   "fee_pp_per_year": 0.2607,
+   "net_ann_pct": 1.1243,
+   "matures": "2026-12-03",
+   "fits_before_decision": true,
+   "window_return_pct": 0.0616
+  },
+  {
    "contract": "R-007",
    "tenor_days": 7,
    "venue": "SZ",
-   "quoted_pct": 1.295,
+   "quoted_pct": 1.37,
    "fee_bp_per_contract": 0.5,
    "fee_pp_per_year": 0.2607,
-   "net_ann_pct": 1.0343,
-   "matures": "2026-11-24",
+   "net_ann_pct": 1.1093,
+   "matures": "2026-11-26",
    "fits_before_decision": true,
-   "window_return_pct": 0.0623
+   "window_return_pct": 0.0608
+  },
+  {
+   "contract": "GC007",
+   "tenor_days": 7,
+   "venue": "SH",
+   "quoted_pct": 1.365,
+   "fee_bp_per_contract": 0.5,
+   "fee_pp_per_year": 0.2607,
+   "net_ann_pct": 1.1043,
+   "matures": "2026-11-26",
+   "fits_before_decision": true,
+   "window_return_pct": 0.0605
+  },
+  {
+   "contract": "GC003",
+   "tenor_days": 3,
+   "venue": "SH",
+   "quoted_pct": 1.16,
+   "fee_bp_per_contract": 0.3,
+   "fee_pp_per_year": 0.365,
+   "net_ann_pct": 0.795,
+   "matures": "2026-11-22",
+   "fits_before_decision": true,
+   "window_return_pct": 0.0436
+  },
+  {
+   "contract": "GC004",
+   "tenor_days": 4,
+   "venue": "SH",
+   "quoted_pct": 1.16,
+   "fee_bp_per_contract": 0.4,
+   "fee_pp_per_year": 0.365,
+   "net_ann_pct": 0.795,
+   "matures": "2026-11-23",
+   "fits_before_decision": true,
+   "window_return_pct": 0.0436
   },
   {
    "contract": "GC001",
    "tenor_days": 1,
    "venue": "SH",
-   "quoted_pct": 1.175,
+   "quoted_pct": 1.145,
    "fee_bp_per_contract": 0.1,
    "fee_pp_per_year": 0.365,
-   "net_ann_pct": 0.81,
-   "matures": "2026-11-18",
+   "net_ann_pct": 0.78,
+   "matures": "2026-11-20",
    "fits_before_decision": true,
-   "window_return_pct": 0.0488
+   "window_return_pct": 0.0427
+  },
+  {
+   "contract": "R-003",
+   "tenor_days": 3,
+   "venue": "SZ",
+   "quoted_pct": 1.145,
+   "fee_bp_per_contract": 0.3,
+   "fee_pp_per_year": 0.365,
+   "net_ann_pct": 0.78,
+   "matures": "2026-11-22",
+   "fits_before_decision": true,
+   "window_return_pct": 0.0427
   },
   {
    "contract": "R-001",
    "tenor_days": 1,
    "venue": "SZ",
-   "quoted_pct": 1.155,
+   "quoted_pct": 1.125,
    "fee_bp_per_contract": 0.1,
    "fee_pp_per_year": 0.365,
-   "net_ann_pct": 0.79,
-   "matures": "2026-11-18",
+   "net_ann_pct": 0.76,
+   "matures": "2026-11-20",
    "fits_before_decision": true,
-   "window_return_pct": 0.0476
+   "window_return_pct": 0.0416
   }
  ],
- "excluded_locked": [],
- "excluded_no_quote": [
+ "excluded_locked": [
   {
-   "contract": "GC003",
-   "quote_bar": "2026-11-18",
-   "asked_bar": "2026-11-17"
-  },
-  {
-   "contract": "GC004",
-   "quote_bar": "2026-11-18",
-   "asked_bar": "2026-11-17"
-  },
-  {
-   "contract": "GC007",
-   "quote_bar": "2026-11-18",
-   "asked_bar": "2026-11-17"
-  },
-  {
-   "contract": "GC014",
-   "quote_bar": "2026-11-18",
-   "asked_bar": "2026-11-17"
-  },
-  {
-   "contract": "GC028",
-   "quote_bar": "2026-11-18",
-   "asked_bar": "2026-11-17"
+   "contract": "GC182",
+   "tenor_days": 182,
+   "venue": "SH",
+   "quoted_pct": 1.315,
+   "fee_bp_per_contract": 3.0,
+   "fee_pp_per_year": 0.0602,
+   "net_ann_pct": 1.2548,
+   "matures": "2027-05-20",
+   "fits_before_decision": false,
+   "window_return_pct": 0.0688,
+   "locked_past_decision_days": 162
   },
   {
    "contract": "GC091",
-   "quote_bar": "2026-11-18",
-   "asked_bar": "2026-11-17"
+   "tenor_days": 91,
+   "venue": "SH",
+   "quoted_pct": 1.315,
+   "fee_bp_per_contract": 3.0,
+   "fee_pp_per_year": 0.1203,
+   "net_ann_pct": 1.1947,
+   "matures": "2027-02-18",
+   "fits_before_decision": false,
+   "window_return_pct": 0.0655,
+   "locked_past_decision_days": 71
   },
   {
-   "contract": "GC182",
-   "quote_bar": "2026-11-18",
-   "asked_bar": "2026-11-17"
-  },
-  {
-   "contract": "R-003",
-   "quote_bar": "2026-11-18",
-   "asked_bar": "2026-11-17"
+   "contract": "GC028",
+   "tenor_days": 28,
+   "venue": "SH",
+   "quoted_pct": 1.375,
+   "fee_bp_per_contract": 2.0,
+   "fee_pp_per_year": 0.2607,
+   "net_ann_pct": 1.1143,
+   "matures": "2026-12-17",
+   "fits_before_decision": false,
+   "window_return_pct": 0.0611,
+   "locked_past_decision_days": 8
   }
  ],
+ "excluded_no_quote": [],
  "baseline": {
   "contract": "GC001",
   "tenor_days": 1,
   "venue": "SH",
-  "quoted_pct": 1.175,
+  "quoted_pct": 1.145,
   "fee_bp_per_contract": 0.1,
   "fee_pp_per_year": 0.365,
-  "net_ann_pct": 0.81,
-  "matures": "2026-11-18",
+  "net_ann_pct": 0.78,
+  "matures": "2026-11-20",
   "fits_before_decision": true,
-  "window_return_pct": 0.0488
+  "window_return_pct": 0.0427
  },
  "best_sh": {
-  "contract": "GC001",
-  "tenor_days": 1,
+  "contract": "GC014",
+  "tenor_days": 14,
   "venue": "SH",
-  "quoted_pct": 1.175,
-  "fee_bp_per_contract": 0.1,
-  "fee_pp_per_year": 0.365,
-  "net_ann_pct": 0.81,
-  "matures": "2026-11-18",
+  "quoted_pct": 1.385,
+  "fee_bp_per_contract": 1.0,
+  "fee_pp_per_year": 0.2607,
+  "net_ann_pct": 1.1243,
+  "matures": "2026-12-03",
   "fits_before_decision": true,
-  "window_return_pct": 0.0488
+  "window_return_pct": 0.0616
  },
  "best_sz": {
   "contract": "R-007",
   "tenor_days": 7,
   "venue": "SZ",
-  "quoted_pct": 1.295,
+  "quoted_pct": 1.37,
   "fee_bp_per_contract": 0.5,
   "fee_pp_per_year": 0.2607,
-  "net_ann_pct": 1.0343,
-  "matures": "2026-11-24",
+  "net_ann_pct": 1.1093,
+  "matures": "2026-11-26",
   "fits_before_decision": true,
-  "window_return_pct": 0.0623
+  "window_return_pct": 0.0608
  },
- "worth_vs_daily_roll_cny_year": 152.52,
- "worth_vs_daily_roll_cny_window": 9.18,
- "verdict": "ROLL_GC001_TODAY",
- "sentence": "the sleeve is worth 0.81%/yr net on 2026-11-17 and rolling it every day is already the best tenor that gets the cash back by 2026-12-09 -- the ladder buys 152.52 CNY a year, which is nothing",
+ "worth_vs_daily_roll_cny_year": 1945.42,
+ "worth_vs_daily_roll_cny_window": 106.81,
+ "verdict": "ROLL_GC014_TODAY",
+ "sentence": "GC014 pays 1.12%/yr net and still matures by 2026-12-09; versus rolling 1-day every session it is worth 1945.42 CNY a year (106.81 CNY over the 20 days to the next decision)",
  "elapsed_sec": 0.09
 }
