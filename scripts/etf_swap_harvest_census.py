@@ -290,7 +290,7 @@ def measure_pair(cand, series, toll, notional=NOTIONAL_CNY):
                      "window_median_pp": round(float(med), 3)}
     if len(deltas) < MIN_COHORT:
         row["verdict"] = "COHORT_TOO_SMALL"
-        row["why"] = ("今天这么宽只出现过 %d 次（可比 %d 次，门槛 %d）：少样本的「中位」不是分布"
+        row["why"] = ("这条读数这么宽只出现过 %d 次（可比 %d 次，门槛 %d）：少样本的「中位」不是分布"
                       % (members, len(deltas), MIN_COHORT))
         return row
     median_delta = float(statistics.median(deltas))
@@ -400,7 +400,7 @@ def compute(ctx):
 def sentence(face):
     c = face.get("counts") or {}
     t = face.get("totals") or {}
-    base = ("%d 对「价格上是同一个篮子」里，%d 对今天这么宽的历史样本够厚：其中 %d 对"
+    base = ("%d 对「价格上是同一个篮子」里，%d 对在这一档宽度的历史样本够厚：其中 %d 对"
             "二十个交易日后价差收窄到付完四边成本还有剩，%d 对收不回来；按一手 %s 元算，"
             "捡得回来的合计 %s 元（过物质线的 %d 对、%s 元）。"
             % (c.get("candidates", 0), c.get("measured", 0), t.get("pays_pairs", 0),
@@ -449,7 +449,7 @@ def render_md(face):
         "| 样本够厚 | %d |" % c.get("measured", 0),
         "| 收得回来 | %d |" % c.get("pays", 0),
         "| 收不回来 | %d |" % c.get("does_not_pay", 0),
-        "| 今天这么宽的历史不足 %d 次 | %d |" % (face.get("min_cohort") or MIN_COHORT,
+        "| 读数这么宽的历史不足 %d 次 | %d |" % (face.get("min_cohort") or MIN_COHORT,
                                               c.get("cohort_too_small", 0)),
         "| 没有本地日线 | %d |" % c.get("no_panel", 0),
         "",
@@ -477,7 +477,7 @@ def render_md(face):
         head += ["这一问答不了：没有可用的重排路径（没有一对的样本够厚）。", ""]
     else:
         head += [
-            "同一条尺子（「今天这么宽」的全部历史样本 → 二十个交易日后宽度变化）放到**把同一批"
+            "同一条尺子（「读数这么宽」的全部历史样本 → 二十个交易日后宽度变化）放到**把同一批"
             "日子里每天的涨跌打乱顺序**重排出来的路径上跑 %d 次——增量、波动、漂移都一样，"
             "唯一被拿掉的是「宽档什么时候出现」。如果盘口这一数没超过它，就不算发现。"
             % nl["k"],
@@ -510,12 +510,12 @@ def render_md(face):
                        (r.get("cohort") or {}).get("n", 0), _fmt_pp(r.get("harvest_pp")),
                        _fmt_pp(r.get("net_after_toll_pp"))))
     head += ["", "## 不许偷懒的三条", "",
-             "1. **今天这么宽一次都没出现过的对不进判词**：样本不足 %d 次的对单列（%d 对），"
+             "1. **读数这么宽一次都没出现过的对不进判词**：样本不足 %d 次的对单列（%d 对），"
              "不写成「收不回来」。" % (face.get("min_cohort") or MIN_COHORT,
                                       c.get("cohort_too_small", 0)),
              "2. **没有溢价锚时量的是价格比，不是溢价**：长期漂移（费率/分红）的对已被普查的年门拒掉，"
              "这条前提写在这里而不是当成事实。",
-             "3. **钱是一手的名义额，不是这本书今天卖了多少**：%d 元一手让两对之间可比，"
+             "3. **钱是一手的名义额，不是这一单卖了多少**：%d 元一手让两对之间可比，"
              "但它不是这一单的实际规模。" % int(face.get("notional_cny") or 0),
              "", "## 限制条款（面的原文）", ""]
     for cv in face.get("caveats") or []:

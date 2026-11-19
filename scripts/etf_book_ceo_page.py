@@ -7231,7 +7231,7 @@ def cash_ladder(cash_amount, panel_dir=REPO_DIR, tenors=LADDER_TENORS,
     out["as_of"] = end.isoformat()
     cash = None if cash_amount is None else float(cash_amount)
     out["cash_amount_cny"] = None if (cash is None or cash <= 0) else round(cash, 2)
-    base_by_window = {y: rolled_yield(base_rows, 1, end - dt.timedelta(days=365 * y))
+    base_by_window = {y: rolled_yield(base_rows, 1, end - dt.timedelta(days=365 * y), end)
                       for y in windows}
     base_spot = base_rows[-1][1]
     if out["cash_amount_cny"]:
@@ -7240,7 +7240,18 @@ def cash_ladder(cash_amount, panel_dir=REPO_DIR, tenors=LADDER_TENORS,
     complete_years = sorted({d.year for d, _ in base_rows if d.year < end.year})[-years_checked:]
 
     for symbol in tenors:
-        rows = repo_rows(symbol, panel_dir)
+        # r1851: the window must end on the day the baseline ends, or the "edge"
+        # compares a longer-run leg against a shorter-run base. GC001's panel can end
+        # a bar earlier than the others (the lane that refreshes it is not this
+        # machine's), so the unclamped GC028 window swallowed 2026-11-18 and printed
+        # 15.8bp while the same panel restricted to the base's day reads 16.6bp --
+        # a permanent red that looked like a data problem.
+        _rows_all = repo_rows(symbol, panel_dir)
+        rows = [r for r in _rows_all if r[0] <= end]
+        if _rows_all and rows and _rows_all[-1][0] > end:
+            out.setdefault("clamped_to_base", []).append(
+                {"symbol": symbol, "own_tail": _rows_all[-1][0].isoformat(),
+                 "window_end": end.isoformat()})
         tenor_days = {"GC001": 1, "GC003": 3, "GC004": 4, "GC007": 7,
                       "GC014": 14, "GC028": 28, "GC091": 91, "GC182": 182}.get(
             symbol, int(symbol[-3:]) if symbol[-3:].isdigit() else 1)
@@ -7264,7 +7275,7 @@ def cash_ladder(cash_amount, panel_dir=REPO_DIR, tenors=LADDER_TENORS,
             row["verdict"] = "BASELINE"
             row["reason"] = "基线：一天期，季末飙高全部吃进"
         for y in windows:
-            r = rolled_yield(rows, tenor_days, end - dt.timedelta(days=365 * y))
+            r = rolled_yield(rows, tenor_days, end - dt.timedelta(days=365 * y), end)
             if r is None:
                 continue
             row["realized"][str(y)] = r
