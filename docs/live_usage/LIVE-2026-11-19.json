@@ -2,7 +2,7 @@
  "schema": "ceo_live_usage_v1_9",
  "ticket": "T-202609-28-105",
  "day": "2026-11-19",
- "generated": "2026-11-19T21:34:51",
+ "generated": "2026-11-19T22:51:31",
  "market": {
   "state": "RED",
   "asof": "2026-11-19",
@@ -404,7 +404,7 @@
     "latest_close": 2.883,
     "prev_session_close": 2.883,
     "day_change_pct": 0.0,
-    "age_min": 394.9
+    "age_min": 471.5
    },
    {
     "symbol": "511010",
@@ -498,7 +498,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 62653.1
+    "last_append_age_min": 62729.7
    },
    {
     "family": "FUND-VALUE-P1",
@@ -506,7 +506,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 63497.5
+    "last_append_age_min": 63574.2
    },
    {
     "family": "FUND-DIVLOWVOL-P1",
@@ -514,7 +514,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 60290.9
+    "last_append_age_min": 60367.5
    }
   ]
  },
@@ -1407,11 +1407,11 @@
     "executable_lots": 0,
     "executable_state": "WITHDRAWN",
     "withdrawn_lots": 4,
-    "first_rung_cny": 1122458.5,
-    "gap_cny": 122458.5,
-    "gap_pct": 12.2458,
+    "first_rung_cny": 1120540.0,
+    "gap_cny": 120540.0,
+    "gap_pct": 12.054,
     "desk_lots": 4,
-    "desk_multiple": 4.4898,
+    "desk_multiple": 4.4822,
     "paper_lots": 4,
     "paper_label": "FUNDED_BY_A_LARGER_CAPITAL"
    },
@@ -1423,11 +1423,11 @@
     "executable_lots": 0,
     "executable_state": "WITHDRAWN",
     "withdrawn_lots": 4,
-    "first_rung_cny": 1148694.12,
-    "gap_cny": 148694.12,
-    "gap_pct": 14.8694,
+    "first_rung_cny": 1146316.88,
+    "gap_cny": 146316.88,
+    "gap_pct": 14.6317,
     "desk_lots": 4,
-    "desk_multiple": 4.5948,
+    "desk_multiple": 4.5853,
     "paper_lots": 4,
     "paper_label": "FUNDED_BY_A_LARGER_CAPITAL"
    }
@@ -1436,17 +1436,17 @@
   "executable_lots_total": 0,
   "withdrawn_lots_total": 8,
   "paper_lots_total": 8,
-  "funding_all_cny": 2271152.62,
+  "funding_all_cny": 2266856.88,
   "cheapest_product": "IC",
-  "cheapest_cny": 1122458.5,
+  "cheapest_cny": 1120540.0,
   "decision": "WITHDRAW_FROM_TICKET",
   "decided": "2026-11-17",
   "decided_in": "bm-c round 1780",
   "scope": "the executable ticket only. The forward paper series is an append-only evidence line: it is re-labelled FUNDED_BY_A_LARGER_CAPITAL, never rewritten, truncated or deleted",
   "reversal": "fund the account to the first rung and re-run: the same rule hands the ticket back one lot and this file prints it -- the withdrawal is conditional on capital, not a judgement about the sleeve",
-  "sentence": "To open this book at all needs 1,122,458 CNY of capital (IC account). IC is 122,458 CNY short of its first lot (capital 1,000,000, gap 12.25%). IM is 148,694 CNY short of its first lot (capital 1,000,000, gap 14.87%). IC: the desk's 4 lot(s) are withdrawn from the ticket and the executable line is 0; IM: the desk's 4 lot(s) are withdrawn from the ticket and the executable line is 0. The forward paper series that ran on 8 lot(s) across the accounts is kept and labelled FUNDED_BY_A_LARGER_CAPITAL: it is what a larger account would have done, not what this one can. It comes back the moment the capital does.",
-  "source_generated": "2026-11-19T20:35:54+08:00",
-  "evidence_cutoff": "2026-11-18",
+  "sentence": "To open this book at all needs 1,120,540 CNY of capital (IC account). IC is 120,540 CNY short of its first lot (capital 1,000,000, gap 12.05%). IM is 146,317 CNY short of its first lot (capital 1,000,000, gap 14.63%). IC: the desk's 4 lot(s) are withdrawn from the ticket and the executable line is 0; IM: the desk's 4 lot(s) are withdrawn from the ticket and the executable line is 0. The forward paper series that ran on 8 lot(s) across the accounts is kept and labelled FUNDED_BY_A_LARGER_CAPITAL: it is what a larger account would have done, not what this one can. It comes back the moment the capital does.",
+  "source_generated": "2026-11-19T22:35:26+08:00",
+  "evidence_cutoff": "2026-11-19",
   "source_face": "results/idx_fut_carry_sizing_spec.json",
   "ladder_face": "results/idx_fut_carry_capital_ladder.json"
  },
@@ -1498,38 +1498,38 @@
   "present": true,
   "path": "results/idx_fut_carry_margin.json",
   "verdict": "VOL_RULER_IS_THE_GATE",
-  "sentence": "保证金不是门槛：保证金臂要追平波动臂首档，需要初始保证金率到 90.6%、95.9%（IC/IM 各自的临界值），而现实中券商收 12-15%。所以开仓资金线仍由 8% 波动尺决定；保证金只吃掉其中一部分现金，不改变 1 手首档。反过来说——若改用保证金口径，账户能开的杠杆是波动预算的若干倍，风险会失控，这正是不能拿保证金当尺子的原因。",
+  "sentence": "保证金不是门槛：保证金臂要追平波动臂首档，需要初始保证金率到 90.7%、97.5%（IC/IM 各自的临界值），而现实中券商收 12-15%。所以开仓资金线仍由 8% 波动尺决定；保证金只吃掉其中一部分现金，不改变 1 手首档。反过来说——若改用保证金口径，账户能开的杠杆是波动预算的若干倍，风险会失控，这正是不能拿保证金当尺子的原因。",
   "gates": {
    "IC": "VOL_RULER",
    "IM": "VOL_RULER"
   },
   "breakeven_rate_pct": {
-   "IC": 90.5968,
-   "IM": 95.926
+   "IC": 90.6732,
+   "IM": 97.529
   },
   "ruler_gap": {
-   "IC": 3.954,
-   "IM": 4.09
+   "IC": 3.958,
+   "IM": 4.159
   },
   "accounts": {
    "IC": {
-    "notional_cny": 1238960.0,
-    "vol_rung_cny": 1122458.5,
-    "margin_rung_cny": 283845.74,
-    "initial_margin_cny": 173454.4,
-    "call_trigger_pct": 66.7129,
-    "breakeven_rate_pct": 90.5968,
+    "notional_cny": 1235800.0,
+    "vol_rung_cny": 1120540.0,
+    "margin_rung_cny": 283121.78,
+    "initial_margin_cny": 173012.0,
+    "call_trigger_pct": 66.9192,
+    "breakeven_rate_pct": 90.6732,
     "worst_intraday_pct": -8.91,
     "worst_intraday_date": "2018-06-19",
     "gate": "VOL_RULER"
    },
    "IM": {
-    "notional_cny": 1197480.0,
-    "vol_rung_cny": 1148694.12,
-    "margin_rung_cny": 280827.02,
-    "initial_margin_cny": 167647.2,
-    "call_trigger_pct": 69.5087,
-    "breakeven_rate_pct": 95.926,
+    "notional_cny": 1175360.0,
+    "vol_rung_cny": 1146316.88,
+    "margin_rung_cny": 275639.55,
+    "initial_margin_cny": 164550.4,
+    "call_trigger_pct": 71.0803,
+    "breakeven_rate_pct": 97.529,
     "worst_intraday_pct": -9.4515,
     "worst_intraday_date": "2024-02-05",
     "gate": "VOL_RULER"
@@ -1541,8 +1541,8 @@
    14.000000000000002,
    15.0
   ],
-  "evidence_cutoff": "2026-11-18",
-  "source_generated": "2026-11-19T20:35:54+0800"
+  "evidence_cutoff": "2026-11-19",
+  "source_generated": "2026-11-19T22:33:06+0800"
  },
  "carry_roll_cost": {
   "present": true,
