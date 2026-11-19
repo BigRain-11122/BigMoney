@@ -120,7 +120,14 @@ LEGS = [
     ("update_lhb", ["python", "scripts/update_lhb.py"]),
     ("update_zt_pool", ["python", "scripts/update_zt_pool.py"]),
     ("update_heat", ["python", "scripts/update_heat.py"]),
-    ("update_futures", ["python", "scripts/update_futures.py"]),
+    # r1850: this lane is bm-a's (R31), and bm-a's heartbeat had been silent 25.6h --
+    # so on this machine the leg printed its honest no-op every round while the
+    # main-continuous panel fell to 11-18 (IC/TF 11-17) and the whole carry book priced
+    # a day the market had already moved past. The standing --takeover consent r1276
+    # established is the same shape the two bm-b panels carry below: the flag is only
+    # half the gate, update_futures still refuses unless the owner heartbeat is stale
+    # by >= TAKEOVER_STALE_MIN, so a live bm-a keeps ownership.
+    ("update_futures", ["python", "scripts/update_futures.py", "--takeover"]),
     # r1689: the basis face was measured by hand on 11-14 (idx_fut_basis.json) and its
     # timing test was written the night after -- and neither had a leg, so the two faces
     # a reader could open were frozen at the hour someone typed them. Writer before
@@ -1267,7 +1274,14 @@ LEGS = [
     # cheap identity re-check: the zero-floor arm must reproduce the adopted book's verdict
     # and top-2 share, and the face must not disagree with itself. rc3 = drifted, re-run the
     # face (which is the adoption-path measurement and stays off-chain by design).
-    ("scale_floor", ["python", "scripts/etf_book_scale_floor.py", "check"]),
+    # r1850: the refresh is declared here now instead of being left to a human. The leg was
+    # check-only, and its drift message never said STALE, so the chain's own repair rule
+    # (pay the refresh only when the probe names itself stale) could never fire -- the face
+    # sat at 2026-11-18 while the gate walked to 11-19 and the smoke leg that pins floor=0
+    # against the adopted book went red instead. The probe now names its drift as stale and
+    # the writer below is the ~1min panel build it was always asking a human to run.
+    ("scale_floor", ["python", "scripts/etf_book_scale_floor.py", "check"],
+     ["python", "scripts/etf_book_scale_floor.py"]),
     # r1456: every 11-11 face treats the trim as the end of the story, but k_schedule
     # re-derives k every 20 bars and carries no memory of it. This leg re-derives the
     # published lifetime face from the same panel (control arm first: the schedule's last

@@ -2,7 +2,7 @@
  "schema": "ceo_live_usage_v1_9",
  "ticket": "T-202609-28-105",
  "day": "2026-11-19",
- "generated": "2026-11-19T19:38:42",
+ "generated": "2026-11-19T21:34:51",
  "market": {
   "state": "RED",
   "asof": "2026-11-19",
@@ -404,7 +404,7 @@
     "latest_close": 2.883,
     "prev_session_close": 2.883,
     "day_change_pct": 0.0,
-    "age_min": 278.7
+    "age_min": 394.9
    },
    {
     "symbol": "511010",
@@ -498,7 +498,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 62536.9
+    "last_append_age_min": 62653.1
    },
    {
     "family": "FUND-VALUE-P1",
@@ -506,7 +506,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 63381.4
+    "last_append_age_min": 63497.5
    },
    {
     "family": "FUND-DIVLOWVOL-P1",
@@ -514,7 +514,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 60174.7
+    "last_append_age_min": 60290.9
    }
   ]
  },
@@ -602,7 +602,7 @@
   "file": "TICKET-2026-11-19.json",
   "bar": "2026-11-19",
   "decision_bar": "2026-11-19",
-  "generated": "2026-11-19T19:32:05+08:00",
+  "generated": "2026-11-19T21:05:00+08:00",
   "rows": [
    {
     "symbol": "510760",
@@ -992,23 +992,23 @@
  },
  "etf_capacity": {
   "present": true,
-  "session": "2026-11-17",
-  "evidence_cutoff": "2026-11-17",
-  "verdict": "BELOW_LINE_EVERY_SESSION",
+  "session": "2026-11-19",
+  "evidence_cutoff": "2026-11-19",
+  "verdict": "BELOW_LINE_MOST_SESSIONS",
   "line_pct": 1.0,
   "lens_cny": 1000000.0,
   "lens_tag": "1M",
   "per_name_cny": 200000.0,
-  "reading_today_pct": 1.0087,
+  "reading_today_pct": 0.997,
   "binding_today": "159549",
   "n_sessions": 60,
-  "n_passes": 0,
+  "n_passes": 1,
   "n_unmeasurable": 0,
-  "capital_at_line_cny": 991420.84,
+  "capital_at_line_cny": 1003004.42,
   "capital_median_cny": 496475.93,
   "capital_min_cny": 340837.76,
-  "gap_to_lens_cny": 8579.16,
-  "sentence": "同一笔单子（1,000,000 元、5 个名字等权），最近 60 个交易日里有 0 天过线、60 天不过线。今天这一行是 1.0087%（最弱的是 159549），闸线 1.00%；把这把尺子倒过来读，在今天的成交额上能过的资本上限是 991,421 元，离 1,000,000 元差 8,579 元。今天还是这段窗里最好的一天（读数最低），所以这个 DENY 不是当天的运气。按这段窗的中位算，上限是 496,476 元；按最差的一天算，只有 340,838 元——「装不下 100 万」这句要换成「平常装得下多少」。",
+  "gap_to_lens_cny": -3004.42,
+  "sentence": "同一笔单子（1,000,000 元、5 个名字等权），最近 60 个交易日里有 1 天过线、59 天不过线。今天这一行是 0.9970%（最弱的是 159549），闸线 1.00%；把这把尺子倒过来读，在今天的成交额上能过的资本上限是 1,003,004 元，离 1,000,000 元差 -3,004 元。今天还是这段窗里最好的一天（读数最低），所以这个 DENY 不是当天的运气。按这段窗的中位算，上限是 496,476 元；按最差的一天算，只有 340,838 元——「装不下 100 万」这句要换成「平常装得下多少」。",
   "caveats": [
    "这笔单子固定成今天的选票、等权：量的是尺子的余量，不是「重新选票后那些天会填成什么样」",
    "成交额用的是闸自己的口径（收盘价×成交量、中位再取中位），不是成交明细：它是估计值而且是阶梯状的，所以读数一格一格跳",
@@ -1407,11 +1407,11 @@
     "executable_lots": 0,
     "executable_state": "WITHDRAWN",
     "withdrawn_lots": 4,
-    "first_rung_cny": 1122782.5,
-    "gap_cny": 122782.5,
-    "gap_pct": 12.2782,
+    "first_rung_cny": 1122458.5,
+    "gap_cny": 122458.5,
+    "gap_pct": 12.2458,
     "desk_lots": 4,
-    "desk_multiple": 4.4911,
+    "desk_multiple": 4.4898,
     "paper_lots": 4,
     "paper_label": "FUNDED_BY_A_LARGER_CAPITAL"
    },
@@ -1423,11 +1423,11 @@
     "executable_lots": 0,
     "executable_state": "WITHDRAWN",
     "withdrawn_lots": 4,
-    "first_rung_cny": 1150230.38,
-    "gap_cny": 150230.38,
-    "gap_pct": 15.023,
+    "first_rung_cny": 1148694.12,
+    "gap_cny": 148694.12,
+    "gap_pct": 14.8694,
     "desk_lots": 4,
-    "desk_multiple": 4.6009,
+    "desk_multiple": 4.5948,
     "paper_lots": 4,
     "paper_label": "FUNDED_BY_A_LARGER_CAPITAL"
    }
@@ -1436,16 +1436,16 @@
   "executable_lots_total": 0,
   "withdrawn_lots_total": 8,
   "paper_lots_total": 8,
-  "funding_all_cny": 2273012.88,
+  "funding_all_cny": 2271152.62,
   "cheapest_product": "IC",
-  "cheapest_cny": 1122782.5,
+  "cheapest_cny": 1122458.5,
   "decision": "WITHDRAW_FROM_TICKET",
   "decided": "2026-11-17",
   "decided_in": "bm-c round 1780",
   "scope": "the executable ticket only. The forward paper series is an append-only evidence line: it is re-labelled FUNDED_BY_A_LARGER_CAPITAL, never rewritten, truncated or deleted",
   "reversal": "fund the account to the first rung and re-run: the same rule hands the ticket back one lot and this file prints it -- the withdrawal is conditional on capital, not a judgement about the sleeve",
-  "sentence": "To open this book at all needs 1,122,782 CNY of capital (IC account). IC is 122,782 CNY short of its first lot (capital 1,000,000, gap 12.28%). IM is 150,230 CNY short of its first lot (capital 1,000,000, gap 15.02%). IC: the desk's 4 lot(s) are withdrawn from the ticket and the executable line is 0; IM: the desk's 4 lot(s) are withdrawn from the ticket and the executable line is 0. The forward paper series that ran on 8 lot(s) across the accounts is kept and labelled FUNDED_BY_A_LARGER_CAPITAL: it is what a larger account would have done, not what this one can. It comes back the moment the capital does.",
-  "source_generated": "2026-11-19T16:10:55+08:00",
+  "sentence": "To open this book at all needs 1,122,458 CNY of capital (IC account). IC is 122,458 CNY short of its first lot (capital 1,000,000, gap 12.25%). IM is 148,694 CNY short of its first lot (capital 1,000,000, gap 14.87%). IC: the desk's 4 lot(s) are withdrawn from the ticket and the executable line is 0; IM: the desk's 4 lot(s) are withdrawn from the ticket and the executable line is 0. The forward paper series that ran on 8 lot(s) across the accounts is kept and labelled FUNDED_BY_A_LARGER_CAPITAL: it is what a larger account would have done, not what this one can. It comes back the moment the capital does.",
+  "source_generated": "2026-11-19T20:35:54+08:00",
   "evidence_cutoff": "2026-11-18",
   "source_face": "results/idx_fut_carry_sizing_spec.json",
   "ladder_face": "results/idx_fut_carry_capital_ladder.json"
@@ -1498,38 +1498,38 @@
   "present": true,
   "path": "results/idx_fut_carry_margin.json",
   "verdict": "VOL_RULER_IS_THE_GATE",
-  "sentence": "保证金不是门槛：保证金臂要追平波动臂首档，需要初始保证金率到 90.6%、96.1%（IC/IM 各自的临界值），而现实中券商收 12-15%。所以开仓资金线仍由 8% 波动尺决定；保证金只吃掉其中一部分现金，不改变 1 手首档。反过来说——若改用保证金口径，账户能开的杠杆是波动预算的若干倍，风险会失控，这正是不能拿保证金当尺子的原因。",
+  "sentence": "保证金不是门槛：保证金臂要追平波动臂首档，需要初始保证金率到 90.6%、95.9%（IC/IM 各自的临界值），而现实中券商收 12-15%。所以开仓资金线仍由 8% 波动尺决定；保证金只吃掉其中一部分现金，不改变 1 手首档。反过来说——若改用保证金口径，账户能开的杠杆是波动预算的若干倍，风险会失控，这正是不能拿保证金当尺子的原因。",
   "gates": {
    "IC": "VOL_RULER",
    "IM": "VOL_RULER"
   },
   "breakeven_rate_pct": {
-   "IC": 90.623,
-   "IM": 96.0542
+   "IC": 90.5968,
+   "IM": 95.926
   },
   "ruler_gap": {
-   "IC": 3.956,
-   "IM": 4.096
+   "IC": 3.954,
+   "IM": 4.09
   },
   "accounts": {
    "IC": {
     "notional_cny": 1238960.0,
-    "vol_rung_cny": 1122782.5,
+    "vol_rung_cny": 1122458.5,
     "margin_rung_cny": 283845.74,
     "initial_margin_cny": 173454.4,
     "call_trigger_pct": 66.7129,
-    "breakeven_rate_pct": 90.623,
+    "breakeven_rate_pct": 90.5968,
     "worst_intraday_pct": -8.91,
     "worst_intraday_date": "2018-06-19",
     "gate": "VOL_RULER"
    },
    "IM": {
     "notional_cny": 1197480.0,
-    "vol_rung_cny": 1150230.38,
+    "vol_rung_cny": 1148694.12,
     "margin_rung_cny": 280827.02,
     "initial_margin_cny": 167647.2,
     "call_trigger_pct": 69.5087,
-    "breakeven_rate_pct": 96.0542,
+    "breakeven_rate_pct": 95.926,
     "worst_intraday_pct": -9.4515,
     "worst_intraday_date": "2024-02-05",
     "gate": "VOL_RULER"
@@ -1542,7 +1542,7 @@
    15.0
   ],
   "evidence_cutoff": "2026-11-18",
-  "source_generated": "2026-11-19T16:10:55+0800"
+  "source_generated": "2026-11-19T20:35:54+0800"
  },
  "carry_roll_cost": {
   "present": true,
@@ -1586,7 +1586,7 @@
    }
   },
   "evidence_cutoff": "2026-11-19",
-  "source_generated": "2026-11-19T19:32:14"
+  "source_generated": "2026-11-19T20:35:12"
  },
  "carry_marks": {
   "present": true,

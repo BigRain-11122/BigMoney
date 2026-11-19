@@ -1,7 +1,7 @@
 {
  "evidence_cutoff": "2026-11-19",
  "beta_target": 0.2,
- "generated": "2026-11-19T19:32:05+08:00",
+ "generated": "2026-11-19T21:05:00+08:00",
  "permission": {
   "status": "within_permission",
   "k_now": 0.432195,
@@ -515,14 +515,14 @@
     "pct": 1.7716,
     "annual_cny": 10065.0,
     "source": "etf_book_idle_cash.json",
-    "asof": "2026-11-19T16:10:40",
-    "book_cagr_without_pct": 11.41,
-    "book_cagr_with_pct": 11.99,
+    "asof": "2026-11-19T19:43:26",
+    "book_cagr_without_pct": 11.38,
+    "book_cagr_with_pct": 11.96,
     "basis": "as_coded",
     "declared": {
-     "cagr_without_pct": 9.17,
-     "cagr_with_pct": 9.75,
-     "sharpe_with": 0.931,
+     "cagr_without_pct": 9.14,
+     "cagr_with_pct": 9.72,
+     "sharpe_with": 0.928,
      "maxdd_with_pct": -11.98,
      "lag": 1,
      "convention": "lag +1: score(bar d-1) selects, the book earns open[d] -> open[d+1] -- the execution the card's config.execution string claims (decide at the close of bar d, fill at the open of bar d+1)"
@@ -540,7 +540,7 @@
      "2026": 1.064
     },
     "per_year_src": "etf_book_cash_vehicle.json",
-    "evidence_cutoff": "2026-11-18"
+    "evidence_cutoff": "2026-11-19"
    },
    "rolls_per_year": 243,
    "fee_bp_per_roll": 0.1,
@@ -588,7 +588,7 @@
   "withdrawn_now": [],
   "withdrawal_note": "ledger withdrew 1 bar(s) at 2026-11-09 23:54:02 because the price panel then ended 2026-11-06 (2026-11-09); the panel has since carried 2026-11-09 again and that ledger row is live -- the withdrawal stays on record but it is not this sheet's pricing bar",
   "reinstatements": {
-   "at": "2026-11-19 19:32:04",
+   "at": "2026-11-19 21:05:00",
    "n_reinstated": 1,
    "rewritten": [],
    "verbatim_identical": [
@@ -1608,7 +1608,7 @@
  },
  "next_decision": {
   "artifact": "etf_book_next_decision",
-  "generated": "2026-11-19T19:32:05",
+  "generated": "2026-11-19T21:05:00",
   "evidence_cutoff": "2026-11-19",
   "calendar_source": "data/exchange_calendar.csv",
   "calendar_last": "2026-12-31",
@@ -1755,7 +1755,7 @@
  },
  "swap_freshness": {
   "artifact": "etf_book_swap_freshness",
-  "generated": "2026-11-19T19:32:05",
+  "generated": "2026-11-19T21:05:00",
   "evidence_cutoff": "2026-11-19",
   "calendar_source": "data/exchange_calendar.csv",
   "close_accept_time": "15:30",
@@ -1981,15 +1981,15 @@
    "vol": 0.0885
   },
   "width_effect": {
-   "beta": {
-    "ticket_width_cagr": 0.1073,
-    "card_width_cagr": 0.0942,
-    "pp": -1.31
-   },
    "vol": {
     "ticket_width_cagr": 0.1132,
     "card_width_cagr": 0.1182,
     "pp": 0.5
+   },
+   "beta": {
+    "ticket_width_cagr": 0.1073,
+    "card_width_cagr": 0.0942,
+    "pp": -1.31
    }
   },
   "rules_differ": true,
@@ -2399,13 +2399,13 @@
   "floor_extrapolation": {
    "artifact": "results/etf_book_buffer_floor_readback.json",
    "present": true,
-   "detail": "the fit says +0.316pp at k=0.30 (slope +1.193, intercept -0.042); the harvested arm's own 12 cells say +0.407pp (median); gap +0.092pp against tolerance 0.139pp = 3.0x the fit's largest in-sample residual (0.046pp, floored at 0.05); cell spread of the same arm: -0.615 .. +1.560pp (12 cells), i.e. the median is not the book; the line predicts a point it never saw, on the widest gap it spans -- the ",
+   "detail": "the fit says +0.327pp at k=0.30 (slope +0.858, intercept +0.070); the harvested arm's own 12 cells say +0.407pp (median); gap +0.080pp against tolerance 0.976pp = 3.0x the fit's largest in-sample residual (0.325pp, floored at 0.05); cell spread of the same arm: -0.615 .. +1.560pp (12 cells), i.e. the median is not the book; the line predicts a point it never saw, on the widest gap it spans -- the ",
    "verdict": "HOLDS",
    "buffer_k": 0.3,
-   "predicted_pp": 0.316,
+   "predicted_pp": 0.327,
    "observed_pp": 0.407,
-   "gap_pp": 0.092,
-   "tolerance_pp": 0.139,
+   "gap_pp": 0.08,
+   "tolerance_pp": 0.976,
    "evidence_cutoff": "2026-10-29"
   }
  },
@@ -2422,7 +2422,7 @@
  },
  "carry_split": {
   "artifact": "results/etf_book_return_regime.json",
-  "artifact_sha16": "1faac73651fb94e9",
+  "artifact_sha16": "d2e439d40ac69fc8",
   "evidence_cutoff": "2026-11-19",
   "beta": 0.2,
   "beta_requested": 0.2,
@@ -2437,7 +2437,7 @@
   "rate_today_pct": 1.175,
   "rate_today_date": "2026-11-17",
   "rate_observed_pct": 1.9757,
-  "identity_matched": null
+  "identity_matched": true
  },
  "restatements": {
   "path": "K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\etf_book_forward\\LEDGER.json",
@@ -2518,10 +2518,10 @@
   "status": "ok",
   "verdict": "TWOISH_BETS",
   "sentence": "5 tickers (widest 20.0%) span 2.2 independent directions, not 5 (median pairwise correlation 0.55); the variance is still split fairly evenly across 5.0 equivalent names (5.0 under inverse-volatility weights), and the widest single name 159519 carries 21% of it",
-  "effective_bets": 2.204971989928456,
-  "risk_split": 4.994071682014393,
+  "effective_bets": 2.204098894241983,
+  "risk_split": 4.994310977854821,
   "nominal_bets": 4.999999999999999,
-  "evidence_cutoff": "2026-11-18"
+  "evidence_cutoff": "2026-11-19"
  },
  "concentration": {
   "status": "ok",
@@ -2534,7 +2534,7 @@
   "ticket prices are closes; no impact cost, no limit-move guard",
   "GC001 single tenor, rolling assumed cost-free",
   "k revised every 20 bars so delivered beta still wanders",
-  "5 tickers (widest 20.0%) span 2.2 independent directions, not 5 (median pairwise correlation 0.55); the variance is still split fairly evenly across 5.0 equivalent names (5.0 under inverse-volatility weights), and the widest single name 159519 carries 21% of it (measured on the 2026-11-18 bar)",
+  "5 tickers (widest 20.0%) span 2.2 independent directions, not 5 (median pairwise correlation 0.55); the variance is still split fairly evenly across 5.0 equivalent names (5.0 under inverse-volatility weights), and the widest single name 159519 carries 21% of it",
   "前三名只占毛收益 22.2%（第一 黄金ETF易方达 7.6%）；删掉这三只年化 -1.97pp；删掉整条 commodity 袖（41 只）年化 -3.67pp、回撤 -10.5pp（判 BROAD|SURVIVES_WITHOUT_TOP3）",
   "exploratory: no preregistration, no verdict, no ledger booking",
   "sizing base: the rule's k=0.460253 -- the executed account for 2026-11-19 is this sheet's own outcome (k=0.431880), so it cannot size it",

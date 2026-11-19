@@ -2605,9 +2605,14 @@ def render_md(p: dict) -> str:
             _psep = all(_prow[k].get("separable") for k in _picks
                         if _prow[k].get("separable") is not None)
             if _pbits:
-                L.append("  - **今天做，还是分开几天做**（同一张单自己的时点价·"
-                         "把延迟拆成 k 根 bar 的价差）：{}；今天做的成本记 0。".format(
-                             "、".join(_pbits)))
+                # r1849: this block said 「今天做」 about a ladder measured on the ticket's own
+                # bar. The day-word audit can only report a bare today-word as a day nobody can
+                # read, so the sentence now names the bar it prices (the branch above already
+                # proved the punctuality face and the ticket share that bar).
+                _pbar = str(eo.get("bar"))[:10]
+                L.append("  - **在 {} 这一档做，还是分开几天做**（同一张单自己的时点价·"
+                         "把延迟拆成 k 根 bar 的价差）：{}；这一档做的成本记 0。".format(
+                             _pbar, "、".join(_pbits)))
                 if _pt:
                     L.append("    - 这三档都以均值读，而且都能与 0 分开（t {}）"
                              "——「等一等再买」在这本书上有价，不是免费的选择{}。".format(
@@ -2618,9 +2623,10 @@ def render_md(p: dict) -> str:
             _verdict = _pw.get("verdict")
             if _verdict == "NOTHING_OWED_TODAY":
                 L.append("    - 这不是催单：时点面自己的判词是 **NOTHING_OWED_TODAY**"
-                         "（票面按它自己的许可下单·命令欠 0）——这张单是把账面拉到今天"
-                         "的票面，不是一次到期的调度决策；所以「今天做」不欠你什么，"
-                         "贵的是「拖几天做」。")
+                         "（票面按它自己的许可下单·命令欠 0）——这张单是把账面拉到 "
+                         "{} 的票面，不是一次到期的调度决策；所以在 {} 这一档做"
+                         "不欠你什么，贵的是「拖几天做」。".format(
+                             str(eo.get("bar"))[:10], str(eo.get("bar"))[:10]))
             elif _verdict:
                 L.append("    - 时点面自己的判词：**{}**（照抄，不改写）。".format(_verdict))
             _one = _pw.get("one_open_late") or {}
@@ -2893,8 +2899,17 @@ def render_md(p: dict) -> str:
         _yrs = _pm.get("years_of_backtest_return_paid")
         _cagr = _pm.get("book_cagr_pct")
         if _yrs is not None and _cagr is not None:
-            _tail = ("；而且今天 {} 正站在它自己一年里最贵的那一头".format(
-                "、".join(sorted(_own))) if _own else "")
+            # r1849: this line used to say 「今天」 about the premium face's own session, so the
+            # day-word audit could only report PRINTED_BUT_UNANCHORED -- one line on the page
+            # named a day nobody could read. The date is the session the premium numbers were
+            # priced on; a sentence quoting a number names the bar that number came from. When
+            # the face carries no session the sentence drops the day word instead of assuming
+            # today (a missing date is a debt the audit can name, not a fact to invent).
+            _sess = str(_pm.get("ticket_session") or p.get("day") or "")[:10]
+            _tail = ("；而且在 {} 这一档，{} 正站在它自己一年里最贵的那一头".format(
+                _sess, "、".join(sorted(_own))) if (_own and _sess) else
+                ("；而且 {} 正站在它自己一年里最贵的那一头".format(
+                    "、".join(sorted(_own))) if _own else ""))
             L.append(
                 "    - 白话：¥{} 约等于这本书 {}% 年化产出的 **{} 年**。"
                 "溢价不是手续费——赎回/套利恢复正常时它会吐回去，所以它是"
@@ -3925,7 +3940,11 @@ def selftest() -> int:
             if _pw1.get("present") and _pw1.get("rows"):
                 _k1 = next((r for r in _pw1["rows"] if r.get("k") == 1), {})
                 check("the page prices doing it today vs waiting a bar (r1828)",
-                      "今天做，还是分开几天做" in md1
+                      "这一档做，还是分开几天做" in md1
+                      and "今天做，还是分开几天做" not in md1
+                      and "在 {} 这一档做".format(
+                          str((p1.get("etf_punctuality") or {}).get("evidence_cutoff")
+                              or "")[:10]) in md1
                       and _k1.get("cost_cny") is not None
                       and _fmt_cny(abs(_k1["cost_cny"])) in md1
                       and str(_pw1.get("verdict") or "?") in md1)

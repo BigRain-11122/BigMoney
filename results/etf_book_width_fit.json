@@ -1,20 +1,20 @@
 {
  "kind": "etf_book_width_fit",
  "script": "scripts/etf_book_width_fit.py",
- "generated": "2026-11-18T15:32:18",
- "evidence_cutoff": "2026-11-17",
+ "generated": "2026-11-19T19:21:35",
+ "evidence_cutoff": "2026-11-19",
  "decision_bar": "2026-11-11",
  "amount_window_end": "2026-11-11",
  "amount_window_bars": 20,
- "panel_last_bar": "2026-11-17",
+ "panel_last_bar": "2026-11-19",
  "bar_source": "ticket_decision_bar",
  "gate_face": "results/etf_book_year_gate/YEAR-GATE.json",
  "gate_reads": {
-  "verdict": "DENY",
+  "verdict": "ADMIT",
   "lens": "1M",
   "capital_cny": 1000000.0,
   "per_name_cny": 200000.0,
-  "impact_pct_of_adv": 1.0087,
+  "impact_pct_of_adv": 0.997,
   "line_pct": 1.0,
   "evidence_cutoff": null
  },
@@ -22,15 +22,15 @@
   "159207",
   "562060",
   "159549",
-  "513800",
-  "513690"
+  "515650",
+  "560570"
  ],
  "ticket": {
-  "path": "results/etf_book_order/TICKET-2026-11-17.json",
+  "path": "results/etf_book_order/TICKET-2026-11-19.json",
   "asof": null,
   "decision_bar": "2026-11-11",
   "amount_window_end": "2026-11-11",
-  "panel_last_bar": "2026-11-17",
+  "panel_last_bar": "2026-11-19",
   "nav_cny": 1000000.0,
   "widths": [
    5,
@@ -42,7 +42,7 @@
   ]
  },
  "ticket_agreement": {
-  "ticket_face": "results/etf_book_order/TICKET-2026-11-17.json",
+  "ticket_face": "results/etf_book_order/TICKET-2026-11-19.json",
   "decision_bar": "2026-11-11",
   "checks": [
    {
@@ -105,24 +105,22 @@
    "159207",
    "562060",
    "159549",
-   "513800",
-   "513690"
+   "515650",
+   "560570"
   ],
-  "shared_names": [
-   "513690"
-  ],
-  "shared_n": 1,
-  "note": "准入闸的容量读数在它自己的排名上算（5 只），本表在票面决策日排名上算（5 只），两边共同名字 1 只：两个数回答的是两个问题，不得相加，也不得把闸的读数当成「本书装不装得下」。",
+  "shared_names": [],
+  "shared_n": 0,
+  "note": "准入闸的容量读数在它自己的排名上算（5 只），本表在票面决策日排名上算（5 只），两边共同名字 0 只：两个数回答的是两个问题，不得相加，也不得把闸的读数当成「本书装不装得下」。",
   "same_rule_on_this_book": {
    "rule": "per-name impact <= 1.00% of that name's ADV",
-   "gate_verdict": "DENY",
-   "gate_impact_pct_of_adv": 1.0087,
+   "gate_verdict": "ADMIT",
+   "gate_impact_pct_of_adv": 0.997,
    "book_width": 5,
    "book_impact_pct_of_adv": 1.0649,
    "book_fits": false,
-   "gate_fits": false,
-   "status": "SAME_VERDICT",
-   "sentence": "同一条规矩（单名冲击 ≤ 1.00% ADV）分别读两本书：闸的 5 只 1.0087% → 不过线，本册的 5 只 1.0649% → 不过线 —— **结论相同**。所以那 1/5 的重合差不改今天的判断：闸拒的和本册被拒的是同一件事（每名买太多），要改的是宽度或单子大小，不是名册。"
+   "gate_fits": true,
+   "status": "VERDICTS_DIVERGE",
+   "sentence": "同一条规矩读两本书给出相反结论：闸的 0.9970% → 过线，本册的 5 只 1.0649% → 不过线。这不是可以折中的分歧 —— 两本书各自的名册不同，读者必须知道闸拒的到底是哪一本。"
   }
  },
  "live_picks": [
@@ -386,6 +384,6 @@
   "ADV is the gate's own reading: median of the slot's last 20 values of `close x volume` (itself a rolling 20-bar median), so both steps are causal.",
   "The binding slot is the worst ADV among the n names, never their sum: an equal-weight book must fill its worst name.",
   "A name whose ADV cannot be read makes that width's weakest-slot reading incomplete, and it is listed rather than silently dropped.",
-  "The ranking bar and the turnover window both end on the TICKET's decision bar (2026-11-11); the panel runs to 2026-11-17. Numbers from the two bars are not interchangeable."
+  "The ranking bar and the turnover window both end on the TICKET's decision bar (2026-11-11); the panel runs to 2026-11-19. Numbers from the two bars are not interchangeable."
  ]
 }

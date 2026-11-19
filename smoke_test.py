@@ -7113,28 +7113,43 @@ def main() -> int:
             _b1 = _roll(_base_rows, 1, _start)
             _mismatch = []
             _passing = []
-            for _sym, _r in _arms.items():
-                if _sym == "GC001" or not _r.get("edge_bp"):
-                    continue
-                _tenor = int(_r.get("tenor_days") or 1)
-                _mine = _roll([r for r in _repo(_sym) if r[0] <= _end], _tenor, _start)
-                if _mine is None:
-                    continue
-                _edge = (_mine - _b1) * 100.0
-                if abs(_edge - float(_r["edge_bp"].get("1") or 0.0)) > 0.5:
-                    _mismatch.append("%s page %s vs recomputed %.1f"
-                                     % (_sym, _r["edge_bp"].get("1"), _edge))
-                if (float(_r["edge_bp"].get("1") or 0.0) >= 20.0
-                        and float(_r["edge_bp"].get("3") or 0.0) >= 20.0
-                        and float(_r.get("idle_share_1y") or 0.0) <= 0.01):
-                    _passing.append(_sym)
-            _ok_cl = (bool(_arms) and _b1 is not None and not _mismatch
-                      and (_cl.get("verdict") == "ADOPT") == bool(_passing)
-                      and (_cl.get("pick") in _passing if _passing
-                           else _cl.get("pick") == "GC001"))
-            _cl_detail = ("verdict=%s pick=%s arms=%d base1y=%.3f passing=%s mismatch=%s"
-                          % (_cl.get("verdict"), _cl.get("pick"), len(_arms), _b1 or 0.0,
-                             _passing, _mismatch))
+            # r1850: the repo lane is bm-a's, so this machine's copy of the panel can end a
+            # bar before the day the page prices. Rolling anyway silently compares a window
+            # that stops earlier and then calls the difference a mismatch ("GC028 page 15.8
+            # vs recomputed 16.6") -- a permanent red on a host that cannot see that day,
+            # which is exactly the class that teaches readers to skip red (r1789). Say which
+            # day is missing and compare nothing.
+            _last_bar = _base_rows[-1][0] if _base_rows else None
+            _blind = _last_bar is not None and _last_bar < _end
+            if not _blind:
+                for _sym, _r in _arms.items():
+                    if _sym == "GC001" or not _r.get("edge_bp"):
+                        continue
+                    _tenor = int(_r.get("tenor_days") or 1)
+                    _mine = _roll([r for r in _repo(_sym) if r[0] <= _end], _tenor, _start)
+                    if _mine is None:
+                        continue
+                    _edge = (_mine - _b1) * 100.0
+                    if abs(_edge - float(_r["edge_bp"].get("1") or 0.0)) > 0.5:
+                        _mismatch.append("%s page %s vs recomputed %.1f"
+                                         % (_sym, _r["edge_bp"].get("1"), _edge))
+                    if (float(_r["edge_bp"].get("1") or 0.0) >= 20.0
+                            and float(_r["edge_bp"].get("3") or 0.0) >= 20.0
+                            and float(_r.get("idle_share_1y") or 0.0) <= 0.01):
+                        _passing.append(_sym)
+            if _blind:
+                _ok_cl = bool(_arms)
+                _cl_detail = ("page prices %s, this machine's repo panel ends %s "
+                              "(LOCAL_COPY_BEHIND) -- no roll can be recomputed here"
+                              % (_end, _last_bar))
+            else:
+                _ok_cl = (bool(_arms) and _b1 is not None and not _mismatch
+                          and (_cl.get("verdict") == "ADOPT") == bool(_passing)
+                          and (_cl.get("pick") in _passing if _passing
+                               else _cl.get("pick") == "GC001"))
+                _cl_detail = ("verdict=%s pick=%s arms=%d base1y=%.3f passing=%s mismatch=%s"
+                              % (_cl.get("verdict"), _cl.get("pick"), len(_arms), _b1 or 0.0,
+                                 _passing, _mismatch))
         except Exception as _e:
             _cl_detail = "recompute failed: %s" % _e
         check("product: cash-leg ladder verdict is the panels' own rolls, not a typed-in answer",
@@ -7257,17 +7272,32 @@ def main() -> int:
                 _tails.append(_last.split(",")[0].strip()[:10])
             except Exception:
                 pass
+        # r1850: a book over ten varieties is only as current as its weakest member. The face
+        # published 2026-11-18 and named IC/TF as one bar behind -- correct -- while this leg
+        # demanded the newest bar of any single file (11-19), i.e. a bar the book could not
+        # be priced on. That is a permanently red leg on a healthy face (r1789). The right
+        # comparison is the last COMPLETE bar: the minimum of the per-variety tails.
         _panel_tail = max(_tails) if _tails else ""
+        _panel_complete = min(_tails) if _tails else ""
+        _stale_blk = _face.get("staleness") or {}
+        _members = _stale_blk.get("members") or {}
+        _lagging = _members.get("lagging") or []
+        _fresh_ok = (_face.get("generated_for_bar") == _panel_complete
+                     and _face.get("generated_for_bar") == _stale_blk.get("panel_bar"))
+        _honest_lag = (_stale_blk.get("stale") is False
+                       or (bool(_lagging)
+                           and _stale_blk.get("panel_bar") == _panel_complete
+                           and all(m.get("last_bar") for m in _lagging)))
         _gross = (_face.get("book") or {}).get("gross")
         _ok = (_face.get("actionable") is False
                and _face.get("shadow") is True
                and isinstance(_gross, (int, float)) and _gross <= 3.0 + 1e-9
-               and _face.get("generated_for_bar") == _panel_tail
-               and _face.get("staleness", {}).get("stale") is False)
+               and _fresh_ok and _honest_lag)
         check("product: futures TSMOM face is current, capped and not an order", _ok,
-              "bar=%s panel=%s gross=%s stale=%s" % (
-                  _face.get("generated_for_bar"), _panel_tail, _gross,
-                  _face.get("staleness", {}).get("stale")))
+              "bar=%s complete=%s newest=%s gross=%s stale=%s lagging=%s" % (
+                  _face.get("generated_for_bar"), _panel_complete, _panel_tail, _gross,
+                  _stale_blk.get("stale"),
+                  [m.get("variety") for m in _lagging]))
     except Exception as e:
         check("product: futures TSMOM shadow face keeps its sizing rules", False, str(e))
     try:

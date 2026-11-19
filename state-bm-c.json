@@ -1254,7 +1254,7 @@
   "watermark": "green: board/pool both empty (pool_ready_count=0, fleet_open_tasks=0), no claimable batch on this host; py_watermark insufficient_history (window n=1, local_batch=1 = this round own suite)"
  },
  "round_label": "r1813",
- "round_no": 1851,
+ "round_no": 1852,
  "round_no_label": "r1821",
  "round_no_landed": 1663,
  "round_note": "r1489: a reinstated bar is re-derived from the panel, not carried over (reinstatement_check + reinstatements.json + sheet paragraph)",
@@ -1914,7 +1914,10 @@
  "went_well": "the fix keeps the old states reachable: a card with one unqualified row still takes the position-free path, so no previously published verdict changed meaning",
  "when_well": "the exec panel reused lhb_sellleg verbatim by passing a net-of-cost panel instead of writing a second event study -- the two tables cannot disagree about the quintiles because there is only one implementation",
  "who_did": "bm-c",
- "当前任务": "r1833: 页面上唯一给股票代码的那份推荐名单，终于说出来它已经错过了自己的月首换仓日，而且它在本机算不出来",
+ "当前任务": "r1852: 卡册 NAV identity 的 2026-11-18 突跳查清——账本自己把那根 bar 标成 provisional，卡册只问了面板一半；现在两层都改（账本旗当结算规则另一半 + 容差写出来历），并被扣下的 bar 仍印尺寸",
  "round_r1851_note": "5 red -> 4 green: cash-ladder window pinned to the base bar (GC028 15.8 -> 16.6, KEEP-1D unchanged, clamped_to_base disclosed); harvest_census today-words replaced by the reading itself; TSMOM + flip damper re-verified on the r1850-rebuilt face. Card-track NAV identity still red: deviation jumps 1.5e-09 -> 4.93e-06 on 2026-11-18 only, which a weight-caliber drift cannot do.",
- "round_r1851_next": "(a) card track NAV identity: find which constituent's 2026-11-18 close was re-pulled (ledger land time vs data/daily mtime), then either store a panel fingerprint in the ledger or add a documented panel-rewritten exemption; (b) full smoke suite needs its own window; (c) S6 full chain needs its own window (the r1842 chain has been inflight since 13:38)."
+ "round_r1851_next": "(a) card track NAV identity: find which constituent's 2026-11-18 close was re-pulled (ledger land time vs data/daily mtime), then either store a panel fingerprint in the ledger or add a documented panel-rewritten exemption; (b) full smoke suite needs its own window; (c) S6 full chain needs its own window (the r1842 chain has been inflight since 13:38).",
+ "verify_r1852": "etf_book_card_track selftest 43/43 PASS (new L10/L10b/L10c: a ledger-provisional bar is withheld but its size is printed; a 0.2bp level defect still fails) | run GATE rc=0 AGREE maxdev 1.50e-09 over 4 policed bars, 2026-11-18/19 disclosed as provisional at 4.93e-06/5.98e-06 | step identity exact (0.000bp) on every settled bar; level carries the ledger's own 10-dp rounding + restatement rescale | idx_fut_proxy_noise --check CHECK_OK byte-for-byte | capital_ladder ok:true (IC 1 lot 89,643 CNY/yr) | carry_margin CHECK OK VOL_RULER_IS_THE_GATE | day_delta --check DATA_ADVANCED moved=12984 unexplained=0 | sizing_spec check ok:true | open_capital rc0 (IC first rung 1,120,540) | S6 --only=etf_book_ceo_page rc0 52.6s | pool_dualrun ZERO-DRIFT streak 51 | attrition CLEAN | orphans=0 | full suite: first run 694 legs 5 FAIL (all stale faces + this one), second run still in flight at close",
+ "round_r1852_note": "the bar that jumped was not the ledger's arithmetic: 2026-11-18 carries provisional:true, i.e. the producer already declared it published while the panel was still gaining symbols. The reader had implemented only half the settle rule (panel dates) and skipped the half the producer states about itself.",
+ "round_r1852_next": "(a) let the second full suite finish and confirm failed=[]; (b) S6 full chain needs its own window (only one leg ran this round); (c) give ledger rows a panel fingerprint so 'the panel was rewritten' and 'the ledger is wrong' stop sharing one verdict."
 }

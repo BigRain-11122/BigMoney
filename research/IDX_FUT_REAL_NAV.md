@@ -2,16 +2,16 @@
 
 Every carry number on the basis pages is a daily difference between the continuous series and its index with the splice days deleted -- a model of rolling, not a roll. This page books the roll: hold the contract with the most open interest, move to its successor when another one takes that over by 5.0%, and mark both legs at the same close, so the seam costs nothing by construction rather than by being masked out.
 
-Evidence cutoff: `2026-11-17`  ·  generated 2026-11-18T18:18:36
+Evidence cutoff: `2026-11-19`  ·  generated 2026-11-19T21:32:35
 
 ## The roll book against the published mask
 
 | product | years | rolls/yr | futures %/yr | index %/yr | discount (gross) | discount net @ 1.5bp | published (observed mask) |
 |---|---|---|---|---|---|---|---|
-| IF | 8.02 | 9.22 | 5.96 | 2.47 | **3.565** | **3.427** | 3.604 |
-| IC | 8.02 | 7.85 | 13.72 | 4.74 | **8.753** | **8.635** | 7.242 |
-| IH | 8.02 | 11.09 | 3.35 | 1.08 | **2.402** | **2.235** | 2.395 |
-| IM | 4.29 | 5.37 | 6.37 | -3.3 | **10.209** | **10.129** | 8.812 |
+| IF | 8.03 | 9.21 | 5.98 | 2.49 | **3.559** | **3.421** | 3.604 |
+| IC | 8.03 | 7.84 | 13.67 | 4.67 | **8.776** | **8.658** | 7.242 |
+| IH | 8.03 | 11.08 | 3.35 | 1.1 | **2.383** | **2.217** | 2.395 |
+| IM | 4.3 | 5.35 | 5.75 | -3.87 | **10.213** | **10.132** | 8.812 |
 
 A negative futures column with a positive discount is the normal shape: the contract converges into the index without the index paying a dividend.
 
@@ -21,12 +21,12 @@ Cost is a ladder, not a claim: the floor is the exchange fee (0.46bp) plus one t
 
 | product | breakeven bp/roll | 0.0bp | 1.5bp | 4.0bp | 8.0bp | 15.0bp |
 |---|---|---|---|---|---|---|
-| IF | 6.13 | 3.565 | 3.427 | 3.196 | 2.828 ✗ | 2.182 ✗ |
-| IC | 73.28 | 8.753 | 8.635 | 8.439 | 8.125 | 7.575 |
-| IH | 0.0 | 2.402 ✗ | 2.235 ✗ | 1.958 ✗ | 1.515 ✗ | 0.738 ✗ |
-| IM | 134.37 | 10.209 | 10.129 | 9.994 | 9.78 | 9.404 |
+| IF | 6.07 | 3.559 | 3.421 | 3.191 | 2.823 ✗ | 2.178 ✗ |
+| IC | 73.64 | 8.776 | 8.658 | 8.462 | 8.148 | 7.599 |
+| IH | 0.0 | 2.383 ✗ | 2.217 ✗ | 1.94 ✗ | 1.497 ✗ | 0.721 ✗ |
+| IM | 134.69 | 10.213 | 10.132 | 9.998 | 9.784 | 9.409 |
 
-**No line breaks inside the floor cost band**: the weakest allows 6.13 bp per roll, i.e. roughly 4.1x the commission-plus-tick floor of 1.5 bp. The cost assumption was never what decided these lines -- the mask was.
+**No line breaks inside the floor cost band**: the weakest allows 6.07 bp per roll, i.e. roughly 4.0x the commission-plus-tick floor of 1.5 bp. The cost assumption was never what decided these lines -- the mask was.
 
 ## Admission
 
@@ -50,7 +50,7 @@ The discount is not a constant, and an average over the whole span hides the yea
 | 2023 | 0.201 (242d) | 2.626 (242d) | -0.055 (242d) | 4.402 (242d) |
 | 2024 | 2.478 (242d) | 5.644 (242d) | 1.366 (242d) | 10.164 (242d) |
 | 2025 | 4.004 (243d) | 10.758 (243d) | 1.92 (243d) | 13.59 (243d) |
-| 2026 | 5.973 (210d) | 8.831 (210d) | 3.574 (210d) | 11.632 (210d) |
+| 2026 | 5.898 (212d) | 9.023 (212d) | 3.395 (212d) | 11.63 (212d) |
 
 ## What this does not measure
 

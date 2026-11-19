@@ -396,7 +396,7 @@ def sentence(stab, n_over, total_cny, stable_cny):
             "实测 %d 对——" % (100.0 * (stab["pooled_per_window_rate"] or 0.0), exp,
                               stab["n_held_every_window"]))
     return (
-        "今天这张盘口有 %d 对异名同篮；把同样两道门放到前 %d 个年度窗上重问一遍，"
+        "这张盘口有 %d 对异名同篮；把同样两道门放到前 %d 个年度窗上重问一遍，"
         "每窗只留下（%s），能数到的 %d 对里 %d 对每窗都过（%.1f%%），%d 对被某一窗拒过"
         "（日级 %d 对 / 年级 %d 对），%d 对历史不够没法问——判词 %s。%s"
         "所以这不是「某些对不稳」而是这道年级线落在刀口上。"

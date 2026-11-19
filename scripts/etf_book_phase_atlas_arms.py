@@ -548,6 +548,24 @@ def floor_check():
         return 2
     pub = face(FLOOR_OUT)
     if pub.get("rule") != FLOOR_RULE:
+        # r1842: two different defects share this branch. "The thresholds changed and nobody
+        # republished" is a real inconsistency (rc1, owner = this script). "The rule was amended
+        # (r1815 added the intercept band) and the face CANNOT be republished because three of
+        # its five rungs sit on another panel" is staleness no edit here can fix (rc2, owner =
+        # the engine runs behind those arms). rc1 kept this leg red while naming the wrong
+        # owner, which is the shape that trains readers to ignore a red.
+        _rebuilt = build_floor()
+        if _rebuilt.get("verdict") == "NOT-ASSESSED" and pub.get("k_required") is not None:
+            _missing = sorted(set(BUFFER_ARMS) - set(_rebuilt.get("arms") or {}))
+            _new_keys = sorted(set(FLOOR_RULE) - set(pub.get("rule") or {}))
+            print("floor is stale, not inconsistent: the rule gained %s and this face still "
+                  "answers k=%s on cutoff %s, but a re-derivation reaches only %d rung(s) -- %s "
+                  "missing -- so it cannot be republished until those arms sit on the baseline's "
+                  "panel"
+                  % (", ".join(_new_keys) or "new thresholds", pub.get("k_required"),
+                     pub.get("evidence_cutoff"), len(_rebuilt.get("arms") or {}),
+                     ", ".join(_missing) or "none"))
+            return 2
         print("floor is inconsistent: the published rule is not the rule in this file")
         return 1
     rebuilt = json.loads(json.dumps(build_floor()))
@@ -1790,9 +1808,17 @@ def _selftest():
     # L12-L17 the resolution floor: a size needs the same guards a direction does. Every leg
     # below re-derives from the published medians, then moves ONE thing in a fixture.
     fl = floor_of(p)
-    chk(fl["fit"] is not None and fl["k_required"] is not None,
-        "the floor fits a k from %d buffer arms (k required %r)" % (len(fl["arms"]),
-                                                                   fl["k_required"]))
+    # r1842: when the arms move to another panel this payload can no longer be fitted, and the
+    # legs below used to die on `fl["fit"]["..."]` with a TypeError -- a suite that ran while the
+    # data advanced reported a crash here instead of naming "3 of 5 rungs are on another panel".
+    # A selftest leg may fail; it may not crash the file it is testing. Each read below is now
+    # tolerant, so the failures come out as words like every other leg's.
+    _fit = fl.get("fit") or {}
+    chk(bool(_fit) and fl.get("k_required") is not None,
+        "the floor fits a k from %d buffer arms (k required %r)%s"
+        % (len(fl["arms"]), fl.get("k_required"),
+           "" if _fit else " -- only %d rung(s) on the axis: %s"
+           % (len(fl["arms"]), "; ".join(fl.get("verdict_reasons") or []))))
     # L12 fit reproduces each published arm median to the rounding it publishes
     worst = 0.0
     for name, a in fl["arms"].items():
@@ -1802,36 +1828,45 @@ def _selftest():
     # L13 the fitted line passes through the k=0 identity: at k=0 the effect must be zero-ish.
     # r1815: measured against the ruler, not a bare pp constant -- 0.15pp was frozen on a
     # five-point fit and went red when the sixth rung came back to the same panel.
-    _share = fl["fit"]["intercept_share_of_ruler"]
-    chk(_share is not None and abs(_share) <= FLOOR_RULE["anchor_intercept_share_max"],
-        "the fit's intercept stays near the k=0 identity (%+.3fpp = %s of the %.2fpp ruler, "
-        "band %.0f%%)" % (fl["fit"]["intercept_pp"],
+    # r1849: while three rungs are priced on another panel there is no line to read. Every
+    # leg below now reports that as a failed leg with words; a selftest may fail, it may not
+    # crash the file it is testing (the r1842 fix stopped at L12 and the suite still died here).
+    _fitline = fl.get("fit") or {}
+    _share = _fitline.get("intercept_share_of_ruler")
+    chk(bool(_fitline) and _share is not None
+        and abs(_share) <= FLOOR_RULE["anchor_intercept_share_max"],
+        "the fit's intercept stays near the k=0 identity (%s = %s of the %.2fpp ruler, "
+        "band %.0f%%)" % ("n/a" if not _fitline else "%+.3fpp" % _fitline["intercept_pp"],
                           "n/a" if _share is None else "%.1f%%" % (100.0 * _share),
                           fl["ruler_pp"], 100.0 * FLOOR_RULE["anchor_intercept_share_max"]))
     # L13b the intercept may not carry the answer: pinning the line through the identity must
     # leave the verdict where it is. A design whose size exists only because the line was
     # allowed to float off the anchor is measuring the intercept, not the axis.
-    chk(fl["verdict_without_intercept"] == fl["verdict"],
+    chk(bool(_fitline) and fl.get("verdict_without_intercept") == fl["verdict"]
+        and fl.get("k_required_without_intercept") is not None,
         "the verdict survives pinning the fit to the k=0 identity (%s at k=%s / %s at k=%s)"
-        % (fl["verdict"], fl["k_required"], fl["verdict_without_intercept"],
-           fl["k_required_without_intercept"]))
+        % (fl["verdict"], fl.get("k_required"),
+           fl.get("verdict_without_intercept"), fl.get("k_required_without_intercept")))
     # L13c and the anchor band is not vacuous: a design whose arms all sit a whole ruler off
     # the k=0 identity is caught by L13, while the face as published clears it.
     _lift = json.loads(json.dumps(p))
     for name in BUFFER_ARMS:
         for r in _lift["arms"].get(name, {}).get("rows", []):
             r["delta_pp"] = r["delta_pp"] + fl["ruler_pp"]     # a whole ruler of lift, flat axis
-    _lifted = floor_of(_lift)["fit"]["intercept_share_of_ruler"]
+    _lifted = (floor_of(_lift).get("fit") or {}).get("intercept_share_of_ruler")
     chk(_lifted is not None and abs(_lifted) > FLOOR_RULE["anchor_intercept_share_max"]
-        and abs(_share) <= FLOOR_RULE["anchor_intercept_share_max"],
-        "an axis lifted a whole ruler off the identity breaks the anchor band (%.0f%% lifted "
-        "vs %.1f%% as published)"
-        % (100.0 * _lifted, 100.0 * (_share or 0.0)))
+        and _share is not None and abs(_share) <= FLOOR_RULE["anchor_intercept_share_max"],
+        "an axis lifted a whole ruler off the identity breaks the anchor band (%s lifted "
+        "vs %s as published)"
+        % ("n/a" if _lifted is None else "%.0f%%" % (100.0 * _lifted),
+           "n/a" if _share is None else "%.1f%%" % (100.0 * _share)))
     # L14 the published reading: the whole axis spans a small share of the ruler. This is the
     # sentence the family retires on, so it is asserted rather than narrated.
-    chk(fl["sweep_share_of_ruler"] < FLOOR_RULE["sweep_band_share_max"],
-        "the full 20x sweep spans %.3f of the ruler (flag at %.2f)"
-        % (fl["sweep_share_of_ruler"], FLOOR_RULE["sweep_band_share_max"]))
+    chk(fl.get("sweep_share_of_ruler") is not None
+        and fl["sweep_share_of_ruler"] < FLOOR_RULE["sweep_band_share_max"],
+        "the full 20x sweep spans %s of the ruler (flag at %.2f)"
+        % ("n/a" if fl.get("sweep_share_of_ruler") is None
+           else "%.3f" % fl["sweep_share_of_ruler"], FLOOR_RULE["sweep_band_share_max"]))
     # L15 direction test on fixtures: a steep axis is reachable, a flat one is not
     def _fix(slope):
         f = json.loads(json.dumps(p))
@@ -2711,6 +2746,27 @@ def main(argv):
         return 0
     if "--floor" in argv:
         f = build_floor()
+        # r1842: a re-derivation that cannot reach min_points is not an update of the answer,
+        # it is the erasure of one. Republished on 2026-11-19 with three rungs on another panel
+        # (k10/k20/k40 off world db4a41cb0d162516) this face went from a published
+        # UNREACHABLE_BY_CONSTRUCTION / k=5.681 to NOT-ASSESSED on two arms -- a reader would
+        # have lost the size and kept the word. The last assessed answer stands until its own
+        # rungs return to the baseline's panel; the refusal names what is missing so the next
+        # round knows which engine runs it is waiting for.
+        if f.get("verdict") == "NOT-ASSESSED" and os.path.exists(FLOOR_OUT):
+            try:
+                _prev = face(FLOOR_OUT)
+            except Exception:
+                _prev = {}
+            if _prev.get("k_required") is not None:
+                _missing = sorted(set(BUFFER_ARMS) - set(f.get("arms") or {}))
+                print("refusing to republish: this re-derivation reaches %d rung(s) of the %d "
+                      "needed (%s missing) and cannot be assessed, while the published face still "
+                      "answers k=%s on cutoff %s -- NOT-ASSESSED would erase an answer, not update "
+                      "it" % (len(f.get("arms") or {}), FLOOR_RULE["min_points"],
+                              ", ".join(_missing) or "none", _prev.get("k_required"),
+                              _prev.get("evidence_cutoff")))
+                return 2
         with open(FLOOR_OUT, "w", encoding="utf-8") as fh:
             json.dump(f, fh, ensure_ascii=False, indent=1)
             fh.write("\n")

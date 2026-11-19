@@ -1,31 +1,31 @@
 # 表头写「全窗」，格子里是 2.8 年
 
-证据面：`results/etf_book_window_label.json` ｜ 定价截止 2026-11-18
+证据面：`results/etf_book_window_label.json` ｜ 定价截止 2026-11-19
 
 ## 研究
 
 **ROW_LABELED_BY_WINDOW**
 
-- the value under the 全窗 header is the 2.88-year window; the same book over the full window reads 7.58%, i.e. +4.81 pp/yr and the header is not what the cell holds
+- the value under the 全窗 header is the 2.88-year window; the same book over the full window reads 7.54%, i.e. +4.75 pp/yr and the header is not what the cell holds
 
 ## 同一本书的两个窗口（你手上这一本：5 名·beta 0.20·8bp）
 
 | 窗口 | 年化 | 夏普 | 最大回撤 | bars |
 |---|---|---|---|---|
-| 页面今天印在「全窗年化」下 | 12.39% | 1.68 | -5.78% | 696 |
+| 页面今天印在「全窗年化」下 | 12.29% | 1.67 | -5.78% | 697 |
 | 2020-2023 年（同一把尺子） | 3.71% | 0.90 | -3.97% | 842 |
-| 同一本书从 2020 起（真全窗） | 7.58% | 1.32 | -5.78% | 1538 |
-- 2020-2023 段（同一把尺子）：**3.71%**（842 bars），三段 bars 842+696=1538 恰好拼满全窗 （容差±1 bar）。
+| 同一本书从 2020 起（真全窗） | 7.54% | 1.31 | -5.78% | 1539 |
+- 2020-2023 段（同一把尺子）：**3.71%**（842 bars），三段 bars 842+697=1539 恰好拼满全窗 （容差±1 bar）。
 
-- 两个格子的差 = **+4.81 pp/年**，就是 r1214 量到的「起点」旋钮：它不是策略变了，是同一本书换了起跑线。
+- 两个格子的差 = **+4.75 pp/年**，就是 r1214 量到的「起点」旋钮：它不是策略变了，是同一本书换了起跑线。
 
 ## 身份门
 
-- the full-window cell's own window reproduces the ticket：实测 12.39% / 发表 12.39% / 差 0.0 pp -> PASS
+- the full-window cell's own window reproduces the ticket：实测 12.29% / 发表 12.29% / 差 0.0 pp -> PASS
 
 ## 页面该怎么印
 
-- 全窗年化 = **7.58%**（1538 bars），2024 起 = **12.39%**（696 bars）。
+- 全窗年化 = **7.54%**（1539 bars），2024 起 = **12.29%**（697 bars）。
 
 ## 冻结（跑之前写的）
 

@@ -318,7 +318,11 @@ def check():
     if drift:
         for d in drift:
             print("DRIFT " + d)
-        print("CHECK_FAIL %d field(s) drifted -- rerun "
+        # r1850: the word STALE is the chain's repair contract -- run_leg pays a declared
+        # refresh only when the probe names itself stale. This probe has always been the
+        # same thing (the face was written before the gate moved), it just said "drifted"
+        # and so the chain read it as a plain red it was not allowed to fix.
+        print("CHECK_FAIL %d field(s) stale (drifted from the gate) -- rerun "
               "`python scripts/etf_book_scale_floor.py` (panel build, off-chain by design)"
               % len(drift))
         return 3

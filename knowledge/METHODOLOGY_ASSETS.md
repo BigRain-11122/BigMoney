@@ -17085,9 +17085,25 @@ How to apply：任何「某条规则该不该更硬」的问题，先问**加硬
 
 ### E1421 · 收据读回 JSON 的打印尾差不是漂移（2026-11-19 r1848 bm-c）
 
-tf_book_decision_line --check 每轮报 
+etf_book_decision_line --check 每轮报 
 ow.late_sheet.t: -4.562446075953973 -> -4.5624460759539796——同一个数，差值 6.6e-15，相对 1.5e-15。根因不是算法：--check 从同一批收据重算，而发布件是一趟 JSON 序列化后再读回来的，浮点打印/解析在这一位上本来就不稳定；用严格 !=\ 比较等于要求「序列化可逆到 bit」。后果不是一条红：**永久红会训练读者把真漂移当背景噪声**（r1789 同族），而这条腿每天都红。
 
-正法：判等下沉成 _same(x, y)——数值用 bs(dx) <= 1e-12 * max(1, |x|, |y|)，容器递归，bool 必须先于 int 判定（Python 里 True == 1，否则一个布尔与 1 会被当成同一个数）。selftest 三条腿钉住：容差内不产行／容差外仍点名两值／bool 不冒充数字。
+正法：判等下沉成 _same(x, y)——数值用 abs(dx) <= 1e-12 * max(1, |x|, |y|)，容器递归，bool 必须先于 int 判定（Python 里 True == 1，否则一个布尔与 1 会被当成同一个数）。selftest 三条腿钉住：容差内不产行／容差外仍点名两值／bool 不冒充数字。
 
 How to apply：任何「发布件 vs 重算件」的逐字段 --check，比较函数必须是容差型；容差取「远小于人对这个量关心的一位」（本例 1e-12 vs 读者看 4 位小数），并且**必须有反向腿**证明真变化仍被抓。
+
+### E1422 · 「今天」不是日期，「这一档」才是（2026-11-19 r1849 bm-c）
+
+CEO 一页纸的日词审计从 r1812 起就挂着一条 `PRINTED_BUT_UNANCHORED`：纸上 10 行带日词，1 行读不出是哪一天。那行是 §6 的溢价白话句「而且今天 159655 正站在它自己一年里最贵的那一头」——数字来自溢价面自己的 ticket_session，句子却用了一个不带日期的「今天」。修法不是给审计器放宽，而是**生产面印出它引用的那个 session**（`_pm["ticket_session"]`），并在审计器里把这条句子对到 `etf_premium.ticket_session` 字段（E685：日期判据要对到产出那个数的那张面，不是页面 day）。
+
+同一句修好后暴露出第二层：undated 归零的那一刻，`PRINTED_SELF_DATED` 顶上来——**20 处日期没有任何规则可核**。这些日期一直都在，只是先前被「有更贵的一处红」盖住（判词优先级里 undated 高于 unmapped）。逐条补规则的判据不是「能让它就绿」，而是每条都指向页面 JSON 里**已经存在**的字段（recommendation.entry_date / freshness.monthly[0].dues[0] / intraday.asof / etf_book_periods.generated+cutoff / etf_order.cash_roll.as_of+ticket_bar / etf_capacity.session / carry_margin|carry_roll_cost|carry_marks 的 source_generated+evidence_cutoff）。
+
+How to apply：①任何「今天/目前」出现在一句**引用数字**的话里，生产面就该印那个数字自己的日期，缺日期时不印日词（可以不说「今天」，不可以编一个今天）；②修掉一处红之前先看清它的**下层**是否还压着一堆被优先级盖住的债务——绿一次不是终点，是一次暴露；③补规则只许指向已存在的字段，规则写不出来说明是**面缺字段**而不是句缺豁免。
+
+### E1423 · 自检可以失败，不可以崩溃（2026-11-19 r1849 bm-c）
+
+`etf_book_phase_atlas_arms --selftest` 在三个 buffer 臂落到另一张面板后，先是在 `fl["fit"]["intercept_share_of_ruler"]` 上抛 TypeError，整个文件一行判词都没跑出来；r1842 的容忍性修复只补了第一条腿（L12），后面 L13/L13b/L13c/L14 仍然直接下标 `fl["fit"]`，于是「诚实红」看起来像「脚本坏了」。三次修补才让 138 条腿全部跑到（0 failed）。
+
+姊妹面：root cause 不是自检，是**臂面落后一天**（k05/k02 在 11-19、k10/k20/k40 在 11-18，`floor_of` 正确地拒绝拟合）。生产侧修法=用同一面板重烧三条 rung（CLI `scripts/etf_book_phase_atlas.py run --k K --out <arm>.json`，各 ~5 分钟），聚合面再 `--floor` + 默认 run 重生。
+
+How to apply：①任何「fit/回归/求解」结果被下游直接下标时，自检腿必须能表达「这条线我做不出来」而不是抛异常——判据是自检最后打印出 `N legs, M failed` 这一行；②看到一组腿同时红且报错含 NoneType，先找**共同的上游面**是否代差，别逐腿加 try；③重烧臂面后必须重生聚合面并跑 `--check`，否则 `--check` 会用旧聚合面判「不一致」。

@@ -1,10 +1,10 @@
 {
  "artifact": "etf_alias_stability",
- "evidence_cutoff": "2026-11-17",
- "session": "2026-11-17",
+ "evidence_cutoff": "2026-11-19",
+ "session": "2026-11-19",
  "panel": {
-  "window_from": "2025-11-06",
-  "window_to": "2026-11-17",
+  "window_from": "2025-11-10",
+  "window_to": "2026-11-19",
   "window_days": 250
  },
  "source_faces": {
@@ -26,176 +26,150 @@
  "windows": [
   {
    "label": "T",
-   "from": "2025-11-06",
-   "to": "2026-11-17",
+   "from": "2025-11-10",
+   "to": "2026-11-19",
    "days": 250,
-   "n_in_screen": 581,
-   "n_excluded_short": 70
+   "n_in_screen": 543,
+   "n_excluded_short": 61
   },
   {
    "label": "T-1y",
-   "from": "2024-10-28",
-   "to": "2025-11-05",
+   "from": "2024-10-30",
+   "to": "2025-11-07",
    "days": 250,
-   "n_in_screen": 441,
-   "n_excluded_short": 142
+   "n_in_screen": 414,
+   "n_excluded_short": 131
   },
   {
    "label": "T-2y",
-   "from": "2023-10-16",
-   "to": "2024-10-25",
+   "from": "2023-10-18",
+   "to": "2024-10-29",
    "days": 250,
-   "n_in_screen": 366,
-   "n_excluded_short": 92
+   "n_in_screen": 346,
+   "n_excluded_short": 86
   },
   {
    "label": "T-3y",
-   "from": "2022-09-28",
-   "to": "2023-10-13",
+   "from": "2022-09-30",
+   "to": "2023-10-17",
    "days": 250,
-   "n_in_screen": 295,
-   "n_excluded_short": 75
+   "n_in_screen": 279,
+   "n_excluded_short": 70
   },
   {
    "label": "T-4y",
-   "from": "2021-09-15",
-   "to": "2022-09-27",
+   "from": "2021-09-17",
+   "to": "2022-09-29",
    "days": 250,
-   "n_in_screen": 226,
-   "n_excluded_short": 74
+   "n_in_screen": 215,
+   "n_excluded_short": 69
   }
  ],
  "board": {
   "n_rows": 1668,
-  "n_live": 660,
-  "n_with_panel": 651,
-  "n_in_screen": 581,
-  "n_pairs": 168490,
+  "n_live": 611,
+  "n_with_panel": 604,
+  "n_in_screen": 543,
+  "n_pairs": 147153,
   "verdict_counts_today": {
-   "DAYS_APART": 166279,
-   "SAME_BASKET": 867,
-   "WALKS_APART": 1344
+   "DAYS_APART": 145393,
+   "SAME_BASKET": 741,
+   "WALKS_APART": 1019
   },
-  "n_accepted_today": 867
+  "n_accepted_today": 741
  },
  "stability": {
-  "n_pairs": 867,
-  "n_measurable_before": 538,
-  "n_held_every_window": 137,
-  "n_refused_somewhere": 401,
-  "n_not_measurable": 329,
-  "hold_rate": 0.2546,
+  "n_pairs": 741,
+  "n_measurable_before": 470,
+  "n_held_every_window": 122,
+  "n_refused_somewhere": 348,
+  "n_not_measurable": 271,
+  "hold_rate": 0.2596,
   "refused_by_gate": {
-   "DAYS_APART": 35,
-   "WALKS_APART": 394
+   "DAYS_APART": 24,
+   "WALKS_APART": 339
   },
   "verdict": "WINDOW_LUCK",
   "per_window": [
    {
     "label": "T-1y",
-    "measured": 538,
-    "same_basket": 308,
-    "refused_days_apart": 8,
-    "refused_walks_apart": 222,
-    "no_history": 329,
-    "share": 0.5725
+    "measured": 470,
+    "same_basket": 267,
+    "refused_days_apart": 4,
+    "refused_walks_apart": 199,
+    "no_history": 271,
+    "share": 0.5681
    },
    {
     "label": "T-2y",
-    "measured": 388,
-    "same_basket": 221,
-    "refused_days_apart": 16,
-    "refused_walks_apart": 151,
-    "no_history": 479,
-    "share": 0.5696
+    "measured": 342,
+    "same_basket": 195,
+    "refused_days_apart": 11,
+    "refused_walks_apart": 136,
+    "no_history": 399,
+    "share": 0.5702
    },
    {
     "label": "T-3y",
-    "measured": 320,
-    "same_basket": 173,
-    "refused_days_apart": 15,
-    "refused_walks_apart": 132,
-    "no_history": 547,
-    "share": 0.5406
+    "measured": 270,
+    "same_basket": 147,
+    "refused_days_apart": 11,
+    "refused_walks_apart": 112,
+    "no_history": 471,
+    "share": 0.5444
    },
    {
     "label": "T-4y",
-    "measured": 226,
-    "same_basket": 115,
-    "refused_days_apart": 11,
-    "refused_walks_apart": 100,
-    "no_history": 641,
-    "share": 0.5088
+    "measured": 190,
+    "same_basket": 105,
+    "refused_days_apart": 6,
+    "refused_walks_apart": 79,
+    "no_history": 551,
+    "share": 0.5526
    }
   ],
   "by_trials": {
    "1": {
-    "pairs": 139,
-    "held_every_window": 46,
-    "rate": 0.3309
+    "pairs": 120,
+    "held_every_window": 38,
+    "rate": 0.3167
    },
    "2": {
-    "pairs": 75,
-    "held_every_window": 17,
-    "rate": 0.2267
+    "pairs": 78,
+    "held_every_window": 19,
+    "rate": 0.2436
    },
    "3": {
-    "pairs": 113,
-    "held_every_window": 24,
-    "rate": 0.2124
+    "pairs": 92,
+    "held_every_window": 21,
+    "rate": 0.2283
    },
    "4": {
-    "pairs": 211,
-    "held_every_window": 50,
-    "rate": 0.237
+    "pairs": 180,
+    "held_every_window": 44,
+    "rate": 0.2444
    }
   },
-  "pooled_per_window_rate": 0.555,
-  "held_if_windows_were_independent": 139.58,
+  "pooled_per_window_rate": 0.5613,
+  "held_if_windows_were_independent": 126.07,
   "refused": [
    {
     "pair": [
-     "159001",
-     "511620"
+     "159300",
+     "159330"
     ],
     "refused_by": [
      [
-      "T-4y",
+      "T-1y",
       "WALKS_APART"
      ]
     ],
-    "trials": 4
+    "trials": 1
    },
    {
     "pair": [
      "159300",
      "159352"
-    ],
-    "refused_by": [
-     [
-      "T-1y",
-      "WALKS_APART"
-     ]
-    ],
-    "trials": 1
-   },
-   {
-    "pair": [
-     "159300",
-     "159592"
-    ],
-    "refused_by": [
-     [
-      "T-1y",
-      "WALKS_APART"
-     ]
-    ],
-    "trials": 1
-   },
-   {
-    "pair": [
-     "159300",
-     "510180"
     ],
     "refused_by": [
      [
@@ -221,33 +195,7 @@
    {
     "pair": [
      "159300",
-     "515660"
-    ],
-    "refused_by": [
-     [
-      "T-1y",
-      "WALKS_APART"
-     ]
-    ],
-    "trials": 1
-   },
-   {
-    "pair": [
-     "159300",
      "515800"
-    ],
-    "refused_by": [
-     [
-      "T-1y",
-      "WALKS_APART"
-     ]
-    ],
-    "trials": 1
-   },
-   {
-    "pair": [
-     "159300",
-     "515810"
     ],
     "refused_by": [
      [
@@ -299,7 +247,7 @@
    {
     "pair": [
      "159330",
-     "159338"
+     "159352"
     ],
     "refused_by": [
      [
@@ -312,7 +260,7 @@
    {
     "pair": [
      "159330",
-     "159352"
+     "159353"
     ],
     "refused_by": [
      [
@@ -390,6 +338,19 @@
    {
     "pair": [
      "159338",
+     "159339"
+    ],
+    "refused_by": [
+     [
+      "T-1y",
+      "WALKS_APART"
+     ]
+    ],
+    "trials": 1
+   },
+   {
+    "pair": [
+     "159338",
      "159919"
     ],
     "refused_by": [
@@ -416,7 +377,7 @@
    {
     "pair": [
      "159338",
-     "510360"
+     "510310"
     ],
     "refused_by": [
      [
@@ -429,7 +390,7 @@
    {
     "pair": [
      "159338",
-     "515310"
+     "510360"
     ],
     "refused_by": [
      [
@@ -455,7 +416,7 @@
    {
     "pair": [
      "159338",
-     "560530"
+     "563220"
     ],
     "refused_by": [
      [
@@ -469,19 +430,6 @@
     "pair": [
      "159339",
      "159673"
-    ],
-    "refused_by": [
-     [
-      "T-1y",
-      "WALKS_APART"
-     ]
-    ],
-    "trials": 1
-   },
-   {
-    "pair": [
-     "159339",
-     "159919"
     ],
     "refused_by": [
      [
@@ -508,19 +456,6 @@
     "pair": [
      "159339",
      "510300"
-    ],
-    "refused_by": [
-     [
-      "T-1y",
-      "WALKS_APART"
-     ]
-    ],
-    "trials": 1
-   },
-   {
-    "pair": [
-     "159339",
-     "510330"
     ],
     "refused_by": [
      [
@@ -571,6 +506,19 @@
    },
    {
     "pair": [
+     "159351",
+     "510310"
+    ],
+    "refused_by": [
+     [
+      "T-1y",
+      "WALKS_APART"
+     ]
+    ],
+    "trials": 1
+   },
+   {
+    "pair": [
      "159352",
      "159919"
     ],
@@ -611,7 +559,7 @@
    {
     "pair": [
      "159352",
-     "510350"
+     "515390"
     ],
     "refused_by": [
      [
@@ -624,7 +572,7 @@
    {
     "pair": [
      "159352",
-     "515310"
+     "563330"
     ],
     "refused_by": [
      [
@@ -663,7 +611,59 @@
    {
     "pair": [
      "159353",
+     "159925"
+    ],
+    "refused_by": [
+     [
+      "T-1y",
+      "WALKS_APART"
+     ]
+    ],
+    "trials": 1
+   },
+   {
+    "pair": [
+     "159353",
+     "510300"
+    ],
+    "refused_by": [
+     [
+      "T-1y",
+      "WALKS_APART"
+     ]
+    ],
+    "trials": 1
+   },
+   {
+    "pair": [
+     "159353",
+     "510310"
+    ],
+    "refused_by": [
+     [
+      "T-1y",
+      "WALKS_APART"
+     ]
+    ],
+    "trials": 1
+   },
+   {
+    "pair": [
+     "159353",
      "510330"
+    ],
+    "refused_by": [
+     [
+      "T-1y",
+      "WALKS_APART"
+     ]
+    ],
+    "trials": 1
+   },
+   {
+    "pair": [
+     "159353",
+     "510360"
     ],
     "refused_by": [
      [
@@ -674,7 +674,7 @@
     "trials": 1
    }
   ],
-  "refused_total": 401,
+  "refused_total": 348,
   "not_measurable": [
    [
     "159101",
@@ -706,6 +706,10 @@
    ],
    [
     "159105",
+    "159892"
+   ],
+   [
+    "159105",
     "513200"
    ],
    [
@@ -730,19 +734,11 @@
    ],
    [
     "159213",
-    "560770"
-   ],
-   [
-    "159213",
-    "562500"
+    "159770"
    ],
    [
     "159217",
     "159286"
-   ],
-   [
-    "159217",
-    "159567"
    ],
    [
     "159232",
@@ -757,24 +753,12 @@
     "563760"
    ],
    [
-    "159233",
-    "159235"
-   ],
-   [
-    "159235",
-    "563760"
-   ],
-   [
     "159242",
     "159246"
    ],
    [
     "159242",
     "159381"
-   ],
-   [
-    "159245",
-    "513230"
    ],
    [
     "159246",
@@ -790,19 +774,7 @@
    ],
    [
     "159258",
-    "159526"
-   ],
-   [
-    "159258",
     "159770"
-   ],
-   [
-    "159265",
-    "513070"
-   ],
-   [
-    "159265",
-    "513230"
    ],
    [
     "159268",
@@ -835,47 +807,173 @@
    [
     "159279",
     "159363"
+   ],
+   [
+    "159279",
+    "159381"
+   ],
+   [
+    "159279",
+    "159382"
+   ],
+   [
+    "159279",
+    "159388"
+   ],
+   [
+    "159281",
+    "513820"
+   ],
+   [
+    "159286",
+    "159316"
+   ],
+   [
+    "159286",
+    "159567"
+   ],
+   [
+    "159286",
+    "159570"
    ]
   ]
  },
  "crosscheck": {
   "census_present": true,
-  "census_session": "2026-11-16",
+  "census_session": "2026-11-17",
   "census_window": [
    "2025-11-06",
    "2026-11-17"
   ],
-  "census_n_in_screen": 577,
-  "census_same_basket": 830,
-  "same_window": true,
+  "census_n_in_screen": 581,
+  "census_same_basket": 867,
+  "same_window": false,
   "same_universe": false,
   "rule_identity_ok": null,
-  "note": "同一窗不同宇宙（普查面 577 票 / 本面 581 票）：面板在普查面写完之后又落了新票，差在宇宙不在规则"
+  "note": "普查面停在上一个盘口 ['2025-11-06', '2026-11-17']，本面在 2026-11-19 上重跑：两条数字不同源，不能相减"
  },
  "families": {
-  "n_alias": 41,
-  "n_cross_name": 12,
-  "n_chains": 40,
-  "n_over_material_line": 2,
-  "total_cost_cny": 1311.2,
-  "cost_where_every_pair_held_cny": 694.5,
+  "n_alias": 34,
+  "n_cross_name": 25,
+  "n_chains": 42,
+  "n_over_material_line": 7,
+  "total_cost_cny": 6329.7,
+  "cost_where_every_pair_held_cny": 2569.3,
   "rows": [
    {
     "members": [
-     "159605",
-     "159607"
+     "159101",
+     "159636"
     ],
     "names": [
-     "中概互联ETF",
-     "中概互联网ETF"
+     "港科ETF",
+     "港科技30"
     ],
     "money": {
-     "cheapest": "159607",
-     "cheapest_premium_pp": -2.1603,
-     "dearest": "159605",
-     "dearest_premium_pp": -1.5436,
-     "spread_pp": 0.6167,
-     "cost_cny": 616.7,
+     "cheapest": "159636",
+     "cheapest_premium_pp": -0.8088,
+     "dearest": "159101",
+     "dearest_premium_pp": -0.2347,
+     "spread_pp": 0.574,
+     "cost_cny": 574.0,
+     "material": true
+    },
+    "pair_stability": {
+     "n_pairs": 1,
+     "n_held_every_window": 1,
+     "all_pairs_hold": true
+    }
+   },
+   {
+    "members": [
+     "159268",
+     "513070"
+    ],
+    "names": [
+     "HK消费",
+     "港股通消费ETF"
+    ],
+    "money": {
+     "cheapest": "159268",
+     "cheapest_premium_pp": -1.4441,
+     "dearest": "513070",
+     "dearest_premium_pp": -0.5989,
+     "spread_pp": 0.8452,
+     "cost_cny": 845.2,
+     "material": true
+    },
+    "pair_stability": {
+     "n_pairs": 1,
+     "n_held_every_window": 1,
+     "all_pairs_hold": true
+    }
+   },
+   {
+    "members": [
+     "159281",
+     "513820"
+    ],
+    "names": [
+     "港红利TH",
+     "港股通红利ETF"
+    ],
+    "money": {
+     "cheapest": "513820",
+     "cheapest_premium_pp": -1.3191,
+     "dearest": "159281",
+     "dearest_premium_pp": -0.7965,
+     "spread_pp": 0.5226,
+     "cost_cny": 522.6,
+     "material": true
+    },
+    "pair_stability": {
+     "n_pairs": 1,
+     "n_held_every_window": 1,
+     "all_pairs_hold": true
+    }
+   },
+   {
+    "members": [
+     "159531",
+     "159532",
+     "563300"
+    ],
+    "names": [
+     "2000E",
+     "中证2000",
+     "中证2000ETF"
+    ],
+    "money": {
+     "cheapest": "159531",
+     "cheapest_premium_pp": -2.5574,
+     "dearest": "159532",
+     "dearest_premium_pp": -0.0605,
+     "spread_pp": 2.4969,
+     "cost_cny": 2496.9,
+     "material": true
+    },
+    "pair_stability": {
+     "n_pairs": 3,
+     "n_held_every_window": 0,
+     "all_pairs_hold": false
+    }
+   },
+   {
+    "members": [
+     "159707",
+     "159768"
+    ],
+    "names": [
+     "地产ETF",
+     "地产龙头"
+    ],
+    "money": {
+     "cheapest": "159707",
+     "cheapest_premium_pp": -0.5513,
+     "dearest": "159768",
+     "dearest_premium_pp": 0.0492,
+     "spread_pp": 0.6004,
+     "cost_cny": 600.4,
      "material": true
     },
     "pair_stability": {
@@ -886,20 +984,20 @@
    },
    {
     "members": [
-     "159813",
-     "159995"
+     "513160",
+     "520840"
     ],
     "names": [
-     "半导体ETF",
-     "芯片ETF"
+     "港股科技ETF",
+     "港股通恒生科技ETF"
     ],
     "money": {
-     "cheapest": "159995",
-     "cheapest_premium_pp": 0.122,
-     "dearest": "159813",
-     "dearest_premium_pp": 0.8164,
-     "spread_pp": 0.6945,
-     "cost_cny": 694.5,
+     "cheapest": "513160",
+     "cheapest_premium_pp": -1.1284,
+     "dearest": "520840",
+     "dearest_premium_pp": -0.501,
+     "spread_pp": 0.6275,
+     "cost_cny": 627.5,
      "material": true
     },
     "pair_stability": {
@@ -907,10 +1005,34 @@
      "n_held_every_window": 1,
      "all_pairs_hold": true
     }
+   },
+   {
+    "members": [
+     "520900",
+     "520990"
+    ],
+    "names": [
+     "港股央企红利ETF景顺",
+     "港股通红利ETF"
+    ],
+    "money": {
+     "cheapest": "520900",
+     "cheapest_premium_pp": -1.794,
+     "dearest": "520990",
+     "dearest_premium_pp": -1.1308,
+     "spread_pp": 0.6631,
+     "cost_cny": 663.1,
+     "material": true
+    },
+    "pair_stability": {
+     "n_pairs": 1,
+     "n_held_every_window": 0,
+     "all_pairs_hold": false
+    }
    }
   ]
  },
- "sentence": "今天这张盘口有 867 对异名同篮；把同样两道门放到前 4 个年度窗上重问一遍，每窗只留下（T-1y 57.2%、T-2y 57.0%、T-3y 54.1%、T-4y 50.9%），能数到的 538 对里 137 对每窗都过（25.5%），401 对被某一窗拒过（日级 35 对 / 年级 394 对），329 对历史不够没法问——判词 WINDOW_LUCK。把每个历史窗当独立抽样，每窗 55.5% 的通过率下这些对应该活下来 139.6 对，实测 137 对——所以这不是「某些对不稳」而是这道年级线落在刀口上。过 0.50pp 物质线的 2 组一共 1,311 元的选择成本，其中每一对都过所有窗的只有 694 元。",
+ "sentence": "这张盘口有 741 对异名同篮；把同样两道门放到前 4 个年度窗上重问一遍，每窗只留下（T-1y 56.8%、T-2y 57.0%、T-3y 54.4%、T-4y 55.3%），能数到的 470 对里 122 对每窗都过（26.0%），348 对被某一窗拒过（日级 24 对 / 年级 339 对），271 对历史不够没法问——判词 WINDOW_LUCK。把每个历史窗当独立抽样，每窗 56.1% 的通过率下这些对应该活下来 126.1 对，实测 122 对——所以这不是「某些对不稳」而是这道年级线落在刀口上。过 0.50pp 物质线的 7 组一共 6,330 元的选择成本，其中每一对都过所有窗的只有 2,569 元。",
  "caveats": [
   "the earlier windows re-ask the SAME two gates of the SAME two tickers; a pair that holds in all of them is stable in price behaviour, not certified as the same asset",
   "earlier windows carry membership only: premiums exist for one session on this board, so no earlier money number is published (a prior-year cost would be invented)",

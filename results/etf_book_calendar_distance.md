@@ -1,6 +1,6 @@
 # Calendar distance: how far each refusal is from flipping
 
-asof 2026-11-19T17:18:22+08:00 | evidence_cutoff 2026
+asof 2026-11-19T18:25:13+08:00 | evidence_cutoff 2026
 
 **WAIT_ON_A_WATCHABLE_NUMBER** — all_classes_published is 7.18pp of 2026 return away from ADMIT; the remaining 1 cohort(s) must return 7.13%
 

@@ -279,13 +279,16 @@ def check():
     ticket = TF.load_ticket(path)
     got = derive(ticket, face)
     if got["verdict"] != pub.get("verdict"):
-        problems.append("verdict re-derives to %s, face says %s"
+        # r1850: "the face disagrees with what its own inputs say now" is exactly a stale
+        # face, and the chain's repair rule keys on that word. Without it the declared
+        # writer below was never paid and the rungs sat one gate-generation behind.
+        problems.append("STALE face: verdict re-derives to %s, face says %s"
                         % (got["verdict"], pub.get("verdict")))
     if got["one_lot_floor_cny"] != pub.get("one_lot_floor_cny"):
-        problems.append("one-lot floor re-derives to %s, face says %s"
+        problems.append("STALE face: one-lot floor re-derives to %s, face says %s"
                         % (got["one_lot_floor_cny"], pub.get("one_lot_floor_cny")))
     if got["shortfall_to_typical_cny"] != pub.get("shortfall_to_typical_cny"):
-        problems.append("shortfall re-derives to %s, face says %s"
+        problems.append("STALE face: shortfall re-derives to %s, face says %s"
                         % (got["shortfall_to_typical_cny"], pub.get("shortfall_to_typical_cny")))
     # the rung capitals must be the gate's own numbers, not re-read or rounded here
     gate = (face or {}).get("summary") or {}

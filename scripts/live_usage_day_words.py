@@ -148,6 +148,46 @@ CLAIM_RULES = [
     (re.compile(r"在 " + _D + r" 那根 bar 上在带内"), ["carry_timing.evidence_cutoff"]),
     (re.compile(r"idx_fut_basis_timing\.json`｜cutoff " + _D),
      ["carry_timing.evidence_cutoff"]),
+    # r1849: section 6's 「premium paid ... and TODAY 159655 sits at the dearest end of its own
+    # year」 printed a bare today-word, so the audit could only say it could not read that day
+    # (PRINTED_BUT_UNANCHORED, 1 line). The producer now stamps the premium face's own
+    # ticket_session; the rule reads that field rather than the page day, because a premium
+    # quoted on yesterday's IOPV snapshot is readable, not wrong (E685: match the date to the
+    # face that issued the number).
+    (re.compile(r"而且在 " + _D + r" 这一档"), ["etf_premium.ticket_session"]),
+    # r1849: the punctuality ladder (「today or split it over a few days」) and the
+    # NOTHING_OWED_TODAY sentence were both bare today-words on numbers measured on the
+    # ticket's own bar. They now name that bar; the rule reads it back off the punctuality
+    # face, because the sentence is a claim about the bar the ladder was priced on.
+    (re.compile(r"在 " + _D + r" 这一档做"), ["etf_punctuality.evidence_cutoff"]),
+    # r1849: with the last bare today-word gone the face named its real debt -- 20 printed
+    # dates no rule claimed ("cannot check" is not "agrees", so the page could never be green:
+    # the permanent-red family, r1789). Each rule below maps a sentence to the field the page
+    # already carries for it; none of them widens a tolerance or skips a date.
+    (re.compile(r"上次换仓 " + _D + r" · \*\*欠 \d+ 次调仓\*\*（最近该换的是 " + _D),
+     ["recommendation.entry_date", "freshness.monthly[0].dues[0]"]),
+    (re.compile(r"下一个月首交易日（" + _D + r"）已经过去"),
+     ["freshness.monthly[0].dues[0]"]),
+    (re.compile(r"最新 1m bar " + _D), ["intraday.asof"]),
+    (re.compile(r"bar " + _D + r" 15:00:00·lag"), ["intraday.asof"]),
+    (re.compile(r"picks 面 as_of " + _D), ["recommendation.picks_asof"]),
+    (re.compile(r"etf_book_pre2020\.json`（generated " + _D + r"T[\d:]+·cutoff " + _D),
+     ["etf_book_periods.generated", "etf_book_periods.cutoff"]),
+    (re.compile(r"滚仓面读的是 " + _D + r"，这张票面读的是 " + _D),
+     ["etf_order.cash_roll.as_of", "etf_order.cash_roll.ticket_bar"]),
+    (re.compile(r"把账面拉到 " + _D + r" 的票面"), ["etf_order.bar"]),
+    (re.compile(r"etf_book_do_or_wait\.json`（计价截止 " + _D),
+     ["etf_punctuality.evidence_cutoff"]),
+    (re.compile(r"换成日历日期就是 \*\*" + _D + r"\*\*"),
+     ["etf_order.next_decision_face.date"]),
+    (re.compile(r"容量面量的是 " + _D + r" 的盘口，与这一页票面的 " + _D),
+     ["etf_capacity.session", "etf_capacity_at_size.bar"]),
+    (re.compile(r"idx_fut_carry_margin\.json`｜generated " + _D + r"T[\d:+]+｜cutoff " + _D),
+     ["carry_margin.source_generated", "carry_margin.evidence_cutoff"]),
+    (re.compile(r"idx_fut_carry_risk\.json`｜generated " + _D + r"T[\d:+]+｜cutoff " + _D),
+     ["carry_roll_cost.source_generated", "carry_roll_cost.evidence_cutoff"]),
+    (re.compile(r"futures_book_marks\.json`｜generated " + _D + r"T[\d:+]+｜cutoff " + _D),
+     ["carry_marks.source_generated", "carry_marks.evidence_cutoff"]),
 ]
 
 # A date that rides inside a file name (`TICKET-2026-11-17.json`) names a paper; it does not
@@ -564,9 +604,80 @@ def selftest():
     leg("L10 a provenance date the field does not carry is a mismatch",
         c10["verdict"] == "PRINTED_DATE_MISMATCH", c10["verdict"])
 
+    # L11 (r1849) section 6's premium sentence: the producer now stamps the premium face's own
+    # session, so the line is self-dated and the date is read against that field. All three
+    # shapes are pinned -- stamped and read, stamped but the field carries another day, and the
+    # old bare today-word -- because the failure this round removed was a line nobody could
+    # read, and the failure a lazy fix would add is a rule that matches the shape but never
+    # reads the field (r1471 family).
+    d11 = doc(day="2026-11-13", bar="2026-11-13", prior="2026-11-12")
+    d11["etf_premium"] = {"ticket_session": "2026-11-13"}
+    _prem = ("- 白话：¥4,342 约等于这本书 12.29% 年化产出的 **0.1 年**。"
+             "溢价不是手续费；而且")
+    p11 = page(day="2026-11-13", bar="2026-11-13", prior="2026-11-12", amount="1,234") + "\n" + (
+        _prem + "在 2026-11-13 这一档，159655 正站在它自己一年里最贵的那一头")
+    c11 = census(d11, p11)
+    dc11 = c11["date_claims"]
+    leg("L11 the stamped premium sentence is self-dated and read, not left unmapped",
+        dc11.get("n_unmapped") == 0 and dc11.get("n_mismatch") == 0
+        and any(r.get("field") == "etf_premium.ticket_session"
+                for r in dc11.get("claims") or []),
+        "unmapped=%s fields=%s" % (dc11.get("n_unmapped"),
+                                   sorted({r.get("field") for r in dc11.get("claims") or []})))
+    d11b = dict(d11)
+    d11b["etf_premium"] = {"ticket_session": "2026-11-12"}
+    c11b = census(d11b, p11)
+    leg("L11b a premium date the face does not carry is a mismatch",
+        c11b["verdict"] == "PRINTED_DATE_MISMATCH", c11b["verdict"])
+    c11c = census(d11, page(day="2026-11-13", bar="2026-11-13", prior="2026-11-12",
+                            amount="1,234") + "\n" + _prem
+                  + "今天 159655 正站在它自己一年里最贵的那一头")
+    leg("L11c a bare today-word on the premium line is reported, not passed",
+        c11c["verdict"] == "PRINTED_BUT_UNANCHORED",
+        "%s undated=%s" % (c11c["verdict"], c11c["printed"].get("n_undated")))
+
+    # L12 (r1849) the provenance lines the carry section prints. With the last bare today-word
+    # gone this face exposed 20 dates no rule claimed; each now maps to a field the page already
+    # carries. Pinned both ways: the line is read (not unmapped) AND a date the face does not
+    # carry is a mismatch -- a rule that matches the shape but reads nothing would pass the
+    # first half alone (r1471 family).
+    d12 = doc(day="2026-11-18", bar="2026-11-18", prior="2026-11-17")
+    d12["carry_margin"] = {"source_generated": "2026-11-18T16:10:55+0800",
+                           "evidence_cutoff": "2026-11-18"}
+    d12["carry_roll_cost"] = {"source_generated": "2026-11-18T16:08:50",
+                              "evidence_cutoff": "2026-11-18"}
+    d12["carry_marks"] = {"source_generated": "2026-11-18T16:56:04",
+                          "evidence_cutoff": "2026-11-17"}
+    p12 = page(day="2026-11-18", bar="2026-11-18", prior="2026-11-17", amount="1,234") + "\n" + "\n".join([
+        "- 出处：`results/idx_fut_carry_margin.json`｜generated 2026-11-18T16:10:55+0800"
+        "｜cutoff 2026-11-18｜保证金率=规则参数扫描（非本书测度）",
+        "- 出处：`results/idx_fut_carry_risk.json`｜generated 2026-11-18T16:08:50｜cutoff 2026-11-18",
+        "- 出处：`results/futures_book_marks.json`｜generated 2026-11-18T16:56:04｜cutoff 2026-11-17",
+    ])
+    c12 = census(d12, p12)
+    dc12 = c12["date_claims"]
+    _f12 = sorted({r.get("field") for r in dc12.get("claims") or []})
+    leg("L12 the carry provenance dates are read, not left unmapped",
+        dc12.get("n_unmapped") == 0 and dc12.get("n_mismatch") == 0
+        and "carry_margin.source_generated" in _f12
+        and "carry_margin.evidence_cutoff" in _f12
+        and "carry_marks.evidence_cutoff" in _f12,
+        "unmapped=%s mismatch=%s fields=%s"
+        % (dc12.get("n_unmapped"), dc12.get("n_mismatch"), _f12))
+    d12b = dict(d12)
+    d12b["carry_margin"] = {"source_generated": "2026-11-18T16:10:55+0800",
+                            "evidence_cutoff": "2026-11-17"}
+    c12b = census(d12b, p12)
+    leg("L12b a carry cutoff the face does not carry is a mismatch",
+        c12b["verdict"] == "PRINTED_DATE_MISMATCH"
+        and any(r.get("field") == "carry_margin.evidence_cutoff"
+                for r in c12b["date_claims"].get("mismatches") or []),
+        "%s mismatches=%s" % (c12b["verdict"],
+                              [(r.get("field"), r.get("date"), r.get("expected"))
+                               for r in c12b["date_claims"].get("mismatches") or []]))
+
     print("live_usage_day_words selftest %d/%d" % (ok, total))
     return 0 if ok == total else 1
-
 
 def _safe_stdout():
     """The page carries U+00A5 (¥) inside quoted lines; a GBK console raises

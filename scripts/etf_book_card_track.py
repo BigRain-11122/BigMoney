@@ -52,7 +52,13 @@ TICKET_CARD_GLOB = os.path.join(PATHS.results_dir, "etf_book_order", "TICKET-*-c
 
 W_TOL = 2e-3          # weights are published to 4 decimals on the card
 SCALE_TOL = 2e-3
-NAV_TOL = 1e-9        # the constant-weight re-derivation is exact; anything bigger is a trade
+# r1852: the STEP identity is exact (measured 0.000bp on every settled bar of the live card
+# book), but the LEVEL carries the ledger's own bookkeeping noise: it stores nav rounded to 10
+# decimals and, after a restatement, rescales every later row by a factor published to 12
+# decimals. Residue measured on the live book at 2026-11-17: 1.46e-09 with every step exact.
+# A booked trade moves nav by at least a cost unit (~1bp = 1e-4), four orders above this floor,
+# so the floor costs no detection power.
+NAV_TOL = 5e-9
 
 
 def load_json(path, default=None):
@@ -299,6 +305,15 @@ def drift(led, close, openp, cost_per_side=None):
                                                  str(dates[-1]) if dates else None,
                                                  carry_last=carry_last)
     not_policed = set(_provisional)
+    # r1852: the ledger writes `provisional: true` on a bar it published while the panel for
+    # that date was still gaining symbols, and its own gate then either restates the bar or
+    # promotes the flag (`etf_book_forward.restate_provisional` / the promotion branch above
+    # it). That is the producer's declaration about its own number, so this reader takes it as
+    # the second half of the settle rule instead of re-deriving half of it: on 2026-11-18 the
+    # identity read 4.93e-06 on a bar the ledger had already flagged -- a red no operator
+    # could clear from this face, because the fix belongs to the producer's next run.
+    _led_provisional = {str(b.get("bar")) for b in bars if b.get("provisional")}
+    not_policed |= _led_provisional
     nav_hat, dev, nav_bh = {}, [], {}
     cur_cw, cur_bh = 1.0, 1.0
     prev = None
@@ -370,6 +385,14 @@ def drift(led, close, openp, cost_per_side=None):
         # named with the live deviation so a reader can see the size of what was held back
         # instead of reading a shorter replay as a cleaner one.
         "identity_not_policed": sorted(not_policed),
+        # r1852: which of those bars the LEDGER itself flagged (as opposed to which the panel
+        # is still filling) -- the two reasons call for different readers, and "not policed"
+        # alone cannot tell an operator whether the producer is about to move the number.
+        "identity_provisional_bars": sorted(_led_provisional & set(dates)),
+        "identity_provisional_note": (
+            "the ledger published these bars while the panel for their date was still gaining "
+            "symbols; its own gate restates or promotes them, so this face prints their live "
+            "deviation instead of failing on work that belongs to the producer"),
         # r1402: why a bar was not policed has to be readable, not just that it wasn't.
         # `carry_last` is the newest bar the repo ladder can actually price; every book bar
         # after it rode a forward-filled rate, so its cash leg is filling by definition.
@@ -606,6 +629,28 @@ def selftest():
     chk("L7c a withdrawn mark does not move the identity",
         d_w["available"] and d_w["nav_identity_ok"] is True and d_w["bars_withheld"] == ["2026-01-04"],
         "%s / withheld=%s" % (d_w.get("nav_identity_max_dev"), d_w.get("bars_withheld")))
+
+    # r1852: a bar the LEDGER still flags provisional is the producer's number to restate, so
+    # the reader must not fail on it -- and must still print its size, else the silence reads
+    # as a cleaner book (live case: 2026-11-18 at 4.93e-06, flagged by the producer itself).
+    led_p = json.loads(json.dumps(led))
+    led_p["bars"][-2]["nav"] = 1.5
+    led_p["bars"][-2]["provisional"] = True
+    d_p = drift(led_p, px, op, cost_per_side=0.001)
+    chk("L10 a ledger-provisional bar is not policed",
+        d_p["available"] and d_p["nav_identity_ok"] is True
+        and str(dates[4].date()) in d_p["identity_not_policed"]
+        and d_p["identity_provisional_bars"] == [str(dates[4].date())],
+        "%s / prov=%s" % (d_p.get("identity_not_policed"), d_p.get("identity_provisional_bars")))
+    chk("L10b the withheld bar still prints the size of what was held back",
+        (d_p.get("identity_not_policed_dev") or {}).get(str(dates[4].date()), 0.0) > 1e-3,
+        str(d_p.get("identity_not_policed_dev")))
+    # and the floor must still bite on a defect one order of magnitude above it
+    led_l = json.loads(json.dumps(led))
+    led_l["bars"][-2]["nav"] = round(led_l["bars"][-2]["nav"] * (1 + 2e-5), 10)
+    d_l = drift(led_l, px, op, cost_per_side=0.001)
+    chk("L10c a 0.2bp level defect still fails the identity",
+        d_l["available"] and d_l["nav_identity_ok"] is False, str(d_l.get("nav_identity_max_dev")))
 
     led3 = {"book_in_force": {"bar": "2025-12-31", "scale": 0.8, "names": ["A", "B"]},
             "seed": {"bar": "2026-01-02"}, "bars": [{"bar": "2026-01-05", "nav": 1.0}]}

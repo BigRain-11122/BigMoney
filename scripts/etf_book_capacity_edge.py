@@ -269,7 +269,44 @@ def check(payload):
     if (s.get("verdict") == "COIN_FLIP_AT_THE_LINE"
             and not (COIN_FLIP_LO <= (s.get("pass_rate") or 0) <= COIN_FLIP_HI)):
         problems.append("判词落在区间外")
+
+    # r1850: every number above is re-derived from this face's own rows, so the check was
+    # green on a face that had been sitting at 2026-11-17 while the gate walked to 11-19 --
+    # the CEO page then printed "not the same day as the ticket" in place of a reading for
+    # two rounds and nobody was told.  A check that only re-derives its own arithmetic can
+    # never notice it is quoting an old day, so the face is asked whether the gate still
+    # stands on the bar it priced.  Cheap (one JSON read, no panel), and it fails loud.
+    fresh = freshness_problem(payload)
+    if fresh:
+        problems.append(fresh)
     return {"ok": not problems, "problems": problems}
+
+
+def freshness_problem(payload):
+    """r1850: is this face still standing on the gate's own session?
+
+    Only real faces are asked (a synthetic fixture built inside selftest has no
+    `artifact` marker and a placeholder bar, and must stay green).  Returns None when
+    the face cannot be aged -- an unreadable gate is reported by the leg that reads it,
+    not turned into a second, quieter "stale" claim here.
+    """
+    if (payload.get("artifact") or "") != "etf_book_capacity_edge":
+        return None
+    face_day = str(payload.get("evidence_cutoff") or "")[:10]
+    if len(face_day) != 10 or face_day[4] != "-":
+        return None
+    try:
+        gate = load_gate()
+        gate_day = str(((gate.get("data") or {}).get("last")) or "")[:10]
+    except Exception:
+        return None
+    if len(gate_day) == 10 and face_day < gate_day:
+        # the word STALE is the chain's repair contract: run_leg pays the declared refresh
+        # only when the probe names itself stale, so a Chinese-only complaint here would be
+        # read as a plain red the chain is not allowed to fix (r1345/r1850).
+        return ("STALE FACE_BEHIND_GATE：面停在 %s，闸面已经到 %s（先跑 run 再来 check）"
+                % (face_day, gate_day))
+    return None
 
 
 # ---------------------------------------------------------------- report
@@ -540,6 +577,35 @@ def selftest():
         assert "{:,.0f}".format(s["capital_where_at_line_today_cny"]) in t, "上限数应出现在句子里"
         assert "1,000,000" in t, "透镜应出现在句子里"
 
+    def L11_stale_face_is_named():
+        # r1850: the leg has to fire on a face that is standing on an old day, and it has
+        # to stay quiet when the face is not behind -- otherwise the round after this one
+        # gets a permanently red leg and learns to read it as background noise (r1789).
+        adv = {"A": 19.82841685e6, "B": 90e6}
+        m = measure(["A", "B"], 1e6, LINE, adv)
+        rows = [{"bar": "d1", "reading": m["reading"], "binding": "A",
+                 "capital_where_at_line_cny": m["capital_where_at_line_cny"],
+                 "unmeasurable": []}]
+        s = summarise(rows, 1e6, LINE)
+        s["n_names"] = 2
+        base = {"artifact": "etf_book_capacity_edge",
+                "evidence_cutoff": "2000-01-01",
+                "criteria": {"line_pct": 1.0, "lens_cny": 1e6}, "summary": s,
+                "sessions": rows,
+                "published": {"impact_pct_of_adv": round(m["reading"] * 100.0, 4)}}
+        old = check(base)
+        assert not old["ok"], "停在 2000-01-01 的面必须被抓"
+        assert any("FACE_BEHIND_GATE" in p for p in old["problems"]), \
+            "要指名 FACE_BEHIND_GATE，而不是一句泛红：%r" % (old["problems"],)
+        ahead = json.loads(json.dumps(base))
+        ahead["evidence_cutoff"] = "2099-01-01"
+        assert not any("FACE_BEHIND_GATE" in p for p in check(ahead)["problems"]), \
+            "在闸面前面的日子不该被这条腿判红：%r" % (check(ahead)["problems"],)
+        fixture = json.loads(json.dumps(base))
+        fixture.pop("artifact")
+        assert not any("FACE_BEHIND_GATE" in p for p in check(fixture)["problems"]), \
+            "自检夹具（无 artifact 标记）不该被现状腿拦"
+
     for name, fn in [
         ("L1 读数随资本线性", L1_scales_with_capital),
         ("L2 阈值资本落在闸线上", L2_flip_capital_round_trips),
@@ -551,6 +617,7 @@ def selftest():
         ("L8 量化读数只落在少数值上", L8_quantized_input_repeats),
         ("L9 改判/塞数/漂移被抓", L9_check_catches_tampering),
         ("L10 句子引用自己的计数", L10_sentence_cites_own_counts),
+        ("L11 停在旧日的面会被点名（r1850）", L11_stale_face_is_named),
     ]:
         leg(name, fn)
 

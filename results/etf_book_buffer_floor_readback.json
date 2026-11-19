@@ -10,11 +10,11 @@
  "buffer_k": 0.3,
  "floor_face": "etf_book_buffer_resolution_floor.json",
  "arm_face": "etf_book_phase_atlas_buffer_k30.json",
- "predicted_pp": 0.316,
+ "predicted_pp": 0.327,
  "observed_pp": 0.407,
- "gap_pp": 0.092,
- "tolerance_pp": 0.139,
- "max_in_sample_residual_pp": 0.046,
+ "gap_pp": 0.08,
+ "tolerance_pp": 0.976,
+ "max_in_sample_residual_pp": 0.325,
  "cells": [
   {
    "n_hold": 3,
@@ -103,9 +103,9 @@
  ],
  "verdict": "HOLDS",
  "verdict_reasons": [
-  "the fit says +0.316pp at k=0.30 (slope +1.193, intercept -0.042)",
+  "the fit says +0.327pp at k=0.30 (slope +0.858, intercept +0.070)",
   "the harvested arm's own 12 cells say +0.407pp (median)",
-  "gap +0.092pp against tolerance 0.139pp = 3.0x the fit's largest in-sample residual (0.046pp, floored at 0.05)",
+  "gap +0.080pp against tolerance 0.976pp = 3.0x the fit's largest in-sample residual (0.325pp, floored at 0.05)",
   "cell spread of the same arm: -0.615 .. +1.560pp (12 cells), i.e. the median is not the book",
   "the line predicts a point it never saw, on the widest gap it spans -- the extrapolated k is a continuation of a measured slope, not a guess"
  ]
