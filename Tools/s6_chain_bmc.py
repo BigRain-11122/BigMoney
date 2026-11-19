@@ -293,6 +293,14 @@ LEGS = [
     # futures leg so the ticket's excess carry is separable from the index's own move.
     # ~4s, no network (cached panels), adopts nothing.
     ("idx_fut_carry_paper", ["python", "scripts/idx_fut_carry_paper.py", "run"]),
+    # r1845: the paper book is append-only, so a mark it has published stays published
+    # even when the panel behind it no longer holds the row (live: IC2612/IM2612 carry a
+    # 2026-11-17 bar whose close is the main-continuous close, while the contract panel's
+    # last write was 2026-11-16 22:30). This leg asks the question the book cannot ask
+    # itself -- is every published bar still on the contract panel, and if not, is the
+    # number the other panel's close or a number no panel produces. Reads the ledger and
+    # both panels; writes only its own two files. ~1s, no network, no judge.
+    ("futures_book_marks", ["python", "scripts/futures_book_marks.py", "run"]),
     # r1778: the paper re-read the ticket under the book's 8% vol target and printed the
     # fraction the eye skips -- one IC lot hedged to the discount is 9.00% of a 1,000,000
     # book, so the 8% budget buys zero whole lots while the ticket holds four (4.5x the

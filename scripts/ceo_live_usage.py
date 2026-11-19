@@ -221,6 +221,14 @@ CARRY_MARGIN_REL = "results/idx_fut_carry_margin.json"
 # measured drag lets the reader believe the sleeve keeps money it pays away.
 CARRY_RISK_JSON = os.path.join(ROOT, "results", "idx_fut_carry_risk.json")
 CARRY_RISK_REL = "results/idx_fut_carry_risk.json"
+# r1845: every number in the carry section above is a mark the book has *published*.
+# The book is append-only, so a mark stays published even when the panel behind it no
+# longer holds that row (live 11-19: IC2612/IM2612 carry a 11-17 bar whose close is the
+# main-continuous close, while the contract CSVs were last written 11-16 22:30).  A page
+# that prints the P&L and never says whether the bars under it are still on disk asks the
+# reader to trust a number whose evidence may be gone.
+CARRY_MARKS_JSON = os.path.join(ROOT, "results", "futures_book_marks.json")
+CARRY_MARKS_REL = "results/futures_book_marks.json"
 
 # Position ladder, v2 frozen canonical (DECISION_CHAIN v2 prereg, adopted
 # bm-c 2026-09-28; owner-canon rows in market_clock POSITION_LADDER):
@@ -942,6 +950,45 @@ def _carry_roll_cost_face():
         "present": True,
         "path": CARRY_RISK_REL,
         "rows": rows,
+        "evidence_cutoff": d.get("evidence_cutoff"),
+        "source_generated": d.get("generated"),
+    }
+
+
+def _carry_marks_face():
+    """r1845: are the bars under the carry P&L still on the contract panel?
+
+    The book is append-only and the page prints its NAV, so the one thing the page
+    cannot currently tell the reader is whether the last bar still has a quote behind
+    it.  `futures_book_marks` answers that and is quoted here verbatim: the verdict,
+    the unbacked bars (date / contract / close), what each one is (a close equal to
+    the main-continuous close of that day, or a number no panel produces), and the
+    CNY sitting on them.  A missing face prints a reason and NO number (r98).
+    """
+    d = _read_json(CARRY_MARKS_JSON)
+    if not d:
+        return {"present": False, "path": CARRY_MARKS_REL,
+                "note": "账面报价支撑面未产出（缺面不读 0）"}
+    products = d.get("products") or {}
+    if not products:
+        return {"present": False, "path": CARRY_MARKS_REL,
+                "note": "支撑面在册但无产品行（不完整面不冒充）"}
+    rows = {}
+    for code, p in sorted(products.items()):
+        rows[code] = {
+            "state": p.get("state"),
+            "contract": p.get("account_contract"),
+            "last": p.get("last"),
+            "panel_last": p.get("panel_last_quote"),
+            "unbacked": p.get("unbacked") or [],
+            "unbacked_n": p.get("unbacked_n") or 0,
+        }
+    return {
+        "present": True,
+        "path": CARRY_MARKS_REL,
+        "verdict": d.get("verdict"),
+        "rows": rows,
+        "totals": d.get("totals") or {},
         "evidence_cutoff": d.get("evidence_cutoff"),
         "source_generated": d.get("generated"),
     }
@@ -1851,6 +1898,7 @@ def build_payload(day: str) -> dict:
         "carry_timing": _carry_timing_face(),
         "carry_margin": _carry_margin_face(),
         "carry_roll_cost": _carry_roll_cost_face(),
+        "carry_marks": _carry_marks_face(),
         "freshness": _freshness_face(book, tape, regime.get("asof"),
                                      rec=rec_face),
         "chain_versions": [
@@ -3063,6 +3111,45 @@ def render_md(p: dict) -> str:
                  "要一个确定数必须有一条报价带")
         L.append(f"  - 出处：`{cr.get('path')}`｜generated {cr.get('source_generated')}"
                  f"｜cutoff {cr.get('evidence_cutoff')}")
+    # r1845: everything above reads marks the carry book has published.  The book is
+    # append-only, so a bar stays published even when the panel behind it no longer
+    # holds the row -- printed here, not discovered later.
+    ck = p.get("carry_marks") or {}
+    if not ck.get("present"):
+        L.append(f"- 账面最后一根 bar 有没有报价撑着：{ck.get('note') or '支撑面未产出'}"
+                 f"（指针 `{ck.get('path')}`）——**今天读不到，上面账面的 P&L 无法核对是否还有行情在后面**")
+    else:
+        rows_k = ck.get("rows") or {}
+        tot = ck.get("totals") or {}
+        n_un = int(tot.get("unbacked_bars") or 0)
+        if n_un == 0:
+            L.append("- 账面每一根 bar 都在合约盘上找得到（`%s`）：前向 P&L 的每个收盘价"
+                     "都能被盘上的报价重算——这是少见的干净状态，不是沉默"
+                     % ck.get("path"))
+        else:
+            bits_k = []
+            for c in sorted(rows_k):
+                r = rows_k[c] or {}
+                for u in (r.get("unbacked") or []):
+                    bits_k.append("%s %s 的 %s 收盘 %s（%s）"
+                                  % (c, u.get("contract"), u.get("date"),
+                                     u.get("close"),
+                                     "等于当日主力连续收盘" if u.get("cause") == "matches_continuous"
+                                     else "盘上没有任何面能给出这个数"))
+            L.append("- **账面有 %d 根 bar 在合约盘上找不到报价**（`%s`）：%s。"
+                     "这些价格不是错数，是「证据不在盘上」——账本只追加不回收，所以它们会一直在，"
+                     "而它撑着 **¥%s** 的绝对盈亏"
+                     % (n_un, ck.get("path"), "；".join(bits_k),
+                        _fmt_cny(abs(float(tot.get("unbacked_abs_pnl_cny") or 0.0)))))
+            L.append("  - 两种读法都成立、这张盘分不出来：要么那天合约真报了这个价而盘上后来丢了行，"
+                     "要么这根 bar 是从主力连续盘抄来的、挂在了合约的名字下。"
+                     "各自要的证据不同（前者要一次补采，后者要一次记账订正），**不猜**")
+            L.append("  - 盘上文件落盘时间：" + "、".join(
+                "%s 最新 %s（%s）" % (c, (rows_k[c] or {}).get("contract"),
+                                     (rows_k[c] or {}).get("panel_last"))
+                for c in sorted(rows_k)))
+        L.append(f"  - 出处：`{ck.get('path')}`｜generated {ck.get('source_generated')}"
+                 f"｜cutoff {ck.get('evidence_cutoff')}")
     L.append("")
     L.append("## ⑧ 诚实免责")
     L.append("")
@@ -3886,6 +3973,32 @@ def selftest() -> int:
             _md6 = render_md(_deg6)
             check("a missing roll-cost face says the gap was priced on the floor (r1820)",
                   "今天读不到换月成本" in _md6 and "换月不是免费的" not in _md6)
+        # r1845: the carry P&L is printed from an append-only book; the page must say
+        # whether the bars under it are still on the contract panel, and must not turn
+        # a missing face into either "clean" or a number (r98).
+        _ck1 = p1.get("carry_marks") or {}
+        if not _ck1.get("present"):
+            print("  [SKIP] carry marks: the face is absent")
+        else:
+            _kt = _ck1.get("totals") or {}
+            _nun = int(_kt.get("unbacked_bars") or 0)
+            if _nun:
+                _uhit = all((u.get("date") or "") in md1 and str(u.get("close")) in md1
+                            for r in (_ck1.get("rows") or {}).values()
+                            for u in (r.get("unbacked") or []))
+                check("unbacked book bars reach the page with their date and close (r1845)",
+                      ("账面有 %d 根 bar 在合约盘上找不到报价" % _nun) in md1 and _uhit)
+                check("the page refuses to pick between lost-row and spliced-mark (r1845)",
+                      "两种读法都成立" in md1 and "不猜" in md1)
+            else:
+                check("a fully backed book says so instead of staying silent (r1845)",
+                      "每一根 bar 都在合约盘上找得到" in md1)
+            _deg7 = json.loads(json.dumps(p1))
+            _deg7["carry_marks"] = {"present": False, "path": CARRY_MARKS_REL,
+                                    "note": "账面报价支撑面未产出（缺面不读 0）"}
+            _md7 = render_md(_deg7)
+            check("a missing marks face says the P&L cannot be checked, never 0 (r1845)",
+                  "今天读不到" in _md7 and "找不到报价" not in _md7)
         # r1820 bm-c: the build order now says what part of it is paid above NAV.  Three
         # legs: the headline money reaches the page; each row's own premium and its own
         # percentile come off the face (never typed); a missing face prints a reason
