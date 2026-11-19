@@ -1,25 +1,21 @@
 {
-  "ts": "2026-11-20T01:27:08",
-  "mode": "refresh in progress (todo=3114/5227, quarantined=11, settled=0)",
+  "ts": "2026-11-20T06:23:04",
+  "mode": "refresh incomplete (checkpoint preserved)",
   "panel": {
     "complete": false,
     "cutoff": "2026-11-19",
     "cutoff_is": "max tail across all per/*.csv -- read coverage_pct/coverage_90 before calling the panel current",
-    "coverage_pct": 40.4,
-    "coverage_90": "2026-11-18",
+    "coverage_pct": 99.8,
+    "coverage_90": "2026-11-19",
     "coverage_floor_pct": 90,
     "dates_tail": [
       [
         "2026-11-19",
-        2108
+        5211
       ],
       [
         "2026-11-18",
-        3101
-      ],
-      [
-        "2026-11-17",
-        6
+        4
       ],
       [
         "2026-11-12",
@@ -31,6 +27,10 @@
       ],
       [
         "2026-11-09",
+        1
+      ],
+      [
+        "2026-10-28",
         1
       ]
     ],
@@ -49,30 +49,23 @@
     "9": 392
   },
   "last_refresh": {
-    "todo": 5221,
-    "fetched": 5215,
-    "appended": 7313,
-    "readjusted": 7,
+    "todo": 3114,
+    "fetched": 3110,
+    "appended": 3107,
+    "readjusted": 2,
     "readjusted_tail": [
-      "000957@2000-01-13",
-      "002281@2009-08-21",
-      "301190@2021-12-24",
-      "600141@1999-06-16",
-      "603043@2017-06-27",
-      "603709@2018-02-08",
-      "603866@2015-12-22"
+      "002969@2019-12-02",
+      "300129@2010-10-19"
     ],
     "failures_tail": [
-      "001338:conn:TimeoutError",
-      "002935:conn:TimeoutError",
-      "301599:conn:TimeoutError",
-      "600017:conn:TimeoutError",
-      "603895:conn:TimeoutError",
-      "603899:conn:TimeoutError"
+      "300158:conn:TimeoutError",
+      "300197:conn:TimeoutError",
+      "301498:conn:TimeoutError",
+      "301661:KeyError:'date'"
     ],
-    "failures_n": 6,
+    "failures_n": 4,
     "conn_stopped": false,
-    "elapsed_min": 527.8,
+    "elapsed_min": 295.9,
     "vwap_anchor_max": 0.138158,
     "repull": false
   },
@@ -82,7 +75,7 @@
   "settled": [],
   "per_files_on_disk": 5221,
   "validation": {
-    "suspended_rows": 3,
+    "suspended_rows": 0,
     "bracket_tolerated_rows": 1,
     "defect_rows": 0
   },

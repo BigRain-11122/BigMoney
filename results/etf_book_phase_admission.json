@@ -1,0 +1,239 @@
+{
+ "artifact": "etf_book_phase_admission",
+ "face": "etf_book_phase_admission",
+ "asof": "2026-11-20T06:21:32+08:00",
+ "evidence_cutoff": "2026-11-19",
+ "question": "the three veto readings that decide whether this book can take new capital were only ever evaluated on one decision phase; does the same gate answer the same way at every phase?",
+ "book": "nobond_vt08_adopted",
+ "phases_from": "candidate_year_gate_phases.PHASE_STARTS (imported, not retyped)",
+ "gate_lines_imported": {
+  "oos_sharpe_min": 0.7,
+  "oos_start": "2024-01-01",
+  "cagr_min_pct": 6.0,
+  "impact_max_pct_of_adv": 1.0,
+  "capacity_lens": [
+   "1M",
+   "10M"
+  ]
+ },
+ "data": {
+  "bars": 5284,
+  "first": "2005-02-23",
+  "last": "2026-11-19",
+  "flips_repaired": 169,
+  "bond_free_universe": 1526,
+  "live_picks": [
+   "159207",
+   "562060",
+   "159549",
+   "515650",
+   "560570"
+  ],
+  "live_picks_asof": "2026-11-19",
+  "adv_median_by_slot": {
+   "159207": 120563758.0,
+   "562060": 63634628.0,
+   "159549": 20060088.0,
+   "515650": 66073102.0,
+   "560570": 23267790.0
+  },
+  "adv_weakest_cny": 20060088.0
+ },
+ "phase_rows": [
+  {
+   "start": "2020-01-01",
+   "verdict": "ADMIT",
+   "oos_sharpe": 1.7928,
+   "cagr_pct": 11.38,
+   "checks": {
+    "S1_oos_sharpe": true,
+    "A1_cagr_after_cost": true,
+    "K1_capacity_1pct_adv": true
+   },
+   "failed_checks": [],
+   "bars": 1666,
+   "first_bar": "2020-01-03",
+   "last_bar": "2026-11-19",
+   "turnover_per_side": 1.082
+  },
+  {
+   "start": "2020-01-08",
+   "verdict": "ADMIT",
+   "oos_sharpe": 1.612,
+   "cagr_pct": 11.09,
+   "checks": {
+    "S1_oos_sharpe": true,
+    "A1_cagr_after_cost": true,
+    "K1_capacity_1pct_adv": true
+   },
+   "failed_checks": [],
+   "bars": 1662,
+   "first_bar": "2020-01-09",
+   "last_bar": "2026-11-19",
+   "turnover_per_side": 1.04
+  },
+  {
+   "start": "2020-01-15",
+   "verdict": "ADMIT",
+   "oos_sharpe": 1.2339,
+   "cagr_pct": 8.0,
+   "checks": {
+    "S1_oos_sharpe": true,
+    "A1_cagr_after_cost": true,
+    "K1_capacity_1pct_adv": true
+   },
+   "failed_checks": [],
+   "bars": 1657,
+   "first_bar": "2020-01-16",
+   "last_bar": "2026-11-19",
+   "turnover_per_side": 1.096
+  },
+  {
+   "start": "2020-01-22",
+   "verdict": "DENY",
+   "oos_sharpe": 0.693,
+   "cagr_pct": 7.01,
+   "checks": {
+    "S1_oos_sharpe": false,
+    "A1_cagr_after_cost": true,
+    "K1_capacity_1pct_adv": true
+   },
+   "failed_checks": [
+    "S1_oos_sharpe"
+   ],
+   "bars": 1652,
+   "first_bar": "2020-01-23",
+   "last_bar": "2026-11-19",
+   "turnover_per_side": 1.083
+  },
+  {
+   "start": "2020-01-29",
+   "verdict": "ADMIT",
+   "oos_sharpe": 1.0436,
+   "cagr_pct": 8.39,
+   "checks": {
+    "S1_oos_sharpe": true,
+    "A1_cagr_after_cost": true,
+    "K1_capacity_1pct_adv": true
+   },
+   "failed_checks": [],
+   "bars": 1650,
+   "first_bar": "2020-02-04",
+   "last_bar": "2026-11-19",
+   "turnover_per_side": 1.113
+  }
+ ],
+ "adjudication": {
+  "phases": 5,
+  "starts": [
+   "2020-01-01",
+   "2020-01-08",
+   "2020-01-15",
+   "2020-01-22",
+   "2020-01-29"
+  ],
+  "verdicts": [
+   "ADMIT",
+   "ADMIT",
+   "ADMIT",
+   "DENY",
+   "ADMIT"
+  ],
+  "distinct_verdicts": [
+   "ADMIT",
+   "DENY"
+  ],
+  "admit_phases": 4,
+  "deny_phases": 1,
+  "insufficient_phases": 0,
+  "oos_sharpe_min": 0.693,
+  "oos_sharpe_max": 1.7928,
+  "oos_sharpe_spread": 1.0998,
+  "cagr_min_pct": 7.01,
+  "cagr_max_pct": 11.38,
+  "cagr_spread_pp": 4.37,
+  "weakest_because": "verdict=DENY",
+  "weakest_phase": "2020-01-22",
+  "state": "REFUSED_AT_SOME_PHASE",
+  "reason": "1 of 5 phases DENY (2020-01-22) on S1_oos_sharpe"
+ },
+ "spread_reading": {
+  "rule_source": "candidate_year_gate_phases.RULE['aggregate'] (imported text, pinned against candidate_year_gate_phases.adjudicate in selftest)",
+  "verdict_input": "each ruler's own per-phase verdict (one_ruler), so a spread sentence names the ruler that disagreed with itself; the whole-gate verdicts are printed beside it as whole_verdicts",
+  "whole_verdicts": [
+   "ADMIT",
+   "ADMIT",
+   "ADMIT",
+   "DENY",
+   "ADMIT"
+  ],
+  "S1": {
+   "phases": 5,
+   "line": 0.7,
+   "distinct_verdicts": [
+    "ADMIT",
+    "DENY"
+   ],
+   "median": 1.2339,
+   "spread": 1.0998,
+   "margin": 0.5339,
+   "spread_exceeds_margin": true,
+   "state": "UNADJUDICABLE_PHASE",
+   "reason": "phases disagree on the verdict: ADMIT, DENY",
+   "ruler": "S1_oos_sharpe"
+  },
+  "A1": {
+   "phases": 5,
+   "line": 6.0,
+   "distinct_verdicts": [
+    "ADMIT"
+   ],
+   "median": 8.39,
+   "spread": 4.37,
+   "margin": 2.39,
+   "spread_exceeds_margin": true,
+   "state": "UNADJUDICABLE_PHASE",
+   "reason": "phase spread 4.3700 is wider than the 2.3900 distance from the median to the 6.00 line",
+   "ruler": "A1_cagr_after_cost"
+  }
+ },
+ "control_vs_gate": {
+  "phase": "2020-01-01",
+  "gate_asof": "2026-11-19T17:03:57+0800",
+  "delta_oos_sharpe": 0.0,
+  "delta_cagr_pp": 0.0,
+  "tolerance": {
+   "oos_sharpe": 0.02,
+   "cagr_pp": 0.2
+  },
+  "reproduces": true,
+  "why": "phase 0 starts 2020-01-01 and the gate's own run starts on the panel's first bar; the two must price the same series, so a gap here is a defect in THIS face, not in the gate"
+ },
+ "gate_face": {
+  "asof": "2026-11-19T17:03:57+0800",
+  "data_last": "2026-11-19",
+  "verdict": "ADMIT",
+  "reads": {
+   "oos_sharpe": 1.7928,
+   "oos_sharpe_min": 0.7,
+   "oos_start": "2024-01-01",
+   "cagr_after_cost_pct": 11.38,
+   "cagr_min_pct": 6.0,
+   "capacity_veto_lens": "1M",
+   "impact_max_pct_of_adv": 1.0
+  }
+ },
+ "old_phase_face": {
+  "face_asof": "2026-11-19T17:04:55+08:00",
+  "state": "UNADJUDICABLE_PHASE",
+  "median_top2_share": 0.7969,
+  "spread_pp": 10.79,
+  "rulers": "Y4 top-2 share (the r1684 gate demoted this ruler to a diagnostic; r1426 found it cannot adjudicate itself on phases)"
+ },
+ "honest": [
+  "K1 is a reading of today's tape, so it is identical at every phase by construction; only S1 and A1 can move with the decision grid",
+  "the gate's own YEAR-GATE face prices the book once (phase 0); this face prices it five times and does not replace that face's printed numbers",
+  "five weekly starts are one rebalance block, not a sample of all calendars; a sixth start would be a sixth coin toss, not new evidence"
+ ],
+ "elapsed_sec": 55.5
+}

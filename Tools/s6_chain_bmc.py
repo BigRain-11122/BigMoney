@@ -609,6 +609,15 @@ LEGS = [
     ("phase_gate_write",
      ["python", "scripts/candidate_year_gate_phases.py", "check"],
      ["python", "scripts/candidate_year_gate_phases.py", "run"]),
+    # r1868: the admission section printed the three-veto ADMIT beside a phase face still
+    # reading a demoted ruler, and the sheet told the reader those two verdicts were not
+    # adjudicating the same ruler -- a sentence with no way to finish itself. This face
+    # puts the SAME three rulers (S1/A1/K1, imported thresholds) on the same five starts.
+    # ~51s rebuild, paid only on a literal stale / missing; its probe judges freshness
+    # against the gate's own panel bar because the two are printed as one comparison.
+    ("phase_admission_write",
+     ["python", "scripts/etf_book_phase_admission.py", "check"],
+     ["python", "scripts/etf_book_phase_admission.py", "run"]),
     # r1471: the ticket below now sizes itself off the EXECUTED account (the positions face)
     # instead of the engine's own never-trimmed book -- but nothing in this chain ever WROTE
     # that face, only checked it ~600 legs later. So the sheet priced off whatever the last

@@ -1862,6 +1862,17 @@ def main() -> int:
              "scripts/etf_book_year_gate.py", ["selftest"]),
             ("product: etf_book_year_gate (published verdicts re-derived)",
              "scripts/etf_book_year_gate.py", ["check"]),
+            # r1868: the admission section printed the three-veto ADMIT beside a phase face
+            # that was still reading a demoted ruler, and told the reader those two verdicts
+            # were not adjudicating the same thing. The face now puts the SAME three rulers
+            # on the same five starts. The legs pin that every published state re-derives
+            # from its own rows (a refusal may not be remembered), and that the aggregate
+            # can reach all four words -- including the one that says this ADMIT is a draw
+            # from a spread wider than its own margin.
+            ("product: etf_book_phase_admission (the gate on five starts, three rulers)",
+             "scripts/etf_book_phase_admission.py", ["selftest"]),
+            ("product: etf_book_phase_admission (verdicts re-derived from its rows)",
+             "scripts/etf_book_phase_admission.py", ["check"]),
             # r1446: two true receipts that a desk cannot hold at once (the caliber dispute
             # says the gate is one decision from disagreeing with itself; the forward read
             # says the deciding check is decorative). The legs pin the four frozen classes
@@ -10819,8 +10830,10 @@ def main() -> int:
     # does one that quietly drops the section.
     try:
         _bad76 = []
+        _done76 = False
         _ptr76 = os.path.join(PATHS.results_dir, "etf_book_order", "latest.json")
         _tk76 = {}
+        _path76 = None
         if not os.path.exists(_ptr76):
             _bad76.append("ticket pointer missing")
         else:
@@ -10948,11 +10961,25 @@ def main() -> int:
                 _pbad76, _tk76.get("asof_bar") or _tk76.get("as_of"))
             if not _ok76:
                 _bad76.append(_why76)
-        check("product: the operator page prices the cash half on the sheet's own three rates",
-              not _bad76,
-              "; ".join(_bad76)[:220] or
-              (_why76[:220] if _pbad76 else
-               "spot %s / own mean %s / ledger window %s (%s)"
+            # r1868: this window re-issued the ticket from new code on the SAME bar, while
+            # the page legitimately declined to rewrite itself (its no-bar guard). The two
+            # then differ by one generation -- the clock, not the book (r1861's third
+            # state). A face that moved under this leg is named, never called a lie.
+            if _pbad76 and _path76 and _js76 \
+                    and _face_moved(_path76) and not _face_moved(_js76):
+                check_unsettled(
+                    "product: the operator page prices the cash half on the sheet's own three rates",
+                    [os.path.basename(_path76), os.path.basename(_js76)],
+                    "the ticket was re-issued after this run started; the page kept its own "
+                    "no-bar guard: " + "; ".join(_pbad76)[:110])
+                _done76 = True
+                _bad76 = []
+        if not _done76:
+            check("product: the operator page prices the cash half on the sheet's own three rates",
+                  not _bad76,
+                  "; ".join(_bad76)[:220] or
+                  (_why76[:220] if _pbad76 else
+                   "spot %s / own mean %s / ledger window %s (%s)"
                % (format(int((_pb76.get("spot") or {}).get("annual_cny") or 0), ","),
                   format(int((_pb76.get("mean_tail") or {}).get("annual_cny") or 0), ","),
                   format(int((_pb76.get("window") or {}).get("annual_cny") or 0), ","),

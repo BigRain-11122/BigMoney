@@ -1,7 +1,7 @@
 {
  "evidence_cutoff": "2026-11-19",
  "beta_target": 0.2,
- "generated": "2026-11-20T01:57:35+08:00",
+ "generated": "2026-11-20T06:28:33+08:00",
  "permission": {
   "status": "within_permission",
   "k_now": 0.432195,
@@ -476,41 +476,41 @@
  },
  "cash_leg": {
   "source": "data/repo_daily/GC001.csv",
-  "mean_accrual_ann_pct": 2.079,
+  "mean_accrual_ann_pct": 2.08,
   "accrual_window": {
    "first": "2020-01-02",
    "last": "2026-11-19",
    "years": 6.88
   },
-  "missing_bar_steps": 1,
+  "missing_bar_steps": 0,
   "money": {
    "cash_amount_cny": 568119.6,
    "spot": {
-    "pct": 1.175,
-    "date": "2026-11-17",
-    "annual_cny": 6675.0,
+    "pct": 1.145,
+    "date": "2026-11-19",
+    "annual_cny": 6505.0,
     "quotes": 250,
-    "net_pct": 0.932,
-    "net_annual_cny": 5295.0
+    "net_pct": 0.902,
+    "net_annual_cny": 5124.0
    },
    "mean_tail": {
-    "pct": 1.3497,
-    "annual_cny": 7668.0,
-    "net_pct": 1.1067,
-    "net_annual_cny": 6287.0
+    "pct": 1.3489,
+    "annual_cny": 7663.0,
+    "net_pct": 1.1059,
+    "net_annual_cny": 6283.0
    },
    "window": {
-    "pct": 2.0792,
-    "annual_cny": 11812.0,
-    "net_pct": 1.8362,
-    "net_annual_cny": 10432.0
+    "pct": 2.0797,
+    "annual_cny": 11815.0,
+    "net_pct": 1.8367,
+    "net_annual_cny": 10435.0
    },
    "tail": 250,
    "fall_bp": 25.0,
    "verdict": "RATES_STEADY",
-   "sentence": "现金 ¥568,119 按 2026-11-17 报价 1.18% 一年赚 ¥6,675；按自己近 250 个报价的均值 1.35% 是 ¥7,668；按账本自己走过的全窗均值 2.08% 是 ¥11,812。这三个数都是**毛**口径：这笔钱按过去一年这张交易日历要逐交易日滚 243 次、每次佣金 0.1bp，全年手续费约 **¥1,381**，所以按上面那个报价**入账 ¥5,295**（年化 0.93%）、按近 250 个报价的均值 ¥6,287、按全窗均值 ¥10,432——毛数与入账数之间差的就是这条路的手续费，不是利率差（费率表同 `etf_book_cash_ladder` 的 FEE_BP）。2026-11-17 的报价就在它自己的均值上，这一半该怎么算就怎么算。",
-   "spread_vs_tail_cny": -993.0,
-   "spread_vs_window_cny": -5137.0,
+   "sentence": "现金 ¥568,119 按 2026-11-19 报价 1.15% 一年赚 ¥6,505；按自己近 250 个报价的均值 1.35% 是 ¥7,663；按账本自己走过的全窗均值 2.08% 是 ¥11,815。这三个数都是**毛**口径：这笔钱按过去一年这张交易日历要逐交易日滚 243 次、每次佣金 0.1bp，全年手续费约 **¥1,381**，所以按上面那个报价**入账 ¥5,124**（年化 0.90%）、按近 250 个报价的均值 ¥6,283、按全窗均值 ¥10,435——毛数与入账数之间差的就是这条路的手续费，不是利率差（费率表同 `etf_book_cash_ladder` 的 FEE_BP）。2026-11-19 的报价就在它自己的均值上，这一半该怎么算就怎么算。",
+   "spread_vs_tail_cny": -1158.0,
+   "spread_vs_window_cny": -5310.0,
    "book_rate": {
     "pct": 1.7716,
     "annual_cny": 10065.0,
@@ -528,8 +528,8 @@
      "convention": "lag +1: score(bar d-1) selects, the book earns open[d] -> open[d+1] -- the execution the card's config.execution string claims (decide at the close of bar d, fill at the open of bar d+1)"
     },
     "declared_gap_pp": -2.24,
-    "gap_vs_spot_bp": -59.66,
-    "gap_vs_spot_cny": -3389.0,
+    "gap_vs_spot_bp": -62.66,
+    "gap_vs_spot_cny": -3560.0,
     "per_year_net_pct": {
      "2020": 2.335,
      "2021": 2.143,
@@ -547,35 +547,35 @@
    "fee_cny_per_year": 1381.0,
    "fee_basis": "exchange_calendar",
    "fee_src": "scripts/etf_book_cash_ladder.py FEE_BP (one source for every rung)",
-   "fee_clause": "。这三个数都是**毛**口径：这笔钱按过去一年这张交易日历要逐交易日滚 243 次、每次佣金 0.1bp，全年手续费约 **¥1,381**，所以按上面那个报价**入账 ¥5,295**（年化 0.93%）、按近 250 个报价的均值 ¥6,287、按全窗均值 ¥10,432——毛数与入账数之间差的就是这条路的手续费，不是利率差（费率表同 `etf_book_cash_ladder` 的 FEE_BP）"
+   "fee_clause": "。这三个数都是**毛**口径：这笔钱按过去一年这张交易日历要逐交易日滚 243 次、每次佣金 0.1bp，全年手续费约 **¥1,381**，所以按上面那个报价**入账 ¥5,124**（年化 0.90%）、按近 250 个报价的均值 ¥6,283、按全窗均值 ¥10,435——毛数与入账数之间差的就是这条路的手续费，不是利率差（费率表同 `etf_book_cash_ladder` 的 FEE_BP）"
   },
   "forward": {
    "verdict": "TWO_RATES",
-   "sentence": "从 2026-11-18（2026-11-17 之后的第一个交易日）到 2026-12-09（下一张单）共 **21 个日历天**：同一笔 ¥568,119 若利率停在 2026-11-17 的报价 1.18%，这段窗口**毛收** ¥384；这笔钱在这段窗口要逐交易日滚 **15 次**，每次佣金 0.1bp（≈ ¥6），共 **¥85**，所以按这个报价**入账 ¥299**（这段窗口年化 0.91%，比报价低的那截就是这条路的手续费）；若按整段窗口扣佣金的净滚 1.77% 付是 ¥579，与**入账**数差 **85.73bp / ¥280**——佣金两边都已扣过，这个差是纯利率差（不扣佣金的毛口径是 59.66bp，那个数里混进了手续费，不能拿来当利率差用）。两个数都假设利率不动——1.77% 是已经走过的那段窗口的净滚，不是下一段的隔夜报价，它只说明过去付过多少，不承诺这一段。",
-   "start_session": "2026-11-18",
+   "sentence": "从 2026-11-20（2026-11-19 之后的第一个交易日）到 2026-12-09（下一张单）共 **19 个日历天**：同一笔 ¥568,119 若利率停在 2026-11-19 的报价 1.15%，这段窗口**毛收** ¥339；这笔钱在这段窗口要逐交易日滚 **13 次**，每次佣金 0.1bp（≈ ¥6），共 **¥74**，所以按这个报价**入账 ¥265**（这段窗口年化 0.90%，比报价低的那截就是这条路的手续费）；若按整段窗口扣佣金的净滚 1.77% 付是 ¥524，与**入账**数差 **87.63bp / ¥259**——佣金两边都已扣过，这个差是纯利率差（不扣佣金的毛口径是 62.66bp，那个数里混进了手续费，不能拿来当利率差用）。两个数都假设利率不动——1.77% 是已经走过的那段窗口的净滚，不是下一段的隔夜报价，它只说明过去付过多少，不承诺这一段。",
+   "start_session": "2026-11-20",
    "end_session": "2026-12-09",
-   "calendar_days": 21,
+   "calendar_days": 19,
    "ruler": "calendar_days/365 x annualised rate, net of per-roll commission",
    "start_basis": "exchange_calendar",
    "cash_amount_cny": 568119.6,
    "spot": {
-    "pct": 1.175,
-    "cny": 384.0
+    "pct": 1.145,
+    "cny": 339.0
    },
    "spot_net": {
-    "pct": 0.9143,
-    "cny": 299.0
+    "pct": 0.8953,
+    "cny": 265.0
    },
-   "rolls": 15,
+   "rolls": 13,
    "fee_bp_per_roll": 0.1,
-   "fee_cny": 85.0,
+   "fee_cny": 74.0,
    "fee_src": "scripts/etf_book_cash_ladder.py FEE_BP (one source for every rung)",
-   "gap_cny": 280.0,
-   "gap_bp": 85.73,
-   "gap_bp_gross": 59.66,
+   "gap_cny": 259.0,
+   "gap_bp": 87.63,
+   "gap_bp_gross": 62.66,
    "book": {
     "pct": 1.7716,
-    "cny": 579.0,
+    "cny": 524.0,
     "source": "etf_book_idle_cash.json"
    }
   }
@@ -588,7 +588,7 @@
   "withdrawn_now": [],
   "withdrawal_note": "ledger withdrew 1 bar(s) at 2026-11-09 23:54:02 because the price panel then ended 2026-11-06 (2026-11-09); the panel has since carried 2026-11-09 again and that ledger row is live -- the withdrawal stays on record but it is not this sheet's pricing bar",
   "reinstatements": {
-   "at": "2026-11-20 01:57:35",
+   "at": "2026-11-20 06:28:33",
    "n_reinstated": 1,
    "rewritten": [],
    "verbatim_identical": [
@@ -1587,7 +1587,7 @@
  },
  "next_decision": {
   "artifact": "etf_book_next_decision",
-  "generated": "2026-11-20T01:57:35",
+  "generated": "2026-11-20T06:28:33",
   "evidence_cutoff": "2026-11-19",
   "calendar_source": "data/exchange_calendar.csv",
   "calendar_last": "2026-12-31",
@@ -1734,7 +1734,7 @@
  },
  "swap_freshness": {
   "artifact": "etf_book_swap_freshness",
-  "generated": "2026-11-20T01:57:35",
+  "generated": "2026-11-20T06:28:33",
   "evidence_cutoff": "2026-11-19",
   "calendar_source": "data/exchange_calendar.csv",
   "close_accept_time": "15:30",
@@ -2126,7 +2126,10 @@
      "buffer_k05",
      "buffer_k10",
      "buffer_k20",
-     "buffer_k40"
+     "buffer_k40",
+     "cost0",
+     "cost05",
+     "cost20"
     ],
     "last": "2026-11-19",
     "bars": 5284,
@@ -2137,9 +2140,6 @@
     "digest": "0d5a9cdcf2beffd5",
     "faces": [
      "buffer_k05_cost20",
-     "cost0",
-     "cost05",
-     "cost20",
      "cost40"
     ],
     "last": "2026-11-17",
@@ -2154,22 +2154,19 @@
    "buffer_k05",
    "buffer_k10",
    "buffer_k20",
-   "buffer_k40"
+   "buffer_k40",
+   "cost0",
+   "cost05",
+   "cost20"
   ],
   "withheld": [
    "buffer_k05_cost20",
-   "cost0",
-   "cost05",
-   "cost20",
    "cost40"
   ],
   "cost_axis": {
    "readable": false,
    "withheld": [
     "buffer_k05_cost20",
-    "cost0",
-    "cost05",
-    "cost20",
     "cost40"
    ],
    "arms": [
@@ -2211,20 +2208,20 @@
     },
     {
      "arm": "cost0",
-     "verdict": "WORLDS_NOT_COMPARABLE",
-     "readable": false,
+     "verdict": "NOT-SEPARABLE",
+     "readable": true,
      "description": "0bp/side on the whole grid (no toll at all) -- if the ordering only appears here, the ordering is bought with the toll and the 10bp reading stands"
     },
     {
      "arm": "cost05",
-     "verdict": "WORLDS_NOT_COMPARABLE",
-     "readable": false,
+     "verdict": "NOT-SEPARABLE",
+     "readable": true,
      "description": "5bp/side on the whole grid (half the production toll)"
     },
     {
      "arm": "cost20",
-     "verdict": "WORLDS_NOT_COMPARABLE",
-     "readable": false,
+     "verdict": "REJECT",
+     "readable": true,
      "description": "20bp/side on the whole grid (double the production toll)"
     },
     {
@@ -2295,7 +2292,7 @@
      "arm": "buffer_k10",
      "frozen_label": "NOT-SEPARABLE",
      "verdict": "NOT-SEPARABLE",
-     "sign_cells": 11,
+     "sign_cells": 12,
      "cells_positive": 7
     },
     {
@@ -2357,22 +2354,19 @@
    "covers_family": true,
    "family": {
     "stale_arms": [
-     "cost0",
-     "cost05",
-     "cost20",
      "cost40",
      "buffer_k05_cost20"
     ],
     "total": 11
    },
-   "detail": "the run itself left 3 panels across its own faces (0d5a9cdc, 7d93f5cd, db4a41cb)",
+   "detail": "the run itself left 2 panels across its own faces (0d5a9cdc, 7d93f5cd)",
    "artifact": "results/etf_book_atlas_arms_rebuild.json",
-   "generated": "2026-11-19T18:04:17+0800",
-   "elapsed_sec": 917.6,
+   "generated": "2026-11-20T02:24:09+0800",
+   "elapsed_sec": 856.0,
    "rebuilt": [
-    "base",
-    "buffer_k02",
-    "buffer_k05"
+    "cost0",
+    "cost05",
+    "cost20"
    ]
   },
   "floor_extrapolation": {

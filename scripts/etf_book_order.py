@@ -4738,7 +4738,59 @@ def pending_fill_md(pf, last_bar=None, last_cash=None, fills=None,
 
 YEAR_GATE_PATH = os.path.join(PATHS.results_dir, "etf_book_year_gate", "YEAR-GATE.json")
 PHASE_GATE_PATH = os.path.join(PATHS.results_dir, "etf_book_phase_gate.json")
+PHASE_ADMISSION_PATH = os.path.join(PATHS.results_dir, "etf_book_phase_admission.json")
 ADMITTED_BOOK = "nobond_vt08_adopted"
+
+
+def _phase_admission_reading(path=None, book=ADMITTED_BOOK):
+    """The same five starts judged by the three rulers that actually carry a veto.
+
+    r1868: this sheet printed the phase face's Y4 sentence and then admitted, in the
+    same breath, that the phase face was still reading a ruler the gate had already
+    demoted -- so the operator was told "these two verdicts disagree" and never told
+    what the second one says on the rulers that do have a veto. That face now exists
+    (`scripts/etf_book_phase_admission.py`) and this reader copies it verbatim: no
+    re-adjudication and no threshold arithmetic on the sheet.
+
+    None means "not readable" -- its own state, never a fallback to the old line's
+    sentence (r98 / r1159).
+    """
+    p = path or PHASE_ADMISSION_PATH
+    try:
+        with open(p, encoding="utf-8") as fh:
+            d = json.load(fh)
+    except Exception:                                          # noqa: BLE001
+        return None
+    if d.get("book") != book:
+        return None
+    agg = d.get("adjudication") or {}
+    if not agg.get("state"):
+        return None
+    spread = d.get("spread_reading") or {}
+    s1 = spread.get("S1") or {}
+    a1 = spread.get("A1") or {}
+    gl = d.get("gate_lines_imported") or {}
+    return {
+        "state": agg.get("state"), "reason": agg.get("reason"),
+        "phases": agg.get("phases"),
+        "admit_phases": agg.get("admit_phases"),
+        "deny_phases": agg.get("deny_phases"),
+        "insufficient_phases": agg.get("insufficient_phases"),
+        "weakest_phase": agg.get("weakest_phase"),
+        "oos_sharpe_min": agg.get("oos_sharpe_min"),
+        "oos_sharpe_max": agg.get("oos_sharpe_max"),
+        "oos_sharpe_spread": agg.get("oos_sharpe_spread"),
+        "cagr_min_pct": agg.get("cagr_min_pct"),
+        "cagr_max_pct": agg.get("cagr_max_pct"),
+        "cagr_spread_pp": agg.get("cagr_spread_pp"),
+        "spread_S1_state": s1.get("state"), "spread_S1": s1.get("spread"),
+        "spread_S1_margin": s1.get("margin"),
+        "spread_A1_state": a1.get("state"), "spread_A1": a1.get("spread"),
+        "spread_A1_margin": a1.get("margin"),
+        "sharpe_line": gl.get("oos_sharpe_min"), "cagr_line": gl.get("cagr_min_pct"),
+        "evidence_cutoff": d.get("evidence_cutoff"), "asof": d.get("asof"),
+        "path": "results/etf_book_phase_admission.json",
+    }
 
 
 def _phase_reading(path=None, book=ADMITTED_BOOK):
@@ -4813,6 +4865,7 @@ def admission_read(last_bar=None, path=None, phase=None):
             "caliber": "decision_block" if dec_ok else "legacy_yearly",
             "phase": (phase if phase is not None
                       else (_phase_reading() if path is None else None)),
+            "phase_admission": (_phase_admission_reading() if path is None else None),
             "last_bar": last_bar}
     # r1801: the quoted "previous reading" is the one number on this card whose own date is
     # somebody else's. It was copied out as {verdict, top2_share} and both stamps were left
@@ -5248,6 +5301,72 @@ def _decision_md(ad):
     return L
 
 
+def _phase_admission_md(pa, ad, dec=False):
+    """The five starts on the three veto rulers -- copied off its own face.
+
+    r1868: the admission section used to end on a sentence that told the operator the
+    phase face was still reading a demoted ruler and that the line would not veto
+    capital "until that face is recomputed on the new ruler". That face now exists. This
+    block prints what it says, including the uncomfortable half: on the new rulers the
+    five starts do not agree either, so the ADMIT above is one draw from a spread wider
+    than its own distance to the line (the same test r1419 applied to Y4).
+    """
+    if not pa:
+        if dec:
+            return ["- **五相位（S1/A1/K1）这一轮没有读数**："
+                    "`results/etf_book_phase_admission.json` 缺或读不出。缺这一行不等于"
+                    "「五个起点都过」——本单不据此扩资本。"]
+        return []
+    n = pa.get("phases") or 0
+    a = pa.get("admit_phases") or 0
+    d = pa.get("deny_phases") or 0
+    u = pa.get("insufficient_phases") or 0
+    st = pa.get("state")
+    if st == "ADMIT_AT_EVERY_PHASE":
+        head = "%s 个起点全过" % n
+    elif st == "REFUSED_AT_SOME_PHASE":
+        head = "%s 个起点里 %s 个过、%s 个被拒（最弱：%s）" % (
+            n, a, d, pa.get("weakest_phase") or "起点未注明")
+    elif st == "INSUFFICIENT_AT_SOME_PHASE":
+        head = "%s 个起点里 %s 个读数不全" % (n, u)
+    else:
+        head = "判词读不出"
+    L = ["- **同一把三读数尺（S1/A1/K1）放到五个决策起点上：%s**（周起点，每个跨一个 "
+         "20 根 bar 的换仓块；算到 %s，asof %s）"
+         % (head, pa.get("evidence_cutoff") or "未注明", pa.get("asof") or "未知")]
+    if pa.get("oos_sharpe_min") is not None:
+        L.append("  - OOS 夏普 %s ~ %s（跨度 %.4f，闸线 %s）；成本后年化 %s%% ~ %s%%"
+                 "（跨度 %.2fpp，闸线 %s%%）"
+                 % (pa.get("oos_sharpe_min"), pa.get("oos_sharpe_max"),
+                    float(pa.get("oos_sharpe_spread") or 0.0), pa.get("sharpe_line"),
+                    pa.get("cagr_min_pct"), pa.get("cagr_max_pct"),
+                    float(pa.get("cagr_spread_pp") or 0.0), pa.get("cagr_line")))
+    if pa.get("spread_S1") is not None and pa.get("spread_S1_margin") is not None:
+        if float(pa["spread_S1"]) > float(pa["spread_S1_margin"]):
+            L.append("  - **换起点就换答案**：夏普跨度 %.4f 比五相中位到 %s 线的距离 %.4f 还宽"
+                     "——按 r1419 判 Y4 用的同一套聚合规则，这把尺在新口径上同样该判"
+                     " **UNADJUDICABLE_PHASE**。「ADMIT」是五个起点里抽到的那个，不是这本书"
+                     "的稳定性质。" % (float(pa["spread_S1"]), pa.get("sharpe_line"),
+                                      float(pa["spread_S1_margin"])))
+        else:
+            L.append("  - 夏普跨度 %.4f 落在五相中位到 %s 线的距离 %.4f 之内：这个 ADMIT 不随"
+                     "起点翻面。" % (float(pa["spread_S1"]), pa.get("sharpe_line"),
+                                    float(pa["spread_S1_margin"])))
+    if pa.get("spread_A1") is not None and pa.get("spread_A1_margin") is not None:
+        L.append("  - 成本后年化：跨度 %.2fpp 对距线 %.2fpp（%s）"
+                 % (float(pa["spread_A1"]), float(pa["spread_A1_margin"]),
+                    "同样宽于余量" if float(pa["spread_A1"]) > float(pa["spread_A1_margin"])
+                    else "窄于余量"))
+    if pa.get("evidence_cutoff") and ad.get("data_last") \
+            and str(pa["evidence_cutoff"]) < str(ad.get("data_last")):
+        L.append("  - **两行不在一块面板上**：五相位算到 %s，年度闸算到 %s —— 这一段不否决"
+                 "资本，但也不该被读成同一根 bar 上的两个结论。"
+                 % (pa["evidence_cutoff"], ad.get("data_last")))
+    L.append("  - 出处：`%s`（生产者 `scripts/etf_book_phase_admission.py`，判据 "
+             "`candidate_year_gate` 导入；本页只读）" % pa.get("path"))
+    return L
+
+
 def admission_md(ad, last_bar=None):
     """Print the gate's decision next to this sheet's fill, and say what it is not."""
     lines = ["## 准入判决（这本书能不能吃新增资本）"]
@@ -5338,17 +5457,19 @@ def admission_md(ad, last_bar=None):
                          % (_ph_last, ad.get("data_last"), ad.get("data_last")))
         if _clash:
             if _dec:
-                lines.append("- **五相位面还在读旧年度尺**（%s，按 Y4 判）：它的 **%s** 与上面"
-                             "三读数的 **%s** 不是对同一把尺子下的判词 —— 相位面按新三读数重算"
-                             "之前，这一行不否决资本；但它说明这台闸在别的决策起点上曾读到过"
-                             "旧线之外，本单据此把「扩资本」限定在 1M 档。"
-                             % (ph.get("state"), ph["state"], ad.get("decision_verdict")))
+                if not ad.get("phase_admission"):
+                    lines.append("- **五相位面还在读旧年度尺**（%s，按 Y4 判）：它的 **%s** 与上面"
+                                 "三读数的 **%s** 不是对同一把尺子下的判词 —— 相位面按新三读数重算"
+                                 "之前，这一行不否决资本；但它说明这台闸在别的决策起点上曾读到过"
+                                 "旧线之外，本单据此把「扩资本」限定在 1M 档。"
+                                 % (ph.get("state"), ph["state"], ad.get("decision_verdict")))
             else:
                 lines.append("- **两面对不上**：单相位年度闸说 %s，五相位面说 %s —— 差别不在书，"
                              "在决策网格从哪天开始。相位 spread %.2fpp 与单相位距线 %.4f 不是同一把尺子；"
                              "本单**不得**因单相位这一行扩资本。"
                              % (ad.get("verdict"), ph["state"], float(ph.get("spread_pp") or 0.0),
                                 float(ad.get("margin_to_line") or 0.0)))
+    lines += _phase_admission_md(ad.get("phase_admission"), ad, _dec)
     lines.append("- 其它读数：%s/%s 正年｜中位 %+.2fpp｜最差年 %+.2fpp｜容量 %s"
                  % (ad.get("positive_years"), ad.get("years"), float(ad.get("median") or 0.0),
                     float(ad.get("worst") or 0.0),
@@ -8738,6 +8859,34 @@ def selftest():
             _causal["adv_weakest_cny"] == 1.0e7 and _whole["adv_weakest_cny"] == 1.0e8
             and _causal["capital_at_line_cny"] != _whole["capital_at_line_cny"],
             [_causal["adv_weakest_cny"], _whole["adv_weakest_cny"]])
+        # legAF-AH (r1868): the admission section now prints the five phases on the three
+        # veto rulers. Three shapes matter and each one has a wrong answer that looks
+        # readable: reporting a refusal as a pass, reporting a missing face as a pass, and
+        # comparing a phase panel with a gate panel that are on different bars.
+        _pa = {"state": "REFUSED_AT_SOME_PHASE", "phases": 5, "admit_phases": 4,
+               "deny_phases": 1, "insufficient_phases": 0, "weakest_phase": "2020-01-22",
+               "oos_sharpe_min": 0.693, "oos_sharpe_max": 1.7928, "oos_sharpe_spread": 1.0998,
+               "cagr_min_pct": 7.01, "cagr_max_pct": 11.38, "cagr_spread_pp": 4.37,
+               "spread_S1_state": "UNADJUDICABLE_PHASE", "spread_S1": 1.0998,
+               "spread_S1_margin": 0.5339, "spread_A1_state": "UNADJUDICABLE_PHASE",
+               "spread_A1": 4.37, "spread_A1_margin": 2.39, "sharpe_line": 0.7,
+               "cagr_line": 6.0, "evidence_cutoff": "2026-11-19",
+               "asof": "2026-11-20T06:00:00+08:00",
+               "path": "results/etf_book_phase_admission.json"}
+        _adm = {"data_last": "2026-11-19"}
+        _md = "\n".join(_phase_admission_md(_pa, _adm, True))
+        chk("legAF a refusal on one start is printed as a refusal and the spread test is named",
+            "1 个被拒" in _md and "2020-01-22" in _md and "换起点就换答案" in _md,
+            _md[:200])
+        _md_missing = "\n".join(_phase_admission_md(None, _adm, True))
+        chk("legAG a missing phase face is not printed as 'all starts passed'",
+            "这一轮没有读数" in _md_missing and "个起点全过" not in _md_missing,
+            _md_missing[:160])
+        _pa_old = dict(_pa)
+        _pa_old["evidence_cutoff"] = "2026-11-13"
+        _md_old = "\n".join(_phase_admission_md(_pa_old, _adm, True))
+        chk("legAH a phase face on an older bar says so instead of comparing verdicts",
+            "两行不在一块面板上" in _md_old, _md_old[:200])
     finally:
         shutil.rmtree(_tmp, ignore_errors=True)
 
