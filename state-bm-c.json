@@ -68,7 +68,7 @@
   "state": "registered (FOUND)",
   "task": "HQ-ProductionClaim"
  },
- "clock_read": "2026-11-19T16:38:11+08:00",
+ "clock_read": "2026-11-20T03:47:31",
  "clock_read_source": "local",
  "clock_tz": "+08:00",
  "codely_live_count": 2,
@@ -1254,7 +1254,7 @@
   "watermark": "green: board/pool both empty (pool_ready_count=0, fleet_open_tasks=0), no claimable batch on this host; py_watermark insufficient_history (window n=1, local_batch=1 = this round own suite)"
  },
  "round_label": "r1813",
- "round_no": 1860,
+ "round_no": 1861,
  "round_no_label": "r1821",
  "round_no_landed": 1663,
  "round_note": "r1489: a reinstated bar is re-derived from the panel, not carried over (reinstatement_check + reinstatements.json + sheet paragraph)",
@@ -1919,7 +1919,7 @@
  "went_well": "the fix keeps the old states reachable: a card with one unqualified row still takes the position-free path, so no previously published verdict changed meaning",
  "when_well": "the exec panel reused lhb_sellleg verbatim by passing a net-of-cost panel instead of writing a second event study -- the two tables cannot disagree about the quintiles because there is only one implementation",
  "who_did": "bm-c",
- "当前任务": "r1860: 国债曲线判词页读数块改为面派生（scripts/treasury_curve_page.py 生成 + 冒烟腿驱动 --check）",
+ "当前任务": "r1861: 冒烟套件的第三态（面在本轮被重写则判 UNVERIFIED，不计 FAIL 也不冒充 PASS）",
  "round_r1851_note": "5 red -> 4 green: cash-ladder window pinned to the base bar (GC028 15.8 -> 16.6, KEEP-1D unchanged, clamped_to_base disclosed); harvest_census today-words replaced by the reading itself; TSMOM + flip damper re-verified on the r1850-rebuilt face. Card-track NAV identity still red: deviation jumps 1.5e-09 -> 4.93e-06 on 2026-11-18 only, which a weight-caliber drift cannot do.",
  "round_r1851_next": "(a) card track NAV identity: find which constituent's 2026-11-18 close was re-pulled (ledger land time vs data/daily mtime), then either store a panel fingerprint in the ledger or add a documented panel-rewritten exemption; (b) full smoke suite needs its own window; (c) S6 full chain needs its own window (the r1842 chain has been inflight since 13:38).",
  "verify_r1852": "etf_book_card_track selftest 43/43 PASS (new L10/L10b/L10c: a ledger-provisional bar is withheld but its size is printed; a 0.2bp level defect still fails) | run GATE rc=0 AGREE maxdev 1.50e-09 over 4 policed bars, 2026-11-18/19 disclosed as provisional at 4.93e-06/5.98e-06 | step identity exact (0.000bp) on every settled bar; level carries the ledger's own 10-dp rounding + restatement rescale | idx_fut_proxy_noise --check CHECK_OK byte-for-byte | capital_ladder ok:true (IC 1 lot 89,643 CNY/yr) | carry_margin CHECK OK VOL_RULER_IS_THE_GATE | day_delta --check DATA_ADVANCED moved=12984 unexplained=0 | sizing_spec check ok:true | open_capital rc0 (IC first rung 1,120,540) | S6 --only=etf_book_ceo_page rc0 52.6s | pool_dualrun ZERO-DRIFT streak 51 | attrition CLEAN | orphans=0 | full suite run 1: 694 legs 5 FAIL (four stale faces + this one); after the fixes run 2: 693/696 PASS, 3 FAIL -- all three were ORDER, not arithmetic (ceo_live_usage and day_delta run before open_capital/ladder on the chain); re-ran in dependency order and each criterion then held (decision token + 1,120,540 + 1,146,317 printed on the page; sizing_spec check ok:true; day_delta moved=12984 unexplained=0). No third full run: 841s fills the window, so this round claims three reds closed one by one, not a green suite",
@@ -1940,11 +1940,14 @@
  "verify_r1858": "s6_chain_bmc selftest 17/17 PASS（新增三腿：进度面按机器命名 / 一腿一行可读 / 不可写路径返 False 不抛）| --only=compute_audit 实跑 rc0 9.0s -> results/_r1858bmc_s6_chain.only-compute_audit.json | results/_s6chain_progress.bm-c.jsonl 三行 chain_start/leg_done/chain_done | 在飞全链 PID 38604（01:15 起）只读监护未打断，每腿面 mtime 推进：02:30:05..02:40:18 共 8 面 | attrition CLEAN（4 账本 3 历史缩行 healed）| orphans=0 | orders 115 文件 / ack 242 / 未回执 0 | inbox 空",
  "round_r1858_note": "本轮撞上一个死窗遗留的全链（01:15 启动，父进程已死，子进程每腿在写面=活性律判 working 不杀）。它每写完一条腿就覆盖一个面，但整条链的进度只存在于进程内存里——我花了十分钟靠 results/ mtime 反推它走到第几腿。所以本轮唯一实物=把这个缺口补上：run_leg 之后即 append 一行 JSONL（start/leg_done/chain_done），失败绝不抛。在飞的那条链跑的是旧码，它的进度仍然只能猜——这条事实写进轮报告，不假装已经有。",
  "round_r1858_next": "(a) 等 01:15 链跑到 chain_done（下一条新链就会自带进度面）；(b) 全量冒烟仍缺独立窗（r1853 的 696/696 仍是基线）；(c) bm-b 沉默已 >21 天，astock_daily/marks 两条道挂在本机接管名下，需要 GM 判席位或常态化接管台账。",
- "最近实物": "scripts/treasury_curve_page.py + research/TREASURY_CURVE_VERDICT.md 生成块（871 字符，--check rc0）@2026-11-20T03:15",
- "下个里程碑": "全量冒烟独立窗收尾（本轮 0 FAIL 至 258 腿止）+ astock_daily 刷新收口（面板抽样 37/60 已到 11-19）",
+ "最近实物": "smoke_test.py _face_moved/check_unsettled + harness 腿（14750 行·ast 绿）+ results/_r1861_bmc_snapshot_guard_check.py 3/3 PASS @2026-11-20T03:47",
+ "下个里程碑": "下一条全量套件自带 unverified 计数并与 0 FAIL 同行读（窗 ≤48h）+ astock_daily 面板 11-19 全覆盖确认",
  "round_t1859_next": "(a) make the treasury verdict page read its numbers from the face (no hand-copied digits) so the r1691 leg cannot go red by drift; (b) full smoke needs its own window -- this round only got 196/696 legs before the agent shell cancelled on 5-min silence; (c) astock_daily refresh (PID 27880) is still writing from a dead-window parent",
  "round_t1859_note": "r1859: the r1691 leg was not a criteria problem but a page a generation behind its face (2383 bars to 11-13, 9.60/1.95/p=0.428 vs 2387 bars to 11-19, 9.59/1.94/p=0.398); all page readings aligned and re-derived PASS",
  "verify_t1860": "treasury_curve_page selftest 8/8 PASS | --write 871 字符块 | --check rc0 CHECK_OK | 负测试（手改在场 66.19->66.20）rc3 精确点名 line 2 并 --write 复原 rc0 | smoke 腿 r1691 改驱动生成器 --check（capture_pinned 60s）不再手解析两个数字 | pool_dualrun ZERO-DRIFT streak 51 | attrition CLEAN（4 账本 3 历史缩行 healed）| compute_audit rc0 FLAG:pool_starvation,supply_floor（日历约束族）| py_watermark insufficient_history（本窗自己的套件=唯一 local_batch）| orders 115 文件 / ack 256 / 未回执 0 | decisions.md sha 79e3083b 未变零动作 | smoke 258 腿 0 FAIL（未跑完，不宣称全绿）",
  "round_t1860_note": "页面读数是手抄的：r1859 要逐字对齐 2387 bar/9.59/1.94/p=0.398，而 r1691 冒烟腿只认两个数字——页面落后一代面时看起来完全像真话。读数搬进 marker 块，正文只讲机制；--check 逐字比对面，手改一位即红。百分比字段已是百分数（E683），块内不再重缩放。",
- "round_t1860_next": "(a) 全量冒烟需独立窗（本轮 258 腿 0 FAIL 后收轮）；(b) astock_daily 刷新（PID 27880·死窗父进程但活性）收口后确认面板 11-19 全覆盖；(c) 同族手抄页 research/TREASURY_CURVE_MASK_AUDIT.md 是否也搬进同一种生成块"
+ "round_t1860_next": "(a) 全量冒烟需独立窗（本轮 258 腿 0 FAIL 后收轮）；(b) astock_daily 刷新（PID 27880·死窗父进程但活性）收口后确认面板 11-19 全覆盖；(c) 同族手抄页 research/TREASURY_CURVE_MASK_AUDIT.md 是否也搬进同一种生成块",
+ "verify_r1861": "smoke_test snapshot guard: _face_moved/check_unsettled added (t0 stamped in main), two face-vs-face legs wired (dashboard marks gap; data-lane sample certification), one harness leg 'a face rewritten mid-run is named as moved, not judged' | results/_r1861_bmc_snapshot_guard_check.py 3/3 PASS (time base before/after/no-stamp; UNSETTLED counted apart from PASS: raw 2 -> pass 1; a tampered dashboard field still fails) | ast.parse smoke_test.py OK (14750 lines) | the two r1860 reds re-derived by hand and both now true: leg1 seven comparisons all True with marks_coverage 20/35/57.14 == dashboard 03:26:19; leg2 stale=[] after the 03:24 re-certify (repo full_tail 11-19 == board tail) | full suite NOT re-run this round (the 03:30 run executes the pre-change code and 14 min > window) -- 696-leg all-green stays the r1853 baseline | orphans=0 | orders 115 files / unacked 0 | queue head CLEAR (T22/E14)",
+ "round_r1861_note": "both reds were the clock, not the arithmetic: the suite needs ~14 minutes and this repo rewrites its own faces inside that window (dashboard re-derived from marks_coverage every few minutes, certify landing a bar). r1854/r1860/r1861 are the same shape three times over, so the fix is a third verdict state rather than another round spent proving they were stale. UNVERIFIED is counted apart from PASS so 'not judged' never reads as 'clean', and the guard only relaxes when a compared face moved -- the selftest tampers with the dashboard field to prove a real disagreement still fails.",
+ "round_r1861_next": "(a) the next full suite should print its own unverified count next to 0 FAIL; (b) if the same two legs go red WITHOUT the UNVERIFIED prefix, it is not a race -- go back to the predicate; (c) astock_daily refresh (PID 27880, 01:27) sampled 41/60 symbols at 11-19 -- confirm full coverage after it closes"
 }

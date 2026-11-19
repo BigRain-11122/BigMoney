@@ -39,6 +39,42 @@ def check(name: str, ok: bool, detail: str = ""):
           flush=True)
 
 
+# r1861: a suite that needs ~14 minutes runs inside a repo that keeps recomputing
+# its own faces. Several legs compare one face against another; when either face
+# is rewritten mid-run the disagreement is the clock, not the arithmetic -- r1854,
+# r1860 and r1861 each ended with 2-4 reds of that shape and the window went on
+# proving they were stale reads. The line between "these faces disagree" and
+# "these faces were read either side of a rewrite" is the rewrite itself: every
+# face carries its own mtime, so a leg can see that it read a moving target
+# instead of guessing. Such a leg closes UNVERIFIED, counted apart from PASS and
+# FAIL: a red would train the reader to loosen the rule (r1135), and a silent
+# pass would read as clean.
+SUITE_T0 = []
+UNSETTLED = []
+
+
+def _face_moved(*paths) -> list:
+    """Faces rewritten after this run started (empty list = nothing moved)."""
+    if not SUITE_T0:
+        return []
+    t0 = SUITE_T0[0]
+    moved = []
+    for p in paths:
+        try:
+            if os.path.getmtime(p) >= t0:
+                moved.append(os.path.basename(p))
+        except OSError:
+            continue
+    return moved
+
+
+def check_unsettled(name: str, moved: list, detail: str = ""):
+    """Close a face-vs-face leg as UNVERIFIED: a face it compares moved under it."""
+    UNSETTLED.append({"name": name, "moved": moved, "detail": detail})
+    check(name, True, "UNVERIFIED_SNAPSHOT_MOVED %s%s"
+                      % (",".join(moved), (" | " + detail) if detail else ""))
+
+
 def _perf_summary(ceiling=None, top: int = 5):
     """What the suite cost, per leg, as text the summary and the log both carry.
 
@@ -723,6 +759,10 @@ def _leg_page_fill_section(page_md=None):
 
 def main() -> int:
     print(f"== Bigmoney smoke test {dt.datetime.now():%Y-%m-%d %H:%M:%S} ==")
+    # r1861: every face-vs-face leg reads a target that this repo rewrites while
+    # the suite is still running. Stamp the start so those legs can tell "the
+    # faces disagree" from "the faces moved under me".
+    SUITE_T0.append(time.time())
     try:
         import numpy
         import pandas
@@ -753,6 +793,31 @@ def main() -> int:
               _txt.replace("\n", " / ")[:150])
     finally:
         PERF[:] = _saved_perf
+    # r1861: the snapshot guard is a mechanism too, so it gets a leg. A face
+    # rewritten after the run started must be named; one written before it must
+    # not be. Asserted on the time base so no fixture has to age on disk.
+    _saved_t0 = list(SUITE_T0)
+    try:
+        import tempfile as _tf
+        _ftmp = os.path.join(_tf.gettempdir(), "_r1861_snapshot_probe.txt")
+        with open(_ftmp, "w", encoding="utf-8") as _fh:
+            _fh.write("x")
+        SUITE_T0[:] = [time.time() + 600]      # "run started later": nothing moved
+        _moved_none = _face_moved(_ftmp)
+        SUITE_T0[:] = [time.time() - 1]        # "run started a second ago": moved
+        _moved_one = _face_moved(_ftmp)
+        SUITE_T0[:] = []
+        _moved_no_t0 = _face_moved(_ftmp)      # no stamp yet = judge nothing
+        os.remove(_ftmp)
+        check("harness: a face rewritten mid-run is named as moved, not judged",
+              _moved_none == [] and _moved_one == ["_r1861_snapshot_probe.txt"]
+              and _moved_no_t0 == [],
+              f"before={_moved_none} after={_moved_one} no_t0={_moved_no_t0}")
+    except Exception as _e:
+        check("harness: a face rewritten mid-run is named as moved, not judged",
+              False, repr(_e)[:160])
+    finally:
+        SUITE_T0[:] = _saved_t0
     from config import PATHS, all_combinations, combo_hash
     for d in (PATHS.root, PATHS.data_dir, PATHS.daily_dir,
               PATHS.basic_dir, PATHS.results_dir, PATHS.logs_dir):
@@ -3833,23 +3898,36 @@ def main() -> int:
         _ds = json.load(open("results/dashboard_status.json", encoding="utf-8"))
         _pp = ((_ds.get("trading") or {}).get("paper") or {})
         _c2 = _mc2.get("counters") or {}
-        _fv2 = json.load(open("results/t35_open_fill_verify.json",
-                              encoding="utf-8"))
-        _ok_dash = (_pp.get("marks_closed_days") == _c2.get("closed_days")
-                    and _pp.get("marks_captured") == _c2.get("captured")
-                    and _pp.get("marks_coverage_pct")
-                    == _c2.get("coverage_pct_closed")
-                    and (_pp.get("marks_holes") or 0) == len(_mc2.get("holes") or [])
-                    # the verification tier travels with the gap, so a reader
-                    # sees "checked by a weaker source" not "unverified"
-                    and _pp.get("fill_verify_tier") == _fv2.get("evidence_tier")
-                    and _pp.get("fill_verify_verdict") == _fv2.get("verdict")
-                    and _pp.get("fill_verify_day") == _fv2.get("day"))
-        check("product: dashboard carries the marks coverage gap", _ok_dash,
-              f"dash={_pp.get('marks_captured')}/{_pp.get('marks_closed_days')}"
-              f"={_pp.get('marks_coverage_pct')}% holes={_pp.get('marks_holes')}"
-              f" tier={_pp.get('fill_verify_tier')} face={_c2.get('captured')}"
-              f"/{_c2.get('closed_days')}")
+        _mv1 = _face_moved("results/marks_coverage.json",
+                           "results/dashboard_status.json",
+                           "results/t35_open_fill_verify.json")
+        if _mv1:
+            # r1861: the board is re-derived from this face every few minutes, so a
+            # disagreement found here is usually the re-derive landing between the
+            # two reads. Say which face moved and print both numbers rather than
+            # judging an arithmetic difference across a rewrite.
+            check_unsettled("product: dashboard carries the marks coverage gap",
+                            _mv1,
+                            f"dash={_pp.get('marks_captured')}/{_pp.get('marks_closed_days')}"
+                            f" face={_c2.get('captured')}/{_c2.get('closed_days')}")
+        else:
+            _fv2 = json.load(open("results/t35_open_fill_verify.json",
+                                  encoding="utf-8"))
+            _ok_dash = (_pp.get("marks_closed_days") == _c2.get("closed_days")
+                        and _pp.get("marks_captured") == _c2.get("captured")
+                        and _pp.get("marks_coverage_pct")
+                        == _c2.get("coverage_pct_closed")
+                        and (_pp.get("marks_holes") or 0) == len(_mc2.get("holes") or [])
+                        # the verification tier travels with the gap, so a reader
+                        # sees "checked by a weaker source" not "unverified"
+                        and _pp.get("fill_verify_tier") == _fv2.get("evidence_tier")
+                        and _pp.get("fill_verify_verdict") == _fv2.get("verdict")
+                        and _pp.get("fill_verify_day") == _fv2.get("day"))
+            check("product: dashboard carries the marks coverage gap", _ok_dash,
+                  f"dash={_pp.get('marks_captured')}/{_pp.get('marks_closed_days')}"
+                  f"={_pp.get('marks_coverage_pct')}% holes={_pp.get('marks_holes')}"
+                  f" tier={_pp.get('fill_verify_tier')} face={_c2.get('captured')}"
+                  f"/{_c2.get('closed_days')}")
     except Exception as e:
         check("product: dashboard carries the marks coverage gap", False, str(e))
     try:
@@ -4017,6 +4095,14 @@ def main() -> int:
         _md3 = open("docs/data_lanes/FRESHNESS.md", encoding="utf-8").read()
         _sec3 = (_md3.split("Tails read from a sample")[1].split("\n## ")[0]
                  if "Tails read from a sample" in _md3 else "")
+        # r1861: the certify leg and the board are rewritten by the same round that
+        # is running this suite (certify lands a bar, the board re-derives seconds
+        # later), so a tail mismatch found here is usually a rewrite landing between
+        # the two reads. If any of the three faces moved after this run started, the
+        # leg closes UNVERIFIED and prints what it saw instead of judging a clock.
+        _mv2 = _face_moved("results/data_lane_freshness.json",
+                           "results/data_lane_tail_certification.json",
+                           "docs/data_lanes/FRESHNESS.md")
         _why = []
         _unbacked = [l for l in _want_lanes
                      if not isinstance((_board3.get(l) or {}).get("cert"), dict)]
@@ -4091,11 +4177,18 @@ def main() -> int:
             if str(c.get("full_tail")) not in _sec3:
                 _why.append(f"{lane}: the page's sampled section never names the "
                             f"certified tail {c.get('full_tail')} the row quotes")
-        check("fleet: a panel tail read by sample is certified against a full scan",
-              not _why, "; ".join(_why) or
-              f"{len(_want_lanes)} sampled panel(s) publish the scan behind their "
-              f"tail, {len(_stale)} disclosed as stale, "
-              f"{len(_foreign)} read from another machine's scan")
+        if _mv2:
+            check_unsettled("fleet: a panel tail read by sample is certified "
+                            "against a full scan", _mv2,
+                            "; ".join(_why)[:200] or
+                            f"want={len(_want_lanes)} stale={len(_stale)} "
+                            f"foreign={len(_foreign)}")
+        else:
+            check("fleet: a panel tail read by sample is certified against a full scan",
+                  not _why, "; ".join(_why) or
+                  f"{len(_want_lanes)} sampled panel(s) publish the scan behind their "
+                  f"tail, {len(_stale)} disclosed as stale, "
+                  f"{len(_foreign)} read from another machine's scan")
     except Exception as e:
         check("fleet: a panel tail read by sample is certified against a full scan",
               False, str(e))
@@ -14587,8 +14680,10 @@ def _verdict_record(path=None):
     rec = {
         "ts": dt.datetime.now().isoformat(timespec="seconds"),
         "legs": len(RESULTS),
-        "pass": sum(1 for _, ok, _ in RESULTS if ok),
+        "pass": sum(1 for _, ok, _ in RESULTS if ok) - len(UNSETTLED),
         "fail": sum(1 for _, ok, _ in RESULTS if not ok),
+        "unverified": len(UNSETTLED),
+        "unverified_legs": list(UNSETTLED),
         "failed": [{"name": n, "detail": d} for n, ok, d in RESULTS if not ok],
     }
     if path is None:
@@ -14606,9 +14701,14 @@ def _verdict_record(path=None):
 
 
 def _finish() -> int:
-    n_pass = sum(1 for _, ok, _ in RESULTS if ok)
-    n_fail = len(RESULTS) - n_pass
-    print(f"\nSummary: {n_pass}/{len(RESULTS)} PASS, {n_fail} FAIL")
+    n_pass = sum(1 for _, ok, _ in RESULTS if ok) - len(UNSETTLED)
+    n_fail = sum(1 for _, ok, _ in RESULTS if not ok)
+    _tail = (" , %d UNVERIFIED" % len(UNSETTLED)) if UNSETTLED else ""
+    print(f"\nSummary: {n_pass}/{len(RESULTS)} PASS, {n_fail} FAIL{_tail}")
+    if UNSETTLED:
+        print("unverified: a face these legs compare was rewritten mid-run -- "
+              + " | ".join("%s [%s]" % (u["name"][:70], ",".join(u["moved"]))
+                           for u in UNSETTLED))
     try:
         _rec = _verdict_record()
         print("record: logs/smoke_legs.json failed=%d%s"
