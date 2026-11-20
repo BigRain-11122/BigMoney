@@ -235,7 +235,7 @@
   "sha": "278bb79900"
  },
  "last_push_at": "2026-11-11T08:31:06+08:00",
- "last_round": 1871,
+ "last_round": 1872,
  "last_round_at": "2026-11-20T05:42:49+08:00",
  "last_round_at_legacy": "2026-10-19T15:34:21+08:00",
  "last_round_closed": 1733,
@@ -266,10 +266,10 @@
  "machine_id": "bm-c",
  "method_card": "E645 landed (staged alone via zero-context insertion patch); four-round debt closed",
  "mistake": "`python -m smoke_test --list` is not a supported flag -- it started a SECOND full suite (pid 45308), killed on discovery; to check which legs the suite runs, grep the output file, never probe with an undocumented flag",
- "next": "next: (a) put the three closed axes into one sentence on the CEO page -- the select leg is 7.61pp with an 8.72pp floor and neither breadth, pairwise de-correlation nor the ranking's own tilt moves it under 5pp; (b) or answer the ruler question instead: how many bars would put 8.72pp at 5pp (r1766 already showed the day-block SE and the month-block SE differ by only 1.03x, so 'more data' needs a number)",
+ "next": "next: (a) the four axes now carry one sentence, but the page that prints it cannot be written until a new bar lands -- verify on the next priced page that the block renders and that live_book_section_bars covers it; (b) the ruler answer is now printed (5,077 bars vs 1,662) but nobody has priced what a 5pp target is worth -- i.e. whether 30 years of accumulation is the right spend for a 2.4pp shape; (c) smoke legs for etf_book_closed_axes (selftest + check) so the face cannot rot silently",
  "next_action": "price the short leg (securities lending on 510500/512100) before the IC/IM hedged sleeve can be sized",
  "next_milestone": "把合约盘来源与死尾普查印到 CEO 活书页的期货节（窗 ≤48h）",
- "next_pick": "r1781: put the same sentence on the faces people actually open -- the carry ticket page and the CEO one-pager (LIVE-BOOK) -- so 'how much money opens this book' is readable there and not only in a research face",
+ "next_pick": "r1874: add the two smoke legs for the new face (selftest + --check off-line), because a face whose only writer is a chain leg has no alarm when the leg stops.",
  "next_pointer": "(a) print the provenance line + the 327/83 census on the page readers open (CEO live usage futures section, <=48h); (b) check whether the 83 header-only contract files have an upstream history worth backfilling before they are written off; (c) full smoke suite still owes a tally (detached this round)",
  "next_round": 1765,
  "next_task": "r1547: the 场内买入 word hides WHEN it changed -- print the status transition dates per leg so a reopening is a dated event, not a per-day scan",
@@ -1255,7 +1255,7 @@
   "watermark": "green: board/pool both empty (pool_ready_count=0, fleet_open_tasks=0), no claimable batch on this host; py_watermark insufficient_history (window n=1, local_batch=1 = this round own suite)"
  },
  "round_label": "r1813",
- "round_no": 1872,
+ "round_no": 1873,
  "round_no_label": "r1821",
  "round_no_landed": 1663,
  "round_note": "r1489: a reinstated bar is re-derived from the panel, not carried over (reinstatement_check + reinstatements.json + sheet paragraph)",
@@ -1953,5 +1953,6 @@
  "who_did": "bm-c",
  "下个里程碑": "把「2015 年拒的那 82.9 倍」落到 2015 年当年真实存在的名单上（本面用的是今天仍活着的名字），看幸存者偏差给这个倍数打了多少折——窗 ≤48h",
  "当前任务": "r1872: 全名册年代容量·名字差 vs 深度差",
- "最近实物": "results/etf_book_era_roster.json + results/etf_book_era_roster.md + scripts/etf_book_era_roster.py（2026-11-20 08:5x）"
+ "最近实物": "results/etf_book_era_roster.json + results/etf_book_era_roster.md + scripts/etf_book_era_roster.py（2026-11-20 08:5x）",
+ "round_r1873_note": "r1873: scripts/etf_book_closed_axes.py + results/etf_book_closed_axes.json + CEO page section closed_axes (3 selftest legs) + chain leg; verdict NO_AXIS_REACHES_THE_FLOOR (seats 6.87 / corr 6.98 / tilt 7.95 vs 5.0 target, 5077 bars needed vs 1662)."
 }

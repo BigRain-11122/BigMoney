@@ -2757,6 +2757,89 @@ def width_return_face(path=WIDTHRET_JSON):
             "neighbors": width_neighbors_face()}
 
 
+CLOSEDAXES_JSON = os.path.join(ROOT, "results", "etf_book_closed_axes.json")
+
+
+def closed_axes_face(path=CLOSEDAXES_JSON):
+    """Every axis this desk owns has been asked the same question, and none of them answered.
+
+    The width blocks below say six names fit and what the sixth costs; the de-correlation and
+    tilt faces each end with "still not 5pp" in a research file. A reader who meets them one
+    at a time will always believe the NEXT axis is the one that does it. This face is the
+    producer that asks all of them at once and prints what the ruler itself says it would
+    take. Read-only -- the page quotes its sentence and its rows, never re-prices an axis.
+    """
+    rel = _rel(path, ROOT).replace(os.sep, "/")
+    if not os.path.exists(path):
+        return {"status": "unreadable", "artifact": rel, "detail": "closed-axes face absent"}
+    f = _load(path) or {}
+    if not f.get("verdict") or not f.get("axes"):
+        return {"status": "unreadable", "artifact": rel, "detail": "face carries no verdict",
+                "evidence_cutoff": f.get("evidence_cutoff")}
+    return {"status": "ok", "artifact": rel, "verdict": f.get("verdict"),
+            "sentence": f.get("sentence"), "axes": f.get("axes") or [],
+            "target_pp": f.get("target_pp"), "n_readable": f.get("n_readable"),
+            "n_priced": f.get("n_priced"), "generated": f.get("generated"),
+            "evidence_cutoff": f.get("evidence_cutoff")}
+
+
+def closed_axes_block(ca):
+    """One sentence, then the per-axis table with each face's own cutoff."""
+    L = []
+    add = L.append
+    ca = ca or {}
+    _bar = str(ca.get("evidence_cutoff") or "")[:10]
+    head = ("## 选股腿的 7pp 能测到 5pp 吗（%s 的读数）" % _bar if _bar
+            else "## 选股腿的 7pp 能测到 5pp 吗")
+    if ca.get("status") != "ok":
+        add("")
+        add(head)
+        add("")
+        add("这一节读不到「每条轴都推到头」那张面（`%s`）：%s。"
+            "**缺面不读成「轴都关掉了」**。"
+            % (ca.get("artifact") or "results/etf_book_closed_axes.json",
+               ca.get("detail") or "无读数"))
+        add("")
+        return L
+    words = {"NO_AXIS_REACHES_THE_FLOOR": "每条轴都推到头了，地板仍在 5pp 之上",
+             "AN_AXIS_REACHES_THE_FLOOR": "有一条轴的地板到线了 —— 下一步是买它",
+             "CANNOT_VERIFY_ALL_AXES": "**这一窗读不全，不能把「没读」读成「关掉了」**"}
+    add("")
+    add(head)
+    add("")
+    add("**%s**" % (ca.get("sentence") or ""))
+    add("")
+    add("- 判词：**%s**（`%s`；%s/%s 条轴有读数）。目标 %.1fpp。"
+        % (words.get(ca.get("verdict"), ca.get("verdict") or "读不出"),
+           ca.get("verdict") or "—",
+           ca.get("n_readable"), len(ca.get("axes") or []),
+           float(ca.get("target_pp") or 0.0)))
+    add("")
+    add("| 轴 | 基线 | 最窄 | 挪动 | 代价 | 出处（cutoff） |")
+    add("|---|---|---|---|---|---|")
+    for a in ca.get("axes") or []:
+        if not a.get("readable"):
+            add("| %s | — | 读不到 | — | — | `%s`（%s） |"
+                % (a.get("axis"), a.get("artifact"), a.get("cutoff") or "—"))
+            continue
+        add("| %s | %s | %s | %s | %s | `%s`（%s） |" % (
+            a.get("label") or a.get("axis"),
+            ("%.2fpp" % a["base_pp"]) if a.get("base_pp") is not None else "—",
+            ("%.2fpp" % a["best_pp"]) if a.get("best_pp") is not None else "无单一地板",
+            ("%+.2fpp" % a["move_pp"]) if a.get("move_pp") is not None else "—",
+            ("%s %+.2fpp" % (a.get("cost_label"), a["annual_cost_pp"]))
+            if a.get("annual_cost_pp") is not None else "—",
+            a.get("artifact"), a.get("cutoff") or "—"))
+    add("")
+    add("- 出处那一列是本页的保证：每个数来自测它的那张面，本面只搬不重算；"
+        "名册那一条没有单一地板读数，硬塞一个 pp 会替它发明量尺。")
+    if ca.get("generated"):
+        add("- 产出面自印：`%s` 生成 %s（cutoff %s）。"
+            % (ca.get("artifact"), ca.get("generated"), ca.get("evidence_cutoff") or "—"))
+    add("")
+    return L
+
+
 def width_return_block(wr):
     """Three lines: the two roads, their annual cost, and which is cheaper."""
     L = []
@@ -9827,6 +9910,7 @@ def build(with_stress=False, window_label=None):
     page["capacity_ticket"] = capacity_ticket_face()
     page["width_fit"] = width_fit_face()
     page["width_return"] = width_return_face()
+    page["closed_axes"] = closed_axes_face()
     page["floor_provenance"] = floor_provenance_face()
     page["vol_target_gate"] = vol_target_face()
     page["positions"] = positions_face()
@@ -10204,6 +10288,11 @@ def render_md(p, sb=None):
     # price of the sixth name is printed here -- two roads to the same line, one unit.
     for _wr_line in width_return_block(p.get("width_return") or {}):
         add(_wr_line)
+    # r1873: the two blocks above offer a wider book and its bill. The reader's next question
+    # is "is any road we own enough", and until now the four closed axes could only be read
+    # one research file at a time.
+    for _ca_line in closed_axes_block(p.get("closed_axes") or {}):
+        add(_ca_line)
     for _vl_line in vt_ladder_block(p.get("vt_ladder") or {}):
         add(_vl_line)
     # r1614: right after the ladder, because it is a condition on the ladder's answer --
@@ -16312,6 +16401,39 @@ def selftest():
     chk("L338 width fit: a table priced on another book is printed as a disagreement",
         "DISAGREES_WITH_TICKET" in _wf_bad_md and "不是同一本书" in _wf_bad_md,
         "disagreement verdict + its own sentence on the page")
+
+    # r1873: four axes, one sentence. The block's job is to keep the reader from believing
+    # the next axis is the one that does it -- so each number must arrive with the face that
+    # measured it, and an axis with no floor must never print a number at all.
+    _ca_face = {"status": "ok", "artifact": "results/etf_book_closed_axes.json",
+                "verdict": "NO_AXIS_REACHES_THE_FLOOR", "target_pp": 5.0,
+                "n_readable": 3, "n_priced": 2,
+                "sentence": "座数 6.87pp；去相关 6.98pp；倾斜 7.95pp",
+                "evidence_cutoff": "2026-11-19", "generated": "2026-11-20T09:18:00+0800",
+                "axes": [{"axis": "seats", "label": "座数", "readable": True, "base_pp": 8.74,
+                          "best_pp": 6.87, "move_pp": 1.87, "annual_cost_pp": 2.76,
+                          "cost_label": "年化让掉", "artifact": "results/etf_book_seat_mde.json",
+                          "cutoff": "2026-11-13"},
+                         {"axis": "roster", "label": "历史宽度", "readable": True,
+                          "base_pp": None, "best_pp": None, "move_pp": None,
+                          "annual_cost_pp": None,
+                          "artifact": "results/etf_book_era_roster.json",
+                          "cutoff": "2026-11-19"},
+                         {"axis": "corr", "label": "去相关", "readable": False,
+                          "artifact": "results/etf_book_corr_select.json", "cutoff": None}]}
+    _ca_md = "\n".join(closed_axes_block(_ca_face))
+    chk("L338a closed axes: every axis carries its own face and cutoff beside its number",
+        "6.87pp" in _ca_md and "results/etf_book_seat_mde.json" in _ca_md
+        and "2026-11-13" in _ca_md and "NO_AXIS_REACHES_THE_FLOOR" in _ca_md,
+        "number + artifact + cutoff + verdict word")
+    chk("L338b closed axes: an axis with no single floor prints 无单一地板, never a 0",
+        "无单一地板" in _ca_md and "0.00pp" not in _ca_md,
+        "no invented floor for the roster axis")
+    _ca_miss_md = "\n".join(closed_axes_block({}))
+    chk("L338c closed axes: a missing face says cannot-read and never reads as closed",
+        "读不到" in _ca_md and "读不到" in _ca_miss_md and "轴都关掉了" in _ca_miss_md
+        and "6.87pp" not in _ca_miss_md,
+        "cannot-read sentence, missing face names itself, no numbers")
 
     # r1327: the gate's rule read on this book -- a verdict comparison, and a missing
     # comparison must read as missing, never as agreement.

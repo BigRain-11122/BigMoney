@@ -1271,6 +1271,25 @@ def main() -> int:
               _r.returncode == 0, f"exit={_r.returncode} | {_tail[:110]}")
     except Exception as e:
         check("product: futures contract refresh re-derived from the panel", False, str(e))
+    # r1873: four axes had four sentences in four research files, so a reader could always
+    # believe the next axis was the one that puts the select leg's floor under 5pp. Two legs:
+    # the estimator's own selftest (a missing axis refuses, None is not a pass, the sentence
+    # quotes each face's own number) and the face re-derived from the faces it quotes.
+    try:
+        _r = _leg_memo([sys.executable, "scripts/etf_book_closed_axes.py", "--selftest"], 120)
+        _tail = ((_r.stdout or _r.stderr).strip().splitlines() or ["no output"])[-1]
+        check("product: closed-axes face refuses a missing axis (selftest 19 legs)",
+              _r.returncode == 0, f"exit={_r.returncode} | {_tail[:90]}")
+    except Exception as e:
+        check("product: closed-axes face refuses a missing axis (selftest 19 legs)", False, str(e))
+    try:
+        _r = _leg_memo([sys.executable, "scripts/etf_book_closed_axes.py", "--check"], 120)
+        _tail = ((_r.stdout or _r.stderr).strip().splitlines() or ["no output"])[-1]
+        check("product: closed-axes verdict re-derived from the four faces it quotes",
+              _r.returncode == 0, f"exit={_r.returncode} | {_tail[:110]}")
+    except Exception as e:
+        check("product: closed-axes verdict re-derived from the four faces it quotes",
+              False, str(e))
     # r1698: the roll cost is the last input on the index-futures carry lines that was a
     # document rather than a tape, and the face that replaced it concluded it CANNOT settle
     # the question (the range-implied spread saturates at ~20x the tick). That is the shape

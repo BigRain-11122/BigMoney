@@ -1191,6 +1191,12 @@ LEGS = [
     ("etf_book_width_neighbors",
      ["python", "scripts/etf_book_width_neighbors.py", "check"],
      ["python", "scripts/etf_book_width_neighbors.py", "run"]),
+    # r1873: four axes, one sentence. `--check` re-derives the verdict AND the sentence from
+    # the faces it quotes and prints STALE FACE_BEHIND the moment any upstream axis moves --
+    # that word is what makes this leg a writer instead of a permanently-red summary (r1850).
+    ("etf_book_closed_axes",
+     ["python", "scripts/etf_book_closed_axes.py", "--check"],
+     ["python", "scripts/etf_book_closed_axes.py", "run"]),
     ("etf_book_ceo_page", ["python", "scripts/etf_book_ceo_page.py", "run"]),
     # r1834: the overnight-diff face priced the two most recent day pages, and the page above
     # is one of them -- but it had no producer here, so every chain run that regenerated the
