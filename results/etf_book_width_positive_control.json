@@ -3,10 +3,10 @@
  "question": "can the width ruler see a width effect that exists by construction?",
  "control": "rank by each name's own forward 20-bar return (perfect foresight, NOT tradeable; anti-oracle = the same score negated, so widening must spread bad names; the dose axis fades the oracle toward a seeded random ranking)",
  "panel": {
-  "bars": 5284,
-  "names": 1526,
+  "bars": 5285,
+  "names": 1528,
   "first": "2005-02-23",
-  "last": "2026-11-19",
+  "last": "2026-11-20",
   "n_flip_repairs": 169
  },
  "config": {
@@ -31,30 +31,30 @@
  "priced": {
   "oracle": {
    "3": {
-    "cagr": 4.3274,
-    "vol": 0.4055,
-    "sharpe": 4.506,
+    "cagr": 4.2958,
+    "vol": 0.4058,
+    "sharpe": 4.488,
     "maxdd": -0.2244,
     "turnover_per_decision": 1.892
    },
    "5": {
-    "cagr": 3.6581,
-    "vol": 0.3755,
-    "sharpe": 4.463,
+    "cagr": 3.6332,
+    "vol": 0.3757,
+    "sharpe": 4.445,
     "maxdd": -0.2478,
     "turnover_per_decision": 1.882
    },
    "8": {
-    "cagr": 3.1017,
-    "vol": 0.3434,
-    "sharpe": 4.459,
+    "cagr": 3.0802,
+    "vol": 0.3437,
+    "sharpe": 4.44,
     "maxdd": -0.1778,
     "turnover_per_decision": 1.822
    },
    "12": {
-    "cagr": 2.6208,
-    "vol": 0.322,
-    "sharpe": 4.329,
+    "cagr": 2.604,
+    "vol": 0.3222,
+    "sharpe": 4.311,
     "maxdd": -0.1365,
     "turnover_per_decision": 1.763
    }
@@ -63,41 +63,41 @@
    "verdict": "DETECTED",
    "expect_sign": -1,
    "rank_corr_width_cagr": -1.0,
-   "gap_pp_wide_minus_narrow": -170.66,
-   "gap_pp_abs": 170.66,
+   "gap_pp_wide_minus_narrow": -169.18,
+   "gap_pp_abs": 169.18,
    "cagr_by_width": [
-    4.3274,
-    3.6581,
-    3.1017,
-    2.6208
+    4.2958,
+    3.6332,
+    3.0802,
+    2.604
    ]
   },
   "anti_oracle": {
    "3": {
-    "cagr": -0.7407,
-    "vol": 0.3224,
-    "sharpe": -4.183,
+    "cagr": -0.7413,
+    "vol": 0.3223,
+    "sharpe": -4.191,
     "maxdd": -0.9999,
     "turnover_per_decision": 1.924
    },
    "5": {
-    "cagr": -0.7206,
+    "cagr": -0.7213,
     "vol": 0.3007,
-    "sharpe": -4.25,
+    "sharpe": -4.258,
     "maxdd": -0.9998,
     "turnover_per_decision": 1.911
    },
    "8": {
-    "cagr": -0.6996,
+    "cagr": -0.7007,
     "vol": 0.2889,
-    "sharpe": -4.177,
-    "maxdd": -0.9997,
+    "sharpe": -4.188,
+    "maxdd": -0.9998,
     "turnover_per_decision": 1.855
    },
    "12": {
-    "cagr": -0.6742,
-    "vol": 0.2767,
-    "sharpe": -4.069,
+    "cagr": -0.6756,
+    "vol": 0.2769,
+    "sharpe": -4.082,
     "maxdd": -0.9996,
     "turnover_per_decision": 1.795
    }
@@ -106,13 +106,13 @@
    "verdict": "DETECTED",
    "expect_sign": 1,
    "rank_corr_width_cagr": 1.0,
-   "gap_pp_wide_minus_narrow": 6.65,
-   "gap_pp_abs": 6.65,
+   "gap_pp_wide_minus_narrow": 6.57,
+   "gap_pp_abs": 6.57,
    "cagr_by_width": [
-    -0.7407,
-    -0.7206,
-    -0.6996,
-    -0.6742
+    -0.7413,
+    -0.7213,
+    -0.7007,
+    -0.6756
    ]
   }
  },
@@ -121,12 +121,12 @@
    "noise_lambda": 0.0,
    "signal_share": 1.0,
    "cagr_by_width": [
-    4.3274,
-    3.6581,
-    3.1017,
-    2.6208
+    4.2958,
+    3.6332,
+    3.0802,
+    2.604
    ],
-   "gap_pp_wide_minus_narrow": -170.66,
+   "gap_pp_wide_minus_narrow": -169.18,
    "rank_corr": -1.0,
    "verdict": "DETECTED"
   },
@@ -134,79 +134,77 @@
    "noise_lambda": 1.0,
    "signal_share": 0.5,
    "cagr_by_width": [
-    0.4619,
-    0.4388,
-    0.4438,
-    0.4212
+    0.5214,
+    0.5165,
+    0.477,
+    0.4123
    ],
-   "gap_pp_wide_minus_narrow": -4.07,
-   "rank_corr": -0.8,
+   "gap_pp_wide_minus_narrow": -10.91,
+   "rank_corr": -1.0,
    "verdict": "DETECTED"
   },
   {
    "noise_lambda": 2.0,
    "signal_share": 0.2,
    "cagr_by_width": [
-    0.1742,
-    0.2121,
-    0.2226,
-    0.2093
+    0.3271,
+    0.3075,
+    0.2473,
+    0.2043
    ],
-   "gap_pp_wide_minus_narrow": 3.51,
-   "rank_corr": 0.4,
-   "verdict": "NOT_DETECTED"
+   "gap_pp_wide_minus_narrow": -12.28,
+   "rank_corr": -1.0,
+   "verdict": "DETECTED"
   },
   {
    "noise_lambda": 4.0,
    "signal_share": 0.059,
    "cagr_by_width": [
-    0.1185,
-    0.1034,
-    0.1083,
-    0.0949
+    0.1957,
+    0.1444,
+    0.1425,
+    0.1279
    ],
-   "gap_pp_wide_minus_narrow": -2.36,
-   "rank_corr": -0.8,
+   "gap_pp_wide_minus_narrow": -6.78,
+   "rank_corr": -1.0,
    "verdict": "DETECTED"
   },
   {
    "noise_lambda": 8.0,
    "signal_share": 0.015,
    "cagr_by_width": [
-    0.0393,
-    0.0427,
-    0.0488,
-    0.0627
+    0.1443,
+    0.0961,
+    0.0867,
+    0.0738
    ],
-   "gap_pp_wide_minus_narrow": 2.34,
-   "rank_corr": 1.0,
-   "verdict": "NOT_DETECTED"
+   "gap_pp_wide_minus_narrow": -7.05,
+   "rank_corr": -1.0,
+   "verdict": "DETECTED"
   }
  ],
  "verdict": "RULER_SEES_BOTH_DIRECTIONS",
  "resolution": {
-  "noise_lambda_last_detected": 4.0,
-  "signal_share_at_that_level": 0.059,
-  "gap_pp_at_that_level": -2.36,
-  "levels_where_it_failed": [
-   2.0,
-   8.0
-  ],
-  "state": "detected_down_to",
-  "sentence": "the width sign is still read correctly when the oracle carries only 6% of the score's variance, where the by-construction gap is 2.36pp; past that the ruler returns no sign. So the smallest width effect this ruler can see on this panel is about 2.36pp -- anything under it cannot be called an absence."
+  "noise_lambda_last_detected": 8.0,
+  "signal_share_at_that_level": 0.015,
+  "gap_pp_at_that_level": -7.05,
+  "levels_where_it_failed": [],
+  "state": "detected_through_the_ladder",
+  "ladder_floor_pp": null,
+  "sentence": "the ladder ran out before the ruler did: at the noisiest level sampled (oracle 2% of the score's variance) the by-construction gap is still only 7.05pp and the sign is still read correctly. So this ruler demonstrably sees a 7.05pp width effect; its true floor is somewhere BELOW that and is not measured here -- extend the ladder before quoting a floor."
  },
  "real_face": {
   "state": "read",
-  "face_bar": "2026-11-19",
-  "cagr_narrow": 0.1526,
-  "cagr_wide": 0.1398,
-  "gap_pp_wide_minus_narrow": -1.28
+  "face_bar": "2026-11-20",
+  "cagr_narrow": 0.15,
+  "cagr_wide": 0.1371,
+  "gap_pp_wide_minus_narrow": -1.29
  },
  "real_vs_resolution": {
   "state": "below_resolution",
-  "real_gap_pp": 1.28,
-  "control_gap_pp": 2.36,
-  "sentence": "the real book's 1.28pp gap is SMALLER than the 2.36pp gap this ruler was shown to read in the control, so a real-book verdict that the widths are not separable cannot be told apart from the ruler's own blindness at that size -- it is not evidence of 'no width effect'"
+  "real_gap_pp": 1.29,
+  "control_gap_pp": 7.05,
+  "sentence": "the real book's 1.29pp gap is SMALLER than the 7.05pp gap this ruler was shown to read in the control, so a real-book verdict that the widths are not separable cannot be told apart from the ruler's own blindness at that size -- it is not evidence of 'no width effect'"
  },
  "honest_caveats": [
   "the control uses future data on purpose; it is a ruler check, never a strategy",
@@ -214,5 +212,5 @@
   "fading the oracle is not the same as weakening a real signal: the real score has cross-sectional structure an oracle does not, so the resolution is an upper bound on what this panel can show",
   "oracle and real share eligibility, cadence, toll and engine; only the score differs"
  ],
- "evidence_cutoff": "2026-11-19"
+ "evidence_cutoff": "2026-11-20"
 }

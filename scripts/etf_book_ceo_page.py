@@ -3649,17 +3649,30 @@ def page_day_debt_owed():
 # stands -- the page never invents a day to look precise (r98/r1159). Sites not yet folded in
 # keep their own copy; they are listed as debt by page_day_debt_guard, not assumed repaired.
 def day_word(page_day, bar, today="今天"):
-    """今天 when the page's day is that bar's day, else the bar itself."""
+    """今天（<bar>） when the page's day is that bar's day, else the bar itself.
+
+    r1894: the bare word was honest about WHICH bar it priced but not about which DAY the
+    reader is on. live_book_day_words read the printed page and found 22 lines saying
+    今天/今晚 with no date anywhere near them (verdict PRINTED_BUT_UNANCHORED) -- a page
+    rebuilt at 02:35 and read at 04:00 was telling the reader "tonight" about last night.
+    The anchor now rides inside the word, so every site already folded into this function
+    inherits it instead of growing a sixth copy of the same three lines.
+    """
     _pd = str(page_day or "")[:10]
     _b = str(bar or "")[:10]
-    if not _pd or not _b or _pd == _b:
+    if not _pd or not _b:
         return today
+    if _pd == _b:
+        return "%s（%s）" % (today, _b)
     return _b
 
 
 def day_word_adj(page_day, bar, adjective="今天的"):
-    """The attributive form: 今天的 / <bar> 的."""
-    return adjective if day_word(page_day, bar) == "今天" else "%s 的" % str(bar)[:10]
+    """The attributive form: 今天（<bar>）的 / <bar> 的."""
+    _w = day_word(page_day, bar)
+    if _w.startswith("今天"):
+        return "%s的" % _w
+    return "%s 的" % str(bar)[:10]
 
 
 def cash_ladder_header(page_day, as_of):
@@ -5407,9 +5420,10 @@ def live_quote_block(lq, page_day=None):
     _same_day = bool(page_day and _bar and str(_bar) == str(page_day))
     # the heading is the question; once the panel carries tonight's close the question
     # is not "what would it be worth", so the heading has to change with the answer.
+    # r1894: the same-day branch used to say 今晚 with no date -- a reader at 04:00 was
+    # told "tonight" about a close that happened yesterday. The bar names itself instead.
     if st == "panel_current":
-        L.append("## 今晚的收盘，面板自己有了" if _same_day
-                 else "## %s 的收盘，面板自己有了" % (_bar or "面板最后一根"))
+        L.append("## %s 的收盘，面板自己有了" % (_bar or "面板最后一根"))
     else:
         L.append("## 面板还没跟上那一根 bar 的时候，这本书值多少？")
     L.append("")
@@ -6120,7 +6134,7 @@ def capital_block(cf, page_day=None):
     # Saturday these three sentences called Friday's sheet 今天 -- the last owed row in
     # PAGE_DAY_LEDGER. One implementation (day_word) decides the word.
     _tk_w = day_word(page_day, cf.get("ticket_bar"))
-    _tk_pfx = "今天这张可执行单" if _tk_w == "今天" else "%s 那张可执行单" % _tk_w
+    _tk_pfx = "今天这张可执行单" if _tk_w.startswith("今天") else "%s 那张可执行单" % _tk_w
     if _tw is not None and _tw != _pw2:
         _th = cf.get("ticket_delivered_nav") if _two_rates else cf.get("ticket_model_nav")
         L.append("**%s实际持 %d 名**（bar %s），而这一节的门槛是按 **%s 名**算的。"
@@ -6334,8 +6348,9 @@ def do_or_wait_block(dw, page_day=None):
     # hands out an instruction. The word is allowed only when that bar IS the page's day.
     _bar = dw.get("evidence_cutoff")
     _same_day = bool(page_day and _bar and str(_bar)[:10] == str(page_day)[:10])
-    _day = "今天" if _same_day else "%s 那根 bar 上" % _bar
-    head = ("## 今天动手，还是等几天？" if _same_day
+    _dw_word = day_word(page_day, _bar)
+    _day = _dw_word if _same_day else "%s 那根 bar 上" % _bar
+    head = ("## %s动手，还是等几天？" % _dw_word if (_same_day or not page_day)
             else "## 在 %s 那根 bar 上动手，还是等几天？" % (_bar or "最后一根"))
     if dw.get("status") == "unreadable" or not dw:
         add(head)
@@ -6369,7 +6384,7 @@ def do_or_wait_block(dw, page_day=None):
             "下面问的是另一件事：**真要动手的那天，是当天做，还是等几根 bar 更便宜**。" % _day)
     elif verdict == "DO_TODAY":
         add("- 判决：**%s动手**——按面自己重算，等任何一档都不比%s便宜。%s"
-            % (_day, "今天" if _same_day else "那天",
+            % (_day, _dw_word if _same_day else "那天",
                "" if _same_day else "（那是那一根 bar 的日子，不是今天）"))
     elif str(verdict).startswith("WAIT_") and "NOT_SEPARABLE" not in verdict:
         add("- 判决：**等 %s 根 bar 更便宜**，且这个差在均值和零分得开。" % dw.get("best_k"))
@@ -6379,7 +6394,7 @@ def do_or_wait_block(dw, page_day=None):
 
     if table:
         add("| 等几根 bar | 比%s贵 / 便宜（CNY） | 其中持仓成本（CNY） | t | 等反而更好的比例 |"
-            % ("今天" if _same_day else "那根 bar "))
+            % (_dw_word if _same_day else "那根 bar "))
         add("|---|---|---|---|---|")
         for r in table:
             k = r.get("k")
@@ -6388,7 +6403,7 @@ def do_or_wait_block(dw, page_day=None):
             t = r.get("t")
             share = r.get("share_late_helps")
             add("| %s | %s | %s | %s | %s |"
-                % (("**今天（基准）**" if _same_day else "**%s（基准）**" % _bar)
+                % (("**%s（基准）**" % _dw_word if _same_day else "**%s（基准）**" % _bar)
                    if r.get("baseline") else str(k),
                    "0" if r.get("baseline") else
                    ("%+.0f" % cost if cost is not None else "—"),
@@ -9447,7 +9462,7 @@ def fill_block(fl, sheet=None, page_day=None):
     fl = fl or {}
     _bar = fl.get("decided_bar") or fl.get("last_bar")
     _same_day = bool(page_day and _bar and str(page_day)[:10] == str(_bar)[:10])
-    head = ("## 今天开盘要成交的是什么（决策 bar 与成交时点不是同一天）"
+    head = ("## %s开盘要成交的是什么（决策 bar 与成交时点不是同一天）" % day_word(page_day, _bar)
             if (_same_day or not page_day or not _bar)
             else "## %s 那根 bar 之后开盘要成交的是什么（决策 bar 与成交时点不是同一天）"
                  % _bar)
@@ -13293,8 +13308,8 @@ def selftest():
     _ul_other_md = "\n".join(universe_lock_block(_ul, page_day="2099-01-01"))
     chk("L120b universe lock: the fund list's day word names its own bar, not the reader's day",
         bool(_ul_asof)
-        and ("不冻结（今天）" in _ul_same_md
-             and ("今天的 %s 只基金" % _ul.get("full_n")) in _ul_same_md)
+        and (("不冻结（今天（%s））" % _ul_asof) in _ul_same_md
+             and (("今天（%s）的 %s 只基金" % (_ul_asof, _ul.get("full_n"))) in _ul_same_md))
         and (("不冻结（%s）" % _ul_asof) in _ul_other_md
              and "今天" not in _ul_other_md),
         "asof=%s" % _ul_asof)
@@ -14296,7 +14311,8 @@ def selftest():
     _sg_next = "\n".join(sibling_gap_block(_sg_fix, page_bar="2026-11-06", page_day="2026-11-14"))
     _sg_noday = "\n".join(sibling_gap_block(_sg_fix, page_bar="2026-11-06"))
     chk("L260 sibling gap: the day word follows page_day -- the face's own session says 今天, a later page names the bar",
-        ("只有 今天 才有" in _sg_same and "今天价差" in _sg_same)
+        ("只有 今天（2026-11-06） 才有" in _sg_same and "今天价差" not in _sg_same
+         and "今天（2026-11-06）价差" in _sg_same)
         and ("今天" not in _sg_next and "2026-11-06价差" in _sg_next)
         and ("只有 今天 才有" in _sg_noday),
         _sg_next[:160])
@@ -14496,30 +14512,31 @@ def selftest():
     # and the census that reads the artifact the reader opens. The next copy of this defect
     # will appear in whichever half is untested, so neither may rely on the other being green.
     chk("L262 reader day word: 今天 only when the page's day IS the bar, otherwise the bar itself",
-        day_word("2026-11-13", "2026-11-13") == "今天"
+        day_word("2026-11-13", "2026-11-13") == "今天（2026-11-13）"
         and day_word("2026-11-14", "2026-11-13") == "2026-11-13"
         and day_word(None, "2026-11-13") == "今天"
         and day_word("2026-11-14", None) == "今天"
         and day_word_adj("2026-11-14", "2026-11-13") == "2026-11-13 的"
-        and day_word_adj("2026-11-13", "2026-11-13") == "今天的",
+        and day_word_adj("2026-11-13", "2026-11-13") == "今天（2026-11-13）的",
         "%r/%r/%r" % (day_word("2026-11-14", "2026-11-13"), day_word(None, "2026-11-13"),
                       day_word_adj("2026-11-14", "2026-11-13")))
     _cm_tomorrow = (_cm_days[-1] + _dt.timedelta(days=1)).isoformat()
     _cm_same = "\n".join(cash_money_block(_cmf_v, page_day=_cm_date))
     _cm_later = "\n".join(cash_money_block(_cmf_v, page_day=_cm_tomorrow))
     chk("L263 cash money: the quote is called 今天 only on its own day, and the bar by name after",
-        "今天的报价" in _cm_same and "今天的报价" not in _cm_later
+        ("今天（%s）的报价" % _cm_date) in _cm_same
+        and ("今天（%s）的报价" % _cm_date) not in _cm_later
         and ("%s 的报价" % _cm_date) in _cm_later
         and ("%s能拿到的" % _cm_date) in _cm_later,
         "same_today=%s later_names=%s"
-        % ("今天的报价" in _cm_same, ("%s 的报价" % _cm_date) in _cm_later))
+        % (("今天（%s）的报价" % _cm_date) in _cm_same, ("%s 的报价" % _cm_date) in _cm_later))
     # r1669: the same defect in a table header -- on a Saturday this column printed Friday's
     # close under the words 今日报价, and the reader comparing it with the ticket's date had
     # to guess whether the two numbers came from the same session.
     _cl_same = cash_ladder_header("2026-11-13", "2026-11-13")
     _cl_later = cash_ladder_header("2026-11-14", "2026-11-13")
     chk("L267 cash ladder: the quote column says 今天 on its own day and names the bar after",
-        "今天报价" in _cl_same and "2026-11-13" not in _cl_same
+        ("今天（2026-11-13） 报价") in _cl_same and "今天报价" not in _cl_same
         and "今天" not in _cl_later and "2026-11-13 报价" in _cl_later
         and _cl_later.count("|") == _cl_same.count("|") == 9,
         "same=%r later=%r" % (_cl_same[:30], _cl_later[:30]))
@@ -14630,7 +14647,11 @@ def selftest():
     chk("L162 floor section: the size limit is printed as a beta reciprocal with the knob that issued it",
         "倒过来的尺子" in _fp_txt and "window_x_universe" in _fp_txt and "306" in _fp_txt
         and "39,122" in _fp_txt and "58%" in _fp_txt and "度" in _fp_txt
-        and "签发了今天的额度" in _fp_txt and "今天的额度（k=" in _fp_txt,
+        and "签发了今天的额度" in _fp_txt
+        and "今天的额度（k=" in _fp_txt
+        or ("签发了今天（2026-11-06）的额度" in _fp_txt
+            and "今天（2026-11-06）的额度（k=" in _fp_txt)
+        or ("签发 2026-11-06 的额度" in _fp_txt),
         _fp_txt[:80])
     chk("L163 floor section: the vol-target sweep is printed arm by arm and never as a pass",
         "仍被拒" in _fp_txt and "不调档（原书）" in _fp_txt and "4% 波动目标" in _fp_txt
@@ -14988,8 +15009,9 @@ def selftest():
     # close. One leg per side, so a fix that only deletes the words fails; one leg for the
     # heading of the branch that is not current, which claimed "yesterday" too.
     _cur_today_txt = "\n".join(live_quote_block(_ql_cur, page_day="2026-11-04"))
-    chk("L252 live quote: on the bar's own day the section still greets the reader with tonight",
-        "今晚的收盘" in _cur_today_txt and "这一节今天" in _cur_today_txt,
+    chk("L252 live quote: on the bar's own day the section names that bar, never 'tonight'",
+        "2026-11-04 的收盘，面板自己有了" in _cur_today_txt
+        and "这一节今天" in _cur_today_txt and "今晚" not in _cur_today_txt,
         "tonight=%s" % ("今晚" in _cur_today_txt))
     _cur_sat_txt = "\n".join(live_quote_block(_ql_cur, page_day="2026-11-14"))
     chk("L253 live quote: a sheet rebuilt after the close never promises tonight, and names the bar",
@@ -15588,10 +15610,10 @@ def selftest():
                                 "share_late_helps": 0.41247}}
     _dw_md = "\n".join(do_or_wait_block(dict(_dw_ok), page_day="2026-11-13"))
     chk("L234 the do-or-wait ladder reaches the page, labelled with its own bar",
-        "今天动手，还是等几天" in _dw_md and "2026-11-13" in _dw_md,
+        "今天（2026-11-13）动手，还是等几天" in _dw_md and "2026-11-13" in _dw_md,
         _dw_md[:160])
     chk("L235 every rung is the face's own number and the baseline is named",
-        "今天（基准）" in _dw_md and "+1798" in _dw_md and "-932" in _dw_md,
+        "今天（2026-11-13）（基准）" in _dw_md and "+1798" in _dw_md and "-932" in _dw_md,
         _dw_md[:200])
     # r1664: the ladder hands out an instruction, so its day word has to be the reader's day --
     # on a Saturday the face is still priced on Friday's bar.
@@ -15603,10 +15625,10 @@ def selftest():
         and "今天（基准）" not in _dw_sat and "比今天贵" not in _dw_sat,
         _dw_sat[:240])
     chk("L257 do-or-wait: on the bar's own day the same block still says today (two-sided)",
-        "今天动手" in "\n".join(do_or_wait_block(dict(_dw_ok, verdict="DO_TODAY"),
-                                                page_day="2026-11-13"))
-        and "今天（基准）" in _dw_md and "不是今天" not in _dw_md
-        and "比今天贵" in _dw_md,
+        "今天（2026-11-13）动手" in "\n".join(
+            do_or_wait_block(dict(_dw_ok, verdict="DO_TODAY"), page_day="2026-11-13"))
+        and "今天（2026-11-13）（基准）" in _dw_md and "不是今天" not in _dw_md
+        and "比今天（2026-11-13）贵" in _dw_md,
         _dw_md[:240])
     _dw_stale = do_or_wait_block(dict(_dw_ok, status="stale",
                                       stale_receipts=["cut_order_gap"]))
@@ -15654,7 +15676,7 @@ def selftest():
                                            page_day="2026-11-13"))
     chk("L239 the two verdicts never share a page: owed-today and nothing-owed read differently",
         "没有到期的事" in _dw_md and "没有到期的事" not in _dw_today
-        and "今天动手" in _dw_today,
+        and "今天（2026-11-13）动手" in _dw_today,
         (_dw_today[:120]))
     _dw_live = do_or_wait_face()
     chk("L240 the face on disk is the one its receipts price (E188: stale must read stale)",

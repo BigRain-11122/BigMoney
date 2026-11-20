@@ -1,6 +1,6 @@
 # Premium persistence -- is today's cross-border premium a condition or a convention?
 
-Ticket: `results\etf_book_order\TICKET-2026-11-20.json` (session 2026-11-20, read from `evidence_cutoff`)
+Ticket: `results\etf_book_order\TICKET-2026-11-20.json` (session 2026-11-20, read from `base_bar`)
 
 ## Answer
 

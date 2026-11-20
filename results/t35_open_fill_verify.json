@@ -2,48 +2,56 @@
  "verdict": "PASS",
  "rel_tol": 0.002,
  "counters": {
-  "matched": 0,
+  "matched": 1,
   "dropped": 0,
   "breach": 0,
-  "zero_pending_traders": 6,
+  "zero_pending_traders": 5,
   "no_marks_traders": 0,
   "no_bar_traders": 0,
   "refire_held": 0
  },
  "per_trader": {
   "COMPOSITE-CE-01": {
-   "cutoff": "2026-11-19",
+   "cutoff": "2026-11-20",
    "status": "zero_pending",
    "detail": []
   },
   "COMPOSITE-CE-02": {
-   "cutoff": "2026-11-19",
+   "cutoff": "2026-11-20",
    "status": "zero_pending",
    "detail": []
   },
   "DROUGHT-CE-01": {
-   "cutoff": "2026-11-19",
+   "cutoff": "2026-11-20",
    "status": "zero_pending",
    "detail": []
   },
   "ENGULF-CE-01": {
-   "cutoff": "2026-11-19",
+   "cutoff": "2026-11-20",
    "status": "zero_pending",
    "detail": []
   },
   "NEEDLE-DE-01": {
-   "cutoff": "2026-11-19",
+   "cutoff": "2026-11-20",
    "status": "zero_pending",
    "detail": []
   },
   "VOLATILITY-CE-01": {
-   "cutoff": "2026-11-19",
-   "status": "zero_pending",
-   "detail": []
+   "cutoff": "2026-11-20",
+   "status": "verified_pass",
+   "detail": [
+    {
+     "symbol": "510330",
+     "outcome": "filled",
+     "cost_price": 4.185,
+     "session_open": 4.185,
+     "rel_diff": 0.0
+    }
+   ]
   }
  },
- "day": "2026-11-19",
+ "day": "2026-11-20",
  "evidence_tier": "marks",
  "drops_observable": true,
- "ts": "2026-11-20 12:49:23"
+ "ts": "2026-11-20 18:22:37"
 }

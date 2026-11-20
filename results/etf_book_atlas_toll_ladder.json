@@ -1,9 +1,9 @@
 {
  "buffer_ladder": {
   "band_pp": [
-   6.749,
-   6.8,
-   7.226,
+   6.799,
+   7.241,
+   6.477,
    6.437,
    6.319,
    5.891,
@@ -21,31 +21,31 @@
   "clears_band": [
    false,
    false,
-   true,
+   false,
    false,
    false,
    true,
    false
   ],
-  "n_clearing_rungs": 2,
+  "n_clearing_rungs": 1,
   "reasons": [
-   "2 of 7 buffer strengths clear the band (one draw in 7 if the label were coin-flip)",
-   "spread has no dose: 5.29 / 5.14 / 7.37 / 6.22 / 5.45 / 6.25 / 6.01 across k=0.00 / 0.02 / 0.05 / 0.10 / 0.20 / 0.30 / 0.40 (rank corr 0.429)",
-   "band is flat (5.89 .. 7.23pp), so the label moves on spread alone",
-   "2 rungs clear the band and the spread still is not ordered by k (rank corr 0.429 < 0.70): scattered crossings are the same draw as one, but they are not a single rung and must not be named as one"
+   "1 of 7 buffer strengths clear the band (one draw in 7 if the label were coin-flip)",
+   "spread has no dose: 5.24 / 6.67 / 5.54 / 6.22 / 5.45 / 6.25 / 6.01 across k=0.00 / 0.02 / 0.05 / 0.10 / 0.20 / 0.30 / 0.40 (rank corr 0.214)",
+   "band is flat (5.89 .. 7.24pp), so the label moves on spread alone",
+   "a strength ladder whose only crossing is non-monotone is the r1325 single-arm reading again: the ladder, not the arm, is the ruler"
   ],
   "rungs": 7,
   "spread_pp": [
-   5.285,
-   5.145,
-   7.365,
+   5.24,
+   6.67,
+   5.535,
    6.225,
    5.445,
    6.25,
    6.01
   ],
-  "spread_rank_corr_with_k": 0.42857142857142855,
-  "verdict": "CROSSINGS_WITHOUT_DOSE"
+  "spread_rank_corr_with_k": 0.21428571428571427,
+  "verdict": "SINGLE_RUNG_CROSSING_IS_ONE_DRAW"
  },
  "excluded": [
   {
@@ -64,28 +64,28 @@
  "faces": {
   "buffer": [
    {
-    "band_pp": 6.749,
+    "band_pp": 6.799,
     "buffer_k": 0.0,
     "clears_band": false,
     "cost": 0.001,
     "file": "etf_book_phase_atlas.json",
-    "spread_pp": 5.285
+    "spread_pp": 5.24
    },
    {
-    "band_pp": 6.8,
+    "band_pp": 7.241,
     "buffer_k": 0.02,
     "clears_band": false,
     "cost": 0.001,
     "file": "etf_book_phase_atlas_buffer_k02.json",
-    "spread_pp": 5.145
+    "spread_pp": 6.67
    },
    {
-    "band_pp": 7.226,
+    "band_pp": 6.477,
     "buffer_k": 0.05,
-    "clears_band": true,
+    "clears_band": false,
     "cost": 0.001,
     "file": "etf_book_phase_atlas_buffer_k05.json",
-    "spread_pp": 7.365
+    "spread_pp": 5.535
    },
    {
     "band_pp": 6.437,
@@ -138,12 +138,12 @@
     "spread_pp": 6.105
    },
    {
-    "band_pp": 6.749,
+    "band_pp": 6.799,
     "buffer_k": 0.0,
     "clears_band": false,
     "cost": 0.001,
     "file": "etf_book_phase_atlas.json",
-    "spread_pp": 5.285
+    "spread_pp": 5.24
    },
    {
     "band_pp": 6.697,
@@ -165,8 +165,8 @@
  },
  "question": "the atlas's 12-cell ordering is judged against each cell's own phase band; both the spread and the band move with the toll. At what toll does the ordering stop clearing its own noise, and is the decay monotone?",
  "script": "scripts/etf_book_atlas_toll_ladder.py",
- "sources_bar": "2026-11-19",
- "sources_digest": "675f301213033d12be5b61c563bec4ed3169f9e3fc401cf9466839f8dda15b69",
+ "sources_bar": "2026-11-20",
+ "sources_digest": "614a8e2d78054551687d3a2ffca93faf17315a6256bfbd12f0c4b430a293b628",
  "spec": {
   "baseline_cost_fraction": 0.001,
   "cadence_pair": [
@@ -203,7 +203,7 @@
    },
    {
     "file": "etf_book_phase_atlas.json",
-    "median_cagr_pp": 11.96,
+    "median_cagr_pp": 11.805,
     "n_hold": 8,
     "rebal": 10,
     "toll_bp": 10.0
@@ -224,11 +224,11 @@
    }
   ],
   "argmax_identity_stable": false,
-  "band_at_production_toll_pp": 6.767,
+  "band_at_production_toll_pp": 6.797,
   "band_pp": [
    6.84,
    6.795,
-   6.749,
+   6.799,
    6.697,
    7.077
   ],
@@ -236,7 +236,7 @@
   "cadence_effect_median_pp": [
    5.475,
    4.623,
-   3.79,
+   3.835,
    2.07,
    -0.663
   ],
@@ -244,7 +244,7 @@
   "cadence_spread_pp": [
    5.475,
    4.622,
-   3.79,
+   3.835,
    2.07,
    1.448
   ],
@@ -259,7 +259,7 @@
    "spread falls from 6.93pp at 0bp to 2.11pp at 40bp (rank corr -1.000)",
    "median cell band stays 6.84 -> 7.08pp across the same rungs (band is not the mover)",
    "the two series cross at 0.61bp/side",
-   "at the production toll (8bp) interpolated spread 5.61pp vs band 6.77pp",
+   "at the production toll (8bp) interpolated spread 5.59pp vs band 6.80pp",
    "the FAST cadence is worth +5.47pp at 0bp and -0.66pp at 40bp -- the ranking of the cadence knob inverts at 40bp/side",
    "the width knob moves the other way: +0.73 -> +1.17pp (rank corr +1.000), i.e. wider is worth more as the toll rises",
    "the ordering is monotone in the toll and gone by the production toll: no width/cadence sentence from this grid is quotable at 8bp/side"
@@ -268,11 +268,11 @@
   "rungs_that_clear": [
    "etf_book_phase_atlas_cost0.json"
   ],
-  "spread_at_production_toll_pp": 5.613,
+  "spread_at_production_toll_pp": 5.586,
   "spread_pp": [
    6.935,
    6.105,
-   5.285,
+   5.24,
    3.685,
    2.11
   ],
@@ -288,7 +288,7 @@
   "width_effect_median_pp": [
    0.735,
    0.845,
-   0.95,
+   0.865,
    1.16,
    1.165
   ],
@@ -296,7 +296,7 @@
   "width_spread_pp": [
    1.395,
    1.445,
-   1.495,
+   1.375,
    1.625,
    1.165
   ]

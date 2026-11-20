@@ -2,18 +2,18 @@
 
 ticket `TICKET-2026-11-20.json` | evidence cutoff 2026-11-20 | decision date 2026-12-09 | beta target 0.2
 
-**KEEP_SUPPORTED_BY_INDEPENDENT_PATH** — keeping k=0.432195 is supported by 3 independent path reading(s) (universe, window, window_x_universe); the permitting floor over all path readings is k=0.432195
+**KEEP_SUPPORTED_BY_INDEPENDENT_PATH** — keeping k=0.435003 is supported by 3 independent path reading(s) (universe, window, window_x_universe); the permitting floor over all path readings is k=0.435003
 
 | reading | k | vs money (pp) | kind | why |
 |---|---|---|---|---|
-| baseline_published | 0.460253 | +2.81 | circular | the construction the ticket was priced from (k == k_now by identity) |
-| window | 0.747086 | +31.49 | path | measured on 771 bars |
-| universe | 0.432195 | +0.00 | path | measured on 1667 bars |
-| window_x_universe | 0.667665 | +23.55 | path | measured on 771 bars |
-| denominator | 0.343508 | -8.87 | static | static composition, not a path: only comparable with the path rows because it is divided by covered weight |
+| baseline_published | 0.460253 | +2.53 | circular | the construction the ticket was priced from (k == k_now by identity) |
+| window | 0.747086 | +31.21 | path | measured on 771 bars |
+| universe | 0.435003 | -0.00 | path | measured on 1668 bars |
+| window_x_universe | 0.667665 | +23.27 | path | measured on 771 bars |
+| denominator | 0.343508 | -9.15 | static | static composition, not a path: only comparable with the path rows because it is divided by covered weight |
 
-- money in force: k=0.432195 = CNY 431,754 of a CNY 1,000,000 NAV
-- permitted floor over 3 path reading(s): k=0.432195 = CNY 431,754
+- money in force: k=0.435003 = CNY 434,754 of a CNY 1,000,000 NAV
+- permitted floor over 3 path reading(s): k=0.435003 = CNY 434,754
 - cut if reprice is required: k -0.000000 (0.00pp) = CNY 0
 - supporters at the money: universe, window, window_x_universe (path: universe, window, window_x_universe / non-path: none)
 - the trap: reading 'some ruler permits a larger size' as permission reads k=0.747086 -> keep=True

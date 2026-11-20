@@ -1,11 +1,14 @@
 {
- "as_of": "2026-11-20T16:01:29",
+ "as_of": "2026-11-21T02:31:55",
  "calendar": {
   "path": "data/exchange_calendar.csv",
   "refresh": {
    "error": null,
-   "fetched": false,
-   "reason": "coverage_and_ttl_ok"
+   "fetched": true,
+   "reason": "refreshed",
+   "rows_after": 8797,
+   "rows_before": 8797,
+   "sha256": "e393f45ff7137bddbfc670c178676df40eaf34bb494b29e44049d81a4b9305f3"
   },
   "rows": 8797,
   "scope_end": "2026-12-31",
@@ -21,13 +24,13 @@
   "2026-11-17": 1.0,
   "2026-11-18": 1.0,
   "2026-11-19": 0.9994,
-  "2026-11-20": 0.9948
+  "2026-11-20": 0.9994
  },
  "detail": "the maintained panel covers every official trading day it should by now; 3 file(s) sit outside the active cohort: 510880_t73 (declared_out_of_scope; last bar 2026-09-22), sh512390 (source_ended; last bar 2026-09-04), sh530080 (source_ended; last bar 2026-11-12) -- every one of them is declared by the lane's own receipt",
  "expected_last_official_day": "2026-11-20",
  "forward_impact": {
   "blocked": true,
-  "ledger_last_bar": "2026-11-19",
+  "ledger_last_bar": "2026-11-20",
   "note": "one mark per new panel bar; a lagging feed pauses accrual without any error"
  },
  "machine": "bm-c",
@@ -39,15 +42,7 @@
   "cutoff_min": "2026-09-04",
   "effective_cutoff": "2026-11-20",
   "lagging_active_sample": [
-   "sz159115",
-   "sz159119",
-   "sz159209",
-   "sz159333",
-   "sz159399",
-   "sz159528",
-   "sz159576",
-   "sz159581",
-   "sz159589"
+   "sz159528"
   ],
   "n_active": 1722,
   "n_stale_cohort": 3,

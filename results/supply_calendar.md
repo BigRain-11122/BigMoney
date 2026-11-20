@@ -4,9 +4,9 @@
 
 | 候选 | 读数 | 判决 | 未过的检查 | 收据 | 被取代的读数 |
 |---|---|---|---|---|---|
-| nobond_vt08_adopted | phase | UNADJUDICABLE_PHASE | Y4_top2_share, C1_capacity | results/etf_book_phase_gate.json | CONDITIONAL via Y4_top2_share [single_phase · results/etf_book_year_gate/YEAR-GATE.json] |
-| nobond_base | phase | UNADJUDICABLE_PHASE | C1_capacity, Y3_worst_year, Y4_top2_share | results/etf_book_phase_gate.json | ADMIT [single_phase · results/etf_book_year_gate/YEAR-GATE.json] |
-| nobond_vt08_floor_050 | phase | UNADJUDICABLE_PHASE | C1_capacity, Y4_top2_share | results/etf_book_phase_gate.json | — |
+| nobond_vt08_adopted | phase | UNADJUDICABLE_PHASE | Y4_top2_share | results/etf_book_phase_gate.json | CONDITIONAL via Y4_top2_share [single_phase · results/etf_book_year_gate/YEAR-GATE.json] |
+| nobond_base | phase | UNADJUDICABLE_PHASE | Y3_worst_year, Y4_top2_share | results/etf_book_phase_gate.json | ADMIT [single_phase · results/etf_book_year_gate/YEAR-GATE.json] |
+| nobond_vt08_floor_050 | phase | UNADJUDICABLE_PHASE | Y4_top2_share | results/etf_book_phase_gate.json | — |
 | all_classes_published | single_phase | CONDITIONAL | Y4_top2_share | results/etf_book_year_gate/YEAR-GATE.json | — |
 
 **被弃掉的那份读数里有 ADMIT**：nobond_base 在 single_phase（results/etf_book_year_gate/YEAR-GATE.json）读 ADMIT。同一本书、同一天，两张收据给了不同的话，合并按列序只留第一张（相位）；上面的判词说的是**留下来的那份读数**，不是这本书的全部记录。两份都印出来，读者才知道「池子空」是书的结论还是合并顺序的结论。

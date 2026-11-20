@@ -15,13 +15,13 @@
  "rules_source": "scripts/etf_book_phase_atlas_arms.py::judge (imported, not copied)",
  "source": {
   "face": "results/etf_book_phase_atlas_arms.json",
-  "inputs_sha256": "6727d769b01192b01bdd72e794b0f7f146988309c5b1078adb761d087310d5b9"
+  "inputs_sha256": "7814bd658de5b33c51575cd34307c5419613cf2f453a224784b1adabf09c8ee0"
  },
  "null": {
   "trials": 20000,
   "label_frequency": {
-   "NOT-SEPARABLE": 0.035,
-   "REJECT": 0.965
+   "NOT-SEPARABLE": 0.0351,
+   "REJECT": 0.9649
   },
   "shift_pp": 0.0,
   "band_source": "results/etf_book_phase_atlas_arms.json rows"
@@ -29,88 +29,88 @@
  "observed": [
   {
    "arm": "buffer_k05",
-   "median_delta_pp": 0.438,
+   "median_delta_pp": 0.022,
    "cells_beyond_own_band": 0,
-   "verdict": "NOT-SEPARABLE",
+   "verdict": "REJECT",
    "verdict_published_on_arms_face": true,
-   "null_p_same_or_worse": 0.035
+   "null_p_same_or_worse": 0.9649
   },
   {
    "arm": "cost05",
-   "median_delta_pp": 0.722,
+   "median_delta_pp": 0.88,
    "cells_beyond_own_band": 0,
    "verdict": "NOT-SEPARABLE",
-   "verdict_published_on_arms_face": true,
-   "null_p_same_or_worse": 0.035
+   "verdict_published_on_arms_face": false,
+   "null_p_same_or_worse": 0.0351
   },
   {
    "arm": "cost20",
-   "median_delta_pp": -1.425,
+   "median_delta_pp": -1.275,
    "cells_beyond_own_band": 0,
    "verdict": "REJECT",
-   "verdict_published_on_arms_face": true,
-   "null_p_same_or_worse": 0.965
+   "verdict_published_on_arms_face": false,
+   "null_p_same_or_worse": 0.9649
   },
   {
    "arm": "cost40",
-   "median_delta_pp": -3.215,
+   "median_delta_pp": -3.04,
    "cells_beyond_own_band": 3,
    "verdict": "REJECT",
-   "verdict_published_on_arms_face": true,
-   "null_p_same_or_worse": 0.965
+   "verdict_published_on_arms_face": false,
+   "null_p_same_or_worse": 0.9649
   },
   {
    "arm": "buffer_k10",
-   "median_delta_pp": 0.048,
+   "median_delta_pp": 0.247,
    "cells_beyond_own_band": 0,
    "verdict": "NOT-SEPARABLE",
-   "verdict_published_on_arms_face": true,
-   "null_p_same_or_worse": 0.035
+   "verdict_published_on_arms_face": false,
+   "null_p_same_or_worse": 0.0351
   },
   {
    "arm": "buffer_k20",
-   "median_delta_pp": 0.155,
+   "median_delta_pp": 0.388,
    "cells_beyond_own_band": 0,
    "verdict": "NOT-SEPARABLE",
-   "verdict_published_on_arms_face": true,
-   "null_p_same_or_worse": 0.035
+   "verdict_published_on_arms_face": false,
+   "null_p_same_or_worse": 0.0351
   },
   {
    "arm": "buffer_k02",
-   "median_delta_pp": -0.007,
+   "median_delta_pp": 0.1,
    "cells_beyond_own_band": 0,
    "verdict": "NOT-SEPARABLE",
    "verdict_published_on_arms_face": true,
-   "null_p_same_or_worse": 0.035
+   "null_p_same_or_worse": 0.0351
   },
   {
    "arm": "buffer_k40",
-   "median_delta_pp": 0.448,
+   "median_delta_pp": 0.633,
    "cells_beyond_own_band": 0,
    "verdict": "NOT-SEPARABLE",
-   "verdict_published_on_arms_face": true,
-   "null_p_same_or_worse": 0.035
+   "verdict_published_on_arms_face": false,
+   "null_p_same_or_worse": 0.0351
   },
   {
    "arm": "buffer_k05_cost20",
-   "median_delta_pp": -1.515,
+   "median_delta_pp": -1.373,
    "cells_beyond_own_band": 0,
    "verdict": "REJECT",
-   "verdict_published_on_arms_face": true,
-   "null_p_same_or_worse": 0.965
+   "verdict_published_on_arms_face": false,
+   "null_p_same_or_worse": 0.9649
   },
   {
    "arm": "cost0",
-   "median_delta_pp": 1.445,
+   "median_delta_pp": 1.583,
    "cells_beyond_own_band": 0,
    "verdict": "NOT-SEPARABLE",
-   "verdict_published_on_arms_face": true,
-   "null_p_same_or_worse": 0.035
+   "verdict_published_on_arms_face": false,
+   "null_p_same_or_worse": 0.0351
   }
  ],
  "verdict": "REJECT_IS_THE_DEFAULT",
  "verdict_reasons": [
-  "an effect-free panel reads REJECT 96.5% of the time, so a published REJECT transmits almost nothing; the rule's informative branch is the rare one (NOT-SEPARABLE 3.5%, ADOPT 0.0%, NOT-ASSESSED 0.0%). Mechanism: the cell floor -0.15pp is 13.7x smaller than one sigma (2.05pp) of these cells, so about half of them land under it by chance and the not-worse share (floor 0.80) fails by construction"
+  "an effect-free panel reads REJECT 96.5% of the time, so a published REJECT transmits almost nothing; the rule's informative branch is the rare one (NOT-SEPARABLE 3.5%, ADOPT 0.0%, NOT-ASSESSED 0.0%). Mechanism: the cell floor -0.15pp is 13.8x smaller than one sigma (2.07pp) of these cells, so about half of them land under it by chance and the not-worse share (floor 0.80) fails by construction"
  ],
- "evidence_cutoff": "2026-11-19"
+ "evidence_cutoff": "2026-11-20"
 }

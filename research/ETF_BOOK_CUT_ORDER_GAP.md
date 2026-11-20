@@ -5,14 +5,14 @@
 
 ## 一句话
 
-the ticket orders k=0.432195 (CNY 431,754) and the permission allows 0.432195 (CNY 431,754): no cut is owed on 2026-12-09
+the ticket orders k=0.435003 (CNY 434,754) and the permission allows 0.435003 (CNY 434,754): no cut is owed on 2026-12-09
 
 ## 两侧的数
 
 | 读数 | k | 风险腿金额 CNY |
 |---|---|---|
-| 票据将下单 | 0.432195 | 431,754 |
-| 权限允许 | 0.432195 | 431,754 |
+| 票据将下单 | 0.435003 | 434,754 |
+| 权限允许 | 0.435003 | 434,754 |
 | 差额 | 0.000000（0.00pp） | 0 |
 
 ## 逐腿削减（）

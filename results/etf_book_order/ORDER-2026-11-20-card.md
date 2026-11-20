@@ -85,7 +85,7 @@
 - 出处：results/etf_book_year_gate/YEAR-GATE.json（生产者 etf_book_year_gate，判据 candidate_year_gate 导入；本页只读不算）
 
 ## 输入顺序（这一页写于它的输入之后吗）
-- results/etf_book_order/latest.json 写于其输入之后（检查面生成于 2026-11-21T01:17:47+08:00，本页写于 2026-11-21T02:37:19+08:00）。
+- results/etf_book_order/latest.json 写于其输入之后（检查面生成于 2026-11-21T03:14:42+08:00，本页写于 2026-11-21T03:20:39+08:00）。
 
 
 ## 历史变更通知：本单引用的历史有没有被改过

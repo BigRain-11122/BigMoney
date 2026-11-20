@@ -6579,14 +6579,14 @@
   "trim": null,
   "cost": null,
   "floor_verdict": "REAPPLY_REQUIRED",
-  "floor_sentence": "Floor 0.435003 holds on the sheet, and the sheet names a live floor source (floor_ledger), so the next sheet inherits the cap: the schedule's last decision bar is 0.458463 above the floor, but the trim disappears only if both floor faces go missing on that bar.",
+  "floor_sentence": "Floor 0.435003 holds on the sheet, and the sheet names a live floor source (permission_receipt), so the next sheet inherits the cap: the schedule's last decision bar is 0.458463 above the floor, but the trim disappears only if both floor faces go missing on that bar.",
   "floor_k": 0.435003,
   "k_schedule_last": 0.458463,
   "consistency": {
    "generated": {
     "permission": "2026-11-20T20:32:37+0800",
     "gap": "2026-11-20T20:33:39+0800",
-    "ledger": "2026-11-20T19:36:48+0800"
+    "ledger": "2026-11-20T21:02:01+0800"
    },
    "permission_vs_gap": true,
    "permission_vs_ledger": true,
@@ -6594,7 +6594,7 @@
    "agree": true
   },
   "schedule_last_date": "2026-11-20",
-  "floor_action": "the sheet obeys the floor and names a live floor source (floor_ledger, decision 2026-12-09), so the next sheet inherits the cap instead of re-applying it by hand; the standing risk is narrower -- the trim gone only if BOTH the permission receipt and the floor ledger are missing on that bar (r1497)",
+  "floor_action": "the sheet obeys the floor and names a live floor source (permission_receipt, decision 2026-12-09), so the next sheet inherits the cap instead of re-applying it by hand; the standing risk is narrower -- the trim gone only if BOTH the permission receipt and the floor ledger are missing on that bar (r1497)",
   "floor_issued": "2026-12-09",
   "floor_ledger_issued_at": "2026-11-20T19:36:48+0800"
  },
@@ -45942,17 +45942,15 @@
   "detail": "这张票没有留下成交行（空票或本 bar 未换仓）"
  },
  "do_or_wait": {
-  "status": "stale",
+  "status": "current",
   "artifact": "K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\etf_book_do_or_wait.json",
   "why": null,
-  "stale_receipts": [
-   "cut_order_gap"
-  ],
+  "stale_receipts": [],
   "evidence_cutoff": "2026-11-20",
   "capital_cny": 1000000.0,
   "question": "Should this sheet be done today, or is waiting cheaper -- and does the per-sheet price still add up when the wait is several bars?",
   "verdict": "NOTHING_OWED_TODAY",
-  "sentence": "nothing is owed today (the ticket orders k under its own permission), so the baseline is 'do nothing'. doing it today is the cheapest rung of the ladder (every wait is more expensive); across k=1..10 the waits span +1786 .. +4024 CNY vs today. One open late is worth -929 CNY of NAV on the median sheet with waiting helping on 41% of them (t=-4.56), so the mean is priced but a single sheet is still a coin flip.",
+  "sentence": "nothing is owed today (the ticket orders k under its own permission), so the baseline is 'do nothing'. doing it today is the cheapest rung of the ladder (every wait is more expensive); across k=1..10 the waits span +1786 .. +4025 CNY vs today. One open late is worth -929 CNY of NAV on the median sheet with waiting helping on 41% of them (t=-4.56), so the mean is priced but a single sheet is still a coin flip.",
   "table": [
    {
     "k": 0,
@@ -45967,8 +45965,8 @@
    {
     "k": 1,
     "mean_cny": -1786.0584921749253,
-    "carry_cny": -0.13,
-    "cost_cny_vs_today": 1785.93,
+    "carry_cny": 0.0,
+    "cost_cny_vs_today": 1786.06,
     "t": -4.562446075953977,
     "share_late_helps": 0.4142857142857143,
     "separable_from_zero": true
@@ -45976,8 +45974,8 @@
    {
     "k": 2,
     "mean_cny": -2592.2480834509674,
-    "carry_cny": -0.26,
-    "cost_cny_vs_today": 2591.98,
+    "carry_cny": 0.0,
+    "cost_cny_vs_today": 2592.25,
     "t": -4.78380530595965,
     "share_late_helps": 0.41904761904761906,
     "separable_from_zero": true
@@ -45985,8 +45983,8 @@
    {
     "k": 3,
     "mean_cny": -2789.5959654595513,
-    "carry_cny": -0.4,
-    "cost_cny_vs_today": 2789.2,
+    "carry_cny": 0.0,
+    "cost_cny_vs_today": 2789.6,
     "t": -4.135297267911759,
     "share_late_helps": 0.4380952380952381,
     "separable_from_zero": true
@@ -45994,8 +45992,8 @@
    {
     "k": 5,
     "mean_cny": -3946.7986695107024,
-    "carry_cny": -0.66,
-    "cost_cny_vs_today": 3946.14,
+    "carry_cny": 0.0,
+    "cost_cny_vs_today": 3946.8,
     "t": -4.2134663103582515,
     "share_late_helps": 0.41866028708133973,
     "separable_from_zero": true
@@ -46003,8 +46001,8 @@
    {
     "k": 10,
     "mean_cny": -4025.158286788431,
-    "carry_cny": -1.32,
-    "cost_cny_vs_today": 4023.84,
+    "carry_cny": 0.0,
+    "cost_cny_vs_today": 4025.16,
     "t": -2.205379729243327,
     "share_late_helps": 0.4433734939759036,
     "separable_from_zero": true
@@ -46023,7 +46021,7 @@
   "inputs": {
    "cut_order_gap": {
     "cutoff": "2026-11-20",
-    "digest": "8a60d9c412b345cd"
+    "digest": "4b5b611d919ce818"
    },
    "late_sheet_price": {
     "cutoff": "2026-11-20",
@@ -46050,8 +46048,13 @@
   "status": "ok",
   "artifact": "results/etf_book_band_ruler.json",
   "verdict": {
-   "state": "IDENTITY_FAILED",
-   "why": "a control arm does not reproduce the face it is a control for; no dial price can be quoted",
+   "state": "ROWS_NOT_COMPARABLE",
+   "dials_that_move": [
+    "ordering",
+    "universe",
+    "window"
+   ],
+   "why": "the table's rows are not one ruler: window +4.53pp、universe +0.44pp、ordering -0.65pp per year on the book the operator actually holds. The gap between the top row and the card row is the sum of these dials, not a property of the strategy.",
    "criteria": "ROWS_NOT_COMPARABLE iff at least one dial moves the held config by >= tol_pp_per_year on at least one window; SAME_RULER if none does. The published gap between row 1 and row 3 is decomposed into these dials, and no dial's price is inferred from another."
   },
   "dial_prices": {
@@ -46421,9 +46424,9 @@
   "identity": {
    "ticket 12.78% reproduced on its own ruler": {
     "measured_pp": 11.94,
-    "published_pp": 12.29,
-    "delta_pp": -0.35,
-    "pass": false,
+    "published_pp": 11.94,
+    "delta_pp": 0.0,
+    "pass": true,
     "priced_bar": "2026-11-20"
    },
    "card 9.60% reproduced on its own ruler": {
@@ -46463,9 +46466,9 @@
    "rows": [
     {
      "label": "5 名·可执行单口径（本单这份账）",
-     "full": 7.54,
+     "full": 7.39,
      "is": 3.71,
-     "oos": 12.29
+     "oos": 11.94
     },
     {
      "label": "5 名·beta 覆盖",
@@ -46480,8 +46483,8 @@
      "oos": 17.04
     }
    ],
-   "ticket": 7.54,
-   "ticket_oos": 12.29,
+   "ticket": 7.39,
+   "ticket_oos": 11.94,
    "card_full": 9.16,
    "card_oos": 17.04,
    "row_labels": [
@@ -46684,10 +46687,10 @@
  "authority": {
   "writer": "bm-c",
   "owner": "bm-a",
-  "owner_silent_h": 49.0,
+  "owner_silent_h": 51.5,
   "gate_h": 6.0,
   "took_over": true,
-  "why": "bm-a has not written its own heartbeat for 49.0 h (> 6 h): this host takes the pen for the page only -- a stopped heartbeat is not a dead machine",
+  "why": "bm-a has not written its own heartbeat for 51.5 h (> 6 h): this host takes the pen for the page only -- a stopped heartbeat is not a dead machine",
   "no_bar_reason": "human_ages"
  },
  "fleet": {

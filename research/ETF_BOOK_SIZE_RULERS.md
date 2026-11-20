@@ -2,23 +2,23 @@
 
 ticket `TICKET-2026-11-20.json` | evidence cutoff 2026-11-20 | decision date 2026-12-09 | beta target 0.2
 
-**IDENTITY_BROKEN** — a ruler disagrees with a published number (ticket_k_reproduced, graded_k_reproduces_split_receipt); the table is not evidence until that is resolved
+**SIZE_IS_A_RULER_CHOICE** — the same rule priced on the same panel lands between k=0.343508 and k=0.747086 (40.36pp of range, widest mover=window +31.21pp); the money sits inside that range at k=0.435003 -- 1 readings below it, 3 above it, floor CNY 343,508 against CNY 435,003 deployed
 
 | cell | universe | window | beta | k | vs money (pp) |
 |---|---|---|---|---|---|
-| baseline_published | all classes on the panel | full | 0.436240 | 0.458463 | +2.63 |
-| window | all classes on the panel | common (2023-09-01..2026-11-11) | 0.267707 | 0.747086 | +31.49 |
-| universe | graded (equity,commodity,convertible) | full | 0.459767 | 0.435003 | +0.28 |
-| window_x_universe | graded (equity,commodity,convertible) | common (2023-09-01..2026-11-11) | 0.299551 | 0.667665 | +23.55 |
-| denominator | today's 5 names, 100% invested | common | 0.582228 | 0.343508 | -8.87 |
+| baseline_published | all classes on the panel | full | 0.434543 | 0.460253 | +2.53 |
+| window | all classes on the panel | common (2023-09-01..2026-11-11) | 0.267707 | 0.747086 | +31.21 |
+| universe | graded (equity,commodity,convertible) | full | 0.459767 | 0.435003 | -0.00 |
+| window_x_universe | graded (equity,commodity,convertible) | common (2023-09-01..2026-11-11) | 0.299551 | 0.667665 | +23.27 |
+| denominator | today's 5 names, 100% invested | common | 0.582228 | 0.343508 | -9.15 |
 
 - range: k 0.343508 .. 0.747086 (40.36pp) = CNY 343,508 .. 747,086
-- money in force: CNY 432,195 at k=0.432195
-- widest mover: window +31.49pp
+- money in force: CNY 435,003 at k=0.435003
+- widest mover: window +31.21pp
 
-- denominator: the sized mix is 43.2% invested; dividing by covered weight puts it on the path's denominator (r1448 unit note)
+- denominator: the sized mix is 43.5% invested; dividing by covered weight puts it on the path's denominator (r1448 unit note)
 
-identity legs: 4 pass / 2 fail (ticket_k_reproduced, graded_k_reproduces_split_receipt)
+identity legs: 6 pass / 0 fail
 
 prereg requirements for 2026-12-09:
 - 1. fix the ruler before looking: which window (common vs full) and which universe (all vs graded) is the declared measurement universe

@@ -1,7 +1,7 @@
 {
  "face": "etf_book_class_beta_split",
- "evidence_cutoff": "2026-11-11",
- "ticket_file": "TICKET-2026-11-11.json",
+ "evidence_cutoff": "2026-11-20",
+ "ticket_file": "TICKET-2026-11-20.json",
  "beta_target": 0.2,
  "k_now": 0.432195,
  "k_rule": 0.460253,
@@ -9,12 +9,12 @@
   "floor": 0.432195,
   "source": "permission_receipt",
   "source_path": "results/etf_book_rebalance_permission.json",
-  "decision_date": "2026-11-11",
+  "decision_date": "2026-12-09",
   "note": null
  },
  "book_weight": 0.432195,
  "decision_bar": "2026-11-11",
- "published_path_beta": 0.434543,
+ "published_path_beta": 0.43624,
  "names": [
   {
    "symbol": "510760",
@@ -57,9 +57,9 @@
  "ticket_names_outside_graded_universe": 3,
  "panel_work": "run",
  "market_proxy": "510300",
- "reproduced_path_beta": 0.434543,
+ "reproduced_path_beta": 0.43624,
  "k_published": 0.432195,
- "k_reproduced": 0.460253,
+ "k_reproduced": 0.458463,
  "k_ticket": 0.432195,
  "k_ticket_rule": 0.460253,
  "k_ticket_floor": 0.432195,
@@ -70,10 +70,10 @@
    "convertible",
    "equity"
   ],
-  "universe_symbols": 1280,
-  "path_beta": 0.462754,
-  "k": 0.432195,
-  "decision_bar": "2026-10-23",
+  "universe_symbols": 1290,
+  "path_beta": 0.459767,
+  "k": 0.435003,
+  "decision_bar": "2026-11-20",
   "names_on_ticket_bar": [
    "510760",
    "512040",
@@ -96,9 +96,9 @@
     "class": "equity",
     "weight": 0.086439,
     "overlap_bars": 1493,
-    "beta": 0.7470243516665294,
-    "sigma_ann": 0.15340741894542576,
-    "beta_contribution": 0.06457203793370313,
+    "beta": 0.7470243516665288,
+    "sigma_ann": 0.1534074189454257,
+    "beta_contribution": 0.06457203793370309,
     "vol_contribution": 0.011586173980419842,
     "unreadable": null
    },
@@ -108,9 +108,9 @@
     "weight": 0.086439,
     "overlap_bars": 1926,
     "beta": 0.7545692654005821,
-    "sigma_ann": 0.1836423380864797,
+    "sigma_ann": 0.18364233808647967,
     "beta_contribution": 0.06522421273196091,
-    "vol_contribution": 0.012722325719043828,
+    "vol_contribution": 0.012722325719043826,
     "unreadable": null
    },
    {
@@ -118,9 +118,9 @@
     "class": "crossborder",
     "weight": 0.086439,
     "overlap_bars": 981,
-    "beta": 0.25965328700909124,
-    "sigma_ann": 0.20709390894957125,
-    "beta_contribution": 0.02244417047577884,
+    "beta": 0.25965328700909107,
+    "sigma_ann": 0.20709390894957122,
+    "beta_contribution": 0.022444170475778822,
     "vol_contribution": 0.00995161727133914,
     "unreadable": null
    },
@@ -129,10 +129,10 @@
     "class": "crossborder",
     "weight": 0.086439,
     "overlap_bars": 1328,
-    "beta": 0.5865099226422427,
+    "beta": 0.5865099226422428,
     "sigma_ann": 0.1940180036995691,
-    "beta_contribution": 0.050697331203272814,
-    "vol_contribution": 0.012797978849149278,
+    "beta_contribution": 0.05069733120327283,
+    "vol_contribution": 0.012797978849149275,
     "unreadable": null
    },
    {
@@ -140,10 +140,10 @@
     "class": "crossborder",
     "weight": 0.086439,
     "overlap_bars": 771,
-    "beta": 0.563382705393553,
-    "sigma_ann": 0.17830953305523708,
-    "beta_contribution": 0.04869823767151332,
-    "vol_contribution": 0.013121717221993246,
+    "beta": 0.5633827053935527,
+    "sigma_ann": 0.17830953305523706,
+    "beta_contribution": 0.04869823767151331,
+    "vol_contribution": 0.013121717221993243,
     "unreadable": null
    }
   ],
@@ -193,35 +193,37 @@
    "2023-09-01",
    "2026-11-11"
   ],
-  "published_path_beta_full_window": 0.434543
+  "published_path_beta_full_window": 0.43624
  },
  "beta_gap_normalized_pp": -31.45,
  "beta_gap_sized_vs_path_pp_UNIT_MISMATCH": 1.61,
  "unit_note": "the sized mix (43.2% invested) and an un-levered path (100%) are on different denominators; only beta_gap_normalized_pp compares like with like",
- "beta_gap_vs_published_path_pp_FULL_WINDOW_MISMATCH": -14.77,
+ "beta_gap_vs_published_path_pp_FULL_WINDOW_MISMATCH": -14.6,
  "verdict": "SAME_SIZE_AFTER_DROPPING_UNGRADED",
  "comparison": {
   "verdict": "SAME_SIZE_AFTER_DROPPING_UNGRADED",
   "sentence": null,
-  "graded_k": 0.432195,
+  "graded_k": 0.435003,
   "published_k": 0.432195,
-  "gap_pp": 0.0,
-  "graded_beta": 0.462754,
-  "published_beta": 0.434543,
+  "gap_pp": 0.28,
+  "graded_beta": 0.459767,
+  "published_beta": 0.43624,
   "size_same": true,
   "tol_pp": 0.5
  },
  "identity_legs": {
   "published_beta_matches_face": true,
   "published_k_matches_ticket": true,
-  "rule_k_reproduces_ticket_rule": true,
+  "rule_k_reproduces_ticket_rule": false,
   "issued_k_is_rule_or_floor": true,
   "vol_split_rebuilds_book_sigma": true,
   "class_sums_match_name_sums": true,
   "ticket_names_read_back": true
  },
- "identity_broken": [],
- "sentence": "The book in force carries 0.252 of static beta (0.582 on the same names fully invested), split by class as equity 51.6%, crossborder 48.4%; dropping the 3 name(s) the graded card never prices moves the size from 0.432195 to 0.432195 (+0.00pp). The size survives the universe change; the class split is still what the label should say.",
- "generated": "2026-11-11T21:43:21+0800",
- "elapsed_sec": 46.2
+ "identity_broken": [
+  "rule_k_reproduces_ticket_rule"
+ ],
+ "sentence": "The book in force carries 0.252 of static beta (0.582 on the same names fully invested), split by class as equity 51.6%, crossborder 48.4%; dropping the 3 name(s) the graded card never prices moves the size from 0.432195 to 0.435003 (+0.28pp). The size survives the universe change; the class split is still what the label should say.",
+ "generated": "2026-11-20T18:10:20+0800",
+ "elapsed_sec": 55.2
 }

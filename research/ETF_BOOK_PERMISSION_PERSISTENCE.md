@@ -2,20 +2,20 @@
 
 - 判定：**TRIM_LASTS_A_FEW_CYCLES**
 - 削减幅度（gap_k，来自 results/etf_book_cut_order_gap.json）：**0.0000%**
-- 票据 k=0.432195 ／ 许可 k=0.432195 ／ 最后一个决策 bar（2026-10-23）k=0.460253
-- 面板末 bar：2026-11-19 ｜ β 目标 0.20 ｜ 市场腿 510300
+- 票据 k=0.435003 ／ 许可 k=0.435003 ／ 最后一个决策 bar（2026-11-20）k=0.458463
+- 面板末 bar：2026-11-20 ｜ β 目标 0.20 ｜ 市场腿 510300
 
 ## 一句话
 
-Drops of the trim's size needed a median of 3.0 decision bars to be undone (14 events, 6 never returned inside the sample), against a typical step of 0.00pp.
+Drops of the trim's size needed a median of 3.0 decision bars to be undone (15 events, 7 never returned inside the sample), against a typical step of 0.00pp.
 
 ## k 的步伐（相邻决策 bar 差）
 
 | 读数 | 值 |
 |---|---|
-| 步数 | 33 |
-| 中位 \|Δk\| | 0.003071 |
-| 均值 \|Δk\| | 0.004965 |
+| 步数 | 34 |
+| 中位 \|Δk\| | 0.002633 |
+| 均值 \|Δk\| | 0.004872 |
 | p90 \|Δk\| | 0.006055 |
 | 最大 \|Δk\| | 0.067573 |
 | 上行步数 | 19 |
@@ -28,9 +28,9 @@ Drops of the trim's size needed a median of 3.0 decision bars to be undone (14 e
 
 | 读数 | 值 |
 |---|---|
-| 同规模下跌事件 | 14 / 33 步（42.42%）
+| 同规模下跌事件 | 15 / 34 步（44.12%）
 | 已回补 | 8 |
-| 样本内未回补（censored，非 0） | 6 |
+| 样本内未回补（censored，非 0） | 7 |
 | 中位回补 bar 数 | 3.0 |
 | 均值回补 bar 数 | 4.25 |
 | 最长回补 bar 数 | 10 |
@@ -48,11 +48,11 @@ Drops of the trim's size needed a median of 3.0 decision bars to be undone (14 e
 
 | 读数 | 值 |
 |---|---|
-| 排程末决策 bar k | 0.460253（2026-10-23） |
+| 排程末决策 bar k | 0.458463（2026-11-20） |
 | 票据 k（2026-12-09） | 0.460253 |
 | 差 | 0.0e+00 ｜ 复现=OK |
 
-未回补的下跌日：2025-04-28, 2025-06-27, 2025-07-25, 2025-08-22, 2025-09-19, 2025-11-24
+未回补的下跌日：2025-04-28, 2025-06-27, 2025-07-25, 2025-08-22, 2025-09-19, 2025-11-24, 2026-11-20
 
 ## 读法
 

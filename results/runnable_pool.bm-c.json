@@ -24250,6 +24250,20 @@
    "result_ref": "results/etf_book_class_beta_split.json",
    "closed_at": "2026-11-08T23:26+08:00",
    "closed_by": "bm-c r1448"
+  },
+  {
+   "id": "ATLAS-ARMS-REBUILD-20261120",
+   "lane": "cpu-only",
+   "status": "open",
+   "title": "r1886: etf_book_phase_atlas_arms carries 7 red legs because only 2 buffer arms sit on the audit's panel -- buffer_k10/k20/k40 and cost05/cost20/cost40 are stamped WORLDS_NOT_COMPARABLE, so the floor fit has 2 rungs and every downstream leg reads NOT-ASSESSED. Rebuild the two groups onto today's panel, then re-run the audit.",
+   "target": "scripts/etf_book_atlas_arms_rebuild.py",
+   "deliverable": "results/etf_book_atlas_arms/*.json (panel digest unified) + audit green",
+   "command": "python scripts/etf_book_atlas_arms_rebuild.py run --only=buffer --workers=8 ; python scripts/etf_book_atlas_arms_rebuild.py run --only=cost --workers=8",
+   "evidence_cutoff": "2026-11-20",
+   "entered_at": "2026-11-20T20:03:15+08:00",
+   "entered_by": "bm-c r1886",
+   "source": "19:47 smoke leg 'product: etf_book_phase_atlas_arms' -> selftest 138 legs, 7 failed; in-round attempt died with the tool shell at 5min (job object), which is why it is pooled",
+   "result_ref": null
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -24264,7 +24278,7 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-08T22:04+08:00",
+ "updated_at": "2026-11-20T20:03:15+08:00",
  "version": 1,
  "lane_machine": "bm-c"
 }
