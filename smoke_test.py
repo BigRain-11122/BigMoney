@@ -3532,6 +3532,33 @@ def main() -> int:
                   "blocks/card/order absent -- face soft-fails by design")
     except Exception as e:
         check("product: E246 drawdown band reaches both trading pages", False, str(e))
+    # r1892: r1891 priced the 5pp precision target (13.55 more years, 1,839x the cost it
+    # insures, p* = 10.11) and that verdict lived only in a research JSON -- a reader could
+    # still believe a sharper ruler was worth waiting for. This leg reads the face and the
+    # published sheet, so a section that never reaches the page fails rather than passing on
+    # the producer's own selftest (r1282 family: a green consumer is not a published face).
+    try:
+        _tp = os.path.join("results", "etf_book_target_price.json")
+        _tp_ord = [p for p in sorted(__import__("glob").glob(
+            os.path.join("results", "etf_book_order", "ORDER-*.md")))
+            if not p.endswith("-card.md")]
+        if os.path.exists(_tp) and _tp_ord:
+            _t = json.load(open(_tp, encoding="utf-8"))
+            _tv = (_t.get("verdict") or {}).get("verdict")
+            _otp = open(_tp_ord[-1], encoding="utf-8").read()
+            _cutp = _t.get("evidence_cutoff") or ""
+            check("product: the price of waiting reaches the sheet that trades",
+                  bool(_tv) and _cutp in _otp and _tv in _otp
+                  and ("判决不该等更准的尺子" in _otp
+                       if _tv == "WAITING_COSTS_MORE_THAN_IT_INSURES"
+                       else "精度这一轮没有读数" not in _otp),
+                  "face=%s(%s) sheet=%s verdict_on_sheet=%s"
+                  % (_tv, _cutp, os.path.basename(_tp_ord[-1]), _tv in _otp))
+        else:
+            check("product: the price of waiting reaches the sheet that trades", True,
+                  "target price face or order sheet absent -- section says no reading")
+    except Exception as e:
+        check("product: the price of waiting reaches the sheet that trades", False, str(e))
     # r1582: the two Chinese pages a reader actually opens were quoting an English
     # sentence verbatim (regime_cap_vs_book.sentence) -- four lines of prose in a
     # 中文 page, and it had lived there since that face was wired. The census is one

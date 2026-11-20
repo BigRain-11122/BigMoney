@@ -1252,7 +1252,7 @@
   "watermark": "green: board/pool both empty (pool_ready_count=0, fleet_open_tasks=0), no claimable batch on this host; py_watermark insufficient_history (window n=1, local_batch=1 = this round own suite)"
  },
  "round_label": "r1813",
- "round_no": 1891,
+ "round_no": 1892,
  "round_no_label": "r1821",
  "round_no_landed": 1663,
  "round_note": "r1489: a reinstated bar is re-derived from the panel, not carried over (reinstatement_check + reinstatements.json + sheet paragraph)",
@@ -1957,11 +1957,12 @@
  "went_well": "the fix keeps the old states reachable: a card with one unqualified row still takes the position-free path, so no previously published verdict changed meaning",
  "when_well": "the exec panel reused lhb_sellleg verbatim by passing a net-of-cost panel instead of writing a second event study -- the two tables cannot disagree about the quintiles because there is only one implementation",
  "who_did": "bm-c",
- "下个里程碑": "把「等下去比现在判更贵」这句话接到读者面（ORDER 卡或 CEO 页的一行）；窗 ≤48h",
- "当前任务": "r1891: 给 5pp 这个精度目标标价——等 13.55 年换 1,839 倍的差，p*>1 说明任何概率下都不划算",
- "当前任务_en": "r1891: price the 5pp precision target (the wait, priced)",
- "最近实物": "results/etf_book_target_price.json + research/ETF_BOOK_TARGET_PRICE.md + scripts/etf_book_target_price.py selftest 16/16 (2026-11-21 02:0x)",
+ "下个里程碑": "把同一行接到 CEO 一页纸（docs/live_usage/LIVE-*.md）并加两页同字断言；窗 ≤48h",
+ "当前任务": "r1892: 把「判决不该等更准的尺子」接到交易票（研究面 → 读者面）",
+ "当前任务_en": "r1892: put the price of waiting on the sheet that trades",
+ "最近实物": "results/etf_book_order/ORDER-2026-11-20.md L91 + scripts/etf_book_order.py selftest 295/295 (2026-11-21 02:5x)",
  "verify_r1888": "exec_delta drift(pub,fresh)=[] verify=([],[]) after re-running the writer trio in dependency order (order run -> exec_delta run -> card); ORDER-2026-11-20.md carries all 8 rows and positions_source; turnover 670,073.30 -> 673,073.80, declaration cny_moved 7,977.3 -> 10,977.8, target lots 507/466/703/730/774 -> 511/469/708/735/779; decision_line run+--check CHECK_OK verdict NOTHING_OWED_TODAY (cheapest at k=0, +0 CNY); face_input_staleness FRESH compared=2 (that registry has no ticket<-positions pair -- the gap this round named)",
  "孤儿面": 0,
- "verify_r1889": "face_input_staleness: REGISTRY gains the ticket<-positions pair (results/etf_book_order/latest.json <- results/etf_book_positions/LEDGER.json rows.-1.written_ts); STALE_INPUT_MOVED now also carries reading=MISSING_RUN + a plain-words sentence, and run() prints missing_runs[]; selftest 36/36 PASS (4 new legs: pair registered / stale pair named a missed run / fresh pair carries no reading / run lists the sentence); live run: compared 3, verdict FRESH, stale 0 (positions ledger written 7533s BEFORE the ticket -> correct direction); smoke_test.py gains product leg 'the ticket's positions edge names a missed run, not a content mismatch'"
+ "verify_r1889": "face_input_staleness: REGISTRY gains the ticket<-positions pair (results/etf_book_order/latest.json <- results/etf_book_positions/LEDGER.json rows.-1.written_ts); STALE_INPUT_MOVED now also carries reading=MISSING_RUN + a plain-words sentence, and run() prints missing_runs[]; selftest 36/36 PASS (4 new legs: pair registered / stale pair named a missed run / fresh pair carries no reading / run lists the sentence); live run: compared 3, verdict FRESH, stale 0 (positions ledger written 7533s BEFORE the ticket -> correct direction); smoke_test.py gains product leg 'the ticket's positions edge names a missed run, not a content mismatch'",
+ "verify_r1892": "etf_book_order selftest 295/295 PASS (6 new legs: legAV/AVb/AVc price-of-waiting verdict, probability sentence and producer stamp; legAW missing face is one sentence; legAWb opposite verdict prints the opposite sentence) | order run rc0 -> ORDER-2026-11-20.md L91 carries 判决不该等更准的尺子 + 13.55 years + 1,754,580 CNY + 954 CNY + 1,839x + p*=10.11 | smoke product leg 'the price of waiting reaches the sheet that trades' green by simulation (verdict WAITING_COSTS_MORE_THAN_IT_INSURES, cut 2026-11-13, on sheet True) | s6 --only 7/7 rc0"
 }

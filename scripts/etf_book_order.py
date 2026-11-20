@@ -5214,6 +5214,86 @@ def _size_ladder_md(c):
     return L
 
 
+TARGET_PRICE_PATH = os.path.join(PATHS.results_dir, "etf_book_target_price.json")
+
+
+def _cny_cell(v):
+    """CNY without inventing precision: whole yuan, thousands separated, '?' when absent."""
+    if v is None:
+        return "?"
+    return "{:,.0f}".format(float(v))
+
+
+def _precision_wait_reading(path=None):
+    """What a sharper ruler would cost in time (r1891 face, printed from r1892).
+
+    r1891 priced the 5pp target: the book would have to run 13.55 more years to earn that
+    precision, and the wait itself costs thousands of times whatever the precision could
+    save. This sheet cannot re-derive that without re-running the whole seat-MDE
+    machinery, so the section copies the verdict off its face. A missing face returns None
+    so the section prints "no reading" instead of implying the judgement is settled.
+    """
+    p = path or TARGET_PRICE_PATH
+    try:
+        with open(p, encoding="utf-8") as fh:
+            d = json.load(fh)
+    except Exception:                                          # noqa: BLE001
+        return None
+    v = d.get("verdict") or {}
+    if not v.get("verdict"):
+        return None
+    rule = d.get("rule") or {}
+    return {"verdict": v.get("verdict"),
+            "target_pp": v.get("target_pp"),
+            "wait_years": v.get("wait_years"),
+            "forgo_cny": v.get("forgo_cny"),
+            "avoided_cny": v.get("avoided_cny"),
+            "ratio": v.get("ratio"),
+            "p_star": v.get("p_star"),
+            "p_star_above_one": v.get("p_star_above_one"),
+            "mde80_now_pp": rule.get("mde80_now_pp"),
+            "sentence": d.get("sentence"),
+            "evidence_cutoff": d.get("evidence_cutoff"),
+            "generated": d.get("generated"),
+            "path": "results/etf_book_target_price.json",
+            "producer": "scripts/etf_book_target_price.py"}
+
+
+def _precision_wait_md(c):
+    """One block: what waiting for a sharper ruler would buy, and what it costs to wait."""
+    if not c:
+        return ["- **精度这一轮没有读数**：`results/etf_book_target_price.json` 缺或读不出。"
+                "缺这一行不等于「等下去不用付钱」。"]
+    v = c.get("verdict")
+    L = []
+    if v == "WAITING_COSTS_MORE_THAN_IT_INSURES":
+        L.append("- **判决不该等更准的尺子**（判词 `%s`，面到 %s）：把尺子从 %s pp 压到 "
+                 "%s pp 要再等 %.2f 年，等掉 %s 元（每百万），省下的只有 %s 元——差 %s 倍。"
+                 % (v, c.get("evidence_cutoff") or "未注明",
+                    ("%.2f" % float(c["mde80_now_pp"])) if c.get("mde80_now_pp") is not None else "?",
+                    ("%.1f" % float(c["target_pp"])) if c.get("target_pp") is not None else "?",
+                    float(c.get("wait_years") or 0.0),
+                    _cny_cell(c.get("forgo_cny")), _cny_cell(c.get("avoided_cny")),
+                    ("%.0f" % float(c["ratio"])) if c.get("ratio") is not None else "?"))
+        if c.get("p_star") is not None:
+            L.append("  - 等要划算，需要「这本书没有 edge」的概率高过 %.2f；概率最多 1.00，"
+                     "所以这条路在任何概率下都不划算。" % float(c["p_star"]))
+    elif v == "WAITING_IS_CHEAPER":
+        L.append("- **等下去比现在判便宜**（判词 `%s`，面到 %s）：等 %.2f 年换 %s pp 精度，"
+                 "等掉 %s 元，省下 %s 元。"
+                 % (v, c.get("evidence_cutoff") or "未注明", float(c.get("wait_years") or 0.0),
+                    ("%.1f" % float(c["target_pp"])) if c.get("target_pp") is not None else "?",
+                    _cny_cell(c.get("forgo_cny")), _cny_cell(c.get("avoided_cny"))))
+    else:
+        L.append("- **精度标价面判词 `%s`**（只报数，不解释；面到 %s）"
+                 % (v or "?", c.get("evidence_cutoff") or "未注明"))
+    if c.get("sentence"):
+        L.append("  - 原句：%s" % c["sentence"])
+    L.append("  - 出处：`%s`（生产者 `%s`，%s 产出）"
+             % (c.get("path"), c.get("producer"), (c.get("generated") or "?")[:19]))
+    return L
+
+
 ENTRY_PRICE_PATH = os.path.join(PATHS.results_dir, "etf_book_entry_price.json")
 
 
@@ -5890,7 +5970,7 @@ def _admission_payload():
 
 
 def _phase_admission_md(pa, ad, dec=False, grid="auto", era="auto", cap="auto",
-                        size="auto", entry="auto"):
+                        size="auto", entry="auto", wait="auto"):
     """The five starts on the three veto rulers -- copied off its own face.
 
     r1868: the admission section used to end on a sentence that told the operator the
@@ -5953,6 +6033,7 @@ def _phase_admission_md(pa, ad, dec=False, grid="auto", era="auto", cap="auto",
                  % (pa["evidence_cutoff"], ad.get("data_last")))
     L.append("  - 出处：`%s`（生产者 `scripts/etf_book_phase_admission.py`，判据 "
              "`candidate_year_gate` 导入；本页只读）" % pa.get("path"))
+    L += _precision_wait_md(_precision_wait_reading() if wait == "auto" else wait)
     L += _start_grid_md(_start_grid_reading() if grid == "auto" else grid)
     L += _era_grid_md(_era_grid_reading() if era == "auto" else era)
     L += _era_capacity_md(_era_capacity_reading() if cap == "auto" else cap)
@@ -9620,6 +9701,44 @@ def selftest():
             "规模阶梯这一轮没有读数" in _md_sz_missing
             and "判词 `" not in _md_sz_missing.split("规模阶梯")[-1]
             and "100万" not in _md_sz_missing.split("规模阶梯")[-1], _md_sz_missing[-300:])
+
+        # legAV-AW (r1892): the price of waiting for a sharper ruler. r1891 priced the 5pp
+        # target; until now that verdict lived only in a JSON on the research side, so the
+        # reader could still believe a better ruler was worth waiting for.
+        _wt = {"verdict": "WAITING_COSTS_MORE_THAN_IT_INSURES", "target_pp": 5.0,
+               "wait_years": 13.551, "forgo_cny": 1754579.8, "avoided_cny": 954.2,
+               "ratio": 1838.8451, "p_star": 10.1136, "p_star_above_one": True,
+               "mde80_now_pp": 8.7389,
+               "sentence": "把选股腿的尺子从 8.74pp 压到 5.0pp，要再攒 3,415 根 bar。",
+               "evidence_cutoff": "2026-11-13",
+               "generated": "2026-11-21T02:02:36+0800",
+               "path": "results/etf_book_target_price.json",
+               "producer": "scripts/etf_book_target_price.py"}
+        _md_wt = "\n".join(_phase_admission_md(_pa, _adm, True, grid=_g, era=_e, cap=_c,
+                                               size=None, entry=None, wait=_wt))
+        chk("legAV the sheet says the judgement should not wait for a sharper ruler",
+            "判决不该等更准的尺子" in _md_wt and "13.55" in _md_wt
+            and "1,754,580" in _md_wt and "954" in _md_wt and "1839" in _md_wt,
+            _md_wt[-800:])
+        chk("legAVb the wait is rejected by the probability it would need, not by taste",
+            "10.11" in _md_wt and "任何概率下都不划算" in _md_wt, _md_wt[-500:])
+        chk("legAVc the section stamps the trip that priced the wait",
+            "2026-11-21T02:02:36" in _md_wt
+            and "results/etf_book_target_price.json" in _md_wt, _md_wt[-400:])
+        _md_wt_missing = "\n".join(_phase_admission_md(_pa, _adm, True, grid=_g, era=_e,
+                                                       cap=_c, size=None, entry=None,
+                                                       wait=None))
+        chk("legAW a missing price-of-waiting face is one sentence, never a verdict",
+            "精度这一轮没有读数" in _md_wt_missing
+            and "1,754,580" not in _md_wt_missing
+            and "任何概率下都不划算" not in _md_wt_missing, _md_wt_missing[-300:])
+        _wt_cheap = dict(_wt, verdict="WAITING_IS_CHEAPER", p_star=0.3, ratio=0.4)
+        _md_wt_cheap = "\n".join(_phase_admission_md(_pa, _adm, True, grid=_g, era=_e,
+                                                     cap=_c, size=None, entry=None,
+                                                     wait=_wt_cheap))
+        chk("legAWb the opposite verdict prints the opposite sentence",
+            "等下去比现在判便宜" in _md_wt_cheap
+            and "判决不该等更准的尺子" not in _md_wt_cheap, _md_wt_cheap[-400:])
 
         # legAV-AX (r1884): the entry price -- what an account of 20k/100k/200k pays a side
         # once the CNY 5 per-ticket minimum is included. Same three states as the ladder.
