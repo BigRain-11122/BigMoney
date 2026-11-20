@@ -1922,6 +1922,16 @@ def main() -> int:
              "scripts/etf_book_era_roster.py", ["selftest"]),
             ("product: etf_book_era_roster (split re-derived, reproduces r1871's rows)",
              "scripts/etf_book_era_roster.py", ["check"]),
+            # r1874: both era faces read a panel swept from today's ETF list, so "2015 had
+            # no depth" could be an artifact of names that died. The legs pin that the
+            # verdict is read from the FIRST anchor, that the slot bar is per_name/line and
+            # the capacity uses the FIFTH name rather than the deepest, that an empty or
+            # ruler-less roster refuses instead of guessing, that a name born after the
+            # anchor is not in its roster, and that a tampered shortfall fails the check.
+            ("product: etf_book_survivor_bound (dead names could not supply 2015's depth)",
+             "scripts/etf_book_survivor_bound.py", ["selftest"]),
+            ("product: etf_book_survivor_bound (shortfall and verdict re-derived)",
+             "scripts/etf_book_survivor_bound.py", ["check"]),
             # r1446: two true receipts that a desk cannot hold at once (the caliber dispute
             # says the gate is one decision from disagreeing with itself; the forward read
             # says the deciding check is decorative). The legs pin the four frozen classes

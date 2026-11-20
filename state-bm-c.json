@@ -1255,7 +1255,7 @@
   "watermark": "green: board/pool both empty (pool_ready_count=0, fleet_open_tasks=0), no claimable batch on this host; py_watermark insufficient_history (window n=1, local_batch=1 = this round own suite)"
  },
  "round_label": "r1813",
- "round_no": 1873,
+ "round_no": 1874,
  "round_no_label": "r1821",
  "round_no_landed": 1663,
  "round_note": "r1489: a reinstated bar is re-derived from the panel, not carried over (reinstatement_check + reinstatements.json + sheet paragraph)",
@@ -1951,8 +1951,9 @@
  "went_well": "the fix keeps the old states reachable: a card with one unqualified row still takes the position-free path, so no previously published verdict changed meaning",
  "when_well": "the exec panel reused lhb_sellleg verbatim by passing a net-of-cost panel instead of writing a second event study -- the two tables cannot disagree about the quintiles because there is only one implementation",
  "who_did": "bm-c",
- "下个里程碑": "把「2015 年拒的那 82.9 倍」落到 2015 年当年真实存在的名单上（本面用的是今天仍活着的名字），看幸存者偏差给这个倍数打了多少折——窗 ≤48h",
- "当前任务": "r1872: 全名册年代容量·名字差 vs 深度差",
- "最近实物": "results/etf_book_era_roster.json + results/etf_book_era_roster.md + scripts/etf_book_era_roster.py（2026-11-20 08:5x）",
- "round_r1873_note": "r1873: scripts/etf_book_closed_axes.py + results/etf_book_closed_axes.json + CEO page section closed_axes (3 selftest legs) + chain leg; verdict NO_AXIS_REACHES_THE_FLOOR (seats 6.87 / corr 6.98 / tilt 7.95 vs 5.0 target, 5077 bars needed vs 1662)."
+ "下个里程碑": "把 2015-2018 的「打分挑薄票」量成一条可下单规则：同一批分数里先过滤 ADV < 名额/线 的名字，看容量抬多少、收益掉多少（配对比较，判据先冻结）——窗 ≤48h",
+ "当前任务": "r1874: 生存者偏差能不能解释 2015 年的容量拒绝",
+ "最近实物": "results/etf_book_survivor_bound.json + results/etf_book_survivor_bound.md + scripts/etf_book_survivor_bound.py（2026-11-20 10:1x）",
+ "round_r1873_note": "r1873: scripts/etf_book_closed_axes.py + results/etf_book_closed_axes.json + CEO page section closed_axes (3 selftest legs) + chain leg; verdict NO_AXIS_REACHES_THE_FLOOR (seats 6.87 / corr 6.98 / tilt 7.95 vs 5.0 target, 5077 bars needed vs 1662).",
+ "verify_r1874": "etf_book_survivor_bound selftest 13/13 PASS + check ok:true verdict ENOUGH_DEPTH_VISIBLE | panel census 1725 csv / 2 dead tails (0.12%) -> a survivors sweep; at 2015-01-05 the birth set is 67 names of which 66 are alive today (only 510880_t73 died) | 2015-01-05: 61 readable names, total ADV 131.06亿, 5th-deepest 9.99亿 -> 4,994.5万 of capital at the 1% line, 21 names clear the 2,000万 per-slot bar, while the score's own five carry only 602,440 -> the 82.9x gap is a RANKING problem, not market depth, and no vanished name can fix a ranking | criterion frozen before the read: need <= visible total => the dead COULD have supplied it"
 }
