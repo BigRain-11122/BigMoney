@@ -267,7 +267,7 @@
   "status": "open",
   "candidate": "entry price onto the CEO page and the ORDER sheet"
  },
- "next_pointer": "(a) print the provenance line + the 327/83 census on the page readers open (CEO live usage futures section, <=48h); (b) check whether the 83 header-only contract files have an upstream history worth backfilling before they are written off; (c) full smoke suite still owes a tally (detached this round)",
+ "next_pointer": "(a) kill the exec_delta leg (ticket 670,073 vs post-swap book); (b) full smoke tally still owed this window (results/_smoke_r1887.out); (c) d19 probe hangs on this repo's fetch path -- needs a timeout wrapper",
  "next_round": 1765,
  "next_task": "r1547: the 场内买入 word hides WHEN it changed -- print the status transition dates per leg so a reopening is a dated event, not a per-day scan",
  "not_verified": "full smoke suite started 00:19 detached and was still running at round end (no tally claimed); closer.py root cause not fixed; no task registered or restored (D-12)",
@@ -1252,7 +1252,7 @@
   "watermark": "green: board/pool both empty (pool_ready_count=0, fleet_open_tasks=0), no claimable batch on this host; py_watermark insufficient_history (window n=1, local_batch=1 = this round own suite)"
  },
  "round_label": "r1813",
- "round_no": 1886,
+ "round_no": 1887,
  "round_no_label": "r1821",
  "round_no_landed": 1663,
  "round_note": "r1489: a reinstated bar is re-derived from the panel, not carried over (reinstatement_check + reinstatements.json + sheet paragraph)",
@@ -1953,12 +1953,12 @@
  "vram_free_gb": 13.1,
  "vram_total_gb": 16.0,
  "watermark_note": "cpu 25% / py 0.3%, local_batch=true is this round's own smoke suite; board and pool empty; astock_daily refresh lock is bm-b's lane -> honest no-op here",
- "watermark_verdict": "insufficient_history (1 sample this window; cpu 19%, py 0.0%, board/pool empty, red=false)",
+ "watermark_verdict": "insufficient_history (board/pool empty, red=false; this window's own smoke suite is the only local batch)",
  "went_well": "the fix keeps the old states reachable: a card with one unqualified row still takes the position-free path, so no previously published verdict changed meaning",
  "when_well": "the exec panel reused lhb_sellleg verbatim by passing a net-of-cost panel instead of writing a second event study -- the two tables cannot disagree about the quintiles because there is only one implementation",
  "who_did": "bm-c",
- "下个里程碑": "把 exec_delta（票面交易额 670,073 vs 账户已在 swap 后账面）这条腿一次判死：要么重建 exec_delta 口径，要么在腿上写明「同一 bar 的账面已经在目标上」；窗 <=48h",
- "当前任务": "r1886: 修红 -- 票面 k 从 0.432195 走到 0.435003 之后，下游 9 张面全部重建；外加三条判据缺陷（死面读数/整体滞后/页内章节无写者）",
- "当前任务_en": "r1879: the size ladder left the research face and landed on the operator sheet, with the trip that wrote it stamped in the block",
- "最近实物": "results/etf_book_phase_atlas_buffer_k10|k20|k40.json (三条缓冲臂重烧, 各 ~170s) + results/etf_book_buffer_resolution_floor.json (k required 6.509 恢复作答) + results/etf_book_k_gap.json (bar 11-20, 5 names) + results/live_book_section_bars.json (no_writer 清零)"
+ "下个里程碑": "把 exec_delta（票面 670,073 vs swap 后账面）这条腿一次判死：要么重建口径，要么在腿上写明「同一 bar 的账面已经在目标上」；窗 ≤48h",
+ "当前任务": "r1887: 把「83 个从没出过数的合约文件」按原因三分并拿源直问——判词 SOURCE_SERVES_NONE_CONTROL_HELD（不是我们漏采）",
+ "当前任务_en": "r1887: the 83 never-printed contract files are classified by why and probed against the source with positive controls",
+ "最近实物": "results/futures_panel_gaps.json (83 = 4 not listed yet / 63 before the window / 16 inside it; 10 probed all null, controls IC1903 1 bar and IM2512 165 bars match disk) + scripts/futures_panel_gaps.py (selftest 18/18) + docs/live_usage/LIVE-2026-11-20.md section 7"
 }

@@ -331,6 +331,14 @@ LEGS = [
     # live_symbols() (imported, not copied), so the provenance answer moves with the
     # producer instead of with this file. ~1s, no network, reads the panel only.
     ("futures_panel_provenance", ["python", "scripts/futures_panel_provenance.py"]),
+    # r1887: the census says 83 contract files never printed a bar and stops there. Each one
+    # is now classified by *why* (not listed yet / expired before the oldest bar we hold /
+    # expired inside our window), and the inside-window group is the only one a backfill
+    # could serve. A probe of that group plus two positive controls (dead names we DO hold)
+    # answers it: every probed name comes back null while the controls come back with the
+    # bar counts on disk. The probe is carried forward while the header-only set is
+    # unchanged, so this leg stays offline. ~0.3s, no network.
+    ("futures_panel_gaps", ["python", "scripts/futures_panel_gaps.py", "--write"]),
     ("futures_book_marks", ["python", "scripts/futures_book_marks.py", "run"]),
     # r1778: the paper re-read the ticket under the book's 8% vol target and printed the
     # fraction the eye skips -- one IC lot hedged to the discount is 9.00% of a 1,000,000

@@ -2,7 +2,7 @@
  "schema": "ceo_live_usage_v1_9",
  "ticket": "T-202609-28-105",
  "day": "2026-11-20",
- "generated": "2026-11-20T20:44:53",
+ "generated": "2026-11-20T21:46:01",
  "market": {
   "state": "RED",
   "asof": "2026-11-20",
@@ -407,7 +407,7 @@
     "latest_close": 2.9,
     "prev_session_close": 2.883,
     "day_change_pct": 0.59,
-    "age_min": 344.9
+    "age_min": 406.0
    },
    {
     "symbol": "510330",
@@ -516,7 +516,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 64043.1
+    "last_append_age_min": 64104.2
    },
    {
     "family": "FUND-VALUE-P1",
@@ -524,7 +524,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 64887.6
+    "last_append_age_min": 64948.7
    },
    {
     "family": "FUND-DIVLOWVOL-P1",
@@ -532,7 +532,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 61680.9
+    "last_append_age_min": 61742.0
    }
   ]
  },
@@ -1359,35 +1359,35 @@
   "rows": [
    {
     "k": 1,
-    "cost_cny": 1785.93,
+    "cost_cny": 1786.06,
     "t": -4.562446075953977,
     "share_late_helps": 0.4142857142857143,
     "separable": true
    },
    {
     "k": 2,
-    "cost_cny": 2591.98,
+    "cost_cny": 2592.25,
     "t": -4.78380530595965,
     "share_late_helps": 0.41904761904761906,
     "separable": true
    },
    {
     "k": 3,
-    "cost_cny": 2789.2,
+    "cost_cny": 2789.6,
     "t": -4.135297267911759,
     "share_late_helps": 0.4380952380952381,
     "separable": true
    },
    {
     "k": 5,
-    "cost_cny": 3946.14,
+    "cost_cny": 3946.8,
     "t": -4.2134663103582515,
     "share_late_helps": 0.41866028708133973,
     "separable": true
    },
    {
     "k": 10,
-    "cost_cny": 4023.84,
+    "cost_cny": 4025.16,
     "t": -2.205379729243327,
     "share_late_helps": 0.4433734939759036,
     "separable": true
@@ -1401,7 +1401,7 @@
   },
   "evidence_cutoff": "2026-11-20",
   "capital_cny": 1000000.0,
-  "sentence": "nothing is owed today (the ticket orders k under its own permission), so the baseline is 'do nothing'. doing it today is the cheapest rung of the ladder (every wait is more expensive); across k=1..10 the waits span +1786 .. +4024 CNY vs today. One open late is worth -929 CNY of NAV on the median sheet with waiting helping on 41% of them (t=-4.56), so the mean is priced but a single sheet is still a coin flip.",
+  "sentence": "nothing is owed today (the ticket orders k under its own permission), so the baseline is 'do nothing'. doing it today is the cheapest rung of the ladder (every wait is more expensive); across k=1..10 the waits span +1786 .. +4025 CNY vs today. One open late is worth -929 CNY of NAV on the median sheet with waiting helping on 41% of them (t=-4.56), so the mean is priced but a single sheet is still a coin flip.",
   "file": "results/etf_book_do_or_wait.json"
  },
  "etf_open_gap": {
@@ -1887,6 +1887,47 @@
   "writer_generated": "2026-11-20T16:10:52+0800",
   "source_generated": "2026-11-20T16:11:23+08:00",
   "evidence_cutoff": "2026-11-20"
+ },
+ "futures_gaps": {
+  "present": true,
+  "path": "results/futures_panel_gaps.json",
+  "verdict": "SOURCE_SERVES_NONE_CONTROL_HELD",
+  "header_only": 83,
+  "not_listed_yet": 4,
+  "expired_before_window": 63,
+  "expired_inside_window": 16,
+  "panel_first_bar": "2018-10-22",
+  "asked": [
+   "IC1810",
+   "IC1902",
+   "IF1901",
+   "IH1811",
+   "IM2207",
+   "IC1701",
+   "IC1805",
+   "IF1711",
+   "IH1705",
+   "IH1809"
+  ],
+  "asked_with_rows": 0,
+  "control": [
+   "IC1903",
+   "IM2512"
+  ],
+  "control_rows": [
+   [
+    "IC1903",
+    1
+   ],
+   [
+    "IM2512",
+    165
+   ]
+  ],
+  "control_held": true,
+  "carried_from": "2026-11-20T21:43:33+0800",
+  "source_generated": "2026-11-20T21:44:03+0800",
+  "evidence_cutoff": "2026-09-21"
  },
  "carry_roll_cost": {
   "present": true,

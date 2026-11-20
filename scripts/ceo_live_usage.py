@@ -244,6 +244,11 @@ CARRY_MARKS_REL = "results/futures_book_marks.json"
 FUTURES_PROV_JSON = os.path.join(ROOT, "results",
                                  "futures_panel_provenance.json")
 FUTURES_PROV_REL = "results/futures_panel_provenance.json"
+# r1887: the census above says 83 files never printed and leaves the reader with the
+# open question -- our gap, or names the source never served?  This face splits them
+# by why, and answers the inside-window group with a probe plus positive controls.
+FUTURES_GAPS_JSON = os.path.join(ROOT, "results", "futures_panel_gaps.json")
+FUTURES_GAPS_REL = "results/futures_panel_gaps.json"
 
 # Position ladder, v2 frozen canonical (DECISION_CHAIN v2 prereg, adopted
 # bm-c 2026-09-28; owner-canon rows in market_clock POSITION_LADDER):
@@ -2120,6 +2125,48 @@ def _futures_panel_face():
     }
 
 
+def _futures_gaps_face():
+    """r1887: the 83 never-printed contract files, split by why they are empty.
+
+    The census above leaves the reader with one question -- is that our collection
+    gap or a name the source never served?  This face quotes
+    results/futures_panel_gaps.json, which classifies every header-only file
+    (not listed yet / expired before the oldest bar we hold / expired inside our
+    window) and probes the inside-window group against the same endpoint the
+    ingest uses, with two positive controls.  A missing face prints a reason and
+    no counts (r98); a probe that was never asked is not a zero (r1865).
+    """
+    d = _read_json(FUTURES_GAPS_JSON)
+    if not d:
+        return {"present": False, "path": FUTURES_GAPS_REL,
+                "note": "缺口分类面未产出（缺面不读 0）"}
+    c = d.get("census") or {}
+    if not c.get("contracts_header_only"):
+        return {"present": False, "path": FUTURES_GAPS_REL,
+                "note": "分类面在册但零空合约（不完整面不冒充）"}
+    probe = d.get("probe") or {}
+    recs = probe.get("records") or []
+    ctl = probe.get("control_records") or []
+    return {
+        "present": True,
+        "path": FUTURES_GAPS_REL,
+        "verdict": d.get("verdict"),
+        "header_only": c.get("contracts_header_only"),
+        "not_listed_yet": c.get("not_listed_yet"),
+        "expired_before_window": c.get("expired_before_window"),
+        "expired_inside_window": c.get("expired_inside_window"),
+        "panel_first_bar": c.get("panel_first_bar"),
+        "asked": probe.get("asked") or [],
+        "asked_with_rows": sum(1 for r in recs if r.get("rows")),
+        "control": probe.get("control") or [],
+        "control_rows": [[r.get("symbol"), r.get("rows")] for r in ctl],
+        "control_held": bool(ctl) and all(r.get("rows") for r in ctl),
+        "carried_from": probe.get("carried_from"),
+        "source_generated": d.get("generated"),
+        "evidence_cutoff": d.get("evidence_cutoff"),
+    }
+
+
 def build_payload(day: str) -> dict:
     regime = _read_json(REGIME_JSON)
     clock = _read_json(CLOCK_JSON)
@@ -2243,6 +2290,7 @@ def build_payload(day: str) -> dict:
         "carry_timing": _carry_timing_face(),
         "carry_margin": _carry_margin_face(),
         "futures_panel": _futures_panel_face(),
+        "futures_gaps": _futures_gaps_face(),
         "carry_roll_cost": _carry_roll_cost_face(),
         "carry_marks": _carry_marks_face(),
         "freshness": _freshness_face(book, tape, regime.get("asof"),
@@ -3568,6 +3616,35 @@ def render_md(p: dict) -> str:
                  f"{fp.get('writer_verdict')}·{fp.get('writer_generated')}）"
                  f"｜generated {fp.get('source_generated')}｜cutoff "
                  f"{fp.get('evidence_cutoff')}")
+    fg = p.get("futures_gaps") or {}
+    if not fg.get("present"):
+        L.append(f"- 那 {fp.get('never_printed')} 个从未出数的合约是什么："
+                 f"{fg.get('note') or '分类面未产出'}"
+                 f"（指针 `{fg.get('path')}`）——**空文件和「没这只合约」"
+                 "读起来一样，先别把它当成历史缺口**")
+    else:
+        L.append(f"- **那 {fg.get('header_only')} 个从未出数的合约（"
+                 f"{fg.get('verdict')}）**：{fg.get('not_listed_yet')} 个是"
+                 f"到期日在盘面最新 bar 之后（还没上市，等它自然出数）、"
+                 f"{fg.get('expired_before_window')} 个整段寿命早于盘面最早一根"
+                 f"（{fg.get('panel_first_bar')}）、"
+                 f"**{fg.get('expired_inside_window')} 个寿命压在窗内**"
+                 "——只有这一组才可能是我们漏采")
+        if fg.get("asked"):
+            L.append(f"  - 拿源直问这组：抽问 {'、'.join(fg.get('asked'))}"
+                     f"（含窗内组与窗外组），**{fg.get('asked_with_rows')} 个回得来数**；"
+                     + ("对照组 " + "、".join(f"{s}（{r} 根）"
+                                              for s, r in (fg.get("control_rows") or []))
+                        + " 都照常返回，说明不是端点把所有人当空的哑探针"
+                        if fg.get("control_held") else
+                        "**对照组也没数——这探针证明不了任何事，不能据此说源里没有**"))
+            L.append("  - 所以这套空文件**不是我们漏采，是这个端点只留还挂着的合约**；"
+                     "把 2017-2019 那批「补历史」写进计划前先读这一行")
+        else:
+            L.append("  - 源还没问过（`--probe` 未跑）——**别把「没问」读成「源里没有」**")
+        L.append(f"  - 出处：`{fg.get('path')}`｜generated {fg.get('source_generated')}"
+                 f"｜cutoff {fg.get('evidence_cutoff')}"
+                 + (f"｜探针沿自 {fg.get('carried_from')}" if fg.get("carried_from") else ""))
     ct = p.get("carry_timing") or {}
     if not ct.get("present"):
         L.append(f"- 贴水择时：{ct.get('note') or '择时面未产出'}"
@@ -4142,6 +4219,33 @@ def selftest() -> int:
                                  "⑤ 在飞判决批", "⑥ ETF 复合书",
                                  "⑦ 指数期货 carry 书",
                                  "⑧ 诚实免责")))
+    # r1887: the 83 never-printed contract files get their own sentence, and the three
+    # states read differently -- no face / never asked / asked with a held control.
+    gp = dict(p1)
+    gp["futures_gaps"] = {"present": False, "path": FUTURES_GAPS_REL,
+                          "note": "缺口分类面未产出（缺面不读 0）"}
+    mdg = render_md(gp)
+    check("a missing gap face prints a reason, not a clean panel (r1887)",
+          "先别把它当成历史缺口" in mdg and "缺口分类面未产出" in mdg)
+    gp2 = dict(p1)
+    gp2["futures_gaps"] = {
+        "present": True, "path": FUTURES_GAPS_REL, "verdict": "NOT_ASKED",
+        "header_only": 83, "not_listed_yet": 4, "expired_before_window": 63,
+        "expired_inside_window": 16, "panel_first_bar": "2018-10-22",
+        "asked": [], "asked_with_rows": 0, "control": [], "control_rows": [],
+        "control_held": False, "carried_from": None,
+        "source_generated": "x", "evidence_cutoff": "y"}
+    mdg2 = render_md(gp2)
+    check("an unasked gap face is not read as 'the source has none' (r1887)",
+          "别把「没问」读成「源里没有」" in mdg2)
+    gp3 = dict(p1)
+    gp3["futures_gaps"] = dict(gp2["futures_gaps"], verdict="SOURCE_SERVES_NONE_CONTROL_HELD",
+                               asked=["IC1810"], asked_with_rows=0,
+                               control=["IC1903"], control_rows=[["IC1903", 1]],
+                               control_held=True)
+    mdg3 = render_md(gp3)
+    check("with a held control the page says this is not our collection gap (r1887)",
+          "不是我们漏采" in mdg3 and "IC1903（1 根）" in mdg3)
     fr = p1.get("freshness") or {}
     check("freshness banner rendered in md (v2.1)",
           "本页新鲜度" in md1 and fr.get("status") == "ok"

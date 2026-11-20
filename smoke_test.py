@@ -6660,6 +6660,15 @@ def main() -> int:
              "scripts/etf_book_premium_roads.py", ["--selftest"]),
             ("product: etf_book_premium_roads (published roads still re-derive)",
              "scripts/etf_book_premium_roads.py", ["--check"]),
+            # r1887: the panel census says 83 contract files never printed a bar and leaves
+            # the reader with "our gap or a name the source never served". The selftest pins
+            # the three-way classification, the sample, and the control rule (nulls without a
+            # positive control prove nothing); the check re-derives the census and names the
+            # bucket that moved, so a refreshed panel cannot leave this sentence lying.
+            ("product: futures_panel_gaps (why each empty contract file is empty)",
+             "scripts/futures_panel_gaps.py", ["--selftest"]),
+            ("product: futures_panel_gaps (census still re-derives)",
+             "scripts/futures_panel_gaps.py", ["--check"]),
             # r1307: C1_capacity has failed in every phase for weeks, and a check that
             # fails identically everywhere is a level question no calendar can close.
             # The gap face is the only place the floor is compared with the ceilings

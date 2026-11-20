@@ -17372,3 +17372,11 @@ results/etf_book_entry_price.json + .md、链腿 entry_price_write（0.9s）、�
 **正法**：①断言不许含活面的字面读数——要么从被检对象自己声明的字段现算期望串（`o["live_book"]["ticket_k"]` → `"k=%.4f"`），要么断言结构；「钉死一个值」只允许用在冻结件上。②一种状态若**没有分支**承接，就会落进最严的那条：整体面板落后要单列一个分支，并且必须由面自己点名两个数（`calendar_last` + `lag_trading_days`）且上界有限（≤5 个交易日）——否则就变成「面板冻结也常绿」。③页面内计算的章节要在写者别名表里显式归给页面腿（`LEG_ALIASES`），它的 bar 仍停在源面板自己的尾 bar——那是**数据道的滞后**，不是缺写者；两者混印会把「另一台机晚跑」读成「没人管」。
 
 **实物**：scripts/etf_book_production.py（自检腿改为按 `o["live_book"]` 现算期望串）、smoke_test.py（TSMOM 腿新增 `_panel_wide_lag` 分支）、scripts/live_book_section_bars.py（`LEG_ALIASES` +2，selftest 58/58）、重建面 9 张（size_rulers / rebalance_permission / cut_gate_pass / cut_order_gap / open_gap / swap_stack / positions / live_size_provenance / day_delta）+ 三条缓冲臂重烧（k10/k20/k40 各 ~170s → 地板拟合恢复 `k required 6.509`，手臂自检 138 腿 0 失败）。
+
+## E-20261120-r1887 — 空回答必须先证明探针能说「有」；一次买到的证据要沿袭，不要每趟重买也不要冲掉
+
+**问题**：CEO 一页纸上写着「418 个合约文件里 83 个从没出过数」，读者无法判断这是**我们漏采**还是**源里根本没有**——同一句话两种含义，动作完全相反（派人补历史 vs 写掉）。本轮把 83 个按原因三分（4 个到期日在盘面最新 bar 之后＝还没上市、63 个寿命早于盘面最早一根 2018-10-22、16 个寿命压在窗内），再拿源直问缺口组：10/10 返回 `null`。
+
+**正法**：①**空回答不是结论，除非同一个探针能说「有」**——同端点对 IC1906 回 163 根、IC2611 回 39 根、IC1701 回 `null`，若只跑缺口组，就会把「这个端点只会回 null」写成「源里没有这段历史」（r1865 族第三犯）。所以判词函数里先过正控：控制组取**盘上最厚与最薄的死合约**（不是硬编码名），它俩回来没数就判 `PROBE_UNTRUSTWORTHY`，一律不许写成「源里没有」。②**探针沿袭**：链腿每趟跑 `--write`（0.2s 离线），空文件集合未变时把上一面的探针结果与 `carried_from` 时刻一起沿下来——否则要么每趟烧 30s 网络，要么把已买到的证据冲成「没问过」。③分类桶必须互斥且能自证：`not_listed_yet / expired_before_window / expired_inside_window / unreadable` 四桶计数之和等于空文件数（自检腿钉住），因为「还没上市」和「2017 年就到期」混在一桶里，读者会照着去补一段根本不该存在的历史。
+
+**实物**：scripts/futures_panel_gaps.py（selftest 18/18）+ results/futures_panel_gaps.json（判词 `SOURCE_SERVES_NONE_CONTROL_HELD`，抽问 10 个全 null、对照 IC1903 1 根 / IM2512 165 根与盘上逐位一致）+ Tools/s6_chain_bmc.py 新腿 + scripts/ceo_live_usage.py 三腿 + docs/live_usage/LIVE-2026-11-20.md ⑦ 节。
