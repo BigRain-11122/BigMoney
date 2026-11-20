@@ -3620,6 +3620,28 @@ def main() -> int:
                   "target price face or order sheet absent -- section says no reading")
     except Exception as e:
         check("product: the price of waiting reaches the sheet that trades", False, str(e))
+    # r1898: the seat face took its evidence_cutoff from the upstream price face while
+    # reading a panel that had moved on, and its control then compared today's sweep to a
+    # number published on the older bars -- "the book's two legs disagree" was really "the
+    # panel advanced five sessions". Two things are now non-negotiable on that face: the
+    # cutoff it prints is the bar it read, and the control says which cutoff it replayed at.
+    try:
+        _sm = os.path.join("results", "etf_book_seat_mde.json")
+        if os.path.exists(_sm):
+            _s = json.load(open(_sm, encoding="utf-8"))
+            _sc = _s.get("control") or {}
+            check("product: the seat face's cutoff is the bar it read",
+                  bool(_s.get("evidence_cutoff"))
+                  and _s.get("evidence_cutoff") == _s.get("panel_last_bar")
+                  and bool(_sc.get("cutoff_measured_on")),
+                  "evidence_cutoff=%s panel_last_bar=%s arm=%s on=%s"
+                  % (_s.get("evidence_cutoff"), _s.get("panel_last_bar"),
+                     _sc.get("arm"), _sc.get("cutoff_measured_on")))
+        else:
+            check("product: the seat face's cutoff is the bar it read", True,
+                  "seat face absent -- nothing to read")
+    except Exception as e:
+        check("product: the seat face's cutoff is the bar it read", False, str(e))
     # r1582: the two Chinese pages a reader actually opens were quoting an English
     # sentence verbatim (regime_cap_vs_book.sentence) -- four lines of prose in a
     # 中文 page, and it had lived there since that face was wired. The census is one

@@ -1258,7 +1258,7 @@
   "watermark": "green: board/pool both empty (pool_ready_count=0, fleet_open_tasks=0), no claimable batch on this host; py_watermark insufficient_history (window n=1, local_batch=1 = this round own suite)"
  },
  "round_label": "r1813",
- "round_no": 1897,
+ "round_no": 1898,
  "round_no_label": "r1821",
  "round_no_landed": 1663,
  "round_note": "r1489: a reinstated bar is re-derived from the panel, not carried over (reinstatement_check + reinstatements.json + sheet paragraph)",
@@ -1972,5 +1972,27 @@
  "孤儿面": 0,
  "当前任务": "r1892: 把「判决不该等更准的尺子」接到交易票（研究面 → 读者面）",
  "当前任务_en": "r1892: put the price of waiting on the sheet that trades",
- "最近实物": "results/etf_book_order/ORDER-2026-11-20.md L91 + scripts/etf_book_order.py selftest 295/295 (2026-11-21 02:5x)"
+ "最近实物": "results/etf_book_order/ORDER-2026-11-20.md L91 + scripts/etf_book_order.py selftest 295/295 (2026-11-21 02:5x)",
+ "r1898": {
+  "what": "seat_mde 的控制臂改成在发布截止日上回放，面的 cutoff 改成自己读到的最后一根",
+  "verdict": "SEAT_TARGET_NOT_REACHED",
+  "control_pinned": {
+   "cutoff": "2026-11-13",
+   "delta_pp": -0.0,
+   "leg_delta_pp": 0.0
+  },
+  "control_fresh": {
+   "delta_pp": -0.15,
+   "leg_delta_pp": 0.2407,
+   "why": "generation gap"
+  },
+  "downstream": {
+   "target_price": {
+    "years": 13.61,
+    "cny": 1860100,
+    "ratio": 2380.5,
+    "p_star": 10.7122
+   }
+  }
+ }
 }

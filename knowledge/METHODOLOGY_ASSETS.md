@@ -17431,3 +17431,15 @@ results/etf_book_entry_price.json + .md、链腿 entry_price_write（0.9s）、�
 **实锚**：`live_book_day_words` verdict `PRINTED_BUT_UNANCHORED·unmapped 10` → `ANCHORED·claims 21/21 ok·unmapped 0`，链腿 rc1→rc0；selftest 44→45（新增腿：era_capacity 缺节时两条日期必须 unverifiable、有节时必须 ok）；`etf_book_ceo_page selftest 475/475`。另有一枚守卫实弹：L261 page-day debt 会扫源码里「说今天但不收 page_day」的块，新函数的 docstring 引用日词即被判红——守卫正确，改文案而非放宽守卫。
 
 **How**：见「unmapped 不为零」先按两类拆（规则漏写／面缺字段），再逐条把日期接回发面；任何「页面印了日期但 JSON 没这张面」的缺口，补字段而不是补注解。
+
+## E-20261121-r1898 判例：「控制臂拿今天的扫描去比三天前的发布数」＝把面板前进读成书变了
+
+**问题**：`etf_book_seat_mde` 有三条同根缺陷。①`evidence_cutoff` 是从上游价格面**抄**来的（2026-11-13），而它读的 `data/daily` 面板已经到 **2026-11-20**——面说自己算到哪天是假的（E685/r1850 族）。②控制臂把**今天面板上的扫描**直接和**三天前那批 bar 上发布的数**比：5 座选股腿 7.6858pp vs 发布 7.4451pp，差 **0.24pp**（容差 0.05pp）→ 判 `CANNOT_JUDGE_LEG`「同一本书的两条腿对不上」。书没变，是面板前进了五根 bar。③`--check` 从自己的行重派生，永远自洽，所以这张红只在**重跑**时才露出来。
+
+**正法**：①面的 `evidence_cutoff` 必须是**它自己读的那根 bar**（`panel_last_bar`），上游截止日另立 `upstream_published_cutoff` 字段单列；②控制臂在**发布面自己那批 bar**上回放（`_as_of()` 切面板 → 重算 score → 单档 sweep），判词只读这个 like-for-like 差值；新鲜面板的差值并列印进 `fresh_panel` 块，**不参与判定**（读者仍看得见尺寸）；③`--check` 加两条断言（`evidence_cutoff == panel_last_bar`、`control.cutoff_measured_on` 必须存在），否则下一次复制又会自洽。
+
+**实锚**：回放 2026-11-13（5,280 根 bar / 1,528 名）→ `delta_pp` **-0.0**、`leg_delta_pp` **0.0**（逐位复现钱面 7.4451pp）；新鲜面板的 -0.15 / +0.24 由此被证明是**代差**不是漂移。判词 `CANNOT_JUDGE_LEG` → **`SEAT_TARGET_NOT_REACHED`**（30 座最窄 6.90pp，仍够不着 5pp；5 座 8.74pp）。`--selftest` 39→**44/44**，`--check` **13/13** ok。下游自动跟随：`etf_book_target_price` 13.55年/1839x/p*=10.11 → **13.61年 / 1,860,100 元 / 2380x / p*=10.71**；票面等待节从「面到 2026-11-13」变成「**面到 2026-11-20**」。
+
+**How**：任何「拿本次结果去复现别人发布的数」的控制臂，先问一句「我是在比同一批 bar 吗」——把面板切到对方声明的截止日再比，禁把面板前进读成机制漂移（r1772/r1850 同族）。任何把上游 face 的 cutoff 抄进自己输出的面，一律改成「自己读到的最后一根」，上游日期另立字段。
+
+**姊妹面（同窗）**：下游面 `target_price` 是从上游**行**读数的，上游 cutoff 一动它自己不会响——所以修上游必须同轮把它重派生，否则票面继续印旧世界的句子。

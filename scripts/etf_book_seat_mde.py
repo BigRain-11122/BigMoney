@@ -73,6 +73,57 @@ PER_YEAR = M.PER_YEAR
 Z_80 = M.Z_80
 
 
+def _as_of(frames, cutoff, ref_index=None):
+    """Slice the panel to the day the published faces were measured on.
+
+    The control arm asks whether this code reproduces a number another face
+    published.  That number was measured on the panel as it stood that day, so the
+    comparison has to run on the same bars: a panel that moved five sessions reads as
+    "the book's two legs disagree" when it is only "the panel advanced" (r1898).
+    """
+    ts = pd.Timestamp(cutoff)
+    mask = None if ref_index is None else np.asarray(ref_index <= ts)
+
+    def one(f):
+        if f is None:
+            return None
+        if isinstance(f, dict):          # the feature bundle is a dict of frames/arrays
+            return {k: one(v) for k, v in f.items()}
+        if hasattr(f, "iloc") and mask is not None and len(f) == mask.size:
+            return f.iloc[np.where(mask)[0]]
+        if hasattr(f, "index"):
+            # only date-indexed frames carry the bar axis; a positional frame has no
+            # day to slice on and build_score drops it at reindex time anyway
+            return f.loc[f.index <= ts] if isinstance(f.index, pd.DatetimeIndex) else f
+        arr = np.asarray(f)              # some factors come back as bare arrays
+        if mask is None:
+            return arr
+        pos = np.where(mask)[0]
+        if arr.ndim == 1 and arr.shape[0] == mask.size:
+            return arr[pos]
+        if arr.ndim == 2 and arr.shape[0] == mask.size:
+            return arr[pos, :]
+        if arr.ndim == 2 and arr.shape[1] == mask.size:
+            return arr[:, pos]
+        return arr
+
+    return [one(f) for f in frames]
+
+
+def control_deltas(arm_cagr, arm_select, published_cagr, money_select):
+    """(book-cagr delta in pp, select-leg delta in pp), None wherever an input is missing.
+
+    `published_cagr` arrives as a fraction on the price face (0.0912) and is turned
+    into pp here rather than at the call site, so the two deltas cannot be quoted in
+    two different units.
+    """
+    c = (None if (arm_cagr is None or published_cagr is None)
+         else round(float(arm_cagr) - float(published_cagr) * 100.0, 3))
+    leg = (None if (arm_select is None or money_select is None)
+           else round(float(arm_select) - float(money_select), 4))
+    return c, leg
+
+
 def _load(path):
     with open(path, encoding="utf-8") as fh:
         return json.load(fh)
@@ -457,22 +508,67 @@ def run():
                 r["split_identity_max_abs_resid"] > SPLIT_TOL:
             split_bad.append(seats)
 
-    base = _at(rows, BASE_SEATS, "book_cagr_pct")
-    control_pp = (None if (base is None or published.get("cagr") is None)
-                  else round(base - float(published["cagr"]) * 100.0, 3))
-    leg_delta_pp = (None if (money_sel.get("ann_pp") is None
-                             or _at(rows, BASE_SEATS, "select_ann_pp") is None)
-                    else round(_at(rows, BASE_SEATS, "select_ann_pp")
-                               - float(money_sel["ann_pp"]), 4))
-    control = {"arm_cagr_pct": base, "published_cagr_pct":
-               (None if published.get("cagr") is None
-                else round(float(published["cagr"]) * 100.0, 3)),
+    last_bar = str(pd.Timestamp(close.index[-1]).date())
+    pub_cut = None
+    _cands = [c for c in (price.get("evidence_cutoff"), money.get("evidence_cutoff")) if c]
+    if _cands:
+        pub_cut = min(_cands)
+
+    fresh_cagr = _at(rows, BASE_SEATS, "book_cagr_pct")
+    fresh_select = _at(rows, BASE_SEATS, "select_ann_pp")
+    f_delta, f_leg = control_deltas(fresh_cagr, fresh_select,
+                                    published.get("cagr"), money_sel.get("ann_pp"))
+    fresh = {"arm_cagr_pct": fresh_cagr,
+             "published_cagr_pct": (None if published.get("cagr") is None
+                                    else round(float(published["cagr"]) * 100.0, 3)),
+             "delta_pp": f_delta,
+             "seat5_select_pp": fresh_select,
+             "money_face_select_pp": money_sel.get("ann_pp"),
+             "leg_delta_pp": f_leg,
+             "panel_last_bar": last_bar}
+
+    # The control must be measured on the bars the published number came from.  Running
+    # it on today's panel and calling a 0.24pp gap "the two legs disagree" is the r1898
+    # error: the panel had moved five sessions, and the book had not.
+    pinned = None
+    if pub_cut and pub_cut < last_bar:
+        c2, o2, a2, f2 = _as_of((close, openp, amt, feats), pub_cut, ref_index=close.index)
+        print("[control] replaying the published cutoff %s (%d bars, %d names)"
+              % (pub_cut, len(c2.index), len(c2.columns)), flush=True)
+        score2 = E.build_score(c2, a2, f2, min_amt=GATE)
+        rel2 = rel_returns(c2, o2, [c for c in c2.columns if cls.get(str(c)) == "equity"])
+        sw2 = sweep(c2, o2, a2, f2, score2, cls, rebal, cost, vol_target, BASE_SEATS,
+                    rel=rel2)
+        r2 = row_for(BASE_SEATS, sw2)
+        p_delta, p_leg = control_deltas(r2.get("book_cagr_pct"), r2.get("select_ann_pp"),
+                                        published.get("cagr"), money_sel.get("ann_pp"))
+        pinned = {"cutoff": pub_cut, "bars": len(c2.index), "names": len(c2.columns),
+                  "arm_cagr_pct": r2.get("book_cagr_pct"), "delta_pp": p_delta,
+                  "seat5_select_pp": r2.get("select_ann_pp"), "leg_delta_pp": p_leg,
+                  "replay_max_rel": r2.get("replay_max_rel")}
+
+    arm = pinned or fresh
+    control_pp = arm.get("delta_pp")
+    leg_delta_pp = arm.get("leg_delta_pp")
+    control = {"arm": ("replay_at_published_cutoff" if pinned else "fresh_panel"),
+               "cutoff_measured_on": (pinned or {}).get("cutoff", last_bar),
+               "arm_cagr_pct": arm.get("arm_cagr_pct"),
+               "published_cagr_pct": fresh["published_cagr_pct"],
                "delta_pp": control_pp, "tol_pp": CONTROL_TOL_PP,
                "money_face_select_pp": money_sel.get("ann_pp"),
-               "seat5_select_pp": _at(rows, BASE_SEATS, "select_ann_pp"),
+               "seat5_select_pp": arm.get("seat5_select_pp"),
                "leg_delta_pp": leg_delta_pp, "leg_tol_pp": LEG_TOL_PP,
                "universe_measured": len(close.columns),
-               "universe_published": cfg.get("universe_measured")}
+               "universe_published": cfg.get("universe_measured"),
+               "pinned_replay": pinned,
+               "fresh_panel": fresh,
+               "why": ("控制臂跑在**发布面自己那批 bar**上（%s），本次面板到 %s——"
+                       "两边差 %.0f 根 bar，直接比就是拿「面板前进」当「两条腿对不上」。"
+                       % (pub_cut, last_bar,
+                          len(close.index) - (pinned or {}).get("bars", len(close.index))))
+               if pinned else
+               ("发布面与本次面板同一批 bar（到 %s），控制臂就是新鲜面板本身。"
+                % last_bar)}
 
     verdict = seat_verdict(rows, control_pp, replay_ok=not replay_bad,
                            leg_delta_pp=leg_delta_pp, split_ok=not split_bad)
@@ -485,9 +581,9 @@ def run():
                    "shared_noise_bars": (split_bad == [] and bool(rows)),
                    "common_share_at_base": _at(rows, BASE_SEATS, "share_common")}
 
-    out = {"evidence_cutoff": price.get("evidence_cutoff")
-           or str(pd.Timestamp(close.index[-1]).date()),
-           "panel_last_bar": str(pd.Timestamp(close.index[-1]).date()),
+    out = {"evidence_cutoff": last_bar,
+           "panel_last_bar": last_bar,
+           "upstream_published_cutoff": pub_cut,
            "script": "scripts/etf_book_seat_mde.py",
            "rule": {"benchmark": BENCH, "gate_cny": GATE, "base_seats": BASE_SEATS,
                     "sweep": list(SWEEP), "target_mde80_pp": TARGET_MDE_PP,
@@ -500,6 +596,9 @@ def run():
                     "what_moves": "te_select = realised vol of the leg; te_select_per_exposure "
                                   "= the same divided by mean invested weight, so the vol "
                                   "target's size cut is not read as quiet",
+                    "control_measured_on": "the panel sliced to the published cutoffs; the "
+                                           "fresh-panel deltas print beside it and never "
+                                           "decide the verdict",
                     "frozen": "criteria written before the run; --check re-derives them"},
            "config": {"rebal": rebal, "vol_target": vol_target,
                       "cost_bp_per_side": cfg.get("cost_bp_per_side"),
@@ -681,6 +780,9 @@ def _check():
             or abs(float(out["split"]["worst_identity_resid"])
                    - max([r.get("split_identity_max_abs_resid") or 0.0 for r in rows])) <= 1e-15),
         "base_row_present": base is not None,
+        "evidence_cutoff_is_the_panel_we_read": (out.get("evidence_cutoff")
+                                                == out.get("panel_last_bar")),
+        "control_names_its_cutoff": c.get("cutoff_measured_on") is not None,
         "every_row_has_bars": all(r.get("bars") for r in rows),
     }
     ok = all(checks.values())
@@ -847,6 +949,24 @@ def selftest():
     r_common = (sp[2]["te_common_pp"] / sp[8]["te_common_pp"]) if sp[8]["te_common_pp"] else None
     chk("L13c the sleeve term does NOT shrink with seats",
         r_common is not None and 0.8 <= r_common <= 1.2, r_common)
+
+    # --- the control is measured on the published bars, not on today's panel --------
+    frame = pd.DataFrame({"x": [1.0, 2.0, 3.0]},
+                         index=pd.to_datetime(["2026-11-11", "2026-11-12", "2026-11-13"]))
+    sl = _as_of((frame,), "2026-11-12")[0]
+    chk("L15 the as-of slice keeps the cutoff bar and drops the rest",
+        [d.strftime("%Y-%m-%d") for d in sl.index] == ["2026-11-11", "2026-11-12"],
+        list(sl.index))
+    chk("L15b an as-of on or after the last bar leaves the panel whole",
+        len(_as_of((frame,), "2026-11-20")[0]) == len(frame))
+    d1, d2 = control_deltas(8.97, 7.6858, 0.0912, 7.4451)
+    chk("L16 the published cagr is a fraction and the delta is in pp",
+        (d1, d2) == (-0.15, 0.2407), (d1, d2))
+    chk("L16b a missing leg is None, not zero",
+        control_deltas(8.97, None, 0.0912, 7.4451) == (-0.15, None),
+        control_deltas(8.97, None, 0.0912, 7.4451))
+    chk("L16c the pinned arm keeps the same leg tolerance",
+        seat_verdict(ok_rows, 0.0, leg_delta_pp=0.06)["verdict"] == "CANNOT_JUDGE_LEG")
 
     ok = not fails
     print(json.dumps({"legs": len(legs), "fails": fails, "ok": ok}, ensure_ascii=False))
