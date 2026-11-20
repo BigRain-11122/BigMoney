@@ -17352,3 +17352,11 @@ results/etf_book_entry_price.json + .md、链腿 entry_price_write（0.9s）、�
 **三条可复用**：①任何「应有 vs 实有」的集合，先问「应有」里有没有还没到期的那一个——到期未做与没到期是相反动作（r98/E651 族）；②宽限必须有上界并被自检钉住，否则「今天永不缺」会把真漏吃掉；③渲染面对一个新的中间态必须显式分支，落到 else 会印出半真的句子。
 
 **实物**：scripts/etf_premium_face.py（selftest 46/46，新增 L26b/L26c）、scripts/etf_book_ceo_page.py（pending 支）、Tools/card_text_hygiene.py 冻结表 +2 行（r1882 卡片同族复发两枚：0x0c/0x1b 吃掉首字母）。
+
+## E-20261120-r1885 — 「研究面可读」不等于「读者手上那张纸可读」；新块进共享渲染面先查兄弟腿的负面断言
+
+**问题**：r1882/r1884 已把「账户多小就开始亏在 5 元最低佣金上」量成曲线（14,876 一手门槛 → 56.67bp/边；263,852 才没有一条腿付最低佣金），可 CEO 每天打开的那张 `docs/live_usage/LIVE-*.md` 上一个字都没有。第二枚是工具坑：首版把这句话写进 ⑥ 节后，`ceo_live_usage.py` 里 premium 族的两条自检立刻翻红——它们的断言是 `"多付" not in md`，而新块文案写了「多付的不是费率」。凭 `git stash` 取改动前后基线才看清是 **NEW-ONLY=2**（不看基线会把这两条记成「面代差」而无限期挂着）。
+
+**正法**：①产品判据落在读者手上那张面（CEO 一页纸），JSON ok 与票面小节都不算（r1782 同族）；②跨口径并排必须说出量的是哪本书——本块抬头写「账面 12 名」，执行单是 5 名，并加一句「两个口径别互相代入」（r1275）；③**往共享渲染面插块之前，先 grep 同文件里以否定式写的断言词**（`not in md` / `not in _md*`），新文案要么避开这些词，要么先证明每处豁免都成立——负面断言是隐式词表，撞上就是静默回归；④改完必须与改动前基线做集合对比（NEW-ONLY / FIXED 两列），禁只看总数。
+
+**实物**：scripts/ceo_live_usage.py（`_etf_entry_price_face` + ⑥ 节八档块 + 3 条 selftest 腿，selftest NEW-ONLY=[]）、docs/live_usage/LIVE-2026-11-20.md（入门价块）、commit be90285ec0。
