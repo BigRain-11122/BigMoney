@@ -5117,8 +5117,9 @@ def _era_capacity_md(c):
     bw = (t.get("binding") or "-")
     if t.get("capacity_cny") and c.get("lens_cny"):
         margin = float(t["capacity_cny"]) / float(c["lens_cny"])
-        L.append("      - 今天距线：装得下 %s 的 %.3f 倍（%s 元对 %s 元，最紧的席位 %s）"
-                 % (lens, margin, "{:,}".format(int(t["capacity_cny"])),
+        L.append("      - 今天（%s）距线：装得下 %s 的 %.3f 倍（%s 元对 %s 元，最紧的席位 %s）"
+                 % (t.get("bar") or "未注明日期", lens, margin,
+                    "{:,}".format(int(t["capacity_cny"])),
                     "{:,}".format(int(c["lens_cny"])), bw))
     if c.get("reproduces_published") is False:
         L.append("      - **复现对不上**：这张面今天这根 bar 的读数与年闸发布值不同——"

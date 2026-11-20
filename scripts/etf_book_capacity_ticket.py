@@ -170,11 +170,13 @@ def sentence(payload):
     if v == "TICKET_MISSING":
         return "票面不在盘上，这一面拒绝编造订单：先跑 etf_book_order.py run。"
     if v == "TRADABLE_IN_EVERY_READ_SESSION":
-        return ("闸的三个资本档（今天 {:,} 元 / 平常 {:,} 元 / 最差 {:,} 元）都能把十二名各买到一手，"
-                "一手门槛 {:,} 元。".format(int(best.get("capital_cny") or 0),
-                                            int(typ.get("capital_cny") or 0),
-                                            int(worst.get("capital_cny") or 0),
-                                            int(floor or 0)))
+        return ("闸的三个资本档（{:,} 元 / 平常 {:,} 元 / 最差 {:,} 元；今天这一档读在 {} 那天）"
+                "都能把十二名各买到一手，一手门槛 {:,} 元。".format(
+                    int(best.get("capital_cny") or 0),
+                    int(typ.get("capital_cny") or 0),
+                    int(worst.get("capital_cny") or 0),
+                    payload.get("evidence_cutoff") or "未注明",
+                    int(floor or 0)))
     rmax = float((payload.get("frozen") or {}).get("residual_max_pct") or 0.0)
     if v == "TRADABLE_ON_A_TYPICAL_DAY":
         return ("平常的一天（{:,} 元）装得下这张票，最差的一天（{:,} 元）装不下——{}。".format(

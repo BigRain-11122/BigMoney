@@ -11692,7 +11692,7 @@ def guest_page_writer(today, mid=None):
     return None
 
 
-def run():
+def run(rebuild=False):
     mid = machine_id()
     if not writer_allowed(mid):
         print("etf_book_ceo_page: host=%s is not the writer (host=%s) -- honest no-op, nothing written"
@@ -11715,10 +11715,16 @@ def run():
     if _asof != today and os.path.exists(_prior) and not os.path.exists(_today_page):
         _guest = guest_page_writer(today, mid)
         if not _guest:
-            print("etf_book_ceo_page: no new bar -- today is %s, the pricing day is %s and that page "
-                  "already exists; nothing written (a page named for a day its own closes did not "
-                  "price would call yesterday today)" % (today, _asof))
-            return 0
+            if not rebuild:
+                print("etf_book_ceo_page: no new bar -- today is %s, the pricing day is %s and that page "
+                      "already exists; nothing written (a page named for a day its own closes did not "
+                      "price would call yesterday today)" % (today, _asof))
+                return 0
+            # r1895: a render-quiet day still has work when the page was written by an older
+            # generator -- `rebuild` rewrites THE PRICING DAY'S OWN page in place, so no
+            # reader-day is invented and no date moves. The pointer below is left alone.
+            print("etf_book_ceo_page: no new bar; rebuilding the pricing-day page %s in place "
+                  "(only the render changes, the page keeps its own day)" % _asof)
         print("etf_book_ceo_page: today's page was written by %s under take-over; %s is writing "
               "again and takes the pen back (the guest's panel tail would otherwise stand beside "
               "this host's ticket for the rest of the session)" % (_guest, mid))
@@ -11730,21 +11736,24 @@ def run():
     if auth.get("took_over"):
         print("etf_book_ceo_page: WRITING AS %s -- %s" % (mid, auth["why"]))
     os.makedirs(OUT_DIR, exist_ok=True)
-    md_path = os.path.join(OUT_DIR, "LIVE-BOOK-%s.md" % today.replace("-", ""))
-    js_path = os.path.join(OUT_DIR, "LIVE-BOOK-%s.json" % today.replace("-", ""))
+    # r1895: a rebuild writes the pricing day's own files; a normal run writes today's.
+    _out_day = _asof if rebuild else today
+    md_path = os.path.join(OUT_DIR, "LIVE-BOOK-%s.md" % _out_day.replace("-", ""))
+    js_path = os.path.join(OUT_DIR, "LIVE-BOOK-%s.json" % _out_day.replace("-", ""))
     with open(md_path, "w", encoding="utf-8", newline="\n") as fh:
         fh.write(render_md(page, sb=section_bars_face(page), page_stamp=_page_stamp()))
     with open(js_path, "w", encoding="utf-8", newline="\n") as fh:
         json.dump(page, fh, ensure_ascii=False, indent=1)
         fh.write("\n")
     # stable pointer for consumers that should not care about the date
-    ptr = os.path.join(OUT_DIR, "latest.json")
-    with open(ptr, "w", encoding="utf-8", newline="\n") as fh:
-        json.dump({"generated_for_date": today,
-                   "page": _rel(md_path, ROOT).replace("\\", "/"),
-                   "json": _rel(js_path, ROOT).replace("\\", "/")},
-                  fh, ensure_ascii=False, indent=1)
-        fh.write("\n")
+    if not rebuild:
+        ptr = os.path.join(OUT_DIR, "latest.json")
+        with open(ptr, "w", encoding="utf-8", newline="\n") as fh:
+            json.dump({"generated_for_date": today,
+                       "page": _rel(md_path, ROOT).replace("\\", "/"),
+                       "json": _rel(js_path, ROOT).replace("\\", "/")},
+                      fh, ensure_ascii=False, indent=1)
+            fh.write("\n")
     print("LIVE-BOOK written: %s (order %d names, book %.0f, cash %.0f, next rebalance %s)"
           % (_rel(md_path, ROOT), len(page["order"]), page["book_amount_cny"],
              page["cash_amount_cny"], page["next_rebalance_date"]))
@@ -16635,11 +16644,13 @@ if __name__ == "__main__":
     cmd = sys.argv[1] if len(sys.argv) > 1 else "run"
     if cmd == "run":
         raise SystemExit(run())
+    if cmd == "rebuild":
+        raise SystemExit(run(rebuild=True))
     if cmd == "selftest":
         raise SystemExit(selftest())
     if cmd == "check-ticket-days":
         raise SystemExit(check_ticket_days())
     if cmd == "check-card-days":
         raise SystemExit(check_card_days())
-    print("usage: etf_book_ceo_page.py [run|selftest|check-ticket-days|check-card-days]")
+    print("usage: etf_book_ceo_page.py [run|rebuild|selftest|check-ticket-days|check-card-days]")
     raise SystemExit(2)
