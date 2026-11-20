@@ -1756,7 +1756,7 @@
  "rounds_done": 1886,
  "rounds_note": "round_no/rounds/rounds_done stay in lockstep",
  "s0": "machine.json=bm-c | 111 dirty at open (prior-generation derived faces PLUS another window's in-flight r1760 edits to scripts/etf_book_ceo_page.py + etf_book_order.py, mtimes 08:50) -> directional add only, their two files untouched | ahead=0 behind=0",
- "s05_note": "fleet/orders 115 files all in orders_ack -> unacked=0 (my first scan compared ids without the .md suffix = my own key-format bug); decisions.md git fetch hung 5min and was killed -> water mark NOT advanced this round",
+ "s05_note": "fleet/orders 115 files all in orders_ack -> unacked=0 (my first scan compared ids without the .md suffix = my own key-format bug); decisions.md: the network `git fetch` in the group tree hung 5min and was killed (environmental), but the LOCAL origin/main ref (3ef8fb0fe, committed 2026-11-20T11:37) yields sha16 79e3083b85c130b8 == last_decisions_sha -> hash unchanged, zero action owed (D-20261030-18), no watermark advance was required",
  "s05_scan": "fleet/orders 115 件 vs 271 回执 stem 归一后未回执=0; fleet/inbox 空 -> 零新令",
  "s05_second_scan": "closeout rescan Tools/s05_probe.py rc0 orders_delta=false decisions_delta=false unacked=[] (zero action); fleet/inbox empty",
  "s0_collision": "no other executor: tree dirty at open with 109 derived faces + 4 rounds of code that never reached origin (r1749 cash caveat / r1760 arm-noise block / r1692 VT escape / r1768 churn face); all committed this round in 4 commits; zero foreign uncommitted work taken",
