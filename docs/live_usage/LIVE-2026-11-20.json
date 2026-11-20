@@ -2,7 +2,7 @@
  "schema": "ceo_live_usage_v1_9",
  "ticket": "T-202609-28-105",
  "day": "2026-11-20",
- "generated": "2026-11-20T16:42:02",
+ "generated": "2026-11-20T17:38:51",
  "market": {
   "state": "RED",
   "asof": "2026-11-20",
@@ -407,7 +407,7 @@
     "latest_close": 2.837,
     "prev_session_close": 2.883,
     "day_change_pct": -1.6,
-    "age_min": 312.0
+    "age_min": 368.9
    },
    {
     "symbol": "510330",
@@ -516,7 +516,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 63800.3
+    "last_append_age_min": 63857.1
    },
    {
     "family": "FUND-VALUE-P1",
@@ -524,7 +524,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 64644.7
+    "last_append_age_min": 64701.5
    },
    {
     "family": "FUND-DIVLOWVOL-P1",
@@ -532,7 +532,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 61438.0
+    "last_append_age_min": 61494.8
    }
   ]
  },
@@ -620,7 +620,7 @@
   "file": "TICKET-2026-11-20.json",
   "bar": "2026-11-20",
   "decision_bar": "2026-11-20",
-  "generated": "2026-11-20T15:56:56+08:00",
+  "generated": "2026-11-20T17:16:21+08:00",
   "rows": [
    {
     "symbol": "510760",
@@ -674,14 +674,14 @@
   "next_decision_face": {
    "present": true,
    "date": "2026-12-09",
-   "bars_away": 14,
+   "bars_away": 13,
    "rebal": 20,
    "anchor_bar": "2026-11-11",
    "anchor_source": "results/etf_book_production/latest.json#sheet.last_decision_bar",
    "calendar_source": "data/exchange_calendar.csv",
    "calendar_last": "2026-12-31",
    "verdict": "AGREE",
-   "sentence": "下一根决策 bar = 2026-12-09（锚点 2026-11-11 起每 20 根，距 2026-11-19 14 根）。票面上三个面都这么说。",
+   "sentence": "下一根决策 bar = 2026-12-09（锚点 2026-11-11 起每 20 根，距 2026-11-20 13 根）。票面上三个面都这么说。",
    "n_claims": 3,
    "wrong_claims": [],
    "off_grid_claims": [],
@@ -895,9 +895,9 @@
    "mark_cny": -2978.8,
    "mark_account_bar": "2026-11-10",
    "declaration_status": "UNEXPLAINED_TARGET_WITHOUT_TRADES",
-   "declaration_bar": "2026-11-19",
+   "declaration_bar": "2026-11-20",
    "declaration_actions": 0,
-   "positions_source": "ticket_embedded"
+   "positions_source": "face@2026-11-20"
   },
   "admission": {
    "present": true,
@@ -907,11 +907,11 @@
     "admit": 4,
     "deny": 1,
     "insufficient": 0,
-    "spread_S1": 1.0998,
-    "spread_S1_margin": 0.5339,
+    "spread_S1": 1.0832,
+    "spread_S1_margin": 0.4718,
     "spread_state": "UNADJUDICABLE_PHASE",
     "weakest_phase": "2020-01-22",
-    "evidence_cutoff": "2026-11-19",
+    "evidence_cutoff": "2026-11-20",
     "path": "results/etf_book_phase_admission.json"
    },
    "block": {
@@ -922,47 +922,47 @@
     "insufficient": 0,
     "S1": {
      "line": 0.7,
-     "min": 0.6002,
-     "median": 1.612,
-     "max": 1.9903,
-     "spread": 1.3901,
-     "neighbour_jump_median": 0.2006,
-     "refusals": 2,
+     "min": 0.55,
+     "median": 1.5785,
+     "max": 1.9277,
+     "spread": 1.3777,
+     "neighbour_jump_median": 0.2021,
+     "refusals": 3,
      "closest": {
-      "start": "2020-01-22",
-      "distance": 0.007,
+      "start": "2020-01-20",
+      "distance": 0.0282,
       "inside": true
      },
      "worst": {
       "start": "2020-01-17",
-      "distance": 0.0998,
+      "distance": 0.15,
       "inside": true
      },
      "any_outside_noise": false,
-     "sentence": "the closest refusal (2020-01-22) sits 0.0070 from the 0.70 line and the worst (2020-01-17) sits 0.0998 away, while moving the start by one bar moves this ruler by a median of 0.2006: the closest refusal lies inside the grid's resolution and the worst one lies inside"
+     "sentence": "the closest refusal (2020-01-20) sits 0.0282 from the 0.70 line and the worst (2020-01-17) sits 0.1500 away, while moving the start by one bar moves this ruler by a median of 0.2021: the closest refusal lies inside the grid's resolution and the worst one lies inside"
     },
     "A1": {
      "line": 6.0,
-     "min": 4.22,
-     "median": 11.09,
-     "max": 13.37,
-     "spread": 9.15,
-     "neighbour_jump_median": 1.035,
+     "min": 4.02,
+     "median": 10.94,
+     "max": 13.1,
+     "spread": 9.08,
+     "neighbour_jump_median": 0.98,
      "refusals": 2,
      "closest": {
       "start": "2020-01-17",
-      "distance": 0.07,
+      "distance": 0.31,
       "inside": true
      },
      "worst": {
       "start": "2020-01-20",
-      "distance": 1.78,
+      "distance": 1.98,
       "inside": false
      },
      "any_outside_noise": true,
-     "sentence": "the closest refusal (2020-01-17) sits 0.0700 from the 6.00 line and the worst (2020-01-20) sits 1.7800 away, while moving the start by one bar moves this ruler by a median of 1.0350: the closest refusal lies inside the grid's resolution and the worst one lies outside"
+     "sentence": "the closest refusal (2020-01-17) sits 0.3100 from the 6.00 line and the worst (2020-01-20) sits 1.9800 away, while moving the start by one bar moves this ruler by a median of 0.9800: the closest refusal lies inside the grid's resolution and the worst one lies outside"
     },
-    "evidence_cutoff": "2026-11-19",
+    "evidence_cutoff": "2026-11-20",
     "path": "results/etf_book_start_grid.json"
    },
    "years": {
@@ -975,21 +975,21 @@
     "last": "2025-01-01",
     "S1": {
      "unit": "sharpe",
-     "one_year_step_median": 0.1965,
-     "one_bar_step_median": 0.2006,
-     "years_per_bar_step": 0.98,
+     "one_year_step_median": 0.1832,
+     "one_bar_step_median": 0.2021,
+     "years_per_bar_step": 0.91,
      "bar_step_source": "results/etf_book_start_grid.json",
      "readable": true,
-     "sentence": "moving the start by one year moves this ruler by 0.1965 (sharpe), one bar by 0.2006: a year of start is worth 0.98 bar-steps"
+     "sentence": "moving the start by one year moves this ruler by 0.1832 (sharpe), one bar by 0.2021: a year of start is worth 0.91 bar-steps"
     },
     "A1": {
      "unit": "pp",
-     "one_year_step_median": 1.39,
-     "one_bar_step_median": 1.035,
-     "years_per_bar_step": 1.34,
+     "one_year_step_median": 1.22,
+     "one_bar_step_median": 0.98,
+     "years_per_bar_step": 1.24,
      "bar_step_source": "results/etf_book_start_grid.json",
      "readable": true,
-     "sentence": "moving the start by one year moves this ruler by 1.3900 (pp), one bar by 1.0350: a year of start is worth 1.34 bar-steps"
+     "sentence": "moving the start by one year moves this ruler by 1.2200 (pp), one bar by 0.9800: a year of start is worth 1.24 bar-steps"
     },
     "eras": [
      {
@@ -1008,7 +1008,7 @@
       "sharpe": 0.635,
       "maxdd_pct": -14.21,
       "has_partial_year": false,
-      "share_of_sum": 0.135
+      "share_of_sum": 0.1366
      },
      {
       "era": "2018-2020",
@@ -1026,7 +1026,7 @@
       "sharpe": 0.766,
       "maxdd_pct": -16.06,
       "has_partial_year": false,
-      "share_of_sum": 0.209
+      "share_of_sum": 0.2114
      },
      {
       "era": "2021-2023",
@@ -1044,7 +1044,7 @@
       "sharpe": 0.98,
       "maxdd_pct": -9.35,
       "has_partial_year": false,
-      "share_of_sum": 0.2323
+      "share_of_sum": 0.235
      },
      {
       "era": "2024-2026",
@@ -1053,21 +1053,21 @@
        2025,
        2026
       ],
-      "net_pct_sum": 50.1491,
+      "net_pct_sum": 48.7842,
       "positive_years": 3,
-      "worst_year_pct": 1.8063,
+      "worst_year_pct": 0.4414,
       "best_year_pct": 31.1478,
-      "bars": 697,
-      "cagr_pct": 16.81,
-      "sharpe": 1.694,
+      "bars": 698,
+      "cagr_pct": 16.25,
+      "sharpe": 1.637,
       "maxdd_pct": -10.2,
       "has_partial_year": true,
-      "share_of_sum": 0.4237
+      "share_of_sum": 0.417
      }
     ],
     "money_base": "2015-01-01",
     "oos_start": "2024-01-01",
-    "evidence_cutoff": "2026-11-19",
+    "evidence_cutoff": "2026-11-20",
     "path": "results/etf_book_era_grid.json"
    },
    "capacity": {
@@ -1107,6 +1107,78 @@
    "ticket_bar": "2026-11-20",
    "note": "滚仓面读的是 2026-11-19，这张票面读的是 2026-11-20——不是同一趟，今天不印这个数"
   }
+ },
+ "etf_entry_price": {
+  "present": true,
+  "verdict": "ENTRY_PRICE_IS_THE_COMMISSION_FLOOR",
+  "lot_floor_cny": 14875.99,
+  "lot_floor_binding_symbol": "511180",
+  "clean_entry_cny": 263852.24,
+  "clean_entry_binding_symbol": "510760",
+  "tolerable_entry_cny": 200000.0,
+  "model_side_bp": 13.041,
+  "rows": [
+   {
+    "capital_cny": 14875.99,
+    "side_cost_bp": 56.6665,
+    "annual_pct": 12.4868,
+    "legs_paying_floor": 12,
+    "legs_total": 12
+   },
+   {
+    "capital_cny": 20000.0,
+    "side_cost_bp": 45.7229,
+    "annual_pct": 9.8251,
+    "legs_paying_floor": 12,
+    "legs_total": 12
+   },
+   {
+    "capital_cny": 50000.0,
+    "side_cost_bp": 24.0771,
+    "annual_pct": 5.3789,
+    "legs_paying_floor": 12,
+    "legs_total": 12
+   },
+   {
+    "capital_cny": 100000.0,
+    "side_cost_bp": 17.2726,
+    "annual_pct": 3.8796,
+    "legs_paying_floor": 12,
+    "legs_total": 12
+   },
+   {
+    "capital_cny": 200000.0,
+    "side_cost_bp": 13.8668,
+    "annual_pct": 3.1521,
+    "legs_paying_floor": 12,
+    "legs_total": 12
+   },
+   {
+    "capital_cny": 300000.0,
+    "side_cost_bp": 13.041,
+    "annual_pct": 2.9703,
+    "legs_paying_floor": 0,
+    "legs_total": 12
+   },
+   {
+    "capital_cny": 500000.0,
+    "side_cost_bp": 13.041,
+    "annual_pct": 2.9802,
+    "legs_paying_floor": 0,
+    "legs_total": 12
+   },
+   {
+    "capital_cny": 1000000.0,
+    "side_cost_bp": 13.041,
+    "annual_pct": 2.9858,
+    "legs_paying_floor": 0,
+    "legs_total": 12
+   }
+  ],
+  "cutoff": "2026-11-20",
+  "generated": "2026-11-20T17:09:17+08:00",
+  "path": "results/etf_book_entry_price.json",
+  "producer": "scripts/etf_book_entry_price.py"
  },
  "etf_premium": {
   "present": true,
@@ -1211,23 +1283,23 @@
  },
  "etf_capacity": {
   "present": true,
-  "session": "2026-11-19",
-  "evidence_cutoff": "2026-11-19",
+  "session": "2026-11-20",
+  "evidence_cutoff": "2026-11-20",
   "verdict": "BELOW_LINE_MOST_SESSIONS",
   "line_pct": 1.0,
   "lens_cny": 1000000.0,
   "lens_tag": "1M",
   "per_name_cny": 200000.0,
-  "reading_today_pct": 0.997,
+  "reading_today_pct": 0.982,
   "binding_today": "159549",
   "n_sessions": 60,
-  "n_passes": 1,
+  "n_passes": 2,
   "n_unmeasurable": 0,
-  "capital_at_line_cny": 1003004.42,
+  "capital_at_line_cny": 1018315.34,
   "capital_median_cny": 496475.93,
   "capital_min_cny": 340837.76,
-  "gap_to_lens_cny": -3004.42,
-  "sentence": "同一笔单子（1,000,000 元、5 个名字等权），最近 60 个交易日里有 1 天过线、59 天不过线。今天这一行是 0.9970%（最弱的是 159549），闸线 1.00%；把这把尺子倒过来读，在今天的成交额上能过的资本上限是 1,003,004 元，离 1,000,000 元差 -3,004 元。今天还是这段窗里最好的一天（读数最低），所以这个 DENY 不是当天的运气。按这段窗的中位算，上限是 496,476 元；按最差的一天算，只有 340,838 元——「装不下 100 万」这句要换成「平常装得下多少」。",
+  "gap_to_lens_cny": -18315.34,
+  "sentence": "同一笔单子（1,000,000 元、5 个名字等权），最近 60 个交易日里有 2 天过线、58 天不过线。今天这一行是 0.9820%（最弱的是 159549），闸线 1.00%；把这把尺子倒过来读，在今天的成交额上能过的资本上限是 1,018,315 元，离 1,000,000 元差 -18,315 元。今天还是这段窗里最好的一天（读数最低），所以这个 DENY 不是当天的运气。按这段窗的中位算，上限是 496,476 元；按最差的一天算，只有 340,838 元——「装不下 100 万」这句要换成「平常装得下多少」。",
   "caveats": [
    "这笔单子固定成今天的选票、等权：量的是尺子的余量，不是「重新选票后那些天会填成什么样」",
    "成交额用的是闸自己的口径（收盘价×成交量、中位再取中位），不是成交明细：它是估计值而且是阶梯状的，所以读数一格一格跳",

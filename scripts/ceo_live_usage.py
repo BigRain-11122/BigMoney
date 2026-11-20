@@ -1765,6 +1765,56 @@ def _etf_order_face():
     }
 
 
+ENTRY_PRICE_PATH = os.path.join(ROOT, "results", "etf_book_entry_price.json")
+
+
+def _etf_entry_price_face():
+    """r1885: how big an account has to be before the CNY 5 ticket minimum stops
+    setting the price -- the question a reader asks right after "which five codes".
+
+    Read-only, and three things this block must not do:
+
+    * a missing face reads as unreadable, never as a 0 bp cost (r98);
+    * the rungs print the face's own numbers (nothing is re-divided here);
+    * the block names WHICH book it measured.  The face prices the 12-name
+      ledger; today's sheet is 5 names at ~86k a leg.  A caliber gap has to be
+      stated where the reader decides, not left for him to discover (r1275),
+      so the headline carries the book it belongs to.
+    """
+    d = _read_json(ENTRY_PRICE_PATH)
+    if not d:
+        return {"present": False, "note": "入门价面未产出（缺面不读 0）"}
+    rungs = d.get("rungs") or []
+    if not rungs:
+        return {"present": False, "note": "入门价面零档（空面不冒充有读数）"}
+    rows = []
+    for r in rungs:
+        rows.append({"capital_cny": r.get("capital_cny"),
+                     "side_cost_bp": r.get("side_cost_bp"),
+                     "annual_pct": r.get("annual_cost_pct_ceiling"),
+                     "legs_paying_floor": r.get("legs_paying_floor"),
+                     "legs_total": r.get("legs_total")})
+    ce = d.get("clean_entry")
+    if isinstance(ce, dict):
+        ce_cny = ce.get("all_legs_above_min_commission_cny")
+        ce_sym = ce.get("binding_symbol")
+    else:
+        ce_cny, ce_sym = ce, None
+    return {"present": True,
+            "verdict": d.get("verdict"),
+            "lot_floor_cny": d.get("lot_floor_cny"),
+            "lot_floor_binding_symbol": d.get("lot_floor_binding_symbol"),
+            "clean_entry_cny": ce_cny,
+            "clean_entry_binding_symbol": ce_sym,
+            "tolerable_entry_cny": d.get("tolerable_entry_cny"),
+            "model_side_bp": (d.get("calibers") or {}).get("model_side_bp"),
+            "rows": rows,
+            "cutoff": d.get("evidence_cutoff"),
+            "generated": d.get("generated"),
+            "path": "results/etf_book_entry_price.json",
+            "producer": "scripts/etf_book_entry_price.py"}
+
+
 # r1580: the two-books face lives in scripts/etf_book_identity.py so this
 # page and the daily report read ONE implementation instead of two that drift.
 _scripts_dir = os.path.dirname(os.path.abspath(__file__))
@@ -2181,6 +2231,7 @@ def build_payload(day: str) -> dict:
         "etf_book": book,
         "etf_book_periods": _etf_book_period_face(),
         "etf_order": _etf_order_with_cash_roll(),
+        "etf_entry_price": _etf_entry_price_face(),
         "etf_premium": _etf_premium_face(),
         "etf_premium_choice": _etf_premium_choice_face(),
         "etf_capacity": _etf_capacity_face(),
@@ -2698,6 +2749,59 @@ def render_md(p: dict) -> str:
         if eo.get("generated"):
             L.append(f"  - 出处：`results/etf_book_order/{eo.get('file')}`"
                      f"（generated {eo.get('generated')}·cutoff {eo.get('bar')}）")
+        # --- r1885: the sheet says which five codes; the entry price says how big
+        # the account has to be before the CNY 5 per-ticket minimum stops setting
+        # the price.  Read from its own face, and labelled with the book it
+        # measured (the face prices 12 names, this sheet is 5).
+        _ep = p.get("etf_entry_price") or {}
+        if not _ep.get("present"):
+            L.append("- **入门价：这笔钱要多大，才不亏在每张单的固定费上** "
+                     "——" + (_ep.get("note") or "缺件（缺面不读 0）")
+                     + "。缺这一行不等于「账户多大都一个成本」。")
+        else:
+            _epm = _ep.get("model_side_bp")
+            _epl = _ep.get("lot_floor_cny")
+            _epc = _ep.get("clean_entry_cny")
+            _ept = _ep.get("tolerable_entry_cny")
+            head = ("- **入门价：这笔钱要多大，才不亏在每张单的固定费上**"
+                    "（r1882·量的书是**账面 12 名**，不是上面这张 5 名单）")
+            if _epl is not None and _epc is not None and float(_epl) > 0:
+                head += ("：一手门槛 ¥%s（约束腿 %s）只保证「每条腿买得起一手」，"
+                         "**¥%s**（%.1f 倍）才是「没有一条腿在付 5 元最低佣金」"
+                         % (_fmt_cny(float(_epl)),
+                            _ep.get("lot_floor_binding_symbol") or "?",
+                            _fmt_cny(float(_epc)), float(_epc) / float(_epl)))
+            if _ept is not None:
+                head += "；宽裕门槛 ¥%s（超出模型不超过 1bp）" % _fmt_cny(float(_ept))
+            L.append(head + "。")
+            for _r in sorted([x for x in (_ep.get("rows") or [])
+                              if x.get("capital_cny") is not None],
+                             key=lambda x: float(x["capital_cny"])):
+                _cap = float(_r["capital_cny"])
+                _bp = _r.get("side_cost_bp")
+                _seg = "  - ¥%s → 单边 %s bp" % (
+                    _fmt_cny(_cap),
+                    ("%.2f" % float(_bp)) if _bp is not None else "?")
+                if _epm is not None and _bp is not None:
+                    _seg += "（模型 %.3f bp，%+.2f）" % (float(_epm),
+                                                       float(_bp) - float(_epm))
+                _nf = _r.get("legs_paying_floor") or 0
+                if _nf:
+                    _seg += "，%d/%s 条腿在付 5 元最低佣金" % (
+                        _nf, _r.get("legs_total") or "?")
+                else:
+                    _seg += "，没有一条腿付最低佣金"
+                if _r.get("annual_pct") is not None:
+                    _seg += "；按整本换手折一年 %.2f%% 本金" % float(_r["annual_pct"])
+                L.append(_seg)
+            L.append("  - 两个口径别互相代入：上面那张单是 5 名、每腿金额就写在它自己的行里；"
+                     "这一栏量的是 12 名账面自己搭时的固定费曲线——换一种搭法就要换一条曲线。")
+            L.append("  - 读法：这一栏量的是**固定费占本金的比例**，不是税、不是滑点；"
+                     "账户再小一档，贵出去的不是费率，是每张单那 5 元。")
+            L.append(f"  - 边界：算到 {_ep.get('cutoff') or '未注明'}，面生成于 "
+                     f"{(_ep.get('generated') or '未知')[:19]}；佣金与最低费取自 "
+                     f"`knowledge/rules.py`（CN-C3，5.000 元/单）。出处 `{_ep.get('path')}`"
+                     f"（生产者 `{_ep.get('producer')}`，本页只读）")
         _adm = eo.get("admission") or {}
         if not _adm.get("present"):
             L.append(f"- 准入在起点/年代上还成不成立：{_adm.get('note') or '缺件'}")
@@ -4093,6 +4197,24 @@ def selftest() -> int:
               eb["bench_ret_pct"] is None or eb["bench_ret_pct"] >= 0
               or (eb["bench_max_dd_pct"] is not None
                   and eb["bench_max_dd_pct"] < 0))
+    # --- r1885: the entry-price block.  The page must show the reader's own
+    # question (how big does the account have to be) and must say WHICH book it
+    # measured -- the face prices 12 names while the sheet above it is 5.
+    _epf = p1.get("etf_entry_price") or {}
+    check("entry price block rendered (r1885)",
+          "入门价：这笔钱要多大" in md1
+          and (not _epf.get("present")
+               or ("账面 12 名" in md1 and "两个口径别互相代入" in md1)))
+    if _epf.get("present"):
+        _i_ep = md1.find("入门价：这笔钱要多大")
+        _blk_ep = md1[_i_ep:_i_ep + 1600] if _i_ep >= 0 else ""
+        check("entry price block quotes the face's own clean-entry figure",
+              _epf.get("clean_entry_cny") is not None
+              and _fmt_cny(float(_epf["clean_entry_cny"])) in _blk_ep)
+        check("every entry-price rung prints the face's own side cost",
+              all(("%.2f" % float(r["side_cost_bp"])) in _blk_ep
+                  for r in (_epf.get("rows") or [])
+                  if r.get("side_cost_bp") is not None))
     # --- v2.2 (r1782): the second money candidate's funding line.
     cb = p1.get("carry_book") or {}
     check("carry funding line rendered in md (v2.2)",
