@@ -1497,6 +1497,15 @@ LEGS = [
     ("regime_cap_vs_book", ["python", "scripts/regime_cap_vs_book.py", "run"]),
     ("daily_report", ["python", "scripts/daily_report.py", "run"]),
     ("ceo_live_usage", ["python", "scripts/ceo_live_usage.py"]),
+    # r1880: r1877 measured WHEN a repo quote lands (first commit whose csv reaches the
+    # session) and left the page question open: the CEO page priced `spot 2026-11-19` on a
+    # 11-20 page while 11-18/11-19 only arrived at 02:22 that morning -- was the page late,
+    # or was there nothing to price? This leg answers it per page (priced vs the freshest
+    # session already on disk at that page's own clock) and keeps the arrival history out of
+    # the next round's guesswork. Runs AFTER the page writer on purpose: judging the page we
+    # just wrote is the point. ~3s (git log over one csv), no network, no gate, no threshold.
+    ("repo_quote_arrival", ["python", "scripts/repo_quote_arrival.py", "check"],
+     ["python", "scripts/repo_quote_arrival.py", "run"]),
     # ORDER MATTERS (r1318): the panel READS fleet/machine-health.json, and the
     # hourly oversight task independently writes that file with a thin row. When
     # these legs ran after build_status, the panel was built from the thinned face
