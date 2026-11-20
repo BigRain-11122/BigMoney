@@ -1884,6 +1884,15 @@ def main() -> int:
              "scripts/etf_book_start_grid.py", ["selftest"]),
             ("product: etf_book_start_grid (refusals and steps re-derived from its rows)",
              "scripts/etf_book_start_grid.py", ["check"]),
+            # r1871: K1 read on one bar cannot say what 1,000,000 CNY meant in 2015. The legs
+            # pin that the face re-derives every year's ceiling from line*lens/reading, that
+            # a row with no reading may not carry an admit flag, that the LATEST bar is not
+            # the last year anchor, and that the face reproduces the gate's published
+            # reading -- a drifted reproduction is named, not rounded away.
+            ("product: etf_book_era_capacity (the 1% line priced on each year's own bar)",
+             "scripts/etf_book_era_capacity.py", ["selftest"]),
+            ("product: etf_book_era_capacity (ceilings and the latest bar re-derived)",
+             "scripts/etf_book_era_capacity.py", ["check"]),
             # r1446: two true receipts that a desk cannot hold at once (the caliber dispute
             # says the gate is one decision from disagreeing with itself; the forward read
             # says the deciding check is decorative). The legs pin the four frozen classes

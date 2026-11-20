@@ -4995,6 +4995,93 @@ def _era_grid_md(e):
     return L
 
 
+ERA_CAPACITY_PATH = os.path.join(PATHS.results_dir, "etf_book_era_capacity.json")
+
+
+def _era_capacity_reading(path=None):
+    """K1 priced on every year's own bar (r1871) -- copied off its own face, never redone.
+
+    The gate's capacity line is read on TODAY's picks against TODAY's ADV, so neither the
+    sheet nor the page could say what 1,000,000 CNY would have meant in 2015. This reader
+    passes through the verdict, the two ends and the multiple; a missing face returns None
+    so the section prints "no reading" instead of a small panel.
+    """
+    p = path or ERA_CAPACITY_PATH
+    try:
+        with open(p, encoding="utf-8") as fh:
+            d = json.load(fh)
+    except Exception:                                          # noqa: BLE001
+        return None
+    s = d.get("summary") or {}
+    latest = d.get("latest") or {}
+    if not s.get("n_years_measured"):
+        return None
+    return {"verdict": s.get("verdict"), "lens": s.get("lens_label"),
+            "lens_cny": s.get("lens_cny"), "line_pct": s.get("line_pct"),
+            "n_years_measured": s.get("n_years_measured"), "n_admit": s.get("n_admit"),
+            "first_admit_year": s.get("first_admit_year"),
+            "last_refuse_year": s.get("last_refuse_year"),
+            "capacity_multiple": s.get("capacity_multiple"),
+            "capacity_multiple_years": s.get("capacity_multiple_years"),
+            "reproduces_published": s.get("reproduces_published"),
+            "earliest": {"year": s.get("earliest_measured_year"),
+                         "reading_pct": s.get("earliest_reading_pct"),
+                         "capacity_cny": s.get("earliest_capacity_cny")},
+            "latest": {"bar": latest.get("anchor"),
+                       "reading_pct": latest.get("reading_pct"),
+                       "capacity_cny": latest.get("capital_where_at_line_cny"),
+                       "admits": latest.get("admit_at_lens"),
+                       "binding": latest.get("binding")},
+            "evidence_cutoff": d.get("evidence_cutoff"),
+            "asof": (d.get("generated") or "")[:19],
+            "path": "results/etf_book_era_capacity.json",
+            "producer": "scripts/etf_book_era_capacity.py"}
+
+
+def _era_capacity_md(c):
+    """One line: when the lens started fitting, and what it is worth today."""
+    if not c:
+        return ["  - **容量按年代这一轮没有读数**：`results/etf_book_era_capacity.json` 缺或"
+                "读不出。缺这一行不等于「哪年都装得下 100 万」——K1 只量了今天这一根 bar。"]
+    L = []
+    n, k = c.get("n_years_measured"), c.get("n_admit")
+    lens = c.get("lens") or "?"
+    L.append("    - **容量按年代（K1 放到每一年自己的盘口上读）**：%s 这条线在 %s 个年度锚里"
+             "%s 年装得下 %s，判词 `%s`" % (("%s%%" % c.get("line_pct")), n, k, lens,
+                                          c.get("verdict")))
+    e, t = c.get("earliest") or {}, c.get("latest") or {}
+    if e.get("capacity_cny") and t.get("capacity_cny"):
+        L.append("      - 同样五个席位、同样 1%% 线：**%s 年只装得下 %s 元**（%s%% 已占满），"
+                 "**%s 这根 bar 装 %s 元**（%s%%）——%s 倍%s"
+                 % (e.get("year"), "{:,}".format(int(e["capacity_cny"])),
+                    e.get("reading_pct"), t.get("bar"),
+                    "{:,}".format(int(t["capacity_cny"])), t.get("reading_pct"),
+                    ("%.2f" % c["capacity_multiple"]) if c.get("capacity_multiple") else "?",
+                    ("（%s→%s）" % tuple(c["capacity_multiple_years"])
+                     if c.get("capacity_multiple_years") else "")))
+    if c.get("verdict") == "LINE_CROSSED_INSIDE_THE_WINDOW":
+        L.append("      - 读法：**%s 年起这条线才装得下 %s，%s 年是最后一个装不下的年份**"
+                 "——同一本书、同一套规则，翻面的是市场深度不是判词。"
+                 % (c.get("first_admit_year"), lens, c.get("last_refuse_year")))
+    elif c.get("verdict") == "BELOW_LINE_IN_EVERY_YEAR":
+        L.append("      - 读法：**每个年度锚都装不下 %s** —— 这不是今天的运气，是这本书的"
+                 "容量事实。" % lens)
+    bw = (t.get("binding") or "-")
+    if t.get("capacity_cny") and c.get("lens_cny"):
+        margin = float(t["capacity_cny"]) / float(c["lens_cny"])
+        L.append("      - 今天距线：装得下 %s 的 %.3f 倍（%s 元对 %s 元，最紧的席位 %s）"
+                 % (lens, margin, "{:,}".format(int(t["capacity_cny"])),
+                    "{:,}".format(int(c["lens_cny"])), bw))
+    if c.get("reproduces_published") is False:
+        L.append("      - **复现对不上**：这张面今天这根 bar 的读数与年闸发布值不同——"
+                 "先修面，别把上面几条当事。")
+    L.append("      - 边界：每一年都用**今天的名单**倒推（幸存者偏差），ADV 是该年自己的"
+             "20 根中位；算到 %s，面生成于 %s。出处 `%s`（生产者 `%s`，本页只读）"
+             % (c.get("evidence_cutoff") or "未注明", c.get("asof") or "未知",
+                c.get("path"), c.get("producer")))
+    return L
+
+
 def _phase_reading(path=None, book=ADMITTED_BOOK):
     """The same book judged over five decision phases -- the other half of the admission.
 
@@ -5551,10 +5638,30 @@ def _admission_payload():
             "path": era.get("path")}
     except Exception:                                            # noqa: BLE001
         out["years"] = None
+    # r1871: K1 is read on today's picks against today's ADV, so neither the sheet nor the
+    # page could say what 1,000,000 CNY would have meant in 2015. The capacity-by-year face
+    # prices the same five slots on every year's own bar; passed through, never recomputed.
+    try:
+        ec = _era_capacity_reading()
+        out["capacity_by_year"] = None if not ec else {
+            "verdict": ec.get("verdict"), "lens": ec.get("lens"),
+            "line_pct": ec.get("line_pct"), "latest": ec.get("latest"),
+            "earliest": ec.get("earliest"),
+            "first_admit_year": ec.get("first_admit_year"),
+            "last_refuse_year": ec.get("last_refuse_year"),
+            "capacity_multiple": ec.get("capacity_multiple"),
+            "capacity_multiple_years": ec.get("capacity_multiple_years"),
+            "n_years_measured": ec.get("n_years_measured"),
+            "n_admit": ec.get("n_admit"),
+            "reproduces_published": ec.get("reproduces_published"),
+            "evidence_cutoff": ec.get("evidence_cutoff"), "asof": ec.get("asof"),
+            "path": ec.get("path")}
+    except Exception:                                            # noqa: BLE001
+        out["capacity_by_year"] = None
     return out
 
 
-def _phase_admission_md(pa, ad, dec=False, grid="auto", era="auto"):
+def _phase_admission_md(pa, ad, dec=False, grid="auto", era="auto", cap="auto"):
     """The five starts on the three veto rulers -- copied off its own face.
 
     r1868: the admission section used to end on a sentence that told the operator the
@@ -5619,6 +5726,7 @@ def _phase_admission_md(pa, ad, dec=False, grid="auto", era="auto"):
              "`candidate_year_gate` 导入；本页只读）" % pa.get("path"))
     L += _start_grid_md(_start_grid_reading() if grid == "auto" else grid)
     L += _era_grid_md(_era_grid_reading() if era == "auto" else era)
+    L += _era_capacity_md(_era_capacity_reading() if cap == "auto" else cap)
     return L
 
 
@@ -9161,13 +9269,13 @@ def selftest():
               "cross_face_disagreements": 0,
               "path": "results/etf_book_start_grid.json",
               "producer": "scripts/etf_book_start_grid.py"}
-        _md_grid = "\n".join(_phase_admission_md(_pa, _adm, True, grid=_g))
+        _md_grid = "\n".join(_phase_admission_md(_pa, _adm, True, grid=_g, cap=None))
         chk("legAI the block-exhaustive reading names both the closest and the worst refusal",
             "整块穷举" in _md_grid and "2020-01-22" in _md_grid and "2020-01-17" in _md_grid
             and "2020-01-20" in _md_grid, _md_grid[-400:])
         chk("legAJ a refusal outside the grid's own step is not printed as a coin flip",
             "不是抽签" in _md_grid, _md_grid[-400:])
-        _md_grid_missing = "\n".join(_phase_admission_md(_pa, _adm, True, grid=None))
+        _md_grid_missing = "\n".join(_phase_admission_md(_pa, _adm, True, grid=None, cap=None))
         chk("legAK a missing grid face is not printed as 'every start passed'",
             "整块穷举这一轮没有读数" in _md_grid_missing, _md_grid_missing[-200:])
         # legAL-AN (r1870): the year axis prints the two steps that are being compared, the
@@ -9190,7 +9298,7 @@ def selftest():
               "cross_face_disagreements": 0,
               "path": "results/etf_book_era_grid.json",
               "producer": "scripts/etf_book_era_grid.py"}
-        _md_era = "\n".join(_phase_admission_md(_pa, _adm, True, grid=_g, era=_e))
+        _md_era = "\n".join(_phase_admission_md(_pa, _adm, True, grid=_g, era=_e, cap=None))
         chk("legAL the year axis prints both steps it compares and the money by era",
             "年代轴" in _md_era and "0.98 根 bar" in _md_era and "2024-2026 42.4%" in _md_era,
             _md_era[-500:])
@@ -9199,15 +9307,48 @@ def selftest():
         _e_nobar = dict(_e)
         _e_nobar["S1"] = {"one_year_step_median": 0.1965, "one_bar_step_median": None,
                           "years_per_bar_step": None, "readable": False}
-        _md_era_nobar = "\n".join(_phase_admission_md(_pa, _adm, True, grid=_g, era=_e_nobar))
+        _md_era_nobar = "\n".join(_phase_admission_md(_pa, _adm, True, grid=_g, era=_e_nobar,
+                                                      cap=None))
         chk("legAN a missing bar step is printed as 'cannot compare', never as ratio 1",
             "没有一跳步长可比" in _md_era_nobar
             and "1.00 根 bar" not in _md_era_nobar.split("年代轴")[-1],
             _md_era_nobar[-500:])
-        _md_era_missing = "\n".join(_phase_admission_md(_pa, _adm, True, grid=_g, era=None))
+        _md_era_missing = "\n".join(_phase_admission_md(_pa, _adm, True, grid=_g, era=None,
+                                                        cap=None))
         chk("legAO a missing era face is not printed as 'any year would do'",
             "年代轴这一轮没有读数" in _md_era_missing and "换个年代开场也一样" not in
             _md_era_missing.split("年代轴")[0], _md_era_missing[-300:])
+
+        # legAP-AR (r1871): the capacity line is priced per year. Three states have to be
+        # distinguishable on the page -- a real reading, a missing face, and a face that no
+        # longer reproduces the gate (which must not be read as a verdict about the book).
+        _c = {"verdict": "LINE_CROSSED_INSIDE_THE_WINDOW", "lens": "1M", "lens_cny": 1000000.0,
+              "line_pct": 1.0, "n_years_measured": 11, "n_admit": 10,
+              "first_admit_year": 2016, "last_refuse_year": 2015,
+              "capacity_multiple": 1.66, "capacity_multiple_years": [2015, 2026],
+              "reproduces_published": True,
+              "earliest": {"year": 2015, "reading_pct": 1.6599, "capacity_cny": 602440.0},
+              "latest": {"bar": "2026-11-19", "reading_pct": 0.997, "capacity_cny": 1003004.0,
+                         "admits": True, "binding": "159549"},
+              "evidence_cutoff": "2026-11-19", "asof": "2026-11-20T08:28:03",
+              "path": "results/etf_book_era_capacity.json",
+              "producer": "scripts/etf_book_era_capacity.py"}
+        _md_cap = "\n".join(_phase_admission_md(_pa, _adm, True, grid=_g, era=_e, cap=_c))
+        chk("legAP the capacity line names the year it started fitting and today's margin",
+            "容量按年代" in _md_cap and "2016 年" in _md_cap and "1.003 倍" in _md_cap
+            and "602,440" in _md_cap, _md_cap[-700:])
+        _md_cap_missing = "\n".join(_phase_admission_md(_pa, _adm, True, grid=_g, era=_e,
+                                                        cap=None))
+        chk("legAQ a missing capacity face is not printed as a verdict",
+            "容量按年代这一轮没有读数" in _md_cap_missing
+            and "判词 `" not in _md_cap_missing.split("容量按年代")[-1]
+            and "2016 年" not in _md_cap_missing.split("容量按年代")[-1],
+            _md_cap_missing[-300:])
+        _c_bad = dict(_c, reproduces_published=False)
+        _md_cap_bad = "\n".join(_phase_admission_md(_pa, _adm, True, grid=_g, era=_e,
+                                                    cap=_c_bad))
+        chk("legAR a face that no longer reproduces the gate says so instead of a verdict",
+            "复现对不上" in _md_cap_bad, _md_cap_bad[-400:])
     finally:
         shutil.rmtree(_tmp, ignore_errors=True)
 

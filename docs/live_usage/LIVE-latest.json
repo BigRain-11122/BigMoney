@@ -2,7 +2,7 @@
  "schema": "ceo_live_usage_v1_9",
  "ticket": "T-202609-28-105",
  "day": "2026-11-20",
- "generated": "2026-11-20T08:13:59",
+ "generated": "2026-11-20T08:35:46",
  "market": {
   "state": "RED",
   "asof": "2026-11-19",
@@ -519,7 +519,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 63292.2
+    "last_append_age_min": 63314.0
    },
    {
     "family": "FUND-VALUE-P1",
@@ -527,7 +527,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 64136.7
+    "last_append_age_min": 64158.5
    },
    {
     "family": "FUND-DIVLOWVOL-P1",
@@ -535,7 +535,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 60930.0
+    "last_append_age_min": 60951.8
    }
   ]
  },
@@ -623,7 +623,7 @@
   "file": "TICKET-2026-11-19.json",
   "bar": "2026-11-19",
   "decision_bar": "2026-11-19",
-  "generated": "2026-11-20T08:13:57+08:00",
+  "generated": "2026-11-20T08:34:27+08:00",
   "rows": [
    {
     "symbol": "510760",
@@ -1072,6 +1072,35 @@
     "oos_start": "2024-01-01",
     "evidence_cutoff": "2026-11-19",
     "path": "results/etf_book_era_grid.json"
+   },
+   "capacity": {
+    "verdict": "LINE_CROSSED_INSIDE_THE_WINDOW",
+    "lens": "1M",
+    "line_pct": 1.0,
+    "latest": {
+     "bar": "2026-11-19",
+     "reading_pct": 0.997,
+     "capacity_cny": 1003004.42,
+     "admits": true,
+     "binding": "159549"
+    },
+    "earliest": {
+     "year": 2015,
+     "reading_pct": 1.6599,
+     "capacity_cny": 602440.08
+    },
+    "first_admit_year": 2016,
+    "last_refuse_year": 2015,
+    "capacity_multiple": 1.66,
+    "capacity_multiple_years": [
+     2015,
+     2026
+    ],
+    "n_years_measured": 11,
+    "n_admit": 10,
+    "reproduces_published": true,
+    "evidence_cutoff": "2026-11-19",
+    "path": "results/etf_book_era_capacity.json"
    }
   },
   "cash_roll": {

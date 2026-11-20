@@ -235,7 +235,7 @@
   "sha": "278bb79900"
  },
  "last_push_at": "2026-11-11T08:31:06+08:00",
- "last_round": 1867,
+ "last_round": 1871,
  "last_round_at": "2026-11-20T05:42:49+08:00",
  "last_round_at_legacy": "2026-10-19T15:34:21+08:00",
  "last_round_closed": 1733,
@@ -1255,7 +1255,7 @@
   "watermark": "green: board/pool both empty (pool_ready_count=0, fleet_open_tasks=0), no claimable batch on this host; py_watermark insufficient_history (window n=1, local_batch=1 = this round own suite)"
  },
  "round_label": "r1813",
- "round_no": 1870,
+ "round_no": 1871,
  "round_no_label": "r1821",
  "round_no_landed": 1663,
  "round_note": "r1489: a reinstated bar is re-derived from the panel, not carried over (reinstatement_check + reinstatements.json + sheet paragraph)",
@@ -1912,6 +1912,8 @@
  "verify_r1861": "smoke_test snapshot guard: _face_moved/check_unsettled added (t0 stamped in main), two face-vs-face legs wired (dashboard marks gap; data-lane sample certification), one harness leg 'a face rewritten mid-run is named as moved, not judged' | results/_r1861_bmc_snapshot_guard_check.py 3/3 PASS (time base before/after/no-stamp; UNSETTLED counted apart from PASS: raw 2 -> pass 1; a tampered dashboard field still fails) | ast.parse smoke_test.py OK (14750 lines) | the two r1860 reds re-derived by hand and both now true: leg1 seven comparisons all True with marks_coverage 20/35/57.14 == dashboard 03:26:19; leg2 stale=[] after the 03:24 re-certify (repo full_tail 11-19 == board tail) | full suite NOT re-run this round (the 03:30 run executes the pre-change code and 14 min > window) -- 696-leg all-green stays the r1853 baseline | orphans=0 | orders 115 files / unacked 0 | queue head CLEAR (T22/E14)",
  "verify_r1863": "publish-only round: 25 faces committed+pushed 184b7e02d2..cc15a878f0 | CEO page four assertions True (WITHDRAW_FROM_TICKET / 1,120,540 / 1,146,317 / 431,880) | orphan_face_probe orphans=0 py_faces=3 resident_servers=1 | local commits behind origin = 0 | attrition/compute_audit/data_lane faces were re-derived 04:32-04:35 by the chain this round inherits",
  "verify_r1865": "astock_resid_veto_layer selftest 9/9 PASS | run rc0 over 5181 symbols / 1667 dates / 77 rebalances cutoff 2026-11-19: A pool cagr_net 6.92% (turn 0.055), B = pool minus top-20% residual 10.34% (turn 0.240), C minus top-40% 9.61%, R = random 20% dropped 6.89% (turn 0.055) | paired B-A +0.2454%/reb t=+3.51, B-R +0.2479%/reb t=+3.54 -> VETO_ADDS_VALUE; B beats A in every sample year, R tracks A year by year | smoke legs added (selftest rc0 + verdict may only green when BOTH doors clear)",
+ "verify_r1867": "ceo_live_usage selftest ALL PASS with 5 new legs (contract census on real faces / four counts + size!=depth line / producer self-stamp / live-set disagreement prints both sides / missing census prints a reason not a small panel) | page regenerated docs/live_usage/LIVE-2026-11-20.md ⑦ now prints: 418 contract files, 335 ever printed, 83 never, 327 dead tails (0/12/36/279 by age), live 8 = IC2611/IC2612/IF2611/IF2612/IH2611/IH2612/IM2611/IM2612, oldest tail IH1903 2019-03-15 (2806d), writer update_futures_contracts.py ALREADY_CURRENT 2026-11-20T01:24, panel date 2026-11-19 | S6 legs rc0: ceo_live_usage 0.8s + daily_report 1.9s | pool_dualrun ZERO-DRIFT streak 51 | compute_audit FLAG:pool_starvation,supply_floor (calendar family, unchanged) | attrition CLEAN 4 ledgers, 2 historical shrinks healed | py_watermark insufficient_history (own suite = only local batch) | smoke record green 697/697 @2026-11-20T05:11:59 | orphans=0 | orders 115 / ack 256 / unacked 0 | decisions sha 79e3083b 250586B unchanged",
+ "verify_r1871": "etf_book_era_capacity selftest 22/22 PASS (L1 ceiling identity, L2 missing slot named, L3 no ruler, L4 causal picks + L4b, L5 verdict-by-counts x4, L6 era boundary, L7/L7b multiple needs two measured days, L8/L8b stale names both bars, L9 unmeasured year cannot pass, L10/L10b tampered ceiling caught, L12-L14 the today row is the panel last bar and reproduces the gate) | run rc0: 2015 1.6599% cap 602,440 DENY -> 2016..2025 all admit, latest bar 2026-11-19 0.9970% cap 1,003,004 admit; verdict LINE_CROSSED_INSIDE_THE_WINDOW, multiple 1.66x 2015->2026 | check rc0 ok true | etf_book_order --selftest 272->279/279 PASS (legAP/AQ/AR) and run rc0 -> ORDER-2026-11-19.md L101/L103/L104 容量按年代 section | ceo_live_usage selftest ALL PASS, page L151-L152 prints the same three numbers | live_usage_day_words 19 unmapped (unchanged pre-existing debt, my two lines mapped+ok 79/79) selftest 24/24 | s6 chain leg era_capacity_write 1/1 rc0 0.9s | orphans=0",
  "verify_reader": "Tools/smoke_red.py --selftest 8 PASS 0 FAIL; live read on a missing record -> rc2 UNKNOWN, never a pass",
  "verify_record": "injected RESULTS on a probe path: 3 legs / fail 1 / failed[0]={leg b, boom detail}; a green run -> fail 0, failed []",
  "verify_ref": "research/MONEYFLOW_IC_VERDICT.md gains a pointer section so the sell-leg hunch in its section 3 item 2 is not acted on",
@@ -1948,8 +1950,7 @@
  "went_well": "the fix keeps the old states reachable: a card with one unqualified row still takes the position-free path, so no previously published verdict changed meaning",
  "when_well": "the exec panel reused lhb_sellleg verbatim by passing a net-of-cost panel instead of writing a second event study -- the two tables cannot disagree about the quintiles because there is only one implementation",
  "who_did": "bm-c",
- "下个里程碑": "给 futures_panel_provenance 加一条链腿写作契约（谁写、多久一次）并在 CEO 页期货节并列「活跃集 vs 报价缺口」——窗 ≤48h",
- "当前任务": "r1867: 合约盘家底印上 CEO 期货节",
- "最近实物": "docs/live_usage/LIVE-2026-11-20.md ⑦ 合约盘家底节 + scripts/ceo_live_usage.py::_futures_panel_face @r1867",
- "verify_r1867": "ceo_live_usage selftest ALL PASS with 5 new legs (contract census on real faces / four counts + size!=depth line / producer self-stamp / live-set disagreement prints both sides / missing census prints a reason not a small panel) | page regenerated docs/live_usage/LIVE-2026-11-20.md ⑦ now prints: 418 contract files, 335 ever printed, 83 never, 327 dead tails (0/12/36/279 by age), live 8 = IC2611/IC2612/IF2611/IF2612/IH2611/IH2612/IM2611/IM2612, oldest tail IH1903 2019-03-15 (2806d), writer update_futures_contracts.py ALREADY_CURRENT 2026-11-20T01:24, panel date 2026-11-19 | S6 legs rc0: ceo_live_usage 0.8s + daily_report 1.9s | pool_dualrun ZERO-DRIFT streak 51 | compute_audit FLAG:pool_starvation,supply_floor (calendar family, unchanged) | attrition CLEAN 4 ledgers, 2 historical shrinks healed | py_watermark insufficient_history (own suite = only local batch) | smoke record green 697/697 @2026-11-20T05:11:59 | orphans=0 | orders 115 / ack 256 / unacked 0 | decisions sha 79e3083b 250586B unchanged"
+ "下个里程碑": "把「容量按年代」接进 2021-2023 段的全名册回放（不是五个当下名字），看年代容量差里有多少是名字差、多少是深度差——窗 ≤48h",
+ "当前任务": "r1871: K1 容量线按年代读",
+ "最近实物": "results/etf_book_era_capacity.json + results/etf_book_order/ORDER-2026-11-19.md L101 容量按年代节 + docs/live_usage/LIVE-2026-11-20.md L151-L152（2026-11-20 08:5x）"
 }

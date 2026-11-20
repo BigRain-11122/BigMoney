@@ -208,6 +208,12 @@ CLAIM_RULES = [
      ["carry_roll_cost.source_generated", "carry_roll_cost.evidence_cutoff"]),
     (re.compile(r"futures_book_marks\.json`｜generated " + _D + r"T[\d:+]+｜cutoff " + _D),
      ["carry_marks.source_generated", "carry_marks.evidence_cutoff"]),
+    # r1871: the capacity-by-year line is the only place on the page where a bar date and a
+    # year share a sentence, and the boundary line ends on the face's own cutoff. Both are
+    # read off the ticket block the same page prints, so the rule maps to that block.
+    (re.compile(_D + r" 这根 bar 装 [\d,]+ 元"), ["etf_order.admission.capacity.latest.bar"]),
+    (re.compile(r"ADV 是那一年自己的 20 根中位；算到 " + _D),
+     ["etf_order.admission.capacity.evidence_cutoff"]),
 ]
 
 # A date that rides inside a file name (`TICKET-2026-11-17.json`) names a paper; it does not

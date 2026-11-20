@@ -1677,7 +1677,14 @@ def _etf_admission_face(a):
             "years": _one(a.get("years"), ("state", "anchors", "admit", "deny",
                                           "insufficient", "first", "last", "S1", "A1",
                                           "eras", "money_base", "oos_start",
-                                          "evidence_cutoff", "path"))}
+                                          "evidence_cutoff", "path")),
+            # r1871: the lens had no era on this page -- K1 was read on one bar, so a reader
+            # could not tell "1M fits because the market is deep" from "1M fits on this day".
+            "capacity": _one(a.get("capacity_by_year"),
+                             ("verdict", "lens", "line_pct", "latest", "earliest",
+                              "first_admit_year", "last_refuse_year", "capacity_multiple",
+                              "capacity_multiple_years", "n_years_measured", "n_admit",
+                              "reproduces_published", "evidence_cutoff", "path"))}
 
 
 def _etf_order_face():
@@ -2732,6 +2739,41 @@ def render_md(p: dict) -> str:
             if _wb and _wb.get("inside") is False:
                 L.append("  - 块内最差的拒绝 %s 差 %.2fpp，**在它自己的分辨率之外**（不是抽签）"
                          % (_wb.get("start"), float(_wb.get("distance") or 0.0)))
+            # ---- r1871: capacity is a number with a year on it, not a yes/no.
+            _cap = _adm.get("capacity") or {}
+            if _cap.get("verdict"):
+                _lt = _cap.get("latest") or {}
+                _ea = _cap.get("earliest") or {}
+                if _cap.get("reproduces_published") is False:
+                    L.append("  - **容量按年代：这张面与年闸发布值对不上，先修面**（下面的数字"
+                             "不当判决读）")
+                elif _cap.get("verdict") == "LINE_CROSSED_INSIDE_THE_WINDOW":
+                    L.append("  - **%s 这条 1%%-ADV 线放到每一年自己的盘口上**：%s 个年度锚里 "
+                             "%s 年装得下 %s，**%s 年起才装得下，%s 年是最后一个装不下的年份**"
+                             "——同一本书、同一套规则，翻面的是市场深度"
+                             % (_cap.get("line_pct"), _cap.get("n_years_measured"),
+                                _cap.get("n_admit"), _cap.get("lens") or "?",
+                                _cap.get("first_admit_year"), _cap.get("last_refuse_year")))
+                else:
+                    L.append("  - **%s 这条 1%%-ADV 线放到每一年自己的盘口上**：%s 个年度锚里 "
+                             "%s 年装得下 %s（判词 `%s`）"
+                             % (_cap.get("line_pct"), _cap.get("n_years_measured"),
+                                _cap.get("n_admit"), _cap.get("lens") or "?",
+                                _cap.get("verdict")))
+                if _ea.get("capacity_cny") and _lt.get("capacity_cny"):
+                    L.append("    - %s 年只装得下 %s 元（%s%% 已占满），%s 这根 bar 装 %s 元"
+                             "（%s%%）%s"
+                             % (_ea.get("year"), "{:,}".format(int(_ea["capacity_cny"])),
+                                _ea.get("reading_pct"), _lt.get("bar"),
+                                "{:,}".format(int(_lt["capacity_cny"])),
+                                _lt.get("reading_pct"),
+                                ("，%.2f 倍" % _cap["capacity_multiple"])
+                                if _cap.get("capacity_multiple") else ""))
+                if _cap.get("lens"):
+                    L.append("    - 边界：每一年都用今天的名单倒推（幸存者偏差），ADV 是那一年自己"
+                             "的 20 根中位；算到 %s。出处 `%s`"
+                             % (_cap.get("evidence_cutoff") or "未注明",
+                                _cap.get("path") or "results/etf_book_era_capacity.json"))
             L.append("  - 边界：闸的样本外窗口固定在 2024-01-01，往前挪锚只加样本内暖机；"
                      "成员是今天的名单（幸存者+今日分类），2015 锚=今天的名单倒推回 2015。"
                      "出处：`results/etf_book_era_grid.json` / `results/etf_book_start_grid.json`")
@@ -3025,12 +3067,18 @@ def render_md(p: dict) -> str:
             float(_cl or 0.0) if _capok else 0.0, _cap_msg))
         if _capok:
             _un = _cap.get("n_unmeasurable") or 0
+            # r1871: the gap is signed (lens - ceiling). When the ceiling is the larger
+            # number the page printed "少 ¥-3,004", which says the opposite of itself.
+            _gap = _cap.get("gap_to_lens_cny")
+            _gap_bit = ("远比读数不可用" if _gap is None else
+                        ("多 ¥%s" % _fmt_cny(abs(_gap)) if float(_gap) < 0
+                         else "少 ¥%s" % _fmt_cny(_gap)))
             L.append("    - 倒过来读：{}这个成交额下能过的资本上限 **¥{}**"
-                     "（比 ¥{} 少 ¥{}）；窗内中位 ¥{}、最差一天 ¥{}——"
+                     "（比 ¥{} {}）；窗内中位 ¥{}、最差一天 ¥{}——"
                      "「装不下 100 万」要换成「平常装得下多少」{}。".format(
                          ("%s " % _csess) if _csess else "今天",
                          _fmt_cny(_cap.get("capital_at_line_cny")),
-                         _fmt_cny(_lens), _fmt_cny(_cap.get("gap_to_lens_cny")),
+                         _fmt_cny(_lens), _gap_bit,
                          _fmt_cny(_cap.get("capital_median_cny")),
                          _fmt_cny(_cap.get("capital_min_cny")),
                          "" if not _un else "（另有 {} 天不可量，既不算过也不算不过）"

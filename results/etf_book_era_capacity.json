@@ -1,0 +1,450 @@
+{
+ "criteria": {
+  "anchor_from_year": 2015,
+  "anchor_to_year": 2025,
+  "gate_panel_last": "2026-11-19",
+  "lens_cny": 1000000.0,
+  "lens_label": "1M",
+  "line_frac": 0.01,
+  "line_pct": 1.0,
+  "panel_last": "2026-11-19",
+  "repro_tol_pct": 0.02,
+  "slots": 5
+ },
+ "elapsed_sec": 39.09,
+ "eras": [
+  {
+   "capacity_max_cny": 1380733.67,
+   "capacity_median_cny": 1153242.39,
+   "capacity_min_cny": 602440.08,
+   "era": "2015-2017",
+   "n_admit": 2,
+   "n_measured": 3,
+   "n_years": 3,
+   "reading_pct_max": 1.6599,
+   "reading_pct_median": 0.8671,
+   "reading_pct_min": 0.7243,
+   "years": [
+    2015,
+    2016,
+    2017
+   ]
+  },
+  {
+   "capacity_max_cny": 1567052.89,
+   "capacity_median_cny": 1215110.38,
+   "capacity_min_cny": 1126097.67,
+   "era": "2018-2020",
+   "n_admit": 3,
+   "n_measured": 3,
+   "n_years": 3,
+   "reading_pct_max": 0.888,
+   "reading_pct_median": 0.823,
+   "reading_pct_min": 0.6381,
+   "years": [
+    2018,
+    2019,
+    2020
+   ]
+  },
+  {
+   "capacity_max_cny": 1702861.26,
+   "capacity_median_cny": 1646583.76,
+   "capacity_min_cny": 1209667.28,
+   "era": "2021-2023",
+   "n_admit": 3,
+   "n_measured": 3,
+   "n_years": 3,
+   "reading_pct_max": 0.8267,
+   "reading_pct_median": 0.6073,
+   "reading_pct_min": 0.5872,
+   "years": [
+    2021,
+    2022,
+    2023
+   ]
+  },
+  {
+   "capacity_max_cny": 1629830.51,
+   "capacity_median_cny": 1334364.23,
+   "capacity_min_cny": 1038897.96,
+   "era": "2024-2026",
+   "n_admit": 2,
+   "n_measured": 2,
+   "n_years": 2,
+   "reading_pct_max": 0.9626,
+   "reading_pct_median": 0.7881,
+   "reading_pct_min": 0.6136,
+   "years": [
+    2024,
+    2025
+   ]
+  }
+ ],
+ "evidence_cutoff": "2026-11-19",
+ "face": "etf_book_era_capacity",
+ "generated": "2026-11-20T08:28:03+08:00",
+ "honest": [
+  "the picks on each year's first bar are ranked by the same score row the book uses today, applied to data up to that bar; they are not the picks the book actually held in that year (it launched in 2020)",
+  "the ADV reading is a 20-bar median as of that bar, so a year is measured with the liquidity it had, not with today's",
+  "the universe is the ETF list that exists TODAY -- names that delisted before 2026 are absent, which is the book's standing survivorship bias and is not fixed by this face",
+  "a year whose five slots cannot all be measured prints no reading rather than a smaller one (the gate's line is written for five equal slots)",
+  "capacity in CNY is the largest capital that fills the WEAKEST of five equal slots at the line; a book that sizes unevenly would carry a different number"
+ ],
+ "latest": {
+  "admit_at_lens": true,
+  "adv_by_name": {
+   "159207": 120563757.68,
+   "159549": 20060088.3,
+   "515650": 66073102.35,
+   "560570": 23267790.16,
+   "562060": 63634628.27
+  },
+  "anchor": "2026-11-19",
+  "anchor_requested": "latest",
+  "binding": "159549",
+  "capital_where_at_line_cny": 1003004.42,
+  "n_measured": 5,
+  "n_names": 5,
+  "per_name_at_line_cny": 200600.88,
+  "picks": [
+   "159207",
+   "562060",
+   "159549",
+   "515650",
+   "560570"
+  ],
+  "reading_pct": 0.997,
+  "unmeasurable": [],
+  "year": 2026
+ },
+ "summary": {
+  "capacity_max_cny": 1702861.26,
+  "capacity_min_cny": 602440.08,
+  "capacity_multiple": 1.66,
+  "capacity_multiple_years": [
+   2015,
+   2026
+  ],
+  "earliest_capacity_cny": 602440.08,
+  "earliest_measured_year": 2015,
+  "earliest_reading_pct": 1.6599,
+  "first_admit_year": 2016,
+  "last_anchor_reading_pct": 0.6136,
+  "last_anchor_year": 2025,
+  "last_refuse_year": 2015,
+  "latest_bar": "2026-11-19",
+  "lens_cny": 1000000.0,
+  "lens_label": "1M",
+  "line_pct": 1.0,
+  "n_admit": 10,
+  "n_years_measured": 11,
+  "n_years_total": 11,
+  "panel_last": "2026-11-19",
+  "published_reading_pct": 0.997,
+  "reproduces_published": true,
+  "today_admits": true,
+  "today_capacity_cny": 1003004.42,
+  "today_reading_pct": 0.997,
+  "verdict": "LINE_CROSSED_INSIDE_THE_WINDOW"
+ },
+ "years": [
+  {
+   "admit_at_lens": false,
+   "adv_by_name": {
+    "159901": 477759133.7,
+    "510010": 12048801.56,
+    "510060": 56379079.27,
+    "510180": 998902740.77,
+    "510650": 302295366.48
+   },
+   "anchor": "2015-01-05",
+   "anchor_requested": "2015-01-01",
+   "binding": "510010",
+   "capital_where_at_line_cny": 602440.08,
+   "n_measured": 5,
+   "n_names": 5,
+   "per_name_at_line_cny": 120488.02,
+   "picks": [
+    "510060",
+    "159901",
+    "510010",
+    "510650",
+    "510180"
+   ],
+   "reading_pct": 1.6599,
+   "unmeasurable": [],
+   "year": 2015
+  },
+  {
+   "admit_at_lens": true,
+   "adv_by_name": {
+    "159919": 70742153.45,
+    "510050": 760799375.52,
+    "510300": 557142614.42,
+    "510900": 193803726.74,
+    "518880": 27614673.47
+   },
+   "anchor": "2016-01-04",
+   "anchor_requested": "2016-01-01",
+   "binding": "518880",
+   "capital_where_at_line_cny": 1380733.67,
+   "n_measured": 5,
+   "n_names": 5,
+   "per_name_at_line_cny": 276146.73,
+   "picks": [
+    "518880",
+    "510900",
+    "510300",
+    "159919",
+    "510050"
+   ],
+   "reading_pct": 0.7243,
+   "unmeasurable": [],
+   "year": 2016
+  },
+  {
+   "admit_at_lens": true,
+   "adv_by_name": {
+    "159920": 23064847.75,
+    "159934": 87422670.99,
+    "510900": 458609540.9,
+    "518800": 123042489.0,
+    "518880": 1065602076.12
+   },
+   "anchor": "2017-01-03",
+   "anchor_requested": "2017-01-01",
+   "binding": "159920",
+   "capital_where_at_line_cny": 1153242.39,
+   "n_measured": 5,
+   "n_names": 5,
+   "per_name_at_line_cny": 230648.48,
+   "picks": [
+    "159934",
+    "518880",
+    "518800",
+    "510900",
+    "159920"
+   ],
+   "reading_pct": 0.8671,
+   "unmeasurable": [],
+   "year": 2017
+  },
+  {
+   "admit_at_lens": true,
+   "adv_by_name": {
+    "159920": 713906488.28,
+    "159934": 24302207.55,
+    "159937": 58598757.1,
+    "518800": 164213300.82,
+    "518880": 1659827449.63
+   },
+   "anchor": "2018-01-02",
+   "anchor_requested": "2018-01-01",
+   "binding": "159934",
+   "capital_where_at_line_cny": 1215110.38,
+   "n_measured": 5,
+   "n_names": 5,
+   "per_name_at_line_cny": 243022.08,
+   "picks": [
+    "159937",
+    "159934",
+    "518880",
+    "159920",
+    "518800"
+   ],
+   "reading_pct": 0.823,
+   "unmeasurable": [],
+   "year": 2018
+  },
+  {
+   "admit_at_lens": true,
+   "adv_by_name": {
+    "159937": 67326168.5,
+    "512800": 31341057.75,
+    "513500": 50032620.05,
+    "518800": 106127458.43,
+    "518880": 1217614479.35
+   },
+   "anchor": "2019-01-02",
+   "anchor_requested": "2019-01-01",
+   "binding": "512800",
+   "capital_where_at_line_cny": 1567052.89,
+   "n_measured": 5,
+   "n_names": 5,
+   "per_name_at_line_cny": 313410.58,
+   "picks": [
+    "518880",
+    "518800",
+    "159937",
+    "513500",
+    "512800"
+   ],
+   "reading_pct": 0.6381,
+   "unmeasurable": [],
+   "year": 2019
+  },
+  {
+   "admit_at_lens": true,
+   "adv_by_name": {
+    "159905": 59503835.47,
+    "510310": 88320387.0,
+    "512160": 33328695.17,
+    "512990": 22521953.4,
+    "513100": 30401312.0
+   },
+   "anchor": "2020-01-02",
+   "anchor_requested": "2020-01-01",
+   "binding": "512990",
+   "capital_where_at_line_cny": 1126097.67,
+   "n_measured": 5,
+   "n_names": 5,
+   "per_name_at_line_cny": 225219.53,
+   "picks": [
+    "513100",
+    "512160",
+    "159905",
+    "510310",
+    "512990"
+   ],
+   "reading_pct": 0.888,
+   "unmeasurable": [],
+   "year": 2020
+  },
+  {
+   "admit_at_lens": true,
+   "adv_by_name": {
+    "159905": 41946048.67,
+    "512010": 116070160.05,
+    "512690": 296999769.18,
+    "512910": 24193345.65,
+    "515000": 212925905.93
+   },
+   "anchor": "2021-01-04",
+   "anchor_requested": "2021-01-01",
+   "binding": "512910",
+   "capital_where_at_line_cny": 1209667.28,
+   "n_measured": 5,
+   "n_names": 5,
+   "per_name_at_line_cny": 241933.46,
+   "picks": [
+    "512010",
+    "512910",
+    "515000",
+    "512690",
+    "159905"
+   ],
+   "reading_pct": 0.8267,
+   "unmeasurable": [],
+   "year": 2021
+  },
+  {
+   "admit_at_lens": true,
+   "adv_by_name": {
+    "510760": 34057225.23,
+    "511180": 56072793.2,
+    "511380": 159352906.65,
+    "512500": 157028920.94,
+    "513500": 59861248.73
+   },
+   "anchor": "2022-01-04",
+   "anchor_requested": "2022-01-01",
+   "binding": "510760",
+   "capital_where_at_line_cny": 1702861.26,
+   "n_measured": 5,
+   "n_names": 5,
+   "per_name_at_line_cny": 340572.25,
+   "picks": [
+    "510760",
+    "511180",
+    "513500",
+    "511380",
+    "512500"
+   ],
+   "reading_pct": 0.5872,
+   "unmeasurable": [],
+   "year": 2022
+  },
+  {
+   "admit_at_lens": true,
+   "adv_by_name": {
+    "159934": 141780289.49,
+    "159937": 188474033.1,
+    "159985": 32931675.1,
+    "518800": 140758416.6,
+    "518880": 962889893.37
+   },
+   "anchor": "2023-01-03",
+   "anchor_requested": "2023-01-01",
+   "binding": "159985",
+   "capital_where_at_line_cny": 1646583.76,
+   "n_measured": 5,
+   "n_names": 5,
+   "per_name_at_line_cny": 329316.75,
+   "picks": [
+    "159985",
+    "518880",
+    "518800",
+    "159937",
+    "159934"
+   ],
+   "reading_pct": 0.6073,
+   "unmeasurable": [],
+   "year": 2023
+  },
+  {
+   "admit_at_lens": true,
+   "adv_by_name": {
+    "159632": 68633958.54,
+    "510760": 49337811.8,
+    "513030": 20777959.25,
+    "513500": 127165839.01,
+    "518800": 154084640.15
+   },
+   "anchor": "2024-01-02",
+   "anchor_requested": "2024-01-01",
+   "binding": "513030",
+   "capital_where_at_line_cny": 1038897.96,
+   "n_measured": 5,
+   "n_names": 5,
+   "per_name_at_line_cny": 207779.59,
+   "picks": [
+    "513500",
+    "513030",
+    "510760",
+    "159632",
+    "518800"
+   ],
+   "reading_pct": 0.9626,
+   "unmeasurable": [],
+   "year": 2024
+  },
+  {
+   "admit_at_lens": true,
+   "adv_by_name": {
+    "159632": 237550755.15,
+    "159660": 63053192.83,
+    "159941": 926447622.5,
+    "513100": 761413575.8,
+    "513390": 32596610.12
+   },
+   "anchor": "2025-01-02",
+   "anchor_requested": "2025-01-01",
+   "binding": "513390",
+   "capital_where_at_line_cny": 1629830.51,
+   "n_measured": 5,
+   "n_names": 5,
+   "per_name_at_line_cny": 325966.1,
+   "picks": [
+    "159632",
+    "513100",
+    "513390",
+    "159660",
+    "159941"
+   ],
+   "reading_pct": 0.6136,
+   "unmeasurable": [],
+   "year": 2025
+  }
+ ]
+}

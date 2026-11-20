@@ -639,6 +639,17 @@ LEGS = [
     ("era_grid_write",
      ["python", "scripts/etf_book_era_grid.py", "check"],
      ["python", "scripts/etf_book_era_grid.py", "run"]),
+    # r1871: K1 is read on today's picks against today's ADV, so a page that prints the
+    # lens could not say what 1,000,000 CNY would have meant in 2015. This leg prices the
+    # same five equal slots on every year's own bar (line and lens imported off the gate's
+    # decision block) and prints the year the lens started fitting plus the 2015-vs-now
+    # capacity multiple. Its check re-derives every ceiling from line*lens/reading, refuses
+    # a row that prints an admit flag without a reading, and requires the LATEST-bar row to
+    # reproduce the gate's published reading -- a face that no longer agrees says so and the
+    # leg goes red. ~45s refresh, ~1s check (row-only, no panel read).
+    ("era_capacity_write",
+     ["python", "scripts/etf_book_era_capacity.py", "check"],
+     ["python", "scripts/etf_book_era_capacity.py", "run"]),
     # r1471: the ticket below now sizes itself off the EXECUTED account (the positions face)
     # instead of the engine's own never-trimmed book -- but nothing in this chain ever WROTE
     # that face, only checked it ~600 legs later. So the sheet priced off whatever the last
