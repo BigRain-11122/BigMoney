@@ -2139,6 +2139,13 @@ def main() -> int:
              "scripts/etf_book_capacity_shortfall.py", ["selftest"]),
             ("product: etf_book_capacity_shortfall (f re-derived for every row, verdict too)",
              "scripts/etf_book_capacity_shortfall.py", ["check"]),
+            # r1891: the ruler printed what 5pp costs in BARS; the legs pin that the price
+            # of the wait is arithmetic on the seat face's own row (compound, not simple;
+            # the cost leg not sign-flipped; a zero-cost book refused rather than infinite).
+            ("product: etf_book_target_price (the wait priced in years, remakes and money)",
+             "scripts/etf_book_target_price.py", ["selftest"]),
+            ("product: etf_book_target_price (every price row re-derived from the seat face)",
+             "scripts/etf_book_target_price.py", ["check"]),
             # r1882: the capacity family prices the CEILING (money too big to fill); nothing
             # priced the FLOOR, where a broker's CNY 5 minimum commission is charged per
             # ticket and twelve ~1e3-CNY legs pay ~52bp of commission against a 2.5bp model.

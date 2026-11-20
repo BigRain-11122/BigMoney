@@ -698,6 +698,15 @@ LEGS = [
     ("capacity_shortfall_write",
      ["python", "scripts/etf_book_capacity_shortfall.py", "check"],
      ["python", "scripts/etf_book_capacity_shortfall.py", "run"]),
+    # r1891: r1766 printed the ruler's own answer (5pp needs 5,077 bars against 1,662) and
+    # left the spend unpriced -- "is 3x the sample a sensible price for this shape?" is a
+    # decision the desk has to make, not a number to admire. This leg prices the wait in
+    # years, in rebalancings and in money, all from the seat face's own published row; its
+    # check re-derives every row and says STALE the moment the upstream cutoff moves.
+    # ~1s refresh, ~1s check (no panel read).
+    ("target_price_write",
+     ["python", "scripts/etf_book_target_price.py", "check"],
+     ["python", "scripts/etf_book_target_price.py", "run"]),
     # r1471: the ticket below now sizes itself off the EXECUTED account (the positions face)
     # instead of the engine's own never-trimmed book -- but nothing in this chain ever WROTE
     # that face, only checked it ~600 legs later. So the sheet priced off whatever the last
