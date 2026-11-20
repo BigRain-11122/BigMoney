@@ -1,7 +1,7 @@
 {
  "activity": "product",
- "activity_now": "r1891: 给 5pp 精度目标标价（13.55 年、1,754,580 元/百万 对 954 元 = 1,839 倍；p*=10.11>1）",
- "activity_now_round": 1891,
+ "activity_now": "r1893: recovered the dead window's day-word work (live_usage_day_words driven for the first time: 112 printed dates agree, 0 unmapped) and cleared both smoke reds (do_or_wait re-derived 13/13; etf_book_ceo_page selftest 475/475)",
+ "activity_now_round": 1893,
  "agenda_starved": false,
  "ah_note": "r1680 LANDED: refresh closed itself at 21:17 -- cutoff 2026-11-12 -> 2026-11-13, complete=True, exit 0, pulled_rows 46; data_lane_freshness in_sync 13 / behind_1d 1 (worst now marks, intraday-only, not rebuildable). Fix that made it possible: stall watchdog over every network leg (300s, names stage/pair, exit 2, checkpoint kept) + save_progress stamps write time + -u on the detached spawn + progress line every 10 pairs. NOT yet proven: the 300s stall path has never fired on a real hang (this round the suspected freeze finished by itself).",
  "ahead_origin": 0,
@@ -49,7 +49,7 @@
  "busy": false,
  "chain": "S6: dualrun ZERO-DRIFT streak 51/744; attrition CLEAN (4 ledgers, 3 historical shrink rows healed); py_watermark insufficient_history (py 0.1%, local_batch true = astock refresh); loop task pin=0 no-op; watchdog S4U flip still refused (elevation face, long-standing); both claws reinstalled; full smoke suite 697 legs 0 FAIL 0 UNVERIFIED (922.7s); r1864b: Tools/saturation_engine.py is now a shim onto scripts/ (two generations, two state files -> status read a 8.7-day-old heartbeat while the engine ticked 8s ago)",
  "chain_note": "S6 --only=target_price_write 1/1 rc0; dualrun ZERO-DRIFT 51 before compute_audit; attrition CLEAN (4 ledgers); compute_audit FLAG cap_violation,pool_starvation,supply_floor (calendar family); orphan probe py_faces=4 orphans=0; Bigmoney-IterationLoop running + LoopWatchdog ready (no re-registration needed)",
- "chain_verdict": "1/1 rc0 (--only=target_price_write)",
+ "chain_verdict": "2/3 rc0 (do_or_wait, live_usage_day_words); live_book_day_words rc1 unmapped=8",
  "chain_writer_audit": {
   "known_baseline": 29,
   "note": "not re-enumerated this round: the face fixed here never appeared in that enumeration (it had no leg at all)",
@@ -63,7 +63,7 @@
   "state": "registered (FOUND)",
   "task": "HQ-ProductionClaim"
  },
- "clock_read": "2026-11-20T05:42:49+08:00",
+ "clock_read": "2026-11-21T03:54:11+08:00",
  "clock_read_source": "local",
  "clock_tz": "+08:00",
  "codely_live_count": 2,
@@ -1252,7 +1252,7 @@
   "watermark": "green: board/pool both empty (pool_ready_count=0, fleet_open_tasks=0), no claimable batch on this host; py_watermark insufficient_history (window n=1, local_batch=1 = this round own suite)"
  },
  "round_label": "r1813",
- "round_no": 1892,
+ "round_no": 1893,
  "round_no_label": "r1821",
  "round_no_landed": 1663,
  "round_note": "r1489: a reinstated bar is re-derived from the panel, not carried over (reinstatement_check + reinstatements.json + sheet paragraph)",
@@ -1856,7 +1856,7 @@
  "takeover_note": "the 2026-11-16 14:05 round was silence-killed at 14:38 with 25 min of no output; it had already written the whole face (14:19) plus card E679 and the CODELY lines, so this 14:40 round took over the closeout instead of redoing science: no script, number or verdict changed here",
  "task": "r1886: 26 smoke reds traced to ONE cause -- the 20:04 ticket moved and its derived chain was never rebuilt; 9 legs stayed red after the first pass and 6 of those were reads taken mid-repair",
  "total_ram_gb": 55.9,
- "ts": "2026-11-20T21:19:30+08:00",
+ "ts": "2026-11-21T03:54:11+08:00",
  "ts_epoch": 1794812499,
  "unverified": [
   "no full suite re-run after the last five repairs (each was re-checked by its own check)",
