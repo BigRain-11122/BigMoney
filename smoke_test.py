@@ -1932,6 +1932,18 @@ def main() -> int:
              "scripts/etf_book_survivor_bound.py", ["selftest"]),
             ("product: etf_book_survivor_bound (shortfall and verdict re-derived)",
              "scripts/etf_book_survivor_bound.py", ["check"]),
+            # r1875: r1874 said 2015's refusal was a ranking problem, so the obvious fix is
+            # to screen picks by depth -- but the book already screens (MIN_AMT 20M ==
+            # 200,000/1%). Only names where the BUY screen's 20-bar median and the CAPACITY
+            # screen's median-of-medians disagree can be acted on. The legs pin the
+            # vectorised ADV against the roster's own walk, that a thin top name is skipped
+            # and a short book restores it loudly, that capacity binds on the weakest slot
+            # and an unpriced row is None, and the four verdict doors plus a random-fill arm
+            # priced at the same footprint.
+            ("product: etf_book_liquidity_select (the floor fires only where the two rulers part)",
+             "scripts/etf_book_liquidity_select.py", ["selftest"]),
+            ("product: etf_book_liquidity_select (capacity and verdict re-derived)",
+             "scripts/etf_book_liquidity_select.py", ["check"]),
             # r1446: two true receipts that a desk cannot hold at once (the caliber dispute
             # says the gate is one decision from disagreeing with itself; the forward read
             # says the deciding check is decorative). The legs pin the four frozen classes

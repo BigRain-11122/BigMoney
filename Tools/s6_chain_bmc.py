@@ -660,6 +660,16 @@ LEGS = [
     ("era_roster_write",
      ["python", "scripts/etf_book_era_roster.py", "check"],
      ["python", "scripts/etf_book_era_roster.py", "run"]),
+    # r1875: r1874 said 2015's refusal was a ranking problem and the obvious fix is to screen
+    # picks by depth -- but the buy screen (MIN_AMT 20M at the decision bar) and the capacity
+    # ruler (median of the last 20 such medians) are different rulers, so the floor can only
+    # act where the two part. Three arms on one engine/window/cost (published, floored,
+    # random-fill at the same footprint) price that act. Its check re-derives every capacity
+    # row from its own worst ADV and the verdict from the published counts. ~60s refresh,
+    # ~1s check (row-only, no panel read).
+    ("liquidity_select_write",
+     ["python", "scripts/etf_book_liquidity_select.py", "check"],
+     ["python", "scripts/etf_book_liquidity_select.py", "run"]),
     # r1471: the ticket below now sizes itself off the EXECUTED account (the positions face)
     # instead of the engine's own never-trimmed book -- but nothing in this chain ever WROTE
     # that face, only checked it ~600 legs later. So the sheet priced off whatever the last
