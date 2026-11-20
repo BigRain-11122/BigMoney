@@ -4,7 +4,7 @@
  "activity": "product",
  "activity_now": "r1879: the size ladder leaves the research face and lands on the operator sheet -- 1M/3M/10M/30M print as one block with the trip that wrote them",
  "activity_now_round": 1879,
- "agenda_starved": false,
+ "agenda_starved": true,
  "ahead_origin": 0,
  "artifacts": "scripts/etf_book_order.py (_size_ladder_reading/_size_ladder_md, selftest 283/283); results/etf_book_order/ORDER-2026-11-19.md new section; smoke_test.py leg (rungs+verdict+trip+chain order)",
  "batch": "full smoke suite launched this round (results/_smoke_r1879.out, pid 48064); the new leg assertions were reproduced by hand and pass",
@@ -124,7 +124,7 @@
  "hostname": "FluxGroup",
  "id": "bm-c",
  "idle_ram_gb": 43.2,
- "idle_rounds": 1,
+ "idle_rounds": 2,
  "idle_trigger_note": "r1876: worked this round (new face + chain/smoke wiring) -> counter cleared",
  "inbox": "0 files",
  "landed_commit": "eff0e67a96",
@@ -812,5 +812,6 @@
  "当前任务_en": "r1878: the capacity cost was measured on a level curve; recompounding flips the verdict and a frozen size ladder prices money monotonically",
  "最近实物": "results/etf_book_capacity_shortfall.json + .md + scripts/etf_book_capacity_shortfall.py（2026-11-20 12:5x·selftest 19/19·check ok）",
  "本地未达origin": 0,
- "空闲RAM": 35.0
+ "空闲RAM": 35.0,
+ "idle_note": "green_idle true (ram 52.8%, vram 11.83GB); backlog_claimable=0 and pool_ready_unclaimed=0 -> agenda_starved, two_read_red"
 }
