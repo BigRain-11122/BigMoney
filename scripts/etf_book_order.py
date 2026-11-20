@@ -68,9 +68,13 @@ from scripts import etf_book_swap_freshness as SFI            # noqa: E402  (r15
 from scripts import etf_book_next_decision as NDC             # noqa: E402  (r1536: the single decision clock)
 from scripts import etf_book_premium_roads as PRD             # noqa: E402  (r1775: the premium leg's three roads)
 from config import PATHS                           # noqa: E402
+from Tools import face_input_staleness as FIS       # noqa: E402  (r1890: did this sheet read its inputs before they moved)
 
 BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT_DIR = os.path.join(PATHS.results_dir, "etf_book_order")
+# r1890: the pointer readers open first. Named here so the reader line asks about THIS
+# sheet instead of a path spelled twice.
+TICKET_POINTER_REL = "results/etf_book_order/latest.json"
 
 REBAL = 20
 N_HOLD = F.N_HOLD
@@ -3143,6 +3147,43 @@ def bar_scope_note(feed, face):
             ""]
 
 
+def _stamp_now():
+    """Local-time stamp, spelled the way this repo's faces already emit it."""
+    return datetime.datetime.now(
+        datetime.timezone(datetime.timedelta(hours=8))).isoformat(timespec="seconds")
+
+
+def input_order_md(page_stamp=None, derived=TICKET_POINTER_REL):
+    """r1890: the page says whether this sheet was priced before its own inputs moved.
+
+    Tools/face_input_staleness.py already answers the question with a clock, but only the
+    machine face could read it -- the two sheets a person holds never printed a word. The
+    face's own `generated` is printed beside the verdict, because a page quoting a stale
+    copy of that face would read as a statement about right now (r1781). A missing or
+    unregistered pair says so: "not checked" may never read as "fine" (r98).
+    """
+    facts = FIS.reader_line(derived, BASE)
+    state = facts.get("state")
+    gen = facts.get("generated") or "读不到"
+    L = ["## 输入顺序（这一页写于它的输入之后吗）"]
+    if state == FIS.MISSING_RUN:
+        L += ["- **少跑一趟**：%s" % (facts.get("sentence") or ""),
+              "- 检查面生成于 %s，本页写于 %s——照此单下手前先把点名的面重跑一趟。"
+              % (gen, page_stamp or "未知")]
+    elif state == "FRESH":
+        L += ["- %s 写于其输入之后（检查面生成于 %s，本页写于 %s）。"
+              % (derived, gen, page_stamp or "未知")]
+    elif state == "NOT_COMPARED":
+        L += ["- 本票这一面没有登记在输入顺序检查里（检查面生成于 %s）——没查过不等于对得上。"
+              % gen]
+    elif state == "FACE_UNREADABLE":
+        L += ["- 输入顺序检查面读不出来（本页写于 %s）——读不到不等于对得上。" % (page_stamp or "未知")]
+    else:  # FACE_MISSING
+        L += ["- 输入顺序检查面缺失（Tools/face_input_staleness.py 本轮未跑）——读不到不等于对得上。"]
+    L.append("")
+    return L
+
+
 def card(ticket, mk, sched, asof, beta, extra):
     L = ["# ETF 复合书 · 可执行订单单（%s）" % asof, "",
          "当前活：β 目标 %.2f 的单本 R%d N%d + GC001 现金腿，每 %d 个交易日重算一次 k。"
@@ -3167,6 +3208,8 @@ def card(ticket, mk, sched, asof, beta, extra):
     # r1532: the card quotes the same ten faces as the ticket, so it carries the same
     # sentence about which bar each of them is on.
     L += SFI.ticket_lines(extra.get("swap_freshness"))
+    # r1890: the reader's page carries the missed-run verdict, not only the machine face.
+    L += input_order_md(extra.get("generated"))
     L += restatement_md(extra.get("restatements"))
     if extra.get("withdrawals"):
         # r1596: this block sits right under the FORWARD ledger's notice but it is the
@@ -4181,6 +4224,9 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
     with open(os.path.join(OUT_DIR, "ORDER-%s.md" % asof), "w", encoding="utf-8") as f:
         f.write(card(ticket, mk, sched, asof, beta,
                      {"inception": payload["inception"], "stale": stale, "width": wd,
+                      # r1890: the stamp this sheet was written with, so the input-order
+                      # section can be read as "checked at X, page written at Y".
+                      "generated": payload["generated"],
                       "feed": feed, "agreement": agreement, "ruler": ruler,
                       "carry": carry, "restatements": payload["restatements"],
                       "withdrawals": payload["ledger"]["withdrawal_note"],
@@ -4642,6 +4688,8 @@ def card_config_ticket(card_dir=None, nav=None, ledger_path=None):
             "cash_leg": "GC001 (1-day repo, observed close)",
             "underspend_pct": round(100.0 * cash / stated - 100.0 * (1.0 - float(card_scale or 0.0)), 4),
             "reprice_mismatch": mismatch, "priced_bar": sh.get("as_of_bar"),
+            # r1890: the card sheet prints the input-order verdict beside its own stamp.
+            "generated": _stamp_now(),
             "decision": sh.get("decision"),
             "bars_until_next_decision": sh.get("bars_until_next_decision"),
             "feed": doc.get("feed_status") or {}, "recon": recon}
@@ -6077,6 +6125,8 @@ def card_config_card(tk, width=None, ruler=None):
                          CA.load_calendar(), pd.Timestamp.now().strftime("%Y-%m-%d"),
                          sheet={"order": tk.get("order") or []})
     L += admission_md(rc.get("admission"), rc.get("ledger_last_bar"))
+    # r1890: the card a person holds carries the missed-run verdict too.
+    L += input_order_md(tk.get("generated"))
     L += restatement_md({"readable": rc.get("restatements_readable"),
                          "path": rc.get("ledger_source"),
                          "source": rc.get("restatements_source"),
@@ -6344,6 +6394,7 @@ def run_card(nav=None):
         return 2
     asof = tk["priced_bar"] or "unknown"
     doc = {"kind": tk["kind"], "asof_bar": asof, "capital_cny": tk["nav"],
+           "generated": tk.get("generated"),
            "card_capital_cny": tk["card_capital"], "scale": tk["scale"],
            "config": tk["config"], "order": tk["order"],
            "book_amount": tk["book_amount"], "cash_amount": tk["cash_amount"],
@@ -9607,6 +9658,36 @@ def selftest():
             and "14,876" not in _md_ep_missing.split("入门价")[-1], _md_ep_missing[-300:])
     finally:
         shutil.rmtree(_tmp, ignore_errors=True)
+
+    # r1890: the reader's page must carry the missed-run verdict. The legs below feed the
+    # helper the three states that matter and assert a must-fail shape: the guard is shown
+    # reporting on an input it was built to catch, not only staying quiet on a fresh one.
+    _saved_reader = FIS.reader_line
+    try:
+        FIS.reader_line = lambda *a, **k: {"state": FIS.MISSING_RUN, "generated":
+                                           "2026-11-21T00:30:00+08:00", "lag_sec": 7533.0,
+                                           "derived": TICKET_POINTER_REL,
+                                           "sentence": "少跑一趟：票早于账面 7533 秒"}
+        _md_miss = "\n".join(input_order_md("2026-11-20T22:39:30+08:00"))
+        chk("legAZ a missed run reaches the reader's page in words",
+            "少跑一趟" in _md_miss and "7533" in _md_miss
+            and "2026-11-20T22:39:30+08:00" in _md_miss, _md_miss[-300:])
+        FIS.reader_line = lambda *a, **k: {"state": "FRESH", "generated":
+                                           "2026-11-21T00:30:00+08:00", "lag_sec": -60.0,
+                                           "derived": TICKET_POINTER_REL, "sentence": ""}
+        _md_fresh = "\n".join(input_order_md("2026-11-20T22:39:30+08:00"))
+        chk("legBA a fresh pair earns no warning but still names its clock",
+            "少跑一趟" not in _md_fresh and "2026-11-21T00:30:00+08:00" in _md_fresh,
+            _md_fresh[-300:])
+        FIS.reader_line = lambda *a, **k: {"state": "FACE_MISSING", "generated": None,
+                                           "lag_sec": None, "derived": TICKET_POINTER_REL,
+                                           "sentence": ""}
+        _md_gone = "\n".join(input_order_md("2026-11-20T22:39:30+08:00"))
+        chk("legBB an unread face is never printed as fine",
+            "读不到不等于对得上" in _md_gone and "写于其输入之后" not in _md_gone,
+            _md_gone[-300:])
+    finally:
+        FIS.reader_line = _saved_reader
 
     print("selftest:", "PASS %d/%d" % (ok, total) if ok == total else "FAIL %d/%d" % (ok, total))
     return 0 if ok == total else 1

@@ -1767,6 +1767,9 @@ def _etf_order_face():
         # r1870: "does this admission survive a different start / a different year" --
         # the sheet answers it, and until now the page had no key to read it from.
         "admission": _etf_admission_face(t.get("admission")),
+        # r1890: the same sheet can be a generation behind the ledgers it quotes; that
+        # is a missed run, not a wrong number, and the reader deserves to know which.
+        "input_order": FIS.reader_line(TICKET_POINTER_REL, ROOT),
     }
 
 
@@ -1827,6 +1830,15 @@ if _scripts_dir not in sys.path:
     sys.path.insert(0, _scripts_dir)
 from etf_book_identity import face as _book_identity_face      # noqa: E402
 from etf_book_identity import lines as _book_identity_lines    # noqa: E402
+
+# r1890: did the sheet this page prints get priced before its own inputs moved?  The
+# answer is a clock fact that the machine face already publishes; the page reads it
+# through the face's own reader so a stale copy can never be dressed as "fine".
+if ROOT not in sys.path:
+    sys.path.insert(0, ROOT)
+from Tools import face_input_staleness as FIS                  # noqa: E402
+
+TICKET_POINTER_REL = "results/etf_book_order/latest.json"
 
 
 # ---------------------------------------------------------------- v2.1 ----
@@ -2797,6 +2809,26 @@ def render_md(p: dict) -> str:
         if eo.get("generated"):
             L.append(f"  - 出处：`results/etf_book_order/{eo.get('file')}`"
                      f"（generated {eo.get('generated')}·cutoff {eo.get('bar')}）")
+        # --- r1890: 这张单是拿哪个世界的账算的。账本行写在这张单之后 = 少跑一趟，
+        # 与「算错了」是两件不同的事，代价差一个数量级；页面上必须说清是哪一种。
+        _io = eo.get("input_order") or {}
+        _ios = _io.get("state")
+        _iog = _io.get("generated") or "未知"
+        if _ios == FIS.MISSING_RUN:
+            _lag = _io.get("lag_sec")
+            L.append("  - **少跑一趟（不是算错）**：" + (_io.get("sentence") or "")
+                     + ("" if _lag is None
+                        else f"滞后 {float(_lag):.0f} 秒")
+                     + f"（检查面 generated {_iog}）——"
+                     "照这张单下手前先让点名的那张面重跑一趟。")
+        elif _ios == "FRESH":
+            L.append(f"  - 输入顺序：这张单写于它自己的输入之后（检查面 generated {_iog}）。")
+        elif _ios == "NOT_COMPARED":
+            L.append(f"  - 输入顺序：这张单没有登记在输入顺序检查里（检查面 generated "
+                     f"{_iog}）——没查过不等于对得上。")
+        else:
+            L.append(f"  - 输入顺序：读不到（检查面 generated {_iog}）——"
+                     "读不到不等于对得上。")
         # --- r1885: the sheet says which five codes; the entry price says how big
         # the account has to be before the CNY 5 per-ticket minimum stops setting
         # the price.  Read from its own face, and labelled with the book it
@@ -5020,6 +5052,48 @@ def selftest() -> int:
     check("a missing lane board prints a reason, not a clean sheet (r1855)",
           "读不到" in _md_dl3 and "追平" not in _md_dl3
           and "不能说数据是新的" in _md_dl3)
+    # ---- r1890: 这张单是拿哪个世界的账算的。「少跑一趟」与「算错了」是两件事，
+    # 页面上必须说清是哪一种；读不到也永远不许印成「对得上」。
+    _po = json.loads(json.dumps(p1))
+    _po["etf_order"] = {"present": True, "file": "TICKET-1999-01-01.json",
+                        "bar": "1999-01-01", "decision_bar": "1999-01-01",
+                        "generated": "1999-01-01T15:00:00+08:00",
+                        "n": 1, "nav_cny": 1000000.0, "spent_cny": 1000.0,
+                        "cash_left_cny": 999000.0, "book_weight": 0.9,
+                        "cash_weight": 0.1,
+                        "rows": [{"symbol": "510300", "lots": 1, "shares": 100,
+                                  "amount_cny": 1000.0, "price": 10.0,
+                                  "note": ""}],
+                        "input_order": {"state": FIS.MISSING_RUN,
+                                        "generated": "2026-11-21T00:30:00+08:00",
+                                        "lag_sec": 7533.0,
+                                        "sentence": "少跑一趟：票早于持仓账，"
+                                                    "两边数字对不上不是内容不一致"}}
+    _md_io = render_md(_po)
+    check("a missed run reaches the CEO page in words, with the lag (r1890)",
+          "少跑一趟（不是算错）" in _md_io and "7533" in _md_io
+          and "2026-11-21T00:30:00+08:00" in _md_io)
+    _po_ok = json.loads(json.dumps(_po))
+    _po_ok["etf_order"]["input_order"] = {"state": "FRESH",
+                                          "generated": "2026-11-21T00:30:00+08:00",
+                                          "lag_sec": -60.0, "sentence": ""}
+    _md_io2 = render_md(_po_ok)
+    check("a fresh pair earns no warning but still names its clock (r1890)",
+          "少跑一趟" not in _md_io2 and "写于它自己的输入之后" in _md_io2)
+    _po_nc = json.loads(json.dumps(_po))
+    _po_nc["etf_order"]["input_order"] = {"state": "NOT_COMPARED",
+                                          "generated": "2026-11-21T00:30:00+08:00",
+                                          "lag_sec": None, "sentence": ""}
+    _md_io3 = render_md(_po_nc)
+    check("a pair that was never checked is not printed as fine (r1890)",
+          "没查过不等于对得上" in _md_io3 and "少跑一趟" not in _md_io3)
+    _po_ur = json.loads(json.dumps(_po))
+    _po_ur["etf_order"]["input_order"] = {"state": "FACE_MISSING",
+                                          "generated": None,
+                                          "lag_sec": None, "sentence": ""}
+    _md_io4 = render_md(_po_ur)
+    check("an unreadable input-order face says so, never fine (r1890)",
+          "读不到不等于对得上" in _md_io4 and "少跑一趟" not in _md_io4)
     print(f"selftest: {'ALL PASS' if not fails else f'FAIL {fails}'}")
     return 0 if not fails else 1
 

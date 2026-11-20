@@ -17380,3 +17380,20 @@ results/etf_book_entry_price.json + .md、链腿 entry_price_write（0.9s）、�
 **正法**：①**空回答不是结论，除非同一个探针能说「有」**——同端点对 IC1906 回 163 根、IC2611 回 39 根、IC1701 回 `null`，若只跑缺口组，就会把「这个端点只会回 null」写成「源里没有这段历史」（r1865 族第三犯）。所以判词函数里先过正控：控制组取**盘上最厚与最薄的死合约**（不是硬编码名），它俩回来没数就判 `PROBE_UNTRUSTWORTHY`，一律不许写成「源里没有」。②**探针沿袭**：链腿每趟跑 `--write`（0.2s 离线），空文件集合未变时把上一面的探针结果与 `carried_from` 时刻一起沿下来——否则要么每趟烧 30s 网络，要么把已买到的证据冲成「没问过」。③分类桶必须互斥且能自证：`not_listed_yet / expired_before_window / expired_inside_window / unreadable` 四桶计数之和等于空文件数（自检腿钉住），因为「还没上市」和「2017 年就到期」混在一桶里，读者会照着去补一段根本不该存在的历史。
 
 **实物**：scripts/futures_panel_gaps.py（selftest 18/18）+ results/futures_panel_gaps.json（判词 `SOURCE_SERVES_NONE_CONTROL_HELD`，抽问 10 个全 null、对照 IC1903 1 根 / IM2512 165 根与盘上逐位一致）+ Tools/s6_chain_bmc.py 新腿 + scripts/ceo_live_usage.py 三腿 + docs/live_usage/LIVE-2026-11-20.md ⑦ 节。
+## E-20261120-r1889 — 一次「两面数字不一样」的报红，先问是谁没跑，而不是谁算错
+
+**问题**：票面（results/etf_book_order/latest.json 与 TICKET-<bar>.json）把执行后的账整块嵌进自己——scripts/etf_book_order.py 按路径读 results/etf_book_positions.json（POSITIONS_FACE）。当 positions 的账行在票面**之后**才写（writer 被重跑、票面没跟上），两张面就是两套数字；所有拿它们对比的内容腿（base gap vs executable delta、打印的行 vs 账上的书）都会报「不一致」。那些腿手里只有内容，没有时钟，所以永远分不清两种相反的事：**writer 没再跑一趟**（重跑即愈，分钟级）还是 **writer 算错了**（查缺陷，小时级）。
+
+**正法**：①把这一对写进 Tools/face_input_staleness.py 的 REGISTRY——derived=票面 generated，input=results/etf_book_positions/LEDGER.json 的 rows.-1.written_ts。**不要用文件 mtime**：positions 面自己没有墙钟，而 mtime 会在每次 checkout/rebase 被重置成「刚刚」，制造一条永久的假 STALE；账行 written_ts 是内容戳，跨机跨 rebase 稳定，且它正是「这本书什么时候动过」的诚实时点（同 r1597 用 runs.-1.ts 的手法）。②墙钟倒挂要**给出读数**，不能只给 verdict：STALE 时同时印 reading=MISSING_RUN 与一句人话（「少跑一趟：A 写于 …，而 B 在它之后 N 秒才写——两边数字对不上不是内容不一致，是拿面没有在输入之后重跑一趟」），并落 missing_runs 列表。FRESH 不印读数、UNREADABLE 也不印读数——读不到钟面时把它说成「没跑」是 r98 族（把不可读扮成已知）。③守卫自身的存在要有一条**会变红**的自检腿：(derived, input) 元组必须真在 REGISTRY 里，删掉这条注册自检即红（r1282 族：没有腿的机制会静默缩水）。用法：任何「同一本书的两张面报不一致」的红，先查有没有这对注册；没有就先补时点线，再谈内容。
+
+**实物**：Tools/face_input_staleness.py（REGISTRY 第三对、MISSING_RUN reading、missing_runs 面、selftest 36/36，删注册实测转红）、smoke_test.py 新产品腿（注册钉死 + 陈旧/新鲜双向 fixture + 活面若 STALE 必须带读数）、results/face_input_staleness.json（compared=3 verdict=FRESH，票面 22:39:30 晚于账行 20:33:57）。
+
+## E-20261121-r1890 — 同一张面登记了两对输入，读者却只读到第一对
+
+**问题**：`Tools/face_input_staleness.py` 的 REGISTRY 里，`results/etf_book_order/latest.json` 登记了**两对**输入（票面←前向账本、票面←持仓账本）。r1890 把 verdict 搬上读者面时，`reader_line()` 写成 `for pair in pairs: if pair["derived"] == derived: return ...` —— 命中第一对就返回。于是当第二对（持仓账本 `rows.-1.written_ts`）才是真落后时，页面读到第一对 FRESH，印「这张单写于它自己的输入之后」。机器面写着 STALE，读者面写着 fine（r98 族：读不到/没查过被印成对得上）。
+
+**正法**：读者线必须回答**全部**匹配对——STALE 优先（`lag_sec` 取各 stale 对的最大值、sentence 拼接），其次 UNREADABLE，最后 FRESH；并把 `pairs_compared`/`pairs_stale` 一起返回，让「比了几对」在读者面上也可见。自检腿必须钉 **must-fail 形状**：第一对 FRESH + 第二对 STALE → 必须 MISSING_RUN 且 lag 是第二对的（7533），不是第一对的（-5）。
+
+**同族**：r98（读不到≠对得上）、r1282（机制自身要有腿）、r1775（同一字段两种口径）。当时的 selftest 只有一对 fixture，所以这个 bug 一路绿。
+
+**实物**：`Tools/face_input_staleness.py::reader_line`（selftest 45/45，+2 腿）· `scripts/etf_book_order.py::input_order_md`（ORDER 卡「输入顺序」节）· `scripts/ceo_live_usage.py` ⑥ 节（+4 腿）· `smoke_test.py` 新腿（聚合 + 卡面存在性）。

@@ -102,6 +102,48 @@ def missing_run_sentence(derived, derived_stamp, input_path, input_stamp, lag_se
                input_stamp))
 
 
+def reader_line(derived, root=".", face_path=None):
+    """What a published page may print about one derived face's inputs (r1890).
+
+    Five states, and they are not interchangeable (r98): a page that could not read the
+    clock may not print "fine", and a page whose pair was never registered may not print
+    "fine" either -- that is the whole difference between "checked" and "not checked".
+    The caller always prints the face's own `generated`, so a stale copy of this face
+    cannot be read as a statement about right now (r1781).
+    """
+    path = os.path.join(root, face_path or OUT)
+    base = {"derived": derived, "sentence": "", "generated": None, "lag_sec": None}
+    if not os.path.exists(path):
+        return dict(base, state="FACE_MISSING")
+    try:
+        with open(path, encoding="utf-8") as fh:
+            doc = json.load(fh)
+    except Exception:
+        return dict(base, state="FACE_UNREADABLE")
+    gen = doc.get("generated")
+    matches = [p for p in (doc.get("pairs") or []) if p.get("derived") == derived]
+    if not matches:
+        return dict(base, state="NOT_COMPARED", generated=gen)
+    # r1890: one sheet can be priced off more than one face (the ticket reads both the
+    # forward ledger and the positions ledger), so answering from the first matching pair
+    # would let a fresh sibling hide a missed run -- the reader is told about ALL of them.
+    stale = [p for p in matches if p.get("verdict") == "STALE_INPUT_MOVED"]
+    if stale:
+        lag = None
+        for pair in stale:
+            for row in pair.get("inputs") or []:
+                if row.get("reading") == MISSING_RUN and row.get("lag_sec") is not None:
+                    lag = row["lag_sec"] if lag is None else max(lag, row["lag_sec"])
+        said = " ".join(p.get("sentence") for p in stale if p.get("sentence"))
+        return dict(base, state=MISSING_RUN, generated=gen, lag_sec=lag, sentence=said,
+                    pairs_compared=len(matches), pairs_stale=len(stale))
+    unread = [p for p in matches if p.get("verdict") == "UNREADABLE"]
+    if unread:
+        return dict(base, state="UNREADABLE", generated=gen,
+                    pairs_compared=len(matches))
+    return dict(base, state="FRESH", generated=gen, pairs_compared=len(matches))
+
+
 def parse_ts(text):
     """Return an aware datetime or None. Naive stamps are read as this machine's zone."""
     if not isinstance(text, str):
@@ -407,6 +449,54 @@ def selftest():
         _r2 = judge_pair(_tk2, tmp)
         ck("a ticket written after the row earns no reading",
            (_r2["reading"], _r2["sentence"]), (None, ""))
+
+        # r1890: a reader's page may only print what this face actually checked. Five
+        # states, and the two "I could not look" ones must never read as FRESH (r98).
+        _face = _fixture(tmp, "face/staleness.json", {
+            "face": "face_input_staleness", "generated": "2026-11-21T00:30:00+08:00",
+            "pairs": [
+                {"derived": "results/etf_book_order/latest.json",
+                 "verdict": "STALE_INPUT_MOVED", "sentence": "少跑一趟：票早于账面",
+                 "inputs": [{"input": "results/etf_book_positions/LEDGER.json",
+                             "reading": MISSING_RUN, "lag_sec": 7533.0}]},
+                {"derived": "results/etf_book_cut_order_gap.json",
+                 "verdict": "FRESH", "sentence": "", "inputs": []},
+            ]})
+        _rl = reader_line("results/etf_book_order/latest.json", tmp, _face)
+        ck("reader line repeats the missed run for the ticket", _rl["state"], MISSING_RUN)
+        ck("reader line carries the face's own clock", _rl["generated"],
+           "2026-11-21T00:30:00+08:00")
+        ck("reader line keeps the words", "少跑一趟" in _rl["sentence"], True)
+        ck("reader line names the lag", _rl["lag_sec"], 7533.0)
+        _rf = reader_line("results/etf_book_cut_order_gap.json", tmp, _face)
+        ck("a fresh pair earns no reading but is still named",
+           (_rf["state"], _rf["sentence"]), ("FRESH", ""))
+        _rn = reader_line("results/not_registered.json", tmp, _face)
+        ck("an unregistered pair is NOT_COMPARED, never fresh", _rn["state"], "NOT_COMPARED")
+        _rm = reader_line("results/etf_book_order/latest.json", tmp, "face/absent.json")
+        ck("a missing face is FACE_MISSING, never fresh", _rm["state"], "FACE_MISSING")
+
+        # must-fail shape: the ticket is registered against TWO inputs, and answering
+        # from the first matching pair would print FRESH here while the second pair's
+        # ledger row is what actually moved (r1890).
+        _face2 = _fixture(tmp, "face/two_pairs.json", {
+            "face": "face_input_staleness", "generated": "2026-11-21T00:40:00+08:00",
+            "pairs": [
+                {"derived": "results/etf_book_order/latest.json", "verdict": "FRESH",
+                 "sentence": "", "inputs": [
+                     {"input": "results/etf_book_forward/LEDGER.json",
+                      "reading": None, "lag_sec": -60.0}]},
+                {"derived": "results/etf_book_order/latest.json",
+                 "verdict": "STALE_INPUT_MOVED", "sentence": "少跑一趟：票早于持仓账",
+                 "inputs": [{"input": "results/etf_book_positions/LEDGER.json",
+                             "reading": MISSING_RUN, "lag_sec": 7533.0}]},
+            ]})
+        _r2p = reader_line("results/etf_book_order/latest.json", tmp, _face2)
+        ck("a fresh first pair does not hide the second pair's missed run",
+           (_r2p["state"], _r2p.get("pairs_stale"), _r2p.get("pairs_compared")),
+           (MISSING_RUN, 1, 2))
+        ck("the lag printed is the stale pair's, not the fresh sibling's",
+           _r2p["lag_sec"], 7533.0)
 
     passed = sum(1 for c in checks if c[1])
     for label, ok, got, want in checks:

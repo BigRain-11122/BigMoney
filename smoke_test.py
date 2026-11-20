@@ -946,6 +946,50 @@ def main() -> int:
     except Exception as _e:
         check("product: the ticket's positions edge names a missed run, not a content mismatch",
               False, repr(_e)[:160])
+
+    # ---- r1890: that sentence lived only in JSON and in the CLI. The two sheets a person
+    # holds (ORDER card, CEO page) print it now. Three things this leg pins: the reader
+    # answers for EVERY registered pair of a sheet (a fresh sibling must not hide the
+    # missed run), the card on disk carries the section, and the phrase it carries is the
+    # cheap reading -- not a content-mismatch verdict.
+    try:
+        from Tools import face_input_staleness as _FIS90
+        import tempfile as _tf90
+        _bad90 = []
+        with _tf90.TemporaryDirectory() as _t90:
+            with open(os.path.join(_t90, "s90.json"), "w", encoding="utf-8") as _fh90:
+                json.dump({"generated": "2026-11-21T00:30:00+08:00", "pairs": [
+                    {"derived": "results/etf_book_order/latest.json",
+                     "verdict": "FRESH", "sentence": "",
+                     "inputs": [{"reading": None, "lag_sec": -5.0}]},
+                    {"derived": "results/etf_book_order/latest.json",
+                     "verdict": "STALE_INPUT_MOVED", "sentence": "少跑一趟：票早于持仓账",
+                     "inputs": [{"reading": _FIS90.MISSING_RUN, "lag_sec": 7533.0}]}]},
+                    _fh90)
+            _rl90 = _FIS90.reader_line("results/etf_book_order/latest.json",
+                                       _t90, "s90.json")
+        if _rl90.get("state") != _FIS90.MISSING_RUN:
+            _bad90.append("a fresh first pair hides the second pair's missed run")
+        if _rl90.get("lag_sec") != 7533.0:
+            _bad90.append("the printed lag is not the stale pair's")
+        _odir90 = os.path.join("results", "etf_book_order")
+        _cards90 = sorted(f for f in os.listdir(_odir90)
+                          if f.startswith("ORDER-") and f.endswith(".md")) \
+            if os.path.isdir(_odir90) else []
+        if not _cards90:
+            _bad90.append("no ORDER card on disk")
+        else:
+            with open(os.path.join(_odir90, _cards90[-1]), encoding="utf-8") as _fh90b:
+                _card90 = _fh90b.read()
+            if "输入顺序" not in _card90:
+                _bad90.append("%s carries no input-order section" % _cards90[-1])
+        check("product: the sheet a person holds says whether it is a missed run (r1890)",
+              not _bad90, "; ".join(_bad90)[:220]
+              or "reader aggregates all pairs; %s prints 输入顺序"
+              % (_cards90[-1] if _cards90 else "-"))
+    except Exception as _e:
+        check("product: the sheet a person holds says whether it is a missed run (r1890)",
+              False, repr(_e)[:160])
     from config import PATHS, all_combinations, combo_hash
     for d in (PATHS.root, PATHS.data_dir, PATHS.daily_dir,
               PATHS.basic_dir, PATHS.results_dir, PATHS.logs_dir):
