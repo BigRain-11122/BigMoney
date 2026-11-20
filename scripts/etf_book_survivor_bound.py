@@ -48,6 +48,7 @@ import etf_book_scale_floor as S  # noqa: E402
 
 OUT_JSON = os.path.join(ROOT, "results", "etf_book_survivor_bound.json")
 DATA_DIR = os.path.join(ROOT, "data", "daily")
+POOL_SURVIVAL = os.path.join(ROOT, "results", "etf_pool_survival.json")
 
 SLOTS = 5
 ALIVE_CUT = "2026-10-01"     # a tail before this is a dead name
@@ -56,7 +57,13 @@ ALIVE_CUT = "2026-10-01"     # a tail before this is a dead name
 # ------------------------------------------------------------------ panel census
 
 def panel_census(data_dir=None, alive_cut=ALIVE_CUT):
-    """Head and tail of every panel csv: which names died, and when they were born."""
+    """Head and tail of every panel csv: which names died, and when they were born.
+
+    The panel-level counts are NOT this face's to invent: `etf_pool_survival.py`
+    (r1319) already publishes them, so the two are reconciled rather than
+    re-derived -- if they disagree both numbers are printed and `reconciled` is
+    false (see `reconcile`).
+    """
     data_dir = data_dir or DATA_DIR
     rows = []
     for p in sorted(glob.glob(os.path.join(data_dir, "*.csv"))):
@@ -73,6 +80,41 @@ def panel_census(data_dir=None, alive_cut=ALIVE_CUT):
     return {"files": len(rows), "rows": rows, "dead": dead,
             "dead_share": (len(dead) / len(rows)) if rows else None,
             "alive_cut": alive_cut}
+
+
+def load_pool_survival(path=None):
+    """The published census this face must agree with (r1319). None if absent."""
+    path = path or POOL_SURVIVAL
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            d = json.load(f)
+    except (OSError, ValueError):
+        return None
+    return {"tool": d.get("tool"), "panel_files": d.get("panel_files"),
+            "dead": (d.get("counts") or {}).get("dead"),
+            "stale": (d.get("counts") or {}).get("stale"),
+            "eligible": d.get("eligible"),
+            "dead_share_of_eligible_pct": d.get("dead_share_of_eligible_pct"),
+            "reading": d.get("reading"), "evidence_cutoff": d.get("evidence_cutoff")}
+
+
+def reconcile(census, pool):
+    """Agree the file and dead counts with r1319; print both when they disagree."""
+    if pool is None:
+        return {"reconciled": False, "why": "results/etf_pool_survival.json absent",
+                "panel_files": census["files"], "dead": len(census["dead"])}
+    same_files = pool.get("panel_files") == census["files"]
+    same_dead = pool.get("dead") == len(census["dead"])
+    out = {"reconciled": bool(same_files and same_dead),
+           "panel_files": census["files"], "dead": len(census["dead"]),
+           "pool_survival": {k: pool.get(k) for k in
+                             ("panel_files", "dead", "stale", "dead_share_of_eligible_pct")}}
+    if not out["reconciled"]:
+        out["why"] = ("this face sees %d files / %d dead, r1319 published %r / %r -- "
+                      "the two reads are printed, neither is silently preferred"
+                      % (census["files"], len(census["dead"]),
+                         pool.get("panel_files"), pool.get("dead")))
+    return out
 
 
 def census_at(rows, anchor, alive_cut=ALIVE_CUT):
@@ -183,7 +225,6 @@ def measure(amt, sc, anchor, line, per_name_cny):
     # the same anchor through r1871/r1872's own lens, so the reader can see whether the
     # constraint was the market's depth or the score's picks
     try:
-        import statistics  # noqa: F401  (ER keeps the baseline in its own module)
         prior = ER.measure_anchor(adv_panel, last_pos, pos, sc, anchor, line, per_name_cny)
         row["score_k5_cap_cny"] = prior.get("cap_score_k5_cny")
         row["score_picks"] = prior.get("score_picks") or []
@@ -207,6 +248,7 @@ def run() -> int:
 
     _close, _openp, amt, sc, _n = S.nobond_universe()
     census = panel_census()
+    pool = load_pool_survival()
     anchors = [str(pd.Timestamp(a["first_bar"]).date()) for a in EG.year_anchors(sc.index)]
     anchors.append(str(pd.Timestamp(sc.index[-1]).date()))
 
@@ -234,14 +276,19 @@ def run() -> int:
         "panel_census": {"files": census["files"],
                          "dead_files": [list(d) for d in census["dead"]],
                          "dead_share": census["dead_share"]},
+        "reused": reconcile(census, pool),
         "anchors": rows,
         "verdict": verdict_payload(rows),
         "honest": [
-            "the panel is a survivors sweep: %.2f%% of its files have a dead tail, so the "
-            "roster at every early anchor is an UNDERCOUNT and its breadth is a floor"
-            % (100.0 * (census["dead_share"] or 0.0)),
-            "a name absent from the panel could never be ranked by the score, so "
-            "survivorship can move the ceiling (depth), never the picks",
+            "dead symbols KEEP their history in the panel (r1319's reading), so a fund that "
+            "died after an anchor is still in that anchor's roster -- the panel is a "
+            "survivors sweep only for names the source never served (%.2f%% dead share of "
+            "eligible)" % (pool.get("dead_share_of_eligible_pct") or 0.0)
+            if pool else
+            "the panel census could not be reconciled: results/etf_pool_survival.json is "
+            "absent, so only this face's own head/tail read is printed",
+            "a name the source never served could never be ranked by the score, so that "
+            "residual bias can only move the ceiling (depth), never the picks",
             "the criterion is sufficiency, not evidence: it says whether a vanished name "
             "COULD have supplied the depth, never that one existed",
         ],
@@ -381,6 +428,18 @@ def selftest() -> int:
         rc = check(payload)
     leg("L9 check() rejects a tampered shortfall", rc == 3 and "shortfall" in buf.getvalue(),
         buf.getvalue()[:90])
+
+    # L10 the census is reconciled with r1319 rather than re-invented
+    cen = {"files": 1725, "dead": [("a", "2010-01-01", "2020-01-01")]}
+    leg("L10 matching r1319 -> reconciled",
+        reconcile(cen, {"panel_files": 1725, "dead": 1})["reconciled"] is True)
+    dis = reconcile(cen, {"panel_files": 1700, "dead": 1})
+    leg("L10b disagreement is printed, not silently preferred",
+        dis["reconciled"] is False and "1700" in (dis.get("why") or ""),
+        (dis.get("why") or "")[:70])
+    leg("L10c an absent r1319 face says so instead of guessing",
+        reconcile(cen, None)["reconciled"] is False
+        and "absent" in reconcile(cen, None)["why"])
 
     bad_n = sum(1 for _n, ok, _d in checks if not ok)
     for n, ok, d in checks:
