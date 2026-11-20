@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-20 11:50:45",
+ "ts": "2026-11-20 14:16:13",
  "evidence_cutoff": "2026-11-19",
  "feed_status": {
   "ticket_bar": "2026-11-19",
@@ -32,10 +32,9 @@
  },
  "family_coherence": {
   "artifact": "results/etf_book_phase_atlas_arms.json",
-  "verdict": "MIXED_WORLDS",
-  "detail": "11 faces priced 2 different panels (0d5a9cdc, 7d93f5cd): per-cell deltas across worlds are world differences, not rule effects",
+  "verdict": "ONE_WORLD",
+  "detail": "all 11 faces priced 7d93f5cd045aab6d",
   "panels": [
-   "0d5a9cdcf2beffd5",
    "7d93f5cd045aab6d"
   ],
   "arms": 10,
@@ -57,51 +56,38 @@
      "baseline",
      "buffer_k02",
      "buffer_k05",
+     "buffer_k05_cost20",
      "buffer_k10",
      "buffer_k20",
      "buffer_k40",
      "cost0",
      "cost05",
-     "cost20"
+     "cost20",
+     "cost40"
     ],
     "last": "2026-11-19",
     "bars": 5284,
     "columns": 1635,
     "bars_fewer_than_newest": 0
-   },
-   {
-    "digest": "0d5a9cdcf2beffd5",
-    "faces": [
-     "buffer_k05_cost20",
-     "cost40"
-    ],
-    "last": "2026-11-17",
-    "bars": 5282,
-    "columns": 1631,
-    "bars_fewer_than_newest": 2
    }
   ],
-  "priced_same_panel": false,
+  "priced_same_panel": true,
   "comparable": [
    "buffer_k02",
    "buffer_k05",
+   "buffer_k05_cost20",
    "buffer_k10",
    "buffer_k20",
    "buffer_k40",
    "cost0",
    "cost05",
-   "cost20"
-  ],
-  "withheld": [
-   "buffer_k05_cost20",
+   "cost20",
    "cost40"
   ],
+  "withheld": [],
   "cost_axis": {
-   "readable": false,
-   "withheld": [
-    "buffer_k05_cost20",
-    "cost40"
-   ],
+   "readable": true,
+   "withheld": [],
    "arms": [
     {
      "arm": "buffer_k02",
@@ -117,8 +103,8 @@
     },
     {
      "arm": "buffer_k05_cost20",
-     "verdict": "WORLDS_NOT_COMPARABLE",
-     "readable": false,
+     "verdict": "REJECT",
+     "readable": true,
      "description": "buffer k=0.05 at 20bp/side -- the interaction neither family tested: does a buffer that is harmless at 10bp recover any of the -1.41pp the 20bp toll costs?"
     },
     {
@@ -159,8 +145,8 @@
     },
     {
      "arm": "cost40",
-     "verdict": "WORLDS_NOT_COMPARABLE",
-     "readable": false,
+     "verdict": "REJECT",
+     "readable": true,
      "description": "40bp/side on the whole grid (4x the production toll -- does 'the cadence is quotable' have a toll ceiling, and does the ordering vanish first?)"
     }
    ]
@@ -277,29 +263,25 @@
   },
   "receipt": {
    "present": true,
-   "stale": true,
+   "stale": false,
    "group": "all",
    "group_arms": 11,
-   "group_verdict": "SPLIT_WORLDS",
-   "world": null,
+   "group_verdict": "ONE_WORLD",
+   "world": "7d93f5cd045aab6d",
    "world_now": "7d93f5cd045aab6d",
    "bar": "2026-11-19",
    "covers_family": true,
    "family": {
-    "stale_arms": [
-     "cost40",
-     "buffer_k05_cost20"
-    ],
+    "stale_arms": [],
     "total": 11
    },
-   "detail": "the run itself left 2 panels across its own faces (0d5a9cdc, 7d93f5cd)",
+   "detail": "the whole family (11 arms) paid for 7d93f5cd -- still the family's world (bar 2026-11-19)",
    "artifact": "results/etf_book_atlas_arms_rebuild.json",
-   "generated": "2026-11-20T02:24:09+0800",
-   "elapsed_sec": 856.0,
+   "generated": "2026-11-20T12:35:30+0800",
+   "elapsed_sec": 587.3,
    "rebuilt": [
-    "cost0",
-    "cost05",
-    "cost20"
+    "cost40",
+    "buffer_k05_cost20"
    ]
   },
   "floor_extrapolation": {
@@ -336,7 +318,7 @@
   "ticket_k": 0.432195,
   "ticket_is_prefix_of_card": true,
   "same_priced_bar": true,
-  "gap_pp": -1.09,
+  "gap_pp": -1.08,
   "source": "results/etf_book_order/latest.json",
   "card_bar": "2026-11-19"
  },

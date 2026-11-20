@@ -1,6 +1,6 @@
 {
  "activity": "product",
- "activity_now": "r1877: the 1% ADV line is a refusal, not a price -- respecting it leaves 14/84 rebalances under-filled (mean f 0.970, worst 0.279) and costs 1.02pp/yr on a 1M book",
+ "activity_now": "r1881: the width card now prints the ONE_WORLD verdict its arms face produced, and the repo lane explains a one-day gap against its own arrival clock instead of calling it a missing bar",
  "activity_now_round": 1877,
  "agenda_starved": false,
  "ah_note": "r1680 LANDED: refresh closed itself at 21:17 -- cutoff 2026-11-12 -> 2026-11-13, complete=True, exit 0, pulled_rows 46; data_lane_freshness in_sync 13 / behind_1d 1 (worst now marks, intraday-only, not rebuildable). Fix that made it possible: stall watchdog over every network leg (300s, names stage/pair, exit 2, checkpoint kept) + save_progress stamps write time + -u on the detached spawn + progress line every 10 pairs. NOT yet proven: the 300s stall path has never fired on a real hang (this round the suspected freeze finished by itself).",
@@ -54,7 +54,7 @@
  "behind_origin": 0,
  "busy": false,
  "chain": "S6: dualrun ZERO-DRIFT streak 51/744; attrition CLEAN (4 ledgers, 3 historical shrink rows healed); py_watermark insufficient_history (py 0.1%, local_batch true = astock refresh); loop task pin=0 no-op; watchdog S4U flip still refused (elevation face, long-standing); both claws reinstalled; full smoke suite 697 legs 0 FAIL 0 UNVERIFIED (922.7s); r1864b: Tools/saturation_engine.py is now a shim onto scripts/ (two generations, two state files -> status read a 8.7-day-old heartbeat while the engine ticked 8s ago)",
- "chain_note": "S6 ran the gates that carry evidence (dualrun before compute_audit, then watermark/update_daily/attrition); the data-lane refreshers and the scorecard/panel builders were not run this round -- single table, no split evidence",
+ "chain_note": "S6 --only=data_lane_freshness,data_lane_freshness_close 2/2 rc0; dualrun ZERO-DRIFT streak 51 before compute_audit; attrition CLEAN (4 ledgers); watermark py_low_with_work_cands (smoke suite = the running batch); update_daily rc0 0 new rows cutoff 2026-11-19",
  "chain_verdict": "2/2 rc0",
  "chain_writer_audit": {
   "known_baseline": 29,
@@ -1255,7 +1255,7 @@
   "watermark": "green: board/pool both empty (pool_ready_count=0, fleet_open_tasks=0), no claimable batch on this host; py_watermark insufficient_history (window n=1, local_batch=1 = this round own suite)"
  },
  "round_label": "r1813",
- "round_no": 1880,
+ "round_no": 1881,
  "round_no_label": "r1821",
  "round_no_landed": 1663,
  "round_note": "r1489: a reinstated bar is re-derived from the panel, not carried over (reinstatement_check + reinstatements.json + sheet paragraph)",

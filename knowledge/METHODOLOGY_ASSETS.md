@@ -17313,3 +17313,17 @@ CEO 一页纸 ③ 节把六个在册纸盘户各印一行「权重 X%」——3.
 **实物**：`scripts/etf_book_order.py`（`_size_ladder_reading` / `_size_ladder_md` / legAS-AU，selftest 283/283）、`results/etf_book_order/ORDER-2026-11-19.md` 新节「装得下的价格」（100万 -0.04 / 300万 -4.17 / 1000万 -8.81 / 3000万 -10.53 pp·年）、`smoke_test.py` 新腿 `product: the order sheet prices money itself`。
 
 - **E-20261120-r1879 · 「缺一行」不是「一个价」（正身=scripts/etf_book_order.py _size_ladder_md + smoke_test.py leg r1879）**：把一个研究面的读数搬到读者手上的票面时，缺面有两种印法，含义相反——印「规模阶梯这一轮没有读数（面缺/读不出）」是诚实，印成「3 档同价」或干脆不印这一节，读者会得到「钱多钱少一个价」这个假结论。同理，票面节必须自印产出那一趟（generated/cutoff + 出处 + 生产者），否则读者读到的是上一趟的数（r1781 同族）。本轮的腿钉四件事：每档标签都印、判词印、产出时点印、写阶梯的腿排在票面腿之前——四条缺一条就红。姊妹面：读数一律从产出面派生，票面绝不重算一档（重算就会与研究面在某天分叉，而分叉那天没人知道该信哪个）。
+
+## E-20261120-r1881 — 「派生面重生」不等于「上游同代」；「落后一天」有两种相反的成因
+
+**问题一（当轮实弹·S1 红项）**：全量套件的腿 `every face a reader holds says whether the width's family was one world` 在 14:14 判红：`card does not print ONE_WORLD`。查下来不是算法错——`results/etf_book_phase_atlas_arms.json` 在 12:35 已重生为 `ONE_WORLD`（11 面同一面板 7d93f5cd），而 `results/etf_book_production/CARD.md` 停在 11:50 的 `MIXED_WORLDS`（11 面 2 个面板）。**上游判词翻面，下游卡片没重生**，于是读者手里的那张卡说「名数没实测撑腰」，实测其实已合一。
+
+**做法**：不放宽腿、不改判据，直接重生成卡片（`python scripts/etf_book_production.py`），card 与 ticket 两面立刻印 `ONE_WORLD`（手验四条断言全过：card 印判词 / ticket 印名数来历 / ticket 印 10 个宽度臂 / page 的臂数项按 r1789 守卫记注记，因页面由 bm-a 单写）。**判据留在原处**：腿红说明两张面的 `generated` 戳不同代，修的是面。
+
+**问题二（本轮产品增量）**：`repo` 道在 `data_lane_freshness` 里永远可能读到 `behind_1d`——因为它的采集器**过午夜才落盘**（r1880 量得：34 次投递、中位 1 天、p90 5 天、67.7% 隔天或更晚，批量导入已剔除）。「落后一天」于是有两个相反的成因：**钟**（写入者自己的排程）与**缺 bar**（没人去取），而旧面用同一个词。
+
+**做法**：lane 注册表加 `arrival_face` 指针（repo → results/repo_quote_arrival.json），新增 `arrival_clock(spec, missing_days)` 只读到货面自己的 lag 分布（不重算、不猜），audit 只在真有缺口（`n_missing>0`）时把分布挂到行上（in_sync 时整节不出现——每轮都印一遍「不需要解释」的句子，就是下一次真告警的掩体）；页面对每个带该字段的行印一句「gap N 天 vs 该道自己的钟（median/p90/隔天占比/n/面生成时刻）—— inside / PAST」。**面缺或分布空 → 返回 None（不印句子），绝不默认一个判词**（r98 族：缺面不等于零缺口）。自检三条腿双向钉死：面内读 inside / p90 外读 PAST / 无面或空分布什么都不印。
+
+**两条可复用**：①**任何「卡片/票面引用一张会重算的面」的关系，先问两张面的 generated 戳差多少**——腿红通常是代差不是算法（r1860/r1861 同族第三例）；修法是重生面，不是放宽腿，否则下次真分歧也会被同一处放宽吃掉。②**任何「落后 N 天」的判词，先问这条道自己的到货钟**：有历史分布就用它回答（并印 n 与生成时刻），没有就诚实不印；把「排程迟到」写成「缺数据」会让读者去派人重取一个根本不用取的日子。
+
+**实物**：`scripts/data_lane_freshness.py`（`arrival_clock` + render 新节 + selftest L38a/b/c，47/47 PASS）、`results/etf_book_production/CARD.md`（ONE_WORLD，14:16）、链腿 `data_lane_freshness` 与 `data_lane_freshness_close` 2/2 rc0。

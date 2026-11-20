@@ -94,7 +94,8 @@ LANES = [
      "panel_csv": {"dir": "data/futures_daily", "pattern": "*.csv"}},
     {"lane": "repo", "dept": "data", "owner": "bm-a", "writer": "update_repo",
      "kind": "status", "path": "results/repo_update_status.json", "key": "data_cutoff",
-     "panel_csv": {"dir": "data/repo_daily", "pattern": "*.csv"}},
+     "panel_csv": {"dir": "data/repo_daily", "pattern": "*.csv"},
+     "arrival_face": "results/repo_quote_arrival.json"},
     {"lane": "moneyflow", "dept": "data", "owner": "bm-a",
      "writer": "update_moneyflow", "kind": "status",
      "path": "results/moneyflow_update_status.json", "key": "panel.cutoff",
@@ -210,6 +211,44 @@ def collector_cause(spec, root=None):
     if not errs and str(out.get("last_refresh_exit", out.get("exit", 0))) in ("0", "None"):
         return None
     return out or None
+
+
+def arrival_clock(spec, missing_days=0, root=None):
+    """Does this lane's own gap fit inside the clock it always lands on? (r1881)
+
+    A writer that commits after midnight reads `behind_1d` every ordinary
+    afternoon -- r1880 measured that for the repo lane (median 1 day, p90 5,
+    67.7% next-day-or-later, bulk imports excluded). That is a schedule, not a
+    missing bar, and the two need opposite responses. This reads the arrival
+    face's lag distribution and answers one question per row; when the face is
+    absent it returns None so the row prints nothing rather than a default.
+    """
+    root = root or ROOT
+    path = spec.get("arrival_face")
+    if not path:
+        return None
+    try:
+        with open(os.path.join(root, path), encoding="utf-8") as f:
+            doc = json.load(f)
+    except Exception:                                   # noqa: BLE001
+        return None
+    if not isinstance(doc, dict):
+        return None
+    lag = doc.get("lag_days")
+    if not isinstance(lag, dict) or not lag.get("n"):
+        return None
+    p90 = lag.get("p90")
+    out = {"median": lag.get("median"), "p90": p90,
+           "max": lag.get("max"), "n": lag.get("n"),
+           "share_next_day_or_later": lag.get(
+               "share_next_day_or_later", doc.get("share_next_day_or_later")),
+           "generated": doc.get("generated"),
+           "evidence_cutoff": doc.get("evidence_cutoff"),
+           "gap_days": int(missing_days or 0)}
+    # Nothing missing makes no claim; a gap at or below p90 is the clock itself.
+    out["within_clock"] = (not missing_days) or (
+        isinstance(p90, (int, float)) and missing_days <= p90)
+    return out
 
 
 def declared_lane_hosts(root=ROOT):
@@ -690,6 +729,14 @@ def audit(days, now, lanes=None, root=ROOT, machines_dir=None):
             _cc = collector_cause(spec)
             if _cc:
                 row["collector_cause"] = _cc
+        # r1881: a gap the lane's own arrival clock always produces is not a
+        # missing bar -- carry the distribution so the page can say which one.
+        # Only when there IS a gap: a lane in sync needs no excuse printed beside
+        # it every round (noise is where the next real warning hides).
+        if spec.get("arrival_face") and (row.get("n_missing") or 0) > 0:
+            _ac = arrival_clock(spec, row.get("n_missing") or 0)
+            if _ac:
+                row["arrival_clock"] = _ac
         if spec.get("fatal_loss"):
             row["loss_mode"] = spec["fatal_loss"]
         if extra.get("cited_verdict") and verdict != "today_pending":
@@ -1563,6 +1610,30 @@ def render_md(report, cert="auto"):
                 bits.append("%s: %s" % (_k, str(_v)[:140]))
             tailnote += "- `%s`: %s\n" % (r["lane"],
                                           " | ".join(bits) or "no cause published")
+    # r1881: "behind by a day" and "a bar nobody fetched" are the same column and
+    # different jobs. A lane whose writer lands after midnight carries that clock
+    # in its own history; print the distribution and let the reader see whether
+    # this gap is inside it (schedule) or past it (a bar that never arrived).
+    clocked = [r for r in report["lanes"] if r.get("arrival_clock")]
+    if clocked:
+        tailnote += ("\n## Whose clock is the gap on\n\n"
+                     "A lane that lands its bars after midnight reads `behind_1d` "
+                     "every ordinary afternoon. The arrival face measures that "
+                     "clock (days from a session to the commit that carries it, "
+                     "bulk imports excluded); a gap inside it is the writer's own "
+                     "schedule, and only a gap past it is a bar nobody fetched.\n\n")
+        for r in clocked:
+            ac = r["arrival_clock"]
+            _sh = ac.get("share_next_day_or_later")
+            _shp = ("%s%%" % round(float(_sh) * 100.0, 1)
+                    if isinstance(_sh, (int, float)) else "?")
+            tailnote += ("- `%s`: verdict `%s`, gap %s day(s) vs the collector's "
+                         "own clock (median %s / p90 %s day(s), %s next-day-or-"
+                         "later, n=%s, face built %s) -- %s the clock\n"
+                         % (r["lane"], r.get("verdict"), ac.get("gap_days"),
+                            ac.get("median"), ac.get("p90"), _shp, ac.get("n"),
+                            str(ac.get("generated") or "?")[:16],
+                            "inside" if ac.get("within_clock") else "PAST"))
     # r1517: a rolling-window lane owes nothing inside its window, so the table
     # can print "11 missing" next to "in_sync" -- true, and useless. This
     # section prints the contract that produced the green verdict and the
@@ -2976,6 +3047,36 @@ def selftest():
         print("[PASS] L37c a missing envelope invents no cause", flush=True)
     finally:
         _sh37.rmtree(_cd37, ignore_errors=True)
+
+    # L38 (r1881) the gap a lane always lands on is a clock, and only a gap past
+    # it is a missing bar. Three assertions: inside reads inside, past reads PAST
+    # (the reader can move in both directions), and a lane with no arrival face
+    # or an empty distribution gets no sentence rather than a default verdict.
+    import tempfile as _tf38
+    with _tf38.TemporaryDirectory() as _td38:
+        _p38 = os.path.join(_td38, "arr.json")
+        with open(_p38, "w", encoding="utf-8") as _f38:
+            json.dump({"generated": "2026-11-20T14:01:36+08:00",
+                       "evidence_cutoff": "2026-11-19",
+                       "lag_days": {"median": 1, "p90": 5, "max": 26, "n": 34,
+                                    "share_next_day_or_later": 0.6765}}, _f38)
+        _a38 = arrival_clock({"lane": "repo", "arrival_face": "arr.json"},
+                             missing_days=2, root=_td38)
+        assert _a38 and _a38["within_clock"] is True and _a38["p90"] == 5, _a38
+        print("[PASS] L38a a gap inside the lane's own arrival clock reads inside",
+              flush=True)
+        _a38b = arrival_clock({"lane": "repo", "arrival_face": "arr.json"},
+                              missing_days=9, root=_td38)
+        assert _a38b and _a38b["within_clock"] is False, _a38b
+        print("[PASS] L38b a gap past p90 is not excused by the clock", flush=True)
+        _a38c = arrival_clock({"lane": "repo"}, missing_days=2, root=_td38)
+        assert _a38c is None, _a38c
+        with open(_p38, "w", encoding="utf-8") as _f38:
+            json.dump({"lag_days": {"n": 0}}, _f38)
+        assert arrival_clock({"lane": "repo", "arrival_face": "arr.json"},
+                             missing_days=2, root=_td38) is None
+        print("[PASS] L38c no arrival face, or an empty distribution, prints nothing",
+              flush=True)
 
     # L41 (r1732) a stale member named by the auditing face rides into the row
     # WITH its reason, and the page separates "declared" from "nobody declared"

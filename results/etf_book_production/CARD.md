@@ -9,7 +9,7 @@ Config: 12 names of a 1526-instrument bond-free pool, rebalance every 20 bars, 1
 | 2020-2023 -- as coded | 3.8% | 0.44 | -11.8% | 10.0% | 8% (1.25x) |
 | 2024 onwards -- as coded | 17.6% | 1.68 | -10.7% | 10.4% | 8% (1.31x) |
 
-**This card is the research basket, not today's ticket.** It ranks 12 names under the vol rule; the ticket priced on the 2026-11-19 bar buys **5 of the same names** under the beta rule at k=0.4322 (-1.09pp/yr apart on the same panel). Size from the ticket and read this card as the rule behind it -- results/etf_book_order/latest.json.
+**This card is the research basket, not today's ticket.** It ranks 12 names under the vol rule; the ticket priced on the 2026-11-19 bar buys **5 of the same names** under the beta rule at k=0.4322 (-1.08pp/yr apart on the same panel). Size from the ticket and read this card as the rule behind it -- results/etf_book_order/latest.json.
 
 Row 1 is the engine as coded (score off bar d's close, paid bar d's *open*); row 2 is the same rule with the score held one bar back -- the fill this card declares. Size off row 2.
 
@@ -24,10 +24,9 @@ Row 1 is the engine as coded (score off bar d's close, paid bar d's *open*); row
 
 **Panel digest:** `7d93f5cd045aab6d` (5284 bars x 1635 symbols, 2005-02-23->2026-11-19, covers close/open/amount) -- the executable sheet and the forward ledger print the same fingerprint only when all three priced one panel, on the same blocks.
 
-**Priced day: SAME_DAY** -- card 2026-11-19 / ticket 2026-11-19 / page 2026-11-19 (compared at 2026-11-20 11:50:45); this card, the executable sheet and the CEO page all priced the same closing bar.
+**Priced day: SAME_DAY** -- card 2026-11-19 / ticket 2026-11-19 / page 2026-11-19 (compared at 2026-11-20 14:16:13); this card, the executable sheet and the CEO page all priced the same closing bar.
 
-**Family coherence: MIXED_WORLDS** -- 11 faces priced 2 different panels (0d5a9cdc, 7d93f5cd): per-cell deltas across worlds are world differences, not rule effects.
-8 of 10 arms priced the card's own panel and keep their labels (buffer_k02, buffer_k05, buffer_k10, buffer_k20, buffer_k40, cost0, cost05, cost20); the 2 withheld one(s) still price another panel (buffer_k05_cost20, cost40), so their verdicts are not part of this reading.
+**Family coherence: ONE_WORLD** -- all 10 width arms priced `7d93f5cd045aab6d` (cutoff 2026-11-19); the verdicts that license this card's width are measurements on one panel.
 
 **Label null: 96.5% REJECT** -- the same rule called an effect-free panel REJECT in that share of 20000 trials, so a published REJECT carries almost no information; the rare branch (NOT-SEPARABLE 3.5%, ADOPT 0.0%) is the one that reads.
 
