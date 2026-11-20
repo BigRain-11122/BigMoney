@@ -21,7 +21,7 @@
 
 | 候选 | 判决 | 未过的检查 | 没测的列 | 收据 | 被取代的读数 |
 |---|---|---|---|---|---|
-| nobond_vt08_adopted | UNADJUDICABLE_PHASE | Y4_top2_share, C1_capacity | — | results/etf_book_phase_gate.json | CAPACITY_LIMITED via Y4_top2_share, C1_capacity [single_phase · results/etf_book_year_gate/YEAR-GATE.json] |
+| nobond_vt08_adopted | UNADJUDICABLE_PHASE | Y4_top2_share, C1_capacity | — | results/etf_book_phase_gate.json | CONDITIONAL via Y4_top2_share [single_phase · results/etf_book_year_gate/YEAR-GATE.json] |
 | nobond_base | UNADJUDICABLE_PHASE | C1_capacity, Y3_worst_year, Y4_top2_share | — | results/etf_book_phase_gate.json | ADMIT [single_phase · results/etf_book_year_gate/YEAR-GATE.json] |
 | nobond_vt08_floor_050 | UNADJUDICABLE_PHASE | C1_capacity, Y4_top2_share | — | results/etf_book_phase_gate.json | — |
 | all_classes_published | CONDITIONAL | Y4_top2_share | C1_capacity | results/etf_book_year_gate/YEAR-GATE.json | — |

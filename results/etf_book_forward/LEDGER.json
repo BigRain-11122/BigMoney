@@ -583,6 +583,32 @@
     "562060"
    ],
    "panel_fp_backfilled": "2026-11-19T23:45:15+0800"
+  },
+  {
+   "bar": "2026-11-20",
+   "nav": 0.9800317259,
+   "dd": -0.035441,
+   "cash": 0.090616,
+   "carry": 3.4136e-06,
+   "n_held": 12,
+   "filled": false,
+   "turn": 0.0,
+   "panel_fp": "fd1be74d80b8b3e1",
+   "panel_fp_names": [
+    "159207",
+    "159519",
+    "159655",
+    "510210",
+    "510760",
+    "511180",
+    "512040",
+    "513500",
+    "513630",
+    "513650",
+    "513690",
+    "562060"
+   ],
+   "provisional": true
   }
  ],
  "books": {
@@ -726,11 +752,6 @@
   }
  ],
  "runs": [
-  {
-   "ts": "2026-10-31T03:22:30+0800",
-   "new_bars": 0,
-   "last_bar": "2026-10-30"
-  },
   {
    "ts": "2026-11-01T07:27:09+0800",
    "new_bars": 0,
@@ -925,15 +946,20 @@
    "ts": "2026-11-20T00:13:31+0800",
    "new_bars": 0,
    "last_bar": "2026-11-19"
+  },
+  {
+   "ts": "2026-11-20T16:14:54+0800",
+   "new_bars": 1,
+   "last_bar": "2026-11-20"
   }
  ],
  "panel": {
-  "n_instruments": 1635,
+  "n_instruments": 1637,
   "flips_repaired": 169,
-  "digest": "7d93f5cd045aab6d",
-  "bars_named": 5284,
+  "digest": "2e875bf4876e25e5",
+  "bars_named": 5285,
   "first_bar": "2005-02-23",
-  "last_bar": "2026-11-19",
+  "last_bar": "2026-11-20",
   "covers": [
    "close",
    "open",
@@ -941,10 +967,10 @@
   ],
   "sibling_faces": {
    "priced_face": "prefixed (sh|sz<code>.csv; _dedupe prefers it)",
-   "priced_tail": "2026-11-19",
-   "bare_face_tail": "2026-11-19",
+   "priced_tail": "2026-11-20",
+   "bare_face_tail": "2026-11-20",
    "bare_face_symbols": 49,
-   "wide_face_tail": "2026-11-19",
+   "wide_face_tail": "2026-11-20",
    "wide_face_symbols": 1676,
    "priced_face_lags_bare_sessions": null
   }
@@ -1118,6 +1144,13 @@
     "filled": false,
     "book_nav": 0.9980395985,
     "excess": 0.0307100305
+   },
+   {
+    "bar": "2026-11-20",
+    "nav": 0.9440629206,
+    "filled": false,
+    "book_nav": 0.9800317259,
+    "excess": 0.0381000085
    }
   ],
   "rebalance_friction": {
@@ -1128,34 +1161,34 @@
   },
   "decisions": 84,
   "latest": {
-   "bar": "2026-11-19",
-   "book_nav": 0.9980395985,
-   "basket_nav": 0.9683029843,
-   "excess_pp": 3.071
+   "bar": "2026-11-20",
+   "book_nav": 0.9800317259,
+   "basket_nav": 0.9440629206,
+   "excess_pp": 3.81
   },
   "significance": {
    "available": true,
-   "bars_used": 1666,
-   "windows": "2020-01-02..2026-11-19",
-   "daily_vol_pct": 0.54071,
-   "annual_vol_pct": 8.446,
+   "bars_used": 1667,
+   "windows": "2020-01-02..2026-11-20",
+   "daily_vol_pct": 0.54083,
+   "annual_vol_pct": 8.448,
    "noise_band_pp": {
-    "1m": 4.74,
-    "3m": 8.209,
-    "1y": 16.554,
-    "3y": 28.673
+    "1m": 4.741,
+    "3m": 8.211,
+    "1y": 16.558,
+    "3y": 28.68
    },
-   "noise_band_pp_at_published": 4.74,
-   "published_bars": 20,
+   "noise_band_pp_at_published": 4.858,
+   "published_bars": 21,
    "bars_needed_for_edge": {
-    "3pp/yr": 7737,
-    "5pp/yr": 2785,
+    "3pp/yr": 7740,
+    "5pp/yr": 2787,
     "10pp/yr": 697
    },
    "min_detectable_edge_pp": {
-    "1y": 16.892,
-    "3y": 9.753,
-    "5y": 7.554
+    "1y": 16.896,
+    "3y": 9.755,
+    "5y": 7.556
    },
    "power": {
     "units": {
@@ -1166,15 +1199,15 @@
     "power": 0.8,
     "alpha_two_sided": 0.05,
     "z": 2.802,
-    "annual_vol_pct": 8.446,
+    "annual_vol_pct": 8.448,
     "min_detectable_edge_pp": {
-     "6m": 33.469,
-     "1y": 23.666,
-     "2y": 16.734,
-     "3y": 13.664
+     "6m": 33.476,
+     "1y": 23.671,
+     "2y": 16.738,
+     "3y": 13.667
     },
     "years_for_80pct_power": {
-     "pre-2020 measured alpha (single arm)": 135.9,
+     "pre-2020 measured alpha (single arm)": 136.0,
      "in-window measured alpha (single arm)": 15.8
     },
     "candidate_sources": {
@@ -1192,7 +1225,7 @@
     "available": true,
     "read": "a spread inside these bands is not evidence either way: at 12 months this ledger can only resolve edges above its 1y band, and the two edges this book actually published need years, not months"
    },
-   "book_cagr_pct_on_same_window": 8.907,
+   "book_cagr_pct_on_same_window": 8.612,
    "read": "a spread smaller than the band at the bar count it was measured over is indistinguishable from noise; the band shrinks as sqrt(bars), not faster"
   }
  },
@@ -1527,7 +1560,7 @@
   "code": "no_pending",
   "problems": [],
   "checked": {
-   "head_bar": "2026-11-19",
+   "head_bar": "2026-11-20",
    "has_pending": false
   }
  },

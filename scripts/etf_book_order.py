@@ -5166,6 +5166,102 @@ def _size_ladder_md(c):
     return L
 
 
+ENTRY_PRICE_PATH = os.path.join(PATHS.results_dir, "etf_book_entry_price.json")
+
+
+def _entry_price_reading(path=None):
+    """How small an account has to be before the per-ticket minimum IS the cost model (r1882).
+
+    The lot floor (r1813) only answers "can each leg buy one lot". The broker charges
+    CNY 5 per ticket, and below roughly a quarter million that minimum is the whole
+    difference between the book's 13.041bp model and what the account really pays. The
+    curve lives on its own face; this reader copies it instead of dividing here.
+    """
+    p = path or ENTRY_PRICE_PATH
+    try:
+        with open(p, encoding="utf-8") as fh:
+            d = json.load(fh)
+    except Exception:                                          # noqa: BLE001
+        return None
+    rungs = d.get("rungs") or []
+    if not rungs:
+        return None
+    rows = []
+    for r in rungs:
+        rows.append({"capital_cny": r.get("capital_cny"),
+                     "side_cost_bp": r.get("side_cost_bp"),
+                     "annual_pct": r.get("annual_cost_pct_ceiling"),
+                     "legs_paying_floor": r.get("legs_paying_floor"),
+                     "legs_total": r.get("legs_total")})
+    ce = d.get("clean_entry")
+    ce_cny = ce.get("all_legs_above_min_commission_cny") if isinstance(ce, dict) else ce
+    ce_sym = ce.get("binding_symbol") if isinstance(ce, dict) else None
+    return {"verdict": d.get("verdict"),
+            "lot_floor_cny": d.get("lot_floor_cny"),
+            "lot_floor_binding_symbol": d.get("lot_floor_binding_symbol"),
+            "clean_entry_cny": ce_cny,
+            "clean_entry_binding_symbol": ce_sym,
+            "tolerable_entry_cny": d.get("tolerable_entry_cny"),
+            "model_side_bp": (d.get("calibers") or {}).get("model_side_bp"),
+            "rows": rows,
+            "evidence_cutoff": d.get("evidence_cutoff"),
+            "asof": (d.get("generated") or "")[:19],
+            "generated": d.get("generated"),
+            "path": "results/etf_book_entry_price.json",
+            "producer": "scripts/etf_book_entry_price.py"}
+
+
+def _entry_price_md(c):
+    """One block: the account size at which the CNY 5 ticket minimum stops being the model."""
+    if not c:
+        return ["  - **入门价这一轮没有读数**：`results/etf_book_entry_price.json` 缺或读不出。"
+                "缺这一行不等于「账户多大都一个成本」。"]
+    rows = [r for r in (c.get("rows") or []) if r.get("capital_cny") is not None]
+    if not rows:
+        return ["  - **入门价这一轮没有读数**：面上没有一档资本。"
+                "缺这一行不等于「账户多大都一个成本」。"]
+    rows.sort(key=lambda r: float(r["capital_cny"]))
+    model = c.get("model_side_bp")
+    lot = c.get("lot_floor_cny")
+    clean = c.get("clean_entry_cny")
+    tolr = c.get("tolerable_entry_cny")
+    head = "  - **入门价：账户多大才不亏在每张单的固定费上（r1882）**"
+    if c.get("verdict"):
+        head += "：判词 `%s`" % c["verdict"]
+    if lot is not None and clean is not None and float(lot) > 0:
+        head += ("——一手门槛 **￥%s**（约束腿 %s）只保证「每条腿买得起一手」，"
+                 "干净门槛 **￥%s**（%.1f 倍）才是「没有一条腿在付最低佣金」"
+                 % (format(float(lot), ",.0f"), c.get("lot_floor_binding_symbol") or "?",
+                    format(float(clean), ",.0f"),
+                    float(clean) / float(lot)))
+    if tolr is not None:
+        head += "；宽裕门槛 ￥%s（超出模型不超过 1bp）" % format(float(tolr), ",.0f")
+    L = [head + "。"]
+    for r in rows:
+        cap = float(r["capital_cny"])
+        bp = r.get("side_cost_bp")
+        seg = "    - **￥%s** → 单边 %s bp" % (format(cap, ",.0f"),
+                                              ("%.2f" % float(bp)) if bp is not None else "?")
+        if model is not None and bp is not None:
+            seg += "（模型 %.3f bp，%+.2f）" % (float(model), float(bp) - float(model))
+        n_floor = r.get("legs_paying_floor") or 0
+        if n_floor:
+            seg += "，%d/%s 条腿在付 5 元最低佣金" % (n_floor, r.get("legs_total") or "?")
+        else:
+            seg += "，没有一条腿付最低佣金"
+        ann = r.get("annual_pct")
+        if ann is not None:
+            seg += "；按整本换手折一年 **%.2f%% 本金**" % float(ann)
+        L.append(seg)
+    L.append("    - 读法：这一栏量的是**固定费占本金的比例**——不是税、不是滑点；账户再小一档，"
+             "多付的不是费率而是每张单那 5 元。整手凑数只会多留现金，不加价。")
+    L.append("    - 边界：佣金与最低费取自 `knowledge/rules.py`（CN-C3，5.000 元/单）；"
+             "算到 %s，面生成于 %s。出处 `%s`（生产者 `%s`，本页只读）"
+             % (c.get("evidence_cutoff") or "未注明", c.get("asof") or "未知",
+                c.get("path"), c.get("producer")))
+    return L
+
+
 def _phase_reading(path=None, book=ADMITTED_BOOK):
     """The same book judged over five decision phases -- the other half of the admission.
 
@@ -5746,7 +5842,7 @@ def _admission_payload():
 
 
 def _phase_admission_md(pa, ad, dec=False, grid="auto", era="auto", cap="auto",
-                        size="auto"):
+                        size="auto", entry="auto"):
     """The five starts on the three veto rulers -- copied off its own face.
 
     r1868: the admission section used to end on a sentence that told the operator the
@@ -5813,6 +5909,7 @@ def _phase_admission_md(pa, ad, dec=False, grid="auto", era="auto", cap="auto",
     L += _era_grid_md(_era_grid_reading() if era == "auto" else era)
     L += _era_capacity_md(_era_capacity_reading() if cap == "auto" else cap)
     L += _size_ladder_md(_size_ladder_reading() if size == "auto" else size)
+    L += _entry_price_md(_entry_price_reading() if entry == "auto" else entry)
     return L
 
 
@@ -9419,12 +9516,13 @@ def selftest():
               "evidence_cutoff": "2026-11-19", "asof": "2026-11-20T08:28:03",
               "path": "results/etf_book_era_capacity.json",
               "producer": "scripts/etf_book_era_capacity.py"}
-        _md_cap = "\n".join(_phase_admission_md(_pa, _adm, True, grid=_g, era=_e, cap=_c))
+        _md_cap = "\n".join(_phase_admission_md(_pa, _adm, True, grid=_g, era=_e, cap=_c,
+                                               entry=None))
         chk("legAP the capacity line names the year it started fitting and today's margin",
             "容量按年代" in _md_cap and "2016 年" in _md_cap and "1.003 倍" in _md_cap
             and "602,440" in _md_cap, _md_cap[-700:])
         _md_cap_missing = "\n".join(_phase_admission_md(_pa, _adm, True, grid=_g, era=_e,
-                                                        cap=None, size=None))
+                                                        cap=None, size=None, entry=None))
         chk("legAQ a missing capacity face is not printed as a verdict",
             "容量按年代这一轮没有读数" in _md_cap_missing
             and "判词 `" not in _md_cap_missing.split("容量按年代")[-1]
@@ -9432,7 +9530,7 @@ def selftest():
             _md_cap_missing[-300:])
         _c_bad = dict(_c, reproduces_published=False)
         _md_cap_bad = "\n".join(_phase_admission_md(_pa, _adm, True, grid=_g, era=_e,
-                                                    cap=_c_bad))
+                                                    cap=_c_bad, entry=None))
         chk("legAR a face that no longer reproduces the gate says so instead of a verdict",
             "复现对不上" in _md_cap_bad, _md_cap_bad[-400:])
 
@@ -9455,7 +9553,7 @@ def selftest():
                "path": "results/etf_book_capacity_shortfall.json",
                "producer": "scripts/etf_book_capacity_shortfall.py"}
         _md_sz = "\n".join(_phase_admission_md(_pa, _adm, True, grid=_g, era=_e, cap=_c,
-                                              size=_sz))
+                                              size=_sz, entry=None))
         chk("legAS the ladder prints every rung with its own cost and the shape verdict",
             "装得下的价格" in _md_sz and "100万" in _md_sz and "300万" in _md_sz
             and "-0.04" in _md_sz and "-4.17" in _md_sz
@@ -9466,11 +9564,47 @@ def selftest():
             "2026-11-20T12:43:32" in _md_sz
             and "results/etf_book_capacity_shortfall.json" in _md_sz, _md_sz[-400:])
         _md_sz_missing = "\n".join(_phase_admission_md(_pa, _adm, True, grid=_g, era=_e,
-                                                       cap=_c, size=None))
+                                                       cap=_c, size=None, entry=None))
         chk("legAU a missing ladder is one sentence, never a verdict about money",
             "规模阶梯这一轮没有读数" in _md_sz_missing
             and "判词 `" not in _md_sz_missing.split("规模阶梯")[-1]
             and "100万" not in _md_sz_missing.split("规模阶梯")[-1], _md_sz_missing[-300:])
+
+        # legAV-AX (r1884): the entry price -- what an account of 20k/100k/200k pays a side
+        # once the CNY 5 per-ticket minimum is included. Same three states as the ladder.
+        _ep = {"verdict": "ENTRY_PRICE_IS_THE_COMMISSION_FLOOR",
+               "lot_floor_cny": 14875.99, "lot_floor_binding_symbol": "511180",
+               "clean_entry_cny": 263852.0, "tolerable_entry_cny": 200000.0,
+               "model_side_bp": 13.041,
+               "rows": [{"capital_cny": 20000.0, "side_cost_bp": 45.72,
+                         "annual_pct": 9.83, "legs_paying_floor": 12, "legs_total": 12},
+                        {"capital_cny": 200000.0, "side_cost_bp": 13.87,
+                         "annual_pct": 3.15, "legs_paying_floor": 12, "legs_total": 12},
+                        {"capital_cny": 300000.0, "side_cost_bp": 13.04,
+                         "annual_pct": 2.97, "legs_paying_floor": 0, "legs_total": 12}],
+               "evidence_cutoff": "2026-11-19",
+               "asof": "2026-11-20T15:19:33",
+               "generated": "2026-11-20T15:19:33+08:00",
+               "path": "results/etf_book_entry_price.json",
+               "producer": "scripts/etf_book_entry_price.py"}
+        _md_ep = "\n".join(_phase_admission_md(_pa, _adm, True, grid=_g, era=_e, cap=_c,
+                                               size=None, entry=_ep))
+        chk("legAV the entry block prints the verdict, both thresholds and the per-rung cost",
+            "入门价" in _md_ep and "ENTRY_PRICE_IS_THE_COMMISSION_FLOOR" in _md_ep
+            and "14,876" in _md_ep and "263,852" in _md_ep
+            and "45.72" in _md_ep and "13.04" in _md_ep, _md_ep[-800:])
+        chk("legAW a rung with no leg paying the minimum says so instead of naming a floor",
+            "没有一条腿付最低佣金" in _md_ep
+            and "12/12 条腿在付 5 元最低佣金" in _md_ep, _md_ep[-800:])
+        chk("legAX the entry block stamps the trip that wrote it", 
+            "2026-11-20T15:19:33" in _md_ep
+            and "results/etf_book_entry_price.json" in _md_ep, _md_ep[-400:])
+        _md_ep_missing = "\n".join(_phase_admission_md(_pa, _adm, True, grid=_g, era=_e,
+                                                       cap=_c, size=None, entry=None))
+        chk("legAY a missing entry face is one sentence, never a price",
+            "入门价这一轮没有读数" in _md_ep_missing
+            and "判词 `" not in _md_ep_missing.split("入门价")[-1]
+            and "14,876" not in _md_ep_missing.split("入门价")[-1], _md_ep_missing[-300:])
     finally:
         shutil.rmtree(_tmp, ignore_errors=True)
 

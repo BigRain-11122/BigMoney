@@ -1,7 +1,7 @@
 {
- "ts": "2026-11-20T15:00:55",
+ "ts": "2026-11-20T17:05:56",
  "mode": "probe",
- "py_faces_seen": 2,
+ "py_faces_seen": 5,
  "orphans": 0,
  "orphans_cleared": 0,
  "killed": [],
@@ -9,11 +9,24 @@
  "resident_servers_exempt": 1,
  "faces": [
   {
-   "pid": 46352,
+   "pid": 24992,
+   "name": "python.exe",
+   "cmd": "python scripts/etf_book_start_grid.py run",
+   "age_min": 0.2,
+   "cpu_delta_20s": 999.0,
+   "face1_parent_dead": false,
+   "face2_no_hidden_host_ancestor": false,
+   "face3_cpu_stalled": false,
+   "ancestor_chain": [
+    "pythonw.exe"
+   ]
+  },
+  {
+   "pid": 44520,
    "name": "python.exe",
    "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe Tools\\orphan_face_probe.py",
    "age_min": 0.5,
-   "cpu_delta_20s": 0.125,
+   "cpu_delta_20s": 0.234,
    "face1_parent_dead": false,
    "face2_no_hidden_host_ancestor": false,
    "face3_cpu_stalled": false,
@@ -28,8 +41,8 @@
    "pid": 50416,
    "name": "python.exe",
    "cmd": "D:\\ComfyUI\\python_embeded\\python.exe -s D:\\ComfyUI\\ComfyUI\\main.py --listen 127.0.0.1 --port 8188 --disable-smart-memory",
-   "age_min": 150.8,
-   "cpu_delta_20s": 0.0,
+   "age_min": 275.8,
+   "cpu_delta_20s": 0.016,
    "face1_parent_dead": true,
    "face2_no_hidden_host_ancestor": true,
    "face3_cpu_stalled": true,
@@ -41,6 +54,33 @@
    "listen_ports": [
     8188
    ]
+  },
+  {
+   "pid": 52956,
+   "name": "pythonw.exe",
+   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\pythonw.exe -u Tools\\s6_chain_bmc.py 1883",
+   "age_min": 65.3,
+   "cpu_delta_20s": 0.016,
+   "face1_parent_dead": false,
+   "face2_no_hidden_host_ancestor": false,
+   "face3_cpu_stalled": true,
+   "ancestor_chain": [
+    "powershell.exe",
+    "wscript.exe"
+   ]
+  },
+  {
+   "pid": 57472,
+   "name": "python.exe",
+   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\scripts\\update",
+   "age_min": 52.4,
+   "cpu_delta_20s": 2.453,
+   "face1_parent_dead": true,
+   "face2_no_hidden_host_ancestor": true,
+   "face3_cpu_stalled": false,
+   "ancestor_chain": [
+    "DEAD"
+   ]
   }
  ],
  "orphan_details": [],
@@ -51,8 +91,8 @@
    "pid": 50416,
    "name": "python.exe",
    "cmd": "D:\\ComfyUI\\python_embeded\\python.exe -s D:\\ComfyUI\\ComfyUI\\main.py --listen 127.0.0.1 --port 8188 --disable-smart-memory",
-   "age_min": 150.8,
-   "cpu_delta_20s": 0.0,
+   "age_min": 275.8,
+   "cpu_delta_20s": 0.016,
    "face1_parent_dead": true,
    "face2_no_hidden_host_ancestor": true,
    "face3_cpu_stalled": true,

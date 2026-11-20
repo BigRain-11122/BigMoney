@@ -1,13 +1,13 @@
 # index-futures carry: what it is worth in risk units
 
-Generated 2026-11-20T11:31:21 · evidence cutoff 2026-11-19 · `scripts/idx_fut_carry_risk.py`
+Generated 2026-11-20T16:08:09 · evidence cutoff 2026-11-20 · `scripts/idx_fut_carry_risk.py`
 
 The roll book (hold the deepest-open-interest contract, switch at the same close) is the one `idx_fut_real_nav` publishes in rupees of carry per year. This page asks the only question that allocates money: at the desk's own 8% volatility target, does that carry buy anything the adopted book does not already buy, and does it move with it?
 
 ## the book it is compared against
 
-- nobond_vt08_adopted: 11.47% a year compounded, vol 10.32%, Sharpe 1.104, max drawdown -10.56%, worst year 2.56%, underwater run up to 207 bars
-- the last drawdown **has not healed**: still under water for 71 bars at the last bar (a censored duration is not a fast recovery)
+- nobond_vt08_adopted: 11.25% a year compounded, vol 10.33%, Sharpe 1.084, max drawdown -10.56%, worst year 1.02%, underwater run up to 207 bars
+- the last drawdown **has not healed**: still under water for 72 bars at the last bar (a censored duration is not a fast recovery)
 
 ## each product, in its own risk units
 
@@ -43,9 +43,9 @@ Which days count as roll days moves the annualised carry by more than this sleev
 | IH | x1.82 | 4.22 | -13.34 | 0.056 | 0.30 | +0.083 | REFUSE |
 
 - **IC**: carry 12.07% at target risk, corr -0.039, blend Sharpe +0.326
-- **IF**: at 8.0% vol the sleeve earns 6.44% against the book's 11.47%
+- **IF**: at 8.0% vol the sleeve earns 6.44% against the book's 11.25%
 - **IM**: carry 12.06% at target risk, corr -0.064, blend Sharpe +0.389
-- **IH**: at 8.0% vol the sleeve earns 4.22% against the book's 11.47%
+- **IH**: at 8.0% vol the sleeve earns 4.22% against the book's 11.25%
 
 ## the form this desk can actually hold
 

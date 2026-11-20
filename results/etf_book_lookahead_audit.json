@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-18T17:16:23+0800",
+ "generated": "2026-11-20T17:02:12+0800",
  "script": "scripts/etf_book_lookahead_audit.py",
  "criteria": {
   "tol_pp_per_year": 0.25,
@@ -21,52 +21,52 @@
   "frozen": "threshold and rules written before the first run; --check refuses a face that does not reproduce them"
  },
  "panel": {
-  "symbols": 1522,
-  "bars": 5282,
+  "symbols": 1528,
+  "bars": 5285,
   "flips_repaired": 169,
   "first_bar": "2005-02-23",
-  "last_bar": "2026-11-17"
+  "last_bar": "2026-11-20"
  },
  "arms": {
   "published": {
-   "cagr": 0.0941,
-   "sharpe": 0.971,
+   "cagr": 0.0916,
+   "sharpe": 0.946,
    "maxdd": -0.1177,
-   "vol": 0.1018,
-   "years": 6.87,
-   "cagr_pp": 9.41,
+   "vol": 0.1019,
+   "years": 6.88,
+   "cagr_pp": 9.16,
    "maxdd_pp": -11.77,
-   "bars": 1664
+   "bars": 1667
   },
   "causal": {
-   "cagr": 0.0845,
-   "sharpe": 0.874,
+   "cagr": 0.0819,
+   "sharpe": 0.849,
    "maxdd": -0.1656,
    "vol": 0.1028,
-   "years": 6.87,
-   "cagr_pp": 8.45,
+   "years": 6.88,
+   "cagr_pp": 8.19,
    "maxdd_pp": -16.56,
-   "bars": 1664
+   "bars": 1667
   },
   "ledger_no_carry": {
-   "cagr": 0.0839,
-   "sharpe": 0.885,
+   "cagr": 0.08,
+   "sharpe": 0.846,
    "maxdd": -0.1357,
-   "vol": 0.1005,
-   "years": 6.87,
-   "cagr_pp": 8.39,
+   "vol": 0.1007,
+   "years": 6.88,
+   "cagr_pp": 8.0,
    "maxdd_pp": -13.57,
-   "bars": 1665
+   "bars": 1668
   },
   "ledger_carry": {
-   "cagr": 0.0898,
-   "sharpe": 0.941,
+   "cagr": 0.0859,
+   "sharpe": 0.902,
    "maxdd": -0.1326,
-   "vol": 0.1005,
-   "years": 6.87,
-   "cagr_pp": 8.98,
+   "vol": 0.1007,
+   "years": 6.88,
+   "cagr_pp": 8.59,
    "maxdd_pp": -13.26,
-   "bars": 1665
+   "bars": 1668
   }
  },
  "mechanism": {
@@ -81,63 +81,63 @@
  "lag_ladder": [
   {
    "lag": -2,
-   "cagr": 0.1565,
-   "sharpe": 1.504,
+   "cagr": 0.1534,
+   "sharpe": 1.475,
    "maxdd": -0.1335,
-   "vol": 0.1043,
-   "cagr_pp": 15.65,
+   "vol": 0.1044,
+   "cagr_pp": 15.34,
    "maxdd_pp": -13.35,
-   "bars": 1664
+   "bars": 1667
   },
   {
    "lag": -1,
-   "cagr": 0.1243,
-   "sharpe": 1.271,
+   "cagr": 0.1225,
+   "sharpe": 1.254,
    "maxdd": -0.1102,
    "vol": 0.0999,
-   "cagr_pp": 12.43,
+   "cagr_pp": 12.25,
    "maxdd_pp": -11.02,
-   "bars": 1664
+   "bars": 1667
   },
   {
    "lag": 0,
-   "cagr": 0.0941,
-   "sharpe": 0.971,
+   "cagr": 0.0916,
+   "sharpe": 0.946,
    "maxdd": -0.1177,
-   "vol": 0.1018,
-   "cagr_pp": 9.41,
+   "vol": 0.1019,
+   "cagr_pp": 9.16,
    "maxdd_pp": -11.77,
-   "bars": 1664
+   "bars": 1667
   },
   {
    "lag": 1,
-   "cagr": 0.0845,
-   "sharpe": 0.874,
+   "cagr": 0.0819,
+   "sharpe": 0.849,
    "maxdd": -0.1656,
    "vol": 0.1028,
-   "cagr_pp": 8.45,
+   "cagr_pp": 8.19,
    "maxdd_pp": -16.56,
-   "bars": 1664
+   "bars": 1667
   },
   {
    "lag": 5,
-   "cagr": 0.0773,
-   "sharpe": 0.797,
+   "cagr": 0.0767,
+   "sharpe": 0.792,
    "maxdd": -0.1666,
    "vol": 0.104,
-   "cagr_pp": 7.73,
+   "cagr_pp": 7.67,
    "maxdd_pp": -16.66,
-   "bars": 1664
+   "bars": 1667
   },
   {
    "lag": 20,
-   "cagr": 0.0503,
-   "sharpe": 0.54,
+   "cagr": 0.0486,
+   "sharpe": 0.524,
    "maxdd": -0.1764,
-   "vol": 0.1048,
-   "cagr_pp": 5.03,
+   "vol": 0.1049,
+   "cagr_pp": 4.86,
    "maxdd_pp": -17.64,
-   "bars": 1664
+   "bars": 1667
   }
  ],
  "carry": {
@@ -145,24 +145,24 @@
   "credited": true
  },
  "decomposition": {
-  "price_of_the_one_bar_pp": 0.96,
-  "mark_basis_pp": 0.06,
+  "price_of_the_one_bar_pp": 0.97,
+  "mark_basis_pp": 0.19,
   "carry_pp": 0.59,
   "note": "the three components are priced on separate arms: the first is information ordering, the second is open-to-open vs close-to-close marking around an open fill, the third is the repo ladder the ledger credits and the card does not"
  },
  "bar_level": {
   "published_vs_causal": {
-   "overlap_bars": 1663,
+   "overlap_bars": 1666,
    "max_abs_daily_diff": 0.016734,
    "max_abs_daily_diff_bar": "2025-08-25",
-   "mean_abs_daily_diff": 0.001378,
+   "mean_abs_daily_diff": 0.001379,
    "identical": false
   },
   "published_vs_ledger": {
-   "overlap_bars": 1663,
+   "overlap_bars": 1666,
    "max_abs_daily_diff": 0.043099,
    "max_abs_daily_diff_bar": "2025-09-05",
-   "mean_abs_daily_diff": 0.00496,
+   "mean_abs_daily_diff": 0.004957,
    "identical": false
   }
  },
@@ -176,6 +176,7 @@
   "scripts/etf_book_buffer_adoption.py",
   "scripts/etf_book_cagr_reconcile.py",
   "scripts/etf_book_calendar_book.py",
+  "scripts/etf_book_capacity_shortfall.py",
   "scripts/etf_book_cash_lock_gap.py",
   "scripts/etf_book_causal_rebuild.py",
   "scripts/etf_book_churn_hold.py",
@@ -201,6 +202,8 @@
   "scripts/etf_book_hysteresis.py",
   "scripts/etf_book_idle_cash.py",
   "scripts/etf_book_late_sheet_price.py",
+  "scripts/etf_book_liquidity_era.py",
+  "scripts/etf_book_liquidity_select.py",
   "scripts/etf_book_live_size_provenance.py",
   "scripts/etf_book_lookahead_audit.py",
   "scripts/etf_book_lot_ladder.py",
@@ -266,20 +269,20 @@
  ],
  "verdict": {
   "state": "LOOKAHEAD_PRESENT",
-  "gap_pp_per_year": 0.96,
+  "gap_pp_per_year": 0.97,
   "score_reads_same_bar_close": true,
   "ladder_pp": {
-   "-2": 15.65,
-   "-1": 12.43,
-   "0": 9.41,
-   "1": 8.45,
-   "5": 7.73,
-   "20": 5.03
+   "-2": 15.34,
+   "-1": 12.25,
+   "0": 9.16,
+   "1": 8.19,
+   "5": 7.67,
+   "20": 4.86
   },
-  "ladder_spread_pp": 10.62,
+  "ladder_spread_pp": 10.48,
   "ladder_monotone": true,
   "rule": "LOOKAHEAD_PRESENT iff the published engine still takes its signal from bar d (`score.loc[d]`) while paying the book from bar d's open to the next bar's open -- a source pin read at run time -- AND pricing the same rule one bar later costs >= tol_pp_per_year; MECHANISM_ABSENT if the engine no longer reads its own bar (the pin flips, the claim must be re-derived); WITHIN_TOL if the pin holds but the one-bar price is under the line",
-  "why": "the published engine ranks on `score.loc[d]` -- built from bar d's own close and amount -- and then earns open[d]->open[d+1]: the book buys at a price that was set before the information it ranks on. Delaying that information one bar costs 0.96 pp/yr, and the whole ladder is monotone in delay (-2:+15.65, -1:+12.43, +0:+9.41, +1:+8.45, +5:+7.73, +20:+5.03)"
+  "why": "the published engine ranks on `score.loc[d]` -- built from bar d's own close and amount -- and then earns open[d]->open[d+1]: the book buys at a price that was set before the information it ranks on. Delaying that information one bar costs 0.97 pp/yr, and the whole ladder is monotone in delay (-2:+15.34, -1:+12.25, +0:+9.16, +1:+8.19, +5:+7.67, +20:+4.86)"
  },
- "elapsed_sec": 46.2
+ "elapsed_sec": 68.2
 }

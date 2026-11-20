@@ -1,25 +1,25 @@
 # ETF book -- quote-flip contamination in its published numbers
 
-Evidence cutoff 2026-11-19 · production rule untouched · repair = `etf_equity_alpha.repair_flips` (imported, not re-written)
+Evidence cutoff 2026-11-20 · production rule untouched · repair = `etf_equity_alpha.repair_flips` (imported, not re-written)
 
 ## The answer
 
-169 flip prints on the panel move the book's own numbers by +1.16pp of annual return, +1.13pp of drawdown and +0.281 of Sharpe (full history) -- and the worst day it publishes, -4.70% on 2025-07-07, is one of them: on repaired prices the worst day is -2.88%
+169 flip prints on the panel move the book's own numbers by +1.16pp of annual return, +1.13pp of drawdown and +0.279 of Sharpe (full history) -- and the worst day it publishes, -4.70% on 2025-07-07, is one of them: on repaired prices the worst day is -2.88%
 
 Verdict: **MATERIAL** (band: 0.50pp CAGR / 0.50pp drawdown / 0.10 Sharpe).
 
 ## The panel
 
-1635 symbols x 5284 bars; **169** flip prints flattened (159 of 1635 symbols carry at least one, on 126 distinct days).
+1637 symbols x 5285 bars; **169** flip prints flattened (159 of 1637 symbols carry at least one, on 126 distinct days).
 
 | window | bars | | CAGR | Sharpe | max drawdown | worst day |
 | --- | --- | --- | --- | --- | --- | --- |
-| full_history | 1539 | raw | 6.38% | 1.032 | -6.91% | -4.70% (2025-07-07) |
-| full_history | 1539 | clean | 7.54% | 1.313 | -5.78% | -2.88% (2025-04-23) |
-| full_history | 1539 | **delta** | **+1.16pp** | **+0.281** | **+1.13pp** | |
-| since_inception | 569 | raw | 16.38% | 0.999 | -13.06% | -9.66% (2025-07-07) |
-| since_inception | 569 | clean | 21.72% | 1.349 | -13.06% | -6.07% (2025-04-23) |
-| since_inception | 569 | **delta** | **+5.34pp** | **+0.350** | **+0.00pp** | |
+| full_history | 1540 | raw | 6.23% | 1.007 | -6.91% | -4.70% (2025-07-07) |
+| full_history | 1540 | clean | 7.39% | 1.286 | -5.78% | -2.88% (2025-04-23) |
+| full_history | 1540 | **delta** | **+1.16pp** | **+0.279** | **+1.13pp** | |
+| since_inception | 570 | raw | 15.68% | 0.962 | -13.06% | -9.66% (2025-07-07) |
+| since_inception | 570 | clean | 20.96% | 1.307 | -13.06% | -6.07% (2025-04-23) |
+| since_inception | 570 | **delta** | **+5.28pp** | **+0.345** | **+0.00pp** | |
 
 ## The ten deepest prints on the panel
 

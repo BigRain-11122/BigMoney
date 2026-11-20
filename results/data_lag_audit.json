@@ -1,21 +1,17 @@
 {
- "as_of": "2026-11-20T11:28:04",
+ "as_of": "2026-11-20T16:01:29",
  "calendar": {
   "path": "data/exchange_calendar.csv",
   "refresh": {
    "error": null,
-   "fetched": true,
-   "reason": "refreshed",
-   "rows_after": 8797,
-   "rows_before": 8797,
-   "sha256": "e393f45ff7137bddbfc670c178676df40eaf34bb494b29e44049d81a4b9305f3"
+   "fetched": false,
+   "reason": "coverage_and_ttl_ok"
   },
   "rows": 8797,
   "scope_end": "2026-12-31",
   "scope_start": "1990-12-19"
  },
  "coverage_by_day": {
-  "2026-11-06": 1.0,
   "2026-11-09": 1.0,
   "2026-11-10": 1.0,
   "2026-11-11": 1.0,
@@ -23,11 +19,12 @@
   "2026-11-13": 1.0,
   "2026-11-16": 1.0,
   "2026-11-17": 1.0,
-  "2026-11-18": 0.9959,
-  "2026-11-19": 0.9936
+  "2026-11-18": 1.0,
+  "2026-11-19": 0.9994,
+  "2026-11-20": 0.9948
  },
- "detail": "the maintained panel covers every official trading day it should by now; 3 file(s) sit outside the active cohort: 510880_t73 (declared_out_of_scope; last bar 2026-09-22), sh512390 (source_ended; last bar 2026-09-04), sh530080 (no_trade; last bar 2026-11-12) -- every one of them is declared by the lane's own receipt",
- "expected_last_official_day": "2026-11-19",
+ "detail": "the maintained panel covers every official trading day it should by now; 3 file(s) sit outside the active cohort: 510880_t73 (declared_out_of_scope; last bar 2026-09-22), sh512390 (source_ended; last bar 2026-09-04), sh530080 (source_ended; last bar 2026-11-12) -- every one of them is declared by the lane's own receipt",
+ "expected_last_official_day": "2026-11-20",
  "forward_impact": {
   "blocked": true,
   "ledger_last_bar": "2026-11-19",
@@ -37,13 +34,11 @@
  "missing_official_days": [],
  "note": "Descriptive face. The calendar is the independent reference; the panel is ours. source_lag is a publication delay (self-heals), panel_gap is a stopped feed (needs a human/lane owner).",
  "panel": {
-  "active_floor": "2026-11-13",
-  "cutoff_max": "2026-11-19",
+  "active_floor": "2026-11-16",
+  "cutoff_max": "2026-11-20",
   "cutoff_min": "2026-09-04",
-  "effective_cutoff": "2026-11-19",
+  "effective_cutoff": "2026-11-20",
   "lagging_active_sample": [
-   "sh511930",
-   "sh511950",
    "sz159115",
    "sz159119",
    "sz159209",
@@ -69,7 +64,7 @@
     "tail_bar": "2026-09-04"
    },
    {
-    "reason": "no_trade",
+    "reason": "source_ended",
     "stem": "sh530080",
     "tail_bar": "2026-11-12"
    }
@@ -81,10 +76,9 @@
  "stale_scope": {
   "by_reason": {
    "declared_out_of_scope": 1,
-   "no_trade": 3,
-   "source_ended": 1
+   "source_ended": 2
   },
-  "declared": 5,
+  "declared": 3,
   "error": null,
   "receipt": "results/etf_wide_update_status.json"
  },

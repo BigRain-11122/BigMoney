@@ -90,6 +90,13 @@ OVER_HURDLE_CNY = 500.0
 GATE_PATH = os.path.join(OUT_DIR, "_fetch_gate.json")
 CLOSE_CUTOFF = (15, 30)
 RETRY_BACKOFF_MIN = 30
+# r1883: the chain is armed AT the close, but it has to actually run before today's
+# board exists. Counting 15:31 as a hole made `board_gap` report a hole every day for
+# the minutes between the close and the capture -- and a reader holding the page would
+# read "缺了 2 个交易日" with one of them being this afternoon, which is not a missed
+# session, it is a session nobody has reached yet. Inside this window today is
+# `pending`, not `missing`.
+CAPTURE_GRACE_MIN = 30
 
 REQUIRED = ["代码", "名称", "最新价", "IOPV实时估值", "成交额", "数据日期"]
 # The board publishes a DISCOUNT rate, not a premium: 159981 at price 1.801 over
@@ -763,7 +770,8 @@ def board_gap(now=None, days=_AUTO, snap_dir=None):
            "first_board": present[0] if present else None,
            "last_board": present[-1] if present else None,
            "coverage_starts": present[0] if present else None,
-           "sessions_expected": [], "missing": [], "n_missing": 0,
+           "sessions_expected": [], "missing": [], "n_missing": 0, "pending": [],
+           "capture_grace_min": CAPTURE_GRACE_MIN,
            "recoverable": False,
            "why_unrecoverable": "the board is a realtime print taken after the close, so a "
                                 "rerun photographs the session it runs in, not the one it missed",
@@ -774,11 +782,19 @@ def board_gap(now=None, days=_AUTO, snap_dir=None):
         out["sessions_expected"] = None
         out["missing"] = None
         out["n_missing"] = None
+        out["pending"] = None
         out["next_capture_session"] = today
         out["next_capture_after"] = "15:30" if before_close else None
         return out
     days = set(days)
-    closable = [d for d in days if d < today or (d == today and not before_close)]
+    # r1883: a session that closed minutes ago is DUE, not lost. Until the grace
+    # window expires it is named under `pending` and kept out of `missing`, so a
+    # consumer reading at 15:33 does not print "the board is missing a day" about
+    # an afternoon nobody has reached.
+    closed_at = now.replace(hour=CLOSE_CUTOFF[0], minute=CLOSE_CUTOFF[1],
+                            second=0, microsecond=0)
+    in_grace = (not before_close) and (now - closed_at).total_seconds() < CAPTURE_GRACE_MIN * 60
+    closable = [d for d in days if d < today or (d == today and not before_close and not in_grace)]
     last_closable = max(closable) if closable else None
     if present and last_closable:
         expected = sorted(d for d in days if present[0] <= d <= last_closable)
@@ -786,6 +802,8 @@ def board_gap(now=None, days=_AUTO, snap_dir=None):
         out["sessions_expected"] = expected
         out["missing"] = [d for d in expected if d not in have]
         out["n_missing"] = len(out["missing"])
+    if in_grace and today in days and today not in set(present):
+        out["pending"] = [today]
     if today in days and before_close:
         out["next_capture_session"] = today
         out["next_capture_after"] = "15:30"
@@ -1325,6 +1343,21 @@ def selftest() -> int:
     leg("L26 before 15:30 today is pending, not missing",
         g["missing"] == [] and g["n_missing"] == 0
         and g["next_capture_session"] == "2026-11-09" and g["next_capture_after"] == "15:30")
+
+    # L26b (r1883) the hole is not born the instant the close passes: the chain is armed
+    # AT 15:30 and has to run. Three minutes later the session is DUE, and a page read
+    # then must not print "the board is missing a day" about this afternoon.
+    g = board_gap(now=_dt.datetime(2026, 11, 9, 15, 33), days=CAL, snap_dir=tmp)
+    leg("L26b 15:33 today is pending (armed, not yet captured), not a hole",
+        g["missing"] == [] and g["n_missing"] == 0 and g["pending"] == ["2026-11-09"]
+        and g["next_capture_session"] == "2026-11-09")
+
+    # L26c the grace window is bounded: once it expires, an uncaptured session IS a hole
+    # (L25 already pins the 30-minute mark; this pins the edge so the window cannot grow
+    # silently into "today is never missing").
+    g = board_gap(now=_dt.datetime(2026, 11, 9, 16, 30), days=CAL, snap_dir=tmp)
+    leg("L26c past the grace window today becomes a hole again",
+        g["missing"] == ["2026-11-09"] and g["pending"] == [])
 
     # L27 an unreadable calendar is UNKNOWN, never "no gap" -- the r98 unknown!=empty law.
     g = board_gap(now=_dt.datetime(2026, 11, 9, 16, 0), days=None, snap_dir=tmp)

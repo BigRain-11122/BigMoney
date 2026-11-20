@@ -1733,6 +1733,15 @@ def premium_board_gap_lines(gap, rate_session=None):
             "历史序列——缺掉的那天重跑也拍不回来，所以上面这些数会一直停在 **%s**，"
             "等到下一次收盘后有人跑一次 `etf_premium_face.py fetch`。下一次能同日报价：%s。"
             % (len(miss), "、".join(miss), last_ds or "—", when))
+    elif gap.get("pending"):
+        # r1883: past the close but inside the capture grace window, today has no
+        # board yet -- that is DUE, not a hole. Printing "没有缺口" alone would be
+        # half true (history is whole) and printing a hole count would be false.
+        add("- 这块板从 **%s** 起每个交易日都有，没有缺口；**%s 的板还没抓到**（%s 收盘后 "
+            "%d 分钟内算「待抓」，不是漏——它是收盘后的实时快照，过点就拍不回来了）。"
+            "下一次抓取：%s。"
+            % (gap.get("coverage_starts") or "—", (gap.get("pending") or ["—"])[0], "15:30",
+               gap.get("capture_grace_min") or 30, when))
     else:
         add("- 这块板从 **%s** 起每个交易日都有，没有缺口（现在的读数就是最新收盘）；"
             "下一次抓取：%s。" % (gap.get("coverage_starts") or "—", when))
@@ -12338,9 +12347,16 @@ def selftest():
     chk("L216 cash quote: a quote on the panel's own bar says so, and does not cry stale",
         "2026-10-29" in _md_now and "同一根" in _md_now
         and "那不是今天的钱" not in _md_now)
+    # r1883: the absence check used the bare word 同一根 across the WHOLE document, and
+    # the year-gate section prints "不是同一根 bar" whenever the page bar and the gate
+    # face's bar differ -- a live-data condition with nothing to do with the cash quote.
+    # That made this leg red for a page that was merely one bar behind its gate, which is
+    # the very "the assertion covers someone else's sentence" family (E685/r1594). The
+    # quote's own signature is the longer phrase; read that.
     _md_unknown = _carry_page("undated_quote.json", {})
     chk("L217 cash quote: an undated quote is 'cannot tell', never read as up to date",
-        "不知道自己那句" in _md_unknown and "同一根" not in _md_unknown)
+        "不知道自己那句" in _md_unknown
+        and "就是这张表面板尾那根 bar" not in _md_unknown)
     chk("L218 cash quote: the lag printed is the artifact's number (fixture lag 2 -> 2, not 0)",
         (carry_regime(path=os.path.join(tempfile.mkdtemp(), "nope.json")).get("quote_lag")
          is None)

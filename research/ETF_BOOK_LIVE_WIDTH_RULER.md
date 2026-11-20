@@ -32,10 +32,10 @@
 
 | 规则 \ 名数 | 5 | 12 |
 |---|---|---|
-| beta | +10.73pp | +9.42pp |
+| beta | +10.74pp | +9.42pp |
 | vol | +11.32pp | +11.82pp |
 
-对角差 +1.09pp，但宽度效应在 beta 规则下是 -1.31pp、在 vol 规则下是 +0.50pp，交互项 +1.81pp 大于任一主效应。两条分解路径分别得 +1.09 / +1.09（一致 = True）。
+对角差 +1.08pp，但宽度效应在 beta 规则下是 -1.32pp、在 vol 规则下是 +0.50pp，交互项 +1.82pp 大于任一主效应。两条分解路径分别得 +1.08 / +1.08（一致 = True）。
 
 
 Verdict: **COIN_FLIP_INSIDE_ENGINE_DISAGREEMENT**
@@ -48,4 +48,4 @@ Verdict: **COIN_FLIP_INSIDE_ENGINE_DISAGREEMENT**
 - gap is 3.9% of the engine disagreement and 1.0% of the atlas ruler 6.75pp
 - this pairing's own resolution is 0.801pp at 80% power (20 phases, sd 1.278), so a gap of +0.070pp is 9% of what it could have detected -- below its own ruler, so 'no difference' is not the finding either
 - the two live widths are not separated by their own phases AND the engine disagreement on the same rung is wider than the gap: no part of the difference between card and ticket is quotable as a width effect
-- as issued the two faces print 11.82pp vs 10.73pp (+1.09pp diagonal), but the 2x2 moves two knobs at once: width effect -1.31pp under the beta rule and +0.50pp under the vol rule, with an interaction of +1.81pp (bigger than both width effects = True)
+- as issued the two faces print 11.82pp vs 10.74pp (+1.08pp diagonal), but the 2x2 moves two knobs at once: width effect -1.32pp under the beta rule and +0.50pp under the vol rule, with an interaction of +1.82pp (bigger than both width effects = True)

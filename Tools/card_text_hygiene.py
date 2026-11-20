@@ -150,6 +150,19 @@ REPAIRS = [
         "proof": "results/idx_fut_basis.json carries verdict.criteria_revision, and the card's "
                  "next line names original/now/why from that same block",
     },
+    # r1883: r1882's own card took the same path again, this time with `\f` -> 0x0c and
+    # `\e` -> 0x1b, both inserted BEFORE an intact token (so the repair drops the character
+    # rather than restoring a letter). The smoke suite found them 20 minutes after the write.
+    {
+        "damaged": "：\x0cees_cny 舍到 2 位后",
+        "restored": "：fees_cny 舍到 2 位后",
+        "proof": "scripts/etf_book_entry_price.py:98 emits fees_cny",
+    },
+    {
+        "damaged": "链腿 \x1bntry_price_write",
+        "restored": "链腿 entry_price_write",
+        "proof": "Tools/s6_chain_bmc.py:758 registers the entry_price_write leg",
+    },
 ]
 
 RECEIPT = os.path.join("results", "card_text_hygiene.json")

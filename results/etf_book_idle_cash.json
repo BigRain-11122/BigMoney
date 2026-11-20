@@ -1,18 +1,18 @@
 {
  "face": "etf_book_idle_cash",
- "asof": "2026-11-20T11:33:51",
- "evidence_cutoff": "2026-11-19",
+ "asof": "2026-11-20T16:10:37",
+ "evidence_cutoff": "2026-11-20",
  "window": {
   "start": "2020-01-03",
-  "end": "2026-11-19",
-  "bars": 1666
+  "end": "2026-11-20",
+  "bars": 1667
  },
  "book": {
   "vol_target": 0.08,
   "rebal": 20,
   "n_hold": 5,
   "cost": 0.001,
-  "universe": 1526,
+  "universe": 1528,
   "turnover": 1.0825
  },
  "question": "the book de-levers into cash and the engine prices that cash at 0; the desk already priced the same cash at 1.77%/yr -- what is the book worth with its idle sleeve paid?",
@@ -28,21 +28,21 @@
  "readings": {
   "lag": 0,
   "convention": "lag 0: score(bar d) selects, the book earns open[d] -> open[d+1] (the engine as coded)",
-  "cagr_without_pct": 11.38,
-  "cagr_with_pct": 11.96,
+  "cagr_without_pct": 11.16,
+  "cagr_with_pct": 11.74,
   "cagr_gain_pp": 0.58,
-  "sharpe_without": 1.122,
-  "sharpe_with": 1.174,
+  "sharpe_without": 1.101,
+  "sharpe_with": 1.153,
   "maxdd_without_pct": -10.56,
   "maxdd_with_pct": -10.47,
-  "vol_without_pct": 10.49,
-  "vol_with_pct": 10.49,
-  "control_max_rel_err": 2.4424906541753444e-15,
-  "idle_share_mean": 0.3029,
+  "vol_without_pct": 10.5,
+  "vol_with_pct": 10.5,
+  "control_max_rel_err": 1.9984014443252818e-15,
+  "idle_share_mean": 0.3028,
   "idle_share_median": 0.2922,
   "bars_fully_invested": 260,
-  "bars_with_cash": 1406,
-  "bars": 1666,
+  "bars_with_cash": 1407,
+  "bars": 1667,
   "cny_per_year_on_1m": 5800.0,
   "per_year_cagr_with": {
    "2020": 6.823,
@@ -51,17 +51,17 @@
    "2023": 5.877,
    "2024": 15.101,
    "2025": 44.097,
-   "2026": 2.365
+   "2026": 0.835
   },
   "without": {
    "label": "without_fix",
    "years": 6.88,
    "start_level": 1.008,
-   "cagr": 0.1138,
-   "vol": 0.1049,
-   "sharpe": 1.122,
+   "cagr": 0.1116,
+   "vol": 0.105,
+   "sharpe": 1.101,
    "maxdd": -0.1056,
-   "worst_year": 0.0176,
+   "worst_year": 0.0044,
    "neg_years": 0,
    "worst_month": -0.043,
    "pos_months_pct": 0.598
@@ -70,11 +70,11 @@
    "label": "with_fix",
    "years": 6.88,
    "start_level": 1.008,
-   "cagr": 0.1196,
-   "vol": 0.1049,
-   "sharpe": 1.174,
+   "cagr": 0.1174,
+   "vol": 0.105,
+   "sharpe": 1.153,
    "maxdd": -0.1047,
-   "worst_year": 0.0206,
+   "worst_year": 0.0073,
    "neg_years": 0,
    "worst_month": -0.0426,
    "pos_months_pct": 0.598
@@ -84,16 +84,16 @@
     "cagr_is": 0.0581,
     "sharpe_is": 0.621,
     "maxdd_is": -0.088,
-    "cagr_oos": 0.196,
-    "sharpe_oos": 1.793,
+    "cagr_oos": 0.1904,
+    "sharpe_oos": 1.743,
     "maxdd_oos": -0.1056
    },
    "with": {
     "cagr_is": 0.0644,
     "sharpe_is": 0.68,
     "maxdd_is": -0.0866,
-    "cagr_oos": 0.2011,
-    "sharpe_oos": 1.834,
+    "cagr_oos": 0.1955,
+    "sharpe_oos": 1.784,
     "maxdd_oos": -0.1047
    }
   },
@@ -106,21 +106,21 @@
   "as_coded": {
    "lag": 0,
    "convention": "lag 0: score(bar d) selects, the book earns open[d] -> open[d+1] (the engine as coded)",
-   "cagr_without_pct": 11.38,
-   "cagr_with_pct": 11.96,
+   "cagr_without_pct": 11.16,
+   "cagr_with_pct": 11.74,
    "cagr_gain_pp": 0.58,
-   "sharpe_without": 1.122,
-   "sharpe_with": 1.174,
+   "sharpe_without": 1.101,
+   "sharpe_with": 1.153,
    "maxdd_without_pct": -10.56,
    "maxdd_with_pct": -10.47,
-   "vol_without_pct": 10.49,
-   "vol_with_pct": 10.49,
-   "control_max_rel_err": 2.4424906541753444e-15,
-   "idle_share_mean": 0.3029,
+   "vol_without_pct": 10.5,
+   "vol_with_pct": 10.5,
+   "control_max_rel_err": 1.9984014443252818e-15,
+   "idle_share_mean": 0.3028,
    "idle_share_median": 0.2922,
    "bars_fully_invested": 260,
-   "bars_with_cash": 1406,
-   "bars": 1666,
+   "bars_with_cash": 1407,
+   "bars": 1667,
    "cny_per_year_on_1m": 5800.0,
    "per_year_cagr_with": {
     "2020": 6.823,
@@ -129,17 +129,17 @@
     "2023": 5.877,
     "2024": 15.101,
     "2025": 44.097,
-    "2026": 2.365
+    "2026": 0.835
    },
    "without": {
     "label": "without_fix",
     "years": 6.88,
     "start_level": 1.008,
-    "cagr": 0.1138,
-    "vol": 0.1049,
-    "sharpe": 1.122,
+    "cagr": 0.1116,
+    "vol": 0.105,
+    "sharpe": 1.101,
     "maxdd": -0.1056,
-    "worst_year": 0.0176,
+    "worst_year": 0.0044,
     "neg_years": 0,
     "worst_month": -0.043,
     "pos_months_pct": 0.598
@@ -148,11 +148,11 @@
     "label": "with_fix",
     "years": 6.88,
     "start_level": 1.008,
-    "cagr": 0.1196,
-    "vol": 0.1049,
-    "sharpe": 1.174,
+    "cagr": 0.1174,
+    "vol": 0.105,
+    "sharpe": 1.153,
     "maxdd": -0.1047,
-    "worst_year": 0.0206,
+    "worst_year": 0.0073,
     "neg_years": 0,
     "worst_month": -0.0426,
     "pos_months_pct": 0.598
@@ -162,16 +162,16 @@
      "cagr_is": 0.0581,
      "sharpe_is": 0.621,
      "maxdd_is": -0.088,
-     "cagr_oos": 0.196,
-     "sharpe_oos": 1.793,
+     "cagr_oos": 0.1904,
+     "sharpe_oos": 1.743,
      "maxdd_oos": -0.1056
     },
     "with": {
      "cagr_is": 0.0644,
      "sharpe_is": 0.68,
      "maxdd_is": -0.0866,
-     "cagr_oos": 0.2011,
-     "sharpe_oos": 1.834,
+     "cagr_oos": 0.1955,
+     "sharpe_oos": 1.784,
      "maxdd_oos": -0.1047
     }
    }
@@ -179,22 +179,22 @@
   "declared": {
    "lag": 1,
    "convention": "lag +1: score(bar d-1) selects, the book earns open[d] -> open[d+1] -- the execution the card's config.execution string claims (decide at the close of bar d, fill at the open of bar d+1)",
-   "cagr_without_pct": 9.14,
-   "cagr_with_pct": 9.72,
-   "cagr_gain_pp": 0.58,
-   "sharpe_without": 0.879,
-   "sharpe_with": 0.928,
+   "cagr_without_pct": 8.97,
+   "cagr_with_pct": 9.54,
+   "cagr_gain_pp": 0.57,
+   "sharpe_without": 0.863,
+   "sharpe_with": 0.913,
    "maxdd_without_pct": -12.07,
    "maxdd_with_pct": -11.98,
-   "vol_without_pct": 11.06,
+   "vol_without_pct": 11.07,
    "vol_with_pct": 11.06,
-   "control_max_rel_err": 2.3314683517128287e-15,
-   "idle_share_mean": 0.3026,
+   "control_max_rel_err": 1.7763568394002505e-15,
+   "idle_share_mean": 0.3024,
    "idle_share_median": 0.3013,
    "bars_fully_invested": 180,
-   "bars_with_cash": 1486,
-   "bars": 1666,
-   "cny_per_year_on_1m": 5800.0,
+   "bars_with_cash": 1487,
+   "bars": 1667,
+   "cny_per_year_on_1m": 5700.0,
    "per_year_cagr_with": {
     "2020": -0.369,
     "2021": 8.058,
@@ -202,58 +202,58 @@
     "2023": 3.67,
     "2024": 12.108,
     "2025": 38.5,
-    "2026": 5.441
+    "2026": 4.149
    },
    "without": {
     "label": "without_fix",
     "years": 6.88,
     "start_level": 1.0054,
-    "cagr": 0.0914,
-    "vol": 0.1106,
-    "sharpe": 0.879,
+    "cagr": 0.0897,
+    "vol": 0.1107,
+    "sharpe": 0.863,
     "maxdd": -0.1207,
     "worst_year": -0.0144,
     "neg_years": 1,
     "worst_month": -0.0478,
-    "pos_months_pct": 0.61
+    "pos_months_pct": 0.598
    },
    "with": {
     "label": "with_fix",
     "years": 6.88,
     "start_level": 1.0054,
-    "cagr": 0.0972,
+    "cagr": 0.0954,
     "vol": 0.1106,
-    "sharpe": 0.928,
+    "sharpe": 0.913,
     "maxdd": -0.1198,
     "worst_year": -0.0037,
     "neg_years": 1,
     "worst_month": -0.0472,
-    "pos_months_pct": 0.622
+    "pos_months_pct": 0.61
    },
    "is_oos": {
     "without": {
      "cagr_is": 0.0319,
      "sharpe_is": 0.343,
      "maxdd_is": -0.1207,
-     "cagr_oos": 0.1797,
-     "sharpe_oos": 1.692,
+     "cagr_oos": 0.1752,
+     "sharpe_oos": 1.651,
      "maxdd_oos": -0.1203
     },
     "with": {
      "cagr_is": 0.0383,
      "sharpe_is": 0.399,
      "maxdd_is": -0.1193,
-     "cagr_oos": 0.1845,
-     "sharpe_oos": 1.733,
+     "cagr_oos": 0.18,
+     "sharpe_oos": 1.692,
      "maxdd_oos": -0.1198
     }
    }
   }
  },
  "arm_gap": {
-  "cagr_with_pct": -2.24,
-  "cagr_without_pct": -2.24,
-  "sharpe_with": -0.246,
+  "cagr_with_pct": -2.2,
+  "cagr_without_pct": -2.19,
+  "sharpe_with": -0.24,
   "maxdd_with_pct": -1.51,
   "note": "declared minus as-coded on the same rule, the same cash path and the same window; a negative cagr gap means the published headline was bought by filling the signal's own bar"
  },
@@ -275,5 +275,5 @@
   "1666 repo bars on the window, 0 missing quotes; cash accrual is carried across non-maturity bars by differencing the rung's cumulative growth"
  ],
  "honest_arms": "both arms are the same universe, rule, cost and repo path; the only difference is the bar the score is read from, so arm_gap is the price of the execution basis and not a second strategy",
- "elapsed_sec": 43.59
+ "elapsed_sec": 44.12
 }

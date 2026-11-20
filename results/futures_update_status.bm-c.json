@@ -1,6 +1,6 @@
 {
- "ts": "2026-11-20T11:31:13",
- "mode": "no-op: cutoff covered",
+ "ts": "2026-11-20T16:06:48",
+ "mode": "full-history pull, append-only local, overlap-verified",
  "no_op_reason": "local cutoff 2026-11-19 covers expected complete-bar date 2026-11-19",
  "expected_cutoff": "2026-11-19",
  "data_cutoff": "2026-11-19",
@@ -20,8 +20,8 @@
   {
    "variety": "IF",
    "symbol": "IF0",
-   "appended": 1,
-   "overlap": 2386,
+   "appended": 0,
+   "overlap": 2387,
    "mismatch": null,
    "error": null,
    "path": "akshare.futures_main_sina",
@@ -32,8 +32,8 @@
   {
    "variety": "IC",
    "symbol": "IC0",
-   "appended": 2,
-   "overlap": 2385,
+   "appended": 0,
+   "overlap": 2387,
    "mismatch": null,
    "error": null,
    "path": "akshare.futures_main_sina",
@@ -44,8 +44,8 @@
   {
    "variety": "IM",
    "symbol": "IM0",
-   "appended": 1,
-   "overlap": 1048,
+   "appended": 0,
+   "overlap": 1049,
    "mismatch": null,
    "error": null,
    "path": "akshare.futures_main_sina",
@@ -56,8 +56,8 @@
   {
    "variety": "IH",
    "symbol": "IH0",
-   "appended": 1,
-   "overlap": 2386,
+   "appended": 0,
+   "overlap": 2387,
    "mismatch": null,
    "error": null,
    "path": "akshare.futures_main_sina",
@@ -68,8 +68,8 @@
   {
    "variety": "T",
    "symbol": "T0",
-   "appended": 1,
-   "overlap": 2386,
+   "appended": 0,
+   "overlap": 2387,
    "mismatch": null,
    "error": null,
    "path": "akshare.futures_main_sina",
@@ -80,8 +80,8 @@
   {
    "variety": "TF",
    "symbol": "TF0",
-   "appended": 2,
-   "overlap": 2385,
+   "appended": 0,
+   "overlap": 2387,
    "mismatch": null,
    "error": null,
    "path": "akshare.futures_main_sina",
@@ -92,8 +92,8 @@
   {
    "variety": "TS",
    "symbol": "TS0",
-   "appended": 1,
-   "overlap": 2000,
+   "appended": 0,
+   "overlap": 2001,
    "mismatch": null,
    "error": null,
    "path": "akshare.futures_main_sina",
@@ -104,8 +104,8 @@
   {
    "variety": "RB",
    "symbol": "RB0",
-   "appended": 1,
-   "overlap": 4284,
+   "appended": 0,
+   "overlap": 4285,
    "mismatch": null,
    "error": null,
    "path": "akshare.futures_main_sina",
@@ -116,8 +116,8 @@
   {
    "variety": "AU",
    "symbol": "AU0",
-   "appended": 1,
-   "overlap": 4593,
+   "appended": 0,
+   "overlap": 4594,
    "mismatch": null,
    "error": null,
    "path": "akshare.futures_main_sina",
@@ -128,8 +128,8 @@
   {
    "variety": "SC",
    "symbol": "SC0",
-   "appended": 1,
-   "overlap": 2098,
+   "appended": 0,
+   "overlap": 2099,
    "mismatch": null,
    "error": null,
    "path": "akshare.futures_main_sina",
@@ -144,21 +144,21 @@
   "laggards_before": 10,
   "failures": 0,
   "mismatches": 0,
-  "total_appended": 12,
+  "total_appended": 0,
   "data_cutoff": "2026-11-19"
  },
  "claim": "MSG-20260924-0645-bm-a-futures-cta-puller",
  "note": "main-continuous bars are raw price level at roll (unadjusted); roll-gap handling is a prereg design decision, not a puller concern",
  "machine": "bm-c",
- "last_attempt": "2026-11-19T21:29:42",
+ "last_attempt": "2026-11-20T16:06:48",
  "authority": {
   "lane_owner": "bm-a",
   "writer_machine": "bm-c",
   "data_face_machine": "bm-c",
   "declared_takeover": true,
   "took_over_by": "bm-c",
-  "took_over_at": "2026-11-20T11:31:13",
-  "reason": "owner bm-a heartbeat silent 39.6h >= 120min"
+  "took_over_at": "2026-11-20T16:06:48",
+  "reason": "owner bm-a heartbeat silent 44.2h >= 120min"
  },
  "fetch_set": [
   "IF",
@@ -172,7 +172,18 @@
   "AU",
   "SC"
  ],
- "laggards": [],
+ "laggards": [
+  "AU",
+  "IC",
+  "IF",
+  "IH",
+  "IM",
+  "RB",
+  "SC",
+  "T",
+  "TF",
+  "TS"
+ ],
  "unplanned_csvs": [],
  "lane_machine": "bm-c"
 }

@@ -1,19 +1,19 @@
 # The card's headline trades one bar of the future
 
-`2026-11-18T17:16:23+0800` · evidence cutoff **2026-11-17** · 1522 symbols · 5282 bars
+`2026-11-20T17:02:12+0800` · evidence cutoff **2026-11-20** · 1528 symbols · 5285 bars
 
 ## Verdict
 
-**LOOKAHEAD_PRESENT** — the published engine ranks on `score.loc[d]` -- built from bar d's own close and amount -- and then earns open[d]->open[d+1]: the book buys at a price that was set before the information it ranks on. Delaying that information one bar costs 0.96 pp/yr, and the whole ladder is monotone in delay (-2:+15.65, -1:+12.43, +0:+9.41, +1:+8.45, +5:+7.73, +20:+5.03)
+**LOOKAHEAD_PRESENT** — the published engine ranks on `score.loc[d]` -- built from bar d's own close and amount -- and then earns open[d]->open[d+1]: the book buys at a price that was set before the information it ranks on. Delaying that information one bar costs 0.97 pp/yr, and the whole ladder is monotone in delay (-2:+15.34, -1:+12.25, +0:+9.16, +1:+8.19, +5:+7.67, +20:+4.86)
 
 ## The three arms
 
 | arm | cagr | sharpe | maxdd | vol | bars |
 |---|---|---|---|---|---|
-| published (card) | 9.41% | 0.971 | -11.77% | 10.18% | 1664 |
-| causal (score shifted +1 bar) | 8.45% | 0.874 | -16.56% | 10.28% | 1664 |
-| ledger engine, no carry | 8.39% | 0.885 | -13.57% | 10.05% | 1665 |
-| ledger engine, ladder3 carry | 8.98% | 0.941 | -13.26% | 10.05% | 1665 |
+| published (card) | 9.16% | 0.946 | -11.77% | 10.19% | 1667 |
+| causal (score shifted +1 bar) | 8.19% | 0.849 | -16.56% | 10.28% | 1667 |
+| ledger engine, no carry | 8.00% | 0.846 | -13.57% | 10.07% | 1668 |
+| ledger engine, ladder3 carry | 8.59% | 0.902 | -13.26% | 10.07% | 1668 |
 
 ## The lag ladder — the same rule, moved in time
 
@@ -21,26 +21,26 @@ Negative lag = the score is given bars of the *future*; positive = the book is a
 
 | lag (bars) | cagr | sharpe | maxdd |
 |---|---|---|---|
-| -2 | 15.65% | 1.504 | -13.35% |
-| -1 | 12.43% | 1.271 | -11.02% |
-| +0 | 9.41% | 0.971 | -11.77% |
-| +1 | 8.45% | 0.874 | -16.56% |
-| +5 | 7.73% | 0.797 | -16.66% |
-| +20 | 5.03% | 0.540 | -17.64% |
+| -2 | 15.34% | 1.475 | -13.35% |
+| -1 | 12.25% | 1.254 | -11.02% |
+| +0 | 9.16% | 0.946 | -11.77% |
+| +1 | 8.19% | 0.849 | -16.56% |
+| +5 | 7.67% | 0.792 | -16.66% |
+| +20 | 4.86% | 0.524 | -17.64% |
 
 ## Decomposition
 
-- price of the one bar: **0.96 pp/yr**
-- mark basis (open-to-open vs close-to-close): 0.06 pp/yr
+- price of the one bar: **0.97 pp/yr**
+- mark basis (open-to-open vs close-to-close): 0.19 pp/yr
 - repo carry credited by the ledger, absent from the card: 0.59 pp/yr
 
 the three components are priced on separate arms: the first is information ordering, the second is open-to-open vs close-to-close marking around an open fill, the third is the repo ladder the ledger credits and the card does not
 
-Bar level — published vs causal: 1663 overlapping bars, max daily difference 0.0167 at 2025-08-25.
+Bar level — published vs causal: 1666 overlapping bars, max daily difference 0.0167 at 2025-08-25.
 
 ## What is affected
 
-Scripts that price through this ordering (mechanical scan, 96 files):
+Scripts that price through this ordering (mechanical scan, 99 files):
 
 - `scripts/candidate_year_gate_phases.py`
 - `scripts/etf_book_2025_repro.py`
@@ -51,6 +51,7 @@ Scripts that price through this ordering (mechanical scan, 96 files):
 - `scripts/etf_book_buffer_adoption.py`
 - `scripts/etf_book_cagr_reconcile.py`
 - `scripts/etf_book_calendar_book.py`
+- `scripts/etf_book_capacity_shortfall.py`
 - `scripts/etf_book_cash_lock_gap.py`
 - `scripts/etf_book_causal_rebuild.py`
 - `scripts/etf_book_churn_hold.py`
@@ -76,6 +77,8 @@ Scripts that price through this ordering (mechanical scan, 96 files):
 - `scripts/etf_book_hysteresis.py`
 - `scripts/etf_book_idle_cash.py`
 - `scripts/etf_book_late_sheet_price.py`
+- `scripts/etf_book_liquidity_era.py`
+- `scripts/etf_book_liquidity_select.py`
 - `scripts/etf_book_live_size_provenance.py`
 - `scripts/etf_book_lookahead_audit.py`
 - `scripts/etf_book_lot_ladder.py`

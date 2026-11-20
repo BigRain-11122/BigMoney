@@ -1,15 +1,15 @@
 {
  "face": "etf_book_rebalance_permission",
  "decision_date": "2026-12-09",
- "ticket_file": "TICKET-2026-11-19.json",
- "evidence_cutoff": "2026-11-19",
+ "ticket_file": "TICKET-2026-11-20.json",
+ "evidence_cutoff": "2026-11-20",
  "beta_target": 0.2,
  "size_tol": 0.005,
  "k_now": 0.432195,
  "k_rule": 0.460253,
  "nav_cny": 1000000.0,
- "book_amount_cny": 431880.4,
- "cash_amount_cny": 568119.6,
+ "book_amount_cny": 431753.6,
+ "cash_amount_cny": 568246.4,
  "readings": {
   "baseline_published": {
    "k": 0.460253,
@@ -60,7 +60,7 @@
   "denominator"
  ],
  "permitted_k": 0.432195,
- "permitted_book_cny": 431880.0,
+ "permitted_book_cny": 431754.0,
  "cut_k": 0.0,
  "cut_pp": 0.0,
  "cut_cny": 0.0,
@@ -85,14 +85,13 @@
  "sentence": "keeping k=0.432195 is supported by 3 independent path reading(s) (universe, window, window_x_universe); the permitting floor over all path readings is k=0.432195",
  "supply_side": {
   "book": "nobond_vt08_adopted",
-  "verdict": "CAPACITY_LIMITED",
+  "verdict": "CONDITIONAL",
   "failed_check": [
-   "C1_capacity",
    "Y4_top2_share"
   ],
-  "top2_share": 0.712,
+  "top2_share": 0.7238,
   "top2_line": 0.7,
-  "asof": "2026-11-19T17:03:57+0800"
+  "asof": "2026-11-20T15:54:19+0800"
  },
  "not_measured": [
   "the wrapper's yearly shape: beta overlay + GC001 cash leg have never been through the year gate (r1438), so a smaller k is not automatically a passing book",
@@ -100,5 +99,5 @@
   "the cost of the cut: the ticket's own reprice delta (CNY 91.7 at the 11-06 bar) is not carried into the gate, and a 6.72pp cut pays one more round of 8bp"
  ],
  "elapsed_sec": 0.0,
- "generated": "2026-11-20T12:42:55+0800"
+ "generated": "2026-11-20T16:40:29+0800"
 }

@@ -2,7 +2,7 @@
 
 **Question.** r1237 reported 109 positions (2.78%) as outside_cap with no price attached; what are they worth when sold at the first print available?
 
-**Panel.** 1526 funds x 5284 bars, 2005-02-23..2026-11-19, 169 quote flips repaired.
+**Panel.** 1528 funds x 5285 bars, 2005-02-23..2026-11-20, 169 quote flips repaired.
 
 **Arm.** declared fill (score held one bar back, close t -> open t+1); rows imported from etf_book_exit_liquidity.measure_positions, never re-typed.
 

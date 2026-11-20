@@ -1,6 +1,6 @@
 {
  "face": "index_daily_update_status",
- "generated": "2026-11-20T11:33:53",
+ "generated": "2026-11-20T16:10:38",
  "host": "bm-c",
  "machine": "bm-c",
  "codes": [
@@ -18,9 +18,38 @@
   "took_over_at": null,
   "reason": null
  },
- "expected_complete_date": "2026-11-19",
- "behind": {},
- "action": "no-op",
- "reason": "every code already covers 2026-11-19",
- "exit": 0
+ "expected_complete_date": "2026-11-20",
+ "behind": {
+  "sh000016": "2026-11-19",
+  "sh000300": "2026-11-19",
+  "sh000852": "2026-11-19",
+  "sh000905": "2026-11-19"
+ },
+ "last_attempt_epoch": 1795162238,
+ "fetched_rows": {
+  "sh000016": 5556,
+  "sh000300": 6034,
+  "sh000852": 2940,
+  "sh000905": 5313
+ },
+ "appended_rows": {},
+ "source_tails": {
+  "sh000016": "2026-11-19",
+  "sh000300": "2026-11-19",
+  "sh000852": "2026-11-19",
+  "sh000905": "2026-11-19"
+ },
+ "source_tails_observed": "2026-11-20",
+ "overlap_mismatch": {},
+ "source_failures": {},
+ "tails": {
+  "sh000016": "2026-11-19",
+  "sh000300": "2026-11-19",
+  "sh000852": "2026-11-19",
+  "sh000905": "2026-11-19"
+ },
+ "panel_cutoff": "2026-11-19",
+ "action": "no-change",
+ "exit": 0,
+ "reason": "vendor has not published past 2026-11-19"
 }
