@@ -3997,6 +3997,12 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
                "price_basis": basis,
                "family_coherence": fam,
                "priced_faces": _priced_faces,
+               # r1870: the admission block was only ever written into this sheet's MARKDOWN.
+               # The published JSON -- the surface the CEO page actually reads -- carried no
+               # admission key at all, so the three readings (five starts / the block / the
+               # year axis) could be printed here and stay invisible on the page a reader
+               # opens (E1388 "research-readable is not reader-readable"). One compact block.
+               "admission": _admission_payload(),
                "carry_split": carry,
                "restatements": _ledger_restatements(),
                "bets": bets,
@@ -4887,6 +4893,108 @@ def _start_grid_md(g):
     return L
 
 
+ERA_GRID_PATH = os.path.join(PATHS.results_dir, "etf_book_era_grid.json")
+
+
+def _era_grid_reading(path=None, book=ADMITTED_BOOK):
+    """The same gate over the YEAR axis (r1870).
+
+    The block grid closed with its own limit: 25 rows are 25 views of one price series. This
+    face asks the same question at the scale a reader actually chooses -- "do I start this
+    book this year or next" -- and prints, per ruler, how far one YEAR of start moves it
+    next to the one-BAR step the block grid published. Copied verbatim, never re-derived.
+    """
+    p = path or ERA_GRID_PATH
+    try:
+        with open(p, encoding="utf-8") as fh:
+            d = json.load(fh)
+    except Exception:                                          # noqa: BLE001
+        return None
+    if d.get("book") != book:
+        return None
+    rows = d.get("start_rows") or []
+    if not rows:
+        return None
+    res = d.get("resolution") or {}
+    money = d.get("money") or {}
+    return {
+        "state": (d.get("adjudication") or {}).get("state"),
+        "anchors": len(rows),
+        "admit": sum(1 for r in rows if r.get("verdict") == "ADMIT"),
+        "deny": sum(1 for r in rows if r.get("verdict") == "DENY"),
+        "insufficient": sum(1 for r in rows if r.get("verdict") == "INSUFFICIENT"),
+        "first": rows[0].get("start"), "last": rows[-1].get("start"),
+        "sharpe_min": min([r["oos_sharpe"] for r in rows if r.get("oos_sharpe") is not None]
+                          or [None]) if any(r.get("oos_sharpe") is not None for r in rows)
+        else None,
+        "sharpe_max": max([r["oos_sharpe"] for r in rows if r.get("oos_sharpe") is not None]
+                          or [None]) if any(r.get("oos_sharpe") is not None for r in rows)
+        else None,
+        "S1": res.get("S1_oos_sharpe") or {}, "A1": res.get("A1_cagr_after_cost") or {},
+        "eras": money.get("eras") or [], "money_sum_pct": money.get("sum_pct"),
+        "money_base": money.get("base_anchor"),
+        # r1870: the page prints "the gate's out-of-sample window is fixed at <day>" -- the
+        # day has to come off this face, not off a literal typed into the page.
+        "oos_start": (d.get("gate_lines_imported") or {}).get("oos_start"),
+        "evidence_cutoff": d.get("evidence_cutoff"), "asof": d.get("asof"),
+        "cross_face_disagreements": len(
+            (d.get("cross_face_vs_start_grid") or {}).get("disagreements") or []),
+        "path": "results/etf_book_era_grid.json",
+        "producer": "scripts/etf_book_era_grid.py"}
+
+
+def _era_grid_md(e):
+    """Print the year-axis reading under the bar-axis one."""
+    if not e:
+        return ["  - **年代轴这一轮没有读数**：`results/etf_book_era_grid.json` 缺或读不出。"
+                "缺这一行不等于「换个年代开场也一样」——上面那段只量了一根 bar 的距离。"]
+    L = ["  - **年代轴（%s 个年度锚：%s … %s，不是一根 bar 的 25 个视图）**："
+         "%s 过 / %s 拒 / %s 读不出（算到 %s，asof %s）"
+         % (e.get("anchors"), e.get("first"), e.get("last"), e.get("admit"),
+            e.get("deny"), e.get("insufficient"), e.get("evidence_cutoff") or "未注明",
+            e.get("asof") or "未知")]
+    used = set()
+    for key, unit, fmt in (("S1", "夏普", "%.4f"), ("A1", "成本后年化", "%.2fpp")):
+        r = e.get(key) or {}
+        if r.get("one_year_step_median") is None:
+            L.append("    - %s：这一轮读不出年代步长" % unit)
+            continue
+        if not r.get("readable"):
+            L.append("    - %s：一年起点移动 %.4f，但**没有一跳步长可比**（起点网格面缺或读不出）"
+                     "——两个尺度在这一轮无法对读。" % (unit, float(r["one_year_step_median"])))
+            continue
+        used.add(key)
+        L.append("    - %s：**一年起点只值 %.2f 根 bar 的步长**（一年移动 %.4f，一跳 %.4f）"
+                 % (unit, float(r["years_per_bar_step"]),
+                    float(r["one_year_step_median"]), float(r["one_bar_step_median"])))
+    L.append("    - 读法：起点挪一年与挪一根 bar 走的是同一个量级，所以「哪年开场」不是这个"
+             "判词的来源；它来自这本书本身，不来自日历。")
+    if e.get("sharpe_min") is not None and e.get("sharpe_max") is not None:
+        L.append("    - 同一条尺在 11 个年度锚上的范围：夏普 %.4f ~ %.4f"
+                 % (float(e["sharpe_min"]), float(e["sharpe_max"])))
+    eras = [x for x in (e.get("eras") or []) if x.get("share_of_sum") is not None]
+    if eras:
+        L.append("    - **钱来自哪个年代**（从 %s 这条净值曲线逐年读出，逐年净收益相加、末年"
+                 "未完不年化）：%s"
+                 % (e.get("money_base") or "最早锚",
+                    " / ".join("%s %.1f%%" % (x.get("era"), float(x["share_of_sum"]) * 100.0)
+                               for x in eras)))
+        losers = [x for x in eras if (x.get("worst_year_pct") or 0) < 0]
+        if losers:
+            L.append("      - 各年代里最差的一年：%s —— 判词各年代都过，但这些亏损年是真实发生过的"
+                     % "、".join("%s %.2fpp" % (x.get("era"), float(x["worst_year_pct"]))
+                                for x in losers))
+    L.append("    - 边界：闸的样本外窗口固定在 2024-01-01，往前挪锚只加**样本内暖机**、不多"
+             "一份样本外证据；成员是今天的名单（幸存者+今日波动分类），2015 锚=今天的名单倒推"
+             "回 2015，不是 2015 年的 ETF 菜单。")
+    if e.get("cross_face_disagreements"):
+        L.append("    - **与起点网格面对不上（%d 处）**：同一个起点被两套定价，先查引擎面，"
+                 "别用这一段。" % e["cross_face_disagreements"])
+    L.append("    - 出处：`%s`（生产者 `%s`，判词与聚合直接调用相位面/年门的函数；本页只读）"
+             % (e.get("path"), e.get("producer")))
+    return L
+
+
 def _phase_reading(path=None, book=ADMITTED_BOOK):
     """The same book judged over five decision phases -- the other half of the admission.
 
@@ -5395,7 +5503,58 @@ def _decision_md(ad):
     return L
 
 
-def _phase_admission_md(pa, ad, dec=False, grid="auto"):
+def _admission_payload():
+    """The three admission readings as one compact block for the published ticket JSON.
+
+    r1870: this sheet has printed the admission section in markdown since r1868 and the
+    section never reached the JSON -- so the CEO page, which reads the JSON, could not show
+    any of it. Nothing new is computed here: every number is passed through from the three
+    reader functions above, and a missing face is a `None` with a reason, never a zero.
+    """
+    out = {}
+    try:
+        phase = _phase_admission_reading()
+        out["phase"] = None if not phase else {
+            "state": phase.get("state"), "phases": phase.get("phases"),
+            "admit": phase.get("admit_phases"), "deny": phase.get("deny_phases"),
+            "insufficient": phase.get("insufficient_phases"),
+            "spread_S1": phase.get("spread_S1"),
+            "spread_S1_margin": phase.get("spread_S1_margin"),
+            "spread_state": phase.get("spread_S1_state"),
+            "weakest_phase": phase.get("weakest_phase"),
+            "evidence_cutoff": phase.get("evidence_cutoff"), "asof": phase.get("asof"),
+            "path": phase.get("path")}
+    except Exception:                                            # noqa: BLE001
+        out["phase"] = None
+    try:
+        grid = _start_grid_reading()
+        out["block"] = None if not grid else {
+            "state": grid.get("state"), "starts": grid.get("starts"),
+            "admit": grid.get("admit"), "deny": grid.get("deny"),
+            "insufficient": grid.get("insufficient"),
+            "S1": grid.get("S1"), "A1": grid.get("A1"),
+            "evidence_cutoff": grid.get("evidence_cutoff"), "asof": grid.get("asof"),
+            "path": grid.get("path")}
+    except Exception:                                            # noqa: BLE001
+        out["block"] = None
+    try:
+        era = _era_grid_reading()
+        out["years"] = None if not era else {
+            "state": era.get("state"), "anchors": era.get("anchors"),
+            "admit": era.get("admit"), "deny": era.get("deny"),
+            "insufficient": era.get("insufficient"),
+            "first": era.get("first"), "last": era.get("last"),
+            "S1": era.get("S1"), "A1": era.get("A1"),
+            "eras": era.get("eras"), "money_base": era.get("money_base"),
+            "oos_start": era.get("oos_start"),
+            "evidence_cutoff": era.get("evidence_cutoff"), "asof": era.get("asof"),
+            "path": era.get("path")}
+    except Exception:                                            # noqa: BLE001
+        out["years"] = None
+    return out
+
+
+def _phase_admission_md(pa, ad, dec=False, grid="auto", era="auto"):
     """The five starts on the three veto rulers -- copied off its own face.
 
     r1868: the admission section used to end on a sentence that told the operator the
@@ -5459,6 +5618,7 @@ def _phase_admission_md(pa, ad, dec=False, grid="auto"):
     L.append("  - 出处：`%s`（生产者 `scripts/etf_book_phase_admission.py`，判据 "
              "`candidate_year_gate` 导入；本页只读）" % pa.get("path"))
     L += _start_grid_md(_start_grid_reading() if grid == "auto" else grid)
+    L += _era_grid_md(_era_grid_reading() if era == "auto" else era)
     return L
 
 
@@ -9010,6 +9170,44 @@ def selftest():
         _md_grid_missing = "\n".join(_phase_admission_md(_pa, _adm, True, grid=None))
         chk("legAK a missing grid face is not printed as 'every start passed'",
             "整块穷举这一轮没有读数" in _md_grid_missing, _md_grid_missing[-200:])
+        # legAL-AN (r1870): the year axis prints the two steps that are being compared, the
+        # money by era, and its own two limits. Each has a wrong answer that reads fine: a
+        # missing bar step must not be printed as "a year is worth 1 bar", and a book whose
+        # money is concentrated must not be printed as if every era paid equally.
+        _e = {"state": "ADMIT_AT_EVERY_PHASE", "anchors": 11, "admit": 11, "deny": 0,
+              "insufficient": 0, "first": "2015-01-01", "last": "2025-01-01",
+              "sharpe_min": 0.795, "sharpe_max": 1.7928,
+              "S1": {"one_year_step_median": 0.1965, "one_bar_step_median": 0.2006,
+                     "years_per_bar_step": 0.98, "readable": True},
+              "A1": {"one_year_step_median": 1.39, "one_bar_step_median": 1.035,
+                     "years_per_bar_step": 1.34, "readable": True},
+              "eras": [{"era": "2015-2017", "share_of_sum": 0.135, "worst_year_pct": -1.73},
+                       {"era": "2018-2020", "share_of_sum": 0.209, "worst_year_pct": -8.96},
+                       {"era": "2021-2023", "share_of_sum": 0.2323, "worst_year_pct": 2.4},
+                       {"era": "2024-2026", "share_of_sum": 0.4237, "worst_year_pct": 1.81}],
+              "money_base": "2015-01-01", "money_sum_pct": 118.4,
+              "evidence_cutoff": "2026-11-19", "asof": "2026-11-20T08:00:00+08:00",
+              "cross_face_disagreements": 0,
+              "path": "results/etf_book_era_grid.json",
+              "producer": "scripts/etf_book_era_grid.py"}
+        _md_era = "\n".join(_phase_admission_md(_pa, _adm, True, grid=_g, era=_e))
+        chk("legAL the year axis prints both steps it compares and the money by era",
+            "年代轴" in _md_era and "0.98 根 bar" in _md_era and "2024-2026 42.4%" in _md_era,
+            _md_era[-500:])
+        chk("legAM the losing years are named instead of 'every era passed'",
+            "-8.96pp" in _md_era and "亏损年" in _md_era, _md_era[-500:])
+        _e_nobar = dict(_e)
+        _e_nobar["S1"] = {"one_year_step_median": 0.1965, "one_bar_step_median": None,
+                          "years_per_bar_step": None, "readable": False}
+        _md_era_nobar = "\n".join(_phase_admission_md(_pa, _adm, True, grid=_g, era=_e_nobar))
+        chk("legAN a missing bar step is printed as 'cannot compare', never as ratio 1",
+            "没有一跳步长可比" in _md_era_nobar
+            and "1.00 根 bar" not in _md_era_nobar.split("年代轴")[-1],
+            _md_era_nobar[-500:])
+        _md_era_missing = "\n".join(_phase_admission_md(_pa, _adm, True, grid=_g, era=None))
+        chk("legAO a missing era face is not printed as 'any year would do'",
+            "年代轴这一轮没有读数" in _md_era_missing and "换个年代开场也一样" not in
+            _md_era_missing.split("年代轴")[0], _md_era_missing[-300:])
     finally:
         shutil.rmtree(_tmp, ignore_errors=True)
 

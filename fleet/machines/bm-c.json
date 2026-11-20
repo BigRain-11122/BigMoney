@@ -16,7 +16,7 @@
  "chain_verdict": "s6 --only cut_gate_pass_write,cut_gate_pass,cut_order_gap_write,cut_order_gap 4/4 rc0 (1.2s no-op / 15/15 PASS / 2.8s / 9/9 OK); 300 legs preserved after the move",
  "claim_executor": "HQ-ProductionClaim (pythonw -> Tools/hq_claim_launch.py, every 5m, LogonType=Interactive degraded)",
  "clk": "2026-11-20T01:56:49+08:00",
- "clock_read": "2026-11-20T07:23:30+08:00",
+ "clock_read": "2026-11-20T08:14:56+08:00",
  "clock_read_source": "host clock at closeout",
  "clock_tz": "+08:00",
  "closeout_notes_archived": "r1620: chain_writer_audit 30->29 check-only (red 27->26); floor_provenance evidence_cutoff 2026-11-11 -> 2026-11-12; CEO page 33 -> 34 of 48 dated sections on 2026-11-12; card E590",
@@ -59,12 +59,7 @@
  "delivery_state": "machine/bm-c-r1815 carries 12 commits; main blocked by a real content conflict with bm-a round 1300",
  "deployed_oversight_writer": "K:\\Fluxgroup\\.codely-cli\\oversight-bmc\\fleet-oversight.ps1 @ -Check rc=0",
  "dept": "研究/数据",
- "did": [
-  "built scripts/etf_book_start_grid.py (selftest 11/11) + results/etf_book_start_grid.json (25 starts, 22 admit / 3 deny)",
-  "printed both the closest and the worst refusal under the five-point phase block in results/etf_book_order/ORDER-2026-11-19.md",
-  "wired Tools/s6_chain_bmc.py start_grid_write after phase_admission_write (chain --only 2/2 rc0)",
-  "added 2 smoke product legs"
- ],
+ "did": "r1870 交付 etf_book_era_grid（11 个年度锚 11 过/0 拒；一年起点=0.98/1.34 根 bar 步长；钱 2015-17 13.5%/2018-20 20.9%/2021-23 23.2%/2024-26 42.4%）+ 票面 JSON admission 块 + CEO 页年代节",
  "did_round": 1867,
  "does_not": [
   "did not price the wait-only arm against hold-everything (that is the next P0)",
@@ -122,7 +117,7 @@
  "growth_note": "E517 card + digest; positions selftest 71/71, order 148/148, ceo page 194/194",
  "head_sha": "a0dfbd8c73",
  "health": "ok",
- "heartbeat_epoch_utc": 1795130610,
+ "heartbeat_epoch_utc": 1795133696,
  "heartbeat_epoch_utc_type": "int",
  "host": "FluxGroup",
  "hostname": "FluxGroup",
@@ -180,7 +175,7 @@
  "last_round_summary_at": "2026-11-15T08:16:02+08:00",
  "last_round_ts": "2026-11-20T01:56:49+08:00",
  "last_run_at": "2026-11-15T08:16:02+08:00",
- "last_seen": "2026-11-20T07:23:30+08:00",
+ "last_seen": "2026-11-20T08:14:56+08:00",
  "last_seen_at": "2026-11-17T20:36:04+08:00",
  "last_task": "r1732: a stale cohort is a set, not a count (ETF panel: 2 outside the active cohort, both named by the lane's own receipt, 0 undeclared)",
  "last_task_at": "2026-11-15T18:30:00+08:00",
@@ -787,7 +782,7 @@
  },
  "task": "r1866: futures contract panel provenance + dead-tail census (418 on disk / 335 with bars / 83 never printed / 327 tails / 8 live)",
  "total_ram_gb": 55.9,
- "ts": "2026-11-20T07:23:30+08:00",
+ "ts": "2026-11-20T08:14:56+08:00",
  "unverified": [
   "full smoke suite not re-run this round; only the four affected legs carry evidence",
   "S6 full chain not walked; only dualrun/watermark/attrition ran",
@@ -810,8 +805,8 @@
  "why_not_bookkeeping": "a chain leg was reordered so a receipt cannot go stale by construction, and both reds were re-proved green",
  "yield_note": "no second executor in the tree this round (no round.lock, no codely process); 295 dirty files were the dead window's leftovers -> only this round's outputs staged",
  "下个里程碑": "让「五相不可判」进 CEO 页准入节并随次日页面自动生效；本轮页面按无新 bar 守则不重写——窗 ≤48h",
- "当前任务": "r1868: 准入判决在五个决策起点上重算（同一把 S1/A1/K1）",
- "当前任务_en": "r1868: the admission gate re-priced on its five decision starts",
+ "当前任务": "r1870 年代轴：换一年开场，准入判词还成不成立",
+ "当前任务_en": "r1870: year-axis grid -- does the admission survive a different start year",
  "最近实物": "results/etf_book_phase_admission.json + results/etf_book_order/ORDER-2026-11-19.md 新节（2026-11-20 06:2x）",
  "空闲RAM": 37.4
 }

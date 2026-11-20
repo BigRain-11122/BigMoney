@@ -629,6 +629,16 @@ LEGS = [
     ("start_grid_write",
      ["python", "scripts/etf_book_start_grid.py", "check"],
      ["python", "scripts/etf_book_start_grid.py", "run"]),
+    # r1870: the block grid closed with its own limit -- 25 rows are 25 views of one series.
+    # This leg asks the same question at the scale a reader actually chooses ("start it this
+    # year or next"): 11 annual anchors, and per ruler the one-YEAR step printed against the
+    # one-BAR step the grid leg above publishes (read from that receipt, never recomputed).
+    # It also carries the money by era off the earliest anchor's level curve. Its check
+    # re-derives every anchor verdict and every era share, and matches the one shared start
+    # against the block grid on the priced bar. ~60s refresh, ~1s check.
+    ("era_grid_write",
+     ["python", "scripts/etf_book_era_grid.py", "check"],
+     ["python", "scripts/etf_book_era_grid.py", "run"]),
     # r1471: the ticket below now sizes itself off the EXECUTED account (the positions face)
     # instead of the engine's own never-trimmed book -- but nothing in this chain ever WROTE
     # that face, only checked it ~600 legs later. So the sheet priced off whatever the last

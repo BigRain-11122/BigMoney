@@ -1,7 +1,7 @@
 {
- "activity": "r1869: the five-point phase face wrote its own limit down -- five weekly starts are one rebalance block and a sixth start is a sixth coin toss -- so this round exhausts the block: 25 consecutive bar starts, 22 ADMIT / 3 DENY. The new reading is the one-bar step of the same ruler (median 0.2006 Sharpe / 1.035pp CAGR) placed against each refusal: the closest S1 refusal is 0.0070 away (inside the step, i.e. a coin toss) while the WORST A1 refusal is 1.78pp = 1.72 steps (outside), so 'every refusal is noise' is false on the CAGR ruler. Printing only the closest refusal would have hidden that -- the defect was caught and fixed inside this same round (self-leg L6). Cross-face leg: the five phase starts reproduce etf_book_phase_admission price-for-price (delta 0.000000).",
- "activity_now": "the block-exhaustive start grid is built, printed on the ticket and wired into the chain; next is the same treatment for the era axis (the 2015 block)",
- "activity_now_round": 1869,
+ "activity": "r1870: year-axis grid -- does the admission survive a different start year",
+ "activity_now": "r1870: year-axis grid -- does the admission survive a different start year",
+ "activity_now_round": 1870,
  "agenda_starved": false,
  "ah_note": "r1680 LANDED: refresh closed itself at 21:17 -- cutoff 2026-11-12 -> 2026-11-13, complete=True, exit 0, pulled_rows 46; data_lane_freshness in_sync 13 / behind_1d 1 (worst now marks, intraday-only, not rebuildable). Fix that made it possible: stall watchdog over every network leg (300s, names stage/pair, exit 2, checkpoint kept) + save_progress stamps write time + -u on the detached spawn + progress line every 10 pairs. NOT yet proven: the 300s stall path has never fired on a real hang (this round the suspected freeze finished by itself).",
  "ahead_origin": 0,
@@ -1255,7 +1255,7 @@
   "watermark": "green: board/pool both empty (pool_ready_count=0, fleet_open_tasks=0), no claimable batch on this host; py_watermark insufficient_history (window n=1, local_batch=1 = this round own suite)"
  },
  "round_label": "r1813",
- "round_no": 1869,
+ "round_no": 1870,
  "round_no_label": "r1821",
  "round_no_landed": 1663,
  "round_note": "r1489: a reinstated bar is re-derived from the panel, not carried over (reinstatement_check + reinstatements.json + sheet paragraph)",

@@ -129,8 +129,28 @@ CLAIM_RULES = [
     # rule below names a field that already exists on the page's own JSON; the file-name
     # dates sitting in the same lines are identifiers, sorted by _unmapped_classifier.
     (re.compile(r"照做版执行单\*\*（决策 bar " + _D), ["etf_order.decision_bar"]),
-    (re.compile(r"（generated " + _D + r"T"), ["etf_order.generated"]),
+    # r1870: this rule used to be a bare `（generated <D>T`, so it also claimed the PRE2020
+    # provenance line ("etf_book_pre2020.json（generated 2026-11-19T16:16:49…）") and compared
+    # that paper's stamp against the ticket's. It only ever passed because both were written
+    # on the same day; the first day the ticket was regenerated later than that face
+    # (2026-11-20 08:06 vs 11-19 16:16) the page went red for a line about a different face.
+    # Anchor the rule to the ticket's own file name; the pre2020 twin has its own rule below.
+    (re.compile(r"TICKET-\d{4}-\d{2}-\d{2}\.json`（generated " + _D + r"T"),
+     ["etf_order.generated"]),
     (re.compile(r"etf_book_order[^·]*·cutoff " + _D), ["etf_order.bar"]),
+    (re.compile(r"今天读数 \*\*[\d.]+%\*\*（最紧的一席 [^）]*·盘口 " + _D + r"）"),
+     ["etf_capacity.session"]),
+    (re.compile(r"倒过来读：" + _D + r" 这个成交额下"), ["etf_capacity.session"]),
+    # r1870: the new admission paragraph prints four days, and each names the field that
+    # issued it -- an extra "bare date" on the page is a debt, not a decoration (r1671).
+    (re.compile(r"（算到 " + _D + r"）"),
+     ["etf_order.admission.years.evidence_cutoff"]),
+    (re.compile(r"（从 " + _D + r" 这条曲线逐年读出"),
+     ["etf_order.admission.years.money_base"]),
+    (re.compile(r"块内最差的拒绝 " + _D),
+     ["etf_order.admission.block.A1.worst.start"]),
+    (re.compile(r"样本外窗口固定在 " + _D),
+     ["etf_order.admission.years.oos_start"]),
     (re.compile(r"最近一笔 [\d.]+%（" + _D + r"）"),
      ["etf_order.cash_leg.bands.spot.as_of"]),
     (re.compile(r"账面持仓 bar " + _D + r" → 票面 bar " + _D),

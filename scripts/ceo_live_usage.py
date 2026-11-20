@@ -1651,6 +1651,35 @@ def _etf_punctuality_face():
     }
 
 
+def _etf_admission_face(a):
+    """v2.4 (r1870): the three admission readings, off the ticket's own JSON block.
+
+    The sheet prints them in markdown; until r1870 nothing carried them into the JSON this
+    page reads, so the page a reader opens could not show "does the admission survive a
+    different start" at all (E1388). Read-only: a missing block keeps its own reason.
+    """
+    if not a:
+        return {"present": False, "note": "票面没带准入面（缺面不读 0，更不读成通过）"}
+
+    def _one(blk, keys):
+        if not blk:
+            return None
+        return {k: blk.get(k) for k in keys}
+
+    return {"present": True,
+            "phase": _one(a.get("phase"), ("state", "phases", "admit", "deny",
+                                          "insufficient", "spread_S1",
+                                          "spread_S1_margin", "spread_state",
+                                          "weakest_phase", "evidence_cutoff", "path")),
+            "block": _one(a.get("block"), ("state", "starts", "admit", "deny",
+                                          "insufficient", "S1", "A1",
+                                          "evidence_cutoff", "path")),
+            "years": _one(a.get("years"), ("state", "anchors", "admit", "deny",
+                                          "insufficient", "first", "last", "S1", "A1",
+                                          "eras", "money_base", "oos_start",
+                                          "evidence_cutoff", "path"))}
+
+
 def _etf_order_face():
     """v2.3 (r1784): the executable sheet's own rows, in lots and cash.
 
@@ -1723,6 +1752,9 @@ def _etf_order_face():
         # r1785: the same trip also published the rebalance difference; the
         # page prints it as a second, separately labelled reader.
         "delta": _etf_delta_face(t),
+        # r1870: "does this admission survive a different start / a different year" --
+        # the sheet answers it, and until now the page had no key to read it from.
+        "admission": _etf_admission_face(t.get("admission")),
     }
 
 
@@ -2659,6 +2691,50 @@ def render_md(p: dict) -> str:
         if eo.get("generated"):
             L.append(f"  - 出处：`results/etf_book_order/{eo.get('file')}`"
                      f"（generated {eo.get('generated')}·cutoff {eo.get('bar')}）")
+        _adm = eo.get("admission") or {}
+        if not _adm.get("present"):
+            L.append(f"- 准入在起点/年代上还成不成立：{_adm.get('note') or '缺件'}")
+        else:
+            _pa = _adm.get("phase") or {}
+            _bl = _adm.get("block") or {}
+            _yr = _adm.get("years") or {}
+            _bits = []
+            if _pa:
+                _bits.append("五个周起点 %s 过/%s 拒/%s 读不出"
+                             % (_pa.get("admit"), _pa.get("deny"),
+                                _pa.get("insufficient")))
+            if _bl:
+                _bits.append("一个换仓块 %s 个连续起点 %s 过/%s 拒"
+                             % (_bl.get("starts"), _bl.get("admit"), _bl.get("deny")))
+            if _yr:
+                _bits.append("%s 个年度锚 %s 过/%s 拒"
+                             % (_yr.get("anchors"), _yr.get("admit"), _yr.get("deny")))
+            if _bits:
+                L.append("- **准入在换起点/换年代之后还成立吗**（三条一起读，缺一条不等于过）："
+                         + "；".join(_bits) + f"（算到 {(_yr or _pa or _bl).get('evidence_cutoff')}）")
+            _s1 = (_yr.get("S1") or {})
+            _a1 = (_yr.get("A1") or {})
+            if _s1.get("years_per_bar_step") is not None or \
+                    _a1.get("years_per_bar_step") is not None:
+                L.append("  - **换一个年代开场，值多少根 bar**：夏普一年 %.2f 跳、成本后年化一年 "
+                         "%.2f 跳（1 跳=相邻一根 bar 的移动）——两个尺度同一量级，"
+                         "所以判词不是日历给的"
+                         % (float(_s1.get("years_per_bar_step") or 0.0),
+                            float(_a1.get("years_per_bar_step") or 0.0)))
+            _eras = [e for e in (_yr.get("eras") or []) if e.get("share_of_sum") is not None]
+            if _eras:
+                L.append("  - **钱来自哪个年代**（从 %s 这条曲线逐年读出、末年未完不年化）："
+                         % (_yr.get("money_base") or "最早锚")
+                         + " / ".join("%s %.1f%%" % (e.get("era"),
+                                                     float(e["share_of_sum"]) * 100.0)
+                                      for e in _eras))
+            _wb = (_bl.get("A1") or {}).get("worst")
+            if _wb and _wb.get("inside") is False:
+                L.append("  - 块内最差的拒绝 %s 差 %.2fpp，**在它自己的分辨率之外**（不是抽签）"
+                         % (_wb.get("start"), float(_wb.get("distance") or 0.0)))
+            L.append("  - 边界：闸的样本外窗口固定在 2024-01-01，往前挪锚只加样本内暖机；"
+                     "成员是今天的名单（幸存者+今日分类），2015 锚=今天的名单倒推回 2015。"
+                     "出处：`results/etf_book_era_grid.json` / `results/etf_book_start_grid.json`")
         # ---- r1786: the cash row is not dead weight, and the page says so with
         # the rate the ticket already priced -- never as money already earned.
         _cl = eo.get("cash_leg")
@@ -2932,21 +3008,27 @@ def render_md(p: dict) -> str:
         _cl = _cap.get("line_pct")
         _cr = _cap.get("reading_today_pct")
         _lens = _cap.get("lens_cny")
+        _csess = str(_cap.get("session") or "")[:10]
         _capok = (_cl is not None and _cr is not None and _lens)
-        L.append(
-            "  - **这单装得进市场吗**（{:.2f}% ADV 闸线）：{}".format(
-                float(_cl or 0.0) if _capok else 0.0,
-                ("按 ¥{} 全仓、5 个名字各 ¥{} 量，最近 {} 个交易日里 **{} 天**过线，"
-                 "今天读数 **{:.4f}%**（最紧的一席 {}）。".format(
-                     _fmt_cny(_lens), _fmt_cny(_cap.get("per_name_cny") or 0),
-                     _cap.get("n_sessions"), _cap.get("n_passes"),
-                     _cr, _cap.get("binding_today") or "?"))
-                if _capok else "容量面读数不全（不印半张尺子）"))
+        # r1870: "今天读数" carried no day, which is the r1849 defect -- the tape this
+        # number was measured on is printed with it instead.
+        _sess_bit = ("·盘口 %s" % _csess) if _csess else ""
+        if _capok:
+            _cap_msg = ("按 ¥%s 全仓、5 个名字各 ¥%s 量，最近 %s 个交易日里 **%s 天**过线，"
+                        "今天读数 **%.4f%%**（最紧的一席 %s%s）。"
+                        % (_fmt_cny(_lens), _fmt_cny(_cap.get("per_name_cny") or 0),
+                           _cap.get("n_sessions"), _cap.get("n_passes"), _cr,
+                           _cap.get("binding_today") or "?", _sess_bit))
+        else:
+            _cap_msg = "容量面读数不全（不印半张尺子）"
+        L.append("  - **这单装得进市场吗**（{:.2f}% ADV 闸线）：{}".format(
+            float(_cl or 0.0) if _capok else 0.0, _cap_msg))
         if _capok:
             _un = _cap.get("n_unmeasurable") or 0
-            L.append("    - 倒过来读：今天这个成交额下能过的资本上限 **¥{}**"
+            L.append("    - 倒过来读：{}这个成交额下能过的资本上限 **¥{}**"
                      "（比 ¥{} 少 ¥{}）；窗内中位 ¥{}、最差一天 ¥{}——"
                      "「装不下 100 万」要换成「平常装得下多少」{}。".format(
+                         ("%s " % _csess) if _csess else "今天",
                          _fmt_cny(_cap.get("capital_at_line_cny")),
                          _fmt_cny(_lens), _fmt_cny(_cap.get("gap_to_lens_cny")),
                          _fmt_cny(_cap.get("capital_median_cny")),
