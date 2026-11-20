@@ -17311,3 +17311,5 @@ CEO 一页纸 ③ 节把六个在册纸盘户各印一行「权重 X%」——3.
 **附带捕获**：`knowledge/METHODOLOGY_ASSETS.md` 第 17283 行混进一个 0x0c（Form Feed），把公式里的 `f` 换成了换页符，`config: no card or digest carries a control character` 当轮抓出并还原——中文长文里被粘贴/生成带进的不可见控制字符只能靠机械腿发现，人眼永远看不见。
 
 **实物**：`scripts/etf_book_order.py`（`_size_ladder_reading` / `_size_ladder_md` / legAS-AU，selftest 283/283）、`results/etf_book_order/ORDER-2026-11-19.md` 新节「装得下的价格」（100万 -0.04 / 300万 -4.17 / 1000万 -8.81 / 3000万 -10.53 pp·年）、`smoke_test.py` 新腿 `product: the order sheet prices money itself`。
+
+- **E-20261120-r1879 · 「缺一行」不是「一个价」（正身=scripts/etf_book_order.py _size_ladder_md + smoke_test.py leg r1879）**：把一个研究面的读数搬到读者手上的票面时，缺面有两种印法，含义相反——印「规模阶梯这一轮没有读数（面缺/读不出）」是诚实，印成「3 档同价」或干脆不印这一节，读者会得到「钱多钱少一个价」这个假结论。同理，票面节必须自印产出那一趟（generated/cutoff + 出处 + 生产者），否则读者读到的是上一趟的数（r1781 同族）。本轮的腿钉四件事：每档标签都印、判词印、产出时点印、写阶梯的腿排在票面腿之前——四条缺一条就红。姊妹面：读数一律从产出面派生，票面绝不重算一档（重算就会与研究面在某天分叉，而分叉那天没人知道该信哪个）。

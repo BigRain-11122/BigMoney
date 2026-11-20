@@ -1255,7 +1255,7 @@
   "watermark": "green: board/pool both empty (pool_ready_count=0, fleet_open_tasks=0), no claimable batch on this host; py_watermark insufficient_history (window n=1, local_batch=1 = this round own suite)"
  },
  "round_label": "r1813",
- "round_no": 1878,
+ "round_no": 1879,
  "round_no_label": "r1821",
  "round_no_landed": 1663,
  "round_note": "r1489: a reinstated bar is re-derived from the panel, not carried over (reinstatement_check + reinstatements.json + sheet paragraph)",
@@ -1950,11 +1950,14 @@
  "went_well": "the fix keeps the old states reachable: a card with one unqualified row still takes the position-free path, so no previously published verdict changed meaning",
  "when_well": "the exec panel reused lhb_sellleg verbatim by passing a net-of-cost panel instead of writing a second event study -- the two tables cannot disagree about the quintiles because there is only one implementation",
  "who_did": "bm-c",
- "下个里程碑": "把阶梯接进「装得下的价格」票面：同一本书在 1M/3M/10M 各印一行 f-加权读数，让读者一眼看到钱越多价越陡——窗 ≤48h",
- "当前任务": "r1878: 那条 1% 的代价原先量错了口径（把净值当收益缩放），重算后 1M 只剩 -0.04pp；冻结的规模阶梯给出单调价：3M -4.17 / 10M -8.81 / 30M -10.53 pp/年",
- "最近实物": "results/etf_book_capacity_shortfall.json + .md + scripts/etf_book_capacity_shortfall.py（2026-11-20 12:5x·selftest 19/19·check ok）",
- "当前任务_en": "r1878: the capacity cost was measured on a level curve; recompounding flips the verdict and a frozen size ladder prices money monotonically",
+ "下个里程碑": "把「装得下的价格」接进 CEO 一页纸（今日 LIVE 面），让读者在打开的那一页上看到同一本书 1M/3M/10M 的价——窗 ≤48h",
+ "当前任务": "r1879: 规模阶梯离开研究页、落到操作员手里的票面——1M/3M/10M/30M 印成一块，并印出写这条面的那一趟",
+ "最近实物": "results/etf_book_order/ORDER-2026-11-19.md 新节「装得下的价格」(2026-11-20 13:3x) + scripts/etf_book_order.py（selftest 283/283）",
+ "当前任务_en": "r1879: the size ladder left the research face and landed on the operator sheet, with the trip that wrote it stamped in the block",
  "verify_r1878": "etf_book_capacity_shortfall selftest 19/19 PASS | check ok verdict=CAPACITY_BINDS_AT_NEGLIGIBLE_COST f_rows=84 bad=0 ladder_probs=0 | run rc0 52s: A 11.38%/1.122/-10.56%, B(1M) 11.34%/1.137/-10.56% (-0.04pp); ladder 1M -0.04 / 3M -4.17 / 10M -8.81 / 30M -10.53, MONOTONE_STEEPER span -10.49pp | s6 leg capacity_shortfall_write 1/1 rc0",
  "round_t1878_note": "r1878: r1877 priced the 1% ADV refusal by multiplying the engine's NET-VALUE curve by f, so f=0.2785 printed as a -72.37% drawdown (that was \"72% in cash\", not a 72% loss). Recompounding (level -> returns -> scale -> cumprod, base restored) puts B back at 11.34%/-10.56% and the 1M cost at -0.04pp, flipping the verdict from CAPACITY_BINDS_AND_COSTS to CAPACITY_BINDS_AT_NEGLIGIBLE_COST. The frozen ladder then reads 1M -0.04 / 3M -4.17 / 10M -8.81 / 30M -10.53 pp/yr (MONOTONE_STEEPER, -10.49pp span); the fill share goes 16.7% -> 100% and mean f 97.0% -> 6.2%. Two guard legs now pin the semantics: selftest \"a rising curve held at half size must still rise\" (the old code failed it: 0.5*1.49=0.74) and check \"B drawdown may not be 2pp deeper than A\".",
- "round_t1878_next": "(a) wire the ladder into the \"what size costs\" ticket so the reader sees 1M/3M/10M on one sheet; (b) the r1877 leftover scripts/repo_quote_arrival.py + result are untracked and its median lag (2783d) is dominated by the 2011-2013 bulk import -- restrict to post-import commits before shipping; (c) watchdog/loop S4U flip still needs one elevated pass (carried)"
+ "round_t1878_next": "(a) wire the ladder into the \"what size costs\" ticket so the reader sees 1M/3M/10M on one sheet; (b) the r1877 leftover scripts/repo_quote_arrival.py + result are untracked and its median lag (2783d) is dominated by the 2011-2013 bulk import -- restrict to post-import commits before shipping; (c) watchdog/loop S4U flip still needs one elevated pass (carried)",
+ "verify_r1879": "etf_book_order selftest 283/283 PASS（r1879 新增 legAQ-legAU 等：阶梯读数从面读、缺面一句话不造判词、节自印产出时点）| run rc0 重生 ORDER-2026-11-19.md，新节印 4 档 100万 11.34%/1.137/-10.56% 成本-0.04pp 装进97.0% / 300万 7.21%/1.282/-5.05% -4.17pp 52.7% / 1000万 2.57%/1.205/-2.31% -8.81pp 18.6% / 3000万 0.85%/1.205/-0.77% -10.53pp 6.2%，判词 MONOTONE_STEEPER 跨度 -10.49pp，generated 2026-11-20T12:43:32 戳在节内 | 冒烟新腿四断言手工复现全过：4 档标签全印、判词印、产出时点印、链序 capacity_shortfall_write(102) < etf_book_order(106) | 全套套件本轮启动 pid 48064 输出 results/_smoke_r1879.out，未在本轮跑完，不宣称全绿",
+ "round_t1879_note": "r1879: r1878 的阶梯只活在一张研究面上（results/etf_book_capacity_shortfall.json），操作员手上的 ORDER 单一个字都没提；这轮把读数搬上票面（_size_ladder_reading 只读面不重算、_size_ladder_md 渲染 + 自印 generated/cutoff），并加一条冒烟腿钉住四件事：每档都印、判词印、产出那一趟印、写阶梯的腿排在票面腿之前。档位数值逐字复现 r1878（-0.04/-4.17/-8.81/-10.53）。",
+ "round_t1879_next": "(a) 把这块接到 CEO 一页纸（docs/live_usage）与 dashboard，让「打开的那一页」也有钱的价；(b) r1877 遗留 scripts/repo_quote_arrival.py 仍 untracked（median lag 2783d 被 2011-2013 批量导入主导），先按 post-import 重算再谈上链；(c) 循环/看门狗 S4U 一次提权重注册仍欠（本轮 register_watchdog 报 拒绝访问）；(d) 全套冒烟待收 results/_smoke_r1879.out"
 }
