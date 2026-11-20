@@ -97,6 +97,23 @@ CLAIM_RULES = [
     # face, so it must be checked against that face's quote date -- not against the cash
     # yield face just because the two happen to print the same day today.
     (re.compile(r"今天（" + _D + r" 的报价）"), ["cash_caliber.quote_date"]),
+    # r1896 bm-c: the printed page grew ten dates whose issuing faces the page already reads,
+    # and no rule claimed them -- so a page on which EVERY day word is dated (r1895: undated
+    # 22 -> 0) still read as unpaid. r1789: a leg that is always red trains readers to treat
+    # real defects as noise. Each rule names the face that ISSUED the number, not a field that
+    # happens to hold the same day today (r1788).
+    (re.compile(r"今天（" + _D + r"）距线"), ["era_capacity.evidence_cutoff"]),
+    (re.compile(r"算到 " + _D + r"，面生成于 " + _D),
+     ["era_capacity.evidence_cutoff", "era_capacity.generated"]),
+    (re.compile(r"样本外窗口固定在 " + _D), ["admission.reads.oos_start"]),
+    (re.compile(r"今天这一档读在 " + _D + r" 那天"), ["capacity_ticket.evidence_cutoff"]),
+    (re.compile(r"「今天的报价」是 " + _D + r" 的"), ["carry_regime.quote_date"]),
+    (re.compile(r"面板尾 " + _D + r" 落后"), ["carry_regime.evidence_cutoff"]),
+    (re.compile(r"注意这一行定价在 \*\*" + _D + r"\*\* 那根 bar"),
+     ["cash_caliber.quote_date"]),
+    (re.compile(r"（本页 bar " + _D + r"）"), ["priced_bar"]),
+    (re.compile(r"族面重定价的回执付的是世界 [^（]*（" + _D),
+     ["family_coherence.receipt.generated"]),
 ]
 
 
@@ -768,12 +785,41 @@ def selftest():
         ("本页是 **2026-11-14** 的页面", 1),
         ("价格和数据都停在 **2026-11-13**", 1),
         ("今天（2026-11-13 的报价）比窗口均值低 **75.5bp**", 1),
+        ("今天（2026-11-19）距线：装得下 1M 的 1.003 倍", 1),
+        ("边界：每一年都用今天的名单倒推；算到 2026-11-19，面生成于 2026-11-20T08:28:03", 2),
+        ("边界：闸的样本外窗口固定在 2024-01-01，往前挪锚只加样本内暖机", 1),
+        ("今天这一档读在 2026-11-20 那天", 1),
+        ("表里那句「今天的报价」是 2026-11-19 的", 1),
+        ("比这张表自己的面板尾 2026-11-20 落后 1 根 bar", 1),
+        ("注意这一行定价在 **2026-11-19** 那根 bar（本页 bar 2026-11-20）", 1),
+        ("（本页 bar 2026-11-20）", 1),
+        ("上一次族面重定价的回执付的是世界 `?`（2026-11-20T18:02:26+0800）", 1),
     ]
     leg("every date rule has a sample of its own language, and every sample fires one rule",
         len(_samples) == len(CLAIM_RULES)
         and all(pat.search(s) and len(paths) == n
                 for (pat, paths), (s, n) in zip(CLAIM_RULES, _samples)),
         [bool(pat.search(s)) for (pat, _), (s, _n) in zip(CLAIM_RULES, _samples)])
+
+    # r1896 bm-c: the era-capacity dates anchor to a section the page only just started
+    # carrying. Without that section the two dates must read "unverifiable" (the face is
+    # missing), never green -- "I could not check it" does not graduate (r98/r1159).
+    _era_line = ("- 边界：每一年都用今天的名单倒推（幸存者偏差），ADV 是该年自己的"
+                 "20 根中位；算到 2026-11-19，面生成于 2026-11-20T08:28:03。")
+    _no_era = census({"generated_for_date": "2026-11-21",
+                      "evidence_cutoff": "2026-11-20"},
+                     artifact="fixture/no-era.json", printed=_era_line)
+    _with_era = census({"generated_for_date": "2026-11-21",
+                        "evidence_cutoff": "2026-11-20",
+                        "era_capacity": {"evidence_cutoff": "2026-11-19",
+                                         "generated": "2026-11-20T08:28:03+08:00"}},
+                       artifact="fixture/era.json", printed=_era_line)
+    leg("the era-capacity dates are unverifiable without that section, and agree with it",
+        _no_era["date_claims"].get("n_unverifiable") == 2
+        and _no_era["date_claims"].get("n_ok") == 0
+        and _with_era["date_claims"].get("n_ok") == 2
+        and _with_era["date_claims"].get("n_unmapped") == 0,
+        (_no_era["date_claims"], _with_era["date_claims"]))
 
     _doc = {"generated_for_date": "2026-11-14", "book_decided_at": "2026-11-11",
             "priced_bar": "2026-11-13", "next_rebalance_date": "2026-12-09",

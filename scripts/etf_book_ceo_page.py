@@ -7781,6 +7781,33 @@ def _order_module():
     return _O
 
 
+ERA_CAPACITY_PATH = os.path.join(ROOT, "results", "etf_book_era_capacity.json")
+
+
+def era_capacity_face(path=ERA_CAPACITY_PATH):
+    """The days the §准入判决 block prints beside its capacity ladder.
+
+    r1896 bm-c: that block prints 「算到 <cutoff>，面生成于 <generated>」 and a capacity-against-line
+    sentence carrying the same cutoff, and both come off results/etf_book_era_capacity.json -- but
+    the page JSON carried no copy of that face, so an auditor could read the numbers and not the
+    day they were computed on (the leg then had ten dates no rule could place). Read-only, never
+    recomputed here; absent (present=False, not a zero) when the face is missing, so a rule that
+    anchors a date against it reads "unverifiable" rather than green (r98/r1159).
+    """
+    out = {"present": False, "evidence_cutoff": None, "generated": None,
+           "artifact": _rel(path, ROOT).replace("\\", "/")}
+    try:
+        d = _load(path)
+    except (OSError, ValueError):
+        return out
+    if not isinstance(d, dict):
+        return out
+    out["present"] = True
+    out["evidence_cutoff"] = str(d.get("evidence_cutoff") or "")[:10] or None
+    out["generated"] = d.get("generated")
+    return out
+
+
 def admission_face(last_bar=None, path=None, order_mod=None):
     """Whether the book on THIS page may take new capital -- read off the gate's own face.
 
@@ -9886,6 +9913,11 @@ def build(with_stress=False, window_label=None):
     # r1573: "what do I buy" and "is this book allowed new money" are two answers; the page
     # printed the first and left the second to the order sheet's §准入判决.
     page["admission"] = admission_face(ledger.get("last_bar") or fwd.get("as_of"))
+    # r1896 bm-c: the §准入判决 block prints two dates from the era-capacity face (算到 / 面生成于)
+    # plus the same cutoff on its capacity-against-line sentence, but the page JSON carried no copy
+    # of that face -- so an auditor could read the numbers and not the day they were computed on.
+    # The block now gets its own section, read-only, absent (not zero) when the face is not on disk.
+    page["era_capacity"] = era_capacity_face()
     # r1613: the verdict above grades the adopted rung only. The sweep that says whether
     # another rung could pass belongs beside it, or the reader cannot tell "no legal rung"
     # from "nobody looked".

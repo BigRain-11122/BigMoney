@@ -17420,3 +17420,14 @@ results/etf_book_entry_price.json + .md、链腿 entry_price_write（0.9s）、�
 **实锚**：`live_usage_day_words` rc 1→0，ok 81→112，unmapped 20→0，mismatch 0，selftest 24/24；匹配器 `live_book_day_words` 新增四条腿（按名取值 ≠ 按行号、命名分组占位、错日=不匹配、缺道=判不了）selftest 40→44 全绿。
 
 **How**：链腿第一次被点名跑之前，不许把它的面当成绿的；一张永远红的面会教读者把真缺陷当背景噪声（r1789）。任何「表格型」印刷面（车道/席位/成员），规则一律按键取值，禁按行号。
+
+
+## E-20261121-r1896 判例：「读者看得见日子、审计看不见出处」＝面缺一个字段，不是规则漏写
+
+**问题**：活书页把日词全带上了日期（r1895：undated 22→0），可链腿仍 rc1——页面上 10 处日期**没有任何规则认领**（`claims 11 | unmapped 10`）。逐条追下去，8 处是**规则没写**（日期就挂在页面已有的字段上：`carry_regime.quote_date/evidence_cutoff`、`cash_caliber.quote_date`、`capacity_ticket.evidence_cutoff`、`admission.reads.oos_start`、`family_coherence.receipt.generated`、顶层 `priced_bar`），2 处是**页面 JSON 里根本没有那张面**——准入节印的「算到 2026-11-19，面生成于 2026-11-20T08:28」出自 `results/etf_book_era_capacity.json`，审计面能看见数、看不见算出这批数的日子。
+
+**正法**：①先分清两种红——「规则漏写」几分钟补完；「面缺字段」要动生产者，两者代价差一个量级，面上一字不提就逼读者猜贵的那个（r1889 同族）。②缺字段时**给页面加一节只读 provenance**（`etf_book_ceo_page::era_capacity_face`：present/evidence_cutoff/generated/artifact），缺面写 `present=False` 而不是 0，规则随即指向它——「没查过」因此落在 unverifiable 而不是绿（r98/r1159）。③每条规则必须指向**发出那个数的面**，不是碰巧同日的字段（r1788）；本轮「距线」那句查下来出自 era_capacity（含 1,003,004 与 159549），不在 lot_floor，若图省事挂到 lot_floor 会变成一条只在今天自洽的尺子。
+
+**实锚**：`live_book_day_words` verdict `PRINTED_BUT_UNANCHORED·unmapped 10` → `ANCHORED·claims 21/21 ok·unmapped 0`，链腿 rc1→rc0；selftest 44→45（新增腿：era_capacity 缺节时两条日期必须 unverifiable、有节时必须 ok）；`etf_book_ceo_page selftest 475/475`。另有一枚守卫实弹：L261 page-day debt 会扫源码里「说今天但不收 page_day」的块，新函数的 docstring 引用日词即被判红——守卫正确，改文案而非放宽守卫。
+
+**How**：见「unmapped 不为零」先按两类拆（规则漏写／面缺字段），再逐条把日期接回发面；任何「页面印了日期但 JSON 没这张面」的缺口，补字段而不是补注解。
