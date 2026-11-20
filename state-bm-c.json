@@ -1,7 +1,7 @@
 {
- "activity": "r1870: year-axis grid -- does the admission survive a different start year",
- "activity_now": "r1870: year-axis grid -- does the admission survive a different start year",
- "activity_now_round": 1870,
+ "activity": "product",
+ "activity_now": "r1876: sliced the liquidity-floor reading at the book's own IS/OOS boundary -- both eras NOT_SEPARABLE, 2022 fired zero times in 12 rebalances",
+ "activity_now_round": 1876,
  "agenda_starved": false,
  "ah_note": "r1680 LANDED: refresh closed itself at 21:17 -- cutoff 2026-11-12 -> 2026-11-13, complete=True, exit 0, pulled_rows 46; data_lane_freshness in_sync 13 / behind_1d 1 (worst now marks, intraday-only, not rebuildable). Fix that made it possible: stall watchdog over every network leg (300s, names stage/pair, exit 2, checkpoint kept) + save_progress stamps write time + -u on the detached spawn + progress line every 10 pairs. NOT yet proven: the 300s stall path has never fired on a real hang (this round the suspected freeze finished by itself).",
  "ahead_origin": 0,
@@ -235,8 +235,8 @@
   "sha": "278bb79900"
  },
  "last_push_at": "2026-11-11T08:31:06+08:00",
- "last_round": 1872,
- "last_round_at": "2026-11-20T05:42:49+08:00",
+ "last_round": 1876,
+ "last_round_at": "2026-11-20T10:42",
  "last_round_at_legacy": "2026-10-19T15:34:21+08:00",
  "last_round_closed": 1733,
  "last_round_closed_at": "2026-11-15T18:47:16+08:00",
@@ -1255,7 +1255,7 @@
   "watermark": "green: board/pool both empty (pool_ready_count=0, fleet_open_tasks=0), no claimable batch on this host; py_watermark insufficient_history (window n=1, local_batch=1 = this round own suite)"
  },
  "round_label": "r1813",
- "round_no": 1875,
+ "round_no": 1876,
  "round_no_label": "r1821",
  "round_no_landed": 1663,
  "round_note": "r1489: a reinstated bar is re-derived from the panel, not carried over (reinstatement_check + reinstatements.json + sheet paragraph)",

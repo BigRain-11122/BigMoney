@@ -670,6 +670,17 @@ LEGS = [
     ("liquidity_select_write",
      ["python", "scripts/etf_book_liquidity_select.py", "check"],
      ["python", "scripts/etf_book_liquidity_select.py", "run"]),
+    # r1876: r1875's reading averaged 84 rebalances across two very different markets. A desk
+    # does not care about the average -- it cares whether the rule still holds where the money
+    # has been made lately. This face re-runs the same three arms and slices the SAME path at
+    # the book's own IS/OOS boundary (2023-12-31), printing each era's substitution share,
+    # capacity, paired B-A/B-R and a per-era verdict, plus the yearly trigger counts (a year
+    # with rebalances and no trigger is a reading, not a hole). Its check partitions the eras
+    # back into the full window and treats a generation gap as a note, not a defect. ~65s
+    # refresh, ~1s check (row-only, no panel read).
+    ("liquidity_era_write",
+     ["python", "scripts/etf_book_liquidity_era.py", "check"],
+     ["python", "scripts/etf_book_liquidity_era.py", "run"]),
     # r1471: the ticket below now sizes itself off the EXECUTED account (the positions face)
     # instead of the engine's own never-trimmed book -- but nothing in this chain ever WROTE
     # that face, only checked it ~600 legs later. So the sheet priced off whatever the last

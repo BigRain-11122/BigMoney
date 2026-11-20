@@ -1,0 +1,1803 @@
+{
+ "face": "etf_book_liquidity_era",
+ "generated": "2026-11-20T10:36:27+08:00",
+ "evidence_cutoff": "2026-11-19",
+ "criteria": {
+  "line_pct": 1.0,
+  "line_frac": 0.01,
+  "lens_cny": 1000000.0,
+  "lens_label": "1M",
+  "slots": 5,
+  "per_name_cny": 200000.0,
+  "need_adv_cny": 20000000.0,
+  "rebal": 20,
+  "cost_per_side": 0.001,
+  "vol_target": 0.08,
+  "seed": 20261120,
+  "start": "2020-01-01",
+  "is_end": "2023-12-31",
+  "eras": [
+   {
+    "name": "is_2020_2023",
+    "label": "2020-2023",
+    "start": "2020-01-01",
+    "end": "2023-12-31"
+   },
+   {
+    "name": "oos_2024_",
+    "label": "2024-2026",
+    "start": "2024-01-01",
+    "end": null
+   }
+  ],
+  "frozen": {
+   "bind_share_min": 0.01,
+   "cagr_tol_pp": 0.5,
+   "t_min": 2.0,
+   "min_paired_months": 24
+  },
+  "why_two_eras": "the boundary is the book's own IS/OOS split (etf_book_scale_floor.IS_END), not a line chosen after seeing where the returns sit"
+ },
+ "arms": {
+  "A_published": {
+   "turnover": 1.082,
+   "stats": {
+    "cagr": 0.1138,
+    "sharpe": 1.122,
+    "maxdd": -0.1056,
+    "cagr_is": 0.0581,
+    "sharpe_is": 0.621,
+    "maxdd_is": -0.088,
+    "cagr_oos": 0.196,
+    "sharpe_oos": 1.793,
+    "maxdd_oos": -0.1056
+   }
+  },
+  "B_floor": {
+   "turnover": 1.075,
+   "stats": {
+    "cagr": 0.114,
+    "sharpe": 1.126,
+    "maxdd": -0.1056,
+    "cagr_is": 0.0563,
+    "sharpe_is": 0.606,
+    "maxdd_is": -0.088,
+    "cagr_oos": 0.1994,
+    "sharpe_oos": 1.817,
+    "maxdd_oos": -0.1056
+   }
+  },
+  "R_random_fill": {
+   "turnover": 1.074,
+   "stats": {
+    "cagr": 0.1115,
+    "sharpe": 1.105,
+    "maxdd": -0.1056,
+    "cagr_is": 0.0628,
+    "sharpe_is": 0.669,
+    "maxdd_is": -0.088,
+    "cagr_oos": 0.1829,
+    "sharpe_oos": 1.68,
+    "maxdd_oos": -0.1056
+   }
+  }
+ },
+ "eras": [
+  {
+   "name": "is_2020_2023",
+   "label": "2020-2023",
+   "start": "2020-01-01",
+   "end": "2023-12-31",
+   "rebalances": 49,
+   "substitution": {
+    "rebalances": 49,
+    "rebalances_with_a_substitution": 9,
+    "share_of_rebalances": 0.1837,
+    "names_substituted": 9,
+    "trigger_years": {
+     "2020": 2,
+     "2021": 5,
+     "2023": 2
+    },
+    "rebalance_years": {
+     "2020": 13,
+     "2021": 12,
+     "2022": 12,
+     "2023": 12
+    },
+    "first_trigger": "2020-06-04",
+    "last_trigger": "2023-12-18"
+   },
+   "capacity": {
+    "A_published": {
+     "n_priced": 49,
+     "median_cny": 1249905.29375,
+     "min_cny": 810291.4750000001,
+     "share_below_lens": 0.1836734693877551,
+     "n_rows": 49
+    },
+    "B_floor": {
+     "n_priced": 49,
+     "median_cny": 1308209.0031,
+     "min_cny": 1000889.495,
+     "share_below_lens": 0.0,
+     "n_rows": 49
+    }
+   },
+   "capacity_uplift_median": 1.0466,
+   "paired_ba": {
+    "label": "B-A",
+    "months": 47,
+    "mean_pp": -0.0147,
+    "t": -0.671,
+    "b_better_months": 18
+   },
+   "paired_br": {
+    "label": "B-R",
+    "months": 47,
+    "mean_pp": -0.0526,
+    "t": -1.291,
+    "b_better_months": 14
+   },
+   "verdict": "NOT_SEPARABLE_IN_THIS_ERA"
+  },
+  {
+   "name": "oos_2024_",
+   "label": "2024-2026",
+   "start": "2024-01-01",
+   "end": null,
+   "rebalances": 35,
+   "substitution": {
+    "rebalances": 35,
+    "rebalances_with_a_substitution": 6,
+    "share_of_rebalances": 0.1714,
+    "names_substituted": 11,
+    "trigger_years": {
+     "2024": 3,
+     "2025": 2,
+     "2026": 1
+    },
+    "rebalance_years": {
+     "2024": 12,
+     "2025": 12,
+     "2026": 11
+    },
+    "first_trigger": "2024-01-16",
+    "last_trigger": "2026-11-11"
+   },
+   "capacity": {
+    "A_published": {
+     "n_priced": 35,
+     "median_cny": 1510426.4800000002,
+     "min_cny": 278451.69,
+     "share_below_lens": 0.14285714285714285,
+     "n_rows": 35
+    },
+    "B_floor": {
+     "n_priced": 35,
+     "median_cny": 1551672.3825000003,
+     "min_cny": 1026909.34375,
+     "share_below_lens": 0.0,
+     "n_rows": 35
+    }
+   },
+   "capacity_uplift_median": 1.0273,
+   "paired_ba": {
+    "label": "B-A",
+    "months": 35,
+    "mean_pp": 0.0233,
+    "t": 0.623,
+    "b_better_months": 21
+   },
+   "paired_br": {
+    "label": "B-R",
+    "months": 35,
+    "mean_pp": 0.1134,
+    "t": 1.457,
+    "b_better_months": 20
+   },
+   "verdict": "NOT_SEPARABLE_IN_THIS_ERA"
+  }
+ ],
+ "full_window": {
+  "name": "full_window",
+  "label": "2020-2026",
+  "start": "2020-01-01",
+  "end": null,
+  "rebalances": 84,
+  "substitution": {
+   "rebalances": 84,
+   "rebalances_with_a_substitution": 15,
+   "share_of_rebalances": 0.1786,
+   "names_substituted": 20,
+   "trigger_years": {
+    "2020": 2,
+    "2021": 5,
+    "2023": 2,
+    "2024": 3,
+    "2025": 2,
+    "2026": 1
+   },
+   "rebalance_years": {
+    "2020": 13,
+    "2021": 12,
+    "2022": 12,
+    "2023": 12,
+    "2024": 12,
+    "2025": 12,
+    "2026": 11
+   },
+   "fallback_dates": []
+  },
+  "capacity": {
+   "A_published": {
+    "n_priced": 84,
+    "median_cny": 1339474.013425,
+    "min_cny": 278451.69,
+    "share_below_lens": 0.16666666666666666,
+    "n_rows": 84
+   },
+   "B_floor": {
+    "n_priced": 84,
+    "median_cny": 1450101.4318750002,
+    "min_cny": 1000889.495,
+    "share_below_lens": 0.0,
+    "n_rows": 84
+   }
+  },
+  "paired_ba": {
+   "label": "B-A",
+   "months": 82,
+   "mean_pp": 0.0015,
+   "t": 0.076,
+   "b_better_months": 39
+  },
+  "paired_br": {
+   "label": "B-R",
+   "months": 82,
+   "mean_pp": 0.0183,
+   "t": 0.442,
+   "b_better_months": 34
+  },
+  "verdict": "NOT_SEPARABLE_IN_THIS_ERA"
+ },
+ "capacity_rows": {
+  "A_published": [
+   {
+    "date": "2020-01-02",
+    "cap_cny": 1126097.67,
+    "worst_adv_cny": 22521953.4,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2020-02-07",
+    "cap_cny": 1084505.6500000001,
+    "worst_adv_cny": 21690113.0,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2020-03-06",
+    "cap_cny": 1147397.75625,
+    "worst_adv_cny": 22947955.125,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2020-04-03",
+    "cap_cny": 1111025.74,
+    "worst_adv_cny": 22220514.8,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2020-05-07",
+    "cap_cny": 2746767.3137000003,
+    "worst_adv_cny": 54935346.274000004,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2020-06-04",
+    "cap_cny": 950678.1000000001,
+    "worst_adv_cny": 19013562.0,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2020-07-06",
+    "cap_cny": 1027846.1300000001,
+    "worst_adv_cny": 20556922.6,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2020-08-03",
+    "cap_cny": 1146497.5450624998,
+    "worst_adv_cny": 22929950.901249997,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2020-08-31",
+    "cap_cny": 1098069.52125,
+    "worst_adv_cny": 21961390.425,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2020-09-28",
+    "cap_cny": 1370739.02375,
+    "worst_adv_cny": 27414780.474999998,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2020-11-03",
+    "cap_cny": 1308209.0031,
+    "worst_adv_cny": 26164180.062,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2020-12-01",
+    "cap_cny": 961625.6601,
+    "worst_adv_cny": 19232513.202,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2020-12-29",
+    "cap_cny": 1121259.5351500001,
+    "worst_adv_cny": 22425190.703,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2021-01-27",
+    "cap_cny": 923254.9750000001,
+    "worst_adv_cny": 18465099.5,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2021-03-03",
+    "cap_cny": 874692.114225,
+    "worst_adv_cny": 17493842.2845,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2021-03-31",
+    "cap_cny": 1836334.4778250002,
+    "worst_adv_cny": 36726689.5565,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2021-04-29",
+    "cap_cny": 1002363.2925000001,
+    "worst_adv_cny": 20047265.85,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2021-06-01",
+    "cap_cny": 5744516.340000001,
+    "worst_adv_cny": 114890326.80000001,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2021-06-30",
+    "cap_cny": 1007131.9550000001,
+    "worst_adv_cny": 20142639.1,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2021-07-28",
+    "cap_cny": 1139457.035,
+    "worst_adv_cny": 22789140.7,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2021-08-25",
+    "cap_cny": 998432.6687500001,
+    "worst_adv_cny": 19968653.375,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2021-09-24",
+    "cap_cny": 999688.0562,
+    "worst_adv_cny": 19993761.123999998,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2021-10-29",
+    "cap_cny": 810291.4750000001,
+    "worst_adv_cny": 16205829.5,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2021-11-26",
+    "cap_cny": 1235168.67,
+    "worst_adv_cny": 24703373.4,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2021-12-24",
+    "cap_cny": 1702861.2615000003,
+    "worst_adv_cny": 34057225.230000004,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2022-01-24",
+    "cap_cny": 1114323.455,
+    "worst_adv_cny": 22286469.1,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2022-02-28",
+    "cap_cny": 1803235.5300000003,
+    "worst_adv_cny": 36064710.6,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2022-03-28",
+    "cap_cny": 1249905.29375,
+    "worst_adv_cny": 24998105.875,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2022-04-27",
+    "cap_cny": 4916771.022,
+    "worst_adv_cny": 98335420.44,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2022-05-30",
+    "cap_cny": 1077526.735,
+    "worst_adv_cny": 21550534.7,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2022-06-28",
+    "cap_cny": 1606825.24,
+    "worst_adv_cny": 32136504.799999997,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2022-07-26",
+    "cap_cny": 1253332.0175,
+    "worst_adv_cny": 25066640.35,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2022-08-23",
+    "cap_cny": 4249730.2299999995,
+    "worst_adv_cny": 84994604.6,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2022-09-21",
+    "cap_cny": 6893102.00375,
+    "worst_adv_cny": 137862040.075,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2022-10-26",
+    "cap_cny": 1738910.4207999997,
+    "worst_adv_cny": 34778208.41599999,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2022-11-23",
+    "cap_cny": 1953602.4189250001,
+    "worst_adv_cny": 39072048.3785,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2022-12-21",
+    "cap_cny": 1600807.96875,
+    "worst_adv_cny": 32016159.375,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2023-01-19",
+    "cap_cny": 1768668.19,
+    "worst_adv_cny": 35373363.8,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2023-02-23",
+    "cap_cny": 1591448.88165,
+    "worst_adv_cny": 31828977.633,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2023-03-23",
+    "cap_cny": 1245827.12775,
+    "worst_adv_cny": 24916542.555,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2023-04-21",
+    "cap_cny": 1396702.3987500002,
+    "worst_adv_cny": 27934047.975,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2023-05-24",
+    "cap_cny": 936832.2825,
+    "worst_adv_cny": 18736645.65,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2023-06-21",
+    "cap_cny": 1642139.0037500001,
+    "worst_adv_cny": 32842780.075000003,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2023-07-21",
+    "cap_cny": 1451274.08,
+    "worst_adv_cny": 29025481.6,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2023-08-18",
+    "cap_cny": 1462760.88375,
+    "worst_adv_cny": 29255217.674999997,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2023-09-15",
+    "cap_cny": 1628677.7149999999,
+    "worst_adv_cny": 32573554.299999997,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2023-10-23",
+    "cap_cny": 5405213.792100001,
+    "worst_adv_cny": 108104275.84200001,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2023-11-20",
+    "cap_cny": 1580584.389675,
+    "worst_adv_cny": 31611687.7935,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2023-12-18",
+    "cap_cny": 844996.2162500002,
+    "worst_adv_cny": 16899924.325000003,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2024-01-16",
+    "cap_cny": 1551672.3825000003,
+    "worst_adv_cny": 31033447.650000006,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2024-02-21",
+    "cap_cny": 574295.933575,
+    "worst_adv_cny": 11485918.6715,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2024-03-20",
+    "cap_cny": 4816371.443,
+    "worst_adv_cny": 96327428.86,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2024-04-19",
+    "cap_cny": 7487921.321250001,
+    "worst_adv_cny": 149758426.425,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2024-05-22",
+    "cap_cny": 1604369.17125,
+    "worst_adv_cny": 32087383.424999997,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2024-06-20",
+    "cap_cny": 1247074.61,
+    "worst_adv_cny": 24941492.2,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2024-07-18",
+    "cap_cny": 1026909.34375,
+    "worst_adv_cny": 20538186.875,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2024-08-15",
+    "cap_cny": 1417250.1558750002,
+    "worst_adv_cny": 28345003.1175,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2024-09-12",
+    "cap_cny": 2538241.505,
+    "worst_adv_cny": 50764830.099999994,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2024-10-21",
+    "cap_cny": 434863.14125,
+    "worst_adv_cny": 8697262.825,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2024-11-18",
+    "cap_cny": 5463424.0675,
+    "worst_adv_cny": 109268481.35,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2024-12-16",
+    "cap_cny": 1579007.3863500003,
+    "worst_adv_cny": 31580147.727,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2025-01-14",
+    "cap_cny": 3150630.7596000005,
+    "worst_adv_cny": 63012615.192,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2025-02-19",
+    "cap_cny": 1181954.996875,
+    "worst_adv_cny": 23639099.9375,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2025-03-19",
+    "cap_cny": 1982023.1825,
+    "worst_adv_cny": 39640463.65,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2025-04-17",
+    "cap_cny": 278451.69,
+    "worst_adv_cny": 5569033.8,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2025-05-20",
+    "cap_cny": 1137523.5550000002,
+    "worst_adv_cny": 22750471.1,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2025-06-18",
+    "cap_cny": 1294984.505,
+    "worst_adv_cny": 25899690.099999998,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2025-07-16",
+    "cap_cny": 914278.5325,
+    "worst_adv_cny": 18285570.65,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2025-08-13",
+    "cap_cny": 1121486.81625,
+    "worst_adv_cny": 22429736.325,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2025-09-10",
+    "cap_cny": 2075598.9300000002,
+    "worst_adv_cny": 41511978.6,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2025-10-16",
+    "cap_cny": 1510426.4800000002,
+    "worst_adv_cny": 30208529.6,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2025-11-13",
+    "cap_cny": 1254777.82625,
+    "worst_adv_cny": 25095556.525,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2025-12-11",
+    "cap_cny": 2402645.435,
+    "worst_adv_cny": 48052908.699999996,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2026-01-12",
+    "cap_cny": 1919897.1280500004,
+    "worst_adv_cny": 38397942.561000004,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2026-02-09",
+    "cap_cny": 1083015.8025,
+    "worst_adv_cny": 21660316.05,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2026-03-17",
+    "cap_cny": 1066625.1275000002,
+    "worst_adv_cny": 21332502.55,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2026-04-15",
+    "cap_cny": 1373912.34125,
+    "worst_adv_cny": 27478246.825,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2026-05-18",
+    "cap_cny": 2222844.98765,
+    "worst_adv_cny": 44456899.753,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2026-06-15",
+    "cap_cny": 2290511.06,
+    "worst_adv_cny": 45810221.2,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2026-07-14",
+    "cap_cny": 4880396.595000001,
+    "worst_adv_cny": 97607931.9,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2026-08-11",
+    "cap_cny": 3804723.1076875003,
+    "worst_adv_cny": 76094462.15375,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2026-09-08",
+    "cap_cny": 1075535.83385,
+    "worst_adv_cny": 21510716.677,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2026-10-14",
+    "cap_cny": 3025432.7750000004,
+    "worst_adv_cny": 60508655.5,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2026-11-11",
+    "cap_cny": 939056.0650000001,
+    "worst_adv_cny": 18781121.3,
+    "n_slots_priced": 5
+   }
+  ],
+  "B_floor": [
+   {
+    "date": "2020-01-02",
+    "cap_cny": 1126097.67,
+    "worst_adv_cny": 22521953.4,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2020-02-07",
+    "cap_cny": 1084505.6500000001,
+    "worst_adv_cny": 21690113.0,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2020-03-06",
+    "cap_cny": 1147397.75625,
+    "worst_adv_cny": 22947955.125,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2020-04-03",
+    "cap_cny": 1111025.74,
+    "worst_adv_cny": 22220514.8,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2020-05-07",
+    "cap_cny": 2746767.3137000003,
+    "worst_adv_cny": 54935346.274000004,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2020-06-04",
+    "cap_cny": 1140711.06,
+    "worst_adv_cny": 22814221.2,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2020-07-06",
+    "cap_cny": 1027846.1300000001,
+    "worst_adv_cny": 20556922.6,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2020-08-03",
+    "cap_cny": 1146497.5450624998,
+    "worst_adv_cny": 22929950.901249997,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2020-08-31",
+    "cap_cny": 1098069.52125,
+    "worst_adv_cny": 21961390.425,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2020-09-28",
+    "cap_cny": 1370739.02375,
+    "worst_adv_cny": 27414780.474999998,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2020-11-03",
+    "cap_cny": 1308209.0031,
+    "worst_adv_cny": 26164180.062,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2020-12-01",
+    "cap_cny": 1000889.495,
+    "worst_adv_cny": 20017789.9,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2020-12-29",
+    "cap_cny": 1121259.5351500001,
+    "worst_adv_cny": 22425190.703,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2021-01-27",
+    "cap_cny": 1011076.1516999999,
+    "worst_adv_cny": 20221523.033999998,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2021-03-03",
+    "cap_cny": 1186605.1925000001,
+    "worst_adv_cny": 23732103.85,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2021-03-31",
+    "cap_cny": 1836334.4778250002,
+    "worst_adv_cny": 36726689.5565,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2021-04-29",
+    "cap_cny": 1002363.2925000001,
+    "worst_adv_cny": 20047265.85,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2021-06-01",
+    "cap_cny": 5744516.340000001,
+    "worst_adv_cny": 114890326.80000001,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2021-06-30",
+    "cap_cny": 1007131.9550000001,
+    "worst_adv_cny": 20142639.1,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2021-07-28",
+    "cap_cny": 1139457.035,
+    "worst_adv_cny": 22789140.7,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2021-08-25",
+    "cap_cny": 1034073.5625,
+    "worst_adv_cny": 20681471.25,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2021-09-24",
+    "cap_cny": 1018443.8150000001,
+    "worst_adv_cny": 20368876.3,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2021-10-29",
+    "cap_cny": 1683797.0250000001,
+    "worst_adv_cny": 33675940.5,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2021-11-26",
+    "cap_cny": 1235168.67,
+    "worst_adv_cny": 24703373.4,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2021-12-24",
+    "cap_cny": 1702861.2615000003,
+    "worst_adv_cny": 34057225.230000004,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2022-01-24",
+    "cap_cny": 1114323.455,
+    "worst_adv_cny": 22286469.1,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2022-02-28",
+    "cap_cny": 1803235.5300000003,
+    "worst_adv_cny": 36064710.6,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2022-03-28",
+    "cap_cny": 1249905.29375,
+    "worst_adv_cny": 24998105.875,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2022-04-27",
+    "cap_cny": 4916771.022,
+    "worst_adv_cny": 98335420.44,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2022-05-30",
+    "cap_cny": 1077526.735,
+    "worst_adv_cny": 21550534.7,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2022-06-28",
+    "cap_cny": 1606825.24,
+    "worst_adv_cny": 32136504.799999997,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2022-07-26",
+    "cap_cny": 1253332.0175,
+    "worst_adv_cny": 25066640.35,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2022-08-23",
+    "cap_cny": 4249730.2299999995,
+    "worst_adv_cny": 84994604.6,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2022-09-21",
+    "cap_cny": 6893102.00375,
+    "worst_adv_cny": 137862040.075,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2022-10-26",
+    "cap_cny": 1738910.4207999997,
+    "worst_adv_cny": 34778208.41599999,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2022-11-23",
+    "cap_cny": 1953602.4189250001,
+    "worst_adv_cny": 39072048.3785,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2022-12-21",
+    "cap_cny": 1600807.96875,
+    "worst_adv_cny": 32016159.375,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2023-01-19",
+    "cap_cny": 1768668.19,
+    "worst_adv_cny": 35373363.8,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2023-02-23",
+    "cap_cny": 1591448.88165,
+    "worst_adv_cny": 31828977.633,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2023-03-23",
+    "cap_cny": 1245827.12775,
+    "worst_adv_cny": 24916542.555,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2023-04-21",
+    "cap_cny": 1396702.3987500002,
+    "worst_adv_cny": 27934047.975,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2023-05-24",
+    "cap_cny": 1303619.1885000002,
+    "worst_adv_cny": 26072383.77,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2023-06-21",
+    "cap_cny": 1642139.0037500001,
+    "worst_adv_cny": 32842780.075000003,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2023-07-21",
+    "cap_cny": 1451274.08,
+    "worst_adv_cny": 29025481.6,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2023-08-18",
+    "cap_cny": 1462760.88375,
+    "worst_adv_cny": 29255217.674999997,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2023-09-15",
+    "cap_cny": 1628677.7149999999,
+    "worst_adv_cny": 32573554.299999997,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2023-10-23",
+    "cap_cny": 5405213.792100001,
+    "worst_adv_cny": 108104275.84200001,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2023-11-20",
+    "cap_cny": 1580584.389675,
+    "worst_adv_cny": 31611687.7935,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2023-12-18",
+    "cap_cny": 6358291.950375,
+    "worst_adv_cny": 127165839.0075,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2024-01-16",
+    "cap_cny": 1551672.3825000003,
+    "worst_adv_cny": 31033447.650000006,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2024-02-21",
+    "cap_cny": 1472900.2750000001,
+    "worst_adv_cny": 29458005.5,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2024-03-20",
+    "cap_cny": 4816371.443,
+    "worst_adv_cny": 96327428.86,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2024-04-19",
+    "cap_cny": 7487921.321250001,
+    "worst_adv_cny": 149758426.425,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2024-05-22",
+    "cap_cny": 1604369.17125,
+    "worst_adv_cny": 32087383.424999997,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2024-06-20",
+    "cap_cny": 1247074.61,
+    "worst_adv_cny": 24941492.2,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2024-07-18",
+    "cap_cny": 1026909.34375,
+    "worst_adv_cny": 20538186.875,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2024-08-15",
+    "cap_cny": 1417250.1558750002,
+    "worst_adv_cny": 28345003.1175,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2024-09-12",
+    "cap_cny": 2538241.505,
+    "worst_adv_cny": 50764830.099999994,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2024-10-21",
+    "cap_cny": 1136208.79225,
+    "worst_adv_cny": 22724175.845,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2024-11-18",
+    "cap_cny": 5463424.0675,
+    "worst_adv_cny": 109268481.35,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2024-12-16",
+    "cap_cny": 1579007.3863500003,
+    "worst_adv_cny": 31580147.727,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2025-01-14",
+    "cap_cny": 3150630.7596000005,
+    "worst_adv_cny": 63012615.192,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2025-02-19",
+    "cap_cny": 1181954.996875,
+    "worst_adv_cny": 23639099.9375,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2025-03-19",
+    "cap_cny": 1982023.1825,
+    "worst_adv_cny": 39640463.65,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2025-04-17",
+    "cap_cny": 1448928.7837500002,
+    "worst_adv_cny": 28978575.675,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2025-05-20",
+    "cap_cny": 1137523.5550000002,
+    "worst_adv_cny": 22750471.1,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2025-06-18",
+    "cap_cny": 1294984.505,
+    "worst_adv_cny": 25899690.099999998,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2025-07-16",
+    "cap_cny": 1225977.9041,
+    "worst_adv_cny": 24519558.082,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2025-08-13",
+    "cap_cny": 1121486.81625,
+    "worst_adv_cny": 22429736.325,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2025-09-10",
+    "cap_cny": 2075598.9300000002,
+    "worst_adv_cny": 41511978.6,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2025-10-16",
+    "cap_cny": 1510426.4800000002,
+    "worst_adv_cny": 30208529.6,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2025-11-13",
+    "cap_cny": 1254777.82625,
+    "worst_adv_cny": 25095556.525,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2025-12-11",
+    "cap_cny": 2402645.435,
+    "worst_adv_cny": 48052908.699999996,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2026-01-12",
+    "cap_cny": 1919897.1280500004,
+    "worst_adv_cny": 38397942.561000004,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2026-02-09",
+    "cap_cny": 1083015.8025,
+    "worst_adv_cny": 21660316.05,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2026-03-17",
+    "cap_cny": 1066625.1275000002,
+    "worst_adv_cny": 21332502.55,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2026-04-15",
+    "cap_cny": 1373912.34125,
+    "worst_adv_cny": 27478246.825,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2026-05-18",
+    "cap_cny": 2222844.98765,
+    "worst_adv_cny": 44456899.753,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2026-06-15",
+    "cap_cny": 2290511.06,
+    "worst_adv_cny": 45810221.2,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2026-07-14",
+    "cap_cny": 4880396.595000001,
+    "worst_adv_cny": 97607931.9,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2026-08-11",
+    "cap_cny": 3804723.1076875003,
+    "worst_adv_cny": 76094462.15375,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2026-09-08",
+    "cap_cny": 1075535.83385,
+    "worst_adv_cny": 21510716.677,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2026-10-14",
+    "cap_cny": 3025432.7750000004,
+    "worst_adv_cny": 60508655.5,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2026-11-11",
+    "cap_cny": 4920138.675,
+    "worst_adv_cny": 98402773.5,
+    "n_slots_priced": 5
+   }
+  ],
+  "R_random_fill": [
+   {
+    "date": "2020-01-02",
+    "cap_cny": 1126097.67,
+    "worst_adv_cny": 22521953.4,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2020-02-07",
+    "cap_cny": 1084505.6500000001,
+    "worst_adv_cny": 21690113.0,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2020-03-06",
+    "cap_cny": 1147397.75625,
+    "worst_adv_cny": 22947955.125,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2020-04-03",
+    "cap_cny": 1111025.74,
+    "worst_adv_cny": 22220514.8,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2020-05-07",
+    "cap_cny": 2746767.3137000003,
+    "worst_adv_cny": 54935346.274000004,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2020-06-04",
+    "cap_cny": 950678.1000000001,
+    "worst_adv_cny": 19013562.0,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2020-07-06",
+    "cap_cny": 1027846.1300000001,
+    "worst_adv_cny": 20556922.6,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2020-08-03",
+    "cap_cny": 1146497.5450624998,
+    "worst_adv_cny": 22929950.901249997,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2020-08-31",
+    "cap_cny": 1098069.52125,
+    "worst_adv_cny": 21961390.425,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2020-09-28",
+    "cap_cny": 1370739.02375,
+    "worst_adv_cny": 27414780.474999998,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2020-11-03",
+    "cap_cny": 1308209.0031,
+    "worst_adv_cny": 26164180.062,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2020-12-01",
+    "cap_cny": 961625.6601,
+    "worst_adv_cny": 19232513.202,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2020-12-29",
+    "cap_cny": 1121259.5351500001,
+    "worst_adv_cny": 22425190.703,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2021-01-27",
+    "cap_cny": 923254.9750000001,
+    "worst_adv_cny": 18465099.5,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2021-03-03",
+    "cap_cny": 874692.114225,
+    "worst_adv_cny": 17493842.2845,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2021-03-31",
+    "cap_cny": 1836334.4778250002,
+    "worst_adv_cny": 36726689.5565,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2021-04-29",
+    "cap_cny": 1002363.2925000001,
+    "worst_adv_cny": 20047265.85,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2021-06-01",
+    "cap_cny": 5744516.340000001,
+    "worst_adv_cny": 114890326.80000001,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2021-06-30",
+    "cap_cny": 1007131.9550000001,
+    "worst_adv_cny": 20142639.1,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2021-07-28",
+    "cap_cny": 1139457.035,
+    "worst_adv_cny": 22789140.7,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2021-08-25",
+    "cap_cny": 998432.6687500001,
+    "worst_adv_cny": 19968653.375,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2021-09-24",
+    "cap_cny": 1018443.8150000001,
+    "worst_adv_cny": 20368876.3,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2021-10-29",
+    "cap_cny": 810291.4750000001,
+    "worst_adv_cny": 16205829.5,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2021-11-26",
+    "cap_cny": 1235168.67,
+    "worst_adv_cny": 24703373.4,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2021-12-24",
+    "cap_cny": 1702861.2615000003,
+    "worst_adv_cny": 34057225.230000004,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2022-01-24",
+    "cap_cny": 1114323.455,
+    "worst_adv_cny": 22286469.1,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2022-02-28",
+    "cap_cny": 1803235.5300000003,
+    "worst_adv_cny": 36064710.6,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2022-03-28",
+    "cap_cny": 1249905.29375,
+    "worst_adv_cny": 24998105.875,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2022-04-27",
+    "cap_cny": 4916771.022,
+    "worst_adv_cny": 98335420.44,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2022-05-30",
+    "cap_cny": 1077526.735,
+    "worst_adv_cny": 21550534.7,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2022-06-28",
+    "cap_cny": 1606825.24,
+    "worst_adv_cny": 32136504.799999997,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2022-07-26",
+    "cap_cny": 1253332.0175,
+    "worst_adv_cny": 25066640.35,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2022-08-23",
+    "cap_cny": 4249730.2299999995,
+    "worst_adv_cny": 84994604.6,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2022-09-21",
+    "cap_cny": 6893102.00375,
+    "worst_adv_cny": 137862040.075,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2022-10-26",
+    "cap_cny": 1738910.4207999997,
+    "worst_adv_cny": 34778208.41599999,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2022-11-23",
+    "cap_cny": 1953602.4189250001,
+    "worst_adv_cny": 39072048.3785,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2022-12-21",
+    "cap_cny": 1600807.96875,
+    "worst_adv_cny": 32016159.375,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2023-01-19",
+    "cap_cny": 1768668.19,
+    "worst_adv_cny": 35373363.8,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2023-02-23",
+    "cap_cny": 1591448.88165,
+    "worst_adv_cny": 31828977.633,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2023-03-23",
+    "cap_cny": 1245827.12775,
+    "worst_adv_cny": 24916542.555,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2023-04-21",
+    "cap_cny": 1396702.3987500002,
+    "worst_adv_cny": 27934047.975,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2023-05-24",
+    "cap_cny": 936832.2825,
+    "worst_adv_cny": 18736645.65,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2023-06-21",
+    "cap_cny": 1642139.0037500001,
+    "worst_adv_cny": 32842780.075000003,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2023-07-21",
+    "cap_cny": 1451274.08,
+    "worst_adv_cny": 29025481.6,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2023-08-18",
+    "cap_cny": 1462760.88375,
+    "worst_adv_cny": 29255217.674999997,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2023-09-15",
+    "cap_cny": 1628677.7149999999,
+    "worst_adv_cny": 32573554.299999997,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2023-10-23",
+    "cap_cny": 5405213.792100001,
+    "worst_adv_cny": 108104275.84200001,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2023-11-20",
+    "cap_cny": 1580584.389675,
+    "worst_adv_cny": 31611687.7935,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2023-12-18",
+    "cap_cny": 6358291.950375,
+    "worst_adv_cny": 127165839.0075,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2024-01-16",
+    "cap_cny": 8062787.8491875,
+    "worst_adv_cny": 161255756.98375,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2024-02-21",
+    "cap_cny": 574295.933575,
+    "worst_adv_cny": 11485918.6715,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2024-03-20",
+    "cap_cny": 4816371.443,
+    "worst_adv_cny": 96327428.86,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2024-04-19",
+    "cap_cny": 7487921.321250001,
+    "worst_adv_cny": 149758426.425,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2024-05-22",
+    "cap_cny": 1604369.17125,
+    "worst_adv_cny": 32087383.424999997,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2024-06-20",
+    "cap_cny": 1247074.61,
+    "worst_adv_cny": 24941492.2,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2024-07-18",
+    "cap_cny": 1026909.34375,
+    "worst_adv_cny": 20538186.875,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2024-08-15",
+    "cap_cny": 1417250.1558750002,
+    "worst_adv_cny": 28345003.1175,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2024-09-12",
+    "cap_cny": 2538241.505,
+    "worst_adv_cny": 50764830.099999994,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2024-10-21",
+    "cap_cny": 434863.14125,
+    "worst_adv_cny": 8697262.825,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2024-11-18",
+    "cap_cny": 5463424.0675,
+    "worst_adv_cny": 109268481.35,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2024-12-16",
+    "cap_cny": 1579007.3863500003,
+    "worst_adv_cny": 31580147.727,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2025-01-14",
+    "cap_cny": 3150630.7596000005,
+    "worst_adv_cny": 63012615.192,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2025-02-19",
+    "cap_cny": 1181954.996875,
+    "worst_adv_cny": 23639099.9375,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2025-03-19",
+    "cap_cny": 1982023.1825,
+    "worst_adv_cny": 39640463.65,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2025-04-17",
+    "cap_cny": 278451.69,
+    "worst_adv_cny": 5569033.8,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2025-05-20",
+    "cap_cny": 1137523.5550000002,
+    "worst_adv_cny": 22750471.1,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2025-06-18",
+    "cap_cny": 1294984.505,
+    "worst_adv_cny": 25899690.099999998,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2025-07-16",
+    "cap_cny": 914278.5325,
+    "worst_adv_cny": 18285570.65,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2025-08-13",
+    "cap_cny": 1121486.81625,
+    "worst_adv_cny": 22429736.325,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2025-09-10",
+    "cap_cny": 2075598.9300000002,
+    "worst_adv_cny": 41511978.6,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2025-10-16",
+    "cap_cny": 1510426.4800000002,
+    "worst_adv_cny": 30208529.6,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2025-11-13",
+    "cap_cny": 1254777.82625,
+    "worst_adv_cny": 25095556.525,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2025-12-11",
+    "cap_cny": 2402645.435,
+    "worst_adv_cny": 48052908.699999996,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2026-01-12",
+    "cap_cny": 1919897.1280500004,
+    "worst_adv_cny": 38397942.561000004,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2026-02-09",
+    "cap_cny": 1083015.8025,
+    "worst_adv_cny": 21660316.05,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2026-03-17",
+    "cap_cny": 1066625.1275000002,
+    "worst_adv_cny": 21332502.55,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2026-04-15",
+    "cap_cny": 1373912.34125,
+    "worst_adv_cny": 27478246.825,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2026-05-18",
+    "cap_cny": 2222844.98765,
+    "worst_adv_cny": 44456899.753,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2026-06-15",
+    "cap_cny": 2290511.06,
+    "worst_adv_cny": 45810221.2,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2026-07-14",
+    "cap_cny": 4880396.595000001,
+    "worst_adv_cny": 97607931.9,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2026-08-11",
+    "cap_cny": 3804723.1076875003,
+    "worst_adv_cny": 76094462.15375,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2026-09-08",
+    "cap_cny": 1075535.83385,
+    "worst_adv_cny": 21510716.677,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2026-10-14",
+    "cap_cny": 3025432.7750000004,
+    "worst_adv_cny": 60508655.5,
+    "n_slots_priced": 5
+   },
+   {
+    "date": "2026-11-11",
+    "cap_cny": 4920138.675,
+    "worst_adv_cny": 98402773.5,
+    "n_slots_priced": 5
+   }
+  ]
+ },
+ "honest": [
+  "the eras are the book's own IS/OOS split: slicing the SAME path twice is not two independent samples, and the late era is shorter (its t is computed on its own months and says so)",
+  "the vol-target overlay is fitted over the whole path before slicing, so an era's sharpe is read off the same weights the published book carries -- this face re-runs the book, it does not re-fit it",
+  "capacity is bought MECHANICALLY by B inside either era (every floored pick clears the need by construction); the uplift is not evidence, the paid price is",
+  "the panel is a survivors sweep (r1319/r1874): names the source never served could not have been ranked in any arm of any era",
+  "nothing here is adopted: this face prices the same rule per era; a rule that pays in only one era is a regime statement, not a gate"
+ ],
+ "elapsed_sec": 62.84,
+ "verdict": "NOT_SEPARABLE_IN_THIS_ERA",
+ "repro": {
+  "upstream": "etf_book_liquidity_select.json",
+  "present": true,
+  "same_cutoff": true,
+  "checked": true,
+  "deltas": [],
+  "note": null,
+  "upstream_cutoff": "2026-11-19"
+ },
+ "sentence": "在最近这一段里，容量是机械买到的，收益差读不出（2024-2026）：6/35 次调仓里 11 次需要替换，容量最薄日 27.8万 → 102.7万；B-A 0.0233 pp/月 t=0.623，B-R 0.1134 pp/月 t=1.457（35 个月）；对照前段 2020-2023 判 NOT_SEPARABLE_IN_THIS_ERA"
+}

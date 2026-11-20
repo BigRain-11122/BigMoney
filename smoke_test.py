@@ -295,6 +295,39 @@ def _page_generation(page_stamp, board_stamp, page_rel, detail=""):
                       ("; " + detail) if detail else ""))
 
 
+def _cash_quote_split(page_spot, sheet_spot):
+    """(r1876) Did the page and the ticket price two different repo-quote sessions?
+
+    The CEO page is written by its owner on its own schedule and consumes the ticket's cash
+    block verbatim (`source: 票据 cash_leg.money`). When the repo quote rolls onto a new bar
+    AFTER the ticket that page consumed, the page keeps the older quote while the ticket
+    carries the newer one: same book bar, two quote generations (2026-11-20: page priced
+    11-17 while this host's ticket priced 11-19, 3.0 bp apart on the same 568,119 CNY).
+    Both faces print the session they priced (`cash_money.spot_date` /
+    `cash_leg.money.spot.date`), so this is a nameable split -- not one of them lying, and
+    not something this host can fix: `etf_book_ceo_page run` refuses to rewrite a page whose
+    pricing day already exists.
+
+    Asymmetric on purpose: a page BEHIND its ticket is the generation gap this closes; a
+    page level with or AHEAD of the ticket while the numbers differ is a real defect and
+    stays red. A missing date keeps every caller strict (absence is unverifiable, never a
+    pass -- E1406).
+
+    Returns (is_split, detail).
+    """
+    try:
+        import datetime as _dt
+        p = _dt.date.fromisoformat(str(page_spot)[:10])
+        s = _dt.date.fromisoformat(str(sheet_spot)[:10])
+    except Exception:                                  # noqa: BLE001
+        return False, ""
+    if s <= p:
+        return False, ""
+    return True, ("the page priced repo spot %s, this ticket priced %s -- the quote rolled "
+                  "after the page consumed its own ticket (same book bar, two quote "
+                  "generations)" % (p, s))
+
+
 def capture_pinned(argv, timeout):
     """The one place a leg captures a child's text.
 
@@ -1944,6 +1977,18 @@ def main() -> int:
              "scripts/etf_book_liquidity_select.py", ["selftest"]),
             ("product: etf_book_liquidity_select (capacity and verdict re-derived)",
              "scripts/etf_book_liquidity_select.py", ["check"]),
+            # r1876: r1875's reading was an average over 84 rebalances spanning two markets.
+            # This face slices the SAME three-arm path at the book's own IS/OOS boundary and
+            # prints each era on its own. The legs pin that month-over-month is computed on
+            # the full path (a slice-then-diff silently eats an era's first month), that a
+            # late-only gain is read late and not early, that a short era cannot print PAYS,
+            # that the era partitions add back to the full window, that a year with
+            # rebalances but no trigger keeps its own zero on the printed table, and that a
+            # generation gap in the upstream face is a note while a real disagreement is red.
+            ("product: etf_book_liquidity_era (each era read on its own months)",
+             "scripts/etf_book_liquidity_era.py", ["selftest"]),
+            ("product: etf_book_liquidity_era (eras partition the window, verdict re-derived)",
+             "scripts/etf_book_liquidity_era.py", ["check"]),
             # r1446: two true receipts that a desk cannot hold at once (the caliber dispute
             # says the gate is one decision from disagreeing with itself; the forward read
             # says the deciding check is decorative). The legs pin the four frozen classes
@@ -11032,6 +11077,22 @@ def main() -> int:
                 _pbad76, _tk76.get("asof_bar") or _tk76.get("as_of"))
             if not _ok76:
                 _bad76.append(_why76)
+            # r1876: the page consumes the ticket's cash block verbatim, so numbers can only
+            # part when the repo quote rolled between the two generations -- and both faces
+            # name the session they priced. A page that is BEHIND its own ticket is named,
+            # never called a lie; a page level with or ahead of it stays red (_cash_quote_split).
+            if _pbad76:
+                _split76, _why_split76 = _cash_quote_split(
+                    _cm76.get("spot_date") or (_pb76.get("spot") or {}).get("date"),
+                    (_money76.get("spot") or {}).get("date"))
+                if _split76:
+                    check_unsettled(
+                        "product: the operator page prices the cash half on the sheet's own three rates",
+                        [os.path.basename(_js76 or "page.json"),
+                         os.path.basename(_path76 or "ticket.json")],
+                        _why_split76 + ": " + "; ".join(_pbad76)[:110])
+                    _done76 = True
+                    _bad76 = []
             # r1868: this window re-issued the ticket from new code on the SAME bar, while
             # the page legitimately declined to rewrite itself (its no-bar guard). The two
             # then differ by one generation -- the clock, not the book (r1861's third
