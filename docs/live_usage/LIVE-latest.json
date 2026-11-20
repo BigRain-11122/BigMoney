@@ -2,7 +2,7 @@
  "schema": "ceo_live_usage_v1_9",
  "ticket": "T-202609-28-105",
  "day": "2026-11-20",
- "generated": "2026-11-20T17:38:51",
+ "generated": "2026-11-20T20:44:53",
  "market": {
   "state": "RED",
   "asof": "2026-11-20",
@@ -351,7 +351,7 @@
  "cap_vs_book": {
   "status": "ok",
   "source": "results/regime_cap_vs_book.json",
-  "sentence": "市场状态 RED 把新增风险的股票敞口压在上限 20%。（账户文件里另写着 20%（paper_engine），那是另一条规则——风配3 R-配3（跌破 MA250 且自 250 日高点回撤≥20% 才压到 20%）——不是同一顶帽子的矛盾读数。） 3/6 个阶梯管辖账户站在帽子上方；最高的是 COMPOSITE-CE-01，仓位 96.0%（超 76.0pp，是帽子的 4.80 倍）。该户上一交易日 96.0%。帽子只挡新开仓，并不强制卖出。按铁律 2 的 20% 单户总仓位帽重判：还有 3/6 户在上方（最高 COMPOSITE-CE-01 仓位 96.0%，超 76.0pp）。",
+  "sentence": "市场状态 RED 把新增风险的股票敞口压在上限 20%。（账户文件里另写着 20%（paper_engine），那是另一条规则——风配3 R-配3（跌破 MA250 且自 250 日高点回撤≥20% 才压到 20%）——不是同一顶帽子的矛盾读数。） 3/6 个阶梯管辖账户站在帽子上方；最高的是 COMPOSITE-CE-01，仓位 95.9%（超 75.9pp，是帽子的 4.80 倍）。该户上一交易日 96.0%。帽子只挡新开仓，并不强制卖出。按铁律 2 的 20% 单户总仓位帽重判：还有 3/6 户在上方（最高 COMPOSITE-CE-01 仓位 95.9%，超 75.9pp）。",
   "cap": 0.2,
   "cap_verdict": "CAP_SOURCES_AGREE",
   "book_verdict": "ABOVE_CAP",
@@ -359,13 +359,13 @@
   "n_above": 3,
   "widest_above": {
    "name": "COMPOSITE-CE-01",
-   "deployed_weight": 0.9599,
-   "gap_pp": 75.99,
+   "deployed_weight": 0.9594,
+   "gap_pp": 75.94,
    "multiple_of_cap": 4.8
   },
   "state": "RED",
-  "priced_on": "2026-11-19",
-  "stale": true
+  "priced_on": "2026-11-20",
+  "stale": false
  },
  "rollup": {
   "n_traders": 6,
@@ -386,7 +386,7 @@
  "intraday": {
   "feed": "T-104 minute_feed (rolling 1m archive, bm-b lane)",
   "today": "2026-11-20",
-  "asof": "2026-11-20 11:30:00",
+  "asof": "2026-11-20 15:00:00",
   "n_held_with_feed": 2,
   "n_live": 0,
   "rows": [
@@ -403,11 +403,11 @@
    {
     "symbol": "510050",
     "status": "LAGGED",
-    "latest_bar": "2026-11-20 11:30:00",
-    "latest_close": 2.837,
+    "latest_bar": "2026-11-20 15:00:00",
+    "latest_close": 2.9,
     "prev_session_close": 2.883,
-    "day_change_pct": -1.6,
-    "age_min": 368.9
+    "day_change_pct": 0.59,
+    "age_min": 344.9
    },
    {
     "symbol": "510330",
@@ -516,7 +516,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 63857.1
+    "last_append_age_min": 64043.1
    },
    {
     "family": "FUND-VALUE-P1",
@@ -524,7 +524,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 64701.5
+    "last_append_age_min": 64887.6
    },
    {
     "family": "FUND-DIVLOWVOL-P1",
@@ -532,7 +532,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 61494.8
+    "last_append_age_min": 61680.9
    }
   ]
  },
@@ -620,56 +620,56 @@
   "file": "TICKET-2026-11-20.json",
   "bar": "2026-11-20",
   "decision_bar": "2026-11-20",
-  "generated": "2026-11-20T17:16:21+08:00",
+  "generated": "2026-11-20T20:04:02+08:00",
   "rows": [
    {
     "symbol": "510760",
-    "lots": 703,
-    "shares": 70300,
-    "amount_cny": 86328.4,
+    "lots": 708,
+    "shares": 70800,
+    "amount_cny": 86942.4,
     "price": 1.228,
     "note": ""
    },
    {
     "symbol": "512040",
-    "lots": 730,
-    "shares": 73000,
-    "amount_cny": 86359.0,
+    "lots": 735,
+    "shares": 73500,
+    "amount_cny": 86950.5,
     "price": 1.183,
     "note": ""
    },
    {
     "symbol": "159655",
-    "lots": 466,
-    "shares": 46600,
-    "amount_cny": 86396.4,
+    "lots": 469,
+    "shares": 46900,
+    "amount_cny": 86952.6,
     "price": 1.854,
     "note": ""
    },
    {
     "symbol": "513690",
-    "lots": 774,
-    "shares": 77400,
-    "amount_cny": 86378.4,
+    "lots": 779,
+    "shares": 77900,
+    "amount_cny": 86936.4,
     "price": 1.116,
     "note": ""
    },
    {
     "symbol": "159519",
-    "lots": 507,
-    "shares": 50700,
-    "amount_cny": 86291.4,
+    "lots": 511,
+    "shares": 51100,
+    "amount_cny": 86972.2,
     "price": 1.702,
     "note": ""
    }
   ],
   "n": 5,
   "nav_cny": 1000000.0,
-  "spent_cny": 431753.6,
-  "cash_left_cny": 568246.4,
-  "book_weight": 0.432195,
-  "cash_weight": 0.567805,
-  "k_now": 0.432195,
+  "spent_cny": 434754.1,
+  "cash_left_cny": 565245.9,
+  "book_weight": 0.435003,
+  "cash_weight": 0.564997,
+  "k_now": 0.435003,
   "next_decision_bars": 13,
   "next_decision_face": {
    "present": true,
@@ -692,14 +692,14 @@
   "cost_bp_per_side": 8.0,
   "cash_leg": {
    "source": "data/repo_daily/GC001.csv",
-   "cash_cny": 568246.4,
+   "cash_cny": 565245.9,
    "fall_bp": 25.0,
    "bands": {
     "spot": {
      "label": "最近一笔",
      "pct": 1.145,
      "net_pct": 0.902,
-     "net_annual_cny": 5126.0,
+     "net_annual_cny": 5099.0,
      "as_of": "2026-11-19",
      "quotes": 250
     },
@@ -707,7 +707,7 @@
      "label": "250 日均",
      "pct": 1.3489,
      "net_pct": 1.1059,
-     "net_annual_cny": 6284.0,
+     "net_annual_cny": 6251.0,
      "as_of": null,
      "quotes": null
     },
@@ -715,7 +715,7 @@
      "label": "有记录以来",
      "pct": 2.0789,
      "net_pct": 1.8359,
-     "net_annual_cny": 10432.0,
+     "net_annual_cny": 10377.0,
      "as_of": null,
      "quotes": null
     }
@@ -1182,62 +1182,62 @@
  },
  "etf_premium": {
   "present": true,
-  "verdict": "ENTRY_PREMIUM_WARN",
-  "verdict_reason": "the ticket pays 1.01% of its own amount above IOPV (CNY 4342)",
-  "ticket": "TICKET-2026-11-19.json",
-  "ticket_session": "2026-11-19",
-  "iopv_session": "2026-11-19",
+  "verdict": "ENTRY_PREMIUM_SMALL",
+  "verdict_reason": "the ticket pays 0.95% above IOPV (below the 1.0% warn line)",
+  "ticket": "TICKET-2026-11-20.json",
+  "ticket_session": "2026-11-20",
+  "iopv_session": "2026-11-20",
   "session_match": true,
-  "premium_paid_cny": 4342.24,
-  "premium_share_of_order_pct": 1.0054,
-  "premium_share_of_nav_pct": 0.4342,
-  "verified_amount_cny": 431880.4,
+  "premium_paid_cny": 4117.3,
+  "premium_share_of_order_pct": 0.9536,
+  "premium_share_of_nav_pct": 0.4117,
+  "verified_amount_cny": 431753.6,
   "n_verified": 5,
   "n_unverifiable": 0,
-  "book_cagr_pct": 12.29,
+  "book_cagr_pct": 11.94,
   "years_of_backtest_return_paid": 0.08,
   "rows": [
    {
     "symbol": "510760",
-    "premium_pct": -0.2324,
-    "premium_paid_cny": -201.26,
-    "market_pctile": 32.29,
+    "premium_pct": -0.2599,
+    "premium_paid_cny": -224.96,
+    "market_pctile": 26.55,
     "status": "OK"
    },
    {
     "symbol": "512040",
-    "premium_pct": -0.1251,
-    "premium_paid_cny": -108.15,
-    "market_pctile": 45.65,
+    "premium_pct": -0.2109,
+    "premium_paid_cny": -182.5,
+    "market_pctile": 35.63,
     "status": "OK"
    },
    {
     "symbol": "159655",
-    "premium_pct": 8.8493,
-    "premium_paid_cny": 7022.1,
-    "market_pctile": 98.82,
+    "premium_pct": 6.4294,
+    "premium_paid_cny": 5219.2,
+    "market_pctile": 98.9,
     "status": "OK"
    },
    {
     "symbol": "513690",
-    "premium_pct": -1.6993,
-    "premium_paid_cny": -1493.7,
-    "market_pctile": 4.26,
+    "premium_pct": -0.6587,
+    "premium_paid_cny": -572.76,
+    "market_pctile": 3.84,
     "status": "OK"
    },
    {
     "symbol": "159519",
-    "premium_pct": -1.0055,
-    "premium_paid_cny": -876.75,
-    "market_pctile": 10.09,
+    "premium_pct": -0.1408,
+    "premium_paid_cny": -121.68,
+    "market_pctile": 48.23,
     "status": "OK"
    }
   ],
   "stress": {
-   "if_premium_reverts_to_zero_cny": -4342.24,
-   "if_premium_reverts_to_zero_pct_of_nav": -0.4342,
-   "if_premium_reverts_to_own_median_cny": -3325.99,
-   "if_premium_reverts_to_own_median_pct_of_nav": -0.3326,
+   "if_premium_reverts_to_zero_cny": -4117.3,
+   "if_premium_reverts_to_zero_pct_of_nav": -0.4117,
+   "if_premium_reverts_to_own_median_cny": -3079.45,
+   "if_premium_reverts_to_own_median_pct_of_nav": -0.3079,
    "note": "reversion is a stress, not a forecast: the gap can persist while the sleeve stays hard to buy. Zero is the outer bound; each fund's own median is the realistic one -- these funds normally live above NAV."
   },
   "own_top_decile_pctile": 90.0,
@@ -1245,41 +1245,41 @@
    "159655"
   ],
   "own_verdict": "SOME_NAMES_ABOVE_OWN_TOP_DECILE",
-  "own_revert_cny": 3325.99,
+  "own_revert_cny": 3079.45,
   "own_revert_note": "stress, not a forecast: it gives back only the part ABOVE each fund's own median premium, and only for names this order is buying"
  },
  "etf_premium_choice": {
   "present": true,
   "verdict": "RULERS_DISAGREE_SWAP_AT_HORIZON",
-  "ticket": "results/etf_book_order/TICKET-2026-11-19.json",
-  "as_of": "2026-11-19",
+  "ticket": "results/etf_book_order/TICKET-2026-11-20.json",
+  "as_of": "2026-11-20",
   "threshold_pp": 3.0,
   "annual_giveup_cap_pp": 2.0,
   "stretched": [
    {
     "symbol": "159655",
-    "premium_pct": 8.84926,
-    "premium_cny": 7643.5,
-    "leg_score": 0.555552,
+    "premium_pct": 6.429392,
+    "premium_cny": 5590.52,
+    "leg_score": 0.298689,
     "verdict": "SWAP_AT_BOOK_HORIZON",
-    "twin": "159529",
-    "twin_premium_pct": 4.196597353497156,
-    "twin_score_gap": 0.2515224813574165,
-    "saving_cny_once": 4018.71,
-    "giveup_cny_per_window": 233.32,
-    "giveup_pp_per_year": 3.4036,
-    "breakeven_convergence_p": 0.058058,
-    "breakeven_tenure_windows": 17.224,
-    "breakeven_tenure_years": 1.367,
-    "drop_to_cash_saving_cny": 7643.5
+    "twin": "159518",
+    "twin_premium_pct": 0.8432888264230387,
+    "twin_score_gap": 0.1485320461198655,
+    "saving_cny_once": 4857.26,
+    "giveup_cny_per_window": 138.7,
+    "giveup_pp_per_year": 2.0099,
+    "breakeven_convergence_p": 0.028556,
+    "breakeven_tenure_windows": 35.019,
+    "breakeven_tenure_years": 2.7793,
+    "drop_to_cash_saving_cny": 5590.52
    }
   ],
   "n_stretched": 1,
   "mean_tenure_windows": 1.573,
   "median_tenure_windows": 1.0,
   "share_one_window": 0.794,
-  "best_saving_cny": 7643.5,
-  "best_giveup_cny_per_window": 233.32
+  "best_saving_cny": 5590.52,
+  "best_giveup_cny_per_window": 138.7
  },
  "etf_capacity": {
   "present": true,
@@ -1359,49 +1359,49 @@
   "rows": [
    {
     "k": 1,
-    "cost_cny": 1786.06,
-    "t": -4.562446075953968,
+    "cost_cny": 1785.93,
+    "t": -4.562446075953977,
     "share_late_helps": 0.4142857142857143,
     "separable": true
    },
    {
     "k": 2,
-    "cost_cny": 2592.25,
-    "t": -4.783805305959651,
+    "cost_cny": 2591.98,
+    "t": -4.78380530595965,
     "share_late_helps": 0.41904761904761906,
     "separable": true
    },
    {
     "k": 3,
-    "cost_cny": 2806.47,
-    "t": -4.147026268691905,
-    "share_late_helps": 0.43675417661097854,
+    "cost_cny": 2789.2,
+    "t": -4.135297267911759,
+    "share_late_helps": 0.4380952380952381,
     "separable": true
    },
    {
     "k": 5,
-    "cost_cny": 4008.49,
-    "t": -4.254465438770218,
-    "share_late_helps": 0.4172661870503597,
+    "cost_cny": 3946.14,
+    "t": -4.2134663103582515,
+    "share_late_helps": 0.41866028708133973,
     "separable": true
    },
    {
     "k": 10,
-    "cost_cny": 4025.16,
-    "t": -2.2053797292433184,
+    "cost_cny": 4023.84,
+    "t": -2.205379729243327,
     "share_late_helps": 0.4433734939759036,
     "separable": true
    }
   ],
   "one_open_late": {
-   "median_cny": -929.1796775964033,
-   "mean_cny": -1786.0584921749248,
-   "t": -4.562446075953968,
+   "median_cny": -929.1796775964013,
+   "mean_cny": -1786.0584921749253,
+   "t": -4.562446075953977,
    "share_late_helps": 0.4142857142857143
   },
-  "evidence_cutoff": "2026-11-19",
+  "evidence_cutoff": "2026-11-20",
   "capital_cny": 1000000.0,
-  "sentence": "nothing is owed today (the ticket orders k under its own permission), so the baseline is 'do nothing'. doing it today is the cheapest rung of the ladder (every wait is more expensive); across k=1..10 the waits span +1786 .. +4025 CNY vs today. One open late is worth -929 CNY of NAV on the median sheet with waiting helping on 41% of them (t=-4.56), so the mean is priced but a single sheet is still a coin flip.",
+  "sentence": "nothing is owed today (the ticket orders k under its own permission), so the baseline is 'do nothing'. doing it today is the cheapest rung of the ladder (every wait is more expensive); across k=1..10 the waits span +1786 .. +4024 CNY vs today. One open late is worth -929 CNY of NAV on the median sheet with waiting helping on 41% of them (t=-4.56), so the mean is priced but a single sheet is still a coin flip.",
   "file": "results/etf_book_do_or_wait.json"
  },
  "etf_open_gap": {
@@ -1410,7 +1410,7 @@
   "evidence_cutoff": "2026-11-20",
   "ticket": "TICKET-2026-11-20.json",
   "n_names": 5,
-  "traded_amount_cny": 431753.6,
+  "traded_amount_cny": 434754.1,
   "recent_sessions": 250,
   "recent": {
    "n": 1250,
@@ -1438,11 +1438,11 @@
   },
   "money": {
    "median_cny": 0.0,
-   "band_cny": 2407.52,
+   "band_cny": 2424.25,
    "basis": "recent caliber (median) and the p20..p80 band, scaled by the ticket's own traded amount -- same ruler, no second estimator"
   },
   "band_ratio_vs_fee": 3.4851,
-  "fee_double_sided_cny": 690.81,
+  "fee_double_sided_cny": 695.61,
   "names": [
    {
     "symbol": "510760",
@@ -1626,7 +1626,7 @@
    }
   ],
   "missing": [],
-  "sentence": "这张单按 2026-11-20 的收盘价定价，成交在下一交易日开盘。这 5 只票近 250 个交易日（每只各自最近的一窗）的隔夜跳空中位 +0.0bp、中间六成落 -30.5..+25.2bp；按本单 431,754 元建仓，这条带值 2,408 元，而整张单的双边成本是 691 元。",
+  "sentence": "这张单按 2026-11-20 的收盘价定价，成交在下一交易日开盘。这 5 只票近 250 个交易日（每只各自最近的一窗）的隔夜跳空中位 +0.0bp、中间六成落 -30.5..+25.2bp；按本单 434,754 元建仓，这条带值 2,424 元，而整张单的双边成本是 696 元。",
   "caveats": [
    "跳空不是成本：它同时把敞口 k 按同一比例搬家，没有付给任何人，不能与手续费相加",
    "两个口径（最近 250 个交易日 / 全史）都印，不平均：一个是这本书现在的价环境，一个是它见过的全部",
@@ -1664,7 +1664,7 @@
    "present": true,
    "bar": "2026-11-20",
    "n_hold": 5,
-   "scale": 0.432195,
+   "scale": 0.435003,
    "names": [
     "510760",
     "512040",
@@ -1673,15 +1673,15 @@
     "159519"
    ],
    "rule": "beta_target 0.20",
-   "book_amount_cny": 431753.6,
-   "cash_amount_cny": 568246.4
+   "book_amount_cny": 434754.1,
+   "cash_amount_cny": 565245.9
   },
   "comparable": false,
   "same_book": null,
   "verdict": "NOT_COMPARABLE",
   "names_overlap": 5,
-  "scale_gap_pp": 47.72,
-  "scale_gap_cny": 477189.0,
+  "scale_gap_pp": 47.44,
+  "scale_gap_cny": 474381.0,
   "capital_cny": 1000000.0,
   "note": "两侧不在同一决策 bar（账本 2026-11-11 / 执行单 2026-11-20）——只并排印，不做比较"
  },
@@ -2009,12 +2009,12 @@
  },
  "data_lanes": {
   "status": "ok",
-  "as_of": "2026-11-20T16:04:35",
+  "as_of": "2026-11-20T18:22:20",
   "verdict": "all_fresh",
   "counts": {
    "retired": 1,
-   "in_sync": 4,
-   "today_pending": 10
+   "in_sync": 8,
+   "today_pending": 6
   },
   "n_lanes": 15,
   "machine": "bm-c",
@@ -2022,7 +2022,7 @@
   "rows": [],
   "hosts": {
    "bm-a": {
-    "age_h": 44.19,
+    "age_h": 46.49,
     "alive": false,
     "silent_waiting": [],
     "silent_taken_over": {
@@ -2033,7 +2033,7 @@
     }
    },
    "bm-b": {
-    "age_h": 507.36,
+    "age_h": 509.65,
     "alive": false,
     "silent_waiting": [],
     "silent_taken_over": {

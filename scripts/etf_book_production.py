@@ -2605,10 +2605,22 @@ def selftest():
             and _lb_ok.get("gap_pp") == -1.25
             and _lb_none.get("available") is False and bool(_lb_none.get("reason")),
             "ok=%r none=%r" % (_lb_ok.get("available"), _lb_none.get("reason")))
+        # r1886: this leg used to pin the literal k of one bar (0.4322), so the day the live
+        # ticket moved to another width the card was correct and the leg went red -- an
+        # assertion about a live face has to be built from that face's own reading. What is
+        # still checked mechanically: the card PRINTS the sentence, and the width it prints is
+        # the one the live-book face reports (or that the face was unreadable and it says so).
+        _lb_run = o.get("live_book") or {}
+        if _lb_run.get("available") and _lb_run.get("ticket_k") is not None:
+            _want_lb = "under the %s rule at k=%.4f" % (
+                _lb_run.get("ticket_rule") or "beta", float(_lb_run["ticket_k"]))
+        elif _lb_run.get("available"):
+            _want_lb = "under the %s rule at k=unreadable" % (_lb_run.get("ticket_rule") or "beta")
+        else:
+            _want_lb = "Live ticket: not readable for this bar"
         chk("the card prints the ticket's width, or says it cannot read it",
-            ("under the beta rule at k=0.4322" in card)
-            or ("Live ticket: not readable for this bar" in card),
-            "live_book=%r" % ((o.get("live_book") or {}).get("available"),))
+            _want_lb in card,
+            "live_book=%r want=%r" % ((o.get("live_book") or {}).get("available"), _want_lb))
         chk("card states delivered vol against the label",
             "Vol label vs delivered risk" in card and "target 8%" in card)
         # r1225: the first ROW of the table is what a reader sizes from, and it used to print

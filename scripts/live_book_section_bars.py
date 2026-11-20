@@ -402,7 +402,14 @@ LEG_ALIASES = {"leg_split": ["etf_book_leg_attribution"],
                # named for the product family rather than the section -- the name match
                # could not see it and printed "no chain leg re-runs it" about a face that
                # had just been re-run.
-               "futures_ladder": ["idx_fut_carry_capital"]}
+               "futures_ladder": ["idx_fut_carry_capital"],
+               # r1886: these two sections are COMPUTED inside the CEO page itself
+               # (`futures_hedge_face` / `futures_hedge_tail_face`), so no face name can match
+               # them -- the name probe printed "no chain leg re-runs it" about a section the
+               # page leg rebuilds on every pass. Their bar stays on the futures panel's own
+               # last bar, which is a data-lane lag (11-19 today), not a missing writer.
+               "futures_hedge": ["etf_book_ceo_page"],
+               "futures_hedge_tail": ["etf_book_ceo_page"]}
 
 
 def probes_for(key, section):

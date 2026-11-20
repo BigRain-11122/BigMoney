@@ -1,7 +1,7 @@
 {
  "face": "etf_book_cash_roll_today",
  "question": "which repo tenor does the book's uninvested sleeve roll into today, and is the answer constrained by the next decision bar?",
- "generated": "2026-11-20T02:15:15+0800",
+ "generated": "2026-11-20T21:02:28+0800",
  "panel_last_bars": {
   "GC001": "2026-11-19",
   "GC003": "2026-11-19",
@@ -18,22 +18,27 @@
  "inputs": {
   "permission_face": "results\\etf_book_cut_order_gap.json",
   "nav_cny": 1000000.0,
-  "ordered_book_cny": 431880.0,
-  "cash_cny": 568120.0,
-  "book_as_of": "2026-11-19",
+  "ordered_book_cny": 434754.0,
+  "cash_cny": 565246.0,
+  "book_as_of": "2026-11-20",
   "decision_date": "2026-12-09",
   "repo_panel_as_of": "2026-11-19"
+ },
+ "panel_lag": {
+  "book_as_of": "2026-11-20",
+  "repo_panel_as_of": "2026-11-19",
+  "note": "the repo panel is behind the book bar; the quotes are read off their own last bar and never ffilled"
  },
  "as_of": "2026-11-19",
  "decision_date": "2026-12-09",
  "window_days": 20,
- "cash_cny": 568120.0,
+ "cash_cny": 565246.0,
  "placeable": {
   "sh_cny": 500000.0,
-  "sz_cny": 68000.0,
-  "leftover_cny": 120.0,
-  "placed_cny": 568000.0,
-  "cash_cny": 568120.0
+  "sz_cny": 65000.0,
+  "leftover_cny": 246.0,
+  "placed_cny": 565000.0,
+  "cash_cny": 565246.0
  },
  "eligible": [
   {
@@ -211,9 +216,9 @@
   "fits_before_decision": true,
   "window_return_pct": 0.0608
  },
- "worth_vs_daily_roll_cny_year": 1945.42,
- "worth_vs_daily_roll_cny_window": 106.81,
+ "worth_vs_daily_roll_cny_year": 1935.55,
+ "worth_vs_daily_roll_cny_window": 106.27,
  "verdict": "ROLL_GC014_TODAY",
- "sentence": "GC014 pays 1.12%/yr net and still matures by 2026-12-09; versus rolling 1-day every session it is worth 1945.42 CNY a year (106.81 CNY over the 20 days to the next decision)",
+ "sentence": "GC014 pays 1.12%/yr net and still matures by 2026-12-09; versus rolling 1-day every session it is worth 1935.55 CNY a year (106.27 CNY over the 20 days to the next decision)",
  "elapsed_sec": 0.09
 }

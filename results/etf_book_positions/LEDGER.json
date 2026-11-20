@@ -463,44 +463,44 @@
    "bar": "2026-11-20",
    "kind": "execution",
    "ticket": "TICKET-2026-11-20.json",
-   "k": 0.431754,
-   "risk_book_cny": 431753.6,
-   "cash_cny": 568246.4,
+   "k": 0.434754,
+   "risk_book_cny": 434754.1,
+   "cash_cny": 565245.9,
    "holdings": [
     {
      "symbol": "159519",
-     "lots": 507,
+     "lots": 511,
      "price": 1.702,
-     "amount_cny": 86291.4
+     "amount_cny": 86972.2
     },
     {
      "symbol": "159655",
-     "lots": 466,
+     "lots": 469,
      "price": 1.854,
-     "amount_cny": 86396.4
+     "amount_cny": 86952.6
     },
     {
      "symbol": "510760",
-     "lots": 703,
+     "lots": 708,
      "price": 1.228,
-     "amount_cny": 86328.4
+     "amount_cny": 86942.4
     },
     {
      "symbol": "512040",
-     "lots": 730,
+     "lots": 735,
      "price": 1.183,
-     "amount_cny": 86359.0
+     "amount_cny": 86950.5
     },
     {
      "symbol": "513690",
-     "lots": 774,
+     "lots": 779,
      "price": 1.116,
-     "amount_cny": 86378.4
+     "amount_cny": 86936.4
     }
    ],
    "actions": [],
    "source_face": "results/etf_book_swap_stack.json",
-   "written_ts": "2026-11-20T17:08:20+08:00"
+   "written_ts": "2026-11-20T20:33:57+08:00"
   }
  ],
  "restatements": [
@@ -1702,6 +1702,67 @@
      "symbol": "513690",
      "before": 756,
      "after": 766
+    }
+   ]
+  },
+  {
+   "bar": "2026-11-20",
+   "previous_written_ts": "2026-11-20T17:08:20+08:00",
+   "written_ts": "2026-11-20T20:33:57+08:00",
+   "before": {
+    "k": 0.431754,
+    "risk_book_cny": 431753.6,
+    "cash_cny": 568246.4,
+    "lots": {
+     "159519": 507,
+     "159655": 466,
+     "510760": 703,
+     "512040": 730,
+     "513690": 774
+    }
+   },
+   "after": {
+    "k": 0.434754,
+    "risk_book_cny": 434754.1,
+    "cash_cny": 565245.9,
+    "lots": {
+     "159519": 511,
+     "159655": 469,
+     "510760": 708,
+     "512040": 735,
+     "513690": 779
+    }
+   },
+   "delta": {
+    "k": 0.003,
+    "risk_book_cny": 3000.5,
+    "cash_cny": -3000.5
+   },
+   "lots_changed": [
+    {
+     "symbol": "159519",
+     "before": 507,
+     "after": 511
+    },
+    {
+     "symbol": "159655",
+     "before": 466,
+     "after": 469
+    },
+    {
+     "symbol": "510760",
+     "before": 703,
+     "after": 708
+    },
+    {
+     "symbol": "512040",
+     "before": 730,
+     "after": 735
+    },
+    {
+     "symbol": "513690",
+     "before": 774,
+     "after": 779
     }
    ]
   }

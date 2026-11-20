@@ -1,7 +1,7 @@
 {
- "k_now": 0.432195,
+ "k_now": 0.435003,
  "nav_cny": 1000000.0,
- "deployed_now_cny": 432195.0,
+ "deployed_now_cny": 435003.0,
  "cells_readable": [
   "baseline_published",
   "denominator",
@@ -12,42 +12,42 @@
  "cells_unreadable": [],
  "rulers": {
   "baseline_published": {
-   "k": 0.458463,
-   "delta_vs_now_pp": 2.63
+   "k": 0.460253,
+   "delta_vs_now_pp": 2.53
   },
   "window": {
    "k": 0.747086,
-   "delta_vs_now_pp": 31.49
+   "delta_vs_now_pp": 31.21
   },
   "universe": {
    "k": 0.435003,
-   "delta_vs_now_pp": 0.28
+   "delta_vs_now_pp": -0.0
   },
   "window_x_universe": {
    "k": 0.667665,
-   "delta_vs_now_pp": 23.55
+   "delta_vs_now_pp": 23.27
   },
   "denominator": {
    "k": 0.343508,
-   "delta_vs_now_pp": -8.87
+   "delta_vs_now_pp": -9.15
   }
  },
  "k_floor": 0.343508,
  "k_floor_semantics": "min k across every ruler (NOT the issued floor; see k_issued)",
- "k_issued": 0.432195,
+ "k_issued": 0.435003,
  "k_issued_cell": "universe",
  "k_ceiling": 0.747086,
  "deployed_floor_cny": 343508.04,
  "deployed_ceiling_cny": 747086.34,
  "range_pp": 40.36,
  "widest_mover": "window",
- "widest_mover_pp": 31.49,
+ "widest_mover_pp": 31.21,
  "n_below_money": 1,
  "n_above_money": 3,
  "the_size_in_force_is_the_floor": false,
  "the_size_in_force_is_the_ceiling": false,
- "verdict": "IDENTITY_BROKEN",
- "sentence": "a ruler disagrees with a published number (ticket_k_reproduced, graded_k_reproduces_split_receipt); the table is not evidence until that is resolved",
+ "verdict": "SIZE_IS_A_RULER_CHOICE",
+ "sentence": "the same rule priced on the same panel lands between k=0.343508 and k=0.747086 (40.36pp of range, widest mover=window +31.21pp); the money sits inside that range at k=0.435003 -- 1 readings below it, 3 above it, floor CNY 343,508 against CNY 435,003 deployed",
  "face": "etf_book_size_rulers_decision",
  "evidence_cutoff": "2026-11-20",
  "ticket_file": "TICKET-2026-11-20.json",
@@ -65,8 +65,11 @@
  },
  "cells": {
   "baseline_published": {
-   "beta": 0.43623981874326334,
-   "k": 0.45846342173937216,
+   "beta": 0.43454318286205884,
+   "k": 0.46025345210279806,
+   "k_today": 0.45846342173937216,
+   "beta_today": 0.43623981874326334,
+   "as_of_bar": "2026-10-23",
    "bars": 1668,
    "universe": "all classes on the panel",
    "window": "full"
@@ -102,7 +105,7 @@
   }
  },
  "cell_notes": {
-  "denominator": "the sized mix is 43.2% invested; dividing by covered weight puts it on the path's denominator (r1448 unit note)"
+  "denominator": "the sized mix is 43.5% invested; dividing by covered weight puts it on the path's denominator (r1448 unit note)"
  },
  "arms": {
   "published": {
@@ -121,21 +124,20 @@
  "identity_legs": {
   "k_from_beta_reproduces_engine": true,
   "expanding_beta_at_decision_bar_reproduced": true,
-  "ticket_k_reproduced": false,
+  "ticket_k_reproduced": true,
   "ticket_book_amount_is_k_times_nav_minus_lots": true,
   "window_recomputed_matches_receipt": true,
-  "graded_k_reproduces_split_receipt": false
+  "graded_k_reproduces_split_receipt": true
  },
- "identity_broken": [
-  "ticket_k_reproduced",
-  "graded_k_reproduces_split_receipt"
- ],
+ "identity_broken": [],
+ "ticket_k_reproduced_on_bar": "2026-10-23",
+ "ticket_book_decided_at": "2026-11-11",
  "prereg_requirements": [
   "1. fix the ruler before looking: which window (common vs full) and which universe (all vs graded) is the declared measurement universe",
   "2. fix the denominator rule (path beta, or static mix divided by covered weight) and forbid mixing the two inside one table",
   "3. if the declared size is the floor rather than the ceiling, sign the risk budget it implies (target 0.20 is a budget, not an optimum -- r1447)",
   "4. carry the chosen size into the 2026-12-09 ticket and print the three unused readings next to it so the choice stays visible"
  ],
- "elapsed_sec": 49.4,
- "generated": "2026-11-20T17:10:08+0800"
+ "elapsed_sec": 48.8,
+ "generated": "2026-11-20T20:32:23+0800"
 }

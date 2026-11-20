@@ -7604,7 +7604,20 @@ def main() -> int:
         _lagging = _members.get("lagging") or []
         _fresh_ok = (_face.get("generated_for_bar") == _panel_complete
                      and _face.get("generated_for_bar") == _stale_blk.get("panel_bar"))
+        # r1886: the whole panel can sit a day behind the calendar with NO member individually
+        # behind -- today all ten files end 11-19 while the calendar's last session is 11-20,
+        # because the futures lane is another machine's. That is the lane's fact, not this
+        # face's defect, and no branch named it, so a healthy face read as red (r1789 family).
+        # The state is accepted only when the face NAMES both numbers; a silently frozen
+        # panel (no calendar date / no lag count / a lag past a week) stays red.
+        _lag_days = _stale_blk.get("lag_trading_days")
+        _panel_wide_lag = (_stale_blk.get("stale") is True
+                           and not _lagging
+                           and _stale_blk.get("panel_bar") == _panel_complete
+                           and bool(_stale_blk.get("calendar_last"))
+                           and isinstance(_lag_days, int) and 1 <= _lag_days <= 5)
         _honest_lag = (_stale_blk.get("stale") is False
+                       or _panel_wide_lag
                        or (bool(_lagging)
                            and _stale_blk.get("panel_bar") == _panel_complete
                            and all(m.get("last_bar") for m in _lagging)))
@@ -9731,7 +9744,15 @@ def main() -> int:
                 _bad55.append("no path was assessed")
             if _doc55.get("verdict") not in ("SUPPORTED", "FRAGILE", "NO_GATE", "NOT_ASSESSED"):
                 _bad55.append("unknown face verdict %r" % (_doc55.get("verdict"),))
-            if "%d of them" % len(_judged55) not in _ans55:
+            # r1886: the answer sentence quotes a TOTAL and then two different SUBSETS
+            # ("Across 15 decision grids ... beats its placebo on 13 of them ... clears the
+            # bar on 6"), so demanding the total inside the phrase "N of them" pinned one
+            # subset's wording (r1775 family: an assertion about a face must be built from
+            # the face's own numbers, not from one phrasing of one clause). The link that
+            # still has to hold: the total the sentence opens with is the number of paths
+            # this face actually judged.
+            if ("%d decision grids" % len(_judged55) not in _ans55
+                    and "%d of them" % len(_judged55) not in _ans55):
                 _bad55.append("the sentence does not line up with the path count")
             if _doc55.get("verdict") == "NO_GATE" and abs(float(_sup55.get("share") or 0)) > 0.5:
                 _bad55.append("face says NO_GATE with %r of paths passing" % (_sup55.get("share"),))

@@ -1,15 +1,15 @@
 {
  "face": "etf_book_cut_gate_pass",
- "asof": "2026-11-20T16:41:18+0800",
+ "asof": "2026-11-20T20:33:22+0800",
  "evidence_cutoff": "2026-11-20",
- "question": "the permission says 11-11 must size at k=0.432195 instead of 0.432195 -- does that cut change what the calendar gate says about the book?",
+ "question": "the permission says 11-11 must size at k=0.435003 instead of 0.435003 -- does that cut change what the calendar gate says about the book?",
  "permission": {
-  "permitted_k": 0.432195,
-  "k_now": 0.432195,
+  "permitted_k": 0.435003,
+  "k_now": 0.435003,
   "cut_k": 0.0,
   "decision_date": "2026-12-09",
   "evidence_cutoff": "2026-11-20",
-  "generated": "2026-11-20T16:40:29+0800",
+  "generated": "2026-11-20T20:32:37+0800",
   "verdict": "KEEP_SUPPORTED_BY_INDEPENDENT_PATH"
  },
  "window": {
@@ -102,7 +102,7 @@
    ],
    "gate_conflict": null,
    "book": "ticket_k_no_cut",
-   "note": "the size the ticket would order today (k=0.432195), dynamic beta rule",
+   "note": "the size the ticket would order today (k=0.435003), dynamic beta rule",
    "yearly_returns_pct": {
     "2020": 2.1025,
     "2021": 3.4877,
@@ -141,18 +141,18 @@
   {
    "verdict": "ADMIT",
    "capacity_checked": false,
-   "cagr_pct": 6.63,
+   "cagr_pct": 6.65,
    "capacity_cny_1day_5pct": null,
    "year_metrics": {
     "years": 7,
     "positive_years": 7,
     "median": 2.7609,
     "worst": 2.1025,
-    "best": 21.1874,
-    "annual_sum": 41.1814,
-    "top2_share": 0.6738,
+    "best": 21.3231,
+    "annual_sum": 41.3356,
+    "top2_share": 0.6748,
     "worst_full_only": 2.4042,
-    "top2_share_full_only": 0.7623
+    "top2_share_full_only": 0.7632
    },
    "checks": {
     "Y1_positive_years_share": true,
@@ -188,19 +188,19 @@
     },
     {
      "year": "2024",
-     "net_pct": 6.561545373589639,
+     "net_pct": 6.570818109771737,
      "cohorts": 4,
      "partial": false
     },
     {
      "year": "2025",
-     "net_pct": 21.18737864816169,
+     "net_pct": 21.323105466277536,
      "cohorts": 4,
      "partial": false
     },
     {
      "year": "2026",
-     "net_pct": 2.6771552589091696,
+     "net_pct": 2.686332408788772,
      "cohorts": 3,
      "partial": true
     }
@@ -214,22 +214,22 @@
     },
     {
      "year": "2026",
-     "net_pct": 2.6771552589091696,
+     "net_pct": 2.686332408788772,
      "cohorts": 3,
      "approx_months_of_evidence": 8.6
     }
    ],
    "gate_conflict": null,
    "book": "permission_cap_applied_history",
-   "note": "identical construction, every k clipped at the permission's 0.432195 -- a COUNTERFACTUAL (the desk never actually held this path)",
+   "note": "identical construction, every k clipped at the permission's 0.435003 -- a COUNTERFACTUAL (the desk never actually held this path)",
    "yearly_returns_pct": {
     "2020": 2.1025,
     "2021": 3.4877,
     "2022": 2.7609,
     "2023": 2.4042,
-    "2024": 6.5615,
-    "2025": 21.1874,
-    "2026": 2.6772
+    "2024": 6.5708,
+    "2025": 21.3231,
+    "2026": 2.6863
    },
    "yearly_bars": {
     "2020": 115,
@@ -245,15 +245,15 @@
     "2021": 0.2498,
     "2022": 0.3127,
     "2023": 0.3532,
-    "2024": 0.3883,
-    "2025": 0.4322,
-    "2026": 0.4322
+    "2024": 0.3889,
+    "2025": 0.435,
+    "2026": 0.435
    },
    "k": {
     "n": 1540,
-    "mean": 0.350389,
+    "mean": 0.351301,
     "min": 0.225689,
-    "last": 0.432195,
+    "last": 0.435003,
     "share_capped": 0.0
    }
   },
@@ -378,17 +378,17 @@
   }
  ],
  "deltas": {
-  "top2_share_pp": -1.57,
+  "top2_share_pp": -1.47,
   "yearly_pct": {
    "2020": 0.0,
    "2021": 0.0,
    "2022": 0.0,
    "2023": 0.0,
-   "2024": -0.1092,
-   "2025": -2.0643,
-   "2026": -0.0428
+   "2024": -0.0999,
+   "2025": -1.9286,
+   "2026": -0.0337
   },
-  "cagr": -0.32
+  "cagr": -0.3
  },
  "flags": {
   "cap_binds_somewhere": true,
@@ -398,7 +398,7 @@
   "cap_arm_still_fails_same_check": true
  },
  "verdict": "CUT_CHANGES_NO_VERDICT",
- "sentence": "the permission's 0.432195 caps k on 500 of 1540 bars (32.5%); the gate reads ADMIT -> ADMIT, top-2 share 0.6895 -> 0.6738 (-1.5700pp), CAGR 6.9500 -> 6.6300. A cut is a smaller claim on the same selection, so it can move the calendar only through the cash leg: it cannot buy admission and it cannot lose it",
+ "sentence": "the permission's 0.435003 caps k on 500 of 1540 bars (32.5%); the gate reads ADMIT -> ADMIT, top-2 share 0.6895 -> 0.6748 (-1.4700pp), CAGR 6.9500 -> 6.6500. A cut is a smaller claim on the same selection, so it can move the calendar only through the cash leg: it cannot buy admission and it cannot lose it",
  "data": {
   "flips_repaired": 169,
   "bond_free_universe": 1528,
@@ -413,5 +413,5 @@
   "no ticket, ledger or order file is read or written; the ticket's k_now is taken from the permission receipt, which took it from the ticket",
   "capacity is not re-derived here -- the wrapper gate already carries C1 for the same construction on the same window"
  ],
- "elapsed_sec": 47.7
+ "elapsed_sec": 43.6
 }

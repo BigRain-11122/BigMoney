@@ -5,12 +5,12 @@
  "row": {
   "decision_date": "2026-12-09",
   "evidence_cutoff": "2026-11-20",
-  "order_k": 0.432195,
-  "permission_k": 0.432195,
+  "order_k": 0.435003,
+  "permission_k": 0.435003,
   "cut_k": 0.0,
   "size_cny": {
-   "ordered": 431754.0,
-   "permitted": 431754.0,
+   "ordered": 434754.0,
+   "permitted": 434754.0,
    "refused": 0.0,
    "nav": 1000000.0
   },
@@ -36,15 +36,15 @@
    "ticket_arm_top2_share": 0.6895,
    "ticket_arm_top2_share_full_years_only": 0.7757,
    "capped_arm_verdict": "ADMIT",
-   "capped_arm_top2_share": 0.6738,
+   "capped_arm_top2_share": 0.6748,
    "implementable_arm_verdict": "ADMIT",
    "cap_binding_share": 0.3247,
    "gate_flips": false,
-   "top2_share_delta_pp": -1.57,
-   "cagr_delta_pp": -0.32
+   "top2_share_delta_pp": -1.47,
+   "cagr_delta_pp": -0.3
   },
   "verdict": "NO_CUT_OWED",
-  "sentence": "on 2026-12-09 the ticket orders k=0.432195 under a permission of 0.432195: no cut is owed, so the only question left is whether the next decision bar re-sizes over the floor (it does unless the same trim is applied there); filling this sheet one open late costs about 929 CNY of NAV on 1,000,000 (median over 420 sheets; waiting helped on 41% of them, t=-4.56), and this sheet owes no trim at all, so being a day late is the only price on it; today-or-wait: NOTHING_OWED_TODAY (cheapest at k=0, +0 CNY vs today)",
+  "sentence": "on 2026-12-09 the ticket orders k=0.435003 under a permission of 0.435003: no cut is owed, so the only question left is whether the next decision bar re-sizes over the floor (it does unless the same trim is applied there); filling this sheet one open late costs about 929 CNY of NAV on 1,000,000 (median over 420 sheets; waiting helped on 41% of them, t=-4.56), and this sheet owes no trim at all, so being a day late is the only price on it; today-or-wait: NOTHING_OWED_TODAY (cheapest at k=0, +0 CNY vs today)",
   "late_sheet": {
    "status": "OK",
    "face": "results/etf_book_late_sheet_price.json",
@@ -52,9 +52,9 @@
    "verdict": "MEAN_IS_PRICED_EACH_SHEET_IS_NOT",
    "capital_cny": 1000000.0,
    "events": 420,
-   "median_cny_one_sheet": -929.1796775963505,
-   "mean_bps_one_sheet": -11.99754217734597,
-   "t": -4.5624460759539796,
+   "median_cny_one_sheet": -929.179677596341,
+   "mean_bps_one_sheet": -11.99754217734596,
+   "t": -4.562446075953976,
    "share_late_helps": 0.4142857142857143,
    "aggregate_pp_per_year": -1.8900000000000001,
    "note": "this is one sheet's price on the face's stated capital, not the aggregate arm; on this book the per-sheet prices add up to that arm exactly"
@@ -79,46 +79,46 @@
     },
     {
      "k": 1,
-     "mean_cny": -1786.0584921749248,
-     "carry_cny": 0.0,
-     "cost_cny_vs_today": 1786.06,
-     "t": -4.562446075953968,
+     "mean_cny": -1786.0584921749253,
+     "carry_cny": -0.13,
+     "cost_cny_vs_today": 1785.93,
+     "t": -4.562446075953977,
      "share_late_helps": 0.4142857142857143,
      "separable_from_zero": true
     },
     {
      "k": 2,
-     "mean_cny": -2592.248083450971,
-     "carry_cny": 0.0,
-     "cost_cny_vs_today": 2592.25,
-     "t": -4.783805305959651,
+     "mean_cny": -2592.2480834509674,
+     "carry_cny": -0.26,
+     "cost_cny_vs_today": 2591.98,
+     "t": -4.78380530595965,
      "share_late_helps": 0.41904761904761906,
      "separable_from_zero": true
     },
     {
      "k": 3,
-     "mean_cny": -2806.470571021039,
-     "carry_cny": 0.0,
-     "cost_cny_vs_today": 2806.47,
-     "t": -4.147026268691905,
-     "share_late_helps": 0.43675417661097854,
+     "mean_cny": -2789.5959654595513,
+     "carry_cny": -0.4,
+     "cost_cny_vs_today": 2789.2,
+     "t": -4.135297267911759,
+     "share_late_helps": 0.4380952380952381,
      "separable_from_zero": true
     },
     {
      "k": 5,
-     "mean_cny": -4008.4854439798587,
-     "carry_cny": 0.0,
-     "cost_cny_vs_today": 4008.49,
-     "t": -4.254465438770218,
-     "share_late_helps": 0.4172661870503597,
+     "mean_cny": -3946.7986695107024,
+     "carry_cny": -0.66,
+     "cost_cny_vs_today": 3946.14,
+     "t": -4.2134663103582515,
+     "share_late_helps": 0.41866028708133973,
      "separable_from_zero": true
     },
     {
      "k": 10,
-     "mean_cny": -4025.158286788424,
-     "carry_cny": 0.0,
-     "cost_cny_vs_today": 4025.16,
-     "t": -2.2053797292433184,
+     "mean_cny": -4025.158286788431,
+     "carry_cny": -1.32,
+     "cost_cny_vs_today": 4023.84,
+     "t": -2.205379729243327,
      "share_late_helps": 0.4433734939759036,
      "separable_from_zero": true
     }
@@ -126,6 +126,6 @@
   }
  },
  "face": "etf_book_decision_line",
- "asof": "2026-11-20T16:42:01+0800",
- "elapsed_sec": 0.02
+ "asof": "2026-11-20T20:35:17+0800",
+ "elapsed_sec": 0.0
 }

@@ -17363,3 +17363,12 @@ results/etf_book_entry_price.json + .md、链腿 entry_price_write（0.9s）、�
 
 - E-20261120-r1885 · 曲线价差的量必须是收益率差，不是「对数价差×滚动 beta」（正身=scripts/bond_fut_curve.py，人的可读复述）
   用 s = -ln(P_a)/D_a + ln(P_b)/D_b（bp）度量 10Y−5Y；若写成 log P_a − beta·log P_b 且 beta 每日重估，spread 的水平会随 beta 自己漂移（beta 0.611→0.65 就让 20 日「价差变化」跳到 2942bp＝294% 价格变动，整张面作废）。久期 D 是**声明常量**（T 8.0/TF 4.2/TS 1.8）不是拟合值，所以判决必须附 D 敏感性（±15%）。成本也必须在同一单位里：1 tick 滑点 550 元/手 × 两腿 × 两边的成本除以 DV01 880 元/bp = 7.3~13.7bp，而这类曲线的真实毛收益只有 0.03~1.71bp —— 成本口径算错就会把一条死线报成活线。
+
+
+## E-20261120-r1886 — 断言里钉死「活面今天的读数」，就会在面正确移动的那天转红；整块面板落后不是「某个成员落后」；页面内自算的章节永远匹配不到写者名
+
+**问题（本轮三条红同根，都是「判据读错了对象」而不是算法错）**：①`etf_book_production` 的自检写了 `"under the beta rule at k=0.4322" in card`，于是 20:04 票面把 k 从 0.432195 挪到 0.435003 之后，卡片是对的、腿是红的（r1775「断言被检对象自己的读数」第三次复发）；②TSMOM 冒烟腿只接受「stale=false」或「逐个成员落后且各自带 last_bar」，而今天十个期货文件**全部**停在 11-19、日历最后交易日 11-20——整体落后一格、没有任何成员单独落后，这条健康面被判红（r1789「永久红」族）；③活书页的 `futures_hedge`/`futures_hedge_tail` 两个章节是**页面函数自己算的**（`futures_hedge_face`），章节面按面名去链里找写者永远找不到，于是被印成「behind the page and no chain leg re-runs it」。
+
+**正法**：①断言不许含活面的字面读数——要么从被检对象自己声明的字段现算期望串（`o["live_book"]["ticket_k"]` → `"k=%.4f"`），要么断言结构；「钉死一个值」只允许用在冻结件上。②一种状态若**没有分支**承接，就会落进最严的那条：整体面板落后要单列一个分支，并且必须由面自己点名两个数（`calendar_last` + `lag_trading_days`）且上界有限（≤5 个交易日）——否则就变成「面板冻结也常绿」。③页面内计算的章节要在写者别名表里显式归给页面腿（`LEG_ALIASES`），它的 bar 仍停在源面板自己的尾 bar——那是**数据道的滞后**，不是缺写者；两者混印会把「另一台机晚跑」读成「没人管」。
+
+**实物**：scripts/etf_book_production.py（自检腿改为按 `o["live_book"]` 现算期望串）、smoke_test.py（TSMOM 腿新增 `_panel_wide_lag` 分支）、scripts/live_book_section_bars.py（`LEG_ALIASES` +2，selftest 58/58）、重建面 9 张（size_rulers / rebalance_permission / cut_gate_pass / cut_order_gap / open_gap / swap_stack / positions / live_size_provenance / day_delta）+ 三条缓冲臂重烧（k10/k20/k40 各 ~170s → 地板拟合恢复 `k required 6.509`，手臂自检 138 腿 0 失败）。
