@@ -104,6 +104,20 @@ def _doc_value(doc, path):
     v = doc
     for k in str(path).split("."):
         idx = re.match(r"^(.*?)\[(\d+)\]$", k)
+        sel = re.match(r"^(.*?)\[([A-Za-z_]\w*)=([^\]]*)\]$", k)
+        if sel:
+            # r1893: a lane table is keyed by name, not by position.  `rows[lane=futures]`
+            # survives a re-ordered table where `rows[0]` would quietly read the wrong lane.
+            k, field, want = sel.group(1), sel.group(2), sel.group(3)
+            if k:
+                if not isinstance(v, dict):
+                    return None
+                v = v.get(k)
+            if not isinstance(v, (list, tuple)):
+                return None
+            v = next((it for it in v
+                      if isinstance(it, dict) and str(it.get(field)) == want), None)
+            continue
         if idx:
             k, i = idx.group(1), int(idx.group(2))
         else:
@@ -144,10 +158,20 @@ def _date_claims(rows, doc, rules=None, unmapped_classifier=None):
         covered = []
         for pat, paths in rules:
             for m in pat.finditer(line):
-                for gi, path in enumerate(paths, start=1):
+                # r1893: a path may name a group placeholder (`rows[lane={lane}].tail`).
+                # Named groups carry the key, positional groups carry the dates, so the
+                # date group is the N-th *positional* group, not the N-th group overall.
+                named = set(pat.groupindex.values())
+                positional = [i for i in range(1, (pat.groups or 0) + 1)
+                              if i not in named]
+                gd = m.groupdict()
+                for n, path in enumerate(paths):
+                    gi = positional[n] if n < len(positional) else n + 1
                     date = m.group(gi)
+                    if date is None:
+                        continue
                     covered.append(m.span(gi))
-                    val = _doc_value(doc, path)
+                    val = _doc_value(doc, path.format(**gd) if "{" in path else path)
                     exp = str(val)[:10] if isinstance(val, str) else None
                     rec = {"heading": row.get("heading"), "date": date, "field": path,
                            "expected": exp, "line": line[:140]}
@@ -901,6 +925,37 @@ def selftest():
             all(r["line"] in printed_text for r in (c["printed"].get("undated") or []))
             if printed_text else True,
             [r["line"][:40] for r in (c["printed"].get("undated") or [])][:3])
+    # r1893: a lane table is keyed by name.  Three legs pin the selector and the placeholder
+    # rule shape, because both are new machinery and machinery without a failing-first leg
+    # never reports (r1282/r1861 family).
+    _lane_doc = {"lanes": {"rows": [
+        {"lane": "heat", "tail": "2026-11-19", "missing_days": ["2026-11-20"]},
+        {"lane": "futures", "tail": "2026-11-11", "missing_days": ["2026-11-12"]}]}}
+    leg("a table read by name is not read by row number",
+        _doc_value(_lane_doc, "lanes.rows[lane=futures].tail") == "2026-11-11"
+        and _doc_value(_lane_doc, "lanes.rows[lane=heat].missing_days[0]") == "2026-11-20",
+        _lane_doc)
+    _lane_rules = [(__import__("re").compile(
+        r"- `(?P<lane>[a-z_0-9]+)`（尾 " + _D + r"·欠：" + _D + r"）"),
+        ["lanes.rows[lane={lane}].tail", "lanes.rows[lane={lane}].missing_days[0]"])]
+    _rows_lane = [{"heading": "board", "line": "- `futures`（尾 2026-11-11·欠：2026-11-12）",
+                   "self_dated": True}]
+    _lc = _date_claims(_rows_lane, _lane_doc, rules=_lane_rules)
+    leg("a named-group rule reads the lane's own row, both dates green",
+        _lc["n_ok"] == 2 and not _lc["n_mismatch"] and not _lc["n_unmapped"], _lc)
+    _rows_lane_bad = [{"heading": "board",
+                       "line": "- `futures`（尾 2026-11-11·欠：2026-11-13）",
+                       "self_dated": True}]
+    _lb = _date_claims(_rows_lane_bad, _lane_doc, rules=_lane_rules)
+    leg("a day the lane's row does not carry is a mismatch, not a pass",
+        _lb["n_mismatch"] == 1 and _lb["mismatches"][0]["field"].endswith("missing_days[0]"),
+        _lb)
+    _rows_lane_missing = [{"heading": "board",
+                           "line": "- `repo`（尾 2026-11-11·欠：2026-11-12）",
+                           "self_dated": True}]
+    _lm = _date_claims(_rows_lane_missing, _lane_doc, rules=_lane_rules)
+    leg("a lane absent from the table reads as unverifiable, never as agreeing",
+        _lm["n_unverifiable"] == 2 and _lm["n_ok"] == 0, _lm)
     print("selftest %d/%d" % (ok, total))
     return 0 if ok == total else 1
 

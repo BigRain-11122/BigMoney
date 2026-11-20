@@ -2,7 +2,7 @@
  "schema": "ceo_live_usage_v1_9",
  "ticket": "T-202609-28-105",
  "day": "2026-11-21",
- "generated": "2026-11-21T01:16:44",
+ "generated": "2026-11-21T03:21:17",
  "market": {
   "state": "RED",
   "asof": "2026-11-20",
@@ -516,7 +516,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 64314.9
+    "last_append_age_min": 64439.5
    },
    {
     "family": "FUND-VALUE-P1",
@@ -524,7 +524,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 65159.4
+    "last_append_age_min": 65284.0
    },
    {
     "family": "FUND-DIVLOWVOL-P1",
@@ -532,7 +532,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 61952.7
+    "last_append_age_min": 62077.3
    }
   ]
  },
@@ -620,7 +620,7 @@
   "file": "TICKET-2026-11-20.json",
   "bar": "2026-11-20",
   "decision_bar": "2026-11-20",
-  "generated": "2026-11-21T01:16:26+08:00",
+  "generated": "2026-11-21T03:20:37+08:00",
   "rows": [
    {
     "symbol": "510760",
@@ -1103,7 +1103,7 @@
   "input_order": {
    "derived": "results/etf_book_order/latest.json",
    "sentence": "",
-   "generated": "2026-11-21T01:15:34+08:00",
+   "generated": "2026-11-21T03:14:42+08:00",
    "lag_sec": null,
    "state": "FRESH",
    "pairs_compared": 2
@@ -1187,6 +1187,23 @@
   "generated": "2026-11-20T17:09:17+08:00",
   "path": "results/etf_book_entry_price.json",
   "producer": "scripts/etf_book_entry_price.py"
+ },
+ "precision_wait": {
+  "verdict": "WAITING_COSTS_MORE_THAN_IT_INSURES",
+  "target_pp": 5.0,
+  "wait_years": 13.551,
+  "forgo_cny": 1754579.8,
+  "avoided_cny": 954.2,
+  "ratio": 1838.8451,
+  "p_star": 10.1136,
+  "p_star_above_one": true,
+  "mde80_now_pp": 8.7389,
+  "sentence": "把选股腿的尺子从 8.74pp 压到 5.0pp，要再攒 3,415 根 bar = 13.6 年（样本还要长 3.05 倍）：这期间这本书会换 171 次仓、账面翻 189 遍。若 edge 为真，等掉的是 1754580 元（每 100 万）；若这本书根本没有 edge，等它省下的成本只有 173491 元 × p=0.0055 = 954 元——差 1839 倍。等要划算，需要「这本书没有 edge」这一前提的概率高于 10.11——而概率最多 1.00，所以这条路在任何概率下都不划算。",
+  "evidence_cutoff": "2026-11-13",
+  "generated": "2026-11-21T02:02:36+0800",
+  "path": "results/etf_book_target_price.json",
+  "producer": "scripts/etf_book_target_price.py",
+  "present": true
  },
  "etf_premium": {
   "present": true,
@@ -2058,20 +2075,91 @@
  },
  "data_lanes": {
   "status": "ok",
-  "as_of": "2026-11-20T18:22:20",
-  "verdict": "all_fresh",
+  "as_of": "2026-11-21T02:35:07",
+  "verdict": "attention",
   "counts": {
    "retired": 1,
-   "in_sync": 8,
-   "today_pending": 6
+   "in_sync": 9,
+   "behind_1d": 5
   },
   "n_lanes": 15,
   "machine": "bm-c",
   "expected": "2026-11-20",
-  "rows": [],
+  "rows": [
+   {
+    "lane": "futures",
+    "host": "bm-a",
+    "host_alive": false,
+    "host_age_h": 54.7,
+    "state": "behind_1d",
+    "tail": "2026-11-19",
+    "expected": "2026-11-20",
+    "missing_days": [
+     "2026-11-20"
+    ],
+    "loss_mode": null,
+    "takeover_capable": true
+   },
+   {
+    "lane": "heat",
+    "host": "bm-a",
+    "host_alive": false,
+    "host_age_h": 54.7,
+    "state": "behind_1d",
+    "tail": "2026-11-19",
+    "expected": "2026-11-20",
+    "missing_days": [
+     "2026-11-20"
+    ],
+    "loss_mode": "a missed day is permanent: the guba rank is a live rolling list with no retrievable history (HEAT_ATTENTION_SPEC §1)",
+    "takeover_capable": true
+   },
+   {
+    "lane": "lhb",
+    "host": "bm-a",
+    "host_alive": false,
+    "host_age_h": 54.7,
+    "state": "behind_1d",
+    "tail": "2026-11-19",
+    "expected": "2026-11-20",
+    "missing_days": [
+     "2026-11-20"
+    ],
+    "loss_mode": null,
+    "takeover_capable": true
+   },
+   {
+    "lane": "lhb_inst",
+    "host": "bm-c",
+    "host_alive": true,
+    "host_age_h": 0.36,
+    "state": "behind_1d",
+    "tail": "2026-11-19",
+    "expected": "2026-11-20",
+    "missing_days": [
+     "2026-11-20"
+    ],
+    "loss_mode": "vendor re-serves the range on later pulls, so a missed month is recoverable by moving FIRST_DATE; the panel is append-only by key",
+    "takeover_capable": false
+   },
+   {
+    "lane": "repo",
+    "host": "bm-a",
+    "host_alive": false,
+    "host_age_h": 54.7,
+    "state": "behind_1d",
+    "tail": "2026-11-19",
+    "expected": "2026-11-20",
+    "missing_days": [
+     "2026-11-20"
+    ],
+    "loss_mode": null,
+    "takeover_capable": true
+   }
+  ],
   "hosts": {
    "bm-a": {
-    "age_h": 46.49,
+    "age_h": 54.7,
     "alive": false,
     "silent_waiting": [],
     "silent_taken_over": {
@@ -2082,7 +2170,7 @@
     }
    },
    "bm-b": {
-    "age_h": 509.65,
+    "age_h": 517.87,
     "alive": false,
     "silent_waiting": [],
     "silent_taken_over": {

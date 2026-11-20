@@ -9516,6 +9516,35 @@ def fill_block(fl, sheet=None, page_day=None):
     return lines
 
 
+def _page_stamp():
+    """Local wall clock, spelled the way the faces this page quotes already emit it."""
+    return dt.datetime.now(dt.timezone(dt.timedelta(hours=8))).isoformat(timespec="seconds")
+
+
+def input_order_block(page_stamp=None, order_mod=None):
+    """r1890: forward the ticket's own input-order check onto the CEO page.
+
+    The ticket card and this page quote the same book, and until now only the card said
+    whether it had been priced before its own inputs moved -- the page a reader opens
+    first stayed silent. The sentence is produced by Tools/face_input_staleness.py and
+    turned into words by etf_book_order.input_order_md; importing the producer here is
+    the same rule every other block on this page follows (one reader, one verdict, no
+    second implementation). If the module or its face cannot be read, the page says so:
+    "could not check" may never print as "fine" (r98).
+    """
+    mod = order_mod if order_mod is not None else _order_module()
+    if mod is None:
+        return ["## 输入顺序（这一页写于它的输入之后吗）",
+                "- 这条检查读不到（etf_book_order 不在此环境）——读不到不等于对得上。",
+                ""]
+    try:
+        return mod.input_order_md(page_stamp)
+    except Exception as exc:                                   # noqa: BLE001
+        return ["## 输入顺序（这一页写于它的输入之后吗）",
+                "- 这条检查读不到（%s: %s）——读不到不等于对得上。" % (type(exc).__name__, exc),
+                ""]
+
+
 def build_stress(order, capital, priced_bar, close=None):
     """Data path: replay today's weights over the whole panel, worst-window report.
 
@@ -10189,7 +10218,7 @@ def fleet_block(st):
     return out
 
 
-def render_md(p, sb=None):
+def render_md(p, sb=None, page_stamp=None):
     L = []
     add = L.append
     add("# 今日 ETF 实盘单 —— %s" % p["generated_for_date"])
@@ -10271,6 +10300,13 @@ def render_md(p, sb=None):
     # bar, and only the ticket knows which bar the market actually expects.
     for _fl_line in feed_lag_block(p):
         add(_fl_line)
+    # r1890: the same question one layer down -- the lines above ask whether the panel is
+    # old, this one asks whether THIS page was written after the faces it quotes. A face
+    # that is a generation behind its own input makes every downstream comparison print a
+    # disagreement that is really a missed run; the sentence says which. "Not checked"
+    # never prints as "fine" (r98).
+    for _io_line in input_order_block(page_stamp):
+        add(_io_line)
     # r1673: the fleet itself. Two of three machines had stopped writing their own heartbeat
     # while their lanes ran on this host's legs, and no CEO-facing paper ever said so -- the
     # reader could not tell a whole firm from one machine. Mirrors the published freshness
@@ -11682,7 +11718,7 @@ def run():
     md_path = os.path.join(OUT_DIR, "LIVE-BOOK-%s.md" % today.replace("-", ""))
     js_path = os.path.join(OUT_DIR, "LIVE-BOOK-%s.json" % today.replace("-", ""))
     with open(md_path, "w", encoding="utf-8", newline="\n") as fh:
-        fh.write(render_md(page, sb=section_bars_face(page)))
+        fh.write(render_md(page, sb=section_bars_face(page), page_stamp=_page_stamp()))
     with open(js_path, "w", encoding="utf-8", newline="\n") as fh:
         json.dump(page, fh, ensure_ascii=False, indent=1)
         fh.write("\n")
@@ -11827,6 +11863,32 @@ def selftest():
     chk("L11 page: next rebalance is a real calendar date",
         isinstance(page["next_rebalance_date"], str) and len(page["next_rebalance_date"]) == 10,
         str(page["next_rebalance_date"]))
+
+    # r1890: this page quotes the same ticket the card does, so it must carry the ticket's
+    # input-order sentence. Pinned with a fake producer: the exact words must survive the
+    # forwarding, and a missing check face must print "could not check", never "fine".
+    class _FakeIO:
+        def __init__(self, lines):
+            self._lines = lines
+
+        def input_order_md(self, page_stamp=None):
+            return list(self._lines)
+
+    _io_miss = "\n".join(input_order_block(
+        "2026-11-21T00:30:00+08:00",
+        order_mod=_FakeIO(["## 输入顺序（这一页写于它的输入之后吗）",
+                           "- **少跑一趟**：票早于账面 7533 秒", ""])))
+    chk("L416 input order: the missed run reaches the CEO page",
+        "少跑一趟" in _io_miss and "7533" in _io_miss)
+    _io_gone = "\n".join(input_order_block(None, order_mod=_FakeIO(
+        ["## 输入顺序（这一页写于它的输入之后吗）",
+         "- 输入顺序检查面缺失（Tools/face_input_staleness.py 本轮未跑）——读不到不等于对得上。",
+         ""])))
+    chk("L417 input order: a missing face says could-not-check, never fine",
+        "读不到不等于对得上" in _io_gone and "写于其输入之后" not in _io_gone)
+    chk("L418 input order: the section is actually wired into the rendered page",
+        "## 输入顺序（这一页写于它的输入之后吗）" in md,
+        "section header on the page")
 
     # 12. staleness is quoted, not hidden
     chk("L12 page: data freshness stated", page["feed_status"] is not None and page["priced_bar"] is not None,

@@ -37,6 +37,7 @@ import pandas as pd  # noqa: E402
 from scripts import etf_composite_pf as F          # noqa: E402
 from scripts import etf_phase_beta_target as BT    # noqa: E402
 from scripts import etf_book_order as Q            # noqa: E402
+from scripts.etf_book_size_rulers_decision import k_in_force  # noqa: E402
 
 GAP_FACE = "results/etf_book_cut_order_gap.json"
 OUT = os.path.join(BASE, "results", "etf_book_permission_persistence.json")
@@ -212,10 +213,19 @@ def run():
     # trim never lands on, and publishing it would be worse than publishing nothing.
     # r1471: the sheet sizes from the executed account, so the number this control arm must
     # reproduce is the one the SIZING RULE charged (`k_rule`), not the account's size.
+    # r1886: ... and it must be read ON THE BAR THAT ISSUED IT.  `sched[-1]` is today's
+    # expanding beta; the ticket's `k_rule` was struck on `base_bar`.  Comparing the two read
+    # this control arm FATAL on 2026-11-20 for a 0.18pp gap that belongs to the calendar, not
+    # to the book (same defect family as the rulers face, E685).
     k_ticket = float(gap.get("k_rule") if gap.get("k_rule") is not None else gap["k_now"])
+    _base_bar = gap.get("book_decided_at") or gap.get("base_bar")
+    _k_base = k_in_force(sched or [], _base_bar)[1] if _base_bar else None
+    k_ident = _k_base if _k_base is not None else k_last
     ident = {"k_schedule_last": round(k_last, 6) if k_last is not None else None,
+             "k_schedule_at_base_bar": round(_k_base, 6) if _k_base is not None else None,
+             "base_bar": str(_base_bar)[:10] if _base_bar else None,
              "k_ticket": round(k_ticket, 6),
-             "delta": round(abs(k_last - k_ticket), 6) if k_last is not None else None}
+             "delta": round(abs(k_ident - k_ticket), 6) if k_ident is not None else None}
     ident["ok"] = ident["delta"] is not None and ident["delta"] <= 5e-6
     if not ident["ok"]:
         raise SystemExit("FATAL control arm: schedule last k %r != ticket k %r"

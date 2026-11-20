@@ -300,6 +300,10 @@ def plan_cut(perm, ticket, repo_rate, repo_date, readers, cost_bp=COST_BP_PER_SI
         # Without this row a reader comparing the two faces reads a phantom drift.
         "sizing_source": ticket.get("sizing_source"),
         "base_bar": ticket.get("base_bar"),
+        # r1886: `base_bar` is the bar the PRICE was quoted from; `book_decided_at` is the bar
+        # the sizing rule struck `k_rule` on.  They differ (2026-11-20 vs 2026-11-11), and a
+        # reader that reproduces k_rule against the newest bar reads a phantom drift.
+        "book_decided_at": ticket.get("book_decided_at"),
         "as_of": ticket.get("as_of"),
         "k_rule_capped_by_floor": (None if ticket.get("k_rule_capped_by_floor") is None
                                    else round(float(ticket["k_rule_capped_by_floor"]), 6)),

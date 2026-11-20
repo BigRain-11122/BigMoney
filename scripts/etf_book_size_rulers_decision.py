@@ -43,6 +43,66 @@ def k_from_beta(beta, target):
     return float(min(1.0, max(0.0, float(target) / float(beta))))
 
 
+def step_in_force(sched, bar):
+    """(bar, k, beta) in force on `bar`: the last scheduled point at or before it.
+
+    as-of, not equality (r1886). k only moves on a scheduled decision, so a ticket dated
+    between two steps carries the earlier step's k -- and so does its beta, because k and
+    beta are struck together.  Exact-match-only read every ticket as broken whenever the
+    ticket's grid and this arm's grid disagree -- and they do, because the ticket walks from
+    inception 2024-01-01 while this arm walks from the panel's first usable bar.  Returns
+    (None, None, None) when nothing is scheduled on or before `bar`; callers then fall back
+    to the arm's own last point and let the leg turn red.
+    """
+    if not bar:
+        return None, None, None
+    want = str(bar)[:10]
+    hit = None
+    for d, kk, b2 in sched:
+        ds = str(d.date() if hasattr(d, "date") else d)[:10]
+        if ds <= want:
+            hit = (ds, float(kk), (None if b2 is None else float(b2)))
+    return hit if hit else (None, None, None)
+
+
+def k_in_force(sched, bar):
+    """(bar, k) in force on `bar` -- the two values every sizing reader needs."""
+    b, k, _beta = step_in_force(sched, bar)
+    return b, k
+
+
+def baseline_cell(pub_arm, ticket):
+    """The published baseline cell, priced on the bar the ticket decided on (r1886).
+
+    `pub_arm["k"]`/`["beta"]` are today's expanding-beta walk.  The ticket records the size it
+    was actually priced from as `k_rule`, on `book_decided_at` -- and those two numbers are
+    0.18pp apart on 2026-11-20 (0.458463 vs 0.460253).  Reading the ticket against today's k
+    declared the circularity identity broken every session after the decision bar, which
+    poisoned three consumers (this face, the split receipt, the permission face).  E685
+    family: a number is judged against the bar that produced it.
+
+    beta travels with k (they are struck together), so the cell still satisfies
+    k = min(1, target/beta) -- swapping only k left the floor face reading k*beta != target.
+
+    Returns (cell, bar, k); bar/k are None when nothing is scheduled on or before the ticket's
+    bar, in which case the cell falls back to today's walk and the identity leg turns red.
+    """
+    arm = pub_arm or {}
+    sched = arm.get("sched")
+    idx = arm.get("idx")
+    bar, k, beta = step_in_force([] if sched is None else sched,
+                                 (ticket or {}).get("book_decided_at"))
+    cell = {"beta": (beta if beta is not None else arm.get("beta")),
+            "k": (k if k is not None else arm.get("k")),
+            "k_today": arm.get("k"),
+            "beta_today": arm.get("beta"),
+            "as_of_bar": bar,
+            "bars": 0 if idx is None else int(len(idx)),
+            "universe": "all classes on the panel",
+            "window": "full"}
+    return cell, bar, k
+
+
 def _read_json(rel):
     p = os.path.join(BASE, rel)
     if not os.path.exists(p):
@@ -334,11 +394,7 @@ def run():
         print("split: FAILED (%s) -- denominator cell unreadable" % exc, flush=True)
 
     cells, notes = {}, {}
-    cells["baseline_published"] = {"beta": arms["published"]["beta"],
-                                   "k": arms["published"]["k"],
-                                   "bars": int(len(arms["published"]["idx"])),
-                                   "universe": "all classes on the panel",
-                                   "window": "full"}
+    cells["baseline_published"], k_dec_bar, k_at_dec = baseline_cell(arms["published"], tk)
     w_pub = beta_on_window(arms["published"], span)
     cells["window"] = {"beta": None if w_pub is None else w_pub["beta"],
                        "k": None if w_pub is None else k_from_beta(w_pub["beta"], target),
@@ -382,6 +438,8 @@ def run():
     beta_at_bar = None
     if bar_last in cov_e.index and var_e.get(bar_last) and var_e.get(bar_last) > 0:
         beta_at_bar = float(cov_e.get(bar_last) / var_e.get(bar_last))
+    # r1886: the reproduced-k leg reads `k_at_dec` (computed with the baseline cell above, on
+    # the bar the ticket was issued), not `sched[-1]` -- see the note at cells["baseline_published"].
     legs = {
         "k_from_beta_reproduces_engine": _b(
             abs(k_from_beta(arms["published"]["beta"], target) - arms["published"]["k"]) <= 1e-9),
@@ -390,7 +448,8 @@ def run():
         # r1471: the published ticket sizes from the executed account, so the number the
         # sizing rule must reproduce is its `k_rule`, not the account's size.
         "ticket_k_reproduced": _b(None if k_now is None
-                                   else abs(arms["published"]["k"]
+                                   else abs((k_at_dec if k_at_dec is not None
+                                             else arms["published"]["k"])
                                             - float(tk.get("k_rule") or k_now)) <= 1e-6),
         "ticket_book_amount_is_k_times_nav_minus_lots": _b(
             None if tk["ticket"].get("underspend_pct") is None
@@ -431,6 +490,10 @@ def run():
                  for t, a in arms.items()},
         "identity_legs": legs,
         "identity_broken": broken,
+        # r1886: name the bar the ticket's k_rule was checked against, so a reader can tell
+        # "the rule reproduces it" from "we compared it with the newest bar and they differ".
+        "ticket_k_reproduced_on_bar": k_dec_bar,
+        "ticket_book_decided_at": tk.get("book_decided_at"),
         "prereg_requirements": [
             "1. fix the ruler before looking: which window (common vs full) and which universe "
             "(all vs graded) is the declared measurement universe",
@@ -646,9 +709,56 @@ def selftest():
         "L13 a sheet with no as_of_bar must say so instead of dating the table anyway: %r"
         % (nosheet,))
 
+    # L14 (r1886) the ticket's k_rule is judged on the bar that issued it, as-of --
+    # exact-match-only made every ticket read IDENTITY_BROKEN once its grid and the arm's
+    # grid diverged, and that red poisoned three consumers on 2026-11-20.
+    sched_t = [("2026-10-23", 0.40, 0.50), ("2026-11-11", 0.46, 0.435),
+               ("2026-12-01", 0.50, 0.40)]
+    leg(k_in_force(sched_t, "2026-11-11") == ("2026-11-11", 0.46),
+        "L14 an exact bar must read its own step, got %r" % (k_in_force(sched_t, "2026-11-11"),))
+    leg(k_in_force(sched_t, "2026-11-20") == ("2026-11-11", 0.46),
+        "L14 a bar between steps must carry the earlier step's k, got %r"
+        % (k_in_force(sched_t, "2026-11-20"),))
+    leg(k_in_force(sched_t, "2026-01-01") == (None, None),
+        "L14 a bar before the first step must read unreadable, not the newest k, got %r"
+        % (k_in_force(sched_t, "2026-01-01"),))
+    leg(abs(0.46 - 0.43) > 1e-6 and abs(k_in_force(sched_t, "2026-11-20")[1] - 0.43) > 1e-6,
+        "L14 the reproduced-k leg must still be able to fail: 0.46 read as equal to 0.43")
+
+    # L15 (r1886) the CELL a consumer reads must carry the issuing bar's k, not today's --
+    # otherwise the permission face declares the circularity identity broken every session
+    # after the decision bar even though the identity leg above passes.
+    _arm_t = {"beta": 0.43624, "k": 0.458463, "idx": [1, 2, 3], "sched": sched_t}
+    _cell_t, _bar_t, _k_t = baseline_cell(_arm_t, {"book_decided_at": "2026-11-20"})
+    leg(_k_t == 0.46 and _cell_t["k"] == 0.46,
+        "L15 baseline cell must carry the issuing bar's k (0.46), got %r" % (_cell_t["k"],))
+    leg(_cell_t["k_today"] == 0.458463,
+        "L15 baseline cell must still publish today's k beside it, got %r"
+        % (_cell_t["k_today"],))
+    leg(_cell_t["as_of_bar"] == "2026-11-11",
+        "L15 baseline cell must name the bar it was priced on, got %r" % (_cell_t["as_of_bar"],))
+    _cell_fb, _bar_fb, _k_fb = baseline_cell(_arm_t, {"book_decided_at": "2026-01-01"})
+    leg(_k_fb is None and _cell_fb["k"] == 0.458463 and _cell_fb["as_of_bar"] is None,
+        "L15 a ticket before the first step must fall back to today's k and say so, got %r"
+        % (_cell_fb,))
+    # L16 (r1886) beta must travel with k: swapping only k left the floor face reading
+    # k*beta != beta_target on 2026-11-20 (baseline_published off by 7.8e-4).
+    _arm_b = {"beta": 0.20, "k": 0.99, "idx": [1],
+              "sched": [("2026-10-23", 0.40, 0.50),
+                        ("2026-11-11", 0.20 / 0.435, 0.435)]}
+    _cell_b, _bar_b, _k_b = baseline_cell(_arm_b, {"book_decided_at": "2026-11-20"})
+    leg(_cell_b["beta"] == 0.435 and abs(_cell_b["k"] - 0.20 / 0.435) <= 1e-12,
+        "L16 the cell must carry the issuing bar's beta beside its k, got %r" % (_cell_b,))
+    leg(abs(_cell_b["k"] * _cell_b["beta"] - 0.20) <= 1e-12,
+        "L16 the cell must still satisfy k*beta = target, got %r"
+        % (_cell_b["k"] * _cell_b["beta"],))
+    leg(_cell_b["beta_today"] == 0.20 and _cell_b["k_today"] == 0.99,
+        "L16 today's walk must still be printed beside it, got %r/%r"
+        % (_cell_b["beta_today"], _cell_b["k_today"]))
+
     for f in fails:
         print("  FAIL " + f)
-    print("[selftest] %d/%d PASS" % (13 - len(fails), 13))
+    print("[selftest] %d/%d PASS" % (26 - len(fails), 26))
     return 0 if not fails else 1
 
 

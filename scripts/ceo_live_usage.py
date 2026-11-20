@@ -85,6 +85,16 @@ v1.8 (r1154 bm-a): section 1 gains the market risk tape -- limit-up /
   two-production-faces law).  A trading day that was never captured reads as
   absent, never as 0 members (r1149 marks-coverage law).  ZERO new judgment.
 
+v1.9 (r1893 bm-c): the "do not wait for a sharper ruler" reading -- priced by
+  r1891 and printed on the order card since r1892 -- now appears on this page
+  too, read through the ticket's OWN reader over
+  results/etf_book_target_price.json.  Until this version a reader of the page
+  could still believe that waiting for a tighter measurement is free; the
+  numbers say the wait costs 1,754,580 CNY per million against 954 CNY it could
+  save.  A missing face prints "no reading", never 0 (r98).  A smoke leg reads
+  BOTH published pages and demands the same five quantities, so the two can no
+  longer disagree silently.
+
 Faces consumed (all existing, read-only):
   - results/regime_state.json            (REGIME_GUARD v3 state machine)
   - results/paper_export/latest.json     (T-35 d3: 6 traders positions/capital)
@@ -1823,6 +1833,33 @@ def _etf_entry_price_face():
             "producer": "scripts/etf_book_entry_price.py"}
 
 
+def _precision_wait_face():
+    """v1.9 (r1893): what a sharper ruler would cost in time, on the page the CEO opens.
+
+    r1892 put this reading on the order card (line 91), but the CEO's own sheet never
+    said it -- a reader of the page could still believe that waiting for a tighter
+    measurement is free.  The numbers are copied from `results/etf_book_target_price.json`
+    through the order card's OWN reader (single implementation, r1290 class): this page
+    must never re-derive a verdict the ticket already published, and it must never print
+    a 0 when the face is missing (r98).
+    """
+    try:
+        if _scripts_dir not in sys.path:
+            sys.path.insert(0, _scripts_dir)
+        from etf_book_order import _precision_wait_reading as _order_reader
+    except Exception:                                          # noqa: BLE001
+        return {"present": False,
+                "note": "读不到订单卡的精度段读取器（缺件不等于不用等）"}
+    c = _order_reader()
+    if not c:
+        return {"present": False,
+                "note": "精度标价面 `results/etf_book_target_price.json` 缺或读不出"
+                        "（缺面不等于「等下去不用付钱」）"}
+    c = dict(c)
+    c["present"] = True
+    return c
+
+
 # r1580: the two-books face lives in scripts/etf_book_identity.py so this
 # page and the daily report read ONE implementation instead of two that drift.
 _scripts_dir = os.path.dirname(os.path.abspath(__file__))
@@ -2291,6 +2328,8 @@ def build_payload(day: str) -> dict:
         "etf_book_periods": _etf_book_period_face(),
         "etf_order": _etf_order_with_cash_roll(),
         "etf_entry_price": _etf_entry_price_face(),
+        # r1893: the "should we wait for a sharper ruler" reading, on the CEO's page.
+        "precision_wait": _precision_wait_face(),
         "etf_premium": _etf_premium_face(),
         "etf_premium_choice": _etf_premium_choice_face(),
         "etf_capacity": _etf_capacity_face(),
@@ -2882,6 +2921,54 @@ def render_md(p: dict) -> str:
                      f"{(_ep.get('generated') or '未知')[:19]}；佣金与最低费取自 "
                      f"`knowledge/rules.py`（CN-C3，5.000 元/单）。出处 `{_ep.get('path')}`"
                      f"（生产者 `{_ep.get('producer')}`，本页只读）")
+        # --- r1893: the ticket has said "do not wait for a sharper ruler" since r1892,
+        # but the page a person opens still said nothing -- so waiting looked free.
+        # Read from the same face the ticket quotes, through the ticket's own reader,
+        # and print the four quantities a reader would have to know to decide otherwise.
+        _pw = p.get("precision_wait") or {}
+        if not _pw.get("present"):
+            L.append("- **要不要等一把更准的尺子** —— "
+                     + (_pw.get("note") or "缺件（缺面不读 0）")
+                     + "。缺这一行不等于「等下去不用付钱」。")
+        else:
+            _pwv = _pw.get("verdict")
+            _pw_y = _pw.get("wait_years")
+            if _pwv == "WAITING_COSTS_MORE_THAN_IT_INSURES":
+                L.append(
+                    "- **别等更准的尺子**（判词 `%s`·面到 %s）：把尺子从 %s pp 压到 "
+                    "%s pp 要再等 **%.2f 年**，等掉 **¥%s**（每百万本金），"
+                    "省下的只有 **¥%s**——差 **%s 倍**。"
+                    % (_pwv, _pw.get("evidence_cutoff") or "未注明",
+                       ("%.2f" % float(_pw["mde80_now_pp"]))
+                       if _pw.get("mde80_now_pp") is not None else "?",
+                       ("%.1f" % float(_pw["target_pp"]))
+                       if _pw.get("target_pp") is not None else "?",
+                       float(_pw_y or 0.0),
+                       _fmt_cny(_pw.get("forgo_cny")), _fmt_cny(_pw.get("avoided_cny")),
+                       ("%d" % round(float(_pw["ratio"])))
+                       if _pw.get("ratio") is not None else "?"))
+                if _pw.get("p_star") is not None:
+                    L.append("  - 等要划算，需要「这本书没有 edge」的概率高过 **%.2f**；"
+                             "概率最多 1.00，所以这条路在任何概率下都不划算 "
+                             "（这个数就是每个调仓期 1,000 元的票面成本）。"
+                             % float(_pw["p_star"]))
+            elif _pwv == "WAITING_IS_CHEAPER":
+                L.append(
+                    "- **等下去比现在判便宜**（判词 `%s`·面到 %s）：等 %.2f 年换 %s pp 精度，"
+                    "等掉 ¥%s，省下 ¥%s。"
+                    % (_pwv, _pw.get("evidence_cutoff") or "未注明", float(_pw_y or 0.0),
+                       ("%.1f" % float(_pw["target_pp"]))
+                       if _pw.get("target_pp") is not None else "?",
+                       _fmt_cny(_pw.get("forgo_cny")), _fmt_cny(_pw.get("avoided_cny"))))
+            else:
+                L.append("- **精度标价面判词 `%s`**（只报数不解释·面到 %s）"
+                         % (_pwv or "?", _pw.get("evidence_cutoff") or "未注明"))
+            if _pw.get("sentence"):
+                L.append("  - 原句：%s" % _pw["sentence"])
+            L.append("  - 这张页与订单卡读的是同一张面、同一个读取器"
+                     "（`%s`·生产者 `%s`·%s 产出）——两页不会各说各的"
+                     % (_pw.get("path"), _pw.get("producer"),
+                        (_pw.get("generated") or "?")[:19]))
         _adm = eo.get("admission") or {}
         if not _adm.get("present"):
             L.append(f"- 准入在起点/年代上还成不成立：{_adm.get('note') or '缺件'}")
@@ -4351,6 +4438,58 @@ def selftest() -> int:
               all(("%.2f" % float(r["side_cost_bp"])) in _blk_ep
                   for r in (_epf.get("rows") or [])
                   if r.get("side_cost_bp") is not None))
+    # --- r1893: "should we wait for a sharper ruler" must reach the page a person
+    # opens, not only the ticket.  Three directions tested: the numbers are the
+    # face's own, a missing face never reads as "waiting is free", and the reverse
+    # verdict prints the reverse sentence (r1745 class).
+    _pwf = p1.get("precision_wait") or {}
+    check("precision-wait block rendered (r1893)",
+          "要不要等一把更准的尺子" in md1
+          or "别等更准的尺子" in md1
+          or "等下去比现在判便宜" in md1)
+    if _pwf.get("present"):
+        _i_pw = md1.find("别等更准的尺子")
+        if _i_pw < 0:
+            _i_pw = md1.find("要不要等一把更准的尺子")
+        _blk_pw = md1[_i_pw:_i_pw + 1800] if _i_pw >= 0 else ""
+        check("precision-wait prints the face's own years and money",
+              _pwf.get("wait_years") is not None
+              and ("%.2f" % float(_pwf["wait_years"])) in _blk_pw
+              and _fmt_cny(_pwf.get("forgo_cny")) in _blk_pw
+              and _fmt_cny(_pwf.get("avoided_cny")) in _blk_pw)
+        check("precision-wait prints the ratio and p* it inherited",
+              (_pwf.get("ratio") is None
+               or ("%d" % round(float(_pwf["ratio"]))) in _blk_pw)
+              and (_pwf.get("p_star") is None
+                   or ("%.2f" % float(_pwf["p_star"])) in _blk_pw))
+        check("precision-wait self-stamps the face it copied",
+              (_pwf.get("path") or "?") in _blk_pw
+              and (_pwf.get("producer") or "?") in _blk_pw)
+    _pw_miss = dict(p1)
+    _pw_miss["precision_wait"] = {"present": False,
+                                  "note": "精度标价面缺或读不出"
+                                          "（缺面不等于「等下去不用付钱」）"}
+    _mmd_pw = render_md(_pw_miss)
+    check("a missing precision-wait face never reads as free waiting",
+          "缺或读不出" in _mmd_pw
+          and "不等于「等下去不用付钱」" in _mmd_pw
+          and "等掉 **¥" not in _mmd_pw)
+    _pw_rev = dict(p1)
+    _pw_rev["precision_wait"] = {"present": True,
+                                 "verdict": "WAITING_IS_CHEAPER",
+                                 "target_pp": 5.0, "wait_years": 0.5,
+                                 "forgo_cny": 1000.0, "avoided_cny": 9000.0,
+                                 "mde80_now_pp": 8.0, "ratio": 0.11,
+                                 "p_star": 0.05,
+                                 "evidence_cutoff": "2026-11-13",
+                                 "generated": "2026-11-13T00:00:00+0800",
+                                 "path": "results/etf_book_target_price.json",
+                                 "producer": "scripts/etf_book_target_price.py",
+                                 "sentence": "反向样例"}
+    _mmd_rev = render_md(_pw_rev)
+    check("the reverse verdict prints the reverse sentence, not the same one",
+          "等下去比现在判便宜" in _mmd_rev
+          and "别等更准的尺子" not in _mmd_rev)
     # --- v2.2 (r1782): the second money candidate's funding line.
     cb = p1.get("carry_book") or {}
     check("carry funding line rendered in md (v2.2)",

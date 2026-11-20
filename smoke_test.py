@@ -990,6 +990,67 @@ def main() -> int:
     except Exception as _e:
         check("product: the sheet a person holds says whether it is a missed run (r1890)",
               False, repr(_e)[:160])
+    # --- r1893: "do not wait for a sharper ruler" was on the ticket since r1892 but
+    # the CEO's own page said nothing, so waiting still looked free.  This leg reads
+    # BOTH published pages (not the code, not the face) and demands the same five
+    # quantities in each -- a two-page family where one page lags is exactly the
+    # failure the reader would never see (r1282/r1745 class).
+    try:
+        _bad93 = []
+        _od = os.path.join("results", "etf_book_order")
+        _cards93 = sorted(f for f in os.listdir(_od)
+                          if f.startswith("ORDER-") and f.endswith(".md")
+                          and not f.endswith("-card.md")
+                          and "latest" not in f) \
+            if os.path.isdir(_od) else []
+        _ld = os.path.join("docs", "live_usage")
+        _lives93 = sorted(f for f in os.listdir(_ld)
+                          if f.startswith("LIVE-") and f.endswith(".md")
+                          and "latest" not in f) \
+            if os.path.isdir(_ld) else []
+
+        def _wait_block(path):
+            """The block around whichever sentence this page uses for the same verdict."""
+            with open(path, encoding="utf-8") as _fh:
+                _t = _fh.read()
+            for _anchor in ("等更准的尺子", "等下去比现在判便宜"):
+                _i = _t.find(_anchor)
+                if _i >= 0:
+                    return _t[max(0, _i - 200):_i + 1400]
+            return ""
+
+        def _norm(s):
+            return (s.replace(",", "").replace("\uffe5", "")
+                     .replace("\u00a5", "").replace(" ", ""))
+
+        if not _cards93:
+            _bad93.append("no ORDER card on disk")
+        if not _lives93:
+            _bad93.append("no LIVE page on disk")
+        if not _bad93:
+            _c93 = _wait_block(os.path.join(_od, _cards93[-1]))
+            _l93 = _wait_block(os.path.join(_ld, _lives93[-1]))
+            if not _c93:
+                _bad93.append("%s carries no 'do not wait' block" % _cards93[-1])
+            if not _l93:
+                _bad93.append("%s carries no 'do not wait' block" % _lives93[-1])
+            if not _bad93:
+                for _tok in ("13.55", "1754580", "954", "1839", "10.11"):
+                    if _tok not in _norm(_c93):
+                        _bad93.append("ticket lacks %s" % _tok)
+                    if _tok not in _norm(_l93):
+                        _bad93.append("CEO page lacks %s" % _tok)
+                if "etf_book_target_price.json" not in _norm(_c93) \
+                        or "etf_book_target_price.json" not in _norm(_l93):
+                    _bad93.append("the two pages do not name the same source face")
+        check("product: the price of waiting reaches the page the CEO opens (r1893)",
+              not _bad93, "; ".join(_bad93)[:220]
+              or "both %s and %s print years/forgone/saved/ratio/p*"
+              % (_cards93[-1] if _cards93 else "-",
+                 _lives93[-1] if _lives93 else "-"))
+    except Exception as _e93:
+        check("product: the price of waiting reaches the page the CEO opens (r1893)",
+              False, repr(_e93)[:160])
     from config import PATHS, all_combinations, combo_hash
     for d in (PATHS.root, PATHS.data_dir, PATHS.daily_dir,
               PATHS.basic_dir, PATHS.results_dir, PATHS.logs_dir):

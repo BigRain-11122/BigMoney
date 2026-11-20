@@ -214,6 +214,48 @@ CLAIM_RULES = [
     (re.compile(_D + r" 这根 bar 装 [\d,]+ 元"), ["etf_order.admission.capacity.latest.bar"]),
     (re.compile(r"ADV 是那一年自己的 20 根中位；算到 " + _D),
      ["etf_order.admission.capacity.evidence_cutoff"]),
+    # r1893: the "do not wait for a sharper ruler" block prints the face's cutoff and its
+    # producing stamp. Both are fields on this page's own JSON, so the block is claimable
+    # instead of adding two more unchecked dates (r1671: a new bare date is a debt).
+    (re.compile(r"面到 " + _D + r"）：把尺子从"),
+     ["precision_wait.evidence_cutoff"]),
+    (re.compile(r"etf_book_target_price\.py`?·" + _D + r"T"),
+     ["precision_wait.generated"]),
+    # r1893: the supply board prints one row per lane plus its read clock.  Twelve of the
+    # twenty dates the audit could not place were these rows -- the lane table is keyed by
+    # name on this page's own JSON, so the rule asks for the lane, never for row 0 (an order
+    # change would otherwise read a different lane's tail and nobody would notice).
+    (re.compile(r"车道板读数（" + _D + r" \d{2}:\d{2} 读自"), ["data_lanes.as_of"]),
+    (re.compile(r"参照日 " + _D), ["data_lanes.expected"]),
+    (re.compile(r"- `(?P<lane>[a-z_0-9]+)`（属主 [^·]+·尾 " + _D +
+                r"·欠 \d+ 个会话：" + _D + r"）"),
+     ["data_lanes.rows[lane={lane}].tail",
+      "data_lanes.rows[lane={lane}].missing_days[0]"]),
+    # r1893 (second batch): the rest of the unchecked dates on this page, each one naming a
+    # field the page's own JSON already carries. Written after the first-ever drive of this
+    # leg showed 20 dates no rule could place -- a face that is always red teaches readers to
+    # treat real defects as noise (r1789), so the debt gets paid down, not annotated.
+    (re.compile(r"这份名单这段到底赚了多少\*\*：" + _D + r" 进、" + _D + r" 出"),
+     ["recommendation.track.entry_bar", "recommendation.track.cutoff"]),
+    (re.compile(r"检查面 generated " + _D + r"T"),
+     ["etf_order.input_order.generated"]),
+    (re.compile(r"边界：算到 " + _D + r"，面生成于 " + _D + r"T"),
+     ["etf_entry_price.cutoff", "etf_entry_price.generated"]),
+    (re.compile(r"（盘口 " + _D + r"·计价截止 " + _D + r"）"),
+     ["etf_capacity.session", "etf_capacity.evidence_cutoff"]),
+    (re.compile(r"最老的那根停在 " + _D),
+     ["futures_panel.oldest_dead.last_bar"]),
+    (re.compile(r"面板日 " + _D + r"｜活跃窗自 " + _D + r" 起.*?·" + _D +
+                r"T.*?｜generated " + _D + r"T.*?｜cutoff " + _D),
+     ["futures_panel.panel_date", "futures_panel.window_cut",
+      "futures_panel.writer_generated", "futures_panel.source_generated",
+      "futures_panel.evidence_cutoff"]),
+    (re.compile(r"盘面最早一根（" + _D + r"）"),
+     ["futures_gaps.panel_first_bar"]),
+    (re.compile(r"futures_panel_gaps\.json`｜generated " + _D +
+                r"T[\d:+]+｜cutoff " + _D + r"｜探针沿自 " + _D + r"T"),
+     ["futures_gaps.source_generated", "futures_gaps.evidence_cutoff",
+      "futures_gaps.carried_from"]),
 ]
 
 # A date that rides inside a file name (`TICKET-2026-11-17.json`) names a paper; it does not

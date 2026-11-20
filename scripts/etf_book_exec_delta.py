@@ -340,6 +340,16 @@ def compute(ticket):
             "source": "book_before_declaration" if declared else "ledger_row",
             "declared_bar": pos.get("ledger_bar") or bar,
         },
+        # r1888: whether this subtraction is a one-bar question. When the subtractable book
+        # is older than the sheet, the turnover is a cumulative gap, not today's order --
+        # the reader gets the window instead of the word "today".
+        "book_window": {
+            "from_bar": led.get("bar"),
+            "to_bar": bar,
+            "is_today": None if not (bar and led.get("bar")) else
+            (str(led.get("bar")) == str(bar)),
+            "calendar_days": calendar_days(led.get("bar"), bar),
+        },
         "declaration": declaration,
         "mark": mark,
         "cash_recon_ex_mark_cny": recon_ex,
@@ -500,6 +510,21 @@ def _money(x):
     return format(float(x), ",.2f")
 
 
+def calendar_days(a, b):
+    """Calendar days between two bar dates, or None when either is not a date.
+
+    r1888: the sheet subtracted a book dated 2026-11-10 from a target dated 2026-11-20 and
+    called the difference "today's order". Ten bars of drift and one bar of orders are the
+    same number and different instructions; the reader has to be told the window.
+    """
+    try:
+        import datetime as _dt
+
+        return (_dt.date.fromisoformat(str(b)) - _dt.date.fromisoformat(str(a))).days
+    except Exception:
+        return None
+
+
 def positions_source_note(face):
     """WHICH statement this table subtracted, in one line the reader can check.
 
@@ -586,10 +611,22 @@ def sentence(face):
         parts.append("卖 **%s 元**" % _money(face["gross_sell_cny"]))
     if face["gross_buy_cny"]:
         parts.append("买 **%s 元**" % _money(face["gross_buy_cny"]))
-    head = ("账上 %d 只 → 票面 %d 只：今天要 %s，合计动 **%s 元**"
-            "（相当于账上风险腿的 %.1f%%）。"
-            % (face["current_rows"], face["target_rows"], "、".join(parts),
-               _money(face["turnover_cny"]), face["turnover_share_of_book_pct"] or 0.0))
+    _win = face.get("book_window") or {}
+    _from = _win.get("from_bar") or face.get("current_bar")
+    if _win.get("is_today") is False and _from:
+        _gap = calendar_days(_from, face.get("bar"))
+        head = ("账上 %d 只（**%s 那本**，不是今天的账） → 票面 %d 只：从 %s 到 %s 要 %s，"
+                "合计动 **%s 元**（相当于那本账风险腿的 %.1f%%）——这张单是 %s的累计差，"
+                "不是今天一天的换仓。"
+                % (face["current_rows"], _from, face["target_rows"], _from, face.get("bar"),
+                   "、".join(parts), _money(face["turnover_cny"]),
+                   face["turnover_share_of_book_pct"] or 0.0,
+                   ("相隔 %d 个自然日" % _gap) if _gap is not None else "跨若干自然日"))
+    else:
+        head = ("账上 %d 只 → 票面 %d 只：今天要 %s，合计动 **%s 元**"
+                "（相当于账上风险腿的 %.1f%%）。"
+                % (face["current_rows"], face["target_rows"], "、".join(parts),
+                   _money(face["turnover_cny"]), face["turnover_share_of_book_pct"] or 0.0))
     if v == "CASH_SHORT":
         return head + " 账上现金不够：动作后现金会是 **%s 元**。" % _money(face["cash_after_cny"])
     if face.get("cash_recon_cny") is not None and abs(face["cash_recon_cny"]) <= SUM_TOL:
@@ -836,6 +873,17 @@ def selftest():
         and {r["symbol"]: r["side"] for r in _df["rows"]} == {"A": "SELL", "B": "BUY"})
     leg("L12d an account row newer than the sheet is still refused, not subtracted",
         compute(_declared_fixture(acct_bar="2026-02-02"))["verdict"] == "CANNOT_SUBTRACT")
+
+    # r1888: a book ten days older than the sheet is a window, not "today".
+    _sen = sentence(_df)
+    leg("L12e an older subtractable book puts the window on the page, not the word 'today'",
+        "不是今天的账" in _sen and "今天要" not in _sen
+        and "2025-12-31" in _sen and (_df.get("book_window") or {}).get("is_today") is False
+        and (_df.get("book_window") or {}).get("calendar_days") == 2)
+    leg("L12f a book on the sheet's own bar still says 'today'",
+        "今天要" in sentence(_same := compute(_declared_fixture(acct_bar="2026-01-02")))
+        and (_same.get("book_window") or {}).get("is_today") is True
+        and (_same.get("book_window") or {}).get("calendar_days") == 0)
 
     # gate legs: the fixture reconciles, so verify must be silent on it; each tamper must speak
     good = compute(_fixture([("B", 10, 2.0)], [("A", 10, 2.0)], cash=80000.0))
