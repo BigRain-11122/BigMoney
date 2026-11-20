@@ -650,6 +650,16 @@ LEGS = [
     ("era_capacity_write",
      ["python", "scripts/etf_book_era_capacity.py", "check"],
      ["python", "scripts/etf_book_era_capacity.py", "run"]),
+    # r1872: r1871's ceiling is read on the five names the score happened to rank top that
+    # year, so a rising ceiling could be a deeper market or just a different ranking. This
+    # leg replays the WHOLE roster on every year anchor (a name counts only if it printed a
+    # bar within the last week, so dead funds cannot answer with an old median) and splits
+    # each era change exactly into names vs depth, per slot. Its check re-derives the split,
+    # requires the five-slot capacity to reproduce r1871 row for row, and refuses a face
+    # whose cutoff disagrees with its own panel. ~70s refresh, ~1s check (row-only).
+    ("era_roster_write",
+     ["python", "scripts/etf_book_era_roster.py", "check"],
+     ["python", "scripts/etf_book_era_roster.py", "run"]),
     # r1471: the ticket below now sizes itself off the EXECUTED account (the positions face)
     # instead of the engine's own never-trimmed book -- but nothing in this chain ever WROTE
     # that face, only checked it ~600 legs later. So the sheet priced off whatever the last

@@ -1893,6 +1893,16 @@ def main() -> int:
              "scripts/etf_book_era_capacity.py", ["selftest"]),
             ("product: etf_book_era_capacity (ceilings and the latest bar re-derived)",
              "scripts/etf_book_era_capacity.py", ["check"]),
+            # r1872: r1871 priced every year on the five names the score happened to rank
+            # top, which cannot tell a deeper market from a different ranking. The legs pin
+            # that the change splits exactly (per slot, so a name that stopped trading is
+            # not booked as a name effect), that a stale name leaves the roster instead of
+            # answering with its old median, that the five-slot capacity still reproduces
+            # r1871 row for row, and that an opposing pair of pieces is named as opposing.
+            ("product: etf_book_era_roster (the roster per era, split into names and depth)",
+             "scripts/etf_book_era_roster.py", ["selftest"]),
+            ("product: etf_book_era_roster (split re-derived, reproduces r1871's rows)",
+             "scripts/etf_book_era_roster.py", ["check"]),
             # r1446: two true receipts that a desk cannot hold at once (the caliber dispute
             # says the gate is one decision from disagreeing with itself; the forward read
             # says the deciding check is decorative). The legs pin the four frozen classes
