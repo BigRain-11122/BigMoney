@@ -1,7 +1,7 @@
 {
  "activity": "product",
- "activity_now": "r1881: the width card now prints the ONE_WORLD verdict its arms face produced, and the repo lane explains a one-day gap against its own arrival clock instead of calling it a missing bar",
- "activity_now_round": 1877,
+ "activity_now": "r1882: the lot floor answers can-you-order, not what the order costs -- a CNY 5 minimum commission charged per ticket makes a 14,876 CNY account pay 57.5bp a side against a 13.041bp model, and the entry price turns out to be 263,852",
+ "activity_now_round": 1882,
  "agenda_starved": false,
  "ah_note": "r1680 LANDED: refresh closed itself at 21:17 -- cutoff 2026-11-12 -> 2026-11-13, complete=True, exit 0, pulled_rows 46; data_lane_freshness in_sync 13 / behind_1d 1 (worst now marks, intraday-only, not rebuildable). Fix that made it possible: stall watchdog over every network leg (300s, names stage/pair, exit 2, checkpoint kept) + save_progress stamps write time + -u on the detached spawn + progress line every 10 pairs. NOT yet proven: the 300s stall path has never fired on a real hang (this round the suspected freeze finished by itself).",
  "ahead_origin": 0,
@@ -37,20 +37,14 @@
   "workers": 6
  },
  "artifacts": [
-  "scripts/divlowvol_live_track.py",
-  "results/divlowvol_live/track_latest.json",
-  "docs/divlowvol_live/TRACK-2026-11-19.md",
-  "scripts/ceo_live_usage.py",
-  "docs/live_usage/LIVE-2026-11-20.md",
+  "scripts/etf_book_entry_price.py",
+  "results/etf_book_entry_price.json",
+  "results/etf_book_entry_price.md",
   "Tools/s6_chain_bmc.py",
-  "scripts/etf_book_start_grid.py",
-  "results/etf_book_start_grid.json",
-  "research/ETF_BOOK_START_GRID.md",
-  "scripts/etf_book_order.py",
   "smoke_test.py",
   "knowledge/METHODOLOGY_ASSETS.md"
  ],
- "batch": "divlowvol_live_track --selftest 11/11 + run/check rc0 (BENCH_PANEL_MOVED named while the astock collector writes); ceo_live_usage --selftest ALL PASS (+4 r1864 legs: prints the record / sources it / missing reads unreadable / a track about another list is refused) + page rewritten; S6 --only=divlowvol_live_track,divlowvol_live_track_check 2/2 rc0; s6_chain --selftest 17/17",
+ "batch": "entry_price selftest 13/13 + run/check rc0; chain leg entry_price_write 0.9s rc0; s6 chain selftest 17/17; smoke suite green-so-far (no FAIL lines)",
  "behind_origin": 0,
  "busy": false,
  "chain": "S6: dualrun ZERO-DRIFT streak 51/744; attrition CLEAN (4 ledgers, 3 historical shrink rows healed); py_watermark insufficient_history (py 0.1%, local_batch true = astock refresh); loop task pin=0 no-op; watchdog S4U flip still refused (elevation face, long-standing); both claws reinstalled; full smoke suite 697 legs 0 FAIL 0 UNVERIFIED (922.7s); r1864b: Tools/saturation_engine.py is now a shim onto scripts/ (two generations, two state files -> status read a 8.7-day-old heartbeat while the engine ticked 8s ago)",
@@ -269,7 +263,10 @@
  "next": "next: (a) the four axes now carry one sentence, but the page that prints it cannot be written until a new bar lands -- verify on the next priced page that the block renders and that live_book_section_bars covers it; (b) the ruler answer is now printed (5,077 bars vs 1,662) but nobody has priced what a 5pp target is worth -- i.e. whether 30 years of accumulation is the right spend for a 2.4pp shape; (c) smoke legs for etf_book_closed_axes (selftest + check) so the face cannot rot silently",
  "next_action": "price the short leg (securities lending on 510500/512100) before the IC/IM hedged sleeve can be sized",
  "next_milestone": "把合约盘来源与死尾普查印到 CEO 活书页的期货节（窗 ≤48h）",
- "next_pick": "r1874: add the two smoke legs for the new face (selftest + --check off-line), because a face whose only writer is a chain leg has no alarm when the leg stops.",
+ "next_pick": {
+  "status": "open",
+  "candidate": "entry price onto the CEO page and the ORDER sheet"
+ },
  "next_pointer": "(a) print the provenance line + the 327/83 census on the page readers open (CEO live usage futures section, <=48h); (b) check whether the 83 header-only contract files have an upstream history worth backfilling before they are written off; (c) full smoke suite still owes a tally (detached this round)",
  "next_round": 1765,
  "next_task": "r1547: the 场内买入 word hides WHEN it changed -- print the status transition dates per leg so a reopening is a dated event, not a per-day scan",
@@ -1255,7 +1252,7 @@
   "watermark": "green: board/pool both empty (pool_ready_count=0, fleet_open_tasks=0), no claimable batch on this host; py_watermark insufficient_history (window n=1, local_batch=1 = this round own suite)"
  },
  "round_label": "r1813",
- "round_no": 1881,
+ "round_no": 1882,
  "round_no_label": "r1821",
  "round_no_landed": 1663,
  "round_note": "r1489: a reinstated bar is re-derived from the panel, not carried over (reinstatement_check + reinstatements.json + sheet paragraph)",

@@ -747,6 +747,17 @@ LEGS = [
     # card, nothing re-ranked), so the operator's sheet cannot drift into the other book.
     # ~1s, offline, idempotent.
     ("etf_book_order_card", ["python", "scripts/etf_book_order.py", "card"]),
+    # r1882: the lot floor (etf_book_ticket_floor) answers "can this account place the
+    # sheet", and at the 2026-11-19 card that is 14,876 CNY. It does not answer what the
+    # sheet COSTS there: a broker's CNY 5 minimum commission is charged per ticket, so
+    # twelve ~1e3-CNY legs pay ~52bp of commission where the model charges 2.5bp. This
+    # face prices the curve and reads the lot floor from the published face (it never
+    # recomputes it); its check re-derives every bp from the CNY it was paid in and
+    # re-derives the verdict, so a moved card makes it STALE rather than quietly current.
+    # ~2s, offline, reads the card ticket only.
+    ("entry_price_write",
+     ["python", "scripts/etf_book_entry_price.py", "check"],
+     ["python", "scripts/etf_book_entry_price.py", "run"]),
     # r1619: the ticket is not the only thing the desk reads off this book -- the SIZE it should
     # run at is a separate published face (`etf_book_size_rulers_decision.json`: three rulers,
     # the smallest size all of them defend, and the money already deployed). That face names the

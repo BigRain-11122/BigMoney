@@ -2045,6 +2045,19 @@ def main() -> int:
              "scripts/etf_book_capacity_shortfall.py", ["selftest"]),
             ("product: etf_book_capacity_shortfall (f re-derived for every row, verdict too)",
              "scripts/etf_book_capacity_shortfall.py", ["check"]),
+            # r1882: the capacity family prices the CEILING (money too big to fill); nothing
+            # priced the FLOOR, where a broker's CNY 5 minimum commission is charged per
+            # ticket and twelve ~1e3-CNY legs pay ~52bp of commission against a 2.5bp model.
+            # The legs pin that a 1M book pays exactly the model rate, that one lot per leg
+            # multiplies the side cost, that the tax is exactly zero once every leg clears
+            # the critical ticket, that a capital below one lot reports no price instead of a
+            # zero, that the waived arm is the model at every size, that the tax falls
+            # monotonically, that the clean entry is set by the smallest weight, and the
+            # verdict doors on the frozen multiple.
+            ("product: etf_book_entry_price (the lot floor is a floor, not an entry price)",
+             "scripts/etf_book_entry_price.py", ["selftest"]),
+            ("product: etf_book_entry_price (every bp re-derived from the CNY it was paid in)",
+             "scripts/etf_book_entry_price.py", ["check"]),
             # r1446: two true receipts that a desk cannot hold at once (the caliber dispute
             # says the gate is one decision from disagreeing with itself; the forward read
             # says the deciding check is decorative). The legs pin the four frozen classes
