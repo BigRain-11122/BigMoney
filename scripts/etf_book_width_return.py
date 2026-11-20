@@ -276,7 +276,60 @@ def build(capital=None):
         ],
     }
     payload["sentence"] = sentence(payload)
+    payload["freshness"] = freshness(fit, payload["evidence_cutoff"],
+                                     anchor_bar=panel_bar(),
+                                     anchor_name=" + ".join(PANEL_FILES))
     return payload
+
+
+PANEL_FILES = ("data/daily/sh510300.csv", "data/daily/sh510500.csv",
+               "data/daily/sh512100.csv")
+
+
+def panel_bar(paths=PANEL_FILES):
+    """The last bar the price panel itself carries -- the clock this face cannot move.
+
+    Not the capacity face: that one is pinned to the bar its study was fitted on (the sentence
+    it prints names 2026-11-11 while the published file reads 2026-11-19), so it does not
+    advance when a new bar lands and would never notice this face standing still. The panel
+    does. Three tail reads, no parse.
+    """
+    best = None
+    for rel in paths:
+        try:
+            with io.open(os.path.join(ROOT, rel), "rb") as fh:
+                fh.seek(0, os.SEEK_END)
+                n = fh.tell()
+                fh.seek(max(0, n - 2000))
+                chunk = fh.read().decode("utf-8", "replace")
+            day = [ln for ln in chunk.splitlines() if ln.strip()][-1].split(",")[0][:10]
+        except Exception:                       # noqa: BLE001 - unreadable panel, not a claim
+            continue
+        if len(day) == 10 and day[4] == "-" and (best is None or day > best):
+            best = day
+    return best
+
+
+def freshness(anchor, face_bar, anchor_bar=None, anchor_name=None):
+    """Is this face still on its own input's bar, or is it a face nobody re-ran?
+
+    r1897 / r1850 family: `check` above only proves the numbers agree with the rows printed
+    beside them, so a face that stopped three sessions ago passes cleanly -- it re-derives the
+    same three-day-old world. On 2026-11-21 this face read 2026-11-17 while the panel already
+    carried 2026-11-20 and the capacity face read 2026-11-19. The honest word is STALE (the
+    chain's run_leg only pays for a writer when it sees that word); on the same bar it says
+    nothing, and with no readable clock it makes no claim either way.
+    """
+    if anchor_bar is None:
+        anchor_bar = (anchor or {}).get("evidence_cutoff") or (anchor or {}).get("bar")
+    if anchor_name is None:
+        anchor_name = "results/etf_book_width_fit.json"
+    readable = bool(anchor_bar and face_bar)
+    return {"anchor": anchor_name,
+            "anchor_cutoff": anchor_bar,
+            "face_cutoff": face_bar,
+            "readable": readable,
+            "behind": bool(readable and anchor_bar > face_bar)}
 
 
 def check(payload):
@@ -337,6 +390,13 @@ def check(payload):
     ns = [r["n"] for r in payload.get("rows") or []]
     if ns != sorted(set(ns)):
         problems.append("rows are not a strictly increasing width ladder: %s" % ns)
+    # 5. freshness against the input this face itself declares (r1850: a check that only
+    # re-derives from its own rows cannot notice the whole face is old)
+    fr = payload.get("freshness") or {}
+    if fr.get("behind"):
+        problems.append("STALE FACE_BEHIND_ANCHOR: this face prices %s but its input %s "
+                        "already reads %s -- nobody re-ran this writer"
+                        % (fr.get("face_cutoff"), fr.get("anchor"), fr.get("anchor_cutoff")))
     for r in payload.get("rows") or []:
         if r.get("cagr") is None:
             problems.append("width %s has no cagr" % r.get("n"))
@@ -365,6 +425,14 @@ def run():
 def main_check():
     with io.open(OUT, encoding="utf-8") as fh:
         payload = json.load(fh)
+    # r1897: the freshness clock is the price panel, read on EVERY check, not only when the
+    # writer last ran -- a payload published before this guard existed would otherwise keep
+    # passing on a stale face forever (the chicken-and-egg r1850 warns about).
+    bar = panel_bar()
+    if not payload.get("freshness") or (payload["freshness"] or {}).get("anchor_cutoff") != bar:
+        payload["freshness"] = freshness(None, payload.get("evidence_cutoff"),
+                                         anchor_bar=bar,
+                                         anchor_name=" + ".join(PANEL_FILES))
     problems = check(payload)
     if problems:
         print("CHECK_FAIL")
@@ -418,6 +486,24 @@ def selftest():
         any("verdict" in p for p in check(payload)))
     payload["decision"] = d
     leg("check passes the honest payload", check(payload) == [])
+
+    # r1897: a face one bar behind its own input must not pass as clean (r1850 family)
+    behind = dict(payload, freshness={"anchor": "results/etf_book_width_fit.json",
+                                      "anchor_cutoff": "2026-11-19",
+                                      "face_cutoff": "2026-11-17",
+                                      "readable": True, "behind": True})
+    leg("a face behind its own input anchor is STALE, not clean",
+        any("STALE" in p for p in check(behind)))
+    level = dict(payload, freshness={"anchor": "results/etf_book_width_fit.json",
+                                     "anchor_cutoff": "2026-11-19",
+                                     "face_cutoff": "2026-11-19",
+                                     "readable": True, "behind": False})
+    leg("on the same bar the freshness guard says nothing", check(level) == [])
+    leg("an unreadable anchor is not a claim of being behind",
+        freshness({}, "2026-11-17")["behind"] is False and
+        freshness({"evidence_cutoff": "2026-11-19"}, None)["behind"] is False)
+    # the clock must be a date, not a silent None: a guard that can never fire is not a guard
+    leg("the panel clock reads a real bar", len(panel_bar() or "") == 10)
 
     ok = sum(1 for _n, o in legs if o)
     for name, o in legs:
