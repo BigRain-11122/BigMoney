@@ -851,6 +851,26 @@ def main() -> int:
               False, repr(_e)[:160])
     finally:
         SUITE_T0[:] = _saved_t0
+    # r1877: the cash-quote split is a guard that decides whether a page-vs-ticket
+    # disagreement is a defect or a quote generation gap. r1876 wired it into the leg but
+    # left it unproven -- and this round's record red came from a suite that started
+    # before the guard existed, so the one thing nobody had checked was the guard itself.
+    # Pin all four directions: behind=split (page keeps the older quote), level=red
+    # (same session, different number is a real defect), ahead=red, and a missing date
+    # stays red because absence is unverifiable (E1406).
+    try:
+        _s_behind, _w_behind = _cash_quote_split("2026-11-17", "2026-11-19")
+        _s_level, _ = _cash_quote_split("2026-11-19", "2026-11-19")
+        _s_ahead, _ = _cash_quote_split("2026-11-19", "2026-11-17")
+        _s_missing, _ = _cash_quote_split(None, "2026-11-19")
+        check("harness: a page behind its ticket's quote session is named, never called a lie",
+              _s_behind and not _s_level and not _s_ahead and not _s_missing
+              and "2026-11-17" in _w_behind and "2026-11-19" in _w_behind,
+              "behind=%s level=%s ahead=%s missing=%s | %s"
+              % (_s_behind, _s_level, _s_ahead, _s_missing, _w_behind[:90]))
+    except Exception as _e:
+        check("harness: a page behind its ticket's quote session is named, never called a lie",
+              False, repr(_e)[:160])
     from config import PATHS, all_combinations, combo_hash
     for d in (PATHS.root, PATHS.data_dir, PATHS.daily_dir,
               PATHS.basic_dir, PATHS.results_dir, PATHS.logs_dir):
@@ -1989,6 +2009,17 @@ def main() -> int:
              "scripts/etf_book_liquidity_era.py", ["selftest"]),
             ("product: etf_book_liquidity_era (eras partition the window, verdict re-derived)",
              "scripts/etf_book_liquidity_era.py", ["check"]),
+            # r1877: the house's whole capacity family prices size as a COST, which quietly
+            # assumes any size fills. The gate's ruler is a refusal instead, so the capital it
+            # will not take sits in cash. The legs pin f = min(1, cap/lens) with an unpriced
+            # date left at 1.0 and counted, that an all-ones overlay reproduces the published
+            # series to the last digit, that a half-sized slate returns exactly half of each
+            # day, that idle cash is carried at its own rate, and the four verdict doors on
+            # the published counts.
+            ("product: etf_book_capacity_shortfall (the 1% line scaled, remainder in cash)",
+             "scripts/etf_book_capacity_shortfall.py", ["selftest"]),
+            ("product: etf_book_capacity_shortfall (f re-derived for every row, verdict too)",
+             "scripts/etf_book_capacity_shortfall.py", ["check"]),
             # r1446: two true receipts that a desk cannot hold at once (the caliber dispute
             # says the gate is one decision from disagreeing with itself; the forward read
             # says the deciding check is decorative). The legs pin the four frozen classes

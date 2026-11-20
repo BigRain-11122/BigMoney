@@ -681,6 +681,15 @@ LEGS = [
     ("liquidity_era_write",
      ["python", "scripts/etf_book_liquidity_era.py", "check"],
      ["python", "scripts/etf_book_liquidity_era.py", "run"]),
+    # r1877: every capacity face so far prices SIZE as a cost (r1260's impact ladder assumes any
+    # size fills). The gate's ruler is not a price, it is a refusal: above 1% of a name's ADV the
+    # order is absent, so the rest of the capital sits in cash. This face scales the published
+    # slate by f = min(1, cap/lens) per rebalance and prints what respecting the ruler costs.
+    # Its check re-derives f for every row and the verdict from the published counts.
+    # ~60s refresh, ~1s check (row-only, no panel read).
+    ("capacity_shortfall_write",
+     ["python", "scripts/etf_book_capacity_shortfall.py", "check"],
+     ["python", "scripts/etf_book_capacity_shortfall.py", "run"]),
     # r1471: the ticket below now sizes itself off the EXECUTED account (the positions face)
     # instead of the engine's own never-trimmed book -- but nothing in this chain ever WROTE
     # that face, only checked it ~600 legs later. So the sheet priced off whatever the last
