@@ -17360,3 +17360,6 @@ results/etf_book_entry_price.json + .md、链腿 entry_price_write（0.9s）、�
 **正法**：①产品判据落在读者手上那张面（CEO 一页纸），JSON ok 与票面小节都不算（r1782 同族）；②跨口径并排必须说出量的是哪本书——本块抬头写「账面 12 名」，执行单是 5 名，并加一句「两个口径别互相代入」（r1275）；③**往共享渲染面插块之前，先 grep 同文件里以否定式写的断言词**（`not in md` / `not in _md*`），新文案要么避开这些词，要么先证明每处豁免都成立——负面断言是隐式词表，撞上就是静默回归；④改完必须与改动前基线做集合对比（NEW-ONLY / FIXED 两列），禁只看总数。
 
 **实物**：scripts/ceo_live_usage.py（`_etf_entry_price_face` + ⑥ 节八档块 + 3 条 selftest 腿，selftest NEW-ONLY=[]）、docs/live_usage/LIVE-2026-11-20.md（入门价块）、commit be90285ec0。
+
+- E-20261120-r1885 · 曲线价差的量必须是收益率差，不是「对数价差×滚动 beta」（正身=scripts/bond_fut_curve.py，人的可读复述）
+  用 s = -ln(P_a)/D_a + ln(P_b)/D_b（bp）度量 10Y−5Y；若写成 log P_a − beta·log P_b 且 beta 每日重估，spread 的水平会随 beta 自己漂移（beta 0.611→0.65 就让 20 日「价差变化」跳到 2942bp＝294% 价格变动，整张面作废）。久期 D 是**声明常量**（T 8.0/TF 4.2/TS 1.8）不是拟合值，所以判决必须附 D 敏感性（±15%）。成本也必须在同一单位里：1 tick 滑点 550 元/手 × 两腿 × 两边的成本除以 DV01 880 元/bp = 7.3~13.7bp，而这类曲线的真实毛收益只有 0.03~1.71bp —— 成本口径算错就会把一条死线报成活线。

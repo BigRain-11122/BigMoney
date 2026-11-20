@@ -1,0 +1,247 @@
+{
+ "pairs": {
+  "T_TF": {
+   "status": "ok",
+   "legs": [
+    "T",
+    "TF"
+   ],
+   "days": 2387,
+   "first": "2017-01-17",
+   "last": "2026-11-19",
+   "dur": [
+    8.0,
+    4.2
+   ],
+   "cost_bp": 7.3,
+   "horizons": {
+    "5": {
+     "cut_abs_z": 1.531,
+     "n_extreme": 428,
+     "gross_bp": 0.03,
+     "t": 0.12,
+     "middle_bp": 0.19,
+     "net_bp": -7.28,
+     "halves_bp": [
+      0.11,
+      0.0
+     ]
+    },
+    "10": {
+     "cut_abs_z": 1.531,
+     "n_extreme": 428,
+     "gross_bp": -0.1,
+     "t": -0.3,
+     "middle_bp": 0.34,
+     "net_bp": -7.41,
+     "halves_bp": [
+      0.03,
+      -0.17
+     ]
+    },
+    "20": {
+     "cut_abs_z": 1.531,
+     "n_extreme": 428,
+     "gross_bp": -0.22,
+     "t": -0.39,
+     "middle_bp": 0.44,
+     "net_bp": -7.52,
+     "halves_bp": [
+      0.33,
+      -0.54
+     ]
+    }
+   }
+  },
+  "T_TS": {
+   "status": "ok",
+   "legs": [
+    "T",
+    "TS"
+   ],
+   "days": 2001,
+   "first": "2018-08-17",
+   "last": "2026-11-19",
+   "dur": [
+    8.0,
+    1.8
+   ],
+   "cost_bp": 13.69,
+   "horizons": {
+    "5": {
+     "cut_abs_z": 1.575,
+     "n_extreme": 345,
+     "gross_bp": 0.33,
+     "t": 0.95,
+     "middle_bp": 0.44,
+     "net_bp": -13.35,
+     "halves_bp": [
+      0.43,
+      0.44
+     ]
+    },
+    "10": {
+     "cut_abs_z": 1.575,
+     "n_extreme": 340,
+     "gross_bp": 0.6,
+     "t": 1.12,
+     "middle_bp": 0.66,
+     "net_bp": -13.09,
+     "halves_bp": [
+      0.79,
+      0.69
+     ]
+    },
+    "20": {
+     "cut_abs_z": 1.575,
+     "n_extreme": 334,
+     "gross_bp": 1.71,
+     "t": 2.16,
+     "middle_bp": 0.74,
+     "net_bp": -11.98,
+     "halves_bp": [
+      3.34,
+      1.01
+     ]
+    }
+   }
+  },
+  "TF_TS": {
+   "status": "ok",
+   "legs": [
+    "TF",
+    "TS"
+   ],
+   "days": 2001,
+   "first": "2018-08-17",
+   "last": "2026-11-19",
+   "dur": [
+    4.2,
+    1.8
+   ],
+   "cost_bp": 8.38,
+   "horizons": {
+    "5": {
+     "cut_abs_z": 1.59,
+     "n_extreme": 345,
+     "gross_bp": 0.67,
+     "t": 2.81,
+     "middle_bp": 0.39,
+     "net_bp": -7.7,
+     "halves_bp": [
+      1.51,
+      0.56
+     ]
+    },
+    "10": {
+     "cut_abs_z": 1.59,
+     "n_extreme": 340,
+     "gross_bp": 0.77,
+     "t": 2.64,
+     "middle_bp": 0.57,
+     "net_bp": -7.61,
+     "halves_bp": [
+      2.56,
+      0.48
+     ]
+    },
+    "20": {
+     "cut_abs_z": 1.59,
+     "n_extreme": 330,
+     "gross_bp": 1.65,
+     "t": 4.84,
+     "middle_bp": 0.92,
+     "net_bp": -6.73,
+     "halves_bp": [
+      4.92,
+      1.41
+     ]
+    }
+   }
+  }
+ },
+ "evidence_cutoff": "2026-11-19",
+ "duration_sensitivity": {
+  "T_TF": {
+   "Dx0.85": -0.25,
+   "Dx1.00": -0.22,
+   "Dx1.15": -0.19
+  },
+  "T_TS": {
+   "Dx0.85": 2.01,
+   "Dx1.00": 1.71,
+   "Dx1.15": 1.49
+  },
+  "TF_TS": {
+   "Dx0.85": 1.94,
+   "Dx1.00": 1.65,
+   "Dx1.15": 1.44
+  }
+ },
+ "verdict": {
+  "verdict": "CLOSE",
+  "pairs_passed": [],
+  "per_pair": [
+   {
+    "pair": "T_TF",
+    "C1": false,
+    "C2": false,
+    "C3": false,
+    "net_bp": -7.52,
+    "t": -0.39,
+    "halves": [
+     0.33,
+     -0.54
+    ]
+   },
+   {
+    "pair": "T_TS",
+    "C1": false,
+    "C2": false,
+    "C3": true,
+    "net_bp": -11.98,
+    "t": 2.16,
+    "halves": [
+     3.34,
+     1.01
+    ]
+   },
+   {
+    "pair": "TF_TS",
+    "C1": false,
+    "C2": true,
+    "C3": true,
+    "net_bp": -6.73,
+    "t": 4.84,
+    "halves": [
+     4.92,
+     1.41
+    ]
+   }
+  ],
+  "frozen_criteria": {
+   "C1": "20-day reversion net of cost >= 4.0 bp and |t| >= 2.0",
+   "C2": "extreme bucket's 5-day reversion bigger in size than the middle bucket",
+   "C3": "both halves of the sample agree in sign",
+   "open_rule": "at least 2 of 3 pairs pass all three",
+   "frozen_before_reading": true
+  },
+  "duration_sensitivity": {
+   "T_TF": {
+    "Dx0.85": -0.25,
+    "Dx1.00": -0.22,
+    "Dx1.15": -0.19
+   },
+   "T_TS": {
+    "Dx0.85": 2.01,
+    "Dx1.00": 1.71,
+    "Dx1.15": 1.49
+   },
+   "TF_TS": {
+    "Dx0.85": 1.94,
+    "Dx1.00": 1.65,
+    "Dx1.15": 1.44
+   }
+  }
+ }
+}
