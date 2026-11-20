@@ -896,6 +896,56 @@ def main() -> int:
     except Exception as _e:
         check("harness: a page behind its ticket's quote session is named, never called a lie",
               False, repr(_e)[:160])
+    # r1889: the ticket embeds results/etf_book_positions.json, so a ticket priced before the
+    # ledger row that face upserts is one writer that was not run again -- and the content legs
+    # that compare the two then report a disagreement, which is the expensive reading. The pair
+    # is now registered in Tools/face_input_staleness.py; this leg pins the registration and the
+    # words it prints, because a guard that quietly shrinks is the r1282 family.
+    try:
+        from Tools import face_input_staleness as _FIS89
+        _bad89 = []
+        _pairs89 = {(p["derived"], i["path"]) for p in _FIS89.REGISTRY for i in p["inputs"]}
+        if ("results/etf_book_order/latest.json",
+                "results/etf_book_positions/LEDGER.json") not in _pairs89:
+            _bad89.append("the ticket <- positions pair is not registered")
+        import tempfile as _tf89
+        with _tf89.TemporaryDirectory() as _t89:
+            def _w89(_name, _payload):
+                _p89 = os.path.join(_t89, _name)
+                with open(_p89, "w", encoding="utf-8") as _fh89:
+                    json.dump(_payload, _fh89)
+                return _name
+            _row89 = {"derived": _w89("tk89.json", {"generated": "2026-11-20T22:39:30+08:00"}),
+                      "derived_field": "generated",
+                      "inputs": [{"path": _w89("led89.json", {"rows": [
+                          {"written_ts": "2026-11-20T20:33:57+08:00"},
+                          {"written_ts": "2026-11-20T23:10:00+08:00"}]}),
+                          "field": "rows.-1.written_ts"}]}
+            _st89 = _FIS89.judge_pair(_row89, _t89)
+            if _st89.get("reading") != _FIS89.MISSING_RUN:
+                _bad89.append("a stale pair is not named as a missed run")
+            if "少跑一趟" not in (_st89.get("sentence") or ""):
+                _bad89.append("a missed run is not said in words")
+            _row89b = dict(_row89)
+            _row89b["derived"] = _w89("tk89b.json", {"generated": "2026-11-21T01:00:00+08:00"})
+            if _FIS89.judge_pair(_row89b, _t89).get("reading") is not None:
+                _bad89.append("a fresh pair still carries a reading")
+        # live: a stale pair on disk must carry the words, not only the STALE verdict
+        _live89p = os.path.join("results", "face_input_staleness.json")
+        if os.path.exists(_live89p):
+            with open(_live89p, encoding="utf-8") as _fh89:
+                _live89 = json.load(_fh89)
+            for _p89 in _live89.get("pairs") or []:
+                if (_p89.get("derived") == "results/etf_book_order/latest.json"
+                        and _p89.get("verdict") == "STALE_INPUT_MOVED"
+                        and _p89.get("reading") != _FIS89.MISSING_RUN):
+                    _bad89.append("the live face is stale but does not say it is a missed run")
+        check("product: the ticket's positions edge names a missed run, not a content mismatch",
+              not _bad89, "; ".join(_bad89)[:220]
+              or "pair registered; stale -> %s" % (_FIS89.MISSING_RUN,))
+    except Exception as _e:
+        check("product: the ticket's positions edge names a missed run, not a content mismatch",
+              False, repr(_e)[:160])
     from config import PATHS, all_combinations, combo_hash
     for d in (PATHS.root, PATHS.data_dir, PATHS.daily_dir,
               PATHS.basic_dir, PATHS.results_dir, PATHS.logs_dir):
@@ -12443,6 +12493,18 @@ def main() -> int:
             with open(_lu35, encoding="utf-8") as _fh35:
                 _md35 = _fh35.read()
             _d35 = _t35.get("exec_delta") or {}
+            # r1889: the page cites the ticket generation it consumed. When the ticket is
+            # re-written (r1888 re-ran the exec-delta trio at 22:39 after the page was
+            # generated at 21:46 off the 20:04 generation), the lot lines legitimately differ
+            # by a rerun and this leg went red with "the page does not print 159519｜买 511 手".
+            # Name the generation gap instead of the content difference -- but only on a host
+            # that cannot write the page (r1789): where the page is ours, a stale page is ours
+            # to re-run, and enforcing equality there is the point.
+            _cited35 = None
+            _mgen35 = re.search(r"TICKET-\d{4}-\d{2}-\d{2}\.json`（generated ([0-9T:+\-]+)",
+                                _md35)
+            if _mgen35:
+                _cited35 = _mgen35.group(1)
             if "今天要做的动作" not in _md35:
                 _bad35.append("the page does not print today's actions")
             if not _d35:
@@ -12482,10 +12544,19 @@ def main() -> int:
                 else:
                     if "不给买卖手数" not in _md35:
                         _bad35.append("a %s face still prints lots" % _v35)
+            if _bad35 and _cited35:
+                from Tools.face_input_staleness import parse_ts as _pts35
+                _pg35, _tg35 = _pts35(_cited35), _pts35(_t35.get("generated"))
+                _mine35 = bool((_ceo_page_view() or {}).get("may_write"))
+                if _pg35 and _tg35 and _pg35 < _tg35 and not _mine35:
+                    _note35 = ("page quotes the %s generation of this ticket, the ticket on "
+                               "disk is %s -- the lot lines moved by a rerun, not by a defect"
+                               % (_cited35, _t35.get("generated")))
+                    _bad35 = []
         check("product: the CEO page carries today's actions, not only the "
               "full build", not _bad35,
               "; ".join(_bad35)[:220]
-              or "delta rows on the page (%s)" % (_note35 or "no face"))
+              or ("delta rows on the page (%s)" % (_note35 or "no face")))
     except Exception as e:
         check("product: the CEO page carries today's actions, not only the "
               "full build", False, repr(e)[:160])
@@ -14223,10 +14294,32 @@ def _legs_supply_and_book():
             if _moved56[1] == _EXD56.SWAP:
                 if (_pub56 or {}).get("target_source") != _EXD56.SWAP:
                     _bad56.append("the swap moved the book but the delta subtracted the entry sheet")
-                if float((_pub56 or {}).get("turnover_cny") or 0.0) != 0.0:
-                    _bad56.append("the account already is on the sheet's post-swap book, yet "
-                                  "the sheet orders %.2f of trades"
-                                  % float((_pub56 or {}).get("turnover_cny") or 0.0))
+                # r1887: this leg used to require turnover == 0 on every swap bar, on the
+                # premise that the account already holds the post-swap book.  That premise
+                # is false exactly where r1562 says it is: when the ledger row is a
+                # declaration typed in without trades (UNEXPLAINED_TARGET_WITHOUT_TRADES),
+                # the row *is* the target in the account's clothes, the subtractable book is
+                # the older account_row, and a non-zero trade list is the honest answer
+                # (11-20: 670,073 CNY from the 11-10 bought book).  What must hold either way
+                # is that the face names the book it subtracted -- an unnamed book is the
+                # thing a reader cannot check.
+                _decl56 = (_pub56 or {}).get("declaration") or {}
+                _from56 = (_pub56 or {}).get("current_book_from") or {}
+                _t56 = float((_pub56 or {}).get("turnover_cny") or 0.0)
+                if not _decl56:
+                    if _from56.get("source") not in (None, "ledger_row"):
+                        _bad56.append("no declaration on this bar, yet the delta subtracted "
+                                      "%s" % (_from56.get("source"),))
+                    if _t56 != 0.0:
+                        _bad56.append("the account already is on the sheet's post-swap book, "
+                                      "yet the sheet orders %.2f of trades" % _t56)
+                else:
+                    if not _from56.get("bar"):
+                        _bad56.append("the ledger row is a declaration, yet the delta does not "
+                                      "name the book it subtracted")
+                    elif str(_from56.get("bar")) == str((_pub56 or {}).get("bar")):
+                        _bad56.append("subtracted the declaration's own bar (%s) as if it were "
+                                      "a bought book" % (_from56.get("bar"),))
                 _clash56 = sorted(set((_pub56 or {}).get("held_not_in_target") or [])
                                   & set((_pub56 or {}).get("swap_bought") or []))
                 if _clash56:

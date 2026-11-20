@@ -1,9 +1,10 @@
 {
  "face": "face_input_staleness",
- "generated": "2026-11-20T22:39:51+08:00",
- "compared": 2,
+ "generated": "2026-11-20T23:57:42+08:00",
+ "compared": 3,
  "stale": [],
  "unreadable": [],
+ "missing_runs": [],
  "pairs": [
   {
    "derived": "results/etf_book_cut_order_gap.json",
@@ -12,6 +13,8 @@
    "derived_reason": "",
    "why": "r1590: priced at 19:56, permission rewritten at 20:11, gap kept the old decision date",
    "verdict": "FRESH",
+   "reading": null,
+   "sentence": "",
    "inputs": [
     {
      "input": "results/etf_book_rebalance_permission.json",
@@ -30,6 +33,8 @@
    "derived_reason": "",
    "why": "r1596: the sheet quotes the ledger's bar and k; written before the ledger's last run it prices the previous world",
    "verdict": "FRESH",
+   "reading": null,
+   "sentence": "",
    "inputs": [
     {
      "input": "results/etf_book_forward/LEDGER.json",
@@ -38,6 +43,26 @@
      "input_reason": "",
      "verdict": "FRESH",
      "lag_sec": -23076.0
+    }
+   ]
+  },
+  {
+   "derived": "results/etf_book_order/latest.json",
+   "derived_field": "generated",
+   "derived_stamp": "2026-11-20T22:39:30+08:00",
+   "derived_reason": "",
+   "why": "r1889: the ticket embeds the positions face; a ledger row written after the ticket is a missed run, not a content defect",
+   "verdict": "FRESH",
+   "reading": null,
+   "sentence": "",
+   "inputs": [
+    {
+     "input": "results/etf_book_positions/LEDGER.json",
+     "input_field": "rows.-1.written_ts",
+     "input_stamp": "2026-11-20T20:33:57+08:00",
+     "input_reason": "",
+     "verdict": "FRESH",
+     "lag_sec": -7533.0
     }
    ]
   }

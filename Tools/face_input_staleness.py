@@ -66,7 +66,40 @@ REGISTRY = [
         ],
         "why": "r1596: the sheet quotes the ledger's bar and k; written before the ledger's last run it prices the previous world",
     },
+    {
+        # r1889: the ticket prices the executed account off results/etf_book_positions.json
+        # (scripts/etf_book_order.py, POSITIONS_FACE) and embeds that snapshot. The positions
+        # face carries no wall clock of its own, so the honest "when did this book move" is the
+        # ledger row it upserts -- a content stamp that survives a rebase, where a file mtime
+        # would reset on every checkout and manufacture a permanent STALE.
+        #
+        # Why this pair earns a line: when the ledger row is written after the ticket, the two
+        # faces simply hold different numbers, and every content leg that compares them (base
+        # gap vs executable delta, printed rows vs the book) reports a disagreement. Nothing in
+        # those legs can tell "the writer was not run again" from "the writer got it wrong", so
+        # the reader is handed the expensive reading. This face answers it with a clock.
+        "derived": "results/etf_book_order/latest.json",
+        "derived_field": "generated",
+        "inputs": [
+            {"path": "results/etf_book_positions/LEDGER.json", "field": "rows.-1.written_ts"},
+        ],
+        "why": "r1889: the ticket embeds the positions face; a ledger row written after the ticket is a missed run, not a content defect",
+    },
 ]
+
+# r1889: a wall-clock inversion has two readings and they cost very different amounts of
+# time. "The producer was not run again" is a rerun; "the producer printed the wrong number"
+# is a defect hunt. The verdict alone (STALE_INPUT_MOVED) never said which one, so the
+# sentence below is what keeps the cheap reading from being lost.
+MISSING_RUN = "MISSING_RUN"
+
+
+def missing_run_sentence(derived, derived_stamp, input_path, input_stamp, lag_sec):
+    """The plain-words reason a pair is stale: one face is a generation behind its input."""
+    return ("少跑一趟：%s 写于 %s，而 %s 在它之后 %.0f 秒才写（%s）——两边数字对不上不是"
+            "内容不一致，是拿面没有在输入之后重跑一趟"
+            % (derived, derived_stamp, input_path, float(lag_sec),
+               input_stamp))
 
 
 def parse_ts(text):
@@ -153,6 +186,7 @@ def judge_pair(pair, root="."):
     d_ts, d_reason = read_stamp(derived, pair["derived_field"], root)
     rows = []
     worst = "FRESH"
+    sentences = []
     for inp in pair["inputs"]:
         i_ts, i_reason = read_stamp(inp["path"], inp["field"], root)
         row = {
@@ -169,17 +203,28 @@ def judge_pair(pair, root="."):
             row["verdict"] = "STALE_INPUT_MOVED"
             row["lag_sec"] = round((i_ts - d_ts).total_seconds(), 1)
             worst = "STALE_INPUT_MOVED"
+            # r1889: name the cheap reading next to the expensive one.
+            row["reading"] = MISSING_RUN
+            row["reading_sentence"] = missing_run_sentence(
+                derived, d_ts.isoformat(), inp["path"], i_ts.isoformat(), row["lag_sec"])
+            sentences.append(row["reading_sentence"])
         else:
             row["verdict"] = "FRESH"
             row["lag_sec"] = round((i_ts - d_ts).total_seconds(), 1)
         rows.append(row)
+    verdict = "UNREADABLE" if (d_ts is None and worst != "STALE_INPUT_MOVED") else worst
     return {
         "derived": derived,
         "derived_field": pair["derived_field"],
         "derived_stamp": d_ts.isoformat() if d_ts else None,
         "derived_reason": d_reason,
         "why": pair.get("why", ""),
-        "verdict": "UNREADABLE" if (d_ts is None and worst != "STALE_INPUT_MOVED") else worst,
+        "verdict": verdict,
+        # A reading is only printed when it was earned: FRESH has nothing to explain, and
+        # UNREADABLE means the clock itself could not be read -- calling that a missed run
+        # would be the r98 family (an unreadable face dressed as a known one).
+        "reading": MISSING_RUN if verdict == "STALE_INPUT_MOVED" else None,
+        "sentence": " ".join(sentences),
         "inputs": rows,
     }
 
@@ -188,12 +233,21 @@ def run(root=".", out=OUT):
     pairs = [judge_pair(p, root) for p in REGISTRY]
     stale = [p["derived"] for p in pairs if p["verdict"] == "STALE_INPUT_MOVED"]
     unread = [p["derived"] for p in pairs if p["verdict"] == "UNREADABLE"]
+    # r1889: one line per stale pair, written so a reader does not have to decide whether
+    # today's red means "rerun the writer" or "find the bug".
+    missing = [{"derived": p["derived"],
+                "input": r["input"],
+                "lag_sec": r.get("lag_sec"),
+                "sentence": r.get("reading_sentence") or ""}
+               for p in pairs if p["verdict"] == "STALE_INPUT_MOVED"
+               for r in p["inputs"] if r.get("reading") == MISSING_RUN]
     doc = {
         "face": "face_input_staleness",
         "generated": _dt.datetime.now(LOCAL_TZ).isoformat(timespec="seconds"),
         "compared": len(pairs),
         "stale": stale,
         "unreadable": unread,
+        "missing_runs": missing,
         "pairs": pairs,
         "verdict": "STALE" if stale else ("UNREADABLE" if unread else "FRESH"),
         "law": "a face may quote the same bar as its input and still have been priced before that input was written",
@@ -217,6 +271,7 @@ def _fixture(tmp, name, payload):
 
 
 def selftest():
+    global REGISTRY
     checks = []
 
     def ck(label, got, want):
@@ -241,6 +296,15 @@ def selftest():
     ck("negative index past the start is absent", dig({"runs": [{"ts": "a"}]}, "runs.-4.ts") is _MISS, True)
     ck("walking into a scalar is absent", dig({"runs": "nope"}, "runs.-1.ts") is _MISS, True)
     ck("missing top-level key is absent", dig({}, "runs.-1.ts") is _MISS, True)
+
+    # r1889: the round's own registration is asserted against REGISTRY, not trusted. Delete
+    # the entry and this goes red, so the guard cannot shrink silently (r1282 family: a
+    # mechanism with no leg on its own presence).
+    _pairs = {(p["derived"], i["path"]) for p in REGISTRY for i in p["inputs"]}
+    ck("the ticket's positions edge is registered",
+       ("results/etf_book_order/latest.json",
+        "results/etf_book_positions/LEDGER.json") in _pairs,
+       True)
 
     with tempfile.TemporaryDirectory() as tmp:
         p = {
@@ -307,7 +371,6 @@ def selftest():
         ck("one stale input outranks one unreadable", judge_pair(p8, tmp)["verdict"], "STALE_INPUT_MOVED")
 
         # run() must write the face and keep the two failure kinds apart
-        global REGISTRY
         saved = REGISTRY
         try:
             REGISTRY = [p, p5]
@@ -315,8 +378,35 @@ def selftest():
             ck("run separates stale from unreadable", (doc["verdict"], len(doc["stale"]), len(doc["unreadable"])),
                ("STALE", 1, 1))
             ck("run writes its face", os.path.exists(os.path.join(tmp, "out", "staleness.json")), True)
+            # r1889: the stale pair also lands in the rerun list, one line per inversion
+            ck("run lists the missed run with its sentence",
+               (len(doc["missing_runs"]), "少跑一趟" in (doc["missing_runs"][0]["sentence"] or "")),
+               (1, True))
         finally:
             REGISTRY = saved
+
+        # r1889: a ticket priced before the positions row is one writer that was not run
+        # again -- not two faces that disagree. The verdict never said which; the reading
+        # and its sentence are what keep the cheap reading from being lost.
+        _tk = {"derived": _fixture(tmp, "tk.json", {"generated": "2026-11-20T22:39:30+08:00"}),
+               "derived_field": "generated",
+               "inputs": [{"path": _fixture(tmp, "pos_led.json", {"rows": [
+                   {"written_ts": "2026-11-20T20:33:57+08:00"},
+                   {"written_ts": "2026-11-20T23:10:00+08:00"}]}),
+                   "field": "rows.-1.written_ts"}]}
+        _rtk = judge_pair(_tk, tmp)
+        ck("a ticket priced before the positions row is a missed run",
+           _rtk["reading"], MISSING_RUN)
+        ck("the missed run is said in words, not as a content defect",
+           "少跑一趟" in (_rtk["sentence"] or ""), True)
+        ck("the sentence names both faces",
+           ("tk.json" in (_rtk["sentence"] or "")) and ("pos_led.json" in (_rtk["sentence"] or "")),
+           True)
+        _tk2 = dict(_tk)
+        _tk2["derived"] = _fixture(tmp, "tk2.json", {"generated": "2026-11-21T01:00:00+08:00"})
+        _r2 = judge_pair(_tk2, tmp)
+        ck("a ticket written after the row earns no reading",
+           (_r2["reading"], _r2["sentence"]), (None, ""))
 
     passed = sum(1 for c in checks if c[1])
     for label, ok, got, want in checks:
@@ -341,6 +431,9 @@ def main(argv):
         for row in doc["pairs"]:
             if row["verdict"] != "FRESH":
                 print("  %-14s %s" % (row["verdict"], row["derived"]))
+        for row in doc["missing_runs"]:
+            print("  %-14s %s <- %s (%.0fs behind)"
+                  % (MISSING_RUN, row["derived"], row["input"], float(row["lag_sec"] or 0)))
         return 1 if doc["stale"] else 0
     print("usage: face_input_staleness.py [run|selftest]")
     return 2
