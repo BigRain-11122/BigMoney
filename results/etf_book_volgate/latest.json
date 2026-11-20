@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-20T02:02:35+0800",
+ "generated": "2026-11-20T12:18:13+0800",
  "script": "scripts/etf_book_volgate.py",
  "question": "does zoo #96's volume state machine improve the production book?",
  "evidence_cutoff": "2026-11-19",
@@ -91,13 +91,13 @@
   "rule": "HMA(amount_sum,5)/HMA(amount_sum,100) vs 1.150 / 0.810874",
   "bars": 1667,
   "coverage": {
-   "min": 2440,
+   "min": 3527,
    "median": 4856
   },
-  "risk_on_share": 0.3842,
+  "risk_on_share": 0.3836,
   "last_bar": "2026-11-19",
-  "last_state": 1,
-  "last_volume_index": 0.5771
+  "last_state": 0,
+  "last_volume_index": 0.8681
  },
  "arms": {
   "control": {
@@ -149,9 +149,9 @@
     "vol": 0.0785,
     "years": 2.88
    },
-   "exposure_share": 0.3842,
-   "switches": 292,
-   "switches_per_year": 42.44
+   "exposure_share": 0.3836,
+   "switches": 291,
+   "switches_per_year": 42.3
   },
   "gate_mid": {
    "full": {
@@ -175,9 +175,9 @@
     "vol": 0.0742,
     "years": 2.88
    },
-   "exposure_share": 0.3842,
-   "switches": 292,
-   "switches_per_year": 42.44
+   "exposure_share": 0.3836,
+   "switches": 291,
+   "switches_per_year": 42.3
   },
   "gate_half": {
    "full": {
@@ -201,9 +201,9 @@
     "vol": 0.0864,
     "years": 2.88
    },
-   "exposure_share": 0.3842,
-   "switches": 292,
-   "switches_per_year": 42.44
+   "exposure_share": 0.3836,
+   "switches": 291,
+   "switches_per_year": 42.3
   },
   "gate_long_x": {
    "full": {
@@ -227,9 +227,9 @@
     "vol": 0.0786,
     "years": 2.88
    },
-   "exposure_share": 0.3842,
-   "switches": 292,
-   "switches_per_year": 42.44
+   "exposure_share": 0.3836,
+   "switches": 291,
+   "switches_per_year": 42.3
   },
   "gate_long_base": {
    "full": {
@@ -253,9 +253,9 @@
     "vol": 0.1157,
     "years": 2.88
    },
-   "exposure_share": 0.3842,
-   "switches": 292,
-   "switches_per_year": 42.44
+   "exposure_share": 0.3836,
+   "switches": 291,
+   "switches_per_year": 42.3
   }
  },
  "excess_pp": {
@@ -267,15 +267,15 @@
  },
  "null": {
   "draws": 200,
-  "mean_pp": -11.486,
-  "p95_pp": -8.919,
-  "p_value": 0.175
+  "mean_pp": -11.492,
+  "p95_pp": -8.998,
+  "p_value": 0.17
  },
  "null_mirror": {
   "draws": 200,
-  "mean_pp": -8.835,
-  "p95_pp": -5.699,
-  "p_value": 0.825
+  "mean_pp": -8.829,
+  "p95_pp": -5.733,
+  "p_value": 0.83
  },
  "deviations": [
   "the gated arm keeps paying the book's internal turnover while flat (the engine's curve already carries it), so every gated reading here is a floor",
@@ -285,9 +285,9 @@
  "verdict": "REFUSE_AS_OVERLAY",
  "verdict_reasons": [
   "gated CAGR -9.94pp/yr is not above the book",
-  "phase null p=0.175 does not beat 5%",
+  "phase null p=0.17 does not beat 5%",
   "gated max drawdown -18.90% is worse than the book's -10.56%",
   "at 13.041bp per side the gate gives the excess back (-11.24pp/yr)"
  ],
- "elapsed_sec": 91.2
+ "elapsed_sec": 156.4
 }

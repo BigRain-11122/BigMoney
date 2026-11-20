@@ -4,15 +4,15 @@ evidence set: `results/**/*.json` (depth <= 2), readable against `scripts/`, `To
 
 | tier | faces | what it means |
 | --- | --- | --- |
-| CODE_MULTI | 663 | >=2 source files name this face |
-| CODE_SINGLE | 805 | exactly one source file names it (producer or lone reader) |
+| CODE_MULTI | 677 | >=2 source files name this face |
+| CODE_SINGLE | 806 | exactly one source file names it (producer or lone reader) |
 | PROSE_ONLY | 59 | only docs/research names it |
 | ORPHAN | 335 | nothing names it (undated only) |
 | DATED_CODE | 351 | dated snapshot, named somewhere |
 | DATED_ORPHAN | 473 | dated snapshot, named nowhere |
-| SCRATCH | 3994 | not a face (receipts / backups / hash scratch) |
+| SCRATCH | 4020 | not a face (receipts / backups / hash scratch) |
 
-undated faces: **1862** of 6680 (dated snapshots and scratch excluded from every verdict below)
+undated faces: **1877** of 6721 (dated snapshots and scratch excluded from every verdict below)
 
 ## undated faces nothing names (335)
 
@@ -64,7 +64,7 @@ undated faces: **1862** of 6680 (dated snapshots and scratch excluded from every
 - `results/e34_cadence_rolling/CADENCE-ROLLING-3Y-X3.json` ← `research/digests/DIGEST-20261021-e35-broad-book-screens.md`
 - `results/e39_month_attribution/MONTH-2026-07.json` ← `research/digests/FACESCREEN-20261022.md`
 
-## named by exactly one source file (805, 39 money-ish)
+## named by exactly one source file (806, 39 money-ish)
 
 One file naming a face is not a consumer: it is usually the producer. These are the first place to look when asking "is this number read?"
 
@@ -84,4 +84,4 @@ One file naming a face is not a consumer: it is usually the producer. These are 
 - `results/etf_book_premium_phases.json` ← `scripts/etf_book_premium_phases.py`
 - `results/etf_book_premium_swap.json` ← `scripts/etf_book_premium_swap.py`
 
-`generated` 2026-11-20T02:42:41+08:00 · every count above is a face count, not a read count.
+`generated` 2026-11-20T12:57:48+08:00 · every count above is a face count, not a read count.

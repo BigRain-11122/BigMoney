@@ -1,21 +1,21 @@
 {
-  "ts": "2026-11-20T06:23:04",
+  "ts": "2026-11-20T11:39:38",
   "mode": "refresh incomplete (checkpoint preserved)",
   "panel": {
     "complete": false,
     "cutoff": "2026-11-19",
     "cutoff_is": "max tail across all per/*.csv -- read coverage_pct/coverage_90 before calling the panel current",
-    "coverage_pct": 99.8,
+    "coverage_pct": 99.9,
     "coverage_90": "2026-11-19",
     "coverage_floor_pct": 90,
     "dates_tail": [
       [
         "2026-11-19",
-        5211
+        5214
       ],
       [
         "2026-11-18",
-        4
+        1
       ],
       [
         "2026-11-12",
@@ -49,41 +49,36 @@
     "9": 392
   },
   "last_refresh": {
-    "todo": 3114,
-    "fetched": 3110,
-    "appended": 3107,
-    "readjusted": 2,
-    "readjusted_tail": [
-      "002969@2019-12-02",
-      "300129@2010-10-19"
-    ],
+    "todo": 11,
+    "fetched": 9,
+    "appended": 3,
+    "readjusted": 0,
+    "readjusted_tail": [],
     "failures_tail": [
-      "300158:conn:TimeoutError",
-      "300197:conn:TimeoutError",
-      "301498:conn:TimeoutError",
+      "002717:conn:TimeoutError",
       "301661:KeyError:'date'"
     ],
-    "failures_n": 4,
+    "failures_n": 2,
     "conn_stopped": false,
-    "elapsed_min": 295.9,
-    "vwap_anchor_max": 0.138158,
+    "elapsed_min": 2.1,
+    "vwap_anchor_max": 0.119501,
     "repull": false
   },
   "quarantined_n": 11,
-  "last_spawn_attempt": "2026-11-20T01:27:05",
+  "last_spawn_attempt": "2026-11-20T11:37:32",
   "settled_n": 0,
   "settled": [],
   "per_files_on_disk": 5221,
   "validation": {
     "suspended_rows": 0,
-    "bracket_tolerated_rows": 1,
+    "bracket_tolerated_rows": 0,
     "defect_rows": 0
   },
   "takeover": {
     "owner": "bm-b",
     "by": "bm-c",
-    "reason": "owner bm-b silent 492.7h >= 120min",
-    "ts": "2026-11-20T01:27:05"
+    "reason": "owner bm-b silent 502.9h >= 120min",
+    "ts": "2026-11-20T11:37:32"
   },
   "authority": {
     "lane_owner": "bm-b",
@@ -91,11 +86,11 @@
     "data_face_machine": "bm-c",
     "declared_takeover": true,
     "took_over_by": "bm-c",
-    "took_over_at": "2026-11-20T01:27:05",
-    "reason": "owner bm-b silent 492.7h >= 120min"
+    "took_over_at": "2026-11-20T11:37:32",
+    "reason": "owner bm-b silent 502.9h >= 120min"
   },
   "machine": "bm-c",
-  "spawn_reason": "panel incomplete at cutoff 2026-11-19 (coverage 40.4%, expected 2026-11-19) -> continuation refresh, not a first pull",
+  "spawn_reason": "panel incomplete at cutoff 2026-11-19 (coverage 99.8%, expected 2026-11-19) -> continuation refresh, not a first pull",
   "spawn_mode": "continuation",
   "quarantined": [
     "000005",

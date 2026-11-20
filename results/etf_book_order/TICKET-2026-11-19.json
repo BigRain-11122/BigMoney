@@ -1,7 +1,7 @@
 {
  "evidence_cutoff": "2026-11-19",
  "beta_target": 0.2,
- "generated": "2026-11-20T08:34:27+08:00",
+ "generated": "2026-11-20T13:28:59+08:00",
  "permission": {
   "status": "within_permission",
   "k_now": 0.432195,
@@ -512,10 +512,10 @@
    "spread_vs_tail_cny": -1158.0,
    "spread_vs_window_cny": -5310.0,
    "book_rate": {
-    "pct": 1.7716,
-    "annual_cny": 10065.0,
+    "pct": 1.7712,
+    "annual_cny": 10063.0,
     "source": "etf_book_idle_cash.json",
-    "asof": "2026-11-20T01:23:57",
+    "asof": "2026-11-20T11:33:51",
     "book_cagr_without_pct": 11.38,
     "book_cagr_with_pct": 11.96,
     "basis": "as_coded",
@@ -528,8 +528,8 @@
      "convention": "lag +1: score(bar d-1) selects, the book earns open[d] -> open[d+1] -- the execution the card's config.execution string claims (decide at the close of bar d, fill at the open of bar d+1)"
     },
     "declared_gap_pp": -2.24,
-    "gap_vs_spot_bp": -62.66,
-    "gap_vs_spot_cny": -3560.0,
+    "gap_vs_spot_bp": -62.62,
+    "gap_vs_spot_cny": -3558.0,
     "per_year_net_pct": {
      "2020": 2.335,
      "2021": 2.143,
@@ -551,7 +551,7 @@
   },
   "forward": {
    "verdict": "TWO_RATES",
-   "sentence": "从 2026-11-20（2026-11-19 之后的第一个交易日）到 2026-12-09（下一张单）共 **19 个日历天**：同一笔 ¥568,119 若利率停在 2026-11-19 的报价 1.15%，这段窗口**毛收** ¥339；这笔钱在这段窗口要逐交易日滚 **13 次**，每次佣金 0.1bp（≈ ¥6），共 **¥74**，所以按这个报价**入账 ¥265**（这段窗口年化 0.90%，比报价低的那截就是这条路的手续费）；若按整段窗口扣佣金的净滚 1.77% 付是 ¥524，与**入账**数差 **87.63bp / ¥259**——佣金两边都已扣过，这个差是纯利率差（不扣佣金的毛口径是 62.66bp，那个数里混进了手续费，不能拿来当利率差用）。两个数都假设利率不动——1.77% 是已经走过的那段窗口的净滚，不是下一段的隔夜报价，它只说明过去付过多少，不承诺这一段。",
+   "sentence": "从 2026-11-20（2026-11-19 之后的第一个交易日）到 2026-12-09（下一张单）共 **19 个日历天**：同一笔 ¥568,119 若利率停在 2026-11-19 的报价 1.15%，这段窗口**毛收** ¥339；这笔钱在这段窗口要逐交易日滚 **13 次**，每次佣金 0.1bp（≈ ¥6），共 **¥74**，所以按这个报价**入账 ¥265**（这段窗口年化 0.90%，比报价低的那截就是这条路的手续费）；若按整段窗口扣佣金的净滚 1.77% 付是 ¥524，与**入账**数差 **87.59bp / ¥259**——佣金两边都已扣过，这个差是纯利率差（不扣佣金的毛口径是 62.62bp，那个数里混进了手续费，不能拿来当利率差用）。两个数都假设利率不动——1.77% 是已经走过的那段窗口的净滚，不是下一段的隔夜报价，它只说明过去付过多少，不承诺这一段。",
    "start_session": "2026-11-20",
    "end_session": "2026-12-09",
    "calendar_days": 19,
@@ -571,10 +571,10 @@
    "fee_cny": 74.0,
    "fee_src": "scripts/etf_book_cash_ladder.py FEE_BP (one source for every rung)",
    "gap_cny": 259.0,
-   "gap_bp": 87.63,
-   "gap_bp_gross": 62.66,
+   "gap_bp": 87.59,
+   "gap_bp_gross": 62.62,
    "book": {
-    "pct": 1.7716,
+    "pct": 1.7712,
     "cny": 524.0,
     "source": "etf_book_idle_cash.json"
    }
@@ -588,7 +588,7 @@
   "withdrawn_now": [],
   "withdrawal_note": "ledger withdrew 1 bar(s) at 2026-11-09 23:54:02 because the price panel then ended 2026-11-06 (2026-11-09); the panel has since carried 2026-11-09 again and that ledger row is live -- the withdrawal stays on record but it is not this sheet's pricing bar",
   "reinstatements": {
-   "at": "2026-11-20 08:34:26",
+   "at": "2026-11-20 13:28:59",
    "n_reinstated": 1,
    "rewritten": [],
    "verbatim_identical": [
@@ -1061,9 +1061,9 @@
    "last": null,
    "rows_detail": [],
    "panel_missing_symbols": [],
-   "repo_quotes": 3769,
-   "rate_latest_bar": "2026-11-17",
-   "rate_latest": 1.175,
+   "repo_quotes": 3771,
+   "rate_latest_bar": "2026-11-19",
+   "rate_latest": 1.145,
    "valued_upto_bar": "2026-11-19"
   },
   "accrual_rows": [],
@@ -1082,13 +1082,13 @@
    "legs_first_bar": 427317.9,
    "legs_last_bar": 431880.4,
    "legs_ret": 0.01067706,
-   "cash_interest_cny": 490.73,
+   "cash_interest_cny": 526.63,
    "identity_delta_cny": 0.0,
    "identity_status": "PRICED_BAR",
    "identity_holds": true,
    "base_bar_missing_closes": [],
    "base_bar_last_priced_day": "2026-11-19",
-   "rf_missing_bars": 2,
+   "rf_missing_bars": 0,
    "stale_bars": 0
   },
   "engine_book": {
@@ -1587,7 +1587,7 @@
  },
  "next_decision": {
   "artifact": "etf_book_next_decision",
-  "generated": "2026-11-20T08:34:27",
+  "generated": "2026-11-20T13:28:59",
   "evidence_cutoff": "2026-11-19",
   "calendar_source": "data/exchange_calendar.csv",
   "calendar_last": "2026-12-31",
@@ -1734,7 +1734,7 @@
  },
  "swap_freshness": {
   "artifact": "etf_book_swap_freshness",
-  "generated": "2026-11-20T08:34:27",
+  "generated": "2026-11-20T13:28:59",
   "evidence_cutoff": "2026-11-19",
   "calendar_source": "data/exchange_calendar.csv",
   "close_accept_time": "15:30",
@@ -1899,14 +1899,14 @@
       "road": "C_drop_to_cash",
       "label": "C 落现金腿",
       "saving_cny_once": 7643.5,
-      "giveup_cny_per_window": 434.8,
+      "giveup_cny_per_window": 436.85,
       "giveup_pp_per_year": null,
-      "breakeven_tenure_windows": 17.579,
-      "breakeven_tenure_years": 1.3952,
-      "breakeven_convergence_p": 0.056885,
+      "breakeven_tenure_windows": 17.497,
+      "breakeven_tenure_years": 1.3886,
+      "breakeven_convergence_p": 0.057154,
       "floor_convergence_p": 0.5,
       "twin": null,
-      "note": "the swap pays for itself if the premium gap closes by more than 5.7% before exit; it takes 17.6 windows of give-up to eat the whole saving"
+      "note": "the swap pays for itself if the premium gap closes by more than 5.7% before exit; it takes 17.5 windows of give-up to eat the whole saving"
      }
     ]
    }
@@ -1948,7 +1948,7 @@
   "ticket_rule": "beta",
   "card_rule": "vol",
   "ticket": {
-   "cagr": 0.1073,
+   "cagr": 0.1074,
    "sharpe": 1.321,
    "maxdd": -0.0601,
    "vol": 0.0812
@@ -1960,20 +1960,20 @@
    "vol": 0.0885
   },
   "width_effect": {
-   "beta": {
-    "ticket_width_cagr": 0.1073,
-    "card_width_cagr": 0.0942,
-    "pp": -1.31
-   },
    "vol": {
     "ticket_width_cagr": 0.1132,
     "card_width_cagr": 0.1182,
     "pp": 0.5
+   },
+   "beta": {
+    "ticket_width_cagr": 0.1074,
+    "card_width_cagr": 0.0942,
+    "pp": -1.32
    }
   },
   "rules_differ": true,
   "delta_ticket_minus_card": {
-   "cagr_pp": -1.09,
+   "cagr_pp": -1.08,
    "sharpe": -0.015,
    "maxdd_pp": 1.94,
    "vol_pp": -0.73
@@ -1981,7 +1981,7 @@
   "square": {
    "cells": {
     "beta@5": {
-     "cagr": 0.1073,
+     "cagr": 0.1074,
      "sharpe": 1.321,
      "maxdd": -0.0601,
      "turnover": 1.531,
@@ -2010,15 +2010,15 @@
     }
    },
    "width_effect_pp": {
-    "beta": -1.31,
+    "beta": -1.32,
     "vol": 0.5
    },
    "rule_effect_pp": {
-    "n5": 0.59,
+    "n5": 0.58,
     "n12": 2.4
    },
-   "interaction_pp": 1.81,
-   "published_diagonal_pp": 1.09,
+   "interaction_pp": 1.82,
+   "published_diagonal_pp": 1.08,
    "sharpe_width_effect": {
     "beta": 0.226,
     "vol": 0.037
@@ -2099,10 +2099,9 @@
  },
  "family_coherence": {
   "artifact": "results/etf_book_phase_atlas_arms.json",
-  "verdict": "MIXED_WORLDS",
-  "detail": "11 faces priced 2 different panels (0d5a9cdc, 7d93f5cd): per-cell deltas across worlds are world differences, not rule effects",
+  "verdict": "ONE_WORLD",
+  "detail": "all 11 faces priced 7d93f5cd045aab6d",
   "panels": [
-   "0d5a9cdcf2beffd5",
    "7d93f5cd045aab6d"
   ],
   "arms": 10,
@@ -2124,51 +2123,38 @@
      "baseline",
      "buffer_k02",
      "buffer_k05",
+     "buffer_k05_cost20",
      "buffer_k10",
      "buffer_k20",
      "buffer_k40",
      "cost0",
      "cost05",
-     "cost20"
+     "cost20",
+     "cost40"
     ],
     "last": "2026-11-19",
     "bars": 5284,
     "columns": 1635,
     "bars_fewer_than_newest": 0
-   },
-   {
-    "digest": "0d5a9cdcf2beffd5",
-    "faces": [
-     "buffer_k05_cost20",
-     "cost40"
-    ],
-    "last": "2026-11-17",
-    "bars": 5282,
-    "columns": 1631,
-    "bars_fewer_than_newest": 2
    }
   ],
-  "priced_same_panel": false,
+  "priced_same_panel": true,
   "comparable": [
    "buffer_k02",
    "buffer_k05",
+   "buffer_k05_cost20",
    "buffer_k10",
    "buffer_k20",
    "buffer_k40",
    "cost0",
    "cost05",
-   "cost20"
-  ],
-  "withheld": [
-   "buffer_k05_cost20",
+   "cost20",
    "cost40"
   ],
+  "withheld": [],
   "cost_axis": {
-   "readable": false,
-   "withheld": [
-    "buffer_k05_cost20",
-    "cost40"
-   ],
+   "readable": true,
+   "withheld": [],
    "arms": [
     {
      "arm": "buffer_k02",
@@ -2184,8 +2170,8 @@
     },
     {
      "arm": "buffer_k05_cost20",
-     "verdict": "WORLDS_NOT_COMPARABLE",
-     "readable": false,
+     "verdict": "REJECT",
+     "readable": true,
      "description": "buffer k=0.05 at 20bp/side -- the interaction neither family tested: does a buffer that is harmless at 10bp recover any of the -1.41pp the 20bp toll costs?"
     },
     {
@@ -2226,8 +2212,8 @@
     },
     {
      "arm": "cost40",
-     "verdict": "WORLDS_NOT_COMPARABLE",
-     "readable": false,
+     "verdict": "REJECT",
+     "readable": true,
      "description": "40bp/side on the whole grid (4x the production toll -- does 'the cadence is quotable' have a toll ceiling, and does the ordering vanish first?)"
     }
    ]
@@ -2344,29 +2330,25 @@
   },
   "receipt": {
    "present": true,
-   "stale": true,
+   "stale": false,
    "group": "all",
    "group_arms": 11,
-   "group_verdict": "SPLIT_WORLDS",
-   "world": null,
+   "group_verdict": "ONE_WORLD",
+   "world": "7d93f5cd045aab6d",
    "world_now": "7d93f5cd045aab6d",
    "bar": "2026-11-19",
    "covers_family": true,
    "family": {
-    "stale_arms": [
-     "cost40",
-     "buffer_k05_cost20"
-    ],
+    "stale_arms": [],
     "total": 11
    },
-   "detail": "the run itself left 2 panels across its own faces (0d5a9cdc, 7d93f5cd)",
+   "detail": "the whole family (11 arms) paid for 7d93f5cd -- still the family's world (bar 2026-11-19)",
    "artifact": "results/etf_book_atlas_arms_rebuild.json",
-   "generated": "2026-11-20T02:24:09+0800",
-   "elapsed_sec": 856.0,
+   "generated": "2026-11-20T12:35:30+0800",
+   "elapsed_sec": 587.3,
    "rebuilt": [
-    "cost0",
-    "cost05",
-    "cost20"
+    "cost40",
+    "buffer_k05_cost20"
    ]
   },
   "floor_extrapolation": {
@@ -2599,21 +2581,21 @@
  },
  "carry_split": {
   "artifact": "results/etf_book_return_regime.json",
-  "artifact_sha16": "d2e439d40ac69fc8",
+  "artifact_sha16": "c72bf9cc2be16dca",
   "evidence_cutoff": "2026-11-19",
   "beta": 0.2,
   "beta_requested": 0.2,
   "observed_pct": 12.29,
-  "flat_today_pct": 11.99,
+  "flat_today_pct": 11.97,
   "zero_pct": 11.25,
   "carry_pp": 1.04,
-  "flat_rate_cost_pp": 0.3,
+  "flat_rate_cost_pp": 0.32,
   "carry_share_pct": 8.5,
-  "pp_per_100bp": 0.375,
+  "pp_per_100bp": 0.386,
   "cash_share": 0.5637,
-  "rate_today_pct": 1.175,
-  "rate_today_date": "2026-11-17",
-  "rate_observed_pct": 1.9757,
+  "rate_today_pct": 1.145,
+  "rate_today_date": "2026-11-19",
+  "rate_observed_pct": 1.9747,
   "identity_matched": true
  },
  "restatements": {

@@ -5082,6 +5082,90 @@ def _era_capacity_md(c):
     return L
 
 
+SIZE_LADDER_PATH = os.path.join(PATHS.results_dir, "etf_book_capacity_shortfall.json")
+
+
+def _size_ladder_reading(path=None):
+    """What the same book costs at 1M/3M/10M/30M (r1878) -- read off its face, never redone.
+
+    The era reader above answers "could this book hold 1,000,000 in 2015". It cannot
+    answer "and what about 10,000,000 today", because the scale ladder lives on a
+    different face. Missing face returns None so the section says it has no reading
+    instead of quietly printing rung 1 twice.
+    """
+    p = path or SIZE_LADDER_PATH
+    try:
+        with open(p, encoding="utf-8") as fh:
+            d = json.load(fh)
+    except Exception:                                          # noqa: BLE001
+        return None
+    lad = d.get("ladder") or {}
+    rungs = lad.get("rungs") or []
+    if not rungs:
+        return None
+    reading = lad.get("reading") or {}
+    rows = []
+    for r in rungs:
+        st = r.get("stats") or {}
+        dp = r.get("deployed") or {}
+        rows.append({"lens_cny": r.get("lens_cny"),
+                     "cagr": st.get("cagr"), "sharpe": st.get("sharpe"),
+                     "maxdd": st.get("maxdd"), "mean_f": dp.get("mean_f"),
+                     "share_below_1": dp.get("share_below_1"),
+                     "cagr_cost_pp": r.get("cagr_cost_pp"),
+                     "verdict": r.get("verdict")})
+    return {"shape": reading.get("shape"),
+            "first_pp": reading.get("first_pp"),
+            "last_pp": reading.get("last_pp"),
+            "span_pp": reading.get("span_pp"),
+            "multiples": lad.get("multiples"),
+            "rows": rows,
+            "frozen": lad.get("frozen"),
+            "evidence_cutoff": d.get("evidence_cutoff"),
+            "asof": (d.get("generated") or "")[:19],
+            "generated": d.get("generated"),
+            "path": "results/etf_book_capacity_shortfall.json",
+            "producer": "scripts/etf_book_capacity_shortfall.py"}
+
+
+def _size_ladder_md(c):
+    """One block: the price of money, rung by rung, with the trip that wrote it."""
+    if not c:
+        return ["  - **规模阶梯这一轮没有读数**：`results/etf_book_capacity_shortfall.json`"
+                " 缺或读不出。缺这一行不等于「钱多钱少一个价」。"]
+    L = []
+    shape = c.get("shape") or "?"
+    L.append("  - **装得下的价格（同一本书、同一规则，只把镜头换成 %s）**：判词 `%s`"
+             "——第一档 %s pp，最后一档 %s pp，跨度 %s pp"
+             % (" / ".join("%g万" % (float(r["lens_cny"]) / 10000.0)
+                           for r in (c.get("rows") or [])
+                           if r.get("lens_cny") is not None),
+                shape,
+                ("%+.2f" % float(c["first_pp"])) if c.get("first_pp") is not None else "?",
+                ("%+.2f" % float(c["last_pp"])) if c.get("last_pp") is not None else "?",
+                ("%+.2f" % float(c["span_pp"])) if c.get("span_pp") is not None else "?"))
+    for r in (c.get("rows") or []):
+        lens = r.get("lens_cny")
+        if lens is None:
+            continue
+        _wan = float(lens) / 10000.0
+        L.append("    - **%s 万** → 年化 %s%%、夏普 %s、回撤 %s%%；成本 %s pp/年，"
+                 "平均只装进 %s%% 的钱"
+                 % (("%g" % _wan),
+                    ("%.2f" % (100.0 * float(r["cagr"]))) if r.get("cagr") is not None else "?",
+                    ("%.3f" % float(r["sharpe"])) if r.get("sharpe") is not None else "?",
+                    ("%.2f" % (100.0 * float(r["maxdd"]))) if r.get("maxdd") is not None else "?",
+                    ("%+.2f" % float(r["cagr_cost_pp"])) if r.get("cagr_cost_pp") is not None else "?",
+                    ("%.1f" % (100.0 * float(r["mean_f"]))) if r.get("mean_f") is not None else "?"))
+    L.append("    - 读法：钱越多回撤越小不是更安全，是**大部分钱根本没进场**（没成交就持"
+             "现金、0% 收益）——这一栏量的是容量，不是风险。")
+    L.append("    - 边界：档位在读数前冻结（%s）；第一档就是闸自己的镜头，逐位复现 arms.B。"
+             "算到 %s，面生成于 %s。出处 `%s`（生产者 `%s`，本页只读）"
+             % (c.get("frozen") or "未注明", c.get("evidence_cutoff") or "未注明",
+                c.get("asof") or "未知", c.get("path"), c.get("producer")))
+    return L
+
+
 def _phase_reading(path=None, book=ADMITTED_BOOK):
     """The same book judged over five decision phases -- the other half of the admission.
 
@@ -5661,7 +5745,8 @@ def _admission_payload():
     return out
 
 
-def _phase_admission_md(pa, ad, dec=False, grid="auto", era="auto", cap="auto"):
+def _phase_admission_md(pa, ad, dec=False, grid="auto", era="auto", cap="auto",
+                        size="auto"):
     """The five starts on the three veto rulers -- copied off its own face.
 
     r1868: the admission section used to end on a sentence that told the operator the
@@ -5727,6 +5812,7 @@ def _phase_admission_md(pa, ad, dec=False, grid="auto", era="auto", cap="auto"):
     L += _start_grid_md(_start_grid_reading() if grid == "auto" else grid)
     L += _era_grid_md(_era_grid_reading() if era == "auto" else era)
     L += _era_capacity_md(_era_capacity_reading() if cap == "auto" else cap)
+    L += _size_ladder_md(_size_ladder_reading() if size == "auto" else size)
     return L
 
 
@@ -9338,7 +9424,7 @@ def selftest():
             "容量按年代" in _md_cap and "2016 年" in _md_cap and "1.003 倍" in _md_cap
             and "602,440" in _md_cap, _md_cap[-700:])
         _md_cap_missing = "\n".join(_phase_admission_md(_pa, _adm, True, grid=_g, era=_e,
-                                                        cap=None))
+                                                        cap=None, size=None))
         chk("legAQ a missing capacity face is not printed as a verdict",
             "容量按年代这一轮没有读数" in _md_cap_missing
             and "判词 `" not in _md_cap_missing.split("容量按年代")[-1]
@@ -9349,6 +9435,42 @@ def selftest():
                                                     cap=_c_bad))
         chk("legAR a face that no longer reproduces the gate says so instead of a verdict",
             "复现对不上" in _md_cap_bad, _md_cap_bad[-400:])
+
+        # legAS-AU (r1878/r1879): the size ladder -- what the same book costs at 1M/3M/10M/30M.
+        # Three states must stay apart: a reading (rungs printed, in CNY), a missing face (one
+        # sentence, no verdict word), and the source stamp (a section fed by another script has
+        # to say which trip wrote it, r1781).
+        _sz = {"shape": "MONOTONE_STEEPER", "first_pp": -0.04, "last_pp": -10.53,
+               "span_pp": -10.49, "multiples": [1, 3, 10, 30],
+               "rows": [{"lens_cny": 1000000.0, "cagr": 0.1134, "sharpe": 1.137,
+                         "maxdd": -0.1056, "mean_f": 0.9695, "share_below_1": 0.1667,
+                         "cagr_cost_pp": -0.04,
+                         "verdict": "CAPACITY_BINDS_AT_NEGLIGIBLE_COST"},
+                        {"lens_cny": 3000000.0, "cagr": 0.0721, "sharpe": 1.282,
+                         "maxdd": -0.0505, "mean_f": 0.5269, "share_below_1": 0.8571,
+                         "cagr_cost_pp": -4.17, "verdict": "CAPACITY_BINDS_AND_COSTS"}],
+               "frozen": "rungs fixed before the read", "evidence_cutoff": "2026-11-19",
+               "asof": "2026-11-20T12:43:32",
+               "generated": "2026-11-20T12:43:32+08:00",
+               "path": "results/etf_book_capacity_shortfall.json",
+               "producer": "scripts/etf_book_capacity_shortfall.py"}
+        _md_sz = "\n".join(_phase_admission_md(_pa, _adm, True, grid=_g, era=_e, cap=_c,
+                                              size=_sz))
+        chk("legAS the ladder prints every rung with its own cost and the shape verdict",
+            "装得下的价格" in _md_sz and "100万" in _md_sz and "300万" in _md_sz
+            and "-0.04" in _md_sz and "-4.17" in _md_sz
+            and "MONOTONE_STEEPER" in _md_sz, _md_sz[-700:])
+        chk("legASb the ladder says why a bigger lens shows a smaller drawdown",
+            "大部分钱根本没进场" in _md_sz, _md_sz[-500:])
+        chk("legAT the section stamps the trip that wrote the ladder, not just its numbers",
+            "2026-11-20T12:43:32" in _md_sz
+            and "results/etf_book_capacity_shortfall.json" in _md_sz, _md_sz[-400:])
+        _md_sz_missing = "\n".join(_phase_admission_md(_pa, _adm, True, grid=_g, era=_e,
+                                                       cap=_c, size=None))
+        chk("legAU a missing ladder is one sentence, never a verdict about money",
+            "规模阶梯这一轮没有读数" in _md_sz_missing
+            and "判词 `" not in _md_sz_missing.split("规模阶梯")[-1]
+            and "100万" not in _md_sz_missing.split("规模阶梯")[-1], _md_sz_missing[-300:])
     finally:
         shutil.rmtree(_tmp, ignore_errors=True)
 

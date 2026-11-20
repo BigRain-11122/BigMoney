@@ -8,14 +8,14 @@
   "live",
   "monitor"
  ],
- "files_scanned": 2477,
- "n_hits": 796,
+ "files_scanned": 2494,
+ "n_hits": 797,
  "counts": {
   "bare-root-literal": 2,
   "deployment-root-literal": 2,
   "exempt-resolver": 20,
   "group-root-hint": 7,
-  "one-off": 216,
+  "one-off": 217,
   "repo-root-literal": 537,
   "sibling-repo-literal": 11,
   "validated-walk": 1
@@ -66,6 +66,15 @@
     "line": 5,
     "text": "GROUP = r\"K:\\Fluxgroup\\FluxGroup\"",
     "file": "Tools/_r1039bmc_d19_diff.py",
+    "bucket": "one-off",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "group-root",
+    "line": 18,
+    "text": "GROUP = r\"K:\\Fluxgroup\\FluxGroup\"",
+    "file": "Tools/_r1868bmc_s05.py",
     "bucket": "one-off",
     "uses_resolver": false
    },
@@ -372,15 +381,6 @@
     "line": 24,
     "text": "GROUP = os.path.normpath(os.path.join(ROOT, \"..\", \"..\"))  # bigmoney -> quant -> FluxGroup",
     "file": "Tools/_r664bmc_s05.py",
-    "bucket": "one-off",
-    "uses_resolver": false
-   },
-   {
-    "kind": "climb",
-    "mode": "group-root",
-    "line": 24,
-    "text": "GROUP = os.path.normpath(os.path.join(ROOT, \"..\", \"..\"))  # bigmoney -> quant -> FluxGroup",
-    "file": "Tools/_r665bmc_s05.py",
     "bucket": "one-off",
     "uses_resolver": false
    }
@@ -1305,6 +1305,13 @@
     "bucket": "repo-root-literal",
     "mode": "repo-root",
     "line": 148
+   }
+  ],
+  "Tools/_r1868bmc_s05.py": [
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 18
    }
   ],
   "Tools/_r309bmc_close.py": [

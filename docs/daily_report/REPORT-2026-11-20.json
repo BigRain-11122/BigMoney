@@ -1,6 +1,6 @@
 {
  "report_date": "2026-11-20",
- "generated_at": "2026-11-20 08:07:13",
+ "generated_at": "2026-11-20 12:49:20",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -294,13 +294,13 @@
   "md_link": "../live_usage/LIVE-2026-11-20.md"
  },
  "rd": {
-  "commits_24h": 54,
-  "result_jsons_landed_24h": 297,
+  "commits_24h": 62,
+  "result_jsons_landed_24h": 294,
   "digests_landed_24h": 1,
-  "prereg_md_touched_24h": 82,
+  "prereg_md_touched_24h": 83,
   "compute_audit_latest": {
-   "ts": "2026-11-20 08:00:20",
-   "py_cpu_pct": 13.5,
+   "ts": "2026-11-20 12:45:38",
+   "py_cpu_pct": 0.0,
    "flags": [
     "pool_starvation",
     "supply_floor"
@@ -309,7 +309,7 @@
   },
   "watermark_verdict": "insufficient_history",
   "pool_keys_n": 6,
-  "batch_in_flight": true
+  "batch_in_flight": false
  },
  "decisions_tail": [
   "- 2026-09-26 09:32 · T-74 市场时钟组合=六层既有件集成（v3 政体×热度复合×三军名册×选股面×仓位帽），零新策略族 · 理由=O-0932 CEO 令+反重复铁律（收敛声明入票） · 指针=research/MARKET_CLOCK_COMBO.md s0 v1.0",
@@ -829,37 +829,13 @@
     "supply_why": null
    },
    "bm-c": {
-    "latest_ts": "2026-11-20 08:00:20",
-    "py_pct": 13.5,
-    "cpu_pct": 12.0,
+    "latest_ts": "2026-11-20 12:45:38",
+    "py_pct": 0.0,
+    "cpu_pct": 26.0,
     "ready": 0,
-    "streak_min": 12937.2,
+    "streak_min": 13058.3,
     "verdict": "FLAG:pool_starvation,supply_floor",
     "py_series_tail": [
-     [
-      "15:35",
-      4.5
-     ],
-     [
-      "16:03",
-      0.4
-     ],
-     [
-      "17:20",
-      15.3
-     ],
-     [
-      "21:34",
-      4.9
-     ],
-     [
-      "00:49",
-      0.0
-     ],
-     [
-      "01:15",
-      5.0
-     ],
      [
       "02:42",
       3.9
@@ -883,14 +859,38 @@
      [
       "08:00",
       13.5
+     ],
+     [
+      "09:42",
+      0.0
+     ],
+     [
+      "10:09",
+      0.8
+     ],
+     [
+      "10:37",
+      0.7
+     ],
+     [
+      "11:27",
+      0.1
+     ],
+     [
+      "11:27",
+      0.2
+     ],
+     [
+      "12:45",
+      0.0
      ]
     ],
-    "today_samples": 8,
+    "today_samples": 14,
     "today_floor_ok": 0,
     "today_sla_flags": 0,
     "today_supply_gap_flags": 0,
-    "own_samples": 129,
-    "unattributed_samples": 56,
+    "own_samples": 135,
+    "unattributed_samples": 50,
     "latest_attributed": true,
     "lane_machine": "bm-c",
     "supply_why": {
@@ -1032,7 +1032,7 @@
      "readable": true,
      "window_min": 60.0,
      "audit_batches": 0,
-     "audit_ts": "2026-11-20 08:00:20"
+     "audit_ts": "2026-11-20 12:45:38"
     }
    }
   },
@@ -1861,7 +1861,7 @@
  },
  "lane_authority": {
   "present": true,
-  "as_of": "2026-11-20T04:35:44",
+  "as_of": "2026-11-20T12:49:15",
   "verdict": "all_fresh",
   "observer": "bm-c",
   "sentence": "以本机 bm-c 的盘为基准：14 条在役车道的数字全都落在本机盘上，其中 14 条有署名可核实。",
@@ -1880,7 +1880,6 @@
   },
   "labels": {
    "sina_mf": "宿主自己写的封套",
-   "moneyflow": "宿主自己写的封套",
    "ah_panel": "宿主本机副本",
    "astock_daily": "申报接管",
    "etf_panel": "宿主自己写的封套",
@@ -1890,6 +1889,7 @@
    "lhb_inst": "宿主自己写的封套",
    "marks": "申报接管",
    "minute_feed": "宿主本机副本",
+   "moneyflow": "宿主自己写的封套",
    "repo": "申报接管",
    "ths_panel": "宿主自己写的封套",
    "zt_pool": "宿主本机副本"
@@ -1897,8 +1897,8 @@
  },
  "lane_window": {
   "present": true,
-  "as_of": "2026-11-20T04:35:44",
-  "n": 2,
+  "as_of": "2026-11-20T12:49:15",
+  "n": 1,
   "windows": [
    {
     "lane": "sina_mf",
@@ -1911,30 +1911,18 @@
     "basis": "采集器自己的 no-op 规则：只有面板尾部落后超过 20 个交易日才刷新",
     "basis_repeat": false,
     "sentence": "`sina_mf`：尾部 2026-10-26，落后官方日历 **18** 个交易日，滚动窗 **20** 个交易日 → 还可再走 **3** 个交易日才欠一次刷新（差距超过 20 即读 `stalled`）。依据：采集器自己的 no-op 规则：只有面板尾部落后超过 20 个交易日才刷新"
-   },
-   {
-    "lane": "moneyflow",
-    "host": "bm-c",
-    "tail": "2026-11-17",
-    "days_behind": 2,
-    "window_trading_days": 20,
-    "sessions_left": 19,
-    "verdict": "in_sync",
-    "basis": "采集器自己的 no-op 规则：只有面板尾部落后超过 20 个交易日才刷新",
-    "basis_repeat": true,
-    "sentence": "`moneyflow`：尾部 2026-11-17，落后官方日历 **2** 个交易日，滚动窗 **20** 个交易日 → 还可再走 **19** 个交易日才欠一次刷新（差距超过 20 即读 `stalled`）。依据同上（本节首行）"
    }
   ]
  },
  "lane_silence": {
   "present": true,
   "machine": "bm-c",
-  "verdict": "SILENT_GAP",
+  "verdict": "OPEN_SILENCE",
   "threshold_min": 90,
   "window_days": 3,
-  "median_gap_min": 41.2,
+  "median_gap_min": 36.0,
   "rounds_in_window": 50,
-  "rounds_in_ledger": 1291,
+  "rounds_in_ledger": 1302,
   "gaps_over_threshold_count": 9,
   "longest_silence": {
    "from": "2026-11-18T10:35",
@@ -1946,12 +1934,12 @@
    "unexplained_low_min": 1451.0
   },
   "open_gap": {
-   "gap_high_min": 19.9,
-   "gap_low_min": 19.9,
+   "gap_high_min": 192.2,
+   "gap_low_min": 192.2,
    "quiet_window_min": 0.0,
-   "since": "2026-11-20T03:47",
-   "unexplained_high_min": 19.9,
-   "unexplained_low_min": 19.9
+   "since": "2026-11-20T08:17",
+   "unexplained_high_min": 192.2,
+   "unexplained_low_min": 192.2
   },
   "gaps_over_threshold": [
    {
@@ -2037,8 +2025,8 @@
    }
   ],
   "evidence_cutoff": "2026-11-20",
-  "generated": "2026-11-20T04:07:24",
-  "silence_verdict": "SILENT_GAP",
+  "generated": "2026-11-20T11:29:13",
+  "silence_verdict": "OPEN_SILENCE",
   "lane_tasks": {
    "absent": [],
    "disabled": [],
@@ -2058,7 +2046,7 @@
    "verdict": "LANE_ENABLED",
    "why": "every probeable lane task is switched on; the silence (if any) is not a switch"
   },
-  "sentence": "bm-c：窗内 50 轮 / 3 天，相邻间隔中位数 41.2 分钟，超过 90 分钟且无解释的空档 9 处；最长静默 2026-11-18T10:35 → 2026-11-19T10:46（1451.0–1451.0 分钟，其中 0.0 分钟由其申报的静默窗解释）；仍未恢复，自 2026-11-20T03:47 起（未解释 19.9–19.9 分钟）。"
+  "sentence": "bm-c：窗内 50 轮 / 3 天，相邻间隔中位数 36.0 分钟，超过 90 分钟且无解释的空档 9 处；最长静默 2026-11-18T10:35 → 2026-11-19T10:46（1451.0–1451.0 分钟，其中 0.0 分钟由其申报的静默窗解释）；仍未恢复，自 2026-11-20T08:17 起（未解释 192.2–192.2 分钟）。"
  },
  "cap_vs_book": {
   "status": "ok",

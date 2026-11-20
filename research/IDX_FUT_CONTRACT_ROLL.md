@@ -2,7 +2,7 @@
 
 The carry numbers on the basis pages are priced with a roll mask.  Both masks in use are guesses -- one from the size of a basis step, one from where the most negative step falls near expiry.  This page replaces the guess with the observation: which contract the market was actually holding, read from open interest, and what the two legs were worth on the day they were both quoted.
 
-Evidence cutoff: `2026-11-19`  ·  generated 2026-11-20T01:18:41
+Evidence cutoff: `2026-11-19`  ·  generated 2026-11-20T11:31:17
 
 ## Does each mask land on the real rolls?
 

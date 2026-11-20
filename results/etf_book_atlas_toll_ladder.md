@@ -1,6 +1,6 @@
 # ETF book atlas -- the toll ladder
 
-**NOT QUOTABLE: the 12-cell ordering clears its own phase noise only below 0.60bp/side, and the buffer knob never clears it on a dose -- both knobs are zero-cost objects. The only stable statement in the grid is directional, not numerical: wider is worth more at every rung (rank corr +1.00) while the fast cadence inverts at 40bp/side -- and even the width sign is worth at most 1.58pp, inside the band.**
+**NOT QUOTABLE: the 12-cell ordering clears its own phase noise only below 0.60bp/side, and the buffer knob never clears it on a dose -- both knobs are zero-cost objects. The only stable statement in the grid is directional, not numerical: wider is worth more at every rung (rank corr +1.00) while the fast cadence inverts at 40bp/side -- and even the width sign is worth at most 1.17pp, inside the band.**
 
 ## Toll ladder (buffer k=0)
 
@@ -10,16 +10,16 @@
 | 5 | 6.11 | 6.79 | no | n8/R10 | +4.62 | +0.84 |
 | 10 | 5.29 | 6.75 | no | n8/R10 | +3.79 | +0.95 |
 | 20 | 3.69 | 6.70 | no | n8/R10 | +2.07 | +1.16 |
-| 40 | 3.30 | 6.58 | no | n8/R20 | -1.32 | +1.58 |
+| 40 | 2.11 | 7.08 | no | n5/R20 | -0.66 | +1.17 |
 
 verdict: **ORDERING_IS_A_TOLL_ARTEFACT**
 
-- spread falls from 6.93pp at 0bp to 3.30pp at 40bp (rank corr -1.000)
-- median cell band stays 6.84 -> 6.58pp across the same rungs (band is not the mover)
+- spread falls from 6.93pp at 0bp to 2.11pp at 40bp (rank corr -1.000)
+- median cell band stays 6.84 -> 7.08pp across the same rungs (band is not the mover)
 - the two series cross at 0.61bp/side
 - at the production toll (8bp) interpolated spread 5.61pp vs band 6.77pp
-- the FAST cadence is worth +5.47pp at 0bp and -1.32pp at 40bp -- the ranking of the cadence knob inverts at 40bp/side
-- the width knob moves the other way: +0.73 -> +1.58pp (rank corr +1.000), i.e. wider is worth more as the toll rises
+- the FAST cadence is worth +5.47pp at 0bp and -0.66pp at 40bp -- the ranking of the cadence knob inverts at 40bp/side
+- the width knob moves the other way: +0.73 -> +1.17pp (rank corr +1.000), i.e. wider is worth more as the toll rises
 - the ordering is monotone in the toll and gone by the production toll: no width/cadence sentence from this grid is quotable at 8bp/side
 
 ## Buffer ladder (production toll 10bp/side)

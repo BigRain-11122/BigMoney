@@ -1,6 +1,6 @@
 # the carry sleeve's sizing ruler: adopted, with the roads not taken still priced
 
-evidence cutoff: **2026-11-19** | source: `results/idx_fut_carry_capital_ladder.json` | decided 2026-11-17 in bm-c round 1779 | generated 2026-11-20T01:24:19+08:00
+evidence cutoff: **2026-11-19** | source: `results/idx_fut_carry_capital_ladder.json` | decided 2026-11-17 in bm-c round 1779 | generated 2026-11-20T11:34:55+08:00
 
 **Adopted: `A_keep_target_raise_capital`, target 8%, read as hard_cap_vol_le_target.**
 

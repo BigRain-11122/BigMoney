@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-20 01:39:50",
+ "ts": "2026-11-20 11:50:45",
  "evidence_cutoff": "2026-11-19",
  "feed_status": {
   "ticket_bar": "2026-11-19",
@@ -59,7 +59,10 @@
      "buffer_k05",
      "buffer_k10",
      "buffer_k20",
-     "buffer_k40"
+     "buffer_k40",
+     "cost0",
+     "cost05",
+     "cost20"
     ],
     "last": "2026-11-19",
     "bars": 5284,
@@ -70,9 +73,6 @@
     "digest": "0d5a9cdcf2beffd5",
     "faces": [
      "buffer_k05_cost20",
-     "cost0",
-     "cost05",
-     "cost20",
      "cost40"
     ],
     "last": "2026-11-17",
@@ -87,22 +87,19 @@
    "buffer_k05",
    "buffer_k10",
    "buffer_k20",
-   "buffer_k40"
+   "buffer_k40",
+   "cost0",
+   "cost05",
+   "cost20"
   ],
   "withheld": [
    "buffer_k05_cost20",
-   "cost0",
-   "cost05",
-   "cost20",
    "cost40"
   ],
   "cost_axis": {
    "readable": false,
    "withheld": [
     "buffer_k05_cost20",
-    "cost0",
-    "cost05",
-    "cost20",
     "cost40"
    ],
    "arms": [
@@ -144,20 +141,20 @@
     },
     {
      "arm": "cost0",
-     "verdict": "WORLDS_NOT_COMPARABLE",
-     "readable": false,
+     "verdict": "NOT-SEPARABLE",
+     "readable": true,
      "description": "0bp/side on the whole grid (no toll at all) -- if the ordering only appears here, the ordering is bought with the toll and the 10bp reading stands"
     },
     {
      "arm": "cost05",
-     "verdict": "WORLDS_NOT_COMPARABLE",
-     "readable": false,
+     "verdict": "NOT-SEPARABLE",
+     "readable": true,
      "description": "5bp/side on the whole grid (half the production toll)"
     },
     {
      "arm": "cost20",
-     "verdict": "WORLDS_NOT_COMPARABLE",
-     "readable": false,
+     "verdict": "REJECT",
+     "readable": true,
      "description": "20bp/side on the whole grid (double the production toll)"
     },
     {
@@ -228,7 +225,7 @@
      "arm": "buffer_k10",
      "frozen_label": "NOT-SEPARABLE",
      "verdict": "NOT-SEPARABLE",
-     "sign_cells": 11,
+     "sign_cells": 12,
      "cells_positive": 7
     },
     {
@@ -290,22 +287,19 @@
    "covers_family": true,
    "family": {
     "stale_arms": [
-     "cost0",
-     "cost05",
-     "cost20",
      "cost40",
      "buffer_k05_cost20"
     ],
     "total": 11
    },
-   "detail": "the run itself left 3 panels across its own faces (0d5a9cdc, 7d93f5cd, db4a41cb)",
+   "detail": "the run itself left 2 panels across its own faces (0d5a9cdc, 7d93f5cd)",
    "artifact": "results/etf_book_atlas_arms_rebuild.json",
-   "generated": "2026-11-19T18:04:17+0800",
-   "elapsed_sec": 917.6,
+   "generated": "2026-11-20T02:24:09+0800",
+   "elapsed_sec": 856.0,
    "rebuilt": [
-    "base",
-    "buffer_k02",
-    "buffer_k05"
+    "cost0",
+    "cost05",
+    "cost20"
    ]
   },
   "floor_extrapolation": {

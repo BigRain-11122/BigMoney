@@ -2,7 +2,7 @@
  "schema": "ceo_live_usage_v1_9",
  "ticket": "T-202609-28-105",
  "day": "2026-11-20",
- "generated": "2026-11-20T08:35:46",
+ "generated": "2026-11-20T12:49:23",
  "market": {
   "state": "RED",
   "asof": "2026-11-19",
@@ -394,7 +394,7 @@
  "intraday": {
   "feed": "T-104 minute_feed (rolling 1m archive, bm-b lane)",
   "today": "2026-11-20",
-  "asof": null,
+  "asof": "2026-11-20 11:30:00",
   "n_held_with_feed": 2,
   "n_live": 0,
   "rows": [
@@ -410,12 +410,12 @@
    },
    {
     "symbol": "510050",
-    "status": "PREV_SESSION",
-    "latest_bar": null,
-    "latest_close": 2.883,
+    "status": "LAGGED",
+    "latest_bar": "2026-11-20 11:30:00",
+    "latest_close": 2.837,
     "prev_session_close": 2.883,
-    "day_change_pct": null,
-    "note": "上一场收盘档（今日 09:15 起随源点亮）"
+    "day_change_pct": -1.6,
+    "age_min": 79.4
    },
    {
     "symbol": "511010",
@@ -503,9 +503,9 @@
    "sessions": 23,
    "n_measured": 20,
    "ret_pct": -2.0692,
-   "bench_n": 4711,
-   "bench_ret_pct": -11.4331,
-   "excess_pp": 9.3638
+   "bench_n": 5207,
+   "bench_ret_pct": -11.4024,
+   "excess_pp": 9.3332
   }
  },
  "judgment_burns": {
@@ -519,7 +519,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 63314.0
+    "last_append_age_min": 63567.6
    },
    {
     "family": "FUND-VALUE-P1",
@@ -527,7 +527,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 64158.5
+    "last_append_age_min": 64412.1
    },
    {
     "family": "FUND-DIVLOWVOL-P1",
@@ -535,7 +535,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 60951.8
+    "last_append_age_min": 61205.4
    }
   ]
  },
@@ -623,7 +623,7 @@
   "file": "TICKET-2026-11-19.json",
   "bar": "2026-11-19",
   "decision_bar": "2026-11-19",
-  "generated": "2026-11-20T08:34:27+08:00",
+  "generated": "2026-11-20T12:11:37+08:00",
   "rows": [
    {
     "symbol": "510760",
@@ -1704,7 +1704,7 @@
   "scope": "the executable ticket only. The forward paper series is an append-only evidence line: it is re-labelled FUNDED_BY_A_LARGER_CAPITAL, never rewritten, truncated or deleted",
   "reversal": "fund the account to the first rung and re-run: the same rule hands the ticket back one lot and this file prints it -- the withdrawal is conditional on capital, not a judgement about the sleeve",
   "sentence": "To open this book at all needs 1,120,540 CNY of capital (IC account). IC is 120,540 CNY short of its first lot (capital 1,000,000, gap 12.05%). IM is 146,317 CNY short of its first lot (capital 1,000,000, gap 14.63%). IC: the desk's 4 lot(s) are withdrawn from the ticket and the executable line is 0; IM: the desk's 4 lot(s) are withdrawn from the ticket and the executable line is 0. The forward paper series that ran on 8 lot(s) across the accounts is kept and labelled FUNDED_BY_A_LARGER_CAPITAL: it is what a larger account would have done, not what this one can. It comes back the moment the capital does.",
-  "source_generated": "2026-11-20T01:24:19+08:00",
+  "source_generated": "2026-11-20T11:34:55+08:00",
   "evidence_cutoff": "2026-11-19",
   "source_face": "results/idx_fut_carry_sizing_spec.json",
   "ladder_face": "results/idx_fut_carry_capital_ladder.json"
@@ -1801,7 +1801,7 @@
    15.0
   ],
   "evidence_cutoff": "2026-11-19",
-  "source_generated": "2026-11-20T01:24:19+0800"
+  "source_generated": "2026-11-20T11:34:56+0800"
  },
  "futures_panel": {
   "present": true,
@@ -1852,8 +1852,8 @@
   "window_cut": "2026-11-10",
   "writer_script": "scripts/update_futures_contracts.py",
   "writer_verdict": "ALREADY_CURRENT",
-  "writer_generated": "2026-11-20T01:24:00+0800",
-  "source_generated": "2026-11-20T05:41:51+08:00",
+  "writer_generated": "2026-11-20T11:33:54+0800",
+  "source_generated": "2026-11-20T11:34:55+08:00",
   "evidence_cutoff": "2026-11-19"
  },
  "carry_roll_cost": {
@@ -1898,7 +1898,7 @@
    }
   },
   "evidence_cutoff": "2026-11-19",
-  "source_generated": "2026-11-20T01:18:46"
+  "source_generated": "2026-11-20T11:31:21"
  },
  "carry_marks": {
   "present": true,
@@ -1928,7 +1928,7 @@
    "unbacked_abs_pnl_cny": 0.0
   },
   "evidence_cutoff": "2026-11-19",
-  "source_generated": "2026-11-20T01:24:19"
+  "source_generated": "2026-11-20T11:34:55"
  },
  "freshness": {
   "status": "ok",
@@ -1977,7 +1977,7 @@
  },
  "data_lanes": {
   "status": "ok",
-  "as_of": "2026-11-20T04:35:44",
+  "as_of": "2026-11-20T12:49:15",
   "verdict": "all_fresh",
   "counts": {
    "retired": 1,
@@ -1989,7 +1989,7 @@
   "rows": [],
   "hosts": {
    "bm-a": {
-    "age_h": 32.71,
+    "age_h": 40.94,
     "alive": false,
     "silent_waiting": [],
     "silent_taken_over": {
@@ -2000,7 +2000,7 @@
     }
    },
    "bm-b": {
-    "age_h": 495.88,
+    "age_h": 504.1,
     "alive": false,
     "silent_waiting": [],
     "silent_taken_over": {

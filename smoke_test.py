@@ -9298,6 +9298,57 @@ def main() -> int:
     except Exception as e:
         check("product: the three papers print the day each was priced on, and can disagree",
               False, repr(e)[:160])
+    # ---- r1879: the order sheet prices money itself (the size ladder) -------------
+    # r1878 measured what the same book costs at 1M/3M/10M/30M, but the finding lived only on
+    # a research face; the sheet an operator actually holds said nothing about it. This leg
+    # asserts the sheet off the producing face, never by re-deriving a number here: every rung
+    # is printed in 万, the shape verdict is printed, and the section stamps the trip that
+    # wrote it (r1781 -- a section fed by another script must self-stamp).
+    try:
+        _sl49p = os.path.join(PATHS.results_dir, "etf_book_capacity_shortfall.json")
+        _bad49 = []
+        _ord49 = sorted(glob.glob(os.path.join(PATHS.root, "results", "etf_book_order",
+                                               "ORDER-*.md")))
+        if not os.path.exists(_sl49p):
+            _bad49.append("results/etf_book_capacity_shortfall.json missing")
+        elif not _ord49:
+            _bad49.append("no ORDER-*.md to read")
+        else:
+            with open(_sl49p, encoding="utf-8") as _fh49:
+                _sl49 = json.load(_fh49) or {}
+            with open(_ord49[-1], encoding="utf-8") as _fh49:
+                _md49 = _fh49.read()
+            _lad49 = (_sl49.get("ladder") or {})
+            _rgs49 = _lad49.get("rungs") or []
+            if len(_rgs49) < 2:
+                _bad49.append("the ladder face publishes fewer than two rungs")
+            if "装得下的价格" not in _md49:
+                _bad49.append("the sheet does not price money at all")
+            for _r49 in _rgs49:
+                _lens49 = _r49.get("lens_cny")
+                if not _lens49:
+                    continue
+                _lab49 = "%g万" % (float(_lens49) / 10000.0)
+                if _lab49 not in _md49:
+                    _bad49.append("the sheet does not print the %s rung" % _lab49)
+            _sh49 = ((_lad49.get("reading") or {}).get("shape"))
+            if _sh49 and _sh49 not in _md49:
+                _bad49.append("the sheet hides the ladder's own verdict (%s)" % _sh49)
+            _gen49 = _sl49.get("generated")
+            if _gen49 and _gen49[:19] not in _md49:
+                _bad49.append("the sheet hides which trip wrote the ladder")
+        _nm49 = [t[0] for t in importlib.import_module("Tools.s6_chain_bmc").LEGS]
+        if ("capacity_shortfall_write" not in _nm49 or "etf_book_order" not in _nm49):
+            _bad49.append("the ladder leg or the sheet leg is off the chain")
+        elif (_nm49.index("capacity_shortfall_write")
+                > _nm49.index("etf_book_order")):
+            _bad49.append("the sheet runs before the ladder it quotes")
+        check("product: the order sheet prices money itself (1M/3M/10M/30M)",
+              not _bad49, "; ".join(_bad49)[:220]
+              or "%d rungs printed off %s" % (len(_rgs49), os.path.basename(_ord49[-1])))
+    except Exception as e:
+        check("product: the order sheet prices money itself (1M/3M/10M/30M)",
+              False, repr(e)[:160])
     # ---- r1187: the dashboard says which bar the three papers were priced on ----
     # The three papers each print their own priced day, but the 总控面板 -- the one face an
     # operator opens first -- said nothing about it. A row that only carries the boolean
