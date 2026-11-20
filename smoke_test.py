@@ -166,6 +166,31 @@ def _ceo_page_view():
                 out["text"] = fh.read()
         else:
             out["reason"] = "the JSON twin has no markdown beside it (%s)" % os.path.basename(md)
+        # r1881: `writer_allowed` answers "who owns the pen", not "can today's page be
+        # rewritten at all". The generator's own no-op gate refuses a same-bar rewrite
+        # from any host that did not write that page (it would name today for a bar
+        # today did not close). Asking only the first question turns that rule into a
+        # permanent red on the very host that cannot act on it -- the r1789 shape, and
+        # the third copy of "an unreadable guard is not permission" inverted into "a
+        # permission is not a capability". Ask the generator.
+        try:
+            _today81 = dt.date.today().isoformat()
+            _bar81 = out.get("bar")
+            if _bar81:
+                _prior81 = os.path.join(_P.OUT_DIR,
+                                        "LIVE-BOOK-%s.md" % str(_bar81)[:10].replace("-", ""))
+                _todayp81 = os.path.join(_P.OUT_DIR,
+                                         "LIVE-BOOK-%s.md" % _today81.replace("-", ""))
+                if (str(_bar81)[:10] != _today81 and os.path.exists(_prior81)
+                        and not os.path.exists(_todayp81)
+                        and not _P.guest_page_writer(_today81, _P.machine_id())):
+                    out["may_write"] = False
+                    out["reason"] = ((out["reason"] + "; ") if out["reason"] else "") + (
+                        "the %s page already exists and belongs to another writer; the "
+                        "generator refuses a same-bar rewrite" % str(_bar81)[:10])
+        except Exception as _e81:
+            out["reason"] = ((out["reason"] + "; ") if out["reason"] else "") + \
+                "generator gate unreadable (%r)" % (_e81,)
     except Exception as _e:
         out["reason"] = "page artifact unreadable (%r)" % (_e,)
     return out
