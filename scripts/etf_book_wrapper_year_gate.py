@@ -63,6 +63,7 @@ import etf_phase_beta_window as BW  # noqa: E402
 
 OUT_DIR = os.path.join(ROOT, "results", "etf_book_year_gate")
 OUT = os.path.join(OUT_DIR, "WRAPPER-GATE.json")
+GATE = os.path.join(OUT_DIR, "YEAR-GATE.json")
 BARS_PER_WINDOW = 60
 PARTICIPATION = 0.05
 BETA_TARGET = 0.20
@@ -284,6 +285,31 @@ def run() -> int:
     return 0
 
 
+def freshness(cut, gate_last):
+    """Ask an EXTERNAL anchor whether this receipt is still pricing today's panel.
+
+    r1918: every assertion below re-derives from the receipt's own rows, so a receipt
+    judged on last week's bar reads perfectly consistent forever -- the r1850 class, on
+    the one face whose verdict (`ADMIT` for the ticket's own construction) is the number
+    that decides whether the desk may ship. The year gate judges the same book on the
+    same panel, so its own `data.last` is the anchor; nothing is re-priced here.
+    """
+    if not cut:
+        return "NO CUTOFF: the face does not say which bar it judged"
+    if not gate_last:
+        return ("UNREADABLE ANCHOR: %s publishes no panel bar, so freshness cannot be "
+                "asked (rebuild the gate: python scripts/etf_book_year_gate.py run)" % GATE)
+    if str(cut) < str(gate_last):
+        return ("STALE FACE_BEHIND_GATE: this face judged %s, the gate's panel is %s "
+                "-- refresh: python scripts/etf_book_wrapper_year_gate.py run"
+                % (cut, gate_last))
+    if str(cut) > str(gate_last):
+        return ("FACE_AHEAD_OF_GATE: this face judged %s, the gate's panel stops at %s "
+                "-- the gate is the stale one; rebuild it first"
+                % (cut, gate_last))
+    return None
+
+
 def check() -> int:
     """Re-derive every published verdict from the receipt's own rows (read-only)."""
     if not os.path.exists(OUT):
@@ -292,6 +318,14 @@ def check() -> int:
     with io.open(OUT, encoding="utf-8") as f:
         d = json.load(f)
     errs = []
+    try:
+        with io.open(GATE, encoding="utf-8") as f:
+            gate_last = ((json.load(f) or {}).get("data") or {}).get("last")
+    except Exception:                                             # noqa: BLE001
+        gate_last = None
+    fresh = freshness(d.get("evidence_cutoff"), gate_last)
+    if fresh:
+        print(fresh)
 
     def chk(ok, msg):
         print(("PASS " if ok else "FAIL ") + msg)
@@ -329,7 +363,13 @@ def check() -> int:
         chk(ex.get("sizing_scale_by_year") is not None,
             "the ticket arm prints the k it actually ran, per year")
     print("%d/%d PASS" % (3 * len(books) + 6 - len(errs), 3 * len(books) + 6))
-    return 0 if not errs else 1
+    if errs:
+        return 1
+    if fresh:
+        # STALE is the one answer a rebuild can cure, so it is its own code (r1345):
+        # anything else here is a face that disagrees with itself and stays red.
+        return 3 if fresh.startswith("STALE") else 1
+    return 0
 
 
 # ------------------------------------------------------------------------ selftest
@@ -427,7 +467,26 @@ def selftest() -> int:
     leg(abs(yr["2021"]["net_pct"] - (0.99 / 1.1 - 1.0) * 100.0) < 1e-9,
         "L6 yearly return is last/first of the level curve", yr)
 
-    print("%d/%d PASS" % (8 - len(errs), 8))
+    # L7: freshness is asked of an external anchor, in both directions. A receipt judged
+    # a bar behind the gate is STALE (repairable by `run`); a receipt judged AHEAD of the
+    # gate means the gate is the stale one, and rebuilding this face would only copy the
+    # older panel over a newer reading -- so the two must not share one message.
+    leg((freshness("2026-11-20", "2026-11-21") or "").startswith("STALE"),
+        "L7a a receipt judged one bar behind the gate reads STALE",
+        freshness("2026-11-20", "2026-11-21"))
+    leg((freshness("2026-11-21", "2026-11-20") or "").startswith("FACE_AHEAD_OF_GATE"),
+        "L7b a receipt judged ahead of the gate blames the gate, not itself",
+        freshness("2026-11-21", "2026-11-20"))
+    leg(freshness("2026-11-20", "2026-11-20") is None,
+        "L7c same bar on both sides is fresh, not a warning")
+    leg("UNREADABLE ANCHOR" in (freshness("2026-11-20", None) or ""),
+        "L7d a missing anchor is said out loud, never read as fresh")
+    leg("NO CUTOFF" in (freshness(None, "2026-11-20") or ""),
+        "L7e a receipt that does not say which bar it judged is not fresh by default")
+
+    # r1918: the denominator was hard-coded 8 while nine legs printed -- a count that can
+    # never say "one of them is missing". Counted off the run instead (14 legs incl. L7a-e).
+    print("%d/%d PASS" % (14 - len(errs), 14))
     return 0 if not errs else 1
 
 

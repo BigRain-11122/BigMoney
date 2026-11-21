@@ -1,5 +1,5 @@
 {
- "activity": "product",
+ "activity": "r1918: wrapper_year_gate gets a freshness anchor + an on-chain writer (STALE only)",
  "activity_now": "r1912: two products. (1) The wait had no price on the other side -- the ORDER sheet now prints what deploying now costs at its own worst case: the select leg's one-sided 95% floor is +2.55pp on a 3.12pp standard error, the realised cost of a zero-edge book is CNY 13,920/yr per million, the ruler's own width is CNY 65,239, and the wait's yearly fee (CNY 136,712) is 9.8x the first and still 2.1x the second. (2) The chain leg live_usage_day_words went red the morning after r1911 added section 6's provenance line: two dates printed, no rule claimed either -- mapped to idle_cash.source_generated / evidence_cutoff, 115/115 claims now resolve and the leg is green.",
  "activity_now_round": 1910,
  "agenda_starved": false,
@@ -63,7 +63,7 @@
   "state": "registered (FOUND)",
   "task": "HQ-ProductionClaim"
  },
- "clock_read": "2026-11-22T01:29:46+08:00",
+ "clock_read": "2026-11-22T05:32:06+08:00",
  "clock_read_source": "local",
  "clock_tz": "+08:00",
  "codely_live_count": 2,
@@ -80,7 +80,7 @@
  "current": "r1866: the contract panel's provenance is now derived, not remembered -- writer, cadence and pick-day read out of the writer's own face, and the 327 dead tails named as expiry rather than stall",
  "current_task": "r1911: published 131 chain-written faces (63ac4ff048..59a387a88d); full suite running detached",
  "current_task_at": "2026-11-20T05:42:49+08:00",
- "current_task_short": "r1891: price the 5pp precision target (the wait, priced)",
+ "current_task_short": "r1918 wrapper gate freshness",
  "current_task_ts": "2026-11-20T05:42:49+08:00",
  "d19_watermark_guard": {
   "advance": true,
@@ -1497,7 +1497,7 @@
   "watermark": "green: board/pool both empty (pool_ready_count=0, fleet_open_tasks=0), no claimable batch on this host; py_watermark insufficient_history (window n=1, local_batch=1 = this round own suite)"
  },
  "round_label": "r1813",
- "round_no": 1917,
+ "round_no": 1918,
  "round_no_label": "r1821",
  "round_no_landed": 1663,
  "round_note": "r1489: a reinstated bar is re-derived from the panel, not carried over (reinstatement_check + reinstatements.json + sheet paragraph)",
@@ -2105,7 +2105,7 @@
  "takeover_note": "the 2026-11-16 14:05 round was silence-killed at 14:38 with 25 min of no output; it had already written the whole face (14:19) plus card E679 and the CODELY lines, so this 14:40 round took over the closeout instead of redoing science: no script, number or verdict changed here",
  "task": "r1909: the GPU face is consistent for every alphabet a reader can read, not just the spellings we remembered",
  "total_ram_gb": 55.9,
- "ts": "2026-11-22T01:29:46+08:00",
+ "ts": "2026-11-22T05:32:06+08:00",
  "ts_epoch": 1794812499,
  "unverified": [
   "full smoke suite not re-run this round (892s > window); GPU leg judged by audit recompute + selftest",
@@ -2114,7 +2114,7 @@
  ],
  "update_daily": "rc0 0 new rows, cutoff 2026-11-13 (Sunday, no new bar)",
  "updated": "2026-11-21T04:42:01+08:00",
- "updated_at": "2026-11-20T21:19:30+08:00",
+ "updated_at": "2026-11-22T05:32:06+08:00",
  "vcpu": 32,
  "verdict": "product",
  "verify": "gpu_face selftest 49/49 (7 new legs L11a-g) | heartbeat_write selftest 16/16 | gpu_face audit on live face: [] (was 3072 MiB free spread, high=GPU free 8.6 GB) | sentence healed to 6.5 GB free / 16 GB",

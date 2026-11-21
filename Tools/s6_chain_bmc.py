@@ -1438,7 +1438,15 @@ LEGS = [
     # and that pass comes from owning less (k 0.23-0.47), which the face prints as
     # compression_note instead of a clean bill of health. `--check` re-derives published
     # JSON only (1.7s warm, no panel).
-    ("wrapper_year_gate", ["python", "scripts/etf_book_wrapper_year_gate.py", "--check"]),
+    # r1918: that same "published JSON only" is why the check could never notice its own
+    # age -- every assertion re-derives from the receipt's rows, so a Friday verdict reads
+    # consistent forever while the gate it answers to has already priced Monday. The probe
+    # now asks the year gate's own `data.last` (one JSON read, no panel, ~1.6s), says STALE
+    # in that one direction and FACE_AHEAD_OF_GATE in the other (rebuilding here would copy
+    # the older panel over a newer reading). Refresh is paid only on STALE: ~52s.
+    ("wrapper_year_gate",
+     ["python", "scripts/etf_book_wrapper_year_gate.py", "--check"],
+     ["python", "scripts/etf_book_wrapper_year_gate.py", "run"]),
     # r1493: the scale-floor face is judged BY that gate (it imports admission_block), so it
     # has to answer to it whenever the gate is rebuilt -- and nothing made it. On 2026-11-10
     # the smoke leg that compares the two read top-2 0.7108 here against 0.7067 there: this
