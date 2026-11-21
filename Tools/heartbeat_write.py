@@ -182,6 +182,19 @@ def gpu_chokepoint(fields, verdict, force=False):
         verdict["gpu_dropped"] = dropped
         return kept
     kept.update(gf.fields_from(probe, gf._stamp()))
+    # r1909: a GPU reading written as a sentence (bm-c's "GPU空闲VRAM": "8.6 GB free /
+    # 16 GB") must not be dropped -- the face is merge-only, so dropping it leaves the
+    # old sentence standing beside a fresh probe (r1185's residue). Restate it from the
+    # same probe when the shape is readable; keep an unreadable one as the caller sent
+    # it, where audit reports it instead of the write pretending it does not exist.
+    for k, val in (fields or {}).items():
+        if k in kept or not _is_gpu_scalar(k, gf):
+            continue
+        if gf._prose_free_total(val) is not None:
+            kept[k] = gf._rewrite_prose(val, probe["total_mib"] - probe["used_mib"],
+                                        probe["total_mib"])
+        else:
+            kept[k] = val
     for k in nested_keys:
         kept[k] = _owned_nested(fields[k], gf, probe)
     verdict["gpu_probe"] = probe

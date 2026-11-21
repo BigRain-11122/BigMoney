@@ -81,11 +81,34 @@ GB_KEYS = ("gpu_free_gb", "gpu_free_vram_gb", "free_vram_gb", "vram_free_gb")
 # whatever spelling the face actually carries.
 _FILLER_TOKENS = {"gpu", "vram", "mem", "memory", "v", "mb", "mib", "gb"}
 
+# r1909: the face is not only English. bm-c's heartbeat carried
+# "GPU空闲VRAM": "8.6 GB free / 16 GB" beside 33 keys from one probe saying 5.6 GB
+# free -- a 3 GB disagreement nothing could address, because the *name* is localised
+# and the *value* is prose. Same defect as r1299 (no gpu prefix) and r1334 (nesting),
+# one axis over: the reader can read the sentence, the audit could not.
+_CJK_FAMILY = (("总计", "total"), ("总共", "total"), ("全部", "total"),
+               ("已用", "used"), ("占用", "used"), ("使用", "used"),
+               ("空闲", "free"), ("可用", "free"), ("剩余", "free"))
+
+
+def _cjk_family(k):
+    """'free'|'used'|'total' from a localised key body, else None."""
+    low = k.lower()
+    for word, fam in _CJK_FAMILY:
+        if word in low:
+            return fam
+    return None
+
 
 def gpu_mem_family(k):
     """('free'|'used'|'total', 'gb'|'mib') for a GPU-memory spelling, else (None, None)."""
     if not gpu_mem_key(k):
         return (None, None)
+    # a localised name carries no unit token, so the nominal unit is only a default;
+    # a prose value is measured from the units inside the string, not from the name.
+    _fam = _cjk_family(k)
+    if _fam:
+        return (_fam, "gb" if "gb" in k.lower() else "mib")
     toks = [t for t in k.lower().split("_") if t]
     if not toks:
         return (None, None)
@@ -172,6 +195,15 @@ def restate(face, fields):
             upd[sk] = round(value[fam] / 1024.0, 1) if unit == "gb" else value[fam]
         if upd:
             extra[k] = dict(v, **upd)
+    # r1909: a readable sentence is restated in its own words from the same probe.
+    # Naming a disagreement and then leaving it on the face is r1185's mistake --
+    # a merge-only face is never revisited unless a probe rewrites it.
+    for k, v in face.items():
+        if k in extra or not gpu_mem_key(k):
+            continue
+        if _prose_free_total(v) is None:
+            continue
+        extra[k] = _rewrite_prose(v, value["free"], total)
     return extra
 
 # one disagreement of this size or more is a defect (probe granularity is 1 MiB)
@@ -273,8 +305,11 @@ def gpu_mem_key(k):
     # own rule, so match 'ram' only when it is not preceded by a letter.
     if re.search(r"(?<![a-z])ram", k):
         return False
-    if not re.search(r"(vram|gpu|mib|mb|gb)", k):
+    if not re.search(r"(vram|gpu|mib|mb|gb|显存)", k):
         return False
+    # r1909: a localised spelling is a GPU-memory key when it names the device.
+    if _cjk_family(k) and re.search(r"(vram|gpu|显存)", k):
+        return True
     return bool(re.match(r"^(gpu)?[a-z_]*(free|used|idle)", k)) or \
         bool(re.search(r"(free|used|idle)_(vram|gpu)", k))
 
@@ -292,16 +327,61 @@ def _pair(value):
         return None
 
 
+# The one prose shape the live face actually carries: '<x> GB free / <y> GB'.
+# Anything else stays 'unowned' -- widening this to "any sentence with numbers"
+# would start measuring numbers the author did not mean as this quantity.
+_PROSE_FREE_TOTAL = re.compile(
+    r"^\s*(\d+(?:\.\d+)?)\s*(GB|GiB|MiB|MB)\s*(?:free|空闲|可用)\s*[/,]\s*"
+    r"(\d+(?:\.\d+)?)\s*(GB|GiB|MiB|MB)\s*$", re.I)
+
+
+def _as_mib(num, unit):
+    return float(num) * 1024.0 if unit.upper().startswith("G") else float(num)
+
+
+def _prose_free_total(value):
+    """(free_mib, total_mib) for the readable shape, else None."""
+    if not isinstance(value, str):
+        return None
+    m = _PROSE_FREE_TOTAL.match(value)
+    if not m:
+        return None
+    return (_as_mib(m.group(1), m.group(2)), _as_mib(m.group(3), m.group(4)))
+
+
+def _gb_text(mib):
+    g = mib / 1024.0
+    return ("%d" % int(round(g))) if abs(g - round(g)) < 1e-9 else ("%.1f" % g)
+
+
+def _rewrite_prose(value, free_mib, total_mib):
+    """Same sentence, same units, same words -- only its two numbers replaced."""
+    m = _PROSE_FREE_TOTAL.match(value)
+    if not m:
+        return value
+    return (value[:m.start(1)] + _gb_text(free_mib)
+            + value[m.end(1):m.start(3)] + _gb_text(total_mib)
+            + value[m.end(3):])
+
+
 def audit(face):
     """Disagreements on an existing heartbeat face. Pure; returns a list of dicts."""
     out = []
     deep = deep_family(face)
+    # r1909: readable sentences carrying this quantity are readings, not decoration.
+    prose = {}
+    for k in face:
+        r = _prose_free_total(face.get(k))
+        if r and gpu_mem_key(k):
+            prose[k] = r
 
     def spread(keys, unit):
         got = [(k, _mb(k, face[k])) for k in keys
                if isinstance(face.get(k), (int, float))]
         got += [("%s.%s" % (p, s), v * 1024.0 if u == "gb" else v)
                 for (p, s, f, u, v) in deep if f == unit]
+        if unit == "free":
+            got += [(k, r[0]) for k, r in prose.items()]
         if len(got) < 2:
             return
         hi = max(got, key=lambda kv: kv[1])
@@ -322,6 +402,7 @@ def audit(face):
              if isinstance(face.get(k), (int, float))]
     free += [(v * 1024.0 if u == "gb" else v, "%s.%s" % (p, s))
              for (p, s, f, u, v) in deep if f == "free"]
+    free += [(r[0], k) for k, r in prose.items()]
     used += [(v * 1024.0 if u == "gb" else v, "%s.%s" % (p, s))
              for (p, s, f, u, v) in deep if f == "used"]
     total += [(v * 1024.0 if u == "gb" else v, "%s.%s" % (p, s))
@@ -341,7 +422,7 @@ def audit(face):
     # can no longer age; what still ages is a GPU-memory key whose value is a
     # formatted string (numeric pass cannot touch it) and is not the known pair.
     unowned = sorted(k for k in face
-                     if k not in known and gpu_mem_key(k)
+                     if k not in known and gpu_mem_key(k) and k not in prose
                      and (not isinstance(face.get(k), (int, float))
                           or isinstance(face.get(k), bool)
                           or gpu_mem_family(k)[0] is None))
@@ -645,6 +726,31 @@ def selftest():
     leg("L10c a formatted value inside the nested block is reported",
         True, any("gpu.mem_free" in k for x in audit(dict(f, gpu={"mem_free": "4.6 GB"}))
                   for k in (x.get("keys") or [])))
+
+    # L11 r1909: the live face is not English-only. bm-c carried
+    #      "GPU空闲VRAM": "8.6 GB free / 16 GB" beside 33 keys from one probe saying
+    #      5.6 GB free. audit() saw neither the key (localised) nor the number (prose),
+    #      so `fleet: GPU face self-consistent` was green with a 3 GB lie on the face.
+    live_cjk = dict(f, **{"GPU空闲VRAM": "8.6 GB free / 16 GB"})
+    leg("L11 a localised GPU-memory name is owned", True, gpu_mem_key("GPU空闲VRAM"))
+    leg("L11a a RAM key in the same words is still not a GPU key", False,
+        gpu_mem_key("空闲RAM"))
+    leg("L11b its sentence is read as the free/total pair", (8806.4, 16384.0),
+        _prose_free_total("8.6 GB free / 16 GB"))
+    leg("L11c a disagreeing sentence is caught, and named", True,
+        any(x["family"] == "free"
+            and "GPU空闲VRAM" in (x.get("high"), x.get("low"))
+            for x in audit(live_cjk)),
+        str(audit(live_cjk))[:140])
+    healed_cjk = dict(live_cjk, **restate(live_cjk, f))
+    leg("L11d restate rewrites the sentence from the same probe", "4.6 GB free / 16 GB",
+        healed_cjk["GPU空闲VRAM"])
+    leg("L11e the healed localised face audits clean", [], audit(healed_cjk))
+    leg("L11f an unreadable sentence is still reported, not ignored", True,
+        any(x["family"] == "unowned"
+            for x in audit(dict(f, **{"GPU空闲VRAM": "lots"}))))
+    leg("L11g a stray number in another unit is not absorbed", False,
+        bool(_prose_free_total("8.6 GB free / 16 core")))
 
     # L6 failed probe writes nothing (rc 2, heartbeat bytes untouched)
     import tempfile

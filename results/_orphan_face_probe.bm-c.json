@@ -1,9 +1,9 @@
 {
- "ts": "2026-11-21T10:25:37",
+ "ts": "2026-11-21T11:26:00",
  "mode": "probe",
- "py_faces_seen": 11,
+ "py_faces_seen": 6,
  "orphans": 0,
- "orphans_cleared": 0,
+ "orphans_cleared": 1,
  "killed": [],
  "idle_servers_exempt": 0,
  "resident_servers_exempt": 0,
@@ -12,62 +12,24 @@
    "pid": 12524,
    "name": "python.exe",
    "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\scripts\\update",
-   "age_min": 66.4,
-   "cpu_delta_20s": 0.156,
+   "age_min": 126.8,
+   "cpu_delta_20s": 0.0,
    "face1_parent_dead": true,
    "face2_no_hidden_host_ancestor": true,
-   "face3_cpu_stalled": false,
+   "face3_cpu_stalled": true,
    "ancestor_chain": [
     "DEAD"
-   ]
-  },
-  {
-   "pid": 15588,
-   "name": "python.exe",
-   "cmd": "python scripts/etf_book_width_positive_control.py",
-   "age_min": 0.8,
-   "cpu_delta_20s": 20.125,
-   "face1_parent_dead": false,
-   "face2_no_hidden_host_ancestor": true,
-   "face3_cpu_stalled": false,
-   "ancestor_chain": [
-    "python.exe",
-    "DEAD"
-   ]
-  },
-  {
-   "pid": 16096,
-   "name": "python.exe",
-   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe -u Tools\\s6_chain_bmc.py --round 1902",
-   "age_min": 77.9,
-   "cpu_delta_20s": 20.125,
-   "face1_parent_dead": true,
-   "face2_no_hidden_host_ancestor": true,
-   "face3_cpu_stalled": false,
-   "ancestor_chain": [
-    "DEAD"
-   ]
-  },
-  {
-   "pid": 21696,
-   "name": "python.exe",
-   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe scripts/candidate_year_gate_phases.py selftest",
-   "age_min": 0.3,
-   "cpu_delta_20s": 999.0,
-   "face1_parent_dead": false,
-   "face2_no_hidden_host_ancestor": true,
-   "face3_cpu_stalled": false,
-   "ancestor_chain": [
-    "python.exe",
-    "DEAD"
-   ]
+   ],
+   "confirm_cpu_20s": 0.203,
+   "confirm_new_children": 0,
+   "confirm": "working"
   },
   {
    "pid": 37804,
    "name": "python.exe",
    "cmd": "D:\\ComfyUI\\python_embeded\\python.exe -s D:\\ComfyUI\\ComfyUI\\main.py --listen 127.0.0.1 --port 8188 --disable-smart-memory",
-   "age_min": 713.7,
-   "cpu_delta_20s": 20.172,
+   "age_min": 774.1,
+   "cpu_delta_20s": 20.125,
    "face1_parent_dead": true,
    "face2_no_hidden_host_ancestor": true,
    "face3_cpu_stalled": false,
@@ -76,24 +38,10 @@
    ]
   },
   {
-   "pid": 38596,
-   "name": "python.exe",
-   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe K:\\Fluxgroup\\FluxGroup\\Tools\\fleet\\drama_kf_batch.py",
-   "age_min": 0.0,
-   "cpu_delta_20s": 999.0,
-   "face1_parent_dead": false,
-   "face2_no_hidden_host_ancestor": true,
-   "face3_cpu_stalled": false,
-   "ancestor_chain": [
-    "python.exe",
-    "DEAD"
-   ]
-  },
-  {
-   "pid": 43604,
+   "pid": 37828,
    "name": "pythonw.exe",
    "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\pythonw.exe K:\\Fluxgroup\\FluxGroup\\Tools\\fleet\\comfy_guard.py",
-   "age_min": 2.8,
+   "age_min": 3.2,
    "cpu_delta_20s": 0.0,
    "face1_parent_dead": false,
    "face2_no_hidden_host_ancestor": false,
@@ -103,11 +51,37 @@
    ]
   },
   {
-   "pid": 45888,
+   "pid": 43900,
+   "name": "pythonw.exe",
+   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\pythonw.exe -u Tools\\s6_chain_bmc.py 1908",
+   "age_min": 12.3,
+   "cpu_delta_20s": 0.0,
+   "face1_parent_dead": true,
+   "face2_no_hidden_host_ancestor": true,
+   "face3_cpu_stalled": false,
+   "ancestor_chain": [
+    "DEAD"
+   ]
+  },
+  {
+   "pid": 50848,
+   "name": "python.exe",
+   "cmd": "python scripts/etf_book_forward.py",
+   "age_min": 0.2,
+   "cpu_delta_20s": 999.0,
+   "face1_parent_dead": false,
+   "face2_no_hidden_host_ancestor": false,
+   "face3_cpu_stalled": false,
+   "ancestor_chain": [
+    "pythonw.exe"
+   ]
+  },
+  {
+   "pid": 54000,
    "name": "python.exe",
    "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe Tools\\orphan_face_probe.py",
    "age_min": 0.5,
-   "cpu_delta_20s": 0.234,
+   "cpu_delta_20s": 0.172,
    "face1_parent_dead": false,
    "face2_no_hidden_host_ancestor": false,
    "face3_cpu_stalled": false,
@@ -117,49 +91,27 @@
     "powershell.exe",
     "wscript.exe"
    ]
-  },
-  {
-   "pid": 47124,
-   "name": "python.exe",
-   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\scripts\\satura",
-   "age_min": 0.0,
-   "cpu_delta_20s": 999.0,
-   "face1_parent_dead": false,
-   "face2_no_hidden_host_ancestor": false,
-   "face3_cpu_stalled": false,
-   "ancestor_chain": [
-    "wscript.exe"
-   ]
-  },
-  {
-   "pid": 50632,
-   "name": "python.exe",
-   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe K:\\Fluxgroup\\FluxGroup\\Tools\\fleet\\drama_ep_chain.py",
-   "age_min": 0.1,
-   "cpu_delta_20s": 999.0,
-   "face1_parent_dead": true,
-   "face2_no_hidden_host_ancestor": true,
-   "face3_cpu_stalled": false,
-   "ancestor_chain": [
-    "DEAD"
-   ]
-  },
-  {
-   "pid": 50664,
-   "name": "python.exe",
-   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe -u smoke_test.py",
-   "age_min": 6.0,
-   "cpu_delta_20s": 0.016,
-   "face1_parent_dead": true,
-   "face2_no_hidden_host_ancestor": true,
-   "face3_cpu_stalled": false,
-   "ancestor_chain": [
-    "DEAD"
-   ]
   }
  ],
  "orphan_details": [],
- "orphan_cleared_details": [],
+ "orphan_cleared_details": [
+  {
+   "pid": 12524,
+   "name": "python.exe",
+   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\scripts\\update",
+   "age_min": 126.8,
+   "cpu_delta_20s": 0.0,
+   "face1_parent_dead": true,
+   "face2_no_hidden_host_ancestor": true,
+   "face3_cpu_stalled": true,
+   "ancestor_chain": [
+    "DEAD"
+   ],
+   "confirm_cpu_20s": 0.203,
+   "confirm_new_children": 0,
+   "confirm": "working"
+  }
+ ],
  "idle_server_details": [],
  "resident_server_details": [],
  "sample_sec": 20.0,

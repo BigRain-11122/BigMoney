@@ -1067,6 +1067,16 @@ LEGS = [
     ("etf_book_live_widths",
      ["python", "scripts/etf_book_phase_atlas_arms.py", "--live-widths-check"],
      ["python", "scripts/etf_book_phase_atlas_arms.py", "--live-widths"]),
+    # r1907: the two faces a reader holds are written at legs 80/109/113, the width-arm family
+    # that licenses their width is rebuilt at 146-150 -- so every time the family's verdict
+    # moves, the card and the sheet keep quoting the width without its lineage until the next
+    # round re-runs them by hand. r1905's smoke record caught exactly that (ONE_WORLD on the
+    # family, no ONE_WORLD on the card). This leg is the r1850 shape: it says STALE only when
+    # the family face is newer than either reader face, and the refresh it declares re-emits
+    # both writers (~110s paid only on a moved family, 0.1s otherwise).
+    ("etf_book_reader_faces",
+     ["python", "scripts/etf_book_reader_faces.py", "check"],
+     ["python", "scripts/etf_book_reader_faces.py", "run"]),
     # r1352 / E261: the arms face publishes labels, and a label is only a measurement if it is
     # rare when the data has no effect. This leg re-simulates the labeler on those same 12 cells
     # with each delta replaced by zero-mean noise of that cell's own band: an effect-free panel

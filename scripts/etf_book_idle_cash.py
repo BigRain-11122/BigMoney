@@ -203,6 +203,30 @@ def arm_readings(close, openp, amt, sc, cash_ret, lag):
     }, float(turn), book
 
 
+def published_pair(cv):
+    """The figure and the window end that actually belong together (r1907).
+
+    `vehicles[].net_ann_pct` is priced on the vehicle face's OWN window, which rolls forward
+    on every run. The figure that pairs with `gate.published_window` is
+    `gate.published_gc001_net_pct`, frozen beside it. Comparing a re-derivation on the frozen
+    window against the rolling headline charged a window difference as a defect: on
+    2026-11-21 the frozen pair agreed to 0.00bp while the crossing pair read 0.78bp and the
+    gate refused a face whose control was exact.
+    """
+    published, end, field = None, None, None
+    for v in cv.get("vehicles") or []:
+        if v.get("name") == "gc001_daily_roll":
+            published = v.get("net_ann_pct")
+            field = "vehicles.net_ann_pct"
+    gate = cv.get("gate") or {}
+    pw = gate.get("published_window")
+    end = pw[1] if pw else None
+    frozen = gate.get("published_gc001_net_pct")
+    if published is not None and end and frozen is not None:
+        return float(frozen), end, "gate.published_gc001_net_pct"
+    return published, end, field
+
+
 def run():
     import time
     t0 = time.time()
@@ -230,16 +254,14 @@ def run():
     # the published vehicle's own control, read off the face that already prices it.
     # It must be reproduced ON ITS OWN WINDOW: a rate recomputed over a different span is
     # a different number, and comparing the two would read a window difference as a defect.
-    published, published_end = None, None
+    # r1907: the figure and the window end have to come from the same place -- see
+    # `published_pair`, which prefers the frozen gate pair over the rolling headline.
+    published, published_end, published_field = None, None, None
     if os.path.exists(os.path.join(E.PATHS.results_dir, "etf_book_cash_vehicle.json")):
         with io.open(os.path.join(E.PATHS.results_dir, "etf_book_cash_vehicle.json"),
                      encoding="utf-8") as f:
             cv = json.load(f)
-        for v in cv.get("vehicles", []):
-            if v.get("name") == "gc001_daily_roll":
-                published = v.get("net_ann_pct")
-        pw = (cv.get("gate", {}) or {}).get("published_window")
-        published_end = pw[1] if pw else None
+        published, published_end, published_field = published_pair(cv)
     gap_bp, ctrl_rate = None, None
     if published is not None and published_end:
         cb = V.repo_bars(rates, CL.WINDOW_START, pd.Timestamp(published_end))
@@ -262,6 +284,7 @@ def run():
     readings.update({
         "cash_vehicle_net_pct_on_window": round(cash_on_window * 100.0, 4),
         "cash_vehicle_published_pct": published,
+        "cash_vehicle_published_field": published_field,
         "cash_vehicle_reproduced_on_published_window_pct": None if ctrl_rate is None
         else round(ctrl_rate, 4),
         "cash_vehicle_gap_bp": None if gap_bp is None else round(gap_bp, 4),
@@ -408,6 +431,25 @@ def selftest():
         "L7a the declared arm reads bar d-1's score")
     chk(np.isnan(lag1.loc[idx7[0], "A"]),
         "L7b the first bar has no lagged score and must not invent one")
+
+    # L8 r1907: the figure compared against a frozen-window re-derivation has to be the
+    # frozen one. The vehicle face rolls its own window forward, so its headline and its
+    # `gate.published_window` describe different spans -- reading the headline charged a
+    # window difference as 0.78bp of drift and refused a face whose control was exact.
+    _cv8 = {"vehicles": [{"name": "gc001_daily_roll", "net_ann_pct": 1.7655}],
+            "gate": {"published_window": ["2020-07-16", "2026-10-27"],
+                     "published_gc001_net_pct": 1.7733}}
+    _p8, _e8, _f8 = published_pair(_cv8)
+    chk(_p8 == 1.7733 and _e8 == "2026-10-27" and _f8.startswith("gate."),
+        "L8a the frozen gate figure is paired with the frozen window")
+    _cv8b = {"vehicles": [{"name": "gc001_daily_roll", "net_ann_pct": 1.7655}],
+             "gate": {"published_window": ["2020-07-16", "2026-10-27"]}}
+    _p8b, _e8b, _f8b = published_pair(_cv8b)
+    chk(_p8b == 1.7655 and _f8b == "vehicles.net_ann_pct",
+        "L8b without a frozen figure the headline is still readable, and named as such")
+    _p8c, _e8c, _f8c = published_pair({"vehicles": [{"name": "gc001_daily_roll",
+                                                     "net_ann_pct": 1.7655}]})
+    chk(_p8c == 1.7655 and _e8c is None, "L8c a face with no window yields no comparison")
 
     print("selftest %s" % ("PASS" if not errs else "FAIL %d" % len(errs)), flush=True)
     return 0 if not errs else 1

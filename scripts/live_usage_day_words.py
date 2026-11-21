@@ -231,6 +231,12 @@ CLAIM_RULES = [
                 r"·欠 \d+ 个会话：" + _D + r"）"),
      ["data_lanes.rows[lane={lane}].tail",
       "data_lanes.rows[lane={lane}].missing_days[0]"]),
+    # r1907: r1900 put the book's own seed capital into money on the page, which introduced one
+    # more bare date ("1,000,000 元 · 2026-10-23 起"). It is the ledger's own seed bar, a field
+    # this page's JSON carries (`etf_book.seed_bar`), so it is claimable like every other date
+    # here rather than a debt the audit has to keep naming.
+    (re.compile(r"账本自己的播种资本 [\d,]+ 元 · " + _D + r" 起"),
+     ["etf_book.seed_bar"]),
     # r1893 (second batch): the rest of the unchecked dates on this page, each one naming a
     # field the page's own JSON already carries. Written after the first-ever drive of this
     # leg showed 20 dates no rule could place -- a face that is always red teaches readers to

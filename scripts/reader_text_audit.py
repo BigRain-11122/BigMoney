@@ -59,6 +59,10 @@ CODE_KEYS = frozenset((
     "scripts", "path", "paths", "python", "ps", "powershell", "regex", "pattern",
     "patterns", "glob", "fmt", "format", "spec", "expression", "code", "snippet",
     "query", "url", "urls", "file", "files", "dirname", "workdir",
+    # r1907: a collector records the endpoint it called, and that record keeps the
+    # placeholder the next process fills (`...var%20_F={sym}/...symbol={sym}`). "endpoint"
+    # is "url" under another name -- both name a call shape, neither is prose for a reader.
+    "endpoint",
 ))
 
 # A key whose whole job is to hold a template (a filename pattern) is machine text.
@@ -343,6 +347,14 @@ def selftest():
     leg("the same token under a prose key is a reader defect",
         bucket_for("results/x.json", "note",
                    [("printf-token", "%s")]) == "live-face")
+    # r1907: a collector's endpoint record keeps the placeholder the next call fills. It is a
+    # call shape like `url`, and it must not stop being gated when it lands on a prose key.
+    leg("an endpoint record is a call shape, not prose",
+        bucket_for("results/futures_panel_gaps.json", "endpoint",
+                   [("brace-token", "{sym}")]) == "code-string")
+    leg("the same brace token on a prose key beside it is still a defect",
+        bucket_for("results/futures_panel_gaps.json", "note",
+                   [("brace-token", "{sym}")]) == "live-face")
     leg("a percentage followed by a variable name is not a printf token",
         not find_defects("capped at 1% x ADV20"), str(find_defects("capped at 1% x ADV20")))
     leg("a shell loop variable inside %%i is not a printf token",

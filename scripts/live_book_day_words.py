@@ -188,9 +188,15 @@ def _date_claims(rows, doc, rules=None, unmapped_classifier=None):
                     if date is None:
                         continue
                     covered.append(m.span(gi))
-                    val = _doc_value(doc, path.format(**gd) if "{" in path else path)
+                    # r1907: the claim publishes the path it actually read, with the named
+                    # groups already filled in. Publishing the template (`rows[lane={lane}]`)
+                    # put an unfilled brace placeholder on a reader face -- reader_text_audit
+                    # flagged it as a spelling defect, and a reader could not tell which row
+                    # the date came from. The resolved path answers both.
+                    val_path = path.format(**gd) if "{" in path else path
+                    val = _doc_value(doc, val_path)
                     exp = str(val)[:10] if isinstance(val, str) else None
-                    rec = {"heading": row.get("heading"), "date": date, "field": path,
+                    rec = {"heading": row.get("heading"), "date": date, "field": val_path,
                            "expected": exp, "line": line[:140]}
                     if exp is None:
                         rec["reading"] = "unverifiable"
