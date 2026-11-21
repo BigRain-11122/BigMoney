@@ -30,6 +30,7 @@ differences are only decisions if they exceed the band this face measures.
 Usage:
     python scripts/etf_book_phase_atlas.py run [--workers=8] [--k=0.0] [--cost=0.0010]
     python scripts/etf_book_phase_atlas.py --check
+    python scripts/etf_book_phase_atlas.py refresh     # no-op unless the panel moved
     python scripts/etf_book_phase_atlas.py --selftest
 """
 
@@ -575,6 +576,16 @@ def selftest():
     except Exception as exc:  # a TypeError here would mean the guard did not fire
         leg("unit guard: --cost=20 (2000%/side) is refused, not run", False,
             type(exc).__name__ + ": " + str(exc)[:50])
+
+    # 10. r1921 writer gate: the chain pays this 15-minute grid only when the panel moved,
+    # so the decision must be right in both directions -- and a missing clock is UNKNOWN,
+    # never read as fresh (a stale face that silently no-ops is the r1322/r1850 class).
+    leg("gate: an older receipt is STALE", refresh_decision("2026-01-02", "2026-01-05") == "STALE")
+    leg("gate: a receipt on the panel's bar needs nothing",
+        refresh_decision("2026-01-05", "2026-01-05") == "SAME")
+    leg("gate: a missing clock is UNKNOWN, never fresh",
+        refresh_decision(None, "2026-01-05") == "UNKNOWN"
+        and refresh_decision("2026-01-05", None) == "UNKNOWN")
     # the scratch file is the only path selftest writes; the real face at OUT_JSON is never
     # created or removed by a test run
     try:
@@ -587,6 +598,66 @@ def selftest():
         print("[%s] %s%s" % ("PASS" if ok else "FAIL", name, (" | " + why) if why else ""))
     print("selftest: %d/%d PASS" % (n_ok, len(legs)))
     return 0 if n_ok == len(legs) else 1
+
+
+def panel_last_bar():
+    """The newest bar the live panel can price -- the external clock (r1594/r1850).
+
+    check() re-derives every cell from the receipt's own rows, so a face priced on
+    2026-11-06 re-derives just as perfectly while the panel runs on. This face is 280
+    engine runs, so nobody re-ran it by hand -- the chain carried only `--check`.
+    Same recipe as etf_book_punctuality.panel_last_bar (dedupe + hollow-tail drop):
+    ~8s instead of the 15-minute grid.
+    """
+    try:
+        sys.path.insert(0, str(ROOT))
+        sys.path.insert(0, str(ROOT / "scripts"))
+        import etf_composite_pf as F
+
+        prices = F._dedupe(F._load_prices())
+        close = pd.DataFrame({s: p["close"] for s, p in prices.items()}).sort_index()
+        close = close.replace(0.0, float("nan"))
+        close, _ = F.drop_hollow_tail(close)
+        return str(close.index[-1].date())
+    except Exception:
+        return None
+
+
+def refresh_decision(face_cutoff, panel_cutoff):
+    """SAME = nothing to pay for, STALE = the repricing owns the job, UNKNOWN = no clock."""
+    if not face_cutoff or not panel_cutoff:
+        return "UNKNOWN"
+    return "STALE" if str(face_cutoff) < str(panel_cutoff) else "SAME"
+
+
+def refresh(out=None):
+    """Keep the atlas on the newest bar, paying nothing when it already is.
+
+    The chain carried only `--check` for this face, so no round owned the re-derivation:
+    a 280-cell grid is too expensive to re-run every ten minutes, and the receipt's own
+    rows re-derive perfectly however old they are (r1322/r1850 class). The gate is the
+    panel clock: ~8s in a round where the panel has not moved, 15+ minutes when it has.
+    """
+    path = Path(out) if out else OUT_JSON
+    try:
+        face = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        face = {}
+    had = face.get("evidence_cutoff")
+    live = panel_last_bar()
+    state = refresh_decision(had, live)
+    if state == "UNKNOWN":
+        print("REFRESH_UNKNOWN panel or receipt unreadable (receipt=%s, panel=%s); "
+              "leaving the face as it stands" % (had, live))
+        return 2
+    if state == "SAME":
+        print("REFRESH_NOOP evidence_cutoff=%s (the panel has not moved)" % live)
+        return 0
+    import time
+    started = time.time()
+    run(out=path if out else None)
+    print("REFRESH_RAN %s -> %s (%.1fs)" % (had, live, time.time() - started))
+    return 0
 
 
 def main(argv=None):
@@ -605,6 +676,8 @@ def main(argv=None):
         return selftest()
     if a.check or a.cmd == "check":
         return check(Path(a.out) if a.out else None)
+    if a.cmd == "refresh":
+        return refresh(Path(a.out) if a.out else None)
     return run(workers=a.workers, k=a.k, cost=a.cost, out=Path(a.out) if a.out else None)
 
 

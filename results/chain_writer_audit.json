@@ -1,9 +1,9 @@
 {
- "legs": 330,
+ "legs": 337,
  "pairs": 93,
  "reader_faces": 129,
- "writer_faces": 273,
- "paired": 119,
+ "writer_faces": 280,
+ "paired": 126,
  "findings": [
   {
    "script": "Tools/card_ledger_guard.py",
@@ -20,41 +20,6 @@
     "writer_modes": []
    },
    "artifacts": []
-  },
-  {
-   "script": "Tools/fill_ladder.py",
-   "scope": [],
-   "legs": [
-    "ladder_face"
-   ],
-   "reason": "no writer leg for this script+scope on the chain",
-   "verdict": "WRITER_MODE_EXISTS_NOT_ON_CHAIN",
-   "modes": {
-    "subcommands": [],
-    "flags": [],
-    "bare_writes": true,
-    "writer_modes": []
-   },
-   "artifacts": [
-    {
-     "artifact": "runnable_pool.json",
-     "exists": true,
-     "age_h": 34.3,
-     "cutoff": null
-    },
-    {
-     "artifact": "runnable_pool.bm-c.json",
-     "exists": true,
-     "age_h": 33.5,
-     "cutoff": null
-    },
-    {
-     "artifact": "fill_ladder_face.json",
-     "exists": true,
-     "age_h": 3.3,
-     "cutoff": null
-    }
-   ]
   },
   {
    "script": "Tools/tree_shrink_guard.py",
@@ -87,174 +52,6 @@
    "artifacts": []
   },
   {
-   "script": "scripts/etf_book_admission_refusal_caliber_adoption.py",
-   "scope": [],
-   "legs": [
-    "refusal_caliber_adoption"
-   ],
-   "reason": "no writer leg for this script+scope on the chain",
-   "verdict": "WRITER_MODE_EXISTS_NOT_ON_CHAIN",
-   "modes": {
-    "subcommands": [],
-    "flags": [],
-    "bare_writes": true,
-    "writer_modes": []
-   },
-   "artifacts": [
-    {
-     "artifact": "etf_book_year_caliber.json",
-     "exists": true,
-     "age_h": 328.1,
-     "cutoff": "2026-11-08T14:10:54+08:00"
-    },
-    {
-     "artifact": "etf_book_admission_refusal_caliber_adoption.json",
-     "exists": true,
-     "age_h": 326.6,
-     "cutoff": "2026-11-08T15:45:32+0800"
-    }
-   ]
-  },
-  {
-   "script": "scripts/etf_book_beta_paths.py",
-   "scope": [],
-   "legs": [
-    "beta_paths"
-   ],
-   "reason": "no writer leg for this script+scope on the chain",
-   "verdict": "WRITER_MODE_EXISTS_NOT_ON_CHAIN",
-   "modes": {
-    "subcommands": [],
-    "flags": [],
-    "bare_writes": true,
-    "writer_modes": []
-   },
-   "artifacts": []
-  },
-  {
-   "script": "scripts/etf_book_concentration_levers.py",
-   "scope": [],
-   "legs": [
-    "concentration_levers"
-   ],
-   "reason": "no writer leg for this script+scope on the chain",
-   "verdict": "WRITER_MODE_EXISTS_NOT_ON_CHAIN",
-   "modes": {
-    "subcommands": [],
-    "flags": [],
-    "bare_writes": true,
-    "writer_modes": []
-   },
-   "artifacts": [
-    {
-     "artifact": "etf_book_concentration_levers.json",
-     "exists": true,
-     "age_h": 313.6,
-     "cutoff": "2026-11-06"
-    },
-    {
-     "artifact": "etf_nobond_vt.json",
-     "exists": true,
-     "age_h": 1.8,
-     "cutoff": "2026-11-20"
-    }
-   ]
-  },
-  {
-   "script": "scripts/etf_book_phase_atlas.py",
-   "scope": [],
-   "legs": [
-    "etf_book_phase_atlas"
-   ],
-   "reason": "no writer leg for this script+scope on the chain",
-   "verdict": "WRITER_MODE_EXISTS_NOT_ON_CHAIN",
-   "modes": {
-    "subcommands": [],
-    "flags": [
-     "--check",
-     "--cost",
-     "--k",
-     "--out",
-     "--selftest",
-     "--workers"
-    ],
-    "bare_writes": true,
-    "writer_modes": []
-   },
-   "artifacts": [
-    {
-     "artifact": "etf_book_phase_atlas.json",
-     "exists": true,
-     "age_h": 36.5,
-     "cutoff": "2026-11-20"
-    }
-   ]
-  },
-  {
-   "script": "scripts/etf_book_rebal_adoption.py",
-   "scope": [],
-   "legs": [
-    "rebal_adoption"
-   ],
-   "reason": "no writer leg for this script+scope on the chain",
-   "verdict": "WRITER_MODE_EXISTS_NOT_ON_CHAIN",
-   "modes": {
-    "subcommands": [],
-    "flags": [],
-    "bare_writes": true,
-    "writer_modes": []
-   },
-   "artifacts": [
-    {
-     "artifact": "etf_book_rebal_adoption.json",
-     "exists": true,
-     "age_h": 313.3,
-     "cutoff": "2026-11-06"
-    },
-    {
-     "artifact": "etf_nobond_vt.json",
-     "exists": true,
-     "age_h": 1.8,
-     "cutoff": "2026-11-20"
-    }
-   ]
-  },
-  {
-   "script": "scripts/etf_book_sizing_prereg.py",
-   "scope": [],
-   "legs": [
-    "sizing_prereg"
-   ],
-   "reason": "no writer leg for this script+scope on the chain",
-   "verdict": "WRITER_MODE_EXISTS_NOT_ON_CHAIN",
-   "modes": {
-    "subcommands": [],
-    "flags": [],
-    "bare_writes": true,
-    "writer_modes": []
-   },
-   "artifacts": [
-    {
-     "artifact": "etf_book_beta_paths.json",
-     "exists": true,
-     "age_h": 304.8,
-     "cutoff": "2026-11-06"
-    },
-    {
-     "artifact": "etf_book_sizing_prereg.json",
-     "exists": true,
-     "age_h": 302.9,
-     "cutoff": "2026-11-06"
-    },
-    {
-     "artifact": "etf_book_size_rulers_decision.json",
-     "exists": true,
-     "age_h": 2.5,
-     "cutoff": "2026-11-20"
-    }
-   ]
-  },
-  {
    "script": "scripts/py_watermark.py",
    "scope": [],
    "legs": [
@@ -272,33 +69,26 @@
     {
      "artifact": "bandit_queue.json",
      "exists": true,
-     "age_h": 1297.5,
+     "age_h": 1298.9,
      "cutoff": "2026-09-23"
     },
     {
      "artifact": "runnable_pool.json",
      "exists": true,
-     "age_h": 34.3,
+     "age_h": 35.7,
      "cutoff": null
     }
    ]
   }
  ],
- "generated": "2026-11-22T06:19:11+0800",
+ "generated": "2026-11-22T07:42:34+0800",
  "chain": "Tools\\s6_chain_bmc.py",
- "red": 7,
+ "red": 0,
  "disclosed": 3,
  "known": [
   "Tools/card_ledger_guard.py ",
-  "Tools/fill_ladder.py ",
   "Tools/tree_shrink_guard.py . 20",
-  "scripts/etf_book_admission_refusal_caliber_adoption.py ",
-  "scripts/etf_book_beta_paths.py ",
-  "scripts/etf_book_concentration_levers.py ",
-  "scripts/etf_book_phase_atlas.py ",
-  "scripts/etf_book_rebal_adoption.py ",
-  "scripts/etf_book_sizing_prereg.py ",
   "scripts/py_watermark.py "
  ],
- "verdict": "CHECK_WITHOUT_WRITER"
+ "verdict": "EVERY_CHECKED_FACE_HAS_A_WRITER"
 }

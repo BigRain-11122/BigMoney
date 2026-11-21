@@ -684,6 +684,16 @@ def selftest() -> int:
         and al["fee_exceeds_edge"] == (al["extra_fee_pp"] >= abs(al["edge_pp_at_10bp"])),
         al)
 
+    # M-N the refresh gate: the chain pays a writer only when it says the face is behind,
+    # so it has to be able to say so -- and must never read a missing clock as fresh.
+    leg("M an older receipt is STALE",
+        refresh_decision("2026-01-02", "2026-01-05") == "STALE")
+    leg("N a receipt on the panel's bar needs nothing",
+        refresh_decision("2026-01-05", "2026-01-05") == "SAME")
+    leg("O a missing clock is UNKNOWN, never fresh",
+        refresh_decision(None, "2026-01-05") == "UNKNOWN"
+        and refresh_decision("2026-01-05", None) == "UNKNOWN")
+
     ok = sum(1 for _n, o, _e in legs if o)
     for name, o, extra in legs:
         if not o:
@@ -692,14 +702,71 @@ def selftest() -> int:
     return 0 if ok == len(legs) else 1
 
 
+def panel_last_bar():
+    """The newest bar the live panel can price -- the external clock (r1594/r1850).
+
+    check() re-derives every verdict from the receipt's own rows, and a receipt priced
+    two weeks ago re-derives just as perfectly (self-consistency is not freshness). The
+    panel is what moves. Same recipe as etf_book_punctuality.panel_last_bar: ~9s instead
+    of the 68s five-phase x two-cost repricing.
+    """
+    try:
+        prices = E._dedupe(E._load_prices())
+        close = pd.DataFrame({s: p["close"] for s, p in prices.items()}).sort_index()
+        close = close.replace(0.0, np.nan)
+        close, _ = E.drop_hollow_tail(close)
+        return str(close.index[-1].date())
+    except Exception:
+        return None
+
+
+def refresh_decision(face_cutoff, panel_cutoff):
+    """SAME = nothing to pay for, STALE = the repricing owns the job, UNKNOWN = no clock."""
+    if not face_cutoff or not panel_cutoff:
+        return "UNKNOWN"
+    return "STALE" if str(face_cutoff) < str(panel_cutoff) else "SAME"
+
+
+def refresh() -> int:
+    """Keep the adoption test on the newest bar, paying nothing when it already is.
+
+    The chain carried only `check` for this face, so no round owned the re-derivation:
+    the receipt sat at 2026-11-06 while the panel ran to 2026-11-20 (r1322/r1850 class).
+    ~9s in a round where the panel has not moved, ~68s when it has.
+    """
+    had = None
+    if os.path.exists(OUT):
+        try:
+            with io.open(OUT, encoding="utf-8") as f:
+                had = json.load(f).get("evidence_cutoff")
+        except Exception:
+            had = None
+    live = panel_last_bar()
+    state = refresh_decision(had, live)
+    if state == "UNKNOWN":
+        print("REFRESH_UNKNOWN panel or receipt unreadable (receipt=%s, panel=%s); "
+              "leaving the face as it stands" % (had, live))
+        return 2
+    if state == "SAME":
+        print("REFRESH_NOOP evidence_cutoff=%s (the panel has not moved)" % live)
+        return 0
+    started = time.time()
+    rc = run()
+    print("REFRESH_RAN %s -> %s (%.1fs) rc=%d" % (had, live, time.time() - started, rc))
+    return rc
+
+
 def main(argv) -> int:
     ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("cmd", nargs="?", default="selftest", choices=["run", "check", "selftest"])
+    ap.add_argument("cmd", nargs="?", default="selftest",
+                    choices=["run", "check", "refresh", "selftest"])
     a = ap.parse_args(argv)
     if a.cmd == "run":
         return run()
     if a.cmd == "check":
         return check()
+    if a.cmd == "refresh":
+        return refresh()
     return selftest()
 
 

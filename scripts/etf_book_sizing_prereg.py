@@ -498,6 +498,63 @@ def _num(x):
     return "-" if x is None else "%.4f" % x
 
 
+def panel_last_bar():
+    """The newest bar the live panel can price -- the external clock (r1594/r1850).
+
+    check() re-derives every flag from the receipt's own rows, and a receipt signed two
+    weeks ago re-derives just as perfectly (self-consistency is not freshness). The panel
+    is what moves. Same recipe as etf_book_punctuality.panel_last_bar (dedupe + hollow-tail
+    drop, feature build skipped): ~9s instead of the 43s repricing.
+    """
+    try:
+        import pandas as pd
+
+        sys.path.insert(0, BASE)
+        sys.path.insert(0, os.path.join(BASE, "scripts"))
+        from scripts import etf_composite_pf as F
+
+        prices = F._dedupe(F._load_prices())
+        close = pd.DataFrame({s: p["close"] for s, p in prices.items()}).sort_index()
+        close = close.replace(0.0, float("nan"))
+        close, _ = F.drop_hollow_tail(close)
+        return str(close.index[-1].date())
+    except Exception:
+        return None
+
+
+def refresh_decision(face_cutoff, panel_cutoff):
+    """SAME = nothing to pay for, STALE = the repricing owns the job, UNKNOWN = no clock."""
+    if not face_cutoff or not panel_cutoff:
+        return "UNKNOWN"
+    return "STALE" if str(face_cutoff) < str(panel_cutoff) else "SAME"
+
+
+def refresh():
+    """Keep the pinned prereg on the newest bar, paying nothing when it already is.
+
+    The chain carried only `check` for this face, so no round owned the re-derivation:
+    the receipt sat at 2026-11-06 while the panel moved on (the r1322/r1850 class).
+    The band is frozen, but the measured noise and the cap verdict are not -- a pinned
+    band read off a two-week-old panel is describing a book that no longer trades.
+    """
+    import time
+    face = _read_json(OUT_PATH) or {}
+    had = face.get("evidence_cutoff")
+    live = panel_last_bar()
+    state = refresh_decision(had, live)
+    if state == "UNKNOWN":
+        print("REFRESH_UNKNOWN panel or receipt unreadable (receipt=%s, panel=%s); "
+              "leaving the face as it stands" % (had, live))
+        return 2
+    if state == "SAME":
+        print("REFRESH_NOOP evidence_cutoff=%s (the panel has not moved)" % live)
+        return 0
+    started = time.time()
+    run()
+    print("REFRESH_RAN %s -> %s (%.1fs)" % (had, live, time.time() - started))
+    return 0
+
+
 # --------------------------------------------------------------------------- check
 def check():
     face = _read_json(OUT_PATH)
@@ -663,6 +720,16 @@ def selftest():
     leg("L9c the window arm reports indices, not fabricated dates",
         all(isinstance(i, int) for i, _, _ in wc))
 
+    # r1921: the chain pays a writer only when the probe says the face is behind, so the
+    # gate has to be able to say so -- and must never read a missing clock as fresh.
+    leg("L10 an older receipt is STALE",
+        refresh_decision("2026-01-02", "2026-01-05") == "STALE")
+    leg("L10b a receipt on the panel's bar needs nothing",
+        refresh_decision("2026-01-05", "2026-01-05") == "SAME")
+    leg("L10c a missing clock is UNKNOWN, never fresh",
+        refresh_decision(None, "2026-01-05") == "UNKNOWN"
+        and refresh_decision("2026-01-05", None) == "UNKNOWN")
+
     print("")
     if fails:
         print("SELFTEST FAILED %d/%d" % (len(fails), total))
@@ -683,7 +750,9 @@ def main(argv=None):
     if cmd == "run":
         face = run()
         return 0 if face and face.get("verdict") != VERDICT_UNREADABLE else 1
-    print("usage: etf_book_sizing_prereg.py [run|check|selftest]")
+    if cmd == "refresh":
+        return refresh()
+    print("usage: etf_book_sizing_prereg.py [run|check|refresh|selftest]")
     return 2
 
 

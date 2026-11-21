@@ -62,6 +62,11 @@ LEGS = [
     # face below classifies every catalog row and joins the calendar verdict (r1421),
     # so the red carries both halves of its cause: nothing left to offer, and no
     # candidate passing its own calendar. Runs right after the audit that raises it.
+    # r1921: `explain` classifies, but nothing on this chain ever RAN the ladder, so the
+    # pool the floor is measured on drifted 35h behind the catalog while every explanation
+    # re-derived itself. The writer is the bare call (0.2s, honest no-op when no lawful
+    # candidate passes its own gates) and it goes first so `explain` describes a fresh pool.
+    ("ladder_write", ["python", "Tools/fill_ladder.py"]),
     ("ladder_face", ["python", "Tools/fill_ladder.py", "explain"]),
     ("py_watermark", ["python", "scripts/py_watermark.py", "probe"]),
     ("update_daily", ["python", "scripts/update_daily.py"]),
@@ -1048,6 +1053,13 @@ LEGS = [
     ("etf_book_atlas_family",
      ["python", "scripts/etf_book_atlas_arms_rebuild.py", "--check-world"],
      ["python", "scripts/etf_book_atlas_arms_rebuild.py", "refresh", "--budget=1100"]),
+    # r1921: the check re-derives all 280 cells from the receipt's own rows, so a face
+    # priced on 2026-11-06 re-derived perfectly while the panel ran on (r1322/r1850 class:
+    # self-consistency is not freshness). The writer is behind a panel-clock gate -- 8.6s
+    # when the panel has not moved, 15+ minutes when it has, which is why no round ever
+    # owned it by hand and the chain carried only `--check`.
+    ("etf_book_phase_atlas_write",
+     ["python", "scripts/etf_book_phase_atlas.py", "refresh"]),
     ("etf_book_phase_atlas", ["python", "scripts/etf_book_phase_atlas.py", "--check"]),
     # r1351: the atlas measured ONE arm (the production toll). r1163 (bm-a) priced the three
     # stockable follow-ups as variants of the same grid -- buffer k=0.05, 5bp/side, 20bp/side --
@@ -1763,6 +1775,11 @@ LEGS = [
     # same frozen gate, after forcing the control arm to reproduce the published
     # calendar rows. `check` re-derives every published verdict from the receipt's own
     # rows; it does not reprice the panel, so it stays milliseconds (r1290 class).
+    # r1921: and that is exactly why it needs a writer -- the receipt sat at 2026-11-06
+    # while the panel ran to 2026-11-20, and every sentence it printed still re-derived
+    # from itself. The gate is the panel clock: 9.5s no-op, 51s twelve-arm repricing.
+    ("concentration_levers_write",
+     ["python", "scripts/etf_book_concentration_levers.py", "refresh"]),
     ("concentration_levers",
      ["python", "scripts/etf_book_concentration_levers.py", "check"]),
     # r1462: concentration_levers recommended exactly one arm (rebalance 10 bars, ADMIT at
@@ -1771,6 +1788,9 @@ LEGS = [
     # assumptions, with the frozen criteria and the control book's own phase dependence
     # printed. `check` re-derives every cell verdict and the cost arithmetic from the
     # receipt's own rows (0.2s, no repricing).
+    # r1921: same writer gap, same gate -- 11.4s no-op, 68s five-phase repricing.
+    ("rebal_adoption_write",
+     ["python", "scripts/etf_book_rebal_adoption.py", "refresh"]),
     ("rebal_adoption",
      ["python", "scripts/etf_book_rebal_adoption.py", "check"]),
     # r1463: the whole permission arc (r1451..r1459) prices how BIG the order may be and
@@ -2165,6 +2185,12 @@ LEGS = [
     # the adoption verdict FROM the receipt's own five conditions and re-checks the year-table
     # identity against the published calibers, so a hand-edited verdict or a drifted series
     # turns red instead of leaving "the reason may be switched" on disk describing older data.
+    # r1921: only `check` was on the chain, so the adoption receipt sat 327.7h old while its
+    # own five conditions re-derived perfectly from its own rows. The writer is 1.2s and
+    # self-gating (it re-prices the year table only when the calibers moved), so it runs
+    # unconditionally ahead of the check that reads it.
+    ("refusal_caliber_adoption_write",
+     ["python", "scripts/etf_book_admission_refusal_caliber_adoption.py", "run"]),
     ("refusal_caliber_adoption",
      ["python", "scripts/etf_book_admission_refusal_caliber_adoption.py", "check"]),
     # r1433: four rounds went into the RULER that refuses the book and none into the dial the
@@ -2187,6 +2213,13 @@ LEGS = [
     # through the history. It refuses a receipt whose verdict contradicts its own flags
     # (a PHASE word on a tail reading, an UNDECIDABLE on a resolvable difference) and one
     # whose two reciprocal k gaps disagree (0.1s, JSON reads, no repricing).
+    # r1921: and it re-derives itself. The check re-derives the flags from the receipt's
+    # own rows, so a receipt priced on 2026-11-06 re-derived perfectly while the panel
+    # ran to 2026-11-20 (r1322/r1850 class: self-consistency is not freshness). The
+    # writer is behind a panel-clock no-op gate -- 9.7s when the panel has not moved,
+    # 49.5s when it has.
+    ("beta_paths_write",
+     ["python", "scripts/etf_book_beta_paths.py", "refresh"]),
     ("beta_paths",
      ["python", "scripts/etf_book_beta_paths.py", "check"]),
     # r1477: beta_paths measured that the ruler carries 10.4pp of its own k-noise, so the
@@ -2195,6 +2228,11 @@ LEGS = [
     # it, whose zones are unordered, or whose lens was not the window the noise was
     # measured on; it also refuses a cap verdict that contradicts its own two arms (0.1s,
     # JSON reads, no repricing).
+    # r1921: same writer gap, same gate -- the band is frozen but the measured noise and
+    # the cap verdict are not, so the face was describing a 2026-11-06 book from a
+    # 2026-11-20 panel. 9.5s no-op, 43.1s when it must actually re-price.
+    ("sizing_prereg_write",
+     ["python", "scripts/etf_book_sizing_prereg.py", "refresh"]),
     ("sizing_prereg",
      ["python", "scripts/etf_book_sizing_prereg.py", "check"]),
     # r1331: E196 answers the question E190 left open -- whether the month the
