@@ -2709,6 +2709,16 @@ def main() -> int:
              "scripts/etf_book_open_gap.py", ["selftest"]),
             ("product: etf_book_open_gap (band re-derived from the ticket's own panels)",
              "scripts/etf_book_open_gap.py", ["check"]),
+            # r1907: the card and the executable sheet quote a width whose licence lives on a
+            # face the chain rebuilds AFTER them, so the readers lag every time the family's
+            # verdict moves (r1905: ONE_WORLD on the family, none on the card). The legs pin
+            # the probe's two honest states (a family face newer than either reader is STALE;
+            # an absent family is "cannot compare", never ok) and that the chain's paid refresh
+            # is the one that re-emits the two writers.
+            ("product: etf_book_reader_faces (reader faces vs the width family's own clock)",
+             "scripts/etf_book_reader_faces.py", ["selftest"]),
+            ("product: etf_book_reader_faces (live pair says ok or names which reader lags)",
+             "scripts/etf_book_reader_faces.py", ["check"]),
             # r1830: the CEO page has quoted the capacity-at-size face since r1827 while the
             # face had no producer -- the reader's reading was whatever ticket a human last
             # ran it on (r1282 class). The legs pin the two things that make the pairing
@@ -12626,6 +12636,54 @@ def main() -> int:
                   not _bad33, "; ".join(_bad33)[:220] or _i33)
     except Exception as e:
         check("product: the CEO page prices the carry book's zero (funding line)",
+              False, repr(e)[:160])
+    # ---- r1908: the book's idle cash is priced on the page the CEO opens -----
+    # The face published ADMIT (+0.58pp / ￥5,800 per million per year) but the
+    # page printed nothing about it, so a reader could not tell whether the
+    # engine's flat 0% was a choice or a measurement (r1782: the product is the
+    # sentence on the reader's page, not the JSON).  Judged against the face's
+    # own numbers, and the missing-face branch must print no number at all.
+    try:
+        _icf35 = os.path.join(PATHS.results_dir, "etf_book_idle_cash.json")
+        _lu35 = os.path.join(PATHS.root, "docs", "live_usage", "LIVE-latest.md")
+        _bad35 = []
+        if not os.path.exists(_icf35):
+            _bad35.append("results/etf_book_idle_cash.json missing")
+        elif not os.path.exists(_lu35):
+            _bad35.append("docs/live_usage/LIVE-latest.md missing")
+        else:
+            with open(_icf35, encoding="utf-8") as _fh35:
+                _ic35 = json.load(_fh35)
+            _rd35 = _ic35.get("readings") or {}
+            _vr35 = _ic35.get("verdict")
+            with open(_lu35, encoding="utf-8") as _fh35:
+                _md35 = _fh35.read()
+            if "书里那部分现金要不要算钱" not in _md35:
+                _bad35.append("the page has no idle-cash line")
+            if _vr35 and _vr35 not in _md35:
+                _bad35.append("verdict %r not on the page" % _vr35)
+            for _k35, _tpl35 in (("cagr_without_pct", "{:.2f}%"),
+                                 ("cagr_with_pct", "{:.2f}%")):
+                _v35 = _rd35.get(_k35)
+                if _v35 is None:
+                    _bad35.append("%s missing from the face" % _k35)
+                elif _tpl35.format(_v35) not in _md35:
+                    _bad35.append("%s=%s not on the page"
+                                  % (_k35, _tpl35.format(_v35)))
+            _g35 = _rd35.get("cagr_gain_pp")
+            if _g35 is not None and "{:+.2f}pp".format(_g35) not in _md35:
+                _bad35.append("the pp gap %s is not on the page"
+                              % "{:+.2f}pp".format(_g35))
+            _cny35 = _rd35.get("cny_per_year_on_1m")
+            if _cny35 is not None and "{:,.0f}".format(_cny35) not in _md35:
+                _bad35.append("the money per million is not on the page")
+            _gen35 = _ic35.get("asof")
+            if _gen35 and _gen35 not in _md35:
+                _bad35.append("the section does not self-stamp (r1781)")
+        check("product: the CEO page prices the book's idle cash (r1908)",
+              not _bad35, "; ".join(_bad35)[:220])
+    except Exception as e:
+        check("product: the CEO page prices the book's idle cash (r1908)",
               False, repr(e)[:160])
     # ---- r1784: the CEO page carries the executable sheet's own rows --------
     # ⑥ answered "how has the book done" and never "what does following it mean

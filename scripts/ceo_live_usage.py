@@ -223,6 +223,12 @@ CARRY_OPEN_REL = "results/idx_fut_carry_open_capital.json"
 # first will fund the book on a day the second says to wait.
 CARRY_TIMING_JSON = os.path.join(ROOT, "results", "idx_fut_basis_timing.json")
 CARRY_TIMING_REL = "results/idx_fut_basis_timing.json"
+# r1908: the ETF book de-levers into cash about 30% of the time and the engine prices
+# that cash at 0, while the desk already prices the same cash at the repo rate.  The
+# face answers "what is the book worth with its idle sleeve paid" -- a number that was
+# published (ADMIT, +0.58pp) but never reached the page the CEO opens (r1782 family).
+IDLE_CASH_JSON = os.path.join(ROOT, "results", "etf_book_idle_cash.json")
+IDLE_CASH_REL = "results/etf_book_idle_cash.json"
 # r1819: the funding line and the timing rule were both on the page, but neither said
 # whether a *broker's margin* -- a floor that has nothing to do with the 8% risk dial --
 # could be the thing that actually decides the lot size.  Until now the page implied the
@@ -820,6 +826,53 @@ def _etf_book_period_face():
             "generated": d.get("generated"),
             "cutoff": d.get("evidence_cutoff"),
             "pre": a, "same_universe_post": b, "full_post": c}
+
+
+def _idle_cash_face():
+    """r1908: what the book is worth when its idle sleeve is paid the repo rate.
+
+    The ETF book de-levers into cash whenever the score says defence, and the engine
+    prices that cash at 0%.  The desk already prices the same cash at the repo rate,
+    so the question "is 30% of the time worth nothing?" has an answer that was
+    published (ADMIT, +0.58pp) but never reached this page -- the reader saw the
+    headline and could not tell whether the flat 0% was a modelling choice or a
+    measurement.  Three rules, same family as the carry blocks:
+
+      * a missing face prints no number at all (r98: unknown is not zero);
+      * the reproducibility gap (`cash_vehicle_gap_bp`) is read off the face, never
+        retyped -- that gap is what separates ADMIT from the 0.78bp false drift a
+        rolled window once read (r1907);
+      * both the verdict and the size of the gap are printed, because "ADMIT" alone
+        does not say how much money is at stake (r1779).
+    """
+    d = _read_json(IDLE_CASH_JSON)
+    if not d:
+        return {"present": False, "path": IDLE_CASH_REL,
+                "note": "闲置现金面未产出（缺面不读 0）"}
+    r = d.get("readings") or {}
+    if r.get("cagr_with_pct") is None or not d.get("verdict"):
+        return {"present": False, "path": IDLE_CASH_REL,
+                "note": "闲置现金面在册但无读数（不完整面不冒充）"}
+    return {
+        "present": True,
+        "path": IDLE_CASH_REL,
+        "verdict": d.get("verdict"),
+        "cagr_without_pct": r.get("cagr_without_pct"),
+        "cagr_with_pct": r.get("cagr_with_pct"),
+        "cagr_gain_pp": r.get("cagr_gain_pp"),
+        "sharpe_without": r.get("sharpe_without"),
+        "sharpe_with": r.get("sharpe_with"),
+        "maxdd_without_pct": r.get("maxdd_without_pct"),
+        "maxdd_with_pct": r.get("maxdd_with_pct"),
+        "idle_share_median": r.get("idle_share_median"),
+        "bars_with_cash": r.get("bars_with_cash"),
+        "bars": r.get("bars"),
+        "cny_per_year_on_1m": r.get("cny_per_year_on_1m"),
+        "cash_vehicle_net_pct": r.get("cash_vehicle_net_pct_on_window"),
+        "gap_bp": r.get("cash_vehicle_gap_bp"),
+        "evidence_cutoff": d.get("evidence_cutoff"),
+        "source_generated": d.get("asof"),
+    }
 
 
 def _carry_book_face():
@@ -2341,6 +2394,7 @@ def build_payload(day: str) -> dict:
         "etf_capacity_at_size": _etf_capacity_at_size_face(),
         "etf_punctuality": _etf_punctuality_face(),
         "etf_open_gap": _etf_open_gap_face(),
+        "idle_cash": _idle_cash_face(),
         "book_identity": _book_identity_face(),
         "carry_book": _carry_book_face(),
         "carry_timing": _carry_timing_face(),
@@ -3668,6 +3722,54 @@ def render_md(p: dict) -> str:
         L.append(
             "    - 出处：`{}`（票面 {}·as_of {}·换腿门槛与年化上限都是冻结常量）".format(
                 ETF_PREMIUM_CHOICE_REL, _pc.get("ticket"), _pc.get("as_of")))
+    # ---- r1908: the blocks above price what each leg costs and what the premium
+    # costs; this one prices the cash the book sits in whenever the score says
+    # defence.  The engine pays that cash 0%, which reads like a measurement until
+    # the page prints the arm that pays it the repo rate.
+    _ic = p.get("idle_cash") or {}
+    if not _ic.get("present"):
+        L.append("  - **书里那部分现金要不要算钱**：{}——今天不印数".format(
+            _ic.get("note") or "闲置现金面未产出（缺面不读 0）"))
+    else:
+        L.append("  - **书里那部分现金要不要算钱**：判词 **{}**".format(
+            _ic.get("verdict")))
+        _cw, _cp = _ic.get("cagr_without_pct"), _ic.get("cagr_with_pct")
+        if None not in (_cw, _cp):
+            L.append(
+                "    - 引擎现在按 0% 记：年化 **{:.2f}%** / 夏普 {} / 回撤 {}；"
+                "同一条规则、同一条现金路径、只把闲置资金按回购净价 {}% 记息："
+                "年化 **{:.2f}%** / 夏普 {} / 回撤 {} → **{:+.2f}pp**".format(
+                    _cw,
+                    "{:.3f}".format(_ic["sharpe_without"])
+                    if _ic.get("sharpe_without") is not None else "?",
+                    "{:.2f}%".format(_ic["maxdd_without_pct"])
+                    if _ic.get("maxdd_without_pct") is not None else "?",
+                    "{:.2f}".format(_ic["cash_vehicle_net_pct"])
+                    if _ic.get("cash_vehicle_net_pct") is not None else "?",
+                    _cp,
+                    "{:.3f}".format(_ic["sharpe_with"])
+                    if _ic.get("sharpe_with") is not None else "?",
+                    "{:.2f}%".format(_ic["maxdd_with_pct"])
+                    if _ic.get("maxdd_with_pct") is not None else "?",
+                    _ic.get("cagr_gain_pp") or 0.0))
+        if _ic.get("bars_with_cash") and _ic.get("bars"):
+            _cny = _ic.get("cny_per_year_on_1m")
+            L.append(
+                "    - 为什么这不是假设：这本书 {} 根 bar 里有 {} 根持着现金"
+                "（中位闲置份额 {}%）{}".format(
+                    _ic["bars"], _ic["bars_with_cash"],
+                    "{:.1f}".format(_ic["idle_share_median"] * 100)
+                    if _ic.get("idle_share_median") is not None else "?",
+                    "；折成钱＝每 100 万每年 **￥{}**".format(
+                        "{:,.0f}".format(_cny)) if _cny is not None else ""))
+        if _ic.get("gap_bp") is not None:
+            L.append(
+                "    - 复现检查：回购利率面自己的发布值与本窗口重算差 **{:.4f}bp**"
+                "（冻结窗口对账；滚动窗口曾读出 0.78bp 的假漂移→那一次判 REFUSE，"
+                "所以这一节只在冻结窗上判）".format(_ic["gap_bp"]))
+        L.append("    - 出处：`{}`｜generated {}｜cutoff {}".format(
+            _ic.get("path"), _ic.get("source_generated") or "面未自带",
+            _ic.get("evidence_cutoff") or "?"))
     L.append("")
     L.append("## ⑦ 指数期货 carry 书 · 开仓资金线（纯读出）")
     L.append("")
@@ -4915,6 +5017,31 @@ def selftest() -> int:
         _md4 = render_md(_deg4)
         check("a missing timing face blocks funding instead of reading as out-of-band (r1787)",
               "时机这一半今天读不到" in _md4 and "不在带内" not in _md4)
+        # r1908: the idle-cash arm. Three legs, same family: the verdict and its size
+        # reach the page; the reproducibility gap is the face's own number; and a
+        # missing face says "I could not read it" rather than letting 0% stand as a
+        # measurement (r98).
+        _ic1 = p1.get("idle_cash") or {}
+        if not _ic1.get("present"):
+            print("  [SKIP] idle cash: the face is absent")
+        else:
+            check("the page says whether idle cash is paid (r1908)",
+                  _ic1.get("verdict") in md1
+                  and "书里那部分现金要不要算钱" in md1)
+            check("the idle-cash arm prints both years and the gap in pp (r1908)",
+                  "{:.2f}%".format(_ic1["cagr_without_pct"]) in md1
+                  and "{:.2f}%".format(_ic1["cagr_with_pct"]) in md1
+                  and "{:+.2f}pp".format(_ic1["cagr_gain_pp"]) in md1)
+            check("the idle-cash gap is read off the face, never typed (r1908)",
+                  _ic1.get("gap_bp") is not None
+                  and "{:.4f}bp".format(_ic1["gap_bp"]) in md1)
+            _deg5 = json.loads(json.dumps(p1))
+            _deg5["idle_cash"] = {"present": False, "path": IDLE_CASH_REL,
+                                  "note": "闲置现金面未产出（缺面不读 0）"}
+            _md5 = render_md(_deg5)
+            check("a missing idle-cash face prints no number (r1908)",
+                  "闲置现金面未产出" in _md5 and "{:+.2f}pp".format(
+                      _ic1["cagr_gain_pp"]) not in _md5)
         # r1819: the margin arm is the second floor under the same number. Three legs:
         # the verdict reaches the page, the breakeven rate comes off the face (not typed),
         # and a missing margin face says "I could not check the broker's floor" rather

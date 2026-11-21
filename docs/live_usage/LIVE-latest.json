@@ -2,7 +2,7 @@
  "schema": "ceo_live_usage_v1_9",
  "ticket": "T-202609-28-105",
  "day": "2026-11-21",
- "generated": "2026-11-21T09:58:43",
+ "generated": "2026-11-21T11:18:30",
  "market": {
   "state": "RED",
   "asof": "2026-11-20",
@@ -516,7 +516,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 64836.9
+    "last_append_age_min": 64916.7
    },
    {
     "family": "FUND-VALUE-P1",
@@ -524,7 +524,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 65681.4
+    "last_append_age_min": 65761.2
    },
    {
     "family": "FUND-DIVLOWVOL-P1",
@@ -532,7 +532,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 62474.7
+    "last_append_age_min": 62554.5
    }
   ]
  },
@@ -622,7 +622,7 @@
   "file": "TICKET-2026-11-20.json",
   "bar": "2026-11-20",
   "decision_bar": "2026-11-20",
-  "generated": "2026-11-21T09:51:27+08:00",
+  "generated": "2026-11-21T10:41:05+08:00",
   "rows": [
    {
     "symbol": "510760",
@@ -1105,7 +1105,7 @@
   "input_order": {
    "derived": "results/etf_book_order/latest.json",
    "sentence": "",
-   "generated": "2026-11-21T08:43:04+08:00",
+   "generated": "2026-11-21T10:30:01+08:00",
    "lag_sec": null,
    "state": "FRESH",
    "pairs_compared": 2
@@ -1662,6 +1662,26 @@
    "成本那一行是本面按票面自己的 8.0bp/边、双边算的；今天若是换仓（买卖各一半），基数比整张铺满单小"
   ]
  },
+ "idle_cash": {
+  "present": true,
+  "path": "results/etf_book_idle_cash.json",
+  "verdict": "ADMIT",
+  "cagr_without_pct": 11.16,
+  "cagr_with_pct": 11.74,
+  "cagr_gain_pp": 0.58,
+  "sharpe_without": 1.101,
+  "sharpe_with": 1.153,
+  "maxdd_without_pct": -10.56,
+  "maxdd_with_pct": -10.47,
+  "idle_share_median": 0.2922,
+  "bars_with_cash": 1407,
+  "bars": 1667,
+  "cny_per_year_on_1m": 5800.0,
+  "cash_vehicle_net_pct": 1.7712,
+  "gap_bp": 0.0049,
+  "evidence_cutoff": "2026-11-20",
+  "source_generated": "2026-11-21T10:57:17"
+ },
  "book_identity": {
   "path_ledger": "results/etf_book_forward/LEDGER.json",
   "path_ticket": "results/etf_book_order/TICKET-2026-11-20.json",
@@ -1998,7 +2018,7 @@
    }
   },
   "evidence_cutoff": "2026-11-20",
-  "source_generated": "2026-11-21T09:10:54"
+  "source_generated": "2026-11-21T11:17:27"
  },
  "carry_marks": {
   "present": true,
@@ -2077,7 +2097,7 @@
  },
  "data_lanes": {
   "status": "ok",
-  "as_of": "2026-11-21T09:08:34",
+  "as_of": "2026-11-21T11:15:14",
   "verdict": "attention",
   "counts": {
    "retired": 1,
@@ -2092,7 +2112,7 @@
     "lane": "heat",
     "host": "bm-a",
     "host_alive": false,
-    "host_age_h": 61.26,
+    "host_age_h": 63.37,
     "state": "behind_1d",
     "tail": "2026-11-19",
     "expected": "2026-11-20",
@@ -2106,7 +2126,7 @@
     "lane": "lhb",
     "host": "bm-a",
     "host_alive": false,
-    "host_age_h": 61.26,
+    "host_age_h": 63.37,
     "state": "behind_1d",
     "tail": "2026-11-19",
     "expected": "2026-11-20",
@@ -2120,7 +2140,7 @@
     "lane": "lhb_inst",
     "host": "bm-c",
     "host_alive": true,
-    "host_age_h": 0.24,
+    "host_age_h": 0.28,
     "state": "behind_1d",
     "tail": "2026-11-19",
     "expected": "2026-11-20",
@@ -2134,7 +2154,7 @@
     "lane": "repo",
     "host": "bm-a",
     "host_alive": false,
-    "host_age_h": 61.26,
+    "host_age_h": 63.37,
     "state": "behind_1d",
     "tail": "2026-11-19",
     "expected": "2026-11-20",
@@ -2147,7 +2167,7 @@
   ],
   "hosts": {
    "bm-a": {
-    "age_h": 61.26,
+    "age_h": 63.37,
     "alive": false,
     "silent_waiting": [],
     "silent_taken_over": {
@@ -2158,7 +2178,7 @@
     }
    },
    "bm-b": {
-    "age_h": 524.42,
+    "age_h": 526.54,
     "alive": false,
     "silent_waiting": [],
     "silent_taken_over": {
