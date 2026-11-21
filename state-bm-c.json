@@ -2129,18 +2129,20 @@
     "what": "冒烟 282 腿全绿（仍在跑）·链 196/316 推进中；选择性发布 9 件静默稳定面（atlas 家族+signflip+rule_null），19 件正在被链重写的面留给后续轮",
     "verdict": "PUBLISHED_QUIET_FACES_ONLY_AND_SMOKE_IS_CLEAN_SO_FAR",
     "verify": {
-      "smoke_partial": "pass=282 fail=0 unverified=0（suite 仍在跑 pid 50664，未宣称全绿）",
+      "smoke_partial": "pass=617 fail=0 unverified=2（跑至轮尾仍在跑；两条 UNVERIFIED 均为 r1861 的 UNVERIFIED_SNAPSHOT_MOVED：dashboard 腿 marks_coverage/dashboard_status/t35_open_fill_verify 与本轮开始后被重写，fleet panel tail 腿 data_lane_freshness/FRESHNESS 同因）——第三态在链在飞窗口首次成规模生效，零假红",
       "chain": "results/_s6chain_progress.bm-c.jsonl i=196 n=316 rc=0",
       "attrition": "CLEAN 4 账本 3 历史缩行 healed",
       "orphan": "orphans=0 py_faces=11",
       "orders": "115 files vs ack 271 -> unacked 0",
       "decisions": "origin sha256 1f731ff179ce != watermark 79e3083b85c1 -> 第 78 批（2026-11-19 06:00）已读，涉本仓仅 chronic 行（只审不处），零执行项，水位前移",
-      "satengine": "status last_verdict=idle queue_depth=0 claimable_n=0（活）"
+      "satengine": "status last_verdict=idle queue_depth=0 claimable_n=0（活）",
+      "s7": "loop task pin=0 current=0 no-op；watchdog S4U flip 失败（拒绝访问=需管理员提权），任务留在默认 principal，记 LogonType 回归面"
     },
     "product": {
       "ceo_page": "LIVE-2026-11-21.md 10:28 重生（链腿）——含隔夜价差带 ￥2,424 vs 双边成本 ￥696",
       "new_faces": "etf_book_open_gap（隔夜带 3.49x 手续费·OVERNIGHT_BAND_DWARFS_THE_FEE）/ cut_order_gap（ORDER_WITHIN_PERMISSION）/ rebalance_permission（KEEP_SUPPORTED_BY_INDEPENDENT_PATH）三个新可下单性面已上页"
     },
-    "ts": "2026-11-21T10:30:12+08:00"
+    "ts": "2026-11-21T10:33:40+08:00",
+    "commit": "083084b5c7"
   }
 }
