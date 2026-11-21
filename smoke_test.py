@@ -75,6 +75,18 @@ def check_unsettled(name: str, moved: list, detail: str = ""):
                       % (",".join(moved), (" | " + detail) if detail else ""))
 
 
+def _forgive_trip_only(bad: list, moved: list) -> bool:
+    """The carry-zero leg may forgive exactly one reading, and only while a face moved.
+
+    r1904: the S6 chain writes the funding face at leg ~51 and the CEO page that
+    quotes it at leg ~224. A suite run inside that window can only report "the
+    page is a trip behind the face it quotes" -- that is the run itself, not a
+    defect (r1861 family). Every other reading (the decision token, a rung, an
+    executable-vs-ruler gap) stays red even when the faces moved.
+    """
+    return bool(bad) and bool(moved) and all("hides which trip" in b for b in bad)
+
+
 def _perf_summary(ceiling=None, top: int = 5):
     """What the suite cost, per leg, as text the summary and the log both carry.
 
@@ -876,6 +888,22 @@ def main() -> int:
               False, repr(_e)[:160])
     finally:
         SUITE_T0[:] = _saved_t0
+    # r1904: the carry-zero forgiveness is a guard that decides between "the run
+    # moved a face" and "the page really is behind". A guard nobody can make fail
+    # shrinks quietly (r1282 family), so all three directions are pinned here:
+    # trip-stamp + movement forbids a red, while a real gap or a still run stays red.
+    try:
+        _trip = ["the page hides which trip wrote the funding line"]
+        _real = ["the page does not print the decision (WITHDRAW_FROM_TICKET)"]
+        check("harness: the funding leg forgives a trip stamp, never a real gap",
+              _forgive_trip_only(_trip, ["LIVE-latest.md"])
+              and not _forgive_trip_only(_real, ["LIVE-latest.md"])
+              and not _forgive_trip_only(_trip, [])
+              and not _forgive_trip_only([], ["LIVE-latest.md"]),
+              "stamp+move=forgive | real gap=red | no move=red | clean=not forgiven")
+    except Exception as _e:
+        check("harness: the funding leg forgives a trip stamp, never a real gap",
+              False, repr(_e)[:160])
     # r1877: the cash-quote split is a guard that decides whether a page-vs-ticket
     # disagreement is a defect or a quote generation gap. r1876 wired it into the leg but
     # left it unproven -- and this round's record red came from a suite that started
@@ -12584,8 +12612,18 @@ def main() -> int:
             _bad33.append("ceo_live_usage runs before the funding line it quotes")
         _i33 = ("0 lots beside the rung that would buy one (%s)"
                 % _wd33 if not _bad33 else "")
-        check("product: the CEO page prices the carry book's zero (funding line)",
-              not _bad33, "; ".join(_bad33)[:220] or _i33)
+        # r1904: the funding face (chain leg ~51) and this page (leg ~224) are
+        # written in that order, so a suite run in between reads "the page is a
+        # trip behind". Only that stamp, and only while one of the two faces
+        # moved under this run, closes UNVERIFIED; anything else stays red.
+        _mv33 = _face_moved(_co33p, _lu33p)
+        if _forgive_trip_only(_bad33, _mv33):
+            check_unsettled(
+                "product: the CEO page prices the carry book's zero (funding line)",
+                _mv33, "; ".join(_bad33)[:180])
+        else:
+            check("product: the CEO page prices the carry book's zero (funding line)",
+                  not _bad33, "; ".join(_bad33)[:220] or _i33)
     except Exception as e:
         check("product: the CEO page prices the carry book's zero (funding line)",
               False, repr(e)[:160])

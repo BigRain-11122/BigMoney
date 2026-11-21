@@ -17469,3 +17469,13 @@ results/etf_book_entry_price.json + .md、链腿 entry_price_write（0.9s）、�
 **实锚**：12 格总 Δ **-20.42pp**、median **-1.14pp**、涨格 2/12 全在 band 内（band 9.04/9.0pp×2）；面 
 results/etf_book_phase_atlas_arms.json 新块 cost_toll，md 
 research/ETF_BOOK_PHASE_ATLAS_ARMS.md 新节「成本档 5bp → 20bp：多收的 15bp 是不是白收」。
+
+## E-20261121-r1904 判例：「串行链上的『消费者落后一趟』是运行态，不是缺陷」
+
+**形状**：`smoke_test.py` 的 `the CEO page prices the carry book's zero (funding line)` 腿比对两张面——资金面 `results/idx_fut_carry_open_capital.json`（S6 链腿 ~51 写）与 CEO 页 `docs/live_usage/LIVE-latest.md`（链腿 ~224 写）。链跑到 i=121 时跑套件，资金面已 **09:15** 重生而页面停在 **08:42**，腿断言的 `generated` 行程戳在页上找不到 → FAIL。每个链周期都会在这个窗口产一次同形假红；而 r1789 已判过「永久红会训练读者把真缺陷当背景噪声」。
+
+**正法**：给它第三态，而不是放宽整条腿——新增 `_forgive_trip_only(bad, moved)`：只有当失败项**全部**是「页面没印行程戳」**且**两面中至少一面在本次运行开始后被重写（`_face_moved`）才判 `UNVERIFIED_SNAPSHOT_MOVED`；决策 token／档位／执行手数对不上，即使面在动仍红。配套 harness 腿四向钉死：stamp+move=True、real+move=False、stamp+still=False、clean=False。
+
+**How**：①两条腿读的两张面若在链里是**写序前后关系**，先问「套件会不会跑在这两张面的写之间」——会，则该腿的每一次红都要先看是不是行走本身；②放宽必须**按文案窄口**（这里是 `hides which trip` 一条），且必须**连带 movement 证据**，否则守卫会悄悄长成「忽略不一致」；③任何新放宽都要自带 harness 腿把「该红的方向」也实验证出来（r1861 族），否则它只会在真缺陷上静默。
+
+**实锚**：本轮重生 `ceo_live_usage` 后六项断言逐条复算 LEG GREEN（`WITHDRAW_FROM_TICKET` / 1,124,479 / 1,152,596 / lots 0==ruler 0 / 行程戳 / 链序 51<224）；r1903 全量记录 `results/_smoke_r1903.out` = 730/731 PASS 1 FAIL（即本条）。

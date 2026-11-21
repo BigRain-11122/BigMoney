@@ -1,7 +1,7 @@
 {
  "evidence_cutoff": "2026-11-20",
  "beta_target": 0.2,
- "generated": "2026-11-21T08:04:54+08:00",
+ "generated": "2026-11-21T09:51:27+08:00",
  "permission": {
   "status": "within_permission",
   "k_now": 0.435003,
@@ -515,7 +515,7 @@
     "pct": 1.7712,
     "annual_cny": 10012.0,
     "source": "etf_book_idle_cash.json",
-    "asof": "2026-11-21T07:21:50",
+    "asof": "2026-11-21T09:13:40",
     "book_cagr_without_pct": 11.16,
     "book_cagr_with_pct": 11.74,
     "basis": "as_coded",
@@ -588,7 +588,7 @@
   "withdrawn_now": [],
   "withdrawal_note": "ledger withdrew 1 bar(s) at 2026-11-09 23:54:02 because the price panel then ended 2026-11-06 (2026-11-09); the panel has since carried 2026-11-09 again and that ledger row is live -- the withdrawal stays on record but it is not this sheet's pricing bar",
   "reinstatements": {
-   "at": "2026-11-21 08:04:54",
+   "at": "2026-11-21 09:51:27",
    "n_reinstated": 1,
    "rewritten": [],
    "verbatim_identical": [
@@ -1696,7 +1696,7 @@
  },
  "next_decision": {
   "artifact": "etf_book_next_decision",
-  "generated": "2026-11-21T08:04:54",
+  "generated": "2026-11-21T09:51:27",
   "evidence_cutoff": "2026-11-20",
   "calendar_source": "data/exchange_calendar.csv",
   "calendar_last": "2026-12-31",
@@ -1853,7 +1853,7 @@
  },
  "swap_freshness": {
   "artifact": "etf_book_swap_freshness",
-  "generated": "2026-11-21T08:04:54",
+  "generated": "2026-11-21T09:51:27",
   "evidence_cutoff": "2026-11-20",
   "calendar_source": "data/exchange_calendar.csv",
   "close_accept_time": "15:30",
@@ -2079,15 +2079,15 @@
    "vol": 0.0891
   },
   "width_effect": {
-   "beta": {
-    "ticket_width_cagr": 0.1038,
-    "card_width_cagr": 0.091,
-    "pp": -1.28
-   },
    "vol": {
     "ticket_width_cagr": 0.1073,
     "card_width_cagr": 0.1113,
     "pp": 0.4
+   },
+   "beta": {
+    "ticket_width_cagr": 0.1038,
+    "card_width_cagr": 0.091,
+    "pp": -1.28
    }
   },
   "rules_differ": true,
@@ -2245,7 +2245,9 @@
      "buffer_k05",
      "buffer_k10",
      "buffer_k20",
-     "buffer_k40"
+     "buffer_k40",
+     "cost05",
+     "cost20"
     ],
     "last": "2026-11-20",
     "bars": 5285,
@@ -2257,8 +2259,6 @@
     "faces": [
      "buffer_k05_cost20",
      "cost0",
-     "cost05",
-     "cost20",
      "cost40"
     ],
     "last": "2026-11-19",
@@ -2273,13 +2273,13 @@
    "buffer_k05",
    "buffer_k10",
    "buffer_k20",
-   "buffer_k40"
+   "buffer_k40",
+   "cost05",
+   "cost20"
   ],
   "withheld": [
    "buffer_k05_cost20",
    "cost0",
-   "cost05",
-   "cost20",
    "cost40"
   ],
   "cost_axis": {
@@ -2287,8 +2287,6 @@
    "withheld": [
     "buffer_k05_cost20",
     "cost0",
-    "cost05",
-    "cost20",
     "cost40"
    ],
    "arms": [
@@ -2336,14 +2334,14 @@
     },
     {
      "arm": "cost05",
-     "verdict": "WORLDS_NOT_COMPARABLE",
-     "readable": false,
+     "verdict": "NOT-SEPARABLE",
+     "readable": true,
      "description": "5bp/side on the whole grid (half the production toll)"
     },
     {
      "arm": "cost20",
-     "verdict": "WORLDS_NOT_COMPARABLE",
-     "readable": false,
+     "verdict": "REJECT",
+     "readable": true,
      "description": "20bp/side on the whole grid (double the production toll)"
     },
     {
@@ -2369,31 +2367,24 @@
   "signflip": {
    "artifact": "results/etf_book_arms_signflip.json",
    "status": "ok",
-   "detail": "3 of 4 published REJECTs stand on their own cells (buffer_k05_cost20, cost20, cost40); the rest are inside sign noise and must not be read as findings",
+   "detail": "2 of 4 published REJECTs stand on their own cells (buffer_k05_cost20, cost40); the rest are inside sign noise and must not be read as findings",
    "n_reject": 4,
-   "n_reject_standing": 3,
+   "n_reject_standing": 2,
    "standing": [
     "buffer_k05_cost20",
-    "cost20",
     "cost40"
    ],
    "overturned": [
-    "buffer_k02",
     "buffer_k05",
-    "buffer_k10",
-    "buffer_k20",
-    "buffer_k40",
     "cost0",
-    "cost05"
+    "cost05",
+    "cost20"
    ],
    "overstated": [
-    "buffer_k05"
+    "buffer_k05",
+    "cost20"
    ],
    "understated": [
-    "buffer_k02",
-    "buffer_k10",
-    "buffer_k20",
-    "buffer_k40",
     "cost0",
     "cost05"
    ],
@@ -2401,9 +2392,9 @@
     {
      "arm": "buffer_k02",
      "frozen_label": "NOT-SEPARABLE",
-     "verdict": "SPLIT",
+     "verdict": "NOT-SEPARABLE",
      "sign_cells": 12,
-     "cells_positive": 10
+     "cells_positive": 7
     },
     {
      "arm": "buffer_k05",
@@ -2422,23 +2413,23 @@
     {
      "arm": "buffer_k10",
      "frozen_label": "NOT-SEPARABLE",
-     "verdict": "BETTER",
+     "verdict": "NOT-SEPARABLE",
      "sign_cells": 12,
-     "cells_positive": 11
+     "cells_positive": 7
     },
     {
      "arm": "buffer_k20",
      "frozen_label": "NOT-SEPARABLE",
-     "verdict": "BETTER",
+     "verdict": "NOT-SEPARABLE",
      "sign_cells": 12,
-     "cells_positive": 11
+     "cells_positive": 8
     },
     {
      "arm": "buffer_k40",
      "frozen_label": "NOT-SEPARABLE",
-     "verdict": "SPLIT",
+     "verdict": "NOT-SEPARABLE",
      "sign_cells": 12,
-     "cells_positive": 10
+     "cells_positive": 9
     },
     {
      "arm": "cost0",
@@ -2457,9 +2448,9 @@
     {
      "arm": "cost20",
      "frozen_label": "REJECT",
-     "verdict": "WORSE",
+     "verdict": "NOT-SEPARABLE",
      "sign_cells": 12,
-     "cells_positive": 0
+     "cells_positive": 2
     },
     {
      "arm": "cost40",
@@ -2486,8 +2477,6 @@
    "family": {
     "stale_arms": [
      "cost0",
-     "cost05",
-     "cost20",
      "cost40",
      "buffer_k05_cost20"
     ],
@@ -2495,24 +2484,23 @@
    },
    "detail": "the run itself left 2 panels across its own faces (2e875bf4, 7d93f5cd)",
    "artifact": "results/etf_book_atlas_arms_rebuild.json",
-   "generated": "2026-11-20T18:02:26+0800",
-   "elapsed_sec": 929.3,
+   "generated": "2026-11-21T08:33:54+0800",
+   "elapsed_sec": 852.1,
    "rebuilt": [
-    "base",
-    "buffer_k02",
-    "buffer_k05"
+    "cost05",
+    "cost20"
    ]
   },
   "floor_extrapolation": {
    "artifact": "results/etf_book_buffer_floor_readback.json",
    "present": true,
-   "detail": "the fit says +0.327pp at k=0.30 (slope +0.858, intercept +0.070); the harvested arm's own 12 cells say +0.645pp (median); gap +0.318pp against tolerance 0.976pp = 3.0x the fit's largest in-sample residual (0.325pp, floored at 0.05); cell spread of the same arm: -0.505 .. +1.705pp (12 cells), i.e. the median is not the book; the line predicts a point it never saw, on the widest gap it spans -- the ",
-   "verdict": "HOLDS",
+   "detail": "the fit says +0.298pp at k=0.30 (slope +1.047, intercept -0.016); the harvested arm's own 12 cells say +0.645pp (median); gap +0.347pp against tolerance 0.057pp = 3.0x the fit's largest in-sample residual (0.019pp, floored at 0.05); cell spread of the same arm: -0.505 .. +1.705pp (12 cells), i.e. the median is not the book; the line misses the point it never saw by more than its own residual band:",
+   "verdict": "REFUTED",
    "buffer_k": 0.3,
-   "predicted_pp": 0.327,
+   "predicted_pp": 0.298,
    "observed_pp": 0.645,
-   "gap_pp": 0.318,
-   "tolerance_pp": 0.976,
+   "gap_pp": 0.347,
+   "tolerance_pp": 0.057,
    "evidence_cutoff": "2026-10-29"
   }
  },
@@ -3026,8 +3014,8 @@
     "n": 135,
     "t": 2.449911587740772,
     "nonoverlap_obs": 72,
-    "amount_cny": 86328.4,
-    "same_bucket_move_cny": 823.447330195387
+    "amount_cny": 86942.4,
+    "same_bucket_move_cny": 829.3039968397355
    },
    {
     "symbol": "512040",
@@ -3037,8 +3025,8 @@
     "n": 154,
     "t": 1.2184799505606034,
     "nonoverlap_obs": 92,
-    "amount_cny": 86359.0,
-    "same_bucket_move_cny": 577.4429241829977
+    "amount_cny": 86950.5,
+    "same_bucket_move_cny": 581.398012704799
    },
    {
     "symbol": "159655",
@@ -3048,8 +3036,8 @@
     "n": 253,
     "t": 11.39827726106193,
     "nonoverlap_obs": 46,
-    "amount_cny": 86396.4,
-    "same_bucket_move_cny": 2583.9323605141444
+    "amount_cny": 86952.6,
+    "same_bucket_move_cny": 2600.567118199858
    },
    {
     "symbol": "513690",
@@ -3059,8 +3047,8 @@
     "n": 129,
     "t": 1.8093060925702986,
     "nonoverlap_obs": 63,
-    "amount_cny": 86378.4,
-    "same_bucket_move_cny": 906.3657389366911
+    "amount_cny": 86936.4,
+    "same_bucket_move_cny": 912.2208147696153
    },
    {
     "symbol": "159519",
@@ -3070,12 +3058,12 @@
     "n": 110,
     "t": 4.012511028053157,
     "nonoverlap_obs": 35,
-    "amount_cny": 86291.4,
-    "same_bucket_move_cny": 1784.1961682817616
+    "amount_cny": 86972.2,
+    "same_bucket_move_cny": 1798.2726666508484
    }
   ],
   "fwd_missing_legs": [],
-  "fwd_cny_total": 6675.38,
+  "fwd_cny_total": 6721.76,
   "fwd_sample_signature": "3600c87ce854",
   "fwd_sample_legs": [
    "159519",

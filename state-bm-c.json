@@ -63,7 +63,7 @@
   "state": "registered (FOUND)",
   "task": "HQ-ProductionClaim"
  },
- "clock_read": "2026-11-21T06:22:03+08:00",
+ "clock_read": "2026-11-21T10:01:25+08:00",
  "clock_read_source": "local",
  "clock_tz": "+08:00",
  "codely_live_count": 2,
@@ -251,7 +251,7 @@
  "last_round_utc": "2026-11-18T05:16:22+08:00",
  "last_run": "2026-11-15T16:19:25",
  "last_run_at": "2026-10-26T21:20:55+08:00",
- "last_seen": "2026-11-21 02:13:29+0800",
+ "last_seen": "2026-11-21T10:01:25+08:00",
  "last_seen_at": "2026-11-14T11:36:52+08:00",
  "last_task": "futures tail divergence census",
  "last_task_at": "2026-11-19T16:38:11+08:00",
@@ -1258,7 +1258,7 @@
   "watermark": "green: board/pool both empty (pool_ready_count=0, fleet_open_tasks=0), no claimable batch on this host; py_watermark insufficient_history (window n=1, local_batch=1 = this round own suite)"
  },
  "round_label": "r1813",
- "round_no": 1903,
+ "round_no": 1904,
  "round_no_label": "r1821",
  "round_no_landed": 1663,
  "round_note": "r1489: a reinstated bar is re-derived from the panel, not carried over (reinstatement_check + reinstatements.json + sheet paragraph)",
@@ -1864,7 +1864,7 @@
  "takeover_note": "the 2026-11-16 14:05 round was silence-killed at 14:38 with 25 min of no output; it had already written the whole face (14:19) plus card E679 and the CODELY lines, so this 14:40 round took over the closeout instead of redoing science: no script, number or verdict changed here",
  "task": "r1886: 26 smoke reds traced to ONE cause -- the 20:04 ticket moved and its derived chain was never rebuilt; 9 legs stayed red after the first pass and 6 of those were reads taken mid-repair",
  "total_ram_gb": 55.9,
- "ts": "2026-11-21T04:42:01+08:00",
+ "ts": "2026-11-21T10:01:25+08:00",
  "ts_epoch": 1794812499,
  "unverified": [
   "no full suite re-run after the last five repairs (each was re-checked by its own check)",
@@ -1963,16 +1963,16 @@
  "verify_units": "%.2f on the face's own three decimals prints 2.33 for 2.335 and 1.06 for 1.065 (half-to-even); two legs went red on it, fixed by printing the published precision instead of widening the assertion",
  "vram_free_gb": 13.1,
  "vram_total_gb": 16.0,
- "watermark_note": "cpu 57% / py 7% at 09:12 probe; the r1902 chain is running detached (pid 16096)",
- "watermark_verdict": "insufficient_history; open tickets 0; pool ready 0; local_batch=1 was the r1901 suite (closed)",
+ "watermark_note": "cpu 空闲面宽；py 低 = 链腿单线程在跑（pid 16096）；链在飞不入本机 local_batch 计数口径",
+ "watermark_verdict": "healthy(lane) / red=false; open tickets 0; pool ready 0",
  "went_well": "the fix keeps the old states reachable: a card with one unqualified row still takes the position-free path, so no previously published verdict changed meaning",
  "when_well": "the exec panel reused lhb_sellleg verbatim by passing a net-of-cost panel instead of writing a second event study -- the two tables cannot disagree about the quintiles because there is only one implementation",
  "who_did": "bm-c",
- "下个里程碑": "S6 链 316 腿跑完（约 3.5h 估）→ 全量套件记录转绿（pid 4756·窗 ≤24h）",
+ "下个里程碑": "S6 链 316 腿跑完（i=131 起·估 ~2.5h）→ 全量套件记录转绿（窗 ≤24h）",
  "孤儿面": 0,
- "当前任务": "r1903: 三条红的判据逐条复算（不重跑）+ 发布 r1902 链留下的 17 件新代面",
- "当前任务_en": "r1903: re-derive the three reds one by one (not re-run) and publish the 17 faces the r1902 chain left uncommitted",
- "最近实物": "4 张因果/切片面 md + 13 件 json 发布（含三臂 admissible_arms=[] 的负结论·截止 2026-11-20）（2026-11-21 09:4x）",
+ "当前任务": "r1904: 收口 r1903 全量套件的唯一红（CEO 页资金线行程戳）并把这条腿的假红焊成第三态",
+ "当前任务_en": "r1904: close the single red of r1903's full suite (the CEO page's funding-line trip stamp) and weld that leg's false red into the UNVERIFIED state",
+ "最近实物": "docs/live_usage/LIVE-2026-11-21.md（资金线 1,124,479 / 1,152,596 + 面生成时点 2026-11-21T09:15:00+08:00 已上页，CEO 页重生 09:5x）＋ 22 件链稳定面（2026-11-21 09:5x）",
  "r1898": {
   "what": "seat_mde 的控制臂改成在发布截止日上回放，面的 cutoff 改成自己读到的最后一根",
   "verdict": "SEAT_TARGET_NOT_REACHED",
@@ -2084,5 +2084,28 @@
    "meaning": "这三个臂是真关线（同族账面增益为负），照实留在面上，不再进下一轮队列"
   },
   "ts": "2026-11-21T09:42:21+08:00"
+ },
+ "r1904": {
+  "what": "r1903 全量套件 730/731 的唯一红是链在飞中间态：资金面（链腿 ~51）09:15 重生，CEO 页（腿 ~224）停在 08:42，腿断言的 generated 行程戳在页上找不到",
+  "verdict": "RED_WAS_A_RUNNING_CHAIN_NOT_A_DEFECT_AND_THE_LEG_NOW_SAYS_SO",
+  "fix": {
+   "immediate": "重生 scripts/ceo_live_usage.py -> 页面 team stamp 2026-11-21T09:15:00+08:00 在位，六项断言逐条复算 LEG GREEN（decision WITHDRAW_FROM_TICKET / 1,124,479 / 1,152,596 / IC·IM lots 0 == ruler 0 / trip stamp / 链序 51<224）",
+   "structural": "smoke_test.py 新增 _forgive_trip_only(bad, moved)：只有当失败项全部是「页面没印行程戳」且两面中至少一面在本次运行开始后被重写时，判 UNVERIFIED；真分歧（决策 token/档位/执行手数）即使面在动仍红",
+   "harness_leg": "新腿 'harness: the funding leg forgives a trip stamp, never a real gap' 四向钉死：stamp+move=True / real+move=False / stamp+still=False / clean=False（实跑 r1904 全过）"
+  },
+  "verify": {
+   "compile": "py_compile smoke_test.py OK",
+   "predicate": "PREDICATE 3-WAY OK（实跑断言四向）",
+   "orphan": "orphans=0（py_faces=7）",
+   "orders": "fleet/orders 115 件 vs heartbeat orders_ack 271（归一化去 .md）-> 未回执 0",
+   "decisions": "origin/main:docs/decisions.md sha256 79e3083b85c1 == 水位 -> 零新决策行",
+   "chain": "结果面发布 22 件，每件提交前验 age>180s 且 json 解析通过；4 件太新（capital_placement / capacity_rule / capacity_floor_gap / _orphan_face_probe）留给下一轮",
+   "smoke": "全量套件本窗未重跑（924s > 轮窗）；唯一红按腿内断言逐条复算已绿"
+  },
+  "product": {
+   "ceo_page": "LIVE-2026-11-21.md 资金线三要素与行程戳齐全（09:5x 重生）",
+   "guard": "一条从未真正守住的假红变成第三态，链在飞窗口不再训练读者忽略红点"
+  },
+  "ts": "2026-11-21T10:01:25+08:00"
  }
 }
