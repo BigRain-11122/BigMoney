@@ -1,8 +1,8 @@
 {
-  "ts": "2026-11-21T23:37:47",
-  "mode": "refresh incomplete (checkpoint preserved)",
+  "ts": "2026-11-22T03:17:48",
+  "mode": "refresh complete",
   "panel": {
-    "complete": false,
+    "complete": true,
     "cutoff": "2026-11-20",
     "cutoff_is": "max tail across all per/*.csv -- read coverage_pct/coverage_90 before calling the panel current",
     "coverage_pct": 99.8,
@@ -49,27 +49,30 @@
     "9": 392
   },
   "last_refresh": {
-    "todo": 36,
-    "fetched": 36,
-    "appended": 33,
+    "todo": 3,
+    "fetched": 3,
+    "appended": 0,
     "readjusted": 0,
     "readjusted_tail": [],
     "failures_tail": [],
     "failures_n": 0,
     "conn_stopped": false,
-    "elapsed_min": 3.6,
+    "elapsed_min": 0.4,
     "vwap_anchor_max": 0.119501,
     "repull": false
   },
   "quarantined_n": 12,
-  "last_spawn_attempt": "2026-11-21T23:34:06",
-  "settled_n": 5,
+  "last_spawn_attempt": "2026-11-22T03:17:19",
+  "settled_n": 8,
   "settled": [
     "000635",
     "002122",
     "002717",
     "600185",
-    "600567"
+    "600567",
+    "688121",
+    "688496",
+    "688798"
   ],
   "per_files_on_disk": 5221,
   "validation": {
@@ -80,8 +83,8 @@
   "takeover": {
     "owner": "bm-b",
     "by": "bm-c",
-    "reason": "owner bm-b silent 538.9h >= 120min",
-    "ts": "2026-11-21T23:34:06"
+    "reason": "owner bm-b silent 542.6h >= 120min",
+    "ts": "2026-11-22T03:17:19"
   },
   "authority": {
     "lane_owner": "bm-b",
@@ -89,11 +92,11 @@
     "data_face_machine": "bm-c",
     "declared_takeover": true,
     "took_over_by": "bm-c",
-    "took_over_at": "2026-11-21T23:34:06",
-    "reason": "owner bm-b silent 538.9h >= 120min"
+    "took_over_at": "2026-11-22T03:17:19",
+    "reason": "owner bm-b silent 542.6h >= 120min"
   },
   "machine": "bm-c",
-  "spawn_reason": "panel incomplete at cutoff 2026-11-20 (coverage 99.2%, expected 2026-11-20) -> continuation refresh, not a first pull",
+  "spawn_reason": "panel incomplete at cutoff 2026-11-20 (coverage 99.8%, expected 2026-11-20) -> continuation refresh, not a first pull",
   "spawn_mode": "continuation",
   "quarantined": [
     "000005",

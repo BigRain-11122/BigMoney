@@ -1,6 +1,6 @@
 # index-futures carry: what it is worth in risk units
 
-Generated 2026-11-21T23:25:22 · evidence cutoff 2026-11-20 · `scripts/idx_fut_carry_risk.py`
+Generated 2026-11-22T03:07:02 · evidence cutoff 2026-11-20 · `scripts/idx_fut_carry_risk.py`
 
 The roll book (hold the deepest-open-interest contract, switch at the same close) is the one `idx_fut_real_nav` publishes in rupees of carry per year. This page asks the only question that allocates money: at the desk's own 8% volatility target, does that carry buy anything the adopted book does not already buy, and does it move with it?
 

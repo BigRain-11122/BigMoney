@@ -1,7 +1,7 @@
 {
  "face": "etf_book_floor_toll",
- "asof": "2026-11-09T03:49:50+0800",
- "evidence_cutoff": "2026-11-06",
+ "asof": "2026-11-22T04:07:22+0800",
+ "evidence_cutoff": "2026-11-20",
  "criteria": {
   "path_tol": 1e-09,
   "toll_tol_pp": 0.05,
@@ -9,18 +9,18 @@
   "beta_target": 0.2
  },
  "permission": {
-  "permitted_k": 0.393073,
-  "k_now": 0.460253,
-  "cut_k": 0.06718,
-  "decision_date": "2026-11-11",
-  "generated": "2026-11-09T00:12:18+0800",
-  "verdict": "KEEP_STANDS_ON_NON_PATH_ARGUMENT"
+  "permitted_k": 0.435003,
+  "k_now": 0.435003,
+  "cut_k": 0.0,
+  "decision_date": "2026-12-09",
+  "generated": "2026-11-21T12:53:14+0800",
+  "verdict": "KEEP_SUPPORTED_BY_INDEPENDENT_PATH"
  },
  "window": {
   "first": "2020-07-16",
-  "last": "2026-11-06",
-  "bars": 1530,
-  "decisions": 77
+  "last": "2026-11-20",
+  "bars": 1540,
+  "decisions": 78
  },
  "control": {
   "arm": "ticket_k_no_cut",
@@ -32,18 +32,18 @@
  },
  "arms": {
   "ticket_k_no_cut": {
-   "cagr_pct": 7.15,
-   "sharpe": 1.29,
+   "cagr_pct": 6.95,
+   "sharpe": 1.256,
    "mdd_pct": -5.87,
    "vol_pct": 5.69,
    "k_last": 0.464029,
-   "k_mean": 0.36081,
+   "k_mean": 0.36148,
    "k_max": 0.48131,
    "overage": {
-    "n_bars": 1530,
-    "n_over": 490,
-    "max_overage": 0.088237,
-    "mean_overage": 0.023485
+    "n_bars": 1540,
+    "n_over": 500,
+    "max_overage": 0.046307,
+    "mean_overage": 0.01018
    },
    "turnover": {
     "n_moves": 76,
@@ -52,42 +52,42 @@
    "note": "the size the ticket orders today"
   },
   "cap_at_decisions": {
-   "cagr_pct": 6.47,
-   "sharpe": 1.298,
+   "cagr_pct": 6.65,
+   "sharpe": 1.258,
    "mdd_pct": -5.87,
-   "vol_pct": 5.13,
-   "k_last": 0.393073,
-   "k_mean": 0.337325,
-   "k_max": 0.393073,
+   "vol_pct": 5.44,
+   "k_last": 0.435003,
+   "k_mean": 0.351301,
+   "k_max": 0.435003,
    "overage": {
-    "n_bars": 1530,
+    "n_bars": 1540,
     "n_over": 0,
     "max_overage": 0.0,
     "mean_overage": 0.0
    },
    "turnover": {
     "n_moves": 52,
-    "sum_abs_dk": 0.20434
+    "sum_abs_dk": 0.24627
    },
    "note": "the sheet's trim, re-applied at each decision"
   },
   "cap_every_bar": {
-   "cagr_pct": 6.47,
-   "sharpe": 1.298,
+   "cagr_pct": 6.65,
+   "sharpe": 1.258,
    "mdd_pct": -5.87,
-   "vol_pct": 5.13,
-   "k_last": 0.393073,
-   "k_mean": 0.337325,
-   "k_max": 0.393073,
+   "vol_pct": 5.44,
+   "k_last": 0.435003,
+   "k_mean": 0.351301,
+   "k_max": 0.435003,
    "overage": {
-    "n_bars": 1530,
+    "n_bars": 1540,
     "n_over": 0,
     "max_overage": 0.0,
     "mean_overage": 0.0
    },
    "turnover": {
     "n_moves": 52,
-    "sum_abs_dk": 0.20434
+    "sum_abs_dk": 0.24627
    },
    "note": "COUNTERFACTUAL: the floor applied on every bar"
   }
@@ -100,18 +100,18 @@
  },
  "obedience": {
   "cagr_pct": {
-   "ticket_k_no_cut": 7.15,
-   "cap_at_decisions": 6.47,
-   "cap_every_bar": 6.47
+   "ticket_k_no_cut": 6.95,
+   "cap_at_decisions": 6.65,
+   "cap_every_bar": 6.65
   },
-  "price_of_obedience_pp_per_yr": 0.68,
-  "turnover_delta_units": -0.138397,
-  "turnover_fee_proxy_pp_per_yr": -0.0018,
+  "price_of_obedience_pp_per_yr": 0.3,
+  "turnover_delta_units": -0.096467,
+  "turnover_fee_proxy_pp_per_yr": -0.0013,
   "uncut_overage": {
-   "n_bars": 1530,
-   "n_over": 490,
-   "max_overage": 0.088237,
-   "mean_overage": 0.023485
+   "n_bars": 1540,
+   "n_over": 500,
+   "max_overage": 0.046307,
+   "mean_overage": 0.01018
   }
  },
  "toll": {
@@ -123,5 +123,5 @@
  },
  "verdict": "CONTINUOUS_EQUALS_DECISIONS",
  "sentence": "clipping every bar and clipping at each decision produce the same path (max |dk| 0.0e+00) -- continuous enforcement adds no safety and costs nothing, so it is not a work item",
- "elapsed_sec": 54.97
+ "elapsed_sec": 52.96
 }

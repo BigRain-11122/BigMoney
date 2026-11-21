@@ -373,7 +373,28 @@ def selftest():
     exist = [r["age_h"] for r in oldest if r["exists"]]
     leg("existing artifacts are ordered oldest first", exist == sorted(exist, reverse=True))
 
-    total = 11
+    # 12-13. The ratchet itself (r1917). Until these legs existed, `--check`'s baseline logic
+    # was the one part of this tool nothing had ever run against a bad input: the census being
+    # right is not the same as the gate firing. A temp chain + temp face are enough to prove
+    # both directions offline.
+    import tempfile
+    # The temp tree has to sit on the repo's own volume: `run` prints the chain path relative
+    # to ROOT, and os.path.relpath raises across drives (found by this leg, not by reading).
+    with tempfile.TemporaryDirectory(prefix="_selftest_cwa_", dir=RESULTS) as td:
+        chain = os.path.join(td, "chain.py")
+        face = os.path.join(td, "face.json")
+        with open(chain, "w", encoding="utf-8") as fh:
+            fh.write("LEGS = [\n"
+                     "    ('a', ['python', 'scripts/a.py', 'check']),\n"
+                     "]\n")
+        with open(face, "w", encoding="utf-8") as fh:
+            json.dump({"legs": 1, "known": []}, fh)
+        leg("a check-only face outside the baseline is rc1", check(out_path=face, chain_path=chain) == 1)
+        run(out_path=face, chain_path=chain)
+        leg("the same tree published is rc0, not a red every round",
+            check(out_path=face, chain_path=chain) == 0)
+
+    total = 13
     print("selftest %d/%d" % (total - len(failures), total))
     return 0 if not failures else 1
 

@@ -438,6 +438,20 @@ LEGS = [
     # convention) for parse errors, repeated keys and non-UTF-8 encodings; ~45s, read-only,
     # exit 0 clean / 1 findings / 2 mechanism.
     ("json_face_guard", ["python", "Tools/json_face_guard.py"]),
+    # r1917: the same question, asked of the chain itself. `chain_writer_audit` answers "is
+    # there a leg that REGENERATES this face" for every check-only leg, and it had been run by
+    # hand in r1471/r1594/r1618 and never since -- so its own published face said 300 legs while
+    # the chain had 318: the auditor was itself an unowned face, and the r1322 gap reopened
+    # under it without anybody noticing. Read-only over Tools/s6_chain_bmc.py + the readers'
+    # sources (~30s, no repricing); the verdict is CHECK_WITHOUT_WRITER plus the count of faces
+    # whose freshness nothing on the chain owns.
+    ("chain_writer_audit", ["python", "Tools/chain_writer_audit.py"]),
+    # r1917: the ratchet. `--check` is rc1 ONLY for a check-only face that is not in the
+    # published baseline (and for a leg count that moved without republishing), so the 13
+    # known ones stay a disclosed list while the 14th copy of r1471 goes red in the round it
+    # arrives. Without this leg the audit was a document; with it, "nothing regenerates this
+    # face" cannot be added quietly.
+    ("chain_writer_audit_check", ["python", "Tools/chain_writer_audit.py", "--check"]),
     # r1366 (r1365's own owed item 2): when the forward leg freezes on a drift, the
     # next question is whether a PUBLISHED bar was rewritten or whether the newest
     # bar's panel was still filling -- and until now that question was answered by a
@@ -1474,6 +1488,11 @@ LEGS = [
     # (pp/yr of exposure, and whether trading goes up or down). `check` re-derives the
     # identity gap, the obedience price and the verdict from the published arms (0.2s, no
     # panel; the `run` form is the 55s panel measurement and lives off-chain).
+    # r1917: this receipt is the price of obeying the floor on TODAY's panel, and it was
+    # 12.9 days old -- the check re-derives the identity gap from the receipt's own cells, so
+    # it stayed green the whole time (r1594). `run` is 53s and writes the receipt the check
+    # then grades.
+    ("floor_toll_write", ["python", "scripts/etf_book_floor_toll.py", "run"]),
     ("floor_toll", ["python", "scripts/etf_book_floor_toll.py", "check"]),
     # r1329: the register summarises the faces, so it must be the LAST book leg. Until
     # this round it sat ~50 legs earlier, ahead of etf_book_ceo_page and etf_paper_signal,
@@ -1658,6 +1677,14 @@ LEGS = [
     # what the composite word is FROM THE PUBLISHED ROWS (a JSON read, no repricing), and
     # fails if the face's trust list, primary caliber or composite word no longer follows
     # from its own cells -- the r1290 class, a reading left on disk describing older data.
+    # r1917: the third element above does NOT own this face's freshness, and the face proved
+    # it by sitting on 2026-11-08 for fourteen days: `run` refuses (rc3 "repriced cells differ
+    # from r1425's published cells") because the face is an identity anchor, so the refresh
+    # branch -- paid only when the check says stale -- is unreachable here. Consequence found
+    # the hard way: its `capacity_cny_1day_5pct` still prints 48,664,681 while YEAR-GATE and
+    # every page have said 22,411,607 since 2026-11-20 (the field is a snapshot pointing at
+    # YEAR-GATE, not a live reading). Do not read capacity from this face; read
+    # `etf_book_scale_floor.published_capacity()` or YEAR-GATE itself.
     ("year_caliber", ["python", "scripts/etf_book_year_caliber.py", "check"],
      ["python", "scripts/etf_book_year_caliber.py", "run"]),
     # r1427: a refusal is only as good as the ruler behind it. The phase gate now re-reads
@@ -1672,8 +1699,16 @@ LEGS = [
     # every published sentence FROM ITS OWN YEAR TABLE before the face below consumes it
     # (pure JSON read, no repricing), so a stale receipt or a hand-typed "front-loaded"
     # turns red instead of feeding the operator sentence again.
+    # r1917: this receipt is the input of supply_calendar's `half_year` sentence, and nothing
+    # on the chain regenerated it -- a hand run inside this round moved 2025's share and left
+    # `supply_calendar_face.py --check` red ("half_year does not re-derive from the receipt").
+    # That is the same cascade the supply_calendar writer at the top of LEGS warns about, seen
+    # from the other side. Paid here (65s), and the consumer is rebuilt right after it so the
+    # sentence and the receipt it quotes are one generation.
+    ("half_year_provenance_write", ["python", "scripts/etf_book_half_year_provenance.py"]),
     ("half_year_provenance",
      ["python", "scripts/etf_book_half_year_provenance.py", "check"]),
+    ("supply_calendar_refresh", ["python", "scripts/supply_calendar_face.py", "run"]),
     # r1436: r1435 named the years that make up the half (2025 for all three refused
     # books), but nothing said whether that year is READABLE -- it is the newest full
     # year, a gold year, and the top-2 share moves with the decision phase. This leg
@@ -1927,6 +1962,10 @@ LEGS = [
     # alternative (vol_cap=floor) and refuses a receipt whose verdict does not follow from its
     # own summary, whose candidate cells carry anything but the published floor, or whose
     # frozen criteria were edited after the run (0.1s, JSON reads, no repricing).
+    # r1917: the phase x cost grid prices the alternative (vol_cap=floor). 30.5h old, and the
+    # check below re-derives its own summary -- so nothing on the chain was responsible for
+    # regenerating it (r1594/r1471 shape). `run` is 75s and writes the grid first.
+    ("floor_memory_write", ["python", "scripts/etf_book_floor_memory.py", "run"]),
     ("floor_memory",
      ["python", "scripts/etf_book_floor_memory.py", "check"]),
     # r1473: r1472 ended on "which version of the rule was the floor issued against". The
@@ -2003,6 +2042,10 @@ LEGS = [
     # resolvability block from the same cells (a spread that crosses the 70% line is
     # unresolvable, never a quiet pass). `check` reads the published JSON only (~0.1s);
     # the ~100s repricing runs with `run` in its own round.
+    # r1917: "is the de-risking RULE wrong, not the rung" -- 14.9h-old receipt, check-only.
+    # `run` is 85s (panel repricing) and writes the rows this check then re-derives verdicts
+    # from, so a resolvability spread that crosses the 70% line cannot sit unnoticed either way.
+    ("derisk_rule_write", ["python", "scripts/etf_book_derisk_rule.py", "run"]),
     ("derisk_rule", ["python", "scripts/etf_book_derisk_rule.py", "check"]),
     # r1481: the punctuality arm prices the *policy* ("every sheet one open late"). The
     # desk holds one sheet and needs its own price, so this face prices each decision bar
@@ -2037,6 +2080,11 @@ LEGS = [
     # window and principal; this leg re-derives the published gap, its per-year range, the
     # refusal to price a face-value ticker, and the repo arm's reproduction of the
     # published GC001 net. Read-only JSON (~0.2s); the panel run is a round's own `run`.
+    # r1917: same split as vt_ladder/vt_phases (r1613) -- "the panel run lives in its own
+    # round" had no owner, and this face was 20 days old while its check stayed green because
+    # a receipt always re-derives from itself (r1594). `run` here is 2s when the cash ladder
+    # has not moved; it writes the receipt the check then grades.
+    ("cash_vehicle_write", ["python", "scripts/etf_book_cash_vehicle.py", "run"]),
     ("cash_vehicle", ["python", "scripts/etf_book_cash_vehicle.py", "check"]),
     # r1486: the supply line is empty because every judged book fails its own calendar,
     # and the 8% vol target was suspected of being the one knob between the ADMITing
@@ -2069,12 +2117,24 @@ LEGS = [
     # the published ETA face (identity against the phase gate's phase 0, so a drifted
     # repricing turns the leg red instead of silently promising a date). Read-only JSON,
     # milliseconds; the expensive repricing runs only with `run` in its own round.
+    # r1917: "the expensive repricing runs only with `run` in its own round" -- but no round
+    # ever ran it: the face was 13 days old and this check kept passing on it, because the
+    # identity it verifies is with the phase gate's phase 0, and a drifted gate turns the
+    # check RED while a frozen one leaves it green (r1594 family). The writer is paid here
+    # (68s) and the check grades what it left behind; the ETA is the horizon the refusal
+    # sentence has to carry, so a two-week-old date is a wrong answer, not a stale option.
+    ("admission_eta_write", ["python", "scripts/etf_book_admission_eta.py", "run"]),
     ("admission_eta", ["python", "scripts/etf_book_admission_eta.py", "check"]),
     # r1429: the two certified rulers disagree on the held book, so "use the trusted ruler"
     # silently became a choice. This leg re-derives the fixture election and the witness
     # reading from the published face -- if a ruler or a fixture verdict moves, the leg goes
     # red instead of leaving a stated choice on disk describing an older table. Read-only
     # JSON, ~0.1s.
+    # r1917: the witness reading ("do the two certified rulers agree on the HELD book") was
+    # 13.5 days old -- the election it answers reads the book's own year table, which moves
+    # every bar. The bare invocation is the writer (1.3s, no flags, no panel repricing) and
+    # the check below re-derives the election from the face it just wrote.
+    ("ruler_election_write", ["python", "scripts/etf_book_admission_ruler_election.py"]),
     ("ruler_election", ["python", "scripts/etf_book_admission_ruler_election.py", "check"]),
     # r1431: r1429's election named a ruler, but nothing was switched: replacing a gate's
     # refusal reason is an admission-rule change and needs its own round. This leg re-derives

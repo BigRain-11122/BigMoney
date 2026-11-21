@@ -10,9 +10,9 @@ evidence set: `results/**/*.json` (depth <= 2), readable against `scripts/`, `To
 | ORPHAN | 335 | nothing names it (undated only) |
 | DATED_CODE | 354 | dated snapshot, named somewhere |
 | DATED_ORPHAN | 493 | dated snapshot, named nowhere |
-| SCRATCH | 4066 | not a face (receipts / backups / hash scratch) |
+| SCRATCH | 4073 | not a face (receipts / backups / hash scratch) |
 
-undated faces: **1882** of 6795 (dated snapshots and scratch excluded from every verdict below)
+undated faces: **1882** of 6802 (dated snapshots and scratch excluded from every verdict below)
 
 ## undated faces nothing names (335)
 
@@ -84,4 +84,4 @@ One file naming a face is not a consumer: it is usually the producer. These are 
 - `results/etf_book_premium_phases.json` ← `scripts/etf_book_premium_phases.py`
 - `results/etf_book_premium_swap.json` ← `scripts/etf_book_premium_swap.py`
 
-`generated` 2026-11-21T13:02:38+08:00 · every count above is a face count, not a read count.
+`generated` 2026-11-22T04:27:39+08:00 · every count above is a face count, not a read count.

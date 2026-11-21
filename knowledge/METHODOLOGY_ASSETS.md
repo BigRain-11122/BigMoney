@@ -17534,3 +17534,15 @@ research/ETF_BOOK_PHASE_ATLAS_ARMS.md 新节「成本档 5bp → 20bp：多收�
 **How**：①任何「条件已经满足」的句子，先问同一判定的另一半在哪个面里、说没说；②页面上的括号是最贵的省略号——带理由的拒绝必须写成句子，别写成注释；③长跑器「没输出」要先分三面（父／子／CPU）再判死活，收编后换载体，不要原地重跑。
 **第三枚（同轮实锚·33 秒 × 每行一次的账本扫描）**：追上面那条「链停在腿 14」追到根：`strategy_scorecard` 卡在 `science_gates.ledger_head`，不是死锁是**成本**——它 `active_voids` + `ledger_head` 各做一遍全树递归 `json.load`（2026-11-21 实测 13,733 件 = 15.7s 纯解析，一次 `ledger_head` 因先调 `active_voids` 变 33s），而 `scorecard.load_lines` 每行调一次 `n_eff` → 一个腿付分钟级。**第一版修法是错的**：按「文件数 + 最新 mtime + 总字节」做全树指纹缓存——这个仓库每几秒就有别的面被重写，指纹永远在变，缓存命中率≈0（实测仍是 33s，`head_cache` 键数一路涨）。**正法=按文件缓存**：每次仍 stat 全部路径（0.5s），只重新解析 (size, mtime_ns) 变过的文件。实测：首调 17.5s（比原来还快一半，因为两个面共用一次扫描）、其后 **1.0s**、head 值与未缓存版本逐位相同（1,148,141）。
 **How 续**：①全树指纹只在「树很少变」时有效；活树必须按文件 stat 失效；②缓存正确性要两条反向腿（stamp 未变不重解析／字节变了必须重解析），只有第一条就是「永不更新」的谎；③性能病要先量再改——`glob 0.18s / stat 0.27s / parse 15.7s` 三行拆开才知道该缓存哪一层；④共享库的 selftest 被一个 10-20 留下的 scratch 残留（`results/_selftest_sub/c_arm_metrics.json`）卡死一个月：`rmdir` 换 `rmtree`，测试用的临时目录里只会有测试自己写的东西。
+
+## E-20261122-r1917 判例：链上「check 绿」不等于「面新」——审计器自己也是无人写的面
+
+**形状（r1322 缺口第三次复发）**：`Tools/chain_writer_audit.py` 问的是「每一张只在链上被 check 的面，有没有腿去重新生成它」，r1471/r1594/r1618 三次手跑之后就没人再跑——于是它自己的面写着 300 腿，而链已有 318 腿（`--check` 的 fail-closed 报警原话：「chain has 318 legs, face says 300 -- rerun the tool」）。重跑后点名 22 张，其中 **19 张是「写者存在、链从不调用」**，6 张陈旧 300-490 小时（`etf_book_cash_vehicle` 488h、`admission_eta` 325h、`admission_ruler_election` 324h、`half_year_provenance` 322h、`2025_repro` 322h、`sign_flip_phase_test` 319h），而它们的 check 每轮 rc0——因为 check 是从**面自己**重派生的（r1594/r1471 族），面不动它就恒绿。
+
+**第二枚（机理解剖）**：链上三元素形式 `(check, refresh)` 的 refresh **只在 rc≠0 且文案含 stale / face missing 时才付费**（r1345 的设计，防「把闸改成消红的机器」）。所以对「自洽但陈旧」的面，声明 refresh 等于没声明：这个分支永远到不了。正解是**无条件独立写者腿**，排在 check 之前（先例 `vt_ladder`/`vt_phases` r1613 就是这么做的）。
+
+**正法三件**：①给「只读自己那张面」的 check 配无条件写者腿，实测成本后接线（本轮 7 条：`cash_vehicle` 1.8s、`ruler_election` 1.2s、`admission_eta` 67s、`floor_toll` 54s、`floor_memory` 80s、`derisk_rule` 92s）；②审计/普查工具自己必须上链（写腿 + check 腿），且 check 只对**基线外的新红**判 1——已知债务是披露清单，不是永久红（E318 族：永久红训练读者跳过它）；③工具自检必须先在「必然失败」的输入上跑一次：本轮新加的两条 ratchet 自检腿第一次就崩在 `os.path.relpath` 跨盘（临时目录在 C:、ROOT 在 K:），崩与 PASS 在旧自检里分不出来。
+
+**实锚**：red 19→13、paired 106→112、链 318→326 腿、`chain_writer_audit selftest 13/13`（+2 条反向腿：基线外的 check-only 面必须 rc1／同一棵树发布后必须 rc0）、`s6_chain_bmc --selftest 17/17`、7 条新腿 `--only` 实跑 rc0。
+
+**How**：①「这张面检查通过」只说明它自洽，先问它有没有外部锚，没有就给它配写者；②任何审计工具第一次手跑之后就会开始腐烂——把它变成链腿，把「基线外新红」变成 rc1；③自检要证明坏输入会红，否则你测的是「没崩」而不是「会拦」。
