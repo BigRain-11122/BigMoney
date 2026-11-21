@@ -3004,7 +3004,7 @@ def permission_block(ticket, perm, rulers=None, floor_src=None, k_gap=None):
                         "TRIM_REQUIRED" if over else "WITHIN_PERMISSION")}
 
 
-def permission_md(pb, deploy="auto"):
+def permission_md(pb, deploy="auto", cash=None):
     """Print the permission next to the weights. Silence is not an option (r1108)."""
     if pb is None:
         return []
@@ -3108,7 +3108,10 @@ def permission_md(pb, deploy="auto"):
     L += floor_ledger_md(_floor_face())
     L += floor_source_md((pb or {}).get("floor_source"))
     # r1913: the wait fee at THIS sheet's size, in the block that sizes it.
-    L += _deploy_scale_md(_deploy_price_reading() if deploy == "auto" else deploy, pb)
+    # r1914: and the other leg -- the cash side's own net interest, from the reading the
+    # cash section below already made (one money, one implementation, no second source).
+    L += _deploy_scale_md(_deploy_price_reading() if deploy == "auto" else deploy, pb,
+                          cash=cash)
     L.append("")
     return L
 
@@ -3250,7 +3253,7 @@ def card(ticket, mk, sched, asof, beta, extra):
             or (((_adm_face or {}).get("checks") or {}).get("K1_capacity_1pct_adv") is False))
         L += width_capacity_md(extra.get("width_capacity"),
                                cost_already_shown=_adm_priced_widen)
-        L += permission_md(extra.get("permission"))
+        L += permission_md(extra.get("permission"), cash=extra.get("cash_money"))
         L += band_md(extra.get("size_band"))
         # r1516: the sheet printed a TARGET and, elsewhere, a CURRENT book. The trades
         # between them were never written down -- this is that subtraction, name by name.
@@ -5381,7 +5384,7 @@ def _deploy_price_md(c):
     return L
 
 
-def _deploy_scale_md(c, pb):
+def _deploy_scale_md(c, pb, cash=None):
     """r1913: the two yearly fees reach the block that decides how much this sheet buys.
 
     r1912 priced deploying-now against waiting on the ruler's own lens (per 1,000,000).
@@ -5390,6 +5393,11 @@ def _deploy_scale_md(c, pb):
     them together was to spot the lens and divide by hand, which is how a 43.5% book carries
     a 9.8x ratio and still cannot see its own number. Same reading, one multiplication, and
     the divisor travels with the face instead of being re-typed here.
+
+    r1914: the zero-edge number is a COST, and the book's other leg pays interest. Printed
+    alone, "pays 6,055 a year when the edge is zero" reads as a 6,055 annual loss. The cash
+    leg's own carry is a separate published face; this block hands the reader both numbers
+    and their difference instead of letting the cost line stand for the net.
     """
     L = ["", "### 这笔等待费换算到本单（r1913）"]
     book = (pb or {}).get("ordered_book_cny")
@@ -5419,6 +5427,61 @@ def _deploy_scale_md(c, pb):
              % (_cny_cell(lens), _cny_cell(lens)))
     L.append("  - 出处：`%s`（生产者 `%s`，%s 产出；这一节只读该面，不重算它的判词）"
              % (c.get("path"), c.get("producer"), (c.get("generated") or "?")[:19]))
+    L += _zero_edge_net_md(cash, zero)
+    return L
+
+
+def _zero_edge_net_md(cm, cost):
+    """What the zero-edge cost leaves after the cash leg pays for its own rolls (r1914).
+
+    The line above is a cost.  56.5% of this ticket sits in GC001 and earns interest every
+    session, so "when the edge is zero this book pays 6,052 a year" reads as a 6,052 loss --
+    wrong on both sides of the subtraction, and wrong twice over in the flattering direction:
+    the repo leg pays a commission of its own (243 rolls x 0.1bp on this book), and the gross
+    quote is what a reader multiplies by hand.
+
+    The cash section below (r1245) already prices this exact cash at the gross quote, at its
+    own trailing mean, at the ledger window, and NET of those rolls.  This block reads those
+    numbers instead of computing a second version of them -- one money, one implementation,
+    and the two blocks cannot disagree.
+    """
+    if not cm or cm.get("verdict") == "CANNOT_PRICE" or not cm.get("spot"):
+        return ["", "- **零 edge 的净额这一轮算不出**：本单自己的现金腿读数（下一节 r1245）"
+                    "缺或不可定价。缺这一行不等于「现金腿不挣钱」，也不等于「零 edge 一定亏」"
+                    "——上面那个成本数仍然只是成本，不是净损。"]
+    spot = cm.get("spot") or {}
+    gross = spot.get("annual_cny")
+    net = spot.get("net_annual_cny")
+    fee = cm.get("fee_cny_per_year")
+    rolls = cm.get("rolls_per_year")
+    if gross is None:
+        return ["", "- **零 edge 的净额这一轮算不出**：现金腿的报价读不出来。"]
+
+    def _fmt(v):
+        return _cny_cell(v) if v is not None else "读不出"
+
+    L = ["", "- **上面那个成本要和现金腿的入账利息相减，才是零 edge 的净额**：这 %s 元的现金"
+         "按 %s 报价 %.2f%% 毛算每年 %s 元；这条腿自己也要付佣金——一年滚 %s 次、每次 "
+         "%s bp，约 %s 元，所以**入账**是 %s 元。"
+         % (_fmt(cm.get("cash_amount_cny")), spot.get("date") or "?",
+            float(spot.get("pct") or 0.0),
+            _fmt(gross), rolls if rolls is not None else "?",
+            ("%g" % float(cm.get("fee_bp_per_roll"))) if cm.get("fee_bp_per_roll") is not None
+            else "?", _fmt(fee), _fmt(net))]
+    if net is not None and cost is not None:
+        diff = float(net) - float(cost)
+        L.append("  - 一对：入账 %s 元 − 交易成本 %s 元 = **%+.0f 元/年**。用**毛**数（%s 元）去抵"
+                 "成本会把它读成 %+.0f —— 差的那 %s 元就是现金腿自己的佣金，不是利率差。"
+                 % (_fmt(net), _fmt(cost), diff, _fmt(gross), float(gross) - float(cost),
+                    _fmt(fee)))
+        if cm.get("mean_tail") and cm["mean_tail"].get("net_annual_cny") is not None:
+            mnet = float(cm["mean_tail"]["net_annual_cny"])
+            L.append("  - 一天的报价不作数：同样这笔现金按近 %s 个报价的均值、扣同样的佣金是 %s 元，"
+                     "净额 %+.0f 元/年（利率判定 %s）。"
+                     % (spot.get("quotes") or "?", _fmt(mnet), mnet - float(cost),
+                        cm.get("verdict") or "?"))
+    L.append("  - 口径：这些利息是**下一节 r1245 那一块钱的同一份读数**，不是第二个来源；"
+             "仓位一动（风险腿/现金分割变了）这一行就要跟着重算，与上面成本腿不相加校验。")
     return L
 
 
@@ -9904,7 +9967,7 @@ def selftest():
         # at 43.5%. The divisor must come from the face (rule.lens_cny), not be re-typed.
         _dp_lens = dict(_dp, lens_cny=1000000.0)
         _pb_scale = dict(_pb_in, ordered_book_cny=435003.0)
-        _md_scale = "\n".join(permission_md(_pb_scale, deploy=_dp_lens))
+        _md_scale = "\n".join(permission_md(_pb_scale, deploy=_dp_lens, cash=None))
         chk("legBC the sizing block converts the lens fee to this sheet's own risk leg",
             "这笔等待费换算到本单" in _md_scale and "435,003" in _md_scale
             and "43.50%" in _md_scale and "6,055" in _md_scale and "59,470" in _md_scale,
@@ -9912,10 +9975,11 @@ def selftest():
         chk("legBCb the ratio does not shrink with the book, only the absolute numbers",
             "倍率不变" in _md_scale and "9.8" in _md_scale
             and "不相加" in _md_scale, _md_scale[-500:])
-        _md_scale_nolens = "\n".join(permission_md(_pb_scale, deploy=dict(_dp, lens_cny=None)))
+        _md_scale_nolens = "\n".join(permission_md(_pb_scale,
+                                                   deploy=dict(_dp, lens_cny=None), cash=None))
         _md_scale_nobook = "\n".join(permission_md(dict(_pb_in, ordered_book_cny=None),
-                                                   deploy=_dp_lens))
-        _md_scale_missing = "\n".join(permission_md(_pb_scale, deploy=None))
+                                                   deploy=_dp_lens, cash=None))
+        _md_scale_missing = "\n".join(permission_md(_pb_scale, deploy=None, cash=None))
         chk("legBD a missing divisor, a missing book or a missing face is a sentence, "
             "never a scaled number",
             "镜头大小读不出" in _md_scale_nolens and "6,055" not in _md_scale_nolens
@@ -9925,6 +9989,38 @@ def selftest():
         chk("legBE the converted block stamps the trip that priced the ruler",
             "2026-11-21T13:05:00" in _md_scale
             and "results/etf_book_deploy_price.json" in _md_scale, _md_scale[-400:])
+
+        # legBF-BH (r1914): the zero-edge line is a COST, and the cash leg pays interest --
+        # net of its own rolls. Printed alone, "pays 6,055 a year" reads as a 6,055 loss on a
+        # book that is 56.5% cash; pairing it with the GROSS quote reads as +420 when the
+        # honest net is -953. The numbers come from the cash section's own reading.
+        _cm_net = {"verdict": "RATES_STEADY", "cash_amount_cny": 565245.9,
+                   "spot": {"pct": 1.145, "date": "2026-11-19", "annual_cny": 6472.0,
+                            "quotes": 250, "net_pct": 0.902, "net_annual_cny": 5099.0},
+                   "mean_tail": {"pct": 1.3489, "annual_cny": 7624.0, "net_pct": 1.1059,
+                                 "net_annual_cny": 6251.0},
+                   "rolls_per_year": 243, "fee_bp_per_roll": 0.1,
+                   "fee_cny_per_year": 1374.0,
+                   "sentence": "现金 ¥565,246 按 2026-11-19 报价 1.15% 一年赚 ¥6,472"}
+        _md_net = "\n".join(permission_md(_pb_scale, deploy=_dp_lens, cash=_cm_net))
+        chk("legBF the sizing block pairs the cost with the cash leg's NET interest",
+            "5,099" in _md_net and "6,055" in _md_net and "1,374" in _md_net,
+            _md_net[-800:])
+        chk("legBG the net carries its sign, and the gross number is shown to be the wrong "
+            "subtraction", "-956" in _md_net and "+417" in _md_net
+            and "佣金" in _md_net, _md_net[-800:])
+        chk("legBGb the block says the interest is the cash section's own reading, not a "
+            "second source", "下一节 r1245" in _md_net, _md_net[-500:])
+        _md_net_missing = "\n".join(permission_md(_pb_scale, deploy=_dp_lens, cash=None))
+        chk("legBH an unreadable cash leg is one sentence, never a net of 0",
+            "零 edge 的净额这一轮算不出" in _md_net_missing
+            and "−" not in _md_net_missing and "-956" not in _md_net_missing,
+            _md_net_missing[-400:])
+        _md_net_cannot = "\n".join(permission_md(
+            _pb_scale, deploy=_dp_lens, cash={"verdict": "CANNOT_PRICE", "sentence": "x"}))
+        chk("legBHb CANNOT_PRICE is the same sentence, not a zero carry",
+            "零 edge 的净额这一轮算不出" in _md_net_cannot
+            and "6,472" not in _md_net_cannot, _md_net_cannot[-300:])
 
         # legAV-AX (r1884): the entry price -- what an account of 20k/100k/200k pays a side
         # once the CNY 5 per-ticket minimum is included. Same three states as the ladder.
