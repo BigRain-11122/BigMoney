@@ -63,7 +63,7 @@
   "state": "registered (FOUND)",
   "task": "HQ-ProductionClaim"
  },
- "clock_read": "2026-11-22T00:14:17+08:00",
+ "clock_read": "2026-11-22T01:29:46+08:00",
  "clock_read_source": "local",
  "clock_tz": "+08:00",
  "codely_live_count": 2,
@@ -185,7 +185,7 @@
  "gpu_vram_used_mb": 15603,
  "head_sha": "a0a7596bbf",
  "health": "ok",
- "heartbeat_epoch_utc": 1795277657,
+ "heartbeat_epoch_utc": 1795282186,
  "heartbeat_epoch_utc_type": "int",
  "idle_ram_gb": 3.62,
  "idle_rounds": 0,
@@ -1493,7 +1493,7 @@
   "watermark": "green: board/pool both empty (pool_ready_count=0, fleet_open_tasks=0), no claimable batch on this host; py_watermark insufficient_history (window n=1, local_batch=1 = this round own suite)"
  },
  "round_label": "r1813",
- "round_no": 1915,
+ "round_no": 1916,
  "round_no_label": "r1821",
  "round_no_landed": 1663,
  "round_note": "r1489: a reinstated bar is re-derived from the panel, not carried over (reinstatement_check + reinstatements.json + sheet paragraph)",
@@ -2099,7 +2099,7 @@
  "takeover_note": "the 2026-11-16 14:05 round was silence-killed at 14:38 with 25 min of no output; it had already written the whole face (14:19) plus card E679 and the CODELY lines, so this 14:40 round took over the closeout instead of redoing science: no script, number or verdict changed here",
  "task": "r1909: the GPU face is consistent for every alphabet a reader can read, not just the spellings we remembered",
  "total_ram_gb": 55.9,
- "ts": "2026-11-22T00:14:17+08:00",
+ "ts": "2026-11-22T01:29:46+08:00",
  "ts_epoch": 1794812499,
  "unverified": [
   "full smoke suite not re-run this round (892s > window); GPU leg judged by audit recompute + selftest",
@@ -2203,11 +2203,15 @@
  "went_well": "the fix keeps the old states reachable: a card with one unqualified row still takes the position-free path, so no previously published verdict changed meaning",
  "when_well": "the exec panel reused lhb_sellleg verbatim by passing a net-of-cost panel instead of writing a second event study -- the two tables cannot disagree about the quintiles because there is only one implementation",
  "who_did": "bm-c",
- "下个里程碑": "把同一对净额接到读者打开的那一面（CEO 一页纸或准入段）；全量套件绿记录（774 腿基线，窗 ≤24h）",
+ "下个里程碑": "全量套件绿记录（739 腿基线，窗 ≤24h）+ S6 全链一轮完整驱动（r1322 缺口仍未闭合）",
  "孤儿面": 0,
- "当前任务": "r1914: 零 edge 的净额（成本减现金腿入账利息）接进下单规模段",
+ "当前任务": "r1916: 四红清零（3 条页面出处 + 1 条 day_delta 指纹陈旧），CEO 一页纸 2026-11-22 重生",
  "当前任务_en": "r1913: carry the deploy-vs-wait pair into the sizing block (what capital the 9.8x buys), and re-run the full suite in its own window",
- "最近实物": "results/etf_book_order/ORDER-2026-11-20.md L179-182（6,472 毛 / 1,374 佣金 / 5,099 入账 / -956 净额；2026-11-22T00:2x）",
+ "最近实物": "docs/live_usage/LIVE-2026-11-22.md（CEO 一页纸重生·2026-11-22T00:55；divlowvol 前向超额窗口刷新：市场 -14.77%→-15.49%（5176 只），超额 +10.97pp→+11.69pp）",
  "round_r1914_note": "the zero-edge cost is a subtraction term, not a net: the cash leg pays 6,472 gross but books 5,099 after 243 rolls x 0.1bp (1,374), so against 6,055 of trade cost a zero edge is -956/yr, not +417 (the gross-vs-net trap). Reused the r1245 cash reading instead of writing a second carry face (the first attempt duplicated it and was deleted).",
- "round_r1914_next": "carry the same net pair to the admission block or the CEO page (whichever the reader opens), window <=48h; full suite green record (774-leg baseline) window <=24h"
+ "round_r1914_next": "carry the same net pair to the admission block or the CEO page (whichever the reader opens), window <=48h; full suite green record (774-leg baseline) window <=24h",
+ "当前活": "r1916: 三条「节不自印出处」红项（面在动≠面算错）以重生成页面收口，并重 derive 陈旧日差分面",
+ "verify_r1916": "4 reds closed: etf_book_order --selftest rc0 (309/309, already healed by r1915); the three CEO-page legs were the r1861 \"face moved, not face wrong\" class -- ceo_live_usage.py regenerated 2026-11-22T00:55 so the page carries each face own stamp (open_capital generated 2026-11-21T23:29:59+08:00 / idle_cash asof 2026-11-21T23:29:14 / carry_risk generated 2026-11-21T23:25:22) and WITHDRAW_FROM_TICKET; etf_book_day_delta re-derived after LIVE-BOOK-20261120.json moved under it (check rc0; window bars 1539->1540, oos cagr 12.29%->11.94%, gap 4.75->4.55pp)",
+ "r1916_note": "the page was 11.5 hours old while every face it quotes had been rewritten at 23:2x-23:29 -- chain order is correct (day_delta 175/176 < ceo_live_usage 226); what was missing is that only two writers were run last round. Regenerating the page is not a doc edit: the divlowvol forward window moved (market -14.77% -> -15.49% on 5176 names, excess +10.97pp -> +11.69pp) and the ticket stamp advanced to 2026-11-22T00:39.",
+ "r1916_next": "drive the whole chain once (--all) instead of hand-picking writers, so a page cannot be a trip behind; keep the 739-leg green record inside 24h"
 }
