@@ -1258,7 +1258,7 @@
   "watermark": "green: board/pool both empty (pool_ready_count=0, fleet_open_tasks=0), no claimable batch on this host; py_watermark insufficient_history (window n=1, local_batch=1 = this round own suite)"
  },
  "round_label": "r1813",
- "round_no": 1904,
+ "round_no": 1905,
  "round_no_label": "r1821",
  "round_no_landed": 1663,
  "round_note": "r1489: a reinstated bar is re-derived from the panel, not carried over (reinstatement_check + reinstatements.json + sheet paragraph)",
@@ -2107,5 +2107,22 @@
    "guard": "一条从未真正守住的假红变成第三态，链在飞窗口不再训练读者忽略红点"
   },
   "ts": "2026-11-21T10:01:25+08:00"
+ },
+ "r1905": {
+  "what": "本轮链在飞（r1902 窗起 156/316 腿），只在链不再触碰的面上动手：发布已静默 6-11 分钟的 5 件铁定稳定面（atlas cost0/cost40 两族 + 孤儿探针），正在被链路重写的 9 件（mtime 0.6 分钟）原样留给后续轮",
+  "verdict": "PUBLISHED_QUIET_FACES_ONLY",
+  "left_unpublished": 9,
+  "why": "链每 ~23s 落一腿，同一目录族的面会在几十秒内被重写；提交半件比晚一轮发布更贵",
+  "verify": {
+   "orphan": "orphans=0 (py_faces=35, cleared=1)",
+   "orders": "115 files vs ack 256 -> unacked 0",
+   "decisions": "origin sha256 79e3083b85c1 == watermark -> zero new rows",
+   "behind": "0 commits behind, 0 ahead at round start",
+   "json_parse": "5/5 committed faces parse clean",
+   "smoke": "full suite relaunched detached pid 50664 -> results/_smoke_r1905.out (not finished this round)",
+   "chain": "results/_s6chain_progress.bm-c.jsonl i=156 n=316 rc=0"
+  },
+  "commit": "a673f126ad",
+  "ts": "2026-11-21T10:21:30+08:00"
  }
 }
