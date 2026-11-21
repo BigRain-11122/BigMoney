@@ -1,6 +1,6 @@
 {
  "report_date": "2026-11-21",
- "generated_at": "2026-11-21 04:28:13",
+ "generated_at": "2026-11-21 08:09:32",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -295,12 +295,12 @@
  },
  "rd": {
   "commits_24h": 61,
-  "result_jsons_landed_24h": 277,
-  "digests_landed_24h": 1,
-  "prereg_md_touched_24h": 80,
+  "result_jsons_landed_24h": 281,
+  "digests_landed_24h": 0,
+  "prereg_md_touched_24h": 78,
   "compute_audit_latest": {
-   "ts": "2026-11-21 03:14:05",
-   "py_cpu_pct": 9.1,
+   "ts": "2026-11-21 07:12:41",
+   "py_cpu_pct": 57.4,
    "flags": [
     "pool_starvation",
     "supply_floor"
@@ -829,17 +829,13 @@
     "supply_why": null
    },
    "bm-c": {
-    "latest_ts": "2026-11-21 03:14:05",
-    "py_pct": 9.1,
-    "cpu_pct": 34.0,
+    "latest_ts": "2026-11-21 07:12:41",
+    "py_pct": 57.4,
+    "cpu_pct": 31.0,
     "ready": 0,
-    "streak_min": 13523.2,
+    "streak_min": 13726.9,
     "verdict": "FLAG:pool_starvation,supply_floor",
     "py_series_tail": [
-     [
-      "10:37",
-      0.7
-     ],
      [
       "11:27",
       0.1
@@ -883,14 +879,18 @@
      [
       "03:14",
       9.1
+     ],
+     [
+      "07:12",
+      57.4
      ]
     ],
-    "today_samples": 3,
+    "today_samples": 4,
     "today_floor_ok": 0,
     "today_sla_flags": 0,
     "today_supply_gap_flags": 0,
-    "own_samples": 143,
-    "unattributed_samples": 42,
+    "own_samples": 144,
+    "unattributed_samples": 41,
     "latest_attributed": true,
     "lane_machine": "bm-c",
     "supply_why": {
@@ -1029,7 +1029,7 @@
      "readable": true,
      "window_min": 60.0,
      "audit_batches": 0,
-     "audit_ts": "2026-11-21 03:14:05"
+     "audit_ts": "2026-11-21 07:12:41"
     }
    }
   },
@@ -1856,7 +1856,7 @@
  },
  "lane_authority": {
   "present": true,
-  "as_of": "2026-11-21T02:35:07",
+  "as_of": "2026-11-21T07:13:00",
   "verdict": "attention",
   "observer": "bm-c",
   "sentence": "以本机 bm-c 的盘为基准：14 条在役车道的数字全都落在本机盘上，其中 14 条有署名可核实。",
@@ -1875,7 +1875,6 @@
   },
   "labels": {
    "sina_mf": "宿主自己写的封套",
-   "futures": "申报接管",
    "heat": "申报接管",
    "lhb": "申报接管",
    "lhb_inst": "宿主自己写的封套",
@@ -1883,6 +1882,7 @@
    "ah_panel": "宿主本机副本",
    "astock_daily": "申报接管",
    "etf_panel": "宿主自己写的封套",
+   "futures": "申报接管",
    "marks": "申报接管",
    "minute_feed": "宿主本机副本",
    "moneyflow": "宿主自己写的封套",
@@ -1892,7 +1892,7 @@
  },
  "lane_window": {
   "present": true,
-  "as_of": "2026-11-21T02:35:07",
+  "as_of": "2026-11-21T07:13:00",
   "n": 1,
   "windows": [
    {
@@ -1912,12 +1912,12 @@
  "lane_silence": {
   "present": true,
   "machine": "bm-c",
-  "verdict": "OPEN_SILENCE",
+  "verdict": "SILENT_GAP",
   "threshold_min": 90,
   "window_days": 3,
-  "median_gap_min": 46.5,
-  "rounds_in_window": 51,
-  "rounds_in_ledger": 1320,
+  "median_gap_min": 36.0,
+  "rounds_in_window": 58,
+  "rounds_in_ledger": 1328,
   "gaps_over_threshold_count": 10,
   "longest_silence": {
    "from": "2026-11-18T10:35",
@@ -1929,23 +1929,14 @@
    "unexplained_low_min": 1451.0
   },
   "open_gap": {
-   "gap_high_min": 95.2,
-   "gap_low_min": 86.2,
+   "gap_high_min": 43.1,
+   "gap_low_min": 43.1,
    "quiet_window_min": 0.0,
-   "since": "2026-11-21T01:00",
-   "unexplained_high_min": 95.2,
-   "unexplained_low_min": 86.2
+   "since": "2026-11-21T06:30",
+   "unexplained_high_min": 43.1,
+   "unexplained_low_min": 43.1
   },
   "gaps_over_threshold": [
-   {
-    "from": "2026-11-18T02:40",
-    "gap_high_min": 449.0,
-    "gap_low_min": 440.0,
-    "quiet_window_min": 0.0,
-    "to": "2026-11-18T10:00",
-    "unexplained_high_min": 449.0,
-    "unexplained_low_min": 440.0
-   },
    {
     "from": "2026-11-18T10:35",
     "gap_high_min": 1451.0,
@@ -2026,11 +2017,20 @@
     "to": "2026-11-20T21:47",
     "unexplained_high_min": 97.0,
     "unexplained_low_min": 97.0
+   },
+   {
+    "from": "2026-11-21T01:00",
+    "gap_high_min": 174.0,
+    "gap_low_min": 165.0,
+    "quiet_window_min": 0.0,
+    "to": "2026-11-21T03:54",
+    "unexplained_high_min": 174.0,
+    "unexplained_low_min": 165.0
    }
   ],
   "evidence_cutoff": "2026-11-21",
-  "generated": "2026-11-21T02:35:10",
-  "silence_verdict": "OPEN_SILENCE",
+  "generated": "2026-11-21T07:13:05",
+  "silence_verdict": "SILENT_GAP",
   "lane_tasks": {
    "absent": [],
    "disabled": [],
@@ -2044,13 +2044,13 @@
    "states": {
     "Bigmoney-IterationLoop": "Running",
     "Bigmoney-LoopWatchdog": "Ready",
-    "Bigmoney-SatEngine-bm-b": "Ready"
+    "Bigmoney-SatEngine-bm-b": "Running"
    },
    "threshold_min": 90,
    "verdict": "LANE_ENABLED",
    "why": "every probeable lane task is switched on; the silence (if any) is not a switch"
   },
-  "sentence": "bm-c：窗内 51 轮 / 3 天，相邻间隔中位数 46.5 分钟，超过 90 分钟且无解释的空档 10 处；最长静默 2026-11-18T10:35 → 2026-11-19T10:46（1451.0–1451.0 分钟，其中 0.0 分钟由其申报的静默窗解释）；仍未恢复，自 2026-11-21T01:00 起（未解释 86.2–95.2 分钟）。"
+  "sentence": "bm-c：窗内 58 轮 / 3 天，相邻间隔中位数 36.0 分钟，超过 90 分钟且无解释的空档 10 处；最长静默 2026-11-18T10:35 → 2026-11-19T10:46（1451.0–1451.0 分钟，其中 0.0 分钟由其申报的静默窗解释）；仍未恢复，自 2026-11-21T06:30 起（未解释 43.1–43.1 分钟）。"
  },
  "cap_vs_book": {
   "status": "ok",
@@ -2093,8 +2093,8 @@
   "forward": {
    "bars": 21,
    "inception": "2026-10-23",
-   "nav": 0.9800317259,
-   "since_inception_pct": -1.9968,
+   "nav": 0.9800380766,
+   "since_inception_pct": -1.9962,
    "as_of": "2026-11-20",
    "book_bar": "2026-11-11",
    "book_n_hold": 12,
@@ -2103,9 +2103,9 @@
   },
   "vs_basket": {
    "bar": "2026-11-20",
-   "book_nav": 0.9800317259,
+   "book_nav": 0.9800380766,
    "basket_nav": 0.9440629206,
-   "excess_pp": 3.81,
+   "excess_pp": 3.8107,
    "basket": {
     "518880": "gold ETF",
     "513100": "Nasdaq-100 QDII ETF",
@@ -2122,7 +2122,7 @@
     },
     "years_for_80pct_power": {
      "pre-2020 measured alpha (single arm)": 136.0,
-     "in-window measured alpha (single arm)": 15.8
+     "in-window measured alpha (single arm)": 16.1
     },
     "candidate_sources": {
      "pre-2020 measured alpha (single arm)": {
@@ -2133,7 +2133,7 @@
      "in-window measured alpha (single arm)": {
       "file": "results/etf_book_spanning.json",
       "field": "arms.book.full.alpha_annual",
-      "edge_pp_per_year": 5.96
+      "edge_pp_per_year": 5.9
      }
     }
    }

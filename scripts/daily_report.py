@@ -1261,6 +1261,7 @@ def render_md(rep):
     L.append("## 六、算力利用率（O-1614 满载机制 · T-107 面）")
     u = rep.get("utilization") or {}
     _why_printed = None
+    _cap_printed = None
     for mid, m in (u.get("machines") or {}).items():
         series = " ".join(f"{t}={p}%" for t, p in (m.get("py_series_tail") or [])
                           if p is not None)
@@ -1318,7 +1319,18 @@ def render_md(rep):
                 # read the capacity receipt; re-deriving it here would be a
                 # second place deciding the same level.
                 if why.get("capacity_sentence"):
-                    L.append("  - 而且日历过了也不够：%s" % why["capacity_sentence"])
+                    # The sentence quotes one book-level receipt (the ceiling
+                    # priced against the floor), so two lanes carrying it read
+                    # as two measurements of one level -- the same defect
+                    # class the cause line above already dedupes. The second
+                    # lane points at the first instead of reprinting it.
+                    if why["capacity_sentence"] == _cap_printed:
+                        L.append("  - 而且日历过了也不够：与上一处同一条能力回执"
+                                 "（同一张 priced 面，不重复印）")
+                    else:
+                        _cap_printed = why["capacity_sentence"]
+                        L.append("  - 而且日历过了也不够：%s"
+                                 % why["capacity_sentence"])
         elif "supply_floor" in str(m.get("verdict") or ""):
             # Honest label: a lane written before r1657 has the flag but no
             # cause. Printing nothing would read as "no cause exists"; printing

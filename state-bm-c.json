@@ -1258,7 +1258,7 @@
   "watermark": "green: board/pool both empty (pool_ready_count=0, fleet_open_tasks=0), no claimable batch on this host; py_watermark insufficient_history (window n=1, local_batch=1 = this round own suite)"
  },
  "round_label": "r1813",
- "round_no": 1898,
+ "round_no": 1899,
  "round_no_label": "r1821",
  "round_no_landed": 1663,
  "round_note": "r1489: a reinstated bar is re-derived from the panel, not carried over (reinstatement_check + reinstatements.json + sheet paragraph)",
@@ -1968,11 +1968,11 @@
  "went_well": "the fix keeps the old states reachable: a card with one unqualified row still takes the position-free path, so no previously published verdict changed meaning",
  "when_well": "the exec panel reused lhb_sellleg verbatim by passing a net-of-cost panel instead of writing a second event study -- the two tables cannot disagree about the quintiles because there is only one implementation",
  "who_did": "bm-c",
- "下个里程碑": "把同一行接到 CEO 一页纸（docs/live_usage/LIVE-*.md）并加两页同字断言；窗 ≤48h",
+ "下个里程碑": "S6 链里其余「抄上游 generated」的下游面各加一条同级断言；窗 ≤48h",
  "孤儿面": 0,
- "当前任务": "r1892: 把「判决不该等更准的尺子」接到交易票（研究面 → 读者面）",
+ "当前任务": "r1899: 把「一个数印两次」与「下游晚一步抄上游」两类红一次收干净",
  "当前任务_en": "r1892: put the price of waiting on the sheet that trades",
- "最近实物": "results/etf_book_order/ORDER-2026-11-20.md L91 + scripts/etf_book_order.py selftest 295/295 (2026-11-21 02:5x)",
+ "最近实物": "docs/daily_report/REPORT-2026-11-21.md（重复句去重）+ docs/live_usage/LIVE-2026-11-21.md（资金线 1,124,479/1,152,596）",
  "r1898": {
   "what": "seat_mde 的控制臂改成在发布截止日上回放，面的 cutoff 改成自己读到的最后一根",
   "verdict": "SEAT_TARGET_NOT_REACHED",
@@ -1994,5 +1994,20 @@
     "p_star": 10.7122
    }
   }
+ },
+ "r1899": {
+  "what": "daily_report 的书级回执句逐句去重；两枚下游面按上游重生后复算",
+  "reds_closed": [
+   "no CEO-facing page prints one measurement twice",
+   "a bar restated after settling reaches the ticket's own ledger line",
+   "the CEO page prices the carry book's zero"
+  ],
+  "verify": {
+   "cap_sentence_hits": 0,
+   "restatement_missing": 0,
+   "funding_line_on_page": true
+  },
+  "smoke": "full suite NOT rerun (1034s > round window); last full record 727/730 at 07:59",
+  "ts": "2026-11-21T08:11:52+08:00"
  }
 }
