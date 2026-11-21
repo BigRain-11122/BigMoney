@@ -23,6 +23,8 @@ import glob
 import json
 import math
 import os
+import shutil
+import tempfile
 
 RESULTS_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "results")
 PERIODS_PER_YEAR = 252.0
@@ -30,6 +32,81 @@ EULER_GAMMA = 0.5772156649015329
 
 
 # ---------------------------------------------------------------- ledger (D1: N_eff)
+
+# r1910: `ledger_head` and `active_voids` each parse every JSON under results/
+# (13,733 files on 2026-11-21; 15.7s of pure json.load, ~33s per ledger_head call
+# because it calls active_voids first).  Callers such as scorecard.load_lines call
+# n_eff once per line, so one chain leg (strategy_scorecard) paid minutes for a
+# number that only changes when a file is written -- and it hung the 1908 chain at
+# leg 14 with 0.1s of CPU burned.
+#
+# The cache is per FILE, not per tree: every call still stats all 13,733 paths
+# (0.5s) and re-parses only the ones whose (size, mtime_ns) moved.  That keeps the
+# freshness semantics exact -- a tree-wide fingerprint would be invalidated every
+# time *any* unrelated face is rewritten, which on this repo is every few seconds,
+# so it saved nothing -- while the steady-state cost drops to the stat walk.
+_LEDGER_FILE_CACHE = {}
+
+
+def _parse_ledger_file(path):
+    """Per-file slice of both faces: the trial block and the void declarations."""
+    rec = {"trial": None, "voids": []}
+    try:
+        with open(path, encoding="utf-8") as fh:
+            d = json.load(fh)
+    except (OSError, ValueError, UnicodeDecodeError):
+        return rec
+    if not isinstance(d, dict):
+        # r239: results/ carries non-dict top-level JSONs by design; not a ledger.
+        return rec
+    lv = d.get("ledger_voids")
+    if isinstance(lv, list):
+        for v in lv:
+            if (isinstance(v, dict) and isinstance(v.get("batch"), str)
+                    and isinstance(v.get("voided_trials"), (int, float))
+                    and v.get("active", True)):
+                rec["voids"].append({"batch": v["batch"],
+                                     "voided_trials": int(v["voided_trials"])})
+    tl = d.get("trials_ledger")
+    if tl is None:
+        # r459: nested face -- etf_ops family products carry the ledger block
+        # under science_gates.ledger (BP1/BP2 precedent); a top-level-only read
+        # sinks those +N into an invisible branch and every later batch
+        # under-counts N_eff (r253 redo-echo family).
+        _sg = d.get("science_gates")
+        if isinstance(_sg, dict) and isinstance(_sg.get("ledger"), dict):
+            tl = _sg["ledger"]
+    if isinstance(tl, dict) and isinstance(tl.get("total"), (int, float)):
+        applied = tl.get("voids_applied")
+        rec["trial"] = {"total": int(tl["total"]),
+                        "note": tl.get("note"),
+                        "applied": (set(applied) if isinstance(applied, list)
+                                    else set())}
+    return rec
+
+
+def _scan_ledger_files(results_dir):
+    """[(path, parsed_slice)] over results/**.json, re-parsing only changed files."""
+    out = []
+    for path in sorted(glob.glob(os.path.join(results_dir, "**", "*.json"),
+                                 recursive=True)):
+        # r685 bm-a: TREASURE_PROTECTION_LAW s2 quarantine-window aside-copies are
+        # withdrawn evidence, never chain/void faces -- live instance: a quarantined
+        # W3 summary re-entered ledger_head as head (648,026 bogus block).
+        if os.sep + "_quarantine" + os.sep in path:
+            continue
+        try:
+            st = os.stat(path)
+        except OSError:
+            continue
+        stamp = (st.st_size, getattr(st, "st_mtime_ns", int(st.st_mtime * 1e9)))
+        hit = _LEDGER_FILE_CACHE.get(path)
+        if hit is None or hit[0] != stamp:
+            hit = (stamp, _parse_ledger_file(path))
+            _LEDGER_FILE_CACHE[path] = hit
+        out.append((path, hit[1]))
+    return out
+
 
 def active_voids(results_dir: str = RESULTS_DIR) -> list:
     """T-140 (O-20261001-1108 sec.3, LOWAMP-P1 verdict VOID): governance-void
@@ -45,32 +122,8 @@ def active_voids(results_dir: str = RESULTS_DIR) -> list:
     netted once, never re-subtracted).
     """
     voids = []
-    for path in sorted(glob.glob(os.path.join(results_dir, "**", "*.json"),
-                                 recursive=True)):
-        # r685 bm-a: TREASURE_PROTECTION_LAW s2 quarantine-window aside-copies
-        # are withdrawn evidence, never chain/void faces -- live instance:
-        # quarantined W3 summary re-entered ledger_head as head (648,026
-        # bogus block double-counting the wave). Path-segment match so a
-        # legit file merely named "*quarantine*" is not excluded.
-        # (reinstated r486 bm-c: clobbered by r687 file-level yield merge)
-        if os.sep + "_quarantine" + os.sep in path:
-            continue
-        try:
-            with open(path, encoding="utf-8") as fh:
-                d = json.load(fh)
-        except (OSError, ValueError, UnicodeDecodeError):
-            continue
-        if not isinstance(d, dict):
-            continue
-        lv = d.get("ledger_voids")
-        if not isinstance(lv, list):
-            continue
-        for v in lv:
-            if (isinstance(v, dict) and isinstance(v.get("batch"), str)
-                    and isinstance(v.get("voided_trials"), (int, float))
-                    and v.get("active", True)):
-                voids.append({"batch": v["batch"],
-                              "voided_trials": int(v["voided_trials"])})
+    for _path, _rec in _scan_ledger_files(results_dir):
+        voids.extend(dict(v) for v in _rec["voids"])
     return voids
 
 
@@ -91,44 +144,15 @@ def ledger_head(results_dir: str = RESULTS_DIR) -> dict:
     # blocks invisible to a top-level-only glob, silently diverging this scanner
     # from xlib_synth.chain_head_total's two-face scan (the r110 same-base
     # double-count root cause). Recursive glob unifies the visible face.
-    for path in sorted(glob.glob(os.path.join(results_dir, "**", "*.json"),
-                                 recursive=True)):
-        # r685 bm-a: TREASURE_PROTECTION_LAW s2 quarantine-window aside-copies
-        # are withdrawn evidence, never chain/void faces -- live instance:
-        # quarantined W3 summary re-entered ledger_head as head (648,026
-        # bogus block double-counting the wave). Path-segment match so a
-        # legit file merely named "*quarantine*" is not excluded.
-        # (reinstated r486 bm-c: clobbered by r687 file-level yield merge)
-        if os.sep + "_quarantine" + os.sep in path:
-            continue
-        try:
-            with open(path, encoding="utf-8") as fh:
-                d = json.load(fh)
-            # r239: results/ is a shared surface carrying non-dict top-level JSONs
-            # by design (e.g. local_coding_pilot C-arm metrics.json = list of
-            # per-round dicts). A non-dict file simply is not a ledger file ->
-            # skip, same as unparseable. .get on a list raised AttributeError
-            # and crashed every ledger_head consumer (aggressive_lab S6 leg).
-            tl = d.get("trials_ledger") if isinstance(d, dict) else None
-            # r459: nested face -- etf_ops family products carry the ledger
-            # block under science_gates.ledger (BP1/BP2 precedent); a
-            # top-level-only read sinks those +N into an invisible branch and
-            # every later batch under-counts N_eff (r253 redo-echo family,
-            # live instance: BP1 +30 sunk 09-28, BP2 +15 caught 09-30).
-            if tl is None and isinstance(d, dict):
-                _sg = d.get("science_gates")
-                if isinstance(_sg, dict) and isinstance(_sg.get("ledger"), dict):
-                    tl = _sg["ledger"]
-        except (OSError, ValueError, UnicodeDecodeError):
-            continue
-        if isinstance(tl, dict) and isinstance(tl.get("total"), (int, float)):
-            applied = tl.get("voids_applied")
-            applied = set(applied) if isinstance(applied, list) else set()
-            adj = int(tl["total"]) - sum(n for b, n in void_by_batch.items()
-                                         if b not in applied)
+    # r1910: the scan is shared with active_voids and cached per file (stat only).
+    for path, rec in _scan_ledger_files(results_dir):
+        tl = rec["trial"]
+        if tl is not None:
+            adj = tl["total"] - sum(n for b, n in void_by_batch.items()
+                                    if b not in tl["applied"])
             if adj > head["total"]:
                 head = {"total": int(adj), "file": os.path.basename(path),
-                        "note": tl.get("note")}
+                        "note": tl["note"]}
     if voids:
         head["voided"] = [{"batch": v["batch"],
                            "voided_trials": v["voided_trials"]} for v in voids]
@@ -2966,7 +2990,12 @@ def selftest() -> int:
            and ledger_head()["file"] == "sub_ledger.json")
     finally:
         os.unlink(sub_path)
-        os.rmdir(sub)
+        # r1910: a run that died between the two fixture blocks left
+        # c_arm_metrics.json behind and every later selftest has died here since
+        # 2026-10-20 (a scratch fixture turning a shared-library selftest red for a
+        # month is worse than the fixture). The directory is test scratch by name,
+        # so the cleanup is allowed to be final.
+        shutil.rmtree(sub, ignore_errors=True)
 
     # r239: non-dict top-level JSONs (C-arm metrics.json list form) must be
     # skipped without crashing the recursive scan (real-form mirror fixture)
@@ -2979,10 +3008,33 @@ def selftest() -> int:
            isinstance(ledger_head()["total"], int))
     finally:
         os.unlink(list_path)
-        os.rmdir(sub)
+        shutil.rmtree(sub, ignore_errors=True)
+
+    # r1910: the per-file ledger cache must be invisible except in how long a call
+    # takes -- same answer twice, and a rewritten file read again. Two legs: the
+    # second call must not re-parse (stamp unchanged), and a changed total on disk
+    # must reach the head (stamp moved). A cache that never invalidates is a lie
+    # with a good benchmark; one that always invalidates is the 33s it replaced.
+    with tempfile.TemporaryDirectory() as cdir:
+        io_path = os.path.join(cdir, "ledger_fixture.json")
+        with open(io_path, "w", encoding="utf-8") as fh:
+            json.dump({"trials_ledger": {"prev_total": 0, "batch_trials": 5,
+                                         "total": 5}}, fh)
+        first = ledger_head(cdir)["total"]
+        stamp_a = _LEDGER_FILE_CACHE[io_path][0]
+        second = ledger_head(cdir)["total"]
+        stamp_b = _LEDGER_FILE_CACHE[io_path][0]
+        ok("ledger_head serves a cached file while its stamp is unchanged (r1910)",
+           first == second == 5 and stamp_a == stamp_b)
+        with open(io_path, "w", encoding="utf-8") as fh:
+            json.dump({"trials_ledger": {"prev_total": 0, "batch_trials": 9,
+                                         "total": 9}}, fh)
+        os.utime(io_path, None)
+        third = ledger_head(cdir)["total"]
+        ok("ledger_head re-reads a file whose bytes moved (r1910)",
+           third == 9 and _LEDGER_FILE_CACHE[io_path][0] != stamp_b)
 
     # T-140 (O-20261001-1108 sec.3): governance-void face, hermetic tmpdir
-    import tempfile
     with tempfile.TemporaryDirectory() as vdir:
         def _vw(name, payload):
             with open(os.path.join(vdir, name), "w", encoding="utf-8") as fh:
@@ -3119,8 +3171,7 @@ def selftest() -> int:
        SEED_REGISTRY["div_lowvol_p1"] == 60_000)
 
     # T-18 deep-axis additive pool branch (additive; core48 path untouched)
-    import tempfile as _tf
-    with _tf.TemporaryDirectory() as _tmp:
+    with tempfile.TemporaryDirectory() as _tmp:
         try:
             passive_baseline(pool="t18_deep_axis", results_dir=_tmp)
             _pre_ok = False
@@ -3301,7 +3352,6 @@ def selftest() -> int:
     # (TREASURE_PROTECTION_LAW s2 vs recursive glob; live instance: quarantined
     # W3 summary re-entered ledger_head as the head block and double-counted).
     # (reinstated r486 bm-c: clobbered by r687 file-level yield merge)
-    import tempfile
     with tempfile.TemporaryDirectory() as td:
         qd = os.path.join(td, "_quarantine", "aside")
         os.makedirs(qd, exist_ok=True)

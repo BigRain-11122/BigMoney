@@ -1015,6 +1015,57 @@ def _carry_timing_face():
     }
 
 
+def _carry_membership_face():
+    """r1910: "in the band" is the timing half only -- the other half is membership.
+
+    The timing block printed "在带内：IF、IH" and then, in parentheses, that the book
+    only builds IC/IM.  A reader who sees two products whose *timing* half is open and
+    no reason is being asked to guess whether that is a policy or an oversight.  The
+    reason already exists and is already priced, in the same face that supplies the
+    roll cost: `verdict.rows[code].verdict == "REFUSE"` with a why-string, the carry
+    each product earns at the same 8% vol target, its correlation with the book, and
+    the spread between the two published calibers.
+
+    Rules, same family as the blocks around it:
+      * the numbers are quoted from the face, never re-derived here -- this block adds
+        no judgement, it only says which half said no;
+      * a missing face prints a reason and NO number (r98);
+      * the two calibers are printed side by side and never blended: at 8% vol IF's
+        carry is a number whose own two rulers differ by almost 4pp, which is the
+        point worth printing.
+    """
+    d = _read_json(CARRY_RISK_JSON)
+    if not d:
+        return {"present": False, "path": CARRY_RISK_REL,
+                "note": "产品准入面未产出（缺面不读 0）"}
+    rows_in = ((d.get("verdict") or {}).get("rows")) or {}
+    if not rows_in:
+        return {"present": False, "path": CARRY_RISK_REL,
+                "note": "产品准入面在册但无判决行（不完整面不冒充）"}
+    rows = {}
+    for code, r in sorted(rows_in.items()):
+        rows[code] = {
+            "verdict": r.get("verdict"),
+            "why": r.get("why"),
+            "carry_at_target_pct": r.get("carry_at_target_pct"),
+            "corr_with_book": r.get("corr_with_book"),
+            "blend_gain_sharpe": r.get("blend_gain_sharpe"),
+            "caliber_spread_pp": r.get("caliber_spread_pp"),
+        }
+    book = d.get("book") or {}
+    return {
+        "present": True,
+        "path": CARRY_RISK_REL,
+        "rows": rows,
+        "candidates": ((d.get("verdict") or {}).get("sleeve_candidates")) or [],
+        "book_ann_pct": book.get("ann_mean_pct"),
+        "book_ann_compound_pct": book.get("ann_compound_pct"),
+        "vol_target_pct": (d.get("criteria") or {}).get("vol_target_pct"),
+        "evidence_cutoff": d.get("evidence_cutoff"),
+        "source_generated": d.get("generated"),
+    }
+
+
 def _carry_margin_face():
     """v2.4 r1819: which constraint actually sets the lot -- the risk dial or the broker.
 
@@ -2398,6 +2449,7 @@ def build_payload(day: str) -> dict:
         "book_identity": _book_identity_face(),
         "carry_book": _carry_book_face(),
         "carry_timing": _carry_timing_face(),
+        "carry_membership": _carry_membership_face(),
         "carry_margin": _carry_margin_face(),
         "futures_panel": _futures_panel_face(),
         "futures_gaps": _futures_gaps_face(),
@@ -3940,6 +3992,65 @@ def render_md(p: dict) -> str:
         L.append(f"  - 出处：`{ct.get('path')}`｜cutoff {ct.get('evidence_cutoff')}"
                  f"｜generated {ct.get('source_generated') or '面未自带（读 window.to）'}"
                  f"｜收敛比 {ct.get('ratio')}")
+    # r1910: the band answers "is today a day to enter"; it does not answer "is this
+    # product one this book buys".  When IF/IH stood in the band the page said, in
+    # parentheses, that the book only builds IC/IM -- and left the reader to guess
+    # whether that was policy or oversight, while the refusal sat priced in a face
+    # the same page already reads for the roll cost.
+    cmb = p.get("carry_membership") or {}
+    if not cmb.get("present"):
+        L.append(f"- 带内不等于这本书会买：{cmb.get('note') or '产品准入面未产出'}"
+                 f"（指针 `{cmb.get('path')}`）——**今天读不到准入判决，"
+                 "别把「在带内」读成「该买」**")
+    else:
+        mem_rows = cmb.get("rows") or {}
+        refused = [c for c, r in mem_rows.items() if r.get("verdict") == "REFUSE"]
+        cands = [c for c in (cmb.get("candidates") or [])]
+        vol_t = cmb.get("vol_target_pct")
+        book_ann = cmb.get("book_ann_pct")
+        book_cmp = cmb.get("book_ann_compound_pct")
+
+        def _n(v, nd=2, unit=""):
+            return "?" if v is None else f"{v:.{nd}f}{unit}"
+
+        # the face quotes the book as its compound year (11.25%) while `book.ann_mean_pct`
+        # is the arithmetic one (11.20%); printing one of them bare is how a reader ends
+        # up holding two numbers for the same book (r1234).
+        book_txt = (f"**{_n(book_ann, 2, '%')}**（算术年化"
+                    + (f"；复合 {_n(book_cmp, 2, '%')}" if book_cmp is not None else "")
+                    + "）") if book_ann is not None else "**?**"
+
+        if refused:
+            carries = "／".join(_n((mem_rows[c] or {}).get("carry_at_target_pct"), 2, "%")
+                               for c in refused)
+            L.append(
+                f"- **带内不等于这本书会买**（同一判定里的另一半＝产品准入）：被拒的是 "
+                f"**{'、'.join(refused)}** —— 同一把 {_n(vol_t, 1, '%') if vol_t is not None else '同一把 8%'} "
+                f"波动尺下它们各自只赚 **{carries}**，而这本账面读 "
+                f"{book_txt}；候选是 "
+                f"**{'、'.join(cands) if cands else '（本面未点名）'}**。"
+                "所以「在带内」只说明时机那一半开着，产品那一半早就判了否")
+            spreads = "／".join(
+                _n((mem_rows[c] or {}).get("caliber_spread_pp"), 2, "pp") for c in refused)
+            L.append(f"  - 这两条读数自己也**不牢**：量它们的两把尺子相差 **{spreads}**"
+                     "——「carry 到底多少」在这个窗上是口径选择，不是测量")
+            corrs = "／".join(
+                ("+" if ((mem_rows[c] or {}).get("corr_with_book") or 0) >= 0 else "")
+                + _n((mem_rows[c] or {}).get("corr_with_book"), 3) for c in refused)
+            gains = "／".join(
+                ("+" if ((mem_rows[c] or {}).get("blend_gain_sharpe") or 0) >= 0 else "")
+                + _n((mem_rows[c] or {}).get("blend_gain_sharpe"), 3) for c in refused)
+            extra = "、".join(
+                f"{c} +{_n((mem_rows[c] or {}).get('blend_gain_sharpe'), 3)}" for c in cands)
+            L.append(f"  - 想靠它们分散也有限：与账面的相关系数 {corrs}，"
+                     f"混进来夏普只加 **{gains}**"
+                     + (f"（{extra} 才是候选）" if extra else ""))
+        else:
+            L.append("- **带内不等于这本书会买**：这一趟没有任何品种被判 REFUSE"
+                     f"（候选 {'、'.join(cands) if cands else '（本面未点名）'}）"
+                     "——准入这一半是开的，能买与否回到资金线那一半")
+        L.append(f"  - 出处：`{cmb.get('path')}`｜generated {cmb.get('source_generated')}"
+                 f"｜cutoff {cmb.get('evidence_cutoff')}")
     # r1819: the two halves above both assume the 8% vol ruler is the only constraint.
     # A broker's margin is a second floor, and the page owes the reader the check.
     cm = p.get("carry_margin") or {}
@@ -5085,6 +5196,38 @@ def selftest() -> int:
             _md6 = render_md(_deg6)
             check("a missing roll-cost face says the gap was priced on the floor (r1820)",
                   "今天读不到换月成本" in _md6 and "换月不是免费的" not in _md6)
+        # r1910: "in the band" is the timing half; whether the book buys the product is
+        # the other half and it was left as a bare parenthesis. Four legs: the refusal
+        # reaches the page, its numbers come off the face, the two calibers stay apart,
+        # and a missing face refuses to be read as a green light.
+        _mb1 = p1.get("carry_membership") or {}
+        if not _mb1.get("present"):
+            print("  [SKIP] carry membership: the face is absent")
+        else:
+            _mbr = _mb1.get("rows") or {}
+            _ref = [c for c, r in _mbr.items() if r.get("verdict") == "REFUSE"]
+            if _ref:
+                check("the page says which half refused the product, not just that "
+                      "it is not traded (r1910)",
+                      "带内不等于这本书会买" in md1 and all(c in md1 for c in _ref))
+                check("the refusal's carry is quoted from the face, never typed (r1910)",
+                      all("{:.2f}%".format(float(r["carry_at_target_pct"])) in md1
+                          for c, r in _mbr.items()
+                          if c in _ref and r.get("carry_at_target_pct") is not None))
+                check("the two calibers under the refusal stay apart on the page (r1910)",
+                      all("{:.2f}pp".format(float(r["caliber_spread_pp"])) in md1
+                          for c, r in _mbr.items()
+                          if c in _ref and r.get("caliber_spread_pp") is not None))
+                _deg7 = json.loads(json.dumps(p1))
+                _deg7["carry_membership"] = {"present": False, "path": CARRY_RISK_REL,
+                                             "note": "产品准入面未产出（缺面不读 0）"}
+                _md7 = render_md(_deg7)
+                check("a missing membership face says so instead of reading as a buy "
+                      "signal (r1910)",
+                      "别把「在带内」读成「该买」" in _md7
+                      and "带内不等于这本书会买：**" not in _md7)
+            else:
+                print("  [SKIP] carry membership: no product is refused on this face")
         # r1845: the carry P&L is printed from an append-only book; the page must say
         # whether the bars under it are still on the contract panel, and must not turn
         # a missing face into either "clean" or a number (r98).

@@ -1,7 +1,7 @@
 {
  "activity": "product",
- "activity_now": "r1893: recovered the dead window's day-word work (live_usage_day_words driven for the first time: 112 printed dates agree, 0 unmapped) and cleared both smoke reds (do_or_wait re-derived 13/13; etf_book_ceo_page selftest 475/475)",
- "activity_now_round": 1893,
+ "activity_now": "r1910: two products. (1) The band was only half the judgement -- the CEO page now names which half refused the carry product (IF/IH carry 6.26%/4.02% against the book's 11.20% arithmetic / 11.25% compound, each refusal's own caliber spread printed). (2) The chain's leg 14 was not hung but mispriced: science_gates re-parsed all 13,733 results JSONs on every ledger_head call (33s; scorecard calls n_eff once per line) -- now cached per file, first call 17.5s and 1.0s after, same head 1,148,141.",
+ "activity_now_round": 1910,
  "agenda_starved": false,
  "ah_note": "r1680 LANDED: refresh closed itself at 21:17 -- cutoff 2026-11-12 -> 2026-11-13, complete=True, exit 0, pulled_rows 46; data_lane_freshness in_sync 13 / behind_1d 1 (worst now marks, intraday-only, not rebuildable). Fix that made it possible: stall watchdog over every network leg (300s, names stage/pair, exit 2, checkpoint kept) + save_progress stamps write time + -u on the detached spawn + progress line every 10 pairs. NOT yet proven: the 300s stall path has never fired on a real hang (this round the suspected freeze finished by itself).",
  "ahead_origin": 0,
@@ -47,9 +47,9 @@
  "batch": "entry_price selftest 13/13 + run/check rc0; chain leg entry_price_write 0.9s rc0; s6 chain selftest 17/17; smoke suite green-so-far (no FAIL lines)",
  "behind_origin": 0,
  "busy": false,
- "chain": "S6: dualrun ZERO-DRIFT streak 51/744; attrition CLEAN (4 ledgers, 3 historical shrink rows healed); py_watermark insufficient_history (py 0.1%, local_batch true = astock refresh); loop task pin=0 no-op; watchdog S4U flip still refused (elevation face, long-standing); both claws reinstalled; full smoke suite 697 legs 0 FAIL 0 UNVERIFIED (922.7s); r1864b: Tools/saturation_engine.py is now a shim onto scripts/ (two generations, two state files -> status read a 8.7-day-old heartbeat while the engine ticked 8s ago)",
+ "chain": "S6: the 1908 chain (pid 43900) died at leg 77 with its launcher dead -- reaped as an orphan. Relaunched for 1910 detached from the session job object (WMI + pythonw, pid 9424). It then stalled again at leg 14 (strategy_scorecard) and that was the real finding: ledger_head cost 33s per call, not a deadlock. After the per-file cache the chain is advancing (80 legs at report time). attrition CLEAN (4 ledgers, 3 healed).",
  "chain_note": "r1897: 8/8 rc0 (alias_census, harvest_census, alias_stability, era_capacity_write, etf_book_width_return, etf_book_cash_caliber_band, etf_book_closed_axes, etf_book_ceo_page); width face re-derived to 2026-11-20",
- "chain_verdict": "2/3 rc0 (do_or_wait, live_usage_day_words); live_book_day_words rc1 unmapped=8",
+ "chain_verdict": "in flight (80/317 legs at report time, rc 0 on every printed leg)",
  "chain_writer_audit": {
   "known_baseline": 29,
   "note": "not re-enumerated this round: the face fixed here never appeared in that enumeration (it had no leg at all)",
@@ -63,12 +63,12 @@
   "state": "registered (FOUND)",
   "task": "HQ-ProductionClaim"
  },
- "clock_read": "2026-11-21T10:01:25+08:00",
+ "clock_read": "2026-11-21T12:16:00+08:00",
  "clock_read_source": "local",
  "clock_tz": "+08:00",
  "codely_live_count": 2,
  "comfy_free_vram_mb": 14015,
- "control_scan": "S0.5: 115 orders / 256 acks(normalised) / unacked [] ; group decisions.md raw-blob sha256 79e3083b... 250586B unchanged -> zero action; saturation engine rc0 alive; inbox empty",
+ "control_scan": "S0.5: fleet/orders 115 stems vs heartbeat orders_ack 271 -> unacked 0; group decisions.md raw-blob sha256 79e3083b unchanged vs the r1868 read -> zero new decision rows (newest batch still 2026-11-19 06:00, zero rows naming this company); saturated engine rc0 idle; inbox empty",
  "cores": 32,
  "cpu_cores": 32,
  "cpu_idle_pct": 88.6,
@@ -145,8 +145,8 @@
  "delivery_note": "origin/main == 3c18fead65 == local HEAD when this note was written; ahead/behind 0/0; three face files present in the origin tree (scripts/etf_book_window_split.py / results/etf_book_window_split.json / research/ETF_BOOK_WINDOW_SPLIT.md)",
  "delivery_state": "HEAD pushed this round; see delivery_check",
  "dept": "策略/风控",
- "did": "product: scripts/futures_panel_provenance.py (selftest 12/12, --check rc0) + results/futures_panel_provenance.json + S6 leg futures_panel_provenance (chain selftest 17/17, leg 0.3s rc0)",
- "did_round": 1866,
+ "did": "product: scripts/ceo_live_usage.py '带内不等于这本书会买' block (selftest +4 = 182 PASS) + smoke_test product leg + page regenerated; engineering: science_gates per-file ledger cache (selftest 70->72 PASS) + scratch-fixture cleanup heal (results/_selftest_sub red since 2026-10-20); strategy_scorecard 30.7s",
+ "did_round": 1910,
  "edge_t1766": "the EVENT_DRIVEN call rests on one leg only: positive-month ratio 53.01% vs the frozen 55% line (margin 1.99pp), while the concentration leg (top 10% of months >= 60%) reads 45.74% and does not trigger -- published as an edge call, with the sensitivity sweep on the page (54% and above would still read EVENT_DRIVEN, 52% and below would read MIXED)",
  "evidence_cutoff": "2026-11-19",
  "free_ram_gb": 4.22,
@@ -190,19 +190,19 @@
  "idle_ram_gb": 3.62,
  "idle_rounds": 0,
  "landed_commit": "ef8a8dd525",
- "last_action": "r1866: built futures_panel_provenance -- the panel's writer, cadence, pick-day and its 327 dead tails, from evidence",
- "last_action_at": "2026-11-20T05:42:49+08:00",
- "last_artifact": "scripts/futures_panel_provenance.py + results/futures_panel_provenance.json",
- "last_artifact_at": "2026-11-20T05:42:49+08:00",
+ "last_action": "r1910: cached the ledger scan per file (33s -> 1s) + printed which half refused the carry product",
+ "last_action_at": "2026-11-21T12:1x+08:00",
+ "last_artifact": "scripts/science_gates.py (per-file ledger cache) + docs/live_usage/LIVE-2026-11-21.md (membership block)",
+ "last_artifact_at": "2026-11-21T12:1x+08:00",
  "last_closeout_utc": 1794784912,
  "last_decisions_at": "2026-11-18T13:19:09+08:00",
  "last_decisions_check": "2026-11-07T16:37:02+08:00",
  "last_decisions_consumed_at": "2026-11-16T00:40:00+08:00",
- "last_decisions_note": "r1868 read origin/main:docs/decisions.md fresh (raw-blob sha256 79e3083b85c130b8, was 4f8308ba7d31b84d); newest batches are the 2026-11-19 00:00/06:00 group rounds (A-class re-check, feed line first-run blocked, collection write-off, decision-round cloud gate, BigCompute queue emptiness, BigStream 8090 slot) -- no row changes a BigMoney mechanism; quant appears only as a chronic tolerance line -> watermark advanced, zero execution.",
+ "last_decisions_note": "r1910: origin raw-blob sha256 79e3083b (same as r1868's read; the carried 7563f816 was an interim blob read at r1908 with the same conclusion). Newest batch is still the 2026-11-19 06:00 group round (D-20261119-04..09: cloud gate / feed line blocked / collection-face closeout / PRODUCTION-QUEUE UNVERIFIED / 8090 seat closed-by-policy / localised decision rounds) -- zero rows naming this company, so zero execution action; watermark advanced to the raw-blob value.",
  "last_decisions_read_at": "2026-11-20T06:35:10+0800",
  "last_decisions_read_note": "r1846: d19_watermark probe produced no output for 5 min and was cancelled -- the group-tree fetch face is stalled (same as r1845's two stalls); watermark NOT advanced, NOT consumed this round (unread is not clean)",
  "last_decisions_seen": "188744b9ccd31da9a5a7bcb5e78d4883ca3193272c5ba6f54386d1108c20b9cb",
- "last_decisions_sha": "7563f816a78194d8987eff8714ddb71eee1fb91ae7fac5da6cf9e8130bd14744",
+ "last_decisions_sha": "79e3083b85c130b8b57363d1ce4850520704cfbdf3fc41b8277e7e5ee39d6e16",
  "last_decisions_sha_method": "sha256(git show origin/main:docs/decisions.md raw bytes)",
  "last_decisions_watermark": "77816add108799db@a8fdf67/225599",
  "last_decisions_watermark_v2": "v2:BigRain-11122/FluxGroup@a8fdf678513f9aa012306b5118e2aae47f32ae07/225599#77816add108799dbdbb3cbde7dacaf29c2e2a9fd9211a8c3007e9a4a1db9c3fd",
@@ -230,11 +230,11 @@
  },
  "last_push_at": "2026-11-11T08:31:06+08:00",
  "last_round": {
-  "round": 1895,
   "at": "2026-11-21T05:05:58+08:00",
-  "what": "etf_book_ceo_page rebuild branch + the last two bare day words dated",
   "evidence": "live_book_day_words self-dated 14 / undated 0; capacity_ticket 14/14, order 295/295, ceo_page 475/475",
-  "next": "put capacity_edge / capacity_ticket bar fields into the page JSON so the 10 unmapped dates have a field"
+  "next": "put capacity_edge / capacity_ticket bar fields into the page JSON so the 10 unmapped dates have a field",
+  "round": 1895,
+  "what": "etf_book_ceo_page rebuild branch + the last two bare day words dated"
  },
  "last_round_at": "2026-11-21T01:19",
  "last_round_at_legacy": "2026-10-19T15:34:21+08:00",
@@ -273,7 +273,7 @@
   "candidate": "entry price onto the CEO page and the ORDER sheet",
   "status": "open"
  },
- "next_pointer": "(a) the sentence is now arithmetic; put it on a reader face (ORDER card or CEO page) so a person sees it without opening research/; (b) full smoke tally owed this window (results/_smoke_r1891.out, started 02:09); (c) group-tree fetch for the decisions watermark did not return inside this round -- rerun git -C K:\\Fluxgroup\\FluxGroup fetch with a timeout",
+ "next_pointer": "(a) chain 1910 is running detached (results/_r1910_chain.log, 80 legs at report time) -- read the tally next round and publish the generation; (b) the ledger cache made every n_eff caller ~33x cheaper, so re-time the smoke suite (previous record 892s) and aim for a green full record in-window",
  "next_round": 1765,
  "next_task": "r1547: the 场内买入 word hides WHEN it changed -- print the status transition dates per leg so a reopening is a dated event, not a per-day scan",
  "not_verified": "full smoke suite started 00:19 detached and was still running at round end (no tally claimed); closer.py root cause not fixed; no task registered or restored (D-12)",
@@ -565,7 +565,7 @@
   "py_faces": 6
  },
  "orphan_faces": 0,
- "orphan_note": "orphans=0 (py_faces=3, resident_servers=1)",
+ "orphan_note": "round start orphans=0 (py_faces=6); mid-round probe found the 1908 chain as the one orphan (parent dead, 0 CPU, 0 children, log silent 30 min) -> reaped and relaunched detached; probe re-run after the relaunch reads orphans=0",
  "orphans": 0,
  "page_day_debt": {
   "owed": 0,
@@ -953,6 +953,211 @@
  "r1843_note": "futures lane prints three different days across four faces (real_nav 11-16 / ledger 11-17 / roll+desk 11-18); data/futures_contracts is gitignored with zero writers in the repo and frozen at 11-16; IC and TF main-continuous are one session behind their siblings",
  "r1846_next": "(a) the two readings this page now carries answer 'is the edge real', but not 'which half is the factor' -- split B-vs-C (universe) from A-vs-B (period) with the same engine at a fixed calendar window; (b) the S6 chain that was in flight this round (PID 19704) still owes its closeout; (c) 8 selftest legs of ceo_live_usage read red for a same-day session mismatch between the ticket bar and the capacity face -- they were red on HEAD too (proved by an isolated HEAD run), so they are a face-generation gap, not this round's defect",
  "r1846_watermark": "py_low/insufficient_history: py 3.3%, local_batch=1 (S6 chain in flight), open_tickets 0, pool 0",
+ "r1898": {
+  "control_fresh": {
+   "delta_pp": -0.15,
+   "leg_delta_pp": 0.2407,
+   "why": "generation gap"
+  },
+  "control_pinned": {
+   "cutoff": "2026-11-13",
+   "delta_pp": -0.0,
+   "leg_delta_pp": 0.0
+  },
+  "downstream": {
+   "target_price": {
+    "cny": 1860100,
+    "p_star": 10.7122,
+    "ratio": 2380.5,
+    "years": 13.61
+   }
+  },
+  "verdict": "SEAT_TARGET_NOT_REACHED",
+  "what": "seat_mde 的控制臂改成在发布截止日上回放，面的 cutoff 改成自己读到的最后一根"
+ },
+ "r1899": {
+  "reds_closed": [
+   "no CEO-facing page prints one measurement twice",
+   "a bar restated after settling reaches the ticket's own ledger line",
+   "the CEO page prices the carry book's zero"
+  ],
+  "smoke": "full suite NOT rerun (1034s > round window); last full record 727/730 at 07:59",
+  "ts": "2026-11-21T08:11:52+08:00",
+  "verify": {
+   "cap_sentence_hits": 0,
+   "funding_line_on_page": true,
+   "restatement_missing": 0
+  },
+  "what": "daily_report 的书级回执句逐句去重；两枚下游面按上游重生后复算"
+ },
+ "r1900": {
+  "commit": "8a47fe5c05",
+  "product": "LIVE-2026-11-21.md ⑥ 新增「换成一笔钱」：-19,962 元 vs 基准 -55,937 元 → 相对 +35,975 元（账本自己的 seed.capital_cny，不是借执行单的账）",
+  "reds_replayed": [
+   "daily_report 重复句：page_repeat_guard 4 面 0 命中",
+   "改述 bar 进票面：改述 8 根/撤回 1 根与账本逐根相等，两个 NAV 都在 ORDER-2026-11-20.md",
+   "资金线三要素：1,124,479 / IC 1,124,479 / IM 1,152,596 / 出处时点 2026-11-21T07:23:32 全在 LIVE-latest.md"
+  ],
+  "ts": "2026-11-21T08:39:32+08:00",
+  "verdict": "published",
+  "verify": {
+   "attrition": "CLEAN 4 账本 3 历史缩行 healed",
+   "ceo_live_usage_selftest": "ALL PASS（含新腿 etf-book money line is its own capital times its own nav）",
+   "compute_audit": "FLAG:cap_violation（cpu 100% = 本轮冒烟套件+链腿在跑）",
+   "pool_dualrun": "ZERO-DRIFT streak 51",
+   "py_watermark": "insufficient_history（local_batch=1 即本轮套件）",
+   "smoke": "全量分离启动 pid 16836 -> results/_smoke_r1900.out，本轮未跑完"
+  },
+  "what": "把 r1899 提交之后才跑出来的 2026-11-20 面代发上去（155 件·零旧代），并给 CEO 页的书加一行钱"
+ },
+ "r1901": {
+  "product": {
+   "face_block": "results/etf_book_phase_atlas_arms.json -> cost_toll（逐格 5bp/20bp/delta/band/readable + 12 格判词）",
+   "md_section": "research/ETF_BOOK_PHASE_ATLAS_ARMS.md -> 新节「成本档 5bp → 20bp：多收的 15bp 是不是白收」",
+   "numbers": {
+    "cells": 12,
+    "median_delta_pp": -1.14,
+    "rising": "2/12 (n3_r10 +0.00, n3_r20 +0.09), both inside band 9.0pp",
+    "total_delta_pp": -20.42
+   },
+   "why": "higher toll raises the 3-name book back to its 8% vol target (60-bar window, de-lever only), and that re-lever outweighs 15bp x turnover"
+  },
+  "smoke": "suite r1900 closed 727/730 PASS 1 FAIL 2 UNVERIFIED; the single FAIL was exactly this leg on pre-fix code (record logs/smoke_legs.json)",
+  "ts": "2026-11-21T08:54:05+08:00",
+  "verdict": "TOLL_DRAINS",
+  "verify": {
+   "chain": "s6 --only=etf_book_phase_atlas_arms 1/1 rc0",
+   "check": "etf_book_phase_atlas_arms --check rc0 (face matches re-derivation on cutoff 2026-11-20)",
+   "selftest": "138 -> 141/141 PASS 0 FAIL (L5 rewired to cost_toll + 2 falsification legs: a 12-cell +2pp sign flip reads TOLL_SIGN_INVERTED, one within-band wobble still reads TOLL_DRAINS)"
+  },
+  "what": "把一条假不变量从自检里拆掉：成本臂逐格严格单调被引擎自己的波动目标证伪，判据换成「家族失血 + 无一格凭自己涨出 band」并把例外印到面上"
+ },
+ "r1902": {
+  "chain": "s6_chain_bmc.py --round 1902 detached (pid 16096 -> results/_r1902_chain.log); still running at close, remaining faces belong to r1903",
+  "commits": [
+   "b7a00f6121",
+   "3856336c54"
+  ],
+  "fixes": {
+   "card_hygiene": "Tools/card_text_hygiene.py scan -> 547 files, 0 control chars, 0 eaten prefixes; selftest PASS",
+   "money_line_guard": "腿内自绑 from config import PATHS；复算 seed 1,000,000 x (nav 0.9800380766-1) = -19,962 元，句与数都在 LIVE-latest.md 上"
+  },
+  "smoke_record": "results/_smoke_r1901.out: 727/731 PASS, 3 FAIL (all three above), 1 UNVERIFIED (face rewritten mid-run)",
+  "ts": "2026-11-21T09:19:23+08:00",
+  "verdict": "THREE_REDS_WERE_MINE_AND_ARE_CLOSED",
+  "what": "三条冒烟红全是上一轮自己留下的：r1900 的钱线守卫放在 from config import PATHS 之上（自出生只报 NameError、从未看过页面）；r1901 追加的方法论卡带 0x1b 与 0x09 字节并把 results//research/ 的首字母吃掉"
+ },
+ "r1903": {
+  "product": {
+   "meaning": "这三个臂是真关线（同族账面增益为负），照实留在面上，不再进下一轮队列",
+   "negative_findings": "open_slicing / overnight_gap / causal_rebuild 三面 admissible_arms=[]（相位份额与全窗检验都不过），causal_headline 印数 vs as-coded 只差 -0.04pp、vs declared 差 -1.01pp"
+  },
+  "ts": "2026-11-21T09:42:21+08:00",
+  "verdict": "THREE_REDS_RE_DERIVED_CLOSED_AND_FACES_PUBLISHED",
+  "verify": {
+   "card_hygiene": "Tools/card_text_hygiene.py scan -> 547 files, 0 control chars, 0 eaten prefixes",
+   "chain": "results/_s6chain_progress.bm-c.jsonl leg_done i=86 n=316 rc=0（r1902 链在飞，本轮未重启第二条）",
+   "decisions": "origin/main:docs/decisions.md sha 79e3083b（held 4f8308ba）-> 已读第 76-78 批，无涉本仓行，仅水位前移",
+   "faces": "17 件暂存（4 md + 13 json）；每件提交前验 age>180s 且 json 解析通过，避链在写的半件",
+   "money_line": "LEDGER seed 1,000,000 x (nav 0.9800380766 - 1) = -19,962 元；页面同句同数都在 LIVE-latest.md（腿内已自绑 from config import PATHS）",
+   "orders": "fleet/orders 115 件 vs heartbeat orders_ack 256（归一化去 .md）-> 未回执 0",
+   "smoke_relaunch": "python -u smoke_test.py 分离启动 pid 4756 -> results/_smoke_r1903.out（本轮跑不完，记录下一轮读）"
+  },
+  "what": "r1902 三条红的判据逐条复算（不是重跑），再把 r1902 链跑到一半留下的 17 件新代面发布出去；S6 链（pid 16096·r1902 窗起）仍在跑，86/316 腿"
+ },
+ "r1904": {
+  "fix": {
+   "harness_leg": "新腿 'harness: the funding leg forgives a trip stamp, never a real gap' 四向钉死：stamp+move=True / real+move=False / stamp+still=False / clean=False（实跑 r1904 全过）",
+   "immediate": "重生 scripts/ceo_live_usage.py -> 页面 team stamp 2026-11-21T09:15:00+08:00 在位，六项断言逐条复算 LEG GREEN（decision WITHDRAW_FROM_TICKET / 1,124,479 / 1,152,596 / IC·IM lots 0 == ruler 0 / trip stamp / 链序 51<224）",
+   "structural": "smoke_test.py 新增 _forgive_trip_only(bad, moved)：只有当失败项全部是「页面没印行程戳」且两面中至少一面在本次运行开始后被重写时，判 UNVERIFIED；真分歧（决策 token/档位/执行手数）即使面在动仍红"
+  },
+  "product": {
+   "ceo_page": "LIVE-2026-11-21.md 资金线三要素与行程戳齐全（09:5x 重生）",
+   "guard": "一条从未真正守住的假红变成第三态，链在飞窗口不再训练读者忽略红点"
+  },
+  "ts": "2026-11-21T10:01:25+08:00",
+  "verdict": "RED_WAS_A_RUNNING_CHAIN_NOT_A_DEFECT_AND_THE_LEG_NOW_SAYS_SO",
+  "verify": {
+   "chain": "结果面发布 22 件，每件提交前验 age>180s 且 json 解析通过；4 件太新（capital_placement / capacity_rule / capacity_floor_gap / _orphan_face_probe）留给下一轮",
+   "compile": "py_compile smoke_test.py OK",
+   "decisions": "origin/main:docs/decisions.md sha256 79e3083b85c1 == 水位 -> 零新决策行",
+   "orders": "fleet/orders 115 件 vs heartbeat orders_ack 271（归一化去 .md）-> 未回执 0",
+   "orphan": "orphans=0（py_faces=7）",
+   "predicate": "PREDICATE 3-WAY OK（实跑断言四向）",
+   "smoke": "全量套件本窗未重跑（924s > 轮窗）；唯一红按腿内断言逐条复算已绿"
+  },
+  "what": "r1903 全量套件 730/731 的唯一红是链在飞中间态：资金面（链腿 ~51）09:15 重生，CEO 页（腿 ~224）停在 08:42，腿断言的 generated 行程戳在页上找不到"
+ },
+ "r1905": {
+  "commit": "a673f126ad",
+  "left_unpublished": 9,
+  "ts": "2026-11-21T10:21:30+08:00",
+  "verdict": "PUBLISHED_QUIET_FACES_ONLY",
+  "verify": {
+   "behind": "0 commits behind, 0 ahead at round start",
+   "chain": "results/_s6chain_progress.bm-c.jsonl i=156 n=316 rc=0",
+   "decisions": "origin sha256 79e3083b85c1 == watermark -> zero new rows",
+   "json_parse": "5/5 committed faces parse clean",
+   "orders": "115 files vs ack 256 -> unacked 0",
+   "orphan": "orphans=0 (py_faces=35, cleared=1)",
+   "smoke": "full suite relaunched detached pid 50664 -> results/_smoke_r1905.out (not finished this round)"
+  },
+  "what": "本轮链在飞（r1902 窗起 156/316 腿），只在链不再触碰的面上动手：发布已静默 6-11 分钟的 5 件铁定稳定面（atlas cost0/cost40 两族 + 孤儿探针），正在被链路重写的 9 件（mtime 0.6 分钟）原样留给后续轮",
+  "why": "链每 ~23s 落一腿，同一目录族的面会在几十秒内被重写；提交半件比晚一轮发布更贵"
+ },
+ "r1906": {
+  "commit": "083084b5c7",
+  "product": {
+   "ceo_page": "LIVE-2026-11-21.md 10:28 重生（链腿）——含隔夜价差带 ￥2,424 vs 双边成本 ￥696",
+   "new_faces": "etf_book_open_gap（隔夜带 3.49x 手续费·OVERNIGHT_BAND_DWARFS_THE_FEE）/ cut_order_gap（ORDER_WITHIN_PERMISSION）/ rebalance_permission（KEEP_SUPPORTED_BY_INDEPENDENT_PATH）三个新可下单性面已上页"
+  },
+  "ts": "2026-11-21T10:33:40+08:00",
+  "verdict": "PUBLISHED_QUIET_FACES_ONLY_AND_SMOKE_IS_CLEAN_SO_FAR",
+  "verify": {
+   "attrition": "CLEAN 4 账本 3 历史缩行 healed",
+   "chain": "results/_s6chain_progress.bm-c.jsonl i=196 n=316 rc=0",
+   "decisions": "origin sha256 1f731ff179ce != watermark 79e3083b85c1 -> 第 78 批（2026-11-19 06:00）已读，涉本仓仅 chronic 行（只审不处），零执行项，水位前移",
+   "orders": "115 files vs ack 271 -> unacked 0",
+   "orphan": "orphans=0 py_faces=11",
+   "s7": "loop task pin=0 current=0 no-op；watchdog S4U flip 失败（拒绝访问=需管理员提权），任务留在默认 principal，记 LogonType 回归面",
+   "satengine": "status last_verdict=idle queue_depth=0 claimable_n=0（活）",
+   "smoke_partial": "pass=617 fail=0 unverified=2（跑至轮尾仍在跑；两条 UNVERIFIED 均为 r1861 的 UNVERIFIED_SNAPSHOT_MOVED：dashboard 腿 marks_coverage/dashboard_status/t35_open_fill_verify 与本轮开始后被重写，fleet panel tail 腿 data_lane_freshness/FRESHNESS 同因）——第三态在链在飞窗口首次成规模生效，零假红"
+  },
+  "what": "冒烟 282 腿全绿（仍在跑）·链 196/316 推进中；选择性发布 9 件静默稳定面（atlas 家族+signflip+rule_null），19 件正在被链重写的面留给后续轮"
+ },
+ "r1907": {
+  "fixes": {
+   "card_and_sheet": "etf_book_production + etf_book_order run/card 重发，卡印 ONE_WORLD、单印「名数的来历」与「10 个宽度臂」（r1905 smoke 唯一红的成因=家族腿(146-150)排在写者腿(80/109/113)之后）",
+   "claim_fields": "live_book_day_words._date_claims 发布解析后的字段路径（rows[lane={lane}] 的模板曾作为 brace-token 上到读者面）；live_usage_day_words 增「账本自己的播种资本 … 起」→ etf_book.seed_bar 规则",
+   "idle_cash_gate": "published_pair()：冻结窗口的重算必须与 gate.published_gc001_net_pct 比，而非滚动窗口的 vehicles.net_ann_pct（交叉比较读出 0.78bp 假漂移→REFUSE）；同窗对账后 gap 0.0049bp、verdict 由 REFUSE 转 ADMIT（+0.58pp CAGR / Sharpe 1.101→1.153 / ¥5,800 每年每百万）",
+   "reader_faces_chain_leg": "新 scripts/etf_book_reader_faces.py（check/run/selftest 7/7）+ Tools/s6_chain_bmc.py 第 151 腿：家族面比卡/单新即 STALE，refresh 只付 110s 重发两位写者；smoke 增两腿",
+   "reader_text_audit": "endpoint 计入 CODE_KEYS（采集器端点模板=调用形状，与 url 同类）+ 两腿自检（endpoint 放行、同 key 旁的 note 仍红）"
+  },
+  "product": {
+   "money": "闲置现金面首次 ADMIT：把闲置档计价后 CAGR 11.16%→11.74%（+0.58pp）、Sharpe 1.101→1.153、回撤 -10.56%→-10.47%",
+   "reader_visible": "卡与执行单现在带着「宽度家族=ONE_WORLD·10 臂·2026-11-20」的许可句子；CEO 页 111 处日期全部可核"
+  },
+  "ts": "2026-11-21T10:58:33+08:00",
+  "verdict": "THREE_NONZERO_LEGS_CLOSED_AT_BIRTH_AND_A_READER_FACE_REEMIT_LEG_ADDED",
+  "verify": {
+   "attrition": "CLEAN 4 账本 3 历史缩行 healed",
+   "audit": "FLAG:pool_starvation,supply_floor（日历约束族）",
+   "cash_vehicle": "重到 2026-11-19 后 faint 面重算，gate gap 0.0bp",
+   "chain": "r1902 链 done 316/316，NONZERO 仅 etf_book_idle_cash=2, reader_text_audit=1, live_usage_day_words=1（三条现已全绿）",
+   "decisions": "origin sha256 79e3083b85c1 == 水位 → 零新决策行",
+   "dualrun": "ZERO-DRIFT streak 51",
+   "idle_cash": "selftest PASS（新增 L8a/b/c）+ run rc0 ADMIT",
+   "live_book_day_words": "selftest 45/45",
+   "live_usage_day_words": "111 处日期逐句对上 / 85 条规则 / 0 判不了 / 0 无规则；PRINTED_DATES_AGREE",
+   "orders": "115 件 vs ack 271 → 未回执 0",
+   "orphan": "orphans=0 py_faces=7",
+   "reader_faces": "selftest 7/7；chain legs 317（新腿 151）；smoke 增两腿",
+   "reader_text_audit": "selftest 28/28 PASS；全扫 14699 文件 hits 809 verdict PASS rc0",
+   "smoke": "全量分离启动 pid 50988 -> results/_smoke_r1907.out（本窗跑不完，记录下一轮读）",
+   "watermark": "insufficient_history（本窗套件=local_batch）"
+  },
+  "what": "链条三条非零腿全部复算收口（闲置现金门读了滚动窗口的标题当冻结窗口的地板/读者文本审计把采集器的 endpoint 模板当正文/日词面缺种子 bar 规则），并按出生地修链：把宽度家族的许可句子在家族重建之后重新发射"
+ },
  "r894_absorb_note": "r894 absorb: r893 session died post-commit/push/report (22:47:24) pre-closeout (state was still 893, heartbeat still r892); this session executed as r894 per bm-b r898 absorb precedent; counter advanced 893->895 so next session = r895",
  "r897_absorb_note": "r897 absorb: prior invocation executed a FULL round as r896 (probe/smoke/S6 38-38/O-2333 POC recon/report 23:49:30/commit e13bb3ee9 pushed) then died pre-closeout (state round_no still 896, last_round still 895, heartbeat partial: epoch+ack updated but round fields not) -- this session absorbed per bm-b r898 / bm-c r894 absorb precedent; executed as r897, counter advanced 896->898 so next session = r898; zero double-count: r896's ORD probe ran pre-23:37-commit so its 3 late rows fell to this session (consumed + advanced twice)",
  "r902_wm_heal_note": "r902 heal: r901 dead-session lost state write; TRUE consumed dec=67403afa (@690a0c31e 00:11:42, rows D-20261012-01 verification-batch core incl bigmoney tail-actuals zero-action + D-20261012-02 gap-case-withdrawal + fetch-pre-legislation CANDIDATE already standing practice) / ord=33aee170; r901 commit-msg dec 358ba69b = PHANTOM value not in blob history (corrupt-face 4th instance, r863/r894/r897 lineage) -- healed programmatically from live origin blobs, assert-verified before write",
@@ -1287,7 +1492,7 @@
   "watermark": "green: board/pool both empty (pool_ready_count=0, fleet_open_tasks=0), no claimable batch on this host; py_watermark insufficient_history (window n=1, local_batch=1 = this round own suite)"
  },
  "round_label": "r1813",
- "round_no": 1909,
+ "round_no": 1910,
  "round_no_label": "r1821",
  "round_no_landed": 1663,
  "round_note": "r1489: a reinstated bar is re-derived from the panel, not carried over (reinstatement_check + reinstatements.json + sheet paragraph)",
@@ -2001,210 +2206,5 @@
  "孤儿面": 0,
  "当前任务": "r1904: 收口 r1903 全量套件的唯一红（CEO 页资金线行程戳）并把这条腿的假红焊成第三态",
  "当前任务_en": "r1904: close the single red of r1903's full suite (the CEO page's funding-line trip stamp) and weld that leg's false red into the UNVERIFIED state",
- "最近实物": "docs/live_usage/LIVE-2026-11-21.md（资金线 1,124,479 / 1,152,596 + 面生成时点 2026-11-21T09:15:00+08:00 已上页，CEO 页重生 09:5x）＋ 22 件链稳定面（2026-11-21 09:5x）",
- "r1898": {
-  "what": "seat_mde 的控制臂改成在发布截止日上回放，面的 cutoff 改成自己读到的最后一根",
-  "verdict": "SEAT_TARGET_NOT_REACHED",
-  "control_pinned": {
-   "cutoff": "2026-11-13",
-   "delta_pp": -0.0,
-   "leg_delta_pp": 0.0
-  },
-  "control_fresh": {
-   "delta_pp": -0.15,
-   "leg_delta_pp": 0.2407,
-   "why": "generation gap"
-  },
-  "downstream": {
-   "target_price": {
-    "years": 13.61,
-    "cny": 1860100,
-    "ratio": 2380.5,
-    "p_star": 10.7122
-   }
-  }
- },
- "r1899": {
-  "what": "daily_report 的书级回执句逐句去重；两枚下游面按上游重生后复算",
-  "reds_closed": [
-   "no CEO-facing page prints one measurement twice",
-   "a bar restated after settling reaches the ticket's own ledger line",
-   "the CEO page prices the carry book's zero"
-  ],
-  "verify": {
-   "cap_sentence_hits": 0,
-   "restatement_missing": 0,
-   "funding_line_on_page": true
-  },
-  "smoke": "full suite NOT rerun (1034s > round window); last full record 727/730 at 07:59",
-  "ts": "2026-11-21T08:11:52+08:00"
- },
- "r1900": {
-  "what": "把 r1899 提交之后才跑出来的 2026-11-20 面代发上去（155 件·零旧代），并给 CEO 页的书加一行钱",
-  "verdict": "published",
-  "reds_replayed": [
-   "daily_report 重复句：page_repeat_guard 4 面 0 命中",
-   "改述 bar 进票面：改述 8 根/撤回 1 根与账本逐根相等，两个 NAV 都在 ORDER-2026-11-20.md",
-   "资金线三要素：1,124,479 / IC 1,124,479 / IM 1,152,596 / 出处时点 2026-11-21T07:23:32 全在 LIVE-latest.md"
-  ],
-  "product": "LIVE-2026-11-21.md ⑥ 新增「换成一笔钱」：-19,962 元 vs 基准 -55,937 元 → 相对 +35,975 元（账本自己的 seed.capital_cny，不是借执行单的账）",
-  "verify": {
-   "ceo_live_usage_selftest": "ALL PASS（含新腿 etf-book money line is its own capital times its own nav）",
-   "smoke": "全量分离启动 pid 16836 -> results/_smoke_r1900.out，本轮未跑完",
-   "pool_dualrun": "ZERO-DRIFT streak 51",
-   "attrition": "CLEAN 4 账本 3 历史缩行 healed",
-   "compute_audit": "FLAG:cap_violation（cpu 100% = 本轮冒烟套件+链腿在跑）",
-   "py_watermark": "insufficient_history（local_batch=1 即本轮套件）"
-  },
-  "commit": "8a47fe5c05",
-  "ts": "2026-11-21T08:39:32+08:00"
- },
- "r1901": {
-  "what": "把一条假不变量从自检里拆掉：成本臂逐格严格单调被引擎自己的波动目标证伪，判据换成「家族失血 + 无一格凭自己涨出 band」并把例外印到面上",
-  "verdict": "TOLL_DRAINS",
-  "product": {
-   "face_block": "results/etf_book_phase_atlas_arms.json -> cost_toll（逐格 5bp/20bp/delta/band/readable + 12 格判词）",
-   "md_section": "research/ETF_BOOK_PHASE_ATLAS_ARMS.md -> 新节「成本档 5bp → 20bp：多收的 15bp 是不是白收」",
-   "numbers": {
-    "cells": 12,
-    "total_delta_pp": -20.42,
-    "median_delta_pp": -1.14,
-    "rising": "2/12 (n3_r10 +0.00, n3_r20 +0.09), both inside band 9.0pp"
-   },
-   "why": "higher toll raises the 3-name book back to its 8% vol target (60-bar window, de-lever only), and that re-lever outweighs 15bp x turnover"
-  },
-  "verify": {
-   "selftest": "138 -> 141/141 PASS 0 FAIL (L5 rewired to cost_toll + 2 falsification legs: a 12-cell +2pp sign flip reads TOLL_SIGN_INVERTED, one within-band wobble still reads TOLL_DRAINS)",
-   "check": "etf_book_phase_atlas_arms --check rc0 (face matches re-derivation on cutoff 2026-11-20)",
-   "chain": "s6 --only=etf_book_phase_atlas_arms 1/1 rc0"
-  },
-  "smoke": "suite r1900 closed 727/730 PASS 1 FAIL 2 UNVERIFIED; the single FAIL was exactly this leg on pre-fix code (record logs/smoke_legs.json)",
-  "ts": "2026-11-21T08:54:05+08:00"
- },
- "r1902": {
-  "what": "三条冒烟红全是上一轮自己留下的：r1900 的钱线守卫放在 from config import PATHS 之上（自出生只报 NameError、从未看过页面）；r1901 追加的方法论卡带 0x1b 与 0x09 字节并把 results//research/ 的首字母吃掉",
-  "verdict": "THREE_REDS_WERE_MINE_AND_ARE_CLOSED",
-  "fixes": {
-   "money_line_guard": "腿内自绑 from config import PATHS；复算 seed 1,000,000 x (nav 0.9800380766-1) = -19,962 元，句与数都在 LIVE-latest.md 上",
-   "card_hygiene": "Tools/card_text_hygiene.py scan -> 547 files, 0 control chars, 0 eaten prefixes; selftest PASS"
-  },
-  "smoke_record": "results/_smoke_r1901.out: 727/731 PASS, 3 FAIL (all three above), 1 UNVERIFIED (face rewritten mid-run)",
-  "commits": [
-   "b7a00f6121",
-   "3856336c54"
-  ],
-  "chain": "s6_chain_bmc.py --round 1902 detached (pid 16096 -> results/_r1902_chain.log); still running at close, remaining faces belong to r1903",
-  "ts": "2026-11-21T09:19:23+08:00"
- },
- "r1903": {
-  "what": "r1902 三条红的判据逐条复算（不是重跑），再把 r1902 链跑到一半留下的 17 件新代面发布出去；S6 链（pid 16096·r1902 窗起）仍在跑，86/316 腿",
-  "verdict": "THREE_REDS_RE_DERIVED_CLOSED_AND_FACES_PUBLISHED",
-  "verify": {
-   "money_line": "LEDGER seed 1,000,000 x (nav 0.9800380766 - 1) = -19,962 元；页面同句同数都在 LIVE-latest.md（腿内已自绑 from config import PATHS）",
-   "card_hygiene": "Tools/card_text_hygiene.py scan -> 547 files, 0 control chars, 0 eaten prefixes",
-   "smoke_relaunch": "python -u smoke_test.py 分离启动 pid 4756 -> results/_smoke_r1903.out（本轮跑不完，记录下一轮读）",
-   "faces": "17 件暂存（4 md + 13 json）；每件提交前验 age>180s 且 json 解析通过，避链在写的半件",
-   "chain": "results/_s6chain_progress.bm-c.jsonl leg_done i=86 n=316 rc=0（r1902 链在飞，本轮未重启第二条）",
-   "orders": "fleet/orders 115 件 vs heartbeat orders_ack 256（归一化去 .md）-> 未回执 0",
-   "decisions": "origin/main:docs/decisions.md sha 79e3083b（held 4f8308ba）-> 已读第 76-78 批，无涉本仓行，仅水位前移"
-  },
-  "product": {
-   "negative_findings": "open_slicing / overnight_gap / causal_rebuild 三面 admissible_arms=[]（相位份额与全窗检验都不过），causal_headline 印数 vs as-coded 只差 -0.04pp、vs declared 差 -1.01pp",
-   "meaning": "这三个臂是真关线（同族账面增益为负），照实留在面上，不再进下一轮队列"
-  },
-  "ts": "2026-11-21T09:42:21+08:00"
- },
- "r1904": {
-  "what": "r1903 全量套件 730/731 的唯一红是链在飞中间态：资金面（链腿 ~51）09:15 重生，CEO 页（腿 ~224）停在 08:42，腿断言的 generated 行程戳在页上找不到",
-  "verdict": "RED_WAS_A_RUNNING_CHAIN_NOT_A_DEFECT_AND_THE_LEG_NOW_SAYS_SO",
-  "fix": {
-   "immediate": "重生 scripts/ceo_live_usage.py -> 页面 team stamp 2026-11-21T09:15:00+08:00 在位，六项断言逐条复算 LEG GREEN（decision WITHDRAW_FROM_TICKET / 1,124,479 / 1,152,596 / IC·IM lots 0 == ruler 0 / trip stamp / 链序 51<224）",
-   "structural": "smoke_test.py 新增 _forgive_trip_only(bad, moved)：只有当失败项全部是「页面没印行程戳」且两面中至少一面在本次运行开始后被重写时，判 UNVERIFIED；真分歧（决策 token/档位/执行手数）即使面在动仍红",
-   "harness_leg": "新腿 'harness: the funding leg forgives a trip stamp, never a real gap' 四向钉死：stamp+move=True / real+move=False / stamp+still=False / clean=False（实跑 r1904 全过）"
-  },
-  "verify": {
-   "compile": "py_compile smoke_test.py OK",
-   "predicate": "PREDICATE 3-WAY OK（实跑断言四向）",
-   "orphan": "orphans=0（py_faces=7）",
-   "orders": "fleet/orders 115 件 vs heartbeat orders_ack 271（归一化去 .md）-> 未回执 0",
-   "decisions": "origin/main:docs/decisions.md sha256 79e3083b85c1 == 水位 -> 零新决策行",
-   "chain": "结果面发布 22 件，每件提交前验 age>180s 且 json 解析通过；4 件太新（capital_placement / capacity_rule / capacity_floor_gap / _orphan_face_probe）留给下一轮",
-   "smoke": "全量套件本窗未重跑（924s > 轮窗）；唯一红按腿内断言逐条复算已绿"
-  },
-  "product": {
-   "ceo_page": "LIVE-2026-11-21.md 资金线三要素与行程戳齐全（09:5x 重生）",
-   "guard": "一条从未真正守住的假红变成第三态，链在飞窗口不再训练读者忽略红点"
-  },
-  "ts": "2026-11-21T10:01:25+08:00"
- },
- "r1905": {
-  "what": "本轮链在飞（r1902 窗起 156/316 腿），只在链不再触碰的面上动手：发布已静默 6-11 分钟的 5 件铁定稳定面（atlas cost0/cost40 两族 + 孤儿探针），正在被链路重写的 9 件（mtime 0.6 分钟）原样留给后续轮",
-  "verdict": "PUBLISHED_QUIET_FACES_ONLY",
-  "left_unpublished": 9,
-  "why": "链每 ~23s 落一腿，同一目录族的面会在几十秒内被重写；提交半件比晚一轮发布更贵",
-  "verify": {
-   "orphan": "orphans=0 (py_faces=35, cleared=1)",
-   "orders": "115 files vs ack 256 -> unacked 0",
-   "decisions": "origin sha256 79e3083b85c1 == watermark -> zero new rows",
-   "behind": "0 commits behind, 0 ahead at round start",
-   "json_parse": "5/5 committed faces parse clean",
-   "smoke": "full suite relaunched detached pid 50664 -> results/_smoke_r1905.out (not finished this round)",
-   "chain": "results/_s6chain_progress.bm-c.jsonl i=156 n=316 rc=0"
-  },
-  "commit": "a673f126ad",
-  "ts": "2026-11-21T10:21:30+08:00"
- },
- "r1906": {
-  "what": "冒烟 282 腿全绿（仍在跑）·链 196/316 推进中；选择性发布 9 件静默稳定面（atlas 家族+signflip+rule_null），19 件正在被链重写的面留给后续轮",
-  "verdict": "PUBLISHED_QUIET_FACES_ONLY_AND_SMOKE_IS_CLEAN_SO_FAR",
-  "verify": {
-   "smoke_partial": "pass=617 fail=0 unverified=2（跑至轮尾仍在跑；两条 UNVERIFIED 均为 r1861 的 UNVERIFIED_SNAPSHOT_MOVED：dashboard 腿 marks_coverage/dashboard_status/t35_open_fill_verify 与本轮开始后被重写，fleet panel tail 腿 data_lane_freshness/FRESHNESS 同因）——第三态在链在飞窗口首次成规模生效，零假红",
-   "chain": "results/_s6chain_progress.bm-c.jsonl i=196 n=316 rc=0",
-   "attrition": "CLEAN 4 账本 3 历史缩行 healed",
-   "orphan": "orphans=0 py_faces=11",
-   "orders": "115 files vs ack 271 -> unacked 0",
-   "decisions": "origin sha256 1f731ff179ce != watermark 79e3083b85c1 -> 第 78 批（2026-11-19 06:00）已读，涉本仓仅 chronic 行（只审不处），零执行项，水位前移",
-   "satengine": "status last_verdict=idle queue_depth=0 claimable_n=0（活）",
-   "s7": "loop task pin=0 current=0 no-op；watchdog S4U flip 失败（拒绝访问=需管理员提权），任务留在默认 principal，记 LogonType 回归面"
-  },
-  "product": {
-   "ceo_page": "LIVE-2026-11-21.md 10:28 重生（链腿）——含隔夜价差带 ￥2,424 vs 双边成本 ￥696",
-   "new_faces": "etf_book_open_gap（隔夜带 3.49x 手续费·OVERNIGHT_BAND_DWARFS_THE_FEE）/ cut_order_gap（ORDER_WITHIN_PERMISSION）/ rebalance_permission（KEEP_SUPPORTED_BY_INDEPENDENT_PATH）三个新可下单性面已上页"
-  },
-  "ts": "2026-11-21T10:33:40+08:00",
-  "commit": "083084b5c7"
- },
- "r1907": {
-  "what": "链条三条非零腿全部复算收口（闲置现金门读了滚动窗口的标题当冻结窗口的地板/读者文本审计把采集器的 endpoint 模板当正文/日词面缺种子 bar 规则），并按出生地修链：把宽度家族的许可句子在家族重建之后重新发射",
-  "verdict": "THREE_NONZERO_LEGS_CLOSED_AT_BIRTH_AND_A_READER_FACE_REEMIT_LEG_ADDED",
-  "fixes": {
-   "reader_faces_chain_leg": "新 scripts/etf_book_reader_faces.py（check/run/selftest 7/7）+ Tools/s6_chain_bmc.py 第 151 腿：家族面比卡/单新即 STALE，refresh 只付 110s 重发两位写者；smoke 增两腿",
-   "card_and_sheet": "etf_book_production + etf_book_order run/card 重发，卡印 ONE_WORLD、单印「名数的来历」与「10 个宽度臂」（r1905 smoke 唯一红的成因=家族腿(146-150)排在写者腿(80/109/113)之后）",
-   "claim_fields": "live_book_day_words._date_claims 发布解析后的字段路径（rows[lane={lane}] 的模板曾作为 brace-token 上到读者面）；live_usage_day_words 增「账本自己的播种资本 … 起」→ etf_book.seed_bar 规则",
-   "reader_text_audit": "endpoint 计入 CODE_KEYS（采集器端点模板=调用形状，与 url 同类）+ 两腿自检（endpoint 放行、同 key 旁的 note 仍红）",
-   "idle_cash_gate": "published_pair()：冻结窗口的重算必须与 gate.published_gc001_net_pct 比，而非滚动窗口的 vehicles.net_ann_pct（交叉比较读出 0.78bp 假漂移→REFUSE）；同窗对账后 gap 0.0049bp、verdict 由 REFUSE 转 ADMIT（+0.58pp CAGR / Sharpe 1.101→1.153 / ¥5,800 每年每百万）"
-  },
-  "verify": {
-   "idle_cash": "selftest PASS（新增 L8a/b/c）+ run rc0 ADMIT",
-   "cash_vehicle": "重到 2026-11-19 后 faint 面重算，gate gap 0.0bp",
-   "reader_text_audit": "selftest 28/28 PASS；全扫 14699 文件 hits 809 verdict PASS rc0",
-   "live_usage_day_words": "111 处日期逐句对上 / 85 条规则 / 0 判不了 / 0 无规则；PRINTED_DATES_AGREE",
-   "live_book_day_words": "selftest 45/45",
-   "reader_faces": "selftest 7/7；chain legs 317（新腿 151）；smoke 增两腿",
-   "chain": "r1902 链 done 316/316，NONZERO 仅 etf_book_idle_cash=2, reader_text_audit=1, live_usage_day_words=1（三条现已全绿）",
-   "orphan": "orphans=0 py_faces=7",
-   "orders": "115 件 vs ack 271 → 未回执 0",
-   "decisions": "origin sha256 79e3083b85c1 == 水位 → 零新决策行",
-   "smoke": "全量分离启动 pid 50988 -> results/_smoke_r1907.out（本窗跑不完，记录下一轮读）",
-   "dualrun": "ZERO-DRIFT streak 51",
-   "attrition": "CLEAN 4 账本 3 历史缩行 healed",
-   "audit": "FLAG:pool_starvation,supply_floor（日历约束族）",
-   "watermark": "insufficient_history（本窗套件=local_batch）"
-  },
-  "product": {
-   "reader_visible": "卡与执行单现在带着「宽度家族=ONE_WORLD·10 臂·2026-11-20」的许可句子；CEO 页 111 处日期全部可核",
-   "money": "闲置现金面首次 ADMIT：把闲置档计价后 CAGR 11.16%→11.74%（+0.58pp）、Sharpe 1.101→1.153、回撤 -10.56%→-10.47%"
-  },
-  "ts": "2026-11-21T10:58:33+08:00"
- }
+ "最近实物": "docs/live_usage/LIVE-2026-11-21.md（资金线 1,124,479 / 1,152,596 + 面生成时点 2026-11-21T09:15:00+08:00 已上页，CEO 页重生 09:5x）＋ 22 件链稳定面（2026-11-21 09:5x）"
 }

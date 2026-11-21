@@ -12685,6 +12685,49 @@ def main() -> int:
     except Exception as e:
         check("product: the CEO page prices the book's idle cash (r1908)",
               False, repr(e)[:160])
+    # ---- r1910: "in the band" is one half; membership is the other -------------
+    # The page printed "在带内：IF、IH" and, in parentheses, that the book only
+    # builds IC/IM -- leaving the reader to guess whether that was policy or an
+    # oversight, while the refusal sat priced in a face the same page already
+    # reads (`verdict.rows[code]`).  Asserted against that face's own numbers, and
+    # the two calibers must stay apart (the refusal's own spread is printed, not
+    # implied).
+    try:
+        _cf36 = os.path.join(PATHS.results_dir, "idx_fut_carry_risk.json")
+        _lu36 = os.path.join(PATHS.root, "docs", "live_usage", "LIVE-latest.md")
+        _bad36 = []
+        if not os.path.exists(_cf36):
+            _bad36.append("results/idx_fut_carry_risk.json missing")
+        elif not os.path.exists(_lu36):
+            _bad36.append("docs/live_usage/LIVE-latest.md missing")
+        else:
+            with open(_cf36, encoding="utf-8") as _fh36:
+                _cfd36 = json.load(_fh36)
+            with open(_lu36, encoding="utf-8") as _fh36:
+                _md36 = _fh36.read()
+            _rows36 = ((_cfd36.get("verdict") or {}).get("rows")) or {}
+            _ref36 = [c for c, r in _rows36.items()
+                      if r.get("verdict") == "REFUSE"]
+            if "带内不等于这本书会买" not in _md36:
+                _bad36.append("the page has no membership line")
+            for _c36 in _ref36:
+                if _c36 not in _md36:
+                    _bad36.append("refused product %s is not named" % _c36)
+                _car36 = (_rows36.get(_c36) or {}).get("carry_at_target_pct")
+                if _car36 is not None and "{:.2f}%".format(_car36) not in _md36:
+                    _bad36.append("%s carry %s is not on the page"
+                                  % (_c36, "{:.2f}%".format(_car36)))
+                _sp36 = (_rows36.get(_c36) or {}).get("caliber_spread_pp")
+                if _sp36 is not None and "{:.2f}pp".format(_sp36) not in _md36:
+                    _bad36.append("%s caliber spread is not on the page" % _c36)
+            _gen36 = _cfd36.get("generated")
+            if _gen36 and _gen36 not in _md36:
+                _bad36.append("the block does not self-stamp (r1781)")
+        check("product: the page names which half refused the carry product (r1910)",
+              not _bad36, "; ".join(_bad36)[:220])
+    except Exception as e:
+        check("product: the page names which half refused the carry product (r1910)",
+              False, repr(e)[:160])
     # ---- r1784: the CEO page carries the executable sheet's own rows --------
     # ⑥ answered "how has the book done" and never "what does following it mean
     # tomorrow morning".  The page now prints one line per code (lots + shares +
