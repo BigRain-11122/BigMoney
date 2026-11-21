@@ -1,6 +1,6 @@
 {
  "face": "etf_book_idle_cash",
- "asof": "2026-11-21T09:13:40",
+ "asof": "2026-11-21T12:00:46",
  "evidence_cutoff": "2026-11-20",
  "window": {
   "start": "2020-01-03",
@@ -98,9 +98,10 @@
    }
   },
   "cash_vehicle_net_pct_on_window": 1.7712,
-  "cash_vehicle_published_pct": 1.7659,
+  "cash_vehicle_published_pct": 1.7733,
+  "cash_vehicle_published_field": "gate.published_gc001_net_pct",
   "cash_vehicle_reproduced_on_published_window_pct": 1.7733,
-  "cash_vehicle_gap_bp": 0.7449
+  "cash_vehicle_gap_bp": 0.0049
  },
  "arms": {
   "as_coded": {
@@ -262,10 +263,10 @@
   "C3_sharpe_must_not_fall": true,
   "C4_maxdd_must_not_deepen_pp": true,
   "C0_control": true,
-  "C1_cash_vehicle_published": false,
+  "C1_cash_vehicle_published": true,
   "C0b_arm_reproduces_probe": true
  },
- "verdict": "REFUSE",
+ "verdict": "ADMIT",
  "repo_contracts": 1665,
  "repo_missing_quotes": 0,
  "honest": [
@@ -275,5 +276,5 @@
   "1666 repo bars on the window, 0 missing quotes; cash accrual is carried across non-maturity bars by differencing the rung's cumulative growth"
  ],
  "honest_arms": "both arms are the same universe, rule, cost and repo path; the only difference is the bar the score is read from, so arm_gap is the price of the execution basis and not a second strategy",
- "elapsed_sec": 48.18
+ "elapsed_sec": 42.46
 }

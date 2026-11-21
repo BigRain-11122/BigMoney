@@ -5,127 +5,23 @@
   "results",
   "docs"
  ],
- "files_scanned": 14695,
- "n_hits": 815,
+ "files_scanned": 14699,
+ "n_hits": 809,
  "counts": {
   "closed-round-evidence": 303,
-  "code-string": 44,
-  "frozen-evidence": 306,
-  "live-face": 11,
+  "code-string": 45,
+  "frozen-evidence": 308,
   "machine-status": 1,
   "pool-record": 100,
-  "self-census": 50
+  "self-census": 52
  },
  "gated_buckets": [
   "live-face",
   "doc-prose"
  ],
- "verdict": "FAIL",
- "offenders": [
-  {
-   "file": "results/futures_panel_gaps.json",
-   "json_path": "/probe/endpoint",
-   "key": "endpoint",
-   "kind": "brace-token",
-   "token": "{sym}",
-   "bucket": "live-face",
-   "text": "https://stock2.finance.sina.com.cn/futures/api/jsonp.php/var%20_F={sym}/InnerFuturesNewService.getDailyKLine?symbol={sym}"
-  },
-  {
-   "file": "results/live_usage_day_words.json",
-   "json_path": "/date_claims/claims[13]/field",
-   "key": "field",
-   "kind": "brace-token",
-   "token": "{lane}",
-   "bucket": "live-face",
-   "text": "data_lanes.rows[lane={lane}].tail"
-  },
-  {
-   "file": "results/live_usage_day_words.json",
-   "json_path": "/date_claims/claims[14]/field",
-   "key": "field",
-   "kind": "brace-token",
-   "token": "{lane}",
-   "bucket": "live-face",
-   "text": "data_lanes.rows[lane={lane}].missing_days[0]"
-  },
-  {
-   "file": "results/live_usage_day_words.json",
-   "json_path": "/date_claims/claims[15]/field",
-   "key": "field",
-   "kind": "brace-token",
-   "token": "{lane}",
-   "bucket": "live-face",
-   "text": "data_lanes.rows[lane={lane}].tail"
-  },
-  {
-   "file": "results/live_usage_day_words.json",
-   "json_path": "/date_claims/claims[16]/field",
-   "key": "field",
-   "kind": "brace-token",
-   "token": "{lane}",
-   "bucket": "live-face",
-   "text": "data_lanes.rows[lane={lane}].missing_days[0]"
-  },
-  {
-   "file": "results/live_usage_day_words.json",
-   "json_path": "/date_claims/claims[17]/field",
-   "key": "field",
-   "kind": "brace-token",
-   "token": "{lane}",
-   "bucket": "live-face",
-   "text": "data_lanes.rows[lane={lane}].tail"
-  },
-  {
-   "file": "results/live_usage_day_words.json",
-   "json_path": "/date_claims/claims[18]/field",
-   "key": "field",
-   "kind": "brace-token",
-   "token": "{lane}",
-   "bucket": "live-face",
-   "text": "data_lanes.rows[lane={lane}].missing_days[0]"
-  },
-  {
-   "file": "results/live_usage_day_words.json",
-   "json_path": "/date_claims/claims[19]/field",
-   "key": "field",
-   "kind": "brace-token",
-   "token": "{lane}",
-   "bucket": "live-face",
-   "text": "data_lanes.rows[lane={lane}].tail"
-  },
-  {
-   "file": "results/live_usage_day_words.json",
-   "json_path": "/date_claims/claims[20]/field",
-   "key": "field",
-   "kind": "brace-token",
-   "token": "{lane}",
-   "bucket": "live-face",
-   "text": "data_lanes.rows[lane={lane}].missing_days[0]"
-  },
-  {
-   "file": "results/live_usage_day_words.json",
-   "json_path": "/date_claims/claims[21]/field",
-   "key": "field",
-   "kind": "brace-token",
-   "token": "{lane}",
-   "bucket": "live-face",
-   "text": "data_lanes.rows[lane={lane}].tail"
-  },
-  {
-   "file": "results/live_usage_day_words.json",
-   "json_path": "/date_claims/claims[22]/field",
-   "key": "field",
-   "kind": "brace-token",
-   "token": "{lane}",
-   "bucket": "live-face",
-   "text": "data_lanes.rows[lane={lane}].missing_days[0]"
-  }
- ],
- "offender_files": [
-  "results/futures_panel_gaps.json",
-  "results/live_usage_day_words.json"
- ],
+ "verdict": "PASS",
+ "offenders": [],
+ "offender_files": [],
  "advisory": {
   "closed-round-evidence": {
    "n": 303,
@@ -205,9 +101,10 @@
    ]
   },
   "code-string": {
-   "n": 44,
+   "n": 45,
    "files": [
-    "results/e44_midmonth/FACESCREEN-20261021.json"
+    "results/e44_midmonth/FACESCREEN-20261021.json",
+    "results/futures_panel_gaps.json"
    ],
    "sample": [
     {
@@ -258,7 +155,7 @@
    ]
   },
   "frozen-evidence": {
-   "n": 306,
+   "n": 308,
    "files": [
     "results/_quarantine/20261004T1630_r686bmb_scratch/_r686bmb_decisions_fresh.md",
     "results/_quarantine/20261007-1105_r671bmc_rr_predup/round_reports-bm-c.md",
@@ -408,11 +305,29 @@
    ]
   },
   "self-census": {
-   "n": 50,
+   "n": 52,
    "files": [
     "results/reader_text_audit.json"
    ],
    "sample": [
+    {
+     "file": "results/reader_text_audit.json",
+     "json_path": "/offenders[0]/token",
+     "key": "token",
+     "kind": "brace-token",
+     "token": "{sym}",
+     "bucket": "self-census",
+     "text": "{sym}"
+    },
+    {
+     "file": "results/reader_text_audit.json",
+     "json_path": "/offenders[0]/text",
+     "key": "text",
+     "kind": "brace-token",
+     "token": "{sym}",
+     "bucket": "self-census",
+     "text": "https://stock2.finance.sina.com.cn/futures/api/jsonp.php/var%20_F={sym}/InnerFuturesNewService.getDailyKLine?symbol={sym}"
+    },
     {
      "file": "results/reader_text_audit.json",
      "json_path": "/advisory/closed-round-evidence/sample[0]/token",
@@ -434,24 +349,6 @@
     {
      "file": "results/reader_text_audit.json",
      "json_path": "/advisory/closed-round-evidence/sample[1]/token",
-     "key": "token",
-     "kind": "brace-token",
-     "token": "{line_num}",
-     "bucket": "self-census",
-     "text": "{line_num}"
-    },
-    {
-     "file": "results/reader_text_audit.json",
-     "json_path": "/advisory/closed-round-evidence/sample[1]/text",
-     "key": "text",
-     "kind": "brace-token",
-     "token": "{line_num}",
-     "bucket": "self-census",
-     "text": "return False, f\"Line {line_num}: expected 5 fields, got {len(fields)}\""
-    },
-    {
-     "file": "results/reader_text_audit.json",
-     "json_path": "/advisory/closed-round-evidence/sample[2]/token",
      "key": "token",
      "kind": "brace-token",
      "token": "{line_num}",
