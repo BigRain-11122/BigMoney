@@ -8,6 +8,30 @@
 
 （判词不发布：本表的每个 Δ 都是「同一格、臂减基线」，跨面板相减得到的是世界差，不是规则效应。标签原文保留在 `verdict_if_coherent`；把臂重建到同一面板后自动恢复。）
 
+## 成本档 5bp → 20bp：多收的 15bp 是不是白收 — **TOLL_DRAINS**
+
+两个成本臂只差这一只旋钮，所以「多收的费有没有被赚回来」只在这里能答。但逐格不是受控对照：引擎按 8%% 波动目标只降不升地调仓，集中持仓（3 名）在本轮波动下降后会被加回目标仓位，这一份加仓比 15bp×换手更大——所以判据是「家族整体失血，且没有一格凭自己有把握地涨上去」。
+
+| n_hold | rebal | 5bp | 20bp | Δ | 本格 band | 读数 |
+|---|---|---|---|---|---|---|
+| 3 | 10 | +11.84pp | +11.84pp | +0.000pp | 4.68pp | 跌 |
+| 3 | 20 | +9.06pp | +9.15pp | +0.090pp | 7.50pp | 涨在 band 之内 |
+| 3 | 40 | +6.97pp | +5.75pp | -1.220pp | 12.13pp | 跌 |
+| 5 | 10 | +12.54pp | +8.77pp | -3.780pp | 3.37pp | 跌 |
+| 5 | 20 | +9.80pp | +7.63pp | -2.165pp | 6.55pp | 跌 |
+| 5 | 40 | +8.01pp | +7.34pp | -0.665pp | 10.32pp | 跌 |
+| 8 | 10 | +13.03pp | +9.04pp | -3.985pp | 3.18pp | 跌 |
+| 8 | 20 | +10.70pp | +8.61pp | -2.095pp | 6.41pp | 跌 |
+| 8 | 40 | +8.29pp | +7.24pp | -1.060pp | 8.94pp | 跌 |
+| 12 | 10 | +12.37pp | +9.62pp | -2.755pp | 2.83pp | 跌 |
+| 12 | 20 | +9.82pp | +8.05pp | -1.765pp | 7.37pp | 跌 |
+| 12 | 40 | +7.79pp | +6.76pp | -1.020pp | 7.16pp | 跌 |
+
+- cells 12/12 judged against the baseline grid
+- family total -20.42pp, median -1.492pp on the extra 15bp/side
+- rising cells 1/12 (2 allowed), 0 of them beyond their own band
+- the cells that do not fall stay inside their own band, and the family drains: no cell's wobble reads as a gain
+
 ## buffer_k05 — **REJECT**
 
 buffer k=0.05 on every cell (the r1325 arm, re-priced per phase)

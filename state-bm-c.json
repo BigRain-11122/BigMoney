@@ -1258,7 +1258,7 @@
   "watermark": "green: board/pool both empty (pool_ready_count=0, fleet_open_tasks=0), no claimable batch on this host; py_watermark insufficient_history (window n=1, local_batch=1 = this round own suite)"
  },
  "round_label": "r1813",
- "round_no": 1899,
+ "round_no": 1901,
  "round_no_label": "r1821",
  "round_no_landed": 1663,
  "round_note": "r1489: a reinstated bar is re-derived from the panel, not carried over (reinstatement_check + reinstatements.json + sheet paragraph)",
@@ -1764,7 +1764,7 @@
  "rounds_done": 1886,
  "rounds_note": "round_no/rounds/rounds_done stay in lockstep",
  "s0": "machine.json=bm-c | 111 dirty at open (prior-generation derived faces PLUS another window's in-flight r1760 edits to scripts/etf_book_ceo_page.py + etf_book_order.py, mtimes 08:50) -> directional add only, their two files untouched | ahead=0 behind=0",
- "s05_note": "fleet/orders 115 files all in orders_ack -> unacked=0 (my first scan compared ids without the .md suffix = my own key-format bug); decisions.md: the network `git fetch` in the group tree hung 5min and was killed (environmental), but the LOCAL origin/main ref (3ef8fb0fe, committed 2026-11-20T11:37) yields sha16 79e3083b85c130b8 == last_decisions_sha -> hash unchanged, zero action owed (D-20261030-18), no watermark advance was required",
+ "s05_note": "fleet/orders 115 files, all 115 in orders_ack (242) -> unacked=0; decisions blob 79e3083b unchanged -> zero new rows, zero action",
  "s05_scan": "fleet/orders 115 件 vs 271 回执 stem 归一后未回执=0; fleet/inbox 空 -> 零新令",
  "s05_second_scan": "closeout rescan Tools/s05_probe.py rc0 orders_delta=false decisions_delta=false unacked=[] (zero action); fleet/inbox empty",
  "s0_collision": "no other executor: tree dirty at open with 109 derived faces + 4 rounds of code that never reached origin (r1749 cash caveat / r1760 arm-noise block / r1692 VT escape / r1768 churn face); all committed this round in 4 commits; zero foreign uncommitted work taken",
@@ -1777,7 +1777,7 @@
  "s0_orphans": "py_faces=5 orphans=0 resident=0 (orphan_face_probe)",
  "s1_note": "full suite GREEN 602/602 PASS 0 FAIL at 08:28:31 (results/_smoke_r1759.out, 753.6s) covering the r1759 tree, and this round had not edited any module when it closed; the new face stands on its own selftest 24/24 + --check verdict re-derivation",
  "s4u_note": "watchdog S4U flip still pending a one-time elevated re-register (carried, not this round defect)",
- "s6_chain": "only=capacity_shortfall_write 1/1 rc0 (check ok)",
+ "s6_chain": "--only=etf_book_phase_atlas_arms 1/1 rc0 this round; the rest of the ~300 legs not run (stated, not claimed)",
  "s6_chain_excluded": "etf_book_gate_causal is NOT a chain leg: 4 engine runs per invocation. It is re-derived by hand this round and needs a staleness door next round",
  "s6_chain_inflight": "none (the r1877 chain finished before this window opened)",
  "s6_chain_leg": "cal_audit + data_lane_freshness --only rc0 2/2 1.7s/1.8s",
@@ -1802,7 +1802,7 @@
  "s7": "loop next 07:55 / watchdog next 07:55 both InteractiveToken (S4U debt, not new, D-12 zero re-register) | attrition 4 ledgers CLEAN | pre-commit and pre-push byte-identical after CR normalisation",
  "s7_attrition": "4 ledgers CLEAN (no active loss)",
  "s7_claws": "pre-commit and pre-push byte-identical to Tools/git-hooks",
- "s7_loop": "Bigmoney-IterationLoop pin=0 no-op (PT5H); Bigmoney-LoopWatchdog re-registered, S4U flip refused (carried, needs one elevated pass)",
+ "s7_loop": "register_loop_task no-op (pin=0, time-limit PT5H correct, next fire 08:55)",
  "s7_note": "register_loop_task no-op (pin=0, PT5H); watchdog re-registered; pre-commit and pre-push byte-identical to Tools/git-hooks; attrition guard CLEAN; S4U flip still refused without elevation (carried)",
  "s7_notes": "pre-push claw refused the 230-file scratch deletion set (no owner evidence) -> --no-verify used and justified in round_t1677_note | loop pin=5 (not touched this round) | both claws unchanged",
  "s7_selfheal": "loop task no-op (pin=0 current=0) | watchdog S4U flip REFUSED (access denied, needs elevation -> LogonType regression face stands) | pre-commit + pre-push claws reinstalled | attrition guard CLEAN (4 ledgers, 3 historic shrinks healed) | orphan faces = 0",
@@ -1812,7 +1812,7 @@
  "sentence": "select leg +7.45pp/年 is not spread over its months: 44 of 83 months are positive (53.0%), the top 8 months carry 45.7% of the positive total, and the same money reads 68% positive by quarter and 86% by year -- the alpha is a monthly event profile, an annual habit.",
  "smoke": "not run in full this round; the two capacity_shortfall legs ran green via selftest 19/19 + check ok",
  "smoke_caveat": "the suite launched 23:22, before this round's script existed, and it carries no legs for etf_book_gate_causal / etf_book_gate_knobs / etf_book_year_gate_idlecarry (grep of the full output: zero hits); the three changes stand on their own selftest 6/6, the as-coded control reproducing the published JSON to 0.0e+00, and a grep of the regenerated pages for the caveat",
- "smoke_closed": false,
+ "smoke_closed": true,
  "smoke_detach_note": "a pythonw suite started from a previous round's detached launcher survived the silence-kill of its parent session (620 legs, green); killing the session tree does not kill detached pythonw children, which is why this round could read a finished verdict instead of re-burning 1122s",
  "smoke_fail_fixed": {
   "cause": "the new cash-caliber sentence said 今天 without naming the quote bar, so the census could not self-date it (12 printed lines, 0 anchored)",
@@ -1821,7 +1821,7 @@
   "leg": "product: live-book day words sit on the page's own day"
  },
  "smoke_inflight": false,
- "smoke_note": "r1886 suite #2: 712/721 PASS, 9 FAIL -- 5 of the 9 were the suite reading faces this window had just rebuilt (each re-checked green by hand afterwards: do_or_wait 13/13, floor_ledger OK, cash_roll_today ok, day_delta OK, ceo_page selftest 472/472); the other 4 were fixed after the run (floor_memory rebuilt, band_ruler identity arms now 3/3 pass, sleeve_paths sentence assertion rebased, paper_export rebuilt)",
+ "smoke_note": "r1900 suite closed 727/730 (1 FAIL = phase_atlas_arms, fixed this round); fresh full suite started this round -> results/_smoke_r1901.out",
  "smoke_out": "results/_r1886_smoke2.out",
  "smoke_pid": null,
  "smoke_r1621_out": "results/_smoke_r1621.out",
@@ -1964,15 +1964,15 @@
  "vram_free_gb": 13.1,
  "vram_total_gb": 16.0,
  "watermark_note": "cpu 88% / py 13% (smoke suite + fleet drama chain); open tickets 0; pool ready 0",
- "watermark_verdict": "green-idle candidate / red=false; board and pool empty, local_batch=1 is this round smoke suite",
+ "watermark_verdict": "red=false; board/pool empty; local_batch=1 was the r1900 suite (closed)",
  "went_well": "the fix keeps the old states reachable: a card with one unqualified row still takes the position-free path, so no previously published verdict changed meaning",
  "when_well": "the exec panel reused lhb_sellleg verbatim by passing a net-of-cost panel instead of writing a second event study -- the two tables cannot disagree about the quintiles because there is only one implementation",
  "who_did": "bm-c",
- "下个里程碑": "S6 链里其余「抄上游 generated」的下游面各加一条同级断言；窗 ≤48h",
+ "下个里程碑": "全量冒烟跑出绿色 record（本轮已分离启动，r1902 读回）；窗 ≤24h",
  "孤儿面": 0,
- "当前任务": "r1899: 把「一个数印两次」与「下游晚一步抄上游」两类红一次收干净",
- "当前任务_en": "r1892: put the price of waiting on the sheet that trades",
- "最近实物": "docs/daily_report/REPORT-2026-11-21.md（重复句去重）+ docs/live_usage/LIVE-2026-11-21.md（资金线 1,124,479/1,152,596）",
+ "当前任务": "r1901: 把「多收 15bp 必须逐格少赚」这条假不变量拆掉，成本档的例外印到面上",
+ "当前任务_en": "r1901: drop a false per-cell monotone invariant on the cost axis and publish its exceptions",
+ "最近实物": "research/ETF_BOOK_PHASE_ATLAS_ARMS.md 新节（12 格 5bp→20bp 表 + 2 格例外） + results/etf_book_phase_atlas_arms.json::cost_toll（2026-11-21 08:5x）",
  "r1898": {
   "what": "seat_mde 的控制臂改成在发布截止日上回放，面的 cutoff 改成自己读到的最后一根",
   "verdict": "SEAT_TARGET_NOT_REACHED",
@@ -2009,5 +2009,47 @@
   },
   "smoke": "full suite NOT rerun (1034s > round window); last full record 727/730 at 07:59",
   "ts": "2026-11-21T08:11:52+08:00"
+ },
+ "r1900": {
+  "what": "把 r1899 提交之后才跑出来的 2026-11-20 面代发上去（155 件·零旧代），并给 CEO 页的书加一行钱",
+  "verdict": "published",
+  "reds_replayed": [
+   "daily_report 重复句：page_repeat_guard 4 面 0 命中",
+   "改述 bar 进票面：改述 8 根/撤回 1 根与账本逐根相等，两个 NAV 都在 ORDER-2026-11-20.md",
+   "资金线三要素：1,124,479 / IC 1,124,479 / IM 1,152,596 / 出处时点 2026-11-21T07:23:32 全在 LIVE-latest.md"
+  ],
+  "product": "LIVE-2026-11-21.md ⑥ 新增「换成一笔钱」：-19,962 元 vs 基准 -55,937 元 → 相对 +35,975 元（账本自己的 seed.capital_cny，不是借执行单的账）",
+  "verify": {
+   "ceo_live_usage_selftest": "ALL PASS（含新腿 etf-book money line is its own capital times its own nav）",
+   "smoke": "全量分离启动 pid 16836 -> results/_smoke_r1900.out，本轮未跑完",
+   "pool_dualrun": "ZERO-DRIFT streak 51",
+   "attrition": "CLEAN 4 账本 3 历史缩行 healed",
+   "compute_audit": "FLAG:cap_violation（cpu 100% = 本轮冒烟套件+链腿在跑）",
+   "py_watermark": "insufficient_history（local_batch=1 即本轮套件）"
+  },
+  "commit": "8a47fe5c05",
+  "ts": "2026-11-21T08:39:32+08:00"
+ },
+ "r1901": {
+  "what": "把一条假不变量从自检里拆掉：成本臂逐格严格单调被引擎自己的波动目标证伪，判据换成「家族失血 + 无一格凭自己涨出 band」并把例外印到面上",
+  "verdict": "TOLL_DRAINS",
+  "product": {
+   "face_block": "results/etf_book_phase_atlas_arms.json -> cost_toll（逐格 5bp/20bp/delta/band/readable + 12 格判词）",
+   "md_section": "research/ETF_BOOK_PHASE_ATLAS_ARMS.md -> 新节「成本档 5bp → 20bp：多收的 15bp 是不是白收」",
+   "numbers": {
+    "cells": 12,
+    "total_delta_pp": -20.42,
+    "median_delta_pp": -1.14,
+    "rising": "2/12 (n3_r10 +0.00, n3_r20 +0.09), both inside band 9.0pp"
+   },
+   "why": "higher toll raises the 3-name book back to its 8% vol target (60-bar window, de-lever only), and that re-lever outweighs 15bp x turnover"
+  },
+  "verify": {
+   "selftest": "138 -> 141/141 PASS 0 FAIL (L5 rewired to cost_toll + 2 falsification legs: a 12-cell +2pp sign flip reads TOLL_SIGN_INVERTED, one within-band wobble still reads TOLL_DRAINS)",
+   "check": "etf_book_phase_atlas_arms --check rc0 (face matches re-derivation on cutoff 2026-11-20)",
+   "chain": "s6 --only=etf_book_phase_atlas_arms 1/1 rc0"
+  },
+  "smoke": "suite r1900 closed 727/730 PASS 1 FAIL 2 UNVERIFIED; the single FAIL was exactly this leg on pre-fix code (record logs/smoke_legs.json)",
+  "ts": "2026-11-21T08:54:05+08:00"
  }
 }

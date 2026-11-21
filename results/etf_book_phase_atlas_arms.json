@@ -1825,6 +1825,144 @@
    "band_verdict_if_coherent": "CADENCE_BAND_SURVIVES_THE_TOLL"
   }
  },
+ "cost_toll": {
+  "verdict": "TOLL_DRAINS",
+  "cells": [
+   {
+    "n_hold": 3,
+    "rebal": 10,
+    "cagr_pp_at_5bp": 11.84,
+    "cagr_pp_at_20bp": 11.84,
+    "delta_pp": 0.0,
+    "band_pp": 4.678,
+    "readable": false
+   },
+   {
+    "n_hold": 3,
+    "rebal": 20,
+    "cagr_pp_at_5bp": 9.06,
+    "cagr_pp_at_20bp": 9.15,
+    "delta_pp": 0.09,
+    "band_pp": 7.502,
+    "readable": false
+   },
+   {
+    "n_hold": 3,
+    "rebal": 40,
+    "cagr_pp_at_5bp": 6.975,
+    "cagr_pp_at_20bp": 5.755,
+    "delta_pp": -1.22,
+    "band_pp": 12.13,
+    "readable": false
+   },
+   {
+    "n_hold": 5,
+    "rebal": 10,
+    "cagr_pp_at_5bp": 12.545,
+    "cagr_pp_at_20bp": 8.765,
+    "delta_pp": -3.78,
+    "band_pp": 3.374,
+    "readable": true
+   },
+   {
+    "n_hold": 5,
+    "rebal": 20,
+    "cagr_pp_at_5bp": 9.8,
+    "cagr_pp_at_20bp": 7.635,
+    "delta_pp": -2.165,
+    "band_pp": 6.55,
+    "readable": false
+   },
+   {
+    "n_hold": 5,
+    "rebal": 40,
+    "cagr_pp_at_5bp": 8.01,
+    "cagr_pp_at_20bp": 7.345,
+    "delta_pp": -0.665,
+    "band_pp": 10.317,
+    "readable": false
+   },
+   {
+    "n_hold": 8,
+    "rebal": 10,
+    "cagr_pp_at_5bp": 13.025,
+    "cagr_pp_at_20bp": 9.04,
+    "delta_pp": -3.985,
+    "band_pp": 3.183,
+    "readable": true
+   },
+   {
+    "n_hold": 8,
+    "rebal": 20,
+    "cagr_pp_at_5bp": 10.7,
+    "cagr_pp_at_20bp": 8.605,
+    "delta_pp": -2.095,
+    "band_pp": 6.409,
+    "readable": false
+   },
+   {
+    "n_hold": 8,
+    "rebal": 40,
+    "cagr_pp_at_5bp": 8.295,
+    "cagr_pp_at_20bp": 7.235,
+    "delta_pp": -1.06,
+    "band_pp": 8.94,
+    "readable": false
+   },
+   {
+    "n_hold": 12,
+    "rebal": 10,
+    "cagr_pp_at_5bp": 12.37,
+    "cagr_pp_at_20bp": 9.615,
+    "delta_pp": -2.755,
+    "band_pp": 2.835,
+    "readable": false
+   },
+   {
+    "n_hold": 12,
+    "rebal": 20,
+    "cagr_pp_at_5bp": 9.82,
+    "cagr_pp_at_20bp": 8.055,
+    "delta_pp": -1.765,
+    "band_pp": 7.371,
+    "readable": false
+   },
+   {
+    "n_hold": 12,
+    "rebal": 40,
+    "cagr_pp_at_5bp": 7.785,
+    "cagr_pp_at_20bp": 6.765,
+    "delta_pp": -1.02,
+    "band_pp": 7.159,
+    "readable": false
+   }
+  ],
+  "reasons": [
+   "cells 12/12 judged against the baseline grid",
+   "family total -20.42pp, median -1.492pp on the extra 15bp/side",
+   "rising cells 1/12 (2 allowed), 0 of them beyond their own band",
+   "the cells that do not fall stay inside their own band, and the family drains: no cell's wobble reads as a gain"
+  ],
+  "median_delta_pp": -1.492,
+  "total_delta_pp": -20.42,
+  "rising": [
+   {
+    "n_hold": 3,
+    "rebal": 20,
+    "cagr_pp_at_5bp": 9.06,
+    "cagr_pp_at_20bp": 9.15,
+    "delta_pp": 0.09,
+    "band_pp": 7.502,
+    "readable": false
+   }
+  ],
+  "rule": {
+   "rise_share_max": 0.16666666666666666,
+   "rise_band_share_max": 1.0,
+   "median_delta_max_pp": 0.0,
+   "frozen": "written 2026-11-21 (r1901) after the strict per-cell '<' form was proved false by the engine's own vol-target overlay: on one panel (2e875bf4) cell (3,20) reads 9.06pp at 5bp and 9.15pp at 20bp, and (3,10) reads 11.84pp in both"
+  }
+ },
  "panel_coherence": {
   "verdict": "MIXED_WORLDS",
   "detail": "11 faces priced 2 different panels (2e875bf4, 7d93f5cd): per-cell deltas across worlds are world differences, not rule effects",

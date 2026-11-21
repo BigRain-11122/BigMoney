@@ -314,6 +314,74 @@ def judge(rows):
     return "ADOPT", reasons
 
 
+# ---- r1901: the toll axis is not a controlled pair at the cell level ---------------------
+TOLL_RULE = {
+    # The two cost arms differ only in the toll, so the extra 15bp/side must drain the family.
+    # It is NOT a controlled pair cell by cell: the engine sizes every book to an 8% vol target
+    # on a 60-bar window and may only de-lever, so a book whose realized vol fell under the
+    # higher toll is bought back up to the target -- on the concentrated cells (3 names) that
+    # re-lever is worth more than 15bp x turnover. The leg therefore asks what the family can
+    # answer: no cell may END HIGHER by more than its own band, and the family must drain. An
+    # arm wired to the wrong toll rises in EVERY cell by returns-sized amounts and fails both.
+    "rise_share_max": 2.0 / 12.0,   # 2 of 12 cells may wobble up inside their own band
+    "rise_band_share_max": 1.0,     # ...and only while the rise stays inside that band
+    "median_delta_max_pp": 0.0,     # the family's median cell must fall
+    "frozen": ("written 2026-11-21 (r1901) after the strict per-cell '<' form was proved false "
+               "by the engine's own vol-target overlay: on one panel (2e875bf4) cell (3,20) "
+               "reads 9.06pp at 5bp and 9.15pp at 20bp, and (3,10) reads 11.84pp in both"),
+}
+
+
+def toll_monotonicity(rows05, rows20):
+    """Did the extra 15bp/side drain the family, or is the arm reading the wrong toll?
+
+    Returns a block meant to be PUBLISHED on the face, so the cells that wobble up are named
+    beside the verdict instead of hidden inside a leg (r1901).
+    """
+    c05 = {(r["n_hold"], r["rebal"]): r for r in rows05}
+    c20 = {(r["n_hold"], r["rebal"]): r for r in rows20}
+    shared = sorted(set(c05) & set(c20))
+    cells = []
+    for k in shared:
+        d = round(c20[k]["median_cagr_pp"] - c05[k]["median_cagr_pp"], 3)
+        cells.append({
+            "n_hold": k[0], "rebal": k[1],
+            "cagr_pp_at_5bp": c05[k]["median_cagr_pp"],
+            "cagr_pp_at_20bp": c20[k]["median_cagr_pp"],
+            "delta_pp": d, "band_pp": c05[k]["band_pp"],
+            "readable": bool(abs(d) > c05[k]["band_pp"]),
+        })
+    n = len(cells)
+    deltas = sorted(c["delta_pp"] for c in cells)
+    med = _median(deltas) if deltas else 0.0
+    total = round(sum(deltas), 3)
+    rising = [c for c in cells if c["delta_pp"] > 0.0]
+    readable_rises = [c for c in rising if c["readable"]]
+    share = (len(rising) / n) if n else 0.0
+    reasons = [
+        "cells %d/%d judged against the baseline grid" % (n, CRITERIA["activity_min_cells"]),
+        "family total %+.2fpp, median %+.3fpp on the extra 15bp/side" % (total, med),
+        "rising cells %d/%d (%d allowed), %d of them beyond their own band"
+        % (len(rising), n, int(round(TOLL_RULE["rise_share_max"] * n)), len(readable_rises)),
+    ]
+    if n < CRITERIA["activity_min_cells"]:
+        verdict = "NOT-ASSESSED"
+    elif (readable_rises or share > TOLL_RULE["rise_share_max"]
+          or med > TOLL_RULE["median_delta_max_pp"]):
+        verdict = "TOLL_SIGN_INVERTED"
+        reasons.append("a higher toll cannot pay: %s" % ", ".join(
+            "(n%d/R%d) %+.2fpp vs band %.2fpp"
+            % (c["n_hold"], c["rebal"], c["delta_pp"], c["band_pp"])
+            for c in (readable_rises or rising))[:300])
+    else:
+        verdict = "TOLL_DRAINS"
+        reasons.append("the cells that do not fall stay inside their own band, and the family "
+                       "drains: no cell's wobble reads as a gain")
+    return {"verdict": verdict, "cells": cells, "reasons": reasons,
+            "median_delta_pp": round(med, 3), "total_delta_pp": total,
+            "rising": rising, "rule": TOLL_RULE}
+
+
 def build():
     base = face(BASE)
     bcells = cells_of(base)
@@ -379,6 +447,12 @@ def build():
                 "toll LADDER (scripts/etf_book_atlas_toll_ladder.py) for the ordering verdict "
                 "across rungs; never this label as an adoption." % label)
         payload["arms"][name] = entry
+    # r1901: the toll axis publishes its own exceptions. The two cost arms are the only pair on
+    # this face that differ by ONE knob and nothing else, so the question "did the extra toll
+    # drain the book" is answerable here and nowhere else -- and the cells that do not fall
+    # (the 3-name books, re-levered by the 8% vol target) belong on the face, not in a leg.
+    payload["cost_toll"] = toll_monotonicity(payload["arms"]["cost05"]["rows"],
+                                             payload["arms"]["cost20"]["rows"])
     # r1180: the stamp each face carries is CONSUMED here -- a label that compares two panels
     # is withheld rather than published (see withhold_verdicts).
     return withhold_verdicts(payload, worlds, panel_meta)
@@ -1723,10 +1797,33 @@ def _selftest():
         meds[name] = round(sum(r["delta_pp"] for r in rows) / len(rows), 6)
     chk(len(set(meds.values())) == 3, "the three buffer arms are distinct runs (mean deltas %r)"
         % meds)
-    # L5 more toll never pays more: every cell's median must fall from 5bp to 20bp
-    c05 = {(r["n_hold"], r["rebal"]): r["median_cagr_pp"] for r in p["arms"]["cost05"]["rows"]}
-    c20 = {(r["n_hold"], r["rebal"]): r["median_cagr_pp"] for r in p["arms"]["cost20"]["rows"]}
-    chk(all(c20[k] < c05[k] for k in c05), "every cell earns less at 20bp than at 5bp")
+    # L5 more toll never PAYS: the family must drain, and no cell may end up by more than its
+    # own band. r1901: the old strict per-cell '<' was false by construction -- the engine
+    # sizes to an 8% vol target and may only de-lever, so a book whose realized vol fell under
+    # the higher toll is bought back up to the target, which on the 3-name cells is worth more
+    # than 15bp x turnover (9.06pp at 5bp vs 9.15pp at 20bp on one panel). The leg now asks
+    # what the face can answer; L5b/L5c prove it still catches a sign flip and does not turn a
+    # single within-band wobble into an inversion.
+    toll = p["cost_toll"]
+    chk(toll["verdict"] == "TOLL_DRAINS",
+        "the extra 15bp drains the family (%s; total %+.2fpp, median %+.3fpp, rising %d/%d)"
+        % (toll["verdict"], toll["total_delta_pp"], toll["median_delta_pp"],
+           len(toll["rising"]), len(toll["cells"])))
+    chk(all(c["readable"] is False for c in toll["rising"]),
+        "every cell that rises stays inside its own band, and the face names them: %r"
+        % [(c["n_hold"], c["rebal"], c["delta_pp"], c["band_pp"]) for c in toll["rising"]])
+    flat = [{"n_hold": n, "rebal": rb, "median_cagr_pp": 10.0, "band_pp": 3.0}
+            for n in (3, 5, 8, 12) for rb in (10, 20, 40)]
+    up = [dict(r, median_cagr_pp=12.0) for r in flat]
+    chk(toll_monotonicity(flat, up)["verdict"] == "TOLL_SIGN_INVERTED",
+        "an arm that EARNS 2pp more at the higher toll is caught, not averaged away")
+    wob = [dict(r, median_cagr_pp=10.0) for r in flat]
+    wob[0] = dict(wob[0], band_pp=9.0)
+    downf = [dict(r, median_cagr_pp=9.0) for r in flat]
+    downf[0] = dict(downf[0], median_cagr_pp=10.09, band_pp=9.0)
+    _wd = toll_monotonicity(wob, downf)
+    chk(_wd["verdict"] == "TOLL_DRAINS" and len(_wd["rising"]) == 1,
+        "one cell wobbling up inside its band does not turn a draining family into an inversion")
     # L6 the rule is recomputable: a published verdict must follow from its own rows. A
     # withheld label is checked against the reading it was withheld from (r1180) -- the rule
     # still has to follow, or the label that returns when the arms are one world is fiction.
@@ -2666,6 +2763,25 @@ def render_md(p):
     if coh.get("verdict") != "ONE_WORLD":
         L.append("（判词不发布：本表的每个 Δ 都是「同一格、臂减基线」，跨面板相减得到的是世界差，"
                  "不是规则效应。标签原文保留在 `verdict_if_coherent`；把臂重建到同一面板后自动恢复。）\n")
+    toll = p.get("cost_toll") or {}
+    if toll.get("cells"):
+        L.append("## 成本档 5bp → 20bp：多收的 15bp 是不是白收 — **%s**\n" % toll.get("verdict"))
+        L.append("两个成本臂只差这一只旋钮，所以「多收的费有没有被赚回来」只在这里能答。"
+                 "但逐格不是受控对照：引擎按 8%% 波动目标只降不升地调仓，集中持仓（3 名）在本轮波动"
+                 "下降后会被加回目标仓位，这一份加仓比 15bp×换手更大——所以判据是「家族整体失血，"
+                 "且没有一格凭自己有把握地涨上去」。\n")
+        L.append("| n_hold | rebal | 5bp | 20bp | Δ | 本格 band | 读数 |")
+        L.append("|---|---|---|---|---|---|---|")
+        for c in toll["cells"]:
+            L.append("| %d | %d | %+.2fpp | %+.2fpp | %+.3fpp | %.2fpp | %s |" % (
+                c["n_hold"], c["rebal"], c["cagr_pp_at_5bp"], c["cagr_pp_at_20bp"],
+                c["delta_pp"], c["band_pp"],
+                "涨出自己 band 之外" if (c["delta_pp"] > 0 and c["readable"])
+                else ("涨在 band 之内" if c["delta_pp"] > 0 else "跌")))
+        L.append("")
+        for x in toll["reasons"]:
+            L.append("- %s" % x)
+        L.append("")
     for name, a in p["arms"].items():
         L.append("## %s — **%s**\n" % (name, a["verdict"]))
         if not a.get("verdict_publishable", True):
