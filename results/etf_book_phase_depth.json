@@ -1,0 +1,1623 @@
+{
+ "face": "results/etf_book_phase_depth.json",
+ "script": "scripts/etf_book_phase_depth.py",
+ "question": "is a five-week phase set deep enough to adjudicate adoption, or is the refusal `phase spread wider than margin` a sampling artefact?",
+ "rule": {
+  "starts_generator": "every 7 days from 2020-01-01 (the gate's own anchor and stride)",
+  "depths": [
+   5,
+   10,
+   20,
+   40
+  ],
+  "prefix": true,
+  "aggregate": "candidate_year_gate_phases.adjudicate on each depth's prefix",
+  "words": {
+   "DEPTH_ADJUDICATES": "the deepest set has one verdict and its spread fits the margin",
+   "DEPTH_NARROWS_NOT_ENOUGH": "spread at depth 40 keeps <0.70 of its depth-5 width but is still wider than its own margin",
+   "SAMPLING_IS_NOT_THE_LIMIT": "spread at depth 40 keeps >=0.70 of its depth-5 width"
+  },
+  "not_a_retry": "every depth's reading is published; the grid is frozen here, before the first run, so a reader can see whether depth is the whole story"
+ },
+ "evidence_cutoff": "2026-11-20",
+ "line_top2_share": 0.7,
+ "start_grid_40": [
+  "2020-01-01",
+  "2020-01-08",
+  "2020-01-15",
+  "2020-01-22",
+  "2020-01-29",
+  "2020-02-05",
+  "2020-02-12",
+  "2020-02-19",
+  "2020-02-26",
+  "2020-03-04",
+  "2020-03-11",
+  "2020-03-18",
+  "2020-03-25",
+  "2020-04-01",
+  "2020-04-08",
+  "2020-04-15",
+  "2020-04-22",
+  "2020-04-29",
+  "2020-05-06",
+  "2020-05-13",
+  "2020-05-20",
+  "2020-05-27",
+  "2020-06-03",
+  "2020-06-10",
+  "2020-06-17",
+  "2020-06-24",
+  "2020-07-01",
+  "2020-07-08",
+  "2020-07-15",
+  "2020-07-22",
+  "2020-07-29",
+  "2020-08-05",
+  "2020-08-12",
+  "2020-08-19",
+  "2020-08-26",
+  "2020-09-02",
+  "2020-09-09",
+  "2020-09-16",
+  "2020-09-23",
+  "2020-09-30"
+ ],
+ "arms": {
+  "nobond_vt08_adopted": {
+   "books": {
+    "vol_target": 0.08,
+    "vol_floor": 0.0
+   },
+   "depths": {
+    "5": {
+     "phases": 5,
+     "verdicts": [
+      "CONDITIONAL",
+      "CONDITIONAL",
+      "CONDITIONAL",
+      "CONDITIONAL",
+      "CONDITIONAL"
+     ],
+     "distinct_verdicts": [
+      "CONDITIONAL"
+     ],
+     "median_top2_share": 0.8123,
+     "spread_pp": 12.33,
+     "margin_pp": 11.23,
+     "worst_top2_share": 0.8471,
+     "best_top2_share": 0.7238,
+     "phases_above_line": 5,
+     "state": "UNADJUDICABLE_PHASE",
+     "reason": "phase spread 12.33pp is wider than the 11.23pp distance from the median top-2 to the 70% line"
+    },
+    "10": {
+     "phases": 10,
+     "verdicts": [
+      "CONDITIONAL",
+      "CONDITIONAL",
+      "CONDITIONAL",
+      "CONDITIONAL",
+      "CONDITIONAL",
+      "REFUSE",
+      "ADMIT",
+      "CONDITIONAL",
+      "CONDITIONAL",
+      "REFUSE"
+     ],
+     "distinct_verdicts": [
+      "ADMIT",
+      "CONDITIONAL",
+      "REFUSE"
+     ],
+     "median_top2_share": 0.8158,
+     "spread_pp": 22.7,
+     "margin_pp": 11.585,
+     "worst_top2_share": 0.8929,
+     "best_top2_share": 0.6659,
+     "phases_above_line": 9,
+     "state": "UNADJUDICABLE_PHASE",
+     "reason": "phases disagree on the verdict: ADMIT, CONDITIONAL, REFUSE"
+    },
+    "20": {
+     "phases": 20,
+     "verdicts": [
+      "CONDITIONAL",
+      "CONDITIONAL",
+      "CONDITIONAL",
+      "CONDITIONAL",
+      "CONDITIONAL",
+      "REFUSE",
+      "ADMIT",
+      "CONDITIONAL",
+      "CONDITIONAL",
+      "REFUSE",
+      "ADMIT",
+      "CONDITIONAL",
+      "CONDITIONAL",
+      "REFUSE",
+      "CONDITIONAL",
+      "ADMIT",
+      "CONDITIONAL",
+      "CONDITIONAL",
+      "ADMIT",
+      "CONDITIONAL"
+     ],
+     "distinct_verdicts": [
+      "ADMIT",
+      "CONDITIONAL",
+      "REFUSE"
+     ],
+     "median_top2_share": 0.7968,
+     "spread_pp": 73.9,
+     "margin_pp": 9.68,
+     "worst_top2_share": 1.3529,
+     "best_top2_share": 0.6139,
+     "phases_above_line": 16,
+     "state": "UNADJUDICABLE_PHASE",
+     "reason": "phases disagree on the verdict: ADMIT, CONDITIONAL, REFUSE"
+    },
+    "40": {
+     "phases": 40,
+     "verdicts": [
+      "CONDITIONAL",
+      "CONDITIONAL",
+      "CONDITIONAL",
+      "CONDITIONAL",
+      "CONDITIONAL",
+      "REFUSE",
+      "ADMIT",
+      "CONDITIONAL",
+      "CONDITIONAL",
+      "REFUSE",
+      "ADMIT",
+      "CONDITIONAL",
+      "CONDITIONAL",
+      "REFUSE",
+      "CONDITIONAL",
+      "ADMIT",
+      "CONDITIONAL",
+      "CONDITIONAL",
+      "ADMIT",
+      "CONDITIONAL",
+      "CONDITIONAL",
+      "CONDITIONAL",
+      "ADMIT",
+      "CONDITIONAL",
+      "CONDITIONAL",
+      "CONDITIONAL",
+      "CONDITIONAL",
+      "CONDITIONAL",
+      "CONDITIONAL",
+      "CONDITIONAL",
+      "REFUSE",
+      "CONDITIONAL",
+      "CONDITIONAL",
+      "CONDITIONAL",
+      "REFUSE",
+      "CONDITIONAL",
+      "CONDITIONAL",
+      "CONDITIONAL",
+      "REFUSE",
+      "CONDITIONAL"
+     ],
+     "distinct_verdicts": [
+      "ADMIT",
+      "CONDITIONAL",
+      "REFUSE"
+     ],
+     "median_top2_share": 0.7979,
+     "spread_pp": 117.65,
+     "margin_pp": 9.795,
+     "worst_top2_share": 1.7904,
+     "best_top2_share": 0.6139,
+     "phases_above_line": 35,
+     "state": "UNADJUDICABLE_PHASE",
+     "reason": "phases disagree on the verdict: ADMIT, CONDITIONAL, REFUSE"
+    }
+   },
+   "trend": "SAMPLING_IS_NOT_THE_LIMIT"
+  },
+  "nobond_base": {
+   "books": {
+    "vol_target": null,
+    "vol_floor": 0.0
+   },
+   "depths": {
+    "5": {
+     "phases": 5,
+     "verdicts": [
+      "ADMIT",
+      "ADMIT",
+      "REFUSE",
+      "CONDITIONAL",
+      "CONDITIONAL"
+     ],
+     "distinct_verdicts": [
+      "ADMIT",
+      "CONDITIONAL",
+      "REFUSE"
+     ],
+     "median_top2_share": 0.8487,
+     "spread_pp": 21.87,
+     "margin_pp": 14.87,
+     "worst_top2_share": 0.8986,
+     "best_top2_share": 0.6799,
+     "phases_above_line": 3,
+     "state": "UNADJUDICABLE_PHASE",
+     "reason": "phases disagree on the verdict: ADMIT, CONDITIONAL, REFUSE"
+    },
+    "10": {
+     "phases": 10,
+     "verdicts": [
+      "ADMIT",
+      "ADMIT",
+      "REFUSE",
+      "CONDITIONAL",
+      "CONDITIONAL",
+      "CONDITIONAL",
+      "ADMIT",
+      "REFUSE",
+      "CONDITIONAL",
+      "CONDITIONAL"
+     ],
+     "distinct_verdicts": [
+      "ADMIT",
+      "CONDITIONAL",
+      "REFUSE"
+     ],
+     "median_top2_share": 0.7915,
+     "spread_pp": 28.92,
+     "margin_pp": 9.155,
+     "worst_top2_share": 0.9435,
+     "best_top2_share": 0.6543,
+     "phases_above_line": 7,
+     "state": "UNADJUDICABLE_PHASE",
+     "reason": "phases disagree on the verdict: ADMIT, CONDITIONAL, REFUSE"
+    },
+    "20": {
+     "phases": 20,
+     "verdicts": [
+      "ADMIT",
+      "ADMIT",
+      "REFUSE",
+      "CONDITIONAL",
+      "CONDITIONAL",
+      "CONDITIONAL",
+      "ADMIT",
+      "REFUSE",
+      "CONDITIONAL",
+      "CONDITIONAL",
+      "ADMIT",
+      "REFUSE",
+      "CONDITIONAL",
+      "CONDITIONAL",
+      "ADMIT",
+      "CONDITIONAL",
+      "REFUSE",
+      "CONDITIONAL",
+      "ADMIT",
+      "ADMIT"
+     ],
+     "distinct_verdicts": [
+      "ADMIT",
+      "CONDITIONAL",
+      "REFUSE"
+     ],
+     "median_top2_share": 0.7381,
+     "spread_pp": 83.62,
+     "margin_pp": 3.81,
+     "worst_top2_share": 1.4088,
+     "best_top2_share": 0.5726,
+     "phases_above_line": 13,
+     "state": "UNADJUDICABLE_PHASE",
+     "reason": "phases disagree on the verdict: ADMIT, CONDITIONAL, REFUSE"
+    },
+    "40": {
+     "phases": 40,
+     "verdicts": [
+      "ADMIT",
+      "ADMIT",
+      "REFUSE",
+      "CONDITIONAL",
+      "CONDITIONAL",
+      "CONDITIONAL",
+      "ADMIT",
+      "REFUSE",
+      "CONDITIONAL",
+      "CONDITIONAL",
+      "ADMIT",
+      "REFUSE",
+      "CONDITIONAL",
+      "CONDITIONAL",
+      "ADMIT",
+      "CONDITIONAL",
+      "REFUSE",
+      "CONDITIONAL",
+      "ADMIT",
+      "ADMIT",
+      "REFUSE",
+      "CONDITIONAL",
+      "ADMIT",
+      "ADMIT",
+      "REFUSE",
+      "CONDITIONAL",
+      "REFUSE",
+      "CONDITIONAL",
+      "CONDITIONAL",
+      "REFUSE",
+      "REFUSE",
+      "CONDITIONAL",
+      "CONDITIONAL",
+      "REFUSE",
+      "REFUSE",
+      "CONDITIONAL",
+      "CONDITIONAL",
+      "REFUSE",
+      "REFUSE",
+      "CONDITIONAL"
+     ],
+     "distinct_verdicts": [
+      "ADMIT",
+      "CONDITIONAL",
+      "REFUSE"
+     ],
+     "median_top2_share": 0.8395,
+     "spread_pp": 134.42,
+     "margin_pp": 13.95,
+     "worst_top2_share": 1.9168,
+     "best_top2_share": 0.5726,
+     "phases_above_line": 31,
+     "state": "UNADJUDICABLE_PHASE",
+     "reason": "phases disagree on the verdict: ADMIT, CONDITIONAL, REFUSE"
+    }
+   },
+   "trend": "SAMPLING_IS_NOT_THE_LIMIT"
+  },
+  "nobond_vt08_floor_050": {
+   "books": {
+    "vol_target": 0.08,
+    "vol_floor": 0.5
+   },
+   "depths": {
+    "5": {
+     "phases": 5,
+     "verdicts": [
+      "ADMIT",
+      "CONDITIONAL",
+      "CONDITIONAL",
+      "CONDITIONAL",
+      "CONDITIONAL"
+     ],
+     "distinct_verdicts": [
+      "ADMIT",
+      "CONDITIONAL"
+     ],
+     "median_top2_share": 0.8128,
+     "spread_pp": 15.73,
+     "margin_pp": 11.28,
+     "worst_top2_share": 0.8375,
+     "best_top2_share": 0.6802,
+     "phases_above_line": 4,
+     "state": "UNADJUDICABLE_PHASE",
+     "reason": "phases disagree on the verdict: ADMIT, CONDITIONAL"
+    },
+    "10": {
+     "phases": 10,
+     "verdicts": [
+      "ADMIT",
+      "CONDITIONAL",
+      "CONDITIONAL",
+      "CONDITIONAL",
+      "CONDITIONAL",
+      "REFUSE",
+      "ADMIT",
+      "CONDITIONAL",
+      "CONDITIONAL",
+      "REFUSE"
+     ],
+     "distinct_verdicts": [
+      "ADMIT",
+      "CONDITIONAL",
+      "REFUSE"
+     ],
+     "median_top2_share": 0.8072,
+     "spread_pp": 26.91,
+     "margin_pp": 10.715,
+     "worst_top2_share": 0.9135,
+     "best_top2_share": 0.6444,
+     "phases_above_line": 8,
+     "state": "UNADJUDICABLE_PHASE",
+     "reason": "phases disagree on the verdict: ADMIT, CONDITIONAL, REFUSE"
+    },
+    "20": {
+     "phases": 20,
+     "verdicts": [
+      "ADMIT",
+      "CONDITIONAL",
+      "CONDITIONAL",
+      "CONDITIONAL",
+      "CONDITIONAL",
+      "REFUSE",
+      "ADMIT",
+      "CONDITIONAL",
+      "CONDITIONAL",
+      "REFUSE",
+      "ADMIT",
+      "CONDITIONAL",
+      "CONDITIONAL",
+      "REFUSE",
+      "ADMIT",
+      "ADMIT",
+      "CONDITIONAL",
+      "CONDITIONAL",
+      "ADMIT",
+      "CONDITIONAL"
+     ],
+     "distinct_verdicts": [
+      "ADMIT",
+      "CONDITIONAL",
+      "REFUSE"
+     ],
+     "median_top2_share": 0.7964,
+     "spread_pp": 77.36,
+     "margin_pp": 9.645,
+     "worst_top2_share": 1.3765,
+     "best_top2_share": 0.6029,
+     "phases_above_line": 14,
+     "state": "UNADJUDICABLE_PHASE",
+     "reason": "phases disagree on the verdict: ADMIT, CONDITIONAL, REFUSE"
+    },
+    "40": {
+     "phases": 40,
+     "verdicts": [
+      "ADMIT",
+      "CONDITIONAL",
+      "CONDITIONAL",
+      "CONDITIONAL",
+      "CONDITIONAL",
+      "REFUSE",
+      "ADMIT",
+      "CONDITIONAL",
+      "CONDITIONAL",
+      "REFUSE",
+      "ADMIT",
+      "CONDITIONAL",
+      "CONDITIONAL",
+      "REFUSE",
+      "ADMIT",
+      "ADMIT",
+      "CONDITIONAL",
+      "CONDITIONAL",
+      "ADMIT",
+      "CONDITIONAL",
+      "CONDITIONAL",
+      "CONDITIONAL",
+      "ADMIT",
+      "CONDITIONAL",
+      "CONDITIONAL",
+      "CONDITIONAL",
+      "CONDITIONAL",
+      "CONDITIONAL",
+      "CONDITIONAL",
+      "CONDITIONAL",
+      "REFUSE",
+      "CONDITIONAL",
+      "CONDITIONAL",
+      "CONDITIONAL",
+      "REFUSE",
+      "CONDITIONAL",
+      "CONDITIONAL",
+      "CONDITIONAL",
+      "REFUSE",
+      "CONDITIONAL"
+     ],
+     "distinct_verdicts": [
+      "ADMIT",
+      "CONDITIONAL",
+      "REFUSE"
+     ],
+     "median_top2_share": 0.7989,
+     "spread_pp": 125.59,
+     "margin_pp": 9.885,
+     "worst_top2_share": 1.8588,
+     "best_top2_share": 0.6029,
+     "phases_above_line": 33,
+     "state": "UNADJUDICABLE_PHASE",
+     "reason": "phases disagree on the verdict: ADMIT, CONDITIONAL, REFUSE"
+    }
+   },
+   "trend": "SAMPLING_IS_NOT_THE_LIMIT"
+  }
+ },
+ "rows": [
+  {
+   "book": "nobond_vt08_adopted",
+   "start": "2020-01-01",
+   "verdict": "CONDITIONAL",
+   "top2_share": 0.7238,
+   "cagr_pct": 11.16,
+   "sharpe": 1.101,
+   "turnover": 1.082
+  },
+  {
+   "book": "nobond_vt08_adopted",
+   "start": "2020-01-08",
+   "verdict": "CONDITIONAL",
+   "top2_share": 0.794,
+   "cagr_pct": 10.94,
+   "sharpe": 1.038,
+   "turnover": 1.04
+  },
+  {
+   "book": "nobond_vt08_adopted",
+   "start": "2020-01-15",
+   "verdict": "CONDITIONAL",
+   "top2_share": 0.8471,
+   "cagr_pct": 7.7,
+   "sharpe": 0.716,
+   "turnover": 1.096
+  },
+  {
+   "book": "nobond_vt08_adopted",
+   "start": "2020-01-22",
+   "verdict": "CONDITIONAL",
+   "top2_share": 0.8123,
+   "cagr_pct": 6.85,
+   "sharpe": 0.663,
+   "turnover": 1.083
+  },
+  {
+   "book": "nobond_vt08_adopted",
+   "start": "2020-01-29",
+   "verdict": "CONDITIONAL",
+   "top2_share": 0.8194,
+   "cagr_pct": 8.19,
+   "sharpe": 0.853,
+   "turnover": 1.113
+  },
+  {
+   "book": "nobond_vt08_adopted",
+   "start": "2020-02-05",
+   "verdict": "REFUSE",
+   "top2_share": 0.8199,
+   "cagr_pct": 9.8,
+   "sharpe": 0.993,
+   "turnover": 1.083
+  },
+  {
+   "book": "nobond_vt08_adopted",
+   "start": "2020-02-12",
+   "verdict": "ADMIT",
+   "top2_share": 0.6659,
+   "cagr_pct": 12.12,
+   "sharpe": 1.233,
+   "turnover": 1.027
+  },
+  {
+   "book": "nobond_vt08_adopted",
+   "start": "2020-02-19",
+   "verdict": "CONDITIONAL",
+   "top2_share": 0.8929,
+   "cagr_pct": 7.23,
+   "sharpe": 0.711,
+   "turnover": 1.052
+  },
+  {
+   "book": "nobond_vt08_adopted",
+   "start": "2020-02-26",
+   "verdict": "CONDITIONAL",
+   "top2_share": 0.7561,
+   "cagr_pct": 6.9,
+   "sharpe": 0.693,
+   "turnover": 1.078
+  },
+  {
+   "book": "nobond_vt08_adopted",
+   "start": "2020-03-04",
+   "verdict": "REFUSE",
+   "top2_share": 0.8299,
+   "cagr_pct": 9.79,
+   "sharpe": 0.996,
+   "turnover": 1.085
+  },
+  {
+   "book": "nobond_vt08_adopted",
+   "start": "2020-03-11",
+   "verdict": "ADMIT",
+   "top2_share": 0.6512,
+   "cagr_pct": 12.55,
+   "sharpe": 1.275,
+   "turnover": 1.031
+  },
+  {
+   "book": "nobond_vt08_adopted",
+   "start": "2020-03-18",
+   "verdict": "CONDITIONAL",
+   "top2_share": 0.9047,
+   "cagr_pct": 8.19,
+   "sharpe": 0.808,
+   "turnover": 1.054
+  },
+  {
+   "book": "nobond_vt08_adopted",
+   "start": "2020-03-25",
+   "verdict": "CONDITIONAL",
+   "top2_share": 0.7707,
+   "cagr_pct": 7.4,
+   "sharpe": 0.752,
+   "turnover": 1.082
+  },
+  {
+   "book": "nobond_vt08_adopted",
+   "start": "2020-04-01",
+   "verdict": "REFUSE",
+   "top2_share": 0.7996,
+   "cagr_pct": 10.31,
+   "sharpe": 1.059,
+   "turnover": 1.091
+  },
+  {
+   "book": "nobond_vt08_adopted",
+   "start": "2020-04-08",
+   "verdict": "CONDITIONAL",
+   "top2_share": 0.7115,
+   "cagr_pct": 13.95,
+   "sharpe": 1.362,
+   "turnover": 1.092
+  },
+  {
+   "book": "nobond_vt08_adopted",
+   "start": "2020-04-15",
+   "verdict": "ADMIT",
+   "top2_share": 0.6661,
+   "cagr_pct": 12.78,
+   "sharpe": 1.305,
+   "turnover": 1.048
+  },
+  {
+   "book": "nobond_vt08_adopted",
+   "start": "2020-04-22",
+   "verdict": "CONDITIONAL",
+   "top2_share": 1.3529,
+   "cagr_pct": 4.35,
+   "sharpe": 0.476,
+   "turnover": 1.13
+  },
+  {
+   "book": "nobond_vt08_adopted",
+   "start": "2020-04-29",
+   "verdict": "CONDITIONAL",
+   "top2_share": 0.8292,
+   "cagr_pct": 8.64,
+   "sharpe": 0.886,
+   "turnover": 1.144
+  },
+  {
+   "book": "nobond_vt08_adopted",
+   "start": "2020-05-06",
+   "verdict": "ADMIT",
+   "top2_share": 0.6139,
+   "cagr_pct": 12.8,
+   "sharpe": 1.249,
+   "turnover": 1.111
+  },
+  {
+   "book": "nobond_vt08_adopted",
+   "start": "2020-05-13",
+   "verdict": "CONDITIONAL",
+   "top2_share": 0.7458,
+   "cagr_pct": 12.36,
+   "sharpe": 1.212,
+   "turnover": 1.056
+  },
+  {
+   "book": "nobond_vt08_adopted",
+   "start": "2020-05-20",
+   "verdict": "CONDITIONAL",
+   "top2_share": 0.8148,
+   "cagr_pct": 8.45,
+   "sharpe": 0.823,
+   "turnover": 1.109
+  },
+  {
+   "book": "nobond_vt08_adopted",
+   "start": "2020-05-27",
+   "verdict": "CONDITIONAL",
+   "top2_share": 0.8009,
+   "cagr_pct": 6.83,
+   "sharpe": 0.688,
+   "turnover": 1.107
+  },
+  {
+   "book": "nobond_vt08_adopted",
+   "start": "2020-06-03",
+   "verdict": "ADMIT",
+   "top2_share": 0.6195,
+   "cagr_pct": 12.83,
+   "sharpe": 1.247,
+   "turnover": 1.121
+  },
+  {
+   "book": "nobond_vt08_adopted",
+   "start": "2020-06-10",
+   "verdict": "CONDITIONAL",
+   "top2_share": 0.7509,
+   "cagr_pct": 12.43,
+   "sharpe": 1.212,
+   "turnover": 1.061
+  },
+  {
+   "book": "nobond_vt08_adopted",
+   "start": "2020-06-17",
+   "verdict": "CONDITIONAL",
+   "top2_share": 0.817,
+   "cagr_pct": 8.53,
+   "sharpe": 0.827,
+   "turnover": 1.114
+  },
+  {
+   "book": "nobond_vt08_adopted",
+   "start": "2020-06-24",
+   "verdict": "CONDITIONAL",
+   "top2_share": 0.7936,
+   "cagr_pct": 6.69,
+   "sharpe": 0.672,
+   "turnover": 1.112
+  },
+  {
+   "book": "nobond_vt08_adopted",
+   "start": "2020-07-01",
+   "verdict": "CONDITIONAL",
+   "top2_share": 0.8686,
+   "cagr_pct": 8.43,
+   "sharpe": 0.857,
+   "turnover": 1.165
+  },
+  {
+   "book": "nobond_vt08_adopted",
+   "start": "2020-07-08",
+   "verdict": "CONDITIONAL",
+   "top2_share": 0.7672,
+   "cagr_pct": 13.33,
+   "sharpe": 1.296,
+   "turnover": 1.116
+  },
+  {
+   "book": "nobond_vt08_adopted",
+   "start": "2020-07-15",
+   "verdict": "CONDITIONAL",
+   "top2_share": 0.7552,
+   "cagr_pct": 11.63,
+   "sharpe": 1.185,
+   "turnover": 1.068
+  },
+  {
+   "book": "nobond_vt08_adopted",
+   "start": "2020-07-22",
+   "verdict": "CONDITIONAL",
+   "top2_share": 1.513,
+   "cagr_pct": 3.04,
+   "sharpe": 0.35,
+   "turnover": 1.153
+  },
+  {
+   "book": "nobond_vt08_adopted",
+   "start": "2020-07-29",
+   "verdict": "REFUSE",
+   "top2_share": 0.9643,
+   "cagr_pct": 7.54,
+   "sharpe": 0.781,
+   "turnover": 1.17
+  },
+  {
+   "book": "nobond_vt08_adopted",
+   "start": "2020-08-05",
+   "verdict": "CONDITIONAL",
+   "top2_share": 0.7963,
+   "cagr_pct": 12.9,
+   "sharpe": 1.27,
+   "turnover": 1.119
+  },
+  {
+   "book": "nobond_vt08_adopted",
+   "start": "2020-08-12",
+   "verdict": "CONDITIONAL",
+   "top2_share": 0.7572,
+   "cagr_pct": 11.74,
+   "sharpe": 1.201,
+   "turnover": 1.072
+  },
+  {
+   "book": "nobond_vt08_adopted",
+   "start": "2020-08-19",
+   "verdict": "CONDITIONAL",
+   "top2_share": 1.6046,
+   "cagr_pct": 2.7,
+   "sharpe": 0.319,
+   "turnover": 1.15
+  },
+  {
+   "book": "nobond_vt08_adopted",
+   "start": "2020-08-26",
+   "verdict": "REFUSE",
+   "top2_share": 0.9531,
+   "cagr_pct": 7.75,
+   "sharpe": 0.803,
+   "turnover": 1.172
+  },
+  {
+   "book": "nobond_vt08_adopted",
+   "start": "2020-09-02",
+   "verdict": "CONDITIONAL",
+   "top2_share": 0.7836,
+   "cagr_pct": 13.33,
+   "sharpe": 1.326,
+   "turnover": 1.117
+  },
+  {
+   "book": "nobond_vt08_adopted",
+   "start": "2020-09-09",
+   "verdict": "CONDITIONAL",
+   "top2_share": 0.7716,
+   "cagr_pct": 11.64,
+   "sharpe": 1.195,
+   "turnover": 1.075
+  },
+  {
+   "book": "nobond_vt08_adopted",
+   "start": "2020-09-16",
+   "verdict": "CONDITIONAL",
+   "top2_share": 1.7904,
+   "cagr_pct": 2.4,
+   "sharpe": 0.291,
+   "turnover": 1.153
+  },
+  {
+   "book": "nobond_vt08_adopted",
+   "start": "2020-09-23",
+   "verdict": "REFUSE",
+   "top2_share": 0.9298,
+   "cagr_pct": 8.09,
+   "sharpe": 0.837,
+   "turnover": 1.177
+  },
+  {
+   "book": "nobond_vt08_adopted",
+   "start": "2020-09-30",
+   "verdict": "CONDITIONAL",
+   "top2_share": 0.7531,
+   "cagr_pct": 14.22,
+   "sharpe": 1.4,
+   "turnover": 1.123
+  },
+  {
+   "book": "nobond_base",
+   "start": "2020-01-01",
+   "verdict": "ADMIT",
+   "top2_share": 0.6991,
+   "cagr_pct": 15.18,
+   "sharpe": 0.981,
+   "turnover": 1.531
+  },
+  {
+   "book": "nobond_base",
+   "start": "2020-01-08",
+   "verdict": "ADMIT",
+   "top2_share": 0.6799,
+   "cagr_pct": 19.99,
+   "sharpe": 1.18,
+   "turnover": 1.536
+  },
+  {
+   "book": "nobond_base",
+   "start": "2020-01-15",
+   "verdict": "REFUSE",
+   "top2_share": 0.8507,
+   "cagr_pct": 11.24,
+   "sharpe": 0.673,
+   "turnover": 1.612
+  },
+  {
+   "book": "nobond_base",
+   "start": "2020-01-22",
+   "verdict": "CONDITIONAL",
+   "top2_share": 0.8986,
+   "cagr_pct": 11.1,
+   "sharpe": 0.729,
+   "turnover": 1.54
+  },
+  {
+   "book": "nobond_base",
+   "start": "2020-01-29",
+   "verdict": "CONDITIONAL",
+   "top2_share": 0.8487,
+   "cagr_pct": 13.74,
+   "sharpe": 0.92,
+   "turnover": 1.564
+  },
+  {
+   "book": "nobond_base",
+   "start": "2020-02-05",
+   "verdict": "CONDITIONAL",
+   "top2_share": 0.7344,
+   "cagr_pct": 16.46,
+   "sharpe": 1.057,
+   "turnover": 1.549
+  },
+  {
+   "book": "nobond_base",
+   "start": "2020-02-12",
+   "verdict": "ADMIT",
+   "top2_share": 0.6543,
+   "cagr_pct": 18.01,
+   "sharpe": 1.115,
+   "turnover": 1.501
+  },
+  {
+   "book": "nobond_base",
+   "start": "2020-02-19",
+   "verdict": "REFUSE",
+   "top2_share": 0.9435,
+   "cagr_pct": 13.04,
+   "sharpe": 0.791,
+   "turnover": 1.563
+  },
+  {
+   "book": "nobond_base",
+   "start": "2020-02-26",
+   "verdict": "CONDITIONAL",
+   "top2_share": 0.9411,
+   "cagr_pct": 10.11,
+   "sharpe": 0.665,
+   "turnover": 1.568
+  },
+  {
+   "book": "nobond_base",
+   "start": "2020-03-04",
+   "verdict": "CONDITIONAL",
+   "top2_share": 0.7303,
+   "cagr_pct": 16.4,
+   "sharpe": 1.066,
+   "turnover": 1.544
+  },
+  {
+   "book": "nobond_base",
+   "start": "2020-03-11",
+   "verdict": "ADMIT",
+   "top2_share": 0.6705,
+   "cagr_pct": 19.06,
+   "sharpe": 1.187,
+   "turnover": 1.495
+  },
+  {
+   "book": "nobond_base",
+   "start": "2020-03-18",
+   "verdict": "REFUSE",
+   "top2_share": 0.9497,
+   "cagr_pct": 14.59,
+   "sharpe": 0.875,
+   "turnover": 1.578
+  },
+  {
+   "book": "nobond_base",
+   "start": "2020-03-25",
+   "verdict": "CONDITIONAL",
+   "top2_share": 0.9453,
+   "cagr_pct": 10.93,
+   "sharpe": 0.72,
+   "turnover": 1.583
+  },
+  {
+   "book": "nobond_base",
+   "start": "2020-04-01",
+   "verdict": "CONDITIONAL",
+   "top2_share": 0.7418,
+   "cagr_pct": 17.34,
+   "sharpe": 1.138,
+   "turnover": 1.558
+  },
+  {
+   "book": "nobond_base",
+   "start": "2020-04-08",
+   "verdict": "ADMIT",
+   "top2_share": 0.6727,
+   "cagr_pct": 20.62,
+   "sharpe": 1.25,
+   "turnover": 1.622
+  },
+  {
+   "book": "nobond_base",
+   "start": "2020-04-15",
+   "verdict": "CONDITIONAL",
+   "top2_share": 0.7222,
+   "cagr_pct": 20.0,
+   "sharpe": 1.246,
+   "turnover": 1.507
+  },
+  {
+   "book": "nobond_base",
+   "start": "2020-04-22",
+   "verdict": "REFUSE",
+   "top2_share": 1.4088,
+   "cagr_pct": 7.03,
+   "sharpe": 0.515,
+   "turnover": 1.647
+  },
+  {
+   "book": "nobond_base",
+   "start": "2020-04-29",
+   "verdict": "CONDITIONAL",
+   "top2_share": 0.8036,
+   "cagr_pct": 13.14,
+   "sharpe": 0.912,
+   "turnover": 1.593
+  },
+  {
+   "book": "nobond_base",
+   "start": "2020-05-06",
+   "verdict": "ADMIT",
+   "top2_share": 0.5726,
+   "cagr_pct": 17.78,
+   "sharpe": 1.142,
+   "turnover": 1.568
+  },
+  {
+   "book": "nobond_base",
+   "start": "2020-05-13",
+   "verdict": "ADMIT",
+   "top2_share": 0.6511,
+   "cagr_pct": 22.1,
+   "sharpe": 1.33,
+   "turnover": 1.573
+  },
+  {
+   "book": "nobond_base",
+   "start": "2020-05-20",
+   "verdict": "REFUSE",
+   "top2_share": 0.852,
+   "cagr_pct": 10.91,
+   "sharpe": 0.671,
+   "turnover": 1.643
+  },
+  {
+   "book": "nobond_base",
+   "start": "2020-05-27",
+   "verdict": "CONDITIONAL",
+   "top2_share": 0.8882,
+   "cagr_pct": 10.75,
+   "sharpe": 0.73,
+   "turnover": 1.582
+  },
+  {
+   "book": "nobond_base",
+   "start": "2020-06-03",
+   "verdict": "ADMIT",
+   "top2_share": 0.5841,
+   "cagr_pct": 17.63,
+   "sharpe": 1.131,
+   "turnover": 1.577
+  },
+  {
+   "book": "nobond_base",
+   "start": "2020-06-10",
+   "verdict": "ADMIT",
+   "top2_share": 0.6595,
+   "cagr_pct": 22.11,
+   "sharpe": 1.328,
+   "turnover": 1.567
+  },
+  {
+   "book": "nobond_base",
+   "start": "2020-06-17",
+   "verdict": "REFUSE",
+   "top2_share": 0.8568,
+   "cagr_pct": 10.99,
+   "sharpe": 0.673,
+   "turnover": 1.638
+  },
+  {
+   "book": "nobond_base",
+   "start": "2020-06-24",
+   "verdict": "CONDITIONAL",
+   "top2_share": 0.8801,
+   "cagr_pct": 10.23,
+   "sharpe": 0.698,
+   "turnover": 1.577
+  },
+  {
+   "book": "nobond_base",
+   "start": "2020-07-01",
+   "verdict": "REFUSE",
+   "top2_share": 0.8735,
+   "cagr_pct": 12.24,
+   "sharpe": 0.852,
+   "turnover": 1.613
+  },
+  {
+   "book": "nobond_base",
+   "start": "2020-07-08",
+   "verdict": "CONDITIONAL",
+   "top2_share": 0.7753,
+   "cagr_pct": 18.24,
+   "sharpe": 1.134,
+   "turnover": 1.638
+  },
+  {
+   "book": "nobond_base",
+   "start": "2020-07-15",
+   "verdict": "CONDITIONAL",
+   "top2_share": 0.8285,
+   "cagr_pct": 15.89,
+   "sharpe": 1.028,
+   "turnover": 1.509
+  },
+  {
+   "book": "nobond_base",
+   "start": "2020-07-22",
+   "verdict": "REFUSE",
+   "top2_share": 1.7058,
+   "cagr_pct": 3.99,
+   "sharpe": 0.334,
+   "turnover": 1.66
+  },
+  {
+   "book": "nobond_base",
+   "start": "2020-07-29",
+   "verdict": "REFUSE",
+   "top2_share": 0.97,
+   "cagr_pct": 10.82,
+   "sharpe": 0.773,
+   "turnover": 1.618
+  },
+  {
+   "book": "nobond_base",
+   "start": "2020-08-05",
+   "verdict": "CONDITIONAL",
+   "top2_share": 0.8202,
+   "cagr_pct": 17.16,
+   "sharpe": 1.102,
+   "turnover": 1.634
+  },
+  {
+   "book": "nobond_base",
+   "start": "2020-08-12",
+   "verdict": "CONDITIONAL",
+   "top2_share": 0.8303,
+   "cagr_pct": 16.06,
+   "sharpe": 1.053,
+   "turnover": 1.503
+  },
+  {
+   "book": "nobond_base",
+   "start": "2020-08-19",
+   "verdict": "REFUSE",
+   "top2_share": 1.7898,
+   "cagr_pct": 3.5,
+   "sharpe": 0.304,
+   "turnover": 1.655
+  },
+  {
+   "book": "nobond_base",
+   "start": "2020-08-26",
+   "verdict": "REFUSE",
+   "top2_share": 0.9548,
+   "cagr_pct": 11.2,
+   "sharpe": 0.802,
+   "turnover": 1.618
+  },
+  {
+   "book": "nobond_base",
+   "start": "2020-09-02",
+   "verdict": "CONDITIONAL",
+   "top2_share": 0.8097,
+   "cagr_pct": 17.7,
+   "sharpe": 1.146,
+   "turnover": 1.629
+  },
+  {
+   "book": "nobond_base",
+   "start": "2020-09-09",
+   "verdict": "CONDITIONAL",
+   "top2_share": 0.856,
+   "cagr_pct": 15.67,
+   "sharpe": 1.045,
+   "turnover": 1.496
+  },
+  {
+   "book": "nobond_base",
+   "start": "2020-09-16",
+   "verdict": "REFUSE",
+   "top2_share": 1.9168,
+   "cagr_pct": 2.88,
+   "sharpe": 0.267,
+   "turnover": 1.651
+  },
+  {
+   "book": "nobond_base",
+   "start": "2020-09-23",
+   "verdict": "REFUSE",
+   "top2_share": 0.9158,
+   "cagr_pct": 11.99,
+   "sharpe": 0.863,
+   "turnover": 1.613
+  },
+  {
+   "book": "nobond_base",
+   "start": "2020-09-30",
+   "verdict": "CONDITIONAL",
+   "top2_share": 0.744,
+   "cagr_pct": 20.05,
+   "sharpe": 1.287,
+   "turnover": 1.624
+  },
+  {
+   "book": "nobond_vt08_floor_050",
+   "start": "2020-01-01",
+   "verdict": "ADMIT",
+   "top2_share": 0.6802,
+   "cagr_pct": 11.77,
+   "sharpe": 1.122,
+   "turnover": 1.106
+  },
+  {
+   "book": "nobond_vt08_floor_050",
+   "start": "2020-01-08",
+   "verdict": "CONDITIONAL",
+   "top2_share": 0.7452,
+   "cagr_pct": 12.09,
+   "sharpe": 1.099,
+   "turnover": 1.078
+  },
+  {
+   "book": "nobond_vt08_floor_050",
+   "start": "2020-01-15",
+   "verdict": "CONDITIONAL",
+   "top2_share": 0.8375,
+   "cagr_pct": 7.85,
+   "sharpe": 0.702,
+   "turnover": 1.125
+  },
+  {
+   "book": "nobond_vt08_floor_050",
+   "start": "2020-01-22",
+   "verdict": "CONDITIONAL",
+   "top2_share": 0.8128,
+   "cagr_pct": 7.23,
+   "sharpe": 0.687,
+   "turnover": 1.099
+  },
+  {
+   "book": "nobond_vt08_floor_050",
+   "start": "2020-01-29",
+   "verdict": "CONDITIONAL",
+   "top2_share": 0.83,
+   "cagr_pct": 8.84,
+   "sharpe": 0.887,
+   "turnover": 1.142
+  },
+  {
+   "book": "nobond_vt08_floor_050",
+   "start": "2020-02-05",
+   "verdict": "REFUSE",
+   "top2_share": 0.7914,
+   "cagr_pct": 10.31,
+   "sharpe": 1.012,
+   "turnover": 1.109
+  },
+  {
+   "book": "nobond_vt08_floor_050",
+   "start": "2020-02-12",
+   "verdict": "ADMIT",
+   "top2_share": 0.6444,
+   "cagr_pct": 12.53,
+   "sharpe": 1.219,
+   "turnover": 1.063
+  },
+  {
+   "book": "nobond_vt08_floor_050",
+   "start": "2020-02-19",
+   "verdict": "CONDITIONAL",
+   "top2_share": 0.9135,
+   "cagr_pct": 7.96,
+   "sharpe": 0.748,
+   "turnover": 1.089
+  },
+  {
+   "book": "nobond_vt08_floor_050",
+   "start": "2020-02-26",
+   "verdict": "CONDITIONAL",
+   "top2_share": 0.8186,
+   "cagr_pct": 6.84,
+   "sharpe": 0.662,
+   "turnover": 1.111
+  },
+  {
+   "book": "nobond_vt08_floor_050",
+   "start": "2020-03-04",
+   "verdict": "REFUSE",
+   "top2_share": 0.8015,
+   "cagr_pct": 10.3,
+   "sharpe": 1.016,
+   "turnover": 1.11
+  },
+  {
+   "book": "nobond_vt08_floor_050",
+   "start": "2020-03-11",
+   "verdict": "ADMIT",
+   "top2_share": 0.6256,
+   "cagr_pct": 13.07,
+   "sharpe": 1.275,
+   "turnover": 1.063
+  },
+  {
+   "book": "nobond_vt08_floor_050",
+   "start": "2020-03-18",
+   "verdict": "CONDITIONAL",
+   "top2_share": 0.923,
+   "cagr_pct": 8.97,
+   "sharpe": 0.844,
+   "turnover": 1.093
+  },
+  {
+   "book": "nobond_vt08_floor_050",
+   "start": "2020-03-25",
+   "verdict": "CONDITIONAL",
+   "top2_share": 0.8301,
+   "cagr_pct": 7.35,
+   "sharpe": 0.718,
+   "turnover": 1.118
+  },
+  {
+   "book": "nobond_vt08_floor_050",
+   "start": "2020-04-01",
+   "verdict": "REFUSE",
+   "top2_share": 0.7733,
+   "cagr_pct": 10.82,
+   "sharpe": 1.076,
+   "turnover": 1.119
+  },
+  {
+   "book": "nobond_vt08_floor_050",
+   "start": "2020-04-08",
+   "verdict": "ADMIT",
+   "top2_share": 0.6938,
+   "cagr_pct": 14.46,
+   "sharpe": 1.359,
+   "turnover": 1.124
+  },
+  {
+   "book": "nobond_vt08_floor_050",
+   "start": "2020-04-15",
+   "verdict": "ADMIT",
+   "top2_share": 0.6518,
+   "cagr_pct": 13.25,
+   "sharpe": 1.293,
+   "turnover": 1.08
+  },
+  {
+   "book": "nobond_vt08_floor_050",
+   "start": "2020-04-22",
+   "verdict": "CONDITIONAL",
+   "top2_share": 1.3765,
+   "cagr_pct": 4.41,
+   "sharpe": 0.473,
+   "turnover": 1.157
+  },
+  {
+   "book": "nobond_vt08_floor_050",
+   "start": "2020-04-29",
+   "verdict": "CONDITIONAL",
+   "top2_share": 0.8224,
+   "cagr_pct": 8.92,
+   "sharpe": 0.892,
+   "turnover": 1.174
+  },
+  {
+   "book": "nobond_vt08_floor_050",
+   "start": "2020-05-06",
+   "verdict": "ADMIT",
+   "top2_share": 0.6029,
+   "cagr_pct": 12.93,
+   "sharpe": 1.235,
+   "turnover": 1.136
+  },
+  {
+   "book": "nobond_vt08_floor_050",
+   "start": "2020-05-13",
+   "verdict": "CONDITIONAL",
+   "top2_share": 0.7063,
+   "cagr_pct": 13.52,
+   "sharpe": 1.263,
+   "turnover": 1.099
+  },
+  {
+   "book": "nobond_vt08_floor_050",
+   "start": "2020-05-20",
+   "verdict": "CONDITIONAL",
+   "top2_share": 0.8291,
+   "cagr_pct": 8.37,
+   "sharpe": 0.781,
+   "turnover": 1.14
+  },
+  {
+   "book": "nobond_vt08_floor_050",
+   "start": "2020-05-27",
+   "verdict": "CONDITIONAL",
+   "top2_share": 0.7971,
+   "cagr_pct": 7.07,
+   "sharpe": 0.7,
+   "turnover": 1.126
+  },
+  {
+   "book": "nobond_vt08_floor_050",
+   "start": "2020-06-03",
+   "verdict": "ADMIT",
+   "top2_share": 0.6109,
+   "cagr_pct": 12.91,
+   "sharpe": 1.229,
+   "turnover": 1.145
+  },
+  {
+   "book": "nobond_vt08_floor_050",
+   "start": "2020-06-10",
+   "verdict": "CONDITIONAL",
+   "top2_share": 0.7131,
+   "cagr_pct": 13.55,
+   "sharpe": 1.261,
+   "turnover": 1.1
+  },
+  {
+   "book": "nobond_vt08_floor_050",
+   "start": "2020-06-17",
+   "verdict": "CONDITIONAL",
+   "top2_share": 0.8322,
+   "cagr_pct": 8.44,
+   "sharpe": 0.784,
+   "turnover": 1.142
+  },
+  {
+   "book": "nobond_vt08_floor_050",
+   "start": "2020-06-24",
+   "verdict": "CONDITIONAL",
+   "top2_share": 0.7869,
+   "cagr_pct": 6.84,
+   "sharpe": 0.677,
+   "turnover": 1.127
+  },
+  {
+   "book": "nobond_vt08_floor_050",
+   "start": "2020-07-01",
+   "verdict": "CONDITIONAL",
+   "top2_share": 0.875,
+   "cagr_pct": 8.55,
+   "sharpe": 0.85,
+   "turnover": 1.193
+  },
+  {
+   "book": "nobond_vt08_floor_050",
+   "start": "2020-07-08",
+   "verdict": "CONDITIONAL",
+   "top2_share": 0.7648,
+   "cagr_pct": 13.48,
+   "sharpe": 1.273,
+   "turnover": 1.144
+  },
+  {
+   "book": "nobond_vt08_floor_050",
+   "start": "2020-07-15",
+   "verdict": "CONDITIONAL",
+   "top2_share": 0.7797,
+   "cagr_pct": 11.42,
+   "sharpe": 1.125,
+   "turnover": 1.093
+  },
+  {
+   "book": "nobond_vt08_floor_050",
+   "start": "2020-07-22",
+   "verdict": "CONDITIONAL",
+   "top2_share": 1.5748,
+   "cagr_pct": 2.93,
+   "sharpe": 0.334,
+   "turnover": 1.176
+  },
+  {
+   "book": "nobond_vt08_floor_050",
+   "start": "2020-07-29",
+   "verdict": "REFUSE",
+   "top2_share": 0.9694,
+   "cagr_pct": 7.66,
+   "sharpe": 0.776,
+   "turnover": 1.198
+  },
+  {
+   "book": "nobond_vt08_floor_050",
+   "start": "2020-08-05",
+   "verdict": "CONDITIONAL",
+   "top2_share": 0.7975,
+   "cagr_pct": 12.98,
+   "sharpe": 1.246,
+   "turnover": 1.146
+  },
+  {
+   "book": "nobond_vt08_floor_050",
+   "start": "2020-08-12",
+   "verdict": "CONDITIONAL",
+   "top2_share": 0.782,
+   "cagr_pct": 11.53,
+   "sharpe": 1.144,
+   "turnover": 1.094
+  },
+  {
+   "book": "nobond_vt08_floor_050",
+   "start": "2020-08-19",
+   "verdict": "CONDITIONAL",
+   "top2_share": 1.6543,
+   "cagr_pct": 2.59,
+   "sharpe": 0.304,
+   "turnover": 1.174
+  },
+  {
+   "book": "nobond_vt08_floor_050",
+   "start": "2020-08-26",
+   "verdict": "REFUSE",
+   "top2_share": 0.9577,
+   "cagr_pct": 7.88,
+   "sharpe": 0.798,
+   "turnover": 1.201
+  },
+  {
+   "book": "nobond_vt08_floor_050",
+   "start": "2020-09-02",
+   "verdict": "CONDITIONAL",
+   "top2_share": 0.7869,
+   "cagr_pct": 13.37,
+   "sharpe": 1.295,
+   "turnover": 1.144
+  },
+  {
+   "book": "nobond_vt08_floor_050",
+   "start": "2020-09-09",
+   "verdict": "CONDITIONAL",
+   "top2_share": 0.8002,
+   "cagr_pct": 11.38,
+   "sharpe": 1.137,
+   "turnover": 1.096
+  },
+  {
+   "book": "nobond_vt08_floor_050",
+   "start": "2020-09-16",
+   "verdict": "CONDITIONAL",
+   "top2_share": 1.8588,
+   "cagr_pct": 2.28,
+   "sharpe": 0.275,
+   "turnover": 1.176
+  },
+  {
+   "book": "nobond_vt08_floor_050",
+   "start": "2020-09-23",
+   "verdict": "REFUSE",
+   "top2_share": 0.9292,
+   "cagr_pct": 8.27,
+   "sharpe": 0.839,
+   "turnover": 1.204
+  },
+  {
+   "book": "nobond_vt08_floor_050",
+   "start": "2020-09-30",
+   "verdict": "CONDITIONAL",
+   "top2_share": 0.7429,
+   "cagr_pct": 14.57,
+   "sharpe": 1.402,
+   "turnover": 1.146
+  }
+ ],
+ "audit": {
+  "generated": "2026-11-22T07:54:11",
+  "elapsed_sec": 160.0,
+  "cells": 120,
+  "universe_bars": 5285,
+  "universe_last_bar": "2026-11-20"
+ },
+ "sentence": "nobond_vt08_adopted: UNADJUDICABLE_PHASE at depth 5 (spread 12.33pp vs margin 11.23pp) -> UNADJUDICABLE_PHASE at depth 40 (spread 117.65pp vs margin 9.79pp); nobond_base: UNADJUDICABLE_PHASE at depth 5 (spread 21.87pp vs margin 14.87pp) -> UNADJUDICABLE_PHASE at depth 40 (spread 134.42pp vs margin 13.95pp); nobond_vt08_floor_050: UNADJUDICABLE_PHASE at depth 5 (spread 15.73pp vs margin 11.28pp) -> UNADJUDICABLE_PHASE at depth 40 (spread 125.59pp vs margin 9.88pp)"
+}

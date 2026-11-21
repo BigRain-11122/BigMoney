@@ -636,6 +636,18 @@ LEGS = [
     ("phase_gate_write",
      ["python", "scripts/candidate_year_gate_phases.py", "check"],
      ["python", "scripts/candidate_year_gate_phases.py", "run"]),
+    # r1921: the supply floor refused four candidates with one sentence -- "phase spread wider
+    # than the distance to the line" -- measured on FIVE weekly starts, and nothing had ever
+    # asked whether five is enough. This face deepens the same generator (same anchor, same
+    # 7-day stride) to 40 weeks and prints every depth: the spreads GROW 6-9x (12->118pp) while
+    # the margin stays 10-14pp, so "needs more phases" is not the story -- these books take
+    # their whole annual shape from one or two years (top-2 shares above 1.0 appear once the
+    # other years subtract). The reader now knows the floor's red is a property of the
+    # candidates, not of the sampling.
+    ("phase_depth_write",
+     ["python", "scripts/etf_book_phase_depth.py", "refresh"]),
+    ("phase_depth",
+     ["python", "scripts/etf_book_phase_depth.py", "check"]),
     # r1868: the admission section printed the three-veto ADMIT beside a phase face still
     # reading a demoted ruler, and the sheet told the reader those two verdicts were not
     # adjudicating the same ruler -- a sentence with no way to finish itself. This face
