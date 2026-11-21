@@ -401,6 +401,50 @@ def supply_floor_why(sc, breach):
         out["what_would_move_it"] = (
             "the phase set" if disagree
             else "more years of evidence" if spread else "unknown")
+        # r1921: "the phase set" was a hypothesis until results/etf_book_phase_depth.json
+        # measured it. Deepening the gate's own generator from 5 to 40 weekly starts GROWS
+        # the spread 6-9x (12.33->117.65pp, 21.87->134.42pp, 15.73->125.59pp) while the
+        # margin stays 10-14pp, so for those books "wait for the phase set to move" sends
+        # the reader to a door that does not open. Carried, not re-decided: the trend word
+        # is read off the depth receipt (single owner scripts/etf_book_phase_depth.py).
+        try:
+            _depth_arms = _depth_trends()
+        except (OSError, ValueError):
+            _depth_arms = {}
+        _tested = [(r["candidate"], _depth_arms[r["candidate"]])
+                   for r in rows if r["candidate"] in _depth_arms]
+        if _tested:
+            _ns = [(c, a) for c, a in _tested
+                   if a.get("trend") == "SAMPLING_IS_NOT_THE_LIMIT"]
+            _narrow = [(c, a) for c, a in _tested
+                       if a.get("trend") == "DEPTH_NARROWS_NOT_ENOUGH"]
+            if _ns:
+                _d5 = _ns[0][1]["depths"]["5"]
+                _d40 = _ns[0][1]["depths"]["40"]
+                out["depth_measured"] = {
+                    "receipt": "results/etf_book_phase_depth.json",
+                    "trend": "SAMPLING_IS_NOT_THE_LIMIT",
+                    "names": [c for c, _a in _ns],
+                    "spread_d5_pp": _d5.get("spread_pp"),
+                    "spread_d40_pp": _d40.get("spread_pp"),
+                    "margin_d40_pp": _d40.get("margin_pp"),
+                }
+                out["what_would_move_it"] = (
+                    "not the phase set: this face already deepened the same generator to "
+                    "40 weekly starts and the spread grew (%s at depth 5 -> %s at depth 40, "
+                    "margin %s) -- see results/etf_book_phase_depth.json"
+                    % (_fmt_pp(_d5.get("spread_pp")), _fmt_pp(_d40.get("spread_pp")),
+                       _fmt_pp(_d40.get("margin_pp"))))
+            elif _narrow:
+                out["depth_measured"] = {
+                    "receipt": "results/etf_book_phase_depth.json",
+                    "trend": "DEPTH_NARROWS_NOT_ENOUGH",
+                    "names": [c for c, _a in _narrow],
+                }
+                out["what_would_move_it"] = (
+                    "a deeper phase set, but not yet enough: the depth face measured the "
+                    "spread narrowing without fitting the margin "
+                    "(results/etf_book_phase_depth.json)")
         # r1836: the old sentence counted the two kinds of "cannot be judged"
         # and stopped -- a candidate that WAS adjudicated (and came out
         # CONDITIONAL on one check) simply fell out of the arithmetic, so
@@ -475,6 +519,27 @@ def supply_floor_why(sc, breach):
         out["sentence"] = SUPPLY_FLOOR_ACTIONS.get(
             cause, SUPPLY_FLOOR_ACTIONS["unknown"])
     return out
+
+
+def _fmt_pp(v):
+    """A percentage-point reading for a sentence; a missing reading stays 'n/a'."""
+    return "n/a" if v is None else "%.2fpp" % float(v)
+
+
+def _depth_trends(path=None):
+    """{arm: depth blob} from the phase-depth receipt (r1921); {} when unreadable.
+
+    Single owner of the reading is scripts/etf_book_phase_depth.py -- this audit CARRIES
+    its trend word so "wait for the phase set" cannot be printed over a measurement that
+    already deepened the phase set and watched the spread grow.
+    """
+    p = path or os.path.join(ROOT, "results", "etf_book_phase_depth.json")
+    with open(p, encoding="utf-8") as fh:
+        doc = json.load(fh)
+    arms = doc.get("arms") or {}
+    if not isinstance(arms, dict):
+        return {}
+    return {k: v for k, v in arms.items() if isinstance(v, dict)}
 
 
 def _ts_age_min(stamp, now_epoch=None):
@@ -1703,6 +1768,38 @@ def _selftest():
           "A" in (_wc.get("sentence") or ""), True)
     check("r1308 no capacity sentence -> no capacity key",
           "capacity_sentence" in supply_floor_why(_cal_spread, True), False)
+
+    # ---- r1921 legs: the phase-depth face turns "wait for the phase set" into a
+    # measurement. The audit CARRIES the depth receipt's trend word, so the hypothesis
+    # sentence cannot be printed over a face that already deepened the set.
+    _orig_depth = _depth_trends
+    try:
+        globals()["_depth_trends"] = lambda: {
+            "A": {"trend": "SAMPLING_IS_NOT_THE_LIMIT",
+                  "depths": {"5": {"spread_pp": 12.33},
+                             "40": {"spread_pp": 117.65, "margin_pp": 9.79}}}}
+        _wd = supply_floor_why(_cal_spread, True)
+        check("r1921 a measured depth trend replaces the hypothesis",
+              (_wd.get("what_would_move_it") or "").startswith("not the phase set"), True)
+        check("r1921 both spreads travel with the sentence",
+              ((_wd.get("depth_measured") or {}).get("spread_d5_pp"),
+               (_wd.get("depth_measured") or {}).get("spread_d40_pp")), (12.33, 117.65))
+        globals()["_depth_trends"] = lambda: {
+            "A": {"trend": "DEPTH_NARROWS_NOT_ENOUGH",
+                  "depths": {"5": {"spread_pp": 20.0},
+                             "40": {"spread_pp": 12.0, "margin_pp": 9.0}}}}
+        _wn = supply_floor_why(_cal_spread, True)
+        check("r1921 a narrowing-but-unfit depth says exactly that",
+              (_wn.get("what_would_move_it") or "").startswith("a deeper phase set, but not yet"),
+              True)
+        globals()["_depth_trends"] = lambda: {}
+        _wo = supply_floor_why(_cal_spread, True)
+        check("r1921 no depth receipt -> the old hypothesis stands unchanged",
+              _wo.get("what_would_move_it"), "more years of evidence")
+        check("r1921 no depth receipt -> no depth key",
+              "depth_measured" in _wo, False)
+    finally:
+        globals()["_depth_trends"] = _orig_depth
 
     n_pass = sum(1 for _, ok, _, _ in cases if ok)
     print(f"compute_audit selftest: {n_pass}/{len(cases)} PASS")
