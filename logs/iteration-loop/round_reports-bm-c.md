@@ -1656,3 +1656,4 @@ r669 addendum (push-race 收口留痕): 收口推送被拒=origin 同窗前进 1
 egister_loop_task 幂等 no-op（pin=0·时间限 PT5H 正确·首火 08:55）；claws 与 watchdog 未动（S4U 翻转仍需一次提权=物理件域，欠账继续挂）｜**CEO 过程可见面**：当前活＝把成本档的一条假不变量换成引擎能回答的判据｜最近实物＝K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\research\\ETF_BOOK_PHASE_ATLAS_ARMS.md 新节（12 格表+2 格例外，2026-11-21 08:5x）＋
 esults\\etf_book_phase_atlas_arms.json::cost_toll｜下个里程碑＝全量冒烟跑出绿色 record（本轮已分离启动→
 esults/_smoke_r1901.out），窗 ≤24h｜**未验证（如实）**：全量套件未在本轮窗口内收尾；S6 只跑 1 族｜记账：本行 1 处 + state 1 处 + 心跳 1 处 = 3 处。|
+|**送达复核（08:5x）**：commit **1143559607** 已推 origin/main（8a47fe5c05..1143559607），fetch 后本地未达 origin commit 数=0，git ls-tree origin/main 两件（scripts/etf_book_phase_atlas_arms.py / results/etf_book_phase_atlas_arms.json）在位；全量冒烟已分离启动 pid 9572 → results/_smoke_r1901.out（12s 时 48 行、进程活），本轮不收尾、r1902 读回。｜记账：本行 1 处（本轮累计 4 处）。|
