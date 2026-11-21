@@ -122,12 +122,12 @@
   ],
   "toll": [
    {
-    "band_pp": 6.84,
+    "band_pp": 6.909,
     "buffer_k": 0.0,
-    "clears_band": true,
+    "clears_band": false,
     "cost": 0.0,
     "file": "etf_book_phase_atlas_cost0.json",
-    "spread_pp": 6.935
+    "spread_pp": 6.895
    },
    {
     "band_pp": 6.854,
@@ -154,19 +154,19 @@
     "spread_pp": 6.085
    },
    {
-    "band_pp": 7.077,
+    "band_pp": 6.586,
     "buffer_k": 0.0,
     "clears_band": false,
     "cost": 0.004,
     "file": "etf_book_phase_atlas_cost40.json",
-    "spread_pp": 2.11
+    "spread_pp": 3.29
    }
   ]
  },
  "question": "the atlas's 12-cell ordering is judged against each cell's own phase band; both the spread and the band move with the toll. At what toll does the ordering stop clearing its own noise, and is the decay monotone?",
  "script": "scripts/etf_book_atlas_toll_ladder.py",
  "sources_bar": "2026-11-20",
- "sources_digest": "d81ec74f20acc1767e563a1a894295db3e7299200d6959a9cbbedd79d72e39a2",
+ "sources_digest": "bdcd5eb4df15d48d554a639307d1caf56f3baba0a43855ed7204b54edfcf447a",
  "spec": {
   "baseline_cost_fraction": 0.001,
   "cadence_pair": [
@@ -189,7 +189,7 @@
   "argmax_cells": [
    {
     "file": "etf_book_phase_atlas_cost0.json",
-    "median_cagr_pp": 14.425,
+    "median_cagr_pp": 14.265,
     "n_hold": 8,
     "rebal": 10,
     "toll_bp": 0.0
@@ -217,8 +217,8 @@
    },
    {
     "file": "etf_book_phase_atlas_cost40.json",
-    "median_cagr_pp": 6.475,
-    "n_hold": 5,
+    "median_cagr_pp": 5.845,
+    "n_hold": 8,
     "rebal": 20,
     "toll_bp": 40.0
    }
@@ -226,55 +226,52 @@
   "argmax_identity_stable": false,
   "band_at_production_toll_pp": 6.821,
   "band_pp": [
-   6.84,
+   6.909,
    6.854,
    6.799,
    7.227,
-   7.077
+   6.586
   ],
-  "break_even_toll_bp": 0.528,
+  "break_even_toll_bp": null,
   "cadence_effect_median_pp": [
-   5.475,
+   5.535,
    4.658,
    3.835,
    2.328,
-   -0.663
+   -1.348
   ],
   "cadence_sign_flip_toll_bp": 40.0,
   "cadence_spread_pp": [
-   5.475,
+   5.535,
    4.657,
    3.835,
    2.327,
-   1.448
+   1.357
   ],
   "clears_band": [
-   true,
+   false,
    false,
    false,
    false,
    false
   ],
   "reasons": [
-   "spread falls from 6.93pp at 0bp to 2.11pp at 40bp (rank corr -0.700)",
-   "median cell band stays 6.84 -> 7.08pp across the same rungs (band is not the mover)",
-   "the two series cross at 0.53bp/side",
+   "spread falls from 6.89pp at 0bp to 3.29pp at 40bp (rank corr -0.700)",
+   "median cell band stays 6.91 -> 6.59pp across the same rungs (band is not the mover)",
    "at the production toll (8bp) interpolated spread 5.56pp vs band 6.82pp",
-   "the FAST cadence is worth +5.47pp at 0bp and -0.66pp at 40bp -- the ranking of the cadence knob inverts at 40bp/side",
-   "the width knob moves the other way: +0.73 -> +1.17pp (rank corr +0.400), i.e. wider is worth more as the toll rises",
+   "the FAST cadence is worth +5.54pp at 0bp and -1.35pp at 40bp -- the ranking of the cadence knob inverts at 40bp/side",
+   "the width knob moves the other way: +0.65 -> +1.49pp (rank corr +0.400), i.e. wider is worth more as the toll rises",
    "the ordering does not survive the production toll, but the decay is not monotone -- a single crossing cannot name a mechanism"
   ],
   "rungs": 5,
-  "rungs_that_clear": [
-   "etf_book_phase_atlas_cost0.json"
-  ],
+  "rungs_that_clear": [],
   "spread_at_production_toll_pp": 5.564,
   "spread_pp": [
-   6.935,
+   6.895,
    6.05,
    5.24,
    6.085,
-   2.11
+   3.29
   ],
   "spread_rank_corr_with_toll": -0.7,
   "toll_bp": [
@@ -286,19 +283,19 @@
   ],
   "verdict": "ORDERING_DECAYS_WITHOUT_A_CLEAN_DOSE",
   "width_effect_median_pp": [
-   0.735,
+   0.65,
    0.76,
    0.865,
    -1.095,
-   1.165
+   1.49
   ],
   "width_effect_rank_corr_with_toll": 0.4,
   "width_spread_pp": [
-   1.395,
+   1.29,
    1.32,
    1.375,
    1.59,
-   1.165
+   1.86
   ]
  },
  "units": {

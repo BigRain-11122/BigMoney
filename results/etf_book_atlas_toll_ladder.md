@@ -6,20 +6,19 @@
 
 | toll bp | spread pp | band pp | clears | argmax | cadence eff | width eff |
 |---|---|---|---|---|---|---|
-| 0 | 6.93 | 6.84 | yes | n8/R10 | +5.47 | +0.73 |
+| 0 | 6.89 | 6.91 | no | n8/R10 | +5.54 | +0.65 |
 | 5 | 6.05 | 6.85 | no | n8/R10 | +4.66 | +0.76 |
 | 10 | 5.24 | 6.80 | no | n8/R10 | +3.83 | +0.86 |
 | 20 | 6.08 | 7.23 | no | n3/R10 | +2.33 | -1.09 |
-| 40 | 2.11 | 7.08 | no | n5/R20 | -0.66 | +1.17 |
+| 40 | 3.29 | 6.59 | no | n8/R20 | -1.35 | +1.49 |
 
 verdict: **ORDERING_DECAYS_WITHOUT_A_CLEAN_DOSE**
 
-- spread falls from 6.93pp at 0bp to 2.11pp at 40bp (rank corr -0.700)
-- median cell band stays 6.84 -> 7.08pp across the same rungs (band is not the mover)
-- the two series cross at 0.53bp/side
+- spread falls from 6.89pp at 0bp to 3.29pp at 40bp (rank corr -0.700)
+- median cell band stays 6.91 -> 6.59pp across the same rungs (band is not the mover)
 - at the production toll (8bp) interpolated spread 5.56pp vs band 6.82pp
-- the FAST cadence is worth +5.47pp at 0bp and -0.66pp at 40bp -- the ranking of the cadence knob inverts at 40bp/side
-- the width knob moves the other way: +0.73 -> +1.17pp (rank corr +0.400), i.e. wider is worth more as the toll rises
+- the FAST cadence is worth +5.54pp at 0bp and -1.35pp at 40bp -- the ranking of the cadence knob inverts at 40bp/side
+- the width knob moves the other way: +0.65 -> +1.49pp (rank corr +0.400), i.e. wider is worth more as the toll rises
 - the ordering does not survive the production toll, but the decay is not monotone -- a single crossing cannot name a mechanism
 
 ## Buffer ladder (production toll 10bp/side)
