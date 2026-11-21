@@ -1,5 +1,19 @@
 # Bigmoney 交接与成果收割指南（HANDOVER）
 
+## 5x 幂等快照 · r1900（2026-11-21 08:3x · bm-c）
+> 授权口径不变：逐轮权威=`round_reports-bm-c.md` 全行在册 + `state-bm-c.json` 的 `round_*`/`r18xx` 键；本块只做「产物清单与完成状态」核对与指针，不复述轮报告正文。
+> 本块覆盖 r1896→r1900（上一块 bm-c 快照停在 r1835，r1836-r1895 的正文只在轮报告行与 state 键里，本块不补写=如实记缺口）。
+
+**本线产物（可核）**
+
+| 产物 | 状态 |
+|---|---|
+| r1900 CEO 页 ⑥ 新增「换成一笔钱」：账本自己的 `seed.capital_cny`（1,000,000·2026-10-23）乘同一对净值——这本 **-19,962 元**、基准 **-55,937 元**、相对 **+35,975 元**；`ceo_live_usage selftest` 新腿从账本重算（不信页面算术）+ `smoke_test.py` 同一条 product 腿 | 已发布（commit 8a47fe5c05） |
+| r1900 把 r1899 提交之后才跑出来的 **155 件 2026-11-20 面代**发上 origin（含两枚此前未跟踪的研究面 docs/divlowvol_live/TRACK-2026-11-20.md、docs/futures_lane/TSMOM-2026-11-20.md）；提交前实测旧代 JSON=0 | 已发布（同 commit） |
+| r1899/1900 三条早前红腿的现象面复核：daily_report 重复句（page_repeat_guard 4 面 0 命中）、改述 bar 进票面（8 改述/1 撤回与账本逐根相等、两 NAV 都在 ORDER-2026-11-20.md）、资金线三要素（1,124,479 / IC / IM / 出处时点全在 LIVE-latest.md） | 已复核（证据在 state `r1900.reds_replayed`） |
+| 本线未完成（如实）：①全量套件本轮起跑未收（pid 16836 → results/_smoke_r1900.out），绿色 record 仍待下一轮读回；②`compute_audit` 本轮 FLAG:cap_violation（cpu 100% 即本轮套件+链腿，非越权批）；③r1896-r1899 期间的黑窗/S4U 欠账与 watchdog 提权仍属物理件域 | 记于 `state-bm-c.json` 的 `r1900` |
+
+
 ## 5x 幂等快照 · r1835（2026-11-18 13:5x · bm-c）
 > 授权口径不变：逐轮权威=`round_reports-bm-c.md` 全行在册 + `state-bm-c.json` 的 `round_*` 键；本块只做「产物清单与完成状态」核对与指针，不复述轮报告正文。
 > 本块覆盖 bm-c 线 r1831→r1835（上一块 bm-c 快照停在 r1830；r1831/r1832 正文只留在 state 键里，轮报告行未逐条落，如实记缺口）。

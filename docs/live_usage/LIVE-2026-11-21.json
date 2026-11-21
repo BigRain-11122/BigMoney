@@ -2,7 +2,7 @@
  "schema": "ceo_live_usage_v1_9",
  "ticket": "T-202609-28-105",
  "day": "2026-11-21",
- "generated": "2026-11-21T08:35:25",
+ "generated": "2026-11-21T08:42:58",
  "market": {
   "state": "RED",
   "asof": "2026-11-20",
@@ -516,7 +516,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 64753.6
+    "last_append_age_min": 64761.2
    },
    {
     "family": "FUND-VALUE-P1",
@@ -524,7 +524,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 65598.1
+    "last_append_age_min": 65605.6
    },
    {
     "family": "FUND-DIVLOWVOL-P1",
@@ -532,7 +532,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 62391.4
+    "last_append_age_min": 62399.0
    }
   ]
  },
@@ -1215,10 +1215,10 @@
   "ticket_session": "2026-11-20",
   "iopv_session": "2026-11-20",
   "session_match": true,
-  "premium_paid_cny": 4117.3,
-  "premium_share_of_order_pct": 0.9536,
-  "premium_share_of_nav_pct": 0.4117,
-  "verified_amount_cny": 431753.6,
+  "premium_paid_cny": 4143.39,
+  "premium_share_of_order_pct": 0.953,
+  "premium_share_of_nav_pct": 0.4143,
+  "verified_amount_cny": 434754.1,
   "n_verified": 5,
   "n_unverifiable": 0,
   "book_cagr_pct": 11.94,
@@ -1227,44 +1227,44 @@
    {
     "symbol": "510760",
     "premium_pct": -0.2599,
-    "premium_paid_cny": -224.96,
+    "premium_paid_cny": -226.56,
     "market_pctile": 26.55,
     "status": "OK"
    },
    {
     "symbol": "512040",
     "premium_pct": -0.2109,
-    "premium_paid_cny": -182.5,
+    "premium_paid_cny": -183.75,
     "market_pctile": 35.63,
     "status": "OK"
    },
    {
     "symbol": "159655",
     "premium_pct": 6.4294,
-    "premium_paid_cny": 5219.2,
+    "premium_paid_cny": 5252.8,
     "market_pctile": 98.9,
     "status": "OK"
    },
    {
     "symbol": "513690",
     "premium_pct": -0.6587,
-    "premium_paid_cny": -572.76,
+    "premium_paid_cny": -576.46,
     "market_pctile": 3.84,
     "status": "OK"
    },
    {
     "symbol": "159519",
     "premium_pct": -0.1408,
-    "premium_paid_cny": -121.68,
+    "premium_paid_cny": -122.64,
     "market_pctile": 48.23,
     "status": "OK"
    }
   ],
   "stress": {
-   "if_premium_reverts_to_zero_cny": -4117.3,
-   "if_premium_reverts_to_zero_pct_of_nav": -0.4117,
-   "if_premium_reverts_to_own_median_cny": -3079.45,
-   "if_premium_reverts_to_own_median_pct_of_nav": -0.3079,
+   "if_premium_reverts_to_zero_cny": -4143.39,
+   "if_premium_reverts_to_zero_pct_of_nav": -0.4143,
+   "if_premium_reverts_to_own_median_cny": -3098.68,
+   "if_premium_reverts_to_own_median_pct_of_nav": -0.3099,
    "note": "reversion is a stress, not a forecast: the gap can persist while the sleeve stays hard to buy. Zero is the outer bound; each fund's own median is the realistic one -- these funds normally live above NAV."
   },
   "own_top_decile_pctile": 90.0,
@@ -1272,7 +1272,7 @@
    "159655"
   ],
   "own_verdict": "SOME_NAMES_ABOVE_OWN_TOP_DECILE",
-  "own_revert_cny": 3079.45,
+  "own_revert_cny": 3098.68,
   "own_revert_note": "stress, not a forecast: it gives back only the part ABOVE each fund's own median premium, and only for names this order is buying"
  },
  "etf_premium_choice": {
@@ -1338,12 +1338,12 @@
  "etf_capacity_at_size": {
   "present": true,
   "verdict": "ADMIT_AT_THIS_SIZE",
-  "reading_pct": 0.3422,
+  "reading_pct": 0.3449,
   "binding": "159519",
   "line_pct": 1.0,
-  "spent_cny": 431753.6,
-  "headroom_cny": 1261590.81,
-  "headroom_multiple": 2.922015739691325,
+  "spent_cny": 434754.1,
+  "headroom_cny": 1260414.23,
+  "headroom_multiple": 2.8991428180499055,
   "n_names": 5,
   "n_measurable": 5,
   "unmeasurable": [],
@@ -1368,13 +1368,13 @@
     "562550"
    ]
   },
-  "sentence": "按今天这张单自己的五个名字、自己的金额量：最紧的一席 159519 占它自己成交额的 0.3422%，闸线 1.00% → **过线**。注意：准入面印的 0.9820% 是**另一组名字**量的（只有 0 个重合，它量的是 159207、159307、159549、515300、562550），两个数不是同一把尺子上的同一件事。",
+  "sentence": "按今天这张单自己的五个名字、自己的金额量：最紧的一席 159519 占它自己成交额的 0.3449%，闸线 1.00% → **过线**。注意：准入面印的 0.9820% 是**另一组名字**量的（只有 0 个重合，它量的是 159207、159307、159549、515300、562550），两个数不是同一把尺子上的同一件事。",
   "caveats": [
    "成交额用的是闸自己的口径（收盘价×成交量，中位再取中位），是估计值而且是阶梯状的",
    "「1% ADV」是闸选的线，不是量出来的线；换线，每个数按同一比例移动",
    "这里量的是「这张单能不能从这个市场的成交额里过」，不是「下单后价格会被推到哪」：冲击成本是另一条腿（既有回测里按 8bp/边记）",
    "「装得下」不等于「免费」：pricing.money 一行给出这张单自己的双边成本（费率单源 knowledge.cost_spec，禁手抄）",
-   "放大倍数 x2.9220 是一个资本比例，不是一张能下的单：整数手与波动目标都可能把它压得更低"
+   "放大倍数 x2.8991 是一个资本比例，不是一张能下的单：整数手与波动目标都可能把它压得更低"
   ]
  },
  "etf_punctuality": {
@@ -2077,7 +2077,7 @@
  },
  "data_lanes": {
   "status": "ok",
-  "as_of": "2026-11-21T08:24:24",
+  "as_of": "2026-11-21T08:42:52",
   "verdict": "attention",
   "counts": {
    "retired": 1,
@@ -2092,7 +2092,7 @@
     "lane": "heat",
     "host": "bm-a",
     "host_alive": false,
-    "host_age_h": 60.52,
+    "host_age_h": 60.83,
     "state": "behind_1d",
     "tail": "2026-11-19",
     "expected": "2026-11-20",
@@ -2106,7 +2106,7 @@
     "lane": "lhb",
     "host": "bm-a",
     "host_alive": false,
-    "host_age_h": 60.52,
+    "host_age_h": 60.83,
     "state": "behind_1d",
     "tail": "2026-11-19",
     "expected": "2026-11-20",
@@ -2120,7 +2120,7 @@
     "lane": "lhb_inst",
     "host": "bm-c",
     "host_alive": true,
-    "host_age_h": 0.21,
+    "host_age_h": 0.06,
     "state": "behind_1d",
     "tail": "2026-11-19",
     "expected": "2026-11-20",
@@ -2134,7 +2134,7 @@
     "lane": "repo",
     "host": "bm-a",
     "host_alive": false,
-    "host_age_h": 60.52,
+    "host_age_h": 60.83,
     "state": "behind_1d",
     "tail": "2026-11-19",
     "expected": "2026-11-20",
@@ -2147,7 +2147,7 @@
   ],
   "hosts": {
    "bm-a": {
-    "age_h": 60.52,
+    "age_h": 60.83,
     "alive": false,
     "silent_waiting": [],
     "silent_taken_over": {
@@ -2158,7 +2158,7 @@
     }
    },
    "bm-b": {
-    "age_h": 523.69,
+    "age_h": 524.0,
     "alive": false,
     "silent_waiting": [],
     "silent_taken_over": {

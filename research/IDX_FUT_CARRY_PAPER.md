@@ -1,6 +1,6 @@
 # the carry sleeve, booked forward
 
-evidence cutoff: **2026-11-20** | contract bars to **2026-11-20** | generated 2026-11-21T07:21:53 | source judgement: `results/idx_fut_desk_sheet.json`
+evidence cutoff: **2026-11-20** | contract bars to **2026-11-20** | generated 2026-11-21T09:13:42 | source judgement: `results/idx_fut_desk_sheet.json`
 
 The two dates are printed because they are two dates: the ticket is judged on the continuous panel and the contract cache can lag it by a few sessions, so a ticket stamped with the judgement date is not a fill at that date.
 
@@ -48,13 +48,13 @@ Basis risk is printed as the daily-return correlation of the two indices: a cros
 
 | product | budget at the target | vol of 1 lot (hedged) | lots if the target is a ceiling | nearest integer | the ticket's lots | verdict |
 |---|---|---|---|---|---|---|
-| IC | 80,000 CNY | 89,643 CNY | 0 | 1 | 4 | THE_RULER_DECIDES_THE_LOTS |
-| IM | 80,000 CNY | 91,705 CNY | 0 | 1 | 4 | THE_RULER_DECIDES_THE_LOTS |
+| IC | 80,000 CNY | 89,958 CNY | 0 | 1 | 4 | THE_RULER_DECIDES_THE_LOTS |
+| IM | 80,000 CNY | 92,208 CNY | 0 | 1 | 4 | THE_RULER_DECIDES_THE_LOTS |
 
 **Read this beside the fraction above.**  The same sentence -- "8% vol target" -- names three positions: 0 / 1 / 4 lots at 1,000,000 CNY.  Each way out has a price, and the page prints it whole:
 
-- **IC**  A keep 8%: one lot needs 1,120,540 CNY; B keep 1,000,000 CNY: one lot needs 8.9643%; C keep both: 0 lot.
-- **IM**  A keep 8%: one lot needs 1,146,317 CNY; B keep 1,000,000 CNY: one lot needs 9.1705%; C keep both: 0 lot.
+- **IC**  A keep 8%: one lot needs 1,124,479 CNY; B keep 1,000,000 CNY: one lot needs 8.9958%; C keep both: 0 lot.
+- **IM**  A keep 8%: one lot needs 1,152,596 CNY; B keep 1,000,000 CNY: one lot needs 9.2208%; C keep both: 0 lot.
 
 ### the road this book runs on: A_keep_target_raise_capital
 
@@ -62,23 +62,23 @@ Target **8%**, read as **hard_cap_vol_le_target** (decided 2026-11-17 in bm-c ro
 
 | product | lots the adopted ruler allows now | first executable rung (CNY) | gap to that rung (CNY) | the desk's lots | the desk's lots against the ruler | capital those lots would need (CNY) |
 |---|---|---|---|---|---|---|
-| IC | **0** | 1,120,540 | 120,540 | 4 | OUT_OF_RULER (4.48x the budget) | 4,482,160 |
-| IM | **0** | 1,146,317 | 146,317 | 4 | OUT_OF_RULER (4.59x the budget) | 4,585,268 |
+| IC | **0** | 1,124,479 | 124,479 | 4 | OUT_OF_RULER (4.50x the budget) | 4,497,916 |
+| IM | **0** | 1,152,596 | 152,596 | 4 | OUT_OF_RULER (4.61x the budget) | 4,610,384 |
 
 Zero lots at this capital is the rule's answer, not a missing measurement: one hedged lot's annualised vol is larger than the whole budget, so the sleeve sits below its first rung. The desk's size is printed beside the ruler and **not rewritten** -- it is an input to this book, and a conformance flag is the honest way to carry a disagreement.
 
 ### what it costs to open this book
 
-To open this book at all needs 1,120,540 CNY of capital (IC account). IC is 120,540 CNY short of its first lot (capital 1,000,000, gap 12.05%). IM is 146,317 CNY short of its first lot (capital 1,000,000, gap 14.63%). IC: the desk's 4 lot(s) are withdrawn from the ticket and the executable line is 0; IM: the desk's 4 lot(s) are withdrawn from the ticket and the executable line is 0. The forward paper series that ran on 8 lot(s) across the accounts is kept and labelled FUNDED_BY_A_LARGER_CAPITAL: it is what a larger account would have done, not what this one can. It comes back the moment the capital does.
+To open this book at all needs 1,124,479 CNY of capital (IC account). IC is 124,479 CNY short of its first lot (capital 1,000,000, gap 12.45%). IM is 152,596 CNY short of its first lot (capital 1,000,000, gap 15.26%). IC: the desk's 4 lot(s) are withdrawn from the ticket and the executable line is 0; IM: the desk's 4 lot(s) are withdrawn from the ticket and the executable line is 0. The forward paper series that ran on 8 lot(s) across the accounts is kept and labelled FUNDED_BY_A_LARGER_CAPITAL: it is what a larger account would have done, not what this one can. It comes back the moment the capital does.
 
-Funding line read from `results/idx_fut_carry_open_capital.json` (generated 2026-11-20T16:11:24+08:00, cutoff 2026-11-20), so a reader can see which pass it came from.
+Funding line read from `results/idx_fut_carry_open_capital.json` (generated 2026-11-21T07:23:32+08:00, cutoff 2026-11-20), so a reader can see which pass it came from.
 
 | product | executable lots | desk lots withdrawn | forward paper lots (relabelled) | first rung (CNY) | gap at this capital (CNY) | capital those desk lots would need (CNY) |
 |---|---|---|---|---|---|---|
-| IC | **0** | 4 | 4 (FUNDED_BY_A_LARGER_CAPITAL) | 1,120,540 | 120,540 | 4,482,160 |
-| IM | **0** | 4 | 4 (FUNDED_BY_A_LARGER_CAPITAL) | 1,146,317 | 146,317 | 4,585,268 |
+| IC | **0** | 4 | 4 (FUNDED_BY_A_LARGER_CAPITAL) | 1,124,479 | 124,479 | 4,497,916 |
+| IM | **0** | 4 | 4 (FUNDED_BY_A_LARGER_CAPITAL) | 1,152,596 | 152,596 | 4,610,384 |
 
-Cheapest way in: **IC** at 1,120,540 CNY; both legs together 2,266,857 CNY. Decision **WITHDRAW_FROM_TICKET** (2026-11-17, bm-c round 1780). Fund the account to the first rung and re-run: the same rule hands the ticket back one lot and this file prints it -- the withdrawal is conditional on capital, not a judgement about the sleeve
+Cheapest way in: **IC** at 1,124,479 CNY; both legs together 2,277,075 CNY. Decision **WITHDRAW_FROM_TICKET** (2026-11-17, bm-c round 1780). Fund the account to the first rung and re-run: the same rule hands the ticket back one lot and this file prints it -- the withdrawal is conditional on capital, not a judgement about the sleeve
 
 Scope of the withdrawal: the executable ticket only. The forward paper series is an append-only evidence line: it is re-labelled FUNDED_BY_A_LARGER_CAPITAL, never rewritten, truncated or deleted
 

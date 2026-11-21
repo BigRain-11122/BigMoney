@@ -1,6 +1,6 @@
 {
  "report_date": "2026-11-21",
- "generated_at": "2026-11-21 08:09:32",
+ "generated_at": "2026-11-21 08:42:55",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -297,15 +297,14 @@
   "commits_24h": 61,
   "result_jsons_landed_24h": 281,
   "digests_landed_24h": 0,
-  "prereg_md_touched_24h": 78,
+  "prereg_md_touched_24h": 81,
   "compute_audit_latest": {
-   "ts": "2026-11-21 07:12:41",
-   "py_cpu_pct": 57.4,
+   "ts": "2026-11-21 08:33:11",
+   "py_cpu_pct": 100.0,
    "flags": [
-    "pool_starvation",
-    "supply_floor"
+    "cap_violation"
    ],
-   "verdict": "FLAG:pool_starvation,supply_floor"
+   "verdict": "FLAG:cap_violation"
   },
   "watermark_verdict": "insufficient_history",
   "pool_keys_n": 6,
@@ -829,21 +828,13 @@
     "supply_why": null
    },
    "bm-c": {
-    "latest_ts": "2026-11-21 07:12:41",
-    "py_pct": 57.4,
-    "cpu_pct": 31.0,
+    "latest_ts": "2026-11-21 08:33:11",
+    "py_pct": 100.0,
+    "cpu_pct": 100.0,
     "ready": 0,
-    "streak_min": 13726.9,
-    "verdict": "FLAG:pool_starvation,supply_floor",
+    "streak_min": null,
+    "verdict": "FLAG:cap_violation",
     "py_series_tail": [
-     [
-      "11:27",
-      0.1
-     ],
-     [
-      "11:27",
-      0.2
-     ],
      [
       "12:45",
       0.0
@@ -883,14 +874,22 @@
      [
       "07:12",
       57.4
+     ],
+     [
+      "08:21",
+      100.0
+     ],
+     [
+      "08:33",
+      100.0
      ]
     ],
-    "today_samples": 4,
+    "today_samples": 6,
     "today_floor_ok": 0,
     "today_sla_flags": 0,
     "today_supply_gap_flags": 0,
-    "own_samples": 144,
-    "unattributed_samples": 41,
+    "own_samples": 146,
+    "unattributed_samples": 39,
     "latest_attributed": true,
     "lane_machine": "bm-c",
     "supply_why": {
@@ -1029,7 +1028,7 @@
      "readable": true,
      "window_min": 60.0,
      "audit_batches": 0,
-     "audit_ts": "2026-11-21 07:12:41"
+     "audit_ts": "2026-11-21 08:33:11"
     }
    }
   },
@@ -1856,7 +1855,7 @@
  },
  "lane_authority": {
   "present": true,
-  "as_of": "2026-11-21T07:13:00",
+  "as_of": "2026-11-21T08:42:52",
   "verdict": "attention",
   "observer": "bm-c",
   "sentence": "以本机 bm-c 的盘为基准：14 条在役车道的数字全都落在本机盘上，其中 14 条有署名可核实。",
@@ -1892,7 +1891,7 @@
  },
  "lane_window": {
   "present": true,
-  "as_of": "2026-11-21T07:13:00",
+  "as_of": "2026-11-21T08:42:52",
   "n": 1,
   "windows": [
    {
@@ -1916,9 +1915,9 @@
   "threshold_min": 90,
   "window_days": 3,
   "median_gap_min": 36.0,
-  "rounds_in_window": 58,
-  "rounds_in_ledger": 1328,
-  "gaps_over_threshold_count": 10,
+  "rounds_in_window": 60,
+  "rounds_in_ledger": 1330,
+  "gaps_over_threshold_count": 11,
   "longest_silence": {
    "from": "2026-11-18T10:35",
    "gap_high_min": 1451.0,
@@ -1929,12 +1928,12 @@
    "unexplained_low_min": 1451.0
   },
   "open_gap": {
-   "gap_high_min": 43.1,
-   "gap_low_min": 43.1,
+   "gap_high_min": 19.5,
+   "gap_low_min": 19.5,
    "quiet_window_min": 0.0,
-   "since": "2026-11-21T06:30",
-   "unexplained_high_min": 43.1,
-   "unexplained_low_min": 43.1
+   "since": "2026-11-21T08:05",
+   "unexplained_high_min": 19.5,
+   "unexplained_low_min": 19.5
   },
   "gaps_over_threshold": [
    {
@@ -2026,10 +2025,19 @@
     "to": "2026-11-21T03:54",
     "unexplained_high_min": 174.0,
     "unexplained_low_min": 165.0
+   },
+   {
+    "from": "2026-11-21T06:30",
+    "gap_high_min": 99.0,
+    "gap_low_min": 90.0,
+    "quiet_window_min": 0.0,
+    "to": "2026-11-21T08:00",
+    "unexplained_high_min": 99.0,
+    "unexplained_low_min": 90.0
    }
   ],
   "evidence_cutoff": "2026-11-21",
-  "generated": "2026-11-21T07:13:05",
+  "generated": "2026-11-21T08:24:29",
   "silence_verdict": "SILENT_GAP",
   "lane_tasks": {
    "absent": [],
@@ -2044,13 +2052,13 @@
    "states": {
     "Bigmoney-IterationLoop": "Running",
     "Bigmoney-LoopWatchdog": "Ready",
-    "Bigmoney-SatEngine-bm-b": "Running"
+    "Bigmoney-SatEngine-bm-b": "Ready"
    },
    "threshold_min": 90,
    "verdict": "LANE_ENABLED",
    "why": "every probeable lane task is switched on; the silence (if any) is not a switch"
   },
-  "sentence": "bm-c：窗内 58 轮 / 3 天，相邻间隔中位数 36.0 分钟，超过 90 分钟且无解释的空档 10 处；最长静默 2026-11-18T10:35 → 2026-11-19T10:46（1451.0–1451.0 分钟，其中 0.0 分钟由其申报的静默窗解释）；仍未恢复，自 2026-11-21T06:30 起（未解释 43.1–43.1 分钟）。"
+  "sentence": "bm-c：窗内 60 轮 / 3 天，相邻间隔中位数 36.0 分钟，超过 90 分钟且无解释的空档 11 处；最长静默 2026-11-18T10:35 → 2026-11-19T10:46（1451.0–1451.0 分钟，其中 0.0 分钟由其申报的静默窗解释）；仍未恢复，自 2026-11-21T08:05 起（未解释 19.5–19.5 分钟）。"
  },
  "cap_vs_book": {
   "status": "ok",
@@ -2205,12 +2213,12 @@
     "n_cross_session": 0,
     "cross_session_symbols": [],
     "cross_session_amount_cny": 0,
-    "premium_paid_cny": 4117.3,
-    "verified_amount_cny": 431753.6,
-    "book_amount_cny": 431753.6,
+    "premium_paid_cny": 4143.39,
+    "verified_amount_cny": 434754.1,
+    "book_amount_cny": 434754.1,
     "nav_cny": 1000000.0,
-    "premium_share_of_order_pct": 0.9536,
-    "premium_share_of_nav_pct": 0.4117,
+    "premium_share_of_order_pct": 0.953,
+    "premium_share_of_nav_pct": 0.4143,
     "book_cagr_pct": 11.94,
     "years_of_backtest_return_paid": 0.08
    },
@@ -2224,50 +2232,50 @@
     "in_own_top_decile": [
      "159655"
     ],
-    "revert_to_own_median_cny": 3079.45,
+    "revert_to_own_median_cny": 3098.68,
     "revert_note": "stress, not a forecast: it gives back only the part ABOVE each fund's own median premium, and only for names this order is buying",
     "verdict": "SOME_NAMES_ABOVE_OWN_TOP_DECILE"
    },
    "stress": {
-    "if_premium_reverts_to_zero_cny": -4117.3,
-    "if_premium_reverts_to_zero_pct_of_nav": -0.4117,
-    "if_premium_reverts_to_own_median_cny": -3079.45,
-    "if_premium_reverts_to_own_median_pct_of_nav": -0.3079,
+    "if_premium_reverts_to_zero_cny": -4143.39,
+    "if_premium_reverts_to_zero_pct_of_nav": -0.4143,
+    "if_premium_reverts_to_own_median_cny": -3098.68,
+    "if_premium_reverts_to_own_median_pct_of_nav": -0.3099,
     "note": "reversion is a stress, not a forecast: the gap can persist while the sleeve stays hard to buy. Zero is the outer bound; each fund's own median is the realistic one -- these funds normally live above NAV."
    },
    "names": [
     {
      "symbol": "510760",
      "premium_pct": -0.2599,
-     "premium_paid_cny": -224.96,
+     "premium_paid_cny": -226.56,
      "market_pctile": 26.55,
      "status": "OK"
     },
     {
      "symbol": "512040",
      "premium_pct": -0.2109,
-     "premium_paid_cny": -182.5,
+     "premium_paid_cny": -183.75,
      "market_pctile": 35.63,
      "status": "OK"
     },
     {
      "symbol": "159655",
      "premium_pct": 6.4294,
-     "premium_paid_cny": 5219.2,
+     "premium_paid_cny": 5252.8,
      "market_pctile": 98.9,
      "status": "OK"
     },
     {
      "symbol": "513690",
      "premium_pct": -0.6587,
-     "premium_paid_cny": -572.76,
+     "premium_paid_cny": -576.46,
      "market_pctile": 3.84,
      "status": "OK"
     },
     {
      "symbol": "159519",
      "premium_pct": -0.1408,
-     "premium_paid_cny": -121.68,
+     "premium_paid_cny": -122.64,
      "market_pctile": 48.23,
      "status": "OK"
     }
