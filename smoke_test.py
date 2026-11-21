@@ -2301,6 +2301,15 @@ def main() -> int:
              "scripts/etf_book_target_price.py", ["selftest"]),
             ("product: etf_book_target_price (every price row re-derived from the seat face)",
              "scripts/etf_book_target_price.py", ["check"]),
+            # r1912: r1891/r1892 said waiting is expensive but never priced the alternative.
+            # The legs pin that the floor is one-sided 95% on the row's own standard error
+            # (2.5539pp), that a zero-edge book loses exactly its cost leg (13,920) while the
+            # ruler's own width is the larger 65,239, and that the wait's yearly fee is
+            # ~9.8x the realised worst case and still ~2.1x that width.
+            ("product: etf_book_deploy_price (the alternative to waiting priced at its worst)",
+             "scripts/etf_book_deploy_price.py", ["selftest"]),
+            ("product: etf_book_deploy_price (every scenario re-derived from both upstream faces)",
+             "scripts/etf_book_deploy_price.py", ["check"]),
             # r1882: the capacity family prices the CEILING (money too big to fill); nothing
             # priced the FLOOR, where a broker's CNY 5 minimum commission is charged per
             # ticket and twelve ~1e3-CNY legs pay ~52bp of commission against a 2.5bp model.

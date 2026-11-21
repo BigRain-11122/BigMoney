@@ -1,6 +1,6 @@
 {
  "report_date": "2026-11-21",
- "generated_at": "2026-11-21 10:29:52",
+ "generated_at": "2026-11-21 12:55:13",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -294,17 +294,18 @@
   "md_link": "../live_usage/LIVE-2026-11-21.md"
  },
  "rd": {
-  "commits_24h": 67,
-  "result_jsons_landed_24h": 278,
+  "commits_24h": 79,
+  "result_jsons_landed_24h": 275,
   "digests_landed_24h": 0,
   "prereg_md_touched_24h": 81,
   "compute_audit_latest": {
-   "ts": "2026-11-21 09:11:53",
-   "py_cpu_pct": 9.9,
+   "ts": "2026-11-21 12:29:14",
+   "py_cpu_pct": 32.3,
    "flags": [
+    "pool_starvation",
     "supply_floor"
    ],
-   "verdict": "FLAG:supply_floor"
+   "verdict": "FLAG:pool_starvation,supply_floor"
   },
   "watermark_verdict": "insufficient_history",
   "pool_keys_n": 6,
@@ -649,11 +650,11 @@
  ],
  "token_line": {
   "total_state_tokens_est": 15889,
-  "total_report_tokens_est": 2415432,
+  "total_report_tokens_est": 2416485,
   "delta_vs_prev": {
-   "prev_generated": "2026-11-20 18:23:15",
+   "prev_generated": "2026-11-21 08:43:41",
    "state_tokens_growth": 0,
-   "report_tokens_growth": 1314,
+   "report_tokens_growth": 1053,
    "mandate_growth": 0
   },
   "method": {
@@ -828,33 +829,13 @@
     "supply_why": null
    },
    "bm-c": {
-    "latest_ts": "2026-11-21 09:11:53",
-    "py_pct": 9.9,
-    "cpu_pct": 8.0,
+    "latest_ts": "2026-11-21 12:29:14",
+    "py_pct": 32.3,
+    "cpu_pct": 10.0,
     "ready": 0,
-    "streak_min": 9.3,
-    "verdict": "FLAG:supply_floor",
+    "streak_min": 206.7,
+    "verdict": "FLAG:pool_starvation,supply_floor",
     "py_series_tail": [
-     [
-      "15:38",
-      10.7
-     ],
-     [
-      "16:01",
-      0.1
-     ],
-     [
-      "20:48",
-      31.2
-     ],
-     [
-      "02:11",
-      13.0
-     ],
-     [
-      "02:31",
-      11.3
-     ],
      [
       "03:14",
       9.1
@@ -882,14 +863,34 @@
      [
       "09:11",
       9.9
+     ],
+     [
+      "10:44",
+      10.1
+     ],
+     [
+      "11:14",
+      5.1
+     ],
+     [
+      "11:31",
+      10.0
+     ],
+     [
+      "11:52",
+      5.4
+     ],
+     [
+      "12:29",
+      32.3
      ]
     ],
-    "today_samples": 9,
+    "today_samples": 14,
     "today_floor_ok": 0,
     "today_sla_flags": 0,
     "today_supply_gap_flags": 0,
-    "own_samples": 149,
-    "unattributed_samples": 36,
+    "own_samples": 154,
+    "unattributed_samples": 31,
     "latest_attributed": true,
     "lane_machine": "bm-c",
     "supply_why": {
@@ -1028,7 +1029,7 @@
      "readable": true,
      "window_min": 60.0,
      "audit_batches": 0,
-     "audit_ts": "2026-11-21 09:11:53"
+     "audit_ts": "2026-11-21 12:29:14"
     }
    }
   },
@@ -1855,7 +1856,7 @@
  },
  "lane_authority": {
   "present": true,
-  "as_of": "2026-11-21T10:29:48",
+  "as_of": "2026-11-21T12:55:10",
   "verdict": "attention",
   "observer": "bm-c",
   "sentence": "以本机 bm-c 的盘为基准：14 条在役车道的数字全都落在本机盘上，其中 14 条有署名可核实。",
@@ -1891,7 +1892,7 @@
  },
  "lane_window": {
   "present": true,
-  "as_of": "2026-11-21T10:29:48",
+  "as_of": "2026-11-21T12:55:10",
   "n": 1,
   "windows": [
    {
@@ -1914,37 +1915,28 @@
   "verdict": "SILENT_GAP",
   "threshold_min": 90,
   "window_days": 3,
-  "median_gap_min": 36.0,
-  "rounds_in_window": 60,
-  "rounds_in_ledger": 1330,
-  "gaps_over_threshold_count": 11,
+  "median_gap_min": 24.0,
+  "rounds_in_window": 71,
+  "rounds_in_ledger": 1343,
+  "gaps_over_threshold_count": 10,
   "longest_silence": {
-   "from": "2026-11-18T10:35",
-   "gap_high_min": 1451.0,
-   "gap_low_min": 1451.0,
+   "from": "2026-11-20T08:17",
+   "gap_high_min": 232.0,
+   "gap_low_min": 223.0,
    "quiet_window_min": 0.0,
-   "to": "2026-11-19T10:46",
-   "unexplained_high_min": 1451.0,
-   "unexplained_low_min": 1451.0
+   "to": "2026-11-20T12:00",
+   "unexplained_high_min": 232.0,
+   "unexplained_low_min": 223.0
   },
   "open_gap": {
-   "gap_high_min": 63.6,
-   "gap_low_min": 63.6,
+   "gap_high_min": 22.6,
+   "gap_low_min": 22.6,
    "quiet_window_min": 0.0,
-   "since": "2026-11-21T08:05",
-   "unexplained_high_min": 63.6,
-   "unexplained_low_min": 63.6
+   "since": "2026-11-21T11:30",
+   "unexplained_high_min": 22.6,
+   "unexplained_low_min": 22.6
   },
   "gaps_over_threshold": [
-   {
-    "from": "2026-11-18T10:35",
-    "gap_high_min": 1451.0,
-    "gap_low_min": 1451.0,
-    "quiet_window_min": 0.0,
-    "to": "2026-11-19T10:46",
-    "unexplained_high_min": 1451.0,
-    "unexplained_low_min": 1451.0
-   },
    {
     "from": "2026-11-19T11:55",
     "gap_high_min": 122.0,
@@ -2037,7 +2029,7 @@
    }
   ],
   "evidence_cutoff": "2026-11-21",
-  "generated": "2026-11-21T09:08:36",
+  "generated": "2026-11-21T11:52:36",
   "silence_verdict": "SILENT_GAP",
   "lane_tasks": {
    "absent": [],
@@ -2058,7 +2050,7 @@
    "verdict": "LANE_ENABLED",
    "why": "every probeable lane task is switched on; the silence (if any) is not a switch"
   },
-  "sentence": "bm-c：窗内 60 轮 / 3 天，相邻间隔中位数 36.0 分钟，超过 90 分钟且无解释的空档 11 处；最长静默 2026-11-18T10:35 → 2026-11-19T10:46（1451.0–1451.0 分钟，其中 0.0 分钟由其申报的静默窗解释）；仍未恢复，自 2026-11-21T08:05 起（未解释 63.6–63.6 分钟）。"
+  "sentence": "bm-c：窗内 71 轮 / 3 天，相邻间隔中位数 24.0 分钟，超过 90 分钟且无解释的空档 10 处；最长静默 2026-11-20T08:17 → 2026-11-20T12:00（223.0–232.0 分钟，其中 0.0 分钟由其申报的静默窗解释）；仍未恢复，自 2026-11-21T11:30 起（未解释 22.6–22.6 分钟）。"
  },
  "cap_vs_book": {
   "status": "ok",

@@ -5,15 +5,15 @@
   "results",
   "docs"
  ],
- "files_scanned": 14699,
- "n_hits": 809,
+ "files_scanned": 14698,
+ "n_hits": 807,
  "counts": {
   "closed-round-evidence": 303,
   "code-string": 45,
   "frozen-evidence": 308,
   "machine-status": 1,
   "pool-record": 100,
-  "self-census": 52
+  "self-census": 50
  },
  "gated_buckets": [
   "live-face",
@@ -305,29 +305,11 @@
    ]
   },
   "self-census": {
-   "n": 52,
+   "n": 50,
    "files": [
     "results/reader_text_audit.json"
    ],
    "sample": [
-    {
-     "file": "results/reader_text_audit.json",
-     "json_path": "/offenders[0]/token",
-     "key": "token",
-     "kind": "brace-token",
-     "token": "{sym}",
-     "bucket": "self-census",
-     "text": "{sym}"
-    },
-    {
-     "file": "results/reader_text_audit.json",
-     "json_path": "/offenders[0]/text",
-     "key": "text",
-     "kind": "brace-token",
-     "token": "{sym}",
-     "bucket": "self-census",
-     "text": "https://stock2.finance.sina.com.cn/futures/api/jsonp.php/var%20_F={sym}/InnerFuturesNewService.getDailyKLine?symbol={sym}"
-    },
     {
      "file": "results/reader_text_audit.json",
      "json_path": "/advisory/closed-round-evidence/sample[0]/token",
@@ -349,6 +331,24 @@
     {
      "file": "results/reader_text_audit.json",
      "json_path": "/advisory/closed-round-evidence/sample[1]/token",
+     "key": "token",
+     "kind": "brace-token",
+     "token": "{line_num}",
+     "bucket": "self-census",
+     "text": "{line_num}"
+    },
+    {
+     "file": "results/reader_text_audit.json",
+     "json_path": "/advisory/closed-round-evidence/sample[1]/text",
+     "key": "text",
+     "kind": "brace-token",
+     "token": "{line_num}",
+     "bucket": "self-census",
+     "text": "return False, f\"Line {line_num}: expected 5 fields, got {len(fields)}\""
+    },
+    {
+     "file": "results/reader_text_audit.json",
+     "json_path": "/advisory/closed-round-evidence/sample[2]/token",
      "key": "token",
      "kind": "brace-token",
      "token": "{line_num}",

@@ -707,6 +707,14 @@ LEGS = [
     ("target_price_write",
      ["python", "scripts/etf_book_target_price.py", "check"],
      ["python", "scripts/etf_book_target_price.py", "run"]),
+    # r1912: r1891 priced the WAIT and left its alternative unpriced -- "then what do I buy
+    # instead, and what does it cost when I am wrong" had no face. This leg prices deploying
+    # now at the book's own standard error (one-sided 95% floor) and at the realised cost
+    # leg, then compares both to the wait's yearly fee. Its check re-derives every scenario
+    # and says STALE when either upstream cutoff moves. ~1s refresh, ~1s check.
+    ("deploy_price_write",
+     ["python", "scripts/etf_book_deploy_price.py", "check"],
+     ["python", "scripts/etf_book_deploy_price.py", "run"]),
     # r1471: the ticket below now sizes itself off the EXECUTED account (the positions face)
     # instead of the engine's own never-trimmed book -- but nothing in this chain ever WROTE
     # that face, only checked it ~600 legs later. So the sheet priced off whatever the last

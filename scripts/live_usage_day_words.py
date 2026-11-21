@@ -106,6 +106,13 @@ CLAIM_RULES = [
     # that maps only the prose date leaves the file-name date unmapped and the line still red.
     (re.compile(r"换仓差量面（`results/etf_book_order/TICKET-" + _D + r"\.json`·bar " + _D),
      ["etf_order.bar", "etf_order.delta.current_bar"]),
+    # r1912: section 6's provenance line carries two dates of its own (the face's write
+    # stamp and its cutoff) and no rule read either -- the chain leg went red the first
+    # morning after that line was added, with every other claim on the page green. Both
+    # dates come from fields the page already holds, so this is a mapping debt, not a
+    # content defect.
+    (re.compile(r"etf_book_idle_cash\.json`?｜generated " + _D + r"T[\d:+]+｜cutoff " + _D),
+     ["idle_cash.source_generated", "idle_cash.evidence_cutoff"]),
     (re.compile(r"idx_fut_carry_open_capital\.json`?｜generated " + _D +
                 r"T[\d:+]*(?:[+\-]\d{2}:\d{2})?｜cutoff " + _D),
      ["carry_book.source_generated", "carry_book.evidence_cutoff"]),
@@ -749,6 +756,35 @@ def selftest():
         "%s mismatches=%s" % (c12b["verdict"],
                               [(r.get("field"), r.get("date"), r.get("expected"))
                                for r in c12b["date_claims"].get("mismatches") or []]))
+
+    # L13 (r1912) section 6's provenance line -- the one the chain leg caught the morning
+    # after it was added. Pinned both ways like L12: the two dates are read, and a cutoff the
+    # face does not carry is a mismatch rather than a silent pass.
+    d13 = doc(day="2026-11-21", bar="2026-11-20", prior="2026-11-19")
+    d13["idle_cash"] = {"source_generated": "2026-11-21T12:00:46",
+                        "evidence_cutoff": "2026-11-20"}
+    p13 = page(day="2026-11-21", bar="2026-11-20", prior="2026-11-19", amount="1,234") + "\n" + \
+        "- 出处：`results/etf_book_idle_cash.json`｜generated 2026-11-21T12:00:46｜cutoff 2026-11-20"
+    c13 = census(d13, p13)
+    dc13 = c13["date_claims"]
+    _f13 = sorted({r.get("field") for r in dc13.get("claims") or []})
+    leg("L13 the idle-cash provenance dates are read, not left unmapped",
+        dc13.get("n_unmapped") == 0 and dc13.get("n_mismatch") == 0
+        and "idle_cash.source_generated" in _f13
+        and "idle_cash.evidence_cutoff" in _f13,
+        "unmapped=%s mismatch=%s fields=%s"
+        % (dc13.get("n_unmapped"), dc13.get("n_mismatch"), _f13))
+    d13b = dict(d13)
+    d13b["idle_cash"] = {"source_generated": "2026-11-21T12:00:46",
+                         "evidence_cutoff": "2026-11-19"}
+    c13b = census(d13b, p13)
+    leg("L13b an idle-cash cutoff the face does not carry is a mismatch",
+        c13b["verdict"] == "PRINTED_DATE_MISMATCH"
+        and any(r.get("field") == "idle_cash.evidence_cutoff"
+                for r in c13b["date_claims"].get("mismatches") or []),
+        "%s mismatches=%s" % (c13b["verdict"],
+                              [(r.get("field"), r.get("date"), r.get("expected"))
+                               for r in c13b["date_claims"].get("mismatches") or []]))
 
     print("live_usage_day_words selftest %d/%d" % (ok, total))
     return 0 if ok == total else 1

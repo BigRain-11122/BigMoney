@@ -1,6 +1,6 @@
 # CEO 实盘使用一页纸 · 2026-11-21
 
-> 自动生成 2026-11-21T12:44:19 · T-105 v2.1 · 纯聚合面（零新判据）· [版本台账](../../research/DECISION_CHAIN_LEDGER.md)
+> 自动生成 2026-11-21T12:55:15 · T-105 v2.1 · 纯聚合面（零新判据）· [版本台账](../../research/DECISION_CHAIN_LEDGER.md)
 
 ## ⓪ 本页新鲜度（先读这个）
 
@@ -14,9 +14,9 @@
 
 ### ⓪b 数据供给面（上面那些数字是这些采集器喂出来的）
 
-- 车道板读数（2026-11-21 11:52 读自 bm-c 的盘）：**10 条追平 / 4 条落后 1 天 / 0 条停滞 / 1 条已退役**，参照日 2026-11-20
-  - 属主 **bm-a** 静默 63.99h，等它的车道：--（已由他机接手：futures←bm-c、heat←bm-c、lhb←bm-c、repo←bm-c）
-  - 属主 **bm-b** 静默 527.16h，等它的车道：--（已由他机接手：astock_daily←bm-c、marks←bm-c）
+- 车道板读数（2026-11-21 12:55 读自 bm-c 的盘）：**10 条追平 / 4 条落后 1 天 / 0 条停滞 / 1 条已退役**，参照日 2026-11-20
+  - 属主 **bm-a** 静默 65.04h，等它的车道：--（已由他机接手：futures←bm-c、heat←bm-c、lhb←bm-c、repo←bm-c）
+  - 属主 **bm-b** 静默 528.2h，等它的车道：--（已由他机接手：astock_daily←bm-c、marks←bm-c）
   - `heat`（属主 bm-a·尾 2026-11-19·欠 1 个会话：2026-11-20）
     - 该车道自陈的缺失后果：a missed day is permanent: the guba rank is a live rolling list with no retrievable history (HEAT_ATTENTION_SPEC §1)
   - `lhb`（属主 bm-a·尾 2026-11-19·欠 1 个会话：2026-11-20）

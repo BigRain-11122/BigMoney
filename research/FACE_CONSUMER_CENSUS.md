@@ -4,7 +4,7 @@ evidence set: `results/**/*.json` (depth <= 2), readable against `scripts/`, `To
 
 | tier | faces | what it means |
 | --- | --- | --- |
-| CODE_MULTI | 683 | >=2 source files name this face |
+| CODE_MULTI | 684 | >=2 source files name this face |
 | CODE_SINGLE | 804 | exactly one source file names it (producer or lone reader) |
 | PROSE_ONLY | 59 | only docs/research names it |
 | ORPHAN | 335 | nothing names it (undated only) |
@@ -12,7 +12,7 @@ evidence set: `results/**/*.json` (depth <= 2), readable against `scripts/`, `To
 | DATED_ORPHAN | 493 | dated snapshot, named nowhere |
 | SCRATCH | 4066 | not a face (receipts / backups / hash scratch) |
 
-undated faces: **1881** of 6794 (dated snapshots and scratch excluded from every verdict below)
+undated faces: **1882** of 6795 (dated snapshots and scratch excluded from every verdict below)
 
 ## undated faces nothing names (335)
 
@@ -84,4 +84,4 @@ One file naming a face is not a consumer: it is usually the producer. These are 
 - `results/etf_book_premium_phases.json` ← `scripts/etf_book_premium_phases.py`
 - `results/etf_book_premium_swap.json` ← `scripts/etf_book_premium_swap.py`
 
-`generated` 2026-11-21T10:38:29+08:00 · every count above is a face count, not a read count.
+`generated` 2026-11-21T13:02:38+08:00 · every count above is a face count, not a read count.

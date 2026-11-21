@@ -5295,6 +5295,86 @@ def _precision_wait_md(c):
     return L
 
 
+DEPLOY_PRICE_PATH = os.path.join(PATHS.results_dir, "etf_book_deploy_price.json")
+
+
+def _deploy_price_reading(path=None):
+    """The other half of the wait question: what deploying now costs if the edge is zero (r1912).
+
+    r1892 printed why waiting is expensive; a reader could still ask "and what am I buying
+    instead?" -- the answer is two prices on one lens: the wait's own yearly fee, and the
+    book's realised cost leg when the edge is exactly zero. Missing face returns None so
+    the section says it has no reading rather than implying the trade is free.
+    """
+    p = path or DEPLOY_PRICE_PATH
+    try:
+        with open(p, encoding="utf-8") as fh:
+            d = json.load(fh)
+    except Exception:                                          # noqa: BLE001
+        return None
+    v = d.get("verdict") or {}
+    if not v.get("verdict"):
+        return None
+    return {"verdict": v.get("verdict"),
+            "select_ann_pp": v.get("select_ann_pp"),
+            "select_se_pp": v.get("select_se_pp"),
+            "lower95_pp": v.get("lower95_pp"),
+            "lower95_positive": v.get("lower95_positive"),
+            "zero_edge_yearly_loss_cny": v.get("zero_edge_yearly_loss_cny"),
+            "tail_yearly_loss_cny": v.get("tail_yearly_loss_cny"),
+            "wait_yearly_cny": v.get("wait_yearly_cny"),
+            "wait_total_cny": v.get("wait_total_cny"),
+            "wait_years": v.get("wait_years"),
+            "ratio_wait_over_worst": v.get("ratio_wait_over_worst"),
+            "ratio_wait_over_tail": v.get("ratio_wait_over_tail"),
+            "sentence": d.get("sentence"),
+            "evidence_cutoff": d.get("evidence_cutoff"),
+            "generated": d.get("generated"),
+            "path": "results/etf_book_deploy_price.json",
+            "producer": "scripts/etf_book_deploy_price.py"}
+
+
+def _deploy_price_md(c):
+    """One block: what the alternative to waiting actually costs, at its own worst case."""
+    if not c:
+        return ["- **现在部署的价格这一轮没有读数**：`results/etf_book_deploy_price.json` 缺或"
+                "读不出。缺这一行不等于「不等就不用付钱」。"]
+    v = c.get("verdict")
+    L = []
+    if v == "WAITING_IS_THE_EXPENSIVE_INSURANCE":
+        L.append("- **判词不该等更准的尺子，替代方案在这里付账**（判词 `%s`，面到 %s）："
+                 "现在就下单，最硬的年损失是 edge 恰好为零时的成本腿 %s 元（每百万）；"
+                 "等的年费是 %s 元——**%.1f 倍**。"
+                 % (v, c.get("evidence_cutoff") or "未注明",
+                    _cny_cell(c.get("zero_edge_yearly_loss_cny")),
+                    _cny_cell(c.get("wait_yearly_cny")),
+                    float(c.get("ratio_wait_over_worst") or 0.0)))
+        if c.get("ratio_wait_over_tail") is not None:
+            L.append("  - 也仍贵过这把尺子分不清的量级：edge=0 时 95%% 下界是每年 %s 元，"
+                     "等的年费是它的 %.1f 倍。" % (
+                         _cny_cell(c.get("tail_yearly_loss_cny")),
+                         float(c["ratio_wait_over_tail"])))
+        if c.get("lower95_positive"):
+            L.append("  - **读数本身的下界是正的**：选股腿 %.2fpp、标准误 %.2fpp，95%% 单边下界 "
+                     "%+.2fpp —— 等的保险买的是一个在这把尺子上看不见的尾部。"
+                     % (float(c.get("select_ann_pp") or 0.0), float(c.get("select_se_pp") or 0.0),
+                        float(c.get("lower95_pp") or 0.0)))
+    elif v == "WAITING_IS_THE_CHEAPER_INSURANCE":
+        L.append("- **等更准的尺子比现在下单便宜**（判词 `%s`，面到 %s）：等的年费 %s 元，"
+                 "edge 为零时的年损失 %s 元。"
+                 % (v, c.get("evidence_cutoff") or "未注明",
+                    _cny_cell(c.get("wait_yearly_cny")),
+                    _cny_cell(c.get("zero_edge_yearly_loss_cny"))))
+    else:
+        L.append("- **部署价判词 `%s`**（只报数，不解释；面到 %s）"
+                 % (v or "?", c.get("evidence_cutoff") or "未注明"))
+    if c.get("sentence"):
+        L.append("  - 原句：%s" % c["sentence"])
+    L.append("  - 出处：`%s`（生产者 `%s`，%s 产出）"
+             % (c.get("path"), c.get("producer"), (c.get("generated") or "?")[:19]))
+    return L
+
+
 ENTRY_PRICE_PATH = os.path.join(PATHS.results_dir, "etf_book_entry_price.json")
 
 
@@ -5971,7 +6051,7 @@ def _admission_payload():
 
 
 def _phase_admission_md(pa, ad, dec=False, grid="auto", era="auto", cap="auto",
-                        size="auto", entry="auto", wait="auto"):
+                        size="auto", entry="auto", wait="auto", deploy="auto"):
     """The five starts on the three veto rulers -- copied off its own face.
 
     r1868: the admission section used to end on a sentence that told the operator the
@@ -6035,6 +6115,7 @@ def _phase_admission_md(pa, ad, dec=False, grid="auto", era="auto", cap="auto",
     L.append("  - 出处：`%s`（生产者 `scripts/etf_book_phase_admission.py`，判据 "
              "`candidate_year_gate` 导入；本页只读）" % pa.get("path"))
     L += _precision_wait_md(_precision_wait_reading() if wait == "auto" else wait)
+    L += _deploy_price_md(_deploy_price_reading() if deploy == "auto" else deploy)
     L += _start_grid_md(_start_grid_reading() if grid == "auto" else grid)
     L += _era_grid_md(_era_grid_reading() if era == "auto" else era)
     L += _era_capacity_md(_era_capacity_reading() if cap == "auto" else cap)
@@ -9740,6 +9821,35 @@ def selftest():
         chk("legAWb the opposite verdict prints the opposite sentence",
             "等下去比现在判便宜" in _md_wt_cheap
             and "判决不该等更准的尺子" not in _md_wt_cheap, _md_wt_cheap[-400:])
+
+        # legAXc-AXe (r1912): the other half of the same question -- what the alternative
+        # to waiting costs. Without this the reader gets a rejected wait and no price for
+        # the decision it recommends.
+        _dp = {"verdict": "WAITING_IS_THE_EXPENSIVE_INSURANCE",
+               "select_ann_pp": 7.6858, "select_se_pp": 3.1199,
+               "lower95_pp": 2.5539, "lower95_positive": True,
+               "zero_edge_yearly_loss_cny": 13920.0, "tail_yearly_loss_cny": 65239.2,
+               "wait_yearly_cny": 136711.7, "wait_total_cny": 1860099.6,
+               "wait_years": 13.606, "ratio_wait_over_worst": 9.8212,
+               "ratio_wait_over_tail": 2.0955,
+               "sentence": "现在就下单，最硬的年损失是 13,920 元；等的年费是 136,712 元。",
+               "evidence_cutoff": "2026-11-20",
+               "generated": "2026-11-21T13:05:00+08:00",
+               "path": "results/etf_book_deploy_price.json",
+               "producer": "scripts/etf_book_deploy_price.py"}
+        _md_dp = "\n".join(_phase_admission_md(_pa, _adm, True, grid=_g, era=_e, cap=_c,
+                                               size=None, entry=None, wait=None, deploy=_dp))
+        chk("legAXc the sheet prices the alternative to waiting, at its own worst case",
+            "13,920" in _md_dp and "136,712" in _md_dp and "9.8" in _md_dp,
+            _md_dp[-700:])
+        chk("legAXd the block prints the ruler's own width, not just the realised loss",
+            "65,239" in _md_dp and "2.1" in _md_dp and "+2.55pp" in _md_dp, _md_dp[-600:])
+        _md_dp_missing = "\n".join(_phase_admission_md(_pa, _adm, True, grid=_g, era=_e,
+                                                       cap=_c, size=None, entry=None,
+                                                       wait=None, deploy=None))
+        chk("legAXe a missing deploy price is one sentence, never a number",
+            "现在部署的价格这一轮没有读数" in _md_dp_missing
+            and "13,920" not in _md_dp_missing, _md_dp_missing[-300:])
 
         # legAV-AX (r1884): the entry price -- what an account of 20k/100k/200k pays a side
         # once the CNY 5 per-ticket minimum is included. Same three states as the ladder.

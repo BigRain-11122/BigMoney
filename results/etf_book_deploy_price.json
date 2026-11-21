@@ -1,0 +1,78 @@
+{
+ "evidence_cutoff": "2026-11-20",
+ "panel_last_bar": "2026-11-20",
+ "input_faces": {
+  "seat_mde": "results/etf_book_seat_mde.json",
+  "wait_price": "results/etf_book_target_price.json"
+ },
+ "input_script": "scripts/etf_book_seat_mde.py",
+ "rule": {
+  "lens_cny": 1000000.0,
+  "seats": 5,
+  "bars": 1667,
+  "z_one_sided_95": 1.6449,
+  "half_edge_factor": 0.5,
+  "ratio_cheap_wait": 1.0,
+  "wait_years": 13.606,
+  "wait_total_cny": 1860099.6,
+  "wait_face_verdict": "WAITING_COSTS_MORE_THAN_IT_INSURES",
+  "wait_target_pp": 5.0,
+  "wait_p_star": 10.7122,
+  "select_p_direction": 0.0045,
+  "select_status": "SIGNIFICANT_UNDERPOWERED",
+  "mde80_now_pp": 5.0
+ },
+ "scenarios": [
+  {
+   "name": "as_measured",
+   "net_pp": 7.6858,
+   "annual_pp": 7.6858,
+   "lower95_pp": 2.5539,
+   "annual_cny": 76858.0,
+   "lower95_cny": 25538.8,
+   "yearly_loss_if_floor": 0.0
+  },
+  {
+   "name": "half_edge",
+   "net_pp": 3.8429,
+   "annual_pp": 3.8429,
+   "lower95_pp": -1.289,
+   "annual_cny": 38429.0,
+   "lower95_cny": -12890.2,
+   "yearly_loss_if_floor": 12890.2
+  },
+  {
+   "name": "no_edge",
+   "net_pp": -1.392,
+   "annual_pp": -1.392,
+   "lower95_pp": -6.5239,
+   "annual_cny": -13920.0,
+   "lower95_cny": -65239.2,
+   "yearly_loss_if_floor": 65239.2
+  }
+ ],
+ "verdict": {
+  "verdict": "WAITING_IS_THE_EXPENSIVE_INSURANCE",
+  "select_ann_pp": 7.6858,
+  "select_se_pp": 3.1199,
+  "select_t": 2.4635,
+  "cost_ann_pp": -1.392,
+  "edge_measured_pp": 9.0778,
+  "z_one_sided_95": 1.6449,
+  "lower95_pp": 2.5539,
+  "lower95_positive": true,
+  "worst_case": "no_edge",
+  "zero_edge_yearly_loss_cny": 13920.0,
+  "tail_yearly_loss_cny": 65239.2,
+  "wait_total_cny": 1860099.6,
+  "wait_years": 13.606,
+  "wait_yearly_cny": 136711.7,
+  "ratio_wait_over_worst": 9.8212,
+  "ratio_wait_over_tail": 2.0955,
+  "wait_cheaper_if_ratio_below": 1.0
+ },
+ "sentence": "现在就用这把尺子下单，按它自己的标准误 3.12pp，95% 单边下界 仍是正的 +2.55pp（每百万每年 25,539 元）；就算这本书的 edge 恰好为零，它每年只付 13,920 元成本——而「它可能没有 edge」这件事，这把尺子本身分不清的量级是每年 65,239 元。等 13.6 年换更准的尺子，每年要付 136,712 元等待费：是最硬的那笔年损失的 9.8 倍，也仍是这把尺子分不清量级的 2.1 倍。",
+ "script": "scripts/etf_book_deploy_price.py",
+ "elapsed_sec": 0.0,
+ "generated": "2026-11-21T13:01:14+0800"
+}

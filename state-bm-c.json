@@ -1,6 +1,6 @@
 {
  "activity": "product",
- "activity_now": "r1910: two products. (1) The band was only half the judgement -- the CEO page now names which half refused the carry product (IF/IH carry 6.26%/4.02% against the book's 11.20% arithmetic / 11.25% compound, each refusal's own caliber spread printed). (2) The chain's leg 14 was not hung but mispriced: science_gates re-parsed all 13,733 results JSONs on every ledger_head call (33s; scorecard calls n_eff once per line) -- now cached per file, first call 17.5s and 1.0s after, same head 1,148,141.",
+ "activity_now": "r1912: two products. (1) The wait had no price on the other side -- the ORDER sheet now prints what deploying now costs at its own worst case: the select leg's one-sided 95% floor is +2.55pp on a 3.12pp standard error, the realised cost of a zero-edge book is CNY 13,920/yr per million, the ruler's own width is CNY 65,239, and the wait's yearly fee (CNY 136,712) is 9.8x the first and still 2.1x the second. (2) The chain leg live_usage_day_words went red the morning after r1911 added section 6's provenance line: two dates printed, no rule claimed either -- mapped to idle_cash.source_generated / evidence_cutoff, 115/115 claims now resolve and the leg is green.",
  "activity_now_round": 1910,
  "agenda_starved": false,
  "ah_note": "r1680 LANDED: refresh closed itself at 21:17 -- cutoff 2026-11-12 -> 2026-11-13, complete=True, exit 0, pulled_rows 46; data_lane_freshness in_sync 13 / behind_1d 1 (worst now marks, intraday-only, not rebuildable). Fix that made it possible: stall watchdog over every network leg (300s, names stage/pair, exit 2, checkpoint kept) + save_progress stamps write time + -u on the detached spawn + progress line every 10 pairs. NOT yet proven: the 300s stall path has never fired on a real hang (this round the suspected freeze finished by itself).",
@@ -266,14 +266,14 @@
  "machine_id": "bm-c",
  "method_card": "E645 landed (staged alone via zero-context insertion patch); four-round debt closed",
  "mistake": "`python -m smoke_test --list` is not a supported flag -- it started a SECOND full suite (pid 45308), killed on discovery; to check which legs the suite runs, grep the output file, never probe with an undocumented flag",
- "next": "next: (a) the MISSING_RUN sentence still needs its live bar before the priced page can print it (r1890); (b) this face says waiting is expensive -- nobody has yet said what the alternative spend is (deploy now at 8.74pp precision and how much capital)",
+ "next": "(a) the deploy price is on the admission block but the sizing block still quotes only the wait -- a reader who sizes capital never meets the 9.8x; (b) the r1910 chain's two nonzero legs are both closed this round, so the next chain should come back clean; (c) full suite needs its own window against the 774-leg baseline",
  "next_action": "price the short leg (securities lending on 510500/512100) before the IC/IM hedged sleeve can be sized",
  "next_milestone": "317-leg chain finishes -> publish its remaining faces; full suite record green (<=24h)",
  "next_pick": {
-  "candidate": "entry price onto the CEO page and the ORDER sheet",
+  "candidate": "the deploy-vs-wait pair on the sizing block",
   "status": "open"
  },
- "next_pointer": "(a) chain 1910 is running detached (results/_r1910_chain.log, 80 legs at report time) -- read the tally next round and publish the generation; (b) the ledger cache made every n_eff caller ~33x cheaper, so re-time the smoke suite (previous record 892s) and aim for a green full record in-window",
+ "next_pointer": "(a) wire deploy_price into the sizing section (same reader, same face); (b) re-run the full smoke suite and record it; (c) the two upstream faces (seat_mde 11-20, target_price 11-20) are the only inputs -- when the chain advances the bar, both writers must run before this one",
  "next_round": 1765,
  "next_task": "r1547: the 场内买入 word hides WHEN it changed -- print the status transition dates per leg so a reopening is a dated event, not a per-day scan",
  "not_verified": "full smoke suite started 00:19 detached and was still running at round end (no tally claimed); closer.py root cause not fixed; no task registered or restored (D-12)",
@@ -1158,6 +1158,7 @@
   },
   "what": "链条三条非零腿全部复算收口（闲置现金门读了滚动窗口的标题当冻结窗口的地板/读者文本审计把采集器的 endpoint 模板当正文/日词面缺种子 bar 规则），并按出生地修链：把宽度家族的许可句子在家族重建之后重新发射"
  },
+ "r1912_next": "下轮：(a) 把这两价接到「下单规模」段（现在只在准入段，sizing 段仍只印等待价）；(b) 全量套件独立窗 + 与 774 腿基线比对；(c) 上游两手一动（seat_mde / target_price 换 bar）本面自动判 STALE，链腿顺序已是 target_price(105) → deploy_price(106)。",
  "r894_absorb_note": "r894 absorb: r893 session died post-commit/push/report (22:47:24) pre-closeout (state was still 893, heartbeat still r892); this session executed as r894 per bm-b r898 absorb precedent; counter advanced 893->895 so next session = r895",
  "r897_absorb_note": "r897 absorb: prior invocation executed a FULL round as r896 (probe/smoke/S6 38-38/O-2333 POC recon/report 23:49:30/commit e13bb3ee9 pushed) then died pre-closeout (state round_no still 896, last_round still 895, heartbeat partial: epoch+ack updated but round fields not) -- this session absorbed per bm-b r898 / bm-c r894 absorb precedent; executed as r897, counter advanced 896->898 so next session = r898; zero double-count: r896's ORD probe ran pre-23:37-commit so its 3 late rows fell to this session (consumed + advanced twice)",
  "r902_wm_heal_note": "r902 heal: r901 dead-session lost state write; TRUE consumed dec=67403afa (@690a0c31e 00:11:42, rows D-20261012-01 verification-batch core incl bigmoney tail-actuals zero-action + D-20261012-02 gap-case-withdrawal + fetch-pre-legislation CANDIDATE already standing practice) / ord=33aee170; r901 commit-msg dec 358ba69b = PHANTOM value not in blob history (corrupt-face 4th instance, r863/r894/r897 lineage) -- healed programmatically from live origin blobs, assert-verified before write",
@@ -1492,7 +1493,7 @@
   "watermark": "green: board/pool both empty (pool_ready_count=0, fleet_open_tasks=0), no claimable batch on this host; py_watermark insufficient_history (window n=1, local_batch=1 = this round own suite)"
  },
  "round_label": "r1813",
- "round_no": 1911,
+ "round_no": 1912,
  "round_no_label": "r1821",
  "round_no_landed": 1663,
  "round_note": "r1489: a reinstated bar is re-derived from the panel, not carried over (reinstatement_check + reinstatements.json + sheet paragraph)",
@@ -2202,9 +2203,9 @@
  "went_well": "the fix keeps the old states reachable: a card with one unqualified row still takes the position-free path, so no previously published verdict changed meaning",
  "when_well": "the exec panel reused lhb_sellleg verbatim by passing a net-of-cost panel instead of writing a second event study -- the two tables cannot disagree about the quintiles because there is only one implementation",
  "who_did": "bm-c",
- "下个里程碑": "S6 链 316 腿跑完（i=131 起·估 ~2.5h）→ 全量套件记录转绿（窗 ≤24h）",
+ "下个里程碑": "把 deploy-vs-wait 两价接进下单规模那一段（下窗 ≤48h）；全量套件绿记录（774 腿基线，窗 ≤24h）",
  "孤儿面": 0,
- "当前任务": "r1904: 收口 r1903 全量套件的唯一红（CEO 页资金线行程戳）并把这条腿的假红焊成第三态",
- "当前任务_en": "r1904: close the single red of r1903's full suite (the CEO page's funding-line trip stamp) and weld that leg's false red into the UNVERIFIED state",
- "最近实物": "docs/live_usage/LIVE-2026-11-21.md（资金线 1,124,479 / 1,152,596 + 面生成时点 2026-11-21T09:15:00+08:00 已上页，CEO 页重生 09:5x）＋ 22 件链稳定面（2026-11-21 09:5x）"
+ "当前任务": "r1913: put the deploy-price pair where the ticket is sized, not only in the admission block",
+ "当前任务_en": "r1913: carry the deploy-vs-wait pair into the sizing block (what capital the 9.8x buys), and re-run the full suite in its own window",
+ "最近实物": "scripts/etf_book_deploy_price.py + results/etf_book_deploy_price.json + research/ETF_BOOK_DEPLOY_PRICE.md + ORDER-2026-11-20.md §准入 L96-99（13,920 / 136,712 / 9.8x / +2.55pp 已上票；2026-11-21T13:16）"
 }
