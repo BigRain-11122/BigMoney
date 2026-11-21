@@ -1,5 +1,21 @@
 # Bigmoney 交接与成果收割指南（HANDOVER）
 
+## 5x 幂等快照 · r1920（2026-11-22 06:5x · bm-c）
+> 授权口径不变：逐轮权威=`round_reports-bm-c.md` 全行在册 + `state-bm-c.json` 的 `round_no`/`r19xx` 键；本块只做「产物清单与完成状态」核对与指针，不复述轮报告正文。
+> 本块覆盖 r1901→r1920（上一块 bm-c 快照停在 r1900；r1901-r1916 的正文只在轮报告行与 state 键里，本块不补写=如实记缺口）。
+
+**本线产物（可核）**
+
+| 产物 | 状态 |
+|---|---|
+| r1917 `results/chain_writer_audit.json` 上线链（写+校验双腿）：它第一次作为链腿跑就抓到真错——`etf_book_admission_eta` 停在 13.5 天前，把 `capacity_cny_1day_5pct` 印成 48,664,681 而 YEAR-GATE 与每页自 11-20 起说 22,411,607（2.17 倍容量高估，恰是「这本书能装多少钱」）；同病两张已重算 | 已发布（commit f43ac060e0） |
+| r1917 六条「只 check 没人写」的面改成无条件写者腿排在 check 之前（cash_vehicle 1.8s / ruler_election 1.2s / admission_eta 66.7s / floor_toll 54.2s / floor_memory 79.9s / derisk_rule 92.2s），审计 red 19→13 | 已发布（同 commit） |
+| r1918 印着 **ADMIT（top2 0.6752）** 的 `etf_book_wrapper_year_gate` 装上外部时钟：本面落后=STALE（rc3，可修）vs gate 落后=FACE_AHEAD_OF_GATE（必须指向 gate），链只在 STALE 时付 52s；selftest 14/14（顺带修掉分母硬编码 8 而实腿 9 的漏计），审计 red 12→11 | 已发布（commit b39878e433） |
+| r1919 `etf_book_2025_repro` / `etf_sign_flip_phase_test` 的 check 从自己的行之外再读一件东西（活面板尾 bar），落后自称 `STALE`；回执 2026-11-06→**2026-11-20**；此前两面的链注释都写着「重定价在本轮自己的 run 里跑」而那个轮从不存在 | 已发布（commit fa7bd5928c） |
+| r1920 `etf_book_punctuality`（14 分钟重定价）与 `etf_book_weight_provenance`（43 秒）各新增 `refresh` 写者 + `refresh_decision` 三态（SAME/STALE/UNKNOWN），链 330 腿、写者审计 red **9→7 / paired 117→119**；负控实弹（asof 植成 11-01 → REFRESH_RAN 42.8s → 回执与提交前逐字节相同） | 已发布（commit fa7bd5928c / 补记 a124bc5751） |
+| 本轮全量套件 `results/_smoke_r1920.out` **739/739 PASS 0 FAIL**（wall 1017.4s，record 2026-11-22T06:37:16）；链自检 17/17 | 已核（同 commit） |
+| 本线未完成（如实）：①剩 7 张红面仍未接线（concentration_levers / rebal_adoption 的输入已陈旧 313 小时、phase_atlas 36.5 小时）；②punctuality 的 14 分钟重定价分支本轮未端到端点火（面板自 11-20 未动，走 no-op）；③整链本轮只跑了新增四腿（`--only` 4/4 rc0），未做全链 330 腿驱动；④主机内存 99%（可用 0.3GB/55.9GB）系他车道两台 ComfyUI（34.8GB+9.2GB）占用，非本线面，已在心跳 `note_host` 点名 | 记于 `state-bm-c.json` 的 `round_no=1920` |
+
 ## 5x 幂等快照 · r1900（2026-11-21 08:3x · bm-c）
 > 授权口径不变：逐轮权威=`round_reports-bm-c.md` 全行在册 + `state-bm-c.json` 的 `round_*`/`r18xx` 键；本块只做「产物清单与完成状态」核对与指针，不复述轮报告正文。
 > 本块覆盖 r1896→r1900（上一块 bm-c 快照停在 r1835，r1836-r1895 的正文只在轮报告行与 state 键里，本块不补写=如实记缺口）。
