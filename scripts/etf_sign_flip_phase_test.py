@@ -467,7 +467,7 @@ def check():
     if src.get("evidence_cutoff") and payload.get("evidence_cutoff"):
         if str(payload["evidence_cutoff"]) < str(src["evidence_cutoff"]):
             ok = False
-            bad.append("face cutoff %s is older than its sign receipt %s"
+            bad.append("STALE face cutoff %s is older than its sign receipt %s"
                        % (payload["evidence_cutoff"], src["evidence_cutoff"]))
     if ok:
         print("OK %s verdict=%s cells=%d median=%+.2fpp"

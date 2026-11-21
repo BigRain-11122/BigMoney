@@ -1725,15 +1725,22 @@ LEGS = [
     # leaves 39.3pp (cost is not the issue), and the commodity sleeve collected 18.56pp
     # of the 50.92pp its own equal-weight buy-and-hold would have paid (the book held
     # LESS gold beta than passive, not more). ~1s, reads only the published receipt.
-    ("book_2025_repro", ["python", "scripts/etf_book_2025_repro.py", "check"]),
+    # r1918: the check re-derives from its own rows, so it stays green on a receipt priced
+    # two weeks ago -- the exact r1850 shape. It now measures its cutoff against the panel's
+    # own last bar and says STALE (8s incl. the 6.5s panel scan), so the writer below is paid
+    # only when the receipt is genuinely behind. The 49s repricing writes the receipt.
+    ("book_2025_repro", ["python", "scripts/etf_book_2025_repro.py", "check"],
+     ["python", "scripts/etf_book_2025_repro.py", "run"]),
     # r1443: r1442 measured one flattering arm (flip drawdown_60, +87bp) on a single
     # decision phase and named a phase sweep as its own next step. This leg re-derives the
     # 5-book x 4-phase press from its receipt: the flip is up in 85% of 20 cells with a
     # median +1.25pp, but the control arm's own phase IQR is 2.54pp (3.35pp on the
     # production cell itself) -> PHASE_FRAGILE, i.e. not separable from the grid. Read-only
     # JSON plus a recompute of the frozen rule; the 44-cell repricing runs only with `run`
-    # in its own round (~2 min).
-    ("sign_flip_phase", ["python", "scripts/etf_sign_flip_phase_test.py", "--check"]),
+    # in its own round (~2 min). r1918: that round never existed, so stale now names itself
+    # STALE and the chain pays the ~2 min repricing when, and only when, it says so.
+    ("sign_flip_phase", ["python", "scripts/etf_sign_flip_phase_test.py", "--check"],
+     ["python", "scripts/etf_sign_flip_phase_test.py", "run"]),
     # r1657: the calendar face itself now runs at the head of the chain, so the
     # audit and the faces it quotes are built from one generation (see the
     # supply_calendar/supply_candidates pair above compute_audit).
@@ -2042,6 +2049,10 @@ LEGS = [
     # engine to 1e-12, money is each row minus its own control, the verdict follows from
     # the phase cells, the headline quotes the phase cell). `check` reads the published
     # JSON only (~0.1s); the 14-minute repricing runs with `run` in its own round.
+    # r1920: that round never existed -- 14 minutes is exactly why. `refresh` owns it now:
+    # ~8s no-op while the panel has not moved, the full repricing only when it has, and the
+    # check below grades whatever it left behind.
+    ("punctuality_write", ["python", "scripts/etf_book_punctuality.py", "refresh"]),
     ("punctuality", ["python", "scripts/etf_book_punctuality.py", "check"]),
     # r1488: r1486 showed the vol-target rung cannot both clear Y4 and buy drawdown, and
     # left "is the RULE wrong, not the rung?" open. This leg re-derives the published
@@ -2119,6 +2130,11 @@ LEGS = [
     # re-derives the published ladder receipt (9 targets, one engine, one panel) and
     # refuses a receipt whose verdict no longer follows from its own rows. `--check`
     # (0.2s, published JSON only); the 2.5-minute repricing runs with `run` in its round.
+    # r1920: no round owned that job, so the ladder could sit on an old panel while its own
+    # check stayed green (r1594/r1850). `refresh` is the owner: ~8s no-op when the panel has
+    # not moved, the repricing only when it has.
+    ("weight_provenance_write",
+     ["python", "scripts/etf_book_weight_provenance.py", "refresh"]),
     ("weight_provenance",
      ["python", "scripts/etf_book_weight_provenance.py", "--check"]),
     # r1428: "refused" with no horizon is an observation, not a plan. This leg re-checks

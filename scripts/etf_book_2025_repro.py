@@ -370,6 +370,17 @@ def selftest():
     leg("a flat sleeve leaves the beta question unreadable",
         beta_reading(5.0, {"log_pp": 0.0})["state"] == "UNREADABLE")
 
+    # r1850: the check must be able to say STALE on an old receipt, or the chain never
+    # pays the writer that refreshes it. A receipt at the panel's bar is not stale, and a
+    # missing cutoff is "no reading", never "fresh".
+    leg("a receipt behind the panel's last bar says STALE",
+        "STALE" in (staleness_note("2026-01-02", "2026-01-05") or ""))
+    leg("a receipt at the panel's last bar is not stale",
+        staleness_note("2026-01-05", "2026-01-05") is None)
+    leg("a missing cutoff is no reading, not fresh",
+        staleness_note(None, "2026-01-05") is None
+        and staleness_note("2026-01-05", None) is None)
+
     errs = [n for n, ok, _ in legs if not ok]
     for n, ok, d in legs:
         print("[%s] %s%s" % ("PASS" if ok else "FAIL", n, ("  | " + d) if d else ""))
@@ -379,6 +390,39 @@ def selftest():
 
 # ---------------------------------------------------------------- check
 
+def panel_last_bar():
+    """The newest bar the live panel can price -- the only honest staleness clock.
+
+    check() re-derives every verdict from the receipt's own rows, which is exactly what a
+    receipt priced two weeks ago also does (r1594/r1850: a stale receipt reads perfectly
+    self-consistent). Same index the repricing would see (dedupe + hollow-tail drop), with
+    the feature build skipped, so a no-op round stays cheap. Same recipe as
+    etf_book_vt_ladder.panel_last_bar.
+    """
+    try:
+        prices = E._dedupe(E._load_prices())
+        close = pd.DataFrame({s: p["close"] for s, p in prices.items()}).sort_index()
+        close = close.replace(0.0, np.nan)
+        close, _ = E.drop_hollow_tail(close)
+        return str(close.index[-1].date())
+    except Exception:
+        return None
+
+
+def staleness_note(face_cutoff, panel_cutoff):
+    """A receipt priced before the panel's own last bar is STALE, not wrong (r1850).
+
+    The word STALE matters: the chain pays a declared refresh only when the probe says
+    stale/face missing. A verdict that merely disagrees with itself stays red (r1345).
+    """
+    if not face_cutoff or not panel_cutoff:
+        return None
+    if str(face_cutoff) < str(panel_cutoff):
+        return ("STALE face cutoff %s is older than the panel's last bar %s"
+                % (face_cutoff, panel_cutoff))
+    return None
+
+
 def check():
     """Re-derive the published verdict and beta state from the receipt's own rows."""
     if not os.path.exists(OUT):
@@ -386,6 +430,10 @@ def check():
         return 2
     with open(OUT, encoding="utf-8") as fh:
         doc = json.load(fh)
+    note = staleness_note(doc.get("evidence_cutoff"), panel_last_bar())
+    if note:
+        print(note)
+        return 4
     probs = []
     rows = [p["row"] for p in doc.get("phases", [])]
     want = verdict_of(rows, doc.get("cost_ladder") or [])

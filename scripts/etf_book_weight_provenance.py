@@ -31,6 +31,7 @@ import os
 import re
 import subprocess
 import sys
+import time
 
 import numpy as np
 import pandas as pd
@@ -318,11 +319,47 @@ def published_peer():
 
 
 # -------------------------------------------------------------------------- selftest
+def panel_last_bar():
+    """The newest bar the live panel can price -- the external clock (r1594/r1850).
+
+    check() re-derives every verdict from the receipt's own rows, and a receipt priced
+    two weeks ago re-derives just as perfectly (r1594/r1850: self-consistency is not
+    freshness). The panel is what moves. Same recipe as
+    etf_book_vt_ladder.panel_last_bar (dedupe + hollow-tail drop, feature build
+    skipped): ~8s instead of the 46s repricing, so a no-op round stays cheap.
+    """
+    try:
+        prices = F._dedupe(F._load_prices())
+        close = pd.DataFrame({s: p["close"] for s, p in prices.items()}).sort_index()
+        close = close.replace(0.0, np.nan)
+        close, _ = F.drop_hollow_tail(close)
+        return str(close.index[-1].date())
+    except Exception:
+        return None
+
+
+def refresh_decision(face_cutoff, panel_cutoff):
+    """SAME = nothing to pay for, STALE = repricing owns the job, UNKNOWN = no clock."""
+    if not face_cutoff or not panel_cutoff:
+        return "UNKNOWN"
+    return "STALE" if str(face_cutoff) < str(panel_cutoff) else "SAME"
+
+
 def _st():
     ok = []
 
     def chk(name, cond):
         ok.append((name, bool(cond)))
+
+    # r1850: the chain pays a writer only when the probe says the face is behind, so the
+    # refresh gate has to be able to say so -- and must never read a missing clock as fresh.
+    chk("leg13 an older receipt is STALE",
+        refresh_decision("2026-01-02", "2026-01-05") == "STALE")
+    chk("leg14 a receipt on the panel's bar needs nothing",
+        refresh_decision("2026-01-05", "2026-01-05") == "SAME")
+    chk("leg15 a missing clock is UNKNOWN, never fresh",
+        refresh_decision(None, "2026-01-05") == "UNKNOWN"
+        and refresh_decision("2026-01-05", None) == "UNKNOWN")
 
     # fixture: book returns 2x the market, so beta -> 2.0 and k = target/2
     idx = pd.date_range("2020-01-01", periods=400, freq="B")
@@ -623,6 +660,38 @@ def run():
     return 0
 
 
+def refresh():
+    """Keep the ladder on the newest bar, paying nothing when it already is.
+
+    The chain note said the 2.5-minute repricing "runs with `run` in its round" -- no
+    round ever owned that job, so this face could sit on an old panel while its own
+    check stayed green (r1594/r1613 shape). A no-op gate makes the job self-owning:
+    ~8s every round, repricing only when the panel actually moved.
+    """
+    p = os.path.join(OUT_DIR, "PROVENANCE.json")
+    had = None
+    if os.path.exists(p):
+        try:
+            with open(p, encoding="utf-8") as f:
+                had = json.load(f).get("asof")
+        except Exception:
+            had = None
+    live = panel_last_bar()
+    state = refresh_decision(had, live)
+    if state == "UNKNOWN":
+        print("REFRESH_UNKNOWN panel or receipt unreadable (receipt asof=%s, panel=%s); "
+              "leaving the face as it stands" % (had, live))
+        return 2
+    if state == "SAME":
+        print("REFRESH_NOOP asof=%s (the panel has not moved)" % live)
+        return 0
+    started = time.time()
+    run()
+    print("REFRESH_RAN %s -> %s (%.1fs)"
+          % (had, live, time.time() - started))
+    return 0
+
+
 def main(argv):
     cmd = (argv[1] if len(argv) > 1 else "run").lstrip("-")
     if cmd == "selftest":
@@ -633,6 +702,8 @@ def main(argv):
         return 0 if all(g for _n, g in ok) else 2
     if cmd == "check":
         return check()
+    if cmd == "refresh":
+        return refresh()
     if cmd == "run":
         return run()
     print(__doc__)

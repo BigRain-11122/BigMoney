@@ -28,6 +28,7 @@ Money is reported on a stated capital, because "CAGR -0.42pp" is not a decision.
 import json
 import os
 import sys
+import time
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -327,6 +328,15 @@ def selftest():
                  abs(float(s40.iloc[-1]) - float(s0.iloc[-1])) < 1e-12))
     legs.append(("lag_is_not_cadence",
                  float(s40.iloc[-1]) != float(s1.iloc[-1])))
+    # r1850: the chain pays a writer only when the probe says the face is behind, so the
+    # refresh gate must be able to say so -- and must never read a missing clock as fresh.
+    legs.append(("refresh_gate_names_an_older_receipt_stale",
+                 refresh_decision("2026-01-02", "2026-01-05") == "STALE"))
+    legs.append(("refresh_gate_pays_nothing_on_the_panels_bar",
+                 refresh_decision("2026-01-05", "2026-01-05") == "SAME"))
+    legs.append(("refresh_gate_never_reads_a_missing_clock_as_fresh",
+                 refresh_decision(None, "2026-01-05") == "UNKNOWN"
+                 and refresh_decision("2026-01-05", None) == "UNKNOWN"))
     failed = [n_ for n_, ok in legs if not ok]
     for n_, ok in legs:
         print(("PASS " if ok else "FAIL ") + n_)
@@ -409,11 +419,68 @@ def check(out_path=None):
     return 0 if not bad else 1
 
 
+def panel_last_bar():
+    """The newest bar the live panel can price -- the external clock (r1594/r1850).
+
+    check() re-derives every number from the receipt's own cells, and a receipt priced
+    two weeks ago re-derives just as perfectly (r1594/r1850). What moves is the panel.
+    Same recipe as etf_book_vt_ladder.panel_last_bar (dedupe + hollow-tail drop, the
+    feature build skipped): ~8s against a 14-minute repricing.
+    """
+    try:
+        prices = E._dedupe(E._load_prices())
+        close = pd.DataFrame({s: p["close"] for s, p in prices.items()}).sort_index()
+        close = close.replace(0.0, np.nan)
+        close, _ = E.drop_hollow_tail(close)
+        return str(close.index[-1].date())
+    except Exception:
+        return None
+
+
+def refresh_decision(face_cutoff, panel_cutoff):
+    """SAME = nothing to pay for, STALE = the repricing owns the job, UNKNOWN = no clock."""
+    if not face_cutoff or not panel_cutoff:
+        return "UNKNOWN"
+    return "STALE" if str(face_cutoff) < str(panel_cutoff) else "SAME"
+
+
+def refresh():
+    """Keep the delay table on the newest bar, paying nothing when it already is.
+
+    The chain note said the 14-minute repricing "runs with `run` in its own round" --
+    no round ever owned that job, so the face could rot while its check stayed green
+    (r1594/r1613 shape). A no-op gate makes the job self-owning: ~8s every round.
+    """
+    out = os.path.join(E.PATHS.results_dir, "etf_book_punctuality.json")
+    had = None
+    if os.path.exists(out):
+        try:
+            with open(out, encoding="utf-8") as f:
+                had = json.load(f).get("evidence_cutoff")
+        except Exception:
+            had = None
+    live = panel_last_bar()
+    state = refresh_decision(had, live)
+    if state == "UNKNOWN":
+        print("REFRESH_UNKNOWN panel or receipt unreadable (receipt=%s, panel=%s); "
+              "leaving the face as it stands" % (had, live))
+        return 2
+    if state == "SAME":
+        print("REFRESH_NOOP evidence_cutoff=%s (the panel has not moved)" % live)
+        return 0
+    started = time.time()
+    run(out)
+    print("REFRESH_RAN %s -> %s (%.1fs)" % (had, live, time.time() - started))
+    return 0
+
+
 def main(argv):
     if len(argv) > 1 and argv[1] == "selftest":
         return selftest()
     if len(argv) > 1 and argv[1] == "check":
         return check()
+    if len(argv) > 1 and argv[1] == "refresh":
+        return refresh()
     out = os.path.join(E.PATHS.results_dir, "etf_book_punctuality.json")
     payload = run(out)
     print("evidence_cutoff", payload["evidence_cutoff"])
