@@ -1,6 +1,6 @@
 # the carry sleeve, booked forward
 
-evidence cutoff: **2026-11-20** | contract bars to **2026-11-20** | generated 2026-11-21T12:00:49 | source judgement: `results/idx_fut_desk_sheet.json`
+evidence cutoff: **2026-11-20** | contract bars to **2026-11-20** | generated 2026-11-21T23:29:17 | source judgement: `results/idx_fut_desk_sheet.json`
 
 The two dates are printed because they are two dates: the ticket is judged on the continuous panel and the contract cache can lag it by a few sessions, so a ticket stamped with the judgement date is not a fill at that date.
 
@@ -71,7 +71,7 @@ Zero lots at this capital is the rule's answer, not a missing measurement: one h
 
 To open this book at all needs 1,124,479 CNY of capital (IC account). IC is 124,479 CNY short of its first lot (capital 1,000,000, gap 12.45%). IM is 152,596 CNY short of its first lot (capital 1,000,000, gap 15.26%). IC: the desk's 4 lot(s) are withdrawn from the ticket and the executable line is 0; IM: the desk's 4 lot(s) are withdrawn from the ticket and the executable line is 0. The forward paper series that ran on 8 lot(s) across the accounts is kept and labelled FUNDED_BY_A_LARGER_CAPITAL: it is what a larger account would have done, not what this one can. It comes back the moment the capital does.
 
-Funding line read from `results/idx_fut_carry_open_capital.json` (generated 2026-11-21T11:21:14+08:00, cutoff 2026-11-20), so a reader can see which pass it came from.
+Funding line read from `results/idx_fut_carry_open_capital.json` (generated 2026-11-21T12:02:45+08:00, cutoff 2026-11-20), so a reader can see which pass it came from.
 
 | product | executable lots | desk lots withdrawn | forward paper lots (relabelled) | first rung (CNY) | gap at this capital (CNY) | capital those desk lots would need (CNY) |
 |---|---|---|---|---|---|---|

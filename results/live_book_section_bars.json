@@ -1,28 +1,29 @@
 {
  "script": "scripts/live_book_section_bars.py",
- "ts": "2026-11-21 06:21:37",
+ "ts": "2026-11-22 00:41:10",
  "page": {
   "path": "docs/live_book/LIVE-BOOK-20261120.md",
   "json": "docs/live_book/LIVE-BOOK-20261120.json"
  },
  "verdict": "PAGE_MIXES_BARS",
- "sentence": "页面头部写着按 2026-11-20 定价，但 75 个带日期的节里只有 63 节真在这一天；其余 12 节不在这一天（最旧停在 2026-11-17（最差 alias_census 落后 3 个交易日）），另外 3 节根本没有日期——它们不是同一根 bar 上的数，读的时候不能互相加减。2 节按设计没有 bar（sources=指针块（只列它引用的文件，本身不是一次测量）、authority=人事年龄（机器多久没写心跳，时间量不是价格日））——它们本来就不量某一天，催它们补日期是催不动的事。这 12 节里，8 节的产物有同名链腿在守；4 节（cash_handshake, cash_ladder, cash_money, cash_yield）是这一页每次生成时自己重算的，停的正是它读的那块面板的最后一天：data/repo_daily/GC001.csv（update_repo.py / bm-a · T-88 车道，本机只读，末行 2026-11-19）、data/repo_daily（update_repo.py / bm-a · T-88 车道，本机只读，末行 2026-11-19）——落后的是那块面板，不是没人重跑这节；`data/repo_daily` 末行 2026-11-19；最后写入 28.1 h 前；属主 bm-a（update_repo.py） 自己的心跳停在 58.5 h 前——是那条车道停了，不是页面慢；`data/repo_daily/GC001.csv` 末行 2026-11-19；最后写入 28.2 h 前；属主 bm-a（update_repo.py） 自己的心跳停在 58.5 h 前——是那条车道停了，不是页面慢；其中 1 节自己就带着两根以上的日期（fleet：2026-10-30/2026-11-18/2026-11-21）——它们不是「没写日期」，是写了两天的数，本面不替它们挑一天。",
+ "sentence": "页面头部写着按 2026-11-20 定价，但 75 个带日期的节里只有 64 节真在这一天；其余 10 节不在这一天（最旧停在 2026-11-17（最差 alias_census 落后 3 个交易日）），另外 3 节根本没有日期——它们不是同一根 bar 上的数，读的时候不能互相加减。2 节按设计没有 bar（sources=指针块（只列它引用的文件，本身不是一次测量）、authority=人事年龄（机器多久没写心跳，时间量不是价格日））——它们本来就不量某一天，催它们补日期是催不动的事。反过来有 1 节比页头更新（supply_capacity 已到 2026-11-21）：它们读的车道已经走完当天，而这本书自己的面板还停在前一根 bar 上——这两组数同样不能相减，也不能拿新的那组去替这本书定价。这 10 节里，6 节的产物有同名链腿在守；4 节（cash_handshake, cash_ladder, cash_money, cash_yield）是这一页每次生成时自己重算的，停的正是它读的那块面板的最后一天：data/repo_daily/GC001.csv（update_repo.py / bm-a · T-88 车道，本机只读，末行 2026-11-19）、data/repo_daily（update_repo.py / bm-a · T-88 车道，本机只读，末行 2026-11-19）——落后的是那块面板，不是没人重跑这节；`data/repo_daily` 末行 2026-11-19；最后写入 46.5 h 前；属主 bm-a（update_repo.py） 自己的心跳停在 76.8 h 前——是那条车道停了，不是页面慢；`data/repo_daily/GC001.csv` 末行 2026-11-19；最后写入 46.5 h 前；属主 bm-a（update_repo.py） 自己的心跳停在 76.8 h 前——是那条车道停了，不是页面慢；其中 1 节自己就带着两根以上的日期（fleet：2026-10-30/2026-11-18/2026-11-21）——它们不是「没写日期」，是写了两天的数，本面不替它们挑一天。",
  "evidence_cutoff": "2026-11-20",
  "headline_bar": "2026-11-20",
  "headline_field": "priced_bar",
  "n_sections": 75,
- "n_on_headline": 63,
+ "n_on_headline": 64,
  "unknown_sections": [
   "sources",
   "authority",
   "fleet"
  ],
  "bars": {
-  "2026-11-20": 63,
-  "2026-11-19": 10,
+  "2026-11-21": 1,
+  "2026-11-20": 64,
+  "2026-11-19": 8,
   "2026-11-17": 2
  },
- "n_off_headline": 12,
+ "n_off_headline": 10,
  "off_headline": [
   {
    "key": "alias_census",
@@ -185,27 +186,6 @@
    "panel_owner": "update_repo.py / bm-a · T-88 车道，本机只读"
   },
   {
-   "key": "closed_axes",
-   "bar": "2026-11-19",
-   "field": "evidence_cutoff",
-   "lag_sessions": 1,
-   "ahead_of_headline": false,
-   "guarded_by": [
-    "etf_book_closed_axes"
-   ],
-   "provenance": "chain_leg",
-   "window": null,
-   "window_bound": false,
-   "pricing_mode": null,
-   "refresh_reprices": null,
-   "panel": null,
-   "panel_last_bar": null,
-   "panel_last_write": null,
-   "owner_machine": null,
-   "owner_runner": null,
-   "panel_owner": null
-  },
-  {
    "key": "era_capacity",
    "bar": "2026-11-19",
    "field": "evidence_cutoff",
@@ -213,27 +193,6 @@
    "ahead_of_headline": false,
    "guarded_by": [
     "era_capacity_write"
-   ],
-   "provenance": "chain_leg",
-   "window": null,
-   "window_bound": false,
-   "pricing_mode": null,
-   "refresh_reprices": null,
-   "panel": null,
-   "panel_last_bar": null,
-   "panel_last_write": null,
-   "owner_machine": null,
-   "owner_runner": null,
-   "panel_owner": null
-  },
-  {
-   "key": "futures_hedge_tail",
-   "bar": "2026-11-19",
-   "field": "evidence_cutoff",
-   "lag_sessions": 1,
-   "ahead_of_headline": false,
-   "guarded_by": [
-    "etf_book_ceo_page"
    ],
    "provenance": "chain_leg",
    "window": null,
@@ -293,7 +252,7 @@
   "futures_sleeve": "2026-11-20",
   "futures_ladder": "2026-11-20",
   "futures_hedge": "2026-11-20",
-  "futures_hedge_tail": "2026-11-19",
+  "futures_hedge_tail": "2026-11-20",
   "lot_floor": "2026-11-20",
   "roster_audit": "2026-11-20",
   "fill": "2026-11-20",
@@ -336,13 +295,13 @@
   "capacity_ticket": "2026-11-20",
   "width_fit": "2026-11-19",
   "width_return": "2026-11-20",
-  "closed_axes": "2026-11-19",
+  "closed_axes": "2026-11-20",
   "floor_provenance": "2026-11-20",
   "vol_target_gate": "2026-11-20",
   "positions": "2026-11-20",
   "executed": "2026-11-20",
   "do_or_wait": "2026-11-20",
-  "supply_capacity": "2026-11-20",
+  "supply_capacity": "2026-11-21",
   "band_ruler": "2026-11-20",
   "window_label": "2026-11-20",
   "envelope": "2026-11-20",
@@ -377,10 +336,10 @@
    "panel": "data/repo_daily",
    "panel_last_bar": "2026-11-19",
    "panel_last_write": "2026-11-20T02:13:03",
-   "panel_write_age_h": 28.1,
+   "panel_write_age_h": 46.5,
    "owner_machine": "bm-a",
    "owner_runner": "update_repo.py",
-   "owner_heartbeat_age_h": 58.5,
+   "owner_heartbeat_age_h": 76.8,
    "owner_state": "quiet",
    "sections": [
     "cash_ladder"
@@ -390,10 +349,10 @@
    "panel": "data/repo_daily/GC001.csv",
    "panel_last_bar": "2026-11-19",
    "panel_last_write": "2026-11-20T02:09:37",
-   "panel_write_age_h": 28.2,
+   "panel_write_age_h": 46.5,
    "owner_machine": "bm-a",
    "owner_runner": "update_repo.py",
-   "owner_heartbeat_age_h": 58.5,
+   "owner_heartbeat_age_h": 76.8,
    "owner_state": "quiet",
    "sections": [
     "cash_handshake",
@@ -402,14 +361,36 @@
    ]
   }
  ],
- "page_computed_debt_sentence": "`data/repo_daily` 末行 2026-11-19；最后写入 28.1 h 前；属主 bm-a（update_repo.py） 自己的心跳停在 58.5 h 前——是那条车道停了，不是页面慢；`data/repo_daily/GC001.csv` 末行 2026-11-19；最后写入 28.2 h 前；属主 bm-a（update_repo.py） 自己的心跳停在 58.5 h 前——是那条车道停了，不是页面慢",
+ "page_computed_debt_sentence": "`data/repo_daily` 末行 2026-11-19；最后写入 46.5 h 前；属主 bm-a（update_repo.py） 自己的心跳停在 76.8 h 前——是那条车道停了，不是页面慢；`data/repo_daily/GC001.csv` 末行 2026-11-19；最后写入 46.5 h 前；属主 bm-a（update_repo.py） 自己的心跳停在 76.8 h 前——是那条车道停了，不是页面慢",
  "n_no_writer": 0,
  "no_writer": [],
  "n_engine_priced": 0,
  "engine_priced": [],
- "n_ahead_of_headline": 0,
- "ahead_of_headline": [],
- "ahead_keys": [],
+ "n_ahead_of_headline": 1,
+ "ahead_of_headline": [
+  {
+   "key": "supply_capacity",
+   "bar": "2026-11-21",
+   "field": "generated",
+   "lag_sessions": 0,
+   "ahead_of_headline": true,
+   "guarded_by": [],
+   "provenance": "no_writer",
+   "window": null,
+   "window_bound": false,
+   "pricing_mode": null,
+   "refresh_reprices": null,
+   "panel": null,
+   "panel_last_bar": null,
+   "panel_last_write": null,
+   "owner_machine": null,
+   "owner_runner": null,
+   "panel_owner": null
+  }
+ ],
+ "ahead_keys": [
+  "supply_capacity"
+ ],
  "n_undated_mixed": 1,
  "undated_mixed": {
   "fleet": {

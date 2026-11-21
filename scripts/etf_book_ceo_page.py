@@ -7222,6 +7222,72 @@ def cash_money_block(cm, page_day=None):
     return L
 
 
+def zero_edge_block(cm, cost_lens_cny, lens_cny, book_cny, reading=None):
+    """If this book's edge is exactly zero, what it puts on the year (r1915).
+
+    The page prints what the cash half earns; the ticket prints what deploying costs at the
+    ruler's worst case.  Read separately, a reader can carry away "the cash earns 5,099" and
+    "it pays 6,055 when the edge is zero" and never subtract the two -- and 56.5% of this
+    book sits in GC001.  This block is that subtraction, read from
+    `etf_book_order.zero_edge_net` (one implementation, second caller, r1915) and scaled to
+    this page's own risk leg with the ruler's own lens rather than a re-typed 1,000,000.
+
+    A missing input prints which one is missing.  It never prints 0 for "unreadable": the
+    difference between "the book breaks even" and "nobody read this" is why the section
+    exists (r98 lineage).
+    """
+    L = ["## 如果这本书的 edge 恰好为零", ""]
+    try:
+        import etf_book_order as _ORD
+    except Exception:                                          # noqa: BLE001
+        L += ["**这一问现在答不了**：本页读不到 `scripts/etf_book_order.py`。缺这一行"
+              "不等于「零 edge 不亏」，也不等于「这笔单不用付成本」。", ""]
+        return L
+    cost = None
+    if cost_lens_cny is not None and lens_cny and book_cny:
+        cost = float(cost_lens_cny) * float(book_cny) / float(lens_cny)
+    z = _ORD.zero_edge_net((cm or {}).get("block") or {}, cost)
+    if not z["available"]:
+        if cost is None:
+            why = ("交易成本这一半读不出（部署定价面缺，或它没带自己的镜头）")
+        else:
+            why = ("现金腿这一半读不出（本页现金流那一节没有可定价的报价）")
+        L += ["**这一问现在答不了**：%s。缺这一行不等于「零 edge 不亏」——"
+              "上面印的成本数仍然只是成本，不是净额。" % why, ""]
+        return L
+    L.append("按本页自己的风险腿 ¥%s 算（部署定价面的成本镜像是每百万，按本页腿占镜头的比例缩小）："
+             "一年交易成本 **¥%s**；同一本书的现金腿扣掉自己的滚仓佣金后**入账** **¥%s**。"
+             % (format(float(book_cny), ",.0f"), format(float(cost), ",.0f"),
+                format(float(z["net_annual_cny"]), ",.0f")))
+    L.append("")
+    L.append("- 一对：入账 ¥%s − 交易成本 ¥%s = **%+.0f 元/年**。"
+             "别把成本那一行读成「亏 %s」：差的那 ¥%s 是现金腿自己的佣金（一年滚 %s 次、每次 %g bp），"
+             "不是利率差。"
+             % (format(float(z["net_annual_cny"]), ",.0f"), format(float(cost), ",.0f"),
+                z["net_minus_cost_cny"], format(float(cost), ",.0f"),
+                format(float(z["fee_cny"] or 0.0), ",.0f"),
+                z["rolls_per_year"] if z["rolls_per_year"] is not None else "?",
+                float(z["fee_bp_per_roll"] or 0.0)))
+    if z.get("mean_net_minus_cost_cny") is not None:
+        L.append("- 一天的报价不作数：同样这笔现金按近 %s 个报价的均值、扣同样的佣金，"
+                 "这一对是 **%+.0f 元/年**（利率判定 %s）。"
+                 % (z.get("quotes") or "?", z["mean_net_minus_cost_cny"],
+                    z.get("verdict_cash") or "?"))
+    if reading and reading.get("wait_yearly_cny") is not None and lens_cny and book_cny:
+        wait_here = float(reading["wait_yearly_cny"]) * float(book_cny) / float(lens_cny)
+        L.append("- 同一份额的对照：等 %.1f 年换更准的尺子，每年要付 **¥%s** ——"
+                 "是最硬那笔年损失的 %.1f 倍（倍率不随规模变，面上自己那对数的商）。"
+                 % (float(reading.get("wait_years") or 0.0), format(wait_here, ",.0f"),
+                    float(reading.get("ratio_wait_over_worst") or 0.0)))
+    L.append("- 口径：成本腿来自 `%s`（%s 产出），现金入账与上面现金流那一节是同一份读数"
+             "（`etf_book_order.zero_edge_net`，一次实现两个读者）；"
+             "它答的是「零 edge 时这本书一年净多少」，不是选股腿的判词。"
+             % (reading.get("path") if reading else "results/etf_book_deploy_price.json",
+                (reading.get("generated") or "?")[:19] if reading else "?"))
+    L.append("")
+    return L
+
+
 LADDER_TENORS = ("GC001", "GC003", "GC007", "GC014", "GC028", "GC091")
 LADDER_WINDOWS_YEARS = (1, 3, 5)
 # Frozen adoption rule. A longer tenor is only worth the lock-up if it pays at
@@ -10540,6 +10606,24 @@ def render_md(p, sb=None, page_stamp=None):
     for _cm_line in cash_money_block(p.get("cash_money") or {},
                                      page_day=p.get("generated_for_date")):
         add(_cm_line)
+    # r1915: the cash block above prices what the money EARNS; the ticket prices what
+    # deploying COSTS when the edge is zero. The reader who opens only this page had both
+    # halves on two sheets and no subtraction between them.
+    _dp = None
+    try:
+        from scripts import etf_book_order as _dpo
+    except Exception:                                          # noqa: BLE001
+        try:
+            import etf_book_order as _dpo
+        except Exception:                                      # noqa: BLE001
+            _dpo = None
+    if _dpo is not None:
+        _dp = _dpo._deploy_price_reading()
+    for _ze_line in zero_edge_block(p.get("cash_money") or {},
+                                    (_dp or {}).get("zero_edge_yearly_loss_cny"),
+                                    (_dp or {}).get("lens_cny"),
+                                    p.get("book_amount_cny"), _dp):
+        add(_ze_line)
     cl = p.get("cash_ladder") or {}
     rows_l = cl.get("tenors") or []
     if rows_l and cl.get("cash_amount_cny"):
@@ -13733,6 +13817,33 @@ def selftest():
         % (_cmf_lag.get("spot_lag"), _cmf_lag.get("spot_date"),
            _cmf_lag.get("panel_tail"), "票据上的报价" in _lag_lines,
            "票据上的报价" not in _cm_lines))
+    # L138c-L138d (r1915): the cash block prices what the money EARNS; the ticket prices
+    # what deploying COSTS when the edge is zero. A reader who opens only this page had both
+    # halves on two sheets and no subtraction between them -- this block is that subtraction,
+    # read from `etf_book_order.zero_edge_net` so the two faces cannot drift.
+    _ze_cm = {"status": "ok", "block": {
+        "verdict": "RATES_STEADY", "cash_amount_cny": 565245.9,
+        "spot": {"pct": 1.145, "date": "2026-11-19", "annual_cny": 6472.0,
+                 "quotes": 250, "net_annual_cny": 5099.0},
+        "mean_tail": {"net_annual_cny": 6251.0},
+        "rolls_per_year": 243, "fee_bp_per_roll": 0.1, "fee_cny_per_year": 1374.0}}
+    _ze_rd = {"path": "results/etf_book_deploy_price.json",
+              "generated": "2026-11-21T13:01:14+08:00",
+              "zero_edge_yearly_loss_cny": 13920.0, "lens_cny": 1000000.0,
+              "wait_yearly_cny": 136711.7, "wait_years": 13.606,
+              "ratio_wait_over_worst": 9.8212}
+    _ze_txt = "\n".join(zero_edge_block(_ze_cm, 13920.0, 1000000.0, 435003.0, _ze_rd))
+    chk("L138c zero edge: the page subtracts the cash interest from the cost at its OWN size",
+        "5,099" in _ze_txt and "6,055" in _ze_txt and "-956" in _ze_txt
+        and "1,374" in _ze_txt and "59,470" in _ze_txt and "9.8" in _ze_txt,
+        _ze_txt[-700:])
+    _ze_txt_nodp = "\n".join(zero_edge_block(_ze_cm, None, None, 435003.0, None))
+    _ze_txt_nocash = "\n".join(zero_edge_block({"status": "no_money", "block": None},
+                                               13920.0, 1000000.0, 435003.0, _ze_rd))
+    chk("L138d zero edge: a missing half is one sentence -- never 0, never a net",
+        "这一问现在答不了" in _ze_txt_nodp and "-956" not in _ze_txt_nodp
+        and "这一问现在答不了" in _ze_txt_nocash and "-956" not in _ze_txt_nocash,
+        _ze_txt_nodp[-300:] + " || " + _ze_txt_nocash[-300:])
     # L138-L140 (r1247): the entry gate -- the one number that picks the whole universe.
     _eg_dir = tempfile.mkdtemp()
     _eg_gates = [5e6, 10e6, 20e6, 50e6, 100e6, 200e6]

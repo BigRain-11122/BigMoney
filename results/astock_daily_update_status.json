@@ -1,21 +1,21 @@
 {
-  "ts": "2026-11-21T12:05:46",
-  "mode": "refresh in progress (lock alive)",
+  "ts": "2026-11-21T23:37:47",
+  "mode": "refresh incomplete (checkpoint preserved)",
   "panel": {
     "complete": false,
     "cutoff": "2026-11-20",
     "cutoff_is": "max tail across all per/*.csv -- read coverage_pct/coverage_90 before calling the panel current",
-    "coverage_pct": 85.5,
-    "coverage_90": "2026-11-19",
+    "coverage_pct": 99.8,
+    "coverage_90": "2026-11-20",
     "coverage_floor_pct": 90,
     "dates_tail": [
       [
         "2026-11-20",
-        4463
+        5213
       ],
       [
         "2026-11-19",
-        751
+        1
       ],
       [
         "2026-11-18",
@@ -49,46 +49,39 @@
     "9": 392
   },
   "last_refresh": {
-    "todo": 1840,
-    "fetched": 442,
-    "appended": 703,
+    "todo": 36,
+    "fetched": 36,
+    "appended": 33,
     "readjusted": 0,
     "readjusted_tail": [],
-    "failures_tail": [
-      "000045:conn:TimeoutError",
-      "000048:conn:TimeoutError",
-      "000425:conn:TimeoutError",
-      "000599:conn:TimeoutError",
-      "000612:conn:TimeoutError",
-      "000722:conn:TimeoutError",
-      "000737:conn:TimeoutError",
-      "601118:conn:TimeoutError",
-      "601698:conn:TimeoutError",
-      "601868:conn:TimeoutError",
-      "601869:conn:TimeoutError",
-      "601872:conn:TimeoutError"
-    ],
-    "failures_n": 12,
-    "conn_stopped": true,
-    "elapsed_min": 90.0,
-    "vwap_anchor_max": 0.086021,
+    "failures_tail": [],
+    "failures_n": 0,
+    "conn_stopped": false,
+    "elapsed_min": 3.6,
+    "vwap_anchor_max": 0.119501,
     "repull": false
   },
   "quarantined_n": 12,
-  "last_spawn_attempt": "2026-11-21T09:19:43",
-  "settled_n": 0,
-  "settled": [],
+  "last_spawn_attempt": "2026-11-21T23:34:06",
+  "settled_n": 5,
+  "settled": [
+    "000635",
+    "002122",
+    "002717",
+    "600185",
+    "600567"
+  ],
   "per_files_on_disk": 5221,
   "validation": {
     "suspended_rows": 0,
-    "bracket_tolerated_rows": 1,
+    "bracket_tolerated_rows": 0,
     "defect_rows": 0
   },
   "takeover": {
     "owner": "bm-b",
     "by": "bm-c",
-    "reason": "owner bm-b silent 527.4h >= 120min",
-    "ts": "2026-11-21T12:05:46"
+    "reason": "owner bm-b silent 538.9h >= 120min",
+    "ts": "2026-11-21T23:34:06"
   },
   "authority": {
     "lane_owner": "bm-b",
@@ -96,11 +89,11 @@
     "data_face_machine": "bm-c",
     "declared_takeover": true,
     "took_over_by": "bm-c",
-    "took_over_at": "2026-11-21T12:05:46",
-    "reason": "owner bm-b silent 527.4h >= 120min"
+    "took_over_at": "2026-11-21T23:34:06",
+    "reason": "owner bm-b silent 538.9h >= 120min"
   },
   "machine": "bm-c",
-  "spawn_reason": "refresh in progress: panel incomplete at cutoff 2026-11-20 (coverage 85.5%, 90% date 2026-11-19)",
+  "spawn_reason": "panel incomplete at cutoff 2026-11-20 (coverage 99.2%, expected 2026-11-20) -> continuation refresh, not a first pull",
   "spawn_mode": "continuation",
   "quarantined": [
     "000005",

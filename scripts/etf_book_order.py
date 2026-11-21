@@ -5431,6 +5431,52 @@ def _deploy_scale_md(c, pb, cash=None):
     return L
 
 
+def zero_edge_net(cm, cost):
+    """The zero-edge figure as a subtraction, not a cost (r1914, one reading since r1915).
+
+    The deploy-vs-wait face prices the cost leg on the ruler's own 1,000,000 lens; the cash
+    leg prices interest on THIS book's cash.  Printing either number alone turns a
+    subtraction term into a loss ("pays 6,055 a year when the edge is zero"), and the two
+    legs also disagree about which number is gross: the repo quote is gross, what the book
+    keeps is net of that leg's own rolls (r1245).  This is the one implementation of the
+    subtraction; the ORDER sheet and the CEO page both read it and neither prints its own.
+    """
+    out = {"available": False, "why": "",
+           "cost_cny": None if cost is None else float(cost),
+           "cash_amount_cny": None, "gross_annual_cny": None, "fee_cny": None,
+           "net_annual_cny": None, "net_minus_cost_cny": None,
+           "gross_minus_cost_cny": None, "mean_net_cny": None,
+           "mean_net_minus_cost_cny": None, "spot_date": None, "spot_pct": None,
+           "quotes": None, "fee_bp_per_roll": None, "rolls_per_year": None,
+           "verdict_cash": None}
+    if not cm or cm.get("verdict") == "CANNOT_PRICE" or not cm.get("spot"):
+        out["why"] = "cash face missing or cannot price"
+        return out
+    spot = cm.get("spot") or {}
+    gross = spot.get("annual_cny")
+    net = spot.get("net_annual_cny")
+    if gross is None:
+        out["why"] = "cash quote unreadable"
+        return out
+    out.update({"cash_amount_cny": cm.get("cash_amount_cny"),
+                "gross_annual_cny": gross, "fee_cny": cm.get("fee_cny_per_year"),
+                "net_annual_cny": net, "spot_date": spot.get("date"),
+                "spot_pct": spot.get("pct"), "quotes": spot.get("quotes"),
+                "fee_bp_per_roll": cm.get("fee_bp_per_roll"),
+                "rolls_per_year": cm.get("rolls_per_year"),
+                "verdict_cash": cm.get("verdict")})
+    if net is not None and cost is not None:
+        out["available"] = True
+        out["net_minus_cost_cny"] = round(float(net) - float(cost), 2)
+        out["gross_minus_cost_cny"] = round(float(gross) - float(cost), 2)
+    mt = (cm.get("mean_tail") or {}).get("net_annual_cny")
+    if mt is not None:
+        out["mean_net_cny"] = float(mt)
+        if cost is not None:
+            out["mean_net_minus_cost_cny"] = round(float(mt) - float(cost), 2)
+    return out
+
+
 def _zero_edge_net_md(cm, cost):
     """What the zero-edge cost leaves after the cash leg pays for its own rolls (r1914).
 
@@ -5445,41 +5491,37 @@ def _zero_edge_net_md(cm, cost):
     numbers instead of computing a second version of them -- one money, one implementation,
     and the two blocks cannot disagree.
     """
-    if not cm or cm.get("verdict") == "CANNOT_PRICE" or not cm.get("spot"):
+    z = zero_edge_net(cm, cost)
+    if z["why"] == "cash quote unreadable":
+        return ["", "- **零 edge 的净额这一轮算不出**：现金腿的报价读不出来。"]
+    if z["gross_annual_cny"] is None:
         return ["", "- **零 edge 的净额这一轮算不出**：本单自己的现金腿读数（下一节 r1245）"
                     "缺或不可定价。缺这一行不等于「现金腿不挣钱」，也不等于「零 edge 一定亏」"
                     "——上面那个成本数仍然只是成本，不是净损。"]
-    spot = cm.get("spot") or {}
-    gross = spot.get("annual_cny")
-    net = spot.get("net_annual_cny")
-    fee = cm.get("fee_cny_per_year")
-    rolls = cm.get("rolls_per_year")
-    if gross is None:
-        return ["", "- **零 edge 的净额这一轮算不出**：现金腿的报价读不出来。"]
 
     def _fmt(v):
         return _cny_cell(v) if v is not None else "读不出"
 
+    gross, net, fee = z["gross_annual_cny"], z["net_annual_cny"], z["fee_cny"]
+    rolls = z["rolls_per_year"]
     L = ["", "- **上面那个成本要和现金腿的入账利息相减，才是零 edge 的净额**：这 %s 元的现金"
          "按 %s 报价 %.2f%% 毛算每年 %s 元；这条腿自己也要付佣金——一年滚 %s 次、每次 "
          "%s bp，约 %s 元，所以**入账**是 %s 元。"
-         % (_fmt(cm.get("cash_amount_cny")), spot.get("date") or "?",
-            float(spot.get("pct") or 0.0),
+         % (_fmt(z["cash_amount_cny"]), z["spot_date"] or "?",
+            float(z["spot_pct"] or 0.0),
             _fmt(gross), rolls if rolls is not None else "?",
-            ("%g" % float(cm.get("fee_bp_per_roll"))) if cm.get("fee_bp_per_roll") is not None
+            ("%g" % float(z["fee_bp_per_roll"])) if z["fee_bp_per_roll"] is not None
             else "?", _fmt(fee), _fmt(net))]
-    if net is not None and cost is not None:
-        diff = float(net) - float(cost)
+    if z["available"]:
         L.append("  - 一对：入账 %s 元 − 交易成本 %s 元 = **%+.0f 元/年**。用**毛**数（%s 元）去抵"
                  "成本会把它读成 %+.0f —— 差的那 %s 元就是现金腿自己的佣金，不是利率差。"
-                 % (_fmt(net), _fmt(cost), diff, _fmt(gross), float(gross) - float(cost),
-                    _fmt(fee)))
-        if cm.get("mean_tail") and cm["mean_tail"].get("net_annual_cny") is not None:
-            mnet = float(cm["mean_tail"]["net_annual_cny"])
+                 % (_fmt(net), _fmt(z["cost_cny"]), z["net_minus_cost_cny"], _fmt(gross),
+                    z["gross_minus_cost_cny"], _fmt(fee)))
+        if z["mean_net_minus_cost_cny"] is not None:
             L.append("  - 一天的报价不作数：同样这笔现金按近 %s 个报价的均值、扣同样的佣金是 %s 元，"
                      "净额 %+.0f 元/年（利率判定 %s）。"
-                     % (spot.get("quotes") or "?", _fmt(mnet), mnet - float(cost),
-                        cm.get("verdict") or "?"))
+                     % (z["quotes"] or "?", _fmt(z["mean_net_cny"]),
+                        z["mean_net_minus_cost_cny"], z["verdict_cash"] or "?"))
     L.append("  - 口径：这些利息是**下一节 r1245 那一块钱的同一份读数**，不是第二个来源；"
              "仓位一动（风险腿/现金分割变了）这一行就要跟着重算，与上面成本腿不相加校验。")
     return L
@@ -10021,6 +10063,21 @@ def selftest():
         chk("legBHb CANNOT_PRICE is the same sentence, not a zero carry",
             "零 edge 的净额这一轮算不出" in _md_net_cannot
             and "6,472" not in _md_net_cannot, _md_net_cannot[-300:])
+        # legBI-BJ (r1915): the subtraction became a READING, because the CEO page now calls
+        # it too. Two faces printing one measurement must not own two implementations.
+        _zn = zero_edge_net(_cm_net, 6055.0)
+        chk("legBI zero_edge_net carries net, the gross trap and the fee as numbers",
+            _zn["available"] is True
+            and abs(_zn["net_minus_cost_cny"] - (-956.0)) <= 0.01
+            and abs(_zn["gross_minus_cost_cny"] - 417.0) <= 0.01
+            and abs(_zn["fee_cny"] - 1374.0) <= 0.01, str(_zn)[:400])
+        _zn_none = zero_edge_net(None, 6055.0)
+        _zn_cannot = zero_edge_net({"verdict": "CANNOT_PRICE"}, 6055.0)
+        chk("legBJ the reading refuses to answer when the cash half is missing or unpriced "
+            "(no 0, no net)",
+            _zn_none["available"] is False and _zn_cannot["available"] is False
+            and _zn_none["net_minus_cost_cny"] is None
+            and _zn_none["gross_annual_cny"] is None, str(_zn_none)[:300])
 
         # legAV-AX (r1884): the entry price -- what an account of 20k/100k/200k pays a side
         # once the CNY 5 per-ticket minimum is included. Same three states as the ladder.
