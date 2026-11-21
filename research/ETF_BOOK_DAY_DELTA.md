@@ -5,9 +5,9 @@
 - 判决：**DATA_ADVANCED**
 
 ## 一句话
-两天**不是同一根 bar**（2026-11-19 → 2026-11-20），数据推进了，先分不清“数据动”和“口径动”；这一面在数据日推进的隔夜不给任何指控，只记录 **2577** 个位移与 **405** 个新增叶子。
+两天**不是同一根 bar**（2026-11-19 → 2026-11-20），数据推进了，先分不清“数据动”和“口径动”；这一面在数据日推进的隔夜不给任何指控，只记录 **2641** 个位移与 **405** 个新增叶子。
 
-## 动的数（全部 2577 个）
+## 动的数（全部 2641 个）
 
 | 数字 | 昨天 | 今天 | 判读 | 依据 |
 |---|---|---|---|---|
@@ -28,7 +28,7 @@
 | `/admission/reads/oos_sharpe` | 1.7928 | 1.7425 | DATA_ADVANCED |  |
 | `/admission/top2_share` | 0.712 | 0.7238 | DATA_ADVANCED |  |
 | `/admission/worst` | 1.7614 | 0.4381 | DATA_ADVANCED |  |
-| `/authority/owner_silent_h` | 26.7 | 51.5 | CLOCK |  |
+| `/authority/owner_silent_h` | 26.7 | 58.5 | CLOCK |  |
 | `/backtest_band/12 名·8% 波动目标（生产卡片口径）/full/cagr_pct` | 9.39 | 9.16 | DATA_ADVANCED |  |
 | `/backtest_band/12 名·8% 波动目标（生产卡片口径）/full/sharpe` | 0.97 | 0.95 | DATA_ADVANCED |  |
 | `/backtest_band/12 名·8% 波动目标（生产卡片口径）/oos/cagr_pct` | 17.65 | 17.04 | DATA_ADVANCED |  |
@@ -834,9 +834,9 @@
 | `/family_coherence/signflip/arms/4/cells_positive` | 7 | 11 | DATA_ADVANCED |  |
 | `/family_coherence/signflip/arms/5/cells_positive` | 8 | 10 | DATA_ADVANCED |  |
 | `/family_coherence/signflip/n_reject` | 3 | 4 | DATA_ADVANCED |  |
-| `/fleet/rows/0/age_h` | 22.48 | 46.49 | CLOCK |  |
-| `/fleet/rows/1/age_h` | 485.64 | 509.65 | CLOCK |  |
-| `/fleet/rows/2/age_h` | 0.2 | 0.69 | CLOCK |  |
+| `/fleet/rows/0/age_h` | 22.48 | 54.7 | CLOCK |  |
+| `/fleet/rows/1/age_h` | 485.64 | 517.87 | CLOCK |  |
+| `/fleet/rows/2/age_h` | 0.2 | 0.36 | CLOCK |  |
 | `/floor_provenance/effects/floor_full_graded` | 0.43219500565693414 | 0.43500258466556113 | DATA_ADVANCED |  |
 | `/floor_provenance/effects/floor_full_window` | 0.43219500565693414 | 0.43500258466556113 | DATA_ADVANCED |  |
 | `/floor_provenance/effects/floor_graded_universe` | 0.43219500565693414 | 0.43500258466556113 | DATA_ADVANCED |  |
@@ -863,14 +863,15 @@
 | `/forward/bars` | 20 | 21 | DATA_ADVANCED |  |
 | `/forward/nav` | 0.998050606 | 0.9800317259 | DATA_ADVANCED |  |
 | `/forward/since_inception_pct` | -0.1949 | -1.9968 | DATA_ADVANCED |  |
-| `/futures_hedge/beta` | 0.07458485214051068 | 0.07458678744098134 | DATA_ADVANCED |  |
-| `/futures_hedge/capital_for_one_lot` | 10985608.692451447 | 10985323.649290286 | DATA_ADVANCED |  |
-| `/futures_hedge/corr` | 0.14156670386872094 | 0.14156210800141103 | DATA_ADVANCED |  |
-| `/futures_hedge/maxdd_delta_pp` | -0.054882534673372785 | -0.05491332315984421 | DATA_ADVANCED |  |
-| `/futures_hedge/sharpe_delta` | -0.020573920795340817 | -0.02060447867138404 | DATA_ADVANCED |  |
-| `/futures_hedge/unit_over_target` | 10.985608692451448 | 10.985323649290287 | DATA_ADVANCED |  |
-| `/futures_hedge/variance_removable_pct` | 2.004113164425413 | 2.003983042180316 | DATA_ADVANCED |  |
-| `/futures_hedge/vol_delta_pp` | -0.10120159698399356 | -0.10116910068369428 | DATA_ADVANCED |  |
+| `/futures_hedge/beta` | 0.07458485214051068 | 0.07481175040590471 | DATA_ADVANCED |  |
+| `/futures_hedge/capital_for_one_lot` | 10985608.692451447 | 10913793.562776433 | DATA_ADVANCED |  |
+| `/futures_hedge/corr` | 0.14156670386872094 | 0.14175672837448267 | DATA_ADVANCED |  |
+| `/futures_hedge/maxdd_delta_pp` | -0.054882534673372785 | -0.05849222682584587 | DATA_ADVANCED |  |
+| `/futures_hedge/min_unit_notional` | 819360.0 | 816480.0 | DATA_ADVANCED |  |
+| `/futures_hedge/sharpe_delta` | -0.020573920795340817 | -0.020450613668033246 | DATA_ADVANCED |  |
+| `/futures_hedge/unit_over_target` | 10.985608692451448 | 10.913793562776434 | DATA_ADVANCED |  |
+| `/futures_hedge/variance_removable_pct` | 2.004113164425413 | 2.009497003943686 | DATA_ADVANCED |  |
+| `/futures_hedge/vol_delta_pp` | -0.10120159698399356 | -0.1015861291553663 | DATA_ADVANCED |  |
 | `/futures_hedge_tail/dsharpe` | -0.020573920795340817 | -0.02060447867138404 | DATA_ADVANCED |  |
 | `/futures_hedge_tail/dsharpe_hi` | 0.07320814130816604 | 0.06948194084083699 | DATA_ADVANCED |  |
 | `/futures_hedge_tail/dsharpe_lo` | -0.10003708788060439 | -0.09833643653285758 | DATA_ADVANCED |  |
@@ -899,37 +900,65 @@
 | `/futures_ladder/dilution/pairs/IM/kept_by_both_ann_pct` | 11.626 | 11.623 | DATA_ADVANCED |  |
 | `/futures_ladder/dilution/pairs/IM/published_ann_pct` | 5.89 | 5.892 | DATA_ADVANCED |  |
 | `/futures_ladder/dilution/pairs/IM/strictest_ann_pct` | 11.626 | 11.623 | DATA_ADVANCED |  |
-| `/futures_ladder/rows/1/net_pct_of_capital` | 1.41 | 1.39 | DATA_ADVANCED |  |
-| `/futures_ladder/rows/1/net_pct_of_capital_by_mask/calendar` | 2.57 | 2.55 | DATA_ADVANCED |  |
-| `/futures_ladder/rows/1/net_pct_of_capital_by_mask/published` | 1.41 | 1.39 | DATA_ADVANCED |  |
-| `/futures_ladder/rows/1/net_pct_of_capital_by_mask/strictest` | 2.59 | 2.58 | DATA_ADVANCED |  |
+| `/futures_ladder/rows/0/margin_pct_of_capital` | 3.7 | 3.5 | DATA_ADVANCED |  |
+| `/futures_ladder/rows/0/net_pct_of_capital` | 2.2 | 2.16 | DATA_ADVANCED |  |
+| `/futures_ladder/rows/0/net_pct_of_capital_by_mask/calendar` | 3.07 | 2.99 | DATA_ADVANCED |  |
+| `/futures_ladder/rows/0/net_pct_of_capital_by_mask/published` | 2.2 | 2.16 | DATA_ADVANCED |  |
+| `/futures_ladder/rows/0/net_pct_of_capital_by_mask/strictest` | 3.07 | 2.99 | DATA_ADVANCED |  |
+| `/futures_ladder/rows/0/notional_x_capital_on_tier` | 0.25 | 0.24 | DATA_ADVANCED |  |
+| `/futures_ladder/rows/0/one_lot_notional_cny` | 1235800.0 | 1180400.0 | DATA_ADVANCED |  |
+| `/futures_ladder/rows/0/stress_loss_pct_of_capital` | 10.3 | 9.9 | DATA_ADVANCED |  |
+| `/futures_ladder/rows/0/vol_contrib_pct` | 5.5 | 5.3 | DATA_ADVANCED |  |
+| `/futures_ladder/rows/1/margin_pct_of_capital` | 5.9 | 5.8 | DATA_ADVANCED |  |
+| `/futures_ladder/rows/1/net_pct_of_capital` | 1.41 | 1.38 | DATA_ADVANCED |  |
+| `/futures_ladder/rows/1/net_pct_of_capital_by_mask/calendar` | 2.57 | 2.53 | DATA_ADVANCED |  |
+| `/futures_ladder/rows/1/net_pct_of_capital_by_mask/published` | 1.41 | 1.38 | DATA_ADVANCED |  |
+| `/futures_ladder/rows/1/net_pct_of_capital_by_mask/strictest` | 2.59 | 2.56 | DATA_ADVANCED |  |
+| `/futures_ladder/rows/1/one_lot_notional_cny` | 1177740.0 | 1160700.0 | DATA_ADVANCED |  |
+| `/futures_ladder/rows/1/stress_loss_pct_of_capital` | 17.9 | 17.6 | DATA_ADVANCED |  |
+| `/futures_ladder/rows/1/vol_contrib_pct` | 6.9 | 6.8 | DATA_ADVANCED |  |
+| `/futures_ladder/rows/2/net_pct_of_capital` | 1.64 | 1.63 | DATA_ADVANCED |  |
 | `/futures_ladder/rows/2/net_pct_of_capital_by_mask/calendar` | 2.24 | 2.23 | DATA_ADVANCED |  |
-| `/futures_ladder/rows/3/net_pct_of_capital_by_mask/calendar` | 3.36 | 3.37 | DATA_ADVANCED |  |
-| `/futures_ladder/rows/3/net_pct_of_capital_by_mask/strictest` | 3.36 | 3.37 | DATA_ADVANCED |  |
+| `/futures_ladder/rows/2/net_pct_of_capital_by_mask/published` | 1.64 | 1.63 | DATA_ADVANCED |  |
+| `/futures_ladder/rows/2/net_pct_of_capital_by_mask/strictest` | 2.23 | 2.22 | DATA_ADVANCED |  |
+| `/futures_ladder/rows/2/one_lot_notional_cny` | 819360.0 | 816480.0 | DATA_ADVANCED |  |
+| `/futures_ladder/rows/3/margin_pct_of_capital` | 3.5 | 3.3 | DATA_ADVANCED |  |
+| `/futures_ladder/rows/3/net_pct_of_capital` | 2.6 | 2.5 | DATA_ADVANCED |  |
+| `/futures_ladder/rows/3/net_pct_of_capital_by_mask/calendar` | 3.36 | 3.24 | DATA_ADVANCED |  |
+| `/futures_ladder/rows/3/net_pct_of_capital_by_mask/published` | 2.6 | 2.5 | DATA_ADVANCED |  |
+| `/futures_ladder/rows/3/net_pct_of_capital_by_mask/strictest` | 3.36 | 3.24 | DATA_ADVANCED |  |
+| `/futures_ladder/rows/3/notional_x_capital_on_tier` | 0.24 | 0.22 | DATA_ADVANCED |  |
+| `/futures_ladder/rows/3/one_lot_notional_cny` | 1175360.0 | 1109120.0 | DATA_ADVANCED |  |
+| `/futures_ladder/rows/3/stress_loss_pct_of_capital` | 9.8 | 9.2 | DATA_ADVANCED |  |
+| `/futures_ladder/rows/3/vol_contrib_pct` | 5.9 | 5.6 | DATA_ADVANCED |  |
 | `/futures_sleeve/book/ann_compound_pct` | 11.47 | 11.25 | DATA_ADVANCED |  |
 | `/futures_sleeve/book/sharpe` | 1.104 | 1.084 | DATA_ADVANCED |  |
-| `/futures_sleeve/rows/0/blend_gain_sharpe` | 0.324 | 0.326 | DATA_ADVANCED |  |
-| `/futures_sleeve/rows/0/carry_ann_compound_pct` | 8.748 | 8.776 | DATA_ADVANCED |  |
+| `/futures_sleeve/rows/0/blend_gain_sharpe` | 0.324 | 0.322 | DATA_ADVANCED |  |
+| `/futures_sleeve/rows/0/carry_ann_compound_pct` | 8.748 | 8.697 | DATA_ADVANCED |  |
 | `/futures_sleeve/rows/0/carry_caliber/calendar_ann_pct` | 9.805 | 9.822 | DATA_ADVANCED |  |
 | `/futures_sleeve/rows/0/carry_caliber/published_ann_pct` | 2.878 | 2.9 | DATA_ADVANCED |  |
 | `/futures_sleeve/rows/0/carry_caliber/spread_pp` | 6.927 | 6.922 | DATA_ADVANCED |  |
-| `/futures_sleeve/rows/0/gap_net_pp` | 6.684 | 6.631 | DATA_ADVANCED |  |
+| `/futures_sleeve/rows/0/gap_net_pp` | 6.684 | 6.599 | DATA_ADVANCED |  |
+| `/futures_sleeve/rows/0/notional_per_lot_cny` | 1235800.0 | 1180400.0 | DATA_ADVANCED |  |
 | `/futures_sleeve/rows/1/carry_ann_compound_pct` | 3.573 | 3.559 | DATA_ADVANCED |  |
 | `/futures_sleeve/rows/1/carry_caliber/calendar_ann_pct` | 5.848 | 5.836 | DATA_ADVANCED |  |
 | `/futures_sleeve/rows/1/carry_caliber/published_ann_pct` | 1.883 | 1.873 | DATA_ADVANCED |  |
 | `/futures_sleeve/rows/1/carry_caliber/spread_pp` | 3.965 | 3.963 | DATA_ADVANCED |  |
 | `/futures_sleeve/rows/1/gap_net_pp` | 0.577 | 0.618 | DATA_ADVANCED |  |
-| `/futures_sleeve/rows/2/blend_gain_sharpe` | 0.085 | 0.083 | DATA_ADVANCED |  |
-| `/futures_sleeve/rows/2/carry_ann_compound_pct` | 2.426 | 2.383 | DATA_ADVANCED |  |
+| `/futures_sleeve/rows/1/notional_per_lot_cny` | 1177740.0 | 1160700.0 | DATA_ADVANCED |  |
+| `/futures_sleeve/rows/2/blend_gain_sharpe` | 0.085 | 0.078 | DATA_ADVANCED |  |
+| `/futures_sleeve/rows/2/carry_ann_compound_pct` | 2.426 | 2.28 | DATA_ADVANCED |  |
 | `/futures_sleeve/rows/2/carry_caliber/calendar_ann_pct` | 5.409 | 5.372 | DATA_ADVANCED |  |
 | `/futures_sleeve/rows/2/carry_caliber/published_ann_pct` | 1.581 | 1.546 | DATA_ADVANCED |  |
 | `/futures_sleeve/rows/2/carry_caliber/spread_pp` | 3.828 | 3.826 | DATA_ADVANCED |  |
+| `/futures_sleeve/rows/2/notional_per_lot_cny` | 819360.0 | 816480.0 | DATA_ADVANCED |  |
 | `/futures_sleeve/rows/3/blend_gain_sharpe` | 0.388 | 0.389 | DATA_ADVANCED |  |
 | `/futures_sleeve/rows/3/carry_ann_compound_pct` | 10.214 | 10.213 | DATA_ADVANCED |  |
 | `/futures_sleeve/rows/3/carry_caliber/calendar_ann_pct` | 12.016 | 12.012 | DATA_ADVANCED |  |
 | `/futures_sleeve/rows/3/carry_caliber/published_ann_pct` | 5.89 | 5.892 | DATA_ADVANCED |  |
 | `/futures_sleeve/rows/3/carry_caliber/spread_pp` | 6.126 | 6.12 | DATA_ADVANCED |  |
 | `/futures_sleeve/rows/3/gap_net_pp` | 7.775 | 7.66 | DATA_ADVANCED |  |
+| `/futures_sleeve/rows/3/notional_per_lot_cny` | 1175360.0 | 1109120.0 | DATA_ADVANCED |  |
 | `/gap/controls/0/got_cagr` | 0.0839 | 0.0819 | DATA_ADVANCED |  |
 | `/gap/controls/0/published_cagr` | 0.0839 | 0.0819 | DATA_ADVANCED |  |
 | `/gap/elapsed_sec` | 85.9 | 89.0 | CLOCK |  |
@@ -1650,27 +1679,27 @@
 | `/lookahead/verdict/ladder_pp/20` | 5.03 | 4.86 | DATA_ADVANCED |  |
 | `/lookahead/verdict/ladder_pp/5` | 7.73 | 7.67 | DATA_ADVANCED |  |
 | `/lookahead/verdict/ladder_spread_pp` | 10.62 | 10.48 | DATA_ADVANCED |  |
-| `/lot_floor/capital_needed/AU` | 2714400.0 | 2681066.666666667 | DATA_ADVANCED |  |
-| `/lot_floor/capital_needed/IC` | 4129866.666666667 | 4119333.3333333335 | DATA_ADVANCED |  |
-| `/lot_floor/capital_needed/IF` | 3928400.0 | 3925800.0 | DATA_ADVANCED |  |
-| `/lot_floor/capital_needed/IM` | 3991600.0 | 3917866.666666667 | DATA_ADVANCED |  |
-| `/lot_floor/capital_needed/SC` | 1920333.3333333335 | 1953000.0 | DATA_ADVANCED |  |
-| `/lot_floor/capital_needed/T` | 3667833.3333333335 | 3671500.0 | DATA_ADVANCED |  |
-| `/lot_floor/capital_needed/TF` | 3559333.3333333335 | 3560666.666666667 | DATA_ADVANCED |  |
-| `/lot_floor/capital_needed/TS` | 6843866.666666667 | 6844133.333333334 | DATA_ADVANCED |  |
+| `/lot_floor/capital_needed/AU` | 2714400.0 | 2561866.666666667 | DATA_ADVANCED |  |
+| `/lot_floor/capital_needed/IC` | 4129866.666666667 | 3934666.666666667 | DATA_ADVANCED |  |
+| `/lot_floor/capital_needed/IF` | 3928400.0 | 3869000.0 | DATA_ADVANCED |  |
+| `/lot_floor/capital_needed/IH` | 2731200.0 | 2721600.0 | DATA_ADVANCED |  |
+| `/lot_floor/capital_needed/IM` | 3991600.0 | 3697066.666666667 | DATA_ADVANCED |  |
+| `/lot_floor/capital_needed/SC` | 1920333.3333333335 | 1970000.0 | DATA_ADVANCED |  |
+| `/lot_floor/capital_needed/T` | 3667833.3333333335 | 3669166.666666667 | DATA_ADVANCED |  |
+| `/lot_floor/capital_needed/TS` | 6843866.666666667 | 6842666.666666667 | DATA_ADVANCED |  |
 | `/lot_floor/etf_shares_at_1m/510050` | 0.000288 | 0.00029 | DATA_ADVANCED |  |
 | `/lot_floor/etf_shares_at_1m/510300` | 0.000406 | 0.000402 | DATA_ADVANCED |  |
 | `/lot_floor/etf_shares_at_1m/510500` | 0.000629 | 0.000605 | DATA_ADVANCED |  |
 | `/lot_floor/etf_shares_at_1m/512100` | 0.000242 | 0.00023 | DATA_ADVANCED |  |
 | `/lot_floor/etf_shares_at_1m/588000` | 0.000134 | 0.00013 | DATA_ADVANCED |  |
-| `/lot_floor/shares_at_1m/AU` | 0.81432 | 0.80432 | DATA_ADVANCED |  |
-| `/lot_floor/shares_at_1m/IC` | 1.23896 | 1.2358 | DATA_ADVANCED |  |
-| `/lot_floor/shares_at_1m/IF` | 1.17852 | 1.17774 | DATA_ADVANCED |  |
-| `/lot_floor/shares_at_1m/IM` | 1.19748 | 1.17536 | DATA_ADVANCED |  |
-| `/lot_floor/shares_at_1m/SC` | 0.5761 | 0.5859 | DATA_ADVANCED |  |
-| `/lot_floor/shares_at_1m/T` | 1.10035 | 1.10145 | DATA_ADVANCED |  |
-| `/lot_floor/shares_at_1m/TF` | 1.0678 | 1.0682 | DATA_ADVANCED |  |
-| `/lot_floor/shares_at_1m/TS` | 2.05316 | 2.05324 | DATA_ADVANCED |  |
+| `/lot_floor/shares_at_1m/AU` | 0.81432 | 0.76856 | DATA_ADVANCED |  |
+| `/lot_floor/shares_at_1m/IC` | 1.23896 | 1.1804 | DATA_ADVANCED |  |
+| `/lot_floor/shares_at_1m/IF` | 1.17852 | 1.1607 | DATA_ADVANCED |  |
+| `/lot_floor/shares_at_1m/IH` | 0.81936 | 0.81648 | DATA_ADVANCED |  |
+| `/lot_floor/shares_at_1m/IM` | 1.19748 | 1.10912 | DATA_ADVANCED |  |
+| `/lot_floor/shares_at_1m/SC` | 0.5761 | 0.591 | DATA_ADVANCED |  |
+| `/lot_floor/shares_at_1m/T` | 1.10035 | 1.10075 | DATA_ADVANCED |  |
+| `/lot_floor/shares_at_1m/TS` | 2.05316 | 2.0528 | DATA_ADVANCED |  |
 | `/money_cny/benchmark_annual_cny` | 27400.0 | 26600.0 | DATA_ADVANCED |  |
 | `/money_cny/excess_annual_cny` | 95500.0 | 92800.0 | DATA_ADVANCED |  |
 | `/money_cny/expected_annual_cny` | 122900.0 | 119400.0 | DATA_ADVANCED |  |
@@ -2573,6 +2602,41 @@
 | `/vt_phases/reference/top2_max` | 1.6727 | 1.7886 | DATA_ADVANCED |  |
 | `/vt_phases/reference/top2_median` | 1.652 | 1.7627 | DATA_ADVANCED |  |
 | `/vt_phases/reference/top2_min` | 1.6261 | 1.7305 | DATA_ADVANCED |  |
+| `/width_return/gap_pp` | 2.4446 | 2.3851 | DATA_ADVANCED |  |
+| `/width_return/rows/0/cagr` | 0.155 | 0.1518 | DATA_ADVANCED |  |
+| `/width_return/rows/0/cagr_oos` | 0.2329 | 0.2246 | DATA_ADVANCED |  |
+| `/width_return/rows/0/calmar` | 0.97 | 0.95 | DATA_ADVANCED |  |
+| `/width_return/rows/0/sharpe` | 0.999 | 0.981 | DATA_ADVANCED |  |
+| `/width_return/rows/0/sharpe_oos` | 1.471 | 1.425 | DATA_ADVANCED |  |
+| `/width_return/rows/0/universe` | 1522 | 1528 | DATA_ADVANCED |  |
+| `/width_return/rows/0/years` | 6.87 | 6.88 | DATA_ADVANCED |  |
+| `/width_return/rows/1/cagr` | 0.17 | 0.1664 | DATA_ADVANCED |  |
+| `/width_return/rows/1/cagr_oos` | 0.2492 | 0.24 | DATA_ADVANCED |  |
+| `/width_return/rows/1/calmar` | 1.04 | 1.02 | DATA_ADVANCED |  |
+| `/width_return/rows/1/sharpe` | 1.082 | 1.062 | DATA_ADVANCED |  |
+| `/width_return/rows/1/sharpe_oos` | 1.545 | 1.494 | DATA_ADVANCED |  |
+| `/width_return/rows/1/universe` | 1522 | 1528 | DATA_ADVANCED |  |
+| `/width_return/rows/1/years` | 6.87 | 6.88 | DATA_ADVANCED |  |
+| `/width_return/rows/2/cagr` | 0.1461 | 0.1429 | DATA_ADVANCED |  |
+| `/width_return/rows/2/cagr_oos` | 0.2419 | 0.2332 | DATA_ADVANCED |  |
+| `/width_return/rows/2/calmar` | 0.86 | 0.84 | DATA_ADVANCED |  |
+| `/width_return/rows/2/sharpe` | 0.968 | 0.949 | DATA_ADVANCED |  |
+| `/width_return/rows/2/sharpe_oos` | 1.534 | 1.484 | DATA_ADVANCED |  |
+| `/width_return/rows/2/universe` | 1522 | 1528 | DATA_ADVANCED |  |
+| `/width_return/rows/2/years` | 6.87 | 6.88 | DATA_ADVANCED |  |
+| `/width_return/rows/3/cagr` | 0.1495 | 0.1466 | DATA_ADVANCED |  |
+| `/width_return/rows/3/cagr_oos` | 0.241 | 0.2332 | DATA_ADVANCED |  |
+| `/width_return/rows/3/calmar` | 0.89 | 0.87 | DATA_ADVANCED |  |
+| `/width_return/rows/3/sharpe` | 0.992 | 0.975 | DATA_ADVANCED |  |
+| `/width_return/rows/3/sharpe_oos` | 1.524 | 1.481 | DATA_ADVANCED |  |
+| `/width_return/rows/3/universe` | 1522 | 1528 | DATA_ADVANCED |  |
+| `/width_return/rows/3/years` | 6.87 | 6.88 | DATA_ADVANCED |  |
+| `/width_return/shrink/cagr_cost_pp` | 0.9446 | 0.9251 | DATA_ADVANCED |  |
+| `/width_return/widen/cagr_cost_pp` | -1.5 | -1.46 | DATA_ADVANCED |  |
+| `/width_return/widen/cagr_from` | 0.155 | 0.1518 | DATA_ADVANCED |  |
+| `/width_return/widen/cagr_to` | 0.17 | 0.1664 | DATA_ADVANCED |  |
+| `/width_return/widen/sharpe_from` | 0.999 | 0.981 | DATA_ADVANCED |  |
+| `/width_return/widen/sharpe_to` | 1.082 | 1.062 | DATA_ADVANCED |  |
 | `/window_label/identity/the full-window cell's own window reproduces the ticket/measured_pp` | 12.29 | 11.94 | DATA_ADVANCED |  |
 | `/window_label/identity/the full-window cell's own window reproduces the ticket/published_pp` | 12.29 | 11.94 | DATA_ADVANCED |  |
 | `/window_label/rows/printed_under_full_header/bars` | 697 | 698 | DATA_ADVANCED |  |

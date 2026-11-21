@@ -1,5 +1,5 @@
 {
- "ts": "2026-11-20 20:28:04",
+ "ts": "2026-11-21 07:45:16",
  "evidence_cutoff": "2026-11-20",
  "feed_status": {
   "ticket_bar": "2026-11-20",
@@ -56,7 +56,10 @@
     "faces": [
      "baseline",
      "buffer_k02",
-     "buffer_k05"
+     "buffer_k05",
+     "buffer_k10",
+     "buffer_k20",
+     "buffer_k40"
     ],
     "last": "2026-11-20",
     "bars": 5285,
@@ -67,9 +70,6 @@
     "digest": "7d93f5cd045aab6d",
     "faces": [
      "buffer_k05_cost20",
-     "buffer_k10",
-     "buffer_k20",
-     "buffer_k40",
      "cost0",
      "cost05",
      "cost20",
@@ -84,13 +84,13 @@
   "priced_same_panel": false,
   "comparable": [
    "buffer_k02",
-   "buffer_k05"
+   "buffer_k05",
+   "buffer_k10",
+   "buffer_k20",
+   "buffer_k40"
   ],
   "withheld": [
    "buffer_k05_cost20",
-   "buffer_k10",
-   "buffer_k20",
-   "buffer_k40",
    "cost0",
    "cost05",
    "cost20",
@@ -100,9 +100,6 @@
    "readable": false,
    "withheld": [
     "buffer_k05_cost20",
-    "buffer_k10",
-    "buffer_k20",
-    "buffer_k40",
     "cost0",
     "cost05",
     "cost20",
@@ -129,20 +126,20 @@
     },
     {
      "arm": "buffer_k10",
-     "verdict": "WORLDS_NOT_COMPARABLE",
-     "readable": false,
+     "verdict": "NOT-SEPARABLE",
+     "readable": true,
      "description": "buffer k=0.10 on every cell (the middle of the family r1325 named as a cost knob; declared in the pool at r1351 before this face existed)"
     },
     {
      "arm": "buffer_k20",
-     "verdict": "WORLDS_NOT_COMPARABLE",
-     "readable": false,
+     "verdict": "NOT-SEPARABLE",
+     "readable": true,
      "description": "buffer k=0.20 on every cell (the strongest arm -- if even this stays inside every cell's band, the buffer family is unmeasurable on this design, not negative)"
     },
     {
      "arm": "buffer_k40",
-     "verdict": "WORLDS_NOT_COMPARABLE",
-     "readable": false,
+     "verdict": "NOT-SEPARABLE",
+     "readable": true,
      "description": "buffer k=0.40 on every cell (8x the r1325 arm -- the far end, where a real buffer finally has to hurt)"
     },
     {
@@ -302,9 +299,6 @@
    "covers_family": true,
    "family": {
     "stale_arms": [
-     "buffer_k10",
-     "buffer_k20",
-     "buffer_k40",
      "cost0",
      "cost05",
      "cost20",

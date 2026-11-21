@@ -1,6 +1,6 @@
 # the carry sleeve: an 8% vol target on a 1,000,000 book is not an integer
 
-evidence cutoff: **2026-11-20** | source: `results/idx_fut_carry_paper/SIZING.json` | generated 2026-11-20T16:11:24
+evidence cutoff: **2026-11-20** | source: `results/idx_fut_carry_paper/SIZING.json` | generated 2026-11-21T07:23:31
 
 One lot's annualised vol, hedged to the discount, is the whole input here; the face does not re-derive it. 
 A fraction of a lot is printed as arithmetic and never as a position: a futures contract is not divisible.
@@ -9,52 +9,52 @@ A fraction of a lot is printed as arithmetic and never as a position: a futures 
 
 | capital | target | vol of 1 lot (hedged) | budget at target | lots (fraction) |
 |---|---|---|---|---|
-| 1,000,000 CNY | 8% | 89,643.20 CNY | 80,000.00 CNY | 0.8924 |
+| 1,000,000 CNY | 8% | 89,958.32 CNY | 80,000.00 CNY | 0.8893 |
 
 **The same sentence, read three ways at this capital and target: `0` / `1` / `4` lots** (vol <= target / nearest integer / the ticket's own size). Verdict: **THE_RULER_DECIDES_THE_LOTS**.
 
-The ticket's 4 lot(s) carry 358,572.80 CNY of annual vol against a 80,000.00 CNY budget -- **4.4822x the budget**, 35.86% of capital; holding them inside the target would take 4,482,160 CNY of capital.
+The ticket's 4 lot(s) carry 359,833.28 CNY of annual vol against a 80,000.00 CNY budget -- **4.4979x the budget**, 35.98% of capital; holding them inside the target would take 4,497,916 CNY of capital.
 
 ### capital ladder (k lots at the stated target)
 
 | lots | capital needed (CNY) | vs the book's capital | affordable |
 |---|---|---|---|
-| 1 | 1,120,540 | +120,540 | no |
-| 2 | 2,241,080 | +1,241,080 | no |
-| 3 | 3,361,620 | +2,361,620 | no |
-| 4 | 4,482,160 | +3,482,160 | no |
-| 5 | 5,602,700 | +4,602,700 | no |
-| 6 | 6,723,240 | +5,723,240 | no |
-| 7 | 7,843,780 | +6,843,780 | no |
-| 8 | 8,964,320 | +7,964,320 | no |
+| 1 | 1,124,479 | +124,479 | no |
+| 2 | 2,248,958 | +1,248,958 | no |
+| 3 | 3,373,437 | +2,373,437 | no |
+| 4 | 4,497,916 | +3,497,916 | no |
+| 5 | 5,622,395 | +4,622,395 | no |
+| 6 | 6,746,874 | +5,746,874 | no |
+| 7 | 7,871,353 | +6,871,353 | no |
+| 8 | 8,995,832 | +7,995,832 | no |
 
 ### target ladder (k lots at the stated capital)
 
 | lots | target that would be (%) | vs the stated target (pp) | achievable |
 |---|---|---|---|
-| 1 | 8.9643 | +0.9643 | no |
-| 2 | 17.9286 | +9.9286 | no |
-| 3 | 26.8930 | +18.8930 | no |
-| 4 | 35.8573 | +27.8573 | no |
-| 5 | 44.8216 | +36.8216 | no |
-| 6 | 53.7859 | +45.7859 | no |
-| 7 | 62.7502 | +54.7502 | no |
-| 8 | 71.7146 | +63.7146 | no |
+| 1 | 8.9958 | +0.9958 | no |
+| 2 | 17.9917 | +9.9917 | no |
+| 3 | 26.9875 | +18.9875 | no |
+| 4 | 35.9833 | +27.9833 | no |
+| 5 | 44.9792 | +36.9792 | no |
+| 6 | 53.9750 | +45.9750 | no |
+| 7 | 62.9708 | +54.9708 | no |
+| 8 | 71.9667 | +63.9667 | no |
 
 ### capital x target -> whole lots (vol <= target)
 
 | capital (CNY) | 4% | 6% | 8% | 9% | 10% | 12% | lots at the book's 8% (fraction) |
 |---|---|---|---|---|---|---|---|
-| 1,000,000 | 0 | 0 | 0 | 1 | 1 | 1 | 0.8924 |
-| 1,250,000 | 0 | 0 | 1 | 1 | 1 | 1 | 1.1155 |
-| 1,500,000 | 0 | 1 | 1 | 1 | 1 | 2 | 1.3386 |
-| 2,000,000 | 0 | 1 | 1 | 2 | 2 | 2 | 1.7849 |
-| 3,000,000 | 1 | 2 | 2 | 3 | 3 | 4 | 2.6773 |
+| 1,000,000 | 0 | 0 | 0 | 1 | 1 | 1 | 0.8893 |
+| 1,250,000 | 0 | 0 | 1 | 1 | 1 | 1 | 1.1116 |
+| 1,500,000 | 0 | 1 | 1 | 1 | 1 | 2 | 1.3340 |
+| 2,000,000 | 0 | 1 | 1 | 2 | 2 | 2 | 1.7786 |
+| 3,000,000 | 1 | 2 | 2 | 3 | 3 | 4 | 2.6679 |
 
 ### the three roads, each with its price
 
-- **A keep 8%, raise the capital**: 1 lot needs 1,120,540 CNY (+120,540); the ticket's 4 lot(s) need 4,482,160 CNY.
-- **B keep 1,000,000 CNY, lower the target**: 1 lot needs 8.9643% (+0.9643pp); the ticket's 4 lot(s) need 35.8573%.
+- **A keep 8%, raise the capital**: 1 lot needs 1,124,479 CNY (+124,479); the ticket's 4 lot(s) need 4,497,916 CNY.
+- **B keep 1,000,000 CNY, lower the target**: 1 lot needs 8.9958% (+0.9958pp); the ticket's 4 lot(s) need 35.9833%.
 - **C keep both**: 0 lot(s) -- the sleeve is not expressible at this rung and simply does not trade.
 
 The three roads are not a preference ordering: A spends capital, B spends risk, C spends the sleeve. Picking one changes the specification (either the capital rung or the vol target), so this face prints their prices and stops there.
@@ -63,52 +63,52 @@ The three roads are not a preference ordering: A spends capital, B spends risk, 
 
 | capital | target | vol of 1 lot (hedged) | budget at target | lots (fraction) |
 |---|---|---|---|---|
-| 1,000,000 CNY | 8% | 91,705.35 CNY | 80,000.00 CNY | 0.8724 |
+| 1,000,000 CNY | 8% | 92,207.68 CNY | 80,000.00 CNY | 0.8676 |
 
 **The same sentence, read three ways at this capital and target: `0` / `1` / `4` lots** (vol <= target / nearest integer / the ticket's own size). Verdict: **THE_RULER_DECIDES_THE_LOTS**.
 
-The ticket's 4 lot(s) carry 366,821.40 CNY of annual vol against a 80,000.00 CNY budget -- **4.5853x the budget**, 36.68% of capital; holding them inside the target would take 4,585,268 CNY of capital.
+The ticket's 4 lot(s) carry 368,830.72 CNY of annual vol against a 80,000.00 CNY budget -- **4.6104x the budget**, 36.88% of capital; holding them inside the target would take 4,610,384 CNY of capital.
 
 ### capital ladder (k lots at the stated target)
 
 | lots | capital needed (CNY) | vs the book's capital | affordable |
 |---|---|---|---|
-| 1 | 1,146,317 | +146,317 | no |
-| 2 | 2,292,634 | +1,292,634 | no |
-| 3 | 3,438,951 | +2,438,951 | no |
-| 4 | 4,585,268 | +3,585,268 | no |
-| 5 | 5,731,584 | +4,731,584 | no |
-| 6 | 6,877,901 | +5,877,901 | no |
-| 7 | 8,024,218 | +7,024,218 | no |
-| 8 | 9,170,535 | +8,170,535 | no |
+| 1 | 1,152,596 | +152,596 | no |
+| 2 | 2,305,192 | +1,305,192 | no |
+| 3 | 3,457,788 | +2,457,788 | no |
+| 4 | 4,610,384 | +3,610,384 | no |
+| 5 | 5,762,980 | +4,762,980 | no |
+| 6 | 6,915,576 | +5,915,576 | no |
+| 7 | 8,068,172 | +7,068,172 | no |
+| 8 | 9,220,768 | +8,220,768 | no |
 
 ### target ladder (k lots at the stated capital)
 
 | lots | target that would be (%) | vs the stated target (pp) | achievable |
 |---|---|---|---|
-| 1 | 9.1705 | +1.1705 | no |
-| 2 | 18.3411 | +10.3411 | no |
-| 3 | 27.5116 | +19.5116 | no |
-| 4 | 36.6821 | +28.6821 | no |
-| 5 | 45.8527 | +37.8527 | no |
-| 6 | 55.0232 | +47.0232 | no |
-| 7 | 64.1937 | +56.1937 | no |
-| 8 | 73.3643 | +65.3643 | no |
+| 1 | 9.2208 | +1.2208 | no |
+| 2 | 18.4415 | +10.4415 | no |
+| 3 | 27.6623 | +19.6623 | no |
+| 4 | 36.8831 | +28.8831 | no |
+| 5 | 46.1038 | +38.1038 | no |
+| 6 | 55.3246 | +47.3246 | no |
+| 7 | 64.5454 | +56.5454 | no |
+| 8 | 73.7661 | +65.7661 | no |
 
 ### capital x target -> whole lots (vol <= target)
 
 | capital (CNY) | 4% | 6% | 8% | 9% | 10% | 12% | lots at the book's 8% (fraction) |
 |---|---|---|---|---|---|---|---|
-| 1,000,000 | 0 | 0 | 0 | 0 | 1 | 1 | 0.8724 |
-| 1,250,000 | 0 | 0 | 1 | 1 | 1 | 1 | 1.0904 |
-| 1,500,000 | 0 | 0 | 1 | 1 | 1 | 1 | 1.3085 |
-| 2,000,000 | 0 | 1 | 1 | 1 | 2 | 2 | 1.7447 |
-| 3,000,000 | 1 | 1 | 2 | 2 | 3 | 3 | 2.6171 |
+| 1,000,000 | 0 | 0 | 0 | 0 | 1 | 1 | 0.8676 |
+| 1,250,000 | 0 | 0 | 1 | 1 | 1 | 1 | 1.0845 |
+| 1,500,000 | 0 | 0 | 1 | 1 | 1 | 1 | 1.3014 |
+| 2,000,000 | 0 | 1 | 1 | 1 | 2 | 2 | 1.7352 |
+| 3,000,000 | 1 | 1 | 2 | 2 | 3 | 3 | 2.6028 |
 
 ### the three roads, each with its price
 
-- **A keep 8%, raise the capital**: 1 lot needs 1,146,317 CNY (+146,317); the ticket's 4 lot(s) need 4,585,268 CNY.
-- **B keep 1,000,000 CNY, lower the target**: 1 lot needs 9.1705% (+1.1705pp); the ticket's 4 lot(s) need 36.6821%.
+- **A keep 8%, raise the capital**: 1 lot needs 1,152,596 CNY (+152,596); the ticket's 4 lot(s) need 4,610,384 CNY.
+- **B keep 1,000,000 CNY, lower the target**: 1 lot needs 9.2208% (+1.2208pp); the ticket's 4 lot(s) need 36.8831%.
 - **C keep both**: 0 lot(s) -- the sleeve is not expressible at this rung and simply does not trade.
 
 The three roads are not a preference ordering: A spends capital, B spends risk, C spends the sleeve. Picking one changes the specification (either the capital rung or the vol target), so this face prints their prices and stops there.

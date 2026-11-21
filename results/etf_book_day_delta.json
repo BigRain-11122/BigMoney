@@ -19,8 +19,8 @@
   "today": {
    "day": "20261120",
    "file": "LIVE-BOOK-20261120.json",
-   "bytes": 973459,
-   "sha256": "69c5f8f847500e3738ab5201642ed0ffd67ad9f0d4406165f0518f34a7cb0e5d"
+   "bytes": 973546,
+   "sha256": "e842c44f1d3533240dc7f1000b9257ffa41f2c96e464d6563cb7417795fab844"
   },
   "prev": {
    "day": "20261119",
@@ -43,10 +43,10 @@
   "leaves_today": 18284,
   "leaves_prev": 17906,
   "shared": 17879,
-  "identical": 15302,
-  "moved": 2577,
+  "identical": 15238,
+  "moved": 2641,
   "clock": 7,
-  "data_advanced": 2570,
+  "data_advanced": 2634,
   "recovered_old_value": 0,
   "declared_ruler": 0,
   "input_identity_changed": 0,
@@ -179,8 +179,8 @@
   {
    "path": "/authority/owner_silent_h",
    "prev": 26.7,
-   "today": 51.5,
-   "delta": 24.8,
+   "today": 58.5,
+   "delta": 31.8,
    "kind": "CLOCK"
   },
   {
@@ -5821,22 +5821,22 @@
   {
    "path": "/fleet/rows/0/age_h",
    "prev": 22.48,
-   "today": 46.49,
-   "delta": 24.01,
+   "today": 54.7,
+   "delta": 32.22,
    "kind": "CLOCK"
   },
   {
    "path": "/fleet/rows/1/age_h",
    "prev": 485.64,
-   "today": 509.65,
-   "delta": 24.00999999999999,
+   "today": 517.87,
+   "delta": 32.23000000000002,
    "kind": "CLOCK"
   },
   {
    "path": "/fleet/rows/2/age_h",
    "prev": 0.2,
-   "today": 0.69,
-   "delta": 0.48999999999999994,
+   "today": 0.36,
+   "delta": 0.15999999999999998,
    "kind": "CLOCK"
   },
   {
@@ -6024,57 +6024,64 @@
   {
    "path": "/futures_hedge/beta",
    "prev": 0.07458485214051068,
-   "today": 0.07458678744098134,
-   "delta": 1.93530047065682e-06,
+   "today": 0.07481175040590471,
+   "delta": 0.00022689826539402935,
    "kind": "DATA_ADVANCED"
   },
   {
    "path": "/futures_hedge/capital_for_one_lot",
    "prev": 10985608.692451447,
-   "today": 10985323.649290286,
-   "delta": -285.0431611612439,
+   "today": 10913793.562776433,
+   "delta": -71815.12967501394,
    "kind": "DATA_ADVANCED"
   },
   {
    "path": "/futures_hedge/corr",
    "prev": 0.14156670386872094,
-   "today": 0.14156210800141103,
-   "delta": -4.595867309914459e-06,
+   "today": 0.14175672837448267,
+   "delta": 0.00019002450576172114,
    "kind": "DATA_ADVANCED"
   },
   {
    "path": "/futures_hedge/maxdd_delta_pp",
    "prev": -0.054882534673372785,
-   "today": -0.05491332315984421,
-   "delta": -3.0788486471422516e-05,
+   "today": -0.05849222682584587,
+   "delta": -0.0036096921524730874,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/futures_hedge/min_unit_notional",
+   "prev": 819360.0,
+   "today": 816480.0,
+   "delta": -2880.0,
    "kind": "DATA_ADVANCED"
   },
   {
    "path": "/futures_hedge/sharpe_delta",
    "prev": -0.020573920795340817,
-   "today": -0.02060447867138404,
-   "delta": -3.0557876043224574e-05,
+   "today": -0.020450613668033246,
+   "delta": 0.00012330712730757032,
    "kind": "DATA_ADVANCED"
   },
   {
    "path": "/futures_hedge/unit_over_target",
    "prev": 10.985608692451448,
-   "today": 10.985323649290287,
-   "delta": -0.0002850431611616244,
+   "today": 10.913793562776434,
+   "delta": -0.07181512967501469,
    "kind": "DATA_ADVANCED"
   },
   {
    "path": "/futures_hedge/variance_removable_pct",
    "prev": 2.004113164425413,
-   "today": 2.003983042180316,
-   "delta": -0.00013012224509711956,
+   "today": 2.009497003943686,
+   "delta": 0.005383839518272815,
    "kind": "DATA_ADVANCED"
   },
   {
    "path": "/futures_hedge/vol_delta_pp",
    "prev": -0.10120159698399356,
-   "today": -0.10116910068369428,
-   "delta": 3.249630029927841e-05,
+   "today": -0.1015861291553663,
+   "delta": -0.0003845321713727423,
    "kind": "DATA_ADVANCED"
   },
   {
@@ -6274,31 +6281,129 @@
    "kind": "DATA_ADVANCED"
   },
   {
+   "path": "/futures_ladder/rows/0/margin_pct_of_capital",
+   "prev": 3.7,
+   "today": 3.5,
+   "delta": -0.20000000000000018,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/futures_ladder/rows/0/net_pct_of_capital",
+   "prev": 2.2,
+   "today": 2.16,
+   "delta": -0.040000000000000036,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/futures_ladder/rows/0/net_pct_of_capital_by_mask/calendar",
+   "prev": 3.07,
+   "today": 2.99,
+   "delta": -0.07999999999999963,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/futures_ladder/rows/0/net_pct_of_capital_by_mask/published",
+   "prev": 2.2,
+   "today": 2.16,
+   "delta": -0.040000000000000036,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/futures_ladder/rows/0/net_pct_of_capital_by_mask/strictest",
+   "prev": 3.07,
+   "today": 2.99,
+   "delta": -0.07999999999999963,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/futures_ladder/rows/0/notional_x_capital_on_tier",
+   "prev": 0.25,
+   "today": 0.24,
+   "delta": -0.010000000000000009,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/futures_ladder/rows/0/one_lot_notional_cny",
+   "prev": 1235800.0,
+   "today": 1180400.0,
+   "delta": -55400.0,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/futures_ladder/rows/0/stress_loss_pct_of_capital",
+   "prev": 10.3,
+   "today": 9.9,
+   "delta": -0.40000000000000036,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/futures_ladder/rows/0/vol_contrib_pct",
+   "prev": 5.5,
+   "today": 5.3,
+   "delta": -0.20000000000000018,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/futures_ladder/rows/1/margin_pct_of_capital",
+   "prev": 5.9,
+   "today": 5.8,
+   "delta": -0.10000000000000053,
+   "kind": "DATA_ADVANCED"
+  },
+  {
    "path": "/futures_ladder/rows/1/net_pct_of_capital",
    "prev": 1.41,
-   "today": 1.39,
-   "delta": -0.020000000000000018,
+   "today": 1.38,
+   "delta": -0.030000000000000027,
    "kind": "DATA_ADVANCED"
   },
   {
    "path": "/futures_ladder/rows/1/net_pct_of_capital_by_mask/calendar",
    "prev": 2.57,
-   "today": 2.55,
-   "delta": -0.020000000000000018,
+   "today": 2.53,
+   "delta": -0.040000000000000036,
    "kind": "DATA_ADVANCED"
   },
   {
    "path": "/futures_ladder/rows/1/net_pct_of_capital_by_mask/published",
    "prev": 1.41,
-   "today": 1.39,
-   "delta": -0.020000000000000018,
+   "today": 1.38,
+   "delta": -0.030000000000000027,
    "kind": "DATA_ADVANCED"
   },
   {
    "path": "/futures_ladder/rows/1/net_pct_of_capital_by_mask/strictest",
    "prev": 2.59,
-   "today": 2.58,
-   "delta": -0.009999999999999787,
+   "today": 2.56,
+   "delta": -0.029999999999999805,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/futures_ladder/rows/1/one_lot_notional_cny",
+   "prev": 1177740.0,
+   "today": 1160700.0,
+   "delta": -17040.0,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/futures_ladder/rows/1/stress_loss_pct_of_capital",
+   "prev": 17.9,
+   "today": 17.6,
+   "delta": -0.29999999999999716,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/futures_ladder/rows/1/vol_contrib_pct",
+   "prev": 6.9,
+   "today": 6.8,
+   "delta": -0.10000000000000053,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/futures_ladder/rows/2/net_pct_of_capital",
+   "prev": 1.64,
+   "today": 1.63,
+   "delta": -0.010000000000000009,
    "kind": "DATA_ADVANCED"
   },
   {
@@ -6309,17 +6414,87 @@
    "kind": "DATA_ADVANCED"
   },
   {
+   "path": "/futures_ladder/rows/2/net_pct_of_capital_by_mask/published",
+   "prev": 1.64,
+   "today": 1.63,
+   "delta": -0.010000000000000009,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/futures_ladder/rows/2/net_pct_of_capital_by_mask/strictest",
+   "prev": 2.23,
+   "today": 2.22,
+   "delta": -0.009999999999999787,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/futures_ladder/rows/2/one_lot_notional_cny",
+   "prev": 819360.0,
+   "today": 816480.0,
+   "delta": -2880.0,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/futures_ladder/rows/3/margin_pct_of_capital",
+   "prev": 3.5,
+   "today": 3.3,
+   "delta": -0.20000000000000018,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/futures_ladder/rows/3/net_pct_of_capital",
+   "prev": 2.6,
+   "today": 2.5,
+   "delta": -0.10000000000000009,
+   "kind": "DATA_ADVANCED"
+  },
+  {
    "path": "/futures_ladder/rows/3/net_pct_of_capital_by_mask/calendar",
    "prev": 3.36,
-   "today": 3.37,
-   "delta": 0.010000000000000231,
+   "today": 3.24,
+   "delta": -0.11999999999999966,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/futures_ladder/rows/3/net_pct_of_capital_by_mask/published",
+   "prev": 2.6,
+   "today": 2.5,
+   "delta": -0.10000000000000009,
    "kind": "DATA_ADVANCED"
   },
   {
    "path": "/futures_ladder/rows/3/net_pct_of_capital_by_mask/strictest",
    "prev": 3.36,
-   "today": 3.37,
-   "delta": 0.010000000000000231,
+   "today": 3.24,
+   "delta": -0.11999999999999966,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/futures_ladder/rows/3/notional_x_capital_on_tier",
+   "prev": 0.24,
+   "today": 0.22,
+   "delta": -0.01999999999999999,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/futures_ladder/rows/3/one_lot_notional_cny",
+   "prev": 1175360.0,
+   "today": 1109120.0,
+   "delta": -66240.0,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/futures_ladder/rows/3/stress_loss_pct_of_capital",
+   "prev": 9.8,
+   "today": 9.2,
+   "delta": -0.6000000000000014,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/futures_ladder/rows/3/vol_contrib_pct",
+   "prev": 5.9,
+   "today": 5.6,
+   "delta": -0.3000000000000007,
    "kind": "DATA_ADVANCED"
   },
   {
@@ -6339,15 +6514,15 @@
   {
    "path": "/futures_sleeve/rows/0/blend_gain_sharpe",
    "prev": 0.324,
-   "today": 0.326,
-   "delta": 0.0020000000000000018,
+   "today": 0.322,
+   "delta": -0.0020000000000000018,
    "kind": "DATA_ADVANCED"
   },
   {
    "path": "/futures_sleeve/rows/0/carry_ann_compound_pct",
    "prev": 8.748,
-   "today": 8.776,
-   "delta": 0.02800000000000047,
+   "today": 8.697,
+   "delta": -0.051000000000000156,
    "kind": "DATA_ADVANCED"
   },
   {
@@ -6374,8 +6549,15 @@
   {
    "path": "/futures_sleeve/rows/0/gap_net_pp",
    "prev": 6.684,
-   "today": 6.631,
-   "delta": -0.052999999999999936,
+   "today": 6.599,
+   "delta": -0.08499999999999996,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/futures_sleeve/rows/0/notional_per_lot_cny",
+   "prev": 1235800.0,
+   "today": 1180400.0,
+   "delta": -55400.0,
    "kind": "DATA_ADVANCED"
   },
   {
@@ -6414,17 +6596,24 @@
    "kind": "DATA_ADVANCED"
   },
   {
+   "path": "/futures_sleeve/rows/1/notional_per_lot_cny",
+   "prev": 1177740.0,
+   "today": 1160700.0,
+   "delta": -17040.0,
+   "kind": "DATA_ADVANCED"
+  },
+  {
    "path": "/futures_sleeve/rows/2/blend_gain_sharpe",
    "prev": 0.085,
-   "today": 0.083,
-   "delta": -0.0020000000000000018,
+   "today": 0.078,
+   "delta": -0.007000000000000006,
    "kind": "DATA_ADVANCED"
   },
   {
    "path": "/futures_sleeve/rows/2/carry_ann_compound_pct",
    "prev": 2.426,
-   "today": 2.383,
-   "delta": -0.04300000000000015,
+   "today": 2.28,
+   "delta": -0.14600000000000035,
    "kind": "DATA_ADVANCED"
   },
   {
@@ -6446,6 +6635,13 @@
    "prev": 3.828,
    "today": 3.826,
    "delta": -0.0019999999999997797,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/futures_sleeve/rows/2/notional_per_lot_cny",
+   "prev": 819360.0,
+   "today": 816480.0,
+   "delta": -2880.0,
    "kind": "DATA_ADVANCED"
   },
   {
@@ -6488,6 +6684,13 @@
    "prev": 7.775,
    "today": 7.66,
    "delta": -0.11500000000000021,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/futures_sleeve/rows/3/notional_per_lot_cny",
+   "prev": 1175360.0,
+   "today": 1109120.0,
+   "delta": -66240.0,
    "kind": "DATA_ADVANCED"
   },
   {
@@ -11533,57 +11736,57 @@
   {
    "path": "/lot_floor/capital_needed/AU",
    "prev": 2714400.0,
-   "today": 2681066.666666667,
-   "delta": -33333.33333333302,
+   "today": 2561866.666666667,
+   "delta": -152533.33333333302,
    "kind": "DATA_ADVANCED"
   },
   {
    "path": "/lot_floor/capital_needed/IC",
    "prev": 4129866.666666667,
-   "today": 4119333.3333333335,
-   "delta": -10533.333333333489,
+   "today": 3934666.666666667,
+   "delta": -195200.0,
    "kind": "DATA_ADVANCED"
   },
   {
    "path": "/lot_floor/capital_needed/IF",
    "prev": 3928400.0,
-   "today": 3925800.0,
-   "delta": -2600.0,
+   "today": 3869000.0,
+   "delta": -59400.0,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/lot_floor/capital_needed/IH",
+   "prev": 2731200.0,
+   "today": 2721600.0,
+   "delta": -9600.0,
    "kind": "DATA_ADVANCED"
   },
   {
    "path": "/lot_floor/capital_needed/IM",
    "prev": 3991600.0,
-   "today": 3917866.666666667,
-   "delta": -73733.33333333302,
+   "today": 3697066.666666667,
+   "delta": -294533.333333333,
    "kind": "DATA_ADVANCED"
   },
   {
    "path": "/lot_floor/capital_needed/SC",
    "prev": 1920333.3333333335,
-   "today": 1953000.0,
-   "delta": 32666.66666666651,
+   "today": 1970000.0,
+   "delta": 49666.66666666651,
    "kind": "DATA_ADVANCED"
   },
   {
    "path": "/lot_floor/capital_needed/T",
    "prev": 3667833.3333333335,
-   "today": 3671500.0,
-   "delta": 3666.6666666665114,
-   "kind": "DATA_ADVANCED"
-  },
-  {
-   "path": "/lot_floor/capital_needed/TF",
-   "prev": 3559333.3333333335,
-   "today": 3560666.666666667,
+   "today": 3669166.666666667,
    "delta": 1333.3333333334886,
    "kind": "DATA_ADVANCED"
   },
   {
    "path": "/lot_floor/capital_needed/TS",
    "prev": 6843866.666666667,
-   "today": 6844133.333333334,
-   "delta": 266.6666666669771,
+   "today": 6842666.666666667,
+   "delta": -1200.0,
    "kind": "DATA_ADVANCED"
   },
   {
@@ -11624,57 +11827,57 @@
   {
    "path": "/lot_floor/shares_at_1m/AU",
    "prev": 0.81432,
-   "today": 0.80432,
-   "delta": -0.010000000000000009,
+   "today": 0.76856,
+   "delta": -0.04576000000000002,
    "kind": "DATA_ADVANCED"
   },
   {
    "path": "/lot_floor/shares_at_1m/IC",
    "prev": 1.23896,
-   "today": 1.2358,
-   "delta": -0.0031600000000000517,
+   "today": 1.1804,
+   "delta": -0.05856000000000017,
    "kind": "DATA_ADVANCED"
   },
   {
    "path": "/lot_floor/shares_at_1m/IF",
    "prev": 1.17852,
-   "today": 1.17774,
-   "delta": -0.0007800000000000029,
+   "today": 1.1607,
+   "delta": -0.017819999999999947,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/lot_floor/shares_at_1m/IH",
+   "prev": 0.81936,
+   "today": 0.81648,
+   "delta": -0.0028799999999999937,
    "kind": "DATA_ADVANCED"
   },
   {
    "path": "/lot_floor/shares_at_1m/IM",
    "prev": 1.19748,
-   "today": 1.17536,
-   "delta": -0.02212000000000014,
+   "today": 1.10912,
+   "delta": -0.08836,
    "kind": "DATA_ADVANCED"
   },
   {
    "path": "/lot_floor/shares_at_1m/SC",
    "prev": 0.5761,
-   "today": 0.5859,
-   "delta": 0.009800000000000031,
+   "today": 0.591,
+   "delta": 0.014900000000000024,
    "kind": "DATA_ADVANCED"
   },
   {
    "path": "/lot_floor/shares_at_1m/T",
    "prev": 1.10035,
-   "today": 1.10145,
-   "delta": 0.001100000000000101,
-   "kind": "DATA_ADVANCED"
-  },
-  {
-   "path": "/lot_floor/shares_at_1m/TF",
-   "prev": 1.0678,
-   "today": 1.0682,
+   "today": 1.10075,
    "delta": 0.00039999999999995595,
    "kind": "DATA_ADVANCED"
   },
   {
    "path": "/lot_floor/shares_at_1m/TS",
    "prev": 2.05316,
-   "today": 2.05324,
-   "delta": 8.000000000008001e-05,
+   "today": 2.0528,
+   "delta": -0.000360000000000138,
    "kind": "DATA_ADVANCED"
   },
   {
@@ -17989,6 +18192,251 @@
    "prev": 1.6261,
    "today": 1.7305,
    "delta": 0.10439999999999983,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/width_return/gap_pp",
+   "prev": 2.4446,
+   "today": 2.3851,
+   "delta": -0.059499999999999886,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/width_return/rows/0/cagr",
+   "prev": 0.155,
+   "today": 0.1518,
+   "delta": -0.0032000000000000084,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/width_return/rows/0/cagr_oos",
+   "prev": 0.2329,
+   "today": 0.2246,
+   "delta": -0.008300000000000002,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/width_return/rows/0/calmar",
+   "prev": 0.97,
+   "today": 0.95,
+   "delta": -0.020000000000000018,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/width_return/rows/0/sharpe",
+   "prev": 0.999,
+   "today": 0.981,
+   "delta": -0.018000000000000016,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/width_return/rows/0/sharpe_oos",
+   "prev": 1.471,
+   "today": 1.425,
+   "delta": -0.04600000000000004,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/width_return/rows/0/universe",
+   "prev": 1522,
+   "today": 1528,
+   "delta": 6,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/width_return/rows/0/years",
+   "prev": 6.87,
+   "today": 6.88,
+   "delta": 0.009999999999999787,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/width_return/rows/1/cagr",
+   "prev": 0.17,
+   "today": 0.1664,
+   "delta": -0.00360000000000002,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/width_return/rows/1/cagr_oos",
+   "prev": 0.2492,
+   "today": 0.24,
+   "delta": -0.009200000000000014,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/width_return/rows/1/calmar",
+   "prev": 1.04,
+   "today": 1.02,
+   "delta": -0.020000000000000018,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/width_return/rows/1/sharpe",
+   "prev": 1.082,
+   "today": 1.062,
+   "delta": -0.020000000000000018,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/width_return/rows/1/sharpe_oos",
+   "prev": 1.545,
+   "today": 1.494,
+   "delta": -0.050999999999999934,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/width_return/rows/1/universe",
+   "prev": 1522,
+   "today": 1528,
+   "delta": 6,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/width_return/rows/1/years",
+   "prev": 6.87,
+   "today": 6.88,
+   "delta": 0.009999999999999787,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/width_return/rows/2/cagr",
+   "prev": 0.1461,
+   "today": 0.1429,
+   "delta": -0.0032000000000000084,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/width_return/rows/2/cagr_oos",
+   "prev": 0.2419,
+   "today": 0.2332,
+   "delta": -0.008700000000000013,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/width_return/rows/2/calmar",
+   "prev": 0.86,
+   "today": 0.84,
+   "delta": -0.020000000000000018,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/width_return/rows/2/sharpe",
+   "prev": 0.968,
+   "today": 0.949,
+   "delta": -0.019000000000000017,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/width_return/rows/2/sharpe_oos",
+   "prev": 1.534,
+   "today": 1.484,
+   "delta": -0.050000000000000044,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/width_return/rows/2/universe",
+   "prev": 1522,
+   "today": 1528,
+   "delta": 6,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/width_return/rows/2/years",
+   "prev": 6.87,
+   "today": 6.88,
+   "delta": 0.009999999999999787,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/width_return/rows/3/cagr",
+   "prev": 0.1495,
+   "today": 0.1466,
+   "delta": -0.002899999999999986,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/width_return/rows/3/cagr_oos",
+   "prev": 0.241,
+   "today": 0.2332,
+   "delta": -0.007800000000000001,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/width_return/rows/3/calmar",
+   "prev": 0.89,
+   "today": 0.87,
+   "delta": -0.020000000000000018,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/width_return/rows/3/sharpe",
+   "prev": 0.992,
+   "today": 0.975,
+   "delta": -0.017000000000000015,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/width_return/rows/3/sharpe_oos",
+   "prev": 1.524,
+   "today": 1.481,
+   "delta": -0.04299999999999993,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/width_return/rows/3/universe",
+   "prev": 1522,
+   "today": 1528,
+   "delta": 6,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/width_return/rows/3/years",
+   "prev": 6.87,
+   "today": 6.88,
+   "delta": 0.009999999999999787,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/width_return/shrink/cagr_cost_pp",
+   "prev": 0.9446,
+   "today": 0.9251,
+   "delta": -0.019499999999999962,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/width_return/widen/cagr_cost_pp",
+   "prev": -1.5,
+   "today": -1.46,
+   "delta": 0.040000000000000036,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/width_return/widen/cagr_from",
+   "prev": 0.155,
+   "today": 0.1518,
+   "delta": -0.0032000000000000084,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/width_return/widen/cagr_to",
+   "prev": 0.17,
+   "today": 0.1664,
+   "delta": -0.00360000000000002,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/width_return/widen/sharpe_from",
+   "prev": 0.999,
+   "today": 0.981,
+   "delta": -0.018000000000000016,
+   "kind": "DATA_ADVANCED"
+  },
+  {
+   "path": "/width_return/widen/sharpe_to",
+   "prev": 1.082,
+   "today": 1.062,
+   "delta": -0.020000000000000018,
    "kind": "DATA_ADVANCED"
   },
   {

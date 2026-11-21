@@ -48,8 +48,8 @@ committed, and the answer depends on which fall you prepare for.
 | product | carry on notional | capital/lot for sample DD | return on it | capital/lot for index worst | return on it |
 |---|---|---|---|---|---|
 | IC | 8.70% | 155670 | 65.95% | 880857 | 11.65% |
-| IF | 3.56% | 162789 | 25.38% | 864950 | 4.78% |
-| IM | 10.21% | 140229 | 80.78% | 826972 | 13.70% |
+| IF | 3.47% | 162789 | 24.73% | 864950 | 4.66% |
+| IM | 10.01% | 140229 | 79.17% | 826972 | 13.43% |
 | IH | 2.28% | 121092 | 15.37% | 609204 | 3.06% |
 
 The sample column prepares for the hole this window produced (5.64% for IC); the index column prepares for the index's own worst (72.42%).
@@ -60,15 +60,15 @@ Read against the adopted book on the same source face (n=1666 bars, 10.33% vol, 
 
 - the book compounds **11.25%/yr** and its worst drawdown is **-10.56%**;
 - **IC** pays **11.65%/yr** on the capital that funds its index worst (880857), and that capital is the size of a 72.42% fall.
-- **IF** pays **4.78%/yr** on the capital that funds its index worst (864950), and that capital is the size of a 72.30% fall.
-- **IM** pays **13.70%/yr** on the capital that funds its index worst (826972), and that capital is the size of a 72.35% fall.
+- **IF** pays **4.66%/yr** on the capital that funds its index worst (864950), and that capital is the size of a 72.30% fall.
+- **IM** pays **13.43%/yr** on the capital that funds its index worst (826972), and that capital is the size of a 72.35% fall.
 - **IH** pays **3.06%/yr** on the capital that funds its index worst (609204), and that capital is the size of a 72.41% fall.
 
 A sleeve that pays the book's rate while requiring its holder to fund a
 72.42% fall is not the same instrument at the same price; that comparison is the one this sheet refuses to make for the reader.
 
 So the money question has one answer on this face: the best sleeve is
-**IM** at 13.70%/yr against the book's 11.25%/yr (+2.45pp), and the 2.45pp is paid for by holding capital sized for a 72.35% fall rather than the book's 10.56% worst. A reader who wants the book's risk shape should not substitute this; a reader who will fund a 72.42% hole for +2.45pp is being quoted the whole price here, not a partial one.
+**IM** at 13.43%/yr against the book's 11.25%/yr (+2.18pp), and the 2.18pp is paid for by holding capital sized for a 72.35% fall rather than the book's 10.56% worst. A reader who wants the book's risk shape should not substitute this; a reader who will fund a 72.42% hole for +2.18pp is being quoted the whole price here, not a partial one.
 
 ## how far the index must fall before someone calls
 
@@ -115,16 +115,16 @@ here, and the repo rate on that cash is another host's panel.
 | IC | 3000000 | 2 | 205319 | 78.7% | 21 | 2155847 |
 | IC | 10000000 | 8 | 821275 | 94.4% | 70 | 7186157 |
 | IC | 50000000 | 42 | 4311694 | 99.2% | 352 | 36136105 |
-| IF | 300000 | 0 | 0 | 0.0% | 2 | 82619 |
-| IF | 1000000 | 0 | 0 | 0.0% | 7 | 289165 |
-| IF | 3000000 | 2 | 82619 | 77.4% | 21 | 867496 |
-| IF | 10000000 | 8 | 330475 | 92.9% | 71 | 2932961 |
-| IF | 50000000 | 43 | 1776300 | 99.8% | 358 | 14788734 |
-| IM | 300000 | 0 | 0 | 0.0% | 2 | 226549 |
-| IM | 1000000 | 0 | 0 | 0.0% | 7 | 792921 |
-| IM | 3000000 | 2 | 226549 | 73.9% | 22 | 2492037 |
-| IM | 10000000 | 9 | 1019470 | 99.8% | 75 | 8495582 |
-| IM | 50000000 | 45 | 5097349 | 99.8% | 375 | 42477910 |
+| IF | 300000 | 0 | 0 | 0.0% | 2 | 80529 |
+| IF | 1000000 | 0 | 0 | 0.0% | 7 | 281853 |
+| IF | 3000000 | 2 | 80529 | 77.4% | 21 | 845558 |
+| IF | 10000000 | 8 | 322117 | 92.9% | 71 | 2858792 |
+| IF | 50000000 | 43 | 1731381 | 99.8% | 358 | 14414757 |
+| IM | 300000 | 0 | 0 | 0.0% | 2 | 222046 |
+| IM | 1000000 | 0 | 0 | 0.0% | 7 | 777160 |
+| IM | 3000000 | 2 | 222046 | 73.9% | 22 | 2442504 |
+| IM | 10000000 | 9 | 999206 | 99.8% | 75 | 8326718 |
+| IM | 50000000 | 45 | 4996031 | 99.8% | 375 | 41633592 |
 | IH | 300000 | 0 | 0 | 0.0% | 3 | 55847 |
 | IH | 1000000 | 1 | 18616 | 81.6% | 10 | 186157 |
 | IH | 3000000 | 3 | 55847 | 81.6% | 30 | 558472 |
@@ -140,8 +140,8 @@ holder would be looking at -- the row that has a call distance attached.
 | product | last roll | td since | median interval | next roll ~td | gap after roll cost (floor / median) |
 |---|---|---|---|---|---|
 | IC | 2026-09-14 (IC2609→IC2612) | 43 | 20.5 td (n=62) | -22 | +8.90 / +6.60 pp |
-| IF | 2026-09-11 (IF2609→IF2612) | 44 | 19.0 td (n=73) | -25 | +2.31 / +0.62 pp |
-| IM | 2026-09-14 (IM2609→IM2612) | 43 | 59.0 td (n=22) | +16 | +9.09 / +7.66 pp |
+| IF | 2026-09-11 (IF2609→IF2612) | 44 | 19.0 td (n=73) | -25 | +2.28 / +0.59 pp |
+| IM | 2026-09-14 (IM2609→IM2612) | 43 | 59.0 td (n=22) | +16 | +8.99 / +7.56 pp |
 | IH | 2026-09-14 (IH2609→IH2612) | 43 | 17.0 td (n=88) | -26 | ? / ? pp |
 
 The next-roll column is an estimate off this book's own switch history, not a
@@ -172,5 +172,5 @@ The call distance is arithmetic on those assumptions, not a record: this host ha
 What the source face says, copied verbatim so it cannot drift here:
 
 - **IC** — carry 11.95% at target risk, corr -0.037, blend Sharpe +0.322
-- **IM** — carry 12.06% at target risk, corr -0.064, blend Sharpe +0.389
+- **IM** — carry 11.80% at target risk, corr -0.06, blend Sharpe +0.379
 

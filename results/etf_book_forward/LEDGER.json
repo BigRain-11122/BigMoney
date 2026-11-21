@@ -559,14 +559,14 @@
   },
   {
    "bar": "2026-11-19",
-   "nav": 0.9980395985,
-   "dd": -0.017717,
+   "nav": 0.9980460659,
+   "dd": -0.017711,
    "cash": 0.090616,
-   "carry": 3.4591e-06,
+   "carry": -1.0717e-06,
    "n_held": 12,
    "filled": false,
    "turn": 0.0,
-   "provisional": true,
+   "provisional": false,
    "panel_fp": "7556804f066f1a9a",
    "panel_fp_names": [
     "159207",
@@ -582,12 +582,18 @@
     "513690",
     "562060"
    ],
-   "panel_fp_backfilled": "2026-11-19T23:45:15+0800"
+   "panel_fp_backfilled": "2026-11-19T23:45:15+0800",
+   "nav_published": 0.9980395985,
+   "dd_published": -0.017717,
+   "cash_published": 0.090616,
+   "nav_factor_applied": 1.000006480104,
+   "later_rows_rescaled": 1,
+   "restated_at": "2026-11-21T07:31:31+0800"
   },
   {
    "bar": "2026-11-20",
-   "nav": 0.9800317259,
-   "dd": -0.035441,
+   "nav": 0.9800380766,
+   "dd": -0.035434,
    "cash": 0.090616,
    "carry": 3.4136e-06,
    "n_held": 12,
@@ -657,10 +663,9 @@
  "drift": {
   "faces": [],
   "max_abs": 0.0,
-  "checked_bars": 20,
+  "checked_bars": 21,
   "gate": "settled_bars_only",
   "settled_bars": [
-   "2026-11-05",
    "2026-11-06",
    "2026-11-09",
    "2026-11-10",
@@ -669,17 +674,20 @@
    "2026-11-13",
    "2026-11-16",
    "2026-11-17",
-   "2026-11-18"
+   "2026-11-18",
+   "2026-11-19"
   ],
   "provisional_bars": [
-   "2026-11-19"
+   "2026-11-20"
   ],
   "carry_last_bar": "2026-11-19",
   "settled_faces": [],
   "provisional_faces": [],
   "benchmark_settled_faces": [],
   "benchmark_provisional_faces": [],
-  "restated_bars": [],
+  "restated_bars": [
+   "2026-11-19"
+  ],
   "withdrawn_bars": [],
   "panel_moved_bars": [],
   "panel_moved": {},
@@ -703,7 +711,8 @@
    "2026-11-16": "FP_BASELINE_ONLY",
    "2026-11-17": "FP_BASELINE_ONLY",
    "2026-11-18": "FP_BASELINE_ONLY",
-   "2026-11-19": "FP_BASELINE_ONLY"
+   "2026-11-19": "FP_BASELINE_ONLY",
+   "2026-11-20": "PANEL_SAME"
   },
   "panel_fp_legacy_bars": [],
   "panel_fp_backfilled_bars": [
@@ -752,11 +761,6 @@
   }
  ],
  "runs": [
-  {
-   "ts": "2026-11-01T07:27:09+0800",
-   "new_bars": 0,
-   "last_bar": "2026-10-30"
-  },
   {
    "ts": "2026-11-02T07:40:18+0800",
    "new_bars": 0,
@@ -951,6 +955,11 @@
    "ts": "2026-11-20T16:14:54+0800",
    "new_bars": 1,
    "last_bar": "2026-11-20"
+  },
+  {
+   "ts": "2026-11-21T07:31:35+0800",
+   "new_bars": 0,
+   "last_bar": "2026-11-20"
   }
  ],
  "panel": {
@@ -1142,15 +1151,15 @@
     "bar": "2026-11-19",
     "nav": 0.9683029843,
     "filled": false,
-    "book_nav": 0.9980395985,
-    "excess": 0.0307100305
+    "book_nav": 0.9980460659,
+    "excess": 0.0307167096
    },
    {
     "bar": "2026-11-20",
     "nav": 0.9440629206,
     "filled": false,
-    "book_nav": 0.9800317259,
-    "excess": 0.0381000085
+    "book_nav": 0.9800380766,
+    "excess": 0.0381067355
    }
   ],
   "rebalance_friction": {
@@ -1162,9 +1171,9 @@
   "decisions": 84,
   "latest": {
    "bar": "2026-11-20",
-   "book_nav": 0.9800317259,
+   "book_nav": 0.9800380766,
    "basket_nav": 0.9440629206,
-   "excess_pp": 3.81
+   "excess_pp": 3.8107
   },
   "significance": {
    "available": true,
@@ -1208,7 +1217,7 @@
     },
     "years_for_80pct_power": {
      "pre-2020 measured alpha (single arm)": 136.0,
-     "in-window measured alpha (single arm)": 15.8
+     "in-window measured alpha (single arm)": 16.1
     },
     "candidate_sources": {
      "pre-2020 measured alpha (single arm)": {
@@ -1219,7 +1228,7 @@
      "in-window measured alpha (single arm)": {
       "file": "results/etf_book_spanning.json",
       "field": "arms.book.full.alpha_annual",
-      "edge_pp_per_year": 5.96
+      "edge_pp_per_year": 5.9
      }
     },
     "available": true,
@@ -1405,10 +1414,33 @@
      "gate": 1.1010000000000002e-09
     }
    ]
+  },
+  {
+   "ts": "2026-11-21T07:31:31+0800",
+   "bar": "2026-11-19",
+   "reason": "published while the panel for that date was still gaining symbols",
+   "panel_last_date": "2026-11-20",
+   "nav_published": 0.9980395985,
+   "nav_settled": 0.9980460659,
+   "dd_published": -0.017717,
+   "cash_published": 0.090616,
+   "delta": 6.4674e-06,
+   "nav_factor_applied": 1.000006480104,
+   "later_rows_rescaled": 1,
+   "chain_checked_bars": 1,
+   "chain_intact": false,
+   "chain_breaks": [
+    {
+     "bar": "2026-11-20",
+     "expected_from_panel": 0.9800317259,
+     "ledger_after_rescale": 0.9800380766,
+     "gate": 1.1010000000000002e-09
+    }
+   ]
   }
  ],
  "ledger_history": {
-  "bars": 20,
+  "bars": 21,
   "restated_bars": [
    {
     "bar": "2026-10-29",
@@ -1493,10 +1525,22 @@
     "rescaled_known": true,
     "restated_at": "2026-11-19T23:45:13+0800",
     "chain_intact": false
+   },
+   {
+    "bar": "2026-11-19",
+    "on_row": true,
+    "nav_published": 0.9980395985,
+    "nav_settled": 0.9980460659,
+    "delta": 6.4674e-06,
+    "nav_factor_applied": 1.000006480104,
+    "later_rows_rescaled": 1,
+    "rescaled_known": true,
+    "restated_at": "2026-11-21T07:31:31+0800",
+    "chain_intact": false
    }
   ],
-  "n_restated": 7,
-  "n_restated_on_row": 5,
+  "n_restated": 8,
+  "n_restated_on_row": 6,
   "withdrawn": [
    {
     "bar": "2026-11-02",
@@ -1504,7 +1548,7 @@
    }
   ],
   "n_withdrawn": 1,
-  "verdict": "7 published bar(s) were restated after publication (2 recorded before rows carried the published value)"
+  "verdict": "8 published bar(s) were restated after publication (2 recorded before rows carried the published value)"
  },
  "pending_fill": null,
  "fill_log": [

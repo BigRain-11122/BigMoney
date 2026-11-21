@@ -1,7 +1,7 @@
 {
  "schema": "lane-ownership/v1",
- "generated": "2026-11-21T02:35:10",
- "source_freshness_as_of": "2026-11-21T02:35:07",
+ "generated": "2026-11-21T08:24:29",
+ "source_freshness_as_of": "2026-11-21T08:24:24",
  "lanes": [
   {
    "lane": "options",
@@ -15,7 +15,7 @@
    "copy_face": null,
    "observation": "retired",
    "host_alive": true,
-   "host_age_h": 0.36,
+   "host_age_h": 0.21,
    "declared_takeover_by": null,
    "verdict": "DECLARED_ONLY"
   },
@@ -31,25 +31,9 @@
    "copy_face": null,
    "observation": "in_sync",
    "host_alive": true,
-   "host_age_h": 0.36,
+   "host_age_h": 0.21,
    "declared_takeover_by": null,
    "verdict": "DECLARED_AND_OBSERVED"
-  },
-  {
-   "lane": "futures",
-   "declared_host": "bm-a",
-   "authority": "data_lane_freshness.LANES",
-   "code_default": "bm-a",
-   "config_value": null,
-   "source_divergence": false,
-   "observed_writer": "bm-c",
-   "observed_how": "declared_takeover",
-   "copy_face": null,
-   "observation": "behind_1d",
-   "host_alive": false,
-   "host_age_h": 54.7,
-   "declared_takeover_by": "bm-c",
-   "verdict": "DECLARED_TAKEOVER"
   },
   {
    "lane": "heat",
@@ -63,7 +47,7 @@
    "copy_face": null,
    "observation": "behind_1d",
    "host_alive": false,
-   "host_age_h": 54.7,
+   "host_age_h": 60.52,
    "declared_takeover_by": "bm-c",
    "verdict": "DECLARED_TAKEOVER"
   },
@@ -79,7 +63,7 @@
    "copy_face": null,
    "observation": "behind_1d",
    "host_alive": false,
-   "host_age_h": 54.7,
+   "host_age_h": 60.52,
    "declared_takeover_by": "bm-c",
    "verdict": "DECLARED_TAKEOVER"
   },
@@ -95,7 +79,7 @@
    "copy_face": null,
    "observation": "behind_1d",
    "host_alive": true,
-   "host_age_h": 0.36,
+   "host_age_h": 0.21,
    "declared_takeover_by": null,
    "verdict": "DECLARED_AND_OBSERVED"
   },
@@ -111,7 +95,7 @@
    "copy_face": null,
    "observation": "behind_1d",
    "host_alive": false,
-   "host_age_h": 54.7,
+   "host_age_h": 60.52,
    "declared_takeover_by": "bm-c",
    "verdict": "DECLARED_TAKEOVER"
   },
@@ -127,7 +111,7 @@
    "copy_face": null,
    "observation": "in_sync",
    "host_alive": true,
-   "host_age_h": 0.36,
+   "host_age_h": 0.21,
    "declared_takeover_by": null,
    "verdict": "DECLARED_ONLY"
   },
@@ -143,7 +127,7 @@
    "copy_face": null,
    "observation": "in_sync",
    "host_alive": false,
-   "host_age_h": 517.87,
+   "host_age_h": 523.69,
    "declared_takeover_by": "bm-c",
    "verdict": "DECLARED_TAKEOVER"
   },
@@ -159,9 +143,25 @@
    "copy_face": null,
    "observation": "in_sync",
    "host_alive": true,
-   "host_age_h": 0.36,
+   "host_age_h": 0.21,
    "declared_takeover_by": null,
    "verdict": "DECLARED_AND_OBSERVED"
+  },
+  {
+   "lane": "futures",
+   "declared_host": "bm-a",
+   "authority": "data_lane_freshness.LANES",
+   "code_default": "bm-a",
+   "config_value": null,
+   "source_divergence": false,
+   "observed_writer": "bm-c",
+   "observed_how": "declared_takeover",
+   "copy_face": null,
+   "observation": "in_sync",
+   "host_alive": false,
+   "host_age_h": 60.52,
+   "declared_takeover_by": "bm-c",
+   "verdict": "DECLARED_TAKEOVER"
   },
   {
    "lane": "marks",
@@ -175,7 +175,7 @@
    "copy_face": null,
    "observation": "in_sync",
    "host_alive": false,
-   "host_age_h": 517.87,
+   "host_age_h": 523.69,
    "declared_takeover_by": "bm-c",
    "verdict": "DECLARED_TAKEOVER"
   },
@@ -191,7 +191,7 @@
    "copy_face": "bm-c",
    "observation": "in_sync",
    "host_alive": true,
-   "host_age_h": 0.36,
+   "host_age_h": 0.21,
    "declared_takeover_by": null,
    "verdict": "DECLARED_ONLY"
   },
@@ -207,7 +207,7 @@
    "copy_face": null,
    "observation": "in_sync",
    "host_alive": true,
-   "host_age_h": 0.36,
+   "host_age_h": 0.21,
    "declared_takeover_by": null,
    "verdict": "DECLARED_AND_OBSERVED"
   },
@@ -223,7 +223,7 @@
    "copy_face": null,
    "observation": "in_sync",
    "host_alive": true,
-   "host_age_h": 0.36,
+   "host_age_h": 0.21,
    "declared_takeover_by": null,
    "verdict": "DECLARED_AND_OBSERVED"
   },
@@ -239,7 +239,7 @@
    "copy_face": null,
    "observation": "in_sync",
    "host_alive": true,
-   "host_age_h": 0.36,
+   "host_age_h": 0.21,
    "declared_takeover_by": null,
    "verdict": "DECLARED_ONLY"
   }
@@ -261,11 +261,11 @@
    "zt_pool"
   ],
   "declared_takeover_lanes": {
-   "futures": "bm-c",
    "heat": "bm-c",
    "lhb": "bm-c",
    "repo": "bm-c",
    "astock_daily": "bm-c",
+   "futures": "bm-c",
    "marks": "bm-c"
   },
   "stale_envelopes": {},

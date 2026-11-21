@@ -1,6 +1,6 @@
 {
  "schema": "etf-book-forward-settle-audit/v1",
- "generated": "2026-11-20T16:15:19+0800",
+ "generated": "2026-11-21T07:32:55+0800",
  "evidence_cutoff": "2026-11-20",
  "ledger": {
   "path": "results\\etf_book_forward\\LEDGER.json",
@@ -31,10 +31,9 @@
   "drift": {
    "faces": [],
    "max_abs": 0.0,
-   "checked_bars": 20,
+   "checked_bars": 21,
    "gate": "settled_bars_only",
    "settled_bars": [
-    "2026-11-05",
     "2026-11-06",
     "2026-11-09",
     "2026-11-10",
@@ -43,17 +42,20 @@
     "2026-11-13",
     "2026-11-16",
     "2026-11-17",
-    "2026-11-18"
+    "2026-11-18",
+    "2026-11-19"
    ],
    "provisional_bars": [
-    "2026-11-19"
+    "2026-11-20"
    ],
    "carry_last_bar": "2026-11-19",
    "settled_faces": [],
    "provisional_faces": [],
    "benchmark_settled_faces": [],
    "benchmark_provisional_faces": [],
-   "restated_bars": [],
+   "restated_bars": [
+    "2026-11-19"
+   ],
    "withdrawn_bars": [],
    "panel_moved_bars": [],
    "panel_moved": {},
@@ -77,7 +79,8 @@
     "2026-11-16": "FP_BASELINE_ONLY",
     "2026-11-17": "FP_BASELINE_ONLY",
     "2026-11-18": "FP_BASELINE_ONLY",
-    "2026-11-19": "FP_BASELINE_ONLY"
+    "2026-11-19": "FP_BASELINE_ONLY",
+    "2026-11-20": "PANEL_SAME"
    },
    "panel_fp_legacy_bars": [],
    "panel_fp_backfilled_bars": [
@@ -170,14 +173,14 @@
    "drift_faces_are_provisional": true,
    "no_settled_bar_drifted": true,
    "worst_within_tol": true,
-   "checked_bars": 20,
+   "checked_bars": 21,
    "published_bars": 21
   },
   "newest_bar": "2026-11-20",
   "panel_last_date": "2026-11-20"
  },
  "restatement": {
-  "n_restated": 7,
+  "n_restated": 8,
   "restated_bars": [
    {
     "bar": "2026-10-29",
@@ -296,15 +299,32 @@
     "tail_rows_total": 2,
     "tail_rows_settled": 1,
     "restated_value_fails_gate_now": false
+   },
+   {
+    "bar": "2026-11-19",
+    "now_settled": true,
+    "now_provisional": false,
+    "on_row": true,
+    "nav_published": 0.9980395985,
+    "nav_settled": 0.9980460659,
+    "nav_factor_applied": 1.000006480104,
+    "later_rows_rescaled": 1,
+    "rescaled_known": true,
+    "chain_verdict": "broken",
+    "restated_at": "2026-11-21T07:31:31+0800",
+    "tail_rows_total": 1,
+    "tail_rows_settled": 0,
+    "restated_value_fails_gate_now": false
    }
   ],
-  "n_restated_now_settled": 7,
+  "n_restated_now_settled": 8,
   "chain_measured_on": [
    "2026-11-12",
    "2026-11-13",
    "2026-11-16",
    "2026-11-17",
-   "2026-11-18"
+   "2026-11-18",
+   "2026-11-19"
   ],
   "chain_unmeasured_on": [
    "2026-10-29",
@@ -316,11 +336,12 @@
    "2026-11-13",
    "2026-11-16",
    "2026-11-17",
-   "2026-11-18"
+   "2026-11-18",
+   "2026-11-19"
   ],
   "fail_gate_now": [],
   "settled_bars_policed_now": 20,
-  "ledger_checked_bars_field": 20,
+  "ledger_checked_bars_field": 21,
   "ledger_checked_bars_note": "the ledger's checked_bars counts published bars, not re-derived ones; settled_bars_policed_now is the set this audit makes a claim about",
   "checks": {
    "restated_settled_bars_reproduce": true,
@@ -331,7 +352,7 @@
   "verdict": "restatement_left_a_broken_chain"
  },
  "data_lag_audit": {
-  "as_of": "2026-11-20T16:01:29",
+  "as_of": "2026-11-21T07:12:53",
   "coverage_by_day": {
    "2026-11-09": 1.0,
    "2026-11-10": 1.0,
@@ -342,12 +363,12 @@
    "2026-11-17": 1.0,
    "2026-11-18": 1.0,
    "2026-11-19": 0.9994,
-   "2026-11-20": 0.9948
+   "2026-11-20": 0.9994
   },
   "detail": "the maintained panel covers every official trading day it should by now; 3 file(s) sit outside the active cohort: 510880_t73 (declared_out_of_scope; last bar 2026-09-22), sh512390 (source_ended; last bar 2026-09-04), sh530080 (source_ended; last bar 2026-11-12) -- every one of them is declared by th",
-  "ledger_last_bar": "2026-11-19"
+  "ledger_last_bar": "2026-11-20"
  },
- "headline": "ledger re-derives clean | 7 published bar(s) restated after publication, 7 of them inside today's settled partition; chain verified on 2026-11-12, 2026-11-13, 2026-11-16, 2026-11-17, 2026-11-18; the record does not say how many later rows moved behind 2026-10-29, 2026-11-03; CHAIN BROKEN on 2026-11-12, 2026-11-13, 2026-11-16, 2026-11-17, 2026-11-18; every restated settled bar re-derives off the panel now",
+ "headline": "ledger re-derives clean | 8 published bar(s) restated after publication, 8 of them inside today's settled partition; chain verified on 2026-11-12, 2026-11-13, 2026-11-16, 2026-11-17, 2026-11-18, 2026-11-19; the record does not say how many later rows moved behind 2026-10-29, 2026-11-03; CHAIN BROKEN on 2026-11-12, 2026-11-13, 2026-11-16, 2026-11-17, 2026-11-18, 2026-11-19; every restated settled bar re-derives off the panel now",
  "recommended_rule": "A drift gate may only police SETTLED bars. The newest published bar is provisional until its panel date stops gaining symbols (coverage stable across consecutive runs); while it is provisional, a re-derivation mismatch is expected and must be reported, not frozen on -- and never bought with a history rewrite.",
  "caveats": [
   "Point-in-time coverage at pricing time is not recorded anywhere, so 'the panel was still filling' is inferred from the panel's current shape (post-close arrivals) plus the timestamp of the run that priced the bar, not observed directly.",

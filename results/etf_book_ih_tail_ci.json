@@ -1,15 +1,15 @@
 {
   "book": {
-    "bars": 1591,
+    "bars": 1592,
     "first": "2020-01-06",
-    "last": "2026-11-19",
-    "series": "results\\etf_book_series\\NAV-2026-11-19.json"
+    "last": "2026-11-20",
+    "series": "results\\etf_book_series\\NAV-2026-11-20.json"
   },
   "bootstrap": {
     "beta_draws_ci": {
-      "hi": 0.12813796251233056,
-      "lo": 0.028685125907834556,
-      "median": 0.07260914654538891,
+      "hi": 0.12743326508848213,
+      "lo": 0.029420675637924106,
+      "median": 0.0724902865959853,
       "n": 2000
     },
     "block_bars": 21,
@@ -22,9 +22,9 @@
     "unit": "bar pairs (book return, IH return)"
   },
   "deepest_tail": "ih_le_-2",
-  "elapsed_sec": 16.4,
-  "evidence_cutoff": "2026-11-19",
-  "generated": "2026-11-20T16:09:09",
+  "elapsed_sec": 14.8,
+  "evidence_cutoff": "2026-11-20",
+  "generated": "2026-11-21T07:16:57",
   "index": {
     "product": "IH",
     "splice_days_dropped": 85
@@ -37,31 +37,31 @@
     "this is arithmetic on published series, not a broker fill record"
   ],
   "perf_at_1beta": {
-    "base_sharpe": 0.9502848585092918,
-    "dmaxdd": -0.0005491332315984421,
+    "base_sharpe": 0.9265024955317374,
+    "dmaxdd": -0.0005849222682584587,
     "dmaxdd_ci": {
-      "hi": 0.029018887198762788,
-      "lo": -0.005823622239630493,
-      "median": 0.0073513615746502725,
+      "hi": 0.028869044351780317,
+      "lo": -0.006070981532175068,
+      "median": 0.007451058752294237,
       "n": 2000
     },
-    "dsharpe": -0.02060447867138404,
+    "dsharpe": -0.020450613668033246,
     "dsharpe_ci": {
-      "hi": 0.06948194084083699,
-      "lo": -0.09833643653285758,
-      "median": -0.015768977058202238,
+      "hi": 0.07241930840601753,
+      "lo": -0.09759949513520227,
+      "median": -0.015392068784313706,
       "n": 2000
     },
-    "dvol": -0.0010116910068369428,
+    "dvol": -0.001015861291553663,
     "dvol_ci": {
-      "hi": -0.00015519820797674642,
-      "lo": -0.0028382351586857804,
-      "median": -0.0009565536380726561,
+      "hi": -0.0001558193558308538,
+      "lo": -0.0028622368079640457,
+      "median": -0.0009404023384576229,
       "n": 2000
     },
-    "full_sharpe": 0.9296803798379077,
+    "full_sharpe": 0.9060518818637041,
     "k": 1.0,
-    "share_dsharpe_positive": 0.3485
+    "share_dsharpe_positive": 0.3475
   },
   "reading_rules": {
     "R1": "sampling interval conditional on this window's tail days, not a regime claim",
@@ -74,42 +74,42 @@
     "ih_le_-1": {
       "beta": 0.317850738141136,
       "beta_ci": {
-        "hi": 0.5097699061220823,
-        "lo": 0.016257949767666008,
-        "median": 0.30416567853156673,
+        "hi": 0.5104384609949684,
+        "lo": 0.016567368305509332,
+        "median": 0.30306902437528505,
         "n": 2000
       },
       "corr": 0.4287098034231727,
       "cut": -0.01,
-      "median_tail_days": 236.0,
+      "median_tail_days": 235.0,
       "n": 235,
-      "share_above_uncond": 0.893,
-      "share_above_zero": 0.967
+      "share_above_uncond": 0.8925,
+      "share_above_zero": 0.9635
     },
     "ih_le_-2": {
       "beta": 0.6126419583867959,
       "beta_ci": {
-        "hi": 0.8372641468542787,
-        "lo": 0.11024848176651234,
-        "median": 0.6014589459387503,
+        "hi": 0.8302596675880899,
+        "lo": 0.11827957660505656,
+        "median": 0.6014816912724475,
         "n": 2000
       },
       "corr": 0.752018480779259,
       "cut": -0.02,
       "median_tail_days": 52.0,
       "n": 52,
-      "share_above_uncond": 0.9675,
-      "share_above_zero": 0.9865
+      "share_above_uncond": 0.964,
+      "share_above_zero": 0.9835
     }
   },
   "unconditional": {
-    "bars": 1591,
-    "beta": 0.07458678744098134,
-    "corr": 0.14156210800141103
+    "bars": 1592,
+    "beta": 0.07481175040590471,
+    "corr": 0.14175672837448267
   },
   "verdict": {
     "hedge": "HEDGE_NOT_MEASURABLE",
-    "sentence": "尾部 beta 0.613 建在 52 天上，90% 的抽样区间是 [0.110, 0.837]；按 beta 精确对冲的夏普变化 -0.021，区间 [-0.098, +0.069]。",
+    "sentence": "尾部 beta 0.613 建在 52 天上，90% 的抽样区间是 [0.118, 0.830]；按 beta 精确对冲的夏普变化 -0.020，区间 [-0.098, +0.072]。",
     "tail": "TAIL_BETA_IS_REAL"
   }
 }

@@ -1035,7 +1035,31 @@ def main() -> int:
             if not _l93:
                 _bad93.append("%s carries no 'do not wait' block" % _lives93[-1])
             if not _bad93:
-                for _tok in ("13.55", "1754580", "954", "1839", "10.11"):
+                # r1899: the five quantities move every time the seat-MDE face is
+                # re-derived, so the expectation is read off that face instead of being
+                # pinned to the numbers published on the day this leg was written
+                # (r1775/r1788: an assertion on a number that legitimately moves is a
+                # permanent red, and permanent reds train readers to ignore reds).
+                _pf93 = os.path.join("results", "etf_book_target_price.json")
+                _toks93 = []
+                try:
+                    with open(_pf93, encoding="utf-8") as _fh93:
+                        _v93 = (json.load(_fh93) or {}).get("verdict") or {}
+                    for _k93, _f93 in zip(
+                            ("wait_years", "forgo_cny", "avoided_cny", "ratio", "p_star"),
+                            (lambda v: "%.2f" % float(v),
+                             lambda v: "%.0f" % float(v),
+                             lambda v: "%.0f" % float(v),
+                             lambda v: "%.0f" % float(v),
+                             lambda v: "%.2f" % float(v))):
+                        if _v93.get(_k93) is not None:
+                            _toks93.append(_f93(_v93[_k93]))
+                    if len(_toks93) != 5:
+                        _bad93.append("target-price face lacks a quantity (%d/5)"
+                                      % len(_toks93))
+                except Exception as _e93b:                          # noqa: BLE001
+                    _bad93.append("target-price face unreadable: %r" % _e93b)
+                for _tok in _toks93:
                     if _tok not in _norm(_c93):
                         _bad93.append("ticket lacks %s" % _tok)
                     if _tok not in _norm(_l93):
@@ -1051,6 +1075,45 @@ def main() -> int:
     except Exception as _e93:
         check("product: the price of waiting reaches the page the CEO opens (r1893)",
               False, repr(_e93)[:160])
+    # r1900: a percent is a ruler a person cannot weigh. The book seeds its own
+    # capital (`seed.capital_cny` in the forward ledger), so the same nav pair can
+    # be printed in money -- and the leg re-derives that money here rather than
+    # trusting the page's own arithmetic. A page that drops the line, or prints a
+    # number that is not capital x (nav - 1), reads red.
+    try:
+        _lp00 = os.path.join(PATHS.root, "docs", "live_usage", "LIVE-latest.md")
+        _lg00 = os.path.join(PATHS.results_dir, "etf_book_forward", "LEDGER.json")
+        _bad00 = []
+        _cny00 = ""
+        if not os.path.exists(_lp00):
+            _bad00.append("docs/live_usage/LIVE-latest.md missing")
+        elif not os.path.exists(_lg00):
+            _bad00.append("results/etf_book_forward/LEDGER.json missing")
+        else:
+            with open(_lg00, encoding="utf-8") as _fh00:
+                _led00 = json.load(_fh00) or {}
+            with open(_lp00, encoding="utf-8") as _fh00:
+                _md00 = _fh00.read()
+            _bars00 = _led00.get("bars") or []
+            _cap00 = (_led00.get("seed") or {}).get("capital_cny")
+            if not _bars00:
+                _bad00.append("the ledger publishes no bars")
+            elif not _cap00:
+                _bad00.append("the ledger publishes no seed capital")
+            else:
+                _cny00 = "{:+,.0f}".format(float(_cap00)
+                                           * (float(_bars00[-1].get("nav") or 0.0)
+                                              - 1.0))
+                if "换成一笔钱" not in _md00:
+                    _bad00.append("the page prints the book only as a percent")
+                elif _cny00 not in _md00:
+                    _bad00.append("the page does not print %s" % _cny00)
+        check("product: the book a person holds is priced in money (r1900)",
+              not _bad00, "; ".join(_bad00)[:220]
+              or "%s on a %s seed" % (_cny00, "{:,.0f}".format(float(_cap00))))
+    except Exception as _e00:
+        check("product: the book a person holds is priced in money (r1900)",
+              False, repr(_e00)[:160])
     from config import PATHS, all_combinations, combo_hash
     for d in (PATHS.root, PATHS.data_dir, PATHS.daily_dir,
               PATHS.basic_dir, PATHS.results_dir, PATHS.logs_dir):

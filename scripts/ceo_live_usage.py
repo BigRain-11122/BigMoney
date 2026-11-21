@@ -766,6 +766,11 @@ def _etf_book_face():
         "panel_last_bar": (d.get("panel") or {}).get("last_bar"),
         "cash_leg_note": (cfg.get("cash")
                           if isinstance(cfg.get("cash"), str) else None),
+        # r1900: the book's own seed capital, so a percent can be read as money.
+        # Borrowed from nowhere -- `seed.capital_cny` is the ledger's own line,
+        # not the execution sheet's (those two books are different books).
+        "seed_capital_cny": (d.get("seed") or {}).get("capital_cny"),
+        "seed_bar": (d.get("seed") or {}).get("bar"),
     }
 
 
@@ -2771,6 +2776,22 @@ def render_md(p: dict) -> str:
                  f"（{eb['book_ret_pct']:+.3f}%）；同窗四 ETF 等权基准 "
                  f"{eb['bench_nav']:.6f}（{eb['bench_ret_pct']:+.3f}%）→ "
                  f"**超额 {eb['excess_bp']:+.1f}bp**")
+        # r1900: a percent is not a reading a person can weigh. The ledger seeds
+        # its own capital (`seed.capital_cny`), so the same two curves can be read
+        # in money. No new judgement: the same nav pair, one multiplication.
+        _cap = eb.get("seed_capital_cny")
+        if _cap and eb.get("book_ret_pct") is not None:
+            _cap = float(_cap)
+            _book_cny = _cap * (float(eb["book_nav"]) - 1.0)
+            _bench_cny = (None if eb.get("bench_nav") is None
+                          else _cap * (float(eb["bench_nav"]) - 1.0))
+            _line = (f"  - **换成一笔钱**（账本自己的播种资本 {_cap:,.0f} 元 · "
+                     f"{eb.get('seed_bar') or '?'} 起）：这本 "
+                     f"**{_book_cny:+,.0f} 元**")
+            if _bench_cny is not None:
+                _line += (f"；同窗基准 **{_bench_cny:+,.0f} 元** → 相对 "
+                          f"**{_book_cny - _bench_cny:+,.0f} 元**")
+            L.append(_line + "（同一个百分比换一把尺子，不改任何判定）")
         L.append(f"  - 回撤：书 {eb['book_max_dd_pct']:+.3f}%｜基准 "
                  f"{eb['bench_max_dd_pct']:+.3f}%｜本段换仓 "
                  f"{eb['n_refills']} 次（网格 {eb['rebal']} bar·持仓 "
@@ -4413,6 +4434,19 @@ def selftest() -> int:
         check("etf-book bar count equals the ledger it read",
               eb["n_bars"]
               == len((_read_json(ETF_BOOK_FWD) or {}).get("bars") or []))
+        # r1900: the money line is arithmetic on the ledger's own seed, so the
+        # page cannot print a plausible-looking number that is not the book's.
+        _cap_seed = (eb.get("seed_capital_cny")
+                     or ((_read_json(ETF_BOOK_FWD) or {}).get("seed")
+                         or {}).get("capital_cny"))
+        if _cap_seed:
+            _want = "{:+,.0f}".format(float(_cap_seed)
+                                      * (float(eb["book_nav"]) - 1.0))
+            check("etf-book money line is its own capital times its own nav",
+                  _want in md1)
+        else:
+            check("etf-book money line is its own capital times its own nav",
+                  "换成一笔钱" not in md1)
         # the benchmark rows carry no dd field; a drawdown of 0.000% printed
         # for a series that actually fell is a fabricated measurement, not a
         # missing one (r1261 family)
