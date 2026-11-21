@@ -3004,7 +3004,7 @@ def permission_block(ticket, perm, rulers=None, floor_src=None, k_gap=None):
                         "TRIM_REQUIRED" if over else "WITHIN_PERMISSION")}
 
 
-def permission_md(pb):
+def permission_md(pb, deploy="auto"):
     """Print the permission next to the weights. Silence is not an option (r1108)."""
     if pb is None:
         return []
@@ -3107,6 +3107,8 @@ def permission_md(pb):
           % (pb.get("artifact"), pb.get("decision_date") or "?"), ""]
     L += floor_ledger_md(_floor_face())
     L += floor_source_md((pb or {}).get("floor_source"))
+    # r1913: the wait fee at THIS sheet's size, in the block that sizes it.
+    L += _deploy_scale_md(_deploy_price_reading() if deploy == "auto" else deploy, pb)
     L.append("")
     return L
 
@@ -5328,6 +5330,10 @@ def _deploy_price_reading(path=None):
             "ratio_wait_over_worst": v.get("ratio_wait_over_worst"),
             "ratio_wait_over_tail": v.get("ratio_wait_over_tail"),
             "sentence": d.get("sentence"),
+            # r1913: the lens the two fees are priced on. The sizing block scales them to
+            # this sheet's own risk leg, so the divisor has to travel with the numbers --
+            # a hard-coded 1,000,000 here would be a second implementation of the ruler.
+            "lens_cny": (d.get("rule") or {}).get("lens_cny"),
             "evidence_cutoff": d.get("evidence_cutoff"),
             "generated": d.get("generated"),
             "path": "results/etf_book_deploy_price.json",
@@ -5371,6 +5377,47 @@ def _deploy_price_md(c):
     if c.get("sentence"):
         L.append("  - 原句：%s" % c["sentence"])
     L.append("  - 出处：`%s`（生产者 `%s`，%s 产出）"
+             % (c.get("path"), c.get("producer"), (c.get("generated") or "?")[:19]))
+    return L
+
+
+def _deploy_scale_md(c, pb):
+    """r1913: the two yearly fees reach the block that decides how much this sheet buys.
+
+    r1912 priced deploying-now against waiting on the ruler's own lens (per 1,000,000).
+    The sizing block is where a reader learns how much capital this ticket actually moves,
+    and nothing there said what those two fees are at THAT size -- so the only way to read
+    them together was to spot the lens and divide by hand, which is how a 43.5% book carries
+    a 9.8x ratio and still cannot see its own number. Same reading, one multiplication, and
+    the divisor travels with the face instead of being re-typed here.
+    """
+    L = ["", "### 这笔等待费换算到本单（r1913）"]
+    book = (pb or {}).get("ordered_book_cny")
+    lens = (c or {}).get("lens_cny")
+    if not c:
+        return L + ["- **本单规模上的这一栏没有读数**：`results/etf_book_deploy_price.json` 缺或"
+                    "读不出。缺这一行不等于「按本单规模算，等待是免费的」。"]
+    if book is None:
+        return L + ["- **本单风险腿读不出**，所以不换算：面给的是每 %s 元的两个年费，没有本单"
+                    "自己的腿就没有它的份额。" % _cny_cell(lens)]
+    if not lens:
+        return L + ["- **那把尺子的镜头大小读不出**（面上 `rule.lens_cny` 缺），所以不换算："
+                    "没有除数就把年费乘上本单的腿，是编一个数。"]
+    share = float(book) / float(lens)
+    zero = float(c.get("zero_edge_yearly_loss_cny") or 0.0) * share
+    wait = float(c.get("wait_yearly_cny") or 0.0) * share
+    L.append("- 本单风险腿 ¥%s，是那把尺子镜头（¥%s）的 %.2f%%：edge 恰好为零时，本单每年付 "
+             "**%s 元**；同样 %.2f%% 的份额下，等 %.1f 年换更准的尺子每年要付 **%s 元**。"
+             % (_cny_cell(book), _cny_cell(lens), share * 100.0, _cny_cell(zero),
+                share * 100.0, float(c.get("wait_years") or 0.0), _cny_cell(wait)))
+    if c.get("ratio_wait_over_worst") is not None:
+        L.append("  - 两个绝对值都随本单规模变小，**倍率不变**：仍是 %.1f 倍（面上那对数的商，"
+                 "本单只是把它各乘了 %.4f）。"
+                 % (float(c["ratio_wait_over_worst"]), share))
+    L.append("  - 口径：这两个数 = 面上「每 %s 元」的年费 × 本单风险腿 / %s；它们与票面自己的"
+             "成本腿（每边 13.041bp × 换手）不是同一个量，不相加，也不互相校验。"
+             % (_cny_cell(lens), _cny_cell(lens)))
+    L.append("  - 出处：`%s`（生产者 `%s`，%s 产出；这一节只读该面，不重算它的判词）"
              % (c.get("path"), c.get("producer"), (c.get("generated") or "?")[:19]))
     return L
 
@@ -9850,6 +9897,34 @@ def selftest():
         chk("legAXe a missing deploy price is one sentence, never a number",
             "现在部署的价格这一轮没有读数" in _md_dp_missing
             and "13,920" not in _md_dp_missing, _md_dp_missing[-300:])
+
+        # legBC-BE (r1913): the same two fees at THIS sheet's size. r1912 put them on the
+        # admission block, where they are priced per 1,000,000; the sizing block is where a
+        # reader learns the capital this ticket moves, and nothing there said what 9.8x is
+        # at 43.5%. The divisor must come from the face (rule.lens_cny), not be re-typed.
+        _dp_lens = dict(_dp, lens_cny=1000000.0)
+        _pb_scale = dict(_pb_in, ordered_book_cny=435003.0)
+        _md_scale = "\n".join(permission_md(_pb_scale, deploy=_dp_lens))
+        chk("legBC the sizing block converts the lens fee to this sheet's own risk leg",
+            "这笔等待费换算到本单" in _md_scale and "435,003" in _md_scale
+            and "43.50%" in _md_scale and "6,055" in _md_scale and "59,470" in _md_scale,
+            _md_scale[-700:])
+        chk("legBCb the ratio does not shrink with the book, only the absolute numbers",
+            "倍率不变" in _md_scale and "9.8" in _md_scale
+            and "不相加" in _md_scale, _md_scale[-500:])
+        _md_scale_nolens = "\n".join(permission_md(_pb_scale, deploy=dict(_dp, lens_cny=None)))
+        _md_scale_nobook = "\n".join(permission_md(dict(_pb_in, ordered_book_cny=None),
+                                                   deploy=_dp_lens))
+        _md_scale_missing = "\n".join(permission_md(_pb_scale, deploy=None))
+        chk("legBD a missing divisor, a missing book or a missing face is a sentence, "
+            "never a scaled number",
+            "镜头大小读不出" in _md_scale_nolens and "6,055" not in _md_scale_nolens
+            and "风险腿读不出" in _md_scale_nobook and "59,470" not in _md_scale_nobook
+            and "没有读数" in _md_scale_missing and "6,055" not in _md_scale_missing,
+            _md_scale_nolens[-300:] + " || " + _md_scale_nobook[-300:])
+        chk("legBE the converted block stamps the trip that priced the ruler",
+            "2026-11-21T13:05:00" in _md_scale
+            and "results/etf_book_deploy_price.json" in _md_scale, _md_scale[-400:])
 
         # legAV-AX (r1884): the entry price -- what an account of 20k/100k/200k pays a side
         # once the CNY 5 per-ticket minimum is included. Same three states as the ladder.

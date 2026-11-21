@@ -1103,6 +1103,56 @@ def main() -> int:
     except Exception as _e93:
         check("product: the price of waiting reaches the page the CEO opens (r1893)",
               False, repr(_e93)[:160])
+    # r1913: the same two fees at the ticket's OWN size. The sizing block is where a reader
+    # learns the capital this sheet moves, so "9.8x" has to come with its own numbers there
+    # instead of asking the reader to spot the lens and divide. Re-derived here from the
+    # ticket's ordered book and the deploy face's own lens/fees, so the leg goes red on a
+    # page that prints someone else's arithmetic -- or none.
+    try:
+        from config import PATHS as _P13
+        _dpp13 = os.path.join(_P13.results_dir, "etf_book_deploy_price.json")
+        _tks13 = sorted(glob.glob(os.path.join(_P13.results_dir, "etf_book_order",
+                                               "TICKET-*.json")))
+        _bad13 = []
+        if not _tks13:
+            _bad13.append("no TICKET-*.json on the order face")
+        else:
+            with open(_tks13[-1], encoding="utf-8") as _fh13:
+                _t13 = json.load(_fh13) or {}
+            _book13 = ((_t13.get("permission") or {}).get("ordered_book_cny"))
+            _page13 = os.path.join(_P13.results_dir, "etf_book_order",
+                                   "ORDER-%s.md" % _t13.get("as_of"))
+            if not os.path.exists(_dpp13):
+                _bad13.append("deploy price face missing")
+            elif _book13 is None:
+                _bad13.append("ticket carries no ordered book")
+            else:
+                with open(_dpp13, encoding="utf-8") as _fh13:
+                    _d13 = json.load(_fh13) or {}
+                _lens13 = ((_d13.get("rule") or {}).get("lens_cny"))
+                _v13 = _d13.get("verdict") or {}
+                if not _lens13:
+                    _bad13.append("deploy face carries no lens")
+                else:
+                    _share13 = float(_book13) / float(_lens13)
+                    _zero13 = float(_v13.get("zero_edge_yearly_loss_cny") or 0.0) * _share13
+                    _wait13 = float(_v13.get("wait_yearly_cny") or 0.0) * _share13
+                    _md13 = ""
+                    if os.path.exists(_page13):
+                        with open(_page13, encoding="utf-8") as _fh13:
+                            _md13 = _fh13.read()
+                    if "这笔等待费换算到本单" not in _md13:
+                        _bad13.append("%s has no sizing-size fee block" % os.path.basename(_page13))
+                    for _tok13 in ("{:,.0f}".format(_zero13), "{:,.0f}".format(_wait13),
+                                   "{:.2f}%".format(_share13 * 100.0)):
+                        if _tok13 not in _md13:
+                            _bad13.append("page lacks %s" % _tok13)
+        check("product: the wait fee lands on the ticket's own size (r1913)",
+              not _bad13, "; ".join(_bad13)[:220]
+              or "page prints the book's share of the lens and both yearly fees at that size")
+    except Exception as _e13:
+        check("product: the wait fee lands on the ticket's own size (r1913)",
+              False, repr(_e13)[:160])
     # r1900: a percent is a ruler a person cannot weigh. The book seeds its own
     # capital (`seed.capital_cny` in the forward ledger), so the same nav pair can
     # be printed in money -- and the leg re-derives that money here rather than
