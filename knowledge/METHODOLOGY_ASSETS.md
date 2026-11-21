@@ -5179,9 +5179,9 @@ WHY: 相位图造出了一把尺子（每格自己的 band），却只用来判�
 正是把它用在该用的地方：一个**早已发布**的 REJECT（r1325）和一个**即将被引用**的节奏结论（r1350），
 前者靠这把尺子才知道自己只是方向、后者靠它才知道自己不依赖费率。判官不改判、只改判词的颗粒度，
 这是最便宜的一类产出。
-READING: 面 results/etf_book_phase_atlas_arms.json｜脚本 scripts/etf_book_phase_atlas_arms.py
+READING: 面 rresults/etf_book_phase_atlas_arms.json｜脚本 scripts/etf_book_phase_atlas_arms.py
 （selftest 19 腿：基线 N5/R20 中位必须复现发布值 9.13pp=9.130；手造臂必须读出 ADOPT/REJECT/
-NOT-SEPARABLE/NOT-ASSESSED 四态；裁决必须能从自家行重算）｜prose research/ETF_BOOK_PHASE_ATLAS_ARMS.md｜
+NOT-SEPARABLE/NOT-ASSESSED 四态；裁决必须能从自家行重算）｜prose rresearch/ETF_BOOK_PHASE_ATLAS_ARMS.md｜
 digest research/digests/DIGEST-20261030-r1163-atlas-arms.md。
 附：etf_book_phase_atlas.py 的 --out 接受仓库相对路径却在 
 elative_to(ROOT) 处炸——**整条 280 格
@@ -5224,7 +5224,7 @@ the band); 20bp REJECT (-1.41pp); 40bp REJECT (-4.19pp) with band_verdict
 CADENCE_BAND_SURVIVES_THE_TOLL. The grid's own verdict stays CONFIG_ORDER_WITHIN_PHASE_NOISE in
 5 of 5 arms.
 
-Pos: scripts/etf_book_phase_atlas_arms.py (selftest 22 -> 25) + results/etf_book_phase_atlas_arms.json
+Pos: scripts/etf_book_phase_atlas_arms.py (selftest 22 -> 25) + rresults/etf_book_phase_atlas_arms.json
 + results/etf_book_phase_atlas_cost40.json (280 engine runs, 5 workers, 3.5 min) + S6 leg
 etf_book_phase_atlas_arms + research/digests/DIGEST-20261030-r1351-arms-gate.md.
 
@@ -5322,7 +5322,7 @@ constants -- that is the E188 line, so it has to be a new pre-registered rule ap
 prospectively.
 
 READING: faces `results/etf_book_rule_null.json` (label frequencies + per-arm
-`null_p_same_or_worse`) and `results/etf_book_phase_atlas_arms.json` (six arms);
+`null_p_same_or_worse`) and `rresults/etf_book_phase_atlas_arms.json` (six arms);
 scripts `scripts/etf_book_rule_null.py` (selftest 10) and `scripts/etf_book_phase_atlas_arms.py`
 (selftest 38, including "each face carries the knob its own name declares");
 digest `research/digests/DIGEST-20261030-r1352-buffer-family.md`.
@@ -5357,7 +5357,7 @@ already refuses that shape (r301); it came back by hand. `_ghost_ready_ids()` no
 as `ghost_ready_no_shards` instead of letting them hide inside an empty-pool reading.
 
 READING: `scripts/etf_book_phase_atlas_arms.py` (9 arms, selftest 50, `--check` green) +
-`results/etf_book_phase_atlas_arms.json` + `research/ETF_BOOK_PHASE_ATLAS_ARMS.md` +
+`rresults/etf_book_phase_atlas_arms.json` + `rresearch/ETF_BOOK_PHASE_ATLAS_ARMS.md` +
 `Tools/autofill.py::_ghost_ready_ids` (selftest S20g2-S20g5) +
 `research/digests/DIGEST-20261030-r1353-buffer-axis-ends.md`.
 
@@ -6523,7 +6523,7 @@ distinguishes -- both directions, one at a time.
 Pos: `scripts/etf_book_phase_atlas_arms.py` (`_is_copied` / `_classify_drift` + `check()`,
 selftest 100->102 legs: copy-drift reads stale with the face deliberately NEWER than its sources;
 copy-drift plus a moved verdict still reads inconsistent) + refreshed
-`results/etf_book_phase_atlas_arms.json` (one line changed -- the worker count; every published
+`rresults/etf_book_phase_atlas_arms.json` (one line changed -- the worker count; every published
 reading identical) + digest `DIGEST-20261030-r1371-copy-drift-vs-mtime.md`.
 
 ## E282 A gate and its four siblings: sweep a defect family by the rule, not by the report (2026-10-30 r1372 bm-c)
@@ -9255,7 +9255,7 @@ How to apply：任何「比值/分位/自归一化」的量能、情绪、宽度
 读数（面板 2026-11-06，同族 6 面同世界）：buffer k=0.02/0.05/0.10/0.20 全 **NOT-SEPARABLE**（效应落在本格 band 之内），k=0.40 **REJECT**；floor 仍 **UNREACHABLE_BY_CONSTRUCTION**（k 需 7.624 > 1.0 的轴端点，ruler 6.74pp），width **DIRECTION_NOT_A_SIZE**（需 62.98 名 / 已定价最宽 20），live-widths **COIN_FLIP_INSIDE_ENGINE_DISAGREEMENT**（配对差 0.045pp vs 双引擎分歧 1.875pp），readback **HOLDS**（预测 +0.246 vs 实测 +0.487 @ k=0.30）。
 
 How to apply：任何「全家一致才发布」的闸，先问它的判据是不是也能逐成员成立——能，就逐成员发许可并点名失声者；跨成员聚合（拟合/排序/阶梯）必须显式剔除非同世界成员且留名，禁默默丢。
-正身=scripts/etf_book_phase_atlas_arms.py（selftest 133/133，新增 7 腿）· results/etf_book_phase_atlas_arms.json · results/etf_book_buffer_resolution_floor.json（五闸 rc0：--check/--floor-check/--width-check/--live-widths-check/--readback-check）
+正身=scripts/etf_book_phase_atlas_arms.py（selftest 133/133，新增 7 腿）· rresults/etf_book_phase_atlas_arms.json · results/etf_book_buffer_resolution_floor.json（五闸 rc0：--check/--floor-check/--width-check/--live-widths-check/--readback-check）
 
 ### E397 · 成本模型是别人给的数，开盘一分钟是自己能看的数——两件事不能互相换算（r1399 bm-c）
 全线每个单边都收 **13.041bp**，这个数从引擎写下来那天就在，从来没对过一张成交。能对的那个东西其实不用造模型：分钟档案里就有开盘那根 bar。实测（26 个交易日 / 9 个可读标的，2026-09-16→10-29）：**开盘一分钟漂移中位 0.10bp（p90 绝对 32–68bp）、这一分钟内最高最低距中位 33.3bp、第一分钟成交额占全天中位 2.80%**。三条互不相干，也只有分开看才读得对。
@@ -17316,7 +17316,7 @@ CEO 一页纸 ③ 节把六个在册纸盘户各印一行「权重 X%」——3.
 
 ## E-20261120-r1881 — 「派生面重生」不等于「上游同代」；「落后一天」有两种相反的成因
 
-**问题一（当轮实弹·S1 红项）**：全量套件的腿 `every face a reader holds says whether the width's family was one world` 在 14:14 判红：`card does not print ONE_WORLD`。查下来不是算法错——`results/etf_book_phase_atlas_arms.json` 在 12:35 已重生为 `ONE_WORLD`（11 面同一面板 7d93f5cd），而 `results/etf_book_production/CARD.md` 停在 11:50 的 `MIXED_WORLDS`（11 面 2 个面板）。**上游判词翻面，下游卡片没重生**，于是读者手里的那张卡说「名数没实测撑腰」，实测其实已合一。
+**问题一（当轮实弹·S1 红项）**：全量套件的腿 `every face a reader holds says whether the width's family was one world` 在 14:14 判红：`card does not print ONE_WORLD`。查下来不是算法错——`rresults/etf_book_phase_atlas_arms.json` 在 12:35 已重生为 `ONE_WORLD`（11 面同一面板 7d93f5cd），而 `results/etf_book_production/CARD.md` 停在 11:50 的 `MIXED_WORLDS`（11 面 2 个面板）。**上游判词翻面，下游卡片没重生**，于是读者手里的那张卡说「名数没实测撑腰」，实测其实已合一。
 
 **做法**：不放宽腿、不改判据，直接重生成卡片（`python scripts/etf_book_production.py`），card 与 ticket 两面立刻印 `ONE_WORLD`（手验四条断言全过：card 印判词 / ticket 印名数来历 / ticket 印 10 个宽度臂 / page 的臂数项按 r1789 守卫记注记，因页面由 bm-a 单写）。**判据留在原处**：腿红说明两张面的 `generated` 戳不同代，修的是面。
 
@@ -17460,12 +17460,12 @@ results/etf_book_entry_price.json + .md、链腿 entry_price_write（0.9s）、�
 
 ## E-20261121-r1901 判例：「旋钮与收益之间夹着一层覆盖规则时，逐格单调是假不变量」
 
-**形状**：tf_book_phase_atlas_arms 的自检腿写着「every cell earns less at 20bp than at 5bp」——理由是「两个成本臂只差这一只旋钮」。实测在**同一面板**（digest 2e875bf4，cutoff 2026-11-20）上，12 格里 2 格不跌：(3,10) 两档都 11.84pp（相等，被判 < 打红），(3,20) 5bp 是 **9.06pp**、20bp 是 **9.15pp**（涨 0.09pp）。根因不在数据：引擎按 **8% 波动目标、60 根窗口、只降不升**地调仓——更高费用把已实现波动压低，仓位被加回目标，3 名集中组合的这份加仓大于「15bp × 换手」。所以费用臂**不是逐格受控对照**，只差一只旋钮不等于只差一个减法。
+**形状**：etf_book_phase_atlas_arms 的自检腿写着「every cell earns less at 20bp than at 5bp」——理由是「两个成本臂只差这一只旋钮」。实测在**同一面板**（digest 2e875bf4，cutoff 2026-11-20）上，12 格里 2 格不跌：(3,10) 两档都 11.84pp（相等，被判 < 打红），(3,20) 5bp 是 **9.06pp**、20bp 是 **9.15pp**（涨 0.09pp）。根因不在数据：引擎按 **8% 波动目标、60 根窗口、只降不升**地调仓——更高费用把已实现波动压低，仓位被加回目标，3 名集中组合的这份加仓大于「15bp × 换手」。所以费用臂**不是逐格受控对照**，只差一只旋钮不等于只差一个减法。
 
-**正法**：判据换成本轮引擎能回答的问题，并把例外**印到面上**而不是藏在腿里——①家族整体必须失血（ΣΔ < 0、median Δ < 0）；②没有任何一格**凭自己涨出 band 之外**（每格 Δ ≤ 该格自己的 band_pp）；③涨幅超 band 的格数或上涨格占比超限（2/12）即判 TOLL_SIGN_INVERTED。正法落地为 	oll_monotonicity() 纯函数 + 面内新块 cost_toll（逐格 5bp/20bp/Δ/band/读数）+ md 新节，腿改读这个块。**证伪腿必须存在**：把 12 格全 +2pp（band 3pp）喂进去必须读 TOLL_SIGN_INVERTED（臂接错费用档就是这个形状），一格在 band 内上翘必须仍读 TOLL_DRAINS。自检 138→**141/141**，--check rc0，链腿 rc0。
+**正法**：判据换成本轮引擎能回答的问题，并把例外**印到面上**而不是藏在腿里——①家族整体必须失血（ΣΔ < 0、median Δ < 0）；②没有任何一格**凭自己涨出 band 之外**（每格 Δ ≤ 该格自己的 band_pp）；③涨幅超 band 的格数或上涨格占比超限（2/12）即判 TOLL_SIGN_INVERTED。正法落地为  oll_monotonicity() 纯函数 + 面内新块 cost_toll（逐格 5bp/20bp/Δ/band/读数）+ md 新节，腿改读这个块。**证伪腿必须存在**：把 12 格全 +2pp（band 3pp）喂进去必须读 TOLL_SIGN_INVERTED（臂接错费用档就是这个形状），一格在 band 内上翘必须仍读 TOLL_DRAINS。自检 138→**141/141**，--check rc0，链腿 rc0。
 
 **How**：任何「改一个旋钮、收益必须单向」的断言，先问旋钮与收益之间**有没有覆盖规则**（波动目标/去杠杆/整手取整/成本感知阈值）——有，逐格严格单调就不是不变量而是错误前提；改成「家族方向 + 逐格不可读」两条，并把不合方向的那几格连同尺寸与 band 一起发布。另：== 也算反例（(3,10) 相等被 < 判死），断言写 < 前先问「这两档在这格上真的会有差吗」。
 
 **实锚**：12 格总 Δ **-20.42pp**、median **-1.14pp**、涨格 2/12 全在 band 内（band 9.04/9.0pp×2）；面 
-esults/etf_book_phase_atlas_arms.json 新块 cost_toll，md 
-esearch/ETF_BOOK_PHASE_ATLAS_ARMS.md 新节「成本档 5bp → 20bp：多收的 15bp 是不是白收」。
+results/etf_book_phase_atlas_arms.json 新块 cost_toll，md 
+research/ETF_BOOK_PHASE_ATLAS_ARMS.md 新节「成本档 5bp → 20bp：多收的 15bp 是不是白收」。

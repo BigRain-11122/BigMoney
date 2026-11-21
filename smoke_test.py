@@ -1081,6 +1081,9 @@ def main() -> int:
     # trusting the page's own arithmetic. A page that drops the line, or prints a
     # number that is not capital x (nav - 1), reads red.
     try:
+        # this leg sits above the module-level `from config import PATHS`, so it
+        # has to bind its own copy or it reads red on a NameError, not on the page
+        from config import PATHS
         _lp00 = os.path.join(PATHS.root, "docs", "live_usage", "LIVE-latest.md")
         _lg00 = os.path.join(PATHS.results_dir, "etf_book_forward", "LEDGER.json")
         _bad00 = []
