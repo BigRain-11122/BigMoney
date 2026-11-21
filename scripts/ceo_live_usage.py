@@ -4142,8 +4142,14 @@ def render_md(p: dict) -> str:
                  "它读的是当日振幅而不是报价带，所以高的一头会饱和；"
                  "文件底与实测中位是两种口径，**不相加、不平均**，"
                  "要一个确定数必须有一条报价带")
-        L.append(f"  - 出处：`{cr.get('path')}`｜generated {cr.get('source_generated')}"
-                 f"｜cutoff {cr.get('evidence_cutoff')}")
+        # r1911: this block and the membership block above read the SAME face in the
+        # same generation -- they are two segments of idx_fut_carry_risk, not two
+        # sources.  Printing the identical provenance line twice made them read as
+        # two independent pieces of evidence to the reader, and `page_repeat_guard`
+        # said so (r1639 rule: one measurement, one sentence).
+        L.append(f"  - 出处：与上面「带内不等于这本书会买」那节读的是同一张面、同一次生成"
+                 f"（`{cr.get('path')}`｜generated {cr.get('source_generated')}"
+                 f"｜cutoff {cr.get('evidence_cutoff')}），只是段不同")
     # r1845: everything above reads marks the carry book has published.  The book is
     # append-only, so a bar stays published even when the panel behind it no longer
     # holds the row -- printed here, not discovered later.
