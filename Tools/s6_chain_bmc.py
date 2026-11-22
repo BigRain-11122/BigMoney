@@ -648,6 +648,18 @@ LEGS = [
      ["python", "scripts/etf_book_phase_depth.py", "refresh"]),
     ("phase_depth",
      ["python", "scripts/etf_book_phase_depth.py", "check"]),
+    # r1922: the depth face said what the spread is NOT (too few phases). This one asks what it
+    # IS: every weekly start lands at a different point inside its first calendar year, and the
+    # gate counts a year with <4 cohorts as partial and keeps it in Y3/Y4. On the SAME 40 starts
+    # the spread falls 117.65 -> 56.35pp (keep 0.479; 134->54 and 126->53 on the other two books)
+    # once that stub is taken out of the statistic -- but the full-only column still refuses
+    # (52-56pp against 14-15pp margins), and the 40 starts collapse to 13-14 distinct full-only
+    # readings because they re-bucket the same bars. Writer behind the panel clock, ~3 min only
+    # on a literal stale, ~1s check.
+    ("phase_stub_write",
+     ["python", "scripts/etf_book_phase_stub.py", "refresh"]),
+    ("phase_stub",
+     ["python", "scripts/etf_book_phase_stub.py", "check"]),
     # r1868: the admission section printed the three-veto ADMIT beside a phase face still
     # reading a demoted ruler, and the sheet told the reader those two verdicts were not
     # adjudicating the same ruler -- a sentence with no way to finish itself. This face
