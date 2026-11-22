@@ -1490,7 +1490,7 @@
  },
  "round_drift_note": "state said round_no=1937 while commit 6a3f33e30e already said round 1938 -> counters healed to 1939",
  "round_label": "r1813",
- "round_no": 1942,
+ "round_no": 1943,
  "round_no_label": "r1821",
  "round_no_landed": 1663,
  "round_note": "r1489: a reinstated bar is re-derived from the panel, not carried over (reinstatement_check + reinstatements.json + sheet paragraph)",
@@ -1999,7 +1999,7 @@
  "round_t1879_next": "(a) 把这块接到 CEO 一页纸（docs/live_usage）与 dashboard，让「打开的那一页」也有钱的价；(b) r1877 遗留 scripts/repo_quote_arrival.py 仍 untracked（median lag 2783d 被 2011-2013 批量导入主导），先按 post-import 重算再谈上链；(c) 循环/看门狗 S4U 一次提权重注册仍欠（本轮 register_watchdog 报 拒绝访问）；(d) 全套冒烟待收 results/_smoke_r1879.out",
  "round_t1879_note": "r1879: r1878 的阶梯只活在一张研究面上（results/etf_book_capacity_shortfall.json），操作员手上的 ORDER 单一个字都没提；这轮把读数搬上票面（_size_ladder_reading 只读面不重算、_size_ladder_md 渲染 + 自印 generated/cutoff），并加一条冒烟腿钉住四件事：每档都印、判词印、产出那一趟印、写阶梯的腿排在票面腿之前。档位数值逐字复现 r1878（-0.04/-4.17/-8.81/-10.53）。",
  "round_t1921_note": "r1921：接手 06:52-06:58 留在盘上未提交的四张面写者（beta_paths / concentration_levers / rebal_adoption / sizing_prereg 的 refresh 无操作门），补齐并收口；再给 280 格相位图谱（etf_book_phase_atlas，15+ 分钟的格）与 refusal_caliber_adoption、fill_ladder 接上写者——**链写者审计从 red 7 → red 0**（EVERY_CHECKED_FACE_HAS_A_WRITER，130 面 127 有写者，余 3 张是两个守卫+水位探针，设计上只读）。真正的产品增量是第二件：supply_floor 连续几十轮用同一句话拒绝四本候选——「相位差大于到线的距离」，而这句话一直只在 **5 个周相** 上测过。新面 `scripts/etf_book_phase_depth.py` 把同一个生成器（同锚 2020-01-01、同 7 天步长、前缀嵌套）加深到 40 周并逐深度出版：三本的 spread **随深度涨 6-9 倍**（12.33→117.65pp / 21.87→134.42pp / 15.73→125.59pp），margin 几乎不动（11.23→9.79 / 14.87→13.95 / 11.28→9.88）——「多给相位」不是解，这三本的年表形状本身由一两年决定（加深后甚至出现 top-2 占比 >1.0：2020-07-22 1.5748、2020-08-19 1.6543、2020-09-16 1.8588）。这条结论同时被焊进 compute_audit：`what_would_move_it` 不再假设「the phase set」，而是带着实测读数说「not the phase set … 12.33pp at depth 5 → 117.65pp at depth 40」。",
- "rounds": 1941,
+ "rounds": 1942,
  "rounds_done": 1941,
  "rounds_note": "round_no/rounds/rounds_done stay in lockstep",
  "s0": "machine.json=bm-c | 111 dirty at open (prior-generation derived faces PLUS another window's in-flight r1760 edits to scripts/etf_book_ceo_page.py + etf_book_order.py, mtimes 08:50) -> directional add only, their two files untouched | ahead=0 behind=0",
@@ -2238,5 +2238,7 @@
  "本地未达 origin commit 数": 0,
  "本地未达origin": 0,
  "本次": "r1940 符号面：先验符号 vs IC 符号 = 同一对象；IS-best OOS -8.49% < 中位 +0.17%，先验臂两半前 25%（IS 8/64, OOS 9/64）→ verdict peeking_loses_to_the_textbook",
- "水位": "healthy"
+ "水位": "healthy",
+ "round_t1942_note": "| 2026-11-22 20:0x | 1942 | **PRODUCT（产品优先律·watermark=red=false/lane=healthy·orphans=0）**：上一窗 18:37 起跑的 **1940 全链在开工前已收尾（351/351 rc0 @19:55:37）**，但它写出的 **157 张再生面一直只躺在盘上没进 git**——这正是 r1783 那一族的老毛病：链跑过了不等于产物发布了，新克隆看到的还是上一代数字。本轮做的就是把这一代整代发出去：commit `7ddc8f6f94`，157 面 **+7102/−6150**，其中 CEO 页 / 每日战报 / 数据车道板 / 21 张研究面 / 期货与逆回购状态面全部跟到 **bar 2026-11-20**。读者可见的差别：`docs/live_usage/LIVE-2026-11-22.md` 与 `docs/daily_report/REPORT-2026-11-22.*` 现在是链自己写的那一版，而不是上一窗提交时的快照。｜S0：machine.json=**bm-c**｜`orphan_face_probe` py_faces=3 **orphans=0**｜`repo_write_contention` **CLEAN**（仅本宿主）｜fetch 后 ahead=0 behind=0｜轮首 155 脏件（0 未跟踪）=上一代链产物，按「轮首脏只定向 add」处理：本轮只 `git add -u` 这 157 张链自己写出的面，未吞任何半成品。｜S0.5：`fleet/orders` **115 件** vs 心跳 `orders_ack`（327 条）差集=**未回执 0**；集团 `origin/main:docs/decisions.md` 原字节 sha256 **79e3083b…** == 自持水位（用 cat-file 取原生字节，不经 PS 字符串往返）→ **零新决策行零动作**；inbox 空。｜S1：全量套件**分离启动**（pid 38784 → `logs/smoke_bg_r1942.log`），收轮时 **288 行全 PASS**、尚未跑完，**不在窗内宣称全绿**（上一趟全套 914s，10 分钟窗吃不下的老账继续挂）。｜S2：`job_list` 空、`fleet/tasks` 47 张全部 claimed（**无 open 票**）→ 无更高优先工单。｜S3：饱和引擎 `engine_alive=true`/last_verdict=idle；水位 red=false。｜S6：1940 链收尾读数 **351/351 rc0**，其中 dualrun **ZERO-DRIFT streak 51**（745 条·cutoff 2026-11-20T20:03）。本轮**不重跑链**——整代刚由前窗跑完，重跑=同代双烧。｜S7：`register_loop_task` 幂等 no-op（pin=0·首火 20:10）；pre-commit / pre-push 两爪重装一致；`attrition_ledger_guard scan` **CLEAN**（4 账本，3 处历史缩行 healed）；心跳按 `gpu_face apply` 整族重写（r1909 同族纪律），RAM 族由一次 psutil 读数统一。｜**CEO 过程可见面**：当前活＝把链已经算完、却没发出去的一整代面发到 git（读者看到的就是链写的）｜最近实物＝commit `7ddc8f6f94`（157 面·2026-11-22 20:0x）＋ `results/_r1940bmc_s6_chain.json`（351/351 rc0）｜下个里程碑＝分离启动的全量冒烟跑出绿色记录并接线到轮报告（窗 ≤24h）。｜**未验证（如实）**：①全量冒烟本轮未收尾；②S6 未在本轮重跑（前窗刚跑完，重跑等于双烧）；③本机 RAM 实测 55.9GB / 32 核，与记忆里的 24GB 档不符——只记录未改记忆。｜记账：本行 1 处 + state 1 处 + 心跳 1 处 = 3 处。|",
+ "round_t1942_next": "next (P0): read the detached smoke run to its summary line and wire the slowest three legs to the round report; the 10-minute window still cannot hold the suite (914s last time)"
 }
