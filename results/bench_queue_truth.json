@@ -1,0 +1,247 @@
+{
+ "schema": "bench_queue_truth/v1",
+ "ts": "2026-11-23T06:08:59+08:00",
+ "headline": "QUEUE_DRIFT",
+ "queue_path": "research/BENCH-QUEUE.json",
+ "queue_updated": "2026-11-23T04:30:00+08:00",
+ "cells": [
+  {
+   "id": "fut_trend",
+   "status": "done",
+   "lane": "futures",
+   "question": "在已有真实日线的10个期货品种（股指4+国债3+商品3）上，5种经典风格里有没有哪一种值得单独开一条线？",
+   "delivered": true,
+   "evidence": {
+    "script": "scripts/bench_fut_trend.py",
+    "result": "results/bench_fut_trend.json",
+    "page": "research/BENCH-FUT-TREND.md",
+    "result_verdict_key": true,
+    "status_verdict": true,
+    "result_keys": [
+     "verdict"
+    ]
+   },
+   "drift": []
+  },
+  {
+   "id": "bond_curve",
+   "status": "done",
+   "lane": "futures",
+   "question": "T/TF/TS 三对价差上，反转或趋势有没有净后仍为正的收成？",
+   "delivered": true,
+   "evidence": {
+    "script": "scripts/bench_bond_curve.py",
+    "result": "results/bench_bond_curve.json",
+    "page": "research/BENCH-BOND-CURVE.md",
+    "result_verdict_key": true,
+    "status_verdict": true,
+    "result_keys": [
+     "verdict"
+    ]
+   },
+   "drift": []
+  },
+  {
+   "id": "astock_lowvol",
+   "status": "done",
+   "lane": "astock",
+   "question": "A股IC表里最干净的因子（低波动）用宽篮子、20日换手、10bp/边成本做，扣费后能不能跑赢同池等权2pp以上？",
+   "delivered": true,
+   "evidence": {
+    "script": "scripts/bench_astock_lowvol.py",
+    "result": "results/bench_astock_lowvol.json",
+    "page": "research/BENCH-ASTOCK-LOWVOL.md",
+    "result_verdict_key": true,
+    "status_verdict": true,
+    "result_keys": [
+     "verdict"
+    ]
+   },
+   "drift": []
+  },
+  {
+   "id": "bond_defensive",
+   "status": "done",
+   "lane": "futures",
+   "question": "把 T/TF/TS 当作防守腿（6%波动目标、周频再打、1.5bp/边），是不是比现金（GC001 1.38%）更好的防守？",
+   "delivered": true,
+   "evidence": {
+    "script": "scripts/bench_bond_defensive.py",
+    "result": "results/bench_bond_defensive.json",
+    "page": "research/BENCH-BOND-DEFENSIVE.md",
+    "result_verdict_key": true,
+    "status_verdict": true,
+    "result_keys": [
+     "verdict"
+    ]
+   },
+   "drift": []
+  },
+  {
+   "id": "revalidate",
+   "status": "done",
+   "lane": "futures",
+   "question": "新 bar 落地后，已发布的判决会不会翻转？翻转就是警报。",
+   "delivered": true,
+   "evidence": {
+    "script": "scripts/bench_revalidate.py",
+    "result": "results/bench_revalidate.json",
+    "page": null,
+    "result_verdict_key": true,
+    "status_verdict": true,
+    "result_keys": [
+     "verdict"
+    ]
+   },
+   "drift": []
+  },
+  {
+   "id": "idx_fut_basis_reuse",
+   "status": "done",
+   "lane": "futures",
+   "question": "IC/IF/IH/IM 的贴水是不是一项可下注的收成？",
+   "delivered": false,
+   "evidence": {
+    "script": "scripts/idx_fut_basis.py",
+    "result": "results/idx_fut_basis.json",
+    "page": "research/IDX_FUT_BASIS.md",
+    "result_verdict_key": true,
+    "status_verdict": true,
+    "result_keys": [
+     "verdict"
+    ]
+   },
+   "drift": [
+    "PATH_MISSING"
+   ]
+  },
+  {
+   "id": "cb_dual_low_reuse",
+   "status": "done",
+   "lane": "cb",
+   "question": "转债双低轮动是否值得投产？",
+   "delivered": true,
+   "evidence": {
+    "script": "scripts/cb_dual_low.py",
+    "result": "results/cb_dual_low.json",
+    "page": "research/CB_DUAL_LOW_VERDICT.md",
+    "result_verdict_key": false,
+    "status_verdict": true,
+    "result_keys": []
+   },
+   "drift": []
+  },
+  {
+   "id": "astock_resid_industry_reuse",
+   "status": "done",
+   "lane": "astock",
+   "question": "行业内残差反转是不是一条能单独下注的腿？",
+   "delivered": true,
+   "evidence": {
+    "script": "scripts/astock_resid_industry_neutral.py",
+    "result": "results/astock_rankind_stability.json",
+    "page": "research/digests/DIGEST-20261122-rankind-stability.md",
+    "result_verdict_key": true,
+    "status_verdict": true,
+    "result_keys": [
+     "headline"
+    ]
+   },
+   "drift": []
+  },
+  {
+   "id": "basis_capacity",
+   "status": "done",
+   "lane": "futures",
+   "question": "IC/IM 的贴水在 1% ADV / 5% OI 两条硬规则下能装多大资金，10M 下年收多少？",
+   "delivered": true,
+   "evidence": {
+    "script": "scripts/bench_basis_capacity.py",
+    "result": "results/bench_basis_capacity.json",
+    "page": "research/BENCH-BASIS-CAPACITY.md",
+    "result_verdict_key": true,
+    "status_verdict": false,
+    "result_keys": [
+     "verdict"
+    ]
+   },
+   "drift": []
+  },
+  {
+   "id": "basis_timing_size",
+   "status": "done",
+   "lane": "futures",
+   "question": "贴水窄的时候把仓位降下来，能不能比常驻持有多吃 1pp 以上、且回撤不更差？",
+   "delivered": true,
+   "evidence": {
+    "script": "scripts/bench_basis_timing_size.py",
+    "result": "results/bench_basis_timing_size.json",
+    "page": "research/BENCH-BASIS-TIMING-SIZE.md",
+    "result_verdict_key": true,
+    "status_verdict": false,
+    "result_keys": [
+     "verdict"
+    ]
+   },
+   "drift": []
+  },
+  {
+   "id": "repo_ladder",
+   "status": "pending",
+   "lane": "repo",
+   "question": "在已有11个逆回购期限（GC 1/3/4/7/14/28/91/182 + R 1/3/7）上，锁长期限扣掉佣金与闲置日后，能不能比每天滚 GC001 多赚 >=0.30pp/年？",
+   "delivered": true,
+   "evidence": {
+    "script": "scripts/bench_repo_ladder.py",
+    "result": "results/bench_repo_ladder.json",
+    "page": "research/BENCH-REPO-LADDER.md",
+    "result_verdict_key": true,
+    "status_verdict": false,
+    "result_keys": [
+     "verdict",
+     "headline"
+    ]
+   },
+   "drift": [
+    "DELIVERED_BUT_PENDING"
+   ]
+  }
+ ],
+ "counts": {
+  "cells": 11,
+  "done": 10,
+  "pending": 1,
+  "delivered": 10,
+  "status_rows": 8,
+  "drifts": 6
+ },
+ "drifts": [
+  {
+   "code": "PATH_MISSING",
+   "cell": "idx_fut_basis_reuse"
+  },
+  {
+   "code": "DELIVERED_BUT_PENDING",
+   "cell": "repo_ladder"
+  },
+  {
+   "code": "STATUS_ROW_MISSING",
+   "cell": "basis_capacity"
+  },
+  {
+   "code": "STATUS_ROW_MISSING",
+   "cell": "basis_timing_size"
+  },
+  {
+   "code": "STATUS_ROW_MISSING",
+   "cell": "repo_ladder"
+  },
+  {
+   "code": "STATUS_COUNT_WRONG",
+   "cell": null,
+   "printed": 8,
+   "queue": 11
+  }
+ ],
+ "limits": "This face cannot know whether a published verdict is still true on today's bar; that is the revalidate cell's job. It also cannot know whether a cell was declared with the right question -- only whether the console agrees with the files next to it."
+}
