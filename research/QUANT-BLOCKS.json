@@ -375,12 +375,12 @@
    "probe": {
     "type": "file_fresh",
     "path": "results/etf_book_tearsheet.json",
-    "max_age_h": 400
+    "max_age_h": 120
    },
-   "acceptance": "tearsheet 与当前回撤可读",
+   "acceptance": "tearsheet ≤5 天（风控面不能月更）",
    "on_red": "风控盲区",
    "closed_loop": "重算回撤→超阈报警",
-   "auto_fix": null
+   "auto_fix": "python scripts/etf_book_tearsheet.py run"
   },
   {
    "id": "C5_paper_recon",

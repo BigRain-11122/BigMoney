@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-22T23:21:07+08:00",
+ "generated": "2026-11-22T23:25:36+08:00",
  "version": "1.0",
  "target_edge_pp": 5.0,
  "blocks": 22,
@@ -105,7 +105,7 @@
     "data-quality-checker"
    ],
    "status": "GREEN",
-   "detail": "192.0h old",
+   "detail": "192.1h old",
    "cadence_h": 168,
    "on_red": "转债类格子停",
    "auto_fix": "python scripts/cb_dual_low.py fetch"
@@ -151,7 +151,7 @@
     "gate-rigor"
    ],
    "status": "GREEN",
-   "detail": "keys ok, 0.0h old",
+   "detail": "keys ok, 0.1h old",
    "cadence_h": 24,
    "on_red": "研究线断供",
    "auto_fix": "python scripts/bench_hub.py --selftest"
@@ -166,7 +166,7 @@
     "quant-backtest-gate"
    ],
    "status": "GREEN",
-   "detail": "0.2h old",
+   "detail": "0.3h old",
    "cadence_h": 1,
    "on_red": "执行器死→检查计划任务 Bigmoney-StrategyBench",
    "auto_fix": "python scripts/bench_hub.py --next"
@@ -197,7 +197,7 @@
     "quant-backtest-gate"
    ],
    "status": "GREEN",
-   "detail": "0.4h old",
+   "detail": "0.5h old",
    "cadence_h": 12,
    "on_red": "旧结论可能在漂移而无人知",
    "auto_fix": "python scripts/bench_revalidate.py"
@@ -227,7 +227,7 @@
     "position-sizer"
    ],
    "status": "GREEN",
-   "detail": "4.1h old",
+   "detail": "4.2h old",
    "cadence_h": 24,
    "on_red": "生产书不可复现",
    "auto_fix": null
@@ -258,7 +258,7 @@
     "position-sizer"
    ],
    "status": "GREEN",
-   "detail": "4.7h old",
+   "detail": "4.8h old",
    "cadence_h": 72,
    "on_red": "不知道能装多少钱",
    "auto_fix": null
@@ -273,10 +273,10 @@
     "drawdown-circuit-breaker"
    ],
    "status": "GREEN",
-   "detail": "314.2h old",
+   "detail": "0.0h old",
    "cadence_h": 72,
    "on_red": "风控盲区",
-   "auto_fix": null
+   "auto_fix": "python scripts/etf_book_tearsheet.py run"
   },
   {
    "id": "C5_paper_recon",
@@ -288,7 +288,7 @@
     "cost-ledger"
    ],
    "status": "GREEN",
-   "detail": "verdict=PASS, 3.1h old",
+   "detail": "verdict=PASS, 3.2h old",
    "cadence_h": 24,
    "on_red": "账面不可信",
    "auto_fix": null
@@ -303,7 +303,7 @@
     "cost-ledger"
    ],
    "status": "GREEN",
-   "detail": "0.2h old",
+   "detail": "0.3h old",
    "cadence_h": 24,
    "on_red": "无法复盘",
    "auto_fix": null
@@ -368,6 +368,5 @@
    "on_red": "整条线可能在空转",
    "auto_fix": "python scripts/block_board.py --fix-safe"
   }
- ],
- "fixes_applied": []
+ ]
 }
