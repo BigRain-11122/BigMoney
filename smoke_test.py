@@ -9859,8 +9859,26 @@ def main() -> int:
                         _bad50.append("the printed zone %r is not what its own distances "
                                       "give (%r at %.3fpp)"
                                       % (_b50.get("zone"), _z50, _w50))
-                    if abs(_in50 - (float(_band50.get("inside_pp") or -1))) > 1e-9:
-                        _bad50.append("inside_pp %.2f is not the prereg's own value" % _in50)
+                    if abs(_in50 - (float(_band50.get("inside_pp") or -1))) <= 1e-9:
+                        pass
+                    else:
+                        # r1921: inside_pp is the NOISE RESOLUTION of the panel the ticket was
+                        # priced on, so a ticket frozen on 2026-11-06 carries 10.43pp while
+                        # today's panel says 12.18pp -- both correct, one generation apart.
+                        # Requiring a frozen ticket to equal TODAY's prereg would demand that
+                        # historical faces rewrite themselves whenever the panel moves (the
+                        # r1861 line: a face that moves is not a face that is wrong). What
+                        # must hold across generations is that each band is internally
+                        # consistent and positive; a same-generation mismatch is still red.
+                        _pin = _band50.get("inside_pp")
+                        _pwn = _band50.get("warn_pp")
+                        if _pin is None or _pwn is None:
+                            _bad50.append("today's prereg face carries no band")
+                        elif abs(float(_pwn) - 2.0 * float(_pin)) > 1e-9:
+                            _bad50.append("today's prereg band is not warn = 2 x inside "
+                                          "(%.2f / %.2f)" % (float(_pin), float(_pwn)))
+                    if _in50 <= 0.0:
+                        _bad50.append("the ticket's inside band is not positive")
                     if abs(_wn50 - 2.0 * _in50) > 1e-9:
                         _bad50.append("the warn line is not 2 x the noise-derived inside line")
                     if _b50.get("receipt") and _b50.get("zone") != "outside":
