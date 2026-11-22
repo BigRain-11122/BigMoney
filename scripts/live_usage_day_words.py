@@ -81,6 +81,11 @@ CLAIM_RULES = [
     (re.compile(r"杀跌日（bar " + _D + r"）"), ["risk_tape.cutoff"]),
     (re.compile(r"较 " + _D + " 收盘"), ["freshness.expected_bar"]),
     (re.compile(r"今日 [+\-−]?¥[\d,]+（对比 " + _D + r"）"), ["rollup.day_prior"]),
+    # r1929: the idle-cash line prints the repo vehicle's own window (two dates from one
+    # other face), so the rule claims both dates in one match -- mapping only the prose
+    # date would leave the second one unmapped and the line red (r1912 family).
+    (re.compile(r"车 [\d.]+%/年（窗口 " + _D + "→" + _D + r"）"),
+     ["paper_cash.vehicle.window_start", "paper_cash.vehicle.window_end"]),
     (re.compile(r"\*\*账本\*\*：" + _D + " 播种"), ["etf_book.first_bar"]),
     (re.compile(r"\*\*账本\*\*：2026-10-23 播种 → " + _D), ["etf_book.last_bar"]),
     (re.compile(r"top-10 名义持仓.*?证据截至 " + _D), ["national_team.s2_evidence_cutoff"]),

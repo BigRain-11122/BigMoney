@@ -3728,6 +3728,45 @@ def main() -> int:
               f"leg_wired={_leg_ok}")
     except Exception as e:
         check("product: the regime cap is compared with the money actually deployed", False, str(e))
+    # r1929: the six seats' cash now has a price (scripts/paper_cash_value.py). Two legs,
+    # because a face and its reader can disagree independently: the first runs the face's
+    # own selftest, the second reads the money off the CEO page and compares it with the
+    # artifact's own totals (a page that prints a different number is the r1290 defect --
+    # and printing nothing while the face is healthy is the r1782 one).
+    try:
+        _pcr = subprocess.run(
+            [sys.executable, os.path.join("scripts", "paper_cash_value.py"), "--selftest"],
+            capture_output=True, text=True, encoding="utf-8", errors="replace",
+            creationflags=0x08000000, timeout=180)
+        _ptail = ((_pcr.stdout or "").strip().splitlines() or [""])[-1]
+        check("product: the six seats' idle cash can be priced (selftest)",
+              _pcr.returncode == 0 and "PASS" in _ptail,
+              f"rc={_pcr.returncode} {_ptail[:90]}")
+    except Exception as e:
+        check("product: the six seats' idle cash can be priced (selftest)", False, str(e))
+    try:
+        _pcf = json.load(open(os.path.join("results", "paper_cash_value.json"),
+                              encoding="utf-8"))
+        _page = open(os.path.join("docs", "live_usage", "LIVE-latest.md"),
+                     encoding="utf-8").read()
+        if _pcf.get("present"):
+            _t = _pcf.get("totals") or {}
+            _v = _pcf.get("vehicle") or {}
+            _want_yr = f"{round(float(_t['cny_per_year'])):,}"
+            _want_cash = f"{round(float(_t['cash_cny'])):,}"
+            _want_rate = ("%s" % _v.get("rate_pct_per_year")).rstrip("0").rstrip(".")
+            _window = f"{_v.get('window_start')}→{_v.get('window_end')}"
+            check("product: the idle-cash money reaches the CEO page, same numbers",
+                  "这笔现金按已发布的车值多少" in _page
+                  and _want_yr in _page and _want_cash in _page
+                  and _want_rate in _page and _window in _page,
+                  f"cash={_want_cash} cny/yr={_want_yr} rate={_want_rate} "
+                  f"window={_window} on_page={_window in _page}")
+        else:
+            check("product: the idle-cash money reaches the CEO page, same numbers",
+                  True, f"face absent by design ({_pcf.get('reason')})")
+    except Exception as e:
+        check("product: the idle-cash money reaches the CEO page, same numbers", False, str(e))
     # r1348 / E246: a risk band is only a law if it reaches the page a human trades from.
     # The card renders one row per block arm and the order sheet prints the p5 range, so
     # both faces are recomputed here from BLOCKS-<cutoff>.json instead of grepping for a

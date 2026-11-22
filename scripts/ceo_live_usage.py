@@ -229,6 +229,11 @@ CARRY_TIMING_REL = "results/idx_fut_basis_timing.json"
 # published (ADMIT, +0.58pp) but never reached the page the CEO opens (r1782 family).
 IDLE_CASH_JSON = os.path.join(ROOT, "results", "etf_book_idle_cash.json")
 IDLE_CASH_REL = "results/etf_book_idle_cash.json"
+# r1929: section 3 prints the six seats' cash in yuan but never says what that cash is
+# worth at the rate the desk already published for the very same money.  The face is the
+# product (scripts/paper_cash_value.py); this page only quotes it.
+PAPER_CASH_JSON = os.path.join(ROOT, "results", "paper_cash_value.json")
+PAPER_CASH_REL = "results/paper_cash_value.json"
 # r1819: the funding line and the timing rule were both on the page, but neither said
 # whether a *broker's margin* -- a floor that has nothing to do with the 8% risk dial --
 # could be the thing that actually decides the lot size.  Until now the page implied the
@@ -669,6 +674,47 @@ def _rollup_face(paper: dict, day: str) -> dict:
                    if os.path.exists(os.path.join(PAPER_EXPORT_DIR,
                                                   "export-%s.json" % day))
                    else "results/paper_export/latest.json"),
+    }
+
+
+def _paper_cash_face():
+    """r1929: what the six seats' idle cash is worth at the desk's own repo vehicle.
+
+    Section 3 prints equity / positions / cash in yuan; section 6 already turns the
+    ETF book's percent into money.  The cash half of section 3 earns nothing in the
+    model, while the desk has published what the same cash is worth at the GC001
+    daily-roll rate (results/etf_book_idle_cash.json, ADMIT).  This reader adds no
+    arithmetic of its own -- it quotes `scripts/paper_cash_value.py`'s totals, rate
+    and window, so the page and the artifact cannot disagree.  A missing face prints
+    its note, never a 0 (r98)."""
+    d = _read_json(PAPER_CASH_JSON)
+    if not d:
+        return {"present": False, "path": PAPER_CASH_REL,
+                "note": "现金计息面未产出（缺面不读 0）"}
+    if not d.get("present"):
+        return {"present": False, "path": PAPER_CASH_REL,
+                "note": d.get("note") or "现金计息面在册但输入缺件"}
+    tot = d.get("totals") or {}
+    veh = d.get("vehicle") or {}
+    if tot.get("cny_per_year") is None or veh.get("rate_pct_per_year") is None:
+        return {"present": False, "path": PAPER_CASH_REL,
+                "note": "现金计息面在册但无读数（不完整面不冒充）"}
+    return {
+        "present": True,
+        "path": PAPER_CASH_REL,
+        "cash_cny": tot.get("cash_cny"),
+        "equity_cny": tot.get("equity_cny"),
+        "share_pct": tot.get("share_pct"),
+        "cny_per_year": tot.get("cny_per_year"),
+        "n_priced": tot.get("n_priced"),
+        "vehicle": {
+            "rate_pct_per_year": veh.get("rate_pct_per_year"),
+            "contract": veh.get("contract"),
+            "source": veh.get("source"),
+            "window_start": veh.get("window_start"),
+            "window_end": veh.get("window_end"),
+        },
+        "evidence_cutoff": d.get("evidence_cutoff"),
     }
 
 
@@ -2451,6 +2497,7 @@ def build_payload(day: str) -> dict:
         "weight_face": weight_face,
         "cap_vs_book": _cap_vs_book_face(regime.get("asof")),
         "rollup": _rollup_face(paper, day),
+        "paper_cash": _paper_cash_face(),
         "intraday": _intraday_face(held, day),
         "recommendation": rec_face,
         "judgment_burns": _judgment_burn_face(),
@@ -2777,6 +2824,25 @@ def render_md(p: dict) -> str:
                  f"{_fmt_cny(abs(ru['pnl_cny']))}）**；其中持仓 ¥"
                  f"{_fmt_cny(ru['positions_cny'])} / 现金 ¥"
                  f"{_fmt_cny(ru['cash_cny'])}；{day_txt}")
+    # r1929: the cash half of the line above earns nothing in the model, and the desk
+    # already published what the very same money is worth at the repo rate.  Read it off
+    # the face; never multiply here (a second rate would be a second implementation).
+    pc = p.get("paper_cash") or {}
+    if pc.get("present"):
+        _v = pc.get("vehicle") or {}
+        _rate = _v.get("rate_pct_per_year")
+        _rate_txt = ("%s" % _rate).rstrip("0").rstrip(".") if _rate is not None else "—"
+        L.append(f"  - **这笔现金按已发布的车值多少**：现金 ¥"
+                 f"{_fmt_cny(pc.get('cash_cny'))} 在模型里按 0 计息"
+                 f"（占权益 {pc.get('share_pct')}%）；按桌面已发布的 "
+                 f"{_v.get('contract')} 车 {_rate_txt}%/年"
+                 f"（窗口 {_v.get('window_start')}→{_v.get('window_end')}）折算约 "
+                 f"**¥{_fmt_cny(pc.get('cny_per_year'))}/年**。现金高也可能是策略自己的"
+                 f"防守姿态，本行只说这笔钱按那条车值多少，不主张必须去赚它；各户能否"
+                 f"照做取决于交易所的最小申报金额（属交易规则），本面未核验，"
+                 f"故不给逐户判词。")
+    elif pc:
+        L.append(f"  - 现金计息面：{pc.get('note') or '缺件'}（缺面不读 0）")
     for mem in p["members"]:
         L.append("")
         L.append(f"### {mem['trader']}（权重 "
@@ -5191,6 +5257,31 @@ def selftest() -> int:
             check("a missing idle-cash face prints no number (r1908)",
                   "闲置现金面未产出" in _md5 and "{:+.2f}pp".format(
                       _ic1["cagr_gain_pp"]) not in _md5)
+        # r1929: the six seats' cash arm. Three legs: the money reaches section 3, it is
+        # the face's own two numbers (cash + rate -> yuan/year, printed, not re-multiplied
+        # here), and a missing face says "I could not read it" instead of letting a 0 stand
+        # as a measurement (r98).
+        _pc1 = p1.get("paper_cash") or {}
+        if not _pc1.get("present"):
+            print("  [SKIP] paper cash: the face is absent")
+        else:
+            _want_yr = "{:,.0f}".format(float(_pc1["cny_per_year"]))
+            _want_cash = "{:,.0f}".format(float(_pc1["cash_cny"]))
+            check("the six seats' idle cash is priced on the page (r1929)",
+                  "这笔现金按已发布的车值多少" in md1
+                  and _want_yr in md1 and _want_cash in md1)
+            _v1 = _pc1.get("vehicle") or {}
+            _rate_txt = ("%s" % _v1.get("rate_pct_per_year")).rstrip("0").rstrip(".")
+            check("the repo rate and its own window come off the face, never typed (r1929)",
+                  _rate_txt in md1
+                  and "{}→{}".format(_v1.get("window_start"),
+                                     _v1.get("window_end")) in md1)
+            _deg6 = json.loads(json.dumps(p1))
+            _deg6["paper_cash"] = {"present": False, "path": PAPER_CASH_REL,
+                                   "note": "现金计息面未产出（缺面不读 0）"}
+            _md6 = render_md(_deg6)
+            check("a missing paper-cash face prints no money (r1929)",
+                  "现金计息面未产出" in _md6 and _want_yr not in _md6)
         # r1819: the margin arm is the second floor under the same number. Three legs:
         # the verdict reaches the page, the breakeven rate comes off the face (not typed),
         # and a missing margin face says "I could not check the broker's floor" rather

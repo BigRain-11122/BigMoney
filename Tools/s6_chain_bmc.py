@@ -1604,6 +1604,11 @@ LEGS = [
     # (sec.2) now QUOTE this verdict, so the producer has to run before both consumers
     # or two human faces print yesterday's sentence all round.
     ("regime_cap_vs_book", ["python", "scripts/regime_cap_vs_book.py", "run"]),
+    # r1929: section 3 of the CEO page now prints what the six seats' idle cash is worth at
+    # the repo rate the desk already published, so the producer has to land before the two
+    # reader faces above (paper_export -> this -> ceo_live_usage order, r1318 class).
+    # Reads paper_export/latest.json + etf_book_idle_cash.json only; ~0.1s, no network.
+    ("paper_cash_value", ["python", "scripts/paper_cash_value.py", "run"]),
     ("daily_report", ["python", "scripts/daily_report.py", "run"]),
     ("ceo_live_usage", ["python", "scripts/ceo_live_usage.py"]),
     # r1880: r1877 measured WHEN a repo quote lands (first commit whose csv reaches the
