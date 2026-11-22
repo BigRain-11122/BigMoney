@@ -2236,7 +2236,7 @@
  "work": "r1943: told a killed child apart from a child that said no -- the suite's only red was rc=0xC000013A (STATUS_CONTROL_C_EXIT), the guard itself passes 17/17",
  "yield_note": "repo_write_contention CONTENTION rc=3: two other interactive hosts on shared faces",
  "下个里程碑": "把 rankind?ind 差分搬到另一段样本原样重验（判据先写死同号+t≥1.5），窗 ≤48h",
- "下轮指针": "next (P0): 把 `rankind?ind`（6/7 年为正、t=1.99）搬到另一段样本上原样重跑，判据先写死「同号 + t≥1.5」；次优先=无竞争窗补三条接线（smoke 两腿 / S6 腿 / 方法卡）。",
+ "下轮指针": "next (P0): 把 `rankind?ind`（6/7 年为正、t=1.99）搬到另一段样本上原样重跑，判据先写死「同号 + t≥1.5」；次优先=无竞争窗补三条接线（smoke 两腿 / S6 腿 / 方法卡）。 [小尾巴·无竞争窗] Tools/gpu_face.py 的 --help / 无参走的是用法分支却返回 rc2，而它自己的头注把 rc2 定义为「probe/mechanism fault」——审计读 rc 会把「你要帮助」误读成「探针坏了」；实测工具本身健康（selftest 49/49 rc0、audit findings=[] 33 键一致），只需把 help 认成 rc0。共享代码，本轮竞争态不动。",
  "孤儿面": 0,
  "孤儿面_note": "round-zero orphan_face_probe: py_faces 6, orphans 0, resident_servers 2",
  "当前任务": "r1943: 把「子进程被杀」与「子进程说不行」分成两种状态，树收缩假红归位",
