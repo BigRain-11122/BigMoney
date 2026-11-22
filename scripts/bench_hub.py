@@ -231,6 +231,42 @@ def release_lock():
         pass
 
 
+def attach_power(cell):
+    """After a run, attach the arm's minimum detectable edge (MDE) to the cell.
+
+    A negative is only evidence if the sample could have seen the edge we care
+    about. If every arm in the cell sits inside its own noise, the verdict is
+    downgraded to UNINFORMATIVE_AT_TARGET -- "not seen" is not "not there".
+    """
+    script = os.path.join(ROOT, "scripts", "bench_power.py")
+    if not os.path.exists(script):
+        return None
+    try:
+        env = dict(os.environ)
+        env["PYTHONIOENCODING"] = "utf-8"
+        subprocess.run([sys.executable, script], cwd=ROOT, env=env,
+                       capture_output=True, text=True, timeout=300)
+        with open(os.path.join(ROOT, "results", "bench_power.json"), encoding="utf-8") as f:
+            p = json.load(f)
+    except Exception:
+        return None
+    rows = [r for r in p.get("rows", []) if r.get("cell") == cell["id"]]
+    if not rows:
+        return None
+    unpowered = [r for r in rows if r.get("reading") == "UNPOWERED_AT_OWN_NOISE"]
+    summary = {
+        "target_edge_pp": p.get("target_edge_pp"),
+        "arms": len(rows),
+        "unpowered": len(unpowered),
+        "mde_pp_range": [min(r["mde_pp"] for r in rows if r.get("mde_pp") is not None),
+                         max(r["mde_pp"] for r in rows if r.get("mde_pp") is not None)]
+        if any(r.get("mde_pp") is not None for r in rows) else None,
+    }
+    if rows and len(unpowered) == len(rows):
+        summary["verdict_downgraded"] = "UNINFORMATIVE_AT_TARGET"
+    return summary
+
+
 def run_one(cell_id=None):
     if not acquire_lock():
         print(json.dumps({"ok": True, "skipped": "LOCKED", "reason": "another tick owns the hub"}))
@@ -268,6 +304,9 @@ def run_one(cell_id=None):
             cell["verdict"] = verdict
             cell["finished"] = stamp
             cell["attempts"] = 0
+            power = attach_power(cell)
+            if power:
+                cell["power"] = power
             if cell.get("recurring"):
                 cell["next_due"] = (now() + timedelta(hours=float(cell.get("recur_hours", 12)))
                                     ).isoformat(timespec="seconds")

@@ -1,6 +1,6 @@
 # 国债期货当防守腿（bench cell 4）
 
-evidence cutoff 2026-11-20 | generated 2026-11-22T22:46:09+08:00
+evidence cutoff 2026-11-20 | generated 2026-11-22T23:10:28+08:00
 
 **判决 NO_EDGE**
 
