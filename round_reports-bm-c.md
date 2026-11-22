@@ -2487,3 +2487,4 @@ CEO 过程可见面：当前活=把 r1964 的王冠放回同一把尺上，量�
 未验证（如实）：①未接 S6 链、未加冒烟腿、未入方法卡（竞争窗禁改共享面）；②check 的新鲜度只锚父面（父面不重生则本守卫失明），链腿必须无条件跑；③全样本单窗、票池幸存者偏差、成本只计 10bp/边；④裸奔格 vol_target=None 走的是引擎既有分支（同函数非副本），但「裸奔=满仓」只在 mean_scale 恰 1.0 上验过，未做涨跌停/停牌可成交性过滤。
 下轮指针：(a) 竞争窗结束后补本面冒烟腿 + S6 链腿 + CODELY 一条（判例=「跨臂比较金额必须写明下注尺寸这把尺」）；(b) 把「帽子对夏普方向相反」做成可复用诊断（每个新臂先报 cap 位移）；(c) 现金腿只取一个发布值，可做 carry 逐日实测敏感性；(d) 无竞争轮把 state round_no（现值 1960）与本轮报告号（1965）对齐，并交代心跳 last_seen（03:00:49）比自身文件 mtime（04:00:49）慢 1h 的异常。
 孤儿面=0（round-zero 探针 py_faces=5/orphans=0/resident_servers=1）。本地未达 origin commit 数=推送后自证。记账：本行 1 处（state/心跳按竞争窗律延后，本窗 0 处）。|
+**送达复核（04:2x）**：commit **13008d2c15** 已推 origin/main（3e4d18ed6b..13008d2c15），fetch 后 HEAD...origin/main = 0/0（本地未达 origin commit 数=0），git ls-tree origin/main 三件在位（scripts 717cb436 / results d44bcc1b / md 8bdc214b）。pre-commit 爪与 pre-push 爪均未触发（本轮无删除集、无冲突标记）；peer 宿主未提交的 8 张共享面原样留在工作树，本轮未触碰。记账：本行 1 处（本轮累计 2 处）。|
