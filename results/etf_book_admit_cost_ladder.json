@@ -1,0 +1,769 @@
+{
+ "face": "etf_book_admit_cost_ladder",
+ "book_family": "nobond_vt08",
+ "asof": "2026-11-22T12:44:28+08:00",
+ "evidence_cutoff": "2026-11-20",
+ "question": "the gate has two ADMIT arms that clear the top-2 line by less than a third of a point -- is that margin a property of the lever or of the 10bp cost?",
+ "rule": {
+  "gate": "scripts/candidate_year_gate.py (imported, not transcribed)",
+  "yearly": "scripts/etf_book_year_gate.py::yearly_returns (imported)",
+  "stats": "scripts/etf_equity_alpha.py::stats2 (imported)",
+  "top2_share_max": 0.7,
+  "ladder_bp_per_side": [
+   10,
+   20,
+   30
+  ],
+  "ten_bp_rung": "quoted from results/etf_book_concentration_levers.json, never recomputed",
+  "near_miss_pp": 0.04,
+  "max_arms": 4,
+  "control": {
+   "rebal": 20,
+   "n_hold": 5,
+   "cost": 0.001,
+   "vol_target": 0.08
+  }
+ },
+ "control": {
+  "arm": "control",
+  "lever": "none",
+  "value": null,
+  "cost_bp_per_side": 10.0,
+  "source": "computed",
+  "verdict": "CONDITIONAL",
+  "checks": {
+   "Y1_positive_years_share": true,
+   "Y2_median_positive": true,
+   "Y3_worst_year": true,
+   "Y4_top2_share": false,
+   "C1_capacity": null
+  },
+  "top2_share": 0.7238,
+  "top2_distance_pp": 2.38,
+  "cagr_pct": 11.16,
+  "sharpe": 1.101,
+  "maxdd_pct": -10.56,
+  "turnover": 1.082465,
+  "years": [
+   {
+    "year": "2020",
+    "net_pct": 5.6072,
+    "cohorts": 4,
+    "partial": false
+   },
+   {
+    "year": "2021",
+    "net_pct": 7.6281,
+    "cohorts": 4,
+    "partial": false
+   },
+   {
+    "year": "2022",
+    "net_pct": 2.8393,
+    "cohorts": 4,
+    "partial": false
+   },
+   {
+    "year": "2023",
+    "net_pct": 5.473,
+    "cohorts": 4,
+    "partial": false
+   },
+   {
+    "year": "2024",
+    "net_pct": 14.5496,
+    "cohorts": 4,
+    "partial": false
+   },
+   {
+    "year": "2025",
+    "net_pct": 43.0627,
+    "cohorts": 4,
+    "partial": false
+   },
+   {
+    "year": "2026",
+    "net_pct": 0.4381,
+    "cohorts": 4,
+    "partial": false
+   }
+  ],
+  "published_cagr_pct": 11.16,
+  "reproduces_published": true
+ },
+ "selected_arms": [
+  "rebal=10",
+  "vol_target=None",
+  "n_hold=10",
+  "vol_target=0.1"
+ ],
+ "ladder": [
+  {
+   "arm": "rebal=10",
+   "lever": "rebal",
+   "value": 10,
+   "cost_bp_per_side": 10.0,
+   "source": "published@10bp",
+   "verdict": "ADMIT",
+   "checks": null,
+   "top2_share": 0.6968,
+   "top2_distance_pp": -0.32,
+   "cagr_pct": 11.84,
+   "sharpe": null,
+   "maxdd_pct": -12.7,
+   "turnover": null,
+   "years": null
+  },
+  {
+   "arm": "rebal=10",
+   "lever": "rebal",
+   "value": 10,
+   "cost_bp_per_side": 20.0,
+   "source": "computed",
+   "verdict": "CONDITIONAL",
+   "checks": {
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false,
+    "C1_capacity": null
+   },
+   "top2_share": 0.7835,
+   "top2_distance_pp": 8.35,
+   "cagr_pct": 9.31,
+   "sharpe": 0.914,
+   "maxdd_pct": -12.8,
+   "turnover": 0.94586,
+   "years": [
+    {
+     "year": "2020",
+     "net_pct": 6.2869,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2021",
+     "net_pct": 4.763,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2022",
+     "net_pct": -2.7691,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2023",
+     "net_pct": 10.9945,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2024",
+     "net_pct": 12.5779,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2025",
+     "net_pct": 40.5735,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2026",
+     "net_pct": -4.5868,
+     "cohorts": 4,
+     "partial": false
+    }
+   ]
+  },
+  {
+   "arm": "rebal=10",
+   "lever": "rebal",
+   "value": 10,
+   "cost_bp_per_side": 30.0,
+   "source": "computed",
+   "verdict": "CONDITIONAL",
+   "checks": {
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false,
+    "C1_capacity": null
+   },
+   "top2_share": 0.9266,
+   "top2_distance_pp": 22.66,
+   "cagr_pct": 6.84,
+   "sharpe": 0.691,
+   "maxdd_pct": -12.89,
+   "turnover": 0.94586,
+   "years": [
+    {
+     "year": "2020",
+     "net_pct": 4.8226,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2021",
+     "net_pct": 2.4455,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2022",
+     "net_pct": -4.6212,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2023",
+     "net_pct": 7.927,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2024",
+     "net_pct": 9.6816,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2025",
+     "net_pct": 37.2405,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2026",
+     "net_pct": -6.8596,
+     "cohorts": 4,
+     "partial": false
+    }
+   ]
+  },
+  {
+   "arm": "vol_target=None",
+   "lever": "vol_target",
+   "value": null,
+   "cost_bp_per_side": 10.0,
+   "source": "published@10bp",
+   "verdict": "ADMIT",
+   "checks": null,
+   "top2_share": 0.6991,
+   "top2_distance_pp": -0.09,
+   "cagr_pct": 15.18,
+   "sharpe": null,
+   "maxdd_pct": -16.04,
+   "turnover": null,
+   "years": null
+  },
+  {
+   "arm": "vol_target=None",
+   "lever": "vol_target",
+   "value": null,
+   "cost_bp_per_side": 20.0,
+   "source": "computed",
+   "verdict": "CONDITIONAL",
+   "checks": {
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false,
+    "C1_capacity": null
+   },
+   "top2_share": 0.7516,
+   "top2_distance_pp": 5.16,
+   "cagr_pct": 13.06,
+   "sharpe": 0.863,
+   "maxdd_pct": -16.34,
+   "turnover": 1.530952,
+   "years": [
+    {
+     "year": "2020",
+     "net_pct": 19.8643,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2021",
+     "net_pct": 7.527,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2022",
+     "net_pct": 0.9462,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2023",
+     "net_pct": 3.1364,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2024",
+     "net_pct": 10.9044,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2025",
+     "net_pct": 50.6803,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2026",
+     "net_pct": 0.801,
+     "cohorts": 4,
+     "partial": false
+    }
+   ]
+  },
+  {
+   "arm": "vol_target=None",
+   "lever": "vol_target",
+   "value": null,
+   "cost_bp_per_side": 30.0,
+   "source": "computed",
+   "verdict": "CONDITIONAL",
+   "checks": {
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false,
+    "C1_capacity": null
+   },
+   "top2_share": 0.8223,
+   "top2_distance_pp": 12.23,
+   "cagr_pct": 10.97,
+   "sharpe": 0.743,
+   "maxdd_pct": -16.64,
+   "turnover": 1.530952,
+   "years": [
+    {
+     "year": "2020",
+     "net_pct": 17.5745,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2021",
+     "net_pct": 5.7714,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2022",
+     "net_pct": -0.4221,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2023",
+     "net_pct": 1.0447,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2024",
+     "net_pct": 8.8741,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2025",
+     "net_pct": 47.6831,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2026",
+     "net_pct": -1.1643,
+     "cohorts": 4,
+     "partial": false
+    }
+   ]
+  },
+  {
+   "arm": "n_hold=10",
+   "lever": "n_hold",
+   "value": 10,
+   "cost_bp_per_side": 10.0,
+   "source": "published@10bp",
+   "verdict": "CONDITIONAL",
+   "checks": null,
+   "top2_share": 0.7389,
+   "top2_distance_pp": 3.89,
+   "cagr_pct": 9.85,
+   "sharpe": null,
+   "maxdd_pct": -11.04,
+   "turnover": null,
+   "years": null
+  },
+  {
+   "arm": "n_hold=10",
+   "lever": "n_hold",
+   "value": 10,
+   "cost_bp_per_side": 20.0,
+   "source": "computed",
+   "verdict": "CONDITIONAL",
+   "checks": {
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false,
+    "C1_capacity": null
+   },
+   "top2_share": 0.7949,
+   "top2_distance_pp": 9.49,
+   "cagr_pct": 8.56,
+   "sharpe": 0.883,
+   "maxdd_pct": -11.26,
+   "turnover": 0.980067,
+   "years": [
+    {
+     "year": "2020",
+     "net_pct": 3.6589,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2021",
+     "net_pct": 4.5408,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2022",
+     "net_pct": -1.7591,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2023",
+     "net_pct": 6.6991,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2024",
+     "net_pct": 7.2726,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2025",
+     "net_pct": 42.4012,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2026",
+     "net_pct": -0.3216,
+     "cohorts": 4,
+     "partial": false
+    }
+   ]
+  },
+  {
+   "arm": "n_hold=10",
+   "lever": "n_hold",
+   "value": 10,
+   "cost_bp_per_side": 30.0,
+   "source": "computed",
+   "verdict": "CONDITIONAL",
+   "checks": {
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false,
+    "C1_capacity": null
+   },
+   "top2_share": 0.8688,
+   "top2_distance_pp": 16.88,
+   "cagr_pct": 7.27,
+   "sharpe": 0.761,
+   "maxdd_pct": -12.31,
+   "turnover": 0.980067,
+   "years": [
+    {
+     "year": "2020",
+     "net_pct": 2.8629,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2021",
+     "net_pct": 3.3343,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2022",
+     "net_pct": -2.6861,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2023",
+     "net_pct": 5.1085,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2024",
+     "net_pct": 5.9138,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2025",
+     "net_pct": 40.6435,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2026",
+     "net_pct": -1.5895,
+     "cohorts": 4,
+     "partial": false
+    }
+   ]
+  },
+  {
+   "arm": "vol_target=0.1",
+   "lever": "vol_target",
+   "value": 0.1,
+   "cost_bp_per_side": 10.0,
+   "source": "published@10bp",
+   "verdict": "CONDITIONAL",
+   "checks": null,
+   "top2_share": 0.7391,
+   "top2_distance_pp": 3.91,
+   "cagr_pct": 12.43,
+   "sharpe": null,
+   "maxdd_pct": -13.05,
+   "turnover": null,
+   "years": null
+  },
+  {
+   "arm": "vol_target=0.1",
+   "lever": "vol_target",
+   "value": 0.1,
+   "cost_bp_per_side": 20.0,
+   "source": "computed",
+   "verdict": "CONDITIONAL",
+   "checks": {
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false,
+    "C1_capacity": null
+   },
+   "top2_share": 0.7973,
+   "top2_distance_pp": 9.73,
+   "cagr_pct": 10.72,
+   "sharpe": 0.909,
+   "maxdd_pct": -13.29,
+   "turnover": 1.260606,
+   "years": [
+    {
+     "year": "2020",
+     "net_pct": 5.5936,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2021",
+     "net_pct": 7.3601,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2022",
+     "net_pct": 1.0975,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2023",
+     "net_pct": 3.1518,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2024",
+     "net_pct": 12.3492,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2025",
+     "net_pct": 50.2152,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2026",
+     "net_pct": -1.2928,
+     "cohorts": 4,
+     "partial": false
+    }
+   ]
+  },
+  {
+   "arm": "vol_target=0.1",
+   "lever": "vol_target",
+   "value": 0.1,
+   "cost_bp_per_side": 30.0,
+   "source": "computed",
+   "verdict": "CONDITIONAL",
+   "checks": {
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false,
+    "C1_capacity": null
+   },
+   "top2_share": 0.8748,
+   "top2_distance_pp": 17.48,
+   "cagr_pct": 9.04,
+   "sharpe": 0.78,
+   "maxdd_pct": -13.54,
+   "turnover": 1.260606,
+   "years": [
+    {
+     "year": "2020",
+     "net_pct": 4.4212,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2021",
+     "net_pct": 5.8532,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2022",
+     "net_pct": -0.1009,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2023",
+     "net_pct": 1.1215,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2024",
+     "net_pct": 10.6256,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2025",
+     "net_pct": 47.8229,
+     "cohorts": 4,
+     "partial": false
+    },
+    {
+     "year": "2026",
+     "net_pct": -2.929,
+     "cohorts": 4,
+     "partial": false
+    }
+   ]
+  }
+ ],
+ "summary": {
+  "verdict": "PASS_IS_A_COST_ASSUMPTION",
+  "sentence": "every arm that clears the top-2 line at 10bp flips at 20bp/side (rebal=10 0.6968 -> 0.7835; vol_target=None 0.6991 -> 0.7516); those passes were margins of 0.32, 0.09 pp against a 0.70 line -- the pass belongs to the 10bp cost, not to the lever; the near misses it also priced (n_hold=10 0.7949, vol_target=0.1 0.7973) never cleared the line at any cost",
+  "arms": [
+   {
+    "arm": "n_hold=10",
+    "lever": "n_hold",
+    "value": 10,
+    "passing_costs_bp": [],
+    "survives_20bp": false,
+    "highest_passing_bp": null,
+    "top2_at_10bp": 0.7389,
+    "top2_at_20bp": 0.7949,
+    "top2_moved_pp_10_to_20": 5.6,
+    "maxdd_at_10bp": -11.04,
+    "maxdd_at_20bp": -11.26,
+    "cagr_at_20bp": 8.56
+   },
+   {
+    "arm": "rebal=10",
+    "lever": "rebal",
+    "value": 10,
+    "passing_costs_bp": [
+     10.0
+    ],
+    "survives_20bp": false,
+    "highest_passing_bp": 10.0,
+    "top2_at_10bp": 0.6968,
+    "top2_at_20bp": 0.7835,
+    "top2_moved_pp_10_to_20": 8.67,
+    "maxdd_at_10bp": -12.7,
+    "maxdd_at_20bp": -12.8,
+    "cagr_at_20bp": 9.31
+   },
+   {
+    "arm": "vol_target=0.1",
+    "lever": "vol_target",
+    "value": 0.1,
+    "passing_costs_bp": [],
+    "survives_20bp": false,
+    "highest_passing_bp": null,
+    "top2_at_10bp": 0.7391,
+    "top2_at_20bp": 0.7973,
+    "top2_moved_pp_10_to_20": 5.82,
+    "maxdd_at_10bp": -13.05,
+    "maxdd_at_20bp": -13.29,
+    "cagr_at_20bp": 10.72
+   },
+   {
+    "arm": "vol_target=None",
+    "lever": "vol_target",
+    "value": null,
+    "passing_costs_bp": [
+     10.0
+    ],
+    "survives_20bp": false,
+    "highest_passing_bp": 10.0,
+    "top2_at_10bp": 0.6991,
+    "top2_at_20bp": 0.7516,
+    "top2_moved_pp_10_to_20": 5.25,
+    "maxdd_at_10bp": -16.04,
+    "maxdd_at_20bp": -16.34,
+    "cagr_at_20bp": 13.06
+   }
+  ],
+  "n_arms": 4,
+  "n_survive_20bp": 0,
+  "survivors_20bp": [],
+  "robust_at_30bp": [],
+  "not_selected": [
+   "n_hold=3",
+   "n_hold=8",
+   "rebal=40"
+  ]
+ },
+ "honest": [
+  "the 10bp rung is quoted; only the 20/30bp rungs are recomputed here, so the ladder cannot disagree with the face it qualifies at 10bp",
+  "each recomputed rung re-derives its own yearly rows; a difference is a difference in cost, never in the gate",
+  "the 2026 row is partial and counted raw, so a lever that passes today can fail after the next cohort",
+  "a pass bought with a wider drawdown is printed with that drawdown, not hidden behind the verdict",
+  "no line is moved: this file never proposes a different top-2 threshold"
+ ],
+ "elapsed_sec": 45.6
+}

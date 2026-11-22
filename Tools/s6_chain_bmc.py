@@ -1806,6 +1806,17 @@ LEGS = [
      ["python", "scripts/etf_book_concentration_levers.py", "refresh"]),
     ("concentration_levers",
      ["python", "scripts/etf_book_concentration_levers.py", "check"]),
+    # r1928: concentration_levers named two ADMIT arms whose margins against the 0.70 line
+    # were 0.32pp and 0.09pp, and then cost-stressed only the one its summary recommended,
+    # at exactly one other rung. This leg prices every line-clearing arm (plus the nearest
+    # refusals) on a 10/20/30bp ladder: the 10bp rung is quoted from the published face and
+    # never recomputed, the 20/30bp rungs re-derive their own yearly rows, so a difference
+    # is a difference in cost and never in the gate. `check` re-derives the verdict from
+    # the receipt's own rungs (0.1s, no repricing).
+    ("admit_cost_ladder_write",
+     ["python", "scripts/etf_book_admit_cost_ladder.py", "refresh"]),
+    ("admit_cost_ladder",
+     ["python", "scripts/etf_book_admit_cost_ladder.py", "check"]),
     # r1462: concentration_levers recommended exactly one arm (rebalance 10 bars, ADMIT at
     # 10bp) and then said it turns CONDITIONAL at 20bp. This leg is the adoption round that
     # sentence asked for: the rule is priced on five decision calendars x two cost

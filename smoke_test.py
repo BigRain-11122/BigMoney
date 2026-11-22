@@ -2651,6 +2651,16 @@ def main() -> int:
              "scripts/etf_book_concentration_levers.py", ["selftest"]),
             ("product: etf_book_concentration_levers (published arms re-derived)",
              "scripts/etf_book_concentration_levers.py", ["check"]),
+            # r1928: two arms cleared the line by 0.32pp and 0.09pp and only one was ever
+            # cost-stressed. The legs pin that a survivor at 20bp reads ADOPTABLE_AT_20BP,
+            # that every arm flipping reads PASS_IS_A_COST_ASSUMPTION, that an empty ladder
+            # reads NO_ARMS_PRICED rather than a pass, that movement between rungs and the
+            # drawdown that buys a pass both travel with the arm, and that a near miss is
+            # never printed as a "margin" against the line.
+            ("product: etf_book_admit_cost_ladder (is the pass a lever or a cost assumption)",
+             "scripts/etf_book_admit_cost_ladder.py", ["selftest"]),
+            ("product: etf_book_admit_cost_ladder (quoted rungs and verdict re-derived)",
+             "scripts/etf_book_admit_cost_ladder.py", ["check"]),
             # r1462: the arm that receipt recommended was one decision calendar. The legs pin
              # that the phase ruler moves the calendar, that a pass which only appears on some
              # calendars reads PHASE_DEPENDENT, that a pass which only exists at 10bp reads

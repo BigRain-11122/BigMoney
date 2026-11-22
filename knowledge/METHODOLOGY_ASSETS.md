@@ -17572,3 +17572,15 @@ research/ETF_BOOK_PHASE_ATLAS_ARMS.md 新节「成本档 5bp → 20bp：多收�
 **实锚**：regime_cap_vs_book selftest 37→42 五条腿（同批→同一笔钱／不同顶帽各自印自己的 255626 与 155626／缺数不印 0 元／已发布面必须带两键且句子用它／读者逐字引用仍成立）；run → ceo_live_usage → daily_report 三件重派生；live_usage_day_words 与 daily_report_day_words 均 PRINTED_DATES_AGREE（0 unmapped）；page_repeat_guard 4 面 0 重复句子。
 
 **How**：①补第二处口径前先算它会不会等于第一处——相等的两个数并排印，读者读成两条证据；②「同一笔」要指名（就是上面那 X 元），不能只删掉数字让读者自己猜；③这类同源句子改完必跑 page_repeat_guard，它是唯一会替你发现「一句话卖了两次」的闸。
+
+## E-20261122-r1928 判例：过线的余量只有 0.3pp 时，先问它是杠杆的属性还是成本的属性
+
+**形状**：r1460/r1921 把供给地板从「缺相位」追到「相位扩散不收敛」，最后剩下的通俗说法是「换个杠杆就能过闸」。concentration_levers 印了两个 ADMIT 臂：rebal=10（top-2 0.6968）与 vol_target=None（0.6991），线是 0.70——余量 0.32pp 与 0.09pp；它只对 summary 推荐的那一个做了成本压力，且只到一个档（20bp）。新面 etf_book_admit_cost_ladder 把每个过线臂放上 10/20/30bp 梯子：10bp 档**引自发布面不重算**（重算会与它被用来鉴定的那张面悄悄分歧），20/30bp 档各自重派生年度行（差异只能来自成本）。结果两个臂在 20bp 全翻（rebal=10 0.7835、vol_target=None 0.7516），30bp 更远（0.9266/0.8223）；近线的两个 CONDITIONAL（n_hold=10、vol_target=0.1）任何成本档都没过过。判词 `PASS_IS_A_COST_ASSUMPTION`：供给地板等的不是相位、也不是参数，是 10bp 那条成本假设。
+
+**第二枚（负值余量）**：首版把「未过线臂的 10bp 距离」也算进 margins，印出 -3.89/-3.91，读起来像「过线后又失败」。正法=只有真的过线的臂才配叫 margin，近线臂另起一句带它自己的 20bp 读数；自检加了这条回归腿。
+
+**第三枚（接线要带族守卫）**：compute_audit 的 what_would_move_it 在相位词之后**追加**成本梯子从句（保留原开头，旧 startswith 腿不破），但只在「本页候选属于这本被定价的书」（book_family 前缀命中）时才说话——否则旧自检腿用 A/B 两名候选会被新句覆盖成假红。日报的中文映射也从精确匹配改成前缀匹配（精确匹配会让 "not the phase set: …" 掉进「无法判断等什么才有用」）。
+
+**实锚**：selftest 18/18（含负值余量回归腿）；run rc0 → results/etf_book_admit_cost_ladder.json（cutoff 2026-11-20、4 臂 9 档、45s）；check rc0 problems=[]；compute_audit selftest 95→104/104（4 条新腿：追加不改开头／族守卫不越界／margins 随面走／深度词优先）；日报 §六 行印「杠杆也试过：10bp 下过线的 2 个臂在 20bp 全翻（余量只有 0.32, 0.09 个百分点），换参数解决不了」；链新增 admit_cost_ladder_write/admit_cost_ladder 两腿；冒烟新增 selftest+check 两腿。
+
+**How**：①任何「某杠杆能过闸」的结论先问余量有多厚——余量薄于换手带来的成本差，就不是杠杆的属性；②压力测试只覆盖被推荐的那个，等于没测（推荐是最强的先验，恰好漏掉相反的臂）；③引用他面的读数不许重算（10bp 档必须引），重算才允许出现在别的档；④把新诊断接进旧判词时用「追加不改开头」+「族守卫」，否则第一个红的是上一轮的回归腿而不是新缺陷。

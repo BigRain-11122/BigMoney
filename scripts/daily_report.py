@@ -1272,8 +1272,13 @@ def render_md(rep):
         own_n = m.get("own_samples")
         un_n = m.get("unattributed_samples") or 0
         why = m.get("supply_why") or {}
-        _mover_cn = {"the phase set": "相位集的切法",
-                     "more years of evidence": "更多年的证据"}
+        # r1928: the audit's sentence now opens with a measurement ("not the phase
+        # set") and appends a second one (the cost ladder). Matching the whole string
+        # exactly turned both into "无法判断等什么才有用", so the map is prefix-based.
+        _mover_cn = [("not the phase set", "相位集的切法（已实测：加深相位只会更糟）"),
+                     ("a deeper phase set", "更深的相位集（还不够）"),
+                     ("the phase set", "相位集的切法"),
+                     ("more years of evidence", "更多年的证据")]
         if why.get("candidates") is not None:
             # This page is a Chinese CEO face: build the sentence from the
             # structured cause, never by pasting the audit's English prose
@@ -1294,9 +1299,18 @@ def render_md(rep):
             if _other:
                 bits.append("%d 个只是没过单相位的年限检查（%s）" % (
                     len(_other), "、".join(c.get("candidate") or "?" for c in _other)))
-            mover = _mover_cn.get(why.get("what_would_move_it"))
+            _ww = why.get("what_would_move_it") or ""
+            mover = next((cn for key, cn in _mover_cn if _ww.startswith(key)), None)
             tail = ("要动的是%s（再等一天不会变）" % mover if mover
                     else "无法判断等什么才有用")
+            # r1928: "a sizing lever can buy the gate" was the last open hope; the
+            # ladder priced every line-clearing arm and they all flipped at 20bp.
+            # Printed as its own Chinese clause with the ladder's own margins, never
+            # by pasting the audit's English prose (r1582 leg).
+            _ld = why.get("cost_ladder_measured") or {}
+            if _ld.get("verdict") == "PASS_IS_A_COST_ASSUMPTION" and _ld.get("margins"):
+                tail += ("；杠杆也试过：10bp 下过线的 %d 个臂在 20bp 全翻（余量只有 %s 个百分点），"
+                         "换参数解决不了" % (int(_ld.get("n_flips") or 0), _ld.get("margins")))
             # r1307: two machine rows quote the SAME cause face word for word, and
             # this page is one sheet -- printing it twice reads as two independent
             # measurements of one number (the same defect class r1290 fixed for the

@@ -445,6 +445,35 @@ def supply_floor_why(sc, breach):
                     "a deeper phase set, but not yet enough: the depth face measured the "
                     "spread narrowing without fitting the margin "
                     "(results/etf_book_phase_depth.json)")
+        # r1928: "a sizing lever can buy the gate" was the next untested claim. The ladder
+        # priced every line-clearing arm at 10/20/30bp and they all flipped at 20bp, so the
+        # sentence must stop sending the reader to a knob that has now been measured too.
+        try:
+            _ladder = _admit_cost_ladder()
+        except (OSError, ValueError):
+            _ladder = None
+        if _ladder:
+            out["cost_ladder_measured"] = _ladder
+            # only when the candidates on the calendar are this ladder's own book: a
+            # ladder about the nobond levers says nothing about a different book, and the
+            # older words above belong to that other book (selftest keeps both paths).
+            _fam = _ladder.get("book_family")
+            _applies = bool(_fam) and any(_fam in (r.get("candidate") or "") for r in rows)
+            if _applies and _ladder.get("verdict") == "PASS_IS_A_COST_ASSUMPTION" and _ladder.get("flips"):
+                _clause = ("not a sizing lever either: every arm that clears the top-2 line at "
+                           "10bp/side flips at 20bp (%s), on margins of %s pp -- the pass belongs "
+                           "to the 10bp cost assumption, not to the knob"
+                           % (_ladder["flips"], _ladder["margins"]))
+                _had = out.get("what_would_move_it") or ""
+                out["what_would_move_it"] = (_had + "; and " + _clause
+                                             if _had.startswith(("not the phase set",
+                                                                 "a deeper phase set"))
+                                             else _clause)
+            elif _applies and _ladder.get("verdict") == "ADOPTABLE_AT_20BP":
+                _clause = ("a sizing lever, and it was measured: %s still passes at 20bp/side"
+                           % ", ".join(_ladder["survivors_20bp"]))
+                _had = out.get("what_would_move_it") or ""
+                out["what_would_move_it"] = (_had + "; and " + _clause if _had else _clause)
         # r1836: the old sentence counted the two kinds of "cannot be judged"
         # and stopped -- a candidate that WAS adjudicated (and came out
         # CONDITIONAL on one check) simply fell out of the arithmetic, so
@@ -540,6 +569,39 @@ def _depth_trends(path=None):
     if not isinstance(arms, dict):
         return {}
     return {k: v for k, v in arms.items() if isinstance(v, dict)}
+
+
+def _admit_cost_ladder(path=None):
+    """The gate's line-clearing arms priced on a cost ladder (r1928); None when unreadable.
+
+    Single owner of the reading is scripts/etf_book_admit_cost_ladder.py -- this audit
+    CARRIES its verdict so "a lever can buy the gate" cannot be printed over a measurement
+    that priced every line-clearing arm and watched them all flip at 20bp/side.
+    """
+    p = path or os.path.join(ROOT, "results", "etf_book_admit_cost_ladder.json")
+    with open(p, encoding="utf-8") as fh:
+        doc = json.load(fh)
+    s = doc.get("summary") or {}
+    if not s.get("verdict"):
+        return None
+    top2_line = (doc.get("rule") or {}).get("top2_share_max")
+    if top2_line is None:
+        top2_line = 0.70          # the gate's own line; absent only on a hand-written receipt
+    arms = s.get("arms") or []
+    flips = [a for a in arms
+             if a.get("top2_at_10bp") is not None and a.get("top2_at_20bp") is not None
+             and a["top2_at_10bp"] <= top2_line and a["top2_at_20bp"] > top2_line]
+    return {
+        "verdict": s["verdict"],
+        "book_family": doc.get("book_family"),
+        "evidence_cutoff": doc.get("evidence_cutoff"),
+        "n_arms": s.get("n_arms"),
+        "survivors_20bp": s.get("survivors_20bp") or [],
+        "n_flips": len(flips),
+        "flips": ", ".join("%s %.4f -> %.4f" % (a["arm"], a["top2_at_10bp"], a["top2_at_20bp"])
+                           for a in flips),
+        "margins": ", ".join("%.2f" % ((top2_line - a["top2_at_10bp"]) * 100.0) for a in flips),
+    }
 
 
 def _ts_age_min(stamp, now_epoch=None):
@@ -1800,6 +1862,38 @@ def _selftest():
               "depth_measured" in _wo, False)
     finally:
         globals()["_depth_trends"] = _orig_depth
+
+    # ---- r1928 legs: the cost ladder turns "a sizing lever can buy the gate" into a
+    # measurement, and must only speak for the book it priced.
+    _orig_ladder = _admit_cost_ladder
+    _orig_depth2 = _depth_trends
+    try:
+        globals()["_admit_cost_ladder"] = lambda: {
+            "verdict": "PASS_IS_A_COST_ASSUMPTION", "book_family": "nobond_vt08",
+            "evidence_cutoff": "2026-11-20", "n_arms": 4, "survivors_20bp": [],
+            "flips": "rebal=10 0.6968 -> 0.7835", "margins": "0.32"}
+        _cal_nobond = {"agenda_cause": "calendar", "shortfall": 3, "calendar": {
+            "candidates": [{"candidate": "nobond_vt08_adopted", "state": "UNADJUDICABLE_PHASE",
+                            "undecidable_because": "phase_spread_wider_than_margin"}]}}
+        _wl = supply_floor_why(_cal_nobond, True)
+        check("r1928 a measured cost ladder is appended to the hypothesis",
+              "not a sizing lever either" in (_wl.get("what_would_move_it") or ""), True)
+        check("r1928 the ladder's own numbers travel",
+              (_wl.get("cost_ladder_measured") or {}).get("margins"), "0.32")
+        _wother = supply_floor_why(_cal_spread, True)     # candidates are named A/B
+        check("r1928 a ladder about another book does not speak for this one",
+              "not a sizing lever" in (_wother.get("what_would_move_it") or ""), False)
+        globals()["_depth_trends"] = lambda: {
+            "nobond_vt08_adopted": {"trend": "SAMPLING_IS_NOT_THE_LIMIT",
+                                    "depths": {"5": {"spread_pp": 12.33},
+                                               "40": {"spread_pp": 117.65, "margin_pp": 9.79}}}}
+        _wboth = supply_floor_why(_cal_nobond, True)
+        check("r1928 the depth word keeps its opening and the ladder is appended",
+              ((_wboth.get("what_would_move_it") or "").startswith("not the phase set")
+               and "not a sizing lever" in (_wboth.get("what_would_move_it") or "")), True)
+    finally:
+        globals()["_admit_cost_ladder"] = _orig_ladder
+        globals()["_depth_trends"] = _orig_depth2
 
     n_pass = sum(1 for _, ok, _, _ in cases if ok)
     print(f"compute_audit selftest: {n_pass}/{len(cases)} PASS")

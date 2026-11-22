@@ -1,6 +1,6 @@
 {
  "report_date": "2026-11-22",
- "generated_at": "2026-11-22 12:17:55",
+ "generated_at": "2026-11-22 12:46:09",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -294,22 +294,22 @@
   "md_link": "../live_usage/LIVE-2026-11-22.md"
  },
  "rd": {
-  "commits_24h": 51,
-  "result_jsons_landed_24h": 189,
+  "commits_24h": 48,
+  "result_jsons_landed_24h": 190,
   "digests_landed_24h": 0,
   "prereg_md_touched_24h": 55,
   "compute_audit_latest": {
-   "ts": "2026-11-22 10:18:48",
-   "py_cpu_pct": 2.2,
+   "ts": "2026-11-22 12:46:09",
+   "py_cpu_pct": 5.2,
    "flags": [
     "pool_starvation",
     "supply_floor"
    ],
    "verdict": "FLAG:pool_starvation,supply_floor"
   },
-  "watermark_verdict": "py_low_with_work_cands",
+  "watermark_verdict": "insufficient_history",
   "pool_keys_n": 6,
-  "batch_in_flight": true
+  "batch_in_flight": false
  },
  "decisions_tail": [
   "- 2026-09-26 09:32 · T-74 市场时钟组合=六层既有件集成（v3 政体×热度复合×三军名册×选股面×仓位帽），零新策略族 · 理由=O-0932 CEO 令+反重复铁律（收敛声明入票） · 指针=research/MARKET_CLOCK_COMBO.md s0 v1.0",
@@ -829,29 +829,13 @@
     "supply_why": null
    },
    "bm-c": {
-    "latest_ts": "2026-11-22 10:18:48",
-    "py_pct": 2.2,
-    "cpu_pct": 34.0,
+    "latest_ts": "2026-11-22 12:46:09",
+    "py_pct": 5.2,
+    "cpu_pct": 26.0,
     "ready": 0,
-    "streak_min": 1516.2,
+    "streak_min": 1663.6,
     "verdict": "FLAG:pool_starvation,supply_floor",
     "py_series_tail": [
-     [
-      "01:41",
-      0.0
-     ],
-     [
-      "03:03",
-      0.8
-     ],
-     [
-      "06:23",
-      10.2
-     ],
-     [
-      "07:47",
-      0.1
-     ],
      [
       "07:57",
       0.3
@@ -883,14 +867,30 @@
      [
       "10:18",
       2.2
+     ],
+     [
+      "12:21",
+      0.0
+     ],
+     [
+      "12:43",
+      0.1
+     ],
+     [
+      "12:45",
+      11.3
+     ],
+     [
+      "12:46",
+      5.2
      ]
     ],
-    "today_samples": 12,
+    "today_samples": 16,
     "today_floor_ok": 0,
     "today_sla_flags": 0,
     "today_supply_gap_flags": 0,
-    "own_samples": 167,
-    "unattributed_samples": 18,
+    "own_samples": 171,
+    "unattributed_samples": 14,
     "latest_attributed": true,
     "lane_machine": "bm-c",
     "supply_why": {
@@ -946,7 +946,7 @@
        "superseded_words": []
       }
      ],
-     "what_would_move_it": "not the phase set: this face already deepened the same generator to 40 weekly starts and the spread grew (12.33pp at depth 5 -> 117.65pp at depth 40, margin 9.79pp) -- see results/etf_book_phase_depth.json",
+     "what_would_move_it": "not the phase set: this face already deepened the same generator to 40 weekly starts and the spread grew (12.33pp at depth 5 -> 117.65pp at depth 40, margin 9.79pp) -- see results/etf_book_phase_depth.json; and not a sizing lever either: every arm that clears the top-2 line at 10bp/side flips at 20bp (rebal=10 0.6968 -> 0.7835, vol_target=None 0.6991 -> 0.7516), on margins of 0.32, 0.09 pp -- the pass belongs to the 10bp cost assumption, not to the knob",
      "depth_measured": {
       "receipt": "results/etf_book_phase_depth.json",
       "trend": "SAMPLING_IS_NOT_THE_LIMIT",
@@ -958,6 +958,16 @@
       "spread_d5_pp": 12.33,
       "spread_d40_pp": 117.65,
       "margin_d40_pp": 9.795
+     },
+     "cost_ladder_measured": {
+      "verdict": "PASS_IS_A_COST_ASSUMPTION",
+      "book_family": "nobond_vt08",
+      "evidence_cutoff": "2026-11-20",
+      "n_arms": 4,
+      "survivors_20bp": [],
+      "n_flips": 2,
+      "flips": "rebal=10 0.6968 -> 0.7835, vol_target=None 0.6991 -> 0.7516",
+      "margins": "0.32, 0.09"
      },
      "superseded_words": {
       "nobond_vt08_adopted": [
@@ -1041,7 +1051,7 @@
      "readable": true,
      "window_min": 60.0,
      "audit_batches": 0,
-     "audit_ts": "2026-11-22 10:18:48"
+     "audit_ts": "2026-11-22 12:46:09"
     }
    }
   },
