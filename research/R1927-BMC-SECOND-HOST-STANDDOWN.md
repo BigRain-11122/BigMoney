@@ -42,6 +42,20 @@ docs 5 / fleet 2 / research 2 / results 20 / source 1（`Tools/repo_write_conten
 3. **state round_no++ / 心跳 / 轮账本追加**：state 与心跳是对端本轮的面（心跳 11:38:21 刚写）；同机双宿主递增会跳号，轮账本追加会与对端 read-modify-write 抢写。轮号递增权与收口权留在对端 r1927。
 4. **任何共享面改写**：按竞争律只落新增文件面。
 
+## 附带取证（只读）：两条「链判定」面都是错的
+
+本窗口顺手核对链进度日志，得到一条比退避更重要的事实（证据面 `results/_r1927_bmc_chain_forensics.json`）：
+
+- **链其实已经跑完**：`results/_s6chain_progress.bm-c.jsonl` 末三行 = `leg_done i=339/341`、`i=340/341`、`i=341/341`，随后 `chain_done round=1923 n_legs=341 nonzero=[]`，收于 **2026-11-22T10:37:14**。
+- 但 fleet 读的两张面都还在说反话：
+  - `state-bm-c.json` 的 `chain_verdict`（10:46:09 写，round 1926）=「in flight (about 90/317 legs at close, rc 0 on every printed leg)」——既说"在飞"，腿数 317 也与 341 不符。
+  - `fleet/machines/bm-c.json` 的 `chain_note`（ts 10:46:22，落盘于 HEAD）=「the r1923 driver (pid 35980) is still alive and wedged inside regime_thermo_build since 09:54」——而该驱动 **10:37:14 已经正常收工**，`pid 35980` 现已不存在。
+  - 同机轮号漂移（HEAD 内即如此）：state `round_no=1926` vs 心跳 `round_no=1923`。
+- 代价：下一轮若照这两张面办事，会得出「链没跑完/驱动还卡着」，于是重烧 341 腿（实测本轮整链 ~2h 量级）；而实际该做的是**把已绿产物发布出去**。
+- 顺带量出遗留：29 件未提交派生面里，**9 件在链收工前写定**（10:14–10:31，属链产物）、**20 件在链收工后写**（10:44–11:40，属对端本轮工作 + 调度器面）。
+
+故下轮（单宿主时）的正确顺序：**先发布 9 件已定链产物 → 修正两张链判定面 → 再考虑是否需要重跑链**，而不是反过来。
+
 ## 下轮指针
 
-对端 r1927 收口后（链跑完、套件重跑一次）再恢复常规轮：单宿主前提下跑全链 + 套件，清理本窗口的 30 件派生面遗留判定。
+对端 r1927 收口后（链已确认 341/341 rc0、套件重跑一次）再恢复常规轮：单宿主前提下补跑套件、修正 `chain_verdict`/`chain_note` 两处误述、逐件判定并发布遗留派生面。
