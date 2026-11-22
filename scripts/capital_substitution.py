@@ -63,6 +63,17 @@ def _cutoff(d: dict) -> str | None:
     return d.get("evidence_cutoff") or d.get("cutoff")
 
 
+def _stamp_face(doc: dict) -> dict:
+    """Runtime build stamp (r1939).
+
+    Kept out of build() on purpose: check() and selftest() call build() and must stay
+    deterministic, so the stamp is the single field allowed to drift between runs.
+    """
+    import datetime
+    doc["generated"] = datetime.datetime.now().astimezone().isoformat(timespec="seconds")
+    return doc
+
+
 def build() -> dict:
     sizing = _load(SIZING)
     risk = _load(RISK)
@@ -261,7 +272,7 @@ def write_md(doc: dict) -> str:
 
 
 def selftest() -> int:
-    doc = build()
+    doc = _stamp_face(build())
     etf = doc["etf_book"]
     ref = doc["products"][doc["reference_product"]]
     legs: list[tuple[str, bool, str]] = []
@@ -354,6 +365,16 @@ def selftest() -> int:
     except Exception as exc:  # noqa: BLE001 - the leg exists to catch this
         leg("page renders and carries the verdict token and both sharpes", False, repr(exc))
 
+    # 13 the face self-stamps (r1939): every reader printed "面未自带" because this face
+    #    never wrote a build time. A stamp a reader cannot parse is the same debt, and a
+    #    build cannot legitimately predate the bar it prices.
+    import re as _re
+    _stamp = str(doc.get("generated") or "")
+    leg("face carries a parseable build stamp no older than its cutoff",
+        bool(_re.fullmatch(r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}[+\-]\d{2}:\d{2}", _stamp))
+        and _stamp[:10] >= str(doc.get("evidence_cutoff") or ""),
+        _stamp)
+
     bad = [n for n, ok, _ in legs if not ok]
     for name, ok, detail in legs:
         print(f"[{'PASS' if ok else 'FAIL'}] {name}" + (f" | {detail}" if detail else ""))
@@ -393,7 +414,7 @@ def main(argv: list[str]) -> int:
         return selftest()
     if args.cmd == "check":
         return _check(build())
-    doc = build()
+    doc = _stamp_face(build())
     (ROOT / OUT_JSON).parent.mkdir(parents=True, exist_ok=True)
     (ROOT / OUT_JSON).write_text(json.dumps(doc, ensure_ascii=False, indent=1) + "\n",
                                  encoding="utf-8")

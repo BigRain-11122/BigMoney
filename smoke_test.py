@@ -1953,6 +1953,28 @@ def main() -> int:
     except Exception as e:
         check("product: the swap page states its verdict and the ETF share it costs",
               False, str(e))
+    # r1939: that block's provenance line used to print "面未自带（读 evidence_cutoff）" because
+    # the face wrote no build stamp. The face now stamps itself; the reader must see the stamp
+    # the page's OWN JSON holds -- compared against the page's twin, so this leg cannot go red
+    # just because one of the two was regenerated later (r1789: no permanent reds).
+    try:
+        _lj = os.path.join(PATHS.root, "docs", "live_usage", "LIVE-latest.json")
+        _lm = os.path.join(PATHS.root, "docs", "live_usage", "LIVE-latest.md")
+        _stamp = None
+        if os.path.exists(_lj):
+            _stamp = ((json.load(open(_lj, encoding="utf-8")).get("capital_substitution")
+                       or {}).get("source_generated"))
+        _line = ""
+        if os.path.exists(_lm):
+            for _ln in open(_lm, encoding="utf-8").read().splitlines():
+                if "capital_substitution.json" in _ln:
+                    _line = _ln.strip()
+                    break
+        _ok = bool(_stamp) and bool(_line) and str(_stamp) in _line and "面未自带" not in _line
+        check("product: the swap block prints the face's own build stamp",
+              _ok, f"json={_stamp!r} | line={_line[:110]}")
+    except Exception as e:
+        check("product: the swap block prints the face's own build stamp", False, str(e))
     # r1933: the three legs above prove the face; this one proves the READER can see it.
     # r1782 family: a published number that never reaches the page the CEO opens is not
     # a product, and the face's own selftest cannot vouch for a section it never renders.

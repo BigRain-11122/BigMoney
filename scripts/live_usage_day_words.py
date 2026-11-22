@@ -295,6 +295,11 @@ CLAIM_RULES = [
     # face writes one (r1781: a block that cannot self-stamp must say so, not print a guess).
     (re.compile(r"capital_substitution\.json`｜cutoff " + _D + r"｜generated 面未自带"),
      ["capital_substitution.evidence_cutoff"]),
+    # r1939: the face now writes its own build stamp, so the same line carries two dates and
+    # both are claimable against the page JSON. The legacy rule above stays for a page
+    # rendered from an older face (yesterday's page must still be checkable).
+    (re.compile(r"capital_substitution\.json`｜cutoff " + _D + r"｜generated " + _D + r"T[\d:+]+"),
+     ["capital_substitution.evidence_cutoff", "capital_substitution.source_generated"]),
 ]
 
 # A date that rides inside a file name (`TICKET-2026-11-17.json`) names a paper; it does not
@@ -811,6 +816,36 @@ def selftest():
         "%s mismatches=%s" % (c13b["verdict"],
                               [(r.get("field"), r.get("date"), r.get("expected"))
                                for r in c13b["date_claims"].get("mismatches") or []]))
+
+    # L14 (r1939) the substitution provenance line gained its producer stamp, so it now carries
+    # two dates. Pinned both ways: both are read, and a stamp the page does not hold is a
+    # mismatch -- a rule that matched the shape and read nothing would pass the first half.
+    d14 = doc(day="2026-11-22", bar="2026-11-20", prior="2026-11-19")
+    d14["capital_substitution"] = {"source_generated": "2026-11-22T18:08:52+08:00",
+                                   "evidence_cutoff": "2026-11-20"}
+    p14 = page(day="2026-11-22", bar="2026-11-20", prior="2026-11-19", amount="1,234") + "\n" + \
+        "- 出处：`results/capital_substitution.json`｜cutoff 2026-11-20" \
+        "｜generated 2026-11-22T18:08:52+08:00"
+    c14 = census(d14, p14)
+    dc14 = c14["date_claims"]
+    _f14 = sorted({r.get("field") for r in dc14.get("claims") or []})
+    leg("L14 the substitution provenance dates are read, not left unmapped",
+        dc14.get("n_unmapped") == 0 and dc14.get("n_mismatch") == 0
+        and "capital_substitution.source_generated" in _f14
+        and "capital_substitution.evidence_cutoff" in _f14,
+        "unmapped=%s mismatch=%s fields=%s"
+        % (dc14.get("n_unmapped"), dc14.get("n_mismatch"), _f14))
+    d14b = dict(d14)
+    d14b["capital_substitution"] = {"source_generated": "2026-11-22T18:08:52+08:00",
+                                    "evidence_cutoff": "2026-11-19"}
+    c14b = census(d14b, p14)
+    leg("L14b a substitution cutoff the face does not carry is a mismatch",
+        c14b["verdict"] == "PRINTED_DATE_MISMATCH"
+        and any(r.get("field") == "capital_substitution.evidence_cutoff"
+                for r in c14b["date_claims"].get("mismatches") or []),
+        "%s mismatches=%s" % (c14b["verdict"],
+                              [(r.get("field"), r.get("date"), r.get("expected"))
+                               for r in c14b["date_claims"].get("mismatches") or []]))
 
     print("live_usage_day_words selftest %d/%d" % (ok, total))
     return 0 if ok == total else 1
