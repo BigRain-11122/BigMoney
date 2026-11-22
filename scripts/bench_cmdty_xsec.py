@@ -376,6 +376,7 @@ def run(do_pull=True):
         "verdict": verdict,
         "pull": pull,
     }
+    payload["power"] = power_stats(payload)
     bc.write_json(OUT_JSON, payload)
     with io.open(OUT_MD, "w", encoding="utf-8", newline="\n") as f:
         f.write(render_md(payload))
@@ -387,6 +388,26 @@ def run(do_pull=True):
     return payload
 
 
+def power_stats(p):
+    """Sharpe standard error and 95% interval as numbers (rendered by power_line).
+
+    Kept as data, not prose: an auditor can only recompute what is structured.
+    """
+    f = p["arm_xs_mom_60d"]["full"]
+    n_bars = f.get("n") or 0
+    sr = f.get("sharpe") or 0.0
+    years = n_bars / 252.0
+    if years <= 0:
+        return {"years": 0.0, "sharpe": sr, "se": None, "ci95": None, "gate_sharpe": 0.6}
+    se = (1.0 + 0.5 * sr * sr) ** 0.5 / (years ** 0.5)
+    return {"years": round(years, 2), "sharpe": round(sr, 4), "se": round(se, 4),
+            "ci95": [round(sr - 1.96 * se, 3), round(sr + 1.96 * se, 3)],
+            "gate_sharpe": 0.6,
+            "note": ("gate = 6%/yr at a 10% vol target; the interval's upper bound "
+                     f"{round(sr + 1.96 * se, 2)} is below it, so 'do not open the line' is "
+                     "hard, but 'no edge at all' is not what this sample proves")}
+
+
 def power_line(p):
     """What this sample can and cannot rule out.
 
@@ -396,15 +417,11 @@ def power_line(p):
     (6%/yr). Printing the interval says whether "NO_EDGE" means "no edge" or
     "no edge bigger than X" -- the two are different claims.
     """
-    f = p["arm_xs_mom_60d"]["full"]
-    n_bars = f.get("n") or 0
-    sr = f.get("sharpe") or 0.0
-    years = n_bars / 252.0
-    if years <= 0:
+    st = p.get("power") or power_stats(p)
+    if not st.get("se"):
         return "样本不足，无法给出功效区间。"
-    se = (1.0 + 0.5 * sr * sr) ** 0.5 / (years ** 0.5)
-    lo, hi = sr - 1.96 * se, sr + 1.96 * se
-    return (f"样本 {years:.1f} 年，实测年化夏普 {sr:.3f}，标准误约 {se:.3f} → "
+    lo, hi = st["ci95"]
+    return (f"样本 {st['years']:.1f} 年，实测年化夏普 {st['sharpe']:.3f}，标准误约 {st['se']:.3f} → "
             f"95% 区间约 [{lo:.2f}, {hi:.2f}]。本格的 GO 门要求在 10% 目标波动下做到 6%/年"
             f"（≈夏普 0.6），这个区间**上界远低于门线**，所以「不开线」是硬结论；"
             f"但它不等于「绝对没有微弱优势」——区间上部仍容得下一个夏普 0.3 左右的小边缘，"
