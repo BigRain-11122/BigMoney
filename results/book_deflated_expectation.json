@@ -1,0 +1,197 @@
+{
+ "script": "scripts/book_deflated_expectation.py",
+ "face": "results/book_deflated_expectation.json",
+ "kind": "deflated-expectation/v1",
+ "generated": "2026-11-23T03:23:10+0800",
+ "evidence_cutoff": null,
+ "criteria": {
+  "capital_cny": 1000000,
+  "n_ladder": [
+   2,
+   58,
+   123,
+   450
+  ],
+  "n_ladder_definitions": {
+   "2": "the floor of the null-max formula (a single bet is not expressible in it)",
+   "58": "queue rows marked done in state/queue/{tech,explore}.md",
+   "123": "batches a gate killed (results/gate_attrition.bm-c.json)",
+   "450": "research/**/*PREREG*.md written by this desk"
+  },
+  "n_conservative": 58,
+  "t_req": 3.0,
+  "abandon_p": 0.05,
+  "dsr_line": 0.95,
+  "periods_per_year": 252,
+  "haircut": "SR*(N) from science_gates.dsr_from_stats at the book's own sigma_sr; credible = max(0, published - SR*(N))",
+  "budgetable_return": "credible_sharpe * published volatility (the series is already net of cost)",
+  "falsification_drawdown": "one-year first-passage drawdown at probability abandon_p",
+  "sources": {
+   "book": "results/etf_book_search_rent.json",
+   "carry": "results/idx_fut_carry_search_rent.json (frontier cross-check only)"
+  },
+  "frozen": "constants above were written before the first run; no line is tuned after seeing the result"
+ },
+ "book": {
+  "arm": "n5_vt08",
+  "bars": 1666,
+  "window": [
+   "2020-01-03",
+   "2026-11-20"
+  ],
+  "headline": {
+   "cagr": 0.1116,
+   "sharpe": 1.101,
+   "vol": 0.105,
+   "maxdd": -0.1056,
+   "skew": -0.484
+  },
+  "sigma_sr_daily": 0.025103,
+  "source": "results/etf_book_search_rent.json"
+ },
+ "rows": [
+  {
+   "n_trials": 2,
+   "sr_star_ann": 0.2071,
+   "credible_sharpe": 0.8939,
+   "dsr": 0.987555,
+   "budgetable_cagr": 0.093859,
+   "money_on_capital": 93859.5,
+   "p_edge_is_noise": 0.0124,
+   "years_to_t_req": 11.26,
+   "falsification_drawdown": 0.134649,
+   "money_at_that_drawdown": -134649.05
+  },
+  {
+   "n_trials": 58,
+   "sr_star_ann": 0.9295,
+   "credible_sharpe": 0.1715,
+   "dsr": 0.666489,
+   "budgetable_cagr": 0.018007,
+   "money_on_capital": 18007.5,
+   "p_edge_is_noise": 0.3335,
+   "years_to_t_req": 305.99,
+   "falsification_drawdown": 0.190919,
+   "money_at_that_drawdown": -190919.36
+  },
+  {
+   "n_trials": 123,
+   "sr_star_ann": 1.0371,
+   "credible_sharpe": 0.0639,
+   "dsr": 0.563664,
+   "budgetable_cagr": 0.006709,
+   "money_on_capital": 6709.5,
+   "p_edge_is_noise": 0.4363,
+   "years_to_t_req": 2204.15,
+   "falsification_drawdown": 0.200201,
+   "money_at_that_drawdown": -200200.64
+  },
+  {
+   "n_trials": 450,
+   "sr_star_ann": 1.2037,
+   "credible_sharpe": 0.0,
+   "dsr": 0.398262,
+   "budgetable_cagr": 0.0,
+   "money_on_capital": 0.0,
+   "p_edge_is_noise": 0.6017,
+   "years_to_t_req": null,
+   "falsification_drawdown": 0.205796,
+   "money_at_that_drawdown": -205796.22
+  }
+ ],
+ "at_conservative_n": {
+  "n_trials": 58,
+  "sr_star_ann": 0.9295,
+  "credible_sharpe": 0.1715,
+  "dsr": 0.666489,
+  "budgetable_cagr": 0.018007,
+  "money_on_capital": 18007.5,
+  "p_edge_is_noise": 0.3335,
+  "years_to_t_req": 305.99,
+  "falsification_drawdown": 0.190919,
+  "money_at_that_drawdown": -190919.36
+ },
+ "verdict": "PAYS_BUT_UNPROVEN",
+ "verdict_zh": "扣掉 N=58 的搜索租金后仍值 1.80%/年，但 DSR=0.666 未过 0.95 线：可以小额跑，不能按已证边满仓。",
+ "carry_frontier": {
+  "audited_n_used": 19,
+  "audited_counts": {
+   "carry_preregs": 3,
+   "declared_blend_cells": 16,
+   "family_scripts": 19
+  },
+  "cells": [
+   {
+    "cell": "IC|carry_unhedged",
+    "sharpe_ann": 0.5057,
+    "n_star": 2,
+    "sharpe_needed_at_audited_n": 1.269,
+    "gap_at_audited_n": 0.7632,
+    "verdict": "INSIDE_SEARCH_NOISE_AT_AUDITED_N"
+   },
+   {
+    "cell": "IC|excess_hedged",
+    "sharpe_ann": 1.4162,
+    "n_star": 45,
+    "sharpe_needed_at_audited_n": 1.2832,
+    "gap_at_audited_n": -0.133,
+    "verdict": "SURVIVES_AT_AUDITED_N"
+   },
+   {
+    "cell": "IF|carry_unhedged",
+    "sharpe_ann": 0.2671,
+    "n_star": 2,
+    "sharpe_needed_at_audited_n": 1.2665,
+    "gap_at_audited_n": 0.9994,
+    "verdict": "INSIDE_SEARCH_NOISE_AT_AUDITED_N"
+   },
+   {
+    "cell": "IF|excess_hedged",
+    "sharpe_ann": 0.6853,
+    "n_star": 2,
+    "sharpe_needed_at_audited_n": 1.3111,
+    "gap_at_audited_n": 0.6257,
+    "verdict": "INSIDE_SEARCH_NOISE_AT_AUDITED_N"
+   },
+   {
+    "cell": "IH|carry_unhedged",
+    "sharpe_ann": 0.1509,
+    "n_star": 2,
+    "sharpe_needed_at_audited_n": 1.263,
+    "gap_at_audited_n": 1.112,
+    "verdict": "INSIDE_SEARCH_NOISE_AT_AUDITED_N"
+   },
+   {
+    "cell": "IH|excess_hedged",
+    "sharpe_ann": 0.3558,
+    "n_star": 2,
+    "sharpe_needed_at_audited_n": 1.3071,
+    "gap_at_audited_n": 0.9513,
+    "verdict": "INSIDE_SEARCH_NOISE_AT_AUDITED_N"
+   },
+   {
+    "cell": "IM|carry_unhedged",
+    "sharpe_ann": 0.1814,
+    "n_star": 2,
+    "sharpe_needed_at_audited_n": 1.7295,
+    "gap_at_audited_n": 1.5482,
+    "verdict": "INSIDE_SEARCH_NOISE_AT_AUDITED_N"
+   },
+   {
+    "cell": "IM|excess_hedged",
+    "sharpe_ann": 1.5161,
+    "n_star": 8,
+    "sharpe_needed_at_audited_n": 1.703,
+    "gap_at_audited_n": 0.1869,
+    "verdict": "INSIDE_SEARCH_NOISE_AT_AUDITED_N"
+   }
+  ],
+  "evidence_cutoff": "2026-11-20"
+ },
+ "caveats": [
+  "credible_sharpe is a haircut, not an estimate of the truth: it subtracts the Sharpe a pure-noise strategy would be expected to show after N tries.",
+  "N is not derivable from the repo; the ladder prints three mechanical counts and the verdict is taken at the smallest of them (58), so the reading errs high.",
+  "the falsification drawdown assumes a stable vol; a regime change moves it.",
+  "the carry family is printed for comparison only -- its face does not publish sigma_sr per grid point, so no haircut is computed for it here."
+ ]
+}
