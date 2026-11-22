@@ -236,6 +236,28 @@ def sentence(state, cap, judged, capcheck, under_engine=None, moves=None):
                     "超 %.1fpp）。" % (under_engine["cap"] * 100, n, tot,
                                       w2.get("name"), (w2.get("deployed_weight") or 0) * 100.0,
                                       w2.get("gap_pp") or 0))
+            # r1927: the same breach under the rule's own ceiling, priced the same way.
+            # An unmeasurable row is left out of the total and the sentence says how
+            # many rows it could price -- never a 0 元 that reads as "nothing to sell".
+            # When both ceilings price the same accounts for the same money, say so
+            # instead of printing the number a second time (one measurement, not two).
+            tot2 = under_engine.get("total_excess_cny")
+            nm2 = under_engine.get("n_excess_measured") or 0
+            _same = (tot2 is not None and judged.get("total_excess_cny") is not None
+                     and abs(float(tot2) - float(judged["total_excess_cny"])) < 0.5
+                     and nm2 == (judged.get("n_excess_measured") or 0))
+            if tot2 is not None and nm2 and _same:
+                out += ("这两顶帽子折算的是同一批账户、同一笔钱（就是上面那 %.0f 元），"
+                        "不是第二处亏空。" % tot2)
+            elif tot2 is not None and nm2:
+                wex2 = w2.get("excess_cny")
+                out += ("按同一算法折算，已能折算的 %d 户合计高出 %.0f 元%s。" % (
+                    nm2, tot2,
+                    ("（其中 %s 一户 %.0f 元）" % (w2.get("name"), wex2))
+                    if wex2 is not None else ""))
+            elif n > nm2:
+                out += ("这 %d 户里有 %d 户没发布仓位金额，折算不出来——这里不印 0 元。"
+                        % (n, n - nm2))
         else:
             out += ("按铁律 2 的 %.0f%% 单户总仓位帽重判：%d 户全部在帽子以内。" % (
                 under_engine["cap"] * 100, tot))
@@ -365,10 +387,13 @@ def collect():
     under_engine = {"cap": engine_cap,
                     "n_compared": judged_engine.get("n_compared"),
                     "n_above": judged_engine.get("n_above"),
+                    "total_excess_cny": judged_engine.get("total_excess_cny"),
+                    "n_excess_measured": judged_engine.get("n_excess_measured"),
                     "worst_above": (None if worst_engine is None else {
                         "name": worst_engine["name"],
                         "deployed_weight": worst_engine["deployed_weight"],
-                        "gap_pp": worst_engine["gap_pp"]})}
+                        "gap_pp": worst_engine["gap_pp"],
+                        "excess_cny": worst_engine.get("excess_cny")})}
     return {
         "evidence_cutoff": clock.get("asof") or export.get("export_date"),
         "clock": {"cell": clock.get("clock_cell"), "asof": clock_asof,
@@ -572,6 +597,61 @@ def _selftest():
         "已能折算的 1 户合计高出 741318 元" in s3 and "WIDE 一户 741318 元" in s3)
     chk("rows that never published equity print no money instead of 0 元",
         "高出" not in s)
+
+    # --- r1927: the second ceiling (铁律 2) gets the same money treatment
+    rows2 = [{"name": "WIDE", "kind": "ladder", "deployed_weight": 0.9594,
+              "deployed_cny": 936548.07, "equity_cny": 976152.58},
+             {"name": "MID", "kind": "ladder", "deployed_weight": 0.90,
+              "deployed_cny": 900000.0, "equity_cny": 1000000.0},
+             {"name": "LOW", "kind": "ladder", "deployed_weight": 0.10,
+              "deployed_cny": 10000.0, "equity_cny": 100000.0}]
+    je = judge([dict(x) for x in rows2], 0.80)
+    ue = {"cap": 0.80, "n_compared": je["n_compared"], "n_above": je["n_above"],
+          "total_excess_cny": je["total_excess_cny"],
+          "n_excess_measured": je["n_excess_measured"],
+          "worst_above": dict(je["worst"], excess_cny=je["worst"]["excess_cny"])}
+    s4 = sentence("RED", 0.20, judge([dict(x) for x in rows2], 0.20),
+                  cap_agreement({"a": 0.2}, 0.2), under_engine=ue)
+    chk("a different ceiling prices its own money (80% over 2 户 = 255626 元)",
+        "已能折算的 2 户合计高出 255626 元" in s4
+        and "WIDE 一户 155626 元" in s4 and "同一批账户" not in s4)
+    _j20 = judge([dict(x) for x in rows2], 0.20)
+    _s4b = sentence("RED", 0.20, _j20, cap_agreement({"a": 0.2}, 0.2),
+                    under_engine={"cap": 0.20, "n_compared": _j20["n_compared"],
+                                  "n_above": _j20["n_above"],
+                                  "total_excess_cny": _j20["total_excess_cny"],
+                                  "n_excess_measured": _j20["n_excess_measured"],
+                                  "worst_above": dict(_j20["worst"],
+                                                      excess_cny=_j20["worst"]["excess_cny"])})
+    chk("both ceilings pricing the same accounts say so instead of selling it twice",
+        "同一批账户、同一笔钱" in _s4b and "就是上面那 1441318 元" in _s4b)
+    chk("nothing prints a 0 元 for rows the second ceiling could not price",
+        "0 元" not in s4
+        and "没发布仓位金额" in sentence(
+            "RED", 0.20, judge([dict(x) for x in rows2], 0.20),
+            cap_agreement({"a": 0.2}, 0.2),
+            under_engine={"cap": 0.80, "n_compared": 3, "n_above": 2,
+                          "total_excess_cny": None, "n_excess_measured": 0,
+                          "worst_above": {"name": "WIDE", "deployed_weight": 0.9594,
+                                          "gap_pp": 15.94}}))
+    _s6 = sentence("RED", 0.20, judge([dict(x) for x in rows2], 0.20),
+                   cap_agreement({"a": 0.2}, 0.2),
+                   under_engine={"cap": 0.80, "n_compared": 3, "n_above": 2,
+                                 "total_excess_cny": 123456.0, "n_excess_measured": 2,
+                                 "worst_above": {"name": "WIDE",
+                                                 "deployed_weight": 0.9594, "gap_pp": 15.94,
+                                                 "excess_cny": 23456.0}})
+    chk("a genuinely different second ruling prints its own total and account",
+        "已能折算的 2 户合计高出 123456 元" in _s6 and "WIDE 一户 23456 元" in _s6
+        and "同一批账户" not in _s6)
+    _pub = _read_json(OUT) or {}
+    _uep = _pub.get("under_engine") or {}
+    _legacy = "n_excess_measured" not in _uep and "total_excess_cny" not in _uep
+    chk("the published face carries the second ceiling's money, and the sentence uses it",
+        (not _uep) or _legacy
+        or (("n_excess_measured" in _uep and "total_excess_cny" in _uep)
+            and (not (_uep.get("n_above") and _uep.get("n_excess_measured"))
+                 or "元" in (_pub.get("sentence") or ""))))
 
     # --- the over-cap book's own history, read not assumed (r1583)
     import tempfile

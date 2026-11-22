@@ -2417,3 +2417,5 @@ S0：machine.json=**bm-c**；fetch 后 ahead/behind **0/0**；孤儿面=**0**（
 **披露**：方法论卡本轮**未**写 `knowledge/METHODOLOGY_ASSETS.md`（共享面，CONTENTION 下禁改）——待非竞争轮补一条：单向单据的另一半是读者自己做算术的地方；整手分名 floor 会让「释放额」与「名义差额」双向偏离最多一手/名。
 
 **r1926-cont2 补记**：本地未达 origin commit 数=**0**（`480118d717` 已推；fetch 后 `git ls-tree origin/main` 三件俱在、`rev-parse HEAD == origin/main`）；本轮 PREREG/引擎/退出规则零触碰，未跑回测，故无试验数 N 变动；试验台账未动。
+
+| 2026-11-22T12:21:30+08:00 | 1927 | 新鲜度页给「整读面板」补上认证尾日（repo 11 文件：尾 11-20 而 全文扫描读 11-19），上一套件唯一红腿闭合；上限句里第二顶帽子改说「同一笔钱」（1527342 元不重复卖） | data_lane_freshness selftest 48/48 + 腿复算 LEG_GREEN；regime_cap_vs_book selftest 42/42 + 两页重派生；日期词双 AGRE + repeat 0 | 下一轮：全量套件窗口，或继续扫 ratio-only 句子 |
