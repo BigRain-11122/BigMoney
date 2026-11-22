@@ -2391,3 +2391,15 @@ S0：machine.json=**bm-c**；fetch 后 ahead/behind **0/0**；孤儿面=**0**（
 
 **r1925 收尾补记（回执账本）**：fleet/orders 里 53 件 `O-*-bm-c` 令从未进过心跳 orders_ack，逐件开箱核对——53/53 文件内含 bm-c 回执节（当窗已执），属回执账本丢行而非未执行；本轮一次性补齐入册（心跳 327 条），未改任何令件正文。
 
+## 2026-11-22T12:12+08:00 ｜ r1926-cont（同宿主竞争轮·未占 state 轮号，state 现值 1926 归他宿主）｜ PRODUCT：两本书同一笔 100 万谁开得起来
+**证据指针（CONTENTION）**：`python Tools/repo_write_contention.py --lookback-min 45` = **rc3 CONTENTION**（peer pid 44248 interactive 11:02 起在动，25 条共享面严格早于本轮开始被写；证据 `results/_repo_write_contention.bm-c.json`）→ 按 r1907 同树多宿主律本轮**只做新增文件面**，禁改共享面、禁跑 S6 链、不动 state/心跳（心跳 11:48:09 由他宿主维护）。
+**当前活**：把 carry 书的开仓资金线（IC 首档 1,124,479）与 ETF 书的一手门槛（14,875.99）和容量线（1,018,315）并到一张面，回答"100 万先开哪本"。
+**最近实物**：`scripts/capital_union_decision.py` + `results/capital_union_decision.json` + `research/CAPITAL_UNION.md`（2026-11-22 12:1x，commit 4d7a63710d，已推 origin）。
+**下个里程碑（≤48h）**：非 CONTENTION 轮把该面接进 S6 链（加一条 run+check 腿，需改共享面）并把 `etf_book_ticket_floor` 面从 11-17 代差补到 11-20。
+**判词**：`ETF_BOOK_IS_THE_ONLY_ONE_THIS_ACCOUNT_CAN_OPEN_TODAY` —— ETF 书 100 万可开（67.2× 一手门槛；今天容量读数 0.9820% ADV vs 1.00% 线，余量 18,315 元，60 个交易日里只有 2 天过线=能开但周转顶在容量边上）；carry 书 0 手，差 124,479 元（12.45%，IC 首档 1,124,479）。两本一起开：最好容量日 2,142,794 元 / 中位日 1,620,955 元。
+**验证证据**：`--selftest` 9/9 腿 PASS（差值算术/百分比/多重/余量/两书求和/判词与旗标一致/句子含两数/cutoff 齐）；`--check` = OK 面与重建逐字段一致。
+**S0.5**：orders 面无新件（最新 `O-20261114-2325-bm-c.md`）；peer 11:50 刚写 `orders_ack_scan.bm-c.json`，本窗不覆盖。
+**水位**：不改 decisions/orders，state 水位键不动（他宿主在轮内）。**本地未达 origin commit 数=0**（4d7a63710d 已推）。
+**记账**：轮报告 1 处（本条）；未写 state、未写心跳（CONTENTION 避撞）。
+**登记簿**：本轮无清扫/归档/删除动作 → 零命中。
+**孤儿面**：peer 11:40 写 `_orphan_face_probe.bm-c.json`，本窗未重跑（只读轮不抢共享面）；如实标 N/A。
