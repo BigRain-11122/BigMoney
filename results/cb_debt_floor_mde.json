@@ -1,0 +1,114 @@
+{
+ "checks": {
+  "defect_share_below_one_in_ten_thousand": true,
+  "mde_follows_sigma_and_years": true,
+  "no_foreign_prefix_in_universe": true,
+  "paired_days_cover_panel": true,
+  "secondary_verdict_follows_target": true,
+  "verdict_follows_target": true,
+  "years_follow_days": false
+ },
+ "context_returns": {
+  "bucket_cagr_pct": 10.083,
+  "note": "context only: this face was built to price noise, so these returns carry no costs, no ticket and no significance claim. The observed difference is printed so the reader can see where it sits against the MDE.",
+  "observed_pp": 2.38,
+  "universe_cagr_pct": 7.703
+ },
+ "coverage": {
+  "bucket_days": 3288,
+  "days_below_5_names": 623,
+  "names_max": 169,
+  "names_median": 14.0,
+  "names_min": 1,
+  "paired_days": 3288,
+  "universe_days": 4700
+ },
+ "elapsed_sec": 4.44,
+ "evidence_cutoff": "2026-11-13",
+ "evidence_cutoff_source": "panel last bar (data/cb_panel.csv.gz)",
+ "face": "results/cb_debt_floor_mde.json",
+ "frozen": {
+  "adding_a_cell_target": "a lookback or threshold may not be added after seeing the MDE",
+  "bucket": "close <= 105.0 and pure_bond_premium >= 0.0 at the previous close",
+  "defect_rule": "per-bond daily return beyond +/-100% masked from both series",
+  "mde_formula": "Z * sigma_daily * sqrt(252) / sqrt(days/252) * 100, Z = 2.802 (95% two-sided, 80% power)",
+  "prefixes": [
+   "110",
+   "111",
+   "113",
+   "118",
+   "123",
+   "125",
+   "126",
+   "127",
+   "128",
+   "129"
+  ],
+  "primary": "paired difference (bucket - universe)",
+  "secondary": "the same difference on days with >= 5 names",
+  "target_pp": 5.0,
+  "target_source": "research/BENCH-NEXT.md cell 3: MDE > 5pp -> do not build",
+  "universe": "every convertible bond with a return that day, equal weight"
+ },
+ "generated": "2026-11-23T05:52:16+0800",
+ "hygiene": {
+  "defect_cells": 1,
+  "defect_share": 1.27e-06,
+  "prefixes_dropped": [
+   "404"
+  ],
+  "return_cells": 785561,
+  "rows_dropped_foreign_prefix": 1727
+ },
+ "kind": "cb_debt_floor_mde",
+ "panel": {
+  "bonds": 1046,
+  "calendar_days": 4701,
+  "first": "2007-07-12",
+  "last": "2026-11-13",
+  "path": "data/cb_panel.csv.gz",
+  "prefixes_dropped": [
+   "404"
+  ],
+  "rows_dropped_foreign_prefix": 1727,
+  "rows_kept": 803868,
+  "rows_total": 805595,
+  "sha256": "237f563ec82279972a8cf5965d7917c0efe199360cd427449525dcaca9b872f5"
+ },
+ "primary": {
+  "first": "2008-03-19",
+  "label": "dBucket - dUniverse, annualised MDE",
+  "last": "2026-11-13",
+  "mde_pp": 10.105,
+  "mean_pp": 0.0186,
+  "n_days": 3288,
+  "sigma_annual_pct": 13.027,
+  "sigma_daily_pct": 0.8206,
+  "t": 1.302,
+  "target_pp": 5.0,
+  "verdict": "NO_GO",
+  "years": 13.0476
+ },
+ "question": "Does the debt-floor-only convertible cell have enough sample and little enough noise to be judged? This face answers power, not return.",
+ "script": "scripts/cb_debt_floor_mde.py",
+ "secondary_min_names": {
+  "label": "same difference, only days with >= 5 names in the bucket",
+  "mde_pp": 5.741,
+  "n_days": 2665,
+  "share_of_primary_days": 0.8105,
+  "sigma_daily_pct": 0.4197,
+  "target_pp": 5.0,
+  "verdict": "NO_GO"
+ },
+ "verdict": {
+  "code": "NO_GO",
+  "the_other_way_to_pass": "widen the sample: at this noise a 5.0pp edge needs 53.3 years and the panel has 13.1",
+  "what_this_does_not_say": "it does not say the debt floor has no edge -- it says this sample cannot see one of the size required; the observed 2.38pp is a third of the detection line and carries t=1.30",
+  "why": "the smallest difference this sample can tell from zero is 10.11pp/yr, above the 5.0pp target -- the cell cannot be judged on this data"
+ },
+ "years_needed": {
+  "for_observed_pp": 235.2,
+  "for_target_pp": 53.29,
+  "have_years": 13.05
+ }
+}
