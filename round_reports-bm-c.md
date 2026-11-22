@@ -2419,3 +2419,4 @@ S0：machine.json=**bm-c**；fetch 后 ahead/behind **0/0**；孤儿面=**0**（
 **r1926-cont2 补记**：本地未达 origin commit 数=**0**（`480118d717` 已推；fetch 后 `git ls-tree origin/main` 三件俱在、`rev-parse HEAD == origin/main`）；本轮 PREREG/引擎/退出规则零触碰，未跑回测，故无试验数 N 变动；试验台账未动。
 
 | 2026-11-22T12:21:30+08:00 | 1927 | 新鲜度页给「整读面板」补上认证尾日（repo 11 文件：尾 11-20 而 全文扫描读 11-19），上一套件唯一红腿闭合；上限句里第二顶帽子改说「同一笔钱」（1527342 元不重复卖） | data_lane_freshness selftest 48/48 + 腿复算 LEG_GREEN；regime_cap_vs_book selftest 42/42 + 两页重派生；日期词双 AGRE + repeat 0 | 下一轮：全量套件窗口，或继续扫 ratio-only 句子 |
+| 2026-11-22T13:05:52+08:00 | 1928 | 收口上一班未落件：ETF 成本阶梯面（两过线臂 10/20/30bp 全档定价，20bp 全翻→PASS_IS_A_COST_ASSUMPTION）；方向令 O-20261114-2325 §四.1 复核并回执 | selftest 18/18 + check rc0 problems=[] + S6 新两腿 2/2 rc0 + compute_audit 104/104 + daily_report PASS；push 7a5aa58462；孤儿面=0；竞争面 CLEAN；本地未达 origin=0 | 下一轮：§三 P1 剩余项（换月滑点/保证金占用/逐月vs季月移仓=下多大），不再给 ETF 书产新面 |
