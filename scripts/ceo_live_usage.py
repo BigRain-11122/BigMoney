@@ -277,6 +277,15 @@ FUTURES_GAPS_REL = "results/futures_panel_gaps.json"
 CAP_SUB_JSON = os.path.join(ROOT, "results", "capital_substitution.json")
 CAP_SUB_REL = "results/capital_substitution.json"
 
+# r1950: the book's six factor directions were never visible to a reader as a
+# CHOICE.  results/etf_sign_prior.json (r1940) enumerated all 64 sign arms and asked
+# what peeking -- taking the in-sample winner -- actually pays: the textbook arm
+# ranks 8 in-sample and 9 out-of-sample, while the in-sample winner falls to rank 50
+# of 64 out-of-sample.  The page prints the arm the book actually holds, what
+# peeking would have bought, and the face's own verdict.
+SIGN_PRIOR_JSON = os.path.join(ROOT, "results", "etf_sign_prior.json")
+SIGN_PRIOR_REL = "results/etf_sign_prior.json"
+
 # Position ladder, v2 frozen canonical (DECISION_CHAIN v2 prereg, adopted
 # bm-c 2026-09-28; owner-canon rows in market_clock POSITION_LADDER):
 LADDER = [
@@ -1333,6 +1342,68 @@ def _capital_substitution_face():
         "sentence": d.get("sentence"),
         "caveats": d.get("caveats") or [],
         "face_cutoffs": d.get("face_cutoffs") or {},
+        "evidence_cutoff": d.get("evidence_cutoff"),
+        "source_generated": d.get("generated"),
+    }
+
+
+def _sign_prior_face():
+    """r1950: which of the 64 sign arms does this book hold, and what does peeking pay?
+
+    r1940 enumerated every combination of the six production factor signs (2^6 = 64
+    arms, one window, one engine, one cost) and asked a question the page never
+    answered: the book's six directions are also the textbook directions in each
+    factor's own definition, so a reader cannot tell whether they are a *choice*
+    made after seeing the numbers.  Three readings travel together:
+
+      * prior arm (also the production arm) -- rank 8 in-sample, rank 9 out-of-sample;
+      * in-sample winner -- rank 1 in-sample, rank 50 of 64 out-of-sample;
+      * out-of-sample winner -- rank 37 in-sample, rank 1 out-of-sample.
+
+    Two of those three are champions, and each is a loser on the other half, which is
+    the point.  The page prints all three plus the face's verdict; the numbers are
+    the face's own and are only re-expressed as percent here (stored as decimals).
+    """
+    d = _read_json(SIGN_PRIOR_JSON)
+    if not d:
+        return {"present": False, "path": SIGN_PRIOR_REL,
+                "note": "符号先验面未产出（缺面不读 0）"}
+    prior = d.get("prior_arm") or {}
+    is_best = d.get("is_best_arm") or {}
+    oos_best = d.get("oos_best_arm") or {}
+    if prior.get("is_rank") is None or prior.get("oos_rank") is None \
+            or is_best.get("oos_rank") is None or oos_best.get("is_rank") is None:
+        return {"present": False, "path": SIGN_PRIOR_REL,
+                "note": "符号先验面在册但臂表不完整（不完整面不冒充）"}
+
+    def _arm(a):
+        def _pct(v):
+            return None if v is None else float(v) * 100.0
+        return {
+            "key": a.get("key"),
+            "is_cagr_pct": _pct(a.get("is_cagr")),
+            "oos_cagr_pct": _pct(a.get("oos_cagr")),
+            "is_rank": a.get("is_rank"),
+            "oos_rank": a.get("oos_rank"),
+        }
+
+    return {
+        "present": True,
+        "path": SIGN_PRIOR_REL,
+        "n_arms": d.get("n_arms"),
+        "verdict": d.get("verdict"),
+        "prior_equals_production": d.get("prior_equals_production"),
+        "oos_positive_arms": d.get("oos_positive_arms"),
+        "prior_in_top_quartile_both": d.get("prior_in_top_quartile_both"),
+        "prior_arm": _arm(prior),
+        "is_best_arm": _arm(is_best),
+        "oos_best_arm": _arm(oos_best),
+        "median_arm": {
+            "is_cagr_pct": (None if (d.get("median_arm") or {}).get("is_cagr") is None
+                            else float(d["median_arm"]["is_cagr"]) * 100.0),
+            "oos_cagr_pct": (None if (d.get("median_arm") or {}).get("oos_cagr") is None
+                             else float(d["median_arm"]["oos_cagr"]) * 100.0),
+        },
         "evidence_cutoff": d.get("evidence_cutoff"),
         "source_generated": d.get("generated"),
     }
@@ -2600,6 +2671,9 @@ def build_payload(day: str) -> dict:
         # r1933: how many ETF-core yuan one hedged futures lot stands in for (three
         # rulers, never averaged) -- the seam between the two money candidates.
         "capital_substitution": _capital_substitution_face(),
+        # r1950: the six factor signs as a CHOICE -- the textbook arm the book holds
+        # beside the in-sample winner it refused, with both halves' ranks.
+        "sign_prior": _sign_prior_face(),
         "freshness": _freshness_face(book, tape, regime.get("asof"),
                                      rec=rec_face),
         "data_lanes": _data_lane_face(),
@@ -4414,6 +4488,52 @@ def render_md(p: dict) -> str:
                      % (_ncav, _n2(r.get("vol_reading_gap_pct"), 1)))
         L.append(f"  - 出处：`{cs.get('path')}`｜cutoff {cs.get('evidence_cutoff')}"
                  f"｜generated {cs.get('source_generated') or '面未自带（读 evidence_cutoff）'}")
+    # r1950: the six signs are not a secret, but they were never visible as a choice.
+    # r1940 priced all 64 arms; this prints the arm held, the arm peeking would have
+    # bought, and the face's own verdict -- with the honest "could not read it" branch
+    # so a missing face never reads as "peeking is fine" (r98).
+    sp = p.get("sign_prior") or {}
+    if not sp.get("present"):
+        L.append(f"- 六个符号是怎么来的：{sp.get('note') or '符号先验面未产出'}"
+                 f"（指针 `{sp.get('path')}`）——**今天读不到「这些方向是挑的还是定的」**")
+    else:
+        pa = sp.get("prior_arm") or {}
+        ib = sp.get("is_best_arm") or {}
+        ob = sp.get("oos_best_arm") or {}
+
+        def _pc(v):
+            return "?" if v is None else f"{v:+.2f}%"
+
+        L.append("- **这六个符号是怎么来的**（`%s`）：%s 种符号组合全枚举，"
+                 "本书持有的那一臂就是六个因子各自教科书方向，事前没有为了好看而挑过"
+                 % (sp.get("verdict") or "?", sp.get("n_arms") or "?"))
+        if pa.get("is_rank") is not None:
+            L.append("  - 本书这一臂：样本内第 **%s** 名（%s）→ 样本外第 **%s** 名（%s）"
+                     "—— 事前没挑，事后也没掉队"
+                     % (pa.get("is_rank"), _pc(pa.get("is_cagr_pct")),
+                        pa.get("oos_rank"), _pc(pa.get("oos_cagr_pct"))))
+        if ib.get("oos_rank") is not None:
+            L.append("  - 如果按「样本内最好」去挑：样本内第 **%s** 名（%s）→ 样本外第 **%s** 名"
+                     "（%s），%s 臂里掉到后半区"
+                     % (ib.get("is_rank"), _pc(ib.get("is_cagr_pct")),
+                        ib.get("oos_rank"), _pc(ib.get("oos_cagr_pct")),
+                        sp.get("n_arms") or "?"))
+        if ob.get("is_rank") is not None:
+            L.append("  - 反过来按「样本外最好」倒着挑：样本内第 **%s** 名（%s）→ 样本外第 **%s** 名"
+                     "（%s）—— 同一份数据两头都能挑出冠军，所以「挑」本身不产生信息，"
+                     "产生信息的是方向来自哪里"
+                     % (ob.get("is_rank"), _pc(ob.get("is_cagr_pct")),
+                        ob.get("oos_rank"), _pc(ob.get("oos_cagr_pct"))))
+        _med = sp.get("median_arm") or {}
+        if sp.get("oos_positive_arms") is not None and _med.get("oos_cagr_pct") is not None:
+            L.append("  - 同窗中位臂：样本内 %s → 样本外 %s；%s/%s 臂样本外为正"
+                     % (_pc(_med.get("is_cagr_pct")), _pc(_med.get("oos_cagr_pct")),
+                        sp.get("oos_positive_arms"), sp.get("n_arms") or "?"))
+        if sp.get("prior_in_top_quartile_both"):
+            L.append("  - 事前事后都进前四分之一的臂**包含本书这一臂**："
+                     "稳健，不是幸存者在讲故事")
+        L.append(f"  - 出处：`{sp.get('path')}`｜cutoff {sp.get('evidence_cutoff')}"
+                 f"｜generated {sp.get('source_generated') or '面未自带（读 evidence_cutoff）'}")
     L.append("")
     L.append("## ⑧ 诚实免责")
     L.append("")
@@ -5388,6 +5508,43 @@ def selftest() -> int:
             check("a missing substitution face prints no ruler at all (r1933)",
                   "替代面未产出" in _md10
                   and "三把尺子各自成一个数" not in _md10)
+        # r1950: the six signs as a choice. Four legs: the verdict and the held arm
+        # reach the page; what peeking pays is printed as the face's own ranks and
+        # returns (never retyped); the reverse experiment rides along so "pick the
+        # winner" cannot be read as a recipe; and a missing face says it could not
+        # read the question instead of printing ranks (r98).
+        _sp1 = p1.get("sign_prior") or {}
+        if not _sp1.get("present"):
+            print("  [SKIP] sign prior: the face is absent")
+        else:
+            _spa = _sp1.get("prior_arm") or {}
+            _spb = _sp1.get("is_best_arm") or {}
+            _spo = _sp1.get("oos_best_arm") or {}
+            check("the page says where the six factor signs came from (r1950)",
+                  _sp1.get("verdict") in md1
+                  and "这六个符号是怎么来的" in md1
+                  and "教科书方向" in md1)
+            check("the held arm prints both halves' ranks and returns (r1950)",
+                  _spa.get("is_rank") is not None
+                  and _spa.get("oos_rank") is not None
+                  and "第 **{}** 名".format(_spa["is_rank"]) in md1
+                  and "第 **{}** 名".format(_spa["oos_rank"]) in md1
+                  and "{:+.2f}%".format(_spa["oos_cagr_pct"]) in md1)
+            check("what peeking pays is the face's own numbers (r1950)",
+                  _spb.get("oos_rank") is not None
+                  and _spb.get("oos_cagr_pct") is not None
+                  and "第 **{}** 名".format(_spb["oos_rank"]) in md1
+                  and "{:+.2f}%".format(_spb["oos_cagr_pct"]) in md1
+                  and _spo.get("is_rank") is not None
+                  and "第 **{}** 名".format(_spo["is_rank"]) in md1)
+            _deg11 = json.loads(json.dumps(p1))
+            _deg11["sign_prior"] = {
+                "present": False, "path": SIGN_PRIOR_REL,
+                "note": "符号先验面未产出（缺面不读 0）"}
+            _md11 = render_md(_deg11)
+            check("a missing sign-prior face prints no rank at all (r1950)",
+                  "今天读不到" in _md11
+                  and "教科书方向" not in _md11)
         # r1908: the idle-cash arm. Three legs, same family: the verdict and its size
         # reach the page; the reproducibility gap is the face's own number; and a
         # missing face says "I could not read it" rather than letting 0% stand as a

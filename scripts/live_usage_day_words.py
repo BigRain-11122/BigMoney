@@ -300,6 +300,14 @@ CLAIM_RULES = [
     # rendered from an older face (yesterday's page must still be checkable).
     (re.compile(r"capital_substitution\.json`｜cutoff " + _D + r"｜generated " + _D + r"T[\d:+]+"),
      ["capital_substitution.evidence_cutoff", "capital_substitution.source_generated"]),
+    # r1950: the sign-prior block prints the same two-part provenance line (face cutoff +
+    # the face's own build stamp). Both dates live on this page's JSON already, so the line
+    # is claimable; the no-stamp variant stays as a fallback for a page rendered from an
+    # older face, exactly as the substitution pair above does.
+    (re.compile(r"etf_sign_prior\.json`｜cutoff " + _D + r"｜generated 面未自带"),
+     ["sign_prior.evidence_cutoff"]),
+    (re.compile(r"etf_sign_prior\.json`｜cutoff " + _D + r"｜generated " + _D + r"T[\d:+]+"),
+     ["sign_prior.evidence_cutoff", "sign_prior.source_generated"]),
 ]
 
 # A date that rides inside a file name (`TICKET-2026-11-17.json`) names a paper; it does not
@@ -846,6 +854,36 @@ def selftest():
         "%s mismatches=%s" % (c14b["verdict"],
                               [(r.get("field"), r.get("date"), r.get("expected"))
                                for r in c14b["date_claims"].get("mismatches") or []]))
+
+    # L15 (r1950) the sign-prior block carries the same two-part provenance line. Pinned
+    # both ways for the same reason as L14: a rule that matched the shape and read nothing
+    # would pass the first half; a cutoff the face does not carry must be red.
+    d15 = doc(day="2026-11-22", bar="2026-11-20", prior="2026-11-19")
+    d15["sign_prior"] = {"source_generated": "2026-11-22T18:58:32+08:00",
+                         "evidence_cutoff": "2026-11-20"}
+    p15 = page(day="2026-11-22", bar="2026-11-20", prior="2026-11-19", amount="1,234") + "\n" + \
+        "  - 出处：`results/etf_sign_prior.json`｜cutoff 2026-11-20" \
+        "｜generated 2026-11-22T18:58:32+08:00"
+    c15 = census(d15, p15)
+    dc15 = c15["date_claims"]
+    _f15 = sorted({r.get("field") for r in dc15.get("claims") or []})
+    leg("L15 the sign-prior provenance dates are read, not left unmapped",
+        dc15.get("n_unmapped") == 0 and dc15.get("n_mismatch") == 0
+        and "sign_prior.source_generated" in _f15
+        and "sign_prior.evidence_cutoff" in _f15,
+        "unmapped=%s mismatch=%s fields=%s"
+        % (dc15.get("n_unmapped"), dc15.get("n_mismatch"), _f15))
+    d15b = dict(d15)
+    d15b["sign_prior"] = {"source_generated": "2026-11-22T18:58:32+08:00",
+                          "evidence_cutoff": "2026-11-19"}
+    c15b = census(d15b, p15)
+    leg("L15b a sign-prior cutoff the face does not carry is a mismatch",
+        c15b["verdict"] == "PRINTED_DATE_MISMATCH"
+        and any(r.get("field") == "sign_prior.evidence_cutoff"
+                for r in c15b["date_claims"].get("mismatches") or []),
+        "%s mismatches=%s" % (c15b["verdict"],
+                              [(r.get("field"), r.get("date"), r.get("expected"))
+                               for r in c15b["date_claims"].get("mismatches") or []]))
 
     print("live_usage_day_words selftest %d/%d" % (ok, total))
     return 0 if ok == total else 1

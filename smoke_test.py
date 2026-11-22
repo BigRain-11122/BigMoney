@@ -4445,6 +4445,29 @@ def main() -> int:
     except Exception as e:
         check("product: prior-signs face re-derives its verdict and the prior key is the textbook key",
               False, str(e))
+    # r1950: r1940's face had a research note but no reader on the page the CEO opens.
+    # This leg requires the CHOICE to be visible there: the verdict, the rank peeking
+    # would have bought, and the face's own build time (r1781/r1782 reader-visibility).
+    try:
+        _spv0 = os.path.join("results", "etf_sign_prior.json")
+        _doc6 = json.load(open(_spv0, encoding="utf-8")) if os.path.exists(_spv0) else {}
+        _ib6 = _doc6.get("is_best_arm") or {}
+        _lu_pages = sorted(glob.glob(os.path.join("docs", "live_usage", "LIVE-20*.md")))
+        _lu = open(_lu_pages[-1], encoding="utf-8").read() if _lu_pages else ""
+        if _lu and _doc6.get("verdict") and _ib6.get("oos_rank") is not None:
+            check("product: the CEO page shows where the six signs came from and what peeking pays",
+                  "这六个符号是怎么来的" in _lu
+                  and str(_doc6.get("verdict")) in _lu
+                  and ("样本外第 **%s** 名" % _ib6.get("oos_rank")) in _lu
+                  and str(_doc6.get("generated") or "?") in _lu,
+                  "page=%s oos_rank=%s"
+                  % (os.path.basename(_lu_pages[-1]), _ib6.get("oos_rank")))
+        else:
+            check("product: the CEO page shows where the six signs came from and what peeking pays",
+                  True, "no LIVE page or face on disk -- soft-fails by design")
+    except Exception as e:
+        check("product: the CEO page shows where the six signs came from and what peeking pays",
+              False, str(e))
     # r1339 / E227: both faces above price the sign question at ONE (rebal, n_hold) cell, and
     # that cell was itself picked on the sample. This leg requires the three-cell leg to be
     # recomputable -- the active-cell flags and the stable-factor count are re-derived from the
