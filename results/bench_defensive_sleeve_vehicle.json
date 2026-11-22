@@ -1,0 +1,199 @@
+{
+ "schema": "bench_defensive_sleeve_vehicle/v1",
+ "generated": "2026-11-23T07:50:43+0800",
+ "evidence_cutoff": "2026-11-20",
+ "question": "这本 ETF 书约 44% 的调仓期完全防御、平均 71.4% 权重压在债+货币 ETF 上。同一批 bar、同一套排名、同一笔成本，如果这部分钱改停在隔夜逆回购（GC001），整本书的收益与回撤会变成什么？",
+ "cell": {
+  "rebal": 20,
+  "n_hold": 5,
+  "cost_per_side": 0.001,
+  "cash_vehicle": "GC001",
+  "entry_lag": 0
+ },
+ "window": {
+  "start": "2020-01-03",
+  "end": "2026-11-20",
+  "bars": 1667,
+  "repo_bars": 1667,
+  "bars_without_repo_quote": 0
+ },
+ "panel": {
+  "shape": [
+   5285,
+   1637
+  ],
+  "flips_repaired": 169,
+  "class_counts": {
+   "equity": 1485,
+   "money": 59,
+   "bond": 50,
+   "commodity": 41,
+   "convertible": 2
+  },
+  "digest": {
+   "digest": "2e875bf4876e25e5",
+   "dates": 5285,
+   "columns": 1637,
+   "first": "2005-02-23",
+   "last": "2026-11-20",
+   "blocks": [
+    "close",
+    "open",
+    "amount"
+   ],
+   "amount_columns": 1637
+  }
+ },
+ "arms": {
+  "published_bond_money_etfs": {
+   "label": "published_bond_money_etfs",
+   "years": 6.88,
+   "start_level": 1.0106,
+   "cagr": 0.0897,
+   "vol": 0.1038,
+   "sharpe": 0.914,
+   "maxdd": -0.1254,
+   "worst_year": -0.0117,
+   "neg_years": 1,
+   "worst_month": -0.0496,
+   "pos_months_pct": 0.659
+  },
+  "cash_gc001_in_the_sleeve": {
+   "label": "cash_gc001_in_the_sleeve",
+   "years": 6.88,
+   "start_level": 1.0106,
+   "cagr": 0.0909,
+   "vol": 0.1033,
+   "sharpe": 0.929,
+   "maxdd": -0.1254,
+   "worst_year": -0.0036,
+   "neg_years": 2,
+   "worst_month": -0.0497,
+   "pos_months_pct": 0.646
+  }
+ },
+ "sleeve": {
+  "diag_published": {
+   "bars": 1667,
+   "avg_turnover": 1.2595,
+   "sleeve_days": 1547,
+   "avg_sleeve_weight": 0.7673,
+   "sleeve_growth_etf": 0.078654,
+   "sleeve_growth_cash": 0.085634
+  },
+  "diag_cash": {
+   "bars": 1667,
+   "avg_turnover": 1.2595,
+   "sleeve_days": 1547,
+   "avg_sleeve_weight": 0.7673,
+   "sleeve_growth_etf": 0.078654,
+   "sleeve_growth_cash": 0.085634
+  },
+  "cash_net_pct_over_repo_bars": 1.7708,
+  "cash_contracts": 1666,
+  "cash_missing_quotes": 0,
+  "sleeve_cagr_etf": 0.0111,
+  "sleeve_cagr_cash": 0.012,
+  "growth_is_bar_summed": "sleeve_growth_* 是书级压缩读数：每根 bar 的防御档收益按当时权重累乘，不是把 76.7% 的钱单独投出去的净值。"
+ },
+ "money": {
+  "nav_cny": 1000000.0,
+  "source": "TICKET-2026-11-20.json",
+  "cny_per_year": 1200.0,
+  "sleeve_cny": 767300.0
+ },
+ "yearly": {
+  "published": {
+   "2020": 0.1473,
+   "2021": 0.0451,
+   "2022": -0.0117,
+   "2023": 0.0273,
+   "2024": 0.0792,
+   "2025": 0.3634,
+   "2026": 0.0075
+  },
+  "cash": {
+   "2020": 0.1609,
+   "2021": 0.0501,
+   "2022": -0.0036,
+   "2023": 0.0316,
+   "2024": 0.0586,
+   "2025": 0.3679,
+   "2026": -0.0008
+  }
+ },
+ "judgment": {
+  "verdict": "SLEEVE_EDGE_TOO_SMALL_FOR_THE_BOOK",
+  "book_move_pp": 0.12,
+  "drawdown_delta_pp": 0.0,
+  "sleeve_move_pp": 0.7,
+  "years_cash_wins": 5,
+  "years_compared": 7,
+  "years_cash_wins_list": [
+   "2020",
+   "2021",
+   "2022",
+   "2023",
+   "2025"
+  ],
+  "breadth_needed": 5,
+  "H1_moves_the_book": false,
+  "H2_not_deeper": true,
+  "H3_sleeve_edge_and_breadth": true,
+  "thresholds": {
+   "move_the_book_pp": 0.3,
+   "dd_tol_pp": 0.2,
+   "year_wins_min": 5
+  }
+ },
+ "controls": {
+  "C1_reproduces_published_book": {
+   "published_cagr": 0.0897,
+   "published_sharpe": 0.914,
+   "published_maxdd": -0.1254,
+   "ours_cagr": 0.0897,
+   "gap_pp": 0.0,
+   "tolerance_pp": 0.01
+  },
+  "C2_reproduces_released_gc001": {
+   "published_gc001_net_pct": 1.7733,
+   "gap_bp": 0.2512,
+   "tolerance_bp": 0.5
+  }
+ },
+ "cost_note": "两臂的成本完全同口径：现金臂仍按书的口径被扣掉一笔它其实不付的 ETF 周转成本，因此这个比较对现金腿偏严。",
+ "why_no_ew_benchmark": {
+  "reason": "etf_equity_alpha.classify 对没有类名关键字的票用 60 日实现波动率兜底，本面板上这一步把 563xxx/562xxx 段股票 ETF 判成 money（563990 +22.7%、563620 -3.4%），同时把份额折算按跌停价记成亏损（159166 -15.2%）。清洗折算后的 money 类等权因此读出 8.04%/年、回撤仅 -0.38%——货币基金不可能有这个数，属坏尺子，本面不发布类等权基准。",
+  "named_dirty_names": {
+   "money_best": [
+    "563990",
+    "562080",
+    "159222"
+   ],
+   "money_worst": [
+    "159166",
+    "159119",
+    "159399"
+   ]
+  }
+ },
+ "honesty": [
+  "两臂只差一处：防御档权重吃到的是 ETF 的 bar 收益还是 GC001 的 bar 收益。排名、换手、成本、bar 对齐全部相同，所以差值是这笔替换本身。",
+  "GC001 的 bar 收益来自 etf_book_cash_ladder.roll_rung（0.1bp/单、实际日历天计息）。C2 在同一窗口上与已发布的逆回购面读数对账（容差 0.5bp）；那张面全史 2011-2026 的 2.495%/年 是更长的窗口，不是本面的数。",
+  "现金臂在 44% 全防御的期里不会因为买 ETF 而承担申赎时点风险，也不会吃到债 ETF 的久期波动；但逆回购必须每个交易日续做，忘记续做的钱按活期算——这笔操作风险不在收益表里。",
+  "没有逆回购报价的 bar 记 0%（该 bar 防御档不产生收益），并单独计数披露。",
+  "ETF 位仍是现存标的（幸存者），本面治不了；它也不改变票池。",
+  "本面不改生产配置；它只给出「要不要改」的价目。改配置属另一轮的决定。"
+ ],
+ "inputs": {
+  "published_face": "a2d3e9940ee71fb706724f866debb8eb4fd1e5c889cb58dbf85f1cd62e8dc782",
+  "cash_ladder_face": "f15a4d0f0e667581b3c2e8724863f9186e4d52fceccb7ed8a8485ed61deedaf6",
+  "repo_gc001": "564df41b677636502d65eab6f9df1c2237369282f39eb7a2e098828422e25319",
+  "panel_input_set": {
+   "files": 1725,
+   "bytes": 93056753,
+   "newest_mtime_ns": 1795162439549339900
+  }
+ },
+ "elapsed_sec": 40.69
+}
