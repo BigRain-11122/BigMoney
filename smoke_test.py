@@ -7059,6 +7059,26 @@ def main() -> int:
              "scripts/etf_book_ticket_floor.py", ["--selftest"]),
             ("product: etf_book_ticket_floor (published legs and floor re-derive from the ticket)",
              "scripts/etf_book_ticket_floor.py", ["--check"]),
+            # r1934: three faces were published straight to results/ with no smoke leg and no
+            # chain leg (r1282 orphan class). The chain now writes them; these legs are the
+            # second hook -- each one re-derives the published verdict from the face's own
+            # inputs, so a panel that moves underneath a number turns red on both surfaces.
+            # sell_plan reads the ticket (what a fall in k sells and costs); capital_union
+            # folds the carry funding rung, the ETF capacity line and the one-lot floor onto
+            # one answer; year_concentration_money reads YEAR-GATE.json and prices each book's
+            # top-2 year shares in yuan. All offline, ~1-2s each.
+            ("product: etf_book_sell_plan (de-risking priced on the ticket's own lots)",
+             "scripts/etf_book_sell_plan.py", ["selftest"]),
+            ("product: etf_book_sell_plan (published rungs and costs re-derive)",
+             "scripts/etf_book_sell_plan.py", ["check"]),
+            ("product: capital_union_decision (which book this account can open today)",
+             "scripts/capital_union_decision.py", ["--selftest"]),
+            ("product: capital_union_decision (published union re-derives from the three faces)",
+             "scripts/capital_union_decision.py", ["--check"]),
+            ("product: year_concentration_money (top-2 year shares priced in yuan)",
+             "scripts/etf_book_year_concentration_money.py", ["selftest"]),
+            ("product: year_concentration_money (published money face re-derives from YEAR-GATE)",
+             "scripts/etf_book_year_concentration_money.py", ["check"]),
             # r1795: r1794 measured the engine's one-day caliber bulge with an independent
             # implementation; this face puts the switch inside the engine (entry_lag, default
             # 0 = bit-identical to every published face) and answers the only question a

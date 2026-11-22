@@ -1,16 +1,16 @@
 {
   "artifact": "capital_union_decision",
-  "evidence_cutoff": "2026-11-17",
+  "evidence_cutoff": "2026-11-20",
   "face_cutoffs": {
     "carry_open_capital": "2026-11-20",
     "etf_book_capacity_edge": "2026-11-20",
-    "etf_book_ticket_floor": "2026-11-17"
+    "etf_book_ticket_floor": "2026-11-20"
   },
   "lens_cny": 1000000.0,
   "etf_book": {
     "openable": true,
-    "one_lot_floor_cny": 14875.99,
-    "capital_multiple_vs_floor": 67.2,
+    "one_lot_floor_cny": 14453.83,
+    "capital_multiple_vs_floor": 69.2,
     "ticket_verdict": "TRADABLE_AT_1000000",
     "capacity_reading_pct": 0.982,
     "capacity_line_pct": 1.0,
@@ -36,7 +36,7 @@
     "both_books_median_day_cny": 1620954.93,
     "first_book_to_open": "etf_book"
   },
-  "sentence": "At 1,000,000 CNY the ETF book is open (one lot 14,875.99 CNY, 67.2x the floor) while the carry book prints 0 executable lot(s) and needs 1,124,479 CNY to open its cheapest leg (short 124,479 = 12.45%). Today's ETF capacity line sits at 1,018,315 CNY (reading 0.9820% of ADV against a 1.00% line), so this capital fits with 18,315 CNY of headroom on the best day of the last 60 sessions. Opening both at once needs 2,142,794 CNY on the best capacity day (1,620,955 on the median day).",
+  "sentence": "At 1,000,000 CNY the ETF book is open (one lot 14,453.83 CNY, 69.2x the floor) while the carry book prints 0 executable lot(s) and needs 1,124,479 CNY to open its cheapest leg (short 124,479 = 12.45%). Today's ETF capacity line sits at 1,018,315 CNY (reading 0.9820% of ADV against a 1.00% line), so this capital fits with 18,315 CNY of headroom on the best day of the last 60 sessions. Opening both at once needs 2,142,794 CNY on the best capacity day (1,620,955 on the median day).",
   "caveats": [
     "The ETF capacity reading is a 60-session ladder of 20-day median ADV, not an order-book measurement: it says how often this capital fits, not how much it costs to push.",
     "etf_book_ticket_floor is a whole-lot arithmetic face and its cutoff can lag the capacity face; every face's own cutoff is printed in face_cutoffs.",

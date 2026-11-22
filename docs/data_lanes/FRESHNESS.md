@@ -4,7 +4,7 @@ Official reference: last day that must exist by 15:30 = **2026-11-20** (8797 cal
 
 Verdict: **attention** -- 13/15 lanes in sync, 14/15 auditable from this machine, worst = `heat`.
 
-Built on **bm-c** at 2026-11-22T13:07:54: every tail and period below is a reading of that machine's disk. A copy of this file on another machine says nothing about that machine's panels -- run the board there to read its own bytes.
+Built on **bm-c** at 2026-11-22T14:59:52: every tail and period below is a reading of that machine's disk. A copy of this file on another machine says nothing about that machine's panels -- run the board there to read its own bytes.
 
 
 ## Whose disk these numbers are on
@@ -49,9 +49,9 @@ Each missing day below is classified by its own collector. `takeover_possible` m
 
 A different question from the section above: these machines have written no heartbeat for more than 24.0h, so the lanes they own are being judged from whatever was last committed. A lane here can still read `in_sync` -- the number is old, the owner is gone, and nobody would notice the day the file stops being written.
 
-- `bm-a`: last seen 2026-11-18T19:53:03+08:00 (89.25h ago) -- owns futures, heat, lhb, repo
+- `bm-a`: last seen 2026-11-18T19:53:03+08:00 (91.11h ago) -- owns futures, heat, lhb, repo
   - already covered by a declared stand-in: futures <- bm-c, heat <- bm-c, lhb <- bm-c, repo <- bm-c (nothing to wait for)
-- `bm-b`: last seen 2026-10-30T12:43:06+08:00 (552.41h ago) -- owns astock_daily, marks
+- `bm-b`: last seen 2026-10-30T12:43:06+08:00 (554.28h ago) -- owns astock_daily, marks
   - already covered by a declared stand-in: astock_daily <- bm-c, marks <- bm-c (nothing to wait for)
 
 ## Members sitting outside the active cohort
@@ -64,11 +64,11 @@ These are named by the face that audits the panel, with the reason the lane's ow
 
 The per-symbol panels hold thousands of files, so their tail is read through an evenly spaced sample rather than a full sweep. A sample can miss a single laggard symbol; it cannot miss a panel that stopped weeks ago. Each row below says how many symbols were read out of how many. Small panels read whole (marked `files`) are listed too whenever a full-scan certification exists for them: that scan can be older than the tail this board prints, and this section is where that older tail is named.
 
-- `ah_panel`: 40 of 187 symbols read, tail 2026-11-20; the full scan holds it in 184 of 187 symbols (98.40%) (certified 2026-11-22T09:10:24)
-- `astock_daily`: 40 of 5221 symbols read, tail 2026-11-20; the full scan holds it in 5,213 of 5,221 symbols (99.85%) (certified 2026-11-22T09:10:24)
-- `futures`: 10 of 10 files read, tail 2026-11-20; the full scan holds it in 10 of 10 symbols (100.00%) (certified 2026-11-22T09:10:24)
-- `moneyflow`: 40 of 5228 symbols read, tail 2026-11-20; the full scan holds it in 5,226 of 5,228 symbols (99.98%) (certified 2026-11-22T09:10:24)
-- `repo`: 11 of 11 files read, tail 2026-11-20 (certification read 2026-11-19, this row reads 2026-11-20 -- this row is ahead of it, so its counts are not quoted here)
+- `ah_panel`: 40 of 187 symbols read, tail 2026-11-20; the full scan holds it in 184 of 187 symbols (98.40%) (certified 2026-11-22T13:57:28)
+- `astock_daily`: 40 of 5221 symbols read, tail 2026-11-20; the full scan holds it in 5,213 of 5,221 symbols (99.85%) (certified 2026-11-22T13:57:28)
+- `futures`: 10 of 10 files read, tail 2026-11-20; the full scan holds it in 10 of 10 symbols (100.00%) (certified 2026-11-22T13:57:28)
+- `moneyflow`: 40 of 5228 symbols read, tail 2026-11-20; the full scan holds it in 5,226 of 5,228 symbols (99.98%) (certified 2026-11-22T13:57:28)
+- `repo`: 11 of 11 files read, tail 2026-11-20; the full scan holds it in 11 of 11 symbols (100.00%) (certified 2026-11-22T13:57:28)
 
 Full-scan certification of exactly these rows: `scripts/data_lane_freshness.py certify` -> `docs/data_lanes/TAIL_CERTIFICATION.md` (it re-reads every file and names the symbols that sit behind the newest bar).
 

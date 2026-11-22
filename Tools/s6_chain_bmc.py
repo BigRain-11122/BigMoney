@@ -656,6 +656,14 @@ LEGS = [
     ("year_gate_write",
      ["python", "scripts/etf_book_year_gate.py", "check"],
      ["python", "scripts/etf_book_year_gate.py", "run"]),
+    # r1934: r1930 turned every candidate's yearly concentration from percentage points into
+    # money and priced the distance to the gate line. It was published straight to results/
+    # with no chain leg and no smoke leg, so the r1282 orphan class applied from birth: the
+    # page would keep quoting 2026-11-22's top-2 shares while the gate it reads reprices every
+    # time the panel grows. It reads YEAR-GATE.json, so it stays immediately after its writer.
+    ("year_concentration_money",
+     ["python", "scripts/etf_book_year_concentration_money.py", "check"],
+     ["python", "scripts/etf_book_year_concentration_money.py", "run"]),
     ("phase_gate_write",
      ["python", "scripts/candidate_year_gate_phases.py", "check"],
      ["python", "scripts/candidate_year_gate_phases.py", "run"]),
@@ -1325,6 +1333,25 @@ LEGS = [
     ("ticket_band",
      ["python", "scripts/etf_book_ticket_band.py", "check"],
      ["python", "scripts/etf_book_ticket_band.py", "run"]),
+    # r1934: the lot floor has had smoke legs since r1813 and NEVER a chain leg -- the face
+    # was only ever re-derived by hand or by a red smoke leg, so every new bar froze it until
+    # somebody noticed. capital_union_decision (below) reads it, which makes the freeze
+    # invisible: the union page keeps printing yesterday's one-lot threshold as today's truth.
+    # Cheap (reads the ticket already written at the top of this chain, ~0s, no network).
+    ("ticket_floor_write", ["python", "scripts/etf_book_ticket_floor.py", "run"]),
+    # r1934: two faces published straight to results/ with no chain leg and no smoke leg --
+    # the r1282 orphan class, caught before it cost a stale number. sell_plan prices the OTHER
+    # half of the ticket (the ticket only says what k must do to BUY another lot; this says
+    # what a fall in k sells and what it costs) off the ticket above. capital_union folds the
+    # carry book's first funding rung, the ETF book's capacity line and its one-lot floor onto
+    # one page so "which book can this account open" has one answer instead of three. Both are
+    # offline, ~1-2s, and both must precede daily_report/ceo_live_usage (r1318/r1781 ordering).
+    ("etf_book_sell_plan",
+     ["python", "scripts/etf_book_sell_plan.py", "check"],
+     ["python", "scripts/etf_book_sell_plan.py", "run"]),
+    ("capital_union_decision",
+     ["python", "scripts/capital_union_decision.py", "--check"],
+     ["python", "scripts/capital_union_decision.py"]),
     # r1320: the width family (fit -> return -> neighbors) was built by three consecutive
     # sessions and published straight to results/, so the page quoted a verdict that no leg
     # re-derived. That is the r1282 orphan-face class: the reader sees a number forever and

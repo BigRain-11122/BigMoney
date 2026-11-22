@@ -3911,6 +3911,14 @@
     "2026-11-19"
    ],
    "sha": "795aad1597dee3d74d20aa7344c88bc087b66e61"
+  },
+  {
+   "at": "2026-11-22T10:25:22+08:00",
+   "n_sessions": 1,
+   "sessions": [
+    "2026-11-20"
+   ],
+   "sha": "7fb4c5285e1ddfea7c656a7a060d3a6ed1e09c02"
   }
  ],
  "bulk_imports": [
@@ -3920,26 +3928,26 @@
    "sha": "a36cf53c"
   }
  ],
- "evidence_cutoff": "2026-11-19",
+ "evidence_cutoff": "2026-11-20",
  "first_session": "2011-05-13",
- "generated": "2026-11-22T10:18:08+08:00",
+ "generated": "2026-11-22T15:00:03+08:00",
  "lag_days": {
   "max": 10,
   "median": 1,
   "min": 0,
-  "n": 34,
+  "n": 35,
   "p90": 5,
-  "share_next_day_or_later": 0.6765
+  "share_next_day_or_later": 0.6857
  },
  "lag_days_all_history": {
   "max": 5616,
   "median": 2783,
   "min": 0,
-  "n": 3771,
+  "n": 3772,
   "p90": 5052,
   "share_next_day_or_later": 0.9971
  },
- "last_session": "2026-11-19",
+ "last_session": "2026-11-20",
  "max_batch": 3737,
  "method": "first commit whose tail reaches a session dates that session's arrival; lag_days = commit date - session date, bulk imports (>=20 sessions in one commit) excluded from the headline",
  "page_vs_frontier": {
@@ -3987,12 +3995,12 @@
     "written": "2026-11-21T12:55:15"
    },
    {
-    "frontier": "2026-11-19",
+    "frontier": "2026-11-20",
     "gap_days": 0,
     "page": "LIVE-2026-11-22.json",
-    "priced": "2026-11-19",
+    "priced": "2026-11-20",
     "verdict": "AT_FRONTIER",
-    "written": "2026-11-22T10:18:04"
+    "written": "2026-11-22T14:59:59"
    }
   ],
   "verdict": "PAGE_AT_FRONTIER",
@@ -22853,9 +22861,14 @@
    "arrived": "2026-11-20T02:22:18+08:00",
    "bulk": false,
    "lag_days": 1
+  },
+  "2026-11-20": {
+   "arrived": "2026-11-22T10:25:22+08:00",
+   "bulk": false,
+   "lag_days": 2
   }
  },
- "sessions_seen": 3771,
- "share_next_day_or_later": 0.6765,
+ "sessions_seen": 3772,
+ "share_next_day_or_later": 0.6857,
  "source": "data/repo_daily/GC001.csv"
 }

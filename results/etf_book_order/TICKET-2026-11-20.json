@@ -1,7 +1,7 @@
 {
  "evidence_cutoff": "2026-11-20",
  "beta_target": 0.2,
- "generated": "2026-11-22T11:07:49+08:00",
+ "generated": "2026-11-22T14:35:44+08:00",
  "permission": {
   "status": "within_permission",
   "k_now": 0.435003,
@@ -512,10 +512,10 @@
    "spread_vs_tail_cny": 256.0,
    "spread_vs_window_cny": -3866.0,
    "book_rate": {
-    "pct": 1.7712,
-    "annual_cny": 10012.0,
+    "pct": 1.7708,
+    "annual_cny": 10009.0,
     "source": "etf_book_idle_cash.json",
-    "asof": "2026-11-22T09:19:30",
+    "asof": "2026-11-22T14:01:57",
     "book_cagr_without_pct": 11.16,
     "book_cagr_with_pct": 11.74,
     "basis": "as_coded",
@@ -528,8 +528,8 @@
      "convention": "lag +1: score(bar d-1) selects, the book earns open[d] -> open[d+1] -- the execution the card's config.execution string claims (decide at the close of bar d, fill at the open of bar d+1)"
     },
     "declared_gap_pp": -2.2,
-    "gap_vs_spot_bp": -37.62,
-    "gap_vs_spot_cny": -2126.0,
+    "gap_vs_spot_bp": -37.58,
+    "gap_vs_spot_cny": -2124.0,
     "per_year_net_pct": {
      "2020": 2.335,
      "2021": 2.143,
@@ -551,7 +551,7 @@
   },
   "forward": {
    "verdict": "TWO_RATES",
-   "sentence": "从 2026-11-23（2026-11-20 之后的第一个交易日）到 2026-12-09（下一张单）共 **16 个日历天**：同一笔 ¥565,245 若利率停在 2026-11-20 的报价 1.40%，这段窗口**毛收** ¥346；这笔钱在这段窗口要逐交易日滚 **12 次**，每次佣金 0.1bp（≈ ¥6），共 **¥68**，所以按这个报价**入账 ¥278**（这段窗口年化 1.12%，比报价低的那截就是这条路的手续费）；若按整段窗口扣佣金的净滚 1.77% 付是 ¥439，与**入账**数差 **65.00bp / ¥161**——佣金两边都已扣过，这个差是纯利率差（不扣佣金的毛口径是 37.62bp，那个数里混进了手续费，不能拿来当利率差用）。两个数都假设利率不动——1.77% 是已经走过的那段窗口的净滚，不是下一段的隔夜报价，它只说明过去付过多少，不承诺这一段。",
+   "sentence": "从 2026-11-23（2026-11-20 之后的第一个交易日）到 2026-12-09（下一张单）共 **16 个日历天**：同一笔 ¥565,245 若利率停在 2026-11-20 的报价 1.40%，这段窗口**毛收** ¥346；这笔钱在这段窗口要逐交易日滚 **12 次**，每次佣金 0.1bp（≈ ¥6），共 **¥68**，所以按这个报价**入账 ¥278**（这段窗口年化 1.12%，比报价低的那截就是这条路的手续费）；若按整段窗口扣佣金的净滚 1.77% 付是 ¥439，与**入账**数差 **64.96bp / ¥161**——佣金两边都已扣过，这个差是纯利率差（不扣佣金的毛口径是 37.58bp，那个数里混进了手续费，不能拿来当利率差用）。两个数都假设利率不动——1.77% 是已经走过的那段窗口的净滚，不是下一段的隔夜报价，它只说明过去付过多少，不承诺这一段。",
    "start_session": "2026-11-23",
    "end_session": "2026-12-09",
    "calendar_days": 16,
@@ -571,10 +571,10 @@
    "fee_cny": 68.0,
    "fee_src": "scripts/etf_book_cash_ladder.py FEE_BP (one source for every rung)",
    "gap_cny": 161.0,
-   "gap_bp": 65.0,
-   "gap_bp_gross": 37.62,
+   "gap_bp": 64.96,
+   "gap_bp_gross": 37.58,
    "book": {
-    "pct": 1.7712,
+    "pct": 1.7708,
     "cny": 439.0,
     "source": "etf_book_idle_cash.json"
    }
@@ -588,7 +588,7 @@
   "withdrawn_now": [],
   "withdrawal_note": "ledger withdrew 1 bar(s) at 2026-11-09 23:54:02 because the price panel then ended 2026-11-06 (2026-11-09); the panel has since carried 2026-11-09 again and that ledger row is live -- the withdrawal stays on record but it is not this sheet's pricing bar",
   "reinstatements": {
-   "at": "2026-11-22 11:07:49",
+   "at": "2026-11-22 14:35:44",
    "n_reinstated": 1,
    "rewritten": [],
    "verbatim_identical": [
@@ -1144,9 +1144,9 @@
    "last": null,
    "rows_detail": [],
    "panel_missing_symbols": [],
-   "repo_quotes": 3771,
-   "rate_latest_bar": "2026-11-19",
-   "rate_latest": 1.145,
+   "repo_quotes": 3772,
+   "rate_latest_bar": "2026-11-20",
+   "rate_latest": 1.395,
    "valued_upto_bar": "2026-11-20"
   },
   "accrual_rows": [],
@@ -1165,13 +1165,13 @@
    "legs_first_bar": 440647.2,
    "legs_last_bar": 434754.1,
    "legs_ret": -0.01337374,
-   "cash_interest_cny": 508.24,
+   "cash_interest_cny": 529.86,
    "identity_delta_cny": 0.0,
    "identity_status": "PRICED_BAR",
    "identity_holds": true,
    "base_bar_missing_closes": [],
    "base_bar_last_priced_day": "2026-11-20",
-   "rf_missing_bars": 1,
+   "rf_missing_bars": 0,
    "stale_bars": 0
   },
   "engine_book": {
@@ -1696,7 +1696,7 @@
  },
  "next_decision": {
   "artifact": "etf_book_next_decision",
-  "generated": "2026-11-22T11:07:49",
+  "generated": "2026-11-22T14:35:44",
   "evidence_cutoff": "2026-11-20",
   "calendar_source": "data/exchange_calendar.csv",
   "calendar_last": "2026-12-31",
@@ -1853,7 +1853,7 @@
  },
  "swap_freshness": {
   "artifact": "etf_book_swap_freshness",
-  "generated": "2026-11-22T11:07:49",
+  "generated": "2026-11-22T14:35:44",
   "evidence_cutoff": "2026-11-20",
   "calendar_source": "data/exchange_calendar.csv",
   "close_accept_time": "15:30",
@@ -2703,21 +2703,21 @@
  },
  "carry_split": {
   "artifact": "results/etf_book_return_regime.json",
-  "artifact_sha16": "02a4590ca45dccb1",
+  "artifact_sha16": "4e30481fc99fab7f",
   "evidence_cutoff": "2026-11-20",
   "beta": 0.2,
   "beta_requested": 0.2,
   "observed_pct": 11.94,
-  "flat_today_pct": 11.63,
+  "flat_today_pct": 11.78,
   "zero_pct": 10.91,
   "carry_pp": 1.03,
-  "flat_rate_cost_pp": 0.31,
+  "flat_rate_cost_pp": 0.16,
   "carry_share_pct": 8.6,
-  "pp_per_100bp": 0.374,
+  "pp_per_100bp": 0.276,
   "cash_share": 0.5636,
-  "rate_today_pct": 1.145,
-  "rate_today_date": "2026-11-19",
-  "rate_observed_pct": 1.9747,
+  "rate_today_pct": 1.395,
+  "rate_today_date": "2026-11-20",
+  "rate_observed_pct": 1.9743,
   "identity_matched": true
  },
  "restatements": {

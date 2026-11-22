@@ -1,6 +1,6 @@
 # does every mark in the carry book still have a quote behind it?
 
-verdict **BOOK_MARKS_SUPPORTED** | book (results\idx_fut_carry_paper\LEDGER.json) | generated 2026-11-22T09:20:19
+verdict **BOOK_MARKS_SUPPORTED** | book (results\idx_fut_carry_paper\LEDGER.json) | generated 2026-11-22T14:02:42
 
 12 bar(s) of 2 account(s) carry **0 mark(s) no contract panel on disk can reproduce**, holding **CNY 0** of absolute P&L. A bar that cannot be re-derived is not a wrong number -- it is a number whose evidence is gone.
 

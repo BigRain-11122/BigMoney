@@ -1,6 +1,6 @@
 {
  "face": "etf_book_idle_cash",
- "asof": "2026-11-22T09:19:30",
+ "asof": "2026-11-22T14:01:57",
  "evidence_cutoff": "2026-11-20",
  "window": {
   "start": "2020-01-03",
@@ -51,7 +51,7 @@
    "2023": 5.877,
    "2024": 15.101,
    "2025": 44.097,
-   "2026": 0.835
+   "2026": 0.836
   },
   "without": {
    "label": "without_fix",
@@ -97,7 +97,7 @@
     "maxdd_oos": -0.1047
    }
   },
-  "cash_vehicle_net_pct_on_window": 1.7712,
+  "cash_vehicle_net_pct_on_window": 1.7708,
   "cash_vehicle_published_pct": 1.7733,
   "cash_vehicle_published_field": "gate.published_gc001_net_pct",
   "cash_vehicle_reproduced_on_published_window_pct": 1.7733,
@@ -130,7 +130,7 @@
     "2023": 5.877,
     "2024": 15.101,
     "2025": 44.097,
-    "2026": 0.835
+    "2026": 0.836
    },
    "without": {
     "label": "without_fix",
@@ -203,7 +203,7 @@
     "2023": 3.67,
     "2024": 12.108,
     "2025": 38.5,
-    "2026": 4.149
+    "2026": 4.15
    },
    "without": {
     "label": "without_fix",
@@ -267,14 +267,14 @@
   "C0b_arm_reproduces_probe": true
  },
  "verdict": "ADMIT",
- "repo_contracts": 1665,
+ "repo_contracts": 1666,
  "repo_missing_quotes": 0,
  "honest": [
   "idle = 1 - scale held constant over a holding period, the engine's own nominal-weight convention; a drifting sleeve would move the number by less than the 3rd decimal",
   "the cash vehicle is a daily GC001 roll at the quoted rate, not a dealer quote; one contract per bar, exchange commission included, no bid-offer",
   "the composed curve is a book-return statement, not a ticket: it says the idle sleeve is worth paying, not which vehicle the account should use",
-  "1666 repo bars on the window, 0 missing quotes; cash accrual is carried across non-maturity bars by differencing the rung's cumulative growth"
+  "1667 repo bars on the window, 0 missing quotes; cash accrual is carried across non-maturity bars by differencing the rung's cumulative growth"
  ],
  "honest_arms": "both arms are the same universe, rule, cost and repo path; the only difference is the bar the score is read from, so arm_gap is the price of the execution basis and not a second strategy",
- "elapsed_sec": 50.01
+ "elapsed_sec": 47.56
 }

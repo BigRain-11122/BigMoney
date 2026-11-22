@@ -20,6 +20,7 @@ verdict tokens:
 from __future__ import annotations
 
 import argparse
+import io
 import json
 import sys
 from pathlib import Path
@@ -210,6 +211,32 @@ def selftest() -> int:
     ck("sentence_names_etf_floor", f"{etf['one_lot_floor_cny']:,.2f}" in doc["sentence"])
     ck("cutoffs_present", all(v for v in doc["face_cutoffs"].values()))
 
+    # L10 -- the drift probe must say the word the chain listens for (r1850/r1934). Run the
+    # real --check path against a doctored copy: the face on disk is rebuilt, one block is
+    # bent, and the probe has to answer STALE (so the chain pays its writer) rather than the
+    # old "DRIFT" wording that left the leg red with nobody to fix it.
+    bad_face = ROOT / "results" / "_capital_union_selftest.json"
+    saved_out = OUT_JSON
+    try:
+        bent = json.loads(json.dumps(doc))
+        bent["etf_book"]["one_lot_floor_cny"] = float(bent["etf_book"]["one_lot_floor_cny"]) + 1.0
+        bad_face.write_text(json.dumps(bent, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+        globals()["OUT_JSON"] = "results/_capital_union_selftest.json"
+        buf = io.StringIO()
+        old = sys.stdout
+        sys.stdout = buf
+        try:
+            rc_bent = main(["--check"])
+        finally:
+            sys.stdout = old
+            globals()["OUT_JSON"] = saved_out
+        txt = buf.getvalue()
+        ck("drift_says_stale", rc_bent == 3 and "STALE" in txt)
+    finally:
+        globals()["OUT_JSON"] = saved_out
+        if bad_face.exists():
+            bad_face.unlink()
+
     bad = [c for c in checks if not c[1]]
     for name, ok, detail in checks:
         print(("PASS " if ok else "FAIL ") + name)
@@ -237,7 +264,11 @@ def main(argv: list[str]) -> int:
         drift = [k for k in ("union", "etf_book", "carry_book", "face_cutoffs")
                  if json.dumps(old.get(k), sort_keys=True) != json.dumps(doc.get(k), sort_keys=True)]
         if drift:
-            print("DRIFT:", ", ".join(drift), "-- rerun to republish")
+            # r1934: the chain only pays for a writer when the probe text says STALE (r1850).
+            # Wording this "DRIFT" left the leg red forever: the ticket floor above it rewrites
+            # on every new bar, this face never republished, and the union page kept quoting
+            # yesterday's one-lot threshold. Say the word the chain listens for.
+            print("STALE face drifted:", ", ".join(drift), "-- rerun to republish")
             return 3
         print("OK: face matches a fresh rebuild")
         return 0

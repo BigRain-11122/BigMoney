@@ -530,11 +530,16 @@ def cmd_check(args):
         had = json.load(f)
     now = build()
     problems = []
+    # r1934: two kinds of red live in this probe and the chain only pays for a writer on the
+    # first one (r1850). The gate it reads is rebuilt whenever the panel grows, so "the source
+    # moved" is staleness -- the face should be republished, not defended. Only a per-book
+    # disagreement that survives a fresh build is a defect.
+    moved = []
     if had.get("evidence_cutoff") != now["evidence_cutoff"]:
-        problems.append("evidence_cutoff moved: {a} -> {b}".format(
+        moved.append("evidence_cutoff moved: {a} -> {b}".format(
             a=had.get("evidence_cutoff"), b=now["evidence_cutoff"]))
     if had.get("source_face", {}).get("sha16") != now["source_face"]["sha16"]:
-        problems.append("source face bytes moved: {a} -> {b}".format(
+        moved.append("source face bytes moved: {a} -> {b}".format(
             a=had.get("source_face", {}).get("sha16"), b=now["source_face"]["sha16"]))
     hb = {b["book"]: b for b in had.get("books") or []}
     for b in now["books"]:
@@ -561,6 +566,9 @@ def cmd_check(args):
         print("CHECK FAILED ({} problems)".format(len(problems)))
         for p in problems:
             print(" -", p)
+        return 3
+    if moved:
+        print("STALE face behind its source: {}".format("; ".join(moved)))
         return 3
     print("CHECK OK: {n} books re-derived, line {l:.2f}%, capital {c:,.0f}".format(
         n=len(now["books"]), l=100.0 * now["line"]["top2_share_max"],
@@ -721,6 +729,50 @@ def selftest():
                     {"book": "c", "derived": {"refused": "one year"}}])
     chk(all(r["book"] != "c" for r in s["rows"]),
         "L15 a refused book does not enter the separation rows")
+
+    # L16/L17 -- the probe must say the word the chain listens for (r1850/r1934). A source
+    # that moved is staleness: republish. A number that disagrees while nothing moved is a
+    # defect: stay red and print no STALE. Both legs run cmd_check against a doctored copy of
+    # the face on disk and restore everything in `finally`.
+    global OUT
+    if os.path.exists(OUT):
+        with io.open(OUT, "r", encoding="utf-8") as f:
+            real = f.read()
+        base = json.loads(real)
+        real_out = OUT
+        tmp = os.path.join(os.path.dirname(OUT), "_%s_selftest.json" % FACE)
+        def _probe(mutate):
+            doc = json.loads(json.dumps(base))
+            mutate(doc)
+            with io.open(tmp, "w", encoding="utf-8") as f:
+                f.write(json.dumps(doc, ensure_ascii=False, indent=1))
+            globals()["OUT"] = tmp
+            buf = io.StringIO()
+            old = sys.stdout
+            sys.stdout = buf
+            try:
+                rc = cmd_check(None)
+            finally:
+                sys.stdout = old
+                globals()["OUT"] = real_out
+            return rc, buf.getvalue()
+        try:
+            def _move_source(d):
+                d["source_face"]["sha16"] = "0" * 16
+            rc, txt = _probe(_move_source)
+            chk(rc == 3 and "STALE" in txt and "CHECK FAILED" not in txt,
+                "L16 a moved source face is reported STALE (the only word that pays for a "
+                "writer), never as a defect")
+            def _bend_number(d):
+                d["books"][0]["derived"]["value_cny"] = 1
+            rc, txt = _probe(_bend_number)
+            chk(rc == 3 and "CHECK FAILED" in txt and "STALE" not in txt,
+                "L17 a number that disagrees while the source holds still stays a defect "
+                "and must not be excused as stale")
+        finally:
+            if os.path.exists(tmp):
+                os.remove(tmp)
+            globals()["OUT"] = real_out
 
     ok = sum(1 for c, _ in legs if c)
     for c, msg in legs:

@@ -325,6 +325,16 @@ def check():
     mine = build(path, ticket)
     mine["sentence"] = sentence(mine)
     errs = []
+    # r1934: the ticket this face prices moves on every new bar, and the chain only pays for
+    # a writer when the probe says STALE (r1850). Comparing numbers straight off a moved
+    # ticket made every new bar a permanent "CHECK FAILED" with nobody to republish it.
+    moved = []
+    rel = os.path.relpath(path, ROOT).replace(os.sep, "/")
+    if face.get("ticket") != rel:
+        moved.append("ticket path moved: %s -> %s" % (face.get("ticket"), rel))
+    if face.get("evidence_cutoff") != mine.get("evidence_cutoff"):
+        moved.append("ticket bar moved: %s -> %s"
+                     % (face.get("evidence_cutoff"), mine.get("evidence_cutoff")))
     if face.get("verdict") != mine["verdict"]:
         errs.append("verdict %s != rebuilt %s" % (face.get("verdict"), mine["verdict"]))
     for k in ("k_now", "beta_now", "nav_cny", "beta_target"):
@@ -352,6 +362,9 @@ def check():
         print("CHECK FAILED (%d)" % len(errs))
         for e in errs[:12]:
             print("  - " + e)
+        return 3
+    if moved:
+        print("STALE face behind its ticket: %s" % "; ".join(moved))
         return 3
     print("CHECK_OK rungs=%d deepest=%s sentence=yes doc=%s"
           % (len(mine["ladder"]),
@@ -440,12 +453,56 @@ def selftest():
     s = sentence(face)
     chk("CNY" in s and "lots" in s, "sentence prints lots and CNY")
 
+    # L11/L12 -- the drift probe must say the word the chain listens for (r1850/r1934). A
+    # ticket that moved is staleness and pays for a writer; a number that disagrees while the
+    # ticket holds still is a defect and must stay red with no STALE word in it.
+    path, ticket = load_latest_ticket(None)
+    if ticket is not None:
+        fresh = build(path, ticket)
+        fresh["sentence"] = sentence(fresh)
+        tmp = os.path.join(ROOT, "results", "_sell_plan_selftest.json")
+        saved = OUT
+
+        def probe(mutate):
+            doc = json.loads(json.dumps(fresh))
+            mutate(doc)
+            with open(tmp, "w", encoding="utf-8") as f:
+                json.dump(doc, f, ensure_ascii=False)
+            globals()["OUT"] = tmp
+            import io as _io
+            buf, old = _io.StringIO(), sys.stdout
+            sys.stdout = buf
+            try:
+                rc = check()
+            finally:
+                sys.stdout = old
+                globals()["OUT"] = saved
+            return rc, buf.getvalue()
+
+        try:
+            def _move_bar(d):
+                d["evidence_cutoff"] = "1999-01-01"
+            rc, txt = probe(_move_bar)
+            chk(rc == 3 and "STALE" in txt and "CHECK FAILED" not in txt,
+                "L11 a moved ticket is STALE (the word that pays for a writer), not a defect")
+
+            def _bend_rung(d):
+                if d["ladder"]:
+                    d["ladder"][0]["sell_cny"] = float(d["ladder"][0]["sell_cny"]) + 5.0
+            rc, txt = probe(_bend_rung)
+            chk(rc == 3 and "CHECK FAILED" in txt and "STALE" not in txt,
+                "L12 a bent rung on the same ticket stays a defect, never excused as stale")
+        finally:
+            globals()["OUT"] = saved
+            if os.path.exists(tmp):
+                os.remove(tmp)
+
     if fails:
         print("SELFTEST FAILED (%d)" % len(fails))
         for f in fails:
             print("  - " + f)
         return 1
-    print("SELFTEST PASS (10 legs)")
+    print("SELFTEST PASS (12 legs)")
     return 0
 
 
