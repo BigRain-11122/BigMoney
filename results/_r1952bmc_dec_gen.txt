@@ -1,0 +1,23 @@
+# r1952 bm-c · group docs/decisions.md two-generation comparison (watermark copy vs remote tip)
+# sources: cat-file blob <sha>:docs/decisions.md (raw bytes) -> utf-8 strict decode
+
+label                wm=watermark-copy tip=remote-tip
+bytes                wm=250586         tip=326589
+lines                wm=437            tip=317
+table_rows           wm=134            tip=133
+max_date             wm=2026-11-24     tip=2026-11-24
+min_date             wm=2026-09-23     tip=2026-09-23
+max_decision_day     wm=20261119       tip=20261119
+min_decision_day     wm=20261026       tip=20261026
+decision_days        wm=16             tip=15
+rows_2026_11         wm=134            tip=133
+mojibake_rows        wm=17             tip=76
+
+wm_ids=144 tip_ids=141
+only_in_tip(NEW decisions to act on)=0
+only_in_wm(dropped from tip)=3
+--- only_in_tip ---
+--- only_in_wm ---
+20261026-24
+20261101-19
+20261106-04
