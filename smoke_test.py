@@ -1710,6 +1710,54 @@ def main() -> int:
                   f"sentence={_sentence}")
     except Exception as e:
         check("product: roll cost does not claim a verdict it cannot have (r1698)", False, str(e))
+    # r1931: the carry family could say how thick the discount is and what one roll costs, but
+    # not which tenor to hold -- "roll monthly" and "hold the quarter contract" were never put
+    # on the same money. The face that answers it is only worth anything if it (a) still finds
+    # the extra rolls it charges for, (b) can be re-derived from the panels without drift, and
+    # (c) prints the verdict plus every product's winner on the page, not only in the JSON.
+    try:
+        _r = _leg_memo([sys.executable, "scripts/idx_fut_roll_tenor.py", "--selftest"], 180)
+        _tail = ((_r.stdout or _r.stderr).strip().splitlines() or ["no output"])[-1]
+        check("product: roll tenor prices both policies (selftest 27 legs)",
+              _r.returncode == 0, f"exit={_r.returncode} | {_tail[:90]}")
+    except Exception as e:
+        check("product: roll tenor prices both policies (selftest 27 legs)", False, str(e))
+    try:
+        _r = _leg_memo([sys.executable, "scripts/idx_fut_roll_tenor.py", "--check"], 180)
+        _tail = ((_r.stdout or _r.stderr).strip().splitlines() or ["no output"])[-1]
+        check("product: roll tenor re-derives from the contract panel",
+              _r.returncode == 0, f"exit={_r.returncode} | {_tail[:110]}")
+    except Exception as e:
+        check("product: roll tenor re-derives from the contract panel", False, str(e))
+    try:
+        _tf = os.path.join(PATHS.root, "results", "idx_fut_roll_tenor.json")
+        _tp = os.path.join(PATHS.root, "research", "IDX_FUT_ROLL_TENOR.md")
+        if not (os.path.exists(_tf) and os.path.exists(_tp)):
+            check("product: the tenor verdict is on the page (r1931)", False, "missing face or page")
+        else:
+            with open(_tf, encoding="utf-8") as _fh:
+                _tn = json.load(_fh)
+            with open(_tp, encoding="utf-8") as _fh:
+                _tpage = _fh.read()
+            _tok = (_tn.get("verdict") or {}).get("token")
+            _ok = {p: x for p, x in (_tn.get("products") or {}).items()
+                   if x.get("status") == "ok"}
+            # (a) the verdict must be on the page, not just in the JSON
+            _tok_on_page = bool(_tok) and ("**判词：%s**" % _tok) in _tpage
+            # (b) every measured product must appear in the §二 winner table with its rollout rate
+            _missing = [p for p, x in _ok.items()
+                        if ("| %s |" % p) not in _tpage
+                        or x["policies"]["quarterly"]["rolls_per_year"] <= 0]
+            # (c) the monthly policy must charge itself the extra rolls it really makes: a face
+            # that prints 12 rolls a year but bills 3 would win by construction
+            _underbilled = [p for p, x in _ok.items()
+                            if x["policies"]["monthly"]["rolls_per_year"]
+                            < 1.5 * x["policies"]["quarterly"]["rolls_per_year"]]
+            check("product: the tenor verdict is on the page (r1931)",
+                  _tok_on_page and not _missing and not _underbilled,
+                  f"token_on_page={_tok_on_page} missing={_missing} underbilled={_underbilled}")
+    except Exception as e:
+        check("product: the tenor verdict is on the page (r1931)", False, str(e))
     # r1701: the carry family had a judgement and no sheet a desk could act on -- no
     # contract, no lot count, no margin, no next-roll answer, and two gaps refused without
     # saying why. A refusal that reads as a dash is the expensive direction (a reader

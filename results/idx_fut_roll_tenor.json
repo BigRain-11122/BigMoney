@@ -1,0 +1,1336 @@
+{
+ "cost_levels": {
+  "median_bp_by_product": {
+   "IC": 30.792,
+   "IF": 19.843,
+   "IH": 21.071,
+   "IM": 28.232
+  },
+  "p25_bp_by_product": {
+   "IC": 17.66,
+   "IF": 9.77,
+   "IH": 7.076,
+   "IM": 11.342
+  },
+  "published_floor_bp": 1.5,
+  "source": "results\\idx_fut_roll_cost.json"
+ },
+ "criteria": {
+  "entry_requires_volume": true,
+  "expiry": "third Friday of the delivery month, shifted to the next calendar trading day",
+  "max_gap_days": 5,
+  "min_days": 250,
+  "policies": [
+   "monthly",
+   "next",
+   "quarterly"
+  ],
+  "quarter_months": [
+   3,
+   6,
+   9,
+   12
+  ],
+  "roll_days_carry": "excluded (splice jump is not a holder's loss)",
+  "tie_pp": 0.1
+ },
+ "evidence_cutoff": "2026-11-20",
+ "generated": "2026-11-22T14:52:33",
+ "kind": "roll_tenor_monthly_vs_quarterly",
+ "products": {
+  "IC": {
+   "costs": {
+    "at_measured_median_bp": 30.792,
+    "at_measured_p25_bp": 17.66,
+    "at_published_floor_bp": 1.5
+   },
+   "front_vs_quarter": {
+    "breakeven_bp_per_roll": -4.157,
+    "breakeven_note": "the front already earns no more gross than the quarter contract, so no per-roll cost makes the monthly policy win",
+    "extra_rolls_per_year_for_monthly": 7.674,
+    "gross_gap_monthly_minus_quarterly_pp": -0.319,
+    "net_gap_pp": {
+     "at_measured_median_bp": -2.683,
+     "at_measured_p25_bp": -1.674,
+     "at_published_floor_bp": -0.434
+    },
+    "winner_by_band": {
+     "at_measured_median_bp": "quarterly",
+     "at_measured_p25_bp": "quarterly",
+     "at_published_floor_bp": "quarterly"
+    }
+   },
+   "index": "sh000905",
+   "index_name": "CSI500",
+   "latest_index": 6006.08,
+   "money_per_lot_year_cny": {
+    "at_measured_median_bp": {
+     "gap_cny_per_lot_year": -32229.0,
+     "monthly_cny_per_lot_year": 42091.0,
+     "quarterly_cny_per_lot_year": 74319.0
+    },
+    "at_measured_p25_bp": {
+     "gap_cny_per_lot_year": -20108.0,
+     "monthly_cny_per_lot_year": 59869.0,
+     "quarterly_cny_per_lot_year": 79977.0
+    },
+    "at_published_floor_bp": {
+     "gap_cny_per_lot_year": -5213.0,
+     "monthly_cny_per_lot_year": 81731.0,
+     "quarterly_cny_per_lot_year": 86944.0
+    }
+   },
+   "multiplier": 200,
+   "notional_per_lot_cny": 1201216.0,
+   "policies": {
+    "monthly": {
+     "carry_sum_pct": 56.335,
+     "cost_paid_pct_per_year": 3.468,
+     "entry_dte_median_days": 28,
+     "first_entries": [
+      {
+       "date": "2019-03-27",
+       "dte": 23,
+       "reason": "entry",
+       "symbol": "IC1904"
+      },
+      {
+       "date": "2019-04-25",
+       "reason": "forced_gap",
+       "symbol": "IC1905"
+      },
+      {
+       "date": "2019-05-17",
+       "dte": 35,
+       "reason": "roll",
+       "symbol": "IC1906"
+      }
+     ],
+     "forced_rolls": 1,
+     "gross_ann_pct": 6.973,
+     "last_entry": {
+      "date": "2026-10-16",
+      "dte": 35,
+      "reason": "roll",
+      "symbol": "IC2611"
+     },
+     "net_ann_pct": 3.504,
+     "net_by_band": {
+      "at_measured_median_bp": 3.504,
+      "at_measured_p25_bp": 4.984,
+      "at_published_floor_bp": 6.804
+     },
+     "per_year": {
+      "2019": {
+       "carry": 0.09106831392760029,
+       "days": 159,
+       "gross_pct": 9.107,
+       "rolls": 9
+      },
+      "2020": {
+       "carry": 0.11586685999670088,
+       "days": 231,
+       "gross_pct": 11.587,
+       "rolls": 12
+      },
+      "2021": {
+       "carry": 0.060463656829825685,
+       "days": 231,
+       "gross_pct": 6.046,
+       "rolls": 12
+      },
+      "2022": {
+       "carry": 0.03703220028147114,
+       "days": 230,
+       "gross_pct": 3.703,
+       "rolls": 12
+      },
+      "2023": {
+       "carry": 0.01099804068114485,
+       "days": 230,
+       "gross_pct": 1.1,
+       "rolls": 12
+      },
+      "2024": {
+       "carry": 0.06635324431558742,
+       "days": 230,
+       "gross_pct": 6.635,
+       "rolls": 12
+      },
+      "2025": {
+       "carry": 0.1079157643566786,
+       "days": 231,
+       "gross_pct": 10.792,
+       "rolls": 12
+      },
+      "2026": {
+       "carry": 0.07364851286005325,
+       "days": 202,
+       "gross_pct": 7.365,
+       "rolls": 10
+      }
+     },
+     "rolls": 91,
+     "rolls_per_year": 11.263,
+     "years": 8.079
+    },
+    "next": {
+     "carry_sum_pct": 59.776,
+     "cost_paid_pct_per_year": 1.143,
+     "entry_dte_median_days": 91,
+     "first_entries": [
+      {
+       "date": "2019-04-25",
+       "dte": 57,
+       "reason": "entry",
+       "symbol": "IC1906"
+      },
+      {
+       "date": "2019-06-21",
+       "dte": 91,
+       "reason": "roll",
+       "symbol": "IC1909"
+      },
+      {
+       "date": "2019-09-20",
+       "dte": 91,
+       "reason": "roll",
+       "symbol": "IC1912"
+      }
+     ],
+     "forced_rolls": 1,
+     "gross_ann_pct": 7.399,
+     "last_entry": {
+      "date": "2026-09-29",
+      "reason": "forced_gap",
+      "symbol": "IC2611"
+     },
+     "net_ann_pct": 6.255,
+     "net_by_band": {
+      "at_measured_median_bp": 6.255,
+      "at_measured_p25_bp": 6.743,
+      "at_published_floor_bp": 7.343
+     },
+     "per_year": {
+      "2019": {
+       "carry": 0.06430510963858582,
+       "days": 165,
+       "gross_pct": 6.431,
+       "rolls": 3
+      },
+      "2020": {
+       "carry": 0.12028332387759078,
+       "days": 239,
+       "gross_pct": 12.028,
+       "rolls": 4
+      },
+      "2021": {
+       "carry": 0.09957996358491439,
+       "days": 239,
+       "gross_pct": 9.958,
+       "rolls": 4
+      },
+      "2022": {
+       "carry": 0.05947457486696306,
+       "days": 238,
+       "gross_pct": 5.947,
+       "rolls": 4
+      },
+      "2023": {
+       "carry": 0.025083355042389455,
+       "days": 238,
+       "gross_pct": 2.508,
+       "rolls": 4
+      },
+      "2024": {
+       "carry": 0.05323131551104132,
+       "days": 238,
+       "gross_pct": 5.323,
+       "rolls": 4
+      },
+      "2025": {
+       "carry": 0.09593063340230301,
+       "days": 239,
+       "gross_pct": 9.593,
+       "rolls": 4
+      },
+      "2026": {
+       "carry": 0.07987545439185972,
+       "days": 202,
+       "gross_pct": 7.988,
+       "rolls": 3
+      }
+     },
+     "rolls": 30,
+     "rolls_per_year": 3.713,
+     "years": 8.079
+    },
+    "quarterly": {
+     "carry_sum_pct": 58.916,
+     "cost_paid_pct_per_year": 1.105,
+     "entry_dte_median_days": 91,
+     "first_entries": [
+      {
+       "date": "2019-04-25",
+       "dte": 57,
+       "reason": "entry",
+       "symbol": "IC1906"
+      },
+      {
+       "date": "2019-06-21",
+       "dte": 91,
+       "reason": "roll",
+       "symbol": "IC1909"
+      },
+      {
+       "date": "2019-09-20",
+       "dte": 91,
+       "reason": "roll",
+       "symbol": "IC1912"
+      }
+     ],
+     "forced_rolls": 0,
+     "gross_ann_pct": 7.292,
+     "last_entry": {
+      "date": "2026-06-22",
+      "dte": 88,
+      "reason": "roll",
+      "symbol": "IC2609"
+     },
+     "net_ann_pct": 6.187,
+     "net_by_band": {
+      "at_measured_median_bp": 6.187,
+      "at_measured_p25_bp": 6.658,
+      "at_published_floor_bp": 7.238
+     },
+     "per_year": {
+      "2019": {
+       "carry": 0.06430510963858582,
+       "days": 165,
+       "gross_pct": 6.431,
+       "rolls": 3
+      },
+      "2020": {
+       "carry": 0.12028332387759078,
+       "days": 239,
+       "gross_pct": 12.028,
+       "rolls": 4
+      },
+      "2021": {
+       "carry": 0.09957996358491439,
+       "days": 239,
+       "gross_pct": 9.958,
+       "rolls": 4
+      },
+      "2022": {
+       "carry": 0.05947457486696306,
+       "days": 238,
+       "gross_pct": 5.947,
+       "rolls": 4
+      },
+      "2023": {
+       "carry": 0.025083355042389455,
+       "days": 238,
+       "gross_pct": 2.508,
+       "rolls": 4
+      },
+      "2024": {
+       "carry": 0.05323131551104132,
+       "days": 238,
+       "gross_pct": 5.323,
+       "rolls": 4
+      },
+      "2025": {
+       "carry": 0.09593063340230301,
+       "days": 239,
+       "gross_pct": 9.593,
+       "rolls": 4
+      },
+      "2026": {
+       "carry": 0.07127173159130873,
+       "days": 171,
+       "gross_pct": 7.127,
+       "rolls": 2
+      }
+     },
+     "rolls": 29,
+     "rolls_per_year": 3.589,
+     "years": 8.079
+    }
+   },
+   "status": "ok",
+   "window": {
+    "days": 1962,
+    "from": "2018-10-22",
+    "to": "2026-11-20"
+   }
+  },
+  "IF": {
+   "costs": {
+    "at_measured_median_bp": 19.843,
+    "at_measured_p25_bp": 9.77,
+    "at_published_floor_bp": 1.5
+   },
+   "front_vs_quarter": {
+    "breakeven_bp_per_roll": 1.824,
+    "breakeven_note": null,
+    "extra_rolls_per_year_for_monthly": 7.674,
+    "gross_gap_monthly_minus_quarterly_pp": 0.14,
+    "net_gap_pp": {
+     "at_measured_median_bp": -1.382,
+     "at_measured_p25_bp": -0.609,
+     "at_published_floor_bp": 0.025
+    },
+    "winner_by_band": {
+     "at_measured_median_bp": "quarterly",
+     "at_measured_p25_bp": "quarterly",
+     "at_published_floor_bp": "tie"
+    }
+   },
+   "index": "sh000300",
+   "index_name": "CSI300",
+   "latest_index": 3954.565,
+   "money_per_lot_year_cny": {
+    "at_measured_median_bp": {
+     "gap_cny_per_lot_year": -16396.0,
+     "monthly_cny_per_lot_year": 11365.0,
+     "quarterly_cny_per_lot_year": 27761.0
+    },
+    "at_measured_p25_bp": {
+     "gap_cny_per_lot_year": -7225.0,
+     "monthly_cny_per_lot_year": 24831.0,
+     "quarterly_cny_per_lot_year": 32056.0
+    },
+    "at_published_floor_bp": {
+     "gap_cny_per_lot_year": 297.0,
+     "monthly_cny_per_lot_year": 35876.0,
+     "quarterly_cny_per_lot_year": 35579.0
+    }
+   },
+   "multiplier": 300,
+   "notional_per_lot_cny": 1186370.0,
+   "policies": {
+    "monthly": {
+     "carry_sum_pct": 25.798,
+     "cost_paid_pct_per_year": 2.235,
+     "entry_dte_median_days": 28,
+     "first_entries": [
+      {
+       "date": "2019-03-27",
+       "dte": 23,
+       "reason": "entry",
+       "symbol": "IF1904"
+      },
+      {
+       "date": "2019-04-25",
+       "reason": "forced_gap",
+       "symbol": "IF1905"
+      },
+      {
+       "date": "2019-05-17",
+       "dte": 35,
+       "reason": "roll",
+       "symbol": "IF1906"
+      }
+     ],
+     "forced_rolls": 1,
+     "gross_ann_pct": 3.193,
+     "last_entry": {
+      "date": "2026-10-16",
+      "dte": 35,
+      "reason": "roll",
+      "symbol": "IF2611"
+     },
+     "net_ann_pct": 0.958,
+     "net_by_band": {
+      "at_measured_median_bp": 0.958,
+      "at_measured_p25_bp": 2.093,
+      "at_published_floor_bp": 3.024
+     },
+     "per_year": {
+      "2019": {
+       "carry": 0.02225879717638246,
+       "days": 159,
+       "gross_pct": 2.226,
+       "rolls": 9
+      },
+      "2020": {
+       "carry": 0.058221714599024366,
+       "days": 231,
+       "gross_pct": 5.822,
+       "rolls": 12
+      },
+      "2021": {
+       "carry": 0.039466616094097184,
+       "days": 231,
+       "gross_pct": 3.947,
+       "rolls": 12
+      },
+      "2022": {
+       "carry": 0.01873878140683405,
+       "days": 230,
+       "gross_pct": 1.874,
+       "rolls": 12
+      },
+      "2023": {
+       "carry": -0.008345975035166542,
+       "days": 230,
+       "gross_pct": -0.835,
+       "rolls": 12
+      },
+      "2024": {
+       "carry": 0.023913946249298657,
+       "days": 230,
+       "gross_pct": 2.391,
+       "rolls": 12
+      },
+      "2025": {
+       "carry": 0.044358229832251794,
+       "days": 231,
+       "gross_pct": 4.436,
+       "rolls": 12
+      },
+      "2026": {
+       "carry": 0.05936888929924389,
+       "days": 202,
+       "gross_pct": 5.937,
+       "rolls": 10
+      }
+     },
+     "rolls": 91,
+     "rolls_per_year": 11.263,
+     "years": 8.079
+    },
+    "next": {
+     "carry_sum_pct": 25.088,
+     "cost_paid_pct_per_year": 0.737,
+     "entry_dte_median_days": 91,
+     "first_entries": [
+      {
+       "date": "2019-04-25",
+       "dte": 57,
+       "reason": "entry",
+       "symbol": "IF1906"
+      },
+      {
+       "date": "2019-06-21",
+       "dte": 91,
+       "reason": "roll",
+       "symbol": "IF1909"
+      },
+      {
+       "date": "2019-09-20",
+       "dte": 91,
+       "reason": "roll",
+       "symbol": "IF1912"
+      }
+     ],
+     "forced_rolls": 1,
+     "gross_ann_pct": 3.105,
+     "last_entry": {
+      "date": "2026-09-29",
+      "reason": "forced_gap",
+      "symbol": "IF2611"
+     },
+     "net_ann_pct": 2.368,
+     "net_by_band": {
+      "at_measured_median_bp": 2.368,
+      "at_measured_p25_bp": 2.742,
+      "at_published_floor_bp": 3.05
+     },
+     "per_year": {
+      "2019": {
+       "carry": 0.013315209301996256,
+       "days": 165,
+       "gross_pct": 1.332,
+       "rolls": 3
+      },
+      "2020": {
+       "carry": 0.05963147052040729,
+       "days": 239,
+       "gross_pct": 5.963,
+       "rolls": 4
+      },
+      "2021": {
+       "carry": 0.04211692700676961,
+       "days": 239,
+       "gross_pct": 4.212,
+       "rolls": 4
+      },
+      "2022": {
+       "carry": 0.02893091242909418,
+       "days": 238,
+       "gross_pct": 2.893,
+       "rolls": 4
+      },
+      "2023": {
+       "carry": 0.0002123926088876127,
+       "days": 238,
+       "gross_pct": 0.021,
+       "rolls": 4
+      },
+      "2024": {
+       "carry": 0.015286798830983606,
+       "days": 238,
+       "gross_pct": 1.529,
+       "rolls": 4
+      },
+      "2025": {
+       "carry": 0.042936531741155415,
+       "days": 239,
+       "gross_pct": 4.294,
+       "rolls": 4
+      },
+      "2026": {
+       "carry": 0.048451226060722385,
+       "days": 202,
+       "gross_pct": 4.845,
+       "rolls": 3
+      }
+     },
+     "rolls": 30,
+     "rolls_per_year": 3.713,
+     "years": 8.079
+    },
+    "quarterly": {
+     "carry_sum_pct": 24.664,
+     "cost_paid_pct_per_year": 0.712,
+     "entry_dte_median_days": 91,
+     "first_entries": [
+      {
+       "date": "2019-04-25",
+       "dte": 57,
+       "reason": "entry",
+       "symbol": "IF1906"
+      },
+      {
+       "date": "2019-06-21",
+       "dte": 91,
+       "reason": "roll",
+       "symbol": "IF1909"
+      },
+      {
+       "date": "2019-09-20",
+       "dte": 91,
+       "reason": "roll",
+       "symbol": "IF1912"
+      }
+     ],
+     "forced_rolls": 0,
+     "gross_ann_pct": 3.053,
+     "last_entry": {
+      "date": "2026-06-22",
+      "dte": 88,
+      "reason": "roll",
+      "symbol": "IF2609"
+     },
+     "net_ann_pct": 2.34,
+     "net_by_band": {
+      "at_measured_median_bp": 2.34,
+      "at_measured_p25_bp": 2.702,
+      "at_published_floor_bp": 2.999
+     },
+     "per_year": {
+      "2019": {
+       "carry": 0.013315209301996256,
+       "days": 165,
+       "gross_pct": 1.332,
+       "rolls": 3
+      },
+      "2020": {
+       "carry": 0.05963147052040729,
+       "days": 239,
+       "gross_pct": 5.963,
+       "rolls": 4
+      },
+      "2021": {
+       "carry": 0.04211692700676961,
+       "days": 239,
+       "gross_pct": 4.212,
+       "rolls": 4
+      },
+      "2022": {
+       "carry": 0.02893091242909418,
+       "days": 238,
+       "gross_pct": 2.893,
+       "rolls": 4
+      },
+      "2023": {
+       "carry": 0.0002123926088876127,
+       "days": 238,
+       "gross_pct": 0.021,
+       "rolls": 4
+      },
+      "2024": {
+       "carry": 0.015286798830983606,
+       "days": 238,
+       "gross_pct": 1.529,
+       "rolls": 4
+      },
+      "2025": {
+       "carry": 0.042936531741155415,
+       "days": 239,
+       "gross_pct": 4.294,
+       "rolls": 4
+      },
+      "2026": {
+       "carry": 0.04420711263045818,
+       "days": 171,
+       "gross_pct": 4.421,
+       "rolls": 2
+      }
+     },
+     "rolls": 29,
+     "rolls_per_year": 3.589,
+     "years": 8.079
+    }
+   },
+   "status": "ok",
+   "window": {
+    "days": 1962,
+    "from": "2018-10-22",
+    "to": "2026-11-20"
+   }
+  },
+  "IH": {
+   "costs": {
+    "at_measured_median_bp": 21.071,
+    "at_measured_p25_bp": 7.076,
+    "at_published_floor_bp": 1.5
+   },
+   "front_vs_quarter": {
+    "breakeven_bp_per_roll": -0.586,
+    "breakeven_note": "the front already earns no more gross than the quarter contract, so no per-roll cost makes the monthly policy win",
+    "extra_rolls_per_year_for_monthly": 7.674,
+    "gross_gap_monthly_minus_quarterly_pp": -0.045,
+    "net_gap_pp": {
+     "at_measured_median_bp": -1.661,
+     "at_measured_p25_bp": -0.588,
+     "at_published_floor_bp": -0.16
+    },
+    "winner_by_band": {
+     "at_measured_median_bp": "quarterly",
+     "at_measured_p25_bp": "quarterly",
+     "at_published_floor_bp": "quarterly"
+    }
+   },
+   "index": "sh000016",
+   "index_name": "SSE50",
+   "latest_index": 2785.921,
+   "money_per_lot_year_cny": {
+    "at_measured_median_bp": {
+     "gap_cny_per_lot_year": -13882.0,
+     "monthly_cny_per_lot_year": -2190.0,
+     "quarterly_cny_per_lot_year": 11693.0
+    },
+    "at_measured_p25_bp": {
+     "gap_cny_per_lot_year": -4914.0,
+     "monthly_cny_per_lot_year": 10982.0,
+     "quarterly_cny_per_lot_year": 15896.0
+    },
+    "at_published_floor_bp": {
+     "gap_cny_per_lot_year": -1337.0,
+     "monthly_cny_per_lot_year": 16231.0,
+     "quarterly_cny_per_lot_year": 17568.0
+    }
+   },
+   "multiplier": 300,
+   "notional_per_lot_cny": 835776.0,
+   "policies": {
+    "monthly": {
+     "carry_sum_pct": 17.056,
+     "cost_paid_pct_per_year": 2.373,
+     "entry_dte_median_days": 28,
+     "first_entries": [
+      {
+       "date": "2019-03-27",
+       "dte": 23,
+       "reason": "entry",
+       "symbol": "IH1904"
+      },
+      {
+       "date": "2019-04-25",
+       "reason": "forced_gap",
+       "symbol": "IH1905"
+      },
+      {
+       "date": "2019-05-17",
+       "dte": 35,
+       "reason": "roll",
+       "symbol": "IH1906"
+      }
+     ],
+     "forced_rolls": 1,
+     "gross_ann_pct": 2.111,
+     "last_entry": {
+      "date": "2026-10-16",
+      "dte": 35,
+      "reason": "roll",
+      "symbol": "IH2611"
+     },
+     "net_ann_pct": -0.262,
+     "net_by_band": {
+      "at_measured_median_bp": -0.262,
+      "at_measured_p25_bp": 1.314,
+      "at_published_floor_bp": 1.942
+     },
+     "per_year": {
+      "2019": {
+       "carry": 0.014634098482605551,
+       "days": 159,
+       "gross_pct": 1.463,
+       "rolls": 9
+      },
+      "2020": {
+       "carry": 0.0512567303774083,
+       "days": 231,
+       "gross_pct": 5.126,
+       "rolls": 12
+      },
+      "2021": {
+       "carry": 0.02087537539722606,
+       "days": 231,
+       "gross_pct": 2.088,
+       "rolls": 12
+      },
+      "2022": {
+       "carry": -0.0005793697792881858,
+       "days": 230,
+       "gross_pct": -0.058,
+       "rolls": 12
+      },
+      "2023": {
+       "carry": -0.006878692826275956,
+       "days": 230,
+       "gross_pct": -0.688,
+       "rolls": 12
+      },
+      "2024": {
+       "carry": 0.023807799401379004,
+       "days": 230,
+       "gross_pct": 2.381,
+       "rolls": 12
+      },
+      "2025": {
+       "carry": 0.0186668593397864,
+       "days": 231,
+       "gross_pct": 1.867,
+       "rolls": 12
+      },
+      "2026": {
+       "carry": 0.04877385649974908,
+       "days": 202,
+       "gross_pct": 4.877,
+       "rolls": 10
+      }
+     },
+     "rolls": 91,
+     "rolls_per_year": 11.263,
+     "years": 8.079
+    },
+    "next": {
+     "carry_sum_pct": 18.158,
+     "cost_paid_pct_per_year": 0.782,
+     "entry_dte_median_days": 91,
+     "first_entries": [
+      {
+       "date": "2019-04-25",
+       "dte": 57,
+       "reason": "entry",
+       "symbol": "IH1906"
+      },
+      {
+       "date": "2019-06-21",
+       "dte": 91,
+       "reason": "roll",
+       "symbol": "IH1909"
+      },
+      {
+       "date": "2019-09-20",
+       "dte": 91,
+       "reason": "roll",
+       "symbol": "IH1912"
+      }
+     ],
+     "forced_rolls": 1,
+     "gross_ann_pct": 2.247,
+     "last_entry": {
+      "date": "2026-09-29",
+      "reason": "forced_gap",
+      "symbol": "IH2611"
+     },
+     "net_ann_pct": 1.465,
+     "net_by_band": {
+      "at_measured_median_bp": 1.465,
+      "at_measured_p25_bp": 1.985,
+      "at_published_floor_bp": 2.192
+     },
+     "per_year": {
+      "2019": {
+       "carry": 0.016721914967146034,
+       "days": 165,
+       "gross_pct": 1.672,
+       "rolls": 3
+      },
+      "2020": {
+       "carry": 0.06036739990115336,
+       "days": 239,
+       "gross_pct": 6.037,
+       "rolls": 4
+      },
+      "2021": {
+       "carry": 0.03691233376609615,
+       "days": 239,
+       "gross_pct": 3.691,
+       "rolls": 4
+      },
+      "2022": {
+       "carry": 0.00989383507902808,
+       "days": 238,
+       "gross_pct": 0.989,
+       "rolls": 4
+      },
+      "2023": {
+       "carry": -0.005739638681393933,
+       "days": 238,
+       "gross_pct": -0.574,
+       "rolls": 4
+      },
+      "2024": {
+       "carry": 0.01715885108296844,
+       "days": 238,
+       "gross_pct": 1.716,
+       "rolls": 4
+      },
+      "2025": {
+       "carry": 0.012929779829108479,
+       "days": 239,
+       "gross_pct": 1.293,
+       "rolls": 4
+      },
+      "2026": {
+       "carry": 0.03333758124206343,
+       "days": 202,
+       "gross_pct": 3.334,
+       "rolls": 3
+      }
+     },
+     "rolls": 30,
+     "rolls_per_year": 3.713,
+     "years": 8.079
+    },
+    "quarterly": {
+     "carry_sum_pct": 17.415,
+     "cost_paid_pct_per_year": 0.756,
+     "entry_dte_median_days": 91,
+     "first_entries": [
+      {
+       "date": "2019-04-25",
+       "dte": 57,
+       "reason": "entry",
+       "symbol": "IH1906"
+      },
+      {
+       "date": "2019-06-21",
+       "dte": 91,
+       "reason": "roll",
+       "symbol": "IH1909"
+      },
+      {
+       "date": "2019-09-20",
+       "dte": 91,
+       "reason": "roll",
+       "symbol": "IH1912"
+      }
+     ],
+     "forced_rolls": 0,
+     "gross_ann_pct": 2.156,
+     "last_entry": {
+      "date": "2026-06-22",
+      "dte": 88,
+      "reason": "roll",
+      "symbol": "IH2609"
+     },
+     "net_ann_pct": 1.399,
+     "net_by_band": {
+      "at_measured_median_bp": 1.399,
+      "at_measured_p25_bp": 1.902,
+      "at_published_floor_bp": 2.102
+     },
+     "per_year": {
+      "2019": {
+       "carry": 0.016721914967146034,
+       "days": 165,
+       "gross_pct": 1.672,
+       "rolls": 3
+      },
+      "2020": {
+       "carry": 0.06036739990115336,
+       "days": 239,
+       "gross_pct": 6.037,
+       "rolls": 4
+      },
+      "2021": {
+       "carry": 0.03691233376609615,
+       "days": 239,
+       "gross_pct": 3.691,
+       "rolls": 4
+      },
+      "2022": {
+       "carry": 0.00989383507902808,
+       "days": 238,
+       "gross_pct": 0.989,
+       "rolls": 4
+      },
+      "2023": {
+       "carry": -0.005739638681393933,
+       "days": 238,
+       "gross_pct": -0.574,
+       "rolls": 4
+      },
+      "2024": {
+       "carry": 0.01715885108296844,
+       "days": 238,
+       "gross_pct": 1.716,
+       "rolls": 4
+      },
+      "2025": {
+       "carry": 0.012929779829108479,
+       "days": 239,
+       "gross_pct": 1.293,
+       "rolls": 4
+      },
+      "2026": {
+       "carry": 0.025908985663935513,
+       "days": 171,
+       "gross_pct": 2.591,
+       "rolls": 2
+      }
+     },
+     "rolls": 29,
+     "rolls_per_year": 3.589,
+     "years": 8.079
+    }
+   },
+   "status": "ok",
+   "window": {
+    "days": 1962,
+    "from": "2018-10-22",
+    "to": "2026-11-20"
+   }
+  },
+  "IM": {
+   "costs": {
+    "at_measured_median_bp": 28.232,
+    "at_measured_p25_bp": 11.342,
+    "at_published_floor_bp": 1.5
+   },
+   "front_vs_quarter": {
+    "breakeven_bp_per_roll": -8.279,
+    "breakeven_note": "the front already earns no more gross than the quarter contract, so no per-roll cost makes the monthly policy win",
+    "extra_rolls_per_year_for_monthly": 8.081,
+    "gross_gap_monthly_minus_quarterly_pp": -0.669,
+    "net_gap_pp": {
+     "at_measured_median_bp": -2.95,
+     "at_measured_p25_bp": -1.585,
+     "at_published_floor_bp": -0.791
+    },
+    "winner_by_band": {
+     "at_measured_median_bp": "quarterly",
+     "at_measured_p25_bp": "quarterly",
+     "at_published_floor_bp": "quarterly"
+    }
+   },
+   "index": "sh000852",
+   "index_name": "CSI1000",
+   "latest_index": 5648.627,
+   "money_per_lot_year_cny": {
+    "at_measured_median_bp": {
+     "gap_cny_per_lot_year": -33327.0,
+     "monthly_cny_per_lot_year": 65377.0,
+     "quarterly_cny_per_lot_year": 98704.0
+    },
+    "at_measured_p25_bp": {
+     "gap_cny_per_lot_year": -17906.0,
+     "monthly_cny_per_lot_year": 87847.0,
+     "quarterly_cny_per_lot_year": 105754.0
+    },
+    "at_published_floor_bp": {
+     "gap_cny_per_lot_year": -8936.0,
+     "monthly_cny_per_lot_year": 100930.0,
+     "quarterly_cny_per_lot_year": 109866.0
+    }
+   },
+   "multiplier": 200,
+   "notional_per_lot_cny": 1129725.0,
+   "policies": {
+    "monthly": {
+     "carry_sum_pct": 39.462,
+     "cost_paid_pct_per_year": 3.324,
+     "entry_dte_median_days": 28,
+     "first_entries": [
+      {
+       "date": "2022-07-22",
+       "dte": 28,
+       "reason": "entry",
+       "symbol": "IM2208"
+      },
+      {
+       "date": "2022-08-19",
+       "dte": 28,
+       "reason": "roll",
+       "symbol": "IM2209"
+      },
+      {
+       "date": "2022-09-16",
+       "dte": 35,
+       "reason": "roll",
+       "symbol": "IM2210"
+      }
+     ],
+     "forced_rolls": 0,
+     "gross_ann_pct": 9.111,
+     "last_entry": {
+      "date": "2026-10-16",
+      "dte": 35,
+      "reason": "roll",
+      "symbol": "IM2611"
+     },
+     "net_ann_pct": 5.787,
+     "net_by_band": {
+      "at_measured_median_bp": 5.787,
+      "at_measured_p25_bp": 7.776,
+      "at_published_floor_bp": 8.934
+     },
+     "per_year": {
+      "2022": {
+       "carry": 0.043786029216556166,
+       "days": 104,
+       "gross_pct": 4.379,
+       "rolls": 5
+      },
+      "2023": {
+       "carry": 0.027650726340902265,
+       "days": 230,
+       "gross_pct": 2.765,
+       "rolls": 12
+      },
+      "2024": {
+       "carry": 0.11149086507365635,
+       "days": 230,
+       "gross_pct": 11.149,
+       "rolls": 12
+      },
+      "2025": {
+       "carry": 0.1273854610251215,
+       "days": 231,
+       "gross_pct": 12.739,
+       "rolls": 12
+      },
+      "2026": {
+       "carry": 0.08431113657632017,
+       "days": 202,
+       "gross_pct": 8.431,
+       "rolls": 10
+      }
+     },
+     "rolls": 51,
+     "rolls_per_year": 11.775,
+     "years": 4.331
+    },
+    "next": {
+     "carry_sum_pct": 43.321,
+     "cost_paid_pct_per_year": 1.108,
+     "entry_dte_median_days": 91,
+     "first_entries": [
+      {
+       "date": "2022-07-22",
+       "dte": 56,
+       "reason": "entry",
+       "symbol": "IM2209"
+      },
+      {
+       "date": "2022-09-16",
+       "dte": 91,
+       "reason": "roll",
+       "symbol": "IM2212"
+      },
+      {
+       "date": "2022-12-16",
+       "dte": 91,
+       "reason": "roll",
+       "symbol": "IM2303"
+      }
+     ],
+     "forced_rolls": 1,
+     "gross_ann_pct": 10.002,
+     "last_entry": {
+      "date": "2026-09-29",
+      "reason": "forced_gap",
+      "symbol": "IM2611"
+     },
+     "net_ann_pct": 8.894,
+     "net_by_band": {
+      "at_measured_median_bp": 8.894,
+      "at_measured_p25_bp": 9.557,
+      "at_published_floor_bp": 9.943
+     },
+     "per_year": {
+      "2022": {
+       "carry": 0.05083308204112891,
+       "days": 107,
+       "gross_pct": 5.083,
+       "rolls": 2
+      },
+      "2023": {
+       "carry": 0.04883263312202679,
+       "days": 238,
+       "gross_pct": 4.883,
+       "rolls": 4
+      },
+      "2024": {
+       "carry": 0.10474181772888813,
+       "days": 238,
+       "gross_pct": 10.474,
+       "rolls": 4
+      },
+      "2025": {
+       "carry": 0.12648898508150253,
+       "days": 239,
+       "gross_pct": 12.649,
+       "rolls": 4
+      },
+      "2026": {
+       "carry": 0.10231659658337677,
+       "days": 202,
+       "gross_pct": 10.232,
+       "rolls": 3
+      }
+     },
+     "rolls": 17,
+     "rolls_per_year": 3.925,
+     "years": 4.331
+    },
+    "quarterly": {
+     "carry_sum_pct": 42.36,
+     "cost_paid_pct_per_year": 1.043,
+     "entry_dte_median_days": 91,
+     "first_entries": [
+      {
+       "date": "2022-07-22",
+       "dte": 56,
+       "reason": "entry",
+       "symbol": "IM2209"
+      },
+      {
+       "date": "2022-09-16",
+       "dte": 91,
+       "reason": "roll",
+       "symbol": "IM2212"
+      },
+      {
+       "date": "2022-12-16",
+       "dte": 91,
+       "reason": "roll",
+       "symbol": "IM2303"
+      }
+     ],
+     "forced_rolls": 0,
+     "gross_ann_pct": 9.78,
+     "last_entry": {
+      "date": "2026-06-22",
+      "dte": 88,
+      "reason": "roll",
+      "symbol": "IM2609"
+     },
+     "net_ann_pct": 8.737,
+     "net_by_band": {
+      "at_measured_median_bp": 8.737,
+      "at_measured_p25_bp": 9.361,
+      "at_published_floor_bp": 9.725
+     },
+     "per_year": {
+      "2022": {
+       "carry": 0.05083308204112891,
+       "days": 107,
+       "gross_pct": 5.083,
+       "rolls": 2
+      },
+      "2023": {
+       "carry": 0.04883263312202679,
+       "days": 238,
+       "gross_pct": 4.883,
+       "rolls": 4
+      },
+      "2024": {
+       "carry": 0.10474181772888813,
+       "days": 238,
+       "gross_pct": 10.474,
+       "rolls": 4
+      },
+      "2025": {
+       "carry": 0.12648898508150253,
+       "days": 239,
+       "gross_pct": 12.649,
+       "rolls": 4
+      },
+      "2026": {
+       "carry": 0.09269913877048286,
+       "days": 171,
+       "gross_pct": 9.27,
+       "rolls": 2
+      }
+     },
+     "rolls": 16,
+     "rolls_per_year": 3.694,
+     "years": 4.331
+    }
+   },
+   "status": "ok",
+   "window": {
+    "days": 1050,
+    "from": "2022-07-22",
+    "to": "2026-11-20"
+   }
+  }
+ },
+ "verdict": {
+  "bands_where_products_disagree": [
+   {
+    "product": "IF",
+    "winners": {
+     "at_measured_median_bp": "quarterly",
+     "at_measured_p25_bp": "quarterly",
+     "at_published_floor_bp": "tie"
+    }
+   }
+  ],
+  "summary": [
+   "IF: front pays +0.14pp/yr more gross for +7.67 extra rolls/yr (break-even 1.824 bp/roll; winner at measured median = quarterly)",
+   "IC: front pays -0.32pp/yr more gross for +7.67 extra rolls/yr (the front already earns no more gross than the quarter contract, so no per-roll cost makes the monthly policy win; winner at measured median = quarterly)",
+   "IH: front pays -0.04pp/yr more gross for +7.67 extra rolls/yr (the front already earns no more gross than the quarter contract, so no per-roll cost makes the monthly policy win; winner at measured median = quarterly)",
+   "IM: front pays -0.67pp/yr more gross for +8.08 extra rolls/yr (the front already earns no more gross than the quarter contract, so no per-roll cost makes the monthly policy win; winner at measured median = quarterly)"
+  ],
+  "token": "QUARTERLY_WINS_ON_EVERY_COST_BAND",
+  "winners_by_band": {
+   "at_measured_median_bp": {
+    "IC": "quarterly",
+    "IF": "quarterly",
+    "IH": "quarterly",
+    "IM": "quarterly"
+   },
+   "at_measured_p25_bp": {
+    "IC": "quarterly",
+    "IF": "quarterly",
+    "IH": "quarterly",
+    "IM": "quarterly"
+   },
+   "at_published_floor_bp": {
+    "IC": "quarterly",
+    "IF": "tie",
+    "IH": "quarterly",
+    "IM": "quarterly"
+   }
+  }
+ }
+}

@@ -186,6 +186,17 @@ LEGS = [
     # lines' break-evens sit inside the band the tape cannot resolve. Reads the same cache;
     # ~2-4s, no network, no judge.
     ("idx_fut_roll_cost", ["python", "scripts/idx_fut_roll_cost.py", "--write-doc"]),
+    # r1931: the two faces above answer "how thick is the discount" and "what does one roll
+    # cost", but not the choice made when a position is sized: hold the front and roll
+    # monthly, or hold the quarter contract and roll four times a year. This leg runs both
+    # policies over the same calendar on the contract panel (carry = daily futures-minus-index
+    # excess, roll-day splices excluded, an entry needs volume>0), prices them at the
+    # roll-cost face's three bands, and states per product which one wins and by how many CNY
+    # a lot a year. Reads the roll-cost face above, so it must sit after it; ~3-5s, no
+    # network, no judge.
+    ("idx_fut_roll_tenor",
+     ["python", "scripts/idx_fut_roll_tenor.py", "--check"],
+     ["python", "scripts/idx_fut_roll_tenor.py", "--write-doc"]),
     # r1699: the roll book was published in rupees of carry per year and the desk's own book
     # in risk units, so the only question that allocates money ("the next yuan: the ETF book
     # or the carry sleeve?") had no face. This leg adds the missing half -- vol, Sharpe,
