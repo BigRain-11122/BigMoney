@@ -1953,6 +1953,21 @@ def main() -> int:
     except Exception as e:
         check("product: the swap page states its verdict and the ETF share it costs",
               False, str(e))
+    # r1933: the three legs above prove the face; this one proves the READER can see it.
+    # r1782 family: a published number that never reaches the page the CEO opens is not
+    # a product, and the face's own selftest cannot vouch for a section it never renders.
+    try:
+        _pg3 = os.path.join(PATHS.root, "docs", "live_usage",
+                            "LIVE-%s.md" % dt.datetime.now().strftime("%Y-%m-%d"))
+        _txt3 = open(_pg3, encoding="utf-8").read() if os.path.exists(_pg3) else ""
+        _ok3 = ("一手期货替掉多少 ETF 底仓" in _txt3
+                and "三把尺子各自成一个数" in _txt3
+                and "BETTER_PER_YUAN_BUT_NOT_BUYABLE_AT_THIS_CAPITAL" in _txt3)
+        check("product: the substitution rulers reach the CEO page (r1933)",
+              _ok3, "the CEO page has no substitution block" if not _ok3 else "")
+    except Exception as e:
+        check("product: the substitution rulers reach the CEO page (r1933)",
+              False, str(e))
     # r1791: the index panel behind every carry discount leg had no producer -- the cache
     # was frozen at whatever day a human last ran download_indexes.py (r1777 recorded it as
     # a no-producer face). Two legs: the refresh's own merge rules, and the one thing a

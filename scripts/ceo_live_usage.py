@@ -270,6 +270,12 @@ FUTURES_PROV_REL = "results/futures_panel_provenance.json"
 # by why, and answers the inside-window group with a probe plus positive controls.
 FUTURES_GAPS_JSON = os.path.join(ROOT, "results", "futures_panel_gaps.json")
 FUTURES_GAPS_REL = "results/futures_panel_gaps.json"
+# r1933: the carry section sizes one lot and prices its risk, but never answers what a
+# reader holding the ETF book actually asks -- how much of the book does one hedged lot
+# replace?  r1932 published three rulers (risk budget / capital efficiency / notional)
+# and refused to average them; this page quotes the same three and the same verdict.
+CAP_SUB_JSON = os.path.join(ROOT, "results", "capital_substitution.json")
+CAP_SUB_REL = "results/capital_substitution.json"
 
 # Position ladder, v2 frozen canonical (DECISION_CHAIN v2 prereg, adopted
 # bm-c 2026-09-28; owner-canon rows in market_clock POSITION_LADDER):
@@ -1259,6 +1265,74 @@ def _carry_marks_face():
         "verdict": d.get("verdict"),
         "rows": rows,
         "totals": d.get("totals") or {},
+        "evidence_cutoff": d.get("evidence_cutoff"),
+        "source_generated": d.get("generated"),
+    }
+
+
+def _capital_substitution_face():
+    """r1933: how much of THIS book does one hedged futures lot replace?
+
+    The carry section sizes one lot against the 8% risk dial and prints the money
+    that would open it.  A reader holding the ETF book still cannot answer the seam
+    question -- "if I bought the lot instead, how much of my ETF position would it
+    stand in for?"  results/capital_substitution.json (r1932) publishes three rulers
+    that are NOT interchangeable:
+
+      * risk budget -- the lot eats 112.5% of the 8% dial == 85.7% of the ETF book's
+        own measured risk, so one lot is not a top-up, it is most of the book;
+      * capital efficiency -- 9.65% per yuan against the book's 11.16%, and both are
+        measured on capital, so these two are the only comparable pair;
+      * notional -- 1,275,000 against a 1,000,000 lens, which answers none of the
+        question and is printed only so the refusal is visible.
+
+    The page quotes all three and the face's own verdict.  It never averages them and
+    never silently keeps one (r1932: a reader re-decides at every reading otherwise).
+    """
+    d = _read_json(CAP_SUB_JSON)
+    if not d:
+        return {"present": False, "path": CAP_SUB_REL,
+                "note": "替代面未产出（缺面不读 0）"}
+    prods = d.get("products") or {}
+    if not prods:
+        return {"present": False, "path": CAP_SUB_REL,
+                "note": "替代面在册但零产品（不完整面不冒充）"}
+    rows = {}
+    for code, a in sorted(prods.items()):
+        rows[code] = {
+            "per_lot_vol_cny": a.get("per_lot_vol_cny_hedged"),
+            "vol_budget_share_pct": a.get("vol_budget_share_pct"),
+            "equivalent_etf_share_pct": a.get("equivalent_etf_position_share_pct"),
+            "per_lot_return_cny_yr": a.get("per_lot_return_cny_yr"),
+            "funding_rung_cny": a.get("funding_rung_cny"),
+            "return_per_yuan_pct": a.get("return_per_yuan_pct"),
+            "sharpe_on_capital": a.get("sharpe_on_capital"),
+            "per_yuan_verdict": a.get("per_yuan_verdict"),
+            "per_lot_notional_cny": a.get("per_lot_notional_cny"),
+            "affordable": a.get("affordable_at_this_capital"),
+            "vol_reading_gap_pct": a.get("vol_reading_gap_pct"),
+        }
+    book = d.get("etf_book") or {}
+    return {
+        "present": True,
+        "path": CAP_SUB_REL,
+        "lens_cny": d.get("lens_cny"),
+        "target_pct": d.get("target_pct"),
+        "reference_product": d.get("reference_product"),
+        "etf_book": {
+            "cagr_pct": book.get("cagr_pct"),
+            "vol_pct": book.get("vol_pct"),
+            "sharpe": book.get("sharpe"),
+            "maxdd_pct": book.get("maxdd_pct"),
+            "vol_cny": book.get("vol_cny"),
+            "return_cny": book.get("return_cny"),
+            "cutoff": book.get("cutoff"),
+        },
+        "products": rows,
+        "verdict": d.get("verdict"),
+        "sentence": d.get("sentence"),
+        "caveats": d.get("caveats") or [],
+        "face_cutoffs": d.get("face_cutoffs") or {},
         "evidence_cutoff": d.get("evidence_cutoff"),
         "source_generated": d.get("generated"),
     }
@@ -2523,6 +2597,9 @@ def build_payload(day: str) -> dict:
         "futures_gaps": _futures_gaps_face(),
         "carry_roll_cost": _carry_roll_cost_face(),
         "carry_marks": _carry_marks_face(),
+        # r1933: how many ETF-core yuan one hedged futures lot stands in for (three
+        # rulers, never averaged) -- the seam between the two money candidates.
+        "capital_substitution": _capital_substitution_face(),
         "freshness": _freshness_face(book, tape, regime.get("asof"),
                                      rec=rec_face),
         "data_lanes": _data_lane_face(),
@@ -4287,6 +4364,56 @@ def render_md(p: dict) -> str:
                 for c in sorted(rows_k)))
         L.append(f"  - 出处：`{ck.get('path')}`｜generated {ck.get('source_generated')}"
                  f"｜cutoff {ck.get('evidence_cutoff')}")
+    # r1933: the carry block above answers "what does one lot cost and what does it
+    # risk".  It never answered the question a reader who already holds the ETF book
+    # asks -- how much of that book one hedged lot stands in for.  r1932 priced three
+    # rulers and refused to average them; the page prints the three and the refusal.
+    cs = p.get("capital_substitution") or {}
+    if not cs.get("present"):
+        L.append(f"- 一手期货替掉多少 ETF 底仓：{cs.get('note') or '替代面未产出'}"
+                 f"（指针 `{cs.get('path')}`）——**今天读不到这个问题；"
+                 "上面那条首档资金线说的是「开一手要多少钱」，不是「替掉多少底仓」**")
+    else:
+        bk = cs.get("etf_book") or {}
+        rows_s = cs.get("products") or {}
+
+        def _n2(v, nd=2):
+            return "?" if v is None else f"{v:.{nd}f}"
+
+        _ref = cs.get("reference_product") or "IC"
+        r = rows_s.get(_ref) or {}
+        L.append("- **一手期货替掉多少 ETF 底仓**（`%s`）：同一手不只有一种算法，"
+                 "三把尺子各自成一个数，**不相加、不平均**"
+                 % (cs.get("verdict") or "?"))
+        if r.get("vol_budget_share_pct") is not None:
+            L.append("  - 风险尺：一手对冲后一年赔上 %s = 8%% 预算的 **%s%%**，"
+                     "等于 ETF 底仓 **%s%%** 的风险 —— 一手不是加点仓位，是几乎整本书"
+                     % (_fmt_cny(r.get("per_lot_vol_cny")),
+                        _n2(r.get("vol_budget_share_pct"), 1),
+                        _n2(r.get("equivalent_etf_share_pct"), 1)))
+        if r.get("return_per_yuan_pct") is not None and bk.get("cagr_pct") is not None:
+            L.append("  - 每元资金尺（**唯一可比的一对**）：同一笔钱放这本期货 **%s%%**"
+                     "（夏普 %s）vs ETF 底仓 **%s%%**（夏普 %s）"
+                     % (_n2(r.get("return_per_yuan_pct")),
+                        _n2(r.get("sharpe_on_capital"), 2),
+                        _n2(bk.get("cagr_pct")), _n2(bk.get("sharpe"), 2)))
+        if r.get("per_lot_notional_cny") is not None and cs.get("lens_cny") is not None:
+            L.append("  - 名义尺：一手名义 %s vs 本书 %s —— 这只是「杠杆几倍」，"
+                     "回答不了「替掉多少底仓」，列出来是为了让它被拒"
+                     % (_fmt_cny(r.get("per_lot_notional_cny")),
+                        _fmt_cny(cs.get("lens_cny"))))
+        if r.get("funding_rung_cny") is not None and cs.get("lens_cny"):
+            _mult = float(r["funding_rung_cny"]) / float(cs["lens_cny"])
+            L.append("  - 结论：**每元更好，但这个资本买不起** —— 首档是本书的 **%.2f 倍**，"
+                     "同一条规则下钱到首档就自动回到一手" % _mult)
+        _ncav = len(cs.get("caveats") or [])
+        if _ncav:
+            L.append("  - 诚实 %d 条（面自带，逐条可查）；其中两条会直接改读数 —— "
+                     "风险尺的两把之间差 %s%%（不同窗口，并排不折中），"
+                     "且替掉 ETF 底仓的同时把它的债/现金防守腿一起去掉"
+                     % (_ncav, _n2(r.get("vol_reading_gap_pct"), 1)))
+        L.append(f"  - 出处：`{cs.get('path')}`｜cutoff {cs.get('evidence_cutoff')}"
+                 f"｜generated {cs.get('source_generated') or '面未自带（读 evidence_cutoff）'}")
     L.append("")
     L.append("## ⑧ 诚实免责")
     L.append("")
@@ -5232,6 +5359,35 @@ def selftest() -> int:
         _md4 = render_md(_deg4)
         check("a missing timing face blocks funding instead of reading as out-of-band (r1787)",
               "时机这一半今天读不到" in _md4 and "不在带内" not in _md4)
+        # r1933: the seam between the two money candidates. Three legs: the three rulers
+        # reach the page with the face's own verdict, the readings are the face's numbers
+        # (never retyped here), and a missing face prints a reason instead of letting the
+        # notional ruler stand as the answer (r98).
+        _cs1 = p1.get("capital_substitution") or {}
+        if not _cs1.get("present"):
+            print("  [SKIP] capital substitution: the face is absent")
+        else:
+            _csr = (_cs1.get("products") or {}).get(
+                _cs1.get("reference_product") or "IC") or {}
+            check("the page prices how much ETF core one futures lot replaces (r1933)",
+                  _cs1.get("verdict") in md1
+                  and "一手期货替掉多少 ETF 底仓" in md1
+                  and "三把尺子各自成一个数" in md1)
+            check("the substitution section quotes the face's own three rulers (r1933)",
+                  _csr.get("vol_budget_share_pct") is not None
+                  and "{:.1f}%".format(_csr["vol_budget_share_pct"]) in md1
+                  and _csr.get("return_per_yuan_pct") is not None
+                  and "{:.2f}%".format(_csr["return_per_yuan_pct"]) in md1
+                  and _csr.get("per_lot_notional_cny") is not None
+                  and _fmt_cny(_csr["per_lot_notional_cny"]) in md1)
+            _deg10 = json.loads(json.dumps(p1))
+            _deg10["capital_substitution"] = {
+                "present": False, "path": CAP_SUB_REL,
+                "note": "替代面未产出（缺面不读 0）"}
+            _md10 = render_md(_deg10)
+            check("a missing substitution face prints no ruler at all (r1933)",
+                  "替代面未产出" in _md10
+                  and "三把尺子各自成一个数" not in _md10)
         # r1908: the idle-cash arm. Three legs, same family: the verdict and its size
         # reach the page; the reproducibility gap is the face's own number; and a
         # missing face says "I could not read it" rather than letting 0% stand as a
