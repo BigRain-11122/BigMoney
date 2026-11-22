@@ -1,0 +1,601 @@
+{
+ "adoption": null,
+ "boundaries": [
+  "one panel, one calendar: alternates are different observation dates, not a second dataset",
+  "S1 formation windows overlap S0; rows are not independent and no pooled t is claimed",
+  "the control swap changes which arm is subtracted, never the rank arm or the maths",
+  "control stability spread is descriptive; it is not a criterion and cannot flip the verdict",
+  "unchanged upstream limits: ST/limit-up/limit-down and delisting unhandled, book is not tradable"
+ ],
+ "control_stability": {
+  "ind": {
+   "annual_by_sample": {
+    "S0": 0.005121910736051394,
+    "S1": 0.03485526526480309,
+    "S2": 0.03535837597438274
+   },
+   "own_t_by_sample": {
+    "S0": 0.3109713137126303,
+    "S1": 1.8371402368362368,
+    "S2": 1.2536203207622936
+   },
+   "range_pp": 3.0236465238331345
+  },
+  "resid": {
+   "annual_by_sample": {
+    "S0": -0.003935798895746467,
+    "S1": 0.048225587744439746,
+    "S2": 0.01782919768989122
+   },
+   "own_t_by_sample": {
+    "S0": -0.07311659972085366,
+    "S1": 2.0813431111397667,
+    "S2": 0.521709840575148
+   },
+   "range_pp": 5.216138664018621
+  }
+ },
+ "criteria": {
+  "holds": "n >= 12 AND mean > 0 AND t >= 1.5",
+  "not_in_verdict": [
+   "which control is stable (descriptive spread)",
+   "rankind's own absolute long leg across samples (descriptive)",
+   "sign-flip p"
+  ],
+  "note": "frozen in this file before the first run; no threshold was touched afterwards",
+  "primary_pair": "rankind-minus-resid",
+  "read": "q1_excess per rebalance, the implementable long leg, identical maths and costs",
+  "reproduction_pair": "rankind-minus-ind",
+  "reproduction_role": "rankind-minus-ind is re-run here only to reproduce r1947; a mismatch against that face is an error, not a reading",
+  "samples_frozen": [
+   "reproduction (offset 0, stride 20)",
+   "phase-shifted 10 bars (offset 10, stride 20)",
+   "every other date (offset 0, stride 40)"
+  ],
+  "signflip": "20000 draws, seed 20261122, reported but not part of the verdict",
+  "verdict_order": [
+   "NOT_ENOUGH_REBALANCES",
+   "RESID_CONTROL_HOLDS_ON_BOTH_ALTERNATE_SAMPLES",
+   "RESID_CONTROL_HOLDS_ON_ONE_SAMPLE_ONLY",
+   "RESID_CONTROL_DOES_NOT_HOLD"
+  ]
+ },
+ "evidence_cutoff": "2026-11-20",
+ "generated": "2026-11-22T22:26:30+08:00",
+ "headline": {
+  "one_line": "rankind-minus-resid across samples: S0 +0.00325 (t=2.32, n=77) | S1 -0.00047 (t=-0.43, n=76) | S2 +0.00444 (t=2.57, n=39) -> RESID_CONTROL_HOLDS_ON_ONE_SAMPLE_ONLY; the ind control reproduces r1947 (HOLDS_ON_ONE_SAMPLE_ONLY) and its own stability spread is 3.02pp vs resid 5.22pp",
+  "verdict": "RESID_CONTROL_HOLDS_ON_ONE_SAMPLE_ONLY"
+ },
+ "identity_check": {
+  "problems": [],
+  "rule": "mean(a-b) == mean(a) - mean(b) within 1e-9"
+ },
+ "ind_control_verdict": "IND_CONTROL_HOLDS_ON_ONE_SAMPLE_ONLY",
+ "kind": "census-derived",
+ "machine": "bm-c",
+ "prereg": null,
+ "prior": {
+  "generated": "2026-11-22T21:23:59+08:00",
+  "path": "results/astock_rankind_second_sample.json",
+  "reproduction_problems": [],
+  "sha256": "ad061c58712a1c7ea8c58c15955f05b6adafbd49f9ce321f4150dce8d1e25706",
+  "verdict": "HOLDS_ON_ONE_SAMPLE_ONLY"
+ },
+ "question": "does within-industry rank still add anything once the control is the beta+size residual arm instead of the noisy industry-dummy arm?",
+ "rankind_own_level": {
+  "annual_by_sample": {
+   "S0": 0.037611854246760945,
+   "S1": 0.04185555907450644,
+   "S2": 0.07562307677760272
+  },
+  "positive_on_all_samples": true,
+  "range_pp": 3.801122253084177,
+  "role": "descriptive; r1947's option 2, not part of the verdict"
+ },
+ "reproduction": {
+  "max_abs_delta": 0.0,
+  "row_count": 77,
+  "rows_match": true,
+  "upstream_row_count": 77,
+  "worst_field": null
+ },
+ "row_producer": "scripts/astock_resid_industry_neutral.py::run (imported, not re-implemented)",
+ "samples": {
+  "S0": {
+   "arms": {
+    "ind": {
+     "annual": 0.005121910736051394,
+     "hit": 0.4935064935064935,
+     "mean": 0.0005054332698100925,
+     "n": 77,
+     "t": 0.3109713137126303
+    },
+    "rankind": {
+     "annual": 0.037611854246760945,
+     "hit": 0.4935064935064935,
+     "mean": 0.0030963368331180545,
+     "n": 77,
+     "t": 1.4877608009819456
+    },
+    "resid": {
+     "annual": -0.003935798895746467,
+     "hit": 0.45454545454545453,
+     "mean": -0.00015105418713730022,
+     "n": 77,
+     "t": -0.07311659972085366
+    }
+   },
+   "pairs": {
+    "primary": {
+     "differential": {
+      "annual": 0.04074494478985069,
+      "signflip_p": 0.01595,
+      "summary": {
+       "hit": 0.6363636363636364,
+       "mean": 0.003247391020255355,
+       "n": 77,
+       "t": 2.321521829839799
+      },
+      "yearly": [
+       {
+        "mean": -0.0007535365339639917,
+        "n": 7,
+        "t": -0.36516681315498317,
+        "year": "2020"
+       },
+       {
+        "mean": 0.006838967969336389,
+        "n": 12,
+        "t": 2.176548611794834,
+        "year": "2021"
+       },
+       {
+        "mean": -0.0002668807208457682,
+        "n": 12,
+        "t": -0.1472954122433059,
+        "year": "2022"
+       },
+       {
+        "mean": -0.00017771129153256425,
+        "n": 12,
+        "t": -0.05612011507615031,
+        "year": "2023"
+       },
+       {
+        "mean": 0.011235316817426129,
+        "n": 12,
+        "t": 1.5973582930186219,
+        "year": "2024"
+       },
+       {
+        "mean": 0.0012191878553039048,
+        "n": 12,
+        "t": 0.9994434179762013,
+        "year": "2025"
+       },
+       {
+        "mean": 0.0029137296741153186,
+        "n": 10,
+        "t": 2.6032964426225407,
+        "year": "2026"
+       }
+      ],
+      "years_positive": 4,
+      "years_total": 7
+     },
+     "first": "2020-07-06",
+     "holds": true,
+     "id": "S0",
+     "label": "reproduction (offset 0, stride 20)",
+     "last": "2026-10-14",
+     "n": 77,
+     "offset": 0,
+     "stride": 20
+    },
+    "reproduction": {
+     "differential": {
+      "annual": 0.03232445931110539,
+      "signflip_p": 0.04295,
+      "summary": {
+       "hit": 0.5844155844155844,
+       "mean": 0.002590903563307962,
+       "n": 77,
+       "t": 1.9927763987293012
+      },
+      "yearly": [
+       {
+        "mean": -0.005314640278993574,
+        "n": 7,
+        "t": -2.6782399547289484,
+        "year": "2020"
+       },
+       {
+        "mean": 0.001320209448038524,
+        "n": 12,
+        "t": 0.9176338781982779,
+        "year": "2021"
+       },
+       {
+        "mean": 0.0018848997569574277,
+        "n": 12,
+        "t": 0.875183473160802,
+        "year": "2022"
+       },
+       {
+        "mean": 0.0015219599750777102,
+        "n": 12,
+        "t": 0.6791309282629608,
+        "year": "2023"
+       },
+       {
+        "mean": 0.013540998864522716,
+        "n": 12,
+        "t": 2.187812756467844,
+        "year": "2024"
+       },
+       {
+        "mean": 0.0003752181022751595,
+        "n": 12,
+        "t": 0.17735160168066433,
+        "year": "2025"
+       },
+       {
+        "mean": 0.0012982622565209608,
+        "n": 10,
+        "t": 0.5300791198577485,
+        "year": "2026"
+       }
+      ],
+      "years_positive": 6,
+      "years_total": 7
+     },
+     "first": "2020-07-06",
+     "holds": true,
+     "id": "S0",
+     "label": "reproduction (offset 0, stride 20)",
+     "last": "2026-10-14",
+     "n": 77,
+     "offset": 0,
+     "stride": 20
+    }
+   }
+  },
+  "S1": {
+   "arms": {
+    "ind": {
+     "annual": 0.03485526526480309,
+     "hit": 0.5526315789473685,
+     "mean": 0.0028103350304249167,
+     "n": 76,
+     "t": 1.8371402368362368
+    },
+    "rankind": {
+     "annual": 0.04185555907450644,
+     "hit": 0.5657894736842105,
+     "mean": 0.003408111294577496,
+     "n": 76,
+     "t": 1.7014043764183615
+    },
+    "resid": {
+     "annual": 0.048225587744439746,
+     "hit": 0.5789473684210527,
+     "mean": 0.0038742262857843477,
+     "n": 76,
+     "t": 2.0813431111397667
+    }
+   },
+   "pairs": {
+    "primary": {
+     "differential": {
+      "annual": -0.006397017086140266,
+      "signflip_p": 0.6591,
+      "summary": {
+       "hit": 0.4868421052631579,
+       "mean": -0.00046611499120685043,
+       "n": 76,
+       "t": -0.43484518236438946
+      },
+      "yearly": [
+       {
+        "mean": -0.002572815553669984,
+        "n": 6,
+        "t": -0.5657716395376028,
+        "year": "2020"
+       },
+       {
+        "mean": 0.00019641142313101106,
+        "n": 12,
+        "t": 0.06793332603564713,
+        "year": "2021"
+       },
+       {
+        "mean": -0.00327934071271448,
+        "n": 12,
+        "t": -1.379638092880097,
+        "year": "2022"
+       },
+       {
+        "mean": 0.0017813054727954215,
+        "n": 12,
+        "t": 0.9551908570265126,
+        "year": "2023"
+       },
+       {
+        "mean": -0.0008381097151533562,
+        "n": 13,
+        "t": -0.308068211441587,
+        "year": "2024"
+       },
+       {
+        "mean": -0.0019312818423791402,
+        "n": 12,
+        "t": -0.8278827286799195,
+        "year": "2025"
+       },
+       {
+        "mean": 0.0033002720219221264,
+        "n": 9,
+        "t": 0.7471108547220087,
+        "year": "2026"
+       }
+      ],
+      "years_positive": 3,
+      "years_total": 7
+     },
+     "first": "2020-07-20",
+     "holds": false,
+     "id": "S1",
+     "label": "phase-shifted 10 bars (offset 10, stride 20)",
+     "last": "2026-09-22",
+     "n": 76,
+     "offset": 10,
+     "stride": 20
+    },
+    "reproduction": {
+     "differential": {
+      "annual": 0.006912375906009682,
+      "signflip_p": 0.6156,
+      "summary": {
+       "hit": 0.5526315789473685,
+       "mean": 0.00059777626415258,
+       "n": 76,
+       "t": 0.5121114218699292
+      },
+      "yearly": [
+       {
+        "mean": -0.005016691508046419,
+        "n": 6,
+        "t": -1.1413377145613408,
+        "year": "2020"
+       },
+       {
+        "mean": -0.0015643849855441205,
+        "n": 12,
+        "t": -0.629026673187678,
+        "year": "2021"
+       },
+       {
+        "mean": 0.001384574070880383,
+        "n": 12,
+        "t": 0.7735553595225497,
+        "year": "2022"
+       },
+       {
+        "mean": 0.0016984378574544754,
+        "n": 12,
+        "t": 1.3675619605805358,
+        "year": "2023"
+       },
+       {
+        "mean": 0.0014385940540633687,
+        "n": 13,
+        "t": 0.5651334380657571,
+        "year": "2024"
+       },
+       {
+        "mean": 0.000971977703180809,
+        "n": 12,
+        "t": 0.5492533924634498,
+        "year": "2025"
+       },
+       {
+        "mean": 0.002993574074376916,
+        "n": 9,
+        "t": 0.4021351203490145,
+        "year": "2026"
+       }
+      ],
+      "years_positive": 5,
+      "years_total": 7
+     },
+     "first": "2020-07-20",
+     "holds": false,
+     "id": "S1",
+     "label": "phase-shifted 10 bars (offset 10, stride 20)",
+     "last": "2026-09-22",
+     "n": 76,
+     "offset": 10,
+     "stride": 20
+    }
+   }
+  },
+  "S2": {
+   "arms": {
+    "ind": {
+     "annual": 0.03535837597438274,
+     "hit": 0.5641025641025641,
+     "mean": 0.0028596170005418245,
+     "n": 39,
+     "t": 1.2536203207622936
+    },
+    "rankind": {
+     "annual": 0.07562307677760272,
+     "hit": 0.5641025641025641,
+     "mean": 0.006013251115931141,
+     "n": 39,
+     "t": 1.7865079872569407
+    },
+    "resid": {
+     "annual": 0.01782919768989122,
+     "hit": 0.48717948717948717,
+     "mean": 0.0015769373261980762,
+     "n": 39,
+     "t": 0.521709840575148
+    }
+   },
+   "pairs": {
+    "primary": {
+     "differential": {
+      "annual": 0.05661907427401558,
+      "signflip_p": 0.00895,
+      "summary": {
+       "hit": 0.6410256410256411,
+       "mean": 0.0044363137897330636,
+       "n": 39,
+       "t": 2.5724466257725638
+      },
+      "yearly": [
+       {
+        "mean": -0.0026196082126102504,
+        "n": 4,
+        "t": -0.9591189383799541,
+        "year": "2020"
+       },
+       {
+        "mean": 0.012758953422160884,
+        "n": 6,
+        "t": 6.237068095282284,
+        "year": "2021"
+       },
+       {
+        "mean": 0.0002431729066876328,
+        "n": 6,
+        "t": 0.07197500250367435,
+        "year": "2022"
+       },
+       {
+        "mean": -0.00037045801170739373,
+        "n": 6,
+        "t": -0.08940464590206719,
+        "year": "2023"
+       },
+       {
+        "mean": 0.011807543461624832,
+        "n": 6,
+        "t": 1.4500866485615382,
+        "year": "2024"
+       },
+       {
+        "mean": 0.0026070408530849552,
+        "n": 6,
+        "t": 2.017146611359424,
+        "year": "2025"
+       },
+       {
+        "mean": 0.004243430971785008,
+        "n": 5,
+        "t": 1.993124287237535,
+        "year": "2026"
+       }
+      ],
+      "years_positive": 5,
+      "years_total": 7
+     },
+     "first": "2020-07-06",
+     "holds": true,
+     "id": "S2",
+     "label": "every other date (offset 0, stride 40)",
+     "last": "2026-10-14",
+     "n": 39,
+     "offset": 0,
+     "stride": 40
+    },
+    "reproduction": {
+     "differential": {
+      "annual": 0.03984654672427923,
+      "signflip_p": 0.0521,
+      "summary": {
+       "hit": 0.6153846153846154,
+       "mean": 0.0031536341153893146,
+       "n": 39,
+       "t": 1.9773780921302355
+      },
+      "yearly": [
+       {
+        "mean": -0.0055033933740260875,
+        "n": 4,
+        "t": -1.838569941768819,
+        "year": "2020"
+       },
+       {
+        "mean": 0.0003252130902722564,
+        "n": 6,
+        "t": 0.12340324453122059,
+        "year": "2021"
+       },
+       {
+        "mean": 0.005570720636975436,
+        "n": 6,
+        "t": 2.8464843749766064,
+        "year": "2022"
+       },
+       {
+        "mean": 0.004414918170471976,
+        "n": 6,
+        "t": 1.2702151629779705,
+        "year": "2023"
+       },
+       {
+        "mean": 0.01579731492257155,
+        "n": 6,
+        "t": 2.608818490567059,
+        "year": "2024"
+       },
+       {
+        "mean": 2.773270671865546e-05,
+        "n": 6,
+        "t": 0.00948956042797314,
+        "year": "2025"
+       },
+       {
+        "mean": -0.0023620186331543267,
+        "n": 5,
+        "t": -1.3889244580179325,
+        "year": "2026"
+       }
+      ],
+      "years_positive": 5,
+      "years_total": 7
+     },
+     "first": "2020-07-06",
+     "holds": true,
+     "id": "S2",
+     "label": "every other date (offset 0, stride 40)",
+     "last": "2026-10-14",
+     "n": 39,
+     "offset": 0,
+     "stride": 40
+    }
+   }
+  }
+ },
+ "sampling": "scripts/astock_rankind_second_sample.py::run_sample (imported, not re-implemented)",
+ "upstream": {
+  "generated": "2026-11-22T20:46:14+08:00",
+  "kind": "census",
+  "path": "results/astock_resid_industry_neutral.json",
+  "rebalances": 77,
+  "sha256": "589d19c39d68c8a066e2dc87db49521a9a56e02c746647c44e11916f289d0982",
+  "verdict": "INDUSTRY_NEUTRAL_HURTS"
+ },
+ "verdict": "RESID_CONTROL_HOLDS_ON_ONE_SAMPLE_ONLY",
+ "window": {
+  "cost_one_side": 0.0008,
+  "hold_days": 20,
+  "min_amount_20d": 20000000.0,
+  "panel_dates": 1668,
+  "panel_first": "2020-01-02",
+  "panel_last": "2026-11-20",
+  "panel_symbols": 5181
+ }
+}
