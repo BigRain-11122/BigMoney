@@ -1,25 +1,26 @@
 # 资源共享仲裁看板（量化 × 自媒体）
 
-generated 2026-11-22T23:31:47+08:00 | 契约 v1.0
+generated 2026-11-22T23:33:58+08:00 | 契约 v1.0
 
 | 资源 | 实测 | 谁在用 | 规则 |
 |---|---|---|---|
-| GPU | util 19% · VRAM 12220/16384MB · Comfy 队列 1/0 | media（本机 GPU 归自媒体） | 量化永不申请 GPU |
-| CPU | load 97.5% | media 5 个活 · quant 2 个 | heavy 要求 media 空且 load<50 |
-| RAM | free 3.08GB | media 占 33.75GB | heavy 需 ≥6GB · light 需 ≥2GB |
+| GPU | util 100% · VRAM 15379/16384MB · Comfy 队列 1/0 | media（本机 GPU 归自媒体） | 量化永不申请 GPU |
+| CPU | load 52.2% | media 5 个活 · quant 2 个 | heavy 要求 media 空且 load<50 |
+| RAM | free 2.22GB | media 占 37.5GB | heavy 需 ≥6GB · light 需 ≥2GB |
+| 自媒体排队 | 清单 89 单 · clips-hei-480 已有 15 个产物 · 最近推进 0.0h 前 | media 产线 | 自媒体有活时量化 heavy 让路 |
 
 ## 当前在跑
 
 - media pid 17792 · 29MB · `C:\Users\Dasheng\AppData\Local\Programs\Python\Python313\python.exe cph4/fleet/mv-album-001-jay/local-i2v/h3_i`
 - media pid 38804 · 150MB · `C:\Users\Dasheng\AppData\Local\Programs\Python\Python313\python.exe Tools/voicebank/vb_worker.py --voice v06 -`
-- media pid 39292 · 26897MB · `D:\ComfyUI\python_embeded\python.exe -s D:\ComfyUI\ComfyUI\main.py --listen 127.0.0.1 --port 8188 --disable-sm`
-- media pid 41368 · 4082MB · `C:\Users\Dasheng\AppData\Local\Programs\Python\Python313\python.exe K:\Fluxgroup\FluxGroup\Tools\voicebank\vb_`
+- media pid 39292 · 29431MB · `D:\ComfyUI\python_embeded\python.exe -s D:\ComfyUI\ComfyUI\main.py --listen 127.0.0.1 --port 8188 --disable-sm`
+- media pid 41368 · 3658MB · `C:\Users\Dasheng\AppData\Local\Programs\Python\Python313\python.exe K:\Fluxgroup\FluxGroup\Tools\voicebank\vb_`
 - media pid 52840 · 100MB · `C:\Program Files\PowerShell\7\pwsh.exe -NoProfile -Command Write-Output "=== 断点续跑版 v6 点火（7 张缓存跳过·剩 16 张续烧+训练）=`
-- media pid 54292 · 2183MB · `D:\ComfyUI\python_embeded\python.exe -s D:\ComfyUI\ComfyUI\main.py --listen 127.0.0.1 --port 8189 --disable-sm`
+- media pid 54292 · 3912MB · `D:\ComfyUI\python_embeded\python.exe -s D:\ComfyUI\ComfyUI\main.py --listen 127.0.0.1 --port 8189 --disable-sm`
 - media pid 55568 · 21MB · `D:\ComfyUI\python_embeded\python.exe -u K:\Fluxgroup\.codely-cli\tmp\heroine_lora_factory.py ql`
 - media pid 56928 · 122MB · `C:\Program Files\PowerShell\7\pwsh.exe -NoProfile -Command cd K:\Fluxgroup\FluxGroup; $env:PYTHONIOENCODING='u`
-- quant pid 58360 · 44MB · `C:\WINDOWS\System32\WindowsPowerShell\v1.0\powershell.exe -NoProfile -ExecutionPolicy Bypass -File K:\Fluxgrou`
-- quant pid 59232 · 19MB · `wscript.exe //B //nologo K:\Fluxgroup\FluxGroup\quant\bigmoney\Tools\InvisibleRunner.vbs powershell.exe -NoPro`
+- quant pid 58360 · 52MB · `C:\WINDOWS\System32\WindowsPowerShell\v1.0\powershell.exe -NoProfile -ExecutionPolicy Bypass -File K:\Fluxgrou`
+- quant pid 59232 · 18MB · `wscript.exe //B //nologo K:\Fluxgroup\FluxGroup\quant\bigmoney\Tools\InvisibleRunner.vbs powershell.exe -NoPro`
 
 ## 最近一次裁决
 

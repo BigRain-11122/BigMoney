@@ -224,6 +224,30 @@
    },
    "notes": "容量不是约束（合计 4332x 书规模）；真正的约束是信号本身只有 4-6pp。10M/腿（名义20M、保证金约2.4M）年收约 100 万毛。",
    "monitor": true
+  },
+  {
+   "id": "basis_timing_size",
+   "title": "基差按分位定仓位 vs 常驻持有",
+   "question": "贴水窄的时候把仓位降下来，能不能比常驻持有多吃 1pp 以上、且回撤不更差？",
+   "script": "scripts/bench_basis_timing_size.py",
+   "result": "results/bench_basis_timing_size.json",
+   "page": "research/BENCH-BASIS-TIMING-SIZE.md",
+   "lane": "futures",
+   "max_bar_age_days": 8,
+   "threads": 2,
+   "status": "done",
+   "last_run": "2026-11-22T23:34:59+08:00",
+   "last_seconds": 2,
+   "runs": 1,
+   "verdict": {
+    "verdict": "GO",
+    "IC_weighted": 10.09,
+    "IC_always_on": 2.73,
+    "IM_weighted": 9.3,
+    "IM_always_on": 5.63
+   },
+   "notes": "两条腿都过 H1-H4：IC 加权 carry 10.09% vs 常驻 2.73%（+7.36pp）、回撤更小；IM 9.30% vs 5.63%。空仓日约 22%、年换手 35-47（成本已扣）。注意：绝对水平与 idx_fut_basis 的 4.15/5.89pp 不同（估计量不同：本格用非移仓日均值、基差面用中位数），可比的是格内差值。GO 仍须独立复算 + 纸盘跟踪后才谈真钱。",
+   "monitor": false
   }
  ]
 }

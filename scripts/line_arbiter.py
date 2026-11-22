@@ -201,6 +201,38 @@ def contract():
     return read_json(CONTRACT) or {}
 
 
+def tuning():
+    """Today's applied auto-proposals (at most one step, cleared each day)."""
+    p = read_json(PROPOSALS, {}) or {}
+    a = p.get("applied") or {}
+    if a.get("date") != now().date().isoformat():
+        return {}
+    return a
+
+
+def media_progress():
+    """Media's own queue depth and last progress -- read-only, no touching."""
+    base = os.path.join(ROOT, "..", "..", "cph4", "fleet", "mv-album-001-jay")
+    base = os.path.abspath(base)
+    out = {"clips_dir": None, "clips": None, "newest_h": None, "manifest_units": None}
+    for name in ("clips-hei-480", "clips-hei", "clips-local-768", "clips-packA-768"):
+        d = os.path.join(base, name)
+        if os.path.isdir(d):
+            files = [f for f in os.listdir(d) if f.endswith((".mp4", ".png"))]
+            out["clips_dir"] = name
+            out["clips"] = len(files)
+            if files:
+                newest = max(os.path.getmtime(os.path.join(d, f)) for f in files)
+                out["newest_h"] = round((time.time() - newest) / 3600.0, 1)
+            break
+    man = os.path.join(base, "plan", "hei-i2v-manifest.json")
+    if os.path.exists(man):
+        d = read_json(man, {}) or {}
+        units = d.get("units") or d.get("shots") or d.get("jobs") or []
+        out["manifest_units"] = len(units) if isinstance(units, list) else None
+    return out
+
+
 def decide(asker, want, cell=None):
     """Return {allow, cls, reason, evidence}. Never preempts, never kills."""
     c = contract()
@@ -246,9 +278,10 @@ def decide(asker, want, cell=None):
         return {"allow": False, "cls": "cpu_light", "reason": "DENY_CPU_LOAD",
                 "evidence": evidence}
     mine = [q for q in m["quant_jobs"] if "bench_" in q["cmd"].lower()]
-    if len(mine) >= 2:
+    limit = 2 + int(tuning().get("light_slots_extra", 0))
+    if len(mine) >= limit:
         return {"allow": False, "cls": "cpu_light", "reason": "DENY_QUANT_SLOTS_FULL",
-                "evidence": evidence}
+                "evidence": evidence, "slots": limit}
     return {"allow": True, "cls": "cpu_light", "reason": "GRANT_LIGHT",
             "evidence": evidence, "threads": 3}
 
@@ -341,6 +374,15 @@ def audit():
                "deny_ratio": round(ratio, 3), "reasons": reasons,
                "ram_share_of_denies": round(ram_share, 3),
                "state": "OK", "proposals": proposals}
+
+    # bounded auto-apply: at most one name per day, only the safe ones
+    applied = tuning() or {"date": now().date().isoformat()}
+    auto = [p for p in proposals if p.get("auto_apply")]
+    if auto and "light_slots_extra" not in applied:
+        applied["light_slots_extra"] = 1
+        applied["source"] = auto[0]["id"]
+        applied["note"] = "one extra cpu_light slot today; resets at midnight"
+    payload["applied"] = applied
     write_json(PROPOSALS, payload)
     return payload
 
@@ -351,8 +393,12 @@ def audit():
 def render_board(m=None, d=None):
     m = m or measure()
     c = contract()
+    mp = media_progress()
+    tun = tuning()
     lines = ["# 资源共享仲裁看板（量化 × 自媒体）", "",
-             f"generated {m['ts']} | 契约 v{c.get('version')}", "",
+             f"generated {m['ts']} | 契约 v{c.get('version')}"
+             + (f" | 今日自动调档 {tun.get('source')}（+{tun.get('light_slots_extra')} 轻槽）"
+                if tun.get("light_slots_extra") else ""), "",
              "| 资源 | 实测 | 谁在用 | 规则 |",
              "|---|---|---|---|",
              f"| GPU | util {m['gpu'].get('util_pct')}% · VRAM {m['gpu'].get('vram_used_mb')}/"
@@ -362,7 +408,10 @@ def render_board(m=None, d=None):
              f"| CPU | load {m['cpu_load_pct']}% | media {m['media_cpu_jobs']} 个活 · "
              f"quant {len(m['quant_jobs'])} 个 | heavy 要求 media 空且 load<50 |",
              f"| RAM | free {m['ram_free_gb']}GB | media 占 {m['media_ram_gb']}GB | "
-             f"heavy 需 ≥6GB · light 需 ≥2GB |"]
+             f"heavy 需 ≥6GB · light 需 ≥2GB |",
+             f"| 自媒体排队 | 清单 {mp.get('manifest_units')} 单 · {mp.get('clips_dir')} 已有 "
+             f"{mp.get('clips')} 个产物 · 最近推进 {mp.get('newest_h')}h 前 | "
+             f"media 产线 | 自媒体有活时量化 heavy 让路 |"]
     lines += ["", "## 当前在跑", ""]
     if m["media_jobs"]:
         for j in m["media_jobs"][:8]:
