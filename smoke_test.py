@@ -75,6 +75,39 @@ def check_unsettled(name: str, moved: list, detail: str = ""):
                       % (",".join(moved), (" | " + detail) if detail else ""))
 
 
+# r1943: the suite also runs legs whose verdict IS a child process's exit code.
+# 2026-11-22 20:0x the tree-shrink leg closed red with rc=3221225786 while that
+# guard's own selftest passed 17/17 -- 0xC000013A is STATUS_CONTROL_C_EXIT, i.e.
+# the child was killed by a console control event when the unattended launcher
+# was torn down, and never rendered a verdict. Judging a killed child as "this
+# guard is broken" spends a round disproving nothing and teaches the reader that
+# the leg is noise (r1789 family, inverted). Third state, counted apart from
+# PASS and FAIL exactly like the r1861 face-moved case above; an ordinary
+# non-zero code stays red (Tools/child_rc.py owns the table, with its own
+# selftest driving a real killed child).
+KILLED = []
+
+
+def _child_state(rc) -> dict:
+    try:
+        sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "Tools"))
+        import child_rc
+        return child_rc.classify(rc)
+    except Exception:
+        return {"state": "failed" if rc != 0 else "ok", "code": rc,
+                "hex": None, "name": "UNCLASSIFIED", "detail": ""}
+
+
+def check_child_killed(name: str, rc, detail: str = ""):
+    """Close a child-verdict leg as UNVERIFIED: the child was killed, not judged."""
+    st = _child_state(rc)
+    KILLED.append({"name": name, "rc": st.get("code"), "hex": st.get("hex"),
+                   "why": st.get("name")})
+    check(name, True, "UNVERIFIED_CHILD_KILLED %s%s%s"
+                      % (st.get("hex") or st.get("code"), " " + st.get("name", ""),
+                         (" | " + detail) if detail else ""))
+
+
 def _forgive_trip_only(bad: list, moved: list) -> bool:
     """The carry-zero leg may forgive exactly one reading, and only while a face moved.
 
@@ -6620,8 +6653,14 @@ def main() -> int:
         _tp = subprocess.run([sys.executable, _tg, "selftest"], capture_output=True,
                              text=True, encoding="utf-8", errors="replace")
         _tt = ((_tp.stdout or "").strip().splitlines() or [""])[-1]
-        check("fleet: a partial-index commit cannot silently shrink the tree",
-              _tp.returncode == 0, f"guard selftest rc={_tp.returncode} {_tt[:60]}")
+        # A guard whose selftest was killed before it finished has not failed the
+        # guard-quality question this leg exists to ask (r1943).
+        if _child_state(_tp.returncode)["state"] == "interrupted":
+            check_child_killed("fleet: a partial-index commit cannot silently shrink the tree",
+                               _tp.returncode, _tt[:60])
+        else:
+            check("fleet: a partial-index commit cannot silently shrink the tree",
+                  _tp.returncode == 0, f"guard selftest rc={_tp.returncode} {_tt[:60]}")
         _tq = subprocess.run([sys.executable, _tg, "check", "--repo", ".",
                               "--commits", "20"], capture_output=True, text=True,
                              encoding="utf-8", errors="replace")
@@ -6639,6 +6678,20 @@ def main() -> int:
               _gg.returncode == 0, (_gt[0] if _gt else "")[:110])
     except Exception as e:
         check("fleet: the tree-shrink push gate is installed in both repos", False, str(e))
+    # r1943: many legs here judge a child's exit code, so the difference between
+    # "the child said no" and "something killed the child" has to be drawn once,
+    # in one place, and be provable on a real killed child (not just a table).
+    try:
+        _cr = subprocess.run([sys.executable, os.path.join("Tools", "child_rc.py"),
+                              "selftest"], capture_output=True, text=True,
+                             encoding="utf-8", errors="replace")
+        _crl = ((_cr.stdout or "").strip().splitlines() or [""])[-1]
+        _cs = _child_state(3221225786)
+        check("fleet: a killed child is told apart from a child that said no",
+              _cr.returncode == 0 and _cs["state"] == "interrupted",
+              "%s | this suite reads 0xC000013A as %s" % (_crl[:50], _cs["state"]))
+    except Exception as e:
+        check("fleet: a killed child is told apart from a child that said no", False, str(e))
     _sp_env = dict(os.environ, PYTHONUTF8="1", PYTHONIOENCODING="utf-8")
     def _selftest_run(script, args, timeout):
         # r1602: this second copy of the updater loop used to spawn its own process for a
@@ -15814,10 +15867,14 @@ def _verdict_record(path=None):
     rec = {
         "ts": dt.datetime.now().isoformat(timespec="seconds"),
         "legs": len(RESULTS),
-        "pass": sum(1 for _, ok, _ in RESULTS if ok) - len(UNSETTLED),
+        "pass": sum(1 for _, ok, _ in RESULTS if ok) - len(UNSETTLED) - len(KILLED),
         "fail": sum(1 for _, ok, _ in RESULTS if not ok),
-        "unverified": len(UNSETTLED),
+        "unverified": len(UNSETTLED) + len(KILLED),
         "unverified_legs": list(UNSETTLED),
+        # r1943: a leg whose verdict is a child's exit code closes here when the child
+        # was killed instead of judging -- separate key so a reader can tell "the faces
+        # moved" apart from "someone killed the child".
+        "unverified_child_killed": list(KILLED),
         "failed": [{"name": n, "detail": d} for n, ok, d in RESULTS if not ok],
     }
     if path is None:
@@ -15835,14 +15892,20 @@ def _verdict_record(path=None):
 
 
 def _finish() -> int:
-    n_pass = sum(1 for _, ok, _ in RESULTS if ok) - len(UNSETTLED)
+    n_pass = sum(1 for _, ok, _ in RESULTS if ok) - len(UNSETTLED) - len(KILLED)
     n_fail = sum(1 for _, ok, _ in RESULTS if not ok)
-    _tail = (" , %d UNVERIFIED" % len(UNSETTLED)) if UNSETTLED else ""
+    _n_unv = len(UNSETTLED) + len(KILLED)
+    _tail = (" , %d UNVERIFIED" % _n_unv) if _n_unv else ""
     print(f"\nSummary: {n_pass}/{len(RESULTS)} PASS, {n_fail} FAIL{_tail}")
     if UNSETTLED:
         print("unverified: a face these legs compare was rewritten mid-run -- "
               + " | ".join("%s [%s]" % (u["name"][:70], ",".join(u["moved"]))
                            for u in UNSETTLED))
+    if KILLED:
+        print("unverified: a child this leg judges was killed before it answered -- "
+              + " | ".join("%s [%s %s]" % (k["name"][:70], k.get("hex") or k.get("rc"),
+                                           (k.get("why") or "").split("(")[0].strip())
+                           for k in KILLED))
     try:
         _rec = _verdict_record()
         print("record: logs/smoke_legs.json failed=%d%s"
