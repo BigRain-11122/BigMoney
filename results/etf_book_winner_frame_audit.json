@@ -1,0 +1,407 @@
+{
+  "kind": "etf-book-winner-frame-audit/v1",
+  "generated": "2026-11-23T04:22:11+0800",
+  "script": "scripts/etf_book_winner_frame_audit.py",
+  "criteria": {
+    "capital_cny": 1000000.0,
+    "abandon_p": 0.05,
+    "dsr_line": 0.95,
+    "min_bars": 250,
+    "rebal_bars": 20,
+    "n_hold": 5,
+    "cost_bp_per_side": 10.0,
+    "vol_target": 0.08,
+    "design_vol": 0.08,
+    "arm_trials": {
+      "tuned_composite_6": 58,
+      "single_mom_12_1": 6,
+      "single_vol_60_low": 6,
+      "random_pick_5": 1
+    },
+    "random_draws": 8,
+    "repro_tol_pp": 0.2,
+    "repro_tol_sr": 0.02,
+    "parent": "results/etf_book_rent_horse_race.json",
+    "haircut": "book_deflated_expectation._haircut_row (single implementation)",
+    "frozen": "constants above were written before the first run"
+  },
+  "panel": {
+    "symbols": 1528,
+    "bars": 1666,
+    "first_bar": "2005-02-23",
+    "last_bar": "2026-11-20"
+  },
+  "evidence_cutoff": "2026-11-20",
+  "cells": [
+    {
+      "arm": "tuned_composite_6",
+      "cap": "capped",
+      "n_trials": 58,
+      "cagr": 0.1116,
+      "vol": 0.105,
+      "sharpe": 1.101,
+      "maxdd": -0.1056,
+      "bars": 1666,
+      "mean_scale": 0.6983,
+      "share_sized": 0.8452,
+      "sizing_rules": [
+        "vol_target"
+      ],
+      "sr_star_ann": 0.9295,
+      "credible_sharpe": 0.1715,
+      "money_own_vol": 18007.5,
+      "money_design_vol": 13720.0
+    },
+    {
+      "arm": "single_mom_12_1",
+      "cap": "capped",
+      "n_trials": 6,
+      "cagr": 0.0375,
+      "vol": 0.0862,
+      "sharpe": 0.488,
+      "maxdd": -0.1279,
+      "bars": 1666,
+      "mean_scale": 0.3227,
+      "share_sized": 1.0,
+      "sizing_rules": [
+        "vol_target"
+      ],
+      "sr_star_ann": 0.508,
+      "credible_sharpe": 0.0,
+      "money_own_vol": 0.0,
+      "money_design_vol": 0.0
+    },
+    {
+      "arm": "single_vol_60_low",
+      "cap": "capped",
+      "n_trials": 6,
+      "cagr": 0.0705,
+      "vol": 0.1123,
+      "sharpe": 0.687,
+      "maxdd": -0.1339,
+      "bars": 1666,
+      "mean_scale": 0.9159,
+      "share_sized": 0.3333,
+      "sizing_rules": [
+        "vol_target"
+      ],
+      "sr_star_ann": 0.4887,
+      "credible_sharpe": 0.1983,
+      "money_own_vol": 22269.09,
+      "money_design_vol": 15864.0
+    },
+    {
+      "arm": "random_pick_5",
+      "cap": "capped",
+      "n_trials": 1,
+      "cagr": -0.0038,
+      "vol": 0.09,
+      "sharpe": 0.0,
+      "maxdd": -0.2834,
+      "bars": 1666,
+      "mean_scale": 0.4142,
+      "share_sized": 1.0,
+      "sizing_rules": [
+        "vol_target"
+      ],
+      "sr_star_ann": 0.2022,
+      "credible_sharpe": 0.0,
+      "money_own_vol": 0.0,
+      "money_design_vol": 0.0
+    },
+    {
+      "arm": "tuned_composite_6",
+      "cap": "bare",
+      "n_trials": 58,
+      "cagr": 0.1518,
+      "vol": 0.1636,
+      "sharpe": 0.981,
+      "maxdd": -0.1604,
+      "bars": 1666,
+      "mean_scale": 1.0,
+      "share_sized": 0.0,
+      "sizing_rules": [
+        "none"
+      ],
+      "sr_star_ann": 0.9254,
+      "credible_sharpe": 0.0556,
+      "money_own_vol": 9096.16,
+      "money_design_vol": 4448.0
+    },
+    {
+      "arm": "single_mom_12_1",
+      "cap": "bare",
+      "n_trials": 6,
+      "cagr": 0.0174,
+      "vol": 0.3118,
+      "sharpe": 0.214,
+      "maxdd": -0.5468,
+      "bars": 1666,
+      "mean_scale": 1.0,
+      "share_sized": 0.0,
+      "sizing_rules": [
+        "none"
+      ],
+      "sr_star_ann": 0.5072,
+      "credible_sharpe": 0.0,
+      "money_own_vol": 0.0,
+      "money_design_vol": 0.0
+    },
+    {
+      "arm": "single_vol_60_low",
+      "cap": "bare",
+      "n_trials": 6,
+      "cagr": 0.0828,
+      "vol": 0.1253,
+      "sharpe": 0.723,
+      "maxdd": -0.1423,
+      "bars": 1666,
+      "mean_scale": 1.0,
+      "share_sized": 0.0,
+      "sizing_rules": [
+        "none"
+      ],
+      "sr_star_ann": 0.4931,
+      "credible_sharpe": 0.2299,
+      "money_own_vol": 28806.47,
+      "money_design_vol": 18392.0
+    },
+    {
+      "arm": "random_pick_5",
+      "cap": "bare",
+      "n_trials": 1,
+      "cagr": -0.0129,
+      "vol": 0.2098,
+      "sharpe": 0.04,
+      "maxdd": -0.4949,
+      "bars": 1666,
+      "mean_scale": 1.0,
+      "share_sized": 0.0,
+      "sizing_rules": [
+        "none"
+      ],
+      "sr_star_ann": 0.202,
+      "credible_sharpe": 0.0,
+      "money_own_vol": 0.0,
+      "money_design_vol": 0.0
+    }
+  ],
+  "frames": [
+    {
+      "frame": "capped_own_vol",
+      "cap": "capped",
+      "ruler": "own_vol",
+      "champion": "tuned_composite_6",
+      "challenger": "single_vol_60_low",
+      "champion_cny": 18007.5,
+      "challenger_cny": 22269.09,
+      "gap_cny": 4261.59,
+      "won_by_challenger": true
+    },
+    {
+      "frame": "capped_design_vol",
+      "cap": "capped",
+      "ruler": "design_vol",
+      "champion": "tuned_composite_6",
+      "challenger": "single_vol_60_low",
+      "champion_cny": 13720.0,
+      "challenger_cny": 15864.0,
+      "gap_cny": 2144.0,
+      "won_by_challenger": true
+    },
+    {
+      "frame": "bare_own_vol",
+      "cap": "bare",
+      "ruler": "own_vol",
+      "champion": "tuned_composite_6",
+      "challenger": "single_vol_60_low",
+      "champion_cny": 9096.16,
+      "challenger_cny": 28806.47,
+      "gap_cny": 19710.31,
+      "won_by_challenger": true
+    },
+    {
+      "frame": "bare_design_vol",
+      "cap": "bare",
+      "ruler": "design_vol",
+      "champion": "tuned_composite_6",
+      "challenger": "single_vol_60_low",
+      "champion_cny": 4448.0,
+      "challenger_cny": 18392.0,
+      "gap_cny": 13944.0,
+      "won_by_challenger": true
+    }
+  ],
+  "verdict": {
+    "frames_total": 4,
+    "frames_won": 4,
+    "failed_frames": [],
+    "verdict": "LOW_VOL_WIN_HOLDS_IN_EVERY_FRAME",
+    "why": "the low-vol rule beats the tuned book under both cap modes and both rulers"
+  },
+  "cap_cost": [
+    {
+      "arm": "tuned_composite_6",
+      "capped_cagr": 0.1116,
+      "bare_cagr": 0.1518,
+      "cost_pp": 4.02,
+      "capped_vol": 0.105,
+      "bare_vol": 0.1636,
+      "capped_sharpe": 1.101,
+      "bare_sharpe": 0.981,
+      "sharpe_shift": 0.12,
+      "mean_scale_capped": 0.6983,
+      "share_sized_capped": 0.8452,
+      "capped_maxdd": -0.1056,
+      "bare_maxdd": -0.1604
+    },
+    {
+      "arm": "single_mom_12_1",
+      "capped_cagr": 0.0375,
+      "bare_cagr": 0.0174,
+      "cost_pp": -2.01,
+      "capped_vol": 0.0862,
+      "bare_vol": 0.3118,
+      "capped_sharpe": 0.488,
+      "bare_sharpe": 0.214,
+      "sharpe_shift": 0.274,
+      "mean_scale_capped": 0.3227,
+      "share_sized_capped": 1.0,
+      "capped_maxdd": -0.1279,
+      "bare_maxdd": -0.5468
+    },
+    {
+      "arm": "single_vol_60_low",
+      "capped_cagr": 0.0705,
+      "bare_cagr": 0.0828,
+      "cost_pp": 1.23,
+      "capped_vol": 0.1123,
+      "bare_vol": 0.1253,
+      "capped_sharpe": 0.687,
+      "bare_sharpe": 0.723,
+      "sharpe_shift": -0.036,
+      "mean_scale_capped": 0.9159,
+      "share_sized_capped": 0.3333,
+      "capped_maxdd": -0.1339,
+      "bare_maxdd": -0.1423
+    },
+    {
+      "arm": "random_pick_5",
+      "capped_cagr": -0.0038,
+      "bare_cagr": -0.0129,
+      "cost_pp": -0.91,
+      "capped_vol": 0.09,
+      "bare_vol": 0.2098,
+      "capped_sharpe": 0.0,
+      "bare_sharpe": 0.04,
+      "sharpe_shift": -0.04,
+      "mean_scale_capped": 0.4142,
+      "share_sized_capped": 1.0,
+      "capped_maxdd": -0.2834,
+      "bare_maxdd": -0.4949
+    }
+  ],
+  "cash_leg": {
+    "source": "results/capital_placement.json::config.cash_net_annual",
+    "net_annual": 0.01777,
+    "cutoff": "2026-11-20",
+    "money_on_capital": 17770.0,
+    "applicable_frame": "capped_design_vol",
+    "in_applicable_frame": {
+      "frame": "capped_design_vol",
+      "champion_beats_cash": false,
+      "challenger_beats_cash": false,
+      "champion_cny": 13720.0,
+      "challenger_cny": 15864.0,
+      "cash_cny": 17770.0
+    },
+    "per_frame": [
+      {
+        "frame": "capped_own_vol",
+        "champion_beats_cash": true,
+        "challenger_beats_cash": true
+      },
+      {
+        "frame": "capped_design_vol",
+        "champion_beats_cash": false,
+        "challenger_beats_cash": false
+      },
+      {
+        "frame": "bare_own_vol",
+        "champion_beats_cash": false,
+        "challenger_beats_cash": true
+      },
+      {
+        "frame": "bare_design_vol",
+        "champion_beats_cash": false,
+        "challenger_beats_cash": true
+      }
+    ]
+  },
+  "control_parent_repro": {
+    "source": "results/etf_book_rent_horse_race.json",
+    "parent_cutoff": "2026-11-20",
+    "per_arm": {
+      "tuned_composite_6": {
+        "parent_cagr": 0.1116,
+        "my_cagr": 0.1116,
+        "delta_pp": 0.0,
+        "parent_sharpe": 1.101,
+        "my_sharpe": 1.101,
+        "delta_sr": 0.0,
+        "delta_vol_pp": 0.0,
+        "aligned": true
+      },
+      "single_mom_12_1": {
+        "parent_cagr": 0.0375,
+        "my_cagr": 0.0375,
+        "delta_pp": 0.0,
+        "parent_sharpe": 0.488,
+        "my_sharpe": 0.488,
+        "delta_sr": 0.0,
+        "delta_vol_pp": 0.0,
+        "aligned": true
+      },
+      "single_vol_60_low": {
+        "parent_cagr": 0.0705,
+        "my_cagr": 0.0705,
+        "delta_pp": 0.0,
+        "parent_sharpe": 0.687,
+        "my_sharpe": 0.687,
+        "delta_sr": 0.0,
+        "delta_vol_pp": 0.0,
+        "aligned": true
+      },
+      "random_pick_5": {
+        "parent_cagr": -0.0038,
+        "my_cagr": -0.0038,
+        "delta_pp": 0.0,
+        "parent_sharpe": 0.0,
+        "my_sharpe": 0.0,
+        "delta_sr": 0.0,
+        "delta_vol_pp": 0.0,
+        "aligned": true
+      }
+    },
+    "all_aligned": true
+  },
+  "control_engine_twin": {
+    "source": "etf_book_production.backtest (in-process)",
+    "parent_cagr": 0.1116,
+    "parent_sharpe": 1.101,
+    "delta_pp": 0.0,
+    "delta_sr": 0.0,
+    "aligned": true
+  },
+  "control_sizing_rule": {
+    "capped_rule_seen": [
+      "vol_target"
+    ],
+    "bare_rule_seen": [
+      "none"
+    ],
+    "aligned": true
+  },
+  "staleness_anchor": "results/etf_book_rent_horse_race.json::panel.last_bar",
+  "elapsed_sec": 75.5
+}
