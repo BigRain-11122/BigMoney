@@ -549,6 +549,16 @@ LEGS = [
     # quoted without the transfer number beside it. ~100s, offline, deterministic (same panel
     # load, same engine; sub-period numbers read off the same trading path).
     ("etf_sign_stability", ["python", "scripts/etf_sign_stability.py", "run"]),
+    # r1940 / E-20261122-r1940: E207/E222 called the production sign set hindsight (it IS the
+    # full-sample IC set) and E223 ranked it 6 of 64. Neither asked whether the six directions
+    # were knowable WITHOUT the panel -- and each direction is the textbook direction printed in
+    # its own factor docstring, so the production arm and the prior arm are the same object. This
+    # leg re-prices the choice off the 64-arm table the leg above writes: what peeking (IS-best)
+    # pays out of sample against the median arm, and whether the prior arm is top-quartile in
+    # BOTH halves. It reads only that table, so it is a (check, run) pair: 0.1s when settled, and
+    # it only re-derives when etf_sign_stability's arms move (the drift text says STALE).
+    ("etf_sign_prior", ["python", "scripts/etf_sign_prior.py", "check"],
+     ["python", "scripts/etf_sign_prior.py", "run"]),
     # r1339 / E227: both legs above rank the 64 sign sets at ONE cell (R20 x 12 names), but
     # 20 and 12 were themselves picked on the sample -- the walk-forward on this line selects
     # among N3/5/8 x R10/20/40. This leg runs all 64 arms at three declared cells and asks

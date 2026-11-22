@@ -1,0 +1,454 @@
+{
+ "schema": "etf_sign_prior/v1",
+ "generated": "2026-11-22T18:58:32+08:00",
+ "evidence_cutoff": "2026-11-20",
+ "question": "the six production signs are the full-sample IC signs (E207) -- but each direction is also the textbook direction in its own factor definition. Which one is this book, and what does peeking actually pay?",
+ "declared": {
+  "factors": [
+   "mom_12_1",
+   "price_position",
+   "drawdown_60",
+   "adx_14",
+   "vol_60",
+   "intraday_range"
+  ],
+  "prior_signs": {
+   "mom_12_1": 1.0,
+   "price_position": 1.0,
+   "drawdown_60": 1.0,
+   "adx_14": 1.0,
+   "vol_60": -1.0,
+   "intraday_range": -1.0
+  },
+  "prior_why": {
+   "mom_12_1": "12-1 month momentum, the academic classic -- past winners keep winning",
+   "price_position": "close near the top of its N-day range -- breakout strength",
+   "drawdown_60": "close near its 60-day high (value is <= 0) -- relative strength",
+   "adx_14": "trend strength -- a trending name is the one a trend basket wants",
+   "vol_60": "realized vol -- low vol is the defensive tilt this book is built on",
+   "intraday_range": "intraday range -- noisy intraday chop is what a daily book does not want"
+  },
+  "top_quartile": 0.25,
+  "source_face": "results/etf_sign_stability.json",
+  "source_evidence_cutoff": "2026-11-20",
+  "source_arm_digest": "39ced71beca080421260cbc86b1273f101d150ffda7a4a91fd43038f3afadbe1",
+  "source_n_arms": 64
+ },
+ "n_arms": 64,
+ "prior_key": "mom_12_1+|price_position+|drawdown_60+|adx_14+|vol_60-|intraday_range-",
+ "production_key": "mom_12_1+|price_position+|drawdown_60+|adx_14+|vol_60-|intraday_range-",
+ "prior_equals_production": true,
+ "prior_arm": {
+  "key": "mom_12_1+|price_position+|drawdown_60+|adx_14+|vol_60-|intraday_range-",
+  "is_cagr": 0.021175,
+  "oos_cagr": 0.12272,
+  "is_rank": 8,
+  "oos_rank": 9
+ },
+ "reverse_prior_arm": {
+  "key": "mom_12_1-|price_position-|drawdown_60-|adx_14-|vol_60+|intraday_range+",
+  "is_cagr": -0.053793,
+  "oos_cagr": 0.01637,
+  "is_rank": 39,
+  "oos_rank": 29
+ },
+ "is_best_arm": {
+  "key": "mom_12_1+|price_position+|drawdown_60-|adx_14+|vol_60+|intraday_range-",
+  "is_cagr": 0.048115,
+  "oos_cagr": -0.084902,
+  "is_rank": 1,
+  "oos_rank": 50
+ },
+ "oos_best_arm": {
+  "key": "mom_12_1-|price_position-|drawdown_60+|adx_14+|vol_60-|intraday_range-",
+  "is_cagr": -0.048907,
+  "oos_cagr": 0.310522,
+  "is_rank": 37,
+  "oos_rank": 1
+ },
+ "median_arm": {
+  "is_cagr": -0.04273250000000001,
+  "oos_cagr": 0.0017325
+ },
+ "top_quartile_both_halves": [
+  "mom_12_1+|price_position+|drawdown_60+|adx_14+|vol_60-|intraday_range-",
+  "mom_12_1+|price_position+|drawdown_60+|adx_14-|vol_60-|intraday_range-",
+  "mom_12_1+|price_position+|drawdown_60-|adx_14+|vol_60-|intraday_range-",
+  "mom_12_1+|price_position+|drawdown_60-|adx_14-|vol_60-|intraday_range-",
+  "mom_12_1+|price_position-|drawdown_60+|adx_14+|vol_60-|intraday_range-",
+  "mom_12_1+|price_position-|drawdown_60+|adx_14-|vol_60-|intraday_range+",
+  "mom_12_1+|price_position-|drawdown_60+|adx_14-|vol_60-|intraday_range-"
+ ],
+ "prior_in_top_quartile_both": true,
+ "oos_positive_arms": 34,
+ "rows": [
+  {
+   "key": "mom_12_1+|price_position+|drawdown_60+|adx_14+|vol_60+|intraday_range+",
+   "is": -0.060509,
+   "oos": -0.245514
+  },
+  {
+   "key": "mom_12_1+|price_position+|drawdown_60+|adx_14+|vol_60+|intraday_range-",
+   "is": 0.038274,
+   "oos": 0.051641
+  },
+  {
+   "key": "mom_12_1+|price_position+|drawdown_60+|adx_14+|vol_60-|intraday_range+",
+   "is": -0.015438,
+   "oos": 0.000501
+  },
+  {
+   "key": "mom_12_1+|price_position+|drawdown_60+|adx_14+|vol_60-|intraday_range-",
+   "is": 0.021175,
+   "oos": 0.12272
+  },
+  {
+   "key": "mom_12_1+|price_position+|drawdown_60+|adx_14-|vol_60+|intraday_range+",
+   "is": -0.107895,
+   "oos": -0.207241
+  },
+  {
+   "key": "mom_12_1+|price_position+|drawdown_60+|adx_14-|vol_60+|intraday_range-",
+   "is": -0.070708,
+   "oos": 0.137997
+  },
+  {
+   "key": "mom_12_1+|price_position+|drawdown_60+|adx_14-|vol_60-|intraday_range+",
+   "is": -0.048763,
+   "oos": 0.066485
+  },
+  {
+   "key": "mom_12_1+|price_position+|drawdown_60+|adx_14-|vol_60-|intraday_range-",
+   "is": 0.030166,
+   "oos": 0.146566
+  },
+  {
+   "key": "mom_12_1+|price_position+|drawdown_60-|adx_14+|vol_60+|intraday_range+",
+   "is": -0.00476,
+   "oos": -0.260554
+  },
+  {
+   "key": "mom_12_1+|price_position+|drawdown_60-|adx_14+|vol_60+|intraday_range-",
+   "is": 0.048115,
+   "oos": -0.084902
+  },
+  {
+   "key": "mom_12_1+|price_position+|drawdown_60-|adx_14+|vol_60-|intraday_range+",
+   "is": 0.02476,
+   "oos": -0.135165
+  },
+  {
+   "key": "mom_12_1+|price_position+|drawdown_60-|adx_14+|vol_60-|intraday_range-",
+   "is": 0.006159,
+   "oos": 0.164758
+  },
+  {
+   "key": "mom_12_1+|price_position+|drawdown_60-|adx_14-|vol_60+|intraday_range+",
+   "is": -0.119974,
+   "oos": -0.081801
+  },
+  {
+   "key": "mom_12_1+|price_position+|drawdown_60-|adx_14-|vol_60+|intraday_range-",
+   "is": -0.042074,
+   "oos": -0.125246
+  },
+  {
+   "key": "mom_12_1+|price_position+|drawdown_60-|adx_14-|vol_60-|intraday_range+",
+   "is": -0.030418,
+   "oos": -0.096187
+  },
+  {
+   "key": "mom_12_1+|price_position+|drawdown_60-|adx_14-|vol_60-|intraday_range-",
+   "is": 0.005867,
+   "oos": 0.11036
+  },
+  {
+   "key": "mom_12_1+|price_position-|drawdown_60+|adx_14+|vol_60+|intraday_range+",
+   "is": -0.144399,
+   "oos": -0.130172
+  },
+  {
+   "key": "mom_12_1+|price_position-|drawdown_60+|adx_14+|vol_60+|intraday_range-",
+   "is": -0.073963,
+   "oos": -0.050522
+  },
+  {
+   "key": "mom_12_1+|price_position-|drawdown_60+|adx_14+|vol_60-|intraday_range+",
+   "is": -0.083664,
+   "oos": 0.002964
+  },
+  {
+   "key": "mom_12_1+|price_position-|drawdown_60+|adx_14+|vol_60-|intraday_range-",
+   "is": -0.00884,
+   "oos": 0.07144
+  },
+  {
+   "key": "mom_12_1+|price_position-|drawdown_60+|adx_14-|vol_60+|intraday_range+",
+   "is": -0.174144,
+   "oos": 4e-05
+  },
+  {
+   "key": "mom_12_1+|price_position-|drawdown_60+|adx_14-|vol_60+|intraday_range-",
+   "is": -0.075718,
+   "oos": 0.017935
+  },
+  {
+   "key": "mom_12_1+|price_position-|drawdown_60+|adx_14-|vol_60-|intraday_range+",
+   "is": 0.02697,
+   "oos": 0.176859
+  },
+  {
+   "key": "mom_12_1+|price_position-|drawdown_60+|adx_14-|vol_60-|intraday_range-",
+   "is": 0.025512,
+   "oos": 0.090191
+  },
+  {
+   "key": "mom_12_1+|price_position-|drawdown_60-|adx_14+|vol_60+|intraday_range+",
+   "is": -0.023929,
+   "oos": -0.084206
+  },
+  {
+   "key": "mom_12_1+|price_position-|drawdown_60-|adx_14+|vol_60+|intraday_range-",
+   "is": -0.06166,
+   "oos": -0.181031
+  },
+  {
+   "key": "mom_12_1+|price_position-|drawdown_60-|adx_14+|vol_60-|intraday_range+",
+   "is": -0.047905,
+   "oos": -0.140224
+  },
+  {
+   "key": "mom_12_1+|price_position-|drawdown_60-|adx_14+|vol_60-|intraday_range-",
+   "is": -0.076476,
+   "oos": 0.017857
+  },
+  {
+   "key": "mom_12_1+|price_position-|drawdown_60-|adx_14-|vol_60+|intraday_range+",
+   "is": -0.026476,
+   "oos": -0.058466
+  },
+  {
+   "key": "mom_12_1+|price_position-|drawdown_60-|adx_14-|vol_60+|intraday_range-",
+   "is": -0.088783,
+   "oos": -0.139315
+  },
+  {
+   "key": "mom_12_1+|price_position-|drawdown_60-|adx_14-|vol_60-|intraday_range+",
+   "is": -0.019738,
+   "oos": -0.043116
+  },
+  {
+   "key": "mom_12_1+|price_position-|drawdown_60-|adx_14-|vol_60-|intraday_range-",
+   "is": -0.068038,
+   "oos": 0.103951
+  },
+  {
+   "key": "mom_12_1-|price_position+|drawdown_60+|adx_14+|vol_60+|intraday_range+",
+   "is": -0.050276,
+   "oos": -0.024746
+  },
+  {
+   "key": "mom_12_1-|price_position+|drawdown_60+|adx_14+|vol_60+|intraday_range-",
+   "is": -0.042306,
+   "oos": 0.005475
+  },
+  {
+   "key": "mom_12_1-|price_position+|drawdown_60+|adx_14+|vol_60-|intraday_range+",
+   "is": -0.013086,
+   "oos": 0.050124
+  },
+  {
+   "key": "mom_12_1-|price_position+|drawdown_60+|adx_14+|vol_60-|intraday_range-",
+   "is": -0.010823,
+   "oos": 0.028699
+  },
+  {
+   "key": "mom_12_1-|price_position+|drawdown_60+|adx_14-|vol_60+|intraday_range+",
+   "is": -0.137524,
+   "oos": -0.13139
+  },
+  {
+   "key": "mom_12_1-|price_position+|drawdown_60+|adx_14-|vol_60+|intraday_range-",
+   "is": -0.024505,
+   "oos": 0.026139
+  },
+  {
+   "key": "mom_12_1-|price_position+|drawdown_60+|adx_14-|vol_60-|intraday_range+",
+   "is": -0.042232,
+   "oos": 0.090843
+  },
+  {
+   "key": "mom_12_1-|price_position+|drawdown_60+|adx_14-|vol_60-|intraday_range-",
+   "is": 0.002649,
+   "oos": -0.007334
+  },
+  {
+   "key": "mom_12_1-|price_position+|drawdown_60-|adx_14+|vol_60+|intraday_range+",
+   "is": -0.020886,
+   "oos": 0.042467
+  },
+  {
+   "key": "mom_12_1-|price_position+|drawdown_60-|adx_14+|vol_60+|intraday_range-",
+   "is": -0.055071,
+   "oos": 0.13439
+  },
+  {
+   "key": "mom_12_1-|price_position+|drawdown_60-|adx_14+|vol_60-|intraday_range+",
+   "is": 0.032154,
+   "oos": 0.054837
+  },
+  {
+   "key": "mom_12_1-|price_position+|drawdown_60-|adx_14+|vol_60-|intraday_range-",
+   "is": 0.016879,
+   "oos": 0.037512
+  },
+  {
+   "key": "mom_12_1-|price_position+|drawdown_60-|adx_14-|vol_60+|intraday_range+",
+   "is": -0.060724,
+   "oos": -0.007362
+  },
+  {
+   "key": "mom_12_1-|price_position+|drawdown_60-|adx_14-|vol_60+|intraday_range-",
+   "is": -0.155511,
+   "oos": -0.042166
+  },
+  {
+   "key": "mom_12_1-|price_position+|drawdown_60-|adx_14-|vol_60-|intraday_range+",
+   "is": -0.108671,
+   "oos": -0.003483
+  },
+  {
+   "key": "mom_12_1-|price_position+|drawdown_60-|adx_14-|vol_60-|intraday_range-",
+   "is": -0.047012,
+   "oos": -0.006585
+  },
+  {
+   "key": "mom_12_1-|price_position-|drawdown_60+|adx_14+|vol_60+|intraday_range+",
+   "is": -0.020106,
+   "oos": -0.000525
+  },
+  {
+   "key": "mom_12_1-|price_position-|drawdown_60+|adx_14+|vol_60+|intraday_range-",
+   "is": -0.078414,
+   "oos": 0.251092
+  },
+  {
+   "key": "mom_12_1-|price_position-|drawdown_60+|adx_14+|vol_60-|intraday_range+",
+   "is": -0.082611,
+   "oos": 0.017943
+  },
+  {
+   "key": "mom_12_1-|price_position-|drawdown_60+|adx_14+|vol_60-|intraday_range-",
+   "is": -0.048907,
+   "oos": 0.310522
+  },
+  {
+   "key": "mom_12_1-|price_position-|drawdown_60+|adx_14-|vol_60+|intraday_range+",
+   "is": -0.068085,
+   "oos": -0.127679
+  },
+  {
+   "key": "mom_12_1-|price_position-|drawdown_60+|adx_14-|vol_60+|intraday_range-",
+   "is": -0.082059,
+   "oos": -0.096048
+  },
+  {
+   "key": "mom_12_1-|price_position-|drawdown_60+|adx_14-|vol_60-|intraday_range+",
+   "is": -0.023503,
+   "oos": 0.022555
+  },
+  {
+   "key": "mom_12_1-|price_position-|drawdown_60+|adx_14-|vol_60-|intraday_range-",
+   "is": -0.029629,
+   "oos": 0.077266
+  },
+  {
+   "key": "mom_12_1-|price_position-|drawdown_60-|adx_14+|vol_60+|intraday_range+",
+   "is": -0.028632,
+   "oos": -0.078704
+  },
+  {
+   "key": "mom_12_1-|price_position-|drawdown_60-|adx_14+|vol_60+|intraday_range-",
+   "is": -0.03388,
+   "oos": 0.008827
+  },
+  {
+   "key": "mom_12_1-|price_position-|drawdown_60-|adx_14+|vol_60-|intraday_range+",
+   "is": -0.059113,
+   "oos": -0.079979
+  },
+  {
+   "key": "mom_12_1-|price_position-|drawdown_60-|adx_14+|vol_60-|intraday_range-",
+   "is": -0.043159,
+   "oos": 0.262532
+  },
+  {
+   "key": "mom_12_1-|price_position-|drawdown_60-|adx_14-|vol_60+|intraday_range+",
+   "is": -0.053793,
+   "oos": 0.01637
+  },
+  {
+   "key": "mom_12_1-|price_position-|drawdown_60-|adx_14-|vol_60+|intraday_range-",
+   "is": -0.089023,
+   "oos": -0.096489
+  },
+  {
+   "key": "mom_12_1-|price_position-|drawdown_60-|adx_14-|vol_60-|intraday_range+",
+   "is": -0.014083,
+   "oos": -0.082896
+  },
+  {
+   "key": "mom_12_1-|price_position-|drawdown_60-|adx_14-|vol_60-|intraday_range-",
+   "is": -0.05497,
+   "oos": 0.035575
+  }
+ ],
+ "verdict": "peeking_loses_to_the_textbook",
+ "gate": {
+  "verdict": "peeking_loses_to_the_textbook",
+  "all_ok": true,
+  "checks": [
+   {
+    "check": "row count matches declared source_n_arms",
+    "ok": true,
+    "rows": 64,
+    "declared": 64
+   },
+   {
+    "check": "prior key is the textbook key of the declared prior_signs",
+    "ok": true,
+    "stored": "mom_12_1+|price_position+|drawdown_60+|adx_14+|vol_60-|intraday_range-"
+   },
+   {
+    "check": "prior rank pair re-derives from rows",
+    "ok": true,
+    "stored": 8,
+    "redef": 8
+   },
+   {
+    "check": "in-sample-best arm re-derives",
+    "ok": true,
+    "stored": "mom_12_1+|price_position+|drawdown_60-|adx_14+|vol_60+|intraday_range-",
+    "redef": "mom_12_1+|price_position+|drawdown_60-|adx_14+|vol_60+|intraday_range-"
+   },
+   {
+    "check": "median OOS re-derives",
+    "ok": true,
+    "stored": 0.0017325,
+    "redef": 0.0017325
+   },
+   {
+    "check": "top-quartile set re-derives",
+    "ok": true,
+    "stored": 7,
+    "redef": 7
+   },
+   {
+    "check": "verdict re-derives from the rows",
+    "ok": true,
+    "stored": "peeking_loses_to_the_textbook",
+    "redef": "peeking_loses_to_the_textbook"
+   }
+  ]
+ }
+}

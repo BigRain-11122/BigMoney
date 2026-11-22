@@ -4411,6 +4411,40 @@ def main() -> int:
     except Exception as e:
         check("product: E224 sign-ordering transfer is recomputable from the per-period table",
               False, str(e))
+    # r1940 / E-20261122-r1940: E207/E222 called the production signs `signs_in_sample`. That
+    # is a fact about how the config was written until someone asks whether each direction was
+    # knowable WITHOUT the panel -- and every one of the six is the textbook direction in its own
+    # factor docstring, so the production set and the prior set are the same object. This leg
+    # re-derives that face from its own arm rows and requires the page to name what peeking picks
+    # (reader-visibility, r1782), not just that the JSON says ok.
+    try:
+        _sp = os.path.join("results", "etf_sign_prior.json")
+        if os.path.exists(_sp):
+            _doc5 = json.load(open(_sp, encoding="utf-8"))
+            _mod5 = __import__("importlib").import_module("scripts.etf_sign_prior")
+            _g5 = _mod5.gate(_doc5)
+            _pg = os.path.join("research", "ETF_SIGN_PRIOR.md")
+            _page = open(_pg, encoding="utf-8").read() if os.path.exists(_pg) else ""
+            check("product: prior-signs face re-derives its verdict and the prior key is the textbook key",
+                  _g5["all_ok"] and _g5["verdict"] == _doc5.get("verdict")
+                  and _doc5.get("prior_equals_production") is True
+                  and int(_doc5.get("n_arms") or 0) == 64
+                  and _doc5.get("prior_key") == "mom_12_1+|price_position+|drawdown_60+|adx_14+|vol_60-|intraday_range-",
+                  "verdict=%s n=%s prior=prod:%s top_both:%s"
+                  % (_g5["verdict"], _doc5.get("n_arms"), _doc5.get("prior_equals_production"),
+                     _doc5.get("prior_in_top_quartile_both")))
+            _ib = _doc5.get("is_best_arm") or {}
+            check("product: the prior-signs page names the arm peeking picks and its OOS number",
+                  ("in-sample best" in _page) and ("%+.2f%%" % (float(_ib.get("oos_cagr") or 0) * 100)) in _page,
+                  "is_best_oos=%s" % _ib.get("oos_cagr"))
+        else:
+            check("product: prior-signs face re-derives its verdict and the prior key is the textbook key",
+                  True, "etf_sign_prior artifact absent -- soft-fails by design")
+            check("product: the prior-signs page names the arm peeking picks and its OOS number",
+                  True, "page absent -- soft-fails by design")
+    except Exception as e:
+        check("product: prior-signs face re-derives its verdict and the prior key is the textbook key",
+              False, str(e))
     # r1339 / E227: both faces above price the sign question at ONE (rebal, n_hold) cell, and
     # that cell was itself picked on the sample. This leg requires the three-cell leg to be
     # recomputable -- the active-cell flags and the stable-factor count are re-derived from the
