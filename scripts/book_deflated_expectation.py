@@ -187,6 +187,9 @@ def _book_inputs():
     sigmas = sorted({round(float(r["sigma_sr"]), 9) for r in curve if "sigma_sr" in r})
     if len(sigmas) != 1:
         raise RuntimeError("sigma_sr is not constant across the published grid: %s" % sigmas)
+    # The parent face does not carry a top-level evidence_cutoff; fall back to the last bar
+    # its own window ends on (never to today's clock -- that would be a fabricated cutoff).
+    cutoff = d.get("evidence_cutoff") or (d.get("book") or {}).get("end")
     return {
         "sr_ann": float(cents["sharpe"]),
         "vol_ann": float(cents["vol"]),
@@ -199,7 +202,9 @@ def _book_inputs():
         "arm": (d.get("book") or {}).get("arm"),
         "sigma_sr_daily": sigmas[0],
         "published_curve": curve,
-        "evidence_cutoff": d.get("evidence_cutoff"),
+        "evidence_cutoff": cutoff,
+        "cutoff_source": ("parent field" if d.get("evidence_cutoff")
+                          else "parent window end (parent carries no cutoff field)"),
     }
 
 
@@ -259,6 +264,7 @@ def build(write=True):
         "kind": "deflated-expectation/v1",
         "generated": _now(),
         "evidence_cutoff": book["evidence_cutoff"],
+        "evidence_cutoff_source": book["cutoff_source"],
         "criteria": CRITERIA,
         "book": {
             "arm": book["arm"],
@@ -479,6 +485,11 @@ def selftest():
     face = build(write=False)
     rows = face["rows"]
     leg("L4 ladder covers the conservative N", any(r["n_trials"] == CRITERIA["n_conservative"] for r in rows))
+    # L4b: an empty cutoff is a science_audit C2 violation; the parent carries no field, so
+    # the face must fall back to the parent's own last bar and say so.
+    leg("L4b evidence_cutoff is the parent's last bar (%s)" % face["evidence_cutoff"],
+        bool(face["evidence_cutoff"]) and face["evidence_cutoff"] == book["end"]
+        and "window end" in face["evidence_cutoff_source"])
     leg("L5 credible Sharpe never rises with N",
         all(rows[i]["credible_sharpe"] >= rows[i + 1]["credible_sharpe"] for i in range(len(rows) - 1)))
     leg("L6 P(edge is noise) never falls with N",
