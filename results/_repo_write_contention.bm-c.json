@@ -1,50 +1,37 @@
 {
  "schema": "repo-write-contention/v1",
  "machine_id": "bm-c",
- "probed_at": "2026-11-22T11:35:03",
+ "probed_at": "2026-11-22T11:40:26",
  "lookback_min": 45.0,
  "verdict": "CONTENTION",
- "why": "2 hosts alive; 21 shared face(s) written before this round started (strictly another host), 0 written inside the overlap (unattributable)",
+ "why": "2 hosts alive; 23 shared face(s) written before this round started (strictly another host), 0 written inside the overlap (unattributable)",
  "hosts": [
   {
    "pid": 44248,
    "kind": "interactive",
    "started_epoch": 1795316570.4324791,
    "started": "2026-11-22T11:02:50",
-   "age_min": 32.2,
+   "age_min": 37.6,
    "exempt_from_cloud_cap": true,
    "cmd_head": "K:\\tuanjieAI\\Tuanjie Cowork\\cli\\bin\\win32-x64\\codely.exe --experimental-acp --experimental-skills --path-polic"
   },
   {
-   "pid": 47728,
+   "pid": 38148,
    "kind": "other",
-   "started_epoch": 1795317603.130813,
-   "started": "2026-11-22T11:20:03",
-   "age_min": 15.0,
+   "started_epoch": 1795318803.0031617,
+   "started": "2026-11-22T11:40:03",
+   "age_min": 0.4,
    "exempt_from_cloud_cap": false,
    "cmd_head": "K:\\tuanjieAI\\Tuanjie Cowork\\cli\\bin\\win32-x64\\codely.exe -y -p 无人值守执行 Bigmoney 量化公司 10 分钟自迭代一轮（2026-09-23 CEO "
   }
  ],
- "my_host_pid": 47728,
- "my_host_started": "2026-11-22T11:20:03",
+ "my_host_pid": 38148,
+ "my_host_started": "2026-11-22T11:40:03",
  "host_probe_error": null,
- "overlap_windows": [
-  {
-   "pair": [
-    44248,
-    47728
-   ],
-   "kinds": [
-    "interactive",
-    "other"
-   ],
-   "from": "2026-11-22T11:20:03",
-   "to": "2026-11-22T11:35:03",
-   "minutes": 15.0,
-   "lo": 1795317603.130813
-  }
- ],
+ "overlap_windows": [],
  "peer_only_writes": [
+  "Tools/iteration_prompt.txt",
+  "Tools/repo_write_contention.py",
   "docs/data_lanes/FRESHNESS.md",
   "docs/live_usage/LIVE-2026-11-22.json",
   "docs/live_usage/LIVE-2026-11-22.md",
@@ -62,9 +49,7 @@
   "results/etf_book_order/reinstatements.json",
   "results/etf_book_order/state.json",
   "results/live_usage_day_words.json",
-  "results/paper_equity_recheck.json",
-  "results/ticket_day_words.json",
-  "results/zh_page_prose_census.json"
+  "results/paper_equity_recheck.json"
  ],
  "ambiguous_writes": [],
  "ignored_patterns": [
@@ -76,23 +61,29 @@
   "results/_repo_write_contention",
   "results/_host_contention"
  ],
- "ignored_write_count": 10,
- "declared_own_patterns": [
-  "Tools/repo_write_contention.py",
-  "results/_repo_write_contention"
- ],
- "declared_own_write_count": 2,
- "declared_own_writes": [
-  "Tools/repo_write_contention.py",
-  "results/_repo_write_contention.bm-c.json"
- ],
+ "ignored_write_count": 9,
+ "declared_own_patterns": [],
+ "declared_own_write_count": 0,
+ "declared_own_writes": [],
  "writes_scanned_files": 33910,
  "recent_writes": [
   {
    "path": "fleet/machines/bm-c.json",
-   "mtime": "2026-11-22T11:20:02",
-   "mtime_epoch": 1795317602.4050987,
-   "bytes": 248168
+   "mtime": "2026-11-22T11:38:21",
+   "mtime_epoch": 1795318701.6663647,
+   "bytes": 248169
+  },
+  {
+   "path": "Tools/iteration_prompt.txt",
+   "mtime": "2026-11-22T11:35:59",
+   "mtime_epoch": 1795318559.0782833,
+   "bytes": 54340
+  },
+  {
+   "path": "Tools/repo_write_contention.py",
+   "mtime": "2026-11-22T11:34:53",
+   "mtime_epoch": 1795318493.2621534,
+   "bytes": 15832
   },
   {
    "path": "results/ticket_day_words.json",
@@ -215,6 +206,6 @@
    "bytes": 715
   }
  ],
- "recent_write_count": 21,
+ "recent_write_count": 23,
  "advisory": "Probe only: it never blocks, kills or defers production. A round that reads CONTENTION must land new files only, never re-derive shared faces or re-run the chain (r1907)."
 }
