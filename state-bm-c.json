@@ -1,7 +1,7 @@
 {
  "activity": "product",
- "activity_now": "r1931: 逐月 vs 季月移仓判决面 delivered (QUARTERLY_WINS_ON_EVERY_COST_BAND; selftest 27/27, check rc0, page==face)",
- "activity_now_round": 1933,
+ "activity_now": "r1937: CEO 页日词守卫从 PRINTED_SELF_DATED(1 unmapped) 修到 PRINTED_DATES_AGREE(115/115)",
+ "activity_now_round": 1937,
  "agenda_starved": false,
  "ah_note": "r1680 LANDED: refresh closed itself at 21:17 -- cutoff 2026-11-12 -> 2026-11-13, complete=True, exit 0, pulled_rows 46; data_lane_freshness in_sync 13 / behind_1d 1 (worst now marks, intraday-only, not rebuildable). Fix that made it possible: stall watchdog over every network leg (300s, names stage/pair, exit 2, checkpoint kept) + save_progress stamps write time + -u on the detached spawn + progress line every 10 pairs. NOT yet proven: the 300s stall path has never fired on a real hang (this round the suspected freeze finished by itself).",
  "ahead_origin": 0,
@@ -43,7 +43,7 @@
  "busy": false,
  "chain": "r1925 targeted: 6/6 rc0 (cash_roll_today, ceo_live_usage, daily_report, live_usage_day_words, daily_report_day_words, live_book_day_words) + 19/19 rc0 (dualrun ZERO-DRIFT streak 51, compute_audit FLAG pool_starvation+supply_floor (calendar, Sunday), py_watermark ok, update_daily ok, market_regime ok, data_lane_freshness verdict=attention (11 in sync / 3 behind 1d), face_input_staleness FRESH, build_status, token_meter, machine_health_write, etf_book_ceo_page, page_repeat_guard 0 repeated, reader_text_audit, update_repo no-op (lane back to bm-a), regime_thermo no-op, regime_dualarm no-op, minute_feed non-workday, t35_export, scorecard_daily)",
  "chain_note": "peer chain 1930 (pid 47848) finished 15:21:36 with every leg rc0; it predates the new leg, so the leg was proven separately",
- "chain_verdict": "chain 1930 completed 344/344 rc0 (nonzero=[]); new leg idx_fut_roll_tenor verified via --only (1/1 rc0, 1.8s)",
+ "chain_verdict": "本轮按批次跑 S6：4/4 rc0（data_lane_freshness / etf_book_order / ticket_floor_write / etf_book_ceo_page）；全链 351 腿留整窗",
  "chain_writer_audit": {
   "known_baseline": 29,
   "note": "not re-enumerated this round: the face fixed here never appeared in that enumeration (it had no leg at all)",
@@ -62,7 +62,7 @@
  "clock_tz": "+08:00",
  "codely_live_count": 2,
  "comfy_free_vram_mb": 14015,
- "control_scan": "S0.5: fleet/orders 115 stems vs heartbeat orders_ack 271 -> unacked 0; group decisions.md raw-blob sha256 79e3083b unchanged vs the r1868 read -> zero new decision rows (newest batch still 2026-11-19 06:00, zero rows naming this company); saturated engine rc0 idle; inbox empty",
+ "control_scan": "S0.5: fleet/orders 115 stems vs heartbeat orders_ack 256 (normalised) -> unacked 0; group decisions.md RAW-BYTE sha256 79e3083b unchanged (PS '>' redirect gives 4F8308BA = r1911; python subprocess bytes == watermark); saturated engine rc0 idle; inbox empty",
  "cores": 32,
  "cpu_cores": 32,
  "cpu_idle_pct": 88.6,
@@ -1489,7 +1489,7 @@
   "watermark": "green: board/pool both empty (pool_ready_count=0, fleet_open_tasks=0), no claimable batch on this host; py_watermark insufficient_history (window n=1, local_batch=1 = this round own suite)"
  },
  "round_label": "r1813",
- "round_no": 1935,
+ "round_no": 1937,
  "round_no_label": "r1821",
  "round_no_landed": 1663,
  "round_note": "r1489: a reinstated bar is re-derived from the panel, not carried over (reinstatement_check + reinstatements.json + sheet paragraph)",
@@ -2224,13 +2224,14 @@
  "went_well": "the fix keeps the old states reachable: a card with one unqualified row still takes the position-free path, so no previously published verdict changed meaning",
  "when_well": "the exec panel reused lhb_sellleg verbatim by passing a net-of-cost panel instead of writing a second event study -- the two tables cannot disagree about the quintiles because there is only one implementation",
  "who_did": "bm-c",
- "下个里程碑": "下一整窗跑 S6 全链（含 350 腿的新面），并把 ticket_floor 的 51s 写者降成 check 先行（窗 ≤48h）",
+ "下个里程碑": "capital_substitution 面补 generated 自印戳；S6 整窗全链（351 腿）（窗 ≤48h）",
  "孤儿面": 0,
- "孤儿面_note": "pid 12676 ComfyUI :8189 (parent DEAD, CPU 0, 279min idle, VRAM 0 held -- idle server of another lane; left alone, not this lane's face to reap) -- the six python faces of this round's own chain all finished rc0",
- "当前任务": "r1934: 三张只发布不接线的面接上链，并把「漂移」和「算错」分成两种红",
+ "孤儿面_note": "pid 12676 ComfyUI :8189 (parent DEAD, CPU 0, idle server of another lane) left alone; py_faces=3 本轮探针全活",
+ "当前任务": "r1937: give the last unmapped date on the CEO page the field that issued it",
  "当前任务_en": "r1934: give three published-but-unwired faces chain writers, and split drift from defect in their probes",
- "当前活": "r1934：sell_plan / capital_union_decision / year_concentration_money 三条腿进链（票据地板补写者），探针措辞改成链认的 STALE",
- "最近实物": "Tools/s6_chain_bmc.py（4 条新腿）| scripts/*.py 三面 STALE 分类 | knowledge/METHODOLOGY_ASSETS.md E-20261122-r1934 | 2026-11-22T16:1x",
+ "当前活": "r1937：CEO 一页纸的 1 处不可核日期补上规则，判词转全对上（115/115，selftest 26/26）",
+ "最近实物": "scripts/live_usage_day_words.py（+1 规则·92 条）| results/live_usage_day_words.json | 2026-11-22T17:5x",
  "最近实物_update": "results/chain_writer_audit.json（12 红点名）+ 8 条新腿 + results/_r1917bmc_s6_chain.json（318/318 rc0）+ 全量套件 739/739 绿（2026-11-22T05:12:10）",
- "水位": "healthy"
+ "水位": "healthy",
+ "verify_r1937": "live_usage_day_words check rc0 DATES 115 ok / 0 unmapped / 92 rules; selftest 26/26; run rc0 PRINTED_DATES_AGREE; S6 batch 4/4 rc0; chain_writer_audit 351 legs/139 faces/0 red/3 disclosed; dualrun ZERO-DRIFT 745 streak 51; attrition CLEAN 4 ledgers; two scheduled tasks in place; pre-commit/pre-push match after LF normalisation"
 }

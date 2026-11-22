@@ -288,6 +288,13 @@ CLAIM_RULES = [
                 r"T[\d:+]+｜cutoff " + _D + r"｜探针沿自 " + _D + r"T"),
      ["futures_gaps.source_generated", "futures_gaps.evidence_cutoff",
       "futures_gaps.carried_from"]),
+    # r1937: r1933 put the substitution block on the page and its provenance line printed the
+    # cutoff of a face that carries no `generated` stamp of its own. The date it does carry
+    # (`evidence_cutoff`) is already on this page's JSON, so the line is claimable rather than
+    # a permanent debt (r1671); the missing producer stamp stays a supply-side note until the
+    # face writes one (r1781: a block that cannot self-stamp must say so, not print a guess).
+    (re.compile(r"capital_substitution\.json`｜cutoff " + _D + r"｜generated 面未自带"),
+     ["capital_substitution.evidence_cutoff"]),
 ]
 
 # A date that rides inside a file name (`TICKET-2026-11-17.json`) names a paper; it does not
