@@ -1,0 +1,549 @@
+{
+ "schema": "repo_capacity_at_size/v1",
+ "ts": "2026-11-23T05:14:26+08:00",
+ "evidence_cutoff": "2026-11-20",
+ "question": "at the sizes we run, which tenors of the exchange repo curve can we fill without being the market on a bad day?",
+ "unit": {
+  "hand_yuan": 1000.0,
+  "checked_against": [
+   100000000000.0,
+   5000000000000.0
+  ],
+  "gc001_median_turnover_yuan": 806739750000.0,
+  "unit_ok": true
+ },
+ "ruler": {
+  "bad_day": "p10 of daily volume series",
+  "open_max_participation": 0.01,
+  "thin_max_participation": 0.1
+ },
+ "baseline": {
+  "code": "GC001",
+  "close_last": 1.395,
+  "bars": 3772,
+  "window": [
+   "2011-05-13",
+   "2026-11-20"
+  ],
+  "cash_at_close_last": {
+   "10万": 1395.0,
+   "100万": 13950.0,
+   "300万": 41850.0,
+   "1000万": 139500.0
+  }
+ },
+ "arms": [
+  {
+   "code": "GC001",
+   "tenor_days": 1,
+   "venue": "sse",
+   "min_ticket_yuan": 100000.0,
+   "status": "OK",
+   "bars": 3772,
+   "common_days": 3772,
+   "close_last": 1.395,
+   "rate_vs_base_bp": 0.0,
+   "rate_vs_base_mean_bp": 0.0,
+   "turnover_med_yuan": 806739750000.0,
+   "turnover_bad_yuan": 133294810000.0,
+   "capacity": {
+    "10万": {
+     "class": "OPEN",
+     "participation_on_bad_day": 1e-06,
+     "unlendable_yuan": 0.0,
+     "unlendable_share": 0.0,
+     "one_lend_interest_yuan": 3.82
+    },
+    "100万": {
+     "class": "OPEN",
+     "participation_on_bad_day": 8e-06,
+     "unlendable_yuan": 0.0,
+     "unlendable_share": 0.0,
+     "one_lend_interest_yuan": 38.22
+    },
+    "300万": {
+     "class": "OPEN",
+     "participation_on_bad_day": 2.3e-05,
+     "unlendable_yuan": 0.0,
+     "unlendable_share": 0.0,
+     "one_lend_interest_yuan": 114.66
+    },
+    "1000万": {
+     "class": "OPEN",
+     "participation_on_bad_day": 7.5e-05,
+     "unlendable_yuan": 0.0,
+     "unlendable_share": 0.0,
+     "one_lend_interest_yuan": 382.19
+    }
+   }
+  },
+  {
+   "code": "GC003",
+   "tenor_days": 3,
+   "venue": "sse",
+   "min_ticket_yuan": 100000.0,
+   "status": "OK",
+   "bars": 3772,
+   "common_days": 3772,
+   "close_last": 1.355,
+   "rate_vs_base_bp": 1.0,
+   "rate_vs_base_mean_bp": -11.9,
+   "turnover_med_yuan": 7245003000.0,
+   "turnover_bad_yuan": 1496200000.0,
+   "capacity": {
+    "10万": {
+     "class": "OPEN",
+     "participation_on_bad_day": 6.7e-05,
+     "unlendable_yuan": 0.0,
+     "unlendable_share": 0.0,
+     "one_lend_interest_yuan": 11.14
+    },
+    "100万": {
+     "class": "OPEN",
+     "participation_on_bad_day": 0.000668,
+     "unlendable_yuan": 0.0,
+     "unlendable_share": 0.0,
+     "one_lend_interest_yuan": 111.37
+    },
+    "300万": {
+     "class": "OPEN",
+     "participation_on_bad_day": 0.002005,
+     "unlendable_yuan": 0.0,
+     "unlendable_share": 0.0,
+     "one_lend_interest_yuan": 334.11
+    },
+    "1000万": {
+     "class": "OPEN",
+     "participation_on_bad_day": 0.006684,
+     "unlendable_yuan": 0.0,
+     "unlendable_share": 0.0,
+     "one_lend_interest_yuan": 1113.7
+    }
+   }
+  },
+  {
+   "code": "GC004",
+   "tenor_days": 4,
+   "venue": "sse",
+   "min_ticket_yuan": 100000.0,
+   "status": "OK",
+   "bars": 3772,
+   "common_days": 3772,
+   "close_last": 1.38,
+   "rate_vs_base_bp": 3.0,
+   "rate_vs_base_mean_bp": -9.49,
+   "turnover_med_yuan": 6252756000.0,
+   "turnover_bad_yuan": 1209900000.0,
+   "capacity": {
+    "10万": {
+     "class": "OPEN",
+     "participation_on_bad_day": 8.3e-05,
+     "unlendable_yuan": 0.0,
+     "unlendable_share": 0.0,
+     "one_lend_interest_yuan": 15.12
+    },
+    "100万": {
+     "class": "OPEN",
+     "participation_on_bad_day": 0.000827,
+     "unlendable_yuan": 0.0,
+     "unlendable_share": 0.0,
+     "one_lend_interest_yuan": 151.23
+    },
+    "300万": {
+     "class": "OPEN",
+     "participation_on_bad_day": 0.00248,
+     "unlendable_yuan": 0.0,
+     "unlendable_share": 0.0,
+     "one_lend_interest_yuan": 453.7
+    },
+    "1000万": {
+     "class": "OPEN",
+     "participation_on_bad_day": 0.008265,
+     "unlendable_yuan": 0.0,
+     "unlendable_share": 0.0,
+     "one_lend_interest_yuan": 1512.33
+    }
+   }
+  },
+  {
+   "code": "GC007",
+   "tenor_days": 7,
+   "venue": "sse",
+   "min_ticket_yuan": 100000.0,
+   "status": "OK",
+   "bars": 3772,
+   "common_days": 3772,
+   "close_last": 1.385,
+   "rate_vs_base_bp": 15.5,
+   "rate_vs_base_mean_bp": 13.91,
+   "turnover_med_yuan": 88535571500.0,
+   "turnover_bad_yuan": 17982530000.0,
+   "capacity": {
+    "10万": {
+     "class": "OPEN",
+     "participation_on_bad_day": 6e-06,
+     "unlendable_yuan": 0.0,
+     "unlendable_share": 0.0,
+     "one_lend_interest_yuan": 26.56
+    },
+    "100万": {
+     "class": "OPEN",
+     "participation_on_bad_day": 5.6e-05,
+     "unlendable_yuan": 0.0,
+     "unlendable_share": 0.0,
+     "one_lend_interest_yuan": 265.62
+    },
+    "300万": {
+     "class": "OPEN",
+     "participation_on_bad_day": 0.000167,
+     "unlendable_yuan": 0.0,
+     "unlendable_share": 0.0,
+     "one_lend_interest_yuan": 796.85
+    },
+    "1000万": {
+     "class": "OPEN",
+     "participation_on_bad_day": 0.000556,
+     "unlendable_yuan": 0.0,
+     "unlendable_share": 0.0,
+     "one_lend_interest_yuan": 2656.16
+    }
+   }
+  },
+  {
+   "code": "GC014",
+   "tenor_days": 14,
+   "venue": "sse",
+   "min_ticket_yuan": 100000.0,
+   "status": "OK",
+   "bars": 3772,
+   "common_days": 3772,
+   "close_last": 1.385,
+   "rate_vs_base_bp": 22.25,
+   "rate_vs_base_mean_bp": 18.83,
+   "turnover_med_yuan": 15086450500.0,
+   "turnover_bad_yuan": 1366810000.0,
+   "capacity": {
+    "10万": {
+     "class": "OPEN",
+     "participation_on_bad_day": 7.3e-05,
+     "unlendable_yuan": 0.0,
+     "unlendable_share": 0.0,
+     "one_lend_interest_yuan": 53.12
+    },
+    "100万": {
+     "class": "OPEN",
+     "participation_on_bad_day": 0.000732,
+     "unlendable_yuan": 0.0,
+     "unlendable_share": 0.0,
+     "one_lend_interest_yuan": 531.23
+    },
+    "300万": {
+     "class": "OPEN",
+     "participation_on_bad_day": 0.002195,
+     "unlendable_yuan": 0.0,
+     "unlendable_share": 0.0,
+     "one_lend_interest_yuan": 1593.7
+    },
+    "1000万": {
+     "class": "OPEN",
+     "participation_on_bad_day": 0.007316,
+     "unlendable_yuan": 0.0,
+     "unlendable_share": 0.0,
+     "one_lend_interest_yuan": 5312.33
+    }
+   }
+  },
+  {
+   "code": "GC028",
+   "tenor_days": 28,
+   "venue": "sse",
+   "min_ticket_yuan": 100000.0,
+   "status": "OK",
+   "bars": 3772,
+   "common_days": 3769,
+   "close_last": 1.365,
+   "rate_vs_base_bp": 27.0,
+   "rate_vs_base_mean_bp": 24.8,
+   "turnover_med_yuan": 4472445500.0,
+   "turnover_bad_yuan": 310030000.0,
+   "capacity": {
+    "10万": {
+     "class": "OPEN",
+     "participation_on_bad_day": 0.000323,
+     "unlendable_yuan": 0.0,
+     "unlendable_share": 0.0,
+     "one_lend_interest_yuan": 104.71
+    },
+    "100万": {
+     "class": "OPEN",
+     "participation_on_bad_day": 0.003225,
+     "unlendable_yuan": 0.0,
+     "unlendable_share": 0.0,
+     "one_lend_interest_yuan": 1047.12
+    },
+    "300万": {
+     "class": "OPEN",
+     "participation_on_bad_day": 0.009676,
+     "unlendable_yuan": 0.0,
+     "unlendable_share": 0.0,
+     "one_lend_interest_yuan": 3141.37
+    },
+    "1000万": {
+     "class": "THIN",
+     "participation_on_bad_day": 0.032255,
+     "unlendable_yuan": 0.0,
+     "unlendable_share": 0.0,
+     "one_lend_interest_yuan": 10471.23
+    }
+   }
+  },
+  {
+   "code": "GC091",
+   "tenor_days": 91,
+   "venue": "sse",
+   "min_ticket_yuan": 100000.0,
+   "status": "OK",
+   "bars": 3726,
+   "common_days": 3604,
+   "close_last": 1.34,
+   "rate_vs_base_bp": 29.0,
+   "rate_vs_base_mean_bp": 23.97,
+   "turnover_med_yuan": 116774000.0,
+   "turnover_bad_yuan": 5800000.0,
+   "capacity": {
+    "10万": {
+     "class": "THIN",
+     "participation_on_bad_day": 0.017241,
+     "unlendable_yuan": 0.0,
+     "unlendable_share": 0.0,
+     "one_lend_interest_yuan": 334.08
+    },
+    "100万": {
+     "class": "BLOCKED",
+     "participation_on_bad_day": 0.172414,
+     "unlendable_yuan": 0.0,
+     "unlendable_share": 0.0,
+     "one_lend_interest_yuan": 3340.82
+    },
+    "300万": {
+     "class": "BLOCKED",
+     "participation_on_bad_day": 0.517241,
+     "unlendable_yuan": 0.0,
+     "unlendable_share": 0.0,
+     "one_lend_interest_yuan": 10022.47
+    },
+    "1000万": {
+     "class": "BLOCKED",
+     "participation_on_bad_day": 1.724138,
+     "unlendable_yuan": 0.0,
+     "unlendable_share": 0.0,
+     "one_lend_interest_yuan": 33408.22
+    }
+   }
+  },
+  {
+   "code": "GC182",
+   "tenor_days": 182,
+   "venue": "sse",
+   "min_ticket_yuan": 100000.0,
+   "status": "OK",
+   "bars": 3413,
+   "common_days": 3408,
+   "close_last": 1.34,
+   "rate_vs_base_bp": 22.0,
+   "rate_vs_base_mean_bp": 17.63,
+   "turnover_med_yuan": 10400000.0,
+   "turnover_bad_yuan": 800000.0,
+   "capacity": {
+    "10万": {
+     "class": "BLOCKED",
+     "participation_on_bad_day": 0.125,
+     "unlendable_yuan": 0.0,
+     "unlendable_share": 0.0,
+     "one_lend_interest_yuan": 668.16
+    },
+    "100万": {
+     "class": "BLOCKED",
+     "participation_on_bad_day": 1.25,
+     "unlendable_yuan": 0.0,
+     "unlendable_share": 0.0,
+     "one_lend_interest_yuan": 6681.64
+    },
+    "300万": {
+     "class": "BLOCKED",
+     "participation_on_bad_day": 3.75,
+     "unlendable_yuan": 0.0,
+     "unlendable_share": 0.0,
+     "one_lend_interest_yuan": 20044.93
+    },
+    "1000万": {
+     "class": "BLOCKED",
+     "participation_on_bad_day": 12.5,
+     "unlendable_yuan": 0.0,
+     "unlendable_share": 0.0,
+     "one_lend_interest_yuan": 66816.44
+    }
+   }
+  },
+  {
+   "code": "R-001",
+   "tenor_days": 1,
+   "venue": "szse",
+   "min_ticket_yuan": 1000.0,
+   "status": "OK",
+   "bars": 3341,
+   "common_days": 3341,
+   "close_last": 1.38,
+   "rate_vs_base_bp": -6.5,
+   "rate_vs_base_mean_bp": -43.79,
+   "turnover_med_yuan": 90584774000.0,
+   "turnover_bad_yuan": 22401343000.0,
+   "capacity": {
+    "10万": {
+     "class": "OPEN",
+     "participation_on_bad_day": 4e-06,
+     "unlendable_yuan": 0.0,
+     "unlendable_share": 0.0,
+     "one_lend_interest_yuan": 3.78
+    },
+    "100万": {
+     "class": "OPEN",
+     "participation_on_bad_day": 4.5e-05,
+     "unlendable_yuan": 0.0,
+     "unlendable_share": 0.0,
+     "one_lend_interest_yuan": 37.81
+    },
+    "300万": {
+     "class": "OPEN",
+     "participation_on_bad_day": 0.000134,
+     "unlendable_yuan": 0.0,
+     "unlendable_share": 0.0,
+     "one_lend_interest_yuan": 113.42
+    },
+    "1000万": {
+     "class": "OPEN",
+     "participation_on_bad_day": 0.000446,
+     "unlendable_yuan": 0.0,
+     "unlendable_share": 0.0,
+     "one_lend_interest_yuan": 378.08
+    }
+   }
+  },
+  {
+   "code": "R-003",
+   "tenor_days": 3,
+   "venue": "szse",
+   "min_ticket_yuan": 1000.0,
+   "status": "OK",
+   "bars": 3277,
+   "common_days": 3277,
+   "close_last": 1.32,
+   "rate_vs_base_bp": -9.8,
+   "rate_vs_base_mean_bp": -46.81,
+   "turnover_med_yuan": 821732000.0,
+   "turnover_bad_yuan": 181311200.0,
+   "capacity": {
+    "10万": {
+     "class": "OPEN",
+     "participation_on_bad_day": 0.000552,
+     "unlendable_yuan": 0.0,
+     "unlendable_share": 0.0,
+     "one_lend_interest_yuan": 10.85
+    },
+    "100万": {
+     "class": "OPEN",
+     "participation_on_bad_day": 0.005515,
+     "unlendable_yuan": 0.0,
+     "unlendable_share": 0.0,
+     "one_lend_interest_yuan": 108.49
+    },
+    "300万": {
+     "class": "THIN",
+     "participation_on_bad_day": 0.016546,
+     "unlendable_yuan": 0.0,
+     "unlendable_share": 0.0,
+     "one_lend_interest_yuan": 325.48
+    },
+    "1000万": {
+     "class": "THIN",
+     "participation_on_bad_day": 0.055154,
+     "unlendable_yuan": 0.0,
+     "unlendable_share": 0.0,
+     "one_lend_interest_yuan": 1084.93
+    }
+   }
+  },
+  {
+   "code": "R-007",
+   "tenor_days": 7,
+   "venue": "szse",
+   "min_ticket_yuan": 1000.0,
+   "status": "OK",
+   "bars": 3356,
+   "common_days": 3356,
+   "close_last": 1.375,
+   "rate_vs_base_bp": 5.0,
+   "rate_vs_base_mean_bp": -11.44,
+   "turnover_med_yuan": 6382182500.0,
+   "turnover_bad_yuan": 1543667000.0,
+   "capacity": {
+    "10万": {
+     "class": "OPEN",
+     "participation_on_bad_day": 6.5e-05,
+     "unlendable_yuan": 0.0,
+     "unlendable_share": 0.0,
+     "one_lend_interest_yuan": 26.37
+    },
+    "100万": {
+     "class": "OPEN",
+     "participation_on_bad_day": 0.000648,
+     "unlendable_yuan": 0.0,
+     "unlendable_share": 0.0,
+     "one_lend_interest_yuan": 263.7
+    },
+    "300万": {
+     "class": "OPEN",
+     "participation_on_bad_day": 0.001943,
+     "unlendable_yuan": 0.0,
+     "unlendable_share": 0.0,
+     "one_lend_interest_yuan": 791.1
+    },
+    "1000万": {
+     "class": "OPEN",
+     "participation_on_bad_day": 0.006478,
+     "unlendable_yuan": 0.0,
+     "unlendable_share": 0.0,
+     "one_lend_interest_yuan": 2636.99
+    }
+   }
+  }
+ ],
+ "open_at_100w": [
+  "GC001",
+  "GC003",
+  "GC004",
+  "GC007",
+  "GC014",
+  "GC028",
+  "R-001",
+  "R-003",
+  "R-007"
+ ],
+ "blocked_at_100w": [
+  "GC091",
+  "GC182"
+ ],
+ "headline": "OPEN_TENORS_PAY_LESS_TODAY",
+ "headline_evidence": [
+  "GC001",
+  "GC003",
+  "GC004",
+  "GC007",
+  "GC014",
+  "GC028",
+  "R-001",
+  "R-003",
+  "R-007"
+ ],
+ "notes": "Participation is measured against the p10 day, so 'OPEN at 100 万' means our whole order is <=1% of a bad day's turnover. The 1%/10% band is a convention against being visible on the tape; it is not a measured price impact. Rate pickup is a median of same-day quotes, never a forward-filled pair, and it is a rate difference -- not a return, because the tenors cannot be held for the same calendar days."
+}
