@@ -1,0 +1,177 @@
+{
+ "updated": "2026-11-22T22:57:11+08:00",
+ "note": "策略试验场队列。一格=一个能改变下不下注/下多大的问题；判据写在脚本顶部、跑前冻结。status: pending=待跑 / done=有判决 / failed=失败待重试 / blocked=两次失败已停。",
+ "cells": [
+  {
+   "id": "fut_trend",
+   "title": "十个期货品种上的五种趋势风格",
+   "question": "在已有真实日线的10个期货品种（股指4+国债3+商品3）上，5种经典风格里有没有哪一种值得单独开一条线？",
+   "script": "scripts/bench_fut_trend.py",
+   "result": "results/bench_fut_trend.json",
+   "page": "research/BENCH-FUT-TREND.md",
+   "lane": "futures",
+   "max_bar_age_days": 8,
+   "threads": 4,
+   "status": "done",
+   "last_run": "2026-11-22T22:05:00+08:00",
+   "last_seconds": 12,
+   "runs": 1,
+   "verdict": {
+    "tsmom": "NO_EDGE",
+    "ma_cross": "NO_EDGE_REPACKAGES_BETA",
+    "donchian": "NO_EDGE",
+    "reversal": "NO_EDGE",
+    "xs_mom": "NO_EDGE"
+   },
+   "notes": "ma_cross 13.44%/SR0.994/-20.9%，样本外19.04%，对照p=0.0；但等风险买入持有同一篮子 12.76%/0.900/-17.1%，只多0.7pp且回撤更深 → NO_EDGE_REPACKAGES_BETA（判据追加条款：GO 必须比同篮子买入持有高 ≥2pp/年，已披露）。其余四种风格全判负。"
+  },
+  {
+   "id": "bond_curve",
+   "title": "国债期货三条曲线价差的均值回归与趋势",
+   "question": "T/TF/TS 三对价差上，反转或趋势有没有净后仍为正的收成？",
+   "script": "scripts/bench_bond_curve.py",
+   "result": "results/bench_bond_curve.json",
+   "page": "research/BENCH-BOND-CURVE.md",
+   "lane": "futures",
+   "max_bar_age_days": 8,
+   "threads": 4,
+   "status": "done",
+   "last_run": "2026-11-22T22:15:00+08:00",
+   "last_seconds": 9,
+   "runs": 1,
+   "verdict": {
+    "T-TF:zrev": "NO_EDGE",
+    "T-TF:trend": "NO_EDGE",
+    "T-TS:zrev": "NO_EDGE",
+    "T-TS:trend": "NO_EDGE",
+    "TF-TS:zrev": "NO_EDGE",
+    "TF-TS:trend": "NO_EDGE"
+   },
+   "notes": "六臂全负；唯一有点意思的 T-TF 反转只在2018-2020有效，2024 -8.2%。直接多长久期对照 +5.59%/0.668（样本外8.63%）胜过全部价差臂。"
+  },
+  {
+   "id": "astock_lowvol",
+   "title": "A股60日低波单因子（宽篮子+慢换手）",
+   "question": "A股IC表里最干净的因子（低波动）用宽篮子、20日换手、10bp/边成本做，扣费后能不能跑赢同池等权2pp以上？",
+   "script": "scripts/bench_astock_lowvol.py",
+   "result": "results/bench_astock_lowvol.json",
+   "page": "research/BENCH-ASTOCK-LOWVOL.md",
+   "lane": "astock",
+   "max_bar_age_days": 8,
+   "threads": 4,
+   "heavy": true,
+   "status": "done",
+   "last_run": "2026-11-22T22:20:29+08:00",
+   "last_seconds": 172,
+   "runs": 1,
+   "verdict": {
+    "verdict": "NO_EDGE",
+    "H5_excess_ge_2pp": false,
+    "ann_pct": 6.12,
+    "excess_pp": 0.93,
+    "excess_t": 0.45
+   },
+   "notes": "低波 6.12%/SR0.431/-38.1%，样本外 8.41%/0.518；同池等权 3.43%/0.263。超额仅 +0.93%/年、t=0.45 → H5 不过。低波=更少回撤的市场贝塔，不是第二条线。2018 年 -26.45% 说明它挡不住系统性风险。"
+  },
+  {
+   "id": "bond_defensive",
+   "title": "国债期货当防守腿 vs 现金",
+   "question": "把 T/TF/TS 当作防守腿（6%波动目标、周频再打、1.5bp/边），是不是比现金（GC001 1.38%）更好的防守？",
+   "script": "scripts/bench_bond_defensive.py",
+   "result": "results/bench_bond_defensive.json",
+   "page": "research/BENCH-BOND-DEFENSIVE.md",
+   "lane": "futures",
+   "max_bar_age_days": 8,
+   "threads": 4,
+   "status": "done",
+   "last_run": "2026-11-22T22:46:09+08:00",
+   "last_seconds": 8,
+   "runs": 1,
+   "verdict": {
+    "verdict": "NO_EDGE",
+    "ann_pct": 4.88,
+    "sharpe": 0.644,
+    "corr_csi300": -0.187,
+    "H3_bear_years": false
+   },
+   "notes": "4.88%/SR0.644、与沪深300相关 -0.187、比现金(1.38%)高 3.5pp；但 2022 年 -1.07%（权益 -21.6% 那年债券腿也亏）→ H3 不过。它是有用的分散器但不是「每次都护住」的防守腿。"
+  },
+  {
+   "id": "revalidate",
+   "title": "全部已完成格子在新 bar 上的复验",
+   "question": "新 bar 落地后，已发布的判决会不会翻转？翻转就是警报。",
+   "script": "scripts/bench_revalidate.py",
+   "result": "results/bench_revalidate.json",
+   "lane": "futures",
+   "max_bar_age_days": 999,
+   "threads": 2,
+   "status": "done",
+   "recurring": true,
+   "recur_hours": 12,
+   "runs": 1,
+   "verdict": "ALL_HOLD",
+   "notes": "这是「24 小时科学测试」的常态腿：不造新假设，只把旧结论拿到新样本上重跑；判决变了才出声。",
+   "last_run": "2026-11-22T22:57:11+08:00",
+   "last_seconds": 60.9,
+   "finished": "2026-11-22T22:57:11+08:00",
+   "attempts": 0,
+   "next_due": "2026-11-23T10:57:11+08:00"
+  },
+  {
+   "id": "idx_fut_basis_reuse",
+   "title": "股指期货基差/展期（复用既有判决）",
+   "question": "IC/IF/IH/IM 的贴水是不是一项可下注的收成？",
+   "script": "scripts/idx_fut_basis.py",
+   "result": "results/idx_fut_basis.json",
+   "page": "research/IDX_FUT_BASIS.md",
+   "lane": "futures",
+   "max_bar_age_days": 8,
+   "status": "done",
+   "verdict": {
+    "kind": "reuse",
+    "IC_net_carry_pp": 4.15,
+    "IM_net_carry_pp": 5.89,
+    "IF_net_carry_pp": 0.74,
+    "IH_net_carry_pp": 1.74,
+    "booked": "IC/IF/IM admitted at default cost (idx_fut_real_nav: booked)"
+   },
+   "notes": "不是本试验场新跑，是既有已过门判决；列为基线，避免重复造面。"
+  },
+  {
+   "id": "cb_dual_low_reuse",
+   "title": "转债双低轮动（复用既有判决）",
+   "question": "转债双低轮动是否值得投产？",
+   "script": "scripts/cb_dual_low.py",
+   "result": "results/cb_dual_low.json",
+   "page": "research/CB_DUAL_LOW_VERDICT.md",
+   "lane": "cb",
+   "max_bar_age_days": 30,
+   "revalidate": false,
+   "status": "done",
+   "verdict": {
+    "verdict": "NO_EDGE",
+    "ann_pct": 7.64,
+    "vs_equal_weight_pp": 0.83
+   },
+   "notes": "2026-11-14 判负：选券超额按 regime 翻符号，2026 年 -16% vs 等权 -7.75%；面板保留复用。"
+  },
+  {
+   "id": "astock_resid_industry_reuse",
+   "title": "A股行业中性残差反转（复用既有判决）",
+   "question": "行业内残差反转是不是一条能单独下注的腿？",
+   "script": "scripts/astock_resid_industry_neutral.py",
+   "result": "results/astock_rankind_stability.json",
+   "page": "research/digests/DIGEST-20261122-rankind-stability.md",
+   "lane": "astock",
+   "max_bar_age_days": 8,
+   "revalidate": false,
+   "status": "done",
+   "verdict": {
+    "verdict": "ONE_YEAR_STORY",
+    "ann_pct": 3.76,
+    "ex_best_year_pct": 0.14
+   },
+   "notes": "r1946：+3.76%/年 里94%来自2024一年；剔2024后 +0.14%/年。rankind−ind 那条 6/7 年为正但同样靠2024，需换样本再验。"
+  }
+ ]
+}
