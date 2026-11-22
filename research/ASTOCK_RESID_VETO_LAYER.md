@@ -54,6 +54,12 @@
 ## 复跑
 
 ```
-python scripts/astock_resid_veto_layer.py selftest    # 9/9 离线
-python scripts/astock_resid_veto_layer.py run         # 读 data/astock_daily/per
+python scripts/astock_resid_veto_layer.py selftest    # 14/14 离线
+python scripts/astock_resid_veto_layer.py check       # 排期探针（~0.3s·读 40 个面板文件的尾 bar）
+python scripts/astock_resid_veto_layer.py run         # 读 data/astock_daily/per（~6 分钟）
 ```
+
+r1936 起这张面有链腿（`Tools/s6_chain_bmc.py`，紧跟 `update_astock_daily`）：探针只回答
+「面板推到哪一根 bar」，只有 `STALE` 才付那 ~6 分钟的整面板重算；`INCONSISTENT`（面自相
+矛盾、或自称有面板并不存在的 bar）保持红，不靠重算把红刷掉。在此之前本面只在 r1865 手写
+发布过一次，随面板推进冻结在旧 bar 上（r1282 孤儿面族）。

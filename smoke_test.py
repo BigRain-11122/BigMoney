@@ -7079,6 +7079,16 @@ def main() -> int:
              "scripts/etf_book_year_concentration_money.py", ["selftest"]),
             ("product: year_concentration_money (published money face re-derives from YEAR-GATE)",
              "scripts/etf_book_year_concentration_money.py", ["check"]),
+            # r1936: the residual veto layer had a selftest since r1865 but no chain leg and no
+            # smoke leg -- it was written once and left one bar behind, so the published
+            # "avoid these names" list aged without anybody hearing about it (r1282 orphan
+            # class again). Both hooks now: the check asks the PANEL (a 40-file sample, ~0.3s)
+            # instead of re-deriving from itself, so a moved bar says STALE and the chain pays
+            # the ~6 min walk; the selftest pins that only STALE buys that walk.
+            ("product: astock_resid_veto_layer (the black-list shape still beats pool and random)",
+             "scripts/astock_resid_veto_layer.py", ["selftest"]),
+            ("product: astock_resid_veto_layer (published cutoff still matches the panel frontier)",
+             "scripts/astock_resid_veto_layer.py", ["check"]),
             # r1795: r1794 measured the engine's one-day caliber bulge with an independent
             # implementation; this face puts the switch inside the engine (entry_lag, default
             # 0 = bit-identical to every published face) and answers the only question a

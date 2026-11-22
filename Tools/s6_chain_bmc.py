@@ -435,6 +435,16 @@ LEGS = [
     # healthy bm-b keeps ownership and this machine just prints its honest no-op.
     ("update_astock_daily", ["python", "scripts/update_astock_daily.py",
                              "--takeover"]),
+    # r1936: the residual veto layer (r1865's black-list shape of the residual signal:
+    # dropping the top 20% by 20-day residual beat both the whole pool and a random 20%
+    # drop by +0.24%/rebalance, t=3.46) was published straight to results/ in r1865 and
+    # then never written again -- the r1282 orphan class, one bar behind by the time
+    # anybody read it. It reads this same astock panel, and a full re-derivation walks
+    # 5k CSVs (~6 min), so it gets the check-then-pay shape: the probe samples 40 files
+    # for the panel's reachable frontier (~0.3s) and only the word STALE buys the rebuild.
+    ("astock_resid_veto_layer",
+     ["python", "scripts/astock_resid_veto_layer.py", "check"],
+     ["python", "scripts/astock_resid_veto_layer.py", "run"]),
     ("update_etf_daily", ["python", "scripts/update_etf_daily.py", "--takeover"]),
     # The wide panel (1,724 files) is the price universe of every ETF study and of
     # the production book, but its refresh leg was never wired in: r1257 pulled it

@@ -38,11 +38,17 @@ Design (frozen in this file, not tuned on results)
 Usage
 -----
     python scripts/astock_resid_veto_layer.py run
+    python scripts/astock_resid_veto_layer.py check
     python scripts/astock_resid_veto_layer.py selftest
+
+`check` (r1936) is the cheap freshness probe the chain pays for a rebuild on: it
+asks the panel, not itself, whether the published `evidence_cutoff` is still the
+last reachable bar.
 """
 from __future__ import annotations
 
 import argparse
+import glob
 import json
 import math
 import os
@@ -71,8 +77,10 @@ from astock_resid_reversal_probe import (  # noqa: E402
 )
 
 OUT = os.path.join(ROOT, "results", "astock_resid_veto_layer.json")
+PANEL_PER = os.path.join(ROOT, "data", "astock_daily", "per")
 RANDOM_DRAWS = 20
 SEED = 20261120
+FRONTIER_SAMPLE = 40
 
 
 def score_slice(t, close, amount, shares, rets, mkt, need_forward=True):
@@ -248,6 +256,90 @@ def current_veto(dates, symbols, close, amount, shares):
             "veto_share": 0.2, "veto_top": veto, "lowest_resid": hold}
 
 
+# ------------------------------------------------------------- freshness probe
+def panel_frontier(per_dir: str = PANEL_PER, sample: int = FRONTIER_SAMPLE):
+    """Last bar date reachable in the per-symbol panel, from a stride sample.
+
+    Deliberately cheap: load_panel() walks 5k CSVs and costs minutes, and a probe
+    that expensive is a probe nobody runs (the r1850 family).  A stride sample of
+    the sorted names bounds the reachable frontier from below, which is all the
+    probe has to know: a face whose cutoff is at or past that bound cannot be
+    behind the panel.  Returns (frontier_date or None, files_sampled).
+    """
+    files = sorted(glob.glob(os.path.join(per_dir, "*.csv")))
+    if not files:
+        return None, 0
+    step = max(1, len(files) // sample)
+    picked = files[::step][:sample]
+    best = ""
+    seen = 0
+    for path in picked:
+        try:
+            with open(path, "rb") as fh:
+                fh.seek(0, os.SEEK_END)
+                size = fh.tell()
+                fh.seek(max(0, size - 4096))
+                chunk = fh.read().decode("utf-8", "ignore")
+        except OSError:
+            continue
+        rows = [ln for ln in chunk.splitlines() if ln.strip()]
+        if not rows:
+            continue
+        last = rows[-1].split(",")[0]
+        if len(last) != 10 or last[4] != "-":
+            continue
+        seen += 1
+        if last > best:
+            best = last
+    return (best or None), seen
+
+
+def staleness(face: dict, frontier):
+    """Pure verdict over the published face and the panel's reachable frontier.
+
+    (state, message); state is 'ok' / 'stale' / 'inconsistent'.  Only 'stale'
+    means "rebuilding fixes this" -- the chain pays for a run on that word alone
+    (r1850: the walk is expensive, so it must be asked a cheap question first).
+    """
+    cutoff = face.get("evidence_cutoff")
+    panel_last = (face.get("panel") or {}).get("last")
+    if not cutoff:
+        return "inconsistent", "face has no evidence_cutoff"
+    if panel_last and panel_last != cutoff:
+        return ("inconsistent",
+                "face disagrees with itself: evidence_cutoff=%s panel.last=%s"
+                % (cutoff, panel_last))
+    if frontier is None:
+        return "stale", "panel unreadable: %s (sample found no rows)" % (
+            os.path.relpath(PANEL_PER, ROOT))
+    if cutoff < frontier:
+        return ("stale", "panel moved: face cutoff %s, panel reaches %s"
+                % (cutoff, frontier))
+    if cutoff > frontier:
+        return ("inconsistent",
+                "face claims a bar the panel does not reach: %s > %s"
+                % (cutoff, frontier))
+    return "ok", "cutoff %s == panel frontier %s" % (cutoff, frontier)
+
+
+def cmd_check():
+    if not os.path.exists(OUT):
+        print("STALE face missing: %s" % os.path.relpath(OUT, ROOT))
+        return 3
+    with open(OUT, encoding="utf-8") as fh:
+        face = json.load(fh)
+    frontier, n = panel_frontier()
+    state, msg = staleness(face, frontier)
+    if state == "stale":
+        print("STALE %s (sample %d files)" % (msg, n))
+        return 3
+    if state == "inconsistent":
+        print("CHECK FAILED %s (sample %d files)" % (msg, n))
+        return 1
+    print("OK %s (sample %d files)" % (msg, n))
+    return 0
+
+
 # ---------------------------------------------------------------- selftest
 def selftest():
     fails = []
@@ -295,22 +387,56 @@ def selftest():
     v3, _ = verdict(rows3)
     check("L9 noise-sized edge does not clear random", v3 != "VETO_ADDS_VALUE", v3)
 
+    # L10-L13: the probe's four answers. Only 'stale' may buy a rebuild; a face
+    # that disagrees with itself or claims a bar the panel cannot reach must stay
+    # red rather than be rebuilt until it looks green (r1345/r1850 trap).
+    check("L10 in sync -> ok",
+          staleness({"evidence_cutoff": "2026-11-20", "panel": {"last": "2026-11-20"}},
+                    "2026-11-20")[0] == "ok")
+    check("L11 face behind panel -> stale",
+          staleness({"evidence_cutoff": "2026-11-19", "panel": {"last": "2026-11-19"}},
+                    "2026-11-20")[0] == "stale")
+    check("L12 face ahead of panel -> inconsistent",
+          staleness({"evidence_cutoff": "2026-11-23", "panel": {"last": "2026-11-23"}},
+                    "2026-11-20")[0] == "inconsistent")
+    check("L13 face disagrees with itself -> inconsistent",
+          staleness({"evidence_cutoff": "2026-11-20", "panel": {"last": "2026-11-19"}},
+                    "2026-11-20")[0] == "inconsistent")
+
+    # L14: the cheap frontier really reads the files it claims to read
+    import shutil
+    import tempfile
+    td = tempfile.mkdtemp()
+    try:
+        for code, last in (("600000", "2026-11-19"), ("000001", "2026-11-20")):
+            with open(os.path.join(td, code + ".csv"), "w", encoding="utf-8") as fh:
+                fh.write("date,close,amount,outstanding_share\n")
+                fh.write("%s,10.0,1e8,1e8\n" % last)
+        fr, n_seen = panel_frontier(td, sample=10)
+        check("L14 frontier reads the sampled files",
+              fr == "2026-11-20" and n_seen == 2, "fr=%r n=%r" % (fr, n_seen))
+    finally:
+        shutil.rmtree(td, ignore_errors=True)
+
     if fails:
-        print("selftest FAIL %d/%d" % (len(fails), 9))
+        print("selftest FAIL %d/%d" % (len(fails), 14))
         for f in fails:
             print("  " + f)
         return 1
-    print("selftest 9/9 PASS")
+    print("selftest 14/14 PASS")
     return 0
 
 
 def main(argv=None):
     ap = argparse.ArgumentParser()
-    ap.add_argument("cmd", nargs="?", default="run", choices=["run", "selftest"])
+    ap.add_argument("cmd", nargs="?", default="run",
+                    choices=["run", "check", "selftest"])
     ap.add_argument("--stride", type=int, default=HOLD)
     args = ap.parse_args(argv)
     if args.cmd == "selftest":
         return selftest()
+    if args.cmd == "check":
+        return cmd_check()
 
     dates, symbols, close, amount, shares = load_panel()
     rows = run(dates, symbols, close, amount, shares, stride=args.stride)
