@@ -2,7 +2,7 @@
  "schema": "ceo_live_usage_v1_9",
  "ticket": "T-202609-28-105",
  "day": "2026-11-22",
- "generated": "2026-11-22T10:18:04",
+ "generated": "2026-11-22T10:41:54",
  "market": {
   "state": "RED",
   "asof": "2026-11-20",
@@ -516,7 +516,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 66296.3
+    "last_append_age_min": 66320.1
    },
    {
     "family": "FUND-VALUE-P1",
@@ -524,7 +524,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 67140.7
+    "last_append_age_min": 67164.6
    },
    {
     "family": "FUND-DIVLOWVOL-P1",
@@ -532,7 +532,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 63934.1
+    "last_append_age_min": 63957.9
    }
   ]
  },
@@ -1105,7 +1105,7 @@
   "input_order": {
    "derived": "results/etf_book_order/latest.json",
    "sentence": "",
-   "generated": "2026-11-22T04:16:54+08:00",
+   "generated": "2026-11-22T10:19:53+08:00",
    "lag_sec": null,
    "state": "FRESH",
    "pairs_compared": 2
@@ -2184,12 +2184,12 @@
  },
  "data_lanes": {
   "status": "ok",
-  "as_of": "2026-11-22T10:17:58",
+  "as_of": "2026-11-22T10:41:40",
   "verdict": "attention",
   "counts": {
    "retired": 1,
-   "in_sync": 11,
-   "behind_1d": 3
+   "in_sync": 13,
+   "behind_1d": 1
   },
   "n_lanes": 15,
   "machine": "bm-c",
@@ -2199,7 +2199,7 @@
     "lane": "heat",
     "host": "bm-a",
     "host_alive": false,
-    "host_age_h": 86.42,
+    "host_age_h": 86.81,
     "state": "behind_1d",
     "tail": "2026-11-19",
     "expected": "2026-11-20",
@@ -2208,39 +2208,11 @@
     ],
     "loss_mode": "a missed day is permanent: the guba rank is a live rolling list with no retrievable history (HEAT_ATTENTION_SPEC §1)",
     "takeover_capable": true
-   },
-   {
-    "lane": "lhb",
-    "host": "bm-a",
-    "host_alive": false,
-    "host_age_h": 86.42,
-    "state": "behind_1d",
-    "tail": "2026-11-19",
-    "expected": "2026-11-20",
-    "missing_days": [
-     "2026-11-20"
-    ],
-    "loss_mode": null,
-    "takeover_capable": true
-   },
-   {
-    "lane": "lhb_inst",
-    "host": "bm-c",
-    "host_alive": true,
-    "host_age_h": 0.44,
-    "state": "behind_1d",
-    "tail": "2026-11-19",
-    "expected": "2026-11-20",
-    "missing_days": [
-     "2026-11-20"
-    ],
-    "loss_mode": "vendor re-serves the range on later pulls, so a missed month is recoverable by moving FIRST_DATE; the panel is append-only by key",
-    "takeover_capable": false
    }
   ],
   "hosts": {
    "bm-a": {
-    "age_h": 86.42,
+    "age_h": 86.81,
     "alive": false,
     "silent_waiting": [],
     "silent_taken_over": {
@@ -2251,7 +2223,7 @@
     }
    },
    "bm-b": {
-    "age_h": 549.58,
+    "age_h": 549.98,
     "alive": false,
     "silent_waiting": [],
     "silent_taken_over": {
