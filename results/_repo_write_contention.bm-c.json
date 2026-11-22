@@ -1,7 +1,7 @@
 {
  "schema": "repo-write-contention/v1",
  "machine_id": "bm-c",
- "probed_at": "2026-11-22T21:51:14",
+ "probed_at": "2026-11-23T02:06:18",
  "lookback_min": 45.0,
  "verdict": "CONTENTION",
  "why": "3 hosts alive; 10 shared face(s) written before this round started (strictly another host), 0 written inside the overlap (unattributable)",
@@ -11,7 +11,7 @@
    "kind": "interactive",
    "started_epoch": 1795349384.2310703,
    "started": "2026-11-22T20:09:44",
-   "age_min": 101.5,
+   "age_min": 356.6,
    "exempt_from_cloud_cap": true,
    "cmd_head": "K:\\tuanjieAI\\Tuanjie Cowork\\cli\\bin\\win32-x64\\codely.exe --experimental-acp --experimental-skills --path-polic"
   },
@@ -20,22 +20,22 @@
    "kind": "interactive",
    "started_epoch": 1795349445.503183,
    "started": "2026-11-22T20:10:45",
-   "age_min": 100.5,
+   "age_min": 355.5,
    "exempt_from_cloud_cap": true,
    "cmd_head": "K:\\tuanjieAI\\Tuanjie Cowork\\cli\\bin\\win32-x64\\codely.exe --experimental-acp --experimental-skills --path-polic"
   },
   {
-   "pid": 53036,
+   "pid": 58584,
    "kind": "other",
-   "started_epoch": 1795355403.471985,
-   "started": "2026-11-22T21:50:03",
+   "started_epoch": 1795370703.3608136,
+   "started": "2026-11-23T02:05:03",
    "age_min": 1.2,
    "exempt_from_cloud_cap": false,
    "cmd_head": "K:\\tuanjieAI\\Tuanjie Cowork\\cli\\bin\\win32-x64\\codely.exe -y -p 无人值守执行 Bigmoney 量化公司 10 分钟自迭代一轮（2026-09-23 CEO "
   }
  ],
- "my_host_pid": 53036,
- "my_host_started": "2026-11-22T21:50:03",
+ "my_host_pid": 58584,
+ "my_host_started": "2026-11-23T02:05:03",
  "host_probe_error": null,
  "overlap_windows": [
   {
@@ -48,50 +48,50 @@
     "interactive"
    ],
    "from": "2026-11-22T20:10:45",
-   "to": "2026-11-22T21:51:14",
-   "minutes": 100.5,
+   "to": "2026-11-23T02:06:18",
+   "minutes": 355.5,
    "lo": 1795349445.503183
   },
   {
    "pair": [
     40368,
-    53036
+    58584
    ],
    "kinds": [
     "interactive",
     "other"
    ],
-   "from": "2026-11-22T21:50:03",
-   "to": "2026-11-22T21:51:14",
+   "from": "2026-11-23T02:05:03",
+   "to": "2026-11-23T02:06:18",
    "minutes": 1.2,
-   "lo": 1795355403.471985
+   "lo": 1795370703.3608136
   },
   {
    "pair": [
     51252,
-    53036
+    58584
    ],
    "kinds": [
     "interactive",
     "other"
    ],
-   "from": "2026-11-22T21:50:03",
-   "to": "2026-11-22T21:51:14",
+   "from": "2026-11-23T02:05:03",
+   "to": "2026-11-23T02:06:18",
    "minutes": 1.2,
-   "lo": 1795355403.471985
+   "lo": 1795370703.3608136
   }
  ],
  "peer_only_writes": [
   "fleet/machines/bm-c.json",
-  "research/digests/DIGEST-20261122-etf-paper-marks.md",
-  "research/digests/DIGEST-20261122-rankind-second-sample.md",
-  "results/_r1947_bmc_second_sample_contended_round.json",
-  "results/_r1947bmc_second_sample.out",
-  "results/_r1948_bmc_etf_paper_marks_contended_round.json",
-  "results/astock_rankind_second_sample.json",
-  "results/etf_paper_marks.json",
-  "scripts/astock_rankind_second_sample.py",
-  "scripts/etf_paper_marks.py"
+  "research/ARBITER-BOARD.md",
+  "research/ASTOCK-VETO-AFFORDABLE-BOOK.md",
+  "research/ASTOCK-VETO-OPEN-CAPITAL.md",
+  "results/_r1957_affordable.out",
+  "results/arbiter/STATE.json",
+  "results/astock_veto_affordable_book.json",
+  "results/astock_veto_open_capital.json",
+  "scripts/astock_veto_affordable_book.py",
+  "scripts/astock_veto_open_capital.py"
  ],
  "ambiguous_writes": [],
  "ignored_patterns": [
@@ -107,67 +107,67 @@
  "declared_own_patterns": [],
  "declared_own_write_count": 0,
  "declared_own_writes": [],
- "writes_scanned_files": 33999,
+ "writes_scanned_files": 34082,
  "recent_writes": [
   {
+   "path": "research/ARBITER-BOARD.md",
+   "mtime": "2026-11-23T02:01:38",
+   "mtime_epoch": 1795370498.9485571,
+   "bytes": 1850
+  },
+  {
+   "path": "results/arbiter/STATE.json",
+   "mtime": "2026-11-23T02:01:38",
+   "mtime_epoch": 1795370498.800905,
+   "bytes": 1611
+  },
+  {
    "path": "fleet/machines/bm-c.json",
-   "mtime": "2026-11-22T21:47:59",
-   "mtime_epoch": 1795355279.4928308,
-   "bytes": 247304
+   "mtime": "2026-11-23T02:01:20",
+   "mtime_epoch": 1795370480.2319279,
+   "bytes": 247724
   },
   {
-   "path": "results/_r1948_bmc_etf_paper_marks_contended_round.json",
-   "mtime": "2026-11-22T21:46:36",
-   "mtime_epoch": 1795355196.1052744,
-   "bytes": 3336
+   "path": "research/ASTOCK-VETO-AFFORDABLE-BOOK.md",
+   "mtime": "2026-11-23T01:54:12",
+   "mtime_epoch": 1795370052.697945,
+   "bytes": 6460
   },
   {
-   "path": "research/digests/DIGEST-20261122-etf-paper-marks.md",
-   "mtime": "2026-11-22T21:40:55",
-   "mtime_epoch": 1795354855.7218492,
-   "bytes": 3952
+   "path": "results/astock_veto_affordable_book.json",
+   "mtime": "2026-11-23T01:53:31",
+   "mtime_epoch": 1795370011.5929708,
+   "bytes": 51155
   },
   {
-   "path": "results/etf_paper_marks.json",
-   "mtime": "2026-11-22T21:39:51",
-   "mtime_epoch": 1795354791.9503791,
-   "bytes": 9083
+   "path": "scripts/astock_veto_affordable_book.py",
+   "mtime": "2026-11-23T01:52:40",
+   "mtime_epoch": 1795369960.5077019,
+   "bytes": 38907
   },
   {
-   "path": "scripts/etf_paper_marks.py",
-   "mtime": "2026-11-22T21:39:01",
-   "mtime_epoch": 1795354741.8059998,
-   "bytes": 20693
+   "path": "results/_r1957_affordable.out",
+   "mtime": "2026-11-23T01:50:51",
+   "mtime_epoch": 1795369851.3253412,
+   "bytes": 1923
   },
   {
-   "path": "results/_r1947_bmc_second_sample_contended_round.json",
-   "mtime": "2026-11-22T21:29:25",
-   "mtime_epoch": 1795354165.6409574,
-   "bytes": 6170
+   "path": "research/ASTOCK-VETO-OPEN-CAPITAL.md",
+   "mtime": "2026-11-23T01:26:10",
+   "mtime_epoch": 1795368370.544666,
+   "bytes": 6941
   },
   {
-   "path": "research/digests/DIGEST-20261122-rankind-second-sample.md",
-   "mtime": "2026-11-22T21:27:49",
-   "mtime_epoch": 1795354069.3762822,
-   "bytes": 5913
+   "path": "results/astock_veto_open_capital.json",
+   "mtime": "2026-11-23T01:25:42",
+   "mtime_epoch": 1795368342.061623,
+   "bytes": 17104
   },
   {
-   "path": "scripts/astock_rankind_second_sample.py",
-   "mtime": "2026-11-22T21:24:05",
-   "mtime_epoch": 1795353845.8714054,
-   "bytes": 28222
-  },
-  {
-   "path": "results/_r1947bmc_second_sample.out",
-   "mtime": "2026-11-22T21:23:59",
-   "mtime_epoch": 1795353839.4355698,
-   "bytes": 809
-  },
-  {
-   "path": "results/astock_rankind_second_sample.json",
-   "mtime": "2026-11-22T21:23:59",
-   "mtime_epoch": 1795353839.433569,
-   "bytes": 7513
+   "path": "scripts/astock_veto_open_capital.py",
+   "mtime": "2026-11-23T01:24:20",
+   "mtime_epoch": 1795368260.0778935,
+   "bytes": 26159
   }
  ],
  "recent_write_count": 10,
