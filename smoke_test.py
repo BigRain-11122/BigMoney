@@ -1921,6 +1921,38 @@ def main() -> int:
               f"exit={_r.returncode} | {_tail[:140]}")
     except Exception as e:
         check("product: carry sleeve margin arm (which floor wins, re-derived)", False, str(e))
+    # r1932: the carry book and the ETF core are two ways to be long with the same money.
+    # Three legs: the swap arithmetic re-derives, the face on disk still agrees with a
+    # rebuild, and the page a reader opens carries the verdict -- because the script's own
+    # selftest was green while write_md raised (r1850 class: a selftest that never touches
+    # the render path cannot vouch for it).
+    try:
+        _r = _leg_memo([sys.executable, "scripts/capital_substitution.py", "selftest"], 120)
+        _tail = ((_r.stdout or _r.stderr).strip().splitlines() or ["no output"])[-1]
+        check("product: carry-vs-ETF swap rulers (selftest)",
+              _r.returncode == 0, f"exit={_r.returncode} | {_tail[:90]}")
+    except Exception as e:
+        check("product: carry-vs-ETF swap rulers (selftest)", False, str(e))
+    try:
+        _r = _leg_memo([sys.executable, "scripts/capital_substitution.py", "check"], 180)
+        _tail = ((_r.stdout or _r.stderr).strip().splitlines() or ["no output"])[-1]
+        check("product: carry-vs-ETF swap rulers (face re-derived from its inputs)",
+              _r.returncode == 0 and "check OK" in _tail,
+              f"exit={_r.returncode} | {_tail[:140]}")
+    except Exception as e:
+        check("product: carry-vs-ETF swap rulers (face re-derived from its inputs)",
+              False, str(e))
+    try:
+        _pg = os.path.join(PATHS.root, "research", "CAPITAL_SUBSTITUTION.md")
+        _txt = open(_pg, encoding="utf-8").read() if os.path.exists(_pg) else ""
+        _ok = ("BETTER_PER_YUAN_BUT_NOT_BUYABLE_AT_THIS_CAPITAL" in _txt
+               or "SUBSTITUTE_ONE_LOT_FOR_MOST_OF_THE_ETF_CORE" in _txt
+               or "NO_SUBSTITUTION_CARRY_IS_WORSE_PER_YUAN" in _txt) and "等价 ETF 仓位" in _txt
+        check("product: the swap page states its verdict and the ETF share it costs",
+              _ok, "page missing the verdict/shared-risk block" if not _ok else "")
+    except Exception as e:
+        check("product: the swap page states its verdict and the ETF share it costs",
+              False, str(e))
     # r1791: the index panel behind every carry discount leg had no producer -- the cache
     # was frozen at whatever day a human last ran download_indexes.py (r1777 recorded it as
     # a no-producer face). Two legs: the refresh's own merge rules, and the one thing a

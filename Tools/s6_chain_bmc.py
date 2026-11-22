@@ -386,6 +386,18 @@ LEGS = [
     # order of magnitude away from a call. Reads the ladder + open-capital faces and the
     # futures panel; ~0.3s, no network, rewrites no ledger line.
     ("idx_fut_carry_margin", ["python", "scripts/idx_fut_carry_margin.py", "run"]),
+    # r1932: the carry book and the ETF core are two ways to be long with the same money,
+    # and nothing priced the swap. This leg answers "how much ETF core does one hedged
+    # futures lot replace" on three rulers at once (risk budget / per yuan of the funding
+    # rung / per unit of notional) and prints the two published volatility readings side by
+    # side instead of averaging them. Verdict today: one IC lot risks 89,958 CNY a year =
+    # 112.5% of the 8% budget = 85.7% of the ETF book's risk, and returns 9.65% per yuan of
+    # its 1,124,479 rung (Sharpe 1.21) against the ETF book's 11.16%/10.50% (Sharpe 1.10) --
+    # better per yuan, 1.12x the capital, so not buyable today. The volgate face refreshes
+    # later in this chain, so the page prints every input's own cutoff, never one session.
+    ("capital_substitution",
+     ["python", "scripts/capital_substitution.py", "check"],
+     ["python", "scripts/capital_substitution.py", "run"]),
     # r1136: the futures TSMOM sleeve was measured on 10-27 (standalone Sharpe 0.27, but
     # 50/50 with the ETF book 1.059 vs 0.98 alone at a smaller drawdown) and there was no
     # daily face for it -- the "produced but never read" class this repo keeps recording

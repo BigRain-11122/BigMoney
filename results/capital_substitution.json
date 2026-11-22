@@ -1,0 +1,68 @@
+{
+ "artifact": "capital_substitution",
+ "evidence_cutoff": "2026-11-20",
+ "face_cutoffs": {
+  "carry_sizing": "2026-11-20",
+  "carry_risk": "2026-11-20",
+  "carry_open_capital": "2026-11-20",
+  "etf_volgate": "2026-11-20",
+  "idx_fut_basis": null
+ },
+ "lens_cny": 1000000.0,
+ "target_pct": 8.0,
+ "etf_book": {
+  "cagr_pct": 11.16,
+  "vol_pct": 10.5,
+  "sharpe": 1.101,
+  "maxdd_pct": -10.56,
+  "cell": null,
+  "cutoff": "2026-11-20",
+  "vol_cny": 105000.0,
+  "return_cny": 111600.0
+ },
+ "reference_product": "IC",
+ "products": {
+  "IC": {
+   "per_lot_vol_cny_hedged": 89958.32,
+   "per_lot_vol_cny_from_risk_face": 74778.75,
+   "vol_reading_gap_pct": -16.87,
+   "per_lot_notional_cny": 1275000.0,
+   "per_lot_return_cny_yr": 108528.0,
+   "funding_rung_cny": 1124479.0,
+   "rung_multiple_of_lens": 1.1245,
+   "affordable_at_this_capital": false,
+   "vol_budget_share_pct": 112.45,
+   "equivalent_etf_position_share_pct": 85.67,
+   "return_per_yuan_pct": 9.651,
+   "vol_per_yuan_pct": 8.0,
+   "sharpe_on_capital": 1.2064,
+   "per_yuan_verdict": "CARRY_BETTER",
+   "net_carry_pct_of_notional": 4.145
+  },
+  "IM": {
+   "per_lot_vol_cny_hedged": 92207.68,
+   "per_lot_vol_cny_from_risk_face": 85502.57,
+   "vol_reading_gap_pct": -7.27,
+   "per_lot_notional_cny": 1255360.0,
+   "per_lot_return_cny_yr": 122673.78,
+   "funding_rung_cny": 1152596.0,
+   "rung_multiple_of_lens": 1.1526,
+   "affordable_at_this_capital": false,
+   "vol_budget_share_pct": 115.26,
+   "equivalent_etf_position_share_pct": 87.82,
+   "return_per_yuan_pct": 10.643,
+   "vol_per_yuan_pct": 8.0,
+   "sharpe_on_capital": 1.3304,
+   "per_yuan_verdict": "CARRY_BETTER",
+   "net_carry_pct_of_notional": 5.889
+  }
+ },
+ "verdict": "BETTER_PER_YUAN_BUT_NOT_BUYABLE_AT_THIS_CAPITAL",
+ "sentence": "One hedged IC lot risks 89,958 CNY a year = 112.5% of the 8% budget on 1,000,000, the same risk as 85.7% of the ETF book. Per yuan it needs (1,124,479), the lot returns 9.65% against 8.00% risk (Sharpe 1.21) while the ETF book returns 11.16% against 10.50% (Sharpe 1.10). That rung is 1.12x this capital, so the swap is not buyable today.",
+ "caveats": [
+  "Ruler A reads the sizing face's own hedged-vol figure; ruler C multiplies the risk face's ann_vol by the same notional. They differ by -16.9% on IC (different windows) and are printed side by side, never averaged.",
+  "The ETF book's vol is its measured 8%-target implementation (it de-levers only), not the 8% target itself.",
+  "Replacing the ETF core also removes its bond/cash defensive leg; this face prices risk and return, not the drawdown path in a crash.",
+  "One lot is a discrete jump: there is no partial lot below the first rung."
+ ]
+}
