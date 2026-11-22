@@ -1,0 +1,291 @@
+{
+ "script": "scripts/etf_book_search_rent.py",
+ "face": "results/etf_book_search_rent.json",
+ "criteria": {
+  "n_hold": 5,
+  "rebal": 20,
+  "cost_bp_per_side": 10.0,
+  "vol_target": "parent TARGET_VOL (0.08)",
+  "n_grid": [
+   1,
+   2,
+   3,
+   5,
+   7,
+   10,
+   15,
+   20,
+   30,
+   50,
+   100,
+   200,
+   450,
+   1000
+  ],
+  "dsr_line": 0.95,
+  "min_bars": 250,
+  "align_tol_pp": 0.05,
+  "sr_tol": 0.02,
+  "parent": "results/etf_book_production/PRODUCTION-2026-11-20.json",
+  "audit_definitions": {
+   "prereg_files": "count of research/**/*PREREG*.md -- declared bets, includes robustness re-pricings",
+   "attrition_batches": "len(entries) in results/gate_attrition.bm-c.json -- batches a gate killed",
+   "queue_closed_rows": "rows marked done in state/queue/{tech,explore}.md -- worked-off queue items"
+  },
+  "frozen": "constants above were written before the first run"
+ },
+ "book": {
+  "arm": "n5_vt08",
+  "bars": 1666,
+  "start": "2020-01-03",
+  "end": "2026-11-20",
+  "cents": {
+   "cagr": 0.1116,
+   "sharpe": 1.101,
+   "vol": 0.105,
+   "maxdd": -0.1056,
+   "years": 6.88
+  },
+  "vol_target": 0.08,
+  "skew": -0.484
+ },
+ "control_parent": {
+  "source": "results/etf_book_production/PRODUCTION-2026-11-20.json",
+  "parent_cagr": 0.1116,
+  "parent_sharpe": 1.101,
+  "delta_pp": 0.0,
+  "delta_sr": 0.0,
+  "aligned": true
+ },
+ "dsr_curve": [
+  {
+   "n_trials": 1,
+   "dsr": 0.987585,
+   "sr_star_daily": 0.013047,
+   "sigma_sr": 0.025103
+  },
+  {
+   "n_trials": 2,
+   "dsr": 0.987585,
+   "sr_star_daily": 0.013047,
+   "sigma_sr": 0.025103
+  },
+  {
+   "n_trials": 3,
+   "dsr": 0.971996,
+   "sr_star_daily": 0.021408,
+   "sigma_sr": 0.025103
+  },
+  {
+   "n_trials": 5,
+   "dsr": 0.941931,
+   "sr_star_daily": 0.029938,
+   "sigma_sr": 0.025103
+  },
+  {
+   "n_trials": 7,
+   "dsr": 0.915746,
+   "sr_star_daily": 0.034812,
+   "sigma_sr": 0.025103
+  },
+  {
+   "n_trials": 10,
+   "dsr": 0.882817,
+   "sr_star_daily": 0.039527,
+   "sigma_sr": 0.025103
+  },
+  {
+   "n_trials": 15,
+   "dsr": 0.83967,
+   "sr_star_daily": 0.044449,
+   "sigma_sr": 0.025103
+  },
+  {
+   "n_trials": 20,
+   "dsr": 0.80595,
+   "sr_star_daily": 0.047714,
+   "sigma_sr": 0.025103
+  },
+  {
+   "n_trials": 30,
+   "dsr": 0.755024,
+   "sr_star_daily": 0.052048,
+   "sigma_sr": 0.025103
+  },
+  {
+   "n_trials": 50,
+   "dsr": 0.687037,
+   "sr_star_daily": 0.057142,
+   "sigma_sr": 0.025103
+  },
+  {
+   "n_trials": 100,
+   "dsr": 0.592185,
+   "sr_star_daily": 0.063526,
+   "sigma_sr": 0.025103
+  },
+  {
+   "n_trials": 200,
+   "dsr": 0.499301,
+   "sr_star_daily": 0.069423,
+   "sigma_sr": 0.025103
+  },
+  {
+   "n_trials": 450,
+   "dsr": 0.398613,
+   "sr_star_daily": 0.075829,
+   "sigma_sr": 0.025103
+  },
+  {
+   "n_trials": 1000,
+   "dsr": 0.31159,
+   "sr_star_daily": 0.081713,
+   "sigma_sr": 0.025103
+  }
+ ],
+ "breakeven": {
+  "n_breakeven": 5,
+  "note": "last N still on/above the line = 4"
+ },
+ "required_sharpe": [
+  {
+   "n_trials": 1,
+   "required_sr_annualized": 0.8626,
+   "gap_vs_book": null
+  },
+  {
+   "n_trials": 2,
+   "required_sr_annualized": 0.8626,
+   "gap_vs_book": -0.2384
+  },
+  {
+   "n_trials": 3,
+   "required_sr_annualized": 0.9953,
+   "gap_vs_book": -0.1057
+  },
+  {
+   "n_trials": 5,
+   "required_sr_annualized": 1.1307,
+   "gap_vs_book": 0.0297
+  },
+  {
+   "n_trials": 7,
+   "required_sr_annualized": 1.2081,
+   "gap_vs_book": 0.1071
+  },
+  {
+   "n_trials": 10,
+   "required_sr_annualized": 1.2829,
+   "gap_vs_book": 0.1819
+  },
+  {
+   "n_trials": 15,
+   "required_sr_annualized": 1.3611,
+   "gap_vs_book": 0.2601
+  },
+  {
+   "n_trials": 20,
+   "required_sr_annualized": 1.4129,
+   "gap_vs_book": 0.3119
+  },
+  {
+   "n_trials": 30,
+   "required_sr_annualized": 1.4817,
+   "gap_vs_book": 0.3807
+  },
+  {
+   "n_trials": 50,
+   "required_sr_annualized": 1.5626,
+   "gap_vs_book": 0.4616
+  },
+  {
+   "n_trials": 100,
+   "required_sr_annualized": 1.6639,
+   "gap_vs_book": 0.5629
+  },
+  {
+   "n_trials": 200,
+   "required_sr_annualized": 1.7575,
+   "gap_vs_book": 0.6565
+  },
+  {
+   "n_trials": 450,
+   "required_sr_annualized": 1.8592,
+   "gap_vs_book": 0.7582
+  },
+  {
+   "n_trials": 1000,
+   "required_sr_annualized": 1.9526,
+   "gap_vs_book": 0.8516
+  }
+ ],
+ "bars_needed": [
+  {
+   "n_trials": 58,
+   "null_multiple": 2.33263,
+   "needed": {
+    "bars_needed": 3452,
+    "more_bars": 1786,
+    "more_years": 7.09,
+    "note": "same Sharpe kept, more bars"
+   }
+  },
+  {
+   "n_trials": 450,
+   "null_multiple": 3.020715,
+   "needed": {
+    "bars_needed": 4749,
+    "more_bars": 3083,
+    "more_years": 12.23,
+    "note": "same Sharpe kept, more bars"
+   }
+  },
+  {
+   "n_trials": 50,
+   "null_multiple": 2.276302,
+   "needed": {
+    "bars_needed": 3355,
+    "more_bars": 1689,
+    "more_years": 6.7,
+    "note": "same Sharpe kept, more bars"
+   }
+  },
+  {
+   "n_trials": 100,
+   "null_multiple": 2.530614,
+   "needed": {
+    "bars_needed": 3804,
+    "more_bars": 2138,
+    "more_years": 8.48,
+    "note": "same Sharpe kept, more bars"
+   }
+  },
+  {
+   "n_trials": 200,
+   "null_multiple": 2.765526,
+   "needed": {
+    "bars_needed": 4244,
+    "more_bars": 2578,
+    "more_years": 10.23,
+    "note": "same Sharpe kept, more bars"
+   }
+  }
+ ],
+ "trial_census": {
+  "prereg_files": 450,
+  "attrition_batches": 123,
+  "queue_closed_rows": 58
+ },
+ "audited_range": {
+  "smallest": 58,
+  "largest": 450
+ },
+ "dsr_line": 0.95,
+ "verdict": "SEARCH_RENT_EATS_THE_HEADLINE",
+ "verdict_zh": "按自家可核的尝试次数，这本书的 Sharpe 还在噪声里",
+ "caveats": [
+  "DSR 的 N 是「独立假设」不是「跑过多少次回测」；本面印三个可核口径让读者自己选，任何单一 N 都是信念不是测量。",
+  "sigma_SR 用仓库既定约定（null 方差=sample sigma_SR^2，见 science_gates 注释），与 science_audit C3 同源。",
+  "DSR 低不等于这本书将来不赚钱：它说的是「这个 Sharpe 与『试很多次挑最好』不可分」，要靠样本外时长（T）或单假设的新线来收紧，不靠再调参数。"
+ ]
+}
