@@ -55,6 +55,7 @@ BAR_LANES = {
     "etf": os.path.join(ROOT, "data", "daily"),
     "cb": os.path.join(ROOT, "data", "cb_daily"),
     "astock": os.path.join(ROOT, "data", "astock_daily"),
+    "repo": os.path.join(ROOT, "data", "repo_daily"),
 }
 
 

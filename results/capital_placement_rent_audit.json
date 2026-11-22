@@ -1,0 +1,887 @@
+{
+ "schema": "capital_placement_rent_audit/v1",
+ "script": "scripts/capital_placement_rent_audit.py",
+ "face": "results/capital_placement_rent_audit.json",
+ "generated": "2026-11-23T04:39:48+0800",
+ "evidence_cutoff": "2026-11-20",
+ "evidence_cutoff_source": "measured panel last bar (all arms stop there)",
+ "criteria": {
+  "capital_cny": 1000000,
+  "n_ladder": [
+   2,
+   19,
+   58,
+   123,
+   450
+  ],
+  "n_ladder_definitions": {
+   "2": "the floor of the null-max formula",
+   "19": "audited N of the carry family (results/idx_fut_carry_search_rent.json)",
+   "58": "queue rows marked done in state/queue/{tech,explore}.md -- the verdict N",
+   "123": "batches a gate killed (results/gate_attrition.bm-c.json)",
+   "450": "research/**/*PREREG*.md written by this desk"
+  },
+  "n_conservative": 58,
+  "t_req": 3.0,
+  "abandon_p": 0.05,
+  "dsr_line": 0.95,
+  "periods_per_year": 252,
+  "frames": [
+   "own",
+   "common"
+  ],
+  "deciding_frame": "common",
+  "haircut": "SR*(N) at the arm's own sigma_sr; credible = max(0, published - SR*(N)); budgetable = credible * published vol -- arithmetic imported from book_deflated_expectation._haircut_row, not re-written",
+  "end_anchor": "every arm is priced only on bars up to the panel's last bar; no arm is given an out-of-sample extension of its own",
+  "frozen": "constants above were written before the first run; no line is tuned after seeing the result"
+ },
+ "arms": {
+  "ticket_n5_beta020_8bp": {
+   "label": "the ticket the order sheet trades (n5 / beta cover 0.20 / 8bp)",
+   "engine": "production panel -> open-to-open n5 @8bp -> beta cover to 0.20",
+   "placement_role": "the placement's recommended vehicle"
+  },
+  "n5_vol08_10bp": {
+   "label": "the 5-name card r1962 priced (n5 / 8% vol target / 10bp)",
+   "engine": "production panel -> open-to-open n5 @10bp -> 8% vol target",
+   "placement_role": "the book the published card is closest to"
+  },
+  "card_n12_vol08_10bp": {
+   "label": "the advertised 12-name card (n12 / 8% vol target / 10bp)",
+   "engine": "production panel -> open-to-open n12 @10bp -> 8% vol target",
+   "placement_role": "the headline 9.16% card"
+  },
+  "basket_ew4_20bar_10bp": {
+   "label": "equal-weight 4-asset basket on the book's 20-bar grid (10bp/side)",
+   "engine": "spanning face's own basket(): gold / Nasdaq-100 QDII / CSI300 / treasury",
+   "placement_role": "the placement's second-best vehicle"
+  }
+ },
+ "measure": {
+  "schedule": {
+   "panel_universe": 1528,
+   "panel_flips_repaired": 169,
+   "span_flips_repaired": 1,
+   "panel_last_bar": "2026-11-20",
+   "common_window": [
+    "2020-07-16",
+    "2026-11-20"
+   ],
+   "basket_turnover_total": 1.0,
+   "market_column": "510300"
+  },
+  "arms": {
+   "ticket_n5_beta020_8bp": {
+    "own": {
+     "cagr": 0.1272,
+     "sharpe": 0.991,
+     "maxdd": -0.1598,
+     "vol": 0.1348,
+     "years": 6.35,
+     "bars": 1540,
+     "window": [
+      "2020-07-16",
+      "2026-11-20"
+     ],
+     "sigma_sr": 0.025656,
+     "dsr_curve": [
+      {
+       "n_trials": 2,
+       "dsr": 0.972131,
+       "sr_star_daily": 0.013335
+      },
+      {
+       "n_trials": 19,
+       "dsr": 0.710485,
+       "sr_star_daily": 0.048183
+      },
+      {
+       "n_trials": 58,
+       "dsr": 0.539903,
+       "sr_star_daily": 0.059847
+      },
+      {
+       "n_trials": 123,
+       "dsr": 0.43259,
+       "sr_star_daily": 0.066774
+      },
+      {
+       "n_trials": 450,
+       "dsr": 0.2783,
+       "sr_star_daily": 0.077501
+      }
+     ]
+    },
+    "common": {
+     "cagr": 0.1272,
+     "sharpe": 0.991,
+     "maxdd": -0.1598,
+     "vol": 0.1348,
+     "years": 6.35,
+     "bars": 1540,
+     "window": [
+      "2020-07-16",
+      "2026-11-20"
+     ],
+     "sigma_sr": 0.025656,
+     "dsr_curve": [
+      {
+       "n_trials": 2,
+       "dsr": 0.972131,
+       "sr_star_daily": 0.013335
+      },
+      {
+       "n_trials": 19,
+       "dsr": 0.710485,
+       "sr_star_daily": 0.048183
+      },
+      {
+       "n_trials": 58,
+       "dsr": 0.539903,
+       "sr_star_daily": 0.059847
+      },
+      {
+       "n_trials": 123,
+       "dsr": 0.43259,
+       "sr_star_daily": 0.066774
+      },
+      {
+       "n_trials": 450,
+       "dsr": 0.2783,
+       "sr_star_daily": 0.077501
+      }
+     ]
+    },
+    "anchor_window": {
+     "cagr": 0.1272,
+     "sharpe": 0.991,
+     "maxdd": -0.1598,
+     "vol": 0.1348,
+     "years": 6.35,
+     "bars": 1540,
+     "window": [
+      "2020-07-16",
+      "2026-11-20"
+     ],
+     "sigma_sr": 0.025656,
+     "dsr_curve": [
+      {
+       "n_trials": 2,
+       "dsr": 0.972131,
+       "sr_star_daily": 0.013335
+      },
+      {
+       "n_trials": 19,
+       "dsr": 0.710485,
+       "sr_star_daily": 0.048183
+      },
+      {
+       "n_trials": 58,
+       "dsr": 0.539903,
+       "sr_star_daily": 0.059847
+      },
+      {
+       "n_trials": 123,
+       "dsr": 0.43259,
+       "sr_star_daily": 0.066774
+      },
+      {
+       "n_trials": 450,
+       "dsr": 0.2783,
+       "sr_star_daily": 0.077501
+      }
+     ]
+    },
+    "config": {
+     "label": "the ticket the order sheet trades (n5 / beta cover 0.20 / 8bp)",
+     "engine": "production panel -> open-to-open n5 @8bp -> beta cover to 0.20",
+     "placement_role": "the placement's recommended vehicle"
+    }
+   },
+   "n5_vol08_10bp": {
+    "own": {
+     "cagr": 0.1116,
+     "sharpe": 1.101,
+     "maxdd": -0.1056,
+     "vol": 0.105,
+     "years": 6.88,
+     "bars": 1667,
+     "window": [
+      "2020-01-03",
+      "2026-11-20"
+     ],
+     "sigma_sr": 0.025103,
+     "dsr_curve": [
+      {
+       "n_trials": 2,
+       "dsr": 0.987585,
+       "sr_star_daily": 0.013047
+      },
+      {
+       "n_trials": 19,
+       "dsr": 0.812127,
+       "sr_star_daily": 0.047144
+      },
+      {
+       "n_trials": 58,
+       "dsr": 0.666819,
+       "sr_star_daily": 0.058556
+      },
+      {
+       "n_trials": 123,
+       "dsr": 0.564022,
+       "sr_star_daily": 0.065333
+      },
+      {
+       "n_trials": 450,
+       "dsr": 0.398613,
+       "sr_star_daily": 0.075829
+      }
+     ]
+    },
+    "common": {
+     "cagr": 0.1093,
+     "sharpe": 1.123,
+     "maxdd": -0.1056,
+     "vol": 0.1005,
+     "years": 6.35,
+     "bars": 1540,
+     "window": [
+      "2020-07-16",
+      "2026-11-20"
+     ],
+     "sigma_sr": 0.025457,
+     "dsr_curve": [
+      {
+       "n_trials": 2,
+       "dsr": 0.988078,
+       "sr_star_daily": 0.013231
+      },
+      {
+       "n_trials": 19,
+       "dsr": 0.816307,
+       "sr_star_daily": 0.047809
+      },
+      {
+       "n_trials": 58,
+       "dsr": 0.672478,
+       "sr_star_daily": 0.059382
+      },
+      {
+       "n_trials": 123,
+       "dsr": 0.570164,
+       "sr_star_daily": 0.066254
+      },
+      {
+       "n_trials": 450,
+       "dsr": 0.404653,
+       "sr_star_daily": 0.076898
+      }
+     ]
+    },
+    "anchor_window": {
+     "cagr": 0.1116,
+     "sharpe": 1.101,
+     "maxdd": -0.1056,
+     "vol": 0.105,
+     "years": 6.88,
+     "bars": 1667,
+     "window": [
+      "2020-01-03",
+      "2026-11-20"
+     ],
+     "sigma_sr": 0.025103,
+     "dsr_curve": [
+      {
+       "n_trials": 2,
+       "dsr": 0.987585,
+       "sr_star_daily": 0.013047
+      },
+      {
+       "n_trials": 19,
+       "dsr": 0.812127,
+       "sr_star_daily": 0.047144
+      },
+      {
+       "n_trials": 58,
+       "dsr": 0.666819,
+       "sr_star_daily": 0.058556
+      },
+      {
+       "n_trials": 123,
+       "dsr": 0.564022,
+       "sr_star_daily": 0.065333
+      },
+      {
+       "n_trials": 450,
+       "dsr": 0.398613,
+       "sr_star_daily": 0.075829
+      }
+     ]
+    },
+    "config": {
+     "label": "the 5-name card r1962 priced (n5 / 8% vol target / 10bp)",
+     "engine": "production panel -> open-to-open n5 @10bp -> 8% vol target",
+     "placement_role": "the book the published card is closest to"
+    }
+   },
+   "card_n12_vol08_10bp": {
+    "own": {
+     "cagr": 0.0916,
+     "sharpe": 0.946,
+     "maxdd": -0.1177,
+     "vol": 0.1019,
+     "years": 6.88,
+     "bars": 1667,
+     "window": [
+      "2020-01-03",
+      "2026-11-20"
+     ],
+     "sigma_sr": 0.025183,
+     "dsr_curve": [
+      {
+       "n_trials": 2,
+       "dsr": 0.967583,
+       "sr_star_daily": 0.013089
+      },
+      {
+       "n_trials": 19,
+       "dsr": 0.68727,
+       "sr_star_daily": 0.047295
+      },
+      {
+       "n_trials": 58,
+       "dsr": 0.513368,
+       "sr_star_daily": 0.058744
+      },
+      {
+       "n_trials": 123,
+       "dsr": 0.406538,
+       "sr_star_daily": 0.065543
+      },
+      {
+       "n_trials": 450,
+       "dsr": 0.256371,
+       "sr_star_daily": 0.076072
+      }
+     ]
+    },
+    "common": {
+     "cagr": 0.0917,
+     "sharpe": 0.978,
+     "maxdd": -0.1177,
+     "vol": 0.0982,
+     "years": 6.35,
+     "bars": 1540,
+     "window": [
+      "2020-07-16",
+      "2026-11-20"
+     ],
+     "sigma_sr": 0.025467,
+     "dsr_curve": [
+      {
+       "n_trials": 2,
+       "dsr": 0.97127,
+       "sr_star_daily": 0.013237
+      },
+      {
+       "n_trials": 19,
+       "dsr": 0.70593,
+       "sr_star_daily": 0.047828
+      },
+      {
+       "n_trials": 58,
+       "dsr": 0.534632,
+       "sr_star_daily": 0.059405
+      },
+      {
+       "n_trials": 123,
+       "dsr": 0.427377,
+       "sr_star_daily": 0.066281
+      },
+      {
+       "n_trials": 450,
+       "dsr": 0.273864,
+       "sr_star_daily": 0.076929
+      }
+     ]
+    },
+    "anchor_window": {
+     "cagr": 0.0916,
+     "sharpe": 0.946,
+     "maxdd": -0.1177,
+     "vol": 0.1019,
+     "years": 6.88,
+     "bars": 1667,
+     "window": [
+      "2020-01-03",
+      "2026-11-20"
+     ],
+     "sigma_sr": 0.025183,
+     "dsr_curve": [
+      {
+       "n_trials": 2,
+       "dsr": 0.967583,
+       "sr_star_daily": 0.013089
+      },
+      {
+       "n_trials": 19,
+       "dsr": 0.68727,
+       "sr_star_daily": 0.047295
+      },
+      {
+       "n_trials": 58,
+       "dsr": 0.513368,
+       "sr_star_daily": 0.058744
+      },
+      {
+       "n_trials": 123,
+       "dsr": 0.406538,
+       "sr_star_daily": 0.065543
+      },
+      {
+       "n_trials": 450,
+       "dsr": 0.256371,
+       "sr_star_daily": 0.076072
+      }
+     ]
+    },
+    "config": {
+     "label": "the advertised 12-name card (n12 / 8% vol target / 10bp)",
+     "engine": "production panel -> open-to-open n12 @10bp -> 8% vol target",
+     "placement_role": "the headline 9.16% card"
+    }
+   },
+   "basket_ew4_20bar_10bp": {
+    "own": {
+     "cagr": 0.0956,
+     "sharpe": 0.999,
+     "maxdd": -0.1453,
+     "vol": 0.0999,
+     "years": 13.3,
+     "bars": 3233,
+     "window": [
+      "2013-08-01",
+      "2026-11-20"
+     ],
+     "sigma_sr": 0.017664,
+     "dsr_curve": [
+      {
+       "n_trials": 2,
+       "dsr": 0.998825,
+       "sr_star_daily": 0.009181
+      },
+      {
+       "n_trials": 19,
+       "dsr": 0.953886,
+       "sr_star_daily": 0.033173
+      },
+      {
+       "n_trials": 58,
+       "dsr": 0.890492,
+       "sr_star_daily": 0.041203
+      },
+      {
+       "n_trials": 123,
+       "dsr": 0.831264,
+       "sr_star_daily": 0.045972
+      },
+      {
+       "n_trials": 450,
+       "dsr": 0.705767,
+       "sr_star_daily": 0.053357
+      }
+     ]
+    },
+    "common": {
+     "cagr": 0.0765,
+     "sharpe": 0.79,
+     "maxdd": -0.1453,
+     "vol": 0.1039,
+     "years": 6.35,
+     "bars": 1539,
+     "window": [
+      "2020-07-16",
+      "2026-11-20"
+     ],
+     "sigma_sr": 0.025531,
+     "dsr_curve": [
+      {
+       "n_trials": 2,
+       "dsr": 0.923693,
+       "sr_star_daily": 0.01327
+      },
+      {
+       "n_trials": 19,
+       "dsr": 0.528735,
+       "sr_star_daily": 0.047947
+      },
+      {
+       "n_trials": 58,
+       "dsr": 0.351036,
+       "sr_star_daily": 0.059553
+      },
+      {
+       "n_trials": 123,
+       "dsr": 0.25704,
+       "sr_star_daily": 0.066446
+      },
+      {
+       "n_trials": 450,
+       "dsr": 0.142172,
+       "sr_star_daily": 0.077121
+      }
+     ]
+    },
+    "anchor_window": {
+     "cagr": 0.0908,
+     "sharpe": 0.888,
+     "maxdd": -0.1453,
+     "vol": 0.1086,
+     "years": 6.87,
+     "bars": 1665,
+     "window": [
+      "2020-01-06",
+      "2026-11-20"
+     ],
+     "sigma_sr": 0.024559,
+     "dsr_curve": [
+      {
+       "n_trials": 2,
+       "dsr": 0.960584,
+       "sr_star_daily": 0.012764
+      },
+      {
+       "n_trials": 19,
+       "dsr": 0.655141,
+       "sr_star_daily": 0.046122
+      },
+      {
+       "n_trials": 58,
+       "dsr": 0.477919,
+       "sr_star_daily": 0.057286
+      },
+      {
+       "n_trials": 123,
+       "dsr": 0.372458,
+       "sr_star_daily": 0.063916
+      },
+      {
+       "n_trials": 450,
+       "dsr": 0.2286,
+       "sr_star_daily": 0.074185
+      }
+     ]
+    },
+    "config": {
+     "label": "equal-weight 4-asset basket on the book's 20-bar grid (10bp/side)",
+     "engine": "spanning face's own basket(): gold / Nasdaq-100 QDII / CSI300 / treasury",
+     "placement_role": "the placement's second-best vehicle"
+    }
+   }
+  },
+  "elapsed_sec": 50.3
+ },
+ "published_anchors": {
+  "placement_best_vehicle": "etf_book",
+  "placement_cash_net_annual": 0.01777,
+  "placement_evidence_cutoff": "2026-11-20",
+  "placement_book_level_used": 0.1272,
+  "placement_basket_level_used": 0.0908,
+  "ticket": {
+   "cagr": 0.1272,
+   "sharpe": 0.991,
+   "vol": 0.1348,
+   "maxdd": -0.1598,
+   "window": 6.35
+  },
+  "card5": {
+   "cagr": 0.1116,
+   "sharpe": 1.101,
+   "vol": 0.105,
+   "maxdd": -0.1056
+  },
+  "card12": {
+   "cagr": 0.0916,
+   "sharpe": 0.946
+  },
+  "card5_sigma_sr_published": 0.025103,
+  "basket": {
+   "cagr": 0.0908,
+   "sharpe": 0.888,
+   "vol": 0.1086,
+   "maxdd": -0.1453
+  },
+  "spanning_window_start": "2020-01-06"
+ },
+ "anchors": [
+  {
+   "arm": "ticket_n5_beta020_8bp",
+   "what": "etf_book_cagr_reconcile production cell (5, 'beta020', 8.0)",
+   "ok": true,
+   "measured": {
+    "cagr": 0.1272,
+    "sharpe": 0.991,
+    "vol": 0.1348
+   },
+   "published": {
+    "cagr": 0.1272,
+    "sharpe": 0.991,
+    "vol": 0.1348
+   }
+  },
+  {
+   "arm": "n5_vol08_10bp",
+   "what": "etf_book_search_rent book cents (r1962's card)",
+   "ok": true,
+   "measured": {
+    "cagr": 0.1116,
+    "sharpe": 1.101,
+    "vol": 0.105
+   },
+   "published": {
+    "cagr": 0.1116,
+    "sharpe": 1.101,
+    "vol": 0.105
+   }
+  },
+  {
+   "arm": "n5_vol08_10bp",
+   "what": "etf_book_search_rent sigma_sr (constant across its grid)",
+   "ok": true,
+   "measured": {
+    "sigma_sr": 0.025103
+   },
+   "published": {
+    "sigma_sr": 0.025103
+   }
+  },
+  {
+   "arm": "basket_ew4_20bar_10bp",
+   "what": "etf_book_spanning span_portfolios.equal_weight_basket (same start)",
+   "ok": true,
+   "measured": {
+    "cagr": 0.0908,
+    "sharpe": 0.888,
+    "vol": 0.1086
+   },
+   "published": {
+    "cagr": 0.0908,
+    "sharpe": 0.888,
+    "vol": 0.1086
+   }
+  },
+  {
+   "arm": "card_n12_vol08_10bp",
+   "what": "etf_book_cagr_reconcile production cell (12, 'vol08', 10.0)",
+   "ok": true,
+   "measured": {
+    "cagr": 0.0916,
+    "sharpe": 0.946
+   },
+   "published": {
+    "cagr": 0.0916,
+    "sharpe": 0.946
+   }
+  },
+  {
+   "arm": "n5_vol08_10bp",
+   "what": "book_deflated_expectation published row at N=58 (the haircut import)",
+   "ok": true,
+   "measured": {
+    "budgetable_cagr": 0.018007
+   },
+   "published": {
+    "budgetable_cagr": 0.018007
+   }
+  }
+ ],
+ "anchors_ok": true,
+ "rows": [
+  {
+   "arm": "ticket_n5_beta020_8bp",
+   "window": "own",
+   "bars": 1540,
+   "sr_star_ann": 0.95,
+   "credible_sharpe": 0.041,
+   "dsr": 0.540066,
+   "published_cagr": 0.1272,
+   "published_sharpe": 0.991,
+   "published_vol": 0.1348,
+   "budgetable_cagr": 0.005527,
+   "money_on_capital": 5526.8,
+   "p_edge_is_noise": 0.4599,
+   "vs_cash_pp": -1.2243
+  },
+  {
+   "arm": "ticket_n5_beta020_8bp",
+   "window": "common",
+   "bars": 1540,
+   "sr_star_ann": 0.95,
+   "credible_sharpe": 0.041,
+   "dsr": 0.540066,
+   "published_cagr": 0.1272,
+   "published_sharpe": 0.991,
+   "published_vol": 0.1348,
+   "budgetable_cagr": 0.005527,
+   "money_on_capital": 5526.8,
+   "p_edge_is_noise": 0.4599,
+   "vs_cash_pp": -1.2243
+  },
+  {
+   "arm": "n5_vol08_10bp",
+   "window": "own",
+   "bars": 1667,
+   "sr_star_ann": 0.9295,
+   "credible_sharpe": 0.1715,
+   "dsr": 0.666489,
+   "published_cagr": 0.1116,
+   "published_sharpe": 1.101,
+   "published_vol": 0.105,
+   "budgetable_cagr": 0.018007,
+   "money_on_capital": 18007.5,
+   "p_edge_is_noise": 0.3335,
+   "vs_cash_pp": 0.0237
+  },
+  {
+   "arm": "n5_vol08_10bp",
+   "window": "common",
+   "bars": 1540,
+   "sr_star_ann": 0.9427,
+   "credible_sharpe": 0.1803,
+   "dsr": 0.672294,
+   "published_cagr": 0.1093,
+   "published_sharpe": 1.123,
+   "published_vol": 0.1005,
+   "budgetable_cagr": 0.01812,
+   "money_on_capital": 18120.15,
+   "p_edge_is_noise": 0.3277,
+   "vs_cash_pp": 0.035
+  },
+  {
+   "arm": "card_n12_vol08_10bp",
+   "window": "own",
+   "bars": 1667,
+   "sr_star_ann": 0.9325,
+   "credible_sharpe": 0.0135,
+   "dsr": 0.513456,
+   "published_cagr": 0.0916,
+   "published_sharpe": 0.946,
+   "published_vol": 0.1019,
+   "budgetable_cagr": 0.001376,
+   "money_on_capital": 1375.65,
+   "p_edge_is_noise": 0.4865,
+   "vs_cash_pp": -1.6394
+  },
+  {
+   "arm": "card_n12_vol08_10bp",
+   "window": "common",
+   "bars": 1540,
+   "sr_star_ann": 0.943,
+   "credible_sharpe": 0.035,
+   "dsr": 0.534466,
+   "published_cagr": 0.0917,
+   "published_sharpe": 0.978,
+   "published_vol": 0.0982,
+   "budgetable_cagr": 0.003437,
+   "money_on_capital": 3437.0,
+   "p_edge_is_noise": 0.4655,
+   "vs_cash_pp": -1.4333
+  },
+  {
+   "arm": "basket_ew4_20bar_10bp",
+   "window": "own",
+   "bars": 3233,
+   "sr_star_ann": 0.6541,
+   "credible_sharpe": 0.3449,
+   "dsr": 0.890658,
+   "published_cagr": 0.0956,
+   "published_sharpe": 0.999,
+   "published_vol": 0.0999,
+   "budgetable_cagr": 0.034456,
+   "money_on_capital": 34455.51,
+   "p_edge_is_noise": 0.1093,
+   "vs_cash_pp": 1.6686
+  },
+  {
+   "arm": "basket_ew4_20bar_10bp",
+   "window": "common",
+   "bars": 1539,
+   "sr_star_ann": 0.9454,
+   "credible_sharpe": 0.0,
+   "dsr": 0.350702,
+   "published_cagr": 0.0765,
+   "published_sharpe": 0.79,
+   "published_vol": 0.1039,
+   "budgetable_cagr": 0.0,
+   "money_on_capital": 0.0,
+   "p_edge_is_noise": 0.6493,
+   "vs_cash_pp": -1.777
+  },
+  {
+   "arm": "cash_repo_net",
+   "window": "own",
+   "bars": null,
+   "sr_star_ann": null,
+   "credible_sharpe": null,
+   "dsr": null,
+   "published_cagr": 0.01777,
+   "published_sharpe": null,
+   "published_vol": null,
+   "budgetable_cagr": 0.01777,
+   "money_on_capital": 17770.0,
+   "p_edge_is_noise": null,
+   "vs_cash_pp": 0.0
+  },
+  {
+   "arm": "cash_repo_net",
+   "window": "common",
+   "bars": null,
+   "sr_star_ann": null,
+   "credible_sharpe": null,
+   "dsr": null,
+   "published_cagr": 0.01777,
+   "published_sharpe": null,
+   "published_vol": null,
+   "budgetable_cagr": 0.01777,
+   "money_on_capital": 17770.0,
+   "p_edge_is_noise": null,
+   "vs_cash_pp": 0.0
+  }
+ ],
+ "verdict": "THE_PLACEMENT_TRADES_THE_BOOK_THE_RENT_LIKES_LEAST",
+ "verdict_info": {
+  "deciding_frame": "common",
+  "headline_order": [
+   "ticket_n5_beta020_8bp",
+   "n5_vol08_10bp",
+   "card_n12_vol08_10bp",
+   "basket_ew4_20bar_10bp"
+  ],
+  "credible_order": [
+   "n5_vol08_10bp",
+   "ticket_n5_beta020_8bp",
+   "card_n12_vol08_10bp",
+   "basket_ew4_20bar_10bp"
+  ],
+  "chosen_headline_rank": 1,
+  "chosen_credible_rank": 2,
+  "arms_below_cash": [
+   "ticket_n5_beta020_8bp",
+   "card_n12_vol08_10bp",
+   "basket_ew4_20bar_10bp"
+  ],
+  "chosen_excess_vs_cash_cny": -12243.2
+ },
+ "verdict_zh": "资金表按标题收益把 ticket_n5_beta020_8bp 排第一（12.72%/年）；扣掉 N=58 的搜索租金后它掉到第 2 位、只剩 0.55%/年，比躺利息（1.78%/年）少 ¥12,243/年。第一位换成了 n5_vol08_10bp （1.81%/年）。翻转只发生在最上面两名，但位置全变：标题第一的书付完租金后是四只里第 2 位，而四只里有 3 只落在现金腿之下。",
+ "chosen_arm": "ticket_n5_beta020_8bp",
+ "caveats": [
+  "The two own-window frames are printed for context only; the verdict is read off the common window, because a comparison across different windows is not a comparison (r1262).",
+  "N is not derivable from the repo: the ladder prints the mechanical counts and the verdict is taken at the smallest of them (58), so the haircut errs high.",
+  "The beta-covered ticket adds a cash leg and de-levers; part of its lower Sharpe is the cash return in a window where the repo rate fell. That is priced in as published, not adjusted.",
+  "The basket's N is the same ladder on purpose -- the mix was chosen inside the sample window, so on its own window it is not rent-free either.",
+  "The 13.3-year basket history is printed, but its verdict frame is the common window; a longer window with a lower Sharpe is not extra evidence for the present.",
+  "check() does not re-run the engine: it re-anchors the printed measurement to the published faces and re-derives every number from it. Re-measuring is `run`'s job, and the chain leg must run unconditionally.",
+  "Costs are 10bp/side (8bp for the ticket) with no impact term; the capacity face owns size effects. No stamp duty, no dividend withholding, no borrow on the hedge legs."
+ ]
+}
