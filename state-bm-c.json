@@ -2261,5 +2261,8 @@
  "s0_collision_r1954": "CONTENTION rc3：同宿主 3 个 codely 宿主（两个 20:09/20:10 起的交互窗仍在写共享面）→ 本轮只落新增文件面，S6 链未跑、心跳面由并行宿主维护",
  "s6_r1954": "skipped by contention (r1907)",
  "s0_collision_r1956": "CONTENTION rc3：另两个 20:09/20:10 起的 bm-c 交互宿主仍在写共享面（12 面）-> 本轮只落新增文件面，S6 链未跑",
- "s6_r1956": "skipped by contention (r1907)"
+ "s6_r1956": "skipped by contention (r1907)",
+ "s0_5_r1956": "orders 差集 0 未回执；decisions 新 tip 17384672 ID 集 max_day=20261119 → 零新决策零动作",
+ "s7_r1956": "schtasks 实证 IterationLoop(运行中)/LoopWatchdog(就绪) 均在 → 幂等 no-op；两任务仍 InteractiveToken=S4U 待提权",
+ "smoke_r1956": "NOT RUN：竞争窗内共享面被并行宿主重写（r1861 假红族）+ 单轮超时；验证边界=selftest 11/11 + check rc0 + 负测试 + 控制腿"
 }
