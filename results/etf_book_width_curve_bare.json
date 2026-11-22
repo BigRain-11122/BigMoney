@@ -1,0 +1,275 @@
+{
+ "evidence_cutoff": "2026-11-20",
+ "universe": 1528,
+ "flips_repaired": 169,
+ "rule": {
+  "rebal_days": 20,
+  "n_hold": 5,
+  "cost_per_side": 0.001,
+  "vol_target": null,
+  "note": "same frozen book as etf_book_width_curve, sizing overlay switched off"
+ },
+ "window": {
+  "modern_start": "2020-01-01",
+  "modern_end": "2026-11-20"
+ },
+ "criteria": {
+  "flat_band_pp": 0.5,
+  "mono_slack_pp": 0.5,
+  "edge_min_pp": 1.0,
+  "climb_min_pp": 2.0,
+  "control_tol_pp": 1.0
+ },
+ "ladder": {
+  "15": {
+   "pool_cap": 15,
+   "pool_median_names": 13.0,
+   "turnover_x": 0.76,
+   "bare_book": {
+    "label": "x",
+    "years": 6.88,
+    "start_level": 1.0102,
+    "cagr": 0.0145,
+    "vol": 0.1951,
+    "sharpe": 0.174,
+    "maxdd": -0.4112,
+    "worst_year": -0.2183,
+    "neg_years": 4,
+    "worst_month": -0.0793,
+    "pos_months_pct": 0.463
+   },
+   "pool_equal_weight": {
+    "label": "x",
+    "years": 6.88,
+    "start_level": 3.5962,
+    "cagr": -0.014,
+    "vol": 0.2269,
+    "sharpe": 0.049,
+    "maxdd": -0.4393,
+    "worst_year": -0.2498,
+    "neg_years": 4,
+    "worst_month": -0.1816,
+    "pos_months_pct": 0.451
+   },
+   "excess_pp": 2.85,
+   "excess_t": 0.22,
+   "paired_days": 1666,
+   "sized_excess_pp": 1.01,
+   "sized_cagr": -0.0039,
+   "sized_maxdd": -0.2723,
+   "sizing_cost": {
+    "cagr_given_up_pp": 1.84,
+    "maxdd_bought_pp": 13.89
+   }
+  },
+  "25": {
+   "pool_cap": 25,
+   "pool_median_names": 21.0,
+   "turnover_x": 0.94,
+   "bare_book": {
+    "label": "x",
+    "years": 6.88,
+    "start_level": 1.0119,
+    "cagr": 0.0479,
+    "vol": 0.1907,
+    "sharpe": 0.351,
+    "maxdd": -0.3373,
+    "worst_year": -0.1788,
+    "neg_years": 3,
+    "worst_month": -0.08,
+    "pos_months_pct": 0.5
+   },
+   "pool_equal_weight": {
+    "label": "x",
+    "years": 6.88,
+    "start_level": 3.6841,
+    "cagr": 0.0112,
+    "vol": 0.2218,
+    "sharpe": 0.163,
+    "maxdd": -0.3997,
+    "worst_year": -0.2252,
+    "neg_years": 4,
+    "worst_month": -0.1722,
+    "pos_months_pct": 0.451
+   },
+   "excess_pp": 3.67,
+   "excess_t": 0.3,
+   "paired_days": 1666,
+   "sized_excess_pp": -0.92,
+   "sized_cagr": 0.002,
+   "sized_maxdd": -0.2798,
+   "sizing_cost": {
+    "cagr_given_up_pp": 4.59,
+    "maxdd_bought_pp": 5.75
+   }
+  },
+  "40": {
+   "pool_cap": 40,
+   "pool_median_names": 34.0,
+   "turnover_x": 1.11,
+   "bare_book": {
+    "label": "x",
+    "years": 6.88,
+    "start_level": 1.0105,
+    "cagr": 0.0422,
+    "vol": 0.1787,
+    "sharpe": 0.33,
+    "maxdd": -0.3227,
+    "worst_year": -0.1562,
+    "neg_years": 3,
+    "worst_month": -0.0847,
+    "pos_months_pct": 0.476
+   },
+   "pool_equal_weight": {
+    "label": "x",
+    "years": 6.88,
+    "start_level": 3.8452,
+    "cagr": 0.0041,
+    "vol": 0.2176,
+    "sharpe": 0.128,
+    "maxdd": -0.4072,
+    "worst_year": -0.2498,
+    "neg_years": 4,
+    "worst_month": -0.1606,
+    "pos_months_pct": 0.463
+   },
+   "excess_pp": 3.81,
+   "excess_t": 0.32,
+   "paired_days": 1666,
+   "sized_excess_pp": 1.4,
+   "sized_cagr": 0.0181,
+   "sized_maxdd": -0.2139,
+   "sizing_cost": {
+    "cagr_given_up_pp": 2.41,
+    "maxdd_bought_pp": 10.88
+   }
+  },
+  "60": {
+   "pool_cap": 60,
+   "pool_median_names": 50.0,
+   "turnover_x": 1.18,
+   "bare_book": {
+    "label": "x",
+    "years": 6.88,
+    "start_level": 1.0106,
+    "cagr": 0.0974,
+    "vol": 0.1711,
+    "sharpe": 0.651,
+    "maxdd": -0.1847,
+    "worst_year": -0.0386,
+    "neg_years": 3,
+    "worst_month": -0.0902,
+    "pos_months_pct": 0.537
+   },
+   "pool_equal_weight": {
+    "label": "x",
+    "years": 6.88,
+    "start_level": 4.1663,
+    "cagr": 0.0189,
+    "vol": 0.2123,
+    "sharpe": 0.198,
+    "maxdd": -0.393,
+    "worst_year": -0.237,
+    "neg_years": 3,
+    "worst_month": -0.1452,
+    "pos_months_pct": 0.524
+   },
+   "excess_pp": 7.85,
+   "excess_t": 0.72,
+   "paired_days": 1666,
+   "sized_excess_pp": 3.51,
+   "sized_cagr": 0.054,
+   "sized_maxdd": -0.1219,
+   "sizing_cost": {
+    "cagr_given_up_pp": 4.34,
+    "maxdd_bought_pp": 6.28
+   }
+  },
+  "all": {
+   "pool_cap": "full",
+   "pool_median_names": 245.0,
+   "turnover_x": 1.53,
+   "bare_book": {
+    "label": "x",
+    "years": 6.88,
+    "start_level": 1.0108,
+    "cagr": 0.1518,
+    "vol": 0.1636,
+    "sharpe": 0.981,
+    "maxdd": -0.1604,
+    "worst_year": 0.0233,
+    "neg_years": 0,
+    "worst_month": -0.0813,
+    "pos_months_pct": 0.585
+   },
+   "pool_equal_weight": {
+    "label": "x",
+    "years": 6.88,
+    "start_level": 4.4147,
+    "cagr": 0.0334,
+    "vol": 0.1933,
+    "sharpe": 0.273,
+    "maxdd": -0.3722,
+    "worst_year": -0.1875,
+    "neg_years": 3,
+    "worst_month": -0.1181,
+    "pos_months_pct": 0.512
+   },
+   "excess_pp": 11.84,
+   "excess_t": 1.18,
+   "paired_days": 1666,
+   "sized_excess_pp": 7.82,
+   "sized_cagr": 0.1116,
+   "sized_maxdd": -0.1056,
+   "sizing_cost": {
+    "cagr_given_up_pp": 4.02,
+    "maxdd_bought_pp": 5.48
+   }
+  }
+ },
+ "verdict": "SIZING_ARTIFACT",
+ "sign_agrees": false,
+ "sign_disagreements": [
+  "25: bare +3.67pp vs sized -0.92pp"
+ ],
+ "shape_is_noise": true,
+ "sized_face": {
+  "path": "results/etf_book_width_curve.json",
+  "evidence_cutoff": "2026-11-20",
+  "verdict": "MIXED_NOT_MONOTONE",
+  "note": "read verbatim, never recomputed -- the two arms share one book"
+ },
+ "sizing_diagnostic": {
+  "15": {
+   "mean_scale": 0.4903,
+   "share_not_full": 1.0,
+   "decisions": 84,
+   "reproduced_cagr": -0.0039,
+   "published_cagr": -0.0039,
+   "delta_pp": 0.0
+  },
+  "25": {
+   "mean_scale": 0.5444,
+   "share_not_full": 0.9762,
+   "decisions": 84,
+   "reproduced_cagr": 0.002,
+   "published_cagr": 0.002,
+   "delta_pp": 0.0
+  },
+  "all": {
+   "mean_scale": 0.6983,
+   "share_not_full": 0.8452,
+   "decisions": 84,
+   "reproduced_cagr": 0.1116,
+   "published_cagr": 0.1116,
+   "delta_pp": 0.0
+  }
+ },
+ "control_full_pool_bare": {
+  "published_label": "nobond_base",
+  "published_cagr": 0.1518,
+  "published_cutoff": "2026-11-20",
+  "reproduced_cagr": 0.1518,
+  "delta_pp": 0.0
+ }
+}
