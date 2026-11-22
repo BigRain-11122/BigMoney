@@ -2325,3 +2325,17 @@ S0：machine.json=**bm-c**；fetch 后 ahead/behind **0/0**；孤儿面=**0**（
 **记账**：轮报告 1 + state 1 + 心跳 1 = 3 处（≤5）。**登记簿零命中**（无清扫/归档/删除动作）。
 
 ## 2026-11-22T08:19+08:00 ｜ r1921 补记 ｜ 送达自证：d4d867d39c 已上 origin/main，fetch 后 ahead/behind **0/0**，git ls-tree origin/main 点名五件在位（scripts/etf_book_phase_depth.py / results/etf_book_phase_depth.json / research/ETF_BOOK_PHASE_DEPTH.md / Tools/chain_writer_audit.py / results/chain_writer_audit.json）—— **本地未达 origin commit 数=0**。钩子复核：pre-commit / pre-push 均在位且与 Tools/git-hooks 源一致；IterationLoop 自愈 no-op（pin=0 current=0 time-limit=PT5H）；Watchdog 就绪。冒烟记录 logs/smoke_legs.json 在 gitignore 内（logs/*），不入 git。
+
+## 2026-11-22T08:58+08:00 ｜ r1922 ｜ 相位扩散有一半是起步那截日历年；去掉它仍判不出
+
+**当前活**：把 r1921 的「扩散不随深度收敛」落到机制层 ｜ **最近实物**：\K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\etf_book_phase_stub.json\（120 格·三本候选·keep 0.40-0.48）+ esearch\\ETF_BOOK_PHASE_STUB.md\（08:52 生成）+ 冒烟 739/739 ｜ **下个里程碑**：采纳问题改问定长窗/单窗实绩（不再加起点），窗 ≤48h
+
+**做了什么**：\scripts/etf_book_phase_stub.py\（面+自检 20/20+check rc0）。每个相位起点是锚点按 7 天步进挪出来的，落在自历年里的位置各不相同；闸把 cohort<4 的年份当 partial 并照计入 Y3/Y4，而 \	op2_share\ 是年度算术收益的比值——挪一周就改写统计量的分子分母，书/引擎/面板没动。**只换列**（闸自己就印着 full-only 列）后扩散 117.65→56.35pp（keep 0.479）/134.42→54.18pp（0.403）/125.59→52.64pp（0.419）；**full-only 仍 UNADJUDICABLE_PHASE**（52-56pp vs 14-15pp margin）→ 去 stub 救不回判据。第三枚最硬：40 个起点在 full-only 列只压出 13-14 个不同读数（最大值重复 5-7 次）——**不是四十次抽样，是同一批 bar 重新分桶**。链新增 \phase_stub_write\/\phase_stub\ 两腿；方法论卡 E-20261122-r1922。
+
+**验证**：selftest 20/20 PASS；check 从 120 行重派生 rc0；refresh 面板钟 NOOP rc0；链自检 17/17；S6 16 腿 rc0（dualrun ZERO-DRIFT 连绿 51｜compute_audit rc0｜etf_book_forward POWER 6m 33.5pp/yr、1y 23.7pp/yr｜chain_writer_audit 已重写｜fund_premium 周末 no-op｜update_daily 周末无新行｜market_clock CALL-2026-11-19 RED_COOL｜daily_report/ceo_live_usage/build_status 已刷新）；冒烟全量 **739/739 PASS, 0 FAIL**（本轮开跑前在后台跑完，exit 0）；attrition CLEAN（4 账本，5 处历史缩行 healed）。
+
+**水位**：集团 docs/decisions.md origin 原字节 sha256 79e3083b… == state 水位键 → 零新决策行；fleet/orders 差集 115 单 / 271 回执 / **unacked=0**。
+
+**S0**：machine.json=bm-c；轮首工作树干净、ahead/behind 0/0；孤儿面 **0**（py_faces 5）；resident_servers=1（非本车道）。**本地未达 origin commit 数=0**（收轮自证段）。
+
+**记账**：轮报告 1 + state 1 + 心跳 1 = 3 处（≤5）。**登记簿零命中**（无清扫/归档/删除动作）。
