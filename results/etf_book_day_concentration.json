@@ -1,0 +1,228 @@
+{
+ "ts": "2026-11-23 02:32:41",
+ "script": "scripts/etf_book_day_concentration.py",
+ "face": "results/etf_book_day_concentration.json",
+ "evidence_cutoff": "2026-11-20",
+ "criteria": {
+  "n_hold": 5,
+  "rebal": 20,
+  "cost_bp_per_side": 10.0,
+  "k_days": [
+   1,
+   3,
+   5,
+   10,
+   20,
+   40
+  ],
+  "k_blocks": [
+   1,
+   2,
+   4
+  ],
+  "block": 20,
+  "robust_share": 0.5,
+  "min_days": 250,
+  "reference_parent": "results/etf_book_production/PRODUCTION-2026-11-20.json",
+  "align_tol_pp": 0.05,
+  "frozen": "constants above were written before the first run"
+ },
+ "execution": "decide at close t -> fill at open t+1 -> hold to next decision",
+ "panel": {
+  "columns": 1528,
+  "bars": 5285,
+  "flips_repaired": 169
+ },
+ "book": {
+  "n_hold": 5,
+  "rebal": 20,
+  "vol_target": 0.08,
+  "cost_bp_per_side": 10.0,
+  "decisions": 84,
+  "turnover_per_decision": 1.082
+ },
+ "trading_days": 1666,
+ "baseline": {
+  "full": {
+   "cagr": 0.1116,
+   "sharpe": 1.101,
+   "maxdd": -0.1056,
+   "vol": 0.105,
+   "years": 6.88
+  }
+ },
+ "reference": {
+  "source": "results/etf_book_production/PRODUCTION-2026-11-20.json",
+  "parent_cagr": 0.1116,
+  "delta_pp": 0.0,
+  "aligned": true
+ },
+ "drop_best_days": [
+  {
+   "k": 1,
+   "cagr": 0.1056,
+   "sharpe": 1.057,
+   "maxdd": -0.1056,
+   "vol": 0.104,
+   "years": 6.88,
+   "cagr_share_of_base": 0.9462,
+   "delta_cagr_pp": -0.6
+  },
+  {
+   "k": 3,
+   "cagr": 0.096,
+   "sharpe": 0.981,
+   "maxdd": -0.1056,
+   "vol": 0.1027,
+   "years": 6.88,
+   "cagr_share_of_base": 0.8602,
+   "delta_cagr_pp": -1.56
+  },
+  {
+   "k": 5,
+   "cagr": 0.0869,
+   "sharpe": 0.906,
+   "maxdd": -0.1126,
+   "vol": 0.1015,
+   "years": 6.88,
+   "cagr_share_of_base": 0.7787,
+   "delta_cagr_pp": -2.47
+  },
+  {
+   "k": 10,
+   "cagr": 0.0678,
+   "sharpe": 0.738,
+   "maxdd": -0.1126,
+   "vol": 0.0992,
+   "years": 6.88,
+   "cagr_share_of_base": 0.6075,
+   "delta_cagr_pp": -4.38
+  },
+  {
+   "k": 20,
+   "cagr": 0.0387,
+   "sharpe": 0.458,
+   "maxdd": -0.1191,
+   "vol": 0.0964,
+   "years": 6.88,
+   "cagr_share_of_base": 0.3468,
+   "delta_cagr_pp": -7.29
+  },
+  {
+   "k": 40,
+   "cagr": -0.007,
+   "sharpe": -0.032,
+   "maxdd": -0.1996,
+   "vol": 0.0925,
+   "years": 6.88,
+   "cagr_share_of_base": -0.0627,
+   "delta_cagr_pp": -11.86
+  }
+ ],
+ "drop_worst_days": [
+  {
+   "k": 1,
+   "cagr": 0.1233,
+   "sharpe": 1.245,
+   "maxdd": -0.1056,
+   "vol": 0.1014,
+   "years": 6.88,
+   "cagr_share_of_base": 1.1048,
+   "delta_cagr_pp": 1.17
+  },
+  {
+   "k": 3,
+   "cagr": 0.1354,
+   "sharpe": 1.38,
+   "maxdd": -0.1056,
+   "vol": 0.0994,
+   "years": 6.88,
+   "cagr_share_of_base": 1.2133,
+   "delta_cagr_pp": 2.38
+  },
+  {
+   "k": 5,
+   "cagr": 0.1446,
+   "sharpe": 1.481,
+   "maxdd": -0.1056,
+   "vol": 0.0982,
+   "years": 6.88,
+   "cagr_share_of_base": 1.2957,
+   "delta_cagr_pp": 3.3
+  },
+  {
+   "k": 10,
+   "cagr": 0.1646,
+   "sharpe": 1.702,
+   "maxdd": -0.084,
+   "vol": 0.0959,
+   "years": 6.88,
+   "cagr_share_of_base": 1.4749,
+   "delta_cagr_pp": 5.3
+  },
+  {
+   "k": 20,
+   "cagr": 0.1966,
+   "sharpe": 2.058,
+   "maxdd": -0.0794,
+   "vol": 0.0929,
+   "years": 6.88,
+   "cagr_share_of_base": 1.7616,
+   "delta_cagr_pp": 8.5
+  },
+  {
+   "k": 40,
+   "cagr": 0.2501,
+   "sharpe": 2.662,
+   "maxdd": -0.0532,
+   "vol": 0.0888,
+   "years": 6.88,
+   "cagr_share_of_base": 2.241,
+   "delta_cagr_pp": 13.85
+  }
+ ],
+ "drop_best_blocks": [
+  {
+   "k": 1,
+   "cagr": 0.0892,
+   "sharpe": 0.919,
+   "maxdd": -0.1056,
+   "vol": 0.1025,
+   "years": 6.88,
+   "cagr_share_of_base": 0.7993,
+   "delta_cagr_pp": -2.24
+  },
+  {
+   "k": 2,
+   "cagr": 0.077,
+   "sharpe": 0.811,
+   "maxdd": -0.1056,
+   "vol": 0.1016,
+   "years": 6.88,
+   "cagr_share_of_base": 0.69,
+   "delta_cagr_pp": -3.46
+  },
+  {
+   "k": 4,
+   "cagr": 0.0582,
+   "sharpe": 0.646,
+   "maxdd": -0.1219,
+   "vol": 0.0987,
+   "years": 6.88,
+   "cagr_share_of_base": 0.5215,
+   "delta_cagr_pp": -5.34
+  }
+ ],
+ "headline": {
+  "base_cagr": 0.1116,
+  "best1_cagr_pp_removed": -0.6,
+  "best1_share_of_cagr": 0.0538,
+  "best10_cagr": 0.0678,
+  "best10_share_of_base": 0.6075,
+  "best10_cagr_pp_removed": -4.38,
+  "worst10_cagr": 0.1646,
+  "asymmetry_pp": -9.68,
+  "note": "best10_share_of_base = CAGR still standing once the 10 best trading days are forced flat; >1.0 is impossible, ==1.0 means those days did nothing"
+ },
+ "verdict": "ROBUST_TO_LUCKY_DAYS"
+}
