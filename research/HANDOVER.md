@@ -975,6 +975,7 @@ Products (verifiable, all published):
 | `docs/daily_report/REPORT-2026-11-18.md` section 12 (r1823) | published -- the buy price's premium over the funds' own NAV (CNY 5,215.43 = 1.21% of the order, 0.52% of capital), the five codes and their amounts, and the two stress rows |
 | `Tools/face_merge_triage.py` (r1822) | published -- the "resolve by face kind" rule that used to live only inside one session is a tool: ledger = line union, table = first-column union with conflicts reported, generated = the side that declares its own generation, code = human. selftest 19/19 |
 | CEO-page generation guard (r1821) | published -- a shared single-writer page is now compared on the generation it records, not on "did this window touch the file"; a stale fetch can no longer turn "the page is one generation behind" into a defect |
+| `docs/live_usage/LIVE-2026-11-22.md` section 7 (r1925) | published -- the cash sleeve's repo tenor: the panel was advanced to 2026-11-20 under a declared stale takeover, so the page prints GC007 1.385% quoted / 1.1243% net a year, maturing 2026-11-27, worth +526 CNY a year against rolling the 1-day leg, with the placement split (SH 500,000 + SZ 65,000, 246 left over); a same-ticket-but-older-quote face now prints with both bars named instead of blanking |
 
 Wiring added: `smoke_test.py` now runs the CEO one-pager's own selftest as a product
 leg (r1825). Before that, its forty-odd self-checks fired only when a human typed the
