@@ -2529,3 +2529,5 @@ CEO 过程可见面：当前活=把「往回看多久」当成要被审计的参
 
 下轮指针：(a) 竞争窗结束后补本面冒烟腿 + S6 链腿 + CODELY 一条（判例=「往回看多久不是背景设定，是判词的一部分」）；(b) 把「今日口径」两档（1y/2y）做成可复用诊断，任何新臂先报这两档再谈全史；(c) 现金腿换深市 R-001 做窗口形状敏感性（r1967 已证全史更差，但短窗未必）；(d) 无竞争轮把 state round_no（现值 1960）与本轮报告号（1968）对齐，并修 last_seen 落后自身 mtime 的异常。
 孤儿面=0（round-zero 探针 py_faces=7/orphans=0/resident_servers=0）。记账：本行 1 处。
+
+**送达复核（05:4x）**：commit **d44d9b0cbe** 已推 origin/main（e99cb4b45b..d44d9b0cbe）；fetch 后 HEAD..origin/main=0 / origin/main..HEAD=0（本地未达 origin commit 数=0），git ls-tree origin/main 三件在位（scripts/results/research 各一）；pre-commit/pre-push 爪内容比对 MATCH（未重装）；S7 schtasks 实证 Bigmoney-IterationLoop(正在运行)/Bigmoney-LoopWatchdog(就绪) 均在 -> 幂等 no-op（两任务仍交互登录态=S4U 待提权）。peer 宿主未提交的 20 张共享面原样留在工作树未触碰。记账：本行 1 处（本轮累计 2 处）。
