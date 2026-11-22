@@ -1,0 +1,120 @@
+{
+ "accounts": {
+  "IC": {
+   "alpha_sign": "LOST",
+   "bars_holdable_by_this_account": 0,
+   "bars_recorded_forward": 5,
+   "budget_multiple_hedged": 4.4979,
+   "budget_multiple_unhedged": 22.6247,
+   "capital_cny": 1000000.0,
+   "capital_the_ticket_needs_cny": 4497916.0,
+   "distance_to_call_pct_published": 14.33,
+   "excess_pnl_cum_cny": -16019.53,
+   "first_rung_cny": 1124479.0,
+   "implied_vol_pct_hedged": 35.9832,
+   "implied_vol_pct_unhedged": 180.998,
+   "index_pnl_cum_cny": -362380.47,
+   "lots_admissible_at_own_ruler": 0.0,
+   "lots_in_ledger": 4.0,
+   "margin_committed_cny": 566592.0,
+   "margin_pct_of_capital": 56.6592,
+   "margin_per_lot_cny": 141648.0,
+   "notional_basis_cny": 5100000.0,
+   "one_day_cost_multiple_of_year_budget": 2.77,
+   "one_lot_money_cny": -94600.0,
+   "one_lot_pnl_pct_on_first_rung": -8.4128,
+   "pnl_cny": -378400.0,
+   "pnl_pct_on_capital": -37.84,
+   "pnl_pct_on_capital_the_ticket_needs": -8.4128,
+   "pnl_pct_on_notional": -7.4196,
+   "state": "COULD_NOT_HOLD_ANY_OF_IT",
+   "worst_bar": {
+    "date": "2026-11-20",
+    "pnl_cny": -221600.0
+   },
+   "worst_bar_pct_of_capital": -22.16
+  },
+  "IM": {
+   "alpha_sign": "LOST",
+   "bars_holdable_by_this_account": 0,
+   "bars_recorded_forward": 5,
+   "budget_multiple_hedged": 4.6104,
+   "budget_multiple_unhedged": 21.7697,
+   "capital_cny": 1000000.0,
+   "capital_the_ticket_needs_cny": 4610384.0,
+   "distance_to_call_pct_published": 10.9,
+   "excess_pnl_cum_cny": -25230.0,
+   "first_rung_cny": 1152596.0,
+   "implied_vol_pct_hedged": 36.8832,
+   "implied_vol_pct_unhedged": 174.1576,
+   "index_pnl_cum_cny": -559730.0,
+   "lots_admissible_at_own_ruler": 0.0,
+   "lots_in_ledger": 4.0,
+   "margin_committed_cny": 532376.0,
+   "margin_pct_of_capital": 53.2376,
+   "margin_per_lot_cny": 133094.0,
+   "notional_basis_cny": 5021440.0,
+   "one_day_cost_multiple_of_year_budget": 3.312,
+   "one_lot_money_cny": -146240.0,
+   "one_lot_pnl_pct_on_first_rung": -12.6879,
+   "pnl_cny": -584960.0,
+   "pnl_pct_on_capital": -58.496,
+   "pnl_pct_on_capital_the_ticket_needs": -12.6879,
+   "pnl_pct_on_notional": -11.6492,
+   "state": "COULD_NOT_HOLD_ANY_OF_IT",
+   "worst_bar": {
+    "date": "2026-11-20",
+    "pnl_cny": -264960.0
+   },
+   "worst_bar_pct_of_capital": -26.496
+  }
+ },
+ "alpha_verdict": "THE_SLEEVE_LOST_ON_ITS_OWN_ALPHA_TOO",
+ "book": {
+  "bars_holdable_total": 0,
+  "bars_recorded_total": 10,
+  "capital_declared_total_cny": 2000000.0,
+  "capital_the_ticket_needs_total_cny": 9108300.0,
+  "first_rung_total_cny": 2277075.0,
+  "money_cny_total": -963360.0
+ },
+ "criteria": {
+  "frozen": "constants above were written before the first run",
+  "identities": [
+   "nav == capital + pnl",
+   "pnl == sum(bar pnl)",
+   "pnl == excess_cum + index_cum",
+   "pnl_pct == 100 * pnl / capital",
+   "drawdown_pct == 100 * min(cumulative pnl) / capital",
+   "capital_the_ticket_needs == lots * first_rung",
+   "implied_vol_pct == lots * vol_pct_of_capital_per_lot"
+  ],
+  "money_tol_cny": 1.0,
+  "parents": {
+   "latest": "results/idx_fut_carry_paper/latest.json",
+   "ledger": "results/idx_fut_carry_paper/LEDGER.json",
+   "open_capital": "results/idx_fut_carry_open_capital.json"
+  },
+  "pct_tol": 0.01,
+  "products": [
+   "IC",
+   "IM"
+  ],
+  "target_pct": 8.0,
+  "verdict_rule": {
+   "FORWARD_RECORD_HOLDABLE": "at least one account could have held its own record",
+   "FORWARD_RECORD_IS_A_LEVERAGE_STATEMENT": "every account's admissible money bars == 0",
+   "THE_SLEEVE_LOST_ON_ITS_OWN_ALPHA_TOO": "sleeve excess P&L over the window < 0"
+  }
+ },
+ "evidence_cutoff": "2026-11-20",
+ "generated": "2026-11-23T06:49:06+08:00",
+ "headline": "10 bars, 0 of them holdable by the accounts that recorded them; the ledger carried 4/4 lots at 181.0% implied annual vol against an 8% budget (22.6x) and 57% margin; money moved -963,360 CNY. Verdict: FORWARD_RECORD_IS_A_LEVERAGE_STATEMENT / THE_SLEEVE_LOST_ON_ITS_OWN_ALPHA_TOO.",
+ "kind": "idx_fut_carry_forward_clock",
+ "ok": true,
+ "problems": [],
+ "script": "scripts/idx_fut_carry_forward_clock.py",
+ "sentence": "Each account declares 1,000,000 CNY and its own 8% vol budget allows 0/0 lot(s) (IC / IM); the record was written at 4/4 lot(s) instead, i.e. 181.0% implied annual volatility and 57% of capital posted as margin, so none of its 10 account-bars is evidence about this account. The same money (-963,360 CNY) read on the capital the ticket needs (9,108,300 CNY) is -8.41% / -12.69% -- which is the same as one lot on the first funding rung (2,277,075 CNY), because the ticket is exactly 4 lots of it -- so even the smallest implementable size lost money in these five sessions.",
+ "verdict": "FORWARD_RECORD_IS_A_LEVERAGE_STATEMENT",
+ "worst_day_multiple_of_year_budget": 3.312
+}
