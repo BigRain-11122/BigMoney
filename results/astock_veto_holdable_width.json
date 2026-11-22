@@ -1,0 +1,334 @@
+{
+ "generated": "2026-11-23T01:07:59+08:00",
+ "evidence_cutoff": "2026-11-20",
+ "machine": "bm-c",
+ "kind": "astock_veto_holdable_width",
+ "fills_the_hole_of": "results/astock_resid_veto_layer.json (arms are ~2866-name books)",
+ "prereg": null,
+ "adoption": null,
+ "spec": {
+  "hold": 20,
+  "stride": 20,
+  "lookback_beta": 120,
+  "min_amount_20d": 20000000.0,
+  "min_bars": 100,
+  "cost_one_side": 0.0008,
+  "widths": [
+   30,
+   50,
+   100
+  ],
+  "primary_width": 50,
+  "t_min": 2.0,
+  "random_draws": 20,
+  "seed": 20261120,
+  "selection": "top-N by market cap (close x outstanding shares), identical rule in both pools",
+  "selection_tried_first": "top-N by 20d traded value -- rejected: in A-shares its top rank is the highest-turnover speculative set, a momentum bet the reader never asked for",
+  "arms": {
+   "A": "whole eligible pool",
+   "B": "pool minus top 20% residual",
+   "RA": "random N from whole pool",
+   "RB": "random N from veto pool"
+  }
+ },
+ "panel": {
+  "dates": 1668,
+  "symbols": 5181,
+  "first": "2020-01-02",
+  "last": "2026-11-20"
+ },
+ "rebalances": 77,
+ "arms": {
+  "A30": {
+   "periods": 77,
+   "cagr_net": -0.11495668830515637,
+   "mean_net_per_rebalance": -0.00812524985206892,
+   "mean_turnover": 0.11168831168831164
+  },
+  "B30": {
+   "periods": 77,
+   "cagr_net": -0.09444940095039278,
+   "mean_net_per_rebalance": -0.006316460368584577,
+   "mean_turnover": 0.26147186147186147
+  },
+  "RA30": {
+   "periods": 77,
+   "cagr_net": 0.05491238315436142,
+   "mean_net_per_rebalance": 0.007168196187283066,
+   "mean_turnover": 0.9913555431111293
+  },
+  "RB30": {
+   "periods": 77,
+   "cagr_net": 0.08409722352841031,
+   "mean_net_per_rebalance": 0.009228811924118733,
+   "mean_turnover": 0.9891917804064573
+  },
+  "A50": {
+   "periods": 77,
+   "cagr_net": -0.11101250834412801,
+   "mean_net_per_rebalance": -0.007441576570220307,
+   "mean_turnover": 0.11246753246753247
+  },
+  "B50": {
+   "periods": 77,
+   "cagr_net": -0.08480662868037236,
+   "mean_net_per_rebalance": -0.005245604568948295,
+   "mean_turnover": 0.25246753246753245
+  },
+  "RA50": {
+   "periods": 77,
+   "cagr_net": 0.0491847785617745,
+   "mean_net_per_rebalance": 0.006721762222696077,
+   "mean_turnover": 0.9855925718518819
+  },
+  "RB50": {
+   "periods": 77,
+   "cagr_net": 0.08284882150261907,
+   "mean_net_per_rebalance": 0.009147514914129486,
+   "mean_turnover": 0.9819863006774283
+  },
+  "A100": {
+   "periods": 77,
+   "cagr_net": -0.13390134106630946,
+   "mean_net_per_rebalance": -0.00949038207251857,
+   "mean_turnover": 0.11948051948051949
+  },
+  "B100": {
+   "periods": 77,
+   "cagr_net": -0.10960772278979902,
+   "mean_net_per_rebalance": -0.007474520886307225,
+   "mean_turnover": 0.2596103896103896
+  },
+  "RA100": {
+   "periods": 77,
+   "cagr_net": 0.05807988905359074,
+   "mean_net_per_rebalance": 0.0074324928461353005,
+   "mean_turnover": 0.9711851437037641
+  },
+  "RB100": {
+   "periods": 77,
+   "cagr_net": 0.08720222397700828,
+   "mean_net_per_rebalance": 0.00950680162404623,
+   "mean_turnover": 0.9639726013548567
+  }
+ },
+ "by_year": {
+  "B50": {
+   "2020": {
+    "periods": 7,
+    "compound": 0.00899274595850219
+   },
+   "2021": {
+    "periods": 12,
+    "compound": -0.23473785590203144
+   },
+   "2022": {
+    "periods": 12,
+    "compound": -0.1917673727894993
+   },
+   "2023": {
+    "periods": 12,
+    "compound": -0.26308295756938327
+   },
+   "2024": {
+    "periods": 12,
+    "compound": 0.1194182369670278
+   },
+   "2025": {
+    "periods": 12,
+    "compound": 0.3985833931441223
+   },
+   "2026": {
+    "periods": 10,
+    "compound": -0.2470046542179184
+   }
+  },
+  "A50": {
+   "2020": {
+    "periods": 7,
+    "compound": -0.12919136727819092
+   },
+   "2021": {
+    "periods": 12,
+    "compound": -0.2325834744627504
+   },
+   "2022": {
+    "periods": 12,
+    "compound": -0.2222442984907026
+   },
+   "2023": {
+    "periods": 12,
+    "compound": -0.29968491614783477
+   },
+   "2024": {
+    "periods": 12,
+    "compound": 0.1765450048165873
+   },
+   "2025": {
+    "periods": 12,
+    "compound": 0.3020548234566012
+   },
+   "2026": {
+    "periods": 10,
+    "compound": -0.23991209072812147
+   }
+  }
+ },
+ "paired": {
+  "30": {
+   "B30_vs_A30": {
+    "n": 77,
+    "mean": 0.0018087894834843432,
+    "se": 0.002315049936038552,
+    "t": 0.7813176965761234
+   },
+   "B30_vs_RB30": {
+    "n": 77,
+    "mean": -0.015545272292703303,
+    "se": 0.005835272843867197,
+    "t": -2.6640180688450927
+   },
+   "B30_vs_RA30": {
+    "n": 77,
+    "mean": -0.013484656555867643,
+    "se": 0.005945968925158589,
+    "t": -2.2678652925364866
+   },
+   "RB30_vs_RA30": {
+    "n": 77,
+    "mean": 0.0020606157368356637,
+    "se": 0.000970866077601881,
+    "t": 2.122451061350865
+   }
+  },
+  "50": {
+   "B50_vs_A50": {
+    "n": 77,
+    "mean": 0.0021959720012720146,
+    "se": 0.0021089552459899394,
+    "t": 1.0412605983211511
+   },
+   "B50_vs_RB50": {
+    "n": 77,
+    "mean": -0.01439311948307778,
+    "se": 0.005305153130606094,
+    "t": -2.71304505802897
+   },
+   "B50_vs_RA50": {
+    "n": 77,
+    "mean": -0.011967366791644372,
+    "se": 0.00536688093619054,
+    "t": -2.2298550934761217
+   },
+   "RB50_vs_RA50": {
+    "n": 77,
+    "mean": 0.00242575269143341,
+    "se": 0.0009598977760348415,
+    "t": 2.5270948136308236
+   }
+  },
+  "100": {
+   "B100_vs_A100": {
+    "n": 77,
+    "mean": 0.0020158611862113453,
+    "se": 0.0018745577966153423,
+    "t": 1.0753795854420372
+   },
+   "B100_vs_RB100": {
+    "n": 77,
+    "mean": -0.016981322510353457,
+    "se": 0.004521509926715935,
+    "t": -3.75567515842818
+   },
+   "B100_vs_RA100": {
+    "n": 77,
+    "mean": -0.014907013732442525,
+    "se": 0.004546563052333894,
+    "t": -3.278743429015085
+   },
+   "RB100_vs_RA100": {
+    "n": 77,
+    "mean": 0.0020743087779109283,
+    "se": 0.0008199834530031929,
+    "t": 2.529695898513273
+   }
+  }
+ },
+ "vote": {
+  "primary_ok": false,
+  "other_widths_significant": [
+   false,
+   false
+  ]
+ },
+ "lot": {
+  "as_of": "2026-11-20",
+  "names": 50,
+  "capital_cny": 1000000.0,
+  "per_name_cny": 20000.0,
+  "one_lot_over_budget": 4,
+  "one_lot_over_budget_pct": 8.0,
+  "max_one_lot_cny": 148575.0,
+  "median_one_lot_cny": 2976.0,
+  "note": "priced on the last bar of the panel; fills happen at the next open"
+ },
+ "selection_diagnostic": {
+  "as_of": "2026-11-20",
+  "eligible": 5007,
+  "by_market_cap": [
+   {
+    "symbol": "601398",
+    "size_cny": 2534354797500.0,
+    "amt20_cny": 3570088173.15
+   },
+   {
+    "symbol": "601288",
+    "size_cny": 2480527517916.0,
+    "amt20_cny": 2695603164.0
+   },
+   {
+    "symbol": "601857",
+    "size_cny": 2140609868516.0,
+    "amt20_cny": 2386602660.3
+   },
+   {
+    "symbol": "600519",
+    "size_cny": 1857308738685.75,
+    "amt20_cny": 6469710380.65
+   },
+   {
+    "symbol": "601988",
+    "size_cny": 1591279636740.0,
+    "amt20_cny": 2081992850.2
+   }
+  ],
+  "by_traded_value": [
+   {
+    "symbol": "300308",
+    "size_cny": 436427229579.6,
+    "amt20_cny": 22566720147.5
+   },
+   {
+    "symbol": "300502",
+    "size_cny": 207029418420.0,
+    "amt20_cny": 17046392088.0
+   },
+   {
+    "symbol": "688256",
+    "size_cny": 578545687360.0,
+    "amt20_cny": 11332093000.05
+   },
+   {
+    "symbol": "002384",
+    "size_cny": 93715348474.79999,
+    "amt20_cny": 10832411228.15
+   },
+   {
+    "symbol": "300750",
+    "size_cny": 970480299852.56,
+    "amt20_cny": 10819447912.45
+   }
+  ]
+ },
+ "verdict": "VETO_NOT_SEPARABLE_AT_WIDTH"
+}
