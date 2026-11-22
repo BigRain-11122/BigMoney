@@ -25,6 +25,7 @@ Overlap is disclosed rather than hidden: adjacent days share 19 of their 20 forw
 days, so n_obs is not a sample size. Every quintile reading is printed next to the
 stride-20 count that is.
 """
+import datetime
 import json
 import os
 import statistics
@@ -351,14 +352,46 @@ def selftest():
     cs = convergence_share(basis3, spread3, roll3, obs3)
     leg(cs["n"] > 0 and cs["rho_fwd20_vs_basis_change"] is not None
         and cs["rho_fwd20_vs_basis_change"] > 0.9, "L10 carry tracks the basis closing")
+    # L11 (r1924): the face stamps itself, so a reader one pass behind can say which
+    # pass it is printing. cutoff must be the latest bar across ok pairs, and an
+    # unreadable pair must not become the cutoff.
+    fake_face = {"pairs": {
+        "IC": {"status": "ok", "window": {"from": "2020-01-02", "to": "2026-11-19"}},
+        "IM": {"status": "ok", "window": {"from": "2020-01-02", "to": "2026-11-20"}},
+        "IF": {"status": "no_futures_panel"},
+    }}
+    st = stamp(fake_face, now=datetime.datetime(2026, 11, 22, 9, 40, 0,
+                                                tzinfo=datetime.timezone(datetime.timedelta(hours=8))))
+    leg(st["evidence_cutoff"] == "2026-11-20", "L11 stamp takes the latest ok bar")
+    leg(st["generated"] == "2026-11-22T09:40:00+08:00", "L11 stamp prints its own build time")
+    leg(stamp({"pairs": {}})["evidence_cutoff"] is None, "L11 no ok pair -> cutoff None (not a bar)")
     print("selftest %d/%d" % (ok, total))
     return 0 if ok == total else 1
+
+
+def stamp(face, now=None):
+    """Add the provenance its readers print (r1924).
+
+    The CEO page's "贴水择时" block read this face and had to print "generated 面未自带
+    （读 window.to）" -- a reader that cannot say which pass it is printing (r1781).
+    The face now carries its own bar cutoff and build time, the way its siblings do.
+    """
+    cutoff = None
+    for e in face.get("pairs", {}).values():
+        if isinstance(e, dict) and e.get("status") == "ok" and e.get("window"):
+            to = e["window"].get("to")
+            if to and (cutoff is None or to > cutoff):
+                cutoff = to
+    face["evidence_cutoff"] = cutoff
+    ts = now or datetime.datetime.now().astimezone()
+    face["generated"] = ts.replace(microsecond=0).isoformat()
+    return face
 
 
 def main(argv):
     if len(argv) > 1 and argv[1] == "selftest":
         return selftest()
-    face = build()
+    face = stamp(build())
     with open(OUT, "w", encoding="utf-8") as f:
         json.dump(face, f, ensure_ascii=False, indent=1)
     print(json.dumps({"verdict": face["verdict"]["verdict"],

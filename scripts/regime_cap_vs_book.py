@@ -152,6 +152,12 @@ def judge(rows, cap, tol=CAP_TOL):
         r["headroom_pp"] = (None if w is None else round((float(cap) - float(w)) * 100.0, 2))
         r["multiple_of_cap"] = (None if (w is None or cap in (None, 0))
                                 else round(float(w) / float(cap), 2))
+        # r1923: the same breach in money. pp is what the rule is written in; CNY is what
+        # the reader would have to sell if the cap were acted on. None when either side of
+        # the subtraction was never published -- "I could not measure it" is not 0 元.
+        dep, eq = r.get("deployed_cny"), r.get("equity_cny")
+        r["excess_cny"] = (None if (dep is None or eq is None or cap in (None, 0))
+                           else round(max(0.0, float(dep) - float(cap) * float(eq)), 2))
     above = [r for r in judged if r["status"] == "above_cap"]
     worst = max(judged, key=lambda r: r["deployed_weight"]) if judged else None
     if not judged:
@@ -160,8 +166,12 @@ def judge(rows, cap, tol=CAP_TOL):
         verdict = "ABOVE_CAP"
     else:
         verdict = "INSIDE_CAP"
+    measured = [r for r in above if r.get("excess_cny") is not None]
     return {"verdict": verdict, "cap": float(cap), "n_compared": len(judged),
-            "n_above": len(above), "worst": worst, "rows": rows}
+            "n_above": len(above), "worst": worst, "rows": rows,
+            "total_excess_cny": (round(sum(r["excess_cny"] for r in measured), 2)
+                                 if measured else None),
+            "n_excess_measured": len(measured)}
 
 
 def sentence(state, cap, judged, capcheck, under_engine=None, moves=None):
@@ -207,6 +217,16 @@ def sentence(state, cap, judged, capcheck, under_engine=None, moves=None):
                         % (len(mv["entries"]), "、".join(mv["entries"])))
         out += "；".join(bits) + "。"
     if judged["n_above"]:
+        # r1923: the breach in money beside the breach in pp -- the pp says what the rule
+        # says, the yuan says what acting on it would move. Only counted for rows whose
+        # deployed/equity both published; the count says how many that is.
+        tot, nm = judged.get("total_excess_cny"), judged.get("n_excess_measured") or 0
+        if tot is not None and nm:
+            wex = w.get("excess_cny")
+            out += ("按帽子折算，已能折算的 %d 户合计高出 %.0f 元%s。" % (
+                nm, tot,
+                ("（其中 %s 一户 %.0f 元）" % (w["name"], wex))
+                if wex is not None else ""))
         out += "帽子只挡新开仓，并不强制卖出。"
     if under_engine and under_engine.get("cap") is not None:
         n, tot = under_engine.get("n_above") or 0, under_engine.get("n_compared") or 0
@@ -531,6 +551,27 @@ def _selftest():
         all(ord(ch) < 128 or ch in "，。（）：；、" or "\u4e00" <= ch <= "\u9fff"
             for ch in sentence("RED", 0.2, j, cap_agreement({"a": 0.2}, 0.2)))
         and "the widest is" not in sentence("RED", 0.2, j, cap_agreement({"a": 0.2}, 0.2)))
+
+    # --- r1923: the breach in money, beside the breach in pp
+    rows = [{"name": "WIDE", "kind": "ladder", "deployed_weight": 0.9594,
+             "deployed_cny": 936548.07, "equity_cny": 976152.58},
+            {"name": "OK", "kind": "ladder", "deployed_weight": 0.10,
+             "deployed_cny": 10000.0, "equity_cny": 100000.0},
+            {"name": "NOEQ", "kind": "ladder", "deployed_weight": 0.90,
+             "deployed_cny": 90000.0}]
+    jm = judge([dict(x) for x in rows], 0.20)
+    chk("the breach is also priced in money: deployed - cap x equity",
+        jm["rows"][0]["excess_cny"] == 741317.55)
+    chk("an account inside the cap has 0 元 to sell, not a missing number",
+        jm["rows"][1]["excess_cny"] == 0.0)
+    chk("a row whose equity never published prices as None and is left out of the total",
+        jm["rows"][2]["excess_cny"] is None and jm["n_excess_measured"] == 1
+        and jm["total_excess_cny"] == 741317.55)
+    s3 = sentence("RED", 0.2, jm, cap_agreement({"a": 0.2}, 0.2))
+    chk("the sentence prints the money beside the pp and says how many rows it could price",
+        "已能折算的 1 户合计高出 741318 元" in s3 and "WIDE 一户 741318 元" in s3)
+    chk("rows that never published equity print no money instead of 0 元",
+        "高出" not in s)
 
     # --- the over-cap book's own history, read not assumed (r1583)
     import tempfile

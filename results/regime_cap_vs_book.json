@@ -58,7 +58,8 @@
    "status": "above_cap",
    "gap_pp": 75.94,
    "headroom_pp": -75.94,
-   "multiple_of_cap": 4.8
+   "multiple_of_cap": 4.8,
+   "excess_cny": 741317.55
   },
   {
    "name": "COMPOSITE-CE-02",
@@ -69,7 +70,8 @@
    "status": "above_cap",
    "gap_pp": 65.19,
    "headroom_pp": -65.19,
-   "multiple_of_cap": 4.26
+   "multiple_of_cap": 4.26,
+   "excess_cny": 634037.91
   },
   {
    "name": "ETF-BOOK (beta x vol target, own rule)",
@@ -80,7 +82,8 @@
    "status": "own_rule",
    "gap_pp": 23.5,
    "headroom_pp": -23.5,
-   "multiple_of_cap": 2.17
+   "multiple_of_cap": 2.17,
+   "excess_cny": 234754.1
   },
   {
    "name": "VOLATILITY-CE-01",
@@ -91,7 +94,8 @@
    "status": "above_cap",
    "gap_pp": 15.37,
    "headroom_pp": -15.37,
-   "multiple_of_cap": 1.77
+   "multiple_of_cap": 1.77,
+   "excess_cny": 151986.8
   },
   {
    "name": "ENGULF-CE-01",
@@ -102,7 +106,8 @@
    "status": "inside_cap",
    "gap_pp": -15.04,
    "headroom_pp": 15.04,
-   "multiple_of_cap": 0.25
+   "multiple_of_cap": 0.25,
+   "excess_cny": 0.0
   },
   {
    "name": "DROUGHT-CE-01",
@@ -113,7 +118,8 @@
    "status": "inside_cap",
    "gap_pp": -20.0,
    "headroom_pp": 20.0,
-   "multiple_of_cap": 0.0
+   "multiple_of_cap": 0.0,
+   "excess_cny": 0.0
   },
   {
    "name": "NEEDLE-DE-01",
@@ -124,7 +130,8 @@
    "status": "inside_cap",
    "gap_pp": -20.0,
    "headroom_pp": 20.0,
-   "multiple_of_cap": 0.0
+   "multiple_of_cap": 0.0,
+   "excess_cny": 0.0
   }
  ],
  "under_engine": {
@@ -177,7 +184,7 @@
   "n_compared": 6,
   "n_above": 3
  },
- "sentence": "市场状态 RED 把新增风险的股票敞口压在上限 20%。（账户文件里另写着 20%（paper_engine），那是另一条规则——风配3 R-配3（跌破 MA250 且自 250 日高点回撤≥20% 才压到 20%）——不是同一顶帽子的矛盾读数。） 3/6 个阶梯管辖账户站在帽子上方；最高的是 COMPOSITE-CE-01，仓位 95.9%（超 75.9pp，是帽子的 4.80 倍）。该户上一交易日 96.0%。帽子只挡新开仓，并不强制卖出。按铁律 2 的 20% 单户总仓位帽重判：还有 3/6 户在上方（最高 COMPOSITE-CE-01 仓位 95.9%，超 75.9pp）。",
+ "sentence": "市场状态 RED 把新增风险的股票敞口压在上限 20%。（账户文件里另写着 20%（paper_engine），那是另一条规则——风配3 R-配3（跌破 MA250 且自 250 日高点回撤≥20% 才压到 20%）——不是同一顶帽子的矛盾读数。） 3/6 个阶梯管辖账户站在帽子上方；最高的是 COMPOSITE-CE-01，仓位 95.9%（超 75.9pp，是帽子的 4.80 倍）。该户上一交易日 96.0%。按帽子折算，已能折算的 3 户合计高出 1527342 元（其中 COMPOSITE-CE-01 一户 741318 元）。帽子只挡新开仓，并不强制卖出。按铁律 2 的 20% 单户总仓位帽重判：还有 3/6 户在上方（最高 COMPOSITE-CE-01 仓位 95.9%，超 75.9pp）。",
  "engine_caps_seen": {
   "COMPOSITE-CE-01_paper.json": 0.2,
   "COMPOSITE-CE-02_paper.json": 0.2,

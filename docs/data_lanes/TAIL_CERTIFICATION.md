@@ -1,6 +1,6 @@
 # Panel tail certification
 
-As of 2026-11-22T03:03:52. The board reads the big per-symbol panels through a 40-file sample; this reads every file and says whether the sample got the same answer — and how many symbols actually hold the newest bar.
+As of 2026-11-22T09:10:24. The board reads the big per-symbol panels through a 40-file sample; this reads every file and says whether the sample got the same answer — and how many symbols actually hold the newest bar.
 
 Read on **bm-c**'s disk — another machine's board reads this as a foreign scan and will not quote these counts against its own copy.
 

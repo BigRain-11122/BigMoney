@@ -1,6 +1,6 @@
 {
  "report_date": "2026-11-22",
- "generated_at": "2026-11-22 08:55:43",
+ "generated_at": "2026-11-22 09:19:12",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -295,21 +295,21 @@
  },
  "rd": {
   "commits_24h": 53,
-  "result_jsons_landed_24h": 185,
+  "result_jsons_landed_24h": 184,
   "digests_landed_24h": 0,
   "prereg_md_touched_24h": 56,
   "compute_audit_latest": {
-   "ts": "2026-11-22 08:54:33",
-   "py_cpu_pct": 0.0,
+   "ts": "2026-11-22 09:15:50",
+   "py_cpu_pct": 5.1,
    "flags": [
     "pool_starvation",
     "supply_floor"
    ],
    "verdict": "FLAG:pool_starvation,supply_floor"
   },
-  "watermark_verdict": "insufficient_history",
+  "watermark_verdict": "py_low_with_work_cands",
   "pool_keys_n": 6,
-  "batch_in_flight": false
+  "batch_in_flight": true
  },
  "decisions_tail": [
   "- 2026-09-26 09:32 · T-74 市场时钟组合=六层既有件集成（v3 政体×热度复合×三军名册×选股面×仓位帽），零新策略族 · 理由=O-0932 CEO 令+反重复铁律（收敛声明入票） · 指针=research/MARKET_CLOCK_COMBO.md s0 v1.0",
@@ -652,7 +652,7 @@
   "total_state_tokens_est": 15889,
   "total_report_tokens_est": 2416485,
   "delta_vs_prev": {
-   "prev_generated": "2026-11-22 04:17:21",
+   "prev_generated": "2026-11-22 08:06:03",
    "state_tokens_growth": 0,
    "report_tokens_growth": 0,
    "mandate_growth": 0
@@ -829,25 +829,13 @@
     "supply_why": null
    },
    "bm-c": {
-    "latest_ts": "2026-11-22 08:54:33",
-    "py_pct": 0.0,
-    "cpu_pct": 9.0,
+    "latest_ts": "2026-11-22 09:15:50",
+    "py_pct": 5.1,
+    "cpu_pct": 13.0,
     "ready": 0,
-    "streak_min": 1432.0,
+    "streak_min": 1453.3,
     "verdict": "FLAG:pool_starvation,supply_floor",
     "py_series_tail": [
-     [
-      "11:14",
-      5.1
-     ],
-     [
-      "11:31",
-      10.0
-     ],
-     [
-      "11:52",
-      5.4
-     ],
      [
       "12:29",
       32.3
@@ -883,14 +871,26 @@
      [
       "08:54",
       0.0
+     ],
+     [
+      "09:08",
+      0.1
+     ],
+     [
+      "09:10",
+      10.1
+     ],
+     [
+      "09:15",
+      5.1
      ]
     ],
-    "today_samples": 7,
+    "today_samples": 10,
     "today_floor_ok": 0,
     "today_sla_flags": 0,
     "today_supply_gap_flags": 0,
-    "own_samples": 162,
-    "unattributed_samples": 23,
+    "own_samples": 165,
+    "unattributed_samples": 20,
     "latest_attributed": true,
     "lane_machine": "bm-c",
     "supply_why": {
@@ -1041,7 +1041,7 @@
      "readable": true,
      "window_min": 60.0,
      "audit_batches": 0,
-     "audit_ts": "2026-11-22 08:54:33"
+     "audit_ts": "2026-11-22 09:15:50"
     }
    }
   },
@@ -1868,7 +1868,7 @@
  },
  "lane_authority": {
   "present": true,
-  "as_of": "2026-11-22T04:16:38",
+  "as_of": "2026-11-22T09:16:03",
   "verdict": "attention",
   "observer": "bm-c",
   "sentence": "以本机 bm-c 的盘为基准：14 条在役车道的数字全都落在本机盘上，其中 14 条有署名可核实。",
@@ -1904,7 +1904,7 @@
  },
  "lane_window": {
   "present": true,
-  "as_of": "2026-11-22T04:16:38",
+  "as_of": "2026-11-22T09:16:03",
   "n": 1,
   "windows": [
    {
@@ -1941,12 +1941,12 @@
    "unexplained_low_min": 651.0
   },
   "open_gap": {
-   "gap_high_min": 184.9,
-   "gap_low_min": 175.9,
+   "gap_high_min": 556.1,
+   "gap_low_min": 547.1,
    "quiet_window_min": 0.0,
    "since": "2026-11-22T00:00",
-   "unexplained_high_min": 184.9,
-   "unexplained_low_min": 175.9
+   "unexplained_high_min": 556.1,
+   "unexplained_low_min": 547.1
   },
   "gaps_over_threshold": [
    {
@@ -2050,7 +2050,7 @@
    }
   ],
   "evidence_cutoff": "2026-11-22",
-  "generated": "2026-11-22T03:04:54",
+  "generated": "2026-11-22T09:16:05",
   "silence_verdict": "OPEN_SILENCE",
   "lane_tasks": {
    "absent": [],
@@ -2065,18 +2065,18 @@
    "states": {
     "Bigmoney-IterationLoop": "Running",
     "Bigmoney-LoopWatchdog": "Ready",
-    "Bigmoney-SatEngine-bm-b": "Ready"
+    "Bigmoney-SatEngine-bm-b": "Running"
    },
    "threshold_min": 90,
    "verdict": "LANE_ENABLED",
    "why": "every probeable lane task is switched on; the silence (if any) is not a switch"
   },
-  "sentence": "bm-c：窗内 79 轮 / 3 天，相邻间隔中位数 21.0 分钟，超过 90 分钟且无解释的空档 11 处；最长静默 2026-11-21T13:00 → 2026-11-22T00:00（651.0–669.0 分钟，其中 0.0 分钟由其申报的静默窗解释）；仍未恢复，自 2026-11-22T00:00 起（未解释 175.9–184.9 分钟）。"
+  "sentence": "bm-c：窗内 79 轮 / 3 天，相邻间隔中位数 21.0 分钟，超过 90 分钟且无解释的空档 11 处；最长静默 2026-11-21T13:00 → 2026-11-22T00:00（651.0–669.0 分钟，其中 0.0 分钟由其申报的静默窗解释）；仍未恢复，自 2026-11-22T00:00 起（未解释 547.1–556.1 分钟）。"
  },
  "cap_vs_book": {
   "status": "ok",
   "source": "results/regime_cap_vs_book.json",
-  "sentence": "市场状态 RED 把新增风险的股票敞口压在上限 20%。（账户文件里另写着 20%（paper_engine），那是另一条规则——风配3 R-配3（跌破 MA250 且自 250 日高点回撤≥20% 才压到 20%）——不是同一顶帽子的矛盾读数。） 3/6 个阶梯管辖账户站在帽子上方；最高的是 COMPOSITE-CE-01，仓位 95.9%（超 75.9pp，是帽子的 4.80 倍）。该户上一交易日 96.0%。帽子只挡新开仓，并不强制卖出。按铁律 2 的 20% 单户总仓位帽重判：还有 3/6 户在上方（最高 COMPOSITE-CE-01 仓位 95.9%，超 75.9pp）。",
+  "sentence": "市场状态 RED 把新增风险的股票敞口压在上限 20%。（账户文件里另写着 20%（paper_engine），那是另一条规则——风配3 R-配3（跌破 MA250 且自 250 日高点回撤≥20% 才压到 20%）——不是同一顶帽子的矛盾读数。） 3/6 个阶梯管辖账户站在帽子上方；最高的是 COMPOSITE-CE-01，仓位 95.9%（超 75.9pp，是帽子的 4.80 倍）。该户上一交易日 96.0%。按帽子折算，已能折算的 3 户合计高出 1527342 元（其中 COMPOSITE-CE-01 一户 741318 元）。帽子只挡新开仓，并不强制卖出。按铁律 2 的 20% 单户总仓位帽重判：还有 3/6 户在上方（最高 COMPOSITE-CE-01 仓位 95.9%，超 75.9pp）。",
   "cap": 0.2,
   "cap_verdict": "CAP_SOURCES_AGREE",
   "book_verdict": "ABOVE_CAP",

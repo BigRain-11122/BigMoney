@@ -1010,7 +1010,9 @@ def _carry_timing_face():
         "ratio": v.get("median_fwd_to_basis_change_ratio"),
         "band_edge_pct": edge,
         "accounts": rows,
-        "evidence_cutoff": cut,
+        # r1924: the producer now stamps itself; prefer its declared bar over our own
+        # walk of the pair windows (r1852: read what the producer declared).
+        "evidence_cutoff": d.get("evidence_cutoff") or cut,
         "source_generated": d.get("generated"),
     }
 

@@ -2346,3 +2346,43 @@ S0：machine.json=**bm-c**；fetch 后 ahead/behind **0/0**；孤儿面=**0**（
 **钩子**：pre-commit / pre-push 与 Tools/git-hooks 源一致（本轮重装 LF 归一）；IterationLoop 自愈 no-op（pin=0 current=0 time-limit=PT5H）。
 **披露一（计画任务登录类型）**：Bigmoney-IterationLoop 与 Bigmoney-LoopWatchdog 现均为 **Interactive / Dasheng**（S4U 未在位）；本轮 watchdog 重注册时 S4U 翻转以「拒绝访问」失败并留 WARN——这是**需要提权的一次性人工重过**（非本车道可解），按零黑窗律登记在此，未做任何绕过。
 **披露二（超时轮）**：本轮全量冒烟在后台跑了 13.9 分钟才出 739/739；前三分钟的无输出期触发过一次工具侧 5 分钟静默取消（已改为流式 + 后台两种方式跑完），结论不受影响。
+
+## 2026-11-22T09:32+08:00 ｜ r1923 ｜ 超帽这件事第一次有金额
+
+**做了什么**：同一句「3/6 户在帽子上方」长期只印百分点，读者要知道「按帽折算要动多少钱」得自己乘——而 deployed_cny/equity_cny 早就在同一张面里。本轮给 `scripts/regime_cap_vs_book.py::judge()` 每行加 `excess_cny = max(0, deployed_cny - cap x equity_cny)`，面级加 `total_excess_cny / n_excess_measured`，句子印成「按帽子折算，已能折算的 3 户合计高出 1527342 元（其中 COMPOSITE-CE-01 一户 741318 元）。帽子只挡新开仓，并不强制卖出。」——CEO 一页纸 §② 与每日战报 §一 同步刷新（单实现逐字引用）。缺 equity 的行 `excess_cny=None` 且不进合计、句子整句不印金额（缺数不当 0 元，r98 族）。
+
+**验证**：`regime_cap_vs_book --selftest` **37/37 PASS**（+5 腿：金额公式 / 帽内 0 元 / 缺 equity 计 None 且不计入合计 / 句子带「已能折算的 N 户」/ 无人可折算时整句不印金额）｜`run` rc0（CAP_SOURCES_AGREE / book=ABOVE_CAP）｜`ceo_live_usage` rc0 → `docs/live_usage/LIVE-2026-11-22.md` L43 带金额句｜`daily_report run` rc0 → `docs/daily_report/REPORT-2026-11-22.md` L7 同句逐字｜`daily_report_day_words` rc0 **PRINTED_DATES_AGREE**（3 条日词行无一坐在别 bar）｜`Tools/card_text_hygiene.py` 547 文件 **0 控制字符**。
+
+**冒烟**：首跑 `results/_smoke_r1923.out` = **735/739 PASS，2 FAIL，2 UNVERIFIED**（墙钟 1017s 档）。两红与本轮处置：①**卡片控制字符（7 处）**——本轮用 PowerShell heredoc 写方法论卡，反引号被 PS 当转义符，`e→ESC、`t→TAB，把 `` `equity_cny `` 这类标识符吃成乱码；同窗还暴露 r1922 卡遗留 TAB 两处（那轮的卡是在套件跑完之后才追加的，所以当时没红）。已用脚本 `_r1923bmc_fix_card.py` 重写两卡并删临时件，`card_text_hygiene` 复扫 0 命中。②**CEO 页 idle-cash 节不自印时点**——本窗先在链写者之前手动渲染了页面，链随后又把 `results/etf_book_idle_cash.json` 重写（asof 2026-11-22T09:19:30）→ 页面比面早一趟；该腿由链第 ~224 腿 `ceo_live_usage` 重渲染自愈（**本轮不宣称该腿已绿**）。
+
+**链**：`Tools\s6_chain_bmc.py 1923` 后台在飞（pid 35980，09:18 起），本报告时刻 **75 腿全 rc0**（日志 `logs/s6_r1923_bmc_chain.log`，stdout 块缓冲 8KB）；**链未收口 = 本轮不宣称全链路绿**。前序 46 腿的试点跑（在飞时被 5 分钟静默取消）证明单腿输出是流式的，故改为后台重定向。
+
+**水位**：集团 `docs/decisions.md` origin 原字节 sha256 **79e3083b… == state 水位键** → 零新决策行（python `git cat-file blob` 落原字节 + hashlib，禁 PS 字符串往返）；`docs/orders.md` sha **aad2632e… 未变**；fleet/orders 差集 **115 单 / 271 回执 / unacked=0**。
+
+**S0**：`fleet/machine.json` = **bm-c**；轮首工作树干净（`git status --porcelain` 空）、ahead/behind **0/0**；孤儿面 **0**（py_faces 4）；resident_servers=1（ComfyUI :8189 空闲，非本车道）。
+
+**记账**：轮报告 1 + state 1 + 心跳 1 = **3 处**（≤5）。**登记簿零命中**（无清扫/归档/删除动作）。
+
+**披露**：①Bigmoney-IterationLoop / LoopWatchdog 仍 **Interactive / Dasheng**（S4U 翻转需提权，承 r1922 披露，非本车道可解）；②全量套件 ~17 分钟 > 一轮窗，本轮的绿/红读数以落在盘上的那一次为准；③本轮链与套件并发，故套件内 2 条 UNVERIFIED 属「面在本轮开始后被重写」第三态（r1861 法）。
+
+## 2026-11-22T09:51+08:00 ｜ r1924 ｜ 两张自检面各补一条机械腿（链在飞，本轮不宣称全绿）
+
+**CEO 三行**：当前活＝S6 链逐腿重生成面（pid 35980，腿级 rc 全 0）｜最近实物＝`docs/live_usage/LIVE-2026-11-22.md`（09:47 重发，贴水择时节的出处行现在印面自己的 generated）＋`results/idx_fut_basis_timing.json`（09:47:33，自带 cutoff 2026-11-20）｜下个里程碑＝链跑到腿表尾并把派生面全部落账（本机窗 ≤48h）
+
+**做了什么**：①`Tools/idle_trigger.py`——S6 链驱动在跑时本机仍读 **GREEN-IDLE**（引擎无 burn、池里无 running 台账），连续两轮把 `idle_rounds` 顶到 2、`two_read_red=true`：一条 30 分钟的链把「本机在忙」隐掉了。新增 `chain_cmdline_match()` 按**驱动**命令行点名 `s6_chain_<机>`（不靠短命的腿子进程，腿间空档也不许读成闲），probe_inflight 加第 3 腿。②`scripts/idx_fut_basis_timing.py`——这张面此前不自印出处，CEO 页只能写「generated 面未自带（读 window.to）」（r1781：跨脚本的节必须自印时点）。新增 `stamp()`：`evidence_cutoff`＝各 ok 对窗尾 bar 的最大值，`generated`＝本机带偏移时钟；`scripts/ceo_live_usage.py` 改为优先读面自己声明的 cutoff（r1852），页面同步重发。
+
+**验证**：`idle_trigger selftest` **ALL PASS**（+6 腿：本机链／他机链／腿子进程／空／None／反斜杠归一）＋**实弹** `probe_inflight('bm-c') == ['s6_chain_running=1']`（修复前同一调用返回 `[]`，此时 pid 35980 正在跑）｜`idx_fut_basis_timing selftest` **15/15**（+3 腿 L11：取最新 ok bar／自印带偏移时点／无 ok 对时 cutoff=None 不许落成某根 bar）＋重生成 **0 秒**、判决与四个分位**逐位不变**（RULE；latest_pct IF 5.8／IC 27.0／IH 0.2／IM 28.6），新字段 `cutoff 2026-11-20`／`generated 2026-11-22T09:47:33+08:00`｜`ceo_live_usage selftest` **ALL PASS**，页面出处行现印 `generated 2026-11-22T09:47:33+08:00`（此前为「面未自带」）。
+
+**链**：`Tools\s6_chain_bmc.py 1923`（pid 35980，09:18 起）**仍在逐腿驱动**，收轮时约 **90/317 腿**、已印腿全 rc0；最长的一条 `etf_book_min_capital 380.6s`（s6 日志 8KB 块缓冲，故行数落后于实际进度）。**未另起第二条链**（一树一驱动）。
+
+**四腿（与链并行跑的独立腿，全 rc0）**：`pool_dualrun_reconcile` **ZERO-DRIFT**（745 entries，streak 51）｜`compute_audit` **FLAG:pool_starvation,supply_floor**（ready 0 / floor 3，cause=calendar，4 个候选全被日历判拒；已定价最高上限 13,794,151＝地板的 69.0%）｜`py_watermark` `insufficient_history`（本窗首个采样，local_batch_running=true 即链腿）｜`attrition_ledger_guard` **CLEAN**（4 账本，两条历史缩行 healed）。
+
+**冒烟**：全量套件以 pythonw 后台起跑（pid 14820），到第 **287 腿**（0 FAIL）**被工具侧 job 对象连坐击杀**（stderr 空、无 traceback）——上轮 739 腿的完整读数仍是最近一次：**735/739 PASS，2 FAIL，2 UNVERIFIED**。本轮不以 287 腿冒充全绿，也不在链在飞时硬起第二条套件（会把第三态 UNVERIFIED 抬得更高）；下轮按 r1910 配方（WMI + pythonw 脱离 job 对象）重跑。
+
+**水位**：集团 `docs/decisions.md` origin 原字节 sha256 **79e3083b… == state 水位键** → 零新决策行（`git cat-file blob` 落原字节，禁 PS 字符串往返）；fleet/orders 差集 **116 单 / unacked=0**。
+
+**S0**：`fleet/machine.json` = **bm-c**；轮首工作树**脏**（112 件＝上轮链派生面＋本轮三件代码），按定向纪律提交本轮面与链已落面，不做整树清场；ahead/behind **0/0**；孤儿面 **0**（py_faces 4，resident_servers=1＝ComfyUI :8189 空闲非本车道）。
+
+**记账**：轮报告 1 + state 1 + 心跳 1 = **3 处**（≤5）。**登记簿零命中**（本轮无清扫/归档/删除）。
+
+**披露**：①Bigmoney-IterationLoop / LoopWatchdog 仍 **Interactive / Dasheng**（S4U 翻转须提权，承 r1922/r1923，非本车道可解）；②链未收口＝不宣称全链路绿，也不宣称套件全绿；③本轮链与套件的并发使套件在第 287 腿前被杀，故「0 FAIL」只覆盖那 287 腿。

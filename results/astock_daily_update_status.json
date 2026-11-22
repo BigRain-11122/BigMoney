@@ -1,6 +1,6 @@
 {
-  "ts": "2026-11-22T03:17:48",
-  "mode": "refresh complete",
+  "ts": "2026-11-22T09:24:58",
+  "mode": "no-op: panel fresh",
   "panel": {
     "complete": true,
     "cutoff": "2026-11-20",
@@ -83,8 +83,8 @@
   "takeover": {
     "owner": "bm-b",
     "by": "bm-c",
-    "reason": "owner bm-b silent 542.6h >= 120min",
-    "ts": "2026-11-22T03:17:19"
+    "reason": "owner bm-b silent 548.7h >= 120min",
+    "ts": "2026-11-22T09:24:58"
   },
   "authority": {
     "lane_owner": "bm-b",
@@ -92,12 +92,10 @@
     "data_face_machine": "bm-c",
     "declared_takeover": true,
     "took_over_by": "bm-c",
-    "took_over_at": "2026-11-22T03:17:19",
-    "reason": "owner bm-b silent 542.6h >= 120min"
+    "took_over_at": "2026-11-22T09:24:58",
+    "reason": "owner bm-b silent 548.7h >= 120min"
   },
   "machine": "bm-c",
-  "spawn_reason": "panel incomplete at cutoff 2026-11-20 (coverage 99.8%, expected 2026-11-20) -> continuation refresh, not a first pull",
-  "spawn_mode": "continuation",
   "quarantined": [
     "000005",
     "000023",
@@ -111,5 +109,6 @@
     "688827",
     "688845",
     "689009"
-  ]
+  ],
+  "no_op_reason": "panel fresh (cutoff 2026-11-20 >= expected 2026-11-20)"
 }

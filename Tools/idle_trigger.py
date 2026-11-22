@@ -178,7 +178,33 @@ def probe_inflight(mid):
             reasons.append('pool_running=%d' % n)
     except Exception:
         pass
+    # 3) r1924: this machine's S6 chain driver alive. The chain re-derives the
+    # published faces for ~30 minutes while the engine shows no burn and the pool
+    # shows no running entry, so GREEN-IDLE read "nothing in flight" on a machine
+    # that was busy rewriting its own faces -- two rounds in a row it pushed
+    # idle_rounds to 2 and raised two_read_red. A live driver is in-flight work.
+    try:
+        import psutil
+        for pr in psutil.process_iter(['cmdline']):
+            if chain_cmdline_match(pr.info.get('cmdline'), mid):
+                reasons.append('s6_chain_running=1')
+                break
+    except Exception:
+        pass
     return reasons
+
+
+def chain_cmdline_match(cmdline, mid):
+    """True when a live command line is this machine's S6 chain driver.
+
+    Named on the driver itself (`Tools/s6_chain_bmc.py`) rather than on its leg
+    children: legs are short-lived subprocesses and a lull between legs must not
+    read as idle either.
+    """
+    if not cmdline:
+        return False
+    cl = ' '.join(cmdline) if isinstance(cmdline, (list, tuple)) else str(cmdline)
+    return ('s6_chain_' + mid.replace('-', '')) in cl.replace('\\', '/')
 
 
 def line_excluded(line, mid):
@@ -706,6 +732,22 @@ def selftest():
         if got != want:
             ok = False
         print('[%s] excluded %r for %s -> %s' % (flag, line[:34], mid_, got))
+    # r1924: the S6 chain driver is in-flight work. Named on the driver, not its
+    # leg children -- a leg that happens to be between burns must not read idle.
+    chain_cases = [
+        ([r'C:\...\python.exe', r'Tools\s6_chain_bmc.py', '1923'], 'bm-c', True),
+        (['python', 'Tools/s6_chain_bmc.py', '1923'], 'bm-c', True),
+        ([r'C:\...\python.exe', r'Tools\s6_chain_bma.py', '611'], 'bm-c', False),
+        ([r'C:\...\python.exe', 'scripts/etf_book_min_capital.py', 'run'], 'bm-c', False),
+        ([], 'bm-c', False),
+        (None, 'bm-c', False),
+    ]
+    for cl_, mid_, want in chain_cases:
+        got = chain_cmdline_match(cl_, mid_)
+        flag = 'PASS' if got == want else 'FAIL'
+        if got != want:
+            ok = False
+        print('[%s] chain-cmdline %r for %s -> %s' % (flag, (cl_ or [])[-2:], mid_, got))
     # r1304: three states. Card 19 had been invisible for weeks because its own text
     # spells the claim syntax; cards 20-22 counted as work while naming a shut gate.
     # The reader now answers "can this disk light it", and a shut door is published
