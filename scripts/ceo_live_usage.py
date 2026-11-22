@@ -1353,17 +1353,28 @@ def _etf_cash_roll_face(ticket_bar=None, decision_date=None):
     the constraint the ladder face never carried -- the cash has to be raisable on the
     decision bar, so a high coupon that matures past it is excluded, not ranked.
 
-    Three rules, each with a selftest leg:
+    Four rules, each with a selftest leg:
 
     * a missing face, or one that names no tenor, prints a reason and NO number (r98);
     * the block prints the face's own as_of and decision date, and refuses to speak when
       they disagree with the ticket it sits under (r1780/r1781: two files agreeing by luck
       is not a guard);
+    * a face that says it priced THIS ticket but whose repo panel ends on an earlier bar
+      prints the tenor with BOTH bars named -- the face never ffills quotes, so the older
+      bar is exactly what its reading is worth (r1925: the refusal left the reader with no
+      tenor at all while the face itself already carried the arrow and both dates);
     * the worth line is "versus rolling 1-day every session", never a forecast.
     """
     d = _read_json(ETF_CASH_ROLL_JSON)
     if not d:
         return {"present": False, "note": "闲钱滚仓面未产出（缺面不读 0）"}
+    return _cash_roll_payload(d, ticket_bar, decision_date)
+
+
+def _cash_roll_payload(d, ticket_bar=None, decision_date=None):
+    """Pure part of `_etf_cash_roll_face` (r1925): the selftest drives this directly, so
+    the lagged-quote branch is proved on a synthetic face instead of on a day where the
+    disk happens to sit one bar behind."""
     verdict = d.get("verdict")
     if not verdict:
         return {"present": False, "note": "闲钱滚仓面无判词（空面不冒充有读数）"}
@@ -1371,11 +1382,15 @@ def _etf_cash_roll_face(ticket_bar=None, decision_date=None):
         return {"present": True, "verdict": verdict,
                 "reason": d.get("reason") or "面上没写原因",
                 "as_of": d.get("as_of"), "decision_date": d.get("decision_date")}
+    quote_lag = None
     if ticket_bar and d.get("as_of") and d["as_of"] != ticket_bar:
-        return {"present": False, "verdict": verdict, "as_of": d.get("as_of"),
-                "ticket_bar": ticket_bar,
-                "note": "滚仓面读的是 {}，这张票面读的是 {}——不是同一趟，今天不印这个数"
-                        .format(d.get("as_of"), ticket_bar)}
+        priced_bar = (d.get("inputs") or {}).get("book_as_of")
+        if not (priced_bar and str(priced_bar) == str(ticket_bar)):
+            return {"present": False, "verdict": verdict, "as_of": d.get("as_of"),
+                    "ticket_bar": ticket_bar,
+                    "note": "滚仓面读的是 {}，这张票面读的是 {}——不是同一趟，今天不印这个数"
+                            .format(d.get("as_of"), ticket_bar)}
+        quote_lag = {"quote_bar": d.get("as_of"), "ticket_bar": ticket_bar}
     if decision_date and d.get("decision_date") and d["decision_date"] != decision_date:
         return {"present": False, "verdict": verdict,
                 "as_of": d.get("as_of"), "decision_date": d.get("decision_date"),
@@ -1384,7 +1399,7 @@ def _etf_cash_roll_face(ticket_bar=None, decision_date=None):
                         .format(d.get("decision_date"), decision_date)}
     best = d.get("best_sh") or d.get("best_sz") or {}
     excl = d.get("excluded_locked") or []
-    return {
+    pay = {
         "present": True,
         "verdict": verdict,
         "as_of": d.get("as_of"),
@@ -1400,11 +1415,15 @@ def _etf_cash_roll_face(ticket_bar=None, decision_date=None):
         "worth_year_cny": d.get("worth_vs_daily_roll_cny_year"),
         "worth_window_cny": d.get("worth_vs_daily_roll_cny_window"),
         "locked_out": [{"contract": r.get("contract"), "quoted_pct": r.get("quoted_pct"),
-                        "matures": r.get("matures"),
+                        "tenor_days": r.get("tenor_days"), "matures": r.get("matures"),
                         "late_days": r.get("locked_past_decision_days")} for r in excl[:3]],
         "sentence": d.get("sentence"),
         "source_rel": ETF_CASH_ROLL_REL,
     }
+    if quote_lag:
+        pay["ticket_bar"] = quote_lag["ticket_bar"]
+        pay["quote_lag"] = quote_lag
+    return pay
 
 
 def _etf_premium_face():
@@ -3226,11 +3245,19 @@ def render_md(p: dict) -> str:
             L.append("  - **今天这笔闲钱滚哪一档**：读不到指令（{}）".format(
                 _cr.get("reason") or "面上没写原因"))
         else:
-            L.append("  - **今天这笔闲钱滚哪一档**：**{}**（{} 天）——报价 {}% · "
+            _ql = _cr.get("quote_lag") or {}
+            _when = ("按 {} 的收盘报价，".format(_ql["quote_bar"])
+                     if _ql.get("quote_bar") else "")
+            L.append("  - **今天这笔闲钱滚哪一档**：{}**{}**（{} 天）——报价 {}% · "
                      "扣手续费后净 {}%/年，{} 到期，{} 的决策 bar 用得上钱。".format(
-                         _cr.get("contract"), _cr.get("tenor_days"),
+                         _when, _cr.get("contract"), _cr.get("tenor_days"),
                          _cr.get("quoted_pct"), _cr.get("net_ann_pct"),
                          _cr.get("matures"), _cr.get("decision_date")))
+            if _ql.get("quote_bar"):
+                L.append("    - 这两个日期不是一天：这张面读到的是 **{}** 的报价，票面 bar 是 "
+                         "**{}**——利率面不往前补价（它自己写着 never ffilled），所以这一档按它"
+                         "自己那天读；利率面重到票面那天，这一行会换数。".format(
+                             _ql["quote_bar"], _ql["ticket_bar"]))
             _wy = _cr.get("worth_year_cny")
             _ww = _cr.get("worth_window_cny")
             if _wy is not None:
@@ -3240,10 +3267,13 @@ def render_md(p: dict) -> str:
                              _fmt_cny(_ww or 0)))
             _lk = _cr.get("locked_out") or []
             if _lk:
-                L.append("    - 看着更高但**今天不能碰**的档：{}。".format(
-                    "；".join("{} {}% 到 {} 才到期（晚 {} 天）".format(
-                        r.get("contract"), r.get("quoted_pct"), r.get("matures"),
-                        r.get("late_days")) for r in _lk)))
+                # r1925: these rows name a tenor and how late it matures, not a calendar
+                # date -- the rule table cannot tell three identical-looking dates on one
+                # line apart, and a date no rule can read is a debt (r1671).
+                L.append("    - 看着更高但**现在不能碰**的档：{}。".format(
+                    "；".join("{} {}%（{} 天期），比决策日晚 {} 天到期".format(
+                        r.get("contract"), r.get("quoted_pct"),
+                        r.get("tenor_days") or "?", r.get("late_days")) for r in _lk)))
             _pl = _cr.get("placeable") or {}
             if _pl.get("placed_cny") is not None:
                 L.append("    - 钱怎么放：¥{} = 沪市 ¥{}（10 万起）+ 深市 ¥{}（1 千起），"
@@ -5323,7 +5353,8 @@ def selftest() -> int:
                   "比天天滚 GC001" in md1)
             _lk1 = _cr1.get("locked_out") or []
             check("tenors that lock past the decision bar are named, not dropped (r1824)",
-                  all(str(r.get("contract")) in md1 and str(r.get("matures")) in md1
+                  all(str(r.get("contract")) in md1
+                      and "{} 天期".format(r.get("tenor_days")) in md1
                       for r in _lk1) if _lk1 else True)
             _deg8 = json.loads(json.dumps(p1))
             _deg8["etf_order"] = dict(_deg8.get("etf_order") or {})
@@ -5345,6 +5376,37 @@ def selftest() -> int:
             _mismatch = _etf_cash_roll_face(ticket_bar="TICKET-1999-01-01")
             check("a roll instruction priced off another bar is refused, not quoted (r1824)",
                   not _mismatch.get("present") and "不是同一趟" in str(_mismatch.get("note")))
+            # ---- r1925: the face can say "I priced THIS ticket, my repo panel just ends a
+            # bar earlier and I never ffill". That is a lag, not a different trip -- the
+            # reader is owed the tenor with both bars named, not a blank line.
+            _syn = {"verdict": "ROLL_GC007_TODAY", "as_of": "2026-11-19",
+                    "decision_date": "2026-12-09", "window_days": 19,
+                    "cash_cny": 565246.0, "inputs": {"book_as_of": "2026-11-20"},
+                    "panel_lag": {"note": "the repo panel is behind the book bar"},
+                    "best_sh": {"contract": "GC007", "tenor_days": 7, "quoted_pct": 1.385,
+                                "net_ann_pct": 1.1243, "matures": "2026-11-27"},
+                    "placeable": {"placed_cny": 565000.0, "sh_cny": 500000.0,
+                                  "sz_cny": 65000.0, "leftover_cny": 246.0},
+                    "worth_vs_daily_roll_cny_year": 526.3,
+                    "worth_vs_daily_roll_cny_window": 27.4,
+                    "excluded_locked": []}
+            _lagged = _cash_roll_payload(_syn, ticket_bar="2026-11-20")
+            check("a roll face priced off this ticket but an older quote bar prints the tenor (r1925)",
+                  bool(_lagged.get("present")) and _lagged.get("contract") == "GC007"
+                  and (_lagged.get("quote_lag") or {}).get("quote_bar") == "2026-11-19"
+                  and _lagged.get("ticket_bar") == "2026-11-20")
+            _syn_old = json.loads(json.dumps(_syn))
+            _syn_old["inputs"]["book_as_of"] = "2026-11-19"
+            _offbar = _cash_roll_payload(_syn_old, ticket_bar="2026-11-20")
+            check("a roll face priced off a different book bar is still refused (r1925)",
+                  not _offbar.get("present") and "不是同一趟" in str(_offbar.get("note")))
+            _degl = json.loads(json.dumps(p1))
+            _degl["etf_order"] = dict(_degl.get("etf_order") or {})
+            _degl["etf_order"]["cash_roll"] = _lagged
+            _mdl = render_md(_degl)
+            check("a lagged quote bar is printed with its own date and the ticket's (r1925)",
+                  "按 2026-11-19 的收盘报价" in _mdl and "2026-11-20**" in _mdl
+                  and "不往前补价" in _mdl and "不是同一趟" not in _mdl)
         _deg3 = json.loads(json.dumps(p1))
         _deg3["etf_order"] = dict(_deg3.get("etf_order") or {})
         _deg3["etf_order"]["next_decision_bars"] = None

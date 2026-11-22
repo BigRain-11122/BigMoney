@@ -1,7 +1,7 @@
 {
- "activity": "r1924: two provenance/audit fixes landed with selftests and live proof; the S6 chain is still driving legs one at a time behind a 6.3-minute leg",
- "activity_now": "S6 chain (pid 35980) re-deriving faces; the round closed on the faces written so far",
- "activity_now_round": 1924,
+ "activity": "product",
+ "activity_now": "r1925: the CEO page answers the cash question it kept refusing -- repo panel advanced to 2026-11-20 under a declared bm-a takeover (86.2h silent), so the roll block prints GC007 1.385% -> 1.1243%/yr net, matures 2026-11-27, worth +526 CNY/yr vs daily roll",
+ "activity_now_round": 1925,
  "agenda_starved": false,
  "ah_note": "r1680 LANDED: refresh closed itself at 21:17 -- cutoff 2026-11-12 -> 2026-11-13, complete=True, exit 0, pulled_rows 46; data_lane_freshness in_sync 13 / behind_1d 1 (worst now marks, intraday-only, not rebuildable). Fix that made it possible: stall watchdog over every network leg (300s, names stage/pair, exit 2, checkpoint kept) + save_progress stamps write time + -u on the detached spawn + progress line every 10 pairs. NOT yet proven: the 300s stall path has never fired on a real hang (this round the suspected freeze finished by itself).",
  "ahead_origin": 0,
@@ -36,19 +36,12 @@
   "withheld_arms": [],
   "workers": 6
  },
- "artifacts": [
-  "scripts/etf_book_entry_price.py",
-  "results/etf_book_entry_price.json",
-  "results/etf_book_entry_price.md",
-  "Tools/s6_chain_bmc.py",
-  "smoke_test.py",
-  "knowledge/METHODOLOGY_ASSETS.md"
- ],
+ "artifacts": "data/repo_daily/*.csv (+1 bar x11 terms to 2026-11-20); results/repo_update_status.json (takeover receipt); results/etf_book_cash_roll_today.json (as_of 2026-11-20); docs/live_usage/LIVE-2026-11-22.md s7 roll block now prints a tenor; scripts/ceo_live_usage.py _cash_roll_payload (+4 legs); scripts/live_usage_day_words.py +4 rules +1 extended (26/26)",
  "batch": "entry_price selftest 13/13 + run/check rc0; chain leg entry_price_write 0.9s rc0; s6 chain selftest 17/17; smoke suite green-so-far (no FAIL lines)",
  "behind_origin": 0,
  "busy": false,
- "chain": "r1924: the r1923 chain (pid 35980, started 09:18) is still driving its legs one at a time; by round close it had finished etf_book_min_capital (380.6s) and every role printed rc 0. No second chain was launched -- one driver per tree.",
- "chain_note": "r1924: four standalone legs ran beside the chain, all rc 0 -- pool_dualrun ZERO-DRIFT (745 entries, streak 51), compute_audit FLAG:pool_starvation,supply_floor, py_watermark insufficient_history (local_batch_running=true), attrition CLEAN",
+ "chain": "r1925 targeted: 6/6 rc0 (cash_roll_today, ceo_live_usage, daily_report, live_usage_day_words, daily_report_day_words, live_book_day_words) + 19/19 rc0 (dualrun ZERO-DRIFT streak 51, compute_audit FLAG pool_starvation+supply_floor (calendar, Sunday), py_watermark ok, update_daily ok, market_regime ok, data_lane_freshness verdict=attention (11 in sync / 3 behind 1d), face_input_staleness FRESH, build_status, token_meter, machine_health_write, etf_book_ceo_page, page_repeat_guard 0 repeated, reader_text_audit, update_repo no-op (lane back to bm-a), regime_thermo no-op, regime_dualarm no-op, minute_feed non-workday, t35_export, scorecard_daily)",
+ "chain_note": "full 341-leg chain not attempted: the r1923 driver (pid 35980) is still alive and wedged inside regime_thermo_build since 09:54, and a second full driver on one tree is forbidden",
  "chain_verdict": "in flight (about 90/317 legs at close, rc 0 on every printed leg)",
  "chain_writer_audit": {
   "known_baseline": 29,
@@ -1491,7 +1484,7 @@
   "watermark": "green: board/pool both empty (pool_ready_count=0, fleet_open_tasks=0), no claimable batch on this host; py_watermark insufficient_history (window n=1, local_batch=1 = this round own suite)"
  },
  "round_label": "r1813",
- "round_no": 1924,
+ "round_no": 1925,
  "round_no_label": "r1821",
  "round_no_landed": 1663,
  "round_note": "r1489: a reinstated bar is re-derived from the panel, not carried over (reinstatement_check + reinstatements.json + sheet paragraph)",

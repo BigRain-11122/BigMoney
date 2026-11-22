@@ -122,8 +122,11 @@ CLAIM_RULES = [
      ["etf_order.delta.mark_account_bar", "etf_order.bar"]),
     (re.compile(r"账面持仓 bar " + _D + r" → 票面 bar " + _D),
      ["etf_order.delta.current_bar", "etf_order.bar"]),
-    (re.compile(r"idx_fut_basis_timing\.json`?｜cutoff " + _D),
-     ["carry_timing.evidence_cutoff"]),
+    # r1925: this line started stamping its own build time last round (the timing face
+    # learned to say when it was written), and the rule still claimed only the cutoff -- so
+    # the build stamp printed as a date no rule could read.
+    (re.compile(r"idx_fut_basis_timing\.json`?｜cutoff " + _D + r"｜generated " + _D + r"T"),
+     ["carry_timing.evidence_cutoff", "carry_timing.source_generated"]),
     # r1299: the timing sentence now names the bar it read (instead of a bare 「今天」), so the
     # date it prints must resolve to the field behind it -- otherwise naming the bar turns one
     # false red into one foreign date.
@@ -202,6 +205,17 @@ CLAIM_RULES = [
      ["etf_book_periods.generated", "etf_book_periods.cutoff"]),
     (re.compile(r"滚仓面读的是 " + _D + r"，这张票面读的是 " + _D),
      ["etf_order.cash_roll.as_of", "etf_order.cash_roll.ticket_bar"]),
+    # r1925: the roll block finally reaches the page (it used to refuse on any bar
+    # mismatch), so its own dates have to resolve to the fields that issued them -- a
+    # printed date no rule can read is a debt, not a decoration (r1671).
+    (re.compile(r"滚哪一档\*\*：.*?" + _D + r" 到期，" + _D + r" 的决策 bar"),
+     ["etf_order.cash_roll.matures", "etf_order.cash_roll.decision_date"]),
+    (re.compile(r"etf_book_cash_roll_today\.json`（本位 bar " + _D + r"·决策日 " + _D + r"）"),
+     ["etf_order.cash_roll.as_of", "etf_order.cash_roll.decision_date"]),
+    (re.compile(r"按 " + _D + r" 的收盘报价"),
+     ["etf_order.cash_roll.quote_lag.quote_bar"]),
+    (re.compile(r"这张面读到的是 \*\*" + _D + r"\*\* 的报价，票面 bar 是 \*\*" + _D + r"\*\*"),
+     ["etf_order.cash_roll.quote_lag.quote_bar", "etf_order.cash_roll.quote_lag.ticket_bar"]),
     (re.compile(r"把账面拉到 " + _D + r" 的票面"), ["etf_order.bar"]),
     (re.compile(r"etf_book_do_or_wait\.json`（计价截止 " + _D),
      ["etf_punctuality.evidence_cutoff"]),

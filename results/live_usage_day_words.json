@@ -1,13 +1,13 @@
 {
  "artifact": "docs/live_usage/LIVE-latest.json",
- "page_day": "2026-11-21",
+ "page_day": "2026-11-22",
  "bar_day": "2026-11-20",
- "verdict": "PRINTED_SELF_DATED",
- "sentence": "**一页纸上 10 行日词都自带日期，但 2 处日期没有规则可核 / 0 处字段缺失**——核不了的不算对上，这一面不给绿。",
+ "verdict": "PRINTED_DATES_AGREE",
+ "sentence": "**一页纸上 118 处日期逐句对上了它引用的那张面**（90 条规则，0 处判不了，0 处无规则可核）；日词 10 行全部自带日期，其中 0 处拿「今天」说数的地方落在本页自己的 bar（2026-11-20）上。这一面核的是「句子写的日子 == 那个字段写的日子」，不核那个字段本身对不对。",
  "printed": {
   "state": "ok",
   "n_lines": 10,
-  "n_all_lines": 262,
+  "n_all_lines": 266,
   "n_headings": 10,
   "n_honest": 4,
   "n_self_dated": 6,
@@ -28,12 +28,12 @@
   "rows": [
    {
     "heading": "(页首)",
-    "line": "# CEO 实盘使用一页纸 · 2026-11-21",
+    "line": "# CEO 实盘使用一页纸 · 2026-11-22",
     "self_dated": true
    },
    {
     "heading": "(页首)",
-    "line": "> 自动生成 2026-11-21T12:55:15 · T-105 v2.1 · 纯聚合面（零新判据）· [版本台账](../../research/DECISION_CHAIN_LEDGER.md)",
+    "line": "> 自动生成 2026-11-22T10:15:54 · T-105 v2.1 · 纯聚合面（零新判据）· [版本台账](../../research/DECISION_CHAIN_LEDGER.md)",
     "self_dated": true
    },
    {
@@ -83,17 +83,17 @@
    },
    {
     "heading": "⓪ 本页新鲜度（先读这个）",
-    "line": "- 车道板读数（2026-11-21 12:55 读自 bm-c 的盘）：**10 条追平 / 4 条落后 1 天 / 0 条停滞 / 1 条已退役**，参照日 2026-11-20",
+    "line": "- 车道板读数（2026-11-22 09:16 读自 bm-c 的盘）：**10 条追平 / 4 条落后 1 天 / 0 条停滞 / 1 条已退役**，参照日 2026-11-20",
     "self_dated": true
    },
    {
     "heading": "⓪ 本页新鲜度（先读这个）",
-    "line": "- 属主 **bm-a** 静默 65.04h，等它的车道：--（已由他机接手：futures←bm-c、heat←bm-c、lhb←bm-c、repo←bm-c）",
+    "line": "- 属主 **bm-a** 静默 85.38h，等它的车道：--（已由他机接手：futures←bm-c、heat←bm-c、lhb←bm-c、repo←bm-c）",
     "self_dated": false
    },
    {
     "heading": "⓪ 本页新鲜度（先读这个）",
-    "line": "- 属主 **bm-b** 静默 528.2h，等它的车道：--（已由他机接手：astock_daily←bm-c、marks←bm-c）",
+    "line": "- 属主 **bm-b** 静默 548.55h，等它的车道：--（已由他机接手：astock_daily←bm-c、marks←bm-c）",
     "self_dated": false
    },
    {
@@ -193,7 +193,7 @@
    },
    {
     "heading": "② 仓位指令（阶梯总帽）",
-    "line": "- **这个帽子和下面的钱对过账**：市场状态 RED 把新增风险的股票敞口压在上限 20%。（账户文件里另写着 20%（paper_engine），那是另一条规则——风配3 R-配3（跌破 MA250 且自 250 日高点回撤≥20% 才压到 20%）——不是同一顶帽子的矛盾读数。） 3/6 个阶梯管辖账户站在帽子上方；最高的是 COMPOSITE-CE-01，仓位 95.9%（超 75.9pp，是帽子的 4.80 倍）。该户上一交易日 96.0%。帽子只挡新开仓，并不强制卖出。按铁律 2 的 20% 单户总仓位帽重判：还有 3/6 户在上方（最高 COMPOSITE-CE-01 仓位 95.9%，超 75.9pp）。",
+    "line": "- **这个帽子和下面的钱对过账**：市场状态 RED 把新增风险的股票敞口压在上限 20%。（账户文件里另写着 20%（paper_engine），那是另一条规则——风配3 R-配3（跌破 MA250 且自 250 日高点回撤≥20% 才压到 20%）——不是同一顶帽子的矛盾读数。） 3/6 个阶梯管辖账户站在帽子上方；最高的是 COMPOSITE-CE-01，仓位 95.9%（超 75.9pp，是帽子的 4.80 倍）。该户上一交易日 96.0%。按帽子折算，已能折算的 3 户合计高出 1527342 元（其中 COMPOSITE-CE-01 一户 741318 元）。帽子只挡新开仓，并不强制卖出。按铁律 2 的 20% 单户总仓位帽重判：还有 3/6 户在上方（最高 COMPOSITE-CE-01 仓位 95.9%，超 75.9pp）。",
     "self_dated": false
    },
    {
@@ -493,7 +493,7 @@
    },
    {
     "heading": "③ 六员分配与当前持仓",
-    "line": "- **这份名单这段到底赚了多少**：2026-10-20 进、2026-11-20 出（24 个交易日），20 只按发布权重等权 **-3.80%**；同一窗口全市场等权（4434 只有价）**-14.77%** → 超额 **+10.97pp**（机械读数·未扣成本·不构成新判据）",
+    "line": "- **这份名单这段到底赚了多少**：2026-10-20 进、2026-11-20 出（24 个交易日），20 只按发布权重等权 **-3.82%**；同一窗口全市场等权（5209 只有价）**-15.50%** → 超额 **+11.68pp**（机械读数·未扣成本·不构成新判据）",
     "self_dated": true
    },
    {
@@ -663,12 +663,12 @@
    },
    {
     "heading": "⑥ ETF 复合书 · 前向实绩（生产候选·纯读出）",
-    "line": "- 出处：`results/etf_book_order/TICKET-2026-11-20.json`（generated 2026-11-21T12:35:29+08:00·cutoff 2026-11-20）",
+    "line": "- 出处：`results/etf_book_order/TICKET-2026-11-20.json`（generated 2026-11-22T09:55:05+08:00·cutoff 2026-11-20）",
     "self_dated": true
    },
    {
     "heading": "⑥ ETF 复合书 · 前向实绩（生产候选·纯读出）",
-    "line": "- 输入顺序：这张单写于它自己的输入之后（检查面 generated 2026-11-21T10:30:01+08:00）。",
+    "line": "- 输入顺序：这张单写于它自己的输入之后（检查面 generated 2026-11-22T04:16:54+08:00）。",
     "self_dated": true
    },
    {
@@ -808,7 +808,27 @@
    },
    {
     "heading": "⑥ ETF 复合书 · 前向实绩（生产候选·纯读出）",
-    "line": "- **今天这笔闲钱滚哪一档**：滚仓面读的是 2026-11-19，这张票面读的是 2026-11-20——不是同一趟，今天不印这个数",
+    "line": "- **今天这笔闲钱滚哪一档**：**GC007**（7 天）——报价 1.385% · 扣手续费后净 1.1243%/年，2026-11-27 到期，2026-12-09 的决策 bar 用得上钱。",
+    "self_dated": true
+   },
+   {
+    "heading": "⑥ ETF 复合书 · 前向实绩（生产候选·纯读出）",
+    "line": "- 比天天滚 GC001 多赚：**一年 ¥526**（到下一次决策的 19 天里 ¥27）——这是「选哪一档」的价值，不是已经赚到的钱。",
+    "self_dated": false
+   },
+   {
+    "heading": "⑥ ETF 复合书 · 前向实绩（生产候选·纯读出）",
+    "line": "- 看着更高但**现在不能碰**的档：GC182 1.34%（182 天期），比决策日晚 163 天到期；GC091 1.34%（91 天期），比决策日晚 72 天到期；GC028 1.365%（28 天期），比决策日晚 9 天到期。",
+    "self_dated": false
+   },
+   {
+    "heading": "⑥ ETF 复合书 · 前向实绩（生产候选·纯读出）",
+    "line": "- 钱怎么放：¥565,246 = 沪市 ¥500,000（10 万起）+ 深市 ¥65,000（1 千起），剩 ¥246 放不进去。",
+    "self_dated": false
+   },
+   {
+    "heading": "⑥ ETF 复合书 · 前向实绩（生产候选·纯读出）",
+    "line": "- 出处：`results/etf_book_cash_roll_today.json`（本位 bar 2026-11-20·决策日 2026-12-09）",
     "self_dated": true
    },
    {
@@ -1108,7 +1128,7 @@
    },
    {
     "heading": "⑥ ETF 复合书 · 前向实绩（生产候选·纯读出）",
-    "line": "- 出处：`results/etf_book_idle_cash.json`｜generated 2026-11-21T12:00:46｜cutoff 2026-11-20",
+    "line": "- 出处：`results/etf_book_idle_cash.json`｜generated 2026-11-22T09:19:30｜cutoff 2026-11-20",
     "self_dated": true
    },
    {
@@ -1153,7 +1173,7 @@
    },
    {
     "heading": "⑦ 指数期货 carry 书 · 开仓资金线（纯读出）",
-    "line": "- 出处：`results/idx_fut_carry_open_capital.json`｜generated 2026-11-21T12:02:45+08:00｜cutoff 2026-11-20｜尺子 `results/idx_fut_carry_sizing_spec.json`／`results/idx_fut_carry_capital_ladder.json`",
+    "line": "- 出处：`results/idx_fut_carry_open_capital.json`｜generated 2026-11-22T09:20:19+08:00｜cutoff 2026-11-20｜尺子 `results/idx_fut_carry_sizing_spec.json`／`results/idx_fut_carry_capital_ladder.json`",
     "self_dated": true
    },
    {
@@ -1173,7 +1193,7 @@
    },
    {
     "heading": "⑦ 指数期货 carry 书 · 开仓资金线（纯读出）",
-    "line": "- 出处：`results/futures_panel_provenance.json`｜面板日 2026-11-20｜活跃窗自 2026-11-11 起｜写手 `scripts/update_futures_contracts.py`（S6 链每趟·本趟 ALREADY_CURRENT·2026-11-21T12:00:49+0800）｜generated 2026-11-21T12:02:44+08:00｜cutoff 2026-11-20",
+    "line": "- 出处：`results/futures_panel_provenance.json`｜面板日 2026-11-20｜活跃窗自 2026-11-11 起｜写手 `scripts/update_futures_contracts.py`（S6 链每趟·本趟 ALREADY_CURRENT·2026-11-22T09:19:32+0800）｜generated 2026-11-22T09:20:19+08:00｜cutoff 2026-11-20",
     "self_dated": true
    },
    {
@@ -1193,7 +1213,7 @@
    },
    {
     "heading": "⑦ 指数期货 carry 书 · 开仓资金线（纯读出）",
-    "line": "- 出处：`results/futures_panel_gaps.json`｜generated 2026-11-21T12:02:44+0800｜cutoff 2026-09-21｜探针沿自 2026-11-21T11:21:13+0800",
+    "line": "- 出处：`results/futures_panel_gaps.json`｜generated 2026-11-22T09:20:19+0800｜cutoff 2026-09-21｜探针沿自 2026-11-22T03:12:40+0800",
     "self_dated": true
    },
    {
@@ -1223,7 +1243,7 @@
    },
    {
     "heading": "⑦ 指数期货 carry 书 · 开仓资金线（纯读出）",
-    "line": "- 出处：`results/idx_fut_basis_timing.json`｜cutoff 2026-11-20｜generated 面未自带（读 window.to）｜收敛比 0.996",
+    "line": "- 出处：`results/idx_fut_basis_timing.json`｜cutoff 2026-11-20｜generated 2026-11-22T09:47:33+08:00｜收敛比 0.996",
     "self_dated": true
    },
    {
@@ -1243,7 +1263,7 @@
    },
    {
     "heading": "⑦ 指数期货 carry 书 · 开仓资金线（纯读出）",
-    "line": "- 出处：`results/idx_fut_carry_risk.json`｜generated 2026-11-21T11:58:30｜cutoff 2026-11-20",
+    "line": "- 出处：`results/idx_fut_carry_risk.json`｜generated 2026-11-22T09:16:58｜cutoff 2026-11-20",
     "self_dated": true
    },
    {
@@ -1268,7 +1288,7 @@
    },
    {
     "heading": "⑦ 指数期货 carry 书 · 开仓资金线（纯读出）",
-    "line": "- 出处：`results/idx_fut_carry_margin.json`｜generated 2026-11-21T12:02:45+0800｜cutoff 2026-11-20｜保证金率=规则参数扫描（非本书测度）",
+    "line": "- 出处：`results/idx_fut_carry_margin.json`｜generated 2026-11-22T09:20:19+0800｜cutoff 2026-11-20｜保证金率=规则参数扫描（非本书测度）",
     "self_dated": true
    },
    {
@@ -1288,7 +1308,7 @@
    },
    {
     "heading": "⑦ 指数期货 carry 书 · 开仓资金线（纯读出）",
-    "line": "- 出处：与上面「带内不等于这本书会买」那节读的是同一张面、同一次生成（`results/idx_fut_carry_risk.json`｜generated 2026-11-21T11:58:30｜cutoff 2026-11-20），只是段不同",
+    "line": "- 出处：与上面「带内不等于这本书会买」那节读的是同一张面、同一次生成（`results/idx_fut_carry_risk.json`｜generated 2026-11-22T09:16:58｜cutoff 2026-11-20），只是段不同",
     "self_dated": true
    },
    {
@@ -1298,7 +1318,7 @@
    },
    {
     "heading": "⑦ 指数期货 carry 书 · 开仓资金线（纯读出）",
-    "line": "- 出处：`results/futures_book_marks.json`｜generated 2026-11-21T12:02:44｜cutoff 2026-11-20",
+    "line": "- 出处：`results/futures_book_marks.json`｜generated 2026-11-22T09:20:19｜cutoff 2026-11-20",
     "self_dated": true
    },
    {
@@ -1339,27 +1359,27 @@
   ]
  },
  "date_claims": {
-  "n_claims": 113,
-  "n_ok": 113,
+  "n_claims": 118,
+  "n_ok": 118,
   "n_mismatch": 0,
   "n_unverifiable": 0,
-  "n_unmapped": 2,
-  "n_rules": 85,
+  "n_unmapped": 0,
+  "n_rules": 90,
   "claims": [
    {
     "heading": "(页首)",
-    "date": "2026-11-21",
+    "date": "2026-11-22",
     "field": "day",
-    "expected": "2026-11-21",
-    "line": "# CEO 实盘使用一页纸 · 2026-11-21",
+    "expected": "2026-11-22",
+    "line": "# CEO 实盘使用一页纸 · 2026-11-22",
     "reading": "ok"
    },
    {
     "heading": "(页首)",
-    "date": "2026-11-21",
+    "date": "2026-11-22",
     "field": "generated",
-    "expected": "2026-11-21",
-    "line": "> 自动生成 2026-11-21T12:55:15 · T-105 v2.1 · 纯聚合面（零新判据）· [版本台账](../../research/DECISION_CHAIN_LEDGER.md)",
+    "expected": "2026-11-22",
+    "line": "> 自动生成 2026-11-22T10:15:54 · T-105 v2.1 · 纯聚合面（零新判据）· [版本台账](../../research/DECISION_CHAIN_LEDGER.md)",
     "reading": "ok"
    },
    {
@@ -1436,10 +1456,10 @@
    },
    {
     "heading": "⓪ 本页新鲜度（先读这个）",
-    "date": "2026-11-21",
+    "date": "2026-11-22",
     "field": "data_lanes.as_of",
-    "expected": "2026-11-21",
-    "line": "- 车道板读数（2026-11-21 12:55 读自 bm-c 的盘）：**10 条追平 / 4 条落后 1 天 / 0 条停滞 / 1 条已退役**，参照日 2026-11-20",
+    "expected": "2026-11-22",
+    "line": "- 车道板读数（2026-11-22 09:16 读自 bm-c 的盘）：**10 条追平 / 4 条落后 1 天 / 0 条停滞 / 1 条已退役**，参照日 2026-11-20",
     "reading": "ok"
    },
    {
@@ -1447,7 +1467,7 @@
     "date": "2026-11-20",
     "field": "data_lanes.expected",
     "expected": "2026-11-20",
-    "line": "- 车道板读数（2026-11-21 12:55 读自 bm-c 的盘）：**10 条追平 / 4 条落后 1 天 / 0 条停滞 / 1 条已退役**，参照日 2026-11-20",
+    "line": "- 车道板读数（2026-11-22 09:16 读自 bm-c 的盘）：**10 条追平 / 4 条落后 1 天 / 0 条停滞 / 1 条已退役**，参照日 2026-11-20",
     "reading": "ok"
    },
    {
@@ -1599,7 +1619,7 @@
     "date": "2026-10-20",
     "field": "recommendation.track.entry_bar",
     "expected": "2026-10-20",
-    "line": "- **这份名单这段到底赚了多少**：2026-10-20 进、2026-11-20 出（24 个交易日），20 只按发布权重等权 **-3.80%**；同一窗口全市场等权（4434 只有价）**-14.77%** → 超额 **+10.97pp**（机械读数·未扣成本·不构成新",
+    "line": "- **这份名单这段到底赚了多少**：2026-10-20 进、2026-11-20 出（24 个交易日），20 只按发布权重等权 **-3.82%**；同一窗口全市场等权（5209 只有价）**-15.50%** → 超额 **+11.68pp**（机械读数·未扣成本·不构成新",
     "reading": "ok"
    },
    {
@@ -1607,7 +1627,7 @@
     "date": "2026-11-20",
     "field": "recommendation.track.cutoff",
     "expected": "2026-11-20",
-    "line": "- **这份名单这段到底赚了多少**：2026-10-20 进、2026-11-20 出（24 个交易日），20 只按发布权重等权 **-3.80%**；同一窗口全市场等权（4434 只有价）**-14.77%** → 超额 **+10.97pp**（机械读数·未扣成本·不构成新",
+    "line": "- **这份名单这段到底赚了多少**：2026-10-20 进、2026-11-20 出（24 个交易日），20 只按发布权重等权 **-3.82%**；同一窗口全市场等权（5209 只有价）**-15.50%** → 超额 **+11.68pp**（机械读数·未扣成本·不构成新",
     "reading": "ok"
    },
    {
@@ -1668,18 +1688,7 @@
    }
   ],
   "mismatches": [],
-  "unmapped": [
-   {
-    "heading": "⑥ ETF 复合书 · 前向实绩（生产候选·纯读出）",
-    "date": "2026-11-21",
-    "line": "- 出处：`results/etf_book_idle_cash.json`｜generated 2026-11-21T12:00:46｜cutoff 2026-11-20"
-   },
-   {
-    "heading": "⑥ ETF 复合书 · 前向实绩（生产候选·纯读出）",
-    "date": "2026-11-20",
-    "line": "- 出处：`results/etf_book_idle_cash.json`｜generated 2026-11-21T12:00:46｜cutoff 2026-11-20"
-   }
-  ],
+  "unmapped": [],
   "buckets": {
    "identifier": 8
   },
@@ -1688,7 +1697,7 @@
     {
      "heading": "⑥ ETF 复合书 · 前向实绩（生产候选·纯读出）",
      "date": "2026-11-20",
-     "line": "- 出处：`results/etf_book_order/TICKET-2026-11-20.json`（generated 2026-11-21T12:35:29+08:00·cutoff 2026-11-20）"
+     "line": "- 出处：`results/etf_book_order/TICKET-2026-11-20.json`（generated 2026-11-22T09:55:05+08:00·cutoff 2026-11-20）"
     },
     {
      "heading": "⑥ ETF 复合书 · 前向实绩（生产候选·纯读出）",
@@ -1762,5 +1771,5 @@
   ]
  },
  "script": "live_usage_day_words",
- "ts": "2026-11-21T13:14:08"
+ "ts": "2026-11-22T10:15:55"
 }
