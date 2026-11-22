@@ -2323,3 +2323,5 @@ S0：machine.json=**bm-c**；fetch 后 ahead/behind **0/0**；孤儿面=**0**（
 **CEO 过程可见面**：当前活＝把「池为什么空」从假设变成实测 ｜ 最近实物＝`K:\Fluxgroup\FluxGroup\quant\bigmoney\results\etf_book_phase_depth.json`（120 格·三本候选 spread 随相位深度涨 6-9 倍·check rc0）＋`K:\Fluxgroup\FluxGroup\quant\bigmoney\results\chain_writer_audit.json`（EVERY_CHECKED_FACE_HAS_A_WRITER）＋`smoke_test.py` 复跑结果 ｜ 下个里程碑＝按 depth 结论换赛道：这三本候选不再等相位集，改用新 book 结构（预注册 + 全量判决），窗 ≤48h
 
 **记账**：轮报告 1 + state 1 + 心跳 1 = 3 处（≤5）。**登记簿零命中**（无清扫/归档/删除动作）。
+
+## 2026-11-22T08:19+08:00 ｜ r1921 补记 ｜ 送达自证：d4d867d39c 已上 origin/main，fetch 后 ahead/behind **0/0**，git ls-tree origin/main 点名五件在位（scripts/etf_book_phase_depth.py / results/etf_book_phase_depth.json / research/ETF_BOOK_PHASE_DEPTH.md / Tools/chain_writer_audit.py / results/chain_writer_audit.json）—— **本地未达 origin commit 数=0**。钩子复核：pre-commit / pre-push 均在位且与 Tools/git-hooks 源一致；IterationLoop 自愈 no-op（pin=0 current=0 time-limit=PT5H）；Watchdog 就绪。冒烟记录 logs/smoke_legs.json 在 gitignore 内（logs/*），不入 git。
