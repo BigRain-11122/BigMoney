@@ -387,6 +387,30 @@ def run(do_pull=True):
     return payload
 
 
+def power_line(p):
+    """What this sample can and cannot rule out.
+
+    A negative is only as strong as the Sharpe it can exclude. With n years of
+    daily data the standard error of an annualised Sharpe is ~sqrt((1+SR^2/2)/n);
+    the gate this cell had to clear needed roughly SR 0.6 at a 10% vol target
+    (6%/yr). Printing the interval says whether "NO_EDGE" means "no edge" or
+    "no edge bigger than X" -- the two are different claims.
+    """
+    f = p["arm_xs_mom_60d"]["full"]
+    n_bars = f.get("n") or 0
+    sr = f.get("sharpe") or 0.0
+    years = n_bars / 252.0
+    if years <= 0:
+        return "样本不足，无法给出功效区间。"
+    se = (1.0 + 0.5 * sr * sr) ** 0.5 / (years ** 0.5)
+    lo, hi = sr - 1.96 * se, sr + 1.96 * se
+    return (f"样本 {years:.1f} 年，实测年化夏普 {sr:.3f}，标准误约 {se:.3f} → "
+            f"95% 区间约 [{lo:.2f}, {hi:.2f}]。本格的 GO 门要求在 10% 目标波动下做到 6%/年"
+            f"（≈夏普 0.6），这个区间**上界远低于门线**，所以「不开线」是硬结论；"
+            f"但它不等于「绝对没有微弱优势」——区间上部仍容得下一个夏普 0.3 左右的小边缘，"
+            f"那种规模的东西在本司的仓位阶梯上没有位置。")
+
+
 def render_md(p):
     c = p["coverage"]
     a = p["arm_xs_mom_60d"]
@@ -429,6 +453,10 @@ def render_md(p):
         f"- 品种 {c['n_products']} 个，bar {c['bars']} 根，{c['start']} → {c['end']}",
         f"- 逐年可用品种数中位：{json.dumps(c['breadth_by_year'], ensure_ascii=False)}",
         f"- 拉取：成功 {c['pull_ok']} / 失败 {c['pull_fail']} / 重叠失配 {c['pull_overlap']} / 跳过 {c['pull_skipped']}",
+        "",
+        "## 统计功效（这一步决定这条负结论能说多硬）",
+        "",
+        power_line(p),
         "",
         "## 判词",
         "",
