@@ -148,6 +148,27 @@ def pick_next(q):
     return None
 
 
+def arbiter_ask(cell):
+    """Ask the shared arbiter before starting; a denial is a wait, not a failure."""
+    try:
+        sys.path.insert(0, os.path.join(ROOT, "scripts"))
+        import line_arbiter as la  # noqa: WPS433
+        cls = "cpu_heavy" if cell.get("heavy") else "cpu_light"
+        return cls, la.ask("quant_bench", cls, cell)
+    except Exception as e:
+        return None, {"allow": True, "reason": f"ARBITER_UNAVAILABLE({e})", "cls": None}
+
+
+def arbiter_release(cls):
+    if not cls:
+        return
+    try:
+        import line_arbiter as la  # noqa: F811
+        la.release(cls)
+    except Exception:
+        pass
+
+
 def run_cell(cell):
     script = os.path.join(ROOT, cell["script"])
     if not os.path.exists(script):
@@ -166,6 +187,14 @@ def run_cell(cell):
                 "reason": f"available {avail:.1f}GB < {RAM_FLOOR_GB}GB",
                 "seconds": 0.0}
 
+    cls, grant = arbiter_ask(cell)
+    if not grant.get("allow", True):
+        ledger_append({"ts": now().isoformat(timespec="seconds"), "cell": cell["id"],
+                       "skipped": "WAIT_RESOURCE", "reason": grant.get("reason"),
+                       "evidence": grant.get("evidence")})
+        return {"rc": 0, "skipped": "WAIT_RESOURCE",
+                "reason": f"{grant.get('reason')}: {grant.get('evidence')}", "seconds": 0.0}
+
     env = dict(os.environ)
     env["PYTHONIOENCODING"] = "utf-8"
     env["OMP_NUM_THREADS"] = str(cell.get("threads", 4))
@@ -183,6 +212,8 @@ def run_cell(cell):
     except subprocess.TimeoutExpired:
         return {"rc": 124, "seconds": round(time.time() - t0, 1),
                 "reason": f"timeout {CELL_TIMEOUT_S}s"}
+    finally:
+        arbiter_release(cls)
 
 
 def read_verdict(cell):

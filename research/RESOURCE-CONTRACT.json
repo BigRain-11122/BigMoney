@@ -1,0 +1,68 @@
+{
+ "version": "1.0",
+ "owner": "集团资源共享契约（量化线 × 自媒体线）",
+ "why": "同一台机器上，量化回测吃 CPU/内存，自媒体 i2v/配音/TTS 吃 GPU/CPU/内存。过去两边各跑各的：量化格子会在 i2v 渲染时抢 CPU，自媒体会在回测时抢内存。此契约把「谁能用、用多少、谁先等」写成机器可判的规则，唯一执行者=scripts/line_arbiter.py。",
+ "principle": [
+  "不抢：量化永不主动抢占自媒体正在使用的资源；只申请、不夺。",
+  "不空等：资源够就立刻放行，不因为「另一条线可能要用」而无限等待。",
+  "可解释：每次放行/拒绝都写一行台账，带理由与当时的实测数字。",
+  "有边界：自动调参只允许 ±1 档、每天最多一次、必须有 ≥24 次决策样本。"
+ ],
+ "classes": {
+  "gpu": {
+   "holder": "media-only",
+   "note": "本机 GPU 是自媒体产线（i2v/生图/TTS 模型）。量化线在本机不申请 GPU；若某格声明 needs=gpu，一律拒绝并记 DENY_POLICY。",
+   "measure": ["nvidia-smi utilization.gpu", "nvidia-smi memory.used", "ComfyUI /queue on :8188 and :8189"],
+   "grant_rule": "media 有在跑或排队 → media 持有；量化永不放行"
+  },
+  "cpu_heavy": {
+   "note": "回测/因子/大面板构建。",
+   "grant_rule": "free_ram >= 6.0GB AND media_cpu_jobs == 0 AND cpu_load_pct < 50 AND 无其他量化 heavy 在跑",
+   "slots": 1,
+   "threads_cap": 6
+  },
+  "cpu_light": {
+   "note": "小格回测、探针、看板、复验。",
+   "grant_rule": "free_ram >= 2.0GB AND cpu_load_pct < 85",
+   "slots": "max(1, floor(cores*0.75) - media_cpu_threads - other_quant_light)",
+   "threads_cap": 3
+  },
+  "disk_io": {
+   "note": "数据车道补数（A股/期货/ETF）。",
+   "grant_rule": "free_ram >= 2.0GB AND 无其他 disk_io 在跑",
+   "slots": 1
+  }
+ },
+ "windows": {
+  "media_priority": "全天（自媒体产出直接面向发布，优先级高于研究）",
+  "quant_preferred": "当 media_cpu_jobs == 0 且 GPU 空闲时，量化可连续跑 heavy",
+  "quant_never": ["不申请 GPU", "不在 media heavy 时跑 cpu_heavy", "不在 free_ram < 2GB 时跑任何格"]
+ },
+ "leases": {
+  "file": "results/arbiter/LEASES.json",
+  "ttl_minutes": 30,
+  "note": "每次放行写一条租约（holder/class/pid/expires）；过期自动回收。执行体崩溃留下的租约不影响其他线，只影响同类下一次申请。"
+ },
+ "ledger": {
+  "file": "results/arbiter/LEDGER.jsonl",
+  "fields": ["ts", "asker", "class", "decision", "reason", "evidence"]
+ },
+ "self_audit": {
+  "cadence_h": 24,
+  "file": "results/arbiter/PROPOSALS.json",
+  "auto_apply": true,
+  "bounded": "每次 ±1 档；每天最多一条生效；需 ≥24 次决策样本",
+  "triggers": [
+   {"id": "quant_wait_high", "when": "quant_deny_ratio > 0.6 连续 2 天", "propose": "bench tick 20m -> 30m 或改到 media 空窗跑 heavy"},
+   {"id": "quant_wait_low", "when": "quant_deny_ratio < 0.1 且 media_idle", "propose": "允许 2 个 cpu_light 并发"},
+   {"id": "ram_denies", "when": "RAM 类拒绝占全部拒绝 > 50%", "propose": "heavy 格改成分片/加缓存 GC，而不是硬等"},
+   {"id": "media_starved", "when": "media 有排队但不前进 > 6h", "propose": "提高 media 优先级并发上限（只报不改，属自媒体席决策）"}
+  ]
+ },
+ "media_queue_sources": [
+  "cph4/fleet/mv-album-001-jay/plan/hei-i2v-manifest.json",
+  "cph4/fleet/voicebank/discover/jobs_v06.txt",
+  "D:/ComfyUI/ComfyUI/queue (runtime, port 8188/8189)"
+ ],
+ "quant_queue_source": "quant/bigmoney/research/BENCH-QUEUE.json"
+}
