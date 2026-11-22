@@ -990,3 +990,24 @@ Open (honest):
   refusals only catch absence, split signatures and a bar-count contradiction).
 - The book's select-leg excess still sits inside its own MDE80 (r1763/r1764/r1765):
   the money question is unresolved, not refuted.
+
+## 5x 幂等快照 · r1940（2026-11-22 19:1x · bm-c）
+> 授权口径不变：逐轮权威=`round_reports-bm-c.md` 全行在册 + `state-bm-c.json` 的 `round_no`/`r19xx` 键；本块只做「产物清单与完成状态」核对与指针，不复述轮报告正文。
+> 本块覆盖 r1921→r1940（上一块 bm-c 快照停在 r1920）。其中 1927/1928/1932/1934/1939/1940 在轮报正文有行；r1933/1935/1936/1937 有行但时间戳用 `+08:00` 变体；r1921-r1926 / r1929-r1931 / r1938 正文只见于 state 键与 commit，本块不补写=如实记缺口。
+
+**本线产物（可核）**
+
+| 产物 | 状态 |
+|---|---|
+| r1927 `data_lane_freshness` 认证尾日补「整读面板」（repo 11 文件尾 11-20 vs 全文扫描 11-19），上一套件唯一红腿闭合；`regime_cap_vs_book` 上限句第二顶帽子改说「同一笔钱」 | 已发布 |
+| r1928 ETF 成本阶梯面（两过线臂 10/20/30bp 全档），20bp 全翻 → `PASS_IS_A_COST_ASSUMPTION`；方向令 O-20261114-2325 §四.1 复核回执 | 已发布（commit 7a5aa58462） |
+| r1932 `capital_substitution`：一手期货替掉多少 ETF 底仓，三把尺子（风险尺 89,958＝8% 预算 112.5%／每元资金尺 9.65%/Sharpe 1.21 vs 11.16%/1.10／名义尺明说不回答问题）→ `BETTER_PER_YUAN_BUT_NOT_BUYABLE_AT_THIS_CAPITAL` | 已发布 |
+| r1933 同一结论搬上 CEO 一页纸（`ceo_live_usage` ⑦ 节末块），三把尺子逐条印、不相加不平均 | 已发布（commit 2a969da363） |
+| r1934 三张孤儿面接上链（`etf_book_sell_plan`/`capital_union_decision`/`etf_book_year_concentration_money`）+ 漂移词分类（STALE=付费补写 / CHECK FAILED=真缺陷），链 344→350 腿，审计 0 red | 已发布（commit bac725afe8） |
+| r1935 `etf_book_ticket_floor` 探针锚到「最新票面还是我定价的那张吗」，链腿改 (check,run)：结算 1.2s / 漂移 53.2s，补写产物逐字节相同（sha 06c7f75ad9bc） | 已发布 |
+| r1936 `astock_resid_veto_layer` check 改问面板（40 文件尾 bar，0.26s），落后=STALE；面重算 cutoff 2026-11-20、回避名单 60 名、verdict 仍 `VETO_ADDS_VALUE` | 已发布（commit 16b5475601） |
+| r1937 CEO 页最后一个不可核日期接上 `capital_substitution.evidence_cutoff`，`live_usage_day_words` 115/115 ok、0 unmapped、92 规则 | 已发布（commit 34eae9a19d） |
+| r1939 `capital_substitution` 自带 `generated` 戳（不进 `build()`，check/selftest 仍确定性），CEO 页出处行印真时间；日期普查 116/116、93 规则 | 已发布（commit c6ee916253） |
+| **r1940 `etf_sign_prior`（本轮）**：把「符号是抄答案还是抄教科书」变成机器判词。六个生产符号逐字=各因子 docstring 里的教科书方向（先验臂=生产臂）；64 臂实测先验臂 IS +2.12%(8/64)/OOS +12.27%(9/64)、两半均前 25%，IS-best 臂 OOS **−8.49%(50/64)**、中位臂 +0.17% → `peeking_loses_to_the_textbook`。selftest 13/13、run/check 双 rc0、S6 新腿 0.1s | 已发布（commit 34be83dc22 / 补记 811a36d3da / 卡 187b3dad01） |
+
+**完成状态**：本线 `signs_in_sample` 指控的杀伤力已定价（对该书为零）；`etf_sign_prior` 已在 S6 链上与冒烟套件各有腿，但**全量套件本轮未跑**、1940 整链由 IterationLoop 自己的执行体推进（本会话只做新增文件面）。
