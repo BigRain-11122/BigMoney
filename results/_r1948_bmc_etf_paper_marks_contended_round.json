@@ -1,0 +1,44 @@
+{
+ "ts": "2026-11-22 21:5x +08:00",
+ "machine": "bm-c",
+ "round_no": 1948,
+ "mode": "CONTENTION / NEW-FILES-ONLY (r1907 same-tree multi-host law)",
+ "watermark_verdict": "green (red=false, lane=healthy, pool_batch=0 board_open=0 local_batch=0)",
+ "orphan_faces": "0 (py_faces=5, orphans=0, killed=[])",
+ "contention_evidence": "results/_repo_write_contention.bm-c.json (rc3 CONTENTION: 2 interactive hosts alive 81m/80m, 13 shared faces written by peer before this round, 0 unattributable inside overlap)",
+ "orders_ack_diff": "0 (UNACK=0 across all fleet/orders/O-*.md)",
+ "produced": [
+  "scripts/etf_paper_marks.py (new; selftest 10/10; --check rebuilds the panel and re-derives, classifies STALE vs CHECK FAILED)",
+  "results/etf_paper_marks.json (new face)",
+  "research/digests/DIGEST-20261122-etf-paper-marks.md"
+ ],
+ "finding": {
+  "headline": "the bond-free ETF paper book recorded 18 daily rows over 20 trading days and never recorded money: period_return is non-null on 1/18 rows and nav takes only {1.0, 1.00027}",
+  "computed_from_weights": {
+   "periods": 17,
+   "cumulative_return": 0.008188,
+   "max_drawdown": -0.010233,
+   "win_rate": 0.5294,
+   "equal_weight_baseline_cumulative_return": 0.008067,
+   "verdict": "NOT_INFORMATIVE_YET",
+   "frozen_floor": "60 bars; annualised return and Sharpe are printed as null and stored under arithmetic_extrapolation_NOT_READABLE"
+  },
+  "second_observation": "in 12 of 17 periods the scored weights equal flat weights exactly (ten names at 10%, vol_scale=1.0), so the first 12 period returns are byte-identical to the equal-weight baseline -- what the forward record has actually been testing is WHICH ten names, not how they are sized"
+ },
+ "ceo_face": {
+  "now_working": "ETF paper book now records money: 17 forward periods marked to market from the ledger's own weights (was 0 of 18 rows)",
+  "latest_artifact": "K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\etf_paper_marks.json (2026-11-22 21:5x)",
+  "next_milestone": "wire etf_paper_marks as an S6 tail leg and let etf_paper_signal stop writing empty nav (one number, one author) -- next non-contended round, within 48h"
+ },
+ "skipped_with_reason": {
+  "S6_chain": "blocked by CONTENTION (r1907: no shared-face rewrites, no chain rerun while another host is writing)",
+  "smoke_test_full": "python -m smoke_test produced no output for 5 minutes and the tool cancelled it; no --only option exists in smoke_test.py. Not rerun to avoid a second blind 5-minute wait; the new script is covered by its own selftest 10/10 + --check OK",
+  "heartbeat_state_round_reports": "not written this round: fleet/machines/bm-c.json is being written by two peer hosts (cap_exempt) and state/round_reports are the same shared faces; this note file is the r1947-precedent carrier"
+ },
+ "verification": [
+  "python scripts/etf_paper_marks.py --selftest -> 10/10 PASS",
+  "python scripts/etf_paper_marks.py run -> periods 17, cum 0.008188, mdd -0.010233, baseline cum 0.008067",
+  "python scripts/etf_paper_marks.py --check -> OK (panel rebuilt, ledger sha unchanged, per-period recompute identical)"
+ ],
+ "next_pointer": "1) have etf_paper_signal either write period_return/nav for real or read period returns from this face; 2) add etf_paper_marks leg to Tools/s6_chain_bmc.py tail; 3) revisit at >=60 forward bars (~2027-01 late)"
+}
