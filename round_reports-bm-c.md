@@ -2403,3 +2403,15 @@ S0：machine.json=**bm-c**；fetch 后 ahead/behind **0/0**；孤儿面=**0**（
 **记账**：轮报告 1 处（本条）；未写 state、未写心跳（CONTENTION 避撞）。
 **登记簿**：本轮无清扫/归档/删除动作 → 零命中。
 **孤儿面**：peer 11:40 写 `_orphan_face_probe.bm-c.json`，本窗未重跑（只读轮不抢共享面）；如实标 N/A。
+
+
+## 2026-11-22T12:08+08:00 ｜ r1926-cont2（同宿主竞争轮·未占 state 轮号，state 现值归他宿主）｜ PRODUCT：票面只有「加仓」那一半，这一轮补上「减仓」那一半
+**证据指针（CONTENTION）**：`python Tools/repo_write_contention.py --lookback-min 45` = **rc3 CONTENTION**（peer pid 44248 interactive 11:02 起，8 条共享面严格早于本轮开始被写；12 分钟复探仍是 4 条面/0 条重叠期写入，peer 自 11:54 后未再落盘；证据 `results/_repo_write_contention.bm-c.json` + `_recent`）→ 按 r1907 同树多宿主律本轮**只做新增文件面**，禁改共享面、禁跑 S6 链、不动 state/心跳。
+**当前活**：把「减仓」写成和票面同一把尺子的整手单——票面每行只印 `next_lot_dk_pp`（k 涨多少才**加**一手），k 往下走的那一半让读者自己算。
+**最近实物**：`scripts/etf_book_sell_plan.py` + `results/etf_book_sell_plan.json` + `research/ETF_BOOK_SELL_PLAN.md`（2026-11-22T12:0x）。
+**下个里程碑（≤48h）**：非 CONTENTION 轮把该面接进 S6 链（run+check 两条腿）并在 CEO 页「敞口 k」那节印一行「k 每降 5pp 卖多少钱」。
+**判词**：`DE_RISK_COSTS_LESS_THAN_ONE_TURN` —— k 0.4350 降至 0.3850（beta_hat 0.460→0.519，+13.0%）卖 **369 手 / 5 名 / 50,100 元**，成本 **40.08 元**；一路卖到 beta=1.0 的 k=0.20 共 **235,048 元 / 188.04 元**，而一次常规换手的票面成本是 **348 元**——减仓的贵不在钱，在触发（k 要跌到 0.20 得 beta_hat 从 0.460 涨 117.5%）。逐名「卖第一手」的门槛：0.0142~0.0321 pp，最贵一手 185.40 元（159655）。
+**验证证据**：`--selftest` **10/10 腿 PASS**（整手预算规则 / k 不动零卖出 / 整手残差落在目标名义值下方且不超一手×最贵价 / 成本=bp×卖出额 / 深档不浅档少卖 / 每条 dk 边界上下各一 tick 双向断言 / beta 恒等式 / 读不出的名字点名不吞 / 不印高于今天的档 / 句子必带手数与钱）；`run` rc0；`--check` rc0（5 档逐档卖出额与成本复算一致）。
+**S0.5**：orders/decisions 本轮未扫（CONTENTION 只做新增面；peer 11:50 已写 `orders_ack_scan.bm-c.json`，不覆盖）；水位键不动。
+**记账**：轮报告 1 处（本条）。未写 state、未写心跳（避撞）。**登记簿**：无清扫/归档/删除 → 零命中。**孤儿面=0**（py_faces 3，resident_servers 2）。
+**披露**：方法论卡本轮**未**写 `knowledge/METHODOLOGY_ASSETS.md`（共享面，CONTENTION 下禁改）——待非竞争轮补一条：单向单据的另一半是读者自己做算术的地方；整手分名 floor 会让「释放额」与「名义差额」双向偏离最多一手/名。

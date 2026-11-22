@@ -1,0 +1,377 @@
+{
+ "artifact": "etf_book_sell_plan",
+ "generated": "2026-11-22T12:06:35+0800",
+ "evidence_cutoff": "2026-11-20",
+ "ticket": "results/etf_book_order/TICKET-2026-11-20.json",
+ "ticket_generated": "2026-11-22T11:07:49+08:00",
+ "question": "when the sizing dial goes down, what has to be SOLD -- which whole lots, how many CNY, and what does it cost",
+ "identity": {
+  "rule": "k = beta_target / beta_hat clipped to [0, 1] (imported identity, read off the ticket; scripts/etf_book_order.py k_schedule)",
+  "beta_target": 0.2,
+  "k_now": 0.435003,
+  "beta_now": 0.459767,
+  "cost_bp_per_side": 8.0,
+  "nav_cny": 1000000.0,
+  "n_hold": 5,
+  "lot": 100
+ },
+ "book_now": {
+  "book_cny": 434754.1,
+  "cash_cny": 565245.9,
+  "n_names": 5,
+  "one_turn_cost_cny": 347.8
+ },
+ "ladder": [
+  {
+   "k_target": 0.385003,
+   "k_fall_pp": 5.0,
+   "per_name_cny": 77000.6,
+   "book_after_cny": 384654.4,
+   "sell_cny": 50099.7,
+   "sell_pct_of_nav": 5.01,
+   "cost_cny": 40.08,
+   "n_names_moving": 5,
+   "unmeasured": [],
+   "rows": [
+    {
+     "symbol": "510760",
+     "price": 1.228,
+     "lots_held": 708,
+     "lots_after": 627,
+     "lots_sell": 81,
+     "sell_cny": 9946.8,
+     "note": ""
+    },
+    {
+     "symbol": "512040",
+     "price": 1.183,
+     "lots_held": 735,
+     "lots_after": 650,
+     "lots_sell": 85,
+     "sell_cny": 10055.5,
+     "note": ""
+    },
+    {
+     "symbol": "159655",
+     "price": 1.854,
+     "lots_held": 469,
+     "lots_after": 415,
+     "lots_sell": 54,
+     "sell_cny": 10011.6,
+     "note": ""
+    },
+    {
+     "symbol": "513690",
+     "price": 1.116,
+     "lots_held": 779,
+     "lots_after": 689,
+     "lots_sell": 90,
+     "sell_cny": 10044.0,
+     "note": ""
+    },
+    {
+     "symbol": "159519",
+     "price": 1.702,
+     "lots_held": 511,
+     "lots_after": 452,
+     "lots_sell": 59,
+     "sell_cny": 10041.8,
+     "note": ""
+    }
+   ],
+   "beta_at_trigger": 0.519476,
+   "beta_rise_pct": 12.99
+  },
+  {
+   "k_target": 0.335003,
+   "k_fall_pp": 10.0,
+   "per_name_cny": 67000.6,
+   "book_after_cny": 334661.8,
+   "sell_cny": 100092.3,
+   "sell_pct_of_nav": 10.009,
+   "cost_cny": 80.07,
+   "n_names_moving": 5,
+   "unmeasured": [],
+   "rows": [
+    {
+     "symbol": "510760",
+     "price": 1.228,
+     "lots_held": 708,
+     "lots_after": 545,
+     "lots_sell": 163,
+     "sell_cny": 20016.4,
+     "note": ""
+    },
+    {
+     "symbol": "512040",
+     "price": 1.183,
+     "lots_held": 735,
+     "lots_after": 566,
+     "lots_sell": 169,
+     "sell_cny": 19992.7,
+     "note": ""
+    },
+    {
+     "symbol": "159655",
+     "price": 1.854,
+     "lots_held": 469,
+     "lots_after": 361,
+     "lots_sell": 108,
+     "sell_cny": 20023.2,
+     "note": ""
+    },
+    {
+     "symbol": "513690",
+     "price": 1.116,
+     "lots_held": 779,
+     "lots_after": 600,
+     "lots_sell": 179,
+     "sell_cny": 19976.4,
+     "note": ""
+    },
+    {
+     "symbol": "159519",
+     "price": 1.702,
+     "lots_held": 511,
+     "lots_after": 393,
+     "lots_sell": 118,
+     "sell_cny": 20083.6,
+     "note": ""
+    }
+   ],
+   "beta_at_trigger": 0.59701,
+   "beta_rise_pct": 29.85
+  },
+  {
+   "k_target": 0.285003,
+   "k_fall_pp": 15.0,
+   "per_name_cny": 57000.6,
+   "book_after_cny": 284562.1,
+   "sell_cny": 150192.0,
+   "sell_pct_of_nav": 15.019,
+   "cost_cny": 120.15,
+   "n_names_moving": 5,
+   "unmeasured": [],
+   "rows": [
+    {
+     "symbol": "510760",
+     "price": 1.228,
+     "lots_held": 708,
+     "lots_after": 464,
+     "lots_sell": 244,
+     "sell_cny": 29963.2,
+     "note": ""
+    },
+    {
+     "symbol": "512040",
+     "price": 1.183,
+     "lots_held": 735,
+     "lots_after": 481,
+     "lots_sell": 254,
+     "sell_cny": 30048.2,
+     "note": ""
+    },
+    {
+     "symbol": "159655",
+     "price": 1.854,
+     "lots_held": 469,
+     "lots_after": 307,
+     "lots_sell": 162,
+     "sell_cny": 30034.8,
+     "note": ""
+    },
+    {
+     "symbol": "513690",
+     "price": 1.116,
+     "lots_held": 779,
+     "lots_after": 510,
+     "lots_sell": 269,
+     "sell_cny": 30020.4,
+     "note": ""
+    },
+    {
+     "symbol": "159519",
+     "price": 1.702,
+     "lots_held": 511,
+     "lots_after": 334,
+     "lots_sell": 177,
+     "sell_cny": 30125.4,
+     "note": ""
+    }
+   ],
+   "beta_at_trigger": 0.701747,
+   "beta_rise_pct": 52.63
+  },
+  {
+   "k_target": 0.235003,
+   "k_fall_pp": 20.0,
+   "per_name_cny": 47000.6,
+   "book_after_cny": 234739.7,
+   "sell_cny": 200014.4,
+   "sell_pct_of_nav": 20.001,
+   "cost_cny": 160.01,
+   "n_names_moving": 5,
+   "unmeasured": [],
+   "rows": [
+    {
+     "symbol": "510760",
+     "price": 1.228,
+     "lots_held": 708,
+     "lots_after": 382,
+     "lots_sell": 326,
+     "sell_cny": 40032.8,
+     "note": ""
+    },
+    {
+     "symbol": "512040",
+     "price": 1.183,
+     "lots_held": 735,
+     "lots_after": 397,
+     "lots_sell": 338,
+     "sell_cny": 39985.4,
+     "note": ""
+    },
+    {
+     "symbol": "159655",
+     "price": 1.854,
+     "lots_held": 469,
+     "lots_after": 253,
+     "lots_sell": 216,
+     "sell_cny": 40046.4,
+     "note": ""
+    },
+    {
+     "symbol": "513690",
+     "price": 1.116,
+     "lots_held": 779,
+     "lots_after": 421,
+     "lots_sell": 358,
+     "sell_cny": 39952.8,
+     "note": ""
+    },
+    {
+     "symbol": "159519",
+     "price": 1.702,
+     "lots_held": 511,
+     "lots_after": 276,
+     "lots_sell": 235,
+     "sell_cny": 39997.0,
+     "note": ""
+    }
+   ],
+   "beta_at_trigger": 0.851053,
+   "beta_rise_pct": 85.11
+  },
+  {
+   "k_target": 0.2,
+   "k_fall_pp": 23.5,
+   "per_name_cny": 40000.0,
+   "book_after_cny": 199706.2,
+   "sell_cny": 235047.9,
+   "sell_pct_of_nav": 23.505,
+   "cost_cny": 188.04,
+   "n_names_moving": 5,
+   "unmeasured": [],
+   "rows": [
+    {
+     "symbol": "510760",
+     "price": 1.228,
+     "lots_held": 708,
+     "lots_after": 325,
+     "lots_sell": 383,
+     "sell_cny": 47032.4,
+     "note": ""
+    },
+    {
+     "symbol": "512040",
+     "price": 1.183,
+     "lots_held": 735,
+     "lots_after": 338,
+     "lots_sell": 397,
+     "sell_cny": 46965.1,
+     "note": ""
+    },
+    {
+     "symbol": "159655",
+     "price": 1.854,
+     "lots_held": 469,
+     "lots_after": 215,
+     "lots_sell": 254,
+     "sell_cny": 47091.6,
+     "note": ""
+    },
+    {
+     "symbol": "513690",
+     "price": 1.116,
+     "lots_held": 779,
+     "lots_after": 358,
+     "lots_sell": 421,
+     "sell_cny": 46983.6,
+     "note": ""
+    },
+    {
+     "symbol": "159519",
+     "price": 1.702,
+     "lots_held": 511,
+     "lots_after": 235,
+     "lots_sell": 276,
+     "sell_cny": 46975.2,
+     "note": ""
+    }
+   ],
+   "beta_at_trigger": 1.0,
+   "beta_rise_pct": 117.5
+  }
+ ],
+ "one_lot_first_sell": [
+  {
+   "symbol": "510760",
+   "k_edge": 0.434712,
+   "dk_pp": 0.0291,
+   "lots_held": 708,
+   "sell_cny_when_it_goes": 122.8,
+   "note": ""
+  },
+  {
+   "symbol": "512040",
+   "k_edge": 0.4347525,
+   "dk_pp": 0.025,
+   "lots_held": 735,
+   "sell_cny_when_it_goes": 118.3,
+   "note": ""
+  },
+  {
+   "symbol": "159655",
+   "k_edge": 0.434763,
+   "dk_pp": 0.024,
+   "lots_held": 469,
+   "sell_cny_when_it_goes": 185.4,
+   "note": ""
+  },
+  {
+   "symbol": "513690",
+   "k_edge": 0.434682,
+   "dk_pp": 0.0321,
+   "lots_held": 779,
+   "sell_cny_when_it_goes": 111.6,
+   "note": ""
+  },
+  {
+   "symbol": "159519",
+   "k_edge": 0.434861,
+   "dk_pp": 0.0142,
+   "lots_held": 511,
+   "sell_cny_when_it_goes": 170.2,
+   "note": ""
+  }
+ ],
+ "next_decision_bar": "2026-12-09",
+ "verdict": "DE_RISK_COSTS_LESS_THAN_ONE_TURN",
+ "limits": [
+  "same book re-sized, not a new ranking: a real de-risk executes on a decision bar at that bar's prices, so every CNY here is today's price",
+  "k moves only when beta_hat moves; beta_hat is the engine's expanding slope, not a number this face estimates",
+  "whole lots only: each name floors separately, so the freed CNY differs from (k_now - k_target) * nav by at most one lot per name, in either direction",
+  "this face does not decide that a de-risk is due -- it prices the action once the sizing rule has already said so"
+ ],
+ "sentence": "If the sizing dial goes from 0.4350 to 0.3850 (beta_hat 0.460 -> 0.519), the sheet sells 369 lots across 5 names for 50,100 CNY, which frees 5.01% of NAV and costs 40.08 CNY at 8.0 bp per side; going all the way to 0.20 sells 235,048 CNY for 188.04 CNY, against 348 CNY for one ordinary turn."
+}
