@@ -1,0 +1,454 @@
+{
+ "schema": "bench_cash_vehicle_window/v1",
+ "generated": "2026-11-23T07:03:19+0800",
+ "evidence_cutoff": "2026-11-20",
+ "question": "同一笔闲置现金，沪市 GC001 逐日滚 / 深市 R-001 逐日滚 / 511880 买入持有，在不同回看窗口下谁更值，答案会不会翻？",
+ "principal_cny": 1000000.0,
+ "ticket_cash": {
+  "cny": 565245.9,
+  "file": "TICKET-2026-11-20.json"
+ },
+ "window": {
+  "start": "2013-04-18",
+  "end": "2026-11-20",
+  "bars": 3303,
+  "rungs": [
+   21,
+   63,
+   126,
+   252,
+   504,
+   1008,
+   "full"
+  ]
+ },
+ "vehicles": {
+  "gc001_daily_roll": {
+   "venue": "SSE",
+   "fee_bp_per_order": 0.1,
+   "principal_is_available_intraday": false
+  },
+  "r001_daily_roll": {
+   "venue": "SZSE",
+   "fee_bp_per_order": 0.1,
+   "principal_is_available_intraday": false
+  },
+  "money_etf_511880": {
+   "venue": "SSE",
+   "commission_pct_side": 0.02,
+   "commission_min_cny": 5.0,
+   "principal_is_available_intraday": true,
+   "consolidations_in_window": [
+    {
+     "date": "2014-01-17",
+     "price_before": 103.495,
+     "price_after": 100.283,
+     "apparent_pct": -3.104
+    },
+    {
+     "date": "2014-12-31",
+     "price_before": 104.404,
+     "price_after": 100.295,
+     "apparent_pct": -3.936
+    },
+    {
+     "date": "2015-12-31",
+     "price_before": 103.423,
+     "price_after": 100.13,
+     "apparent_pct": -3.184
+    },
+    {
+     "date": "2016-12-30",
+     "price_before": 102.645,
+     "price_after": 100.228,
+     "apparent_pct": -2.355
+    },
+    {
+     "date": "2017-12-29",
+     "price_before": 103.473,
+     "price_after": 100.138,
+     "apparent_pct": -3.223
+    },
+    {
+     "date": "2018-12-28",
+     "price_before": 103.52,
+     "price_after": 100.104,
+     "apparent_pct": -3.3
+    },
+    {
+     "date": "2019-12-31",
+     "price_before": 102.564,
+     "price_after": 100.101,
+     "apparent_pct": -2.401
+    },
+    {
+     "date": "2020-12-31",
+     "price_before": 102.098,
+     "price_after": 100.135,
+     "apparent_pct": -1.923
+    },
+    {
+     "date": "2021-12-31",
+     "price_before": 102.216,
+     "price_after": 100.123,
+     "apparent_pct": -2.048
+    },
+    {
+     "date": "2022-12-30",
+     "price_before": 101.729,
+     "price_after": 100.152,
+     "apparent_pct": -1.55
+    },
+    {
+     "date": "2023-12-29",
+     "price_before": 101.809,
+     "price_after": 100.083,
+     "apparent_pct": -1.695
+    },
+    {
+     "date": "2024-12-31",
+     "price_before": 101.613,
+     "price_after": 100.093,
+     "apparent_pct": -1.496
+    },
+    {
+     "date": "2025-12-31",
+     "price_before": 101.192,
+     "price_after": 100.075,
+     "apparent_pct": -1.104
+    }
+   ]
+  }
+ },
+ "headline": "ONE_VEHICLE_WINS_EVERY_LOOKBACK",
+ "first_switch": null,
+ "today": {
+  "verdict": "TODAY_READING_ONE_WINNER",
+  "winner": "gc001_daily_roll",
+  "rungs": {
+   "252": {
+    "winner": "gc001_daily_roll",
+    "start": "2025-11-07",
+    "end": "2026-11-20",
+    "gc001_net_pct": 1.0688,
+    "r001_net_pct": 1.0468,
+    "money_etf_net_pct": 0.9761
+   },
+   "504": {
+    "winner": "gc001_daily_roll",
+    "start": "2024-10-25",
+    "end": "2026-11-20",
+    "gc001_net_pct": 1.263,
+    "r001_net_pct": 1.2321,
+    "money_etf_net_pct": 1.0678
+   }
+  }
+ },
+ "reading": {
+  "orders_per_year": 242.95,
+  "gap_gc001_minus_etf_cny_per_year": {
+   "21": 2983.0,
+   "63": 197.0,
+   "126": 98.0,
+   "252": 524.0,
+   "504": 1103.0,
+   "1008": 1723.0,
+   "full": 124.0
+  },
+  "r001_penalty_cny_per_year": {
+   "21": 104.0,
+   "63": 120.0,
+   "126": 106.0,
+   "252": 124.0,
+   "504": 175.0,
+   "1008": 132.0,
+   "full": 2977.0
+  },
+  "cny_per_repo_order": {
+   "21": 12.28,
+   "63": 0.81,
+   "126": 0.4,
+   "252": 2.16,
+   "504": 4.54,
+   "1008": 7.09,
+   "full": 0.51
+  },
+  "today_short_rung_is_a_tie_before_friction": true
+ },
+ "cells": [
+  {
+   "lookback": 21,
+   "start": "2026-10-23",
+   "end": "2026-11-20",
+   "bars": 21,
+   "years": 0.077,
+   "gc001_net_pct": 0.9531,
+   "r001_net_pct": 0.9347,
+   "money_etf_gross_pct": 0.9471,
+   "money_etf_commission_drag_pp": 0.5218,
+   "money_etf_net_pct": 0.4253,
+   "gap_gc001_minus_etf_pp": 0.5278,
+   "gap_r001_minus_etf_pp": 0.5094,
+   "gap_gc001_minus_r001_pp": 0.0184,
+   "cny_per_year_on_1m": {
+    "gc001": 9531.0,
+    "r001": 9347.0,
+    "money_etf": 4253.0
+   },
+   "cny_per_year_on_ticket_cash": {
+    "gc001": 5387.0,
+    "r001": 5283.0,
+    "money_etf": 2404.0
+   },
+   "orders": {
+    "gc001": 20,
+    "r001": 20,
+    "money_etf": 2
+   },
+   "missing_quotes": {
+    "gc001": 0,
+    "r001": 0
+   },
+   "winner": "gc001_daily_roll"
+  },
+  {
+   "lookback": 63,
+   "start": "2026-08-18",
+   "end": "2026-11-20",
+   "bars": 63,
+   "years": 0.257,
+   "gc001_net_pct": 0.9867,
+   "r001_net_pct": 0.9654,
+   "money_etf_gross_pct": 1.1073,
+   "money_etf_commission_drag_pp": 0.1554,
+   "money_etf_net_pct": 0.9519,
+   "gap_gc001_minus_etf_pp": 0.0348,
+   "gap_r001_minus_etf_pp": 0.0135,
+   "gap_gc001_minus_r001_pp": 0.0213,
+   "cny_per_year_on_1m": {
+    "gc001": 9867.0,
+    "r001": 9654.0,
+    "money_etf": 9519.0
+   },
+   "cny_per_year_on_ticket_cash": {
+    "gc001": 5577.0,
+    "r001": 5457.0,
+    "money_etf": 5380.0
+   },
+   "orders": {
+    "gc001": 62,
+    "r001": 62,
+    "money_etf": 2
+   },
+   "missing_quotes": {
+    "gc001": 0,
+    "r001": 0
+   },
+   "winner": "gc001_daily_roll"
+  },
+  {
+   "lookback": 126,
+   "start": "2026-05-20",
+   "end": "2026-11-20",
+   "bars": 126,
+   "years": 0.504,
+   "gc001_net_pct": 0.9912,
+   "r001_net_pct": 0.9725,
+   "money_etf_gross_pct": 1.0532,
+   "money_etf_commission_drag_pp": 0.0794,
+   "money_etf_net_pct": 0.9738,
+   "gap_gc001_minus_etf_pp": 0.0174,
+   "gap_r001_minus_etf_pp": -0.0013,
+   "gap_gc001_minus_r001_pp": 0.0187,
+   "cny_per_year_on_1m": {
+    "gc001": 9912.0,
+    "r001": 9725.0,
+    "money_etf": 9738.0
+   },
+   "cny_per_year_on_ticket_cash": {
+    "gc001": 5603.0,
+    "r001": 5497.0,
+    "money_etf": 5505.0
+   },
+   "orders": {
+    "gc001": 125,
+    "r001": 125,
+    "money_etf": 2
+   },
+   "missing_quotes": {
+    "gc001": 0,
+    "r001": 0
+   },
+   "winner": "gc001_daily_roll"
+  },
+  {
+   "lookback": 252,
+   "start": "2025-11-07",
+   "end": "2026-11-20",
+   "bars": 252,
+   "years": 1.035,
+   "gc001_net_pct": 1.0688,
+   "r001_net_pct": 1.0468,
+   "money_etf_gross_pct": 1.0148,
+   "money_etf_commission_drag_pp": 0.0387,
+   "money_etf_net_pct": 0.9761,
+   "gap_gc001_minus_etf_pp": 0.0927,
+   "gap_r001_minus_etf_pp": 0.0707,
+   "gap_gc001_minus_r001_pp": 0.022,
+   "cny_per_year_on_1m": {
+    "gc001": 10688.0,
+    "r001": 10468.0,
+    "money_etf": 9761.0
+   },
+   "cny_per_year_on_ticket_cash": {
+    "gc001": 6041.0,
+    "r001": 5917.0,
+    "money_etf": 5518.0
+   },
+   "orders": {
+    "gc001": 251,
+    "r001": 251,
+    "money_etf": 2
+   },
+   "missing_quotes": {
+    "gc001": 0,
+    "r001": 0
+   },
+   "winner": "gc001_daily_roll"
+  },
+  {
+   "lookback": 504,
+   "start": "2024-10-25",
+   "end": "2026-11-20",
+   "bars": 504,
+   "years": 2.07,
+   "gc001_net_pct": 1.263,
+   "r001_net_pct": 1.2321,
+   "money_etf_gross_pct": 1.0872,
+   "money_etf_commission_drag_pp": 0.0193,
+   "money_etf_net_pct": 1.0678,
+   "gap_gc001_minus_etf_pp": 0.1952,
+   "gap_r001_minus_etf_pp": 0.1643,
+   "gap_gc001_minus_r001_pp": 0.0309,
+   "cny_per_year_on_1m": {
+    "gc001": 12630.0,
+    "r001": 12321.0,
+    "money_etf": 10678.0
+   },
+   "cny_per_year_on_ticket_cash": {
+    "gc001": 7139.0,
+    "r001": 6964.0,
+    "money_etf": 6036.0
+   },
+   "orders": {
+    "gc001": 503,
+    "r001": 503,
+    "money_etf": 2
+   },
+   "missing_quotes": {
+    "gc001": 0,
+    "r001": 0
+   },
+   "winner": "gc001_daily_roll"
+  },
+  {
+   "lookback": 1008,
+   "start": "2022-09-21",
+   "end": "2026-11-20",
+   "bars": 1008,
+   "years": 4.164,
+   "gc001_net_pct": 1.6207,
+   "r001_net_pct": 1.5973,
+   "money_etf_gross_pct": 1.3255,
+   "money_etf_commission_drag_pp": 0.0096,
+   "money_etf_net_pct": 1.3159,
+   "gap_gc001_minus_etf_pp": 0.3048,
+   "gap_r001_minus_etf_pp": 0.2814,
+   "gap_gc001_minus_r001_pp": 0.0234,
+   "cny_per_year_on_1m": {
+    "gc001": 16207.0,
+    "r001": 15973.0,
+    "money_etf": 13159.0
+   },
+   "cny_per_year_on_ticket_cash": {
+    "gc001": 9161.0,
+    "r001": 9029.0,
+    "money_etf": 7438.0
+   },
+   "orders": {
+    "gc001": 1007,
+    "r001": 1007,
+    "money_etf": 2
+   },
+   "missing_quotes": {
+    "gc001": 0,
+    "r001": 0
+   },
+   "winner": "gc001_daily_roll"
+  },
+  {
+   "lookback": "full",
+   "start": "2013-04-18",
+   "end": "2026-11-20",
+   "bars": 3303,
+   "years": 13.591,
+   "gc001_net_pct": 2.4482,
+   "r001_net_pct": 1.9215,
+   "money_etf_gross_pct": 2.4292,
+   "money_etf_commission_drag_pp": 0.0029,
+   "money_etf_net_pct": 2.4262,
+   "gap_gc001_minus_etf_pp": 0.022,
+   "gap_r001_minus_etf_pp": -0.5047,
+   "gap_gc001_minus_r001_pp": 0.5267,
+   "cny_per_year_on_1m": {
+    "gc001": 24482.0,
+    "r001": 19215.0,
+    "money_etf": 24262.0
+   },
+   "cny_per_year_on_ticket_cash": {
+    "gc001": 13838.0,
+    "r001": 10861.0,
+    "money_etf": 13714.0
+   },
+   "orders": {
+    "gc001": 3302,
+    "r001": 3262,
+    "money_etf": 2
+   },
+   "missing_quotes": {
+    "gc001": 0,
+    "r001": 40
+   },
+   "winner": "gc001_daily_roll"
+  }
+ ],
+ "control": {
+  "published_gc001_net_pct": 1.7733,
+  "gap_bp": 0.0049,
+  "tolerance_bp": 0.5
+ },
+ "honesty": [
+  "短档（21/63/126 bar）的年化是这几天的收益按日历天外推，天生比 1008/full 吵；它们是拿来让「翻面点」看得见，不是可比的长期收益率",
+  "511880 的收盘是锯齿：每年末份额折算造成一次深跌，本面沿用 etf_book_cash_vehicle 的折算识别（当日收益记 0 并逐条列出），不识别就会把这本每年赚约 1.5% 的资产算成负的",
+  "货币 ETF 的双边佣金按一次进一次出算，短档上这笔一次性费用被压进很短的天数里，所以短档的 net 明显低于 gross；长档上它趋近 4bp/年",
+  "逆回购资金到期才可用、且必须收盘前续做；货基可以盘中卖出。这笔「灵活性」不在收益表里",
+  "两个交易所的报价不是同一批人报的：GC001 与 R-001 在同一根 bar 上的利率不同，深市账户买不了 GC001，本面把两条腿并排而不是取平均",
+  "511990 / 159001 仍不出数字：它们的收益以份额计，本仓没有每万份收益/净值面",
+  "回看梯子是跑之前写死的，没有在看到结果后加档"
+ ],
+ "inputs": {
+  "GC001.csv": {
+   "sha256": "564df41b677636502d65eab6f9df1c2237369282f39eb7a2e098828422e25319",
+   "bytes": 153355
+  },
+  "R-001.csv": {
+   "sha256": "dea94c32bbe1867fdfe960905650ec1eb83dfa3ddbc9f232fddef7b5e1f63375",
+   "bytes": 130582
+  },
+  "sh511880.csv": {
+   "sha256": "0dbf31260be1a266c99d7945093688f754f788e9839e243161e5ff7c58d8e313",
+   "bytes": 223404
+  }
+ },
+ "elapsed_sec": 1.8
+}
