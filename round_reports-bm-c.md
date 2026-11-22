@@ -2415,3 +2415,5 @@ S0：machine.json=**bm-c**；fetch 后 ahead/behind **0/0**；孤儿面=**0**（
 **S0.5**：orders/decisions 本轮未扫（CONTENTION 只做新增面；peer 11:50 已写 `orders_ack_scan.bm-c.json`，不覆盖）；水位键不动。
 **记账**：轮报告 1 处（本条）。未写 state、未写心跳（避撞）。**登记簿**：无清扫/归档/删除 → 零命中。**孤儿面=0**（py_faces 3，resident_servers 2）。
 **披露**：方法论卡本轮**未**写 `knowledge/METHODOLOGY_ASSETS.md`（共享面，CONTENTION 下禁改）——待非竞争轮补一条：单向单据的另一半是读者自己做算术的地方；整手分名 floor 会让「释放额」与「名义差额」双向偏离最多一手/名。
+
+**r1926-cont2 补记**：本地未达 origin commit 数=**0**（`480118d717` 已推；fetch 后 `git ls-tree origin/main` 三件俱在、`rev-parse HEAD == origin/main`）；本轮 PREREG/引擎/退出规则零触碰，未跑回测，故无试验数 N 变动；试验台账未动。
