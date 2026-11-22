@@ -1,0 +1,522 @@
+{
+ "version": "1.0",
+ "owner": "金融公司（量化线）",
+ "purpose": "把量化线拆成细颗粒块面；每块=输入→加工→产物→机器探针→判决→升级动作。红块必须有人认领并有动作，不靠人盯。",
+ "seat_library": "cph4/agents/AGENT-LIBRARY.md",
+ "gate_skill": "cph4/skills/quant-backtest-gate/SKILL.md",
+ "target_edge_pp": 5.0,
+ "blocks": [
+  {
+   "id": "D1_fut_daily",
+   "group": "数据",
+   "name": "期货日线落地（10 品种）",
+   "granularity": "品种级：每个 csv 必须连续且最新 bar 等于最近交易日",
+   "seat": "数据管道席",
+   "skills": [
+    "data-quality-checker"
+   ],
+   "input": "sina/交易所日线",
+   "artifact": "data/futures_daily",
+   "cadence_h": 24,
+   "probe": {
+    "type": "dir_bar_fresh",
+    "dir": "data/futures_daily",
+    "pattern": "*.csv",
+    "min_count": 10,
+    "holiday_allow_days": 4
+   },
+   "acceptance": "最新 bar 日期 ≥ 最近工作日（允许假期）",
+   "on_red": "先查数据车道脚本是否在跑；不补则下游所有格子自动 DATA-BLOCKED",
+   "closed_loop": "源→csv→探针→若红则停下游并提数据修复卡",
+   "auto_fix": null
+  },
+  {
+   "id": "D2_index_daily",
+   "group": "数据",
+   "name": "指数日线（沪深300/500/50/1000）",
+   "granularity": "指数级",
+   "seat": "数据管道席",
+   "skills": [
+    "data-quality-checker"
+   ],
+   "input": "sina 指数",
+   "artifact": "data/index_daily",
+   "cadence_h": 24,
+   "probe": {
+    "type": "dir_bar_fresh",
+    "dir": "data/index_daily",
+    "pattern": "*.csv",
+    "min_count": 4,
+    "holiday_allow_days": 4
+   },
+   "acceptance": "最新 bar 日期 ≥ 最近工作日（允许假期）",
+   "on_red": "基准腿失效→所有相对收益结论作废，先修数据",
+   "closed_loop": "同上",
+   "auto_fix": null
+  },
+  {
+   "id": "D3_etf_daily",
+   "group": "数据",
+   "name": "ETF 日线（1500+）",
+   "granularity": "标级",
+   "seat": "数据管道席",
+   "skills": [
+    "data-quality-checker"
+   ],
+   "input": "交易所 ETF 行情",
+   "artifact": "data/daily",
+   "cadence_h": 24,
+   "probe": {
+    "type": "dir_bar_fresh",
+    "dir": "data/daily",
+    "pattern": "*.csv",
+    "min_count": 1000,
+    "holiday_allow_days": 4
+   },
+   "acceptance": "最新 bar 日期 ≥ 最近工作日（允许假期）",
+   "on_red": "生产书停摆风险→最高优先修",
+   "closed_loop": "同上",
+   "auto_fix": null
+  },
+  {
+   "id": "D4_astock_daily",
+   "group": "数据",
+   "name": "A股日线面板（5000+）",
+   "granularity": "标级 + 面板缓存",
+   "seat": "数据管道席",
+   "skills": [
+    "data-quality-checker"
+   ],
+   "input": "sina 前复权日线",
+   "artifact": "data/astock_daily/per",
+   "cadence_h": 24,
+   "probe": {
+    "type": "dir_bar_fresh",
+    "dir": "data/astock_daily/per",
+    "pattern": "*.csv",
+    "min_count": 4000,
+    "holiday_allow_days": 4
+   },
+   "acceptance": "最新 bar 日期 ≥ 最近工作日（允许假期）",
+   "on_red": "A股格子自动 DATA-BLOCKED",
+   "closed_loop": "同上",
+   "auto_fix": null
+  },
+  {
+   "id": "D5_cb_panel",
+   "group": "数据",
+   "name": "转债面板（含退市，无生存者偏差）",
+   "granularity": "券级",
+   "seat": "数据管道席",
+   "skills": [
+    "data-quality-checker"
+   ],
+   "input": "东财 RPTA_WEB_KZZ_LS",
+   "artifact": "data/cb_panel.csv.gz",
+   "cadence_h": 168,
+   "probe": {
+    "type": "file_fresh",
+    "path": "data/cb_panel.csv.gz",
+    "max_age_h": 200
+   },
+   "acceptance": "面板 ≤8 天",
+   "on_red": "转债类格子停",
+   "closed_loop": "同上",
+   "auto_fix": "python scripts/cb_dual_low.py fetch"
+  },
+  {
+   "id": "D6_cash_rate",
+   "group": "数据",
+   "name": "回购/现金利率（GC001 等）",
+   "granularity": "品种级",
+   "seat": "数据管道席",
+   "skills": [
+    "data-quality-checker"
+   ],
+   "input": "交易所回购行情",
+   "artifact": "data/repo_daily",
+   "cadence_h": 24,
+   "probe": {
+    "type": "dir_bar_fresh",
+    "dir": "data/repo_daily",
+    "pattern": "*.csv",
+    "min_count": 5,
+    "holiday_allow_days": 4
+   },
+   "acceptance": "最新 bar 日期 ≥ 最近工作日（允许假期）",
+   "on_red": "现金腿定价失效→防守面结论降级",
+   "closed_loop": "同上",
+   "auto_fix": null
+  },
+  {
+   "id": "D7_lane_board",
+   "group": "数据",
+   "name": "数据车道新鲜度看板",
+   "granularity": "车道级",
+   "seat": "数据管道席",
+   "skills": [
+    "data-quality-checker"
+   ],
+   "input": "各 lane 写盘时间",
+   "artifact": "results/data_lane_freshness.json",
+   "cadence_h": 24,
+   "probe": {
+    "type": "file_fresh",
+    "path": "results/data_lane_freshness.json",
+    "max_age_h": 30
+   },
+   "acceptance": "看板 <30h",
+   "on_red": "无法判断数据是否停更",
+   "closed_loop": "跑 data_lane_freshness.py 重生成",
+   "auto_fix": "python scripts/data_lane_freshness.py run"
+  },
+  {
+   "id": "R1_hypothesis_queue",
+   "group": "研究",
+   "name": "候选假设队列（唯一入口）",
+   "granularity": "假设级：每条必须有 decision/判据/车道/时限",
+   "seat": "研究席",
+   "skills": [
+    "trade-hypothesis-ideator",
+    "gate-rigor"
+   ],
+   "input": "四门立项律 + 30 分钟判生死协议",
+   "artifact": "research/BENCH-QUEUE.json",
+   "cadence_h": 24,
+   "probe": {
+    "type": "json_exists_keys",
+    "path": "research/BENCH-QUEUE.json",
+    "keys": [
+     "cells"
+    ],
+    "max_age_h": 168
+   },
+   "acceptance": "队列可解析且每格有 question/script/criteria",
+   "on_red": "研究线断供",
+   "closed_loop": "hub --selftest",
+   "auto_fix": "python scripts/bench_hub.py --selftest"
+  },
+  {
+   "id": "R2_bench_executor",
+   "group": "研究",
+   "name": "试验场执行器（20 分钟 tick）",
+   "granularity": "格级",
+   "seat": "研究席",
+   "skills": [
+    "quant-backtest-gate"
+   ],
+   "input": "队列 pending",
+   "artifact": "results/bench/HUB-STATE.json",
+   "cadence_h": 1,
+   "probe": {
+    "type": "file_fresh",
+    "path": "results/bench/HUB-STATE.json",
+    "max_age_h": 24
+   },
+   "acceptance": "24h 内有 tick 记录（空队列=合法 idle）",
+   "on_red": "执行器死→检查计划任务 Bigmoney-StrategyBench",
+   "closed_loop": "tick→state→探针→红则重注册任务",
+   "auto_fix": "python scripts/bench_hub.py --next"
+  },
+  {
+   "id": "R3_gate_power",
+   "group": "研究",
+   "name": "判据冻结 + 功效闸",
+   "granularity": "臂级：每臂要有 MDE 与目标边际比较",
+   "seat": "判据席",
+   "skills": [
+    "quant-backtest-gate",
+    "gate-rigor"
+   ],
+   "input": "各格结果面",
+   "artifact": "results/bench_power.json",
+   "cadence_h": 24,
+   "probe": {
+    "type": "json_exists_keys",
+    "path": "results/bench_power.json",
+    "keys": [
+     "rows",
+     "n_unpowered"
+    ],
+    "max_age_h": 48
+   },
+   "acceptance": "每格每臂有 MDE；全噪声格被降级",
+   "on_red": "判决不可信",
+   "closed_loop": "重跑 bench_power",
+   "auto_fix": "python scripts/bench_power.py"
+  },
+  {
+   "id": "R4_revalidate",
+   "group": "研究",
+   "name": "新 bar 复验（判决翻转警报）",
+   "granularity": "格级",
+   "seat": "复验席",
+   "skills": [
+    "quant-backtest-gate"
+   ],
+   "input": "已完成格的 result",
+   "artifact": "results/bench_revalidate.json",
+   "cadence_h": 12,
+   "probe": {
+    "type": "file_fresh",
+    "path": "results/bench_revalidate.json",
+    "max_age_h": 30
+   },
+   "acceptance": "≤30h 有复验记录",
+   "on_red": "旧结论可能在漂移而无人知",
+   "closed_loop": "跑复验；VERDICT_CHANGED 进报警",
+   "auto_fix": "python scripts/bench_revalidate.py"
+  },
+  {
+   "id": "R5_independent_audit",
+   "group": "研究",
+   "name": "独立复算（另一套实现）",
+   "granularity": "结论级：每条被引用的绝对收益数至少一次独立复算",
+   "seat": "审计席",
+   "skills": [
+    "quant-backtest-gate"
+   ],
+   "input": "已发布结果面",
+   "artifact": "results/bench_audit_fut_trend.json",
+   "cadence_h": 168,
+   "probe": {
+    "type": "json_exists_keys",
+    "path": "results/bench_audit_fut_trend.json",
+    "keys": [
+     "verdict",
+     "diff_pp"
+    ],
+    "max_age_h": 400
+   },
+   "acceptance": "复算件存在且给出 diff 与判读",
+   "on_red": "发布数字不可引用",
+   "closed_loop": "复算→diff→超容差则降级该格",
+   "auto_fix": "python scripts/bench_audit_fut_trend.py"
+  },
+  {
+   "id": "C1_book_positions",
+   "group": "构造",
+   "name": "生产书持仓与 k 值",
+   "granularity": "标的级",
+   "seat": "组合席",
+   "skills": [
+    "position-sizer"
+   ],
+   "input": "因子面板 + 准入 k",
+   "artifact": "results/etf_book_positions.json",
+   "cadence_h": 24,
+   "probe": {
+    "type": "file_fresh",
+    "path": "results/etf_book_positions.json",
+    "max_age_h": 30
+   },
+   "acceptance": "持仓面 <30h 且有 k",
+   "on_red": "生产书不可复现",
+   "closed_loop": "重生成→对账 k 与资金",
+   "auto_fix": null
+  },
+  {
+   "id": "C2_cost_model",
+   "group": "构造",
+   "name": "成本模型（每格声明 bp/边与换手版本）",
+   "granularity": "格级",
+   "seat": "成本席",
+   "skills": [
+    "cost-ledger",
+    "quant-backtest-gate"
+   ],
+   "input": "各格 criteria.cost_bp_side",
+   "artifact": "research/BENCH-QUEUE.json",
+   "cadence_h": 24,
+   "probe": {
+    "type": "cells_have_field",
+    "path": "research/BENCH-QUEUE.json",
+    "field": "script"
+   },
+   "acceptance": "所有已跑格都能在结果面找到 cost_bp_side",
+   "on_red": "毛收益冒充净收益",
+   "closed_loop": "缺则补进 criteria 再重跑",
+   "auto_fix": null
+  },
+  {
+   "id": "C3_capacity",
+   "group": "构造",
+   "name": "容量与冲击（ADV 口径）",
+   "granularity": "线级",
+   "seat": "容量席",
+   "skills": [
+    "position-sizer"
+   ],
+   "input": "标的成交额",
+   "artifact": "results/idx_fut_real_nav.json",
+   "cadence_h": 72,
+   "probe": {
+    "type": "file_fresh",
+    "path": "results/idx_fut_real_nav.json",
+    "max_age_h": 100
+   },
+   "acceptance": "基线与新线都有 ADV 口径",
+   "on_red": "不知道能装多少钱",
+   "closed_loop": "容量面重算",
+   "auto_fix": null
+  },
+  {
+   "id": "C4_drawdown_guard",
+   "group": "风控",
+   "name": "回撤断路器",
+   "granularity": "书级",
+   "seat": "风控席",
+   "skills": [
+    "drawdown-circuit-breaker"
+   ],
+   "input": "书净值序列",
+   "artifact": "results/etf_book_tearsheet.json",
+   "cadence_h": 72,
+   "probe": {
+    "type": "file_fresh",
+    "path": "results/etf_book_tearsheet.json",
+    "max_age_h": 400
+   },
+   "acceptance": "tearsheet 与当前回撤可读",
+   "on_red": "风控盲区",
+   "closed_loop": "重算回撤→超阈报警",
+   "auto_fix": null
+  },
+  {
+   "id": "C5_paper_recon",
+   "group": "风控",
+   "name": "纸盘净值对账",
+   "granularity": "账户级",
+   "seat": "对账席",
+   "skills": [
+    "cost-ledger"
+   ],
+   "input": "六席持仓与价格",
+   "artifact": "results/paper_equity_recheck.json",
+   "cadence_h": 24,
+   "probe": {
+    "type": "json_predicate",
+    "path": "results/paper_equity_recheck.json",
+    "field": "verdict",
+    "expect": "PASS",
+    "max_age_h": 30
+   },
+   "acceptance": "verdict=PASS 且 <30h",
+   "on_red": "账面不可信",
+   "closed_loop": "对账失败→定位价差/漏价",
+   "auto_fix": null
+  },
+  {
+   "id": "G1_ledger",
+   "group": "治理",
+   "name": "试验台账（只追加）",
+   "granularity": "run 级",
+   "seat": "记账席",
+   "skills": [
+    "cost-ledger"
+   ],
+   "input": "每次 tick",
+   "artifact": "results/bench/LEDGER.jsonl",
+   "cadence_h": 24,
+   "probe": {
+    "type": "file_fresh",
+    "path": "results/bench/LEDGER.jsonl",
+    "max_age_h": 48
+   },
+   "acceptance": "48h 内有行",
+   "on_red": "无法复盘",
+   "closed_loop": "缺则检查 hub 写入",
+   "auto_fix": null
+  },
+  {
+   "id": "G2_round_report",
+   "group": "治理",
+   "name": "轮报/日报",
+   "granularity": "轮级",
+   "seat": "轮报席",
+   "skills": [
+    "session-handoff"
+   ],
+   "input": "每轮产物",
+   "artifact": "docs/daily_report",
+   "cadence_h": 24,
+   "probe": {
+    "type": "dir_fresh",
+    "dir": "docs/daily_report",
+    "pattern": "REPORT-*.md",
+    "min_count": 1,
+    "max_age_h": 40
+   },
+   "acceptance": "40h 内有日报",
+   "on_red": "读者看不到今天发生了什么",
+   "closed_loop": "重生成日报",
+   "auto_fix": null
+  },
+  {
+   "id": "G3_lesson_loop",
+   "group": "治理",
+   "name": "教训转化（每条否/警报→一条可查教训）",
+   "granularity": "结论级",
+   "seat": "复盘席",
+   "skills": [
+    "signal-postmortem"
+   ],
+   "input": "NO_EDGE / VERDICT_CHANGED / 假红",
+   "artifact": "research/BENCH-POWER.md",
+   "cadence_h": 72,
+   "probe": {
+    "type": "file_fresh",
+    "path": "research/BENCH-POWER.md",
+    "max_age_h": 100
+   },
+   "acceptance": "功效/教训页与最新判决同代",
+   "on_red": "同一个坑会再踩",
+   "closed_loop": "新判决→教训条目→下一格判据引用",
+   "auto_fix": "python scripts/bench_power.py"
+  },
+  {
+   "id": "G4_ceo_page",
+   "group": "治理",
+   "name": "CEO 一页纸（读者面）",
+   "granularity": "决策级",
+   "seat": "汇报席",
+   "skills": [
+    "fleet-ops"
+   ],
+   "input": "生产面 + 研究面",
+   "artifact": "docs/live_usage/LIVE-latest.md",
+   "cadence_h": 24,
+   "probe": {
+    "type": "file_fresh",
+    "path": "docs/live_usage/LIVE-latest.md",
+    "max_age_h": 40
+   },
+   "acceptance": "≤40h 且含最新 bar 日期",
+   "on_red": "CEO 看到的是旧数",
+   "closed_loop": "重构页面→校验日期一致",
+   "auto_fix": null
+  },
+  {
+   "id": "G5_idle_sentinel",
+   "group": "治理",
+   "name": "空转/闲置哨兵",
+   "granularity": "小时级",
+   "seat": "值守席",
+   "skills": [
+    "fleet-ops"
+   ],
+   "input": "任务 LastRun + 产物 mtime",
+   "artifact": "results/quant_block_board.json",
+   "cadence_h": 1,
+   "probe": {
+    "type": "self_board",
+    "path": "results/quant_block_board.json",
+    "max_age_h": 6
+   },
+   "acceptance": "看板 6h 内被刷新；红块必须带 on_red 动作",
+   "on_red": "整条线可能在空转",
+   "closed_loop": "本脚本自身：每次 tick 刷新并列出红块",
+   "auto_fix": "python scripts/block_board.py --fix-safe"
+  }
+ ]
+}
