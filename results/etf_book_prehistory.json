@@ -1,0 +1,205 @@
+{
+ "evidence_cutoff": "2026-11-20",
+ "universe": 1528,
+ "class_counts": {
+  "equity": 1485,
+  "commodity": 41,
+  "convertible": 2
+ },
+ "flips_repaired": 169,
+ "rule": {
+  "rebal_days": 20,
+  "n_hold": 5,
+  "cost_per_side": 0.001,
+  "vol_target": 0.08,
+  "note": "bond-free arm = equity + commodity + convertible, as in etf_nobond_vt"
+ },
+ "criteria": {
+  "min_pool_median": 20,
+  "pre_maxdd_pass": -0.25,
+  "pre_maxdd_fail": -0.35,
+  "pre_sharpe_min": 0.3
+ },
+ "segments": {
+  "pre": {
+   "pool_median_names": 13.0,
+   "pool_max_names": 45,
+   "prod_vt08": {
+    "label": "prod_pre",
+    "years": 6.98,
+    "start_level": 0.9945,
+    "cagr": 0.0755,
+    "vol": 0.0889,
+    "sharpe": 0.892,
+    "maxdd": -0.1797,
+    "worst_year": -0.1113,
+    "neg_years": 1,
+    "worst_month": -0.0683,
+    "pos_months_pct": 0.578,
+    "turnover_x": 0.87
+   },
+   "bare": {
+    "label": "bare_pre",
+    "years": 6.98,
+    "start_level": 0.9858,
+    "cagr": 0.1021,
+    "vol": 0.1998,
+    "sharpe": 0.604,
+    "maxdd": -0.4308,
+    "worst_year": -0.1542,
+    "neg_years": 2,
+    "worst_month": -0.2399,
+    "pos_months_pct": 0.59
+   },
+   "pool_equal_weight": {
+    "label": "ew_pre",
+    "years": 6.99,
+    "start_level": 2.2963,
+    "cagr": 0.0957,
+    "vol": 0.2032,
+    "sharpe": 0.568,
+    "maxdd": -0.3965,
+    "worst_year": -0.2352,
+    "neg_years": 3,
+    "worst_month": -0.1932,
+    "pos_months_pct": 0.614
+   },
+   "excess_vs_ew_pp": -2.02,
+   "vol_target_delta_pp": -2.66,
+   "verdict": "NOT_READABLE_SMALL_POOL"
+  },
+  "modern": {
+   "pool_median_names": 245.0,
+   "pool_max_names": 622,
+   "prod_vt08": {
+    "label": "prod_modern",
+    "years": 6.88,
+    "start_level": 1.008,
+    "cagr": 0.1116,
+    "vol": 0.105,
+    "sharpe": 1.101,
+    "maxdd": -0.1056,
+    "worst_year": 0.0044,
+    "neg_years": 0,
+    "worst_month": -0.043,
+    "pos_months_pct": 0.598,
+    "turnover_x": 1.08
+   },
+   "bare": {
+    "label": "bare_modern",
+    "years": 6.88,
+    "start_level": 1.0108,
+    "cagr": 0.1518,
+    "vol": 0.1636,
+    "sharpe": 0.981,
+    "maxdd": -0.1604,
+    "worst_year": 0.0233,
+    "neg_years": 0,
+    "worst_month": -0.0813,
+    "pos_months_pct": 0.585
+   },
+   "pool_equal_weight": {
+    "label": "ew_modern",
+    "years": 6.88,
+    "start_level": 4.4147,
+    "cagr": 0.0334,
+    "vol": 0.1933,
+    "sharpe": 0.273,
+    "maxdd": -0.3722,
+    "worst_year": -0.1875,
+    "neg_years": 3,
+    "worst_month": -0.1181,
+    "pos_months_pct": 0.512
+   },
+   "excess_vs_ew_pp": 7.82,
+   "vol_target_delta_pp": -4.02
+  },
+  "all": {
+   "pool_median_names": 43.0,
+   "pool_max_names": 622,
+   "prod_vt08": {
+    "label": "prod_all",
+    "years": 13.87,
+    "start_level": 0.9945,
+    "cagr": 0.0817,
+    "vol": 0.0989,
+    "sharpe": 0.874,
+    "maxdd": -0.1797,
+    "worst_year": -0.1113,
+    "neg_years": 4,
+    "worst_month": -0.0773,
+    "pos_months_pct": 0.608,
+    "turnover_x": 0.87
+   },
+   "bare": {
+    "label": "bare_all",
+    "years": 13.87,
+    "start_level": 0.9858,
+    "cagr": 0.1275,
+    "vol": 0.1838,
+    "sharpe": 0.77,
+    "maxdd": -0.4308,
+    "worst_year": -0.1542,
+    "neg_years": 3,
+    "worst_month": -0.2399,
+    "pos_months_pct": 0.614
+   },
+   "pool_equal_weight": {
+    "label": "ew_all",
+    "years": 13.88,
+    "start_level": 2.2963,
+    "cagr": 0.0655,
+    "vol": 0.1984,
+    "sharpe": 0.431,
+    "maxdd": -0.3965,
+    "worst_year": -0.2352,
+    "neg_years": 6,
+    "worst_month": -0.1932,
+    "pos_months_pct": 0.566
+   },
+   "excess_vs_ew_pp": 1.62,
+   "vol_target_delta_pp": -4.58
+  }
+ },
+ "pool_matched_modern": {
+  "pool_cap_names_per_day": 15,
+  "pool_median_names": 13.0,
+  "prod_vt08": {
+   "label": "prod_poolmatched_modern",
+   "years": 6.88,
+   "start_level": 1.0075,
+   "cagr": -0.0039,
+   "vol": 0.0939,
+   "sharpe": 0.003,
+   "maxdd": -0.2723,
+   "worst_year": -0.1624,
+   "neg_years": 5,
+   "worst_month": -0.048,
+   "pos_months_pct": 0.476
+  },
+  "pool_equal_weight": {
+   "label": "ew_poolmatched_modern",
+   "years": 6.88,
+   "start_level": 3.5962,
+   "cagr": -0.014,
+   "vol": 0.2269,
+   "sharpe": 0.049,
+   "maxdd": -0.4393,
+   "worst_year": -0.2498,
+   "neg_years": 4,
+   "worst_month": -0.1816,
+   "pos_months_pct": 0.451
+  },
+  "excess_vs_ew_pp": 1.01,
+  "excess_full_pool_pp": 7.82,
+  "verdict": "POOL_WIDTH_EXPLAINS_IT",
+  "threshold_pp": 2.0
+ },
+ "control_modern_vs_published": {
+  "published_cagr": 0.1116,
+  "reproduced_cagr": 0.1116,
+  "delta_pp": 0.0,
+  "note": "published = results/etf_nobond_vt.json nobond_vt08 cagr (same rules, same panel)"
+ },
+ "verdict": "NOT_READABLE_SMALL_POOL"
+}
