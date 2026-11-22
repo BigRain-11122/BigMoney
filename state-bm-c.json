@@ -1,7 +1,7 @@
 {
- "activity": "r1918: wrapper_year_gate gets a freshness anchor + an on-chain writer (STALE only)",
- "activity_now": "r1912: two products. (1) The wait had no price on the other side -- the ORDER sheet now prints what deploying now costs at its own worst case: the select leg's one-sided 95% floor is +2.55pp on a 3.12pp standard error, the realised cost of a zero-edge book is CNY 13,920/yr per million, the ruler's own width is CNY 65,239, and the wait's yearly fee (CNY 136,712) is 9.8x the first and still 2.1x the second. (2) The chain leg live_usage_day_words went red the morning after r1911 added section 6's provenance line: two dates printed, no rule claimed either -- mapped to idle_cash.source_generated / evidence_cutoff, 115/115 claims now resolve and the leg is green.",
- "activity_now_round": 1910,
+ "activity": "product",
+ "activity_now": "r1921：接手 06:52-06:58 留在盘上未提交的四张面写者（beta_paths / concentration_levers / rebal_adoption / sizing_prereg 的 refresh 无操作门），补齐并收口；再给 280 格相位图谱（etf_book_phase_atlas，15+ 分钟的格）与 refusal_caliber_adoption、fill_ladder 接上写者——**链写者审计从 red 7 → red 0**（EVERY_CHECKED_FACE_HAS_A_WRITER，130 面 127 有写者，余 3 张是两个守卫+水位探针，设计上只读）。真正的产品增量是第二件：supply_floor 连续几十轮用同一句话拒绝四本候选——「相位差大于到线的距离」，而这句话一直只在 **5 个周相** 上测过。新面 `scripts/etf_book_phase_depth.py` 把同一个生成器（同锚 2020-01-01、同 7 天步长、前缀嵌套）加深到 40 周并逐深度出版：三本的 spread **随深度涨 6-9 倍**（12.33→117.65pp / 21.87→134.42pp / 15.73→125.59pp），margin 几乎不动（11.23→9.79 / 14.87→13.95 / 11.28→9.88）——「多给相位」不是解，这三本的年表形状本身由一两年决定（加深后甚至出现 top-2 占比 >1.0：2020-07-22 1.5748、2020-08-19 1.6543、2020-09-16 1.8588）。这条结论同时被焊进 compute_audit：`what_would_move_it` 不再假设「the phase set」，而是带着实测读数说「not the phase set … 12.33pp at depth 5 → 117.65pp at depth 40」。",
+ "activity_now_round": "1921",
  "agenda_starved": false,
  "ah_note": "r1680 LANDED: refresh closed itself at 21:17 -- cutoff 2026-11-12 -> 2026-11-13, complete=True, exit 0, pulled_rows 46; data_lane_freshness in_sync 13 / behind_1d 1 (worst now marks, intraday-only, not rebuildable). Fix that made it possible: stall watchdog over every network leg (300s, names stage/pair, exit 2, checkpoint kept) + save_progress stamps write time + -u on the detached spawn + progress line every 10 pairs. NOT yet proven: the 300s stall path has never fired on a real hang (this round the suspected freeze finished by itself).",
  "ahead_origin": 0,
@@ -63,7 +63,7 @@
   "state": "registered (FOUND)",
   "task": "HQ-ProductionClaim"
  },
- "clock_read": "2026-11-22T06:06:17+08:00",
+ "clock_read": "2026-11-22T08:16:40+08:00",
  "clock_read_source": "local",
  "clock_tz": "+08:00",
  "codely_live_count": 2,
@@ -185,7 +185,7 @@
  "gpu_vram_used_mb": 15603,
  "head_sha": "a0a7596bbf",
  "health": "ok",
- "heartbeat_epoch_utc": 1795282186,
+ "heartbeat_epoch_utc": 1795306600,
  "heartbeat_epoch_utc_type": "int",
  "idle_ram_gb": 3.62,
  "idle_rounds": 0,
@@ -213,7 +213,7 @@
  "last_orders_read_at": "2026-11-19T16:14:58+08:00",
  "last_orders_read_note": "r1645: orders_delta=true (74,283 B, +1,617 B vs watermark 72,666 B); tail rows are the 11-13 21:55 BigStream mv0001 row already consumed at r1642 -> zero BigMoney action; fleet/orders 114 files vs 241 acks, unacked=[]",
  "last_orders_seen": "3fa305a67467413d0c34d2de7458124b0bcec84368fb8983fcd265938d53edc8",
- "last_orders_sha": "2cb6c73c8ef0ae4bb84845ddf1a064a9e47c032fe9f7200002727c264269fe6b",
+ "last_orders_sha": "aad2632ef6866f292f474b68bf0d05a84153fc6dca106336700425d75224370d",
  "last_orders_sha1": "110e2839",
  "last_orders_sha_method": "content-bytes sha256 of git show origin/main:docs/orders.md (s05_probe live)",
  "last_orders_sha_note": "r1868: orders_delta=true consumed from origin blob (sha256 1838670b703a2e07); the ack set is unchanged and the stem-normalised difference against fleet/orders/*.md is 0 (--bm-x suffix vs timestamp-only ack forms; strict full-name matching would report 100 phantom gaps, all of them older than 2026-10-27).",
@@ -245,7 +245,7 @@
  "last_round_utc": "2026-11-18T05:16:22+08:00",
  "last_run": "2026-11-15T16:19:25",
  "last_run_at": "2026-10-26T21:20:55+08:00",
- "last_seen": "2026-11-22T04:38:55+0800",
+ "last_seen": "2026-11-22T08:16:40+08:00",
  "last_seen_at": "2026-11-14T11:36:52+08:00",
  "last_task": "futures tail divergence census",
  "last_task_at": "2026-11-19T16:38:11+08:00",
@@ -1491,7 +1491,7 @@
   "watermark": "green: board/pool both empty (pool_ready_count=0, fleet_open_tasks=0), no claimable batch on this host; py_watermark insufficient_history (window n=1, local_batch=1 = this round own suite)"
  },
  "round_label": "r1813",
- "round_no": 1920,
+ "round_no": 1921,
  "round_no_label": "r1821",
  "round_no_landed": 1663,
  "round_note": "r1489: a reinstated bar is re-derived from the panel, not carried over (reinstatement_check + reinstatements.json + sheet paragraph)",
@@ -2099,7 +2099,7 @@
  "takeover_note": "the 2026-11-16 14:05 round was silence-killed at 14:38 with 25 min of no output; it had already written the whole face (14:19) plus card E679 and the CODELY lines, so this 14:40 round took over the closeout instead of redoing science: no script, number or verdict changed here",
  "task": "r1909: the GPU face is consistent for every alphabet a reader can read, not just the spellings we remembered",
  "total_ram_gb": 55.9,
- "ts": "2026-11-22T06:06:17+08:00",
+ "ts": "2026-11-22T08:16:40+08:00",
  "ts_epoch": 1794812499,
  "unverified": [
   "full smoke suite not re-run this round (892s > window); GPU leg judged by audit recompute + selftest",
@@ -2215,5 +2215,10 @@
  "最近实物_update": "results/chain_writer_audit.json（12 红点名）+ 8 条新腿 + results/_r1917bmc_s6_chain.json（318/318 rc0）+ 全量套件 739/739 绿（2026-11-22T05:12:10）",
  "水位": "healthy",
  "attrition": "CLEAN (4 ledgers, 3 historical shrink rows healed)",
- "task_board": "fleet/tasks total 188 open 0"
+ "task_board": "fleet/tasks total 188 open 0",
+ "round_t1921_note": "r1921：接手 06:52-06:58 留在盘上未提交的四张面写者（beta_paths / concentration_levers / rebal_adoption / sizing_prereg 的 refresh 无操作门），补齐并收口；再给 280 格相位图谱（etf_book_phase_atlas，15+ 分钟的格）与 refusal_caliber_adoption、fill_ladder 接上写者——**链写者审计从 red 7 → red 0**（EVERY_CHECKED_FACE_HAS_A_WRITER，130 面 127 有写者，余 3 张是两个守卫+水位探针，设计上只读）。真正的产品增量是第二件：supply_floor 连续几十轮用同一句话拒绝四本候选——「相位差大于到线的距离」，而这句话一直只在 **5 个周相** 上测过。新面 `scripts/etf_book_phase_depth.py` 把同一个生成器（同锚 2020-01-01、同 7 天步长、前缀嵌套）加深到 40 周并逐深度出版：三本的 spread **随深度涨 6-9 倍**（12.33→117.65pp / 21.87→134.42pp / 15.73→125.59pp），margin 几乎不动（11.23→9.79 / 14.87→13.95 / 11.28→9.88）——「多给相位」不是解，这三本的年表形状本身由一两年决定（加深后甚至出现 top-2 占比 >1.0：2020-07-22 1.5748、2020-08-19 1.6543、2020-09-16 1.8588）。这条结论同时被焊进 compute_audit：`what_would_move_it` 不再假设「the phase set」，而是带着实测读数说「not the phase set … 12.33pp at depth 5 → 117.65pp at depth 40」。",
+ "verify_t1921": "四张面 selftest 25/25、18/18、17/17、27/27 PASS；四个 refresh no-op 实跑 9.1s/7.9s/8.1s/7.9s 全打 REFRESH_NOOP evidence_cutoff=2026-11-20 | etf_book_phase_atlas selftest 16/16（新增 3 条 gate 腿），refresh 8.6s NOOP（此前 15+ 分钟 280 格），check rc0 CONFIG_ORDER_WITHIN_PHASE_NOISE spread 5.24pp vs band 6.80pp | etf_book_phase_depth selftest 12/12、run 161s（120 格）、check rc0 三臂三趋势全复算（SAMPLING_IS_NOT_THE_LIMIT）、refresh 9.5s NOOP | refusal_caliber_adoption run 1.2s ADOPT、check rc0 由 5 条件重派生 | fill_ladder writer 0.2s honest no-op（floor 0<3 待 prereg）| Tools/chain_writer_audit.py → EVERY_CHECKED_FACE_HAS_A_WRITER（339 腿 / 130 面 127 有写者 / 0 red / 3 disclosed）| Tools/s6_chain_bmc.py --selftest 17/17；六条新腿实跑 6/6 rc0（11.4s）+ phase_depth 2/2 rc0 | compute_audit selftest 95→100（5 条新腿：实测趋势替换假设 / 两代 spread 随行 / 收窄另有句 / 缺面保留旧词 / 缺面不留键）| 冒烟首跑 738/739：唯一红是 size-band 腿拿冻结票（TICKET-2026-11-06 inside_pp 10.43）比今天的面（12.18）——两代不是一处错，改成「每代各自自洽（warn=2×inside）且为正、zone 仍由票自身数字派生」，同代失配仍红；手工复现 problems=[]，全量复跑 results/_smoke_r1921b.out = 738/739 PASS **0 FAIL 1 UNVERIFIED**（唯一第三态=dashboard 面在本轮开始后被 build_status 重写，r1861 法；record 2026-11-22T08:16:01 green）",
+ "s6_r1921": "update_daily rc0 cutoff 2026-11-20（周末无新行）| market_regime rc0（三重触发同族）| update_fund_premium status 23 快照/最新 11-19、snapshot rc0 no-op weekend（bm-c 属主道）| pool_dualrun rc0 ZERO-DRIFT（745 项，连绿 51）| compute_audit rc0 FLAG:pool_starvation,supply_floor（日历约束族，判词已带 phase_depth 实测）| py_watermark rc0 insufficient_history（local_batch=1=本窗套件）| market_clock_call rc0 CALL-2026-11-19 RED_COOL | attrition CLEAN（4 账本，5 处历史缩行 healed）| strategy_scorecard rc0 28.7s（6/28/7 卡）| daily_scorecard rc0（bm-a 心跳 stale 5052min → 本机 stale-takeover）| ceo_live_usage rc0 LIVE-2026-11-22（state=RED cap=20% heat=COOL）| daily_report rc0 REPORT-2026-11-22 | monitor.build_status rc0 | token_meter rc0（轮内 delta=0）| 其余 bm-a/bm-b 属主数据道今日周日=合法 no-op，如实记未跑",
+ "s0_collision_r1921": "machine.json=bm-c；轮首工作树 21 文件脏（上一轮 06:52-06:58 未提交的四面写者批），验证四张 selftest 全绿后收口提交；全程只有一个 codely 宿体（pid 29084，07:25:04 由 IterationLoop 07:25:03 拉起 = 本窗自身，非并发双跑）；孤儿面=1（pid 28964 Tools/fleet/drama_ep_chain.py 父死+CPU 停滞 45min，属 MV 产线域，未击杀仅记录），resident_servers=1（ComfyUI :8189 空闲，非本车道）",
+ "decisions_watermark_r1921": "集团 docs/decisions.md origin 原字节 sha256 79e3083b… == state 水位键 → 零新决策行（git cat-file blob 落文件再 Get-FileHash，不经 PS 字符串往返）；docs/orders.md 水位由 2cb6c73c… 推进到 aad2632e…（origin tip d707c49c），逐节读：11-14 主控收口令 / 11-15 通知边界令 / 11-15 七乘二十四 / 11-16 下班开工 / 11-17..11-21 养号与移交族，均面向 MacBook 主控与工作站，零量化线工单；唯一涉本司项 D-20261108-14（lane_hosts 并集 + 4 备货卡入池）已在 HQ-FEEDBACK F-20261108-01/02 回执 closed，本轮复核 config/lane_hosts.json 在位、backlog.md 四卡号各≥1 命中；orders 差集 115 单 / 271 回执 / unacked=0。集团另记：被 BLOCKED 的 bigmoney signal 卡前提已不成立（results/etf_nobond_vt.json 3377B 在盘，04:30 更新）"
 }
