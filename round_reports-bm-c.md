@@ -2503,3 +2503,4 @@ CEO 过程可见面：当前活=把「钱放哪儿」和「现金腿怎么放」
 未验证（如实）：①竞争窗禁改共享面 → 两条新面**未接 S6 链、未加冒烟腿、未写 CODELY 行**；②rent audit 的 check 不重跑引擎（只重锚已发布面+重派生算术），重测是 run 的职责，链腿必须无条件跑；③篮子的 N 用同一阶梯是刻意的（混合在样本窗内选出，不是免租金），13.3 年史只印不判；④bench 唯一 pending 格尚未真正跑完判决（DENY_RAM），队列里它的 verdict 等第一次成功运行；⑤state round_no 仍是 1960、心跳 last_seen 落后自身 mtime 约 1h（沿用竞争窗延后，未在本窗修）。
 
 孤儿面=0（round-zero 探针 py_faces=5/orphans=0/resident_servers=1）。记账：本行 1 处（state/心跳按竞争窗律延后，本窗 0 处）。|
+**送达复核（04:5x）**：commit **1bf39c8647** 已推 origin/main（5354882ced..1bf39c8647），fetch 后 HEAD..origin/main=0 / origin/main..HEAD=0（本地未达 origin commit 数=0），git ls-tree origin/main 七件在位（scripts 298f2e75/87e03b44、results b7a2a96a/43c241be、research cccbc6d4/47a3d300、Tools ec6812ed）；pre-commit/pre-push 爪未触发（无删除集合规、无冲突标记）。peer 宿主未提交的共享面原样留在工作树，本轮未触碰。记账：本行 1 处（本轮累计 3 处：轮报告行 + 本回执行 + inbox 回信）。|
