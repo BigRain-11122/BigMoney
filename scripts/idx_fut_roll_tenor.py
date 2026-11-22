@@ -556,6 +556,10 @@ def render_md(face):
                             if r.get("status") == "ok") or "n/a"))
     L.append("- 持有期内某合约连续 %d 个交易日无报价则强制换到下一个目标，次数单列 `forced_rolls`。" % MAX_GAP_DAYS)
     L.append("- 交割日走第三个周五 + 休市顺延（T4）；IM 面板自 2022-07 起，窗口天然更短。")
+    L.append("- 年化口径是**日超额累计**（Σ 日收益 ÷ 跨度年数，等价于按日历时间年化）。这和基差面 "
+             "`idx_fut_basis` 的 C1「中位日差 × 244」**不是同一个统计量**：日内价差右偏，均值口径会明显高于"
+             "中位数口径（IM 尤甚），两个面对同一本书印出不同数字是口径差不是矛盾。判词只用**两个政策之间的差**，"
+             "该差在两把尺子上同号。")
     L.append("- 本面不把杠杆/追缴、也不把「不持有」的替代算进来：前者归 `idx_fut_leverage_washout` / "
              "`idx_fut_carry_margin`，后者归 `idx_fut_basis`。")
     L.append("")

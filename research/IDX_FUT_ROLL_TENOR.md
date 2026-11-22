@@ -4,7 +4,7 @@
 
 **判词：QUARTERLY_WINS_ON_EVERY_COST_BAND**
 
-证据 cutoff `2026-11-20` ｜ generated 2026-11-22T14:52:33
+证据 cutoff `2026-11-20` ｜ generated 2026-11-22T15:08:56
 
 - IF: front pays +0.14pp/yr more gross for +7.67 extra rolls/yr (break-even 1.824 bp/roll; winner at measured median = quarterly)
 - IC: front pays -0.32pp/yr more gross for +7.67 extra rolls/yr (the front already earns no more gross than the quarter contract, so no per-roll cost makes the monthly policy win; winner at measured median = quarterly)
@@ -104,5 +104,6 @@
 - 中金所同时只挂四张合约（当月 / 下月 / 下季 / 隔季）。所以「次月」政策并不等于「月移」：它滚到排位第二的那张，而那张很快就落到季月梯子上，实测滚 IF 3.71 / IC 3.71 / IH 3.71 / IM 3.92 次/年，与季月同族 —— 故只作参考点，不进判词。
 - 持有期内某合约连续 5 个交易日无报价则强制换到下一个目标，次数单列 `forced_rolls`。
 - 交割日走第三个周五 + 休市顺延（T4）；IM 面板自 2022-07 起，窗口天然更短。
+- 年化口径是**日超额累计**（Σ 日收益 ÷ 跨度年数，等价于按日历时间年化）。这和基差面 `idx_fut_basis` 的 C1「中位日差 × 244」**不是同一个统计量**：日内价差右偏，均值口径会明显高于中位数口径（IM 尤甚），两个面对同一本书印出不同数字是口径差不是矛盾。判词只用**两个政策之间的差**，该差在两把尺子上同号。
 - 本面不把杠杆/追缴、也不把「不持有」的替代算进来：前者归 `idx_fut_leverage_washout` / `idx_fut_carry_margin`，后者归 `idx_fut_basis`。
 
