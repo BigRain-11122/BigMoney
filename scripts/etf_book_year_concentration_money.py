@@ -241,9 +241,10 @@ def separation(books, key="share_of_lifetime_gain"):
                  "depends least on a single year" if inside else
                  "the book that clears the top-2 line also depends least on a "
                  "single year, so the share line happens to sort the same way -- "
-                 "by {sp:.2f}pp, and every book in the set still takes at least "
-                 "half its lifetime gain from one year ({ob})".format(
-                     sp=100.0 * spread,
+                 "by {sp:.2f}pp on the safe side of the failing range -- and every "
+                 "book in the set still takes at least half its lifetime gain from "
+                 "one year ({ob})".format(
+                     sp=100.0 * abs(spread),
                      ob=", ".join(r["book"] for r in rows if r[key] >= 0.50) or "none")),
     }
 
@@ -353,7 +354,7 @@ def render_md(face):
         L.append("")
     L.append(sep.get("note") or "")
     L.append("")
-    L.append("## 三条诚实话")
+    L.append("## 诚实话（逐条）")
     for h in face["honest"]:
         L.append("- " + h)
     L.append("")
@@ -465,10 +466,8 @@ def build(face_path=SOURCE_FACE, capital=CAPITAL_CNY):
         "换个本金，全部金额按比例缩放，pp 与倍数不变。",
         "最好一年的归因是**乘积的分解**，不与其它年份相加；同一年在 "
         "leave-one-out 里的保留比例才是可加的口径，两者不可混读。",
-        "2026 是部分年（{p} 个年度行里标 partial），它出现在最好一年或 "
-        "leave-one-out 时会改变倍数——表里逐行标了「部分年」。".format(
-            p=len([1 for b in books
-                   for y in (b["derived"].get("partial_years") or [])])),
+        "这本书每本都有一个部分年（本批是 2026），它出现在最好一年或 leave-one-out "
+        "时会改变倍数——表里逐行标了「部分年」，没有把它当完整年用。",
         "本面不动任何判词：它只重读年门的 top-2 这一行，并把到线的距离换成钱；"
         "判词以 YEAR-GATE 为正身。",
     ]

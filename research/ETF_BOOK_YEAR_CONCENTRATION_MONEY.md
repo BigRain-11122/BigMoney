@@ -68,12 +68,12 @@
 | nobond_base | 57.2% | 是 |
 | all_classes_published | 59.8% | 否 |
 
-the book that clears the top-2 line also depends least on a single year, so the share line happens to sort the same way -- by -2.56pp, and every book in the set still takes at least half its lifetime gain from one year (nobond_vt08_adopted, nobond_base, all_classes_published)
+the book that clears the top-2 line also depends least on a single year, so the share line happens to sort the same way -- by 2.56pp on the safe side of the failing range -- and every book in the set still takes at least half its lifetime gain from one year (nobond_vt08_adopted, nobond_base, all_classes_published)
 
-## 三条诚实话
+## 诚实话（逐条）
 - 货币读数只在写明本金时出现（本面 1,000,000 元，与在册书同种子）；换个本金，全部金额按比例缩放，pp 与倍数不变。
 - 最好一年的归因是**乘积的分解**，不与其它年份相加；同一年在 leave-one-out 里的保留比例才是可加的口径，两者不可混读。
-- 2026 是部分年（3 个年度行里标 partial），它出现在最好一年或 leave-one-out 时会改变倍数——表里逐行标了「部分年」。
+- 这本书每本都有一个部分年（本批是 2026），它出现在最好一年或 leave-one-out 时会改变倍数——表里逐行标了「部分年」，没有把它当完整年用。
 - 本面不动任何判词：它只重读年门的 top-2 这一行，并把到线的距离换成钱；判词以 YEAR-GATE 为正身。
 - 年化有两把尺：在印的是「净值曲线 ÷ bar 数」，本表重算的是「日历年的乘积开 N 次方」，2026 是部分年，所以两者有可见差：nobond_vt08_adopted -0.52pp；nobond_base -0.75pp。倍数与金额用的是年桶这把尺，判词与在印年化以源面为准。
 
