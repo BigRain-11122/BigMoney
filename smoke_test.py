@@ -2067,9 +2067,16 @@ def main() -> int:
     _rv_sel = capture_pinned([sys.executable,
                               os.path.join("scripts", "astock_resid_veto_layer.py"),
                               "selftest"], 90)
+    # Judge the self-test by its own arithmetic, not a frozen leg count: the script
+    # grew 9 -> 14 legs in r1877 and the hard-coded "9/9 PASS" turned a healthy green
+    # into a permanent red (r1789 family: a red that can never be fixed trains the
+    # reader to ignore the whole suite).
+    _rv_out = _rv_sel.stdout or ""
+    _rv_m = re.search(r"selftest\s+(\d+)/(\d+)\s+PASS", _rv_out)
     check("product: astock residual veto layer selftest (r1864c)",
-          _rv_sel.returncode == 0 and "9/9 PASS" in (_rv_sel.stdout or ""),
-          f"rc={_rv_sel.returncode} {((_rv_sel.stdout or '') + (_rv_sel.stderr or '')).strip()[:200]}")
+          _rv_sel.returncode == 0 and bool(_rv_m)
+          and _rv_m.group(1) == _rv_m.group(2) and int(_rv_m.group(1)) >= 9,
+          f"rc={_rv_sel.returncode} {(_rv_out + (_rv_sel.stderr or '')).strip()[:200]}")
     try:
         with open(os.path.join("results", "astock_resid_veto_layer.json"), encoding="utf-8") as _fh:
             _rvf = json.load(_fh)
