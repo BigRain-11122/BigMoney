@@ -44,7 +44,7 @@ docs 5 / fleet 2 / research 2 / results 20 / source 1（`Tools/repo_write_conten
 
 ## 附带取证（只读）：两条「链判定」面都是错的
 
-本窗口顺手核对链进度日志，得到一条比退避更重要的事实（证据面 `results/_r1927_bmc_chain_forensics.json`）：
+本窗口顺手核对链进度日志，得到一条比退避更重要的事实（取证面 = 本地 `results/_r1927_bmc_chain_forensics.json`；`results/_*` 被 gitignore 属约定，故关键读数全文引在下面，他机无需该文件）：
 
 - **链其实已经跑完**：`results/_s6chain_progress.bm-c.jsonl` 末三行 = `leg_done i=339/341`、`i=340/341`、`i=341/341`，随后 `chain_done round=1923 n_legs=341 nonzero=[]`，收于 **2026-11-22T10:37:14**。
 - 但 fleet 读的两张面都还在说反话：
