@@ -3,15 +3,6 @@
  "gaps_explained_by_quiet_window": [],
  "gaps_over_threshold": [
   {
-   "from": "2026-11-19T17:05",
-   "gap_high_min": 140.0,
-   "gap_low_min": 140.0,
-   "quiet_window_min": 0.0,
-   "to": "2026-11-19T19:25",
-   "unexplained_high_min": 140.0,
-   "unexplained_low_min": 140.0
-  },
-  {
    "from": "2026-11-19T22:00",
    "gap_high_min": 130.0,
    "gap_low_min": 121.0,
@@ -100,10 +91,19 @@
    "to": "2026-11-22T12:21",
    "unexplained_high_min": 741.5,
    "unexplained_low_min": 732.5
+  },
+  {
+   "from": "2026-11-22T13:08",
+   "gap_high_min": 120.7,
+   "gap_low_min": 111.7,
+   "quiet_window_min": 0.0,
+   "to": "2026-11-22T15:00",
+   "unexplained_high_min": 120.7,
+   "unexplained_low_min": 111.7
   }
  ],
  "gaps_over_threshold_count": 11,
- "generated": "2026-11-22T13:57:33",
+ "generated": "2026-11-22T18:38:00",
  "lane_tasks": {
   "absent": [],
   "disabled": [],
@@ -116,8 +116,8 @@
   "probeable": 3,
   "states": {
    "Bigmoney-IterationLoop": "Running",
-   "Bigmoney-LoopWatchdog": "Ready",
-   "Bigmoney-SatEngine-bm-b": "Ready"
+   "Bigmoney-LoopWatchdog": "Running",
+   "Bigmoney-SatEngine-bm-b": "Running"
   },
   "threshold_min": 90,
   "verdict": "LANE_ENABLED",
@@ -133,19 +133,19 @@
   "unexplained_low_min": 732.5
  },
  "machine": "bm-c",
- "median_gap_min": 20.0,
+ "median_gap_min": 21.0,
  "open_gap": {
-  "gap_high_min": 49.3,
-  "gap_low_min": 49.3,
+  "gap_high_min": 24.0,
+  "gap_low_min": 24.0,
   "quiet_window_min": 0.0,
-  "since": "2026-11-22T13:08",
-  "unexplained_high_min": 49.3,
-  "unexplained_low_min": 49.3
+  "since": "2026-11-22T18:14",
+  "unexplained_high_min": 24.0,
+  "unexplained_low_min": 24.0
  },
  "parse_precision_note": "stamps recorded with an 'x' digit are read as a 9-minute interval; a gap is only called when its pessimistic end clears the threshold",
  "quiet_windows": [],
- "rounds_in_ledger": 1354,
- "rounds_in_window": 78,
+ "rounds_in_ledger": 1361,
+ "rounds_in_window": 81,
  "silence_verdict": "SILENT_GAP",
  "source": "round_reports-bm-c.md",
  "threshold_min": 90,

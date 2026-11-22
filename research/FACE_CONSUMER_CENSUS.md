@@ -4,15 +4,15 @@ evidence set: `results/**/*.json` (depth <= 2), readable against `scripts/`, `To
 
 | tier | faces | what it means |
 | --- | --- | --- |
-| CODE_MULTI | 688 | >=2 source files name this face |
-| CODE_SINGLE | 808 | exactly one source file names it (producer or lone reader) |
+| CODE_MULTI | 692 | >=2 source files name this face |
+| CODE_SINGLE | 806 | exactly one source file names it (producer or lone reader) |
 | PROSE_ONLY | 60 | only docs/research names it |
 | ORPHAN | 334 | nothing names it (undated only) |
 | DATED_CODE | 354 | dated snapshot, named somewhere |
 | DATED_ORPHAN | 493 | dated snapshot, named nowhere |
-| SCRATCH | 4097 | not a face (receipts / backups / hash scratch) |
+| SCRATCH | 4114 | not a face (receipts / backups / hash scratch) |
 
-undated faces: **1890** of 6834 (dated snapshots and scratch excluded from every verdict below)
+undated faces: **1892** of 6853 (dated snapshots and scratch excluded from every verdict below)
 
 ## undated faces nothing names (334)
 
@@ -64,12 +64,11 @@ undated faces: **1890** of 6834 (dated snapshots and scratch excluded from every
 - `results/div_lowvol_rot_probe.json` ← `research/CN_DIV_LOWVOL_ROT_PREREG.md`
 - `results/e34_cadence_rolling/CADENCE-ROLLING-3Y-X3.json` ← `research/digests/DIGEST-20261021-e35-broad-book-screens.md`
 
-## named by exactly one source file (808, 40 money-ish)
+## named by exactly one source file (806, 39 money-ish)
 
 One file naming a face is not a consumer: it is usually the producer. These are the first place to look when asking "is this number read?"
 
 - `results/capital_placement.json` ← `scripts/capital_placement.py`
-- `results/capital_union_decision.json` ← `scripts/capital_union_decision.py`
 - `results/core_ddctl_probe.json` ← `scripts/cn_core_ddctl_p1.py`
 - `results/cycle_position_census.json` ← `scripts/cycle_position_census.py`
 - `results/e33_ladder_baseline/Q2-LADDER-CADENCE-WIN-FULL.json` ← `scripts/e33_ladder_census.py`
@@ -83,5 +82,6 @@ One file naming a face is not a consumer: it is usually the producer. These are 
 - `results/etf_book_forward/CARRY_fee_free.json` ← `scripts/etf_book_forward.py`
 - `results/etf_book_lot_ladder.json` ← `scripts/etf_book_lot_ladder.py`
 - `results/etf_book_premium_phases.json` ← `scripts/etf_book_premium_phases.py`
+- `results/etf_book_premium_swap.json` ← `scripts/etf_book_premium_swap.py`
 
-`generated` 2026-11-22T15:15:12+08:00 · every count above is a face count, not a read count.
+`generated` 2026-11-22T19:49:37+08:00 · every count above is a face count, not a read count.
