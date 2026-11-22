@@ -1,0 +1,676 @@
+{
+  "kind": "bench_cash_window_sensitivity",
+  "generated": "2026-11-23T05:38:29+0800",
+  "script": "scripts/bench_cash_window_sensitivity.py",
+  "question": "for a decision taken today, does 'this book is worth what cash earns' survive the choice of how far back the cash rate is read?",
+  "criteria": {
+    "capital_cny": 1000000.0,
+    "rebal_bars": 20,
+    "n_hold": 5,
+    "cost_bp_per_side": 10.0,
+    "vol_target": 0.08,
+    "random_draws": 8,
+    "lookbacks_bars": [
+      21,
+      63,
+      126,
+      252,
+      504,
+      1008,
+      "full"
+    ],
+    "arm_trials": {
+      "tuned_composite_6": 58,
+      "single_mom_12_1": 6,
+      "single_vol_60_low": 6,
+      "random_pick_5": 1
+    },
+    "repro_tol_pp": 0.2,
+    "repro_tol_sr": 0.02,
+    "cash_anchor_tol_pp": 0.2,
+    "min_bars_aligned": 1000,
+    "cash_vehicle": "results/bench_repo_ladder.json::baseline.net_cagr",
+    "parent_arms": "results/etf_book_rent_horse_race.json",
+    "cagr": "calendar-day CAGR (same formula as etf_equity_alpha.stats2)",
+    "frozen": "constants above were written before the first run"
+  },
+  "cash_vehicle": {
+    "source": "results/bench_repo_ladder.json::baseline.net_cagr (GC001 overnight roll, 2011-2026)",
+    "window": [
+      "2011-05-13",
+      "2026-11-20"
+    ],
+    "points": 3772,
+    "lend_log": {
+      "lends": 3771,
+      "employed_days": 5670,
+      "calendar_days": 5670,
+      "idle_days": 0,
+      "utilisation": 1.0,
+      "missing_quotes": 0
+    },
+    "full_cagr": 0.024938,
+    "published_full": 0.024947,
+    "anchor_gap_pp": -0.0009,
+    "short_window_constant": 0.01777,
+    "short_window_source": "results/capital_placement.json::config.cash_net_annual"
+  },
+  "cash_table": [
+    {
+      "lookback": 21,
+      "lookback_bars": 21,
+      "window": [
+        "2026-10-22",
+        "2026-11-20"
+      ],
+      "cash_cagr": 0.0092,
+      "cash_money_on_capital": 9200.45
+    },
+    {
+      "lookback": 63,
+      "lookback_bars": 63,
+      "window": [
+        "2026-08-17",
+        "2026-11-20"
+      ],
+      "cash_cagr": 0.009762,
+      "cash_money_on_capital": 9762.26
+    },
+    {
+      "lookback": 126,
+      "lookback_bars": 126,
+      "window": [
+        "2026-05-19",
+        "2026-11-20"
+      ],
+      "cash_cagr": 0.009858,
+      "cash_money_on_capital": 9858.24
+    },
+    {
+      "lookback": 252,
+      "lookback_bars": 252,
+      "window": [
+        "2025-11-06",
+        "2026-11-20"
+      ],
+      "cash_cagr": 0.010659,
+      "cash_money_on_capital": 10659.4
+    },
+    {
+      "lookback": 504,
+      "lookback_bars": 504,
+      "window": [
+        "2024-10-24",
+        "2026-11-20"
+      ],
+      "cash_cagr": 0.012614,
+      "cash_money_on_capital": 12613.53
+    },
+    {
+      "lookback": 1008,
+      "lookback_bars": 1008,
+      "window": [
+        "2022-09-20",
+        "2026-11-20"
+      ],
+      "cash_cagr": 0.016197,
+      "cash_money_on_capital": 16196.59
+    },
+    {
+      "lookback": "full",
+      "lookback_bars": null,
+      "window": [
+        "2011-05-13",
+        "2026-11-20"
+      ],
+      "cash_cagr": 0.024938,
+      "cash_money_on_capital": 24937.63
+    }
+  ],
+  "panel": {
+    "universe_after_class_filter": 1528,
+    "flips_repaired": 169,
+    "bars": 5285,
+    "window": [
+      "2005-02-23",
+      "2026-11-20"
+    ]
+  },
+  "arms": [
+    {
+      "arm": "tuned_composite_6",
+      "n_trials": 58,
+      "bars": 1667,
+      "window": [
+        "2020-01-03",
+        "2026-11-20"
+      ],
+      "cells": [
+        {
+          "lookback": 21,
+          "lookback_bars": 21,
+          "book_window": [
+            "2026-10-22",
+            "2026-11-20"
+          ],
+          "book_cagr": -0.330133,
+          "cash_cagr": 0.0092,
+          "excess_pp": -33.9333,
+          "excess_cny": -339333.0
+        },
+        {
+          "lookback": 63,
+          "lookback_bars": 63,
+          "book_window": [
+            "2026-08-17",
+            "2026-11-20"
+          ],
+          "book_cagr": -0.162917,
+          "cash_cagr": 0.009762,
+          "excess_pp": -17.2679,
+          "excess_cny": -172679.0
+        },
+        {
+          "lookback": 126,
+          "lookback_bars": 126,
+          "book_window": [
+            "2026-05-19",
+            "2026-11-20"
+          ],
+          "book_cagr": -0.034505,
+          "cash_cagr": 0.009858,
+          "excess_pp": -4.4363,
+          "excess_cny": -44363.0
+        },
+        {
+          "lookback": 252,
+          "lookback_bars": 252,
+          "book_window": [
+            "2025-11-06",
+            "2026-11-20"
+          ],
+          "book_cagr": 0.015705,
+          "cash_cagr": 0.010659,
+          "excess_pp": 0.5046,
+          "excess_cny": 5046.0
+        },
+        {
+          "lookback": 504,
+          "lookback_bars": 504,
+          "book_window": [
+            "2024-10-24",
+            "2026-11-20"
+          ],
+          "book_cagr": 0.197292,
+          "cash_cagr": 0.012614,
+          "excess_pp": 18.4678,
+          "excess_cny": 184678.0
+        },
+        {
+          "lookback": 1008,
+          "lookback_bars": 1008,
+          "book_window": [
+            "2022-09-20",
+            "2026-11-20"
+          ],
+          "book_cagr": 0.159637,
+          "cash_cagr": 0.016197,
+          "excess_pp": 14.3441,
+          "excess_cny": 143441.0
+        },
+        {
+          "lookback": "full",
+          "lookback_bars": null,
+          "book_window": [
+            "2020-01-03",
+            "2026-11-20"
+          ],
+          "book_cagr": 0.111514,
+          "cash_cagr": 0.024938,
+          "excess_pp": 8.6576,
+          "excess_cny": 86576.0
+        }
+      ],
+      "signs_seen": [
+        -1,
+        1
+      ],
+      "verdict": "FLIPS_WITH_LOOKBACK",
+      "flip_between": [
+        126,
+        252
+      ],
+      "excess_full_t": 2.3855,
+      "excess_full_bars": 1666,
+      "aligned_bars_with_cash": 1666,
+      "reproduction": {
+        "published_cagr": 0.1116,
+        "published_sharpe": 1.101,
+        "cagr_gap_pp": -0.0086,
+        "cagr_within_tol": true
+      }
+    },
+    {
+      "arm": "single_mom_12_1",
+      "n_trials": 6,
+      "bars": 1667,
+      "window": [
+        "2020-01-03",
+        "2026-11-20"
+      ],
+      "cells": [
+        {
+          "lookback": 21,
+          "lookback_bars": 21,
+          "book_window": [
+            "2026-10-22",
+            "2026-11-20"
+          ],
+          "book_cagr": -0.360549,
+          "cash_cagr": 0.0092,
+          "excess_pp": -36.975,
+          "excess_cny": -369750.0
+        },
+        {
+          "lookback": 63,
+          "lookback_bars": 63,
+          "book_window": [
+            "2026-08-17",
+            "2026-11-20"
+          ],
+          "book_cagr": -0.227915,
+          "cash_cagr": 0.009762,
+          "excess_pp": -23.7678,
+          "excess_cny": -237678.0
+        },
+        {
+          "lookback": 126,
+          "lookback_bars": 126,
+          "book_window": [
+            "2026-05-19",
+            "2026-11-20"
+          ],
+          "book_cagr": -0.143451,
+          "cash_cagr": 0.009858,
+          "excess_pp": -15.331,
+          "excess_cny": -153310.0
+        },
+        {
+          "lookback": 252,
+          "lookback_bars": 252,
+          "book_window": [
+            "2025-11-06",
+            "2026-11-20"
+          ],
+          "book_cagr": -0.044113,
+          "cash_cagr": 0.010659,
+          "excess_pp": -5.4772,
+          "excess_cny": -54772.0
+        },
+        {
+          "lookback": 504,
+          "lookback_bars": 504,
+          "book_window": [
+            "2024-10-24",
+            "2026-11-20"
+          ],
+          "book_cagr": 0.017716,
+          "cash_cagr": 0.012614,
+          "excess_pp": 0.5102,
+          "excess_cny": 5102.0
+        },
+        {
+          "lookback": 1008,
+          "lookback_bars": 1008,
+          "book_window": [
+            "2022-09-20",
+            "2026-11-20"
+          ],
+          "book_cagr": 0.019572,
+          "cash_cagr": 0.016197,
+          "excess_pp": 0.3376,
+          "excess_cny": 3376.0
+        },
+        {
+          "lookback": "full",
+          "lookback_bars": null,
+          "book_window": [
+            "2020-01-03",
+            "2026-11-20"
+          ],
+          "book_cagr": 0.037503,
+          "cash_cagr": 0.024938,
+          "excess_pp": 1.2566,
+          "excess_cny": 12566.0
+        }
+      ],
+      "signs_seen": [
+        -1,
+        1
+      ],
+      "verdict": "FLIPS_WITH_LOOKBACK",
+      "flip_between": [
+        252,
+        504
+      ],
+      "excess_full_t": 0.7108,
+      "excess_full_bars": 1666,
+      "aligned_bars_with_cash": 1666,
+      "reproduction": {
+        "published_cagr": 0.0375,
+        "published_sharpe": 0.488,
+        "cagr_gap_pp": 0.0003,
+        "cagr_within_tol": true
+      }
+    },
+    {
+      "arm": "single_vol_60_low",
+      "n_trials": 6,
+      "bars": 1667,
+      "window": [
+        "2020-01-03",
+        "2026-11-20"
+      ],
+      "cells": [
+        {
+          "lookback": 21,
+          "lookback_bars": 21,
+          "book_window": [
+            "2026-10-22",
+            "2026-11-20"
+          ],
+          "book_cagr": 0.098766,
+          "cash_cagr": 0.0092,
+          "excess_pp": 8.9566,
+          "excess_cny": 89566.0
+        },
+        {
+          "lookback": 63,
+          "lookback_bars": 63,
+          "book_window": [
+            "2026-08-17",
+            "2026-11-20"
+          ],
+          "book_cagr": -0.167163,
+          "cash_cagr": 0.009762,
+          "excess_pp": -17.6926,
+          "excess_cny": -176926.0
+        },
+        {
+          "lookback": 126,
+          "lookback_bars": 126,
+          "book_window": [
+            "2026-05-19",
+            "2026-11-20"
+          ],
+          "book_cagr": -0.13777,
+          "cash_cagr": 0.009858,
+          "excess_pp": -14.7628,
+          "excess_cny": -147628.0
+        },
+        {
+          "lookback": 252,
+          "lookback_bars": 252,
+          "book_window": [
+            "2025-11-06",
+            "2026-11-20"
+          ],
+          "book_cagr": -0.092945,
+          "cash_cagr": 0.010659,
+          "excess_pp": -10.3604,
+          "excess_cny": -103604.0
+        },
+        {
+          "lookback": 504,
+          "lookback_bars": 504,
+          "book_window": [
+            "2024-10-24",
+            "2026-11-20"
+          ],
+          "book_cagr": 0.031246,
+          "cash_cagr": 0.012614,
+          "excess_pp": 1.8632,
+          "excess_cny": 18632.0
+        },
+        {
+          "lookback": 1008,
+          "lookback_bars": 1008,
+          "book_window": [
+            "2022-09-20",
+            "2026-11-20"
+          ],
+          "book_cagr": 0.092101,
+          "cash_cagr": 0.016197,
+          "excess_pp": 7.5905,
+          "excess_cny": 75905.0
+        },
+        {
+          "lookback": "full",
+          "lookback_bars": null,
+          "book_window": [
+            "2020-01-03",
+            "2026-11-20"
+          ],
+          "book_cagr": 0.070485,
+          "cash_cagr": 0.024938,
+          "excess_pp": 4.5547,
+          "excess_cny": 45547.0
+        }
+      ],
+      "signs_seen": [
+        -1,
+        1
+      ],
+      "verdict": "FLIPS_WITH_LOOKBACK",
+      "flip_between": [
+        21,
+        63
+      ],
+      "excess_full_t": 1.3501,
+      "excess_full_bars": 1666,
+      "aligned_bars_with_cash": 1666,
+      "reproduction": {
+        "published_cagr": 0.0705,
+        "published_sharpe": 0.687,
+        "cagr_gap_pp": -0.0015,
+        "cagr_within_tol": true
+      }
+    },
+    {
+      "arm": "random_pick_5",
+      "n_trials": 1,
+      "bars": 1667,
+      "window": [
+        "2020-01-03",
+        "2026-11-20"
+      ],
+      "cells": [
+        {
+          "lookback": 21,
+          "lookback_bars": 21,
+          "book_window": [
+            "2026-10-22",
+            "2026-11-20"
+          ],
+          "book_cagr": -0.375446,
+          "cash_cagr": 0.0092,
+          "excess_pp": -38.4647,
+          "excess_cny": -384647.0
+        },
+        {
+          "lookback": 63,
+          "lookback_bars": 63,
+          "book_window": [
+            "2026-08-17",
+            "2026-11-20"
+          ],
+          "book_cagr": -0.24073,
+          "cash_cagr": 0.009762,
+          "excess_pp": -25.0492,
+          "excess_cny": -250492.0
+        },
+        {
+          "lookback": 126,
+          "lookback_bars": 126,
+          "book_window": [
+            "2026-05-19",
+            "2026-11-20"
+          ],
+          "book_cagr": -0.149459,
+          "cash_cagr": 0.009858,
+          "excess_pp": -15.9317,
+          "excess_cny": -159317.0
+        },
+        {
+          "lookback": 252,
+          "lookback_bars": 252,
+          "book_window": [
+            "2025-11-06",
+            "2026-11-20"
+          ],
+          "book_cagr": -0.056924,
+          "cash_cagr": 0.010659,
+          "excess_pp": -6.7584,
+          "excess_cny": -67584.0
+        },
+        {
+          "lookback": 504,
+          "lookback_bars": 504,
+          "book_window": [
+            "2024-10-24",
+            "2026-11-20"
+          ],
+          "book_cagr": 0.022248,
+          "cash_cagr": 0.012614,
+          "excess_pp": 0.9635,
+          "excess_cny": 9635.0
+        },
+        {
+          "lookback": 1008,
+          "lookback_bars": 1008,
+          "book_window": [
+            "2022-09-20",
+            "2026-11-20"
+          ],
+          "book_cagr": -0.000403,
+          "cash_cagr": 0.016197,
+          "excess_pp": -1.6599,
+          "excess_cny": -16599.0
+        },
+        {
+          "lookback": "full",
+          "lookback_bars": null,
+          "book_window": [
+            "2020-01-03",
+            "2026-11-20"
+          ],
+          "book_cagr": -0.003833,
+          "cash_cagr": 0.024938,
+          "excess_pp": -2.8771,
+          "excess_cny": -28771.0
+        }
+      ],
+      "signs_seen": [
+        -1,
+        1
+      ],
+      "verdict": "FLIPS_WITH_LOOKBACK",
+      "flip_between": [
+        252,
+        504
+      ],
+      "excess_full_t": -0.521,
+      "excess_full_bars": 1666,
+      "aligned_bars_with_cash": 1666,
+      "reproduction": {
+        "published_cagr": -0.0038,
+        "published_sharpe": 0.0,
+        "cagr_gap_pp": -0.0033,
+        "cagr_within_tol": true
+      }
+    }
+  ],
+  "recent_horizons": {
+    "one_year": {
+      "lookback": 252,
+      "arms": [
+        {
+          "arm": "tuned_composite_6",
+          "excess_pp": 0.5046,
+          "excess_cny": 5046.0
+        },
+        {
+          "arm": "single_mom_12_1",
+          "excess_pp": -5.4772,
+          "excess_cny": -54772.0
+        },
+        {
+          "arm": "random_pick_5",
+          "excess_pp": -6.7584,
+          "excess_cny": -67584.0
+        },
+        {
+          "arm": "single_vol_60_low",
+          "excess_pp": -10.3604,
+          "excess_cny": -103604.0
+        }
+      ],
+      "arms_above_cash": [
+        "tuned_composite_6"
+      ]
+    },
+    "two_year": {
+      "lookback": 504,
+      "arms": [
+        {
+          "arm": "tuned_composite_6",
+          "excess_pp": 18.4678,
+          "excess_cny": 184678.0
+        },
+        {
+          "arm": "single_vol_60_low",
+          "excess_pp": 1.8632,
+          "excess_cny": 18632.0
+        },
+        {
+          "arm": "random_pick_5",
+          "excess_pp": 0.9635,
+          "excess_cny": 9635.0
+        },
+        {
+          "arm": "single_mom_12_1",
+          "excess_pp": 0.5102,
+          "excess_cny": 5102.0
+        }
+      ],
+      "arms_above_cash": [
+        "tuned_composite_6",
+        "single_vol_60_low",
+        "random_pick_5",
+        "single_mom_12_1"
+      ]
+    },
+    "verdict": "SOME_ARMS_CLEAR_CASH_ON_A_HORIZON_READER_CAN_DEFEND",
+    "why": "judged on the 1-year and 2-year rungs only: these are the horizons whose cash rate is still the rate you can get today; the longer rungs answer a different question, namely what this book did when cash paid 2.5%"
+  },
+  "verdict": {
+    "verdict": "LOOKBACK_DECIDES_THE_ANSWER",
+    "why": "the sign of excess-over-cash flips inside the frozen ladder",
+    "arms_that_flip": [
+      "tuned_composite_6",
+      "single_mom_12_1",
+      "single_vol_60_low",
+      "random_pick_5"
+    ]
+  },
+  "evidence_cutoff": "2026-11-20",
+  "evidence_cutoff_source": "panel last bar (the arms' own series end here)",
+  "honest": [
+    "the daily excess t does not correct for overlapping 20-bar holding periods; it is a scale reference, not a significance claim",
+    "a short lookback's CAGR is that many days' return annualised, so the 21- and 63-bar rungs are noisier by construction than the 1008-bar and full rungs; they are printed so the flip is visible, not as comparable long-run returns",
+    "arms are priced on a surviving-ETF universe; the lookback ladder cannot remove that bias",
+    "cash is one vehicle (SSE GC001 net of commission); other liquid legs may carry a different window profile",
+    "no lookback was added after seeing a result; the ladder is the frozen question"
+  ],
+  "elapsed_sec": 59.4
+}
