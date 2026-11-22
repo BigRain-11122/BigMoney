@@ -1,0 +1,155 @@
+{
+ "script": "scripts/book_pay_vs_cash_ruler.py",
+ "face": "results/book_pay_vs_cash_ruler.json",
+ "kind": "book-pay-vs-cash/v1",
+ "generated": "2026-11-23T03:35:17+0800",
+ "evidence_cutoff": "2026-11-20",
+ "evidence_cutoff_source": "parent window end (parent carries no cutoff field)",
+ "criteria": {
+  "capital_cny": 1000000,
+  "n_conservative": 58,
+  "cash_source": "results/capital_placement.json::config.cash_net_annual (r1258 repo rate net of the roll commission)",
+  "cash_cross_check": "data/repo_daily/GC001.csv window mean (gross, not averaged in)",
+  "meaningful_margin_cny": 10000.0,
+  "meaningful_margin_note": "1pp/yr on 1,000,000 -- below this the 'edge' is the width of the estimate, not an edge",
+  "tolerance_cash_pp": 0.3,
+  "tolerance_cash_note": "gross window mean vs published net rate: the commission and the window differ, so 0.30pp is disclosed as a cross-check band, not a pass/fail line on the book",
+  "frozen": "constants above were written before the first run; no line is tuned after seeing the result"
+ },
+ "book": {
+  "arm": "n5_vt08",
+  "window": [
+   "2020-01-03",
+   "2026-11-20"
+  ],
+  "bars": 1666,
+  "headline_cagr": 0.1116,
+  "headline_sharpe": 1.101,
+  "published_vol": 0.105,
+  "published_maxdd": -0.1056
+ },
+ "cash": {
+  "cash_net_annual": 0.01777,
+  "source": "results/capital_placement.json",
+  "generated": "2026-11-22T19:20:03+08:00",
+  "evidence_cutoff": "2026-11-20",
+  "cross_check": {
+   "gc001_window_mean_pct": 1.9737,
+   "days": 1667,
+   "first": "2020-01-03",
+   "last": "2026-11-20",
+   "gc007_window_mean_pct": 2.0711,
+   "gap_vs_published_pp": 0.1967,
+   "relation": "CROSS_CHECK_OK",
+   "note": "gross panel mean vs published net rate: the roll commission and the window differ by construction; this is disclosed, not reconciled"
+  },
+  "today": {
+   "last_date": "2026-11-20",
+   "last_close_pct": 1.395
+  }
+ },
+ "at_conservative_n": {
+  "n_trials": 58,
+  "credible_sharpe": 0.1715,
+  "budgetable_cagr": 0.018007,
+  "falsification_drawdown": 0.190919,
+  "excess_over_cash_cagr": 0.000237,
+  "excess_money_cny": 237.0,
+  "years_of_excess_to_repay_one_tail_year": 805.57,
+  "headline_vs_deflated_gap_cagr": 0.093593
+ },
+ "break_even_n": {
+  "n": 58
+ },
+ "scanner": [
+  {
+   "n_trials": 2,
+   "credible_sharpe": 0.8939,
+   "budgetable_cagr": 0.093859,
+   "excess_over_cash_cagr": 0.076089,
+   "money_vs_parking_cny": 76089.0,
+   "clears_cash": true
+  },
+  {
+   "n_trials": 5,
+   "credible_sharpe": 0.6257,
+   "budgetable_cagr": 0.065699,
+   "excess_over_cash_cagr": 0.047929,
+   "money_vs_parking_cny": 47929.0,
+   "clears_cash": true
+  },
+  {
+   "n_trials": 10,
+   "credible_sharpe": 0.4735,
+   "budgetable_cagr": 0.049717,
+   "excess_over_cash_cagr": 0.031947,
+   "money_vs_parking_cny": 31947.0,
+   "clears_cash": true
+  },
+  {
+   "n_trials": 20,
+   "credible_sharpe": 0.3436,
+   "budgetable_cagr": 0.036078,
+   "excess_over_cash_cagr": 0.018308,
+   "money_vs_parking_cny": 18308.0,
+   "clears_cash": true
+  },
+  {
+   "n_trials": 40,
+   "credible_sharpe": 0.2285,
+   "budgetable_cagr": 0.023992,
+   "excess_over_cash_cagr": 0.006222,
+   "money_vs_parking_cny": 6222.0,
+   "clears_cash": true
+  },
+  {
+   "n_trials": 55,
+   "credible_sharpe": 0.1794,
+   "budgetable_cagr": 0.018837,
+   "excess_over_cash_cagr": 0.001067,
+   "money_vs_parking_cny": 1067.0,
+   "clears_cash": true
+  },
+  {
+   "n_trials": 58,
+   "credible_sharpe": 0.1715,
+   "budgetable_cagr": 0.018007,
+   "excess_over_cash_cagr": 0.000237,
+   "money_vs_parking_cny": 237.0,
+   "clears_cash": true
+  },
+  {
+   "n_trials": 100,
+   "credible_sharpe": 0.0926,
+   "budgetable_cagr": 0.009723,
+   "excess_over_cash_cagr": -0.008047,
+   "money_vs_parking_cny": -8047.0,
+   "clears_cash": false
+  },
+  {
+   "n_trials": 200,
+   "credible_sharpe": 0.0,
+   "budgetable_cagr": 0.0,
+   "excess_over_cash_cagr": -0.01777,
+   "money_vs_parking_cny": -17770.0,
+   "clears_cash": false
+  },
+  {
+   "n_trials": 450,
+   "credible_sharpe": 0.0,
+   "budgetable_cagr": 0.0,
+   "excess_over_cash_cagr": -0.01777,
+   "money_vs_parking_cny": -17770.0,
+   "clears_cash": false
+  }
+ ],
+ "verdict": "DEFLATED_PAY_IS_A_ROUNDING_ERROR_VS_CASH",
+ "verdict_zh": "按 58 次尝试扣完租金，这本书比躺利息多 ￥237/年（0.024 个百分点），而它一年内 5% 概率的尾部回撤是 19.1%——超额是估计宽度的量级，不是边的量级。",
+ "caveats": [
+  "the deflation is a haircut, not a posterior: the headline row is printed beside the deflated row so neither reading is hidden",
+  "cash_net_annual is one published rate carried on the placement face; a real parking programme re-quotes daily and its realised carry moves",
+  "the book is fully invested, so no idle cash earns this rate inside it -- the comparison is 'this book' vs 'the same money parked'",
+  "excess is computed on the parent's published volatility, so a regime change moves both the pay and the tail"
+ ],
+ "elapsed_sec": 0.043
+}
