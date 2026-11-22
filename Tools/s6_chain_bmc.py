@@ -1338,7 +1338,15 @@ LEGS = [
     # somebody noticed. capital_union_decision (below) reads it, which makes the freeze
     # invisible: the union page keeps printing yesterday's one-lot threshold as today's truth.
     # Cheap (reads the ticket already written at the top of this chain, ~0s, no network).
-    ("ticket_floor_write", ["python", "scripts/etf_book_ticket_floor.py", "run"]),
+    # r1935: this leg was an unconditional `run` (~51s: it re-walks the whole panel for the
+    # path block) because nothing cheap could tell a moved bar from a settled one -- the
+    # face's own check only re-derived its own legs, so it was green no matter which day the
+    # ticket named (r1850 class). etf_book_ticket_floor.check now compares against the newest
+    # ticket and says STALE, so the leg becomes a check/run pair: ~1s on a settled face, and
+    # the 51s rebuild is paid only when the ticket really moved.
+    ("ticket_floor_write",
+     ["python", "scripts/etf_book_ticket_floor.py", "check"],
+     ["python", "scripts/etf_book_ticket_floor.py", "run"]),
     # r1934: two faces published straight to results/ with no chain leg and no smoke leg --
     # the r1282 orphan class, caught before it cost a stale number. sell_plan prices the OTHER
     # half of the ticket (the ticket only says what k must do to BUY another lot; this says

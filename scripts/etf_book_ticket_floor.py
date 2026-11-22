@@ -65,8 +65,10 @@ COST = 0.0010
 RESIDUAL_MAX_PCT = 0.50      # frozen: whole-lot residue as % of NAV
 
 
-def newest_ticket(pattern=TICKET_GLOB):
-    files = sorted(glob.glob(pattern), key=os.path.getmtime)
+def newest_ticket(pattern=None):
+    # r1935: read the glob from the module global at call time (not bound as a default)
+    # so the selftest can point it at a temp dir; runtime behaviour is unchanged.
+    files = sorted(glob.glob(pattern or TICKET_GLOB), key=os.path.getmtime)
     return files[-1] if files else None
 
 
@@ -304,6 +306,7 @@ def _ticket(prices, weights, cash=0.0):
 
 
 def selftest():
+    global OUT_JSON, TICKET_GLOB      # L11 repoints them at a temp face; restored in finally
     fails = []
 
     # L1 twelve cheap names at 1M: every leg fits and the residual is tiny
@@ -374,10 +377,142 @@ def selftest():
             fails.append("L9b published verdict does not re-derive: %r vs %r"
                          % (face["verdict"], again["verdict"]))
 
-    print("selftest %d/%d PASS" % (9 - len(fails), 9))
+    # L10: a ticket that MOVED must read STALE -- the behaviour, not the source text.
+    #      Four cases: same face/same ticket (quiet), price moved, bar moved, and a
+    #      different ticket file being the newest one.
+    import tempfile
+    tmpdir = tempfile.mkdtemp(prefix="tfloor_drift_")
+    tpath = os.path.join(tmpdir, "TICKET-2026-01-02-card.json")
+    tk = _ticket([4.0] * 12, [0.08] * 12, 0.04)
+    pat = os.path.join(tmpdir, "TICKET-*-card.json")
+
+    def _write_ticket(obj):
+        with open(tpath, "w", encoding="utf-8") as fh:
+            json.dump(obj, fh)
+
+    _write_ticket(tk)
+    face = resolve(tk, 1_000_000)
+    face["ticket_file"] = tpath
+    face["evidence_cutoff"] = face.get("asof_bar")
+    face["capital_cny"] = 1_000_000
+    if _ticket_drift(face, pat) is not None:
+        fails.append("L10 a face priced on the newest ticket read as drifted: %r"
+                     % (_ticket_drift(face, pat),))
+    _write_ticket(_ticket([4.1] + [4.0] * 11, [0.08] * 12, 0.04))
+    d = _ticket_drift(face, pat)
+    if not d or "STALE" not in d:
+        fails.append("L10b a moved price must read STALE, got %r" % (d,))
+    moved_bar = _ticket([4.0] * 12, [0.08] * 12, 0.04)
+    moved_bar["asof_bar"] = "2026-01-05"
+    _write_ticket(moved_bar)
+    d = _ticket_drift(face, pat)
+    if not d or "STALE" not in d:
+        fails.append("L10c a moved bar must read STALE, got %r" % (d,))
+    _write_ticket(tk)
+    other = tempfile.mkdtemp(prefix="tfloor_drift2_")
+    opath = os.path.join(other, "TICKET-2026-01-02-card.json")
+    with open(opath, "w", encoding="utf-8") as fh:
+        json.dump(tk, fh)
+    d = _ticket_drift(face, os.path.join(other, "TICKET-*-card.json"))
+    if not d or "STALE" not in d:
+        fails.append("L10d a face pointing at a non-newest ticket must read STALE, got %r"
+                     % (d,))
+
+    # L11: the wiring -- check() itself must print that STALE and exit non-zero, so the
+    #      chain's run_leg actually pays for the rewrite (r1850: a word that is never
+    #      printed is a writer that is never called).
+    import contextlib
+    import io as _io
+    saved_out, saved_glob = OUT_JSON, TICKET_GLOB
+    try:
+        facepath = os.path.join(tmpdir, "face.json")
+        with open(facepath, "w", encoding="utf-8") as fh:
+            json.dump(face, fh)
+        OUT_JSON, TICKET_GLOB = facepath, pat
+        _write_ticket(tk)
+        buf = _io.StringIO()
+        with contextlib.redirect_stdout(buf):
+            rc_clean = check()
+        if rc_clean != 0:
+            fails.append("L11a a face on the newest ticket should check clean, rc=%r: %s"
+                         % (rc_clean, buf.getvalue().strip()))
+        _write_ticket(_ticket([4.1] + [4.0] * 11, [0.08] * 12, 0.04))
+        buf = _io.StringIO()
+        with contextlib.redirect_stdout(buf):
+            rc_moved = check()
+        text = buf.getvalue()
+        if rc_moved == 0 or "STALE" not in text:
+            fails.append("L11b check() must pay-or-refresh on a moved ticket: rc=%r text=%r"
+                         % (rc_moved, text.strip()[:200]))
+        # and a face that disagrees with ITSELF must stay a defect: same words, no STALE
+        drifted = json.loads(json.dumps(face))
+        drifted["legs"][0]["lots"] = drifted["legs"][0]["lots"] + 1
+        with open(facepath, "w", encoding="utf-8") as fh:
+            json.dump(drifted, fh)
+        _write_ticket(tk)
+        buf = _io.StringIO()
+        with contextlib.redirect_stdout(buf):
+            rc_bad = check()
+        text = buf.getvalue()
+        if rc_bad == 0:
+            fails.append("L11c a face that disagrees with its own legs must stay red")
+        if "STALE" in text:
+            fails.append("L11d a real inconsistency must not be worded as STALE: %s"
+                         % text.strip()[:200])
+    finally:
+        OUT_JSON, TICKET_GLOB = saved_out, saved_glob
+
+    print("selftest %d/%d PASS" % (11 - len(fails), 11))
     for f in fails:
         print("FAIL", f)
     return 0 if not fails else 1
+
+
+def _ticket_drift(face, pattern=None):
+    """Is this face still about the ticket the chain would price right now?
+
+    r1935: `check()` used to re-derive the verdict from the face's OWN legs, so it was
+    green no matter how far the ticket moved -- the r1850 class ("a self-check that only
+    recomputes itself").  That made the chain leg an unconditional 51s `run`, because the
+    only way to notice a new bar was to pay for the rebuild every round.
+
+    Comparing against the ticket is cheap (one JSON read) and it is the honest question:
+    a face priced on yesterday's ticket is STALE, which is what pays for a rewrite
+    (run_leg's contract).  It is deliberately NOT worded as a defect: the arithmetic can
+    be perfect and the face still be about the wrong day.
+    """
+    newest = newest_ticket(pattern)
+    if not newest:
+        return None
+    named = face.get("ticket_file")
+    # compare resolved paths, so a face that stores a repo-relative name and a ticket
+    # handed in as an absolute path are still recognised as the same file
+    named_abs = os.path.abspath(os.path.join(ROOT, named)) if named else None
+    if named_abs != os.path.abspath(newest):
+        return ("STALE: the newest ticket is %s, this face was priced on %s"
+                % (newest, named))
+    tk = load_ticket(newest) or {}
+    if (tk.get("asof_bar") or None) != (face.get("asof_bar") or None):
+        return ("STALE: the ticket moved to bar %r, this face was priced on %r"
+                % (tk.get("asof_bar"), face.get("asof_bar")))
+    want = {l.get("symbol"): l for l in (tk.get("order") or [])}
+    have = {l.get("symbol"): l for l in (face.get("legs") or [])}
+    if set(want) != set(have):
+        return "STALE: the ticket names a different set of names than this face"
+    for sym, wl in want.items():
+        hl = have[sym]
+        # the face stores weight at 6dp and price at 4dp (leg_rows), so the tolerance is
+        # the storage precision itself -- not a loosening: a moved weight of one basis
+        # point (1e-4) is still 200x this window
+        if abs(float(wl.get("weight") or 0.0) - float(hl.get("weight") or 0.0)) > 5e-7:
+            return ("STALE: %s weight moved from %r to %r"
+                    % (sym, hl.get("weight"), wl.get("weight")))
+        wp, hp = wl.get("price"), hl.get("price")
+        if (wp is None) != (hp is None):
+            return "STALE: %s price appears/disappears on the ticket" % sym
+        if wp is not None and abs(float(wp) - float(hp)) > 5e-5:
+            return "STALE: %s price moved from %r to %r" % (sym, hp, wp)
+    return None
 
 
 def check():
@@ -387,6 +522,11 @@ def check():
         return 2
     face = json.load(open(OUT_JSON, encoding="utf-8"))
     problems = []
+    # r1935: ask the ticket first -- the cheapest way for a moved bar to say so, and the
+    # only reason this leg is a check/run pair instead of a 51s run every round.
+    drift = _ticket_drift(face)
+    if drift:
+        problems.append(drift)
     if not face.get("evidence_cutoff"):
         problems.append("missing evidence_cutoff")
     legs = face.get("legs") or []
