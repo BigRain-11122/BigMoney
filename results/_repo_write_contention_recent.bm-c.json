@@ -1,0 +1,96 @@
+{
+ "schema": "repo-write-contention/v1",
+ "machine_id": "bm-c",
+ "probed_at": "2026-11-22T12:01:48",
+ "lookback_min": 12.0,
+ "verdict": "CONTENTION",
+ "why": "2 hosts alive; 4 shared face(s) written before this round started (strictly another host), 0 written inside the overlap (unattributable)",
+ "hosts": [
+  {
+   "pid": 44248,
+   "kind": "interactive",
+   "started_epoch": 1795316570.4324791,
+   "started": "2026-11-22T11:02:50",
+   "age_min": 59.0,
+   "exempt_from_cloud_cap": true,
+   "cmd_head": "K:\\tuanjieAI\\Tuanjie Cowork\\cli\\bin\\win32-x64\\codely.exe --experimental-acp --experimental-skills --path-polic"
+  },
+  {
+   "pid": 48544,
+   "kind": "other",
+   "started_epoch": 1795320002.8911693,
+   "started": "2026-11-22T12:00:02",
+   "age_min": 1.8,
+   "exempt_from_cloud_cap": false,
+   "cmd_head": "K:\\tuanjieAI\\Tuanjie Cowork\\cli\\bin\\win32-x64\\codely.exe -y -p 无人值守执行 Bigmoney 量化公司 10 分钟自迭代一轮（2026-09-23 CEO "
+  }
+ ],
+ "my_host_pid": 48544,
+ "my_host_started": "2026-11-22T12:00:02",
+ "host_probe_error": null,
+ "overlap_windows": [
+  {
+   "pair": [
+    44248,
+    48544
+   ],
+   "kinds": [
+    "interactive",
+    "other"
+   ],
+   "from": "2026-11-22T12:00:02",
+   "to": "2026-11-22T12:01:48",
+   "minutes": 1.8,
+   "lo": 1795320002.8911693
+  }
+ ],
+ "peer_only_writes": [
+  "fleet/machines/bm-c.json",
+  "research/CAPITAL_UNION.md",
+  "results/capital_union_decision.json",
+  "scripts/capital_union_decision.py"
+ ],
+ "ambiguous_writes": [],
+ "ignored_patterns": [
+  "results/saturation_engine/",
+  "results/watermark_red.json",
+  "results/idle_trigger",
+  "results/orders_ack_scan",
+  "results/_orphan_face_probe",
+  "results/_repo_write_contention",
+  "results/_host_contention"
+ ],
+ "ignored_write_count": 8,
+ "declared_own_patterns": [],
+ "declared_own_write_count": 0,
+ "declared_own_writes": [],
+ "writes_scanned_files": 33915,
+ "recent_writes": [
+  {
+   "path": "fleet/machines/bm-c.json",
+   "mtime": "2026-11-22T11:56:46",
+   "mtime_epoch": 1795319806.1493583,
+   "bytes": 248169
+  },
+  {
+   "path": "results/capital_union_decision.json",
+   "mtime": "2026-11-22T11:54:04",
+   "mtime_epoch": 1795319644.8332007,
+   "bytes": 2228
+  },
+  {
+   "path": "research/CAPITAL_UNION.md",
+   "mtime": "2026-11-22T11:54:04",
+   "mtime_epoch": 1795319644.8332007,
+   "bytes": 1893
+  },
+  {
+   "path": "scripts/capital_union_decision.py",
+   "mtime": "2026-11-22T11:53:53",
+   "mtime_epoch": 1795319633.8606238,
+   "bytes": 10918
+  }
+ ],
+ "recent_write_count": 4,
+ "advisory": "Probe only: it never blocks, kills or defers production. A round that reads CONTENTION must land new files only, never re-derive shared faces or re-run the chain (r1907)."
+}

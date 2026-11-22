@@ -1799,8 +1799,15 @@ def render_md(report, cert="auto"):
                 + (f" -- {len(sc['unexplained'])} undeclared"
                    if sc.get("unexplained") else " -- all declared")
                 + f" (audited by {sc.get('audited_by') or 'an unnamed face'})\n")
+    # r1927: a row can carry a certification without being a sampled per-symbol
+    # panel (repo/futures read 10-11 files whole). That scan can still be older
+    # than the tail the row prints, and the gate demands the page NAME that
+    # certified tail -- the row was carrying the disclosure in JSON only, so a
+    # reader of the markdown saw "tail 11-20" with no sign the last full scan
+    # read 11-19. Include every certified row; the row says which unit it read.
     sampled = [r for r in report["lanes"]
-               if (r.get("panel_read") or {}).get("sampled")]
+               if (r.get("panel_read") or {}).get("sampled")
+               or isinstance(r.get("cert"), dict)]
     behind = [r for r in report["lanes"] if r.get("panel_behind_envelope")]
     repl = report.get("local_replicas") or {}
     if behind:
@@ -1829,7 +1836,11 @@ def render_md(report, cert="auto"):
                      "tail is read through an evenly spaced sample rather than a "
                      "full sweep. A sample can miss a single laggard symbol; it "
                      "cannot miss a panel that stopped weeks ago. Each row below "
-                     "says how many symbols were read out of how many.\n\n")
+                     "says how many symbols were read out of how many. Small "
+                     "panels read whole (marked `files`) are listed too whenever a "
+                     "full-scan certification exists for them: that scan can be "
+                     "older than the tail this board prints, and this section is "
+                     "where that older tail is named.\n\n")
         cert_rows = {}
         cert_as_of = None
         cert_machine = None
@@ -1858,8 +1869,9 @@ def render_md(report, cert="auto"):
                 cert_machine = cert.get("machine")
         for r in sampled:
             pr = r["panel_read"]
+            _unit = "symbols" if pr.get("sampled") else "files"
             tailnote += (f"- `{r['lane']}`: {pr.get('per_file')} of "
-                         f"{pr.get('files')} symbols read, tail "
+                         f"{pr.get('files')} {_unit} read, tail "
                          f"{r.get('panel_tail') or r.get('tail')}"
                          + _holder_sentence(r, cert_rows.get(r["lane"]),
                                             cert_as_of, cert_machine)
@@ -3217,7 +3229,36 @@ def selftest():
         print("[PASS] L45/L46 an uneven panel names its laggards; a uniform or "
               "sampled one does not pretend it read them all", flush=True)
 
-    print("selftest: 47/47 PASS", flush=True)
+    # L47 (r1927): a panel small enough to read whole (repo: 11 files) carries a
+    # certification just like a sampled one, and that scan can be older than the
+    # tail the board prints. The row published the older tail in JSON only, so
+    # the page said "tail 2026-11-20" while the last full scan had read
+    # 2026-11-19 -- the smoke gate demanded the page name it and the page had no
+    # line for it. The section lists every certified row, and says which unit it
+    # read, so a whole-read panel is not printed as "symbols".
+    _rep47 = {"as_of": "2026-10-29T20:00:00", "close_accept_time": "15:30",
+              "expected_last_official_day": "2026-10-29", "calendar_days": 8,
+              "counts": {"in_sync": 1}, "verdict": "attention", "worst": None,
+              "n_lanes": 1, "n_auditable": 1, "unverifiable_lanes": [],
+              "lanes": [{"lane": "repo", "kind": "status", "tail": "2026-10-29",
+                         "panel_tail": "2026-10-29", "verdict": "in_sync",
+                         "panel_read": {"files": 11, "per_file": 11},
+                         "lane_host": "bm-a",
+                         "cert": {"state": "stale", "machine": "bm-a",
+                                  "full_tail": "2026-10-28",
+                                  "board_tail": "2026-10-29",
+                                  "certified_as_of": "2026-10-29T09:00:00",
+                                  "lag_sessions": 1, "max_stale_sessions": 5}}],
+              "period_lanes": []}
+    _sec47 = render_md(_rep47, cert=None).split("Tails read from a sample")[1]
+    assert "`repo`" in _sec47, _sec47[:600]
+    assert "certification read 2026-10-28" in _sec47, _sec47[:600]
+    assert "11 of 11 files read" in _sec47, _sec47[:600]
+    assert "says how many symbols" in _sec47          # the intro still stands
+    print("[PASS] L47 a whole-read panel's older certified tail reaches the page",
+          flush=True)
+
+    print("selftest: 48/48 PASS", flush=True)
     return 0
 
 

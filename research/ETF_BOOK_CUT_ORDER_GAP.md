@@ -25,7 +25,7 @@ the ticket orders k=0.435003 (CNY 434,754) and the permission allows 0.435003 (C
 ## 削减的代价
 
 - 交易成本（8bp 单边 × 卖出额）：CNY 0.00
-- 释放现金的回购收益：年化 CNY 0.00（GC001 1.145%，2026-11-19 收盘）
+- 释放现金的回购收益：年化 CNY 0.00（GC001 1.395%，2026-11-20 收盘）
 - 若风险腿维持 book_realized 的已实现年化：少赚 CNY 0/年
 - 若风险腿维持 same_beta_benchmark 的已实现年化：少赚 CNY 0/年
 - give-up is the sleeve's own realized CAGR minus the observed repo rate on the trimmed amount: an ex-post reading, not a forecast, and it is the price of obeying a gate that failed on concentration, not a return estimate

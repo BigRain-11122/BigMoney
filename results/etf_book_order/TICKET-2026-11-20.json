@@ -1,7 +1,7 @@
 {
  "evidence_cutoff": "2026-11-20",
  "beta_target": 0.2,
- "generated": "2026-11-22T09:55:05+08:00",
+ "generated": "2026-11-22T11:07:49+08:00",
  "permission": {
   "status": "within_permission",
   "k_now": 0.435003,
@@ -486,18 +486,18 @@
   "money": {
    "cash_amount_cny": 565245.9,
    "spot": {
-    "pct": 1.145,
-    "date": "2026-11-19",
-    "annual_cny": 6472.0,
+    "pct": 1.395,
+    "date": "2026-11-20",
+    "annual_cny": 7885.0,
     "quotes": 250,
-    "net_pct": 0.902,
-    "net_annual_cny": 5099.0
+    "net_pct": 1.152,
+    "net_annual_cny": 6512.0
    },
    "mean_tail": {
-    "pct": 1.3489,
-    "annual_cny": 7624.0,
-    "net_pct": 1.1059,
-    "net_annual_cny": 6251.0
+    "pct": 1.3496,
+    "annual_cny": 7629.0,
+    "net_pct": 1.1066,
+    "net_annual_cny": 6255.0
    },
    "window": {
     "pct": 2.0789,
@@ -508,9 +508,9 @@
    "tail": 250,
    "fall_bp": 25.0,
    "verdict": "RATES_STEADY",
-   "sentence": "现金 ¥565,245 按 2026-11-19 报价 1.15% 一年赚 ¥6,472；按自己近 250 个报价的均值 1.35% 是 ¥7,624；按账本自己走过的全窗均值 2.08% 是 ¥11,751。这三个数都是**毛**口径：这笔钱按过去一年这张交易日历要逐交易日滚 243 次、每次佣金 0.1bp，全年手续费约 **¥1,374**，所以按上面那个报价**入账 ¥5,099**（年化 0.90%）、按近 250 个报价的均值 ¥6,251、按全窗均值 ¥10,377——毛数与入账数之间差的就是这条路的手续费，不是利率差（费率表同 `etf_book_cash_ladder` 的 FEE_BP）。2026-11-19 的报价就在它自己的均值上，这一半该怎么算就怎么算。",
-   "spread_vs_tail_cny": -1152.0,
-   "spread_vs_window_cny": -5279.0,
+   "sentence": "现金 ¥565,245 按 2026-11-20 报价 1.40% 一年赚 ¥7,885；按自己近 250 个报价的均值 1.35% 是 ¥7,629；按账本自己走过的全窗均值 2.08% 是 ¥11,751。这三个数都是**毛**口径：这笔钱按过去一年这张交易日历要逐交易日滚 243 次、每次佣金 0.1bp，全年手续费约 **¥1,374**，所以按上面那个报价**入账 ¥6,512**（年化 1.15%）、按近 250 个报价的均值 ¥6,255、按全窗均值 ¥10,377——毛数与入账数之间差的就是这条路的手续费，不是利率差（费率表同 `etf_book_cash_ladder` 的 FEE_BP）。2026-11-20 的报价就在它自己的均值上，这一半该怎么算就怎么算。",
+   "spread_vs_tail_cny": 256.0,
+   "spread_vs_window_cny": -3866.0,
    "book_rate": {
     "pct": 1.7712,
     "annual_cny": 10012.0,
@@ -528,8 +528,8 @@
      "convention": "lag +1: score(bar d-1) selects, the book earns open[d] -> open[d+1] -- the execution the card's config.execution string claims (decide at the close of bar d, fill at the open of bar d+1)"
     },
     "declared_gap_pp": -2.2,
-    "gap_vs_spot_bp": -62.62,
-    "gap_vs_spot_cny": -3540.0,
+    "gap_vs_spot_bp": -37.62,
+    "gap_vs_spot_cny": -2126.0,
     "per_year_net_pct": {
      "2020": 2.335,
      "2021": 2.143,
@@ -537,7 +537,7 @@
      "2023": 2.182,
      "2024": 1.733,
      "2025": 1.42,
-     "2026": 1.063
+     "2026": 1.062
     },
     "per_year_src": "etf_book_cash_vehicle.json",
     "evidence_cutoff": "2026-11-20"
@@ -547,35 +547,35 @@
    "fee_cny_per_year": 1374.0,
    "fee_basis": "exchange_calendar",
    "fee_src": "scripts/etf_book_cash_ladder.py FEE_BP (one source for every rung)",
-   "fee_clause": "。这三个数都是**毛**口径：这笔钱按过去一年这张交易日历要逐交易日滚 243 次、每次佣金 0.1bp，全年手续费约 **¥1,374**，所以按上面那个报价**入账 ¥5,099**（年化 0.90%）、按近 250 个报价的均值 ¥6,251、按全窗均值 ¥10,377——毛数与入账数之间差的就是这条路的手续费，不是利率差（费率表同 `etf_book_cash_ladder` 的 FEE_BP）"
+   "fee_clause": "。这三个数都是**毛**口径：这笔钱按过去一年这张交易日历要逐交易日滚 243 次、每次佣金 0.1bp，全年手续费约 **¥1,374**，所以按上面那个报价**入账 ¥6,512**（年化 1.15%）、按近 250 个报价的均值 ¥6,255、按全窗均值 ¥10,377——毛数与入账数之间差的就是这条路的手续费，不是利率差（费率表同 `etf_book_cash_ladder` 的 FEE_BP）"
   },
   "forward": {
    "verdict": "TWO_RATES",
-   "sentence": "从 2026-11-20（2026-11-19 之后的第一个交易日）到 2026-12-09（下一张单）共 **19 个日历天**：同一笔 ¥565,245 若利率停在 2026-11-19 的报价 1.15%，这段窗口**毛收** ¥337；这笔钱在这段窗口要逐交易日滚 **13 次**，每次佣金 0.1bp（≈ ¥6），共 **¥73**，所以按这个报价**入账 ¥263**（这段窗口年化 0.90%，比报价低的那截就是这条路的手续费）；若按整段窗口扣佣金的净滚 1.77% 付是 ¥521，与**入账**数差 **87.59bp / ¥258**——佣金两边都已扣过，这个差是纯利率差（不扣佣金的毛口径是 62.62bp，那个数里混进了手续费，不能拿来当利率差用）。两个数都假设利率不动——1.77% 是已经走过的那段窗口的净滚，不是下一段的隔夜报价，它只说明过去付过多少，不承诺这一段。",
-   "start_session": "2026-11-20",
+   "sentence": "从 2026-11-23（2026-11-20 之后的第一个交易日）到 2026-12-09（下一张单）共 **16 个日历天**：同一笔 ¥565,245 若利率停在 2026-11-20 的报价 1.40%，这段窗口**毛收** ¥346；这笔钱在这段窗口要逐交易日滚 **12 次**，每次佣金 0.1bp（≈ ¥6），共 **¥68**，所以按这个报价**入账 ¥278**（这段窗口年化 1.12%，比报价低的那截就是这条路的手续费）；若按整段窗口扣佣金的净滚 1.77% 付是 ¥439，与**入账**数差 **65.00bp / ¥161**——佣金两边都已扣过，这个差是纯利率差（不扣佣金的毛口径是 37.62bp，那个数里混进了手续费，不能拿来当利率差用）。两个数都假设利率不动——1.77% 是已经走过的那段窗口的净滚，不是下一段的隔夜报价，它只说明过去付过多少，不承诺这一段。",
+   "start_session": "2026-11-23",
    "end_session": "2026-12-09",
-   "calendar_days": 19,
+   "calendar_days": 16,
    "ruler": "calendar_days/365 x annualised rate, net of per-roll commission",
    "start_basis": "exchange_calendar",
    "cash_amount_cny": 565245.9,
    "spot": {
-    "pct": 1.145,
-    "cny": 337.0
+    "pct": 1.395,
+    "cny": 346.0
    },
    "spot_net": {
-    "pct": 0.8953,
-    "cny": 263.0
+    "pct": 1.1212,
+    "cny": 278.0
    },
-   "rolls": 13,
+   "rolls": 12,
    "fee_bp_per_roll": 0.1,
-   "fee_cny": 73.0,
+   "fee_cny": 68.0,
    "fee_src": "scripts/etf_book_cash_ladder.py FEE_BP (one source for every rung)",
-   "gap_cny": 258.0,
-   "gap_bp": 87.59,
-   "gap_bp_gross": 62.62,
+   "gap_cny": 161.0,
+   "gap_bp": 65.0,
+   "gap_bp_gross": 37.62,
    "book": {
     "pct": 1.7712,
-    "cny": 521.0,
+    "cny": 439.0,
     "source": "etf_book_idle_cash.json"
    }
   }
@@ -588,7 +588,7 @@
   "withdrawn_now": [],
   "withdrawal_note": "ledger withdrew 1 bar(s) at 2026-11-09 23:54:02 because the price panel then ended 2026-11-06 (2026-11-09); the panel has since carried 2026-11-09 again and that ledger row is live -- the withdrawal stays on record but it is not this sheet's pricing bar",
   "reinstatements": {
-   "at": "2026-11-22 09:55:05",
+   "at": "2026-11-22 11:07:49",
    "n_reinstated": 1,
    "rewritten": [],
    "verbatim_identical": [
@@ -1696,7 +1696,7 @@
  },
  "next_decision": {
   "artifact": "etf_book_next_decision",
-  "generated": "2026-11-22T09:55:05",
+  "generated": "2026-11-22T11:07:49",
   "evidence_cutoff": "2026-11-20",
   "calendar_source": "data/exchange_calendar.csv",
   "calendar_last": "2026-12-31",
@@ -1853,7 +1853,7 @@
  },
  "swap_freshness": {
   "artifact": "etf_book_swap_freshness",
-  "generated": "2026-11-22T09:55:05",
+  "generated": "2026-11-22T11:07:49",
   "evidence_cutoff": "2026-11-20",
   "calendar_source": "data/exchange_calendar.csv",
   "close_accept_time": "15:30",
