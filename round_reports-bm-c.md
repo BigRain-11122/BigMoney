@@ -2339,3 +2339,10 @@ S0：machine.json=**bm-c**；fetch 后 ahead/behind **0/0**；孤儿面=**0**（
 **S0**：machine.json=bm-c；轮首工作树干净、ahead/behind 0/0；孤儿面 **0**（py_faces 5）；resident_servers=1（非本车道）。**本地未达 origin commit 数=0**（收轮自证段）。
 
 **记账**：轮报告 1 + state 1 + 心跳 1 = 3 处（≤5）。**登记簿零命中**（无清扫/归档/删除动作）。
+
+## 2026-11-22T09:02+08:00 ｜ r1922 补记 ｜ 送达自证与两处披露
+
+**送达**：ee6e5d65c3（面/脚本/md/链/方法论卡）+ b382751de6（state/心跳/轮报告）已上 origin/main；fetch 后 ahead/behind **0/0**；git ls-tree origin/main 点名五件在位（scripts/etf_book_phase_stub.py / results/etf_book_phase_stub.json / research/ETF_BOOK_PHASE_STUB.md / knowledge/METHODOLOGY_ASSETS.md / Tools/s6_chain_bmc.py）—— **本地未达 origin commit 数=0**。
+**钩子**：pre-commit / pre-push 与 Tools/git-hooks 源一致（本轮重装 LF 归一）；IterationLoop 自愈 no-op（pin=0 current=0 time-limit=PT5H）。
+**披露一（计画任务登录类型）**：Bigmoney-IterationLoop 与 Bigmoney-LoopWatchdog 现均为 **Interactive / Dasheng**（S4U 未在位）；本轮 watchdog 重注册时 S4U 翻转以「拒绝访问」失败并留 WARN——这是**需要提权的一次性人工重过**（非本车道可解），按零黑窗律登记在此，未做任何绕过。
+**披露二（超时轮）**：本轮全量冒烟在后台跑了 13.9 分钟才出 739/739；前三分钟的无输出期触发过一次工具侧 5 分钟静默取消（已改为流式 + 后台两种方式跑完），结论不受影响。
