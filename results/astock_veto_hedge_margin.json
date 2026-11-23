@@ -1,0 +1,303 @@
+{
+ "caveats": [
+  "the panel is the IM main-continuous close; a roll is a calendar spread paid once, and that cost is inside the marks rather than separated from them",
+  "the settle column on the panel is empty, so every mark here is a close mark; a broker marks to settlement, and the two differ most on the days that matter",
+  "the margin ratios are broker terms this repository cannot observe; they are printed as axes and no single rung is claimed as the one in force",
+  "no interest is credited or charged on the margin balance, and a margin call in practice allows securities as collateral at a haircut, which is not modelled",
+  "the book is only marked every 20 bars (that is the parent's booking), so the net-account reading is a 20-bar statement sitting next to a daily statement -- the mismatch is real and is the liquidity question, not an approximation to be smoothed",
+  "the notional is held constant; a real account would de-lever after a call, and this face prices the call instead of modelling what an operator does next"
+ ],
+ "content_sha256": "43a64a16c348cb3075d3435543eb7877d46d35b1c3cee2773924bf7e54aeb78f",
+ "crude_bound": {
+  "measured_at_horizon": 20,
+  "measured_rally": 0.36218165427090376,
+  "source_face": "results/astock_veto_hedge_lots.json",
+  "stated_horizon": 1,
+  "statement": "a short loses its whole margin at an adverse move equal to the margin ratio",
+  "understatement_multiple": 3.0181804522575315
+ },
+ "evidence_cutoff": "2026-11-20",
+ "fills_the_hole_of": "r2033 quotes a 12% margin ratio as the capital the hedge consumes and r2027 quotes a one-session crude bound; neither walks the account, so nothing in the family says where it would be called",
+ "generated": "2026-11-24T07:45:02+08:00",
+ "kind": "hedge_margin",
+ "ladder": [
+  {
+   "final_cum_cny": 67695.70317773131,
+   "initial_margin_cny": 72106.50248554074,
+   "initial_ratio": 0.08,
+   "lowest_cum_cny": -331831.2131532014,
+   "maintenance_cny": 54079.87686415555,
+   "maintenance_ratio": 0.06,
+   "no_sweep": {
+    "breach_days": 346,
+    "first_breach_date": "2022-07-28",
+    "first_breach_index": 4,
+    "max_topup_cny": 313804.5875318162,
+    "min_equity_cny": -259724.71066766063,
+    "tail": {
+     "realised_at_call_cny": -21052.430135610182,
+     "tail_cny": 88748.13331334149
+    }
+   },
+   "notional_cny": 901331.2810692592,
+   "peak_cum_cny": 430090.98650540184,
+   "sessions": 1050,
+   "sweep": {
+    "breach_days": 994,
+    "first_breach_date": "2022-07-27",
+    "first_breach_index": 3,
+    "max_topup_cny": 743895.574037218,
+    "min_equity_cny": -689815.6971730625,
+    "tail": {
+     "realised_at_call_cny": -14317.510144602778,
+     "tail_cny": 82013.2133223341
+    }
+   }
+  },
+  {
+   "final_cum_cny": 67695.70317773131,
+   "initial_margin_cny": 108159.7537283111,
+   "initial_ratio": 0.12,
+   "lowest_cum_cny": -331831.2131532014,
+   "maintenance_cny": 72106.50248554074,
+   "maintenance_ratio": 0.08,
+   "no_sweep": {
+    "breach_days": 322,
+    "first_breach_date": "2022-08-11",
+    "first_breach_index": 14,
+    "max_topup_cny": 295777.96191043104,
+    "min_equity_cny": -223671.4594248903,
+    "tail": {
+     "realised_at_call_cny": -42678.38508792093,
+     "tail_cny": 110374.08826565224
+    }
+   },
+   "notional_cny": 901331.2810692592,
+   "peak_cum_cny": 430090.98650540184,
+   "sessions": 1050,
+   "sweep": {
+    "breach_days": 942,
+    "first_breach_date": "2022-08-09",
+    "first_breach_index": 12,
+    "max_topup_cny": 725868.9484158328,
+    "min_equity_cny": -653762.4459302921,
+    "tail": {
+     "realised_at_call_cny": -27060.813068326595,
+     "tail_cny": 94756.5162460579
+    }
+   }
+  },
+  {
+   "final_cum_cny": 67695.70317773131,
+   "initial_margin_cny": 135199.69216038886,
+   "initial_ratio": 0.15,
+   "lowest_cum_cny": -331831.2131532014,
+   "maintenance_cny": 90133.12810692593,
+   "maintenance_ratio": 0.1,
+   "no_sweep": {
+    "breach_days": 313,
+    "first_breach_date": "2022-08-16",
+    "first_breach_index": 17,
+    "max_topup_cny": 286764.64909973845,
+    "min_equity_cny": -196631.52099281253,
+    "tail": {
+     "realised_at_call_cny": -45981.06336875359,
+     "tail_cny": 113676.7665464849
+    }
+   },
+   "notional_cny": 901331.2810692592,
+   "peak_cum_cny": 430090.98650540184,
+   "sessions": 1050,
+   "sweep": {
+    "breach_days": 924,
+    "first_breach_date": "2022-08-11",
+    "first_breach_index": 14,
+    "max_topup_cny": 716855.6356051401,
+    "min_equity_cny": -626722.5074982143,
+    "tail": {
+     "realised_at_call_cny": -42678.38508792093,
+     "tail_cny": 110374.08826565224
+    }
+   }
+  }
+ ],
+ "machine": "bm-c",
+ "net_account": {
+  "final_net_cny": 450291.3666455145,
+  "min_net_cny": 5703.216691058704,
+  "periods": 52
+ },
+ "panel": {
+  "bars": 1050,
+  "csv": "data/futures_daily/IM.csv",
+  "file_sha256": "e15865a65bf9b18da26156d03fea86b66f4918dbc38ddc67040baf9729ec0a32",
+  "first": "2022-07-22",
+  "first_close": 6956.6,
+  "last": "2026-11-20",
+  "last_close": 5545.6,
+  "total_return": -0.202828968174108
+ },
+ "parents": {
+  "beta": {
+   "content_sha256": "1a1bbeb9b98fafe1ecfd65f430bf86ced104505743468005cdce1da7f59bb92c",
+   "evidence_cutoff": "2026-11-20",
+   "face": "results/astock_veto_hedgeable_beta.json",
+   "file_sha256": "a3044bd7101c9d36120ef1e7817829baf1bb3d34c97c727fa3657f116f63c518",
+   "generated": "2026-11-24T03:29:09+08:00"
+  },
+  "lots": {
+   "content_sha256": "2442f8dee15a89e8f231664d3fff729de6ee48bb7b15fe020c0ded72ab0c2ecc",
+   "evidence_cutoff": "2026-11-20",
+   "face": "results/astock_veto_hedge_lots.json",
+   "file_sha256": "87b48f8052361e61fb07af96c082c22ed9c759008d8cb8981dc2a535d09cbc6f",
+   "generated": "2026-11-24T05:27:04+08:00"
+  }
+ },
+ "reads": [
+  {
+   "id": "R1",
+   "text": "at the 12% rung the account is under maintenance on 2022-08-11 -- the 15th of 1050 sessions, 108160 CNY of margin against a 901331 CNY notional, and stays under it on 322 sessions"
+  },
+  {
+   "id": "R2",
+   "text": "the cash the position actually consumes is 403938 CNY (44.8% of notional, 40.4% of the book) if profits stay in the account, against the 108160 CNY the 12% ratio implies -- 3.7 times the ratio"
+  },
+  {
+   "id": "R3",
+   "text": "sweeping the excess -- the usual treasury habit -- raises the requirement to 834029 CNY (92.5% of notional), 2.1 times the no-sweep number: the profits are the buffer, and taking them out is what makes the account thin"
+  },
+  {
+   "id": "R4",
+   "text": "being called is not free: the short realises -42678 CNY at the call and the remaining 1035 sessions of hedge are gone -- 110374 CNY of short P&L, 11.0% of the book, that the account was closed out of"
+  },
+  {
+   "id": "R5",
+   "text": "the crude bound is one session of a four-year path: the worst single session is 10.4% (0.9 times the 12% ratio) but the worst 20-session rally ending 2024-10-28 is 36.2%, 3.0 times the ratio -- a bound quoted in sessions cannot price an excursion quoted in months"
+  },
+  {
+   "id": "R6",
+   "text": "solvent and illiquid at the same time: marked on the book's 20-bar schedule the pair never went below 5703 CNY over 52 periods, while the futures account alone went under maintenance -- the collateral exists, it just is not in the account that gets marked daily"
+  }
+ ],
+ "required_margin_cny": {
+  "no_sweep": {
+   "0.08": 385911.0900173569,
+   "0.12": 403937.71563874214,
+   "0.15": 421964.3412601273
+  },
+  "sweep": {
+   "0.08": 816002.0765227587,
+   "0.12": 834028.7021441439,
+   "0.15": 852055.327765529
+  }
+ },
+ "required_margin_pct_of_capital": {
+  "no_sweep": {
+   "0.08": 0.3859110900173569,
+   "0.12": 0.40393771563874215,
+   "0.15": 0.42196434126012733
+  },
+  "sweep": {
+   "0.08": 0.8160020765227587,
+   "0.12": 0.8340287021441438,
+   "0.15": 0.8520553277655291
+  }
+ },
+ "required_margin_pct_of_notional": {
+  "no_sweep": {
+   "0.08": 0.4281567700163988,
+   "0.12": 0.44815677001639886,
+   "0.15": 0.4681567700163989
+  },
+  "sweep": {
+   "0.08": 0.9053298089851342,
+   "0.12": 0.9253298089851342,
+   "0.15": 0.9453298089851342
+  }
+ },
+ "spec": {
+  "beta": 0.9013312810692592,
+  "bound_horizon": 20,
+  "capital": 1000000.0,
+  "horizons": [
+   1,
+   5,
+   10,
+   20,
+   40,
+   60
+  ],
+  "k": 1.0,
+  "margin_ladder": [
+   [
+    0.08,
+    0.06
+   ],
+   [
+    0.12,
+    0.08
+   ],
+   [
+    0.15,
+    0.1
+   ]
+  ],
+  "notional_cny": 901331.2810692592,
+  "regimes": [
+   "no_sweep",
+   "sweep"
+  ]
+ },
+ "verdict": "THE_MARGIN_RATIO_IS_NOT_THE_CAPITAL+CALL_ARRIVES_BEFORE_THE_INSURANCE_PAYS",
+ "verdict_why": "the ratio is a per-contract minimum; the cash the position consumes is the deepest drawdown of its own marks, an order of magnitude larger",
+ "verdicts": {
+  "CALL_ARRIVES_BEFORE_THE_INSURANCE_PAYS": true,
+  "SWEEPING_PROFITS_DOUBLES_THE_REQUIREMENT": true,
+  "THE_CRUDE_BOUND_UNDERSTATES_THE_PATH": true,
+  "THE_MARGIN_RATIO_IS_NOT_THE_CAPITAL": true
+ },
+ "worst_rallies": [
+  {
+   "end": "2024-02-06",
+   "horizon": 1,
+   "multiple_of_12pct": 0.8627432201631295,
+   "rally": 0.10352918641957554,
+   "short_loss_pct_of_notional": 0.10352918641957554
+  },
+  {
+   "end": "2024-10-08",
+   "horizon": 5,
+   "multiple_of_12pct": 2.805596148886789,
+   "rally": 0.3366715378664147,
+   "short_loss_pct_of_notional": 0.3366715378664147
+  },
+  {
+   "end": "2024-10-08",
+   "horizon": 10,
+   "multiple_of_12pct": 3.4017840970838615,
+   "rally": 0.4082140916500634,
+   "short_loss_pct_of_notional": 0.4082140916500634
+  },
+  {
+   "end": "2024-10-28",
+   "horizon": 20,
+   "multiple_of_12pct": 3.0181804522575315,
+   "rally": 0.36218165427090376,
+   "short_loss_pct_of_notional": 0.36218165427090376
+  },
+  {
+   "end": "2024-11-13",
+   "horizon": 40,
+   "multiple_of_12pct": 3.6269275063190793,
+   "rally": 0.43523130075828953,
+   "short_loss_pct_of_notional": 0.43523130075828953
+  },
+  {
+   "end": "2024-12-12",
+   "horizon": 60,
+   "multiple_of_12pct": 3.7333840009537433,
+   "rally": 0.4480060801144492,
+   "short_loss_pct_of_notional": 0.4480060801144492
+  }
+ ]
+}
