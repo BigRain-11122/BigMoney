@@ -1,72 +1,111 @@
 {
  "schema": "repo-write-contention/v1",
  "machine_id": "bm-c",
- "probed_at": "2026-11-23T09:20:26",
+ "probed_at": "2026-11-23T17:15:30",
  "lookback_min": 45.0,
  "verdict": "CONTENTION",
- "why": "3 hosts alive; 13 shared face(s) written before this round started (strictly another host), 0 written inside the overlap (unattributable)",
+ "why": "4 hosts alive; 15 shared face(s) written before this round started (strictly another host), 0 written inside the overlap (unattributable)",
  "hosts": [
   {
    "pid": 51252,
    "kind": "interactive",
    "started_epoch": 1795349445.503183,
    "started": "2026-11-22T20:10:45",
-   "age_min": 789.7,
+   "age_min": 1264.7,
    "exempt_from_cloud_cap": true,
    "cmd_head": "K:\\tuanjieAI\\Tuanjie Cowork\\cli\\bin\\win32-x64\\codely.exe --experimental-acp --experimental-skills --path-polic"
   },
   {
-   "pid": 68744,
+   "pid": 41968,
    "kind": "interactive",
-   "started_epoch": 1795396578.989359,
-   "started": "2026-11-23T09:16:18",
-   "age_min": 4.1,
+   "started_epoch": 1795424593.2359028,
+   "started": "2026-11-23T17:03:13",
+   "age_min": 12.3,
    "exempt_from_cloud_cap": true,
    "cmd_head": "K:\\tuanjieAI\\Tuanjie Cowork\\cli\\bin\\win32-x64\\codely.exe --experimental-acp --experimental-skills --path-polic"
   },
   {
-   "pid": 67572,
+   "pid": 71780,
+   "kind": "interactive",
+   "started_epoch": 1795424612.1135652,
+   "started": "2026-11-23T17:03:32",
+   "age_min": 12.0,
+   "exempt_from_cloud_cap": true,
+   "cmd_head": "K:\\tuanjieAI\\Tuanjie Cowork\\cli\\bin\\win32-x64\\codely.exe --experimental-acp --experimental-skills --path-polic"
+  },
+  {
+   "pid": 62156,
    "kind": "other",
-   "started_epoch": 1795396803.1248114,
-   "started": "2026-11-23T09:20:03",
-   "age_min": 0.4,
+   "started_epoch": 1795425303.1294856,
+   "started": "2026-11-23T17:15:03",
+   "age_min": 0.5,
    "exempt_from_cloud_cap": false,
    "cmd_head": "K:\\tuanjieAI\\Tuanjie Cowork\\cli\\bin\\win32-x64\\codely.exe -y -p 无人值守执行 Bigmoney 量化公司 10 分钟自迭代一轮（2026-09-23 CEO "
   }
  ],
- "my_host_pid": 67572,
- "my_host_started": "2026-11-23T09:20:03",
+ "my_host_pid": 62156,
+ "my_host_started": "2026-11-23T17:15:03",
  "host_probe_error": null,
  "overlap_windows": [
   {
    "pair": [
     51252,
-    68744
+    41968
    ],
    "kinds": [
     "interactive",
     "interactive"
    ],
-   "from": "2026-11-23T09:16:18",
-   "to": "2026-11-23T09:20:26",
-   "minutes": 4.1,
-   "lo": 1795396578.989359
+   "from": "2026-11-23T17:03:13",
+   "to": "2026-11-23T17:15:30",
+   "minutes": 12.3,
+   "lo": 1795424593.2359028
+  },
+  {
+   "pair": [
+    51252,
+    71780
+   ],
+   "kinds": [
+    "interactive",
+    "interactive"
+   ],
+   "from": "2026-11-23T17:03:32",
+   "to": "2026-11-23T17:15:30",
+   "minutes": 12.0,
+   "lo": 1795424612.1135652
+  },
+  {
+   "pair": [
+    41968,
+    71780
+   ],
+   "kinds": [
+    "interactive",
+    "interactive"
+   ],
+   "from": "2026-11-23T17:03:32",
+   "to": "2026-11-23T17:15:30",
+   "minutes": 12.0,
+   "lo": 1795424612.1135652
   }
  ],
  "peer_only_writes": [
   "fleet/machines/bm-c.json",
   "fleet/round_reports-bm-c.md",
   "research/ARBITER-BOARD.md",
-  "research/DEFENSIVE-RULER-DECISION-IMPACT.md",
-  "research/DEFENSIVE-RULER-FLIP-SUBPERIODS.md",
-  "research/ROUND-WATERMARK-CENSUS.md",
+  "research/BENCH-BASIS-TIMING-REPLICATE.md",
+  "research/IDX_FUT_BASIS_SEGMENTS.md",
+  "research/IDX_FUT_OVERNIGHT_ONLY.md",
+  "results/_attrition_guard_scan.json",
   "results/arbiter/STATE.json",
-  "results/defensive_ruler_decision_impact.json",
-  "results/defensive_ruler_flip_subperiods.json",
-  "results/round_watermark_census.json",
-  "scripts/defensive_ruler_decision_impact.py",
-  "scripts/defensive_ruler_flip_subperiods.py",
-  "scripts/round_watermark_census.py"
+  "results/bench_basis_timing_replicate.json",
+  "results/idx_fut_basis_segments.json",
+  "results/idx_fut_overnight_only.json",
+  "results/watermark.jsonl",
+  "scripts/bench_basis_timing_replicate.py",
+  "scripts/idx_fut_basis_segments.py",
+  "scripts/idx_fut_overnight_only.py"
  ],
  "ambiguous_writes": [],
  "ignored_patterns": [
@@ -82,87 +121,99 @@
  "declared_own_patterns": [],
  "declared_own_write_count": 0,
  "declared_own_writes": [],
- "writes_scanned_files": 34162,
+ "writes_scanned_files": 34252,
  "recent_writes": [
   {
    "path": "fleet/machines/bm-c.json",
-   "mtime": "2026-11-23T09:16:29",
-   "mtime_epoch": 1795396589.4621072,
-   "bytes": 247952
+   "mtime": "2026-11-23T17:14:00",
+   "mtime_epoch": 1795425240.672069,
+   "bytes": 249603
+  },
+  {
+   "path": "results/watermark.jsonl",
+   "mtime": "2026-11-23T17:12:44",
+   "mtime_epoch": 1795425164.68734,
+   "bytes": 4810
   },
   {
    "path": "fleet/round_reports-bm-c.md",
-   "mtime": "2026-11-23T09:15:03",
-   "mtime_epoch": 1795396503.8405652,
-   "bytes": 115145
-  },
-  {
-   "path": "research/ROUND-WATERMARK-CENSUS.md",
-   "mtime": "2026-11-23T09:14:32",
-   "mtime_epoch": 1795396472.343295,
-   "bytes": 3477
-  },
-  {
-   "path": "results/round_watermark_census.json",
-   "mtime": "2026-11-23T09:14:10",
-   "mtime_epoch": 1795396450.279446,
-   "bytes": 3413
-  },
-  {
-   "path": "scripts/round_watermark_census.py",
-   "mtime": "2026-11-23T09:14:02",
-   "mtime_epoch": 1795396442.6121638,
-   "bytes": 16161
+   "mtime": "2026-11-23T17:12:11",
+   "mtime_epoch": 1795425131.4304717,
+   "bytes": 199493
   },
   {
    "path": "research/ARBITER-BOARD.md",
-   "mtime": "2026-11-23T09:11:41",
-   "mtime_epoch": 1795396301.092005,
-   "bytes": 1978
+   "mtime": "2026-11-23T17:11:40",
+   "mtime_epoch": 1795425100.723582,
+   "bytes": 1688
   },
   {
    "path": "results/arbiter/STATE.json",
-   "mtime": "2026-11-23T09:11:41",
-   "mtime_epoch": 1795396301.0760021,
-   "bytes": 1840
+   "mtime": "2026-11-23T17:11:40",
+   "mtime_epoch": 1795425100.7203288,
+   "bytes": 1433
   },
   {
-   "path": "results/defensive_ruler_flip_subperiods.json",
-   "mtime": "2026-11-23T09:02:02",
-   "mtime_epoch": 1795395722.0430224,
-   "bytes": 9935
+   "path": "results/_attrition_guard_scan.json",
+   "mtime": "2026-11-23T17:08:14",
+   "mtime_epoch": 1795424894.128643,
+   "bytes": 2154
   },
   {
-   "path": "research/DEFENSIVE-RULER-FLIP-SUBPERIODS.md",
-   "mtime": "2026-11-23T09:02:02",
-   "mtime_epoch": 1795395722.0430224,
-   "bytes": 5860
+   "path": "results/idx_fut_overnight_only.json",
+   "mtime": "2026-11-23T17:05:18",
+   "mtime_epoch": 1795424718.4596436,
+   "bytes": 10462
   },
   {
-   "path": "scripts/defensive_ruler_flip_subperiods.py",
-   "mtime": "2026-11-23T09:01:06",
-   "mtime_epoch": 1795395666.9301732,
-   "bytes": 38955
+   "path": "research/IDX_FUT_OVERNIGHT_ONLY.md",
+   "mtime": "2026-11-23T17:05:18",
+   "mtime_epoch": 1795424718.4596436,
+   "bytes": 6939
   },
   {
-   "path": "results/defensive_ruler_decision_impact.json",
-   "mtime": "2026-11-23T08:39:24",
-   "mtime_epoch": 1795394364.0627637,
-   "bytes": 3465
+   "path": "scripts/idx_fut_overnight_only.py",
+   "mtime": "2026-11-23T17:05:09",
+   "mtime_epoch": 1795424709.7965755,
+   "bytes": 31470
   },
   {
-   "path": "research/DEFENSIVE-RULER-DECISION-IMPACT.md",
-   "mtime": "2026-11-23T08:39:24",
-   "mtime_epoch": 1795394364.0627637,
-   "bytes": 2990
+   "path": "research/IDX_FUT_BASIS_SEGMENTS.md",
+   "mtime": "2026-11-23T16:50:24",
+   "mtime_epoch": 1795423824.1595547,
+   "bytes": 3487
   },
   {
-   "path": "scripts/defensive_ruler_decision_impact.py",
-   "mtime": "2026-11-23T08:39:16",
-   "mtime_epoch": 1795394356.3858685,
-   "bytes": 28035
+   "path": "results/idx_fut_basis_segments.json",
+   "mtime": "2026-11-23T16:50:24",
+   "mtime_epoch": 1795423824.1585548,
+   "bytes": 7155
+  },
+  {
+   "path": "scripts/idx_fut_basis_segments.py",
+   "mtime": "2026-11-23T16:50:05",
+   "mtime_epoch": 1795423805.944255,
+   "bytes": 29005
+  },
+  {
+   "path": "scripts/bench_basis_timing_replicate.py",
+   "mtime": "2026-11-23T16:31:46",
+   "mtime_epoch": 1795422706.6564357,
+   "bytes": 27404
+  },
+  {
+   "path": "results/bench_basis_timing_replicate.json",
+   "mtime": "2026-11-23T16:31:35",
+   "mtime_epoch": 1795422695.027094,
+   "bytes": 5967
+  },
+  {
+   "path": "research/BENCH-BASIS-TIMING-REPLICATE.md",
+   "mtime": "2026-11-23T16:31:35",
+   "mtime_epoch": 1795422695.027094,
+   "bytes": 4567
   }
  ],
- "recent_write_count": 13,
+ "recent_write_count": 15,
  "advisory": "Probe only: it never blocks, kills or defers production. A round that reads CONTENTION must land new files only, never re-derive shared faces or re-run the chain (r1907)."
 }

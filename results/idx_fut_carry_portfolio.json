@@ -1,0 +1,422 @@
+{
+ "checks": {
+  "P1_identity": true,
+  "P2_correlation_is_printed_not_hidden": true,
+  "P3_the_drawdown_actually_diversifies": true,
+  "P4_inverse_vol_earns_its_keep": false,
+  "P5_the_money_is_not_one_year": true,
+  "P6_dispersion_is_not_arithmetic": true
+ },
+ "correlation": {
+  "labels": [
+   "IC",
+   "IM",
+   "IF",
+   "IH"
+  ],
+  "matrix": [
+   [
+    1.0,
+    0.771,
+    0.5649,
+    0.3119
+   ],
+   [
+    0.771,
+    1.0,
+    0.3749,
+    0.2242
+   ],
+   [
+    0.5649,
+    0.3749,
+    1.0,
+    0.7045
+   ],
+   [
+    0.3119,
+    0.2242,
+    0.7045,
+    1.0
+   ]
+  ],
+  "median_pairwise": 0.4699,
+  "structural": false
+ },
+ "cost_bp_side": 1.5,
+ "criteria": {
+  "P1_identity": "portfolio daily == capital-weighted sum of member dailies (|residual| < 1e-12), and on days where exactly one member trades the portfolio equals that member exactly",
+  "P2_correlation_is_printed_not_hidden": "the 4x4 same-day return correlation matrix is published; a median pairwise rho >= 0.85 is named as structural co-movement on the page",
+  "P3_the_drawdown_actually_diversifies": "in the window where all four members trade, the equal-weight portfolio's max drawdown is at least 20%% better than the worst single member's",
+  "P4_inverse_vol_earns_its_keep": "the trailing-60-day inverse-volatility book beats equal weight by >= 0.05 Sharpe, otherwise the extra machinery is not worth carrying",
+  "P5_the_money_is_not_one_year": "the equal-weight book is positive in >= 60% of calendar years and its worst year is better than -5.0%",
+  "P6_dispersion_is_not_arithmetic": "dispersion_capture = (worst_single_mdd - real_mdd) / (worst_single_mdd - shift_null_mdd_median) must be >= 0.50; below that the four arms are one line"
+ },
+ "dispersion": {
+  "dispersion_capture": 0.5749,
+  "drawdown_improvement_frac": 0.4567,
+  "real_portfolio_mdd_common": -1.657,
+  "shift_null": {
+   "mdd_best": -0.356,
+   "mdd_median": -0.627,
+   "mdd_p05": -0.854,
+   "mdd_p95": -0.462,
+   "mdd_worst": -1.098,
+   "n": 400,
+   "seed": 20261123
+  },
+  "worst_single_mdd_common": -3.05
+ },
+ "equal_weight_common": {
+  "ann_pct": 6.946,
+  "bars": 1049,
+  "first": "2022-07-25",
+  "last": "2026-11-20",
+  "mdd_pct": -1.657,
+  "sharpe": 3.122,
+  "vol_pct": 2.159,
+  "years": {
+   "2022": {
+    "ann_pct": 5.491,
+    "bars": 109,
+    "sum": 0.023911
+   },
+   "2023": {
+    "ann_pct": 4.554,
+    "bars": 242,
+    "sum": 0.04424
+   },
+   "2024": {
+    "ann_pct": 5.688,
+    "bars": 242,
+    "sum": 0.055152
+   },
+   "2025": {
+    "ann_pct": 11.036,
+    "bars": 243,
+    "sum": 0.104569
+   },
+   "2026": {
+    "ann_pct": 7.304,
+    "bars": 213,
+    "sum": 0.06187
+   }
+  }
+ },
+ "equal_weight_full": {
+  "ann_pct": 7.938,
+  "bars": 2387,
+  "first": "2017-01-18",
+  "last": "2026-11-20",
+  "mdd_pct": -1.657,
+  "sharpe": 3.412,
+  "vol_pct": 2.246,
+  "years": {
+   "2017": {
+    "ann_pct": 4.942,
+    "bars": 232,
+    "sum": 0.04594
+   },
+   "2018": {
+    "ann_pct": 8.922,
+    "bars": 243,
+    "sum": 0.085512
+   },
+   "2019": {
+    "ann_pct": 9.246,
+    "bars": 244,
+    "sum": 0.0887
+   },
+   "2020": {
+    "ann_pct": 12.967,
+    "bars": 243,
+    "sum": 0.121831
+   },
+   "2021": {
+    "ann_pct": 7.891,
+    "bars": 243,
+    "sum": 0.075827
+   },
+   "2022": {
+    "ann_pct": 6.875,
+    "bars": 242,
+    "sum": 0.066185
+   },
+   "2023": {
+    "ann_pct": 4.554,
+    "bars": 242,
+    "sum": 0.04424
+   },
+   "2024": {
+    "ann_pct": 5.688,
+    "bars": 242,
+    "sum": 0.055152
+   },
+   "2025": {
+    "ann_pct": 11.036,
+    "bars": 243,
+    "sum": 0.104569
+   },
+   "2026": {
+    "ann_pct": 7.304,
+    "bars": 213,
+    "sum": 0.06187
+   }
+  }
+ },
+ "evidence_cutoff": "2026-11-20",
+ "frozen": {
+  "corr_structural": 0.85,
+  "disperse_capture_min": 0.5,
+  "iv_lookback": 60,
+  "iv_min_obs": 20,
+  "iv_sharpe_edge": 0.05,
+  "positive_year_share": 0.6,
+  "shift_n": 400,
+  "shift_seed": 20261123,
+  "worst_year_floor": -5.0
+ },
+ "generated": "2026-11-23T17:25:58+08:00",
+ "identity": {
+  "reconstruction_max_abs_resid": 0.0,
+  "single_member_day_max_abs_resid": 0.0
+ },
+ "inverse_vol_full": {
+  "ann_pct": 7.541,
+  "bars": 2387,
+  "first": "2017-01-18",
+  "last": "2026-11-20",
+  "mdd_pct": -1.396,
+  "sharpe": 3.378,
+  "vol_pct": 2.159,
+  "years": {
+   "2017": {
+    "ann_pct": 5.012,
+    "bars": 232,
+    "sum": 0.046566
+   },
+   "2018": {
+    "ann_pct": 8.536,
+    "bars": 243,
+    "sum": 0.081964
+   },
+   "2019": {
+    "ann_pct": 8.183,
+    "bars": 244,
+    "sum": 0.078897
+   },
+   "2020": {
+    "ann_pct": 12.665,
+    "bars": 243,
+    "sum": 0.119145
+   },
+   "2021": {
+    "ann_pct": 7.537,
+    "bars": 243,
+    "sum": 0.072544
+   },
+   "2022": {
+    "ann_pct": 6.948,
+    "bars": 242,
+    "sum": 0.066849
+   },
+   "2023": {
+    "ann_pct": 4.302,
+    "bars": 242,
+    "sum": 0.041851
+   },
+   "2024": {
+    "ann_pct": 5.489,
+    "bars": 242,
+    "sum": 0.053258
+   },
+   "2025": {
+    "ann_pct": 9.817,
+    "bars": 243,
+    "sum": 0.093514
+   },
+   "2026": {
+    "ann_pct": 6.953,
+    "bars": 213,
+    "sum": 0.058993
+   }
+  }
+ },
+ "kind": "idx_fut_carry_portfolio",
+ "members": {
+  "IC": {
+   "avg_weight": 0.4965,
+   "bars": 2387,
+   "first": "2017-01-18",
+   "last": "2026-11-20"
+  },
+  "IF": {
+   "avg_weight": 0.5019,
+   "bars": 2387,
+   "first": "2017-01-18",
+   "last": "2026-11-20"
+  },
+  "IH": {
+   "avg_weight": 0.5049,
+   "bars": 2387,
+   "first": "2017-01-18",
+   "last": "2026-11-20"
+  },
+  "IM": {
+   "avg_weight": 0.5298,
+   "bars": 1049,
+   "first": "2022-07-25",
+   "last": "2026-11-20"
+  }
+ },
+ "note": "Four basis-carry arms priced as one book. Reading the correlation matrix and dispersion_capture together answers whether 'portfolio' means anything here; the inverse-vol book only earns its keep if it beats equal weight by a visible Sharpe margin.",
+ "singles_common": {
+  "IC": {
+   "ann_pct": 8.043,
+   "bars": 1049,
+   "mdd_pct": -1.89,
+   "sharpe": 2.613,
+   "vol_pct": 2.977
+  },
+  "IF": {
+   "ann_pct": 5.913,
+   "bars": 1049,
+   "mdd_pct": -1.239,
+   "sharpe": 2.378,
+   "vol_pct": 2.428
+  },
+  "IH": {
+   "ann_pct": 4.521,
+   "bars": 1049,
+   "mdd_pct": -2.179,
+   "sharpe": 1.988,
+   "vol_pct": 2.237
+  },
+  "IM": {
+   "ann_pct": 9.304,
+   "bars": 1049,
+   "mdd_pct": -3.05,
+   "sharpe": 2.66,
+   "vol_pct": 3.367
+  }
+ },
+ "state": "ok",
+ "subsets": {
+  "all_four": {
+   "ann_pct": 6.946,
+   "bars": 1049,
+   "dispersion_capture": 0.5749,
+   "first": "2022-07-25",
+   "last": "2026-11-20",
+   "mdd_pct": -1.657,
+   "members": [
+    "IC",
+    "IM",
+    "IF",
+    "IH"
+   ],
+   "sharpe": 3.122,
+   "shift_null_mdd_median": -0.627,
+   "vol_pct": 2.159,
+   "worst_single_mdd": -3.05
+  },
+  "cross_pair_IC_IF": {
+   "ann_pct": 8.499,
+   "bars": 2387,
+   "dispersion_capture": 0.5381,
+   "first": "2017-01-18",
+   "last": "2026-11-20",
+   "mdd_pct": -1.353,
+   "members": [
+    "IC",
+    "IF"
+   ],
+   "sharpe": 3.217,
+   "shift_null_mdd_median": -0.892,
+   "vol_pct": 2.546,
+   "worst_single_mdd": -1.89
+  },
+  "cross_pair_IM_IH": {
+   "ann_pct": 6.904,
+   "bars": 1049,
+   "dispersion_capture": 0.6359,
+   "first": "2022-07-25",
+   "last": "2026-11-20",
+   "mdd_pct": -2.051,
+   "members": [
+    "IM",
+    "IH"
+   ],
+   "sharpe": 3.018,
+   "shift_null_mdd_median": -1.479,
+   "vol_pct": 2.22,
+   "worst_single_mdd": -3.05
+  },
+  "large_pair_IF_IH": {
+   "ann_pct": 6.344,
+   "bars": 2387,
+   "dispersion_capture": 0.6654,
+   "first": "2017-01-18",
+   "last": "2026-11-20",
+   "mdd_pct": -1.326,
+   "members": [
+    "IF",
+    "IH"
+   ],
+   "sharpe": 2.801,
+   "shift_null_mdd_median": -0.897,
+   "vol_pct": 2.205,
+   "worst_single_mdd": -2.179
+  },
+  "small_pair_IC_IM": {
+   "ann_pct": 8.678,
+   "bars": 1049,
+   "dispersion_capture": 0.3498,
+   "first": "2022-07-25",
+   "last": "2026-11-20",
+   "mdd_pct": -2.471,
+   "members": [
+    "IC",
+    "IM"
+   ],
+   "sharpe": 2.803,
+   "shift_null_mdd_median": -1.395,
+   "vol_pct": 2.986,
+   "worst_single_mdd": -3.05
+  },
+  "three_IC_IF_IH": {
+   "ann_pct": 7.589,
+   "bars": 2387,
+   "dispersion_capture": 0.5722,
+   "first": "2017-01-18",
+   "last": "2026-11-20",
+   "mdd_pct": -1.283,
+   "members": [
+    "IC",
+    "IF",
+    "IH"
+   ],
+   "sharpe": 3.327,
+   "shift_null_mdd_median": -0.613,
+   "vol_pct": 2.206,
+   "worst_single_mdd": -2.179
+  }
+ },
+ "verdict": "FOUR_ARMS_DO_DISPERSIFY",
+ "year_read": {
+  "judged_years": [
+   "2017",
+   "2018",
+   "2019",
+   "2020",
+   "2021",
+   "2022",
+   "2023",
+   "2024",
+   "2025",
+   "2026"
+  ],
+  "positive_year_share": 1.0,
+  "worst_year_pct": 4.554
+ }
+}
