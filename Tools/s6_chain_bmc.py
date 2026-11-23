@@ -490,6 +490,16 @@ LEGS = [
     # arrives. Without this leg the audit was a document; with it, "nothing regenerates this
     # face" cannot be added quietly.
     ("chain_writer_audit_check", ["python", "Tools/chain_writer_audit.py", "--check"]),
+    # r1992: the other half of the same question. chain_writer_audit asks "does anything
+    # regenerate this face"; face_orphan_census asks "can a fresh clone open the face a
+    # committed reader names" -- r1783's defect, which r1990 published as a face and left
+    # off the chain, i.e. fresh only on the days a human typed the command (r1322 shape).
+    # Its `check` re-derives from the worktree and prints STALE on a moved citation set or
+    # a republished face, so a quiet round costs ~5s and a new reader's face is classified
+    # in the round it lands. ~1360 citations, no network.
+    ("face_orphan_census",
+     ["python", "scripts/face_orphan_census.py", "check"],
+     ["python", "scripts/face_orphan_census.py", "run"]),
     # r1366 (r1365's own owed item 2): when the forward leg freezes on a drift, the
     # next question is whether a PUBLISHED bar was rewritten or whether the newest
     # bar's panel was still filling -- and until now that question was answered by a

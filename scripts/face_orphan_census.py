@@ -69,7 +69,11 @@ OUT_JSON = os.path.join("results", "face_orphan_census" + ".json")
 OUT_MD = os.path.join("research", "FACE-ORPHAN-CENSUS" + ".md")
 
 CITE_RE = re.compile(
-    r"(?<![\w./\\-])((?:results|research|docs)/[A-Za-z0-9_.\-/]+\.(?:json|md|html))"
+    # `.jsonl` before `.json` and a right boundary after the extension: without both,
+    # a citation of `results/x/ledger.jsonl` is read as `results/x/ledger.json`, a file
+    # that must not exist -- four of r1992's six "dead pointers" were that truncation.
+    r"(?<![\w./\\-])((?:results|research|docs)/[A-Za-z0-9_.\-/]+"
+    r"\.(?:jsonl|json|md|html))(?![\w])"
 )
 HARD_CONSUMERS = {"smoke_test.py", "Tools/s6_chain_bmc.py"}
 SKIP_DIRS = {"__pycache__", ".git", ".codely-cli", "legacy", "Money02", "labbench"}
@@ -83,9 +87,17 @@ NAME_FIXTURE_TOKENS = ("no_such", "nope", "definitely_not_here", "does_not_exist
 ROUND_RE = re.compile(r"_r\d+(bm[abc])_", re.I)
 MACHINE_TOKEN_RE = re.compile(r"(?:^|[._-])(bm[-_]?[abc])(?:[._-]|$)", re.I)
 DEFECTS = ("ORPHAN", "DELETED_LOCALLY")
-STATES = ("TRACKED", "IGNORED", "NEGATIVE_FIXTURE", "ROUND_ARTIFACT",
+STATES = ("TRACKED", "IGNORED", "NEGATIVE_FIXTURE", "DOCUMENTED_EXAMPLE",
+          "FIXTURE_LITERAL", "TEMPLATE_PLACEHOLDER", "ROUND_ARTIFACT",
           "MACHINE_SCOPED", "EXTERNAL_CANON", "ABSENT_LOCALLY", "ORPHAN",
           "DELETED_LOCALLY", "DEAD_POINTER")
+
+# A citation is a *path* only if the string can be that file.  A usage line shows the
+# shape of a name -- `REPORT-YYYYMMDD.md`, `results/...json`, `ENTRYDELAY-x.json` --
+# and no clone will ever contain it, so counting those as dead pointers is noise that
+# trains the reader to ignore the list (r1813: a gate that is always lit).
+TEMPLATE_RE = re.compile(r"YYYY|(?<![A-Za-z])(?:MM|DD)(?![A-Za-z])|\.\.\.|%[ds]|\{|\}-x\.|-x\.",
+                         re.I)
 
 
 # ------------------------------------------------------------------ identity
@@ -150,7 +162,15 @@ def normalize(path):
 
 
 def citations(text):
-    for m in CITE_RE.finditer(text.replace("\\\\", "/")):
+    """Literal face paths in `text`; an angle-bracket metavariable is not one.
+
+    `usage: <results/path.json> [--stage1 F]` names a *shape*: no file can carry `<`,
+    so the string is documentation of the interface, not a reader of a face.
+    """
+    flat = text.replace("\\\\", "/")
+    for m in CITE_RE.finditer(flat):
+        if flat[m.start() - 1:m.start()] == "<" and flat[m.end():m.end() + 1] == ">":
+            continue
         yield normalize(m.group(1))
 
 
@@ -167,11 +187,22 @@ def is_test_name(name):
 
 
 def citations_with_context(src):
-    """[(path, enclosing_function_or_None)] via ast; None when the file will not parse.
+    """[(path, enclosing_function_or_None, kind)] via ast; None when the file will not parse.
 
     Enclosing-function identity is the only reliable way to tell a reader that tests
     its missing-input branch from a reader that expects a face: the literal path `a.json`
     is a fixture inside `selftest()` and a live path in `run()` -- the same string.
+
+    `kind` answers the *other* half of r1990's noise, which function names cannot:
+    a citation is a live path only when the string can be an argument to a writer or a
+    reader.  Three shapes are not paths no matter which function holds them --
+
+        docstring    a bare `Expr(Constant(str))` statement never opens a file; it is
+                     the usage line a human reads (`--out=results/...json`)
+        literal      a string inside a dict/list/tuple/set is data: a fixture run the
+                     test writes, or a registry row; it is not an `open()` argument
+        path         everything else, including a string assigned to a name, because
+                     the name may be opened later
     """
     try:
         tree = ast.parse(src)
@@ -179,14 +210,24 @@ def citations_with_context(src):
         return None
     out = []
 
+    def emit(node, stack, kind):
+        for path in citations(node.value):
+            out.append((path, stack[-1] if stack else None, kind))
+
     def visit(node, stack):
         for child in ast.iter_child_nodes(node):
             if isinstance(child, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)):
                 visit(child, stack + [child.name])
+            elif isinstance(child, ast.Expr) and isinstance(child.value, ast.Constant) \
+                    and isinstance(child.value.value, str):
+                emit(child.value, stack, "docstring")
+            elif isinstance(child, (ast.Dict, ast.List, ast.Tuple, ast.Set)):
+                for sub in ast.walk(child):
+                    if isinstance(sub, ast.Constant) and isinstance(sub.value, str):
+                        emit(sub, stack, "literal")
             else:
                 if isinstance(child, ast.Constant) and isinstance(child.value, str):
-                    for path in citations(child.value):
-                        out.append((path, stack[-1] if stack else None))
+                    emit(child, stack, "path")
                 visit(child, stack)
 
     visit(tree, [])
@@ -194,9 +235,10 @@ def citations_with_context(src):
 
 
 def collect_citations(readers=None):
-    """path -> {"readers": [...], "real_readers": [...]}.
+    """path -> {"readers": [...], "real_readers": [...], "doc_readers": [...], "literal_readers": [...]}.
 
-    `real_readers` drops citations whose only home is a test function.
+    `real_readers` drops citations whose only home is a test function and citations that
+    are not path-shaped at all (docstring usage lines, strings inside data literals).
     """
     readers = readers if readers is not None else consumer_files()
     cited = {}
@@ -206,13 +248,21 @@ def collect_citations(readers=None):
             continue
         pairs = citations_with_context(src)
         if pairs is None:                      # unparsable: regex floor, no context
-            pairs = [(p, None) for p in citations(src)]
-        for path, func in pairs:
-            rec = cited.setdefault(path, {"readers": set(), "real": set()})
+            pairs = [(p, None, "path") for p in citations(src)]
+        for path, func, kind in pairs:
+            rec = cited.setdefault(path, {"readers": set(), "real": set(),
+                                          "doc": set(), "literal": set()})
             rec["readers"].add(rel)
-            if func is None or not is_test_name(func):
+            if kind == "docstring":
+                rec["doc"].add(rel)
+            elif kind == "literal":
+                rec["literal"].add(rel)
+            elif func is None or not is_test_name(func):
                 rec["real"].add(rel)
-    return {k: {"readers": sorted(v["readers"]), "real_readers": sorted(v["real"])}
+    return {k: {"readers": sorted(v["readers"]),
+                "real_readers": sorted(v["real"]),
+                "doc_readers": sorted(v["doc"]),
+                "literal_readers": sorted(v["literal"])}
             for k, v in cited.items()}
 
 
@@ -303,6 +353,16 @@ def is_name_fixture(path):
     return any(t in name for t in NAME_FIXTURE_TOKENS)
 
 
+def is_template_path(path):
+    """The string is the *shape* of a name, not a name (`REPORT-YYYYMMDD.md`).
+
+    Angle brackets are the other giveaway: `<results/path.json>` is an argparse
+    metavariable in a usage epilog, and no file can carry a `<` in its name.
+    """
+    return bool(TEMPLATE_RE.search(_basename(path)) or "..." in path
+                or "<" in path or ">" in path)
+
+
 def foreign_machine(path, me):
     """The face is named for a machine that is not this one."""
     name = _basename(path)
@@ -316,15 +376,20 @@ def foreign_machine(path, me):
 def classify(path, cited, tracked, ignored, in_origin, me, in_group=frozenset()):
     """-> (state, severity). `cited` is the record from collect_citations."""
     real = cited["real_readers"]
+    doc = cited.get("doc_readers") or []
+    lit = cited.get("literal_readers") or []
     exists = os.path.isfile(os.path.join(ROOT, path.replace("/", os.sep)))
     if exists:
         if path in tracked:
             return "TRACKED", None
         if path in ignored:
             return "IGNORED", None
-        if not real or is_name_fixture(path):
+        if not real:
             # a selftest that writes a scratch face: harmless, and publishing it
             # would be the wrong fix
+            return ("FIXTURE_LITERAL" if lit and not doc else "DOCUMENTED_EXAMPLE",
+                    None) if (lit or doc) else ("NEGATIVE_FIXTURE", None)
+        if is_name_fixture(path):
             return "NEGATIVE_FIXTURE", None
         sev = "HARD" if any(c in HARD_CONSUMERS for c in real) else "SOFT"
         return "ORPHAN", sev
@@ -333,7 +398,16 @@ def classify(path, cited, tracked, ignored, in_origin, me, in_group=frozenset())
         return "DELETED_LOCALLY", None
     if path in ignored:
         return "IGNORED", None
-    if not real or is_name_fixture(path):
+    if is_template_path(path):
+        # `REPORT-YYYYMMDD.md` cannot exist under any date; nothing to publish
+        return "TEMPLATE_PLACEHOLDER", None
+    if not real:
+        if lit and not doc:
+            return "FIXTURE_LITERAL", None
+        if doc or is_name_fixture(path):
+            return "DOCUMENTED_EXAMPLE", None
+        return "NEGATIVE_FIXTURE", None
+    if is_name_fixture(path):
         return "NEGATIVE_FIXTURE", None
     if ROUND_RE.search(_basename(path)):
         return "ROUND_ARTIFACT", None
@@ -434,6 +508,9 @@ def render_md(face):
         "| TRACKED | %d | clone opens it |" % c["TRACKED"],
         "| IGNORED | %d | machine-local by policy, never published |" % c["IGNORED"],
         "| NEGATIVE_FIXTURE | %d | named only by a test — must be missing |" % c["NEGATIVE_FIXTURE"],
+        "| DOCUMENTED_EXAMPLE | %d | named only inside a usage line / docstring |" % c["DOCUMENTED_EXAMPLE"],
+        "| FIXTURE_LITERAL | %d | a string inside a data literal, never an `open()` argument |" % c["FIXTURE_LITERAL"],
+        "| TEMPLATE_PLACEHOLDER | %d | the *shape* of a name (`REPORT-YYYYMMDD.md`) |" % c["TEMPLATE_PLACEHOLDER"],
         "| ROUND_ARTIFACT | %d | `_r####bm?` round bookkeeping |" % c["ROUND_ARTIFACT"],
         "| MACHINE_SCOPED | %d | another machine's local state |" % c["MACHINE_SCOPED"],
         "| EXTERNAL_CANON | %d | lives in the group tree above this repo |" % c["EXTERNAL_CANON"],
@@ -443,6 +520,21 @@ def render_md(face):
         "| DEAD_POINTER | %d | advisory: real code names it, no clone has it |" % c["DEAD_POINTER"],
         "",
     ]
+    quoted = [r for r in face["rows"] if r["state"] in
+              ("DOCUMENTED_EXAMPLE", "FIXTURE_LITERAL", "TEMPLATE_PLACEHOLDER")]
+    if quoted:
+        lines += ["## Quoted, not read (advisory, by design)", "",
+                  "These strings appear in committed code but no reader can open them: a "
+                  "usage line shows the shape of a name, a fixture literal is data a test "
+                  "compares against, and a template can never be a file. Keeping them out "
+                  "of the defect count is what makes the rest of the list worth reading -- "
+                  "if they were counted, %d of the %d citations here would be noise."
+                  % (len(quoted), c["cited"]), "",
+                  "| state | path | cited by |", "|---|---|---|"]
+        for r in sorted(quoted, key=lambda r: (r["state"], r["path"])):
+            lines.append("| %s | `%s` | %s |"
+                         % (r["state"], r["path"], ", ".join(r["cited_by"])))
+        lines.append("")
     if orphans:
         hard = [r for r in orphans if r["severity"] == "HARD"]
         soft = [r for r in orphans if r["severity"] == "SOFT"]
@@ -530,11 +622,12 @@ def cmd_run(write=True):
     c = face["counts"]
     print("face-orphan-census %s cited=%d tracked=%d ignored=%d orphan=%d (hard %d) "
           "deleted=%d dead_advisory=%d absent_locally=%d fixtures=%d round=%d "
-          "machine=%d group_canon=%d"
+          "machine=%d group_canon=%d quoted=%d"
           % (face["verdict"], c["cited"], c["TRACKED"], c["IGNORED"], c["ORPHAN"],
              face["hard_orphans"], c["DELETED_LOCALLY"], c["DEAD_POINTER"],
              c["ABSENT_LOCALLY"], c["NEGATIVE_FIXTURE"], c["ROUND_ARTIFACT"],
-             c["MACHINE_SCOPED"], c["EXTERNAL_CANON"]))
+             c["MACHINE_SCOPED"], c["EXTERNAL_CANON"],
+             c["DOCUMENTED_EXAMPLE"] + c["FIXTURE_LITERAL"] + c["TEMPLATE_PLACEHOLDER"]))
     for r in face["rows"]:
         print("  %-16s %-5s %s  <- %s"
               % (r["state"], r["severity"], r["path"], ", ".join(r["cited_by"])))
@@ -607,6 +700,11 @@ def selftest():
     found = sorted(citations("see results/ dir; read results/a.json and research/B.md"))
     leg("citations picks files and skips the bare directory",
         found == ["research/B.md", "results/a.json"], str(found))
+    fnd = sorted(citations("see results/x/ledger.jsonl and results/y.json"))
+    leg("citations does not truncate .jsonl to .json",
+        fnd == ["results/x/ledger.jsonl", "results/y.json"], str(fnd))
+    meta = list(citations("usage: <results/path.json> [--stage1 F]"))
+    leg("an angle-bracket metavariable is not a citation", meta == [], str(meta))
 
     # test-context detection: word-split, so `latest` is not a test
     leg("is_test_name is word-split (latest is not a test)",
@@ -622,12 +720,33 @@ def selftest():
         "    return open('results/b.json')\n"
     )
     ctx = dict()
-    for path, func in citations_with_context(src):
+    kinds = dict()
+    for path, func, kind in citations_with_context(src):
         ctx.setdefault(path, set()).add(func)
+        kinds[path] = kind
     leg("ast gives the enclosing function per citation",
         ctx.get("research/x") is None and sorted(ctx) == ["results/a.json", "results/b.json"]
         and ctx["results/a.json"] == {"selftest"} and ctx["results/b.json"] == {"run"},
         str(ctx))
+    leg("an open() argument is a path, not a quote",
+        kinds.get("results/b.json") == "path", str(kinds))
+
+    # r1992: three shapes that are not paths, no matter which function holds them
+    doc_src = 'def run():\n    """usage: python x.py --out=results/foo.json"""\n    return 1\n'
+    doc_kinds = {p: k for p, _f, k in citations_with_context(doc_src)}
+    leg("a usage line in a docstring is not a path",
+        doc_kinds.get("results/foo.json") == "docstring", str(doc_kinds))
+    lit_src = 'def run():\n    return {"result": "results/b.json"}\n'
+    lit_kinds = {p: k for p, _f, k in citations_with_context(lit_src)}
+    leg("a string inside a data literal is not a path",
+        lit_kinds.get("results/b.json") == "literal", str(lit_kinds))
+    leg("a template name is not a file",
+        is_template_path("docs/daily_report/REPORT-YYYYMMDD.md")
+        and is_template_path("results/...json")
+        and is_template_path("results/e44_midmonth/ENTRYDELAY-x.json")
+        and is_template_path("<results/path.json>")
+        and not is_template_path("results/etf_book_order/ledger.jsonl"),
+        "template detector")
 
     # severity comes from the consumer, not from the face
     probe = "results/_selftest_probe_%d.json" % os.getpid()
@@ -674,6 +793,20 @@ def selftest():
     leg("a plain path in origin is ABSENT_LOCALLY", st == "ABSENT_LOCALLY", st)
     st, _ = classify(plain, real, set(), set(), set(), me)
     leg("a plain path nobody has is DEAD_POINTER", st == "DEAD_POINTER", st)
+    # ...and the three shapes that only look like a pointer (r1992)
+    doc_rec = {"readers": ["scripts/x.py"], "real_readers": [],
+               "doc_readers": ["scripts/x.py"], "literal_readers": []}
+    st, _ = classify(plain, doc_rec, set(), set(), set(), me)
+    leg("a face named only in a docstring is DOCUMENTED_EXAMPLE",
+        st == "DOCUMENTED_EXAMPLE", st)
+    lit_rec = {"readers": ["scripts/x.py"], "real_readers": [],
+               "doc_readers": [], "literal_readers": ["scripts/x.py"]}
+    st, _ = classify(plain, lit_rec, set(), set(), set(), me)
+    leg("a fixture literal is FIXTURE_LITERAL, not a dead pointer",
+        st == "FIXTURE_LITERAL", st)
+    st, _ = classify("docs/daily_report/REPORT-YYYYMMDD.md", real, set(), set(), set(), me)
+    leg("a template is TEMPLATE_PLACEHOLDER even from real code",
+        st == "TEMPLATE_PLACEHOLDER", st)
     st, _ = classify("results/plain_gone.json", real, {"results/plain_gone.json"},
                      set(), set(), me)
     leg("tracked but missing from disk is DELETED_LOCALLY", st == "DELETED_LOCALLY", st)

@@ -1,6 +1,6 @@
 {
  "activity": "product",
- "activity_now": "r1986: 帽子到底在哪几天生效——RED 标签 13 个会话 vs 大熊市规则 6 个会话，分叉 7 个；r1983 报的「唯一合规日 11-09」回撤 -18.88% 不在熊市里，熊市合规日 = 0",
+ "activity_now": "r1992: face_orphan_census v3 -- dead pointers 50 -> 2 (two real regex bugs), wired to S6 chain",
  "activity_now_round": 1986,
  "agenda_starved": false,
  "ah_note": "r1680 LANDED: refresh closed itself at 21:17 -- cutoff 2026-11-12 -> 2026-11-13, complete=True, exit 0, pulled_rows 46; data_lane_freshness in_sync 13 / behind_1d 1 (worst now marks, intraday-only, not rebuildable). Fix that made it possible: stall watchdog over every network leg (300s, names stage/pair, exit 2, checkpoint kept) + save_progress stamps write time + -u on the detached spawn + progress line every 10 pairs. NOT yet proven: the 300s stall path has never fired on a real hang (this round the suspected freeze finished by itself).",
@@ -1501,7 +1501,7 @@
  },
  "round_drift_note": "state said round_no=1937 while commit 6a3f33e30e already said round 1938 -> counters healed to 1939",
  "round_label": "r1951",
- "round_no": 1991,
+ "round_no": 1992,
  "round_no_label": "r1988",
  "round_no_landed": 1663,
  "round_no_note": "r1959 由并行交互宿主收口（commit 33461d91cd）；本窗=1960",
