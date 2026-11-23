@@ -1,0 +1,256 @@
+{
+ "face": "regime_cap_breach_cash_vs_repo",
+ "schema": "regime-cap-breach-cash-vs-repo/v1",
+ "generated": "2026-11-23T12:02:46+08:00",
+ "evidence_cutoff": "2026-11-20",
+ "window": {
+  "back_day": "2026-11-10",
+  "mark_day": "2026-11-20",
+  "calendar_days": 10
+ },
+ "benchmarks": {
+  "GC001": {
+   "tenor_days": 1,
+   "sessions_in_window": [
+    "2026-11-10",
+    "2026-11-11",
+    "2026-11-12",
+    "2026-11-13",
+    "2026-11-16",
+    "2026-11-17",
+    "2026-11-18",
+    "2026-11-19",
+    "2026-11-20"
+   ],
+   "quote_on_back_day_pct": 1.165,
+   "quote_on_mark_day_pct": 1.395,
+   "net_mult": 1.0002666042794195,
+   "gross_mult": 1.0003466257420461,
+   "net_pct": 0.02666,
+   "gross_pct": 0.034663,
+   "fee_fraction_per_lend": null,
+   "engine_log": {
+    "lends": 8,
+    "employed_days": 10,
+    "calendar_days": 10,
+    "idle_days": 0,
+    "utilisation": 1.0,
+    "missing_quotes": 0
+   }
+  },
+  "GC007": {
+   "tenor_days": 7,
+   "sessions_in_window": [
+    "2026-11-10",
+    "2026-11-11",
+    "2026-11-12",
+    "2026-11-13",
+    "2026-11-16",
+    "2026-11-17",
+    "2026-11-18",
+    "2026-11-19",
+    "2026-11-20"
+   ],
+   "quote_on_back_day_pct": 1.345,
+   "quote_on_mark_day_pct": 1.385,
+   "net_mult": 1.0002079452054793,
+   "gross_mult": 1.0002579452054794,
+   "net_pct": 0.020795,
+   "gross_pct": 0.025795,
+   "fee_fraction_per_lend": null,
+   "engine_log": {
+    "lends": 1,
+    "employed_days": 7,
+    "calendar_days": 10,
+    "idle_days": 3,
+    "utilisation": 0.7,
+    "missing_quotes": 0
+   }
+  }
+ },
+ "accounts": {
+  "COMPOSITE-CE-01": {
+   "invested_cny": 570000.56,
+   "actual_pnl_cny": -419.6,
+   "actual_ret_pct": -0.0736,
+   "equity_cny": 976152.58,
+   "legs": {
+    "511010": {
+     "invested_cny": 190000.6,
+     "ret_pct": -0.0205
+    },
+    "511090": {
+     "invested_cny": 189999.62,
+     "ret_pct": -0.1585
+    },
+    "511260": {
+     "invested_cny": 190000.34,
+     "ret_pct": -0.0419
+    }
+   },
+   "repo": {
+    "GC001": {
+     "net_value_cny": 570152.52,
+     "gross_value_cny": 570198.14,
+     "net_pnl_cny": 151.96,
+     "gross_pnl_cny": 197.58,
+     "commission_cny": 45.61,
+     "gap_vs_actual_cny": 571.56
+    },
+    "GC007": {
+     "net_value_cny": 570119.09,
+     "gross_value_cny": 570147.59,
+     "net_pnl_cny": 118.53,
+     "gross_pnl_cny": 147.03,
+     "commission_cny": 28.5,
+     "gap_vs_actual_cny": 538.13
+    }
+   }
+  },
+  "COMPOSITE-CE-02": {
+   "invested_cny": 356100.99,
+   "actual_pnl_cny": -262.14,
+   "actual_ret_pct": -0.0736,
+   "equity_cny": 972600.27,
+   "legs": {
+    "511010": {
+     "invested_cny": 118700.69,
+     "ret_pct": -0.0205
+    },
+    "511090": {
+     "invested_cny": 118700.43,
+     "ret_pct": -0.1585
+    },
+    "511260": {
+     "invested_cny": 118699.86,
+     "ret_pct": -0.0419
+    }
+   },
+   "repo": {
+    "GC001": {
+     "net_value_cny": 356195.93,
+     "gross_value_cny": 356224.42,
+     "net_pnl_cny": 94.94,
+     "gross_pnl_cny": 123.43,
+     "commission_cny": 28.5,
+     "gap_vs_actual_cny": 357.08
+    },
+    "GC007": {
+     "net_value_cny": 356175.04,
+     "gross_value_cny": 356192.84,
+     "net_pnl_cny": 74.05,
+     "gross_pnl_cny": 91.85,
+     "commission_cny": 17.81,
+     "gap_vs_actual_cny": 336.19
+    }
+   }
+  },
+  "VOLATILITY-CE-01": {
+   "invested_cny": 299999.11,
+   "actual_pnl_cny": -220.84,
+   "actual_ret_pct": -0.0736,
+   "equity_cny": 989017.01,
+   "legs": {
+    "511010": {
+     "invested_cny": 99999.49,
+     "ret_pct": -0.0205
+    },
+    "511090": {
+     "invested_cny": 99999.87,
+     "ret_pct": -0.1585
+    },
+    "511260": {
+     "invested_cny": 99999.75,
+     "ret_pct": -0.0419
+    }
+   },
+   "repo": {
+    "GC001": {
+     "net_value_cny": 300079.09,
+     "gross_value_cny": 300103.1,
+     "net_pnl_cny": 79.98,
+     "gross_pnl_cny": 103.99,
+     "commission_cny": 24.01,
+     "gap_vs_actual_cny": 300.82
+    },
+    "GC007": {
+     "net_value_cny": 300061.49,
+     "gross_value_cny": 300076.49,
+     "net_pnl_cny": 62.38,
+     "gross_pnl_cny": 77.38,
+     "commission_cny": 15.0,
+     "gap_vs_actual_cny": 283.22
+    }
+   }
+  }
+ },
+ "totals": {
+  "invested_cny": 1226100.66,
+  "actual_pnl_cny": -902.58,
+  "actual_ret_pct": -0.0736,
+  "primary_benchmark": "GC001",
+  "repo_net_GC001_cny": 326.88,
+  "repo_gross_GC001_cny": 425.0,
+  "commission_GC001_cny": 98.11,
+  "gap_vs_actual_GC001_cny": 1229.46,
+  "repo_net_GC007_cny": 254.96,
+  "repo_gross_GC007_cny": 316.27,
+  "commission_GC007_cny": 61.31,
+  "gap_vs_actual_GC007_cny": 1157.54
+ },
+ "rule_cash_floor": {
+  "accounts_measured": [
+   "COMPOSITE-CE-01",
+   "COMPOSITE-CE-02",
+   "VOLATILITY-CE-01"
+  ],
+  "equity_cny": 2937769.86,
+  "cap": 0.2,
+  "cash_the_rule_wants_cny": 2350215.89,
+  "quote_pct": 1.395,
+  "window_days": 10,
+  "gross_income_over_window_cny": 898.23,
+  "fee_share_of_gross_measured_in_this_window": 0.2309,
+  "note": "pure arithmetic at the mark-day quote and this window's measured fee share; not a forecast and not a claim about the equity sleeve"
+ },
+ "bench_context": {
+  "headline": "NO_EDGE",
+  "cell_cutoff": "2026-11-23T09:39:10+08:00",
+  "note": "the published cell asks whether lending longer pays over 2015-2026; this window is one sample and is not re-judged here"
+ },
+ "verdict": "CASH_SLEEVE_TRAILED_THE_REPO_ROLL_BY_1229_46_CNY",
+ "gates": {
+  "pnl_face": "ok",
+  "back_export": "ok",
+  "mark_export": "ok",
+  "cross_gate_leg_amounts": {
+   "rows": {
+    "COMPOSITE-CE-01": {
+     "rederived_cny": 570000.56,
+     "published_cny": 570000.56,
+     "delta_cny": -0.0
+    },
+    "COMPOSITE-CE-02": {
+     "rederived_cny": 356100.99,
+     "published_cny": 356100.99,
+     "delta_cny": -0.0
+    },
+    "VOLATILITY-CE-01": {
+     "rederived_cny": 299999.11,
+     "published_cny": 299999.11,
+     "delta_cny": -0.0
+    }
+   },
+   "tolerance_cny": 0.01,
+   "state": "ok"
+  },
+  "generation": {
+   "published_face_cutoff": "2026-11-20",
+   "mark_export_cutoff": "2026-11-20",
+   "state": "ok"
+  },
+  "repo_panel": "ok"
+ },
+ "not_measured": [],
+ "basis": "repo side = carry net of the exchange fee per lend, interest on actual calendar days held, idle days earn nothing; ETF side = close-price move only (a marked close carries no distribution), so the comparison is not a long-run carry verdict"
+}
