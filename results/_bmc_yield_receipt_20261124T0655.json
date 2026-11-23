@@ -1,0 +1,57 @@
+{
+ "schema": "yield-receipt/v1",
+ "machine_id": "bm-c",
+ "generated": "2026-11-24T06:57:00+08:00",
+ "reason": "SAME_TREE_PEER_HOST_ACTIVE",
+ "peer": {
+  "pid": 51252,
+  "kind": "interactive",
+  "started": "2026-11-22T20:10:45",
+  "last_shared_face_writes": "2026-11-24T06:51:42..06:54:20",
+  "last_commit": "26d74f5e50 @ 2026-11-24T06:53:19",
+  "peer_round": "r2031"
+ },
+ "me": {
+  "pid": 77208,
+  "started": "2026-11-24T06:55:03"
+ },
+ "contention_probe": {
+  "face": "results/_repo_write_contention.bm-c.json",
+  "verdict": "CONTENTION",
+  "rc": 3,
+  "peer_only_shared_writes": 23,
+  "ambiguous_writes": 0
+ },
+ "repo_dirty_files_at_round_start": 207,
+ "verification": {
+  "ahead": 0,
+  "behind": 0,
+  "peer_delivery_in_origin": [
+   "scripts/astock_veto_hedge_instrument.py",
+   "results/astock_veto_hedge_instrument.json",
+   "research/ASTOCK_VETO_HEDGE_INSTRUMENT.md",
+   "results/_r2031bmc_instrument_negative.py",
+   "scripts/astock_veto_hedge_lots.py",
+   "results/astock_veto_hedge_lots.json",
+   "research/ASTOCK_VETO_HEDGE_LOTS.md"
+  ],
+  "orders_ack_scan": "CLEAN orders=116 acks=329 stale_notes=124 unacked=[]",
+  "orphan_face_probe": "py_faces=3 orphans=0 killed=0"
+ },
+ "actions_taken": [
+  "Tools/orphan_face_probe.py",
+  "Tools/repo_write_contention.py --lookback-min 45",
+  "git fetch + rev-list --count",
+  "git ls-tree -r --name-only origin/main (delivery check)",
+  "Tools/orders_ack_scan.py"
+ ],
+ "actions_withheld": [
+  "full smoke (writes shared logs/smoke_legs.json)",
+  "S6 chain (shared faces)",
+  "state-bm-c.json / heartbeat bump (peer owns this round's sequence)",
+  "fleet/round_reports-bm-c.md append (shared face written by peer at 06:53)",
+  "any shared-face fix for the peer's 6 STALE smoke reds"
+ ],
+ "next_round_pointer": "peer-declared milestones: (a) wire r2022-r2031 faces into S6 legs + 2 smoke legs once contention clears; (b) carry 'hedge trades drawdown for return' onto CEO page + ticket",
+ "honest_note": "No product increment this window: every remaining item is either a shared face or duplicates the peer's in-flight astock_veto_hedge family."
+}
