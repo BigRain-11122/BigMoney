@@ -1,0 +1,376 @@
+{
+ "beta_parent": {
+  "content_sha256": "1a1bbeb9b98fafe1ecfd65f430bf86ced104505743468005cdce1da7f59bb92c",
+  "evidence_cutoff": "2026-11-20",
+  "face": "results/astock_veto_hedgeable_beta.json",
+  "file_sha256": "a3044bd7101c9d36120ef1e7817829baf1bb3d34c97c727fa3657f116f63c518",
+  "generated": "2026-11-24T03:29:09+08:00"
+ },
+ "dates": {
+  "bars_apart": 7,
+  "book": "2026-11-11",
+  "price": "2026-11-20",
+  "why": "the book's positions are last marked on the book date; the panels run on their own calendar"
+ },
+ "evidence_cutoff": "2026-11-20",
+ "fills_the_hole_of": "r2027 printed a lot count from a 11-11 book and an 11-20 price; no face said how far apart those two dates are, whether the gap can reach the order, or what the unmarked days did",
+ "generated": "2026-11-24T05:39:38+08:00",
+ "headline": {
+  "etf_1m": {
+   "book_lots": 3323.4929242966778,
+   "move_to_flip": {
+    "direction": "price falls",
+    "move": -2.128991521632706e-06,
+    "to": 3324
+   },
+   "price_lots": 3918.8316568228665,
+   "round_change": 596
+  },
+  "im_1m": {
+   "book_lots": 0.6804554439598816,
+   "move_to_flip": {
+    "direction": "price rises",
+    "move": 0.3609108879197631,
+    "to": 0
+   },
+   "price_lots": 0.8126544297003563,
+   "round_change": 0
+  }
+ },
+ "kind": "astock_veto_hedge_dating",
+ "ladder": [
+  {
+   "arm": "etf",
+   "at_book_date": {
+    "beta_error_round": -0.00013368106925915058,
+    "date": "2026-11-11",
+    "floor": 3323,
+    "needed": 3323.4929242966778,
+    "price": 2.712,
+    "round": 3323
+   },
+   "at_price_date": {
+    "beta_error_round": 3.8718930740699875e-05,
+    "date": "2026-11-20",
+    "floor": 3918,
+    "needed": 3918.8316568228665,
+    "price": 2.3,
+    "round": 3919
+   },
+   "capital": 1000000,
+   "delta_beta_error": 0.00017239999999985045,
+   "delta_lots_round": 596,
+   "flip_move_from_book_date": {
+    "direction": "price falls",
+    "move": -2.128991521632706e-06,
+    "to": 3324
+   },
+   "order_changed": true,
+   "target_beta": 0.9013312810692592
+  },
+  {
+   "arm": "im",
+   "at_book_date": {
+    "beta_error_round": 0.4232687189307408,
+    "date": "2026-11-11",
+    "floor": 0,
+    "needed": 0.6804554439598816,
+    "price": 6623.0,
+    "round": 1
+   },
+   "at_price_date": {
+    "beta_error_round": 0.2077887189307409,
+    "date": "2026-11-20",
+    "floor": 0,
+    "needed": 0.8126544297003563,
+    "price": 5545.6,
+    "round": 1
+   },
+   "capital": 1000000,
+   "delta_beta_error": -0.2154799999999999,
+   "delta_lots_round": 0,
+   "flip_move_from_book_date": {
+    "direction": "price rises",
+    "move": 0.3609108879197631,
+    "to": 0
+   },
+   "order_changed": false,
+   "target_beta": 0.9013312810692592
+  },
+  {
+   "arm": "etf",
+   "at_book_date": {
+    "beta_error_round": -4.3281069258993554e-05,
+    "date": "2026-11-11",
+    "floor": 9970,
+    "needed": 9970.478772890034,
+    "price": 2.712,
+    "round": 9970
+   },
+   "at_price_date": {
+    "beta_error_round": -3.794773592591394e-05,
+    "date": "2026-11-20",
+    "floor": 11756,
+    "needed": 11756.494970468599,
+    "price": 2.3,
+    "round": 11756
+   },
+   "capital": 3000000,
+   "delta_beta_error": 5.333333333079615e-06,
+   "delta_lots_round": 1786,
+   "flip_move_from_book_date": {
+    "direction": "price falls",
+    "move": -2.128991521632706e-06,
+    "to": 9971
+   },
+   "order_changed": true,
+   "target_beta": 0.9013312810692592
+  },
+  {
+   "arm": "im",
+   "at_book_date": {
+    "beta_error_round": -0.018264614402592527,
+    "date": "2026-11-11",
+    "floor": 2,
+    "needed": 2.0413663318796447,
+    "price": 6623.0,
+    "round": 2
+   },
+   "at_price_date": {
+    "beta_error_round": -0.16191794773592583,
+    "date": "2026-11-20",
+    "floor": 2,
+    "needed": 2.4379632891010687,
+    "price": 5545.6,
+    "round": 2
+   },
+   "capital": 3000000,
+   "delta_beta_error": -0.1436533333333333,
+   "delta_lots_round": 0,
+   "flip_move_from_book_date": {
+    "direction": "price falls",
+    "move": -0.18345346724814215,
+    "to": 3
+   },
+   "order_changed": false,
+   "target_beta": 0.9013312810692592
+  },
+  {
+   "arm": "etf",
+   "at_book_date": {
+    "beta_error_round": 1.9189307407518896e-06,
+    "date": "2026-11-11",
+    "floor": 33234,
+    "needed": 33234.92924296678,
+    "price": 2.712,
+    "round": 33235
+   },
+   "at_price_date": {
+    "beta_error_round": -7.2810692591795956e-06,
+    "date": "2026-11-20",
+    "floor": 39188,
+    "needed": 39188.31656822866,
+    "price": 2.3,
+    "round": 39188
+   },
+   "capital": 10000000,
+   "delta_beta_error": -9.199999999931485e-06,
+   "delta_lots_round": 5953,
+   "flip_move_from_book_date": {
+    "direction": "price rises",
+    "move": 1.2915583708972278e-05,
+    "to": 33234
+   },
+   "order_changed": true,
+   "target_beta": 0.9013312810692592
+  },
+  {
+   "arm": "im",
+   "at_book_date": {
+    "beta_error_round": 0.02588871893074085,
+    "date": "2026-11-11",
+    "floor": 6,
+    "needed": 6.804554439598816,
+    "price": 6623.0,
+    "round": 7
+   },
+   "at_price_date": {
+    "beta_error_round": -0.01403528106925922,
+    "date": "2026-11-20",
+    "floor": 8,
+    "needed": 8.126544297003562,
+    "price": 5545.6,
+    "round": 8
+   },
+   "capital": 10000000,
+   "delta_beta_error": -0.03992400000000007,
+   "delta_lots_round": 1,
+   "flip_move_from_book_date": {
+    "direction": "price rises",
+    "move": 0.04685452916904853,
+    "to": 6
+   },
+   "order_changed": true,
+   "target_beta": 0.9013312810692592
+  },
+  {
+   "arm": "etf",
+   "at_book_date": {
+    "beta_error_round": 1.9189307407518896e-06,
+    "date": "2026-11-11",
+    "floor": 66469,
+    "needed": 66469.85848593355,
+    "price": 2.712,
+    "round": 66470
+   },
+   "at_price_date": {
+    "beta_error_round": 4.218930740651494e-06,
+    "date": "2026-11-20",
+    "floor": 78376,
+    "needed": 78376.63313645733,
+    "price": 2.3,
+    "round": 78377
+   },
+   "capital": 20000000,
+   "delta_beta_error": 2.2999999998996046e-06,
+   "delta_lots_round": 11907,
+   "flip_move_from_book_date": {
+    "direction": "price rises",
+    "move": 5.393239509210446e-06,
+    "to": 66469
+   },
+   "order_changed": true,
+   "target_beta": 0.9013312810692592
+  },
+  {
+   "arm": "im",
+   "at_book_date": {
+    "beta_error_round": 0.02588871893074085,
+    "date": "2026-11-11",
+    "floor": 13,
+    "needed": 13.609108879197631,
+    "price": 6623.0,
+    "round": 14
+   },
+   "at_price_date": {
+    "beta_error_round": -0.01403528106925922,
+    "date": "2026-11-20",
+    "floor": 16,
+    "needed": 16.253088594007124,
+    "price": 5545.6,
+    "round": 16
+   },
+   "capital": 20000000,
+   "delta_beta_error": -0.03992400000000007,
+   "delta_lots_round": 2,
+   "flip_move_from_book_date": {
+    "direction": "price rises",
+    "move": 0.008082139199824478,
+    "to": 13
+   },
+   "order_changed": true,
+   "target_beta": 0.9013312810692592
+  }
+ ],
+ "lots_parent": {
+  "content_sha256": "2442f8dee15a89e8f231664d3fff729de6ee48bb7b15fe020c0ded72ab0c2ecc",
+  "evidence_cutoff": "2026-11-20",
+  "face": "results/astock_veto_hedge_lots.json",
+  "file_sha256": "87b48f8052361e61fb07af96c082c22ed9c759008d8cb8981dc2a535d09cbc6f",
+  "generated": "2026-11-24T05:27:04+08:00"
+ },
+ "machine": "bm-c",
+ "parent": {
+  "content_sha256": "26823178ab9b2732cb315f0b32db779013162025c9215f5178229a9b719656d4",
+  "evidence_cutoff": "2026-11-20",
+  "face": "results/astock_veto_hedge_default.json",
+  "file_sha256": "d1c45c8e8ebfb2f5cc325f57b568c668e4317583266dc1a9ec55bf3aee84c482",
+  "generated": "2026-11-24T05:08:39+08:00"
+ },
+ "prereg": {
+  "dates_compared": [
+   "book date = results/astock_veto_hedgeable_beta.json:rows[-1].end (the bar the book was last marked on)",
+   "price date = the last bar of the two hedge price panels (what r2027 published)"
+  ],
+  "frozen_before_the_numbers": true,
+  "lot_formula": "lots_needed = capital * k * beta / (price * multiplier); floor for 'do not overshoot', round for 'closest'",
+  "no_new_data": "both dates are read out of the two price panels already in the repo",
+  "not_fitted": "no beta, size, cost, basis or book return is estimated here",
+  "price_move_to_flip": "the smallest |f| with price*(1+f) that changes the integer lot count; the nearest-integer boundary is solved exactly, not searched",
+  "verdict_rungs": [
+   "some capital rung's integer lot count differs between the two dates -> DATING_MOVES_THE_ORDER",
+   "no rung's integer lot count differs -> DATING_IS_IMMATERIAL_AT_THE_LOT_LEVEL"
+  ]
+ },
+ "prices": {
+  "etf": {
+   "at_book_date": {
+    "close": 2.712,
+    "date": "2026-11-11"
+   },
+   "at_price_date": {
+    "close": 2.3,
+    "date": "2026-11-20"
+   },
+   "move_between_dates": -0.1519174041297936,
+   "priced_after_the_book_by_bars": 7
+  },
+  "im": {
+   "at_book_date": {
+    "close": 6623.0,
+    "date": "2026-11-11"
+   },
+   "at_price_date": {
+    "close": 5545.6,
+    "date": "2026-11-20"
+   },
+   "move_between_dates": -0.16267552468669777,
+   "priced_after_the_book_by_bars": 7
+  }
+ },
+ "published_r2027": {
+  "1000000": {
+   "etf": {
+    "needed": 3918.8316568228665,
+    "round": 3919
+   },
+   "im": {
+    "needed": 0.8126544297003563,
+    "round": 1
+   }
+  },
+  "10000000": {
+   "etf": {
+    "needed": 39188.31656822866,
+    "round": 39188
+   },
+   "im": {
+    "needed": 8.126544297003562,
+    "round": 8
+   }
+  },
+  "20000000": {
+   "etf": {
+    "needed": 78376.63313645733,
+    "round": 78377
+   },
+   "im": {
+    "needed": 16.253088594007124,
+    "round": 16
+   }
+  },
+  "3000000": {
+   "etf": {
+    "needed": 11756.494970468599,
+    "round": 11756
+   },
+   "im": {
+    "needed": 2.4379632891010687,
+    "round": 2
+   }
+  }
+ },
+ "target_beta": 0.9013312810692592,
+ "verdict": "DATING_MOVES_THE_ORDER",
+ "verdict_why": "6 of 8 capital rung(s) place a different number of lots when the price is dated with the book instead of after it: 1000000 (etf 3919 -> 3323), 3000000 (etf 11756 -> 9970), 10000000 (etf 39188 -> 33235), 10000000 (im 8 -> 7), 20000000 (etf 78377 -> 66470), 20000000 (im 16 -> 14)"
+}
