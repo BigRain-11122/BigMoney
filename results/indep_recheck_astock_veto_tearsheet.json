@@ -1,0 +1,685 @@
+{
+  "schema": "indep_recheck_astock_veto_tearsheet/v1",
+  "generated": "2026-11-24T00:44:53+08:00",
+  "machine": "bm-c",
+  "auditor": "second implementation (no import of scripts/astock_veto_tearsheet.py)",
+  "evidence_cutoff": "2026-11-20",
+  "parent_face": "results/astock_veto_lot_drag.json",
+  "target_face": "results/astock_veto_tearsheet.json",
+  "reader_page": "research/ASTOCK_VETO_TEARSHEET.md",
+  "scope": "risk block + quoting; selection is an input, not re-run",
+  "tolerance": 1e-09,
+  "worst_abs_diff_by_face": {
+    "A_fractional": 0.0,
+    "B_fractional": 1.1102230246251565e-16,
+    "A_lot_10000000": 1.1102230246251565e-16,
+    "B_lot_10000000": 2.7755575615628914e-17
+  },
+  "worst_abs_diff_edges": 1.1102230246251565e-16,
+  "worst_abs_diff_overall": 1.1102230246251565e-16,
+  "values_recomputed": {
+    "A_fractional": {
+      "periods": 77,
+      "per_period_mean": 0.008240687112748746,
+      "per_period_stdev": 0.07778288455158722,
+      "annualized_compound": 0.06917263180802102,
+      "annual_vol": 0.27610185046008995,
+      "sharpe_excess_0": 0.37606650389198687,
+      "max_drawdown": -0.2970946772186024,
+      "calmar": 0.2328302629169077,
+      "hit_rate": 0.5584415584415584,
+      "worst_period": -0.1770447670793805,
+      "best_period": 0.2969878739313739,
+      "worst_6_periods": -0.205860439116068,
+      "underwater_share": 0.7662337662337663
+    },
+    "B_fractional": {
+      "periods": 77,
+      "per_period_mean": 0.01066894868475946,
+      "per_period_stdev": 0.07703098106511495,
+      "annualized_compound": 0.10301862011095042,
+      "annual_vol": 0.2734328578509935,
+      "sharpe_excess_0": 0.49163350185669996,
+      "max_drawdown": -0.259212250145304,
+      "calmar": 0.3974295969932065,
+      "hit_rate": 0.5844155844155844,
+      "worst_period": -0.17179191833260346,
+      "best_period": 0.2953592796097881,
+      "worst_6_periods": -0.18432644115293073,
+      "underwater_share": 0.7402597402597403
+    },
+    "A_lot_10000000": {
+      "periods": 77,
+      "per_period_mean": 0.008289198921839309,
+      "per_period_stdev": 0.05668874377017601,
+      "annualized_compound": 0.08839162958359537,
+      "annual_vol": 0.20122507856883157,
+      "sharpe_excess_0": 0.5190402069066602,
+      "max_drawdown": -0.18125226005018935,
+      "calmar": 0.48767187542444673,
+      "hit_rate": 0.5584415584415584,
+      "worst_period": -0.13197638423751154,
+      "best_period": 0.23753943598044827,
+      "worst_6_periods": -0.1303637095778526,
+      "underwater_share": 0.7012987012987013
+    },
+    "B_lot_10000000": {
+      "periods": 77,
+      "per_period_mean": 0.010363411443859775,
+      "per_period_stdev": 0.06071753359659909,
+      "annualized_compound": 0.1138304942666144,
+      "annual_vol": 0.21552586379430697,
+      "sharpe_excess_0": 0.6058622473136441,
+      "max_drawdown": -0.17941047339005056,
+      "calmar": 0.6344696166044842,
+      "hit_rate": 0.5844155844155844,
+      "worst_period": -0.13458842599460918,
+      "best_period": 0.24620277459912476,
+      "worst_6_periods": -0.1313445991084612,
+      "underwater_share": 0.6753246753246753
+    }
+  },
+  "edges_recomputed": {
+    "mean_per_period": 0.0024282615720107137,
+    "t": 3.4611574224593853,
+    "sharpe_b_minus_a": 0.11556699796471309,
+    "mdd_b_minus_a": 0.037882427073298364
+  },
+  "auxiliary_identities": {
+    "values": {
+      "turnover_mean_A_mine": 0.05540519089661811,
+      "turnover_mean_A_pub": 0.055405190896618085,
+      "turnover_mean_B_mine": 0.2395292549665283,
+      "turnover_mean_B_pub": 0.23952925496652835,
+      "gross_mean_A_mine": 0.008329335418183335,
+      "gross_mean_A_pub": 0.008329335418183334,
+      "gross_mean_B_mine": 0.011052195492705906,
+      "gross_mean_B_pub": 0.011052195492705905,
+      "cost_mean_A_mine": 8.864830543458857e-05,
+      "cost_mean_A_pub": 8.864830543458754e-05,
+      "cost_mean_B_mine": 0.0003832468079464457,
+      "cost_mean_B_pub": 0.00038324680794644614
+    },
+    "abs_diff": {
+      "turnover_mean_A": 2.7755575615628914e-17,
+      "turnover_mean_B": 5.551115123125783e-17,
+      "gross_mean_A": 1.734723475976807e-18,
+      "gross_mean_B": 1.734723475976807e-18,
+      "cost_mean_A": 1.0299920638612292e-18,
+      "cost_mean_B": 4.336808689942018e-19
+    }
+  },
+  "per_metric_diffs": [
+    {
+      "face": "A_fractional",
+      "metric": "periods",
+      "abs_diff": 0,
+      "status": "OK",
+      "mine": 77,
+      "published": 77
+    },
+    {
+      "face": "A_fractional",
+      "metric": "per_period_mean",
+      "abs_diff": 0.0,
+      "status": "OK",
+      "mine": 0.008240687112748746,
+      "published": 0.008240687112748746
+    },
+    {
+      "face": "A_fractional",
+      "metric": "per_period_stdev",
+      "abs_diff": 0.0,
+      "status": "OK",
+      "mine": 0.07778288455158722,
+      "published": 0.07778288455158722
+    },
+    {
+      "face": "A_fractional",
+      "metric": "annualized_compound",
+      "abs_diff": 0.0,
+      "status": "OK",
+      "mine": 0.06917263180802102,
+      "published": 0.06917263180802102
+    },
+    {
+      "face": "A_fractional",
+      "metric": "annual_vol",
+      "abs_diff": 0.0,
+      "status": "OK",
+      "mine": 0.27610185046008995,
+      "published": 0.27610185046008995
+    },
+    {
+      "face": "A_fractional",
+      "metric": "sharpe_excess_0",
+      "abs_diff": 0.0,
+      "status": "OK",
+      "mine": 0.37606650389198687,
+      "published": 0.37606650389198687
+    },
+    {
+      "face": "A_fractional",
+      "metric": "max_drawdown",
+      "abs_diff": 0.0,
+      "status": "OK",
+      "mine": -0.2970946772186024,
+      "published": -0.2970946772186024
+    },
+    {
+      "face": "A_fractional",
+      "metric": "calmar",
+      "abs_diff": 0.0,
+      "status": "OK",
+      "mine": 0.2328302629169077,
+      "published": 0.2328302629169077
+    },
+    {
+      "face": "A_fractional",
+      "metric": "hit_rate",
+      "abs_diff": 0.0,
+      "status": "OK",
+      "mine": 0.5584415584415584,
+      "published": 0.5584415584415584
+    },
+    {
+      "face": "A_fractional",
+      "metric": "worst_period",
+      "abs_diff": 0.0,
+      "status": "OK",
+      "mine": -0.1770447670793805,
+      "published": -0.1770447670793805
+    },
+    {
+      "face": "A_fractional",
+      "metric": "best_period",
+      "abs_diff": 0.0,
+      "status": "OK",
+      "mine": 0.2969878739313739,
+      "published": 0.2969878739313739
+    },
+    {
+      "face": "A_fractional",
+      "metric": "worst_6_periods",
+      "abs_diff": 0.0,
+      "status": "OK",
+      "mine": -0.205860439116068,
+      "published": -0.205860439116068
+    },
+    {
+      "face": "A_fractional",
+      "metric": "underwater_share",
+      "abs_diff": 0.0,
+      "status": "OK",
+      "mine": 0.7662337662337663,
+      "published": 0.7662337662337663
+    },
+    {
+      "face": "B_fractional",
+      "metric": "periods",
+      "abs_diff": 0,
+      "status": "OK",
+      "mine": 77,
+      "published": 77
+    },
+    {
+      "face": "B_fractional",
+      "metric": "per_period_mean",
+      "abs_diff": 1.734723475976807e-18,
+      "status": "OK",
+      "mine": 0.01066894868475946,
+      "published": 0.010668948684759458
+    },
+    {
+      "face": "B_fractional",
+      "metric": "per_period_stdev",
+      "abs_diff": 0.0,
+      "status": "OK",
+      "mine": 0.07703098106511495,
+      "published": 0.07703098106511495
+    },
+    {
+      "face": "B_fractional",
+      "metric": "annualized_compound",
+      "abs_diff": 0.0,
+      "status": "OK",
+      "mine": 0.10301862011095042,
+      "published": 0.10301862011095042
+    },
+    {
+      "face": "B_fractional",
+      "metric": "annual_vol",
+      "abs_diff": 0.0,
+      "status": "OK",
+      "mine": 0.2734328578509935,
+      "published": 0.2734328578509935
+    },
+    {
+      "face": "B_fractional",
+      "metric": "sharpe_excess_0",
+      "abs_diff": 1.1102230246251565e-16,
+      "status": "OK",
+      "mine": 0.49163350185669996,
+      "published": 0.49163350185669985
+    },
+    {
+      "face": "B_fractional",
+      "metric": "max_drawdown",
+      "abs_diff": 0.0,
+      "status": "OK",
+      "mine": -0.259212250145304,
+      "published": -0.259212250145304
+    },
+    {
+      "face": "B_fractional",
+      "metric": "calmar",
+      "abs_diff": 0.0,
+      "status": "OK",
+      "mine": 0.3974295969932065,
+      "published": 0.3974295969932065
+    },
+    {
+      "face": "B_fractional",
+      "metric": "hit_rate",
+      "abs_diff": 0.0,
+      "status": "OK",
+      "mine": 0.5844155844155844,
+      "published": 0.5844155844155844
+    },
+    {
+      "face": "B_fractional",
+      "metric": "worst_period",
+      "abs_diff": 0.0,
+      "status": "OK",
+      "mine": -0.17179191833260346,
+      "published": -0.17179191833260346
+    },
+    {
+      "face": "B_fractional",
+      "metric": "best_period",
+      "abs_diff": 0.0,
+      "status": "OK",
+      "mine": 0.2953592796097881,
+      "published": 0.2953592796097881
+    },
+    {
+      "face": "B_fractional",
+      "metric": "worst_6_periods",
+      "abs_diff": 0.0,
+      "status": "OK",
+      "mine": -0.18432644115293073,
+      "published": -0.18432644115293073
+    },
+    {
+      "face": "B_fractional",
+      "metric": "underwater_share",
+      "abs_diff": 0.0,
+      "status": "OK",
+      "mine": 0.7402597402597403,
+      "published": 0.7402597402597403
+    },
+    {
+      "face": "A_lot_10000000",
+      "metric": "periods",
+      "abs_diff": 0,
+      "status": "OK",
+      "mine": 77,
+      "published": 77
+    },
+    {
+      "face": "A_lot_10000000",
+      "metric": "per_period_mean",
+      "abs_diff": 0.0,
+      "status": "OK",
+      "mine": 0.008289198921839309,
+      "published": 0.008289198921839309
+    },
+    {
+      "face": "A_lot_10000000",
+      "metric": "per_period_stdev",
+      "abs_diff": 6.938893903907228e-18,
+      "status": "OK",
+      "mine": 0.05668874377017601,
+      "published": 0.05668874377017602
+    },
+    {
+      "face": "A_lot_10000000",
+      "metric": "annualized_compound",
+      "abs_diff": 0.0,
+      "status": "OK",
+      "mine": 0.08839162958359537,
+      "published": 0.08839162958359537
+    },
+    {
+      "face": "A_lot_10000000",
+      "metric": "annual_vol",
+      "abs_diff": 2.7755575615628914e-17,
+      "status": "OK",
+      "mine": 0.20122507856883157,
+      "published": 0.2012250785688316
+    },
+    {
+      "face": "A_lot_10000000",
+      "metric": "sharpe_excess_0",
+      "abs_diff": 1.1102230246251565e-16,
+      "status": "OK",
+      "mine": 0.5190402069066602,
+      "published": 0.5190402069066601
+    },
+    {
+      "face": "A_lot_10000000",
+      "metric": "max_drawdown",
+      "abs_diff": 0.0,
+      "status": "OK",
+      "mine": -0.18125226005018935,
+      "published": -0.18125226005018935
+    },
+    {
+      "face": "A_lot_10000000",
+      "metric": "calmar",
+      "abs_diff": 0.0,
+      "status": "OK",
+      "mine": 0.48767187542444673,
+      "published": 0.48767187542444673
+    },
+    {
+      "face": "A_lot_10000000",
+      "metric": "hit_rate",
+      "abs_diff": 0.0,
+      "status": "OK",
+      "mine": 0.5584415584415584,
+      "published": 0.5584415584415584
+    },
+    {
+      "face": "A_lot_10000000",
+      "metric": "worst_period",
+      "abs_diff": 0.0,
+      "status": "OK",
+      "mine": -0.13197638423751154,
+      "published": -0.13197638423751154
+    },
+    {
+      "face": "A_lot_10000000",
+      "metric": "best_period",
+      "abs_diff": 0.0,
+      "status": "OK",
+      "mine": 0.23753943598044827,
+      "published": 0.23753943598044827
+    },
+    {
+      "face": "A_lot_10000000",
+      "metric": "worst_6_periods",
+      "abs_diff": 0.0,
+      "status": "OK",
+      "mine": -0.1303637095778526,
+      "published": -0.1303637095778526
+    },
+    {
+      "face": "A_lot_10000000",
+      "metric": "underwater_share",
+      "abs_diff": 0.0,
+      "status": "OK",
+      "mine": 0.7012987012987013,
+      "published": 0.7012987012987013
+    },
+    {
+      "face": "B_lot_10000000",
+      "metric": "periods",
+      "abs_diff": 0,
+      "status": "OK",
+      "mine": 77,
+      "published": 77
+    },
+    {
+      "face": "B_lot_10000000",
+      "metric": "per_period_mean",
+      "abs_diff": 0.0,
+      "status": "OK",
+      "mine": 0.010363411443859775,
+      "published": 0.010363411443859775
+    },
+    {
+      "face": "B_lot_10000000",
+      "metric": "per_period_stdev",
+      "abs_diff": 6.938893903907228e-18,
+      "status": "OK",
+      "mine": 0.06071753359659909,
+      "published": 0.06071753359659908
+    },
+    {
+      "face": "B_lot_10000000",
+      "metric": "annualized_compound",
+      "abs_diff": 0.0,
+      "status": "OK",
+      "mine": 0.1138304942666144,
+      "published": 0.1138304942666144
+    },
+    {
+      "face": "B_lot_10000000",
+      "metric": "annual_vol",
+      "abs_diff": 2.7755575615628914e-17,
+      "status": "OK",
+      "mine": 0.21552586379430697,
+      "published": 0.21552586379430694
+    },
+    {
+      "face": "B_lot_10000000",
+      "metric": "sharpe_excess_0",
+      "abs_diff": 0.0,
+      "status": "OK",
+      "mine": 0.6058622473136441,
+      "published": 0.6058622473136441
+    },
+    {
+      "face": "B_lot_10000000",
+      "metric": "max_drawdown",
+      "abs_diff": 0.0,
+      "status": "OK",
+      "mine": -0.17941047339005056,
+      "published": -0.17941047339005056
+    },
+    {
+      "face": "B_lot_10000000",
+      "metric": "calmar",
+      "abs_diff": 0.0,
+      "status": "OK",
+      "mine": 0.6344696166044842,
+      "published": 0.6344696166044842
+    },
+    {
+      "face": "B_lot_10000000",
+      "metric": "hit_rate",
+      "abs_diff": 0.0,
+      "status": "OK",
+      "mine": 0.5844155844155844,
+      "published": 0.5844155844155844
+    },
+    {
+      "face": "B_lot_10000000",
+      "metric": "worst_period",
+      "abs_diff": 0.0,
+      "status": "OK",
+      "mine": -0.13458842599460918,
+      "published": -0.13458842599460918
+    },
+    {
+      "face": "B_lot_10000000",
+      "metric": "best_period",
+      "abs_diff": 0.0,
+      "status": "OK",
+      "mine": 0.24620277459912476,
+      "published": 0.24620277459912476
+    },
+    {
+      "face": "B_lot_10000000",
+      "metric": "worst_6_periods",
+      "abs_diff": 0.0,
+      "status": "OK",
+      "mine": -0.1313445991084612,
+      "published": -0.1313445991084612
+    },
+    {
+      "face": "B_lot_10000000",
+      "metric": "underwater_share",
+      "abs_diff": 0.0,
+      "status": "OK",
+      "mine": 0.6753246753246753,
+      "published": 0.6753246753246753
+    }
+  ],
+  "edge_diffs": [
+    {
+      "metric": "mean_per_period",
+      "abs_diff": 0.0,
+      "status": "OK",
+      "mine": 0.0024282615720107137,
+      "published": 0.0024282615720107137
+    },
+    {
+      "metric": "t",
+      "abs_diff": 0.0,
+      "status": "OK",
+      "mine": 3.4611574224593853,
+      "published": 3.4611574224593853
+    },
+    {
+      "metric": "sharpe_b_minus_a",
+      "abs_diff": 1.1102230246251565e-16,
+      "status": "OK",
+      "mine": 0.11556699796471309,
+      "published": 0.11556699796471298
+    },
+    {
+      "metric": "mdd_b_minus_a",
+      "abs_diff": 0.0,
+      "status": "OK",
+      "mine": 0.037882427073298364,
+      "published": 0.037882427073298364
+    }
+  ],
+  "page_quote_checks": [
+    {
+      "label": "A_sharpe",
+      "expect": "0.38",
+      "status": "FOUND"
+    },
+    {
+      "label": "B_sharpe",
+      "expect": "0.49",
+      "status": "FOUND"
+    },
+    {
+      "label": "A_lot_sharpe",
+      "expect": "0.52",
+      "status": "FOUND"
+    },
+    {
+      "label": "B_lot_sharpe",
+      "expect": "0.61",
+      "status": "FOUND"
+    },
+    {
+      "label": "A_vol",
+      "expect": "27.61",
+      "status": "FOUND"
+    },
+    {
+      "label": "B_vol",
+      "expect": "27.34",
+      "status": "FOUND"
+    },
+    {
+      "label": "A_mdd",
+      "expect": "-29.71",
+      "status": "FOUND"
+    },
+    {
+      "label": "B_mdd",
+      "expect": "-25.92",
+      "status": "FOUND"
+    },
+    {
+      "label": "A_hit",
+      "expect": "55.8",
+      "status": "FOUND"
+    },
+    {
+      "label": "B_hit",
+      "expect": "58.4",
+      "status": "FOUND"
+    },
+    {
+      "label": "A_uw",
+      "expect": "76.6",
+      "status": "FOUND"
+    },
+    {
+      "label": "B_uw",
+      "expect": "74.0",
+      "status": "FOUND"
+    },
+    {
+      "label": "A_mean",
+      "expect": "0.8241",
+      "status": "FOUND"
+    },
+    {
+      "label": "B_mean",
+      "expect": "1.0669",
+      "status": "FOUND"
+    },
+    {
+      "label": "A_ann",
+      "expect": "6.92",
+      "status": "FOUND"
+    },
+    {
+      "label": "B_ann",
+      "expect": "10.30",
+      "status": "FOUND"
+    },
+    {
+      "label": "A_lot_mdd",
+      "expect": "-18.13",
+      "status": "FOUND"
+    },
+    {
+      "label": "B_lot_mdd",
+      "expect": "-17.94",
+      "status": "FOUND"
+    },
+    {
+      "label": "A_turnover",
+      "expect": "5.54",
+      "status": "FOUND"
+    },
+    {
+      "label": "B_turnover",
+      "expect": "23.95",
+      "status": "FOUND"
+    },
+    {
+      "label": "gross_edge",
+      "expect": "0.2723",
+      "status": "FOUND"
+    },
+    {
+      "label": "net_edge",
+      "expect": "0.2428",
+      "status": "FOUND"
+    },
+    {
+      "label": "tax_share",
+      "expect": "10.8",
+      "status": "FOUND"
+    },
+    {
+      "label": "breakeven_bp",
+      "expect": "73.9",
+      "status": "FOUND"
+    }
+  ],
+  "page_tokens_not_found": 0,
+  "disagreements": [],
+  "verdict": "INDEP_RECHECK_PASS"
+}
