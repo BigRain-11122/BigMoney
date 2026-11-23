@@ -1,0 +1,545 @@
+{
+ "anchor": {
+  "compared": 57,
+  "max_abs_beta_diff": 0.0,
+  "note": "the betas used here are r2030's own series, re-derived with the same estimator; a non-zero difference means this face is priced on a different hedge than the family it extends"
+ },
+ "evidence_cutoff": "2026-11-20",
+ "fills_the_hole_of": "r2030 refitted the beta honestly but charged no turnover to the refits; this face prices the trade the refit forces and asks whether the schedule is worth optimising at all.",
+ "first_period": "2020-07-06",
+ "generated": "2026-11-24T07:25:53+08:00",
+ "kind": "hedge_resize_cost",
+ "last_period_end": "2026-11-11",
+ "machine": "bm-c",
+ "parents": {
+  "beta": {
+   "content_sha256": "1a1bbeb9b98fafe1ecfd65f430bf86ced104505743468005cdce1da7f59bb92c",
+   "evidence_cutoff": "2026-11-20",
+   "face": "results/astock_veto_hedgeable_beta.json",
+   "file_sha256": "a3044bd7101c9d36120ef1e7817829baf1bb3d34c97c727fa3657f116f63c518",
+   "generated": "2026-11-24T03:29:09+08:00"
+  },
+  "walkforward": {
+   "content_sha256": "69a6e56611ef1c8f138989184aa8b242fef8524ecd6192c4842cc4e801abce26",
+   "evidence_cutoff": "2026-11-20",
+   "face": "results/astock_veto_hedge_walkforward.json",
+   "file_sha256": "17290bb1dd1df18f76907a2009c4ea5e9e9e31888e0864789e1222ea4ff4c817",
+   "generated": "2026-11-24T06:22:39+08:00"
+  }
+ },
+ "prereg": {
+  "cost_model": "1.0 bp per side on the notional traded into a period, entry trade included; no borrow fee and no roll cost is added here (r2033 prices the carrier)",
+  "evaluation_sample": "the 57 periods r2030 evaluates (index >= 20), one common sample for every schedule",
+  "not_done_here": "no size is re-chosen, no beta is reported as tradeable, no capital is re-marked, no borrow fee is charged",
+  "question": "How often must the hedge be re-sized, what does re-sizing cost, and does the schedule move anything a holder can feel?",
+  "rule_frozen_before_run": true,
+  "schedules": {
+   "band_0.02": "trade only when the target has drifted more than 0.02",
+   "band_0.05": "trade only when the target has drifted more than 0.05",
+   "band_0.10": "trade only when the target has drifted more than 0.10",
+   "cadence_1y": "re-size every 13 periods (~one year)",
+   "cadence_q": "re-size every 3 periods (~60 trading days)",
+   "every_period": "refit and trade every 20-bar period (r2030's honest arm)",
+   "one_unit": "short exactly one unit of notional, no estimate at all",
+   "set_once": "size on the first honest beta and never touch it again"
+  },
+  "verdict_rule": {
+   "breakeven": "a break-even per-side cost above 5.0 bp cannot decide",
+   "cost": "a schedule cost under 0.05 pp/yr is noise",
+   "level": "holding one size must beat every schedule that follows the beta before the cadence is blamed; otherwise a gap beyond 3.0 random-timing sd is the level, not the timing",
+   "schedule": "a volatility span under 0.10 pp means the schedule does not move risk"
+  }
+ },
+ "random_timing": {
+  "ann": {
+   "p05": 0.11035111002593943,
+   "p50": 0.11332161083887053,
+   "p95": 0.11689677753225125,
+   "sd": 0.0018884280926345536
+  },
+  "cost_bp": 1.0,
+  "cum": {
+   "p05": 0.5960279756272376,
+   "p50": 0.618368512128826,
+   "p95": 0.644138283914738
+  },
+  "draws": 500,
+  "resets": 17,
+  "seed": 2034,
+  "vol": {
+   "p05": 0.1134316134295589,
+   "p50": 0.1144538082790803,
+   "p95": 0.11601805674222823
+  }
+ },
+ "reads": {
+  "ann_span_pp": 1.0483767617129742,
+  "breakeven_cost_bp": 53.058466969951155,
+  "chase_every_pp": 0.9737652333874844,
+  "constant_min_ann": 0.12059362371038652,
+  "cost_drag_max_pp": 0.002949939419481795,
+  "cost_drag_span_pp": 0.0009423566653024573,
+  "cost_share_of_busiest": 0.3194494975325979,
+  "extra_turnover_per_year": 0.09423566653050253,
+  "gap_in_random_sd": 5.551584229243167,
+  "k_gap": 0.04431466630430547,
+  "level_arithmetic_pp_per_year": 0.07461152832548727,
+  "random_ann_sd_pp": 0.18884280926345537,
+  "setonce_vs_every_pp": 1.0483767617129742,
+  "varying_max_ann": 0.11793702588915349,
+  "vol_span_pp": 0.3426384597658913
+ },
+ "sample": {
+  "book_mean_period": 0.010907173099391418,
+  "hedge_mean_period": 0.0013362505826940742,
+  "periods_evaluated": 57,
+  "periods_total": 77,
+  "unusable_trainings": 0,
+  "warmup": 20
+ },
+ "schedules": [
+  {
+   "ann": 0.11165560177227392,
+   "ann_net": 0.1116261023780791,
+   "by_cost": {
+    "0.5": {
+     "ann": 0.11164085207517652,
+     "cum": 0.6067184677822268,
+     "dd": -0.1339189488324961
+    },
+    "1.0": {
+     "ann": 0.1116261023780791,
+     "cum": 0.6066135836168987,
+     "dd": -0.1339197740861282
+    },
+    "2.0": {
+     "ann": 0.1115966029838843,
+     "cum": 0.6064038263228113,
+     "dd": -0.1339214245917647
+    },
+    "20.0": {
+     "ann": 0.11106561388837757,
+     "cum": 0.602630710451628,
+     "dd": -0.13395113332226427
+    },
+    "5.0": {
+     "ann": 0.11150810480129984,
+     "cum": 0.6057746427257134,
+     "dd": -0.13392637609565872
+    }
+   },
+   "chase_pp_per_year": 0.9737652333874844,
+   "cost_drag_pp": 0.002949939419481795,
+   "cum": 0.6068233556265534,
+   "cum_net": 0.6066135836168987,
+   "dd": -0.133918123578322,
+   "dd_net": -0.1339197740861282,
+   "k_cov_hedge": 0.0007728295503075272,
+   "k_max": 1.0121178959129467,
+   "k_mean": 0.9525068646223145,
+   "k_min": 0.8643528592726145,
+   "label": "refit and trade every 20-bar period (r2030's honest arm)",
+   "max_abs_error": 0.0,
+   "mean_abs_error": 0.0,
+   "n": 57,
+   "n_resets": 56,
+   "neg": 20,
+   "schedule": "every_period",
+   "turnover_per_year": 0.2949939419481677,
+   "turnover_total": 1.3344964040512348,
+   "vol": 0.11377133138911216,
+   "worst": -0.09085384784742859
+  },
+  {
+   "ann": 0.1131440323788802,
+   "ann_net": 0.11311830454058854,
+   "by_cost": {
+    "0.5": {
+     "ann": 0.11313116845973432,
+     "cum": 0.6175287883456058,
+     "dd": -0.1341629600190084
+    },
+    "1.0": {
+     "ann": 0.11311830454058854,
+     "cum": 0.6174369414548286,
+     "dd": -0.13416420024316933
+    },
+    "2.0": {
+     "ann": 0.11309257670229683,
+     "cum": 0.6172532537763082,
+     "dd": -0.13416668068945048
+    },
+    "20.0": {
+     "ann": 0.11262947561304673,
+     "cum": 0.6139482667653571,
+     "dd": -0.1342113282571472
+    },
+    "5.0": {
+     "ann": 0.11301539318742183,
+     "cum": 0.6167022395627018,
+     "dd": -0.1341741220119652
+    }
+   },
+   "chase_pp_per_year": 0.8238488885942727,
+   "cost_drag_pp": 0.0025727838291661476,
+   "cum": 0.617620637270774,
+   "cum_net": 0.6174369414548286,
+   "dd": -0.1341617197941669,
+   "dd_net": -0.13416420024316933,
+   "k_cov_hedge": 0.0006538483242811688,
+   "k_max": 1.0107066522426125,
+   "k_mean": 0.953144329492057,
+   "k_min": 0.8809807923672629,
+   "label": "re-size every 3 periods (~60 trading days)",
+   "max_abs_error": 0.04777457122286877,
+   "mean_abs_error": 0.005789578907204459,
+   "n": 57,
+   "n_resets": 18,
+   "neg": 20,
+   "schedule": "cadence_q",
+   "turnover_per_year": 0.2572783829167223,
+   "turnover_total": 1.1638783989089818,
+   "vol": 0.11373566890448635,
+   "worst": -0.09042687468395323
+  },
+  {
+   "ann": 0.11306062495276255,
+   "ann_net": 0.11303698666488213,
+   "by_cost": {
+    "0.5": {
+     "ann": 0.11304880580882233,
+     "cum": 0.6161204082135798,
+     "dd": -0.13476364768596272
+    },
+    "1.0": {
+     "ann": 0.11303698666488213,
+     "cum": 0.6160363368900286,
+     "dd": -0.13476484176141468
+    },
+    "2.0": {
+     "ann": 0.11301334837700175,
+     "cum": 0.6158681977881741,
+     "dd": -0.13476722991231882
+    },
+    "20.0": {
+     "ann": 0.11258785919515422,
+     "cum": 0.6128425022034298,
+     "dd": -0.13481021662859216
+    },
+    "5.0": {
+     "ann": 0.11294243351336047,
+     "cum": 0.6153638088440825,
+     "dd": -0.13477439436503114
+    }
+   },
+   "chase_pp_per_year": 0.8308376722461331,
+   "cost_drag_pp": 0.0023638287880420328,
+   "cum": 0.6162044807188938,
+   "cum_net": 0.6160363368900286,
+   "dd": -0.13476245361051076,
+   "dd_net": -0.13476484176141468,
+   "k_cov_hedge": 0.0006593949779731215,
+   "k_max": 1.0107066522426125,
+   "k_mean": 0.9539473100971948,
+   "k_min": 0.8925598147824756,
+   "label": "re-size every 13 periods (~one year)",
+   "max_abs_error": 0.08583117463286061,
+   "mean_abs_error": 0.012905429008408024,
+   "n": 57,
+   "n_resets": 4,
+   "neg": 20,
+   "schedule": "cadence_1y",
+   "turnover_per_year": 0.23638287880415843,
+   "turnover_total": 1.0693511183997644,
+   "vol": 0.1147273395911016,
+   "worst": -0.09162085947340294
+  },
+  {
+   "ann": 0.11259285267991599,
+   "ann_net": 0.11256728732747256,
+   "by_cost": {
+    "0.5": {
+     "ann": 0.1125800700036943,
+     "cum": 0.6137165849180963,
+     "dd": -0.1351886448122096
+    },
+    "1.0": {
+     "ann": 0.11256728732747256,
+     "cum": 0.6136252217146125,
+     "dd": -0.13518980576881712
+    },
+    "2.0": {
+     "ann": 0.11254172197502915,
+     "cum": 0.6134425012932627,
+     "dd": -0.1351921276820317
+    },
+    "20.0": {
+     "ann": 0.11208154563104727,
+     "cum": 0.6101548981558953,
+     "dd": -0.13523392211989904
+    },
+    "5.0": {
+     "ann": 0.11246502591769882,
+     "cum": 0.6128943879119506,
+     "dd": -0.13519909342167646
+    }
+   },
+   "chase_pp_per_year": 0.876707755257951,
+   "cost_drag_pp": 0.0025565352443426836,
+   "cum": 0.613807950116829,
+   "cum_net": 0.6136252217146125,
+   "dd": -0.1351874838556023,
+   "dd_net": -0.13518980576881712,
+   "k_cov_hedge": 0.0006957998057602786,
+   "k_max": 1.0033032680669358,
+   "k_mean": 0.9544860980920654,
+   "k_min": 0.8643528592726145,
+   "label": "trade only when the target has drifted more than 0.02",
+   "max_abs_error": 0.019795723379559038,
+   "mean_abs_error": 0.0069999040698567015,
+   "n": 57,
+   "n_resets": 8,
+   "neg": 20,
+   "schedule": "band_0.02",
+   "turnover_per_year": 0.2556535244343586,
+   "turnover_total": 1.1565278486316224,
+   "vol": 0.11350897346743065,
+   "worst": -0.09042687468395323
+  },
+  {
+   "ann": 0.11793702588915349,
+   "ann_net": 0.11791539829886115,
+   "by_cost": {
+    "0.5": {
+     "ann": 0.1179262120940073,
+     "cum": 0.6533449087075083,
+     "dd": -0.13377091026872245
+    },
+    "1.0": {
+     "ann": 0.11791539829886115,
+     "cum": 0.6532658943271741,
+     "dd": -0.13377091026872234
+    },
+    "2.0": {
+     "ann": 0.11789377070856878,
+     "cum": 0.6531078671644839,
+     "dd": -0.13377091026872256
+    },
+    "20.0": {
+     "ann": 0.1175044740833067,
+     "cum": 0.6502637425742659,
+     "dd": -0.13377091026872245
+    },
+    "5.0": {
+     "ann": 0.11782888793769178,
+     "cum": 0.6526337984602109,
+     "dd": -0.13377091026872245
+    }
+   },
+   "chase_pp_per_year": 0.3538809458760413,
+   "cost_drag_pp": 0.002162759029233907,
+   "cum": 0.653423923620498,
+   "cum_net": 0.6532658943271741,
+   "dd": -0.13377091026872245,
+   "dd_net": -0.13377091026872234,
+   "k_cov_hedge": 0.0002808578935524137,
+   "k_max": 0.9783909894153362,
+   "k_mean": 0.9476020459515963,
+   "k_min": 0.908192198318009,
+   "label": "trade only when the target has drifted more than 0.05",
+   "max_abs_error": 0.0438393390453945,
+   "mean_abs_error": 0.017864290954057966,
+   "n": 57,
+   "n_resets": 1,
+   "neg": 20,
+   "schedule": "band_0.05",
+   "turnover_per_year": 0.2162759029233901,
+   "turnover_total": 0.9783909894153362,
+   "vol": 0.1129813111594293,
+   "worst": -0.09025390216872624
+  },
+  {
+   "ann": 0.11384359623939524,
+   "ann_net": 0.11382126071364146,
+   "by_cost": {
+    "0.5": {
+     "ann": 0.11383242847651835,
+     "cum": 0.6216447971702497,
+     "dd": -0.1331500009664076
+    },
+    "1.0": {
+     "ann": 0.11382126071364146,
+     "cum": 0.621564900083392,
+     "dd": -0.1331500009664075
+    },
+    "2.0": {
+     "ann": 0.11379892518788765,
+     "cum": 0.6214051081120615,
+     "dd": -0.13315000096640772
+    },
+    "20.0": {
+     "ann": 0.11339688572431932,
+     "cum": 0.618529354772096,
+     "dd": -0.1331500009664075
+    },
+    "5.0": {
+     "ann": 0.11373191861062627,
+     "cum": 0.6209257498171619,
+     "dd": -0.1331500009664076
+    }
+   },
+   "chase_pp_per_year": 0.7420111464772269,
+   "cost_drag_pp": 0.0022335525753786056,
+   "cum": 0.6217246949912356,
+   "cum_net": 0.621564900083392,
+   "dd": -0.1331500009664076,
+   "dd_net": -0.1331500009664075,
+   "k_cov_hedge": 0.0005888977352993864,
+   "k_max": 1.0104166412431894,
+   "k_mean": 0.9602011254202938,
+   "k_min": 0.908192198318009,
+   "label": "trade only when the target has drifted more than 0.10",
+   "max_abs_error": 0.0951110697489268,
+   "mean_abs_error": 0.018246844766746793,
+   "n": 57,
+   "n_resets": 1,
+   "neg": 20,
+   "schedule": "band_0.10",
+   "turnover_per_year": 0.22335525753796817,
+   "turnover_total": 1.0104166412431894,
+   "vol": 0.114958019205072,
+   "worst": -0.09025390216872624
+  },
+  {
+   "ann": 0.12213936938940366,
+   "ann_net": 0.12211929356186187,
+   "by_cost": {
+    "0.5": {
+     "ann": 0.12212933147563275,
+     "cum": 0.6843947772608883,
+     "dd": -0.1351695200626295
+    },
+    "1.0": {
+     "ann": 0.12211929356186187,
+     "cum": 0.6843204255581421,
+     "dd": -0.1351695200626295
+    },
+    "2.0": {
+     "ann": 0.12209921773432011,
+     "cum": 0.6841717221526518,
+     "dd": -0.1351695200626295
+    },
+    "20.0": {
+     "ann": 0.1217378528385683,
+     "cum": 0.6814950608538353,
+     "dd": -0.1351695200626295
+    },
+    "5.0": {
+     "ann": 0.12203899025169482,
+     "cum": 0.6837256119361828,
+     "dd": -0.1351695200626296
+    }
+   },
+   "chase_pp_per_year": 0.0,
+   "cost_drag_pp": 0.002007582754179338,
+   "cum": 0.6844691289636322,
+   "cum_net": 0.6843204255581421,
+   "dd": -0.1351695200626295,
+   "dd_net": -0.1351695200626295,
+   "k_cov_hedge": 0.0,
+   "k_max": 0.908192198318009,
+   "k_mean": 0.908192198318009,
+   "k_min": 0.908192198318009,
+   "label": "size on the first honest beta and never touch it again",
+   "max_abs_error": 0.10392569759493764,
+   "mean_abs_error": 0.05701392688176265,
+   "n": 57,
+   "n_resets": 0,
+   "neg": 18,
+   "schedule": "set_once",
+   "turnover_per_year": 0.20075827541766517,
+   "turnover_total": 0.908192198318009,
+   "vol": 0.11345277563383278,
+   "worst": -0.09025390216872624
+  },
+  {
+   "ann": 0.12059362371038652,
+   "ann_net": 0.12057151844722863,
+   "by_cost": {
+    "0.5": {
+     "ann": 0.1205825710788076,
+     "cum": 0.6744239729954102,
+     "dd": -0.13335077421075825
+    },
+    "1.0": {
+     "ann": 0.12057151844722863,
+     "cum": 0.6743432311440085,
+     "dd": -0.13335077421075825
+    },
+    "2.0": {
+     "ann": 0.12054941318407074,
+     "cum": 0.6741817474412024,
+     "dd": -0.13335077421075825
+    },
+    "20.0": {
+     "ann": 0.12015151844722863,
+     "cum": 0.6712750407907291,
+     "dd": -0.13335077421075836
+    },
+    "5.0": {
+     "ann": 0.12048309739459706,
+     "cum": 0.6736972963327912,
+     "dd": -0.13335077421075825
+    }
+   },
+   "chase_pp_per_year": 0.0,
+   "cost_drag_pp": 0.002210526315789274,
+   "cum": 0.6745047148468124,
+   "cum_net": 0.6743432311440085,
+   "dd": -0.13335077421075825,
+   "dd_net": -0.13335077421075825,
+   "k_cov_hedge": 0.0,
+   "k_max": 1.0,
+   "k_mean": 1.0,
+   "k_min": 1.0,
+   "label": "short exactly one unit of notional, no estimate at all",
+   "max_abs_error": 0.13564714072738548,
+   "mean_abs_error": 0.05206269509878926,
+   "n": 57,
+   "n_resets": 0,
+   "neg": 20,
+   "schedule": "one_unit",
+   "turnover_per_year": 0.22105263157894736,
+   "turnover_total": 1.0,
+   "vol": 0.11153163460741308,
+   "worst": -0.08222586569877632
+  }
+ ],
+ "spec": {
+  "cost_grid_bp": [
+   0.5,
+   1.0,
+   2.0,
+   5.0,
+   20.0
+  ],
+  "cost_main_bp": 1.0,
+  "hedge_leg": "hedge_etf (512100), the arm every prior face prices",
+  "hold": 20,
+  "lines": {
+   "breakeven_bp": 5.0,
+   "cost_pp": 0.05,
+   "level_sd": 3.0,
+   "tie_pp": 0.1
+  },
+  "periods_per_year": 12.6,
+  "stride": 20,
+  "warmup_periods": 20
+ },
+ "verdict": "SCHEDULE_COST_IS_BELOW_THE_NOISE_LINE",
+ "verdict_breakeven": "COST_CANNOT_DECIDE_THE_SCHEDULE",
+ "verdict_cost": "SCHEDULE_COST_IS_BELOW_THE_NOISE_LINE",
+ "verdict_level": "HOLDING_THE_SIZE_STILL_BEATS_CHASING_IT",
+ "verdict_schedule": "THE_SCHEDULE_MOVES_RETURN_MORE_THAN_RISK",
+ "verdict_why": "Keeping the hedge the right size is almost free: the busiest schedule trades 29.5% of book notional a year and the quietest 20.1%, a difference of 0.094 notional a year, which at 1.0 bp per side costs 0.0029 pp of return a year -- 17 times below the 0.05 pp noise line. You would have to pay 53 bp per side before that difference reached the line. The schedule barely moves risk either: annualised volatility spans 0.34 pp across all eight (11.15%..11.50%) against a 1.05 pp span in annual return. The return spread is not the cadence -- it is whether the size chases the beta at all: the two schedules that hold one size finish at 12.21% and 12.06%, above every one of the 6 schedules that follow the beta (best 11.79%). The chasing itself costs 0.97 pp a year in this window (the arithmetic: the size you trail is slightly high in the periods the hedge then earns, and 0.97 pp a year is what that covariance subtracts)."
+}
