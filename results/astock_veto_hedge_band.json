@@ -1,0 +1,397 @@
+{
+ "comparison": {
+  "band_over_dating": 1.552433283262039,
+  "band_width_lots_1m_etf": 924.2236631886922,
+  "date_shift_lots_1m_etf": 595.3387325261888,
+  "oos_beta_shift_lots_1m_etf": 543.1378916642898
+ },
+ "evidence_cutoff": "2026-11-20",
+ "fills_the_hole_of": "astock_veto_hedge_dating",
+ "fit": {
+  "etf_full_window": {
+   "alpha": 0.007033928484552108,
+   "beta": 0.9706524706334758,
+   "ci_high": 1.0646715603104004,
+   "ci_low": 0.8766333809565512,
+   "ci_width": 0.18803817935384926,
+   "dof": 75,
+   "n": 77,
+   "r2": 0.8493911948590198,
+   "se_beta": 0.04719591788404787,
+   "t_crit": 1.9921021540022417,
+   "t_stat": 20.56644968783528
+  },
+  "etf_in_sample": {
+   "alpha": 0.006596448966732743,
+   "beta": 0.9013312810692592,
+   "ci_high": 1.0076170023359587,
+   "ci_low": 0.7950455598025595,
+   "ci_width": 0.2125714425333992,
+   "dof": 41,
+   "n": 43,
+   "r2": 0.8773587191414758,
+   "se_beta": 0.05262865315550921,
+   "t_crit": 2.019540970441376,
+   "t_stat": 17.126246389128944
+  },
+  "etf_out_of_sample": {
+   "alpha": 0.007071707632216863,
+   "beta": 1.026252996152046,
+   "ci_high": 1.1891441033623233,
+   "ci_low": 0.8633618889417685,
+   "ci_width": 0.3257822144205549,
+   "dof": 32,
+   "n": 34,
+   "r2": 0.8373076045692176,
+   "se_beta": 0.07996879609893236,
+   "t_crit": 2.0369333434601016,
+   "t_stat": 12.833168013213934
+  },
+  "identity_check": {
+   "max_abs_diff": 0.0,
+   "published_etf_full_window_beta": 0.9706524706334758,
+   "published_etf_in_sample_beta": 0.9013312810692592,
+   "re_derived_etf_full_window_beta": 0.9706524706334758,
+   "re_derived_etf_in_sample_beta": 0.9013312810692592
+  },
+  "im_window": {
+   "alpha": 0.009772470179386998,
+   "beta": 0.9756697311817447,
+   "ci_high": 1.0908806211309567,
+   "ci_low": 0.8604588412325326,
+   "ci_width": 0.23042177989842416,
+   "dof": 50,
+   "n": 52,
+   "r2": 0.852649182901892,
+   "se_beta": 0.05735996976893178,
+   "t_crit": 2.0085591121007607,
+   "t_stat": 17.0095928416999
+  }
+ },
+ "generated": "2026-11-24T05:58:30+08:00",
+ "kind": "sizing_uncertainty",
+ "ladder": [
+  {
+   "arm": "etf",
+   "band_width_lots": 924.2236631886922,
+   "band_width_pct_of_point": 0.23584163447786183,
+   "beta_used": 0.9013312810692592,
+   "capital": 1000000.0,
+   "dating_shift_lots": 595.3387325261888,
+   "hundred_step_beta_gap": 0.004331281069259285,
+   "instrument": "512100",
+   "lots_at_oos_beta": 4461.969548487156,
+   "lots_band_high": 4380.943488417212,
+   "lots_band_low": 3456.71982522852,
+   "lots_needed": 3918.8316568228665,
+   "lots_per_001_beta": 43.47826086956522,
+   "one_lot_notional": 229.99999999999997,
+   "oos_shift_lots": 543.1378916642898,
+   "price": 2.3,
+   "rounded_to_hundred": 3900,
+   "rounded_to_lot": 3919
+  },
+  {
+   "arm": "im",
+   "band_width_lots": 0.20775189330137778,
+   "band_width_pct_of_point": 0.23616780610723065,
+   "beta_used": 0.9756697311817447,
+   "capital": 1000000.0,
+   "dating_shift_lots": null,
+   "hundred_step_beta_gap": null,
+   "instrument": "IM",
+   "lots_at_oos_beta": 0.9252858087060425,
+   "lots_band_high": 0.9835550897386728,
+   "lots_band_low": 0.775803196437295,
+   "lots_needed": 0.8796791430879839,
+   "lots_per_001_beta": 0.009016156953260242,
+   "one_lot_notional": 1109120.0,
+   "oos_shift_lots": 0.045606665618058595,
+   "price": 5545.6,
+   "rounded_to_hundred": 0,
+   "rounded_to_lot": 1
+  },
+  {
+   "arm": "etf",
+   "band_width_lots": 2772.670989566079,
+   "band_width_pct_of_point": 0.23584163447786205,
+   "beta_used": 0.9013312810692592,
+   "capital": 3000000.0,
+   "dating_shift_lots": 595.3387325261888,
+   "hundred_step_beta_gap": 0.0033353855974073143,
+   "instrument": "512100",
+   "lots_at_oos_beta": 13385.908645461472,
+   "lots_band_high": 13142.830465251638,
+   "lots_band_low": 10370.15947568556,
+   "lots_needed": 11756.494970468599,
+   "lots_per_001_beta": 130.43478260869566,
+   "one_lot_notional": 229.99999999999997,
+   "oos_shift_lots": 1629.413674992873,
+   "price": 2.3,
+   "rounded_to_hundred": 11800,
+   "rounded_to_lot": 11756
+  },
+  {
+   "arm": "im",
+   "band_width_lots": 0.6232556799041338,
+   "band_width_pct_of_point": 0.23616780610723082,
+   "beta_used": 0.9756697311817447,
+   "capital": 3000000.0,
+   "dating_shift_lots": null,
+   "hundred_step_beta_gap": null,
+   "instrument": "IM",
+   "lots_at_oos_beta": 2.7758574261181277,
+   "lots_band_high": 2.9506652692160187,
+   "lots_band_low": 2.327409589311885,
+   "lots_needed": 2.6390374292639516,
+   "lots_per_001_beta": 0.027048470859780727,
+   "one_lot_notional": 1109120.0,
+   "oos_shift_lots": 0.13681999685417612,
+   "price": 5545.6,
+   "rounded_to_hundred": 0,
+   "rounded_to_lot": 3
+  },
+  {
+   "arm": "etf",
+   "band_width_lots": 9242.236631886917,
+   "band_width_pct_of_point": 0.23584163447786172,
+   "beta_used": 0.9013312810692592,
+   "capital": 10000000.0,
+   "dating_shift_lots": 595.3387325261888,
+   "hundred_step_beta_gap": 0.00026871893074065234,
+   "instrument": "512100",
+   "lots_at_oos_beta": 44619.69548487157,
+   "lots_band_high": 43809.43488417212,
+   "lots_band_low": 34567.198252285205,
+   "lots_needed": 39188.31656822866,
+   "lots_per_001_beta": 434.78260869565224,
+   "one_lot_notional": 229.99999999999997,
+   "oos_shift_lots": 5431.378916642905,
+   "price": 2.3,
+   "rounded_to_hundred": 39200,
+   "rounded_to_lot": 39188
+  },
+  {
+   "arm": "im",
+   "band_width_lots": 2.0775189330137778,
+   "band_width_pct_of_point": 0.23616780610723062,
+   "beta_used": 0.9756697311817447,
+   "capital": 10000000.0,
+   "dating_shift_lots": null,
+   "hundred_step_beta_gap": null,
+   "instrument": "IM",
+   "lots_at_oos_beta": 9.252858087060426,
+   "lots_band_high": 9.835550897386728,
+   "lots_band_low": 7.75803196437295,
+   "lots_needed": 8.79679143087984,
+   "lots_per_001_beta": 0.09016156953260243,
+   "one_lot_notional": 1109120.0,
+   "oos_shift_lots": 0.45606665618058706,
+   "price": 5545.6,
+   "rounded_to_hundred": 0,
+   "rounded_to_lot": 9
+  },
+  {
+   "arm": "etf",
+   "band_width_lots": 18484.473263773834,
+   "band_width_pct_of_point": 0.23584163447786172,
+   "beta_used": 0.9013312810692592,
+   "capital": 20000000.0,
+   "dating_shift_lots": 595.3387325261888,
+   "hundred_step_beta_gap": 0.00026871893074065234,
+   "instrument": "512100",
+   "lots_at_oos_beta": 89239.39096974314,
+   "lots_band_high": 87618.86976834424,
+   "lots_band_low": 69134.39650457041,
+   "lots_needed": 78376.63313645733,
+   "lots_per_001_beta": 869.5652173913045,
+   "one_lot_notional": 229.99999999999997,
+   "oos_shift_lots": 10862.75783328581,
+   "price": 2.3,
+   "rounded_to_hundred": 78400,
+   "rounded_to_lot": 78377
+  },
+  {
+   "arm": "im",
+   "band_width_lots": 4.1550378660275555,
+   "band_width_pct_of_point": 0.23616780610723062,
+   "beta_used": 0.9756697311817447,
+   "capital": 20000000.0,
+   "dating_shift_lots": null,
+   "hundred_step_beta_gap": null,
+   "instrument": "IM",
+   "lots_at_oos_beta": 18.505716174120852,
+   "lots_band_high": 19.671101794773456,
+   "lots_band_low": 15.5160639287459,
+   "lots_needed": 17.59358286175968,
+   "lots_per_001_beta": 0.18032313906520486,
+   "one_lot_notional": 1109120.0,
+   "oos_shift_lots": 0.9121333123611741,
+   "price": 5545.6,
+   "rounded_to_hundred": 0,
+   "rounded_to_lot": 18
+  }
+ ],
+ "machine": "bm-c",
+ "parents": {
+  "beta": {
+   "content_sha256": "1a1bbeb9b98fafe1ecfd65f430bf86ced104505743468005cdce1da7f59bb92c",
+   "evidence_cutoff": "2026-11-20",
+   "face": "results/astock_veto_hedgeable_beta.json",
+   "file_sha256": "a3044bd7101c9d36120ef1e7817829baf1bb3d34c97c727fa3657f116f63c518",
+   "generated": "2026-11-24T03:29:09+08:00"
+  },
+  "book": {
+   "content_sha256": "389094274eb5c50fc45d9eb07e5f852b407866e1fe3aedb257a6320a4ee78736",
+   "evidence_cutoff": "2026-11-20",
+   "face": "results/astock_veto_turnover_layers.json",
+   "file_sha256": "ede2d74f4d9a0e8d6bee1c3912c2637e8ee60372e1b90476819f142d0572f44b",
+   "generated": "2026-11-24T01:22:33+08:00"
+  },
+  "dating": {
+   "content_sha256": "8090d988515326425250d75c65ddee5a54d10de08dd0ff159c6aa879952ea877",
+   "evidence_cutoff": "2026-11-20",
+   "face": "results/astock_veto_hedge_dating.json",
+   "file_sha256": "33d264bf3924f14215323a993c04fcb39cef8e00031d7252e3b4a5b0146c8318",
+   "generated": "2026-11-24T05:39:38+08:00"
+  },
+  "etf_csv": {
+   "file_sha256": "69c3979170048a3a5d95662450303de77ac5b1644b4c319e43f535498d37e2b7",
+   "path": "data/daily/sh512100.csv"
+  },
+  "im_csv": {
+   "file_sha256": "e15865a65bf9b18da26156d03fea86b66f4918dbc38ddc67040baf9729ec0a32",
+   "path": "data/futures_daily/IM.csv"
+  },
+  "lots": {
+   "content_sha256": "2442f8dee15a89e8f231664d3fff729de6ee48bb7b15fe020c0ded72ab0c2ecc",
+   "evidence_cutoff": "2026-11-20",
+   "face": "results/astock_veto_hedge_lots.json",
+   "file_sha256": "87b48f8052361e61fb07af96c082c22ed9c759008d8cb8981dc2a535d09cbc6f",
+   "generated": "2026-11-24T05:27:04+08:00"
+  }
+ },
+ "prereg": {
+  "answered_from": "results/astock_veto_turnover_layers.json (book net per period), data/daily/sh512100.csv, data/futures_daily/IM.csv, results/astock_veto_hedgeable_beta.json, results/astock_veto_hedge_dating.json",
+  "band_verdicts": [
+   "band width (lots) at 1,000,000 on the ETF arm > r2028's date shift -> BAND_WIDER_THAN_THE_DATING",
+   "date shift strictly larger -> THE_DATING_IS_WIDER_THAN_THE_BAND",
+   "the two within 10% of each other -> TOO_CLOSE_TO_CALL",
+   "no dating face to compare with -> CANNOT_COMPARE (a missing face is not a zero)"
+  ],
+  "error_model": "classical OLS: se(beta) = sqrt(ss_res/(n-2) / sum((x-xbar)^2)); two-sided 95% band = beta +/- t(0.975, n-2) * se.  The periods are overlapping 20-bar windows 20 bars apart, so they do not overlap at all -- that is the one thing this error model is entitled to assume.",
+  "not_done_here": "no new data, no re-fitting of the strategy, no cost/basis/carry model, no book revaluation; the beta point estimate is read from the same arithmetic r2022 published and re-derived only as a consistency check",
+  "question": "given that the lot count is beta * capital / (price * multiplier), and the beta came from an OLS on 43 periods, how wide is the honest lot count -- and is that width bigger or smaller than the date shift r2028 already published?",
+  "risk_verdicts": [
+   "worst end of the band adds < 1.0pp annualised residual vol -> BETA_ERROR_IS_CHEAP_IN_RISK_TERMS",
+   "worst end adds >= 1.0pp -> BETA_ERROR_COSTS_REAL_VOLATILITY"
+  ],
+  "use_rule": "the lot count printed on a ticket should carry its band when the band is wider than the rounding step the ticket uses; a face that prints 3,918.83 while its own 95% band spans 924 lots is selling precision it does not have"
+ },
+ "risk": {
+  "book_annual_vol": 0.2734328578509935,
+  "cheap_risk_pp": 1.0,
+  "rows": [
+   {
+    "beta": 0.7950455598025595,
+    "extra_pp_vs_point": 0.7864083932743584,
+    "label": "ci_low",
+    "residual_annual_vol": 0.11549423217288489
+   },
+   {
+    "beta": 0.9013312810692592,
+    "extra_pp_vs_point": 0.0,
+    "label": "point",
+    "residual_annual_vol": 0.1076301482401413
+   },
+   {
+    "beta": 1.0076170023359587,
+    "extra_pp_vs_point": -0.10822942388827583,
+    "label": "ci_high",
+    "residual_annual_vol": 0.10654785400125855
+   },
+   {
+    "beta": 1.0,
+    "extra_pp_vs_point": -0.12421798993766386,
+    "label": "one_unit",
+    "residual_annual_vol": 0.10638796834076467
+   },
+   {
+    "beta": 1.026252996152046,
+    "extra_pp_vs_point": -0.053804381487587705,
+    "label": "oos_beta",
+    "residual_annual_vol": 0.10709210442526543
+   }
+  ],
+  "worst_end_extra_pp": 0.7864083932743584
+ },
+ "risk_verdict": "BETA_ERROR_IS_CHEAP_IN_RISK_TERMS",
+ "risk_verdict_why": "the worst end of the 95% band adds only 0.79pp of annualised residual volatility over the point estimate (the line is 1.0pp) -- a beta that is off by a whole standard error barely changes the risk removed",
+ "rolling_beta": [
+  {
+   "beta": 0.908192198318009,
+   "from": "2020-07-06",
+   "n": 20,
+   "se_beta": 0.1083696678901563,
+   "to": "2022-01-24"
+  },
+  {
+   "beta": 0.8846492144087116,
+   "from": "2021-04-29",
+   "n": 20,
+   "se_beta": 0.05639588800069279,
+   "to": "2022-11-23"
+  },
+  {
+   "beta": 0.8929683984223462,
+   "from": "2022-02-28",
+   "n": 20,
+   "se_beta": 0.061466972830685106,
+   "to": "2023-09-15"
+  },
+  {
+   "beta": 1.279797900758278,
+   "from": "2022-12-21",
+   "n": 20,
+   "se_beta": 0.11425871386594465,
+   "to": "2024-07-18"
+  },
+  {
+   "beta": 1.118387196457008,
+   "from": "2023-10-23",
+   "n": 20,
+   "se_beta": 0.07941170274310966,
+   "to": "2025-05-20"
+  },
+  {
+   "beta": 0.9398852931913659,
+   "from": "2024-08-15",
+   "n": 20,
+   "se_beta": 0.07429737534849921,
+   "to": "2026-03-17"
+  }
+ ],
+ "spec": {
+  "cheap_risk_pp": 1.0,
+  "ci_level": 0.95,
+  "etf_lot": 100,
+  "hold": 20,
+  "im_multiplier": 200,
+  "is_end": "2023-12-31",
+  "periods_per_year": 12.6,
+  "prices": {
+   "etf": {
+    "close": 2.3,
+    "date": "2026-11-20"
+   },
+   "im": {
+    "close": 5545.6,
+    "date": "2026-11-20"
+   }
+  },
+  "rolling_stride": 10,
+  "rolling_window": 20
+ },
+ "verdict": "BAND_WIDER_THAN_THE_DATING",
+ "verdict_why": "the beta's own 95% band spans 924 lots against the date shift's 595 -- the fitting error moves the ticket further than the price date does"
+}
