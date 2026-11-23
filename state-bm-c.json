@@ -46,6 +46,8 @@
  "carrier_debt_r1961": "待共享面回落补：①smoke_test.py 两腿（selftest+check）；②Tools/s6_chain_bmc.py 一条腿（run_leg 漂移文案含 STALE）；③CODELY.md 一条（判例=「GO 之后要先建不借窗的样本外记录，再谈真钱」）；④knowledge/METHODOLOGY_ASSETS.md 资产卡",
  "carrier_debt_r1962": "待共享面回落补：①smoke_test.py 两腿（selftest+check）；②Tools/s6_chain_bmc.py 一条腿（漂移文案含 STALE）；③CODELY.md 一条（判例=「能给读者的是等到什么时候有证据，不是夏普多高」）；④knowledge/METHODOLOGY_ASSETS.md 资产卡",
  "carrier_debt_r1963": "待共享面回落补：①smoke_test.py 两腿（selftest+check）；②Tools/s6_chain_bmc.py 一条腿（漂移文案须含 STALE）；③CODELY.md 一条（判例=「前向记录要按可持有性逐 bar 记账，否则-l37%是一个不存在的账户的账单」）；④knowledge/METHODOLOGY_ASSETS.md 资产卡",
+ "carrier_debt_r1986": "待共享面回落补：①smoke_test.py 两条腿（selftest+check）；②Tools/s6_chain_bmc.py 链腿；③页面口径（RED vs 大熊市）等无竞争窗改",
+ "carrier_debt_r1988": "regime_cap family (7 faces) still has no smoke legs and no S6 legs; lane_ownership_declaration needs a re-derive (cb_panel absent->present). Both wait for a no-contention window.",
  "chain": "r1925 targeted: 6/6 rc0 (cash_roll_today, ceo_live_usage, daily_report, live_usage_day_words, daily_report_day_words, live_book_day_words) + 19/19 rc0 (dualrun ZERO-DRIFT streak 51, compute_audit FLAG pool_starvation+supply_floor (calendar, Sunday), py_watermark ok, update_daily ok, market_regime ok, data_lane_freshness verdict=attention (11 in sync / 3 behind 1d), face_input_staleness FRESH, build_status, token_meter, machine_health_write, etf_book_ceo_page, page_repeat_guard 0 repeated, reader_text_audit, update_repo no-op (lane back to bm-a), regime_thermo no-op, regime_dualarm no-op, minute_feed non-workday, t35_export, scorecard_daily)",
  "chain_note": "peer chain 1930 (pid 47848) finished 15:21:36 with every leg rc0; it predates the new leg, so the leg was proven separately",
  "chain_verdict": "本轮按批次跑 S6：4/4 rc0（data_lane_freshness / etf_book_order / ticket_floor_write / etf_book_ceo_page）；全链 351 腿留整窗",
@@ -277,6 +279,7 @@
  "next_task": "r1547: the 场内买入 word hides WHEN it changed -- print the status transition dates per leg so a reopening is a dated event, not a per-day scan",
  "not_verified": "full smoke suite started 00:19 detached and was still running at round end (no tally claimed); closer.py root cause not fixed; no task registered or restored (D-12)",
  "note_r1350": "r1350: PRODUCT + ABSORB. State said 1348 and HEAD said round 1349 (a dead window's absorb commit), so the round number comes off the commit chain; the tree also carried that window's uncommitted smoke fix (the heat lane's face-vs-local-bytes assertion read a deployment layout, not a fact) which this round verified and keeps. Product = the cell-vs-calendar question, priced for the whole grid instead of one arm: every decision origin inside one rebalance cycle for 12 (names x cadence) cells = 280 engine runs through the production engine on 8 ProcessPool workers. READING: spread 5.22pp < median band 6.68pp -> CONFIG_ORDER_WITHIN_PHASE_NOISE; the top cell changes 5 times across 10 aligned slots (N3R10/N3R20/N5R10/N8R10/N12R20) while the ranking holds at 0.58-0.90 Spearman; R10 bands 2.8-4.2pp vs R40 bands 6.9-12.4pp, and width alone moves the median ~1.1pp inside a cadence -- so the cadence is quotable and the width is not. The two live faces are named from their own artifacts (card N12/R20 9.64pp over a 7.87pp band, ticket N5/R20 9.13pp over 6.25pp), and the atlas reproduces the ticket's published 9.13pp on the engine's own calendar. SUPPLY: the 55.8h supply-floor breach is closed with 3 ignitable MULTICORE rows (the runner delegates to parallel_runner/ProcessPool, so law-1 admits them) -- buffer k=0.05, cost 5bp, cost 20bp -- each writing its own face path so two ignited rows cannot clobber each other; fill_ladder now reads compatible_ready=3 floor=3. COST NOTE: the first two smoke invocations looked hung (flat CPU, silent file) and were killed; they were not hung -- a redirected stdout plus a slow child leg (etf_book_forward selftest) reads exactly like a stall, so Tools/smoke_watchdog.py now dumps every thread's stack after N seconds instead of costing another window the diagnosis.",
+ "note_r1988": "CONTENTION window that measured as a false positive: peer pid 51252 = resident Cowork ACP host, 0.0s CPU over 20s, zero peer writes after round start. Product = regime_cap_enforced_counterfactual (selftest 15/15, run/check rc0).",
  "now_active": "r1331: ex-ante identifiability of the carrier month that every E186/E189/E190 verdict rests on",
  "open_defect": "Bigmoney-IterationLoop / Bigmoney-LoopWatchdog: S4U flip still refused (needs an elevated host) -> both run as InteractiveToken",
  "ord_sha_method": "git rev-parse origin/main:docs/orders.md blob SHA-1 (ALGORITHM PIN per r537 law; r867 fresh probe rc0 via standing composer Tools/s05_probe.py: ORD delta FALSE f90233c7==f90233c7 zero-delta, post-r865 healed real blob holds; facts results/_s05_probe.bm-c.json, 40hex shape-asserted, zero literal constants (r583 law)",
@@ -1498,8 +1501,8 @@
  },
  "round_drift_note": "state said round_no=1937 while commit 6a3f33e30e already said round 1938 -> counters healed to 1939",
  "round_label": "r1951",
- "round_no": 1986,
- "round_no_label": "r1821",
+ "round_no": 1988,
+ "round_no_label": "r1988",
  "round_no_landed": 1663,
  "round_no_note": "r1959 由并行交互宿主收口（commit 33461d91cd）；本窗=1960",
  "round_no_prev": 1962,
@@ -2153,6 +2156,7 @@
  "smoke_verdict": "1942 log: 760/762 PASS / 1 FAIL / 1 UNVERIFIED (891.3s); the FAIL was rc=0xC000013A STATUS_CONTROL_C_EXIT -- killed child, not a verdict",
  "src": "smoke_test.py (_verdict_record, flush=True) + Tools/smoke_red.py",
  "state": "active",
+ "state_lag_note": "r1986: state round_no 从 1962 推进到 1986——r1964..r1985 各窗均因 CONTENTION 未推进，轮报告标签已到 1986，四载体本次对齐。历史 carrier_debt_r1958..r1963 保留不动。",
  "state_note": "round-1757 empirical backfill: r1757 detached smoke actually finished GREEN (602/602 PASS 0 FAIL, results/_smoke_r1757.out 07:35:55); rounds literal had drifted back to 1756 in the state file and is realigned to 1757 here",
  "status": "green",
  "sync": {
@@ -2305,7 +2309,5 @@
  "水位": "healthy",
  "记账_r1963": "本行 1 处（轮报告）+ state 1 处 = 2",
  "送达自证_r1962": "commit a325115143 已推 origin/main；fetch 后 本地未达 origin commit 数=0；ls-tree 三件在位（scripts/results/md）",
- "送达自证_r1963": "commit 03e099354b 已推 origin/main；fetch 后 本地未达 origin commit 数=0；ls-tree 三件在位",
- "carrier_debt_r1986": "待共享面回落补：①smoke_test.py 两条腿（selftest+check）；②Tools/s6_chain_bmc.py 链腿；③页面口径（RED vs 大熊市）等无竞争窗改",
- "state_lag_note": "r1986: state round_no 从 1962 推进到 1986——r1964..r1985 各窗均因 CONTENTION 未推进，轮报告标签已到 1986，四载体本次对齐。历史 carrier_debt_r1958..r1963 保留不动。"
+ "送达自证_r1963": "commit 03e099354b 已推 origin/main；fetch 后 本地未达 origin commit 数=0；ls-tree 三件在位"
 }
