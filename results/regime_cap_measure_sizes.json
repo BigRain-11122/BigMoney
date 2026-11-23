@@ -1,0 +1,364 @@
+{
+ "schema": "regime-cap-wording-gap/v1",
+ "artifact": "results/regime_cap_measure_sizes.json",
+ "doc": "research/REGIME-CAP-MEASURE.md",
+ "evidence_cutoff": "2026-11-20",
+ "cap": 0.2,
+ "state": null,
+ "cap_face_cutoff": "2026-11-20",
+ "export_face_cutoff": "2026-11-20",
+ "rule": {
+  "measure": "total_position_incl_bond_etf",
+  "evidence": [
+   {
+    "file": "firm\\risk\\iron_rules.md",
+    "line": 12,
+    "text": "3. **R-配3 大熊市仓位上限 20%**：大熊市判定期间组合权益总仓位 ≤20%（股票+ETF 合计），现金/逆回购 ≥80%。",
+    "marker": "股票+ETF 合计"
+   },
+   {
+    "file": "firm\\risk\\regime.py",
+    "line": 8,
+    "text": "<= 20% (stocks+ETF combined), cash/reverse-repo >= 80%.",
+    "marker": "stocks+ETF combined"
+   }
+  ],
+  "problem": null
+ },
+ "page": {
+  "measure": "equity_exposure_only",
+  "note": "红色急跌/熔断态：股票敞口上限 20%",
+  "problem": null
+ },
+ "readings_defined": {
+  "total_position": "positions_value / equity — what iron_rules R-配3 counts (股票+ETF 合计)",
+  "equity_exposure": "equity-class holdings / equity — what the page's word 股票敞口 names",
+  "equity_plus_convertible": "equity + convertible / equity — convertible bonds are equity-like"
+ },
+ "classifier": "scripts/etf_equity_alpha.py::load_class_map (name keywords, single source)",
+ "accounts": [
+  {
+   "name": "COMPOSITE-CE-01",
+   "measurable": true,
+   "equity_cny": 976152.58,
+   "deployed_cny": 936548.07,
+   "by_class_cny": {
+    "bond": 569580.96,
+    "equity": 366967.11
+   },
+   "zero_beta_cny": 569580.96,
+   "zero_beta_share_of_deployed": 0.608171,
+   "unclassified": [],
+   "holdings": [
+    {
+     "symbol": "159996",
+     "name": "家电ETF国泰",
+     "class": "equity",
+     "market_value_cny": 189719.76
+    },
+    {
+     "symbol": "511010",
+     "name": "国债ETF国泰",
+     "class": "bond",
+     "market_value_cny": 189961.64
+    },
+    {
+     "symbol": "511090",
+     "name": "30年国债ETF鹏扬",
+     "class": "bond",
+     "market_value_cny": 189698.57
+    },
+    {
+     "symbol": "511260",
+     "name": "十年国债ETF国泰",
+     "class": "bond",
+     "market_value_cny": 189920.75
+    },
+    {
+     "symbol": "513500",
+     "name": "标普500ETF博时",
+     "class": "equity",
+     "market_value_cny": 177247.35
+    }
+   ],
+   "total_position": {
+    "exposure_cny": 936548.07,
+    "weight": 0.959428,
+    "weight_pct": 95.9428,
+    "excess_cny": 741317.55,
+    "above_cap": true
+   },
+   "equity_exposure": {
+    "exposure_cny": 366967.11,
+    "weight": 0.375932,
+    "weight_pct": 37.5932,
+    "excess_cny": 171736.59,
+    "above_cap": true
+   },
+   "equity_plus_convertible": {
+    "exposure_cny": 366967.11,
+    "weight": 0.375932,
+    "weight_pct": 37.5932,
+    "excess_cny": 171736.59,
+    "above_cap": true
+   }
+  },
+  {
+   "name": "COMPOSITE-CE-02",
+   "measurable": true,
+   "equity_cny": 972600.27,
+   "deployed_cny": 828557.96,
+   "by_class_cny": {
+    "bond": 355838.84,
+    "equity": 472719.12
+   },
+   "zero_beta_cny": 355838.84,
+   "zero_beta_share_of_deployed": 0.429468,
+   "unclassified": [],
+   "holdings": [
+    {
+     "symbol": "159920",
+     "name": "恒生ETF华夏",
+     "class": "equity",
+     "market_value_cny": 110402.85
+    },
+    {
+     "symbol": "159996",
+     "name": "家电ETF国泰",
+     "class": "equity",
+     "market_value_cny": 118524.92
+    },
+    {
+     "symbol": "510050",
+     "name": "上证50ETF华夏",
+     "class": "equity",
+     "market_value_cny": 119028.35
+    },
+    {
+     "symbol": "511010",
+     "name": "国债ETF国泰",
+     "class": "bond",
+     "market_value_cny": 118676.35
+    },
+    {
+     "symbol": "511090",
+     "name": "30年国债ETF鹏扬",
+     "class": "bond",
+     "market_value_cny": 118512.35
+    },
+    {
+     "symbol": "511260",
+     "name": "十年国债ETF国泰",
+     "class": "bond",
+     "market_value_cny": 118650.14
+    },
+    {
+     "symbol": "512800",
+     "name": "银行ETF华宝",
+     "class": "equity",
+     "market_value_cny": 124763.0
+    }
+   ],
+   "total_position": {
+    "exposure_cny": 828557.96,
+    "weight": 0.8519,
+    "weight_pct": 85.19,
+    "excess_cny": 634037.91,
+    "above_cap": true
+   },
+   "equity_exposure": {
+    "exposure_cny": 472719.12,
+    "weight": 0.486036,
+    "weight_pct": 48.6036,
+    "excess_cny": 278199.07,
+    "above_cap": true
+   },
+   "equity_plus_convertible": {
+    "exposure_cny": 472719.12,
+    "weight": 0.486036,
+    "weight_pct": 48.6036,
+    "excess_cny": 278199.07,
+    "above_cap": true
+   }
+  },
+  {
+   "name": "DROUGHT-CE-01",
+   "measurable": true,
+   "equity_cny": 994450.43,
+   "deployed_cny": 0.0,
+   "by_class_cny": {},
+   "zero_beta_cny": 0.0,
+   "zero_beta_share_of_deployed": null,
+   "unclassified": [],
+   "holdings": [],
+   "total_position": {
+    "exposure_cny": 0.0,
+    "weight": 0.0,
+    "weight_pct": 0.0,
+    "excess_cny": 0.0,
+    "above_cap": false
+   },
+   "equity_exposure": {
+    "exposure_cny": 0.0,
+    "weight": 0.0,
+    "weight_pct": 0.0,
+    "excess_cny": 0.0,
+    "above_cap": false
+   },
+   "equity_plus_convertible": {
+    "exposure_cny": 0.0,
+    "weight": 0.0,
+    "weight_pct": 0.0,
+    "excess_cny": 0.0,
+    "above_cap": false
+   }
+  },
+  {
+   "name": "ENGULF-CE-01",
+   "measurable": true,
+   "equity_cny": 985715.51,
+   "deployed_cny": 48926.56,
+   "by_class_cny": {
+    "equity": 48926.56
+   },
+   "zero_beta_cny": 0.0,
+   "zero_beta_share_of_deployed": 0.0,
+   "unclassified": [],
+   "holdings": [
+    {
+     "symbol": "515000",
+     "name": "科技ETF华宝",
+     "class": "equity",
+     "market_value_cny": 48926.56
+    }
+   ],
+   "total_position": {
+    "exposure_cny": 48926.56,
+    "weight": 0.049636,
+    "weight_pct": 4.9636,
+    "excess_cny": 0.0,
+    "above_cap": false
+   },
+   "equity_exposure": {
+    "exposure_cny": 48926.56,
+    "weight": 0.049636,
+    "weight_pct": 4.9636,
+    "excess_cny": 0.0,
+    "above_cap": false
+   },
+   "equity_plus_convertible": {
+    "exposure_cny": 48926.56,
+    "weight": 0.049636,
+    "weight_pct": 4.9636,
+    "excess_cny": 0.0,
+    "above_cap": false
+   }
+  },
+  {
+   "name": "NEEDLE-DE-01",
+   "measurable": true,
+   "equity_cny": 1000000.0,
+   "deployed_cny": 0.0,
+   "by_class_cny": {},
+   "zero_beta_cny": 0.0,
+   "zero_beta_share_of_deployed": null,
+   "unclassified": [],
+   "holdings": [],
+   "total_position": {
+    "exposure_cny": 0.0,
+    "weight": 0.0,
+    "weight_pct": 0.0,
+    "excess_cny": 0.0,
+    "above_cap": false
+   },
+   "equity_exposure": {
+    "exposure_cny": 0.0,
+    "weight": 0.0,
+    "weight_pct": 0.0,
+    "excess_cny": 0.0,
+    "above_cap": false
+   },
+   "equity_plus_convertible": {
+    "exposure_cny": 0.0,
+    "weight": 0.0,
+    "weight_pct": 0.0,
+    "excess_cny": 0.0,
+    "above_cap": false
+   }
+  },
+  {
+   "name": "VOLATILITY-CE-01",
+   "measurable": true,
+   "equity_cny": 989017.01,
+   "deployed_cny": 349790.2,
+   "by_class_cny": {
+    "bond": 299778.26,
+    "equity": 50011.94
+   },
+   "zero_beta_cny": 299778.26,
+   "zero_beta_share_of_deployed": 0.857023,
+   "unclassified": [],
+   "holdings": [
+    {
+     "symbol": "510330",
+     "name": "沪深300ETF华夏",
+     "class": "equity",
+     "market_value_cny": 50011.94
+    },
+    {
+     "symbol": "511010",
+     "name": "国债ETF国泰",
+     "class": "bond",
+     "market_value_cny": 99978.99
+    },
+    {
+     "symbol": "511090",
+     "name": "30年国债ETF鹏扬",
+     "class": "bond",
+     "market_value_cny": 99841.41
+    },
+    {
+     "symbol": "511260",
+     "name": "十年国债ETF国泰",
+     "class": "bond",
+     "market_value_cny": 99957.86
+    }
+   ],
+   "total_position": {
+    "exposure_cny": 349790.2,
+    "weight": 0.353675,
+    "weight_pct": 35.3675,
+    "excess_cny": 151986.8,
+    "above_cap": true
+   },
+   "equity_exposure": {
+    "exposure_cny": 50011.94,
+    "weight": 0.050567,
+    "weight_pct": 5.0567,
+    "excess_cny": 0.0,
+    "above_cap": false
+   },
+   "equity_plus_convertible": {
+    "exposure_cny": 50011.94,
+    "weight": 0.050567,
+    "weight_pct": 5.0567,
+    "excess_cny": 0.0,
+    "above_cap": false
+   }
+  }
+ ],
+ "n_above_total": 3,
+ "n_above_equity": 2,
+ "total_excess_total_cny": 1527342.26,
+ "total_excess_equity_cny": 449935.66,
+ "total_excess_equity_plus_convertible_cny": 449935.66,
+ "wording_gap_cny": 1077406.6,
+ "zero_beta_inside_above_cap_cny": 1225198.06,
+ "published_n_above": 3,
+ "cross_gate_mismatches": [],
+ "unclassified_hits": [],
+ "input_problems": [],
+ "verdict": "PAGE_SAYS_EQUITY_EXPOSURE_RULE_SAYS_TOTAL",
+ "sentence": "规则原件（firm/risk/iron_rules.md R-配3，CEO 红线 O-20260923-1820）写的是「组合权益总仓位 ≤20%（**股票+ETF 合计**）」；CEO 页的阶梯注写的是「**股票敞口**上限 20%」。按规则原件，今天 3 户超帽、合计 1,527,342 元；照页面那句「股票敞口」读，只有 2 户、449,936 元——**照页面理解会少卖 1,077,407 元**。为什么差这么多：这 3 个超帽户里合计 1,225,198 元是国债 ETF，规则要求把它们计入仓位。逐户（按规则原件的总仓位读法）：COMPOSITE-CE-01 总仓位 95.94%（超 741,318）／股票敞口 37.59%（其中 569,581 元是债券·货币·商品）；COMPOSITE-CE-02 总仓位 85.19%（超 634,038）／股票敞口 48.60%（其中 355,839 元是债券·货币·商品）；VOLATILITY-CE-01 总仓位 35.37%（超 151,987）／股票敞口 5.06%（其中 299,778 元是债券·货币·商品）。",
+ "generated": "2026-11-23T11:19:52"
+}
