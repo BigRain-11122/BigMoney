@@ -1682,6 +1682,39 @@ LEGS = [
     # (sec.2) now QUOTE this verdict, so the producer has to run before both consumers
     # or two human faces print yesterday's sentence all round.
     ("regime_cap_vs_book", ["python", "scripts/regime_cap_vs_book.py", "run"]),
+    # r1991: the cap family grew to seven faces on 2026-11-22/23 (r1964-r1990) and NOT ONE
+    # of them was on this chain -- four consecutive rounds named "wire the family" as their
+    # next milestone and every one of them was a contention window, so the debt just rolled
+    # forward. Each of those faces reads the daily paper exports, which means a face is only
+    # as new as the last time somebody typed its command by hand: the tables a reader opens
+    # keep the old bar while the exports move under them (the r1322 shape, again).
+    # Order is the dependency DAG, not the publish order: breach_timeline reads
+    # compliance_cost + measure_sizes, binding_days reads breach_timeline, cash_vs_repo reads
+    # four of them, and enforced_counterfactual reads all six. Every leg is a check first:
+    # each `check` prints STALE on a moved input and CHECK FAILED on a number that no longer
+    # re-derives (r1850/r1934 contract), so a fresh round pays ~4s total and a bar roll pays
+    # for exactly the faces that moved.
+    ("regime_cap_compliance_cost",
+     ["python", "scripts/regime_cap_compliance_cost.py", "check"],
+     ["python", "scripts/regime_cap_compliance_cost.py", "run"]),
+    ("regime_cap_measure_sizes",
+     ["python", "scripts/regime_cap_measure_sizes.py", "check"],
+     ["python", "scripts/regime_cap_measure_sizes.py", "run"]),
+    ("regime_cap_breach_pnl",
+     ["python", "scripts/regime_cap_breach_pnl.py", "check"],
+     ["python", "scripts/regime_cap_breach_pnl.py", "run"]),
+    ("regime_cap_breach_timeline",
+     ["python", "scripts/regime_cap_breach_timeline.py", "check"],
+     ["python", "scripts/regime_cap_breach_timeline.py", "run"]),
+    ("regime_cap_binding_days",
+     ["python", "scripts/regime_cap_binding_days.py", "check"],
+     ["python", "scripts/regime_cap_binding_days.py", "run"]),
+    ("regime_cap_breach_cash_vs_repo",
+     ["python", "scripts/regime_cap_breach_cash_vs_repo.py", "check"],
+     ["python", "scripts/regime_cap_breach_cash_vs_repo.py", "run"]),
+    ("regime_cap_enforced_counterfactual",
+     ["python", "scripts/regime_cap_enforced_counterfactual.py", "check"],
+     ["python", "scripts/regime_cap_enforced_counterfactual.py", "run"]),
     # r1929: section 3 of the CEO page now prints what the six seats' idle cash is worth at
     # the repo rate the desk already published, so the producer has to land before the two
     # reader faces above (paper_export -> this -> ceo_live_usage order, r1318 class).

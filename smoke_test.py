@@ -12955,6 +12955,27 @@ def main() -> int:
     except Exception as e:
         check("config: the cap-vs-book producer runs before the faces that quote it",
               False, repr(e)[:160])
+    # ---- r1991: the seven cap faces published between 11-22 and 11-23 were never wired ----
+    # Each of them reads results/paper_export day files, so with no chain leg the tables a
+    # reader opens keep the bar of the last time somebody typed the command by hand -- the
+    # r1322 shape where nothing is broken and everything is old. This leg pins the three
+    # things that make the wiring real: every face parses and carries verdict +
+    # evidence_cutoff + generated (two of the seven shipped without a top-level cutoff);
+    # every face has a LEGS entry whose FIRST element is a `check` command (a writer-only
+    # leg cannot tell a fresh face from a stale one, r1935); and the DAG order holds, so a
+    # consumer never runs before the faces it reads.
+    try:
+        _bad34 = cap_family_wiring_problems()
+        _ord34 = [t[0] for t in importlib.import_module(
+            "Tools.s6_chain_bmc").LEGS]
+        check("config: every cap face is on the chain with a check, in DAG order",
+              not _bad34, "; ".join(_bad34)[:220]
+              or "%d faces wired, first at leg %d of %d"
+              % (7, _ord34.index("regime_cap_compliance_cost") + 1,
+                 len(_ord34)))
+    except Exception as e:
+        check("config: every cap face is on the chain with a check, in DAG order",
+              False, repr(e)[:160])
     # ---- r1782: the CEO page carries the carry book's funding line ----------
     # The zero-lot reading lived only in a research file; the page now prices it
     # ("0 lots, and one lot needs 1,125,012").  Three things are asserted, none
@@ -15852,6 +15873,66 @@ def _legs_supply_and_book():
                  (_v83.get("falsifier") or {}).get("n")))
     except Exception as e:
         check("product: seat faces are confirmed by shape", False, repr(e)[:180])
+
+
+def cap_family_wiring_problems(faces=None, legs=None, results_dir=None):
+    """Problems with the seven cap faces being actually carried (r1991).
+
+    Kept at module level so the leg that publishes it and an evidence harness can
+    drive the SAME predicate with mutated inputs -- a leg whose only input is
+    today's green state cannot show that it would have said anything (r1861/r1934).
+
+    Three things are checked per face: the published JSON parses and carries
+    verdict + evidence_cutoff (YYYY-MM-DD) + generated; the chain holds a leg
+    whose FIRST element is a `check` command (a writer-only leg cannot tell a
+    fresh face from a stale one, r1935); and the four consumer-before-producer
+    edges of the family DAG hold.
+    """
+    import importlib as _importlib
+    faces = faces or ("regime_cap_compliance_cost", "regime_cap_measure_sizes",
+                      "regime_cap_breach_pnl", "regime_cap_breach_timeline",
+                      "regime_cap_binding_days", "regime_cap_breach_cash_vs_repo",
+                      "regime_cap_enforced_counterfactual")
+    results_dir = results_dir or PATHS.results_dir
+    if legs is None:
+        legs = [tuple(t) for t in _importlib.import_module("Tools.s6_chain_bmc").LEGS]
+    by_name = {t[0]: t for t in legs}
+    order = [t[0] for t in legs]
+    bad = []
+    for name in faces:
+        path = os.path.join(results_dir, name + ".json")
+        if not os.path.exists(path):
+            bad.append("%s: face missing" % name)
+            continue
+        try:
+            with open(path, encoding="utf-8") as fh:
+                face = json.load(fh)
+        except Exception as e:
+            bad.append("%s: unreadable (%s)" % (name, repr(e)[:60]))
+            continue
+        if not (face.get("verdict") or "").strip():
+            bad.append("%s: no verdict" % name)
+        cut = str(face.get("evidence_cutoff") or "")
+        if len(cut) != 10 or cut[4] != "-" or cut[7] != "-":
+            bad.append("%s: evidence_cutoff is %r (C2 wants YYYY-MM-DD)"
+                       % (name, face.get("evidence_cutoff")))
+        if not (face.get("generated") or "").strip():
+            bad.append("%s: no generated stamp" % name)
+        leg = by_name.get(name)
+        if leg is None:
+            bad.append("%s is not on the chain" % name)
+        elif len(leg) < 3:
+            bad.append("%s is a writer-only leg (no check first)" % name)
+        elif "check" not in (leg[1] or []):
+            bad.append("%s: first element is not a check command" % name)
+    for a, b in (("regime_cap_compliance_cost", "regime_cap_breach_timeline"),
+                 ("regime_cap_measure_sizes", "regime_cap_breach_timeline"),
+                 ("regime_cap_breach_timeline", "regime_cap_binding_days"),
+                 ("regime_cap_breach_pnl", "regime_cap_breach_cash_vs_repo"),
+                 ("regime_cap_binding_days", "regime_cap_enforced_counterfactual")):
+        if a in order and b in order and order.index(a) > order.index(b):
+            bad.append("%s runs after its reader %s" % (a, b))
+    return bad
 
 
 def _verdict_record(path=None):

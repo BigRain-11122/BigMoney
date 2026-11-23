@@ -374,6 +374,11 @@ def build(exports=None, labels_face=None, cap_face=None, rate=None, notes=None):
         "export_span": {"first": dates[0] if dates else None,
                         "last": dates[-1] if dates else None,
                         "sessions": len(dates)},
+        # C2 top-level cutoff (science_gates.cutoff_meta): the last export session this
+        # face actually read. r1991: this face and regime_cap_binding_days were the only
+        # two in the family without one, so nothing downstream could tell a fresh read
+        # from a stale one without parsing export_span.
+        "evidence_cutoff": dates[-1] if dates else None,
         "labels_span": {"first": labels_face.get("first"), "last": labels_face.get("last"),
                         "labelled_sessions": len(labels)},
         "cap_face_cutoff": cap_face.get("cutoff"),

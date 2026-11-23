@@ -227,6 +227,9 @@ def build(exports=None, red_face=None, cap_face=None, mask=None, notes=None):
         "export_span": {"first": exports["dates"][0] if exports["dates"] else None,
                         "last": exports["dates"][-1] if exports["dates"] else None,
                         "sessions": len(exports["dates"])},
+        # C2 top-level cutoff (science_gates.cutoff_meta), same reason as the sibling
+        # face: without it a reader has to parse export_span to answer "how old is this".
+        "evidence_cutoff": exports["dates"][-1] if exports["dates"] else None,
         "sessions": [],
         "accounts": [],
         "divergence": {},

@@ -1,6 +1,6 @@
 # 帽子到底在哪几天生效：RED 标签还是大熊市规则
 
-> 生成：2026-11-23T12:22:18+08:00 ｜ 证据截至：2026-11-20 ｜ 帽子：20% ｜ 判词：`THE_ONE_COMPLIANT_DAY_IS_OUTSIDE_THE_BEAR`
+> 生成：2026-11-23T14:00:59+08:00 ｜ 证据截至：2026-11-20 ｜ 帽子：20% ｜ 判词：`THE_ONE_COMPLIANT_DAY_IS_OUTSIDE_THE_BEAR`
 
 ## 一句话
 
