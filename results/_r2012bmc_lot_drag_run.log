@@ -1,0 +1,21 @@
+K:\Fluxgroup\FluxGroup\quant\bigmoney\scripts\astock_resid_veto_layer.py:97: RuntimeWarning: Mean of empty slice
+  amt20 = np.nanmean(amt_win, axis=0)
+K:\Fluxgroup\FluxGroup\quant\bigmoney\scripts\astock_resid_reversal_probe.py:209: RuntimeWarning: Mean of empty slice
+  R = rets - np.nanmean(rets, axis=0)
+K:\Fluxgroup\FluxGroup\quant\bigmoney\scripts\astock_veto_lot_drag.py:306: RuntimeWarning: Mean of empty slice
+  "tilt_gap_per_period_mean": float(np.nanmean(gap)),
+K:\Fluxgroup\FluxGroup\quant\bigmoney\scripts\astock_veto_lot_drag.py:310: RuntimeWarning: All-NaN slice encountered
+  "median_price_unaffordable": float(np.nanmedian(
+K:\Fluxgroup\FluxGroup\quant\bigmoney\scripts\astock_veto_lot_drag.py:313: RuntimeWarning: Mean of empty slice
+  "fwd_unaffordable_mean": float(np.nanmean(
+LOT-DRAG EDGE_DEGRADES_UNDER_ROUNDING | B n=2866.27 median-lot=1047鍏?
+  C=1,000,000    slot=349       invest=0.0608 maxlot0=0.924 netB=2.59% drag=+7.72pp edge=+0.0812% t=2.44
+  C=5,000,000    slot=1744      invest=0.5904 maxlot0=0.266 netB=11.04% drag=-0.73pp edge=+0.2082% t=2.38
+  C=10,000,000   slot=3489      invest=0.7837 maxlot0=0.077 netB=11.38% drag=-1.08pp edge=+0.2074% t=3.04
+  C=50,000,000   slot=17444     invest=0.9550 maxlot0=0.001 netB=10.62% drag=-0.32pp edge=+0.2285% t=3.69
+  C=100,000,000  slot=34889     invest=0.9781 maxlot0=0.000 netB=10.47% drag=-0.17pp edge=+0.2365% t=3.63
+  C=500,000,000  slot=174443    invest=0.9956 maxlot0=0.000 netB=10.34% drag=-0.03pp edge=+0.2414% t=3.49
+  fractional: A 6.92% B 10.30% edge +0.2428%/鏈?t=3.46
+  tilt at 10M: invested median px=9.62 fwd=+1.2253% | unaffordable px=47.42 fwd=-0.3335% | gap=+1.5588%
+  capital for drag<=0.5pp: 5000000.0 | capital for invested>=95%: 50000000.0
+  anchor vs parent: ok=True
