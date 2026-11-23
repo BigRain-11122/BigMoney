@@ -1,0 +1,2387 @@
+{
+ "generated": "2026-11-24T03:51:11+08:00",
+ "evidence_cutoff": "2026-11-20",
+ "machine": "bm-c",
+ "kind": "astock_veto_hedge_budget",
+ "fills_the_hole_of": "r2022 priced five hedge sizes and voted on k = 1 because it is the only size with a mechanical meaning; it then wrote that the hedge buys the beta's path and not new edge.  Nobody translated that into the only question a holder asks: given the drawdown I will sit through and the financing I can get, how much do I buy and what does the last point cost?",
+ "parent": {
+  "face": "results/astock_veto_hedgeable_beta.json",
+  "kind": "astock_veto_hedgeable_beta",
+  "content_sha256": "7f0274c7b5d3b6d74e6ab188dc594aeaf853c5ed0156a0db2f0e94994e38683e",
+  "generated": "2026-11-24T03:29:09+08:00",
+  "evidence_cutoff": "2026-11-20",
+  "rows": 77,
+  "beta_used": 0.9013312810692592
+ },
+ "prereg": {
+  "question": "for a drawdown budget and a short-finance price, which grid size should be held, what does it cost in annualised return, and does the answer survive the out-of-sample split?",
+  "grid": "k = 0.00..2.00 step 0.05, beta = the parent's in-sample OLS fit",
+  "budgets": [
+   0.1,
+   0.15,
+   0.2,
+   0.25
+  ],
+  "carry_axis": [
+   0.0,
+   0.02,
+   0.05
+  ],
+  "primary_cell": {
+   "budget": 0.2,
+   "carry_per_year": 0.0
+  },
+  "rule_a": "among sizes whose IN-SAMPLE drawdown fits the budget, the highest IN-SAMPLE annualised return; ties to the smaller size",
+  "rule_b": "the smallest size whose IN-SAMPLE drawdown fits the budget",
+  "read": "both rules are picked on the in-sample window and read on the out-of-sample window; no size is re-picked after the split",
+  "verdict_states": [
+   "BUDGET_HOLDS_OUT_OF_SAMPLE",
+   "BUDGET_MISSES_OUT_OF_SAMPLE",
+   "BUDGET_UNREACHABLE_IN_SAMPLE"
+  ],
+  "price_definition": "annualised return given up (pp) per drawdown point removed (pp), measured against the same window's k = 0 arm; negative means the hedge paid you",
+  "frozen_before_run": true
+ },
+ "spec": {
+  "book": "astock_veto_turnover_layers rows (arm B, residual veto list)",
+  "hedge": "512100 CSI1000 ETF traded close, per-period return, same grid as the book",
+  "cost": "two sides x 8bp per roll on the shorted notional; carry axis 0/2/5 %/yr",
+  "drawdown": "on the book's own 20-bar period curve, not a daily mark-to-market -- same caveat as r2022",
+  "periods_per_year": 12.6,
+  "windows": {
+   "in_sample": "date <= 2023-12-31 (the beta's own fit window)",
+   "out_of_sample": "date > 2023-12-31"
+  }
+ },
+ "primary": {
+  "budget": 0.2,
+  "carry_per_year": 0.0,
+  "rule_a_k": 0.65,
+  "verdict": "BUDGET_HOLDS_OUT_OF_SAMPLE",
+  "verdict_why": "the size chosen on the in-sample budget kept the out-of-sample drawdown at 14.64%, inside the 20.00% budget",
+  "price_verdict": "PAID_IN_SAMPLE_COSTS_OUTSIDE",
+  "price_verdict_why": "in-sample the hedge paid 0.08 pp of annual return per drawdown point; out-of-sample it costs 0.94",
+  "in_sample_price": -0.08230261997948024,
+  "out_of_sample_price": 0.9426999167910822
+ },
+ "cells": {
+  "0.10|0.00": {
+   "budget": 0.1,
+   "carry_per_year": 0.0,
+   "min_achievable_dd_in_sample": 0.09802494510974724,
+   "min_achievable_dd_full": 0.14112844697711613,
+   "rule_a": {
+    "rule": "max in-sample return inside the budget",
+    "k": 0.85,
+    "in_sample_annualized": 0.06558547934073511,
+    "in_sample_dd": -0.09802494510974724,
+    "out_of_sample_annualized": 0.095210300806704,
+    "out_of_sample_dd": -0.14358612643935398,
+    "out_of_sample_holds_budget": false,
+    "full_annualized": 0.07856646517838062,
+    "full_dd": -0.14358612643935398,
+    "give_up_in_sample_pp": -0.8828468615073248,
+    "give_up_out_of_sample_pp": 6.922702782948664,
+    "at_max_grid": false,
+    "at_zero": false
+   },
+   "rule_b": {
+    "rule": "smallest size the budget requires",
+    "k": 0.85,
+    "in_sample_annualized": 0.06558547934073511,
+    "in_sample_dd": -0.09802494510974724,
+    "out_of_sample_annualized": 0.095210300806704,
+    "out_of_sample_dd": -0.14358612643935398,
+    "out_of_sample_holds_budget": false,
+    "full_annualized": 0.07856646517838062,
+    "full_dd": -0.14358612643935398,
+    "give_up_in_sample_pp": -0.8828468615073248,
+    "give_up_out_of_sample_pp": 6.922702782948664,
+    "at_max_grid": false,
+    "at_zero": false
+   },
+   "ex_post_full_window": {
+    "rule": "what the full window would have needed",
+    "k": null,
+    "in_sample_annualized": null,
+    "in_sample_dd": null,
+    "out_of_sample_annualized": null,
+    "out_of_sample_dd": null,
+    "out_of_sample_holds_budget": null,
+    "full_annualized": null,
+    "full_dd": null,
+    "give_up_in_sample_pp": null,
+    "give_up_out_of_sample_pp": null,
+    "at_max_grid": null,
+    "at_zero": null
+   },
+   "slack_value": null,
+   "verdict": "BUDGET_MISSES_OUT_OF_SAMPLE",
+   "verdict_why": "the size chosen on the in-sample budget let the out-of-sample drawdown reach 14.36%, outside the 10.00% budget"
+  },
+  "0.15|0.00": {
+   "budget": 0.15,
+   "carry_per_year": 0.0,
+   "min_achievable_dd_in_sample": 0.09802494510974724,
+   "min_achievable_dd_full": 0.14112844697711613,
+   "rule_a": {
+    "rule": "max in-sample return inside the budget",
+    "k": 0.65,
+    "in_sample_annualized": 0.0664839704680642,
+    "in_sample_dd": -0.10797378235367505,
+    "out_of_sample_annualized": 0.11553227037689195,
+    "out_of_sample_dd": -0.1463837658477085,
+    "out_of_sample_holds_budget": true,
+    "full_annualized": 0.08786999838890752,
+    "full_dd": -0.1463837658477085,
+    "give_up_in_sample_pp": -0.9726959742402341,
+    "give_up_out_of_sample_pp": 4.8905058259298695,
+    "at_max_grid": false,
+    "at_zero": false
+   },
+   "rule_b": {
+    "rule": "smallest size the budget requires",
+    "k": 0.35,
+    "in_sample_annualized": 0.06439987278877557,
+    "in_sample_dd": -0.14273367062667075,
+    "out_of_sample_annualized": 0.14138524881172,
+    "out_of_sample_dd": -0.15120578441229615,
+    "out_of_sample_holds_budget": false,
+    "full_annualized": 0.09773156337030087,
+    "full_dd": -0.17784294395519518,
+    "give_up_in_sample_pp": -0.7642862063113709,
+    "give_up_out_of_sample_pp": 2.305207982447066,
+    "at_max_grid": false,
+    "at_zero": false
+   },
+   "ex_post_full_window": {
+    "rule": "what the full window would have needed",
+    "k": 0.55,
+    "in_sample_annualized": 0.06624737593610375,
+    "in_sample_dd": -0.11299361498159421,
+    "out_of_sample_annualized": 0.12477045311775825,
+    "out_of_sample_dd": -0.14790837634188347,
+    "out_of_sample_holds_budget": true,
+    "full_annualized": 0.09170361132883498,
+    "full_dd": -0.14790837634188347,
+    "give_up_in_sample_pp": -0.9490365210441887,
+    "give_up_out_of_sample_pp": 3.96668755184324,
+    "at_max_grid": false,
+    "at_zero": false
+   },
+   "slack_value": {
+    "extra_give_up_out_of_sample_pp": 2.5852978434828033,
+    "extra_dd_removed_out_of_sample_pp": 0.48220185645876334
+   },
+   "verdict": "BUDGET_HOLDS_OUT_OF_SAMPLE",
+   "verdict_why": "the size chosen on the in-sample budget kept the out-of-sample drawdown at 14.64%, inside the 15.00% budget"
+  },
+  "0.20|0.00": {
+   "budget": 0.2,
+   "carry_per_year": 0.0,
+   "min_achievable_dd_in_sample": 0.09802494510974724,
+   "min_achievable_dd_full": 0.14112844697711613,
+   "rule_a": {
+    "rule": "max in-sample return inside the budget",
+    "k": 0.65,
+    "in_sample_annualized": 0.0664839704680642,
+    "in_sample_dd": -0.10797378235367505,
+    "out_of_sample_annualized": 0.11553227037689195,
+    "out_of_sample_dd": -0.1463837658477085,
+    "out_of_sample_holds_budget": true,
+    "full_annualized": 0.08786999838890752,
+    "full_dd": -0.1463837658477085,
+    "give_up_in_sample_pp": -0.9726959742402341,
+    "give_up_out_of_sample_pp": 4.8905058259298695,
+    "at_max_grid": false,
+    "at_zero": false
+   },
+   "rule_b": {
+    "rule": "smallest size the budget requires",
+    "k": 0.15,
+    "in_sample_annualized": 0.06071922451536227,
+    "in_sample_dd": -0.1890207897632442,
+    "out_of_sample_annualized": 0.1555006270497612,
+    "out_of_sample_dd": -0.17315740370449306,
+    "out_of_sample_holds_budget": true,
+    "full_annualized": 0.1015724224426402,
+    "full_dd": -0.22364629239909894,
+    "give_up_in_sample_pp": -0.39622137897004084,
+    "give_up_out_of_sample_pp": 0.8936701586429452,
+    "at_max_grid": false,
+    "at_zero": false
+   },
+   "ex_post_full_window": {
+    "rule": "what the full window would have needed",
+    "k": 0.25,
+    "in_sample_annualized": 0.06278862988944622,
+    "in_sample_dd": -0.16492335009877257,
+    "out_of_sample_annualized": 0.14875648228418448,
+    "out_of_sample_dd": -0.15634188543644223,
+    "out_of_sample_holds_budget": true,
+    "full_annualized": 0.09992536832917187,
+    "full_dd": -0.1994660149280031,
+    "give_up_in_sample_pp": -0.6031619163784363,
+    "give_up_out_of_sample_pp": 1.5680846352006172,
+    "at_max_grid": false,
+    "at_zero": false
+   },
+   "slack_value": {
+    "extra_give_up_out_of_sample_pp": 3.9968356672869243,
+    "extra_dd_removed_out_of_sample_pp": 2.6773637856784536
+   },
+   "verdict": "BUDGET_HOLDS_OUT_OF_SAMPLE",
+   "verdict_why": "the size chosen on the in-sample budget kept the out-of-sample drawdown at 14.64%, inside the 20.00% budget"
+  },
+  "0.25|0.00": {
+   "budget": 0.25,
+   "carry_per_year": 0.0,
+   "min_achievable_dd_in_sample": 0.09802494510974724,
+   "min_achievable_dd_full": 0.14112844697711613,
+   "rule_a": {
+    "rule": "max in-sample return inside the budget",
+    "k": 0.65,
+    "in_sample_annualized": 0.0664839704680642,
+    "in_sample_dd": -0.10797378235367505,
+    "out_of_sample_annualized": 0.11553227037689195,
+    "out_of_sample_dd": -0.1463837658477085,
+    "out_of_sample_holds_budget": true,
+    "full_annualized": 0.08786999838890752,
+    "full_dd": -0.1463837658477085,
+    "give_up_in_sample_pp": -0.9726959742402341,
+    "give_up_out_of_sample_pp": 4.8905058259298695,
+    "at_max_grid": false,
+    "at_zero": false
+   },
+   "rule_b": {
+    "rule": "smallest size the budget requires",
+    "k": 0.0,
+    "in_sample_annualized": 0.05675701072566186,
+    "in_sample_dd": -0.22615908125214845,
+    "out_of_sample_annualized": 0.16443732863619065,
+    "out_of_sample_dd": -0.19826141788545326,
+    "out_of_sample_holds_budget": true,
+    "full_annualized": 0.10301862011095042,
+    "full_dd": -0.259212250145304,
+    "give_up_in_sample_pp": 0.0,
+    "give_up_out_of_sample_pp": 0.0,
+    "at_max_grid": false,
+    "at_zero": true
+   },
+   "ex_post_full_window": {
+    "rule": "what the full window would have needed",
+    "k": 0.05,
+    "in_sample_annualized": 0.058192063038585706,
+    "in_sample_dd": -0.21388504874473635,
+    "out_of_sample_annualized": 0.16161593034237787,
+    "out_of_sample_dd": -0.18991074515834427,
+    "out_of_sample_holds_budget": true,
+    "full_annualized": 0.10267304884138806,
+    "full_dd": -0.24739196858058754,
+    "give_up_in_sample_pp": -0.14350523129238457,
+    "give_up_out_of_sample_pp": 0.28213982938127824,
+    "at_max_grid": false,
+    "at_zero": false
+   },
+   "slack_value": {
+    "extra_give_up_out_of_sample_pp": 4.8905058259298695,
+    "extra_dd_removed_out_of_sample_pp": 5.1877652037744735
+   },
+   "verdict": "BUDGET_HOLDS_OUT_OF_SAMPLE",
+   "verdict_why": "the size chosen on the in-sample budget kept the out-of-sample drawdown at 14.64%, inside the 25.00% budget"
+  },
+  "0.10|0.02": {
+   "budget": 0.1,
+   "carry_per_year": 0.02,
+   "min_achievable_dd_in_sample": 0.10608515707321975,
+   "min_achievable_dd_full": 0.14788067031912255,
+   "rule_a": {
+    "rule": "max in-sample return inside the budget",
+    "k": null,
+    "in_sample_annualized": null,
+    "in_sample_dd": null,
+    "out_of_sample_annualized": null,
+    "out_of_sample_dd": null,
+    "out_of_sample_holds_budget": null,
+    "full_annualized": null,
+    "full_dd": null,
+    "give_up_in_sample_pp": null,
+    "give_up_out_of_sample_pp": null,
+    "at_max_grid": null,
+    "at_zero": null
+   },
+   "rule_b": {
+    "rule": "smallest size the budget requires",
+    "k": null,
+    "in_sample_annualized": null,
+    "in_sample_dd": null,
+    "out_of_sample_annualized": null,
+    "out_of_sample_dd": null,
+    "out_of_sample_holds_budget": null,
+    "full_annualized": null,
+    "full_dd": null,
+    "give_up_in_sample_pp": null,
+    "give_up_out_of_sample_pp": null,
+    "at_max_grid": null,
+    "at_zero": null
+   },
+   "ex_post_full_window": {
+    "rule": "what the full window would have needed",
+    "k": null,
+    "in_sample_annualized": null,
+    "in_sample_dd": null,
+    "out_of_sample_annualized": null,
+    "out_of_sample_dd": null,
+    "out_of_sample_holds_budget": null,
+    "full_annualized": null,
+    "full_dd": null,
+    "give_up_in_sample_pp": null,
+    "give_up_out_of_sample_pp": null,
+    "at_max_grid": null,
+    "at_zero": null
+   },
+   "slack_value": null,
+   "verdict": "BUDGET_UNREACHABLE_IN_SAMPLE",
+   "verdict_why": "no size in the grid holds the budget on the periods the size was chosen on -- the floor is 10.61%, the budget is 10.00%"
+  },
+  "0.15|0.02": {
+   "budget": 0.15,
+   "carry_per_year": 0.02,
+   "min_achievable_dd_in_sample": 0.10608515707321975,
+   "min_achievable_dd_full": 0.14788067031912255,
+   "rule_a": {
+    "rule": "max in-sample return inside the budget",
+    "k": 0.35,
+    "in_sample_annualized": 0.057730282134323296,
+    "in_sample_dd": -0.14409041367941688,
+    "out_of_sample_annualized": 0.13426341588256108,
+    "out_of_sample_dd": -0.15340085388653335,
+    "out_of_sample_holds_budget": false,
+    "full_annualized": 0.09086591921592246,
+    "full_dd": -0.17916328486892052,
+    "give_up_in_sample_pp": -0.09732714086614358,
+    "give_up_out_of_sample_pp": 3.0173912753629573,
+    "at_max_grid": false,
+    "at_zero": false
+   },
+   "rule_b": {
+    "rule": "smallest size the budget requires",
+    "k": 0.35,
+    "in_sample_annualized": 0.057730282134323296,
+    "in_sample_dd": -0.14409041367941688,
+    "out_of_sample_annualized": 0.13426341588256108,
+    "out_of_sample_dd": -0.15340085388653335,
+    "out_of_sample_holds_budget": false,
+    "full_annualized": 0.09086591921592246,
+    "full_dd": -0.17916328486892052,
+    "give_up_in_sample_pp": -0.09732714086614358,
+    "give_up_out_of_sample_pp": 3.0173912753629573,
+    "at_max_grid": false,
+    "at_zero": false
+   },
+   "ex_post_full_window": {
+    "rule": "what the full window would have needed",
+    "k": 0.75,
+    "in_sample_annualized": 0.05200400144722117,
+    "in_sample_dd": -0.10789327630012835,
+    "out_of_sample_annualized": 0.09092299836742557,
+    "out_of_sample_dd": -0.14966721120867776,
+    "out_of_sample_holds_budget": true,
+    "full_annualized": 0.06901482823249872,
+    "full_dd": -0.14966721120867776,
+    "give_up_in_sample_pp": 0.47530092784406897,
+    "give_up_out_of_sample_pp": 7.351433026876508,
+    "at_max_grid": false,
+    "at_zero": false
+   },
+   "slack_value": null,
+   "verdict": "BUDGET_MISSES_OUT_OF_SAMPLE",
+   "verdict_why": "the size chosen on the in-sample budget let the out-of-sample drawdown reach 15.34%, outside the 15.00% budget"
+  },
+  "0.20|0.02": {
+   "budget": 0.2,
+   "carry_per_year": 0.02,
+   "min_achievable_dd_in_sample": 0.10608515707321975,
+   "min_achievable_dd_full": 0.14788067031912255,
+   "rule_a": {
+    "rule": "max in-sample return inside the budget",
+    "k": 0.25,
+    "in_sample_annualized": 0.05802620005930703,
+    "in_sample_dd": -0.16587617643669483,
+    "out_of_sample_annualized": 0.14363293112270847,
+    "out_of_sample_dd": -0.15881483568751575,
+    "out_of_sample_holds_budget": true,
+    "full_annualized": 0.09500671812836381,
+    "full_dd": -0.2023986460517626,
+    "give_up_in_sample_pp": -0.1269189333645171,
+    "give_up_out_of_sample_pp": 2.0804397513482176,
+    "at_max_grid": false,
+    "at_zero": false
+   },
+   "rule_b": {
+    "rule": "smallest size the budget requires",
+    "k": 0.15,
+    "in_sample_annualized": 0.05786374273271688,
+    "in_sample_dd": -0.1897556628438135,
+    "out_of_sample_annualized": 0.15240595713500804,
+    "out_of_sample_dd": -0.17461678669561598,
+    "out_of_sample_holds_budget": true,
+    "full_annualized": 0.09861368360528266,
+    "full_dd": -0.22535982160100054,
+    "give_up_in_sample_pp": -0.11067320070550224,
+    "give_up_out_of_sample_pp": 1.2031371501182608,
+    "at_max_grid": false,
+    "at_zero": false
+   },
+   "ex_post_full_window": {
+    "rule": "what the full window would have needed",
+    "k": 0.3,
+    "in_sample_annualized": 0.05793542517177608,
+    "in_sample_dd": -0.15501250350832052,
+    "out_of_sample_annualized": 0.13902243854398977,
+    "out_of_sample_dd": -0.15396167303189845,
+    "out_of_sample_holds_budget": true,
+    "full_annualized": 0.09300290604082995,
+    "full_dd": -0.1907798178580855,
+    "give_up_in_sample_pp": -0.11784144461142176,
+    "give_up_out_of_sample_pp": 2.541489009220088,
+    "at_max_grid": false,
+    "at_zero": false
+   },
+   "slack_value": {
+    "extra_give_up_out_of_sample_pp": 0.8773026012299567,
+    "extra_dd_removed_out_of_sample_pp": 1.5801951008100215
+   },
+   "verdict": "BUDGET_HOLDS_OUT_OF_SAMPLE",
+   "verdict_why": "the size chosen on the in-sample budget kept the out-of-sample drawdown at 15.88%, inside the 20.00% budget"
+  },
+  "0.25|0.02": {
+   "budget": 0.25,
+   "carry_per_year": 0.02,
+   "min_achievable_dd_in_sample": 0.10608515707321975,
+   "min_achievable_dd_full": 0.14788067031912255,
+   "rule_a": {
+    "rule": "max in-sample return inside the budget",
+    "k": 0.25,
+    "in_sample_annualized": 0.05802620005930703,
+    "in_sample_dd": -0.16587617643669483,
+    "out_of_sample_annualized": 0.14363293112270847,
+    "out_of_sample_dd": -0.15881483568751575,
+    "out_of_sample_holds_budget": true,
+    "full_annualized": 0.09500671812836381,
+    "full_dd": -0.2023986460517626,
+    "give_up_in_sample_pp": -0.1269189333645171,
+    "give_up_out_of_sample_pp": 2.0804397513482176,
+    "at_max_grid": false,
+    "at_zero": false
+   },
+   "rule_b": {
+    "rule": "smallest size the budget requires",
+    "k": 0.0,
+    "in_sample_annualized": 0.05675701072566186,
+    "in_sample_dd": -0.22615908125214845,
+    "out_of_sample_annualized": 0.16443732863619065,
+    "out_of_sample_dd": -0.19826141788545326,
+    "out_of_sample_holds_budget": true,
+    "full_annualized": 0.10301862011095042,
+    "full_dd": -0.259212250145304,
+    "give_up_in_sample_pp": 0.0,
+    "give_up_out_of_sample_pp": 0.0,
+    "at_max_grid": false,
+    "at_zero": true
+   },
+   "ex_post_full_window": {
+    "rule": "what the full window would have needed",
+    "k": 0.05,
+    "in_sample_annualized": 0.05724124103741368,
+    "in_sample_dd": -0.2141245189690979,
+    "out_of_sample_annualized": 0.16057798887432284,
+    "out_of_sample_dd": -0.1903890872439702,
+    "out_of_sample_holds_budget": true,
+    "full_annualized": 0.10168469460138563,
+    "full_dd": -0.24794801818101664,
+    "give_up_in_sample_pp": -0.048423031175182096,
+    "give_up_out_of_sample_pp": 0.3859339761867808,
+    "at_max_grid": false,
+    "at_zero": false
+   },
+   "slack_value": {
+    "extra_give_up_out_of_sample_pp": 2.0804397513482176,
+    "extra_dd_removed_out_of_sample_pp": 3.94465821979375
+   },
+   "verdict": "BUDGET_HOLDS_OUT_OF_SAMPLE",
+   "verdict_why": "the size chosen on the in-sample budget kept the out-of-sample drawdown at 15.88%, inside the 25.00% budget"
+  },
+  "0.10|0.05": {
+   "budget": 0.1,
+   "carry_per_year": 0.05,
+   "min_achievable_dd_in_sample": 0.11687114128363307,
+   "min_achievable_dd_full": 0.15653082702843157,
+   "rule_a": {
+    "rule": "max in-sample return inside the budget",
+    "k": null,
+    "in_sample_annualized": null,
+    "in_sample_dd": null,
+    "out_of_sample_annualized": null,
+    "out_of_sample_dd": null,
+    "out_of_sample_holds_budget": null,
+    "full_annualized": null,
+    "full_dd": null,
+    "give_up_in_sample_pp": null,
+    "give_up_out_of_sample_pp": null,
+    "at_max_grid": null,
+    "at_zero": null
+   },
+   "rule_b": {
+    "rule": "smallest size the budget requires",
+    "k": null,
+    "in_sample_annualized": null,
+    "in_sample_dd": null,
+    "out_of_sample_annualized": null,
+    "out_of_sample_dd": null,
+    "out_of_sample_holds_budget": null,
+    "full_annualized": null,
+    "full_dd": null,
+    "give_up_in_sample_pp": null,
+    "give_up_out_of_sample_pp": null,
+    "at_max_grid": null,
+    "at_zero": null
+   },
+   "ex_post_full_window": {
+    "rule": "what the full window would have needed",
+    "k": null,
+    "in_sample_annualized": null,
+    "in_sample_dd": null,
+    "out_of_sample_annualized": null,
+    "out_of_sample_dd": null,
+    "out_of_sample_holds_budget": null,
+    "full_annualized": null,
+    "full_dd": null,
+    "give_up_in_sample_pp": null,
+    "give_up_out_of_sample_pp": null,
+    "at_max_grid": null,
+    "at_zero": null
+   },
+   "slack_value": null,
+   "verdict": "BUDGET_UNREACHABLE_IN_SAMPLE",
+   "verdict_why": "no size in the grid holds the budget on the periods the size was chosen on -- the floor is 11.69%, the budget is 10.00%"
+  },
+  "0.15|0.05": {
+   "budget": 0.15,
+   "carry_per_year": 0.05,
+   "min_achievable_dd_in_sample": 0.11687114128363307,
+   "min_achievable_dd_full": 0.15653082702843157,
+   "rule_a": {
+    "rule": "max in-sample return inside the budget",
+    "k": 0.35,
+    "in_sample_annualized": 0.04779799756587777,
+    "in_sample_dd": -0.1461228467134441,
+    "out_of_sample_annualized": 0.12365731527082602,
+    "out_of_sample_dd": -0.1566849435702493,
+    "out_of_sample_holds_budget": false,
+    "full_annualized": 0.08064152841544558,
+    "full_dd": -0.18535547888984927,
+    "give_up_in_sample_pp": 0.895901315978409,
+    "give_up_out_of_sample_pp": 4.078001336536463,
+    "at_max_grid": false,
+    "at_zero": false
+   },
+   "rule_b": {
+    "rule": "smallest size the budget requires",
+    "k": 0.35,
+    "in_sample_annualized": 0.04779799756587777,
+    "in_sample_dd": -0.1461228467134441,
+    "out_of_sample_annualized": 0.12365731527082602,
+    "out_of_sample_dd": -0.1566849435702493,
+    "out_of_sample_holds_budget": false,
+    "full_annualized": 0.08064152841544558,
+    "full_dd": -0.18535547888984927,
+    "give_up_in_sample_pp": 0.895901315978409,
+    "give_up_out_of_sample_pp": 4.078001336536463,
+    "at_max_grid": false,
+    "at_zero": false
+   },
+   "ex_post_full_window": {
+    "rule": "what the full window would have needed",
+    "k": null,
+    "in_sample_annualized": null,
+    "in_sample_dd": null,
+    "out_of_sample_annualized": null,
+    "out_of_sample_dd": null,
+    "out_of_sample_holds_budget": null,
+    "full_annualized": null,
+    "full_dd": null,
+    "give_up_in_sample_pp": null,
+    "give_up_out_of_sample_pp": null,
+    "at_max_grid": null,
+    "at_zero": null
+   },
+   "slack_value": null,
+   "verdict": "BUDGET_MISSES_OUT_OF_SAMPLE",
+   "verdict_why": "the size chosen on the in-sample budget let the out-of-sample drawdown reach 15.67%, outside the 15.00% budget"
+  },
+  "0.20|0.05": {
+   "budget": 0.2,
+   "carry_per_year": 0.05,
+   "min_achievable_dd_in_sample": 0.11687114128363307,
+   "min_achievable_dd_full": 0.15653082702843157,
+   "rule_a": {
+    "rule": "max in-sample return inside the budget",
+    "k": 0.15,
+    "in_sample_annualized": 0.0535937837355267,
+    "in_sample_dd": -0.1908570372459828,
+    "out_of_sample_annualized": 0.14777824923667526,
+    "out_of_sample_dd": -0.17680164076249438,
+    "out_of_sample_holds_budget": true,
+    "full_annualized": 0.09418928583671216,
+    "full_dd": -0.22792373893638795,
+    "give_up_in_sample_pp": 0.31632269901351595,
+    "give_up_out_of_sample_pp": 1.6659079399515386,
+    "at_max_grid": false,
+    "at_zero": false
+   },
+   "rule_b": {
+    "rule": "smallest size the budget requires",
+    "k": 0.15,
+    "in_sample_annualized": 0.0535937837355267,
+    "in_sample_dd": -0.1908570372459828,
+    "out_of_sample_annualized": 0.14777824923667526,
+    "out_of_sample_dd": -0.17680164076249438,
+    "out_of_sample_holds_budget": true,
+    "full_annualized": 0.09418928583671216,
+    "full_dd": -0.22792373893638795,
+    "give_up_in_sample_pp": 0.31632269901351595,
+    "give_up_out_of_sample_pp": 1.6659079399515386,
+    "at_max_grid": false,
+    "at_zero": false
+   },
+   "ex_post_full_window": {
+    "rule": "what the full window would have needed",
+    "k": 0.3,
+    "in_sample_annualized": 0.049414254397920354,
+    "in_sample_dd": -0.1567402576675434,
+    "out_of_sample_annualized": 0.12988894585140653,
+    "out_of_sample_dd": -0.15677590913798545,
+    "out_of_sample_holds_budget": true,
+    "full_annualized": 0.08421656897131613,
+    "full_dd": -0.1961019976244599,
+    "give_up_in_sample_pp": 0.7342756327741506,
+    "give_up_out_of_sample_pp": 3.4548382784784115,
+    "at_max_grid": false,
+    "at_zero": false
+   },
+   "slack_value": null,
+   "verdict": "BUDGET_HOLDS_OUT_OF_SAMPLE",
+   "verdict_why": "the size chosen on the in-sample budget kept the out-of-sample drawdown at 17.68%, inside the 20.00% budget"
+  },
+  "0.25|0.05": {
+   "budget": 0.25,
+   "carry_per_year": 0.05,
+   "min_achievable_dd_in_sample": 0.11687114128363307,
+   "min_achievable_dd_full": 0.15653082702843157,
+   "rule_a": {
+    "rule": "max in-sample return inside the budget",
+    "k": 0.0,
+    "in_sample_annualized": 0.05675701072566186,
+    "in_sample_dd": -0.22615908125214845,
+    "out_of_sample_annualized": 0.16443732863619065,
+    "out_of_sample_dd": -0.19826141788545326,
+    "out_of_sample_holds_budget": true,
+    "full_annualized": 0.10301862011095042,
+    "full_dd": -0.259212250145304,
+    "give_up_in_sample_pp": 0.0,
+    "give_up_out_of_sample_pp": 0.0,
+    "at_max_grid": false,
+    "at_zero": true
+   },
+   "rule_b": {
+    "rule": "smallest size the budget requires",
+    "k": 0.0,
+    "in_sample_annualized": 0.05675701072566186,
+    "in_sample_dd": -0.22615908125214845,
+    "out_of_sample_annualized": 0.16443732863619065,
+    "out_of_sample_dd": -0.19826141788545326,
+    "out_of_sample_holds_budget": true,
+    "full_annualized": 0.10301862011095042,
+    "full_dd": -0.259212250145304,
+    "give_up_in_sample_pp": 0.0,
+    "give_up_out_of_sample_pp": 0.0,
+    "at_max_grid": false,
+    "at_zero": true
+   },
+   "ex_post_full_window": {
+    "rule": "what the full window would have needed",
+    "k": 0.05,
+    "in_sample_annualized": 0.055816482257627476,
+    "in_sample_dd": -0.21448362189942782,
+    "out_of_sample_annualized": 0.15902267652532664,
+    "out_of_sample_dd": -0.19110613765373996,
+    "out_of_sample_holds_budget": true,
+    "full_annualized": 0.10020369168431786,
+    "full_dd": -0.24878139996248094,
+    "give_up_in_sample_pp": 0.0940528468034385,
+    "give_up_out_of_sample_pp": 0.5414652110864004,
+    "at_max_grid": false,
+    "at_zero": false
+   },
+   "slack_value": null,
+   "verdict": "BUDGET_HOLDS_OUT_OF_SAMPLE",
+   "verdict_why": "the size chosen on the in-sample budget kept the out-of-sample drawdown at 19.83%, inside the 25.00% budget"
+  }
+ },
+ "prices": {
+  "full": {
+   "vs_zero": [
+    {
+     "k": 0.2,
+     "window": "full",
+     "dd_removed_pp": 4.760200504876899,
+     "give_up_pp": 0.22013953246675655,
+     "pp_return_per_dd_point": 0.04624585293019069
+    },
+    {
+     "k": 0.4,
+     "window": "full",
+     "dd_removed_pp": 8.940171791070073,
+     "give_up_pp": 0.6589025425330908,
+     "pp_return_per_dd_point": 0.07370132900480036
+    },
+    {
+     "k": 0.6,
+     "window": "full",
+     "dd_removed_pp": 11.207659094199284,
+     "give_up_pp": 1.3163560347512426,
+     "pp_return_per_dd_point": 0.1174514698999495
+    },
+    {
+     "k": 0.8,
+     "window": "full",
+     "dd_removed_pp": 11.495837346514982,
+     "give_up_pp": 2.192199029773456,
+     "pp_return_per_dd_point": 0.19069502844332012
+    },
+    {
+     "k": 1.0,
+     "window": "full",
+     "dd_removed_pp": 11.75015506739151,
+     "give_up_pp": 3.2857972542808866,
+     "pp_return_per_dd_point": 0.27963862905941383
+    }
+   ],
+   "marginal": [
+    {
+     "k": 0.2,
+     "from_k": 0.15,
+     "window": "full",
+     "dd_removed_pp": 1.2036047302563913,
+     "give_up_pp": 0.07551976563573426,
+     "pp_return_per_dd_point": 0.06274465672766763
+    },
+    {
+     "k": 0.4,
+     "from_k": 0.35,
+     "window": "full",
+     "dd_removed_pp": 0.8032411720591881,
+     "give_up_pp": 0.13019686846813538,
+     "pp_return_per_dd_point": 0.16208938609852735
+    },
+    {
+     "k": 0.6,
+     "from_k": 0.55,
+     "window": "full",
+     "dd_removed_pp": 0.07727171385722986,
+     "give_up_pp": 0.1848551565396983,
+     "pp_return_per_dd_point": 2.3922745764542466
+    },
+    {
+     "k": 0.8,
+     "from_k": 0.75,
+     "window": "full",
+     "dd_removed_pp": 0.0688913129286095,
+     "give_up_pp": 0.2394053653911321,
+     "pp_return_per_dd_point": 3.4751168937544046
+    },
+    {
+     "k": 1.0,
+     "from_k": 0.95,
+     "window": "full",
+     "dd_removed_pp": 0.06037537671692572,
+     "give_up_pp": 0.29376819258639664,
+     "pp_return_per_dd_point": 4.865695397044889
+    }
+   ]
+  },
+  "in_sample": {
+   "vs_zero": [
+    {
+     "k": 0.2,
+     "window": "in_sample",
+     "dd_removed_pp": 4.972926128108057,
+     "give_up_pp": -0.5054166588424502,
+     "pp_return_per_dd_point": -0.10163365507999922
+    },
+    {
+     "k": 0.4,
+     "window": "in_sample",
+     "dd_removed_pp": 9.461279159410818,
+     "give_up_pp": -0.8276606930354369,
+     "pp_return_per_dd_point": -0.08747873084499261
+    },
+    {
+     "k": 0.6,
+     "window": "in_sample",
+     "dd_removed_pp": 11.567915193598088,
+     "give_up_pp": -0.9665886513208877,
+     "pp_return_per_dd_point": -0.08355772281731602
+    },
+    {
+     "k": 0.8,
+     "window": "in_sample",
+     "dd_removed_pp": 12.565832548875767,
+     "give_up_pp": -0.9224300751727199,
+     "pp_return_per_dd_point": -0.07340779622717855
+    },
+    {
+     "k": 1.0,
+     "window": "in_sample",
+     "dd_removed_pp": 11.55735093405742,
+     "give_up_pp": -0.6958030855344521,
+     "pp_return_per_dd_point": -0.06020437464471608
+    }
+   ],
+   "marginal": [
+    {
+     "k": 0.2,
+     "from_k": 0.15,
+     "window": "in_sample",
+     "dd_removed_pp": 1.2590969792176332,
+     "give_up_pp": -0.1091952798724094,
+     "pp_return_per_dd_point": -0.08672507493446631
+    },
+    {
+     "k": 0.4,
+     "from_k": 0.35,
+     "window": "in_sample",
+     "dd_removed_pp": 1.1187380968630478,
+     "give_up_pp": -0.06337448672406598,
+     "pp_return_per_dd_point": -0.05664818861695033
+    },
+    {
+     "k": 0.6,
+     "from_k": 0.55,
+     "window": "in_sample",
+     "dd_removed_pp": 0.2513685665426646,
+     "give_up_pp": -0.017552130276698996,
+     "pp_return_per_dd_point": -0.06982627349995206
+    },
+    {
+     "k": 0.8,
+     "from_k": 0.75,
+     "window": "in_sample",
+     "dd_removed_pp": 0.24834217224963817,
+     "give_up_pp": 0.028176975147853334,
+     "pp_return_per_dd_point": 0.11346029106779865
+    },
+    {
+     "k": 1.0,
+     "from_k": 0.95,
+     "window": "in_sample",
+     "dd_removed_pp": -0.4968342124494929,
+     "give_up_pp": 0.07371436550467347,
+     "pp_return_per_dd_point": null
+    }
+   ]
+  },
+  "out_of_sample": {
+   "vs_zero": [
+    {
+     "k": 0.2,
+     "window": "out_of_sample",
+     "dd_removed_pp": 3.3504545716019685,
+     "give_up_pp": 1.2230269042534214,
+     "pp_return_per_dd_point": 0.36503312554052925
+    },
+    {
+     "k": 0.4,
+     "window": "out_of_sample",
+     "dd_removed_pp": 4.791079648315611,
+     "give_up_pp": 2.697220038264936,
+     "pp_return_per_dd_point": 0.5629670630111924
+    },
+    {
+     "k": 0.6,
+     "window": "out_of_sample",
+     "dd_removed_pp": 5.112575868214197,
+     "give_up_pp": 4.420871327120834,
+     "pp_return_per_dd_point": 0.8647052759854745
+    },
+    {
+     "k": 0.8,
+     "window": "out_of_sample",
+     "dd_removed_pp": 5.400754120529894,
+     "give_up_pp": 6.391694174837337,
+     "pp_return_per_dd_point": 1.183481793874041
+    },
+    {
+     "k": 1.0,
+     "window": "out_of_sample",
+     "dd_removed_pp": 5.655071841406456,
+     "give_up_pp": 8.606892168703538,
+     "pp_return_per_dd_point": 1.5219775115293572
+    }
+   ],
+   "marginal": [
+    {
+     "k": 0.2,
+     "from_k": 0.15,
+     "window": "out_of_sample",
+     "dd_removed_pp": 0.8400531535059486,
+     "give_up_pp": 0.32935674561047623,
+     "pp_return_per_dd_point": 0.3920665546411094
+    },
+    {
+     "k": 0.4,
+     "from_k": 0.35,
+     "window": "out_of_sample",
+     "dd_removed_pp": 0.08551630099989938,
+     "give_up_pp": 0.3920120558178697,
+     "pp_return_per_dd_point": 4.584062351087087
+    },
+    {
+     "k": 0.6,
+     "from_k": 0.55,
+     "window": "out_of_sample",
+     "dd_removed_pp": 0.07727171385721876,
+     "give_up_pp": 0.45418377527759457,
+     "pp_return_per_dd_point": 5.8777494713890635
+    },
+    {
+     "k": 0.8,
+     "from_k": 0.75,
+     "window": "out_of_sample",
+     "dd_removed_pp": 0.0688913129285984,
+     "give_up_pp": 0.5157330832422646,
+     "pp_return_per_dd_point": 7.486184561133131
+    },
+    {
+     "k": 1.0,
+     "from_k": 0.95,
+     "window": "out_of_sample",
+     "dd_removed_pp": 0.060375376716947926,
+     "give_up_pp": 0.5765399047221953,
+     "pp_return_per_dd_point": 9.549255608377102
+    }
+   ]
+  }
+ },
+ "curve": {
+  "full": [
+   {
+    "k": 0.0,
+    "annualized_compound": 0.10301862011095042,
+    "max_drawdown": -0.259212250145304,
+    "annual_vol": 0.2734328578509935,
+    "sharpe_excess_0": 0.49163350185669985
+   },
+   {
+    "k": 0.05,
+    "annualized_compound": 0.10267304884138806,
+    "max_drawdown": -0.24739196858058754,
+    "annual_vol": 0.2626888676789115,
+    "sharpe_excess_0": 0.5001875396625064
+   },
+   {
+    "k": 0.1,
+    "annualized_compound": 0.10219100930467051,
+    "max_drawdown": -0.23557368046731275,
+    "annual_vol": 0.25203005079800417,
+    "sharpe_excess_0": 0.5092989625947263
+   },
+   {
+    "k": 0.15,
+    "annualized_compound": 0.1015724224426402,
+    "max_drawdown": -0.22364629239909894,
+    "annual_vol": 0.24146768657733353,
+    "sharpe_excess_0": 0.5190076990573155
+   },
+   {
+    "k": 0.2,
+    "annualized_compound": 0.10081722478628286,
+    "max_drawdown": -0.21161024509653503,
+    "annual_vol": 0.23101500529126473,
+    "sharpe_excess_0": 0.5293532047673191
+   },
+   {
+    "k": 0.25,
+    "annualized_compound": 0.09992536832917187,
+    "max_drawdown": -0.1994660149280031,
+    "annual_vol": 0.2206875926086143,
+    "sharpe_excess_0": 0.5403723742858503
+   },
+   {
+    "k": 0.3,
+    "annualized_compound": 0.09889682037670511,
+    "max_drawdown": -0.18721411447943392,
+    "annual_vol": 0.21050388653418559,
+    "sharpe_excess_0": 0.5520963308558529
+   },
+   {
+    "k": 0.35,
+    "annualized_compound": 0.09773156337030087,
+    "max_drawdown": -0.17784294395519518,
+    "annual_vol": 0.20048578706122222,
+    "sharpe_excess_0": 0.5645455971646165
+   },
+   {
+    "k": 0.4,
+    "annualized_compound": 0.09642959468561951,
+    "max_drawdown": -0.1698105322346033,
+    "annual_vol": 0.19065940111640736,
+    "sharpe_excess_0": 0.5777229589917776
+   },
+   {
+    "k": 0.45,
+    "annualized_compound": 0.09499092640377071,
+    "max_drawdown": -0.16172798615278172,
+    "annual_vol": 0.1810559457944571,
+    "sharpe_excess_0": 0.5916030975709913
+   },
+   {
+    "k": 0.5,
+    "annualized_compound": 0.09341558505432368,
+    "max_drawdown": -0.1535951541160221,
+    "annual_vol": 0.1717128289730636,
+    "sharpe_excess_0": 0.6061178071619109
+   },
+   {
+    "k": 0.55,
+    "annualized_compound": 0.09170361132883498,
+    "max_drawdown": -0.14790837634188347,
+    "annual_vol": 0.16267491390281633,
+    "sharpe_excess_0": 0.6211354039022945
+   },
+   {
+    "k": 0.6,
+    "annualized_compound": 0.089855059763438,
+    "max_drawdown": -0.14713565920331118,
+    "annual_vol": 0.15399594619857285,
+    "sharpe_excess_0": 0.6364329436210856
+   },
+   {
+    "k": 0.65,
+    "annualized_compound": 0.08786999838890752,
+    "max_drawdown": -0.1463837658477085,
+    "annual_vol": 0.14574006700577463,
+    "sharpe_excess_0": 0.6516604547340038
+   },
+   {
+    "k": 0.7,
+    "annualized_compound": 0.08574850834642822,
+    "max_drawdown": -0.1456527811168835,
+    "annual_vol": 0.13798324053685118,
+    "sharpe_excess_0": 0.666298189354878
+   },
+   {
+    "k": 0.75,
+    "annualized_compound": 0.08349068346712718,
+    "max_drawdown": -0.1449427898094403,
+    "annual_vol": 0.13081427315167982,
+    "sharpe_excess_0": 0.6796118357896186
+   },
+   {
+    "k": 0.8,
+    "annualized_compound": 0.08109662981321586,
+    "max_drawdown": -0.1442538766801542,
+    "annual_vol": 0.12433489174122833,
+    "sharpe_excess_0": 0.690617670668707
+   },
+   {
+    "k": 0.85,
+    "annualized_compound": 0.07856646517838062,
+    "max_drawdown": -0.14358612643935398,
+    "annual_vol": 0.11865811561521006,
+    "sharpe_excess_0": 0.6980796710008631
+   },
+   {
+    "k": 0.9,
+    "annualized_compound": 0.0759003185448135,
+    "max_drawdown": -0.14293962375229896,
+    "annual_vol": 0.11390400937346787,
+    "sharpe_excess_0": 0.7005702761672151
+   },
+   {
+    "k": 0.95,
+    "annualized_compound": 0.07309832949400552,
+    "max_drawdown": -0.14231445323855818,
+    "annual_vol": 0.11019206030517112,
+    "sharpe_excess_0": 0.6966264909087676
+   },
+   {
+    "k": 1.0,
+    "annualized_compound": 0.07016064756814155,
+    "max_drawdown": -0.14171069947138892,
+    "annual_vol": 0.10763014824014132,
+    "sharpe_excess_0": 0.685009307289765
+   },
+   {
+    "k": 1.05,
+    "annualized_compound": 0.06708743157860209,
+    "max_drawdown": -0.14112844697711613,
+    "annual_vol": 0.10630145492438019,
+    "sharpe_excess_0": 0.6650200444842249
+   },
+   {
+    "k": 1.1,
+    "annualized_compound": 0.06387884885772044,
+    "max_drawdown": -0.14211888220767166,
+    "annual_vol": 0.10625225494470307,
+    "sharpe_excess_0": 0.6367633638536465
+   },
+   {
+    "k": 1.15,
+    "annualized_compound": 0.06053507444954365,
+    "max_drawdown": -0.15203495200008676,
+    "annual_vol": 0.10748430534537236,
+    "sharpe_excess_0": 0.6012272029953803
+   },
+   {
+    "k": 1.2,
+    "annualized_compound": 0.05705629023490544,
+    "max_drawdown": -0.16192251605621077,
+    "annual_vol": 0.10995454498686817,
+    "sharpe_excess_0": 0.5601172127003046
+   },
+   {
+    "k": 1.25,
+    "annualized_compound": 0.05344268398561569,
+    "max_drawdown": -0.1717806566892972,
+    "annual_vol": 0.11358221640692746,
+    "sharpe_excess_0": 0.5155065652626138
+   },
+   {
+    "k": 1.3,
+    "annualized_compound": 0.0496944483420243,
+    "max_drawdown": -0.18430592272407198,
+    "annual_vol": 0.11826085429041983,
+    "sharpe_excess_0": 0.46944801456945595
+   },
+   {
+    "k": 1.35,
+    "annualized_compound": 0.045811779707595424,
+    "max_drawdown": -0.19860219583277627,
+    "annual_vol": 0.12387143045932188,
+    "sharpe_excess_0": 0.4236833953268601
+   },
+   {
+    "k": 1.4,
+    "annualized_compound": 0.041794877053434876,
+    "max_drawdown": -0.212730531656122,
+    "annual_vol": 0.1302936098338143,
+    "sharpe_excess_0": 0.37950605019804323
+   },
+   {
+    "k": 1.45,
+    "annualized_compound": 0.03764394062493315,
+    "max_drawdown": -0.2266918024451603,
+    "annual_vol": 0.13741364595979097,
+    "sharpe_excess_0": 0.33775508904502693
+   },
+   {
+    "k": 1.5,
+    "annualized_compound": 0.03335917054181392,
+    "max_drawdown": -0.24048688794629736,
+    "annual_vol": 0.14512886439763878,
+    "sharpe_excess_0": 0.2988868093212476
+   },
+   {
+    "k": 1.55,
+    "annualized_compound": 0.02894076528188516,
+    "max_drawdown": -0.25411667526064186,
+    "annual_vol": 0.15334945816559833,
+    "sharpe_excess_0": 0.26307264920191054
+   },
+   {
+    "k": 1.6,
+    "annualized_compound": 0.02438892003767834,
+    "max_drawdown": -0.27565941779404335,
+    "annual_vol": 0.16199850990353543,
+    "sharpe_excess_0": 0.230292199777589
+   },
+   {
+    "k": 1.65,
+    "annualized_compound": 0.01970382493389855,
+    "max_drawdown": -0.3026869789726563,
+    "annual_vol": 0.17101102290553682,
+    "sharpe_excess_0": 0.20040777265207696
+   },
+   {
+    "k": 1.7,
+    "annualized_compound": 0.014885663092178092,
+    "max_drawdown": -0.32900660023918293,
+    "annual_vol": 0.18033251107989137,
+    "sharpe_excess_0": 0.17321825668300325
+   },
+   {
+    "k": 1.75,
+    "annualized_compound": 0.009934608527998545,
+    "max_drawdown": -0.35462876123754483,
+    "annual_vol": 0.1899174847203626,
+    "sharpe_excess_0": 0.1484951647665681
+   },
+   {
+    "k": 1.8,
+    "annualized_compound": 0.004850823862802223,
+    "max_drawdown": -0.37956399809251395,
+    "annual_vol": 0.19972801332208784,
+    "sharpe_excess_0": 0.1260052246055885
+   },
+   {
+    "k": 1.85,
+    "annualized_compound": -0.0003655421678040449,
+    "max_drawdown": -0.4038228960201339,
+    "annual_vol": 0.2097324473266259,
+    "sharpe_excess_0": 0.10552357755729688
+   },
+   {
+    "k": 1.9,
+    "annualized_compound": -0.005714357431256811,
+    "max_drawdown": -0.4274160820985432,
+    "annual_vol": 0.21990432344679506,
+    "sharpe_excess_0": 0.0868407808700881
+   },
+   {
+    "k": 1.95,
+    "annualized_compound": -0.011195509364928524,
+    "max_drawdown": -0.4503542181994792,
+    "annual_vol": 0.23022144846325313,
+    "sharpe_excess_0": 0.06976590697832848
+   },
+   {
+    "k": 2.0,
+    "annualized_compound": -0.016808908220153573,
+    "max_drawdown": -0.4726479940806292,
+    "annual_vol": 0.2406651429837584,
+    "sharpe_excess_0": 0.0541272948357866
+   }
+  ],
+  "in_sample": [
+   {
+    "k": 0.0,
+    "annualized_compound": 0.05675701072566186,
+    "max_drawdown": -0.22615908125214845,
+    "annual_vol": 0.22457949371762403,
+    "sharpe_excess_0": 0.356026220008002
+   },
+   {
+    "k": 0.05,
+    "annualized_compound": 0.058192063038585706,
+    "max_drawdown": -0.21388504874473635,
+    "annual_vol": 0.21475924447226138,
+    "sharpe_excess_0": 0.3688111305288689
+   },
+   {
+    "k": 0.1,
+    "annualized_compound": 0.05951282927327162,
+    "max_drawdown": -0.20150574214254235,
+    "annual_vol": 0.20500821757234175,
+    "sharpe_excess_0": 0.382692031471372
+   },
+   {
+    "k": 0.15,
+    "annualized_compound": 0.06071922451536227,
+    "max_drawdown": -0.1890207897632442,
+    "annual_vol": 0.19533677983457337,
+    "sharpe_excess_0": 0.3977971932507269
+   },
+   {
+    "k": 0.2,
+    "annualized_compound": 0.06181117731408636,
+    "max_drawdown": -0.17642981997106788,
+    "annual_vol": 0.18575736307923957,
+    "sharpe_excess_0": 0.4142707076959628
+   },
+   {
+    "k": 0.25,
+    "annualized_compound": 0.06278862988944622,
+    "max_drawdown": -0.16492335009877257,
+    "annual_vol": 0.1762849693485641,
+    "sharpe_excess_0": 0.43227307495309814
+   },
+   {
+    "k": 0.3,
+    "annualized_compound": 0.0636515383310281,
+    "max_drawdown": -0.1538593593436749,
+    "annual_vol": 0.16693781775366487,
+    "sharpe_excess_0": 0.4519806134365501
+   },
+   {
+    "k": 0.35,
+    "annualized_compound": 0.06439987278877557,
+    "max_drawdown": -0.14273367062667075,
+    "annual_vol": 0.1577381744301212,
+    "sharpe_excess_0": 0.47358268884300936
+   },
+   {
+    "k": 0.4,
+    "annualized_compound": 0.06503361765601623,
+    "max_drawdown": -0.13154628965804027,
+    "annual_vol": 0.14871341717141312,
+    "sharpe_excess_0": 0.4972751059866306
+   },
+   {
+    "k": 0.45,
+    "annualized_compound": 0.0655527717450528,
+    "max_drawdown": -0.12029722214806393,
+    "annual_vol": 0.13989739568380125,
+    "sharpe_excess_0": 0.5232469942238416
+   },
+   {
+    "k": 0.5,
+    "annualized_compound": 0.06595734845556644,
+    "max_drawdown": -0.11551482096691834,
+    "annual_vol": 0.131332152535018,
+    "sharpe_excess_0": 0.5516570154267325
+   },
+   {
+    "k": 0.55,
+    "annualized_compound": 0.06624737593610375,
+    "max_drawdown": -0.11299361498159421,
+    "annual_vol": 0.12307005873855877,
+    "sharpe_excess_0": 0.5825926755677767
+   },
+   {
+    "k": 0.6,
+    "annualized_compound": 0.06642289723887074,
+    "max_drawdown": -0.11047992931616757,
+    "annual_vol": 0.11517637138060595,
+    "sharpe_excess_0": 0.6160041808755162
+   },
+   {
+    "k": 0.65,
+    "annualized_compound": 0.0664839704680642,
+    "max_drawdown": -0.10797378235367505,
+    "annual_vol": 0.10773210194252274,
+    "sharpe_excess_0": 0.651602786435196
+   },
+   {
+    "k": 0.7,
+    "annualized_compound": 0.06643066892194782,
+    "max_drawdown": -0.10547519236037128,
+    "annual_vol": 0.10083683429959928,
+    "sharpe_excess_0": 0.6887160808090578
+   },
+   {
+    "k": 0.75,
+    "annualized_compound": 0.06626308122886759,
+    "max_drawdown": -0.10298417748588717,
+    "annual_vol": 0.09461067916591373,
+    "sharpe_excess_0": 0.7261057782418563
+   },
+   {
+    "k": 0.8,
+    "annualized_compound": 0.06598131147738906,
+    "max_drawdown": -0.10050075576339079,
+    "annual_vol": 0.08919386846059524,
+    "sharpe_excess_0": 0.7617874805095869
+   },
+   {
+    "k": 0.85,
+    "annualized_compound": 0.06558547934073511,
+    "max_drawdown": -0.09802494510974724,
+    "annual_vol": 0.08474174784459171,
+    "sharpe_excess_0": 0.7929525357498614
+   },
+   {
+    "k": 0.9,
+    "annualized_compound": 0.06507572019567909,
+    "max_drawdown": -0.10088438445395898,
+    "annual_vol": 0.0814127359975492,
+    "sharpe_excess_0": 0.8161572575694863
+   },
+   {
+    "k": 0.95,
+    "annualized_compound": 0.06445218523605312,
+    "max_drawdown": -0.10561722978707933,
+    "annual_vol": 0.07934831715617423,
+    "sharpe_excess_0": 0.8279319486943962
+   },
+   {
+    "k": 1.0,
+    "annualized_compound": 0.06371504158100638,
+    "max_drawdown": -0.11058557191157425,
+    "annual_vol": 0.07864813657351882,
+    "sharpe_excess_0": 0.8257591493444665
+   },
+   {
+    "k": 1.05,
+    "annualized_compound": 0.06286447237816284,
+    "max_drawdown": -0.11988355137757611,
+    "annual_vol": 0.07934831715617423,
+    "sharpe_excess_0": 0.8090131229106384
+   },
+   {
+    "k": 1.1,
+    "annualized_compound": 0.06190067690178713,
+    "max_drawdown": -0.1291695750303209,
+    "annual_vol": 0.08141273599754921,
+    "sharpe_excess_0": 0.7792790721082526
+   },
+   {
+    "k": 1.15,
+    "annualized_compound": 0.060823870646094624,
+    "max_drawdown": -0.13844250925807844,
+    "annual_vol": 0.08474174784459168,
+    "sharpe_excess_0": 0.7398083526278061
+   },
+   {
+    "k": 1.2,
+    "annualized_compound": 0.059634285413808774,
+    "max_drawdown": -0.14770122936629204,
+    "annual_vol": 0.08919386846059522,
+    "sharpe_excess_0": 0.6944654991034225
+   },
+   {
+    "k": 1.25,
+    "annualized_compound": 0.05833216940007713,
+    "max_drawdown": -0.15694461971187168,
+    "annual_vol": 0.0946106791659137,
+    "sharpe_excess_0": 0.6467713414876561
+   },
+   {
+    "k": 1.3,
+    "annualized_compound": 0.05691778727184271,
+    "max_drawdown": -0.16617157383572123,
+    "annual_vol": 0.10083683429959926,
+    "sharpe_excess_0": 0.5993929481102368
+   },
+   {
+    "k": 1.35,
+    "annualized_compound": 0.05539142024276633,
+    "max_drawdown": -0.17646721308301017,
+    "annual_vol": 0.1077321019425227,
+    "sharpe_excess_0": 0.5540623251417693
+   },
+   {
+    "k": 1.4,
+    "annualized_compound": 0.053753366143793,
+    "max_drawdown": -0.18723737826690345,
+    "annual_vol": 0.11517637138060591,
+    "sharpe_excess_0": 0.5117343921667675
+   },
+   {
+    "k": 1.45,
+    "annualized_compound": 0.05200393948943849,
+    "max_drawdown": -0.19794669620960248,
+    "annual_vol": 0.12307005873855877,
+    "sharpe_excess_0": 0.47281298556771667
+   },
+   {
+    "k": 1.5,
+    "annualized_compound": 0.05014347153988408,
+    "max_drawdown": -0.20859443113985587,
+    "annual_vol": 0.13133215253501798,
+    "sharpe_excess_0": 0.43735317135383883
+   },
+   {
+    "k": 1.55,
+    "annualized_compound": 0.04817231035894687,
+    "max_drawdown": -0.21917986308918103,
+    "annual_vol": 0.13989739568380125,
+    "sharpe_excess_0": 0.40521086643948245
+   },
+   {
+    "k": 1.6,
+    "annualized_compound": 0.04609082086800487,
+    "max_drawdown": -0.22970228786561275,
+    "annual_vol": 0.1487134171714131,
+    "sharpe_excess_0": 0.3761419614138012
+   },
+   {
+    "k": 1.65,
+    "annualized_compound": 0.0438993848959337,
+    "max_drawdown": -0.24016101702571124,
+    "annual_vol": 0.1577381744301212,
+    "sharpe_excess_0": 0.3498631078274346
+   },
+   {
+    "k": 1.7,
+    "annualized_compound": 0.041598401225127146,
+    "max_drawdown": -0.2505553778448302,
+    "annual_vol": 0.16693781775366487,
+    "sharpe_excess_0": 0.3260865642512395
+   },
+   {
+    "k": 1.75,
+    "annualized_compound": 0.03918828563365828,
+    "max_drawdown": -0.26088471328565976,
+    "annual_vol": 0.17628496934856408,
+    "sharpe_excess_0": 0.30453867473230184
+   },
+   {
+    "k": 1.8,
+    "annualized_compound": 0.03666947093363482,
+    "max_drawdown": -0.2711483819650654,
+    "annual_vol": 0.18575736307923957,
+    "sharpe_excess_0": 0.28496852867037836
+   },
+   {
+    "k": 1.85,
+    "annualized_compound": 0.03404240700580741,
+    "max_drawdown": -0.2813457581192216,
+    "annual_vol": 0.19533677983457332,
+    "sharpe_excess_0": 0.26715098915994245
+   },
+   {
+    "k": 1.9,
+    "annualized_compound": 0.03130756083047781,
+    "max_drawdown": -0.29147623156706826,
+    "annual_vol": 0.20500821757234175,
+    "sharpe_excess_0": 0.25088665257878523
+   },
+   {
+    "k": 1.95,
+    "annualized_compound": 0.02846541651475709,
+    "max_drawdown": -0.30153920767209474,
+    "annual_vol": 0.21475924447226133,
+    "sharpe_excess_0": 0.23600025734938018
+   },
+   {
+    "k": 2.0,
+    "annualized_compound": 0.025516475316219145,
+    "max_drawdown": -0.31213779487983706,
+    "annual_vol": 0.22457949371762403,
+    "sharpe_excess_0": 0.22233841408574528
+   }
+  ],
+  "out_of_sample": [
+   {
+    "k": 0.0,
+    "annualized_compound": 0.16443732863619065,
+    "max_drawdown": -0.19826141788545326,
+    "annual_vol": 0.32756849912945163,
+    "sharpe_excess_0": 0.620696213429876
+   },
+   {
+    "k": 0.05,
+    "annualized_compound": 0.16161593034237787,
+    "max_drawdown": -0.18991074515834427,
+    "annual_vol": 0.3155687080841266,
+    "sharpe_excess_0": 0.6255255630491716
+   },
+   {
+    "k": 0.1,
+    "annualized_compound": 0.15863697783093578,
+    "max_drawdown": -0.18154238695161384,
+    "annual_vol": 0.3036652931215367,
+    "sharpe_excess_0": 0.6305365311697126
+   },
+   {
+    "k": 0.15,
+    "annualized_compound": 0.1555006270497612,
+    "max_drawdown": -0.17315740370449306,
+    "annual_vol": 0.2918700460753617,
+    "sharpe_excess_0": 0.6357206908106063
+   },
+   {
+    "k": 0.2,
+    "annualized_compound": 0.15220705959365644,
+    "max_drawdown": -0.16475687216943358,
+    "annual_vol": 0.28019662769244685,
+    "sharpe_excess_0": 0.6410626550137429
+   },
+   {
+    "k": 0.25,
+    "annualized_compound": 0.14875648228418448,
+    "max_drawdown": -0.15634188543644223,
+    "annual_vol": 0.2686609189464415,
+    "sharpe_excess_0": 0.6465375072490893
+   },
+   {
+    "k": 0.3,
+    "annualized_compound": 0.1451491267222067,
+    "max_drawdown": -0.15208134636988258,
+    "annual_vol": 0.25728144393409735,
+    "sharpe_excess_0": 0.6521073771271367
+   },
+   {
+    "k": 0.35,
+    "annualized_compound": 0.14138524881172,
+    "max_drawdown": -0.15120578441229615,
+    "annual_vol": 0.24607987776578288,
+    "sharpe_excess_0": 0.6577168999484794
+   },
+   {
+    "k": 0.4,
+    "annualized_compound": 0.1374651282535413,
+    "max_drawdown": -0.15035062140229716,
+    "annual_vol": 0.23508165371711182,
+    "sharpe_excess_0": 0.6632872392837272
+   },
+   {
+    "k": 0.45,
+    "annualized_compound": 0.1333890680072385,
+    "max_drawdown": -0.14951594238840338,
+    "annual_vol": 0.22431668331237076,
+    "sharpe_excess_0": 0.6687082995421079
+   },
+   {
+    "k": 0.5,
+    "annualized_compound": 0.12915739371959867,
+    "max_drawdown": -0.1487018323790329,
+    "annual_vol": 0.213820199548344,
+    "sharpe_excess_0": 0.6738287351594684
+   },
+   {
+    "k": 0.55,
+    "annualized_compound": 0.12477045311775825,
+    "max_drawdown": -0.14790837634188347,
+    "annual_vol": 0.20363372481557607,
+    "sharpe_excess_0": 0.6784434233317279
+   },
+   {
+    "k": 0.6,
+    "annualized_compound": 0.1202286153649823,
+    "max_drawdown": -0.1471356592033113,
+    "annual_vol": 0.19380614761760984,
+    "sharpe_excess_0": 0.6822782958723875
+   },
+   {
+    "k": 0.65,
+    "annualized_compound": 0.11553227037689195,
+    "max_drawdown": -0.1463837658477085,
+    "annual_vol": 0.18439486069636724,
+    "sharpe_excess_0": 0.6849729672812312
+   },
+   {
+    "k": 0.7,
+    "annualized_compound": 0.110681828095754,
+    "max_drawdown": -0.1456527811168835,
+    "annual_vol": 0.1754668608963741,
+    "sharpe_excess_0": 0.6860626617704104
+   },
+   {
+    "k": 0.75,
+    "annualized_compound": 0.10567771772023993,
+    "max_drawdown": -0.1449427898094403,
+    "annual_vol": 0.16709963111617926,
+    "sharpe_excess_0": 0.6849627831670737
+   },
+   {
+    "k": 0.8,
+    "annualized_compound": 0.10052038688781728,
+    "max_drawdown": -0.14425387668015432,
+    "annual_vol": 0.159381513953908,
+    "sharpe_excess_0": 0.6809622550290313
+   },
+   {
+    "k": 0.85,
+    "annualized_compound": 0.095210300806704,
+    "max_drawdown": -0.14358612643935398,
+    "annual_vol": 0.15241115472975478,
+    "sharpe_excess_0": 0.6732352503358272
+   },
+   {
+    "k": 0.9,
+    "annualized_compound": 0.08974794133400721,
+    "max_drawdown": -0.14293962375229918,
+    "annual_vol": 0.14629547500389622,
+    "sharpe_excess_0": 0.660883931388505
+   },
+   {
+    "k": 0.95,
+    "annualized_compound": 0.08413380599637721,
+    "max_drawdown": -0.14231445323855818,
+    "annual_vol": 0.14114561541866927,
+    "sharpe_excess_0": 0.6430245470408261
+   },
+   {
+    "k": 1.0,
+    "annualized_compound": 0.07836840694915526,
+    "max_drawdown": -0.1417106994713887,
+    "annual_vol": 0.1370704793963859,
+    "sharpe_excess_0": 0.6189214669084323
+   },
+   {
+    "k": 1.05,
+    "annualized_compound": 0.07245226986960662,
+    "max_drawdown": -0.14112844697711624,
+    "annual_vol": 0.13416803164962995,
+    "sharpe_excess_0": 0.5881552256828954
+   },
+   {
+    "k": 1.1,
+    "annualized_compound": 0.06638593277942006,
+    "max_drawdown": -0.14211888220767155,
+    "annual_vol": 0.13251534981374063,
+    "sharpe_excess_0": 0.5507844622783058
+   },
+   {
+    "k": 1.15,
+    "annualized_compound": 0.06016994479116011,
+    "max_drawdown": -0.15203495200008676,
+    "annual_vol": 0.13215932801176347,
+    "sharpe_excess_0": 0.5074417633334076
+   },
+   {
+    "k": 1.2,
+    "annualized_compound": 0.053804864772859506,
+    "max_drawdown": -0.16192251605621066,
+    "annual_vol": 0.13311037093151162,
+    "sharpe_excess_0": 0.459310035543133
+   },
+   {
+    "k": 1.25,
+    "annualized_compound": 0.04729125992434158,
+    "max_drawdown": -0.17178065668929765,
+    "annual_vol": 0.13534092708146062,
+    "sharpe_excess_0": 0.40796747259565974
+   },
+   {
+    "k": 1.3,
+    "annualized_compound": 0.04062970425820467,
+    "max_drawdown": -0.1843059227240721,
+    "annual_vol": 0.13878931897575822,
+    "sharpe_excess_0": 0.3551459368804243
+   },
+   {
+    "k": 1.35,
+    "annualized_compound": 0.033820776977684375,
+    "max_drawdown": -0.19860219583277627,
+    "annual_vol": 0.14336769651836206,
+    "sharpe_excess_0": 0.302482571222397
+   },
+   {
+    "k": 1.4,
+    "annualized_compound": 0.026865060742781832,
+    "max_drawdown": -0.2127305316561221,
+    "annual_vol": 0.14897191202689342,
+    "sharpe_excess_0": 0.25133594460955816
+   },
+   {
+    "k": 1.45,
+    "annualized_compound": 0.019763139815138775,
+    "max_drawdown": -0.2266918024451604,
+    "annual_vol": 0.15549108516457358,
+    "sharpe_excess_0": 0.20269819940273232
+   },
+   {
+    "k": 1.5,
+    "annualized_compound": 0.012515598071109357,
+    "max_drawdown": -0.24048688794629758,
+    "annual_vol": 0.16281534750479074,
+    "sharpe_excess_0": 0.157193594674775
+   },
+   {
+    "k": 1.55,
+    "annualized_compound": 0.005123016871316777,
+    "max_drawdown": -0.25411667526064174,
+    "annual_vol": 0.17084118363350143,
+    "sharpe_excess_0": 0.11513205469918314
+   },
+   {
+    "k": 1.6,
+    "annualized_compound": -0.0024140272263094564,
+    "max_drawdown": -0.27565941779404335,
+    "annual_vol": 0.17947449816680533,
+    "sharpe_excess_0": 0.0765850491062827
+   },
+   {
+    "k": 1.65,
+    "annualized_compound": -0.010094964924495686,
+    "max_drawdown": -0.30268697897265606,
+    "annual_vol": 0.1886319002287216,
+    "sharpe_excess_0": 0.04146080277202306
+   },
+   {
+    "k": 1.7,
+    "annualized_compound": -0.01791923683173713,
+    "max_drawdown": -0.32900660023918304,
+    "annual_vol": 0.19824077506989085,
+    "sharpe_excess_0": 0.009567137576470038
+   },
+   {
+    "k": 1.75,
+    "annualized_compound": -0.02588629631258821,
+    "max_drawdown": -0.35462876123754483,
+    "annual_vol": 0.20823863436323387,
+    "sharpe_excess_0": -0.019341446833300382
+   },
+   {
+    "k": 1.8,
+    "annualized_compound": -0.033995612563294975,
+    "max_drawdown": -0.3795639980925136,
+    "annual_vol": 0.2185721061969232,
+    "sharpe_excess_0": -0.0455312889273467
+   },
+   {
+    "k": 1.85,
+    "annualized_compound": -0.04224667393539017,
+    "max_drawdown": -0.40382289602013355,
+    "annual_vol": 0.2291958010042819,
+    "sharpe_excess_0": -0.0692687339501017
+   },
+   {
+    "k": 1.9,
+    "annualized_compound": -0.05063899153262019,
+    "max_drawdown": -0.4274160820985432,
+    "annual_vol": 0.24007119280199077,
+    "sharpe_excess_0": -0.09080779726771322
+   },
+   {
+    "k": 1.95,
+    "annualized_compound": -0.0591721031097765,
+    "max_drawdown": -0.4503542181994791,
+    "annual_vol": 0.2511655885138085,
+    "sharpe_excess_0": -0.11038363023122615
+   },
+   {
+    "k": 2.0,
+    "annualized_compound": -0.06784557730560847,
+    "max_drawdown": -0.4726479940806292,
+    "annual_vol": 0.2624512162637959,
+    "sharpe_excess_0": -0.12820974187839365
+   }
+  ]
+ },
+ "rows": [
+  {
+   "date": "2020-07-06",
+   "book_net": 0.08722624601114838,
+   "hedge_etf": 0.11173184357541932,
+   "in_sample": true,
+   "end": "2020-08-03"
+  },
+  {
+   "date": "2020-08-03",
+   "book_net": 0.012741992584627704,
+   "hedge_etf": -0.004020100502512225,
+   "in_sample": true,
+   "end": "2020-08-31"
+  },
+  {
+   "date": "2020-08-31",
+   "book_net": -0.0783336065535454,
+   "hedge_etf": -0.07870837537840547,
+   "in_sample": true,
+   "end": "2020-09-28"
+  },
+  {
+   "date": "2020-09-28",
+   "book_net": 0.022798925910580446,
+   "hedge_etf": 0.018619934282585016,
+   "in_sample": true,
+   "end": "2020-11-03"
+  },
+  {
+   "date": "2020-11-03",
+   "book_net": 0.01712840115913024,
+   "hedge_etf": 0.016129032258064502,
+   "in_sample": true,
+   "end": "2020-12-01"
+  },
+  {
+   "date": "2020-12-01",
+   "book_net": -0.07310660260444247,
+   "hedge_etf": -0.029629629629629672,
+   "in_sample": true,
+   "end": "2020-12-29"
+  },
+  {
+   "date": "2020-12-29",
+   "book_net": -0.03360510564979482,
+   "hedge_etf": 0.007633587786259666,
+   "in_sample": true,
+   "end": "2021-01-27"
+  },
+  {
+   "date": "2021-01-27",
+   "book_net": 0.04221282988048376,
+   "hedge_etf": 0.007575757575758013,
+   "in_sample": true,
+   "end": "2021-03-03"
+  },
+  {
+   "date": "2021-03-03",
+   "book_net": -0.01713530532669713,
+   "hedge_etf": -0.03974221267454303,
+   "in_sample": true,
+   "end": "2021-03-31"
+  },
+  {
+   "date": "2021-03-31",
+   "book_net": 0.016108940907978687,
+   "hedge_etf": 0.019015659955257336,
+   "in_sample": true,
+   "end": "2021-04-29"
+  },
+  {
+   "date": "2021-04-29",
+   "book_net": 0.05837657690223704,
+   "hedge_etf": 0.07574094401756293,
+   "in_sample": true,
+   "end": "2021-06-01"
+  },
+  {
+   "date": "2021-06-01",
+   "book_net": 0.02365463202862665,
+   "hedge_etf": 0.04285714285714293,
+   "in_sample": true,
+   "end": "2021-06-30"
+  },
+  {
+   "date": "2021-06-30",
+   "book_net": -0.04186431766373438,
+   "hedge_etf": -0.01663405088062564,
+   "in_sample": true,
+   "end": "2021-07-28"
+  },
+  {
+   "date": "2021-07-28",
+   "book_net": 0.11003522150258191,
+   "hedge_etf": 0.12139303482587072,
+   "in_sample": true,
+   "end": "2021-08-25"
+  },
+  {
+   "date": "2021-08-25",
+   "book_net": 9.546985734462145e-05,
+   "hedge_etf": -0.007985803016858917,
+   "in_sample": true,
+   "end": "2021-09-24"
+  },
+  {
+   "date": "2021-09-24",
+   "book_net": -0.05134864829778104,
+   "hedge_etf": -0.03846153846153877,
+   "in_sample": true,
+   "end": "2021-10-29"
+  },
+  {
+   "date": "2021-10-29",
+   "book_net": 0.10832638843965232,
+   "hedge_etf": 0.07348837209302372,
+   "in_sample": true,
+   "end": "2021-11-26"
+  },
+  {
+   "date": "2021-11-26",
+   "book_net": 0.0108214233220585,
+   "hedge_etf": -0.019064124783361724,
+   "in_sample": true,
+   "end": "2021-12-24"
+  },
+  {
+   "date": "2021-12-24",
+   "book_net": -0.008763418990078571,
+   "hedge_etf": -0.04681978798586517,
+   "in_sample": true,
+   "end": "2022-01-24"
+  },
+  {
+   "date": "2022-01-24",
+   "book_net": -0.0055698613592087024,
+   "hedge_etf": -0.000926784059314345,
+   "in_sample": true,
+   "end": "2022-02-28"
+  },
+  {
+   "date": "2022-02-28",
+   "book_net": -0.05210413859357459,
+   "hedge_etf": -0.08905380333951773,
+   "in_sample": true,
+   "end": "2022-03-28"
+  },
+  {
+   "date": "2022-03-28",
+   "book_net": -0.17179191833260346,
+   "hedge_etf": -0.1782077393075353,
+   "in_sample": true,
+   "end": "2022-04-27"
+  },
+  {
+   "date": "2022-04-27",
+   "book_net": 0.1376265151117721,
+   "hedge_etf": 0.13506815365551428,
+   "in_sample": true,
+   "end": "2022-05-30"
+  },
+  {
+   "date": "2022-05-30",
+   "book_net": 0.10907407336640672,
+   "hedge_etf": 0.12991266375545818,
+   "in_sample": true,
+   "end": "2022-06-28"
+  },
+  {
+   "date": "2022-06-28",
+   "book_net": 0.004503530721428471,
+   "hedge_etf": -0.004830917874396268,
+   "in_sample": true,
+   "end": "2022-07-26"
+  },
+  {
+   "date": "2022-07-26",
+   "book_net": 0.04486383974699935,
+   "hedge_etf": 0.03786407766990374,
+   "in_sample": true,
+   "end": "2022-08-23"
+  },
+  {
+   "date": "2022-08-23",
+   "book_net": -0.08546722749434749,
+   "hedge_etf": -0.12303198713742536,
+   "in_sample": true,
+   "end": "2022-09-21"
+  },
+  {
+   "date": "2022-09-21",
+   "book_net": 0.006999840945817671,
+   "hedge_etf": 0.0038610038610040753,
+   "in_sample": true,
+   "end": "2022-10-26"
+  },
+  {
+   "date": "2022-10-26",
+   "book_net": 0.043117233972563826,
+   "hedge_etf": 0.010384615384614992,
+   "in_sample": true,
+   "end": "2022-11-23"
+  },
+  {
+   "date": "2022-11-23",
+   "book_net": -0.026129424324468967,
+   "hedge_etf": -0.04187285877426661,
+   "in_sample": true,
+   "end": "2022-12-21"
+  },
+  {
+   "date": "2022-12-21",
+   "book_net": 0.05849263562448023,
+   "hedge_etf": 0.061581247516884874,
+   "in_sample": true,
+   "end": "2023-01-19"
+  },
+  {
+   "date": "2023-01-19",
+   "book_net": 0.06808023233682109,
+   "hedge_etf": 0.041167664670659354,
+   "in_sample": true,
+   "end": "2023-02-23"
+  },
+  {
+   "date": "2023-02-23",
+   "book_net": -0.011390066777738279,
+   "hedge_etf": -0.01617541337167505,
+   "in_sample": true,
+   "end": "2023-03-23"
+  },
+  {
+   "date": "2023-03-23",
+   "book_net": -0.05145910187692983,
+   "hedge_etf": -0.010595542564852067,
+   "in_sample": true,
+   "end": "2023-04-21"
+  },
+  {
+   "date": "2023-04-21",
+   "book_net": 0.010569165623296356,
+   "hedge_etf": -0.03840472673559803,
+   "in_sample": true,
+   "end": "2023-05-24"
+  },
+  {
+   "date": "2023-05-24",
+   "book_net": 0.010801208924407257,
+   "hedge_etf": 0.011136712749615807,
+   "in_sample": true,
+   "end": "2023-06-21"
+  },
+  {
+   "date": "2023-06-21",
+   "book_net": 0.014545084254529184,
+   "hedge_etf": -0.02088872009115117,
+   "in_sample": true,
+   "end": "2023-07-21"
+  },
+  {
+   "date": "2023-07-21",
+   "book_net": -0.03214282416776508,
+   "hedge_etf": -0.044608223429014715,
+   "in_sample": true,
+   "end": "2023-08-18"
+  },
+  {
+   "date": "2023-08-18",
+   "book_net": 0.003327664974514142,
+   "hedge_etf": -0.00649614291514411,
+   "in_sample": true,
+   "end": "2023-09-15"
+  },
+  {
+   "date": "2023-09-15",
+   "book_net": -0.06795838700440965,
+   "hedge_etf": -0.07315079689415627,
+   "in_sample": true,
+   "end": "2023-10-23"
+  },
+  {
+   "date": "2023-10-23",
+   "book_net": 0.13673987762540282,
+   "hedge_etf": 0.10890652557319269,
+   "in_sample": true,
+   "end": "2023-11-20"
+  },
+  {
+   "date": "2023-11-20",
+   "book_net": -0.05060724564043571,
+   "hedge_etf": -0.06083499005964266,
+   "in_sample": true,
+   "end": "2023-12-18"
+  },
+  {
+   "date": "2023-12-18",
+   "book_net": -0.026624394386647425,
+   "hedge_etf": -0.05588484335309063,
+   "in_sample": true,
+   "end": "2024-01-16"
+  },
+  {
+   "date": "2024-01-16",
+   "book_net": -0.1696698118871175,
+   "hedge_etf": -0.08744394618834117,
+   "in_sample": false,
+   "end": "2024-02-21"
+  },
+  {
+   "date": "2024-02-21",
+   "book_net": 0.17270449669989937,
+   "hedge_etf": 0.11695331695331679,
+   "in_sample": false,
+   "end": "2024-03-20"
+  },
+  {
+   "date": "2024-03-20",
+   "book_net": -0.10705202148764814,
+   "hedge_etf": -0.07039155301363864,
+   "in_sample": false,
+   "end": "2024-04-19"
+  },
+  {
+   "date": "2024-04-19",
+   "book_net": 0.09867104587700079,
+   "hedge_etf": 0.05442498816848085,
+   "in_sample": false,
+   "end": "2024-05-22"
+  },
+  {
+   "date": "2024-05-22",
+   "book_net": -0.09457407465039377,
+   "hedge_etf": -0.08034111310592462,
+   "in_sample": false,
+   "end": "2024-06-20"
+  },
+  {
+   "date": "2024-06-20",
+   "book_net": -0.050093908703512754,
+   "hedge_etf": -0.046364080039043465,
+   "in_sample": false,
+   "end": "2024-07-18"
+  },
+  {
+   "date": "2024-07-18",
+   "book_net": 0.016492311833974135,
+   "hedge_etf": -0.025588536335721224,
+   "in_sample": false,
+   "end": "2024-08-15"
+  },
+  {
+   "date": "2024-08-15",
+   "book_net": -0.04002078234523718,
+   "hedge_etf": -0.044642857142857095,
+   "in_sample": false,
+   "end": "2024-09-12"
+  },
+  {
+   "date": "2024-09-12",
+   "book_net": 0.2953592796097881,
+   "hedge_etf": 0.307861462341946,
+   "in_sample": false,
+   "end": "2024-10-21"
+  },
+  {
+   "date": "2024-10-21",
+   "book_net": 0.059751226304426884,
+   "hedge_etf": 0.021437578814628377,
+   "in_sample": false,
+   "end": "2024-11-18"
+  },
+  {
+   "date": "2024-11-18",
+   "book_net": 0.10975469477218472,
+   "hedge_etf": 0.05020576131687182,
+   "in_sample": false,
+   "end": "2024-12-16"
+  },
+  {
+   "date": "2024-12-16",
+   "book_net": -0.09492191922626753,
+   "hedge_etf": -0.07366771159874597,
+   "in_sample": false,
+   "end": "2025-01-14"
+  },
+  {
+   "date": "2025-01-14",
+   "book_net": 0.0803748682587274,
+   "hedge_etf": 0.0642978003384096,
+   "in_sample": false,
+   "end": "2025-02-19"
+  },
+  {
+   "date": "2025-02-19",
+   "book_net": 0.06392368501538348,
+   "hedge_etf": 0.04411764705882337,
+   "in_sample": false,
+   "end": "2025-03-19"
+  },
+  {
+   "date": "2025-03-19",
+   "book_net": -0.09133721195656423,
+   "hedge_etf": -0.11077274457556141,
+   "in_sample": false,
+   "end": "2025-04-17"
+  },
+  {
+   "date": "2025-04-17",
+   "book_net": 0.10910256649156339,
+   "hedge_etf": 0.054366438356164615,
+   "in_sample": false,
+   "end": "2025-05-20"
+  },
+  {
+   "date": "2025-05-20",
+   "book_net": 0.01237043180030732,
+   "hedge_etf": 0.0016240357287857776,
+   "in_sample": false,
+   "end": "2025-06-18"
+  },
+  {
+   "date": "2025-06-18",
+   "book_net": 0.0688823489060684,
+   "hedge_etf": 0.057559789217673574,
+   "in_sample": false,
+   "end": "2025-07-16"
+  },
+  {
+   "date": "2025-07-16",
+   "book_net": 0.08610073043715125,
+   "hedge_etf": 0.09390571100038336,
+   "in_sample": false,
+   "end": "2025-08-13"
+  },
+  {
+   "date": "2025-08-13",
+   "book_net": 0.01790292011605045,
+   "hedge_etf": 0.02347582340574661,
+   "in_sample": false,
+   "end": "2025-09-10"
+  },
+  {
+   "date": "2025-09-10",
+   "book_net": 0.006608617192172574,
+   "hedge_etf": 0.025333789798014594,
+   "in_sample": false,
+   "end": "2025-10-16"
+  },
+  {
+   "date": "2025-10-16",
+   "book_net": 0.061513707420095716,
+   "hedge_etf": 0.027045075125208706,
+   "in_sample": false,
+   "end": "2025-11-13"
+  },
+  {
+   "date": "2025-11-13",
+   "book_net": -0.04094807907826431,
+   "hedge_etf": -0.03511053315994794,
+   "in_sample": false,
+   "end": "2025-12-11"
+  },
+  {
+   "date": "2025-12-11",
+   "book_net": 0.10714625205873866,
+   "hedge_etf": 0.14757412398921832,
+   "in_sample": false,
+   "end": "2026-01-12"
+  },
+  {
+   "date": "2026-01-12",
+   "book_net": 0.0235184660787946,
+   "hedge_etf": -0.03053435114503822,
+   "in_sample": false,
+   "end": "2026-02-09"
+  },
+  {
+   "date": "2026-02-09",
+   "book_net": -0.03019154582781885,
+   "hedge_etf": -0.027256208358570344,
+   "in_sample": false,
+   "end": "2026-03-17"
+  },
+  {
+   "date": "2026-03-17",
+   "book_net": -0.014940642191666622,
+   "hedge_etf": 0.010585305105853537,
+   "in_sample": false,
+   "end": "2026-04-15"
+  },
+  {
+   "date": "2026-04-15",
+   "book_net": 0.04439456066653547,
+   "hedge_etf": 0.07917436845348136,
+   "in_sample": false,
+   "end": "2026-05-18"
+  },
+  {
+   "date": "2026-05-18",
+   "book_net": -0.08774770620734446,
+   "hedge_etf": -0.018270054239223343,
+   "in_sample": false,
+   "end": "2026-06-15"
+  },
+  {
+   "date": "2026-06-15",
+   "book_net": -0.0746441111119952,
+   "hedge_etf": -0.06775225356208125,
+   "in_sample": false,
+   "end": "2026-07-14"
+  },
+  {
+   "date": "2026-07-14",
+   "book_net": 0.0523462094859575,
+   "hedge_etf": -0.026824703680598305,
+   "in_sample": false,
+   "end": "2026-08-11"
+  },
+  {
+   "date": "2026-08-11",
+   "book_net": 0.035588744972629476,
+   "hedge_etf": -0.004487179487180137,
+   "in_sample": false,
+   "end": "2026-09-08"
+  },
+  {
+   "date": "2026-09-08",
+   "book_net": -0.05486870570674504,
+   "hedge_etf": -0.09529942047649675,
+   "in_sample": false,
+   "end": "2026-10-14"
+  },
+  {
+   "date": "2026-10-14",
+   "book_net": -0.022853951581082096,
+   "hedge_etf": -0.03487544483985716,
+   "in_sample": false,
+   "end": "2026-11-11"
+  }
+ ]
+}
