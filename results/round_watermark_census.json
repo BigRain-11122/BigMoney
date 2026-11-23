@@ -1,0 +1,119 @@
+{
+ "schema": "round-watermark-census/v1",
+ "machine_id": "bm-c",
+ "probed_at": "2026-11-23T09:14:10+08:00",
+ "git": {
+  "readable": true,
+  "round": 1976,
+  "sha": "3629562a90",
+  "at": "2026-11-23T09:07:33+08:00",
+  "subject": "round 1976 addendum: the round line for the sub-period face"
+ },
+ "faces": [
+  {
+   "path": "state-bm-c.json",
+   "exists": true,
+   "bytes": 1321861,
+   "mtime": "2026-11-23T06:53:20.910893+08:00",
+   "mtime_age_min": 140.8,
+   "rounds": {
+    "round_no": 1962,
+    "round": 1946,
+    "rounds": 1952,
+    "last_round": 1952
+   },
+   "round_values": [
+    1946,
+    1952,
+    1962
+   ],
+   "clocks": {
+    "clock_read": "2026-11-23T02:59:56+08:00",
+    "ts": "2026-11-23T02:59:56+08:00",
+    "last_seen": "2026-11-23T02:15:00+08:00",
+    "last_round_ts": "2026-11-22T23:10:46+08:00",
+    "heartbeat_epoch_utc": "1795373996",
+    "generated": "2026-11-16T22:44:32"
+   },
+   "inner_clock": "2026-11-23T02:59:56+08:00",
+   "inner_clock_age_min": 374.2
+  },
+  {
+   "path": "fleet/machines/bm-c.json",
+   "exists": true,
+   "bytes": 247952,
+   "mtime": "2026-11-23T09:09:18.322677+08:00",
+   "mtime_age_min": 4.9,
+   "rounds": {
+    "round_no": 1960,
+    "round": 1951,
+    "rounds": 1953,
+    "last_round": 1946
+   },
+   "round_values": [
+    1946,
+    1951,
+    1953,
+    1960
+   ],
+   "clocks": {
+    "clock_read": "2026-11-23T03:00:49+08:00",
+    "ts": "2026-11-23T03:00:49+08:00",
+    "last_seen": "2026-11-23T03:00:49+08:00",
+    "last_round_ts": "2026-11-20T01:56:49+08:00",
+    "heartbeat_epoch_utc": "1795374049"
+   },
+   "inner_clock": "2026-11-23T03:00:49+08:00",
+   "inner_clock_age_min": 373.4
+  },
+  {
+   "path": "fleet/state-bm-c.json",
+   "exists": true,
+   "bytes": 5101,
+   "mtime": "2026-11-11T15:22:44.751334+08:00",
+   "mtime_age_min": 16911.4,
+   "rounds": {
+    "round_no": 1555,
+    "round": 1542,
+    "rounds": 1555,
+    "last_round": 1555
+   },
+   "round_values": [
+    1542,
+    1555
+   ],
+   "clocks": {
+    "clock_read": "2026-11-11T10:05:09+08:00",
+    "ts": "2026-11-11T10:05:09+08:00",
+    "last_seen": "2026-11-11T10:23:14+08:00",
+    "last_round_ts": "2026-11-11T15:26:00+08:00",
+    "heartbeat_epoch_utc": "1794362709"
+   },
+   "inner_clock": "2026-11-11T15:26:00+08:00",
+   "inner_clock_age_min": 16908.2
+  }
+ ],
+ "report_ledger": {
+  "path": "fleet/round_reports-bm-c.md",
+  "exists": true,
+  "max_round": 1929,
+  "mtime": "2026-11-22T13:35:21.262439+08:00",
+  "mtime_age_min": 1178.8
+ },
+ "verdict": "FACES_DISAGREE_WITH_GIT_AND_EACH_OTHER",
+ "lags_vs_git": {
+  "state-bm-c.json": 14,
+  "fleet/machines/bm-c.json": 16,
+  "fleet/state-bm-c.json": 421
+ },
+ "worst_lag": 421,
+ "flags": [
+  "ONE_FILE_HOLDS_3_ROUNDS:state-bm-c.json",
+  "REDRAWN_WITH_A_FROZEN_CLOCK:state-bm-c.json(374.2 min old, mtime 140.8 min)",
+  "ONE_FILE_HOLDS_4_ROUNDS:fleet/machines/bm-c.json",
+  "REDRAWN_WITH_A_FROZEN_CLOCK:fleet/machines/bm-c.json(373.4 min old, mtime 4.9 min)",
+  "ONE_FILE_HOLDS_2_ROUNDS:fleet/state-bm-c.json",
+  "REPORT_LEDGER_LAGS_GIT_BY_47"
+ ],
+ "reading": "git says round 1976; state-bm-c.json says 1946/1952/1962 (374.2 min old); bm-c.json says 1946/1951/1953/1960 (373.4 min old); state-bm-c.json says 1542/1555 (16908.2 min old) -- a stale carrier is not a dead loop, but nothing downstream can tell the difference by reading it"
+}
