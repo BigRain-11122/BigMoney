@@ -1,0 +1,572 @@
+{
+ "generated": "2026-11-23T18:04:16+08:00",
+ "evidence_cutoff": "2026-11-20",
+ "kind": "verified_lines_money_year",
+ "capital_cny": 1000000.0,
+ "window": [
+  "2020",
+  "2026"
+ ],
+ "rules": {
+  "M1": "a year runs from the previous year's last level to this year's last level; short years are printed partial",
+  "M2": "combined = arithmetic mean of the lines that have a number; a missing line is never zero",
+  "M3": "lost together = every line with a number that year was negative",
+  "M4": "7 points is not a statistic: no correlation coefficient is printed, only a sign count"
+ },
+ "lines": [
+  {
+   "key": "L1_etf_book",
+   "name": "ETF bond-free composite (production candidate)",
+   "face": "results/etf_nobond_vt.json",
+   "arm": "nobond_vt08",
+   "caliber": {
+    "cost_bp_per_side": 10.0,
+    "execution": "decide at close t, own from open t+1 (entry_lag=1)",
+    "universe": "equity + commodity + convertible ETFs (no bond/money)",
+    "names": 5,
+    "rebalance_bars": 20,
+    "overlay": "8% vol target, de-lever only",
+    "source": "scripts/etf_nobond_vt.py + scripts/etf_robust_pf.py::open_to_open_equity"
+   },
+   "yearly": {
+    "2020": {
+     "ret": 0.047516938950400656,
+     "bars": 242,
+     "partial": false,
+     "base_level": 0.999257,
+     "end_level": 1.046739
+    },
+    "2021": {
+     "ret": 0.06149397997200934,
+     "bars": 243,
+     "partial": false,
+     "base_level": 1.046739,
+     "end_level": 1.111107
+    },
+    "2022": {
+     "ret": 0.031519588688997624,
+     "bars": 242,
+     "partial": false,
+     "base_level": 1.111107,
+     "end_level": 1.146129
+    },
+    "2023": {
+     "ret": 0.027792191356168505,
+     "bars": 242,
+     "partial": false,
+     "base_level": 1.146129,
+     "end_level": 1.177982
+    },
+    "2024": {
+     "ret": 0.12437654839556811,
+     "bars": 242,
+     "partial": false,
+     "base_level": 1.177982,
+     "end_level": 1.324495
+    },
+    "2025": {
+     "ret": 0.42423859589637813,
+     "bars": 243,
+     "partial": false,
+     "base_level": 1.324495,
+     "end_level": 1.886397
+    },
+    "2026": {
+     "ret": 0.028669122675267777,
+     "bars": 213,
+     "partial": true,
+     "base_level": 1.886397,
+     "end_level": 1.940479
+    }
+   }
+  },
+  {
+   "key": "L2_astock_veto",
+   "name": "A-share residual veto (arm B: pool minus top 20% residual)",
+   "face": "results/astock_resid_veto_layer.json",
+   "arm": "B",
+   "caliber": {
+    "cost_bp_per_side": 8.0,
+    "execution": "equal weight on the rebalance date's eligible pool",
+    "universe": "A-share panel, 5,181 symbols, liquidity >= 20m CNY 20d",
+    "names": "whole eligible pool minus the top 20% residual names",
+    "rebalance_bars": 20,
+    "overlay": "none",
+    "source": "scripts/astock_resid_veto_layer.py::run"
+   },
+   "yearly": {
+    "2020": {
+     "ret": -0.09564837283594207,
+     "bars": 7,
+     "partial": true,
+     "base_level": null,
+     "end_level": null
+    },
+    "2021": {
+     "ret": 0.27848655245965137,
+     "bars": 12,
+     "partial": false,
+     "base_level": null,
+     "end_level": null
+    },
+    "2022": {
+     "ret": 0.024959039441910136,
+     "bars": 12,
+     "partial": false,
+     "base_level": null,
+     "end_level": null
+    },
+    "2023": {
+     "ret": -0.013770179886110623,
+     "bars": 12,
+     "partial": false,
+     "base_level": null,
+     "end_level": null
+    },
+    "2024": {
+     "ret": 0.11100749775849783,
+     "bars": 12,
+     "partial": false,
+     "base_level": null,
+     "end_level": null
+    },
+    "2025": {
+     "ret": 0.6082942937175904,
+     "bars": 12,
+     "partial": false,
+     "base_level": null,
+     "end_level": null
+    },
+    "2026": {
+     "ret": -0.16382766933827952,
+     "bars": 10,
+     "partial": true,
+     "base_level": null,
+     "end_level": null
+    }
+   }
+  },
+  {
+   "key": "L3_idx_carry",
+   "name": "Index-futures basis carry, four arms equal weight",
+   "face": "results/idx_fut_carry_portfolio.json",
+   "arm": "equal_weight_full",
+   "caliber": {
+    "cost_bp_per_side": 1.5,
+    "execution": "close-to-close on the daily bar",
+    "universe": "IC/IM/IF/IH long futures",
+    "names": 4,
+    "rebalance_bars": "weights change only when the book re-sizes",
+    "overlay": "none (margin account, see idx_fut_leverage_washout)",
+    "source": "scripts/idx_fut_carry_portfolio.py"
+   },
+   "yearly": {
+    "2017": {
+     "ret": 0.04594,
+     "bars": 232,
+     "partial": false,
+     "base_level": null,
+     "end_level": null
+    },
+    "2018": {
+     "ret": 0.085512,
+     "bars": 243,
+     "partial": false,
+     "base_level": null,
+     "end_level": null
+    },
+    "2019": {
+     "ret": 0.0887,
+     "bars": 244,
+     "partial": false,
+     "base_level": null,
+     "end_level": null
+    },
+    "2020": {
+     "ret": 0.121831,
+     "bars": 243,
+     "partial": false,
+     "base_level": null,
+     "end_level": null
+    },
+    "2021": {
+     "ret": 0.075827,
+     "bars": 243,
+     "partial": false,
+     "base_level": null,
+     "end_level": null
+    },
+    "2022": {
+     "ret": 0.066185,
+     "bars": 242,
+     "partial": false,
+     "base_level": null,
+     "end_level": null
+    },
+    "2023": {
+     "ret": 0.04424,
+     "bars": 242,
+     "partial": false,
+     "base_level": null,
+     "end_level": null
+    },
+    "2024": {
+     "ret": 0.055152,
+     "bars": 242,
+     "partial": false,
+     "base_level": null,
+     "end_level": null
+    },
+    "2025": {
+     "ret": 0.104569,
+     "bars": 243,
+     "partial": false,
+     "base_level": null,
+     "end_level": null
+    },
+    "2026": {
+     "ret": 0.06187,
+     "bars": 213,
+     "partial": true,
+     "base_level": null,
+     "end_level": null
+    }
+   }
+  }
+ ],
+ "rows": [
+  {
+   "year": "2020",
+   "lines": {
+    "L1_etf_book": {
+     "ret": 0.047516938950400656,
+     "ret_pct": 4.7517,
+     "money_end_cny": 1047516.94,
+     "bars": 242,
+     "partial": false
+    },
+    "L2_astock_veto": {
+     "ret": -0.09564837283594207,
+     "ret_pct": -9.5648,
+     "money_end_cny": 904351.63,
+     "bars": 7,
+     "partial": true
+    },
+    "L3_idx_carry": {
+     "ret": 0.121831,
+     "ret_pct": 12.1831,
+     "money_end_cny": 1121831.0,
+     "bars": 243,
+     "partial": false
+    }
+   },
+   "combined": {
+    "ret": 0.02456652203815286,
+    "ret_pct": 2.4567,
+    "money_end_cny": 1024566.52,
+    "n_lines": 3,
+    "lines_present": [
+     "L1_etf_book",
+     "L2_astock_veto",
+     "L3_idx_carry"
+    ],
+    "missing": []
+   }
+  },
+  {
+   "year": "2021",
+   "lines": {
+    "L1_etf_book": {
+     "ret": 0.06149397997200934,
+     "ret_pct": 6.1494,
+     "money_end_cny": 1061493.98,
+     "bars": 243,
+     "partial": false
+    },
+    "L2_astock_veto": {
+     "ret": 0.27848655245965137,
+     "ret_pct": 27.8487,
+     "money_end_cny": 1278486.55,
+     "bars": 12,
+     "partial": false
+    },
+    "L3_idx_carry": {
+     "ret": 0.075827,
+     "ret_pct": 7.5827,
+     "money_end_cny": 1075827.0,
+     "bars": 243,
+     "partial": false
+    }
+   },
+   "combined": {
+    "ret": 0.13860251081055355,
+    "ret_pct": 13.8603,
+    "money_end_cny": 1138602.51,
+    "n_lines": 3,
+    "lines_present": [
+     "L1_etf_book",
+     "L2_astock_veto",
+     "L3_idx_carry"
+    ],
+    "missing": []
+   }
+  },
+  {
+   "year": "2022",
+   "lines": {
+    "L1_etf_book": {
+     "ret": 0.031519588688997624,
+     "ret_pct": 3.152,
+     "money_end_cny": 1031519.59,
+     "bars": 242,
+     "partial": false
+    },
+    "L2_astock_veto": {
+     "ret": 0.024959039441910136,
+     "ret_pct": 2.4959,
+     "money_end_cny": 1024959.04,
+     "bars": 12,
+     "partial": false
+    },
+    "L3_idx_carry": {
+     "ret": 0.066185,
+     "ret_pct": 6.6185,
+     "money_end_cny": 1066185.0,
+     "bars": 242,
+     "partial": false
+    }
+   },
+   "combined": {
+    "ret": 0.04088787604363592,
+    "ret_pct": 4.0888,
+    "money_end_cny": 1040887.88,
+    "n_lines": 3,
+    "lines_present": [
+     "L1_etf_book",
+     "L2_astock_veto",
+     "L3_idx_carry"
+    ],
+    "missing": []
+   }
+  },
+  {
+   "year": "2023",
+   "lines": {
+    "L1_etf_book": {
+     "ret": 0.027792191356168505,
+     "ret_pct": 2.7792,
+     "money_end_cny": 1027792.19,
+     "bars": 242,
+     "partial": false
+    },
+    "L2_astock_veto": {
+     "ret": -0.013770179886110623,
+     "ret_pct": -1.377,
+     "money_end_cny": 986229.82,
+     "bars": 12,
+     "partial": false
+    },
+    "L3_idx_carry": {
+     "ret": 0.04424,
+     "ret_pct": 4.424,
+     "money_end_cny": 1044240.0,
+     "bars": 242,
+     "partial": false
+    }
+   },
+   "combined": {
+    "ret": 0.019420670490019293,
+    "ret_pct": 1.9421,
+    "money_end_cny": 1019420.67,
+    "n_lines": 3,
+    "lines_present": [
+     "L1_etf_book",
+     "L2_astock_veto",
+     "L3_idx_carry"
+    ],
+    "missing": []
+   }
+  },
+  {
+   "year": "2024",
+   "lines": {
+    "L1_etf_book": {
+     "ret": 0.12437654839556811,
+     "ret_pct": 12.4377,
+     "money_end_cny": 1124376.55,
+     "bars": 242,
+     "partial": false
+    },
+    "L2_astock_veto": {
+     "ret": 0.11100749775849783,
+     "ret_pct": 11.1007,
+     "money_end_cny": 1111007.5,
+     "bars": 12,
+     "partial": false
+    },
+    "L3_idx_carry": {
+     "ret": 0.055152,
+     "ret_pct": 5.5152,
+     "money_end_cny": 1055152.0,
+     "bars": 242,
+     "partial": false
+    }
+   },
+   "combined": {
+    "ret": 0.09684534871802197,
+    "ret_pct": 9.6845,
+    "money_end_cny": 1096845.35,
+    "n_lines": 3,
+    "lines_present": [
+     "L1_etf_book",
+     "L2_astock_veto",
+     "L3_idx_carry"
+    ],
+    "missing": []
+   }
+  },
+  {
+   "year": "2025",
+   "lines": {
+    "L1_etf_book": {
+     "ret": 0.42423859589637813,
+     "ret_pct": 42.4239,
+     "money_end_cny": 1424238.6,
+     "bars": 243,
+     "partial": false
+    },
+    "L2_astock_veto": {
+     "ret": 0.6082942937175904,
+     "ret_pct": 60.8294,
+     "money_end_cny": 1608294.29,
+     "bars": 12,
+     "partial": false
+    },
+    "L3_idx_carry": {
+     "ret": 0.104569,
+     "ret_pct": 10.4569,
+     "money_end_cny": 1104569.0,
+     "bars": 243,
+     "partial": false
+    }
+   },
+   "combined": {
+    "ret": 0.37903396320465615,
+    "ret_pct": 37.9034,
+    "money_end_cny": 1379033.96,
+    "n_lines": 3,
+    "lines_present": [
+     "L1_etf_book",
+     "L2_astock_veto",
+     "L3_idx_carry"
+    ],
+    "missing": []
+   }
+  },
+  {
+   "year": "2026",
+   "lines": {
+    "L1_etf_book": {
+     "ret": 0.028669122675267777,
+     "ret_pct": 2.8669,
+     "money_end_cny": 1028669.12,
+     "bars": 213,
+     "partial": true
+    },
+    "L2_astock_veto": {
+     "ret": -0.16382766933827952,
+     "ret_pct": -16.3828,
+     "money_end_cny": 836172.33,
+     "bars": 10,
+     "partial": true
+    },
+    "L3_idx_carry": {
+     "ret": 0.06187,
+     "ret_pct": 6.187,
+     "money_end_cny": 1061870.0,
+     "bars": 213,
+     "partial": true
+    }
+   },
+   "combined": {
+    "ret": -0.024429515554337245,
+    "ret_pct": -2.443,
+    "money_end_cny": 975570.48,
+    "n_lines": 3,
+    "lines_present": [
+     "L1_etf_book",
+     "L2_astock_veto",
+     "L3_idx_carry"
+    ],
+    "missing": []
+   }
+  }
+ ],
+ "sign_agreement": {
+  "years_judged": 7,
+  "years_all_positive": [
+   "2021",
+   "2022",
+   "2024",
+   "2025"
+  ],
+  "years_all_negative": [],
+  "years_mixed": [
+   "2020",
+   "2023",
+   "2026"
+  ],
+  "share_same_sign": 0.5714,
+  "note": "7 个年份点算不出相关系数（样本太短）；这一行只回答「它们有没有一起亏过」，那才是把钱放进去的人真正感受到的事"
+ },
+ "worst_combined_year": {
+  "year": "2026",
+  "ret_pct": -2.443,
+  "money_end_cny": 975570.48
+ },
+ "best_combined_year": {
+  "year": "2025",
+  "ret_pct": 37.9034,
+  "money_end_cny": 1379033.96
+ },
+ "worst_year_per_line": {
+  "L1_etf_book": {
+   "year": "2023",
+   "ret_pct": 2.7792
+  },
+  "L2_astock_veto": {
+   "year": "2026",
+   "ret_pct": -16.3828
+  },
+  "L3_idx_carry": {
+   "year": "2023",
+   "ret_pct": 4.424
+  }
+ },
+ "verdict": "THREE_LINES_NEVER_LOST_TOGETHER",
+ "cannot_be_added": "the three lines run different calibers (10/8/1.5 bp per side, next-open vs same-day close vs rebalance-date fills, different universes); one third per line is three separate books of money, not one portfolio backtest",
+ "state": "ok",
+ "state_why": null,
+ "upstream": {
+  "L1": {
+   "face": "results/etf_nobond_vt.json",
+   "bars": 1667,
+   "first": "2020-01-03",
+   "last": "2026-11-20",
+   "turnover": 1.08,
+   "flips_repaired": 169,
+   "universe": 1528,
+   "end_level": 1.940479
+  },
+  "L2": {
+   "face": "results/astock_resid_veto_layer.json",
+   "cutoff": "2026-11-20",
+   "generated": "2026-11-22T17:02:28+08:00"
+  },
+  "L3": {
+   "face": "results/idx_fut_carry_portfolio.json",
+   "cutoff": "2026-11-20",
+   "generated": "2026-11-23T17:25:58+08:00"
+  }
+ }
+}
