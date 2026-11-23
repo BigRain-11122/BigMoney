@@ -1,0 +1,411 @@
+{
+ "artifact": "etf_class_ew_ruler_repair",
+ "schema": "etf_class_ew_ruler_repair/v1",
+ "generated": "2026-11-23T08:26:00+0800",
+ "evidence_cutoff": "2026-11-20",
+ "window": {
+  "first": "2005-02-23",
+  "last": "2026-11-20",
+  "bars": 5285
+ },
+ "arm_window": {
+  "first": "2020-01-02",
+  "last": "2026-11-19",
+  "bars": 1667
+ },
+ "panel": {
+  "shape": [
+   5285,
+   1637
+  ],
+  "flips_repaired": 169,
+  "digest": {
+   "digest": "2e875bf4876e25e5",
+   "dates": 5285,
+   "columns": 1637,
+   "first": "2005-02-23",
+   "last": "2026-11-20",
+   "blocks": [
+    "close",
+    "open",
+    "amount"
+   ],
+   "amount_columns": 1637
+  }
+ },
+ "judges": {
+  "MONEY_CLASS_IS_NOT_CASH": true,
+  "DEFENSIVE_PNL_FROM_EQUITY_MOVERS": false,
+  "REPAIRED_MONEY_READS_LIKE_CASH": true
+ },
+ "headline": "RULER_BROKEN_DEFENSIVE_LABEL_MIXES_EQUITY_INTO_IT",
+ "class_counts": {
+  "published": {
+   "equity": 1485,
+   "money": 59,
+   "bond": 50,
+   "commodity": 41,
+   "convertible": 2
+  },
+  "repaired": {
+   "equity": 1301,
+   "crossborder": 239,
+   "bond": 64,
+   "commodity": 19,
+   "money": 12,
+   "convertible": 2
+  }
+ },
+ "arms": {
+  "published": {
+   "money": {
+    "cagr": -0.0033931835298784963,
+    "vol": 0.03464311952508766,
+    "sharpe": -0.08477998350852886,
+    "maxdd": -0.13734141873800387,
+    "names": 59
+   },
+   "bond": {
+    "cagr": 0.025538169700116242,
+    "vol": 0.019983084275615456,
+    "sharpe": 1.3233597742733851,
+    "maxdd": -0.0446113859565338,
+    "names": 50
+   },
+   "bond+money": {
+    "cagr": 0.01184360297385778,
+    "vol": 0.014357894245567313,
+    "sharpe": 0.8606145752116162,
+    "maxdd": -0.038577592807729544,
+    "names": 109
+   }
+  },
+  "repaired": {
+   "money": {
+    "cagr": 0.00012781779133974602,
+    "vol": 0.0022650286931129985,
+    "sharpe": 0.05985572559061146,
+    "maxdd": -0.0030681824045662998,
+    "names": 12
+   },
+   "bond": {
+    "cagr": 0.021109169519421433,
+    "vol": 0.014661140940814369,
+    "sharpe": 1.4902065285862174,
+    "maxdd": -0.026496235240731858,
+    "names": 64
+   },
+   "bond+money": {
+    "cagr": 0.012808986790913579,
+    "vol": 0.009270793130086417,
+    "sharpe": 1.4334298124573017,
+    "maxdd": -0.013538100907734107,
+    "names": 76
+   }
+  }
+ },
+ "released": {
+  "bond_money_only_ew_bench": {
+   "cagr": 0.0118,
+   "vol": 0.0144,
+   "maxdd": -0.0386
+  },
+  "all_classes": {
+   "cagr": 0.0897,
+   "vol": 0.1038,
+   "maxdd": -0.1254
+  },
+  "bond_money_only": {
+   "cagr": 0.0008,
+   "vol": 0.0116,
+   "maxdd": -0.0165
+  }
+ },
+ "controls": {
+  "C1_bond_money_ew": {
+   "ours": {
+    "cagr": 0.01184360297385778,
+    "vol": 0.014357894245567313,
+    "sharpe": 0.8606145752116162,
+    "maxdd": -0.038577592807729544,
+    "names": 109
+   },
+   "released": {
+    "cagr": 0.0118,
+    "vol": 0.0144,
+    "maxdd": -0.0386
+   }
+  },
+  "C2_book": {
+   "ours": {
+    "cagr": 0.08973089718427896,
+    "vol": 0.10384029532731592,
+    "maxdd": -0.1254375646235466
+   },
+   "released": {
+    "cagr": 0.0897,
+    "vol": 0.1038,
+    "maxdd": -0.1254
+   }
+  }
+ },
+ "defensive_pnl": {
+  "book_pnl_total": 0.7438,
+  "defensive_pnl": 0.0787,
+  "fake_defense_pnl": 0.0,
+  "fake_defense_share_of_total": 0.0,
+  "fake_names_held": 0,
+  "fake_holding_instances": 0
+ },
+ "money_bucket": {
+  "published_members": 59,
+  "not_cash_members": 45,
+  "equity_vol_members": 32,
+  "best_member": {
+   "symbol": "561420",
+   "name": "300现金流ETF汇添富",
+   "own_vol": 0.1458,
+   "own_cagr": 0.3198,
+   "own_max_day": 0.0295,
+   "repaired_class": "equity"
+  },
+  "worst_member": {
+   "symbol": "159166",
+   "name": "现金流ETF长城",
+   "own_vol": 0.1549,
+   "own_cagr": -0.2163,
+   "own_max_day": 0.0335,
+   "repaired_class": "equity"
+  },
+  "members": [
+   {
+    "symbol": "560120",
+    "name": "中证500现金流ETF华夏",
+    "own_vol": 0.206,
+    "own_cagr": 0.1192,
+    "own_max_day": 0.0647,
+    "repaired_class": "equity"
+   },
+   {
+    "symbol": "159201",
+    "name": "自由现金流ETF华夏",
+    "own_vol": 0.1746,
+    "own_cagr": 0.073,
+    "own_max_day": 0.0948,
+    "repaired_class": "equity"
+   },
+   {
+    "symbol": "512130",
+    "name": "全指现金流ETF鹏华",
+    "own_vol": 0.1679,
+    "own_cagr": 0.0317,
+    "own_max_day": 0.0414,
+    "repaired_class": "equity"
+   },
+   {
+    "symbol": "159276",
+    "name": "现金流ETF汇添富",
+    "own_vol": 0.1657,
+    "own_cagr": 0.0454,
+    "own_max_day": 0.0475,
+    "repaired_class": "equity"
+   },
+   {
+    "symbol": "563830",
+    "name": "全指现金流ETF博时",
+    "own_vol": 0.165,
+    "own_cagr": 0.0315,
+    "own_max_day": 0.0502,
+    "repaired_class": "equity"
+   },
+   {
+    "symbol": "159223",
+    "name": "现金流ETF永赢",
+    "own_vol": 0.1643,
+    "own_cagr": 0.0655,
+    "own_max_day": 0.0403,
+    "repaired_class": "equity"
+   },
+   {
+    "symbol": "159225",
+    "name": "现金流ETF银华",
+    "own_vol": 0.1627,
+    "own_cagr": 0.1206,
+    "own_max_day": 0.0577,
+    "repaired_class": "equity"
+   },
+   {
+    "symbol": "563580",
+    "name": "自由现金流800ETF万家",
+    "own_vol": 0.1604,
+    "own_cagr": 0.0652,
+    "own_max_day": 0.0478,
+    "repaired_class": "equity"
+   },
+   {
+    "symbol": "563680",
+    "name": "800现金流ETF汇添富",
+    "own_vol": 0.1597,
+    "own_cagr": 0.0939,
+    "own_max_day": 0.0468,
+    "repaired_class": "equity"
+   },
+   {
+    "symbol": "563620",
+    "name": "全指现金流ETF兴业",
+    "own_vol": 0.1596,
+    "own_cagr": -0.0271,
+    "own_max_day": 0.0443,
+    "repaired_class": "equity"
+   },
+   {
+    "symbol": "563990",
+    "name": "800现金流ETF富国",
+    "own_vol": 0.1594,
+    "own_cagr": 0.1384,
+    "own_max_day": 0.0469,
+    "repaired_class": "equity"
+   },
+   {
+    "symbol": "159399",
+    "name": "现金流ETF国泰",
+    "own_vol": 0.1592,
+    "own_cagr": -0.0326,
+    "own_max_day": 0.0844,
+    "repaired_class": "equity"
+   },
+   {
+    "symbol": "159119",
+    "name": "800现金流ETF招商",
+    "own_vol": 0.1584,
+    "own_cagr": -0.0831,
+    "own_max_day": 0.0398,
+    "repaired_class": "equity"
+   },
+   {
+    "symbol": "159232",
+    "name": "自由现金流ETF南方",
+    "own_vol": 0.1571,
+    "own_cagr": 0.0588,
+    "own_max_day": 0.0456,
+    "repaired_class": "equity"
+   },
+   {
+    "symbol": "561870",
+    "name": "现金流全指ETF华富",
+    "own_vol": 0.1567,
+    "own_cagr": 0.0316,
+    "own_max_day": 0.04,
+    "repaired_class": "equity"
+   },
+   {
+    "symbol": "159221",
+    "name": "现金流ETF嘉实",
+    "own_vol": 0.1564,
+    "own_cagr": 0.066,
+    "own_max_day": 0.04,
+    "repaired_class": "equity"
+   },
+   {
+    "symbol": "159229",
+    "name": "自由现金流ETF广发",
+    "own_vol": 0.1564,
+    "own_cagr": 0.1028,
+    "own_max_day": 0.0452,
+    "repaired_class": "equity"
+   },
+   {
+    "symbol": "563760",
+    "name": "全指现金流ETF中银",
+    "own_vol": 0.1555,
+    "own_cagr": 0.0403,
+    "own_max_day": 0.0441,
+    "repaired_class": "equity"
+   },
+   {
+    "symbol": "516460",
+    "name": "现金流ETF800鹏华",
+    "own_vol": 0.1554,
+    "own_cagr": 0.1219,
+    "own_max_day": 0.0451,
+    "repaired_class": "equity"
+   },
+   {
+    "symbol": "563780",
+    "name": "现金流全指ETF方正富邦",
+    "own_vol": 0.1552,
+    "own_cagr": 0.0687,
+    "own_max_day": 0.0467,
+    "repaired_class": "equity"
+   }
+  ]
+ },
+ "buyable_today": {
+  "bar": "2026-11-20",
+  "scored": 645,
+  "eligible": 684,
+  "fake_money_eligible": 13,
+  "closest_to_the_book": [
+   {
+    "symbol": "511880",
+    "rank": 6,
+    "of": 645,
+    "own_vol": 0.0257
+   },
+   {
+    "symbol": "511620",
+    "rank": 53,
+    "of": 645,
+    "own_vol": 0.0594
+   },
+   {
+    "symbol": "159221",
+    "rank": 73,
+    "of": 645,
+    "own_vol": 0.1564
+   },
+   {
+    "symbol": "159222",
+    "rank": 80,
+    "of": 645,
+    "own_vol": 0.1542
+   },
+   {
+    "symbol": "159201",
+    "rank": 81,
+    "of": 645,
+    "own_vol": 0.1746
+   },
+   {
+    "symbol": "563760",
+    "rank": 113,
+    "of": 645,
+    "own_vol": 0.1555
+   },
+   {
+    "symbol": "159235",
+    "rank": 114,
+    "of": 645,
+    "own_vol": 0.1547
+   },
+   {
+    "symbol": "159399",
+    "rank": 115,
+    "of": 645,
+    "own_vol": 0.1592
+   }
+  ],
+  "book_top5": [
+   "159650",
+   "511160",
+   "159651",
+   "511360",
+   "511580"
+  ]
+ },
+ "tolerances": {
+  "C1_pp": 0.02,
+  "C2_pp": 0.02,
+  "row": 0.0005
+ }
+}
