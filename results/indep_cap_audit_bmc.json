@@ -1,0 +1,171 @@
+{
+ "arm_days": {
+  "always_cap": 36,
+  "bear_rule": 194,
+  "red_label": 13
+ },
+ "arms": {
+  "always_cap": {
+   "cost_cny": 2347.44,
+   "delta_gross_cny": 43700.98,
+   "delta_net_cny": 41353.54,
+   "sessions_bound": 34,
+   "sessions_skipped": 0
+  },
+  "bear_rule": {
+   "cost_cny": 3726.17,
+   "delta_gross_cny": 11099.73,
+   "delta_net_cny": 7373.57,
+   "sessions_bound": 5,
+   "sessions_skipped": 0
+  },
+  "red_label": {
+   "cost_cny": 3171.34,
+   "delta_gross_cny": 21488.35,
+   "delta_net_cny": 18317.01,
+   "sessions_bound": 11,
+   "sessions_skipped": 0
+  }
+ },
+ "audits": "results/regime_cap_enforced_counterfactual.json",
+ "compare": {
+  "always_cap": {
+   "cost_gap": 0.0,
+   "delta_gross_mine": 43700.98,
+   "delta_gross_pub": 43700.98,
+   "gap": 0.0,
+   "net_gap": 0.0,
+   "per_trader": {
+    "COMPOSITE-CE-01": {
+     "gap": 0.0,
+     "mine": 22625.1,
+     "pub": 22625.1
+    },
+    "COMPOSITE-CE-02": {
+     "gap": 0.0,
+     "mine": 16799.57,
+     "pub": 16799.57
+    },
+    "DROUGHT-CE-01": {
+     "gap": 0.0,
+     "mine": 0.0,
+     "pub": 0.0
+    },
+    "ENGULF-CE-01": {
+     "gap": 0.0,
+     "mine": 0.0,
+     "pub": 0.0
+    },
+    "VOLATILITY-CE-01": {
+     "gap": 0.0,
+     "mine": 4276.31,
+     "pub": 4276.31
+    }
+   },
+   "sessions_bound_mine": 34,
+   "sessions_bound_pub": 34
+  },
+  "bear_rule": {
+   "cost_gap": 0.0,
+   "delta_gross_mine": 11099.73,
+   "delta_gross_pub": 11099.73,
+   "gap": 0.0,
+   "net_gap": 0.0,
+   "per_trader": {
+    "COMPOSITE-CE-01": {
+     "gap": 0.0,
+     "mine": 5384.69,
+     "pub": 5384.69
+    },
+    "COMPOSITE-CE-02": {
+     "gap": 0.0,
+     "mine": 5876.63,
+     "pub": 5876.63
+    },
+    "DROUGHT-CE-01": {
+     "gap": 0.0,
+     "mine": 0.0,
+     "pub": 0.0
+    },
+    "ENGULF-CE-01": {
+     "gap": 0.0,
+     "mine": 0.0,
+     "pub": 0.0
+    },
+    "VOLATILITY-CE-01": {
+     "gap": 0.0,
+     "mine": -161.59,
+     "pub": -161.59
+    }
+   },
+   "sessions_bound_mine": 5,
+   "sessions_bound_pub": 5
+  },
+  "red_label": {
+   "cost_gap": 0.0,
+   "delta_gross_mine": 21488.35,
+   "delta_gross_pub": 21488.35,
+   "gap": 0.0,
+   "net_gap": 0.0,
+   "per_trader": {
+    "COMPOSITE-CE-01": {
+     "gap": 0.0,
+     "mine": 13047.14,
+     "pub": 13047.14
+    },
+    "COMPOSITE-CE-02": {
+     "gap": 0.0,
+     "mine": 7460.26,
+     "pub": 7460.26
+    },
+    "DROUGHT-CE-01": {
+     "gap": 0.0,
+     "mine": 0.0,
+     "pub": 0.0
+    },
+    "ENGULF-CE-01": {
+     "gap": 0.0,
+     "mine": 0.0,
+     "pub": 0.0
+    },
+    "VOLATILITY-CE-01": {
+     "gap": 0.0,
+     "mine": 980.95,
+     "pub": 980.95
+    }
+   },
+   "sessions_bound_mine": 11,
+   "sessions_bound_pub": 11
+  }
+ },
+ "evidence_cutoff": "2026-11-20",
+ "generated": "2026-11-23T13:24:55+08:00",
+ "prices": {
+  "codes": 15,
+  "conflict_count": 5,
+  "conflicts": [
+   "512480: 2 flip(s) repaired",
+   "512800: 1 flip(s) repaired",
+   "513100: 1 flip(s) repaired",
+   "513500: 1 flip(s) repaired",
+   "515000: 1 flip(s) repaired"
+  ],
+  "missing": []
+ },
+ "problems": [],
+ "red_labels_error": null,
+ "repo_days": 3772,
+ "schema": "bmc-indep-cap-audit/v1",
+ "sentence": "第二套实现重算了这顶帽子的三个臂，与已发布面的毛差、成本、净差逐臂一致（一比一分以内）：大熊市规则 +11099.73 元、RED 标签 +21488.35 元、一直守帽 +43700.98 元，引用的绝对数可以继续引用。",
+ "sessions": {
+  "exports": 36,
+  "first": "2026-09-24",
+  "last": "2026-11-20",
+  "pairs": 35
+ },
+ "tolerance_cny": {
+  "arm": 0.01,
+  "per_trader": 0.02
+ },
+ "verdict": "INDEPENDENT_AGREE"
+}
