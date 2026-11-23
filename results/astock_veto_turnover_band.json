@@ -1,0 +1,344 @@
+{
+ "generated": "2026-11-24T01:07:17+08:00",
+ "evidence_cutoff": "2026-11-20",
+ "machine": "bm-c",
+ "kind": "pricing",
+ "fills_the_hole_of": "astock_veto_tearsheet",
+ "prereg": {
+  "question": "does a hysteresis band on the veto save more tax than it loses in ranking?",
+  "rule": {
+   "leave_book_when": "q >= K_OUT",
+   "readmit_when": "q <= K_IN",
+   "otherwise": "keep last period's state",
+   "unseen_name_default": "fresh rule (q < K_OUT)",
+   "state_on_pool_exit": "remembered (a real book remembers the position it sold)"
+  },
+  "configs": {
+   "fresh": {
+    "k_out": 4,
+    "k_in": 3
+   },
+   "band_4_2": {
+    "k_out": 4,
+    "k_in": 2
+   },
+   "band_4_1": {
+    "k_out": 4,
+    "k_in": 1
+   },
+   "band_3_1": {
+    "k_out": 3,
+    "k_in": 1
+   }
+  },
+  "baseline": "fresh",
+  "booking": "fractional, weight exactly 1/n, fully invested",
+  "decomposition": "net_band - net_fresh = (gross_band - gross_fresh) + 2*c*(turnover_fresh - turnover_band)",
+  "verdict": "BAND_PAYS / BAND_COSTS / BAND_FLAT by the sign of the net delta, strict",
+  "rule_frozen_before_run": true
+ },
+ "spec": {
+  "hold": 20,
+  "stride": 20,
+  "cost_one_side": 0.0008,
+  "turnover_definition": "1 - |cur & prev| / |cur|, first period = 1.0 (parent's)",
+  "arms": {
+   "A": "full eligible pool (printed as the pool block)",
+   "B": "pool minus residual top 20%, banded per config"
+  }
+ },
+ "panel": {
+  "dates": 1668,
+  "symbols": 5181,
+  "first": "2020-01-02",
+  "last": "2026-11-20"
+ },
+ "rebalances": 77,
+ "results": {
+  "pool": {
+   "periods": 77,
+   "n_members_mean": 3583.6363636363635,
+   "excluded_share_median": NaN,
+   "turnover_mean": 0.055405190896618085,
+   "gross_mean": 0.008329335418183334,
+   "net_mean": 0.008240687112748746,
+   "net_annualized": 0.06917263180802102,
+   "withheld_share_mean": NaN,
+   "withheld_fwd_mean": NaN,
+   "withheld_periods": 0
+  },
+  "configs": {
+   "fresh": {
+    "periods": 77,
+    "n_members_mean": 2866.2727272727275,
+    "excluded_share_median": 0.20017740981667653,
+    "turnover_mean": 0.23952925496652835,
+    "gross_mean": 0.011052195492705905,
+    "net_mean": 0.010668948684759458,
+    "net_annualized": 0.10301862011095042,
+    "withheld_share_mean": 0.0,
+    "withheld_fwd_mean": NaN,
+    "withheld_periods": 0
+   },
+   "band_4_2": {
+    "periods": 77,
+    "n_members_mean": 2739.181818181818,
+    "excluded_share_median": 0.23513139695712315,
+    "turnover_mean": 0.23857379019652744,
+    "gross_mean": 0.011320306578809879,
+    "net_mean": 0.010938588514495435,
+    "net_annualized": 0.10666031482124838,
+    "withheld_share_mean": 0.04419549599789299,
+    "withheld_fwd_mean": 0.003261470356622857,
+    "withheld_periods": 76
+   },
+   "band_4_1": {
+    "periods": 77,
+    "n_members_mean": 2546.2077922077924,
+    "excluded_share_median": 0.28985507246376807,
+    "turnover_mean": 0.23671603812981215,
+    "gross_mean": 0.011388921358501239,
+    "net_mean": 0.011010175697493541,
+    "net_annualized": 0.10746397446827749,
+    "withheld_share_mean": 0.11101073527877861,
+    "withheld_fwd_mean": 0.007443638079535797,
+    "withheld_periods": 76
+   },
+   "band_3_1": {
+    "periods": 77,
+    "n_members_mean": 1840.4155844155844,
+    "excluded_share_median": 0.4865184484389783,
+    "turnover_mean": 0.43105798044934296,
+    "gross_mean": 0.01060394260818349,
+    "net_mean": 0.009914249839464543,
+    "net_annualized": 0.09166100661317933,
+    "withheld_share_mean": 0.14267559576258593,
+    "withheld_fwd_mean": 0.011859480974191037,
+    "withheld_periods": 76
+   }
+  },
+  "decomposition": {
+   "fresh": {
+    "tax_saved_per_period": 0.0,
+    "ranking_delta_per_period": 0.0,
+    "net_delta_per_period": 0.0,
+    "identity_residual": 0.0,
+    "turnover_delta": 0.0,
+    "t_net_delta": null,
+    "t_gross_delta": null,
+    "t_turnover_delta": null
+   },
+   "band_4_2": {
+    "tax_saved_per_period": 1.5287436320014615e-06,
+    "ranking_delta_per_period": 0.00026811108610397434,
+    "net_delta_per_period": 0.00026963982973597644,
+    "identity_residual": 6.505213034913027e-19,
+    "turnover_delta": -0.0009554647700009133,
+    "t_net_delta": 1.8450964204723896,
+    "t_gross_delta": 1.829690419465863,
+    "t_turnover_delta": -0.7572930803358034
+   },
+   "band_4_1": {
+    "tax_saved_per_period": 4.501146938745926e-06,
+    "ranking_delta_per_period": 0.00033672586579533426,
+    "net_delta_per_period": 0.0003412270127340824,
+    "identity_residual": 2.222614453595284e-18,
+    "turnover_delta": -0.0028132168367162036,
+    "t_net_delta": 1.0543961758483227,
+    "t_gross_delta": 1.0387225739125447,
+    "t_turnover_delta": -1.2259055654399296
+   },
+   "band_3_1": {
+    "tax_saved_per_period": -0.00030644596077250336,
+    "ranking_delta_per_period": -0.00044825288452241506,
+    "net_delta_per_period": -0.0007546988452949155,
+    "identity_residual": 2.927345865710862e-18,
+    "turnover_delta": 0.1915287254828146,
+    "t_net_delta": -1.0660001199211533,
+    "t_gross_delta": -0.6336438998695757,
+    "t_turnover_delta": 38.88340711792081
+   }
+  },
+  "verdicts": {
+   "fresh": "BASELINE",
+   "band_4_2": "BAND_PAYS",
+   "band_4_1": "BAND_PAYS",
+   "band_3_1": "BAND_COSTS"
+  },
+  "edges_vs_pool": {
+   "fresh": {
+    "mean_per_period": 0.0024282615720107137,
+    "t": 3.4611574224593853
+   },
+   "band_4_2": {
+    "mean_per_period": 0.002697901401746688,
+    "t": 3.335480465762276
+   },
+   "band_4_1": {
+    "mean_per_period": 0.0027694885847447926,
+    "t": 2.9551211760365024
+   },
+   "band_3_1": {
+    "mean_per_period": 0.0016735627267157936,
+    "t": 1.3347482316902393
+   }
+  },
+  "by_year": {
+   "fresh": {
+    "2020": {
+     "periods": 7,
+     "net_mean": -0.006449964163185134
+    },
+    "2021": {
+     "periods": 12,
+     "net_mean": 0.020876649380222698
+    },
+    "2022": {
+     "periods": 12,
+     "net_mean": 0.005301258282105429
+    },
+    "2023": {
+     "periods": 12,
+     "net_mean": 0.0003234344904204066
+    },
+    "2024": {
+     "periods": 12,
+     "net_mean": 0.016366711399758094
+    },
+    "2025": {
+     "periods": 12,
+     "net_mean": 0.04013673638845251
+    },
+    "2026": {
+     "periods": 10,
+     "net_mean": -0.01293986814227352
+    }
+   },
+   "band_4_2": {
+    "2020": {
+     "periods": 7,
+     "net_mean": -0.006541934911724618
+    },
+    "2021": {
+     "periods": 12,
+     "net_mean": 0.021502756764484623
+    },
+    "2022": {
+     "periods": 12,
+     "net_mean": 0.005554584010508461
+    },
+    "2023": {
+     "periods": 12,
+     "net_mean": 0.0004440866597606319
+    },
+    "2024": {
+     "periods": 12,
+     "net_mean": 0.017184395200357933
+    },
+    "2025": {
+     "periods": 12,
+     "net_mean": 0.040083805587574815
+    },
+    "2026": {
+     "periods": 10,
+     "net_mean": -0.012917067867401683
+    }
+   },
+   "band_4_1": {
+    "2020": {
+     "periods": 7,
+     "net_mean": -0.006707833432613027
+    },
+    "2021": {
+     "periods": 12,
+     "net_mean": 0.02152238264193426
+    },
+    "2022": {
+     "periods": 12,
+     "net_mean": 0.005891275830589918
+    },
+    "2023": {
+     "periods": 12,
+     "net_mean": 0.00041417006655704677
+    },
+    "2024": {
+     "periods": 12,
+     "net_mean": 0.018035351919181413
+    },
+    "2025": {
+     "periods": 12,
+     "net_mean": 0.039995016216482715
+    },
+    "2026": {
+     "periods": 10,
+     "net_mean": -0.013555999736165036
+    }
+   },
+   "band_3_1": {
+    "2020": {
+     "periods": 7,
+     "net_mean": -0.008048346504564059
+    },
+    "2021": {
+     "periods": 12,
+     "net_mean": 0.01972882991003837
+    },
+    "2022": {
+     "periods": 12,
+     "net_mean": 0.005045182951700041
+    },
+    "2023": {
+     "periods": 12,
+     "net_mean": -0.001342998250901814
+    },
+    "2024": {
+     "periods": 12,
+     "net_mean": 0.01885275103541045
+    },
+    "2025": {
+     "periods": 12,
+     "net_mean": 0.038982044248470196
+    },
+    "2026": {
+     "periods": 10,
+     "net_mean": -0.015545405556588888
+    }
+   }
+  },
+  "by_year_pool": {
+   "2020": {
+    "periods": 7,
+    "net_mean": -0.006910999175288589
+   },
+   "2021": {
+    "periods": 12,
+    "net_mean": 0.019125782455351518
+   },
+   "2022": {
+    "periods": 12,
+    "net_mean": 0.0007999388086068956
+   },
+   "2023": {
+    "periods": 12,
+    "net_mean": -0.001592313863397831
+   },
+   "2024": {
+    "periods": 12,
+    "net_mean": 0.012106379366923712
+   },
+   "2025": {
+    "periods": 12,
+    "net_mean": 0.03799680183955181
+   },
+   "2026": {
+    "periods": 10,
+    "net_mean": -0.013832916137575956
+   }
+  }
+ },
+ "anchor": {
+  "ok": true,
+  "worst_abs_diff": 0.0,
+  "rows": 77
+ }
+}
