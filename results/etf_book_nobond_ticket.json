@@ -1,0 +1,373 @@
+{
+ "generated": "2026-11-23T21:12:23+08:00",
+ "asof_bar": "2026-11-20",
+ "evidence_cutoff": "2026-11-20",
+ "book": "nobond_vt08",
+ "book_description": "bond-free (equity+commodity+convertible), 5 equal names, 20-day rebalance, 8% vol target, de-lever only",
+ "universe_size": 1528,
+ "flips_repaired": 169,
+ "sizing": {
+  "est_vol_60d": 0.108846,
+  "est_vol_note": "60-bar realised vol of today's five-name equal-weight book on open-to-open returns, the same window the engine reads",
+  "vol_window_bars": 60,
+  "vol_window_span": [
+   "2026-08-21",
+   "2026-11-20"
+  ],
+  "target_vol": 0.08,
+  "scale": 0.734981020815,
+  "cash_weight": 0.265018979185,
+  "why": "scale = min(1, 目标/实现)。这个组合最近 60 根 bar 的实现波动是 10.88%，高于 8% 的目标，所以只用 73.5% 的资金，留 26.5% 现金"
+ },
+ "anchor": {
+  "parent": "results/etf_nobond_vt.json",
+  "parent_as_of": "2026-11-20",
+  "published_symbols": [
+   "159549",
+   "159207",
+   "562550",
+   "515300",
+   "159307"
+  ],
+  "our_symbols": [
+   "159549",
+   "159207",
+   "562550",
+   "515300",
+   "159307"
+  ],
+  "published_match": true
+ },
+ "picks": [
+  {
+   "symbol": "159549",
+   "score": 0.751,
+   "class": "equity",
+   "weight": 0.146996204163,
+   "price_close": 1.25,
+   "price_open": 1.253,
+   "one_lot_cny": 125.0
+  },
+  {
+   "symbol": "159207",
+   "score": 0.744,
+   "class": "equity",
+   "weight": 0.146996204163,
+   "price_close": 1.211,
+   "price_open": 1.229,
+   "one_lot_cny": 121.1
+  },
+  {
+   "symbol": "562550",
+   "score": 0.671,
+   "class": "equity",
+   "weight": 0.146996204163,
+   "price_close": 1.151,
+   "price_open": 1.142,
+   "one_lot_cny": 115.1
+  },
+  {
+   "symbol": "515300",
+   "score": 0.67,
+   "class": "equity",
+   "weight": 0.146996204163,
+   "price_close": 1.433,
+   "price_open": 1.422,
+   "one_lot_cny": 143.3
+  },
+  {
+   "symbol": "159307",
+   "score": 0.661,
+   "class": "equity",
+   "weight": 0.146996204163,
+   "price_close": 1.067,
+   "price_open": 1.071,
+   "one_lot_cny": 106.7
+  }
+ ],
+ "price_basis": "ticket prices are the as-of bar's CLOSE (what a reader can see); the engine sizes on open-to-open returns, so the as-of bar's OPEN is printed beside each close; the real fill is the next session's open, unknown here",
+ "tickets": [
+  {
+   "capital_cny": 100000.0,
+   "scale": 0.734981020815,
+   "legs": [
+    {
+     "symbol": "159549",
+     "weight": 0.146996204163,
+     "price_close": 1.25,
+     "one_lot_cny": 125.0,
+     "budget_cny": 14699.62,
+     "lots": 117,
+     "shares": 11700,
+     "amount_cny": 14625.0,
+     "fee_cny": 5.0,
+     "residual_cny": 74.62,
+     "fits": true
+    },
+    {
+     "symbol": "159207",
+     "weight": 0.146996204163,
+     "price_close": 1.211,
+     "one_lot_cny": 121.1,
+     "budget_cny": 14699.62,
+     "lots": 121,
+     "shares": 12100,
+     "amount_cny": 14653.1,
+     "fee_cny": 5.0,
+     "residual_cny": 46.52,
+     "fits": true
+    },
+    {
+     "symbol": "562550",
+     "weight": 0.146996204163,
+     "price_close": 1.151,
+     "one_lot_cny": 115.1,
+     "budget_cny": 14699.62,
+     "lots": 127,
+     "shares": 12700,
+     "amount_cny": 14617.7,
+     "fee_cny": 5.0,
+     "residual_cny": 81.92,
+     "fits": true
+    },
+    {
+     "symbol": "515300",
+     "weight": 0.146996204163,
+     "price_close": 1.433,
+     "one_lot_cny": 143.3,
+     "budget_cny": 14699.62,
+     "lots": 102,
+     "shares": 10200,
+     "amount_cny": 14616.6,
+     "fee_cny": 5.0,
+     "residual_cny": 83.02,
+     "fits": true
+    },
+    {
+     "symbol": "159307",
+     "weight": 0.146996204163,
+     "price_close": 1.067,
+     "one_lot_cny": 106.7,
+     "budget_cny": 14699.62,
+     "lots": 137,
+     "shares": 13700,
+     "amount_cny": 14617.9,
+     "fee_cny": 5.0,
+     "residual_cny": 81.72,
+     "fits": true
+    }
+   ],
+   "book_amount_cny": 73130.3,
+   "fees_cny": 25.0,
+   "cash_slot_cny": 26501.9,
+   "residual_cny": 367.8,
+   "residual_pct_nav": 0.3678,
+   "unfilled_names": []
+  },
+  {
+   "capital_cny": 500000.0,
+   "scale": 0.734981020815,
+   "legs": [
+    {
+     "symbol": "159549",
+     "weight": 0.146996204163,
+     "price_close": 1.25,
+     "one_lot_cny": 125.0,
+     "budget_cny": 73498.1,
+     "lots": 587,
+     "shares": 58700,
+     "amount_cny": 73375.0,
+     "fee_cny": 22.01,
+     "residual_cny": 123.1,
+     "fits": true
+    },
+    {
+     "symbol": "159207",
+     "weight": 0.146996204163,
+     "price_close": 1.211,
+     "one_lot_cny": 121.1,
+     "budget_cny": 73498.1,
+     "lots": 606,
+     "shares": 60600,
+     "amount_cny": 73386.6,
+     "fee_cny": 22.02,
+     "residual_cny": 111.5,
+     "fits": true
+    },
+    {
+     "symbol": "562550",
+     "weight": 0.146996204163,
+     "price_close": 1.151,
+     "one_lot_cny": 115.1,
+     "budget_cny": 73498.1,
+     "lots": 638,
+     "shares": 63800,
+     "amount_cny": 73433.8,
+     "fee_cny": 22.03,
+     "residual_cny": 64.3,
+     "fits": true
+    },
+    {
+     "symbol": "515300",
+     "weight": 0.146996204163,
+     "price_close": 1.433,
+     "one_lot_cny": 143.3,
+     "budget_cny": 73498.1,
+     "lots": 512,
+     "shares": 51200,
+     "amount_cny": 73369.6,
+     "fee_cny": 22.01,
+     "residual_cny": 128.5,
+     "fits": true
+    },
+    {
+     "symbol": "159307",
+     "weight": 0.146996204163,
+     "price_close": 1.067,
+     "one_lot_cny": 106.7,
+     "budget_cny": 73498.1,
+     "lots": 688,
+     "shares": 68800,
+     "amount_cny": 73409.6,
+     "fee_cny": 22.02,
+     "residual_cny": 88.5,
+     "fits": true
+    }
+   ],
+   "book_amount_cny": 366974.6,
+   "fees_cny": 110.09,
+   "cash_slot_cny": 132509.49,
+   "residual_cny": 515.9,
+   "residual_pct_nav": 0.1032,
+   "unfilled_names": []
+  },
+  {
+   "capital_cny": 1000000.0,
+   "scale": 0.734981020815,
+   "legs": [
+    {
+     "symbol": "159549",
+     "weight": 0.146996204163,
+     "price_close": 1.25,
+     "one_lot_cny": 125.0,
+     "budget_cny": 146996.2,
+     "lots": 1175,
+     "shares": 117500,
+     "amount_cny": 146875.0,
+     "fee_cny": 44.06,
+     "residual_cny": 121.2,
+     "fits": true
+    },
+    {
+     "symbol": "159207",
+     "weight": 0.146996204163,
+     "price_close": 1.211,
+     "one_lot_cny": 121.1,
+     "budget_cny": 146996.2,
+     "lots": 1213,
+     "shares": 121300,
+     "amount_cny": 146894.3,
+     "fee_cny": 44.07,
+     "residual_cny": 101.9,
+     "fits": true
+    },
+    {
+     "symbol": "562550",
+     "weight": 0.146996204163,
+     "price_close": 1.151,
+     "one_lot_cny": 115.1,
+     "budget_cny": 146996.2,
+     "lots": 1277,
+     "shares": 127700,
+     "amount_cny": 146982.7,
+     "fee_cny": 44.09,
+     "residual_cny": 13.5,
+     "fits": true
+    },
+    {
+     "symbol": "515300",
+     "weight": 0.146996204163,
+     "price_close": 1.433,
+     "one_lot_cny": 143.3,
+     "budget_cny": 146996.2,
+     "lots": 1025,
+     "shares": 102500,
+     "amount_cny": 146882.5,
+     "fee_cny": 44.06,
+     "residual_cny": 113.7,
+     "fits": true
+    },
+    {
+     "symbol": "159307",
+     "weight": 0.146996204163,
+     "price_close": 1.067,
+     "one_lot_cny": 106.7,
+     "budget_cny": 146996.2,
+     "lots": 1377,
+     "shares": 137700,
+     "amount_cny": 146925.9,
+     "fee_cny": 44.08,
+     "residual_cny": 70.3,
+     "fits": true
+    }
+   ],
+   "book_amount_cny": 734560.4,
+   "fees_cny": 220.36,
+   "cash_slot_cny": 265018.98,
+   "residual_cny": 420.6,
+   "residual_pct_nav": 0.0421,
+   "unfilled_names": []
+  }
+ ],
+ "min_capital": {
+  "one_lot_every_name_cny": 974.86,
+  "binding_symbol": "515300",
+  "per_leg": [
+   {
+    "symbol": "515300",
+    "needed_cny": 974.86
+   },
+   {
+    "symbol": "159549",
+    "needed_cny": 850.36
+   },
+   {
+    "symbol": "159207",
+    "needed_cny": 823.83
+   },
+   {
+    "symbol": "562550",
+    "needed_cny": 783.01
+   },
+   {
+    "symbol": "159307",
+    "needed_cny": 725.87
+   }
+  ],
+  "commission": {
+   "capital_cny": 974.86,
+   "note": "那个规模上每笔都撞 5 元最低佣金，一次往返要 50 元，而本金只有 975 元",
+   "one_side_cny": 25.0,
+   "round_trip_pct_of_capital": 5.1289
+  }
+ },
+ "commission_assumption": {
+  "broker_bp_per_side": 2.9999999999999996,
+  "per_ticket_floor_cny": 5.0,
+  "note": "the backtest charges 10bp/side for cost and impact; that is not a broker bill and is not restated here"
+ },
+ "thresholds": {
+  "residual_max_pct_nav": 0.5,
+  "lot": 100,
+  "fee_floor_cny": 5.0
+ },
+ "verdict": "TRADABLE_AT_1M",
+ "sentence": "五只都能在自己的预算里买满整手，整手残差占净值 0.0421%",
+ "not_settled": [
+  "真正成交是下一交易日的开盘价，这张面上还不知道",
+  "60 根 bar 的波动只取了一个窗口，换窗口 scale 会变",
+  "这是票面不是推荐：它说已发布的书今天会怎么下单，不说该不该下",
+  "这个规模下的容量与冲击是另一张面（etf_book_capacity_at_size）",
+  "十二名卡档的票面（etf_book_ticket_floor）是另一套配置，数字不能与这张混读"
+ ]
+}
