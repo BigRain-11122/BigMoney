@@ -1,0 +1,44 @@
+round 2020: the two published books are genuinely two returns (corr 0.219) but the blend still does not pay -- the weak leg drags
+
+Book A (A-share residual black list) and book B (bond-free 8%-vol ETF book) were each
+measured to death internally (17 and 12 faces), and not one face asked the question a
+funder asks before wiring money: hold both, do I get two returns or one twice?
+
+77 paired 20-trading-day periods (2020-07-06 .. 2026-10-14, evidence_cutoff 2026-11-20):
+Pearson 0.219 / Spearman 0.286 -- genuinely low, so a second book exists. But equal
+weight blends to 12.50%/yr Sharpe 0.821, BELOW book B alone (12.74% / 1.115); the
+inverse-vol blend (27.5% on A, fitted in-sample only) gives 1.047, still below. The
+analytic max-Sharpe weight fitted on IS puts 0.0% on book A: the optimum is not to
+hold it at all. The reason is risk, not correlation -- book A earns 10.30%/yr against
+27.34% vol (Sharpe 0.492, maxdd -25.92%, worst period -17.18%) while B does
+12.74%/11.36%/1.115/-8.12%. Low correlation only fixes one-plus-one-is-not-two; it
+cannot fix a leg that is not good enough on its own.
+
+Alignment is not truncation: book A's row i covers [rebalance date, +20 trading days],
+so the level grid is walked by trading-day position rather than intersected with the
+rebalance list -- the final period (end 2026-11-11) survives, all 77 periods are
+covered, and 76/76 checkable spans land exactly on the next rebalance date. Book A's
+77-period CAGR reproduces the parent face's 10.30% bit-for-bit.
+
+Boundary sensitivity: A is booked off the rebalance bar's close, B off that bar's open
+(its published entry_lag=0 caliber); shifting B one bar either way moves equal-weight
+Sharpe to 0.890/0.897, still under 1.115 -- the verdict does not depend on that bar.
+
+Verified: selftest 23/23 (incl. the two-asset variance identity and "a duplicated
+stream can never beat itself"), run rc0, check rc0 (re-derives every printed number
+from the published rows), negative control 13/13 -- including a real defect fixed this
+window: check() crashed on a truncated row list instead of printing CHECK FAILED, so
+shape is now validated before any numpy arithmetic.
+
+This commit also carries r2019's four staged-but-never-committed files
+(scripts/astock_veto_smooth_rank.py, results/astock_veto_smooth_rank.json,
+research/ASTOCK_VETO_SMOOTH_RANK.md, results/_r2019bmc_smooth_rank_negative.py). r2019
+had run and written them into the index but no commit ever reached origin (absent from
+git ls-tree origin/main; HEAD was still round 2018's bookkeeping commit). Before
+carrying them the window re-ran their own gates: check rc0, negative control 34/34,
+content untouched.
+
+Contention: repo_write_contention rc=3 (peer pid 51252, interactive, alive 30h, wrote
+13 shared faces before this round started) -> new-file faces only, no shared-face
+rewrites, no S6 chain, no full smoke. Bookkeeping: round report 1 + state 1 +
+heartbeat 1 = 3.
