@@ -1,0 +1,2065 @@
+{
+ "generated": "2026-11-24T04:43:48+08:00",
+ "evidence_cutoff": "2026-11-20",
+ "machine": "bm-c",
+ "kind": "astock_veto_hedge_picker",
+ "fills_the_hole_of": "r2023 and r2024 each published one budget-fitted picker; neither asked which way of picking survives out of sample, and both are return-maximisers by construction",
+ "parent": {
+  "daily_face": "results/astock_veto_hedge_daily.json",
+  "daily_content_sha256": "3919d43e27a0ba500366b678ed23e83b06eb4af0455edb10af1f3be7f9c09094",
+  "budget_face": "results/astock_veto_hedge_budget.json",
+  "budget_content_sha256": "c4f994357186c51f43dd86b4a129a0b4b1499b6bb9122d1313d54ee7a9f8d2c8",
+  "generated": "2026-11-24T03:51:11+08:00",
+  "evidence_cutoff": "2026-11-20",
+  "beta_used": 0.9013312810692592
+ },
+ "prereg": {
+  "question": "which mechanical rule for choosing the hedge size survives out of sample: the two published budget-fitted pickers, three variants that keep a margin or sit mid-band, the size that minimised the in-sample drawdown, the size with the best in-sample Sharpe, or no picker at all (one unit of beta)?",
+  "grid": "k = 0.00..2.00 step 0.05 (the parents' grid, unchanged)",
+  "budgets": [
+   0.1,
+   0.15,
+   0.2,
+   0.25
+  ],
+  "primary_budget": 0.2,
+  "select_on": "date <= 2023-12-31 only",
+  "read_on": "date > 2023-12-31 only",
+  "pickers": [
+   "A_PERIOD   -- max in-sample annualised return among sizes whose in-sample PERIOD drawdown fits (r2023)",
+   "A_DAILY    -- max in-sample annualised return among sizes whose in-sample DAILY drawdown fits (r2024)",
+   "B_PERIOD   -- smallest size whose in-sample period drawdown fits",
+   "B_DAILY    -- smallest size whose in-sample daily drawdown fits",
+   "B_MARGIN   -- smallest size whose in-sample daily drawdown fits 80% of the budget",
+   "MID_DAILY  -- the size nearest the midpoint of the in-sample feasible daily band",
+   "MIN_IS_DD  -- the size with the shallowest in-sample daily drawdown (budget-free)",
+   "MAX_SHARPE -- the size with the best in-sample daily Sharpe (budget-free)",
+   "FIXED_ONE  -- k = 1.00, no estimation at all (budget-free)"
+  ],
+  "ties": "equal in-sample readings resolve to the SMALLER size, stated once and used everywhere",
+  "bootstrap": {
+   "kind": "circular block bootstrap over out-of-sample periods",
+   "block_periods": 4,
+   "draws": 600,
+   "seed": 20261124,
+   "why": "a point drawdown on 34 periods is one observation; this prices the sample"
+  },
+  "verdict_states": [
+   "FITTING_HELPS",
+   "FITTING_HURTS",
+   "FITTING_ADDS_NOTHING",
+   "NO_BUDGET_IS_HELD"
+  ],
+  "anchor": "the k=0 arm here equals the parent's published daily drawdown bit for bit",
+  "frozen_before_run": true
+ },
+ "data": {
+  "panel_rows": 1668,
+  "symbols": 5181,
+  "book_periods": 77,
+  "in_sample_periods": 43,
+  "out_of_sample_periods": 34,
+  "marked_days_out_of_sample": 680,
+  "periods_dropped_no_hedge": 0
+ },
+ "primary": {
+  "budget": 0.2,
+  "verdict": "FITTING_HURTS",
+  "verdict_why": "one unit of beta held the 20% budget out of sample (19.89%) while 5 of 8 fitted pickers breached it"
+ },
+ "race": {
+  "0.10": {
+   "verdict": "NO_BUDGET_IS_HELD",
+   "why": "nothing on the grid held a 10% budget out of sample, fitted or mechanical; the shallowest drawdown any size produced was 18.07%",
+   "survivors": [],
+   "breakers": [
+    "A_PERIOD",
+    "B_PERIOD",
+    "MAX_SHARPE",
+    "MIN_IS_DD"
+   ]
+  },
+  "0.15": {
+   "verdict": "NO_BUDGET_IS_HELD",
+   "why": "nothing on the grid held a 15% budget out of sample, fitted or mechanical; the shallowest drawdown any size produced was 18.07%",
+   "survivors": [],
+   "breakers": [
+    "A_DAILY",
+    "A_PERIOD",
+    "B_DAILY",
+    "B_PERIOD",
+    "MAX_SHARPE",
+    "MID_DAILY",
+    "MIN_IS_DD"
+   ]
+  },
+  "0.20": {
+   "verdict": "FITTING_HURTS",
+   "why": "one unit of beta held the 20% budget out of sample (19.89%) while 5 of 8 fitted pickers breached it",
+   "survivors": [
+    "A_PERIOD",
+    "MAX_SHARPE",
+    "MID_DAILY"
+   ],
+   "breakers": [
+    "A_DAILY",
+    "B_DAILY",
+    "B_MARGIN",
+    "B_PERIOD",
+    "MIN_IS_DD"
+   ]
+  },
+  "0.25": {
+   "verdict": "FITTING_HELPS",
+   "why": "one unit of beta held the budget, and 5 fitted picker(s) held it with more out-of-sample return (A_PERIOD, B_DAILY, B_MARGIN, MAX_SHARPE, MID_DAILY)",
+   "survivors": [
+    "A_DAILY",
+    "A_PERIOD",
+    "B_DAILY",
+    "B_MARGIN",
+    "MAX_SHARPE",
+    "MID_DAILY",
+    "MIN_IS_DD"
+   ],
+   "breakers": [
+    "B_PERIOD"
+   ]
+  }
+ },
+ "pickers": {
+  "A_PERIOD": {
+   "label": "max in-sample period return that fits (r2023's rule)",
+   "picks": {
+    "0.10": 0.85,
+    "0.15": 0.65,
+    "0.20": 0.65,
+    "0.25": 0.65
+   },
+   "cells": {
+    "0.10": {
+     "k": 0.85,
+     "oos_dd": 0.18720820179295905,
+     "oos_cagr": 0.11226790368011996,
+     "oos_sharpe": 0.8520680323676292,
+     "oos_worst_day": -0.04491887090887159,
+     "holds": false,
+     "p_hold": 0.08166666666666667
+    },
+    "0.15": {
+     "k": 0.65,
+     "oos_dd": 0.18735082681950121,
+     "oos_cagr": 0.12879224099343722,
+     "oos_sharpe": 0.8354167210893785,
+     "oos_worst_day": -0.05978523929924928,
+     "holds": false,
+     "p_hold": 0.12333333333333334
+    },
+    "0.20": {
+     "k": 0.65,
+     "oos_dd": 0.18735082681950121,
+     "oos_cagr": 0.12879224099343722,
+     "oos_sharpe": 0.8354167210893785,
+     "oos_worst_day": -0.05978523929924928,
+     "holds": true,
+     "p_hold": 0.3383333333333333
+    },
+    "0.25": {
+     "k": 0.65,
+     "oos_dd": 0.18735082681950121,
+     "oos_cagr": 0.12879224099343722,
+     "oos_sharpe": 0.8354167210893785,
+     "oos_worst_day": -0.05978523929924928,
+     "holds": true,
+     "p_hold": 0.7683333333333333
+    }
+   }
+  },
+  "A_DAILY": {
+   "label": "max in-sample daily return that fits (r2024's rule)",
+   "picks": {
+    "0.10": null,
+    "0.15": 1.1,
+    "0.20": 1.1,
+    "0.25": 1.1
+   },
+   "cells": {
+    "0.10": {
+     "k": null,
+     "holds": false,
+     "note": "no size on the grid satisfies the in-sample reading"
+    },
+    "0.15": {
+     "k": 1.1,
+     "oos_dd": 0.20744481901008027,
+     "oos_cagr": 0.08793248426485789,
+     "oos_sharpe": 0.7175618272053312,
+     "oos_worst_day": -0.05233178818954132,
+     "holds": false,
+     "p_hold": 0.3233333333333333
+    },
+    "0.20": {
+     "k": 1.1,
+     "oos_dd": 0.20744481901008027,
+     "oos_cagr": 0.08793248426485789,
+     "oos_sharpe": 0.7175618272053312,
+     "oos_worst_day": -0.05233178818954132,
+     "holds": false,
+     "p_hold": 0.6383333333333333
+    },
+    "0.25": {
+     "k": 1.1,
+     "oos_dd": 0.20744481901008027,
+     "oos_cagr": 0.08793248426485789,
+     "oos_sharpe": 0.7175618272053312,
+     "oos_worst_day": -0.05233178818954132,
+     "holds": true,
+     "p_hold": 0.8733333333333333
+    }
+   }
+  },
+  "B_PERIOD": {
+   "label": "smallest size the period ruler allows",
+   "picks": {
+    "0.10": 0.85,
+    "0.15": 0.35,
+    "0.20": 0.15,
+    "0.25": 0.0
+   },
+   "cells": {
+    "0.10": {
+     "k": 0.85,
+     "oos_dd": 0.18720820179295905,
+     "oos_cagr": 0.11226790368011996,
+     "oos_sharpe": 0.8520680323676292,
+     "oos_worst_day": -0.04491887090887159,
+     "holds": false,
+     "p_hold": 0.08166666666666667
+    },
+    "0.15": {
+     "k": 0.35,
+     "oos_dd": 0.21708725248154304,
+     "oos_cagr": 0.14866919939898593,
+     "oos_sharpe": 0.7508848085481545,
+     "oos_worst_day": -0.08691184970459642,
+     "holds": false,
+     "p_hold": 0.055
+    },
+    "0.20": {
+     "k": 0.15,
+     "oos_dd": 0.2371509541889355,
+     "oos_cagr": 0.15865472701800298,
+     "oos_sharpe": 0.6992199777381748,
+     "oos_worst_day": -0.1054497048112284,
+     "holds": false,
+     "p_hold": 0.10166666666666667
+    },
+    "0.25": {
+     "k": 0.0,
+     "oos_dd": 0.25903543666100415,
+     "oos_cagr": 0.1644373286361982,
+     "oos_sharpe": 0.6671675951332338,
+     "oos_worst_day": -0.1195989751004014,
+     "holds": false,
+     "p_hold": 0.16666666666666666
+    }
+   }
+  },
+  "B_DAILY": {
+   "label": "smallest size the daily ruler allows",
+   "picks": {
+    "0.10": null,
+    "0.15": 0.6,
+    "0.20": 0.35,
+    "0.25": 0.15
+   },
+   "cells": {
+    "0.10": {
+     "k": null,
+     "holds": false,
+     "note": "no size on the grid satisfies the in-sample reading"
+    },
+    "0.15": {
+     "k": 0.6,
+     "oos_dd": 0.19227729231219348,
+     "oos_cagr": 0.13251407673457916,
+     "oos_sharpe": 0.8229397518955492,
+     "oos_worst_day": -0.06425091088163237,
+     "holds": false,
+     "p_hold": 0.12
+    },
+    "0.20": {
+     "k": 0.35,
+     "oos_dd": 0.21708725248154304,
+     "oos_cagr": 0.14866919939898593,
+     "oos_sharpe": 0.7508848085481545,
+     "oos_worst_day": -0.08691184970459642,
+     "holds": false,
+     "p_hold": 0.21333333333333335
+    },
+    "0.25": {
+     "k": 0.15,
+     "oos_dd": 0.2371509541889355,
+     "oos_cagr": 0.15865472701800298,
+     "oos_sharpe": 0.6992199777381748,
+     "oos_worst_day": -0.1054497048112284,
+     "holds": true,
+     "p_hold": 0.24166666666666667
+    }
+   }
+  },
+  "B_MARGIN": {
+   "label": "smallest size that keeps 80% of the budget",
+   "picks": {
+    "0.10": null,
+    "0.15": null,
+    "0.20": 0.5,
+    "0.25": 0.35
+   },
+   "cells": {
+    "0.10": {
+     "k": null,
+     "holds": false,
+     "note": "no size on the grid satisfies the in-sample reading"
+    },
+    "0.15": {
+     "k": null,
+     "holds": false,
+     "note": "no size on the grid satisfies the in-sample reading"
+    },
+    "0.20": {
+     "k": 0.5,
+     "oos_dd": 0.2021656222015461,
+     "oos_cagr": 0.13946674084375088,
+     "oos_sharpe": 0.7945939848184371,
+     "oos_worst_day": -0.07324827851137627,
+     "holds": false,
+     "p_hold": 0.255
+    },
+    "0.25": {
+     "k": 0.35,
+     "oos_dd": 0.21708725248154304,
+     "oos_cagr": 0.14866919939898593,
+     "oos_sharpe": 0.7508848085481545,
+     "oos_worst_day": -0.08691184970459642,
+     "holds": true,
+     "p_hold": 0.35333333333333333
+    }
+   }
+  },
+  "MID_DAILY": {
+   "label": "middle of the in-sample feasible daily band",
+   "picks": {
+    "0.10": null,
+    "0.15": 0.95,
+    "0.20": 0.95,
+    "0.25": 0.95
+   },
+   "cells": {
+    "0.10": {
+     "k": null,
+     "holds": false,
+     "note": "no size on the grid satisfies the in-sample reading"
+    },
+    "0.15": {
+     "k": 0.95,
+     "oos_dd": 0.19484122314679175,
+     "oos_cagr": 0.10302396268958303,
+     "oos_sharpe": 0.8231955736904782,
+     "oos_worst_day": -0.047959792350328656,
+     "holds": false,
+     "p_hold": 0.13666666666666666
+    },
+    "0.20": {
+     "k": 0.95,
+     "oos_dd": 0.19484122314679175,
+     "oos_cagr": 0.10302396268958303,
+     "oos_sharpe": 0.8231955736904782,
+     "oos_worst_day": -0.047959792350328656,
+     "holds": true,
+     "p_hold": 0.6833333333333333
+    },
+    "0.25": {
+     "k": 0.95,
+     "oos_dd": 0.19484122314679175,
+     "oos_cagr": 0.10302396268958303,
+     "oos_sharpe": 0.8231955736904782,
+     "oos_worst_day": -0.047959792350328656,
+     "holds": true,
+     "p_hold": 0.8716666666666667
+    }
+   }
+  },
+  "MIN_IS_DD": {
+   "label": "shallowest in-sample daily drawdown",
+   "picks": {
+    "0.10": 1.05,
+    "0.15": 1.05,
+    "0.20": 1.05,
+    "0.25": 1.05
+   },
+   "cells": {
+    "0.10": {
+     "k": 1.05,
+     "oos_dd": 0.2029171875792578,
+     "oos_cagr": 0.0931262471747194,
+     "oos_sharpe": 0.7605250068286192,
+     "oos_worst_day": -0.05089886198558047,
+     "holds": false,
+     "p_hold": 0.09
+    },
+    "0.15": {
+     "k": 1.05,
+     "oos_dd": 0.2029171875792578,
+     "oos_cagr": 0.0931262471747194,
+     "oos_sharpe": 0.7605250068286192,
+     "oos_worst_day": -0.05089886198558047,
+     "holds": false,
+     "p_hold": 0.295
+    },
+    "0.20": {
+     "k": 1.05,
+     "oos_dd": 0.2029171875792578,
+     "oos_cagr": 0.0931262471747194,
+     "oos_sharpe": 0.7605250068286192,
+     "oos_worst_day": -0.05089886198558047,
+     "holds": false,
+     "p_hold": 0.6866666666666666
+    },
+    "0.25": {
+     "k": 1.05,
+     "oos_dd": 0.2029171875792578,
+     "oos_cagr": 0.0931262471747194,
+     "oos_sharpe": 0.7605250068286192,
+     "oos_worst_day": -0.05089886198558047,
+     "holds": true,
+     "p_hold": 0.8783333333333333
+    }
+   }
+  },
+  "MAX_SHARPE": {
+   "label": "best in-sample daily Sharpe",
+   "picks": {
+    "0.10": 0.95,
+    "0.15": 0.95,
+    "0.20": 0.95,
+    "0.25": 0.95
+   },
+   "cells": {
+    "0.10": {
+     "k": 0.95,
+     "oos_dd": 0.19484122314679175,
+     "oos_cagr": 0.10302396268958303,
+     "oos_sharpe": 0.8231955736904782,
+     "oos_worst_day": -0.047959792350328656,
+     "holds": false,
+     "p_hold": 0.09
+    },
+    "0.15": {
+     "k": 0.95,
+     "oos_dd": 0.19484122314679175,
+     "oos_cagr": 0.10302396268958303,
+     "oos_sharpe": 0.8231955736904782,
+     "oos_worst_day": -0.047959792350328656,
+     "holds": false,
+     "p_hold": 0.13666666666666666
+    },
+    "0.20": {
+     "k": 0.95,
+     "oos_dd": 0.19484122314679175,
+     "oos_cagr": 0.10302396268958303,
+     "oos_sharpe": 0.8231955736904782,
+     "oos_worst_day": -0.047959792350328656,
+     "holds": true,
+     "p_hold": 0.6833333333333333
+    },
+    "0.25": {
+     "k": 0.95,
+     "oos_dd": 0.19484122314679175,
+     "oos_cagr": 0.10302396268958303,
+     "oos_sharpe": 0.8231955736904782,
+     "oos_worst_day": -0.047959792350328656,
+     "holds": true,
+     "p_hold": 0.8716666666666667
+    }
+   }
+  },
+  "FIXED_ONE": {
+   "label": "k = 1.00, no estimation",
+   "picks": {
+    "0.10": 1.0,
+    "0.15": 1.0,
+    "0.20": 1.0,
+    "0.25": 1.0
+   },
+   "cells": {
+    "0.10": {
+     "k": 1.0,
+     "oos_dd": 0.19888256730602094,
+     "oos_cagr": 0.09815677817009472,
+     "oos_sharpe": 0.7960646713566141,
+     "oos_worst_day": -0.04944173612466518,
+     "holds": false,
+     "p_hold": 0.09166666666666666
+    },
+    "0.15": {
+     "k": 1.0,
+     "oos_dd": 0.19888256730602094,
+     "oos_cagr": 0.09815677817009472,
+     "oos_sharpe": 0.7960646713566141,
+     "oos_worst_day": -0.04944173612466518,
+     "holds": false,
+     "p_hold": 0.12833333333333333
+    },
+    "0.20": {
+     "k": 1.0,
+     "oos_dd": 0.19888256730602094,
+     "oos_cagr": 0.09815677817009472,
+     "oos_sharpe": 0.7960646713566141,
+     "oos_worst_day": -0.04944173612466518,
+     "holds": true,
+     "p_hold": 0.6933333333333334
+    },
+    "0.25": {
+     "k": 1.0,
+     "oos_dd": 0.19888256730602094,
+     "oos_cagr": 0.09815677817009472,
+     "oos_sharpe": 0.7960646713566141,
+     "oos_worst_day": -0.04944173612466518,
+     "holds": true,
+     "p_hold": 0.8733333333333333
+    }
+   }
+  }
+ },
+ "benchmarks": {
+  "no_hedge": {
+   "k": 0.0,
+   "is_daily": {
+    "dd": 0.2841809160069808,
+    "cagr": 0.05675701072566852,
+    "vol": 0.19944702567223097,
+    "sharpe": 0.37698526643247154,
+    "worst_day": -0.07828623627813025,
+    "days": 860
+   },
+   "oos_daily": {
+    "dd": 0.25903543666100415,
+    "cagr": 0.1644373286361982,
+    "vol": 0.29298454650564776,
+    "sharpe": 0.6671675951332338,
+    "worst_day": -0.1195989751004014,
+    "days": 680
+   },
+   "full_daily_dd": 0.34173545059685295
+  },
+  "one_unit": {
+   "k": 1.0,
+   "is_daily": {
+    "dd": 0.12250977253133533,
+    "cagr": 0.08323451932206449,
+    "vol": 0.07881454853120132,
+    "sharpe": 1.0539082577313605,
+    "worst_day": -0.017475466316471677,
+    "days": 860
+   },
+   "oos_daily": {
+    "dd": 0.19888256730602094,
+    "cagr": 0.09815677817009472,
+    "vol": 0.127936509364736,
+    "sharpe": 0.7960646713566141,
+    "worst_day": -0.04944173612466518,
+    "days": 680
+   },
+   "full_daily_dd": 0.19888256730602127
+  }
+ },
+ "curves": {
+  "0.00": {
+   "daily": {
+    "dd": 0.2841809160069808,
+    "cagr": 0.05675701072566852,
+    "vol": 0.19944702567223097,
+    "sharpe": 0.37698526643247154,
+    "worst_day": -0.07828623627813025,
+    "days": 860
+   },
+   "daily_oos": {
+    "dd": 0.25903543666100415,
+    "cagr": 0.1644373286361982,
+    "vol": 0.29298454650564776,
+    "sharpe": 0.6671675951332338,
+    "worst_day": -0.1195989751004014,
+    "days": 680
+   },
+   "daily_full": {
+    "dd": 0.34173545059685295,
+    "cagr": 0.1030186201109573,
+    "vol": 0.24513112516374155,
+    "sharpe": 0.5233924151390009,
+    "worst_day": -0.1195989751004014,
+    "days": 1540
+   },
+   "period": {
+    "dd": 0.22615908125214845,
+    "cagr": 0.05675701072566852,
+    "periods": 43
+   },
+   "period_oos": {
+    "dd": NaN,
+    "cagr": NaN,
+    "periods": 0
+   }
+  },
+  "0.05": {
+   "daily": {
+    "dd": 0.2706783877038694,
+    "cagr": 0.05915394646823868,
+    "vol": 0.19062368882278696,
+    "sharpe": 0.39723035242472216,
+    "worst_day": -0.07451266638644594,
+    "days": 860
+   },
+   "daily_oos": {
+    "dd": 0.24979216085188394,
+    "cagr": 0.16267182478162345,
+    "vol": 0.2814505533359132,
+    "sharpe": 0.6772236043537707,
+    "worst_day": -0.11485878055617205,
+    "days": 680
+   },
+   "daily_full": {
+    "dd": 0.3253288328652666,
+    "cagr": 0.10367536493413931,
+    "vol": 0.23504011545133854,
+    "sharpe": 0.5379901594187608,
+    "worst_day": -0.11485878055617205,
+    "days": 1540
+   },
+   "period": {
+    "dd": 0.21388504874473613,
+    "cagr": 0.058192063038592146,
+    "periods": 43
+   },
+   "period_oos": {
+    "dd": NaN,
+    "cagr": NaN,
+    "periods": 0
+   }
+  },
+  "0.10": {
+   "daily": {
+    "dd": 0.2570440696744547,
+    "cagr": 0.06143994223096705,
+    "vol": 0.18189519254440487,
+    "sharpe": 0.4191487503261664,
+    "worst_day": -0.07078555743955628,
+    "days": 860
+   },
+   "daily_oos": {
+    "dd": 0.24219720491262364,
+    "cagr": 0.1607443844347538,
+    "vol": 0.27005667442833686,
+    "sharpe": 0.6879012829858593,
+    "worst_day": -0.11014241687993331,
+    "days": 680
+   },
+   "daily_full": {
+    "dd": 0.310155438404387,
+    "cagr": 0.10419574819711275,
+    "vol": 0.225067624749695,
+    "sharpe": 0.5536361101187056,
+    "worst_day": -0.11014241687993309,
+    "days": 1540
+   },
+   "period": {
+    "dd": 0.2015057421425419,
+    "cagr": 0.05951282927327872,
+    "periods": 43
+   },
+   "period_oos": {
+    "dd": NaN,
+    "cagr": NaN,
+    "periods": 0
+   }
+  },
+  "0.15": {
+   "daily": {
+    "dd": 0.24327735849500676,
+    "cagr": 0.06361460543860886,
+    "vol": 0.17327294594554812,
+    "sharpe": 0.4429266345584947,
+    "worst_day": -0.06710405663279018,
+    "days": 860
+   },
+   "daily_oos": {
+    "dd": 0.2371509541889355,
+    "cagr": 0.15865472701800298,
+    "vol": 0.25881608983911186,
+    "sharpe": 0.6992199777381748,
+    "worst_day": -0.1054497048112284,
+    "days": 680
+   },
+   "daily_full": {
+    "dd": 0.2991929983754822,
+    "cagr": 0.10457931786208663,
+    "vol": 0.21522598467478135,
+    "sharpe": 0.5704115392210716,
+    "worst_day": -0.1054497048112284,
+    "days": 1540
+   },
+   "period": {
+    "dd": 0.18902078976324388,
+    "cagr": 0.060719224515368486,
+    "periods": 43
+   },
+   "period_oos": {
+    "dd": NaN,
+    "cagr": NaN,
+    "periods": 0
+   }
+  },
+  "0.20": {
+   "daily": {
+    "dd": 0.2293776498393485,
+    "cagr": 0.0656775561125138,
+    "vol": 0.16477075316776368,
+    "sharpe": 0.4687691056724625,
+    "worst_day": -0.06346733190586895,
+    "days": 860
+   },
+   "daily_oos": {
+    "dd": 0.23211687747961407,
+    "cagr": 0.15640259740846707,
+    "vol": 0.2477446354792392,
+    "sharpe": 0.7111906280277543,
+    "worst_day": -0.10078046688301401,
+    "days": 680
+   },
+   "daily_full": {
+    "dd": 0.289826651868761,
+    "cagr": 0.10482563651690979,
+    "vol": 0.20553002633761241,
+    "sharpe": 0.5883982687253062,
+    "worst_day": -0.10078046688301412,
+    "days": 1540
+   },
+   "period": {
+    "dd": 0.17642981997106766,
+    "cagr": 0.06181117731409391,
+    "periods": 43
+   },
+   "period_oos": {
+    "dd": NaN,
+    "cagr": NaN,
+    "periods": 0
+   }
+  },
+  "0.25": {
+   "daily": {
+    "dd": 0.21534433847761525,
+    "cagr": 0.06762842713835915,
+    "vol": 0.15640536467605817,
+    "sharpe": 0.4968985893942515,
+    "worst_day": -0.05987457131596363,
+    "days": 860
+   },
+   "daily_oos": {
+    "dd": 0.22709493078325882,
+    "cagr": 0.15398776563279037,
+    "vol": 0.2368613146889946,
+    "sharpe": 0.723811052722434,
+    "worst_day": -0.09613452739928774,
+    "days": 680
+   },
+   "daily_full": {
+    "dd": 0.2803884023527956,
+    "cagr": 0.10493428131707416,
+    "vol": 0.1959975934507383,
+    "sharpe": 0.6076746686577381,
+    "worst_day": -0.09613452739928796,
+    "days": 1540
+   },
+   "period": {
+    "dd": 0.16492335009877357,
+    "cagr": 0.06278862988945333,
+    "periods": 43
+   },
+   "period_oos": {
+    "dd": NaN,
+    "cagr": NaN,
+    "periods": 0
+   }
+  },
+  "0.30": {
+   "daily": {
+    "dd": 0.20117681827501332,
+    "cagr": 0.06946686452678219,
+    "vol": 0.14819716787374626,
+    "sharpe": 0.5275503543373061,
+    "worst_day": -0.05632498243335027,
+    "days": 860
+   },
+   "daily_oos": {
+    "dd": 0.2220850703102638,
+    "cagr": 0.15141002653260904,
+    "vol": 0.22618891429785765,
+    "sharpe": 0.7370593550209801,
+    "worst_day": -0.09151171241305034,
+    "days": 680
+   },
+   "daily_full": {
+    "dd": 0.27087797531371016,
+    "cagr": 0.10490484390290056,
+    "vol": 0.18665016799850623,
+    "sharpe": 0.6283093430774238,
+    "worst_day": -0.09151171241305045,
+    "days": 1540
+   },
+   "period": {
+    "dd": 0.15385935934367567,
+    "cagr": 0.06365153833103587,
+    "periods": 43
+   },
+   "period_oos": {
+    "dd": NaN,
+    "cagr": NaN,
+    "periods": 0
+   }
+  },
+  "0.35": {
+   "daily": {
+    "dd": 0.1871849748358776,
+    "cagr": 0.07119252766718565,
+    "vol": 0.1401710483963123,
+    "sharpe": 0.5609632376027557,
+    "worst_day": -0.05281779175872314,
+    "days": 860
+   },
+   "daily_oos": {
+    "dd": 0.21708725248154304,
+    "cagr": 0.14866919939898593,
+    "vol": 0.2157547408214568,
+    "sharpe": 0.7508848085481545,
+    "worst_day": -0.08691184970459642,
+    "days": 680
+   },
+   "daily_full": {
+    "dd": 0.2612950960133519,
+    "cagr": 0.10473693029088782,
+    "vol": 0.17751362782844704,
+    "sharpe": 0.6503514706777407,
+    "worst_day": -0.08691184970459631,
+    "days": 1540
+   },
+   "period": {
+    "dd": 0.14273367062667142,
+    "cagr": 0.0643998727887829,
+    "periods": 43
+   },
+   "period_oos": {
+    "dd": NaN,
+    "cagr": NaN,
+    "periods": 0
+   }
+  },
+  "0.40": {
+   "daily": {
+    "dd": 0.1740800333308915,
+    "cagr": 0.07280508957497323,
+    "vol": 0.13235745441082852,
+    "sharpe": 0.5973626615573798,
+    "worst_day": -0.04935224416126194,
+    "days": 860
+   },
+   "daily_oos": {
+    "dd": 0.21210143392727232,
+    "cagr": 0.14576512757419002,
+    "vol": 0.2055914895806659,
+    "sharpe": 0.765195451183738,
+    "worst_day": -0.08233476876012746,
+    "days": 680
+   },
+   "daily_full": {
+    "dd": 0.25163948948912807,
+    "cagr": 0.10443016073814038,
+    "vol": 0.16861915323713494,
+    "sharpe": 0.6738164085391477,
+    "worst_day": -0.08233476876012746,
+    "days": 1540
+   },
+   "period": {
+    "dd": 0.13154628965804127,
+    "cagr": 0.06503361765602311,
+    "periods": 43
+   },
+   "period_oos": {
+    "dd": NaN,
+    "cagr": NaN,
+    "periods": 0
+   }
+  },
+  "0.45": {
+   "daily": {
+    "dd": 0.1627312229580744,
+    "cagr": 0.07430423713248535,
+    "vol": 0.12479369006828668,
+    "sharpe": 0.6369316561272701,
+    "worst_day": -0.04592760233659898,
+    "days": 860
+   },
+   "daily_oos": {
+    "dd": 0.20712757148562788,
+    "cagr": 0.14269767801903077,
+    "vol": 0.19573825147866555,
+    "sharpe": 0.7798415271592232,
+    "worst_day": -0.07778030075068187,
+    "days": 680
+   },
+   "daily_full": {
+    "dd": 0.24191088055385146,
+    "cagr": 0.10398416957865408,
+    "vol": 0.16000429135120742,
+    "sharpe": 0.6986647838101075,
+    "worst_day": -0.07778030075068165,
+    "days": 1540
+   },
+   "period": {
+    "dd": 0.12029722214806515,
+    "cagr": 0.0655527717450588,
+    "periods": 43
+   },
+   "period_oos": {
+    "dd": NaN,
+    "cagr": NaN,
+    "periods": 0
+   }
+  },
+  "0.50": {
+   "daily": {
+    "dd": 0.15778693054980097,
+    "cagr": 0.0756896713238322,
+    "vol": 0.11752544294132143,
+    "sharpe": 0.6797639523473367,
+    "worst_day": -0.042543146283866906,
+    "days": 860
+   },
+   "daily_oos": {
+    "dd": 0.2021656222015461,
+    "cagr": 0.13946674084375088,
+    "vol": 0.18624164513219818,
+    "sharpe": 0.7945939848184371,
+    "worst_day": -0.07324827851137627,
+    "days": 680
+   },
+   "daily_full": {
+    "dd": 0.23210899379557604,
+    "cagr": 0.10339860503008591,
+    "vol": 0.1517141678844918,
+    "sharpe": 0.7247730123696153,
+    "worst_day": -0.07324827851137616,
+    "days": 1540
+   },
+   "period": {
+    "dd": 0.11551482096691856,
+    "cagr": 0.0659573484555731,
+    "periods": 43
+   },
+   "period_oos": {
+    "dd": NaN,
+    "cagr": NaN,
+    "periods": 0
+   }
+  },
+  "0.55": {
+   "daily": {
+    "dd": 0.15283541184397276,
+    "cagr": 0.07696110746387119,
+    "vol": 0.11060850004693276,
+    "sharpe": 0.725791740087237,
+    "worst_day": -0.0391981728010482,
+    "days": 860
+   },
+   "daily_oos": {
+    "dd": 0.19721554332548386,
+    "cagr": 0.1360722288004308,
+    "vol": 0.17715703040133537,
+    "sharpe": 0.8091176480608901,
+    "worst_day": -0.06873853652095374,
+    "days": 680
+   },
+   "daily_full": {
+    "dd": 0.22259980470068275,
+    "cagr": 0.1026731289695253,
+    "vol": 0.1438027980380842,
+    "sharpe": 0.7518932819413858,
+    "worst_day": -0.06873853652095374,
+    "days": 1540
+   },
+   "period": {
+    "dd": 0.11299361498159455,
+    "cagr": 0.06624737593611019,
+    "periods": 43
+   },
+   "period_oos": {
+    "dd": NaN,
+    "cagr": NaN,
+    "periods": 0
+   }
+  },
+  "0.60": {
+   "daily": {
+    "dd": 0.1478767491063968,
+    "cagr": 0.07811827542148797,
+    "vol": 0.10411050654754309,
+    "sharpe": 0.774680678879594,
+    "worst_day": -0.03589199499788409,
+    "days": 860
+   },
+   "daily_oos": {
+    "dd": 0.19227729231219348,
+    "cagr": 0.13251407673457916,
+    "vol": 0.16854970565972505,
+    "sharpe": 0.8229397518955492,
+    "worst_day": -0.06425091088163237,
+    "days": 680
+   },
+   "daily_full": {
+    "dd": 0.21422737457439112,
+    "cagr": 0.10180741667660409,
+    "vol": 0.1363343813636378,
+    "sharpe": 0.7796020827429486,
+    "worst_day": -0.06425091088163248,
+    "days": 1540
+   },
+   "period": {
+    "dd": 0.11047992931616779,
+    "cagr": 0.06642289723887851,
+    "periods": 43
+   },
+   "period_oos": {
+    "dd": NaN,
+    "cagr": NaN,
+    "periods": 0
+   }
+  },
+  "0.65": {
+   "daily": {
+    "dd": 0.14340313674209748,
+    "cagr": 0.07916091983739659,
+    "vol": 0.09811244313266818,
+    "sharpe": 0.8256890556999404,
+    "worst_day": -0.03262394182563344,
+    "days": 860
+   },
+   "daily_oos": {
+    "dd": 0.18735082681950121,
+    "cagr": 0.12879224099343722,
+    "vol": 0.1604959074268806,
+    "sharpe": 0.8354167210893785,
+    "worst_day": -0.05978523929924928,
+    "days": 680
+   },
+   "daily_full": {
+    "dd": 0.20656458848910497,
+    "cagr": 0.10080115654212296,
+    "vol": 0.12938435762904088,
+    "sharpe": 0.8072393085819075,
+    "worst_day": -0.05978523929924928,
+    "days": 1540
+   },
+   "period": {
+    "dd": 0.10797378235367561,
+    "cagr": 0.06648397046807131,
+    "periods": 43
+   },
+   "period_oos": {
+    "dd": NaN,
+    "cagr": NaN,
+    "periods": 0
+   }
+  },
+  "0.70": {
+   "daily": {
+    "dd": 0.13960328652438692,
+    "cagr": 0.08008880033664378,
+    "vol": 0.09270922182833514,
+    "sharpe": 0.8775015313989163,
+    "worst_day": -0.029393357623006988,
+    "days": 860
+   },
+   "daily_oos": {
+    "dd": 0.18243610470709815,
+    "cagr": 0.1249066987883598,
+    "vol": 0.15308331298187147,
+    "sharpe": 0.8457058613087717,
+    "worst_day": -0.05534136106369536,
+    "days": 680
+   },
+   "daily_full": {
+    "dd": 0.19887390363934632,
+    "cagr": 0.09965404974022074,
+    "vol": 0.12303984575146895,
+    "sharpe": 0.8338460508257417,
+    "worst_day": -0.05534136106369547,
+    "days": 1540
+   },
+   "period": {
+    "dd": 0.1054751923603714,
+    "cagr": 0.06643066892195537,
+    "periods": 43
+   },
+   "period_oos": {
+    "dd": NaN,
+    "cagr": NaN,
+    "periods": 0
+   }
+  },
+  "0.75": {
+   "daily": {
+    "dd": 0.1358029128059376,
+    "cagr": 0.08090169173591888,
+    "vol": 0.08800844900247036,
+    "sharpe": 0.9280765180127277,
+    "worst_day": -0.02619960167762969,
+    "days": 860
+   },
+   "daily_oos": {
+    "dd": 0.1807453370686093,
+    "cagr": 0.12085744750829353,
+    "vol": 0.14641060322731897,
+    "sharpe": 0.852754161755774,
+    "worst_day": -0.05099325950081779,
+    "days": 680
+   },
+   "daily_full": {
+    "dd": 0.1911553203305647,
+    "cagr": 0.0983658098618383,
+    "vol": 0.11739890012372686,
+    "sharpe": 0.8581194204762337,
+    "worst_day": -0.05099325950081768,
+    "days": 1540
+   },
+   "period": {
+    "dd": 0.10298417748588728,
+    "cagr": 0.0662630812288747,
+    "periods": 43
+   },
+   "period_oos": {
+    "dd": NaN,
+    "cagr": NaN,
+    "periods": 0
+   }
+  },
+  "0.80": {
+   "daily": {
+    "dd": 0.13266884192171424,
+    "cagr": 0.08159938424589641,
+    "vol": 0.08412611838333084,
+    "sharpe": 0.9745901262112194,
+    "worst_day": -0.023042047802415255,
+    "days": 860
+   },
+   "daily_oos": {
+    "dd": 0.18397496938491298,
+    "cagr": 0.11664450398121917,
+    "vol": 0.14058551256967958,
+    "sharpe": 0.8553226283866514,
+    "worst_day": -0.0472222157293779,
+    "days": 680
+   },
+   "daily_full": {
+    "dd": 0.18397496938491287,
+    "cagr": 0.09693616250709547,
+    "vol": 0.1125678599682103,
+    "sharpe": 0.8784159187600383,
+    "worst_day": -0.0472222157293779,
+    "days": 1540
+   },
+   "period": {
+    "dd": 0.10050075576339157,
+    "cagr": 0.06598131147739572,
+    "periods": 43
+   },
+   "period_oos": {
+    "dd": NaN,
+    "cagr": NaN,
+    "periods": 0
+   }
+  },
+  "0.85": {
+   "daily": {
+    "dd": 0.13012023647537574,
+    "cagr": 0.08218168366869372,
+    "vol": 0.08117810885245376,
+    "sharpe": 1.0135991090931875,
+    "worst_day": -0.020582708828210672,
+    "days": 860
+   },
+   "daily_oos": {
+    "dd": 0.18720820179295905,
+    "cagr": 0.11226790368011996,
+    "vol": 0.13572076032449856,
+    "sharpe": 0.8520680323676292,
+    "worst_day": -0.04491887090887159,
+    "days": 680
+   },
+   "daily_full": {
+    "dd": 0.1872082017929585,
+    "cagr": 0.09536484483391017,
+    "vol": 0.10865607464597837,
+    "sharpe": 0.892844750340358,
+    "worst_day": -0.0449188709088717,
+    "days": 1540
+   },
+   "period": {
+    "dd": 0.09802494510974746,
+    "cagr": 0.06558547934074155,
+    "periods": 43
+   },
+   "period_oos": {
+    "dd": NaN,
+    "cagr": NaN,
+    "periods": 0
+   }
+  },
+  "0.90": {
+   "daily": {
+    "dd": 0.12757751053292,
+    "cagr": 0.08264841159060299,
+    "vol": 0.07926734170708598,
+    "sharpe": 1.0415279174015222,
+    "worst_day": -0.01933543207341326,
+    "days": 860
+   },
+   "daily_oos": {
+    "dd": 0.19079314805429448,
+    "cagr": 0.10772769986966879,
+    "vol": 0.1319274574758692,
+    "sharpe": 0.8416982510915882,
+    "worst_day": -0.04645239116479971,
+    "days": 680
+   },
+   "daily_full": {
+    "dd": 0.19079314805429437,
+    "cagr": 0.09365160505993009,
+    "vol": 0.10576766329198287,
+    "sharpe": 0.8994855303640097,
+    "worst_day": -0.04645239116479971,
+    "days": 1540
+   },
+   "period": {
+    "dd": 0.10088438445396009,
+    "cagr": 0.06507572019568619,
+    "periods": 43
+   },
+   "period_oos": {
+    "dd": NaN,
+    "cagr": NaN,
+    "periods": 0
+   }
+  },
+  "0.95": {
+   "daily": {
+    "dd": 0.1250406829524544,
+    "cagr": 0.0829994055702199,
+    "vol": 0.0784684988974576,
+    "sharpe": 1.0554504330774443,
+    "worst_day": -0.018196980302416232,
+    "days": 860
+   },
+   "daily_oos": {
+    "dd": 0.19484122314679175,
+    "cagr": 0.10302396268958303,
+    "vol": 0.12930614217004457,
+    "sharpe": 0.8231955736904782,
+    "worst_day": -0.047959792350328656,
+    "days": 680
+   },
+   "daily_full": {
+    "dd": 0.19484122314679186,
+    "cagr": 0.0917962019145857,
+    "vol": 0.1039908638711215,
+    "sharpe": 0.8967255746176326,
+    "worst_day": -0.047959792350328656,
+    "days": 1540
+   },
+   "period": {
+    "dd": 0.1056172297870811,
+    "cagr": 0.06445218523605911,
+    "periods": 43
+   },
+   "period_oos": {
+    "dd": NaN,
+    "cagr": NaN,
+    "periods": 0
+   }
+  },
+  "1.00": {
+   "daily": {
+    "dd": 0.12250977253133533,
+    "cagr": 0.08323451932206449,
+    "vol": 0.07881454853120132,
+    "sharpe": 1.0539082577313605,
+    "worst_day": -0.017475466316471677,
+    "days": 860
+   },
+   "daily_oos": {
+    "dd": 0.19888256730602094,
+    "cagr": 0.09815677817009472,
+    "vol": 0.127936509364736,
+    "sharpe": 0.7960646713566141,
+    "worst_day": -0.04944173612466518,
+    "days": 680
+   },
+   "daily_full": {
+    "dd": 0.19888256730602127,
+    "cagr": 0.08979840403768802,
+    "vol": 0.10338680891798044,
+    "sharpe": 0.8836412089431595,
+    "worst_day": -0.04944173612466518,
+    "days": 1540
+   },
+   "period": {
+    "dd": 0.11038746438399794,
+    "cagr": 0.06371504158101393,
+    "periods": 43
+   },
+   "period_oos": {
+    "dd": NaN,
+    "cagr": NaN,
+    "periods": 0
+   }
+  },
+  "1.05": {
+   "daily": {
+    "dd": 0.12071685415262323,
+    "cagr": 0.08335362289581694,
+    "vol": 0.08029011888224045,
+    "sharpe": 1.037364131863342,
+    "worst_day": -0.016751602528665144,
+    "days": 860
+   },
+   "daily_oos": {
+    "dd": 0.2029171875792578,
+    "cagr": 0.0931262471747194,
+    "vol": 0.12786786711336312,
+    "sharpe": 0.7605250068286192,
+    "worst_day": -0.05089886198558047,
+    "days": 680
+   },
+   "daily_full": {
+    "dd": 0.20291718757925858,
+    "cagr": 0.08765798932072943,
+    "vol": 0.10398061670916654,
+    "sharpe": 0.8602829655903217,
+    "worst_day": -0.05089886198558047,
+    "days": 1540
+   },
+   "period": {
+    "dd": 0.11519451946815873,
+    "cagr": 0.0628644723781695,
+    "periods": 43
+   },
+   "period_oos": {
+    "dd": NaN,
+    "cagr": NaN,
+    "periods": 0
+   }
+  },
+  "1.10": {
+   "daily": {
+    "dd": 0.12652788557975814,
+    "cagr": 0.08335660285127089,
+    "vol": 0.08283457080869673,
+    "sharpe": 1.0080312442545944,
+    "worst_day": -0.016873468346715215,
+    "days": 860
+   },
+   "daily_oos": {
+    "dd": 0.20744481901008027,
+    "cagr": 0.08793248426485789,
+    "vol": 0.12911279951946428,
+    "sharpe": 0.7175618272053312,
+    "worst_day": -0.05233178818954132,
+    "days": 680
+   },
+   "daily_full": {
+    "dd": 0.20744481901008005,
+    "cagr": 0.08537474418656799,
+    "vol": 0.10575763804806884,
+    "sharpe": 0.8277282575994491,
+    "worst_day": -0.05233178818954132,
+    "days": 1540
+   },
+   "period": {
+    "dd": 0.12079657760523688,
+    "cagr": 0.06190067690179446,
+    "periods": 43
+   },
+   "period_oos": {
+    "dd": NaN,
+    "cagr": NaN,
+    "periods": 0
+   }
+  },
+  "1.15": {
+   "daily": {
+    "dd": 0.13321752092102268,
+    "cagr": 0.08324336242909336,
+    "vol": 0.08635342360984745,
+    "sharpe": 0.9691846349318816,
+    "worst_day": -0.018119253812307723,
+    "days": 860
+   },
+   "daily_oos": {
+    "dd": 0.21547098676494603,
+    "cagr": 0.08257561648042056,
+    "vol": 0.13164594041250655,
+    "sharpe": 0.6687956265471121,
+    "worst_day": -0.05374111262637604,
+    "days": 680
+   },
+   "daily_full": {
+    "dd": 0.2154709867649467,
+    "cagr": 0.08294846280280788,
+    "vol": 0.10866617419001061,
+    "sharpe": 0.7878624041807245,
+    "worst_day": -0.05374111262637593,
+    "days": 1540
+   },
+   "period": {
+    "dd": 0.1279123188711626,
+    "cagr": 0.06082387064610151,
+    "periods": 43
+   },
+   "period_oos": {
+    "dd": NaN,
+    "cagr": NaN,
+    "periods": 0
+   }
+  },
+  "1.20": {
+   "daily": {
+    "dd": 0.14057024474127633,
+    "cagr": 0.0830138217174421,
+    "vol": 0.0907335616994947,
+    "sharpe": 0.9243293038037538,
+    "worst_day": -0.019508397743527528,
+    "days": 860
+   },
+   "daily_oos": {
+    "dd": 0.2234707685845413,
+    "cagr": 0.07705578202992158,
+    "vol": 0.1354082317065279,
+    "sharpe": 0.6162082213075136,
+    "worst_day": -0.055127413651072654,
+    "days": 680
+   },
+   "daily_full": {
+    "dd": 0.2234707685845413,
+    "cagr": 0.08037894622359887,
+    "vol": 0.11262568634603687,
+    "sharpe": 0.7429805303406403,
+    "worst_day": -0.05512741365107254,
+    "days": 1540
+   },
+   "period": {
+    "dd": 0.13502112042907066,
+    "cagr": 0.05963428541381521,
+    "periods": 43
+   },
+   "period_oos": {
+    "dd": NaN,
+    "cagr": NaN,
+    "periods": 0
+   }
+  },
+  "1.25": {
+   "daily": {
+    "dd": 0.14808463873164834,
+    "cagr": 0.08266791781458993,
+    "vol": 0.09585737556289535,
+    "sharpe": 0.8765684071399318,
+    "worst_day": -0.021946868779567974,
+    "days": 860
+   },
+   "daily_oos": {
+    "dd": 0.23541854879677349,
+    "cagr": 0.0713731288830095,
+    "vol": 0.14031531498095273,
+    "sharpe": 0.5618231640075269,
+    "worst_day": -0.05649125087514095,
+    "days": 680
+   },
+   "daily_full": {
+    "dd": 0.23541854879677448,
+    "cagr": 0.077666001454189,
+    "vol": 0.11753780734325862,
+    "sharpe": 0.6953717140480382,
+    "worst_day": -0.05649125087514084,
+    "days": 1540
+   },
+   "period": {
+    "dd": 0.142122594929869,
+    "cagr": 0.058332169400083345,
+    "periods": 43
+   },
+   "period_oos": {
+    "dd": NaN,
+    "cagr": NaN,
+    "periods": 0
+   }
+  },
+  "1.30": {
+   "daily": {
+    "dd": 0.15665133424560695,
+    "cagr": 0.08220560498756657,
+    "vol": 0.10161299192489642,
+    "sharpe": 0.8282982280032526,
+    "worst_day": -0.02440037309480536,
+    "days": 860
+   },
+   "daily_oos": {
+    "dd": 0.2482744484337509,
+    "cagr": 0.06552781325755519,
+    "vol": 0.14626769299381395,
+    "sharpe": 0.5074411731434407,
+    "worst_day": -0.05948198174318253,
+    "days": 680
+   },
+   "daily_full": {
+    "dd": 0.24827444843375002,
+    "cagr": 0.07480944043180382,
+    "vol": 0.1232971958994233,
+    "sharpe": 0.647015327526848,
+    "worst_day": -0.059481981743182644,
+    "days": 1540
+   },
+   "period": {
+    "dd": 0.14997643884245404,
+    "cagr": 0.05691778727184893,
+    "periods": 43
+   },
+   "period_oos": {
+    "dd": NaN,
+    "cagr": NaN,
+    "periods": 0
+   }
+  },
+  "1.35": {
+   "daily": {
+    "dd": 0.16518886011730505,
+    "cagr": 0.08162685482693233,
+    "vol": 0.10790007160886197,
+    "sharpe": 0.7811719884919799,
+    "worst_day": -0.02686905014032337,
+    "days": 860
+   },
+   "daily_oos": {
+    "dd": 0.2611767166063068,
+    "cagr": 0.05951999799267993,
+    "vol": 0.1531603658569988,
+    "sharpe": 0.4544860445274257,
+    "worst_day": -0.06429266912273368,
+    "days": 680
+   },
+   "daily_full": {
+    "dd": 0.2611767166063068,
+    "cagr": 0.07180907891584298,
+    "vol": 0.1298002075744763,
+    "sharpe": 0.599434790846838,
+    "worst_day": -0.06429266912273368,
+    "days": 1540
+   },
+   "period": {
+    "dd": 0.1589339302148245,
+    "cagr": 0.05539142024277255,
+    "periods": 43
+   },
+   "period_oos": {
+    "dd": NaN,
+    "cagr": NaN,
+    "periods": 0
+   }
+  },
+  "1.40": {
+   "daily": {
+    "dd": 0.1736966992122918,
+    "cagr": 0.08093165639771582,
+    "vol": 0.11463205515333504,
+    "sharpe": 0.7362110672956942,
+    "worst_day": -0.029353041097315957,
+    "days": 860
+   },
+   "daily_oos": {
+    "dd": 0.2739350209716551,
+    "cagr": 0.05334985079817112,
+    "vol": 0.16089046881365715,
+    "sharpe": 0.4039618335974292,
+    "worst_day": -0.06914722167128129,
+    "days": 680
+   },
+   "daily_full": {
+    "dd": 0.27393502097165534,
+    "cagr": 0.06866473527958106,
+    "vol": 0.136950646393204,
+    "sharpe": 0.5536830496148843,
+    "worst_day": -0.06914722167128118,
+    "days": 1540
+   },
+   "period": {
+    "dd": 0.16837879440777492,
+    "cagr": 0.05375336614380011,
+    "periods": 43
+   },
+   "period_oos": {
+    "dd": NaN,
+    "cagr": NaN,
+    "periods": 0
+   }
+  },
+  "1.45": {
+   "daily": {
+    "dd": 0.18217434212671435,
+    "cagr": 0.08012001638658184,
+    "vol": 0.12173612457272681,
+    "sharpe": 0.6939630283948106,
+    "worst_day": -0.03185248890400161,
+    "days": 860
+   },
+   "daily_oos": {
+    "dd": 0.2883272491626566,
+    "cagr": 0.04701754236978117,
+    "vol": 0.16936241469626664,
+    "sharpe": 0.35648858931056043,
+    "worst_day": -0.0740462420986524,
+    "days": 680
+   },
+   "daily_full": {
+    "dd": 0.28832724916265606,
+    "cagr": 0.0653762291947122,
+    "vol": 0.14466282910756406,
+    "sharpe": 0.5104060242079037,
+    "worst_day": -0.0740462420986524,
+    "days": 1540
+   },
+   "period": {
+    "dd": 0.17776598059295312,
+    "cagr": 0.05200393948944537,
+    "periods": 43
+   },
+   "period_oos": {
+    "dd": NaN,
+    "cagr": NaN,
+    "periods": 0
+   }
+  },
+  "1.50": {
+   "daily": {
+    "dd": 0.19131951827992677,
+    "cagr": 0.07919195924531608,
+    "vol": 0.12915196400931056,
+    "sharpe": 0.6546501125598325,
+    "worst_day": -0.03436753828304151,
+    "days": 860
+   },
+   "daily_oos": {
+    "dd": 0.3026364787381771,
+    "cagr": 0.040523244358716015,
+    "vol": 0.178490752422389,
+    "sharpe": 0.312377035216388,
+    "worst_day": -0.07899034420716666,
+    "days": 680
+   },
+   "daily_full": {
+    "dd": 0.3026364787381778,
+    "cagr": 0.06194338019915113,
+    "vol": 0.15286264064550145,
+    "sharpe": 0.46993551627734664,
+    "worst_day": -0.07899034420716666,
+    "days": 1540
+   },
+   "period": {
+    "dd": 0.18709544666900846,
+    "cagr": 0.050143471539891404,
+    "periods": 43
+   },
+   "period_oos": {
+    "dd": NaN,
+    "cagr": NaN,
+    "periods": 0
+   }
+  },
+  "1.55": {
+   "daily": {
+    "dd": 0.20080863379655678,
+    "cagr": 0.07814752733064179,
+    "vol": 0.13683004934631748,
+    "sharpe": 0.6182867932904131,
+    "worst_day": -0.03689833576947332,
+    "days": 860
+   },
+   "daily_oos": {
+    "dd": 0.31673427959617806,
+    "cagr": 0.03386712718238383,
+    "vol": 0.18820128492846316,
+    "sharpe": 0.2717117400408351,
+    "worst_day": -0.083980153148003,
+    "days": 680
+   },
+   "daily_full": {
+    "dd": 0.31673427959617806,
+    "cagr": 0.05836600613735565,
+    "vol": 0.16148731038059033,
+    "sharpe": 0.4323808907578682,
+    "worst_day": -0.08398015314800311,
+    "days": 1540
+   },
+   "period": {
+    "dd": 0.19636715391373327,
+    "cagr": 0.04817231035895353,
+    "periods": 43
+   },
+   "period_oos": {
+    "dd": NaN,
+    "cagr": NaN,
+    "periods": 0
+   }
+  },
+  "1.60": {
+   "daily": {
+    "dd": 0.2112526909627862,
+    "cagr": 0.07698678104041434,
+    "vol": 0.14472988443596527,
+    "sharpe": 0.5847642078800879,
+    "worst_day": -0.03944502973917052,
+    "days": 860
+   },
+   "daily_oos": {
+    "dd": 0.3306226045025451,
+    "cagr": 0.02704935766200811,
+    "vol": 0.1984310370720198,
+    "sharpe": 0.23442548714121952,
+    "worst_day": -0.08901630568470997,
+    "days": 680
+   },
+   "daily_full": {
+    "dd": 0.33062260450254377,
+    "cagr": 0.054643921461245304,
+    "vol": 0.17048449772046306,
+    "sharpe": 0.39770541151368966,
+    "worst_day": -0.08901630568470997,
+    "days": 1540
+   },
+   "period": {
+    "dd": 0.20558106696866252,
+    "cagr": 0.046090820868011306,
+    "periods": 43
+   },
+   "period_oos": {
+    "dd": NaN,
+    "cagr": NaN,
+    "periods": 0
+   }
+  },
+  "1.65": {
+   "daily": {
+    "dd": 0.22178787461186467,
+    "cagr": 0.07570979894627183,
+    "vol": 0.15281838699776984,
+    "sharpe": 0.5539069967412724,
+    "worst_day": -0.0420077704378411,
+    "days": 860
+   },
+   "daily_oos": {
+    "dd": 0.34806222588992053,
+    "cagr": 0.02007009647115221,
+    "vol": 0.20912756527655527,
+    "sharpe": 0.20035809942282015,
+    "worst_day": -0.09409945046409307,
+    "days": 680
+   },
+   "daily_full": {
+    "dd": 0.3480622258899202,
+    "cagr": 0.05077693537843997,
+    "vol": 0.17981108969748374,
+    "sharpe": 0.3657837553450979,
+    "worst_day": -0.09409945046409307,
+    "days": 1540
+   },
+   "period": {
+    "dd": 0.2147371538235917,
+    "cagr": 0.04389938489594014,
+    "periods": 43
+   },
+   "period_oos": {
+    "dd": NaN,
+    "cagr": NaN,
+    "periods": 0
+   }
+  },
+  "1.70": {
+   "daily": {
+    "dd": 0.23226306154893672,
+    "cagr": 0.07431667792275443,
+    "vol": 0.16106850035716838,
+    "sharpe": 0.5255097152976392,
+    "worst_day": -0.04458671001057446,
+    "days": 860
+   },
+   "daily_oos": {
+    "dd": 0.3730427315320619,
+    "cagr": 0.012929495377300482,
+    "vol": 0.22024796060946025,
+    "sharpe": 0.1692992708324064,
+    "worst_day": -0.09923024829472049,
+    "days": 680
+   },
+   "daily_full": {
+    "dd": 0.37304273153206136,
+    "cagr": 0.04676484983291118,
+    "vol": 0.18943195379410296,
+    "sharpe": 0.33644247104640945,
+    "worst_day": -0.09923024829472049,
+    "days": 1540
+   },
+   "period": {
+    "dd": 0.22383538580099016,
+    "cagr": 0.04159840122513336,
+    "periods": 43
+   },
+   "period_oos": {
+    "dd": NaN,
+    "cagr": NaN,
+    "periods": 0
+   }
+  },
+  "1.75": {
+   "daily": {
+    "dd": 0.24270761254158735,
+    "cagr": 0.07280753327294143,
+    "vol": 0.1694580407172045,
+    "sharpe": 0.4993591241571787,
+    "worst_day": -0.04718200253195137,
+    "days": 860
+   },
+   "daily_oos": {
+    "dd": 0.3973450459843938,
+    "cagr": 0.005627694256614912,
+    "vol": 0.2317577701186169,
+    "sharpe": 0.1410178146207356,
+    "worst_day": -0.10440937243329751,
+    "days": 680
+   },
+   "daily_full": {
+    "dd": 0.3973450459843929,
+    "cagr": 0.04260745730138682,
+    "vol": 0.19931877578644622,
+    "sharpe": 0.30948695087410855,
+    "worst_day": -0.10440937243329751,
+    "days": 1540
+   },
+   "period": {
+    "dd": 0.23287573754031965,
+    "cagr": 0.03918828563366583,
+    "periods": 43
+   },
+   "period_oos": {
+    "dd": NaN,
+    "cagr": NaN,
+    "periods": 0
+   }
+  },
+  "1.80": {
+   "daily": {
+    "dd": 0.2531364758668624,
+    "cagr": 0.07118249885062755,
+    "vol": 0.17796875934924164,
+    "sharpe": 0.47524714887060127,
+    "worst_day": -0.04979380403672817,
+    "days": 860
+   },
+   "daily_oos": {
+    "dd": 0.421146221766205,
+    "cagr": -0.0018351821403623791,
+    "vol": 0.24362996608201068,
+    "sharpe": 0.11528051655686478,
+    "worst_day": -0.10963750887917256,
+    "days": 680
+   },
+   "daily_full": {
+    "dd": 0.4211462217662042,
+    "cagr": 0.03830453838683123,
+    "vol": 0.2094490407063627,
+    "sharpe": 0.28471854793356616,
+    "worst_day": -0.10963750887917256,
+    "days": 1540
+   },
+   "period": {
+    "dd": 0.2418581869822648,
+    "cagr": 0.0366694709336417,
+    "periods": 43
+   },
+   "period_oos": {
+    "dd": NaN,
+    "cagr": NaN,
+    "periods": 0
+   }
+  },
+  "1.85": {
+   "daily": {
+    "dd": 0.26350108810373796,
+    "cagr": 0.06944172717909325,
+    "vol": 0.18658558838187897,
+    "sharpe": 0.4529778804234204,
+    "worst_day": -0.052422272551108984,
+    "days": 860
+   },
+   "daily_oos": {
+    "dd": 0.4444882856561798,
+    "cagr": -0.009459027697010791,
+    "vol": 0.2558440292410999,
+    "sharpe": 0.09186355390689095,
+    "worst_day": -0.11491535667724284,
+    "days": 680
+   },
+   "daily_full": {
+    "dd": 0.44448828565617904,
+    "cagr": 0.033855859187983395,
+    "vol": 0.2198051738893679,
+    "sharpe": 0.26194486551567747,
+    "worst_day": -0.11491535667724284,
+    "days": 1540
+   },
+   "period": {
+    "dd": 0.2507827153528651,
+    "cagr": 0.034042407005814734,
+    "periods": 43
+   },
+   "period_oos": {
+    "dd": NaN,
+    "cagr": NaN,
+    "periods": 0
+   }
+  },
+  "1.90": {
+   "daily": {
+    "dd": 0.2738007524237297,
+    "cagr": 0.06758538956647997,
+    "vol": 0.19529603781400828,
+    "sharpe": 0.4323708810135745,
+    "worst_day": -0.05506756812461744,
+    "days": 860
+   },
+   "daily_oos": {
+    "dd": 0.4671543825071961,
+    "cagr": -0.01724375874087769,
+    "vol": 0.26838517326462835,
+    "sharpe": 0.07055885763208247,
+    "worst_day": -0.12024362822954282,
+    "days": 680
+   },
+   "daily_full": {
+    "dd": 0.46715438250719543,
+    "cagr": 0.0292611684213111,
+    "vol": 0.23037383779495813,
+    "sharpe": 0.24098550017979178,
+    "worst_day": -0.12024362822954282,
+    "days": 1540
+   },
+   "period": {
+    "dd": 0.25964930714756407,
+    "cagr": 0.03130756083048447,
+    "periods": 43
+   },
+   "period_oos": {
+    "dd": NaN,
+    "cagr": NaN,
+    "periods": 0
+   }
+  },
+  "1.95": {
+   "daily": {
+    "dd": 0.28403478809541305,
+    "cagr": 0.06561367621779168,
+    "vol": 0.20408971449983979,
+    "sharpe": 0.41326227007440736,
+    "worst_day": -0.05772985286258381,
+    "days": 860
+   },
+   "daily_oos": {
+    "dd": 0.48915665043524625,
+    "cagr": -0.02518931818738679,
+    "vol": 0.28124371601971243,
+    "sharpe": 0.05117717818132312,
+    "worst_day": -0.12562304961580506,
+    "days": 680
+   },
+   "daily_full": {
+    "dd": 0.4891566504352459,
+    "cagr": 0.02452019426866192,
+    "vol": 0.24114537089291083,
+    "sharpe": 0.22167486049294413,
+    "worst_day": -0.12562304961580506,
+    "days": 1540
+   },
+   "period": {
+    "dd": 0.26845795011515683,
+    "cagr": 0.02846541651476353,
+    "periods": 43
+   },
+   "period_oos": {
+    "dd": NaN,
+    "cagr": NaN,
+    "periods": 0
+   }
+  },
+  "2.00": {
+   "daily": {
+    "dd": 0.29420253046612277,
+    "cagr": 0.06352679634357794,
+    "vol": 0.21295793834604013,
+    "sharpe": 0.39550452941299197,
+    "worst_day": -0.060409290959259065,
+    "days": 860
+   },
+   "daily_oos": {
+    "dd": 0.5105072105801586,
+    "cagr": -0.03329568005236372,
+    "vol": 0.294414592536179,
+    "sharpe": 0.03354909195611662,
+    "worst_day": -0.13105436092329892,
+    "days": 680
+   },
+   "daily_full": {
+    "dd": 0.510507210580159,
+    "cagr": 0.019632640920504985,
+    "vol": 0.2521133521640869,
+    "sharpe": 0.20386316995248288,
+    "worst_day": -0.13105436092329892,
+    "days": 1540
+   },
+   "period": {
+    "dd": 0.27784242142128734,
+    "cagr": 0.025516475316224918,
+    "periods": 43
+   },
+   "period_oos": {
+    "dd": NaN,
+    "cagr": NaN,
+    "periods": 0
+   }
+  }
+ },
+ "anchor": {
+  "k0_matches_parent_daily_dd": true,
+  "k0_gap": 0.0,
+  "k1_oos_matches_parent": true,
+  "k1_gap": 0.0,
+  "a_period_reproduces_r2023": true,
+  "arm_series_periods_compared": 154,
+  "arm_series_max_abs_gap": 5.2262881522491256e-15
+ },
+ "verdict": "FITTING_HURTS",
+ "verdict_why": "one unit of beta held the 20% budget out of sample (19.89%) while 5 of 8 fitted pickers breached it"
+}
