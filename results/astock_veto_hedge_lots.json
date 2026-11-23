@@ -1,0 +1,439 @@
+{
+ "beta": 0.9013312810692592,
+ "beta_parent": {
+  "content_sha256": "1a1bbeb9b98fafe1ecfd65f430bf86ced104505743468005cdce1da7f59bb92c",
+  "evidence_cutoff": "2026-11-20",
+  "face": "results/astock_veto_hedgeable_beta.json",
+  "file_sha256": "a3044bd7101c9d36120ef1e7817829baf1bb3d34c97c727fa3657f116f63c518",
+  "generated": "2026-11-24T03:29:09+08:00"
+ },
+ "carry": {
+  "etf_roll_cost_per_year_on_capital": 0.018170838626356267,
+  "etf_roll_cost_per_year_on_notional": 0.02016,
+  "im_basis_median": -0.006286703184891995,
+  "im_basis_note": "a negative median basis is the future trading below the index; the direction is against a short, but it cannot be annualised from a median taken across mixed expiries -- not modelled here",
+  "periods_per_year": 12.6,
+  "source": "results/astock_veto_hedgeable_beta.json:spec / data.im"
+ },
+ "evidence_cutoff": "2026-11-20",
+ "fills_the_hole_of": "r2023-r2026 decided how much insurance to buy, in shares of the book; no face said what that is in lots, what the rounding costs in beta, how much capital the hedge ties up, or how far the futures margin is from a call",
+ "funding_efficiency": {
+  "1000000": {
+   "etf_0.50": 1.500064436237076,
+   "etf_0.80": 1.8000773234844916,
+   "etf_1.00": 2.000085914982768,
+   "im_0.12": 0.14766424154513827,
+   "im_0.15": 0.18458030193142283
+  },
+  "10000000": {
+   "etf_0.50": 1.499987882808332,
+   "etf_0.80": 1.7999854593699984,
+   "etf_1.00": 1.9999838437444428,
+   "im_0.12": 0.11813139323611062,
+   "im_0.15": 0.14766424154513827
+  },
+  "20000000": {
+   "etf_0.50": 1.5000070211655179,
+   "etf_0.80": 1.8000084253986217,
+   "etf_1.00": 2.000009361554024,
+   "im_0.12": 0.11813139323611062,
+   "im_0.15": 0.14766424154513827
+  },
+  "3000000": {
+   "etf_0.50": 1.4999368471891694,
+   "etf_0.80": 1.7999242166270033,
+   "etf_1.00": 1.999915796252226,
+   "im_0.12": 0.09844282769675884,
+   "im_0.15": 0.12305353462094856
+  }
+ },
+ "generated": "2026-11-24T05:27:04+08:00",
+ "granularity": {
+  "etf": {
+   "beta_error_at_smallest_rung": 3.8718930740699875e-05,
+   "capital_for_half_pct_beta": 22999.999999999996,
+   "liquidity_share_of_day_amount": 7.619916491861092e-05,
+   "one_lot_notional": 229.99999999999997
+  },
+  "exact_neutral_capital": {
+   "1": {
+    "capital_cny": 1230535.3462094855,
+    "contracts": 1
+   },
+   "2": {
+    "capital_cny": 2461070.692418971,
+    "contracts": 2
+   }
+  },
+  "im": {
+   "beta_error_at_smallest_rung": 0.2077887189307409,
+   "capital_for_half_pct_beta": 110912000.0,
+   "liquidity_share_of_day_volume": 3.4715110446123883e-06,
+   "one_lot_notional": 1109120.0,
+   "one_lot_pct_of_smallest_capital": 110.912
+  },
+  "ratio_one_contract_over_one_lot": 4822.260869565218
+ },
+ "hedge_notional_pct": 90.13312810692592,
+ "k": 1.0,
+ "kind": "astock_veto_hedge_lots",
+ "ladders": {
+  "1000000": {
+   "capital": 1000000.0,
+   "etf": {
+    "floor": {
+     "beta_achieved": 0.9011399999999998,
+     "beta_error": -0.0001912810692593636,
+     "lots": 3918,
+     "notional": 901139.9999999999,
+     "residual_cny": 191.28106925927568,
+     "short_of_target_pct": 0.02122206044289918
+    },
+    "lots_needed": 3918.8316568228665,
+    "margin": {
+     "0.50": {
+      "committed_cny": 1352054.9999999998,
+      "frozen_proceeds_cny": 901369.9999999999,
+      "margin_cny": 450684.99999999994,
+      "ratio": 0.5
+     },
+     "0.80": {
+      "committed_cny": 1622466.0,
+      "frozen_proceeds_cny": 901369.9999999999,
+      "margin_cny": 721096.0,
+      "ratio": 0.8
+     },
+     "1.00": {
+      "committed_cny": 1802739.9999999998,
+      "frozen_proceeds_cny": 901369.9999999999,
+      "margin_cny": 901369.9999999999,
+      "ratio": 1.0
+     }
+    },
+    "round": {
+     "beta_achieved": 0.9013699999999999,
+     "beta_error": 3.8718930740699875e-05,
+     "lots": 3919,
+     "notional": 901369.9999999999,
+     "residual_cny": -38.71893074072432,
+     "short_of_target_pct": -0.004295749138406872
+    }
+   },
+   "im": {
+    "cannot_fill_at_all": false,
+    "floor": {
+     "beta_achieved": 0.0,
+     "beta_error": -0.9013312810692592,
+     "lots": 0,
+     "notional": 0.0,
+     "residual_cny": 901331.2810692592,
+     "short_of_target_pct": 100.0
+    },
+    "lots_needed": 0.8126544297003563,
+    "margin": {
+     "0.12": {
+      "margin_cny": 133094.4,
+      "ratio": 0.12
+     },
+     "0.15": {
+      "margin_cny": 166368.0,
+      "ratio": 0.15
+     }
+    },
+    "round": {
+     "beta_achieved": 1.10912,
+     "beta_error": 0.2077887189307409,
+     "lots": 1,
+     "notional": 1109120.0,
+     "residual_cny": -207788.71893074084,
+     "short_of_target_pct": -23.05353462094856
+    }
+   }
+  },
+  "10000000": {
+   "capital": 10000000.0,
+   "etf": {
+    "floor": {
+     "beta_achieved": 0.9013239999999998,
+     "beta_error": -7.28106925940164e-06,
+     "lots": 39188,
+     "notional": 9013239.999999998,
+     "residual_cny": 72.81069259345531,
+     "short_of_target_pct": 0.0008078127778620885
+    },
+    "lots_needed": 39188.31656822866,
+    "margin": {
+     "0.50": {
+      "committed_cny": 13519859.999999996,
+      "frozen_proceeds_cny": 9013239.999999998,
+      "margin_cny": 4506619.999999999,
+      "ratio": 0.5
+     },
+     "0.80": {
+      "committed_cny": 16223831.999999996,
+      "frozen_proceeds_cny": 9013239.999999998,
+      "margin_cny": 7210591.999999999,
+      "ratio": 0.8
+     },
+     "1.00": {
+      "committed_cny": 18026479.999999996,
+      "frozen_proceeds_cny": 9013239.999999998,
+      "margin_cny": 9013239.999999998,
+      "ratio": 1.0
+     }
+    },
+    "round": {
+     "beta_achieved": 0.9013239999999998,
+     "beta_error": -7.28106925940164e-06,
+     "lots": 39188,
+     "notional": 9013239.999999998,
+     "residual_cny": 72.81069259345531,
+     "short_of_target_pct": 0.0008078127778620885
+    }
+   },
+   "im": {
+    "cannot_fill_at_all": false,
+    "floor": {
+     "beta_achieved": 0.887296,
+     "beta_error": -0.01403528106925922,
+     "lots": 8,
+     "notional": 8872960.0,
+     "residual_cny": 140352.8106925916,
+     "short_of_target_pct": 1.5571723032411513
+    },
+    "lots_needed": 8.126544297003562,
+    "margin": {
+     "0.12": {
+      "margin_cny": 1064755.2,
+      "ratio": 0.12
+     },
+     "0.15": {
+      "margin_cny": 1330944.0,
+      "ratio": 0.15
+     }
+    },
+    "round": {
+     "beta_achieved": 0.887296,
+     "beta_error": -0.01403528106925922,
+     "lots": 8,
+     "notional": 8872960.0,
+     "residual_cny": 140352.8106925916,
+     "short_of_target_pct": 1.5571723032411513
+    }
+   }
+  },
+  "20000000": {
+   "capital": 20000000.0,
+   "etf": {
+    "floor": {
+     "beta_achieved": 0.9013239999999998,
+     "beta_error": -7.28106925940164e-06,
+     "lots": 78376,
+     "notional": 18026479.999999996,
+     "residual_cny": 145.62138518691063,
+     "short_of_target_pct": 0.0008078127778620885
+    },
+    "lots_needed": 78376.63313645733,
+    "margin": {
+     "0.50": {
+      "committed_cny": 27040064.999999993,
+      "frozen_proceeds_cny": 18026709.999999996,
+      "margin_cny": 9013354.999999998,
+      "ratio": 0.5
+     },
+     "0.80": {
+      "committed_cny": 32448077.999999993,
+      "frozen_proceeds_cny": 18026709.999999996,
+      "margin_cny": 14421367.999999998,
+      "ratio": 0.8
+     },
+     "1.00": {
+      "committed_cny": 36053419.99999999,
+      "frozen_proceeds_cny": 18026709.999999996,
+      "margin_cny": 18026709.999999996,
+      "ratio": 1.0
+     }
+    },
+    "round": {
+     "beta_achieved": 0.9013354999999998,
+     "beta_error": 4.218930740651494e-06,
+     "lots": 78377,
+     "notional": 18026709.999999996,
+     "residual_cny": -84.37861481308937,
+     "short_of_target_pct": -0.0004680777012032141
+    }
+   },
+   "im": {
+    "cannot_fill_at_all": false,
+    "floor": {
+     "beta_achieved": 0.887296,
+     "beta_error": -0.01403528106925922,
+     "lots": 16,
+     "notional": 17745920.0,
+     "residual_cny": 280705.6213851832,
+     "short_of_target_pct": 1.5571723032411513
+    },
+    "lots_needed": 16.253088594007124,
+    "margin": {
+     "0.12": {
+      "margin_cny": 2129510.4,
+      "ratio": 0.12
+     },
+     "0.15": {
+      "margin_cny": 2661888.0,
+      "ratio": 0.15
+     }
+    },
+    "round": {
+     "beta_achieved": 0.887296,
+     "beta_error": -0.01403528106925922,
+     "lots": 16,
+     "notional": 17745920.0,
+     "residual_cny": 280705.6213851832,
+     "short_of_target_pct": 1.5571723032411513
+    }
+   }
+  },
+  "3000000": {
+   "capital": 3000000.0,
+   "etf": {
+    "floor": {
+     "beta_achieved": 0.9012933333333332,
+     "beta_error": -3.794773592602496e-05,
+     "lots": 11756,
+     "notional": 2703879.9999999995,
+     "residual_cny": 113.84320777794346,
+     "short_of_target_pct": 0.004210187388699452
+    },
+    "lots_needed": 11756.494970468599,
+    "margin": {
+     "0.50": {
+      "committed_cny": 4055819.999999999,
+      "frozen_proceeds_cny": 2703879.9999999995,
+      "margin_cny": 1351939.9999999998,
+      "ratio": 0.5
+     },
+     "0.80": {
+      "committed_cny": 4866983.999999999,
+      "frozen_proceeds_cny": 2703879.9999999995,
+      "margin_cny": 2163103.9999999995,
+      "ratio": 0.8
+     },
+     "1.00": {
+      "committed_cny": 5407759.999999999,
+      "frozen_proceeds_cny": 2703879.9999999995,
+      "margin_cny": 2703879.9999999995,
+      "ratio": 1.0
+     }
+    },
+    "round": {
+     "beta_achieved": 0.9012933333333332,
+     "beta_error": -3.794773592602496e-05,
+     "lots": 11756,
+     "notional": 2703879.9999999995,
+     "residual_cny": 113.84320777794346,
+     "short_of_target_pct": 0.004210187388699452
+    }
+   },
+   "im": {
+    "cannot_fill_at_all": false,
+    "floor": {
+     "beta_achieved": 0.7394133333333334,
+     "beta_error": -0.16191794773592583,
+     "lots": 2,
+     "notional": 2218240.0,
+     "residual_cny": 485753.8432077775,
+     "short_of_target_pct": 17.96431025270096
+    },
+    "lots_needed": 2.4379632891010687,
+    "margin": {
+     "0.12": {
+      "margin_cny": 266188.8,
+      "ratio": 0.12
+     },
+     "0.15": {
+      "margin_cny": 332736.0,
+      "ratio": 0.15
+     }
+    },
+    "round": {
+     "beta_achieved": 0.7394133333333334,
+     "beta_error": -0.16191794773592583,
+     "lots": 2,
+     "notional": 2218240.0,
+     "residual_cny": 485753.8432077775,
+     "short_of_target_pct": 17.96431025270096
+    }
+   }
+  }
+ },
+ "machine": "bm-c",
+ "parent": {
+  "content_sha256": "26823178ab9b2732cb315f0b32db779013162025c9215f5178229a9b719656d4",
+  "evidence_cutoff": "2026-11-20",
+  "face": "results/astock_veto_hedge_default.json",
+  "file_sha256": "d1c45c8e8ebfb2f5cc325f57b568c668e4317583266dc1a9ec55bf3aee84c482",
+  "generated": "2026-11-24T05:08:39+08:00"
+ },
+ "prereg": {
+  "beta_error_definition": "|lots x one_lot / capital - k x beta|, absolute, on the sorted arm (floor for 'do not overshoot', round for 'closest')",
+  "beta_source": "results/astock_veto_hedge_default.json:default.beta (published)",
+  "capital_rungs": "the four the family already publishes, plus the two exact-neutral levels",
+  "forced_liquidation_line": "the margin ratio itself: a short loses the whole margin at a move equal to the ratio, ignoring variation margin calls and fees -- an upper bound on the distance, not a schedule",
+  "frozen_before_the_numbers": true,
+  "k": 1.0,
+  "margin_axes": {
+   "etf_short": [
+    0.5,
+    0.8,
+    1.0
+   ],
+   "im": [
+    0.12,
+    0.15
+   ],
+   "why": "broker terms, unobservable from this repository; printed as axes"
+  },
+  "not_fitted": "no beta, size, cost or basis is estimated here",
+  "one_etf_lot": "100 x 512100 last close",
+  "one_im_lot": "200 x IM last close (main continuous)",
+  "verdict_rungs": [
+   "the ETF rounds free and the contract does not -> LOT_IS_FREE_ON_THE_ETF_AND_A_FOUR_THOUSANDTH_OF_THE_BOOK_ON_THE_FUTURE",
+   "both round fine -> THE_ROUNDING_IS_FREE_ON_BOTH_ARMS",
+   "the ETF does not round fine either -> THE_ROUNDING_BITES_ON_BOTH_ARMS"
+  ]
+ },
+ "prices": {
+  "etf": {
+   "amount": 11829132261.0,
+   "close": 2.3,
+   "csv": "data/daily/sh512100.csv",
+   "date": "2026-11-20",
+   "day_move": -0.04801324503311266,
+   "file_sha256": "69c3979170048a3a5d95662450303de77ac5b1644b4c319e43f535498d37e2b7",
+   "lot": 100,
+   "one_lot_notional": 229.99999999999997,
+   "prev_date": "2026-11-19",
+   "rows": 2439,
+   "symbol": "512100",
+   "volume": 5057822555.0
+  },
+  "im": {
+   "close": 5545.6,
+   "csv": "data/futures_daily/IM.csv",
+   "date": "2026-11-20",
+   "day_move": -0.05635720119793086,
+   "file_sha256": "e15865a65bf9b18da26156d03fea86b66f4918dbc38ddc67040baf9729ec0a32",
+   "multiplier": 200,
+   "oi": 337731.0,
+   "one_lot_notional": 1109120.0,
+   "prev_date": "2026-11-19",
+   "rows": 1050,
+   "symbol": "IM",
+   "volume": 288059.0
+  }
+ },
+ "target_beta": 0.9013312810692592,
+ "verdict": "LOT_IS_FREE_ON_THE_ETF_AND_A_FOUR_THOUSANDTH_OF_THE_BOOK_ON_THE_FUTURE",
+ "verdict_why": "the ETF's half-lot error is 0.00004 of beta at the smallest capital, while one contract is 110.9% of that book and cannot be made beta-neutral with any whole number"
+}
