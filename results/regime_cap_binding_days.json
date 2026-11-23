@@ -1,0 +1,504 @@
+{
+  "schema": "regime-cap-binding-days/v1",
+  "artifact": "results/regime_cap_binding_days.json",
+  "doc": "research/REGIME-CAP-BINDING-DAYS.md",
+  "cap": 0.2,
+  "rule_source": {
+    "iron_rules": "firm/risk/iron_rules.md R-配3 (大熊市 = hs300 < MA250 AND dd from 250d high >= 20%)",
+    "implementation": "firm/risk/regime.py::major_bear_series (single source, imported)",
+    "state_machine": "firm/risk/REGIME_GUARD.md §1 (RED = any of three triggers)"
+  },
+  "export_span": {
+    "first": "2026-09-24",
+    "last": "2026-11-20",
+    "sessions": 36
+  },
+  "sessions": [
+    {
+      "date": "2026-09-24",
+      "is_bear": false,
+      "red_label": null,
+      "labels_agree": null,
+      "n_accounts": 6,
+      "n_above": 3,
+      "excess_cny": 1800046.22
+    },
+    {
+      "date": "2026-09-28",
+      "is_bear": false,
+      "red_label": null,
+      "labels_agree": null,
+      "n_accounts": 6,
+      "n_above": 3,
+      "excess_cny": 1793715.38
+    },
+    {
+      "date": "2026-09-29",
+      "is_bear": false,
+      "red_label": null,
+      "labels_agree": null,
+      "n_accounts": 6,
+      "n_above": 3,
+      "excess_cny": 1799012.83
+    },
+    {
+      "date": "2026-09-30",
+      "is_bear": false,
+      "red_label": null,
+      "labels_agree": null,
+      "n_accounts": 6,
+      "n_above": 3,
+      "excess_cny": 1801526.64
+    },
+    {
+      "date": "2026-10-08",
+      "is_bear": false,
+      "red_label": null,
+      "labels_agree": null,
+      "n_accounts": 6,
+      "n_above": 3,
+      "excess_cny": 1799891.02
+    },
+    {
+      "date": "2026-10-09",
+      "is_bear": false,
+      "red_label": null,
+      "labels_agree": null,
+      "n_accounts": 6,
+      "n_above": 3,
+      "excess_cny": 1802978.86
+    },
+    {
+      "date": "2026-10-12",
+      "is_bear": false,
+      "red_label": null,
+      "labels_agree": null,
+      "n_accounts": 6,
+      "n_above": 3,
+      "excess_cny": 1809788.87
+    },
+    {
+      "date": "2026-10-13",
+      "is_bear": false,
+      "red_label": null,
+      "labels_agree": null,
+      "n_accounts": 6,
+      "n_above": 3,
+      "excess_cny": 1806331.41
+    },
+    {
+      "date": "2026-10-14",
+      "is_bear": false,
+      "red_label": null,
+      "labels_agree": null,
+      "n_accounts": 6,
+      "n_above": 3,
+      "excess_cny": 1805177.48
+    },
+    {
+      "date": "2026-10-15",
+      "is_bear": false,
+      "red_label": null,
+      "labels_agree": null,
+      "n_accounts": 6,
+      "n_above": 3,
+      "excess_cny": 1491340.05
+    },
+    {
+      "date": "2026-10-16",
+      "is_bear": false,
+      "red_label": "ORANGE",
+      "labels_agree": true,
+      "n_accounts": 6,
+      "n_above": 3,
+      "excess_cny": 1651300.24
+    },
+    {
+      "date": "2026-10-19",
+      "is_bear": false,
+      "red_label": "ORANGE",
+      "labels_agree": true,
+      "n_accounts": 6,
+      "n_above": 3,
+      "excess_cny": 1805314.17
+    },
+    {
+      "date": "2026-10-20",
+      "is_bear": false,
+      "red_label": "ORANGE",
+      "labels_agree": true,
+      "n_accounts": 6,
+      "n_above": 3,
+      "excess_cny": 1740050.39
+    },
+    {
+      "date": "2026-10-21",
+      "is_bear": false,
+      "red_label": "ORANGE",
+      "labels_agree": true,
+      "n_accounts": 6,
+      "n_above": 3,
+      "excess_cny": 1584505.46
+    },
+    {
+      "date": "2026-10-22",
+      "is_bear": false,
+      "red_label": "ORANGE",
+      "labels_agree": true,
+      "n_accounts": 6,
+      "n_above": 3,
+      "excess_cny": 1574315.45
+    },
+    {
+      "date": "2026-10-23",
+      "is_bear": false,
+      "red_label": "ORANGE",
+      "labels_agree": true,
+      "n_accounts": 6,
+      "n_above": 3,
+      "excess_cny": 1454934.53
+    },
+    {
+      "date": "2026-10-26",
+      "is_bear": false,
+      "red_label": "ORANGE",
+      "labels_agree": true,
+      "n_accounts": 6,
+      "n_above": 3,
+      "excess_cny": 1725201.15
+    },
+    {
+      "date": "2026-10-27",
+      "is_bear": false,
+      "red_label": "ORANGE",
+      "labels_agree": true,
+      "n_accounts": 6,
+      "n_above": 3,
+      "excess_cny": 1124817.49
+    },
+    {
+      "date": "2026-10-28",
+      "is_bear": false,
+      "red_label": "ORANGE",
+      "labels_agree": true,
+      "n_accounts": 6,
+      "n_above": 3,
+      "excess_cny": 1230532.97
+    },
+    {
+      "date": "2026-10-29",
+      "is_bear": false,
+      "red_label": "ORANGE",
+      "labels_agree": true,
+      "n_accounts": 6,
+      "n_above": 3,
+      "excess_cny": 1229269.06
+    },
+    {
+      "date": "2026-10-30",
+      "is_bear": true,
+      "red_label": "RED",
+      "labels_agree": true,
+      "n_accounts": 6,
+      "n_above": 3,
+      "excess_cny": 1219095.85
+    },
+    {
+      "date": "2026-11-02",
+      "is_bear": false,
+      "red_label": "RED",
+      "labels_agree": false,
+      "n_accounts": 6,
+      "n_above": 3,
+      "excess_cny": 1219943.46
+    },
+    {
+      "date": "2026-11-03",
+      "is_bear": false,
+      "red_label": null,
+      "labels_agree": null,
+      "n_accounts": 6,
+      "n_above": 3,
+      "excess_cny": 1215229.14
+    },
+    {
+      "date": "2026-11-04",
+      "is_bear": false,
+      "red_label": null,
+      "labels_agree": null,
+      "n_accounts": 6,
+      "n_above": 3,
+      "excess_cny": 1160272.59
+    },
+    {
+      "date": "2026-11-05",
+      "is_bear": false,
+      "red_label": null,
+      "labels_agree": null,
+      "n_accounts": 6,
+      "n_above": 3,
+      "excess_cny": 1220830.39
+    },
+    {
+      "date": "2026-11-06",
+      "is_bear": false,
+      "red_label": "RED",
+      "labels_agree": false,
+      "n_accounts": 6,
+      "n_above": 3,
+      "excess_cny": 1212730.59
+    },
+    {
+      "date": "2026-11-09",
+      "is_bear": false,
+      "red_label": "RED",
+      "labels_agree": false,
+      "n_accounts": 6,
+      "n_above": 0,
+      "excess_cny": 0.0
+    },
+    {
+      "date": "2026-11-10",
+      "is_bear": false,
+      "red_label": "RED",
+      "labels_agree": false,
+      "n_accounts": 6,
+      "n_above": 3,
+      "excess_cny": 1235937.17
+    },
+    {
+      "date": "2026-11-11",
+      "is_bear": false,
+      "red_label": "RED",
+      "labels_agree": false,
+      "n_accounts": 6,
+      "n_above": 3,
+      "excess_cny": 1426462.2
+    },
+    {
+      "date": "2026-11-12",
+      "is_bear": false,
+      "red_label": "RED",
+      "labels_agree": false,
+      "n_accounts": 6,
+      "n_above": 3,
+      "excess_cny": 1096542.71
+    },
+    {
+      "date": "2026-11-13",
+      "is_bear": false,
+      "red_label": "RED",
+      "labels_agree": false,
+      "n_accounts": 6,
+      "n_above": 3,
+      "excess_cny": 1644262.99
+    },
+    {
+      "date": "2026-11-16",
+      "is_bear": true,
+      "red_label": "RED",
+      "labels_agree": true,
+      "n_accounts": 6,
+      "n_above": 3,
+      "excess_cny": 1638176.24
+    },
+    {
+      "date": "2026-11-17",
+      "is_bear": true,
+      "red_label": "RED",
+      "labels_agree": true,
+      "n_accounts": 6,
+      "n_above": 3,
+      "excess_cny": 1641001.34
+    },
+    {
+      "date": "2026-11-18",
+      "is_bear": true,
+      "red_label": "RED",
+      "labels_agree": true,
+      "n_accounts": 6,
+      "n_above": 3,
+      "excess_cny": 1638143.16
+    },
+    {
+      "date": "2026-11-19",
+      "is_bear": true,
+      "red_label": "RED",
+      "labels_agree": true,
+      "n_accounts": 6,
+      "n_above": 3,
+      "excess_cny": 1594610.63
+    },
+    {
+      "date": "2026-11-20",
+      "is_bear": true,
+      "red_label": "RED",
+      "labels_agree": true,
+      "n_accounts": 6,
+      "n_above": 3,
+      "excess_cny": 1527342.26
+    }
+  ],
+  "accounts": [
+    {
+      "name": "COMPOSITE-CE-01",
+      "bear_sessions": 6,
+      "bear_above": 6,
+      "bear_above_dates": [
+        "2026-10-30",
+        "2026-11-16",
+        "2026-11-17",
+        "2026-11-18",
+        "2026-11-19",
+        "2026-11-20"
+      ],
+      "red_sessions": 13,
+      "red_above": 12,
+      "latest": {
+        "date": "2026-11-20",
+        "weight_pct": 95.94,
+        "excess_cny": 741317.55,
+        "above": true,
+        "is_bear": true
+      }
+    },
+    {
+      "name": "COMPOSITE-CE-02",
+      "bear_sessions": 6,
+      "bear_above": 6,
+      "bear_above_dates": [
+        "2026-10-30",
+        "2026-11-16",
+        "2026-11-17",
+        "2026-11-18",
+        "2026-11-19",
+        "2026-11-20"
+      ],
+      "red_sessions": 13,
+      "red_above": 12,
+      "latest": {
+        "date": "2026-11-20",
+        "weight_pct": 85.19,
+        "excess_cny": 634037.91,
+        "above": true,
+        "is_bear": true
+      }
+    },
+    {
+      "name": "DROUGHT-CE-01",
+      "bear_sessions": 6,
+      "bear_above": 0,
+      "bear_above_dates": [],
+      "red_sessions": 13,
+      "red_above": 0,
+      "latest": {
+        "date": "2026-11-20",
+        "weight_pct": 0.0,
+        "excess_cny": 0.0,
+        "above": false,
+        "is_bear": true
+      }
+    },
+    {
+      "name": "ENGULF-CE-01",
+      "bear_sessions": 6,
+      "bear_above": 0,
+      "bear_above_dates": [],
+      "red_sessions": 13,
+      "red_above": 0,
+      "latest": {
+        "date": "2026-11-20",
+        "weight_pct": 4.96,
+        "excess_cny": 0.0,
+        "above": false,
+        "is_bear": true
+      }
+    },
+    {
+      "name": "NEEDLE-DE-01",
+      "bear_sessions": 6,
+      "bear_above": 0,
+      "bear_above_dates": [],
+      "red_sessions": 13,
+      "red_above": 0,
+      "latest": {
+        "date": "2026-11-20",
+        "weight_pct": 0.0,
+        "excess_cny": 0.0,
+        "above": false,
+        "is_bear": true
+      }
+    },
+    {
+      "name": "VOLATILITY-CE-01",
+      "bear_sessions": 6,
+      "bear_above": 6,
+      "bear_above_dates": [
+        "2026-10-30",
+        "2026-11-16",
+        "2026-11-17",
+        "2026-11-18",
+        "2026-11-19",
+        "2026-11-20"
+      ],
+      "red_sessions": 13,
+      "red_above": 12,
+      "latest": {
+        "date": "2026-11-20",
+        "weight_pct": 35.37,
+        "excess_cny": 151986.8,
+        "above": true,
+        "is_bear": true
+      }
+    }
+  ],
+  "divergence": {
+    "red_but_not_bear": [
+      "2026-11-02",
+      "2026-11-06",
+      "2026-11-09",
+      "2026-11-10",
+      "2026-11-11",
+      "2026-11-12",
+      "2026-11-13"
+    ],
+    "bear_but_not_red": [],
+    "bear_unlabelled": [],
+    "nonbear_unlabelled": [
+      "2026-09-24",
+      "2026-09-28",
+      "2026-09-29",
+      "2026-09-30",
+      "2026-10-08",
+      "2026-10-09",
+      "2026-10-12",
+      "2026-10-13",
+      "2026-10-14",
+      "2026-10-15",
+      "2026-11-03",
+      "2026-11-04",
+      "2026-11-05"
+    ],
+    "n_red": 13,
+    "n_bear": 6
+  },
+  "input_problems": [],
+  "bear_span": {
+    "first": "2026-10-30",
+    "last": "2026-11-20",
+    "sessions": 6
+  },
+  "red_span": {
+    "first": "2026-10-30",
+    "last": "2026-11-20",
+    "sessions": 13
+  },
+  "cross_gate_mismatches": [],
+  "red_compliant_days": [
+    "2026-11-09"
+  ],
+  "bear_compliant_days": [],
+  "verdict": "THE_ONE_COMPLIANT_DAY_IS_OUTSIDE_THE_BEAR",
+  "sentence": "R-配3 的帽子（20%）只在「大熊市」双条件下生效，而纸盘历史里有 13 个会话被标为 RED、只有 6 个会话真的满足大熊市双条件。其中 7 个 RED 会话（2026-11-02、2026-11-06、2026-11-09、2026-11-10、2026-11-11、2026-11-12、2026-11-13）不满足大熊市——按规则原文，那些天帽子根本不生效。上一张面（r1983）记的「唯一合规日」是 2026-11-09，而它不在大熊市里——按规则原文那一天不构成合规，真正的熊市合规日是 **0** 天。",
+  "generated": "2026-11-23T12:22:18+08:00"
+}
