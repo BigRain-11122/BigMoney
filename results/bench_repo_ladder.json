@@ -1,6 +1,6 @@
 {
  "schema": "bench_repo_ladder/v1",
- "ts": "2026-11-23T04:44:07+08:00",
+ "ts": "2026-11-23T12:42:41+08:00",
  "cell": "repo_ladder",
  "question": "does lending longer on the exchange repo curve pay, net of commission and idle days, versus rolling GC001?",
  "window": [
@@ -56,6 +56,24 @@
   "91": 0.0003,
   "182": 0.0003
  },
+ "cost": {
+  "basis": "per_trade_fee_of_notional",
+  "per_trade_bps_by_tenor": {
+   "1": 0.1,
+   "2": 0.2,
+   "3": 0.3,
+   "4": 0.4,
+   "7": 0.5,
+   "14": 1.0,
+   "28": 2.0,
+   "91": 3.0,
+   "182": 3.0
+  },
+  "baseline_fee_drag_pp": -0.2491,
+  "fee_drag_sign": "negative means the commission lowered the net cagr vs paying none",
+  "sensitivity": "double fee printed per arm as cagr_at_double_fee (criterion H5_fee_multiplier=2.0)",
+  "note": "every headline cagr here is net of this commission; idle days between maturity and the next trading day earn nothing and are not netted again."
+ },
  "criteria": {
   "H1_pickup_pp": 0.3,
   "H2_split": "2021-01-01",
@@ -109,7 +127,7 @@
     "H4_utilisation": true,
     "H5_double_fee": false
    },
-   "verdict": "NO_EDGE"
+   "verdict": "BASELINE_REFERENCE"
   },
   {
    "code": "GC003",
@@ -589,7 +607,7 @@
  },
  "headline": "NO_EDGE",
  "verdict": {
-  "GC001": "NO_EDGE",
+  "GC001": "BASELINE_REFERENCE",
   "GC003": "NO_EDGE",
   "GC004": "NO_EDGE",
   "GC007": "NO_EDGE",

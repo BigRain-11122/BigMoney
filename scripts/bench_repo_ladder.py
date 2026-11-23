@@ -292,6 +292,17 @@ def build(write=True):
         "curve_today": {a["code"]: round(float(frames[a["code"]]["close"].iloc[-1]), 3)
                         for a in arms if a.get("status") == "OK" and a["code"] in frames},
         "fees_used": {str(k): v for k, v in FEES.items()},
+        # Cost stamp read by the block board: a repo leg pays commission per lend on notional,
+        # not a per-side turnover rate, so it has to say which unit it is in.
+        "cost": {
+            "basis": "per_trade_fee_of_notional",
+            "per_trade_bps_by_tenor": {str(k): round(v * 10000.0, 4) for k, v in FEES.items()},
+            "baseline_fee_drag_pp": round(100.0 * (base_row["net_cagr"] - _cagr(base_eq_free)), 4),
+            "fee_drag_sign": "negative means the commission lowered the net cagr vs paying none",
+            "sensitivity": "double fee printed per arm as cagr_at_double_fee (criterion H5_fee_multiplier=2.0)",
+            "note": "every headline cagr here is net of this commission; idle days between "
+                    "maturity and the next trading day earn nothing and are not netted again.",
+        },
         "criteria": {"H1_pickup_pp": H1_PICKUP_PP, "H2_split": SPLIT,
                      "H3_worst_year_tol_pp": H3_TOL_PP,
                      "H4_utilisation": H4_UTILISATION, "H5_fee_multiplier": 2.0},

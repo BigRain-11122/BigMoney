@@ -173,14 +173,88 @@ def probe_json_predicate(spec):
     return True, f"{spec['field']}={got}, {a:.1f}h old"
 
 
+def _git_tracked(paths):
+    """Repo-relative paths git knows about, or None when git cannot answer.
+
+    A face that exists on this disk because this machine wrote it is not published:
+    a fresh clone reads nothing there, so a cell's evidence can look green here and
+    be absent everywhere else (r1783 family). None means "do not judge", not "clean".
+    """
+    if not paths:
+        return set()
+    try:
+        r = subprocess.run(["git", "ls-files", "--"] + list(paths), cwd=ROOT,
+                           capture_output=True, text=True, timeout=60)
+    except Exception:
+        return None
+    if r.returncode != 0:
+        return None
+    return set(x for x in r.stdout.split("\n") if x.strip())
+
+
+def _selftest_git_reach():
+    """The git leg must answer true for a tracked file and false for a missing one."""
+    got = _git_tracked(["scripts/block_board.py", "no/such/face-for-selftest.json"])
+    if got is None:
+        return [], "SKIP (git not reachable here)"
+    fails = []
+    if "scripts/block_board.py" not in got:
+        fails.append("git reach: scripts/block_board.py reported untracked")
+    if "no/such/face-for-selftest.json" in got:
+        fails.append("git reach: a nonexistent path reported as tracked")
+    return fails, "git reach 2/2"
+
+
+def cost_stamp_problem(d):
+    """Return a reason string when a result face cannot say what its cost was, else None.
+
+    Two shapes count as a printed cost rate:
+
+      * legacy flat keys -- cost_bp_side / cost_bp_side_leg / cost_bp (per-side bp), or
+      * a structured `cost` block whose `basis` names the unit and whose quantity for that
+        unit is present.
+
+    The structured form exists because a repo leg pays commission per lend on notional,
+    which has no honest per-side bp: before it was allowed, the only options were to
+    invent a bp number or to stay red. Either way the face must carry a quantity, so a
+    block that names a basis but prints no number is still a miss.
+    """
+    crit = d.get("criteria") or {}
+    legacy = [k for k in ("cost_bp_side", "cost_bp_side_leg", "cost_bp")
+              if k in crit or k in d]
+    blk = d.get("cost")
+    if not isinstance(blk, dict):
+        if legacy:
+            return None
+        return "no cost rate printed"
+    basis = str(blk.get("basis") or "").strip()
+    if not basis:
+        return "cost block without a basis"
+    if basis == "per_side_bp":
+        qty = blk.get("side_bp")
+        if isinstance(qty, (int, float)) and not isinstance(qty, bool):
+            return None
+        return "cost basis per_side_bp without a numeric side_bp"
+    if basis == "per_trade_fee_of_notional":
+        qty = blk.get("per_trade_bps_by_tenor") or blk.get("per_trade_bps")
+        if isinstance(qty, dict) and any(isinstance(v, (int, float)) for v in qty.values()):
+            return None
+        if isinstance(qty, (int, float)) and not isinstance(qty, bool):
+            return None
+        return "cost basis per_trade_fee_of_notional without a numeric per-trade bps"
+    # an unknown basis is only acceptable when the legacy flat keys are there too
+    return None if legacy else "unknown cost basis %r" % basis
+
+
 def probe_cells_cost(spec):
     """Every finished strategy cell's result must print the cost rate it used.
 
     Monitoring cells (revalidation) and reuse pointers are not strategy runs and
-    are skipped; a leg-based cell may print cost_bp_side_leg instead.
+    are skipped.
     """
     q = json.load(open(p(spec["path"]), encoding="utf-8"))
     missing = []
+    faces = []
     for c in q.get("cells", []):
         if c.get("status") != "done" or not c.get("result"):
             continue
@@ -190,20 +264,58 @@ def probe_cells_cost(spec):
                                             "cb_dual_low_reuse", "astock_resid_industry_reuse")):
             continue
         rp = p(c["result"])
+        faces.append((c["id"], c["result"], rp))
+    tracked = _git_tracked([rel for _, rel, _ in faces])
+    for cid, rel, rp in faces:
         if not os.path.exists(rp):
+            # a done cell whose face is gone is not "nothing to check" -- it is the hole
+            # that lets a fresh clone read green (r1783 family).
+            missing.append(cid + ": face missing")
+            continue
+        if tracked is not None and rel.replace(os.sep, "/") not in tracked:
+            # the face is readable here only because this machine wrote it; git would
+            # hand a fresh clone nothing, so the cell's evidence is not published.
+            missing.append(cid + ": face in worktree but not in git")
             continue
         try:
             d = json.load(open(rp, encoding="utf-8"))
         except Exception:
-            missing.append(c["id"] + ":unreadable")
+            missing.append(cid + ":unreadable")
             continue
-        crit = d.get("criteria") or {}
-        if not any(k in crit or k in d for k in
-                   ("cost_bp_side", "cost_bp_side_leg", "cost_bp")):
-            missing.append(c["id"])
+        why = cost_stamp_problem(d)
+        if why:
+            missing.append(cid + " (" + why + ")" if why != "no cost rate printed" else cid)
     if missing:
         return False, "no cost rate printed: " + ", ".join(missing)
     return True, "every finished strategy cell prints its cost rate"
+
+
+def _selftest_cost_stamp():
+    """Behaviour legs: the guard must go green on a real stamp and red on an empty one."""
+    ok = [
+        {"criteria": {"cost_bp_side": 10.0}},
+        {"cost": {"basis": "per_side_bp", "side_bp": 10.0}},
+        {"cost": {"basis": "per_trade_fee_of_notional",
+                  "per_trade_bps_by_tenor": {"1": 0.1}}},
+        {"cost": {"basis": "per_trade_fee_of_notional", "per_trade_bps": 0.1}},
+    ]
+    bad = [
+        {},
+        {"cost": {}},
+        {"cost": {"basis": "per_side_bp"}},
+        {"cost": {"basis": "per_side_bp", "side_bp": None}},
+        {"cost": {"basis": "per_trade_fee_of_notional"}},
+        {"cost": {"basis": "per_trade_fee_of_notional", "per_trade_bps_by_tenor": {}}},
+        {"cost": {"basis": "made_up_unit"}},
+    ]
+    fails = []
+    for i, d in enumerate(ok):
+        if cost_stamp_problem(d) is not None:
+            fails.append("ok[%d] judged %r" % (i, cost_stamp_problem(d)))
+    for i, d in enumerate(bad):
+        if cost_stamp_problem(d) is None:
+            fails.append("bad[%d] passed" % i)
+    return fails
 
 
 def probe_self_board(spec):
@@ -340,7 +452,20 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--fix-safe", action="store_true")
     ap.add_argument("--json", action="store_true")
+    ap.add_argument("--selftest", action="store_true")
     a = ap.parse_args()
+
+    if a.selftest:
+        fails = _selftest_cost_stamp()
+        git_fails, git_note = _selftest_git_reach()
+        fails += git_fails
+        if fails:
+            print("SELFTEST FAILED (%d):" % len(fails))
+            for x in fails:
+                print("  -", x)
+            return 3
+        print("SELFTEST 11/11 PASS (cost stamp guard: 4 green shapes, 7 red shapes) + %s" % git_note)
+        return 0
 
     payload = build()
     fixes = []

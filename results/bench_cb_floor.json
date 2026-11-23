@@ -1,0 +1,201 @@
+{
+ "schema": "bench_cb_floor/v1",
+ "ts": "2026-11-23T12:41:41+08:00",
+ "cell": "cb_floor",
+ "question": "buying the bond floor (price<=105, pure-bond premium>=0) instead of the whole convertible pool -- does it pay 2pp/yr net of commission?",
+ "window": [
+  "2018-01-02",
+  "2026-11-20"
+ ],
+ "sessions": 2155,
+ "years": 8.83,
+ "frozen": {
+  "start": "2018-01-01",
+  "rebal_days": 5,
+  "price_max": 105.0,
+  "cost_bp_side": 10.0,
+  "cost_sensitivity_bp": [
+   5.0,
+   20.0,
+   40.0
+  ],
+  "jump_quarantine": 0.5,
+  "H1_excess_pp": 2.0,
+  "H2_split": "2023-01-01",
+  "H3_mde_pp": 5.0,
+  "H4_control_excess_pp": 1.0,
+  "H4_p": 0.05,
+  "H5_double_cost_excess_pp": 1.0,
+  "control_draws": 200,
+  "control_seed": 20261123,
+  "min_breadth": 10,
+  "price_band": [
+   30.0,
+   400.0
+  ],
+  "premium_band": [
+   0.0,
+   100.0
+  ],
+  "exclude_name_token": "退",
+  "exclude_code_prefix": "404"
+ },
+ "data": {
+  "panel_tail": "2026-11-20",
+  "hygiene": {
+   "rows_raw": 767081,
+   "excluded_workout_rows": 3969,
+   "excluded_price_band_rows": 6171,
+   "excluded_premium_missing_rows": 3057,
+   "rows_used": 753884,
+   "codes_used": 984
+  },
+  "quarantined_jumps": 17,
+  "floor_breadth_median": 36,
+  "floor_breadth_min": 10,
+  "pool_breadth_median": 367
+ },
+ "floor_arm": {
+  "net": {
+   "n": 2155,
+   "ann_pct": 6.55,
+   "vol_pct": 7.95,
+   "sharpe": 0.838,
+   "mdd_pct": -20.28,
+   "t_stat": 2.49,
+   "years": {
+    "2018": -3.51,
+    "2019": 25.96,
+    "2020": 10.61,
+    "2021": 23.49,
+    "2022": 0.75,
+    "2023": -1.8,
+    "2024": 3.58,
+    "2025": 2.98,
+    "2026": 0.0
+   },
+   "best_year": 2019,
+   "drop_best_year_ann_pct": 4.99
+  },
+  "gross": {
+   "n": 2155,
+   "ann_pct": 8.29,
+   "vol_pct": 7.95,
+   "sharpe": 1.041,
+   "mdd_pct": -17.82,
+   "t_stat": 3.09,
+   "years": {
+    "2018": -2.65,
+    "2019": 28.11,
+    "2020": 13.33,
+    "2021": 26.12,
+    "2022": 2.98,
+    "2023": -0.0,
+    "2024": 6.51,
+    "2025": 3.33,
+    "2026": 0.0
+   },
+   "best_year": 2019,
+   "drop_best_year_ann_pct": 7.36
+  },
+  "turnover_per_year": 16.24
+ },
+ "pool_benchmark": {
+  "net": {
+   "n": 2155,
+   "ann_pct": 7.92,
+   "vol_pct": 12.8,
+   "sharpe": 0.66,
+   "mdd_pct": -21.86,
+   "t_stat": 1.96,
+   "years": {
+    "2018": -4.11,
+    "2019": 26.94,
+    "2020": 15.65,
+    "2021": 34.58,
+    "2022": -8.16,
+    "2023": 0.65,
+    "2024": 3.2,
+    "2025": 22.33,
+    "2026": -11.32
+   },
+   "best_year": 2021,
+   "drop_best_year_ann_pct": 5.83
+  }
+ },
+ "excess_vs_pool_pp": -1.37,
+ "cost_sensitivity": {
+  "10bp": {
+   "ann_pct": 6.55,
+   "sharpe": 0.838,
+   "mdd_pct": -20.28
+  },
+  "5bp": {
+   "ann_pct": 7.42,
+   "sharpe": 0.94,
+   "mdd_pct": -19.06
+  },
+  "20bp": {
+   "ann_pct": 4.85,
+   "sharpe": 0.635,
+   "mdd_pct": -22.91
+  },
+  "40bp": {
+   "ann_pct": 1.52,
+   "sharpe": 0.228,
+   "mdd_pct": -30.84
+  }
+ },
+ "cost": {
+  "basis": "per_side_bp",
+  "side_bp": 10.0,
+  "sensitivity_bp": [
+   5.0,
+   20.0,
+   40.0
+  ],
+  "note": "every headline net figure (floor_arm, pool_benchmark, excess) is net of this per-side rate; the sensitivity rows are printed untouched in cost_sensitivity and none of them is the headline."
+ },
+ "control": {
+  "draws": 200,
+  "churn_matched_mean_ann_pct": 7.49,
+  "churn_matched_turnover_per_year": 16.03,
+  "p95_ann_pct": 10.03,
+  "excess_pp": -0.94,
+  "p_value": 0.765,
+  "fresh_draw_mean_ann_pct": 3.84,
+  "note": "H4 uses the churn-matched null: it replaces the same number of names per re-strike as the screen does, so the only difference left is which names. The fresh-draw null is count-matched only and pays commission the screen never pays."
+ },
+ "halves": {
+  "split": "2023-01-01",
+  "first": {
+   "floor": 10.88,
+   "pool": 11.76,
+   "excess_pp": -0.88
+  },
+  "second": {
+   "floor": 1.21,
+   "pool": 3.45,
+   "excess_pp": -2.24
+  }
+ },
+ "mde_pp": 9.23,
+ "mde_absolute_pp": 7.49,
+ "verdict": "CLOSED_AT_POWER",
+ "evidence_cutoff": "2026-11-20",
+ "diff_vol_pct": 9.79,
+ "checks": {
+  "H1_excess_ge_2pp": false,
+  "H2_both_halves_positive": false,
+  "H3_mde_le_5pp": false,
+  "H4_beats_random_control": false,
+  "H5_survives_double_cost": false
+ },
+ "selection_vs_null": {
+  "excess_pp": -0.94,
+  "p_value": 0.765,
+  "reading": "no evidence of selection edge: a random book with the same churn and the same count did better by 0.940pp"
+ },
+ "headline": "CLOSED_AT_POWER",
+ "notes": "Daily mark-to-market; weights re-struck every 5 sessions and held constant in between (within-period drift ignored). A bond that stops printing is frozen at its last close. Universe excludes delisted/workout bonds ('退' or 404xxx) and prices outside the frozen band; single-day |return| >50% is quarantined and counted. No credit-event model: a default is visible only as a last price."
+}
