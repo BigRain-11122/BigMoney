@@ -1,0 +1,319 @@
+{
+ "cell": "basis_timing_size_masks",
+ "generated": "2026-11-23T11:07:15+08:00",
+ "evidence_cutoff": "2026-11-20",
+ "criteria": {
+  "H_alt_margin_pp": 1.0,
+  "H_alt_t_min": 2.0,
+  "repro_tolerance_pp": 0.06,
+  "split": "2024-01-01",
+  "cost_bp_side": 1.5,
+  "weight_rule": "clamp((80-pct)/60,0,1)",
+  "window": 250,
+  "masks": "published / calendar(third-Friday window) / strictest(union)"
+ },
+ "reproduction": {
+  "gate": "published arm readings must equal cell 7",
+  "cell7_published": {
+   "IC": {
+    "weighted": 10.09,
+    "always_on": 2.73,
+    "bars": 2388
+   },
+   "IM": {
+    "weighted": 9.3,
+    "always_on": 5.63,
+    "bars": 1050
+   }
+  },
+  "problems": []
+ },
+ "products": {
+  "IC": {
+   "bars": 2387,
+   "first": "2017-01-18",
+   "last": "2026-11-20",
+   "full_years": 9.78,
+   "calendar": {
+    "months_hit": 118,
+    "months_total": 119,
+    "offsets_from_expiry": {
+     "-4": 13,
+     "-3": 11,
+     "-2": 3,
+     "-1": 6,
+     "0": 48,
+     "3": 37
+    },
+    "edge_share_pct": 31.4
+   },
+   "masks": {
+    "published": {
+     "days_excluded": 22,
+     "weighted": {
+      "carry_ann_pct": 10.09,
+      "net_ann_pct": 10.09,
+      "carry_mdd_pct": -1.89,
+      "halves_pct": [
+       12.14,
+       8.08
+      ],
+      "oos_carry_ann_pct": 9.26,
+      "turnover_per_year": 46.61,
+      "avg_weight": 0.497,
+      "days_in_market_pct": 77.8
+     },
+     "always_on": {
+      "carry_ann_pct": 2.73,
+      "net_ann_pct": 2.73,
+      "carry_mdd_pct": -3.81,
+      "halves_pct": [
+       2.01,
+       3.45
+      ],
+      "oos_carry_ann_pct": 5.34,
+      "turnover_per_year": 0.1,
+      "avg_weight": 1.0,
+      "days_in_market_pct": 100.0
+     },
+     "delta_pp": 7.36,
+     "delta_t_paired": 6.67
+    },
+    "calendar": {
+     "days_excluded": 118,
+     "weighted": {
+      "carry_ann_pct": 11.99,
+      "net_ann_pct": 11.99,
+      "carry_mdd_pct": -1.66,
+      "halves_pct": [
+       12.56,
+       11.43
+      ],
+      "oos_carry_ann_pct": 14.12,
+      "turnover_per_year": 46.61,
+      "avg_weight": 0.497,
+      "days_in_market_pct": 77.8
+     },
+     "always_on": {
+      "carry_ann_pct": 9.62,
+      "net_ann_pct": 9.62,
+      "carry_mdd_pct": -5.51,
+      "halves_pct": [
+       10.78,
+       8.48
+      ],
+      "oos_carry_ann_pct": 10.8,
+      "turnover_per_year": 0.1,
+      "avg_weight": 1.0,
+      "days_in_market_pct": 100.0
+     },
+     "delta_pp": 2.37,
+     "delta_t_paired": 2.02
+    },
+    "strictest": {
+     "days_excluded": 128,
+     "weighted": {
+      "carry_ann_pct": 11.33,
+      "net_ann_pct": 11.33,
+      "carry_mdd_pct": -1.66,
+      "halves_pct": [
+       12.79,
+       9.89
+      ],
+      "oos_carry_ann_pct": 11.44,
+      "turnover_per_year": 46.61,
+      "avg_weight": 0.497,
+      "days_in_market_pct": 77.8
+     },
+     "always_on": {
+      "carry_ann_pct": 9.65,
+      "net_ann_pct": 9.65,
+      "carry_mdd_pct": -3.03,
+      "halves_pct": [
+       11.11,
+       8.22
+      ],
+      "oos_carry_ann_pct": 10.34,
+      "turnover_per_year": 0.1,
+      "avg_weight": 1.0,
+      "days_in_market_pct": 100.0
+     },
+     "delta_pp": 1.68,
+     "delta_t_paired": 1.81
+    }
+   },
+   "lot": {
+    "multiplier": 200,
+    "cny_per_lot": 1180400
+   },
+   "money": {
+    "strictest_delta_pp": 1.68,
+    "cny_per_year_on_one_lot": 19831,
+    "always_on_carry_cny_on_one_lot": 113909,
+    "capital_first_rung_cny": 1124479.0,
+    "capital_target_pct": 8.0,
+    "carry_pct_of_capital": 10.13,
+    "sizing_pp_of_capital": 1.76
+   },
+   "verdict": "SIZING_EDGE_IS_A_MASK_ARTIFACT",
+   "decomposition": {
+    "published_delta_pp": 7.36,
+    "strictest_delta_pp": 1.68,
+    "always_on_shift_pp": 6.92,
+    "weighted_shift_pp": 1.24,
+    "delta_shrunk_pp": 5.68
+   },
+   "cross_face": {
+    "available": true,
+    "face": "idx_fut_roll_gap",
+    "strictest_ann_pct": 9.844,
+    "published_ann_pct": 2.842,
+    "reading": "MISSED_ROLLS_ARE_A_FAKE_LOSS"
+   }
+  },
+  "IM": {
+   "bars": 1049,
+   "first": "2022-07-25",
+   "last": "2026-11-20",
+   "full_years": 4.3,
+   "calendar": {
+    "months_hit": 51,
+    "months_total": 53,
+    "offsets_from_expiry": {
+     "-4": 7,
+     "-3": 6,
+     "-2": 4,
+     "-1": 5,
+     "0": 12,
+     "3": 17
+    },
+    "edge_share_pct": 33.3
+   },
+   "masks": {
+    "published": {
+     "days_excluded": 18,
+     "weighted": {
+      "carry_ann_pct": 9.3,
+      "net_ann_pct": 9.3,
+      "carry_mdd_pct": -3.05,
+      "halves_pct": [
+       5.78,
+       12.93
+      ],
+      "oos_carry_ann_pct": 11.61,
+      "turnover_per_year": 35.41,
+      "avg_weight": 0.53,
+      "days_in_market_pct": 78.1
+     },
+     "always_on": {
+      "carry_ann_pct": 5.63,
+      "net_ann_pct": 5.63,
+      "carry_mdd_pct": -5.11,
+      "halves_pct": [
+       -0.23,
+       11.83
+      ],
+      "oos_carry_ann_pct": 8.12,
+      "turnover_per_year": 0.23,
+      "avg_weight": 1.0,
+      "days_in_market_pct": 100.0
+     },
+     "delta_pp": 3.67,
+     "delta_t_paired": 2.19
+    },
+    "calendar": {
+     "days_excluded": 51,
+     "weighted": {
+      "carry_ann_pct": 12.61,
+      "net_ann_pct": 12.61,
+      "carry_mdd_pct": -2.64,
+      "halves_pct": [
+       10.68,
+       14.57
+      ],
+      "oos_carry_ann_pct": 16.21,
+      "turnover_per_year": 35.41,
+      "avg_weight": 0.53,
+      "days_in_market_pct": 78.1
+     },
+     "always_on": {
+      "carry_ann_pct": 11.85,
+      "net_ann_pct": 11.85,
+      "carry_mdd_pct": -5.06,
+      "halves_pct": [
+       10.05,
+       13.68
+      ],
+      "oos_carry_ann_pct": 14.59,
+      "turnover_per_year": 0.23,
+      "avg_weight": 1.0,
+      "days_in_market_pct": 100.0
+     },
+     "delta_pp": 0.76,
+     "delta_t_paired": 0.33
+    },
+    "strictest": {
+     "days_excluded": 60,
+     "weighted": {
+      "carry_ann_pct": 11.17,
+      "net_ann_pct": 11.17,
+      "carry_mdd_pct": -2.18,
+      "halves_pct": [
+       7.18,
+       15.31
+      ],
+      "oos_carry_ann_pct": 13.98,
+      "turnover_per_year": 35.41,
+      "avg_weight": 0.53,
+      "days_in_market_pct": 78.1
+     },
+     "always_on": {
+      "carry_ann_pct": 11.4,
+      "net_ann_pct": 11.4,
+      "carry_mdd_pct": -3.36,
+      "halves_pct": [
+       6.57,
+       16.43
+      ],
+      "oos_carry_ann_pct": 13.89,
+      "turnover_per_year": 0.23,
+      "avg_weight": 1.0,
+      "days_in_market_pct": 100.0
+     },
+     "delta_pp": -0.23,
+     "delta_t_paired": -0.2
+    }
+   },
+   "lot": {
+    "multiplier": 200,
+    "cny_per_lot": 1109120
+   },
+   "money": {
+    "strictest_delta_pp": -0.23,
+    "cny_per_year_on_one_lot": -2551,
+    "always_on_carry_cny_on_one_lot": 126440,
+    "capital_first_rung_cny": 1152596.0,
+    "capital_target_pct": 8.0,
+    "carry_pct_of_capital": 10.97,
+    "sizing_pp_of_capital": -0.22
+   },
+   "verdict": "SIZING_EDGE_IS_A_MASK_ARTIFACT",
+   "decomposition": {
+    "published_delta_pp": 3.67,
+    "strictest_delta_pp": -0.23,
+    "always_on_shift_pp": 5.77,
+    "weighted_shift_pp": 1.87,
+    "delta_shrunk_pp": 3.9
+   },
+   "cross_face": {
+    "available": true,
+    "face": "idx_fut_roll_gap",
+    "strictest_ann_pct": 11.568,
+    "published_ann_pct": 5.71,
+    "reading": "MISSED_ROLLS_ARE_A_FAKE_LOSS"
+   }
+  }
+ },
+ "verdict": "SIZING_EDGE_IS_A_MASK_ARTIFACT",
+ "note": "Same rule, same cost, same bars; only the roll mask changes. A GO that exists under one mask and not under the union of both roll rulers is a reading about the mask, not about sizing."
+}
