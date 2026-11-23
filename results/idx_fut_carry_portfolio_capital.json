@@ -1,0 +1,54 @@
+{
+ "book_capital_cny": 1000000.0,
+ "checks": {
+  "C1_measured_arms_cannot_even_hold_one_lot": true,
+  "C2_every_measured_arm_has_a_rung": true,
+  "C3_floor_is_not_printed_as_the_total": true,
+  "C4_floor_exceeds_book_capital": true
+ },
+ "evidence_cutoff": "2026-11-20",
+ "floor_multiple_of_book": 2.2771,
+ "floor_to_open_measured_arms_cny": 2277075.0,
+ "generated": "2026-11-23T17:39:34+08:00",
+ "headline_it_is_not_yet": {
+  "ann_pct": 7.938,
+  "mdd_pct": -1.657,
+  "sharpe": 3.412,
+  "vol_pct": 2.246
+ },
+ "kind": "idx_fut_carry_portfolio_capital",
+ "measured_arms": {
+  "IC": {
+   "admissible_lots_at_book_capital": 0,
+   "capital_cny": 1000000.0,
+   "first_rung_cny": 1124479.0,
+   "gap_to_first_lot_cny": 124479.0,
+   "target_pct": 8.0
+  },
+  "IM": {
+   "admissible_lots_at_book_capital": 0,
+   "capital_cny": 1000000.0,
+   "first_rung_cny": 1152596.0,
+   "gap_to_first_lot_cny": 152596.0,
+   "target_pct": 8.0
+  }
+ },
+ "next_work": "Give IF and IH the same capital line the hedged arms have (per-lot vol at the 8% target): only then can the four-arm opening cost be stated instead of floored.",
+ "sentence": "The four-arm book is priced at 7.938%/yr, Sharpe 3.412 on 2.246% vol, and it cannot be opened on the 1,000,000 CNY book: IC is 124,479 CNY short of its first lot (target 8.0%); IM is 152,596 CNY short of its first lot (target 8.0%). Holding one lot of every measured arm needs at least 2,277,075 CNY, so this book is a number about a larger account until the capital arrives. That floor covers only the arms with a capital line (IC, IM); IF, IH have none, so the true opening cost is higher and this face will not guess it.",
+ "state": "ok",
+ "state_why": null,
+ "unmeasured_arms": [
+  "IF",
+  "IH"
+ ],
+ "upstream": {
+  "capital_cutoff": "2026-11-20",
+  "capital_face": "results/idx_fut_carry_sizing_spec.json",
+  "capital_generated": "2026-11-23T14:36:13+08:00",
+  "portfolio_cutoff": "2026-11-20",
+  "portfolio_face": "results/idx_fut_carry_portfolio.json",
+  "portfolio_generated": "2026-11-23T17:25:58+08:00",
+  "portfolio_verdict": "FOUR_ARMS_DO_DISPERSIFY"
+ },
+ "verdict": "FOUR_ARM_BOOK_NOT_OPENABLE_AT_BOOK_CAPITAL"
+}
