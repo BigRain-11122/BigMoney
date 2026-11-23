@@ -1,0 +1,99 @@
+{
+ "axes": {
+  "edge_word": {
+   "published_ruler": "book",
+   "repaired_ruler": "bench"
+  },
+  "published_ruler": {
+   "bench_return_per_unit_drawdown": 0.3070073094733053,
+   "book_return_per_unit_drawdown": 1.0568181818181819,
+   "cagr_needed_at_bench_sharpe": 0.0903645303972197,
+   "cagr_shortfall_pp": -2.1235469602780306,
+   "cny_per_year_shortfall": -21235.469602780304,
+   "dd_multiple": 2.7373403137492187,
+   "leverage_to_reach_book_vol": 7.313050103598337,
+   "return_per_drawdown_edge": 3.442322541542203,
+   "sharpe_edge": 0.24038542478838376
+  },
+  "repaired_ruler": {
+   "bench_return_per_unit_drawdown": 0.9461435454064316,
+   "book_return_per_unit_drawdown": 1.0568181818181819,
+   "cagr_needed_at_bench_sharpe": 0.1505101303080167,
+   "cagr_shortfall_pp": 3.8910130308016684,
+   "cny_per_year_shortfall": 38910.13030801668,
+   "dd_multiple": 7.800207778010604,
+   "leverage_to_reach_book_vol": 11.325891811698883,
+   "return_per_drawdown_edge": 1.1169744664528765,
+   "sharpe_edge": -0.33242981245730174
+  }
+ },
+ "bench_published": {
+  "cagr": 0.01184360297385778,
+  "maxdd": -0.038577592807729544,
+  "names": 109,
+  "sharpe": 0.8606145752116162,
+  "vol": 0.014357894245567313
+ },
+ "bench_repaired": {
+  "cagr": 0.012808986790913579,
+  "maxdd": -0.013538100907734107,
+  "names": 76,
+  "sharpe": 1.4334298124573017,
+  "vol": 0.009270793130086417
+ },
+ "book": {
+  "cagr": 0.1116,
+  "maxdd": -0.1056,
+  "names": null,
+  "sharpe": 1.101,
+  "vol": 0.105
+ },
+ "controls": {
+  "C1_alpha_row": {
+   "cagr": 0.0118,
+   "maxdd": -0.0386,
+   "vol": 0.0144
+  },
+  "C1_released_cell_is_published_cell": true,
+  "C2_same_window": true
+ },
+ "elapsed_sec": 0.0,
+ "evidence_cutoff": "2026-11-20",
+ "generated": "2026-11-23T08:39:24+0800",
+ "notes": {
+  "bars_per_year": 242.0,
+  "bench_return_is_understated": "cash funds pay dividends, so the basket's price-only return understates its true total return -- which understates its Sharpe. Any flip found here is conservative in the basket's favour.",
+  "leverage_line": 3.0,
+  "no_subperiod_split": "the repair face prices the basket on the full window only, so this face cannot say whether the flip survives out of sample; it says the full-window reading flips.",
+  "not_the_same_object": "the book is a 5-name rotating composite with an 8% vol target; the basket is an equal-weight holding of every bond+money ETF. A Sharpe comparison is a metric comparison, not a claim that one can be swapped for the other.",
+  "survivorship": "the basket is drawn from ETFs that exist today."
+ },
+ "schema": "defensive_ruler_decision_impact/v1",
+ "sources": {
+  "alpha_face": {
+   "path": "results/etf_equity_alpha.json",
+   "sha256": "a2d3e9940ee71fb706724f866debb8eb4fd1e5c889cb58dbf85f1cd62e8dc782"
+  },
+  "book_face": {
+   "path": "results/etf_nobond_vt.json",
+   "production_candidate": "nobond_vt08",
+   "sha256": "779c44f147c7a11611fc9b2459ea983b9d1e438e25284071cf2aff9ba47f0c5b"
+  },
+  "repair_face": {
+   "generated": "2026-11-23T08:26:00+0800",
+   "path": "results/etf_class_ew_ruler_repair.json",
+   "schema": "etf_class_ew_ruler_repair/v1",
+   "sha256": "c5c8bbbe8667cbdf32bffb5230fffada9d2c0f2e9649ad567f2ee5c9de1077b4"
+  }
+ },
+ "spendability": "SHARPE_IS_NOT_SPENDABLE",
+ "verdict": "JUSTIFICATION_FLIPS_BOOK_NO_LONGER_BETTER_PER_UNIT_OF_RISK",
+ "window": {
+  "bars": 1667,
+  "book_years": 6.88,
+  "first": "2020-01-02",
+  "implied_years": 6.8884297520661155,
+  "last": "2026-11-19",
+  "same_window": true
+ }
+}
