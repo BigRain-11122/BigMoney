@@ -1,7 +1,7 @@
 {
  "activity": "product",
- "activity_now": "r1994: W20 trial-labor pipeline ran end-to-end after 38 days (31 cells, G1 0/31, eligible_reform 2) and exposed the reform gate's direction blindness -- both admitted arms are negative (sharpe -1.30/-1.41)",
- "activity_now_round": 1994,
+ "activity_now": "独立复算 bench 唯一 GO（基差按分位定仓）：GO_REPLICATED，但钱全在下一个交易日（衰减 1/2/5/10 日 = +7.37/+1.24/−0.65/−0.97pp）",
+ "activity_now_round": 1996,
  "agenda_starved": false,
  "ah_note": "r1680 LANDED: refresh closed itself at 21:17 -- cutoff 2026-11-12 -> 2026-11-13, complete=True, exit 0, pulled_rows 46; data_lane_freshness in_sync 13 / behind_1d 1 (worst now marks, intraday-only, not rebuildable). Fix that made it possible: stall watchdog over every network leg (300s, names stage/pair, exit 2, checkpoint kept) + save_progress stamps write time + -u on the detached spawn + progress line every 10 pairs. NOT yet proven: the 300s stall path has never fired on a real hang (this round the suspected freeze finished by itself).",
  "ahead_origin": 0,
@@ -36,7 +36,12 @@
   "withheld_arms": [],
   "workers": 6
  },
- "artifacts": "scripts/idx_fut_roll_tenor.py (selftest 27/27; run/--check/--checkdoc); results/idx_fut_roll_tenor.json; research/IDX_FUT_ROLL_TENOR.md; S6 leg idx_fut_roll_tenor (check+refresh, after idx_fut_roll_cost); smoke 3 legs (selftest/check/page); methodology card E-20261122-r1931",
+ "artifacts": {
+  "page": "research/BENCH-BASIS-TIMING-REPLICATE.md",
+  "results": "results/bench_basis_timing_replicate.json",
+  "script": "scripts/bench_basis_timing_replicate.py",
+  "verdict": "GO_REPLICATED"
+ },
  "attrition": "not run this round (chain in flight; ledger untouched, zero deletions)",
  "batch": "entry_price selftest 13/13 + run/check rc0; chain leg entry_price_write 0.9s rc0; s6 chain selftest 17/17; smoke suite green-so-far (no FAIL lines)",
  "behind_origin": 0,
@@ -64,11 +69,20 @@
   "state": "registered (FOUND)",
   "task": "HQ-ProductionClaim"
  },
- "clock_read": "2026-11-23T16:13:41+08:00",
+ "clock_read": "2026-11-23T16:35:04+08:00",
  "clock_read_source": "local system clock (Win32, Asia/Shanghai)",
  "clock_tz": "+08:00",
  "codely_live_count": 2,
  "comfy_free_vram_mb": 14015,
+ "contention": {
+  "evidence": "results/_repo_write_contention.bm-c.json",
+  "peer_kind": "interactive",
+  "peer_pid": 51252,
+  "peer_started": "2026-11-22T20:10:45",
+  "rc": 3,
+  "round": 1996,
+  "verdict": "CONTENTION"
+ },
  "control_scan": "S0.5: fleet/orders 115 stems vs heartbeat orders_ack 256 (normalised) -> unacked 0; group decisions.md RAW-BYTE sha256 79e3083b unchanged (PS '>' redirect gives 4F8308BA = r1911; python subprocess bytes == watermark); saturated engine rc0 idle; inbox empty",
  "cores": 32,
  "cpu_cores": 32,
@@ -1501,7 +1515,7 @@
  },
  "round_drift_note": "state said round_no=1937 while commit 6a3f33e30e already said round 1938 -> counters healed to 1939",
  "round_label": "r1951",
- "round_no": 1995,
+ "round_no": 1996,
  "round_no_label": "r1988",
  "round_no_landed": 1663,
  "round_no_note": "r1959 由并行交互宿主收口（commit 33461d91cd）；本窗=1960",
@@ -2249,6 +2263,7 @@
  "verify_r1917": "full suite GREEN after the edits: results/_smoke_r1917b.out Summary 739/739 PASS 0 FAIL, wall 953.7s over 737 legs, record logs/smoke_legs.json ts 2026-11-22T05:12:10 failed []; it caught one real cascade first -- the cost-measurement run of etf_book_half_year_provenance moved 2025's share and left supply_calendar_face --check RED ('half_year does not re-derive from the receipt'), so half_year_provenance_write + supply_calendar_refresh were wired and supply_calendar_face re-derived (check rc0 NO_CANDIDATE_PASSES_CALENDAR); chain runs 318/318 rc0 (results/_r1917bmc_s6_chain.json, 03:03:20->04:34:23); chain_writer_audit --check rc0 (15 known check-only, 0 newly paired), selftest 13/13 with two ratchet legs (first draft crashed on os.path.relpath across drives -> temp tree now under results/); s6_chain_bmc --selftest 17/17; leg order proven (7/7 writer->check adjacent, 328 legs unique); 8 new legs run for real rc0: cash_vehicle_write 1.8s, ruler_election_write 1.2s, admission_eta_write 66.7s, floor_toll_write 54.2s, floor_memory_write 79.9s, derisk_rule_write 92.2s, half_year_provenance_write 57.0s, chain_writer_audit 0.2s (+~6min/round of chain wall time, stated); stale carriers: sleeve_cap_phases 2026-11-08 -> 2026-11-22T04:37 (capacity 48,664,681 -> 22,411,607, universe 1515 -> 1528), year_caliber run REFUSED rc3 by design (identity anchor) so its capacity field is a snapshot and the chain comment now says so",
  "verify_r1937": "live_usage_day_words check rc0 DATES 115 ok / 0 unmapped / 92 rules; selftest 26/26; run rc0 PRINTED_DATES_AGREE; S6 batch 4/4 rc0; chain_writer_audit 351 legs/139 faces/0 red/3 disclosed; dualrun ZERO-DRIFT 745 streak 51; attrition CLEAN 4 ledgers; two scheduled tasks in place; pre-commit/pre-push match after LF normalisation",
  "verify_r1941": "ceo_live_usage selftest ALL PASS (4 new legs r1950: verdict+title, held-arm ranks/returns, peeking's own numbers, missing-face honesty) | ceo_live_usage run rc0 -> page written | live_usage_day_words check rc0 PRINTED_DATES_AGREE claims 118 ok 118 unmapped 0 rules 95 | live_usage_day_words selftest 30/30 (L15/L15b new) | page_repeat_guard scan 4 faces 0 repeated | py_compile rc0 on both scripts + smoke_test | replica drive of the new smoke leg 5/5 PASS",
+ "verify_r1995": "run rc0 -> results/trial_labor_null_calibration.json + research/TRIAL-LABOR-NULL-CALIBRATION.md; check rc0 (逐节重 derive, 输入字节门); selftest 21/21 PASS; 控制臂四波存活数 332/152/70/14 逐波逐位相等; 真文件负测试: 改 attribution.n_pooled +1 -> rc1 点名不带 STALE、改 inputs[0].sha256_16 -> rc3 带 STALE，还原后逐字节相同",
  "verify_reader": "Tools/smoke_red.py --selftest 8 PASS 0 FAIL; live read on a missing record -> rc2 UNKNOWN, never a pass",
  "verify_record": "injected RESULTS on a probe path: 3 legs / fail 1 / failed[0]={leg b, boom detail}; a green run -> fail 0, failed []",
  "verify_ref": "research/MONEYFLOW_IC_VERDICT.md gains a pointer section so the sell-leg hunch in its section 3 item 2 is not acted on",
@@ -2292,7 +2307,12 @@
  "who_did": "bm-c",
  "why_not_bookkeeping": "the only red in a 762-leg suite now carries its own name: killed, not failing -- one round stops being spent disproving a defect that did not exist",
  "work": "r1943: told a killed child apart from a child that said no -- the suite's only red was rc=0xC000013A (STATUS_CONTROL_C_EXIT), the guard itself passes 17/17",
- "yield_note": "repo_write_contention CONTENTION rc=3 (peer host pid 51252 alive 1146m) -> new-file-only round, S6 chain not re-run (r1907)",
+ "yield_note": {
+  "did": "new-file-only landing: script + results + page + report row + this state; no shared-face edits, no S6 chain",
+  "next": "smoke full suite + S6 chain + wire this face into the chain when the contention window closes",
+  "round": 1996,
+  "why": "repo_write_contention rc=3 (peer pid 51252 interactive since 2026-11-22 20:10 writing 20 shared faces)"
+ },
  "下个里程碑": "(a) null 生成器按每格自己的换手抽同构 null（科学门改动，须 GM 署名；本面只摆证据）(b) 竞争窗结束后补 S6 链腿 + 冒烟腿 + CODELY 一条（判例=200 抽里 197 抽同值的东西不是分布，它的 p95 是常数）（<=48h）",
  "下轮指针": "(a) 换手匹配的 null 生成（GM 署名面）(b) S6/冒烟/CODELY 接线（无竞争轮）",
  "孤儿面": 0,
@@ -2308,10 +2328,9 @@
  "本轮": "r1995: W20 及格线 0.417438 与预测带 [0.50,0.53] 量的不是同一个 null —— 带子是 641/1253 常数（从不交易的胜率），线子是换手成本；对着带子自己的 null 存活 6/31=19.4%（落在预注册带内），对着已发布线 14/31=45.2%，且 14 个存活里 12 个站在 null 没覆盖的换手区间",
  "水位": "healthy",
  "记账_r1963": "本行 1 处（轮报告）+ state 1 处 = 2",
+ "记账_r1993": "本行 1 处（轮报告）+ state 1 处 = 2",
+ "记账_r1995": "本行 1 处（轮报告）+ state 1 处 + 心跳 1 处 = 3",
  "送达自证_r1962": "commit a325115143 已推 origin/main；fetch 后 本地未达 origin commit 数=0；ls-tree 三件在位（scripts/results/md）",
  "送达自证_r1963": "commit 03e099354b 已推 origin/main；fetch 后 本地未达 origin commit 数=0；ls-tree 三件在位",
- "记账_r1993": "本行 1 处（轮报告）+ state 1 处 = 2",
- "verify_r1995": "run rc0 -> results/trial_labor_null_calibration.json + research/TRIAL-LABOR-NULL-CALIBRATION.md; check rc0 (逐节重 derive, 输入字节门); selftest 21/21 PASS; 控制臂四波存活数 332/152/70/14 逐波逐位相等; 真文件负测试: 改 attribution.n_pooled +1 -> rc1 点名不带 STALE、改 inputs[0].sha256_16 -> rc3 带 STALE，还原后逐字节相同",
- "记账_r1995": "本行 1 处（轮报告）+ state 1 处 + 心跳 1 处 = 3",
  "送达自证_r1995": "commit 65741165ac 已推 origin/main (bc2e3f68dc..65741165ac)；fetch 后 AHEAD=0 BEHIND=0；ls-tree 三件 blob 在位 (5c569f0d2e/83ab8fbbad/0e047b12bd)"
 }
