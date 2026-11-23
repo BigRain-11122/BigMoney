@@ -1,0 +1,168 @@
+{
+ "generated": "2026-11-24T00:28:37+08:00",
+ "evidence_cutoff": "2026-11-20",
+ "machine": "bm-c",
+ "kind": "astock_veto_tearsheet",
+ "family_faces_before": 13,
+ "fills_the_hole_of": "the family published the mean many times and the ride zero times (r1865..r2014)",
+ "prereg": {
+  "question": "is the veto book better risk-adjusted, or only better on average?",
+  "verdict_rule": "SHARPE_UP/SHARPE_DOWN = strict comparison of Sharpe (excess over 0% cash) B vs A; DRAWDOWN_DEEPER/SHALLOWER = strict comparison of the period-curve maximum drawdown; no thresholds invented",
+  "bookings": [
+   "fractional",
+   "lot_10000000"
+  ],
+  "verdict_booking": "fractional (parent's booking); lot booking printed alongside",
+  "drawdown_basis": "20-trading-day period curve, not daily marks",
+  "roll_window_periods": 6,
+  "cash_rate_per_period": 0.0,
+  "rule_frozen_before_run": true
+ },
+ "spec": {
+  "hold": 20,
+  "stride": 20,
+  "cost_one_side": 0.0008,
+  "lot": 100,
+  "verdict_capital": 10000000,
+  "periods_per_year": 12.6,
+  "booking": "close(t) -> close(t+20) (parent's booking)",
+  "arms": {
+   "A": "whole eligible pool",
+   "B": "A minus top 20% residual"
+  }
+ },
+ "panel": {
+  "dates": 1668,
+  "symbols": 5181,
+  "first": "2020-01-02",
+  "last": "2026-11-20"
+ },
+ "rebalances": 77,
+ "summary": {
+  "A": {
+   "turnover_mean": 0.055405190896618085,
+   "turnover_median": 0.036658141517476595,
+   "turnover_max": 1.0,
+   "invested_share_median_lot_10000000": 0.7166163,
+   "gross": {
+    "gross_per_period_mean": 0.008329335418183334,
+    "cost_per_period_mean": 8.864830543458754e-05,
+    "cost_annualized": 0.001116968648475803,
+    "cost_share_of_gross": 0.01064290258272756
+   },
+   "bookings": {
+    "fractional": {
+     "periods": 77,
+     "per_period_mean": 0.008240687112748746,
+     "per_period_stdev": 0.07778288455158722,
+     "annualized_compound": 0.06917263180802102,
+     "annual_vol": 0.27610185046008995,
+     "sharpe_excess_0": 0.37606650389198687,
+     "max_drawdown": -0.2970946772186024,
+     "calmar": 0.2328302629169077,
+     "hit_rate": 0.5584415584415584,
+     "worst_period": -0.1770447670793805,
+     "best_period": 0.2969878739313739,
+     "worst_6_periods": -0.205860439116068,
+     "underwater_share": 0.7662337662337663
+    },
+    "lot_10000000": {
+     "periods": 77,
+     "per_period_mean": 0.008289198921839309,
+     "per_period_stdev": 0.05668874377017602,
+     "annualized_compound": 0.08839162958359537,
+     "annual_vol": 0.2012250785688316,
+     "sharpe_excess_0": 0.5190402069066601,
+     "max_drawdown": -0.18125226005018935,
+     "calmar": 0.48767187542444673,
+     "hit_rate": 0.5584415584415584,
+     "worst_period": -0.13197638423751154,
+     "best_period": 0.23753943598044827,
+     "worst_6_periods": -0.1303637095778526,
+     "underwater_share": 0.7012987012987013
+    }
+   }
+  },
+  "B": {
+   "turnover_mean": 0.23952925496652835,
+   "turnover_median": 0.2304409672830725,
+   "turnover_max": 1.0,
+   "invested_share_median_lot_10000000": 0.7836737,
+   "gross": {
+    "gross_per_period_mean": 0.011052195492705905,
+    "cost_per_period_mean": 0.00038324680794644614,
+    "cost_annualized": 0.0048289097801252215,
+    "cost_share_of_gross": 0.03467607935449357
+   },
+   "bookings": {
+    "fractional": {
+     "periods": 77,
+     "per_period_mean": 0.010668948684759458,
+     "per_period_stdev": 0.07703098106511495,
+     "annualized_compound": 0.10301862011095042,
+     "annual_vol": 0.2734328578509935,
+     "sharpe_excess_0": 0.49163350185669985,
+     "max_drawdown": -0.259212250145304,
+     "calmar": 0.3974295969932065,
+     "hit_rate": 0.5844155844155844,
+     "worst_period": -0.17179191833260346,
+     "best_period": 0.2953592796097881,
+     "worst_6_periods": -0.18432644115293073,
+     "underwater_share": 0.7402597402597403
+    },
+    "lot_10000000": {
+     "periods": 77,
+     "per_period_mean": 0.010363411443859775,
+     "per_period_stdev": 0.06071753359659908,
+     "annualized_compound": 0.1138304942666144,
+     "annual_vol": 0.21552586379430694,
+     "sharpe_excess_0": 0.6058622473136441,
+     "max_drawdown": -0.17941047339005056,
+     "calmar": 0.6344696166044842,
+     "hit_rate": 0.5844155844155844,
+     "worst_period": -0.13458842599460918,
+     "best_period": 0.24620277459912476,
+     "worst_6_periods": -0.1313445991084612,
+     "underwater_share": 0.6753246753246753
+    }
+   }
+  }
+ },
+ "edges": {
+  "by_booking": {
+   "fractional": {
+    "mean_per_period": 0.0024282615720107137,
+    "t": 3.4611574224593853,
+    "sharpe_of_the_difference": 1.4001071149114481,
+    "sharpe_b_minus_a": 0.11556699796471298,
+    "mdd_b_minus_a": 0.037882427073298364,
+    "verdict": "SHARPE_UP_DRAWDOWN_SHALLOWER"
+   },
+   "lot_10000000": {
+    "mean_per_period": 0.0020742125220204657,
+    "t": 3.0374782081571308,
+    "sharpe_of_the_difference": 1.2287204341047795,
+    "sharpe_b_minus_a": 0.08682204040698405,
+    "mdd_b_minus_a": 0.0018417866601387889,
+    "verdict": "SHARPE_UP_DRAWDOWN_SHALLOWER"
+   }
+  },
+  "edge_tax": {
+   "gross_edge_per_period": 0.002722860074522571,
+   "net_edge_per_period": 0.0024282615720107124,
+   "tax_per_period": 0.0002945985025118586,
+   "tax_share_of_gross_edge": 0.10819450667640855,
+   "cost_actually_charged_one_side": 0.0008,
+   "breakeven": {
+    "k_multiple": 9.242613425752177,
+    "one_side_bp": 73.94090740601742
+   }
+  }
+ },
+ "verdict": "SHARPE_UP_DRAWDOWN_SHALLOWER",
+ "verdict_lot_booking": "SHARPE_UP_DRAWDOWN_SHALLOWER",
+ "anchor": {
+  "ok": true,
+  "worst_abs_diff": 0.0
+ }
+}
