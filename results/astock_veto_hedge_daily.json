@@ -1,0 +1,749 @@
+{
+ "generated": "2026-11-24T04:20:25+08:00",
+ "evidence_cutoff": "2026-11-20",
+ "machine": "bm-c",
+ "kind": "astock_veto_hedge_daily",
+ "fills_the_hole_of": "the r2023 budget was quoted on the book's own 20-bar period curve, with a daily mark-to-market named as a caveat; this face marks the same book every trading day",
+ "parent": {
+  "face": "results/astock_veto_hedge_budget.json",
+  "content_sha256": "c4f994357186c51f43dd86b4a129a0b4b1499b6bb9122d1313d54ee7a9f8d2c8",
+  "generated": "2026-11-24T03:51:11+08:00",
+  "evidence_cutoff": "2026-11-20",
+  "beta_used": 0.9013312810692592,
+  "primary_rule_a_k": 0.65,
+  "primary_verdict": "BUDGET_HOLDS_OUT_OF_SAMPLE"
+ },
+ "prereg": {
+  "question": "r2023 chose a hedge size so that the book's 20-bar period drawdown fits a budget. Does the same size still fit the same budget when the drawdown is read off daily marks, and if not, which size does?",
+  "grid": "k = 0.00..2.00 step 0.05, beta = the parent beta, carry = 0 %/yr primary",
+  "budgets": [
+   0.1,
+   0.15,
+   0.2,
+   0.25
+  ],
+  "primary_budget": 0.2,
+  "daily_mark": "fixed-share basket from the rebalance day, nanmean over held names; period cost folded into the entry-day factor so the 20th bar equals 1+net",
+  "windows": {
+   "in_sample": "date <= 2023-12-31",
+   "out_of_sample": "date > 2023-12-31"
+  },
+  "rule_a": "among sizes whose IN-SAMPLE daily drawdown fits the budget, the highest IN-SAMPLE annualised return",
+  "rule_b": "the smallest size whose IN-SAMPLE daily drawdown fits the budget",
+  "read": "both rules are picked on the in-sample window and read on the out-of-sample window",
+  "period_ruler_must_match": "the period-based drawdown re-derived here equals r2023's, else this face is wrong",
+  "verdict_states": [
+   "DAILY_MARKS_KEEP_THE_BUDGET",
+   "DAILY_MARKS_BREACH_THE_BUDGET",
+   "BUDGET_UNREACHABLE_ON_DAILY_MARKS"
+  ],
+  "amplification_states": [
+   "DAILY_MARK_IS_STRICTER",
+   "DAILY_MARK_AGREES",
+   "DAILY_MARK_IS_LOOSER"
+  ],
+  "frozen_before_run": true
+ },
+ "data": {
+  "panel_rows": 1668,
+  "symbols": 5181,
+  "book_periods": 77,
+  "periods_dropped_no_hedge": 0,
+  "marked_days": 1540,
+  "names_without_entry_or_exit_print": 0,
+  "period_identity_max_gap": 5.10702591327572e-15,
+  "period_identity_note": "each period's daily path ends on 1 + net; the gap column is the arithmetic that would be a bug if it were not zero",
+  "etf_prints_repaired": 1,
+  "etf_repairs": [
+   {
+    "date": "2022-09-05",
+    "raw_move": 1.7627291242362526
+   }
+  ]
+ },
+ "primary": {
+  "budget": 0.2,
+  "daily_rule_a_k": 1.1,
+  "daily_rule_b_k": 0.35,
+  "period_rule_a_k": 0.65,
+  "period_rule_b_k": 0.15,
+  "min_daily_dd_in_sample": 0.12071685415262323,
+  "min_daily_dd_out_of_sample": 0.1807453370686093,
+  "min_period_dd_in_sample": 0.09802494510974746,
+  "verdict": "DAILY_MARKS_BREACH_THE_BUDGET",
+  "verdict_why": "the size chosen on the in-sample daily budget let the out-of-sample daily drawdown reach 20.74% against a 20% budget",
+  "daily_rule_b_out_of_sample_dd": 0.21708725248154304,
+  "daily_rule_b_holds": false,
+  "period_rule_a_out_of_sample_dd": 0.14638376584770962,
+  "period_rule_a_holds_out_of_sample": true,
+  "amplification": "DAILY_MARK_IS_STRICTER",
+  "amplification_why": "the daily ruler reads a median 1.335x the period ruler (worst 1.511x)",
+  "k0_daily_dd_full": 0.34173545059685295,
+  "k0_period_dd_full": 0.2592122501452919,
+  "k1_daily_dd_out_of_sample": 0.19888256730602094,
+  "k1_period_dd_out_of_sample": 0.14171069947139014
+ },
+ "out_of_sample_range": {
+  "min_dd": 0.1807453370686093,
+  "min_k": 0.75,
+  "max_dd": 0.5105072105801586,
+  "max_k": 2.0,
+  "note": "the best a size could have done out-of-sample is 18.07% at k=0.75, chosen with hindsight; the worst is 51.05% at k=2.00"
+ },
+ "cells": {
+  "0.10": {
+   "budget": 0.1,
+   "daily_rule_a_k": null,
+   "daily_rule_b_k": null,
+   "period_rule_a_k": 0.85,
+   "period_rule_b_k": 0.85,
+   "min_daily_dd_in_sample": 0.12071685415262323,
+   "min_daily_dd_out_of_sample": 0.1807453370686093,
+   "min_period_dd_in_sample": 0.09802494510974746,
+   "verdict": "BUDGET_UNREACHABLE_ON_DAILY_MARKS",
+   "verdict_why": "no size on the grid keeps the in-sample daily drawdown inside 10% (smallest reachable 12.07%)"
+  },
+  "0.15": {
+   "budget": 0.15,
+   "daily_rule_a_k": 1.1,
+   "daily_rule_b_k": 0.6,
+   "period_rule_a_k": 0.65,
+   "period_rule_b_k": 0.35,
+   "min_daily_dd_in_sample": 0.12071685415262323,
+   "min_daily_dd_out_of_sample": 0.1807453370686093,
+   "min_period_dd_in_sample": 0.09802494510974746,
+   "verdict": "DAILY_MARKS_BREACH_THE_BUDGET",
+   "verdict_why": "the size chosen on the in-sample daily budget let the out-of-sample daily drawdown reach 20.74% against a 15% budget",
+   "daily_rule_b_out_of_sample_dd": 0.19227729231219348,
+   "daily_rule_b_holds": false,
+   "period_rule_a_out_of_sample_dd": 0.14638376584770962,
+   "period_rule_a_holds_out_of_sample": true
+  },
+  "0.20": {
+   "budget": 0.2,
+   "daily_rule_a_k": 1.1,
+   "daily_rule_b_k": 0.35,
+   "period_rule_a_k": 0.65,
+   "period_rule_b_k": 0.15,
+   "min_daily_dd_in_sample": 0.12071685415262323,
+   "min_daily_dd_out_of_sample": 0.1807453370686093,
+   "min_period_dd_in_sample": 0.09802494510974746,
+   "verdict": "DAILY_MARKS_BREACH_THE_BUDGET",
+   "verdict_why": "the size chosen on the in-sample daily budget let the out-of-sample daily drawdown reach 20.74% against a 20% budget",
+   "daily_rule_b_out_of_sample_dd": 0.21708725248154304,
+   "daily_rule_b_holds": false,
+   "period_rule_a_out_of_sample_dd": 0.14638376584770962,
+   "period_rule_a_holds_out_of_sample": true,
+   "amplification": "DAILY_MARK_IS_STRICTER",
+   "amplification_why": "the daily ruler reads a median 1.335x the period ruler (worst 1.511x)",
+   "k0_daily_dd_full": 0.34173545059685295,
+   "k0_period_dd_full": 0.2592122501452919,
+   "k1_daily_dd_out_of_sample": 0.19888256730602094,
+   "k1_period_dd_out_of_sample": 0.14171069947139014
+  },
+  "0.25": {
+   "budget": 0.25,
+   "daily_rule_a_k": 1.1,
+   "daily_rule_b_k": 0.15,
+   "period_rule_a_k": 0.65,
+   "period_rule_b_k": 0.0,
+   "min_daily_dd_in_sample": 0.12071685415262323,
+   "min_daily_dd_out_of_sample": 0.1807453370686093,
+   "min_period_dd_in_sample": 0.09802494510974746,
+   "verdict": "DAILY_MARKS_KEEP_THE_BUDGET",
+   "verdict_why": "the size chosen on the in-sample daily budget held the out-of-sample daily drawdown to 20.74% against a 25% budget",
+   "daily_rule_b_out_of_sample_dd": 0.2371509541889355,
+   "daily_rule_b_holds": true,
+   "period_rule_a_out_of_sample_dd": 0.14638376584770962,
+   "period_rule_a_holds_out_of_sample": true
+  }
+ },
+ "curves": {
+  "0.00": {
+   "daily_dd": {
+    "in_sample": 0.2841809160069808,
+    "out_of_sample": 0.25903543666100415,
+    "full": 0.34173545059685295
+   },
+   "period_dd_full": 0.2592122501452919,
+   "daily_cagr": {
+    "in_sample": 0.05675701072566852,
+    "out_of_sample": 0.1644373286361982,
+    "full": 0.1030186201109573
+   },
+   "ratio_full": 1.3183614987536494
+  },
+  "0.05": {
+   "daily_dd": {
+    "in_sample": 0.2706783877038694,
+    "out_of_sample": 0.24979216085188394,
+    "full": 0.3253288328652666
+   },
+   "period_dd_full": 0.24739196858058088,
+   "daily_cagr": {
+    "in_sample": 0.05915394646823868,
+    "out_of_sample": 0.16267182478162345,
+    "full": 0.10367536493413931
+   },
+   "ratio_full": 1.315033930696501
+  },
+  "0.10": {
+   "daily_dd": {
+    "in_sample": 0.2570440696744547,
+    "out_of_sample": 0.24219720491262364,
+    "full": 0.310155438404387
+   },
+   "period_dd_full": 0.23557368046730542,
+   "daily_cagr": {
+    "in_sample": 0.06143994223096705,
+    "out_of_sample": 0.1607443844347538,
+    "full": 0.10419574819711275
+   },
+   "ratio_full": 1.316596309864219
+  },
+  "0.15": {
+   "daily_dd": {
+    "in_sample": 0.24327735849500676,
+    "out_of_sample": 0.2371509541889355,
+    "full": 0.2991929983754822
+   },
+   "period_dd_full": 0.22364629239909184,
+   "daily_cagr": {
+    "in_sample": 0.06361460543860886,
+    "out_of_sample": 0.15865472701800298,
+    "full": 0.10457931786208663
+   },
+   "ratio_full": 1.3377954768039657
+  },
+  "0.20": {
+   "daily_dd": {
+    "in_sample": 0.2293776498393485,
+    "out_of_sample": 0.23211687747961407,
+    "full": 0.289826651868761
+   },
+   "period_dd_full": 0.2116102450965277,
+   "daily_cagr": {
+    "in_sample": 0.0656775561125138,
+    "out_of_sample": 0.15640259740846707,
+    "full": 0.10482563651690979
+   },
+   "ratio_full": 1.3696248578917067
+  },
+  "0.25": {
+   "daily_dd": {
+    "in_sample": 0.21534433847761525,
+    "out_of_sample": 0.22709493078325882,
+    "full": 0.2803884023527956
+   },
+   "period_dd_full": 0.19946601492799565,
+   "daily_cagr": {
+    "in_sample": 0.06762842713835915,
+    "out_of_sample": 0.15398776563279037,
+    "full": 0.10493428131707416
+   },
+   "ratio_full": 1.4056951127940855
+  },
+  "0.30": {
+   "daily_dd": {
+    "in_sample": 0.20117681827501332,
+    "out_of_sample": 0.2220850703102638,
+    "full": 0.27087797531371016
+   },
+   "period_dd_full": 0.18721411447942615,
+   "daily_cagr": {
+    "in_sample": 0.06946686452678219,
+    "out_of_sample": 0.15141002653260904,
+    "full": 0.10490484390290056
+   },
+   "ratio_full": 1.4468886390693487
+  },
+  "0.35": {
+   "daily_dd": {
+    "in_sample": 0.1871849748358776,
+    "out_of_sample": 0.21708725248154304,
+    "full": 0.2612950960133519
+   },
+   "period_dd_full": 0.1778429439551923,
+   "daily_cagr": {
+    "in_sample": 0.07119252766718565,
+    "out_of_sample": 0.14866919939898593,
+    "full": 0.10473693029088782
+   },
+   "ratio_full": 1.4692463485039104
+  },
+  "0.40": {
+   "daily_dd": {
+    "in_sample": 0.1740800333308915,
+    "out_of_sample": 0.21210143392727232,
+    "full": 0.25163948948912807
+   },
+   "period_dd_full": 0.16981053223460052,
+   "daily_cagr": {
+    "in_sample": 0.07280508957497323,
+    "out_of_sample": 0.14576512757419002,
+    "full": 0.10443016073814038
+   },
+   "ratio_full": 1.4818838747968668
+  },
+  "0.45": {
+   "daily_dd": {
+    "in_sample": 0.1627312229580744,
+    "out_of_sample": 0.20712757148562788,
+    "full": 0.24191088055385146
+   },
+   "period_dd_full": 0.16172798615277872,
+   "daily_cagr": {
+    "in_sample": 0.07430423713248535,
+    "out_of_sample": 0.14269767801903077,
+    "full": 0.10398416957865408
+   },
+   "ratio_full": 1.4957886158634708
+  },
+  "0.50": {
+   "daily_dd": {
+    "in_sample": 0.15778693054980097,
+    "out_of_sample": 0.2021656222015461,
+    "full": 0.23210899379557604
+   },
+   "period_dd_full": 0.1535951541160192,
+   "daily_cagr": {
+    "in_sample": 0.0756896713238322,
+    "out_of_sample": 0.13946674084375088,
+    "full": 0.10339860503008591
+   },
+   "ratio_full": 1.5111739372991602
+  },
+  "0.55": {
+   "daily_dd": {
+    "in_sample": 0.15283541184397276,
+    "out_of_sample": 0.19721554332548386,
+    "full": 0.22259980470068275
+   },
+   "period_dd_full": 0.1479083763418847,
+   "daily_cagr": {
+    "in_sample": 0.07696110746387119,
+    "out_of_sample": 0.1360722288004308,
+    "full": 0.1026731289695253
+   },
+   "ratio_full": 1.5049844383806337
+  },
+  "0.60": {
+   "daily_dd": {
+    "in_sample": 0.1478767491063968,
+    "out_of_sample": 0.19227729231219348,
+    "full": 0.21422737457439112
+   },
+   "period_dd_full": 0.14713565920331217,
+   "daily_cagr": {
+    "in_sample": 0.07811827542148797,
+    "out_of_sample": 0.13251407673457916,
+    "full": 0.10180741667660409
+   },
+   "ratio_full": 1.4559854200834588
+  },
+  "0.65": {
+   "daily_dd": {
+    "in_sample": 0.14340313674209748,
+    "out_of_sample": 0.18735082681950121,
+    "full": 0.20656458848910497
+   },
+   "period_dd_full": 0.14638376584770973,
+   "daily_cagr": {
+    "in_sample": 0.07916091983739659,
+    "out_of_sample": 0.12879224099343722,
+    "full": 0.10080115654212296
+   },
+   "ratio_full": 1.4111167812420151
+  },
+  "0.70": {
+   "daily_dd": {
+    "in_sample": 0.13960328652438692,
+    "out_of_sample": 0.18243610470709815,
+    "full": 0.19887390363934632
+   },
+   "period_dd_full": 0.14565278111688473,
+   "daily_cagr": {
+    "in_sample": 0.08008880033664378,
+    "out_of_sample": 0.1249066987883598,
+    "full": 0.09965404974022074
+   },
+   "ratio_full": 1.3653972283560603
+  },
+  "0.75": {
+   "daily_dd": {
+    "in_sample": 0.1358029128059376,
+    "out_of_sample": 0.1807453370686093,
+    "full": 0.1911553203305647
+   },
+   "period_dd_full": 0.1449427898094412,
+   "daily_cagr": {
+    "in_sample": 0.08090169173591888,
+    "out_of_sample": 0.12085744750829353,
+    "full": 0.0983658098618383
+   },
+   "ratio_full": 1.3188329035330417
+  },
+  "0.80": {
+   "daily_dd": {
+    "in_sample": 0.13266884192171424,
+    "out_of_sample": 0.18397496938491298,
+    "full": 0.18397496938491287
+   },
+   "period_dd_full": 0.1442538766801551,
+   "daily_cagr": {
+    "in_sample": 0.08159938424589641,
+    "out_of_sample": 0.11664450398121917,
+    "full": 0.09693616250709547
+   },
+   "ratio_full": 1.2753554609338424
+  },
+  "0.85": {
+   "daily_dd": {
+    "in_sample": 0.13012023647537574,
+    "out_of_sample": 0.18720820179295905,
+    "full": 0.1872082017929585
+   },
+   "period_dd_full": 0.1435861264393552,
+   "daily_cagr": {
+    "in_sample": 0.08218168366869372,
+    "out_of_sample": 0.11226790368011996,
+    "full": 0.09536484483391017
+   },
+   "ratio_full": 1.3038042493055724
+  },
+  "0.90": {
+   "daily_dd": {
+    "in_sample": 0.12757751053292,
+    "out_of_sample": 0.19079314805429448,
+    "full": 0.19079314805429437
+   },
+   "period_dd_full": 0.14293962375229974,
+   "daily_cagr": {
+    "in_sample": 0.08264841159060299,
+    "out_of_sample": 0.10772769986966879,
+    "full": 0.09365160505993009
+   },
+   "ratio_full": 1.3347813786394183
+  },
+  "0.95": {
+   "daily_dd": {
+    "in_sample": 0.1250406829524544,
+    "out_of_sample": 0.19484122314679175,
+    "full": 0.19484122314679186
+   },
+   "period_dd_full": 0.1423144532385593,
+   "daily_cagr": {
+    "in_sample": 0.0829994055702199,
+    "out_of_sample": 0.10302396268958303,
+    "full": 0.0917962019145857
+   },
+   "ratio_full": 1.369089496624653
+  },
+  "1.00": {
+   "daily_dd": {
+    "in_sample": 0.12250977253133533,
+    "out_of_sample": 0.19888256730602094,
+    "full": 0.19888256730602127
+   },
+   "period_dd_full": 0.14171069947139003,
+   "daily_cagr": {
+    "in_sample": 0.08323451932206449,
+    "out_of_sample": 0.09815677817009472,
+    "full": 0.08979840403768802
+   },
+   "ratio_full": 1.4034407285257502
+  },
+  "1.05": {
+   "daily_dd": {
+    "in_sample": 0.12071685415262323,
+    "out_of_sample": 0.2029171875792578,
+    "full": 0.20291718757925858
+   },
+   "period_dd_full": 0.14112844697711757,
+   "daily_cagr": {
+    "in_sample": 0.08335362289581694,
+    "out_of_sample": 0.0931262471747194,
+    "full": 0.08765798932072943
+   },
+   "ratio_full": 1.437819177675493
+  },
+  "1.10": {
+   "daily_dd": {
+    "in_sample": 0.12652788557975814,
+    "out_of_sample": 0.20744481901008027,
+    "full": 0.20744481901008005
+   },
+   "period_dd_full": 0.1421188822076661,
+   "daily_cagr": {
+    "in_sample": 0.08335660285127089,
+    "out_of_sample": 0.08793248426485789,
+    "full": 0.08537474418656799
+   },
+   "ratio_full": 1.4596569842630676
+  },
+  "1.15": {
+   "daily_dd": {
+    "in_sample": 0.13321752092102268,
+    "out_of_sample": 0.21547098676494603,
+    "full": 0.2154709867649467
+   },
+   "period_dd_full": 0.1520349520000822,
+   "daily_cagr": {
+    "in_sample": 0.08324336242909336,
+    "out_of_sample": 0.08257561648042056,
+    "full": 0.08294846280280788
+   },
+   "ratio_full": 1.41724638926995
+  },
+  "1.20": {
+   "daily_dd": {
+    "in_sample": 0.14057024474127633,
+    "out_of_sample": 0.2234707685845413,
+    "full": 0.2234707685845413
+   },
+   "period_dd_full": 0.16192251605620656,
+   "daily_cagr": {
+    "in_sample": 0.0830138217174421,
+    "out_of_sample": 0.07705578202992158,
+    "full": 0.08037894622359887
+   },
+   "ratio_full": 1.3801092894762708
+  },
+  "1.25": {
+   "daily_dd": {
+    "in_sample": 0.14808463873164834,
+    "out_of_sample": 0.23541854879677349,
+    "full": 0.23541854879677448
+   },
+   "period_dd_full": 0.17178065668929343,
+   "daily_cagr": {
+    "in_sample": 0.08266791781458993,
+    "out_of_sample": 0.0713731288830095,
+    "full": 0.077666001454189
+   },
+   "ratio_full": 1.370460174818085
+  },
+  "1.30": {
+   "daily_dd": {
+    "in_sample": 0.15665133424560695,
+    "out_of_sample": 0.2482744484337509,
+    "full": 0.24827444843375002
+   },
+   "period_dd_full": 0.18430592272407043,
+   "daily_cagr": {
+    "in_sample": 0.08220560498756657,
+    "out_of_sample": 0.06552781325755519,
+    "full": 0.07480944043180382
+   },
+   "ratio_full": 1.3470779710397516
+  },
+  "1.35": {
+   "daily_dd": {
+    "in_sample": 0.16518886011730505,
+    "out_of_sample": 0.2611767166063068,
+    "full": 0.2611767166063068
+   },
+   "period_dd_full": 0.1986021958327736,
+   "daily_cagr": {
+    "in_sample": 0.08162685482693233,
+    "out_of_sample": 0.05951999799267993,
+    "full": 0.07180907891584298
+   },
+   "ratio_full": 1.3150746672822389
+  },
+  "1.40": {
+   "daily_dd": {
+    "in_sample": 0.1736966992122918,
+    "out_of_sample": 0.2739350209716551,
+    "full": 0.27393502097165534
+   },
+   "period_dd_full": 0.21273053165611988,
+   "daily_cagr": {
+    "in_sample": 0.08093165639771582,
+    "out_of_sample": 0.05334985079817112,
+    "full": 0.06866473527958106
+   },
+   "ratio_full": 1.287709003682052
+  },
+  "1.45": {
+   "daily_dd": {
+    "in_sample": 0.18217434212671435,
+    "out_of_sample": 0.2883272491626566,
+    "full": 0.28832724916265606
+   },
+   "period_dd_full": 0.22669180244515819,
+   "daily_cagr": {
+    "in_sample": 0.08012001638658184,
+    "out_of_sample": 0.04701754236978117,
+    "full": 0.0653762291947122
+   },
+   "ratio_full": 1.2718909376196295
+  },
+  "1.50": {
+   "daily_dd": {
+    "in_sample": 0.19131951827992677,
+    "out_of_sample": 0.3026364787381771,
+    "full": 0.3026364787381778
+   },
+   "period_dd_full": 0.24048688794629514,
+   "daily_cagr": {
+    "in_sample": 0.07919195924531608,
+    "out_of_sample": 0.040523244358716015,
+    "full": 0.06194338019915113
+   },
+   "ratio_full": 1.2584323466556802
+  },
+  "1.55": {
+   "daily_dd": {
+    "in_sample": 0.20080863379655678,
+    "out_of_sample": 0.31673427959617806,
+    "full": 0.31673427959617806
+   },
+   "period_dd_full": 0.25411667526063975,
+   "daily_cagr": {
+    "in_sample": 0.07814752733064179,
+    "out_of_sample": 0.03386712718238383,
+    "full": 0.05836600613735565
+   },
+   "ratio_full": 1.2464128112463038
+  },
+  "1.60": {
+   "daily_dd": {
+    "in_sample": 0.2112526909627862,
+    "out_of_sample": 0.3306226045025451,
+    "full": 0.33062260450254377
+   },
+   "period_dd_full": 0.27565941779403824,
+   "daily_cagr": {
+    "in_sample": 0.07698678104041434,
+    "out_of_sample": 0.02704935766200811,
+    "full": 0.054643921461245304
+   },
+   "ratio_full": 1.1993880243539214
+  },
+  "1.65": {
+   "daily_dd": {
+    "in_sample": 0.22178787461186467,
+    "out_of_sample": 0.34806222588992053,
+    "full": 0.3480622258899202
+   },
+   "period_dd_full": 0.3026869789726505,
+   "daily_cagr": {
+    "in_sample": 0.07570979894627183,
+    "out_of_sample": 0.02007009647115221,
+    "full": 0.05077693537843997
+   },
+   "ratio_full": 1.1499081561792903
+  },
+  "1.70": {
+   "daily_dd": {
+    "in_sample": 0.23226306154893672,
+    "out_of_sample": 0.3730427315320619,
+    "full": 0.37304273153206136
+   },
+   "period_dd_full": 0.3290066002391787,
+   "daily_cagr": {
+    "in_sample": 0.07431667792275443,
+    "out_of_sample": 0.012929495377300482,
+    "full": 0.04676484983291118
+   },
+   "ratio_full": 1.1338457382340341
+  },
+  "1.75": {
+   "daily_dd": {
+    "in_sample": 0.24270761254158735,
+    "out_of_sample": 0.3973450459843938,
+    "full": 0.3973450459843929
+   },
+   "period_dd_full": 0.3546287612375394,
+   "daily_cagr": {
+    "in_sample": 0.07280753327294143,
+    "out_of_sample": 0.005627694256614912,
+    "full": 0.04260745730138682
+   },
+   "ratio_full": 1.1204535260980737
+  },
+  "1.80": {
+   "daily_dd": {
+    "in_sample": 0.2531364758668624,
+    "out_of_sample": 0.421146221766205,
+    "full": 0.4211462217662042
+   },
+   "period_dd_full": 0.3795639980925085,
+   "daily_cagr": {
+    "in_sample": 0.07118249885062755,
+    "out_of_sample": -0.0018351821403623791,
+    "full": 0.03830453838683123
+   },
+   "ratio_full": 1.1095526021505369
+  },
+  "1.85": {
+   "daily_dd": {
+    "in_sample": 0.26350108810373796,
+    "out_of_sample": 0.4444882856561798,
+    "full": 0.44448828565617904
+   },
+   "period_dd_full": 0.4038228960201288,
+   "daily_cagr": {
+    "in_sample": 0.06944172717909325,
+    "out_of_sample": -0.009459027697010791,
+    "full": 0.033855859187983395
+   },
+   "ratio_full": 1.100701049982127
+  },
+  "1.90": {
+   "daily_dd": {
+    "in_sample": 0.2738007524237297,
+    "out_of_sample": 0.4671543825071961,
+    "full": 0.46715438250719543
+   },
+   "period_dd_full": 0.42741608209853865,
+   "daily_cagr": {
+    "in_sample": 0.06758538956647997,
+    "out_of_sample": -0.01724375874087769,
+    "full": 0.0292611684213111
+   },
+   "ratio_full": 1.0929733392659178
+  },
+  "1.95": {
+   "daily_dd": {
+    "in_sample": 0.28403478809541305,
+    "out_of_sample": 0.48915665043524625,
+    "full": 0.4891566504352459
+   },
+   "period_dd_full": 0.45035421819947496,
+   "daily_cagr": {
+    "in_sample": 0.06561367621779168,
+    "out_of_sample": -0.02518931818738679,
+    "full": 0.02452019426866192
+   },
+   "ratio_full": 1.086159806365096
+  },
+  "2.00": {
+   "daily_dd": {
+    "in_sample": 0.29420253046612277,
+    "out_of_sample": 0.5105072105801586,
+    "full": 0.510507210580159
+   },
+   "period_dd_full": 0.4726479940806254,
+   "daily_cagr": {
+    "in_sample": 0.06352679634357794,
+    "out_of_sample": -0.03329568005236372,
+    "full": 0.019632640920504985
+   },
+   "ratio_full": 1.0801002373302688
+  }
+ },
+ "anchor": {
+  "k0_is_the_book": "k = 0.00 bottoms at the book's own daily drawdown, bit for bit",
+  "period_rule_a_matches_parent": true,
+  "period_rule_a_k_here": 0.65,
+  "period_rule_a_k_parent": 0.65,
+  "arm_series_periods_compared": 154,
+  "arm_series_max_abs_gap": 5.2262881522491256e-15,
+  "arm_series_note": "every period of the k=0.65 and k=1.00 arms is re-derived here and checked against the parent's own arm_series; a gap above 1e-9 means the daily ruler below is marking a different book"
+ },
+ "verdict": "DAILY_MARKS_BREACH_THE_BUDGET",
+ "verdict_why": "the size chosen on the in-sample daily budget let the out-of-sample daily drawdown reach 20.74% against a 20% budget",
+ "amplification_verdict": "DAILY_MARK_IS_STRICTER"
+}
