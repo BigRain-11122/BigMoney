@@ -204,8 +204,8 @@
  "landed_commit": "ef8a8dd525",
  "last_action": "r1910: cached the ledger scan per file (33s -> 1s) + printed which half refused the carry product",
  "last_action_at": "2026-11-21T12:1x+08:00",
- "last_artifact": "scripts/science_gates.py (per-file ledger cache) + docs/live_usage/LIVE-2026-11-21.md (membership block)",
- "last_artifact_at": "2026-11-21T12:1x+08:00",
+ "last_artifact": "research/ETF_BOOK_NOBOND_TICKET.md + results/etf_book_nobond_ticket.json + scripts/etf_book_nobond_ticket.py",
+ "last_artifact_at": "2026-11-23T21:23:25+08:00",
  "last_closeout_utc": 1794784912,
  "last_decisions_at": "2026-11-18T13:19:09+08:00",
  "last_decisions_check": "2026-11-07T16:37:02+08:00",
@@ -282,7 +282,7 @@
  "mistake": "`python -m smoke_test --list` is not a supported flag -- it started a SECOND full suite (pid 45308), killed on discovery; to check which legs the suite runs, grep the output file, never probe with an undocumented flag",
  "next": "(a) attach this face to the S6 chain + two smoke legs once the contention window closes; (b) the ticket prices lots but not impact: read etf_book_capacity_at_size at these sizes and say whether 13-15% of NAV per name is placeable",
  "next_action": "price the short leg (securities lending on 510500/512100) before the IC/IM hedged sleeve can be sized",
- "next_milestone": "317-leg chain finishes -> publish its remaining faces; full suite record green (<=24h)",
+ "next_milestone": "(a) wire this face to the S6 chain + two smoke legs once the contention window closes (<=48h); (b) read it against etf_book_capacity_at_size so 13-15% of NAV per name is judged placeable or not (<=48h)",
  "next_pick": {
   "candidate": "the deploy-vs-wait pair on the sizing block",
   "status": "open"
@@ -2342,5 +2342,6 @@
  "送达自证_r1963": "commit 03e099354b 已推 origin/main；fetch 后 本地未达 origin commit 数=0；ls-tree 三件在位",
  "送达自证_r1995": "commit 65741165ac 已推 origin/main (bc2e3f68dc..65741165ac)；fetch 后 AHEAD=0 BEHIND=0；ls-tree 三件 blob 在位 (5c569f0d2e/83ab8fbbad/0e047b12bd)",
  "送达自证_r1997": "commit 85891ef558 已推 origin/main (a5bbe70018..85891ef558)；fetch 后 AHEAD=0 BEHIND=0；ls-tree origin/main 见七件（scripts/idx_fut_basis_segments.py、results/idx_fut_basis_segments.json、research/IDX_FUT_BASIS_SEGMENTS.md、data/index_ohlc 四件）；本地未达 origin commit 数=0",
- "送达自证_r2005": "commit 29a4942d4d 已推 origin/main；fetch 后 AHEAD=0 / BEHIND=0；ls-tree origin/main 见 scripts/results/md/负控四件，本地未达 origin commit 数=0"
+ "送达自证_r2005": "commit 29a4942d4d 已推 origin/main；fetch 后 AHEAD=0 / BEHIND=0；ls-tree origin/main 见 scripts/results/md/负控四件，本地未达 origin commit 数=0",
+ "failed_this_round": "nothing failed; two self-inflicted reds were caught by this round's own check before publishing (weights+cash summed to 0.999999 at 6dp, and the printed scale differed from the scale used to size the cash slot)"
 }
