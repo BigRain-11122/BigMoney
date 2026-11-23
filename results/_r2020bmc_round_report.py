@@ -1,0 +1,72 @@
+"""Append the r2020 round-report row (bm-c).  Fresh read-append, no whole-file rewrite."""
+import io
+
+ROW = (
+    "| 2026-11-24 02:4x | r2020（**竞争探针 rc=3 CONTENTION·只落新增文件面**·两本书一起拿着，"
+    "是两份收益还是同一份收益付两次钱） | **watermark：red=false / lane=healthy · 孤儿面=0**"
+    "（py_faces=6 / resident_servers=0）。**产品（产品优先律）**：公司现在有两本各自印钱、各自被量透的书"
+    "——A 股残差黑名单（`astock_veto_*` 17 面）与无债 8% 目标 ETF 书（`etf_nobond_vt` 生产候选）。"
+    "它们所有面都在回答「这本书自己内部」的问题（换手/容量/整手/现金腿/宽度/平滑），"
+    "**没有一面回答出钱的人真正问的那句：两本一起拿着，是两份收益还是一份付两次钱**。"
+    "**读数一（相关确实是低的）**：77 期配对，逐期收益相关 **Pearson 0.219 / Spearman 0.286**"
+    "——两本书不是同一笔交易（IS 0.443、OOS 0.089，逐年从 -0.154 到 0.743 摆动）。"
+    "**读数二（可合起来不加钱）**：等权合并年化 12.50%、夏普 **0.821**，低于 ETF 书单独的 **1.115**"
+    "（年化 12.74%）；逆波动（IS 估 27.5% 配 A 股书）夏普 1.047，仍低于 1.115。"
+    "**读数三（最硬的一条）**：用 IS 期数字解最大夏普权重，A 股书的权重是 **0.0%**——最优做法是一点都不配。"
+    "原因是风险不是相关：A 股书年化 **10.30%** 却背着 **27.34% 波动**（夏普 0.492、最大回撤 -25.92%、"
+    "最差一期 -17.18%），ETF 书同期 12.74%/11.36%/1.115/-8.12%。低相关只解决「一加一不等于二」，"
+    "解决不了「这一本本身不够好」。判词 **BLEND_REDUNDANT** + `verdict_why=TWO_RETURNS_BUT_WEAK_LEG`"
+    "（判据三态冻结在 prereg，见 JSON）。**对齐不是截断**：A 股书每期是「调仓日收盘 → 20 个交易日之后收盘」，"
+    "本面沿 ETF 日净值网格按交易日位置走 20 步，于是最后一期（终点 2026-11-11，落在最后一个调仓日之后）"
+    "不被丢弃——77 期全覆盖，76 次可校验跨度 **76/76 与下一次调仓日逐日对上**；A 股书 77 期年化 10.30% 与父面 "
+    "`astock_veto_smooth_rank` 的 summary 逐位一致（跨面锚）。**边界敏感性**：两本书基价不同（A 收盘 / B 决策 bar "
+    "当根开盘），把 B 挪 ±1 根 bar 后等权夏普 0.890/0.897，仍低于 1.115——判词不随一根 bar 翻转。"
+    "｜**验证证据**：`--selftest` **23/23 PASS**（相关对称/自相关=1/NaN 剔除/平坦序列不出相关/Spearman 按秩/"
+    "并列秩取均值/合并=w·a+(1-w)·b/**两资产方差恒等式**/最大夏普偏低波/权重裁到[0,1]/逆波动精确 1/3/期年化/"
+    "回撤精确/单期不年化/判词三态/**复制流不可能超过自己**/净值前向填充/网格前缺失=NaN/日期挪位恒等/"
+    "滚动窗计数与序/短序列不出窗/10dp 往返安全）；`run` rc0（77 期，evidence_cutoff **2026-11-20**）→ "
+    "`results/two_book_blend.json` + `research/TWO_BOOK_BLEND.md`；`check` **rc0**（从已发布行重推相关/"
+    "两书统计/三档合并/IS 估权重/判词/滚动窗）；**负控 `results/_r2020bmc_blend_negative.py` 13/13 PASS**"
+    "（原样 rc0 / 单笔 A 收益改动→CHECK FAILED / 手改 pearson→CHECK FAILED / 判词与自家数字矛盾→CHECK FAILED / "
+    "等权权重移动→CHECK FAILED / IS 半窗无法复现的逆波动权重→CHECK FAILED / 手打 B 的夏普→CHECK FAILED / "
+    "**截短收益流→CHECK FAILED 而不是崩**（本轮实弹修：check 先验形状再算 numpy，自检可以红不可以崩）/ "
+    "缺面→face missing rc3 不穿绿 / 复制 A 当 B→相关 1 且判词仍 REDUNDANT / 还原后 selftest 仍绿 / "
+    "live 面 sha256 逐字节不变）。｜**S0**：`fleet/machine.json`=bm-c；`orphan_face_probe` py_faces=6 "
+    "**orphans=0** 零杀；`repo_write_contention` **rc=3 CONTENTION**（2 宿主存活：pid 51252 为 11-22 20:10 起的 "
+    "interactive、本宿 76440；13 张共享面在本轮开始前被对端写，含 `fleet/machines/bm-c.json`、"
+    "`fleet/round_reports-bm-c.md`、`research/ARBITER-BOARD.md`、`results/_attrition_guard_scan.json`）→ "
+    "按 r1927 只落**新增文件面**，未改共享代码/数据面、未跑 S6 链；fetch 后 0 ahead / 0 behind。"
+    "｜**S0.5 双扫**：`Tools/orders_ack_scan.py` **CLEAN**（116 令 / 329 回执 / 124 陈旧注记 / unacked=[]）；"
+    "集团 `git cat-file blob origin/main:docs/decisions.md` **原字节** sha256 = **79e3083b85c130b8**"
+    "（250,586 B）== state 水位 → 零新决策零动作；fleet/inbox 空。｜**S1（诚实边界）**：全量 smoke **未跑**"
+    "（`smoke_test.py` / `logs/smoke_legs.json` 是共享面，竞争窗不覆盖）；本轮以 23/23 selftest + 13/13 负控 + "
+    "run/check 双 rc0 背书，**不宣称全绿**。｜**S6**：未跑（`Tools/s6_chain_bmc.py` 与链产物为对端写的共享面）。"
+    "｜**S7**：`state round_no 2019→2020`（rounds_done 1956→1957，round_no_prev 留痕 2019）；心跳经 "
+    "`Tools/heartbeat_write.py apply` 合并写（applied 16 键，ack 329 未减，warnings=心跳比 state 多 57 条回执"
+    "仅保留不删）；`& Tools/register_loop_task.ps1` **phase ok**（machine=bm-c pin=0 current=0，首燃 11/24 02:35 "
+    "未动）；`attrition_ledger_guard scan` **CLEAN**（4 账本，3 处历史缩行 healed 注记照录）；"
+    "`pre-commit` / `pre-push` 与 `Tools/git-hooks/` 逐字节（CR 归一）**MATCH**，未重装、未用 --no-verify。"
+    "｜**CEO 过程可见面**：当前活＝把公司两本已发布的书放到同一把尺子上，看它们各赚各的还是同一笔交易付两次钱；"
+    "最近实物＝`K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\research\\TWO_BOOK_BLEND.md`"
+    "（2026-11-24 02:4x·相关只有 0.219 是两份收益，但等权夏普 0.821 < ETF 书 1.115，弱腿拖累；"
+    "IS 期最大夏普权重要求 A 股书 **0.0%**）＋`results\\two_book_blend.json`＋`scripts\\two_book_blend.py`"
+    "（selftest 23/23）＋`results\\_r2020bmc_blend_negative.py`（负控 13/13）；下个里程碑＝（a）竞争窗结束后把"
+    "本面接 S6 链腿 + 冒烟两腿（≤48h）；（b）**A 股书的风险面**：27.3% 的波动是从哪来的（行业集中？还是单期 "
+    "-17.2% 那种跳空？）——能不能在不砍收益的前提下压下来（≤48h）。｜**未验证（如实）**：①两书基价不同"
+    "（A 收盘 / B 开盘），`sensitivity` 只证判词不随一根 bar 翻转，不证逐期收益逐位可比；②两书首期全额建仓"
+    "成本都保留未去；③**联合容量未做**（各自容量有面，同一账户同时吃两条腿的资金占用未量）；④相关是**收益**"
+    "相关不是**回撤同步**，同时出坑的概率未量（77 期观测不够做联合分布）；⑤权重只三档不搜更多"
+    "（搜了就是拟合出来的合并）。｜**本地未达 origin commit 数**＝推送后复核。"
+    "记账：轮报告 1 处 + state 1 处 + 心跳 1 处 = 3（无方法论新增：本轮是把两本已发布的书放到同一把尺子上，"
+    "属定价/口径件与证据载体，判据未升格为法）。|\n"
+)
+
+path = "fleet/round_reports-bm-c.md"
+with io.open(path, "rb") as f:
+    raw = f.read()
+need_nl = raw and not raw.endswith(b"\n")
+with io.open(path, "a", encoding="utf-8", newline="") as f:
+    if need_nl:
+        f.write("\n")
+    f.write(ROW)
+print("appended %d chars; need_nl=%s" % (len(ROW), need_nl))
