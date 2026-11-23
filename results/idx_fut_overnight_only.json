@@ -1,0 +1,354 @@
+{
+ "schema": "idx-fut-overnight-only/v1",
+ "generated": "2026-11-23T17:05:18+08:00",
+ "evidence_cutoff": "2026-11-20",
+ "judged_before_running": {
+  "O1_split_is_exact": "A[t] + B[t] == spread[t] on non-roll days (reused from the parent, 1e-12)",
+  "O2_overnight_arm_reproduces_the_parent": "gross annualised overnight contribution within 0.02pp of the published segments face",
+  "O3_two_fills_per_night": "cost[t] = (w[t-1] + w[t]) * c on nights the book is on; c = 1.5 bp per side",
+  "O4_breaks_even_above_the_assumed_cost": "break-even cost per side >= 1.5 bp (the cost the whole book is already charged)",
+  "O5_weak_night_filter_buys_back_turnover": "best threshold arm's break-even is >= 1.0 bp better than every-night",
+  "O6_per_unit_is_arithmetic": "per-unit-exposure uses mean daily / mean weight * 252, not compounding, so extra turnover cannot flatter it"
+ },
+ "cost_bp_side": 1.5,
+ "verdict": "OVERNIGHT_ONLY_LIVES",
+ "pairs": {
+  "IC": {
+   "state": "ok",
+   "bars": 2388,
+   "nights": 2365,
+   "first": "2017-01-18",
+   "last": "2026-11-20",
+   "proxy_index": "sh000905",
+   "index": {
+    "path": "data/index_ohlc/sh000905.csv",
+    "cache_last": "2026-11-20",
+    "state": "ok"
+   },
+   "identity": {
+    "max_abs_A_plus_B_minus_spread": 5.152128723651117e-16
+   },
+   "references": {
+    "hold_through_ann_pct": 10.092,
+    "always_on_ann_pct": 2.726,
+    "published_overnight_gross_pct": 15.43
+   },
+   "avg_weight": 0.4965,
+   "arms": {
+    "thr_0.00": {
+     "threshold": 0.0,
+     "nights_on": 1848,
+     "nights_on_share": 0.7814,
+     "avg_weight": 0.4938,
+     "carry_ann_gross_pct": 15.43,
+     "cost_ann_pct": 3.615,
+     "carry_ann_net_pct": 11.336,
+     "per_unit_ann_pct": 21.852,
+     "breakeven_bp_per_side": 5.9571
+    },
+    "thr_0.50": {
+     "threshold": 0.5,
+     "nights_on": 1180,
+     "nights_on_share": 0.4989,
+     "avg_weight": 0.4228,
+     "carry_ann_gross_pct": 14.019,
+     "cost_ann_pct": 3.095,
+     "carry_ann_net_pct": 10.548,
+     "per_unit_ann_pct": 23.844,
+     "breakeven_bp_per_side": 6.3623,
+     "breakeven_gain_bp": 0.4052
+    },
+    "thr_0.80": {
+     "threshold": 0.8,
+     "nights_on": 765,
+     "nights_on_share": 0.3235,
+     "avg_weight": 0.3095,
+     "carry_ann_gross_pct": 11.257,
+     "cost_ann_pct": 2.266,
+     "carry_ann_net_pct": 8.767,
+     "per_unit_ann_pct": 27.305,
+     "breakeven_bp_per_side": 7.0655,
+     "breakeven_gain_bp": 1.1084
+    },
+    "thr_1.00": {
+     "threshold": 1.0,
+     "nights_on": 505,
+     "nights_on_share": 0.2135,
+     "avg_weight": 0.2116,
+     "carry_ann_gross_pct": 8.873,
+     "cost_ann_pct": 1.549,
+     "carry_ann_net_pct": 7.202,
+     "per_unit_ann_pct": 33.076,
+     "breakeven_bp_per_side": 8.2389,
+     "breakeven_gain_bp": 2.2818
+    }
+   },
+   "best_threshold": {
+    "arm": "thr_1.00",
+    "breakeven_gain_bp": 2.2818
+   },
+   "checks": {
+    "O1_split_is_exact": true,
+    "O2_overnight_arm_reproduces_the_parent": true,
+    "O3_two_fills_per_night": true,
+    "O4_breaks_even_above_the_assumed_cost": true,
+    "O5_weak_night_filter_buys_back_turnover": true,
+    "O6_per_unit_is_arithmetic": true
+   },
+   "verdict": "OVERNIGHT_ONLY_LIVES"
+  },
+  "IM": {
+   "state": "ok",
+   "bars": 1050,
+   "nights": 1031,
+   "first": "2022-07-25",
+   "last": "2026-11-20",
+   "proxy_index": "sh000852",
+   "index": {
+    "path": "data/index_ohlc/sh000852.csv",
+    "cache_last": "2026-11-20",
+    "state": "ok"
+   },
+   "identity": {
+    "max_abs_A_plus_B_minus_spread": 4.395355607256235e-16
+   },
+   "references": {
+    "hold_through_ann_pct": 9.29,
+    "always_on_ann_pct": 5.632,
+    "published_overnight_gross_pct": 13.473
+   },
+   "avg_weight": 0.5298,
+   "arms": {
+    "thr_0.00": {
+     "threshold": 0.0,
+     "nights_on": 811,
+     "nights_on_share": 0.7866,
+     "avg_weight": 0.524,
+     "carry_ann_gross_pct": 13.473,
+     "cost_ann_pct": 3.835,
+     "carry_ann_net_pct": 9.206,
+     "per_unit_ann_pct": 16.87,
+     "breakeven_bp_per_side": 4.9449
+    },
+    "thr_0.50": {
+     "threshold": 0.5,
+     "nights_on": 548,
+     "nights_on_share": 0.5315,
+     "avg_weight": 0.4573,
+     "carry_ann_gross_pct": 11.468,
+     "cost_ann_pct": 3.348,
+     "carry_ann_net_pct": 7.801,
+     "per_unit_ann_pct": 16.494,
+     "breakeven_bp_per_side": 4.8667,
+     "breakeven_gain_bp": -0.0782
+    },
+    "thr_0.80": {
+     "threshold": 0.8,
+     "nights_on": 377,
+     "nights_on_share": 0.3657,
+     "avg_weight": 0.3493,
+     "carry_ann_gross_pct": 9.234,
+     "cost_ann_pct": 2.557,
+     "carry_ann_net_pct": 6.478,
+     "per_unit_ann_pct": 18.051,
+     "breakeven_bp_per_side": 5.1837,
+     "breakeven_gain_bp": 0.2388
+    },
+    "thr_1.00": {
+     "threshold": 1.0,
+     "nights_on": 273,
+     "nights_on_share": 0.2648,
+     "avg_weight": 0.2602,
+     "carry_ann_gross_pct": 6.732,
+     "cost_ann_pct": 1.905,
+     "carry_ann_net_pct": 4.72,
+     "per_unit_ann_pct": 17.809,
+     "breakeven_bp_per_side": 5.132,
+     "breakeven_gain_bp": 0.1871
+    }
+   },
+   "best_threshold": {
+    "arm": "thr_0.80",
+    "breakeven_gain_bp": 0.2388
+   },
+   "checks": {
+    "O1_split_is_exact": true,
+    "O2_overnight_arm_reproduces_the_parent": true,
+    "O3_two_fills_per_night": true,
+    "O4_breaks_even_above_the_assumed_cost": true,
+    "O5_weak_night_filter_buys_back_turnover": false,
+    "O6_per_unit_is_arithmetic": true
+   },
+   "verdict": "OVERNIGHT_ONLY_LIVES"
+  },
+  "IF": {
+   "state": "ok",
+   "bars": 2388,
+   "nights": 2361,
+   "first": "2017-01-18",
+   "last": "2026-11-20",
+   "proxy_index": "sh000300",
+   "index": {
+    "path": "data/index_ohlc/sh000300.csv",
+    "cache_last": "2026-11-20",
+    "state": "ok"
+   },
+   "identity": {
+    "max_abs_A_plus_B_minus_spread": 5.700735022928782e-16
+   },
+   "references": {
+    "hold_through_ann_pct": 6.9,
+    "always_on_ann_pct": 1.727,
+    "published_overnight_gross_pct": 13.492
+   },
+   "avg_weight": 0.5019,
+   "arms": {
+    "thr_0.00": {
+     "threshold": 0.0,
+     "nights_on": 1837,
+     "nights_on_share": 0.7781,
+     "avg_weight": 0.4979,
+     "carry_ann_gross_pct": 13.492,
+     "cost_ann_pct": 3.644,
+     "carry_ann_net_pct": 9.433,
+     "per_unit_ann_pct": 18.158,
+     "breakeven_bp_per_side": 5.2113
+    },
+    "thr_0.50": {
+     "threshold": 0.5,
+     "nights_on": 1205,
+     "nights_on_share": 0.5104,
+     "avg_weight": 0.4303,
+     "carry_ann_gross_pct": 12.225,
+     "cost_ann_pct": 3.15,
+     "carry_ann_net_pct": 8.747,
+     "per_unit_ann_pct": 19.544,
+     "breakeven_bp_per_side": 5.494,
+     "breakeven_gain_bp": 0.2827
+    },
+    "thr_0.80": {
+     "threshold": 0.8,
+     "nights_on": 775,
+     "nights_on_share": 0.3283,
+     "avg_weight": 0.3127,
+     "carry_ann_gross_pct": 9.774,
+     "cost_ann_pct": 2.289,
+     "carry_ann_net_pct": 7.292,
+     "per_unit_ann_pct": 22.579,
+     "breakeven_bp_per_side": 6.1136,
+     "breakeven_gain_bp": 0.9023
+    },
+    "thr_1.00": {
+     "threshold": 1.0,
+     "nights_on": 483,
+     "nights_on_share": 0.2046,
+     "avg_weight": 0.2023,
+     "carry_ann_gross_pct": 6.826,
+     "cost_ann_pct": 1.481,
+     "carry_ann_net_pct": 5.257,
+     "per_unit_ann_pct": 25.404,
+     "breakeven_bp_per_side": 6.6896,
+     "breakeven_gain_bp": 1.4783
+    }
+   },
+   "best_threshold": {
+    "arm": "thr_1.00",
+    "breakeven_gain_bp": 1.4783
+   },
+   "checks": {
+    "O1_split_is_exact": true,
+    "O2_overnight_arm_reproduces_the_parent": true,
+    "O3_two_fills_per_night": true,
+    "O4_breaks_even_above_the_assumed_cost": true,
+    "O5_weak_night_filter_buys_back_turnover": true,
+    "O6_per_unit_is_arithmetic": true
+   },
+   "verdict": "OVERNIGHT_ONLY_LIVES"
+  },
+  "IH": {
+   "state": "ok",
+   "bars": 2388,
+   "nights": 2353,
+   "first": "2017-01-18",
+   "last": "2026-11-20",
+   "proxy_index": "sh000016",
+   "index": {
+    "path": "data/index_ohlc/sh000016.csv",
+    "cache_last": "2026-11-20",
+    "state": "ok"
+   },
+   "identity": {
+    "max_abs_A_plus_B_minus_spread": 5.204170427930421e-16
+   },
+   "references": {
+    "hold_through_ann_pct": 5.745,
+    "always_on_ann_pct": 1.396,
+    "published_overnight_gross_pct": 11.295
+   },
+   "avg_weight": 0.5049,
+   "arms": {
+    "thr_0.00": {
+     "threshold": 0.0,
+     "nights_on": 1848,
+     "nights_on_share": 0.7854,
+     "avg_weight": 0.4966,
+     "carry_ann_gross_pct": 11.295,
+     "cost_ann_pct": 3.635,
+     "carry_ann_net_pct": 7.325,
+     "per_unit_ann_pct": 14.284,
+     "breakeven_bp_per_side": 4.4174
+    },
+    "thr_0.50": {
+     "threshold": 0.5,
+     "nights_on": 1190,
+     "nights_on_share": 0.5057,
+     "avg_weight": 0.4282,
+     "carry_ann_gross_pct": 10.237,
+     "cost_ann_pct": 3.135,
+     "carry_ann_net_pct": 6.837,
+     "per_unit_ann_pct": 15.499,
+     "breakeven_bp_per_side": 4.6651,
+     "breakeven_gain_bp": 0.2477
+    },
+    "thr_0.80": {
+     "threshold": 0.8,
+     "nights_on": 790,
+     "nights_on_share": 0.3357,
+     "avg_weight": 0.3186,
+     "carry_ann_gross_pct": 8.093,
+     "cost_ann_pct": 2.332,
+     "carry_ann_net_pct": 5.603,
+     "per_unit_ann_pct": 17.175,
+     "breakeven_bp_per_side": 5.0065,
+     "breakeven_gain_bp": 0.5891
+    },
+    "thr_1.00": {
+     "threshold": 1.0,
+     "nights_on": 517,
+     "nights_on_share": 0.2197,
+     "avg_weight": 0.2166,
+     "carry_ann_gross_pct": 5.922,
+     "cost_ann_pct": 1.585,
+     "carry_ann_net_pct": 4.257,
+     "per_unit_ann_pct": 19.325,
+     "breakeven_bp_per_side": 5.4448,
+     "breakeven_gain_bp": 1.0274
+    }
+   },
+   "best_threshold": {
+    "arm": "thr_1.00",
+    "breakeven_gain_bp": 1.0274
+   },
+   "checks": {
+    "O1_split_is_exact": true,
+    "O2_overnight_arm_reproduces_the_parent": true,
+    "O3_two_fills_per_night": true,
+    "O4_breaks_even_above_the_assumed_cost": true,
+    "O5_weak_night_filter_buys_back_turnover": true,
+    "O6_per_unit_is_arithmetic": true
+   },
+   "verdict": "OVERNIGHT_ONLY_LIVES"
+  }
+ },
+ "note": "Prices the overnight-only variant of the published basis carry: flat during the day, so two fills per night on a levered notional. One number decides it: the break-even cost per side. Threshold arms price the 'skip the weak nights' mitigation. Nothing here is rewired into production."
+}
