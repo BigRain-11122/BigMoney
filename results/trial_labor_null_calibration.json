@@ -1,0 +1,380 @@
+{
+ "attribution": {
+  "above_both": [
+   "W20-A-0001",
+   "W20-A-0002",
+   "W20-B-0002",
+   "W20-B-0003",
+   "W20-B-0006",
+   "W20-B-0007"
+  ],
+  "above_do_nothing_only": [],
+  "above_pooled_only": [
+   "W20-B-0005",
+   "W20-B-0013",
+   "W20-B-0014",
+   "W20-B-0015",
+   "W20-B-0016",
+   "W20-B-0017",
+   "W20-B-0025",
+   "W20-B-0026"
+  ],
+  "by_fn": {
+   "dd_rung_entry": {
+    "both": 5,
+    "do_nothing": 5,
+    "n": 13,
+    "pooled": 6
+   },
+   "near_52w_high": {
+    "both": 1,
+    "do_nothing": 1,
+    "n": 6,
+    "pooled": 6
+   },
+   "turnover_regime": {
+    "both": 0,
+    "do_nothing": 0,
+    "n": 12,
+    "pooled": 2
+   }
+  },
+  "n_above_both": 6,
+  "n_do_nothing": 6,
+  "n_do_nothing_only": 0,
+  "n_pooled": 14,
+  "n_pooled_only": 8
+ },
+ "bootstrap": {
+  "n_boot": 2000,
+  "p95": {
+   "p05": 0.404629,
+   "p50": 0.417438,
+   "p95": 0.423264
+  },
+  "seed": 20650500,
+  "share_boots_at_or_above_published": 0.9615,
+  "share_boots_inside_cell_band": 0.011,
+  "survivors": {
+   "max": 16,
+   "min": 11,
+   "p05": 14,
+   "p50": 14,
+   "p95": 15
+  }
+ },
+ "control_arm_survivor_counts": [
+  {
+   "cells": 1384,
+   "match": true,
+   "published": 332,
+   "rederived": 332,
+   "wave": "w17"
+  },
+  {
+   "cells": 692,
+   "match": true,
+   "published": 152,
+   "rederived": 152,
+   "wave": "w18"
+  },
+  {
+   "cells": 346,
+   "match": true,
+   "published": 70,
+   "rederived": 70,
+   "wave": "w19"
+  },
+  {
+   "cells": 31,
+   "match": true,
+   "published": 14,
+   "rederived": 14,
+   "wave": "w20"
+  }
+ ],
+ "do_nothing": {
+  "k": 641,
+  "n": 1253,
+  "note": "the band's value is k/n of the same panel: it moves only with the window, never with the grammar",
+  "rate": 0.511572227,
+  "source_wave": "w17"
+ },
+ "evidence_cutoff": "2026-09-22",
+ "flags": {
+  "BAND_ASSUMED_TURNOVER_INVARIANCE": true,
+  "BAND_HIT_WAS_STRUCTURAL": true,
+  "MOST_SURVIVORS_JUDGED_OUTSIDE_THE_MEASURED_REGION": true
+ },
+ "generated": "2026-11-23T16:09:21+08:00",
+ "inputs": [
+  {
+   "path": "results/trial_labor_w17/w17_screen_cells.csv",
+   "sha256_16": "e9f41f3ae9efbe44"
+  },
+  {
+   "path": "results/trial_labor_w17/w17_screen.json",
+   "sha256_16": "386651a5b51e745e"
+  },
+  {
+   "path": "results/trial_labor_w18/w18_screen_cells.csv",
+   "sha256_16": "de94b0eaa34c7a52"
+  },
+  {
+   "path": "results/trial_labor_w18/w18_screen.json",
+   "sha256_16": "67fe7541a184906b"
+  },
+  {
+   "path": "results/trial_labor_w19/w19_screen_cells.csv",
+   "sha256_16": "3584caac0fa791c9"
+  },
+  {
+   "path": "results/trial_labor_w19/w19_screen.json",
+   "sha256_16": "d2b4f79eeb211a1a"
+  },
+  {
+   "path": "results/trial_labor_w20/w20_screen_cells.csv",
+   "sha256_16": "45d30813e1a5f720"
+  },
+  {
+   "path": "results/trial_labor_w20/w20_screen.json",
+   "sha256_16": "86f1a64e8b4987f3"
+  }
+ ],
+ "ladder": [
+  {
+   "inside_prereg_cell_band": false,
+   "name": "observed_null_p95",
+   "rate": 0.451613,
+   "survivors": 14,
+   "threshold": 0.417438
+  },
+  {
+   "inside_prereg_cell_band": true,
+   "name": "observed_null_p99",
+   "rate": 0.322581,
+   "survivors": 10,
+   "threshold": 0.449346
+  },
+  {
+   "inside_prereg_cell_band": true,
+   "name": "observed_null_max",
+   "rate": 0.322581,
+   "survivors": 10,
+   "threshold": 0.460495
+  },
+  {
+   "inside_prereg_cell_band": true,
+   "name": "prereg_band_lo",
+   "rate": 0.193548,
+   "survivors": 6,
+   "threshold": 0.5
+  },
+  {
+   "inside_prereg_cell_band": true,
+   "name": "do_nothing_rate",
+   "rate": 0.193548,
+   "survivors": 6,
+   "threshold": 0.511572
+  },
+  {
+   "inside_prereg_cell_band": true,
+   "name": "prereg_band_mid",
+   "rate": 0.193548,
+   "survivors": 6,
+   "threshold": 0.515
+  },
+  {
+   "inside_prereg_cell_band": true,
+   "name": "prereg_band_hi",
+   "rate": 0.193548,
+   "survivors": 6,
+   "threshold": 0.53
+  }
+ ],
+ "matched": {
+  "extrapolated_region": {
+   "cells": 19,
+   "lowest_turnover_bar": 0.433998,
+   "matched_pass": 12,
+   "pooled_pass": 12,
+   "why": "cells below the nulls' smallest turnover: any bar there is an extrapolation, and the fitted cost curve says the true bar is HIGHER than the pooled one -- bounding it from below with the lowest-turnover nulls gives 0.433998 vs the pooled 0.417438"
+  },
+  "flips": [
+   {
+    "cell_id": "W20-B-0023",
+    "fn": "turnover_regime",
+    "local_p95": 0.274222,
+    "rate": 0.332003,
+    "trades": 1857,
+    "verdict": "LOCAL_PASS_POOLED_FAIL"
+   }
+  ],
+  "k": 25,
+  "measured_region": {
+   "cells": 11,
+   "matched_pass": 3,
+   "pooled_pass": 2
+  },
+  "n_flips": 1,
+  "trades_quantiles": {
+   "p05": 511,
+   "p50": 929,
+   "p95": 2129
+  }
+ },
+ "not_measured": [
+  "the nulls do not exist below 1162 trades, so no turnover-matched bar can be measured for 19 of 31 cells -- this face names the gap instead of extrapolating a verdict from it",
+  "beat6m is a window count, not money: nothing here says which survivor would earn anything",
+  "the reform gate that admitted W20-A-0003 / W20-B-0019 is a separate face (TRIAL-LABOR-DIRECTION-AUDIT.md); both fail both bars here"
+ ],
+ "null_health": {
+  "w17": {
+   "cells_median_trades": 10,
+   "mass_point": true,
+   "max": 0.513168,
+   "mean": 0.511548,
+   "modal_rate": 0.511572,
+   "modal_share": 0.985,
+   "n_cells": 1384,
+   "n_distinct_rates": 3,
+   "n_null": 200,
+   "p50": 0.511572,
+   "p95": 0.511572,
+   "p99": 0.511572,
+   "published_band": [
+    0.5,
+    0.53
+   ],
+   "published_band_hit": true,
+   "published_n_survivors": 332,
+   "published_p95": 0.511572,
+   "trades_max": 9,
+   "trades_median": 0,
+   "trades_min": 0
+  },
+  "w18": {
+   "cells_median_trades": 10,
+   "mass_point": true,
+   "max": 0.524342,
+   "mean": 0.511656,
+   "modal_rate": 0.511572,
+   "modal_share": 0.965,
+   "n_cells": 692,
+   "n_distinct_rates": 7,
+   "n_null": 200,
+   "p50": 0.511572,
+   "p95": 0.511572,
+   "p99": 0.515571,
+   "published_band": [
+    0.5,
+    0.53
+   ],
+   "published_band_hit": true,
+   "published_n_survivors": 152,
+   "published_p95": 0.511572,
+   "trades_max": 97,
+   "trades_median": 0,
+   "trades_min": 0
+  },
+  "w19": {
+   "cells_median_trades": 6,
+   "mass_point": true,
+   "max": 0.51237,
+   "mean": 0.51146,
+   "modal_rate": 0.511572,
+   "modal_share": 0.965,
+   "n_cells": 346,
+   "n_distinct_rates": 6,
+   "n_null": 200,
+   "p50": 0.511572,
+   "p95": 0.511572,
+   "p99": 0.511572,
+   "published_band": [
+    0.5,
+    0.53
+   ],
+   "published_band_hit": true,
+   "published_n_survivors": 70,
+   "published_p95": 0.511572,
+   "trades_max": 13,
+   "trades_median": 0,
+   "trades_min": 0
+  },
+  "w20": {
+   "cells_median_trades": 929,
+   "mass_point": false,
+   "max": 0.460495,
+   "mean": 0.267793,
+   "modal_rate": 0.141261,
+   "modal_share": 0.02,
+   "n_cells": 31,
+   "n_distinct_rates": 165,
+   "n_null": 200,
+   "p50": 0.269354,
+   "p95": 0.417438,
+   "p99": 0.449346,
+   "published_band": [
+    0.5,
+    0.53
+   ],
+   "published_band_hit": false,
+   "published_n_survivors": 14,
+   "published_p95": 0.417438,
+   "trades_max": 2134,
+   "trades_median": 1327,
+   "trades_min": 1162
+  }
+ },
+ "regression": {
+  "corr": -0.729496,
+  "intercept": 0.549777,
+  "intercept_pp": 54.977746,
+  "n": 200,
+  "r2": 0.532165,
+  "slope_per_1000": -0.17118,
+  "slope_per_1000_pp": -17.118015,
+  "trades_max": 2134,
+  "trades_min": 1162
+ },
+ "stage": "cross-wave-null-audit",
+ "support": {
+  "cells_above": 1,
+  "cells_below": 19,
+  "cells_inside": 11,
+  "inside_cells": [
+   "W20-A-0003",
+   "W20-B-0018",
+   "W20-B-0019",
+   "W20-B-0020",
+   "W20-B-0021",
+   "W20-B-0023",
+   "W20-B-0024",
+   "W20-B-0025",
+   "W20-B-0026",
+   "W20-B-0027",
+   "W20-B-0028"
+  ],
+  "null_trades_max": 2134,
+  "null_trades_min": 1162,
+  "survivors_above": 0,
+  "survivors_below": 12,
+  "survivors_inside": 2
+ },
+ "verdict": "BAND_AND_BAR_MEASURE_DIFFERENT_NULLS",
+ "w20_published": {
+  "cell_rate_band": [
+   0.15,
+   0.4
+  ],
+  "null_p95": 0.417438,
+  "null_p95_band": [
+   0.5,
+   0.53
+  ],
+  "null_p95_band_hit": false,
+  "observed_cell_rate": 0.451613
+ },
+ "wave": "TRIAL_LABOR_NULL_CALIBRATION",
+ "why_it_matters": "the W20 bar and the W20 band are two different nulls: the band is 641/1253 (a position that never trades) and the bar is a random-entry null that pays cost. Beat rate falls 17.1 pp per 1000 trades (corr -0.73), so a bar measured on nulls trading 1162..2134 is not the bar a cell trading 929 should clear. Against the band's own null W20 keeps 6/31 = 19.4% (inside the prereg's 15..40% band); against the published bar it keeps 14/31 = 45.2%. 12 of the 14 survivors live below the nulls' smallest turnover, i.e. where the bar is extrapolated and -- by the sign of the cost curve -- too lenient."
+}
