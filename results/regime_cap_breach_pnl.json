@@ -1,0 +1,181 @@
+{
+ "face": "regime_cap_breach_pnl",
+ "schema": "regime-cap-breach-pnl/v1",
+ "generated": "2026-11-23T11:50:22+08:00",
+ "evidence_cutoff": "2026-11-20",
+ "back_day": "2026-11-10",
+ "mark_day": "2026-11-20",
+ "class_source": "scripts/etf_equity_alpha.load_class_map",
+ "published_flows": {
+  "COMPOSITE-CE-01": 570000.56,
+  "COMPOSITE-CE-02": 593500.98,
+  "VOLATILITY-CE-01": 299999.11
+ },
+ "accounts": {
+  "COMPOSITE-CE-01": {
+   "invested": 570000.56,
+   "pnl": -419.6,
+   "bond": {
+    "invested": 570000.56,
+    "pnl": -419.6,
+    "legs": {
+     "511010": {
+      "quantity": 1343.33,
+      "cost_price": 141.44,
+      "mark_close": 141.411,
+      "pnl": -38.96,
+      "ret_pct": -0.0205,
+      "class": "bond"
+     },
+     "511090": {
+      "quantity": 1559.88,
+      "cost_price": 121.804,
+      "mark_close": 121.611,
+      "pnl": -301.06,
+      "ret_pct": -0.1585,
+      "class": "bond"
+     },
+     "511260": {
+      "quantity": 1396.24,
+      "cost_price": 136.08,
+      "mark_close": 136.023,
+      "pnl": -79.59,
+      "ret_pct": -0.0419,
+      "class": "bond"
+     }
+    }
+   },
+   "equity": {
+    "invested": 0.0,
+    "pnl": 0.0,
+    "legs": {}
+   },
+   "exited": []
+  },
+  "COMPOSITE-CE-02": {
+   "invested": 593500.98,
+   "pnl": 5800.86,
+   "bond": {
+    "invested": 356100.99,
+    "pnl": -262.14,
+    "legs": {
+     "511010": {
+      "quantity": 839.23,
+      "cost_price": 141.44,
+      "mark_close": 141.411,
+      "pnl": -24.34,
+      "ret_pct": -0.0205,
+      "class": "bond"
+     },
+     "511090": {
+      "quantity": 974.52,
+      "cost_price": 121.804,
+      "mark_close": 121.611,
+      "pnl": -188.08,
+      "ret_pct": -0.1585,
+      "class": "bond"
+     },
+     "511260": {
+      "quantity": 872.28,
+      "cost_price": 136.08,
+      "mark_close": 136.023,
+      "pnl": -49.72,
+      "ret_pct": -0.0419,
+      "class": "bond"
+     }
+    }
+   },
+   "equity": {
+    "invested": 118700.0,
+    "pnl": 6063.0,
+    "legs": {
+     "512800": {
+      "quantity": 134733.26,
+      "cost_price": 0.881,
+      "mark_close": 0.926,
+      "pnl": 6063.0,
+      "ret_pct": 5.1078,
+      "class": "equity"
+     }
+    }
+   },
+   "exited": [
+    {
+     "symbol": "513520",
+     "invested": 118699.99,
+     "note": "not in mark-day positions; realized P&L not reconstructed"
+    }
+   ]
+  },
+  "VOLATILITY-CE-01": {
+   "invested": 299999.11,
+   "pnl": -220.84,
+   "bond": {
+    "invested": 299999.11,
+    "pnl": -220.84,
+    "legs": {
+     "511010": {
+      "quantity": 707.01,
+      "cost_price": 141.44,
+      "mark_close": 141.411,
+      "pnl": -20.5,
+      "ret_pct": -0.0205,
+      "class": "bond"
+     },
+     "511090": {
+      "quantity": 820.99,
+      "cost_price": 121.804,
+      "mark_close": 121.611,
+      "pnl": -158.45,
+      "ret_pct": -0.1585,
+      "class": "bond"
+     },
+     "511260": {
+      "quantity": 734.86,
+      "cost_price": 136.08,
+      "mark_close": 136.023,
+      "pnl": -41.89,
+      "ret_pct": -0.0419,
+      "class": "bond"
+     }
+    }
+   },
+   "equity": {
+    "invested": 0.0,
+    "pnl": 0.0,
+    "legs": {}
+   },
+   "exited": []
+  }
+ },
+ "totals": {
+  "invested": 1463500.65,
+  "invested_measured": 1344800.66,
+  "invested_without_measure": 118699.99,
+  "pnl": 5160.42,
+  "bond_invested": 1226100.65,
+  "bond_pnl": -902.58,
+  "bond_ret_pct": -0.0736,
+  "equity_invested": 118700.0,
+  "equity_pnl": 6063.0,
+  "equity_ret_pct": 5.1078
+ },
+ "verdict": "BREACH_LEGS_LOST_MONEY",
+ "gates": {
+  "class_map": "ok",
+  "back": "ok",
+  "mark": "ok",
+  "cross_gate_flows": {
+   "deltas": {
+    "COMPOSITE-CE-01": -0.0,
+    "COMPOSITE-CE-02": 0.0,
+    "VOLATILITY-CE-01": -0.0
+   },
+   "tolerance": 1.0,
+   "state": "ok"
+  }
+ },
+ "not_measured": [
+  "COMPOSITE-CE-02 513520: exited between the two days (118699.99 CNY in); realized P&L not reconstructed from operations (export ops carry no price)"
+ ]
+}
