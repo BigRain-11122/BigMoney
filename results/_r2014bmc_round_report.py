@@ -1,0 +1,68 @@
+"""r2014: append the round-report row (append-only; never rewrite the face)."""
+import io
+import os
+
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+P = os.path.join(ROOT, "fleet", "round_reports-bm-c.md")
+
+row = (
+    "| 2026-11-24 00:1x | r2014（**竞争探针 rc=3 CONTENTION·只落新增文件面**·"
+    "没投出去的钱，是按交易日算利息还是按自然日） | "
+    "**watermark：red=false / lane=healthy · 孤儿面=0**（py_faces 5 / resident_servers 1=ComfyUI 空闲）。"
+    "**产品（产品优先律）**：r2013 把闲钱按 GC001 定价，但它是**一笔一个交易日**按 `close/365` 计的——"
+    "而回购**按自然日计息**：周五卖出一笔 GC001，钱周一早上才回来，这一笔付三天。A 股 20 个交易日的一段窗口，"
+    "真实占款 **30.1 个自然日**，r2013 只领了 20 天的钱，把周末白送了。本轮把同一条账按三种口径重算。"
+    "**读数一（差 53%）**：GC001 腿按交易日 **1.369 pp/yr** → 按自然日 **2.096 pp/yr**（×**1.531**）。"
+    "**读数二（期限阶梯几乎不值钱）**：在入场日买定最长期限（窗口 28–39 自然日，多为 GC028 一份 + 余数 GC001，"
+    "不滚动进未来报价）只再多 **+0.113 pp/yr**（2.209）——**钱在日计数里，不在期限溢价里**，"
+    "因为 1 天期纸本身已经跨周末计息了。**读数三（判词不变、比值更差）**：1000 万档 B 臂 11.71→**11.88%**、"
+    "A 臂 9.26→**9.48%**；B-A 从 +0.2004% 掉到 +0.1968%/期，比值 **0.825→0.810**，仍 "
+    "`EDGE_DEGRADES_UNDER_ROUNDING`。现金多的那一臂拿的利息更多，所以同一条利率对 A 的抬升比 B 大。"
+    "｜**验证证据**：`--selftest` **23/23 PASS**（周五→周一=3 天 / 同日=0 不取负 / 阶梯分解 28/29/14/30/0/1 六例 / "
+    "自然日口径在无周末日历上与按步计息逐位相等 / 洞前向填充不是 0% / 无报价先于任何好报价时记 0 / "
+    "入场日缺报价→不可定价而非零利率 / 28+1 腿付 29 天且差额恰为 28·r² / 全仓时三口径同值 / 全现金时等于腿 / "
+    "NaN 腿→NaN 净额 / 判词三态边界是父面的 / 两天自然日比一天多 / t 统计需两点）；"
+    "`run` rc0 落 `results/astock_veto_cash_daycount.json` + `research/ASTOCK_VETO_CASH_DAYCOUNT.md`"
+    "（evidence_cutoff 2026-11-20，77 期）；`check` **rc0**（含**父面锚硬腿**：trading 口径每个 "
+    "`net_with_cash_per_period_mean` 必须逐位复现 `astock_veto_cash_leg.json`，本次最大绝对差 **0.000e+00**）。"
+    "**负控 `results/_r2014bmc_daycount_negative.py` 21/21 PASS**（原样 rc0 / 面板 cutoff 移动→rc3 带 STALE / "
+    "手改 cash_tape→rc3 CHECK FAILED 且**不带** STALE / 手改 net_calendar→rc3 不带 STALE / "
+    "手改 net_ladder→rc3 不带 STALE / 父面锚破坏→rc3 带 STALE / 缺面→rc3 face missing 且不穿 STALE / "
+    "还原后 rc0 且两面 sha256 逐字节相同）。"
+    "｜**S0**：`fleet/machine.json`=bm-c；`orphan_face_probe` py_faces=5 **orphans=0** 零杀；"
+    "`repo_write_contention` **rc=3 CONTENTION**（3 宿主存活：pid 51252 为 11-22 20:10 起的 interactive、"
+    "67160 为 11-23 20:05 起的 interactive、本宿 23532；19 张共享面在本轮开始前被对端写，含 "
+    "`fleet/machines/bm-c.json`、`fleet/round_reports-bm-c.md`、`research/ARBITER-BOARD.md`）→ "
+    "按 r1927 只落**新增文件面**，未改共享代码/数据面、未跑 S6 链；fetch 后 0 ahead / 0 behind。"
+    "｜**S0.5 双扫**：`Tools/orders_ack_scan.py` **CLEAN**（116 令 / 329 回执 / unacked=[]）；"
+    "集团 `git cat-file blob origin/main:docs/decisions.md` **原字节** sha256 = **79e3083b85c130b8** == state 水位 "
+    "→ 零新决策零动作；fleet/inbox 无未处理件。"
+    "｜**S1（诚实边界）**：全量 smoke **未跑**（`smoke_test.py` 与 `logs/smoke_legs.json` 是共享面，竞争窗不覆盖）；"
+    "本轮以 23/23 selftest + 21/21 负控 + run/check 双 rc0 背书，**不宣称全绿**。"
+    "｜**S6**：未跑（`Tools/s6_chain_bmc.py` 被对端写）。"
+    "｜**S7**：`state round_no 2013→2014`（rounds_done 1951→1952，round_no_prev 留痕）；"
+    "心跳经 `Tools/heartbeat_write.py apply` 合并写（ack 329 未减）；`& Tools/register_loop_task.ps1` "
+    "**phase ok**（machine=bm-c pin=0 current=0，首燃 11/24 00:10 未动）；`attrition_ledger_guard scan` "
+    "**CLEAN**（4 账本，两处历史缩行 healed 注记照录）；`pre-commit` / `pre-push` 与 `Tools/git-hooks/` "
+    "逐字节（CR 归一）**MATCH**，未重装、未用 --no-verify。"
+    "｜**CEO 过程可见面**：当前活＝把没投出去的钱按自然日重新计息，看 r2013 保守口径少算了多少、期限阶梯值不值"
+    "｜最近实物＝`K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\research\\ASTOCK_VETO_CASH_DAYCOUNT.md`"
+    "（2026-11-24 00:1x·现金腿被低估 53%：1.37→2.10pp/年；28 天期只再多 0.11pp，钱在日计数里）"
+    "＋`results\\astock_veto_cash_daycount.json`＋`scripts\\astock_veto_cash_daycount.py`（selftest 23/23）"
+    "＋`results\\_r2014bmc_daycount_negative.py`（负控 21/21）"
+    "｜下个里程碑＝（a）竞争窗结束后把本面接 S6 链腿 + 冒烟两腿（≤48h）；"
+    "（b）把「现金腿日计数」做成通用检查项：任何涉及闲置现金的账面收益，先问它按哪种日计数计息（≤48h）。"
+    "｜**未验证（如实）**：①只认「交易所按自然日计息」这条规则，未建模单笔最低门槛、到账日差异与申赎摩擦；"
+    "②`ladder` 只在入场日按当日报价买定，不滚动进未知报价，所以它给的是**期限溢价上限**，不是可承诺收益；"
+    "③没有把节假日的**到账日**差异单独建模（长假前做 1 天期实际占款天数更长，本面按真实日历差自动含进去，"
+    "但未逐笔核对交易所公告）；④记账口径仍是 close(t)→close(t+20)，不含次日开盘的执行滞后（r2008/r2010 的面）；"
+    "⑤票池是现存标的（幸存者偏差，父面同），面板起于 2020-01-02；⑥本面是定价/口径修正件，不是可交易策略："
+    "无仓位规则、无容量约束、无风控；⑦全量 smoke 与 S6 未跑（竞争窗），本面尚未接 smoke 两腿与 S6 腿。"
+    "｜**本地未达 origin commit 数**＝推送后复核。"
+    "记账：轮报告 1 处 + state 1 处 + 心跳 1 处 = 3（无方法论新增：本轮是给已有 family 修正一条已发布面的计息口径，"
+    "属证据与载体；通用检查项已写进下个里程碑）。|\n"
+)
+
+with io.open(P, "a", encoding="utf-8", newline="\n") as fh:
+    fh.write(row)
+print("appended %d chars to %s" % (len(row), P))

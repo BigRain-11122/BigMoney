@@ -1,0 +1,410 @@
+{
+ "generated": "2026-11-24T00:04:47+08:00",
+ "evidence_cutoff": "2026-11-20",
+ "machine": "bm-c",
+ "kind": "pricing",
+ "fills_the_hole_of": "astock_veto_cash_leg",
+ "prereg": {
+  "question": "is the cash leg paid on trading days or natural days?",
+  "modes": {
+   "trading": "r2013 booking: one day per panel step (anchor)",
+   "calendar": "same GC001 tape, each step paid for its natural-day span",
+   "ladder": "one pre-committed term plan bought on the entry day"
+  },
+  "term_days": {
+   "GC001": 1,
+   "GC003": 3,
+   "GC004": 4,
+   "GC007": 7,
+   "GC014": 14,
+   "GC028": 28
+  },
+  "ladder_rule": "greedy longest-first within the window, remainder GC001, <=8 legs",
+  "look_ahead_rule": "ladder uses entry-day quotes only; no rolling into unknown quotes",
+  "hole_rule": "forward-fill from last good quote; a hole is never 0%",
+  "verdict_capital": 10000000,
+  "edge_keep_target": 0.9,
+  "edge_lost_target": 0.7,
+  "rule_frozen_before_run": true
+ },
+ "spec": {
+  "hold": 20,
+  "stride": 20,
+  "booking": "close(t) -> close(t+HOLD), whole lots, uninvested at repo",
+  "arms": {
+   "A": "full pool",
+   "B": "residual black list (q < 4)"
+  }
+ },
+ "panel": {
+  "dates": 1668,
+  "symbols": 5181,
+  "first": "2020-01-02",
+  "last": "2026-11-20"
+ },
+ "rebalances": 77,
+ "ladder_unpriced_periods": 0,
+ "cash_tape": {
+  "trading": {
+   "per_period_mean": 0.0010794192934208842,
+   "annualized": 0.01368578040508428,
+   "min": 0.0006499261908754494,
+   "max": 0.0015829526059318866
+  },
+  "calendar": {
+   "per_period_mean": 0.0016474214712705107,
+   "annualized": 0.020955635141044038,
+   "min": 0.0008961297096841125,
+   "max": 0.002929101931361755
+  },
+  "ladder": {
+   "per_period_mean": 0.0017356979539442144,
+   "annualized": 0.022089971558863386,
+   "min": 0.0010663013698630763,
+   "max": 0.0030903452270969467
+  },
+  "calendar_over_trading": 1.5311976753082346,
+  "ladder_minus_calendar_annualized": 0.0011343364178193482,
+  "span_days_mean": 30.116883116883116
+ },
+ "summary": {
+  "A": {
+   "periods": 77,
+   "mean_n": 3583.6363636363635,
+   "by_capital": {
+    "1000000": {
+     "invested_share_median": 0.029292,
+     "invested_share_mean": 0.03794732467532468,
+     "net_cash0_annualized": 0.015604322737426068,
+     "net_cash0_per_period_mean": 0.00123610287776821,
+     "net_trading_annualized": 0.028914980702197335,
+     "net_trading_per_period_mean": 0.0022712998799387096,
+     "bonus_trading_annualized": 0.013310657964771266,
+     "net_calendar_annualized": 0.03597970753761204,
+     "net_calendar_per_period_mean": 0.002815871733715267,
+     "bonus_calendar_annualized": 0.02037538480018597,
+     "net_ladder_annualized": 0.037074793193002664,
+     "net_ladder_per_period_mean": 0.0028999453535552317,
+     "bonus_ladder_annualized": 0.021470470455576596
+    },
+    "5000000": {
+     "invested_share_median": 0.4826758,
+     "invested_share_mean": 0.4830661636363637,
+     "net_cash0_annualized": 0.08537080438644828,
+     "net_cash0_per_period_mean": 0.007275949319571583,
+     "net_trading_annualized": 0.09273952424146437,
+     "net_trading_per_period_mean": 0.007815080605841605,
+     "bonus_trading_annualized": 0.0073687198550160815,
+     "net_calendar_annualized": 0.09660788299713485,
+     "net_calendar_per_period_mean": 0.008096988426505513,
+     "bonus_calendar_annualized": 0.011237078610686568,
+     "net_ladder_annualized": 0.09723338166313189,
+     "net_ladder_per_period_mean": 0.008142042295730878,
+     "bonus_ladder_annualized": 0.011862577276683606
+    },
+    "10000000": {
+     "invested_share_median": 0.7166163,
+     "invested_share_mean": 0.7038093844155844,
+     "net_cash0_annualized": 0.08839162958359537,
+     "net_cash0_per_period_mean": 0.008289198921839309,
+     "net_trading_annualized": 0.09257172417948545,
+     "net_trading_per_period_mean": 0.008594072508046093,
+     "bonus_trading_annualized": 0.004180094595890083,
+     "net_calendar_annualized": 0.09475366897416237,
+     "net_calendar_per_period_mean": 0.008752920191369943,
+     "bonus_calendar_annualized": 0.006362039390567009,
+     "net_ladder_annualized": 0.09512294225894302,
+     "net_ladder_per_period_mean": 0.008779406646483379,
+     "bonus_ladder_annualized": 0.006731312675347656
+    },
+    "50000000": {
+     "invested_share_median": 0.9417218,
+     "invested_share_mean": 0.9377967768831167,
+     "net_cash0_annualized": 0.07524516645046031,
+     "net_cash0_per_period_mean": 0.008372437907043744,
+     "net_trading_annualized": 0.07610941505067936,
+     "net_trading_per_period_mean": 0.008436131457182135,
+     "bonus_trading_annualized": 0.000864248600219053,
+     "net_calendar_annualized": 0.07655850590609359,
+     "net_calendar_per_period_mean": 0.008469240159529446,
+     "bonus_calendar_annualized": 0.0013133394556332778,
+     "net_ladder_annualized": 0.07663686575409034,
+     "net_ladder_per_period_mean": 0.008474911780482373,
+     "bonus_ladder_annualized": 0.001391699303630034
+    },
+    "100000000": {
+     "invested_share_median": 0.9705794,
+     "invested_share_mean": 0.9687986989610389,
+     "net_cash0_annualized": 0.0722196993454447,
+     "net_cash0_per_period_mean": 0.008305097323739763,
+     "net_trading_annualized": 0.07265198030140385,
+     "net_trading_per_period_mean": 0.008337028595064938,
+     "bonus_trading_annualized": 0.0004322809559591523,
+     "net_calendar_annualized": 0.0728764492557854,
+     "net_calendar_per_period_mean": 0.00835361895742843,
+     "bonus_calendar_annualized": 0.0006567499103407037,
+     "net_ladder_annualized": 0.07291577819712591,
+     "net_ladder_per_period_mean": 0.008356471968594122,
+     "bonus_ladder_annualized": 0.0006960788516812144
+    },
+    "500000000": {
+     "invested_share_median": 0.994125988,
+     "invested_share_mean": 0.993769474051948,
+     "net_cash0_annualized": 0.06980285155395127,
+     "net_cash0_per_period_mean": 0.008254539447172688,
+     "net_trading_annualized": 0.06988898751290562,
+     "net_trading_per_period_mean": 0.008260914229341233,
+     "bonus_trading_annualized": 8.613595895434756e-05,
+     "net_calendar_annualized": 0.0699337003048146,
+     "net_calendar_per_period_mean": 0.008264226519469177,
+     "bonus_calendar_annualized": 0.0001308487508633327,
+     "net_ladder_annualized": 0.06994149427247986,
+     "net_ladder_per_period_mean": 0.008264792607213745,
+     "bonus_ladder_annualized": 0.0001386427185285921
+    }
+   }
+  },
+  "B": {
+   "periods": 77,
+   "mean_n": 2866.2727272727275,
+   "by_capital": {
+    "1000000": {
+     "invested_share_median": 0.060806,
+     "invested_share_mean": 0.07410607792207792,
+     "net_cash0_annualized": 0.02585700604244834,
+     "net_cash0_per_period_mean": 0.002048200367600551,
+     "net_trading_annualized": 0.038747428865158806,
+     "net_trading_per_period_mean": 0.0030416054134154756,
+     "bonus_trading_annualized": 0.012890422822710468,
+     "net_calendar_annualized": 0.045584417929560805,
+     "net_calendar_per_period_mean": 0.003564073810184411,
+     "bonus_calendar_annualized": 0.019727411887112467,
+     "net_ladder_annualized": 0.04664144999608877,
+     "net_ladder_per_period_mean": 0.003644497533895251,
+     "bonus_ladder_annualized": 0.02078444395364043
+    },
+    "5000000": {
+     "invested_share_median": 0.5904206,
+     "invested_share_mean": 0.5786334363636362,
+     "net_cash0_annualized": 0.11036660668366616,
+     "net_cash0_per_period_mean": 0.00935777078954514,
+     "net_trading_annualized": 0.11647754843978753,
+     "net_trading_per_period_mean": 0.009795365876299271,
+     "bonus_trading_annualized": 0.006110941756121369,
+     "net_calendar_annualized": 0.11967936443093152,
+     "net_calendar_per_period_mean": 0.010023952859006778,
+     "bonus_calendar_annualized": 0.009312757747265366,
+     "net_ladder_annualized": 0.12021063928391973,
+     "net_ladder_per_period_mean": 0.010061437776296547,
+     "bonus_ladder_annualized": 0.009844032600253572
+    },
+    "10000000": {
+     "invested_share_median": 0.7836737,
+     "invested_share_mean": 0.7716713948051948,
+     "net_cash0_annualized": 0.1138304942666144,
+     "net_cash0_per_period_mean": 0.010363411443859775,
+     "net_trading_annualized": 0.11712317731322996,
+     "net_trading_per_period_mean": 0.010598348156570783,
+     "bonus_trading_annualized": 0.003292683046615563,
+     "net_calendar_annualized": 0.11883992618116901,
+     "net_calendar_per_period_mean": 0.010720681670080558,
+     "bonus_calendar_annualized": 0.005009431914554607,
+     "net_ladder_annualized": 0.11913447412260214,
+     "net_ladder_per_period_mean": 0.010741370621211393,
+     "bonus_ladder_annualized": 0.005303979855987739
+    },
+    "50000000": {
+     "invested_share_median": 0.9550235,
+     "invested_share_mean": 0.9530866807792208,
+     "net_cash0_annualized": 0.10620870648557768,
+     "net_cash0_per_period_mean": 0.010657130134487559,
+     "net_trading_annualized": 0.10688157258412279,
+     "net_trading_per_period_mean": 0.010705396147505016,
+     "bonus_trading_annualized": 0.0006728660985451107,
+     "net_calendar_annualized": 0.10723122532975782,
+     "net_calendar_per_period_mean": 0.01073048332075897,
+     "bonus_calendar_annualized": 0.0010225188441801425,
+     "net_ladder_annualized": 0.10729209880067536,
+     "net_ladder_per_period_mean": 0.010734776681051317,
+     "bonus_ladder_annualized": 0.0010833923150976865
+    },
+    "100000000": {
+     "invested_share_median": 0.97811832,
+     "invested_share_mean": 0.9766804227272726,
+     "net_cash0_annualized": 0.10470785756655654,
+     "net_cash0_per_period_mean": 0.010669808826471469,
+     "net_trading_annualized": 0.10504155707736884,
+     "net_trading_per_period_mean": 0.010693770619205106,
+     "bonus_trading_annualized": 0.000333699510812302,
+     "net_calendar_annualized": 0.10521476448174805,
+     "net_calendar_per_period_mean": 0.01070621386815719,
+     "bonus_calendar_annualized": 0.0005069069151915073,
+     "net_ladder_annualized": 0.10524502113162182,
+     "net_ladder_per_period_mean": 0.010708350564912907,
+     "bonus_ladder_annualized": 0.0005371635650652795
+    },
+    "500000000": {
+     "invested_share_median": 0.995598008,
+     "invested_share_mean": 0.9953430304415585,
+     "net_cash0_annualized": 0.10335442225699198,
+     "net_cash0_per_period_mean": 0.010668735290280632,
+     "net_trading_annualized": 0.1034210225793124,
+     "net_trading_per_period_mean": 0.010673523061041022,
+     "bonus_trading_annualized": 6.660032232042035e-05,
+     "net_calendar_annualized": 0.1034555852561232,
+     "net_calendar_per_period_mean": 0.010676009301605867,
+     "bonus_calendar_annualized": 0.00010116299913121019,
+     "net_ladder_annualized": 0.10346160179430997,
+     "net_ladder_per_period_mean": 0.01067643463463942,
+     "bonus_ladder_annualized": 0.00010717953731798069
+    }
+   }
+  }
+ },
+ "edges": {
+  "fractional": {
+   "mean_per_period": 0.0024282615720107137,
+   "t": 3.4611574224593853
+  },
+  "by_capital": {
+   "1000000": {
+    "trading": {
+     "mean_per_period": 0.0007703055334767654,
+     "t": 2.319125560595739
+    },
+    "calendar": {
+     "mean_per_period": 0.000748202076469144,
+     "t": 2.2561810521164527
+    },
+    "ladder": {
+     "mean_per_period": 0.0007445521803400187,
+     "t": 2.24550770129622
+    }
+   },
+   "5000000": {
+    "trading": {
+     "mean_per_period": 0.0019802852704576663,
+     "t": 2.260604818113917
+    },
+    "calendar": {
+     "mean_per_period": 0.0019269644325012642,
+     "t": 2.200186946185198
+    },
+    "ladder": {
+     "mean_per_period": 0.0019193954805656736,
+     "t": 2.1915230676762745
+    }
+   },
+   "10000000": {
+    "trading": {
+     "mean_per_period": 0.0020042756485246878,
+     "t": 2.934109027341374
+    },
+    "calendar": {
+     "mean_per_period": 0.001967761478710616,
+     "t": 2.88020809101886
+    },
+    "ladder": {
+     "mean_per_period": 0.0019619639747280155,
+     "t": 2.8717827646459213
+    }
+   },
+   "50000000": {
+    "trading": {
+     "mean_per_period": 0.0022692646903228805,
+     "t": 3.6679905578429546
+    },
+    "calendar": {
+     "mean_per_period": 0.002261243161229527,
+     "t": 3.6545252584448864
+    },
+    "ladder": {
+     "mean_per_period": 0.002259864900568947,
+     "t": 3.6524095156254215
+    }
+   },
+   "100000000": {
+    "trading": {
+     "mean_per_period": 0.0023567420241401714,
+     "t": 3.6181201964596497
+    },
+    "calendar": {
+     "mean_per_period": 0.0023525949107287597,
+     "t": 3.6115809622887145
+    },
+    "ladder": {
+     "mean_per_period": 0.002351878596318786,
+     "t": 3.6105422540090775
+    }
+   },
+   "500000000": {
+    "trading": {
+     "mean_per_period": 0.0024126088316997886,
+     "t": 3.4904779785017124
+    },
+    "calendar": {
+     "mean_per_period": 0.0024117827821366873,
+     "t": 3.489256019621594
+    },
+    "ladder": {
+     "mean_per_period": 0.0024116420274256727,
+     "t": 3.4890688108471024
+    }
+   }
+  }
+ },
+ "verdicts": {
+  "1000000": {
+   "ratio_trading": 0.31722510554697636,
+   "verdict_trading": "EDGE_LOST_TO_ROUNDING",
+   "ratio_calendar": 0.30812252069269364,
+   "verdict_calendar": "EDGE_LOST_TO_ROUNDING",
+   "ratio_ladder": 0.3066194305103197,
+   "verdict_ladder": "EDGE_LOST_TO_ROUNDING"
+  },
+  "5000000": {
+   "ratio_trading": 0.8155156319580094,
+   "verdict_trading": "EDGE_DEGRADES_UNDER_ROUNDING",
+   "ratio_calendar": 0.7935571911660438,
+   "verdict_calendar": "EDGE_DEGRADES_UNDER_ROUNDING",
+   "ratio_ladder": 0.7904401662034806,
+   "verdict_ladder": "EDGE_DEGRADES_UNDER_ROUNDING"
+  },
+  "10000000": {
+   "ratio_trading": 0.8253952834517141,
+   "verdict_trading": "EDGE_DEGRADES_UNDER_ROUNDING",
+   "ratio_calendar": 0.8103581184959485,
+   "verdict_calendar": "EDGE_DEGRADES_UNDER_ROUNDING",
+   "ratio_ladder": 0.8079706063558127,
+   "verdict_ladder": "EDGE_DEGRADES_UNDER_ROUNDING"
+  },
+  "50000000": {
+   "ratio_trading": 0.9345223416124085,
+   "verdict_trading": "EDGE_SURVIVES_ROUNDING",
+   "ratio_calendar": 0.9312189375698569,
+   "verdict_calendar": "EDGE_SURVIVES_ROUNDING",
+   "ratio_ladder": 0.9306513460564603,
+   "verdict_ladder": "EDGE_SURVIVES_ROUNDING"
+  },
+  "100000000": {
+   "ratio_trading": 0.970547016559126,
+   "verdict_trading": "EDGE_SURVIVES_ROUNDING",
+   "ratio_calendar": 0.9688391637234952,
+   "verdict_calendar": "EDGE_SURVIVES_ROUNDING",
+   "ratio_ladder": 0.96854417309389,
+   "verdict_ladder": "EDGE_SURVIVES_ROUNDING"
+  },
+  "500000000": {
+   "ratio_trading": 0.993553931548666,
+   "verdict_trading": "EDGE_SURVIVES_ROUNDING",
+   "ratio_calendar": 0.9932137500902009,
+   "verdict_calendar": "EDGE_SURVIVES_ROUNDING",
+   "ratio_ladder": 0.9931557848723525,
+   "verdict_ladder": "EDGE_SURVIVES_ROUNDING"
+  }
+ },
+ "anchor": {
+  "ok": true,
+  "worst_abs_diff": 0.0
+ }
+}
