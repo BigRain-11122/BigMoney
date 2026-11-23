@@ -1,0 +1,472 @@
+{
+ "arms": [
+  {
+   "arm": "none",
+   "cum": 0.5321308573736934,
+   "label": "no hedge",
+   "max_dd": -0.25921225014530413,
+   "mean_annual": 0.13743038105233185,
+   "n": 57,
+   "neg_periods": 24,
+   "return_per_vol": 0.45983046948557105,
+   "vol": 0.29887184554359825,
+   "vol_removed": null,
+   "worst_period": -0.17179191833260346
+  },
+  {
+   "arm": "one_unit",
+   "cum": 0.6745047148468124,
+   "label": "beta = 1.00 (mechanical)",
+   "max_dd": -0.13335077421075825,
+   "mean_annual": 0.12059362371038652,
+   "n": 57,
+   "neg_periods": 20,
+   "return_per_vol": 1.0812503926340835,
+   "vol": 0.11153163460741308,
+   "vol_removed": 0.6268245528294726,
+   "worst_period": -0.08222586569877632
+  },
+  {
+   "arm": "full_window",
+   "cum": 0.6782241733045298,
+   "label": "one beta on every period (look-ahead)",
+   "max_dd": -0.13392255968400157,
+   "mean_annual": 0.12108774094091629,
+   "n": 57,
+   "neg_periods": 20,
+   "return_per_vol": 1.086008659491959,
+   "vol": 0.11149795158867501,
+   "vol_removed": 0.6269372533706588,
+   "worst_period": -0.08479212947746342
+  },
+  {
+   "arm": "frozen",
+   "cum": 0.6850163899845751,
+   "label": "beta frozen at 2023-12-31 (0.9013)",
+   "max_dd": -0.1353089740890817,
+   "mean_annual": 0.12225488498826402,
+   "n": 57,
+   "neg_periods": 18,
+   "return_per_vol": 1.0739977671258234,
+   "vol": 0.11383160070754722,
+   "vol_removed": 0.6191290601478154,
+   "worst_period": -0.09085384784742859
+  },
+  {
+   "arm": "walk_forward",
+   "cum": 0.6068233556265534,
+   "label": "beta refitted on prior rows (honest)",
+   "max_dd": -0.133918123578322,
+   "mean_annual": 0.11165560177227392,
+   "n": 57,
+   "neg_periods": 20,
+   "return_per_vol": 0.9814036665387857,
+   "vol": 0.11377133138911216,
+   "vol_removed": 0.6193307162065366,
+   "worst_period": -0.09085384784742859
+  },
+  {
+   "arm": "smaller_book",
+   "cum": 0.23106177097437963,
+   "label": "no hedge, scaled to the honest arm's volatility",
+   "max_dd": -0.09740355280117874,
+   "mean_annual": 0.05231552472665394,
+   "n": 57,
+   "neg_periods": 24,
+   "return_per_vol": 0.4598304694855711,
+   "vol": 0.11377133138911216,
+   "vol_removed": 0.6193307162065366,
+   "worst_period": -0.06539590651317732
+  }
+ ],
+ "betas": {
+  "band_high": 1.0076170023359587,
+  "band_low": 0.7950455598025595,
+  "first": 0.908192198318009,
+  "frozen_beta": 0.9013312810692592,
+  "full_window_beta": 0.9706524706334758,
+  "last": 0.9710354064448302,
+  "max": 1.0121178959129467,
+  "max_abs_step": 0.04392486003842577,
+  "mean": 0.9525068646223145,
+  "mean_abs_step": 0.0076125751023790305,
+  "min": 0.8643528592726145,
+  "outside_published_band": 9,
+  "sd": 0.05264816880918331,
+  "series": [
+   {
+    "beta": 0.908192198318009,
+    "date": "2022-02-28",
+    "i": 20
+   },
+   {
+    "beta": 0.8643528592726145,
+    "date": "2022-03-28",
+    "i": 21
+   },
+   {
+    "beta": 0.9012673789548391,
+    "date": "2022-04-27",
+    "i": 22
+   },
+   {
+    "beta": 0.9185812516252183,
+    "date": "2022-05-30",
+    "i": 23
+   },
+   {
+    "beta": 0.9071568970955403,
+    "date": "2022-06-28",
+    "i": 24
+   },
+   {
+    "beta": 0.906385415640108,
+    "date": "2022-07-26",
+    "i": 25
+   },
+   {
+    "beta": 0.9083624858836734,
+    "date": "2022-08-23",
+    "i": 26
+   },
+   {
+    "beta": 0.8870126520519435,
+    "date": "2022-09-21",
+    "i": 27
+   },
+   {
+    "beta": 0.8870103132460205,
+    "date": "2022-10-26",
+    "i": 28
+   },
+   {
+    "beta": 0.8882361680085115,
+    "date": "2022-11-23",
+    "i": 29
+   },
+   {
+    "beta": 0.8860962986793508,
+    "date": "2022-12-21",
+    "i": 30
+   },
+   {
+    "beta": 0.8859591492628381,
+    "date": "2023-01-19",
+    "i": 31
+   },
+   {
+    "beta": 0.8922689643287705,
+    "date": "2023-02-23",
+    "i": 32
+   },
+   {
+    "beta": 0.8925598147824756,
+    "date": "2023-03-23",
+    "i": 33
+   },
+   {
+    "beta": 0.8973498628230926,
+    "date": "2023-04-21",
+    "i": 34
+   },
+   {
+    "beta": 0.8860594737999952,
+    "date": "2023-05-24",
+    "i": 35
+   },
+   {
+    "beta": 0.8858764913823673,
+    "date": "2023-06-21",
+    "i": 36
+   },
+   {
+    "beta": 0.8814716555752801,
+    "date": "2023-07-21",
+    "i": 37
+   },
+   {
+    "beta": 0.8809807923672629,
+    "date": "2023-08-18",
+    "i": 38
+   },
+   {
+    "beta": 0.880797770588816,
+    "date": "2023-09-15",
+    "i": 39
+   },
+   {
+    "beta": 0.8849156852403978,
+    "date": "2023-10-23",
+    "i": 40
+   },
+   {
+    "beta": 0.906214102374644,
+    "date": "2023-11-20",
+    "i": 41
+   },
+   {
+    "beta": 0.9068042116765314,
+    "date": "2023-12-18",
+    "i": 42
+   },
+   {
+    "beta": 0.9013312810692592,
+    "date": "2024-01-16",
+    "i": 43
+   },
+   {
+    "beta": 0.945256141107685,
+    "date": "2024-02-21",
+    "i": 44
+   },
+   {
+    "beta": 0.9783909894153362,
+    "date": "2024-03-20",
+    "i": 45
+   },
+   {
+    "beta": 0.9930307123305537,
+    "date": "2024-04-19",
+    "i": 46
+   },
+   {
+    "beta": 1.0033032680669358,
+    "date": "2024-05-22",
+    "i": 47
+   },
+   {
+    "beta": 1.0104166412431894,
+    "date": "2024-06-20",
+    "i": 48
+   },
+   {
+    "beta": 1.0121178959129467,
+    "date": "2024-07-18",
+    "i": 49
+   },
+   {
+    "beta": 1.0082838528556406,
+    "date": "2024-08-15",
+    "i": 50
+   },
+   {
+    "beta": 1.0084376904340466,
+    "date": "2024-09-12",
+    "i": 51
+   },
+   {
+    "beta": 0.9882472724002295,
+    "date": "2024-10-21",
+    "i": 52
+   },
+   {
+    "beta": 0.9902228898109634,
+    "date": "2024-11-18",
+    "i": 53
+   },
+   {
+    "beta": 0.9981349874268227,
+    "date": "2024-12-16",
+    "i": 54
+   },
+   {
+    "beta": 1.0047557791164237,
+    "date": "2025-01-14",
+    "i": 55
+   },
+   {
+    "beta": 1.0064780504317838,
+    "date": "2025-02-19",
+    "i": 56
+   },
+   {
+    "beta": 1.0080436940831508,
+    "date": "2025-03-19",
+    "i": 57
+   },
+   {
+    "beta": 1.0036373943044679,
+    "date": "2025-04-17",
+    "i": 58
+   },
+   {
+    "beta": 1.0107066522426125,
+    "date": "2025-05-20",
+    "i": 59
+   },
+   {
+    "beta": 1.010697623743436,
+    "date": "2025-06-18",
+    "i": 60
+   },
+   {
+    "beta": 1.011121377662287,
+    "date": "2025-07-16",
+    "i": 61
+   },
+   {
+    "beta": 1.006928676689122,
+    "date": "2025-08-13",
+    "i": 62
+   },
+   {
+    "beta": 1.0062456322040025,
+    "date": "2025-09-10",
+    "i": 63
+   },
+   {
+    "beta": 1.0047948889728207,
+    "date": "2025-10-16",
+    "i": 64
+   },
+   {
+    "beta": 1.006390883616819,
+    "date": "2025-11-13",
+    "i": 65
+   },
+   {
+    "beta": 1.007872450471771,
+    "date": "2025-12-11",
+    "i": 66
+   },
+   {
+    "beta": 0.9898298457868112,
+    "date": "2026-01-12",
+    "i": 67
+   },
+   {
+    "beta": 0.9852081353388904,
+    "date": "2026-02-09",
+    "i": 68
+   },
+   {
+    "beta": 0.9861613743415585,
+    "date": "2026-03-17",
+    "i": 69
+   },
+   {
+    "beta": 0.9858142514542317,
+    "date": "2026-04-15",
+    "i": 70
+   },
+   {
+    "beta": 0.9783305387681909,
+    "date": "2026-05-18",
+    "i": 71
+   },
+   {
+    "beta": 0.9833269531565275,
+    "date": "2026-06-15",
+    "i": 72
+   },
+   {
+    "beta": 0.9858150872279555,
+    "date": "2026-07-14",
+    "i": 73
+   },
+   {
+    "beta": 0.9797377347143555,
+    "date": "2026-08-11",
+    "i": 74
+   },
+   {
+    "beta": 0.9788733376479666,
+    "date": "2026-09-08",
+    "i": 75
+   },
+   {
+    "beta": 0.9710354064448302,
+    "date": "2026-10-14",
+    "i": 76
+   }
+  ]
+ },
+ "evidence_cutoff": "2026-11-20",
+ "fills_the_hole_of": "r2022-r2029 read one beta over the whole window; the removed variance those faces quote includes the rows the beta was fitted on. This face refits before every period.",
+ "first_period": "2020-07-06",
+ "generated": "2026-11-24T06:22:39+08:00",
+ "kind": "walkforward_power",
+ "last_period_end": "2026-11-11",
+ "machine": "bm-c",
+ "note_on_frozen_arm": "the frozen beta was fitted to rows ending 2023-12-31, so it is honest for periods after that date and look-ahead for periods before it; it is printed once, labelled, and not used to choose anything",
+ "parents": {
+  "band": {
+   "content_sha256": "82eb01a9fb612f0069385eaac9d6daf6e6e52b748bed444d5e0092778d5a959b",
+   "evidence_cutoff": "2026-11-20",
+   "face": "results/astock_veto_hedge_band.json",
+   "file_sha256": "335f0b0ca1b707348daa7964a770330cd16cda8a1c1c677503078a547821541e",
+   "generated": "2026-11-24T05:58:30+08:00"
+  },
+  "beta": {
+   "content_sha256": "1a1bbeb9b98fafe1ecfd65f430bf86ced104505743468005cdce1da7f59bb92c",
+   "evidence_cutoff": "2026-11-20",
+   "face": "results/astock_veto_hedgeable_beta.json",
+   "file_sha256": "a3044bd7101c9d36120ef1e7817829baf1bb3d34c97c727fa3657f116f63c518",
+   "generated": "2026-11-24T03:29:09+08:00"
+  },
+  "default": {
+   "content_sha256": "26823178ab9b2732cb315f0b32db779013162025c9215f5178229a9b719656d4",
+   "evidence_cutoff": "2026-11-20",
+   "face": "results/astock_veto_hedge_default.json",
+   "file_sha256": "d1c45c8e8ebfb2f5cc325f57b568c668e4317583266dc1a9ec55bf3aee84c482",
+   "generated": "2026-11-24T05:08:39+08:00"
+  }
+ },
+ "prereg": {
+  "arms": {
+   "frozen": "k = beta published by r2022/r2029 (fitted to 2023-12-31)",
+   "full_window": "k = OLS slope on all periods (look-ahead reference)",
+   "none": "k = 0",
+   "one_unit": "k = 1.00 (r2026 default)",
+   "smaller_book": "k = 0, book scaled to the honest arm's volatility",
+   "walk_forward": "k = OLS slope on rows strictly before the period"
+  },
+  "evaluation_sample": "periods with index >= 20, one common sample for every arm",
+  "not_done_here": "no beta is re-chosen for trading, no cost is re-estimated, no capital is re-marked",
+  "question": "Held honestly (beta from prior rows only), does the hedge still remove the risk it claims -- and does it do anything a smaller book would not?",
+  "rule_frozen_before_run": true,
+  "verdict_rule": {
+   "fitting": "fitting wins only if it beats beta=1 by >= 0.25 pp",
+   "lookahead": "a gap under 0.10 pp is a tie",
+   "removal": "remove >= 0.30 of vol to count as working",
+   "scale": "the hedge wins over an equal-vol book only with >= 0.20 pp shallower drawdown"
+  }
+ },
+ "reads": {
+  "cum_gap_vs_smaller_book": 0.3757615846521738,
+  "dd_gap_vs_smaller_book_pp": -3.6514570777143263,
+  "fitting_gap_pp": -0.22396967816990798,
+  "hedge_help_rate": 0.8245614035087719,
+  "lookahead_premium_pp": 0.2273379800437153,
+  "scale_factor": 0.38066928379346343,
+  "vol_gap_vs_smaller_book_pp": 0.0,
+  "vol_removed_full_window": 0.6269372533706588,
+  "vol_removed_honest": 0.6193307162065366
+ },
+ "sample": {
+  "periods_evaluated": 57,
+  "periods_total": 77,
+  "unusable": 0,
+  "usable_trainings": 57,
+  "warmup": 20
+ },
+ "spec": {
+  "hedge_leg": "hedge_etf (512100), the arm every prior face prices",
+  "hold": 20,
+  "lines": {
+   "dd_pp": 0.2,
+   "one_unit_pp": 0.25,
+   "removed": 0.3,
+   "tie_pp": 0.1
+  },
+  "periods_per_year": 12.6,
+  "stride": 20,
+  "warmup_periods": 20
+ },
+ "verdict": "HONEST_BETA_KEEPS_ITS_REMOVAL",
+ "verdict_fitting": "ONE_UNIT_TIES_THE_FITTED_BETA",
+ "verdict_lookahead": "LOOKAHEAD_BUYS_MORE_THAN_A_TIE",
+ "verdict_removal": "HONEST_BETA_KEEPS_ITS_REMOVAL",
+ "verdict_scale": "HEDGE_TRADES_DRAWDOWN_FOR_RETURN",
+ "verdict_why": "held honestly, the hedge removes 61.9% of the book's annualised volatility (29.89% -> 11.38%) and the look-ahead arm removes 62.7% -- a gap of 0.23 pp; beta = 1.00 without any fitting sits 0.22 pp above the honest arm; against an unhedged book of the same volatility it earns 11.2% against 5.2% (0.98 vs 0.46 per unit of volatility) but draws down -13.39% against -9.74%"
+}

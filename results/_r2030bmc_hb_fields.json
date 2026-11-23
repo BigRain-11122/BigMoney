@@ -1,0 +1,22 @@
+{
+ "activity": "product",
+ "activity_now": "r2030: held honestly (beta refitted before each period on prior rows only), the hedge still removes 61.9% of the book's volatility (29.89% -> 11.38%) while the look-ahead beta buys only 0.23pp more; beta = 1.00 ties the refit (0.22pp, and actually ends higher: 67.45% vs 60.68% cumulative); the de-lever control splits the claim -- at equal volatility the hedge earns 11.17% against 5.23% (0.98 vs 0.46 per unit of vol) but draws down 3.65pp deeper (-13.39% vs -9.74%)",
+ "activity_now_round": 2030,
+ "agenda_starved": false,
+ "ahead_origin": 0,
+ "artifacts": "scripts/astock_veto_hedge_walkforward.py (selftest 40/40); results/astock_veto_hedge_walkforward.json; research/ASTOCK_VETO_HEDGE_WALKFORWARD.md; results/_r2030bmc_walkforward_negative.py (14/14)",
+ "batch": "none this round (contention rc=3: new-file faces only)",
+ "behind_origin": 0,
+ "carrier_debt_r2030": "the hedge family (r2022-r2030) still has no S6 leg and no smoke leg -- both files are peer-written shared faces, so the debt waits for a contention-free window",
+ "chain": "S6 chain NOT run this round (Tools/s6_chain_bmc.py is a peer-written shared face)",
+ "chain_verdict": "unchanged this round; r2029's chain state stands",
+ "clock_read": "2026-11-24T06:26:14+08:00",
+ "heartbeat_epoch_utc": 1795472774,
+ "idle_rounds": 0,
+ "last_seen": "2026-11-24T06:26:14+08:00",
+ "machine_id": "bm-c",
+ "round_no": 2030,
+ "task": "r2030: does the hedge still work when the beta cannot see the future (walk-forward), and is it more than leverage",
+ "ts": "2026-11-24T06:26:14+08:00",
+ "verdict": "healthy"
+}
