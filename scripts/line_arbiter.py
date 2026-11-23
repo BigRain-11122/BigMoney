@@ -34,6 +34,9 @@ import time
 import urllib.request
 from datetime import datetime, timedelta, timezone
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import silent_run  # noqa: E402  (child processes must never open a console)
+
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CONTRACT = os.path.join(ROOT, "research", "RESOURCE-CONTRACT.json")
 ARB = os.path.join(ROOT, "results", "arbiter")
@@ -107,10 +110,10 @@ def gpu_state():
     if not exe:
         return {"available": False}
     try:
-        out = subprocess.run(
+        out = silent_run.run(
             [exe, "--query-gpu=utilization.gpu,memory.used,memory.total",
              "--format=csv,noheader,nounits"],
-            capture_output=True, text=True, timeout=10).stdout.strip().splitlines()
+            timeout=10).stdout.strip().splitlines()
         util, used, total = [int(x.strip()) for x in out[0].split(",")]
         return {"available": True, "util_pct": util, "vram_used_mb": used,
                 "vram_total_mb": total}

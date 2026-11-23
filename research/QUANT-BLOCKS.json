@@ -517,6 +517,37 @@
    "on_red": "整条线可能在空转",
    "closed_loop": "本脚本自身：每次 tick 刷新并列出红块",
    "auto_fix": "python scripts/block_board.py --fix-safe"
+  },
+  {
+   "id": "S1_silence",
+   "group": "治理",
+   "name": "自动化静默（子进程不得弹窗）",
+   "granularity": "脚本级：每个自动化脚本的每一处子进程调用",
+   "seat": "值守席",
+   "skills": [
+    "fleet-ops"
+   ],
+   "input": "pythonw 下运行的所有自动化脚本",
+   "artifact": "research/QUANT-BLOCK-BOARD.md",
+   "cadence_h": 6,
+   "probe": {
+    "type": "no_raw_subprocess",
+    "files": [
+     "scripts/line_arbiter.py",
+     "scripts/block_board.py",
+     "scripts/bench_hub.py",
+     "scripts/bench_revalidate.py",
+     "scripts/bench_fut_trend.py",
+     "scripts/bench_bond_curve.py",
+     "scripts/bench_basis_capacity.py",
+     "scripts/bench_basis_timing_size.py",
+     "scripts/bench_power.py"
+    ]
+   },
+   "acceptance": "所有脚本只经 silent_run 起子进程（实测 raw=1 个可见窗 / silent=0）",
+   "on_red": "改回 silent_run.run；否则每小时会闪一次黑窗",
+   "closed_loop": "探针→红→改脚本→复跑探针",
+   "auto_fix": null
   }
  ]
 }

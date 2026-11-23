@@ -29,6 +29,9 @@ import sys
 import time
 from datetime import datetime, timedelta, timezone
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import silent_run  # noqa: E402  (no console window from any child process)
+
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 REG = os.path.join(ROOT, "research", "QUANT-BLOCKS.json")
 OUT_JSON = os.path.join(ROOT, "results", "quant_block_board.json")
@@ -183,8 +186,7 @@ def _git_tracked(paths):
     if not paths:
         return set()
     try:
-        r = subprocess.run(["git", "ls-files", "--"] + list(paths), cwd=ROOT,
-                           capture_output=True, text=True, timeout=60)
+        r = silent_run.run(["git", "ls-files", "--"] + list(paths), cwd=ROOT, timeout=60)
     except Exception:
         return None
     if r.returncode != 0:
@@ -328,6 +330,29 @@ def probe_self_board(spec):
     return True, f"board {a:.1f}h old"
 
 
+def probe_no_raw_subprocess(spec):
+    """Any automation that calls subprocess directly can flash a console window.
+
+    Measured on this box: pythonw plus a plain subprocess call to a console
+    program shows one visible console window; the same call through silent_run
+    shows zero. A future script that forgets the flag is what this catches.
+    """
+    import re
+    pat = re.compile(r"(?<!silent_run\.)subprocess\.(run|Popen)\s*\(")
+    offenders = []
+    for f in spec.get("files", []):
+        path = p(f)
+        if not os.path.exists(path):
+            continue
+        with open(path, encoding="utf-8", errors="ignore") as fh:
+            for i, line in enumerate(fh, 1):
+                if pat.search(line) and not line.lstrip().startswith("#"):
+                    offenders.append(f"{f}:{i}")
+    if offenders:
+        return False, "raw subprocess call(s): " + ", ".join(offenders[:8])
+    return True, f"{len(spec.get('files', []))} automation script(s) clean"
+
+
 PROBES = {
     "dir_fresh": probe_dir_fresh,
     "dir_bar_fresh": probe_dir_bar_fresh,
@@ -336,6 +361,7 @@ PROBES = {
     "json_predicate": probe_json_predicate,
     "cells_have_field": probe_cells_cost,
     "self_board": probe_self_board,
+    "no_raw_subprocess": probe_no_raw_subprocess,
 }
 
 
@@ -439,8 +465,7 @@ def fix_safe(payload):
         try:
             env = dict(os.environ)
             env["PYTHONIOENCODING"] = "utf-8"
-            res = subprocess.run(cmd, cwd=ROOT, shell=True, env=env,
-                                 capture_output=True, text=True, timeout=1500)
+            res = silent_run.run(cmd, cwd=ROOT, shell=True, env=env, timeout=1500)
             done.append({"block": r["id"], "cmd": cmd, "rc": res.returncode,
                          "seconds": round(time.time() - t0, 1)})
         except Exception as e:

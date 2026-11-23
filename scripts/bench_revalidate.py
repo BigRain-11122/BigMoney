@@ -30,6 +30,9 @@ import sys
 from datetime import datetime, timedelta, timezone
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, os.path.join(ROOT, "scripts"))
+import silent_run  # noqa: E402  (children must never open a console window)
+
 QUEUE = os.path.join(ROOT, "research", "BENCH-QUEUE.json")
 OUT = os.path.join(ROOT, "results", "bench_revalidate.json")
 BENCH = os.path.join(ROOT, "results", "bench")
@@ -118,8 +121,7 @@ def main():
         env["PYTHONIOENCODING"] = "utf-8"
         env["OMP_NUM_THREADS"] = str(cell.get("threads", 4))
         try:
-            r = subprocess.run([sys.executable, script], cwd=ROOT, env=env,
-                               capture_output=True, text=True, timeout=TIMEOUT)
+            r = silent_run.run([sys.executable, script], cwd=ROOT, env=env, timeout=TIMEOUT)
             rc = r.returncode
         except subprocess.TimeoutExpired:
             reports.append({"cell": cell["id"], "state": "TIMEOUT"})

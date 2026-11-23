@@ -38,6 +38,9 @@ import time
 from datetime import datetime, timedelta, timezone
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, os.path.join(ROOT, "scripts"))
+import silent_run  # noqa: E402  (children must never open a console window)
+
 QUEUE = os.path.join(ROOT, "research", "BENCH-QUEUE.json")
 BENCH = os.path.join(ROOT, "results", "bench")
 LEDGER = os.path.join(BENCH, "LEDGER.jsonl")
@@ -203,8 +206,8 @@ def run_cell(cell):
     env["MKL_NUM_THREADS"] = str(cell.get("threads", 4))
     t0 = time.time()
     try:
-        p = subprocess.run([sys.executable, script], cwd=ROOT, env=env,
-                           capture_output=True, text=True, timeout=CELL_TIMEOUT_S)
+        p = silent_run.run([sys.executable, script], cwd=ROOT, env=env,
+                           timeout=CELL_TIMEOUT_S)
         secs = round(time.time() - t0, 1)
         tail = (p.stdout or "")[-4000:]
         err = (p.stderr or "")[-2000:]
@@ -276,8 +279,7 @@ def attach_power(cell):
     try:
         env = dict(os.environ)
         env["PYTHONIOENCODING"] = "utf-8"
-        subprocess.run([sys.executable, script], cwd=ROOT, env=env,
-                       capture_output=True, text=True, timeout=300)
+        silent_run.run([sys.executable, script], cwd=ROOT, env=env, timeout=300)
         with open(os.path.join(ROOT, "results", "bench_power.json"), encoding="utf-8") as f:
             p = json.load(f)
     except Exception:
