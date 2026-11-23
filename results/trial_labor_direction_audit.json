@@ -1,0 +1,109 @@
+{
+ "evidence_cutoff": "2026-09-22",
+ "faces": [
+  {
+   "dim_missing": [],
+   "evidence_cutoff": "2026-09-22",
+   "face": "results/trial_labor_w17/w17_reform_face.json",
+   "members": [],
+   "n_eligible_reform": 0,
+   "n_negative": 0,
+   "n_positive": 0,
+   "n_unknown": 0,
+   "onboard_are_negative": [],
+   "onboard_cells": [],
+   "wave": "TRIAL_LABOR_W17"
+  },
+  {
+   "dim_missing": [],
+   "evidence_cutoff": "2026-09-22",
+   "face": "results/trial_labor_w18/w18_reform_face.json",
+   "members": [],
+   "n_eligible_reform": 0,
+   "n_negative": 0,
+   "n_positive": 0,
+   "n_unknown": 0,
+   "onboard_are_negative": [],
+   "onboard_cells": [],
+   "wave": "TRIAL_LABOR_W18"
+  },
+  {
+   "dim_missing": [],
+   "evidence_cutoff": "2026-09-22",
+   "face": "results/trial_labor_w19/w19_reform_face.json",
+   "members": [],
+   "n_eligible_reform": 0,
+   "n_negative": 0,
+   "n_positive": 0,
+   "n_unknown": 0,
+   "onboard_are_negative": [],
+   "onboard_cells": [],
+   "wave": "TRIAL_LABOR_W19"
+  },
+  {
+   "dim_missing": [],
+   "evidence_cutoff": "2026-09-22",
+   "face": "results/trial_labor_w20/w20_reform_face.json",
+   "members": [
+    {
+     "annualized_ret_L": -0.108139,
+     "bh_q": 0.006200000000000001,
+     "cell_id": "W20-A-0003",
+     "composite": 0.2397677419354839,
+     "sharpe_full_L": -1.2957,
+     "sign": "NEGATIVE"
+    },
+    {
+     "annualized_ret_L": -0.124493,
+     "bh_q": 0.0,
+     "cell_id": "W20-B-0019",
+     "composite": 0.23718709677419356,
+     "sharpe_full_L": -1.4119,
+     "sign": "NEGATIVE"
+    }
+   ],
+   "n_eligible_reform": 2,
+   "n_negative": 2,
+   "n_positive": 0,
+   "n_unknown": 0,
+   "onboard_are_negative": [
+    "W20-A-0003",
+    "W20-B-0019"
+   ],
+   "onboard_cells": [
+    "W20-A-0003",
+    "W20-B-0019"
+   ],
+   "wave": "TRIAL_LABOR_W20"
+  },
+  {
+   "dim_missing": [],
+   "evidence_cutoff": "2026-09-22",
+   "face": "results/trial_labor_w21/w21_reform_face.json",
+   "members": [],
+   "n_eligible_reform": 0,
+   "n_negative": 0,
+   "n_positive": 0,
+   "n_unknown": 0,
+   "onboard_are_negative": [],
+   "onboard_cells": [],
+   "wave": "TRIAL_LABOR_W21"
+  }
+ ],
+ "faces_missing_ret_dimension": [],
+ "known_defect": true,
+ "n_eligible_reform_total": 2,
+ "n_faces": 5,
+ "n_negative_total": 2,
+ "n_positive_total": 0,
+ "n_unknown_total": 0,
+ "tool": "trial_labor_direction_audit",
+ "verdict": "DIRECTION_BLIND_MEMBERS_NAMED",
+ "waves_onboarding_negative": [
+  "TRIAL_LABOR_W20"
+ ],
+ "waves_with_negative_admissions": [
+  "TRIAL_LABOR_W20"
+ ],
+ "why_it_matters": "g2_reform_fdr4d's p-values are two-sided (tl2._dual_nulls_w2: p = mean(|perms| >= |mu|)) and reform_composite_scores are batch-internal percentiles, so a reliably-losing arm passes FDR and ranks inside the batch. No sign test exists anywhere in the reform funnel."
+}

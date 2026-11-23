@@ -2526,6 +2526,19 @@ LEGS = [
     ("etf_book_promotion_provenance",
      ["python", "scripts/etf_book_promotion_provenance.py", "--check"],
      ["python", "scripts/etf_book_promotion_provenance.py", "run"]),
+    # r1994: W20's screen/judge/intake ran for the first time in 38 days (the pipeline
+    # stopped after `grammar` on 2026-10-15 and both dead pointers r1992 named were its
+    # missing faces), and it exposed a funnel defect worth a permanent reader: the reform
+    # gate's p-values are two-sided (`p = mean(|perms| >= |mu|)` in tl2._dual_nulls_w2)
+    # and its composite is a batch-internal percentile, so a reliably-*losing* arm passes
+    # FDR and ranks inside the batch. W20 is the first wave in W17..W21 with non-empty
+    # `eligible_reform`, and both members carry negative sharpe (-1.2957 / -1.4119) yet
+    # land on the paper-probation onboarding list. This leg re-derives the direction
+    # readout for every wave with a reform face each round, so "how many admitted arms
+    # are actually losing money" cannot live only in the round that noticed it.
+    ("trial_labor_direction_audit",
+     ["python", "scripts/trial_labor_direction_audit.py", "check"],
+     ["python", "scripts/trial_labor_direction_audit.py", "run"]),
 ]
 
 

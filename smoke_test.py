@@ -12976,6 +12976,26 @@ def main() -> int:
     except Exception as e:
         check("config: every cap face is on the chain with a check, in DAG order",
               False, repr(e)[:160])
+    # ---- r1994: W20 ran for the first time in 38 days and named a funnel defect ----
+    # The reform gate admits on a TWO-SIDED p plus a batch-internal percentile
+    # composite, so a reliably-losing arm passes FDR; W20 is the first wave in
+    # W17..W21 with a non-empty eligible_reform and both members carry negative
+    # sharpe (-1.2957 / -1.4119) while landing on the paper-probation list.  The
+    # leg does not police the gate (that is a science change, GM-signed); it
+    # polices the FACE, so the defect cannot be published as a clean readout.
+    try:
+        _bad35 = trial_labor_direction_face_problems()
+        _ord35 = [t[0] for t in importlib.import_module(
+            "Tools.s6_chain_bmc").LEGS]
+        check("product: the reform direction audit cannot report a clean "
+              "readout over a losing admission",
+              not _bad35, "; ".join(_bad35)[:220]
+              or "verdict pinned at leg %d of %d"
+              % (_ord35.index("trial_labor_direction_audit") + 1,
+                 len(_ord35)))
+    except Exception as e:
+        check("product: the reform direction audit cannot report a clean "
+              "readout over a losing admission", False, repr(e)[:160])
     # ---- r1782: the CEO page carries the carry book's funding line ----------
     # The zero-lot reading lived only in a research file; the page now prices it
     # ("0 lots, and one lot needs 1,125,012").  Three things are asserted, none
@@ -15875,6 +15895,71 @@ def _legs_supply_and_book():
         check("product: seat faces are confirmed by shape", False, repr(e)[:180])
 
 
+def trial_labor_direction_face_problems(face=None, legs=None, results_dir=None):
+    """Problems with the reform-gate direction audit face (r1994).
+
+    Kept at module level so the leg and an evidence harness can drive the SAME
+    predicate with mutated inputs (r1861/r1934).  The defect this face names is
+    that `g2_reform_fdr4d` decides admission from a TWO-SIDED p-value
+    (`tl2._dual_nulls_w2`: p = mean(|perms| >= |mu|)) plus a batch-internal
+    percentile composite, so a reliably-losing arm passes FDR.  W20 is the first
+    wave in W17..W21 with a non-empty `eligible_reform`, and both members carry
+    negative sharpe.  What is asserted here is not the number but that the face
+    cannot lie about it: every member's `sign` agrees with its own sharpe, and a
+    negative member forces a verdict that says so.
+    """
+    import importlib as _importlib
+    results_dir = results_dir or os.path.join(
+        os.path.dirname(os.path.abspath(__file__)), "results")
+    if legs is None:
+        legs = [tuple(t) for t in _importlib.import_module("Tools.s6_chain_bmc").LEGS]
+    bad = []
+    if face is None:
+        path = os.path.join(results_dir, "trial_labor_direction_audit.json")
+        if not os.path.exists(path):
+            return ["trial_labor_direction_audit: face missing"]
+        try:
+            with open(path, encoding="utf-8") as fh:
+                face = json.load(fh)
+        except Exception as e:
+            return ["trial_labor_direction_audit: unreadable (%s)" % repr(e)[:60]]
+    verdict = str(face.get("verdict") or "").strip()
+    if not verdict:
+        bad.append("trial_labor_direction_audit: no verdict")
+    cut = str(face.get("evidence_cutoff") or "")
+    if len(cut) != 10 or cut[4] != "-" or cut[7] != "-":
+        bad.append("trial_labor_direction_audit: evidence_cutoff is %r "
+                   "(C2 wants YYYY-MM-DD)" % face.get("evidence_cutoff"))
+    n_neg = 0
+    for row in face.get("faces") or []:
+        wave = row.get("wave") or "?"
+        for m in row.get("members") or []:
+            sh = m.get("sharpe_full_L")
+            sign = m.get("sign")
+            want = ("UNKNOWN" if sh is None
+                    else "POSITIVE" if float(sh) > 0
+                    else "FLAT" if float(sh) == 0 else "NEGATIVE")
+            if sign != want:
+                bad.append("%s/%s: sign=%r but sharpe=%r"
+                           % (wave, m.get("cell_id"), sign, sh))
+            if want == "NEGATIVE":
+                n_neg += 1
+    if n_neg != int(face.get("n_negative_total") or 0):
+        bad.append("n_negative_total=%r but members carry %d negative"
+                   % (face.get("n_negative_total"), n_neg))
+    if n_neg and verdict != "DIRECTION_BLIND_MEMBERS_NAMED":
+        bad.append("%d negative admission(s) but verdict is %r -- the face "
+                   "would read clean" % (n_neg, verdict))
+    leg = {t[0]: t for t in legs}.get("trial_labor_direction_audit")
+    if leg is None:
+        bad.append("trial_labor_direction_audit is not on the chain")
+    elif len(leg) < 3:
+        bad.append("trial_labor_direction_audit is a writer-only leg")
+    elif "check" not in (leg[1] or []):
+        bad.append("trial_labor_direction_audit: first element is not a check")
+    return bad
+
+
 def cap_family_wiring_problems(faces=None, legs=None, results_dir=None):
     """Problems with the seven cap faces being actually carried (r1991).
 
@@ -15893,7 +15978,8 @@ def cap_family_wiring_problems(faces=None, legs=None, results_dir=None):
                       "regime_cap_breach_pnl", "regime_cap_breach_timeline",
                       "regime_cap_binding_days", "regime_cap_breach_cash_vs_repo",
                       "regime_cap_enforced_counterfactual")
-    results_dir = results_dir or PATHS.results_dir
+    results_dir = results_dir or os.path.join(
+        os.path.dirname(os.path.abspath(__file__)), "results")
     if legs is None:
         legs = [tuple(t) for t in _importlib.import_module("Tools.s6_chain_bmc").LEGS]
     by_name = {t[0]: t for t in legs}
