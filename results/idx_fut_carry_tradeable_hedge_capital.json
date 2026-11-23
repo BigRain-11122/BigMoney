@@ -1,0 +1,396 @@
+{
+ "accounts": {
+  "IC": {
+   "pick_by_capital": "IM",
+   "pick_by_capital_keeping_carry": "IF",
+   "pick_by_carry": "IF",
+   "reference": {
+    "capital_cny": 1124478.99,
+    "days": 242,
+    "forced_rolls": 0,
+    "hedge": "own index sh000905 (not tradable: no short exists for an index itself)",
+    "sigma_cny": 89958.32,
+    "state": "ok",
+    "window": [
+     "2025-11-20",
+     "2026-11-20"
+    ]
+   },
+   "rulers_disagree": true,
+   "series_state": "ok",
+   "tradeable": {
+    "IF": {
+     "beta_lots_per_long_lot": 1.5567,
+     "capital_cny": 2826641.5,
+     "days": 242,
+     "hedge_carry_pp": 0.591,
+     "integer_hedge": {
+      "capital_cny": 3150916.73,
+      "lots": 2,
+      "sigma_cny": 252073.34
+     },
+     "long_carry_pp": 6.599,
+     "net_carry_pp": 6.008,
+     "residual_pnl_one_year_cny": 95884.16,
+     "residual_pnl_pct_of_notional": 6.139,
+     "sigma_cny": 226131.32,
+     "state": "ok"
+    },
+    "IH": {
+     "beta_lots_per_long_lot": 2.252,
+     "capital_cny": 4186360.28,
+     "days": 242,
+     "hedge_carry_pp": null,
+     "integer_hedge": {
+      "capital_cny": 4207993.79,
+      "lots": 2,
+      "sigma_cny": 336639.5
+     },
+     "long_carry_pp": 6.599,
+     "net_carry_pp": null,
+     "residual_pnl_one_year_cny": 31996.41,
+     "residual_pnl_pct_of_notional": 2.049,
+     "sigma_cny": 334908.82,
+     "state": "ok"
+    },
+    "IM": {
+     "beta_lots_per_long_lot": 1.0056,
+     "capital_cny": 1421324.93,
+     "days": 242,
+     "hedge_carry_pp": 7.557,
+     "integer_hedge": {
+      "capital_cny": 1421690.26,
+      "lots": 1,
+      "sigma_cny": 113735.22
+     },
+     "long_carry_pp": 6.599,
+     "net_carry_pp": -0.958,
+     "residual_pnl_one_year_cny": 86799.44,
+     "residual_pnl_pct_of_notional": 5.557,
+     "sigma_cny": 113705.99,
+     "state": "ok"
+    }
+   },
+   "verdict": "HEDGE_KEEPS_THE_CARRY"
+  },
+  "IF": {
+   "pick_by_capital": "IH",
+   "pick_by_capital_keeping_carry": null,
+   "pick_by_carry": "IC",
+   "reference": {
+    "capital_cny": 665505.47,
+    "days": 242,
+    "forced_rolls": 0,
+    "hedge": "own index sh000300 (not tradable: no short exists for an index itself)",
+    "sigma_cny": 53240.44,
+    "state": "ok",
+    "window": [
+     "2025-11-20",
+     "2026-11-20"
+    ]
+   },
+   "rulers_disagree": true,
+   "series_state": "ok",
+   "tradeable": {
+    "IC": {
+     "beta_lots_per_long_lot": 0.4818,
+     "capital_cny": 1572066.32,
+     "days": 242,
+     "hedge_carry_pp": 6.599,
+     "integer_hedge": {
+      "capital_cny": 3326353.53,
+      "lots": 1,
+      "sigma_cny": 266108.28
+     },
+     "long_carry_pp": 0.591,
+     "net_carry_pp": -6.008,
+     "residual_pnl_one_year_cny": -72921.35,
+     "residual_pnl_pct_of_notional": -5.272,
+     "sigma_cny": 125765.31,
+     "state": "ok"
+    },
+    "IH": {
+     "beta_lots_per_long_lot": 1.6499,
+     "capital_cny": 1461568.28,
+     "days": 242,
+     "hedge_carry_pp": null,
+     "integer_hedge": {
+      "capital_cny": 1576829.93,
+      "lots": 2,
+      "sigma_cny": 126146.39
+     },
+     "long_carry_pp": 0.591,
+     "net_carry_pp": null,
+     "residual_pnl_one_year_cny": -31783.47,
+     "residual_pnl_pct_of_notional": -2.298,
+     "sigma_cny": 116925.46,
+     "state": "ok"
+    },
+    "IM": {
+     "beta_lots_per_long_lot": 0.4658,
+     "capital_cny": 1863584.92,
+     "days": 242,
+     "hedge_carry_pp": 7.557,
+     "integer_hedge": {
+      "capital_cny": 3453983.54,
+      "lots": 1,
+      "sigma_cny": 276318.68
+     },
+     "long_carry_pp": 0.591,
+     "net_carry_pp": -6.966,
+     "residual_pnl_one_year_cny": -34034.46,
+     "residual_pnl_pct_of_notional": -2.461,
+     "sigma_cny": 149086.79,
+     "state": "ok"
+    }
+   },
+   "verdict": "HEDGE_GIVES_THE_SLEEVE_AWAY"
+  },
+  "IH": {
+   "pick_by_capital": "IF",
+   "pick_by_capital_keeping_carry": null,
+   "pick_by_carry": "IF",
+   "reference": {
+    "capital_cny": 396650.41,
+    "days": 242,
+    "forced_rolls": 0,
+    "hedge": "own index sh000016 (not tradable: no short exists for an index itself)",
+    "sigma_cny": 31732.03,
+    "state": "ok",
+    "window": [
+     "2025-11-20",
+     "2026-11-20"
+    ]
+   },
+   "rulers_disagree": false,
+   "series_state": "ok",
+   "tradeable": {
+    "IC": {
+     "beta_lots_per_long_lot": 0.2008,
+     "capital_cny": 1249865.36,
+     "days": 242,
+     "hedge_carry_pp": 6.599,
+     "integer_hedge": {
+      "capital_cny": 4690218.08,
+      "lots": 1,
+      "sigma_cny": 375217.45
+     },
+     "long_carry_pp": null,
+     "net_carry_pp": null,
+     "residual_pnl_one_year_cny": -31370.67,
+     "residual_pnl_pct_of_notional": -3.592,
+     "sigma_cny": 99989.23,
+     "state": "ok"
+    },
+    "IF": {
+     "beta_lots_per_long_lot": 0.4753,
+     "capital_cny": 784594.89,
+     "days": 242,
+     "hedge_carry_pp": 0.591,
+     "integer_hedge": {
+      "capital_cny": 1827397.63,
+      "lots": 1,
+      "sigma_cny": 146191.81
+     },
+     "long_carry_pp": null,
+     "net_carry_pp": null,
+     "residual_pnl_one_year_cny": 5281.15,
+     "residual_pnl_pct_of_notional": 0.605,
+     "sigma_cny": 62767.59,
+     "state": "ok"
+    },
+    "IM": {
+     "beta_lots_per_long_lot": 0.1828,
+     "capital_cny": 1364815.47,
+     "days": 242,
+     "hedge_carry_pp": 7.557,
+     "integer_hedge": {
+      "capital_cny": 4652639.73,
+      "lots": 1,
+      "sigma_cny": 372211.18
+     },
+     "long_carry_pp": null,
+     "net_carry_pp": null,
+     "residual_pnl_one_year_cny": -16937.83,
+     "residual_pnl_pct_of_notional": -1.94,
+     "sigma_cny": 109185.24,
+     "state": "ok"
+    }
+   },
+   "verdict": "HEDGE_CARRY_UNPRICED"
+  },
+  "IM": {
+   "pick_by_capital": "IC",
+   "pick_by_capital_keeping_carry": "IC",
+   "pick_by_carry": "IF",
+   "reference": {
+    "capital_cny": 1152595.98,
+    "days": 242,
+    "forced_rolls": 0,
+    "hedge": "own index sh000852 (not tradable: no short exists for an index itself)",
+    "sigma_cny": 92207.68,
+    "state": "ok",
+    "window": [
+     "2025-11-20",
+     "2026-11-20"
+    ]
+   },
+   "rulers_disagree": true,
+   "series_state": "ok",
+   "tradeable": {
+    "IC": {
+     "beta_lots_per_long_lot": 0.9315,
+     "capital_cny": 1367608.16,
+     "days": 242,
+     "hedge_carry_pp": 6.599,
+     "integer_hedge": {
+      "capital_cny": 1421690.26,
+      "lots": 1,
+      "sigma_cny": 113735.22
+     },
+     "long_carry_pp": 7.557,
+     "net_carry_pp": 0.958,
+     "residual_pnl_one_year_cny": -90755.65,
+     "residual_pnl_pct_of_notional": -5.934,
+     "sigma_cny": 109408.65,
+     "state": "ok"
+    },
+    "IF": {
+     "beta_lots_per_long_lot": 1.3939,
+     "capital_cny": 3224166.64,
+     "days": 242,
+     "hedge_carry_pp": 0.591,
+     "integer_hedge": {
+      "capital_cny": 3453983.54,
+      "lots": 1,
+      "sigma_cny": 276318.68
+     },
+     "long_carry_pp": 7.557,
+     "net_carry_pp": 6.966,
+     "residual_pnl_one_year_cny": -7447.21,
+     "residual_pnl_pct_of_notional": -0.487,
+     "sigma_cny": 257933.33,
+     "state": "ok"
+    },
+    "IH": {
+     "beta_lots_per_long_lot": 1.8987,
+     "capital_cny": 4398614.12,
+     "days": 242,
+     "hedge_carry_pp": null,
+     "integer_hedge": {
+      "capital_cny": 4401989.72,
+      "lots": 2,
+      "sigma_cny": 352159.18
+     },
+     "long_carry_pp": 7.557,
+     "net_carry_pp": null,
+     "residual_pnl_one_year_cny": -70013.84,
+     "residual_pnl_pct_of_notional": -4.578,
+     "sigma_cny": 351889.13,
+     "state": "ok"
+    }
+   },
+   "verdict": "HEDGE_KEEPS_THE_CARRY"
+  }
+ },
+ "book_capital_cny": 1000000.0,
+ "checks": {
+  "G1_reference_arms_reproduce_published": true,
+  "G2_two_arm_floor_reproduced": true,
+  "G3_all_four_reference_arms_measured": true,
+  "G4_every_arm_has_a_tradeable_pair": true,
+  "G5_no_refusal": true
+ },
+ "evidence_cutoff": "2026-11-20",
+ "gates": {
+  "IC_reference_capital_matches_published": true,
+  "IC_reference_sigma_matches_published": true,
+  "IM_reference_capital_matches_published": true,
+  "IM_reference_sigma_matches_published": true,
+  "published_two_arm_floor_reproduced": true
+ },
+ "generated": "2026-11-23T19:44:50+08:00",
+ "inputs": {
+  "data/futures_daily/IC.csv": "813a107fff747c00b6e0b1c4ffc4c3c4023461cb48449020738fec12a9446b34",
+  "data/futures_daily/IF.csv": "7b89dadb7c47b1b9b540f5cab43a90fcc309096050a718876083140d3bc7d423",
+  "data/futures_daily/IH.csv": "982c7d4ba07e80e1218a3a792ef5391abf5680f3002336b246b25baa371e24d1",
+  "data/futures_daily/IM.csv": "e15865a65bf9b18da26156d03fea86b66f4918dbc38ddc67040baf9729ec0a32",
+  "data/index_daily/sh000016.csv": "226cf510b9ac69dad2707279d2fc7fc4f1e0e2b6ab68f70ebaf3f83a9e1e10be",
+  "data/index_daily/sh000300.csv": "18026baab5e84925b4de4c21ceed1a6dc9a011c821a3289871f90653d5aec80f",
+  "data/index_daily/sh000852.csv": "8177b1f4b79ef275694702b4f8b957189e39dae60ab704a6e9159ce5a520befb",
+  "data/index_daily/sh000905.csv": "4d8c573bd40da9d032ba9ad591b07161be1a273ca822a14349fe1c5580a4e1f7",
+  "results/idx_fut_carry_paper/SIZING.json": "e8a5d9ca2fb6485fad41c2a84333a8c5519af8bef65616a0b3cc3a9691391192",
+  "results/idx_fut_carry_portfolio_capital.json": "f0ea5b03111355c001fddcfb92b4e6a805f85568ecf90940c15179501657b120",
+  "results/idx_fut_desk_sheet.json": "d54389d3bafa226fe3ce45ea000a255cd387bf9c16d02245af42dbe6bc4a6e0d"
+ },
+ "kind": "idx_fut_carry_tradeable_hedge_capital",
+ "problems": [],
+ "sources": {
+  "desk_face": "results/idx_fut_desk_sheet.json",
+  "floor_face": "results/idx_fut_carry_portfolio_capital.json",
+  "parent_module": "scripts/idx_fut_carry_paper.py (position_series, per_lot_daily)",
+  "sizing_face": "results/idx_fut_carry_paper/SIZING.json"
+ },
+ "target_pct": 8.0,
+ "totals": {
+  "arms_not_openable_as_carry": [
+   "IF",
+   "IH"
+  ],
+  "capital_cheapest_four_arm_cny": 5035096.26,
+  "capital_cheapest_multiple_of_book": 5.035,
+  "capital_cheapest_rows": {
+   "IC": {
+    "capital_cny": 1421324.93,
+    "hedge": "IM",
+    "verdict": "HEDGE_GIVES_THE_SLEEVE_AWAY"
+   },
+   "IF": {
+    "capital_cny": 1461568.28,
+    "hedge": "IH",
+    "verdict": "HEDGE_CARRY_UNPRICED"
+   },
+   "IH": {
+    "capital_cny": 784594.89,
+    "hedge": "IF",
+    "verdict": "HEDGE_CARRY_UNPRICED"
+   },
+   "IM": {
+    "capital_cny": 1367608.16,
+    "hedge": "IC",
+    "verdict": "HEDGE_KEEPS_THE_CARRY"
+   }
+  },
+  "carry_keeping_multiple_of_book": 4.194,
+  "carry_keeping_opening_cost_cny": 4194249.66,
+  "carry_keeping_rows": {
+   "IC": {
+    "capital_cny": 2826641.5,
+    "hedge": "IF",
+    "net_carry_pp": 6.008,
+    "sigma_cny": 226131.32
+   },
+   "IM": {
+    "capital_cny": 1367608.16,
+    "hedge": "IC",
+    "net_carry_pp": 0.958,
+    "sigma_cny": 109408.65
+   }
+  },
+  "published_two_arm_floor_cny": 2277075.0,
+  "reference_four_arm_cny": 3339230.85,
+  "reference_multiple_of_book": 3.339
+ },
+ "unpriced_road": {
+  "etf_for_arm": {
+   "IC": "sh510500",
+   "IF": "sh510300",
+   "IH": null,
+   "IM": "sh512100"
+  },
+  "method": "borrow the tracking ETF (融券) and short it",
+  "why_unpriced": "no in-house financing-fee series; naming it keeps the reader from reading 'unpriced' as 'free' or as 'does not exist'"
+ },
+ "verdict": "REFERENCE_CAPITAL_ASSUMES_A_HEDGE_YOU_CANNOT_BUY",
+ "window_years": 1.0
+}
