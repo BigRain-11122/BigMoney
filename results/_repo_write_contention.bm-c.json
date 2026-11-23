@@ -1,72 +1,72 @@
 {
  "schema": "repo-write-contention/v1",
  "machine_id": "bm-c",
- "probed_at": "2026-11-23T04:25:22",
+ "probed_at": "2026-11-23T09:20:26",
  "lookback_min": 45.0,
  "verdict": "CONTENTION",
  "why": "3 hosts alive; 13 shared face(s) written before this round started (strictly another host), 0 written inside the overlap (unattributable)",
  "hosts": [
   {
-   "pid": 40368,
-   "kind": "interactive",
-   "started_epoch": 1795349384.2310703,
-   "started": "2026-11-22T20:09:44",
-   "age_min": 495.6,
-   "exempt_from_cloud_cap": true,
-   "cmd_head": "K:\\tuanjieAI\\Tuanjie Cowork\\cli\\bin\\win32-x64\\codely.exe --experimental-acp --experimental-skills --path-polic"
-  },
-  {
    "pid": 51252,
    "kind": "interactive",
    "started_epoch": 1795349445.503183,
    "started": "2026-11-22T20:10:45",
-   "age_min": 494.6,
+   "age_min": 789.7,
    "exempt_from_cloud_cap": true,
    "cmd_head": "K:\\tuanjieAI\\Tuanjie Cowork\\cli\\bin\\win32-x64\\codely.exe --experimental-acp --experimental-skills --path-polic"
   },
   {
-   "pid": 63148,
+   "pid": 68744,
+   "kind": "interactive",
+   "started_epoch": 1795396578.989359,
+   "started": "2026-11-23T09:16:18",
+   "age_min": 4.1,
+   "exempt_from_cloud_cap": true,
+   "cmd_head": "K:\\tuanjieAI\\Tuanjie Cowork\\cli\\bin\\win32-x64\\codely.exe --experimental-acp --experimental-skills --path-polic"
+  },
+  {
+   "pid": 67572,
    "kind": "other",
-   "started_epoch": 1795379103.0654008,
-   "started": "2026-11-23T04:25:03",
-   "age_min": 0.3,
+   "started_epoch": 1795396803.1248114,
+   "started": "2026-11-23T09:20:03",
+   "age_min": 0.4,
    "exempt_from_cloud_cap": false,
    "cmd_head": "K:\\tuanjieAI\\Tuanjie Cowork\\cli\\bin\\win32-x64\\codely.exe -y -p 无人值守执行 Bigmoney 量化公司 10 分钟自迭代一轮（2026-09-23 CEO "
   }
  ],
- "my_host_pid": 63148,
- "my_host_started": "2026-11-23T04:25:03",
+ "my_host_pid": 67572,
+ "my_host_started": "2026-11-23T09:20:03",
  "host_probe_error": null,
  "overlap_windows": [
   {
    "pair": [
-    40368,
-    51252
+    51252,
+    68744
    ],
    "kinds": [
     "interactive",
     "interactive"
    ],
-   "from": "2026-11-22T20:10:45",
-   "to": "2026-11-23T04:25:22",
-   "minutes": 494.6,
-   "lo": 1795349445.503183
+   "from": "2026-11-23T09:16:18",
+   "to": "2026-11-23T09:20:26",
+   "minutes": 4.1,
+   "lo": 1795396578.989359
   }
  ],
  "peer_only_writes": [
   "fleet/machines/bm-c.json",
+  "fleet/round_reports-bm-c.md",
   "research/ARBITER-BOARD.md",
-  "research/ETF-BOOK-RENT-HORSE-RACE.md",
-  "research/ETF-BOOK-WINNER-FRAME-AUDIT.md",
-  "research/QUANT-BLOCK-BOARD.md",
-  "results/_attrition_guard_scan.json",
-  "results/_r1964_bmc_round_note.json",
+  "research/DEFENSIVE-RULER-DECISION-IMPACT.md",
+  "research/DEFENSIVE-RULER-FLIP-SUBPERIODS.md",
+  "research/ROUND-WATERMARK-CENSUS.md",
   "results/arbiter/STATE.json",
-  "results/etf_book_rent_horse_race.json",
-  "results/etf_book_winner_frame_audit.json",
-  "results/quant_block_board.json",
-  "scripts/etf_book_rent_horse_race.py",
-  "scripts/etf_book_winner_frame_audit.py"
+  "results/defensive_ruler_decision_impact.json",
+  "results/defensive_ruler_flip_subperiods.json",
+  "results/round_watermark_census.json",
+  "scripts/defensive_ruler_decision_impact.py",
+  "scripts/defensive_ruler_flip_subperiods.py",
+  "scripts/round_watermark_census.py"
  ],
  "ambiguous_writes": [],
  "ignored_patterns": [
@@ -82,85 +82,85 @@
  "declared_own_patterns": [],
  "declared_own_write_count": 0,
  "declared_own_writes": [],
- "writes_scanned_files": 34107,
+ "writes_scanned_files": 34162,
  "recent_writes": [
   {
    "path": "fleet/machines/bm-c.json",
-   "mtime": "2026-11-23T04:24:34",
-   "mtime_epoch": 1795379074.9256983,
+   "mtime": "2026-11-23T09:16:29",
+   "mtime_epoch": 1795396589.4621072,
    "bytes": 247952
   },
   {
-   "path": "results/etf_book_winner_frame_audit.json",
-   "mtime": "2026-11-23T04:22:11",
-   "mtime_epoch": 1795378931.454418,
-   "bytes": 10052
+   "path": "fleet/round_reports-bm-c.md",
+   "mtime": "2026-11-23T09:15:03",
+   "mtime_epoch": 1795396503.8405652,
+   "bytes": 115145
   },
   {
-   "path": "research/ETF-BOOK-WINNER-FRAME-AUDIT.md",
-   "mtime": "2026-11-23T04:22:11",
-   "mtime_epoch": 1795378931.454418,
-   "bytes": 7282
+   "path": "research/ROUND-WATERMARK-CENSUS.md",
+   "mtime": "2026-11-23T09:14:32",
+   "mtime_epoch": 1795396472.343295,
+   "bytes": 3477
+  },
+  {
+   "path": "results/round_watermark_census.json",
+   "mtime": "2026-11-23T09:14:10",
+   "mtime_epoch": 1795396450.279446,
+   "bytes": 3413
+  },
+  {
+   "path": "scripts/round_watermark_census.py",
+   "mtime": "2026-11-23T09:14:02",
+   "mtime_epoch": 1795396442.6121638,
+   "bytes": 16161
   },
   {
    "path": "research/ARBITER-BOARD.md",
-   "mtime": "2026-11-23T04:21:39",
-   "mtime_epoch": 1795378899.8913987,
-   "bytes": 2120
+   "mtime": "2026-11-23T09:11:41",
+   "mtime_epoch": 1795396301.092005,
+   "bytes": 1978
   },
   {
    "path": "results/arbiter/STATE.json",
-   "mtime": "2026-11-23T04:21:39",
-   "mtime_epoch": 1795378899.5071757,
-   "bytes": 2066
+   "mtime": "2026-11-23T09:11:41",
+   "mtime_epoch": 1795396301.0760021,
+   "bytes": 1840
   },
   {
-   "path": "research/QUANT-BLOCK-BOARD.md",
-   "mtime": "2026-11-23T04:21:09",
-   "mtime_epoch": 1795378869.5204763,
-   "bytes": 3911
+   "path": "results/defensive_ruler_flip_subperiods.json",
+   "mtime": "2026-11-23T09:02:02",
+   "mtime_epoch": 1795395722.0430224,
+   "bytes": 9935
   },
   {
-   "path": "results/quant_block_board.json",
-   "mtime": "2026-11-23T04:21:09",
-   "mtime_epoch": 1795378869.5194764,
-   "bytes": 9279
+   "path": "research/DEFENSIVE-RULER-FLIP-SUBPERIODS.md",
+   "mtime": "2026-11-23T09:02:02",
+   "mtime_epoch": 1795395722.0430224,
+   "bytes": 5860
   },
   {
-   "path": "scripts/etf_book_winner_frame_audit.py",
-   "mtime": "2026-11-23T04:19:24",
-   "mtime_epoch": 1795378764.385296,
-   "bytes": 48157
+   "path": "scripts/defensive_ruler_flip_subperiods.py",
+   "mtime": "2026-11-23T09:01:06",
+   "mtime_epoch": 1795395666.9301732,
+   "bytes": 38955
   },
   {
-   "path": "results/_r1964_bmc_round_note.json",
-   "mtime": "2026-11-23T03:59:11",
-   "mtime_epoch": 1795377551.1529064,
-   "bytes": 975
+   "path": "results/defensive_ruler_decision_impact.json",
+   "mtime": "2026-11-23T08:39:24",
+   "mtime_epoch": 1795394364.0627637,
+   "bytes": 3465
   },
   {
-   "path": "results/_attrition_guard_scan.json",
-   "mtime": "2026-11-23T03:58:43",
-   "mtime_epoch": 1795377523.0973501,
-   "bytes": 2154
+   "path": "research/DEFENSIVE-RULER-DECISION-IMPACT.md",
+   "mtime": "2026-11-23T08:39:24",
+   "mtime_epoch": 1795394364.0627637,
+   "bytes": 2990
   },
   {
-   "path": "research/ETF-BOOK-RENT-HORSE-RACE.md",
-   "mtime": "2026-11-23T03:56:13",
-   "mtime_epoch": 1795377373.4187627,
-   "bytes": 2819
-  },
-  {
-   "path": "results/etf_book_rent_horse_race.json",
-   "mtime": "2026-11-23T03:56:13",
-   "mtime_epoch": 1795377373.4177628,
-   "bytes": 3951
-  },
-  {
-   "path": "scripts/etf_book_rent_horse_race.py",
-   "mtime": "2026-11-23T03:54:56",
-   "mtime_epoch": 1795377296.3715827,
-   "bytes": 30349
+   "path": "scripts/defensive_ruler_decision_impact.py",
+   "mtime": "2026-11-23T08:39:16",
+   "mtime_epoch": 1795394356.3858685,
+   "bytes": 28035
   }
  ],
  "recent_write_count": 13,

@@ -139,6 +139,22 @@ LANES = [
      "audited_by": "marks_coverage (the paper marks lane keeps its own hole "
                    "counters; this row reads its last captured day and its "
                    "per-hole causes)"},
+    # 2026-11-23 (bm-c r1978): the convertible-bond lane had a collector, a panel
+    # and a reader page, and no row here -- so `data/cb_panel.csv.gz` sat on
+    # 2026-11-13 for nine days and the only thing that noticed was the block
+    # board's 200h threshold, by accident. The panel dir is per-bond CSVs whose
+    # sampled max is the lane's true tail; 728 of the 1051 files are delisted
+    # bonds that will never move again, which the sample tolerates (it needs one
+    # live bond, and 323 of 1051 are live).
+    {"lane": "cb_panel", "dept": "data", "owner": "bm-c", "writer": "cb_dual_low",
+     "kind": "panel_csv", "dir": "data/cb_daily", "pattern": "*.csv",
+     # the panel sits on this disk, so the reading is this disk's, not a claim
+     # about a writer that happens to be silent (r1316 / L44).
+     "machine_local": True,
+     "fatal_loss": "vendor re-serves each bond's full history by code, so a "
+                   "missed day is recoverable; the failure mode here is silent "
+                   "staleness -- fetch used to skip every bond whose file "
+                   "existed, so the panel could not move without --tail-after"},
 ]
 
 
@@ -174,6 +190,11 @@ WRITER_FACES = [
      "window_basis": "采集器自己的 no-op 规则：只有面板尾部落后超过 20 个交易日才刷新"},
     {"lane": "ths_panel", "dept": "data", "writer": "update_ths_panel",
      "kind": "status", "path": "data/ths_ggzjl/status.json", "key": "cutoff"},
+    {"lane": "cb_panel", "dept": "data", "writer": "cb_dual_low",
+     "kind": "panel_csv", "dir": "data/cb_daily", "pattern": "*.csv",
+     "machine_local": True,
+     "fatal_loss": "recoverable by code from the vendor; the risk is a stale "
+                   "panel that nobody names"},
 ]
 
 

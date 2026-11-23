@@ -118,19 +118,45 @@ def _num(x):
         return None
 
 
+def _tail_date(path: str) -> str | None:
+    """csv 最后一行的日期（只读文件尾 4KB）。"""
+    try:
+        with open(path, "rb") as f:
+            f.seek(0, os.SEEK_END)
+            n = min(4096, f.tell())
+            f.seek(-n, os.SEEK_END)
+            tail = f.read().decode("utf-8", "replace")
+    except OSError:
+        return None
+    for line in reversed([x for x in tail.splitlines() if x.strip()]):
+        d = line.split(",", 1)[0]
+        if len(d) == 10 and d[4] == "-":
+            return d
+    return None
+
+
 def cmd_fetch(args) -> int:
     os.makedirs(CB_DIR, exist_ok=True)
     bonds = _bond_list()
     codes = [b["code"] for b in bonds]
+    tail_after = getattr(args, "tail_after", None)
     todo = []
+    incremental = 0
     for c in codes:
         p = os.path.join(CB_DIR, f"{c}.csv")
         if os.path.exists(p) and os.path.getsize(p) > 200 and not args.force:
+            # 「文件存在就跳过」只能让面板停在首次全量拉取那天：仍在交易的券
+            # （尾日 >= tail_after）必须重拉尾巴，否则 fetch 永远是空转。
+            if tail_after and (_tail_date(p) or "") >= tail_after:
+                todo.append(c)
+                incremental += 1
             continue
         todo.append(c)
-    print(f"[fetch] bonds={len(codes)} pending={len(todo)} workers={args.workers}", flush=True)
+    print(f"[fetch] bonds={len(codes)} pending={len(todo)} incremental={incremental} "
+          f"tail_after={tail_after or '-'} workers={args.workers}", flush=True)
 
     done = fail = 0
+    tails: dict[str, str] = {}
 
     def work(code: str) -> tuple[str, int, str | None]:
         try:
@@ -152,12 +178,18 @@ def cmd_fetch(args) -> int:
             ])
         out.sort(key=lambda x: x[0])
         p = os.path.join(CB_DIR, f"{code}.csv")
+        # 源回退守卫：新尾巴早于盘上尾巴＝源改史/截断，拒写并留痕，不静默覆盖。
+        old_tail = _tail_date(p)
+        new_tail = out[-1][0] if out else ""
+        if old_tail and new_tail < old_tail:
+            return code, 0, f"source_tail_regressed({new_tail}<{old_tail})"
         tmp = p + ".tmp"
         with open(tmp, "w", encoding="utf-8", newline="") as f:
             f.write(",".join(COLS) + "\n")
             for row in out:
                 f.write(",".join("" if v is None else str(v) for v in row) + "\n")
         os.replace(tmp, p)
+        tails[code] = new_tail
         return code, len(out), None
 
     started = time.time()
@@ -173,7 +205,9 @@ def cmd_fetch(args) -> int:
                 done += 1
             if i % 100 == 0:
                 print(f"  {i}/{len(todo)} ok={done} fail={fail} {time.time() - started:.0f}s", flush=True)
-    print(f"[fetch] done ok={done} fail={fail} in {time.time() - started:.0f}s", flush=True)
+    mx = max(tails.values()) if tails else "-"
+    print(f"[fetch] done ok={done} fail={fail} in {time.time() - started:.0f}s "
+          f"max_tail={mx} incremental={incremental}", flush=True)
     return 0
 
 
@@ -487,6 +521,8 @@ def main(argv=None) -> int:
     p1 = sub.add_parser("fetch")
     p1.add_argument("--workers", type=int, default=4)
     p1.add_argument("--force", action="store_true")
+    p1.add_argument("--tail-after", default=None, metavar="YYYY-MM-DD",
+                    help="尾日 >= 此日期的券也重拉（增量刷新仍交易的尾巴）")
     p2 = sub.add_parser("build")
     p3 = sub.add_parser("run")
     p3.add_argument("--quick", action="store_true")
