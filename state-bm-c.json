@@ -2307,6 +2307,7 @@
  "verify_units": "%.2f on the face's own three decimals prints 2.33 for 2.335 and 1.06 for 1.065 (half-to-even); two legs went red on it, fixed by printing the published precision instead of widening the assertion",
  "vram_free_gb": 13.1,
  "vram_total_gb": 16.0,
+ "watchdog_s4u_r2028": "& Tools/register_watchdog_task.ps1 幂等但 S4U XML 翻转被拒（拒绝访问=需管理员）-> 任务留在默认 principal，首次触发 11/24 05:46；此为 LogonType 回归面（承 10-15 BM 仓判例），入 task-s4u-backlog 候提权转换，本轮未手改任务",
  "watermark_note": "竞争探针 rc=3：2 宿主存活（对端 pid 51252 11-22 20:10 起常驻 interactive / 本宿 pid 51684），25 张共享面在轮首前被对端写、重叠窗 0 张 -> 按 r1927 只落新增文件面，未改共享代码/数据面、未跑 S6 链",
  "watermark_verdict": "green (red=false; lane healthy; repo_write_contention rc=3 CONTENTION -> new-file faces only)",
  "went_well": "the fix keeps the old states reachable: a card with one unqualified row still takes the position-free path, so no previously published verdict changed meaning",
