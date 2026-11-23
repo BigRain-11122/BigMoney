@@ -1,0 +1,20 @@
+K:\Fluxgroup\FluxGroup\quant\bigmoney\scripts\astock_resid_veto_layer.py:97: RuntimeWarning: Mean of empty slice
+  amt20 = np.nanmean(amt_win, axis=0)
+K:\Fluxgroup\FluxGroup\quant\bigmoney\scripts\astock_resid_reversal_probe.py:209: RuntimeWarning: Mean of empty slice
+  R = rets - np.nanmean(rets, axis=0)
+K:\Fluxgroup\FluxGroup\quant\bigmoney\scripts\astock_veto_fill_wait.py:375: RuntimeWarning: Mean of empty slice
+  "mean_gap": float(np.nanmean(g[sel])),
+K:\Fluxgroup\FluxGroup\quant\bigmoney\scripts\astock_veto_fill_wait.py:376: RuntimeWarning: Mean of empty slice
+  "mean_slack_to_limit": float(np.nanmean(slack_to[sel])),
+K:\Fluxgroup\FluxGroup\quant\bigmoney\scripts\astock_veto_fill_wait.py:377: RuntimeWarning: All-NaN slice encountered
+  "min_slack_to_limit": float(np.nanmin(slack_to[sel])),
+rebalances 77  panel 5181 symbols  cutoff 2026-11-20
+  fill rate  drop 99.84%  wait 99.98%  | blocked 5.42/period  waited 5.03  never 0.39  mean wait 1.80 days
+  A  research    6.92%  drop    6.73%  wait    6.55%  wait-drop  -0.18pp
+  B  research   10.30%  drop    9.92%  wait    9.84%  wait-drop  -0.08pp
+  C  research    9.61%  drop    9.16%  wait    9.10%  wait-drop  -0.06pp
+  R  research    6.90%  drop    6.77%  wait    6.53%  wait-drop  -0.24pp
+  research  B-A +0.2428%/reb t +3.46 | B-R +0.2438%/reb t +3.45
+  drop      B-A +0.2302%/reb t +3.31 | B-R +0.2273%/reb t +3.25
+  wait      B-A +0.2382%/reb t +3.41 | B-R +0.2393%/reb t +3.41
+verdict wait=WAIT_RECOVERS (drop=EXECUTABLE_SURVIVES, research=EXECUTABLE_SURVIVES) -> results\astock_veto_fill_wait.json
