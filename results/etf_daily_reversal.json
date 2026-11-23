@@ -1,0 +1,497 @@
+{
+ "cell": "etf_daily_reversal",
+ "evidence_cutoff": "2026-11-20",
+ "question": "On the same ETF panel and the same next-open fill engine as the published 20-bar book, does a 1/3/5-bar reversal clock pay after 5bp/side?",
+ "execution": "decide at close t, fill at open t+1, hold k bars (etf_composite_pf.run_next_open)",
+ "protocol": {
+  "start": "2020-01-01",
+  "is_end": "2023-12-31",
+  "n_hold": 5,
+  "cost_bp_side": 5.0,
+  "cheap_bp_side": 0.5,
+  "min_amt_cny": 20000000.0,
+  "min_hist": 120
+ },
+ "panel": {
+  "symbols": 1257,
+  "bars": 5285,
+  "first": "2005-02-23",
+  "last": "2026-11-20",
+  "flip_repairs": 166
+ },
+ "arms": {
+  "rev1_bench": {
+   "full": {
+    "bars": 1667,
+    "cagr": -2.8,
+    "vol": 30.53,
+    "sharpe": 0.055,
+    "mdd": -58.17,
+    "yearly": {
+     "2020": 27.49,
+     "2021": 0.7,
+     "2022": -24.65,
+     "2023": -10.08,
+     "2024": -9.48,
+     "2025": 40.82,
+     "2026": -25.84
+    },
+    "drop_best_year_cagr": -7.52,
+    "first_half_cagr": 4.79,
+    "second_half_cagr": -10.04
+   },
+   "is": {
+    "bars": 969,
+    "cagr": -3.43,
+    "vol": 28.26,
+    "sharpe": 0.012,
+    "mdd": -51.33,
+    "yearly": {
+     "2020": 27.49,
+     "2021": 0.7,
+     "2022": -24.65,
+     "2023": -10.08
+    },
+    "drop_best_year_cagr": -12.03,
+    "first_half_cagr": 16.68,
+    "second_half_cagr": -20.25
+   },
+   "oos": {
+    "bars": 697,
+    "cagr": -1.51,
+    "vol": 33.47,
+    "sharpe": 0.119,
+    "mdd": -47.33,
+    "yearly": {
+     "2024": -8.35,
+     "2025": 40.82,
+     "2026": -25.84
+    },
+    "drop_best_year_cagr": -12.55,
+    "first_half_cagr": -5.83,
+    "second_half_cagr": 2.87
+   },
+   "turnover_per_year": 470.35,
+   "cost_drag_pct_per_year": 23.52,
+   "open_gapfill": 1
+  },
+  "rev1_cheap": {
+   "full": {
+    "bars": 1667,
+    "cagr": 19.14,
+    "vol": 30.55,
+    "sharpe": 0.749,
+    "mdd": -40.34,
+    "yearly": {
+     "2020": 53.85,
+     "2021": 22.97,
+     "2022": -7.37,
+     "2023": 10.63,
+     "2024": 11.65,
+     "2025": 73.54,
+     "2026": -11.15
+    },
+    "drop_best_year_cagr": 9.97,
+    "first_half_cagr": 28.83,
+    "second_half_cagr": 11.75
+   },
+   "is": {
+    "bars": 969,
+    "cagr": 18.05,
+    "vol": 28.27,
+    "sharpe": 0.75,
+    "mdd": -40.15,
+    "yearly": {
+     "2020": 53.85,
+     "2021": 22.97,
+     "2022": -7.37,
+     "2023": 10.63
+    },
+    "drop_best_year_cagr": 8.06,
+    "first_half_cagr": 42.71,
+    "second_half_cagr": -1.08
+   },
+   "oos": {
+    "bars": 697,
+    "cagr": 21.22,
+    "vol": 33.49,
+    "sharpe": 0.766,
+    "mdd": -40.34,
+    "yearly": {
+     "2024": 12.95,
+     "2025": 73.54,
+     "2026": -11.15
+    },
+    "drop_best_year_cagr": 0.12,
+    "first_half_cagr": 16.9,
+    "second_half_cagr": 27.75
+   },
+   "turnover_per_year": 470.35,
+   "cost_drag_pct_per_year": 2.35,
+   "open_gapfill": 1
+  },
+  "rev3_bench": {
+   "full": {
+    "bars": 1667,
+    "cagr": -10.86,
+    "vol": 30.85,
+    "sharpe": -0.234,
+    "mdd": -67.75,
+    "yearly": {
+     "2020": 21.45,
+     "2021": -5.55,
+     "2022": -22.46,
+     "2023": -19.15,
+     "2024": 7.62,
+     "2025": 47.69,
+     "2026": -60.35
+    },
+    "drop_best_year_cagr": -15.78,
+    "first_half_cagr": -3.61,
+    "second_half_cagr": -18.33
+   },
+   "is": {
+    "bars": 969,
+    "cagr": -7.93,
+    "vol": 27.69,
+    "sharpe": -0.171,
+    "mdd": -50.61,
+    "yearly": {
+     "2020": 21.45,
+     "2021": -5.55,
+     "2022": -22.46,
+     "2023": -19.15
+    },
+    "drop_best_year_cagr": -16.12,
+    "first_half_cagr": 7.7,
+    "second_half_cagr": -21.76
+   },
+   "oos": {
+    "bars": 697,
+    "cagr": -15.3,
+    "vol": 34.79,
+    "sharpe": -0.324,
+    "mdd": -67.75,
+    "yearly": {
+     "2024": 5.79,
+     "2025": 47.69,
+     "2026": -60.35
+    },
+    "drop_best_year_cagr": -26.04,
+    "first_half_cagr": 16.13,
+    "second_half_cagr": -39.03
+   },
+   "turnover_per_year": 159.51,
+   "cost_drag_pct_per_year": 7.98,
+   "open_gapfill": 4
+  },
+  "rev3_cheap": {
+   "full": {
+    "bars": 1667,
+    "cagr": -4.49,
+    "vol": 30.85,
+    "sharpe": -0.001,
+    "mdd": -65.85,
+    "yearly": {
+     "2020": 29.53,
+     "2021": 0.99,
+     "2022": -16.88,
+     "2023": -13.27,
+     "2024": 15.6,
+     "2025": 58.58,
+     "2026": -57.83
+    },
+    "drop_best_year_cagr": -10.68,
+    "first_half_cagr": 3.37,
+    "second_half_cagr": -12.07
+   },
+   "is": {
+    "bars": 969,
+    "cagr": -1.46,
+    "vol": 27.69,
+    "sharpe": 0.083,
+    "mdd": -41.58,
+    "yearly": {
+     "2020": 29.53,
+     "2021": 0.99,
+     "2022": -16.88,
+     "2023": -13.27
+    },
+    "drop_best_year_cagr": -10.1,
+    "first_half_cagr": 15.32,
+    "second_half_cagr": -15.86
+   },
+   "oos": {
+    "bars": 697,
+    "cagr": -9.11,
+    "vol": 34.8,
+    "sharpe": -0.113,
+    "mdd": -65.85,
+    "yearly": {
+     "2024": 13.53,
+     "2025": 58.58,
+     "2026": -57.83
+    },
+    "drop_best_year_cagr": -22.56,
+    "first_half_cagr": 24.98,
+    "second_half_cagr": -34.37
+   },
+   "turnover_per_year": 159.51,
+   "cost_drag_pct_per_year": 0.8,
+   "open_gapfill": 4
+  },
+  "rev3_null": {
+   "real_cagr": -4.49,
+   "draws": 60,
+   "null_mean": -6.18,
+   "null_p95": -1.82,
+   "p_value": 0.35
+  },
+  "rev5_bench": {
+   "full": {
+    "bars": 1667,
+    "cagr": -2.09,
+    "vol": 31.59,
+    "sharpe": 0.087,
+    "mdd": -51.28,
+    "yearly": {
+     "2020": 16.04,
+     "2021": -16.73,
+     "2022": -3.54,
+     "2023": -20.72,
+     "2024": 47.33,
+     "2025": 11.83,
+     "2026": -28.95
+    },
+    "drop_best_year_cagr": -7.45,
+    "first_half_cagr": -5.18,
+    "second_half_cagr": 0.93
+   },
+   "is": {
+    "bars": 969,
+    "cagr": -7.31,
+    "vol": 27.63,
+    "sharpe": -0.147,
+    "mdd": -41.95,
+    "yearly": {
+     "2020": 16.04,
+     "2021": -16.73,
+     "2022": -3.54,
+     "2023": -20.72
+    },
+    "drop_best_year_cagr": -14.05,
+    "first_half_cagr": -2.08,
+    "second_half_cagr": -12.74
+   },
+   "oos": {
+    "bars": 697,
+    "cagr": 5.61,
+    "vol": 36.42,
+    "sharpe": 0.335,
+    "mdd": -41.09,
+    "yearly": {
+     "2024": 47.31,
+     "2025": 11.83,
+     "2026": -28.95
+    },
+    "drop_best_year_cagr": -11.51,
+    "first_half_cagr": 31.9,
+    "second_half_cagr": -15.0
+   },
+   "turnover_per_year": 95.1,
+   "cost_drag_pct_per_year": 4.75,
+   "open_gapfill": 0
+  },
+  "rev5_cheap": {
+   "full": {
+    "bars": 1667,
+    "cagr": 2.03,
+    "vol": 31.59,
+    "sharpe": 0.223,
+    "mdd": -44.57,
+    "yearly": {
+     "2020": 20.65,
+     "2021": -13.4,
+     "2022": 0.61,
+     "2023": -17.45,
+     "2024": 53.78,
+     "2025": 16.64,
+     "2026": -26.22
+    },
+    "drop_best_year_cagr": -4.15,
+    "first_half_cagr": -1.15,
+    "second_half_cagr": 5.49
+   },
+   "is": {
+    "bars": 969,
+    "cagr": -3.49,
+    "vol": 27.61,
+    "sharpe": 0.004,
+    "mdd": -34.3,
+    "yearly": {
+     "2020": 20.65,
+     "2021": -13.4,
+     "2022": 0.61,
+     "2023": -17.45
+    },
+    "drop_best_year_cagr": -10.46,
+    "first_half_cagr": 1.99,
+    "second_half_cagr": -8.91
+   },
+   "oos": {
+    "bars": 697,
+    "cagr": 10.2,
+    "vol": 36.44,
+    "sharpe": 0.457,
+    "mdd": -38.45,
+    "yearly": {
+     "2024": 53.76,
+     "2025": 16.64,
+     "2026": -26.22
+    },
+    "drop_best_year_cagr": -7.67,
+    "first_half_cagr": 37.9,
+    "second_half_cagr": -11.14
+   },
+   "turnover_per_year": 95.1,
+   "cost_drag_pct_per_year": 0.48,
+   "open_gapfill": 0
+  },
+  "rev1_cost_ladder": {
+   "turnover_per_year": 470.35,
+   "rungs": {
+    "0.5bp": {
+     "cagr": 19.14,
+     "sharpe": 0.749,
+     "mdd": -40.34,
+     "oos_cagr": 21.22
+    },
+    "1bp": {
+     "cagr": 16.47,
+     "sharpe": 0.672,
+     "mdd": -41.51,
+     "oos_cagr": 18.46
+    },
+    "2bp": {
+     "cagr": 11.32,
+     "sharpe": 0.518,
+     "mdd": -44.13,
+     "oos_cagr": 13.12
+    },
+    "3bp": {
+     "cagr": 6.4,
+     "sharpe": 0.364,
+     "mdd": -46.64,
+     "oos_cagr": 8.02
+    },
+    "4bp": {
+     "cagr": 1.7,
+     "sharpe": 0.209,
+     "mdd": -50.96,
+     "oos_cagr": 3.14
+    },
+    "5bp": {
+     "cagr": -2.8,
+     "sharpe": 0.055,
+     "mdd": -58.17,
+     "oos_cagr": -1.51
+    },
+    "7bp": {
+     "cagr": -11.21,
+     "sharpe": -0.253,
+     "mdd": -69.57,
+     "oos_cagr": -10.2
+    }
+   },
+   "break_even_bp_side": 4.38,
+   "note": "break_even is a straight interpolation between the two rungs that straddle zero, not a fitted curve"
+  }
+ },
+ "equal_weight_20bar": {
+  "full": {
+   "bars": 1666,
+   "cagr": 1.86,
+   "vol": 18.08,
+   "sharpe": 0.197,
+   "mdd": -37.16,
+   "yearly": {
+    "2020": 28.46,
+    "2021": 0.91,
+    "2022": -16.63,
+    "2023": -10.67,
+    "2024": 8.68,
+    "2025": 31.9,
+    "2026": -17.98
+   },
+   "drop_best_year_cagr": -2.16,
+   "first_half_cagr": 2.36,
+   "second_half_cagr": 1.51
+  },
+  "is": {
+   "bars": 969,
+   "cagr": -0.88,
+   "vol": 17.06,
+   "sharpe": 0.032,
+   "mdd": -29.67,
+   "yearly": {
+    "2020": 28.46,
+    "2021": 0.91,
+    "2022": -16.63,
+    "2023": -10.67
+   },
+   "drop_best_year_cagr": -9.14,
+   "first_half_cagr": 14.87,
+   "second_half_cagr": -14.5
+  },
+  "oos": {
+   "bars": 696,
+   "cagr": 5.95,
+   "vol": 19.43,
+   "sharpe": 0.407,
+   "mdd": -23.42,
+   "yearly": {
+    "2024": 9.18,
+    "2025": 31.9,
+    "2026": -17.98
+   },
+   "drop_best_year_cagr": -3.76,
+   "first_half_cagr": 11.56,
+   "second_half_cagr": 1.12
+  }
+ },
+ "checks": {
+  "rev1": {
+   "H1_full_ge_6": false,
+   "H2_oos_ge_3_and_sr_ge_030": false,
+   "H3_both_halves_positive": false,
+   "H4_drop_best_ge_2": false
+  },
+  "rev3": {
+   "H1_full_ge_6": false,
+   "H2_oos_ge_3_and_sr_ge_030": false,
+   "H3_both_halves_positive": false,
+   "H4_drop_best_ge_2": false
+  },
+  "rev5": {
+   "H1_full_ge_6": false,
+   "H2_oos_ge_3_and_sr_ge_030": true,
+   "H3_both_halves_positive": false,
+   "H4_drop_best_ge_2": false
+  },
+  "H5_null": false
+ },
+ "verdict": "NO_EDGE",
+ "suggested_queue_entry": {
+  "id": "etf_daily_reversal",
+  "status": "done",
+  "lane": "etf",
+  "script": "scripts/bench_etf_daily_reversal.py",
+  "question": "1/3/5-bar reversal on the ETF panel: does the fast clock survive 5bp/side?",
+  "note": "queued by r1993 outside a competing-host window; register when the tree is quiet"
+ },
+ "caveats": [
+  "Rank-of-return score only; no vol scaling and no neutralisation of the slow book's factors.",
+  "The 0.5bp arms are a counterfactual, never a claim that such a toll exists.",
+  "Same survivorship caveat the whole ETF panel carries (only listed-now symbols exist)."
+ ]
+}
