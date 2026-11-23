@@ -1,7 +1,7 @@
 {
  "activity": "product",
- "activity_now": "r2010: 一字涨停买不到，还是只是要等一天 -- waiting buys back 64% of r2008's execution cost, and only 35.5% of the 301 held-back names ever sat on their board's limit",
- "activity_now_round": 2010,
+ "activity_now": "r2011: 这本书在盘口上装得下 28.7 亿，但 100 万时 92% 的名字一手都买不起 -- liquidity never binds at the sizes we can trade; whole lots do, so the book's real floor is ~50M CNY",
+ "activity_now_round": 2011,
  "agenda_starved": false,
  "ah_note": "r1680 LANDED: refresh closed itself at 21:17 -- cutoff 2026-11-12 -> 2026-11-13, complete=True, exit 0, pulled_rows 46; data_lane_freshness in_sync 13 / behind_1d 1 (worst now marks, intraday-only, not rebuildable). Fix that made it possible: stall watchdog over every network leg (300s, names stage/pair, exit 2, checkpoint kept) + save_progress stamps write time + -u on the detached spawn + progress line every 10 pairs. NOT yet proven: the 300s stall path has never fired on a real hang (this round the suspected freeze finished by itself).",
  "ahead_origin": 0,
@@ -76,10 +76,10 @@
  "comfy_free_vram_mb": 14015,
  "contention": {
   "evidence": "results/_repo_write_contention.bm-c.json",
+  "note": "3 hosts alive (pid 51252 resident ACP host, pid 67160 interactive since 20:05, this host). New-file faces only this round; no shared code/data face and no S6 chain run",
   "rc": 3,
-  "verdict": "CONTENTION",
   "round": 2009,
-  "note": "3 hosts alive (pid 51252 resident ACP host, pid 67160 interactive since 20:05, this host). New-file faces only this round; no shared code/data face and no S6 chain run"
+  "verdict": "CONTENTION"
  },
  "control_scan": "S0.5: fleet/orders 115 stems vs heartbeat orders_ack 256 (normalised) -> unacked 0; group decisions.md RAW-BYTE sha256 79e3083b unchanged (PS '>' redirect gives 4F8308BA = r1911; python subprocess bytes == watermark); saturated engine rc0 idle; inbox empty",
  "cores": 32,
@@ -160,6 +160,7 @@
  "did_round": 2009,
  "edge_t1766": "the EVENT_DRIVEN call rests on one leg only: positive-month ratio 53.01% vs the frozen 55% line (margin 1.99pp), while the concentration leg (top 10% of months >= 60%) reads 45.74% and does not trigger -- published as an edge call, with the sensitivity sweep on the page (54% and above would still read EVENT_DRIVEN, 52% and below would read MIXED)",
  "evidence_cutoff": "2026-11-19",
+ "failed_this_round": "nothing failed; two self-inflicted reds were caught by this round's own check before publishing (weights+cash summed to 0.999999 at 6dp, and the printed scale differed from the scale used to size the cash slot)",
  "fetch_before_open": "origin in sync (0/0); decisions.md sha 79e3083b unchanged -> zero new decision rows; docs/orders.md sha aad2632e unchanged; fleet/orders 115 files, acks 271, unacked 0; inbox empty",
  "free_ram_gb": 4.22,
  "free_ram_pct": 17.6,
@@ -263,7 +264,7 @@
  "last_round_utc": "2026-11-23T00:27:15+08:00",
  "last_run": "2026-11-15T16:19:25",
  "last_run_at": "2026-10-26T21:20:55+08:00",
- "last_seen": "2026-11-23T22:08:14+08:00",
+ "last_seen": "2026-11-23T22:45:33+08:00",
  "last_seen_at": "2026-11-14T11:36:52+08:00",
  "last_task": "futures tail divergence census",
  "last_task_at": "2026-11-19T16:38:11+08:00",
@@ -1514,11 +1515,11 @@
  },
  "round_drift_note": "state said round_no=1937 while commit 6a3f33e30e already said round 1938 -> counters healed to 1939",
  "round_label": "r1951",
- "round_no": 2010,
+ "round_no": 2011,
  "round_no_label": "r1988",
  "round_no_landed": 1663,
  "round_no_note": "r1959 由并行交互宿主收口（commit 33461d91cd）；本窗=1960",
- "round_no_prev": 2009,
+ "round_no_prev": 2010,
  "round_note": "r1489: a reinstated bar is re-derived from the panel, not carried over (reinstatement_check + reinstatements.json + sheet paragraph)",
  "round_now": 2005,
  "round_r1390_closeout_note": "r1390: PRODUCT window (state round_no=1389 at open, HEAD round 1389 pushed clean -> zero absorb owed). PRODUCT = the first supply berth whose exposure is structurally 1.0 (both earlier berths were timing families and lost to the exit tax by construction): scripts/zoo_supply_xs_reversal_probe.py (selftest 9/9) buys the 10 worst trailing-20-bar ETFs from the published book eligibility, holds 20 bars, next-open fill, 8bp/side, and rides run_next_open instead of re-implementing the fill. Rule -8.15%/yr maxdd -59.4% vs SAME-POOL equal-weight +1.86%/-39.9% -> -10.01pp excess, 113.7 slot swaps/yr, all four admit conditions false -> REFUSE_AS_CANDIDATE. The reading that outlives the verdict: 200 same-exposure random-rank nulls average -3.38pp/yr (sd 3.44), so 10-name concentration plus its monthly swap is itself negative alpha on this panel (card E387). Two pits: np.nanmean(P).prod() is not compounding (needs np.prod(1+mean); the basis leg caught the equal-weight control reading -100% before publication), and run_next_open returns a 3-tuple. S6: dualrun streak 14, compute_audit FLAG pool_starvation+supply_floor (ready 0 floor 3, breach 10122 min), update_daily rc0 0 new rows cutoff 2026-11-06, regime RED raw ORANGE shadow, attrition CLEAN. S0.5 orders 0 unacked. orphan 0. SMOKE HONESTY: suite launched 06:57 stalled at 07:05 on an unprinted external-source leg (191 PASS/0 FAIL), killed 07:15, relaunched pid 67412 -- no suite total claimed. next=r1391: an EVENT family (forced trading), because breadth is now measured as a tax and holdings count is no longer a free axis.",
@@ -2037,7 +2038,7 @@
  "round_t2005_next": "(a) smoke 两腿+S6 腿+方法论卡（无竞争轮）(b) hi 层按行业再切，定位 2026「削不动」",
  "round_t2005_note": "竞争窗新增件：每条流动性腿单独印（A 层 / B 书），四态判读 DEEPENED/SOFTENED/GAVE_UP/ADDED；hi 层 2020-2025 六年书腿全赢，2026 首次输 -0.10pp（-1,022 元/百万）",
  "rounds": 1952,
- "rounds_done": 1948,
+ "rounds_done": 1949,
  "rounds_note": "round_no/rounds/rounds_done stay in lockstep",
  "s0": "machine.json=bm-c | 111 dirty at open (prior-generation derived faces PLUS another window's in-flight r1760 edits to scripts/etf_book_ceo_page.py + etf_book_order.py, mtimes 08:50) -> directional add only, their two files untouched | ahead=0 behind=0",
  "s05_note": "orders 115 files vs 327 ack keys -> unacked 0 (first normalized-string pass falsely showed 44; .md-key compare cleared it)",
@@ -2342,6 +2343,5 @@
  "送达自证_r1963": "commit 03e099354b 已推 origin/main；fetch 后 本地未达 origin commit 数=0；ls-tree 三件在位",
  "送达自证_r1995": "commit 65741165ac 已推 origin/main (bc2e3f68dc..65741165ac)；fetch 后 AHEAD=0 BEHIND=0；ls-tree 三件 blob 在位 (5c569f0d2e/83ab8fbbad/0e047b12bd)",
  "送达自证_r1997": "commit 85891ef558 已推 origin/main (a5bbe70018..85891ef558)；fetch 后 AHEAD=0 BEHIND=0；ls-tree origin/main 见七件（scripts/idx_fut_basis_segments.py、results/idx_fut_basis_segments.json、research/IDX_FUT_BASIS_SEGMENTS.md、data/index_ohlc 四件）；本地未达 origin commit 数=0",
- "送达自证_r2005": "commit 29a4942d4d 已推 origin/main；fetch 后 AHEAD=0 / BEHIND=0；ls-tree origin/main 见 scripts/results/md/负控四件，本地未达 origin commit 数=0",
- "failed_this_round": "nothing failed; two self-inflicted reds were caught by this round's own check before publishing (weights+cash summed to 0.999999 at 6dp, and the printed scale differed from the scale used to size the cash slot)"
+ "送达自证_r2005": "commit 29a4942d4d 已推 origin/main；fetch 后 AHEAD=0 / BEHIND=0；ls-tree origin/main 见 scripts/results/md/负控四件，本地未达 origin commit 数=0"
 }
