@@ -1516,11 +1516,11 @@
  },
  "round_drift_note": "state said round_no=1937 while commit 6a3f33e30e already said round 1938 -> counters healed to 1939",
  "round_label": "r1951",
- "round_no": 2002,
+ "round_no": 2003,
  "round_no_label": "r1988",
  "round_no_landed": 1663,
  "round_no_note": "r1959 由并行交互宿主收口（commit 33461d91cd）；本窗=1960",
- "round_no_prev": 1996,
+ "round_no_prev": 2002,
  "round_note": "r1489: a reinstated bar is re-derived from the panel, not carried over (reinstatement_check + reinstatements.json + sheet paragraph)",
  "round_now": "results/idx_fut_carry_risk.json",
  "round_r1390_closeout_note": "r1390: PRODUCT window (state round_no=1389 at open, HEAD round 1389 pushed clean -> zero absorb owed). PRODUCT = the first supply berth whose exposure is structurally 1.0 (both earlier berths were timing families and lost to the exit tax by construction): scripts/zoo_supply_xs_reversal_probe.py (selftest 9/9) buys the 10 worst trailing-20-bar ETFs from the published book eligibility, holds 20 bars, next-open fill, 8bp/side, and rides run_next_open instead of re-implementing the fill. Rule -8.15%/yr maxdd -59.4% vs SAME-POOL equal-weight +1.86%/-39.9% -> -10.01pp excess, 113.7 slot swaps/yr, all four admit conditions false -> REFUSE_AS_CANDIDATE. The reading that outlives the verdict: 200 same-exposure random-rank nulls average -3.38pp/yr (sd 3.44), so 10-name concentration plus its monthly swap is itself negative alpha on this panel (card E387). Two pits: np.nanmean(P).prod() is not compounding (needs np.prod(1+mean); the basis leg caught the equal-weight control reading -100% before publication), and run_next_open returns a 3-tuple. S6: dualrun streak 14, compute_audit FLAG pool_starvation+supply_floor (ready 0 floor 3, breach 10122 min), update_daily rc0 0 new rows cutoff 2026-11-06, regime RED raw ORANGE shadow, attrition CLEAN. S0.5 orders 0 unacked. orphan 0. SMOKE HONESTY: suite launched 06:57 stalled at 07:05 on an unprinted external-source leg (191 PASS/0 FAIL), killed 07:15, relaunched pid 67412 -- no suite total claimed. next=r1391: an EVENT family (forced trading), because breadth is now measured as a tax and holdings count is no longer a free axis.",
@@ -2337,5 +2337,8 @@
  "送达自证_r1995": "commit 65741165ac 已推 origin/main (bc2e3f68dc..65741165ac)；fetch 后 AHEAD=0 BEHIND=0；ls-tree 三件 blob 在位 (5c569f0d2e/83ab8fbbad/0e047b12bd)",
  "送达自证_r1997": "commit 85891ef558 已推 origin/main (a5bbe70018..85891ef558)；fetch 后 AHEAD=0 BEHIND=0；ls-tree origin/main 见七件（scripts/idx_fut_basis_segments.py、results/idx_fut_basis_segments.json、research/IDX_FUT_BASIS_SEGMENTS.md、data/index_ohlc 四件）；本地未达 origin commit 数=0",
  "记账_r2001": "本行 1 处（轮报告）+ state 1 处 + 心跳 1 处 = 3",
- "记账_r2002": "本行 1 处（轮报告）+ state 1 处 + 心跳 1 处 = 3"
+ "记账_r2002": "本行 1 处（轮报告）+ state 1 处 + 心跳 1 处 = 3",
+ "round_t2003_note": "竞争窗只落新增件：A 股残差黑名单线的 2026 亏损拆成 beta/alpha（B beta 0.976 vs CSI1000、R2 0.857；2026 年度总额 -13.24% = beta -19.74% x alpha +8.10% -> Y_BETA_DOMINANT；排序 B-A 逐年斜率 +0.00007/期/年 t+0.20 -> SORT_STABLE）",
+ "round_t2003_next": "(a) 竞争窗结束后接 S6 腿+冒烟腿+方法论卡；(b) 排序收益 2026 只有 +0.089%/期（t 0.29，前六年 +0.266% t 3.94）——是噪声还是头一个变弱信号，需在池内按规模/流动性分层各算一条 B-A 序列",
+ "round_t2003_ack": "orders_ack_scan unacked=0（116 令/329 回执/124 陈旧注记）；decisions 真水位 79e3083b 未变（PS 字符串往返曾给出伪哈希 4f8308ba，r1911 判例再犯一次已按字节纠正）"
 }
