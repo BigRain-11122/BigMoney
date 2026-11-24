@@ -1,51 +1,70 @@
 {
  "schema": "repo-write-contention/v1",
  "machine_id": "bm-c",
- "probed_at": "2026-11-25T05:15:25",
+ "probed_at": "2026-11-25T05:36:18",
  "lookback_min": 45.0,
  "verdict": "CONTENTION",
- "why": "2 hosts alive; 16 shared face(s) written before this round started (strictly another host), 0 written inside the overlap (unattributable)",
+ "why": "2 hosts alive; 23 shared face(s) written before this round started (strictly another host), 0 written inside the overlap (unattributable)",
  "hosts": [
   {
    "pid": 79608,
    "kind": "interactive",
    "started_epoch": 1795531144.188324,
    "started": "2026-11-24T22:39:04",
-   "age_min": 396.4,
+   "age_min": 417.2,
    "exempt_from_cloud_cap": true,
    "cmd_head": "K:\\tuanjieAI\\Tuanjie Cowork\\cli\\bin\\win32-x64\\codely.exe --experimental-acp --experimental-skills --path-polic"
   },
   {
-   "pid": 88348,
+   "pid": 85876,
    "kind": "other",
-   "started_epoch": 1795554903.9004915,
-   "started": "2026-11-25T05:15:03",
-   "age_min": 0.4,
+   "started_epoch": 1795556103.8930497,
+   "started": "2026-11-25T05:35:03",
+   "age_min": 1.3,
    "exempt_from_cloud_cap": false,
    "cmd_head": "K:\\tuanjieAI\\Tuanjie Cowork\\cli\\bin\\win32-x64\\codely.exe -y -p 无人值守执行 Bigmoney 量化公司 10 分钟自迭代一轮（2026-09-23 CEO "
   }
  ],
- "my_host_pid": 88348,
- "my_host_started": "2026-11-25T05:15:03",
+ "my_host_pid": 85876,
+ "my_host_started": "2026-11-25T05:35:03",
  "host_probe_error": null,
- "overlap_windows": [],
+ "overlap_windows": [
+  {
+   "pair": [
+    79608,
+    85876
+   ],
+   "kinds": [
+    "interactive",
+    "other"
+   ],
+   "from": "2026-11-25T05:35:03",
+   "to": "2026-11-25T05:36:18",
+   "minutes": 1.3,
+   "lo": 1795556103.8930497
+  }
+ ],
  "peer_only_writes": [
   "fleet/machines/bm-c.json",
   "research/ARBITER-BOARD.md",
   "research/CONTENTION_WINDOW.md",
   "research/ETF_BOOK_CAP_BETA_UNITS.md",
-  "research/ETF_BOOK_UNREADABLE_RAIL_FLOOR.md",
-  "results/_r2071bmc_unreadable_rail_floor_negctl.py",
+  "research/ETF_BOOK_CAP_TRIM_TOLL.md",
+  "research/QUANT-BLOCK-BOARD.md",
   "results/_r2072bmc_cap_beta_units_negctl.py",
   "results/_r2072bmc_closeout.py",
   "results/_r2072bmc_s05_scan.json",
   "results/_r2072bmc_s05_scan.py",
+  "results/_r2073bmc_cap_trim_toll_negctl.py",
+  "results/_r2073bmc_closeout.py",
+  "results/_r2073bmc_delivery.py",
+  "results/_unattended_bmc_band_audit_20261125.json",
+  "results/_unattended_bmc_band_audit_20261125.md",
+  "results/_unattended_bmc_band_audit_20261125.py",
   "results/arbiter/STATE.json",
   "results/contention_window.json",
   "results/etf_book_cap_beta_units.json",
-  "results/etf_book_unreadable_rail_floor.json",
-  "scripts/etf_book_cap_beta_units.py",
-  "scripts/etf_book_unreadable_rail_floor.py"
+  "results/etf_book_cap_trim_toll.json"
  ],
  "ambiguous_writes": [],
  "ignored_patterns": [
@@ -61,25 +80,91 @@
  "declared_own_patterns": [],
  "declared_own_write_count": 0,
  "declared_own_writes": [],
- "writes_scanned_files": 34834,
+ "writes_scanned_files": 34843,
  "recent_writes": [
   {
+   "path": "results/_unattended_bmc_band_audit_20261125.json",
+   "mtime": "2026-11-25T05:34:07",
+   "mtime_epoch": 1795556047.1414893,
+   "bytes": 1393
+  },
+  {
+   "path": "results/_unattended_bmc_band_audit_20261125.md",
+   "mtime": "2026-11-25T05:33:30",
+   "mtime_epoch": 1795556010.0315378,
+   "bytes": 2001
+  },
+  {
+   "path": "results/_unattended_bmc_band_audit_20261125.py",
+   "mtime": "2026-11-25T05:33:11",
+   "mtime_epoch": 1795555991.7718945,
+   "bytes": 5010
+  },
+  {
    "path": "research/ARBITER-BOARD.md",
-   "mtime": "2026-11-25T05:11:42",
-   "mtime_epoch": 1795554702.8091059,
-   "bytes": 1416
+   "mtime": "2026-11-25T05:31:43",
+   "mtime_epoch": 1795555903.4234295,
+   "bytes": 1688
   },
   {
    "path": "results/arbiter/STATE.json",
-   "mtime": "2026-11-25T05:11:42",
-   "mtime_epoch": 1795554702.8071067,
-   "bytes": 977
+   "mtime": "2026-11-25T05:31:43",
+   "mtime_epoch": 1795555903.4214287,
+   "bytes": 1434
   },
   {
    "path": "fleet/machines/bm-c.json",
-   "mtime": "2026-11-25T05:10:04",
-   "mtime_epoch": 1795554604.0120256,
+   "mtime": "2026-11-25T05:28:48",
+   "mtime_epoch": 1795555728.4455736,
    "bytes": 259424
+  },
+  {
+   "path": "results/_r2073bmc_delivery.py",
+   "mtime": "2026-11-25T05:26:30",
+   "mtime_epoch": 1795555590.9767098,
+   "bytes": 3829
+  },
+  {
+   "path": "results/_r2073bmc_closeout.py",
+   "mtime": "2026-11-25T05:24:31",
+   "mtime_epoch": 1795555471.1752481,
+   "bytes": 10194
+  },
+  {
+   "path": "results/etf_book_cap_trim_toll.json",
+   "mtime": "2026-11-25T05:23:18",
+   "mtime_epoch": 1795555398.5049846,
+   "bytes": 3017
+  },
+  {
+   "path": "research/ETF_BOOK_CAP_TRIM_TOLL.md",
+   "mtime": "2026-11-25T05:23:18",
+   "mtime_epoch": 1795555398.5049846,
+   "bytes": 4436
+  },
+  {
+   "path": "scripts/etf_book_cap_trim_toll.py",
+   "mtime": "2026-11-25T05:23:07",
+   "mtime_epoch": 1795555387.2894895,
+   "bytes": 28791
+  },
+  {
+   "path": "results/_r2073bmc_cap_trim_toll_negctl.py",
+   "mtime": "2026-11-25T05:22:53",
+   "mtime_epoch": 1795555373.1060398,
+   "bytes": 5846
+  },
+  {
+   "path": "research/QUANT-BLOCK-BOARD.md",
+   "mtime": "2026-11-25T05:21:12",
+   "mtime_epoch": 1795555272.065028,
+   "bytes": 5676
+  },
+  {
+   "path": "results/quant_block_board.json",
+   "mtime": "2026-11-25T05:21:12",
+   "mtime_epoch": 1795555272.0644803,
+   "bytes": 10814
   },
   {
    "path": "results/_r2072bmc_closeout.py",
@@ -134,32 +219,8 @@
    "mtime": "2026-11-25T04:57:49",
    "mtime_epoch": 1795553869.424515,
    "bytes": 1293
-  },
-  {
-   "path": "results/_r2071bmc_unreadable_rail_floor_negctl.py",
-   "mtime": "2026-11-25T04:42:36",
-   "mtime_epoch": 1795552956.7443519,
-   "bytes": 6621
-  },
-  {
-   "path": "research/ETF_BOOK_UNREADABLE_RAIL_FLOOR.md",
-   "mtime": "2026-11-25T04:42:07",
-   "mtime_epoch": 1795552927.9920673,
-   "bytes": 1987
-  },
-  {
-   "path": "results/etf_book_unreadable_rail_floor.json",
-   "mtime": "2026-11-25T04:42:07",
-   "mtime_epoch": 1795552927.9910693,
-   "bytes": 2096
-  },
-  {
-   "path": "scripts/etf_book_unreadable_rail_floor.py",
-   "mtime": "2026-11-25T04:41:51",
-   "mtime_epoch": 1795552911.6315725,
-   "bytes": 22567
   }
  ],
- "recent_write_count": 16,
+ "recent_write_count": 23,
  "advisory": "Probe only: it never blocks, kills or defers production. A round that reads CONTENTION must land new files only, never re-derive shared faces or re-run the chain (r1907)."
 }
