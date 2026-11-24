@@ -15894,6 +15894,19 @@ def _legs_supply_and_book():
     except Exception as e:
         check("product: seat faces are confirmed by shape", False, repr(e)[:180])
 
+    # r2080: the four faces this round wired were published green and alone -- nothing in the
+    # suite asked whether they were still being re-derived. This leg asks the published
+    # contract (verdict / bar / stamp) and the wiring (a check-first chain leg) of each, so a
+    # face that lands without a leg can never look finished again (r1282/r1850).
+    try:
+        _bad97 = carried_face_problems()
+        check("product: a face published this week is carried, not just written",
+              not _bad97, "; ".join(_bad97)[:240]
+              or "4 faces carry verdict/cutoff/stamp and a check-first leg")
+    except Exception as e:
+        check("product: a face published this week is carried, not just written",
+              False, repr(e)[:180])
+
 
 def trial_labor_direction_face_problems(face=None, legs=None, results_dir=None):
     """Problems with the reform-gate direction audit face (r1994).
@@ -15957,6 +15970,59 @@ def trial_labor_direction_face_problems(face=None, legs=None, results_dir=None):
         bad.append("trial_labor_direction_audit is a writer-only leg")
     elif "check" not in (leg[1] or []):
         bad.append("trial_labor_direction_audit: first element is not a check")
+    return bad
+
+
+def carried_face_problems(faces=None, legs=None, results_dir=None):
+    """Problems with a face being *carried*, not merely written (r2080).
+
+    Four faces published between r2073 and r2079 were green the day they landed and had
+    neither a chain leg nor a smoke leg: nothing would ever have moved their numbers again
+    (r1282 orphan class, r1850's "a guard that only recomputes itself"). Three things are
+    asked per face: does it publish a verdict, does it name the bar (YYYY-MM-DD) and the
+    moment it was written, and does a chain leg re-derive it with a check FIRST -- a
+    writer-only leg cannot tell a fresh face from a stale one (r1935).
+
+    Kept at module level so an evidence harness can drive the SAME predicate on mutated
+    inputs; a leg whose only input is today's green state cannot show that it would have
+    said anything (r1861).
+    """
+    import importlib as _importlib
+    faces = faces or ("etf_book_cap_trim_toll", "etf_book_cap_beta_power",
+                      "capital_marginal_road", "etf_book_dividend_credit")
+    results_dir = results_dir or os.path.join(
+        os.path.dirname(os.path.abspath(__file__)), "results")
+    if legs is None:
+        legs = [tuple(t) for t in _importlib.import_module("Tools.s6_chain_bmc").LEGS]
+    by_name = {t[0]: t for t in legs}
+    bad = []
+    for name in faces:
+        path = os.path.join(results_dir, name + ".json")
+        if not os.path.exists(path):
+            bad.append("%s: face missing" % name)
+            continue
+        try:
+            with open(path, encoding="utf-8") as fh:
+                face = json.load(fh)
+        except Exception as e:
+            bad.append("%s: unreadable (%s)" % (name, repr(e)[:60]))
+            continue
+        verdict = face.get("verdict") or (face.get("facts") or {}).get("verdict")
+        if not str(verdict or "").strip():
+            bad.append("%s: publishes no verdict" % name)
+        cut = str(face.get("evidence_cutoff") or "")
+        if len(cut) != 10 or cut[4] != "-" or cut[7] != "-":
+            bad.append("%s: evidence_cutoff is %r (C2 wants YYYY-MM-DD)"
+                       % (name, face.get("evidence_cutoff")))
+        if not str(face.get("generated") or "").strip():
+            bad.append("%s: no generated stamp" % name)
+        leg = by_name.get(name)
+        if leg is None:
+            bad.append("%s is not on the chain" % name)
+        elif len(leg) < 3:
+            bad.append("%s is a writer-only leg (no check first)" % name)
+        elif not any("check" in str(x) for x in (leg[1] or [])):
+            bad.append("%s: first element is not a check command" % name)
     return bad
 
 

@@ -220,6 +220,7 @@ def main():
 
     face = {
         "evidence_cutoff": str(close.index[-1].date()),
+        "generated": time.strftime("%Y-%m-%dT%H:%M:%S%z"),
         "caliber": {
             "engine": "etf_robust_pf.open_to_open_equity (rebal=20, n_hold=5, cost=10bp/side, vol_target=8%)",
             "panel_a": "as-traded prices (sina klc_kl, adjusted factor 1.0 on ETFs) -- every published number",

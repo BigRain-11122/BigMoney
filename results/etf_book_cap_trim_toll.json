@@ -1,0 +1,103 @@
+{
+ "artifact": "results/etf_book_cap_trim_toll.json",
+ "caveats": [
+  "the lot plan is arithmetic on the accrual bar's closes, not an executable order; fills move prices and the cash leg",
+  "the path toll assumes the manager sells the whole over-amount at each over-window and buys it back when the reading comes back inside -- a slower follower pays less and chases less",
+  "the path section holds TODAY's k constant across history: it measures how sensitive the cap is to the window's beta, not what this book actually held back then",
+  "the cap is read as a beta-units target (k = beta_target / beta); read as notional it is a different, larger breach and this face says nothing about that reading",
+  "beta is first order and window-dependent: the beta face itself prices the window choice at 1.96pp of k against a 12.24pp ruler"
+ ],
+ "doc": "research/ETF_BOOK_CAP_TRIM_TOLL.md",
+ "evidence_cutoff": "2026-11-24",
+ "face": "etf_book_cap_trim_toll",
+ "facts": {
+  "beta_full": 0.4597412913190805,
+  "beta_now": 0.48139415749642345,
+  "cap": 0.2,
+  "cost_bp_per_side": 8.0,
+  "holdings_bar": "2026-11-24",
+  "k_now": 0.435003,
+  "nav_cny": 1000000.0,
+  "path": {
+   "counterfactual_k": 0.435003,
+   "first_bar": "2021-04-09",
+   "last_bar": "2026-11-19",
+   "max_over_cny": 204277.61,
+   "median_over_cny": 113454.3,
+   "n_over": 24,
+   "n_windows": 69,
+   "segments": 2,
+   "share_over_pct": 34.78,
+   "sum_over_cny": 2582212.8,
+   "toll_if_followed_cny": 4131.54,
+   "toll_pct_of_sum_over": 0.16
+  },
+  "ruler_band_cny": 58920.0,
+  "ruler_band_pp": 5.892,
+  "toll": {
+   "one_side_bp_of_gap": 8.0,
+   "one_side_cny": 15.63,
+   "round_trip_cny": 31.27,
+   "round_trip_pct_of_gap": 0.16
+  },
+  "trim_day_full_cny": -24.27,
+  "trim_day_now_cny": 19543.03,
+  "two_readings_apart_cny": 19567.3,
+  "verdict_day": "TRIM_IS_INSIDE_THE_RULER",
+  "verdict_path": "CAP_BINDS_SOME_WINDOWS",
+  "whole_lot": {
+   "largest_lot_cny": 189.8,
+   "lots_total": 144,
+   "reachable": true,
+   "residual_cny": -5.33,
+   "rows": [
+    {
+     "lots_held": 511,
+     "lots_sell": 23,
+     "price": 1.679,
+     "sell_cny": 3861.7,
+     "symbol": "159519"
+    },
+    {
+     "lots_held": 469,
+     "lots_sell": 21,
+     "price": 1.898,
+     "sell_cny": 3985.8,
+     "symbol": "159655"
+    },
+    {
+     "lots_held": 708,
+     "lots_sell": 32,
+     "price": 1.233,
+     "sell_cny": 3945.6,
+     "symbol": "510760"
+    },
+    {
+     "lots_held": 735,
+     "lots_sell": 33,
+     "price": 1.177,
+     "sell_cny": 3884.1,
+     "symbol": "512040"
+    },
+    {
+     "lots_held": 779,
+     "lots_sell": 35,
+     "price": 1.103,
+     "sell_cny": 3860.5,
+     "symbol": "513690"
+    }
+   ],
+   "sell_cny": 19537.7,
+   "target_cny": 19543.03
+  }
+ },
+ "generated": "2026-11-25T07:39:02",
+ "inputs": [
+  "results/etf_book_cap_beta_units.json",
+  "results/etf_book_beta_paths.json",
+  "results/etf_book_order/TICKET-2026-11-24.json"
+ ],
+ "inputs_digest": "19e54bee4b7b91248e8b3db0cb94052126af8afbbc885ba47c7fddc5fae543ab",
+ "ticket_file": "results/etf_book_order/TICKET-2026-11-24.json",
+ "verdict": "TRIM_IS_INSIDE_THE_RULER"
+}

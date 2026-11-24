@@ -475,6 +475,31 @@ LEGS = [
     ("cash_shelf_inflight_carry",
      ["python", "scripts/cash_shelf_inflight_carry.py", "--check"],
      ["python", "scripts/cash_shelf_inflight_carry.py", "run"]),
+    # r2052: r2051 measured what the 1% band leaves behind and closed with "not harvestable
+    # without foresight". The mirror side *is* buyable, so it gets its own face: buy the K
+    # members furthest below their own 20-bar median at the next open, pay both trips, and
+    # print the rich side beside it so the reader sees the sign of the ordering. The check
+    # re-derives and says STALE on drift, so a new bar buys the ~6s rebuild.
+    ("cash_shelf_catchup_rotation",
+     ["python", "scripts/cash_shelf_catchup_rotation.py", "--check"],
+     ["python", "scripts/cash_shelf_catchup_rotation.py", "write"]),
+
+    # r2080: four faces published between r2073 and r2079 were born as orphans -- outside the
+    # chain and outside the suite, so a new bar would never have moved their numbers again
+    # (r1282 orphan class / r1850 "a guard that only recomputes itself"). Each rides
+    # check-first: drift says STALE and buys one rebuild, a real disagreement stays red.
+    ("etf_book_cap_trim_toll",
+     ["python", "scripts/etf_book_cap_trim_toll.py", "--check"],
+     ["python", "scripts/etf_book_cap_trim_toll.py", "run"]),
+    ("etf_book_cap_beta_power",
+     ["python", "scripts/etf_book_cap_beta_power.py", "--check"],
+     ["python", "scripts/etf_book_cap_beta_power.py", "run"]),
+    ("capital_marginal_road",
+     ["python", "scripts/capital_marginal_road.py", "--check"],
+     ["python", "scripts/capital_marginal_road.py", "run"]),
+    ("etf_book_dividend_credit",
+     ["python", "scripts/etf_book_dividend_credit.py", "--check"],
+     ["python", "scripts/etf_book_dividend_credit.py"]),
     # The production book's two live faces ride right behind the panel leg they read.
     # etf_book_forward appends one mark per new bar (idempotent; exit 3 freezes the
     # ledger instead of rewriting history) and etf_book_order re-emits the executable

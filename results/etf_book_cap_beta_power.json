@@ -1,0 +1,90 @@
+{
+ "artifact": "results/etf_book_cap_beta_power.json",
+ "doc": "research/ETF_BOOK_CAP_BETA_POWER.md",
+ "evidence_cutoff": "2026-11-24",
+ "face": "etf_book_cap_beta_power",
+ "facts": {
+  "allowed_wobble_cny": 122386.05,
+  "allowed_wobble_pp": 12.239,
+  "bars_needed": 50541,
+  "bars_paired": 1669,
+  "beta_at_cap": 0.459767,
+  "beta_full": 0.4597412913190805,
+  "beta_now": 0.48139415749642345,
+  "blur_cny_1sigma": 61687.3,
+  "blur_over_trim": 3.16,
+  "blur_to_gap_ratio": 6.557,
+  "caliber_spread_pct": 4.7,
+  "cap_now": 0.2,
+  "caveats_note": "no ruler is adopted by this face; adoption is a policy decision recorded elsewhere (r1779 ADOPTION), and the three readings differ by less than one sixth of the measurement's own blur",
+  "df_windows": 4.45,
+  "gap_beta": 0.021627,
+  "gap_pp_from_face": 0.941,
+  "k_now": 0.435003,
+  "ladder": [
+   {
+    "bars": 50542,
+    "gap_beta": 0.021627,
+    "gap_notional_pp": 0.941,
+    "years": 207.1
+   },
+   {
+    "bars": 9456,
+    "gap_beta": 0.05,
+    "gap_notional_pp": 2.175,
+    "years": 38.8
+   },
+   {
+    "bars": 1642,
+    "gap_beta": 0.12,
+    "gap_notional_pp": 5.22,
+    "years": 6.7
+   }
+  ],
+  "min_gap_beta_seen": 0.277945,
+  "min_gap_cny_seen": 120907.12,
+  "min_gap_notional_pp_seen": 12.091,
+  "n_independent_windows": 5.45,
+  "n_windows": 69,
+  "nav_cny": 1000000.0,
+  "path_sd": 0.20550512650286476,
+  "real_sd_beta": 0.148737,
+  "real_sd_cny": 64700.88,
+  "real_sd_range": [
+   0.0,
+   0.25725
+  ],
+  "ruler_band_cny_published": 58920.0,
+  "ruler_band_pp_published": 5.892,
+  "rulers": [
+   {
+    "adopted": false,
+    "beta": 0.4597412913190805,
+    "beta_eq_pp": 19.999,
+    "name": "full_history",
+    "over_pp": -0.001
+   },
+   {
+    "adopted": false,
+    "beta": 0.48139415749642345,
+    "beta_eq_pp": 20.941,
+    "name": "current_window",
+    "over_pp": 0.941
+   }
+  ],
+  "sampling_share_of_path_var": 47.6,
+  "sd_one_reading_beta": 0.14180891812114343,
+  "trim_cny_published": 19543.03,
+  "verdict": "UNRESOLVABLE_BY_MEASUREMENT",
+  "window_bars": 306,
+  "years_line": 20.0,
+  "years_needed": 207.1
+ },
+ "generated": "2026-11-25T07:39:02",
+ "inputs": [
+  "results/etf_book_cap_beta_units.json",
+  "results/etf_book_beta_paths.json"
+ ],
+ "inputs_digest": "c02d0e5efea38aaf8c3adddf9c0dcf4524901fbca0aa9bb7d7f06d274f5a84c8",
+ "verdict": "UNRESOLVABLE_BY_MEASUREMENT"
+}

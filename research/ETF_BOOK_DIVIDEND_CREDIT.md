@@ -1,6 +1,6 @@
 # 这本书实际付给持有人多少：分红口径的重算
 
-generated 2026-11-25T07:19:45+0800 ｜ evidence_cutoff 2026-11-24 ｜ 判词 **DIVIDENDS_ARE_NOISE**
+generated 2026-11-25T07:40:09+0800 ｜ evidence_cutoff 2026-11-24 ｜ 判词 **DIVIDENDS_ARE_NOISE**
 
 ## 一句话
 

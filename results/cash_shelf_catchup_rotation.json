@@ -1,0 +1,1016 @@
+{
+ "artifact": "results/cash_shelf_catchup_rotation.json",
+ "caveat": "Catch-up inside a money shelf is a timing transfer between names that all accrue at roughly the same rate.  A positive spread here is not alpha over cash unless it survives the two trips; that is exactly what the net line is.",
+ "content_sha256": "00b3d374dcb623be16a8c635be38e60497ee206016be927bc356acd877913e2c",
+ "evidence_cutoff": "2026-11-24",
+ "generated": "2026-11-24T18:39:37+08:00",
+ "headline": {
+  "cost_pp_per_year": 2.016,
+  "gross_spread_bp": -40.894,
+  "gross_t": -1.74,
+  "max_bars_available": 3312,
+  "mean_ic": 0.115,
+  "net_pp_per_year": -6.937,
+  "rebalances": 118,
+  "rich_net_pp_per_year": -2.358,
+  "rich_spread_bp": -2.921,
+  "rich_spread_t": -0.16,
+  "verdict": "NO_CATCH_UP_IN_THE_SHELF"
+ },
+ "not_claimed": [
+  "no live order: this is a measurement of a shelf-wide ordering, not a ticket",
+  "survivor bias: membership is r2048's priced census, delisted names never enter",
+  "a 'cheap' money ETF is usually one that paid its accrual early -- the comparison that matters is shelf-equal-weight, which is the baseline here",
+  "costs are a frozen schedule, not a measured spread for any single name",
+  "the richest side is printed beside the cheapest but is NOT a claim: it mixes a level effect (some vehicles simply accrue faster) with a timing effect, and its t-stat on the primary configuration sits under the power line"
+ ],
+ "primary_series": [
+  {
+   "date": "2017-01-16",
+   "held_dev_pct": -0.04613276751422424,
+   "members": 23,
+   "rich_spread": -0.0026528748562476964,
+   "spread": 0.0016234470237196192
+  },
+  {
+   "date": "2017-02-20",
+   "held_dev_pct": -0.11922527214070833,
+   "members": 23,
+   "rich_spread": 0.0007211712388140229,
+   "spread": -0.000829521336633709
+  },
+  {
+   "date": "2017-03-20",
+   "held_dev_pct": -0.17177285897461037,
+   "members": 23,
+   "rich_spread": 0.0003168636292289014,
+   "spread": -0.0016616254142587956
+  },
+  {
+   "date": "2017-04-19",
+   "held_dev_pct": -0.25636225555488945,
+   "members": 23,
+   "rich_spread": 0.0019444164295685817,
+   "spread": -0.005637047813048827
+  },
+  {
+   "date": "2017-05-18",
+   "held_dev_pct": -0.3461031018544536,
+   "members": 24,
+   "rich_spread": -0.00024406744023066447,
+   "spread": 0.002576239687351347
+  },
+  {
+   "date": "2017-06-19",
+   "held_dev_pct": -0.08296178942939658,
+   "members": 21,
+   "rich_spread": -0.00041402589443556413,
+   "spread": 0.0012754834534612364
+  },
+  {
+   "date": "2017-08-14",
+   "held_dev_pct": -0.012754902883549413,
+   "members": 21,
+   "rich_spread": 0.00040898887102830883,
+   "spread": 0.0006012625324133872
+  },
+  {
+   "date": "2017-09-11",
+   "held_dev_pct": -0.006902491894889007,
+   "members": 22,
+   "rich_spread": -0.0020019148101547133,
+   "spread": 0.0004661661972308894
+  },
+  {
+   "date": "2017-10-16",
+   "held_dev_pct": -0.07232296274944705,
+   "members": 22,
+   "rich_spread": -3.275464544086402e-05,
+   "spread": -0.0023111060771777775
+  },
+  {
+   "date": "2017-11-13",
+   "held_dev_pct": -0.290699131923704,
+   "members": 22,
+   "rich_spread": 7.154568269215444e-05,
+   "spread": 0.001137815164238466
+  },
+  {
+   "date": "2017-12-11",
+   "held_dev_pct": -0.05098657904575532,
+   "members": 22,
+   "rich_spread": -0.005454113614616441,
+   "spread": 0.0020593174652805517
+  },
+  {
+   "date": "2018-01-09",
+   "held_dev_pct": -0.6260906534279886,
+   "members": 25,
+   "rich_spread": 0.001431473400933041,
+   "spread": 0.0005203519556670244
+  },
+  {
+   "date": "2018-02-06",
+   "held_dev_pct": -0.017000523028372072,
+   "members": 25,
+   "rich_spread": 0.0030656262469717045,
+   "spread": -0.0012225800602128566
+  },
+  {
+   "date": "2018-03-13",
+   "held_dev_pct": -0.013548012662585318,
+   "members": 25,
+   "rich_spread": 0.000428217798548225,
+   "spread": 0.002215010517876803
+  },
+  {
+   "date": "2018-04-12",
+   "held_dev_pct": -0.00030000350002223897,
+   "members": 25,
+   "rich_spread": -0.0004929400897304826,
+   "spread": 8.603712210033976e-05
+  },
+  {
+   "date": "2018-05-14",
+   "held_dev_pct": -0.306259388333292,
+   "members": 25,
+   "rich_spread": 0.0002929626606576718,
+   "spread": 0.0007005836981282343
+  },
+  {
+   "date": "2018-06-11",
+   "held_dev_pct": -0.0633571146982903,
+   "members": 25,
+   "rich_spread": 0.00403470272122882,
+   "spread": -0.004528005199683606
+  },
+  {
+   "date": "2018-07-10",
+   "held_dev_pct": -0.07580273921441671,
+   "members": 23,
+   "rich_spread": 0.0015301154282474031,
+   "spread": 0.003546111385350737
+  },
+  {
+   "date": "2018-08-07",
+   "held_dev_pct": -0.010099529542184627,
+   "members": 23,
+   "rich_spread": -0.0008434114782951687,
+   "spread": 0.0002131698583575266
+  },
+  {
+   "date": "2018-09-04",
+   "held_dev_pct": -0.02968981827026873,
+   "members": 23,
+   "rich_spread": -0.0009964648418069612,
+   "spread": 0.0012659985087071378
+  },
+  {
+   "date": "2018-10-10",
+   "held_dev_pct": -0.2005262136303343,
+   "members": 23,
+   "rich_spread": 0.003483058800510325,
+   "spread": -0.00010198809629637356
+  },
+  {
+   "date": "2018-11-07",
+   "held_dev_pct": -0.0068995475416500085,
+   "members": 24,
+   "rich_spread": 0.0050533179584509825,
+   "spread": -0.0013897143753458779
+  },
+  {
+   "date": "2018-12-05",
+   "held_dev_pct": -0.0038001060057468727,
+   "members": 26,
+   "rich_spread": 0.0003966911638187623,
+   "spread": -1.76457322151999e-05
+  },
+  {
+   "date": "2019-01-04",
+   "held_dev_pct": -0.6169380718022954,
+   "members": 25,
+   "rich_spread": 0.0020642200700244783,
+   "spread": -0.00021780816699898067
+  },
+  {
+   "date": "2019-02-01",
+   "held_dev_pct": 0.020799998000020636,
+   "members": 26,
+   "rich_spread": -0.003156275400932609,
+   "spread": 0.0004595992730692308
+  },
+  {
+   "date": "2019-03-08",
+   "held_dev_pct": -0.10613839977295036,
+   "members": 26,
+   "rich_spread": 0.000820941593624973,
+   "spread": -0.0028415173678918723
+  },
+  {
+   "date": "2019-04-08",
+   "held_dev_pct": -0.7014020608004223,
+   "members": 27,
+   "rich_spread": 0.0003058510960010053,
+   "spread": -0.002216457736320646
+  },
+  {
+   "date": "2019-05-09",
+   "held_dev_pct": -0.030900009500773873,
+   "members": 26,
+   "rich_spread": 0.005223254897269372,
+   "spread": -0.0006264165363255665
+  },
+  {
+   "date": "2019-06-06",
+   "held_dev_pct": -0.00489897079718471,
+   "members": 27,
+   "rich_spread": 0.004415794628538523,
+   "spread": 0.00028750190127662767
+  },
+  {
+   "date": "2019-07-05",
+   "held_dev_pct": -0.0008868073296630641,
+   "members": 24,
+   "rich_spread": 0.000982392591447632,
+   "spread": 0.0007062276844856033
+  },
+  {
+   "date": "2019-08-02",
+   "held_dev_pct": -0.10259854260906476,
+   "members": 22,
+   "rich_spread": 0.0018898714061517069,
+   "spread": 0.0008763377836854061
+  },
+  {
+   "date": "2019-08-30",
+   "held_dev_pct": -0.03910292365922885,
+   "members": 24,
+   "rich_spread": 0.0008115623091962177,
+   "spread": 0.000529488290014496
+  },
+  {
+   "date": "2019-09-30",
+   "held_dev_pct": -0.1224512550269119,
+   "members": 27,
+   "rich_spread": -0.0009399618329507803,
+   "spread": -0.001927350107466835
+  },
+  {
+   "date": "2019-11-04",
+   "held_dev_pct": -0.5276324278301581,
+   "members": 25,
+   "rich_spread": 4.13484076310322e-05,
+   "spread": 0.002103308080739659
+  },
+  {
+   "date": "2019-12-02",
+   "held_dev_pct": -0.24419807498753388,
+   "members": 25,
+   "rich_spread": 0.005245122031181295,
+   "spread": 0.0025534370715300093
+  },
+  {
+   "date": "2019-12-30",
+   "held_dev_pct": -0.033604283582251426,
+   "members": 26,
+   "rich_spread": 0.00970669072640718,
+   "spread": -0.003992770015823406
+  },
+  {
+   "date": "2020-02-05",
+   "held_dev_pct": -0.0008000530043417164,
+   "members": 28,
+   "rich_spread": 0.005988876995932006,
+   "spread": -0.002137416646319808
+  },
+  {
+   "date": "2020-03-04",
+   "held_dev_pct": -0.08800050187013575,
+   "members": 29,
+   "rich_spread": 0.002204073122256439,
+   "spread": 0.00035294050408241637
+  },
+  {
+   "date": "2020-04-01",
+   "held_dev_pct": -0.005699577546511847,
+   "members": 25,
+   "rich_spread": 0.013699140537149743,
+   "spread": -0.005368440105815133
+  },
+  {
+   "date": "2020-04-30",
+   "held_dev_pct": -0.0011999490044045658,
+   "members": 25,
+   "rich_spread": -0.014293016274787115,
+   "spread": 0.005928983178093099
+  },
+  {
+   "date": "2020-06-02",
+   "held_dev_pct": -1.2983243949853462,
+   "members": 26,
+   "rich_spread": -0.004157188009042836,
+   "spread": -0.0029376471645918183
+  },
+  {
+   "date": "2020-07-02",
+   "held_dev_pct": -0.37029427675331794,
+   "members": 27,
+   "rich_spread": -0.00321141612195295,
+   "spread": -0.00737287720072939
+  },
+  {
+   "date": "2020-07-30",
+   "held_dev_pct": -0.04140476943979454,
+   "members": 27,
+   "rich_spread": -0.009633153360283492,
+   "spread": 0.002421046045190606
+  },
+  {
+   "date": "2020-08-27",
+   "held_dev_pct": -0.8147124402207906,
+   "members": 27,
+   "rich_spread": -0.0019394953908544238,
+   "spread": 0.0008818942956109459
+  },
+  {
+   "date": "2020-09-24",
+   "held_dev_pct": -0.09099481983529056,
+   "members": 25,
+   "rich_spread": -0.0015709576169233674,
+   "spread": 0.00173534473078389
+  },
+  {
+   "date": "2020-10-30",
+   "held_dev_pct": -0.005162603186670278,
+   "members": 28,
+   "rich_spread": -0.00581920850999962,
+   "spread": 0.0010293383336156241
+  },
+  {
+   "date": "2020-11-27",
+   "held_dev_pct": -0.6428217704936334,
+   "members": 28,
+   "rich_spread": -0.001509324000683301,
+   "spread": 0.00660576273058867
+  },
+  {
+   "date": "2020-12-25",
+   "held_dev_pct": -0.5518604895968049,
+   "members": 30,
+   "rich_spread": 0.03080186142579836,
+   "spread": -0.15027565648384456
+  },
+  {
+   "date": "2021-01-25",
+   "held_dev_pct": -0.29230237941634707,
+   "members": 29,
+   "rich_spread": -0.0012261484070116343,
+   "spread": -0.0033731847656277847
+  },
+  {
+   "date": "2021-03-01",
+   "held_dev_pct": -0.0836903612476414,
+   "members": 31,
+   "rich_spread": 0.00020160596798413734,
+   "spread": 0.0011025003511305818
+  },
+  {
+   "date": "2021-03-29",
+   "held_dev_pct": -0.11791955057518733,
+   "members": 28,
+   "rich_spread": 0.0022954682191386466,
+   "spread": 1.3293297520145398e-06
+  },
+  {
+   "date": "2021-04-27",
+   "held_dev_pct": -0.23816279557450581,
+   "members": 34,
+   "rich_spread": 0.0011682642842498086,
+   "spread": -0.0002009145331029811
+  },
+  {
+   "date": "2021-05-28",
+   "held_dev_pct": -0.09019922098699507,
+   "members": 35,
+   "rich_spread": -0.0013211613376054065,
+   "spread": 0.0034935629345674594
+  },
+  {
+   "date": "2021-06-28",
+   "held_dev_pct": -0.11708465777188204,
+   "members": 34,
+   "rich_spread": 0.005662154280374065,
+   "spread": -0.002487468319590924
+  },
+  {
+   "date": "2021-07-26",
+   "held_dev_pct": -0.01289997250408792,
+   "members": 31,
+   "rich_spread": 0.0005224194292694904,
+   "spread": -0.0008846641101321531
+  },
+  {
+   "date": "2021-08-23",
+   "held_dev_pct": -0.01624596037915982,
+   "members": 32,
+   "rich_spread": -0.002191222319821196,
+   "spread": -0.001230799591652588
+  },
+  {
+   "date": "2021-09-22",
+   "held_dev_pct": -0.28035949827478035,
+   "members": 31,
+   "rich_spread": -0.0018503006600168054,
+   "spread": 0.00318829173449607
+  },
+  {
+   "date": "2021-10-27",
+   "held_dev_pct": -0.087737721264316,
+   "members": 31,
+   "rich_spread": 0.0005575476401384586,
+   "spread": 0.0020685616795269946
+  },
+  {
+   "date": "2021-11-24",
+   "held_dev_pct": -0.2687239949853315,
+   "members": 33,
+   "rich_spread": -0.00048639392641908836,
+   "spread": 6.2355258088225e-05
+  },
+  {
+   "date": "2021-12-22",
+   "held_dev_pct": -0.4752731460496751,
+   "members": 36,
+   "rich_spread": 0.0026229347194833726,
+   "spread": 0.007060716525523636
+  },
+  {
+   "date": "2022-01-20",
+   "held_dev_pct": -0.008999648049614617,
+   "members": 33,
+   "rich_spread": -0.0005399800569942587,
+   "spread": -0.00025107832559069065
+  },
+  {
+   "date": "2022-02-24",
+   "held_dev_pct": -0.19181453731976994,
+   "members": 36,
+   "rich_spread": 0.0021919668432311516,
+   "spread": 0.00011696235622851096
+  },
+  {
+   "date": "2022-03-24",
+   "held_dev_pct": -0.5841877167613418,
+   "members": 33,
+   "rich_spread": 0.0006754557738879606,
+   "spread": 0.004625473945410545
+  },
+  {
+   "date": "2022-04-25",
+   "held_dev_pct": -0.044559298735411534,
+   "members": 33,
+   "rich_spread": 0.003756950453290093,
+   "spread": 0.0011227276980828324
+  },
+  {
+   "date": "2022-05-26",
+   "held_dev_pct": -0.010499044790541756,
+   "members": 31,
+   "rich_spread": -0.002081252059529118,
+   "spread": 0.0030963359100923925
+  },
+  {
+   "date": "2022-06-24",
+   "held_dev_pct": -0.2708565772438387,
+   "members": 32,
+   "rich_spread": -0.0013917188568758447,
+   "spread": 0.003770204658567423
+  },
+  {
+   "date": "2022-07-22",
+   "held_dev_pct": -0.043394176543323226,
+   "members": 30,
+   "rich_spread": 0.005727993406555664,
+   "spread": -0.0010229161734499285
+  },
+  {
+   "date": "2022-08-19",
+   "held_dev_pct": -0.0007651112290663065,
+   "members": 31,
+   "rich_spread": -0.0019217934420701472,
+   "spread": 0.0003373963380369154
+  },
+  {
+   "date": "2022-09-19",
+   "held_dev_pct": -0.35209423868083345,
+   "members": 30,
+   "rich_spread": 0.0007375074620466344,
+   "spread": -0.0027231935834841885
+  },
+  {
+   "date": "2022-10-24",
+   "held_dev_pct": -0.07521073086999897,
+   "members": 31,
+   "rich_spread": -0.0004352911153631331,
+   "spread": -0.004626482685104214
+  },
+  {
+   "date": "2022-11-21",
+   "held_dev_pct": -0.9166225256373582,
+   "members": 34,
+   "rich_spread": 0.0013540630879199974,
+   "spread": 0.0017033442552011656
+  },
+  {
+   "date": "2022-12-19",
+   "held_dev_pct": -0.9352421005043035,
+   "members": 34,
+   "rich_spread": 0.028686771740492573,
+   "spread": -0.1528986028776294
+  },
+  {
+   "date": "2023-01-17",
+   "held_dev_pct": -18.163229644268164,
+   "members": 36,
+   "rich_spread": -0.0026511595181911325,
+   "spread": 0.006101488343552613
+  },
+  {
+   "date": "2023-02-21",
+   "held_dev_pct": -0.02878651711159863,
+   "members": 35,
+   "rich_spread": 0.004359449389228429,
+   "spread": 0.00036098225240161733
+  },
+  {
+   "date": "2023-03-21",
+   "held_dev_pct": -0.053352347124679955,
+   "members": 35,
+   "rich_spread": 0.0020200299919557597,
+   "spread": -0.0010469028098666153
+  },
+  {
+   "date": "2023-04-19",
+   "held_dev_pct": -0.0013000175006139258,
+   "members": 37,
+   "rich_spread": 0.006563585858092007,
+   "spread": -0.002896991987290672
+  },
+  {
+   "date": "2023-05-22",
+   "held_dev_pct": -0.005299803509144496,
+   "members": 36,
+   "rich_spread": 0.0026432435271943116,
+   "spread": -0.0014377180262228834
+  },
+  {
+   "date": "2023-06-19",
+   "held_dev_pct": -0.05877395015881026,
+   "members": 34,
+   "rich_spread": 0.0002437917540923511,
+   "spread": -0.002882508038859097
+  },
+  {
+   "date": "2023-07-19",
+   "held_dev_pct": -0.002099946503131278,
+   "members": 35,
+   "rich_spread": 0.005859543693740811,
+   "spread": -0.004076667694080292
+  },
+  {
+   "date": "2023-08-16",
+   "held_dev_pct": -0.010689713767662035,
+   "members": 37,
+   "rich_spread": -0.003145747133576439,
+   "spread": 0.0007344124915833796
+  },
+  {
+   "date": "2023-09-13",
+   "held_dev_pct": -0.43374836103533765,
+   "members": 37,
+   "rich_spread": 0.0015416790643014565,
+   "spread": -0.0010427907059561126
+  },
+  {
+   "date": "2023-10-19",
+   "held_dev_pct": -0.29364744551841016,
+   "members": 39,
+   "rich_spread": 0.001429290101172646,
+   "spread": 0.006211079540260493
+  },
+  {
+   "date": "2023-11-16",
+   "held_dev_pct": -0.00580003400033835,
+   "members": 40,
+   "rich_spread": 0.00186599708837627,
+   "spread": -0.001473865437903621
+  },
+  {
+   "date": "2023-12-14",
+   "held_dev_pct": -0.026796675842089,
+   "members": 38,
+   "rich_spread": 0.006737607810059786,
+   "spread": -0.00258060765590782
+  },
+  {
+   "date": "2024-01-12",
+   "held_dev_pct": -0.169932159329933,
+   "members": 39,
+   "rich_spread": 0.01228629345030263,
+   "spread": -0.003595422355330214
+  },
+  {
+   "date": "2024-02-19",
+   "held_dev_pct": -0.0055995750352377804,
+   "members": 38,
+   "rich_spread": 0.007817998733713602,
+   "spread": -0.0030109778000535535
+  },
+  {
+   "date": "2024-03-18",
+   "held_dev_pct": -0.007271906915706783,
+   "members": 40,
+   "rich_spread": 0.004139342415776367,
+   "spread": 2.618379838815457e-05
+  },
+  {
+   "date": "2024-04-17",
+   "held_dev_pct": -0.025231739671527365,
+   "members": 40,
+   "rich_spread": 0.0012926545193964272,
+   "spread": 0.0011602627666504302
+  },
+  {
+   "date": "2024-05-20",
+   "held_dev_pct": -0.2680095627793855,
+   "members": 36,
+   "rich_spread": -0.0005872524865463543,
+   "spread": 0.011781987171739448
+  },
+  {
+   "date": "2024-06-18",
+   "held_dev_pct": -0.6849823792855392,
+   "members": 39,
+   "rich_spread": 0.0009150973745260336,
+   "spread": 0.0002112048859314185
+  },
+  {
+   "date": "2024-07-16",
+   "held_dev_pct": -0.002099935503265815,
+   "members": 36,
+   "rich_spread": 0.006664943494466441,
+   "spread": -0.0030714901090233273
+  },
+  {
+   "date": "2024-08-13",
+   "held_dev_pct": -0.17018757366762838,
+   "members": 38,
+   "rich_spread": 0.0047596661519820225,
+   "spread": 0.0029927334498027758
+  },
+  {
+   "date": "2024-09-10",
+   "held_dev_pct": -0.001999942004218269,
+   "members": 36,
+   "rich_spread": 0.001810381567430291,
+   "spread": -7.251659273673279e-05
+  },
+  {
+   "date": "2024-10-17",
+   "held_dev_pct": -0.14356655770843663,
+   "members": 43,
+   "rich_spread": -0.00019557249308163024,
+   "spread": -0.004230225110563179
+  },
+  {
+   "date": "2024-11-14",
+   "held_dev_pct": -0.0024999025094452065,
+   "members": 44,
+   "rich_spread": 0.01801285828412231,
+   "spread": -0.0067293671260841
+  },
+  {
+   "date": "2024-12-12",
+   "held_dev_pct": -0.006999458066645481,
+   "members": 40,
+   "rich_spread": 0.011559205941457543,
+   "spread": -0.002233017945379598
+  },
+  {
+   "date": "2025-01-10",
+   "held_dev_pct": -0.39335740728794644,
+   "members": 42,
+   "rich_spread": 0.0027110804088089245,
+   "spread": -0.00048151851903878743
+  },
+  {
+   "date": "2025-02-17",
+   "held_dev_pct": -0.19724864772575845,
+   "members": 45,
+   "rich_spread": -0.018387402400225697,
+   "spread": -0.008392988728219546
+  },
+  {
+   "date": "2025-03-17",
+   "held_dev_pct": -2.5748079044710526,
+   "members": 45,
+   "rich_spread": -0.2058726741207293,
+   "spread": -0.1743923990426865
+  },
+  {
+   "date": "2025-04-15",
+   "held_dev_pct": -0.0015999740022842879,
+   "members": 45,
+   "rich_spread": -0.006012249438375303,
+   "spread": 0.00029816556328916805
+  },
+  {
+   "date": "2025-05-16",
+   "held_dev_pct": -0.3275086089591017,
+   "members": 45,
+   "rich_spread": 0.0009068659347931489,
+   "spread": 0.00403487505881555
+  },
+  {
+   "date": "2025-06-16",
+   "held_dev_pct": -0.00539976401305875,
+   "members": 45,
+   "rich_spread": 0.0006166335011092859,
+   "spread": -0.0002988188176019325
+  },
+  {
+   "date": "2025-07-14",
+   "held_dev_pct": -0.24673044774421893,
+   "members": 45,
+   "rich_spread": 0.0013112606951478866,
+   "spread": -0.007431520153784409
+  },
+  {
+   "date": "2025-08-11",
+   "held_dev_pct": -0.3575168509917348,
+   "members": 45,
+   "rich_spread": 0.002053486528018437,
+   "spread": -0.010082414451152107
+  },
+  {
+   "date": "2025-09-08",
+   "held_dev_pct": -0.2655274005222741,
+   "members": 45,
+   "rich_spread": -0.0006783026446270837,
+   "spread": -0.008448332065487686
+  },
+  {
+   "date": "2025-10-14",
+   "held_dev_pct": -0.24969443569130778,
+   "members": 44,
+   "rich_spread": 0.0028405115986201482,
+   "spread": 0.00823664400779413
+  },
+  {
+   "date": "2025-11-11",
+   "held_dev_pct": -0.0056996895185923435,
+   "members": 42,
+   "rich_spread": -0.013546462337490956,
+   "spread": 0.0028103065933929145
+  },
+  {
+   "date": "2025-12-09",
+   "held_dev_pct": -1.3946935673310978,
+   "members": 44,
+   "rich_spread": -0.0005476312703657359,
+   "spread": -0.004764612087850719
+  },
+  {
+   "date": "2026-01-08",
+   "held_dev_pct": -0.947012430361751,
+   "members": 45,
+   "rich_spread": -1.1818871629734346e-05,
+   "spread": 0.008260366995041755
+  },
+  {
+   "date": "2026-02-05",
+   "held_dev_pct": 0.00019994302974835065,
+   "members": 45,
+   "rich_spread": -0.006119036320469711,
+   "spread": 0.00032845643601262024
+  },
+  {
+   "date": "2026-03-13",
+   "held_dev_pct": -0.6731010009171956,
+   "members": 44,
+   "rich_spread": 0.0014688664758022295,
+   "spread": 0.0068378083790139625
+  },
+  {
+   "date": "2026-04-13",
+   "held_dev_pct": -0.00447579072822224,
+   "members": 44,
+   "rich_spread": 0.001521890462699388,
+   "spread": -0.0005066712238867733
+  },
+  {
+   "date": "2026-05-14",
+   "held_dev_pct": -0.0954756639155141,
+   "members": 44,
+   "rich_spread": 0.0015436985054775366,
+   "spread": 9.05215934098591e-05
+  },
+  {
+   "date": "2026-06-11",
+   "held_dev_pct": -0.36085205113397745,
+   "members": 42,
+   "rich_spread": -0.0005324304368532553,
+   "spread": 0.005226474411278475
+  },
+  {
+   "date": "2026-07-10",
+   "held_dev_pct": -0.0029069387817526327,
+   "members": 44,
+   "rich_spread": 0.004663641291336918,
+   "spread": 0.00025597836871664816
+  },
+  {
+   "date": "2026-08-07",
+   "held_dev_pct": -9.995152171260457e-05,
+   "members": 45,
+   "rich_spread": 0.0019531088624032767,
+   "spread": -0.0005930584227671319
+  },
+  {
+   "date": "2026-09-04",
+   "held_dev_pct": -0.009538225974989878,
+   "members": 45,
+   "rich_spread": 0.003178486382814907,
+   "spread": -0.0006439356675957495
+  },
+  {
+   "date": "2026-10-12",
+   "held_dev_pct": -0.09911545597771854,
+   "members": 45,
+   "rich_spread": 0.005793419344108446,
+   "spread": -0.0012847364145520184
+  }
+ ],
+ "question": "On the cash shelf, does the side that trades below its own local level catch up enough to pay two trips per window?",
+ "results": [
+  {
+   "cost_bp_per_side": 8.0,
+   "cost_pp_per_year": 2.016,
+   "gross_pp_per_year": -17.636,
+   "horizon": 20,
+   "k": 1,
+   "mean_held_dev_pct": -1.2979,
+   "mean_ic": 0.115,
+   "mean_members": 32.6,
+   "mean_spread_bp": -152.803,
+   "net_pp_per_year": -19.306,
+   "positive_share": 0.5339,
+   "rebalances": 118,
+   "rich_net_pp_per_year": -2.84,
+   "rich_spread_bp": -6.838,
+   "rich_spread_t": -0.33,
+   "skipped_dates": 45,
+   "spread_se_bp": 105.038,
+   "spread_t": -1.45
+  },
+  {
+   "cost_bp_per_side": 8.0,
+   "cost_pp_per_year": 2.016,
+   "gross_pp_per_year": -5.032,
+   "horizon": 20,
+   "k": 5,
+   "mean_held_dev_pct": -0.3689,
+   "mean_ic": 0.115,
+   "mean_members": 32.6,
+   "mean_spread_bp": -40.894,
+   "net_pp_per_year": -6.937,
+   "positive_share": 0.5169,
+   "rebalances": 118,
+   "rich_net_pp_per_year": -2.358,
+   "rich_spread_bp": -2.921,
+   "rich_spread_t": -0.16,
+   "skipped_dates": 45,
+   "spread_se_bp": 23.438,
+   "spread_t": -1.74
+  },
+  {
+   "cost_bp_per_side": 2.0,
+   "cost_pp_per_year": 0.504,
+   "gross_pp_per_year": -5.032,
+   "horizon": 20,
+   "k": 5,
+   "mean_held_dev_pct": -0.3689,
+   "mean_ic": 0.115,
+   "mean_members": 32.6,
+   "mean_spread_bp": -40.894,
+   "net_pp_per_year": -5.512,
+   "positive_share": 0.5169,
+   "rebalances": 118,
+   "rich_net_pp_per_year": -0.869,
+   "rich_spread_bp": -2.921,
+   "rich_spread_t": -0.16,
+   "skipped_dates": 45,
+   "spread_se_bp": 23.438,
+   "spread_t": -1.74
+  },
+  {
+   "cost_bp_per_side": 8.0,
+   "cost_pp_per_year": 0.672,
+   "gross_pp_per_year": -0.633,
+   "horizon": 60,
+   "k": 1,
+   "mean_held_dev_pct": -0.3677,
+   "mean_ic": 0.154,
+   "mean_members": 32.9,
+   "mean_spread_bp": -15.116,
+   "net_pp_per_year": -1.3,
+   "positive_share": 0.5641,
+   "rebalances": 39,
+   "rich_net_pp_per_year": 0.013,
+   "rich_spread_bp": 16.309,
+   "rich_spread_t": 0.25,
+   "skipped_dates": 16,
+   "spread_se_bp": 59.127,
+   "spread_t": -0.26
+  },
+  {
+   "cost_bp_per_side": 8.0,
+   "cost_pp_per_year": 0.672,
+   "gross_pp_per_year": -1.753,
+   "horizon": 60,
+   "k": 5,
+   "mean_held_dev_pct": -0.173,
+   "mean_ic": 0.154,
+   "mean_members": 32.9,
+   "mean_spread_bp": -42.02,
+   "net_pp_per_year": -2.414,
+   "positive_share": 0.5128,
+   "rebalances": 39,
+   "rich_net_pp_per_year": 19.809,
+   "rich_spread_bp": 455.69,
+   "rich_spread_t": 1.11,
+   "skipped_dates": 16,
+   "spread_se_bp": 53.166,
+   "spread_t": -0.79
+  },
+  {
+   "cost_bp_per_side": 2.0,
+   "cost_pp_per_year": 0.168,
+   "gross_pp_per_year": -1.753,
+   "horizon": 60,
+   "k": 5,
+   "mean_held_dev_pct": -0.173,
+   "mean_ic": 0.154,
+   "mean_members": 32.9,
+   "mean_spread_bp": -42.02,
+   "net_pp_per_year": -1.919,
+   "positive_share": 0.5128,
+   "rebalances": 39,
+   "rich_net_pp_per_year": 20.388,
+   "rich_spread_bp": 455.69,
+   "rich_spread_t": 1.11,
+   "skipped_dates": 16,
+   "spread_se_bp": 53.166,
+   "spread_t": -0.79
+  }
+ ],
+ "ruler": {
+  "cost_bp_low": 2.0,
+  "cost_bp_per_side": 8.0,
+  "execution": "signal at close(t), entry open(t+1), exit open(t+1+H)",
+  "horizons": [
+   20,
+   60
+  ],
+  "ks": [
+   1,
+   5
+  ],
+  "level_window": 20,
+  "min_bars": 500,
+  "min_members": 20,
+  "warmup_bars": 60
+ },
+ "schema": "cash_shelf_catchup_rotation/v1",
+ "upstream": {
+  "blind": {
+   "face": "results/money_band_blind_spot.json",
+   "sha256": "4cf750b7e08d0c803b859ea918a75127aa6d1e13bb136d26c75f94c3103e5db6"
+  },
+  "census": {
+   "face": "results/cash_shelf_flip_census.json",
+   "members": 45,
+   "sha256": "c4ba1e9ba890788c7557de686b3c9d0538a980e442d320890813a89b5e8177a6"
+  },
+  "level": "money_premium_carry_audit.local_level (unchanged)",
+  "premium": {
+   "face": "results/money_premium_carry_audit.json",
+   "sha256": "0e46435556b4d26f1aa24646163cfcef53d5d07a0b2203c3fa38558197b926ae"
+  }
+ },
+ "window": {
+  "end": "2026-11-24",
+  "start": "2013-04-09"
+ }
+}
