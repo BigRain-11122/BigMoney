@@ -2374,8 +2374,8 @@
   "未验证_r2052": "①截尾口径只回答「这个数字是不是少数 bar 印的」，不是收益估计；②accrual 六年一个数，政策利率变化与溢价同形，只有回归标签能分开；③S6 链与全量冒烟未在本轮跑（链在飞），禁读成已全绿",
   "未验证_r2053": "①bars_to_half 只描述路径，不解释成因；②NEVER 仅指 750 根窗内没回来；③34 只无时钟标的的两列 bp/年 是**面值水平吞掉/伪造量**，不是收益；④全量冒烟与 S6 链本轮未跑（竞争窗），禁读成已全绿",
   "未验证_r2054": "①准入是「读得出 carry」的测试，不是基金好坏；②容量/一手/换手归 r2041/r2043；③两条 carry 同一个六年窗；④过闸 17 只里 511660 修完 0.00% 仍 admitted（规则如此，未改线）；⑤全量冒烟与 S6 链连续第 3 轮未跑，禁读成已全绿；⑥心跳面本窗未覆盖",
-  "本地未达 origin commit 数": 4,
-  "本地未达origin": 0,
+  "本地未达 origin commit 数": 20,
+  "本地未达origin": 20,
   "本次": "p10 坏日子成交：511380 5,007.5 万 / 511180 2,195.5 万 / 511880 10.1 亿 / 511360 1,309 万 / 511010 6,782 万；一手：转债 1,159/1,096 元 vs 货币 ETF 10,099 元、短融 11,419 元、国债 14,141 元；票面 565,246 元在 511380 是 1.13%% 坏日子（THIN），拆 511180 后合计 72.0 万回到 OPEN；一个防守日 511380 -4,346 元 vs 一年超额 +1,167 元 = 3.7 年",
   "本轮": "r2054 · 新增文件面：scripts/money_shelf_placement.py + results/money_shelf_placement.json + research/MONEY_SHELF_PLACEMENT.md —— 货币类 59 只过五级准入 17 只；按屏幕挑第一名 511770 印 8.44% 实收 0.62%（票面 47,715 -> 3,484 元/年，44,231 元/年是溢价）；按修完挑第一名 511930 2.65% = 14,981 元/年；这道闸值 +11,498 元/年；书自己最好的腿 511010 2.53% = 14,316 元/年；新发现的洞=28 只现金流 ETF 里 8 只中位 bar<2bp 但典型 bar 72-116bp，r2053 的均值关放行、本面的 2bp 典型 bar 关拦下",
   "水位": "healthy",
@@ -2443,5 +2443,8 @@
   "送达自证_r2061": "commit ff4d43cd70 已推 origin machine/bm-c-r2061（main 落后 1 未 FF）；fetch 后 machine tip == HEAD；ls-tree origin/machine/bm-c-r2061 三件在位（scripts/smoke_red_triage.py / results/smoke_red_triage.json / results/_r2061bmc_closeout.py）；本地未达 origin/main commit 数=6（machine 分支已送达）",
   "note_r2065": "reader-silent-upstream patch proven (13/13); not applied -- contention window, new files only",
   "note_r2068": "block_red_triage: 25/25 selftest, check rc0, negative 7/7 incl. STALE behavioural leg; patches proven-not-applied (shared faces)",
-  "state_bloat_note": "state-bm-c.json 1.36MB / 2447 行（每轮只增键）——需一次收口（已完成的轮次键并进 round_reports 只留指针），未在本轮做"
+  "state_bloat_note": "state-bm-c.json 1.36MB / 2447 行（每轮只增键）——需一次收口（已完成的轮次键并进 round_reports 只留指针），未在本轮做",
+  "送达自证_r2068": "commit **b087cfcdc8** 已推 origin/machine/bm-c-r2068（新分支）；fetch 后 rev-list 0/0；ls-tree origin 分支六件在位（scripts/block_red_triage.py 963e67e2f4 / research/BLOCK_RED_TRIAGE.md debf3a99db / results/block_red_triage.json / qa/red-triage-r2068.md / results/_r2068bmc_red_triage_negative.py / results/_r2068bmc_hb_fields.json）；本地未达 origin/main commit 数=20",
+  "methodology_card_lock_r2068": "新方法=读者与写者必须共享同一张词表（同一份事实两个拼写：一行永久红 / 一个空转标签看起来像断供）；knowledge/METHODOLOGY_ASSETS.md 是共享面，竞争窗内不改，锁存待无竞争轮",
+  "记账_r2068": "轮报告 2 处（正文 + 送达 addendum）+ state 1 处 + 心跳 1 处 = 4"
 }
