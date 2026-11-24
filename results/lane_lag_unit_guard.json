@@ -1,0 +1,686 @@
+{
+ "face": "lane_lag_unit_guard",
+ "question": "the block board's freshness tolerance is called holiday_allow_days but compared against calendar days -- does any lane change colour when the same tolerance is read in the market's unit?",
+ "evidence_cutoff": "2026-11-24",
+ "generated": "2026-11-25T04:04:32",
+ "now": "2026-11-25T04:04:32",
+ "close_accept_time": "15:30",
+ "calendar_days": 8797,
+ "calendar_tail": "2026-12-31",
+ "expected_bar": "2026-11-24",
+ "board_reference_day": "2026-11-25",
+ "tolerance_default": 4,
+ "rows": [
+  {
+   "block": "D1_fut_daily",
+   "lane": "futures",
+   "artifact": "data/futures_daily",
+   "tail_bar": "2026-11-24",
+   "tail_source": "data_lane_freshness:futures",
+   "expected_bar": "2026-11-24",
+   "board_reference_day": "2026-11-25",
+   "calendar_lag_days": 1,
+   "trading_days_missing": 0,
+   "missing_days": [],
+   "tolerance_units": 4,
+   "board_red": false,
+   "honest_red": false,
+   "honest_state": "CURRENT",
+   "cited_lane_verdict": "in_sync",
+   "producer_reason": null,
+   "classification": "AGREE_CURRENT",
+   "board_prints": "modal bar 2026-11-24 is 1d behind last weekday 2026-11-25",
+   "calendar_says": "0 trading day(s) missing: none"
+  },
+  {
+   "block": "D2_index_daily",
+   "lane": null,
+   "artifact": "data/index_daily",
+   "tail_bar": "2026-11-23",
+   "tail_source": "modal_bar(1 sampled dates)",
+   "expected_bar": "2026-11-24",
+   "board_reference_day": "2026-11-25",
+   "calendar_lag_days": 2,
+   "trading_days_missing": 1,
+   "missing_days": [
+    "2026-11-24"
+   ],
+   "tolerance_units": 4,
+   "board_red": false,
+   "honest_red": false,
+   "honest_state": "PENDING_TODAY",
+   "cited_lane_verdict": null,
+   "producer_reason": "vendor has not published past 2026-11-23",
+   "classification": "AGREE_PENDING",
+   "board_prints": "modal bar 2026-11-23 is 2d behind last weekday 2026-11-25",
+   "calendar_says": "1 trading day(s) missing: 2026-11-24"
+  },
+  {
+   "block": "D3_etf_daily",
+   "lane": "etf_panel",
+   "artifact": "data/daily",
+   "tail_bar": "2026-11-23",
+   "tail_source": "data_lane_freshness:etf_panel",
+   "expected_bar": "2026-11-24",
+   "board_reference_day": "2026-11-25",
+   "calendar_lag_days": 2,
+   "trading_days_missing": 1,
+   "missing_days": [
+    "2026-11-24"
+   ],
+   "tolerance_units": 4,
+   "board_red": false,
+   "honest_red": false,
+   "honest_state": "PENDING_TODAY",
+   "cited_lane_verdict": "today_pending",
+   "producer_reason": null,
+   "classification": "AGREE_PENDING",
+   "board_prints": "modal bar 2026-11-23 is 2d behind last weekday 2026-11-25",
+   "calendar_says": "1 trading day(s) missing: 2026-11-24"
+  },
+  {
+   "block": "D4_astock_daily",
+   "lane": "astock_daily",
+   "artifact": "data/astock_daily/per",
+   "tail_bar": "2026-11-24",
+   "tail_source": "data_lane_freshness:astock_daily",
+   "expected_bar": "2026-11-24",
+   "board_reference_day": "2026-11-25",
+   "calendar_lag_days": 1,
+   "trading_days_missing": 0,
+   "missing_days": [],
+   "tolerance_units": 4,
+   "board_red": false,
+   "honest_red": false,
+   "honest_state": "CURRENT",
+   "cited_lane_verdict": "in_sync",
+   "producer_reason": null,
+   "classification": "AGREE_CURRENT",
+   "board_prints": "modal bar 2026-11-24 is 1d behind last weekday 2026-11-25",
+   "calendar_says": "0 trading day(s) missing: none"
+  },
+  {
+   "block": "D6_cash_rate",
+   "lane": "repo",
+   "artifact": "data/repo_daily",
+   "tail_bar": "2026-11-20",
+   "tail_source": "data_lane_freshness:repo",
+   "expected_bar": "2026-11-24",
+   "board_reference_day": "2026-11-25",
+   "calendar_lag_days": 5,
+   "trading_days_missing": 2,
+   "missing_days": [
+    "2026-11-23",
+    "2026-11-24"
+   ],
+   "tolerance_units": 4,
+   "board_red": true,
+   "honest_red": true,
+   "honest_state": "LATE",
+   "cited_lane_verdict": "stalled",
+   "producer_reason": null,
+   "classification": "AGREE_LATE",
+   "board_prints": "modal bar 2026-11-20 is 5d behind last weekday 2026-11-25",
+   "calendar_says": "2 trading day(s) missing: 2026-11-23, 2026-11-24"
+  }
+ ],
+ "weekday_sweep": [
+  {
+   "missing_trading_days": 1,
+   "calendar_lag_min": 1,
+   "calendar_lag_max": 3,
+   "flips": false,
+   "rows": [
+    {
+     "run_on": "2026-12-31",
+     "run_weekday": "Thu",
+     "tail": "2026-12-30",
+     "calendar_lag": 1,
+     "board_red": false
+    },
+    {
+     "run_on": "2026-12-30",
+     "run_weekday": "Wed",
+     "tail": "2026-12-29",
+     "calendar_lag": 1,
+     "board_red": false
+    },
+    {
+     "run_on": "2026-12-29",
+     "run_weekday": "Tue",
+     "tail": "2026-12-28",
+     "calendar_lag": 1,
+     "board_red": false
+    },
+    {
+     "run_on": "2026-12-28",
+     "run_weekday": "Mon",
+     "tail": "2026-12-25",
+     "calendar_lag": 3,
+     "board_red": false
+    },
+    {
+     "run_on": "2026-12-25",
+     "run_weekday": "Fri",
+     "tail": "2026-12-24",
+     "calendar_lag": 1,
+     "board_red": false
+    },
+    {
+     "run_on": "2026-12-24",
+     "run_weekday": "Thu",
+     "tail": "2026-12-23",
+     "calendar_lag": 1,
+     "board_red": false
+    },
+    {
+     "run_on": "2026-12-23",
+     "run_weekday": "Wed",
+     "tail": "2026-12-22",
+     "calendar_lag": 1,
+     "board_red": false
+    },
+    {
+     "run_on": "2026-12-22",
+     "run_weekday": "Tue",
+     "tail": "2026-12-21",
+     "calendar_lag": 1,
+     "board_red": false
+    },
+    {
+     "run_on": "2026-12-21",
+     "run_weekday": "Mon",
+     "tail": "2026-12-18",
+     "calendar_lag": 3,
+     "board_red": false
+    },
+    {
+     "run_on": "2026-12-18",
+     "run_weekday": "Fri",
+     "tail": "2026-12-17",
+     "calendar_lag": 1,
+     "board_red": false
+    },
+    {
+     "run_on": "2026-12-17",
+     "run_weekday": "Thu",
+     "tail": "2026-12-16",
+     "calendar_lag": 1,
+     "board_red": false
+    },
+    {
+     "run_on": "2026-12-16",
+     "run_weekday": "Wed",
+     "tail": "2026-12-15",
+     "calendar_lag": 1,
+     "board_red": false
+    },
+    {
+     "run_on": "2026-12-15",
+     "run_weekday": "Tue",
+     "tail": "2026-12-14",
+     "calendar_lag": 1,
+     "board_red": false
+    },
+    {
+     "run_on": "2026-12-14",
+     "run_weekday": "Mon",
+     "tail": "2026-12-11",
+     "calendar_lag": 3,
+     "board_red": false
+    }
+   ]
+  },
+  {
+   "missing_trading_days": 2,
+   "calendar_lag_min": 2,
+   "calendar_lag_max": 4,
+   "flips": false,
+   "rows": [
+    {
+     "run_on": "2026-12-31",
+     "run_weekday": "Thu",
+     "tail": "2026-12-29",
+     "calendar_lag": 2,
+     "board_red": false
+    },
+    {
+     "run_on": "2026-12-30",
+     "run_weekday": "Wed",
+     "tail": "2026-12-28",
+     "calendar_lag": 2,
+     "board_red": false
+    },
+    {
+     "run_on": "2026-12-29",
+     "run_weekday": "Tue",
+     "tail": "2026-12-25",
+     "calendar_lag": 4,
+     "board_red": false
+    },
+    {
+     "run_on": "2026-12-28",
+     "run_weekday": "Mon",
+     "tail": "2026-12-24",
+     "calendar_lag": 4,
+     "board_red": false
+    },
+    {
+     "run_on": "2026-12-25",
+     "run_weekday": "Fri",
+     "tail": "2026-12-23",
+     "calendar_lag": 2,
+     "board_red": false
+    },
+    {
+     "run_on": "2026-12-24",
+     "run_weekday": "Thu",
+     "tail": "2026-12-22",
+     "calendar_lag": 2,
+     "board_red": false
+    },
+    {
+     "run_on": "2026-12-23",
+     "run_weekday": "Wed",
+     "tail": "2026-12-21",
+     "calendar_lag": 2,
+     "board_red": false
+    },
+    {
+     "run_on": "2026-12-22",
+     "run_weekday": "Tue",
+     "tail": "2026-12-18",
+     "calendar_lag": 4,
+     "board_red": false
+    },
+    {
+     "run_on": "2026-12-21",
+     "run_weekday": "Mon",
+     "tail": "2026-12-17",
+     "calendar_lag": 4,
+     "board_red": false
+    },
+    {
+     "run_on": "2026-12-18",
+     "run_weekday": "Fri",
+     "tail": "2026-12-16",
+     "calendar_lag": 2,
+     "board_red": false
+    },
+    {
+     "run_on": "2026-12-17",
+     "run_weekday": "Thu",
+     "tail": "2026-12-15",
+     "calendar_lag": 2,
+     "board_red": false
+    },
+    {
+     "run_on": "2026-12-16",
+     "run_weekday": "Wed",
+     "tail": "2026-12-14",
+     "calendar_lag": 2,
+     "board_red": false
+    },
+    {
+     "run_on": "2026-12-15",
+     "run_weekday": "Tue",
+     "tail": "2026-12-11",
+     "calendar_lag": 4,
+     "board_red": false
+    },
+    {
+     "run_on": "2026-12-14",
+     "run_weekday": "Mon",
+     "tail": "2026-12-10",
+     "calendar_lag": 4,
+     "board_red": false
+    }
+   ]
+  },
+  {
+   "missing_trading_days": 3,
+   "calendar_lag_min": 3,
+   "calendar_lag_max": 5,
+   "flips": true,
+   "rows": [
+    {
+     "run_on": "2026-12-31",
+     "run_weekday": "Thu",
+     "tail": "2026-12-28",
+     "calendar_lag": 3,
+     "board_red": false
+    },
+    {
+     "run_on": "2026-12-30",
+     "run_weekday": "Wed",
+     "tail": "2026-12-25",
+     "calendar_lag": 5,
+     "board_red": true
+    },
+    {
+     "run_on": "2026-12-29",
+     "run_weekday": "Tue",
+     "tail": "2026-12-24",
+     "calendar_lag": 5,
+     "board_red": true
+    },
+    {
+     "run_on": "2026-12-28",
+     "run_weekday": "Mon",
+     "tail": "2026-12-23",
+     "calendar_lag": 5,
+     "board_red": true
+    },
+    {
+     "run_on": "2026-12-25",
+     "run_weekday": "Fri",
+     "tail": "2026-12-22",
+     "calendar_lag": 3,
+     "board_red": false
+    },
+    {
+     "run_on": "2026-12-24",
+     "run_weekday": "Thu",
+     "tail": "2026-12-21",
+     "calendar_lag": 3,
+     "board_red": false
+    },
+    {
+     "run_on": "2026-12-23",
+     "run_weekday": "Wed",
+     "tail": "2026-12-18",
+     "calendar_lag": 5,
+     "board_red": true
+    },
+    {
+     "run_on": "2026-12-22",
+     "run_weekday": "Tue",
+     "tail": "2026-12-17",
+     "calendar_lag": 5,
+     "board_red": true
+    },
+    {
+     "run_on": "2026-12-21",
+     "run_weekday": "Mon",
+     "tail": "2026-12-16",
+     "calendar_lag": 5,
+     "board_red": true
+    },
+    {
+     "run_on": "2026-12-18",
+     "run_weekday": "Fri",
+     "tail": "2026-12-15",
+     "calendar_lag": 3,
+     "board_red": false
+    },
+    {
+     "run_on": "2026-12-17",
+     "run_weekday": "Thu",
+     "tail": "2026-12-14",
+     "calendar_lag": 3,
+     "board_red": false
+    },
+    {
+     "run_on": "2026-12-16",
+     "run_weekday": "Wed",
+     "tail": "2026-12-11",
+     "calendar_lag": 5,
+     "board_red": true
+    },
+    {
+     "run_on": "2026-12-15",
+     "run_weekday": "Tue",
+     "tail": "2026-12-10",
+     "calendar_lag": 5,
+     "board_red": true
+    },
+    {
+     "run_on": "2026-12-14",
+     "run_weekday": "Mon",
+     "tail": "2026-12-09",
+     "calendar_lag": 5,
+     "board_red": true
+    }
+   ]
+  },
+  {
+   "missing_trading_days": 4,
+   "calendar_lag_min": 4,
+   "calendar_lag_max": 6,
+   "flips": true,
+   "rows": [
+    {
+     "run_on": "2026-12-31",
+     "run_weekday": "Thu",
+     "tail": "2026-12-25",
+     "calendar_lag": 6,
+     "board_red": true
+    },
+    {
+     "run_on": "2026-12-30",
+     "run_weekday": "Wed",
+     "tail": "2026-12-24",
+     "calendar_lag": 6,
+     "board_red": true
+    },
+    {
+     "run_on": "2026-12-29",
+     "run_weekday": "Tue",
+     "tail": "2026-12-23",
+     "calendar_lag": 6,
+     "board_red": true
+    },
+    {
+     "run_on": "2026-12-28",
+     "run_weekday": "Mon",
+     "tail": "2026-12-22",
+     "calendar_lag": 6,
+     "board_red": true
+    },
+    {
+     "run_on": "2026-12-25",
+     "run_weekday": "Fri",
+     "tail": "2026-12-21",
+     "calendar_lag": 4,
+     "board_red": false
+    },
+    {
+     "run_on": "2026-12-24",
+     "run_weekday": "Thu",
+     "tail": "2026-12-18",
+     "calendar_lag": 6,
+     "board_red": true
+    },
+    {
+     "run_on": "2026-12-23",
+     "run_weekday": "Wed",
+     "tail": "2026-12-17",
+     "calendar_lag": 6,
+     "board_red": true
+    },
+    {
+     "run_on": "2026-12-22",
+     "run_weekday": "Tue",
+     "tail": "2026-12-16",
+     "calendar_lag": 6,
+     "board_red": true
+    },
+    {
+     "run_on": "2026-12-21",
+     "run_weekday": "Mon",
+     "tail": "2026-12-15",
+     "calendar_lag": 6,
+     "board_red": true
+    },
+    {
+     "run_on": "2026-12-18",
+     "run_weekday": "Fri",
+     "tail": "2026-12-14",
+     "calendar_lag": 4,
+     "board_red": false
+    },
+    {
+     "run_on": "2026-12-17",
+     "run_weekday": "Thu",
+     "tail": "2026-12-11",
+     "calendar_lag": 6,
+     "board_red": true
+    },
+    {
+     "run_on": "2026-12-16",
+     "run_weekday": "Wed",
+     "tail": "2026-12-10",
+     "calendar_lag": 6,
+     "board_red": true
+    },
+    {
+     "run_on": "2026-12-15",
+     "run_weekday": "Tue",
+     "tail": "2026-12-09",
+     "calendar_lag": 6,
+     "board_red": true
+    },
+    {
+     "run_on": "2026-12-14",
+     "run_weekday": "Mon",
+     "tail": "2026-12-08",
+     "calendar_lag": 6,
+     "board_red": true
+    }
+   ]
+  },
+  {
+   "missing_trading_days": 5,
+   "calendar_lag_min": 7,
+   "calendar_lag_max": 7,
+   "flips": false,
+   "rows": [
+    {
+     "run_on": "2026-12-31",
+     "run_weekday": "Thu",
+     "tail": "2026-12-24",
+     "calendar_lag": 7,
+     "board_red": true
+    },
+    {
+     "run_on": "2026-12-30",
+     "run_weekday": "Wed",
+     "tail": "2026-12-23",
+     "calendar_lag": 7,
+     "board_red": true
+    },
+    {
+     "run_on": "2026-12-29",
+     "run_weekday": "Tue",
+     "tail": "2026-12-22",
+     "calendar_lag": 7,
+     "board_red": true
+    },
+    {
+     "run_on": "2026-12-28",
+     "run_weekday": "Mon",
+     "tail": "2026-12-21",
+     "calendar_lag": 7,
+     "board_red": true
+    },
+    {
+     "run_on": "2026-12-25",
+     "run_weekday": "Fri",
+     "tail": "2026-12-18",
+     "calendar_lag": 7,
+     "board_red": true
+    },
+    {
+     "run_on": "2026-12-24",
+     "run_weekday": "Thu",
+     "tail": "2026-12-17",
+     "calendar_lag": 7,
+     "board_red": true
+    },
+    {
+     "run_on": "2026-12-23",
+     "run_weekday": "Wed",
+     "tail": "2026-12-16",
+     "calendar_lag": 7,
+     "board_red": true
+    },
+    {
+     "run_on": "2026-12-22",
+     "run_weekday": "Tue",
+     "tail": "2026-12-15",
+     "calendar_lag": 7,
+     "board_red": true
+    },
+    {
+     "run_on": "2026-12-21",
+     "run_weekday": "Mon",
+     "tail": "2026-12-14",
+     "calendar_lag": 7,
+     "board_red": true
+    },
+    {
+     "run_on": "2026-12-18",
+     "run_weekday": "Fri",
+     "tail": "2026-12-11",
+     "calendar_lag": 7,
+     "board_red": true
+    },
+    {
+     "run_on": "2026-12-17",
+     "run_weekday": "Thu",
+     "tail": "2026-12-10",
+     "calendar_lag": 7,
+     "board_red": true
+    },
+    {
+     "run_on": "2026-12-16",
+     "run_weekday": "Wed",
+     "tail": "2026-12-09",
+     "calendar_lag": 7,
+     "board_red": true
+    },
+    {
+     "run_on": "2026-12-15",
+     "run_weekday": "Tue",
+     "tail": "2026-12-08",
+     "calendar_lag": 7,
+     "board_red": true
+    },
+    {
+     "run_on": "2026-12-14",
+     "run_weekday": "Mon",
+     "tail": "2026-12-07",
+     "calendar_lag": 7,
+     "board_red": true
+    }
+   ]
+  }
+ ],
+ "counts": {
+  "rows": 5,
+  "agree_late": 1,
+  "agree_current": 2,
+  "agree_pending": 2,
+  "red_is_unit_artifact": 0,
+  "green_is_premature": 0,
+  "red_too_strict_for_source_lag": 0,
+  "numbers_disagree": 5,
+  "sweep_rows_that_flip": 2
+ },
+ "verdict": "TOLERANCE_IS_IN_THE_WRONG_UNIT",
+ "honest": [
+  "this face does not fix the board: block_board.py is a shared face and another host is writing (r1907). The patch stays proven-not-applied until a clean window",
+  "the expected bar is the last OFFICIAL day whose bar must exist by the 15:30 accept time; the board's reference is 'last Mon-Fri', which is 11-25 today even though no 11-25 bar can exist before 15:30",
+  "a trading-day gap of 0 means the lane is current; it says nothing about the lane being correct, only about it having written its bar",
+  "holidays are taken from data/exchange_calendar.csv (the same file the rest of the chain imports); a wrong calendar moves every row together"
+ ],
+ "patch": {
+  "file": "scripts/block_board.py",
+  "shape": "expected/allow must both be in trading days: replace expected_last_weekday() with exchange_calendar_audit.expected_last_day(calendar, now) and compare len(trading_gap(...)) against holiday_allow_days; keep the printed string in trading days",
+  "status": "PROVEN_NOT_APPLIED"
+ },
+ "inputs_digest": {
+  "blocks": "d2746979ba5d7954",
+  "freshness": "29b50dc45f01e1fe"
+ }
+}
