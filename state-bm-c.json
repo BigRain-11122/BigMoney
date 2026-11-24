@@ -1535,7 +1535,7 @@
   },
   "round_drift_note": "state said round_no=1937 while commit 6a3f33e30e already said round 1938 -> counters healed to 1939",
   "round_label": "r2019",
-  "round_no": 2044,
+  "round_no": 2045,
   "round_no_label": "r2028",
   "round_no_landed": 2028,
   "round_no_note": "r2026：同树两宿主并存（本宿 pid 76120 vs 对端 interactive pid 51252），竞争探针 rc=3，只落新增文件面；轮号按本机轮次序列递增。",
@@ -2416,5 +2416,9 @@
   "watchdog_s4u_r2044": "& Tools/register_watchdog_task.ps1 幂等重注册成功但 S4U XML 翻转仍被拒（拒绝访问=需管理员）-> 留在默认 principal（首触发 11/24 11:54），入 task-s4u-backlog 候提权；loop 任务相位 pin=0 与实况一致=no-op",
   "hooks_r2044": "pre-commit / pre-push 与 Tools/git-hooks 源（CR 归一）逐字节一致=零动作",
   "idle_r2044": "idle_trigger --worked 已清零（idle_rounds 1->0, agenda_starved true->false）；本机池空板空，自驱产品件即工作",
-  "s7_r2044": "Bigmoney-IterationLoop 相位 no-op（pin=0，下次 11:55）；Bigmoney-LoopWatchdog 已重注册（S4U 待提权）"
+  "s7_r2044": "Bigmoney-IterationLoop 相位 no-op（pin=0，下次 11:55）；Bigmoney-LoopWatchdog 已重注册（S4U 待提权）",
+  "round_t2045_note": "r2045 PRODUCT（竞争窗·新增文件面）：把 r2043/r2044 的「元」换算成「几天的超额」——payback_days = 净等待 / 该货架每日超额。票面 565,246 元：511360 排 5 天 = 13.1 天超额（一个月预算内）、511380 排 2 天 = 577.1 天（>一年，且中位为负=靠赌尾）、511180 无正超额可还（NO_EXTRA_TO_PAY_BACK）、511880/511010 一次买完无排队。决定线落 ADOPTION 常量（20 交易日 + p95 口径），判词只读它。selftest 18/18、check rc0（5 架 / 25 档逐格复算）、负控 8/8。",
+  "round_t2045_next": "(a) 竞争窗关后 r2022–r2045 二十二面接 S6 链腿 + 全量冒烟（≤48h，禁读成已全绿）；(b) CEO 一页纸现金腿节加「等 5 天只花 13 天超额」一句（≤48h，需改共享面）；(c) 本面的「每日超额」用的是全窗口均摊——亏损年份的同一句话会更贵，值得单独量一次。",
+  "round_t2045_contention": "repo_write_contention rc=3 CONTENTION：3 宿主存活（51252 自 11-22 20:10、79740 自 11-24 11:47、本窗），轮首前 16 张共享面被他宿主写过、重叠窗内 0 张（peer 写入含 arbiter 守护进程与上一轮 r2044 的收尾件）→ 按 r1907 只落新增文件面：未改共享代码/数据面、未跑 S6 链、未跑全量冒烟（连续第 3 轮推迟）。",
+  "round_t2045_capture": "自捕：①r2044 的下轮指针 (c)「比 GC007/货币 ETF 的 carry」其实已被 cb_parking_bakeoff（更早轮）做过——下轮指针本身会指向重复开发，接手前必须按主题词查全族（r1787 律）；②verdict() 里 NO_WINDOWS 判在 ONE_SESSION_NO_WAIT 之前，会把「一次买完」印成「数据缺失」，已把 no-wait 提到前面并加 L18 腿；③页面脚注原本写「没有排队的行不在表内」，而表里就有三行 once-and-done——文字与表打架，已改。"
 }

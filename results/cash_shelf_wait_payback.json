@@ -1,0 +1,554 @@
+{
+ "schema": "cash-shelf-wait-payback/v1",
+ "artifact": "cash_shelf_wait_payback",
+ "generated": "2026-11-24T12:09:13+0800",
+ "evidence_cutoff": "2026-11-20",
+ "window": {
+  "start": "2020-07-16",
+  "end": "2026-11-20"
+ },
+ "question": "if the ticket must be spread over the sessions the capacity ruler forces, how many trading days of that shelf's extra-over-repo does the wait consume",
+ "adoption": {
+  "decided": "verdicts_use_p95_and_a_one_month_budget",
+  "decided_in": "r2045 bm-c",
+  "because": "a batch is a commitment, so the tail is what it can cost; one month of the shelf's own extra is the widest budget that still lets a THIN shelf finish without turning the wait into an investment decision",
+  "budget_sessions": 20,
+  "caliber": "p95"
+ },
+ "upstream": {
+  "plan_face": "results/cash_shelf_build_out_plan.json",
+  "plan_sha256": "864b22bd74b58a2c5cc3132208c6172c0cfd98a5ea9b91fe5eb69e3516d5ac2e",
+  "carry_face": "results/cash_shelf_inflight_carry.json",
+  "carry_sha256": "0219d2859f788202e4d52a42e11a3c48b84ef87fb68c57e239c67806cc614c9b"
+ },
+ "ruler": {
+  "payback_days": "net wait CNY / (extra-over-repo CNY per trading day)",
+  "trading_days_per_year": "index_bars / window years (per shelf, derived not typed)",
+  "net_cny": "imported from the carry face (median and p95), never re-derived",
+  "extra_cny": "imported from the same tier's year_extra_cny",
+  "no_divide": "extra <= 0 leaves payback None instead of a negative denominator"
+ },
+ "rows": [
+  {
+   "code": "511380",
+   "label": "cb_etf_sh",
+   "class": "convertible",
+   "index_bars": 1540,
+   "index_last": "2026-11-20",
+   "bars_per_year": 242.65962036238136,
+   "tiers": {
+    "250000": {
+     "size_cny": 250000,
+     "sessions_to_fill": 1,
+     "windows": 0,
+     "net_median_cny": null,
+     "net_p95_cny": null,
+     "net_per_wait_day_bp": null,
+     "extra_cny": 515.18,
+     "extra_per_day_cny": 2.123056152608514,
+     "payback_days_median": null,
+     "payback_days_p95": null,
+     "plan_class": "OPEN",
+     "verdict": [
+      "ONE_SESSION_NO_WAIT"
+     ]
+    },
+    "565246": {
+     "size_cny": 565246,
+     "sessions_to_fill": 2,
+     "windows": 1539,
+     "net_median_cny": -9.68,
+     "net_p95_cny": 2775.11,
+     "net_per_wait_day_bp": -0.3424,
+     "extra_cny": 1166.94,
+     "extra_per_day_cny": 4.808958318888504,
+     "payback_days_median": -2.0129099397636994,
+     "payback_days_p95": 577.0709197249628,
+     "plan_class": "THIN",
+     "verdict": [
+      "LONGER_THAN_A_YEAR",
+      "CUT_HITS_IN_THE_WAIT"
+     ]
+    },
+    "1000000": {
+     "size_cny": 1000000,
+     "sessions_to_fill": 2,
+     "windows": 1539,
+     "net_median_cny": -17.12,
+     "net_p95_cny": 4909.57,
+     "net_per_wait_day_bp": -0.3424,
+     "extra_cny": 2065.5,
+     "extra_per_day_cny": 8.511922984612923,
+     "payback_days_median": -2.0112963934175596,
+     "payback_days_p95": 576.7874085415331,
+     "plan_class": "THIN",
+     "verdict": [
+      "LONGER_THAN_A_YEAR",
+      "CUT_HITS_IN_THE_WAIT"
+     ]
+    },
+    "2000000": {
+     "size_cny": 2000000,
+     "sessions_to_fill": 4,
+     "windows": 1537,
+     "net_median_cny": 183.89,
+     "net_p95_cny": 19086.01,
+     "net_per_wait_day_bp": 0.6129,
+     "extra_cny": 4133.4,
+     "extra_per_day_cny": 17.0337363663031,
+     "payback_days_median": 10.795634970832321,
+     "payback_days_p95": 1120.482881122711,
+     "plan_class": "THIN",
+     "verdict": [
+      "LONGER_THAN_A_YEAR"
+     ]
+    },
+    "5000000": {
+     "size_cny": 5000000,
+     "sessions_to_fill": 10,
+     "windows": 1531,
+     "net_median_cny": 1477.95,
+     "net_p95_cny": 79976.37,
+     "net_per_wait_day_bp": 0.6569,
+     "extra_cny": 10337.09,
+     "extra_per_day_cny": 42.599135301385815,
+     "payback_days_median": 34.6943662011825,
+     "payback_days_p95": 1877.4176854570624,
+     "plan_class": "THIN",
+     "verdict": [
+      "LONGER_THAN_A_YEAR"
+     ]
+    }
+   }
+  },
+  {
+   "code": "511180",
+   "label": "cb_etf_sz",
+   "class": "convertible",
+   "index_bars": 1540,
+   "index_last": "2026-11-20",
+   "bars_per_year": 242.65962036238136,
+   "tiers": {
+    "250000": {
+     "size_cny": 250000,
+     "sessions_to_fill": 2,
+     "windows": 1539,
+     "net_median_cny": 4.94,
+     "net_p95_cny": 901.36,
+     "net_per_wait_day_bp": 0.3954,
+     "extra_cny": -903.6,
+     "extra_per_day_cny": -3.723734499586656,
+     "payback_days_median": null,
+     "payback_days_p95": null,
+     "plan_class": "THIN",
+     "verdict": [
+      "NO_EXTRA_TO_PAY_BACK"
+     ]
+    },
+    "565246": {
+     "size_cny": 565246,
+     "sessions_to_fill": 3,
+     "windows": 1538,
+     "net_median_cny": -18.79,
+     "net_p95_cny": 3045.35,
+     "net_per_wait_day_bp": -0.3324,
+     "extra_cny": -2041.03,
+     "extra_per_day_cny": -8.41108214441274,
+     "payback_days_median": null,
+     "payback_days_p95": null,
+     "plan_class": "THIN",
+     "verdict": [
+      "NO_EXTRA_TO_PAY_BACK"
+     ]
+    },
+    "1000000": {
+     "size_cny": 1000000,
+     "sessions_to_fill": 5,
+     "windows": 1536,
+     "net_median_cny": 34.74,
+     "net_p95_cny": 8218.28,
+     "net_per_wait_day_bp": 0.1737,
+     "extra_cny": -3614.41,
+     "extra_per_day_cny": -14.894979208334444,
+     "payback_days_median": null,
+     "payback_days_p95": null,
+     "plan_class": "THIN",
+     "verdict": [
+      "NO_EXTRA_TO_PAY_BACK"
+     ]
+    },
+    "2000000": {
+     "size_cny": 2000000,
+     "sessions_to_fill": 10,
+     "windows": 1531,
+     "net_median_cny": 331.64,
+     "net_p95_cny": 23727.83,
+     "net_per_wait_day_bp": 0.3685,
+     "extra_cny": -7232.79,
+     "extra_per_day_cny": -29.806318781834182,
+     "payback_days_median": null,
+     "payback_days_p95": null,
+     "plan_class": "THIN",
+     "verdict": [
+      "NO_EXTRA_TO_PAY_BACK"
+     ]
+    },
+    "5000000": {
+     "size_cny": 5000000,
+     "sessions_to_fill": 23,
+     "windows": 1518,
+     "net_median_cny": 1657.99,
+     "net_p95_cny": 92174.58,
+     "net_per_wait_day_bp": 0.3015,
+     "extra_cny": -18083.95,
+     "extra_per_day_cny": -74.52393592718029,
+     "payback_days_median": null,
+     "payback_days_p95": null,
+     "plan_class": "BLOCKED",
+     "verdict": [
+      "NO_EXTRA_TO_PAY_BACK"
+     ]
+    }
+   }
+  },
+  {
+   "code": "511880",
+   "label": "money_etf",
+   "class": "money",
+   "index_bars": 1540,
+   "index_last": "2026-11-20",
+   "bars_per_year": 242.65962036238136,
+   "tiers": {
+    "250000": {
+     "size_cny": 250000,
+     "sessions_to_fill": 1,
+     "windows": 0,
+     "net_median_cny": null,
+     "net_p95_cny": null,
+     "net_per_wait_day_bp": null,
+     "extra_cny": -581.99,
+     "extra_per_day_cny": -2.398380081246611,
+     "payback_days_median": null,
+     "payback_days_p95": null,
+     "plan_class": "OPEN",
+     "verdict": [
+      "ONE_SESSION_NO_WAIT"
+     ]
+    },
+    "565246": {
+     "size_cny": 565246,
+     "sessions_to_fill": 1,
+     "windows": 0,
+     "net_median_cny": null,
+     "net_p95_cny": null,
+     "net_per_wait_day_bp": null,
+     "extra_cny": -1333.72,
+     "extra_per_day_cny": -5.49625849578211,
+     "payback_days_median": null,
+     "payback_days_p95": null,
+     "plan_class": "OPEN",
+     "verdict": [
+      "ONE_SESSION_NO_WAIT"
+     ]
+    },
+    "1000000": {
+     "size_cny": 1000000,
+     "sessions_to_fill": 1,
+     "windows": 0,
+     "net_median_cny": null,
+     "net_p95_cny": null,
+     "net_per_wait_day_bp": null,
+     "extra_cny": -2400.7,
+     "extra_per_day_cny": -9.893281776402926,
+     "payback_days_median": null,
+     "payback_days_p95": null,
+     "plan_class": "OPEN",
+     "verdict": [
+      "ONE_SESSION_NO_WAIT"
+     ]
+    },
+    "2000000": {
+     "size_cny": 2000000,
+     "sessions_to_fill": 1,
+     "windows": 0,
+     "net_median_cny": null,
+     "net_p95_cny": null,
+     "net_per_wait_day_bp": null,
+     "extra_cny": -4801.4,
+     "extra_per_day_cny": -19.786563552805852,
+     "payback_days_median": null,
+     "payback_days_p95": null,
+     "plan_class": "OPEN",
+     "verdict": [
+      "ONE_SESSION_NO_WAIT"
+     ]
+    },
+    "5000000": {
+     "size_cny": 5000000,
+     "sessions_to_fill": 1,
+     "windows": 0,
+     "net_median_cny": null,
+     "net_p95_cny": null,
+     "net_per_wait_day_bp": null,
+     "extra_cny": -12003.49,
+     "extra_per_day_cny": -49.466367672026806,
+     "payback_days_median": null,
+     "payback_days_p95": null,
+     "plan_class": "OPEN",
+     "verdict": [
+      "ONE_SESSION_NO_WAIT"
+     ]
+    }
+   }
+  },
+  {
+   "code": "511360",
+   "label": "short_fin_etf",
+   "class": "money",
+   "index_bars": 1540,
+   "index_last": "2026-11-20",
+   "bars_per_year": 242.65962036238136,
+   "tiers": {
+    "250000": {
+     "size_cny": 250000,
+     "sessions_to_fill": 2,
+     "windows": 1539,
+     "net_median_cny": 1.93,
+     "net_p95_cny": 34.54,
+     "net_per_wait_day_bp": 0.1542,
+     "extra_cny": 1323.53,
+     "extra_per_day_cny": 5.454265518191596,
+     "payback_days_median": 0.3538514935811021,
+     "payback_days_p95": 6.3326583359022095,
+     "plan_class": "THIN",
+     "verdict": [
+      "PAYS_BACK_WITHIN_A_MONTH"
+     ]
+    },
+    "565246": {
+     "size_cny": 565246,
+     "sessions_to_fill": 5,
+     "windows": 1536,
+     "net_median_cny": 20.65,
+     "net_p95_cny": 166.61,
+     "net_per_wait_day_bp": 0.1827,
+     "extra_cny": 3088.23,
+     "extra_per_day_cny": 12.726592069121843,
+     "payback_days_median": 1.6225867764004542,
+     "payback_days_p95": 13.091485850657612,
+     "plan_class": "THIN",
+     "verdict": [
+      "PAYS_BACK_WITHIN_A_MONTH"
+     ]
+    },
+    "1000000": {
+     "size_cny": 1000000,
+     "sessions_to_fill": 8,
+     "windows": 1533,
+     "net_median_cny": 61.85,
+     "net_p95_cny": 415.05,
+     "net_per_wait_day_bp": 0.1767,
+     "extra_cny": 5483.19,
+     "extra_per_day_cny": 22.596219312515,
+     "payback_days_median": 2.737183559098497,
+     "payback_days_p95": 18.368116996019907,
+     "plan_class": "THIN",
+     "verdict": [
+      "PAYS_BACK_WITHIN_A_MONTH"
+     ]
+    },
+    "2000000": {
+     "size_cny": 2000000,
+     "sessions_to_fill": 16,
+     "windows": 1525,
+     "net_median_cny": 242.04,
+     "net_p95_cny": 1454.35,
+     "net_per_wait_day_bp": 0.1614,
+     "extra_cny": 11029.4,
+     "extra_per_day_cny": 45.4521439682836,
+     "payback_days_median": 5.325161342639744,
+     "payback_days_p95": 31.99739050846187,
+     "plan_class": "BLOCKED",
+     "verdict": [
+      "PAYS_BACK_WITHIN_A_YEAR"
+     ]
+    },
+    "5000000": {
+     "size_cny": 5000000,
+     "sessions_to_fill": 39,
+     "windows": 1502,
+     "net_median_cny": 1416.48,
+     "net_p95_cny": 7378.36,
+     "net_per_wait_day_bp": 0.1491,
+     "extra_cny": 27541.98,
+     "extra_per_day_cny": 113.50046603909438,
+     "payback_days_median": 12.479948756440386,
+     "payback_days_p95": 65.00731016785939,
+     "plan_class": "BLOCKED",
+     "verdict": [
+      "PAYS_BACK_WITHIN_A_YEAR"
+     ]
+    }
+   }
+  },
+  {
+   "code": "511010",
+   "label": "bond_etf",
+   "class": "bond",
+   "index_bars": 1540,
+   "index_last": "2026-11-20",
+   "bars_per_year": 242.65962036238136,
+   "tiers": {
+    "250000": {
+     "size_cny": 250000,
+     "sessions_to_fill": 1,
+     "windows": 0,
+     "net_median_cny": null,
+     "net_p95_cny": null,
+     "net_per_wait_day_bp": null,
+     "extra_cny": 1394.43,
+     "extra_per_day_cny": 5.74644433184885,
+     "payback_days_median": null,
+     "payback_days_p95": null,
+     "plan_class": "OPEN",
+     "verdict": [
+      "ONE_SESSION_NO_WAIT"
+     ]
+    },
+    "565246": {
+     "size_cny": 565246,
+     "sessions_to_fill": 1,
+     "windows": 0,
+     "net_median_cny": null,
+     "net_p95_cny": null,
+     "net_per_wait_day_bp": null,
+     "extra_cny": 3199.0,
+     "extra_per_day_cny": 13.183075104225003,
+     "payback_days_median": null,
+     "payback_days_p95": null,
+     "plan_class": "OPEN",
+     "verdict": [
+      "ONE_SESSION_NO_WAIT"
+     ]
+    },
+    "1000000": {
+     "size_cny": 1000000,
+     "sessions_to_fill": 2,
+     "windows": 1539,
+     "net_median_cny": 20.79,
+     "net_p95_cny": 822.41,
+     "net_per_wait_day_bp": 0.4158,
+     "extra_cny": 5741.79,
+     "extra_per_day_cny": 23.66190959758927,
+     "payback_days_median": 0.878627310879344,
+     "payback_days_p95": 34.75670450891204,
+     "plan_class": "THIN",
+     "verdict": [
+      "PAYS_BACK_WITHIN_A_YEAR"
+     ]
+    },
+    "2000000": {
+     "size_cny": 2000000,
+     "sessions_to_fill": 3,
+     "windows": 1538,
+     "net_median_cny": 129.31,
+     "net_p95_cny": 2413.42,
+     "net_per_wait_day_bp": 0.6466,
+     "extra_cny": 11565.61,
+     "extra_per_day_cny": 47.66186472528157,
+     "payback_days_median": 2.7130705175999825,
+     "payback_days_p95": 50.63628991250599,
+     "plan_class": "THIN",
+     "verdict": [
+      "PAYS_BACK_WITHIN_A_YEAR"
+     ]
+    },
+    "5000000": {
+     "size_cny": 5000000,
+     "sessions_to_fill": 8,
+     "windows": 1533,
+     "net_median_cny": 1079.9,
+     "net_p95_cny": 11375.48,
+     "net_per_wait_day_bp": 0.6171,
+     "extra_cny": 28955.03,
+     "extra_per_day_cny": 119.3236433682676,
+     "payback_days_median": 9.05017622255393,
+     "payback_days_p95": 95.33299251424923,
+     "plan_class": "THIN",
+     "verdict": [
+      "PAYS_BACK_WITHIN_A_YEAR"
+     ]
+    }
+   }
+  }
+ ],
+ "headline": {
+  "ticket_cash_cny": 565245.9,
+  "tier_used": 565246,
+  "budget_sessions": 20,
+  "caliber": "p95",
+  "at_the_ticket": [
+   {
+    "code": "511380",
+    "class": "convertible",
+    "sessions": 2,
+    "net_p95_cny": 2775.11,
+    "payback_days_p95": 577.0709197249628,
+    "verdict": [
+     "LONGER_THAN_A_YEAR",
+     "CUT_HITS_IN_THE_WAIT"
+    ]
+   },
+   {
+    "code": "511180",
+    "class": "convertible",
+    "sessions": 3,
+    "net_p95_cny": 3045.35,
+    "payback_days_p95": null,
+    "verdict": [
+     "NO_EXTRA_TO_PAY_BACK"
+    ]
+   },
+   {
+    "code": "511880",
+    "class": "money",
+    "sessions": 1,
+    "net_p95_cny": null,
+    "payback_days_p95": null,
+    "verdict": [
+     "ONE_SESSION_NO_WAIT"
+    ]
+   },
+   {
+    "code": "511360",
+    "class": "money",
+    "sessions": 5,
+    "net_p95_cny": 166.61,
+    "payback_days_p95": 13.091485850657612,
+    "verdict": [
+     "PAYS_BACK_WITHIN_A_MONTH"
+    ]
+   },
+   {
+    "code": "511010",
+    "class": "bond",
+    "sessions": 1,
+    "net_p95_cny": null,
+    "payback_days_p95": null,
+    "verdict": [
+     "ONE_SESSION_NO_WAIT"
+    ]
+   }
+  ],
+  "inside_budget": [
+   "511360"
+  ],
+  "outside_budget": [
+   "511380"
+  ],
+  "cheapest_wait": "511360",
+  "cheapest_wait_days": 13.091485850657612,
+  "dearest_wait": "511380",
+  "dearest_wait_days": 577.0709197249628
+ }
+}
