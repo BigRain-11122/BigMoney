@@ -1,0 +1,570 @@
+{
+ "schema": "cb-parking-shelf-at-size/v1",
+ "artifact": "cb_parking_shelf_at_size",
+ "generated": "2026-11-24T10:22:18+0800",
+ "evidence_cutoff": "2026-11-20",
+ "window": {
+  "start": "2020-07-16",
+  "end": "2026-11-20"
+ },
+ "question": "at the sizes we actually run, can the convertible shelf absorb the cash leg, what does a lot leave stranded, and what does one defence day cost at that size?",
+ "order_ref": "O-20261009-1105 (CEO: convertibles may supplement the idle periods)",
+ "comparator": {
+  "repo_net_pct": 1.7662,
+  "provenance": "cb_parking_bakeoff.json::headline.repo_net_pct"
+ },
+ "ruler": {
+  "bad_day": "p10 of the daily turnover series",
+  "open_max_participation": 0.01,
+  "thin_max_participation": 0.1,
+  "bands_imported_from": "scripts/repo_capacity_at_size.py"
+ },
+ "lot": {
+  "units": 100,
+  "cost_bp_per_side": 2.0,
+  "round_trip_bp": 4.0
+ },
+ "tiers_cny": [
+  250000,
+  565246,
+  1000000,
+  2000000,
+  5000000
+ ],
+ "ticket_cash_cny": 565245.9,
+ "rows": [
+  {
+   "code": "511380",
+   "label": "cb_etf_sh",
+   "class": "convertible",
+   "price": 11.589,
+   "lot_units": 100,
+   "lot_value_cny": 1158.9,
+   "bars": 1540,
+   "turnover_median_yuan": 707116309.0,
+   "turnover_bad_day_yuan": 50075041.0,
+   "max_open_order_cny": 500750.0,
+   "max_open_lots": 432,
+   "own_net_cagr_pct": 1.973,
+   "defence": {
+    "days": 232,
+    "mean_pct": -0.7689,
+    "sum_pct": -83.392,
+    "share_negative": 0.9612
+   },
+   "capacity": {
+    "250000": {
+     "participation_pct_of_bad_day": 0.4993,
+     "class": "OPEN",
+     "lots": 215,
+     "residue_cny": 836.5,
+     "residue_bp": 33.46,
+     "effective_yield_pct": 1.972271,
+     "yield_drag_bp": 0.0692,
+     "extra_vs_repo_pp": 0.2061,
+     "cny_per_year_vs_repo": 515.18,
+     "one_defence_day_cny": -1922.25,
+     "years_of_extra_per_defence_day": 3.731
+    },
+    "565246": {
+     "participation_pct_of_bad_day": 1.1288,
+     "class": "THIN",
+     "lots": 487,
+     "residue_cny": 861.7,
+     "residue_bp": 15.245,
+     "effective_yield_pct": 1.972648,
+     "yield_drag_bp": 0.0315,
+     "extra_vs_repo_pp": 0.2064,
+     "cny_per_year_vs_repo": 1166.94,
+     "one_defence_day_cny": -4346.18,
+     "years_of_extra_per_defence_day": 3.724
+    },
+    "1000000": {
+     "participation_pct_of_bad_day": 1.997,
+     "class": "THIN",
+     "lots": 862,
+     "residue_cny": 1028.2,
+     "residue_bp": 10.282,
+     "effective_yield_pct": 1.97275,
+     "yield_drag_bp": 0.0213,
+     "extra_vs_repo_pp": 0.2066,
+     "cny_per_year_vs_repo": 2065.5,
+     "one_defence_day_cny": -7689.0,
+     "years_of_extra_per_defence_day": 3.723
+    },
+    "2000000": {
+     "participation_pct_of_bad_day": 3.994,
+     "class": "THIN",
+     "lots": 1725,
+     "residue_cny": 897.5,
+     "residue_bp": 4.487,
+     "effective_yield_pct": 1.97287,
+     "yield_drag_bp": 0.0093,
+     "extra_vs_repo_pp": 0.2067,
+     "cny_per_year_vs_repo": 4133.4,
+     "one_defence_day_cny": -15378.0,
+     "years_of_extra_per_defence_day": 3.72
+    },
+    "5000000": {
+     "participation_pct_of_bad_day": 9.985,
+     "class": "THIN",
+     "lots": 4314,
+     "residue_cny": 505.4,
+     "residue_bp": 1.011,
+     "effective_yield_pct": 1.972942,
+     "yield_drag_bp": 0.0021,
+     "extra_vs_repo_pp": 0.2067,
+     "cny_per_year_vs_repo": 10337.09,
+     "one_defence_day_cny": -38445.0,
+     "years_of_extra_per_defence_day": 3.719
+    }
+   },
+   "note": "SSE convertible ETF (the larger of the two)",
+   "beta_to_equity": 0.422,
+   "unit_check": {
+    "median_yuan": 677722454.0,
+    "range": [
+     100000000.0,
+     30000000000.0
+    ],
+    "ok": true
+   }
+  },
+  {
+   "code": "511180",
+   "label": "cb_etf_sz",
+   "class": "convertible",
+   "price": 10.956,
+   "lot_units": 100,
+   "lot_value_cny": 1095.6,
+   "bars": 1502,
+   "turnover_median_yuan": 207297291.0,
+   "turnover_bad_day_yuan": 21954891.0,
+   "max_open_order_cny": 219549.0,
+   "max_open_lots": 200,
+   "own_net_cagr_pct": 1.4045,
+   "defence": {
+    "days": 226,
+    "mean_pct": -0.5514,
+    "sum_pct": -71.419,
+    "share_negative": 0.9292
+   },
+   "capacity": {
+    "250000": {
+     "participation_pct_of_bad_day": 1.1387,
+     "class": "THIN",
+     "lots": 228,
+     "residue_cny": 203.2,
+     "residue_bp": 8.128,
+     "effective_yield_pct": 1.404759,
+     "yield_drag_bp": -0.0294,
+     "extra_vs_repo_pp": -0.3614,
+     "cny_per_year_vs_repo": -903.6,
+     "one_defence_day_cny": -1378.5,
+     "years_of_extra_per_defence_day": null
+    },
+    "565246": {
+     "participation_pct_of_bad_day": 2.5746,
+     "class": "THIN",
+     "lots": 515,
+     "residue_cny": 1012.0,
+     "residue_bp": 17.904,
+     "effective_yield_pct": 1.405112,
+     "yield_drag_bp": -0.0648,
+     "extra_vs_repo_pp": -0.3611,
+     "cny_per_year_vs_repo": -2041.03,
+     "one_defence_day_cny": -3116.77,
+     "years_of_extra_per_defence_day": null
+    },
+    "1000000": {
+     "participation_pct_of_bad_day": 4.5548,
+     "class": "THIN",
+     "lots": 912,
+     "residue_cny": 812.8,
+     "residue_bp": 8.128,
+     "effective_yield_pct": 1.404759,
+     "yield_drag_bp": -0.0294,
+     "extra_vs_repo_pp": -0.3614,
+     "cny_per_year_vs_repo": -3614.41,
+     "one_defence_day_cny": -5514.0,
+     "years_of_extra_per_defence_day": null
+    },
+    "2000000": {
+     "participation_pct_of_bad_day": 9.1096,
+     "class": "THIN",
+     "lots": 1825,
+     "residue_cny": 530.0,
+     "residue_bp": 2.65,
+     "effective_yield_pct": 1.404561,
+     "yield_drag_bp": -0.0096,
+     "extra_vs_repo_pp": -0.3616,
+     "cny_per_year_vs_repo": -7232.79,
+     "one_defence_day_cny": -11028.0,
+     "years_of_extra_per_defence_day": null
+    },
+    "5000000": {
+     "participation_pct_of_bad_day": 22.774,
+     "class": "BLOCKED",
+     "lots": 4563,
+     "residue_cny": 777.2,
+     "residue_bp": 1.554,
+     "effective_yield_pct": 1.404521,
+     "yield_drag_bp": -0.0056,
+     "extra_vs_repo_pp": -0.3617,
+     "cny_per_year_vs_repo": -18083.95,
+     "one_defence_day_cny": -27570.0,
+     "years_of_extra_per_defence_day": null
+    }
+   },
+   "note": "the second convertible ETF",
+   "beta_to_equity": 0.305,
+   "unit_check": {
+    "median_yuan": 207297291.0,
+    "range": [
+     50000000.0,
+     30000000000.0
+    ],
+    "ok": true
+   }
+  },
+  {
+   "code": "511880",
+   "label": "money_etf",
+   "class": "money",
+   "price": 100.991,
+   "lot_units": 100,
+   "lot_value_cny": 10099.1,
+   "bars": 1540,
+   "turnover_median_yuan": 12736916259.0,
+   "turnover_bad_day_yuan": 10114227470.0,
+   "max_open_order_cny": 101142275.0,
+   "max_open_lots": 10014,
+   "own_net_cagr_pct": 1.5261,
+   "defence": {
+    "days": 232,
+    "mean_pct": 0.0098,
+    "sum_pct": 2.31,
+    "share_negative": 0.0991
+   },
+   "capacity": {
+    "250000": {
+     "participation_pct_of_bad_day": 0.0025,
+     "class": "OPEN",
+     "lots": 24,
+     "residue_cny": 7621.6,
+     "residue_bp": 304.864,
+     "effective_yield_pct": 1.533405,
+     "yield_drag_bp": -0.732,
+     "extra_vs_repo_pp": -0.2328,
+     "cny_per_year_vs_repo": -581.99,
+     "one_defence_day_cny": 24.5,
+     "years_of_extra_per_defence_day": null
+    },
+    "565246": {
+     "participation_pct_of_bad_day": 0.0056,
+     "class": "OPEN",
+     "lots": 55,
+     "residue_cny": 9795.5,
+     "residue_bp": 173.296,
+     "effective_yield_pct": 1.530246,
+     "yield_drag_bp": -0.4161,
+     "extra_vs_repo_pp": -0.236,
+     "cny_per_year_vs_repo": -1333.72,
+     "one_defence_day_cny": 55.39,
+     "years_of_extra_per_defence_day": null
+    },
+    "1000000": {
+     "participation_pct_of_bad_day": 0.0099,
+     "class": "OPEN",
+     "lots": 99,
+     "residue_cny": 189.1,
+     "residue_bp": 1.891,
+     "effective_yield_pct": 1.52613,
+     "yield_drag_bp": -0.0045,
+     "extra_vs_repo_pp": -0.2401,
+     "cny_per_year_vs_repo": -2400.7,
+     "one_defence_day_cny": 98.0,
+     "years_of_extra_per_defence_day": null
+    },
+    "2000000": {
+     "participation_pct_of_bad_day": 0.0198,
+     "class": "OPEN",
+     "lots": 198,
+     "residue_cny": 378.2,
+     "residue_bp": 1.891,
+     "effective_yield_pct": 1.52613,
+     "yield_drag_bp": -0.0045,
+     "extra_vs_repo_pp": -0.2401,
+     "cny_per_year_vs_repo": -4801.4,
+     "one_defence_day_cny": 196.0,
+     "years_of_extra_per_defence_day": null
+    },
+    "5000000": {
+     "participation_pct_of_bad_day": 0.0494,
+     "class": "OPEN",
+     "lots": 495,
+     "residue_cny": 945.5,
+     "residue_bp": 1.891,
+     "effective_yield_pct": 1.52613,
+     "yield_drag_bp": -0.0045,
+     "extra_vs_repo_pp": -0.2401,
+     "cny_per_year_vs_repo": -12003.49,
+     "one_defence_day_cny": 490.0,
+     "years_of_extra_per_defence_day": null
+    }
+   },
+   "note": "price-accumulating money ETF",
+   "share_resets_removed": 13,
+   "beta_to_equity": -0.002,
+   "unit_check": {
+    "median_yuan": 9212985457.0,
+    "range": [
+     100000000.0,
+     100000000000.0
+    ],
+    "ok": true
+   }
+  },
+  {
+   "code": "511360",
+   "label": "short_fin_etf",
+   "class": "money",
+   "price": 114.189,
+   "lot_units": 100,
+   "lot_value_cny": 11418.9,
+   "bars": 1480,
+   "turnover_median_yuan": 7054372207.0,
+   "turnover_bad_day_yuan": 13085634.0,
+   "max_open_order_cny": 130856.0,
+   "max_open_lots": 11,
+   "own_net_cagr_pct": 2.3181,
+   "defence": {
+    "days": 222,
+    "mean_pct": 0.0114,
+    "sum_pct": 2.567,
+    "share_negative": 0.1171
+   },
+   "capacity": {
+    "250000": {
+     "participation_pct_of_bad_day": 1.9105,
+     "class": "THIN",
+     "lots": 21,
+     "residue_cny": 10203.1,
+     "residue_bp": 408.124,
+     "effective_yield_pct": 2.295611,
+     "yield_drag_bp": 2.2526,
+     "extra_vs_repo_pp": 0.5294,
+     "cny_per_year_vs_repo": 1323.53,
+     "one_defence_day_cny": 28.5,
+     "years_of_extra_per_defence_day": 0.022
+    },
+    "565246": {
+     "participation_pct_of_bad_day": 4.3196,
+     "class": "THIN",
+     "lots": 49,
+     "residue_cny": 5719.9,
+     "residue_bp": 101.193,
+     "effective_yield_pct": 2.312552,
+     "yield_drag_bp": 0.5585,
+     "extra_vs_repo_pp": 0.5464,
+     "cny_per_year_vs_repo": 3088.23,
+     "one_defence_day_cny": 64.44,
+     "years_of_extra_per_defence_day": 0.021
+    },
+    "1000000": {
+     "participation_pct_of_bad_day": 7.642,
+     "class": "THIN",
+     "lots": 87,
+     "residue_cny": 6555.7,
+     "residue_bp": 65.557,
+     "effective_yield_pct": 2.314519,
+     "yield_drag_bp": 0.3618,
+     "extra_vs_repo_pp": 0.5483,
+     "cny_per_year_vs_repo": 5483.19,
+     "one_defence_day_cny": 114.0,
+     "years_of_extra_per_defence_day": 0.021
+    },
+    "2000000": {
+     "participation_pct_of_bad_day": 15.2839,
+     "class": "BLOCKED",
+     "lots": 175,
+     "residue_cny": 1692.5,
+     "residue_bp": 8.463,
+     "effective_yield_pct": 2.31767,
+     "yield_drag_bp": 0.0467,
+     "extra_vs_repo_pp": 0.5515,
+     "cny_per_year_vs_repo": 11029.4,
+     "one_defence_day_cny": 228.0,
+     "years_of_extra_per_defence_day": 0.021
+    },
+    "5000000": {
+     "participation_pct_of_bad_day": 38.2098,
+     "class": "BLOCKED",
+     "lots": 437,
+     "residue_cny": 9940.7,
+     "residue_bp": 19.881,
+     "effective_yield_pct": 2.31704,
+     "yield_drag_bp": 0.1097,
+     "extra_vs_repo_pp": 0.5508,
+     "cny_per_year_vs_repo": 27541.98,
+     "one_defence_day_cny": 570.0,
+     "years_of_extra_per_defence_day": 0.021
+    }
+   },
+   "note": "short-term financing ETF",
+   "share_resets_removed": 1,
+   "beta_to_equity": -0.001,
+   "unit_check": {
+    "median_yuan": 7054372207.0,
+    "range": [
+     50000000.0,
+     100000000000.0
+    ],
+    "ok": true
+   }
+  },
+  {
+   "code": "511010",
+   "label": "bond_etf",
+   "class": "bond",
+   "price": 141.411,
+   "lot_units": 100,
+   "lot_value_cny": 14141.1,
+   "bars": 1540,
+   "turnover_median_yuan": 376654455.0,
+   "turnover_bad_day_yuan": 67822402.0,
+   "max_open_order_cny": 678224.0,
+   "max_open_lots": 47,
+   "own_net_cagr_pct": 2.3463,
+   "defence": {
+    "days": 232,
+    "mean_pct": 0.0226,
+    "sum_pct": 5.357,
+    "share_negative": 0.375
+   },
+   "capacity": {
+    "250000": {
+     "participation_pct_of_bad_day": 0.3686,
+     "class": "OPEN",
+     "lots": 17,
+     "residue_cny": 9601.3,
+     "residue_bp": 384.052,
+     "effective_yield_pct": 2.323974,
+     "yield_drag_bp": 2.2277,
+     "extra_vs_repo_pp": 0.5578,
+     "cny_per_year_vs_repo": 1394.43,
+     "one_defence_day_cny": 56.5,
+     "years_of_extra_per_defence_day": 0.041
+    },
+    "565246": {
+     "participation_pct_of_bad_day": 0.8334,
+     "class": "OPEN",
+     "lots": 39,
+     "residue_cny": 13743.1,
+     "residue_bp": 243.135,
+     "effective_yield_pct": 2.332148,
+     "yield_drag_bp": 1.4103,
+     "extra_vs_repo_pp": 0.5659,
+     "cny_per_year_vs_repo": 3199.0,
+     "one_defence_day_cny": 127.75,
+     "years_of_extra_per_defence_day": 0.04
+    },
+    "1000000": {
+     "participation_pct_of_bad_day": 1.4744,
+     "class": "THIN",
+     "lots": 70,
+     "residue_cny": 10123.0,
+     "residue_bp": 101.23,
+     "effective_yield_pct": 2.340379,
+     "yield_drag_bp": 0.5872,
+     "extra_vs_repo_pp": 0.5742,
+     "cny_per_year_vs_repo": 5741.79,
+     "one_defence_day_cny": 226.0,
+     "years_of_extra_per_defence_day": 0.039
+    },
+    "2000000": {
+     "participation_pct_of_bad_day": 2.9489,
+     "class": "THIN",
+     "lots": 141,
+     "residue_cny": 6104.9,
+     "residue_bp": 30.524,
+     "effective_yield_pct": 2.34448,
+     "yield_drag_bp": 0.1771,
+     "extra_vs_repo_pp": 0.5783,
+     "cny_per_year_vs_repo": 11565.61,
+     "one_defence_day_cny": 452.0,
+     "years_of_extra_per_defence_day": 0.039
+    },
+    "5000000": {
+     "participation_pct_of_bad_day": 7.3722,
+     "class": "THIN",
+     "lots": 353,
+     "residue_cny": 8191.7,
+     "residue_bp": 16.383,
+     "effective_yield_pct": 2.345301,
+     "yield_drag_bp": 0.095,
+     "extra_vs_repo_pp": 0.5791,
+     "cny_per_year_vs_repo": 28955.03,
+     "one_defence_day_cny": 1130.0,
+     "years_of_extra_per_defence_day": 0.039
+    }
+   },
+   "note": "treasury bond ETF",
+   "beta_to_equity": -0.014,
+   "unit_check": {
+    "median_yuan": 302544695.0,
+    "range": [
+     10000000.0,
+     10000000000.0
+    ],
+    "ok": true
+   }
+  }
+ ],
+ "agreement_with_r2040": {
+  "source": "cb_parking_bakeoff.json",
+  "published_cb_etf_net_pct": 1.8332,
+  "rebuilt_cb_etf_net_pct": 1.8332,
+  "delta_net_pp": 0.0,
+  "published_defence_mean_pct": -0.665,
+  "rebuilt_defence_mean_pct": -0.665,
+  "delta_defence_pp": 0.0,
+  "published_defence_days": 232,
+  "rebuilt_defence_days": 232,
+  "agree_net_within_0_01pp": true,
+  "agree_defence_within_0_02pp": true,
+  "published_money_net_pct": 1.5261,
+  "rebuilt_money_net_pct": 1.5261,
+  "delta_money_pp": 0.0
+ },
+ "verdict": [
+  "SHELF_ABSORBS_THE_CASH_LEG_IN_TWO_ORDERS",
+  "THE_LOT_COSTS_UNDER_ONE_BP",
+  "ONE_DEFENCE_DAY_OUTWEIGHS_THE_YEAR"
+ ],
+ "headline": {
+  "best_shelf": "cb_etf_sh",
+  "best_shelf_open_order_cny": 500750.0,
+  "best_shelf_bad_day_m": 50.1,
+  "combinable_open_order_cny": 720299.0,
+  "ticket_participation_pct": 1.1288,
+  "one_defence_day_cny_at_ticket": -3116.77,
+  "year_extra_cny_at_ticket": 1166.94,
+  "years_of_extra_per_defence_day": 3.724,
+  "payback_years_best_shelf": 0.194,
+  "lot_value_money_etf_cny": 10099.1,
+  "lot_value_cb_cny": 1158.9
+ },
+ "data_sha": {
+  "r2040_face": "f6911c651c3c9d86c9becbd1258b8f8f9046d2f6c302b35299882e84d4581f22"
+ },
+ "notes": "Participation is measured against the p10 day, so 'OPEN at the ticket tier' means our order is no more than 1% of a bad day's tape. The residue is priced at the repo net rate; the effective yield therefore never flatters the shelf. Defence days are the equity yardstick's own <= -1% bars, rebuilt with r2040's construction.",
+ "not_measured": [
+  "intraday execution shape (the face prices turnover, not our fill)",
+  "IOPV / premium at the trade timestamp",
+  "conversion-bond ETF lending or fee differences between the two listings",
+  "the class-vs-shelf gap (equal weight vs issuance weight) -- r2040 already prints it"
+ ],
+ "elapsed_sec": 48.4,
+ "content_sha256": "d9120ce1841206fe13572b21fcdbb5454be91877912de759127366b6e0145107"
+}
