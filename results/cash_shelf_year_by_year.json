@@ -1,0 +1,693 @@
+{
+ "schema": "cash-shelf-year-by-year/v1",
+ "artifact": "cash_shelf_year_by_year",
+ "generated": "2026-11-24T12:43:24+0800",
+ "evidence_cutoff": "2026-11-20",
+ "window": {
+  "start": "2020-07-16",
+  "end": "2026-11-20"
+ },
+ "question": "year by year: what was each shelf's extra over the repo leg, and how many trading days of that year's extra does the same p95 net wait cost",
+ "adoption": {
+  "budget_sessions": 20.0,
+  "caliber": "p95",
+  "source": "results/cash_shelf_wait_payback.json :: adoption",
+  "note": "no second budget is declared here; the upstream one is read and printed"
+ },
+ "flip_rule": {
+  "drop_bp_at_least": 50.0,
+  "rebound_within_bars": 3,
+  "rebound_tolerance_bp": 5.0,
+  "treatment": "both bars booked at exactly zero return; pair listed in quote_audit",
+  "why": "r2041's repair is a 35% rule and the money reader zeroes drops > 50bp but keeps the rebound; a sub-threshold quote flip therefore lands as a fake gain"
+ },
+ "upstream": {
+  "payback_face": "results/cash_shelf_wait_payback.json",
+  "payback_sha256": "37f4cf669123b7b8eae1bc4ae5461d6ff78bf6a27f01dadb48aad506df8330be",
+  "size_face": "results/cb_parking_shelf_at_size.json",
+  "size_sha256": "62029cb2747034e6aeda7d4d24544db03a8d43299332ddbe4483072d83c92c64"
+ },
+ "panel": {
+  "columns": 1637,
+  "flips_repaired_35pct_rule": 169
+ },
+ "rows": [
+  {
+   "code": "511380",
+   "label": "cb_etf_sh",
+   "class": "convertible",
+   "index_bars": 1539,
+   "index_first": "2020-07-17",
+   "index_last": "2026-11-20",
+   "window_cagr_pct": 1.9665,
+   "bars_per_year": 242.6067,
+   "window_cagr_before_neutralisation_pct": 1.9665,
+   "published_own_net_cagr_pct": 1.973,
+   "repo_cagr_pct": 1.7662,
+   "window_extra_pp": 0.2002,
+   "window_extra_cny": 1131.86,
+   "published_extra_cny": 1166.94,
+   "delta_vs_published_cny": -35.08,
+   "sessions_to_fill": 2,
+   "net_p95_cny": 2775.11,
+   "net_median_cny": -9.68,
+   "published_payback_days_p95": 577.0709197249628,
+   "payback_days_p95_on_this_line": 594.82,
+   "years": {
+    "2020": {
+     "bars": 114,
+     "shelf_pct": 0.3979,
+     "repo_pct": 1.0682,
+     "full_year": true,
+     "extra_pp": -0.6703,
+     "extra_cny": -3789.07,
+     "extra_per_day_cny": -33.2375,
+     "payback_days_p95": null,
+     "payback_days_median": null
+    },
+    "2021": {
+     "bars": 243,
+     "shelf_pct": 14.6844,
+     "repo_pct": 2.1196,
+     "full_year": true,
+     "extra_pp": 12.5648,
+     "extra_cny": 71022.23,
+     "extra_per_day_cny": 292.2725,
+     "payback_days_p95": 9.49,
+     "payback_days_median": -0.03
+    },
+    "2022": {
+     "bars": 242,
+     "shelf_pct": -7.0211,
+     "repo_pct": 1.7998,
+     "full_year": true,
+     "extra_pp": -8.8209,
+     "extra_cny": -49859.75,
+     "extra_per_day_cny": -206.032,
+     "payback_days_p95": null,
+     "payback_days_median": null
+    },
+    "2023": {
+     "bars": 242,
+     "shelf_pct": -0.2736,
+     "repo_pct": 2.1518,
+     "full_year": true,
+     "extra_pp": -2.4254,
+     "extra_cny": -13709.34,
+     "extra_per_day_cny": -56.6502,
+     "payback_days_p95": null,
+     "payback_days_median": null
+    },
+    "2024": {
+     "bars": 242,
+     "shelf_pct": 5.8711,
+     "repo_pct": 1.7283,
+     "full_year": true,
+     "extra_pp": 4.1428,
+     "extra_cny": 23416.81,
+     "extra_per_day_cny": 96.7637,
+     "payback_days_p95": 28.68,
+     "payback_days_median": -0.1
+    },
+    "2025": {
+     "bars": 243,
+     "shelf_pct": 18.0185,
+     "repo_pct": 1.4118,
+     "full_year": true,
+     "extra_pp": 16.6067,
+     "extra_cny": 93868.8,
+     "extra_per_day_cny": 386.2913,
+     "payback_days_p95": 7.18,
+     "payback_days_median": -0.03
+    },
+    "2026": {
+     "bars": 213,
+     "shelf_pct": -15.1797,
+     "repo_pct": 0.9275,
+     "full_year": true,
+     "extra_pp": -16.1071,
+     "extra_cny": -91044.93,
+     "extra_per_day_cny": -427.441,
+     "payback_days_p95": null,
+     "payback_days_median": null
+    }
+   },
+   "years_beating_repo": "3/7",
+   "worst_year": {
+    "year": "2024",
+    "payback_days_p95": 28.68
+   },
+   "best_year": {
+    "year": "2025",
+    "payback_days_p95": 7.18
+   },
+   "quote_audit": {
+    "flip_pairs": [],
+    "flip_effect_pp_per_year": 0.0,
+    "caliber": "buy-and-hold, 4bp round trip on the entry bar (r2041 caliber)"
+   },
+   "verdict": [
+    "WAIT_FITS_ONLY_IN_GOOD_YEARS",
+    "EXTRA_GOES_NEGATIVE_IN_YEARS"
+   ]
+  },
+  {
+   "code": "511180",
+   "label": "cb_etf_sz",
+   "class": "convertible",
+   "index_bars": 1510,
+   "index_first": "2020-08-27",
+   "index_last": "2026-11-20",
+   "window_cagr_pct": 1.3979,
+   "bars_per_year": 242.3232,
+   "window_cagr_before_neutralisation_pct": 1.3979,
+   "published_own_net_cagr_pct": 1.4045,
+   "repo_cagr_pct": 1.7662,
+   "window_extra_pp": -0.3683,
+   "window_extra_cny": -2081.93,
+   "published_extra_cny": -2041.03,
+   "delta_vs_published_cny": -40.9,
+   "sessions_to_fill": 3,
+   "net_p95_cny": 3045.35,
+   "net_median_cny": -18.79,
+   "published_payback_days_p95": null,
+   "payback_days_p95_on_this_line": null,
+   "years": {
+    "2020": {
+     "bars": 85,
+     "shelf_pct": 0.0789,
+     "repo_pct": 1.0682,
+     "full_year": false,
+     "extra_pp": -0.9894,
+     "extra_cny": -5592.39,
+     "extra_per_day_cny": -65.7929,
+     "payback_days_p95": null,
+     "payback_days_median": null
+    },
+    "2021": {
+     "bars": 243,
+     "shelf_pct": 11.2768,
+     "repo_pct": 2.1196,
+     "full_year": true,
+     "extra_pp": 9.1573,
+     "extra_cny": 51761.02,
+     "extra_per_day_cny": 213.0083,
+     "payback_days_p95": 14.3,
+     "payback_days_median": -0.09
+    },
+    "2022": {
+     "bars": 242,
+     "shelf_pct": -8.0786,
+     "repo_pct": 1.7998,
+     "full_year": true,
+     "extra_pp": -9.8784,
+     "extra_cny": -55837.38,
+     "extra_per_day_cny": -230.733,
+     "payback_days_p95": null,
+     "payback_days_median": null
+    },
+    "2023": {
+     "bars": 242,
+     "shelf_pct": 0.8069,
+     "repo_pct": 2.1518,
+     "full_year": true,
+     "extra_pp": -1.3449,
+     "extra_cny": -7601.75,
+     "extra_per_day_cny": -31.4122,
+     "payback_days_p95": null,
+     "payback_days_median": null
+    },
+    "2024": {
+     "bars": 242,
+     "shelf_pct": 8.3229,
+     "repo_pct": 1.7283,
+     "full_year": true,
+     "extra_pp": 6.5946,
+     "extra_cny": 37275.67,
+     "extra_per_day_cny": 154.0317,
+     "payback_days_p95": 19.77,
+     "payback_days_median": -0.12
+    },
+    "2025": {
+     "bars": 243,
+     "shelf_pct": 13.141,
+     "repo_pct": 1.4118,
+     "full_year": true,
+     "extra_pp": 11.7293,
+     "extra_cny": 66299.16,
+     "extra_per_day_cny": 272.836,
+     "payback_days_p95": 11.16,
+     "payback_days_median": -0.07
+    },
+    "2026": {
+     "bars": 213,
+     "shelf_pct": -13.7866,
+     "repo_pct": 0.9275,
+     "full_year": true,
+     "extra_pp": -14.714,
+     "extra_cny": -83170.54,
+     "extra_per_day_cny": -390.472,
+     "payback_days_p95": null,
+     "payback_days_median": null
+    }
+   },
+   "years_beating_repo": "3/6",
+   "worst_year": {
+    "year": "2024",
+    "payback_days_p95": 19.77
+   },
+   "best_year": {
+    "year": "2025",
+    "payback_days_p95": 11.16
+   },
+   "quote_audit": {
+    "flip_pairs": [],
+    "flip_effect_pp_per_year": 0.0,
+    "caliber": "buy-and-hold, 4bp round trip on the entry bar (r2041 caliber)"
+   },
+   "verdict": [
+    "NO_EXTRA_TO_PAY_BACK"
+   ]
+  },
+  {
+   "code": "511880",
+   "label": "money_etf",
+   "class": "money",
+   "index_bars": 1540,
+   "index_first": "2020-07-16",
+   "index_last": "2026-11-20",
+   "window_cagr_pct": 1.5197,
+   "bars_per_year": 242.6596,
+   "window_cagr_before_neutralisation_pct": 1.5197,
+   "published_own_net_cagr_pct": 1.5261,
+   "repo_cagr_pct": 1.7662,
+   "window_extra_pp": -0.2466,
+   "window_extra_cny": -1393.68,
+   "published_extra_cny": -1333.72,
+   "delta_vs_published_cny": -59.96,
+   "sessions_to_fill": 1,
+   "net_p95_cny": null,
+   "net_median_cny": null,
+   "published_payback_days_p95": null,
+   "payback_days_p95_on_this_line": null,
+   "years": {
+    "2020": {
+     "bars": 115,
+     "shelf_pct": 0.7653,
+     "repo_pct": 1.0682,
+     "full_year": true,
+     "extra_pp": -0.3029,
+     "extra_cny": -1712.13,
+     "extra_per_day_cny": -14.8881,
+     "payback_days_p95": null,
+     "payback_days_median": null
+    },
+    "2021": {
+     "bars": 243,
+     "shelf_pct": 2.0782,
+     "repo_pct": 2.1196,
+     "full_year": true,
+     "extra_pp": -0.0414,
+     "extra_cny": -234.0,
+     "extra_per_day_cny": -0.963,
+     "payback_days_p95": null,
+     "payback_days_median": null
+    },
+    "2022": {
+     "bars": 242,
+     "shelf_pct": 1.604,
+     "repo_pct": 1.7998,
+     "full_year": true,
+     "extra_pp": -0.1958,
+     "extra_cny": -1106.49,
+     "extra_per_day_cny": -4.5723,
+     "payback_days_p95": null,
+     "payback_days_median": null
+    },
+    "2023": {
+     "bars": 242,
+     "shelf_pct": 1.6545,
+     "repo_pct": 2.1518,
+     "full_year": true,
+     "extra_pp": -0.4973,
+     "extra_cny": -2810.93,
+     "extra_per_day_cny": -11.6154,
+     "payback_days_p95": null,
+     "payback_days_median": null
+    },
+    "2024": {
+     "bars": 242,
+     "shelf_pct": 1.5287,
+     "repo_pct": 1.7283,
+     "full_year": true,
+     "extra_pp": -0.1996,
+     "extra_cny": -1128.01,
+     "extra_per_day_cny": -4.6612,
+     "payback_days_p95": null,
+     "payback_days_median": null
+    },
+    "2025": {
+     "bars": 243,
+     "shelf_pct": 1.098,
+     "repo_pct": 1.4118,
+     "full_year": true,
+     "extra_pp": -0.3138,
+     "extra_cny": -1773.67,
+     "extra_per_day_cny": -7.2991,
+     "payback_days_p95": null,
+     "payback_days_median": null
+    },
+    "2026": {
+     "bars": 213,
+     "shelf_pct": 0.9153,
+     "repo_pct": 0.9275,
+     "full_year": true,
+     "extra_pp": -0.0121,
+     "extra_cny": -68.63,
+     "extra_per_day_cny": -0.3222,
+     "payback_days_p95": null,
+     "payback_days_median": null
+    }
+   },
+   "years_beating_repo": "0/7",
+   "worst_year": null,
+   "best_year": null,
+   "quote_audit": {
+    "flip_pairs": [],
+    "flip_effect_pp_per_year": 0.0,
+    "caliber": "money shelf: consolidation-aware reader (drops > 50bp booked at zero) plus this face's sub-threshold flip neutralisation"
+   },
+   "verdict": [
+    "ONE_SESSION_NO_WAIT"
+   ]
+  },
+  {
+   "code": "511360",
+   "label": "short_fin_etf",
+   "class": "money",
+   "index_bars": 1489,
+   "index_first": "2020-09-25",
+   "index_last": "2026-11-20",
+   "window_cagr_pct": 2.1438,
+   "bars_per_year": 242.037,
+   "window_cagr_before_neutralisation_pct": 2.3115,
+   "published_own_net_cagr_pct": 2.3181,
+   "repo_cagr_pct": 1.7662,
+   "window_extra_pp": 0.3776,
+   "window_extra_cny": 2134.21,
+   "published_extra_cny": 3088.23,
+   "delta_vs_published_cny": -954.02,
+   "sessions_to_fill": 5,
+   "net_p95_cny": 166.61,
+   "net_median_cny": 20.65,
+   "published_payback_days_p95": 13.091485850657612,
+   "payback_days_p95_on_this_line": 18.89,
+   "years": {
+    "2020": {
+     "bars": 64,
+     "shelf_pct": 0.8367,
+     "repo_pct": 1.0682,
+     "full_year": false,
+     "extra_pp": -0.2315,
+     "extra_cny": -1308.81,
+     "extra_per_day_cny": -20.4501,
+     "payback_days_p95": null,
+     "payback_days_median": null
+    },
+    "2021": {
+     "bars": 243,
+     "shelf_pct": 2.8001,
+     "repo_pct": 2.1196,
+     "full_year": true,
+     "extra_pp": 0.6805,
+     "extra_cny": 3846.78,
+     "extra_per_day_cny": 15.8304,
+     "payback_days_p95": 10.52,
+     "payback_days_median": 1.3
+    },
+    "2022": {
+     "bars": 242,
+     "shelf_pct": 2.1408,
+     "repo_pct": 1.7998,
+     "full_year": true,
+     "extra_pp": 0.341,
+     "extra_cny": 1927.61,
+     "extra_per_day_cny": 7.9653,
+     "payback_days_p95": 20.92,
+     "payback_days_median": 2.59
+    },
+    "2023": {
+     "bars": 242,
+     "shelf_pct": 2.4392,
+     "repo_pct": 2.1518,
+     "full_year": true,
+     "extra_pp": 0.2874,
+     "extra_cny": 1624.38,
+     "extra_per_day_cny": 6.7123,
+     "payback_days_p95": 24.82,
+     "payback_days_median": 3.08
+    },
+    "2024": {
+     "bars": 242,
+     "shelf_pct": 2.242,
+     "repo_pct": 1.7283,
+     "full_year": true,
+     "extra_pp": 0.5137,
+     "extra_cny": 2903.44,
+     "extra_per_day_cny": 11.9977,
+     "payback_days_p95": 13.89,
+     "payback_days_median": 1.72
+    },
+    "2025": {
+     "bars": 243,
+     "shelf_pct": 1.5278,
+     "repo_pct": 1.4118,
+     "full_year": true,
+     "extra_pp": 0.1161,
+     "extra_cny": 656.12,
+     "extra_per_day_cny": 2.7001,
+     "payback_days_p95": 61.71,
+     "payback_days_median": 7.65
+    },
+    "2026": {
+     "bars": 213,
+     "shelf_pct": 1.2,
+     "repo_pct": 0.9275,
+     "full_year": true,
+     "extra_pp": 0.2725,
+     "extra_cny": 1540.45,
+     "extra_per_day_cny": 7.2322,
+     "payback_days_p95": 23.04,
+     "payback_days_median": 2.86
+    }
+   },
+   "years_beating_repo": "6/6",
+   "worst_year": {
+    "year": "2025",
+    "payback_days_p95": 61.71
+   },
+   "best_year": {
+    "year": "2021",
+    "payback_days_p95": 10.52
+   },
+   "quote_audit": {
+    "flip_pairs": [
+     {
+      "drop_date": "2023-09-08",
+      "drop_bp": -104.7,
+      "back_date": "2023-09-11",
+      "back_bp": 101.41,
+      "gap_bars": 1,
+      "round_trip_bp": -4.35
+     }
+    ],
+    "flip_effect_pp_per_year": -0.1677,
+    "caliber": "money shelf: consolidation-aware reader (drops > 50bp booked at zero) plus this face's sub-threshold flip neutralisation"
+   },
+   "verdict": [
+    "WAIT_FITS_ONLY_IN_GOOD_YEARS"
+   ]
+  },
+  {
+   "code": "511010",
+   "label": "bond_etf",
+   "class": "bond",
+   "index_bars": 1539,
+   "index_first": "2020-07-17",
+   "index_last": "2026-11-20",
+   "window_cagr_pct": 2.3398,
+   "bars_per_year": 242.6067,
+   "window_cagr_before_neutralisation_pct": 2.3398,
+   "published_own_net_cagr_pct": 2.3463,
+   "repo_cagr_pct": 1.7662,
+   "window_extra_pp": 0.5735,
+   "window_extra_cny": 3241.89,
+   "published_extra_cny": 3199.0,
+   "delta_vs_published_cny": 42.89,
+   "sessions_to_fill": 1,
+   "net_p95_cny": null,
+   "net_median_cny": null,
+   "published_payback_days_p95": null,
+   "payback_days_p95_on_this_line": null,
+   "years": {
+    "2020": {
+     "bars": 114,
+     "shelf_pct": -0.6567,
+     "repo_pct": 1.0682,
+     "full_year": true,
+     "extra_pp": -1.7249,
+     "extra_cny": -9749.88,
+     "extra_per_day_cny": -85.5253,
+     "payback_days_p95": null,
+     "payback_days_median": null
+    },
+    "2021": {
+     "bars": 243,
+     "shelf_pct": 4.2593,
+     "repo_pct": 2.1196,
+     "full_year": true,
+     "extra_pp": 2.1397,
+     "extra_cny": 12094.41,
+     "extra_per_day_cny": 49.7712,
+     "payback_days_p95": null,
+     "payback_days_median": null
+    },
+    "2022": {
+     "bars": 242,
+     "shelf_pct": 2.0754,
+     "repo_pct": 1.7998,
+     "full_year": true,
+     "extra_pp": 0.2757,
+     "extra_cny": 1558.17,
+     "extra_per_day_cny": 6.4387,
+     "payback_days_p95": null,
+     "payback_days_median": null
+    },
+    "2023": {
+     "bars": 242,
+     "shelf_pct": 3.2989,
+     "repo_pct": 2.1518,
+     "full_year": true,
+     "extra_pp": 1.1471,
+     "extra_cny": 6484.0,
+     "extra_per_day_cny": 26.7934,
+     "payback_days_p95": null,
+     "payback_days_median": null
+    },
+    "2024": {
+     "bars": 242,
+     "shelf_pct": 5.8884,
+     "repo_pct": 1.7283,
+     "full_year": true,
+     "extra_pp": 4.1601,
+     "extra_cny": 23515.07,
+     "extra_per_day_cny": 97.1697,
+     "payback_days_p95": null,
+     "payback_days_median": null
+    },
+    "2025": {
+     "bars": 243,
+     "shelf_pct": -0.7931,
+     "repo_pct": 1.4118,
+     "full_year": true,
+     "extra_pp": -2.2049,
+     "extra_cny": -12462.98,
+     "extra_per_day_cny": -51.288,
+     "payback_days_p95": null,
+     "payback_days_median": null
+    },
+    "2026": {
+     "bars": 213,
+     "shelf_pct": 0.9386,
+     "repo_pct": 0.9275,
+     "full_year": true,
+     "extra_pp": 0.0112,
+     "extra_cny": 63.24,
+     "extra_per_day_cny": 0.2969,
+     "payback_days_p95": null,
+     "payback_days_median": null
+    }
+   },
+   "years_beating_repo": "5/7",
+   "worst_year": null,
+   "best_year": null,
+   "quote_audit": {
+    "flip_pairs": [],
+    "flip_effect_pp_per_year": 0.0,
+    "caliber": "buy-and-hold, 4bp round trip on the entry bar (r2041 caliber)"
+   },
+   "verdict": [
+    "ONE_SESSION_NO_WAIT"
+   ]
+  }
+ ],
+ "headline": {
+  "ticket_cash_cny": 565245.9,
+  "tier_used": "565246",
+  "budget_sessions": 20.0,
+  "caliber": "p95",
+  "window_end": "2026-11-20",
+  "inside_budget_on_this_line": [
+   "511360"
+  ],
+  "outside_budget_on_this_line": [
+   "511380"
+  ],
+  "shelves_moved_by_more_than_half_a_day": [
+   {
+    "code": "511380",
+    "published": 577.0709197249628,
+    "on_this_line": 594.82
+   },
+   {
+    "code": "511360",
+    "published": 13.091485850657612,
+    "on_this_line": 18.89
+   }
+  ],
+  "worst_year_payback": {
+   "code": "511360",
+   "year": "2025",
+   "payback_days_p95": 61.71
+  },
+  "best_year_payback": {
+   "code": "511380",
+   "year": "2025",
+   "payback_days_p95": 7.18
+  },
+  "years_extra_negative": {
+   "511380": [
+    "2020",
+    "2022",
+    "2023",
+    "2026"
+   ],
+   "511180": [
+    "2022",
+    "2023",
+    "2026"
+   ],
+   "511880": [
+    "2020",
+    "2021",
+    "2022",
+    "2023",
+    "2024",
+    "2025",
+    "2026"
+   ],
+   "511010": [
+    "2020",
+    "2025"
+   ]
+  },
+  "verdict_counts": {
+   "WAIT_FITS_ONLY_IN_GOOD_YEARS": 2,
+   "EXTRA_GOES_NEGATIVE_IN_YEARS": 1,
+   "NO_EXTRA_TO_PAY_BACK": 1,
+   "ONE_SESSION_NO_WAIT": 2
+  },
+  "panel_flips_repaired_35pct": 169
+ },
+ "content_sha256": "95aa837bdb56f39ccf29cea9f93b5c7115a1fa7f11b3463d8bbb4c2f330339f9"
+}
