@@ -519,9 +519,26 @@ def _m(x):
 
 
 # --------------------------------------------------------------------------- check
+def classify(errs, moved, n_rows=0):
+    """(rc, headline) for a re-derivation: a moved panel is staleness, not a defect.
+
+    r1934: the chain pays for a rebuild only when the check's own words say STALE, so
+    the two causes must not share one sentence.  A bar that arrived after this face was
+    priced is the panel's clock (the window grew by one and every tier's window count
+    with it); a reading that disagrees on an unchanged tape is this script's arithmetic.
+    """
+    if moved:
+        return 3, ("STALE: panel tail moved under this face (%d reading(s)) -> re-run"
+                   % len(moved))
+    if errs:
+        return 1, "CHECK FAILED (%d)" % len(errs)
+    return 0, "CHECK OK  %d rows re-derived from the panel and r2041" % n_rows
+
+
 def check(verbose=True):
     """Re-derive the published face from the upstream face and the panel."""
     errs = []
+    moved = []
     if not os.path.exists(OUT_JSON):
         print("MISSING FACE: %s" % OUT_JSON)
         return 3
@@ -547,7 +564,8 @@ def check(verbose=True):
         idx = idx[idx.index >= pd.Timestamp(S.START)].dropna()
         vals = idx.values
         if int(len(vals)) != r["index_bars"]:
-            errs.append("%s index_bars %d != published %d" % (code, len(vals), r["index_bars"]))
+            moved.append("%s index_bars %d != published %d" % (code, len(vals), r["index_bars"]))
+            continue
         for tier, t in r["tiers"].items():
             days = sessions_to_fill(int(tier), prow.get("max_open_order_cny"))
             if days != t["sessions_to_fill"]:
@@ -558,8 +576,8 @@ def check(verbose=True):
                 continue
             slip = batch_slippage_bp(vals, days)
             if int(len(slip)) != t["windows"]:
-                errs.append("%s@%s windows %d != published %d"
-                            % (code, tier, len(slip), t["windows"]))
+                moved.append("%s@%s windows %d != published %d"
+                             % (code, tier, len(slip), t["windows"]))
                 continue
             if not len(slip):
                 continue
@@ -568,12 +586,12 @@ def check(verbose=True):
                              ("slip_p95_bp", float(np.percentile(slip, P95)))):
                 if abs(round(val, 4) - t[key]) > 5e-4:
                     errs.append("%s@%s %s %.4f != %.4f" % (code, tier, key, val, t[key]))
-    if errs:
-        print("CHECK FAILED (%d)" % len(errs))
-        for e in errs[:20]:
+    rc, headline = classify(errs, moved, len(pub["rows"]))
+    print(headline)
+    if rc:
+        for e in (moved or errs)[:20]:
             print("  - " + e)
-        return 1
-    print("CHECK OK  %d rows re-derived from the panel and r2041" % len(pub["rows"]))
+        return rc
     return 0
 
 
@@ -707,6 +725,22 @@ def selftest():
         "a negative year's extra must not be turned into a percentage")
     chk(_ratio_cell({"year_extra_cny": 1166.94, "p95_over_year_extra": 2.388}) == "239%",
         "a positive ratio must print as a percentage of the year's extra")
+
+    # 16. r1934: the two causes of a red must not share one sentence.  The chain only
+    #     pays for a rebuild when the check says STALE, so a helper that folded "a bar
+    #     arrived" into "CHECK FAILED" would leave this face permanently red on every
+    #     new session (and a permanently red shell trains the reader to ignore it).
+    _rc, _head = classify([], ["511360@250000 windows 1540 != published 1539"], 5)
+    chk(_rc == 3 and _head.startswith("STALE"),
+        "a moved panel must read STALE rc3, got %r" % (_head,))
+    _rc, _head = classify(["511360@250000 slip_median_bp 1.0 != 1.1"], [], 5)
+    chk(_rc == 1 and "STALE" not in _head and "CHECK FAILED" in _head,
+        "a disagreeing reading on an unchanged tape is a defect, not staleness, got %r"
+        % (_head,))
+    _rc, _head = classify([], [], 5)
+    chk(_rc == 0 and _head.startswith("CHECK OK"), "a clean re-derivation reads CHECK OK")
+    _rc, _head = classify(["defect"], ["moved"], 5)
+    chk(_rc == 3, "the panel's clock wins when both are present -- the reading is not comparable")
 
     if errs:
         print("SELFTEST FAILED (%d of %d legs)" % (len(errs), ran[0]))

@@ -461,6 +461,20 @@ LEGS = [
     ("update_etf_wide_quote", ["python", "scripts/update_etf_wide.py",
                                "--quote-only"]),
     ("update_etf_wide", ["python", "scripts/update_etf_wide.py", "run"]),
+    # r2049: the cash shelf pair answers "how many sessions does the ticket need, and is
+    # the wait paid?" -- and neither had a leg (r1282's orphan class: fresh only on the
+    # nights a session typed the command, and the last such night priced 2026-11-20 while
+    # the panel had moved to 11-23). They read the same wide panel the leg above just
+    # refreshed, so they ride behind it. Both now classify a moved panel tail as STALE
+    # (r1934) rather than folding it into CHECK FAILED, which is what makes the
+    # check-then-pay shape honest here: a quiet round costs the check (~5s / ~1s) and only
+    # the word STALE buys the ~37s / ~40s rebuild.
+    ("cash_shelf_build_out_plan",
+     ["python", "scripts/cash_shelf_build_out_plan.py", "--check"],
+     ["python", "scripts/cash_shelf_build_out_plan.py", "run"]),
+    ("cash_shelf_inflight_carry",
+     ["python", "scripts/cash_shelf_inflight_carry.py", "--check"],
+     ["python", "scripts/cash_shelf_inflight_carry.py", "run"]),
     # The production book's two live faces ride right behind the panel leg they read.
     # etf_book_forward appends one mark per new bar (idempotent; exit 3 freezes the
     # ledger instead of rewriting history) and etf_book_order re-emits the executable

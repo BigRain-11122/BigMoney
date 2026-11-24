@@ -1,18 +1,18 @@
 # 分批等待期间，在途资金停在回购腿能挣回多少
 
-> 生成 2026-11-24T11:48:45+0800 ｜ 证据截止 2026-11-20 ｜ 上游面 r2043 `results/cash_shelf_build_out_plan.json`（sha256 864b22bd74b5…）
+> 生成 2026-11-24T15:37:16+0800 ｜ 证据截止 2026-11-23 ｜ 上游面 r2043 `results/cash_shelf_build_out_plan.json`（sha256 4153f3f50b6e…）
 
 ## 一句话
 
-r2043 把等待定价成「均价 ÷ 首日价 − 1」，那是**价格偏移**，不是**成本**：还没花出去的钱不会躺在抽屉里。本面把同一段时间里在途资金按本司已发布的现金腿（GC001，含交易所佣金）重算，得到净等待。票面档下，回购腿能挣回的份额中位数 **58.8%**（区间 39.2% ~ 170.0%）。
+r2043 把等待定价成「均价 ÷ 首日价 − 1」，那是**价格偏移**，不是**成本**：还没花出去的钱不会躺在抽屉里。本面把同一段时间里在途资金按本司已发布的现金腿（GC001，含交易所佣金）重算，得到净等待。票面档下，回购腿能挣回的份额中位数 **59.0%**（区间 39.6% ~ 168.5%）。
 
 ## 票面档（565,246 元）需要多个交易日的货架
 
 | 货架 | 交易日 | r2043 的 p95 等待（元） | 回购腿挣回（元/中位） | 净等待 p95（元） | 净等待 p50（元） | 佣金（bp/窗） | 挣回份额 |
 |---|---|---|---|---|---|---|---|
-| 511380 | 2 | 2,787 | 13 | 2,775 | -10 | +0.05 | 51.1% |
-| 511180 | 3 | 3,090 | 29 | 3,045 | -19 | +0.10 | 170.0% |
-| 511360 | 5 | 265 | 71 | 167 | 21 | +0.20 | 78.6% |
+| 511380 | 2 | 2,792 | 13 | 2,784 | -9 | +0.05 | 50.7% |
+| 511180 | 3 | 3,088 | 29 | 3,044 | -18 | +0.10 | 168.5% |
+| 511360 | 5 | 264 | 71 | 167 | 21 | +0.20 | 78.7% |
 
 两项为什么几乎同阶：等额分批把「多等的天数」压成 `(n-1)/2` 个满仓日，滑点与 carry **乘的是同一个天数**，只剩每日期望比赛。
 
@@ -20,8 +20,8 @@ r2043 把等待定价成「均价 ÷ 首日价 − 1」，那是**价格偏移**
 
 | 货架 | 交易日 | 价格每日走（bp） | 回购腿每日付（bp） | 净每日（bp） |
 |---|---|---|---|---|
-| 511380 | 2 | +0.87 | +0.45 | -0.34 |
-| 511180 | 3 | +0.30 | +0.52 | -0.33 |
+| 511380 | 2 | +0.88 | +0.45 | -0.33 |
+| 511180 | 3 | +0.31 | +0.52 | -0.32 |
 | 511360 | 5 | +0.79 | +0.62 | +0.18 |
 
 ## 排期拉长时两项怎么长
@@ -30,56 +30,56 @@ r2043 把等待定价成「均价 ÷ 首日价 − 1」，那是**价格偏移**
 
 | 货架 | 39 日窗口 | 滑点中位（bp） | 净 carry 中位（bp） | 挣回份额 | 满仓天数 |
 |---|---|---|---|---|---|
-| 511380 | 1502 | +29.31 | +13.79 | 47.0% | 19.0 |
-| 511180 | 1502 | +22.92 | +13.79 | 60.2% | 19.0 |
-| 511880 | 1502 | +12.08 | +13.79 | 114.2% | 19.0 |
-| 511360 | 1502 | +16.25 | +13.79 | 84.9% | 19.0 |
-| 511010 | 1502 | +20.68 | +13.79 | 66.7% | 19.0 |
+| 511380 | 1503 | +29.04 | +13.78 | 47.4% | 19.0 |
+| 511180 | 1503 | +22.77 | +13.78 | 60.5% | 19.0 |
+| 511880 | 1503 | +12.07 | +13.78 | 114.2% | 19.0 |
+| 511360 | 1503 | +16.24 | +13.78 | 84.9% | 19.0 |
+| 511010 | 1503 | +20.69 | +13.78 | 66.6% | 19.0 |
 
 ## 逐货架读数
 
 | 货架 | 类 | 档位 | 交易日 | 窗数 | 价格每日（bp） | 滑点 p50 | 净 carry p50 | 佣金 p50 | 净等待 p50 | 判词 |
 |---|---|---|---|---|---|---|---|---|---|---|
 | 511380 | convertible | 250000 | 1 | 0 | n/a | n/a | n/a | n/a | n/a | ONE_SESSION_NO_WAIT |
-| 511380 | convertible | 565246 | 2 | 1539 | +0.87 | +0.44 | +0.22 | +0.05 | -0.17 | CARRY_PAYS_MOST_OF_THE_WAIT / WAIT_IS_PAID_IN_FULL |
-| 511380 | convertible | 1000000 | 2 | 1539 | +0.87 | +0.44 | +0.22 | +0.05 | -0.17 | CARRY_PAYS_MOST_OF_THE_WAIT / WAIT_IS_PAID_IN_FULL |
-| 511380 | convertible | 2000000 | 4 | 1537 | +1.51 | +2.26 | +0.89 | +0.15 | +0.92 | CARRY_PAYS_MOST_OF_THE_WAIT / WAIT_WALKS_FASTER_THAN_THE_REPO_LEG |
-| 511380 | convertible | 5000000 | 10 | 1531 | +1.46 | +6.57 | +2.98 | +0.45 | +2.96 | CARRY_PAYS_MOST_OF_THE_WAIT / WAIT_WALKS_FASTER_THAN_THE_REPO_LEG |
-| 511180 | convertible | 250000 | 2 | 1539 | +0.94 | +0.47 | +0.22 | +0.05 | +0.20 | CARRY_PAYS_MOST_OF_THE_WAIT / WAIT_WALKS_FASTER_THAN_THE_REPO_LEG |
-| 511180 | convertible | 565246 | 3 | 1538 | +0.30 | +0.30 | +0.52 | +0.10 | -0.33 | CARRY_PAYS_MOST_OF_THE_WAIT / WAIT_IS_PAID_IN_FULL |
-| 511180 | convertible | 1000000 | 5 | 1536 | +0.76 | +1.52 | +1.25 | +0.20 | +0.35 | CARRY_PAYS_MOST_OF_THE_WAIT / WAIT_WALKS_FASTER_THAN_THE_REPO_LEG |
-| 511180 | convertible | 2000000 | 10 | 1531 | +1.10 | +4.96 | +2.98 | +0.45 | +1.66 | CARRY_PAYS_MOST_OF_THE_WAIT / WAIT_WALKS_FASTER_THAN_THE_REPO_LEG |
-| 511180 | convertible | 5000000 | 23 | 1518 | +1.02 | +11.24 | +7.61 | +1.10 | +3.32 | CARRY_PAYS_MOST_OF_THE_WAIT / WAIT_WALKS_FASTER_THAN_THE_REPO_LEG |
+| 511380 | convertible | 565246 | 2 | 1540 | +0.88 | +0.44 | +0.22 | +0.05 | -0.17 | CARRY_PAYS_MOST_OF_THE_WAIT / WAIT_IS_PAID_IN_FULL |
+| 511380 | convertible | 1000000 | 2 | 1540 | +0.88 | +0.44 | +0.22 | +0.05 | -0.17 | CARRY_PAYS_MOST_OF_THE_WAIT / WAIT_IS_PAID_IN_FULL |
+| 511380 | convertible | 2000000 | 4 | 1538 | +1.49 | +2.24 | +0.89 | +0.15 | +0.85 | CARRY_PAYS_MOST_OF_THE_WAIT / WAIT_WALKS_FASTER_THAN_THE_REPO_LEG |
+| 511380 | convertible | 5000000 | 10 | 1532 | +1.45 | +6.52 | +2.98 | +0.45 | +2.88 | CARRY_PAYS_MOST_OF_THE_WAIT / WAIT_WALKS_FASTER_THAN_THE_REPO_LEG |
+| 511180 | convertible | 250000 | 2 | 1540 | +0.94 | +0.47 | +0.22 | +0.05 | +0.20 | CARRY_PAYS_MOST_OF_THE_WAIT / WAIT_WALKS_FASTER_THAN_THE_REPO_LEG |
+| 511180 | convertible | 565246 | 3 | 1539 | +0.31 | +0.31 | +0.52 | +0.10 | -0.32 | CARRY_PAYS_MOST_OF_THE_WAIT / WAIT_IS_PAID_IN_FULL |
+| 511180 | convertible | 1000000 | 5 | 1537 | +0.76 | +1.51 | +1.25 | +0.20 | +0.33 | CARRY_PAYS_MOST_OF_THE_WAIT / WAIT_WALKS_FASTER_THAN_THE_REPO_LEG |
+| 511180 | convertible | 2000000 | 10 | 1532 | +1.07 | +4.83 | +2.98 | +0.45 | +1.53 | CARRY_PAYS_MOST_OF_THE_WAIT / WAIT_WALKS_FASTER_THAN_THE_REPO_LEG |
+| 511180 | convertible | 5000000 | 23 | 1519 | +1.01 | +11.15 | +7.61 | +1.10 | +3.27 | CARRY_PAYS_MOST_OF_THE_WAIT / WAIT_WALKS_FASTER_THAN_THE_REPO_LEG |
 | 511880 | money | 250000 | 1 | 0 | n/a | n/a | n/a | n/a | n/a | ONE_SESSION_NO_WAIT |
 | 511880 | money | 565246 | 1 | 0 | n/a | n/a | n/a | n/a | n/a | ONE_SESSION_NO_WAIT |
 | 511880 | money | 1000000 | 1 | 0 | n/a | n/a | n/a | n/a | n/a | ONE_SESSION_NO_WAIT |
 | 511880 | money | 2000000 | 1 | 0 | n/a | n/a | n/a | n/a | n/a | ONE_SESSION_NO_WAIT |
 | 511880 | money | 5000000 | 1 | 0 | n/a | n/a | n/a | n/a | n/a | ONE_SESSION_NO_WAIT |
-| 511360 | money | 250000 | 2 | 1539 | +0.76 | +0.38 | +0.22 | +0.05 | +0.08 | CARRY_PAYS_MOST_OF_THE_WAIT / WAIT_WALKS_FASTER_THAN_THE_REPO_LEG |
-| 511360 | money | 565246 | 5 | 1536 | +0.79 | +1.59 | +1.25 | +0.20 | +0.37 | CARRY_PAYS_MOST_OF_THE_WAIT / WAIT_WALKS_FASTER_THAN_THE_REPO_LEG |
-| 511360 | money | 1000000 | 8 | 1533 | +0.80 | +2.81 | +2.27 | +0.35 | +0.62 | CARRY_PAYS_MOST_OF_THE_WAIT / WAIT_WALKS_FASTER_THAN_THE_REPO_LEG |
-| 511360 | money | 2000000 | 16 | 1525 | +0.81 | +6.04 | +5.06 | +0.75 | +1.21 | CARRY_PAYS_MOST_OF_THE_WAIT / WAIT_WALKS_FASTER_THAN_THE_REPO_LEG |
-| 511360 | money | 5000000 | 39 | 1502 | +0.85 | +16.25 | +13.79 | +1.90 | +2.83 | CARRY_PAYS_MOST_OF_THE_WAIT / WAIT_WALKS_FASTER_THAN_THE_REPO_LEG |
+| 511360 | money | 250000 | 2 | 1540 | +0.76 | +0.38 | +0.22 | +0.05 | +0.08 | CARRY_PAYS_MOST_OF_THE_WAIT / WAIT_WALKS_FASTER_THAN_THE_REPO_LEG |
+| 511360 | money | 565246 | 5 | 1537 | +0.79 | +1.59 | +1.25 | +0.20 | +0.37 | CARRY_PAYS_MOST_OF_THE_WAIT / WAIT_WALKS_FASTER_THAN_THE_REPO_LEG |
+| 511360 | money | 1000000 | 8 | 1534 | +0.80 | +2.80 | +2.27 | +0.35 | +0.62 | CARRY_PAYS_MOST_OF_THE_WAIT / WAIT_WALKS_FASTER_THAN_THE_REPO_LEG |
+| 511360 | money | 2000000 | 16 | 1526 | +0.81 | +6.04 | +5.06 | +0.75 | +1.21 | CARRY_PAYS_MOST_OF_THE_WAIT / WAIT_WALKS_FASTER_THAN_THE_REPO_LEG |
+| 511360 | money | 5000000 | 39 | 1503 | +0.85 | +16.24 | +13.78 | +1.90 | +2.84 | CARRY_PAYS_MOST_OF_THE_WAIT / WAIT_WALKS_FASTER_THAN_THE_REPO_LEG |
 | 511010 | bond | 250000 | 1 | 0 | n/a | n/a | n/a | n/a | n/a | ONE_SESSION_NO_WAIT |
 | 511010 | bond | 565246 | 1 | 0 | n/a | n/a | n/a | n/a | n/a | ONE_SESSION_NO_WAIT |
-| 511010 | bond | 1000000 | 2 | 1539 | +1.06 | +0.53 | +0.22 | +0.05 | +0.21 | CARRY_PAYS_MOST_OF_THE_WAIT / WAIT_WALKS_FASTER_THAN_THE_REPO_LEG |
-| 511010 | bond | 2000000 | 3 | 1538 | +1.29 | +1.29 | +0.52 | +0.10 | +0.65 | CARRY_PAYS_MOST_OF_THE_WAIT / WAIT_WALKS_FASTER_THAN_THE_REPO_LEG |
-| 511010 | bond | 5000000 | 8 | 1533 | +1.34 | +4.67 | +2.27 | +0.35 | +2.16 | CARRY_PAYS_MOST_OF_THE_WAIT / WAIT_WALKS_FASTER_THAN_THE_REPO_LEG |
+| 511010 | bond | 1000000 | 2 | 1540 | +1.06 | +0.53 | +0.22 | +0.05 | +0.21 | CARRY_PAYS_MOST_OF_THE_WAIT / WAIT_WALKS_FASTER_THAN_THE_REPO_LEG |
+| 511010 | bond | 2000000 | 3 | 1539 | +1.28 | +1.28 | +0.52 | +0.10 | +0.64 | CARRY_PAYS_MOST_OF_THE_WAIT / WAIT_WALKS_FASTER_THAN_THE_REPO_LEG |
+| 511010 | bond | 5000000 | 8 | 1534 | +1.33 | +4.67 | +2.27 | +0.35 | +2.15 | CARRY_PAYS_MOST_OF_THE_WAIT / WAIT_WALKS_FASTER_THAN_THE_REPO_LEG |
 
 ## 每只货架的价格是不是「把收益走在了价格里」
 
 | 货架 | 条形数 | 日均（bp） | 日中位（bp） | 单日跌破 −5bp 的天数 |
 |---|---|---|---|---|
-| 511380 | 1539 | +1.02 | +0.87 | 695 |
-| 511180 | 1539 | +0.68 | +0.94 | 656 |
-| 511880 | 1539 | +0.63 | +0.59 | 1 |
-| 511360 | 1539 | +0.92 | +0.76 | 12 |
-| 511010 | 1539 | +0.96 | +1.06 | 324 |
+| 511380 | 1540 | +1.20 | +0.88 | 695 |
+| 511180 | 1540 | +0.78 | +0.94 | 656 |
+| 511880 | 1540 | +0.63 | +0.59 | 1 |
+| 511360 | 1540 | +0.92 | +0.76 | 12 |
+| 511010 | 1540 | +0.96 | +1.06 | 324 |
 
 ## 口径与不做的事
 
 * 滑点与交易日数**不重打**：从 r2043 面读，并在自检里用同一函数重算、逐位比对。
 * 在途权重 `(n-k)/n` 是「每天等额买」的直接后果，和为 `(n-1)/2` 个满仓日（自检钉死）。
 * 回购收益用本司现金腿模块的逐日口径（利息落在合约到期的那一步、佣金落在买进的那一步），**不**另建一个 repo 模型。
-* 未做的事：①佣金按交易所牌价假设，未逐券商核；②在途资金只测「停 GC001」，没有测「停货币 ETF」或「停活期」；③价格偏移仍用收盘价（r2043 的口径），不是次日开盘；④价格指数是**价格**不是全收益：若窗口内有分红派息，先买齐的一方拿到的现金更多，所以本面的净等待是**下界**——上表的「单日跌破 −5bp 天数」就是给读者自查的：短融（511360）在 1539 根 bar 里只有 12 天跌破 5bp，收益确实走在价格里；⑤窗口从 2020-07-16 起，样本只有一段。
+* 未做的事：①佣金按交易所牌价假设，未逐券商核；②在途资金只测「停 GC001」，没有测「停货币 ETF」或「停活期」；③价格偏移仍用收盘价（r2043 的口径），不是次日开盘；④价格指数是**价格**不是全收益：若窗口内有分红派息，先买齐的一方拿到的现金更多，所以本面的净等待是**下界**——上表的「单日跌破 −5bp 天数」就是给读者自查的：短融（511360）在 1540 根 bar 里只有 12 天跌破 5bp，收益确实走在价格里；⑤窗口从 2020-07-16 起，样本只有一段。
 

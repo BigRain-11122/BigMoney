@@ -555,6 +555,14 @@ def check(verbose=True):
     del buf
 
     fresh = json.loads(json.dumps(_LAST["payload"]))
+    # r1934: a bar that arrived after this face was priced is the panel's clock, not a
+    # defect -- and the chain only pays for a rebuild when the check says STALE.  On a
+    # moved tail every tier's slip median moves with it, so the comparison below cannot
+    # be read as arithmetic at all.
+    if fresh["evidence_cutoff"] != pub["evidence_cutoff"]:
+        print("STALE: panel tail moved %s -> %s, this face is priced on the old bar -> run"
+              % (pub["evidence_cutoff"], fresh["evidence_cutoff"]))
+        return 3
     problems = []
     if fresh["evidence_cutoff"] != pub["evidence_cutoff"]:
         problems.append("evidence_cutoff %s -> %s"
