@@ -1,67 +1,66 @@
 {
  "schema": "repo-write-contention/v1",
  "machine_id": "bm-c",
- "probed_at": "2026-11-25T02:21:23",
+ "probed_at": "2026-11-25T04:16:31",
  "lookback_min": 45.0,
  "verdict": "CONTENTION",
- "why": "2 hosts alive; 12 shared face(s) written before this round started (strictly another host), 2 written inside the overlap (unattributable)",
+ "why": "2 hosts alive; 14 shared face(s) written before this round started (strictly another host), 0 written inside the overlap (unattributable)",
  "hosts": [
   {
    "pid": 79608,
    "kind": "interactive",
    "started_epoch": 1795531144.188324,
    "started": "2026-11-24T22:39:04",
-   "age_min": 222.3,
+   "age_min": 337.5,
    "exempt_from_cloud_cap": true,
    "cmd_head": "K:\\tuanjieAI\\Tuanjie Cowork\\cli\\bin\\win32-x64\\codely.exe --experimental-acp --experimental-skills --path-polic"
   },
   {
-   "pid": 83740,
+   "pid": 76988,
    "kind": "other",
-   "started_epoch": 1795544403.1942625,
-   "started": "2026-11-25T02:20:03",
-   "age_min": 1.3,
+   "started_epoch": 1795551303.5014431,
+   "started": "2026-11-25T04:15:03",
+   "age_min": 1.5,
    "exempt_from_cloud_cap": false,
    "cmd_head": "K:\\tuanjieAI\\Tuanjie Cowork\\cli\\bin\\win32-x64\\codely.exe -y -p 无人值守执行 Bigmoney 量化公司 10 分钟自迭代一轮（2026-09-23 CEO "
   }
  ],
- "my_host_pid": 83740,
- "my_host_started": "2026-11-25T02:20:03",
+ "my_host_pid": 76988,
+ "my_host_started": "2026-11-25T04:15:03",
  "host_probe_error": null,
  "overlap_windows": [
   {
    "pair": [
     79608,
-    83740
+    76988
    ],
    "kinds": [
     "interactive",
     "other"
    ],
-   "from": "2026-11-25T02:20:03",
-   "to": "2026-11-25T02:21:23",
-   "minutes": 1.3,
-   "lo": 1795544403.1942625
+   "from": "2026-11-25T04:15:03",
+   "to": "2026-11-25T04:16:31",
+   "minutes": 1.5,
+   "lo": 1795551303.5014431
   }
  ],
  "peer_only_writes": [
   "fleet/machines/bm-c.json",
   "research/ARBITER-BOARD.md",
-  "research/ETF_BOOK_K_LEG_REHEARSAL.md",
-  "research/READER-SILENT-UPSTREAM.md",
+  "research/BLOCK_RED_TRIAGE.md",
+  "research/LANE_LAG_UNIT_GUARD.md",
   "results/_attrition_guard_scan.json",
-  "results/_r2064bmc_closeout.py",
-  "results/_r2065bmc_closeout.py",
-  "results/_r2065bmc_reader_silent_upstream.py",
+  "results/_r2068bmc_hb_fields.json",
+  "results/_r2068bmc_red_triage_negative.py",
+  "results/_r2069bmc_closeout.py",
+  "results/_r2069bmc_lane_lag_negative.py",
   "results/arbiter/STATE.json",
-  "results/etf_book_k_leg_rehearsal.json",
-  "results/reader_silent_upstream.json",
-  "scripts/etf_book_k_leg_rehearsal.py"
+  "results/block_red_triage.json",
+  "results/lane_lag_unit_guard.json",
+  "scripts/block_red_triage.py",
+  "scripts/lane_lag_unit_guard.py"
  ],
- "ambiguous_writes": [
-  "research/QUANT-BLOCK-BOARD.md",
-  "results/quant_block_board.json"
- ],
+ "ambiguous_writes": [],
  "ignored_patterns": [
   "results/saturation_engine/",
   "results/watermark_red.json",
@@ -75,91 +74,91 @@
  "declared_own_patterns": [],
  "declared_own_write_count": 0,
  "declared_own_writes": [],
- "writes_scanned_files": 34794,
+ "writes_scanned_files": 34816,
  "recent_writes": [
   {
-   "path": "research/QUANT-BLOCK-BOARD.md",
-   "mtime": "2026-11-25T02:21:07",
-   "mtime_epoch": 1795544467.966061,
-   "bytes": 5672
-  },
-  {
-   "path": "results/quant_block_board.json",
-   "mtime": "2026-11-25T02:21:07",
-   "mtime_epoch": 1795544467.965061,
-   "bytes": 10810
-  },
-  {
-   "path": "fleet/machines/bm-c.json",
-   "mtime": "2026-11-25T02:18:10",
-   "mtime_epoch": 1795544290.1055176,
-   "bytes": 258236
-  },
-  {
-   "path": "results/reader_silent_upstream.json",
-   "mtime": "2026-11-25T02:14:36",
-   "mtime_epoch": 1795544076.3270247,
-   "bytes": 2636
-  },
-  {
-   "path": "research/READER-SILENT-UPSTREAM.md",
-   "mtime": "2026-11-25T02:14:36",
-   "mtime_epoch": 1795544076.3270247,
-   "bytes": 4113
-  },
-  {
-   "path": "results/_r2065bmc_reader_silent_upstream.py",
-   "mtime": "2026-11-25T02:14:18",
-   "mtime_epoch": 1795544058.8768766,
-   "bytes": 23075
-  },
-  {
-   "path": "results/_r2065bmc_closeout.py",
-   "mtime": "2026-11-25T02:13:09",
-   "mtime_epoch": 1795543989.883047,
-   "bytes": 8069
-  },
-  {
    "path": "research/ARBITER-BOARD.md",
-   "mtime": "2026-11-25T02:11:42",
-   "mtime_epoch": 1795543902.9395008,
-   "bytes": 1704
+   "mtime": "2026-11-25T04:11:42",
+   "mtime_epoch": 1795551102.7782867,
+   "bytes": 1416
   },
   {
    "path": "results/arbiter/STATE.json",
-   "mtime": "2026-11-25T02:11:42",
-   "mtime_epoch": 1795543902.9385045,
-   "bytes": 1462
+   "mtime": "2026-11-25T04:11:42",
+   "mtime_epoch": 1795551102.7762833,
+   "bytes": 977
+  },
+  {
+   "path": "fleet/machines/bm-c.json",
+   "mtime": "2026-11-25T04:10:40",
+   "mtime_epoch": 1795551040.2936747,
+   "bytes": 260596
+  },
+  {
+   "path": "results/_r2069bmc_closeout.py",
+   "mtime": "2026-11-25T04:07:51",
+   "mtime_epoch": 1795550871.7350807,
+   "bytes": 9615
   },
   {
    "path": "results/_attrition_guard_scan.json",
-   "mtime": "2026-11-25T02:11:20",
-   "mtime_epoch": 1795543880.3606036,
+   "mtime": "2026-11-25T04:06:03",
+   "mtime_epoch": 1795550763.894097,
    "bytes": 2154
   },
   {
-   "path": "results/_r2064bmc_closeout.py",
-   "mtime": "2026-11-25T01:53:23",
-   "mtime_epoch": 1795542803.2604957,
-   "bytes": 7364
+   "path": "results/lane_lag_unit_guard.json",
+   "mtime": "2026-11-25T04:04:32",
+   "mtime_epoch": 1795550672.8404386,
+   "bytes": 16090
   },
   {
-   "path": "research/ETF_BOOK_K_LEG_REHEARSAL.md",
-   "mtime": "2026-11-25T01:50:57",
-   "mtime_epoch": 1795542657.7775023,
-   "bytes": 2471
+   "path": "research/LANE_LAG_UNIT_GUARD.md",
+   "mtime": "2026-11-25T04:04:32",
+   "mtime_epoch": 1795550672.8404386,
+   "bytes": 3035
   },
   {
-   "path": "results/etf_book_k_leg_rehearsal.json",
-   "mtime": "2026-11-25T01:50:47",
-   "mtime_epoch": 1795542647.863209,
-   "bytes": 5761
+   "path": "scripts/lane_lag_unit_guard.py",
+   "mtime": "2026-11-25T04:04:17",
+   "mtime_epoch": 1795550657.411439,
+   "bytes": 31084
   },
   {
-   "path": "scripts/etf_book_k_leg_rehearsal.py",
-   "mtime": "2026-11-25T01:50:31",
-   "mtime_epoch": 1795542631.2114263,
-   "bytes": 21540
+   "path": "results/_r2069bmc_lane_lag_negative.py",
+   "mtime": "2026-11-25T04:03:49",
+   "mtime_epoch": 1795550629.0583637,
+   "bytes": 6130
+  },
+  {
+   "path": "results/_r2068bmc_hb_fields.json",
+   "mtime": "2026-11-25T03:39:04",
+   "mtime_epoch": 1795549144.2777646,
+   "bytes": 166
+  },
+  {
+   "path": "results/block_red_triage.json",
+   "mtime": "2026-11-25T03:33:30",
+   "mtime_epoch": 1795548810.9494543,
+   "bytes": 5008
+  },
+  {
+   "path": "results/_r2068bmc_red_triage_negative.py",
+   "mtime": "2026-11-25T03:33:23",
+   "mtime_epoch": 1795548803.0946624,
+   "bytes": 6198
+  },
+  {
+   "path": "research/BLOCK_RED_TRIAGE.md",
+   "mtime": "2026-11-25T03:33:00",
+   "mtime_epoch": 1795548780.5923321,
+   "bytes": 2714
+  },
+  {
+   "path": "scripts/block_red_triage.py",
+   "mtime": "2026-11-25T03:32:49",
+   "mtime_epoch": 1795548769.9710455,
+   "bytes": 38050
   }
  ],
  "recent_write_count": 14,
