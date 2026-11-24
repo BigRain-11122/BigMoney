@@ -1,0 +1,757 @@
+{
+ "anchor_gap_pub_pp": 2.8666234985222028,
+ "caveats": [
+  "every cut is a cut of the same 52 periods, so this face says the flip does not depend on where inside those 52 you start -- it cannot say the 52 are a fair sample of the regime",
+  "the 13-period quarter blocks annualise 13 observations; their annualised gap is printed for completeness and the sign test runs on the cumulative gap for that reason",
+  "rolling windows overlap by 25 of 26 periods, so the 27 windows are not 27 independent trials and no multiplicity correction is claimed for the share",
+  "cash yield is swept inside the funding identity r2036 published; a broker that pays a tiered rate, or freezes the balance outright, is a different curve, not a different break-even",
+  "the reference case is k=1, the full haircut and the cheapest rent, exactly r2036's headline cell; the other k and haircut cells are not re-cut here",
+  "the window still starts where the IM panel starts (2022-07), so a regime that only exists after that date is inside every piece",
+  "a stable sign is not a stable size: this face tests the ordering of the two carriers, not whether either return is worth committing capital to"
+ ],
+ "content_sha256": "d80b1fe5add718a9a77138b3950866e0d9a1fa3d0f6e6808c35c6a98922dda59",
+ "evidence_cutoff": "2026-11-20",
+ "fills_the_hole_of": "r2036 flipped the carrier ranking on a funded ruler and printed the flip as a single 52-period number; nobody asked whether the same 52 periods, cut into pieces, agree with it",
+ "full": {
+  "end": 52,
+  "etf_ann": 0.06522219202538193,
+  "etf_cum": 0.2979121352766223,
+  "etf_vol": 0.05991019344694881,
+  "gap_ann_pp": 2.8666234985222028,
+  "gap_cum_pp": 15.03296258699649,
+  "im_ann": 0.09388842701060396,
+  "im_cum": 0.4482417611465872,
+  "im_vol": 0.07791103244364121,
+  "periods": 52,
+  "start": 0
+ },
+ "generated": "2026-11-24T08:35:39+08:00",
+ "halves": [
+  {
+   "end": 26,
+   "etf_ann": 0.07009332652436306,
+   "etf_cum": 0.15003578151255592,
+   "etf_vol": 0.055773601027790394,
+   "first": "2022-07-26",
+   "gap_ann_pp": 3.0439698834240803,
+   "gap_cum_pp": 6.852620101671314,
+   "im_ann": 0.10053302535860387,
+   "im_cum": 0.21856198252926906,
+   "im_vol": 0.07238285088973241,
+   "label": "first_half",
+   "last": "2024-09-12",
+   "periods": 26,
+   "start": 0
+  },
+  {
+   "end": 52,
+   "etf_ann": 0.06037323124781291,
+   "etf_cum": 0.1285841328950441,
+   "etf_vol": 0.0637554403503127,
+   "first": "2024-09-12",
+   "gap_ann_pp": 2.691071496345998,
+   "gap_cum_pp": 5.990014768343865,
+   "im_ann": 0.08728394621127289,
+   "im_cum": 0.18848428057848277,
+   "im_vol": 0.08304101023597556,
+   "label": "second_half",
+   "last": "2026-11-11",
+   "periods": 26,
+   "start": 26
+  }
+ ],
+ "jackknife": {
+  "all_positive": true,
+  "full_gap_ann_pp": 2.8666234985222028,
+  "max_abs_change_pp": 0.5622934630426846,
+  "max_gap_ann_pp": 3.366642801615849,
+  "min_gap_ann_pp": 2.304330035479518,
+  "periods": 52,
+  "worst_drop": {
+   "date": "2025-06-18",
+   "dropped": 35,
+   "gap_ann_pp": 2.304330035479518,
+   "gap_cum_pp": 11.677876045518731
+  }
+ },
+ "kind": "hedge_stability",
+ "machine": "bm-c",
+ "parents": {
+  "beta": {
+   "content_sha256": "0a33e5274863722dc633e50c9689eb27baf2ee21ccc50454d2c8050b0e368589",
+   "evidence_cutoff": "2026-11-20",
+   "face": "results/astock_veto_hedgeable_beta.json",
+   "file_sha256": "a3044bd7101c9d36120ef1e7817829baf1bb3d34c97c727fa3657f116f63c518",
+   "generated": "2026-11-24T03:29:09+08:00"
+  },
+  "carrier": {
+   "content_sha256": "d68cbb09bfe6ee1599ea63e9be0ab7e197c2bdd5aa7c4694952811f428b90352",
+   "evidence_cutoff": "2026-11-20",
+   "face": "results/astock_veto_hedge_carrier.json",
+   "file_sha256": "dc5aaa1d747eb624a7b334dd9659dad0aca9d3a2b67050f0cf7cf774358284c9",
+   "generated": "2026-11-24T07:08:17+08:00"
+  },
+  "funding": {
+   "content_sha256": "18b6f1b3a8e5de863d675e7619349fe0ecfff0d46f6114f4b729bbc846f574d7",
+   "evidence_cutoff": "2026-11-20",
+   "face": "results/astock_veto_hedge_funding.json",
+   "file_sha256": "c0603f49f39fbfd09d2078b94f196cee5ae7809e26d0b8db203fc778d53debe4",
+   "generated": "2026-11-24T08:09:49+08:00"
+  }
+ },
+ "quarters": [
+  {
+   "end": 13,
+   "etf_ann": 0.09504239899088152,
+   "etf_cum": 0.09820321475779004,
+   "etf_vol": 0.04181043502373009,
+   "first": "2022-07-26",
+   "gap_ann_pp": 3.239918330892122,
+   "gap_cum_pp": 3.3539813241456384,
+   "im_ann": 0.12744158229980274,
+   "im_cum": 0.13174302799924642,
+   "im_vol": 0.06154669466037757,
+   "label": "Q1",
+   "last": "2023-08-18",
+   "periods": 13,
+   "start": 0
+  },
+  {
+   "end": 26,
+   "etf_ann": 0.045712685214038595,
+   "etf_cum": 0.0471976097485729,
+   "etf_vol": 0.06627913271147157,
+   "first": "2023-08-18",
+   "gap_ann_pp": 2.855400755274795,
+   "gap_cum_pp": 2.951499406883773,
+   "im_ann": 0.07426669276678655,
+   "im_cum": 0.07671260381741063,
+   "im_vol": 0.08125289745913965,
+   "label": "Q2",
+   "last": "2024-09-12",
+   "periods": 13,
+   "start": 13
+  },
+  {
+   "end": 39,
+   "etf_ann": 0.08578238820262807,
+   "etf_cum": 0.08862294765081802,
+   "etf_vol": 0.0470615024133053,
+   "first": "2024-09-12",
+   "gap_ann_pp": 4.9086246798824895,
+   "gap_cum_pp": 5.081295055424007,
+   "im_ann": 0.13486863500145296,
+   "im_cum": 0.13943589820505808,
+   "im_vol": 0.0668437888393003,
+   "label": "Q3",
+   "last": "2025-10-16",
+   "periods": 13,
+   "start": 26
+  },
+  {
+   "end": 52,
+   "etf_ann": 0.03555869183714799,
+   "etf_cum": 0.03670801293547954,
+   "etf_vol": 0.0763649427109206,
+   "first": "2025-10-16",
+   "gap_ann_pp": 0.6135776780573865,
+   "gap_cum_pp": 0.6338184266741154,
+   "im_ann": 0.04169446861772186,
+   "im_cum": 0.04304619720222069,
+   "im_vol": 0.09509903756025716,
+   "label": "Q4",
+   "last": "2026-11-11",
+   "periods": 13,
+   "start": 39
+  }
+ ],
+ "reads": [
+  {
+   "id": "R1",
+   "text": "the anchor reproduces: on all 52 periods the funded gap is 2.87pp (IM minus ETF), against the 286.66pp r2036 published -- the cut below starts from the same number, so this face is a decomposition and not a re-derivation"
+  },
+  {
+   "id": "R2",
+   "text": "cut in half, the two halves agree: 3.04pp (first_half) and 2.69pp (second_half) on the annualised ruler, 6.85pp / 5.99pp on the cumulative one"
+  },
+  {
+   "id": "R3",
+   "text": "and the parent's own in-sample / out-of-sample split agrees with the headline: 6.08pp in sample and 6.75pp out of it (cumulative), so the flip is not an artefact of the fitted part of the window"
+  },
+  {
+   "id": "R4",
+   "text": "the 4 quarter blocks (13 periods each) run Q1 3.35pp, Q2 2.95pp, Q3 5.08pp, Q4 0.63pp -- 4 of 4 favour the futures leg; the annualised numbers on a 13-period block are noisy by construction, which is why the sign test below uses the cumulative one"
+  },
+  {
+   "id": "R4b",
+   "text": "the flip is stable in sign and shrinking in size: the last block (2025-10-16 .. 2026-11-11) pays 0.61pp against a median block of 3.05pp, and it is the only block inside the 1.0pp tie band -- a reader who trades the flip forward is trading a gap that has been narrowing for a year"
+  },
+  {
+   "id": "R5",
+   "text": "27 rolling 26-period windows (stride 1) put the futures leg in front in 27 of them (100.00%); the cumulative gap runs 3.32pp .. 11.05pp with a median of 7.02pp, so the full-window number is a middle case and not the best window"
+  },
+  {
+   "id": "R6",
+   "text": "period by period the futures leg wins 34 of 52 (65.38%) with a two-sided binomial p of 0.0365 -- a real bias, not a coin"
+  },
+  {
+   "id": "R7",
+   "text": "the drop-one jackknife moves the gap by at most 0.56pp (dropping 2025-06-18) and the gap stays positive in all of the 52 single-period removals -- the headline does not rest on a single observation"
+  },
+  {
+   "id": "R8",
+   "text": "sweeping the collateral's declared yield from 0.00% to 10.00% moves the gap from 3.24pp to 1.30pp -- the flip survives the whole range"
+  },
+  {
+   "id": "R9",
+   "text": "the frozen cash would have to earn 16.34% a year for the two carriers to tie, against a funded book return of 9.39% -- the collateral assumption r2036 could not observe cannot overturn the conclusion, because no broker pays above the book"
+  }
+ ],
+ "rolling": [
+  {
+   "end": 26,
+   "etf_ann": 0.07009332652436306,
+   "etf_cum": 0.15003578151255592,
+   "etf_vol": 0.055773601027790394,
+   "first": "2022-07-26",
+   "gap_ann_pp": 3.0439698834240803,
+   "gap_cum_pp": 6.852620101671314,
+   "im_ann": 0.10053302535860387,
+   "im_cum": 0.21856198252926906,
+   "im_vol": 0.07238285088973241,
+   "last": "2024-09-12",
+   "periods": 26,
+   "start": 0
+  },
+  {
+   "end": 27,
+   "etf_ann": 0.06477969813939555,
+   "etf_cum": 0.13828313805990544,
+   "etf_vol": 0.05637330478069789,
+   "first": "2022-08-23",
+   "gap_ann_pp": 3.007018598050437,
+   "gap_cum_pp": 6.732968005708995,
+   "im_ann": 0.09484988411989992,
+   "im_cum": 0.2056128181169954,
+   "im_vol": 0.07290482417359863,
+   "last": "2024-10-21",
+   "periods": 26,
+   "start": 1
+  },
+  {
+   "end": 28,
+   "etf_ann": 0.06497898377587141,
+   "etf_cum": 0.1387227936114781,
+   "etf_vol": 0.056423481264124484,
+   "first": "2022-09-21",
+   "gap_ann_pp": 3.2335682951606604,
+   "gap_cum_pp": 7.249733117574864,
+   "im_ann": 0.09731466672747802,
+   "im_cum": 0.21122012478722674,
+   "im_vol": 0.07344068973923976,
+   "last": "2024-11-18",
+   "periods": 26,
+   "start": 2
+  },
+  {
+   "end": 29,
+   "etf_ann": 0.08015096779100395,
+   "etf_cum": 0.17245157828212876,
+   "etf_vol": 0.059106327670885916,
+   "first": "2022-10-26",
+   "gap_ann_pp": 4.1433670551581425,
+   "gap_cum_pp": 9.469847047722691,
+   "im_ann": 0.12158463834258537,
+   "im_cum": 0.26715004875935566,
+   "im_vol": 0.07646074658617975,
+   "last": "2024-12-16",
+   "periods": 26,
+   "start": 3
+  },
+  {
+   "end": 30,
+   "etf_ann": 0.06543272689938351,
+   "etf_cum": 0.13972414894849083,
+   "etf_vol": 0.059734495479840596,
+   "first": "2022-11-23",
+   "gap_ann_pp": 3.8037217893333475,
+   "gap_cum_pp": 8.55576167244616,
+   "im_ann": 0.10346994479271698,
+   "im_cum": 0.22528176567295244,
+   "im_vol": 0.0765222776223103,
+   "last": "2025-01-14",
+   "periods": 26,
+   "start": 4
+  },
+  {
+   "end": 31,
+   "etf_ann": 0.06552258026073221,
+   "etf_cum": 0.13992249808959167,
+   "etf_vol": 0.05973902161850794,
+   "first": "2022-12-21",
+   "gap_ann_pp": 3.1321850086207137,
+   "gap_cum_pp": 7.022681785386098,
+   "im_ann": 0.09684443034693935,
+   "im_cum": 0.21014931594345265,
+   "im_vol": 0.07690979684377719,
+   "last": "2025-02-19",
+   "periods": 26,
+   "start": 5
+  },
+  {
+   "end": 32,
+   "etf_ann": 0.0717312479936163,
+   "etf_cum": 0.15367107032036675,
+   "etf_vol": 0.05963860413270823,
+   "first": "2023-01-19",
+   "gap_ann_pp": 3.1490867436500647,
+   "gap_cum_pp": 7.104291657446171,
+   "im_ann": 0.10322211543011695,
+   "im_cum": 0.22471398689482847,
+   "im_vol": 0.07666431134727719,
+   "last": "2025-03-19",
+   "periods": 26,
+   "start": 6
+  },
+  {
+   "end": 33,
+   "etf_ann": 0.06971527295535962,
+   "etf_cum": 0.14919754948878627,
+   "etf_vol": 0.059427036770828924,
+   "first": "2023-02-23",
+   "gap_ann_pp": 3.9416295265732204,
+   "gap_cum_pp": 8.90919794552092,
+   "im_ann": 0.10913156822109182,
+   "im_cum": 0.23828952894399547,
+   "im_vol": 0.07800653128995473,
+   "last": "2025-04-17",
+   "periods": 26,
+   "start": 7
+  },
+  {
+   "end": 34,
+   "etf_ann": 0.08320968421392405,
+   "etf_cum": 0.17931287134759177,
+   "etf_vol": 0.061458363942888096,
+   "first": "2023-03-23",
+   "gap_ann_pp": 4.19361135348757,
+   "gap_cum_pp": 9.615333830671258,
+   "im_ann": 0.12514579774879975,
+   "im_cum": 0.27546620965430435,
+   "im_vol": 0.07948622942463927,
+   "last": "2025-05-20",
+   "periods": 26,
+   "start": 8
+  },
+  {
+   "end": 35,
+   "etf_ann": 0.09766902355777374,
+   "etf_cum": 0.21202737854477616,
+   "etf_vol": 0.058169152113531596,
+   "first": "2023-04-21",
+   "gap_ann_pp": 4.381380123939116,
+   "gap_cum_pp": 10.194916421335876,
+   "im_ann": 0.1414828247971649,
+   "im_cum": 0.3139765427581349,
+   "im_vol": 0.0743397381579384,
+   "last": "2025-06-18",
+   "periods": 26,
+   "start": 9
+  },
+  {
+   "end": 36,
+   "etf_ann": 0.08734799933254545,
+   "etf_cum": 0.1886287603915313,
+   "etf_vol": 0.0567192250065839,
+   "first": "2023-05-24",
+   "gap_ann_pp": 4.787014607360329,
+   "gap_cum_pp": 11.051062284956203,
+   "im_ann": 0.13521814540614874,
+   "im_cum": 0.29913938324109335,
+   "im_vol": 0.07242744885812061,
+   "last": "2025-07-16",
+   "periods": 26,
+   "start": 10
+  },
+  {
+   "end": 37,
+   "etf_ann": 0.08527540085785645,
+   "etf_cum": 0.1839583476624922,
+   "etf_vol": 0.05701590022875927,
+   "first": "2023-06-21",
+   "gap_ann_pp": 3.7349332836518423,
+   "gap_cum_pp": 8.561767462571268,
+   "im_ann": 0.12262473369437488,
+   "im_cum": 0.2695760222882049,
+   "im_vol": 0.07487476482243094,
+   "last": "2025-08-13",
+   "periods": 26,
+   "start": 11
+  },
+  {
+   "end": 38,
+   "etf_ann": 0.07407834736690089,
+   "etf_cum": 0.1588906540218573,
+   "etf_vol": 0.05671778672899089,
+   "first": "2023-07-21",
+   "gap_ann_pp": 3.4805065918590783,
+   "gap_cum_pp": 7.882724733139068,
+   "im_ann": 0.10888341328549167,
+   "im_cum": 0.237717901353248,
+   "im_vol": 0.07455423863049773,
+   "last": "2025-09-10",
+   "periods": 26,
+   "start": 12
+  },
+  {
+   "end": 39,
+   "etf_ann": 0.06555920376367697,
+   "etf_cum": 0.14000334869738174,
+   "etf_vol": 0.05771080201540451,
+   "first": "2023-08-18",
+   "gap_ann_pp": 3.8592767319908905,
+   "gap_cum_pp": 8.68416441420159,
+   "im_ann": 0.10415197108358587,
+   "im_cum": 0.22684499283939763,
+   "im_vol": 0.07478837394610267,
+   "last": "2025-10-16",
+   "periods": 26,
+   "start": 13
+  },
+  {
+   "end": 40,
+   "etf_ann": 0.07219615104364152,
+   "etf_cum": 0.15470397792016422,
+   "etf_vol": 0.05838319634651448,
+   "first": "2023-09-15",
+   "gap_ann_pp": 3.5842382512029314,
+   "gap_cum_pp": 8.106875374908995,
+   "im_ann": 0.10803853355567083,
+   "im_cum": 0.23577273166925417,
+   "im_vol": 0.07504086759674843,
+   "last": "2025-11-13",
+   "periods": 26,
+   "start": 14
+  },
+  {
+   "end": 41,
+   "etf_ann": 0.06918555915120783,
+   "etf_cum": 0.14802358160080553,
+   "etf_vol": 0.05865901984683645,
+   "first": "2023-10-23",
+   "gap_ann_pp": 2.879888951603049,
+   "gap_cum_pp": 6.472259425446492,
+   "im_ann": 0.09798444866723832,
+   "im_cum": 0.21274617585527045,
+   "im_vol": 0.07633983684196588,
+   "last": "2025-12-11",
+   "periods": 26,
+   "start": 15
+  },
+  {
+   "end": 42,
+   "etf_ann": 0.05068142334705472,
+   "etf_cum": 0.10740211596971316,
+   "etf_vol": 0.06100909542165564,
+   "first": "2023-11-20",
+   "gap_ann_pp": 2.544240767941597,
+   "gap_cum_pp": 5.604727890242978,
+   "im_ann": 0.07612383102647069,
+   "im_cum": 0.16344939487214294,
+   "im_vol": 0.07830136338977733,
+   "last": "2026-01-12",
+   "periods": 26,
+   "start": 16
+  },
+  {
+   "end": 43,
+   "etf_ann": 0.062286800338474224,
+   "etf_cum": 0.13279080536368482,
+   "etf_vol": 0.06323538511183217,
+   "first": "2023-12-18",
+   "gap_ann_pp": 2.194626289671886,
+   "gap_cum_pp": 4.882231019093375,
+   "im_ann": 0.08423306323519308,
+   "im_cum": 0.18161311555461856,
+   "im_vol": 0.07924123127315426,
+   "last": "2026-02-09",
+   "periods": 26,
+   "start": 17
+  },
+  {
+   "end": 44,
+   "etf_ann": 0.053664448195983816,
+   "etf_cum": 0.1138996590491137,
+   "etf_vol": 0.0629384973470921,
+   "first": "2024-01-16",
+   "gap_ann_pp": 2.979572610179493,
+   "gap_cum_pp": 6.597602416487436,
+   "im_ann": 0.08346017429777874,
+   "im_cum": 0.17987568321398806,
+   "im_vol": 0.07912187987326016,
+   "last": "2026-03-17",
+   "periods": 26,
+   "start": 18
+  },
+  {
+   "end": 45,
+   "etf_ann": 0.06945422658733214,
+   "etf_cum": 0.1486189332822727,
+   "etf_vol": 0.05478099725803728,
+   "first": "2024-02-21",
+   "gap_ann_pp": 3.153708127108268,
+   "gap_cum_pp": 7.099036292819094,
+   "im_ann": 0.10099130785841481,
+   "im_cum": 0.21960929621046366,
+   "im_vol": 0.06965769521954102,
+   "last": "2026-04-15",
+   "periods": 26,
+   "start": 19
+  },
+  {
+   "end": 46,
+   "etf_ann": 0.04518717652409787,
+   "etf_cum": 0.0954859619273487,
+   "etf_vol": 0.05437136802036995,
+   "first": "2024-03-20",
+   "gap_ann_pp": 2.0310374395992037,
+   "gap_cum_pp": 4.438128270532848,
+   "im_ann": 0.06549755092008991,
+   "im_cum": 0.1398672446326772,
+   "im_vol": 0.07254760962975869,
+   "last": "2026-05-18",
+   "periods": 26,
+   "start": 20
+  },
+  {
+   "end": 47,
+   "etf_ann": 0.036232019479149,
+   "etf_cum": 0.07620600989240711,
+   "etf_vol": 0.0589776117825378,
+   "first": "2024-04-19",
+   "gap_ann_pp": 1.9401589407236353,
+   "gap_cum_pp": 4.199355646237368,
+   "im_ann": 0.055633608886385355,
+   "im_cum": 0.1181995663547808,
+   "im_vol": 0.07568468137709417,
+   "last": "2026-06-15",
+   "periods": 26,
+   "start": 21
+  },
+  {
+   "end": 48,
+   "etf_ann": 0.02294217713832447,
+   "etf_cum": 0.047918811723728805,
+   "etf_vol": 0.05732482177055202,
+   "first": "2024-05-22",
+   "gap_ann_pp": 1.5602756544923713,
+   "gap_cum_pp": 3.324987397537793,
+   "im_ann": 0.038544933683248184,
+   "im_cum": 0.08116868569910674,
+   "im_vol": 0.07573826967833318,
+   "last": "2026-07-14",
+   "periods": 26,
+   "start": 22
+  },
+  {
+   "end": 49,
+   "etf_ann": 0.04717364611891095,
+   "etf_cum": 0.09978663248582809,
+   "etf_vol": 0.06294649025824865,
+   "first": "2024-06-20",
+   "gap_ann_pp": 2.476341046938213,
+   "gap_cum_pp": 5.434163840544426,
+   "im_ann": 0.07193705658829308,
+   "im_cum": 0.15412827089127235,
+   "im_vol": 0.08224007660553875,
+   "last": "2026-08-11",
+   "periods": 26,
+   "start": 23
+  },
+  {
+   "end": 50,
+   "etf_ann": 0.0588197506797119,
+   "etf_cum": 0.1251749887452538,
+   "etf_vol": 0.0638785314787244,
+   "first": "2024-07-18",
+   "gap_ann_pp": 2.514255112641406,
+   "gap_cum_pp": 5.582931287670112,
+   "im_ann": 0.08396230180612596,
+   "im_cum": 0.1810043016219549,
+   "im_vol": 0.08306293859113044,
+   "last": "2026-09-08",
+   "periods": 26,
+   "start": 24
+  },
+  {
+   "end": 51,
+   "etf_ann": 0.05838396953767866,
+   "etf_cum": 0.12421961299053041,
+   "etf_vol": 0.06376645301783454,
+   "first": "2024-08-15",
+   "gap_ann_pp": 2.605926411233983,
+   "gap_cum_pp": 5.786618754487338,
+   "im_ann": 0.08444323365001849,
+   "im_cum": 0.1820858005354038,
+   "im_vol": 0.08323691796938124,
+   "last": "2026-10-14",
+   "periods": 26,
+   "start": 25
+  },
+  {
+   "end": 52,
+   "etf_ann": 0.06037323124781291,
+   "etf_cum": 0.1285841328950441,
+   "etf_vol": 0.0637554403503127,
+   "first": "2024-09-12",
+   "gap_ann_pp": 2.691071496345998,
+   "gap_cum_pp": 5.990014768343865,
+   "im_ann": 0.08728394621127289,
+   "im_cum": 0.18848428057848277,
+   "im_vol": 0.08304101023597556,
+   "last": "2026-11-11",
+   "periods": 26,
+   "start": 26
+  }
+ ],
+ "rolling_summary": {
+  "gap_ann_pp_max": 4.787014607360329,
+  "gap_ann_pp_median": 3.1321850086207137,
+  "gap_ann_pp_min": 1.5602756544923713,
+  "gap_cum_pp_max": 11.051062284956203,
+  "gap_cum_pp_median": 7.022681785386098,
+  "gap_cum_pp_min": 3.324987397537793,
+  "im_leads": 27,
+  "share_im_leads": 1.0,
+  "windows": 27
+ },
+ "sample": {
+  "basis": "parent rows flagged im_window (both carriers priced)",
+  "first": "2022-07-26",
+  "last": "2026-11-11",
+  "periods": 52,
+  "periods_per_year": 12.6
+ },
+ "segments": [
+  {
+   "end": 18,
+   "etf_ann": 0.10043787364938273,
+   "etf_cum": 0.14651390750540827,
+   "etf_vol": 0.036940593406540864,
+   "first": "2022-07-26",
+   "gap_ann_pp": 4.05646292995252,
+   "gap_cum_pp": 6.084946287377124,
+   "im_ann": 0.14100250294890793,
+   "im_cum": 0.2073633703791795,
+   "im_vol": 0.053744048246819213,
+   "label": "in_sample",
+   "last": "2024-01-16",
+   "periods": 18,
+   "start": 0
+  },
+  {
+   "end": 52,
+   "etf_ann": 0.04703715490893612,
+   "etf_cum": 0.13205093002371515,
+   "etf_vol": 0.06857654323447879,
+   "first": "2024-01-16",
+   "gap_ann_pp": 2.2701301132347584,
+   "gap_cum_pp": 6.745685419186742,
+   "im_ann": 0.0697384560412837,
+   "im_cum": 0.19950778421558257,
+   "im_vol": 0.08744593912281767,
+   "label": "out_of_sample",
+   "last": "2026-11-11",
+   "periods": 34,
+   "start": 18
+  }
+ ],
+ "sign_test": {
+  "etf_periods": 18,
+  "im_periods": 34,
+  "im_share": 0.6538461538461539,
+  "mean_diff_pp": 0.22183108892474546,
+  "p_two_sided": 0.03648340000835981,
+  "periods": 52
+ },
+ "spec": {
+  "beta": 0.9013312810692592,
+  "capital": 1000000.0,
+  "etf_cash_cny": 901331.2810692592,
+  "half": 26,
+  "im_cash_cny": 403937.71563874214,
+  "is_end": "2023-12-31",
+  "k_grid": [
+   0.0,
+   0.5,
+   1.0
+  ],
+  "k_ref": 1.0,
+  "line_coin_share": 0.5,
+  "line_jack_mult": 1.0,
+  "line_stable_share": 0.8,
+  "line_yield_robust": 1.0,
+  "notional_cny": 901331.2810692592,
+  "quarter": 13,
+  "ref_fee": 0.02,
+  "ref_haircut": 1.0,
+  "roll": 26,
+  "tie_pp": 1.0,
+  "yield_bracket": [
+   -0.5,
+   0.5
+  ],
+  "yield_scan": [
+   0.0,
+   0.02,
+   0.04,
+   0.06,
+   0.08,
+   0.1
+  ]
+ },
+ "verdict": "THE_FLIP_IS_A_PROPERTY_OF_THE_RULE+THE_FLIP_IS_NARROWING+THE_FLIP_DOES_NOT_NEED_A_DEPOSIT_RATE",
+ "verdict_why": "every cut of the same 52 periods puts the futures leg in front, so the ordering is carried by the rule and not by where the sample starts or ends",
+ "verdicts": {
+  "ONE_PERIOD_CARRIES_THE_FLIP": false,
+  "THE_FLIP_DOES_NOT_NEED_A_DEPOSIT_RATE": true,
+  "THE_FLIP_IS_A_COIN_FLIP": false,
+  "THE_FLIP_IS_A_PROPERTY_OF_THE_RULE": true,
+  "THE_FLIP_IS_A_STATEMENT_ABOUT_THE_DEPOSIT_RATE": false,
+  "THE_FLIP_IS_NARROWING": true,
+  "THE_FLIP_IS_ONE_WINDOW": false,
+  "THE_FLIP_IS_WINDOW_DEPENDENT": false
+ },
+ "yield_sensitivity": {
+  "book_funded_return": 0.09388842701060396,
+  "breakeven_cash_yield": 0.1633824474975057,
+  "breakeven_note": "the two carriers tie at a cash yield of 16.34%",
+  "declared_cash_yield": 0.02,
+  "scan": [
+   {
+    "cash_yield": 0.0,
+    "gap_ann_pp": 3.243801629913845
+   },
+   {
+    "cash_yield": 0.02,
+    "gap_ann_pp": 2.8666234985222028
+   },
+   {
+    "cash_yield": 0.04,
+    "gap_ann_pp": 2.4840046017217787
+   },
+   {
+    "cash_yield": 0.06,
+    "gap_ann_pp": 2.0958912481457093
+   },
+   {
+    "cash_yield": 0.08,
+    "gap_ann_pp": 1.7022293142756162
+   },
+   {
+    "cash_yield": 0.1,
+    "gap_ann_pp": 1.3029642414768894
+   }
+  ]
+ }
+}
