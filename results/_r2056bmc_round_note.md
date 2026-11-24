@@ -70,3 +70,15 @@
 5. S6 链、全量冒烟、心跳、轮号、orders 回执均未动（竞争窗）。
 
 记账：本文件 1 处 + 产品三件（脚本/JSON/页面）= 4 处新文件；共享面 0 处改写。
+
+## 送达自证 + 轮号实况（提交后复核）
+
+- commit **712d26f507** 已推 origin/main（`19e9a5cb81..712d26f507`），fetch 后 **AHEAD=0 / BEHIND=0**，
+  `git ls-tree -r --name-only origin/main` 五件全在位（`scripts/bench_night_rollup.py`、`results/bench_night_rollup.json`、
+  `research/BENCH_NIGHT_ROLLUP.md`、`results/_r2056bmc_rollup_negative.py`、本文件）→ **本地未达 origin commit 数=0**。
+- 推送后复跑：`--check` **rc0**、负控 **9/9 PASS**（发布件在提交后再被判绿一次）。
+- **轮号实况（本窗自捕）**：本窗落件期间对端已用同一号发了自己的轮 —— `3b0890f8da round 2056: 27 of 28 money-shelf names…`，
+  随后 `19e9a5cb81 round 2057: yield the tree to the peer host; read-only maintenance receipt`（对端已识别本窗并让树）。
+  本窗因未写 `state-bm-c.json` 才没有吃掉对端的计数；「旁轮 + sideline」自署是对的，**后续并行窗一律照此**，
+  禁再按「dequeue 到的下一个号」自署 2056 以外的整号。
+
