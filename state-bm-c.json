@@ -1,7 +1,7 @@
 {
   "?λ": "healthy",
   "activity": "product",
-  "activity_now": "r2063 · 新增文件面（竞争窗 rc=3）：scripts/etf_book_k_identity_bar.py 三件套（results/etf_book_k_identity_bar.json + research/ETF_BOOK_K_IDENTITY_BAR.md + qa/k-identity-bar-r2063.md）+ 负控 results/_r2063bmc_kbar_negctl.py；票面 k_rule=0.458463 是调度 2026-11-20 步、腿读 2026-10-23 步 0.460253；一行 patch 写入面/qa 未应用（共享面被他宿持有）",
+  "activity_now": "r2068 · 新增文件面（竞争窗）：看板 3 条红逐条用第二套实现重算——W1=FALSE_RED_READER（银行 18 条可开工，读者只数 open）、G6=FALSE_GREEN_PRODUCER（差异文件拿树和自己比，COMPLETE 是同一律）、D6=UNINFORMATIVE（印 5 天，诚实 2 个交易日，而 4 天宽限会把 2 日缺口放成 GREEN）；线态 STARVING→BUSY",
   "activity_now_round": 2055,
   "agenda_starved": false,
   "ah_note": "r1680 LANDED: refresh closed itself at 21:17 -- cutoff 2026-11-12 -> 2026-11-13, complete=True, exit 0, pulled_rows 46; data_lane_freshness in_sync 13 / behind_1d 1 (worst now marks, intraday-only, not rebuildable). Fix that made it possible: stall watchdog over every network leg (300s, names stage/pair, exit 2, checkpoint kept) + save_progress stamps write time + -u on the detached spawn + progress line every 10 pairs. NOT yet proven: the 300s stall path has never fired on a real hang (this round the suspected freeze finished by itself).",
@@ -1271,7 +1271,7 @@
   "ram_note": "RAM free 3.2/55.9GB (5.7%) -- ComfyUI pid 12616 started 00:51:38, 39.5GB working set, exemption; the 00:35 idle_trigger 70.8% reading is stale",
   "ram_total_gb": 23.9,
   "recent_artifact": "results/etf_book_gate_knobs.json + research/ETF_BOOK_GATE_KNOBS.md (2026-11-15T22:32, 6-cell grid, window 2020-01-03..2026-11-13)",
-  "round": 2047,
+  "round": 2068,
   "round_1685_next": "next (P0): the second P1 candidate from the same order -- moneyflow/LHB IC reference batch (20 min, lane already claimed and parked on a source-blocked panel). Second: the basis face now needs the two things it explicitly did not do -- roll slippage + margin occupancy, and monthly vs quarterly roll -- before anyone sizes a position on it; and the discount-width timing test (basis percentile vs next 20d carry) is the cheapest way to turn a static premium into a rule.",
   "round_1685_note": "PRODUCT. O-20261114-2325 section 3 P1 named two candidates; the first (index-futures basis) was still PARTIAL because nobody had started it. Started and closed the kill test in one pass. The premium is real and decision-sized: net carry (futures carry minus the ETF that would otherwise be held) is IC +4.16%/yr and IM +6.00%/yr against the frozen 3.0% bar, IF +0.80 and IH +1.74 fail it -- OPEN. The number a reader must not miss is that the discount died in 2021-2024 (IC -3.19%/yr in 2024) and came back in 2025-2026 (IC +11.0/+9.4, IM +14.4/+11.7): the nine-year median blends a dead era with a live one, so both are printed. Data bias handled first: sina's main-continuous series is raw, so a roll is a price step a holder never eats; rolls are detected as a basis step 8x the median step and excluded, the gap reported separately. Index panel fetched and cached (4 indices, 2017-01-17..2026-11-13). One self-exposure: C3 was written as |ETF-index|<=1%/yr assuming a one-for-one tracker; this repo's own panel says the funds accrue +1.77/+0.88/+2.96%/yr of dividends the price index does not, so the ruler was revised to a dividend band plus net-of-drift carry and the original is preserved in verdict.criteria_revision -- read under the original ruler the face goes back to KILL. Selftest 9/9, pushed a3a7d8dace.",
   "round_1686_next": "next (P0): the order named moneyflow/LHB IC reference batch as the second P1 candidate and it stays claimed; the panel was source-blocked, so check the collector self-heal before starting. Second: if the basis line is kept alive, the only untried axis is roll timing (monthly vs quarterly) and the discount-width timing test (basis percentile vs next 20d carry) -- both change the notional percentage, neither changes the dilution that kills the money face at 8% vol.",
@@ -1552,7 +1552,7 @@
   },
   "round_drift_note": "state said round_no=1937 while commit 6a3f33e30e already said round 1938 -> counters healed to 1939",
   "round_label": "r2063",
-  "round_no": 2067,
+  "round_no": 2068,
   "round_no_label": "r2028",
   "round_no_landed": 2028,
   "round_no_note": "r2052 收口（state 上轮停在 2050，2050/2051 两轮提交已上链但报告行缺失，本轮补齐 r2052 行）",
@@ -2441,5 +2441,7 @@
   "记账_r2061": "轮报告 1 处 + state 1 处 + 心跳 1 处 = 3（无方法论新增：把『红腿的修法顺序』做成可复核分类属证据与载体；方法论卡锁存待无竞争轮）",
   "通过_r2061": "竞争探针 rc=3 CONTENTION（2 宿主·13 张共享面别宿主写过·重叠窗不可归因 0）→ 只落新增文件面；冒烟/ S6 连续第 10 轮未跑（本轮跑的是 2026-11-24T20:12:28 的旧读数）",
   "送达自证_r2061": "commit ff4d43cd70 已推 origin machine/bm-c-r2061（main 落后 1 未 FF）；fetch 后 machine tip == HEAD；ls-tree origin/machine/bm-c-r2061 三件在位（scripts/smoke_red_triage.py / results/smoke_red_triage.json / results/_r2061bmc_closeout.py）；本地未达 origin/main commit 数=6（machine 分支已送达）",
-  "note_r2065": "reader-silent-upstream patch proven (13/13); not applied -- contention window, new files only"
+  "note_r2065": "reader-silent-upstream patch proven (13/13); not applied -- contention window, new files only",
+  "note_r2068": "block_red_triage: 25/25 selftest, check rc0, negative 7/7 incl. STALE behavioural leg; patches proven-not-applied (shared faces)",
+  "state_bloat_note": "state-bm-c.json 1.36MB / 2447 行（每轮只增键）——需一次收口（已完成的轮次键并进 round_reports 只留指针），未在本轮做"
 }

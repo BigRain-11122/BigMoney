@@ -1,0 +1,145 @@
+{
+  "generated": "2026-11-25T03:32:59+08:00",
+  "evidence_cutoff": "2026-11-24",
+  "board": {
+    "rows": 25,
+    "red": 3,
+    "line_state_printed": "STARVING",
+    "queue_pending": 0,
+    "bank_claimable": 18,
+    "line_state_honest": "BUSY"
+  },
+  "cash_panel": {
+    "modal_bar": "2026-11-20",
+    "files": 11,
+    "hist": {
+      "2026-11-20": 11
+    },
+    "allowance_days": 4,
+    "printed_lag": 5,
+    "honest_lag": 4,
+    "horizon": "2026-11-24",
+    "sessions": 2,
+    "calendar_sessions": 1670,
+    "calendar_last": "2026-11-24"
+  },
+  "class_counts": {
+    "UNINFORMATIVE": 1,
+    "FALSE_RED_READER": 1,
+    "FALSE_GREEN_PRODUCER": 1
+  },
+  "real_gaps": [
+    "D6_cash_rate"
+  ],
+  "false_reds": [
+    "W1_supply"
+  ],
+  "untrusted_verdicts": [
+    "G6_ingest"
+  ],
+  "reds": [
+    {
+      "id": "D6_cash_rate",
+      "board_status": "RED",
+      "board_detail": "modal bar 2026-11-20 is 5d behind last weekday 2026-11-25 (100% of sample)",
+      "class": "UNINFORMATIVE",
+      "producer_wrote": {
+        "modal_bar": "2026-11-20",
+        "files": 11,
+        "hist": {
+          "2026-11-20": 11
+        },
+        "allowance_days": 4
+      },
+      "reader_counts": {
+        "printed_lag_calendar_days": 5,
+        "honest_lag_calendar_days": 4,
+        "sessions_behind": 2
+      },
+      "true_state": {
+        "row_would_be_under_shipped_rule": "RED",
+        "row_would_be_under_honest_reference": "GREEN",
+        "row_would_be_under_sessions": "RED"
+      },
+      "patch": "measure the bar-dated lanes in SESSIONS behind the last complete bar (today's bar only exists after 15:30; holiday_allow_days=4 calendar days swallows a two-session gap)",
+      "proof": "modal 2026-11-20 · printed lag 5d vs today's weekday · honest lag 4d vs last complete bar 2026-11-24 · 2 session(s) behind; allowance 4d -> a 2-session gap passes",
+      "why_it_matters": "the row is red, but the number it prints (5 days) is not the number a reader needs (2 sessions), and the same spec would print GREEN on a two-session gap -- the block cannot be trusted in either direction, so the cash leg's staleness is a disclosure problem that no colour on this board answers"
+    },
+    {
+      "id": "W1_supply",
+      "board_status": "RED",
+      "board_detail": "no open question left; blocked on data: options_vol_premium, minute_intraday_reversal",
+      "class": "FALSE_RED_READER",
+      "producer_wrote": {
+        "bank_items": 20,
+        "bank_status_hist": {
+          "queued": 18,
+          "blocked": 2
+        },
+        "bench_queue_pending": 0
+      },
+      "reader_counts": {
+        "claimable_under_shipped_reader": 0
+      },
+      "true_state": {
+        "claimable_now": 18,
+        "row_would_be": "GREEN"
+      },
+      "patch": "scripts/block_board.py::probe_supply -- count CLAIMABLE = ('open','queued','ready','todo') instead of ('open',), and read the same set in build()'s line_state",
+      "proof": "bank=20 items in {'queued': 18, 'blocked': 2}; shipped reader counts 0 -> RED; patched predicate counts 18 -> GREEN",
+      "why_it_matters": "every round the board hands the line the same 'refill the bank' instruction while the bank holds 18 pre-registered questions; a red that cannot go green is ignored, and a STARVING label on a line with 18 banked questions misdirects the next round"
+    },
+    {
+      "id": "G6_ingest",
+      "board_status": "RED",
+      "board_detail": "self-diff (FLUXGROUP vs FLUXGROUP) -- not a handover",
+      "class": "FALSE_GREEN_PRODUCER",
+      "producer_wrote": {
+        "machine_theirs": "FLUXGROUP",
+        "machine_ours": "FLUXGROUP",
+        "machine_differs": false,
+        "lanes": 15,
+        "identical_lanes": 15,
+        "same_generated": true,
+        "trustworthy": false,
+        "verdict": "COMPLETE"
+      },
+      "reader_counts": {
+        "reader_refuses_self_diff": true
+      },
+      "true_state": {
+        "handover_measured": false,
+        "verdict_trustworthy": false,
+        "row_would_be": "RED"
+      },
+      "patch": "the producer (ingest diff writer) must take the two sides from two different machines; until then the artefact's COMPLETE is a tautology and no handover has ever been measured",
+      "proof": "15/15 lanes identical, machine 'FLUXGROUP' on both sides, generated 'same' on both sides -> the diff compares a tree with itself",
+      "why_it_matters": "the row reads 'no handover received' while the file on disk says COMPLETE; the reader is right to refuse but the label hides that the ingest lane has never verified anything -- a green here would be worse than the red"
+    }
+  ],
+  "history": [
+    {
+      "commit": "bfb43120aa",
+      "hist": {
+        "queued": 18,
+        "blocked": 2
+      },
+      "reader_counts": 0
+    },
+    {
+      "commit": "61f1bc8519",
+      "hist": {
+        "queued": 17
+      },
+      "reader_counts": 0
+    },
+    {
+      "commit": "a0c6e52f0f",
+      "hist": {
+        "queued": 13,
+        "open": 4
+      },
+      "reader_counts": 4
+    }
+  ]
+}
