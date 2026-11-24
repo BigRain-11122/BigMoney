@@ -1,0 +1,178 @@
+{
+ "accounts": {
+  "IC": {
+   "best_priced_pair": "IF",
+   "best_priced_pair_net_pp": 6.008,
+   "borrow_notional_cny": 1239103.32,
+   "carry_income_one_year_cny": 79953.48,
+   "ceiling_pp": {
+    "above_best_priced_pair": 0.591,
+    "net_carry_zero": 6.599
+   },
+   "etf": "sh510500",
+   "etf_mapping_extended": null,
+   "index": "sh000905",
+   "index_name": "CSI500",
+   "long_carry_pp": 6.599,
+   "lot_notional_cny": 1211600.0,
+   "tracking": {
+    "beta": 1.0227,
+    "conversion_fixes": [
+     {
+      "as_traded_move": 248.551,
+      "date": "2015-04-15",
+      "factor": 0.286902
+     }
+    ],
+    "corr": 0.96668,
+    "days": 3323,
+    "etf_ann_vol_pct": 26.005,
+    "index_ann_vol_pct": 24.581,
+    "state": "ok",
+    "track_resid_ann_vol_pct": 6.657,
+    "window": [
+     "2013-03-15",
+     "2026-11-23"
+    ]
+   },
+   "verdict": "LEND_BEATS_IF_BELOW_0.591PP"
+  },
+  "IF": {
+   "best_priced_pair": "IC",
+   "best_priced_pair_net_pp": -6.008,
+   "borrow_notional_cny": 1194471.08,
+   "carry_income_one_year_cny": 6942.0,
+   "ceiling_pp": {
+    "above_best_priced_pair": 6.599,
+    "net_carry_zero": 0.591
+   },
+   "etf": "sh510300",
+   "etf_mapping_extended": null,
+   "index": "sh000300",
+   "index_name": "CSI300",
+   "long_carry_pp": 0.591,
+   "lot_notional_cny": 1174620.0,
+   "tracking": {
+    "beta": 1.0169,
+    "conversion_fixes": [],
+    "corr": 0.97768,
+    "days": 3520,
+    "etf_ann_vol_pct": 21.667,
+    "index_ann_vol_pct": 20.831,
+    "state": "ok",
+    "track_resid_ann_vol_pct": 4.552,
+    "window": [
+     "2012-05-28",
+     "2026-11-23"
+    ]
+   },
+   "verdict": "LEND_BEATS_IC_BELOW_6.599PP"
+  },
+  "IH": {
+   "best_priced_pair": null,
+   "best_priced_pair_net_pp": null,
+   "ceiling_pp": {},
+   "desk_carry_compound_pct_not_used": 2.443,
+   "etf": "sh510050",
+   "etf_mapping_extended": "the published map leaves IH unmapped; SSE50 tracker on disk",
+   "index": "sh000016",
+   "index_name": "SSE50",
+   "long_carry_pp": null,
+   "lot_notional_cny": 820140.0,
+   "tracking": {
+    "beta": 0.9943,
+    "conversion_fixes": [],
+    "corr": 0.9843,
+    "days": 5285,
+    "etf_ann_vol_pct": 24.662,
+    "index_ann_vol_pct": 24.415,
+    "state": "ok",
+    "track_resid_ann_vol_pct": 4.353,
+    "window": [
+     "2005-02-23",
+     "2026-11-23"
+    ]
+   },
+   "verdict": "CARRY_UNPRICED_CANNOT_CEILING"
+  },
+  "IM": {
+   "best_priced_pair": "IF",
+   "best_priced_pair_net_pp": 6.966,
+   "borrow_notional_cny": 1144523.04,
+   "carry_income_one_year_cny": 86996.18,
+   "ceiling_pp": {
+    "above_best_priced_pair": 0.591,
+    "net_carry_zero": 7.557
+   },
+   "etf": "sh512100",
+   "etf_mapping_extended": null,
+   "index": "sh000852",
+   "index_name": "CSI1000",
+   "long_carry_pp": 7.557,
+   "lot_notional_cny": 1151200.0,
+   "tracking": {
+    "beta": 0.9942,
+    "conversion_fixes": [
+     {
+      "as_traded_move": 176.2729,
+      "date": "2022-09-05",
+      "factor": 0.361961
+     }
+    ],
+    "corr": 0.98428,
+    "days": 2439,
+    "etf_ann_vol_pct": 24.131,
+    "index_ann_vol_pct": 23.89,
+    "state": "ok",
+    "track_resid_ann_vol_pct": 4.261,
+    "window": [
+     "2016-11-04",
+     "2026-11-23"
+    ]
+   },
+   "verdict": "LEND_BEATS_IF_BELOW_0.591PP"
+  }
+ },
+ "availability_is_measured": false,
+ "book_capital_cny": 1000000.0,
+ "evidence_cutoff": "2026-11-20",
+ "fee_is_measured": false,
+ "generated": "2026-11-24T22:11:06+08:00",
+ "inputs": {
+  "data/daily/sh510050.csv": "5eb3ce3a1fdc8fa8c5f3170b1c23f59b859d87791f6b88c2c59c0351eef8fd01",
+  "data/daily/sh510300.csv": "06d546d2863afb17a49f57f15779fa45efab149a57f15f767faacf218cba6fbe",
+  "data/daily/sh510500.csv": "4e517c982bc8368f6fa7b298212b2a81836699beccb28f1f8263c7f02714a845",
+  "data/daily/sh512100.csv": "fa1d68cd283cd5c25238e78776591f27fd0d3abcbf60a946cd2d2671e0a3f92f",
+  "data/index_daily/sh000016.csv": "1fa3eedc278b1315a088c9644849a0aa8f117fbfe9656b91b18e9a8290a354fa",
+  "data/index_daily/sh000300.csv": "14152db66a483e8d8f19bb89afeb0bdfdcb63c89b6026d5c3c652b28382b862e",
+  "data/index_daily/sh000852.csv": "38f4c5802d57a4ceda35dc3e84edb03589c1b726ace7f13fd30ff55db8bf7abc",
+  "data/index_daily/sh000905.csv": "9331fd653f74a859e4a6ecbf41c09b593d051bb34dd88ef9f986bb4528e32774",
+  "results/idx_fut_carry_tradeable_hedge_capital.json": "4bf84c161892e7b038749eecd859270f6e47fa63d44d5df9296c5fce87f337e6",
+  "results/idx_fut_desk_sheet.json": "18ae8f7e6e0a3c2eabc38ea7912a7e43308b76deadd8018f4e817db7942920cd"
+ },
+ "kind": "idx_fut_carry_lend_breakeven",
+ "method": "ceiling = the annualised borrow fee at which the ETF hedge stops paying",
+ "problems": [],
+ "sources": {
+  "desk": "results/idx_fut_desk_sheet.json",
+  "panel_reader": "scripts/idx_fut_basis.py (load_etf/load_index/aligned/PAIRS)",
+  "parent": "results/idx_fut_carry_tradeable_hedge_capital.json"
+ },
+ "target_pct": 8.0,
+ "totals": {
+  "arms_that_beat_the_priced_pair": [
+   "IC",
+   "IF",
+   "IM"
+  ],
+  "arms_that_no_fee_saves": [],
+  "arms_with_a_ceiling": [
+   "IC",
+   "IF",
+   "IM"
+  ]
+ },
+ "verdict": "LEND_FEE_CEILING_EXISTS_FOR_EVERY_CARRY_ARM",
+ "why_no_availability": "券源 (whether the ETF can be borrowed at this size) is not on any panel",
+ "why_no_fee": "this repo has no 融券 financing-rate series; only the ceiling is measured"
+}
