@@ -1,66 +1,50 @@
 {
  "schema": "repo-write-contention/v1",
  "machine_id": "bm-c",
- "probed_at": "2026-11-25T04:56:49",
+ "probed_at": "2026-11-25T05:15:25",
  "lookback_min": 45.0,
  "verdict": "CONTENTION",
- "why": "2 hosts alive; 17 shared face(s) written before this round started (strictly another host), 0 written inside the overlap (unattributable)",
+ "why": "2 hosts alive; 16 shared face(s) written before this round started (strictly another host), 0 written inside the overlap (unattributable)",
  "hosts": [
   {
    "pid": 79608,
    "kind": "interactive",
    "started_epoch": 1795531144.188324,
    "started": "2026-11-24T22:39:04",
-   "age_min": 377.8,
+   "age_min": 396.4,
    "exempt_from_cloud_cap": true,
    "cmd_head": "K:\\tuanjieAI\\Tuanjie Cowork\\cli\\bin\\win32-x64\\codely.exe --experimental-acp --experimental-skills --path-polic"
   },
   {
-   "pid": 87368,
+   "pid": 88348,
    "kind": "other",
-   "started_epoch": 1795553703.6943257,
-   "started": "2026-11-25T04:55:03",
-   "age_min": 1.8,
+   "started_epoch": 1795554903.9004915,
+   "started": "2026-11-25T05:15:03",
+   "age_min": 0.4,
    "exempt_from_cloud_cap": false,
    "cmd_head": "K:\\tuanjieAI\\Tuanjie Cowork\\cli\\bin\\win32-x64\\codely.exe -y -p 无人值守执行 Bigmoney 量化公司 10 分钟自迭代一轮（2026-09-23 CEO "
   }
  ],
- "my_host_pid": 87368,
- "my_host_started": "2026-11-25T04:55:03",
+ "my_host_pid": 88348,
+ "my_host_started": "2026-11-25T05:15:03",
  "host_probe_error": null,
- "overlap_windows": [
-  {
-   "pair": [
-    79608,
-    87368
-   ],
-   "kinds": [
-    "interactive",
-    "other"
-   ],
-   "from": "2026-11-25T04:55:03",
-   "to": "2026-11-25T04:56:49",
-   "minutes": 1.8,
-   "lo": 1795553703.6943257
-  }
- ],
+ "overlap_windows": [],
  "peer_only_writes": [
   "fleet/machines/bm-c.json",
   "research/ARBITER-BOARD.md",
   "research/CONTENTION_WINDOW.md",
+  "research/ETF_BOOK_CAP_BETA_UNITS.md",
   "research/ETF_BOOK_UNREADABLE_RAIL_FLOOR.md",
-  "research/QUANT-BLOCK-BOARD.md",
-  "results/_r2070bmc_addendum.py",
-  "results/_r2070bmc_append_row.py",
-  "results/_r2070bmc_contention_window_negctl.py",
-  "results/_r2070bmc_hb_fields.json",
   "results/_r2071bmc_unreadable_rail_floor_negctl.py",
+  "results/_r2072bmc_cap_beta_units_negctl.py",
+  "results/_r2072bmc_closeout.py",
+  "results/_r2072bmc_s05_scan.json",
+  "results/_r2072bmc_s05_scan.py",
   "results/arbiter/STATE.json",
   "results/contention_window.json",
+  "results/etf_book_cap_beta_units.json",
   "results/etf_book_unreadable_rail_floor.json",
-  "results/quant_block_board.json",
-  "results/watermark.jsonl",
-  "scripts/contention_window.py",
+  "scripts/etf_book_cap_beta_units.py",
   "scripts/etf_book_unreadable_rail_floor.py"
  ],
  "ambiguous_writes": [],
@@ -77,25 +61,79 @@
  "declared_own_patterns": [],
  "declared_own_write_count": 0,
  "declared_own_writes": [],
- "writes_scanned_files": 34827,
+ "writes_scanned_files": 34834,
  "recent_writes": [
   {
    "path": "research/ARBITER-BOARD.md",
-   "mtime": "2026-11-25T04:51:42",
-   "mtime_epoch": 1795553502.743665,
+   "mtime": "2026-11-25T05:11:42",
+   "mtime_epoch": 1795554702.8091059,
    "bytes": 1416
   },
   {
    "path": "results/arbiter/STATE.json",
-   "mtime": "2026-11-25T04:51:42",
-   "mtime_epoch": 1795553502.7416577,
+   "mtime": "2026-11-25T05:11:42",
+   "mtime_epoch": 1795554702.8071067,
    "bytes": 977
   },
   {
    "path": "fleet/machines/bm-c.json",
-   "mtime": "2026-11-25T04:50:44",
-   "mtime_epoch": 1795553444.1542578,
-   "bytes": 259910
+   "mtime": "2026-11-25T05:10:04",
+   "mtime_epoch": 1795554604.0120256,
+   "bytes": 259424
+  },
+  {
+   "path": "results/_r2072bmc_closeout.py",
+   "mtime": "2026-11-25T05:06:56",
+   "mtime_epoch": 1795554416.568792,
+   "bytes": 9217
+  },
+  {
+   "path": "results/_r2072bmc_s05_scan.json",
+   "mtime": "2026-11-25T05:05:21",
+   "mtime_epoch": 1795554321.6042824,
+   "bytes": 383
+  },
+  {
+   "path": "results/_r2072bmc_s05_scan.py",
+   "mtime": "2026-11-25T05:05:09",
+   "mtime_epoch": 1795554309.779893,
+   "bytes": 3872
+  },
+  {
+   "path": "results/_r2072bmc_cap_beta_units_negctl.py",
+   "mtime": "2026-11-25T05:04:06",
+   "mtime_epoch": 1795554246.9621112,
+   "bytes": 6640
+  },
+  {
+   "path": "results/etf_book_cap_beta_units.json",
+   "mtime": "2026-11-25T05:03:55",
+   "mtime_epoch": 1795554235.2241209,
+   "bytes": 3192
+  },
+  {
+   "path": "research/ETF_BOOK_CAP_BETA_UNITS.md",
+   "mtime": "2026-11-25T05:03:55",
+   "mtime_epoch": 1795554235.2241209,
+   "bytes": 3046
+  },
+  {
+   "path": "scripts/etf_book_cap_beta_units.py",
+   "mtime": "2026-11-25T05:03:42",
+   "mtime_epoch": 1795554222.2854388,
+   "bytes": 23120
+  },
+  {
+   "path": "results/contention_window.json",
+   "mtime": "2026-11-25T04:57:49",
+   "mtime_epoch": 1795553869.424515,
+   "bytes": 745
+  },
+  {
+   "path": "research/CONTENTION_WINDOW.md",
+   "mtime": "2026-11-25T04:57:49",
+   "mtime_epoch": 1795553869.424515,
+   "bytes": 1293
   },
   {
    "path": "results/_r2071bmc_unreadable_rail_floor_negctl.py",
@@ -120,68 +158,8 @@
    "mtime": "2026-11-25T04:41:51",
    "mtime_epoch": 1795552911.6315725,
    "bytes": 22567
-  },
-  {
-   "path": "results/_r2070bmc_addendum.py",
-   "mtime": "2026-11-25T04:28:56",
-   "mtime_epoch": 1795552136.231259,
-   "bytes": 1593
-  },
-  {
-   "path": "results/_r2070bmc_append_row.py",
-   "mtime": "2026-11-25T04:27:30",
-   "mtime_epoch": 1795552050.72909,
-   "bytes": 4668
-  },
-  {
-   "path": "results/watermark.jsonl",
-   "mtime": "2026-11-25T04:27:08",
-   "mtime_epoch": 1795552028.7483833,
-   "bytes": 2973
-  },
-  {
-   "path": "results/_r2070bmc_hb_fields.json",
-   "mtime": "2026-11-25T04:26:40",
-   "mtime_epoch": 1795552000.7778673,
-   "bytes": 457
-  },
-  {
-   "path": "results/contention_window.json",
-   "mtime": "2026-11-25T04:25:39",
-   "mtime_epoch": 1795551939.9811542,
-   "bytes": 747
-  },
-  {
-   "path": "research/CONTENTION_WINDOW.md",
-   "mtime": "2026-11-25T04:25:39",
-   "mtime_epoch": 1795551939.9811542,
-   "bytes": 1295
-  },
-  {
-   "path": "results/_r2070bmc_contention_window_negctl.py",
-   "mtime": "2026-11-25T04:25:31",
-   "mtime_epoch": 1795551931.7564266,
-   "bytes": 4744
-  },
-  {
-   "path": "scripts/contention_window.py",
-   "mtime": "2026-11-25T04:25:03",
-   "mtime_epoch": 1795551903.4716778,
-   "bytes": 17634
-  },
-  {
-   "path": "research/QUANT-BLOCK-BOARD.md",
-   "mtime": "2026-11-25T04:21:11",
-   "mtime_epoch": 1795551671.845937,
-   "bytes": 5673
-  },
-  {
-   "path": "results/quant_block_board.json",
-   "mtime": "2026-11-25T04:21:11",
-   "mtime_epoch": 1795551671.844938,
-   "bytes": 10811
   }
  ],
- "recent_write_count": 17,
+ "recent_write_count": 16,
  "advisory": "Probe only: it never blocks, kills or defers production. A round that reads CONTENTION must land new files only, never re-derive shared faces or re-run the chain (r1907)."
 }
