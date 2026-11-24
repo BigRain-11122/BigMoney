@@ -1,0 +1,945 @@
+{
+  "schema": "cash-shelf-inflight-carry/v1",
+  "artifact": "cash_shelf_inflight_carry",
+  "generated": "2026-11-24T11:48:45+0800",
+  "evidence_cutoff": "2026-11-20",
+  "window": {
+    "start": "2020-07-16",
+    "end": "2026-11-20"
+  },
+  "question": "how much of the measured price offset does the in-flight cash earn back in the repo leg, net of the commission that leg charges?",
+  "upstream": {
+    "face": "results/cash_shelf_build_out_plan.json",
+    "sha256": "864b22bd74b58a2c5cc3132208c6172c0cfd98a5ea9b91fe5eb69e3516d5ac2e",
+    "tiers_cny": [
+      250000,
+      565246,
+      1000000,
+      2000000,
+      5000000
+    ],
+    "ticket_cash_cny": 565245.9
+  },
+  "ruler": {
+    "sessions_and_slippage": "imported from r2043 (sessions_to_fill, batch_slippage_bp); the published slippage is re-derived and asserted",
+    "in_flight_weight": "sum_{k=1..n-1} (n-k)/n of the ticket, i.e. (n-1)/2 full-size days",
+    "repo_return": "etf_book_cash_ladder.roll_rung GC001 -- the desk's published cash-leg caliber; interest credited on the step that ends at the bar, commission on the bar the contract is bought",
+    "commission": "CL.FEE_BP 1-day entry 0.1bp per contract; the GROSS arm zeroes it",
+    "net": "slippage (bp) minus net carry (bp), same window, same bars",
+    "money": "bp x tier size"
+  },
+  "rows": [
+    {
+      "code": "511380",
+      "label": "cb_etf_sh",
+      "class": "convertible",
+      "index_source": {
+        "source": "panel_close_pct_change",
+        "share_resets_removed": 0
+      },
+      "index_bars": 1540,
+      "index_last": "2026-11-20",
+      "tape": {
+        "mean_daily_bp": 1.0182,
+        "median_daily_bp": 0.8744,
+        "days_below_minus_5bp": 695,
+        "days_bars": 1539
+      },
+      "tiers": {
+        "250000": {
+          "sessions_to_fill": 1,
+          "published_slip_median_bp": 0.0,
+          "published_slip_p95_bp": 0.0,
+          "published_p95_cny": 0.0,
+          "year_extra_cny": 515.18,
+          "size_cny": 250000,
+          "windows": 0,
+          "verdict": [
+            "ONE_SESSION_NO_WAIT"
+          ]
+        },
+        "565246": {
+          "sessions_to_fill": 2,
+          "published_slip_median_bp": 0.4372,
+          "published_slip_p95_bp": 49.3028,
+          "published_p95_cny": 2786.82,
+          "year_extra_cny": 1166.94,
+          "size_cny": 565246,
+          "windows": 1539,
+          "slip_median_bp": 0.4372,
+          "slip_p95_bp": 49.3028,
+          "carry_net_median_bp": 0.2233,
+          "carry_net_p05_bp": 0.1335,
+          "carry_gross_median_bp": 0.2733,
+          "commission_median_bp": 0.05,
+          "net_median_bp": -0.1712,
+          "net_p95_bp": 49.0957,
+          "weight_days": 0.5,
+          "net_median_cny": -9.68,
+          "net_p95_cny": 2775.11,
+          "carry_net_median_cny": 12.62,
+          "slip_per_wait_day_bp": 0.8744,
+          "carry_per_wait_day_bp": 0.4466,
+          "net_per_wait_day_bp": -0.3424,
+          "carry_share_of_slippage": 0.5108,
+          "verdict": [
+            "CARRY_PAYS_MOST_OF_THE_WAIT",
+            "WAIT_IS_PAID_IN_FULL"
+          ]
+        },
+        "1000000": {
+          "sessions_to_fill": 2,
+          "published_slip_median_bp": 0.4372,
+          "published_slip_p95_bp": 49.3028,
+          "published_p95_cny": 4930.28,
+          "year_extra_cny": 2065.5,
+          "size_cny": 1000000,
+          "windows": 1539,
+          "slip_median_bp": 0.4372,
+          "slip_p95_bp": 49.3028,
+          "carry_net_median_bp": 0.2233,
+          "carry_net_p05_bp": 0.1335,
+          "carry_gross_median_bp": 0.2733,
+          "commission_median_bp": 0.05,
+          "net_median_bp": -0.1712,
+          "net_p95_bp": 49.0957,
+          "weight_days": 0.5,
+          "net_median_cny": -17.12,
+          "net_p95_cny": 4909.57,
+          "carry_net_median_cny": 22.33,
+          "slip_per_wait_day_bp": 0.8744,
+          "carry_per_wait_day_bp": 0.4466,
+          "net_per_wait_day_bp": -0.3424,
+          "carry_share_of_slippage": 0.5108,
+          "verdict": [
+            "CARRY_PAYS_MOST_OF_THE_WAIT",
+            "WAIT_IS_PAID_IN_FULL"
+          ]
+        },
+        "2000000": {
+          "sessions_to_fill": 4,
+          "published_slip_median_bp": 2.2608,
+          "published_slip_p95_bp": 95.9898,
+          "published_p95_cny": 19197.96,
+          "year_extra_cny": 4133.4,
+          "size_cny": 2000000,
+          "windows": 1537,
+          "slip_median_bp": 2.2608,
+          "slip_p95_bp": 95.9898,
+          "carry_net_median_bp": 0.8866,
+          "carry_net_p05_bp": 0.4424,
+          "carry_gross_median_bp": 1.0366,
+          "commission_median_bp": 0.15,
+          "net_median_bp": 0.9194,
+          "net_p95_bp": 95.4301,
+          "weight_days": 1.5,
+          "net_median_cny": 183.89,
+          "net_p95_cny": 19086.01,
+          "carry_net_median_cny": 177.33,
+          "slip_per_wait_day_bp": 1.5072,
+          "carry_per_wait_day_bp": 0.5911,
+          "net_per_wait_day_bp": 0.6129,
+          "carry_share_of_slippage": 0.3922,
+          "verdict": [
+            "CARRY_PAYS_MOST_OF_THE_WAIT",
+            "WAIT_WALKS_FASTER_THAN_THE_REPO_LEG"
+          ]
+        },
+        "5000000": {
+          "sessions_to_fill": 10,
+          "published_slip_median_bp": 6.5676,
+          "published_slip_p95_bp": 162.5433,
+          "published_p95_cny": 81271.63,
+          "year_extra_cny": 10337.09,
+          "size_cny": 5000000,
+          "windows": 1531,
+          "slip_median_bp": 6.5676,
+          "slip_p95_bp": 162.5433,
+          "carry_net_median_bp": 2.9821,
+          "carry_net_p05_bp": 1.6257,
+          "carry_gross_median_bp": 3.4321,
+          "commission_median_bp": 0.45,
+          "net_median_bp": 2.9559,
+          "net_p95_bp": 159.9527,
+          "weight_days": 4.5,
+          "net_median_cny": 1477.95,
+          "net_p95_cny": 79976.37,
+          "carry_net_median_cny": 1491.03,
+          "slip_per_wait_day_bp": 1.4595,
+          "carry_per_wait_day_bp": 0.6627,
+          "net_per_wait_day_bp": 0.6569,
+          "carry_share_of_slippage": 0.4541,
+          "verdict": [
+            "CARRY_PAYS_MOST_OF_THE_WAIT",
+            "WAIT_WALKS_FASTER_THAN_THE_REPO_LEG"
+          ]
+        }
+      },
+      "verdict": {
+        "250000": [
+          "ONE_SESSION_NO_WAIT"
+        ],
+        "565246": [
+          "CARRY_PAYS_MOST_OF_THE_WAIT",
+          "WAIT_IS_PAID_IN_FULL"
+        ],
+        "1000000": [
+          "CARRY_PAYS_MOST_OF_THE_WAIT",
+          "WAIT_IS_PAID_IN_FULL"
+        ],
+        "2000000": [
+          "CARRY_PAYS_MOST_OF_THE_WAIT",
+          "WAIT_WALKS_FASTER_THAN_THE_REPO_LEG"
+        ],
+        "5000000": [
+          "CARRY_PAYS_MOST_OF_THE_WAIT",
+          "WAIT_WALKS_FASTER_THAN_THE_REPO_LEG"
+        ]
+      }
+    },
+    {
+      "code": "511180",
+      "label": "cb_etf_sz",
+      "class": "convertible",
+      "index_source": {
+        "source": "panel_close_pct_change",
+        "share_resets_removed": 0
+      },
+      "index_bars": 1540,
+      "index_last": "2026-11-20",
+      "tape": {
+        "mean_daily_bp": 0.6848,
+        "median_daily_bp": 0.943,
+        "days_below_minus_5bp": 656,
+        "days_bars": 1539
+      },
+      "tiers": {
+        "250000": {
+          "sessions_to_fill": 2,
+          "published_slip_median_bp": 0.4715,
+          "published_slip_p95_bp": 36.4255,
+          "published_p95_cny": 910.64,
+          "year_extra_cny": -903.6,
+          "size_cny": 250000,
+          "windows": 1539,
+          "slip_median_bp": 0.4715,
+          "slip_p95_bp": 36.4255,
+          "carry_net_median_bp": 0.2233,
+          "carry_net_p05_bp": 0.1335,
+          "carry_gross_median_bp": 0.2733,
+          "commission_median_bp": 0.05,
+          "net_median_bp": 0.1977,
+          "net_p95_bp": 36.0544,
+          "weight_days": 0.5,
+          "net_median_cny": 4.94,
+          "net_p95_cny": 901.36,
+          "carry_net_median_cny": 5.58,
+          "slip_per_wait_day_bp": 0.943,
+          "carry_per_wait_day_bp": 0.4466,
+          "net_per_wait_day_bp": 0.3954,
+          "carry_share_of_slippage": 0.4736,
+          "verdict": [
+            "CARRY_PAYS_MOST_OF_THE_WAIT",
+            "WAIT_WALKS_FASTER_THAN_THE_REPO_LEG"
+          ]
+        },
+        "565246": {
+          "sessions_to_fill": 3,
+          "published_slip_median_bp": 0.305,
+          "published_slip_p95_bp": 54.6747,
+          "published_p95_cny": 3090.47,
+          "year_extra_cny": -2041.03,
+          "size_cny": 565246,
+          "windows": 1538,
+          "slip_median_bp": 0.305,
+          "slip_p95_bp": 54.6747,
+          "carry_net_median_bp": 0.5185,
+          "carry_net_p05_bp": 0.2808,
+          "carry_gross_median_bp": 0.6185,
+          "commission_median_bp": 0.1,
+          "net_median_bp": -0.3324,
+          "net_p95_bp": 53.8766,
+          "weight_days": 1.0,
+          "net_median_cny": -18.79,
+          "net_p95_cny": 3045.35,
+          "carry_net_median_cny": 29.31,
+          "slip_per_wait_day_bp": 0.305,
+          "carry_per_wait_day_bp": 0.5185,
+          "net_per_wait_day_bp": -0.3324,
+          "carry_share_of_slippage": 1.7,
+          "verdict": [
+            "CARRY_PAYS_MOST_OF_THE_WAIT",
+            "WAIT_IS_PAID_IN_FULL"
+          ]
+        },
+        "1000000": {
+          "sessions_to_fill": 5,
+          "published_slip_median_bp": 1.5214,
+          "published_slip_p95_bp": 84.2761,
+          "published_p95_cny": 8427.61,
+          "year_extra_cny": -3614.41,
+          "size_cny": 1000000,
+          "windows": 1536,
+          "slip_median_bp": 1.5214,
+          "slip_p95_bp": 84.2761,
+          "carry_net_median_bp": 1.2486,
+          "carry_net_p05_bp": 0.6385,
+          "carry_gross_median_bp": 1.4486,
+          "commission_median_bp": 0.2,
+          "net_median_bp": 0.3474,
+          "net_p95_bp": 82.1828,
+          "weight_days": 2.0,
+          "net_median_cny": 34.74,
+          "net_p95_cny": 8218.28,
+          "carry_net_median_cny": 124.86,
+          "slip_per_wait_day_bp": 0.7607,
+          "carry_per_wait_day_bp": 0.6243,
+          "net_per_wait_day_bp": 0.1737,
+          "carry_share_of_slippage": 0.8207,
+          "verdict": [
+            "CARRY_PAYS_MOST_OF_THE_WAIT",
+            "WAIT_WALKS_FASTER_THAN_THE_REPO_LEG"
+          ]
+        },
+        "2000000": {
+          "sessions_to_fill": 10,
+          "published_slip_median_bp": 4.9592,
+          "published_slip_p95_bp": 122.2695,
+          "published_p95_cny": 24453.91,
+          "year_extra_cny": -7232.79,
+          "size_cny": 2000000,
+          "windows": 1531,
+          "slip_median_bp": 4.9592,
+          "slip_p95_bp": 122.2695,
+          "carry_net_median_bp": 2.9821,
+          "carry_net_p05_bp": 1.6257,
+          "carry_gross_median_bp": 3.4321,
+          "commission_median_bp": 0.45,
+          "net_median_bp": 1.6582,
+          "net_p95_bp": 118.6391,
+          "weight_days": 4.5,
+          "net_median_cny": 331.64,
+          "net_p95_cny": 23727.83,
+          "carry_net_median_cny": 596.41,
+          "slip_per_wait_day_bp": 1.102,
+          "carry_per_wait_day_bp": 0.6627,
+          "net_per_wait_day_bp": 0.3685,
+          "carry_share_of_slippage": 0.6013,
+          "verdict": [
+            "CARRY_PAYS_MOST_OF_THE_WAIT",
+            "WAIT_WALKS_FASTER_THAN_THE_REPO_LEG"
+          ]
+        },
+        "5000000": {
+          "sessions_to_fill": 23,
+          "published_slip_median_bp": 11.2435,
+          "published_slip_p95_bp": 191.4945,
+          "published_p95_cny": 95747.25,
+          "year_extra_cny": -18083.95,
+          "size_cny": 5000000,
+          "windows": 1518,
+          "slip_median_bp": 11.2435,
+          "slip_p95_bp": 191.4945,
+          "carry_net_median_bp": 7.6087,
+          "carry_net_p05_bp": 4.1712,
+          "carry_gross_median_bp": 8.7087,
+          "commission_median_bp": 1.1,
+          "net_median_bp": 3.316,
+          "net_p95_bp": 184.3492,
+          "weight_days": 11.0,
+          "net_median_cny": 1657.99,
+          "net_p95_cny": 92174.58,
+          "carry_net_median_cny": 3804.33,
+          "slip_per_wait_day_bp": 1.0221,
+          "carry_per_wait_day_bp": 0.6917,
+          "net_per_wait_day_bp": 0.3015,
+          "carry_share_of_slippage": 0.6767,
+          "verdict": [
+            "CARRY_PAYS_MOST_OF_THE_WAIT",
+            "WAIT_WALKS_FASTER_THAN_THE_REPO_LEG"
+          ]
+        }
+      },
+      "verdict": {
+        "250000": [
+          "CARRY_PAYS_MOST_OF_THE_WAIT",
+          "WAIT_WALKS_FASTER_THAN_THE_REPO_LEG"
+        ],
+        "565246": [
+          "CARRY_PAYS_MOST_OF_THE_WAIT",
+          "WAIT_IS_PAID_IN_FULL"
+        ],
+        "1000000": [
+          "CARRY_PAYS_MOST_OF_THE_WAIT",
+          "WAIT_WALKS_FASTER_THAN_THE_REPO_LEG"
+        ],
+        "2000000": [
+          "CARRY_PAYS_MOST_OF_THE_WAIT",
+          "WAIT_WALKS_FASTER_THAN_THE_REPO_LEG"
+        ],
+        "5000000": [
+          "CARRY_PAYS_MOST_OF_THE_WAIT",
+          "WAIT_WALKS_FASTER_THAN_THE_REPO_LEG"
+        ]
+      }
+    },
+    {
+      "code": "511880",
+      "label": "money_etf",
+      "class": "money",
+      "index_source": {
+        "source": "consolidation_returns",
+        "share_resets_removed": 13
+      },
+      "index_bars": 1540,
+      "index_last": "2026-11-20",
+      "tape": {
+        "mean_daily_bp": 0.6261,
+        "median_daily_bp": 0.5917,
+        "days_below_minus_5bp": 1,
+        "days_bars": 1539
+      },
+      "tiers": {
+        "250000": {
+          "sessions_to_fill": 1,
+          "published_slip_median_bp": 0.0,
+          "published_slip_p95_bp": 0.0,
+          "published_p95_cny": 0.0,
+          "year_extra_cny": -581.99,
+          "size_cny": 250000,
+          "windows": 0,
+          "verdict": [
+            "ONE_SESSION_NO_WAIT"
+          ]
+        },
+        "565246": {
+          "sessions_to_fill": 1,
+          "published_slip_median_bp": 0.0,
+          "published_slip_p95_bp": 0.0,
+          "published_p95_cny": 0.0,
+          "year_extra_cny": -1333.72,
+          "size_cny": 565246,
+          "windows": 0,
+          "verdict": [
+            "ONE_SESSION_NO_WAIT"
+          ]
+        },
+        "1000000": {
+          "sessions_to_fill": 1,
+          "published_slip_median_bp": 0.0,
+          "published_slip_p95_bp": 0.0,
+          "published_p95_cny": 0.0,
+          "year_extra_cny": -2400.7,
+          "size_cny": 1000000,
+          "windows": 0,
+          "verdict": [
+            "ONE_SESSION_NO_WAIT"
+          ]
+        },
+        "2000000": {
+          "sessions_to_fill": 1,
+          "published_slip_median_bp": 0.0,
+          "published_slip_p95_bp": 0.0,
+          "published_p95_cny": 0.0,
+          "year_extra_cny": -4801.4,
+          "size_cny": 2000000,
+          "windows": 0,
+          "verdict": [
+            "ONE_SESSION_NO_WAIT"
+          ]
+        },
+        "5000000": {
+          "sessions_to_fill": 1,
+          "published_slip_median_bp": 0.0,
+          "published_slip_p95_bp": 0.0,
+          "published_p95_cny": 0.0,
+          "year_extra_cny": -12003.49,
+          "size_cny": 5000000,
+          "windows": 0,
+          "verdict": [
+            "ONE_SESSION_NO_WAIT"
+          ]
+        }
+      },
+      "verdict": {
+        "250000": [
+          "ONE_SESSION_NO_WAIT"
+        ],
+        "565246": [
+          "ONE_SESSION_NO_WAIT"
+        ],
+        "1000000": [
+          "ONE_SESSION_NO_WAIT"
+        ],
+        "2000000": [
+          "ONE_SESSION_NO_WAIT"
+        ],
+        "5000000": [
+          "ONE_SESSION_NO_WAIT"
+        ]
+      }
+    },
+    {
+      "code": "511360",
+      "label": "short_fin_etf",
+      "class": "money",
+      "index_source": {
+        "source": "consolidation_returns",
+        "share_resets_removed": 1
+      },
+      "index_bars": 1540,
+      "index_last": "2026-11-20",
+      "tape": {
+        "mean_daily_bp": 0.9166,
+        "median_daily_bp": 0.7601,
+        "days_below_minus_5bp": 12,
+        "days_bars": 1539
+      },
+      "tiers": {
+        "250000": {
+          "sessions_to_fill": 2,
+          "published_slip_median_bp": 0.38,
+          "published_slip_p95_bp": 1.7107,
+          "published_p95_cny": 42.77,
+          "year_extra_cny": 1323.53,
+          "size_cny": 250000,
+          "windows": 1539,
+          "slip_median_bp": 0.38,
+          "slip_p95_bp": 1.7107,
+          "carry_net_median_bp": 0.2233,
+          "carry_net_p05_bp": 0.1335,
+          "carry_gross_median_bp": 0.2733,
+          "commission_median_bp": 0.05,
+          "net_median_bp": 0.0771,
+          "net_p95_bp": 1.3815,
+          "weight_days": 0.5,
+          "net_median_cny": 1.93,
+          "net_p95_cny": 34.54,
+          "carry_net_median_cny": 5.58,
+          "slip_per_wait_day_bp": 0.76,
+          "carry_per_wait_day_bp": 0.4466,
+          "net_per_wait_day_bp": 0.1542,
+          "carry_share_of_slippage": 0.5876,
+          "verdict": [
+            "CARRY_PAYS_MOST_OF_THE_WAIT",
+            "WAIT_WALKS_FASTER_THAN_THE_REPO_LEG"
+          ]
+        },
+        "565246": {
+          "sessions_to_fill": 5,
+          "published_slip_median_bp": 1.5883,
+          "published_slip_p95_bp": 4.68,
+          "published_p95_cny": 264.54,
+          "year_extra_cny": 3088.23,
+          "size_cny": 565246,
+          "windows": 1536,
+          "slip_median_bp": 1.5883,
+          "slip_p95_bp": 4.68,
+          "carry_net_median_bp": 1.2486,
+          "carry_net_p05_bp": 0.6385,
+          "carry_gross_median_bp": 1.4486,
+          "commission_median_bp": 0.2,
+          "net_median_bp": 0.3654,
+          "net_p95_bp": 2.9475,
+          "weight_days": 2.0,
+          "net_median_cny": 20.65,
+          "net_p95_cny": 166.61,
+          "carry_net_median_cny": 70.58,
+          "slip_per_wait_day_bp": 0.7942,
+          "carry_per_wait_day_bp": 0.6243,
+          "net_per_wait_day_bp": 0.1827,
+          "carry_share_of_slippage": 0.7861,
+          "verdict": [
+            "CARRY_PAYS_MOST_OF_THE_WAIT",
+            "WAIT_WALKS_FASTER_THAN_THE_REPO_LEG"
+          ]
+        },
+        "1000000": {
+          "sessions_to_fill": 8,
+          "published_slip_median_bp": 2.8055,
+          "published_slip_p95_bp": 7.4135,
+          "published_p95_cny": 741.35,
+          "year_extra_cny": 5483.19,
+          "size_cny": 1000000,
+          "windows": 1533,
+          "slip_median_bp": 2.8055,
+          "slip_p95_bp": 7.4135,
+          "carry_net_median_bp": 2.269,
+          "carry_net_p05_bp": 1.243,
+          "carry_gross_median_bp": 2.619,
+          "commission_median_bp": 0.35,
+          "net_median_bp": 0.6185,
+          "net_p95_bp": 4.1505,
+          "weight_days": 3.5,
+          "net_median_cny": 61.85,
+          "net_p95_cny": 415.05,
+          "carry_net_median_cny": 226.9,
+          "slip_per_wait_day_bp": 0.8016,
+          "carry_per_wait_day_bp": 0.6483,
+          "net_per_wait_day_bp": 0.1767,
+          "carry_share_of_slippage": 0.8088,
+          "verdict": [
+            "CARRY_PAYS_MOST_OF_THE_WAIT",
+            "WAIT_WALKS_FASTER_THAN_THE_REPO_LEG"
+          ]
+        },
+        "2000000": {
+          "sessions_to_fill": 16,
+          "published_slip_median_bp": 6.0418,
+          "published_slip_p95_bp": 13.8934,
+          "published_p95_cny": 2778.68,
+          "year_extra_cny": 11029.4,
+          "size_cny": 2000000,
+          "windows": 1525,
+          "slip_median_bp": 6.0418,
+          "slip_p95_bp": 13.8934,
+          "carry_net_median_bp": 5.0624,
+          "carry_net_p05_bp": 2.7784,
+          "carry_gross_median_bp": 5.8124,
+          "commission_median_bp": 0.75,
+          "net_median_bp": 1.2102,
+          "net_p95_bp": 7.2717,
+          "weight_days": 7.5,
+          "net_median_cny": 242.04,
+          "net_p95_cny": 1454.35,
+          "carry_net_median_cny": 1012.48,
+          "slip_per_wait_day_bp": 0.8056,
+          "carry_per_wait_day_bp": 0.675,
+          "net_per_wait_day_bp": 0.1614,
+          "carry_share_of_slippage": 0.8379,
+          "verdict": [
+            "CARRY_PAYS_MOST_OF_THE_WAIT",
+            "WAIT_WALKS_FASTER_THAN_THE_REPO_LEG"
+          ]
+        },
+        "5000000": {
+          "sessions_to_fill": 39,
+          "published_slip_median_bp": 16.2451,
+          "published_slip_p95_bp": 30.0404,
+          "published_p95_cny": 15020.22,
+          "year_extra_cny": 27541.98,
+          "size_cny": 5000000,
+          "windows": 1502,
+          "slip_median_bp": 16.2451,
+          "slip_p95_bp": 30.0404,
+          "carry_net_median_bp": 13.7867,
+          "carry_net_p05_bp": 7.4898,
+          "carry_gross_median_bp": 15.6867,
+          "commission_median_bp": 1.9,
+          "net_median_bp": 2.833,
+          "net_p95_bp": 14.7567,
+          "weight_days": 19.0,
+          "net_median_cny": 1416.48,
+          "net_p95_cny": 7378.36,
+          "carry_net_median_cny": 6893.34,
+          "slip_per_wait_day_bp": 0.855,
+          "carry_per_wait_day_bp": 0.7256,
+          "net_per_wait_day_bp": 0.1491,
+          "carry_share_of_slippage": 0.8487,
+          "verdict": [
+            "CARRY_PAYS_MOST_OF_THE_WAIT",
+            "WAIT_WALKS_FASTER_THAN_THE_REPO_LEG"
+          ]
+        }
+      },
+      "verdict": {
+        "250000": [
+          "CARRY_PAYS_MOST_OF_THE_WAIT",
+          "WAIT_WALKS_FASTER_THAN_THE_REPO_LEG"
+        ],
+        "565246": [
+          "CARRY_PAYS_MOST_OF_THE_WAIT",
+          "WAIT_WALKS_FASTER_THAN_THE_REPO_LEG"
+        ],
+        "1000000": [
+          "CARRY_PAYS_MOST_OF_THE_WAIT",
+          "WAIT_WALKS_FASTER_THAN_THE_REPO_LEG"
+        ],
+        "2000000": [
+          "CARRY_PAYS_MOST_OF_THE_WAIT",
+          "WAIT_WALKS_FASTER_THAN_THE_REPO_LEG"
+        ],
+        "5000000": [
+          "CARRY_PAYS_MOST_OF_THE_WAIT",
+          "WAIT_WALKS_FASTER_THAN_THE_REPO_LEG"
+        ]
+      }
+    },
+    {
+      "code": "511010",
+      "label": "bond_etf",
+      "class": "bond",
+      "index_source": {
+        "source": "panel_close_pct_change",
+        "share_resets_removed": 0
+      },
+      "index_bars": 1540,
+      "index_last": "2026-11-20",
+      "tape": {
+        "mean_daily_bp": 0.9641,
+        "median_daily_bp": 1.0626,
+        "days_below_minus_5bp": 324,
+        "days_bars": 1539
+      },
+      "tiers": {
+        "250000": {
+          "sessions_to_fill": 1,
+          "published_slip_median_bp": 0.0,
+          "published_slip_p95_bp": 0.0,
+          "published_p95_cny": 0.0,
+          "year_extra_cny": 1394.43,
+          "size_cny": 250000,
+          "windows": 0,
+          "verdict": [
+            "ONE_SESSION_NO_WAIT"
+          ]
+        },
+        "565246": {
+          "sessions_to_fill": 1,
+          "published_slip_median_bp": 0.0,
+          "published_slip_p95_bp": 0.0,
+          "published_p95_cny": 0.0,
+          "year_extra_cny": 3199.0,
+          "size_cny": 565246,
+          "windows": 0,
+          "verdict": [
+            "ONE_SESSION_NO_WAIT"
+          ]
+        },
+        "1000000": {
+          "sessions_to_fill": 2,
+          "published_slip_median_bp": 0.5313,
+          "published_slip_p95_bp": 8.5314,
+          "published_p95_cny": 853.14,
+          "year_extra_cny": 5741.79,
+          "size_cny": 1000000,
+          "windows": 1539,
+          "slip_median_bp": 0.5313,
+          "slip_p95_bp": 8.5314,
+          "carry_net_median_bp": 0.2233,
+          "carry_net_p05_bp": 0.1335,
+          "carry_gross_median_bp": 0.2733,
+          "commission_median_bp": 0.05,
+          "net_median_bp": 0.2079,
+          "net_p95_bp": 8.2241,
+          "weight_days": 0.5,
+          "net_median_cny": 20.79,
+          "net_p95_cny": 822.41,
+          "carry_net_median_cny": 22.33,
+          "slip_per_wait_day_bp": 1.0626,
+          "carry_per_wait_day_bp": 0.4466,
+          "net_per_wait_day_bp": 0.4158,
+          "carry_share_of_slippage": 0.4203,
+          "verdict": [
+            "CARRY_PAYS_MOST_OF_THE_WAIT",
+            "WAIT_WALKS_FASTER_THAN_THE_REPO_LEG"
+          ]
+        },
+        "2000000": {
+          "sessions_to_fill": 3,
+          "published_slip_median_bp": 1.2929,
+          "published_slip_p95_bp": 12.8003,
+          "published_p95_cny": 2560.05,
+          "year_extra_cny": 11565.61,
+          "size_cny": 2000000,
+          "windows": 1538,
+          "slip_median_bp": 1.2929,
+          "slip_p95_bp": 12.8003,
+          "carry_net_median_bp": 0.5185,
+          "carry_net_p05_bp": 0.2808,
+          "carry_gross_median_bp": 0.6185,
+          "commission_median_bp": 0.1,
+          "net_median_bp": 0.6466,
+          "net_p95_bp": 12.0671,
+          "weight_days": 1.0,
+          "net_median_cny": 129.31,
+          "net_p95_cny": 2413.42,
+          "carry_net_median_cny": 103.7,
+          "slip_per_wait_day_bp": 1.2929,
+          "carry_per_wait_day_bp": 0.5185,
+          "net_per_wait_day_bp": 0.6466,
+          "carry_share_of_slippage": 0.401,
+          "verdict": [
+            "CARRY_PAYS_MOST_OF_THE_WAIT",
+            "WAIT_WALKS_FASTER_THAN_THE_REPO_LEG"
+          ]
+        },
+        "5000000": {
+          "sessions_to_fill": 8,
+          "published_slip_median_bp": 4.674,
+          "published_slip_p95_bp": 25.6671,
+          "published_p95_cny": 12833.55,
+          "year_extra_cny": 28955.03,
+          "size_cny": 5000000,
+          "windows": 1533,
+          "slip_median_bp": 4.674,
+          "slip_p95_bp": 25.6671,
+          "carry_net_median_bp": 2.269,
+          "carry_net_p05_bp": 1.243,
+          "carry_gross_median_bp": 2.619,
+          "commission_median_bp": 0.35,
+          "net_median_bp": 2.1598,
+          "net_p95_bp": 22.751,
+          "weight_days": 3.5,
+          "net_median_cny": 1079.9,
+          "net_p95_cny": 11375.48,
+          "carry_net_median_cny": 1134.5,
+          "slip_per_wait_day_bp": 1.3354,
+          "carry_per_wait_day_bp": 0.6483,
+          "net_per_wait_day_bp": 0.6171,
+          "carry_share_of_slippage": 0.4855,
+          "verdict": [
+            "CARRY_PAYS_MOST_OF_THE_WAIT",
+            "WAIT_WALKS_FASTER_THAN_THE_REPO_LEG"
+          ]
+        }
+      },
+      "verdict": {
+        "250000": [
+          "ONE_SESSION_NO_WAIT"
+        ],
+        "565246": [
+          "ONE_SESSION_NO_WAIT"
+        ],
+        "1000000": [
+          "CARRY_PAYS_MOST_OF_THE_WAIT",
+          "WAIT_WALKS_FASTER_THAN_THE_REPO_LEG"
+        ],
+        "2000000": [
+          "CARRY_PAYS_MOST_OF_THE_WAIT",
+          "WAIT_WALKS_FASTER_THAN_THE_REPO_LEG"
+        ],
+        "5000000": [
+          "CARRY_PAYS_MOST_OF_THE_WAIT",
+          "WAIT_WALKS_FASTER_THAN_THE_REPO_LEG"
+        ]
+      }
+    }
+  ],
+  "headline": {
+    "ticket_cash_cny": 565245.9,
+    "tier_used_for_headline": 565246,
+    "verdict_counts": {
+      "ONE_SESSION_NO_WAIT": 8,
+      "CARRY_PAYS_MOST_OF_THE_WAIT": 17,
+      "WAIT_IS_PAID_IN_FULL": 3,
+      "WAIT_WALKS_FASTER_THAN_THE_REPO_LEG": 14
+    },
+    "carry_share_median_across_rows": 0.5876,
+    "carry_share_min": 0.3922,
+    "carry_share_max": 1.7,
+    "shelves_needing_more_than_one_session_at_the_ticket": [
+      {
+        "code": "511380",
+        "sessions": 2,
+        "slip_p95_cny": 2786.82,
+        "carry_net_median_cny": 12.62,
+        "net_p95_cny": 2775.11,
+        "net_median_cny": -9.68,
+        "carry_share_of_slippage": 0.5108,
+        "commission_median_bp": 0.05,
+        "slip_per_wait_day_bp": 0.8744,
+        "carry_per_wait_day_bp": 0.4466,
+        "net_per_wait_day_bp": -0.3424,
+        "tape_mean_daily_bp": 1.0182,
+        "verdict": [
+          "CARRY_PAYS_MOST_OF_THE_WAIT",
+          "WAIT_IS_PAID_IN_FULL"
+        ]
+      },
+      {
+        "code": "511180",
+        "sessions": 3,
+        "slip_p95_cny": 3090.47,
+        "carry_net_median_cny": 29.31,
+        "net_p95_cny": 3045.35,
+        "net_median_cny": -18.79,
+        "carry_share_of_slippage": 1.7,
+        "commission_median_bp": 0.1,
+        "slip_per_wait_day_bp": 0.305,
+        "carry_per_wait_day_bp": 0.5185,
+        "net_per_wait_day_bp": -0.3324,
+        "tape_mean_daily_bp": 0.6848,
+        "verdict": [
+          "CARRY_PAYS_MOST_OF_THE_WAIT",
+          "WAIT_IS_PAID_IN_FULL"
+        ]
+      },
+      {
+        "code": "511360",
+        "sessions": 5,
+        "slip_p95_cny": 264.54,
+        "carry_net_median_cny": 70.58,
+        "net_p95_cny": 166.61,
+        "net_median_cny": 20.65,
+        "carry_share_of_slippage": 0.7861,
+        "commission_median_bp": 0.2,
+        "slip_per_wait_day_bp": 0.7942,
+        "carry_per_wait_day_bp": 0.6243,
+        "net_per_wait_day_bp": 0.1827,
+        "tape_mean_daily_bp": 0.9166,
+        "verdict": [
+          "CARRY_PAYS_MOST_OF_THE_WAIT",
+          "WAIT_WALKS_FASTER_THAN_THE_REPO_LEG"
+        ]
+      }
+    ],
+    "long_schedule_check": [
+      {
+        "code": "511380",
+        "class": "convertible",
+        "sessions": 39,
+        "windows": 1502,
+        "slip_median_bp": 29.3075,
+        "carry_net_median_bp": 13.7867,
+        "carry_share_of_slippage": 0.4704,
+        "weight_days": 19.0
+      },
+      {
+        "code": "511180",
+        "class": "convertible",
+        "sessions": 39,
+        "windows": 1502,
+        "slip_median_bp": 22.9158,
+        "carry_net_median_bp": 13.7867,
+        "carry_share_of_slippage": 0.6016,
+        "weight_days": 19.0
+      },
+      {
+        "code": "511880",
+        "class": "money",
+        "sessions": 39,
+        "windows": 1502,
+        "slip_median_bp": 12.0769,
+        "carry_net_median_bp": 13.7867,
+        "carry_share_of_slippage": 1.1416,
+        "weight_days": 19.0
+      },
+      {
+        "code": "511360",
+        "class": "money",
+        "sessions": 39,
+        "windows": 1502,
+        "slip_median_bp": 16.2451,
+        "carry_net_median_bp": 13.7867,
+        "carry_share_of_slippage": 0.8487,
+        "weight_days": 19.0
+      },
+      {
+        "code": "511010",
+        "class": "bond",
+        "sessions": 39,
+        "windows": 1502,
+        "slip_median_bp": 20.6832,
+        "carry_net_median_bp": 13.7867,
+        "carry_share_of_slippage": 0.6666,
+        "weight_days": 19.0
+      }
+    ],
+    "tape_of_the_cash_shelf": {
+      "code": "511360",
+      "bars": 1539,
+      "days_below_minus_5bp": 12
+    }
+  }
+}
