@@ -1,0 +1,129 @@
+{
+ "artifact": "capital_marginal_road",
+ "verdict": "THE_STEP_IS_PRICED_WORSE_AND_THE_RICHER_BOOK_HAS_NO_ROOM",
+ "lens_cny": 1000000.0,
+ "books": {
+  "etf": {
+   "capital_cny": 1129565.88,
+   "ann_pct": 11.11,
+   "vol_pct": 10.51,
+   "income_cny": 125494.77
+  },
+  "carry": {
+   "product": "IC",
+   "lots": 1,
+   "capital_cny": 1129565.88,
+   "notional_cny": 1211600.0,
+   "carry_pp_upper": 6.599,
+   "carry_pp_tape": 6.361,
+   "income_cny_upper": 79953.48,
+   "income_cny_tape": 77069.88,
+   "return_on_capital_pct_upper": 7.078,
+   "return_on_capital_pct_tape": 6.823
+  },
+  "cash": {
+   "capital_cny": 1129565.88,
+   "rate_pct": 1.7708,
+   "income_cny": 20002.35
+  }
+ },
+ "gap": {
+  "carry_minus_etf_cny": -45541.29,
+  "carry_tape_minus_etf_cny": -48424.89,
+  "carry_minus_cash_cny": 59951.13
+ },
+ "capacity": {
+  "lens_cny": 1000000.0,
+  "step_cny": 129565.88,
+  "capital_after_step_cny": 1129565.88,
+  "etf_capital_at_line_today_cny": 1043800.91,
+  "over_line_after_step_cny": 85764.97,
+  "etf_sessions_inside_line": 4,
+  "etf_sessions_measured": 60,
+  "etf_pass_rate_pct": 6.67
+ },
+ "marginal": {
+  "step_cny": 129565.88,
+  "etf_earn_cny": 14394.77,
+  "cash_earn_cny": 2294.35,
+  "carry_note": "the step does not buy a fractional lot: it converts a 0-lot ticket into 1 lot, so its price is the whole gap, not a rate applied to 129,566"
+ },
+ "etf_detail": {
+  "arm": "nobond_vt08",
+  "ann_pct": 11.11,
+  "vol_pct": 10.51,
+  "sharpe": 1.096,
+  "maxdd_pct": -10.56,
+  "worst_year_pct": 0.25,
+  "neg_years": 0,
+  "turnover_per_year": 1.08,
+  "one_lot_floor_cny": 14666.23,
+  "capital_multiple_vs_floor": 68.2
+ },
+ "carry_detail": {
+  "product": "IC",
+  "roll_pp_per_year": 2.411,
+  "carry_gross_pp": 8.772,
+  "carry_net_tape_pp": 6.361,
+  "carry_pp_basis_face": 6.599,
+  "funding_cny": 1129565.88,
+  "gap_cny": 129565.88,
+  "gap_pct_of_capital": 12.9566,
+  "per_lot_vol_cny": 90365.27
+ },
+ "face_provenance": {
+  "results/idx_fut_roll_cost.json": {
+   "generated": "2026-11-24T16:10:14",
+   "evidence_cutoff": "2026-11-23",
+   "sha256": "19ee78dbe9dcc236"
+  },
+  "results/idx_fut_carry_lend_breakeven.json": {
+   "generated": "2026-11-24T22:11:06+08:00",
+   "evidence_cutoff": "2026-11-20",
+   "sha256": "4bea5cb1dc65f659"
+  },
+  "results/idx_fut_carry_open_capital.json": {
+   "generated": "2026-11-24T16:13:44+08:00",
+   "evidence_cutoff": "2026-11-23",
+   "sha256": "73b4ea87aaf4942a"
+  },
+  "results/etf_book_cash_rate_flip.json": {
+   "generated": "-",
+   "evidence_cutoff": "2026-11-24",
+   "sha256": "17d439b088dc3987"
+  },
+  "results/etf_nobond_vt.json": {
+   "generated": "-",
+   "evidence_cutoff": "2026-11-24",
+   "sha256": "128722ecf9cc6147"
+  },
+  "results/etf_book_capacity_edge.json": {
+   "generated": {
+    "lens": "1M",
+    "capital_cny": 1000000.0,
+    "per_name_cny": 200000.0,
+    "impact_pct_of_adv": 0.958,
+    "within_1pct": true,
+    "line_pct": 1.0
+   },
+   "evidence_cutoff": "2026-11-24",
+   "sha256": "d05b6874ecb5c69a"
+  },
+  "results/etf_book_ticket_floor.json": {
+   "generated": "-",
+   "evidence_cutoff": "2026-11-24",
+   "sha256": "cab04313a4c1b3bf"
+  }
+ },
+ "evidence_cutoff": "2026-11-23",
+ "caveats": [
+  "The ETF book's 11.11% is net of its own 10bp-per-side cost assumption but assumes the capacity line does not bind; the capacity face says at 1,000,000 CNY that assumption holds on 4 of the last 60 sessions, so the marginal yuan is priced at a rate the book cannot currently execute.",
+  "The carry lot's income is carry on one contract notional (1,211,600 CNY), not a return on margin; the return-on-capital line divides it by the 8%-vol-budget funding rung.",
+  "Two independent carry readings are printed: the tape face's net-of-measured-roll figure (6.361pp) and the basis face's control-drift-adjusted figure (6.599pp). The verdict is decided on the upper one, i.e. the reading most favourable to the carry road.",
+  "The 1% ADV capacity line is this repo's own criterion, not an exchange rule: it says how often this capital fits, not what it costs to push.",
+  "The step is all-or-nothing: one lot is the smallest whole unit, so the marginal table shows what 129,566 earns in the two continuous books, not a pro-rata carry return."
+ ],
+ "facts_digest": "9f037939e85d8f5a0f7c29a57d3fa977",
+ "generated": "2026-11-25T06:13:09+08:00",
+ "inputs_digest": "8205afba845592be39d58dd8479a27120c2c3b24abe6128e36a2d228c8e02d68"
+}
