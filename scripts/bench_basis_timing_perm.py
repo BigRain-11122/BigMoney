@@ -119,6 +119,8 @@ def run():
         "null": "circular shift of the weight series (alignment destroyed, distribution kept)",
         "statistic": "annualised(weighted carry) - annualised(always-on carry)",
         "draws": DRAWS, "seed": SEED,
+        "criteria": {"cost_bp_side": COST_BP_SIDE, "target_edge_pp": 5.0,
+                     "window": WINDOW, "min_obs": MIN_OBS},
         "products": out, "verdict": verdict,
         "reading": {"SIGNIFICANT": "the GO survives; sizing by percentile is aligned with the carry",
                     "NOT_SIGNIFICANT": "the GO does not survive; withdraw it and hold always",

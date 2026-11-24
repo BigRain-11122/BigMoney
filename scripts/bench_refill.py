@@ -78,19 +78,31 @@ def refill(limit=1):
         os.makedirs(CELLS, exist_ok=True)
         cfg_path = os.path.join(CELLS, item["id"] + ".json")
         write_json(cfg_path, cfg)
+        if item.get("script"):
+            script = item["script"]
+            args = list(item.get("args") or [])
+            result = item.get("result") or f"results/{item['id']}.json"
+            page = item.get("page") or f"research/{item['id'].upper()}.md"
+        else:
+            script = "scripts/bench_generic.py"
+            args = ["--config", os.path.relpath(cfg_path, ROOT).replace("\\", "/")]
+            result = f"results/bench_{item['id']}.json"
+            page = f"research/BENCH-{item['id'].upper()}.md"
         queue["cells"].append({
             "id": item["id"],
             "title": item["id"],
             "question": item.get("question"),
-            "script": "scripts/bench_generic.py",
-            "args": ["--config", os.path.relpath(cfg_path, ROOT).replace("\\", "/")],
-            "result": f"results/bench_{item['id']}.json",
-            "page": f"research/BENCH-{item['id'].upper()}.md",
-            "lane": "futures",
+            "script": script,
+            "args": args,
+            "result": result,
+            "page": page,
+            "lane": item.get("lane", "futures"),
             "max_bar_age_days": 8,
-            "threads": 3,
+            "threads": item.get("threads", 3),
             "status": "pending",
             "attempts": 0,
+            "recurring": bool(item.get("recurring", False)),
+            "recur_hours": item.get("recur_hours", 24),
             "decides": item.get("decides"),
             "target_edge_pp": item.get("target_edge_pp"),
         })

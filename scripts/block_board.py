@@ -368,7 +368,9 @@ def probe_supply(spec):
     open_items = sum(1 for i in b.get("items", []) if i.get("status") == "open")
     if pending or open_items:
         return True, f"pending={pending} · bank_open={open_items}"
-    return False, "queue and work bank are both empty -- no pre-registered question left"
+    blocked = [i.get("id") for i in b.get("items", []) if i.get("status") == "blocked"]
+    return False, ("no open question left; blocked on data: "
+                   + (", ".join(blocked) if blocked else "none documented"))
 
 
 def read_json_any(path):

@@ -851,6 +851,35 @@
    "decides": "(a) 商品短线反转是否真收成",
    "status": "queued",
    "queued_at": "2026-11-24T21:38:29+08:00"
+  },
+  {
+   "id": "paper_basis_timing",
+   "question": "唯一过判的基差定仓位线，每天按冻结规则记一次仓与盈亏：累计 carry 是否持续为正？",
+   "script": "scripts/paper_basis_timing.py",
+   "result": "results/paper_basis_timing/STATE.json",
+   "page": "research/PAPER-BASIS-TIMING.md",
+   "recurring": true,
+   "recur_hours": 24,
+   "target_edge_pp": 5.0,
+   "decides": "(c)(d) 这条线继续持有还是回退常驻；累计 carry 转负即失效",
+   "status": "queued",
+   "queued_at": "2026-11-24T21:43:27+08:00"
+  },
+  {
+   "id": "options_vol_premium",
+   "question": "期权隐含波动率溢价（卖波动）能不能收？",
+   "type": "blocked",
+   "blocked_reason": "data/options 面板停在 2026-09-30，缺 6 周",
+   "decides": "(a) 该不该开期权线",
+   "status": "blocked"
+  },
+  {
+   "id": "minute_intraday_reversal",
+   "question": "分钟级日内反转（A股/ETF）是否有收成？",
+   "type": "blocked",
+   "blocked_reason": "本机无分钟线车道（data/minute_feed 停在 2026-11-20 且仅部分标的）",
+   "decides": "(a) 日内策略是否值得建数据",
+   "status": "blocked"
   }
  ]
 }

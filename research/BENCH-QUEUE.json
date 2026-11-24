@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-24T21:38:47+08:00",
+ "updated": "2026-11-24T21:43:53+08:00",
  "note": "策略试验场队列。一格=一个能改变下不下注/下多大的问题；判据写在脚本顶部、跑前冻结。status: pending=待跑 / done=有判决 / failed=失败待重试 / blocked=两次失败已停。",
  "cells": [
   {
@@ -729,6 +729,29 @@
    "last_seconds": 1.2,
    "verdict": "NO_EDGE",
    "finished": "2026-11-24T21:38:47+08:00"
+  },
+  {
+   "id": "paper_basis_timing",
+   "title": "paper_basis_timing",
+   "question": "唯一过判的基差定仓位线，每天按冻结规则记一次仓与盈亏：累计 carry 是否持续为正？",
+   "script": "scripts/paper_basis_timing.py",
+   "args": [],
+   "result": "results/paper_basis_timing/STATE.json",
+   "page": "research/PAPER-BASIS-TIMING.md",
+   "lane": "futures",
+   "max_bar_age_days": 8,
+   "threads": 3,
+   "status": "done",
+   "attempts": 0,
+   "recurring": true,
+   "recur_hours": 24,
+   "decides": "(c)(d) 这条线继续持有还是回退常驻；累计 carry 转负即失效",
+   "target_edge_pp": 5.0,
+   "runs": 1,
+   "last_run": "2026-11-24T21:43:53+08:00",
+   "last_seconds": 0.9,
+   "verdict": "TRACKING",
+   "finished": "2026-11-24T21:43:53+08:00"
   }
  ]
 }
