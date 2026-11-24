@@ -1,0 +1,173 @@
+{
+ "face": "etf_book_k_leg_rehearsal",
+ "schema": "etf-book-k-leg-rehearsal/v1",
+ "generated": "2026-11-25T01:50:47+08:00",
+ "ticket_file": "TICKET-2026-11-24.json",
+ "evidence_cutoff": "2026-11-24",
+ "ticket_k_rule": 0.458463,
+ "ticket_k_now": 0.435003,
+ "priced_bar": "2026-11-24",
+ "book_decided_at": "2026-11-11",
+ "beta_target": 0.2,
+ "step_the_ticket_was_priced_on": {
+  "bar": "2026-11-20",
+  "k": 0.458463,
+  "beta_derived": 0.43624,
+  "is_last_step_at_or_before_priced_bar": true,
+  "equals_ticket_k_rule": true,
+  "source": "results/etf_book_k_identity_bar.json"
+ },
+ "step_the_leg_reads": {
+  "bar": "2026-10-23",
+  "k": 0.460253
+ },
+ "schedule_points_on_receipt": {
+  "2026-09-17": {
+   "k": 0.458808,
+   "beta": 0.435912
+  },
+  "2026-10-23": {
+   "k": 0.460253,
+   "beta": 0.434543
+  },
+  "2026-11-20": {
+   "k": 0.458463,
+   "beta": null
+  }
+ },
+ "runs": {
+  "on_disk": {
+   "baseline_cell": {
+    "k": 0.460253,
+    "k_equals_ticket_k_rule": false,
+    "as_of_bar": "2026-10-23",
+    "beta_derived": null
+   },
+   "permission": {
+    "verdict": "UNREADABLE",
+    "reason": null,
+    "sentence": "a reading could not be classified (baseline_published); an unclassified reading is not a vote for the size in force",
+    "permitted_k": null,
+    "cut_k": null,
+    "cut_pp": null,
+    "cut_cny": null,
+    "readings_unreadable": {
+     "baseline_published": "baseline k=0.460253000 does not equal the ticket's k=0.458463000: the circularity identity is broken, so no reading can be called independent"
+    },
+    "path_readings": [
+     "universe",
+     "window",
+     "window_x_universe"
+    ],
+    "supporters_path": null
+   },
+   "cut_order_gap": {
+    "verdict": "UNREADABLE",
+    "reason": "incomplete_receipts",
+    "sentence": "the ticket or the permission is missing k_now/permitted_k/nav",
+    "permitted_k": null,
+    "gap_k": null,
+    "gap_pp": null,
+    "ordered_book_cny": null,
+    "cut_cny": null,
+    "order_exceeds_permission": null
+   }
+  },
+  "patched": {
+   "baseline_cell": {
+    "k": 0.458463,
+    "k_equals_ticket_k_rule": true,
+    "as_of_bar": "2026-11-20",
+    "beta_derived": 0.43624022
+   },
+   "permission": {
+    "verdict": "KEEP_SUPPORTED_BY_INDEPENDENT_PATH",
+    "reason": null,
+    "sentence": "keeping k=0.435003 is supported by 3 independent path reading(s) (universe, window, window_x_universe); the permitting floor over all path readings is k=0.435003",
+    "permitted_k": 0.435003,
+    "cut_k": 0.0,
+    "cut_pp": 0.0,
+    "cut_cny": 0.0,
+    "readings_unreadable": {},
+    "path_readings": [
+     "universe",
+     "window",
+     "window_x_universe"
+    ],
+    "supporters_path": [
+     "universe",
+     "window",
+     "window_x_universe"
+    ]
+   },
+   "cut_order_gap": {
+    "verdict": "ORDER_WITHIN_PERMISSION",
+    "reason": null,
+    "sentence": "the ticket orders k=0.435003 (CNY 434,724) and the permission allows 0.435003 (CNY 434,724): no cut is owed on 2026-12-09",
+    "permitted_k": 0.435003,
+    "gap_k": 0.0,
+    "gap_pp": 0.0,
+    "ordered_book_cny": 434724.0,
+    "cut_cny": 0.0,
+    "order_exceeds_permission": false
+   }
+  },
+  "neighbour": {
+   "baseline_cell": {
+    "k": 0.458808,
+    "k_equals_ticket_k_rule": false,
+    "as_of_bar": "2026-09-17",
+    "beta_derived": 0.43591219
+   },
+   "permission": {
+    "verdict": "UNREADABLE",
+    "reason": null,
+    "sentence": "a reading could not be classified (baseline_published); an unclassified reading is not a vote for the size in force",
+    "permitted_k": null,
+    "cut_k": null,
+    "cut_pp": null,
+    "cut_cny": null,
+    "readings_unreadable": {
+     "baseline_published": "baseline k=0.458808000 does not equal the ticket's k=0.458463000: the circularity identity is broken, so no reading can be called independent"
+    },
+    "path_readings": [
+     "universe",
+     "window",
+     "window_x_universe"
+    ],
+    "supporters_path": null
+   },
+   "cut_order_gap": {
+    "verdict": "UNREADABLE",
+    "reason": "incomplete_receipts",
+    "sentence": "the ticket or the permission is missing k_now/permitted_k/nav",
+    "permitted_k": null,
+    "gap_k": null,
+    "gap_pp": null,
+    "ordered_book_cny": null,
+    "cut_cny": null,
+    "order_exceeds_permission": null
+   }
+  }
+ },
+ "on_disk": {
+  "permission": "UNREADABLE",
+  "cut_order_gap": "UNREADABLE"
+ },
+ "checks": {
+  "receipts_agree_the_ticket_k_is_the_priced_step": true,
+  "on_disk_run_reproduces_todays_two_verdicts": true,
+  "patched_run_flips_both_faces": true,
+  "neighbour_step_stays_unreadable": true,
+  "patch_touches_only_the_baseline_cell": true
+ },
+ "what_this_does_not_claim": [
+  "it does not land the patch: the leg, the permission face and the gap face are shared science faces held by another host this round",
+  "it does not re-price the book or rebuild the beta schedule (no panel, no engine)",
+  "the patched beta is derived (target/k), not read from a receipt, and neither face exercised here consumes beta",
+  "the readers/enforcers scan is not re-run: an empty reader list can only make the gap face more pessimistic, never more favourable",
+  "the permission's permitting floor lands exactly on k_now, so the pass has zero margin -- one tick of deterioration in that reading turns it into a real cut"
+ ],
+ "verdict": "PATCH_WOULD_CLEAR_ALL_THREE",
+ "sentence": "with the r2063 one-line anchor patch (baseline cell reads the step at base_bar 2026-11-20, k=0.458463 instead of 2026-10-23, k=0.460253): the permission turns from UNREADABLE into KEEP_SUPPORTED_BY_INDEPENDENT_PATH with a permitting floor of k=0.435003, and the cut/order gap turns from UNREADABLE into ORDER_WITHIN_PERMISSION with CNY 0 to cut on a CNY 434,724 book. A step next to the right one (2026-09-17 k=0.458808) stays unreadable, so the fix is the bar and not the tolerance."
+}
