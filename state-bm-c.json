@@ -2200,7 +2200,21 @@
   "state_lag_note": "r1986: state round_no 从 1962 推进到 1986——r1964..r1985 各窗均因 CONTENTION 未推进，轮报告标签已到 1986，四载体本次对齐。历史 carrier_debt_r1958..r1963 保留不动。",
   "state_note": "round-1757 empirical backfill: r1757 detached smoke actually finished GREEN (602/602 PASS 0 FAIL, results/_smoke_r1757.out 07:35:55); rounds literal had drifted back to 1756 in the state file and is realigned to 1757 here",
   "status": "product",
-  "sync": "pushed 508329098c (0 ahead / 0 behind)",
+  "sync": {
+    "ahead_origin": 0,
+    "behind_origin": 0,
+    "commit": "508329098c",
+    "commits_this_round": [
+      "508329098c (product: script + face + page + negative control)",
+      "0caf21c804 (addendum: delivery self-proof)"
+    ],
+    "head_at_closeout": "0caf21c804",
+    "landed_on": "origin/main",
+    "local_unreached_commits": 0,
+    "note": "head_at_closeout cannot contain its own commit; ahead/behind measured after the last push",
+    "origin_tip": "0caf21c804",
+    "ts": "2026-11-24T12:54:25+08:00"
+  },
   "takeover_note": "the 2026-11-16 14:05 round was silence-killed at 14:38 with 25 min of no output; it had already written the whole face (14:19) plus card E679 and the CODELY lines, so this 14:40 round took over the closeout instead of redoing science: no script, number or verdict changed here",
   "task": "r2027: one contract is 4,822 ETF lots; 90.13% of notional needs 162% of the book in cash at an 80% 融券 ratio; the ETF rounds to 0.00004 of beta, the contract to 0.2078",
   "task_board": "fleet/tasks total 188 open 0",
@@ -2210,7 +2224,7 @@
   "ts_epoch": 1794812499,
   "unverified": "full suite not run on new code this round (needs its own window)",
   "update_daily": "rc0 0 new rows, cutoff 2026-11-13 (Sunday, no new bar)",
-  "updated": "2026-11-24T12:52:31+08:00",
+  "updated": "2026-11-24T12:54:25+08:00",
   "updated_at": "2026-11-24T07:47:40+08:00",
   "vcpu": 32,
   "verdict": "healthy",
