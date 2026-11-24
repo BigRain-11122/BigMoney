@@ -1,0 +1,62 @@
+{
+  "k_now": 0.435003,
+  "size_tol": 0.005,
+  "floor_line_k": 0.430003,
+  "readable_paths": {
+    "universe": 0.435003,
+    "window": 0.747086,
+    "window_x_universe": 0.667665
+  },
+  "static_rails": {
+    "denominator": 0.343508
+  },
+  "unreadable_rails": {
+    "baseline_published": 0.460253
+  },
+  "unreadable_rails_that_could_bind": [],
+  "verdict": "FLOOR_IS_COMPUTABLE",
+  "why": "every unreadable rail sits at or above the floor line 0.430003, so the minimum over the 3 readable path(s) is already the permission",
+  "permitted_k": 0.435003,
+  "keep_allowed": true,
+  "cut_k": 0.0,
+  "cut_pp": 0.0,
+  "binding_rail": "universe",
+  "schema": "etf-book-unreadable-rail-floor/v1",
+  "nav_cny": 1000000.0,
+  "published_verdict": "UNREADABLE",
+  "published_sentence": "a reading could not be classified (baseline_published); an unclassified reading is not a vote for the size in force",
+  "published_permitted_k": null,
+  "blank_is_in_force": true,
+  "permitted_book_cny_gross": 435003.0,
+  "book_amount_cny": 434723.8,
+  "headroom_vs_book_cny": 279.2,
+  "permission_face_generated": "2026-11-24T18:58:55+0800",
+  "gap_face_has_gap_k": false,
+  "gap_face_verdict": "UNREADABLE",
+  "gap_face_generated": "2026-11-24T18:59:00+0800",
+  "cascade_legs": [
+    {
+      "leg": "product: etf_book_permission_persistence (lifetime re-derived)",
+      "crash": "KeyError: 'gap_k'",
+      "detail": "exit=1 | KeyError: 'gap_k'"
+    },
+    {
+      "leg": "product: etf_book_cash_roll_today (today's roll under the decision deadline)",
+      "crash": "KeyError: 'cash_cny'",
+      "detail": "exit=1 | KeyError: 'cash_cny'"
+    },
+    {
+      "leg": "product: the order sheet carries the permission it must obey",
+      "crash": "not 'NoneType'",
+      "detail": "float() argument must be a string or a real number, not 'NoneType'"
+    }
+  ],
+  "cascade_reading_ts": "2026-11-24T20:12:28",
+  "cascade_reading_counts": {
+    "legs": 765,
+    "fail": 34
+  },
+  "machine_id": "bm-c",
+  "generated": "2026-11-25T04:42:07",
+  "inputs_digest": "bce7c9b555f4b570c6171874cc0bc798e779b043ec4000f2b50dfb7c69085b77"
+}
