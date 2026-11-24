@@ -2410,5 +2410,11 @@
   "竞争_r2044": "repo_write_contention rc=3 CONTENTION：对端 interactive pid 51252（2026-11-22 20:10 起）仍存活但 20s 仅 0.06s CPU、重叠窗 0 次写入，pid 68052 已退出；22 张共享面在轮首前被写、0 张落在重叠窗 -> 按 r1907 只落新增文件面",
   "deferred_r2044": "竞争窗 rc=3 未跑：S6 链 / 全量冒烟 / attrition 守卫 / py_watermark+compute_audit / update_daily 族；下轮（竞争窗关后）首批补跑，禁读成「全绿」",
   "记账_r2044": "轮报告 1 处 + state 1 处 + 心跳 1 处 = 3（无方法论新增：把 carry 这个减法做成可复核读数属证据与载体）",
-  "通过_r2044": "orders 116 文件 / 归一回执 257 / 未回执 0；decisions.md 字节 sha 79e3083b… 未变=零动作；idle_trigger green_idle=true 且池空/板空 -> 本轮自驱产品件即工作，--worked 清零"
+  "通过_r2044": "orders 116 文件 / 归一回执 257 / 未回执 0；decisions.md 字节 sha 79e3083b… 未变=零动作；idle_trigger green_idle=true 且池空/板空 -> 本轮自驱产品件即工作，--worked 清零",
+  "送达自证_r2044": "commit **14e381df2a** 已推 origin/main（7a09d1829e..14e381df2a），fetch 后 **AHEAD=0 / BEHIND=0**，git ls-tree -r --name-only origin/main 五件新面全在位（scripts/cash_shelf_inflight_carry.py / results/cash_shelf_inflight_carry.json / research/CASH_SHELF_INFLIGHT_CARRY.md / 负控 results/_r2044bmc_inflight_negative.py / 收口 results/_r2044bmc_closeout.py、_r2044bmc_hb_fields.json）→ **本地未达 origin commit 数=0**",
+  "自捕_r2044": "三枚本窗自捕，全部由本面自己的守卫抓出：①负控第 3 腿我先写成「佣金差 = 0.1×(n−1)²/n」，跑的瞬间红在 0.32bp vs 实得 0.20bp——错的不是面，是我的公式：佣金和滑点/carry 一样乘 (n−k)/n 权重，正解是 0.1bp × (n−1)/2 = 0.1×wait_days（面里印的 0.20/1.90bp 本来就是对的）。教训：一条控制腿红在「你算对了的那个数」上时，先改公式再改面。②check() 依赖模块全局 _LAST[\"payload\"] 而 build 从未写入它——首个 --check 会直接崩；补上写入后 check 才成为真正的复算面。③verbose=False 会把模块级 log() 永久替换成哑函数——一次 check 之后所有 run 都静默（面不报错、也不出声，看起来健康）；改成 _QUIET 标志并在 build 每个出口复原。",
+  "watchdog_s4u_r2044": "& Tools/register_watchdog_task.ps1 幂等重注册成功但 S4U XML 翻转仍被拒（拒绝访问=需管理员）-> 留在默认 principal（首触发 11/24 11:54），入 task-s4u-backlog 候提权；loop 任务相位 pin=0 与实况一致=no-op",
+  "hooks_r2044": "pre-commit / pre-push 与 Tools/git-hooks 源（CR 归一）逐字节一致=零动作",
+  "idle_r2044": "idle_trigger --worked 已清零（idle_rounds 1->0, agenda_starved true->false）；本机池空板空，自驱产品件即工作",
+  "s7_r2044": "Bigmoney-IterationLoop 相位 no-op（pin=0，下次 11:55）；Bigmoney-LoopWatchdog 已重注册（S4U 待提权）"
 }
