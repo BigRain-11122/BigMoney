@@ -1,0 +1,1374 @@
+{
+ "artifact": "etf_distribution_bias",
+ "book": {
+  "bar": "2026-11-24",
+  "held": [
+   {
+    "state": "NOT_IN_ANY_GROUP",
+    "symbol": "159519"
+   },
+   {
+    "state": "NOT_IN_ANY_GROUP",
+    "symbol": "159655"
+   },
+   {
+    "state": "NOT_IN_ANY_GROUP",
+    "symbol": "510760"
+   },
+   {
+    "state": "NOT_IN_ANY_GROUP",
+    "symbol": "512040"
+   },
+   {
+    "state": "NOT_IN_ANY_GROUP",
+    "symbol": "513690"
+   }
+  ],
+  "status": "OK"
+ },
+ "caveats": [
+  "派息不是损失：现金派到持有人手上，本面量的是面板与排名的偏差，不是投资人少赚。",
+  "组内价差混着费率与跟踪误差；本面只报价差本身，不把它们拆开。",
+  "货币类锚点用同期 GC001 中位，是一个经济收益的上界近似（货基还持有存款/短融），缺口数字应当读作「这一类的 carry 在面板里基本没了」，不是精确值。",
+  "GC001 面板自己落后若干交易日；本面打印该面板自己的末 bar，把「旧」如实写在面上。",
+  "同篮子由 label 认领，label 错则本面跟着错——分组正身是 etf_label_census，不在本面重判。"
+ ],
+ "counts": {
+  "groups_flagged": 19,
+  "groups_in_census": 121,
+  "groups_measured": 35,
+  "skipped": {
+   "cash_class_not_cash_like": 0,
+   "fewer_than_two_priced": 6,
+   "no_growth": 0,
+   "not_a_group": 0,
+   "not_same_basket": 61,
+   "share_conversion_jump": 19,
+   "short_window": 0
+  }
+ },
+ "decision": {
+  "book_holdings": 5,
+  "book_holdings_measured": 0,
+  "book_twins_flagged": 0,
+  "money_gap_pp": 1.831,
+  "policy_groups": 19,
+  "reading": "价格序列不含派息时，同篮子两只基金的价格年化之差就是派息政策之差。本判词只看四件事：组内价差有没有过线、货币类的定义性缺口有多大、书手里的持仓有没有被分组面定价、被定价的里面有没有更低的那一只。",
+  "skipped": {
+   "cash_class_not_cash_like": 0,
+   "fewer_than_two_priced": 6,
+   "no_growth": 0,
+   "not_a_group": 0,
+   "not_same_basket": 61,
+   "share_conversion_jump": 19,
+   "short_window": 0
+  },
+  "verdict": "BOOK_UNMEASURED"
+ },
+ "evidence_cutoff": "2026-11-24",
+ "generated": "2026-11-25T06:33:19",
+ "groups": [
+  {
+   "dropped": [
+    {
+     "corr": 0.9885,
+     "symbol": "159330",
+     "window_after_trim": 413
+    },
+    {
+     "corr": 0.9889,
+     "symbol": "159393",
+     "window_after_trim": 413
+    },
+    {
+     "corr": 0.9873,
+     "symbol": "159925",
+     "window_after_trim": 413
+    },
+    {
+     "corr": 0.9887,
+     "symbol": "510360",
+     "window_after_trim": 413
+    },
+    {
+     "corr": 0.9878,
+     "symbol": "510390",
+     "window_after_trim": 413
+    },
+    {
+     "corr": 0.9849,
+     "symbol": "515330",
+     "window_after_trim": 413
+    },
+    {
+     "corr": 0.9895,
+     "symbol": "515390",
+     "window_after_trim": 413
+    }
+   ],
+   "highest": "159300",
+   "identity": "SAME_BASKET_CORR",
+   "labels": [
+    "沪深300ETF"
+   ],
+   "lowest": "510300",
+   "members": {
+    "159300": {
+     "cagr_pct": 4.445,
+     "window_bars": 417
+    },
+    "159673": {
+     "cagr_pct": 3.409,
+     "window_bars": 417
+    },
+    "159919": {
+     "cagr_pct": 1.215,
+     "window_bars": 417
+    },
+    "510300": {
+     "cagr_pct": 0.145,
+     "window_bars": 417
+    },
+    "510310": {
+     "cagr_pct": 0.846,
+     "window_bars": 417
+    },
+    "510330": {
+     "cagr_pct": 2.195,
+     "window_bars": 417
+    },
+    "515310": {
+     "cagr_pct": 2.932,
+     "window_bars": 417
+    }
+   },
+   "policy_level": true,
+   "spread_pp": 4.3,
+   "window": {
+    "bars": 417,
+    "end": "2026-11-24",
+    "start": "2025-03-10"
+   }
+  },
+  {
+   "dropped": [
+    {
+     "corr": 0.9877,
+     "symbol": "563750",
+     "window_after_trim": 256
+    }
+   ],
+   "highest": "510580",
+   "identity": "SAME_BASKET_CORR",
+   "labels": [
+    "中证500ETF"
+   ],
+   "lowest": "510500",
+   "members": {
+    "159922": {
+     "cagr_pct": -15.834,
+     "window_bars": 260
+    },
+    "510500": {
+     "cagr_pct": -17.233,
+     "window_bars": 260
+    },
+    "510510": {
+     "cagr_pct": -14.111,
+     "window_bars": 260
+    },
+    "510580": {
+     "cagr_pct": -13.579,
+     "window_bars": 260
+    },
+    "512500": {
+     "cagr_pct": -14.626,
+     "window_bars": 260
+    },
+    "561350": {
+     "cagr_pct": -15.182,
+     "window_bars": 260
+    }
+   },
+   "policy_level": true,
+   "spread_pp": 3.654,
+   "window": {
+    "bars": 260,
+    "end": "2026-11-24",
+    "start": "2025-10-30"
+   }
+  },
+  {
+   "dropped": [],
+   "highest": "516080",
+   "identity": "SAME_BASKET_CORR",
+   "labels": [
+    "创新药ETF"
+   ],
+   "lowest": "159992",
+   "members": {
+    "159992": {
+     "cagr_pct": -10.631,
+     "window_bars": 1396
+    },
+    "515120": {
+     "cagr_pct": -10.437,
+     "window_bars": 1396
+    },
+    "516080": {
+     "cagr_pct": -7.915,
+     "window_bars": 1396
+    }
+   },
+   "policy_level": true,
+   "spread_pp": 2.716,
+   "window": {
+    "bars": 1396,
+    "end": "2026-11-24",
+    "start": "2021-02-23"
+   }
+  },
+  {
+   "dropped": [],
+   "highest": "589960",
+   "identity": "SAME_BASKET_CORR",
+   "labels": [
+    "科创新能源ETF"
+   ],
+   "lowest": "588830",
+   "members": {
+    "588830": {
+     "cagr_pct": -35.879,
+     "window_bars": 282
+    },
+    "589960": {
+     "cagr_pct": -33.551,
+     "window_bars": 282
+    }
+   },
+   "policy_level": true,
+   "spread_pp": 2.328,
+   "window": {
+    "bars": 282,
+    "end": "2026-11-24",
+    "start": "2025-09-22"
+   }
+  },
+  {
+   "dropped": [
+    {
+     "corr": 0.989,
+     "symbol": "589800",
+     "window_after_trim": 416
+    }
+   ],
+   "highest": "589660",
+   "identity": "SAME_BASKET_CORR",
+   "labels": [
+    "科创综指ETF"
+   ],
+   "lowest": "589680",
+   "members": {
+    "589000": {
+     "cagr_pct": 7.237,
+     "window_bars": 420
+    },
+    "589080": {
+     "cagr_pct": 6.968,
+     "window_bars": 420
+    },
+    "589660": {
+     "cagr_pct": 7.858,
+     "window_bars": 420
+    },
+    "589680": {
+     "cagr_pct": 5.545,
+     "window_bars": 420
+    },
+    "589880": {
+     "cagr_pct": 6.482,
+     "window_bars": 420
+    }
+   },
+   "policy_level": true,
+   "spread_pp": 2.313,
+   "window": {
+    "bars": 420,
+    "end": "2026-11-24",
+    "start": "2025-03-05"
+   }
+  },
+  {
+   "dropped": [],
+   "highest": "588160",
+   "identity": "SAME_BASKET_CORR",
+   "labels": [
+    "科创新材料ETF"
+   ],
+   "lowest": "589180",
+   "members": {
+    "588010": {
+     "cagr_pct": 14.308,
+     "window_bars": 352
+    },
+    "588160": {
+     "cagr_pct": 15.203,
+     "window_bars": 352
+    },
+    "589180": {
+     "cagr_pct": 13.034,
+     "window_bars": 352
+    }
+   },
+   "policy_level": true,
+   "spread_pp": 2.169,
+   "window": {
+    "bars": 352,
+    "end": "2026-11-24",
+    "start": "2025-06-16"
+   }
+  },
+  {
+   "dropped": [],
+   "highest": "515700",
+   "identity": "SAME_BASKET_CORR",
+   "labels": [
+    "新能源车ETF"
+   ],
+   "lowest": "515030",
+   "members": {
+    "515030": {
+     "cagr_pct": 3.44,
+     "window_bars": 1632
+    },
+    "515700": {
+     "cagr_pct": 5.491,
+     "window_bars": 1632
+    }
+   },
+   "policy_level": true,
+   "spread_pp": 2.051,
+   "window": {
+    "bars": 1632,
+    "end": "2026-11-24",
+    "start": "2020-03-04"
+   }
+  },
+  {
+   "dropped": [],
+   "highest": "588270",
+   "identity": "SAME_BASKET_CORR",
+   "labels": [
+    "科创200ETF"
+   ],
+   "lowest": "588240",
+   "members": {
+    "588230": {
+     "cagr_pct": 13.497,
+     "window_bars": 352
+    },
+    "588240": {
+     "cagr_pct": 12.971,
+     "window_bars": 352
+    },
+    "588270": {
+     "cagr_pct": 14.682,
+     "window_bars": 352
+    }
+   },
+   "policy_level": true,
+   "spread_pp": 1.711,
+   "window": {
+    "bars": 352,
+    "end": "2026-11-24",
+    "start": "2025-06-16"
+   }
+  },
+  {
+   "dropped": [],
+   "highest": "159830",
+   "identity": "SAME_BASKET_CORR",
+   "labels": [
+    "金ETF"
+   ],
+   "lowest": "159831",
+   "members": {
+    "159830": {
+     "cagr_pct": 16.29,
+     "window_bars": 1124
+    },
+    "159831": {
+     "cagr_pct": 14.77,
+     "window_bars": 1124
+    },
+    "159834": {
+     "cagr_pct": 15.042,
+     "window_bars": 1124
+    },
+    "518600": {
+     "cagr_pct": 16.046,
+     "window_bars": 1124
+    },
+    "518680": {
+     "cagr_pct": 16.205,
+     "window_bars": 1124
+    }
+   },
+   "policy_level": true,
+   "spread_pp": 1.52,
+   "window": {
+    "bars": 1124,
+    "end": "2026-11-24",
+    "start": "2022-04-07"
+   }
+  },
+  {
+   "dropped": [],
+   "highest": "588360",
+   "identity": "SAME_BASKET_CORR",
+   "labels": [
+    "科创创业ETF"
+   ],
+   "lowest": "588380",
+   "members": {
+    "159781": {
+     "cagr_pct": -5.096,
+     "window_bars": 1306
+    },
+    "588360": {
+     "cagr_pct": -3.741,
+     "window_bars": 1306
+    },
+    "588380": {
+     "cagr_pct": -5.105,
+     "window_bars": 1306
+    },
+    "588400": {
+     "cagr_pct": -4.995,
+     "window_bars": 1306
+    }
+   },
+   "policy_level": true,
+   "spread_pp": 1.364,
+   "window": {
+    "bars": 1306,
+    "end": "2026-11-24",
+    "start": "2021-07-06"
+   }
+  },
+  {
+   "dropped": [
+    {
+     "corr": 0.9879,
+     "symbol": "159351",
+     "window_after_trim": 472
+    },
+    {
+     "corr": 0.9893,
+     "symbol": "159352",
+     "window_after_trim": 472
+    },
+    {
+     "corr": 0.9878,
+     "symbol": "159356",
+     "window_after_trim": 472
+    },
+    {
+     "corr": 0.9893,
+     "symbol": "159359",
+     "window_after_trim": 472
+    },
+    {
+     "corr": 0.989,
+     "symbol": "159361",
+     "window_after_trim": 472
+    },
+    {
+     "corr": 0.9892,
+     "symbol": "159362",
+     "window_after_trim": 472
+    },
+    {
+     "corr": 0.9858,
+     "symbol": "512020",
+     "window_after_trim": 472
+    },
+    {
+     "corr": 0.9872,
+     "symbol": "560610",
+     "window_after_trim": 472
+    },
+    {
+     "corr": 0.9899,
+     "symbol": "563800",
+     "window_after_trim": 472
+    },
+    {
+     "corr": 0.9897,
+     "symbol": "563880",
+     "window_after_trim": 472
+    }
+   ],
+   "highest": "159360",
+   "identity": "SAME_BASKET_CORR",
+   "labels": [
+    "A500ETF"
+   ],
+   "lowest": "563360",
+   "members": {
+    "159339": {
+     "cagr_pct": 2.262,
+     "window_bars": 476
+    },
+    "159360": {
+     "cagr_pct": 3.261,
+     "window_bars": 476
+    },
+    "512050": {
+     "cagr_pct": 2.189,
+     "window_bars": 476
+    },
+    "563220": {
+     "cagr_pct": 2.348,
+     "window_bars": 476
+    },
+    "563360": {
+     "cagr_pct": 1.912,
+     "window_bars": 476
+    }
+   },
+   "policy_level": true,
+   "spread_pp": 1.349,
+   "window": {
+    "bars": 476,
+    "end": "2026-11-24",
+    "start": "2024-12-06"
+   }
+  },
+  {
+   "dropped": [],
+   "highest": "159608",
+   "identity": "SAME_BASKET_CORR",
+   "labels": [
+    "稀有金属ETF"
+   ],
+   "lowest": "562800",
+   "members": {
+    "159608": {
+     "cagr_pct": -0.966,
+     "window_bars": 899
+    },
+    "159671": {
+     "cagr_pct": -1.27,
+     "window_bars": 899
+    },
+    "562800": {
+     "cagr_pct": -2.17,
+     "window_bars": 899
+    }
+   },
+   "policy_level": true,
+   "spread_pp": 1.204,
+   "window": {
+    "bars": 899,
+    "end": "2026-11-24",
+    "start": "2023-03-10"
+   }
+  },
+  {
+   "dropped": [
+    {
+     "corr": 0.9888,
+     "symbol": "159590",
+     "window_after_trim": 494
+    },
+    {
+     "corr": 0.988,
+     "symbol": "159899",
+     "window_after_trim": 494
+    },
+    {
+     "corr": 0.9889,
+     "symbol": "515230",
+     "window_after_trim": 494
+    }
+   ],
+   "highest": "562930",
+   "identity": "SAME_BASKET_CORR",
+   "labels": [
+    "软件ETF"
+   ],
+   "lowest": "159852",
+   "members": {
+    "159852": {
+     "cagr_pct": -16.121,
+     "window_bars": 498
+    },
+    "562930": {
+     "cagr_pct": -14.932,
+     "window_bars": 498
+    }
+   },
+   "policy_level": true,
+   "spread_pp": 1.189,
+   "window": {
+    "bars": 498,
+    "end": "2026-11-24",
+    "start": "2024-11-06"
+   }
+  },
+  {
+   "dropped": [],
+   "highest": "159526",
+   "identity": "SAME_BASKET_CORR",
+   "labels": [
+    "机器人ETF"
+   ],
+   "lowest": "562500",
+   "members": {
+    "159213": {
+     "cagr_pct": -5.959,
+     "window_bars": 318
+    },
+    "159258": {
+     "cagr_pct": -5.338,
+     "window_bars": 318
+    },
+    "159526": {
+     "cagr_pct": -4.967,
+     "window_bars": 318
+    },
+    "159770": {
+     "cagr_pct": -6.097,
+     "window_bars": 318
+    },
+    "562500": {
+     "cagr_pct": -6.151,
+     "window_bars": 318
+    }
+   },
+   "policy_level": true,
+   "spread_pp": 1.184,
+   "window": {
+    "bars": 318,
+    "end": "2026-11-24",
+    "start": "2025-08-01"
+   }
+  },
+  {
+   "dropped": [],
+   "highest": "518800",
+   "identity": "SAME_BASKET_CORR",
+   "labels": [
+    "黄金ETF"
+   ],
+   "lowest": "518660",
+   "members": {
+    "159934": {
+     "cagr_pct": 11.636,
+     "window_bars": 1569
+    },
+    "159937": {
+     "cagr_pct": 10.724,
+     "window_bars": 1569
+    },
+    "518660": {
+     "cagr_pct": 10.576,
+     "window_bars": 1569
+    },
+    "518800": {
+     "cagr_pct": 11.716,
+     "window_bars": 1569
+    },
+    "518850": {
+     "cagr_pct": 10.674,
+     "window_bars": 1569
+    },
+    "518880": {
+     "cagr_pct": 10.754,
+     "window_bars": 1569
+    }
+   },
+   "policy_level": true,
+   "spread_pp": 1.14,
+   "window": {
+    "bars": 1569,
+    "end": "2026-11-24",
+    "start": "2020-06-05"
+   }
+  },
+  {
+   "dropped": [],
+   "highest": "516770",
+   "identity": "SAME_BASKET_CORR",
+   "labels": [
+    "游戏ETF"
+   ],
+   "lowest": "159869",
+   "members": {
+    "159869": {
+     "cagr_pct": -2.174,
+     "window_bars": 1388
+    },
+    "516010": {
+     "cagr_pct": -2.137,
+     "window_bars": 1388
+    },
+    "516770": {
+     "cagr_pct": -1.043,
+     "window_bars": 1388
+    }
+   },
+   "policy_level": true,
+   "spread_pp": 1.131,
+   "window": {
+    "bars": 1388,
+    "end": "2026-11-24",
+    "start": "2021-03-05"
+   }
+  },
+  {
+   "dropped": [],
+   "highest": "159241",
+   "identity": "SAME_BASKET_CORR",
+   "labels": [
+    "航空航天ETF"
+   ],
+   "lowest": "159227",
+   "members": {
+    "159227": {
+     "cagr_pct": -12.897,
+     "window_bars": 363
+    },
+    "159241": {
+     "cagr_pct": -11.767,
+     "window_bars": 363
+    }
+   },
+   "policy_level": true,
+   "spread_pp": 1.13,
+   "window": {
+    "bars": 363,
+    "end": "2026-11-24",
+    "start": "2025-05-29"
+   }
+  },
+  {
+   "dropped": [
+    {
+     "corr": 0.9868,
+     "symbol": "159692",
+     "window_after_trim": 847
+    },
+    {
+     "corr": 0.9885,
+     "symbol": "159993",
+     "window_after_trim": 847
+    }
+   ],
+   "highest": "515850",
+   "identity": "SAME_BASKET_CORR",
+   "labels": [
+    "证券ETF"
+   ],
+   "lowest": "560090",
+   "members": {
+    "159841": {
+     "cagr_pct": 1.612,
+     "window_bars": 851
+    },
+    "512570": {
+     "cagr_pct": 2.204,
+     "window_bars": 851
+    },
+    "512880": {
+     "cagr_pct": 1.712,
+     "window_bars": 851
+    },
+    "512900": {
+     "cagr_pct": 1.725,
+     "window_bars": 851
+    },
+    "515010": {
+     "cagr_pct": 2.164,
+     "window_bars": 851
+    },
+    "515850": {
+     "cagr_pct": 2.512,
+     "window_bars": 851
+    },
+    "560090": {
+     "cagr_pct": 1.384,
+     "window_bars": 851
+    }
+   },
+   "policy_level": true,
+   "spread_pp": 1.128,
+   "window": {
+    "bars": 851,
+    "end": "2026-11-24",
+    "start": "2023-05-23"
+   }
+  },
+  {
+   "dropped": [
+    {
+     "corr": 0.9886,
+     "symbol": "159321",
+     "window_after_trim": 597
+    }
+   ],
+   "highest": "159562",
+   "identity": "SAME_BASKET_CORR",
+   "labels": [
+    "黄金股ETF"
+   ],
+   "lowest": "517400",
+   "members": {
+    "159562": {
+     "cagr_pct": 5.791,
+     "window_bars": 601
+    },
+    "517400": {
+     "cagr_pct": 4.777,
+     "window_bars": 601
+    },
+    "517520": {
+     "cagr_pct": 5.29,
+     "window_bars": 601
+    }
+   },
+   "policy_level": true,
+   "spread_pp": 1.014,
+   "window": {
+    "bars": 601,
+    "end": "2026-11-24",
+    "start": "2024-05-27"
+   }
+  },
+  {
+   "dropped": [],
+   "highest": "159857",
+   "identity": "SAME_BASKET_CORR",
+   "labels": [
+    "光伏ETF"
+   ],
+   "lowest": "515790",
+   "members": {
+    "159857": {
+     "cagr_pct": -8.706,
+     "window_bars": 1395
+    },
+    "515790": {
+     "cagr_pct": -9.703,
+     "window_bars": 1395
+    }
+   },
+   "policy_level": false,
+   "spread_pp": 0.997,
+   "window": {
+    "bars": 1395,
+    "end": "2026-11-24",
+    "start": "2021-02-24"
+   }
+  },
+  {
+   "dropped": [],
+   "highest": "159107",
+   "identity": "SAME_BASKET_CORR",
+   "labels": [
+    "创业板软件ETF"
+   ],
+   "lowest": "159256",
+   "members": {
+    "159107": {
+     "cagr_pct": -34.74,
+     "window_bars": 282
+    },
+    "159256": {
+     "cagr_pct": -35.566,
+     "window_bars": 282
+    }
+   },
+   "policy_level": false,
+   "spread_pp": 0.826,
+   "window": {
+    "bars": 282,
+    "end": "2026-11-24",
+    "start": "2025-09-22"
+   }
+  },
+  {
+   "dropped": [],
+   "highest": "588300",
+   "identity": "SAME_BASKET_CORR",
+   "labels": [
+    "科创创业50ETF"
+   ],
+   "lowest": "159780",
+   "members": {
+    "159780": {
+     "cagr_pct": -5.71,
+     "window_bars": 1307
+    },
+    "159783": {
+     "cagr_pct": -5.623,
+     "window_bars": 1307
+    },
+    "588300": {
+     "cagr_pct": -4.985,
+     "window_bars": 1307
+    }
+   },
+   "policy_level": false,
+   "spread_pp": 0.725,
+   "window": {
+    "bars": 1307,
+    "end": "2026-11-24",
+    "start": "2021-07-05"
+   }
+  },
+  {
+   "dropped": [
+    {
+     "corr": 0.989,
+     "symbol": "159367",
+     "window_after_trim": 299
+    }
+   ],
+   "highest": "159369",
+   "identity": "SAME_BASKET_CORR",
+   "labels": [
+    "创业板50ETF"
+   ],
+   "lowest": "159949",
+   "members": {
+    "159369": {
+     "cagr_pct": -10.698,
+     "window_bars": 303
+    },
+    "159681": {
+     "cagr_pct": -10.998,
+     "window_bars": 303
+    },
+    "159682": {
+     "cagr_pct": -10.911,
+     "window_bars": 303
+    },
+    "159949": {
+     "cagr_pct": -11.422,
+     "window_bars": 303
+    }
+   },
+   "policy_level": false,
+   "spread_pp": 0.724,
+   "window": {
+    "bars": 303,
+    "end": "2026-11-24",
+    "start": "2025-08-21"
+   }
+  },
+  {
+   "dropped": [],
+   "highest": "159272",
+   "identity": "SAME_BASKET_CORR",
+   "labels": [
+    "机器人ETF"
+   ],
+   "lowest": "159530",
+   "members": {
+    "159272": {
+     "cagr_pct": -21.478,
+     "window_bars": 283
+    },
+    "159278": {
+     "cagr_pct": -21.692,
+     "window_bars": 283
+    },
+    "159530": {
+     "cagr_pct": -22.093,
+     "window_bars": 283
+    },
+    "159559": {
+     "cagr_pct": -21.755,
+     "window_bars": 283
+    }
+   },
+   "policy_level": false,
+   "spread_pp": 0.615,
+   "window": {
+    "bars": 283,
+    "end": "2026-11-24",
+    "start": "2025-09-19"
+   }
+  },
+  {
+   "dropped": [],
+   "highest": "159105",
+   "identity": "SAME_BASKET_CORR",
+   "labels": [
+    "恒生生物科技ETF"
+   ],
+   "lowest": "159615",
+   "members": {
+    "159105": {
+     "cagr_pct": -21.321,
+     "window_bars": 258
+    },
+    "159615": {
+     "cagr_pct": -21.92,
+     "window_bars": 258
+    },
+    "513280": {
+     "cagr_pct": -21.528,
+     "window_bars": 258
+    }
+   },
+   "policy_level": false,
+   "spread_pp": 0.599,
+   "window": {
+    "bars": 258,
+    "end": "2026-11-24",
+    "start": "2025-11-03"
+   }
+  },
+  {
+   "dropped": [],
+   "highest": "159218",
+   "identity": "SAME_BASKET_CORR",
+   "labels": [
+    "卫星ETF"
+   ],
+   "lowest": "563230",
+   "members": {
+    "159218": {
+     "cagr_pct": -12.788,
+     "window_bars": 266
+    },
+    "512630": {
+     "cagr_pct": -12.96,
+     "window_bars": 266
+    },
+    "563230": {
+     "cagr_pct": -13.355,
+     "window_bars": 266
+    }
+   },
+   "policy_level": false,
+   "spread_pp": 0.567,
+   "window": {
+    "bars": 266,
+    "end": "2026-11-24",
+    "start": "2025-10-22"
+   }
+  },
+  {
+   "dropped": [],
+   "highest": "589720",
+   "identity": "SAME_BASKET_CORR",
+   "labels": [
+    "科创创新药ETF"
+   ],
+   "lowest": "589120",
+   "members": {
+    "589120": {
+     "cagr_pct": -29.57,
+     "window_bars": 283
+    },
+    "589720": {
+     "cagr_pct": -29.137,
+     "window_bars": 283
+    }
+   },
+   "policy_level": false,
+   "spread_pp": 0.433,
+   "window": {
+    "bars": 283,
+    "end": "2026-11-24",
+    "start": "2025-09-19"
+   }
+  },
+  {
+   "dropped": [
+    {
+     "corr": 0.9898,
+     "symbol": "159688",
+     "window_after_trim": 387
+    }
+   ],
+   "highest": "159202",
+   "identity": "SAME_BASKET_CORR",
+   "labels": [
+    "恒生互联网ETF"
+   ],
+   "lowest": "513330",
+   "members": {
+    "159202": {
+     "cagr_pct": -25.793,
+     "window_bars": 391
+    },
+    "513330": {
+     "cagr_pct": -26.189,
+     "window_bars": 391
+    }
+   },
+   "policy_level": false,
+   "spread_pp": 0.396,
+   "window": {
+    "bars": 391,
+    "end": "2026-11-24",
+    "start": "2025-04-16"
+   }
+  },
+  {
+   "dropped": [],
+   "highest": "562950",
+   "identity": "SAME_BASKET_CORR",
+   "labels": [
+    "消费电子ETF"
+   ],
+   "lowest": "561100",
+   "members": {
+    "561100": {
+     "cagr_pct": 4.317,
+     "window_bars": 1164
+    },
+    "562950": {
+     "cagr_pct": 4.69,
+     "window_bars": 1164
+    }
+   },
+   "policy_level": false,
+   "spread_pp": 0.373,
+   "window": {
+    "bars": 1164,
+    "end": "2026-11-24",
+    "start": "2022-02-08"
+   }
+  },
+  {
+   "dropped": [],
+   "highest": "588330",
+   "identity": "SAME_BASKET_CORR",
+   "labels": [
+    "双创50ETF"
+   ],
+   "lowest": "159782",
+   "members": {
+    "159782": {
+     "cagr_pct": -5.588,
+     "window_bars": 1305
+    },
+    "588330": {
+     "cagr_pct": -5.283,
+     "window_bars": 1305
+    }
+   },
+   "policy_level": false,
+   "spread_pp": 0.305,
+   "window": {
+    "bars": 1305,
+    "end": "2026-11-24",
+    "start": "2021-07-07"
+   }
+  },
+  {
+   "dropped": [
+    {
+     "corr": 0.9732,
+     "symbol": "159128",
+     "window_after_trim": 246
+    }
+   ],
+   "highest": "513020",
+   "identity": "SAME_BASKET_CORR",
+   "labels": [
+    "港股科技ETF"
+   ],
+   "lowest": "513980",
+   "members": {
+    "513020": {
+     "cagr_pct": -42.945,
+     "window_bars": 250
+    },
+    "513980": {
+     "cagr_pct": -43.191,
+     "window_bars": 250
+    }
+   },
+   "policy_level": false,
+   "spread_pp": 0.246,
+   "window": {
+    "bars": 250,
+    "end": "2026-11-24",
+    "start": "2025-11-13"
+   }
+  },
+  {
+   "dropped": [],
+   "highest": "562510",
+   "identity": "SAME_BASKET_CORR",
+   "labels": [
+    "旅游ETF"
+   ],
+   "lowest": "159766",
+   "members": {
+    "159766": {
+     "cagr_pct": -12.423,
+     "window_bars": 1186
+    },
+    "562510": {
+     "cagr_pct": -12.242,
+     "window_bars": 1186
+    }
+   },
+   "policy_level": false,
+   "spread_pp": 0.181,
+   "window": {
+    "bars": 1186,
+    "end": "2026-11-24",
+    "start": "2021-12-30"
+   }
+  },
+  {
+   "dropped": [
+    {
+     "corr": 0.9889,
+     "symbol": "159796",
+     "window_after_trim": 1058
+    }
+   ],
+   "highest": "561910",
+   "identity": "SAME_BASKET_CORR",
+   "labels": [
+    "电池ETF"
+   ],
+   "lowest": "561160",
+   "members": {
+    "561160": {
+     "cagr_pct": -12.626,
+     "window_bars": 1062
+    },
+    "561910": {
+     "cagr_pct": -12.457,
+     "window_bars": 1062
+    }
+   },
+   "policy_level": false,
+   "spread_pp": 0.169,
+   "window": {
+    "bars": 1062,
+    "end": "2026-11-24",
+    "start": "2022-07-08"
+   }
+  },
+  {
+   "dropped": [],
+   "highest": "511620",
+   "identity": "CASH_CLASS",
+   "labels": [
+    "货币ETF"
+   ],
+   "lowest": "511700",
+   "members": {
+    "159001": {
+     "cagr_pct": 0.0,
+     "window_bars": 1366
+    },
+    "511620": {
+     "cagr_pct": 0.003,
+     "window_bars": 1366
+    },
+    "511660": {
+     "cagr_pct": -0.002,
+     "window_bars": 1366
+    },
+    "511700": {
+     "cagr_pct": -0.004,
+     "window_bars": 1366
+    }
+   },
+   "policy_level": false,
+   "spread_pp": 0.007,
+   "window": {
+    "bars": 1366,
+    "end": "2026-11-24",
+    "start": "2021-04-07"
+   }
+  },
+  {
+   "dropped": [],
+   "highest": "516510",
+   "identity": "SAME_BASKET_CORR",
+   "labels": [
+    "云计算ETF"
+   ],
+   "lowest": "516630",
+   "members": {
+    "516510": {
+     "cagr_pct": 4.25,
+     "window_bars": 1263
+    },
+    "516630": {
+     "cagr_pct": 4.244,
+     "window_bars": 1263
+    }
+   },
+   "policy_level": false,
+   "spread_pp": 0.006,
+   "window": {
+    "bars": 1263,
+    "end": "2026-11-24",
+    "start": "2021-09-03"
+   }
+  }
+ ],
+ "lines": {
+  "cash_like_pp": 3.0,
+  "corr_line": 0.99,
+  "jump_line": 0.35,
+  "min_bars": 250,
+  "spread_line_pp": 1.0,
+  "twin_line_pp": 0.5
+ },
+ "money_anchor": [
+  {
+   "gap_pp": 1.831,
+   "labels": [
+    "货币ETF"
+   ],
+   "median_price_cagr_pct": -0.001,
+   "members": {
+    "159001": {
+     "cagr_pct": 0.0,
+     "window_bars": 1366
+    },
+    "511620": {
+     "cagr_pct": 0.003,
+     "window_bars": 1366
+    },
+    "511660": {
+     "cagr_pct": -0.002,
+     "window_bars": 1366
+    },
+    "511700": {
+     "cagr_pct": -0.004,
+     "window_bars": 1366
+    }
+   },
+   "repo_median_pct": 1.83,
+   "repo_panel_last_bar": "2026-11-20",
+   "window": {
+    "bars": 1366,
+    "end": "2026-11-24",
+    "start": "2021-04-07"
+   }
+  }
+ ],
+ "sources": {
+  "book": "results/etf_book_positions/LEDGER.json",
+  "groups": "results/etf_label_census.json (same-basket labels)",
+  "prices": "data/daily/<sh|sz><code>.csv (sina klc_kl, qfq factor = 1.0)",
+  "repo": "data/repo_daily/GC001.csv"
+ }
+}
