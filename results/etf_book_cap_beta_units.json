@@ -1,0 +1,99 @@
+{
+ "artifact": "results/etf_book_cap_beta_units.json",
+ "doc": "research/ETF_BOOK_CAP_BETA_UNITS.md",
+ "evidence_cutoff": "2026-11-24",
+ "face": "etf_book_cap_beta_units",
+ "facts": {
+  "beta_eq_full": 0.199989,
+  "beta_eq_full_pp": 19.999,
+  "beta_eq_now": 0.209408,
+  "beta_eq_now_pp": 20.941,
+  "beta_full": 0.4597412913190805,
+  "beta_multiple_full": 0.9999,
+  "beta_multiple_now": 1.047,
+  "beta_now": 0.48139415749642345,
+  "beta_target": 0.2,
+  "beta_window": 306,
+  "cap_now": 0.2,
+  "cap_source": "results/market_clock/call_latest.json:position_cap_ladder",
+  "caveats": [
+   "beta is a linear factor reading on a 306-bar window; the beta face itself calls the window pair worth 1.96pp of k against a 12.24pp ruler, so no claim here rests on the window choice alone -- both readings are printed",
+   "market-equivalence is first order: the book holds commodities and gold, whose beta to the equity benchmark is not the same risk as an equity sleeve",
+   "the trim is arithmetic to the cap, not an order: the ladder caps new risk and this book has no scheduled trade before its next decision bar",
+   "rungs above RED are quoted frozen law, not machine faces; only today's rung is read from the clock, and the face asserts the two agree"
+  ],
+  "cross_face": {
+   "cap_vs_book_kind": "ABOVE_CAP",
+   "why_named": "the cap face files the book as own_rule; this face measures what own_rule means in the cap's own unit"
+  },
+  "k_noise_sd": 0.12238604746960376,
+  "k_now": 0.435003,
+  "nav_cny": 1000000.0,
+  "notional_allowed_full_cny": 435027.27,
+  "notional_allowed_now_cny": 415459.97,
+  "notional_multiple": 2.175,
+  "notional_reading": "ABOVE_CAP",
+  "over_pp_full": -0.001,
+  "over_pp_now": 0.941,
+  "quoted_rung_agrees_with_clock": true,
+  "ruler_band_pp": 5.892,
+  "rungs": [
+   {
+    "cap": 0.2,
+    "headroom_pp": -0.94,
+    "k_allowed": 0.41546,
+    "needs_leverage": false,
+    "rung": "RED"
+   },
+   {
+    "cap": 0.5,
+    "headroom_pp": 29.06,
+    "k_allowed": 1.03865,
+    "needs_leverage": true,
+    "rung": "ORANGE"
+   },
+   {
+    "cap": 0.65,
+    "headroom_pp": 44.06,
+    "k_allowed": 1.350245,
+    "needs_leverage": true,
+    "rung": "YELLOW"
+   },
+   {
+    "cap": 0.8,
+    "headroom_pp": 59.06,
+    "k_allowed": 1.66184,
+    "needs_leverage": true,
+    "rung": "GREEN"
+   },
+   {
+    "cap": 0.95,
+    "headroom_pp": 74.06,
+    "k_allowed": 1.973435,
+    "needs_leverage": true,
+    "rung": "GREENxHOT"
+   }
+  ],
+  "rungs_source": "firm/risk/REGIME_GUARD.md section 1 (frozen law)",
+  "sizing_identity": {
+   "holds_now": true,
+   "k_from_full_beta": 0.435027,
+   "k_from_now_beta": 0.41546,
+   "k_now_minus_identity_pp": -0.0024,
+   "rule": "k = beta_target / beta"
+  },
+  "state": "RED",
+  "trim_cny_full": -24.27,
+  "trim_cny_now": 19543.03,
+  "verdict": "AT_CAP_WITHIN_RULER_NOISE"
+ },
+ "inputs": [
+  "results/etf_book_beta_paths.json",
+  "results/market_clock/call_latest.json",
+  "results/etf_book_order/latest.json",
+  "results/etf_book_order/TICKET-2026-11-24.json",
+  "results/regime_cap_vs_book.json"
+ ],
+ "inputs_digest": "c6927d89df762d4154f926deedcee1a744da81dbf34cb9b1fb45306973b082bb",
+ "ticket_file": "results/etf_book_order/TICKET-2026-11-24.json"
+}

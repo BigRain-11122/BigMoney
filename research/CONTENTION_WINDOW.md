@@ -4,22 +4,22 @@
 由 `scripts/contention_window.py` 渲染；只描述不修板、不杀进程、不放宽律法。
 
 <!-- BEGIN contention_window -->
-generated 2026-11-25T04:25:39 | verdict **WINDOW_OPEN** | machine bm-c | inputs 73318826afbd
+generated 2026-11-25T04:57:49 | verdict **WINDOW_OPEN** | machine bm-c | inputs 38fd4fbf94fe
 
 | 项 | 读数 |
 |---|---|
 | 对端进程 | 79608 |
 | 对端仍存活 | 79608 |
-| 对端最后写入 | 2026-11-25T04:11:42 |
+| 对端最后写入 | 2026-11-25T04:51:42 |
 | 那张面 | research/ARBITER-BOARD.md |
-| 静默时长 | 14.0 分钟 |
+| 静默时长 | 6.1 分钟 |
 | 回看窗 | 45 分钟 |
-| 窗口自然关闭于 | 2026-11-25T04:56:42 |
-| 距关闭 | 31.0 分钟 |
+| 窗口自然关闭于 | 2026-11-25T05:36:42 |
+| 距关闭 | 38.9 分钟 |
 
 **判词**：WINDOW_OPEN
 
-> peer wrote 14.0 min ago and is still alive -- new files only until 2026-11-25T04:56:42
+> peer wrote 6.1 min ago and is still alive -- new files only until 2026-11-25T05:36:42
 
 **本轮可做什么**：只写新增文件面；禁改共享面、禁重跑 S6 链（r1907/r1927）。到期后重跑探针再判。
 <!-- END contention_window -->
