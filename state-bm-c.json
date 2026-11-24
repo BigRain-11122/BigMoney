@@ -2404,5 +2404,7 @@
   "hooks_r2041": "pre-commit / pre-push 与 Tools/git-hooks 源（CR 归一）逐字节一致=零动作",
   "记账_r2043": "轮报告 1 处 + state 1 处 + 心跳 1 处 = 3（无方法论新增：把容量的「THIN」换到时间轴上定价属证据与载体）",
   "competition_r2043": "repo_write_contention rc=3 CONTENTION：本机另有 interactive 宿主 pid 51252（2026-11-22 20:10 起，2320.8min）与 pid 68052（2026-11-24 09:43 起）在写共享面，25 张面在轮首前被写、2 张落在重叠窗不可归因 -> 按 r1907 只落新增文件面，未改共享代码/数据面，未跑 S6 链与全量冒烟",
-  "deferred_r2043": "竞争窗 rc=3 未跑：S6 链 / 全量冒烟 / attrition 守卫 / py_watermark+compute_audit / update_daily 族；下轮（竞争窗关后）首批补跑，禁读成「全绿」"
+  "deferred_r2043": "竞争窗 rc=3 未跑：S6 链 / 全量冒烟 / attrition 守卫 / py_watermark+compute_audit / update_daily 族；下轮（竞争窗关后）首批补跑，禁读成「全绿」",
+  "送达自证_r2043": "commit **5d264a9332** 已推 origin/main，fetch 后 **AHEAD=0 / BEHIND=0**，git ls-tree -r --name-only origin/main 五件新面全在位（research/CASH_SHELF_BUILD_OUT_PLAN.md, results/cash_shelf_build_out_plan.json, scripts/cash_shelf_build_out_plan.py, results/_r2043bmc_buildout_negative.py, results/_r2043bmc_closeout.py）→ **本地未达 origin commit 数=0**",
+  "自捕_r2043": "两枚本窗自捕：①心跳自己的格式是 indent=1，state-bm-c.json 是 indent=2——用心跳用 state 的缩进写回，918 行全变而轮照常'成功'，只有 git diff --numstat 看得见；整档 diff 正是对端并发字段被埋掉的地方。②手写一个 GPU 键（vram_free_gb=11.1）会让其余 19 个 GPU 键停在上一轮的探针上，pre-commit 爪抓到 409.6 MiB 差；正法是走 Tools/gpu_face.py apply（r1909：只报不修正是残渣），apply 后 audit findings=[] 33 键一致。另有一枚方法的：自检腿数原本硬编码 15（实际断言 35 条），改成动态计数——腿数报小了也是假读数。"
 }
