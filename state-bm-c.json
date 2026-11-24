@@ -167,7 +167,7 @@
   "delivery_state": "HEAD pushed this round; see delivery_check",
   "dept": "策略/风控",
   "did": "r2043 · 新增文件面（竞争窗）：scripts/cash_shelf_build_out_plan.py + results/cash_shelf_build_out_plan.json + research/CASH_SHELF_BUILD_OUT_PLAN.md -- 把 r2041 的容量「THIN」翻译成排期与它的价：票面 565,246 元要 511380 两个交易日、511360 五个、511180 三个；而分批的 95 分位成本是 511380 2,787 元（= 它一年超额的 239%）、511360 265 元（= 9%）、511180 3,090 元（而它本身比回购少赚 2,041 元/年，问题不是等）",
-  "did_round": 2043,
+  "did_round": 2054,
   "edge_t1766": "the EVENT_DRIVEN call rests on one leg only: positive-month ratio 53.01% vs the frozen 55% line (margin 1.99pp), while the concentration leg (top 10% of months >= 60%) reads 45.74% and does not trigger -- published as an edge call, with the sensitivity sweep on the page (54% and above would still read EVENT_DRIVEN, 52% and below would read MIXED)",
   "evidence_cutoff": "2026-11-19",
   "failed_this_round": "nothing failed; two self-inflicted reds were caught by this round's own check before publishing (weights+cash summed to 0.999999 at 6dp, and the printed scale differed from the scale used to size the cash slot)",
@@ -259,69 +259,8 @@
     "sha": "278bb79900"
   },
   "last_push_at": "2026-11-11T08:31:06+08:00",
-  "last_round": {
-    "artifact_doc": "research/CASH_SHELF_TOTAL_RETURN.md",
-    "artifact_json": "results/cash_shelf_total_return_audit.json",
-    "check": "rc0",
-    "contention": "rc3 CONTENTION: interactive host alive in this tree; new-file faces only, S6 chain and full smoke still deferred",
-    "date": "2026-11-24",
-    "delivery": {
-      "ahead": 0,
-      "behind": 0,
-      "commit": "94b9667e52",
-      "files_on_origin": 6,
-      "range": "3ec4b9ff25..94b9667e52"
-    },
-    "kind": "new_file_face_contention_window",
-    "negative": "10/10 PASS",
-    "negative_control": "results/_r2047bmc_totalret_negative.py",
-    "reading": {
-      "already_counted": [
-        "511880"
-      ],
-      "no_distributions": [
-        "511380",
-        "511180",
-        "511360"
-      ],
-      "price_only_understates": [
-        {
-          "added_pp": 0.4588,
-          "cny_added": 2593.71,
-          "code": "511010",
-          "published_extra_cny": 3241.89,
-          "sourced_extra_cny": 5835.6
-        }
-      ],
-      "threshold_reader_over_repairs": [
-        {
-          "code": "511380",
-          "gap_vs_sourced_pp": 48.6045,
-          "resets_detected": 278
-        },
-        {
-          "code": "511180",
-          "gap_vs_sourced_pp": 25.7201,
-          "resets_detected": 165
-        },
-        {
-          "code": "511360",
-          "gap_vs_sourced_pp": 0.1853,
-          "resets_detected": 1
-        }
-      ]
-    },
-    "round_no": 2047,
-    "script": "scripts/cash_shelf_total_return_audit.py",
-    "self_caught": [
-      "added distributions to a money line that already zeroes them (511880 +9065 CNY/yr phantom); fixed by judging the published line's caliber first, and the same fix in the per-year block",
-      "the page headline sat outside the marker block, so numbers changed but the sentence did not; the page is now regenerated whole every run",
-      "the 'shelf is on the page' leg only grepped the code, which also appears in prose; replaced by a byte-exact row comparison driven by negative control N9",
-      "price-only must use the same series and start the chain feeds its reader; the raw daily CSV differed by 3-10bp from r2046 and the new structural leg caught it"
-    ],
-    "selftest": "22/22 PASS"
-  },
-  "last_round_at": "2026-11-24T11:14:31+08:00",
+  "last_round": 2054,
+  "last_round_at": "2026-11-24T20:5x+08:00",
   "last_round_at_legacy": "2026-10-19T15:34:21+08:00",
   "last_round_closed": 1941,
   "last_round_closed_at": "2026-11-22T19:21:00+08:00",
@@ -1609,13 +1548,13 @@
   },
   "round_drift_note": "state said round_no=1937 while commit 6a3f33e30e already said round 1938 -> counters healed to 1939",
   "round_label": "r2019",
-  "round_no": 2053,
+  "round_no": 2054,
   "round_no_label": "r2028",
   "round_no_landed": 2028,
   "round_no_note": "r2052 收口（state 上轮停在 2050，2050/2051 两轮提交已上链但报告行缺失，本轮补齐 r2052 行）",
-  "round_no_prev": 2038,
+  "round_no_prev": 2053,
   "round_note": "r2020 two_book_blend: A-share veto book vs bond-free ETF book, corr 0.219, equal-weight Sharpe 0.821 < ETF 1.115 -> BLEND_REDUNDANT (TWO_RETURNS_BUT_WEAK_LEG)",
-  "round_now": 2019,
+  "round_now": 2054,
   "round_r1390_closeout_note": "r1390: PRODUCT window (state round_no=1389 at open, HEAD round 1389 pushed clean -> zero absorb owed). PRODUCT = the first supply berth whose exposure is structurally 1.0 (both earlier berths were timing families and lost to the exit tax by construction): scripts/zoo_supply_xs_reversal_probe.py (selftest 9/9) buys the 10 worst trailing-20-bar ETFs from the published book eligibility, holds 20 bars, next-open fill, 8bp/side, and rides run_next_open instead of re-implementing the fill. Rule -8.15%/yr maxdd -59.4% vs SAME-POOL equal-weight +1.86%/-39.9% -> -10.01pp excess, 113.7 slot swaps/yr, all four admit conditions false -> REFUSE_AS_CANDIDATE. The reading that outlives the verdict: 200 same-exposure random-rank nulls average -3.38pp/yr (sd 3.44), so 10-name concentration plus its monthly swap is itself negative alpha on this panel (card E387). Two pits: np.nanmean(P).prod() is not compounding (needs np.prod(1+mean); the basis leg caught the equal-weight control reading -100% before publication), and run_next_open returns a 3-tuple. S6: dualrun streak 14, compute_audit FLAG pool_starvation+supply_floor (ready 0 floor 3, breach 10122 min), update_daily rc0 0 new rows cutoff 2026-11-06, regime RED raw ORANGE shadow, attrition CLEAN. S0.5 orders 0 unacked. orphan 0. SMOKE HONESTY: suite launched 06:57 stalled at 07:05 on an unprinted external-source leg (191 PASS/0 FAIL), killed 07:15, relaunched pid 67412 -- no suite total claimed. next=r1391: an EVENT family (forced trading), because breadth is now measured as a tax and holdings count is no longer a free axis.",
   "round_r1403_next": "supply floor still 0<3 (AGENDA_DEBT, streak 10,709 min): next berth is new supply; the repo-lane refill must land with its restatement in one window (bm-a), else the ledger exits 3 on 4 bars",
   "round_r1403_note": "r1403: PRODUCT round. The open tree carried a dead r1402 window's estate (volgate probe + card_track carry_last fix + smoke/chain legs, all uncommitted, its smoke suite still running at 16:36 when the loop restarted) and a P1 inbox message asserting the forward ledger would freeze; this window landed the estate on evidence (volgate selftest pass, card_track 20/20 re-run here) and then turned the assertion into arithmetic. NEW: scripts/etf_book_carry_repro.py (selftest 9/9) re-derives every published bar READ-ONLY and splits it with the live gate's own partition_settled -- today the ledger does NOT block (settled 10-23/10-26/10-27 reproduce at 0.000e+00; the 8 provisional bars sit at up to 9.956e-07, 996x tol, but the gate only polices settled bars), and the freeze arrives WITH the refill: stepping carry_last forward, 10-30 blocks 1 bar, 11-02 two, 11-03 three, >=11-04 four (10-30/11-02/11-03/11-04). So bm-a's refill and the restatement must land in the same window (restate_provisional, not --rebase: the book is not wrong, its input was still growing). NOT EXPLAINED, named: those four bars' NAV moves are 1.5-4.2x the carry gap, so a second unattributed recompute difference exists on the same bars -- reported per bar instead of folded into carry and instead of moving the tolerance. PIT: my first selftest had two wrong EXPECTATIONS, not wrong code -- partition_settled treats bars[-1] as the newest bar (a one-bar list is provisional by construction) and treats carry_last=None as no extra provisionality, so an absent repo panel makes those bars settle while the ledger's carry was priced by one. The shared splitter was right both times; the legs now assert what it does. PUSH: landed on origin tip eef3e98c9f after rebase onto 31 upstream commits; the card collided (E402 was already taken) and is E404; the METHODOLOGY_ASSETS conflict was resolved by union (both sides cards kept, zero markers, card_ledger_guard CLEAN max 404); the autostash carrying ~130 regenerated lane faces conflicted on replay and was dropped by taking HEADs versions -- every file in it was a lane-regenerated face (results/, docs/, research/), none hand-written.",
@@ -2429,25 +2368,31 @@
     "why": "repo_write_contention rc=3 (peer pids 51252 since 2026-11-22 20:10 and 68052 since 2026-11-24 09:43 writing shared faces)"
   },
   "ˮλ": "healthy",
-  "下个里程碑": "(a) 链收口 + 全量冒烟（≤48h）；(b) 时钟准入进货币读器（≤48h）",
-  "下轮指针": "(a) 全量冒烟 + S6 链收口（≤48h，等竞争窗关闭）；(b) 「accrual 时钟是否存在」做成货币读器准入前置（≤48h）；(c) 上游 money 分类器加「现金流 ≠ 现金」闸（他机属主或 GM 署名）",
+  "下个里程碑": "(a) 准入面接进 S6 链 + 全量冒烟（≤48h）；(b) 现金流≠现金 的分类闸并进 r2053 口径（≤48h）",
+  "下轮指针": "(a) 竞争窗关后把 check 接成 S6 腿（漂移文案自称 STALE）+ 全量冒烟（≤48h）；(b) 「典型 bar ≥2bp 就不是现金」并进 r2053 的分类口径（共享面·需无竞争轮或他机属主）；(c) 31 只 20%+ 的现金标签报给上游分类器属主（≤48h）",
   "孤儿面": "0",
   "孤儿面_note": "round-zero orphan_face_probe: orphans 0 (py_faces 4, resident_servers 1 = ComfyUI idle)",
   "当前任务": "r2048 · 新增文件面（竞争窗已闭）：把 r2046 那一笔修正放进家族普查——108 只货架里几何形状命中 12 只/56 对，但只有 6 只/6 对是「≥4 个自身 sigma」的异常打印；r2046 修的那一对（511360，32.6σ、-0.168pp）在其中，另外 5 只在科创板债 ETF 与可转债 ETF 的边缘（4.2-7.5σ）",
   "当前任务_en": "r2044: the wait is not a price offset but a cost -- park the unspent cash in the published cash leg and the five-session build-out nets 166.6 CNY at p95 instead of 264.5",
-  "当前活": "用一把不许跳点投票的尺子重量货币架的极端 bar，并按「怎么回来」把它们分成快回、按 carry 回、回不来三类",
-  "当前活_en": "r2053: re-measure each money extreme bar with a ruler the outliers cannot vote on, then split them by how they come back -- snap, accrual-paced, or gone",
-  "最新判词": "THE_YARDSTICK_IS_MADE_OF_THE_OUTLIER | THREE_SHAPES_NOT_ONE | THE_ZERO_RULE_IS_RIGHT_FOR_ONE_SHAPE_ONLY",
+  "当前活": "把「哪几只真的能放钱」做成一张带价目表的准入表，并把「按屏幕挑」的代价算到票面上",
+  "当前活_en": "r2054: put the money shelf through one five-step admission and price what a printed-rank screen costs on the ticket",
+  "最新判词": "THE_SCREEN_PAYS_IN_PREMIA | MOST_OF_THE_SHELF_IS_NOT_A_PARKING_SPOT | THE_GATE_PAYS",
   "最新实物": "research/MONEY_PREMIUM_CARRY_AUDIT.md + results/money_premium_carry_audit.json @2026-11-24T17:15:38+08:00",
-  "最近实物": "scripts/money_residual_sigma_recovery.py + results/money_residual_sigma_recovery.json + research/MONEY_RESIDUAL_SIGMA_RECOVERY.md（selftest 21/21 · check rc0 · 负控 18/18）",
-  "最近实物_update": "results/chain_writer_audit.json（12 红点名）+ 8 条新腿 + results/_r1917bmc_s6_chain.json（318/318 rc0）+ 全量套件 739/739 绿（2026-11-22T05:12:10）",
+  "最近实物": "scripts/money_shelf_placement.py + results/money_shelf_placement.json + research/MONEY_SHELF_PLACEMENT.md（selftest 34/34 · check rc0 · 负控 12/12）",
+  "最近实物_update": "results/money_shelf_placement.json @2026-11-24T20:5x+08:00",
   "未验证": "①sigma 是窗口常数，不做时变；②只覆盖一种形状（单 bar -50bp + 3 bar 内回到 5bp 内）；③异常对的成因未查；④S6 链与全量冒烟在本轮同时跑，链产物另批提交，禁读成已全绿；⑤分类错判只标注，未改共享分类器",
+  "未验证_r2052": "①截尾口径只回答「这个数字是不是少数 bar 印的」，不是收益估计；②accrual 六年一个数，政策利率变化与溢价同形，只有回归标签能分开；③S6 链与全量冒烟未在本轮跑（链在飞），禁读成已全绿",
+  "未验证_r2053": "①bars_to_half 只描述路径，不解释成因；②NEVER 仅指 750 根窗内没回来；③34 只无时钟标的的两列 bp/年 是**面值水平吞掉/伪造量**，不是收益；④全量冒烟与 S6 链本轮未跑（竞争窗），禁读成已全绿",
+  "未验证_r2054": "①准入是「读得出 carry」的测试，不是基金好坏；②容量/一手/换手归 r2041/r2043；③两条 carry 同一个六年窗；④过闸 17 只里 511660 修完 0.00% 仍 admitted（规则如此，未改线）；⑤全量冒烟与 S6 链连续第 3 轮未跑，禁读成已全绿；⑥心跳面本窗未覆盖",
   "本地未达 origin commit 数": 0,
   "本地未达origin": 0,
   "本次": "p10 坏日子成交：511380 5,007.5 万 / 511180 2,195.5 万 / 511880 10.1 亿 / 511360 1,309 万 / 511010 6,782 万；一手：转债 1,159/1,096 元 vs 货币 ETF 10,099 元、短融 11,419 元、国债 14,141 元；票面 565,246 元在 511380 是 1.13%% 坏日子（THIN），拆 511180 后合计 72.0 万回到 OPEN；一个防守日 511380 -4,346 元 vs 一年超额 +1,167 元 = 3.7 年",
-  "本轮": "r2041 · 新增文件面（竞争窗）：scripts/cb_parking_shelf_at_size.py + results/cb_parking_shelf_at_size.json + research/CB_PARKING_SHELF_AT_SIZE.md —— 坏日子 p10 上一张 1% 单：511380 50.1 万 / 511180 22.0 万 / 合计 72.0 万 > 票面 56.5 万（两张单）；票面规模一个防守日亏 4,346 元 = 3.7 年超额",
+  "本轮": "r2054 · 新增文件面：scripts/money_shelf_placement.py + results/money_shelf_placement.json + research/MONEY_SHELF_PLACEMENT.md —— 货币类 59 只过五级准入 17 只；按屏幕挑第一名 511770 印 8.44% 实收 0.62%（票面 47,715 -> 3,484 元/年，44,231 元/年是溢价）；按修完挑第一名 511930 2.65% = 14,981 元/年；这道闸值 +11,498 元/年；书自己最好的腿 511010 2.53% = 14,316 元/年；新发现的洞=28 只现金流 ETF 里 8 只中位 bar<2bp 但典型 bar 72-116bp，r2053 的均值关放行、本面的 2bp 典型 bar 关拦下",
   "水位": "healthy",
   "竞争_r2044": "repo_write_contention rc=3 CONTENTION：对端 interactive pid 51252（2026-11-22 20:10 起）仍存活但 20s 仅 0.06s CPU、重叠窗 0 次写入，pid 68052 已退出；22 张共享面在轮首前被写、0 张落在重叠窗 -> 按 r1907 只落新增文件面",
+  "竞争_r2052": "repo_write_contention rc=0 CLEAN（fewer than two codely hosts alive）；但 S6 链 r2049 仍在飞（pid 74392 -> etf_book_width_return），故本轮只落新增文件面",
+  "竞争_r2053": "repo_write_contention rc=3 CONTENTION：对端 interactive pid 2276（19:54 起）在写共享面，19 张面在轮首前被动过、重叠窗 0 张 -> 按 r1907 只落新增文件面，未跑 S6 链、未改共享面",
+  "竞争_r2054": "repo_write_contention rc=3 CONTENTION：对端 interactive pid=2276（19:54 起、age 51.7min）在轮首前写 19 张共享面、重叠窗 0 张不可归因 -> 按 r1907 只落新增文件面，未改共享面、未跑 S6 链、未跑全量 smoke；心跳面由对端 20:42 写过，本窗不覆盖",
   "自捕_r2043": "两枚本窗自捕：①心跳自己的格式是 indent=1，state-bm-c.json 是 indent=2——用心跳用 state 的缩进写回，918 行全变而轮照常'成功'，只有 git diff --numstat 看得见；整档 diff 正是对端并发字段被埋掉的地方。②手写一个 GPU 键（vram_free_gb=11.1）会让其余 19 个 GPU 键停在上一轮的探针上，pre-commit 爪抓到 409.6 MiB 差；正法是走 Tools/gpu_face.py apply（r1909：只报不修正是残渣），apply 后 audit findings=[] 33 键一致。另有一枚方法的：自检腿数原本硬编码 15（实际断言 35 条），改成动态计数——腿数报小了也是假读数。",
   "自捕_r2044": "三枚本窗自捕，全部由本面自己的守卫抓出：①负控第 3 腿我先写成「佣金差 = 0.1×(n−1)²/n」，跑的瞬间红在 0.32bp vs 实得 0.20bp——错的不是面，是我的公式：佣金和滑点/carry 一样乘 (n−k)/n 权重，正解是 0.1bp × (n−1)/2 = 0.1×wait_days（面里印的 0.20/1.90bp 本来就是对的）。教训：一条控制腿红在「你算对了的那个数」上时，先改公式再改面。②check() 依赖模块全局 _LAST[\"payload\"] 而 build 从未写入它——首个 --check 会直接崩；补上写入后 check 才成为真正的复算面。③verbose=False 会把模块级 log() 永久替换成哑函数——一次 check 之后所有 run 都静默（面不报错、也不出声，看起来健康）；改成 _QUIET 标志并在 build 每个出口复原。",
   "记账_r1963": "本行 1 处（轮报告）+ state 1 处 = 2",
@@ -2477,6 +2422,9 @@
   "记账_r2046": "轮报告 1 处 + state 1 处 + 心跳 1 处 = 3",
   "记账_r2048": "轮报告 1 处 + state 1 处 + 心跳 1 处 = 3（无方法论新增：把「绝对形状阈值必须配自身波动标尺」这条做成可复核读数属证据与载体）",
   "记账_r2050": "轮报告 1 处 + state 1 处 + 心跳 1 处 = 3（无方法论新增：把「离局部水平 1% 的连续段」当成 carry 的可疑打印属证据与载体；方法论卡锁存待无竞争轮）",
+  "记账_r2052": "轮报告 1 处 + state 1 处 + 心跳 1 处 = 3（无方法论新增：把「截尾」做成可复核的证伪尺属证据与载体）",
+  "记账_r2053": "轮报告 1 处 + state 1 处 + 心跳 1 处 = 3（无方法论新增：把『尺子不许跳点投票』与『回补是否在 accrual 时钟上』做成可复核读数属证据与载体）",
+  "记账_r2054": "轮报告 1 处 + state 1 处 = 2（心跳面由对端写、本窗不改，故不记）",
   "送达自证_r1962": "commit a325115143 已推 origin/main；fetch 后 本地未达 origin commit 数=0；ls-tree 三件在位（scripts/results/md）",
   "送达自证_r1963": "commit 03e099354b 已推 origin/main；fetch 后 本地未达 origin commit 数=0；ls-tree 三件在位",
   "送达自证_r1995": "commit 65741165ac 已推 origin/main (bc2e3f68dc..65741165ac)；fetch 后 AHEAD=0 BEHIND=0；ls-tree 三件 blob 在位 (5c569f0d2e/83ab8fbbad/0e047b12bd)",
@@ -2493,15 +2441,9 @@
   "送达自证_r2043": "commit **5d264a9332** 已推 origin/main，fetch 后 **AHEAD=0 / BEHIND=0**，git ls-tree -r --name-only origin/main 五件新面全在位（research/CASH_SHELF_BUILD_OUT_PLAN.md, results/cash_shelf_build_out_plan.json, scripts/cash_shelf_build_out_plan.py, results/_r2043bmc_buildout_negative.py, results/_r2043bmc_closeout.py）→ **本地未达 origin commit 数=0**",
   "送达自证_r2044": "commit **14e381df2a** 已推 origin/main（7a09d1829e..14e381df2a），fetch 后 **AHEAD=0 / BEHIND=0**，git ls-tree -r --name-only origin/main 五件新面全在位（scripts/cash_shelf_inflight_carry.py / results/cash_shelf_inflight_carry.json / research/CASH_SHELF_INFLIGHT_CARRY.md / 负控 results/_r2044bmc_inflight_negative.py / 收口 results/_r2044bmc_closeout.py、_r2044bmc_hb_fields.json）→ **本地未达 origin commit 数=0**",
   "送达自证_r2048": "commit **9320008d57** 已推 origin/main（26ed602301..9320008d57），fetch 后 **AHEAD=0 / BEHIND=0**，git ls-tree -r --name-only origin/main 六件全在位（scripts/cash_shelf_flip_census.py、results/cash_shelf_flip_census.json、research/CASH_SHELF_FLIP_CENSUS.md、负控 results/_r2048bmc_flip_census_negative.py、两枚探针 _r2048bmc_probe.json/_r2048bmc_sigma_probe.json）→ 本地未达 origin commit 数=0",
-  "通过_r2044": "orders 116 文件 / 归一回执 257 / 未回执 0；decisions.md 字节 sha 79e3083b… 未变=零动作；idle_trigger green_idle=true 且池空/板空 -> 本轮自驱产品件即工作，--worked 清零",
-  "竞争_r2052": "repo_write_contention rc=0 CLEAN（fewer than two codely hosts alive）；但 S6 链 r2049 仍在飞（pid 74392 -> etf_book_width_return），故本轮只落新增文件面",
-  "未验证_r2052": "①截尾口径只回答「这个数字是不是少数 bar 印的」，不是收益估计；②accrual 六年一个数，政策利率变化与溢价同形，只有回归标签能分开；③S6 链与全量冒烟未在本轮跑（链在飞），禁读成已全绿",
-  "记账_r2052": "轮报告 1 处 + state 1 处 + 心跳 1 处 = 3（无方法论新增：把「截尾」做成可复核的证伪尺属证据与载体）",
-  "通过_r2052": "orders 116 文件 / 归一回执 329 / 未回执 0；decisions.md 未变零动作；smoke 本轮被 r2049 链在飞阻断（20 红全属面代差族）",
   "送达自证_r2052": "commit **c68ce03c39** 已推 origin/main（a7164c80d3..c68ce03c39），fetch 后 **AHEAD=0 / BEHIND=0**，git ls-tree -r --name-only origin/main 五件全在位（scripts/money_accrual_level_decomposition.py、results/money_accrual_level_decomposition.json、research/MONEY_ACCRUAL_LEVEL_DECOMPOSITION.md、负控 results/_r2052bmc_accrual_negative.py、收口 results/_r2052bmc_closeout.py）→ **本地未达 origin commit 数=0**",
-  "竞争_r2053": "repo_write_contention rc=3 CONTENTION：对端 interactive pid 2276（19:54 起）在写共享面，19 张面在轮首前被动过、重叠窗 0 张 -> 按 r1907 只落新增文件面，未跑 S6 链、未改共享面",
-  "未验证_r2053": "①bars_to_half 只描述路径，不解释成因；②NEVER 仅指 750 根窗内没回来；③34 只无时钟标的的两列 bp/年 是**面值水平吞掉/伪造量**，不是收益；④全量冒烟与 S6 链本轮未跑（竞争窗），禁读成已全绿",
-  "记账_r2053": "轮报告 1 处 + state 1 处 + 心跳 1 处 = 3（无方法论新增：把『尺子不许跳点投票』与『回补是否在 accrual 时钟上』做成可复核读数属证据与载体）",
-  "通过_r2053": "orders 117 文件 / 归一回执 329 / 未回执 0；decisions.md 字节 sha 79e3083b 未变=零动作；orders.md 变（99e8e77d -> 6bd40fec）新增 1 行 = OB-20261122-223110-552 本地优先令，本仓照做（本轮全部本地算力、零云端调用），回执随轮报告",
-  "送达自证_r2053": "commit **ff736ad1eb** 已推 origin/main，fetch 后 **AHEAD=0 / BEHIND=0**（0 / 0），ls-tree origin/main 五件全在位（scripts/results/md/负控/收口）→ **本地未达 origin commit 数=0**"
+  "送达自证_r2053": "commit **ff736ad1eb** 已推 origin/main，fetch 后 **AHEAD=0 / BEHIND=0**（0 / 0），ls-tree origin/main 五件全在位（scripts/results/md/负控/收口）→ **本地未达 origin commit 数=0**",
+  "通过_r2044": "orders 116 文件 / 归一回执 257 / 未回执 0；decisions.md 字节 sha 79e3083b… 未变=零动作；idle_trigger green_idle=true 且池空/板空 -> 本轮自驱产品件即工作，--worked 清零",
+  "通过_r2052": "orders 116 文件 / 归一回执 329 / 未回执 0；decisions.md 未变零动作；smoke 本轮被 r2049 链在飞阻断（20 红全属面代差族）",
+  "通过_r2053": "orders 117 文件 / 归一回执 329 / 未回执 0；decisions.md 字节 sha 79e3083b 未变=零动作；orders.md 变（99e8e77d -> 6bd40fec）新增 1 行 = OB-20261122-223110-552 本地优先令，本仓照做（本轮全部本地算力、零云端调用），回执随轮报告"
 }
