@@ -1,112 +1,73 @@
 {
  "schema": "repo-write-contention/v1",
  "machine_id": "bm-c",
- "probed_at": "2026-11-24T10:51:30",
+ "probed_at": "2026-11-25T00:00:47",
  "lookback_min": 45.0,
  "verdict": "CONTENTION",
- "why": "3 hosts alive; 25 shared face(s) written before this round started (strictly another host), 2 written inside the overlap (unattributable)",
+ "why": "3 hosts alive; 12 shared face(s) written before this round started (strictly another host), 0 written inside the overlap (unattributable)",
  "hosts": [
   {
-   "pid": 51252,
+   "pid": 80112,
    "kind": "interactive",
-   "started_epoch": 1795349445.503183,
-   "started": "2026-11-22T20:10:45",
-   "age_min": 2320.8,
+   "started_epoch": 1795525712.183675,
+   "started": "2026-11-24T21:08:32",
+   "age_min": 172.3,
    "exempt_from_cloud_cap": true,
    "cmd_head": "K:\\tuanjieAI\\Tuanjie Cowork\\cli\\bin\\win32-x64\\codely.exe --experimental-acp --experimental-skills --path-polic"
   },
   {
-   "pid": 68052,
+   "pid": 79608,
    "kind": "interactive",
-   "started_epoch": 1795484599.2364314,
-   "started": "2026-11-24T09:43:19",
-   "age_min": 68.2,
+   "started_epoch": 1795531144.188324,
+   "started": "2026-11-24T22:39:04",
+   "age_min": 81.7,
    "exempt_from_cloud_cap": true,
    "cmd_head": "K:\\tuanjieAI\\Tuanjie Cowork\\cli\\bin\\win32-x64\\codely.exe --experimental-acp --experimental-skills --path-polic"
   },
   {
-   "pid": 74228,
+   "pid": 71896,
    "kind": "other",
-   "started_epoch": 1795488602.7328267,
-   "started": "2026-11-24T10:50:02",
-   "age_min": 1.5,
+   "started_epoch": 1795536003.7349508,
+   "started": "2026-11-25T00:00:03",
+   "age_min": 0.7,
    "exempt_from_cloud_cap": false,
    "cmd_head": "K:\\tuanjieAI\\Tuanjie Cowork\\cli\\bin\\win32-x64\\codely.exe -y -p 无人值守执行 Bigmoney 量化公司 10 分钟自迭代一轮（2026-09-23 CEO "
   }
  ],
- "my_host_pid": 74228,
- "my_host_started": "2026-11-24T10:50:02",
+ "my_host_pid": 71896,
+ "my_host_started": "2026-11-25T00:00:03",
  "host_probe_error": null,
  "overlap_windows": [
   {
    "pair": [
-    51252,
-    68052
+    80112,
+    79608
    ],
    "kinds": [
     "interactive",
     "interactive"
    ],
-   "from": "2026-11-24T09:43:19",
-   "to": "2026-11-24T10:51:30",
-   "minutes": 68.2,
-   "lo": 1795484599.2364314
-  },
-  {
-   "pair": [
-    51252,
-    74228
-   ],
-   "kinds": [
-    "interactive",
-    "other"
-   ],
-   "from": "2026-11-24T10:50:02",
-   "to": "2026-11-24T10:51:30",
-   "minutes": 1.5,
-   "lo": 1795488602.7328267
-  },
-  {
-   "pair": [
-    68052,
-    74228
-   ],
-   "kinds": [
-    "interactive",
-    "other"
-   ],
-   "from": "2026-11-24T10:50:02",
-   "to": "2026-11-24T10:51:30",
-   "minutes": 1.5,
-   "lo": 1795488602.7328267
+   "from": "2026-11-24T22:39:04",
+   "to": "2026-11-25T00:00:47",
+   "minutes": 81.7,
+   "lo": 1795531144.188324
   }
  ],
  "peer_only_writes": [
   "fleet/machines/bm-c.json",
-  "fleet/round_reports-bm-c.md",
-  "research/BENCH-POWER.md",
-  "research/BENCH-QUEUE.json",
-  "research/BENCH-STATUS.md",
-  "research/CASH_LEG_SHELF_DECISION.md",
-  "research/CB_PARKING_SHELF_AT_SIZE.md",
+  "research/ARBITER-BOARD.md",
+  "research/ETF_BOOK_SKIP_THE_EXIT.md",
+  "research/INGEST/LANES-DASHENG.json",
+  "research/INGEST/LANES-DASHENG.md",
   "research/QUANT-BLOCK-BOARD.md",
   "results/_attrition_guard_scan.json",
-  "results/_r2041bmc_closeout.py",
-  "results/_r2041bmc_shelf_negative.py",
-  "results/_r2042bmc_hb_fields.json",
-  "results/_r2042bmc_shelf_decision_negative.py",
-  "results/arbiter/LEASES.json",
-  "results/arbiter/LEDGER.jsonl",
-  "results/bench/HUB-STATE.json",
-  "results/bench/LEDGER.jsonl",
-  "results/bench_power.json",
-  "results/bench_revalidate.json",
-  "results/cash_leg_shelf_decision.json"
+  "results/arbiter/PROPOSALS.json",
+  "results/arbiter/STATE.json",
+  "results/etf_book_skip_the_exit.json",
+  "results/quant_block_board.json",
+  "scripts/etf_book_skip_the_exit.py"
  ],
- "ambiguous_writes": [
-  "research/ARBITER-BOARD.md",
-  "results/arbiter/STATE.json"
- ],
+ "ambiguous_writes": [],
  "ignored_patterns": [
   "results/saturation_engine/",
   "results/watermark_red.json",
@@ -116,175 +77,85 @@
   "results/_repo_write_contention",
   "results/_host_contention"
  ],
- "ignored_write_count": 8,
+ "ignored_write_count": 9,
  "declared_own_patterns": [],
  "declared_own_write_count": 0,
  "declared_own_writes": [],
- "writes_scanned_files": 34537,
+ "writes_scanned_files": 34762,
  "recent_writes": [
   {
+   "path": "fleet/machines/bm-c.json",
+   "mtime": "2026-11-25T00:00:02",
+   "mtime_epoch": 1795536002.655795,
+   "bytes": 257670
+  },
+  {
+   "path": "research/ETF_BOOK_SKIP_THE_EXIT.md",
+   "mtime": "2026-11-24T23:53:16",
+   "mtime_epoch": 1795535596.8939047,
+   "bytes": 2896
+  },
+  {
+   "path": "results/etf_book_skip_the_exit.json",
+   "mtime": "2026-11-24T23:53:16",
+   "mtime_epoch": 1795535596.8928947,
+   "bytes": 35068
+  },
+  {
+   "path": "scripts/etf_book_skip_the_exit.py",
+   "mtime": "2026-11-24T23:52:29",
+   "mtime_epoch": 1795535549.0110426,
+   "bytes": 28530
+  },
+  {
    "path": "research/ARBITER-BOARD.md",
-   "mtime": "2026-11-24T10:51:42",
-   "mtime_epoch": 1795488702.6779344,
-   "bytes": 1688
+   "mtime": "2026-11-24T23:51:42",
+   "mtime_epoch": 1795535502.008057,
+   "bytes": 1988
   },
   {
    "path": "results/arbiter/STATE.json",
-   "mtime": "2026-11-24T10:51:42",
-   "mtime_epoch": 1795488702.6592667,
-   "bytes": 1433
+   "mtime": "2026-11-24T23:51:41",
+   "mtime_epoch": 1795535501.9878306,
+   "bytes": 1870
   },
   {
-   "path": "fleet/machines/bm-c.json",
-   "mtime": "2026-11-24T10:44:54",
-   "mtime_epoch": 1795488294.7766228,
-   "bytes": 256066
-  },
-  {
-   "path": "fleet/round_reports-bm-c.md",
-   "mtime": "2026-11-24T10:44:22",
-   "mtime_epoch": 1795488262.162631,
-   "bytes": 470741
-  },
-  {
-   "path": "results/_r2042bmc_hb_fields.json",
-   "mtime": "2026-11-24T10:42:20",
-   "mtime_epoch": 1795488140.3581853,
-   "bytes": 316
-  },
-  {
-   "path": "results/_attrition_guard_scan.json",
-   "mtime": "2026-11-24T10:41:35",
-   "mtime_epoch": 1795488095.0620706,
-   "bytes": 2154
-  },
-  {
-   "path": "results/cash_leg_shelf_decision.json",
-   "mtime": "2026-11-24T10:40:06",
-   "mtime_epoch": 1795488006.2032363,
-   "bytes": 9053
-  },
-  {
-   "path": "research/CASH_LEG_SHELF_DECISION.md",
-   "mtime": "2026-11-24T10:40:06",
-   "mtime_epoch": 1795488006.187728,
-   "bytes": 3858
-  },
-  {
-   "path": "scripts/cash_leg_shelf_decision.py",
-   "mtime": "2026-11-24T10:39:14",
-   "mtime_epoch": 1795487954.1832168,
-   "bytes": 40326
-  },
-  {
-   "path": "results/_r2042bmc_shelf_decision_negative.py",
-   "mtime": "2026-11-24T10:36:58",
-   "mtime_epoch": 1795487818.0994482,
-   "bytes": 7821
-  },
-  {
-   "path": "results/_r2041bmc_closeout.py",
-   "mtime": "2026-11-24T10:23:27",
-   "mtime_epoch": 1795487007.072523,
-   "bytes": 8709
-  },
-  {
-   "path": "research/CB_PARKING_SHELF_AT_SIZE.md",
-   "mtime": "2026-11-24T10:22:18",
-   "mtime_epoch": 1795486938.1534386,
-   "bytes": 7225
-  },
-  {
-   "path": "results/cb_parking_shelf_at_size.json",
-   "mtime": "2026-11-24T10:22:18",
-   "mtime_epoch": 1795486938.1531088,
-   "bytes": 16502
+   "path": "results/arbiter/PROPOSALS.json",
+   "mtime": "2026-11-24T23:40:01",
+   "mtime_epoch": 1795534801.7574253,
+   "bytes": 520
   },
   {
    "path": "research/QUANT-BLOCK-BOARD.md",
-   "mtime": "2026-11-24T10:22:15",
-   "mtime_epoch": 1795486935.4872503,
-   "bytes": 4117
+   "mtime": "2026-11-24T23:21:08",
+   "mtime_epoch": 1795533668.9004872,
+   "bytes": 5373
   },
   {
    "path": "results/quant_block_board.json",
-   "mtime": "2026-11-24T10:22:15",
-   "mtime_epoch": 1795486935.4862485,
-   "bytes": 9863
+   "mtime": "2026-11-24T23:21:08",
+   "mtime_epoch": 1795533668.8994865,
+   "bytes": 10783
   },
   {
-   "path": "research/BENCH-STATUS.md",
-   "mtime": "2026-11-24T10:22:14",
-   "mtime_epoch": 1795486934.7876499,
-   "bytes": 3324
+   "path": "results/_attrition_guard_scan.json",
+   "mtime": "2026-11-24T23:18:26",
+   "mtime_epoch": 1795533506.4801996,
+   "bytes": 2154
   },
   {
-   "path": "results/bench/HUB-STATE.json",
-   "mtime": "2026-11-24T10:22:14",
-   "mtime_epoch": 1795486934.7866406,
-   "bytes": 121
+   "path": "research/INGEST/LANES-DASHENG.json",
+   "mtime": "2026-11-24T23:16:18",
+   "mtime_epoch": 1795533378.7116704,
+   "bytes": 8408
   },
   {
-   "path": "results/bench/LEDGER.jsonl",
-   "mtime": "2026-11-24T10:22:14",
-   "mtime_epoch": 1795486934.7866406,
-   "bytes": 2723
-  },
-  {
-   "path": "research/BENCH-QUEUE.json",
-   "mtime": "2026-11-24T10:22:14",
-   "mtime_epoch": 1795486934.7845776,
-   "bytes": 12521
-  },
-  {
-   "path": "research/BENCH-POWER.md",
-   "mtime": "2026-11-24T10:22:14",
-   "mtime_epoch": 1795486934.7585454,
-   "bytes": 2152
-  },
-  {
-   "path": "results/bench_power.json",
-   "mtime": "2026-11-24T10:22:14",
-   "mtime_epoch": 1795486934.7565465,
-   "bytes": 5168
-  },
-  {
-   "path": "results/arbiter/LEASES.json",
-   "mtime": "2026-11-24T10:22:14",
-   "mtime_epoch": 1795486934.6343164,
-   "bytes": 63
-  },
-  {
-   "path": "results/bench_revalidate.json",
-   "mtime": "2026-11-24T10:22:14",
-   "mtime_epoch": 1795486934.6168065,
-   "bytes": 4497
-  },
-  {
-   "path": "results/idx_fut_basis.json",
-   "mtime": "2026-11-24T10:22:14",
-   "mtime_epoch": 1795486934.5737655,
-   "bytes": 9575
-  },
-  {
-   "path": "results/arbiter/LEDGER.jsonl",
-   "mtime": "2026-11-24T10:21:14",
-   "mtime_epoch": 1795486874.1830974,
-   "bytes": 3007
-  },
-  {
-   "path": "scripts/cb_parking_shelf_at_size.py",
-   "mtime": "2026-11-24T10:21:14",
-   "mtime_epoch": 1795486874.0263186,
-   "bytes": 42915
-  },
-  {
-   "path": "results/_r2041bmc_shelf_negative.py",
-   "mtime": "2026-11-24T10:18:52",
-   "mtime_epoch": 1795486732.947915,
-   "bytes": 3768
+   "path": "research/INGEST/LANES-DASHENG.md",
+   "mtime": "2026-11-24T23:16:18",
+   "mtime_epoch": 1795533378.710674,
+   "bytes": 8782
   }
  ],
- "recent_write_count": 27,
+ "recent_write_count": 12,
  "advisory": "Probe only: it never blocks, kills or defers production. A round that reads CONTENTION must land new files only, never re-derive shared faces or re-run the chain (r1907)."
 }
