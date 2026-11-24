@@ -1,72 +1,112 @@
 {
  "schema": "repo-write-contention/v1",
  "machine_id": "bm-c",
- "probed_at": "2026-11-24T08:46:51",
+ "probed_at": "2026-11-24T10:51:30",
  "lookback_min": 45.0,
  "verdict": "CONTENTION",
- "why": "2 hosts alive; 24 shared face(s) written before this round started (strictly another host), 0 written inside the overlap (unattributable)",
+ "why": "3 hosts alive; 25 shared face(s) written before this round started (strictly another host), 2 written inside the overlap (unattributable)",
  "hosts": [
   {
    "pid": 51252,
    "kind": "interactive",
    "started_epoch": 1795349445.503183,
    "started": "2026-11-22T20:10:45",
-   "age_min": 2196.1,
+   "age_min": 2320.8,
    "exempt_from_cloud_cap": true,
    "cmd_head": "K:\\tuanjieAI\\Tuanjie Cowork\\cli\\bin\\win32-x64\\codely.exe --experimental-acp --experimental-skills --path-polic"
   },
   {
-   "pid": 67380,
+   "pid": 68052,
+   "kind": "interactive",
+   "started_epoch": 1795484599.2364314,
+   "started": "2026-11-24T09:43:19",
+   "age_min": 68.2,
+   "exempt_from_cloud_cap": true,
+   "cmd_head": "K:\\tuanjieAI\\Tuanjie Cowork\\cli\\bin\\win32-x64\\codely.exe --experimental-acp --experimental-skills --path-polic"
+  },
+  {
+   "pid": 74228,
    "kind": "other",
-   "started_epoch": 1795481103.5207777,
-   "started": "2026-11-24T08:45:03",
-   "age_min": 1.8,
+   "started_epoch": 1795488602.7328267,
+   "started": "2026-11-24T10:50:02",
+   "age_min": 1.5,
    "exempt_from_cloud_cap": false,
    "cmd_head": "K:\\tuanjieAI\\Tuanjie Cowork\\cli\\bin\\win32-x64\\codely.exe -y -p 无人值守执行 Bigmoney 量化公司 10 分钟自迭代一轮（2026-09-23 CEO "
   }
  ],
- "my_host_pid": 67380,
- "my_host_started": "2026-11-24T08:45:03",
+ "my_host_pid": 74228,
+ "my_host_started": "2026-11-24T10:50:02",
  "host_probe_error": null,
  "overlap_windows": [
   {
    "pair": [
     51252,
-    67380
+    68052
+   ],
+   "kinds": [
+    "interactive",
+    "interactive"
+   ],
+   "from": "2026-11-24T09:43:19",
+   "to": "2026-11-24T10:51:30",
+   "minutes": 68.2,
+   "lo": 1795484599.2364314
+  },
+  {
+   "pair": [
+    51252,
+    74228
    ],
    "kinds": [
     "interactive",
     "other"
    ],
-   "from": "2026-11-24T08:45:03",
-   "to": "2026-11-24T08:46:51",
-   "minutes": 1.8,
-   "lo": 1795481103.5207777
+   "from": "2026-11-24T10:50:02",
+   "to": "2026-11-24T10:51:30",
+   "minutes": 1.5,
+   "lo": 1795488602.7328267
+  },
+  {
+   "pair": [
+    68052,
+    74228
+   ],
+   "kinds": [
+    "interactive",
+    "other"
+   ],
+   "from": "2026-11-24T10:50:02",
+   "to": "2026-11-24T10:51:30",
+   "minutes": 1.5,
+   "lo": 1795488602.7328267
   }
  ],
  "peer_only_writes": [
   "fleet/machines/bm-c.json",
   "fleet/round_reports-bm-c.md",
-  "research/ARBITER-BOARD.md",
-  "research/ASTOCK_VETO_HEDGE_FUNDING.md",
-  "research/ASTOCK_VETO_HEDGE_STABILITY.md",
+  "research/BENCH-POWER.md",
+  "research/BENCH-QUEUE.json",
+  "research/BENCH-STATUS.md",
+  "research/CASH_LEG_SHELF_DECISION.md",
+  "research/CB_PARKING_SHELF_AT_SIZE.md",
   "research/QUANT-BLOCK-BOARD.md",
   "results/_attrition_guard_scan.json",
-  "results/_r2036bmc_append.py",
-  "results/_r2036bmc_closeout.py",
-  "results/_r2036bmc_funding_negative.py",
-  "results/_r2036bmc_hb_fields.json",
-  "results/_r2036bmc_reportfix.py",
-  "results/_r2036bmc_row.txt",
-  "results/_r2036bmc_row2.txt",
-  "results/_r2037bmc_closeout.py",
-  "results/_r2037bmc_hb_fields.json",
-  "results/_r2037bmc_report.py",
-  "results/_r2037bmc_stability_negative.py",
-  "results/arbiter/STATE.json",
-  "results/astock_veto_hedge_funding.json"
+  "results/_r2041bmc_closeout.py",
+  "results/_r2041bmc_shelf_negative.py",
+  "results/_r2042bmc_hb_fields.json",
+  "results/_r2042bmc_shelf_decision_negative.py",
+  "results/arbiter/LEASES.json",
+  "results/arbiter/LEDGER.jsonl",
+  "results/bench/HUB-STATE.json",
+  "results/bench/LEDGER.jsonl",
+  "results/bench_power.json",
+  "results/bench_revalidate.json",
+  "results/cash_leg_shelf_decision.json"
  ],
- "ambiguous_writes": [],
+ "ambiguous_writes": [
+  "research/ARBITER-BOARD.md",
+  "results/arbiter/STATE.json"
+ ],
  "ignored_patterns": [
   "results/saturation_engine/",
   "results/watermark_red.json",
@@ -80,153 +120,171 @@
  "declared_own_patterns": [],
  "declared_own_write_count": 0,
  "declared_own_writes": [],
- "writes_scanned_files": 34504,
+ "writes_scanned_files": 34537,
  "recent_writes": [
   {
-   "path": "fleet/machines/bm-c.json",
-   "mtime": "2026-11-24T08:43:32",
-   "mtime_epoch": 1795481012.7713995,
-   "bytes": 255728
-  },
-  {
-   "path": "fleet/round_reports-bm-c.md",
-   "mtime": "2026-11-24T08:41:58",
-   "mtime_epoch": 1795480918.3892343,
-   "bytes": 434115
-  },
-  {
-   "path": "results/_attrition_guard_scan.json",
-   "mtime": "2026-11-24T08:41:47",
-   "mtime_epoch": 1795480907.384597,
-   "bytes": 2154
-  },
-  {
    "path": "research/ARBITER-BOARD.md",
-   "mtime": "2026-11-24T08:41:42",
-   "mtime_epoch": 1795480902.0746996,
-   "bytes": 1689
+   "mtime": "2026-11-24T10:51:42",
+   "mtime_epoch": 1795488702.6779344,
+   "bytes": 1688
   },
   {
    "path": "results/arbiter/STATE.json",
-   "mtime": "2026-11-24T08:41:42",
-   "mtime_epoch": 1795480902.0604837,
-   "bytes": 1434
+   "mtime": "2026-11-24T10:51:42",
+   "mtime_epoch": 1795488702.6592667,
+   "bytes": 1433
   },
   {
-   "path": "results/_r2037bmc_report.py",
-   "mtime": "2026-11-24T08:38:41",
-   "mtime_epoch": 1795480721.8083978,
-   "bytes": 7751
+   "path": "fleet/machines/bm-c.json",
+   "mtime": "2026-11-24T10:44:54",
+   "mtime_epoch": 1795488294.7766228,
+   "bytes": 256066
   },
   {
-   "path": "results/_r2037bmc_hb_fields.json",
-   "mtime": "2026-11-24T08:37:56",
-   "mtime_epoch": 1795480676.8768132,
-   "bytes": 6500
+   "path": "fleet/round_reports-bm-c.md",
+   "mtime": "2026-11-24T10:44:22",
+   "mtime_epoch": 1795488262.162631,
+   "bytes": 470741
   },
   {
-   "path": "results/_r2037bmc_closeout.py",
-   "mtime": "2026-11-24T08:37:48",
-   "mtime_epoch": 1795480668.5248613,
-   "bytes": 9062
+   "path": "results/_r2042bmc_hb_fields.json",
+   "mtime": "2026-11-24T10:42:20",
+   "mtime_epoch": 1795488140.3581853,
+   "bytes": 316
   },
   {
-   "path": "results/astock_veto_hedge_stability.json",
-   "mtime": "2026-11-24T08:35:39",
-   "mtime_epoch": 1795480539.9956114,
-   "bytes": 22002
+   "path": "results/_attrition_guard_scan.json",
+   "mtime": "2026-11-24T10:41:35",
+   "mtime_epoch": 1795488095.0620706,
+   "bytes": 2154
   },
   {
-   "path": "research/ASTOCK_VETO_HEDGE_STABILITY.md",
-   "mtime": "2026-11-24T08:35:39",
-   "mtime_epoch": 1795480539.9956114,
-   "bytes": 8524
+   "path": "results/cash_leg_shelf_decision.json",
+   "mtime": "2026-11-24T10:40:06",
+   "mtime_epoch": 1795488006.2032363,
+   "bytes": 9053
   },
   {
-   "path": "scripts/astock_veto_hedge_stability.py",
-   "mtime": "2026-11-24T08:35:22",
-   "mtime_epoch": 1795480522.0633457,
-   "bytes": 53761
+   "path": "research/CASH_LEG_SHELF_DECISION.md",
+   "mtime": "2026-11-24T10:40:06",
+   "mtime_epoch": 1795488006.187728,
+   "bytes": 3858
   },
   {
-   "path": "results/_r2037bmc_stability_negative.py",
-   "mtime": "2026-11-24T08:34:56",
-   "mtime_epoch": 1795480496.5713038,
-   "bytes": 6432
+   "path": "scripts/cash_leg_shelf_decision.py",
+   "mtime": "2026-11-24T10:39:14",
+   "mtime_epoch": 1795487954.1832168,
+   "bytes": 40326
   },
   {
-   "path": "results/quant_block_board.json",
-   "mtime": "2026-11-24T08:21:08",
-   "mtime_epoch": 1795479668.2553558,
-   "bytes": 9738
+   "path": "results/_r2042bmc_shelf_decision_negative.py",
+   "mtime": "2026-11-24T10:36:58",
+   "mtime_epoch": 1795487818.0994482,
+   "bytes": 7821
+  },
+  {
+   "path": "results/_r2041bmc_closeout.py",
+   "mtime": "2026-11-24T10:23:27",
+   "mtime_epoch": 1795487007.072523,
+   "bytes": 8709
+  },
+  {
+   "path": "research/CB_PARKING_SHELF_AT_SIZE.md",
+   "mtime": "2026-11-24T10:22:18",
+   "mtime_epoch": 1795486938.1534386,
+   "bytes": 7225
+  },
+  {
+   "path": "results/cb_parking_shelf_at_size.json",
+   "mtime": "2026-11-24T10:22:18",
+   "mtime_epoch": 1795486938.1531088,
+   "bytes": 16502
   },
   {
    "path": "research/QUANT-BLOCK-BOARD.md",
-   "mtime": "2026-11-24T08:21:08",
-   "mtime_epoch": 1795479668.2553558,
-   "bytes": 4121
+   "mtime": "2026-11-24T10:22:15",
+   "mtime_epoch": 1795486935.4872503,
+   "bytes": 4117
   },
   {
-   "path": "results/_r2036bmc_row2.txt",
-   "mtime": "2026-11-24T08:12:42",
-   "mtime_epoch": 1795479162.3534827,
-   "bytes": 1691
+   "path": "results/quant_block_board.json",
+   "mtime": "2026-11-24T10:22:15",
+   "mtime_epoch": 1795486935.4862485,
+   "bytes": 9863
   },
   {
-   "path": "results/_r2036bmc_append.py",
-   "mtime": "2026-11-24T08:12:36",
-   "mtime_epoch": 1795479156.5257423,
-   "bytes": 1220
+   "path": "research/BENCH-STATUS.md",
+   "mtime": "2026-11-24T10:22:14",
+   "mtime_epoch": 1795486934.7876499,
+   "bytes": 3324
   },
   {
-   "path": "results/_r2036bmc_row.txt",
-   "mtime": "2026-11-24T08:11:14",
-   "mtime_epoch": 1795479074.8290265,
-   "bytes": 5575
+   "path": "results/bench/HUB-STATE.json",
+   "mtime": "2026-11-24T10:22:14",
+   "mtime_epoch": 1795486934.7866406,
+   "bytes": 121
   },
   {
-   "path": "results/_r2036bmc_reportfix.py",
-   "mtime": "2026-11-24T08:11:03",
-   "mtime_epoch": 1795479063.7709596,
-   "bytes": 1284
+   "path": "results/bench/LEDGER.jsonl",
+   "mtime": "2026-11-24T10:22:14",
+   "mtime_epoch": 1795486934.7866406,
+   "bytes": 2723
   },
   {
-   "path": "results/_r2036bmc_hb_fields.json",
-   "mtime": "2026-11-24T08:09:50",
-   "mtime_epoch": 1795478990.8916626,
-   "bytes": 1268
+   "path": "research/BENCH-QUEUE.json",
+   "mtime": "2026-11-24T10:22:14",
+   "mtime_epoch": 1795486934.7845776,
+   "bytes": 12521
   },
   {
-   "path": "results/astock_veto_hedge_funding.json",
-   "mtime": "2026-11-24T08:09:49",
-   "mtime_epoch": 1795478989.63881,
-   "bytes": 48178
+   "path": "research/BENCH-POWER.md",
+   "mtime": "2026-11-24T10:22:14",
+   "mtime_epoch": 1795486934.7585454,
+   "bytes": 2152
   },
   {
-   "path": "research/ASTOCK_VETO_HEDGE_FUNDING.md",
-   "mtime": "2026-11-24T08:09:49",
-   "mtime_epoch": 1795478989.63881,
-   "bytes": 8562
+   "path": "results/bench_power.json",
+   "mtime": "2026-11-24T10:22:14",
+   "mtime_epoch": 1795486934.7565465,
+   "bytes": 5168
   },
   {
-   "path": "results/_r2036bmc_closeout.py",
-   "mtime": "2026-11-24T08:09:37",
-   "mtime_epoch": 1795478977.0356686,
-   "bytes": 7600
+   "path": "results/arbiter/LEASES.json",
+   "mtime": "2026-11-24T10:22:14",
+   "mtime_epoch": 1795486934.6343164,
+   "bytes": 63
   },
   {
-   "path": "scripts/astock_veto_hedge_funding.py",
-   "mtime": "2026-11-24T08:09:20",
-   "mtime_epoch": 1795478960.7307563,
-   "bytes": 48464
+   "path": "results/bench_revalidate.json",
+   "mtime": "2026-11-24T10:22:14",
+   "mtime_epoch": 1795486934.6168065,
+   "bytes": 4497
   },
   {
-   "path": "results/_r2036bmc_funding_negative.py",
-   "mtime": "2026-11-24T08:06:12",
-   "mtime_epoch": 1795478772.7419336,
-   "bytes": 8048
+   "path": "results/idx_fut_basis.json",
+   "mtime": "2026-11-24T10:22:14",
+   "mtime_epoch": 1795486934.5737655,
+   "bytes": 9575
+  },
+  {
+   "path": "results/arbiter/LEDGER.jsonl",
+   "mtime": "2026-11-24T10:21:14",
+   "mtime_epoch": 1795486874.1830974,
+   "bytes": 3007
+  },
+  {
+   "path": "scripts/cb_parking_shelf_at_size.py",
+   "mtime": "2026-11-24T10:21:14",
+   "mtime_epoch": 1795486874.0263186,
+   "bytes": 42915
+  },
+  {
+   "path": "results/_r2041bmc_shelf_negative.py",
+   "mtime": "2026-11-24T10:18:52",
+   "mtime_epoch": 1795486732.947915,
+   "bytes": 3768
   }
  ],
- "recent_write_count": 24,
+ "recent_write_count": 27,
  "advisory": "Probe only: it never blocks, kills or defers production. A round that reads CONTENTION must land new files only, never re-derive shared faces or re-run the chain (r1907)."
 }
