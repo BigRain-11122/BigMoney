@@ -1,0 +1,377 @@
+{
+ "schema": "work-bank-supply-truth/v1",
+ "evidence_cutoff": "2026-11-24",
+ "generated": "2026-11-25T06:01:07+08:00",
+ "bank_items": 20,
+ "queue_cells": 31,
+ "counts": {
+  "ANSWERED": 18,
+  "BLOCKED": 2
+ },
+ "supply": {
+  "has_work_to_take": false,
+  "untaken": 0,
+  "in_flight": 0,
+  "answered": 18,
+  "read_as_in_flight_if_naive": 18
+ },
+ "rows": [
+  {
+   "id": "pair_index_60d",
+   "bank_status": "queued",
+   "cell_status": "done",
+   "state": "ANSWERED",
+   "verdict": "NO_EDGE",
+   "finished": "2026-11-24T21:24:50+08:00",
+   "result": "results/bench_pair_index_60d.json",
+   "question": "四个股指期货之间做横截面强弱对冲（多最强、空最弱，60日排序），扣费后有没有净收成？"
+  },
+  {
+   "id": "pair_all10_60d",
+   "bank_status": "queued",
+   "cell_status": "done",
+   "state": "ANSWERED",
+   "verdict": "NO_EDGE",
+   "finished": "2026-11-24T21:25:19+08:00",
+   "result": "results/bench_pair_all10_60d.json",
+   "question": "十个品种一起做横截面强弱（多前2、空后2，60日），净后是否为正？"
+  },
+  {
+   "id": "pair_commodity_60d",
+   "bank_status": "queued",
+   "cell_status": "done",
+   "state": "ANSWERED",
+   "verdict": "NO_EDGE",
+   "finished": "2026-11-24T21:25:26+08:00",
+   "result": "results/bench_pair_commodity_60d.json",
+   "question": "商品三品种（金/螺纹/原油）横截面强弱对冲，净后有没有收成？"
+  },
+  {
+   "id": "trend_single_IC_long",
+   "bank_status": "queued",
+   "cell_status": "done",
+   "state": "ANSWERED",
+   "verdict": "NO_EDGE",
+   "finished": "2026-11-24T21:25:34+08:00",
+   "result": "results/bench_trend_single_IC_long.json",
+   "question": "单做中证500期货的均线趋势（只做多、50/200），净后与买入持有比有没有超额？"
+  },
+  {
+   "id": "trend_single_AU_long",
+   "bank_status": "queued",
+   "cell_status": "done",
+   "state": "ANSWERED",
+   "verdict": "NO_EDGE",
+   "finished": "2026-11-24T21:25:43+08:00",
+   "result": "results/bench_trend_single_AU_long.json",
+   "question": "黄金期货单品种均线趋势（只做多），净后是否跑赢买入持有？"
+  },
+  {
+   "id": "trend_single_T_long",
+   "bank_status": "queued",
+   "cell_status": "done",
+   "state": "ANSWERED",
+   "verdict": "NO_EDGE",
+   "finished": "2026-11-24T21:25:51+08:00",
+   "result": "results/bench_trend_single_T_long.json",
+   "question": "十年国债期货单品种趋势（只做多），净后是否跑赢持有？"
+  },
+  {
+   "id": "reversal_index_5d",
+   "bank_status": "queued",
+   "cell_status": "done",
+   "state": "ANSWERED",
+   "verdict": "NO_EDGE",
+   "finished": "2026-11-24T21:25:59+08:00",
+   "result": "results/bench_reversal_index_5d.json",
+   "question": "股指期货五日反转（多跌得多的、空涨得多的），净后有没有收成？"
+  },
+  {
+   "id": "robust_ma_index",
+   "bank_status": "queued",
+   "cell_status": "done",
+   "state": "ANSWERED",
+   "verdict": "UNSTABLE_ACROSS_PARAMS",
+   "finished": "2026-11-24T21:27:02+08:00",
+   "result": "results/bench_robust_ma_index.json",
+   "question": "股指期货趋势的符号在 20/50、50/100、50/200 三组均线下是否稳定？"
+  },
+  {
+   "id": "robust_tsmom_commodity",
+   "bank_status": "queued",
+   "cell_status": "done",
+   "state": "ANSWERED",
+   "verdict": "UNSTABLE_ACROSS_PARAMS",
+   "finished": "2026-11-24T21:27:12+08:00",
+   "result": "results/bench_robust_tsmom_commodity.json",
+   "question": "商品趋势的符号在 60/120/250 日回看下是否稳定？"
+  },
+  {
+   "id": "robust_donchian_index",
+   "bank_status": "queued",
+   "cell_status": "done",
+   "state": "ANSWERED",
+   "verdict": "UNSTABLE_ACROSS_PARAMS",
+   "finished": "2026-11-24T21:27:22+08:00",
+   "result": "results/bench_robust_donchian_index.json",
+   "question": "股指期货唐奇安通道的负结论在三组通道参数下是否稳定（负得稳才叫判死）？"
+  },
+  {
+   "id": "census_index_futures",
+   "bank_status": "queued",
+   "cell_status": "done",
+   "state": "ANSWERED",
+   "verdict": "CENSUS_UNPOWERED",
+   "finished": "2026-11-24T21:29:06+08:00",
+   "result": "results/bench_census_index_futures.json",
+   "question": "四个股指期货上，趋势规则×窗口×多空共 20 种组合的整片地形：有几条是功效够的正边，还是整片噪声？"
+  },
+  {
+   "id": "census_commodity",
+   "bank_status": "queued",
+   "cell_status": "done",
+   "state": "ANSWERED",
+   "verdict": "CENSUS_SIGN_MIXED",
+   "finished": "2026-11-24T21:29:18+08:00",
+   "result": "results/bench_census_commodity.json",
+   "question": "金/螺纹/原油上，趋势规则×窗口×多空 14 种组合的整片地形：有没有稳定正边？"
+  },
+  {
+   "id": "census_bond_futures",
+   "bank_status": "queued",
+   "cell_status": "done",
+   "state": "ANSWERED",
+   "verdict": "CENSUS_LEANS_POSITIVE",
+   "finished": "2026-11-24T21:33:19+08:00",
+   "result": "results/bench_census_bond_futures.json",
+   "question": "国债期货（T/TF/TS）只做多的趋势地形：5 种组合里有没有功效够的正边？"
+  },
+  {
+   "id": "pair_bond_curve_60d",
+   "bank_status": "queued",
+   "cell_status": "done",
+   "state": "ANSWERED",
+   "verdict": "NO_EDGE",
+   "finished": "2026-11-24T21:38:47+08:00",
+   "result": "results/bench_pair_bond_curve_60d.json",
+   "question": "国债期货 T/TF/TS 横截面强弱（60日，多最强空最弱），净后有没有收成？"
+  },
+  {
+   "id": "trend_single_RB_long",
+   "bank_status": "queued",
+   "cell_status": "done",
+   "state": "ANSWERED",
+   "verdict": "NO_EDGE",
+   "finished": "2026-11-24T21:38:47+08:00",
+   "result": "results/bench_trend_single_RB_long.json",
+   "question": "螺纹钢单品种均线趋势（只做多），净后与买入持有比有无超额？"
+  },
+  {
+   "id": "trend_single_SC_long",
+   "bank_status": "queued",
+   "cell_status": "done",
+   "state": "ANSWERED",
+   "verdict": "NO_EDGE",
+   "finished": "2026-11-24T21:38:47+08:00",
+   "result": "results/bench_trend_single_SC_long.json",
+   "question": "原油期货单品种均线趋势（只做多），净后是否有超额？"
+  },
+  {
+   "id": "reversal_commodity_5d",
+   "bank_status": "queued",
+   "cell_status": "done",
+   "state": "ANSWERED",
+   "verdict": "NO_EDGE",
+   "finished": "2026-11-24T21:38:47+08:00",
+   "result": "results/bench_reversal_commodity_5d.json",
+   "question": "商品三品种五日反转（多跌空涨），净后有无收成？"
+  },
+  {
+   "id": "paper_basis_timing",
+   "bank_status": "queued",
+   "cell_status": "done",
+   "state": "ANSWERED",
+   "verdict": "TRACKING",
+   "finished": "2026-11-24T21:43:53+08:00",
+   "result": "results/paper_basis_timing/STATE.json",
+   "question": "唯一过判的基差定仓位线，每天按冻结规则记一次仓与盈亏：累计 carry 是否持续为正？"
+  },
+  {
+   "id": "options_vol_premium",
+   "bank_status": "blocked",
+   "cell_status": null,
+   "state": "BLOCKED",
+   "verdict": null,
+   "finished": null,
+   "result": null,
+   "question": "期权隐含波动率溢价（卖波动）能不能收？"
+  },
+  {
+   "id": "minute_intraday_reversal",
+   "bank_status": "blocked",
+   "cell_status": null,
+   "state": "BLOCKED",
+   "verdict": null,
+   "finished": null,
+   "result": null,
+   "question": "分钟级日内反转（A股/ETF）是否有收成？"
+  }
+ ],
+ "off_bank": [
+  {
+   "id": "fut_trend",
+   "cell_status": "done",
+   "verdict": {
+    "tsmom": "NO_EDGE",
+    "ma_cross": "NO_EDGE_REPACKAGES_BETA",
+    "donchian": "NO_EDGE",
+    "reversal": "NO_EDGE",
+    "xs_mom": "NO_EDGE"
+   },
+   "finished": "2026-11-22T23:10:08+08:00",
+   "result": "results/bench_fut_trend.json"
+  },
+  {
+   "id": "bond_curve",
+   "cell_status": "done",
+   "verdict": {
+    "T-TF:zrev": "NO_EDGE",
+    "T-TF:trend": "NO_EDGE",
+    "T-TS:zrev": "NO_EDGE",
+    "T-TS:trend": "NO_EDGE",
+    "TF-TS:zrev": "NO_EDGE",
+    "TF-TS:trend": "NO_EDGE"
+   },
+   "finished": "2026-11-22T23:10:26+08:00",
+   "result": "results/bench_bond_curve.json"
+  },
+  {
+   "id": "astock_lowvol",
+   "cell_status": "done",
+   "verdict": {
+    "verdict": "NO_EDGE",
+    "H5_excess_ge_2pp": false,
+    "ann_pct": 6.12,
+    "excess_pp": 0.93,
+    "excess_t": 0.45
+   },
+   "finished": null,
+   "result": "results/bench_astock_lowvol.json"
+  },
+  {
+   "id": "bond_defensive",
+   "cell_status": "done",
+   "verdict": "NO_EDGE",
+   "finished": "2026-11-22T23:10:28+08:00",
+   "result": "results/bench_bond_defensive.json"
+  },
+  {
+   "id": "revalidate",
+   "cell_status": "done",
+   "verdict": "ALL_HOLD",
+   "finished": "2026-11-24T10:22:14+08:00",
+   "result": "results/bench_revalidate.json"
+  },
+  {
+   "id": "idx_fut_basis_reuse",
+   "cell_status": "done",
+   "verdict": {
+    "kind": "reuse",
+    "IC_net_carry_pp": 4.15,
+    "IM_net_carry_pp": 5.89,
+    "IF_net_carry_pp": 0.74,
+    "IH_net_carry_pp": 1.74,
+    "booked": "IC/IF/IM admitted at default cost (idx_fut_real_nav: booked)"
+   },
+   "finished": null,
+   "result": "results/idx_fut_basis.json"
+  },
+  {
+   "id": "cb_dual_low_reuse",
+   "cell_status": "done",
+   "verdict": {
+    "verdict": "NO_EDGE",
+    "ann_pct": 7.64,
+    "vs_equal_weight_pp": 0.83
+   },
+   "finished": null,
+   "result": "results/cb_dual_low.json"
+  },
+  {
+   "id": "astock_resid_industry_reuse",
+   "cell_status": "done",
+   "verdict": {
+    "verdict": "ONE_YEAR_STORY",
+    "ann_pct": 3.76,
+    "ex_best_year_pct": 0.14
+   },
+   "finished": null,
+   "result": "results/astock_rankind_stability.json"
+  },
+  {
+   "id": "basis_capacity",
+   "cell_status": "done",
+   "verdict": {
+    "verdict": "CAPACITY_OK_AND_SIZED",
+    "IC_multiple": 1754.5,
+    "IM_multiple": 2577.5,
+    "total_multiple": 4332.0,
+    "annual_cny_if_10m_each_leg": 1003400
+   },
+   "finished": null,
+   "result": "results/bench_basis_capacity.json"
+  },
+  {
+   "id": "basis_timing_size",
+   "cell_status": "done",
+   "verdict": {
+    "verdict": "GO",
+    "IC_weighted": 10.09,
+    "IC_always_on": 2.73,
+    "IM_weighted": 9.3,
+    "IM_always_on": 5.63
+   },
+   "finished": null,
+   "result": "results/bench_basis_timing_size.json"
+  },
+  {
+   "id": "repo_ladder",
+   "cell_status": "done",
+   "verdict": {
+    "GC001": "BASELINE_REFERENCE",
+    "GC003": "NO_EDGE",
+    "GC004": "NO_EDGE",
+    "GC007": "NO_EDGE",
+    "GC014": "NO_EDGE",
+    "GC028": "NO_EDGE",
+    "GC091": "NO_EDGE",
+    "GC182": "NO_EDGE",
+    "R-001": "NO_EDGE",
+    "R-003": "NO_EDGE",
+    "R-007": "NO_EDGE"
+   },
+   "finished": "2026-11-23T09:39:11+08:00",
+   "result": "results/bench_repo_ladder.json"
+  },
+  {
+   "id": "cb_floor",
+   "cell_status": "done",
+   "verdict": "CLOSED_AT_POWER",
+   "finished": "2026-11-23T09:59:42+08:00",
+   "result": "results/bench_cb_floor.json"
+  },
+  {
+   "id": "basis_timing_perm",
+   "cell_status": "done",
+   "verdict": {
+    "verdict": "SIGNIFICANT",
+    "IC_pp": 7.36,
+    "IM_pp": 3.64,
+    "p": 0.0,
+    "draws": 5000
+   },
+   "finished": null,
+   "result": "results/bench_basis_timing_perm.json"
+  }
+ ]
+}
