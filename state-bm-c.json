@@ -2452,5 +2452,5 @@
   "竞争_r2069": "repo_write_contention rc=3 CONTENTION：对端 interactive pid 79608（codely.exe，2026-11-24T22:39 起、age 307.7m）在轮首前写过 15 张共享面、重叠窗内不可归因 0 张 -> 按 r1907 只落新增文件面，未改共享面、未跑 S6 链、未跑全量冒烟",
   "通过_r2069": "orders 117 件 vs 心跳 orders_ack 331（state 面 273）-> 未回执 0；face_divergence 已用 Tools/orders_ack_append.py 补齐（O-20261124-2300-bm-c）后 rc0 CLEAN；origin/main:docs/decisions.md 原生字节 250,586B sha256 79e3083b85c130b8… == 自持水位 -> 零新决策零动作；attrition_ledger_guard CLEAN（4 件·三条历史缩行 healed 照录）",
   "记账_r2069": "轮报告 1 处 + state 1 处 + 心跳 1 处 = 3（无方法论新增：把「容差必须和数据同单位」做成可复核读数属证据与载体；方法论卡锁存待无竞争轮）",
-  "送达自证_r2069": "pending-push"
+  "送达自证_r2069": "commit **f8fa5dfe2d** 已推 origin/machine/bm-c-r2069；fetch 后 rev-list --left-right --count origin/machine/bm-c-r2069...HEAD = 0/0；ls-tree origin 分支五件在位（scripts/lane_lag_unit_guard.py / results/lane_lag_unit_guard.json / research/LANE_LAG_UNIT_GUARD.md / qa/lane-lag-unit-guard-r2069.md / 负控 results/_r2069bmc_lane_lag_negative.py）；本地未达 origin/main commit 数=21"
 }
