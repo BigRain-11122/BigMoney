@@ -15907,6 +15907,19 @@ def _legs_supply_and_book():
         check("product: a face published this week is carried, not just written",
               False, repr(e)[:180])
 
+    # r2081: the cap section printed "over by 0.94pp" and a trim of 19,543 元 with
+    # neither the cap's own band nor the toll of obeying it.  The sentence is rebuilt
+    # here with the producer's own formatter, so a stale page, a hand-written second
+    # sentence or a silently missing trim face all read red.
+    try:
+        _bad98 = cap_price_tag_problems()
+        check("product: the cap's price tag reaches the page that prints the cap",
+              not _bad98, "; ".join(_bad98)[:240]
+              or "page quotes the trim toll sentence built from the artifact")
+    except Exception as e:
+        check("product: the cap's price tag reaches the page that prints the cap",
+              False, repr(e)[:180])
+
 
 def trial_labor_direction_face_problems(face=None, legs=None, results_dir=None):
     """Problems with the reform-gate direction audit face (r1994).
@@ -15973,9 +15986,52 @@ def trial_labor_direction_face_problems(face=None, legs=None, results_dir=None):
     return bad
 
 
+def cap_price_tag_problems(face=None, page=None, results_dir=None):
+    """Problems with the cap's price tag reaching the page that prints the cap (r2081).
+
+    r2073 published both the ruler band today's trim sits inside and the toll of obeying
+    the cap; the CEO one-pager printed neither, so "over by 0.94pp" beside a 19,543 元
+    trim read as a breach verdict.  Kept at module level and driven by the producer's own
+    formatter (`regime_cap_vs_book.trim_toll_sentence`), so this leg cannot pass on a
+    hand-written sentence that happens to look right: mutate the face and the expected
+    text moves with it.
+    """
+    import importlib as _importlib
+    results_dir = results_dir or os.path.join(
+        os.path.dirname(os.path.abspath(__file__)), "results")
+    bad = []
+    if face is None:
+        path = os.path.join(results_dir, "etf_book_cap_trim_toll.json")
+        if not os.path.exists(path):
+            return ["etf_book_cap_trim_toll: face missing"]
+        try:
+            with open(path, encoding="utf-8") as fh:
+                face = json.load(fh)
+        except Exception as e:
+            return ["etf_book_cap_trim_toll: unreadable (%s)" % repr(e)[:60]]
+    try:
+        _rc = _importlib.import_module("scripts.regime_cap_vs_book")
+        want = _rc.trim_toll_sentence(face)
+    except Exception as e:
+        return ["trim_toll_sentence failed (%s)" % repr(e)[:80]]
+    if not want:
+        return ["the face publishes no band/toll pair, so the page has nothing honest "
+                "to print"]
+    if page is None:
+        p = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                         "docs", "live_usage", "LIVE-latest.md")
+        if not os.path.exists(p):
+            return ["docs/live_usage/LIVE-latest.md missing"]
+        with open(p, encoding="utf-8") as fh:
+            page = fh.read()
+    if want not in page:
+        bad.append("the page does not quote the trim toll sentence built from the "
+                   "artifact (page stale or sentence hand-written)")
+    return bad
+
+
 def carried_face_problems(faces=None, legs=None, results_dir=None):
     """Problems with a face being *carried*, not merely written (r2080).
-
     Four faces published between r2073 and r2079 were green the day they landed and had
     neither a chain leg nor a smoke leg: nothing would ever have moved their numbers again
     (r1282 orphan class, r1850's "a guard that only recomputes itself"). Three things are

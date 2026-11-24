@@ -44,6 +44,7 @@ CLOCK_PTR = os.path.join(PATHS.results_dir, "market_clock", "call_latest.json")
 EXPORT_PTR = os.path.join(PATHS.results_dir, "paper_export", "latest.json")
 TICKET_PTR = os.path.join(PATHS.results_dir, "etf_book_order", "latest.json")
 PAPER_GLOB = os.path.join(PATHS.results_dir, "paper", "*_paper.json")
+TRIM_TOLL_PTR = os.path.join(PATHS.results_dir, "etf_book_cap_trim_toll.json")
 
 # Published weights are rounded to 4dp and caps to 2dp; 20bp of slack keeps rounding
 # from being read as a breach while a real 1pp overrun still fires.
@@ -425,7 +426,96 @@ def run():
     return 0
 
 
-def read_published(path=None):
+def _amount(x):
+    """A CNY amount or None -- a missing number is not a zero (r98 lineage)."""
+    try:
+        return None if x is None else float(x)
+    except (TypeError, ValueError):
+        return None
+
+
+def trim_toll_sentence(f):
+    """One sentence: what the cap costs to obey, and whether today's trim is readable.
+
+    r2081.  The cap section of the CEO page printed "over by 0.94pp" and a trim of
+    19,543 元, and nothing beside them said (a) how big the cap's own ruler band is, or
+    (b) what trading to the cap costs.  Both are published in
+    `results/etf_book_cap_trim_toll.json` (r2073); this function only formats them and
+    makes the ONE comparison a reader needs: is today's trim bigger than the band.
+
+    Two branches on purpose: a page that only ever printed the "inside the band" branch
+    would be selling "it is all noise" as a result -- the other branch has to exist.
+    """
+    facts = f.get("facts") or {}
+    path = facts.get("path") or {}
+    toll = facts.get("toll") or {}
+    lot = facts.get("whole_lot") or {}
+    trim = _amount(facts.get("trim_day_now_cny"))
+    band = _amount(facts.get("ruler_band_cny"))
+    band_pp = _amount(facts.get("ruler_band_pp"))
+    cost = _amount(path.get("toll_if_followed_cny"))
+    nav = _amount(facts.get("nav_cny"))
+    if trim is None or cost is None or not band or band_pp is None:
+        return None
+    rel = ("还不到帽子自己的噪声带 {:,.0f} 元（±{:.1f}pp），按日读数属尺子分辨率以内"
+           if abs(trim) <= band else
+           "已经超过帽子自己的噪声带 {:,.0f} 元（±{:.1f}pp），按日读数也够得着判词")
+    rel = rel.format(band, band_pp)
+    share = ("，净值的 {:.2f}%".format(100.0 * cost / nav)
+             if nav else "")
+    cut = str(f.get("evidence_cutoff") or "")
+    return ("帽子的价目表：沿 β 面 {:,.0f} 个窗里 {:,.0f} 个超帽、累计多拿 {:,.0f} 元，"
+            "严格跟着帽子卖光再买回付 {:,.0f} 元{}；今天这笔要卖 {:,.0f} 元"
+            "（{:,.0f} 手整手·往返 {:,.0f} 元），{}（trim 账截止 {}）").format(
+                _amount(path.get("n_windows")) or 0,
+                _amount(path.get("n_over")) or 0,
+                _amount(path.get("sum_over_cny")) or 0,
+                cost, share,
+                trim,
+                _amount(lot.get("lots_total")) or 0,
+                _amount(toll.get("round_trip_cny")) or 0,
+                rel, cut or "未标注")
+
+
+def read_trim_toll(path=None):
+    """The cap's own price tag, as published, for the page that prints the cap.
+
+    Absent / unreadable reads as absent -- never as "the trim is noise", which is the
+    reading this face exists to keep honest.  Numbers are quoted, never recomputed
+    (r1290 single-implementation rule)."""
+    face = _read_json(TRIM_TOLL_PTR if path is None else path)
+    if not isinstance(face, dict):
+        return {"status": "absent",
+                "detail": "results/etf_book_cap_trim_toll.json 未产出（缺面不读 0）"}
+    sen = trim_toll_sentence(face)
+    if not sen:
+        return {"status": "unreadable",
+                "detail": "trim 账缺 trim/band/path 读数（不编数）"}
+    facts = face.get("facts") or {}
+    path_ = facts.get("path") or {}
+    toll = facts.get("toll") or {}
+    lot = facts.get("whole_lot") or {}
+    trim = _amount(facts.get("trim_day_now_cny"))
+    band = _amount(facts.get("ruler_band_cny"))
+    return {
+        "status": "ok",
+        "source": "results/etf_book_cap_trim_toll.json",
+        "sentence": sen,
+        "evidence_cutoff": face.get("evidence_cutoff"),
+        "generated": face.get("generated"),
+        "verdict_day": facts.get("verdict_day"),
+        "verdict_path": facts.get("verdict_path"),
+        "trim_cny": trim,
+        "band_cny": band,
+        "band_pp": facts.get("ruler_band_pp"),
+        "round_trip_cny": toll.get("round_trip_cny"),
+        "path_toll_cny": path_.get("toll_if_followed_cny"),
+        "lots_total": lot.get("lots_total"),
+        "inside_band": (None if (trim is None or not band) else abs(trim) <= band),
+    }
+
+
+def read_published(path=None, trim_toll_path=None):
     """The verdict as published, for pages that must quote it rather than re-read it.
 
     Single implementation (r1290): the CEO one-pager (sec.2 prints the cap) and the
@@ -460,6 +550,10 @@ def read_published(path=None):
             "multiple_of_cap": widest.get("multiple_of_cap")}),
         "state": clock.get("regime_state"),
         "priced_on": clock.get("regime_asof"),
+        # r2081: the cap's own price tag travels with the verdict, so a page that
+        # prints "over by 0.94pp" cannot omit that the trim it implies is inside the
+        # same face's band and that obeying the cap has a toll.
+        "trim_toll": read_trim_toll(trim_toll_path),
     }
 
 
@@ -706,6 +800,51 @@ def _selftest():
         chk("widest_above is the widest LADDER account over the cap, never an own-rule book",
             rp["widest_above"]["name"] == "WIDE"
             and rp["widest_above"]["deployed_weight"] == 0.60)
+
+    # --- the cap's own price tag travels with the verdict (r2081)
+    with tempfile.TemporaryDirectory() as td:
+        _tt = os.path.join(td, "trim.json")
+        chk("a missing trim face reads absent, never 'the trim is noise'",
+            read_trim_toll(_tt)["status"] == "absent")
+        with open(_tt, "w", encoding="utf-8") as fh:
+            json.dump({"facts": {"trim_day_now_cny": 19543.03}}, fh)
+        chk("a trim face without a band is unreadable, not zero band",
+            read_trim_toll(_tt)["status"] == "unreadable")
+        _base = {"evidence_cutoff": "2026-11-24", "generated": "2026-11-25T07:39:02",
+                 "facts": {"trim_day_now_cny": 19543.03, "ruler_band_cny": 58920.0,
+                           "ruler_band_pp": 5.892, "nav_cny": 1000000.0,
+                           "path": {"n_windows": 69, "n_over": 24,
+                                    "sum_over_cny": 2582212.8,
+                                    "toll_if_followed_cny": 4131.54},
+                           "toll": {"round_trip_cny": 31.27},
+                           "whole_lot": {"lots_total": 144}}}
+        with open(_tt, "w", encoding="utf-8") as fh:
+            json.dump(_base, fh)
+        _r = read_trim_toll(_tt)
+        chk("the sentence quotes the published toll, the lot count and the band",
+            _r["status"] == "ok" and "4,132 元" in _r["sentence"]
+            and "144 手" in _r["sentence"] and "19,543 元" in _r["sentence"]
+            and "58,920 元" in _r["sentence"] and "2026-11-24" in _r["sentence"])
+        chk("a trim smaller than the band reads inside the ruler, and says so",
+            _r["inside_band"] is True and "分辨率以内" in _r["sentence"])
+        _big = json.loads(json.dumps(_base))
+        _big["facts"]["trim_day_now_cny"] = 96420.0
+        with open(_tt, "w", encoding="utf-8") as fh:
+            json.dump(_big, fh)
+        _rb = read_trim_toll(_tt)
+        chk("the same face with a trim bigger than the band flips the branch",
+            _rb["inside_band"] is False and "够得着判词" in _rb["sentence"]
+            and "分辨率以内" not in _rb["sentence"])
+        with open(_tt, "w", encoding="utf-8") as fh:
+            json.dump(_base, fh)
+        _vf = os.path.join(td, "verdict.json")
+        with open(_vf, "w", encoding="utf-8") as fh:
+            json.dump({"sentence": "quoted", "verdict": {"n_compared": 0, "n_above": 0},
+                       "accounts": [], "ladder_cap": 0.20, "clock": {}}, fh)
+        chk("the reader carries the price tag beside the verdict",
+            read_published(_vf, trim_toll_path=_tt)["trim_toll"]["status"] == "ok")
+        chk("an absent verdict face still reads absent (never 'everything inside')",
+            read_published(os.path.join(td, "absent.json"))["status"] == "absent")
 
     print("selftest %d/%d PASS" % (ok, ok))
     return 0

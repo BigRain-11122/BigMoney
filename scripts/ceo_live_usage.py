@@ -2920,6 +2920,15 @@ def render_md(p: dict) -> str:
         if cvb.get("stale"):
             L.append(f"  - 注：该对账面按政体态 asof {cvb.get('priced_on')} 计价，"
                      "与本页当前态不同（如实标注，未外推）")
+        # r2081: the cap's own price tag. r2073 published both the band the trim sits
+        # inside and the toll of obeying the cap; the page printed neither, so a reader
+        # could read "over by 0.94pp" as a breach verdict.
+        _tt = cvb.get("trim_toll") or {}
+        if _tt.get("status") == "ok":
+            L.append(f"  - {_tt['sentence']}")
+        elif _tt:
+            L.append("  - 帽子的价目表：{}".format(
+                _tt.get("detail") or "trim 账未产出（缺面不读 0）"))
     else:
         L.append("- 上限 vs 实际仓位：{}".format(
             cvb.get("detail") or '对账面未产出（缺面不读合规）'))
