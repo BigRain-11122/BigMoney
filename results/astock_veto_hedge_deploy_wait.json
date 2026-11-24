@@ -1,0 +1,136 @@
+{
+ "arms": [
+  {
+   "band_lots": [
+    3456.72,
+    4380.94
+   ],
+   "beta": 0.9013,
+   "carrier_gap_pp": -0.3544,
+   "lots": 3918.83,
+   "name": "deploy_now",
+   "residual_vol_pct": 10.763,
+   "what_it_keeps": "no time unhedged"
+  },
+  {
+   "benefit_ceiling_cny": 1242.2,
+   "benefit_ceiling_pp": 0.1242,
+   "name": "wait_for_half_band",
+   "periods_added": 129.0,
+   "ratio_cost_over_benefit": 1366.55,
+   "residual_vol_pct_at_point": 10.763,
+   "residual_vol_pct_if_perfect": 10.639,
+   "target_band_lots": 462.11,
+   "total_cost_cny": 1697503.9,
+   "total_cost_pp": 169.75,
+   "unhedged_vol_pct": 27.343,
+   "yearly_cost_cny": 165802.7,
+   "yearly_cost_pp": 16.5803,
+   "years": 10.238
+  },
+  {
+   "beta_error": 0.1249,
+   "beta_error_pct_of_point": 13.86,
+   "beta_used": 0.9013,
+   "name": "deploy_and_be_wrong",
+   "one_year_of_wait_pp": 16.5803,
+   "ratio_wait_over_ceiling": 308.16,
+   "residual_vol_at_true_pct": 10.709,
+   "residual_vol_at_used_pct": 10.763,
+   "risk_ceiling_cny": 538.0,
+   "risk_ceiling_pp": 0.0538,
+   "true_beta": 1.0263
+  }
+ ],
+ "content_sha256": "2ceae7567f517492b130a56fcb099b39835fd87db87aac5ea921949a0e0ae2d3",
+ "evidence_cutoff": "2026-11-20",
+ "generated": "2026-11-24T08:57:28+0800",
+ "inputs_ok": true,
+ "kind": "hedge_deploy_wait",
+ "machine": "bm-c",
+ "parents": {
+  "band": {
+   "content_sha256": "2adb4c1a226c280158c2f4e5edbb2b5deecfc07ddaba446c3034adecdebfdc25",
+   "evidence_cutoff": "2026-11-20",
+   "face": "results/astock_veto_hedge_band.json",
+   "file_sha256": "335f0b0ca1b707348daa7964a770330cd16cda8a1c1c677503078a547821541e",
+   "generated": "2026-11-24T05:58:30+08:00"
+  },
+  "beta": {
+   "content_sha256": "ca1f831e88cd05757b74f4b0c9633597130f36b85b3eafd5f9ba21e8d1624ed0",
+   "evidence_cutoff": "2026-11-20",
+   "face": "results/astock_veto_hedgeable_beta.json",
+   "file_sha256": "a3044bd7101c9d36120ef1e7817829baf1bb3d34c97c727fa3657f116f63c518",
+   "generated": "2026-11-24T03:29:09+08:00"
+  },
+  "funding": {
+   "content_sha256": "a46db2c874baa605415e7ba99c47d32a28003cd48d6015e096aedd0cc6fd54f2",
+   "evidence_cutoff": "2026-11-20",
+   "face": "results/astock_veto_hedge_funding.json",
+   "file_sha256": "c0603f49f39fbfd09d2078b94f196cee5ae7809e26d0b8db203fc778d53debe4",
+   "generated": "2026-11-24T08:09:49+08:00"
+  }
+ },
+ "prereg": {
+  "answered_from": "results/astock_veto_hedge_band.json (risk rows, fit, ladder, spec), results/astock_veto_hedge_funding.json (carrier gap), results/astock_veto_hedgeable_beta.json (book vol identity)",
+  "error_model": "the band face's classical OLS standard error is carried as se(n) = se(n0) * sqrt(n0/n); a band that halves therefore needs four times the periods.  The residual volatility of a beta is read from the band face's own published risk rows, never re-derived from the panel",
+  "not_done_here": "no new data, no re-fitting of beta, no re-pricing of the hedge's own edge, no claim that either carrier is worth committing capital to -- the sizing decision is priced, not decided",
+  "question": "the beta family publishes a 924-lot band and then declines to choose between deploying on the point estimate and waiting for a narrower one.  What does the wait cost per year while it is running, and how does that price compare with the residual volatility it removes?",
+  "risk_ceiling_verdicts": [
+   "deploying on a beta that is wrong by the whole held-back shift costs < 1.0pp of annualised residual vol -> THE_BETA_ERROR_IS_CHEAPER_THAN_THE_WAIT_IT_AVOIDS",
+   "it costs >= 1.0pp -> THE_BETA_ERROR_IS_EXPENSIVE"
+  ],
+  "use_rule": "a sizing block that prints a band and then declines to price the wait is handing the reader back the only decision the band was meant to inform",
+  "verdicts": [
+   "wait price / wait benefit >= 1.0 -> WAITING_IS_THE_EXPENSIVE_INSURANCE",
+   "wait price / wait benefit < 1.0 -> WAITING_IS_THE_CHEAPER_INSURANCE",
+   "the band face is missing or unreadable -> CANNOT_PRICE (a missing face is not a zero)"
+  ],
+  "wait_definition": "'wait' means the position is NOT on until the band reaches the target.  The book therefore carries its own annualised volatility during the wait, and the wait's yearly cost is the difference between that and the hedged residual.  A reader who runs a partial hedge while waiting pays less than this face prices -- the face prices the fully-unhedged wait"
+ },
+ "reads": [
+  "deploy_now: the point estimate is on the ticket, nothing is waiting",
+  "wait_for_half_band: the band halves only after four times the periods; every year of it is a year the book is not hedged",
+  "deploy_and_be_wrong: the held-back beta is this family's own printed estimate of how wrong the point estimate can be, so its residual difference is the deployment's risk ceiling"
+ ],
+ "risk_ceiling": {
+  "beta_error": 0.124922,
+  "beta_used": 0.901331,
+  "one_year_of_wait_pp": 16.5803,
+  "ratio_wait_over_ceiling": 308.16,
+  "risk_ceiling_cny": 538.0,
+  "risk_ceiling_pp": 0.0538,
+  "true_beta": 1.026253,
+  "verdict": "THE_BETA_ERROR_IS_CHEAPER_THAN_THE_WAIT_IT_AVOIDS",
+  "verdict_why": "being wrong about the beta by the whole held-back shift costs less than one year of not being hedged"
+ },
+ "risk_ceiling_verdict": "THE_BETA_ERROR_IS_CHEAPER_THAN_THE_WAIT_IT_AVOIDS",
+ "sentence": "现在按 beta=0.9013 部署 3,919 手（90.13% 账本），残差年化波动 10.763%；要等到 95% 带宽减半需再采 129.00 期（10.24 年，按 12.6 期/年），而等待期账本是裸的、每年多扛 16.580pp 波动（每百万 165,803 元），等满 10.24 年共付 169.8pp（1,697,504 元），换来的是残差从 10.763% 降到 10.639%，天花板只有 0.124pp（1,242 元）——等待的价签是它买到保险的 1367 倍。反过来，就算 beta 一直错着（用点估计 0.9013 而真值 1.0263，差 13.86%），残差也只多 0.054pp（538 元），是等一年要付的 16.580pp 的 1/308。",
+ "spec": {
+  "beta_oos": 1.026253,
+  "beta_point": 0.901331,
+  "book_annual_vol": 0.273433,
+  "ci_width_beta": 0.212571,
+  "lens_cny": 1000000.0,
+  "n0_periods": 43.0,
+  "periods_per_year": 12.6,
+  "se_beta": 0.052629,
+  "target_band_shrink": 0.5
+ },
+ "verdict": "WAITING_IS_THE_EXPENSIVE_INSURANCE",
+ "verdict_why": "the wait pays back less risk per year than the exposure it keeps on the book",
+ "wait": {
+  "benefit_ceiling_cny": 1242.2,
+  "benefit_ceiling_pp": 0.1242,
+  "periods_added": 129.0,
+  "ratio_cost_over_benefit": 1366.55,
+  "target_band_lots": 462.11,
+  "total_cost_cny": 1697503.9,
+  "total_cost_pp": 169.75,
+  "verdict": "WAITING_IS_THE_EXPENSIVE_INSURANCE",
+  "verdict_why": "the wait pays back less risk per year than the exposure it keeps on the book",
+  "yearly_cost_cny": 165802.7,
+  "yearly_cost_pp": 16.5803,
+  "years": 10.238
+ }
+}
