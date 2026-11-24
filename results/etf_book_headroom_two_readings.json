@@ -1,0 +1,67 @@
+{
+  "schema": "etf-book-headroom-two-readings/v1",
+  "generated": "2026-11-25T02:29:38+08:00",
+  "machine": "bm-c",
+  "face": "etf_book_headroom_two_readings",
+  "evidence_cutoff": "2026-11-24",
+  "ticket_file": "TICKET-2026-11-24.json",
+  "k_rule_on_ticket": 0.458463,
+  "beta_target": 0.2,
+  "rulers_patch": {
+    "base_bar": "2026-11-20",
+    "k_at_base_bar": 0.458463422,
+    "beta_at_base_bar": 0.436239819,
+    "n_schedule_steps": 78,
+    "panel_last_bar": "2026-11-24",
+    "patch_applied_on_disk": false
+  },
+  "on_disk_permission": {
+    "note": "the face as published today, before the r2063 one-line patch lands",
+    "verdict": "UNREADABLE"
+  },
+  "headroom": {
+    "k_now": 0.435003,
+    "nav_cny": 1000000.0,
+    "path_readings": {
+      "universe": 0.435003,
+      "window": 0.747086,
+      "window_x_universe": 0.667665
+    },
+    "static_readings": {
+      "denominator": 0.343508
+    },
+    "n_paths": 3,
+    "strictest_path": "universe",
+    "loosest_path": "window",
+    "strict_k": 0.435003,
+    "loose_k": 0.747086,
+    "size_tol_pp": 0.5,
+    "strict_pp": 0.5,
+    "loose_pp": 31.7083,
+    "strict_cny": 5000.0,
+    "loose_cny": 317083.0,
+    "printed_permitted_k": 0.435003,
+    "verdict": "KEEP_SUPPORTED_BY_INDEPENDENT_PATH",
+    "keep_allowed": true,
+    "ratio_loose_over_strict": 63.42
+  },
+  "scan": {
+    "flips_at_k": 0.752503,
+    "prev_keep_k": 0.752003,
+    "step": 0.0005,
+    "verdict_after": "REPRICE_REQUIRED"
+  },
+  "judgement": {
+    "verdict": "TWO_READINGS_DIFFER",
+    "printed_floor_reading": "min over path readings (universe)",
+    "verdict_reading": "any path within tolerance (window holds up the size)",
+    "strict_pp": 0.5,
+    "strict_cny": 5000.0,
+    "loose_pp": 31.7083,
+    "loose_cny": 317083.0,
+    "ratio": 63.42,
+    "flip_at_k": 0.752503,
+    "flip_pp_above_now": 31.75,
+    "sentence": "the printed permitting floor sits 0.50pp above the size in force, while the verdict only stops saying KEEP once k passes 0.752503 (31.75pp higher) -- quoting the floor understates how much more this book may buy, quoting the loosest path overstates how much independent evidence stands behind it"
+  }
+}
