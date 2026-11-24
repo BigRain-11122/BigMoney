@@ -353,6 +353,30 @@ def probe_no_raw_subprocess(spec):
     return True, f"{len(spec.get('files', []))} automation script(s) clean"
 
 
+def probe_ingest_diff(spec):
+    """A handover is only verified when the diff is between two DIFFERENT machines.
+
+    A self-diff always says COMPLETE and would be a false green -- the first run
+    of this block proved it (FLUXGROUP vs FLUXGROUP, 0 missing). Green therefore
+    requires: their machine != ours, verdict COMPLETE, and the file is recent.
+    """
+    d = read_json_any(p(spec["path"]))
+    if not d:
+        return False, "no diff file yet -- no handover received"
+    theirs = (d.get("theirs") or {}).get("machine")
+    ours = (d.get("ours") or {}).get("machine")
+    if not theirs or not ours or theirs == ours:
+        return False, f"self-diff ({ours} vs {theirs}) -- not a handover"
+    age = age_h(p(spec["path"]))
+    if age is None or ("max_age_h" in spec and age > float(spec["max_age_h"])):
+        return False, f"diff is {age:.1f}h old" if age else "age unknown"
+    if d.get("verdict") != "COMPLETE":
+        miss = (d.get("repo") or {}).get("missing_here_count")
+        newer = (d.get("repo") or {}).get("newer_there_count")
+        return False, f"GAPS: missing {miss} / newer {newer}"
+    return True, f"{theirs} -> {ours} COMPLETE, {age:.1f}h old"
+
+
 def probe_supply(spec):
     """The line must never run out of *pre-registered* questions.
 
@@ -383,6 +407,7 @@ def read_json_any(path):
 
 PROBES = {
     "dir_fresh": probe_dir_fresh,
+    "ingest_diff": probe_ingest_diff,
     "dir_bar_fresh": probe_dir_bar_fresh,
     "file_fresh": probe_file_fresh,
     "json_exists_keys": probe_json_keys,
