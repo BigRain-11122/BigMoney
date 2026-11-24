@@ -1,0 +1,1047 @@
+{
+ "schema": "cash_shelf_total_return_audit.v1",
+ "artifact": "results/cash_shelf_total_return_audit.json",
+ "generated": "2026-11-24T13:28:24",
+ "evidence_cutoff": "2026-11-20",
+ "window": {
+  "start": "2020-07-16",
+  "end": "2026-11-20"
+ },
+ "question": "The shelf table reads prices.  Which readings are missing the distributions the funds actually paid, and by how much?",
+ "upstream": {
+  "face": "results/cash_shelf_year_by_year.json",
+  "sha256": "eecc3543562891581724e05975276edd3f270641777e299cd8463be7f7d10b0e",
+  "ticket_cash_cny": 565245.9,
+  "budget_sessions": 20.0,
+  "adoption": {
+   "budget_sessions": 20.0,
+   "caliber": "p95",
+   "source": "results/cash_shelf_wait_payback.json :: adoption",
+   "note": "no second budget is declared here; the upstream one is read and printed"
+  }
+ },
+ "calibration": {
+  "explained_tol_bp": 25.0,
+  "why": "chosen before the first run from the 13 on-shelf 511880 events (observed ex-date gap minus the dividend's own size: 0.5 to 10.1bp)"
+ },
+ "panels": {
+  "511380": "aa0b73091cc759960871d4eada3ba7e23fa18b0bed577a9184cfdce86bff584b",
+  "511180": "fb1f0dda8fbb241b29f7d10efa2871c893e83d0e94c8f0169bd46386b7562002",
+  "511880": "0dbf31260be1a266c99d7945093688f754f788e9839e243161e5ff7c58d8e313",
+  "511360": "6019b90eff1a3acb9275b9e894ed96a8ae79b79c129df307b8c670ef7f61ca80",
+  "511010": "6085a9bec67a39a41dd581e6cc9dd5fa320d84b861720102161bf24152e5893e"
+ },
+ "headline": {
+  "ticket_cash_cny": 565245.9,
+  "budget_sessions": 20.0,
+  "price_only_understates": [
+   {
+    "code": "511010",
+    "published_extra_cny": 3241.89,
+    "sourced_extra_cny": 5835.6,
+    "cny_added": 2593.71,
+    "added_pp": 0.4588
+   }
+  ],
+  "published_above_price_only_without_a_distribution": [],
+  "threshold_reader_over_repairs": [
+   {
+    "code": "511380",
+    "resets_detected": 278,
+    "gap_vs_sourced_pp": 48.6045
+   },
+   {
+    "code": "511180",
+    "resets_detected": 165,
+    "gap_vs_sourced_pp": 25.7201
+   },
+   {
+    "code": "511360",
+    "resets_detected": 1,
+    "gap_vs_sourced_pp": 0.1853
+   }
+  ],
+  "year_verdicts_that_move": [
+   {
+    "code": "511010",
+    "year": "2025",
+    "published_extra_pp": -2.2049,
+    "sourced_extra_pp": -0.7156,
+    "shift_pp": 1.4893,
+    "sign_flips": false
+   },
+   {
+    "code": "511010",
+    "year": "2026",
+    "published_extra_pp": 0.0112,
+    "sourced_extra_pp": 1.4321,
+    "shift_pp": 1.4209,
+    "sign_flips": false
+   }
+  ],
+  "no_distributions": [
+   "511380",
+   "511180",
+   "511360"
+  ],
+  "already_counted": [
+   "511880"
+  ],
+  "disk_face_missing_events": [],
+  "verdict_counts": {
+   "DISTRIBUTIONS_ALREADY_COUNTED_BY_THE_MONEY_READER": 1,
+   "NO_DISTRIBUTIONS_PRICE_ONLY_IS_RIGHT": 3,
+   "PRICE_ONLY_UNDERSTATES_EXTRA": 1
+  }
+ },
+ "rows": [
+  {
+   "code": "511380",
+   "label": "cb_etf_sh",
+   "class": "convertible",
+   "window": {
+    "first": "2020-07-17",
+    "last": "2026-11-20",
+    "bars": 1539
+   },
+   "dividend_source": {
+    "disk_source": null,
+    "caliber": "sina_fund_etf_dividend"
+   },
+   "events": [],
+   "events_in_window": 0,
+   "distribution_yield_bp_per_year": 0.0,
+   "distribution_yield_total_bp": 0,
+   "price_only": {
+    "cagr_pct": 1.9665,
+    "bars": 1539,
+    "source": "recomputed from data/daily/sh511380.csv: buy-and-hold, 4.0bp round trip on the entry bar (r2041 convention)"
+   },
+   "published": {
+    "cagr_pct": 1.9665,
+    "repo_cagr_pct": 1.7662,
+    "extra_pp": 0.2002,
+    "extra_cny": 1131.86,
+    "own_net_cagr_pct": 1.973,
+    "gap_to_price_only_pp": 0.0,
+    "is_price_only": true
+   },
+   "sourced": {
+    "cagr_pct": 1.9665,
+    "extra_pp": 0.2003,
+    "extra_cny": 1132.19,
+    "cny_added": 0.33,
+    "added_pp": 0.0
+   },
+   "threshold_reader": {
+    "resets_detected": 278,
+    "threshold_cagr_pct": 50.571,
+    "gap_vs_sourced_pp": 48.6045
+   },
+   "disk_vs_fresh": null,
+   "verdict": [
+    "NO_DISTRIBUTIONS_PRICE_ONLY_IS_RIGHT"
+   ],
+   "years": {
+    "2020": {
+     "bars": 114,
+     "full_year": true,
+     "published_shelf_pct": 0.3979,
+     "distribution_bp": 0.0,
+     "sourced_shelf_pct": 0.3979,
+     "repo_pct": 1.0682,
+     "published_extra_pp": -0.6703,
+     "sourced_extra_pp": -0.6703,
+     "sourced_extra_cny": -3788.84,
+     "shift_pp": 0.0,
+     "material": false,
+     "sign_flips": false
+    },
+    "2021": {
+     "bars": 243,
+     "full_year": true,
+     "published_shelf_pct": 14.6844,
+     "distribution_bp": 0.0,
+     "sourced_shelf_pct": 14.6844,
+     "repo_pct": 2.1196,
+     "published_extra_pp": 12.5648,
+     "sourced_extra_pp": 12.5648,
+     "sourced_extra_cny": 71022.02,
+     "shift_pp": 0.0,
+     "material": false,
+     "sign_flips": false
+    },
+    "2022": {
+     "bars": 242,
+     "full_year": true,
+     "published_shelf_pct": -7.0211,
+     "distribution_bp": 0.0,
+     "sourced_shelf_pct": -7.0211,
+     "repo_pct": 1.7998,
+     "published_extra_pp": -8.8209,
+     "sourced_extra_pp": -8.8209,
+     "sourced_extra_cny": -49859.78,
+     "shift_pp": 0.0,
+     "material": false,
+     "sign_flips": false
+    },
+    "2023": {
+     "bars": 242,
+     "full_year": true,
+     "published_shelf_pct": -0.2736,
+     "distribution_bp": 0.0,
+     "sourced_shelf_pct": -0.2736,
+     "repo_pct": 2.1518,
+     "published_extra_pp": -2.4254,
+     "sourced_extra_pp": -2.4254,
+     "sourced_extra_cny": -13709.47,
+     "shift_pp": 0.0,
+     "material": false,
+     "sign_flips": false
+    },
+    "2024": {
+     "bars": 242,
+     "full_year": true,
+     "published_shelf_pct": 5.8711,
+     "distribution_bp": 0.0,
+     "sourced_shelf_pct": 5.8711,
+     "repo_pct": 1.7283,
+     "published_extra_pp": 4.1428,
+     "sourced_extra_pp": 4.1428,
+     "sourced_extra_cny": 23417.01,
+     "shift_pp": 0.0,
+     "material": false,
+     "sign_flips": false
+    },
+    "2025": {
+     "bars": 243,
+     "full_year": true,
+     "published_shelf_pct": 18.0185,
+     "distribution_bp": 0.0,
+     "sourced_shelf_pct": 18.0185,
+     "repo_pct": 1.4118,
+     "published_extra_pp": 16.6067,
+     "sourced_extra_pp": 16.6067,
+     "sourced_extra_cny": 93868.69,
+     "shift_pp": 0.0,
+     "material": false,
+     "sign_flips": false
+    },
+    "2026": {
+     "bars": 213,
+     "full_year": true,
+     "published_shelf_pct": -15.1797,
+     "distribution_bp": 0.0,
+     "sourced_shelf_pct": -15.1797,
+     "repo_pct": 0.9275,
+     "published_extra_pp": -16.1071,
+     "sourced_extra_pp": -16.1072,
+     "sourced_extra_cny": -91045.29,
+     "shift_pp": -0.0001,
+     "material": false,
+     "sign_flips": false
+    }
+   }
+  },
+  {
+   "code": "511180",
+   "label": "cb_etf_sz",
+   "class": "convertible",
+   "window": {
+    "first": "2020-08-27",
+    "last": "2026-11-20",
+    "bars": 1510
+   },
+   "dividend_source": {
+    "disk_source": null,
+    "caliber": "sina_fund_etf_dividend"
+   },
+   "events": [],
+   "events_in_window": 0,
+   "distribution_yield_bp_per_year": 0.0,
+   "distribution_yield_total_bp": 0,
+   "price_only": {
+    "cagr_pct": 1.3979,
+    "bars": 1510,
+    "source": "recomputed from data/daily/sh511180.csv: buy-and-hold, 4.0bp round trip on the entry bar (r2041 convention)"
+   },
+   "published": {
+    "cagr_pct": 1.3979,
+    "repo_cagr_pct": 1.7662,
+    "extra_pp": -0.3683,
+    "extra_cny": -2081.93,
+    "own_net_cagr_pct": 1.4045,
+    "gap_to_price_only_pp": 0.0,
+    "is_price_only": true
+   },
+   "sourced": {
+    "cagr_pct": 1.3979,
+    "extra_pp": -0.3683,
+    "extra_cny": -2081.8,
+    "cny_added": 0.13,
+    "added_pp": 0.0
+   },
+   "threshold_reader": {
+    "resets_detected": 165,
+    "threshold_cagr_pct": 27.118,
+    "gap_vs_sourced_pp": 25.7201
+   },
+   "disk_vs_fresh": null,
+   "verdict": [
+    "NO_DISTRIBUTIONS_PRICE_ONLY_IS_RIGHT"
+   ],
+   "years": {
+    "2020": {
+     "bars": 85,
+     "full_year": false,
+     "published_shelf_pct": 0.0789,
+     "distribution_bp": 0.0,
+     "sourced_shelf_pct": 0.0789,
+     "repo_pct": 1.0682,
+     "published_extra_pp": -0.9894,
+     "sourced_extra_pp": -0.9893,
+     "sourced_extra_cny": -5591.98,
+     "shift_pp": 0.0001,
+     "material": false,
+     "sign_flips": false
+    },
+    "2021": {
+     "bars": 243,
+     "full_year": true,
+     "published_shelf_pct": 11.2768,
+     "distribution_bp": 0.0,
+     "sourced_shelf_pct": 11.2768,
+     "repo_pct": 2.1196,
+     "published_extra_pp": 9.1573,
+     "sourced_extra_pp": 9.1572,
+     "sourced_extra_cny": 51760.7,
+     "shift_pp": -0.0001,
+     "material": false,
+     "sign_flips": false
+    },
+    "2022": {
+     "bars": 242,
+     "full_year": true,
+     "published_shelf_pct": -8.0786,
+     "distribution_bp": 0.0,
+     "sourced_shelf_pct": -8.0786,
+     "repo_pct": 1.7998,
+     "published_extra_pp": -9.8784,
+     "sourced_extra_pp": -9.8784,
+     "sourced_extra_cny": -55837.25,
+     "shift_pp": 0.0,
+     "material": false,
+     "sign_flips": false
+    },
+    "2023": {
+     "bars": 242,
+     "full_year": true,
+     "published_shelf_pct": 0.8069,
+     "distribution_bp": 0.0,
+     "sourced_shelf_pct": 0.8069,
+     "repo_pct": 2.1518,
+     "published_extra_pp": -1.3449,
+     "sourced_extra_pp": -1.3449,
+     "sourced_extra_cny": -7601.99,
+     "shift_pp": 0.0,
+     "material": false,
+     "sign_flips": false
+    },
+    "2024": {
+     "bars": 242,
+     "full_year": true,
+     "published_shelf_pct": 8.3229,
+     "distribution_bp": 0.0,
+     "sourced_shelf_pct": 8.3229,
+     "repo_pct": 1.7283,
+     "published_extra_pp": 6.5946,
+     "sourced_extra_pp": 6.5946,
+     "sourced_extra_cny": 37275.71,
+     "shift_pp": 0.0,
+     "material": false,
+     "sign_flips": false
+    },
+    "2025": {
+     "bars": 243,
+     "full_year": true,
+     "published_shelf_pct": 13.141,
+     "distribution_bp": 0.0,
+     "sourced_shelf_pct": 13.141,
+     "repo_pct": 1.4118,
+     "published_extra_pp": 11.7293,
+     "sourced_extra_pp": 11.7292,
+     "sourced_extra_cny": 66298.82,
+     "shift_pp": -0.0001,
+     "material": false,
+     "sign_flips": false
+    },
+    "2026": {
+     "bars": 213,
+     "full_year": true,
+     "published_shelf_pct": -13.7866,
+     "distribution_bp": 0.0,
+     "sourced_shelf_pct": -13.7866,
+     "repo_pct": 0.9275,
+     "published_extra_pp": -14.714,
+     "sourced_extra_pp": -14.7141,
+     "sourced_extra_cny": -83170.85,
+     "shift_pp": -0.0001,
+     "material": false,
+     "sign_flips": false
+    }
+   }
+  },
+  {
+   "code": "511880",
+   "label": "money_etf",
+   "class": "money",
+   "window": {
+    "first": "2020-07-16",
+    "last": "2026-11-20",
+    "bars": 1540
+   },
+   "dividend_source": {
+    "disk_source": null,
+    "caliber": "sina_fund_etf_dividend"
+   },
+   "events": [
+    {
+     "ex_date": "2014-01-17",
+     "amount": 3.208,
+     "yield_bp": 309.97,
+     "observed_bp": -310.35,
+     "error_bp": -0.38,
+     "bar": "2014-01-17",
+     "in_window": false,
+     "explained": true
+    },
+    {
+     "ex_date": "2014-12-31",
+     "amount": 4.228,
+     "yield_bp": 404.97,
+     "observed_bp": -393.57,
+     "error_bp": 11.4,
+     "bar": "2014-12-31",
+     "in_window": false,
+     "explained": true
+    },
+    {
+     "ex_date": "2015-12-31",
+     "amount": 3.327,
+     "yield_bp": 321.69,
+     "observed_bp": -318.4,
+     "error_bp": 3.29,
+     "bar": "2015-12-31",
+     "in_window": false,
+     "explained": true
+    },
+    {
+     "ex_date": "2016-12-30",
+     "amount": 2.54,
+     "yield_bp": 247.45,
+     "observed_bp": -235.47,
+     "error_bp": 11.98,
+     "bar": "2016-12-30",
+     "in_window": false,
+     "explained": true
+    },
+    {
+     "ex_date": "2017-12-29",
+     "amount": 3.578,
+     "yield_bp": 345.79,
+     "observed_bp": -322.31,
+     "error_bp": 23.48,
+     "bar": "2017-12-29",
+     "in_window": false,
+     "explained": true
+    },
+    {
+     "ex_date": "2018-12-28",
+     "amount": 3.503,
+     "yield_bp": 338.39,
+     "observed_bp": -329.98,
+     "error_bp": 8.41,
+     "bar": "2018-12-28",
+     "in_window": false,
+     "explained": true
+    },
+    {
+     "ex_date": "2019-12-31",
+     "amount": 2.519,
+     "yield_bp": 245.6,
+     "observed_bp": -240.14,
+     "error_bp": 5.46,
+     "bar": "2019-12-31",
+     "in_window": false,
+     "explained": true
+    },
+    {
+     "ex_date": "2020-12-31",
+     "amount": 2.015,
+     "yield_bp": 197.36,
+     "observed_bp": -192.27,
+     "error_bp": 5.09,
+     "bar": "2020-12-31",
+     "in_window": true,
+     "explained": true
+    },
+    {
+     "ex_date": "2021-12-31",
+     "amount": 2.142,
+     "yield_bp": 209.56,
+     "observed_bp": -204.76,
+     "error_bp": 4.8,
+     "bar": "2021-12-31",
+     "in_window": true,
+     "explained": true
+    },
+    {
+     "ex_date": "2022-12-30",
+     "amount": 1.717,
+     "yield_bp": 168.78,
+     "observed_bp": -155.02,
+     "error_bp": 13.76,
+     "bar": "2022-12-30",
+     "in_window": true,
+     "explained": true
+    },
+    {
+     "ex_date": "2023-12-29",
+     "amount": 1.783,
+     "yield_bp": 175.13,
+     "observed_bp": -169.53,
+     "error_bp": 5.6,
+     "bar": "2023-12-29",
+     "in_window": true,
+     "explained": true
+    },
+    {
+     "ex_date": "2024-12-31",
+     "amount": 1.5521,
+     "yield_bp": 152.75,
+     "observed_bp": -149.59,
+     "error_bp": 3.16,
+     "bar": "2024-12-31",
+     "in_window": true,
+     "explained": true
+    },
+    {
+     "ex_date": "2025-12-31",
+     "amount": 1.1553,
+     "yield_bp": 114.17,
+     "observed_bp": -110.38,
+     "error_bp": 3.79,
+     "bar": "2025-12-31",
+     "in_window": true,
+     "explained": true
+    }
+   ],
+   "events_in_window": 6,
+   "distribution_yield_bp_per_year": 160.37,
+   "distribution_yield_total_bp": 1017.75,
+   "price_only": {
+    "cagr_pct": -0.0544,
+    "bars": 1539,
+    "source": "recomputed from data/daily/sh511880.csv: buy-and-hold, 4.0bp round trip on the entry bar (r2041 convention)"
+   },
+   "published": {
+    "cagr_pct": 1.5197,
+    "repo_cagr_pct": 1.7662,
+    "extra_pp": -0.2466,
+    "extra_cny": -1393.68,
+    "own_net_cagr_pct": 1.5261,
+    "gap_to_price_only_pp": 1.5741,
+    "is_price_only": false
+   },
+   "sourced": {
+    "cagr_pct": 1.5493,
+    "extra_pp": -0.2169,
+    "extra_cny": -1226.02,
+    "cny_added": 167.66,
+    "added_pp": 0.0296
+   },
+   "threshold_reader": {
+    "resets_detected": 13,
+    "threshold_cagr_pct": 1.5261,
+    "gap_vs_sourced_pp": -0.0232
+   },
+   "disk_vs_fresh": null,
+   "verdict": [
+    "DISTRIBUTIONS_ALREADY_COUNTED_BY_THE_MONEY_READER"
+   ],
+   "years": {
+    "2020": {
+     "bars": 115,
+     "full_year": true,
+     "published_shelf_pct": 0.7653,
+     "distribution_bp": 0.0,
+     "sourced_shelf_pct": 0.7653,
+     "repo_pct": 1.0682,
+     "published_extra_pp": -0.3029,
+     "sourced_extra_pp": -0.3029,
+     "sourced_extra_cny": -1712.13,
+     "shift_pp": 0.0,
+     "material": false,
+     "sign_flips": false
+    },
+    "2021": {
+     "bars": 243,
+     "full_year": true,
+     "published_shelf_pct": 2.0782,
+     "distribution_bp": 0.0,
+     "sourced_shelf_pct": 2.0782,
+     "repo_pct": 2.1196,
+     "published_extra_pp": -0.0414,
+     "sourced_extra_pp": -0.0414,
+     "sourced_extra_cny": -234.01,
+     "shift_pp": 0.0,
+     "material": false,
+     "sign_flips": false
+    },
+    "2022": {
+     "bars": 242,
+     "full_year": true,
+     "published_shelf_pct": 1.604,
+     "distribution_bp": 0.0,
+     "sourced_shelf_pct": 1.604,
+     "repo_pct": 1.7998,
+     "published_extra_pp": -0.1958,
+     "sourced_extra_pp": -0.1958,
+     "sourced_extra_cny": -1106.75,
+     "shift_pp": 0.0,
+     "material": false,
+     "sign_flips": false
+    },
+    "2023": {
+     "bars": 242,
+     "full_year": true,
+     "published_shelf_pct": 1.6545,
+     "distribution_bp": 0.0,
+     "sourced_shelf_pct": 1.6545,
+     "repo_pct": 2.1518,
+     "published_extra_pp": -0.4973,
+     "sourced_extra_pp": -0.4973,
+     "sourced_extra_cny": -2810.97,
+     "shift_pp": 0.0,
+     "material": false,
+     "sign_flips": false
+    },
+    "2024": {
+     "bars": 242,
+     "full_year": true,
+     "published_shelf_pct": 1.5287,
+     "distribution_bp": 0.0,
+     "sourced_shelf_pct": 1.5287,
+     "repo_pct": 1.7283,
+     "published_extra_pp": -0.1996,
+     "sourced_extra_pp": -0.1996,
+     "sourced_extra_cny": -1128.23,
+     "shift_pp": 0.0,
+     "material": false,
+     "sign_flips": false
+    },
+    "2025": {
+     "bars": 243,
+     "full_year": true,
+     "published_shelf_pct": 1.098,
+     "distribution_bp": 0.0,
+     "sourced_shelf_pct": 1.098,
+     "repo_pct": 1.4118,
+     "published_extra_pp": -0.3138,
+     "sourced_extra_pp": -0.3138,
+     "sourced_extra_cny": -1773.74,
+     "shift_pp": 0.0,
+     "material": false,
+     "sign_flips": false
+    },
+    "2026": {
+     "bars": 213,
+     "full_year": true,
+     "published_shelf_pct": 0.9153,
+     "distribution_bp": 0.0,
+     "sourced_shelf_pct": 0.9153,
+     "repo_pct": 0.9275,
+     "published_extra_pp": -0.0121,
+     "sourced_extra_pp": -0.0122,
+     "sourced_extra_cny": -68.96,
+     "shift_pp": -0.0001,
+     "material": false,
+     "sign_flips": false
+    }
+   }
+  },
+  {
+   "code": "511360",
+   "label": "short_fin_etf",
+   "class": "money",
+   "window": {
+    "first": "2020-09-25",
+    "last": "2026-11-20",
+    "bars": 1489
+   },
+   "dividend_source": {
+    "disk_source": null,
+    "caliber": "sina_fund_etf_dividend"
+   },
+   "events": [],
+   "events_in_window": 0,
+   "distribution_yield_bp_per_year": 0.0,
+   "distribution_yield_total_bp": 0,
+   "price_only": {
+    "cagr_pct": 2.1328,
+    "bars": 1488,
+    "source": "recomputed from data/daily/sh511360.csv: buy-and-hold, 4.0bp round trip on the entry bar (r2041 convention)"
+   },
+   "published": {
+    "cagr_pct": 2.1438,
+    "repo_cagr_pct": 1.7662,
+    "extra_pp": 0.3776,
+    "extra_cny": 2134.21,
+    "own_net_cagr_pct": 2.3181,
+    "gap_to_price_only_pp": 0.011,
+    "is_price_only": true
+   },
+   "sourced": {
+    "cagr_pct": 2.1328,
+    "extra_pp": 0.3666,
+    "extra_cny": 2072.19,
+    "cny_added": -62.02,
+    "added_pp": -0.011
+   },
+   "threshold_reader": {
+    "resets_detected": 1,
+    "threshold_cagr_pct": 2.3181,
+    "gap_vs_sourced_pp": 0.1853
+   },
+   "disk_vs_fresh": null,
+   "verdict": [
+    "NO_DISTRIBUTIONS_PRICE_ONLY_IS_RIGHT"
+   ],
+   "years": {
+    "2020": {
+     "bars": 64,
+     "full_year": false,
+     "published_shelf_pct": 0.8367,
+     "distribution_bp": 0.0,
+     "sourced_shelf_pct": 0.8367,
+     "repo_pct": 1.0682,
+     "published_extra_pp": -0.2315,
+     "sourced_extra_pp": -0.2315,
+     "sourced_extra_cny": -1308.54,
+     "shift_pp": 0.0,
+     "material": false,
+     "sign_flips": false
+    },
+    "2021": {
+     "bars": 243,
+     "full_year": true,
+     "published_shelf_pct": 2.8001,
+     "distribution_bp": 0.0,
+     "sourced_shelf_pct": 2.8001,
+     "repo_pct": 2.1196,
+     "published_extra_pp": 0.6805,
+     "sourced_extra_pp": 0.6805,
+     "sourced_extra_cny": 3846.5,
+     "shift_pp": 0.0,
+     "material": false,
+     "sign_flips": false
+    },
+    "2022": {
+     "bars": 242,
+     "full_year": true,
+     "published_shelf_pct": 2.1408,
+     "distribution_bp": 0.0,
+     "sourced_shelf_pct": 2.1408,
+     "repo_pct": 1.7998,
+     "published_extra_pp": 0.341,
+     "sourced_extra_pp": 0.341,
+     "sourced_extra_cny": 1927.49,
+     "shift_pp": 0.0,
+     "material": false,
+     "sign_flips": false
+    },
+    "2023": {
+     "bars": 242,
+     "full_year": true,
+     "published_shelf_pct": 2.4392,
+     "distribution_bp": 0.0,
+     "sourced_shelf_pct": 2.4392,
+     "repo_pct": 2.1518,
+     "published_extra_pp": 0.2874,
+     "sourced_extra_pp": 0.2874,
+     "sourced_extra_cny": 1624.52,
+     "shift_pp": 0.0,
+     "material": false,
+     "sign_flips": false
+    },
+    "2024": {
+     "bars": 242,
+     "full_year": true,
+     "published_shelf_pct": 2.242,
+     "distribution_bp": 0.0,
+     "sourced_shelf_pct": 2.242,
+     "repo_pct": 1.7283,
+     "published_extra_pp": 0.5137,
+     "sourced_extra_pp": 0.5137,
+     "sourced_extra_cny": 2903.67,
+     "shift_pp": 0.0,
+     "material": false,
+     "sign_flips": false
+    },
+    "2025": {
+     "bars": 243,
+     "full_year": true,
+     "published_shelf_pct": 1.5278,
+     "distribution_bp": 0.0,
+     "sourced_shelf_pct": 1.5278,
+     "repo_pct": 1.4118,
+     "published_extra_pp": 0.1161,
+     "sourced_extra_pp": 0.116,
+     "sourced_extra_cny": 655.69,
+     "shift_pp": -0.0001,
+     "material": false,
+     "sign_flips": false
+    },
+    "2026": {
+     "bars": 213,
+     "full_year": true,
+     "published_shelf_pct": 1.2,
+     "distribution_bp": 0.0,
+     "sourced_shelf_pct": 1.2,
+     "repo_pct": 0.9275,
+     "published_extra_pp": 0.2725,
+     "sourced_extra_pp": 0.2725,
+     "sourced_extra_cny": 1540.3,
+     "shift_pp": 0.0,
+     "material": false,
+     "sign_flips": false
+    }
+   }
+  },
+  {
+   "code": "511010",
+   "label": "bond_etf",
+   "class": "bond",
+   "window": {
+    "first": "2020-07-17",
+    "last": "2026-11-20",
+    "bars": 1539
+   },
+   "dividend_source": {
+    "disk_source": "data/fund_premium/dividends/511010.csv",
+    "caliber": "sina_fund_etf_dividend"
+   },
+   "events": [
+    {
+     "ex_date": "2013-06-03",
+     "amount": 0.28,
+     "yield_bp": 27.86,
+     "observed_bp": -29.25,
+     "error_bp": -1.39,
+     "bar": "2013-06-03",
+     "in_window": false,
+     "explained": true
+    },
+    {
+     "ex_date": "2015-10-09",
+     "amount": 1.0,
+     "yield_bp": 92.1,
+     "observed_bp": -66.22,
+     "error_bp": 25.88,
+     "bar": "2015-10-09",
+     "in_window": false,
+     "explained": false
+    },
+    {
+     "ex_date": "2025-09-23",
+     "amount": 1.45,
+     "yield_bp": 102.48,
+     "observed_bp": -111.31,
+     "error_bp": -8.83,
+     "bar": "2025-09-23",
+     "in_window": true,
+     "explained": true
+    },
+    {
+     "ex_date": "2025-12-26",
+     "amount": 0.6542,
+     "yield_bp": 46.45,
+     "observed_bp": -39.9,
+     "error_bp": 6.55,
+     "bar": "2025-12-26",
+     "in_window": true,
+     "explained": true
+    },
+    {
+     "ex_date": "2026-03-25",
+     "amount": 0.5715,
+     "yield_bp": 40.6,
+     "observed_bp": -37.44,
+     "error_bp": 3.16,
+     "bar": "2026-03-25",
+     "in_window": true,
+     "explained": true
+    },
+    {
+     "ex_date": "2026-06-25",
+     "amount": 0.8144,
+     "yield_bp": 57.58,
+     "observed_bp": -56.35,
+     "error_bp": 1.23,
+     "bar": "2026-06-25",
+     "in_window": true,
+     "explained": true
+    },
+    {
+     "ex_date": "2026-09-18",
+     "amount": 0.6204,
+     "yield_bp": 43.92,
+     "observed_bp": -41.06,
+     "error_bp": 2.86,
+     "bar": "2026-09-18",
+     "in_window": true,
+     "explained": true
+    }
+   ],
+   "events_in_window": 5,
+   "distribution_yield_bp_per_year": 45.88,
+   "distribution_yield_total_bp": 291.03,
+   "price_only": {
+    "cagr_pct": 2.3398,
+    "bars": 1539,
+    "source": "recomputed from data/daily/sh511010.csv: buy-and-hold, 4.0bp round trip on the entry bar (r2041 convention)"
+   },
+   "published": {
+    "cagr_pct": 2.3398,
+    "repo_cagr_pct": 1.7662,
+    "extra_pp": 0.5735,
+    "extra_cny": 3241.89,
+    "own_net_cagr_pct": 2.3463,
+    "gap_to_price_only_pp": 0.0,
+    "is_price_only": true
+   },
+   "sourced": {
+    "cagr_pct": 2.7986,
+    "extra_pp": 1.0324,
+    "extra_cny": 5835.6,
+    "cny_added": 2593.71,
+    "added_pp": 0.4588
+   },
+   "threshold_reader": {
+    "resets_detected": 24,
+    "threshold_cagr_pct": 2.6767,
+    "gap_vs_sourced_pp": -0.1219
+   },
+   "disk_vs_fresh": {
+    "disk_rows": 7,
+    "fresh_rows": 7,
+    "dates_missing_on_disk": [],
+    "steps_that_over_book": []
+   },
+   "verdict": [
+    "PRICE_ONLY_UNDERSTATES_EXTRA"
+   ],
+   "years": {
+    "2020": {
+     "bars": 114,
+     "full_year": true,
+     "published_shelf_pct": -0.6567,
+     "distribution_bp": 0.0,
+     "sourced_shelf_pct": -0.6567,
+     "repo_pct": 1.0682,
+     "published_extra_pp": -1.7249,
+     "sourced_extra_pp": -1.7249,
+     "sourced_extra_cny": -9749.93,
+     "shift_pp": 0.0,
+     "material": false,
+     "sign_flips": false
+    },
+    "2021": {
+     "bars": 243,
+     "full_year": true,
+     "published_shelf_pct": 4.2593,
+     "distribution_bp": 0.0,
+     "sourced_shelf_pct": 4.2593,
+     "repo_pct": 2.1196,
+     "published_extra_pp": 2.1397,
+     "sourced_extra_pp": 2.1397,
+     "sourced_extra_cny": 12094.57,
+     "shift_pp": 0.0,
+     "material": false,
+     "sign_flips": false
+    },
+    "2022": {
+     "bars": 242,
+     "full_year": true,
+     "published_shelf_pct": 2.0754,
+     "distribution_bp": 0.0,
+     "sourced_shelf_pct": 2.0754,
+     "repo_pct": 1.7998,
+     "published_extra_pp": 0.2757,
+     "sourced_extra_pp": 0.2756,
+     "sourced_extra_cny": 1557.82,
+     "shift_pp": -0.0001,
+     "material": false,
+     "sign_flips": false
+    },
+    "2023": {
+     "bars": 242,
+     "full_year": true,
+     "published_shelf_pct": 3.2989,
+     "distribution_bp": 0.0,
+     "sourced_shelf_pct": 3.2989,
+     "repo_pct": 2.1518,
+     "published_extra_pp": 1.1471,
+     "sourced_extra_pp": 1.1471,
+     "sourced_extra_cny": 6483.94,
+     "shift_pp": 0.0,
+     "material": false,
+     "sign_flips": false
+    },
+    "2024": {
+     "bars": 242,
+     "full_year": true,
+     "published_shelf_pct": 5.8884,
+     "distribution_bp": 0.0,
+     "sourced_shelf_pct": 5.8884,
+     "repo_pct": 1.7283,
+     "published_extra_pp": 4.1601,
+     "sourced_extra_pp": 4.1601,
+     "sourced_extra_cny": 23514.79,
+     "shift_pp": 0.0,
+     "material": false,
+     "sign_flips": false
+    },
+    "2025": {
+     "bars": 243,
+     "full_year": true,
+     "published_shelf_pct": -0.7931,
+     "distribution_bp": 148.93,
+     "sourced_shelf_pct": 0.6962,
+     "repo_pct": 1.4118,
+     "published_extra_pp": -2.2049,
+     "sourced_extra_pp": -0.7156,
+     "sourced_extra_cny": -4044.9,
+     "shift_pp": 1.4893,
+     "material": true,
+     "sign_flips": false
+    },
+    "2026": {
+     "bars": 213,
+     "full_year": true,
+     "published_shelf_pct": 0.9386,
+     "distribution_bp": 142.1,
+     "sourced_shelf_pct": 2.3596,
+     "repo_pct": 0.9275,
+     "published_extra_pp": 0.0112,
+     "sourced_extra_pp": 1.4321,
+     "sourced_extra_cny": 8094.89,
+     "shift_pp": 1.4209,
+     "material": true,
+     "sign_flips": false
+    }
+   }
+  }
+ ],
+ "content_sha256": "3013f7e708b427a271bc51e69b94da2b90fe82ec1dc8d29d1a2d7b6c3c8fe586"
+}

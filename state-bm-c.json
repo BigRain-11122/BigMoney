@@ -89,7 +89,7 @@
   "cpu_total_pct": 10.0,
   "cpu_util_pct": 10.0,
   "cpus": 32,
-  "cur_task": "r1703 carry-on-capital stress ruler",
+  "cur_task": "r2047 total-return audit of the five cash shelves",
   "current": "r2009: the production candidate's order ticket -- 73.5% invested, 26.5% cash, three capital sizes in whole lots",
   "current_task": "r2019: smoothing the residual rank over 2-4 rebalance dates cuts the veto book's churn by 3.5-7.2 pp/period, but the cost it saves is 0.6-1.2 bp while the gross return it gives up is 10.5-13.3 bp -- SMOOTHING_COSTS at K=2/3 (t -3.00/-2.35)",
   "current_task_at": "2026-11-23T21:20:09+08:00",
@@ -246,7 +246,55 @@
     "sha": "278bb79900"
   },
   "last_push_at": "2026-11-11T08:31:06+08:00",
-  "last_round": "r2043 — 现金腿货架的排期价：慢不贵，波动才贵",
+  "last_round": {
+    "round_no": 2047,
+    "date": "2026-11-24",
+    "kind": "new_file_face_contention_window",
+    "artifact_json": "results/cash_shelf_total_return_audit.json",
+    "artifact_doc": "research/CASH_SHELF_TOTAL_RETURN.md",
+    "script": "scripts/cash_shelf_total_return_audit.py",
+    "negative_control": "results/_r2047bmc_totalret_negative.py",
+    "selftest": "22/22 PASS",
+    "check": "rc0",
+    "negative": "10/10 PASS",
+    "reading": {
+      "price_only_understates": [
+        {
+          "code": "511010",
+          "published_extra_cny": 3241.89,
+          "sourced_extra_cny": 5835.6,
+          "cny_added": 2593.71,
+          "added_pp": 0.4588
+        }
+      ],
+      "already_counted": [
+        "511880"
+      ],
+      "no_distributions": [
+        "511380",
+        "511180",
+        "511360"
+      ],
+      "threshold_reader_over_repairs": [
+        {
+          "code": "511380",
+          "resets_detected": 278,
+          "gap_vs_sourced_pp": 48.6045
+        },
+        {
+          "code": "511180",
+          "resets_detected": 165,
+          "gap_vs_sourced_pp": 25.7201
+        },
+        {
+          "code": "511360",
+          "resets_detected": 1,
+          "gap_vs_sourced_pp": 0.1853
+        }
+      ]
+    },
+    "contention": "rc3 CONTENTION: interactive host alive in this tree; new-file faces only, S6 chain and full smoke still deferred"
+  },
   "last_round_at": "2026-11-24T11:14:31+08:00",
   "last_round_at_legacy": "2026-10-19T15:34:21+08:00",
   "last_round_closed": 1941,
@@ -1254,7 +1302,7 @@
   "ram_note": "RAM free 3.2/55.9GB (5.7%) -- ComfyUI pid 12616 started 00:51:38, 39.5GB working set, exemption; the 00:35 idle_trigger 70.8% reading is stale",
   "ram_total_gb": 23.9,
   "recent_artifact": "results/etf_book_gate_knobs.json + research/ETF_BOOK_GATE_KNOBS.md (2026-11-15T22:32, 6-cell grid, window 2020-01-03..2026-11-13)",
-  "round": 2043,
+  "round": 2047,
   "round_1685_next": "next (P0): the second P1 candidate from the same order -- moneyflow/LHB IC reference batch (20 min, lane already claimed and parked on a source-blocked panel). Second: the basis face now needs the two things it explicitly did not do -- roll slippage + margin occupancy, and monthly vs quarterly roll -- before anyone sizes a position on it; and the discount-width timing test (basis percentile vs next 20d carry) is the cheapest way to turn a static premium into a rule.",
   "round_1685_note": "PRODUCT. O-20261114-2325 section 3 P1 named two candidates; the first (index-futures basis) was still PARTIAL because nobody had started it. Started and closed the kill test in one pass. The premium is real and decision-sized: net carry (futures carry minus the ETF that would otherwise be held) is IC +4.16%/yr and IM +6.00%/yr against the frozen 3.0% bar, IF +0.80 and IH +1.74 fail it -- OPEN. The number a reader must not miss is that the discount died in 2021-2024 (IC -3.19%/yr in 2024) and came back in 2025-2026 (IC +11.0/+9.4, IM +14.4/+11.7): the nine-year median blends a dead era with a live one, so both are printed. Data bias handled first: sina's main-continuous series is raw, so a roll is a price step a holder never eats; rolls are detected as a basis step 8x the median step and excluded, the gap reported separately. Index panel fetched and cached (4 indices, 2017-01-17..2026-11-13). One self-exposure: C3 was written as |ETF-index|<=1%/yr assuming a one-for-one tracker; this repo's own panel says the funds accrue +1.77/+0.88/+2.96%/yr of dividends the price index does not, so the ruler was revised to a dividend band plus net-of-drift carry and the original is preserved in verdict.criteria_revision -- read under the original ruler the face goes back to KILL. Selftest 9/9, pushed a3a7d8dace.",
   "round_1686_next": "next (P0): the order named moneyflow/LHB IC reference batch as the second P1 candidate and it stays claimed; the panel was source-blocked, so check the collector self-heal before starting. Second: if the basis line is kept alive, the only untried axis is roll timing (monthly vs quarterly) and the discount-width timing test (basis percentile vs next 20d carry) -- both change the notional percentage, neither changes the dilution that kills the money face at 8% vol.",
@@ -1535,7 +1583,7 @@
   },
   "round_drift_note": "state said round_no=1937 while commit 6a3f33e30e already said round 1938 -> counters healed to 1939",
   "round_label": "r2019",
-  "round_no": 2046,
+  "round_no": 2047,
   "round_no_label": "r2028",
   "round_no_landed": 2028,
   "round_no_note": "r2026：同树两宿主并存（本宿 pid 76120 vs 对端 interactive pid 51252），竞争探针 rc=3，只落新增文件面；轮号按本机轮次序列递增。",
