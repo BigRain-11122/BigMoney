@@ -1,16 +1,16 @@
 {
- "ts": "2026-11-22T23:33:58+08:00",
- "ram_free_gb": 2.22,
- "cpu_load_pct": 52.2,
+ "ts": "2026-11-24T21:39:21+08:00",
+ "ram_free_gb": 6.01,
+ "cpu_load_pct": 68.5,
  "gpu": {
   "available": true,
-  "util_pct": 100,
-  "vram_used_mb": 15379,
+  "util_pct": 77,
+  "vram_used_mb": 3922,
   "vram_total_mb": 16384
  },
  "comfy_8188": {
-  "running": 1,
-  "pending": 0
+  "running": null,
+  "pending": null
  },
  "comfy_8189": {
   "running": 0,
@@ -18,78 +18,53 @@
  },
  "media_jobs": [
   {
-   "pid": 17792,
-   "mb": 29,
-   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe cph4/fleet/mv-album-001-jay/local-i2v/h3_i2v_album.py --repo K:\\Fluxgroup\\FluxGroup --lane b"
+   "pid": 14864,
+   "mb": 213,
+   "cmd": "C:\\Program Files\\PowerShell\\7\\pwsh.exe -NoProfile -Command & 'D:\\ComfyUI\\python_embeded\\python.exe' -u 'K:\\Fluxgroup\\.codely-cli\\tmp\\beauty6_ceopool.py'\n$__code"
   },
   {
-   "pid": 38804,
-   "mb": 150,
-   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe Tools/voicebank/vb_worker.py --voice v06 --bvids-file cph4/fleet/voicebank/discover/jobs_v06"
-  },
-  {
-   "pid": 39292,
-   "mb": 29431,
-   "cmd": "D:\\ComfyUI\\python_embeded\\python.exe -s D:\\ComfyUI\\ComfyUI\\main.py --listen 127.0.0.1 --port 8188 --disable-smart-memory"
-  },
-  {
-   "pid": 41368,
-   "mb": 3658,
-   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe K:\\Fluxgroup\\FluxGroup\\Tools\\voicebank\\vb_build.py --voice v06 --raw K:\\Fluxgroup\\FluxGroup\\"
-  },
-  {
-   "pid": 52840,
-   "mb": 100,
-   "cmd": "C:\\Program Files\\PowerShell\\7\\pwsh.exe -NoProfile -Command Write-Output \"=== 断点续跑版 v6 点火（7 张缓存跳过·剩 16 张续烧+训练）===\"\n& 'D:\\ComfyUI\\python_embeded\\python.exe' -u 'K"
-  },
-  {
-   "pid": 54292,
-   "mb": 3912,
+   "pid": 17700,
+   "mb": 22169,
    "cmd": "D:\\ComfyUI\\python_embeded\\python.exe -s D:\\ComfyUI\\ComfyUI\\main.py --listen 127.0.0.1 --port 8189 --disable-smart-memory"
   },
   {
-   "pid": 55568,
-   "mb": 21,
-   "cmd": "D:\\ComfyUI\\python_embeded\\python.exe -u K:\\Fluxgroup\\.codely-cli\\tmp\\heroine_lora_factory.py ql"
+   "pid": 22612,
+   "mb": 60,
+   "cmd": "D:\\ComfyUI\\python_embeded\\python.exe -u K:\\Fluxgroup\\.codely-cli\\tmp\\beauty6_ceopool.py"
   },
   {
-   "pid": 56928,
-   "mb": 122,
-   "cmd": "C:\\Program Files\\PowerShell\\7\\pwsh.exe -NoProfile -Command cd K:\\Fluxgroup\\FluxGroup; $env:PYTHONIOENCODING='utf-8'; python cph4/fleet/mv-album-001-jay/local-i2"
+   "pid": 32656,
+   "mb": 1812,
+   "cmd": "D:\\ComfyUI\\python_embeded\\python.exe -u wm_v6.py embed K:\\Fluxgroup\\FluxGroup\\media\\mv0001-handover\\deliverable\\爱在西元前-30s-v14-优化版.mp4 K:\\Fluxgroup\\FluxGroup\\med"
   },
   {
-   "pid": 57904,
-   "mb": 15,
-   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe Tools/voicebank/vb_worker.py --voice v04 --bvids-file cph4/fleet/voicebank/discover/jobs_v04"
+   "pid": 47052,
+   "mb": 507,
+   "cmd": "C:\\Program Files\\ffmpeg\\bin\\ffmpeg.exe -y -f rawvideo -pix_fmt bgr24 -s 1344x768 -r 24.000 -i - -i K:\\Fluxgroup\\FluxGroup\\media\\mv0001-handover\\deliverable\\爱在西元"
   },
   {
-   "pid": 58008,
-   "mb": 226,
-   "cmd": "C:\\Program Files\\PowerShell\\7\\pwsh.exe -NoProfile -Command cd K:\\Fluxgroup\\FluxGroup; $env:PYTHONIOENCODING='utf-8'; python Tools/voicebank/vb_worker.py --voice"
+   "pid": 54112,
+   "mb": 97,
+   "cmd": "C:\\Program Files\\PowerShell\\7\\pwsh.exe -NoProfile -Command Start-Sleep -Seconds 900\nGet-Content 'C:\\Users\\Dasheng\\.codely-cli\\tmp\\295da4175b7abcd002c25ad8e42da3"
   },
   {
-   "pid": 58252,
-   "mb": 103,
-   "cmd": "C:\\Program Files\\PowerShell\\7\\pwsh.exe -NoProfile -Command cd K:\\Fluxgroup\\FluxGroup; $env:PYTHONIOENCODING='utf-8'; python Tools/voicebank/vb_worker.py --voice"
-  },
-  {
-   "pid": 58752,
-   "mb": 637,
-   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe K:\\Fluxgroup\\FluxGroup\\Tools\\voicebank\\vb_build.py --voice v04 --raw K:\\Fluxgroup\\FluxGroup\\"
+   "pid": 80572,
+   "mb": 104,
+   "cmd": "C:\\Program Files\\PowerShell\\7\\pwsh.exe -NoProfile -Command $env:HF_ENDPOINT='https://hf-mirror.com'; $env:PYTHONIOENCODING='utf-8'; cd K:\\Fluxgroup\\.codely-cli\\"
   }
  ],
  "quant_jobs": [
   {
-   "pid": 58360,
-   "mb": 52,
+   "pid": 85456,
+   "mb": 57,
    "cmd": "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -NoProfile -ExecutionPolicy Bypass -File K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\Tools\\iteration_loop.ps"
   },
   {
-   "pid": 59232,
-   "mb": 18,
+   "pid": 85896,
+   "mb": 24,
    "cmd": "wscript.exe //B //nologo K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\Tools\\InvisibleRunner.vbs powershell.exe -NoProfile -ExecutionPolicy Bypass -File K:\\Fluxgroup\\Fl"
   }
  ],
- "media_cpu_jobs": 5,
- "media_ram_gb": 37.5
+ "media_cpu_jobs": 4,
+ "media_ram_gb": 24.38
 }

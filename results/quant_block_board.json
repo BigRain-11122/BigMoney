@@ -1,10 +1,10 @@
 {
- "generated": "2026-11-24T21:36:57+08:00",
+ "generated": "2026-11-24T21:39:13+08:00",
  "version": "1.0",
  "target_edge_pp": 5.0,
  "blocks": 24,
- "green": 23,
- "red": 1,
+ "green": 22,
+ "red": 2,
  "groups": {
   "数据": {
    "total": 7,
@@ -28,8 +28,8 @@
   },
   "治理": {
    "total": 7,
-   "green": 7,
-   "red": 0
+   "green": 6,
+   "red": 1
   }
  },
  "queue_pending": 0,
@@ -90,7 +90,7 @@
     "data-quality-checker"
    ],
    "status": "GREEN",
-   "detail": "modal bar 2026-11-24 (60% of 4 sampled dates)",
+   "detail": "modal bar 2026-11-24 (60% of 3 sampled dates)",
    "cadence_h": 24,
    "on_red": "A股格子自动 DATA-BLOCKED",
    "auto_fix": null
@@ -151,7 +151,7 @@
     "gate-rigor"
    ],
    "status": "GREEN",
-   "detail": "keys ok, 0.1h old",
+   "detail": "keys ok, 0.0h old",
    "cadence_h": 24,
    "on_red": "研究线断供",
    "auto_fix": "python scripts/bench_hub.py --selftest"
@@ -166,7 +166,7 @@
     "quant-backtest-gate"
    ],
    "status": "GREEN",
-   "detail": "0.1h old",
+   "detail": "0.2h old",
    "cadence_h": 1,
    "on_red": "执行器死→检查计划任务 Bigmoney-StrategyBench",
    "auto_fix": "python scripts/bench_hub.py --next"
@@ -182,7 +182,7 @@
     "gate-rigor"
    ],
    "status": "GREEN",
-   "detail": "keys ok, 0.1h old",
+   "detail": "keys ok, 0.2h old",
    "cadence_h": 24,
    "on_red": "判决不可信",
    "auto_fix": "python scripts/bench_power.py"
@@ -197,7 +197,7 @@
     "quant-backtest-gate"
    ],
    "status": "GREEN",
-   "detail": "11.2h old",
+   "detail": "11.3h old",
    "cadence_h": 12,
    "on_red": "旧结论可能在漂移而无人知",
    "auto_fix": "python scripts/bench_revalidate.py"
@@ -212,7 +212,7 @@
     "quant-backtest-gate"
    ],
    "status": "GREEN",
-   "detail": "keys ok, 46.5h old",
+   "detail": "keys ok, 46.6h old",
    "cadence_h": 168,
    "on_red": "发布数字不可引用",
    "auto_fix": "python scripts/bench_audit_fut_trend.py"
@@ -227,7 +227,7 @@
     "position-sizer"
    ],
    "status": "GREEN",
-   "detail": "4.2h old",
+   "detail": "4.3h old",
    "cadence_h": 24,
    "on_red": "生产书不可复现",
    "auto_fix": null
@@ -243,7 +243,7 @@
     "quant-backtest-gate"
    ],
    "status": "RED",
-   "detail": "no cost rate printed: pair_index_60d: face in worktree but not in git, pair_all10_60d: face in worktree but not in git, pair_commodity_60d: face in worktree but not in git, trend_single_IC_long: face in worktree but not in git, trend_single_AU_long: face in worktree but not in git, trend_single_T_long: face in worktree but not in git, reversal_index_5d: face in worktree but not in git, robust_ma_index: face in worktree but not in git, robust_tsmom_commodity: face in worktree but not in git, robust_donchian_index: face in worktree but not in git, census_index_futures: face in worktree but not in git, census_commodity: face in worktree but not in git, basis_timing_perm: face in worktree but not in git, census_bond_futures: face in worktree but not in git",
+   "detail": "no cost rate printed: basis_timing_perm, pair_bond_curve_60d: face in worktree but not in git, trend_single_RB_long: face in worktree but not in git, trend_single_SC_long: face in worktree but not in git, reversal_commodity_5d: face in worktree but not in git",
    "cadence_h": 24,
    "on_red": "毛收益冒充净收益",
    "auto_fix": null
@@ -258,7 +258,7 @@
     "position-sizer"
    ],
    "status": "GREEN",
-   "detail": "5.4h old",
+   "detail": "5.5h old",
    "cadence_h": 72,
    "on_red": "不知道能装多少钱",
    "auto_fix": null
@@ -303,7 +303,7 @@
     "cost-ledger"
    ],
    "status": "GREEN",
-   "detail": "0.1h old",
+   "detail": "0.0h old",
    "cadence_h": 24,
    "on_red": "无法复盘",
    "auto_fix": null
@@ -333,7 +333,7 @@
     "signal-postmortem"
    ],
    "status": "GREEN",
-   "detail": "0.1h old",
+   "detail": "0.2h old",
    "cadence_h": 72,
    "on_red": "同一个坑会再踩",
    "auto_fix": "python scripts/bench_power.py"
@@ -393,8 +393,8 @@
     "gate-rigor",
     "quant-backtest-gate"
    ],
-   "status": "GREEN",
-   "detail": "pending=0 · bank_open=4",
+   "status": "RED",
+   "detail": "queue and work bank are both empty -- no pre-registered question left",
    "cadence_h": 1,
    "on_red": "补预注册问题（写进 WORK-BANK，须带判据与目标边际）——这是唯一必须人清的缺口",
    "auto_fix": null

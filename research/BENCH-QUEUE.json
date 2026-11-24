@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-24T21:33:19+08:00",
+ "updated": "2026-11-24T21:38:47+08:00",
  "note": "策略试验场队列。一格=一个能改变下不下注/下多大的问题；判据写在脚本顶部、跑前冻结。status: pending=待跑 / done=有判决 / failed=失败待重试 / blocked=两次失败已停。",
  "cells": [
   {
@@ -633,6 +633,102 @@
    "last_seconds": 5.0,
    "verdict": "CENSUS_LEANS_POSITIVE",
    "finished": "2026-11-24T21:33:19+08:00"
+  },
+  {
+   "id": "pair_bond_curve_60d",
+   "title": "pair_bond_curve_60d",
+   "question": "国债期货 T/TF/TS 横截面强弱（60日，多最强空最弱），净后有没有收成？",
+   "script": "scripts/bench_generic.py",
+   "args": [
+    "--config",
+    "research/cells/pair_bond_curve_60d.json"
+   ],
+   "result": "results/bench_pair_bond_curve_60d.json",
+   "page": "research/BENCH-PAIR_BOND_CURVE_60D.md",
+   "lane": "futures",
+   "max_bar_age_days": 8,
+   "threads": 3,
+   "status": "done",
+   "attempts": 0,
+   "decides": "(a) 曲线内横截面是否可做",
+   "target_edge_pp": 3.0,
+   "runs": 1,
+   "last_run": "2026-11-24T21:38:47+08:00",
+   "last_seconds": 1.0,
+   "verdict": "NO_EDGE",
+   "finished": "2026-11-24T21:38:47+08:00"
+  },
+  {
+   "id": "trend_single_RB_long",
+   "title": "trend_single_RB_long",
+   "question": "螺纹钢单品种均线趋势（只做多），净后与买入持有比有无超额？",
+   "script": "scripts/bench_generic.py",
+   "args": [
+    "--config",
+    "research/cells/trend_single_RB_long.json"
+   ],
+   "result": "results/bench_trend_single_RB_long.json",
+   "page": "research/BENCH-TREND_SINGLE_RB_LONG.md",
+   "lane": "futures",
+   "max_bar_age_days": 8,
+   "threads": 3,
+   "status": "done",
+   "attempts": 0,
+   "decides": "(b) 黑色系要不要择时",
+   "target_edge_pp": 5.0,
+   "runs": 1,
+   "last_run": "2026-11-24T21:38:47+08:00",
+   "last_seconds": 1.1,
+   "verdict": "NO_EDGE",
+   "finished": "2026-11-24T21:38:47+08:00"
+  },
+  {
+   "id": "trend_single_SC_long",
+   "title": "trend_single_SC_long",
+   "question": "原油期货单品种均线趋势（只做多），净后是否有超额？",
+   "script": "scripts/bench_generic.py",
+   "args": [
+    "--config",
+    "research/cells/trend_single_SC_long.json"
+   ],
+   "result": "results/bench_trend_single_SC_long.json",
+   "page": "research/BENCH-TREND_SINGLE_SC_LONG.md",
+   "lane": "futures",
+   "max_bar_age_days": 8,
+   "threads": 3,
+   "status": "done",
+   "attempts": 0,
+   "decides": "(b) 能化要不要择时",
+   "target_edge_pp": 5.0,
+   "runs": 1,
+   "last_run": "2026-11-24T21:38:47+08:00",
+   "last_seconds": 0.9,
+   "verdict": "NO_EDGE",
+   "finished": "2026-11-24T21:38:47+08:00"
+  },
+  {
+   "id": "reversal_commodity_5d",
+   "title": "reversal_commodity_5d",
+   "question": "商品三品种五日反转（多跌空涨），净后有无收成？",
+   "script": "scripts/bench_generic.py",
+   "args": [
+    "--config",
+    "research/cells/reversal_commodity_5d.json"
+   ],
+   "result": "results/bench_reversal_commodity_5d.json",
+   "page": "research/BENCH-REVERSAL_COMMODITY_5D.md",
+   "lane": "futures",
+   "max_bar_age_days": 8,
+   "threads": 3,
+   "status": "done",
+   "attempts": 0,
+   "decides": "(a) 商品短线反转是否真收成",
+   "target_edge_pp": 3.0,
+   "runs": 1,
+   "last_run": "2026-11-24T21:38:47+08:00",
+   "last_seconds": 1.2,
+   "verdict": "NO_EDGE",
+   "finished": "2026-11-24T21:38:47+08:00"
   }
  ]
 }
