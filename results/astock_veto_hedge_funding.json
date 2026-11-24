@@ -1,0 +1,1475 @@
+{
+ "carrier_leg_gap_pp": -0.3544259900186475,
+ "caveats": [
+  "the borrow fee is charged on the notional every period and no fee is credited back; a lender that returns part of it, or a locate that fails, is a separate face",
+  "the collateral is modelled as posted and idle at a declared cash yield; in practice a short-sale proceeds balance is frozen and may earn less than a deposit, so this is the optimistic end of the funding question",
+  "the ETF block uses r2033's haircut ladder (50/80/100% of notional); the futures block uses r2035's walked path at the 12% rung -- 403,938 CNY, not the 108,160 a ratio implies",
+  "both legs are marked off their own panels, so an ETF tracking error and its premium/discount remain inside the gap, as on r2033",
+  "the window is the 52 shared periods (the IM panel starts 2022-07); the ETF leg's longer 77-period record is not used anywhere here, exactly as on the carrier face",
+  "the notional is held constant and nothing is rebalanced after a call; a real account de-levers and this face prices the cost of the block instead",
+  "a funded return is not a portfolio recommendation: it says what the money you must commit earns, not what you should commit"
+ ],
+ "content_sha256": "18b6f1b3a8e5de863d675e7619349fe0ecfff0d46f6114f4b729bbc846f574d7",
+ "evidence_cutoff": "2026-11-20",
+ "fills_the_hole_of": "r2033 priced both carriers gross of the lender and r2035 showed the futures block is 40.4% of the book; nothing in the family charges either cost against the other, so 'IM wins on capital' has never been put on a funded ruler",
+ "funded": {
+  "etf": {
+   "0.00": {
+    "0.0": {
+     "0.50": {
+      "0.02": {
+       "cash_cny": 0.0,
+       "committed_cny": 1000000.0,
+       "stats": {
+        "annual_vol": 0.2844399230385547,
+        "annualized_compound": 0.1102705634689396,
+        "hit_rate": 0.5769230769230769,
+        "max_drawdown": -0.25921225014530425,
+        "per_period_mean": 0.011430784699843875,
+        "periods": 52,
+        "sharpe_excess_0": 0.5063560898183426,
+        "worst_period": -0.1696698118871175
+       }
+      },
+      "0.05": {
+       "cash_cny": 0.0,
+       "committed_cny": 1000000.0,
+       "stats": {
+        "annual_vol": 0.2844399230385547,
+        "annualized_compound": 0.1102705634689396,
+        "hit_rate": 0.5769230769230769,
+        "max_drawdown": -0.25921225014530425,
+        "per_period_mean": 0.011430784699843875,
+        "periods": 52,
+        "sharpe_excess_0": 0.5063560898183426,
+        "worst_period": -0.1696698118871175
+       }
+      },
+      "0.08": {
+       "cash_cny": 0.0,
+       "committed_cny": 1000000.0,
+       "stats": {
+        "annual_vol": 0.2844399230385547,
+        "annualized_compound": 0.1102705634689396,
+        "hit_rate": 0.5769230769230769,
+        "max_drawdown": -0.25921225014530425,
+        "per_period_mean": 0.011430784699843875,
+        "periods": 52,
+        "sharpe_excess_0": 0.5063560898183426,
+        "worst_period": -0.1696698118871175
+       }
+      }
+     },
+     "0.80": {
+      "0.02": {
+       "cash_cny": 0.0,
+       "committed_cny": 1000000.0,
+       "stats": {
+        "annual_vol": 0.2844399230385547,
+        "annualized_compound": 0.1102705634689396,
+        "hit_rate": 0.5769230769230769,
+        "max_drawdown": -0.25921225014530425,
+        "per_period_mean": 0.011430784699843875,
+        "periods": 52,
+        "sharpe_excess_0": 0.5063560898183426,
+        "worst_period": -0.1696698118871175
+       }
+      },
+      "0.05": {
+       "cash_cny": 0.0,
+       "committed_cny": 1000000.0,
+       "stats": {
+        "annual_vol": 0.2844399230385547,
+        "annualized_compound": 0.1102705634689396,
+        "hit_rate": 0.5769230769230769,
+        "max_drawdown": -0.25921225014530425,
+        "per_period_mean": 0.011430784699843875,
+        "periods": 52,
+        "sharpe_excess_0": 0.5063560898183426,
+        "worst_period": -0.1696698118871175
+       }
+      },
+      "0.08": {
+       "cash_cny": 0.0,
+       "committed_cny": 1000000.0,
+       "stats": {
+        "annual_vol": 0.2844399230385547,
+        "annualized_compound": 0.1102705634689396,
+        "hit_rate": 0.5769230769230769,
+        "max_drawdown": -0.25921225014530425,
+        "per_period_mean": 0.011430784699843875,
+        "periods": 52,
+        "sharpe_excess_0": 0.5063560898183426,
+        "worst_period": -0.1696698118871175
+       }
+      }
+     },
+     "1.00": {
+      "0.02": {
+       "cash_cny": 0.0,
+       "committed_cny": 1000000.0,
+       "stats": {
+        "annual_vol": 0.2844399230385547,
+        "annualized_compound": 0.1102705634689396,
+        "hit_rate": 0.5769230769230769,
+        "max_drawdown": -0.25921225014530425,
+        "per_period_mean": 0.011430784699843875,
+        "periods": 52,
+        "sharpe_excess_0": 0.5063560898183426,
+        "worst_period": -0.1696698118871175
+       }
+      },
+      "0.05": {
+       "cash_cny": 0.0,
+       "committed_cny": 1000000.0,
+       "stats": {
+        "annual_vol": 0.2844399230385547,
+        "annualized_compound": 0.1102705634689396,
+        "hit_rate": 0.5769230769230769,
+        "max_drawdown": -0.25921225014530425,
+        "per_period_mean": 0.011430784699843875,
+        "periods": 52,
+        "sharpe_excess_0": 0.5063560898183426,
+        "worst_period": -0.1696698118871175
+       }
+      },
+      "0.08": {
+       "cash_cny": 0.0,
+       "committed_cny": 1000000.0,
+       "stats": {
+        "annual_vol": 0.2844399230385547,
+        "annualized_compound": 0.1102705634689396,
+        "hit_rate": 0.5769230769230769,
+        "max_drawdown": -0.25921225014530425,
+        "per_period_mean": 0.011430784699843875,
+        "periods": 52,
+        "sharpe_excess_0": 0.5063560898183426,
+        "worst_period": -0.1696698118871175
+       }
+      }
+     }
+    },
+    "0.5": {
+     "0.50": {
+      "0.02": {
+       "cash_cny": 225332.8202673148,
+       "committed_cny": 1225332.8202673148,
+       "stats": {
+        "annual_vol": 0.14153958176012757,
+        "annualized_compound": 0.0959935058761916,
+        "hit_rate": 0.5769230769230769,
+        "max_drawdown": -0.12145099523371128,
+        "per_period_mean": 0.008091428677753618,
+        "periods": 52,
+        "sharpe_excess_0": 0.7203073519920208,
+        "worst_period": -0.10337043045323584
+       }
+      },
+      "0.05": {
+       "cash_cny": 225332.8202673148,
+       "committed_cny": 1225332.8202673148,
+       "stats": {
+        "annual_vol": 0.14153958176012757,
+        "annualized_compound": 0.0840392635904863,
+        "hit_rate": 0.5576923076923077,
+        "max_drawdown": -0.1253926303172307,
+        "per_period_mean": 0.007215737263881043,
+        "periods": 52,
+        "sharpe_excess_0": 0.6423523963705345,
+        "worst_period": -0.10424612186710844
+       }
+      },
+      "0.08": {
+       "cash_cny": 225332.8202673148,
+       "committed_cny": 1225332.8202673148,
+       "stats": {
+        "annual_vol": 0.14153958176012757,
+        "annualized_compound": 0.07220514849330817,
+        "hit_rate": 0.5576923076923077,
+        "max_drawdown": -0.1293201073079755,
+        "per_period_mean": 0.006340045850008467,
+        "periods": 52,
+        "sharpe_excess_0": 0.5643974407490484,
+        "worst_period": -0.10512181328098101
+       }
+      }
+     },
+     "0.80": {
+      "0.02": {
+       "cash_cny": 360532.5124277037,
+       "committed_cny": 1360532.5124277037,
+       "stats": {
+        "annual_vol": 0.12747442145878832,
+        "annualized_compound": 0.08704673999024592,
+        "hit_rate": 0.5769230769230769,
+        "max_drawdown": -0.10982382800586277,
+        "per_period_mean": 0.007287362140293226,
+        "periods": 52,
+        "sharpe_excess_0": 0.7203073519920209,
+        "worst_period": -0.09309823905163049
+       }
+      },
+      "0.05": {
+       "cash_cny": 360532.5124277037,
+       "committed_cny": 1360532.5124277037,
+       "stats": {
+        "annual_vol": 0.12747442145878835,
+        "annualized_compound": 0.0763576194090585,
+        "hit_rate": 0.5576923076923077,
+        "max_drawdown": -0.11341176644195572,
+        "per_period_mean": 0.0064986904841269994,
+        "periods": 52,
+        "sharpe_excess_0": 0.6423523963705347,
+        "worst_period": -0.09388691070779674
+       }
+      },
+      "0.08": {
+       "cash_cny": 360532.5124277037,
+       "committed_cny": 1360532.5124277037,
+       "stats": {
+        "annual_vol": 0.12747442145878835,
+        "annualized_compound": 0.06576532993226558,
+        "hit_rate": 0.5576923076923077,
+        "max_drawdown": -0.11698812765530031,
+        "per_period_mean": 0.005710018827960771,
+        "periods": 52,
+        "sharpe_excess_0": 0.5643974407490484,
+        "worst_period": -0.09467558236396297
+       }
+      }
+     },
+     "1.00": {
+      "0.02": {
+       "cash_cny": 450665.6405346296,
+       "committed_cny": 1450665.6405346296,
+       "stats": {
+        "annual_vol": 0.11955414814517568,
+        "annualized_compound": 0.08194574568885304,
+        "hit_rate": 0.5769230769230769,
+        "max_drawdown": -0.1032340555907818,
+        "per_period_mean": 0.006834581894453433,
+        "periods": 52,
+        "sharpe_excess_0": 0.7203073519920209,
+        "worst_period": -0.08731383548370887
+       }
+      },
+      "0.05": {
+       "cash_cny": 450665.6405346296,
+       "committed_cny": 1450665.6405346296,
+       "stats": {
+        "annual_vol": 0.11955414814517568,
+        "annualized_compound": 0.07196204335704848,
+        "hit_rate": 0.5576923076923077,
+        "max_drawdown": -0.10661923228820924,
+        "per_period_mean": 0.006094912187070755,
+        "periods": 52,
+        "sharpe_excess_0": 0.6423523963705348,
+        "worst_period": -0.08805350519109156
+       }
+      },
+      "0.08": {
+       "cash_cny": 450665.6405346296,
+       "committed_cny": 1450665.6405346296,
+       "stats": {
+        "annual_vol": 0.11955414814517568,
+        "annualized_compound": 0.06206320858534409,
+        "hit_rate": 0.5576923076923077,
+        "max_drawdown": -0.10999417940243128,
+        "per_period_mean": 0.005355242479688075,
+        "periods": 52,
+        "sharpe_excess_0": 0.5643974407490484,
+        "worst_period": -0.08879317489847424
+       }
+      }
+     }
+    },
+    "1.0": {
+     "0.50": {
+      "0.02": {
+       "cash_cny": 450665.6405346296,
+       "committed_cny": 1450665.6405346296,
+       "stats": {
+        "annual_vol": 0.07852197065452943,
+        "annualized_compound": 0.07214907387482938,
+        "hit_rate": 0.6346153846153846,
+        "max_drawdown": -0.0990333533114871,
+        "per_period_mean": 0.00578948126217992,
+        "periods": 52,
+        "sharpe_excess_0": 0.929007044721427,
+        "worst_period": -0.057667699526591995
+       }
+      },
+      "0.05": {
+       "cash_cny": 450665.6405346296,
+       "committed_cny": 1450665.6405346296,
+       "stats": {
+        "annual_vol": 0.07852197065452943,
+        "annualized_compound": 0.05243864622654626,
+        "hit_rate": 0.6153846153846154,
+        "max_drawdown": -0.11503889753044072,
+        "per_period_mean": 0.004310141847414561,
+        "periods": 52,
+        "sharpe_excess_0": 0.6916253734430544,
+        "worst_period": -0.059147038941357345
+       }
+      },
+      "0.08": {
+       "cash_cny": 450665.6405346296,
+       "committed_cny": 1450665.6405346296,
+       "stats": {
+        "annual_vol": 0.07852197065452943,
+        "annualized_compound": 0.03306229146265993,
+        "hit_rate": 0.5576923076923077,
+        "max_drawdown": -0.13078342395312192,
+        "per_period_mean": 0.0028308024326492024,
+        "periods": 52,
+        "sharpe_excess_0": 0.45424370216468185,
+        "worst_period": -0.06062637835612271
+       }
+      }
+     },
+     "0.80": {
+      "0.02": {
+       "cash_cny": 721065.0248554074,
+       "committed_cny": 1721065.0248554074,
+       "stats": {
+        "annual_vol": 0.06618525343931396,
+        "annualized_compound": 0.06093810415980161,
+        "hit_rate": 0.6346153846153846,
+        "max_drawdown": -0.0837559389786443,
+        "per_period_mean": 0.004879886246174263,
+        "periods": 52,
+        "sharpe_excess_0": 0.9290070447214269,
+        "worst_period": -0.04860743148210243
+       }
+      },
+      "0.05": {
+       "cash_cny": 721065.0248554074,
+       "committed_cny": 1721065.0248554074,
+       "stats": {
+        "annual_vol": 0.06618525343931396,
+        "annualized_compound": 0.044463643565827216,
+        "hit_rate": 0.6153846153846154,
+        "max_drawdown": -0.09747324471502872,
+        "per_period_mean": 0.0036329683036816444,
+        "periods": 52,
+        "sharpe_excess_0": 0.6916253734430545,
+        "worst_period": -0.049854349424595046
+       }
+      },
+      "0.08": {
+       "cash_cny": 721065.0248554074,
+       "committed_cny": 1721065.0248554074,
+       "stats": {
+        "annual_vol": 0.06618525343931396,
+        "annualized_compound": 0.028224982593704206,
+        "hit_rate": 0.5576923076923077,
+        "max_drawdown": -0.11100206924817468,
+        "per_period_mean": 0.002386050361189025,
+        "periods": 52,
+        "sharpe_excess_0": 0.45424370216468196,
+        "worst_period": -0.051101267367087665
+       }
+      }
+     },
+     "1.00": {
+      "0.02": {
+       "cash_cny": 901331.2810692592,
+       "committed_cny": 1901331.2810692592,
+       "stats": {
+        "annual_vol": 0.05991019344694881,
+        "annualized_compound": 0.055215378884059474,
+        "hit_rate": 0.6346153846153846,
+        "max_drawdown": -0.07594334324774066,
+        "per_period_mean": 0.004417221568479278,
+        "periods": 52,
+        "sharpe_excess_0": 0.9290070447214269,
+        "worst_period": -0.04399893438078601
+       }
+      },
+      "0.05": {
+       "cash_cny": 901331.2810692592,
+       "committed_cny": 1901331.2810692592,
+       "stats": {
+        "annual_vol": 0.05991019344694881,
+        "annualized_compound": 0.04036733265650616,
+        "hit_rate": 0.6153846153846154,
+        "max_drawdown": -0.08846499483059689,
+        "per_period_mean": 0.0032885245964913968,
+        "periods": 52,
+        "sharpe_excess_0": 0.6916253734430544,
+        "worst_period": -0.04512763135277389
+       }
+      },
+      "0.08": {
+       "cash_cny": 901331.2810692592,
+       "committed_cny": 1901331.2810692592,
+       "stats": {
+        "annual_vol": 0.05991019344694881,
+        "annualized_compound": 0.025711843817657565,
+        "hit_rate": 0.5576923076923077,
+        "max_drawdown": -0.1008309362690809,
+        "per_period_mean": 0.002159827624503515,
+        "periods": 52,
+        "sharpe_excess_0": 0.45424370216468185,
+        "worst_period": -0.04625632832476177
+       }
+      }
+     }
+    }
+   },
+   "0.02": {
+    "0.0": {
+     "0.50": {
+      "0.02": {
+       "cash_cny": 0.0,
+       "committed_cny": 1000000.0,
+       "stats": {
+        "annual_vol": 0.2844399230385547,
+        "annualized_compound": 0.1102705634689396,
+        "hit_rate": 0.5769230769230769,
+        "max_drawdown": -0.25921225014530425,
+        "per_period_mean": 0.011430784699843875,
+        "periods": 52,
+        "sharpe_excess_0": 0.5063560898183426,
+        "worst_period": -0.1696698118871175
+       }
+      },
+      "0.05": {
+       "cash_cny": 0.0,
+       "committed_cny": 1000000.0,
+       "stats": {
+        "annual_vol": 0.2844399230385547,
+        "annualized_compound": 0.1102705634689396,
+        "hit_rate": 0.5769230769230769,
+        "max_drawdown": -0.25921225014530425,
+        "per_period_mean": 0.011430784699843875,
+        "periods": 52,
+        "sharpe_excess_0": 0.5063560898183426,
+        "worst_period": -0.1696698118871175
+       }
+      },
+      "0.08": {
+       "cash_cny": 0.0,
+       "committed_cny": 1000000.0,
+       "stats": {
+        "annual_vol": 0.2844399230385547,
+        "annualized_compound": 0.1102705634689396,
+        "hit_rate": 0.5769230769230769,
+        "max_drawdown": -0.25921225014530425,
+        "per_period_mean": 0.011430784699843875,
+        "periods": 52,
+        "sharpe_excess_0": 0.5063560898183426,
+        "worst_period": -0.1696698118871175
+       }
+      }
+     },
+     "0.80": {
+      "0.02": {
+       "cash_cny": 0.0,
+       "committed_cny": 1000000.0,
+       "stats": {
+        "annual_vol": 0.2844399230385547,
+        "annualized_compound": 0.1102705634689396,
+        "hit_rate": 0.5769230769230769,
+        "max_drawdown": -0.25921225014530425,
+        "per_period_mean": 0.011430784699843875,
+        "periods": 52,
+        "sharpe_excess_0": 0.5063560898183426,
+        "worst_period": -0.1696698118871175
+       }
+      },
+      "0.05": {
+       "cash_cny": 0.0,
+       "committed_cny": 1000000.0,
+       "stats": {
+        "annual_vol": 0.2844399230385547,
+        "annualized_compound": 0.1102705634689396,
+        "hit_rate": 0.5769230769230769,
+        "max_drawdown": -0.25921225014530425,
+        "per_period_mean": 0.011430784699843875,
+        "periods": 52,
+        "sharpe_excess_0": 0.5063560898183426,
+        "worst_period": -0.1696698118871175
+       }
+      },
+      "0.08": {
+       "cash_cny": 0.0,
+       "committed_cny": 1000000.0,
+       "stats": {
+        "annual_vol": 0.2844399230385547,
+        "annualized_compound": 0.1102705634689396,
+        "hit_rate": 0.5769230769230769,
+        "max_drawdown": -0.25921225014530425,
+        "per_period_mean": 0.011430784699843875,
+        "periods": 52,
+        "sharpe_excess_0": 0.5063560898183426,
+        "worst_period": -0.1696698118871175
+       }
+      }
+     },
+     "1.00": {
+      "0.02": {
+       "cash_cny": 0.0,
+       "committed_cny": 1000000.0,
+       "stats": {
+        "annual_vol": 0.2844399230385547,
+        "annualized_compound": 0.1102705634689396,
+        "hit_rate": 0.5769230769230769,
+        "max_drawdown": -0.25921225014530425,
+        "per_period_mean": 0.011430784699843875,
+        "periods": 52,
+        "sharpe_excess_0": 0.5063560898183426,
+        "worst_period": -0.1696698118871175
+       }
+      },
+      "0.05": {
+       "cash_cny": 0.0,
+       "committed_cny": 1000000.0,
+       "stats": {
+        "annual_vol": 0.2844399230385547,
+        "annualized_compound": 0.1102705634689396,
+        "hit_rate": 0.5769230769230769,
+        "max_drawdown": -0.25921225014530425,
+        "per_period_mean": 0.011430784699843875,
+        "periods": 52,
+        "sharpe_excess_0": 0.5063560898183426,
+        "worst_period": -0.1696698118871175
+       }
+      },
+      "0.08": {
+       "cash_cny": 0.0,
+       "committed_cny": 1000000.0,
+       "stats": {
+        "annual_vol": 0.2844399230385547,
+        "annualized_compound": 0.1102705634689396,
+        "hit_rate": 0.5769230769230769,
+        "max_drawdown": -0.25921225014530425,
+        "per_period_mean": 0.011430784699843875,
+        "periods": 52,
+        "sharpe_excess_0": 0.5063560898183426,
+        "worst_period": -0.1696698118871175
+       }
+      }
+     }
+    },
+    "0.5": {
+     "0.50": {
+      "0.02": {
+       "cash_cny": 225332.8202673148,
+       "committed_cny": 1225332.8202673148,
+       "stats": {
+        "annual_vol": 0.14153958176012757,
+        "annualized_compound": 0.10000514036447172,
+        "hit_rate": 0.5769230769230769,
+        "max_drawdown": -0.12013396402250487,
+        "per_period_mean": 0.008383325815711145,
+        "periods": 52,
+        "sharpe_excess_0": 0.746292337199183,
+        "worst_period": -0.10307853331527832
+       }
+      },
+      "0.05": {
+       "cash_cny": 225332.8202673148,
+       "committed_cny": 1225332.8202673148,
+       "stats": {
+        "annual_vol": 0.14153958176012757,
+        "annualized_compound": 0.08801060877432532,
+        "hit_rate": 0.5576923076923077,
+        "max_drawdown": -0.12408032696439808,
+        "per_period_mean": 0.007507634401838569,
+        "periods": 52,
+        "sharpe_excess_0": 0.6683373815776967,
+        "worst_period": -0.10395422472915092
+       }
+      },
+      "0.08": {
+       "cash_cny": 225332.8202673148,
+       "committed_cny": 1225332.8202673148,
+       "stats": {
+        "annual_vol": 0.14153958176012757,
+        "annualized_compound": 0.0761365743916067,
+        "hit_rate": 0.5576923076923077,
+        "max_drawdown": -0.12801251907488864,
+        "per_period_mean": 0.006631942987965993,
+        "periods": 52,
+        "sharpe_excess_0": 0.5903824259562105,
+        "worst_period": -0.10482991614302349
+       }
+      }
+     },
+     "0.80": {
+      "0.02": {
+       "cash_cny": 360532.5124277037,
+       "committed_cny": 1360532.5124277037,
+       "stats": {
+        "annual_vol": 0.12747442145878835,
+        "annualized_compound": 0.09278747626237083,
+        "hit_rate": 0.5769230769230769,
+        "max_drawdown": -0.10790551734777099,
+        "per_period_mean": 0.007707987023581881,
+        "periods": 52,
+        "sharpe_excess_0": 0.76188332832348,
+        "worst_period": -0.09267761416834185
+       }
+      },
+      "0.05": {
+       "cash_cny": 360532.5124277037,
+       "committed_cny": 1360532.5124277037,
+       "stats": {
+        "annual_vol": 0.12747442145878835,
+        "annualized_compound": 0.08204638236490114,
+        "hit_rate": 0.5769230769230769,
+        "max_drawdown": -0.11149964178218741,
+        "per_period_mean": 0.006919315367415653,
+        "periods": 52,
+        "sharpe_excess_0": 0.6839283727019939,
+        "worst_period": -0.09346628582450808
+       }
+      },
+      "0.08": {
+       "cash_cny": 360532.5124277037,
+       "committed_cny": 1360532.5124277037,
+       "stats": {
+        "annual_vol": 0.12747442145878835,
+        "annualized_compound": 0.07140254983373939,
+        "hit_rate": 0.5576923076923077,
+        "max_drawdown": -0.11508217402244358,
+        "per_period_mean": 0.006130643711249425,
+        "periods": 52,
+        "sharpe_excess_0": 0.6059734170805076,
+        "worst_period": -0.09425495748067432
+       }
+      }
+     },
+     "1.00": {
+      "0.02": {
+       "cash_cny": 450665.6405346296,
+       "committed_cny": 1450665.6405346296,
+       "stats": {
+        "annual_vol": 0.11955414814517568,
+        "annualized_compound": 0.08864902375894324,
+        "hit_rate": 0.5769230769230769,
+        "max_drawdown": -0.10097157655155209,
+        "per_period_mean": 0.007327695032708553,
+        "periods": 52,
+        "sharpe_excess_0": 0.7722773224063451,
+        "worst_period": -0.08682072234545375
+       }
+      },
+      "0.05": {
+       "cash_cny": 450665.6405346296,
+       "committed_cny": 1450665.6405346296,
+       "stats": {
+        "annual_vol": 0.11955414814517568,
+        "annualized_compound": 0.07860837427117828,
+        "hit_rate": 0.5769230769230769,
+        "max_drawdown": -0.10436358587713368,
+        "per_period_mean": 0.006588025325325874,
+        "periods": 52,
+        "sharpe_excess_0": 0.6943223667848588,
+        "worst_period": -0.08756039205283644
+       }
+      },
+      "0.08": {
+       "cash_cny": 450665.6405346296,
+       "committed_cny": 1450665.6405346296,
+       "stats": {
+        "annual_vol": 0.11955414814517568,
+        "annualized_compound": 0.06865303470903239,
+        "hit_rate": 0.5576923076923077,
+        "max_drawdown": -0.10774535013359032,
+        "per_period_mean": 0.005848355617943195,
+        "periods": 52,
+        "sharpe_excess_0": 0.6163674111633727,
+        "worst_period": -0.08830006176021912
+       }
+      }
+     }
+    },
+    "1.0": {
+     "0.50": {
+      "0.02": {
+       "cash_cny": 450665.6405346296,
+       "committed_cny": 1450665.6405346296,
+       "stats": {
+        "annual_vol": 0.07852197065452943,
+        "annualized_compound": 0.07879436101779702,
+        "hit_rate": 0.6346153846153846,
+        "max_drawdown": -0.09552560679924627,
+        "per_period_mean": 0.00628259440043504,
+        "periods": 52,
+        "sharpe_excess_0": 1.0081342684808845,
+        "worst_period": -0.05717458638833687
+       }
+      },
+      "0.05": {
+       "cash_cny": 450665.6405346296,
+       "committed_cny": 1450665.6405346296,
+       "stats": {
+        "annual_vol": 0.07852197065452943,
+        "annualized_compound": 0.05897141157467356,
+        "hit_rate": 0.6346153846153846,
+        "max_drawdown": -0.10973291097973081,
+        "per_period_mean": 0.004803254985669681,
+        "periods": 52,
+        "sharpe_excess_0": 0.770752597202512,
+        "worst_period": -0.058653925803102226
+       }
+      },
+      "0.08": {
+       "cash_cny": 450665.6405346296,
+       "committed_cny": 1450665.6405346296,
+       "stats": {
+        "annual_vol": 0.07852197065452943,
+        "annualized_compound": 0.039484278526318306,
+        "hit_rate": 0.5769230769230769,
+        "max_drawdown": -0.12556401016769347,
+        "per_period_mean": 0.0033239155709043223,
+        "periods": 52,
+        "sharpe_excess_0": 0.5333709259241394,
+        "worst_period": -0.06013326521786758
+       }
+      }
+     },
+     "0.80": {
+      "0.02": {
+       "cash_cny": 721065.0248554074,
+       "committed_cny": 1721065.0248554074,
+       "stats": {
+        "annual_vol": 0.06618525343931396,
+        "annualized_compound": 0.06982197644216437,
+        "hit_rate": 0.6346153846153846,
+        "max_drawdown": -0.0797675333528205,
+        "per_period_mean": 0.005544909148836994,
+        "periods": 52,
+        "sharpe_excess_0": 1.055610602736559,
+        "worst_period": -0.0479424085794397
+       }
+      },
+      "0.05": {
+       "cash_cny": 721065.0248554074,
+       "committed_cny": 1721065.0248554074,
+       "stats": {
+        "annual_vol": 0.06618525343931396,
+        "annualized_compound": 0.05322048070993035,
+        "hit_rate": 0.6346153846153846,
+        "max_drawdown": -0.0901809547713277,
+        "per_period_mean": 0.004297991206344374,
+        "periods": 52,
+        "sharpe_excess_0": 0.8182289314581864,
+        "worst_period": -0.049189326521932315
+       }
+      },
+      "0.08": {
+       "cash_cny": 721065.0248554074,
+       "committed_cny": 1721065.0248554074,
+       "stats": {
+        "annual_vol": 0.06618525343931396,
+        "annualized_compound": 0.03685644654482201,
+        "hit_rate": 0.6153846153846154,
+        "max_drawdown": -0.10381000756590819,
+        "per_period_mean": 0.0030510732638517547,
+        "periods": 52,
+        "sharpe_excess_0": 0.5808472601798138,
+        "worst_period": -0.05043624446442494
+       }
+      }
+     },
+     "1.00": {
+      "0.02": {
+       "cash_cny": 901331.2810692592,
+       "committed_cny": 1901331.2810692592,
+       "stats": {
+        "annual_vol": 0.05991019344694881,
+        "annualized_compound": 0.06522219202538193,
+        "hit_rate": 0.6346153846153846,
+        "max_drawdown": -0.07168138371490218,
+        "per_period_mean": 0.0051696862164712,
+        "periods": 52,
+        "sharpe_excess_0": 1.087261492240342,
+        "worst_period": -0.043246469732794085
+       }
+      },
+      "0.05": {
+       "cash_cny": 901331.2810692592,
+       "committed_cny": 1901331.2810692592,
+       "stats": {
+        "annual_vol": 0.05991019344694881,
+        "annualized_compound": 0.05024449284458421,
+        "hit_rate": 0.6346153846153846,
+        "max_drawdown": -0.08013463775946827,
+        "per_period_mean": 0.004040989244483318,
+        "periods": 52,
+        "sharpe_excess_0": 0.8498798209619695,
+        "worst_period": -0.04437516670478196
+       }
+      },
+      "0.08": {
+       "cash_cny": 901331.2810692592,
+       "committed_cny": 1901331.2810692592,
+       "stats": {
+        "annual_vol": 0.05991019344694881,
+        "annualized_compound": 0.03546088776355116,
+        "hit_rate": 0.6153846153846154,
+        "max_drawdown": -0.09260418904235113,
+        "per_period_mean": 0.002912292272495436,
+        "periods": 52,
+        "sharpe_excess_0": 0.6124981496835967,
+        "worst_period": -0.04550386367676985
+       }
+      }
+     }
+    }
+   }
+  },
+  "im": {
+   "0.00": {
+    "0.0": {
+     "no_sweep": {
+      "cash_cny": 0.0,
+      "committed_cny": 1000000.0,
+      "stats": {
+       "annual_vol": 0.2844399230385547,
+       "annualized_compound": 0.1102705634689396,
+       "hit_rate": 0.5769230769230769,
+       "max_drawdown": -0.25921225014530425,
+       "per_period_mean": 0.011430784699843875,
+       "periods": 52,
+       "sharpe_excess_0": 0.5063560898183426,
+       "worst_period": -0.1696698118871175
+      }
+     },
+     "sweep": {
+      "cash_cny": 0.0,
+      "committed_cny": 1000000.0,
+      "stats": {
+       "annual_vol": 0.2844399230385547,
+       "annualized_compound": 0.1102705634689396,
+       "hit_rate": 0.5769230769230769,
+       "max_drawdown": -0.25921225014530425,
+       "per_period_mean": 0.011430784699843875,
+       "periods": 52,
+       "sharpe_excess_0": 0.5063560898183426,
+       "worst_period": -0.1696698118871175
+      }
+     }
+    },
+    "0.5": {
+     "no_sweep": {
+      "cash_cny": 201968.85781937107,
+      "committed_cny": 1201968.8578193712,
+      "stats": {
+       "annual_vol": 0.14000395441915744,
+       "annualized_compound": 0.10605225986615019,
+       "hit_rate": 0.5769230769230769,
+       "max_drawdown": -0.11687191346237458,
+       "per_period_mean": 0.008803015720715106,
+       "periods": 52,
+       "sharpe_excess_0": 0.7922490371160037,
+       "worst_period": -0.10255706005309852
+      }
+     },
+     "sweep": {
+      "cash_cny": 417014.35107207194,
+      "committed_cny": 1417014.351072072,
+      "stats": {
+       "annual_vol": 0.11875701403875964,
+       "annualized_compound": 0.09066484156145815,
+       "hit_rate": 0.5769230769230769,
+       "max_drawdown": -0.09934494537159977,
+       "per_period_mean": 0.007467073811347544,
+       "periods": 52,
+       "sharpe_excess_0": 0.7922490371160037,
+       "worst_period": -0.08699304438241763
+      }
+     }
+    },
+    "1.0": {
+     "no_sweep": {
+      "cash_cny": 403937.71563874214,
+      "committed_cny": 1403937.715638742,
+      "stats": {
+       "annual_vol": 0.07791103244364121,
+       "annualized_compound": 0.08765339518319792,
+       "hit_rate": 0.6153846153846154,
+       "max_drawdown": -0.09743854582861056,
+       "per_period_mean": 0.006931302360601245,
+       "periods": 52,
+       "sharpe_excess_0": 1.1209504867844116,
+       "worst_period": -0.05475383410764763
+      }
+     },
+     "sweep": {
+      "cash_cny": 834028.7021441439,
+      "committed_cny": 1834028.7021441439,
+      "stats": {
+       "annual_vol": 0.059640417177824936,
+       "annualized_compound": 0.06706292032828753,
+       "hit_rate": 0.6153846153846154,
+       "max_drawdown": -0.0752365320654429,
+       "per_period_mean": 0.005305869418056209,
+       "periods": 52,
+       "sharpe_excess_0": 1.1209504867844116,
+       "worst_period": -0.04191372397263162
+      }
+     }
+    }
+   },
+   "0.02": {
+    "0.0": {
+     "no_sweep": {
+      "cash_cny": 0.0,
+      "committed_cny": 1000000.0,
+      "stats": {
+       "annual_vol": 0.2844399230385547,
+       "annualized_compound": 0.1102705634689396,
+       "hit_rate": 0.5769230769230769,
+       "max_drawdown": -0.25921225014530425,
+       "per_period_mean": 0.011430784699843875,
+       "periods": 52,
+       "sharpe_excess_0": 0.5063560898183426,
+       "worst_period": -0.1696698118871175
+      }
+     },
+     "sweep": {
+      "cash_cny": 0.0,
+      "committed_cny": 1000000.0,
+      "stats": {
+       "annual_vol": 0.2844399230385547,
+       "annualized_compound": 0.1102705634689396,
+       "hit_rate": 0.5769230769230769,
+       "max_drawdown": -0.25921225014530425,
+       "per_period_mean": 0.011430784699843875,
+       "periods": 52,
+       "sharpe_excess_0": 0.5063560898183426,
+       "worst_period": -0.1696698118871175
+      }
+     }
+    },
+    "0.5": {
+     "no_sweep": {
+      "cash_cny": 201968.85781937107,
+      "committed_cny": 1201968.8578193712,
+      "stats": {
+       "annual_vol": 0.14000395441915744,
+       "annualized_compound": 0.10974817788293634,
+       "hit_rate": 0.5769230769230769,
+       "max_drawdown": -0.11613433503587745,
+       "per_period_mean": 0.00906973268806132,
+       "periods": 52,
+       "sharpe_excess_0": 0.8162528861680163,
+       "worst_period": -0.1022903430857523
+      }
+     },
+     "sweep": {
+      "cash_cny": 417014.35107207194,
+      "committed_cny": 1417014.351072072,
+      "stats": {
+       "annual_vol": 0.11875701403875964,
+       "annualized_compound": 0.0970609508863014,
+       "hit_rate": 0.5961538461538461,
+       "max_drawdown": -0.09803628812500365,
+       "per_period_mean": 0.007934202137100523,
+       "periods": 52,
+       "sharpe_excess_0": 0.8418108836488455,
+       "worst_period": -0.08652591605666465
+      }
+     }
+    },
+    "1.0": {
+     "no_sweep": {
+      "cash_cny": 403937.71563874214,
+      "committed_cny": 1403937.715638742,
+      "stats": {
+       "annual_vol": 0.07791103244364121,
+       "annualized_compound": 0.09388842701060396,
+       "hit_rate": 0.6153846153846154,
+       "max_drawdown": -0.0957457187810985,
+       "per_period_mean": 0.007387997105718655,
+       "periods": 52,
+       "sharpe_excess_0": 1.194808496465414,
+       "worst_period": -0.05429713936253022
+      }
+     },
+     "sweep": {
+      "cash_cny": 834028.7021441439,
+      "committed_cny": 1834028.7021441439,
+      "stats": {
+       "annual_vol": 0.059640417177824936,
+       "annualized_compound": 0.07675972577251522,
+       "hit_rate": 0.6346153846153846,
+       "max_drawdown": -0.07251066433399889,
+       "per_period_mean": 0.006027698406457959,
+       "periods": 52,
+       "sharpe_excess_0": 1.273448502127666,
+       "worst_period": -0.04119189498422987
+      }
+     }
+    }
+   }
+  }
+ },
+ "funded_gap_pp": {
+  "0.02": 2.8666234985222028,
+  "0.05": 4.364393416601975,
+  "0.08": 5.8427539247052795
+ },
+ "funded_rows": [
+  {
+   "borrow_cny": 18026.625621385185,
+   "borrow_fee": 0.02,
+   "carrier": "etf",
+   "cash_cny": 450665.6405346296,
+   "collateral_cny": 37847.22955687005,
+   "committed_cny": 1450665.6405346296,
+   "drag_pp": 0.02518636915717587,
+   "funded_ann": 0.07879436101779702,
+   "funded_mdd": -0.09552560679924627,
+   "funded_vol": 0.07852197065452943,
+   "gross_ann": 0.10398073017497289,
+   "haircut": 0.5
+  },
+  {
+   "borrow_cny": 45066.564053462964,
+   "borrow_fee": 0.05,
+   "carrier": "etf",
+   "cash_cny": 450665.6405346296,
+   "collateral_cny": 24656.189444350497,
+   "committed_cny": 1450665.6405346296,
+   "drag_pp": 0.015739192533286817,
+   "funded_ann": 0.05897141157467356,
+   "funded_mdd": -0.10973291097973081,
+   "funded_vol": 0.07852197065452943,
+   "gross_ann": 0.07471060410796038,
+   "haircut": 0.5
+  },
+  {
+   "borrow_cny": 72106.50248554074,
+   "borrow_fee": 0.08,
+   "carrier": "etf",
+   "cash_cny": 450665.6405346296,
+   "collateral_cny": 11787.781738928756,
+   "committed_cny": 1450665.6405346296,
+   "drag_pp": 0.006672101456288715,
+   "funded_ann": 0.039484278526318306,
+   "funded_mdd": -0.12556401016769347,
+   "funded_vol": 0.07852197065452943,
+   "gross_ann": 0.04615637998260702,
+   "haircut": 0.5
+  },
+  {
+   "borrow_cny": 18026.625621385185,
+   "borrow_fee": 0.02,
+   "carrier": "etf",
+   "cash_cny": 721065.0248554074,
+   "collateral_cny": 60555.56729099209,
+   "committed_cny": 1721065.0248554074,
+   "drag_pp": 0.03415875373280852,
+   "funded_ann": 0.06982197644216437,
+   "funded_mdd": -0.0797675333528205,
+   "funded_vol": 0.06618525343931396,
+   "gross_ann": 0.10398073017497289,
+   "haircut": 0.8
+  },
+  {
+   "borrow_cny": 45066.564053462964,
+   "borrow_fee": 0.05,
+   "carrier": "etf",
+   "cash_cny": 721065.0248554074,
+   "collateral_cny": 39449.903110960804,
+   "committed_cny": 1721065.0248554074,
+   "drag_pp": 0.021490123398030025,
+   "funded_ann": 0.05322048070993035,
+   "funded_mdd": -0.0901809547713277,
+   "funded_vol": 0.06618525343931396,
+   "gross_ann": 0.07471060410796038,
+   "haircut": 0.8
+  },
+  {
+   "borrow_cny": 72106.50248554074,
+   "borrow_fee": 0.08,
+   "carrier": "etf",
+   "cash_cny": 721065.0248554074,
+   "collateral_cny": 18860.450782286014,
+   "committed_cny": 1721065.0248554074,
+   "drag_pp": 0.009299933437785013,
+   "funded_ann": 0.03685644654482201,
+   "funded_mdd": -0.10381000756590819,
+   "funded_vol": 0.06618525343931396,
+   "gross_ann": 0.04615637998260702,
+   "haircut": 0.8
+  },
+  {
+   "borrow_cny": 18026.625621385185,
+   "borrow_fee": 0.02,
+   "carrier": "etf",
+   "cash_cny": 901331.2810692592,
+   "collateral_cny": 75694.4591137401,
+   "committed_cny": 1901331.2810692592,
+   "drag_pp": 0.03875853814959096,
+   "funded_ann": 0.06522219202538193,
+   "funded_mdd": -0.07168138371490218,
+   "funded_vol": 0.05991019344694881,
+   "gross_ann": 0.10398073017497289,
+   "haircut": 1.0
+  },
+  {
+   "borrow_cny": 45066.564053462964,
+   "borrow_fee": 0.05,
+   "carrier": "etf",
+   "cash_cny": 901331.2810692592,
+   "collateral_cny": 49312.378888700994,
+   "committed_cny": 1901331.2810692592,
+   "drag_pp": 0.024466111263376167,
+   "funded_ann": 0.05024449284458421,
+   "funded_mdd": -0.08013463775946827,
+   "funded_vol": 0.05991019344694881,
+   "gross_ann": 0.07471060410796038,
+   "haircut": 1.0
+  },
+  {
+   "borrow_cny": 72106.50248554074,
+   "borrow_fee": 0.08,
+   "carrier": "etf",
+   "cash_cny": 901331.2810692592,
+   "collateral_cny": 23575.56347785751,
+   "committed_cny": 1901331.2810692592,
+   "drag_pp": 0.010695492219055858,
+   "funded_ann": 0.03546088776355116,
+   "funded_mdd": -0.09260418904235113,
+   "funded_vol": 0.05991019344694881,
+   "gross_ann": 0.04615637998260702,
+   "haircut": 1.0
+  },
+  {
+   "borrow_cny": 0.0,
+   "borrow_fee": 0.0,
+   "carrier": "im",
+   "cash_cny": 403937.71563874214,
+   "collateral_cny": 41650.31558595038,
+   "committed_cny": 1403937.715638742,
+   "drag_pp": 0.029222310049660916,
+   "funded_ann": 0.09388842701060396,
+   "funded_mdd": -0.0957457187810985,
+   "funded_vol": 0.07791103244364121,
+   "gross_ann": 0.12311073706026487,
+   "haircut": null
+  }
+ ],
+ "generated": "2026-11-24T08:09:49+08:00",
+ "gross": {
+  "etf": {
+   "0.0": {
+    "annual_vol": 0.2844399230385547,
+    "annualized_compound": 0.1102705634689396,
+    "hit_rate": 0.5769230769230769,
+    "max_drawdown": -0.25921225014530425,
+    "per_period_mean": 0.011430784699843875,
+    "periods": 52,
+    "sharpe_excess_0": 0.5063560898183426,
+    "worst_period": -0.1696698118871175
+   },
+   "0.5": {
+    "annual_vol": 0.1734330948975933,
+    "annualized_compound": 0.12575243379076828,
+    "hit_rate": 0.5769230769230769,
+    "max_drawdown": -0.14430747612687855,
+    "per_period_mean": 0.010630035408266576,
+    "periods": 52,
+    "sharpe_excess_0": 0.772277322406345,
+    "worst_period": -0.1259478387929469
+   },
+   "1.0": {
+    "annual_vol": 0.1139091248555943,
+    "annualized_compound": 0.12389993836244328,
+    "hit_rate": 0.6346153846153846,
+    "max_drawdown": -0.13335077421075836,
+    "per_period_mean": 0.009829286116689278,
+    "periods": 52,
+    "sharpe_excess_0": 1.087261492240342,
+    "worst_period": -0.08222586569877632
+   }
+  },
+  "im": {
+   "0.0": {
+    "annual_vol": 0.2844399230385547,
+    "annualized_compound": 0.1102705634689396,
+    "hit_rate": 0.5769230769230769,
+    "max_drawdown": -0.25921225014530425,
+    "per_period_mean": 0.011430784699843875,
+    "periods": 52,
+    "sharpe_excess_0": 0.5063560898183426,
+    "worst_period": -0.1696698118871175
+   },
+   "0.5": {
+    "annual_vol": 0.16828039318338994,
+    "annualized_compound": 0.1260735330317484,
+    "hit_rate": 0.5769230769230769,
+    "max_drawdown": -0.14008130374751282,
+    "per_period_mean": 0.010580950751193903,
+    "periods": 52,
+    "sharpe_excess_0": 0.7922490371160036,
+    "worst_period": -0.12327039233333548
+   },
+   "1.0": {
+    "annual_vol": 0.10938223691198155,
+    "annualized_compound": 0.12311073706026487,
+    "hit_rate": 0.6153846153846154,
+    "max_drawdown": -0.13477148038275533,
+    "per_period_mean": 0.009731116802543932,
+    "periods": 52,
+    "sharpe_excess_0": 1.1209504867844116,
+    "worst_period": -0.07687097277955346
+   }
+  }
+ },
+ "gross_gap_pp": -0.07892013021784106,
+ "kind": "hedge_funding",
+ "machine": "bm-c",
+ "net_gap_pp": {
+  "0.02": 1.9130006885291984,
+  "0.05": 4.84001329523045,
+  "0.08": 7.695435707765785
+ },
+ "net_of_borrow": {
+  "etf": {
+   "0.0": {
+    "0.02": {
+     "annual_vol": 0.2844399230385547,
+     "annualized_compound": 0.1102705634689396,
+     "hit_rate": 0.5769230769230769,
+     "max_drawdown": -0.25921225014530425,
+     "per_period_mean": 0.011430784699843875,
+     "periods": 52,
+     "sharpe_excess_0": 0.5063560898183426,
+     "worst_period": -0.1696698118871175
+    },
+    "0.05": {
+     "annual_vol": 0.2844399230385547,
+     "annualized_compound": 0.1102705634689396,
+     "hit_rate": 0.5769230769230769,
+     "max_drawdown": -0.25921225014530425,
+     "per_period_mean": 0.011430784699843875,
+     "periods": 52,
+     "sharpe_excess_0": 0.5063560898183426,
+     "worst_period": -0.1696698118871175
+    },
+    "0.08": {
+     "annual_vol": 0.2844399230385547,
+     "annualized_compound": 0.1102705634689396,
+     "hit_rate": 0.5769230769230769,
+     "max_drawdown": -0.25921225014530425,
+     "per_period_mean": 0.011430784699843875,
+     "periods": 52,
+     "sharpe_excess_0": 0.5063560898183426,
+     "worst_period": -0.1696698118871175
+    }
+   },
+   "0.5": {
+    "0.02": {
+     "annual_vol": 0.1734330948975933,
+     "annualized_compound": 0.11573005246955592,
+     "hit_rate": 0.5769230769230769,
+     "max_drawdown": -0.14746164377852533,
+     "per_period_mean": 0.00991469312170367,
+     "periods": 52,
+     "sharpe_excess_0": 0.7203073519920207,
+     "worst_period": -0.1266631810795098
+    },
+    "0.05": {
+     "annual_vol": 0.1734330948975933,
+     "annualized_compound": 0.10085038912913857,
+     "hit_rate": 0.5576923076923077,
+     "max_drawdown": -0.1521754527773792,
+     "per_period_mean": 0.008841679691859316,
+     "periods": 52,
+     "sharpe_excess_0": 0.6423523963705345,
+     "worst_period": -0.12773619450935417
+    },
+    "0.08": {
+     "annual_vol": 0.1734330948975933,
+     "annualized_compound": 0.08615357233346166,
+     "hit_rate": 0.5576923076923077,
+     "max_drawdown": -0.15686839257768592,
+     "per_period_mean": 0.00776866626201496,
+     "periods": 52,
+     "sharpe_excess_0": 0.5643974407490484,
+     "worst_period": -0.12880920793919853
+    }
+   },
+   "1.0": {
+    "0.02": {
+     "annual_vol": 0.11390912485559433,
+     "annualized_compound": 0.10398073017497289,
+     "hit_rate": 0.6346153846153846,
+     "max_drawdown": -0.1422347098558847,
+     "per_period_mean": 0.00839860154356347,
+     "periods": 52,
+     "sharpe_excess_0": 0.929007044721427,
+     "worst_period": -0.08365655027190214
+    },
+    "0.05": {
+     "annual_vol": 0.1139091248555943,
+     "annualized_compound": 0.07471060410796038,
+     "hit_rate": 0.6153846153846154,
+     "max_drawdown": -0.16435354897122756,
+     "per_period_mean": 0.006252574683874756,
+     "periods": 52,
+     "sharpe_excess_0": 0.6916253734430544,
+     "worst_period": -0.08580257713159084
+    },
+    "0.08": {
+     "annual_vol": 0.1139091248555943,
+     "annualized_compound": 0.04615637998260702,
+     "hit_rate": 0.5576923076923077,
+     "max_drawdown": -0.18594846639200435,
+     "per_period_mean": 0.004106547824186043,
+     "periods": 52,
+     "sharpe_excess_0": 0.45424370216468185,
+     "worst_period": -0.08794860399127956
+    }
+   }
+  },
+  "im": {
+   "0.0": {
+    "annual_vol": 0.2844399230385547,
+    "annualized_compound": 0.1102705634689396,
+    "hit_rate": 0.5769230769230769,
+    "max_drawdown": -0.25921225014530425,
+    "per_period_mean": 0.011430784699843875,
+    "periods": 52,
+    "sharpe_excess_0": 0.5063560898183426,
+    "worst_period": -0.1696698118871175
+   },
+   "0.5": {
+    "annual_vol": 0.16828039318338994,
+    "annualized_compound": 0.1260735330317484,
+    "hit_rate": 0.5769230769230769,
+    "max_drawdown": -0.14008130374751282,
+    "per_period_mean": 0.010580950751193903,
+    "periods": 52,
+    "sharpe_excess_0": 0.7922490371160036,
+    "worst_period": -0.12327039233333548
+   },
+   "1.0": {
+    "annual_vol": 0.10938223691198155,
+    "annualized_compound": 0.12311073706026487,
+    "hit_rate": 0.6153846153846154,
+    "max_drawdown": -0.13477148038275533,
+    "per_period_mean": 0.009731116802543932,
+    "periods": 52,
+    "sharpe_excess_0": 1.1209504867844116,
+    "worst_period": -0.07687097277955346
+   }
+  }
+ },
+ "parents": {
+  "beta": {
+   "content_sha256": "0a33e5274863722dc633e50c9689eb27baf2ee21ccc50454d2c8050b0e368589",
+   "evidence_cutoff": "2026-11-20",
+   "face": "results/astock_veto_hedgeable_beta.json",
+   "file_sha256": "a3044bd7101c9d36120ef1e7817829baf1bb3d34c97c727fa3657f116f63c518",
+   "generated": "2026-11-24T03:29:09+08:00"
+  },
+  "carrier": {
+   "content_sha256": "d68cbb09bfe6ee1599ea63e9be0ab7e197c2bdd5aa7c4694952811f428b90352",
+   "evidence_cutoff": "2026-11-20",
+   "face": "results/astock_veto_hedge_carrier.json",
+   "file_sha256": "dc5aaa1d747eb624a7b334dd9659dad0aca9d3a2b67050f0cf7cf774358284c9",
+   "generated": "2026-11-24T07:08:17+08:00"
+  },
+  "margin": {
+   "content_sha256": "1457efcff929f73b8aa5f45c4b635b57eb33fb7d8ba98fd4bac9b6d8da71759b",
+   "evidence_cutoff": "2026-11-20",
+   "face": "results/astock_veto_hedge_margin.json",
+   "file_sha256": "eed3704749cb97a554bf14190327226b062ab0bdd4140d14362695862750c8bf",
+   "generated": "2026-11-24T07:45:02+08:00"
+  }
+ },
+ "reads": [
+  {
+   "id": "R1",
+   "text": "gross of everything, at k=1.0 on 52 periods, the hedged book compounds at 12.39% (ETF) and 12.31% (IM) -- an arm gap of -0.08pp. r2033 published -0.35pp on the two short legs alone; inside the book the same periodicity compounds smaller because the long side dilutes it, which is why both numbers are printed here"
+  },
+  {
+   "id": "R2",
+   "text": "charge the lender on the same notional and the tie dissolves: at 2.00% rent the ETF leg lands on 10.40%; at 5.00% rent the ETF leg lands on 7.47%; at 8.00% rent the ETF leg lands on 4.62% -- the arm gap becomes 1.91pp at the cheapest rent, against the 1.00pp band this family calls a tie"
+  },
+  {
+   "id": "R3",
+   "text": "on the money you must commit, the futures leg earns 9.39% a year on 1403938 CNY (book 1000000 plus the 403938 r2035 walked out), not the 12.31% it quotes on the book alone -- 2.92pp of annual return given up to hold the block"
+  },
+  {
+   "id": "R4",
+   "text": "the ETF leg is funded across a 450666..901331 CNY block and 2.00%..8.00% rent; the band of funded returns runs 3.55% .. 7.88%, and only the cheapest corner of it keeps the leg near the futures buyer"
+  },
+  {
+   "id": "R5",
+   "text": "the two costs are not the same size: the ETF block gives up 11788..75694 CNY a year of return and the lender takes 18027..72107 CNY -- the collateral, which r2033 counted as an advantage for the futures leg in principle, is the one that compounds with the haircut"
+  },
+  {
+   "id": "R6",
+   "text": "and if the treasury habit of sweeping excess margin is kept, the futures leg needs 834029 CNY and lands on 7.68% funded -- the cheapest carrier in the gross table becomes the one whose block eats the most return"
+  },
+  {
+   "id": "R7",
+   "text": "the ordering, at k=1.0, 100% haircut, cheapest rent: funded gap 2.87pp (IM minus ETF), against -0.08pp gross -- the leg that led gross trails net, so the 'tie' compared two prices that neither buyer pays"
+  }
+ ],
+ "ref_haircut": 1.0,
+ "sample": {
+  "basis": "parent rows flagged im_window (both carriers priced)",
+  "first": "2022-07-26",
+  "last": "2026-11-11",
+  "periods": 52,
+  "periods_per_year": 12.6
+ },
+ "spec": {
+  "beta": 0.9013312810692592,
+  "capital": 1000000.0,
+  "cash_yield": 0.02,
+  "cash_yields": [
+   0.0,
+   0.02
+  ],
+  "etf_blocked_cny": {
+   "0.50": 450665.6405346296,
+   "0.80": 721065.0248554074,
+   "1.00": 901331.2810692592
+  },
+  "etf_borrow_fees": [
+   0.02,
+   0.05,
+   0.08
+  ],
+  "etf_haircuts": [
+   0.5,
+   0.8,
+   1.0
+  ],
+  "im_cash_cny": 403937.71563874214,
+  "im_cash_rung": "0.12",
+  "im_cash_sweep_cny": 834028.7021441439,
+  "k_grid": [
+   0.0,
+   0.5,
+   1.0
+  ],
+  "k_ref": 1.0,
+  "line_gap_pp": 1.0,
+  "line_sweep_mult": 1.5,
+  "line_widen_mult": 2.0,
+  "notional_cny": 901331.2810692592
+ },
+ "verdict": "THE_TIE_WAS_GROSS_OF_THE_LENDER+THE_RANKING_FLIPS_WHEN_YOU_PAY_FOR_IT",
+ "verdict_why": "the scarce comparison was priced without the lender; the cheapest rent the family's own table allows already puts the ETF leg a tie band behind",
+ "verdicts": {
+  "EQUAL_CAPITAL_WIDENS_THE_GAP": true,
+  "SWEEPING_THE_ACCOUNT_COSTS_TWICE_THE_BLOCK": true,
+  "THE_COLLATERAL_COSTS_MORE_THAN_THE_LENDER": true,
+  "THE_GAP_SURVIVES_THE_COSTS": false,
+  "THE_RANKING_FLIPS_WHEN_YOU_PAY_FOR_IT": true,
+  "THE_TIE_WAS_GROSS_OF_THE_LENDER": true
+ }
+}
