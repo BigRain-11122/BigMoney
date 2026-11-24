@@ -69,7 +69,7 @@
   "state": "registered (FOUND)",
   "task": "HQ-ProductionClaim"
  },
- "clock_read": "2026-11-24T10:26:14+08:00",
+ "clock_read": "2026-11-24T10:28:38+08:00",
  "clock_read_source": "local system clock (Win32, Asia/Shanghai)",
  "clock_tz": "+08:00",
  "codely_live_count": 2,
@@ -2222,7 +2222,7 @@
  "task_board": "fleet/tasks total 188 open 0",
  "timestamp": "2026-11-22T19:05:00+08:00",
  "total_ram_gb": 55.9,
- "ts": "2026-11-24T10:26:14+08:00",
+ "ts": "2026-11-24T10:28:38+08:00",
  "ts_epoch": 1794812499,
  "unverified": "full suite not run on new code this round (needs its own window)",
  "update_daily": "rc0 0 new rows, cutoff 2026-11-13 (Sunday, no new bar)",
@@ -2398,5 +2398,8 @@
  "记账_r2040": "轮报告 1 处 + state 1 处 + 心跳 1 处 = 3（方法论卡锁存待无竞争轮）",
  "记账_r2041": "轮报告 1 处 + state 1 处 + 心跳 1 处 = 3（无方法论新增：把容量尺子从回购腿搬到 ETF 货架属证据与载体）",
  "?λ": "healthy",
- "送达自证_r2041": "commit **e21e3fe185** 已推 origin/main（bf190dce25..e21e3fe185），fetch 后 AHEAD=0 / BEHIND=0，ls-tree origin/main 五件 blob 在位（scripts/cb_parking_shelf_at_size.py 64a40a8b50、results/cb_parking_shelf_at_size.json ac0d0690f3、research/CB_PARKING_SHELF_AT_SIZE.md 158c15412a、负控 results/_r2041bmc_shelf_negative.py 1547926cdd、收口 results/_r2041bmc_closeout.py）→ 本地未达 origin commit 数=0"
+ "送达自证_r2041": "commit **e21e3fe185** 已推 origin/main（bf190dce25..e21e3fe185），fetch 后 AHEAD=0 / BEHIND=0，ls-tree origin/main 五件 blob 在位（scripts/cb_parking_shelf_at_size.py 64a40a8b50、results/cb_parking_shelf_at_size.json ac0d0690f3、research/CB_PARKING_SHELF_AT_SIZE.md 158c15412a、负控 results/_r2041bmc_shelf_negative.py 1547926cdd、收口 results/_r2041bmc_closeout.py）→ 本地未达 origin commit 数=0",
+ "deferred_r2041": "竞争窗 rc=3 未跑：S6 链 / 全量冒烟 / attrition 守卫 / py_watermark+compute_audit；下轮（竞争窗关后）首批补跑，禁读成「全绿」",
+ "watchdog_s4u_r2041": "& Tools/register_watchdog_task.ps1 重注册成功但 S4U XML 翻转被拒（拒绝访问=需管理员）-> 留在默认 principal，入 task-s4u-backlog 候提权；loop 任务相位 pin=0 与实况一致=no-op（下次 10:30）",
+ "hooks_r2041": "pre-commit / pre-push 与 Tools/git-hooks 源（CR 归一）逐字节一致=零动作"
 }
