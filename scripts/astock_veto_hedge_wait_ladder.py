@@ -933,6 +933,11 @@ def selftest() -> int:
     chk("page has end marker", "END:ASTOCK-VETO-HEDGE-WAIT-LADDER" in page)
     chk("page prints the break-even hedge", _f(be.get("k_low"), 4) in page)
     chk("page prints the rule-A ratio", _f(ladder[3]["ratio_cost_over_ceiling"], 1) in page)
+    # a percent field formatted with the fraction helper prints 2734.3286% -- the page is
+    # the only place that defect shows up, so the page is where it is caught
+    chk("page does not print a percent of a percent", "2734." not in page)
+    chk("page prints the book volatility as a percent", "27.3433%" in page)
+    chk("page prints the point-estimate residual as a percent", "10.763%" in page)
 
     print("%d/%d PASS" % (ok, ok + fail))
     return 0 if fail == 0 else 1
