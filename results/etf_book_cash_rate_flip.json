@@ -1,0 +1,212 @@
+{
+ "book": {
+  "cost": 0.001,
+  "flips_repaired": 169,
+  "n_hold": 5,
+  "rebal": 20,
+  "turnover": 1.0825,
+  "universe": 1531,
+  "vol_target": 0.08
+ },
+ "criteria_imported": {
+  "C2_cagr_gain_pp": 0.3,
+  "C3_sharpe_must_not_fall": true,
+  "C4_maxdd_must_not_deepen_pp": 0.2
+ },
+ "elapsed_sec": 43.97,
+ "evidence_cutoff": "2026-11-24",
+ "face": "etf_book_cash_rate_flip",
+ "facts": {
+  "binding_gate": "C2_cagr_gain_pp",
+  "c2_target_gain_pp": 0.3,
+  "distance_bp": 85.38,
+  "first_break": {
+   "cash_rate_pct": 0.0,
+   "gates_broken": [
+    "C2_cagr_gain_pp"
+   ]
+  },
+  "flip_rate_c2_pct": 0.917,
+  "gap_cost_bp_of_annual_return_by_100bp": 0.6004,
+  "gap_cost_cny_per_1m_by_rate_error_bp": {
+   "100": 60.04,
+   "200": 120.08,
+   "50": 30.02
+  },
+  "idle_share_mean": 0.3026,
+  "last_rate_bar": "2026-11-20",
+  "rate_now_pct": 1.7708,
+  "stale_days_assumed": 5,
+  "tail_not_priced": {
+   "book_bars_after_last_repair_quote": 2,
+   "dates": [
+    "2026-11-23",
+    "2026-11-24"
+   ],
+   "idle_share_on_those_bars": 0.1574,
+   "unpaid_accrual_cny_per_1m": 22.12
+  }
+ },
+ "gates": {
+  "C0_s1_reproduces_published_face": true,
+  "C1_s0_control_is_the_engine_curve": true,
+  "C2_gain_is_monotone_in_the_rate": true,
+  "C3_flip_separates_the_verdicts": true,
+  "C4_gap_cost_below_one_gate": true
+ },
+ "honest": [
+  "the sweep is the published composition on the published geometry: the engine is run once and every grid point recomposes that same book with cash_ret * s, so a grid point is not a new backtest",
+  "cagr_gain_pp is affine in the cash rate up to the compounding of the final NAV, which at these magnitudes is below the 4th decimal; the crossing is still re-derived on the engine at +/-10% of the flip rate rather than trusted",
+  "the flip rate is a statement about this window's gates, not a forecast: if the cash rate sits below it for a while the verdict falls, and that is the definition of the gate, not a prediction that it will",
+  "the gap cost is a bound on what a rate error can move, it is not a claim about what the missing days actually were -- the panel cannot answer that",
+  "verdicts and gates come from etf_book_idle_cash.CRITERIA via verdict_of; no threshold is restated here"
+ ],
+ "legs": {
+  "flip_separates": true,
+  "just_above_flip": {
+   "cagr_gain_pp": 0.33,
+   "cash_rate_pct": 1.0087,
+   "gates": {
+    "C2_cagr_gain_pp": true,
+    "C3_sharpe_must_not_fall": true,
+    "C4_maxdd_must_not_deepen_pp": true
+   },
+   "verdict": "ADMIT"
+  },
+  "just_below_flip": {
+   "cagr_gain_pp": 0.27,
+   "cash_rate_pct": 0.8253,
+   "gates": {
+    "C2_cagr_gain_pp": false,
+    "C3_sharpe_must_not_fall": true,
+    "C4_maxdd_must_not_deepen_pp": true
+   },
+   "verdict": "REJECT"
+  }
+ },
+ "published_face": {
+  "gain_pp": 0.58,
+  "window_end": "2026-11-23"
+ },
+ "question": "the book's ADMIT was bought by paying its idle sleeve at 1.77%/yr; how low can that rate go before the verdict falls over, and what can a stale repo panel actually move?",
+ "sweep": [
+  {
+   "cagr_gain_pp": 0.0,
+   "cash_rate_pct": 0.0,
+   "control_max_rel_err": 2.886579864025407e-15,
+   "gates": {
+    "C2_cagr_gain_pp": false,
+    "C3_sharpe_must_not_fall": true,
+    "C4_maxdd_must_not_deepen_pp": true
+   },
+   "maxdd_with_pct": -10.56,
+   "scale": 0.0,
+   "sharpe_with": 1.096,
+   "verdict": "REJECT"
+  },
+  {
+   "cagr_gain_pp": 0.14,
+   "cash_rate_pct": 0.4427,
+   "control_max_rel_err": null,
+   "gates": {
+    "C2_cagr_gain_pp": false,
+    "C3_sharpe_must_not_fall": true,
+    "C4_maxdd_must_not_deepen_pp": true
+   },
+   "maxdd_with_pct": -10.53,
+   "scale": 0.25,
+   "sharpe_with": 1.109,
+   "verdict": "REJECT"
+  },
+  {
+   "cagr_gain_pp": 0.29,
+   "cash_rate_pct": 0.8854,
+   "control_max_rel_err": null,
+   "gates": {
+    "C2_cagr_gain_pp": false,
+    "C3_sharpe_must_not_fall": true,
+    "C4_maxdd_must_not_deepen_pp": true
+   },
+   "maxdd_with_pct": -10.51,
+   "scale": 0.5,
+   "sharpe_with": 1.122,
+   "verdict": "REJECT"
+  },
+  {
+   "cagr_gain_pp": 0.43,
+   "cash_rate_pct": 1.3281,
+   "control_max_rel_err": null,
+   "gates": {
+    "C2_cagr_gain_pp": true,
+    "C3_sharpe_must_not_fall": true,
+    "C4_maxdd_must_not_deepen_pp": true
+   },
+   "maxdd_with_pct": -10.49,
+   "scale": 0.75,
+   "sharpe_with": 1.135,
+   "verdict": "ADMIT"
+  },
+  {
+   "cagr_gain_pp": 0.58,
+   "cash_rate_pct": 1.7708,
+   "control_max_rel_err": null,
+   "gates": {
+    "C2_cagr_gain_pp": true,
+    "C3_sharpe_must_not_fall": true,
+    "C4_maxdd_must_not_deepen_pp": true
+   },
+   "maxdd_with_pct": -10.47,
+   "scale": 1.0,
+   "sharpe_with": 1.148,
+   "verdict": "ADMIT"
+  },
+  {
+   "cagr_gain_pp": 0.72,
+   "cash_rate_pct": 2.2135,
+   "control_max_rel_err": null,
+   "gates": {
+    "C2_cagr_gain_pp": true,
+    "C3_sharpe_must_not_fall": true,
+    "C4_maxdd_must_not_deepen_pp": true
+   },
+   "maxdd_with_pct": -10.45,
+   "scale": 1.25,
+   "sharpe_with": 1.161,
+   "verdict": "ADMIT"
+  },
+  {
+   "cagr_gain_pp": 0.87,
+   "cash_rate_pct": 2.6562,
+   "control_max_rel_err": null,
+   "gates": {
+    "C2_cagr_gain_pp": true,
+    "C3_sharpe_must_not_fall": true,
+    "C4_maxdd_must_not_deepen_pp": true
+   },
+   "maxdd_with_pct": -10.43,
+   "scale": 1.5,
+   "sharpe_with": 1.174,
+   "verdict": "ADMIT"
+  },
+  {
+   "cagr_gain_pp": 1.16,
+   "cash_rate_pct": 3.5416,
+   "control_max_rel_err": null,
+   "gates": {
+    "C2_cagr_gain_pp": true,
+    "C3_sharpe_must_not_fall": true,
+    "C4_maxdd_must_not_deepen_pp": true
+   },
+   "maxdd_with_pct": -10.38,
+   "scale": 2.0,
+   "sharpe_with": 1.199,
+   "verdict": "ADMIT"
+  }
+ ],
+ "verdict": "PASS",
+ "window": {
+  "bars": 1669,
+  "end": "2026-11-24",
+  "start": "2020-01-03"
+ }
+}
