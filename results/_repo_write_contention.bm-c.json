@@ -1,55 +1,51 @@
 {
  "schema": "repo-write-contention/v1",
  "machine_id": "bm-c",
- "probed_at": "2026-11-25T01:45:27",
+ "probed_at": "2026-11-25T02:00:26",
  "lookback_min": 45.0,
  "verdict": "CONTENTION",
- "why": "2 hosts alive; 21 shared face(s) written before this round started (strictly another host), 0 written inside the overlap (unattributable)",
+ "why": "2 hosts alive; 16 shared face(s) written before this round started (strictly another host), 0 written inside the overlap (unattributable)",
  "hosts": [
   {
    "pid": 79608,
    "kind": "interactive",
    "started_epoch": 1795531144.188324,
    "started": "2026-11-24T22:39:04",
-   "age_min": 186.4,
+   "age_min": 201.4,
    "exempt_from_cloud_cap": true,
    "cmd_head": "K:\\tuanjieAI\\Tuanjie Cowork\\cli\\bin\\win32-x64\\codely.exe --experimental-acp --experimental-skills --path-polic"
   },
   {
-   "pid": 72380,
+   "pid": 89924,
    "kind": "other",
-   "started_epoch": 1795542303.2774627,
-   "started": "2026-11-25T01:45:03",
+   "started_epoch": 1795543203.0716157,
+   "started": "2026-11-25T02:00:03",
    "age_min": 0.4,
    "exempt_from_cloud_cap": false,
    "cmd_head": "K:\\tuanjieAI\\Tuanjie Cowork\\cli\\bin\\win32-x64\\codely.exe -y -p 无人值守执行 Bigmoney 量化公司 10 分钟自迭代一轮（2026-09-23 CEO "
   }
  ],
- "my_host_pid": 72380,
- "my_host_started": "2026-11-25T01:45:03",
+ "my_host_pid": 89924,
+ "my_host_started": "2026-11-25T02:00:03",
  "host_probe_error": null,
  "overlap_windows": [],
  "peer_only_writes": [
   "fleet/machines/bm-c.json",
   "research/ARBITER-BOARD.md",
   "research/ETF_BOOK_K_IDENTITY_BAR.md",
+  "research/ETF_BOOK_K_LEG_REHEARSAL.md",
   "research/QUANT-BLOCK-BOARD.md",
-  "research/SMOKE-RED-ROOT-CAUSE.md",
   "results/_attrition_guard_scan.json",
-  "results/_r2061bmc_addendum.py",
-  "results/_r2061bmc_closeout.py",
   "results/_r2062bmc_addendum.py",
   "results/_r2062bmc_addendum2.py",
-  "results/_r2062bmc_closeout.py",
-  "results/_r2062bmc_negctl.py",
   "results/_r2063bmc_kbar_negctl.py",
+  "results/_r2064bmc_closeout.py",
   "results/arbiter/STATE.json",
   "results/etf_book_k_identity_bar.json",
+  "results/etf_book_k_leg_rehearsal.json",
   "results/quant_block_board.json",
-  "results/smoke_red_root_cause.json",
-  "results/smoke_red_triage.json",
   "scripts/etf_book_k_identity_bar.py",
-  "scripts/smoke_red_root_cause.py"
+  "scripts/etf_book_k_leg_rehearsal.py"
  ],
  "ambiguous_writes": [],
  "ignored_patterns": [
@@ -65,31 +61,55 @@
  "declared_own_patterns": [],
  "declared_own_write_count": 0,
  "declared_own_writes": [],
- "writes_scanned_files": 34786,
+ "writes_scanned_files": 34790,
  "recent_writes": [
   {
    "path": "fleet/machines/bm-c.json",
-   "mtime": "2026-11-25T01:44:13",
-   "mtime_epoch": 1795542253.5499282,
-   "bytes": 258050
+   "mtime": "2026-11-25T01:56:24",
+   "mtime_epoch": 1795542984.6907218,
+   "bytes": 258074
+  },
+  {
+   "path": "results/_r2064bmc_closeout.py",
+   "mtime": "2026-11-25T01:53:23",
+   "mtime_epoch": 1795542803.2604957,
+   "bytes": 7364
   },
   {
    "path": "results/_attrition_guard_scan.json",
-   "mtime": "2026-11-25T01:42:32",
-   "mtime_epoch": 1795542152.6076398,
+   "mtime": "2026-11-25T01:52:25",
+   "mtime_epoch": 1795542745.321952,
    "bytes": 2154
   },
   {
    "path": "research/ARBITER-BOARD.md",
-   "mtime": "2026-11-25T01:41:41",
-   "mtime_epoch": 1795542101.9300158,
-   "bytes": 1705
+   "mtime": "2026-11-25T01:51:43",
+   "mtime_epoch": 1795542703.9488163,
+   "bytes": 1706
   },
   {
    "path": "results/arbiter/STATE.json",
-   "mtime": "2026-11-25T01:41:41",
-   "mtime_epoch": 1795542101.9285095,
-   "bytes": 1463
+   "mtime": "2026-11-25T01:51:43",
+   "mtime_epoch": 1795542703.9473088,
+   "bytes": 1464
+  },
+  {
+   "path": "research/ETF_BOOK_K_LEG_REHEARSAL.md",
+   "mtime": "2026-11-25T01:50:57",
+   "mtime_epoch": 1795542657.7775023,
+   "bytes": 2471
+  },
+  {
+   "path": "results/etf_book_k_leg_rehearsal.json",
+   "mtime": "2026-11-25T01:50:47",
+   "mtime_epoch": 1795542647.863209,
+   "bytes": 5761
+  },
+  {
+   "path": "scripts/etf_book_k_leg_rehearsal.py",
+   "mtime": "2026-11-25T01:50:31",
+   "mtime_epoch": 1795542631.2114263,
+   "bytes": 21540
   },
   {
    "path": "research/ETF_BOOK_K_IDENTITY_BAR.md",
@@ -138,62 +158,8 @@
    "mtime": "2026-11-25T01:16:24",
    "mtime_epoch": 1795540584.4678817,
    "bytes": 1951
-  },
-  {
-   "path": "results/_r2062bmc_closeout.py",
-   "mtime": "2026-11-25T01:13:10",
-   "mtime_epoch": 1795540390.036572,
-   "bytes": 6345
-  },
-  {
-   "path": "results/smoke_red_root_cause.json",
-   "mtime": "2026-11-25T01:11:57",
-   "mtime_epoch": 1795540317.2107499,
-   "bytes": 9890
-  },
-  {
-   "path": "research/SMOKE-RED-ROOT-CAUSE.md",
-   "mtime": "2026-11-25T01:11:57",
-   "mtime_epoch": 1795540317.2107499,
-   "bytes": 2193
-  },
-  {
-   "path": "results/_r2062bmc_negctl.py",
-   "mtime": "2026-11-25T01:11:50",
-   "mtime_epoch": 1795540310.6087759,
-   "bytes": 2078
-  },
-  {
-   "path": "scripts/smoke_red_root_cause.py",
-   "mtime": "2026-11-25T01:11:24",
-   "mtime_epoch": 1795540284.984383,
-   "bytes": 15493
-  },
-  {
-   "path": "results/_r2061bmc_addendum.py",
-   "mtime": "2026-11-25T01:03:14",
-   "mtime_epoch": 1795539794.3921282,
-   "bytes": 3441
-  },
-  {
-   "path": "results/_r2061bmc_closeout.py",
-   "mtime": "2026-11-25T01:01:41",
-   "mtime_epoch": 1795539701.359233,
-   "bytes": 6508
-  },
-  {
-   "path": "results/smoke_red_triage.json",
-   "mtime": "2026-11-25T01:01:14",
-   "mtime_epoch": 1795539674.9864328,
-   "bytes": 19090
-  },
-  {
-   "path": "scripts/smoke_red_triage.py",
-   "mtime": "2026-11-25T01:01:05",
-   "mtime_epoch": 1795539665.3816967,
-   "bytes": 8689
   }
  ],
- "recent_write_count": 21,
+ "recent_write_count": 16,
  "advisory": "Probe only: it never blocks, kills or defers production. A round that reads CONTENTION must land new files only, never re-derive shared faces or re-run the chain (r1907)."
 }

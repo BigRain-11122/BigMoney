@@ -1,0 +1,89 @@
+{
+ "face": "reader_silent_upstream",
+ "generated": "2026-11-25T02:14:36+0800",
+ "round": "r2065",
+ "machine": "bm-c",
+ "law": "a reader must not crash on a state its writer may publish; a selftest must not read the live faces",
+ "patch": "patches/r2065-reader-silent-upstream.patch",
+ "files": [
+  "scripts/etf_book_permission_persistence.py",
+  "scripts/etf_book_permission_persistence.py",
+  "scripts/etf_book_cash_roll_today.py",
+  "smoke_test.py"
+ ],
+ "live": {
+  "cut_receipt_verdict": "UNREADABLE",
+  "cut_receipt_permitted_k": null,
+  "published_slack_k": 0.0,
+  "published_cash_roll_verdict": "ROLL_GC007_TODAY"
+ },
+ "legs": [
+  {
+   "leg": "patch generation is deterministic (two builds byte-identical)",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "leg": "the patch is four hunks over three files (one per defect + one per guard)",
+   "ok": true,
+   "detail": "files=3 hunks=4"
+  },
+  {
+   "leg": "git apply --check accepts the patch against the current tree",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "leg": "patched scripts/etf_book_permission_persistence.py parses",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "leg": "patched scripts/etf_book_cash_roll_today.py parses",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "leg": "patched smoke_test.py parses",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "leg": "harness: the UNVERIFIED branch precedes the loop's own check() call",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "leg": "patched --check on a silent receipt exits 3 and says UPSTREAM_SILENT",
+   "ok": true,
+   "detail": "rc=3 said='UPSTREAM_SILENT: the cut receipt says UNREADABLE and publishes no gap_k, so this face cannot re-check the trim it was pr'"
+  },
+  {
+   "leg": "that sentence does not contain STALE (the chain must not pay a rebuild for it)",
+   "ok": true,
+   "detail": "UPSTREAM_SILENT: the cut receipt says UNREADABLE and publishes no gap_k, so this face cannot re-check the trim it was pr"
+  },
+  {
+   "leg": "with a readable receipt the same code reaches the rebuild (guard is not a mute)",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "leg": "unpatched --check still raises KeyError 'gap_k' on the same fixture (control)",
+   "ok": true,
+   "detail": "KeyError 'gap_k'"
+  },
+  {
+   "leg": "patched --selftest passes with the disk readers poisoned (it is offline now)",
+   "ok": true,
+   "detail": "selftest 20/20"
+  },
+  {
+   "leg": "unpatched --selftest still dies with KeyError 'cash_cny' on a silent face (control)",
+   "ok": true,
+   "detail": "KeyError 'cash_cny'"
+  }
+ ],
+ "ok": true,
+ "elapsed_sec": 1.63
+}

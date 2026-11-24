@@ -1552,7 +1552,7 @@
  },
  "round_drift_note": "state said round_no=1937 while commit 6a3f33e30e already said round 1938 -> counters healed to 1939",
  "round_label": "r2063",
- "round_no": 2064,
+ "round_no": 2065,
  "round_no_label": "r2028",
  "round_no_landed": 2028,
  "round_no_note": "r2052 收口（state 上轮停在 2050，2050/2051 两轮提交已上链但报告行缺失，本轮补齐 r2052 行）",
@@ -2440,5 +2440,6 @@
  "通过_r2054": "orders 116 件 vs 心跳 orders_ack 329 → 未回执 0；origin/main:docs/decisions.md 原生字节 sha256 79e3083b85c130b8（体 250,586B）== 自持水位 → 零新决策零动作；orders.md 6bd40fec 与 r2053 同值 → 零新增行；fleet/inbox 无件；attrition_ledger_guard CLEAN；pre-commit/pre-push MATCH",
  "记账_r2061": "轮报告 1 处 + state 1 处 + 心跳 1 处 = 3（无方法论新增：把『红腿的修法顺序』做成可复核分类属证据与载体；方法论卡锁存待无竞争轮）",
  "通过_r2061": "竞争探针 rc=3 CONTENTION（2 宿主·13 张共享面别宿主写过·重叠窗不可归因 0）→ 只落新增文件面；冒烟/ S6 连续第 10 轮未跑（本轮跑的是 2026-11-24T20:12:28 的旧读数）",
- "送达自证_r2061": "commit ff4d43cd70 已推 origin machine/bm-c-r2061（main 落后 1 未 FF）；fetch 后 machine tip == HEAD；ls-tree origin/machine/bm-c-r2061 三件在位（scripts/smoke_red_triage.py / results/smoke_red_triage.json / results/_r2061bmc_closeout.py）；本地未达 origin/main commit 数=6（machine 分支已送达）"
+ "送达自证_r2061": "commit ff4d43cd70 已推 origin machine/bm-c-r2061（main 落后 1 未 FF）；fetch 后 machine tip == HEAD；ls-tree origin/machine/bm-c-r2061 三件在位（scripts/smoke_red_triage.py / results/smoke_red_triage.json / results/_r2061bmc_closeout.py）；本地未达 origin/main commit 数=6（machine 分支已送达）",
+ "note_r2065": "reader-silent-upstream patch proven (13/13); not applied -- contention window, new files only"
 }
