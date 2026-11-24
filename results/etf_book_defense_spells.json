@@ -1,0 +1,467 @@
+{
+ "schema": "etf-book-defense-spells/v1",
+ "evidence_cutoff": "2026-11-24",
+ "cell": "N5_R20_10bp",
+ "execution": "decision at close t, execute at open t+1 (entry_lag=0, the printed caliber)",
+ "defensive_definition": "class mix in force has equity weight <= 0",
+ "panel": {
+  "shape": [
+   5287,
+   1640
+  ],
+  "flips_repaired": 169,
+  "first_bar": "2005-02-23",
+  "last_bar": "2026-11-24",
+  "class_counts": {
+   "equity": 1488,
+   "money": 59,
+   "bond": 50,
+   "commodity": 41,
+   "convertible": 2
+  },
+  "dir_stat": {
+   "files": 1725,
+   "max_mtime": 1795508210.621742
+  }
+ },
+ "core": {
+  "bars": 1669,
+  "defensive_bars": 909,
+  "defensive_pct": 54.5,
+  "n_spells": 17,
+  "bars_median": 20.0,
+  "bars_p90": 108.0,
+  "bars_max": 189,
+  "cal_days_median": 35.0,
+  "book_log_total_defensive": 0.08968943927952934,
+  "book_log_per_bar_defensive": 9.866825003248552e-05,
+  "book_log_per_bar_offensive": 0.0006599044269882743,
+  "defense_added_log": -0.04991804189698849,
+  "defense_helped_spells": 9,
+  "worst_spell": {
+   "start": "2024-08-16",
+   "bars": 80,
+   "cal_days": 122,
+   "book_log": 0.005404517300949596,
+   "equity_log": 0.21088344316810498,
+   "book_minus_equity": -0.20547892586715538
+  },
+  "best_spell": {
+   "start": "2026-02-10",
+   "bars": 189,
+   "cal_days": 287,
+   "book_log": 0.0018348726439777474,
+   "equity_log": -0.23204919080987738,
+   "book_minus_equity": 0.23388406345385512
+  },
+  "ticket_cny": 1000000.0,
+  "defense_added_cny": -49918.041896988485,
+  "defensive_bar_maxdd_book": 0.058113851595309865,
+  "defensive_bar_maxdd_equity": 0.2983271535304475,
+  "maxdd_book_all_bars": 0.13403159155863573,
+  "maxdd_equity_all_bars": 0.5283948277217795,
+  "equity_ann_pct_over_defensive_bars": 3.95,
+  "defensive_ann_pct": 2.52,
+  "offensive_ann_pct": 18.09,
+  "reentries_closed": 16,
+  "false_starts": 0,
+  "false_start_pct": 0.0,
+  "false_start_mean_log_next": null,
+  "true_start_mean_log_next": 0.003190001198228711
+ },
+ "spells": [
+  {
+   "start": "2020-03-09",
+   "end": "2020-04-03",
+   "bars": 20,
+   "cal_days": 25,
+   "book_log": -0.008454382477261116
+  },
+  {
+   "start": "2020-09-29",
+   "end": "2020-11-03",
+   "bars": 20,
+   "cal_days": 35,
+   "book_log": -0.0003252228697150361
+  },
+  {
+   "start": "2020-12-30",
+   "end": "2021-01-27",
+   "bars": 20,
+   "cal_days": 28,
+   "book_log": -0.0037367479657436087
+  },
+  {
+   "start": "2021-04-01",
+   "end": "2021-04-29",
+   "bars": 20,
+   "cal_days": 28,
+   "book_log": 0.0003810843246835893
+  },
+  {
+   "start": "2021-06-02",
+   "end": "2021-06-30",
+   "bars": 20,
+   "cal_days": 28,
+   "book_log": -0.03952321017434951
+  },
+  {
+   "start": "2021-11-29",
+   "end": "2021-12-24",
+   "bars": 20,
+   "cal_days": 25,
+   "book_log": 0.006093608345228596
+  },
+  {
+   "start": "2022-01-25",
+   "end": "2022-03-28",
+   "bars": 40,
+   "cal_days": 62,
+   "book_log": 0.012776998931718214
+  },
+  {
+   "start": "2022-04-28",
+   "end": "2022-06-28",
+   "bars": 40,
+   "cal_days": 61,
+   "book_log": 0.006368758514378237
+  },
+  {
+   "start": "2022-07-27",
+   "end": "2023-01-19",
+   "bars": 120,
+   "cal_days": 176,
+   "book_log": -0.006948053180419134
+  },
+  {
+   "start": "2023-02-24",
+   "end": "2023-06-21",
+   "bars": 80,
+   "cal_days": 117,
+   "book_log": 0.006215791697472578
+  },
+  {
+   "start": "2023-07-24",
+   "end": "2023-12-18",
+   "bars": 100,
+   "cal_days": 147,
+   "book_log": 0.00035192632167557747
+  },
+  {
+   "start": "2024-01-17",
+   "end": "2024-05-22",
+   "bars": 80,
+   "cal_days": 126,
+   "book_log": 0.07952681694043301
+  },
+  {
+   "start": "2024-06-21",
+   "end": "2024-07-18",
+   "bars": 20,
+   "cal_days": 27,
+   "book_log": 0.0007728350139210582
+  },
+  {
+   "start": "2024-08-16",
+   "end": "2024-12-16",
+   "bars": 80,
+   "cal_days": 122,
+   "book_log": 0.005404517300949596
+  },
+  {
+   "start": "2025-01-15",
+   "end": "2025-02-19",
+   "bars": 20,
+   "cal_days": 35,
+   "book_log": 0.03128604142786173
+  },
+  {
+   "start": "2025-12-12",
+   "end": "2026-01-12",
+   "bars": 20,
+   "cal_days": 31,
+   "book_log": -0.002336195515282191
+  },
+  {
+   "start": "2026-02-10",
+   "end": "2026-11-24",
+   "bars": 189,
+   "cal_days": 287,
+   "book_log": 0.0018348726439777474
+  }
+ ],
+ "spell_vs_equity": [
+  {
+   "start": "2020-03-09",
+   "bars": 20,
+   "cal_days": 25,
+   "book_log": -0.008454382477261116,
+   "equity_log": -0.11142691835159374,
+   "book_minus_equity": 0.10297253587433262
+  },
+  {
+   "start": "2020-09-29",
+   "bars": 20,
+   "cal_days": 35,
+   "book_log": -0.0003252228697150361,
+   "equity_log": 0.04387718406576646,
+   "book_minus_equity": -0.0442024069354815
+  },
+  {
+   "start": "2020-12-30",
+   "bars": 20,
+   "cal_days": 28,
+   "book_log": -0.0037367479657436087,
+   "equity_log": 0.07886074954693592,
+   "book_minus_equity": -0.08259749751267953
+  },
+  {
+   "start": "2021-04-01",
+   "bars": 20,
+   "cal_days": 28,
+   "book_log": 0.0003810843246835893,
+   "equity_log": 0.04593749774985462,
+   "book_minus_equity": -0.04555641342517103
+  },
+  {
+   "start": "2021-06-02",
+   "bars": 20,
+   "cal_days": 28,
+   "book_log": -0.03952321017434951,
+   "equity_log": 0.025425216658260197,
+   "book_minus_equity": -0.06494842683260971
+  },
+  {
+   "start": "2021-11-29",
+   "bars": 20,
+   "cal_days": 25,
+   "book_log": 0.006093608345228596,
+   "equity_log": -0.016137548738205387,
+   "book_minus_equity": 0.022231157083433983
+  },
+  {
+   "start": "2022-01-25",
+   "bars": 40,
+   "cal_days": 62,
+   "book_log": 0.012776998931718214,
+   "equity_log": -0.13141204333586856,
+   "book_minus_equity": 0.14418904226758678
+  },
+  {
+   "start": "2022-04-28",
+   "bars": 40,
+   "cal_days": 61,
+   "book_log": 0.006368758514378237,
+   "equity_log": 0.1947457959981324,
+   "book_minus_equity": -0.18837703748375417
+  },
+  {
+   "start": "2022-07-27",
+   "bars": 120,
+   "cal_days": 176,
+   "book_log": -0.006948053180419134,
+   "equity_log": -0.021865856433631967,
+   "book_minus_equity": 0.014917803253212833
+  },
+  {
+   "start": "2023-02-24",
+   "bars": 80,
+   "cal_days": 117,
+   "book_log": 0.006215791697472578,
+   "equity_log": -0.04178153157539573,
+   "book_minus_equity": 0.047997323272868306
+  },
+  {
+   "start": "2023-07-24",
+   "bars": 100,
+   "cal_days": 147,
+   "book_log": 0.00035192632167557747,
+   "equity_log": -0.11755987715532257,
+   "book_minus_equity": 0.11791180347699814
+  },
+  {
+   "start": "2024-01-17",
+   "bars": 80,
+   "cal_days": 126,
+   "book_log": 0.07952681694043301,
+   "equity_log": 0.06547641433849061,
+   "book_minus_equity": 0.014050402601942402
+  },
+  {
+   "start": "2024-06-21",
+   "bars": 20,
+   "cal_days": 27,
+   "book_log": 0.0007728350139210582,
+   "equity_log": -0.015494734885811969,
+   "book_minus_equity": 0.016267569899733027
+  },
+  {
+   "start": "2024-08-16",
+   "bars": 80,
+   "cal_days": 122,
+   "book_log": 0.005404517300949596,
+   "equity_log": 0.21088344316810498,
+   "book_minus_equity": -0.20547892586715538
+  },
+  {
+   "start": "2025-01-15",
+   "bars": 20,
+   "cal_days": 35,
+   "book_log": 0.03128604142786173,
+   "equity_log": 0.07757314270287713,
+   "book_minus_equity": -0.046287101275015397
+  },
+  {
+   "start": "2025-12-12",
+   "bars": 20,
+   "cal_days": 31,
+   "book_log": -0.002336195515282191,
+   "equity_log": 0.0845557382338028,
+   "book_minus_equity": -0.08689193374908499
+  },
+  {
+   "start": "2026-02-10",
+   "bars": 189,
+   "cal_days": 287,
+   "book_log": 0.0018348726439777474,
+   "equity_log": -0.23204919080987738,
+   "book_minus_equity": 0.23388406345385512
+  }
+ ],
+ "whipsaw": [
+  {
+   "start": "2020-03-09",
+   "bars": 20,
+   "equity_weight_after": 0.2,
+   "back_in_defense_within_20": false,
+   "book_log_next_20": 0.01943198877353168
+  },
+  {
+   "start": "2020-09-29",
+   "bars": 20,
+   "equity_weight_after": 0.4,
+   "back_in_defense_within_20": false,
+   "book_log_next_20": 0.014351661662123816
+  },
+  {
+   "start": "2020-12-30",
+   "bars": 20,
+   "equity_weight_after": 0.6000000000000001,
+   "back_in_defense_within_20": false,
+   "book_log_next_20": -0.018575655507752614
+  },
+  {
+   "start": "2021-04-01",
+   "bars": 20,
+   "equity_weight_after": 0.4,
+   "back_in_defense_within_20": false,
+   "book_log_next_20": -0.008995984574094062
+  },
+  {
+   "start": "2021-06-02",
+   "bars": 20,
+   "equity_weight_after": 0.6000000000000001,
+   "back_in_defense_within_20": false,
+   "book_log_next_20": 0.019893998592205017
+  },
+  {
+   "start": "2021-11-29",
+   "bars": 20,
+   "equity_weight_after": 0.2,
+   "back_in_defense_within_20": false,
+   "book_log_next_20": -0.0011404839960086066
+  },
+  {
+   "start": "2022-01-25",
+   "bars": 40,
+   "equity_weight_after": 0.2,
+   "back_in_defense_within_20": false,
+   "book_log_next_20": -0.0193669764055259
+  },
+  {
+   "start": "2022-04-28",
+   "bars": 40,
+   "equity_weight_after": 0.2,
+   "back_in_defense_within_20": false,
+   "book_log_next_20": -0.0033847340655122626
+  },
+  {
+   "start": "2022-07-27",
+   "bars": 120,
+   "equity_weight_after": 0.4,
+   "back_in_defense_within_20": false,
+   "book_log_next_20": 0.011934140903674534
+  },
+  {
+   "start": "2023-02-24",
+   "bars": 80,
+   "equity_weight_after": 0.4,
+   "back_in_defense_within_20": false,
+   "book_log_next_20": 0.011751446273041893
+  },
+  {
+   "start": "2023-07-24",
+   "bars": 100,
+   "equity_weight_after": 0.2,
+   "back_in_defense_within_20": false,
+   "book_log_next_20": -0.0018093633044561075
+  },
+  {
+   "start": "2024-01-17",
+   "bars": 80,
+   "equity_weight_after": 0.4,
+   "back_in_defense_within_20": false,
+   "book_log_next_20": 0.015170406435375039
+  },
+  {
+   "start": "2024-06-21",
+   "bars": 20,
+   "equity_weight_after": 0.4,
+   "back_in_defense_within_20": false,
+   "book_log_next_20": -0.014505984664288318
+  },
+  {
+   "start": "2024-08-16",
+   "bars": 80,
+   "equity_weight_after": 1.0,
+   "back_in_defense_within_20": false,
+   "book_log_next_20": -0.0019207502684852606
+  },
+  {
+   "start": "2025-01-15",
+   "bars": 20,
+   "equity_weight_after": 0.2,
+   "back_in_defense_within_20": false,
+   "book_log_next_20": 0.022342785008723
+  },
+  {
+   "start": "2025-12-12",
+   "bars": 20,
+   "equity_weight_after": 0.6000000000000001,
+   "back_in_defense_within_20": false,
+   "book_log_next_20": 0.005863524309107526
+  },
+  {
+   "start": "2026-02-10",
+   "bars": 189,
+   "equity_weight_after": null,
+   "back_in_defense_within_20": false,
+   "book_log_next_20": 0.0
+  }
+ ],
+ "today": {
+  "last_bar": "2026-11-24",
+  "in_defense": true,
+  "spell_start": "2026-02-10",
+  "spell_bars": 189,
+  "bars_since_defense": 0,
+  "pct_of_prior_spells_longer": 0.0
+ },
+ "caveats": [
+  "The ETF pool is today's listed set (survivorship), so early spells are read on a panel that would have been thinner in real time.",
+  "The counterfactual leg is the eligible equity equal-weight universe this book already publishes, not 'the index'.",
+  "A spell is measured in bars the book actually held: gaps in the panel shorten spells rather than splitting them.",
+  "This is the all-classes cell. The production candidate (nobond_vt08, 8% vol target) has no bond slot, so it cannot print a defensive spell -- read this table as the all-class book's own history, not the production book's.",
+  "43.4% of rebalance DATES are fully defensive (etf_equity_alpha) against the bar share printed here: the bar ruler weights the long spells, which is the honest way to ask how much of the calendar the book is parked."
+ ]
+}
