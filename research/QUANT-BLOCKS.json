@@ -537,16 +537,39 @@
      "scripts/block_board.py",
      "scripts/bench_hub.py",
      "scripts/bench_revalidate.py",
-     "scripts/bench_fut_trend.py",
-     "scripts/bench_bond_curve.py",
-     "scripts/bench_basis_capacity.py",
-     "scripts/bench_basis_timing_size.py",
-     "scripts/bench_power.py"
+     "scripts/bench_refill.py",
+     "scripts/bench_power.py",
+     "scripts/bench_generic.py",
+     "scripts/bench_etf_census.py",
+     "scripts/bench_basis_timing_perm.py"
     ]
    },
    "acceptance": "所有脚本只经 silent_run 起子进程（实测 raw=1 个可见窗 / silent=0）",
    "on_red": "改回 silent_run.run；否则每小时会闪一次黑窗",
    "closed_loop": "探针→红→改脚本→复跑探针",
+   "auto_fix": null
+  },
+  {
+   "id": "W1_supply",
+   "group": "治理",
+   "name": "作业供给（队列+银行不得同时为空）",
+   "granularity": "格级：预注册问题存量",
+   "seat": "研究席",
+   "skills": [
+    "gate-rigor",
+    "quant-backtest-gate"
+   ],
+   "input": "research/WORK-BANK.json + BENCH-QUEUE.json",
+   "artifact": "research/QUANT-BLOCK-BOARD.md",
+   "cadence_h": 1,
+   "probe": {
+    "type": "supply",
+    "queue": "research/BENCH-QUEUE.json",
+    "bank": "research/WORK-BANK.json"
+   },
+   "acceptance": "队列有 pending 或银行有 open",
+   "on_red": "补预注册问题（写进 WORK-BANK，须带判据与目标边际）——这是唯一必须人清的缺口",
+   "closed_loop": "银行空→红→补题→refill→绿",
    "auto_fix": null
   }
  ]

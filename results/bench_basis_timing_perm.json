@@ -1,0 +1,39 @@
+{
+ "cell": "basis_timing_perm",
+ "generated": "2026-11-24T21:36:49+08:00",
+ "evidence_cutoff": "2026-11-23",
+ "null": "circular shift of the weight series (alignment destroyed, distribution kept)",
+ "statistic": "annualised(weighted carry) - annualised(always-on carry)",
+ "draws": 5000,
+ "seed": 20261124,
+ "products": {
+  "IC": {
+   "bars": 2388,
+   "weighted_ann_pct": 10.15,
+   "always_on_ann_pct": 2.79,
+   "difference_pp": 7.36,
+   "null_mean_pp": -2.11,
+   "null_p95_pp": -1.25,
+   "p_value": 0.0,
+   "draws": 5000,
+   "significant": true
+  },
+  "IM": {
+   "bars": 1050,
+   "weighted_ann_pct": 9.49,
+   "always_on_ann_pct": 5.85,
+   "difference_pp": 3.64,
+   "null_mean_pp": -3.33,
+   "null_p95_pp": -1.66,
+   "p_value": 0.0,
+   "draws": 5000,
+   "significant": true
+  }
+ },
+ "verdict": "SIGNIFICANT",
+ "reading": {
+  "SIGNIFICANT": "the GO survives; sizing by percentile is aligned with the carry",
+  "NOT_SIGNIFICANT": "the GO does not survive; withdraw it and hold always",
+  "INCONCLUSIVE": "mixed; report both and do not size on it"
+ }
+}

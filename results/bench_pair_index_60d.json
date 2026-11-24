@@ -1,0 +1,159 @@
+{
+ "cell": "pair_index_60d",
+ "generated": "2026-11-24T21:24:50+08:00",
+ "evidence_cutoff": "2026-11-23",
+ "question": null,
+ "config": {
+  "id": "pair_index_60d",
+  "type": "pair",
+  "rule": "xs_rank",
+  "products": [
+   "IC",
+   "IF",
+   "IH",
+   "IM"
+  ],
+  "params": {
+   "window": 60,
+   "k": 1
+  },
+  "cost_bp_side": 3.0,
+  "target_vol": 0.06,
+  "split": "2024-01-01",
+  "crit": {
+   "H1_full_pct": 3.0,
+   "H2_oos_pct": 2.0,
+   "H2_oos_sharpe": 0.3,
+   "H4_drop_best_pct": 1.0,
+   "H5_p": 0.05
+  },
+  "target_edge_pp": 3.0
+ },
+ "coverage": {
+  "bars": 2389,
+  "start": "2017-01-17",
+  "end": "2026-11-23",
+  "products": [
+   "IC",
+   "IF",
+   "IH",
+   "IM"
+  ]
+ },
+ "arms": [
+  {
+   "tags": {},
+   "common_window": {
+    "n": 2389,
+    "ann_pct": 2.92,
+    "vol_pct": 14.69,
+    "sharpe": 0.269,
+    "mdd_pct": -37.8,
+    "t_stat": 0.84,
+    "years": {
+     "2017": 20.01,
+     "2018": -15.31,
+     "2019": 30.93,
+     "2020": 29.8,
+     "2021": 2.65,
+     "2022": -21.8,
+     "2023": -10.66,
+     "2024": -4.82,
+     "2025": 15.71,
+     "2026": -2.86
+    },
+    "best_year": 2019,
+    "drop_best_year_ann_pct": 0.14
+   },
+   "oos_2024_after": {
+    "n": 699,
+    "ann_pct": 2.39,
+    "vol_pct": 6.3,
+    "sharpe": 0.406,
+    "mdd_pct": -8.9,
+    "t_stat": 0.69,
+    "years": {
+     "2024": -4.82,
+     "2025": 15.71,
+     "2026": -2.86
+    },
+    "best_year": 2025,
+    "drop_best_year_ann_pct": -4.03
+   },
+   "first_half_ann_pct": 12.57,
+   "second_half_ann_pct": -5.9,
+   "turnover_per_year": 4.14,
+   "cost_drag_ann_pct": 0.12,
+   "avg_live": 1.8,
+   "mde_pp": 9.2,
+   "powered_for_target": false,
+   "control": {
+    "real_ann_pct": 3.96,
+    "null_mean_ann_pct": 0.13,
+    "null_p95_ann_pct": 4.5,
+    "p_value": 0.14,
+    "draws": 100
+   },
+   "checks": {
+    "H1_full_ge": false,
+    "H2_oos_ge": true,
+    "H3_both_halves": false,
+    "H4_drop_best": false,
+    "H5_control": false
+   },
+   "verdict": "NO_EDGE"
+  }
+ ],
+ "benchmark_buy_and_hold": {
+  "common_window": {
+   "n": 2389,
+   "ann_pct": 2.36,
+   "vol_pct": 17.71,
+   "sharpe": 0.22,
+   "mdd_pct": -52.37,
+   "t_stat": 0.69,
+   "years": {
+    "2017": 19.01,
+    "2018": -15.01,
+    "2019": 32.84,
+    "2020": 27.22,
+    "2021": 2.15,
+    "2022": -23.02,
+    "2023": -16.66,
+    "2024": -12.07,
+    "2025": 47.8,
+    "2026": -13.72
+   },
+   "best_year": 2025,
+   "drop_best_year_ann_pct": -1.71
+  },
+  "oos_2024_after": {
+   "n": 699,
+   "ann_pct": 4.08,
+   "vol_pct": 19.33,
+   "sharpe": 0.303,
+   "mdd_pct": -22.44,
+   "t_stat": 0.51,
+   "years": {
+    "2024": -12.07,
+    "2025": 47.8,
+    "2026": -13.72
+   },
+   "best_year": 2025,
+   "drop_best_year_ann_pct": -12.91
+  }
+ },
+ "criteria": {
+  "cost_bp_side": 3.0,
+  "target_edge_pp": 3.0,
+  "split": "2024-01-01",
+  "crit": {
+   "H1_full_pct": 3.0,
+   "H2_oos_pct": 2.0,
+   "H2_oos_sharpe": 0.3,
+   "H4_drop_best_pct": 1.0,
+   "H5_p": 0.05
+  }
+ },
+ "verdict": "NO_EDGE"
+}

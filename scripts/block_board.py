@@ -353,6 +353,32 @@ def probe_no_raw_subprocess(spec):
     return True, f"{len(spec.get('files', []))} automation script(s) clean"
 
 
+def probe_supply(spec):
+    """The line must never run out of *pre-registered* questions.
+
+    Green: at least one pending cell in the queue, or at least one open item in
+    the work bank. Red: both empty -- that is not "idle", it is a supply
+    failure, because the machine has nothing to do only when nobody wrote down
+    the next question. Refill cannot invent questions, so this is the one red a
+    person must clear (add to research/WORK-BANK.json).
+    """
+    q = read_json_any(p(spec["queue"])) or {}
+    b = read_json_any(p(spec["bank"])) or {}
+    pending = sum(1 for c in q.get("cells", []) if c.get("status") in ("pending", "failed"))
+    open_items = sum(1 for i in b.get("items", []) if i.get("status") == "open")
+    if pending or open_items:
+        return True, f"pending={pending} · bank_open={open_items}"
+    return False, "queue and work bank are both empty -- no pre-registered question left"
+
+
+def read_json_any(path):
+    try:
+        with open(path, encoding="utf-8") as f:
+            return json.load(f)
+    except Exception:
+        return None
+
+
 PROBES = {
     "dir_fresh": probe_dir_fresh,
     "dir_bar_fresh": probe_dir_bar_fresh,
@@ -362,6 +388,7 @@ PROBES = {
     "cells_have_field": probe_cells_cost,
     "self_board": probe_self_board,
     "no_raw_subprocess": probe_no_raw_subprocess,
+    "supply": probe_supply,
 }
 
 

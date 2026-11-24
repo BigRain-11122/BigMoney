@@ -206,8 +206,8 @@ def run_cell(cell):
     env["MKL_NUM_THREADS"] = str(cell.get("threads", 4))
     t0 = time.time()
     try:
-        p = silent_run.run([sys.executable, script], cwd=ROOT, env=env,
-                           timeout=CELL_TIMEOUT_S)
+        p = silent_run.run([sys.executable, script] + list(cell.get("args") or []),
+                           cwd=ROOT, env=env, timeout=CELL_TIMEOUT_S)
         secs = round(time.time() - t0, 1)
         tail = (p.stdout or "")[-4000:]
         err = (p.stderr or "")[-2000:]
@@ -301,6 +301,99 @@ def attach_power(cell):
     return summary
 
 
+def refill_queue(limit=1):
+    """An empty queue must pull the next pre-registered question, not idle."""
+    script = os.path.join(ROOT, "scripts", "bench_refill.py")
+    if not os.path.exists(script):
+        return {"ok": False, "state": "NO_REFILLER"}
+    try:
+        env = dict(os.environ)
+        env["PYTHONIOENCODING"] = "utf-8"
+        r = silent_run.run([sys.executable, script, "--limit", str(limit)],
+                           cwd=ROOT, env=env, timeout=180)
+        return json.loads((r.stdout or "").strip() or "{}")
+    except Exception as e:
+        return {"ok": False, "state": f"REFILL_ERROR({e})"}
+
+
+def run_parallel(n=4):
+    """Run several light cells at once -- CPU should be used, not merely queued.
+
+    Each cell still asks the arbiter for its own slot, so a parallel burst can
+    never outrun the media line's claim on RAM/CPU: cells that are denied stay
+    pending and report WAIT_RESOURCE.
+    """
+    from concurrent.futures import ThreadPoolExecutor, as_completed
+    if not acquire_lock():
+        print(json.dumps({"ok": True, "skipped": "LOCKED"}))
+        return 0
+    try:
+        q = load_queue()
+        pending = [c for c in q["cells"] if c.get("status") in ("pending", "failed")
+                   and int(c.get("attempts", 0)) < MAX_ATTEMPTS
+                   and os.path.exists(os.path.join(ROOT, c.get("script", "")))]
+        if not pending:
+            got = refill_queue(limit=n)
+            q = load_queue()
+            pending = [c for c in q["cells"] if c.get("status") in ("pending", "failed")
+                       and int(c.get("attempts", 0)) < MAX_ATTEMPTS
+                       and os.path.exists(os.path.join(ROOT, c.get("script", "")))]
+            if not pending:
+                print(json.dumps({"ok": True, "skipped": "NO_PENDING", "refill": got},
+                                 ensure_ascii=False))
+                return 0
+        batch = pending[:max(1, n)]
+        results = {}
+        with ThreadPoolExecutor(max_workers=len(batch)) as ex:
+            futs = {ex.submit(run_cell, c): c for c in batch}
+            for f in as_completed(futs):
+                c = futs[f]
+                try:
+                    results[c["id"]] = f.result()
+                except Exception as e:
+                    results[c["id"]] = {"rc": 1, "reason": str(e), "seconds": 0.0}
+
+        q = load_queue()                     # re-read: another tick may have written
+        stamp = now().isoformat(timespec="seconds")
+        for c in q["cells"]:
+            r = results.get(c["id"])
+            if r is None:
+                continue
+            c["runs"] = int(c.get("runs", 0)) + 1
+            c["last_run"] = stamp
+            c["last_seconds"] = r.get("seconds")
+            if r.get("skipped"):
+                c["last_skip"] = r["skipped"]
+                c["last_reason"] = r.get("reason")
+                continue
+            if r.get("rc") == 0:
+                c["status"] = "done"
+                c["verdict"] = read_verdict(c)
+                c["finished"] = stamp
+                c["attempts"] = 0
+            else:
+                c["attempts"] = int(c.get("attempts", 0)) + 1
+                c["status"] = "failed" if c["attempts"] < MAX_ATTEMPTS else "blocked"
+                c["last_error"] = (r.get("stderr_tail") or r.get("reason") or "")[-400:]
+        save_queue(q)
+        for cid, r in results.items():
+            ledger_append({"ts": stamp, "cell": cid, "rc": r.get("rc"),
+                           "seconds": r.get("seconds"), "verdict": read_verdict(
+                               next(x for x in q["cells"] if x["id"] == cid)),
+                           "batch": len(batch)})
+        render_status(q)
+        print(json.dumps({"ok": True, "batch": len(batch),
+                          "results": {k: {"rc": v.get("rc"),
+                                          "verdict": read_verdict(next(x for x in q["cells"]
+                                                                       if x["id"] == k)),
+                                          "seconds": v.get("seconds")}
+                                      for k, v in results.items()}},
+                         ensure_ascii=False, indent=1))
+        return 0
+    finally:
+        release_lock()
+
+
 def run_one(cell_id=None):
     if not acquire_lock():
         print(json.dumps({"ok": True, "skipped": "LOCKED", "reason": "another tick owns the hub"}))
@@ -316,8 +409,14 @@ def run_one(cell_id=None):
         else:
             cell = pick_next(q)
             if cell is None:
-                print(json.dumps({"ok": True, "skipped": "NO_PENDING"}, ensure_ascii=False))
-                return 0
+                got = refill_queue()
+                if got and got.get("made"):
+                    q = load_queue()
+                    cell = pick_next(q)
+                if cell is None:
+                    print(json.dumps({"ok": True, "skipped": "NO_PENDING",
+                                      "refill": got}, ensure_ascii=False))
+                    return 0
 
         res = run_cell(cell)
         stamp = now().isoformat(timespec="seconds")
@@ -411,6 +510,8 @@ def selftest():
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--next", action="store_true")
+    ap.add_argument("--parallel", type=int, default=0,
+                    help="run N light cells at once (each still asks the arbiter)")
     ap.add_argument("--cell")
     ap.add_argument("--status", action="store_true")
     ap.add_argument("--selftest", action="store_true")
@@ -421,6 +522,8 @@ def main():
         render_status()
         print(open(STATUS_MD, encoding="utf-8").read())
         return 0
+    if a.parallel:
+        return run_parallel(a.parallel)
     if a.cell or a.next:
         return run_one(a.cell)
     ap.print_help()

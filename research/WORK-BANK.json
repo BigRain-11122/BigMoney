@@ -1,0 +1,852 @@
+{
+ "version": "1.0",
+ "why": "队列空就等于停机。这个银行是「已预注册、已过功效预判」的待跑问题库；调度器在队列空时自动取下一张，materialize 成 research/cells/<id>.json 再排队。取完为止，不造低功效的活。",
+ "rule": "每张卡必须写清：改变什么决定、判据、目标边际(target_edge_pp)、成本、样本切分。观测边际小于 MDE 的格子会判 UNINFORMATIVE_AT_TARGET，不算结论。",
+ "items": [
+  {
+   "id": "pair_index_60d",
+   "question": "四个股指期货之间做横截面强弱对冲（多最强、空最弱，60日排序），扣费后有没有净收成？",
+   "type": "pair",
+   "rule": "xs_rank",
+   "products": [
+    "IC",
+    "IF",
+    "IH",
+    "IM"
+   ],
+   "params": {
+    "window": 60,
+    "k": 1
+   },
+   "cost_bp_side": 3.0,
+   "target_vol": 0.06,
+   "split": "2024-01-01",
+   "crit": {
+    "H1_full_pct": 3.0,
+    "H2_oos_pct": 2.0,
+    "H2_oos_sharpe": 0.3,
+    "H4_drop_best_pct": 1.0,
+    "H5_p": 0.05
+   },
+   "target_edge_pp": 3.0,
+   "decides": "(a) 这条横截面线要不要单开；同品种对冲波动低，功效足够",
+   "status": "queued",
+   "queued_at": "2026-11-24T21:24:42+08:00"
+  },
+  {
+   "id": "pair_all10_60d",
+   "question": "十个品种一起做横截面强弱（多前2、空后2，60日），净后是否为正？",
+   "type": "pair",
+   "rule": "xs_rank",
+   "products": [
+    "IC",
+    "IF",
+    "IH",
+    "IM",
+    "T",
+    "TF",
+    "TS",
+    "AU",
+    "RB",
+    "SC"
+   ],
+   "params": {
+    "window": 60,
+    "k": 2
+   },
+   "cost_bp_side": 3.0,
+   "target_vol": 0.08,
+   "split": "2024-01-01",
+   "crit": {
+    "H1_full_pct": 3.0,
+    "H2_oos_pct": 2.0,
+    "H2_oos_sharpe": 0.3,
+    "H4_drop_best_pct": 1.0,
+    "H5_p": 0.05
+   },
+   "target_edge_pp": 3.0,
+   "decides": "(a) 跨资产横截面是否比同资产内更强",
+   "status": "queued",
+   "queued_at": "2026-11-24T21:25:11+08:00"
+  },
+  {
+   "id": "pair_commodity_60d",
+   "question": "商品三品种（金/螺纹/原油）横截面强弱对冲，净后有没有收成？",
+   "type": "pair",
+   "rule": "xs_rank",
+   "products": [
+    "AU",
+    "RB",
+    "SC"
+   ],
+   "params": {
+    "window": 60,
+    "k": 1
+   },
+   "cost_bp_side": 3.0,
+   "target_vol": 0.08,
+   "split": "2024-01-01",
+   "crit": {
+    "H1_full_pct": 3.0,
+    "H2_oos_pct": 2.0,
+    "H2_oos_sharpe": 0.3,
+    "H4_drop_best_pct": 1.0,
+    "H5_p": 0.05
+   },
+   "target_edge_pp": 3.0,
+   "decides": "(a) 商品横截面是否值得单列",
+   "status": "queued",
+   "queued_at": "2026-11-24T21:25:19+08:00"
+  },
+  {
+   "id": "trend_single_IC_long",
+   "question": "单做中证500期货的均线趋势（只做多、50/200），净后与买入持有比有没有超额？",
+   "type": "single",
+   "rule": "ma_cross",
+   "products": [
+    "IC"
+   ],
+   "params": {
+    "fast": 50,
+    "slow": 200
+   },
+   "long_only": true,
+   "cost_bp_side": 3.0,
+   "target_vol": 0.1,
+   "split": "2024-01-01",
+   "crit": {
+    "H1_full_pct": 4.0,
+    "H2_oos_pct": 3.0,
+    "H2_oos_sharpe": 0.4,
+    "H4_drop_best_pct": 1.5,
+    "H5_p": 0.05
+   },
+   "target_edge_pp": 5.0,
+   "decides": "(b) 单品种择时是否比常驻买 IC 更值得放钱",
+   "status": "queued",
+   "queued_at": "2026-11-24T21:25:27+08:00"
+  },
+  {
+   "id": "trend_single_AU_long",
+   "question": "黄金期货单品种均线趋势（只做多），净后是否跑赢买入持有？",
+   "type": "single",
+   "rule": "ma_cross",
+   "products": [
+    "AU"
+   ],
+   "params": {
+    "fast": 50,
+    "slow": 200
+   },
+   "long_only": true,
+   "cost_bp_side": 3.0,
+   "target_vol": 0.1,
+   "split": "2024-01-01",
+   "crit": {
+    "H1_full_pct": 4.0,
+    "H2_oos_pct": 3.0,
+    "H2_oos_sharpe": 0.4,
+    "H4_drop_best_pct": 1.5,
+    "H5_p": 0.05
+   },
+   "target_edge_pp": 5.0,
+   "decides": "(b) 黄金该常驻还是择时",
+   "status": "queued",
+   "queued_at": "2026-11-24T21:25:35+08:00"
+  },
+  {
+   "id": "trend_single_T_long",
+   "question": "十年国债期货单品种趋势（只做多），净后是否跑赢持有？",
+   "type": "single",
+   "rule": "ma_cross",
+   "products": [
+    "T"
+   ],
+   "params": {
+    "fast": 50,
+    "slow": 200
+   },
+   "long_only": true,
+   "cost_bp_side": 1.5,
+   "target_vol": 0.06,
+   "split": "2024-01-01",
+   "crit": {
+    "H1_full_pct": 3.0,
+    "H2_oos_pct": 2.0,
+    "H2_oos_sharpe": 0.3,
+    "H4_drop_best_pct": 1.0,
+    "H5_p": 0.05
+   },
+   "target_edge_pp": 3.0,
+   "decides": "(b) 债券腿要不要择时",
+   "status": "queued",
+   "queued_at": "2026-11-24T21:25:43+08:00"
+  },
+  {
+   "id": "reversal_index_5d",
+   "question": "股指期货五日反转（多跌得多的、空涨得多的），净后有没有收成？",
+   "type": "pair",
+   "rule": "reversal",
+   "products": [
+    "IC",
+    "IF",
+    "IH",
+    "IM"
+   ],
+   "params": {
+    "window": 5
+   },
+   "cost_bp_side": 3.0,
+   "target_vol": 0.06,
+   "split": "2024-01-01",
+   "crit": {
+    "H1_full_pct": 3.0,
+    "H2_oos_pct": 2.0,
+    "H2_oos_sharpe": 0.3,
+    "H4_drop_best_pct": 1.0,
+    "H5_p": 0.05
+   },
+   "target_edge_pp": 3.0,
+   "decides": "(a) 短线反转是不是真收成",
+   "status": "queued",
+   "queued_at": "2026-11-24T21:25:51+08:00"
+  },
+  {
+   "id": "robust_ma_index",
+   "question": "股指期货趋势的符号在 20/50、50/100、50/200 三组均线下是否稳定？",
+   "type": "robust",
+   "rule": "ma_cross",
+   "products": [
+    "IC",
+    "IF",
+    "IH",
+    "IM"
+   ],
+   "params": {
+    "fast": 50,
+    "slow": 200
+   },
+   "variants": [
+    {
+     "name": "20_50",
+     "params": {
+      "fast": 20,
+      "slow": 50
+     }
+    },
+    {
+     "name": "50_100",
+     "params": {
+      "fast": 50,
+      "slow": 100
+     }
+    },
+    {
+     "name": "50_200",
+     "params": {
+      "fast": 50,
+      "slow": 200
+     }
+    }
+   ],
+   "cost_bp_side": 3.0,
+   "target_vol": 0.08,
+   "split": "2024-01-01",
+   "crit": {
+    "H1_full_pct": 3.0,
+    "H2_oos_pct": 2.0,
+    "H2_oos_sharpe": 0.3,
+    "H4_drop_best_pct": 1.0,
+    "H5_p": 0.05
+   },
+   "target_edge_pp": 5.0,
+   "decides": "(d) 已判负的趋势线是不是「参数碰巧」——符号不稳就不该再问",
+   "status": "queued",
+   "queued_at": "2026-11-24T21:26:53+08:00"
+  },
+  {
+   "id": "robust_tsmom_commodity",
+   "question": "商品趋势的符号在 60/120/250 日回看下是否稳定？",
+   "type": "robust",
+   "rule": "tsmom",
+   "products": [
+    "AU",
+    "RB",
+    "SC"
+   ],
+   "params": {
+    "lookback": 250,
+    "skip": 21
+   },
+   "variants": [
+    {
+     "name": "60d",
+     "params": {
+      "lookback": 60
+     }
+    },
+    {
+     "name": "120d",
+     "params": {
+      "lookback": 120
+     }
+    },
+    {
+     "name": "250d",
+     "params": {
+      "lookback": 250
+     }
+    }
+   ],
+   "cost_bp_side": 3.0,
+   "target_vol": 0.08,
+   "split": "2024-01-01",
+   "crit": {
+    "H1_full_pct": 3.0,
+    "H2_oos_pct": 2.0,
+    "H2_oos_sharpe": 0.3,
+    "H4_drop_best_pct": 1.0,
+    "H5_p": 0.05
+   },
+   "target_edge_pp": 5.0,
+   "decides": "(d) 商品趋势值不值得再投入研究",
+   "status": "queued",
+   "queued_at": "2026-11-24T21:27:02+08:00"
+  },
+  {
+   "id": "robust_donchian_index",
+   "question": "股指期货唐奇安通道的负结论在三组通道参数下是否稳定（负得稳才叫判死）？",
+   "type": "robust",
+   "rule": "donchian",
+   "products": [
+    "IC",
+    "IF",
+    "IH",
+    "IM"
+   ],
+   "params": {
+    "entry": 55,
+    "exit": 20
+   },
+   "variants": [
+    {
+     "name": "20_10",
+     "params": {
+      "entry": 20,
+      "exit": 10
+     }
+    },
+    {
+     "name": "40_15",
+     "params": {
+      "entry": 40,
+      "exit": 15
+     }
+    },
+    {
+     "name": "55_20",
+     "params": {
+      "entry": 55,
+      "exit": 20
+     }
+    }
+   ],
+   "cost_bp_side": 3.0,
+   "target_vol": 0.08,
+   "split": "2024-01-01",
+   "crit": {
+    "H1_full_pct": 3.0,
+    "H2_oos_pct": 2.0,
+    "H2_oos_sharpe": 0.3,
+    "H4_drop_best_pct": 1.0,
+    "H5_p": 0.05
+   },
+   "target_edge_pp": 5.0,
+   "decides": "(d) 唐奇安判负是否稳健（防止「一个参数撞死一条线」）",
+   "status": "queued",
+   "queued_at": "2026-11-24T21:27:13+08:00"
+  },
+  {
+   "id": "census_index_futures",
+   "question": "四个股指期货上，趋势规则×窗口×多空共 20 种组合的整片地形：有几条是功效够的正边，还是整片噪声？",
+   "type": "census",
+   "products": [
+    "IC",
+    "IF",
+    "IH",
+    "IM"
+   ],
+   "grid": [
+    {
+     "rule": "ma_cross",
+     "params": {
+      "fast": 20,
+      "slow": 60
+     },
+     "long_only": true
+    },
+    {
+     "rule": "ma_cross",
+     "params": {
+      "fast": 20,
+      "slow": 60
+     },
+     "long_only": false
+    },
+    {
+     "rule": "ma_cross",
+     "params": {
+      "fast": 50,
+      "slow": 100
+     },
+     "long_only": true
+    },
+    {
+     "rule": "ma_cross",
+     "params": {
+      "fast": 50,
+      "slow": 100
+     },
+     "long_only": false
+    },
+    {
+     "rule": "ma_cross",
+     "params": {
+      "fast": 50,
+      "slow": 200
+     },
+     "long_only": true
+    },
+    {
+     "rule": "ma_cross",
+     "params": {
+      "fast": 50,
+      "slow": 200
+     },
+     "long_only": false
+    },
+    {
+     "rule": "ma_cross",
+     "params": {
+      "fast": 100,
+      "slow": 200
+     },
+     "long_only": true
+    },
+    {
+     "rule": "ma_cross",
+     "params": {
+      "fast": 100,
+      "slow": 200
+     },
+     "long_only": false
+    },
+    {
+     "rule": "tsmom",
+     "params": {
+      "lookback": 60,
+      "skip": 21
+     },
+     "long_only": true
+    },
+    {
+     "rule": "tsmom",
+     "params": {
+      "lookback": 60,
+      "skip": 21
+     },
+     "long_only": false
+    },
+    {
+     "rule": "tsmom",
+     "params": {
+      "lookback": 120,
+      "skip": 21
+     },
+     "long_only": true
+    },
+    {
+     "rule": "tsmom",
+     "params": {
+      "lookback": 120,
+      "skip": 21
+     },
+     "long_only": false
+    },
+    {
+     "rule": "tsmom",
+     "params": {
+      "lookback": 250,
+      "skip": 21
+     },
+     "long_only": true
+    },
+    {
+     "rule": "tsmom",
+     "params": {
+      "lookback": 250,
+      "skip": 21
+     },
+     "long_only": false
+    },
+    {
+     "rule": "donchian",
+     "params": {
+      "entry": 20,
+      "exit": 10
+     },
+     "long_only": true
+    },
+    {
+     "rule": "donchian",
+     "params": {
+      "entry": 20,
+      "exit": 10
+     },
+     "long_only": false
+    },
+    {
+     "rule": "donchian",
+     "params": {
+      "entry": 40,
+      "exit": 15
+     },
+     "long_only": true
+    },
+    {
+     "rule": "donchian",
+     "params": {
+      "entry": 40,
+      "exit": 15
+     },
+     "long_only": false
+    },
+    {
+     "rule": "donchian",
+     "params": {
+      "entry": 55,
+      "exit": 20
+     },
+     "long_only": true
+    },
+    {
+     "rule": "donchian",
+     "params": {
+      "entry": 55,
+      "exit": 20
+     },
+     "long_only": false
+    }
+   ],
+   "cost_bp_side": 3.0,
+   "target_vol": 0.08,
+   "split": "2024-01-01",
+   "crit": {},
+   "target_edge_pp": 5.0,
+   "decides": "(a) 整片地形如果是噪声，就停止再问趋势；如果有一片稳定正边，才值得单独立项",
+   "status": "queued",
+   "queued_at": "2026-11-24T21:28:51+08:00"
+  },
+  {
+   "id": "census_commodity",
+   "question": "金/螺纹/原油上，趋势规则×窗口×多空 14 种组合的整片地形：有没有稳定正边？",
+   "type": "census",
+   "products": [
+    "AU",
+    "RB",
+    "SC"
+   ],
+   "grid": [
+    {
+     "rule": "tsmom",
+     "params": {
+      "lookback": 60,
+      "skip": 21
+     },
+     "long_only": true
+    },
+    {
+     "rule": "tsmom",
+     "params": {
+      "lookback": 60,
+      "skip": 21
+     },
+     "long_only": false
+    },
+    {
+     "rule": "tsmom",
+     "params": {
+      "lookback": 120,
+      "skip": 21
+     },
+     "long_only": true
+    },
+    {
+     "rule": "tsmom",
+     "params": {
+      "lookback": 120,
+      "skip": 21
+     },
+     "long_only": false
+    },
+    {
+     "rule": "tsmom",
+     "params": {
+      "lookback": 250,
+      "skip": 21
+     },
+     "long_only": true
+    },
+    {
+     "rule": "tsmom",
+     "params": {
+      "lookback": 250,
+      "skip": 21
+     },
+     "long_only": false
+    },
+    {
+     "rule": "ma_cross",
+     "params": {
+      "fast": 20,
+      "slow": 60
+     },
+     "long_only": true
+    },
+    {
+     "rule": "ma_cross",
+     "params": {
+      "fast": 20,
+      "slow": 60
+     },
+     "long_only": false
+    },
+    {
+     "rule": "ma_cross",
+     "params": {
+      "fast": 50,
+      "slow": 200
+     },
+     "long_only": true
+    },
+    {
+     "rule": "ma_cross",
+     "params": {
+      "fast": 50,
+      "slow": 200
+     },
+     "long_only": false
+    },
+    {
+     "rule": "donchian",
+     "params": {
+      "entry": 20,
+      "exit": 10
+     },
+     "long_only": true
+    },
+    {
+     "rule": "donchian",
+     "params": {
+      "entry": 20,
+      "exit": 10
+     },
+     "long_only": false
+    },
+    {
+     "rule": "donchian",
+     "params": {
+      "entry": 55,
+      "exit": 20
+     },
+     "long_only": true
+    },
+    {
+     "rule": "donchian",
+     "params": {
+      "entry": 55,
+      "exit": 20
+     },
+     "long_only": false
+    }
+   ],
+   "cost_bp_side": 3.0,
+   "target_vol": 0.08,
+   "split": "2024-01-01",
+   "crit": {},
+   "target_edge_pp": 5.0,
+   "decides": "(a) 商品趋势是否值得再投入",
+   "status": "queued",
+   "queued_at": "2026-11-24T21:29:06+08:00"
+  },
+  {
+   "id": "census_bond_futures",
+   "question": "国债期货（T/TF/TS）只做多的趋势地形：5 种组合里有没有功效够的正边？",
+   "type": "census",
+   "products": [
+    "T",
+    "TF",
+    "TS"
+   ],
+   "grid": [
+    {
+     "rule": "tsmom",
+     "params": {
+      "lookback": 60,
+      "skip": 21
+     },
+     "long_only": true
+    },
+    {
+     "rule": "tsmom",
+     "params": {
+      "lookback": 120,
+      "skip": 21
+     },
+     "long_only": true
+    },
+    {
+     "rule": "tsmom",
+     "params": {
+      "lookback": 250,
+      "skip": 21
+     },
+     "long_only": true
+    },
+    {
+     "rule": "ma_cross",
+     "params": {
+      "fast": 20,
+      "slow": 60
+     },
+     "long_only": true
+    },
+    {
+     "rule": "ma_cross",
+     "params": {
+      "fast": 50,
+      "slow": 200
+     },
+     "long_only": true
+    }
+   ],
+   "cost_bp_side": 1.5,
+   "target_vol": 0.06,
+   "split": "2024-01-01",
+   "crit": {},
+   "target_edge_pp": 5.0,
+   "decides": "(a) 债券腿要不要择时",
+   "status": "queued",
+   "queued_at": "2026-11-24T21:33:08+08:00"
+  },
+  {
+   "id": "pair_bond_curve_60d",
+   "question": "国债期货 T/TF/TS 横截面强弱（60日，多最强空最弱），净后有没有收成？",
+   "type": "pair",
+   "rule": "xs_rank",
+   "products": [
+    "T",
+    "TF",
+    "TS"
+   ],
+   "params": {
+    "window": 60,
+    "k": 1
+   },
+   "cost_bp_side": 1.5,
+   "target_vol": 0.06,
+   "split": "2024-01-01",
+   "crit": {
+    "H1_full_pct": 3.0,
+    "H2_oos_pct": 2.0,
+    "H2_oos_sharpe": 0.3,
+    "H4_drop_best_pct": 1.0,
+    "H5_p": 0.05
+   },
+   "target_edge_pp": 3.0,
+   "decides": "(a) 曲线内横截面是否可做",
+   "status": "open"
+  },
+  {
+   "id": "trend_single_RB_long",
+   "question": "螺纹钢单品种均线趋势（只做多），净后与买入持有比有无超额？",
+   "type": "single",
+   "rule": "ma_cross",
+   "products": [
+    "RB"
+   ],
+   "params": {
+    "fast": 50,
+    "slow": 200
+   },
+   "long_only": true,
+   "cost_bp_side": 3.0,
+   "target_vol": 0.1,
+   "split": "2024-01-01",
+   "crit": {
+    "H1_full_pct": 4.0,
+    "H2_oos_pct": 3.0,
+    "H2_oos_sharpe": 0.4,
+    "H4_drop_best_pct": 1.5,
+    "H5_p": 0.05
+   },
+   "target_edge_pp": 5.0,
+   "decides": "(b) 黑色系要不要择时",
+   "status": "open"
+  },
+  {
+   "id": "trend_single_SC_long",
+   "question": "原油期货单品种均线趋势（只做多），净后是否有超额？",
+   "type": "single",
+   "rule": "ma_cross",
+   "products": [
+    "SC"
+   ],
+   "params": {
+    "fast": 50,
+    "slow": 200
+   },
+   "long_only": true,
+   "cost_bp_side": 3.0,
+   "target_vol": 0.1,
+   "split": "2024-01-01",
+   "crit": {
+    "H1_full_pct": 4.0,
+    "H2_oos_pct": 3.0,
+    "H2_oos_sharpe": 0.4,
+    "H4_drop_best_pct": 1.5,
+    "H5_p": 0.05
+   },
+   "target_edge_pp": 5.0,
+   "decides": "(b) 能化要不要择时",
+   "status": "open"
+  },
+  {
+   "id": "reversal_commodity_5d",
+   "question": "商品三品种五日反转（多跌空涨），净后有无收成？",
+   "type": "pair",
+   "rule": "reversal",
+   "products": [
+    "AU",
+    "RB",
+    "SC"
+   ],
+   "params": {
+    "window": 5
+   },
+   "cost_bp_side": 3.0,
+   "target_vol": 0.08,
+   "split": "2024-01-01",
+   "crit": {
+    "H1_full_pct": 3.0,
+    "H2_oos_pct": 2.0,
+    "H2_oos_sharpe": 0.3,
+    "H4_drop_best_pct": 1.0,
+    "H5_p": 0.05
+   },
+   "target_edge_pp": 3.0,
+   "decides": "(a) 商品短线反转是否真收成",
+   "status": "open"
+  }
+ ]
+}

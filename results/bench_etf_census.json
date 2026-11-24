@@ -1,0 +1,141 @@
+{
+ "cell": "etf_census",
+ "generated": "2026-11-24T21:37:04+08:00",
+ "evidence_cutoff": "2026-11-24",
+ "universe": {
+  "etfs": 983,
+  "bars": 5287,
+  "start": "2005-02-23",
+  "end": "2026-11-24"
+ },
+ "criteria": {
+  "cost_bp_side": 10.0,
+  "target_vol": 0.1,
+  "split": "2024-01-01",
+  "target_edge_pp": 5.0,
+  "min_amount": 5000000.0,
+  "max_names": 300
+ },
+ "combos": [
+  {
+   "combo": "ma_cross|{'fast': 50, 'slow': 200}|rebal5",
+   "ann_pct": -67.33,
+   "sharpe": -0.95,
+   "mdd_pct": -100.0,
+   "oos_ann_pct": -41.49,
+   "turnover": 535.2,
+   "mde_pp": 47.98,
+   "powered": false,
+   "verdict": "NO_EDGE",
+   "checks": {
+    "H1": false,
+    "H2": false,
+    "H3": false,
+    "H4": false,
+    "H5": true
+   },
+   "control_p": 0.0
+  },
+  {
+   "combo": "tsmom|{'lookback': 250, 'skip': 21}|rebal5",
+   "ann_pct": -96.7,
+   "sharpe": -2.407,
+   "mdd_pct": -100.0,
+   "oos_ann_pct": -78.47,
+   "turnover": 1644.5,
+   "mde_pp": 69.01,
+   "powered": false,
+   "verdict": "NO_EDGE",
+   "checks": {
+    "H1": false,
+    "H2": false,
+    "H3": false,
+    "H4": false,
+    "H5": true
+   },
+   "control_p": 0.0
+  },
+  {
+   "combo": "reversal|{'window': 5}|rebal5",
+   "ann_pct": -99.86,
+   "sharpe": -4.476,
+   "mdd_pct": -100.0,
+   "oos_ann_pct": -99.84,
+   "turnover": 2933.4,
+   "mde_pp": 74.58,
+   "powered": false,
+   "verdict": "NO_EDGE",
+   "checks": {
+    "H1": false,
+    "H2": false,
+    "H3": false,
+    "H4": false,
+    "H5": false
+   },
+   "control_p": 0.6167
+  },
+  {
+   "combo": "ma_cross|{'fast': 50, 'slow': 200}|rebal20",
+   "ann_pct": -49.67,
+   "sharpe": -0.209,
+   "mdd_pct": -99.98,
+   "oos_ann_pct": 2.21,
+   "turnover": 357.7,
+   "mde_pp": 63.72,
+   "powered": false,
+   "verdict": "NO_EDGE",
+   "checks": {
+    "H1": false,
+    "H2": false,
+    "H3": false,
+    "H4": false,
+    "H5": true
+   },
+   "control_p": 0.0
+  },
+  {
+   "combo": "tsmom|{'lookback': 250, 'skip': 21}|rebal20",
+   "ann_pct": -58.57,
+   "sharpe": -0.406,
+   "mdd_pct": -99.99,
+   "oos_ann_pct": -8.71,
+   "turnover": 460.1,
+   "mde_pp": 62.67,
+   "powered": false,
+   "verdict": "NO_EDGE",
+   "checks": {
+    "H1": false,
+    "H2": false,
+    "H3": false,
+    "H4": false,
+    "H5": true
+   },
+   "control_p": 0.0
+  },
+  {
+   "combo": "reversal|{'window': 5}|rebal20",
+   "ann_pct": -84.59,
+   "sharpe": -0.802,
+   "mdd_pct": -100.0,
+   "oos_ann_pct": -74.43,
+   "turnover": 670.5,
+   "mde_pp": 82.62,
+   "powered": false,
+   "verdict": "NO_EDGE",
+   "checks": {
+    "H1": false,
+    "H2": false,
+    "H3": false,
+    "H4": false,
+    "H5": false
+   },
+   "control_p": 0.5333
+  }
+ ],
+ "n_combos": 6,
+ "n_powered": 0,
+ "n_positive_powered": 0,
+ "n_negative_powered": 0,
+ "verdict": "CENSUS_UNPOWERED",
+ "reading": "整片地形：功效够的组合里正负分布如上；GO 数 = 0"
+}

@@ -1,0 +1,337 @@
+{
+ "cell": "ah_premium",
+ "generated": "2026-11-24T19:58:39+08:00",
+ "evidence_cutoff": "2026-11-24",
+ "coverage": {
+  "pairs": 184,
+  "bars": 2807,
+  "start": "2015-01-05",
+  "end": "2026-11-24",
+  "formation_bars": 139,
+  "first_formation": "2015-02-02",
+  "last_formation": "2026-10-16",
+  "avg_names": 109.7,
+  "names_min": 67,
+  "names_max": 184,
+  "corporate_actions": {
+   "a_jumps": 11,
+   "h_jumps": 5,
+   "a_names": 10,
+   "h_names": 5
+  }
+ },
+ "criteria": {
+  "hold_bars": 20,
+  "quantile": 0.2,
+  "cost_bp_side": 10.0,
+  "h1_t": 2.0,
+  "h2_excess_pct": 3.0,
+  "h2_t": 2.0,
+  "h3_t": 1.5,
+  "h4_t": 1.5,
+  "h6_pct": 1.0,
+  "h7_excess_pct": 1.5,
+  "h7_t": 2.0,
+  "mde_max_pct": 5.0,
+  "oos_split": "2020-01-01",
+  "random_draws": 50,
+  "shift_formations": 12,
+  "seed": 20261124
+ },
+ "verdict": "GO_WHITE_LIST_ONLY",
+ "checks": {
+  "H1_signal_cheap_gt_rich_t2": true,
+  "H2_white_ge_3pp_t2": true,
+  "H3_not_luck_t1.5": true,
+  "H4_oos_same_sign_t1.5": true,
+  "H5_both_halves_positive": true,
+  "H6_drop_best_ge_1pp": true,
+  "H7_black_ge_1p5pp_t2": false
+ },
+ "power": {
+  "mde_pct": 5.62,
+  "mde_max_pct": 5.0,
+  "passes_target_5pp": false,
+  "observed_above_mde": true,
+  "observed_pct": 7.99,
+  "reading": "observed edge clears its own MDE; the sample resolves >= 5.62pp/yr, so the 5.0pp question stays open"
+ },
+ "a_side": {
+  "cheap_a": {
+   "n": 139,
+   "ann_pct": 12.9,
+   "vol_pct": 19.27,
+   "sharpe": 0.746,
+   "mdd_pct": -28.61,
+   "t_stat": 2.52,
+   "years": {
+    "2015": 11.41,
+    "2016": 8.87,
+    "2017": 56.2,
+    "2018": -19.43,
+    "2019": 5.96,
+    "2020": 46.95,
+    "2021": 23.15,
+    "2022": -1.64,
+    "2023": -5.49,
+    "2024": 21.16,
+    "2025": 35.42,
+    "2026": -7.37
+   },
+   "best_year": 2017,
+   "drop_best_year_ann_pct": 8.68
+  },
+  "rich_a": {
+   "n": 139,
+   "ann_pct": -6.22,
+   "vol_pct": 30.77,
+   "sharpe": -0.051,
+   "mdd_pct": -81.16,
+   "t_stat": -0.17,
+   "years": {
+    "2015": 1.37,
+    "2016": -12.43,
+    "2017": -12.99,
+    "2018": -38.68,
+    "2019": 0.86,
+    "2020": 23.12,
+    "2021": -7.98,
+    "2022": -16.22,
+    "2023": -13.01,
+    "2024": 18.84,
+    "2025": 28.13,
+    "2026": -21.42
+   },
+   "best_year": 2025,
+   "drop_best_year_ann_pct": -8.18
+  },
+  "all_a": {
+   "n": 139,
+   "ann_pct": 3.84,
+   "vol_pct": 22.05,
+   "sharpe": 0.29,
+   "mdd_pct": -45.17,
+   "t_stat": 0.98,
+   "years": {
+    "2015": 4.94,
+    "2016": 5.56,
+    "2017": 18.72,
+    "2018": -24.03,
+    "2019": 1.76,
+    "2020": 26.27,
+    "2021": 9.95,
+    "2022": -6.79,
+    "2023": -9.57,
+    "2024": 16.87,
+    "2025": 26.69,
+    "2026": -11.76
+   },
+   "best_year": 2025,
+   "drop_best_year_ann_pct": 1.76
+  },
+  "blacklist_a": {
+   "n": 139,
+   "ann_pct": 6.15,
+   "vol_pct": 20.55,
+   "sharpe": 0.404,
+   "mdd_pct": -42.68,
+   "t_stat": 1.36,
+   "years": {
+    "2015": 4.2,
+    "2016": 10.52,
+    "2017": 28.31,
+    "2018": -19.97,
+    "2019": 1.38,
+    "2020": 26.53,
+    "2021": 14.76,
+    "2022": -4.44,
+    "2023": -8.83,
+    "2024": 15.94,
+    "2025": 26.12,
+    "2026": -9.32
+   },
+   "best_year": 2017,
+   "drop_best_year_ann_pct": 3.91
+  },
+  "random_same_size_a": {
+   "n": 139,
+   "ann_pct": 3.58,
+   "vol_pct": 22.15,
+   "sharpe": 0.278,
+   "mdd_pct": -45.03,
+   "t_stat": 0.94,
+   "years": {
+    "2015": 5.66,
+    "2016": 5.57,
+    "2017": 17.74,
+    "2018": -23.82,
+    "2019": 1.49,
+    "2020": 27.57,
+    "2021": 9.09,
+    "2022": -6.46,
+    "2023": -9.56,
+    "2024": 17.01,
+    "2025": 25.31,
+    "2026": -13.88
+   },
+   "best_year": 2020,
+   "drop_best_year_ann_pct": 1.45
+  },
+  "stale_signal_a": {
+   "n": 139,
+   "ann_pct": 5.95,
+   "vol_pct": 18.71,
+   "sharpe": 0.412,
+   "mdd_pct": -28.61,
+   "t_stat": 1.39,
+   "years": {
+    "2015": 11.41,
+    "2016": 6.53,
+    "2017": 48.62,
+    "2018": -20.09,
+    "2019": 2.09,
+    "2020": 31.43,
+    "2021": -1.4,
+    "2022": -8.09,
+    "2023": -2.53,
+    "2024": 20.17,
+    "2025": 16.25,
+    "2026": -15.75
+   },
+   "best_year": 2017,
+   "drop_best_year_ann_pct": 2.42
+  },
+  "diff_cheap_minus_rich": {
+   "ann_diff_pct": 15.94,
+   "t": 2.57,
+   "n": 139,
+   "mde_pct": 12.14,
+   "mean_period_pct": 1.306
+  },
+  "diff_cheap_minus_all": {
+   "ann_diff_pct": 7.99,
+   "t": 2.79,
+   "n": 139,
+   "mde_pct": 5.62,
+   "mean_period_pct": 0.655
+  },
+  "diff_cheap_minus_random": {
+   "ann_diff_pct": 8.22,
+   "t": 2.86,
+   "n": 139,
+   "mde_pct": 5.63,
+   "mean_period_pct": 0.674
+  },
+  "diff_cheap_minus_stale": {
+   "ann_diff_pct": 6.68,
+   "t": 4.23,
+   "n": 139,
+   "mde_pct": 3.1,
+   "mean_period_pct": 0.548
+  },
+  "diff_bl_minus_all": {
+   "ann_diff_pct": 1.91,
+   "t": 1.88,
+   "n": 139,
+   "mde_pct": 1.99,
+   "mean_period_pct": 0.157
+  },
+  "diff_cheap_minus_all_oos": {
+   "ann_diff_pct": 8.06,
+   "t": 2.37,
+   "n": 80,
+   "mde_pct": 6.67,
+   "mean_period_pct": 0.661
+  },
+  "diff_cheap_minus_all_h1": {
+   "ann_diff_pct": 8.41,
+   "t": 1.83,
+   "n": 69,
+   "mde_pct": 9.02,
+   "mean_period_pct": 0.69
+  },
+  "diff_cheap_minus_all_h2": {
+   "ann_diff_pct": 7.58,
+   "t": 2.19,
+   "n": 70,
+   "mde_pct": 6.79,
+   "mean_period_pct": 0.621
+  },
+  "turnover_per_formation": 0.257,
+  "stale_signal_share": 0.914,
+  "yearly_diff_pct": {
+   "2015": -2.96,
+   "2016": 2.75,
+   "2017": 31.98,
+   "2018": 4.87,
+   "2019": 3.1,
+   "2020": 16.51,
+   "2021": 11.48,
+   "2022": 5.86,
+   "2023": 4.19,
+   "2024": 3.07,
+   "2025": 6.85,
+   "2026": 4.81
+  },
+  "drop_best_year_diff_pct": 6.03,
+  "best_year": 2017
+ },
+ "h_side_info_only": {
+  "cheap_h": {
+   "n": 139,
+   "ann_pct": 1.09,
+   "vol_pct": 22.85,
+   "sharpe": 0.163,
+   "mdd_pct": -38.35,
+   "t_stat": 0.55,
+   "years": {
+    "2015": -17.26,
+    "2016": 10.01,
+    "2017": 37.15,
+    "2018": -18.12,
+    "2019": -5.18,
+    "2020": 23.97,
+    "2021": 4.22,
+    "2022": -2.06,
+    "2023": -25.72,
+    "2024": 15.51,
+    "2025": 37.36,
+    "2026": -21.47
+   },
+   "best_year": 2025,
+   "drop_best_year_ann_pct": -1.62
+  },
+  "rich_h": {
+   "n": 139,
+   "ann_pct": 3.62,
+   "vol_pct": 34.04,
+   "sharpe": 0.273,
+   "mdd_pct": -57.46,
+   "t_stat": 0.92,
+   "years": {
+    "2015": -5.21,
+    "2016": 18.38,
+    "2017": -0.82,
+    "2018": -29.16,
+    "2019": -3.29,
+    "2020": 23.75,
+    "2021": 6.37,
+    "2022": -3.08,
+    "2023": -20.42,
+    "2024": 62.41,
+    "2025": 76.11,
+    "2026": -31.56
+   },
+   "best_year": 2025,
+   "drop_best_year_ann_pct": -1.28
+  },
+  "diff_cheap_minus_rich": {
+   "ann_diff_pct": -5.56,
+   "t": -0.89,
+   "n": 139,
+   "mde_pct": 12.22,
+   "mean_period_pct": -0.456
+  },
+  "note": "H legs need HK access (physical dependency); information only, costed at the A-share 10bp/edge."
+ }
+}

@@ -1,6 +1,6 @@
 # 国债期货曲线试验（bench cell 2）
 
-evidence cutoff 2026-11-20 | generated 2026-11-22T23:10:25+08:00 | 合约 T, TF, TS
+evidence cutoff 2026-11-20 | generated 2026-11-22T23:30:14+08:00 | 合约 T, TF, TS
 
 判据：H1 全期净年化 ≥4%；H2 样本外 ≥3% 且夏普 ≥0.4；H3 前后两半为正；H4 剔除最好一年 ≥1.5%/年；H5 随机符号 p<0.05。全过才 GO。
 
