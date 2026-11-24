@@ -1,0 +1,557 @@
+{
+  "artifact": "results/money_band_blind_spot.json",
+  "assumptions": [
+    "the annualised figure assumes the elevation is held on every day of the year",
+    "no entry or exit cost is charged; this is a caliber question, not a trade",
+    "the local level is a trailing 20-bar median, so a plateau longer than 20 bars re-bases the level under the reader -- slow bleeds longer than that are still unseen"
+  ],
+  "book_legs": [
+    {
+      "carry_ruler_applies": false,
+      "class": "convertible",
+      "code": "511380",
+      "elevation_bp": 55.444,
+      "giveback_bp": -1.931,
+      "giveback_pp_per_year": null,
+      "giveback_se_bp": 10.408,
+      "giveback_t": -0.19,
+      "name": "可转债ETF博时",
+      "priced": true,
+      "share_paid_back": -0.0348,
+      "why_unpriced": null,
+      "zone_bars": 324
+    },
+    {
+      "carry_ruler_applies": false,
+      "class": "convertible",
+      "code": "511180",
+      "elevation_bp": 57.319,
+      "giveback_bp": 13.909,
+      "giveback_pp_per_year": 1.7668,
+      "giveback_se_bp": 7.816,
+      "giveback_t": 1.78,
+      "name": "可转债ETF海富通",
+      "priced": true,
+      "share_paid_back": 0.2427,
+      "why_unpriced": null,
+      "zone_bars": 413
+    },
+    {
+      "carry_ruler_applies": true,
+      "class": "money",
+      "code": "511880",
+      "elevation_bp": null,
+      "giveback_bp": null,
+      "giveback_pp_per_year": null,
+      "giveback_se_bp": null,
+      "giveback_t": null,
+      "name": "银华日利ETF",
+      "priced": false,
+      "share_paid_back": null,
+      "why_unpriced": "blind-spot zone has 2 usable bars (need 20) and near-level has 1449 (need 100) -- not measurable, not zero",
+      "zone_bars": 2
+    },
+    {
+      "carry_ruler_applies": true,
+      "class": "money",
+      "code": "511360",
+      "elevation_bp": null,
+      "giveback_bp": null,
+      "giveback_pp_per_year": null,
+      "giveback_se_bp": null,
+      "giveback_t": null,
+      "name": "短融ETF海富通",
+      "priced": false,
+      "share_paid_back": null,
+      "why_unpriced": "blind-spot zone has 15 usable bars (need 20) and near-level has 1443 (need 100) -- not measurable, not zero",
+      "zone_bars": 15
+    },
+    {
+      "carry_ruler_applies": true,
+      "class": "bond",
+      "code": "511010",
+      "elevation_bp": 36.603,
+      "giveback_bp": -1.261,
+      "giveback_pp_per_year": null,
+      "giveback_se_bp": 2.363,
+      "giveback_t": -0.53,
+      "name": "国债ETF国泰",
+      "priced": true,
+      "share_paid_back": -0.0344,
+      "why_unpriced": null,
+      "zone_bars": 481
+    }
+  ],
+  "caveat": "an instrument that genuinely yields more than a month ago sits above its own median and does not come back -- that is a level shift, not a premium. The give-back test is what separates them; the elevation alone does not.",
+  "content_sha256": "73081adcec92e4d0dd023ea203fed691575c750a4596c39a2e84fec56af9f0d4",
+  "evidence_cutoff": "2026-11-20",
+  "gate": {
+    "pp_tol": 0.01,
+    "r2050_reproduced": true,
+    "rows": [
+      {
+        "carry_reduction_pp": 2.9127,
+        "code": "511600",
+        "ok": true,
+        "published_carry_reduction_pp": 2.9127,
+        "published_sigma_printed_bp": 25.57,
+        "sigma_printed_bp": 25.57
+      },
+      {
+        "carry_reduction_pp": 2.4707,
+        "code": "511620",
+        "ok": true,
+        "published_carry_reduction_pp": 2.4707,
+        "published_sigma_printed_bp": 27.342,
+        "sigma_printed_bp": 27.342
+      },
+      {
+        "carry_reduction_pp": 5.5893,
+        "code": "511670",
+        "ok": true,
+        "published_carry_reduction_pp": 5.5893,
+        "published_sigma_printed_bp": 40.428,
+        "sigma_printed_bp": 40.428
+      },
+      {
+        "carry_reduction_pp": 7.8251,
+        "code": "511770",
+        "ok": true,
+        "published_carry_reduction_pp": 7.8251,
+        "published_sigma_printed_bp": 54.743,
+        "sigma_printed_bp": 54.743
+      },
+      {
+        "carry_reduction_pp": 1.7601,
+        "code": "511820",
+        "ok": true,
+        "published_carry_reduction_pp": 1.7601,
+        "published_sigma_printed_bp": 29.516,
+        "sigma_printed_bp": 29.516
+      },
+      {
+        "carry_reduction_pp": 2.6713,
+        "code": "511910",
+        "ok": true,
+        "published_carry_reduction_pp": 2.6713,
+        "published_sigma_printed_bp": 30.471,
+        "sigma_printed_bp": 30.471
+      },
+      {
+        "carry_reduction_pp": 2.4558,
+        "code": "511920",
+        "ok": true,
+        "published_carry_reduction_pp": 2.4558,
+        "published_sigma_printed_bp": 36.869,
+        "sigma_printed_bp": 36.869
+      },
+      {
+        "carry_reduction_pp": 2.7593,
+        "code": "511930",
+        "ok": true,
+        "published_carry_reduction_pp": 2.7593,
+        "published_sigma_printed_bp": 39.175,
+        "sigma_printed_bp": 39.175
+      },
+      {
+        "carry_reduction_pp": 3.7231,
+        "code": "511950",
+        "ok": true,
+        "published_carry_reduction_pp": 3.7231,
+        "published_sigma_printed_bp": 34.791,
+        "sigma_printed_bp": 34.791
+      },
+      {
+        "carry_reduction_pp": 4.2268,
+        "code": "511960",
+        "ok": true,
+        "published_carry_reduction_pp": 4.2268,
+        "published_sigma_printed_bp": 35.004,
+        "sigma_printed_bp": 35.004
+      },
+      {
+        "carry_reduction_pp": 4.5213,
+        "code": "511970",
+        "ok": true,
+        "published_carry_reduction_pp": 4.5213,
+        "published_sigma_printed_bp": 45.25,
+        "sigma_printed_bp": 45.25
+      }
+    ],
+    "sigma_tol_bp": 0.1
+  },
+  "generated": "2026-11-24T18:07:59+08:00",
+  "headline": {
+    "book_legs_measured": 1,
+    "book_legs_survive": true,
+    "book_legs_unmeasurable": 2,
+    "median_giveback_bp": 6.452,
+    "named_instruments": 11,
+    "named_priced": 4,
+    "named_unmeasurable": 7,
+    "powered": 3,
+    "residual_sigma_codes": [
+      "511920",
+      "511930"
+    ],
+    "verdict": "THE_BAND_LEAVES_A_TAIL",
+    "worst_code": "511920",
+    "worst_giveback_bp": 38.102
+  },
+  "not_claimed": [
+    "the published shelf numbers are not changed by this face",
+    "r2050's verdict is not re-opened: this measures what its ruler leaves behind",
+    "no tradeable return: the elevation is not harvestable without foresight"
+  ],
+  "paired_median_giveback_bp": 6.452,
+  "question": "Below r2050's 1% band -- on bars 0.20%..1.00% away from their own trailing 20-bar median -- does an elevated price still pay itself back? If it does, the printed carry is still partly a premium on legs the band called clean.",
+  "residual_sigma_codes": [
+    "511920",
+    "511930"
+  ],
+  "rows": [
+    {
+      "bars": null,
+      "baseline_fwd_bp": null,
+      "carry_reduction_pp_r2050": 2.9127,
+      "code": "511600",
+      "elevation_bp": null,
+      "giveback_bp": null,
+      "giveback_pp_per_year": null,
+      "giveback_se_bp": null,
+      "giveback_t": null,
+      "mirror_bars": null,
+      "mirror_catch_up_bp": null,
+      "name": "华安日日鑫ETF",
+      "near_bars": 1492,
+      "priced": false,
+      "share_paid_back": null,
+      "sigma_repaired_bp_r2050": 5.401,
+      "why_unpriced": "blind-spot zone has 11 usable bars (need 20) and near-level has 1492 (need 100) -- not measurable, not zero",
+      "zone_bars": 11,
+      "zone_fwd_bp": null
+    },
+    {
+      "bars": null,
+      "baseline_fwd_bp": null,
+      "carry_reduction_pp_r2050": 2.4707,
+      "code": "511620",
+      "elevation_bp": null,
+      "giveback_bp": null,
+      "giveback_pp_per_year": null,
+      "giveback_se_bp": null,
+      "giveback_t": null,
+      "mirror_bars": null,
+      "mirror_catch_up_bp": null,
+      "name": "货币ETF国泰",
+      "near_bars": 1318,
+      "priced": false,
+      "share_paid_back": null,
+      "sigma_repaired_bp_r2050": 4.096,
+      "why_unpriced": "blind-spot zone has 13 usable bars (need 20) and near-level has 1318 (need 100) -- not measurable, not zero",
+      "zone_bars": 13,
+      "zone_fwd_bp": null
+    },
+    {
+      "bars": null,
+      "baseline_fwd_bp": null,
+      "carry_reduction_pp_r2050": 5.5893,
+      "code": "511670",
+      "elevation_bp": null,
+      "giveback_bp": null,
+      "giveback_pp_per_year": null,
+      "giveback_se_bp": null,
+      "giveback_t": null,
+      "mirror_bars": null,
+      "mirror_catch_up_bp": null,
+      "name": "华泰天天金ETF",
+      "near_bars": 1156,
+      "priced": false,
+      "share_paid_back": null,
+      "sigma_repaired_bp_r2050": 5.193,
+      "why_unpriced": "blind-spot zone has 13 usable bars (need 20) and near-level has 1156 (need 100) -- not measurable, not zero",
+      "zone_bars": 13,
+      "zone_fwd_bp": null
+    },
+    {
+      "bars": 1204,
+      "baseline_fwd_bp": 6.014,
+      "carry_reduction_pp_r2050": 7.8251,
+      "code": "511770",
+      "elevation_bp": 41.891,
+      "giveback_bp": -16.545,
+      "giveback_pp_per_year": null,
+      "giveback_se_bp": 12.298,
+      "giveback_t": -1.35,
+      "mirror_bars": 1,
+      "mirror_catch_up_bp": null,
+      "name": "金鹰增益货币ETF",
+      "near_bars": 1125,
+      "priced": true,
+      "share_paid_back": -0.395,
+      "sigma_repaired_bp_r2050": 9.488,
+      "why_unpriced": null,
+      "zone_bars": 39,
+      "zone_fwd_bp": 22.559
+    },
+    {
+      "bars": null,
+      "baseline_fwd_bp": null,
+      "carry_reduction_pp_r2050": 1.7601,
+      "code": "511820",
+      "elevation_bp": null,
+      "giveback_bp": null,
+      "giveback_pp_per_year": null,
+      "giveback_se_bp": null,
+      "giveback_t": null,
+      "mirror_bars": null,
+      "mirror_catch_up_bp": null,
+      "name": "鹏华添利ETF",
+      "near_bars": 1336,
+      "priced": false,
+      "share_paid_back": null,
+      "sigma_repaired_bp_r2050": 12.252,
+      "why_unpriced": "blind-spot zone has 11 usable bars (need 20) and near-level has 1336 (need 100) -- not measurable, not zero",
+      "zone_bars": 11,
+      "zone_fwd_bp": null
+    },
+    {
+      "bars": null,
+      "baseline_fwd_bp": null,
+      "carry_reduction_pp_r2050": 2.6713,
+      "code": "511910",
+      "elevation_bp": null,
+      "giveback_bp": null,
+      "giveback_pp_per_year": null,
+      "giveback_se_bp": null,
+      "giveback_t": null,
+      "mirror_bars": null,
+      "mirror_catch_up_bp": null,
+      "name": "融通货币ETF",
+      "near_bars": 997,
+      "priced": false,
+      "share_paid_back": null,
+      "sigma_repaired_bp_r2050": 7.737,
+      "why_unpriced": "blind-spot zone has 13 usable bars (need 20) and near-level has 997 (need 100) -- not measurable, not zero",
+      "zone_bars": 13,
+      "zone_fwd_bp": null
+    },
+    {
+      "bars": 1461,
+      "baseline_fwd_bp": 16.9,
+      "carry_reduction_pp_r2050": 2.4558,
+      "code": "511920",
+      "elevation_bp": 33.202,
+      "giveback_bp": 38.102,
+      "giveback_pp_per_year": 4.9084,
+      "giveback_se_bp": 5.362,
+      "giveback_t": 7.11,
+      "mirror_bars": 4,
+      "mirror_catch_up_bp": null,
+      "name": "货币ETF广发",
+      "near_bars": 1403,
+      "priced": true,
+      "share_paid_back": 1.1476,
+      "sigma_repaired_bp_r2050": 26.572,
+      "why_unpriced": null,
+      "zone_bars": 20,
+      "zone_fwd_bp": -21.202
+    },
+    {
+      "bars": null,
+      "baseline_fwd_bp": null,
+      "carry_reduction_pp_r2050": 2.7593,
+      "code": "511930",
+      "elevation_bp": null,
+      "giveback_bp": null,
+      "giveback_pp_per_year": null,
+      "giveback_se_bp": null,
+      "giveback_t": null,
+      "mirror_bars": null,
+      "mirror_catch_up_bp": null,
+      "name": "货币ETF国联",
+      "near_bars": 1135,
+      "priced": false,
+      "share_paid_back": null,
+      "sigma_repaired_bp_r2050": 31.4,
+      "why_unpriced": "blind-spot zone has 18 usable bars (need 20) and near-level has 1135 (need 100) -- not measurable, not zero",
+      "zone_bars": 18,
+      "zone_fwd_bp": null
+    },
+    {
+      "bars": 1190,
+      "baseline_fwd_bp": 12.269,
+      "carry_reduction_pp_r2050": 3.7231,
+      "code": "511950",
+      "elevation_bp": 46.003,
+      "giveback_bp": -31.629,
+      "giveback_pp_per_year": null,
+      "giveback_se_bp": 10.361,
+      "giveback_t": -3.05,
+      "mirror_bars": 15,
+      "mirror_catch_up_bp": null,
+      "name": "添利货币ETF广发",
+      "near_bars": 1072,
+      "priced": true,
+      "share_paid_back": -0.6875,
+      "sigma_repaired_bp_r2050": 12.449,
+      "why_unpriced": null,
+      "zone_bars": 64,
+      "zone_fwd_bp": 43.898
+    },
+    {
+      "bars": null,
+      "baseline_fwd_bp": null,
+      "carry_reduction_pp_r2050": 4.2268,
+      "code": "511960",
+      "elevation_bp": null,
+      "giveback_bp": null,
+      "giveback_pp_per_year": null,
+      "giveback_se_bp": null,
+      "giveback_t": null,
+      "mirror_bars": null,
+      "mirror_catch_up_bp": null,
+      "name": "货币ETF嘉实",
+      "near_bars": 1177,
+      "priced": false,
+      "share_paid_back": null,
+      "sigma_repaired_bp_r2050": 6.951,
+      "why_unpriced": "blind-spot zone has 11 usable bars (need 20) and near-level has 1177 (need 100) -- not measurable, not zero",
+      "zone_bars": 11,
+      "zone_fwd_bp": null
+    },
+    {
+      "bars": 1053,
+      "baseline_fwd_bp": 8.445,
+      "carry_reduction_pp_r2050": 4.5213,
+      "code": "511970",
+      "elevation_bp": 43.543,
+      "giveback_bp": 29.449,
+      "giveback_pp_per_year": 3.7746,
+      "giveback_se_bp": 5.505,
+      "giveback_t": 5.35,
+      "mirror_bars": 0,
+      "mirror_catch_up_bp": null,
+      "name": "国寿货币ETF",
+      "near_bars": 989,
+      "priced": true,
+      "share_paid_back": 0.6763,
+      "sigma_repaired_bp_r2050": 9.423,
+      "why_unpriced": null,
+      "zone_bars": 28,
+      "zone_fwd_bp": -21.004
+    }
+  ],
+  "ruler": {
+    "annualisation": "(1+giveback)^(252/20)-1, assuming the elevation is held every day -- printed as an assumption, not a forecast",
+    "band_pct": 1.0,
+    "fast_breaches": "money_premium_carry_audit.find_breaches at its own 1.00%% band, booked at zero by repaired_rets before measuring",
+    "giveback": "mean forward 20-bar return on blind-spot bars minus the same on near-level bars (|dev| <= 0.20%), in bp; positive = the elevation pays back",
+    "horizon": 20,
+    "local_level": "money_premium_carry_audit.local_level (trailing 20-bar median, min 10)",
+    "low_pct": 0.2,
+    "no_entry_cost": true,
+    "panel": "data/daily/*.csv (sina close)",
+    "reader": "etf_book_cash_vehicle.load_etf + consolidation_returns"
+  },
+  "schema": "money_band_blind_spot/v1",
+  "tags": [
+    "BOOK_LEGS_SURVIVE_THE_LOWER_BAND",
+    "THE_ELEVATION_IS_MOSTLY_REAL",
+    "TOO_FEW_INSTRUMENTS_TO_MEASURE",
+    "THE_RESIDUAL_SIGMA_IS_A_TAIL"
+  ],
+  "upstream": {
+    "census": {
+      "path": "results/cash_shelf_flip_census.json",
+      "sha256": "c4ba1e9ba890788c7557de686b3c9d0538a980e442d320890813a89b5e8177a6"
+    },
+    "daily": [
+      {
+        "path": "data/daily/sh511010.csv",
+        "sha256": "b03fdfcbf3751d4ddcf7d6688174d3a1ac2af1d53e6214e5e003836f8cc70ec9"
+      },
+      {
+        "path": "data/daily/sh511180.csv",
+        "sha256": "a4e04d0b7f9a3474833f10528a8331074d004f9864c7921ccb669dd0b18cc773"
+      },
+      {
+        "path": "data/daily/sh511360.csv",
+        "sha256": "765da4090f13a79b5b24e72bfd6820aa74e4133e344431183efe4df36b6ab15e"
+      },
+      {
+        "path": "data/daily/sh511380.csv",
+        "sha256": "b31a7d4674a28477aeae7ad47261d4e7f228dbd670cf44608199c7310c10d4b5"
+      },
+      {
+        "path": "data/daily/sh511600.csv",
+        "sha256": "e2ca826b379afb12f61db0c89472b98032a3a68d2f1c84c0023efd6e36d2c51a"
+      },
+      {
+        "path": "data/daily/sh511620.csv",
+        "sha256": "3febd20c1a3151f6fee9c8e5f5825b6c494f40365c21e404dc3210ee3e8ad08c"
+      },
+      {
+        "path": "data/daily/sh511670.csv",
+        "sha256": "8125ce0a5de57a86a829658de4d9b9d2968dd009f4eb6e692a72681c16d7bc9d"
+      },
+      {
+        "path": "data/daily/sh511770.csv",
+        "sha256": "48dff7d91118707a60acb391ef36947e94b264bfa4090e5573a81b7e0a82e371"
+      },
+      {
+        "path": "data/daily/sh511820.csv",
+        "sha256": "b8f66c60d7755e829b2597d208f52a0d1363fd1474bea2f5de2a0412c25e4e24"
+      },
+      {
+        "path": "data/daily/sh511880.csv",
+        "sha256": "2fd9364f3847594bb03c26495613a10d5fc8bad94d2e07cd20e9821d933b2f54"
+      },
+      {
+        "path": "data/daily/sh511910.csv",
+        "sha256": "4026fddc3163277e019864e605884f06f77bddbd0aa7379e84ba41fd66dd7201"
+      },
+      {
+        "path": "data/daily/sh511920.csv",
+        "sha256": "b394a37af2a6c7e788c3bd1593c212029dd17d6eb99dbf08c1838afb55e39c06"
+      },
+      {
+        "path": "data/daily/sh511930.csv",
+        "sha256": "8c76241d92b8b12cd149b92e1e3249b9adc57d4f4718f39bed69425065109c6c"
+      },
+      {
+        "path": "data/daily/sh511950.csv",
+        "sha256": "61c36706bbc2c1860305205c30ec854870f85f6e75c4ceafe718230e321dfa53"
+      },
+      {
+        "path": "data/daily/sh511960.csv",
+        "sha256": "14fb207e7c6f91615234a94516d7c03090317de3491aa52a35d8124eab9cd278"
+      },
+      {
+        "path": "data/daily/sh511970.csv",
+        "sha256": "8add7ad8037c8eec74a388b358f32cfc1146d945aab292cd27730a13ba00273b"
+      }
+    ],
+    "premium": {
+      "path": "results/money_premium_carry_audit.json",
+      "sha256": "0e46435556b4d26f1aa24646163cfcef53d5d07a0b2203c3fa38558197b926ae"
+    },
+    "shelf": {
+      "path": "results/cash_shelf_year_by_year.json",
+      "sha256": "eecc3543562891581724e05975276edd3f270641777e299cd8463be7f7d10b0e"
+    }
+  },
+  "verdict": "THE_BAND_LEAVES_A_TAIL",
+  "window": {
+    "end": "2026-11-20",
+    "start": "2020-07-16"
+  },
+  "worst": {
+    "code": "511920",
+    "elevation_bp": 33.202,
+    "giveback_bp": 38.102,
+    "giveback_pp_per_year": 4.9084,
+    "name": "货币ETF广发",
+    "share_paid_back": 1.1476
+  }
+}
