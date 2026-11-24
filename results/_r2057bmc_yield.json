@@ -1,0 +1,77 @@
+{
+  "schema": "bmc_round_yield/v1",
+  "round": 2057,
+  "machine": "bm-c",
+  "ts": "2026-11-24T22:31:45+08:00",
+  "verdict": "YIELD_TO_PEER_HOST",
+  "why": "同仓同一时刻只许一个执行体干活：本轮开工时对端交互宿主正在仓内改共享面（Tools/s6_chain_bmc.py 处于 M 态、工作树 2289 行脏），且 6 分钟前刚提交 r2055（22:14:16）+ 22:15:46 送达提交；按 r1907 同树多宿主律 + 协调铁律本轮只读维护后静默退避。",
+  "probe": {
+    "repo_write_contention_rc": 3,
+    "verdict": "CONTENTION",
+    "peer_pids": [
+      80112,
+      33360
+    ],
+    "peer_note": "pid 80112 codely 起于 21:08:32 仍存活；pid 33360 已退出；本轮自身 pid 85964 起于 22:20:03",
+    "evidence": "results/_repo_write_contention.bm-c.json"
+  },
+  "dirty_tree": {
+    "porcelain_lines": 2289,
+    "shared_face_in_flight": [
+      "Tools/s6_chain_bmc.py"
+    ],
+    "action": "skip-commit（禁吞并发会话半成品）"
+  },
+  "readonly_maintenance": {
+    "orphan_face_probe": {
+      "orphans": 0,
+      "py_faces": 5,
+      "resident_servers": 0,
+      "killed": []
+    },
+    "decisions_md": {
+      "sha256": "79e3083b85c130b8b57363d1ce4850520704cfbdf3fc41b8277e7e5ee39d6e16",
+      "bytes": 250586,
+      "watermark_match": true,
+      "new_decision_rows": 0,
+      "action": "zero-op"
+    },
+    "orders_md": {
+      "sha256": "b3cd5acb955f750466bbed0e5bdbace798cea11a1a2b667b58a8c9cd3937b986",
+      "bytes": 106986,
+      "watermark_sha256": "6bd40fec2f06405b4bbc5decde823ba3af3f14ee60c4eab9d84e92745e839471",
+      "new_rows_read": "尾读：11-21 内容线移交三行 + 11-22 22:31 机队本地优先令 + 11-24 22:28 OB-20261124-222844-550（MV 母版导出，车道=bm-a）",
+      "quant_work_orders": 0,
+      "action": "zero-op（无 bm-c/quant 工单；本地优先令本轮构造性满足：全程本地 CPU 零云端）"
+    },
+    "fleet_inbox": {
+      "files": 0
+    },
+    "attrition_ledger_guard": {
+      "rc": 0,
+      "verdict": "CLEAN",
+      "ledgers": 4,
+      "healed_rows": [
+        "bm-a 2",
+        "bm-a 4",
+        "gate_attrition 1"
+      ]
+    },
+    "hooks": {
+      "pre_commit": "MATCH(installed, LF-normalized)",
+      "pre_push": "MATCH(installed, LF-normalized)"
+    }
+  },
+  "not_done": [
+    "S1 全量 smoke 未跑（共享面在工作树脏态下运行会与对端写冲突；连续第 7 轮推迟，如实记）",
+    "S6 数据与面板维护链未跑（r1907 禁重跑，且 Tools/s6_chain_bmc.py 正被对端编辑）",
+    "S6 轮账本/心跳未写（共享面禁写）",
+    "本轮无产品增量（0 分）：对端正在高节奏产出（r2047-r2056 九面），重复造面=双烧算力，按意义门四闸判负"
+  ],
+  "next_pointer": [
+    "(a) 竞争窗关闭后首批：全量 smoke + S6 链（r2022-r2056 二十七面接腿，≤48h）",
+    "(b) 心跳/state 由对端属主维护，本窗不覆盖",
+    "(c) 若对端持续占用，下一窗改做「已发布面 stale 清单」只读盘点，禁再等第三轮"
+  ],
+  "law_ref": "r1907 同树多宿主律 + 协调铁律（同仓同一时刻只许一个执行体）+ O-20260928-1820 意义性律 + P-2026-09-29-07 产品优先律第2条（等待态轮豁免面）"
+}
