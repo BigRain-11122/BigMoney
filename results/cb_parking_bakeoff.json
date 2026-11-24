@@ -1,0 +1,560 @@
+{
+ "schema": "cb-parking-bakeoff/v1",
+ "artifact": "cb_parking_bakeoff",
+ "generated": "2026-11-24T09:54:20+0800",
+ "evidence_cutoff": "2026-11-20",
+ "window": {
+  "start": "2020-07-16",
+  "end": "2026-11-20"
+ },
+ "question": "could the 56.5% parking lot park in convertibles instead of the repo ladder?",
+ "order_ref": "O-20261009-1105 (CEO: convertibles may supplement the idle periods)",
+ "ticket": {
+  "file": "TICKET-2026-11-20.json",
+  "cash_cny": 565245.9,
+  "nav_cny": 1000000.0,
+  "cash_share": 0.5652459,
+  "published_window_net_pct": 1.8359
+ },
+ "arms": [
+  {
+   "label": "repo_gc001",
+   "bars": 1540,
+   "first": "2020-07-16",
+   "last": "2026-11-20",
+   "net_cagr_pct": 1.7662,
+   "vol_pct": 0.1256,
+   "sharpe": 14.021,
+   "maxdd_pct": 0.0,
+   "worst_20bar_pct": 0.069,
+   "worst_day_pct": -0.001,
+   "share_days_le_minus1_pct": 0.0,
+   "positive_years": "7/7",
+   "yearly_pct": {
+    "2020": 1.07,
+    "2021": 2.12,
+    "2022": 1.8,
+    "2023": 2.15,
+    "2024": 1.73,
+    "2025": 1.41,
+    "2026": 0.93
+   },
+   "worst_month_pct": 0.057,
+   "beta_to_equity": 0.0,
+   "corr_to_equity": 0.069,
+   "defence_days": {
+    "days": 232,
+    "mean_pct": 0.0065,
+    "sum_pct": 1.523,
+    "share_negative": 0.0
+   },
+   "orders": 1539,
+   "cost_bp_per_side": 0.0,
+   "caliber": "CL.roll_rung GC001, published cash-leg caliber"
+  },
+  {
+   "label": "money_511880",
+   "bars": 1540,
+   "first": "2020-07-16",
+   "last": "2026-11-20",
+   "net_cagr_pct": 1.5261,
+   "vol_pct": 0.1963,
+   "sharpe": 7.76,
+   "maxdd_pct": -0.193,
+   "worst_20bar_pct": -0.054,
+   "worst_day_pct": -0.107,
+   "share_days_le_minus1_pct": 0.0,
+   "positive_years": "7/7",
+   "yearly_pct": {
+    "2020": 0.81,
+    "2021": 2.08,
+    "2022": 1.6,
+    "2023": 1.65,
+    "2024": 1.53,
+    "2025": 1.1,
+    "2026": 0.92
+   },
+   "worst_month_pct": 0.041,
+   "beta_to_equity": -0.002,
+   "corr_to_equity": -0.228,
+   "defence_days": {
+    "days": 232,
+    "mean_pct": 0.0098,
+    "sum_pct": 2.31,
+    "share_negative": 0.0991
+   },
+   "share_resets_removed": 13,
+   "cost_bp_per_side": 2.0,
+   "caliber": "buy and hold, one round trip charged"
+  },
+  {
+   "label": "bond_etf_ew",
+   "bars": 1540,
+   "first": "2020-07-16",
+   "last": "2026-11-20",
+   "net_cagr_pct": 1.5168,
+   "vol_pct": 2.2753,
+   "sharpe": 0.677,
+   "maxdd_pct": -6.302,
+   "worst_20bar_pct": -3.199,
+   "worst_day_pct": -1.27,
+   "share_days_le_minus1_pct": 0.13,
+   "positive_years": "5/7",
+   "yearly_pct": {
+    "2020": -0.17,
+    "2021": 0.64,
+    "2022": 0.12,
+    "2023": 1.41,
+    "2024": 2.4,
+    "2025": 6.72,
+    "2026": -1.3
+   },
+   "worst_month_pct": -3.024,
+   "beta_to_equity": 0.022,
+   "corr_to_equity": 0.178,
+   "defence_days": {
+    "days": 232,
+    "mean_pct": -0.0536,
+    "sum_pct": -11.727,
+    "share_negative": 0.4353
+   },
+   "names": 109,
+   "rebalances": 77,
+   "mean_turnover": 0.031,
+   "turnover_per_year": 0.38,
+   "cost_bp_per_side": 2.0,
+   "caliber": "bond+money class ETFs, equal weight, monthly"
+  },
+  {
+   "label": "cb_etf_ew",
+   "bars": 1540,
+   "first": "2020-07-16",
+   "last": "2026-11-20",
+   "net_cagr_pct": 1.8332,
+   "vol_pct": 8.7811,
+   "sharpe": 0.252,
+   "maxdd_pct": -20.541,
+   "worst_20bar_pct": -8.016,
+   "worst_day_pct": -3.999,
+   "share_days_le_minus1_pct": 2.792,
+   "positive_years": "5/7",
+   "yearly_pct": {
+    "2020": 1.2,
+    "2021": 12.99,
+    "2022": -7.54,
+    "2023": 0.27,
+    "2024": 7.11,
+    "2025": 15.56,
+    "2026": -14.47
+   },
+   "worst_month_pct": -7.024,
+   "beta_to_equity": 0.366,
+   "corr_to_equity": 0.772,
+   "defence_days": {
+    "days": 232,
+    "mean_pct": -0.665,
+    "sum_pct": -78.806,
+    "share_negative": 0.9569
+   },
+   "names": 2,
+   "rebalances": 77,
+   "mean_turnover": 0.021,
+   "turnover_per_year": 0.26,
+   "cost_bp_per_side": 2.0,
+   "codes": [
+    "511180",
+    "511380"
+   ],
+   "caliber": "equal weight, monthly, turnover charged each rebalance"
+  },
+  {
+   "label": "cb_universe_ew",
+   "bars": 1540,
+   "first": "2020-07-16",
+   "last": "2026-11-20",
+   "net_cagr_pct": 5.4139,
+   "vol_pct": 9.0696,
+   "sharpe": 0.63,
+   "maxdd_pct": -17.029,
+   "worst_20bar_pct": -8.116,
+   "worst_day_pct": -3.16,
+   "share_days_le_minus1_pct": 4.026,
+   "positive_years": "4/7",
+   "yearly_pct": {
+    "2020": 5.87,
+    "2021": 27.61,
+    "2022": -6.41,
+    "2023": -0.05,
+    "2024": 1.78,
+    "2025": 12.25,
+    "2026": -3.22
+   },
+   "worst_month_pct": -6.023,
+   "beta_to_equity": 0.358,
+   "corr_to_equity": 0.731,
+   "defence_days": {
+    "days": 232,
+    "mean_pct": -0.6631,
+    "sum_pct": -78.708,
+    "share_negative": 0.9655
+   },
+   "names": 888,
+   "rebalances": 77,
+   "mean_turnover": 0.041,
+   "turnover_per_year": 0.5,
+   "cost_bp_per_side": 10.0,
+   "instrument_note": "NOT_ONE_ORDER: 40-370 bonds in lot sizes",
+   "caliber": "every convertible on the panel, equal weight, monthly -- same rule as the ETF arms",
+   "median_names_per_day": 425
+  },
+  {
+   "label": "cb_universe_daily_ew",
+   "bars": 1540,
+   "first": "2020-07-16",
+   "last": "2026-11-20",
+   "net_cagr_pct": 6.3881,
+   "vol_pct": 13.074,
+   "sharpe": 0.542,
+   "maxdd_pct": -21.567,
+   "worst_20bar_pct": -9.055,
+   "worst_day_pct": -5.237,
+   "share_days_le_minus1_pct": 9.805,
+   "positive_years": "5/7",
+   "yearly_pct": {
+    "2020": 1.94,
+    "2021": 34.92,
+    "2022": -6.79,
+    "2023": 0.97,
+    "2024": 3.49,
+    "2025": 23.02,
+    "2026": -10.11
+   },
+   "worst_month_pct": -8.473,
+   "beta_to_equity": 0.542,
+   "corr_to_equity": 0.769,
+   "defence_days": {
+    "days": 232,
+    "mean_pct": -1.0105,
+    "sum_pct": -90.584,
+    "share_negative": 0.9655
+   },
+   "cost_bp_per_side": 10.0,
+   "entered_once_bp": 20.0,
+   "instrument_note": "NOT_ONE_ORDER: every bond, equal weight, REBALANCED EVERY BAR",
+   "caliber": "the desk's existing CB convention (cb_debt_floor_mde.daily_series universe)"
+  },
+  {
+   "label": "cb_newissue_ew",
+   "bars": 1462,
+   "first": "2020-07-16",
+   "last": "2026-11-20",
+   "net_cagr_pct": 108.1906,
+   "vol_pct": 33.9882,
+   "sharpe": 2.451,
+   "maxdd_pct": -21.684,
+   "worst_20bar_pct": -12.465,
+   "worst_day_pct": -9.649,
+   "share_days_le_minus1_pct": 17.921,
+   "positive_years": "7/7",
+   "yearly_pct": {
+    "2020": 5.55,
+    "2021": 65.55,
+    "2022": 46.71,
+    "2023": 55.44,
+    "2024": 73.47,
+    "2025": 247.49,
+    "2026": 337.0
+   },
+   "worst_month_pct": -13.66,
+   "beta_to_equity": 0.662,
+   "corr_to_equity": 0.365,
+   "defence_days": {
+    "days": 223,
+    "mean_pct": -0.7484,
+    "sum_pct": -82.145,
+    "share_negative": 0.8027
+   },
+   "cost_bp_per_side": 10.0,
+   "instrument_note": "NOT_ONE_ORDER: equal-weight slice of the CB panel",
+   "caliber": "bonds in their first 20 priced bars"
+  },
+  {
+   "label": "cb_mature_ew",
+   "bars": 1540,
+   "first": "2020-07-16",
+   "last": "2026-11-20",
+   "net_cagr_pct": 5.2935,
+   "vol_pct": 13.0508,
+   "sharpe": 0.463,
+   "maxdd_pct": -22.691,
+   "worst_20bar_pct": -9.053,
+   "worst_day_pct": -5.238,
+   "share_days_le_minus1_pct": 9.935,
+   "positive_years": "4/7",
+   "yearly_pct": {
+    "2020": 1.62,
+    "2021": 34.29,
+    "2022": -7.84,
+    "2023": -0.24,
+    "2024": 3.03,
+    "2025": 22.52,
+    "2026": -12.41
+   },
+   "worst_month_pct": -8.413,
+   "beta_to_equity": 0.541,
+   "corr_to_equity": 0.768,
+   "defence_days": {
+    "days": 232,
+    "mean_pct": -1.0143,
+    "sum_pct": -90.666,
+    "share_negative": 0.9655
+   },
+   "cost_bp_per_side": 10.0,
+   "instrument_note": "NOT_ONE_ORDER: equal-weight slice of the CB panel",
+   "caliber": "bonds past their first 20 priced bars"
+  },
+  {
+   "label": "equity_etf_ew",
+   "bars": 1540,
+   "first": "2020-07-16",
+   "last": "2026-11-20",
+   "net_cagr_pct": 1.1291,
+   "vol_pct": 18.5536,
+   "sharpe": 0.153,
+   "maxdd_pct": -38.039,
+   "worst_20bar_pct": -13.806,
+   "worst_day_pct": -8.804,
+   "share_days_le_minus1_pct": 15.065,
+   "positive_years": "4/7",
+   "yearly_pct": {
+    "2020": 10.81,
+    "2021": 5.37,
+    "2022": -20.04,
+    "2023": -7.54,
+    "2024": 13.03,
+    "2025": 28.59,
+    "2026": -14.4
+   },
+   "worst_month_pct": -11.68,
+   "beta_to_equity": 1.0,
+   "corr_to_equity": 1.0,
+   "defence_days": {
+    "days": 232,
+    "mean_pct": -1.7741,
+    "sum_pct": -98.442,
+    "share_negative": 1.0
+   },
+   "names": 1485,
+   "rebalances": 77,
+   "mean_turnover": 0.047,
+   "turnover_per_year": 0.57,
+   "cost_bp_per_side": 2.0,
+   "caliber": "equity class ETFs, equal weight, monthly (yardstick only)"
+  }
+ ],
+ "arm_info": {
+  "repo_gc001": {
+   "orders": 1539,
+   "cost_bp_per_side": 0.0,
+   "caliber": "CL.roll_rung GC001, published cash-leg caliber"
+  },
+  "money_511880": {
+   "share_resets_removed": 13,
+   "cost_bp_per_side": 2.0,
+   "caliber": "buy and hold, one round trip charged"
+  },
+  "cb_etf_ew": {
+   "names": 2,
+   "rebalances": 77,
+   "mean_turnover": 0.021,
+   "turnover_per_year": 0.26,
+   "cost_bp_per_side": 2.0,
+   "codes": [
+    "511180",
+    "511380"
+   ],
+   "caliber": "equal weight, monthly, turnover charged each rebalance"
+  },
+  "bond_etf_ew": {
+   "names": 109,
+   "rebalances": 77,
+   "mean_turnover": 0.031,
+   "turnover_per_year": 0.38,
+   "cost_bp_per_side": 2.0,
+   "caliber": "bond+money class ETFs, equal weight, monthly"
+  },
+  "equity_etf_ew": {
+   "names": 1485,
+   "rebalances": 77,
+   "mean_turnover": 0.047,
+   "turnover_per_year": 0.57,
+   "cost_bp_per_side": 2.0,
+   "caliber": "equity class ETFs, equal weight, monthly (yardstick only)"
+  },
+  "cb_universe_daily_ew": {
+   "cost_bp_per_side": 10.0,
+   "entered_once_bp": 20.0,
+   "instrument_note": "NOT_ONE_ORDER: every bond, equal weight, REBALANCED EVERY BAR",
+   "caliber": "the desk's existing CB convention (cb_debt_floor_mde.daily_series universe)"
+  },
+  "cb_universe_ew": {
+   "names": 888,
+   "rebalances": 77,
+   "mean_turnover": 0.041,
+   "turnover_per_year": 0.5,
+   "cost_bp_per_side": 10.0,
+   "instrument_note": "NOT_ONE_ORDER: 40-370 bonds in lot sizes",
+   "caliber": "every convertible on the panel, equal weight, monthly -- same rule as the ETF arms",
+   "median_names_per_day": 425
+  },
+  "cb_newissue_ew": {
+   "cost_bp_per_side": 10.0,
+   "instrument_note": "NOT_ONE_ORDER: equal-weight slice of the CB panel",
+   "caliber": "bonds in their first 20 priced bars"
+  },
+  "cb_mature_ew": {
+   "cost_bp_per_side": 10.0,
+   "instrument_note": "NOT_ONE_ORDER: equal-weight slice of the CB panel",
+   "caliber": "bonds past their first 20 priced bars"
+  }
+ },
+ "dosage": [
+  {
+   "arm": "cb_etf_ew",
+   "dose_of_cash_leg": 0.0,
+   "net_cagr_pct": 1.7662,
+   "vol_pct": 0.126,
+   "maxdd_pct": 0.0,
+   "worst_20bar_pct": 0.069,
+   "delta_vs_repo_pp": 0.0,
+   "cny_per_year_on_one_million_book": 0.0
+  },
+  {
+   "arm": "cb_etf_ew",
+   "dose_of_cash_leg": 0.1,
+   "net_cagr_pct": 1.8074,
+   "vol_pct": 0.889,
+   "maxdd_pct": -1.533,
+   "worst_20bar_pct": -0.752,
+   "delta_vs_repo_pp": 0.0412,
+   "cny_per_year_on_one_million_book": 23.0
+  },
+  {
+   "arm": "cb_etf_ew",
+   "dose_of_cash_leg": 0.25,
+   "net_cagr_pct": 1.8546,
+   "vol_pct": 2.201,
+   "maxdd_pct": -4.878,
+   "worst_20bar_pct": -1.983,
+   "delta_vs_repo_pp": 0.0883,
+   "cny_per_year_on_one_million_book": 125.0
+  },
+  {
+   "arm": "cb_etf_ew",
+   "dose_of_cash_leg": 0.5,
+   "net_cagr_pct": 1.8942,
+   "vol_pct": 4.393,
+   "maxdd_pct": -10.339,
+   "worst_20bar_pct": -4.017,
+   "delta_vs_repo_pp": 0.1279,
+   "cny_per_year_on_one_million_book": 362.0
+  },
+  {
+   "arm": "cb_etf_ew",
+   "dose_of_cash_leg": 1.0,
+   "net_cagr_pct": 1.8267,
+   "vol_pct": 8.781,
+   "maxdd_pct": -20.541,
+   "worst_20bar_pct": -8.016,
+   "delta_vs_repo_pp": 0.0605,
+   "cny_per_year_on_one_million_book": 342.0
+  },
+  {
+   "arm": "cb_universe_ew",
+   "dose_of_cash_leg": 0.0,
+   "net_cagr_pct": 1.7662,
+   "vol_pct": 0.126,
+   "maxdd_pct": 0.0,
+   "worst_20bar_pct": 0.069,
+   "delta_vs_repo_pp": 0.0,
+   "cny_per_year_on_one_million_book": 0.0
+  },
+  {
+   "arm": "cb_universe_ew",
+   "dose_of_cash_leg": 0.1,
+   "net_cagr_pct": 2.1596,
+   "vol_pct": 0.926,
+   "maxdd_pct": -0.847,
+   "worst_20bar_pct": -0.671,
+   "delta_vs_repo_pp": 0.3933,
+   "cny_per_year_on_one_million_book": 222.0
+  },
+  {
+   "arm": "cb_universe_ew",
+   "dose_of_cash_leg": 0.25,
+   "net_cagr_pct": 2.7367,
+   "vol_pct": 2.28,
+   "maxdd_pct": -2.793,
+   "worst_20bar_pct": -1.943,
+   "delta_vs_repo_pp": 0.9705,
+   "cny_per_year_on_one_million_book": 1371.0
+  },
+  {
+   "arm": "cb_universe_ew",
+   "dose_of_cash_leg": 0.5,
+   "net_cagr_pct": 3.6635,
+   "vol_pct": 4.543,
+   "maxdd_pct": -6.974,
+   "worst_20bar_pct": -4.036,
+   "delta_vs_repo_pp": 1.8973,
+   "cny_per_year_on_one_million_book": 5362.0
+  },
+  {
+   "arm": "cb_universe_ew",
+   "dose_of_cash_leg": 1.0,
+   "net_cagr_pct": 5.3806,
+   "vol_pct": 9.071,
+   "maxdd_pct": -17.029,
+   "worst_20bar_pct": -8.116,
+   "delta_vs_repo_pp": 3.6144,
+   "cny_per_year_on_one_million_book": 20430.0
+  }
+ ],
+ "verdict": [
+  "CONVERTIBLES_PAY_MORE_THAN_THE_REPO_LEG",
+  "BUT_THEY_FALL_ON_THE_DAYS_THE_BOOK_DEFENDS",
+  "THE_INSTRUMENT_ON_SALE_DOES_NOT_HOLD_THE_CLASS_RETURN"
+ ],
+ "headline": {
+  "repo_net_pct": 1.7662,
+  "cb_etf_net_pct": 1.8332,
+  "cb_universe_net_pct": 5.4139,
+  "cb_universe_daily_net_pct": 6.3881,
+  "extra_etf_pp": 0.067,
+  "extra_universe_pp": 3.6477,
+  "rebalance_frequency_gap_pp": 0.9742,
+  "repo_worst_20bar_pct": 0.069,
+  "cb_etf_worst_20bar_pct": -8.016,
+  "cb_universe_worst_20bar_pct": -8.116,
+  "cb_etf_beta_to_equity": 0.366,
+  "cb_universe_beta_to_equity": 0.358,
+  "cb_etf_defence_mean_pct": -0.665,
+  "cb_universe_defence_mean_pct": -0.6631,
+  "quarter_parking_delta_cny_per_year": 125.0,
+  "full_parking_delta_cny_per_year": 342.0,
+  "quarter_parking_worst20_etf_pct": -1.983,
+  "quarter_parking_worst20_basket_pct": -1.943,
+  "quarter_parking_delta_basket_cny_per_year": 1371.0,
+  "full_parking_delta_basket_cny_per_year": 20430.0,
+  "full_parking_worst20_basket_pct": -8.116,
+  "newissue_slice_net_pct": 108.1906,
+  "mature_slice_net_pct": 5.2935
+ },
+ "data_sha": {
+  "cb_panel": "6854e480f5fb76f9efb9182e27a235bbfb26293a63e65fabc4d32bb34ba0cefb",
+  "repo_gc001": "564df41b677636502d65eab6f9df1c2237369282f39eb7a2e098828422e25319",
+  "ticket": "cf3cfd9207b0a1cbb62a15e40f6bc1578eced75e50c0bb1cbd9a4172fa7088f9"
+ },
+ "elapsed_sec": 49.8,
+ "content_sha256": "1e3c74a1212080893e527620bbe6ac56ea9ba551bb342dd7d647bbfb76568b2f"
+}
