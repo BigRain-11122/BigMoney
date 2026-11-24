@@ -1,0 +1,882 @@
+{
+ "evidence_cutoff": "2026-11-24",
+ "caliber": {
+  "engine": "etf_robust_pf.open_to_open_equity (rebal=20, n_hold=5, cost=10bp/side, vol_target=8%)",
+  "panel_a": "as-traded prices (sina klc_kl, adjusted factor 1.0 on ETFs) -- every published number",
+  "panel_b": "same panel, held names scaled by 1+每份派息/前收 compounded on sina ex-dates",
+  "scope": "only names the book actually held (or holds today) are repriced; the rest have no tested dividend credit",
+  "score_unchanged": "score is still built from price factors (compute_all not rebuilt) -> the credit printed here is a floor for the selection channel"
+ },
+ "arms": {
+  "price_lag0": {
+   "label": "price_lag0",
+   "years": 6.89,
+   "start_level": 1.008,
+   "cagr": 0.1111,
+   "vol": 0.1051,
+   "sharpe": 1.096,
+   "maxdd": -0.1056,
+   "worst_year": 0.0025,
+   "neg_years": 0,
+   "worst_month": -0.043,
+   "pos_months_pct": 0.598,
+   "cagr_is": 0.0581,
+   "sharpe_is": 0.621,
+   "maxdd_is": -0.088,
+   "cagr_oos": 0.1888,
+   "sharpe_oos": 1.727,
+   "maxdd_oos": -0.1056,
+   "turnover": 1.082
+  },
+  "price_lag1": {
+   "label": "price_lag1",
+   "years": 6.89,
+   "start_level": 0.9993,
+   "cagr": 0.1008,
+   "vol": 0.1064,
+   "sharpe": 0.993,
+   "maxdd": -0.1011,
+   "worst_year": 0.0221,
+   "neg_years": 0,
+   "worst_month": -0.0338,
+   "pos_months_pct": 0.61,
+   "cagr_is": 0.0421,
+   "sharpe_is": 0.463,
+   "maxdd_is": -0.0986,
+   "cagr_oos": 0.1874,
+   "sharpe_oos": 1.7,
+   "maxdd_oos": -0.1011,
+   "turnover": 1.082
+  },
+  "with_dividends_lag0": {
+   "label": "with_dividends_lag0",
+   "years": 6.89,
+   "start_level": 1.008,
+   "cagr": 0.1147,
+   "vol": 0.105,
+   "sharpe": 1.129,
+   "maxdd": -0.1031,
+   "worst_year": 0.0049,
+   "neg_years": 0,
+   "worst_month": -0.043,
+   "pos_months_pct": 0.598,
+   "cagr_is": 0.0582,
+   "sharpe_is": 0.622,
+   "maxdd_is": -0.088,
+   "cagr_oos": 0.1977,
+   "sharpe_oos": 1.805,
+   "maxdd_oos": -0.1031,
+   "turnover": 1.083
+  },
+  "with_dividends_lag1": {
+   "label": "with_dividends_lag1",
+   "years": 6.89,
+   "start_level": 0.9993,
+   "cagr": 0.1041,
+   "vol": 0.1062,
+   "sharpe": 1.024,
+   "maxdd": -0.0986,
+   "worst_year": 0.0234,
+   "neg_years": 0,
+   "worst_month": -0.0338,
+   "pos_months_pct": 0.61,
+   "cagr_is": 0.0423,
+   "sharpe_is": 0.464,
+   "maxdd_is": -0.0986,
+   "cagr_oos": 0.1958,
+   "sharpe_oos": 1.773,
+   "maxdd_oos": -0.0986,
+   "turnover": 1.083
+  }
+ },
+ "dividend_credit": {
+  "lag0_cagr_pp": 0.36,
+  "lag0_sharpe_delta": 0.033,
+  "lag0_maxdd_pp": 0.25,
+  "lag1_cagr_pp": 0.33,
+  "lag1_sharpe_delta": 0.031,
+  "lag1_maxdd_pp": 0.25,
+  "execution_penalty_pp": 1.03,
+  "dividend_to_execution_ratio": 0.32
+ },
+ "verdict": "DIVIDENDS_ARE_NOISE",
+ "coverage": {
+  "names_held_or_live": 125,
+  "names_with_sina_records": 56,
+  "names_paying_inside_window": 34,
+  "coverage_pct": 27.2,
+  "events_dropped_as_non_cash": {
+   "510230": 1,
+   "512040": 1,
+   "512160": 1,
+   "512690": 1,
+   "515100": 1,
+   "515450": 1
+  },
+  "event_cap_pct_of_raw_close": 10.0
+ },
+ "per_name_dividend_pct_in_window": {
+  "510880": 37.596,
+  "515180": 35.26,
+  "515080": 34.774,
+  "515450": 28.852,
+  "515300": 28.584,
+  "510210": 23.393,
+  "159905": 18.489,
+  "513950": 17.82,
+  "512910": 15.996,
+  "510180": 15.946,
+  "512820": 15.724,
+  "510760": 14.725,
+  "561580": 13.623,
+  "513530": 12.947,
+  "562060": 12.164,
+  "159307": 11.47,
+  "159545": 11.14,
+  "510100": 10.763,
+  "517180": 9.698,
+  "515100": 7.328,
+  "159922": 6.825,
+  "520550": 6.471,
+  "510310": 6.464,
+  "159207": 5.079,
+  "510230": 4.855,
+  "513690": 4.223,
+  "159333": 4.076,
+  "159547": 3.018,
+  "512100": 2.863,
+  "159901": 2.5,
+  "513800": 2.297,
+  "159281": 1.794,
+  "513630": 1.501,
+  "588080": 1.009,
+  "159263": 0.0,
+  "159501": 0.0,
+  "159519": 0.0,
+  "159525": 0.0,
+  "159549": 0.0,
+  "159552": 0.0,
+  "159561": 0.0,
+  "159577": 0.0,
+  "159611": 0.0,
+  "159612": 0.0,
+  "159632": 0.0,
+  "159633": 0.0,
+  "159655": 0.0,
+  "159659": 0.0,
+  "159680": 0.0,
+  "159696": 0.0,
+  "159825": 0.0,
+  "159830": 0.0,
+  "159831": 0.0,
+  "159834": 0.0,
+  "159866": 0.0,
+  "159887": 0.0,
+  "159902": 0.0,
+  "159915": 0.0,
+  "159928": 0.0,
+  "159930": 0.0,
+  "159934": 0.0,
+  "159937": 0.0,
+  "159941": 0.0,
+  "159948": 0.0,
+  "159949": 0.0,
+  "159952": 0.0,
+  "159968": 0.0,
+  "159980": 0.0,
+  "159981": 0.0,
+  "159982": 0.0,
+  "159985": 0.0,
+  "510150": 0.0,
+  "510360": 0.0,
+  "510580": 0.0,
+  "510630": 0.0,
+  "510650": 0.0,
+  "510710": 0.0,
+  "510880_t73": 0.0,
+  "510980": 0.0,
+  "511180": 0.0,
+  "511380": 0.0,
+  "512010": 0.0,
+  "512040": 0.0,
+  "512090": 0.0,
+  "512160": 0.0,
+  "512380": 0.0,
+  "512690": 0.0,
+  "512800": 0.0,
+  "512890": 0.0,
+  "512990": 0.0,
+  "513030": 0.0,
+  "513050": 0.0,
+  "513100": 0.0,
+  "513110": 0.0,
+  "513140": 0.0,
+  "513190": 0.0,
+  "513300": 0.0,
+  "513400": 0.0,
+  "513500": 0.0,
+  "513650": 0.0,
+  "513730": 0.0,
+  "513850": 0.0,
+  "513910": 0.0,
+  "515290": 0.0,
+  "515350": 0.0,
+  "515650": 0.0,
+  "515770": 0.0,
+  "516300": 0.0,
+  "516310": 0.0,
+  "517090": 0.0,
+  "517900": 0.0,
+  "518600": 0.0,
+  "518660": 0.0,
+  "518680": 0.0,
+  "518800": 0.0,
+  "518850": 0.0,
+  "518860": 0.0,
+  "518880": 0.0,
+  "518890": 0.0,
+  "520890": 0.0,
+  "560880": 0.0,
+  "561350": 0.0,
+  "561550": 0.0,
+  "562660": 0.0,
+  "563330": 0.0
+ },
+ "records": {
+  "159207": {
+   "events": 1,
+   "last_ex_date": "2025-12-10",
+   "cum_per_share": 0.0546
+  },
+  "159263": {
+   "events": 0,
+   "last_ex_date": null,
+   "cum_per_share": 0.0
+  },
+  "159281": {
+   "events": 6,
+   "last_ex_date": "2026-05-08",
+   "cum_per_share": 0.018
+  },
+  "159307": {
+   "events": 9,
+   "last_ex_date": "2026-09-14",
+   "cum_per_share": 0.1122
+  },
+  "159333": {
+   "events": 16,
+   "last_ex_date": "2026-11-17",
+   "cum_per_share": 0.056
+  },
+  "159501": {
+   "events": 0,
+   "last_ex_date": null,
+   "cum_per_share": 0.0
+  },
+  "159519": {
+   "events": 0,
+   "last_ex_date": null,
+   "cum_per_share": 0.0
+  },
+  "159525": {
+   "events": 0,
+   "last_ex_date": null,
+   "cum_per_share": 0.0
+  },
+  "159545": {
+   "events": 10,
+   "last_ex_date": "2026-11-11",
+   "cum_per_share": 0.137
+  },
+  "159547": {
+   "events": 3,
+   "last_ex_date": "2026-09-14",
+   "cum_per_share": 0.036
+  },
+  "159549": {
+   "events": 0,
+   "last_ex_date": null,
+   "cum_per_share": 0.0
+  },
+  "159552": {
+   "events": 0,
+   "last_ex_date": null,
+   "cum_per_share": 0.0
+  },
+  "159561": {
+   "events": 0,
+   "last_ex_date": null,
+   "cum_per_share": 0.0
+  },
+  "159577": {
+   "events": 0,
+   "last_ex_date": null,
+   "cum_per_share": 0.0
+  },
+  "159611": {
+   "events": 0,
+   "last_ex_date": null,
+   "cum_per_share": 0.0
+  },
+  "159612": {
+   "events": 0,
+   "last_ex_date": null,
+   "cum_per_share": 0.0
+  },
+  "159632": {
+   "events": 0,
+   "last_ex_date": null,
+   "cum_per_share": 0.0
+  },
+  "159633": {
+   "events": 2,
+   "last_ex_date": "2023-07-10",
+   "cum_per_share": 0.0
+  },
+  "159655": {
+   "events": 0,
+   "last_ex_date": null,
+   "cum_per_share": 0.0
+  },
+  "159659": {
+   "events": 0,
+   "last_ex_date": null,
+   "cum_per_share": 0.0
+  },
+  "159680": {
+   "events": 0,
+   "last_ex_date": null,
+   "cum_per_share": 0.0
+  },
+  "159696": {
+   "events": 0,
+   "last_ex_date": null,
+   "cum_per_share": 0.0
+  },
+  "159825": {
+   "events": 0,
+   "last_ex_date": null,
+   "cum_per_share": 0.0
+  },
+  "159830": {
+   "events": 1,
+   "last_ex_date": "2024-12-20",
+   "cum_per_share": 0.0
+  },
+  "159831": {
+   "events": 0,
+   "last_ex_date": null,
+   "cum_per_share": 0.0
+  },
+  "159834": {
+   "events": 0,
+   "last_ex_date": null,
+   "cum_per_share": 0.0
+  },
+  "159866": {
+   "events": 0,
+   "last_ex_date": null,
+   "cum_per_share": 0.0
+  },
+  "159887": {
+   "events": 0,
+   "last_ex_date": null,
+   "cum_per_share": 0.0
+  },
+  "159901": {
+   "events": 5,
+   "last_ex_date": "2025-11-17",
+   "cum_per_share": 0.205
+  },
+  "159902": {
+   "events": 2,
+   "last_ex_date": "2014-03-13",
+   "cum_per_share": 0.12
+  },
+  "159905": {
+   "events": 4,
+   "last_ex_date": "2024-12-23",
+   "cum_per_share": 0.306
+  },
+  "159915": {
+   "events": 0,
+   "last_ex_date": null,
+   "cum_per_share": 0.0
+  },
+  "159922": {
+   "events": 3,
+   "last_ex_date": "2025-12-08",
+   "cum_per_share": 0.1668
+  },
+  "159928": {
+   "events": 1,
+   "last_ex_date": "2021-06-25",
+   "cum_per_share": 0.0
+  },
+  "159930": {
+   "events": 0,
+   "last_ex_date": null,
+   "cum_per_share": 0.0
+  },
+  "159934": {
+   "events": 1,
+   "last_ex_date": "2025-09-22",
+   "cum_per_share": 0.0
+  },
+  "159937": {
+   "events": 0,
+   "last_ex_date": null,
+   "cum_per_share": 0.0
+  },
+  "159941": {
+   "events": 1,
+   "last_ex_date": "2022-07-05",
+   "cum_per_share": 0.0
+  },
+  "159948": {
+   "events": 0,
+   "last_ex_date": null,
+   "cum_per_share": 0.0
+  },
+  "159949": {
+   "events": 0,
+   "last_ex_date": null,
+   "cum_per_share": 0.0
+  },
+  "159952": {
+   "events": 0,
+   "last_ex_date": null,
+   "cum_per_share": 0.0
+  },
+  "159968": {
+   "events": 0,
+   "last_ex_date": null,
+   "cum_per_share": 0.0
+  },
+  "159980": {
+   "events": 0,
+   "last_ex_date": null,
+   "cum_per_share": 0.0
+  },
+  "159981": {
+   "events": 0,
+   "last_ex_date": null,
+   "cum_per_share": 0.0
+  },
+  "159982": {
+   "events": 0,
+   "last_ex_date": null,
+   "cum_per_share": 0.0
+  },
+  "159985": {
+   "events": 0,
+   "last_ex_date": null,
+   "cum_per_share": 0.0
+  },
+  "510100": {
+   "events": 5,
+   "last_ex_date": "2025-11-10",
+   "cum_per_share": 0.188
+  },
+  "510150": {
+   "events": 1,
+   "last_ex_date": "2021-05-31",
+   "cum_per_share": 0.0
+  },
+  "510180": {
+   "events": 20,
+   "last_ex_date": "2026-10-22",
+   "cum_per_share": 1.13
+  },
+  "510210": {
+   "events": 4,
+   "last_ex_date": "2023-12-20",
+   "cum_per_share": 0.175
+  },
+  "510230": {
+   "events": 5,
+   "last_ex_date": "2025-06-24",
+   "cum_per_share": 1.1368
+  },
+  "510310": {
+   "events": 7,
+   "last_ex_date": "2026-01-20",
+   "cum_per_share": 0.2614
+  },
+  "510360": {
+   "events": 0,
+   "last_ex_date": null,
+   "cum_per_share": 0.0
+  },
+  "510580": {
+   "events": 2,
+   "last_ex_date": "2024-09-02",
+   "cum_per_share": 0.0
+  },
+  "510630": {
+   "events": 1,
+   "last_ex_date": "2021-04-26",
+   "cum_per_share": 0.0
+  },
+  "510650": {
+   "events": 0,
+   "last_ex_date": null,
+   "cum_per_share": 0.0
+  },
+  "510710": {
+   "events": 0,
+   "last_ex_date": null,
+   "cum_per_share": 0.0
+  },
+  "510760": {
+   "events": 3,
+   "last_ex_date": "2024-12-24",
+   "cum_per_share": 0.142
+  },
+  "510880": {
+   "events": 19,
+   "last_ex_date": "2026-01-21",
+   "cum_per_share": 1.576
+  },
+  "510880_t73": {
+   "events": 0,
+   "last_ex_date": null,
+   "cum_per_share": 0.0
+  },
+  "510980": {
+   "events": 0,
+   "last_ex_date": null,
+   "cum_per_share": 0.0
+  },
+  "511180": {
+   "events": 0,
+   "last_ex_date": null,
+   "cum_per_share": 0.0
+  },
+  "511380": {
+   "events": 0,
+   "last_ex_date": null,
+   "cum_per_share": 0.0
+  },
+  "512010": {
+   "events": 1,
+   "last_ex_date": "2021-06-28",
+   "cum_per_share": 0.0
+  },
+  "512040": {
+   "events": 2,
+   "last_ex_date": "2023-12-13",
+   "cum_per_share": 0.104
+  },
+  "512090": {
+   "events": 0,
+   "last_ex_date": null,
+   "cum_per_share": 0.0
+  },
+  "512100": {
+   "events": 4,
+   "last_ex_date": "2026-01-19",
+   "cum_per_share": 0.078
+  },
+  "512160": {
+   "events": 1,
+   "last_ex_date": "2023-01-17",
+   "cum_per_share": 0.29
+  },
+  "512380": {
+   "events": 0,
+   "last_ex_date": null,
+   "cum_per_share": 0.0
+  },
+  "512690": {
+   "events": 2,
+   "last_ex_date": "2021-12-31",
+   "cum_per_share": 0.35
+  },
+  "512800": {
+   "events": 1,
+   "last_ex_date": "2025-07-07",
+   "cum_per_share": 0.0
+  },
+  "512820": {
+   "events": 3,
+   "last_ex_date": "2024-12-25",
+   "cum_per_share": 0.196
+  },
+  "512890": {
+   "events": 1,
+   "last_ex_date": "2021-10-25",
+   "cum_per_share": 0.0
+  },
+  "512910": {
+   "events": 3,
+   "last_ex_date": "2023-12-20",
+   "cum_per_share": 0.1398
+  },
+  "512990": {
+   "events": 0,
+   "last_ex_date": null,
+   "cum_per_share": 0.0
+  },
+  "513030": {
+   "events": 0,
+   "last_ex_date": null,
+   "cum_per_share": 0.0
+  },
+  "513050": {
+   "events": 0,
+   "last_ex_date": null,
+   "cum_per_share": 0.0
+  },
+  "513100": {
+   "events": 1,
+   "last_ex_date": "2022-01-14",
+   "cum_per_share": 0.0
+  },
+  "513110": {
+   "events": 0,
+   "last_ex_date": null,
+   "cum_per_share": 0.0
+  },
+  "513140": {
+   "events": 0,
+   "last_ex_date": null,
+   "cum_per_share": 0.0
+  },
+  "513190": {
+   "events": 0,
+   "last_ex_date": null,
+   "cum_per_share": 0.0
+  },
+  "513300": {
+   "events": 0,
+   "last_ex_date": null,
+   "cum_per_share": 0.0
+  },
+  "513400": {
+   "events": 0,
+   "last_ex_date": null,
+   "cum_per_share": 0.0
+  },
+  "513500": {
+   "events": 1,
+   "last_ex_date": "2022-03-30",
+   "cum_per_share": 0.0
+  },
+  "513530": {
+   "events": 18,
+   "last_ex_date": "2026-11-16",
+   "cum_per_share": 0.2
+  },
+  "513630": {
+   "events": 12,
+   "last_ex_date": "2026-11-20",
+   "cum_per_share": 0.024
+  },
+  "513650": {
+   "events": 0,
+   "last_ex_date": null,
+   "cum_per_share": 0.0
+  },
+  "513690": {
+   "events": 4,
+   "last_ex_date": "2025-12-17",
+   "cum_per_share": 0.0368
+  },
+  "513730": {
+   "events": 0,
+   "last_ex_date": null,
+   "cum_per_share": 0.0
+  },
+  "513800": {
+   "events": 1,
+   "last_ex_date": "2024-08-13",
+   "cum_per_share": 0.03
+  },
+  "513850": {
+   "events": 0,
+   "last_ex_date": null,
+   "cum_per_share": 0.0
+  },
+  "513910": {
+   "events": 0,
+   "last_ex_date": null,
+   "cum_per_share": 0.0
+  },
+  "513950": {
+   "events": 17,
+   "last_ex_date": "2026-10-22",
+   "cum_per_share": 0.1925
+  },
+  "515080": {
+   "events": 18,
+   "last_ex_date": "2026-09-16",
+   "cum_per_share": 0.435
+  },
+  "515100": {
+   "events": 2,
+   "last_ex_date": "2025-12-23",
+   "cum_per_share": 0.5423
+  },
+  "515180": {
+   "events": 7,
+   "last_ex_date": "2026-10-16",
+   "cum_per_share": 0.393
+  },
+  "515290": {
+   "events": 0,
+   "last_ex_date": null,
+   "cum_per_share": 0.0
+  },
+  "515300": {
+   "events": 7,
+   "last_ex_date": "2025-12-15",
+   "cum_per_share": 0.3361
+  },
+  "515350": {
+   "events": 0,
+   "last_ex_date": null,
+   "cum_per_share": 0.0
+  },
+  "515450": {
+   "events": 10,
+   "last_ex_date": "2026-11-10",
+   "cum_per_share": 0.48
+  },
+  "515650": {
+   "events": 0,
+   "last_ex_date": null,
+   "cum_per_share": 0.0
+  },
+  "515770": {
+   "events": 0,
+   "last_ex_date": null,
+   "cum_per_share": 0.0
+  },
+  "516300": {
+   "events": 1,
+   "last_ex_date": "2024-10-28",
+   "cum_per_share": 0.0
+  },
+  "516310": {
+   "events": 0,
+   "last_ex_date": null,
+   "cum_per_share": 0.0
+  },
+  "517090": {
+   "events": 0,
+   "last_ex_date": null,
+   "cum_per_share": 0.0
+  },
+  "517180": {
+   "events": 3,
+   "last_ex_date": "2025-10-27",
+   "cum_per_share": 0.135
+  },
+  "517900": {
+   "events": 0,
+   "last_ex_date": null,
+   "cum_per_share": 0.0
+  },
+  "518600": {
+   "events": 1,
+   "last_ex_date": "2025-06-03",
+   "cum_per_share": 0.0
+  },
+  "518660": {
+   "events": 0,
+   "last_ex_date": null,
+   "cum_per_share": 0.0
+  },
+  "518680": {
+   "events": 1,
+   "last_ex_date": "2025-04-21",
+   "cum_per_share": 0.0
+  },
+  "518800": {
+   "events": 1,
+   "last_ex_date": "2026-04-15",
+   "cum_per_share": 0.0
+  },
+  "518850": {
+   "events": 0,
+   "last_ex_date": null,
+   "cum_per_share": 0.0
+  },
+  "518860": {
+   "events": 0,
+   "last_ex_date": null,
+   "cum_per_share": 0.0
+  },
+  "518880": {
+   "events": 0,
+   "last_ex_date": null,
+   "cum_per_share": 0.0
+  },
+  "518890": {
+   "events": 0,
+   "last_ex_date": null,
+   "cum_per_share": 0.0
+  },
+  "520550": {
+   "events": 19,
+   "last_ex_date": "2026-11-16",
+   "cum_per_share": 0.073
+  },
+  "520890": {
+   "events": 0,
+   "last_ex_date": null,
+   "cum_per_share": 0.0
+  },
+  "560880": {
+   "events": 0,
+   "last_ex_date": null,
+   "cum_per_share": 0.0
+  },
+  "561350": {
+   "events": 0,
+   "last_ex_date": null,
+   "cum_per_share": 0.0
+  },
+  "561550": {
+   "events": 0,
+   "last_ex_date": null,
+   "cum_per_share": 0.0
+  },
+  "561580": {
+   "events": 19,
+   "last_ex_date": "2026-11-16",
+   "cum_per_share": 0.16
+  },
+  "562060": {
+   "events": 4,
+   "last_ex_date": "2026-10-21",
+   "cum_per_share": 0.0898
+  },
+  "562660": {
+   "events": 0,
+   "last_ex_date": null,
+   "cum_per_share": 0.0
+  },
+  "563330": {
+   "events": 1,
+   "last_ex_date": "2024-10-14",
+   "cum_per_share": 0.0
+  },
+  "588080": {
+   "events": 1,
+   "last_ex_date": "2025-10-17",
+   "cum_per_share": 0.014
+  }
+ },
+ "live_picks": {
+  "as_of": "2026-11-24",
+  "picks": [
+   "159549",
+   "159207",
+   "515300",
+   "562060",
+   "159307"
+  ]
+ }
+}
