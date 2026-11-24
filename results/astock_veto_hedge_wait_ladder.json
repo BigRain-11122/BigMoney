@@ -1,0 +1,213 @@
+{
+ "anchor": {
+  "reproduced_ratio": 1366.55,
+  "reproduced_total_cost_pp": 169.75,
+  "reproduced_yearly_cost_pp": 16.5803,
+  "wait_face_ceiling_pp": 0.1242,
+  "wait_face_ratio": 1366.55,
+  "wait_face_total_cost_pp": 169.75,
+  "wait_face_yearly_cost_pp": 16.5803,
+  "wait_face_years": 10.238
+ },
+ "at_the_point_estimate": {
+  "hedge_ratio": 0.9013,
+  "lots": 3918.8,
+  "note": "the reference rung: the hedge the deploy arm books, so its wait cost is zero by construction",
+  "ratio_cost_over_ceiling": 0.0,
+  "residual_vol_pct": 10.763,
+  "total_cost_pp": 0.0,
+  "yearly_cost_pp": 0.0
+ },
+ "at_unit_beta": {
+  "hedge_ratio": 1.0,
+  "lots": 4347.8,
+  "ratio_cost_over_ceiling": -10.24,
+  "residual_vol_pct": 10.639,
+  "total_cost_pp": -1.272,
+  "yearly_cost_cny": -1242.2,
+  "yearly_cost_pp": -0.1242
+ },
+ "break_even": {
+  "k_high": 1.0427158055872388,
+  "k_low": 0.8985891356771318,
+  "lots_high": 4533.5,
+  "lots_low": 3906.9,
+  "target_yearly_pp": 0.012132919947399725
+ },
+ "content_sha256": "67a103d4129c3dd1c439c76e035ace59dbbe9933282ac42574f544f612a76d6d",
+ "evidence_cutoff": "2026-11-20",
+ "generated": "2026-11-24T09:19:21+0800",
+ "holding_verdict": "YOU_MUST_ALREADY_HOLD_MOST_OF_THE_HEDGE",
+ "holding_verdict_why": "the hedge has to be at least 99.7% of the deployed one before the wait stops costing more than it buys",
+ "inputs_ok": true,
+ "kind": "hedge_wait_ladder",
+ "ladder": [
+  {
+   "hedge_ratio": 0.0,
+   "lots": 0.0,
+   "ratio_cost_over_ceiling": 1366.55,
+   "residual_vol_pct": 27.343,
+   "total_cost_pp": 169.75,
+   "yearly_cost_cny": 165802.7,
+   "yearly_cost_pp": 16.5803
+  },
+  {
+   "hedge_ratio": 0.25,
+   "lots": 1087.0,
+   "ratio_cost_over_ceiling": 885.72,
+   "residual_vol_pct": 21.509,
+   "total_cost_pp": 110.023,
+   "yearly_cost_cny": 107464.3,
+   "yearly_cost_pp": 10.7464
+  },
+  {
+   "hedge_ratio": 0.5,
+   "lots": 2173.9,
+   "ratio_cost_over_ceiling": 446.77,
+   "residual_vol_pct": 16.184,
+   "total_cost_pp": 55.497,
+   "yearly_cost_cny": 54206.6,
+   "yearly_cost_pp": 5.4207
+  },
+  {
+   "hedge_ratio": 0.65,
+   "lots": 2826.1,
+   "ratio_cost_over_ceiling": 224.53,
+   "residual_vol_pct": 13.487,
+   "total_cost_pp": 27.891,
+   "yearly_cost_cny": 27242.5,
+   "yearly_cost_pp": 2.7242
+  },
+  {
+   "hedge_ratio": 0.75,
+   "lots": 3260.9,
+   "ratio_cost_over_ceiling": 106.82,
+   "residual_vol_pct": 12.059,
+   "total_cost_pp": 13.269,
+   "yearly_cost_cny": 12960.3,
+   "yearly_cost_pp": 1.296
+  },
+  {
+   "hedge_ratio": 0.85,
+   "lots": 3695.7,
+   "ratio_cost_over_ceiling": 24.82,
+   "residual_vol_pct": 11.064,
+   "total_cost_pp": 3.083,
+   "yearly_cost_cny": 3011.3,
+   "yearly_cost_pp": 0.3011
+  },
+  {
+   "hedge_ratio": 0.9,
+   "lots": 3913.0,
+   "ratio_cost_over_ceiling": 0.48,
+   "residual_vol_pct": 10.769,
+   "total_cost_pp": 0.06,
+   "yearly_cost_cny": 58.3,
+   "yearly_cost_pp": 0.0058
+  },
+  {
+   "hedge_ratio": 0.95,
+   "lots": 4130.4,
+   "ratio_cost_over_ceiling": -11.37,
+   "residual_vol_pct": 10.625,
+   "total_cost_pp": -1.413,
+   "yearly_cost_cny": -1380.0,
+   "yearly_cost_pp": -0.138
+  },
+  {
+   "hedge_ratio": 1.0,
+   "lots": 4347.8,
+   "ratio_cost_over_ceiling": -10.24,
+   "residual_vol_pct": 10.639,
+   "total_cost_pp": -1.272,
+   "yearly_cost_cny": -1242.2,
+   "yearly_cost_pp": -0.1242
+  },
+  {
+   "hedge_ratio": 1.0263,
+   "lots": 4462.2,
+   "ratio_cost_over_ceiling": -4.42,
+   "residual_vol_pct": 10.709,
+   "total_cost_pp": -0.549,
+   "yearly_cost_cny": -536.4,
+   "yearly_cost_pp": -0.0536
+  }
+ ],
+ "ladder_verdict": "PARTIAL_HEDGING_DOES_NOT_MAKE_THE_WAIT_CHEAP",
+ "ladder_verdict_why": "a hedge at the budget face's rule-A ratio still pays back less risk than the exposure it keeps on the book",
+ "machine": "bm-c",
+ "parents": {
+  "band": {
+   "content_sha256": "2adb4c1a226c280158c2f4e5edbb2b5deecfc07ddaba446c3034adecdebfdc25",
+   "evidence_cutoff": "2026-11-20",
+   "face": "results/astock_veto_hedge_band.json",
+   "file_sha256": "335f0b0ca1b707348daa7964a770330cd16cda8a1c1c677503078a547821541e",
+   "generated": "2026-11-24T05:58:30+08:00"
+  },
+  "wait": {
+   "content_sha256": "2ceae7567f517492b130a56fcb099b39835fd87db87aac5ea921949a0e0ae2d3",
+   "evidence_cutoff": "2026-11-20",
+   "face": "results/astock_veto_hedge_deploy_wait.json",
+   "file_sha256": "f53e0e58e4c3ad07fbebeacef1b229f3499dac37717e4fca8a9bc73d0ab7188a",
+   "generated": "2026-11-24T08:57:28+0800"
+  }
+ },
+ "point_verdict": "THE_POINT_ESTIMATE_IS_THE_WORST_OF_THREE_BETAS",
+ "point_verdict_why": "on the window the face evaluates them on, both the unit-beta and the out-of-sample beta leave less residual volatility than the deployed one",
+ "prereg": {
+  "error_model": "residual(k)**2 = Var(book) - 2k*Cov + k**2*Var(hedge) is an identity, not a model: the band face's five published residual rows are fitted to its three parameters by least squares, and the two rows not needed for the fit are carried as the check.  The wait's length and ceiling are read from the deploy-or-wait face and the band face, never re-derived from the panel.",
+  "not_done_here": "no new data, no re-fitting of beta, no re-pricing of the hedge's own edge, no choice of hedge ratio -- this face prices the wait across hedges; it does not recommend one",
+  "question": "the deploy-or-wait face priced the wait with the hedge entirely off.  What does the same wait cost a reader who keeps some of the hedge on while the band narrows, and how much of the hedge has to be on before waiting stops being more expensive than the band it waits for?",
+  "verdicts": [
+   "R(1.0) removes as much residual volatility as the wait's own ceiling -> THE_CEILING_IS_A_RATIO_NOT_A_WAIT",
+   "ratio at the rule-A hedge >= 1.0 -> PARTIAL_HEDGING_DOES_NOT_MAKE_THE_WAIT_CHEAP",
+   "ratio at the rule-A hedge < 1.0 -> A_PARTIAL_HEDGE_MAKES_THE_WAIT_CHEAP",
+   "the point estimate's residual is above both the unit-beta and the out-of-sample residuals -> THE_POINT_ESTIMATE_IS_THE_WORST_OF_THREE_BETAS",
+   "the break-even hedge is at least half the deployed hedge -> YOU_MUST_ALREADY_HOLD_MOST_OF_THE_HEDGE",
+   "the break-even hedge is below half the deployed hedge -> THE_WAIT_SURVIVES_A_THIN_HEDGE",
+   "the band face is missing or unreadable -> CANNOT_PRICE (a missing face is not a zero)"
+  ],
+  "wait_definition": "'wait' still means the rest of the hedge is not on until the band reaches its target.  k is the hedge ratio actually carried during the wait, in units of the book; k=1.0 is 3,919 lots at the face's own lot step.  The reference the wait is priced against is the full point-estimate hedge, so cost(k) = R(k) - R(k_ref)."
+ },
+ "quadratic": {
+  "beta_full_window": 0.9706524706334758,
+  "book_vol_published_pct": 27.343285785099354,
+  "book_vol_rebuilt_pct": 27.34328578532495,
+  "cov": 0.06542525041109133,
+  "max_row_error": 5.960509863456309e-14,
+  "rows_used": 5,
+  "var_book": 0.07476552775379534,
+  "var_hedge": 0.0674033728760613,
+  "vertex": 0.9706524706321854,
+  "vertex_gap_vs_full_window": 1.2904122215218194e-12
+ },
+ "reads": [
+  "k = 0.0 is r2038's own price, recomputed here from the band face rather than copied; if the two disagree the ladder is not the same ladder",
+  "the ladder's hinge is not the ratio you would like to hold but the ratio at which holding the rest back stops costing more than the band is worth",
+  "the wait's ceiling equals the gap between the deployed beta's residual and unit beta's residual, so the ceiling is reachable without more periods",
+  "the point estimate is the in-sample OLS slope; the residual rows are evaluated on the paired window, which is why the full-window slope wins on that window"
+ ],
+ "sentence": "把等待按「等待期保留多少对冲」重新定价：r2038 的裸等价格（k=0）复现为每年 16.580pp；k=0.65（BUDGET 规则 A）仍要每年 2.724pp（27242 元/百万），是它买到的东西的 225 倍；要对冲比例到 k=0.8986（3907 手）等待才不再比带宽本身更贵。而等待追的那个 0.124pp 天花板，其实今天把比例挪到 1.0 就已经拿到（10.639% 对 10.763%）——掉下来的这部分是一个比例，不是一段等待；顺带，部署用的点估计在这三个 beta 里残差最差。",
+ "spec": {
+  "beta_full_window": 0.9706524706334758,
+  "beta_one_unit": 1.0,
+  "beta_oos": 1.026252996152046,
+  "beta_point": 0.9013312810692592,
+  "ceiling_pp": 0.12421798993766386,
+  "hedge_ref": 0.9013312810692592,
+  "hedge_ref_lots": 3918.8316568228665,
+  "lens_cny": 1000000.0,
+  "lots_per_unit_hedge": 4347.826086956522,
+  "periods_in_sample": 43.0,
+  "periods_per_year": 12.6,
+  "residual_one_unit_pct": 10.638796834076466,
+  "residual_oos_pct": 10.709210442526542,
+  "residual_point_pct": 10.76301482401413,
+  "rule_a_hedge": 0.65,
+  "target_band_shrink": 0.5,
+  "target_yearly_pp": 0.012132919947399725,
+  "wait_years": 10.238095238095239
+ },
+ "verdict": "THE_CEILING_IS_A_RATIO_NOT_A_WAIT",
+ "verdict_why": "moving the hedge to unit beta removes as much residual volatility as the wait is waiting for"
+}
