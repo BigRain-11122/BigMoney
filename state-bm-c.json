@@ -1,8 +1,8 @@
 {
  "?λ": "healthy",
  "activity": "product",
- "activity_now": "r2082 · 水位绿 red=false · 竞争探针 CLEAN（单宿主）· 修复 CEO 一页纸 3 条红：许可面把 baseline_published 判成 UNREADABLE，根因是它自己重判了一次恒等式（把「另一 bar 的相邻步进」当成恒等式破裂），而专门面 etf_book_k_identity_bar 早已判 IDENTITY_INTACT_LEG_READS_A_DIFFERENT_STEP；改为读该面结论（并只在票面同名+两数逐位相同时采信，L9/L10/L11 三条负控钉死），链条 UNREADABLE→ORDER_WITHIN_PERMISSION→NOTHING_OWED_TODAY→页面三行转绿；另修页面自检两腿的断言范围（把「金额不得出现在整页」收窄到溢价那一行：浮盈亏 ￥1,940 与溢价 ￥1,940 撞数导致假红）",
- "activity_now_round": 2082,
+ "activity_now": "r2087 竞争窗轮（对端 Cowork pid=90508 在 11:58 仍写心跳）→ 只落新增文件面：把 r2086 那张 29 红照片换成「现在重问一遍」的活面——新工具 scripts/smoke_red_recheck.py （从 smoke_test.py 自己的声明式表里取每条腿的原命令，零猜测）实跑 29 条：7 条已绿、8 条仍红（各自带判决行）、14 条是 suite 内联块无法在 suite 之外重问。",
+ "activity_now_round": 2087,
  "agenda_starved": false,
  "ah_note": "r1680 LANDED: refresh closed itself at 21:17 -- cutoff 2026-11-12 -> 2026-11-13, complete=True, exit 0, pulled_rows 46; data_lane_freshness in_sync 13 / behind_1d 1 (worst now marks, intraday-only, not rebuildable). Fix that made it possible: stall watchdog over every network leg (300s, names stage/pair, exit 2, checkpoint kept) + save_progress stamps write time + -u on the detached spawn + progress line every 10 pairs. NOT yet proven: the 300s stall path has never fired on a real hang (this round the suspected freeze finished by itself).",
  "ahead_origin": 0,
@@ -37,14 +37,9 @@
   "withheld_arms": [],
   "workers": 6
  },
- "artifacts": {
-  "page": "research/BENCH-BASIS-TIMING-REPLICATE.md",
-  "results": "results/bench_basis_timing_replicate.json",
-  "script": "scripts/bench_basis_timing_replicate.py",
-  "verdict": "GO_REPLICATED"
- },
+ "artifacts": "results/smoke_red_recheck.bm-c.json",
  "attrition": "not run this round (chain in flight; ledger untouched, zero deletions)",
- "batch": "entry_price selftest 13/13 + run/check rc0; chain leg entry_price_write 0.9s rc0; s6 chain selftest 17/17; smoke suite green-so-far (no FAIL lines)",
+ "batch": "none (contended round, no compute batch)",
  "behind_origin": 0,
  "busy": false,
  "carrier_debt_r1958": "待共享面回落补：①smoke_test.py 两条腿（selftest+check）；②Tools/s6_chain_bmc.py 一条腿（run_leg 漂移文案含 STALE）；③CODELY.md 一条（判例=「随机对照要按尺寸配对，否则 92% 的差会被读成规则差」）；④knowledge/METHODOLOGY_ASSETS.md 资产卡",
@@ -1556,7 +1551,7 @@
  },
  "round_drift_note": "state said round_no=1937 while commit 6a3f33e30e already said round 1938 -> counters healed to 1939",
  "round_label": "r2063",
- "round_no": 2086,
+ "round_no": 2087,
  "round_no_label": "r2028",
  "round_no_landed": 2028,
  "round_no_note": "r2052 收口（state 上轮停在 2050，2050/2051 两轮提交已上链但报告行缺失，本轮补齐 r2052 行）",
