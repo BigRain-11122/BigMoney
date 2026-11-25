@@ -1,0 +1,188 @@
+{
+ "evidence_cutoff": "2026-11-23",
+ "generated": "2026-11-25T19:03:44+0800",
+ "input_cutoffs": {
+  "capacity": "2026-11-23",
+  "open_capital": "2026-11-23",
+  "price": "2026-11-24",
+  "roll": "2026-11-24"
+ },
+ "inputs": {
+  "capacity": {
+   "digest": "4f8096608cf3249b",
+   "path": "results/idx_fut_carry_capacity_lots.json"
+  },
+  "open_capital": {
+   "digest": "6cb7297815412b13",
+   "path": "results/idx_fut_carry_open_capital.json"
+  },
+  "price": {
+   "digest": "1dd7e14872caa223",
+   "path": "results/idx_fut_carry_always_on_price.json"
+  },
+  "roll": {
+   "digest": "61f47aed8bfe5cb8",
+   "path": "results/idx_fut_carry_roll_step_reversal.json"
+  }
+ },
+ "kind": "idx_fut_carry_decision_face",
+ "not_recomputed": [
+  "every rate, every CNY figure and every lots figure (they belong to the four faces)",
+  "the roll-step verdicts themselves (results/idx_fut_carry_roll_step_reversal.json)",
+  "the desk ticket and the withdrawal decision (results/idx_fut_carry_open_capital.json)"
+ ],
+ "products": {
+  "IC": {
+   "admitted_rulers": [
+    "calendar",
+    "strictest"
+   ],
+   "capacity": {
+    "adopted_lots": 468.45,
+    "headroom_multiple": 234.22
+   },
+   "capital": {
+    "book_cny": 1000000.0,
+    "first_rung_cny": 1129565.88,
+    "gap_cny": 129565.88
+   },
+   "desk_ticket": {
+    "capital_the_ticket_needs_cny": 4518263.5,
+    "conformance": "OUT_OF_RULER",
+    "lots": 4,
+    "multiple_of_budget": 4.5183
+   },
+   "product": "IC",
+   "quotable_rate": {
+    "ann_pct_band": [
+     9.65,
+     9.68
+    ],
+    "by_ruler": {
+     "calendar": {
+      "ann_pct": 9.65,
+      "excess_cny": 113697.86,
+      "excess_pct_of_capital": 10.0656,
+      "timed_ann_pct": 12.02
+     },
+     "strictest": {
+      "ann_pct": 9.68,
+      "excess_cny": 114059.31,
+      "excess_pct_of_capital": 10.0976,
+      "timed_ann_pct": 11.36
+     }
+    },
+    "excess_over_parking_cny_band": [
+     113697.86,
+     114059.31
+    ],
+    "excess_pct_of_capital_band": [
+     10.0656,
+     10.0976
+    ],
+    "never_quoted_as": "a single point rate -- the admitted rulers disagree by 0.030pp",
+    "spread_across_admitted_rulers_pp": 0.03
+   },
+   "rate_before_admission": {
+    "ann_pct_band_all_rulers": [
+     2.76,
+     9.68
+    ],
+    "note": "this is the band r2094 reported. It is wider than the quotable band by 6.89pp and every pp of that difference comes from a ruler whose roll-day accounting this repo has since rejected",
+    "spread_pp": 6.92
+   },
+   "rejected_rulers": {
+    "published": "DATA_BLOCKED"
+   },
+   "state": "capital_below_first_rung",
+   "status": "ok",
+   "token": "NO_ORDER_CAPITAL_BELOW_FIRST_RUNG",
+   "what_would_change_it": [
+    {
+     "can_be_bought_with_capital": true,
+     "condition": "capital at the first executable rung",
+     "gap_cny": 129565.88,
+     "gap_pct_of_book": 12.9566,
+     "needed_cny": 1129565.88,
+     "today_cny": 1000000.0
+    }
+   ],
+   "why": "cannot buy one lot at the first rung",
+   "why_zh": "会计口径已定，但本金买不到一手首档"
+  },
+  "IM": {
+   "admitted_rulers": [],
+   "capacity": {
+    "adopted_lots": 752.15,
+    "headroom_multiple": 376.07
+   },
+   "capital": {
+    "book_cny": 1000000.0,
+    "first_rung_cny": 1159159.0,
+    "gap_cny": 159159.0
+   },
+   "desk_ticket": {
+    "capital_the_ticket_needs_cny": 4636636.0,
+    "conformance": "OUT_OF_RULER",
+    "lots": 4,
+    "multiple_of_budget": 4.6366
+   },
+   "product": "IM",
+   "quotable_rate": {
+    "ann_pct_band": null,
+    "by_ruler": {},
+    "excess_over_parking_cny_band": null,
+    "excess_pct_of_capital_band": null,
+    "never_quoted_as": "a single point rate -- the admitted rulers disagree by 0.000pp",
+    "spread_across_admitted_rulers_pp": null
+   },
+   "rate_before_admission": {
+    "ann_pct_band_all_rulers": [
+     5.74,
+     11.96
+    ],
+    "note": "this is the band r2094 reported. It is wider than the quotable band by 6.22pp and every pp of that difference comes from a ruler whose roll-day accounting this repo has since rejected",
+    "spread_pp": 6.22
+   },
+   "rejected_rulers": {
+    "calendar": "PARTIAL_REVERSAL",
+    "published": "DATA_BLOCKED",
+    "strictest": "REAL_COST"
+   },
+   "state": "accounting_unsettled",
+   "status": "ok",
+   "token": "NO_ORDER_ACCOUNTING_UNSETTLED",
+   "what_would_change_it": [
+    {
+     "can_be_bought_with_capital": false,
+     "condition": "this product needs at least one ruler whose roll-day accounting is supported",
+     "needed": "COST_BOOKED_BY_LATER_CARRY",
+     "note": "the sample is not the problem (calendar=51 pairs, strictest=60 pairs clear the face's own min_pairs=30); what has to change is the reading itself, which is why no amount of money today moves this gate",
+     "today": "calendar=PARTIAL_REVERSAL; published=DATA_BLOCKED; strictest=REAL_COST"
+    },
+    {
+     "can_be_bought_with_capital": true,
+     "condition": "capital at the first executable rung",
+     "gap_cny": 159159.0,
+     "gap_pct_of_book": 15.9159,
+     "needed_cny": 1159159.0,
+     "today_cny": 1000000.0
+    }
+   ],
+   "why": "no ruler of this product is admitted, so no rate can be quoted",
+   "why_zh": "这个品种没有任何一把尺子的移仓日会计被采信，所以连一个年化都不该报"
+  }
+ },
+ "question": "the four carry faces each answered a sub-question; this one answers what the book should do today and what number would change it",
+ "reading": {
+  "one_line": "NO_ORDER_ON_BOTH_LEGS -- IC 口径已定（9.65-9.68%）但本金差 129,566 元；IM 无口径（无可采信尺子）",
+  "precedence": [
+   "accounting_unsettled",
+   "capital_below_first_rung",
+   "market_too_thin",
+   "order_allowed"
+  ],
+  "ruler_admission_rule": "a ruler may be quoted only if the roll-step face says its roll-day accounting is supported (COST_BOOKED_BY_LATER_CARRY)"
+ },
+ "verdict": "NO_ORDER_ON_BOTH_LEGS"
+}
