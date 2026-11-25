@@ -1,0 +1,131 @@
+{
+ "cell": "basis_timing_perm_masks",
+ "generated": "2026-11-25T17:13:41+08:00",
+ "evidence_cutoff": "2026-11-24",
+ "question": "does the sizing line keep its p against the shift null under every roll ruler?",
+ "null": "circular shift of the weight series (alignment destroyed, distribution kept)",
+ "statistic": "annualised(weighted carry) - annualised(always-on carry), per ruler",
+ "draws": 5000,
+ "seed": 20261124,
+ "criteria": {
+  "p_line": 0.01,
+  "money_line_pp": 1.0,
+  "rulers": [
+   "published",
+   "calendar",
+   "strictest"
+  ]
+ },
+ "reuses": [
+  "bench_basis_timing_perm (readers/weights/curve/annualised)",
+  "bench_basis_timing_size_masks (three rulers)"
+ ],
+ "products": {
+  "IC": {
+   "bars": 2389,
+   "first": "2017-01-18",
+   "last": "2026-11-24",
+   "avg_weight": 0.497,
+   "rulers": {
+    "published": {
+     "weighted_ann_pct": 10.12,
+     "always_on_ann_pct": 2.76,
+     "delta_pp": 7.37,
+     "null_mean_pp": -2.1,
+     "null_p95_pp": -1.24,
+     "p_value": 0.0,
+     "significant": true,
+     "keeps_money": true,
+     "days_excluded": 22
+    },
+    "calendar": {
+     "weighted_ann_pct": 12.02,
+     "always_on_ann_pct": 9.65,
+     "delta_pp": 2.37,
+     "null_mean_pp": -5.7,
+     "null_p95_pp": -4.9,
+     "p_value": 0.0,
+     "significant": true,
+     "keeps_money": true,
+     "days_excluded": 118
+    },
+    "strictest": {
+     "weighted_ann_pct": 11.36,
+     "always_on_ann_pct": 9.68,
+     "delta_pp": 1.68,
+     "null_mean_pp": -5.71,
+     "null_p95_pp": -5.0,
+     "p_value": 0.0,
+     "significant": true,
+     "keeps_money": true,
+     "days_excluded": 128
+    }
+   },
+   "verdict": "SIGNIFICANT_UNDER_ALL_RULERS",
+   "calendar_offsets_from_expiry": {
+    "-4": 13,
+    "-3": 11,
+    "-2": 3,
+    "-1": 6,
+    "0": 48,
+    "3": 37
+   }
+  },
+  "IM": {
+   "bars": 1051,
+   "first": "2022-07-25",
+   "last": "2026-11-24",
+   "avg_weight": 0.53,
+   "rulers": {
+    "published": {
+     "weighted_ann_pct": 9.45,
+     "always_on_ann_pct": 5.74,
+     "delta_pp": 3.71,
+     "null_mean_pp": -3.27,
+     "null_p95_pp": -1.6,
+     "p_value": 0.0,
+     "significant": true,
+     "keeps_money": true,
+     "days_excluded": 18
+    },
+    "calendar": {
+     "weighted_ann_pct": 12.75,
+     "always_on_ann_pct": 11.96,
+     "delta_pp": 0.79,
+     "null_mean_pp": -6.36,
+     "null_p95_pp": -4.95,
+     "p_value": 0.0,
+     "significant": true,
+     "keeps_money": false,
+     "days_excluded": 51
+    },
+    "strictest": {
+     "weighted_ann_pct": 11.31,
+     "always_on_ann_pct": 11.5,
+     "delta_pp": -0.19,
+     "null_mean_pp": -6.11,
+     "null_p95_pp": -4.55,
+     "p_value": 0.0,
+     "significant": true,
+     "keeps_money": false,
+     "days_excluded": 60
+    }
+   },
+   "verdict": "MONEY_IS_A_MASK_ARTIFACT",
+   "calendar_offsets_from_expiry": {
+    "-4": 7,
+    "-3": 6,
+    "-2": 4,
+    "-1": 5,
+    "0": 12,
+    "3": 17
+   }
+  }
+ },
+ "verdict": "MONEY_IS_A_MASK_ARTIFACT",
+ "reading": {
+  "SIGNIFICANT_UNDER_ALL_RULERS": "the timing line is about timing: keep it and paper it",
+  "MONEY_SURVIVES_SIGNIFICANCE_DOES_NOT": "the extra money is there under more than one ruler but cannot beat the shift null everywhere; size at most half and say which ruler carries it",
+  "MONEY_IS_A_MASK_ARTIFACT": "hold always: once rolls are excluded by the union ruler the extra money is under the line the mask face already declined to fund"
+ }
+}
