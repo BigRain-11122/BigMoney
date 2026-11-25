@@ -888,6 +888,17 @@ LEGS = [
      ["python", "scripts/etf_book_phase_atlas_arms.py", "--live-widths-check"],
      ["python", "scripts/etf_book_phase_atlas_arms.py", "--live-widths"]),
     ("etf_book_order", ["python", "scripts/etf_book_order.py", "run"]),
+    # r2085: the return-regime leg above runs BEFORE the ticket because the ticket quotes
+    # its split, so the face it writes records the PREVIOUS bar's ticket and its identity
+    # block then says NOT_EVALUATED for the rest of the day (two bars under one face -- the
+    # r1642/r1781 class, which was reddening the smoke leg that reads it). This second leg
+    # asks only that question, after the ticket has repriced: the probe re-reads the ticket
+    # pointer and the panel tail (no repricing, ~0.2s) and says STALE when the pointer moved
+    # or the panel advanced, so the ~50s re-derive is paid once and the face ends the run
+    # naming the ticket that now exists.
+    ("etf_book_return_regime_identity",
+     ["python", "scripts/etf_book_return_regime.py", "check"],
+     ["python", "scripts/etf_book_return_regime.py", "run"]),
     # r1283: the face above publishes ONE bar twice -- the pre-trade book marked at this
     # bar's closes (accrual.last) and the post-trade book at the same closes (ledger_row) --
     # and they disagree on k by 0.004658 (2026-11-10: 0.397063 vs 0.392405, CNY 4,693 of

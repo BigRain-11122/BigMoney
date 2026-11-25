@@ -197,6 +197,86 @@ def identity_verdict(panel_bar, base, pub, tol=REPRO_TOL):
             "basis": "base cell (beta 0.20, observed repo) must equal the ticket's own headline"}
 
 
+PANEL_QUOTE = os.path.join(ROOT, "data", "daily", "sh510300.csv")
+
+
+def _quote_tail_bar(path):
+    """The bar the price panel currently ends on, read from the quote file's last line.
+
+    Cheap on purpose: a check that rebuilds the panel cannot be paid every round, and a
+    check that only re-reads its own face can never say it is stale (r1935 class).
+    """
+    if not os.path.exists(path):
+        return None
+    last = ""
+    with open(path, encoding="utf-8", errors="replace") as fh:
+        for line in fh:
+            if line.strip():
+                last = line
+    return last.split(",")[0].strip() or None
+
+
+def drift_problem(face, ticket, panel_bar):
+    """Is this face still readable on the inputs that exist NOW?
+
+    Returns (kind, message): "STALE" = an input moved after the face was written (the
+    ticket pointer now names another file, or the panel advanced past the face), so a
+    rebuild is the repair; "CHECK FAILED" = same inputs and the recorded verdict no longer
+    reproduces, which is a defect and must never be paid away (r1345); None = holds.
+    """
+    if not face:
+        return ("STALE", "STALE: face missing -- nothing on disk to check")
+    idy = face.get("identity") or {}
+    now_file = (ticket or {}).get("file")
+    rec_file = idy.get("published_file")
+    if now_file is None:
+        return ("STALE", "STALE: the ticket pointer is missing or unreadable now")
+    if os.path.basename(str(rec_file or "")) != os.path.basename(str(now_file)):
+        return ("STALE", "STALE: the ticket pointer moved from %s to %s"
+                % (rec_file, now_file))
+    face_bar = face.get("evidence_cutoff")
+    if panel_bar and str(face_bar) != str(panel_bar):
+        return ("STALE", "STALE: the panel moved past this face (%s -> %s)"
+                % (face_bar, panel_bar))
+    base = next((c for c in (face.get("cells") or [])
+                 if c.get("beta") == round(float(BASE_BETA), 4)
+                 and c.get("regime") == "observed"), None)
+    now_idy = identity_verdict(panel_bar or face_bar, base, ticket)
+    if now_idy.get("status") == "NOT_EVALUATED":
+        return ("STALE", "STALE: the ticket it names is priced on another bar "
+                "(%s vs panel %s) -- one run behind"
+                % (now_idy.get("published_bar"), now_idy.get("panel_bar")))
+    if now_idy.get("status") != "MATCHED":
+        return ("CHECK FAILED", "CHECK FAILED: %s -- rebuilt %s vs published %s"
+                % (now_idy.get("status"), now_idy.get("rebuilt_cagr"),
+                   now_idy.get("published_cagr")))
+    if idy.get("status") != "MATCHED":
+        return ("STALE", "STALE: the recorded identity says %s while the inputs now "
+                "reproduce the ticket -- the face needs one re-derive" % idy.get("status"))
+    return (None, "the identity still reproduces the ticket it names")
+
+
+def check():
+    """rc0 = holds, rc3 = STALE (an input moved), rc1 = a real disagreement."""
+    if not os.path.exists(OUT):
+        print("STALE: face missing -- %s is not on disk" % os.path.relpath(OUT, ROOT))
+        return 3
+    with open(OUT, encoding="utf-8") as fh:
+        face = json.load(fh)
+    kind, msg = drift_problem(face, _published(), _quote_tail_bar(PANEL_QUOTE))
+    if kind == "STALE":
+        print(msg)
+        return 3
+    if kind == "CHECK FAILED":
+        print(msg)
+        return 1
+    idy = face.get("identity") or {}
+    print("CHECK OK %s (rebuilt %s vs published %s on %s)"
+          % (msg, idy.get("rebuilt_cagr"), idy.get("published_cagr"),
+             idy.get("panel_bar")))
+    return 0
+
+
 def build():
     close, openp, amt, feats = F.build_panel()
     classes = pd.Series(classify(list(close.columns)))
@@ -427,17 +507,48 @@ def selftest():
     chk("L20 a ticket that does not say its bar keeps the strict comparison",
         nobar["status"] == "MATCHED")
 
+    # L21-L25 (r2085): a face that records which ticket it read, but has no guard that
+    # re-reads that pointer, stays one run behind for as long as the ticket keeps being
+    # repriced after it in the same chain run (r1781 class). The guard must also refuse to
+    # call a real disagreement stale, or the repair becomes a red-erasing machine (r1345).
+    _face = {"evidence_cutoff": "2026-11-13",
+             "cells": [{"beta": 0.2, "regime": "observed", "cagr_pct": 12.59, "bars": 5280}],
+             "identity": {"published_file": "results/etf_book_order/TICKET-a.json",
+                          "published_bar": "2026-11-13", "panel_bar": "2026-11-13",
+                          "published_cagr": 0.1259, "rebuilt_cagr": 0.1259,
+                          "status": "MATCHED", "matched": True}}
+    _tk = {"file": "results/etf_book_order/TICKET-a.json", "cagr": 0.1259, "bars": 5280,
+           "bar": "2026-11-13"}
+    chk("L21 the face still reproduces the ticket it names on the same bar",
+        drift_problem(_face, _tk, "2026-11-13")[0] is None)
+    chk("L22 a ticket pointer that moved is STALE, not a mismatch",
+        drift_problem(_face, dict(_tk, file="results/etf_book_order/TICKET-b.json"),
+                      "2026-11-13")[0] == "STALE")
+    chk("L23 a panel that advanced past the face is STALE",
+        drift_problem(_face, _tk, "2026-11-14")[0] == "STALE")
+    _conflict = drift_problem(_face, dict(_tk, cagr=0.1122), "2026-11-13")
+    chk("L24 same inputs and a different headline is CHECK FAILED with no STALE word",
+        _conflict[0] == "CHECK FAILED" and "stale" not in _conflict[1].lower())
+    chk("L25 a NOT_EVALUATED face whose ticket now sits on its bar is STALE",
+        drift_problem(dict(_face, identity=dict(_face["identity"], status="NOT_EVALUATED",
+                                                matched=None)), _tk, "2026-11-13")[0]
+        == "STALE")
+
     print("selftest %d/%d" % (ok, tot))
     return 0 if ok == tot else 1
 
 
 def main(argv):
     ap = argparse.ArgumentParser()
-    ap.add_argument("cmd", nargs="?", default="run", choices=("run", "selftest"))
+    ap.add_argument("cmd", nargs="?", default="run",
+                    choices=("run", "selftest", "check"))
     ap.add_argument("--selftest", action="store_true")
+    ap.add_argument("--check", action="store_true")
     a = ap.parse_args(argv)
     if a.selftest or a.cmd == "selftest":
         return selftest()
+    if a.check or a.cmd == "check":
+        return check()
     return run()
 
 
