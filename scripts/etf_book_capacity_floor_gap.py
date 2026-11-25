@@ -325,7 +325,7 @@ def write_md(face, path):
     L.append("- floor: **%.0f CNY** (owner: `%s`)" % (face["floor_cny"], face["floor_owner"]))
     L.append("- verdict: **%s**" % face["verdict"])
     L.append("")
-    L.append("| reading | 1%% ADV | 2%% ADV | 5%% ADV | cagr @5%% | maxdd @5%% |")
+    L.append("| reading | 1% ADV | 2% ADV | 5% ADV | cagr @5% | maxdd @5% |")
     L.append("|---|---|---|---|---|---|")
     for r in face["readings"]:
         L.append("| %s | %s | %s | %s | %s | %s |" % (

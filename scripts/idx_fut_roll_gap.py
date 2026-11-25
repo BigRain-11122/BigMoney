@@ -495,7 +495,7 @@ def render_md(face):
     L.append("")
     L.append("## The roll step itself")
     L.append("")
-    L.append("| pair | rolls | per year | step median | step mean | sum %%/yr | positive steps | months covered |")
+    L.append("| pair | rolls | per year | step median | step mean | sum %/yr | positive steps | months covered |")
     L.append("|---|---|---|---|---|---|---|---|")
     for fut, p in face["pairs"].items():
         if p.get("status") != "ok":

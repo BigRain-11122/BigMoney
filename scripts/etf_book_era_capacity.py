@@ -262,7 +262,7 @@ def verdict_name(s):
 def sentence_fit(s):
     """One line: does the lens fit, and since when."""
     if s.get("line_pct") is None or s.get("lens_cny") is None:
-        return "the gate face carries no 1%%-of-ADV line or no capital lens, so this face cannot price a year"
+        return "the gate face carries no 1%-of-ADV line or no capital lens, so this face cannot price a year"
     lens = float(s["lens_cny"])
     n, k = s.get("n_years_measured") or 0, s.get("n_admit") or 0
     if n == 0:

@@ -7,9 +7,9 @@ The year gate's `C1_capacity` has failed in every phase, which makes it unreadab
 - floor: **20000000 CNY** (owner: `scripts/candidate_year_gate.py::CAPACITY_FLOOR_CNY`)
 - verdict: **FLOOR_BEYOND_PRICED_ENVELOPE**
 
-| reading | 1%% ADV | 2%% ADV | 5%% ADV | cagr @5%% | maxdd @5%% |
+| reading | 1% ADV | 2% ADV | 5% ADV | cagr @5% | maxdd @5% |
 |---|---|---|---|---|---|
-| adopted_5name_rule | 1529426 | 3058852 | 7647131 | 6.48% | -13.39% |
+| adopted_5name_rule | 1529426 | 3058852 | 7647131 | 6.47% | -13.39% |
 | published_card_12@vol | 1824788 | n/a | 9123940 | 9.62% | -11.77% |
 | priced_envelope_R20 | 2758830 | n/a | 13794151 | 12.64% | -22.01% |
 

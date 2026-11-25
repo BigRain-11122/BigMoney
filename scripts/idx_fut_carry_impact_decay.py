@@ -455,7 +455,7 @@ def render_doc(face):
         r = p["rulers"][p["binding_ruler"]]
         L.append("**%s**（ADV %.0f 手/日，容量 %.1f 手 @1%%，桌面档位 %.1f 手）\n"
                  % (prod, p["adv_lots"], p["capacity_lots"], p["rung_lots"]))
-        L.append("| 手数 | 占 ADV%%/日 | 规则冲击 bp/侧 | 预算 bp/侧 | 保留率 |")
+        L.append("| 手数 | 占 ADV%/日 | 规则冲击 bp/侧 | 预算 bp/侧 | 保留率 |")
         L.append("|---|---|---|---|---|")
         for row in r["ladder"]:
             L.append("| %s | %.4f%% | %s | %s | %s |" % (

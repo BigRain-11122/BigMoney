@@ -394,7 +394,7 @@ def build():
         "ruler": {
             "panel": "data/daily/*.csv (sina close)",
             "reader": "etf_book_cash_vehicle.load_etf + consolidation_returns",
-            "fast_breaches": "money_premium_carry_audit.find_breaches at its own 1.00%% band, "
+            "fast_breaches": "money_premium_carry_audit.find_breaches at its own 1.00% band, "
                              "booked at zero by repaired_rets before measuring",
             "local_level": "money_premium_carry_audit.local_level (trailing 20-bar median, min 10)",
             "band_pct": BAND_PCT,

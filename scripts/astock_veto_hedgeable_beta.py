@@ -476,9 +476,9 @@ def build_face() -> dict:
             "beta_estimation": ("OLS of the book's own net per-period return on the hedge's "
                                 "per-period return; headline uses dates <= %s only" % IS_END),
             "cost_model": ("two sides x 8.00 bp per roll on the shorted notional; short-finance "
-                           "carry printed as a 0/2/5 %%/yr axis, not assumed; IM arm carries its "
+                           "carry printed as a 0/2/5 %/yr axis, not assumed; IM arm carries its "
                            "roll inside the traded price and prints the realised basis"),
-            "verdict_rule": ("three states, strict comparison of Sharpe (excess over 0%%) at k=1: "
+            "verdict_rule": ("three states, strict comparison of Sharpe (excess over 0%) at k=1: "
                              "OUT_OF_SAMPLE = k=1 beats k=0 on the not-fitted part AND earns >0 "
                              "there; IN_SAMPLE_ONLY = full window better but out-of-sample not; "
                              "COSTS = not better even in window. No margin invented."),

@@ -29,7 +29,7 @@ size of the misses.
 
 ## The roll step itself
 
-| pair | rolls | per year | step median | step mean | sum %%/yr | positive steps | months covered |
+| pair | rolls | per year | step median | step mean | sum %/yr | positive steps | months covered |
 |---|---|---|---|---|---|---|---|
 | IF | 118 | 12.1 | -0.387% | -0.450% | -5.42 | 1/118 | 99.2% |
 | IC | 118 | 12.1 | -0.619% | -0.760% | -9.16 | 1/118 | 99.2% |

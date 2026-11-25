@@ -97,7 +97,7 @@ JUDGED = {
         "is named as structural co-movement on the page" % CORR_STRUCTURAL,
     "P3_the_drawdown_actually_diversifies":
         "in the window where all four members trade, the equal-weight portfolio's max drawdown "
-        "is at least 20%% better than the worst single member's",
+        "is at least 20% better than the worst single member's",
     "P4_inverse_vol_earns_its_keep":
         "the trailing-60-day inverse-volatility book beats equal weight by >= %.2f Sharpe, "
         "otherwise the extra machinery is not worth carrying" % IV_SHARPE_EDGE,

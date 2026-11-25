@@ -396,7 +396,7 @@ def render_page(payload):
     lines.append("")
     lines.append("三种读数并列（本面**不采纳任何一种**；选择是册上的决定，不是这里的结论）：")
     lines.append("")
-    lines.append("| 尺子 | β | 折算敞口 | 相对 20%% 帽 |")
+    lines.append("| 尺子 | β | 折算敞口 | 相对 20% 帽 |")
     lines.append("|---|---|---|---|")
     for r in fc["rulers"]:
         lines.append("| %s | %.6f | %.3fpp | %+.3fpp |"

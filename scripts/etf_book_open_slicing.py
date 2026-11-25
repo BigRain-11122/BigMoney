@@ -465,7 +465,7 @@ def _write_md(payload):
         "",
         "## What was tested and what was not",
         "",
-        "- Same book, same 8%% vol-target sizing (de-lever only), same 10 bp per side, same",
+        "- Same book, same 8% vol-target sizing (de-lever only), same 10 bp per side, same",
         "  four decision phases as E26. Only the execution schedule differs.",
         "- Equal slices sum to the same absolute delta, so slicing **cannot** buy anything",
         "  through commission; it can only change the price path (and hold cash while the",
