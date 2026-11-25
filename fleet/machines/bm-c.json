@@ -196,7 +196,7 @@
  "last_round_summary_at": "2026-11-15T08:16:02+08:00",
  "last_round_ts": "2026-11-26T03:55:03+08:00",
  "last_run_at": "2026-11-15T08:16:02+08:00",
- "last_seen": "2026-11-26T03:55:03+08:00",
+ "last_seen": "2026-11-26T04:00:15+08:00",
  "last_seen_at": "2026-11-26T03:55:03+08:00",
  "last_task": "r1899: 把「一个数印两次」与「下游晚一步抄上游」两类红一次收干净",
  "last_task_at": "2026-11-15T18:30:00+08:00",
@@ -870,9 +870,9 @@
  "smoke": "full suite not run this round; last reading 2026-11-25T10:38 767 legs/29 red",
  "smoke_closed": true,
  "smoke_detach_note": "detached pythonw started from an agent tool shell dies with that shell (job object); a full suite needs another carrier",
- "smoke_note": "full suite not closed (detached run logs/smoke_r2116.log still going at round end; every leg read so far PASS; first attempt was cancelled at the tool's 5-min no-output cap)",
+ "smoke_note": "detached run logs/smoke_r2116.log was still going at round end; it surfaced three reds (proxy noise off by one bp of level offset; two ETF faces one bar behind the gate panel), all three re-derived green this round -- the suite summary and its re-run stay the next-window pointer",
  "smoke_out": "logs/smoke_round1935.log",
- "smoke_verdict": "full suite not closed (detached run logs/smoke_r2116.log still going at round end; every leg read so far PASS; first attempt was cancelled at the tool's 5-min no-output cap)",
+ "smoke_verdict": "detached run logs/smoke_r2116.log was still going at round end; it surfaced three reds (proxy noise off by one bp of level offset; two ETF faces one bar behind the gate panel), all three re-derived green this round -- the suite summary and its re-run stay the next-window pointer",
  "source_face_note": "cached_mapping() in scripts/ah_panel_puller.py -- the EM map is an input, a dated cache inside 7d keeps the day's bars reachable",
  "src": "scripts/etf_book_ceo_page.py",
  "state": "product",
@@ -881,7 +881,7 @@
  "task": "r2114 重配的资本窗口（整手地板 vs 1% ADV 上限）",
  "thread": "astock_resid_veto_hedge family (r2022-r2034)",
  "total_ram_gb": 55.9,
- "ts": "2026-11-26T03:55:03+08:00",
+ "ts": "2026-11-26T04:00:15+08:00",
  "unverified": "full smoke suite not run this round; whole-chain S6 not run (peer s6_chain 2049 in flight since 16:07)",
  "update_daily": "rc0 0 new rows, cutoff 2026-11-13 (no new bar before 15:30)",
  "updated": "2026-11-25T11:56:22+08:00",
@@ -954,5 +954,6 @@
  "通过_r2068": "orders 117 件 vs 心跳 orders_ack 归一 258 → 未回执 0；origin/main:docs/decisions.md 原生字节 sha256 79e3083b85c130b8（体 250,586B）== 自持水位 → 零新决策零动作；fleet/inbox 无件；任务板无 open 未认领；saturation engine alive (heartbeat 65s, py 9.4%, claimable 0)；attrition_ledger_guard CLEAN（3 条历史缩行 healed 照录）；pre-commit/pre-push MATCH；S7 循环任务幂等 no-op（pin 0）、看门狗重注册成功但 S4U XML 翻转仍被拒（需管理员提权，入 task-s4u-backlog）",
  "竞争_r2116": "rc=0 CLEAN（results/_repo_write_contention.bm-c.json：fewer than two codely hosts alive，本宿主 pid=101604 自 03:40:04）→ 可写共享面，本轮据此整批发布 1,970 件",
  "note_r2116": "r2116 DELIVERY: disk had 1,970 machine-derived faces (panels through the 2026-11-25 close, plus yesterday's dated products) that git never saw; publishing them is what makes a face priced on that close reproducible off this box (same shape as r2084)",
- "记账_r2116": "轮报告 1 处 + state 1 处 + 心跳 1 处 = 3（无方法论新增：整批发布关的是「盘上有、git 没有」这个缺口，属载体与证据）"
+ "记账_r2116": "轮报告 1 处 + state 1 处 + 心跳 1 处 = 3（无方法论新增：整批发布关的是「盘上有、git 没有」这个缺口，属载体与证据）",
+ "r2116_reds": "三条红已清：①`idx_fut_proxy_noise` 重算 -> `CHECK_OK re-derived byte-for-byte`；②③`etf_book_phase_admission` / `etf_book_start_grid` 停在 11-24 而闸面板已 11-25（STALE FACE_BEHIND_GATE）-> 跑 writer 重算（`evidence_cutoff=2026-11-25`，check 6/6 与 rc0），未放宽任何腿"
 }
