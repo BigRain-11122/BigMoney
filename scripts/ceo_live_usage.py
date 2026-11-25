@@ -4601,6 +4601,18 @@ def selftest() -> int:
         if not cond:
             fails.append(name)
 
+    def _prem_line(md):
+        """The one line this page devotes to 'what part of this order is premium'.
+
+        r2082: the r1820 legs compared the premium amount against the WHOLE page, so an
+        unrelated number that happened to equal it (a CNY 1,940 unrealised P&L on a
+        holding) turned a correct refusal into a red.  Scope the assertion to its line.
+        """
+        for _ln in md.splitlines():
+            if "这笔钱里有多少是溢价" in _ln:
+                return _ln
+        return ""
+
     day = dt.date.today().strftime("%Y-%m-%d")
     try:
         p1 = build_payload(day)
@@ -5741,20 +5753,22 @@ def selftest() -> int:
             _deg6["etf_premium"] = {"present": False,
                                     "note": "溢价面未产出（缺面不读 0）"}
             _md6 = render_md(_deg6)
+            _p6 = _prem_line(_md6)
             check("a missing premium face prints a reason, never ¥0 (r1820)",
-                  "今天不印数" in _md6
-                  and (_paid1 is None or _fmt_cny(abs(_paid1)) not in _md6)
-                  and "多付" not in _md6)
+                  "今天不印数" in _p6
+                  and (_paid1 is None or _fmt_cny(abs(_paid1)) not in _p6)
+                  and "多付" not in _p6)
             # the same block must refuse to quote a premium priced against a
             # DIFFERENT ticket than the one this page is asking the reader to buy
             _deg7 = json.loads(json.dumps(p1))
             _deg7["etf_premium"] = dict(_deg7.get("etf_premium") or {})
             _deg7["etf_premium"]["ticket"] = "TICKET-1999-01-01.json"
             _md7 = render_md(_deg7)
+            _p7 = _prem_line(_md7)
             check("a premium priced off another ticket is refused, not quoted (r1820)",
-                  "不是同一张" in _md7
-                  and (_paid1 is None or _fmt_cny(abs(_paid1)) not in _md7)
-                  and "多付" not in _md7)
+                  "不是同一张" in _p7
+                  and (_paid1 is None or _fmt_cny(abs(_paid1)) not in _p7)
+                  and "多付" not in _p7)
         # ---- r1824: today's repo tenor for the uninvested sleeve
         _cr1 = ((p1.get("etf_order") or {}).get("cash_roll")) or {}
         if _cr1.get("present") and _cr1.get("verdict") != "NO_INSTRUCTION":

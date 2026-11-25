@@ -2,7 +2,7 @@
  "schema": "ceo_live_usage_v1_9",
  "ticket": "T-202609-28-105",
  "day": "2026-11-25",
- "generated": "2026-11-25T07:55:34",
+ "generated": "2026-11-25T08:37:52",
  "market": {
   "state": "RED",
   "asof": "2026-11-24",
@@ -580,7 +580,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 70473.8
+    "last_append_age_min": 70516.1
    },
    {
     "family": "FUND-VALUE-P1",
@@ -588,7 +588,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 71318.3
+    "last_append_age_min": 71360.6
    },
    {
     "family": "FUND-DIVLOWVOL-P1",
@@ -596,7 +596,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 68111.6
+    "last_append_age_min": 68153.9
    }
   ]
  },
@@ -1443,10 +1443,10 @@
  },
  "etf_punctuality": {
   "present": true,
-  "verdict": "UNKNOWN_MISSING_RECEIPT",
-  "best_k": null,
-  "today_cost_cny": null,
-  "trim_owed": null,
+  "verdict": "NOTHING_OWED_TODAY",
+  "best_k": 0,
+  "today_cost_cny": 0.0,
+  "trim_owed": false,
   "rows": [
    {
     "k": 1,
@@ -1485,14 +1485,14 @@
    }
   ],
   "one_open_late": {
-   "median_cny": null,
-   "mean_cny": null,
-   "t": null,
-   "share_late_helps": null
+   "median_cny": -929.1796775964049,
+   "mean_cny": -1786.0584921749241,
+   "t": -4.562446075953973,
+   "share_late_helps": 0.4142857142857143
   },
   "evidence_cutoff": "2026-11-24",
   "capital_cny": 1000000.0,
-  "sentence": null,
+  "sentence": "nothing is owed today (the ticket orders k under its own permission), so the baseline is 'do nothing'. doing it today is the cheapest rung of the ladder (every wait is more expensive); across k=1..10 the waits span +1786 .. +4025 CNY vs today. One open late is worth -929 CNY of NAV on the median sheet with waiting helping on 41% of them (t=-4.56), so the mean is priced but a single sheet is still a coin flip.",
   "file": "results/etf_book_do_or_wait.json"
  },
  "etf_open_gap": {

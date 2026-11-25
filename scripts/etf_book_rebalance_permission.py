@@ -61,6 +61,15 @@ VERDICT_KEEP_STATIC_ONLY = "KEEP_STANDS_ON_NON_PATH_ARGUMENT"
 VERDICT_REPRICE = "REPRICE_REQUIRED"
 VERDICT_UNREADABLE = "UNREADABLE"
 
+# r2082: the baseline cell and the ticket can be two ADJACENT steps of one schedule.
+# `etf_book_k_identity_bar` answers exactly that question and publishes the pair it
+# compared.  This face reads that answer instead of re-judging it (r1852: the producer
+# already said it), and only when the receipt names THIS ticket and both numbers match
+# the cell and the ticket -- a receipt that names another ticket or another pair
+# changes nothing, so a fabricated receipt cannot launder a genuinely broken identity.
+K_IDENTITY_RECEIPT = "results/etf_book_k_identity_bar.json"
+K_IDENTITY_INTACT = "IDENTITY_INTACT_LEG_READS_A_DIFFERENT_STEP"
+
 
 def _read_json(rel):
     p = rel if os.path.isabs(rel) else os.path.join(BASE, rel)
@@ -79,7 +88,32 @@ def latest_ticket():
         return os.path.basename(files[-1]), json.load(f)
 
 
-def classify(name, cell, k_now):
+def _baseline_is_an_earlier_step(k, k_rule, identity, ticket_file):
+    """r2082: read the identity receipt's own verdict about this exact pair.
+
+    Returns a why-string when -- and only when -- the published identity face says the
+    two numbers are adjacent schedule steps, names this same ticket, and its recorded
+    pair matches the cell and the ticket being judged here.  Anything else returns None,
+    which leaves the cell unreadable exactly as before.
+    """
+    if not identity or identity.get("verdict") != K_IDENTITY_INTACT:
+        return None
+    if str(identity.get("ticket_file") or "") != str(ticket_file or ""):
+        return None
+    try:
+        leg_k = float(identity.get("k_at_book_decided_at"))
+        tkt_k = float(identity.get("ticket_k_rule"))
+    except (TypeError, ValueError):
+        return None
+    if abs(leg_k - k) > IDENT_TOL or abs(tkt_k - float(k_rule)) > IDENT_TOL:
+        return None
+    return ("an earlier step of the same schedule: this cell reads bar %s (k=%.6f), the "
+            "ticket prices bar %s (k=%.6f) -- the identity holds and the gap is one step "
+            "(%s)" % (identity.get("book_decided_at"), leg_k,
+                      identity.get("priced_bar"), tkt_k, identity.get("face")))
+
+
+def classify(name, cell, k_now, identity=None, ticket_file=None):
     """circular / static / path / unreadable -- the classification this face acts on.
 
     Nothing here defaults into "path": a cell must either be the priced construction, or
@@ -92,6 +126,9 @@ def classify(name, cell, k_now):
     k = float(k)
     if name == BASELINE:
         if abs(k - float(k_now)) > IDENT_TOL:
+            why = _baseline_is_an_earlier_step(k, k_now, identity, ticket_file)
+            if why:
+                return "path", why
             return "unreadable", ("baseline k=%.9f does not equal the ticket's k=%.9f: the "
                                   "circularity identity is broken, so no reading can be "
                                   "called independent" % (k, float(k_now)))
@@ -105,7 +142,7 @@ def classify(name, cell, k_now):
     return "path", (cell.get("note") or "measured on %s bars" % bars)
 
 
-def decide(rulers, ticket, year_gate=None):
+def decide(rulers, ticket, year_gate=None, identity=None):
     """Pure function of the published receipts.  No panel, no repricing."""
     if rulers is None:
         return {"verdict": VERDICT_UNREADABLE,
@@ -135,7 +172,8 @@ def decide(rulers, ticket, year_gate=None):
     readings = {}
     unreadable = {}
     for name, cell in cells.items():
-        kind, why = classify(name, cell, k_rule)
+        kind, why = classify(name, cell, k_rule, identity=identity,
+                             ticket_file=ticket.get("_file"))
         k = cell.get("k")
         readings[name] = {
             "k": None if k is None else round(float(k), 6),
@@ -168,6 +206,14 @@ def decide(rulers, ticket, year_gate=None):
         "circular_readings": circular,
         "path_readings": sorted(paths),
         "static_readings": sorted(statics),
+        "k_identity": (None if not identity else {
+            "face": identity.get("face"),
+            "verdict": identity.get("verdict"),
+            "ticket_file": identity.get("ticket_file"),
+            "generated": identity.get("ticket_generated"),
+            "book_decided_at": identity.get("book_decided_at"),
+            "priced_bar": identity.get("priced_bar"),
+        }),
     }
     if unreadable:
         out.update({"verdict": VERDICT_UNREADABLE,
@@ -277,7 +323,8 @@ def run():
     if tk is not None:
         tk = dict(tk, _file=name)
     gate = _read_json(YEAR_GATE_RECEIPT)
-    return decide(rulers, tk, gate)
+    identity = _read_json(K_IDENTITY_RECEIPT)
+    return decide(rulers, tk, gate, identity=identity)
 
 
 def md_lines(d):
@@ -438,6 +485,42 @@ def selftest():
     leg(d["verdict"] == VERDICT_UNREADABLE, "L5 verdict=%r" % d["verdict"])
     leg("baseline_published" in d.get("readings_unreadable", {}), "L5 unreadable=%r"
         % d.get("readings_unreadable"))
+
+    # L8-L11 r2082: the baseline cell and the ticket can be two steps of one schedule.
+    # The identity face vouches for one exact pair on one exact ticket; anything else
+    # leaves the cell unreadable.  The live shape is reproduced: k_now=0.435003 ordered,
+    # k_rule=0.458463 priced, baseline cell=0.460253 (one step earlier).
+    gap_tk = _tk(0.435003)
+    gap_tk["k_rule"] = 0.458463
+    gap_live = json.loads(json.dumps(live))
+    gap_live["cells"][BASELINE] = _cell(0.460253)
+    ident = {"face": "etf_book_k_identity_bar", "verdict": K_IDENTITY_INTACT,
+             "ticket_file": "TICKET-fixture.json",
+             "ticket_generated": "2026-11-06T18:00:00+08:00",
+             "k_at_book_decided_at": 0.460253, "ticket_k_rule": 0.458463,
+             "book_decided_at": "2026-10-23", "priced_bar": "2026-11-06"}
+
+    d = decide(gap_live, gap_tk, identity=ident)
+    leg(d["verdict"] != VERDICT_UNREADABLE, "L8 verdict=%r" % d["verdict"])
+    leg(d["readings"][BASELINE]["kind"] == "path",
+        "L8 kind=%r" % d["readings"][BASELINE]["kind"])
+    leg((d.get("k_identity") or {}).get("verdict") == K_IDENTITY_INTACT,
+        "L8 the provenance block must name the face it read")
+
+    other = dict(ident, ticket_file="TICKET-1999-01-01.json")
+    d = decide(gap_live, gap_tk, identity=other)
+    leg(d["verdict"] == VERDICT_UNREADABLE and BASELINE in d["readings_unreadable"],
+        "L9 a receipt naming another ticket must change nothing, verdict=%r" % d["verdict"])
+
+    drifted_pair = dict(ident, k_at_book_decided_at=0.470000)
+    d = decide(gap_live, gap_tk, identity=drifted_pair)
+    leg(d["verdict"] == VERDICT_UNREADABLE and BASELINE in d["readings_unreadable"],
+        "L10 a receipt about another pair must not launder this cell, verdict=%r" % d["verdict"])
+
+    says_broken = dict(ident, verdict="IDENTITY_BROKEN")
+    d = decide(gap_live, gap_tk, identity=says_broken)
+    leg(d["verdict"] == VERDICT_UNREADABLE and BASELINE in d["readings_unreadable"],
+        "L11 a face that says BROKEN must refuse, verdict=%r" % d["verdict"])
 
     # L6 a short cell must not default into 'path'
     short = json.loads(json.dumps(live))

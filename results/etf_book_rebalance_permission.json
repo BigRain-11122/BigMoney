@@ -1,22 +1,22 @@
 {
  "face": "etf_book_rebalance_permission",
  "decision_date": "2026-12-09",
- "ticket_file": "TICKET-2026-11-20.json",
- "evidence_cutoff": "2026-11-20",
+ "ticket_file": "TICKET-2026-11-24.json",
+ "evidence_cutoff": "2026-11-24",
  "beta_target": 0.2,
  "size_tol": 0.005,
  "k_now": 0.435003,
- "k_rule": 0.460253,
+ "k_rule": 0.458463,
  "nav_cny": 1000000.0,
- "book_amount_cny": 434754.1,
- "cash_amount_cny": 565245.9,
+ "book_amount_cny": 434723.8,
+ "cash_amount_cny": 565276.2,
  "readings": {
   "baseline_published": {
    "k": 0.460253,
    "delta_vs_now_pp": 2.53,
-   "kind": "circular",
-   "why": "the construction the ticket was priced from (k == k_now by identity)",
-   "bars": 1668
+   "kind": "path",
+   "why": "an earlier step of the same schedule: this cell reads bar 2026-11-11 (k=0.460253), the ticket prices bar 2026-11-20 (k=0.458463) -- the identity holds and the gap is one step (etf_book_k_identity_bar)",
+   "bars": 1670
   },
   "window": {
    "k": 0.747086,
@@ -29,8 +29,8 @@
    "k": 0.435003,
    "delta_vs_now_pp": -0.0,
    "kind": "path",
-   "why": "measured on 1668 bars",
-   "bars": 1668
+   "why": "measured on 1670 bars",
+   "bars": 1670
   },
   "window_x_universe": {
    "k": 0.667665,
@@ -48,10 +48,9 @@
   }
  },
  "readings_unreadable": {},
- "circular_readings": [
-  "baseline_published"
- ],
+ "circular_readings": [],
  "path_readings": [
+  "baseline_published",
   "universe",
   "window",
   "window_x_universe"
@@ -59,17 +58,27 @@
  "static_readings": [
   "denominator"
  ],
+ "k_identity": {
+  "face": "etf_book_k_identity_bar",
+  "verdict": "IDENTITY_INTACT_LEG_READS_A_DIFFERENT_STEP",
+  "ticket_file": "TICKET-2026-11-24.json",
+  "generated": "2026-11-24T18:36:52+08:00",
+  "book_decided_at": "2026-11-11",
+  "priced_bar": "2026-11-20"
+ },
  "permitted_k": 0.435003,
- "permitted_book_cny": 434754.0,
+ "permitted_book_cny": 434724.0,
  "cut_k": 0.0,
  "cut_pp": 0.0,
  "cut_cny": 0.0,
  "supporters": [
+  "baseline_published",
   "universe",
   "window",
   "window_x_universe"
  ],
  "supporters_path": [
+  "baseline_published",
   "universe",
   "window",
   "window_x_universe"
@@ -82,16 +91,16 @@
   "why": "a ruler that permits a LARGER size is read as permission for this one; the permitting reading need not be a decision path (E456: the rulers are not additive and not interchangeable)"
  },
  "verdict": "KEEP_SUPPORTED_BY_INDEPENDENT_PATH",
- "sentence": "keeping k=0.435003 is supported by 3 independent path reading(s) (universe, window, window_x_universe); the permitting floor over all path readings is k=0.435003",
+ "sentence": "keeping k=0.435003 is supported by 4 independent path reading(s) (baseline_published, universe, window, window_x_universe); the permitting floor over all path readings is k=0.435003",
  "supply_side": {
   "book": "nobond_vt08_adopted",
   "verdict": "CONDITIONAL",
   "failed_check": [
    "Y4_top2_share"
   ],
-  "top2_share": 0.7238,
+  "top2_share": 0.7255,
   "top2_line": 0.7,
-  "asof": "2026-11-20T15:54:19+0800"
+  "asof": "2026-11-24T17:12:20+0800"
  },
  "not_measured": [
   "the wrapper's yearly shape: beta overlay + GC001 cash leg have never been through the year gate (r1438), so a smaller k is not automatically a passing book",
@@ -99,5 +108,5 @@
   "the cost of the cut: the ticket's own reprice delta (CNY 91.7 at the 11-06 bar) is not carried into the gate, and a 6.72pp cut pays one more round of 8bp"
  ],
  "elapsed_sec": 0.0,
- "generated": "2026-11-22T19:31:53+0800"
+ "generated": "2026-11-25T08:37:26+0800"
 }
