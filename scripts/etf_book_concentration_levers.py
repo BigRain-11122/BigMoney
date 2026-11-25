@@ -351,8 +351,22 @@ def check() -> int:
     if s2["verdict"] != rec["summary"]["verdict"]:
         errs.append("summary verdict %s != re-derived %s"
                     % (rec["summary"]["verdict"], s2["verdict"]))
-    if not rec["control"].get("reproduces_published"):
-        errs.append("control did not reproduce the published book")
+    # r2093: judge the reproduction against the receipt as it stands now, not against
+    # the flag this face wrote when it last ran -- the receipt has its own writer.
+    ctrl = rec["control"]
+    live_pub = receipt_cagr()
+    stored_pub = ctrl.get("published_cagr_pct")
+    if live_pub is None:
+        errs.append("STALE the quoted receipt cannot be read: %s" % CONTROL_RECEIPT)
+    elif quote_moved(stored_pub, live_pub):
+        errs.append("STALE the quoted receipt moved: published %r -> %.4f"
+                    % (stored_pub, live_pub))
+    elif abs(float(ctrl.get("cagr_pct") or float("nan")) - live_pub) > CONTROL_CAGR_TOL * 100:
+        errs.append("control does not reproduce the published book (%.4f vs %.4f)"
+                    % (ctrl.get("cagr_pct"), live_pub))
+    elif not ctrl.get("reproduces_published"):
+        errs.append("STALE the receipt's own flag is stale: it says reproduces=False "
+                    "while %.4f re-derives against the receipt" % live_pub)
     st = rec.get("cost_stress")
     if rec["summary"].get("cost_stress_arm") and st is None:
         errs.append("summary claims a cost-stress arm but none is published")
@@ -471,6 +485,17 @@ def selftest() -> int:
         refresh_decision(None, "2026-01-05") == "UNKNOWN"
         and refresh_decision("2026-01-05", None) == "UNKNOWN")
 
+    # S the panel is not the only clock (r2093): a receipt rewritten under the face must
+    # read STALE even when the panel has not moved -- and a matching quote must not, so
+    # the chain is never asked to pay for a face that still reproduces.
+    leg("S a moved receipt quote is STALE on an unmoved panel",
+        refresh_decision("2026-01-05", "2026-01-05", 11.16, 11.11) == "STALE")
+    leg("T a matching quote stays SAME",
+        refresh_decision("2026-01-05", "2026-01-05", 11.11, 11.11) == "SAME")
+    leg("U an unreadable quote never invents freshness or staleness",
+        refresh_decision("2026-01-05", "2026-01-05", None, 11.11) == "SAME"
+        and refresh_decision("2026-01-05", "2026-01-05", 11.11, None) == "SAME")
+
     ok = sum(1 for _n, o, _e in legs if o)
     for name, o, extra in legs:
         if not o:
@@ -497,10 +522,40 @@ def panel_last_bar():
         return None
 
 
-def refresh_decision(face_cutoff, panel_cutoff):
+def receipt_cagr():
+    """The control CAGR the quoted receipt states right now (None if unreadable).
+
+    r2093: the face reproduces `results/etf_nobond_vt.json`, and that receipt has its
+    own chain leg -- so the panel is not the only clock here. On 2026-11-25 the panel
+    had not moved (11-24) while the receipt had (11.16 -> 11.11): the gate said SAME,
+    the face kept a quote nothing could reproduce, and the lever table stopped pricing.
+    """
+    if not os.path.exists(CONTROL_RECEIPT):
+        return None
+    try:
+        with io.open(CONTROL_RECEIPT, encoding="utf-8") as f:
+            rec = json.load(f)
+        for r in rec.get("runs", []):
+            if r.get("label") == "nobond_vt08":
+                return float(r["cagr"]) * 100.0
+    except Exception:
+        return None
+    return None
+
+
+def quote_moved(stored, live):
+    """True when the quoted number is no longer the number the receipt states."""
+    if stored is None or live is None:
+        return False
+    return abs(float(live) - float(stored)) > 1e-4
+
+
+def refresh_decision(face_cutoff, panel_cutoff, stored_pub=None, live_pub=None):
     """SAME = nothing to pay for, STALE = the repricing owns the job, UNKNOWN = no clock."""
     if not face_cutoff or not panel_cutoff:
         return "UNKNOWN"
+    if quote_moved(stored_pub, live_pub):
+        return "STALE"
     return "STALE" if str(face_cutoff) < str(panel_cutoff) else "SAME"
 
 
@@ -512,21 +567,29 @@ def refresh() -> int:
     ~9s in a round where the panel has not moved, ~51s when it has.
     """
     had = None
+    had_pub = None
     if os.path.exists(OUT):
         try:
             with io.open(OUT, encoding="utf-8") as f:
-                had = json.load(f).get("evidence_cutoff")
+                rec = json.load(f)
+            had = rec.get("evidence_cutoff")
+            had_pub = (rec.get("control") or {}).get("published_cagr_pct")
         except Exception:
             had = None
     live = panel_last_bar()
-    state = refresh_decision(had, live)
+    live_pub = receipt_cagr()
+    state = refresh_decision(had, live, had_pub, live_pub)
     if state == "UNKNOWN":
         print("REFRESH_UNKNOWN panel or receipt unreadable (receipt=%s, panel=%s); "
               "leaving the face as it stands" % (had, live))
         return 2
     if state == "SAME":
-        print("REFRESH_NOOP evidence_cutoff=%s (the panel has not moved)" % live)
+        print("REFRESH_NOOP evidence_cutoff=%s (the panel and the quoted receipt are unmoved)"
+              % live)
         return 0
+    if quote_moved(had_pub, live_pub):
+        print("REFRESH_STALE the quoted receipt moved: published %r -> %.4f"
+              % (had_pub, live_pub))
     started = time.time()
     rc = run()
     print("REFRESH_RAN %s -> %s (%.1fs) rc=%d" % (had, live, time.time() - started, rc))

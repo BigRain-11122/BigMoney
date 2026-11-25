@@ -37,6 +37,7 @@ check python scripts/etf_book_admit_cost_ladder.py check       # re-derive from 
 from __future__ import annotations
 
 import argparse
+import hashlib
 import io
 import json
 import os
@@ -307,6 +308,7 @@ def run() -> int:
         "book_family": "nobond_vt08",
         "asof": pd.Timestamp.now(tz="Asia/Shanghai").isoformat(timespec="seconds"),
         "evidence_cutoff": str(close.index[-1].date()),
+        "inputs": input_digests(),
         "question": ("the gate has two ADMIT arms that clear the top-2 line by less than a third "
                      "of a point -- is that margin a property of the lever or of the 10bp cost?"),
         "rule": {
@@ -367,8 +369,28 @@ def check() -> int:
             elif p["top2_share"] is not None and abs(p["top2_share"] - r["top2_share"]) > 1e-6:
                 problems.append("quoted top-2 drifted for %s: %r vs %r"
                                 % (r["arm"], r["top2_share"], p["top2_share"]))
-    if not rec.get("control", {}).get("reproduces_published"):
-        problems.append("control does not reproduce the published book")
+    # r2093: the reproduction is judged against the receipt as it stands now, not
+    # against the boolean this face wrote down when it last ran. A receipt rewritten
+    # by its own chain leg leaves the stored flag true (or false) about a number that
+    # no longer exists, and a probe that never says STALE never gets re-derived.
+    ctrl = rec.get("control", {}) or {}
+    live_pub = receipt_cagr()
+    stored_pub = ctrl.get("published_cagr_pct")
+    live_inputs = input_digests()
+    if inputs_moved(rec.get("inputs"), live_inputs):
+        problems.append("STALE a quoted face moved: stored %r vs now %r"
+                        % (rec.get("inputs"), live_inputs))
+    elif live_pub is None:
+        problems.append("STALE the quoted receipt cannot be read: %s" % CONTROL_RECEIPT)
+    elif quote_moved(stored_pub, live_pub):
+        problems.append("STALE the quoted receipt moved: published %r -> %.4f"
+                        % (stored_pub, live_pub))
+    elif abs(float(ctrl.get("cagr_pct") or float("nan")) - live_pub) > CONTROL_CAGR_TOL * 100:
+        problems.append("control does not reproduce the published book (%.4f vs %.4f)"
+                        % (ctrl.get("cagr_pct"), live_pub))
+    elif not ctrl.get("reproduces_published"):
+        problems.append("STALE the receipt's own flag is stale: it says reproduces=False "
+                        "while %.4f re-derives against the receipt" % live_pub)
     ok = not problems
     print("[check] %s | verdict=%s | n_arms=%d survivors_20bp=%s | problems=%s"
           % ("OK" if ok else "PROBLEMS", s["verdict"], s["n_arms"], s["survivors_20bp"], problems))
@@ -475,8 +497,27 @@ def selftest() -> int:
     ok("L10b the near miss is named with its own number", "miss 0.7949" in s["sentence"],
        s["sentence"][:220])
 
-    print("selftest %d/%d PASS" % (18 - len(fails), 18) if not fails
-          else "selftest %d/18 PASS, %d FAIL" % (18 - len(fails), len(fails)))
+    # L11 the quoted receipt is a clock of its own (r2093): a receipt rewritten under
+    # the face must read STALE even when the panel has not moved, and a quote that
+    # still matches must not (so the chain is not asked to pay every round).
+    ok("L11 a moved receipt quote reads STALE", quote_moved(11.16, 11.11) is True,
+       (11.16, 11.11))
+    ok("L11b an unmoved quote reads SAME", quote_moved(11.11, 11.11) is False,
+       (11.11, 11.11))
+    ok("L11c an unreadable quote is not evidence of movement",
+       quote_moved(None, 11.11) is False and quote_moved(11.11, None) is False,
+       (None, 11.11))
+    # L12 the quoted faces are compared by bytes, and a face priced before the digests
+    # existed is STALE once rather than silently assumed unchanged.
+    ok("L12 a moved quoted face is caught by its bytes",
+       inputs_moved({"a": "1", "b": "2"}, {"a": "1", "b": "3"}) is True)
+    ok("L12b identical bytes are not a move",
+       inputs_moved({"a": "1", "b": "2"}, {"a": "1", "b": "2"}) is False)
+    ok("L12c a face with no recorded digests re-prices once",
+       inputs_moved(None, {"a": "1"}) is True and inputs_moved(None, {"a": None}) is False)
+
+    print("selftest %d/%d PASS" % (24 - len(fails), 24) if not fails
+          else "selftest %d/24 PASS, %d FAIL" % (24 - len(fails), len(fails)))
     return 0 if not fails else 1
 
 
@@ -486,21 +527,100 @@ def panel_last_bar():
     return str(close.index[-1].date())
 
 
+def receipt_cagr():
+    """The control CAGR the quoted receipt states right now (None if unreadable).
+
+    r2093: this face reproduces `results/etf_nobond_vt.json`, and that receipt is
+    rewritten by its own chain leg -- so the panel is not the only clock this face
+    runs on. On 2026-11-25 the panel had not moved (11-24) but the receipt had
+    (11.16 -> 11.11): every probe said SAME, the face kept a quote nobody could
+    reproduce, and the ladder priced no arm who knows how many rounds.
+    """
+    if not os.path.exists(CONTROL_RECEIPT):
+        return None
+    try:
+        with io.open(CONTROL_RECEIPT, encoding="utf-8") as f:
+            rec = json.load(f)
+        for r in rec.get("runs", []):
+            if r.get("label") == "nobond_vt08":
+                return float(r["cagr"]) * 100.0
+    except Exception:
+        return None
+    return None
+
+
+def quote_moved(stored, live):
+    """True when the quoted number is no longer the number the receipt states."""
+    if stored is None or live is None:
+        return False
+    return abs(float(live) - float(stored)) > 1e-4
+
+
+def _sha256(path):
+    try:
+        with io.open(path, "rb") as f:
+            return hashlib.sha256(f.read()).hexdigest()
+    except Exception:
+        return None
+
+
+def input_digests():
+    """Both faces this ladder quotes, by content rather than by date (r2093)."""
+    return {"published_arms": _sha256(PUBLISHED), "control_receipt": _sha256(CONTROL_RECEIPT)}
+
+
+def inputs_moved(stored, live):
+    """True when either quoted face is not the one this ladder was priced on.
+
+    A receipt keeps its cutoff while its numbers move (a cost model is re-estimated),
+    so the date alone cannot answer this -- the bytes have to.
+    """
+    if not isinstance(stored, dict):
+        # nothing recorded is not a reproduction: an older face was priced before the
+        # digests existed, and this run is what records them (one-time cost).
+        return isinstance(live, dict) and any(live.values())
+    for k, v in live.items():
+        if stored.get(k) and v and stored[k] != v:
+            return True
+    return False
+
+
 def refresh() -> int:
     had = None
+    had_pub = None
     if os.path.exists(OUT):
         try:
             with io.open(OUT, encoding="utf-8") as f:
-                had = json.load(f).get("evidence_cutoff")
+                rec = json.load(f)
+            had = rec.get("evidence_cutoff")
+            had_pub = (rec.get("control") or {}).get("published_cagr_pct")
         except Exception:
             had = None
     live = panel_last_bar()
+    live_pub = receipt_cagr()
+    recorded = None
+    if os.path.exists(OUT):
+        try:
+            with io.open(OUT, encoding="utf-8") as f:
+                recorded = json.load(f).get("inputs")
+        except Exception:
+            recorded = None
+    live_inputs = input_digests()
     if not had or not live:
         print("REFRESH_UNKNOWN receipt=%s panel=%s; leaving the face as it stands" % (had, live))
         return 2
-    if str(had) >= str(live):
-        print("REFRESH_NOOP evidence_cutoff=%s (the panel has not moved)" % live)
+    moved = quote_moved(had_pub, live_pub)
+    moved_inputs = inputs_moved(recorded, live_inputs)
+    if str(had) >= str(live) and not moved and not moved_inputs:
+        print("REFRESH_NOOP evidence_cutoff=%s (the panel and both quoted faces are unmoved)"
+              % live)
         return 0
+    if moved_inputs:
+        print("REFRESH_STALE a quoted face moved since this ladder was priced: %r -> %r"
+              % (recorded, live_inputs))
+    if moved:
+        print("REFRESH_STALE the quoted receipt moved: published %r -> %.4f"
+              % (had_pub, live_pub))
     started = time.time()
     rc = run()
     print("REFRESH_RAN %s -> %s (%.1fs) rc=%d" % (had, live, time.time() - started, rc))
