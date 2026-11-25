@@ -1,7 +1,7 @@
 {
  "artifact": "etf_book_sibling_gap",
- "session": "2026-11-20",
- "ticket": "TICKET-2026-11-20.json",
+ "session": "2026-11-24",
+ "ticket": "TICKET-2026-11-24.json",
  "source_face": "results\\etf_book_sibling_entry.json",
  "criteria": {
   "min_days": 120,
@@ -13,46 +13,70 @@
  "pairs": [
   {
    "leg_symbol": "510760",
-   "sibling_symbol": "510210",
-   "sibling_name": "上证指数ETF富国",
+   "sibling_symbol": "510980",
+   "sibling_name": "上证指数ETF汇添富",
    "index": "LBL:上证指数ETF",
-   "amount_cny": 86328.4,
+   "amount_cny": 86926.5,
    "source_verdict": "GAP_IMMATERIAL",
-   "today_gain_cny": 274.5,
-   "gap_today_pp": 0.3154,
+   "today_gain_cny": 161.1,
+   "gap_today_pp": 0.1844,
    "daily_files": [
     "data\\daily\\sh510760.csv",
-    "data\\daily\\sh510210.csv"
+    "data\\daily\\sh510980.csv"
    ],
    "verdict": "NO_GAP",
    "why": "",
    "stats": {
-    "days": 1500,
-    "first_date": "2020-09-09",
-    "last_date": "2026-11-20",
-    "today_gap_pp": 0.3154,
-    "mean_pp": -19.8143,
-    "median_pp": -4.5981,
-    "sd_pp": 42.8551,
-    "min_pp": -187.6628,
-    "max_pp": 7.1441,
-    "share_days_positive": 0.184,
-    "today_percentile": 84.4,
-    "today_z": 0.47,
-    "last_year_mean_pp": -2.1989,
+    "days": 721,
+    "first_date": "2023-12-01",
+    "last_date": "2026-11-24",
+    "today_gap_pp": 0.1844,
+    "mean_pp": -1.0111,
+    "median_pp": -3.1898,
+    "sd_pp": 4.1099,
+    "min_pp": -5.5657,
+    "max_pp": 8.0178,
+    "share_days_positive": 0.2524,
+    "today_percentile": 75.87,
+    "today_z": 0.291,
+    "last_year_mean_pp": -3.0552,
     "half_split_mean_pp": [
-     -38.8368,
-     -0.7918
+     1.3617,
+     -3.3774
     ],
-    "nav_base_offset_pp": 28.9972,
-    "gap_change_median_pp": 0.17
+    "nav_base_offset_pp": -2.9046,
+    "gap_change_median_pp": 0.1479
    },
    "repeatable_gain_cny": null,
    "one_off_gain_cny": null,
    "steps": [
     {
-     "date": "2021-01-25",
-     "jump_pp": 160.7249
+     "date": "2024-05-27",
+     "jump_pp": -4.4503
+    },
+    {
+     "date": "2024-08-14",
+     "jump_pp": -4.8067
+    },
+    {
+     "date": "2024-09-30",
+     "jump_pp": 2.8797
+    },
+    {
+     "date": "2024-10-08",
+     "jump_pp": -2.9598
+    },
+    {
+     "date": "2024-12-24",
+     "jump_pp": -4.7506
+    },
+    {
+     "date": "2025-04-07",
+     "jump_pp": -1.3498
+    },
+    {
+     "date": "2025-04-08",
+     "jump_pp": 1.4873
     }
    ],
    "flags": {
@@ -62,165 +86,7 @@
    "advice": "today's gap is under the 0.5 pp materiality line: nothing to swap",
    "family_basis": "board_label",
    "label": "上证指数ETF",
-   "label_gap_median_pp": 0.17
-  },
-  {
-   "leg_symbol": "159655",
-   "sibling_symbol": "513650",
-   "sibling_name": "标普500ETF南方",
-   "index": "LBL:标普500ETF",
-   "amount_cny": 86396.4,
-   "source_verdict": "GAP_IMMATERIAL",
-   "today_gain_cny": 17.6,
-   "gap_today_pp": 0.0231,
-   "daily_files": [
-    "data\\daily\\sz159655.csv",
-    "data\\daily\\sh513650.csv"
-   ],
-   "verdict": "NO_GAP",
-   "why": "",
-   "stats": {
-    "days": 880,
-    "first_date": "2023-04-04",
-    "last_date": "2026-11-20",
-    "today_gap_pp": 0.0231,
-    "mean_pp": 1.1763,
-    "median_pp": 0.6281,
-    "sd_pp": 1.6982,
-    "min_pp": -1.3773,
-    "max_pp": 16.4481,
-    "share_days_positive": 0.8148,
-    "today_percentile": 18.98,
-    "today_z": -0.679,
-    "last_year_mean_pp": 0.0514,
-    "half_split_mean_pp": [
-     1.9483,
-     0.4044
-    ],
-    "nav_base_offset_pp": 0.3552,
-    "gap_change_median_pp": 0.1616
-   },
-   "repeatable_gain_cny": null,
-   "one_off_gain_cny": null,
-   "steps": [
-    {
-     "date": "2024-01-23",
-     "jump_pp": 7.3591
-    },
-    {
-     "date": "2024-01-24",
-     "jump_pp": 6.9243
-    },
-    {
-     "date": "2024-01-25",
-     "jump_pp": -10.3195
-    },
-    {
-     "date": "2024-01-26",
-     "jump_pp": 4.8947
-    },
-    {
-     "date": "2024-01-31",
-     "jump_pp": -7.8199
-    },
-    {
-     "date": "2024-09-04",
-     "jump_pp": 3.0236
-    },
-    {
-     "date": "2025-01-09",
-     "jump_pp": 2.4197
-    },
-    {
-     "date": "2025-01-10",
-     "jump_pp": -3.3775
-    },
-    {
-     "date": "2025-01-24",
-     "jump_pp": 2.9761
-    },
-    {
-     "date": "2025-01-27",
-     "jump_pp": -6.9648
-    }
-   ],
-   "flags": {
-    "mean_clears_materiality": true,
-    "today_is_tail": false
-   },
-   "advice": "today's gap is under the 0.5 pp materiality line: nothing to swap",
-   "family_basis": "board_label",
-   "label": "标普500ETF",
-   "label_gap_median_pp": 0.1616
-  },
-  {
-   "leg_symbol": "159519",
-   "sibling_symbol": "513810",
-   "sibling_name": "港股国企ETF华夏",
-   "index": "LBL:港股国企ETF",
-   "amount_cny": 86291.4,
-   "source_verdict": "GAP_IMMATERIAL",
-   "today_gain_cny": 417.3,
-   "gap_today_pp": 0.4799,
-   "daily_files": [
-    "data\\daily\\sz159519.csv",
-    "data\\daily\\sh513810.csv"
-   ],
-   "verdict": "NO_GAP",
-   "why": "",
-   "stats": {
-    "days": 778,
-    "first_date": "2023-09-01",
-    "last_date": "2026-11-20",
-    "today_gap_pp": 0.4799,
-    "mean_pp": -0.3725,
-    "median_pp": -0.3011,
-    "sd_pp": 0.675,
-    "min_pp": -8.1413,
-    "max_pp": 1.3637,
-    "share_days_positive": 0.2931,
-    "today_percentile": 95.76,
-    "today_z": 1.263,
-    "last_year_mean_pp": -0.0172,
-    "half_split_mean_pp": [
-     -0.5895,
-     -0.1555
-    ],
-    "nav_base_offset_pp": 1.718,
-    "gap_change_median_pp": 0.1751
-   },
-   "repeatable_gain_cny": null,
-   "one_off_gain_cny": null,
-   "steps": [
-    {
-     "date": "2024-12-27",
-     "jump_pp": -1.5936
-    },
-    {
-     "date": "2025-04-07",
-     "jump_pp": 1.5432
-    },
-    {
-     "date": "2025-04-18",
-     "jump_pp": -2.8218
-    },
-    {
-     "date": "2025-04-21",
-     "jump_pp": -5.374
-    },
-    {
-     "date": "2025-04-22",
-     "jump_pp": 8.1123
-    }
-   ],
-   "flags": {
-    "mean_clears_materiality": false,
-    "today_is_tail": false
-   },
-   "advice": "today's gap is under the 0.5 pp materiality line: nothing to swap",
-   "family_basis": "board_label",
-   "label": "港股国企ETF",
-   "label_gap_median_pp": 0.1751
+   "label_gap_median_pp": 0.1479
   }
  ],
  "skipped_legs": [
@@ -231,21 +97,33 @@
    "why": "the board writes the same label, but the gap's median day change is 0.392 pp (> 0.30): these are not the same basket, so no swap is priced"
   },
   {
+   "leg_symbol": "159655",
+   "label": "标普ETF",
+   "verdict": "CANNOT_VERIFY",
+   "why": "no other live ticker writes this label on the board"
+  },
+  {
    "leg_symbol": "513690",
    "label": "港股红利ETF",
    "verdict": "CANNOT_VERIFY",
-   "why": "the board writes the same label, but the gap's median day change is 0.390 pp (> 0.30): these are not the same basket, so no swap is priced"
+   "why": "no other live ticker writes this label on the board"
+  },
+  {
+   "leg_symbol": "159519",
+   "label": "港股国企",
+   "verdict": "CANNOT_VERIFY",
+   "why": "no other live ticker writes this label on the board"
   }
  ],
  "verdict_counts": {
-  "NO_GAP": 3,
-  "CANNOT_VERIFY": 2
+  "NO_GAP": 1,
+  "CANNOT_VERIFY": 4
  },
  "today_gain_cny": 0,
- "immaterial_gain_cny": 709.4,
+ "immaterial_gain_cny": 161.1,
  "repeatable_gain_cny": 0.0,
  "one_off_gain_cny": 0.0,
- "sentence": "no pair carries a gap that can be read: 3 pair(s) unverifiable or immaterial",
+ "sentence": "no pair carries a gap that can be read: 1 pair(s) unverifiable or immaterial",
  "caveats": [
   "the reconstructed gap is anchored on ONE session's IOPV pair; every earlier value inherits the assumption that the two funds' NAV-per-unit ratio has not moved, and steps are published as the evidence against that assumption",
   "closes are as-traded, not total-return: a distribution to one fund only lands as a step and is flagged, not corrected",
@@ -260,16 +138,16 @@
    "label": "上证指数ETF",
    "same_label_tickers": 5,
    "live_alternatives": 4,
-   "gap_median_pp": 0.17,
+   "gap_median_pp": 0.1479,
    "state": "LABEL_IS_A_BASKET",
-   "why": "the board writes the same label and the gap's median day change is 0.170 pp (<= 0.30): the price history agrees these hold the same basket",
-   "sibling_symbol": "510210",
+   "why": "the board writes the same label and the gap's median day change is 0.148 pp (<= 0.30): the price history agrees these hold the same basket",
+   "sibling_symbol": "510980",
    "inner_verdict": "NO_GAP"
   },
   {
    "leg_symbol": "512040",
    "label": "价值ETF",
-   "same_label_tickers": 10,
+   "same_label_tickers": 3,
    "live_alternatives": 1,
    "gap_median_pp": 0.3917,
    "state": "LABEL_NOT_A_BASKET",
@@ -279,72 +157,57 @@
   },
   {
    "leg_symbol": "159655",
-   "label": "标普500ETF",
-   "same_label_tickers": 4,
-   "live_alternatives": 3,
-   "gap_median_pp": 0.1616,
-   "state": "LABEL_IS_A_BASKET",
-   "why": "the board writes the same label and the gap's median day change is 0.162 pp (<= 0.30): the price history agrees these hold the same basket",
-   "sibling_symbol": "513650",
-   "inner_verdict": "NO_GAP"
+   "label": "标普ETF",
+   "same_label_tickers": 1,
+   "live_alternatives": 0,
+   "gap_median_pp": null,
+   "state": "NO_ALTERNATIVE",
+   "why": "no other live ticker writes this label on the board"
   },
   {
    "leg_symbol": "513690",
    "label": "港股红利ETF",
-   "same_label_tickers": 2,
-   "live_alternatives": 1,
-   "gap_median_pp": 0.3902,
-   "state": "LABEL_NOT_A_BASKET",
-   "why": "the board writes the same label, but the gap's median day change is 0.390 pp (> 0.30): these are not the same basket, so no swap is priced",
-   "sibling_symbol": "159691",
-   "inner_verdict": "NO_GAP"
+   "same_label_tickers": 1,
+   "live_alternatives": 0,
+   "gap_median_pp": null,
+   "state": "NO_ALTERNATIVE",
+   "why": "no other live ticker writes this label on the board"
   },
   {
    "leg_symbol": "159519",
-   "label": "港股国企ETF",
-   "same_label_tickers": 2,
-   "live_alternatives": 1,
-   "gap_median_pp": 0.1751,
-   "state": "LABEL_IS_A_BASKET",
-   "why": "the board writes the same label and the gap's median day change is 0.175 pp (<= 0.30): the price history agrees these hold the same basket",
-   "sibling_symbol": "513810",
-   "inner_verdict": "NO_GAP"
+   "label": "港股国企",
+   "same_label_tickers": 1,
+   "live_alternatives": 0,
+   "gap_median_pp": null,
+   "state": "NO_ALTERNATIVE",
+   "why": "no other live ticker writes this label on the board"
   }
  ],
- "label_family_board_session": "2026-11-20",
+ "label_family_board_session": "2026-11-24",
  "label_family_sensitivity": [
   {
    "line_pp": 0.25,
    "accepted": [
-    "510760",
-    "159655",
-    "159519"
+    "510760"
    ],
    "refused": [
-    "512040",
-    "513690"
+    "512040"
    ]
   },
   {
    "line_pp": 0.35,
    "accepted": [
-    "510760",
-    "159655",
-    "159519"
+    "510760"
    ],
    "refused": [
-    "512040",
-    "513690"
+    "512040"
    ]
   },
   {
    "line_pp": 0.45,
    "accepted": [
     "510760",
-    "512040",
-    "159655",
-    "513690",
-    "159519"
+    "512040"
    ],
    "refused": []
   }

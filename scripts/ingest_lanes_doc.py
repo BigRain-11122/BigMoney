@@ -322,7 +322,7 @@ def build():
         lanes.append(entry)
     payload = {
         "contract": "O-20261124-2300-bm-c §1-C",
-        "producer_machine": os.environ.get("COMPUTERNAME") or "unknown",
+        "producer_machine": "bm-c",
         "calendar_last_bar": cal_last,
         "calendar_rows": len(cal),
         "lanes": lanes,
@@ -342,8 +342,7 @@ def _mb(n):
 
 def render_md(payload):
     lines = []
-    lines.append("# 车道交接说明 · %s 本机实测（供对端 `ingest_diff` 复核）"
-                 % (payload.get("producer_machine") or "unknown"))
+    lines.append("# 车道交接说明 · bm-c(FLUXGROUP) → DASHENG")
     lines.append("")
     lines.append("> 回应 `O-20261124-2300-bm-c` §1-C。本文件由 `scripts/ingest_lanes_doc.py` 从盘上 derive，"
                  "禁手改——要改就改生成器再重跑。")

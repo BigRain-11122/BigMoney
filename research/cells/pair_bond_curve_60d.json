@@ -1,0 +1,25 @@
+{
+ "id": "pair_bond_curve_60d",
+ "type": "pair",
+ "rule": "xs_rank",
+ "products": [
+  "T",
+  "TF",
+  "TS"
+ ],
+ "params": {
+  "window": 60,
+  "k": 1
+ },
+ "cost_bp_side": 1.5,
+ "target_vol": 0.06,
+ "split": "2024-01-01",
+ "crit": {
+  "H1_full_pct": 3.0,
+  "H2_oos_pct": 2.0,
+  "H2_oos_sharpe": 0.3,
+  "H4_drop_best_pct": 1.0,
+  "H5_p": 0.05
+ },
+ "target_edge_pp": 3.0
+}

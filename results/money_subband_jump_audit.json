@@ -1,0 +1,1062 @@
+{
+  "artifact": "results/money_subband_jump_audit.json",
+  "caveats": [
+    "the panel cannot tell a bad feed print from a real one-session move; this face treats them as the same problem and does not claim to separate them",
+    "no entry cost, no tradeable return, no position: this is a caliber question",
+    "isolated means quiet neighbours, not small: a 900bp bar between two quiet bars is isolated too, and the band ruler will usually have caught it first",
+    "bars at the window ends are judged with one neighbour; the count is printed"
+  ],
+  "components": {
+    "book_carry_legs": {
+      "events_returns": 18,
+      "events_shifts": 32,
+      "rows": [
+        {
+          "bars": 2963,
+          "bucket": "quiet_lt_2bp",
+          "pp": 2.1067,
+          "var_share_pct": 14.56
+        },
+        {
+          "bars": 767,
+          "bucket": "stair_2_5bp",
+          "pp": 1.4768,
+          "var_share_pct": 15.9
+        },
+        {
+          "bars": 797,
+          "bucket": "jump_5_25bp",
+          "pp": 2.5065,
+          "var_share_pct": 37.59
+        },
+        {
+          "bars": 41,
+          "bucket": "jump_25_100bp",
+          "pp": 0.0379,
+          "var_share_pct": 10.06
+        },
+        {
+          "bars": 1,
+          "bucket": "huge_ge_100bp",
+          "pp": 0.1648,
+          "var_share_pct": 21.89
+        }
+      ]
+    },
+    "named": {
+      "events_returns": 46,
+      "events_shifts": 16,
+      "events_unresolved": 0,
+      "rows": [
+        {
+          "bars": 11049,
+          "bucket": "quiet_lt_2bp",
+          "pp": -0.2485,
+          "var_share_pct": 0.8
+        },
+        {
+          "bars": 1280,
+          "bucket": "stair_2_5bp",
+          "pp": -0.0979,
+          "var_share_pct": 1.64
+        },
+        {
+          "bars": 1228,
+          "bucket": "jump_5_25bp",
+          "pp": 0.289,
+          "var_share_pct": 18.76
+        },
+        {
+          "bars": 301,
+          "bucket": "jump_25_100bp",
+          "pp": 4.8019,
+          "var_share_pct": 51.25
+        },
+        {
+          "bars": 6,
+          "bucket": "huge_ge_100bp",
+          "pp": 4.6635,
+          "var_share_pct": 27.55
+        }
+      ]
+    },
+    "note": "pooled across instruments, each centred on its own mean; the pp column sums to the arithmetic carry and the variance column sums to 100"
+  },
+  "content_sha": "d612890aff5c2ceef3d9d0c031658ebbda684a2dc7f15d3b194a80d4304d2a74",
+  "cross_checks": {
+    "r2046_flip_effect": [
+      {
+        "code": "511360",
+        "gap_pp": 0.0002,
+        "measured_mirror_pp": 0.1675,
+        "ok": true,
+        "published_flip_pp": -0.1677
+      }
+    ]
+  },
+  "evidence_cutoff": "2026-11-20",
+  "findings": [
+    "r2050 留下的方差落点：`jump_25_100bp` 桶吃下 51.2%（301 根），安静桶 0.8%、2–5bp 阶梯桶 1.6%——方差在左尾的大 bar 上，不在日常 accrual 上。",
+    "书腿的未修补跳变欠账（几何口径，pp/年）：511380 +3.168pp（转债，不进判定）；511180 +0.469pp（转债，不进判定）；511880 +0.052pp；511360 +0.083pp（其中 1 根的两侧都由上游面归零过，最大一根 101.41bp 镜像自 2023-09-08——不是新欠账）；511010 +0.064pp。",
+    "书腿的孤立跳变里有 12/50 落在每月最后一根 bar 上（511880 5/5、511360 5/9、511010 2/36）——货币 ETF 的估值按月结块，所以对它们把跳变归零是一句口径选择（往返净额为零），不是一次纠错；规模就是上面那句里的数。",
+    "交叉验证：511360 的镜像部分本面独立量到 +0.1675pp，与修复它的那一面自己公布的 -0.1677pp 相符（差 0.0002pp）。",
+    "被点名的十一只里最高占比是 511920 货币ETF广发（95.2% 的修复后 carry），最大一根 +989.55bp（2021-10-20，MIRROR_READER）。"
+  ],
+  "gate_r2050_repair": [
+    {
+      "code": "511600",
+      "got_pct": 0.3369,
+      "ok": true,
+      "want_pct": 0.3369
+    },
+    {
+      "code": "511620",
+      "got_pct": -0.0247,
+      "ok": true,
+      "want_pct": -0.0247
+    },
+    {
+      "code": "511670",
+      "got_pct": 0.042,
+      "ok": true,
+      "want_pct": 0.042
+    },
+    {
+      "code": "511770",
+      "got_pct": 0.6163,
+      "ok": true,
+      "want_pct": 0.6163
+    },
+    {
+      "code": "511820",
+      "got_pct": 0.7193,
+      "ok": true,
+      "want_pct": 0.7193
+    },
+    {
+      "code": "511910",
+      "got_pct": 0.4001,
+      "ok": true,
+      "want_pct": 0.4001
+    },
+    {
+      "code": "511920",
+      "got_pct": 1.8842,
+      "ok": true,
+      "want_pct": 1.8842
+    },
+    {
+      "code": "511930",
+      "got_pct": 2.6504,
+      "ok": true,
+      "want_pct": 2.6504
+    },
+    {
+      "code": "511950",
+      "got_pct": 1.359,
+      "ok": true,
+      "want_pct": 1.359
+    },
+    {
+      "code": "511960",
+      "got_pct": 0.5358,
+      "ok": true,
+      "want_pct": 0.5358
+    },
+    {
+      "code": "511970",
+      "got_pct": 0.7309,
+      "ok": true,
+      "want_pct": 0.7309
+    }
+  ],
+  "generated": "2026-11-24T19:58:40+08:00",
+  "headline": {
+    "biggest_isolated": {
+      "code": "511920",
+      "date": "2021-10-20",
+      "mirror_date": "2021-10-19",
+      "move_bp": 989.55,
+      "name": "货币ETF广发",
+      "shape": "MIRROR_READER"
+    },
+    "book_legs_carry_moves_pp": {
+      "511010": 0.0643,
+      "511180": 0.4688,
+      "511360": 0.2501,
+      "511380": 3.1681,
+      "511880": 0.0525
+    },
+    "book_legs_unpaid_moves_pp": {
+      "511010": 0.0643,
+      "511180": 0.4688,
+      "511360": 0.0826,
+      "511380": 3.1681,
+      "511880": 0.0525
+    },
+    "isolated_bars_total": 137,
+    "median_isolated_share": 0.58,
+    "median_sigma_drop_pct": 16.17,
+    "mirror_bars_total": 75,
+    "named_instruments": 11,
+    "named_with_jumps": 11
+  },
+  "legs": [
+    {
+      "arith_pp": 16.8596,
+      "bars": 1540,
+      "biggest_event": {
+        "date": "2026-11-04",
+        "mirror_date": "2026-10-12",
+        "mirror_source": "reader",
+        "move_bp": 230.91,
+        "shape": "MIRROR_READER"
+      },
+      "biggest_isolated_bp": 230.91,
+      "biggest_mirror_event": {
+        "date": "2026-11-04",
+        "mirror_date": "2026-10-12",
+        "mirror_source": "reader",
+        "move_bp": 230.91,
+        "shape": "MIRROR_READER"
+      },
+      "cagr_repaired_pct": 18.2196,
+      "cagr_without_jumps_pct": 15.0514,
+      "carry_from_jumps_pp": 3.1681,
+      "carry_ruler_applies": false,
+      "class": "convertible",
+      "code": "511380",
+      "events_already_repaired": 0,
+      "events_mirror_band": 29,
+      "events_mirror_reader": 36,
+      "events_returns": 0,
+      "events_shifts": 1,
+      "isolated_bars": 66,
+      "isolated_pp": 2.7374,
+      "isolated_pp_unpaid": 3.1681,
+      "isolated_share": 0.1624,
+      "mirror_bars": 65,
+      "month_end_bars": 3,
+      "name": "可转债ETF博时",
+      "pair_bars": 50,
+      "pair_pp": 1.8328,
+      "share_reason": "isolated_pp / arith_pp",
+      "sigma_repaired_bp": 31.084,
+      "sigma_without_jumps_bp": 28.4
+    },
+    {
+      "arith_pp": 11.7401,
+      "bars": 1511,
+      "biggest_event": {
+        "date": "2026-04-01",
+        "mirror_date": "2026-03-17",
+        "mirror_source": "reader",
+        "move_bp": 177.47,
+        "shape": "MIRROR_READER"
+      },
+      "biggest_isolated_bp": 177.47,
+      "biggest_mirror_event": {
+        "date": "2026-04-01",
+        "mirror_date": "2026-03-17",
+        "mirror_source": "reader",
+        "move_bp": 177.47,
+        "shape": "MIRROR_READER"
+      },
+      "cagr_repaired_pct": 12.3514,
+      "cagr_without_jumps_pct": 11.8826,
+      "carry_from_jumps_pp": 0.4688,
+      "carry_ruler_applies": false,
+      "class": "convertible",
+      "code": "511180",
+      "events_already_repaired": 0,
+      "events_mirror_band": 35,
+      "events_mirror_reader": 18,
+      "events_returns": 0,
+      "events_shifts": 1,
+      "isolated_bars": 54,
+      "isolated_pp": 0.4278,
+      "isolated_pp_unpaid": 0.4688,
+      "isolated_share": 0.0364,
+      "mirror_bars": 53,
+      "month_end_bars": 1,
+      "name": "可转债ETF海富通",
+      "pair_bars": 28,
+      "pair_pp": 0.5625,
+      "share_reason": "isolated_pp / arith_pp",
+      "sigma_repaired_bp": 27.489,
+      "sigma_without_jumps_bp": 26.025
+    },
+    {
+      "arith_pp": 1.4864,
+      "bars": 1540,
+      "biggest_event": {
+        "date": "2022-09-30",
+        "mirror_date": null,
+        "mirror_source": null,
+        "move_bp": 7.89,
+        "shape": "SHIFTS"
+      },
+      "biggest_isolated_bp": 7.89,
+      "biggest_mirror_event": {
+        "date": "2025-01-27",
+        "mirror_date": "2024-12-31",
+        "mirror_source": "reader",
+        "move_bp": 6.49,
+        "shape": "MIRROR_READER"
+      },
+      "cagr_repaired_pct": 1.4973,
+      "cagr_without_jumps_pct": 1.4448,
+      "carry_from_jumps_pp": 0.0525,
+      "carry_ruler_applies": true,
+      "class": "money",
+      "code": "511880",
+      "events_already_repaired": 0,
+      "events_mirror_band": 0,
+      "events_mirror_reader": 1,
+      "events_returns": 0,
+      "events_shifts": 4,
+      "isolated_bars": 5,
+      "isolated_pp": 0.0517,
+      "isolated_pp_unpaid": 0.0525,
+      "isolated_share": 0.0348,
+      "mirror_bars": 1,
+      "month_end_bars": 5,
+      "name": "银华日利ETF",
+      "pair_bars": 0,
+      "pair_pp": 0.0,
+      "share_reason": "isolated_pp / arith_pp",
+      "sigma_repaired_bp": 1.233,
+      "sigma_without_jumps_bp": 1.185
+    },
+    {
+      "arith_pp": 2.293,
+      "bars": 1489,
+      "biggest_event": {
+        "date": "2023-09-11",
+        "mirror_date": "2023-09-08",
+        "mirror_source": "reader",
+        "move_bp": 101.41,
+        "shape": "MIRROR_READER"
+      },
+      "biggest_isolated_bp": 101.41,
+      "biggest_mirror_event": {
+        "date": "2023-09-11",
+        "mirror_date": "2023-09-08",
+        "mirror_source": "reader",
+        "move_bp": 101.41,
+        "shape": "MIRROR_READER"
+      },
+      "cagr_repaired_pct": 2.3181,
+      "cagr_without_jumps_pct": 2.068,
+      "carry_from_jumps_pp": 0.2501,
+      "carry_ruler_applies": true,
+      "class": "money",
+      "code": "511360",
+      "events_already_repaired": 1,
+      "events_mirror_band": 0,
+      "events_mirror_reader": 1,
+      "events_returns": 2,
+      "events_shifts": 6,
+      "isolated_bars": 9,
+      "isolated_pp": 0.2456,
+      "isolated_pp_unpaid": 0.0826,
+      "isolated_share": 0.1071,
+      "mirror_bars": 1,
+      "month_end_bars": 5,
+      "name": "短融ETF海富通",
+      "pair_bars": 8,
+      "pair_pp": 0.0059,
+      "share_reason": "isolated_pp / arith_pp",
+      "sigma_repaired_bp": 3.214,
+      "sigma_without_jumps_bp": 1.841
+    },
+    {
+      "arith_pp": 2.5133,
+      "bars": 1540,
+      "biggest_event": {
+        "date": "2026-09-18",
+        "mirror_date": null,
+        "mirror_source": null,
+        "move_bp": -41.06,
+        "shape": "SHIFTS"
+      },
+      "biggest_isolated_bp": 41.06,
+      "biggest_mirror_event": null,
+      "cagr_repaired_pct": 2.5327,
+      "cagr_without_jumps_pct": 2.4684,
+      "carry_from_jumps_pp": 0.0643,
+      "carry_ruler_applies": true,
+      "class": "bond",
+      "code": "511010",
+      "events_already_repaired": 0,
+      "events_mirror_band": 0,
+      "events_mirror_reader": 0,
+      "events_returns": 16,
+      "events_shifts": 20,
+      "isolated_bars": 36,
+      "isolated_pp": 0.0633,
+      "isolated_pp_unpaid": 0.0643,
+      "isolated_share": 0.0252,
+      "mirror_bars": 0,
+      "month_end_bars": 2,
+      "name": "国债ETF国泰",
+      "pair_bars": 18,
+      "pair_pp": -0.0343,
+      "share_reason": "isolated_pp / arith_pp",
+      "sigma_repaired_bp": 9.954,
+      "sigma_without_jumps_bp": 9.704
+    }
+  ],
+  "question": "On the r2050-repaired series, how much of a money ETF's annualised carry comes from isolated sub-band jumps (bars of 5bp or more whose two neighbours move less than 2bp), and how much of the residual sigma do those bars explain?",
+  "rows": [
+    {
+      "arith_pp": 0.3399,
+      "band_repaired_bars": 5,
+      "bars": 1537,
+      "biggest_event": {
+        "date": "2022-09-30",
+        "mirror_date": "2022-10-10",
+        "mirror_source": "reader",
+        "move_bp": 94.11,
+        "shape": "MIRROR_READER"
+      },
+      "biggest_isolated_bp": 94.11,
+      "biggest_mirror_event": {
+        "date": "2022-09-30",
+        "mirror_date": "2022-10-10",
+        "mirror_source": "reader",
+        "move_bp": 94.11,
+        "shape": "MIRROR_READER"
+      },
+      "cagr_repaired_pct": 0.3369,
+      "cagr_without_jumps_pct": 0.0768,
+      "carry_from_jumps_pp": 0.2601,
+      "code": "511600",
+      "events_already_repaired": 0,
+      "events_mirror_band": 0,
+      "events_mirror_reader": 3,
+      "events_returns": 5,
+      "events_shifts": 2,
+      "isolated_bars": 10,
+      "isolated_pp": 0.2607,
+      "isolated_pp_unpaid": 0.2601,
+      "isolated_share": 0.767,
+      "median_isolated_bp": 7.3,
+      "mirror_bars": 3,
+      "money_resets_removed": 7,
+      "month_end_bars": 2,
+      "name": "华安日日鑫ETF",
+      "pair_bars": 34,
+      "pair_events": 17,
+      "pair_pp": -0.0104,
+      "run_bars": 67,
+      "sigma_drop_pct": 17.27,
+      "sigma_repaired_bp": 5.401,
+      "sigma_without_jumps_bp": 4.468
+    },
+    {
+      "arith_pp": -0.0227,
+      "band_repaired_bars": 4,
+      "bars": 1364,
+      "biggest_event": {
+        "date": "2022-06-24",
+        "mirror_date": null,
+        "mirror_source": null,
+        "move_bp": 33.6,
+        "shape": "RETURNS"
+      },
+      "biggest_isolated_bp": 33.6,
+      "biggest_mirror_event": {
+        "date": "2023-01-13",
+        "mirror_date": "2023-01-17",
+        "mirror_source": "reader",
+        "move_bp": 29.97,
+        "shape": "MIRROR_READER"
+      },
+      "cagr_repaired_pct": -0.0247,
+      "cagr_without_jumps_pct": -0.1296,
+      "carry_from_jumps_pp": 0.1049,
+      "code": "511620",
+      "events_already_repaired": 0,
+      "events_mirror_band": 0,
+      "events_mirror_reader": 2,
+      "events_returns": 4,
+      "events_shifts": 3,
+      "isolated_bars": 9,
+      "isolated_pp": 0.1052,
+      "isolated_pp_unpaid": 0.1049,
+      "isolated_share": null,
+      "median_isolated_bp": 7.3,
+      "mirror_bars": 2,
+      "money_resets_removed": 4,
+      "month_end_bars": 1,
+      "name": "货币ETF国泰",
+      "pair_bars": 26,
+      "pair_events": 13,
+      "pair_pp": 0.0071,
+      "run_bars": 53,
+      "sigma_drop_pct": 6.52,
+      "sigma_repaired_bp": 4.096,
+      "sigma_without_jumps_bp": 3.829
+    },
+    {
+      "arith_pp": 0.0449,
+      "band_repaired_bars": 8,
+      "bars": 1207,
+      "biggest_event": {
+        "date": "2022-04-19",
+        "mirror_date": "2022-04-15",
+        "mirror_source": "band",
+        "move_bp": -18.66,
+        "shape": "MIRROR_BAND"
+      },
+      "biggest_isolated_bp": 18.66,
+      "biggest_mirror_event": {
+        "date": "2022-04-19",
+        "mirror_date": "2022-04-15",
+        "mirror_source": "band",
+        "move_bp": -18.66,
+        "shape": "MIRROR_BAND"
+      },
+      "cagr_repaired_pct": 0.042,
+      "cagr_without_jumps_pct": -0.0082,
+      "carry_from_jumps_pp": 0.0502,
+      "code": "511670",
+      "events_already_repaired": 0,
+      "events_mirror_band": 1,
+      "events_mirror_reader": 3,
+      "events_returns": 4,
+      "events_shifts": 1,
+      "isolated_bars": 9,
+      "isolated_pp": 0.0503,
+      "isolated_pp_unpaid": 0.0502,
+      "isolated_share": null,
+      "median_isolated_bp": 9.59,
+      "mirror_bars": 4,
+      "money_resets_removed": 7,
+      "month_end_bars": 1,
+      "name": "华泰天天金ETF",
+      "pair_bars": 38,
+      "pair_events": 19,
+      "pair_pp": 0.0054,
+      "run_bars": 96,
+      "sigma_drop_pct": 2.02,
+      "sigma_repaired_bp": 5.193,
+      "sigma_without_jumps_bp": 5.088
+    },
+    {
+      "arith_pp": 0.6229,
+      "band_repaired_bars": 10,
+      "bars": 1204,
+      "biggest_event": {
+        "date": "2021-10-14",
+        "mirror_date": "2021-08-10",
+        "mirror_source": "reader",
+        "move_bp": 81.8,
+        "shape": "MIRROR_READER"
+      },
+      "biggest_isolated_bp": 81.8,
+      "biggest_mirror_event": {
+        "date": "2021-10-14",
+        "mirror_date": "2021-08-10",
+        "mirror_source": "reader",
+        "move_bp": 81.8,
+        "shape": "MIRROR_READER"
+      },
+      "cagr_repaired_pct": 0.6163,
+      "cagr_without_jumps_pct": 0.255,
+      "carry_from_jumps_pp": 0.3613,
+      "code": "511770",
+      "events_already_repaired": 0,
+      "events_mirror_band": 4,
+      "events_mirror_reader": 8,
+      "events_returns": 8,
+      "events_shifts": 1,
+      "isolated_bars": 21,
+      "isolated_pp": 0.3613,
+      "isolated_pp_unpaid": 0.3613,
+      "isolated_share": 0.58,
+      "median_isolated_bp": 9.99,
+      "mirror_bars": 12,
+      "money_resets_removed": 16,
+      "month_end_bars": 2,
+      "name": "金鹰增益货币ETF",
+      "pair_bars": 46,
+      "pair_events": 23,
+      "pair_pp": 0.0888,
+      "run_bars": 192,
+      "sigma_drop_pct": 9.41,
+      "sigma_repaired_bp": 9.488,
+      "sigma_without_jumps_bp": 8.595
+    },
+    {
+      "arith_pp": 0.7327,
+      "band_repaired_bars": 3,
+      "bars": 1382,
+      "biggest_event": {
+        "date": "2023-05-11",
+        "mirror_date": "2023-05-10",
+        "mirror_source": "reader",
+        "move_bp": 407.54,
+        "shape": "MIRROR_READER"
+      },
+      "biggest_isolated_bp": 407.54,
+      "biggest_mirror_event": {
+        "date": "2023-05-11",
+        "mirror_date": "2023-05-10",
+        "mirror_source": "reader",
+        "move_bp": 407.54,
+        "shape": "MIRROR_READER"
+      },
+      "cagr_repaired_pct": 0.7193,
+      "cagr_without_jumps_pct": 0.0708,
+      "carry_from_jumps_pp": 0.6485,
+      "code": "511820",
+      "events_already_repaired": 0,
+      "events_mirror_band": 0,
+      "events_mirror_reader": 1,
+      "events_returns": 3,
+      "events_shifts": 1,
+      "isolated_bars": 5,
+      "isolated_pp": 0.6588,
+      "isolated_pp_unpaid": 0.6485,
+      "isolated_share": 0.8991,
+      "median_isolated_bp": 18.0,
+      "mirror_bars": 1,
+      "money_resets_removed": 4,
+      "month_end_bars": 1,
+      "name": "鹏华添利ETF",
+      "pair_bars": 48,
+      "pair_events": 24,
+      "pair_pp": 0.0001,
+      "run_bars": 105,
+      "sigma_drop_pct": 55.88,
+      "sigma_repaired_bp": 12.252,
+      "sigma_without_jumps_bp": 5.405
+    },
+    {
+      "arith_pp": 0.4042,
+      "band_repaired_bars": 4,
+      "bars": 1045,
+      "biggest_event": {
+        "date": "2021-04-30",
+        "mirror_date": "2021-05-06",
+        "mirror_source": "reader",
+        "move_bp": 93.39,
+        "shape": "MIRROR_READER"
+      },
+      "biggest_isolated_bp": 93.39,
+      "biggest_mirror_event": {
+        "date": "2021-04-30",
+        "mirror_date": "2021-05-06",
+        "mirror_source": "reader",
+        "move_bp": 93.39,
+        "shape": "MIRROR_READER"
+      },
+      "cagr_repaired_pct": 0.4001,
+      "cagr_without_jumps_pct": 0.0997,
+      "carry_from_jumps_pp": 0.3004,
+      "code": "511910",
+      "events_already_repaired": 0,
+      "events_mirror_band": 4,
+      "events_mirror_reader": 5,
+      "events_returns": 3,
+      "events_shifts": 0,
+      "isolated_bars": 12,
+      "isolated_pp": 0.3011,
+      "isolated_pp_unpaid": 0.3004,
+      "isolated_share": 0.7449,
+      "median_isolated_bp": 10.8,
+      "mirror_bars": 9,
+      "money_resets_removed": 6,
+      "month_end_bars": 2,
+      "name": "融通货币ETF",
+      "pair_bars": 54,
+      "pair_events": 27,
+      "pair_pp": -0.0019,
+      "run_bars": 162,
+      "sigma_drop_pct": 16.17,
+      "sigma_repaired_bp": 7.737,
+      "sigma_without_jumps_bp": 6.486
+    },
+    {
+      "arith_pp": 1.9433,
+      "band_repaired_bars": 5,
+      "bars": 1461,
+      "biggest_event": {
+        "date": "2021-10-20",
+        "mirror_date": "2021-10-19",
+        "mirror_source": "reader",
+        "move_bp": 989.55,
+        "shape": "MIRROR_READER"
+      },
+      "biggest_isolated_bp": 989.55,
+      "biggest_mirror_event": {
+        "date": "2021-10-20",
+        "mirror_date": "2021-10-19",
+        "mirror_source": "reader",
+        "move_bp": 989.55,
+        "shape": "MIRROR_READER"
+      },
+      "cagr_repaired_pct": 1.8842,
+      "cagr_without_jumps_pct": 0.0901,
+      "carry_from_jumps_pp": 1.7941,
+      "code": "511920",
+      "events_already_repaired": 0,
+      "events_mirror_band": 0,
+      "events_mirror_reader": 4,
+      "events_returns": 7,
+      "events_shifts": 2,
+      "isolated_bars": 13,
+      "isolated_pp": 1.85,
+      "isolated_pp_unpaid": 1.7941,
+      "isolated_share": 0.952,
+      "median_isolated_bp": 19.56,
+      "mirror_bars": 4,
+      "money_resets_removed": 7,
+      "month_end_bars": 1,
+      "name": "货币ETF广发",
+      "pair_bars": 40,
+      "pair_events": 20,
+      "pair_pp": 0.0124,
+      "run_bars": 105,
+      "sigma_drop_pct": 80.02,
+      "sigma_repaired_bp": 26.572,
+      "sigma_without_jumps_bp": 5.308
+    },
+    {
+      "arith_pp": 2.7036,
+      "band_repaired_bars": 7,
+      "bars": 1193,
+      "biggest_event": {
+        "date": "2021-01-06",
+        "mirror_date": "2021-01-04",
+        "mirror_source": "reader",
+        "move_bp": 330.58,
+        "shape": "MIRROR_READER"
+      },
+      "biggest_isolated_bp": 330.58,
+      "biggest_mirror_event": {
+        "date": "2021-01-06",
+        "mirror_date": "2021-01-04",
+        "mirror_source": "reader",
+        "move_bp": 330.58,
+        "shape": "MIRROR_READER"
+      },
+      "cagr_repaired_pct": 2.6504,
+      "cagr_without_jumps_pct": 1.8257,
+      "carry_from_jumps_pp": 0.8247,
+      "code": "511930",
+      "events_already_repaired": 0,
+      "events_mirror_band": 0,
+      "events_mirror_reader": 4,
+      "events_returns": 4,
+      "events_shifts": 0,
+      "isolated_bars": 8,
+      "isolated_pp": 0.8164,
+      "isolated_pp_unpaid": 0.8247,
+      "isolated_share": 0.302,
+      "median_isolated_bp": 42.22,
+      "mirror_bars": 4,
+      "money_resets_removed": 8,
+      "month_end_bars": 1,
+      "name": "货币ETF国联",
+      "pair_bars": 48,
+      "pair_events": 24,
+      "pair_pp": 0.1003,
+      "run_bars": 121,
+      "sigma_drop_pct": 5.47,
+      "sigma_repaired_bp": 31.4,
+      "sigma_without_jumps_bp": 29.681
+    },
+    {
+      "arith_pp": 1.3644,
+      "band_repaired_bars": 10,
+      "bars": 1190,
+      "biggest_event": {
+        "date": "2021-10-12",
+        "mirror_date": "2021-10-08",
+        "mirror_source": "reader",
+        "move_bp": 86.59,
+        "shape": "MIRROR_READER"
+      },
+      "biggest_isolated_bp": 86.59,
+      "biggest_mirror_event": {
+        "date": "2021-10-12",
+        "mirror_date": "2021-10-08",
+        "mirror_source": "reader",
+        "move_bp": 86.59,
+        "shape": "MIRROR_READER"
+      },
+      "cagr_repaired_pct": 1.359,
+      "cagr_without_jumps_pct": 0.92,
+      "carry_from_jumps_pp": 0.439,
+      "code": "511950",
+      "events_already_repaired": 0,
+      "events_mirror_band": 8,
+      "events_mirror_reader": 10,
+      "events_returns": 2,
+      "events_shifts": 1,
+      "isolated_bars": 21,
+      "isolated_pp": 0.4367,
+      "isolated_pp_unpaid": 0.439,
+      "isolated_share": 0.3201,
+      "median_isolated_bp": 16.97,
+      "mirror_bars": 18,
+      "money_resets_removed": 21,
+      "month_end_bars": 1,
+      "name": "添利货币ETF广发",
+      "pair_bars": 40,
+      "pair_events": 20,
+      "pair_pp": 0.1249,
+      "run_bars": 237,
+      "sigma_drop_pct": 9.65,
+      "sigma_repaired_bp": 12.449,
+      "sigma_without_jumps_bp": 11.248
+    },
+    {
+      "arith_pp": 0.539,
+      "band_repaired_bars": 10,
+      "bars": 1228,
+      "biggest_event": {
+        "date": "2023-03-17",
+        "mirror_date": "2023-03-15",
+        "mirror_source": "reader",
+        "move_bp": 130.79,
+        "shape": "MIRROR_READER"
+      },
+      "biggest_isolated_bp": 130.79,
+      "biggest_mirror_event": {
+        "date": "2023-03-17",
+        "mirror_date": "2023-03-15",
+        "mirror_source": "reader",
+        "move_bp": 130.79,
+        "shape": "MIRROR_READER"
+      },
+      "cagr_repaired_pct": 0.5358,
+      "cagr_without_jumps_pct": 0.2331,
+      "carry_from_jumps_pp": 0.3026,
+      "code": "511960",
+      "events_already_repaired": 0,
+      "events_mirror_band": 3,
+      "events_mirror_reader": 4,
+      "events_returns": 3,
+      "events_shifts": 0,
+      "isolated_bars": 10,
+      "isolated_pp": 0.3032,
+      "isolated_pp_unpaid": 0.3026,
+      "isolated_share": 0.5625,
+      "median_isolated_bp": 10.69,
+      "mirror_bars": 7,
+      "money_resets_removed": 11,
+      "month_end_bars": 0,
+      "name": "货币ETF嘉实",
+      "pair_bars": 44,
+      "pair_events": 22,
+      "pair_pp": 0.002,
+      "run_bars": 102,
+      "sigma_drop_pct": 20.26,
+      "sigma_repaired_bp": 6.951,
+      "sigma_without_jumps_bp": 5.543
+    },
+    {
+      "arith_pp": 0.7356,
+      "band_repaired_bars": 7,
+      "bars": 1053,
+      "biggest_event": {
+        "date": "2022-04-29",
+        "mirror_date": "2022-05-05",
+        "mirror_source": "reader",
+        "move_bp": 98.71,
+        "shape": "MIRROR_READER"
+      },
+      "biggest_isolated_bp": 98.71,
+      "biggest_mirror_event": {
+        "date": "2022-04-29",
+        "mirror_date": "2022-05-05",
+        "mirror_source": "reader",
+        "move_bp": 98.71,
+        "shape": "MIRROR_READER"
+      },
+      "cagr_repaired_pct": 0.7309,
+      "cagr_without_jumps_pct": 0.3087,
+      "carry_from_jumps_pp": 0.4222,
+      "code": "511970",
+      "events_already_repaired": 0,
+      "events_mirror_band": 4,
+      "events_mirror_reader": 7,
+      "events_returns": 3,
+      "events_shifts": 5,
+      "isolated_bars": 19,
+      "isolated_pp": 0.4226,
+      "isolated_pp_unpaid": 0.4222,
+      "isolated_share": 0.5745,
+      "median_isolated_bp": 12.4,
+      "mirror_bars": 11,
+      "money_resets_removed": 11,
+      "month_end_bars": 4,
+      "name": "国寿货币ETF",
+      "pair_bars": 42,
+      "pair_events": 21,
+      "pair_pp": 0.0017,
+      "run_bars": 158,
+      "sigma_drop_pct": 19.53,
+      "sigma_repaired_bp": 9.423,
+      "sigma_without_jumps_bp": 7.583
+    }
+  ],
+  "ruler": {
+    "annualisation": "cash_shelf_year_by_year.bars_per_year x arithmetic mean (exactly additive across bar subsets)",
+    "boundary_rule": "a neighbour outside the window counts as quiet",
+    "jump_lo_bp": 5.0,
+    "min_denominator_pp": 0.05,
+    "no_entry_cost": true,
+    "published_reader": "etf_book_cash_vehicle.consolidation_returns (drops deeper than -50bp booked at zero)",
+    "quiet_bp": 2.0,
+    "return_tolerance_bp": 2.0,
+    "return_window_bars": 20,
+    "shape_buckets": [
+      {
+        "bucket": "quiet_lt_2bp",
+        "hi_bp": 2.0,
+        "lo_bp": 0.0
+      },
+      {
+        "bucket": "stair_2_5bp",
+        "hi_bp": 5.0,
+        "lo_bp": 2.0
+      },
+      {
+        "bucket": "jump_5_25bp",
+        "hi_bp": 25.0,
+        "lo_bp": 5.0
+      },
+      {
+        "bucket": "jump_25_100bp",
+        "hi_bp": 100.0,
+        "lo_bp": 25.0
+      },
+      {
+        "bucket": "huge_ge_100bp",
+        "hi_bp": null,
+        "lo_bp": 100.0
+      }
+    ],
+    "sigma": "cash_shelf_flip_census.sigma_bp",
+    "upstream_repair": "money_premium_carry_audit.find_breaches + repaired_rets (1% band around the 20-bar trailing median, booked at zero)"
+  },
+  "schema": "money_subband_jump_audit/v1",
+  "tags": [
+    "THE_BOOK_LEGS_SURVIVE",
+    "A_MEASURED_JUMP_WAS_ALREADY_REPAIRED",
+    "EVERY_NAMED_INSTRUMENT_HAS_SUB_BAND_JUMPS",
+    "CARRY_IS_TOO_THIN_FOR_A_SHARE"
+  ],
+  "top_isolated_events": [
+    {
+      "code": "511920",
+      "date": "2021-10-20",
+      "mirror_date": "2021-10-19",
+      "move_bp": 989.55,
+      "name": "货币ETF广发",
+      "shape": "MIRROR_READER"
+    },
+    {
+      "code": "511820",
+      "date": "2023-05-11",
+      "mirror_date": "2023-05-10",
+      "move_bp": 407.54,
+      "name": "鹏华添利ETF",
+      "shape": "MIRROR_READER"
+    },
+    {
+      "code": "511930",
+      "date": "2021-01-06",
+      "mirror_date": "2021-01-04",
+      "move_bp": 330.58,
+      "name": "货币ETF国联",
+      "shape": "MIRROR_READER"
+    },
+    {
+      "code": "511960",
+      "date": "2023-03-17",
+      "mirror_date": "2023-03-15",
+      "move_bp": 130.79,
+      "name": "货币ETF嘉实",
+      "shape": "MIRROR_READER"
+    },
+    {
+      "code": "511360",
+      "date": "2023-09-11",
+      "mirror_date": "2023-09-08",
+      "move_bp": 101.41,
+      "name": "短融ETF海富通",
+      "shape": "MIRROR_READER"
+    },
+    {
+      "code": "511970",
+      "date": "2022-04-29",
+      "mirror_date": "2022-05-05",
+      "move_bp": 98.71,
+      "name": "国寿货币ETF",
+      "shape": "MIRROR_READER"
+    },
+    {
+      "code": "511600",
+      "date": "2022-09-30",
+      "mirror_date": "2022-10-10",
+      "move_bp": 94.11,
+      "name": "华安日日鑫ETF",
+      "shape": "MIRROR_READER"
+    },
+    {
+      "code": "511910",
+      "date": "2021-04-30",
+      "mirror_date": "2021-05-06",
+      "move_bp": 93.39,
+      "name": "融通货币ETF",
+      "shape": "MIRROR_READER"
+    },
+    {
+      "code": "511970",
+      "date": "2025-02-10",
+      "mirror_date": "2025-02-06",
+      "move_bp": 89.0,
+      "name": "国寿货币ETF",
+      "shape": "MIRROR_READER"
+    },
+    {
+      "code": "511930",
+      "date": "2023-12-12",
+      "mirror_date": "2023-12-11",
+      "move_bp": 87.36,
+      "name": "货币ETF国联",
+      "shape": "MIRROR_READER"
+    }
+  ],
+  "upstream": {
+    "census": {
+      "path": "results/cash_shelf_flip_census.json",
+      "sha256": "c4ba1e9ba890788c7557de686b3c9d0538a980e442d320890813a89b5e8177a6"
+    },
+    "premium": {
+      "path": "results/money_premium_carry_audit.json",
+      "sha256": "0e46435556b4d26f1aa24646163cfcef53d5d07a0b2203c3fa38558197b926ae",
+      "verdict": "PREMIUM_IS_NOT_CARRY"
+    },
+    "shelf": {
+      "path": "results/cash_shelf_year_by_year.json",
+      "sha256": "eecc3543562891581724e05975276edd3f270641777e299cd8463be7f7d10b0e"
+    }
+  },
+  "verdict": "SUB_BAND_JUMPS_ARE_THE_CARRY",
+  "verdict_of_median_share": {
+    "half_share_at": 0.5,
+    "median": 0.58,
+    "part_share_at": 0.2
+  },
+  "window": {
+    "end": "2026-11-20",
+    "start": "2020-07-16"
+  }
+}

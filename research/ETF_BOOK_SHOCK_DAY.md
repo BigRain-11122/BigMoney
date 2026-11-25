@@ -1,17 +1,17 @@
 # ETF book -- what a market gap actually costs
 
-Evidence cutoff 2026-11-20 · rule beta target 0.20 · rebalance 20 bars · cost 8.0 bp/side
+Evidence cutoff 2026-11-24 · rule beta target 0.20 · rebalance 20 bars · cost 8.0 bp/side
 
 ## The answer
 
-the book's realized beta to 510300 is 0.12 over its whole history and 0.21 on the last 250 bars (the ticket trades to 0.20) -- on the 20 worst index days the book averaged -0.47% while the index averaged -3.87%, so an index gap costs that beta's share of the shock, never the deployed share
+the book's realized beta to 510300 is 0.12 over its whole history and 0.22 on the last 250 bars (the ticket trades to 0.20) -- on the 20 worst index days the book averaged -0.47% while the index averaged -3.87%, so an index gap costs that beta's share of the shock, never the deployed share
 
 ## Realized beta
 
 | window | bars | beta |
 | --- | --- | --- |
-| full history | 1540 | 0.1214 |
-| last 250 bars | 250 | 0.2146 |
+| full history | 1542 | 0.1214 |
+| last 250 bars | 250 | 0.2171 |
 
 Verdict: **BETA_MATCHED** (band 0.10..0.30).
 
@@ -43,7 +43,7 @@ Mean on those days: index -3.87% / book -0.47% (ratio 0.121) · book worst -1.96
 
 ## Tomorrow, in money
 
-Priced on results/etf_book_order/TICKET-2026-11-20.json: NAV +1,000,000 CNY, deployed +434,754 CNY (43.5%), cash +565,246 CNY.
+Priced on results/etf_book_order/TICKET-2026-11-24.json: NAV +1,000,000 CNY, deployed +434,724 CNY (43.5%), cash +565,276 CNY.
 
 | index gaps | book returns | costs you | the naive 'shock x deployed' |
 | --- | --- | --- | --- |

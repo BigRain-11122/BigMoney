@@ -1,0 +1,56 @@
+{
+ "id": "census_bond_futures",
+ "type": "census",
+ "products": [
+  "T",
+  "TF",
+  "TS"
+ ],
+ "grid": [
+  {
+   "rule": "tsmom",
+   "params": {
+    "lookback": 60,
+    "skip": 21
+   },
+   "long_only": true
+  },
+  {
+   "rule": "tsmom",
+   "params": {
+    "lookback": 120,
+    "skip": 21
+   },
+   "long_only": true
+  },
+  {
+   "rule": "tsmom",
+   "params": {
+    "lookback": 250,
+    "skip": 21
+   },
+   "long_only": true
+  },
+  {
+   "rule": "ma_cross",
+   "params": {
+    "fast": 20,
+    "slow": 60
+   },
+   "long_only": true
+  },
+  {
+   "rule": "ma_cross",
+   "params": {
+    "fast": 50,
+    "slow": 200
+   },
+   "long_only": true
+  }
+ ],
+ "cost_bp_side": 1.5,
+ "target_vol": 0.06,
+ "split": "2024-01-01",
+ "crit": {},
+ "target_edge_pp": 5.0
+}

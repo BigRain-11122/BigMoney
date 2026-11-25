@@ -1,62 +1,65 @@
-# ETF book -- production candidate, order sheet (holdings decided 2026-11-11, priced 2026-11-20)
+# ETF book -- production candidate, order sheet (holdings decided 2026-11-11, priced 2026-11-24)
 
-Config: 12 names of a 1528-instrument bond-free pool, rebalance every 20 bars, 10 bp/side, 8% vol target (de-lever only).
+Config: 12 names of a 1531-instrument bond-free pool, rebalance every 20 bars, 10 bp/side, 8% vol target (de-lever only).
 
 | window | CAGR | Sharpe | max drawdown | realised vol | target |
 |---|---|---|---|---|---|
-| 2020-01 onwards -- as coded | 9.2% | 0.95 | -11.8% | 10.2% | 8% (1.27x) |
-| 2020-01 onwards -- declared fill (close t -> open t+1) | 8.2% | 0.85 | -16.6% | 10.3% | 8% (1.28x) |
+| 2020-01 onwards -- as coded | 9.1% | 0.94 | -11.8% | 10.2% | 8% (1.28x) |
+| 2020-01 onwards -- declared fill (close t -> open t+1) | 8.1% | 0.84 | -16.6% | 10.3% | 8% (1.28x) |
 | 2020-2023 -- as coded | 3.8% | 0.44 | -11.8% | 10.0% | 8% (1.25x) |
-| 2024 onwards -- as coded | 17.0% | 1.62 | -10.7% | 10.5% | 8% (1.31x) |
+| 2024 onwards -- as coded | 17.0% | 1.61 | -10.7% | 10.5% | 8% (1.31x) |
 
-**This card is the research basket, not today's ticket.** It ranks 12 names under the vol rule; the ticket priced on the 2026-11-20 bar buys **5 of the same names** under the beta rule at k=0.4350 (-0.75pp/yr apart on the same panel). Size from the ticket and read this card as the rule behind it -- results/etf_book_order/latest.json.
+**This card is the research basket, not today's ticket.** It ranks 12 names under the vol rule; the ticket priced on the 2026-11-24 bar buys **5 of the same names** under the beta rule at k=0.4350 (-0.75pp/yr apart on the same panel). Size from the ticket and read this card as the rule behind it -- results/etf_book_order/latest.json.
 
 Row 1 is the engine as coded (score off bar d's close, paid bar d's *open*); row 2 is the same rule with the score held one bar back -- the fill this card declares. Size off row 2.
 
-**Execution basis: the as-coded row is the arm this book cannot actually trade.** It ranks on bar d's close and is paid bar d's *open* -- a price set before the information it ranks on. The fill the card itself declares (*decide at close t, fill at open t+1*) earns **8.19%/yr, Sharpe 0.85, max drawdown -16.6%**, i.e. 0.97pp/yr below the printed cell; size positions off the declared arm and read the printed one as an upper bound the desk cannot reach.
+**Execution basis: the as-coded row is the arm this book cannot actually trade.** It ranks on bar d's close and is paid bar d's *open* -- a price set before the information it ranks on. The fill the card itself declares (*decide at close t, fill at open t+1*) earns **8.10%/yr, Sharpe 0.84, max drawdown -16.6%**, i.e. 1.04pp/yr below the printed cell; size positions off the declared arm and read the printed one as an upper bound the desk cannot reach.
 
-**Vol label vs delivered risk: target 8% -> delivered 10.2% over the full window (1.27x).** The overlay only de-levers, so a sleeve sized on its own backward vol can run hotter than 8%; read the risk column, not the label.
+**Vol label vs delivered risk: target 8% -> delivered 10.2% over the full window (1.28x).** The overlay only de-levers, so a sleeve sized on its own backward vol can run hotter than 8%; read the risk column, not the label.
 
 
-**Feed: current** -- priced on the 2026-11-20 bar; the official calendar expects 2026-11-20 (lag 0 official day(s)).
+**Feed: current** -- priced on the 2026-11-24 bar; the official calendar expects 2026-11-24 (lag 0 official day(s)).
 
-**Price basis:** 本面的数字算在**已修复**的面板上：**169 处**单日超过 35% 的报价翻转（份额变动被读成暴跌，涉及 159 只票）在任何测量之前都已抹平为 0% 日（`etf_equity_alpha.repair_flips`）。本面板 1637 列。修与不修的差额已单独立面：results/etf_book_flip_contamination.json。
+**Price basis:** 本面的数字算在**已修复**的面板上：**169 处**单日超过 35% 的报价翻转（份额变动被读成暴跌，涉及 159 只票）在任何测量之前都已抹平为 0% 日（`etf_equity_alpha.repair_flips`）。本面板 1640 列。修与不修的差额已单独立面：results/etf_book_flip_contamination.json。
 
-**Panel digest:** `2e875bf4876e25e5` (5285 bars x 1637 symbols, 2005-02-23->2026-11-20, covers close/open/amount) -- the executable sheet and the forward ledger print the same fingerprint only when all three priced one panel, on the same blocks.
+**Panel digest:** `706c06e09a2cc87d` (5287 bars x 1640 symbols, 2005-02-23->2026-11-24, covers close/open/amount) -- the executable sheet and the forward ledger print the same fingerprint only when all three priced one panel, on the same blocks.
 
-**Priced day: SAME_DAY** -- card 2026-11-20 / ticket 2026-11-20 / page 2026-11-20 (compared at 2026-11-22 18:57:37); this card, the executable sheet and the CEO page all priced the same closing bar.
+**Priced day: DIFFERENT_DAYS** -- card 2026-11-24 / ticket 2026-11-24 / page 2026-11-20 (compared at 2026-11-24 18:35:57); priced on different bars: card 2026-11-24 / ticket 2026-11-24 / page 2026-11-20. A reader comparing numbers across these papers is comparing two different books, so read the lagging one only as history.
 
-**Family coherence: ONE_WORLD** -- all 10 width arms priced `2e875bf4876e25e5` (cutoff 2026-11-20); the verdicts that license this card's width are measurements on one panel.
+**Family coherence: MIXED_WORLDS** -- 11 faces priced 2 different panels (2e875bf4, 706c06e0): per-cell deltas across worlds are world differences, not rule effects.
+2 of 10 arms priced the card's own panel and keep their labels (buffer_k02, buffer_k05); the 8 withheld one(s) still price another panel (buffer_k05_cost20, buffer_k10, buffer_k20, buffer_k40, cost0, cost05, cost20, cost40), so their verdicts are not part of this reading.
 
 **Label null: 96.5% REJECT** -- the same rule called an effect-free panel REJECT in that share of 20000 trials, so a published REJECT carries almost no information; the rare branch (NOT-SEPARABLE 3.5%, ADOPT 0.0%) is the one that reads.
 
-**Width floor: an extrapolation, and its own test point refutes it.** The name count comes from continuing a fitted line past its last measured arm; priced at the unseen k=0.30 the line predicted +0.298pp and the arm's own cells said +0.645pp -- gap 0.347pp against a 0.057pp tolerance, so the read-back face publishes REFUTED. Read the width as an extrapolation with no support at that distance, not as a measurement.
+The null was simulated on 2026-11-20; these arm faces price 2026-11-24 -- do not read the frequency as today's.
 
-**Today (2026-11-20 bar): HOLD: 13 bars until the next decision point** (last grid decision 2026-11-11).
+**Width floor: an extrapolation, and its own test point refutes it.** The name count comes from continuing a fitted line past its last measured arm; priced at the unseen k=0.30 the line predicted +0.298pp and the arm's own cells said +0.470pp -- gap 0.172pp against a 0.057pp tolerance, so the read-back face publishes REFUTED. Read the width as an extrapolation with no support at that distance, not as a measurement.
+
+**Today (2026-11-24 bar): HOLD: 11 bars until the next decision point** (last grid decision 2026-11-11).
 
 Realised 60d book vol 8.8% -> risk scale 0.91, cash slot 9.1%.
 
 | code | name | sleeve | weight | target (CNY) | executable (CNY) | 100-share lots |
 |---|---|---|---|---|---|---|
-| 510760 | 上证指数ETF国泰 | equity | 7.6% | 75,782 | 75,768 | 61700 |
-| 512040 | 价值ETF富国 | equity | 7.6% | 75,782 | 75,712 | 64000 |
-| 159655 | 标普500ETF华夏 | equity | 7.6% | 75,782 | 75,643 | 40800 |
-| 513690 | 港股红利ETF博时 | equity | 7.6% | 75,782 | 75,776 | 67900 |
-| 159519 | 港股国企ETF国泰 | equity | 7.6% | 75,782 | 75,739 | 44500 |
-| 513650 | 标普500ETF南方 | equity | 7.6% | 75,782 | 75,727 | 41000 |
-| 510210 | 上证指数ETF富国 | equity | 7.6% | 75,782 | 75,753 | 82700 |
-| 562060 | 标普A股红利ETF华宝 | equity | 7.6% | 75,782 | 75,768 | 123200 |
-| 513630 | 港股低波红利ETF摩根 | equity | 7.6% | 75,782 | 75,674 | 48200 |
-| 159207 | 高股息ETF广发 | equity | 7.6% | 75,782 | 75,688 | 62500 |
-| 511180 | 可转债ETF海富通 | convertible | 7.6% | 75,782 | 75,596 | 6900 |
-| 513500 | 标普500ETF博时 | equity | 7.6% | 75,782 | 75,704 | 30600 |
-| cash | - | money | 9.1% | 90,616 | 91,452 | - |
+| 510760 | 上证指数ETF国泰 | equity | 7.6% | 75,782 | 75,706 | 61400 |
+| 512040 | 价值ETF富国 | equity | 7.6% | 75,782 | 75,681 | 64300 |
+| 159655 | 标普500ETF华夏 | equity | 7.6% | 75,782 | 75,730 | 39900 |
+| 513690 | 港股红利ETF博时 | equity | 7.6% | 75,782 | 75,776 | 68700 |
+| 159519 | 港股国企ETF国泰 | equity | 7.6% | 75,782 | 75,723 | 45100 |
+| 513650 | 标普500ETF南方 | equity | 7.6% | 75,782 | 75,749 | 40100 |
+| 510210 | 上证指数ETF富国 | equity | 7.6% | 75,782 | 75,706 | 82200 |
+| 562060 | 标普A股红利ETF华宝 | equity | 7.6% | 75,782 | 75,750 | 125000 |
+| 513630 | 港股低波红利ETF摩根 | equity | 7.6% | 75,782 | 75,697 | 48900 |
+| 159207 | 高股息ETF广发 | equity | 7.6% | 75,782 | 75,731 | 63800 |
+| 511180 | 可转债ETF海富通 | convertible | 7.6% | 75,782 | 75,596 | 6800 |
+| 513500 | 标普500ETF博时 | equity | 7.6% | 75,782 | 75,587 | 29900 |
+| cash | - | money | 9.1% | 90,616 | 91,568 | - |
 
-**Which column is money.** A weight times capital is the sizing INTENT; only whole 100-share lots can be placed. So the executable column can only spend 908,548 of the 909,384 target book, and the desk keeps 836 (0.08% NAV) in cash that the risk scale never asked for -- that residue is the price of lot granularity, not a position. Place the executable column. Until r1342 this card printed the target column as if it were the order, which is why the ticket disagreed with it by 0.13% NAV (E201); the two faces now reconcile to the yuan.
+**Which column is money.** A weight times capital is the sizing INTENT; only whole 100-share lots can be placed. So the executable column can only spend 908,432 of the 909,384 target book, and the desk keeps 952 (0.10% NAV) in cash that the risk scale never asked for -- that residue is the price of lot granularity, not a position. Place the executable column. Until r1342 this card printed the target column as if it were the order, which is why the ticket disagreed with it by 0.13% NAV (E201); the two faces now reconcile to the yuan.
 
 ## Whose CAGR is this?
 
-The top three contributors are 159934 黄金ETF易方达 7.7%, 518800 黄金ETF国泰 7.7%, 159937 黄金ETF博时 7.3% of a 9.2%/yr book (their share of the gross return sum is 22.7%, HHI 0.02 across 189 names held). Delete those 3 names from the universe and the book's CAGR drops 1.97pp against this card, so the ranking is not only those names. Delete the whole commodity sleeve (41 ETFs) and the book's CAGR drops 3.67pp while the drawdown goes 10.5pp deeper -- the paying leg is also the cushion.
+The top three contributors are 159934 黄金ETF易方达 7.7%, 518800 黄金ETF国泰 7.7%, 159937 黄金ETF博时 7.3% of a 9.1%/yr book (their share of the gross return sum is 22.7%, HHI 0.02 across 189 names held). Delete those 3 names from the universe and the book's CAGR drops 1.96pp against this card, so the ranking is not only those names. Delete the whole commodity sleeve (41 ETFs) and the book's CAGR drops 3.66pp while the drawdown goes 10.5pp deeper -- the paying leg is also the cushion.
 
 Read the headline above as the return of a book built like this, not as the return of the ranking rule alone. See results/etf_book_concentration.json.
 
@@ -66,7 +69,7 @@ No sleeve-level gate earns adoption: switching the sleeve off on trend 25%, vol 
 
 | gate | sleeve switched off | CAGR vs card | max drawdown vs card | verdict |
 |---|---|---|---|---|
-| trend | 21/84 decisions (25.0%) | -0.32pp | -2.77pp | NO_GATE |
+| trend | 21/84 decisions (25.0%) | -0.31pp | -2.77pp | NO_GATE |
 | vol | 25/84 decisions (29.8%) | +0.02pp | +0.86pp | NO_GATE |
 | drawdown | 14/84 decisions (16.7%) | -0.18pp | -1.27pp | NO_GATE |
 
@@ -90,13 +93,13 @@ So the pre-2020 failure belongs to the bond-inclusive, unsized cell (-5.0%/yr) a
 
 ## What is left after the four betas
 
-Regressed on the four exposures an account could hold instead of this book (gold / Nasdaq-100 QDII / CSI300 / treasury bond, same execution basis, same cost), the book's daily returns leave an intercept of **+5.9%/yr with t=1.97** and R2=0.44, as of 2026-11-20. The equal-weight four-ETF basket itself returns 9.1%/yr at Sharpe 0.89 and worst drawdown -14.5%, against the book's 9.2%/yr, Sharpe 0.95 and -11.8%.
+Regressed on the four exposures an account could hold instead of this book (gold / Nasdaq-100 QDII / CSI300 / treasury bond, same execution basis, same cost), the book's daily returns leave an intercept of **+5.8%/yr with t=1.92** and R2=0.44, as of 2026-11-24. The equal-weight four-ETF basket itself returns 9.3%/yr at Sharpe 0.90 and worst drawdown -15.2%, against the book's 9.1%/yr, Sharpe 0.94 and -11.8%.
 
-Read that as **not distinguishable from a fixed loadings mix**, not as zero and not as proven skill: the in-sample half of the window prints t=1.16 and the out-of-sample half t=2.02, so the point estimate is carried by the later period and the line is a risk statement rather than a return one.
+Read that as **not distinguishable from a fixed loadings mix**, not as zero and not as proven skill: the in-sample half of the window prints t=1.16 and the out-of-sample half t=1.95, so the point estimate is carried by the later period and the line is a risk statement rather than a return one.
 
-The single arm that out-earns the book is gold (11.4%/yr) at a -38.6% drawdown -- the comparison has to be printed next to the return or it reads as a verdict. See results/etf_book_spanning.json.
+The single arm that out-earns the book is gold (11.7%/yr) at a -38.6% drawdown -- the comparison has to be printed next to the return or it reads as a verdict. See results/etf_book_spanning.json.
 
-The staggered 6+6 book (same universe, score, execution and cost; second sleeve offset half a rebalance period) leaves **+7.0%/yr at t=2.46** (IS t=1.26 / OOS t=2.44) with residual vol 7.3%, against the single sleeve's +5.9%/yr at t=1.97 and 7.6%. The split clock clears a t of 2 where the single sleeve does not: that is a strategy difference worth its own test, not a free lunch -- one arm over the threshold is a hypothesis, not an edge.
+The staggered 6+6 book (same universe, score, execution and cost; second sleeve offset half a rebalance period) leaves **+7.0%/yr at t=2.43** (IS t=1.26 / OOS t=2.40) with residual vol 7.3%, against the single sleeve's +5.8%/yr at t=1.92 and 7.7%. The split clock clears a t of 2 where the single sleeve does not: that is a strategy difference worth its own test, not a free lunch -- one arm over the threshold is a hypothesis, not an edge.
 
 ## Does any of it survive outside 2020-2026?
 
@@ -118,18 +121,18 @@ The book holds 12 names and re-decides every 20 bars, so its score only has to s
 
 The trades are not. Of the 599 executed pairs (a name leaving, a name entering) the median score gap is 0.97 sd and only 2.8% sit inside 0.10 sd. Read the two lines together: the ranking is noisy exactly where it costs nothing, and decisive where it costs 10.0 bp a side.
 
-Priced the other way: a buffer that only displaces an incumbent when the challenger beats it by k*sd, run through the same engine on the same grid (k=0/k=0.05/k=0.1/k=0.2/k=0.35/k=0.5, 10.0 bp/side, control arm 9.16% vs 9.16% published = +0.00pp):
+Priced the other way: a buffer that only displaces an incumbent when the challenger beats it by k*sd, run through the same engine on the same grid (k=0/k=0.05/k=0.1/k=0.2/k=0.35/k=0.5, 10.0 bp/side, control arm 9.14% vs 9.14% published = +0.00pp):
 
 | buffer | turnover/decision | CAGR | Sharpe | maxDD |
 |---|---|---|---|---|
-| k=0 | 0.938 | 9.16% | 0.95 | -11.8% |
-| k=0.05 | 0.905 | 9.22% | 0.96 | -11.6% |
-| k=0.1 | 0.891 | 9.21% | 0.96 | -12.6% |
-| k=0.2 | 0.848 | 9.30% | 0.97 | -12.5% |
-| k=0.35 | 0.767 | 9.15% | 0.95 | -12.6% |
-| k=0.5 | 0.707 | 9.38% | 0.97 | -13.5% |
+| k=0 | 0.938 | 9.14% | 0.94 | -11.8% |
+| k=0.05 | 0.905 | 9.21% | 0.96 | -11.6% |
+| k=0.1 | 0.891 | 9.20% | 0.95 | -12.6% |
+| k=0.2 | 0.848 | 9.29% | 0.97 | -12.5% |
+| k=0.35 | 0.767 | 9.12% | 0.94 | -12.6% |
+| k=0.5 | 0.707 | 9.27% | 0.96 | -13.5% |
 
-k=0.05 is the only arm that lowers turnover (0.938 -> 0.905), keeps the return (+0.06pp) and improves both Sharpe and drawdown; past k=0.35 the buffer starts costing return and depth. So the buffer is a **cost knob, not a discovered edge** -- worth using, worth nothing to brag about.
+k=0.05 is the only arm that lowers turnover (0.938 -> 0.905), keeps the return (+0.07pp) and improves both Sharpe and drawdown; past k=0.35 the buffer starts costing return and depth. So the buffer is a **cost knob, not a discovered edge** -- worth using, worth nothing to brag about.
 
 - exploratory: no preregistration, no verdict, no ledger booking
 - MEASURED (results/etf_book_buffer_adoption.json): that path-dependence test was run on 60 cells -- verdict REJECT. Read the arms above as one decision sequence, not an edge.
@@ -140,60 +143,60 @@ Every name this card may buy cleared a single cut -- median 20-day turnover >= *
 
 | gate | CAGR | Sharpe | max drawdown | median names admitted | turnover / decision | vs shipped |
 |---|---|---|---|---|---|---|
-| 5M | 8.41% | 0.87 | -16.51% | 463 | 0.96 | +0.22 pp |
-| 10M | 8.41% | 0.87 | -16.51% | 367 | 0.96 | +0.22 pp |
-| 20M | 8.19% | 0.85 | -16.56% | 262 | 0.96 | +0.00 pp |
-| 50M | 7.73% | 0.81 | -20.20% | 154 | 0.88 | -0.46 pp |
-| 100M | 8.31% | 0.86 | -20.66% | 94 | 0.79 | +0.12 pp |
-| 200M | 4.99% | 0.54 | -22.69% | 56 | 0.69 | -3.20 pp |
+| 5M | 8.31% | 0.86 | -16.51% | 463 | 0.96 | +0.21 pp |
+| 10M | 8.31% | 0.86 | -16.51% | 367 | 0.96 | +0.21 pp |
+| 20M | 8.10% | 0.84 | -16.56% | 262 | 0.96 | +0.00 pp |
+| 50M | 7.66% | 0.81 | -20.20% | 154 | 0.88 | -0.44 pp |
+| 100M | 8.27% | 0.86 | -20.66% | 94 | 0.79 | +0.17 pp |
+| 200M | 5.06% | 0.54 | -22.69% | 56 | 0.69 | -3.04 pp |
 
-**On return this cut is flat**: half or double the threshold moves the declared CAGR by at most **0.46 pp** (best arm +0.22 pp, tolerance 1.0 pp), so the shipped 20M is not carrying the return.
+**On return this cut is flat**: half or double the threshold moves the declared CAGR by at most **0.44 pp** (best arm +0.21 pp, tolerance 1.0 pp), so the shipped 20M is not carrying the return.
 
 **On capacity it is load-bearing**: the same knob moves the median number of names the book is allowed to hold from **463** to **56** (8.3 times). Read the gate as the source of this book's capacity, not of its return -- a thicker book spreads the same money over more names, which changes what one position can be, not the expected edge.
 
-> Evidence: `results/etf_book_entry_gate.json` -- evidence cutoff 2026-11-20, panel last bar 2026-11-20. The 20M arm must reproduce this card's published declared cell (0.000 pp off, tolerance 0.25 pp) or this section refuses to answer.
+> Evidence: `results/etf_book_entry_gate.json` -- evidence cutoff 2026-11-24, panel last bar 2026-11-24. The 20M arm must reproduce this card's published declared cell (0.000 pp off, tolerance 0.25 pp) or this section refuses to answer.
 
 ## What has already been asked about these numbers
 
 | case | question we already asked | state | best arm | best pp/yr | admissible arms |
 |---|---|---|---|---|---|
-| E25 | can the one-bar price be earned back by a causal rule | IRRECOVERABLE | `smooth_k2` | +0.31 | 0 |
-| E26 | is anything visible between the close and the fill worth that price | MIXED_ACROSS_PHASES | `excl_upgap_q80` | +0.78 | 0 |
-| E27 | does slicing the rebalance over k opens buy anything | NO_SLICING_EDGE | `k5` | +0.06 | 0 |
+| E25 | can the one-bar price be earned back by a causal rule | IRRECOVERABLE | `smooth_k2` | +0.25 | 0 |
+| E26 | is anything visible between the close and the fill worth that price | MIXED_ACROSS_PHASES | `excl_upgap_q80` | +0.65 | 0 |
+| E27 | does slicing the rebalance over k opens buy anything | NO_SLICING_EDGE | `k5` | +0.05 | 0 |
 
-**Research arc: all three asks were priced and none paid.** E25 IRRECOVERABLE (+0.31pp best arm `smooth_k2`), E26 MIXED_ACROSS_PHASES (+0.78pp best arm `excl_upgap_q80`), E27 NO_SLICING_EDGE (+0.06pp best arm `k5`). So the gap between the printed number and the tradable one is not recoverable by smoothing the score, not visible in the overnight gap, and not saved by slicing the fill over k opens. This is not a claim that no lever exists -- it is the narrower, earned claim that these three do not pay, and that a fourth question has to come from somewhere other than this rule's own mechanics.
+**Research arc: all three asks were priced and none paid.** E25 IRRECOVERABLE (+0.25pp best arm `smooth_k2`), E26 MIXED_ACROSS_PHASES (+0.65pp best arm `excl_upgap_q80`), E27 NO_SLICING_EDGE (+0.05pp best arm `k5`). So the gap between the printed number and the tradable one is not recoverable by smoothing the score, not visible in the overnight gap, and not saved by slicing the fill over k opens. This is not a claim that no lever exists -- it is the narrower, earned claim that these three do not pay, and that a fourth question has to come from somewhere other than this rule's own mechanics.
 
-All three were priced on evidence cutoff 2026-11-20; the preregs are the files named in the table above, frozen before each run.
+All three were priced on evidence cutoff 2026-11-24; the preregs are the files named in the table above, frozen before each run.
 
 ## How bad can the drawdown be?
 
-The drawdown column above is one ordering of the trading days. Bootstrapping the book's own return path (blocks 1/5/10/20/40/60/120/250 bars, 2000 resamples) puts the 5th-percentile drawdown between **-25.2% and -19.8%** and the median between -15.0% and -13.5% -- a spread of 5.3pp produced by the block length alone, i.e. by how long the ruler remembers dependence.
+The drawdown column above is one ordering of the trading days. Bootstrapping the book's own return path (blocks 1/5/10/20/40/60/120/250 bars, 2000 resamples) puts the 5th-percentile drawdown between **-25.3% and -19.9%** and the median between -15.0% and -13.5% -- a spread of 5.3pp produced by the block length alone, i.e. by how long the ruler remembers dependence.
 
 | block (bars) | maxDD p5 | maxDD p50 | share worse than -20% | point maxDD pctile |
 |---|---|---|---|---|
-| 1 | -25.17% | -15.05% | 17.1% | 79.3 |
-| 5 | -25.01% | -14.94% | 19.1% | 79.2 |
-| 10 | -23.83% | -14.45% | 14.8% | 76.7 |
-| 20 | -22.15% | -13.53% | 9.3% | 70.8 |
-| 40 | -23.07% | -13.88% | 10.5% | 73.2 |
-| 60 | -23.89% | -14.18% | 13.0% | 73.2 |
-| 120 | -23.32% | -14.34% | 12.4% | 76.5 |
-| 250 | -19.82% | -13.60% | 4.5% | 77.0 |
+| 1 | -25.25% | -15.02% | 17.8% | 80.5 |
+| 5 | -24.92% | -14.96% | 18.4% | 79.2 |
+| 10 | -23.37% | -14.58% | 14.2% | 77.8 |
+| 20 | -22.07% | -13.46% | 8.6% | 68.8 |
+| 40 | -22.39% | -13.73% | 10.3% | 71.8 |
+| 60 | -23.41% | -14.15% | 12.3% | 73.8 |
+| 120 | -23.37% | -14.36% | 12.4% | 76.5 |
+| 250 | -19.92% | -13.67% | 4.8% | 77.0 |
 
-Read the card's own -11.8% as the median of that ruler, not its tail: size the position against the p5 column, which is 13.4pp worse than the headline at the widest block.
+Read the card's own -11.8% as the median of that ruler, not its tail: size the position against the p5 column, which is 13.5pp worse than the headline at the widest block.
 
-> Band priced on the **2026-11-20** bar from results/etf_book_bootstrap/BLOCKS-2026-11-20.json. A tail quoted without its block is a sentence without its parameter (E248).
+> Band priced on the **2026-11-24** bar from results/etf_book_bootstrap/BLOCKS-2026-11-24.json. A tail quoted without its block is a sentence without its parameter (E248).
 
 ## Caveats
 
-- THE DRAWDOWN LINE ABOVE IS A MEDIAN, NOT A TAIL: it is priced on one ordering of the trading days. Bootstrapping this book's own return path at blocks 1/5/10/20/40/60/120/250 (the block is a free parameter) puts the 5th-percentile drawdown between -25.2% and -19.8% and the share of resamples worse than -20% between 4.5% and 19.1%. Size against the p5 column. See results/etf_book_bootstrap/BLOCKS-2026-11-20.json.
-- THE SIX FACTOR DIRECTIONS WERE CHOSEN WITH HINDSIGHT: every published number here uses a fixed sign block, and those signs are exactly this panel's full-sample IC signs (6 of 6 factors match). Re-priced with signs estimated only from already-realised windows, the same engine returns -10.98%/yr (Sharpe -0.42) against +6.01%/yr (+0.63) for the fixed signs -- and reversing the trailing sign does not recover it (-2.74%/yr). Read the headline as the size of a period, not the size of a rule. See results/etf_sign_pit.json.
+- THE DRAWDOWN LINE ABOVE IS A MEDIAN, NOT A TAIL: it is priced on one ordering of the trading days. Bootstrapping this book's own return path at blocks 1/5/10/20/40/60/120/250 (the block is a free parameter) puts the 5th-percentile drawdown between -25.3% and -19.9% and the share of resamples worse than -20% between 4.8% and 18.4%. Size against the p5 column. See results/etf_book_bootstrap/BLOCKS-2026-11-24.json.
+- THE SIX FACTOR DIRECTIONS WERE CHOSEN WITH HINDSIGHT: every published number here uses a fixed sign block, and those signs are exactly this panel's full-sample IC signs (6 of 6 factors match). Re-priced with signs estimated only from already-realised windows, the same engine returns -11.00%/yr (Sharpe -0.42) against +5.99%/yr (+0.63) for the fixed signs -- and reversing the trailing sign does not recover it (-2.17%/yr). Read the headline as the size of a period, not the size of a rule. See results/etf_sign_pit.json.
 - ONE REGIME, NOT A VERIFIED EDGE: on the 224 ETFs that existed before 2020, priced 2015-2019 (a window this card never covered) the same engine returned -4.97%/yr against +3.89%/yr equal weight = -8.86pp excess, worse in 6 of 6 grid cells, random-score p=0.96. The published CAGR is the 2020+ regime, not a property of the factors. That cell is bond-inclusive, 5 names wide and has no sizing rule; 'The 2015-2019 reconciliation' below prices what each of those differences is worth. See results/etf_book_pre2020.json.
 - THE COMMODITY SLEEVE IS MOSTLY METAL BETA WITH A MODEST RANKING OVERLAY: it produced 30.1% of gross return; the same engine restricted to the 41 commodity ETFs returned +16.31%/yr against +11.45%/yr for holding those names equally (+4.86pp), and the deepest-turnover commodity name (518880) returned +13.91%/yr passively, i.e. the book beat holding the metal by +2.40pp. Read the sleeve as commodity/gold exposure plus a small selection add-on, not a commodity ranking that pays. See results/etf_book_commodity_split.json.
 - ETF pool is today's listed set: survivorship inflates the equity sleeve.
 - 2020-2023 contributes ~5.8%/yr; most of the return sits in 2024+.
 - The vol target only de-levers; it is a drawdown tool, not an edge. Priced on the draw tail (paired bootstrap, 2000 resamples, blocks 5/20/60/120/250): the median drawdown gain is +6.04pp but only 21% of it survives at the worst 1% of histories (+1.26pp), bought with -4.61pp of median CAGR -- mostly a middle-path tool.
-- Delivered vol is not the label: target 8% -> delivered 10.2% over the full window (1.27x). The label is a per-hold risk target, so an 8% label annualises near 10% once hold-level vol dispersion is priced in -- a definition gap, not a sizing bug (research/ETF_VOL_CALIBRATION.md).
+- Delivered vol is not the label: target 8% -> delivered 10.2% over the full window (1.28x). The label is a per-hold risk target, so an 8% label annualises near 10% once hold-level vol dispersion is priced in -- a definition gap, not a sizing bug (research/ETF_VOL_CALIBRATION.md).
 - The window table is the as-coded arm (rank on bar d, paid open bar d); the declared next-open fill is priced beside it in execution_basis -- read that one when sizing a position.
 - Order sheet is research output, not an investment recommendation.
 - The sheet is the book decided at book_decided_at, not a re-ranking of the latest bar: the engine only re-decides every 20 bars, so an off-grid ranking would trade names the book never held.

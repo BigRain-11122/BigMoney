@@ -1,8 +1,8 @@
 {
   "contract": "O-20261124-2300-bm-c §1-C",
-  "producer_machine": "DASHENG",
-  "calendar_last_bar": "2026-11-18",
-  "calendar_rows": 1666,
+  "producer_machine": "bm-c",
+  "calendar_last_bar": "2026-11-24",
+  "calendar_rows": 1670,
   "lanes": [
     {
       "lane": "astock_daily",
@@ -11,13 +11,14 @@
       "dir": "data/astock_daily",
       "exists": true,
       "files": 5223,
-      "bytes": 1236361489,
+      "bytes": 1328982189,
       "by_ext": {
+        ".parquet": 1,
         ".json": 1,
-        ".csv": 5222
+        ".csv": 5221
       },
       "first_bar": "1990-12-19",
-      "last_bar": "2026-11-18",
+      "last_bar": "2026-11-24",
       "unreadable": 0,
       "files_with_dates": 5222,
       "lag_trading_days": 0,
@@ -30,17 +31,17 @@
       "script_via": "declared",
       "dir": "data/moneyflow",
       "exists": true,
-      "files": 5223,
-      "bytes": 25512620,
+      "files": 5229,
+      "bytes": 61014731,
       "by_ext": {
         ".json": 1,
-        ".csv": 5222
+        ".csv": 5228
       },
-      "first_bar": "2025-12-26",
-      "last_bar": "2026-10-19",
-      "unreadable": 0,
-      "files_with_dates": 5222,
-      "lag_trading_days": 22,
+      "first_bar": "2026-01-14",
+      "last_bar": "2026-11-20",
+      "unreadable": 1,
+      "files_with_dates": 5227,
+      "lag_trading_days": 2,
       "script_present": true,
       "source_note": "Individual-stock money-flow forward collector (R63 bm-a, claim MSG-20260924-0920)."
     },
@@ -51,7 +52,7 @@
       "dir": "data/lhb_inst",
       "exists": true,
       "files": 2,
-      "bytes": 3907938,
+      "bytes": 3921486,
       "by_ext": {
         ".parquet": 1,
         ".json": 1
@@ -71,7 +72,7 @@
       "dir": "data/options",
       "exists": true,
       "files": 256,
-      "bytes": 908183,
+      "bytes": 916628,
       "by_ext": {
         ".json": 2,
         ".csv": 254
@@ -80,7 +81,7 @@
       "last_bar": "2026-09-30",
       "unreadable": 0,
       "files_with_dates": 254,
-      "lag_trading_days": 30,
+      "lag_trading_days": 34,
       "script_present": true,
       "source_note": "T-69 wave-2b: OPTIONS forward daily collector (O-20260925-1158 continuation)."
     },
@@ -90,16 +91,16 @@
       "script_via": "declared",
       "dir": "data/futures_contracts",
       "exists": true,
-      "files": 335,
-      "bytes": 1478570,
+      "files": 418,
+      "bytes": 1482672,
       "by_ext": {
-        ".csv": 335
+        ".csv": 418
       },
       "first_bar": "2018-10-22",
-      "last_bar": "2026-11-17",
-      "unreadable": 0,
+      "last_bar": "2026-11-24",
+      "unreadable": 83,
       "files_with_dates": 335,
-      "lag_trading_days": 1,
+      "lag_trading_days": 0,
       "script_present": true,
       "source_note": "Give data/futures_contracts a producer inside the repo."
     },
@@ -110,12 +111,12 @@
       "dir": "data/futures_daily",
       "exists": true,
       "files": 10,
-      "bytes": 1348316,
+      "bytes": 1349957,
       "by_ext": {
         ".csv": 10
       },
       "first_bar": "2008-01-09",
-      "last_bar": "2026-11-18",
+      "last_bar": "2026-11-24",
       "unreadable": 0,
       "files_with_dates": 10,
       "lag_trading_days": 0,
@@ -129,15 +130,15 @@
       "dir": "data/index_daily",
       "exists": true,
       "files": 4,
-      "bytes": 413615,
+      "bytes": 413864,
       "by_ext": {
         ".csv": 4
       },
       "first_bar": "2002-01-04",
-      "last_bar": "2026-11-18",
+      "last_bar": "2026-11-23",
       "unreadable": 0,
       "files_with_dates": 4,
-      "lag_trading_days": 0,
+      "lag_trading_days": 1,
       "script_present": true,
       "source_note": "Index daily forward refresh (bm-c lane, r1791)."
     },
@@ -148,12 +149,12 @@
       "dir": "data/daily",
       "exists": true,
       "files": 1725,
-      "bytes": 92863515,
+      "bytes": 93252073,
       "by_ext": {
         ".csv": 1725
       },
       "first_bar": "2005-02-23",
-      "last_bar": "2026-11-18",
+      "last_bar": "2026-11-24",
       "unreadable": 0,
       "files_with_dates": 1725,
       "lag_trading_days": 0,
@@ -165,16 +166,19 @@
       "script": "scripts/cb_dual_low.py",
       "script_via": "declared",
       "dir": "data/cb_daily",
-      "exists": false,
-      "files": 0,
-      "bytes": 0,
-      "by_ext": {},
-      "first_bar": null,
-      "last_bar": null,
+      "exists": true,
+      "files": 1051,
+      "bytes": 76535687,
+      "by_ext": {
+        ".csv": 1051
+      },
+      "first_bar": "2007-07-02",
+      "last_bar": "2026-11-20",
       "unreadable": 0,
-      "lag_trading_days": null,
+      "files_with_dates": 1051,
+      "lag_trading_days": 2,
       "script_present": true,
-      "source_note": null
+      "source_note": "可转债双低轮动线 -- 第二收益线（survivorship-free）"
     },
     {
       "lane": "repo_daily",
@@ -183,15 +187,15 @@
       "dir": "data/repo_daily",
       "exists": true,
       "files": 11,
-      "bytes": 1522571,
+      "bytes": 1523457,
       "by_ext": {
         ".csv": 11
       },
       "first_bar": "2006-11-01",
-      "last_bar": "2026-11-18",
+      "last_bar": "2026-11-20",
       "unreadable": 0,
       "files_with_dates": 11,
-      "lag_trading_days": 0,
+      "lag_trading_days": 2,
       "script_present": true,
       "source_note": "Repo term-ladder daily rate puller (T-2026-09-26-88 s3, R328 bm-a)."
     },
@@ -202,7 +206,7 @@
       "dir": "data/zt_pool",
       "exists": true,
       "files": 5,
-      "bytes": 560040,
+      "bytes": 618898,
       "by_ext": {
         ".json": 1,
         ".parquet": 4
@@ -222,7 +226,7 @@
       "dir": "data/fundamental",
       "exists": true,
       "files": 3,
-      "bytes": 1423513,
+      "bytes": 1422260,
       "by_ext": {
         ".csv": 3
       },
@@ -240,10 +244,10 @@
       "script_via": "declared",
       "dir": "data/heat",
       "exists": true,
-      "files": 125,
-      "bytes": 4184963,
+      "files": 2,
+      "bytes": 25328,
       "by_ext": {
-        ".json": 125
+        ".json": 2
       },
       "first_bar": null,
       "last_bar": null,
@@ -268,7 +272,7 @@
       "last_bar": "2026-09-24",
       "unreadable": 0,
       "files_with_dates": 1,
-      "lag_trading_days": 33,
+      "lag_trading_days": 37,
       "script_present": true,
       "source_note": "backfill_ext_slots.py -- P-1d extension-slot raw pulls (one-shot backfill)."
     },
@@ -279,23 +283,23 @@
       "dir": "data/minute_feed",
       "exists": true,
       "files": 10,
-      "bytes": 3799169,
+      "bytes": 4143904,
       "by_ext": {
         ".csv": 10
       },
       "first_bar": "2026-09-10",
-      "last_bar": "2026-11-17",
+      "last_bar": "2026-11-24",
       "unreadable": 0,
       "files_with_dates": 10,
-      "lag_trading_days": 1,
+      "lag_trading_days": 0,
       "script_present": true,
       "source_note": "T-104 s1: sina 1-minute-K forward-accumulation archive collector."
     }
   ],
   "totals": {
     "lanes": 15,
-    "files": 12933,
-    "bytes": 1374539327,
+    "files": 13950,
+    "bytes": 1575857959,
     "lanes_with_script": 15
   }
 }

@@ -5,23 +5,75 @@
   "results",
   "docs"
  ],
- "files_scanned": 14764,
- "n_hits": 807,
+ "files_scanned": 14995,
+ "n_hits": 815,
  "counts": {
   "closed-round-evidence": 303,
   "code-string": 45,
-  "frozen-evidence": 308,
+  "frozen-evidence": 309,
+  "live-face": 5,
   "machine-status": 1,
   "pool-record": 100,
-  "self-census": 50
+  "self-census": 52
  },
  "gated_buckets": [
   "live-face",
   "doc-prose"
  ],
- "verdict": "PASS",
- "offenders": [],
- "offender_files": [],
+ "verdict": "FAIL",
+ "offenders": [
+  {
+   "file": "results/astock_veto_hedgeable_beta.json",
+   "json_path": "/prereg/cost_model",
+   "key": "cost_model",
+   "kind": "doubled-percent",
+   "token": "%%",
+   "bucket": "live-face",
+   "text": "two sides x 8.00 bp per roll on the shorted notional; short-finance carry printed as a 0/2/5 %%/yr axis, not assumed; IM arm carries its roll inside the traded price and prints the realised basis"
+  },
+  {
+   "file": "results/astock_veto_hedgeable_beta.json",
+   "json_path": "/prereg/verdict_rule",
+   "key": "verdict_rule",
+   "kind": "doubled-percent",
+   "token": "%%",
+   "bucket": "live-face",
+   "text": "three states, strict comparison of Sharpe (excess over 0%%) at k=1: OUT_OF_SAMPLE = k=1 beats k=0 on the not-fitted part AND earns >0 there; IN_SAMPLE_ONLY = full window better but out-of-sample not; "
+  },
+  {
+   "file": "results/etf_paper_marks.json",
+   "json_path": "/caveats[1]",
+   "key": "caveats",
+   "kind": "doubled-percent",
+   "token": "%%",
+   "bucket": "live-face",
+   "text": "weights are treated as constant inside a period; the live book re-scales daily on the 8%% vol target, so a long gap between ledger rows is approximated"
+  },
+  {
+   "file": "results/idx_fut_carry_portfolio.json",
+   "json_path": "/criteria/P3_the_drawdown_actually_diversifies",
+   "key": "P3_the_drawdown_actually_diversifies",
+   "kind": "doubled-percent",
+   "token": "%%",
+   "bucket": "live-face",
+   "text": "in the window where all four members trade, the equal-weight portfolio's max drawdown is at least 20%% better than the worst single member's"
+  },
+  {
+   "file": "results/money_band_blind_spot.json",
+   "json_path": "/ruler/fast_breaches",
+   "key": "fast_breaches",
+   "kind": "doubled-percent",
+   "token": "%%",
+   "bucket": "live-face",
+   "text": "money_premium_carry_audit.find_breaches at its own 1.00%% band, booked at zero by repaired_rets before measuring"
+  }
+ ],
+ "offender_files": [
+  "results/astock_veto_hedgeable_beta.json",
+  "results/etf_paper_marks.json",
+  "results/idx_fut_carry_portfolio.json",
+  "results/money_band_blind_spot.json"
+ ],
  "advisory": {
   "closed-round-evidence": {
    "n": 303,
@@ -155,7 +207,7 @@
    ]
   },
   "frozen-evidence": {
-   "n": 308,
+   "n": 309,
    "files": [
     "results/_quarantine/20261004T1630_r686bmb_scratch/_r686bmb_decisions_fresh.md",
     "results/_quarantine/20261007-1105_r671bmc_rr_predup/round_reports-bm-c.md",
@@ -305,11 +357,29 @@
    ]
   },
   "self-census": {
-   "n": 50,
+   "n": 52,
    "files": [
     "results/reader_text_audit.json"
    ],
    "sample": [
+    {
+     "file": "results/reader_text_audit.json",
+     "json_path": "/offenders[0]/token",
+     "key": "token",
+     "kind": "doubled-percent",
+     "token": "%%",
+     "bucket": "self-census",
+     "text": "%%"
+    },
+    {
+     "file": "results/reader_text_audit.json",
+     "json_path": "/offenders[0]/text",
+     "key": "text",
+     "kind": "doubled-percent",
+     "token": "%%",
+     "bucket": "self-census",
+     "text": "weights are treated as constant inside a period; the live book re-scales daily on the 8%% vol target, so a long gap between ledger rows is approximated"
+    },
     {
      "file": "results/reader_text_audit.json",
      "json_path": "/advisory/closed-round-evidence/sample[0]/token",
@@ -331,24 +401,6 @@
     {
      "file": "results/reader_text_audit.json",
      "json_path": "/advisory/closed-round-evidence/sample[1]/token",
-     "key": "token",
-     "kind": "brace-token",
-     "token": "{line_num}",
-     "bucket": "self-census",
-     "text": "{line_num}"
-    },
-    {
-     "file": "results/reader_text_audit.json",
-     "json_path": "/advisory/closed-round-evidence/sample[1]/text",
-     "key": "text",
-     "kind": "brace-token",
-     "token": "{line_num}",
-     "bucket": "self-census",
-     "text": "return False, f\"Line {line_num}: expected 5 fields, got {len(fields)}\""
-    },
-    {
-     "file": "results/reader_text_audit.json",
-     "json_path": "/advisory/closed-round-evidence/sample[2]/token",
      "key": "token",
      "kind": "brace-token",
      "token": "{line_num}",

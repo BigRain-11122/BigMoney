@@ -1,6 +1,6 @@
 # the carry sleeve's sizing ruler: adopted, with the roads not taken still priced
 
-evidence cutoff: **2026-11-20** | source: `results/idx_fut_carry_capital_ladder.json` | decided 2026-11-17 in bm-c round 1779 | generated 2026-11-22T18:42:27+08:00
+evidence cutoff: **2026-11-23** | source: `results/idx_fut_carry_capital_ladder.json` | decided 2026-11-17 in bm-c round 1779 | generated 2026-11-24T16:13:44+08:00
 
 **Adopted: `A_keep_target_raise_capital`, target 8%, read as hard_cap_vol_le_target.**
 
@@ -16,38 +16,38 @@ What this decision does not change: the vol of the sleeve (no new measurement); 
 
 | capital | target | vol of 1 lot (hedged) | budget at target | lots the ruler allows |
 |---|---|---|---|---|
-| 1,000,000 CNY | 8% | 89,958 CNY | 80,000 CNY | **0** (0.8893) |
+| 1,000,000 CNY | 8% | 90,365 CNY | 80,000 CNY | **0** (0.8853) |
 
-**ONE_LOT_IS_NOT_A_SMALL_ALLOCATION.** One lot is 89,958 CNY of annual vol -- more than this book's 80,000 CNY budget, so the rule buys nothing here. The first executable rung is **1,124,479 CNY** (+124,479); holding the desk's 4 lots inside the target would take 4,497,916 CNY.
+**ONE_LOT_IS_NOT_A_SMALL_ALLOCATION.** One lot is 90,365 CNY of annual vol -- more than this book's 80,000 CNY budget, so the rule buys nothing here. The first executable rung is **1,129,566 CNY** (+129,566); holding the desk's 4 lots inside the target would take 4,518,264 CNY.
 
-- the desk's ticket: **4 lot(s)**, `OUT_OF_RULER` against this ruler, 4.4979x the budget
-- A keep 8%, raise the capital: 0 lot(s) now, 1 lot at 1,124,479 CNY -- **ADOPTED**
-- B keep 1,000,000 CNY, lower the target: 1 lot needs 8.9958% (that target buys 1 lot(s) here) -- not adopted
+- the desk's ticket: **4 lot(s)**, `OUT_OF_RULER` against this ruler, 4.5183x the budget
+- A keep 8%, raise the capital: 0 lot(s) now, 1 lot at 1,129,566 CNY -- **ADOPTED**
+- B keep 1,000,000 CNY, lower the target: 1 lot needs 9.0365% (that target buys 1 lot(s) here) -- not adopted
 - C keep both: 0 lot(s) -- not adopted (this is what A reads at today's capital, not a separate road)
 
 | capital rung | multiple of the book | lots |
 |---|---|---|
 | 1,000,000 | 1.0000x | 0 |
-| 1,124,479 | 1.1245x | 1 |
-| 2,248,958 | 2.2490x | 2 |
+| 1,129,566 | 1.1296x | 1 |
+| 2,259,132 | 2.2591x | 2 |
 
 ## IM
 
 | capital | target | vol of 1 lot (hedged) | budget at target | lots the ruler allows |
 |---|---|---|---|---|
-| 1,000,000 CNY | 8% | 92,208 CNY | 80,000 CNY | **0** (0.8676) |
+| 1,000,000 CNY | 8% | 92,733 CNY | 80,000 CNY | **0** (0.8627) |
 
-**ONE_LOT_IS_NOT_A_SMALL_ALLOCATION.** One lot is 92,208 CNY of annual vol -- more than this book's 80,000 CNY budget, so the rule buys nothing here. The first executable rung is **1,152,596 CNY** (+152,596); holding the desk's 4 lots inside the target would take 4,610,384 CNY.
+**ONE_LOT_IS_NOT_A_SMALL_ALLOCATION.** One lot is 92,733 CNY of annual vol -- more than this book's 80,000 CNY budget, so the rule buys nothing here. The first executable rung is **1,159,159 CNY** (+159,159); holding the desk's 4 lots inside the target would take 4,636,636 CNY.
 
-- the desk's ticket: **4 lot(s)**, `OUT_OF_RULER` against this ruler, 4.6104x the budget
-- A keep 8%, raise the capital: 0 lot(s) now, 1 lot at 1,152,596 CNY -- **ADOPTED**
-- B keep 1,000,000 CNY, lower the target: 1 lot needs 9.2208% (that target buys 1 lot(s) here) -- not adopted
+- the desk's ticket: **4 lot(s)**, `OUT_OF_RULER` against this ruler, 4.6366x the budget
+- A keep 8%, raise the capital: 0 lot(s) now, 1 lot at 1,159,159 CNY -- **ADOPTED**
+- B keep 1,000,000 CNY, lower the target: 1 lot needs 9.2733% (that target buys 1 lot(s) here) -- not adopted
 - C keep both: 0 lot(s) -- not adopted (this is what A reads at today's capital, not a separate road)
 
 | capital rung | multiple of the book | lots |
 |---|---|---|
 | 1,000,000 | 1.0000x | 0 |
-| 1,152,596 | 1.1526x | 1 |
-| 2,305,192 | 2.3052x | 2 |
+| 1,159,159 | 1.1592x | 1 |
+| 2,318,318 | 2.3183x | 2 |
 
 Fractions of a lot are arithmetic; `lots` is what could be held. Nothing here re-derives volatility -- the per-lot numbers come from the ladder face, which takes them from `SIZING.json`.

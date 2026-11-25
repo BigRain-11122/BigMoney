@@ -1,20 +1,20 @@
 {
  "artifact": "etf_book_exec_delta",
- "bar": "2026-11-20",
+ "bar": "2026-11-24",
  "book_window": {
-  "calendar_days": 10,
+  "calendar_days": 14,
   "from_bar": "2026-11-10",
   "is_today": false,
-  "to_bar": "2026-11-20"
+  "to_bar": "2026-11-24"
  },
- "cash_after_cny": 562267.1,
+ "cash_after_cny": 561417.3,
  "cash_before_cny": 607595.1,
- "cash_recon_cny": -2978.8,
+ "cash_recon_cny": -3858.9,
  "cash_recon_ex_mark_cny": 0.0,
  "current_bar": "2026-11-10",
  "current_book_from": {
   "bar": "2026-11-10",
-  "declared_bar": "2026-11-20",
+  "declared_bar": "2026-11-24",
   "kind": "execution",
   "source": "book_before_declaration"
  },
@@ -23,7 +23,7 @@
  "declaration": {
   "actions": 0,
   "appeared": [],
-  "bar": "2026-11-20",
+  "bar": "2026-11-24",
   "cny_moved": 10977.8,
   "from_bar": "2026-11-19",
   "lots_changed": [
@@ -56,11 +56,11 @@
   "status": "UNEXPLAINED_TARGET_WITHOUT_TRADES",
   "vanished": []
  },
- "entry_book_cny": 434754.1,
+ "entry_book_cny": 434723.8,
  "entry_rows": 5,
  "entry_sheet_moved": {},
- "evidence_cutoff": "2026-11-20",
- "gross_buy_cny": 359200.9,
+ "evidence_cutoff": "2026-11-24",
+ "gross_buy_cny": 360050.7,
  "gross_sell_cny": 313872.9,
  "held_not_in_target": [
   "159263",
@@ -77,21 +77,27 @@
  "ledger_row_risk_book_cny": 434754.1,
  "mark": {
   "account_bar": "2026-11-10",
-  "bar": "2026-11-20",
-  "drift_cny": -2978.8,
-  "note": "账上那本按 2026-11-10 的价、票面按 2026-11-20 的价：保留腿重估的差额单列，不并进现金对账",
+  "bar": "2026-11-24",
+  "drift_cny": -3858.9,
+  "note": "账上那本按 2026-11-10 的价、票面按 2026-11-24 的价：保留腿重估的差额单列，不并进现金对账",
   "rows": [
    {
     "account_price": 1.16,
     "lots": 677,
-    "mark_cny": -2978.8,
-    "sheet_price": 1.116,
+    "mark_cny": -3858.9,
+    "sheet_price": 1.103,
     "symbol": "513690"
    }
   ]
  },
- "net_cash_cny": 45328.0,
- "positions_source": "face@2026-11-20",
+ "net_cash_cny": 46177.8,
+ "positions_live": {
+  "asof": "2026-11-20",
+  "ledger_bar": "2026-11-24",
+  "ticket_bar": "2026-11-20",
+  "wanted": "2026-11-24"
+ },
+ "positions_source": "ticket_embedded",
  "refused": null,
  "rows": [
   {
@@ -128,72 +134,72 @@
    "target_lots": 0
   },
   {
-   "amount_cny": 86972.2,
+   "amount_cny": 86980.3,
    "current_lots": 0,
-   "delta_lots": 511,
+   "delta_lots": 739,
    "held": false,
    "in_target": true,
-   "price": 1.702,
-   "side": "BUY",
-   "symbol": "159519",
-   "target_lots": 511
-  },
-  {
-   "amount_cny": 86952.6,
-   "current_lots": 0,
-   "delta_lots": 469,
-   "held": false,
-   "in_target": true,
-   "price": 1.854,
-   "side": "BUY",
-   "symbol": "159655",
-   "target_lots": 469
-  },
-  {
-   "amount_cny": 86950.5,
-   "current_lots": 0,
-   "delta_lots": 735,
-   "held": false,
-   "in_target": true,
-   "price": 1.183,
+   "price": 1.177,
    "side": "BUY",
    "symbol": "512040",
-   "target_lots": 735
+   "target_lots": 739
   },
   {
-   "amount_cny": 86942.4,
+   "amount_cny": 86972.2,
    "current_lots": 0,
-   "delta_lots": 708,
+   "delta_lots": 518,
    "held": false,
    "in_target": true,
-   "price": 1.228,
+   "price": 1.679,
    "side": "BUY",
-   "symbol": "510760",
-   "target_lots": 708
+   "symbol": "159519",
+   "target_lots": 518
   },
   {
-   "amount_cny": 11383.2,
+   "amount_cny": 86928.4,
+   "current_lots": 0,
+   "delta_lots": 458,
+   "held": false,
+   "in_target": true,
+   "price": 1.898,
+   "side": "BUY",
+   "symbol": "159655",
+   "target_lots": 458
+  },
+  {
+   "amount_cny": 86926.5,
+   "current_lots": 0,
+   "delta_lots": 705,
+   "held": false,
+   "in_target": true,
+   "price": 1.233,
+   "side": "BUY",
+   "symbol": "510760",
+   "target_lots": 705
+  },
+  {
+   "amount_cny": 12243.3,
    "current_lots": 677,
-   "delta_lots": 102,
+   "delta_lots": 111,
    "held": true,
    "in_target": true,
-   "price": 1.116,
+   "price": 1.103,
    "side": "BUY",
    "symbol": "513690",
-   "target_lots": 779
+   "target_lots": 788
   }
  ],
  "sheet_book_cny": 435003.0,
- "sheet_cash_cny": 565245.9,
+ "sheet_cash_cny": 565276.2,
  "swap_book_cny": null,
  "swap_bought": [],
- "target_note": null,
+ "target_note": "换票面是 2026-11-20 的、本单是 2026-11-24 的——两本不同 bar 不能相减，本节按入场表算",
  "target_rows": 5,
  "target_source": "entry_sheet",
- "target_total_cny": 434754.1,
- "ticket_file": "TICKET-2026-11-20.json",
- "turnover_cny": 673073.8,
- "turnover_share_of_book_pct": 171.53,
+ "target_total_cny": 434723.8,
+ "ticket_file": "TICKET-2026-11-24.json",
+ "turnover_cny": 673923.6,
+ "turnover_share_of_book_pct": 171.74,
  "unpriced_rows": [],
  "verdict": "SHEET_IMPLIES_A_SWAP"
 }

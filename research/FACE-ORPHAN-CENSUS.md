@@ -1,17 +1,17 @@
 # Cited faces: what a clone can open, and what points nowhere
 
-generated 2026-11-23T14:39:20+08:00 | evidence_cutoff 2026-11-23 | machine bm-c
+generated 2026-11-24T15:09:46+08:00 | evidence_cutoff 2026-11-24 | machine bm-c
 
 **Verdict: `EVERY_CITED_FACE_IS_IN_GIT_OR_MACHINE_LOCAL_BY_DESIGN`**
 
-1360 face paths are literally named by a committed reader. 1207 are on disk and in git, 29 are machine-local by `.gitignore` policy, and **0 are on disk but unreadable from a fresh clone** -- the r1783/r1987 defect.
+1416 face paths are literally named by a committed reader. 1264 are on disk and in git, 30 are machine-local by `.gitignore` policy, and **0 are on disk but unreadable from a fresh clone** -- the r1783/r1987 defect.
 
 Citations live inside a `selftest` / `test_*` / `*_fixture` function are excluded (22 paths): those readers are exercising their own missing-input branch with a path that *must* not exist, and publishing it would be the wrong fix. Without that exclusion this census reported 167 "dead pointers", and the first draft counted `a.json` and `deadbeef.json` as evidence.
 
 | state | count | reading |
 |---|---|---|
-| TRACKED | 1207 | clone opens it |
-| IGNORED | 29 | machine-local by policy, never published |
+| TRACKED | 1264 | clone opens it |
+| IGNORED | 30 | machine-local by policy, never published |
 | NEGATIVE_FIXTURE | 22 | named only by a test — must be missing |
 | DOCUMENTED_EXAMPLE | 10 | named only inside a usage line / docstring |
 | FIXTURE_LITERAL | 73 | a string inside a data literal, never an `open()` argument |
@@ -22,15 +22,7 @@ Citations live inside a `selftest` / `test_*` / `*_fixture` function are exclude
 | ABSENT_LOCALLY | 0 | in origin, not on this disk — one fetch |
 | ORPHAN | 0 | **defect**: on disk, cited by real code, not in git |
 | DELETED_LOCALLY | 0 | **defect**: in the index, gone from disk |
-| DEAD_POINTER | 2 | advisory: real code names it, no clone has it |
-
-## Dead pointers (advisory)
-
-Real code (not a test) names these and no clone has them. Either that branch has never run, or the file was renamed and the reader was not updated. Neither is an orphan -- there is nothing on disk to publish -- and this census cannot separate the two cases, so they are listed, not counted as defects.
-
-| family | count | examples |
-|---|---|---|
-| results/trial_labor_w20 | 2 | `trial_labor_w20/w20_judge.json`, `trial_labor_w20/w20_screen.json` |
+| DEAD_POINTER | 0 | advisory: real code names it, no clone has it |
 
 ## How to read this
 

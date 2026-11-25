@@ -1,0 +1,112 @@
+{
+  "ticket_k_rule": 0.458463,
+  "k_at_the_priced_bar": 0.458463,
+  "k_at_book_decided_at": 0.460253,
+  "priced_bar_field": "2026-11-24",
+  "priced_bar": "2026-11-20",
+  "book_decided_at": "2026-11-11",
+  "leg_bar": "2026-10-23",
+  "dk_pp": -0.179,
+  "dk_cny_at_ticket": -1790.0,
+  "schedule_hits": [
+    {
+      "index": 77,
+      "bar": "2026-11-20",
+      "k": 0.458463
+    }
+  ],
+  "legs": {
+    "ticket_k_rule_is_a_schedule_point": true,
+    "that_point_is_unique_on_the_schedule": true,
+    "that_point_is_the_last_step_at_or_before_the_priced_bar": true,
+    "the_leg_bar_has_a_step_of_its_own": true,
+    "both_values_come_from_one_schedule": true,
+    "the_ticket_row_and_the_leg_row_are_different_steps": true,
+    "the_two_steps_are_adjacent": true
+  },
+  "identity_broken": [],
+  "verdict": "IDENTITY_INTACT_LEG_READS_A_DIFFERENT_STEP",
+  "sentence": "the ticket's k=0.458463 is 2026-11-20 on the schedule and is the last step at or before 2026-11-24; the leg reads 2026-10-23 (k=0.460253) -- one step earlier, 0.1790pp apart. The identity holds and the disagreeing leg is reading a different bar, not catching a break.",
+  "face": "etf_book_k_identity_bar",
+  "schema": "etf-book-k-identity-bar/v1",
+  "ticket_file": "TICKET-2026-11-24.json",
+  "evidence_cutoff": "2026-11-24",
+  "ticket_generated": "2026-11-24T18:36:52+08:00",
+  "sizing_source": "rule_same_bar_outcome",
+  "sizing_reason": "the executed account for 2026-11-24 was written by this bar's own sheet, so it is this ticket's outcome and cannot size it",
+  "schedule_tail": [
+    {
+      "bar": "2026-09-17",
+      "k": 0.458808,
+      "beta": 0.435912
+    },
+    {
+      "bar": "2026-10-23",
+      "k": 0.460253,
+      "beta": 0.434543
+    },
+    {
+      "bar": "2026-11-20",
+      "k": 0.458463,
+      "beta": 0.43624
+    }
+  ],
+  "drift": {
+    "n_steps": 78,
+    "n_diffs": 77,
+    "abs_step_pp_median": 0.2599,
+    "abs_step_pp_max": 6.7573,
+    "n_negative_steps": 24,
+    "n_steps_where_a_0_179pp_gap_would_turn_red": 46
+  },
+  "panel": {
+    "last_panel_bar": "2026-11-24",
+    "n_panel_bars": 5287,
+    "n_symbols": 1530
+  },
+  "blast_radius": [
+    {
+      "face": "results/etf_book_size_rulers_decision.json",
+      "on_disk": true,
+      "verdict": "IDENTITY_BROKEN",
+      "generated": "2026-11-24T17:25:28+0800",
+      "evidence_cutoff": "2026-11-24",
+      "why": "a ruler disagrees with a published number (ticket_k_reproduced); the table is not evidence until that is resolved",
+      "mtime": 1795512328.0705786
+    },
+    {
+      "face": "results/etf_book_rebalance_permission.json",
+      "on_disk": true,
+      "verdict": "UNREADABLE",
+      "generated": "2026-11-24T18:58:55+0800",
+      "evidence_cutoff": "2026-11-24",
+      "why": "a reading could not be classified (baseline_published); an unclassified reading is not a vote for the size in force",
+      "mtime": 1795517935.4020226
+    },
+    {
+      "face": "results/etf_book_cut_order_gap.json",
+      "on_disk": true,
+      "verdict": "UNREADABLE",
+      "generated": "2026-11-24T18:59:00+0800",
+      "evidence_cutoff": null,
+      "why": "the ticket or the permission is missing k_now/permitted_k/nav",
+      "mtime": 1795517940.4668028
+    },
+    {
+      "face": "results/etf_book_k_gap.json",
+      "on_disk": true,
+      "verdict": "FLOOR_CUT_THIS_SHEET",
+      "generated": null,
+      "evidence_cutoff": "2026-11-20",
+      "why": null,
+      "mtime": 1795179214.2235844
+    }
+  ],
+  "patch": "# scripts/etf_book_size_rulers_decision.py, inside run()\n-    cells[\"baseline_published\"], k_dec_bar, k_at_dec = baseline_cell(arms[\"published\"], tk)\n+    priced_bar = tk.get(\"base_bar\") or tk.get(\"as_of\") or tk.get(\"book_decided_at\")\n+    cells[\"baseline_published\"], k_dec_bar, k_at_dec = baseline_cell(\n+        arms[\"published\"], dict(tk, book_decided_at=priced_bar))\n+    # the leg must then read the step the ticket was priced on, not the roster decision\n\n# why this is the right bar and not a tolerance: k moves only on a schedule step, so the\n# step at or before base_bar IS the size in force on base_bar (step_in_force's own rule).\n# Widening the leg's tolerance to a whole step (0.1pp) would also turn it green -- and\n# would hide a genuine break between two adjacent rows. Fix the bar, keep the tolerance at\n# the 6dp storage precision the ticket and the faces share.\n",
+  "what_this_does_not_claim": [
+    "it does not fix the leg: the shared science faces are held by another host this round",
+    "it does not re-run the smoke legs: those must speak after the patch lands",
+    "it says nothing about the 5 red legs outside the book family (r2062 counted them)",
+    "adjacency is shown for this ticket only; the drift profile prices how common that arc is across all 78 steps, not how many tickets ever fell into it"
+  ]
+}

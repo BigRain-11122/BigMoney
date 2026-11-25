@@ -1,19 +1,19 @@
 {
   "generated_by": "etf_book_premium_forward v1.0",
   "generated_utc_note": "wall clock appears nowhere; numbers are deterministic on the panel",
-  "ticket_session": "2026-11-20",
+  "ticket_session": "2026-11-24",
   "panel": {
-    "ticket_session": "2026-11-20",
+    "ticket_session": "2026-11-24",
     "session_field": "base_bar",
-    "price_panel_last": "2026-11-20",
+    "price_panel_last": "2026-11-24",
     "state": "SAME_SESSION",
     "bars_beyond_session": 0,
-    "note": "the price panel ends on the ticket's own session (2026-11-20); every bar the panel holds is in this reading",
+    "note": "the price panel ends on the ticket's own session (2026-11-24); every bar the panel holds is in this reading",
     "legs_counted": 5,
     "legs_off_session": []
   },
-  "panel_rows": 6516,
-  "evidence_cutoff": "2026-11-20",
+  "panel_rows": 6526,
+  "evidence_cutoff": "2026-11-24",
   "definitions": {
     "percentile": "causal: share of the sessions BEFORE t whose premium_pct <= that session's; needs >= 60 prior sessions",
     "outcome": "close[t+h]/close[t]-1 in percent -- the price the operator holds, not the NAV",
@@ -31,15 +31,15 @@
     "1": {
       "legs": [
         {
-          "usable_obs": 718,
-          "nonoverlap_obs": 718,
-          "ic": -0.024801365970797316,
+          "usable_obs": 720,
+          "nonoverlap_obs": 720,
+          "ic": -0.020085208682414354,
           "buckets": {
             "BOTTOM": {
-              "n": 115,
-              "mean_pct": 0.1570993519423257,
-              "sd_pct": 1.2320652389454123,
-              "t": 1.3673812140054102
+              "n": 117,
+              "mean_pct": 0.14282529824410395,
+              "sd_pct": 1.226283004595127,
+              "t": 1.2598167005239764
             },
             "LOW": {
               "n": 181,
@@ -66,22 +66,22 @@
               "t": 1.7676362005565294
             }
           },
-          "latest_pctile": 0.2570694087403599,
+          "latest_pctile": 0.1282051282051282,
           "latest_bucket": "BOTTOM",
           "symbol": "159519",
           "amount_cny": 86972.2,
-          "rows": 779,
-          "last_date": "2026-11-20",
-          "price_session": "2026-11-20",
+          "rows": 781,
+          "last_date": "2026-11-24",
+          "price_session": "2026-11-24",
           "session_state": "SAME_SESSION",
-          "bar_at_session": "2026-11-20",
+          "bar_at_session": "2026-11-24",
           "counted": true,
-          "same_bucket_past_move_cny": 136.63276256998336
+          "same_bucket_past_move_cny": 124.21830403945856
         },
         {
-          "usable_obs": 928,
-          "nonoverlap_obs": 928,
-          "ic": -0.06960846544948657,
+          "usable_obs": 930,
+          "nonoverlap_obs": 930,
+          "ic": -0.0710643484813599,
           "buckets": {
             "BOTTOM": {
               "n": 30,
@@ -90,16 +90,16 @@
               "t": 0.3974909107888858
             },
             "LOW": {
-              "n": 92,
-              "mean_pct": 0.19619407606644423,
-              "sd_pct": 0.8380581365573592,
-              "t": 2.2454617254879854
+              "n": 93,
+              "mean_pct": 0.22497294327311967,
+              "sd_pct": 0.8784828123226824,
+              "t": 2.469667550879444
             },
             "MID": {
-              "n": 253,
-              "mean_pct": 0.18549573052964982,
-              "sd_pct": 1.1446105434377554,
-              "t": 2.5777241280899688
+              "n": 254,
+              "mean_pct": 0.18285426350707681,
+              "sd_pct": 1.1431216689722656,
+              "t": 2.5493501654703237
             },
             "UPPER": {
               "n": 267,
@@ -114,28 +114,28 @@
               "t": -0.3133992331133441
             }
           },
-          "latest_pctile": 30.161943319838056,
+          "latest_pctile": 64.64646464646465,
           "latest_bucket": "MID",
           "symbol": "159655",
-          "amount_cny": 86952.6,
-          "rows": 989,
-          "last_date": "2026-11-20",
-          "price_session": "2026-11-20",
+          "amount_cny": 86928.4,
+          "rows": 991,
+          "last_date": "2026-11-24",
+          "price_session": "2026-11-24",
           "session_state": "SAME_SESSION",
-          "bar_at_session": "2026-11-20",
+          "bar_at_session": "2026-11-24",
           "counted": true,
-          "same_bucket_past_move_cny": 161.2933605845243
+          "same_bucket_past_move_cny": 158.95228559848576
         },
         {
-          "usable_obs": 1440,
-          "nonoverlap_obs": 1440,
-          "ic": -0.0023102004434250034,
+          "usable_obs": 1442,
+          "nonoverlap_obs": 1442,
+          "ic": -0.003099054028548996,
           "buckets": {
             "BOTTOM": {
-              "n": 143,
-              "mean_pct": 0.06142830014743795,
-              "sd_pct": 1.1734066073913219,
-              "t": 0.6260196811075072
+              "n": 145,
+              "mean_pct": 0.06338905548180786,
+              "sd_pct": 1.1655951806659948,
+              "t": 0.6548631287308224
             },
             "LOW": {
               "n": 266,
@@ -162,28 +162,28 @@
               "t": 1.8131276507227143
             }
           },
-          "latest_pctile": 0.26666666666666666,
+          "latest_pctile": 0.3994673768308921,
           "latest_bucket": "BOTTOM",
           "symbol": "510760",
-          "amount_cny": 86942.4,
-          "rows": 1501,
-          "last_date": "2026-11-20",
-          "price_session": "2026-11-20",
+          "amount_cny": 86926.5,
+          "rows": 1503,
+          "last_date": "2026-11-24",
+          "price_session": "2026-11-24",
           "session_state": "SAME_SESSION",
-          "bar_at_session": "2026-11-20",
+          "bar_at_session": "2026-11-24",
           "counted": true,
-          "same_bucket_past_move_cny": 53.40723842738609
+          "same_bucket_past_move_cny": 55.10188731339371
         },
         {
-          "usable_obs": 1850,
-          "nonoverlap_obs": 1850,
-          "ic": 0.007492299454008958,
+          "usable_obs": 1852,
+          "nonoverlap_obs": 1852,
+          "ic": 0.008237268077261396,
           "buckets": {
             "BOTTOM": {
-              "n": 154,
-              "mean_pct": -0.22968939412492306,
-              "sd_pct": 4.33691082096033,
-              "t": -0.6572351931378894
+              "n": 156,
+              "mean_pct": -0.22999584498594805,
+              "sd_pct": 4.308937039193037,
+              "t": -0.666671886134676
             },
             "LOW": {
               "n": 359,
@@ -210,28 +210,28 @@
               "t": 1.5909846443866094
             }
           },
-          "latest_pctile": 9.109947643979057,
+          "latest_pctile": 4.2364016736401675,
           "latest_bucket": "BOTTOM",
           "symbol": "512040",
-          "amount_cny": 86950.5,
-          "rows": 1911,
-          "last_date": "2026-11-20",
-          "price_session": "2026-11-20",
+          "amount_cny": 86980.3,
+          "rows": 1913,
+          "last_date": "2026-11-24",
+          "price_session": "2026-11-24",
           "session_state": "SAME_SESSION",
-          "bar_at_session": "2026-11-20",
+          "bar_at_session": "2026-11-24",
           "counted": true,
-          "same_bucket_past_move_cny": -199.71607663859123
+          "same_bucket_past_move_cny": -200.05107595631256
         },
         {
-          "usable_obs": 1275,
-          "nonoverlap_obs": 1275,
-          "ic": 0.009246886952332578,
+          "usable_obs": 1277,
+          "nonoverlap_obs": 1277,
+          "ic": 0.011286234104114253,
           "buckets": {
             "BOTTOM": {
-              "n": 132,
-              "mean_pct": 0.011774256673058146,
-              "sd_pct": 1.4752922645536288,
-              "t": 0.09169431264559066
+              "n": 134,
+              "mean_pct": 0.0028801256836632747,
+              "sd_pct": 1.4659641432121644,
+              "t": 0.02274261981645078
             },
             "LOW": {
               "n": 233,
@@ -258,37 +258,37 @@
               "t": 1.1018880263237962
             }
           },
-          "latest_pctile": 2.546816479400749,
+          "latest_pctile": 2.243829468960359,
           "latest_bucket": "BOTTOM",
           "symbol": "513690",
-          "amount_cny": 86936.4,
-          "rows": 1336,
-          "last_date": "2026-11-20",
-          "price_session": "2026-11-20",
+          "amount_cny": 86916.4,
+          "rows": 1338,
+          "last_date": "2026-11-24",
+          "price_session": "2026-11-24",
           "session_state": "SAME_SESSION",
-          "bar_at_session": "2026-11-20",
+          "bar_at_session": "2026-11-24",
           "counted": true,
-          "same_bucket_past_move_cny": 10.23611487831652
+          "same_bucket_past_move_cny": 2.5033015597155064
         }
       ],
       "pooled_ic": {
-        "ic": -0.0023102004434250034,
+        "ic": -0.003099054028548996,
         "legs_with_ic": 5
       },
       "pooled_buckets": {
         "BOTTOM": {
-          "n": 574,
-          "mean_pct": -0.003942505690256595,
+          "n": 582,
+          "mean_pct": -0.008397161311062891,
           "legs": 5
         },
         "LOW": {
-          "n": 1131,
-          "mean_pct": 0.013378939956197046,
+          "n": 1132,
+          "mean_pct": 0.015904778990058408,
           "legs": 5
         },
         "MID": {
-          "n": 2347,
-          "mean_pct": 0.0400296983114545,
+          "n": 2348,
+          "mean_pct": 0.03980590504419924,
           "legs": 5
         },
         "UPPER": {
@@ -307,9 +307,9 @@
     "5": {
       "legs": [
         {
-          "usable_obs": 714,
-          "nonoverlap_obs": 143,
-          "ic": 0.037460307689170566,
+          "usable_obs": 716,
+          "nonoverlap_obs": 144,
+          "ic": 0.04982331551922232,
           "buckets": {
             "BOTTOM": {
               "n": 113,
@@ -318,10 +318,10 @@
               "t": 0.5702250324818661
             },
             "LOW": {
-              "n": 179,
-              "mean_pct": 0.46921208724428326,
-              "sd_pct": 1.9961170084646258,
-              "t": 3.144920790955706
+              "n": 181,
+              "mean_pct": 0.42360271853376696,
+              "sd_pct": 2.031834684065652,
+              "t": 2.8048501018144543
             },
             "MID": {
               "n": 276,
@@ -342,22 +342,22 @@
               "t": 2.150080945312194
             }
           },
-          "latest_pctile": 0.2570694087403599,
+          "latest_pctile": 0.1282051282051282,
           "latest_bucket": "BOTTOM",
           "symbol": "159519",
           "amount_cny": 86972.2,
-          "rows": 779,
-          "last_date": "2026-11-20",
-          "price_session": "2026-11-20",
+          "rows": 781,
+          "last_date": "2026-11-24",
+          "price_session": "2026-11-24",
           "session_state": "SAME_SESSION",
-          "bar_at_session": "2026-11-20",
+          "bar_at_session": "2026-11-24",
           "counted": true,
           "same_bucket_past_move_cny": 121.5919148381785
         },
         {
-          "usable_obs": 924,
-          "nonoverlap_obs": 185,
-          "ic": -0.11724759461623839,
+          "usable_obs": 926,
+          "nonoverlap_obs": 186,
+          "ic": -0.11940412628380433,
           "buckets": {
             "BOTTOM": {
               "n": 30,
@@ -378,40 +378,40 @@
               "t": 4.133087994812898
             },
             "UPPER": {
-              "n": 264,
-              "mean_pct": 0.43547921256756217,
-              "sd_pct": 2.3559968016791073,
-              "t": 3.003272198670299
+              "n": 265,
+              "mean_pct": 0.4262380728265829,
+              "sd_pct": 2.3563374370704153,
+              "t": 2.9446771967422056
             },
             "TOP": {
-              "n": 285,
-              "mean_pct": -0.1575574574692398,
-              "sd_pct": 2.7531007300393195,
-              "t": -0.966138285366949
+              "n": 286,
+              "mean_pct": -0.17919249315981803,
+              "sd_pct": 2.7725147526510647,
+              "t": -1.093022149601542
             }
           },
-          "latest_pctile": 30.161943319838056,
+          "latest_pctile": 64.64646464646465,
           "latest_bucket": "MID",
           "symbol": "159655",
-          "amount_cny": 86952.6,
-          "rows": 989,
-          "last_date": "2026-11-20",
-          "price_session": "2026-11-20",
+          "amount_cny": 86928.4,
+          "rows": 991,
+          "last_date": "2026-11-24",
+          "price_session": "2026-11-24",
           "session_state": "SAME_SESSION",
-          "bar_at_session": "2026-11-20",
+          "bar_at_session": "2026-11-24",
           "counted": true,
-          "same_bucket_past_move_cny": 532.6973656890173
+          "same_bucket_past_move_cny": 532.549109325784
         },
         {
-          "usable_obs": 1436,
+          "usable_obs": 1438,
           "nonoverlap_obs": 288,
           "ic": 0.017046737554681127,
           "buckets": {
             "BOTTOM": {
-              "n": 139,
-              "mean_pct": 0.3338634088364652,
-              "sd_pct": 2.395984470377738,
-              "t": 1.6428284855467872
+              "n": 141,
+              "mean_pct": 0.3070234745618481,
+              "sd_pct": 2.3901766220059,
+              "t": 1.5252855090845954
             },
             "LOW": {
               "n": 266,
@@ -438,20 +438,20 @@
               "t": 1.802155037796673
             }
           },
-          "latest_pctile": 0.26666666666666666,
+          "latest_pctile": 0.3994673768308921,
           "latest_bucket": "BOTTOM",
           "symbol": "510760",
-          "amount_cny": 86942.4,
-          "rows": 1501,
-          "last_date": "2026-11-20",
-          "price_session": "2026-11-20",
+          "amount_cny": 86926.5,
+          "rows": 1503,
+          "last_date": "2026-11-24",
+          "price_session": "2026-11-24",
           "session_state": "SAME_SESSION",
-          "bar_at_session": "2026-11-20",
+          "bar_at_session": "2026-11-24",
           "counted": true,
-          "same_bucket_past_move_cny": 290.2688603642349
+          "same_bucket_past_move_cny": 266.8847606150049
         },
         {
-          "usable_obs": 1846,
+          "usable_obs": 1848,
           "nonoverlap_obs": 370,
           "ic": 0.04514666429294264,
           "buckets": {
@@ -468,16 +468,16 @@
               "t": 0.43324612150328334
             },
             "MID": {
-              "n": 776,
-              "mean_pct": 0.006642385418363803,
-              "sd_pct": 3.932677018545518,
-              "t": 0.04705076097395579
+              "n": 777,
+              "mean_pct": 0.0047049421413783415,
+              "sd_pct": 3.9305132998785623,
+              "t": 0.03336687438219347
             },
             "UPPER": {
-              "n": 399,
-              "mean_pct": 0.13056845365520206,
-              "sd_pct": 3.3989713046787378,
-              "t": 0.7673212231848857
+              "n": 400,
+              "mean_pct": 0.1240282794141875,
+              "sd_pct": 3.3972283673003703,
+              "t": 0.730173341350893
             },
             "TOP": {
               "n": 158,
@@ -486,20 +486,20 @@
               "t": 1.063302160946504
             }
           },
-          "latest_pctile": 9.109947643979057,
+          "latest_pctile": 4.2364016736401675,
           "latest_bucket": "BOTTOM",
           "symbol": "512040",
-          "amount_cny": 86950.5,
-          "rows": 1911,
-          "last_date": "2026-11-20",
-          "price_session": "2026-11-20",
+          "amount_cny": 86980.3,
+          "rows": 1913,
+          "last_date": "2026-11-24",
+          "price_session": "2026-11-24",
           "session_state": "SAME_SESSION",
-          "bar_at_session": "2026-11-20",
+          "bar_at_session": "2026-11-24",
           "counted": true,
-          "same_bucket_past_move_cny": 90.40847822151065
+          "same_bucket_past_move_cny": 90.4394633527175
         },
         {
-          "usable_obs": 1271,
+          "usable_obs": 1273,
           "nonoverlap_obs": 255,
           "ic": 0.01921504201707854,
           "buckets": {
@@ -510,10 +510,10 @@
               "t": -0.09897401639489523
             },
             "LOW": {
-              "n": 231,
-              "mean_pct": -0.027389103311480745,
-              "sd_pct": 2.640554884608049,
-              "t": -0.1576480507590368
+              "n": 233,
+              "mean_pct": -0.05854608537850668,
+              "sd_pct": 2.6505289699167305,
+              "t": -0.33716560655632705
             },
             "MID": {
               "n": 442,
@@ -534,17 +534,17 @@
               "t": 0.12786043989533843
             }
           },
-          "latest_pctile": 2.546816479400749,
+          "latest_pctile": 2.243829468960359,
           "latest_bucket": "BOTTOM",
           "symbol": "513690",
-          "amount_cny": 86936.4,
-          "rows": 1336,
-          "last_date": "2026-11-20",
-          "price_session": "2026-11-20",
+          "amount_cny": 86916.4,
+          "rows": 1338,
+          "last_date": "2026-11-24",
+          "price_session": "2026-11-24",
           "session_state": "SAME_SESSION",
-          "bar_at_session": "2026-11-20",
+          "bar_at_session": "2026-11-24",
           "counted": true,
-          "same_bucket_past_move_cny": -27.26442052747701
+          "same_bucket_past_move_cny": -27.258148259352843
         }
       ],
       "pooled_ic": {
@@ -553,28 +553,28 @@
       },
       "pooled_buckets": {
         "BOTTOM": {
-          "n": 566,
-          "mean_pct": 0.19282850598660436,
+          "n": 568,
+          "mean_pct": 0.18666237759396126,
           "legs": 5
         },
         "LOW": {
-          "n": 1127,
-          "mean_pct": 0.1964375156117744,
+          "n": 1131,
+          "mean_pct": 0.18280623651999542,
           "legs": 5
         },
         "MID": {
-          "n": 2344,
-          "mean_pct": 0.19727799022118822,
+          "n": 2345,
+          "mean_pct": 0.19655473690305578,
           "legs": 5
         },
         "UPPER": {
-          "n": 1347,
-          "mean_pct": 0.1649970743776202,
+          "n": 1349,
+          "mean_pct": 0.16141744634923044,
           "legs": 5
         },
         "TOP": {
-          "n": 807,
-          "mean_pct": 0.1440762141836183,
+          "n": 808,
+          "mean_pct": 0.1360449593826799,
           "legs": 5
         }
       },
@@ -583,9 +583,9 @@
     "20": {
       "legs": [
         {
-          "usable_obs": 699,
-          "nonoverlap_obs": 35,
-          "ic": 0.21472091935841206,
+          "usable_obs": 701,
+          "nonoverlap_obs": 36,
+          "ic": 0.22073492548443338,
           "buckets": {
             "BOTTOM": {
               "n": 110,
@@ -594,16 +594,16 @@
               "t": 4.012511028053157
             },
             "LOW": {
-              "n": 173,
-              "mean_pct": 1.379358307339969,
-              "sd_pct": 3.963510232903504,
-              "t": 4.577413673514194
+              "n": 174,
+              "mean_pct": 1.3666784639879428,
+              "sd_pct": 3.9555761849691504,
+              "t": 4.557547687278949
             },
             "MID": {
-              "n": 270,
-              "mean_pct": 1.67351307592186,
-              "sd_pct": 4.598611926416371,
-              "t": 5.97976656845167
+              "n": 271,
+              "mean_pct": 1.6690907375694648,
+              "sd_pct": 4.590665369783213,
+              "t": 5.985341793698392
             },
             "UPPER": {
               "n": 97,
@@ -618,20 +618,20 @@
               "t": 3.5668284934784595
             }
           },
-          "latest_pctile": 0.2570694087403599,
+          "latest_pctile": 0.1282051282051282,
           "latest_bucket": "BOTTOM",
           "symbol": "159519",
           "amount_cny": 86972.2,
-          "rows": 779,
-          "last_date": "2026-11-20",
-          "price_session": "2026-11-20",
+          "rows": 781,
+          "last_date": "2026-11-24",
+          "price_session": "2026-11-24",
           "session_state": "SAME_SESSION",
-          "bar_at_session": "2026-11-20",
+          "bar_at_session": "2026-11-24",
           "counted": true,
           "same_bucket_past_move_cny": 1798.2726666508484
         },
         {
-          "usable_obs": 909,
+          "usable_obs": 911,
           "nonoverlap_obs": 46,
           "ic": -0.3259327782917052,
           "buckets": {
@@ -660,34 +660,34 @@
               "t": 4.3173101868989034
             },
             "TOP": {
-              "n": 270,
-              "mean_pct": 0.18901277809560751,
-              "sd_pct": 4.429667852352674,
-              "t": 0.701135383083166
+              "n": 272,
+              "mean_pct": 0.1465944179993354,
+              "sd_pct": 4.441255643590067,
+              "t": 0.5443724190113255
             }
           },
-          "latest_pctile": 30.161943319838056,
+          "latest_pctile": 64.64646464646465,
           "latest_bucket": "MID",
           "symbol": "159655",
-          "amount_cny": 86952.6,
-          "rows": 989,
-          "last_date": "2026-11-20",
-          "price_session": "2026-11-20",
+          "amount_cny": 86928.4,
+          "rows": 991,
+          "last_date": "2026-11-24",
+          "price_session": "2026-11-24",
           "session_state": "SAME_SESSION",
-          "bar_at_session": "2026-11-20",
+          "bar_at_session": "2026-11-24",
           "counted": true,
-          "same_bucket_past_move_cny": 2600.567118199858
+          "same_bucket_past_move_cny": 2599.8433477288145
         },
         {
-          "usable_obs": 1421,
+          "usable_obs": 1423,
           "nonoverlap_obs": 72,
           "ic": 0.011994533322614357,
           "buckets": {
             "BOTTOM": {
-              "n": 135,
-              "mean_pct": 0.9538545023368754,
-              "sd_pct": 4.523750106830276,
-              "t": 2.449911587740772
+              "n": 136,
+              "mean_pct": 0.9254189116816655,
+              "sd_pct": 4.519147571531284,
+              "t": 2.3880933610528055
             },
             "LOW": {
               "n": 263,
@@ -696,10 +696,10 @@
               "t": 1.8909870467773349
             },
             "MID": {
-              "n": 592,
-              "mean_pct": 0.18013461107946319,
-              "sd_pct": 3.997528544603516,
-              "t": 1.0963934845825365
+              "n": 593,
+              "mean_pct": 0.17298008391069508,
+              "sd_pct": 3.9979488328658204,
+              "t": 1.0536253680679317
             },
             "UPPER": {
               "n": 288,
@@ -714,20 +714,20 @@
               "t": 2.2425431454254823
             }
           },
-          "latest_pctile": 0.26666666666666666,
+          "latest_pctile": 0.3994673768308921,
           "latest_bucket": "BOTTOM",
           "symbol": "510760",
-          "amount_cny": 86942.4,
-          "rows": 1501,
-          "last_date": "2026-11-20",
-          "price_session": "2026-11-20",
+          "amount_cny": 86926.5,
+          "rows": 1503,
+          "last_date": "2026-11-24",
+          "price_session": "2026-11-24",
           "session_state": "SAME_SESSION",
-          "bar_at_session": "2026-11-20",
+          "bar_at_session": "2026-11-24",
           "counted": true,
-          "same_bucket_past_move_cny": 829.3039968397355
+          "same_bucket_past_move_cny": 804.434270262963
         },
         {
-          "usable_obs": 1831,
+          "usable_obs": 1833,
           "nonoverlap_obs": 92,
           "ic": 0.022563691567899145,
           "buckets": {
@@ -738,16 +738,16 @@
               "t": 1.2184799505606034
             },
             "LOW": {
-              "n": 355,
-              "mean_pct": 0.3899949019010844,
-              "sd_pct": 6.5359466942733535,
-              "t": 1.1242544231040237
+              "n": 356,
+              "mean_pct": 0.3922808244210324,
+              "sd_pct": 6.526877152622491,
+              "t": 1.1340093614504951
             },
             "MID": {
-              "n": 770,
-              "mean_pct": 0.1136316784152153,
-              "sd_pct": 8.214517188529566,
-              "t": 0.38385105751885035
+              "n": 771,
+              "mean_pct": 0.11537531564979724,
+              "sd_pct": 8.209324122188892,
+              "t": 0.3902408135130464
             },
             "UPPER": {
               "n": 395,
@@ -762,20 +762,20 @@
               "t": 2.2740626443563046
             }
           },
-          "latest_pctile": 9.109947643979057,
+          "latest_pctile": 4.2364016736401675,
           "latest_bucket": "BOTTOM",
           "symbol": "512040",
-          "amount_cny": 86950.5,
-          "rows": 1911,
-          "last_date": "2026-11-20",
-          "price_session": "2026-11-20",
+          "amount_cny": 86980.3,
+          "rows": 1913,
+          "last_date": "2026-11-24",
+          "price_session": "2026-11-24",
           "session_state": "SAME_SESSION",
-          "bar_at_session": "2026-11-20",
+          "bar_at_session": "2026-11-24",
           "counted": true,
-          "same_bucket_past_move_cny": 581.398012704799
+          "same_bucket_past_move_cny": 581.5972716024316
         },
         {
-          "usable_obs": 1256,
+          "usable_obs": 1258,
           "nonoverlap_obs": 63,
           "ic": -0.043922811059907835,
           "buckets": {
@@ -786,16 +786,16 @@
               "t": 1.8093060925702986
             },
             "LOW": {
-              "n": 224,
-              "mean_pct": 0.5439702756506805,
-              "sd_pct": 5.6717931761851155,
-              "t": 1.4354193369531965
+              "n": 225,
+              "mean_pct": 0.5427647511932431,
+              "sd_pct": 5.659147652658904,
+              "t": 1.4386391321798155
             },
             "MID": {
-              "n": 436,
-              "mean_pct": 0.5120959930132436,
-              "sd_pct": 5.477554389455956,
-              "t": 1.9521263501590533
+              "n": 437,
+              "mean_pct": 0.512376397650703,
+              "sd_pct": 5.471272324443379,
+              "t": 1.9576790929355947
             },
             "UPPER": {
               "n": 296,
@@ -810,17 +810,17 @@
               "t": 0.288393794224689
             }
           },
-          "latest_pctile": 2.546816479400749,
+          "latest_pctile": 2.243829468960359,
           "latest_bucket": "BOTTOM",
           "symbol": "513690",
-          "amount_cny": 86936.4,
-          "rows": 1336,
-          "last_date": "2026-11-20",
-          "price_session": "2026-11-20",
+          "amount_cny": 86916.4,
+          "rows": 1338,
+          "last_date": "2026-11-24",
+          "price_session": "2026-11-24",
           "session_state": "SAME_SESSION",
-          "bar_at_session": "2026-11-20",
+          "bar_at_session": "2026-11-24",
           "counted": true,
-          "same_bucket_past_move_cny": 912.2208147696153
+          "same_bucket_past_move_cny": 912.0109554207651
         }
       ],
       "pooled_ic": {
@@ -829,18 +829,18 @@
       },
       "pooled_buckets": {
         "BOTTOM": {
-          "n": 558,
-          "mean_pct": 1.2458214160991472,
+          "n": 559,
+          "mean_pct": 1.2383809738042084,
           "legs": 5
         },
         "LOW": {
-          "n": 1107,
-          "mean_pct": 0.7572308849163178,
+          "n": 1110,
+          "mean_pct": 0.755769518701064,
           "legs": 5
         },
         "MID": {
-          "n": 2321,
-          "mean_pct": 0.7005289075439003,
+          "n": 2325,
+          "mean_pct": 0.6986807581065275,
           "legs": 5
         },
         "UPPER": {
@@ -849,8 +849,8 @@
           "legs": 5
         },
         "TOP": {
-          "n": 790,
-          "mean_pct": 0.6115624260592912,
+          "n": 792,
+          "mean_pct": 0.5959274598445016,
           "legs": 5
         }
       },
@@ -881,13 +881,13 @@
     "legs": {
       "159519": {
         "symbol": "159519",
-        "rows": 779,
-        "last_date": "2026-11-20",
-        "price_session": "2026-11-20",
+        "rows": 781,
+        "last_date": "2026-11-24",
+        "price_session": "2026-11-24",
         "session_state": "SAME_SESSION",
-        "bar_at_session": "2026-11-20",
+        "bar_at_session": "2026-11-24",
         "counted": true,
-        "latest_pctile": 0.2570694087403599,
+        "latest_pctile": 0.1282051282051282,
         "latest_band": null,
         "amount_cny": 86972.2,
         "bands": {
@@ -911,15 +911,15 @@
       },
       "159655": {
         "symbol": "159655",
-        "rows": 989,
-        "last_date": "2026-11-20",
-        "price_session": "2026-11-20",
+        "rows": 991,
+        "last_date": "2026-11-24",
+        "price_session": "2026-11-24",
         "session_state": "SAME_SESSION",
-        "bar_at_session": "2026-11-20",
+        "bar_at_session": "2026-11-24",
         "counted": true,
-        "latest_pctile": 30.161943319838056,
+        "latest_pctile": 64.64646464646465,
         "latest_band": null,
-        "amount_cny": 86952.6,
+        "amount_cny": 86928.4,
         "bands": {
           "P95_98": {
             "n": 107,
@@ -941,15 +941,15 @@
       },
       "510760": {
         "symbol": "510760",
-        "rows": 1501,
-        "last_date": "2026-11-20",
-        "price_session": "2026-11-20",
+        "rows": 1503,
+        "last_date": "2026-11-24",
+        "price_session": "2026-11-24",
         "session_state": "SAME_SESSION",
-        "bar_at_session": "2026-11-20",
+        "bar_at_session": "2026-11-24",
         "counted": true,
-        "latest_pctile": 0.26666666666666666,
+        "latest_pctile": 0.3994673768308921,
         "latest_band": null,
-        "amount_cny": 86942.4,
+        "amount_cny": 86926.5,
         "bands": {
           "P95_98": {
             "n": 40,
@@ -971,15 +971,15 @@
       },
       "512040": {
         "symbol": "512040",
-        "rows": 1911,
-        "last_date": "2026-11-20",
-        "price_session": "2026-11-20",
+        "rows": 1913,
+        "last_date": "2026-11-24",
+        "price_session": "2026-11-24",
         "session_state": "SAME_SESSION",
-        "bar_at_session": "2026-11-20",
+        "bar_at_session": "2026-11-24",
         "counted": true,
-        "latest_pctile": 9.109947643979057,
+        "latest_pctile": 4.2364016736401675,
         "latest_band": null,
-        "amount_cny": 86950.5,
+        "amount_cny": 86980.3,
         "bands": {
           "P95_98": {
             "n": 47,
@@ -1001,15 +1001,15 @@
       },
       "513690": {
         "symbol": "513690",
-        "rows": 1336,
-        "last_date": "2026-11-20",
-        "price_session": "2026-11-20",
+        "rows": 1338,
+        "last_date": "2026-11-24",
+        "price_session": "2026-11-24",
         "session_state": "SAME_SESSION",
-        "bar_at_session": "2026-11-20",
+        "bar_at_session": "2026-11-24",
         "counted": true,
-        "latest_pctile": 2.546816479400749,
+        "latest_pctile": 2.243829468960359,
         "latest_band": null,
-        "amount_cny": 86936.4,
+        "amount_cny": 86916.4,
         "bands": {
           "P95_98": {
             "n": 64,
@@ -1031,13 +1031,13 @@
       }
     },
     "verdict": "WAITING_COST",
-    "sentence": "after sessions at or above the 98th percentile of the fund's own history, the NEXT session moved a median +0.34% (mean +0.39%, fell in 34% of 136 cases); no leg of this ticket sits in that band on 2026-11-20",
+    "sentence": "after sessions at or above the 98th percentile of the fund's own history, the NEXT session moved a median +0.34% (mean +0.39%, fell in 34% of 136 cases); no leg of this ticket sits in that band on 2026-11-24",
     "note": "a description of these funds' own records at this percentile, not a recommendation to wait; the price move is measured, the reason is not"
   },
   "verdict": "HIGH_PREMIUM_PAYS",
   "verdict_horizon": 20,
   "caveat": "five legs of one ticket: this is a description of these funds' own records, not a cross-sectional study and not a forecast. Overlapping windows are counted once per stride in the t-stat and reported in full only as coverage.",
-  "sentence": "premium percentile rank-IC with the next 20 sessions is +0.012 (5 legs); 159519: after sessions in its top decile the next 20 sessions averaged +2.94% (n=49, t=+3.6); 159655: after sessions in its top decile the next 20 sessions averaged +0.19% (n=270, t=+0.7); 510760: after sessions in its top decile the next 20 sessions averaged +0.75% (n=143, t=+2.2); 512040: after sessions in its top decile the next 20 sessions averaged +1.01% (n=157, t=+2.3); 513690: after sessions in its top decile the next 20 sessions averaged +0.12% (n=171, t=+0.3) || one session: after sessions at or above the 98th percentile of the fund's own history, the NEXT session moved a median +0.34% (mean +0.39%, fell in 34% of 136 cases); no leg of this ticket sits in that band on 2026-11-20 || sample: legs 159519,159655,510760,512040,513690 replaced 159263,159501,159577,513100,513690 (last published 2026-11-10) -- not comparable across sessions",
+  "sentence": "premium percentile rank-IC with the next 20 sessions is +0.012 (5 legs); 159519: after sessions in its top decile the next 20 sessions averaged +2.94% (n=49, t=+3.6); 159655: after sessions in its top decile the next 20 sessions averaged +0.15% (n=272, t=+0.5); 510760: after sessions in its top decile the next 20 sessions averaged +0.75% (n=143, t=+2.2); 512040: after sessions in its top decile the next 20 sessions averaged +1.01% (n=157, t=+2.3); 513690: after sessions in its top decile the next 20 sessions averaged +0.12% (n=171, t=+0.3) || one session: after sessions at or above the 98th percentile of the fund's own history, the NEXT session moved a median +0.34% (mean +0.39%, fell in 34% of 136 cases); no leg of this ticket sits in that band on 2026-11-24 || sample: legs 159519,159655,510760,512040,513690 replaced 159263,159501,159577,513100,513690 (last published 2026-11-10) -- not comparable across sessions",
   "sample": {
     "signature": "3600c87ce854",
     "legs": [
@@ -1061,9 +1061,9 @@
       "513690"
     ],
     "previous_session": "2026-11-10",
-    "panel_rows": 6516,
+    "panel_rows": 6526,
     "first_date": "2019-01-03",
-    "last_date": "2026-11-20",
+    "last_date": "2026-11-24",
     "definition": "sha256 of the sorted leg codes (12 hex): the identity of what this face measured. A new ticket replaces the funds, so a verdict may only be compared across sessions inside one signature."
   },
   "sample_break": {

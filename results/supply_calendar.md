@@ -4,12 +4,10 @@
 
 | 候选 | 读数 | 判决 | 未过的检查 | 收据 | 被取代的读数 |
 |---|---|---|---|---|---|
-| nobond_vt08_adopted | phase | UNADJUDICABLE_PHASE | Y4_top2_share | results/etf_book_phase_gate.json | CONDITIONAL via Y4_top2_share [single_phase · results/etf_book_year_gate/YEAR-GATE.json] |
-| nobond_base | phase | UNADJUDICABLE_PHASE | Y3_worst_year, Y4_top2_share | results/etf_book_phase_gate.json | ADMIT [single_phase · results/etf_book_year_gate/YEAR-GATE.json] |
+| nobond_vt08_adopted | phase | CONDITIONAL | Y4_top2_share | results/etf_book_phase_gate.json | CONDITIONAL via Y4_top2_share [single_phase · results/etf_book_year_gate/YEAR-GATE.json] |
+| nobond_base | phase | UNADJUDICABLE_PHASE | Y4_top2_share, Y3_worst_year | results/etf_book_phase_gate.json | CONDITIONAL via Y4_top2_share [single_phase · results/etf_book_year_gate/YEAR-GATE.json] |
 | nobond_vt08_floor_050 | phase | UNADJUDICABLE_PHASE | Y4_top2_share | results/etf_book_phase_gate.json | — |
 | all_classes_published | single_phase | CONDITIONAL | Y4_top2_share | results/etf_book_year_gate/YEAR-GATE.json | — |
-
-**被弃掉的那份读数里有 ADMIT**：nobond_base 在 single_phase（results/etf_book_year_gate/YEAR-GATE.json）读 ADMIT。同一本书、同一天，两张收据给了不同的话，合并按列序只留第一张（相位）；上面的判词说的是**留下来的那份读数**，不是这本书的全部记录。两份都印出来，读者才知道「池子空」是书的结论还是合并顺序的结论。
 
 ## 拒的是书还是尺子（r1426 口径复读）
 
@@ -18,7 +16,7 @@
 
 ## 拒的理由用的是哪把尺子（r1431 采纳：years_for_half）
 
-- nobond_vt08_adopted refused at years_for_half median 2 vs line 3 (FAIL)
+- nobond_vt08_adopted refused at years_for_half median 1 vs line 3 (FAIL)
 - nobond_base refused at years_for_half median 2 vs line 3 (FAIL)
 - nobond_vt08_floor_050 refused at years_for_half median 2 vs line 3 (FAIL)
 - all_classes_published has no years_for_half reading on record
@@ -41,14 +39,14 @@
 
 ## 这「2 年」是哪两年（r1435 取证 · 只印不改）
 
-- half_year: nobond_vt08_adopted: half of its 7-year net (+79.60pp) is supplied by 2025 +43.06pp, which is the newest FULL year (the last row is a partial year) (dominant year 2025 = +43.06pp = 54.1% of net) -> one year supplies the half [phase set: one_year 2/5 phases] (exploratory -- decides nothing)
+- half_year: nobond_vt08_adopted: half of its 7-year net (+79.41pp) is supplied by 2025 +43.06pp, which is the newest FULL year (the last row is a partial year) (dominant year 2025 = +43.06pp = 54.2% of net) -> one year supplies the half [phase set: one_year 3/5 phases] (exploratory -- decides nothing)
 
 | 书 | 方向 | 中位年数 | 主年 |
 |---|---|---|---|
-| nobond_vt08_adopted | one_year | 2 | 2025 |
+| nobond_vt08_adopted | one_year | 1 | 2025 |
 | nobond_base | interleaved | 2 | 2020, 2025 |
 | nobond_vt08_floor_050 | one_year | 2 | 2025 |
 
-读数抄自 `results/etf_book_half_year_provenance.json`（cutoff 2026-11-20），只重排不重算。这张表要说的是：尺子把各年净值降序累到一半，它**分不出先后**——所以「前置」是读的人加的词，不是尺子说的。若主年在窗口末尾，那么「钱早就赚完了」这话方向反了：真正要问的是「这一年还能不能复现」。
+读数抄自 `results/etf_book_half_year_provenance.json`（cutoff 2026-11-24），只重排不重算。这张表要说的是：尺子把各年净值降序累到一半，它**分不出先后**——所以「前置」是读的人加的词，不是尺子说的。若主年在窗口末尾，那么「钱早就赚完了」这话方向反了：真正要问的是「这一年还能不能复现」。
 
 读法：只有字面 `ADMIT` 算过。CONDITIONAL / REFUSE / UNADJUDICABLE_PHASE 在本面一律是拒——日历闸不肯放行的候选，不能当作「今天就能点火」的供给。「没人写题」要开题，「题都过不了日历」要等证据或重切书，两件事的处置相反，把两种都印成 agenda debt 等于没说。

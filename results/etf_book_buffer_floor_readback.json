@@ -11,8 +11,8 @@
  "floor_face": "etf_book_buffer_resolution_floor.json",
  "arm_face": "etf_book_phase_atlas_buffer_k30.json",
  "predicted_pp": 0.298,
- "observed_pp": 0.645,
- "gap_pp": 0.347,
+ "observed_pp": 0.47,
+ "gap_pp": 0.172,
  "tolerance_pp": 0.057,
  "max_in_sample_residual_pp": 0.019,
  "cells": [
@@ -20,93 +20,93 @@
    "n_hold": 3,
    "rebal": 10,
    "median_cagr_pp": 12.165,
-   "baseline_cagr_pp": 10.46,
-   "delta_pp": 1.705
+   "baseline_cagr_pp": 14.09,
+   "delta_pp": -1.925
   },
   {
    "n_hold": 3,
    "rebal": 20,
    "median_cagr_pp": 9.755,
-   "baseline_cagr_pp": 8.325,
-   "delta_pp": 1.43
+   "baseline_cagr_pp": 10.96,
+   "delta_pp": -1.205
   },
   {
    "n_hold": 3,
    "rebal": 40,
    "median_cagr_pp": 6.06,
-   "baseline_cagr_pp": 6.565,
-   "delta_pp": -0.505
+   "baseline_cagr_pp": 7.535,
+   "delta_pp": -1.475
   },
   {
    "n_hold": 5,
    "rebal": 10,
    "median_cagr_pp": 12.31,
-   "baseline_cagr_pp": 11.275,
-   "delta_pp": 1.035
+   "baseline_cagr_pp": 11.18,
+   "delta_pp": 1.13
   },
   {
    "n_hold": 5,
    "rebal": 20,
    "median_cagr_pp": 9.79,
-   "baseline_cagr_pp": 9.075,
-   "delta_pp": 0.715
+   "baseline_cagr_pp": 9.345,
+   "delta_pp": 0.445
   },
   {
    "n_hold": 5,
    "rebal": 40,
    "median_cagr_pp": 8.065,
-   "baseline_cagr_pp": 7.655,
-   "delta_pp": 0.41
+   "baseline_cagr_pp": 7.6,
+   "delta_pp": 0.465
   },
   {
    "n_hold": 8,
    "rebal": 10,
    "median_cagr_pp": 12.225,
-   "baseline_cagr_pp": 11.805,
-   "delta_pp": 0.42
+   "baseline_cagr_pp": 11.6,
+   "delta_pp": 0.625
   },
   {
    "n_hold": 8,
    "rebal": 20,
    "median_cagr_pp": 10.0,
-   "baseline_cagr_pp": 10.01,
-   "delta_pp": -0.01
+   "baseline_cagr_pp": 9.525,
+   "delta_pp": 0.475
   },
   {
    "n_hold": 8,
    "rebal": 40,
    "median_cagr_pp": 8.6,
-   "baseline_cagr_pp": 7.94,
-   "delta_pp": 0.66
+   "baseline_cagr_pp": 7.95,
+   "delta_pp": 0.65
   },
   {
    "n_hold": 12,
    "rebal": 10,
    "median_cagr_pp": 11.64,
-   "baseline_cagr_pp": 11.25,
-   "delta_pp": 0.39
+   "baseline_cagr_pp": 11.205,
+   "delta_pp": 0.435
   },
   {
    "n_hold": 12,
    "rebal": 20,
    "median_cagr_pp": 9.82,
-   "baseline_cagr_pp": 9.19,
-   "delta_pp": 0.63
+   "baseline_cagr_pp": 9.165,
+   "delta_pp": 0.655
   },
   {
    "n_hold": 12,
    "rebal": 40,
    "median_cagr_pp": 8.365,
-   "baseline_cagr_pp": 7.445,
-   "delta_pp": 0.92
+   "baseline_cagr_pp": 7.335,
+   "delta_pp": 1.03
   }
  ],
  "verdict": "REFUTED",
  "verdict_reasons": [
   "the fit says +0.298pp at k=0.30 (slope +1.047, intercept -0.016)",
-  "the harvested arm's own 12 cells say +0.645pp (median)",
-  "gap +0.347pp against tolerance 0.057pp = 3.0x the fit's largest in-sample residual (0.019pp, floored at 0.05)",
-  "cell spread of the same arm: -0.505 .. +1.705pp (12 cells), i.e. the median is not the book",
+  "the harvested arm's own 12 cells say +0.470pp (median)",
+  "gap +0.172pp against tolerance 0.057pp = 3.0x the fit's largest in-sample residual (0.019pp, floored at 0.05)",
+  "cell spread of the same arm: -1.925 .. +1.130pp (12 cells), i.e. the median is not the book",
   "the line misses the point it never saw by more than its own residual band: the k the floor reports is an extrapolation with no support"
  ]
 }

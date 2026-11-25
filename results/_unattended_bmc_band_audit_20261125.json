@@ -1,0 +1,34 @@
+{
+ "audited_face": "results/etf_book_cap_trim_toll.json",
+ "band_cny": {
+  "correct_divide_by_beta": 122394.51,
+  "correct_from_k_noise_sd": 122386.05,
+  "one_over_beta_now": 2.0773,
+  "printed_by_face": 58920.0,
+  "printed_formula": "band_pp/100*nav",
+  "ratio_correct_over_printed": 2.0773,
+  "reproduced_by_formula": 58920.0
+ },
+ "finding": "ONE PP, TWO RULERS: the gap (over_pp_now) is turned into money with divide-by-beta, but the noise band (ruler_band_pp) is turned into money with times-NAV, on the same face. Both are exposure-beta units, so the band is understated by 1/beta (~2.08x). The verdict direction does not flip (the trim is inside the ruler either way), but the printed band number is wrong and internally inconsistent with the gap on the same page.",
+ "gap_money_cross_check": {
+  "delta_cny": 4.36,
+  "published_trim_cny": 19543.03,
+  "recomputed_from_over_pp": 19547.39,
+  "uses_divide_by_beta": true
+ },
+ "levels": {
+  "beta_now": 0.48139415749642345,
+  "k_noise_sd_pp": 12.238604746960375,
+  "nav_cny": 1000000.0,
+  "over_pp_now": 0.941,
+  "ruler_band_pp": 5.892,
+  "trim_now_cny": 19543.03
+ },
+ "schema": "unattended-band-audit/v1",
+ "upstream_face": "results/etf_book_cap_beta_units.json",
+ "verdict": {
+  "as_printed": "TRIM_IS_INSIDE_THE_RULER",
+  "direction_flips": false,
+  "with_correct_band": "TRIM_IS_INSIDE_THE_RULER"
+ }
+}

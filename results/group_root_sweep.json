@@ -8,8 +8,8 @@
   "live",
   "monitor"
  ],
- "files_scanned": 2512,
- "n_hits": 799,
+ "files_scanned": 2651,
+ "n_hits": 801,
  "counts": {
   "bare-root-literal": 2,
   "deployment-root-literal": 2,
@@ -17,11 +17,31 @@
   "group-root-hint": 7,
   "one-off": 217,
   "repo-root-literal": 539,
+  "resident-group-root": 2,
   "sibling-repo-literal": 11,
   "validated-walk": 1
  },
- "verdict": "PASS",
- "defects": [],
+ "verdict": "FAIL",
+ "defects": [
+  {
+   "kind": "literal",
+   "mode": "group-root",
+   "line": 60,
+   "text": "# The group tree this repo sits inside (K:/Fluxgroup/FluxGroup).  Readers here",
+   "file": "scripts/face_orphan_census.py",
+   "bucket": "resident-group-root",
+   "uses_resolver": false
+  },
+  {
+   "kind": "climb",
+   "mode": "group-root",
+   "line": 218,
+   "text": "base = os.path.join(ROOT, \"..\", \"..\", \"cph4\", \"fleet\", \"mv-album-001-jay\")",
+   "file": "scripts/line_arbiter.py",
+   "bucket": "resident-group-root",
+   "uses_resolver": false
+  }
+ ],
  "advisory": {
   "one-off": [
    {
@@ -1169,6 +1189,13 @@
     "line": 12
    }
   ],
+  "scripts/face_orphan_census.py": [
+   {
+    "bucket": "resident-group-root",
+    "mode": "group-root",
+    "line": 60
+   }
+  ],
   "scripts/group_root_sweep.py": [
    {
     "bucket": "exempt-resolver",
@@ -1234,6 +1261,13 @@
     "bucket": "exempt-resolver",
     "mode": "deployment-root",
     "line": 281
+   }
+  ],
+  "scripts/line_arbiter.py": [
+   {
+    "bucket": "resident-group-root",
+    "mode": "group-root",
+    "line": 218
    }
   ],
   "Tools/_r1029bmc_rebase_resolve.py": [

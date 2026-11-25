@@ -1,8 +1,9 @@
 {
  "counts_no_one_here_can_check": [
-  "moneyflow"
+  "moneyflow",
+  "sina_mf"
  ],
- "generated": "2026-11-22T18:40:03",
+ "generated": "2026-11-25T09:10:30",
  "host": "bm-c",
  "lanes": [
   {
@@ -97,10 +98,10 @@
    "names": null,
    "owner": "bm-a",
    "panel": "data/sina_mf/per",
-   "panel_files_here": null,
+   "panel_files_here": 5227,
    "tracked": false,
-   "verdict": "PANEL_ABSENT_HERE",
-   "why": "the receipt claims 5227 n_symbols, but data/sina_mf/per does not exist on this machine (lane host: bm-a); nothing local checks the number"
+   "verdict": "COUNT_CHECKED_LOCAL",
+   "why": "n_symbols=5227 equals this machine's own 5227 files; the panel is gitignored, so only bm-c can re-count it, and only for as long as its copy holds"
   },
   {
    "claim": {
@@ -154,7 +155,7 @@
    "lane": "ah_panel",
    "names": {
     "kind": "dict",
-    "n": 27,
+    "n": 22,
     "path": "/quarantined"
    },
    "names_cover_claims": [],
@@ -163,7 +164,7 @@
    "panel_files_here": 187,
    "tracked": false,
    "verdict": "NAMES_PARTIAL",
-   "why": "the receipt names 27 members at /quarantined while the number it quotes is universe_em_total=211; the named set is not the quoted set"
+   "why": "the receipt names 22 members at /quarantined while the number it quotes is universe_em_total=211; the named set is not the quoted set"
   },
   {
    "claim": {
@@ -305,7 +306,7 @@
     {
      "key": "coverage_total",
      "path": "/coverage_total",
-     "value": 1722
+     "value": 1720
     }
    ],
    "face": "results/etf_wide_update_status.json",
@@ -346,13 +347,13 @@
  ],
  "law": "a receipt that says HOW MANY and never WHICH cannot be checked by identity; equal counts also describe a different set",
  "verdict_counts": {
+  "COUNT_CHECKED_LOCAL": 1,
   "COUNT_CHECKED_TRACKED": 1,
   "COUNT_DISAGREES": 1,
   "COUNT_RECONCILED": 1,
   "NAMES_IN_FACE": 2,
   "NAMES_PARTIAL": 2,
   "NO_COVERAGE_CLAIM": 2,
-  "NO_MEMBER_LAYOUT": 2,
-  "PANEL_ABSENT_HERE": 1
+  "NO_MEMBER_LAYOUT": 2
  }
 }

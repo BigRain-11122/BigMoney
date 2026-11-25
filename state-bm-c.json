@@ -228,8 +228,8 @@
  "last_decisions_checked_at": "2026-11-23T21:20:09+08:00",
  "last_decisions_consumed_at": "2026-11-16T00:40:00+08:00",
  "last_decisions_max_day": "20261119",
- "last_decisions_note": "r1910: origin raw-blob sha256 79e3083b (same as r1868's read; the carried 7563f816 was an interim blob read at r1908 with the same conclusion). Newest batch is still the 2026-11-19 06:00 group round (D-20261119-04..09: cloud gate / feed line blocked / collection-face closeout / PRODUCTION-QUEUE UNVERIFIED / 8090 seat closed-by-policy / localised decision rounds) -- zero rows naming this company, so zero execution action; watermark advanced to the raw-blob value.",
- "last_decisions_read_at": "2026-11-20T06:35:10+0800",
+ "last_decisions_note": "r2084: origin/main:docs/decisions.md 250,586B sha256 79e3083b.. == held watermark -> zero new decisions",
+ "last_decisions_read_at": "2026-11-25T11:16:49+08:00",
  "last_decisions_read_note": "r1846: d19_watermark probe produced no output for 5 min and was cancelled -- the group-tree fetch face is stalled (same as r1845's two stalls); watermark NOT advanced, NOT consumed this round (unread is not clean)",
  "last_decisions_seen": "188744b9ccd31da9a5a7bcb5e78d4883ca3193272c5ba6f54386d1108c20b9cb",
  "last_decisions_sha": "79e3083b85c130b8b57363d1ce4850520704cfbdf3fc41b8277e7e5ee39d6e16",
@@ -262,7 +262,7 @@
  },
  "last_push_at": "2026-11-11T08:31:06+08:00",
  "last_round": 2055,
- "last_round_at": "2026-11-25T05:07:04+08:00",
+ "last_round_at": "2026-11-25T11:16:49+08:00",
  "last_round_at_legacy": "2026-10-19T15:34:21+08:00",
  "last_round_closed": 1941,
  "last_round_closed_at": "2026-11-22T19:21:00+08:00",
@@ -1556,7 +1556,7 @@
  },
  "round_drift_note": "state said round_no=1937 while commit 6a3f33e30e already said round 1938 -> counters healed to 1939",
  "round_label": "r2063",
- "round_no": 2083,
+ "round_no": 2084,
  "round_no_label": "r2028",
  "round_no_landed": 2028,
  "round_no_note": "r2052 收口（state 上轮停在 2050，2050/2051 两轮提交已上链但报告行缺失，本轮补齐 r2052 行）",
@@ -2462,5 +2462,6 @@
  "通过_r2083": "orders 117 件 / fleet/inbox 空；集团 origin/main:docs/decisions.md 原生字节 250,586B sha256 79e3083b85c130b8… == 自持水位 → 零新决策零动作；attrition_ledger_guard CLEAN（4 账本，三处历史缩行 healed 照录）；Bigmoney-IterationLoop 重注册 no-op（pin=0）；watchdog S4U 翻转被拒（管理员提权面，LogonType 回归注记保留）；pre-commit / pre-push 爪未触发新装",
  "竞争_r2083": "repo_write_contention rc=0 CLEAN：fewer than two codely hosts alive（对端 pid 79608 已退）；本宿主 pid=84212 自 09:20:03 起；排除 9 次 scheduler/self 写入（saturation_engine/watermark_red/idle_trigger/orders_ack_scan/orphan_face_probe/repo_write_contention/host_contention）",
  "记账_r2083": "轮报告 1 处 + state 1 处 + 心跳 1 处 = 3（无方法论新增：把「日期判据要对到产出那个数的那张面」再落一处属证据与载体，方法卡已在库 E685）",
- "送达自证_r2083": "commit 9414c79b29 已直推 origin/main（2ba05dad1b..9414c79b29，非 FF 未发生）；fetch 后 rev-list --left-right --count origin/main...HEAD = 0/0；ls-tree origin/main 四件抽验在位（scripts/etf_book_size_rulers_decision.py、scripts/etf_book_permission_persistence.py、results/etf_book_size_rulers_decision.json、qa/smoke-red-r2083.md）→ 本地未达 origin/main commit 数=0"
+ "送达自证_r2083": "commit 9414c79b29 已直推 origin/main（2ba05dad1b..9414c79b29，非 FF 未发生）；fetch 后 rev-list --left-right --count origin/main...HEAD = 0/0；ls-tree origin/main 四件抽验在位（scripts/etf_book_size_rulers_decision.py、scripts/etf_book_permission_persistence.py、results/etf_book_size_rulers_decision.json、qa/smoke-red-r2083.md）→ 本地未达 origin/main commit 数=0",
+ "last_round_no": 2084
 }

@@ -1,12 +1,12 @@
 {
  "benchmark": {
-  "n": 5209,
-  "ret_pct": -15.5026,
+  "n": 3774,
+  "ret_pct": -13.5441,
   "what": "equal weight of every symbol with a bar on both entry_bar and cutoff"
  },
  "best": {
   "code": "601717",
-  "ret_pct": 16.9811
+  "ret_pct": 13.0624
  },
  "caliber": {
   "cost": "none applied (this is a readout of the published list, not a backtest)",
@@ -15,9 +15,9 @@
   "panel": "data/astock_daily/per (sina qfq -- dividends embedded in the return)",
   "unbuyable": "no bar inside the fill window -> carried as cash 0%, counted"
  },
- "cutoff": "2026-11-20",
+ "cutoff": "2026-11-24",
  "entry_bar": "2026-10-20",
- "excess_pp": 11.6809,
+ "excess_pp": 9.3191,
  "face": "DIVLOWVOL-LIVE-TRACK",
  "list_age": {
   "next_rule_entry": "2026-11-02",
@@ -26,170 +26,207 @@
   "why_no_new_list_id": "the picks face builds from data/cache/p1c_local, a bm-b lane panel that does not exist on this machine; this face tracks the list as published instead of inventing a newer one"
  },
  "list_as_of": "2026-10-19",
- "measured_to_earlier_bar": [],
+ "measured_to_earlier_bar": [
+  {
+   "code": "000915",
+   "last_bar": "2026-11-23"
+  },
+  {
+   "code": "002027",
+   "last_bar": "2026-11-23"
+  },
+  {
+   "code": "002170",
+   "last_bar": "2026-11-23"
+  },
+  {
+   "code": "002233",
+   "last_bar": "2026-11-23"
+  },
+  {
+   "code": "002441",
+   "last_bar": "2026-11-23"
+  },
+  {
+   "code": "002572",
+   "last_bar": "2026-11-23"
+  },
+  {
+   "code": "002749",
+   "last_bar": "2026-11-23"
+  },
+  {
+   "code": "002763",
+   "last_bar": "2026-11-23"
+  },
+  {
+   "code": "002867",
+   "last_bar": "2026-11-23"
+  }
+ ],
  "n_measured": 20,
- "n_measured_to_earlier_bar": 0,
+ "n_measured_to_earlier_bar": 9,
  "n_picks": 20,
  "n_unbuyable": 0,
- "portfolio_ret_pct": -3.8216,
+ "portfolio_ret_pct": -4.225,
  "rows": [
   {
    "code": "000915",
    "entry": "2026-10-20",
-   "exit": "2026-11-20",
-   "ret_pct": -25.3617,
+   "exit": "2026-11-23",
+   "ret_pct": -27.0498,
    "unbuyable": false,
    "weight": 0.05
   },
   {
    "code": "002027",
    "entry": "2026-10-20",
-   "exit": "2026-11-20",
-   "ret_pct": 6.7568,
+   "exit": "2026-11-23",
+   "ret_pct": 5.0193,
    "unbuyable": false,
    "weight": 0.05
   },
   {
    "code": "002170",
    "entry": "2026-10-20",
-   "exit": "2026-11-20",
-   "ret_pct": -11.8596,
+   "exit": "2026-11-23",
+   "ret_pct": -8.3491,
    "unbuyable": false,
    "weight": 0.05
   },
   {
    "code": "002233",
    "entry": "2026-10-20",
-   "exit": "2026-11-20",
-   "ret_pct": 1.6731,
+   "exit": "2026-11-23",
+   "ret_pct": 1.1583,
    "unbuyable": false,
    "weight": 0.05
   },
   {
    "code": "002441",
    "entry": "2026-10-20",
-   "exit": "2026-11-20",
-   "ret_pct": -6.9259,
+   "exit": "2026-11-23",
+   "ret_pct": -5.3463,
    "unbuyable": false,
    "weight": 0.05
   },
   {
    "code": "002572",
    "entry": "2026-10-20",
-   "exit": "2026-11-20",
-   "ret_pct": -7.6305,
+   "exit": "2026-11-23",
+   "ret_pct": -8.5676,
    "unbuyable": false,
    "weight": 0.05
   },
   {
    "code": "002749",
    "entry": "2026-10-20",
-   "exit": "2026-11-20",
-   "ret_pct": 2.2353,
+   "exit": "2026-11-23",
+   "ret_pct": 8.8235,
    "unbuyable": false,
    "weight": 0.05
   },
   {
    "code": "002763",
    "entry": "2026-10-20",
-   "exit": "2026-11-20",
-   "ret_pct": -5.3597,
+   "exit": "2026-11-23",
+   "ret_pct": -5.0776,
    "unbuyable": false,
    "weight": 0.05
   },
   {
    "code": "002867",
    "entry": "2026-10-20",
-   "exit": "2026-11-20",
-   "ret_pct": 14.956,
+   "exit": "2026-11-23",
+   "ret_pct": 12.61,
    "unbuyable": false,
    "weight": 0.05
   },
   {
    "code": "300406",
    "entry": "2026-10-20",
-   "exit": "2026-11-20",
-   "ret_pct": 0.1674,
+   "exit": "2026-11-24",
+   "ret_pct": 2.2594,
    "unbuyable": false,
    "weight": 0.05
   },
   {
    "code": "300770",
    "entry": "2026-10-20",
-   "exit": "2026-11-20",
-   "ret_pct": 3.4435,
+   "exit": "2026-11-24",
+   "ret_pct": 6.4738,
    "unbuyable": false,
    "weight": 0.05
   },
   {
    "code": "300994",
    "entry": "2026-10-20",
-   "exit": "2026-11-20",
-   "ret_pct": -22.0779,
+   "exit": "2026-11-24",
+   "ret_pct": -20.872,
    "unbuyable": false,
    "weight": 0.05
   },
   {
    "code": "600329",
    "entry": "2026-10-20",
-   "exit": "2026-11-20",
-   "ret_pct": -8.2068,
+   "exit": "2026-11-24",
+   "ret_pct": -7.8393,
    "unbuyable": false,
    "weight": 0.05
   },
   {
    "code": "600742",
    "entry": "2026-10-20",
-   "exit": "2026-11-20",
-   "ret_pct": -5.1248,
+   "exit": "2026-11-24",
+   "ret_pct": -11.3009,
    "unbuyable": false,
    "weight": 0.05
   },
   {
    "code": "600750",
    "entry": "2026-10-20",
-   "exit": "2026-11-20",
-   "ret_pct": 2.9586,
+   "exit": "2026-11-24",
+   "ret_pct": 2.1978,
    "unbuyable": false,
    "weight": 0.05
   },
   {
    "code": "600866",
    "entry": "2026-10-20",
-   "exit": "2026-11-20",
-   "ret_pct": 1.2165,
+   "exit": "2026-11-24",
+   "ret_pct": -2.1898,
    "unbuyable": false,
    "weight": 0.05
   },
   {
    "code": "601717",
    "entry": "2026-10-20",
-   "exit": "2026-11-20",
-   "ret_pct": 16.9811,
+   "exit": "2026-11-24",
+   "ret_pct": 13.0624,
    "unbuyable": false,
    "weight": 0.05
   },
   {
    "code": "603165",
    "entry": "2026-10-20",
-   "exit": "2026-11-20",
-   "ret_pct": -16.984,
+   "exit": "2026-11-24",
+   "ret_pct": -19.4212,
    "unbuyable": false,
    "weight": 0.05
   },
   {
    "code": "603551",
    "entry": "2026-10-20",
-   "exit": "2026-11-20",
-   "ret_pct": -7.221,
+   "exit": "2026-11-24",
+   "ret_pct": -9.8468,
    "unbuyable": false,
    "weight": 0.05
   },
   {
    "code": "603569",
    "entry": "2026-10-20",
-   "exit": "2026-11-20",
-   "ret_pct": -10.0694,
+   "exit": "2026-11-24",
+   "ret_pct": -10.2431,
    "unbuyable": false,
    "weight": 0.05
   }
@@ -198,9 +235,9 @@
  "status": "RESEARCH_READOUT_ZERO_JUDGED_CLAIMS",
  "unbuyable": [],
  "weights_sum": 1.0,
- "window_sessions": 24,
+ "window_sessions": 26,
  "worst": {
   "code": "000915",
-  "ret_pct": -25.3617
+  "ret_pct": -27.0498
  }
 }

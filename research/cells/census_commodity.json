@@ -1,0 +1,128 @@
+{
+ "id": "census_commodity",
+ "type": "census",
+ "products": [
+  "AU",
+  "RB",
+  "SC"
+ ],
+ "grid": [
+  {
+   "rule": "tsmom",
+   "params": {
+    "lookback": 60,
+    "skip": 21
+   },
+   "long_only": true
+  },
+  {
+   "rule": "tsmom",
+   "params": {
+    "lookback": 60,
+    "skip": 21
+   },
+   "long_only": false
+  },
+  {
+   "rule": "tsmom",
+   "params": {
+    "lookback": 120,
+    "skip": 21
+   },
+   "long_only": true
+  },
+  {
+   "rule": "tsmom",
+   "params": {
+    "lookback": 120,
+    "skip": 21
+   },
+   "long_only": false
+  },
+  {
+   "rule": "tsmom",
+   "params": {
+    "lookback": 250,
+    "skip": 21
+   },
+   "long_only": true
+  },
+  {
+   "rule": "tsmom",
+   "params": {
+    "lookback": 250,
+    "skip": 21
+   },
+   "long_only": false
+  },
+  {
+   "rule": "ma_cross",
+   "params": {
+    "fast": 20,
+    "slow": 60
+   },
+   "long_only": true
+  },
+  {
+   "rule": "ma_cross",
+   "params": {
+    "fast": 20,
+    "slow": 60
+   },
+   "long_only": false
+  },
+  {
+   "rule": "ma_cross",
+   "params": {
+    "fast": 50,
+    "slow": 200
+   },
+   "long_only": true
+  },
+  {
+   "rule": "ma_cross",
+   "params": {
+    "fast": 50,
+    "slow": 200
+   },
+   "long_only": false
+  },
+  {
+   "rule": "donchian",
+   "params": {
+    "entry": 20,
+    "exit": 10
+   },
+   "long_only": true
+  },
+  {
+   "rule": "donchian",
+   "params": {
+    "entry": 20,
+    "exit": 10
+   },
+   "long_only": false
+  },
+  {
+   "rule": "donchian",
+   "params": {
+    "entry": 55,
+    "exit": 20
+   },
+   "long_only": true
+  },
+  {
+   "rule": "donchian",
+   "params": {
+    "entry": 55,
+    "exit": 20
+   },
+   "long_only": false
+  }
+ ],
+ "cost_bp_side": 3.0,
+ "target_vol": 0.08,
+ "split": "2024-01-01",
+ "crit": {},
+ "target_edge_pp": 5.0
+}

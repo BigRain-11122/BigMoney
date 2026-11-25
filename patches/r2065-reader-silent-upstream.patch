@@ -1,0 +1,109 @@
+r2065 (bm-c): a reader must not crash on a state its writer may publish.
+
+Two legs the r2061 triage called EXCEPTION died on the same silent upstream
+the r2062..r2064 root-cause pass traced (cut receipt UNREADABLE -> no gap_k):
+  etf_book_permission_persistence --check  -> KeyError: 'gap_k'
+  etf_book_cash_roll_today --selftest      -> KeyError: 'cash_cny'  (a
+selftest reading the LIVE faces, i.e. the market deciding whether its own
+test passes). The checker now says UPSTREAM_SILENT and exits 3 (the harness
+closes it UNVERIFIED, r1861/r1943); the selftest is fixture-only.
+
+--- a/scripts/etf_book_permission_persistence.py
++++ b/scripts/etf_book_permission_persistence.py
+@@ -201,6 +201,10 @@
+ 
+ def run():
+     gap = _read_json(GAP_FACE)
++    if gap.get("gap_k") is None:
++        raise SystemExit("UPSTREAM_SILENT: cut receipt %s carries no gap_k -- refusing to "
++                         "republish this face on a trim it cannot read."
++                         % (gap.get("verdict") or "?"))
+     slack = float(gap["gap_k"])
+     sched, meta = build_schedule()
+     st = steps(sched)
+@@ -375,8 +379,24 @@
+         return 1
+     fails = []
+     gap = _read_json(GAP_FACE)
+-    if abs(float(d["slack_k"]) - float(gap["gap_k"])) > 1e-6:
+-        fails.append("slack_k %s vs receipt %s" % (d["slack_k"], gap["gap_k"]))
++    # r2065: the cut receipt is ALLOWED to be silent -- r2062..r2064 traced the book
++    # family's red legs to exactly that shape (verdict UNREADABLE, permitted_k null, so no
++    # gap_k). Reading the key anyway turned a legal upstream state into a KeyError: the
++    # leg died instead of saying what it could not check, and the chain was handed a
++    # traceback where it needed a sentence. Say it instead. This face measures how long a
++    # trim survives; with no readable trim, nothing below would be about a trim the reader
++    # can confirm, so the cheap answer is the honest one (r1935: ask the cheap question
++    # first). Exit 3 -- distinct from rc1 -- lets the harness close the leg UNVERIFIED
++    # rather than red (third state of r1861/r1943; a red nobody can act on is r1789).
++    gap_k = gap.get("gap_k")
++    if gap_k is None:
++        print("UPSTREAM_SILENT: the cut receipt says %s and publishes no gap_k, so this "
++              "face cannot re-check the trim it was priced from. Published slack_k %r "
++              "is unchanged; nothing below was judged."
++              % (gap.get("verdict") or "?", d.get("slack_k")))
++        return 3
++    if abs(float(d["slack_k"]) - float(gap_k)) > 1e-6:
++        fails.append("slack_k %s vs receipt %s" % (d["slack_k"], gap_k))
+     sched, meta = build_schedule()
+     # r1640: the panel rolling forward is not an edit -- it is the input this face is
+     # priced from. Before this split, the day the panel gained a bar every published
+--- a/scripts/etf_book_cash_roll_today.py
++++ b/scripts/etf_book_cash_roll_today.py
+@@ -329,16 +329,26 @@
+         sorted(r["contract"] for r in out4["eligible"]) == ["GC001", "R-001"],
+         str([r["contract"] for r in out4["eligible"]]))
+ 
+-    # -- disk readers ----------------------------------------------------------------
+-    perm, q, b, problems = read_inputs()
+-    leg("the live permission face and repo panel both read from disk",
+-        not problems and bool(q) and bool(b), str(problems))
+-    leg("every panel quote carries the bar it belongs to",
+-        all(isinstance(v, str) and len(v) == 10 for v in b.values()))
+-    live = build(perm, q, b, problems)
+-    leg("the published face's cash is nav minus the ordered book, to the cent",
+-        abs(live["cash_cny"] - (float(perm["nav_cny"]) - float(perm["ordered_book_cny"])))
++    # -- the two numbers, on fixtures ---------------------------------------------------
++    # r2065: these legs used to read the LIVE faces. On 2026-11-25 the permission face was
++    # legally silent (NO_INSTRUCTION, no nav/ordered) and this selftest died with KeyError
++    # 'cash_cny' -- i.e. the market got to decide whether this file's own test passes, and
++    # a red on a day the book cannot answer is not a defect report. A selftest is offline
++    # or it is not a selftest; re-deriving the live pair from disk is `--check`'s job (it
++    # names every field that moved). The fixtures below carry the shape the live face has
++    # on a day it CAN answer, plus the shape it has on a day it cannot.
++    _perm = {"nav_cny": 1_000_000.0, "ordered_book_cny": 434_724.0,
++             "decision_date": "2026-12-09", "as_of": "2026-11-20"}
++    live = build(_perm, quotes, bars, [])
++    leg("cash is nav minus the ordered book, to the cent (fixture face)",
++        abs(live["cash_cny"] - (float(_perm["nav_cny"]) - float(_perm["ordered_book_cny"])))
+         < CASH_EPS, str(live.get("cash_cny")))
++    leg("every panel quote carries the bar it belongs to (fixture panel)",
++        all(isinstance(v, str) and len(v) == 10 for v in bars.values()))
++    _silent = build({"nav_cny": None, "ordered_book_cny": None}, quotes, bars, [])
++    leg("a silent permission face answers NO_INSTRUCTION and carries no cash to index",
++        _silent["verdict"] == "NO_INSTRUCTION" and "cash_cny" not in _silent,
++        str(_silent.get("reason")))
+     leg("missing inputs produce NO_INSTRUCTION instead of a sentence with a number in it",
+         build({}, {}, {}, ["missing x"])["verdict"] == "NO_INSTRUCTION")
+ 
+--- a/smoke_test.py
++++ b/smoke_test.py
+@@ -3465,6 +3465,18 @@
+                         _why = "disclosed: " + _st[0]["waiting_on"]
+                 except Exception:
+                     pass
++            # r2065: a product's --check may answer "the upstream is silent today" (the
++            # book family's cut receipt without gap_k). Such a child now says
++            # UPSTREAM_SILENT and exits 3 instead of dying with a KeyError, and that is not
++            # a verdict about this leg -- it closes UNVERIFIED rather than red, exactly like
++            # the r1861 face-moved and r1943 child-killed third states. Judging it red would
++            # teach the reader that this leg is noise (r1789/r1135).
++            if not _ok and _r.returncode == 3:
++                _silent = [l.strip() for l in (_r.stdout or "").splitlines()
++                           if "UPSTREAM_SILENT" in l]
++                if _silent:
++                    _ok = True
++                    _why = "UNVERIFIED_UPSTREAM_SILENT " + _silent[0][:100]
+             check(_label, _ok, _why)
+         except Exception as e:
+             check(_label, False, str(e))

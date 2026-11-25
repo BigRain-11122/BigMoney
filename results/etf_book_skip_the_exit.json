@@ -1,0 +1,1701 @@
+{
+ "schema": "etf-book-skip-the-exit/v1",
+ "evidence_cutoff": "2026-11-24",
+ "cell": "N5_R20_10bp",
+ "execution": "decision at close t, execute at open t+1 (entry_lag=0, the printed caliber)",
+ "arms": {
+  "book": "defence fires -> rebalance into bonds/cash (the published rule)",
+  "skip": "defence fires and the book already owns something -> do not trade, keep the incumbent five",
+  "not_the_same_as": "r2055's counterfactual holds the eligible equity equal-weight universe; this arm holds the previous top-5 names"
+ },
+ "branch_is_dead_when_off": {
+  "max_abs_gap_vs_engine": 0.0,
+  "bit_identical": true
+ },
+ "panel": {
+  "shape": [
+   5287,
+   1640
+  ],
+  "flips_repaired": 169,
+  "first_bar": "2005-02-23",
+  "last_bar": "2026-11-24",
+  "class_counts": {
+   "equity": 1488,
+   "money": 59,
+   "bond": 50,
+   "commodity": 41,
+   "convertible": 2
+  },
+  "dir_stat": {
+   "files": 1725,
+   "max_mtime": 1795508210.621742
+  }
+ },
+ "book": {
+  "cagr": 0.0896,
+  "sharpe": 0.913,
+  "maxdd": -0.1254,
+  "cagr_oos": 0.1459,
+  "sharpe_oos": 1.487,
+  "maxdd_oos": -0.0913,
+  "avg_turnover": 1.2595
+ },
+ "skip": {
+  "cagr": 0.0884,
+  "sharpe": 0.805,
+  "maxdd": -0.1559,
+  "cagr_oos": 0.1242,
+  "sharpe_oos": 1.089,
+  "maxdd_oos": -0.1048,
+  "avg_turnover": 1.3105
+ },
+ "delta": {
+  "cagr_pp": -0.12,
+  "sharpe": -0.108,
+  "maxdd_pp": -3.05,
+  "total_log": -0.007559,
+  "total_cny": -7559.0,
+  "turnover_pp": 5.1
+ },
+ "skips": {
+  "n": 46,
+  "cost_saved_cum": 0.064,
+  "cost_saved_cny": 64000.0,
+  "rows": [
+   {
+    "date": "2020-03-06",
+    "prev_mix": {
+     "equity": 0.6000000000000001,
+     "bond": 0.2,
+     "money": 0.2,
+     "commodity": 0,
+     "convertible": 0,
+     "unclassified": 0
+    },
+    "refused_mix": {
+     "equity": 0,
+     "bond": 0.2,
+     "money": 0.4,
+     "commodity": 0.4,
+     "convertible": 0,
+     "unclassified": 0
+    },
+    "turn_saved": 1.2,
+    "cost_saved": 0.0012,
+    "prev_names": [
+     "159001",
+     "159952",
+     "511010",
+     "513100",
+     "513500"
+    ]
+   },
+   {
+    "date": "2020-09-28",
+    "prev_mix": {
+     "equity": 0.4,
+     "bond": 0,
+     "money": 0.6000000000000001,
+     "commodity": 0,
+     "convertible": 0,
+     "unclassified": 0
+    },
+    "refused_mix": {
+     "equity": 0,
+     "bond": 0,
+     "money": 1.0,
+     "commodity": 0,
+     "convertible": 0,
+     "unclassified": 0
+    },
+    "turn_saved": 0.8,
+    "cost_saved": 0.0008,
+    "prev_names": [
+     "159001",
+     "159003",
+     "511880",
+     "513100",
+     "513500"
+    ]
+   },
+   {
+    "date": "2020-12-29",
+    "prev_mix": {
+     "equity": 0.6000000000000001,
+     "bond": 0,
+     "money": 0.4,
+     "commodity": 0,
+     "convertible": 0,
+     "unclassified": 0
+    },
+    "refused_mix": {
+     "equity": 0,
+     "bond": 0.4,
+     "money": 0.6000000000000001,
+     "commodity": 0,
+     "convertible": 0,
+     "unclassified": 0
+    },
+    "turn_saved": 1.6,
+    "cost_saved": 0.0016,
+    "prev_names": [
+     "159001",
+     "510210",
+     "510310",
+     "511880",
+     "512380"
+    ]
+   },
+   {
+    "date": "2021-03-31",
+    "prev_mix": {
+     "equity": 0.2,
+     "bond": 0.2,
+     "money": 0.6000000000000001,
+     "commodity": 0,
+     "convertible": 0,
+     "unclassified": 0
+    },
+    "refused_mix": {
+     "equity": 0,
+     "bond": 0.2,
+     "money": 0.8,
+     "commodity": 0,
+     "convertible": 0,
+     "unclassified": 0
+    },
+    "turn_saved": 0.8,
+    "cost_saved": 0.0008,
+    "prev_names": [
+     "159003",
+     "511010",
+     "511660",
+     "511880",
+     "513500"
+    ]
+   },
+   {
+    "date": "2021-06-01",
+    "prev_mix": {
+     "equity": 0.4,
+     "bond": 0,
+     "money": 0.4,
+     "commodity": 0.2,
+     "convertible": 0,
+     "unclassified": 0
+    },
+    "refused_mix": {
+     "equity": 0,
+     "bond": 0,
+     "money": 0.4,
+     "commodity": 0.6000000000000001,
+     "convertible": 0,
+     "unclassified": 0
+    },
+    "turn_saved": 1.2,
+    "cost_saved": 0.0012,
+    "prev_names": [
+     "159003",
+     "159941",
+     "159980",
+     "511880",
+     "513500"
+    ]
+   },
+   {
+    "date": "2021-11-26",
+    "prev_mix": {
+     "equity": 0.4,
+     "bond": 0,
+     "money": 0.6000000000000001,
+     "commodity": 0,
+     "convertible": 0,
+     "unclassified": 0
+    },
+    "refused_mix": {
+     "equity": 0,
+     "bond": 0.4,
+     "money": 0.4,
+     "commodity": 0,
+     "convertible": 0.2,
+     "unclassified": 0
+    },
+    "turn_saved": 1.2,
+    "cost_saved": 0.0012,
+    "prev_names": [
+     "159001",
+     "159941",
+     "511360",
+     "511880",
+     "513500"
+    ]
+   },
+   {
+    "date": "2022-01-24",
+    "prev_mix": {
+     "equity": 0.2,
+     "bond": 0.4,
+     "money": 0.4,
+     "commodity": 0,
+     "convertible": 0,
+     "unclassified": 0
+    },
+    "refused_mix": {
+     "equity": 0,
+     "bond": 0.2,
+     "money": 0.6000000000000001,
+     "commodity": 0,
+     "convertible": 0.2,
+     "unclassified": 0
+    },
+    "turn_saved": 1.2,
+    "cost_saved": 0.0012,
+    "prev_names": [
+     "510760",
+     "511010",
+     "511260",
+     "511360",
+     "511880"
+    ]
+   },
+   {
+    "date": "2022-02-28",
+    "prev_mix": {
+     "equity": 0.2,
+     "bond": 0.4,
+     "money": 0.4,
+     "commodity": 0,
+     "convertible": 0,
+     "unclassified": 0
+    },
+    "refused_mix": {
+     "equity": 0,
+     "bond": 0.2,
+     "money": 0.6000000000000001,
+     "commodity": 0.2,
+     "convertible": 0,
+     "unclassified": 0
+    },
+    "turn_saved": 1.2,
+    "cost_saved": 0.0012,
+    "prev_names": [
+     "510760",
+     "511010",
+     "511260",
+     "511360",
+     "511880"
+    ]
+   },
+   {
+    "date": "2022-04-27",
+    "prev_mix": {
+     "equity": 0.2,
+     "bond": 0.2,
+     "money": 0.6000000000000001,
+     "commodity": 0,
+     "convertible": 0,
+     "unclassified": 0
+    },
+    "refused_mix": {
+     "equity": 0,
+     "bond": 0.6000000000000001,
+     "money": 0.4,
+     "commodity": 0,
+     "convertible": 0,
+     "unclassified": 0
+    },
+    "turn_saved": 0.8,
+    "cost_saved": 0.0008,
+    "prev_names": [
+     "159003",
+     "159972",
+     "510760",
+     "511360",
+     "511880"
+    ]
+   },
+   {
+    "date": "2022-05-30",
+    "prev_mix": {
+     "equity": 0.2,
+     "bond": 0.2,
+     "money": 0.6000000000000001,
+     "commodity": 0,
+     "convertible": 0,
+     "unclassified": 0
+    },
+    "refused_mix": {
+     "equity": 0,
+     "bond": 0.2,
+     "money": 0.6000000000000001,
+     "commodity": 0,
+     "convertible": 0.2,
+     "unclassified": 0
+    },
+    "turn_saved": 1.2,
+    "cost_saved": 0.0012,
+    "prev_names": [
+     "159003",
+     "159972",
+     "510760",
+     "511360",
+     "511880"
+    ]
+   },
+   {
+    "date": "2022-07-26",
+    "prev_mix": {
+     "equity": 0.2,
+     "bond": 0,
+     "money": 0.6000000000000001,
+     "commodity": 0,
+     "convertible": 0.2,
+     "unclassified": 0
+    },
+    "refused_mix": {
+     "equity": 0,
+     "bond": 0.4,
+     "money": 0.6000000000000001,
+     "commodity": 0,
+     "convertible": 0,
+     "unclassified": 0
+    },
+    "turn_saved": 1.2,
+    "cost_saved": 0.0012,
+    "prev_names": [
+     "510760",
+     "511360",
+     "511380",
+     "511880",
+     "511990"
+    ]
+   },
+   {
+    "date": "2022-08-23",
+    "prev_mix": {
+     "equity": 0.2,
+     "bond": 0,
+     "money": 0.6000000000000001,
+     "commodity": 0,
+     "convertible": 0.2,
+     "unclassified": 0
+    },
+    "refused_mix": {
+     "equity": 0,
+     "bond": 0.6000000000000001,
+     "money": 0.4,
+     "commodity": 0,
+     "convertible": 0,
+     "unclassified": 0
+    },
+    "turn_saved": 1.2,
+    "cost_saved": 0.0012,
+    "prev_names": [
+     "510760",
+     "511360",
+     "511380",
+     "511880",
+     "511990"
+    ]
+   },
+   {
+    "date": "2022-09-21",
+    "prev_mix": {
+     "equity": 0.2,
+     "bond": 0,
+     "money": 0.6000000000000001,
+     "commodity": 0,
+     "convertible": 0.2,
+     "unclassified": 0
+    },
+    "refused_mix": {
+     "equity": 0,
+     "bond": 0.2,
+     "money": 0.8,
+     "commodity": 0,
+     "convertible": 0,
+     "unclassified": 0
+    },
+    "turn_saved": 1.2,
+    "cost_saved": 0.0012,
+    "prev_names": [
+     "510760",
+     "511360",
+     "511380",
+     "511880",
+     "511990"
+    ]
+   },
+   {
+    "date": "2022-10-26",
+    "prev_mix": {
+     "equity": 0.2,
+     "bond": 0,
+     "money": 0.6000000000000001,
+     "commodity": 0,
+     "convertible": 0.2,
+     "unclassified": 0
+    },
+    "refused_mix": {
+     "equity": 0,
+     "bond": 0.4,
+     "money": 0.6000000000000001,
+     "commodity": 0,
+     "convertible": 0,
+     "unclassified": 0
+    },
+    "turn_saved": 1.2,
+    "cost_saved": 0.0012,
+    "prev_names": [
+     "510760",
+     "511360",
+     "511380",
+     "511880",
+     "511990"
+    ]
+   },
+   {
+    "date": "2022-11-23",
+    "prev_mix": {
+     "equity": 0.2,
+     "bond": 0,
+     "money": 0.6000000000000001,
+     "commodity": 0,
+     "convertible": 0.2,
+     "unclassified": 0
+    },
+    "refused_mix": {
+     "equity": 0,
+     "bond": 0.2,
+     "money": 0.6000000000000001,
+     "commodity": 0.2,
+     "convertible": 0,
+     "unclassified": 0
+    },
+    "turn_saved": 1.2,
+    "cost_saved": 0.0012,
+    "prev_names": [
+     "510760",
+     "511360",
+     "511380",
+     "511880",
+     "511990"
+    ]
+   },
+   {
+    "date": "2022-12-21",
+    "prev_mix": {
+     "equity": 0.2,
+     "bond": 0,
+     "money": 0.6000000000000001,
+     "commodity": 0,
+     "convertible": 0.2,
+     "unclassified": 0
+    },
+    "refused_mix": {
+     "equity": 0,
+     "bond": 0.4,
+     "money": 0.6000000000000001,
+     "commodity": 0,
+     "convertible": 0,
+     "unclassified": 0
+    },
+    "turn_saved": 1.6,
+    "cost_saved": 0.0016,
+    "prev_names": [
+     "510760",
+     "511360",
+     "511380",
+     "511880",
+     "511990"
+    ]
+   },
+   {
+    "date": "2023-02-23",
+    "prev_mix": {
+     "equity": 0.4,
+     "bond": 0,
+     "money": 0.4,
+     "commodity": 0.2,
+     "convertible": 0,
+     "unclassified": 0
+    },
+    "refused_mix": {
+     "equity": 0,
+     "bond": 0.4,
+     "money": 0.6000000000000001,
+     "commodity": 0,
+     "convertible": 0,
+     "unclassified": 0
+    },
+    "turn_saved": 1.6,
+    "cost_saved": 0.0016,
+    "prev_names": [
+     "510580",
+     "511360",
+     "511810",
+     "518880",
+     "561350"
+    ]
+   },
+   {
+    "date": "2023-03-23",
+    "prev_mix": {
+     "equity": 0.4,
+     "bond": 0,
+     "money": 0.4,
+     "commodity": 0.2,
+     "convertible": 0,
+     "unclassified": 0
+    },
+    "refused_mix": {
+     "equity": 0,
+     "bond": 0.4,
+     "money": 0.6000000000000001,
+     "commodity": 0,
+     "convertible": 0,
+     "unclassified": 0
+    },
+    "turn_saved": 1.6,
+    "cost_saved": 0.0016,
+    "prev_names": [
+     "510580",
+     "511360",
+     "511810",
+     "518880",
+     "561350"
+    ]
+   },
+   {
+    "date": "2023-04-21",
+    "prev_mix": {
+     "equity": 0.4,
+     "bond": 0,
+     "money": 0.4,
+     "commodity": 0.2,
+     "convertible": 0,
+     "unclassified": 0
+    },
+    "refused_mix": {
+     "equity": 0,
+     "bond": 0.4,
+     "money": 0.6000000000000001,
+     "commodity": 0,
+     "convertible": 0,
+     "unclassified": 0
+    },
+    "turn_saved": 1.6,
+    "cost_saved": 0.0016,
+    "prev_names": [
+     "510580",
+     "511360",
+     "511810",
+     "518880",
+     "561350"
+    ]
+   },
+   {
+    "date": "2023-05-24",
+    "prev_mix": {
+     "equity": 0.4,
+     "bond": 0,
+     "money": 0.4,
+     "commodity": 0.2,
+     "convertible": 0,
+     "unclassified": 0
+    },
+    "refused_mix": {
+     "equity": 0,
+     "bond": 0.8,
+     "money": 0.2,
+     "commodity": 0,
+     "convertible": 0,
+     "unclassified": 0
+    },
+    "turn_saved": 1.6,
+    "cost_saved": 0.0016,
+    "prev_names": [
+     "510580",
+     "511360",
+     "511810",
+     "518880",
+     "561350"
+    ]
+   },
+   {
+    "date": "2023-07-21",
+    "prev_mix": {
+     "equity": 0.4,
+     "bond": 0.2,
+     "money": 0.4,
+     "commodity": 0,
+     "convertible": 0,
+     "unclassified": 0
+    },
+    "refused_mix": {
+     "equity": 0,
+     "bond": 0.6000000000000001,
+     "money": 0.4,
+     "commodity": 0,
+     "convertible": 0,
+     "unclassified": 0
+    },
+    "turn_saved": 1.2,
+    "cost_saved": 0.0012,
+    "prev_names": [
+     "159612",
+     "159816",
+     "511360",
+     "511880",
+     "513500"
+    ]
+   },
+   {
+    "date": "2023-08-18",
+    "prev_mix": {
+     "equity": 0.4,
+     "bond": 0.2,
+     "money": 0.4,
+     "commodity": 0,
+     "convertible": 0,
+     "unclassified": 0
+    },
+    "refused_mix": {
+     "equity": 0,
+     "bond": 0.4,
+     "money": 0.6000000000000001,
+     "commodity": 0,
+     "convertible": 0,
+     "unclassified": 0
+    },
+    "turn_saved": 1.2,
+    "cost_saved": 0.0012,
+    "prev_names": [
+     "159612",
+     "159816",
+     "511360",
+     "511880",
+     "513500"
+    ]
+   },
+   {
+    "date": "2023-09-15",
+    "prev_mix": {
+     "equity": 0.4,
+     "bond": 0.2,
+     "money": 0.4,
+     "commodity": 0,
+     "convertible": 0,
+     "unclassified": 0
+    },
+    "refused_mix": {
+     "equity": 0,
+     "bond": 0.2,
+     "money": 0.8,
+     "commodity": 0,
+     "convertible": 0,
+     "unclassified": 0
+    },
+    "turn_saved": 1.6,
+    "cost_saved": 0.0016,
+    "prev_names": [
+     "159612",
+     "159816",
+     "511360",
+     "511880",
+     "513500"
+    ]
+   },
+   {
+    "date": "2023-10-23",
+    "prev_mix": {
+     "equity": 0.4,
+     "bond": 0.2,
+     "money": 0.4,
+     "commodity": 0,
+     "convertible": 0,
+     "unclassified": 0
+    },
+    "refused_mix": {
+     "equity": 0,
+     "bond": 0.4,
+     "money": 0.6000000000000001,
+     "commodity": 0,
+     "convertible": 0,
+     "unclassified": 0
+    },
+    "turn_saved": 1.2,
+    "cost_saved": 0.0012,
+    "prev_names": [
+     "159612",
+     "159816",
+     "511360",
+     "511880",
+     "513500"
+    ]
+   },
+   {
+    "date": "2023-11-20",
+    "prev_mix": {
+     "equity": 0.4,
+     "bond": 0.2,
+     "money": 0.4,
+     "commodity": 0,
+     "convertible": 0,
+     "unclassified": 0
+    },
+    "refused_mix": {
+     "equity": 0,
+     "bond": 0.6000000000000001,
+     "money": 0.4,
+     "commodity": 0,
+     "convertible": 0,
+     "unclassified": 0
+    },
+    "turn_saved": 1.2,
+    "cost_saved": 0.0012,
+    "prev_names": [
+     "159612",
+     "159816",
+     "511360",
+     "511880",
+     "513500"
+    ]
+   },
+   {
+    "date": "2024-01-16",
+    "prev_mix": {
+     "equity": 0.2,
+     "bond": 0.4,
+     "money": 0.4,
+     "commodity": 0,
+     "convertible": 0,
+     "unclassified": 0
+    },
+    "refused_mix": {
+     "equity": 0,
+     "bond": 0.8,
+     "money": 0.2,
+     "commodity": 0,
+     "convertible": 0,
+     "unclassified": 0
+    },
+    "turn_saved": 1.6,
+    "cost_saved": 0.0016,
+    "prev_names": [
+     "511060",
+     "511270",
+     "511360",
+     "511880",
+     "513030"
+    ]
+   },
+   {
+    "date": "2024-02-21",
+    "prev_mix": {
+     "equity": 0.2,
+     "bond": 0.4,
+     "money": 0.4,
+     "commodity": 0,
+     "convertible": 0,
+     "unclassified": 0
+    },
+    "refused_mix": {
+     "equity": 0,
+     "bond": 0.8,
+     "money": 0.2,
+     "commodity": 0,
+     "convertible": 0,
+     "unclassified": 0
+    },
+    "turn_saved": 1.6,
+    "cost_saved": 0.0016,
+    "prev_names": [
+     "511060",
+     "511270",
+     "511360",
+     "511880",
+     "513030"
+    ]
+   },
+   {
+    "date": "2024-03-20",
+    "prev_mix": {
+     "equity": 0.2,
+     "bond": 0.4,
+     "money": 0.4,
+     "commodity": 0,
+     "convertible": 0,
+     "unclassified": 0
+    },
+    "refused_mix": {
+     "equity": 0,
+     "bond": 0.2,
+     "money": 0.2,
+     "commodity": 0.6000000000000001,
+     "convertible": 0,
+     "unclassified": 0
+    },
+    "turn_saved": 1.6,
+    "cost_saved": 0.0016,
+    "prev_names": [
+     "511060",
+     "511270",
+     "511360",
+     "511880",
+     "513030"
+    ]
+   },
+   {
+    "date": "2024-04-19",
+    "prev_mix": {
+     "equity": 0.2,
+     "bond": 0.4,
+     "money": 0.4,
+     "commodity": 0,
+     "convertible": 0,
+     "unclassified": 0
+    },
+    "refused_mix": {
+     "equity": 0,
+     "bond": 0.8,
+     "money": 0.2,
+     "commodity": 0,
+     "convertible": 0,
+     "unclassified": 0
+    },
+    "turn_saved": 1.6,
+    "cost_saved": 0.0016,
+    "prev_names": [
+     "511060",
+     "511270",
+     "511360",
+     "511880",
+     "513030"
+    ]
+   },
+   {
+    "date": "2024-06-20",
+    "prev_mix": {
+     "equity": 0.4,
+     "bond": 0,
+     "money": 0.2,
+     "commodity": 0,
+     "convertible": 0.4,
+     "unclassified": 0
+    },
+    "refused_mix": {
+     "equity": 0,
+     "bond": 0.8,
+     "money": 0.2,
+     "commodity": 0,
+     "convertible": 0,
+     "unclassified": 0
+    },
+    "turn_saved": 2.0,
+    "cost_saved": 0.002,
+    "prev_names": [
+     "159659",
+     "511180",
+     "511380",
+     "511880",
+     "513650"
+    ]
+   },
+   {
+    "date": "2024-08-15",
+    "prev_mix": {
+     "equity": 0.4,
+     "bond": 0.2,
+     "money": 0.4,
+     "commodity": 0,
+     "convertible": 0,
+     "unclassified": 0
+    },
+    "refused_mix": {
+     "equity": 0,
+     "bond": 0.4,
+     "money": 0.6000000000000001,
+     "commodity": 0,
+     "convertible": 0,
+     "unclassified": 0
+    },
+    "turn_saved": 0.8,
+    "cost_saved": 0.0008,
+    "prev_names": [
+     "159887",
+     "511030",
+     "511360",
+     "511880",
+     "515290"
+    ]
+   },
+   {
+    "date": "2024-09-12",
+    "prev_mix": {
+     "equity": 0.4,
+     "bond": 0.2,
+     "money": 0.4,
+     "commodity": 0,
+     "convertible": 0,
+     "unclassified": 0
+    },
+    "refused_mix": {
+     "equity": 0,
+     "bond": 0.6000000000000001,
+     "money": 0.4,
+     "commodity": 0,
+     "convertible": 0,
+     "unclassified": 0
+    },
+    "turn_saved": 0.8,
+    "cost_saved": 0.0008,
+    "prev_names": [
+     "159887",
+     "511030",
+     "511360",
+     "511880",
+     "515290"
+    ]
+   },
+   {
+    "date": "2024-10-21",
+    "prev_mix": {
+     "equity": 0.4,
+     "bond": 0.2,
+     "money": 0.4,
+     "commodity": 0,
+     "convertible": 0,
+     "unclassified": 0
+    },
+    "refused_mix": {
+     "equity": 0,
+     "bond": 0.4,
+     "money": 0.6000000000000001,
+     "commodity": 0,
+     "convertible": 0,
+     "unclassified": 0
+    },
+    "turn_saved": 1.6,
+    "cost_saved": 0.0016,
+    "prev_names": [
+     "159887",
+     "511030",
+     "511360",
+     "511880",
+     "515290"
+    ]
+   },
+   {
+    "date": "2024-11-18",
+    "prev_mix": {
+     "equity": 0.4,
+     "bond": 0.2,
+     "money": 0.4,
+     "commodity": 0,
+     "convertible": 0,
+     "unclassified": 0
+    },
+    "refused_mix": {
+     "equity": 0,
+     "bond": 0.8,
+     "money": 0.2,
+     "commodity": 0,
+     "convertible": 0,
+     "unclassified": 0
+    },
+    "turn_saved": 1.6,
+    "cost_saved": 0.0016,
+    "prev_names": [
+     "159887",
+     "511030",
+     "511360",
+     "511880",
+     "515290"
+    ]
+   },
+   {
+    "date": "2025-01-14",
+    "prev_mix": {
+     "equity": 1.0,
+     "bond": 0,
+     "money": 0,
+     "commodity": 0,
+     "convertible": 0,
+     "unclassified": 0
+    },
+    "refused_mix": {
+     "equity": 0,
+     "bond": 0.4,
+     "money": 0.2,
+     "commodity": 0.4,
+     "convertible": 0,
+     "unclassified": 0
+    },
+    "turn_saved": 2.0,
+    "cost_saved": 0.002,
+    "prev_names": [
+     "159612",
+     "159655",
+     "513100",
+     "513650",
+     "513850"
+    ]
+   },
+   {
+    "date": "2025-12-11",
+    "prev_mix": {
+     "equity": 0.6000000000000001,
+     "bond": 0.2,
+     "money": 0.2,
+     "commodity": 0,
+     "convertible": 0,
+     "unclassified": 0
+    },
+    "refused_mix": {
+     "equity": 0,
+     "bond": 0.6000000000000001,
+     "money": 0.4,
+     "commodity": 0,
+     "convertible": 0,
+     "unclassified": 0
+    },
+    "turn_saved": 1.2,
+    "cost_saved": 0.0012,
+    "prev_names": [
+     "159333",
+     "159519",
+     "511030",
+     "511360",
+     "513140"
+    ]
+   },
+   {
+    "date": "2026-02-09",
+    "prev_mix": {
+     "equity": 0.6000000000000001,
+     "bond": 0.2,
+     "money": 0.2,
+     "commodity": 0,
+     "convertible": 0,
+     "unclassified": 0
+    },
+    "refused_mix": {
+     "equity": 0,
+     "bond": 0.8,
+     "money": 0.2,
+     "commodity": 0,
+     "convertible": 0,
+     "unclassified": 0
+    },
+    "turn_saved": 1.2,
+    "cost_saved": 0.0012,
+    "prev_names": [
+     "510210",
+     "510760",
+     "511030",
+     "511360",
+     "512040"
+    ]
+   },
+   {
+    "date": "2026-03-17",
+    "prev_mix": {
+     "equity": 0.6000000000000001,
+     "bond": 0.2,
+     "money": 0.2,
+     "commodity": 0,
+     "convertible": 0,
+     "unclassified": 0
+    },
+    "refused_mix": {
+     "equity": 0,
+     "bond": 0.6000000000000001,
+     "money": 0.4,
+     "commodity": 0,
+     "convertible": 0,
+     "unclassified": 0
+    },
+    "turn_saved": 1.6,
+    "cost_saved": 0.0016,
+    "prev_names": [
+     "510210",
+     "510760",
+     "511030",
+     "511360",
+     "512040"
+    ]
+   },
+   {
+    "date": "2026-04-15",
+    "prev_mix": {
+     "equity": 0.6000000000000001,
+     "bond": 0.2,
+     "money": 0.2,
+     "commodity": 0,
+     "convertible": 0,
+     "unclassified": 0
+    },
+    "refused_mix": {
+     "equity": 0,
+     "bond": 0.8,
+     "money": 0.2,
+     "commodity": 0,
+     "convertible": 0,
+     "unclassified": 0
+    },
+    "turn_saved": 1.6,
+    "cost_saved": 0.0016,
+    "prev_names": [
+     "510210",
+     "510760",
+     "511030",
+     "511360",
+     "512040"
+    ]
+   },
+   {
+    "date": "2026-05-18",
+    "prev_mix": {
+     "equity": 0.6000000000000001,
+     "bond": 0.2,
+     "money": 0.2,
+     "commodity": 0,
+     "convertible": 0,
+     "unclassified": 0
+    },
+    "refused_mix": {
+     "equity": 0,
+     "bond": 0.4,
+     "money": 0.6000000000000001,
+     "commodity": 0,
+     "convertible": 0,
+     "unclassified": 0
+    },
+    "turn_saved": 1.6,
+    "cost_saved": 0.0016,
+    "prev_names": [
+     "510210",
+     "510760",
+     "511030",
+     "511360",
+     "512040"
+    ]
+   },
+   {
+    "date": "2026-06-15",
+    "prev_mix": {
+     "equity": 0.6000000000000001,
+     "bond": 0.2,
+     "money": 0.2,
+     "commodity": 0,
+     "convertible": 0,
+     "unclassified": 0
+    },
+    "refused_mix": {
+     "equity": 0,
+     "bond": 0.6000000000000001,
+     "money": 0.4,
+     "commodity": 0,
+     "convertible": 0,
+     "unclassified": 0
+    },
+    "turn_saved": 1.6,
+    "cost_saved": 0.0016,
+    "prev_names": [
+     "510210",
+     "510760",
+     "511030",
+     "511360",
+     "512040"
+    ]
+   },
+   {
+    "date": "2026-07-14",
+    "prev_mix": {
+     "equity": 0.6000000000000001,
+     "bond": 0.2,
+     "money": 0.2,
+     "commodity": 0,
+     "convertible": 0,
+     "unclassified": 0
+    },
+    "refused_mix": {
+     "equity": 0,
+     "bond": 0.8,
+     "money": 0.2,
+     "commodity": 0,
+     "convertible": 0,
+     "unclassified": 0
+    },
+    "turn_saved": 1.6,
+    "cost_saved": 0.0016,
+    "prev_names": [
+     "510210",
+     "510760",
+     "511030",
+     "511360",
+     "512040"
+    ]
+   },
+   {
+    "date": "2026-08-11",
+    "prev_mix": {
+     "equity": 0.6000000000000001,
+     "bond": 0.2,
+     "money": 0.2,
+     "commodity": 0,
+     "convertible": 0,
+     "unclassified": 0
+    },
+    "refused_mix": {
+     "equity": 0,
+     "bond": 0.8,
+     "money": 0.2,
+     "commodity": 0,
+     "convertible": 0,
+     "unclassified": 0
+    },
+    "turn_saved": 1.6,
+    "cost_saved": 0.0016,
+    "prev_names": [
+     "510210",
+     "510760",
+     "511030",
+     "511360",
+     "512040"
+    ]
+   },
+   {
+    "date": "2026-09-08",
+    "prev_mix": {
+     "equity": 0.6000000000000001,
+     "bond": 0.2,
+     "money": 0.2,
+     "commodity": 0,
+     "convertible": 0,
+     "unclassified": 0
+    },
+    "refused_mix": {
+     "equity": 0,
+     "bond": 0.8,
+     "money": 0.2,
+     "commodity": 0,
+     "convertible": 0,
+     "unclassified": 0
+    },
+    "turn_saved": 1.6,
+    "cost_saved": 0.0016,
+    "prev_names": [
+     "510210",
+     "510760",
+     "511030",
+     "511360",
+     "512040"
+    ]
+   },
+   {
+    "date": "2026-10-14",
+    "prev_mix": {
+     "equity": 0.6000000000000001,
+     "bond": 0.2,
+     "money": 0.2,
+     "commodity": 0,
+     "convertible": 0,
+     "unclassified": 0
+    },
+    "refused_mix": {
+     "equity": 0,
+     "bond": 1.0,
+     "money": 0,
+     "commodity": 0,
+     "convertible": 0,
+     "unclassified": 0
+    },
+    "turn_saved": 2.0,
+    "cost_saved": 0.002,
+    "prev_names": [
+     "510210",
+     "510760",
+     "511030",
+     "511360",
+     "512040"
+    ]
+   },
+   {
+    "date": "2026-11-11",
+    "prev_mix": {
+     "equity": 0.6000000000000001,
+     "bond": 0.2,
+     "money": 0.2,
+     "commodity": 0,
+     "convertible": 0,
+     "unclassified": 0
+    },
+    "refused_mix": {
+     "equity": 0,
+     "bond": 0.8,
+     "money": 0.2,
+     "commodity": 0,
+     "convertible": 0,
+     "unclassified": 0
+    },
+    "turn_saved": 1.6,
+    "cost_saved": 0.0016,
+    "prev_names": [
+     "510210",
+     "510760",
+     "511030",
+     "511360",
+     "512040"
+    ]
+   }
+  ]
+ },
+ "attribution": {
+  "windows": [
+   {
+    "start": "2020-03-06",
+    "bars": 140,
+    "book_log": 0.15302896378603298,
+    "skip_log": 0.08488348941902804,
+    "delta_log": -0.06814547436700494
+   },
+   {
+    "start": "2020-09-28",
+    "bars": 60,
+    "book_log": 0.02665605458630578,
+    "skip_log": 0.012511756235936825,
+    "delta_log": -0.014144298350368956
+   },
+   {
+    "start": "2020-12-29",
+    "bars": 60,
+    "book_log": -0.015506406691364383,
+    "skip_log": 0.02764626582263606,
+    "delta_log": 0.04315267251400044
+   },
+   {
+    "start": "2021-03-31",
+    "bars": 40,
+    "book_log": -0.003167063001751791,
+    "skip_log": 0.005557630217571594,
+    "delta_log": 0.008724693219323384
+   },
+   {
+    "start": "2021-06-01",
+    "bars": 120,
+    "book_log": 0.056335642609286446,
+    "skip_log": 0.1133458376623522,
+    "delta_log": 0.05701019505306576
+   },
+   {
+    "start": "2021-11-26",
+    "bars": 40,
+    "book_log": 0.0038897837863300644,
+    "skip_log": -0.0031075216087091684,
+    "delta_log": -0.006997305395039233
+   },
+   {
+    "start": "2022-01-24",
+    "bars": 20,
+    "book_log": -0.00556971619125099,
+    "skip_log": -0.0053501798748069596,
+    "delta_log": 0.00021953631644403004
+   },
+   {
+    "start": "2022-02-28",
+    "bars": 40,
+    "book_log": 0.006394494474337736,
+    "skip_log": -0.023520060853330915,
+    "delta_log": -0.02991455532766865
+   },
+   {
+    "start": "2022-04-27",
+    "bars": 20,
+    "book_log": -0.003953580174170301,
+    "skip_log": 0.01184534363424336,
+    "delta_log": 0.015798923808413662
+   },
+   {
+    "start": "2022-05-30",
+    "bars": 40,
+    "book_log": 0.000928887452131294,
+    "skip_log": 0.01600112960566985,
+    "delta_log": 0.015072242153538556
+   },
+   {
+    "start": "2022-07-26",
+    "bars": 20,
+    "book_log": 0.001289902654964148,
+    "skip_log": 0.0049145903216542,
+    "delta_log": 0.003624687666690052
+   },
+   {
+    "start": "2022-08-23",
+    "bars": 20,
+    "book_log": -0.003327155394808934,
+    "skip_log": -0.013285529673021101,
+    "delta_log": -0.009958374278212168
+   },
+   {
+    "start": "2022-09-21",
+    "bars": 20,
+    "book_log": -0.001690631393344466,
+    "skip_log": -0.006915728623128531,
+    "delta_log": -0.005225097229784065
+   },
+   {
+    "start": "2022-10-26",
+    "bars": 20,
+    "book_log": -0.0012573753585994052,
+    "skip_log": 0.003677052715097051,
+    "delta_log": 0.004934428073696456
+   },
+   {
+    "start": "2022-11-23",
+    "bars": 20,
+    "book_log": -0.0025941205849156213,
+    "skip_log": 0.0005462149266769467,
+    "delta_log": 0.003140335511592568
+   },
+   {
+    "start": "2022-12-21",
+    "bars": 40,
+    "book_log": 0.009805264882834952,
+    "skip_log": 0.01901907774301745,
+    "delta_log": 0.009213812860182496
+   },
+   {
+    "start": "2023-02-23",
+    "bars": 20,
+    "book_log": 0.00046677305020609294,
+    "skip_log": 0.004177494191878406,
+    "delta_log": 0.003710721141672313
+   },
+   {
+    "start": "2023-03-23",
+    "bars": 20,
+    "book_log": 0.0010236704955219889,
+    "skip_log": 0.013566347077750535,
+    "delta_log": 0.012542676582228546
+   },
+   {
+    "start": "2023-04-21",
+    "bars": 20,
+    "book_log": 0.0036537705805461673,
+    "skip_log": -0.014310671056634722,
+    "delta_log": -0.01796444163718089
+   },
+   {
+    "start": "2023-05-24",
+    "bars": 40,
+    "book_log": 0.018540332378045005,
+    "skip_log": 0.02113744485341368,
+    "delta_log": 0.0025971124753686736
+   },
+   {
+    "start": "2023-07-21",
+    "bars": 20,
+    "book_log": -0.002453298481028987,
+    "skip_log": -0.006446057843218389,
+    "delta_log": -0.003992759362189402
+   },
+   {
+    "start": "2023-08-18",
+    "bars": 20,
+    "book_log": -0.0012720936671982153,
+    "skip_log": 0.005611159407064054,
+    "delta_log": 0.006883253074262269
+   },
+   {
+    "start": "2023-09-15",
+    "bars": 20,
+    "book_log": -0.002225880783197687,
+    "skip_log": -0.01572591195158002,
+    "delta_log": -0.013500031168382332
+   },
+   {
+    "start": "2023-10-23",
+    "bars": 20,
+    "book_log": 0.000692855641345691,
+    "skip_log": 0.019559886027213425,
+    "delta_log": 0.018867030385867734
+   },
+   {
+    "start": "2023-11-20",
+    "bars": 40,
+    "book_log": -0.00027248337652188703,
+    "skip_log": 0.011837808627192248,
+    "delta_log": 0.012110292003714135
+   },
+   {
+    "start": "2024-01-16",
+    "bars": 20,
+    "book_log": 0.004923912044773826,
+    "skip_log": 0.007315172954575178,
+    "delta_log": 0.0023912609098013515
+   },
+   {
+    "start": "2024-02-21",
+    "bars": 20,
+    "book_log": 0.004143133836411961,
+    "skip_log": 0.014004714135942509,
+    "delta_log": 0.009861580299530548
+   },
+   {
+    "start": "2024-03-20",
+    "bars": 20,
+    "book_log": 0.06513248406020122,
+    "skip_log": -0.004055563646585547,
+    "delta_log": -0.06918804770678677
+   },
+   {
+    "start": "2024-04-19",
+    "bars": 40,
+    "book_log": 0.018820553127295414,
+    "skip_log": 0.027571241427720383,
+    "delta_log": 0.00875068830042497
+   },
+   {
+    "start": "2024-06-20",
+    "bars": 40,
+    "book_log": -0.013116638984191797,
+    "skip_log": -0.02278548531255037,
+    "delta_log": -0.009668846328358571
+   },
+   {
+    "start": "2024-08-15",
+    "bars": 20,
+    "book_log": 0.0007684513378198865,
+    "skip_log": -0.01470267656303098,
+    "delta_log": -0.015471127900850867
+   },
+   {
+    "start": "2024-09-12",
+    "bars": 20,
+    "book_log": 0.0008738283315162798,
+    "skip_log": 0.07152273370948908,
+    "delta_log": 0.0706489053779728
+   },
+   {
+    "start": "2024-10-21",
+    "bars": 20,
+    "book_log": -0.0005261546482367985,
+    "skip_log": -0.011965226646399207,
+    "delta_log": -0.011439071998162409
+   },
+   {
+    "start": "2024-11-18",
+    "bars": 40,
+    "book_log": 0.0039046321521668537,
+    "skip_log": 0.01018715342806531,
+    "delta_log": 0.006282521275898456
+   },
+   {
+    "start": "2025-01-14",
+    "bars": 220,
+    "book_log": 0.3020559827481614,
+    "skip_log": 0.284258845029154,
+    "delta_log": -0.017797137719007428
+   },
+   {
+    "start": "2025-12-11",
+    "bars": 40,
+    "book_log": -0.005836448285596818,
+    "skip_log": 0.00409582944415976,
+    "delta_log": 0.009932277729756578
+   },
+   {
+    "start": "2026-02-09",
+    "bars": 20,
+    "book_log": 0.009186526028485575,
+    "skip_log": 0.017141026309928198,
+    "delta_log": 0.007954500281442622
+   },
+   {
+    "start": "2026-03-17",
+    "bars": 20,
+    "book_log": 0.0015895080670224049,
+    "skip_log": -0.017442049620496558,
+    "delta_log": -0.019031557687518963
+   },
+   {
+    "start": "2026-04-15",
+    "bars": 20,
+    "book_log": 0.0008514664577213837,
+    "skip_log": 0.02256359019969345,
+    "delta_log": 0.021712123741972067
+   },
+   {
+    "start": "2026-05-18",
+    "bars": 20,
+    "book_log": -0.0006533476080036182,
+    "skip_log": -0.026850728623010856,
+    "delta_log": -0.026197381015007237
+   },
+   {
+    "start": "2026-06-15",
+    "bars": 20,
+    "book_log": 0.00041657676357342854,
+    "skip_log": -0.007231657697521876,
+    "delta_log": -0.007648234461095305
+   },
+   {
+    "start": "2026-07-14",
+    "bars": 20,
+    "book_log": -0.0002673178166792134,
+    "skip_log": 0.01666701921192304,
+    "delta_log": 0.016934337028602253
+   },
+   {
+    "start": "2026-08-11",
+    "bars": 20,
+    "book_log": -0.0001346536728025205,
+    "skip_log": 0.004452828388324281,
+    "delta_log": 0.004587482061126802
+   },
+   {
+    "start": "2026-09-08",
+    "bars": 20,
+    "book_log": 0.002155843916211264,
+    "skip_log": -0.017350426265192342,
+    "delta_log": -0.019506270181403607
+   },
+   {
+    "start": "2026-10-14",
+    "bars": 20,
+    "book_log": -0.001452786811499962,
+    "skip_log": -0.002745835228636695,
+    "delta_log": -0.001293048417136733
+   },
+   {
+    "start": "2026-11-11",
+    "bars": 10,
+    "book_log": -0.00237291909147197,
+    "skip_log": -0.019507305039972,
+    "delta_log": -0.01713438594850003
+   }
+  ],
+  "n_scored": 46,
+  "n_helped": 26,
+  "helped_cny": 376658.0,
+  "hurt_cny": -384217.0,
+  "median_bars": 20.0,
+  "coverage_log": -0.007559,
+  "uncovered_log": -0.0
+ },
+ "maxdd_walk": {
+  "book": 0.13403159155863573,
+  "skip": 0.16945668282822018
+ },
+ "verdict": "SKIPPING_THE_EXIT_COSTS_MONEY",
+ "verdict_rule": "sign of the total log difference (skip minus book) over the whole sample",
+ "caveats": [
+  "The ETF pool is today's listed set (survivorship); early years read a thinner panel than was live.",
+  "The skip arm holds whatever the book last bought, so its risk depends on the incumbent names -- that is the point of the arm, not a defect.",
+  "This is the all-classes cell. The production candidate (nobond_vt08) has no bond slot and never prints a defensive rebalance, so this face prices a decision the production book does not make.",
+  "Cost saved is measured in the same 10bp/edge convention the book uses; slippage on the names it refuses to sell is not modelled."
+ ]
+}

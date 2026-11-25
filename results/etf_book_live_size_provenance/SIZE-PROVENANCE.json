@@ -1,14 +1,14 @@
 {
   "face": "live_size_provenance",
-  "evidence_cutoff": "2026-11-20",
-  "ticket_file": "TICKET-2026-11-20.json",
-  "ticket_rel": "results\\etf_book_order\\TICKET-2026-11-20.json",
+  "evidence_cutoff": "2026-11-24",
+  "ticket_file": "TICKET-2026-11-24.json",
+  "ticket_rel": "results\\etf_book_order\\TICKET-2026-11-24.json",
   "ticket": {
     "beta_target": 0.2,
     "k_now": 0.435003,
     "book_weight": 0.435003,
     "cash_weight": 0.564997,
-    "book_amount_cny": 434754.1,
+    "book_amount_cny": 434723.8,
     "names": [
       "510760",
       "512040",
@@ -20,7 +20,7 @@
   "decision_desk": {
     "executed_book": "nobond_vt08_adopted",
     "book_weight_in_desk": 0.435003,
-    "book_amount_cny_in_desk": 434754.1,
+    "book_amount_cny_in_desk": 434723.8,
     "names_in_ticket_in_desk": 5,
     "class": "INVARIANT"
   },
@@ -40,12 +40,12 @@
   },
   "ticket_selection": "ranked by evidence_cutoff, then book_decided_at, then file name",
   "tickets_superseded": [],
-  "panel_last_bar": "2026-11-20",
+  "panel_last_bar": "2026-11-24",
   "tickets_unverifiable": [],
   "tickets_unverifiable_sentence": null,
   "tickets_superseded_sentence": null,
   "desk_reads_the_ticket_weight": true,
-  "verdict": "IDENTITY_FAIL",
+  "verdict": "DIFFERENT_BOOK_AND_SIZE",
   "comparison": {
     "verdict": "DIFFERENT_BOOK_AND_SIZE",
     "sentence": null,
@@ -80,7 +80,7 @@
   ],
   "ticket_names_outside_graded_universe": 3,
   "decision_bar": "2026-11-11",
-  "names_bar": "2026-11-20",
+  "names_bar": "2026-11-24",
   "vol_rule_bar": "2026-11-11",
   "beta_hat": 0.43624,
   "names_beta_rule": [
@@ -99,16 +99,16 @@
   ],
   "vol_rule_estimated_vol": 0.092436,
   "money": {
-    "nav_cny": 999427.8200380227,
-    "book_cny_beta_rule": 458201.1,
-    "book_cny_vol_rule": 864972.62,
-    "delta_cny": -406771.52
+    "nav_cny": 999358.1653459861,
+    "book_cny_beta_rule": 458169.16,
+    "book_cny_vol_rule": 864912.34,
+    "delta_cny": -406743.17
   },
   "identity_legs": {
     "L_beta": {
-      "published": 0.460253,
+      "published": 0.458463,
       "derived": 0.458463,
-      "ok": false
+      "ok": true
     },
     "L_names": {
       "published": [
@@ -133,8 +133,8 @@
       "ok": true
     },
     "L_bar": {
-      "published": "2026-11-20",
-      "derived": "2026-11-20",
+      "published": "2026-11-24",
+      "derived": "2026-11-24",
       "ok": true
     },
     "L_decision": {
@@ -143,6 +143,5 @@
       "ok": true
     }
   },
-  "identity_ok": false,
-  "sentence": "this face did not reproduce the published ticket; its reading is about another book and must not be used"
+  "identity_ok": true
 }

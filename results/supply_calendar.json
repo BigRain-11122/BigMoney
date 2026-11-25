@@ -6,22 +6,22 @@
    "elected_reason": {
     "reading": {
      "line": 3,
-     "margin": 1.0,
-     "median": 2.0,
+     "margin": 2.0,
+     "median": 1.0,
      "spread": 1.0,
      "state": "FAIL",
      "unit": "years (best years that add up to half the calendar sum)"
     },
     "ruler": "years_for_half",
-    "sentence": "years_for_half median 2 vs line 3 (FAIL)",
+    "sentence": "years_for_half median 1 vs line 3 (FAIL)",
     "state": "FAIL",
     "word": "refuse"
    },
    "failing_checks": [
     "Y4_top2_share"
    ],
-   "margin_pp": 11.23,
-   "median_top2_share": 0.8123,
+   "margin_pp": 11.27,
+   "median_top2_share": 0.8127,
    "pass": false,
    "phase_verdicts": [
     "CONDITIONAL",
@@ -33,11 +33,11 @@
    "phases": 5,
    "reading": "phase",
    "receipt": "results/etf_book_phase_gate.json",
-   "receipt_asof": "2026-11-20T17:05:19+08:00",
+   "receipt_asof": "2026-11-24T17:13:22+08:00",
    "refusal_survival": "REFUSAL_SURVIVES_TRUSTED_RULER",
    "single_phase_verdict": "CONDITIONAL",
-   "spread_pp": 12.33,
-   "state": "UNADJUDICABLE_PHASE",
+   "spread_pp": 10.75,
+   "state": "CONDITIONAL",
    "superseded_receipts": [
     {
      "failing_checks": [
@@ -46,7 +46,7 @@
      "pass": false,
      "reading": "single_phase",
      "receipt": "results/etf_book_year_gate/YEAR-GATE.json",
-     "receipt_asof": "2026-11-20T15:54:19+0800",
+     "receipt_asof": "2026-11-24T17:12:20+0800",
      "state": "CONDITIONAL",
      "unchecked_checks": []
     }
@@ -54,16 +54,16 @@
    "trusted_readings": {
     "effective_years": {
      "line": 3.0,
-     "margin": 2.040978,
-     "median": 5.040978,
-     "spread": 1.886781,
+     "margin": 2.042326,
+     "median": 5.042326,
+     "spread": 1.843717,
      "state": "PASS",
      "unit": "years (exp of entropy over gross shares)"
     },
     "years_for_half": {
      "line": 3,
-     "margin": 1.0,
-     "median": 2.0,
+     "margin": 2.0,
+     "median": 1.0,
      "spread": 1.0,
      "state": "FAIL",
      "unit": "years (best years that add up to half the calendar sum)"
@@ -73,7 +73,7 @@
     "effective_years": "PASS",
     "years_for_half": "FAIL"
    },
-   "undecidable_because": "phase_spread_wider_than_margin"
+   "undecidable_because": null
   },
   {
    "candidate": "nobond_base",
@@ -93,14 +93,14 @@
     "word": "refuse"
    },
    "failing_checks": [
-    "Y3_worst_year",
-    "Y4_top2_share"
+    "Y4_top2_share",
+    "Y3_worst_year"
    ],
-   "margin_pp": 14.87,
-   "median_top2_share": 0.8487,
+   "margin_pp": 14.26,
+   "median_top2_share": 0.8426,
    "pass": false,
    "phase_verdicts": [
-    "ADMIT",
+    "CONDITIONAL",
     "ADMIT",
     "REFUSE",
     "CONDITIONAL",
@@ -109,19 +109,21 @@
    "phases": 5,
    "reading": "phase",
    "receipt": "results/etf_book_phase_gate.json",
-   "receipt_asof": "2026-11-20T17:05:19+08:00",
+   "receipt_asof": "2026-11-24T17:13:22+08:00",
    "refusal_survival": "REFUSAL_SURVIVES_TRUSTED_RULER",
-   "single_phase_verdict": "ADMIT",
-   "spread_pp": 21.87,
+   "single_phase_verdict": "CONDITIONAL",
+   "spread_pp": 21.47,
    "state": "UNADJUDICABLE_PHASE",
    "superseded_receipts": [
     {
-     "failing_checks": [],
-     "pass": true,
+     "failing_checks": [
+      "Y4_top2_share"
+     ],
+     "pass": false,
      "reading": "single_phase",
      "receipt": "results/etf_book_year_gate/YEAR-GATE.json",
-     "receipt_asof": "2026-11-20T15:54:19+0800",
-     "state": "ADMIT",
+     "receipt_asof": "2026-11-24T17:12:20+0800",
+     "state": "CONDITIONAL",
      "unchecked_checks": [
       "C1_capacity"
      ]
@@ -130,9 +132,9 @@
    "trusted_readings": {
     "effective_years": {
      "line": 3.0,
-     "margin": 1.706452,
-     "median": 4.706452,
-     "spread": 1.671042,
+     "margin": 1.751664,
+     "median": 4.751664,
+     "spread": 1.647901,
      "state": "PASS",
      "unit": "years (exp of entropy over gross shares)"
     },
@@ -171,8 +173,8 @@
    "failing_checks": [
     "Y4_top2_share"
    ],
-   "margin_pp": 11.28,
-   "median_top2_share": 0.8128,
+   "margin_pp": 11.32,
+   "median_top2_share": 0.8132,
    "pass": false,
    "phase_verdicts": [
     "ADMIT",
@@ -184,18 +186,18 @@
    "phases": 5,
    "reading": "phase",
    "receipt": "results/etf_book_phase_gate.json",
-   "receipt_asof": "2026-11-20T17:05:19+08:00",
+   "receipt_asof": "2026-11-24T17:13:22+08:00",
    "refusal_survival": "REFUSAL_SURVIVES_TRUSTED_RULER",
    "single_phase_verdict": "ADMIT",
-   "spread_pp": 15.73,
+   "spread_pp": 15.17,
    "state": "UNADJUDICABLE_PHASE",
    "superseded_receipts": [],
    "trusted_readings": {
     "effective_years": {
      "line": 3.0,
-     "margin": 2.045077,
-     "median": 5.045077,
-     "spread": 1.787941,
+     "margin": 2.046441,
+     "median": 5.046441,
+     "spread": 1.769955,
      "state": "PASS",
      "unit": "years (exp of entropy over gross shares)"
     },
@@ -229,10 +231,10 @@
    "positive_years": 6,
    "reading": "single_phase",
    "receipt": "results/etf_book_year_gate/YEAR-GATE.json",
-   "receipt_asof": "2026-11-20T15:54:19+0800",
+   "receipt_asof": "2026-11-24T17:12:20+0800",
    "state": "CONDITIONAL",
    "superseded_receipts": [],
-   "top2_share": 0.7761,
+   "top2_share": 0.776,
    "unchecked_checks": [
     "C1_capacity"
    ],
@@ -244,13 +246,13 @@
   "all_classes_published has no years_for_half reading on record"
  ],
  "elected_reasons": [
-  "nobond_vt08_adopted refused at years_for_half median 2 vs line 3 (FAIL)",
+  "nobond_vt08_adopted refused at years_for_half median 1 vs line 3 (FAIL)",
   "nobond_base refused at years_for_half median 2 vs line 3 (FAIL)",
   "nobond_vt08_floor_050 refused at years_for_half median 2 vs line 3 (FAIL)"
  ],
  "elected_ruler": "years_for_half",
  "election_error": "",
- "generated": "2026-11-22T19:38:34+0800",
+ "generated": "2026-11-25T10:43:47+0800",
  "half_year": {
   "book": "nobond_vt08_adopted",
   "book_is_a_candidate": true,
@@ -261,8 +263,8 @@
     "dominant_years": [
      "2025"
     ],
-    "sentence": "nobond_vt08_adopted: half of its 7-year net (+79.60pp) is supplied by 2025 +43.06pp, which is the newest FULL year (the last row is a partial year) (dominant year 2025 = +43.06pp = 54.1% of net) -> one year supplies the half [phase set: one_year 2/5 phases]",
-    "years_for_half_median": 2
+    "sentence": "nobond_vt08_adopted: half of its 7-year net (+79.41pp) is supplied by 2025 +43.06pp, which is the newest FULL year (the last row is a partial year) (dominant year 2025 = +43.06pp = 54.2% of net) -> one year supplies the half [phase set: one_year 3/5 phases]",
+    "years_for_half_median": 1
    },
    {
     "book": "nobond_base",
@@ -271,7 +273,7 @@
      "2020",
      "2025"
     ],
-    "sentence": "nobond_base: half of its 7-year net (+108.61pp) is supplied by 2020 +22.19pp, 2025 +53.73pp, which is the newest FULL year (the last row is a partial year) (dominant year 2025 = +53.73pp = 49.5% of net) -> the half's years alternate through the window [phase set: interleaved 3/5 phases]",
+    "sentence": "nobond_base: half of its 7-year net (+108.37pp) is supplied by 2020 +22.19pp, 2025 +53.73pp, which is the newest FULL year (the last row is a partial year) (dominant year 2025 = +53.73pp = 49.6% of net) -> the half's years alternate through the window [phase set: interleaved 3/5 phases]",
     "years_for_half_median": 2
    },
    {
@@ -280,14 +282,14 @@
     "dominant_years": [
      "2025"
     ],
-    "sentence": "nobond_vt08_floor_050: half of its 7-year net (+83.53pp) is supplied by 2025 +42.65pp, which is the newest FULL year (the last row is a partial year) (dominant year 2025 = +42.65pp = 51.1% of net) -> one year supplies the half [phase set: one_year 2/5 phases]",
+    "sentence": "nobond_vt08_floor_050: half of its 7-year net (+83.34pp) is supplied by 2025 +42.65pp, which is the newest FULL year (the last row is a partial year) (dominant year 2025 = +42.65pp = 51.2% of net) -> one year supplies the half [phase set: one_year 2/5 phases]",
     "years_for_half_median": 2
    }
   ],
-  "evidence_cutoff": "2026-11-20",
+  "evidence_cutoff": "2026-11-24",
   "receipt": "results/etf_book_half_year_provenance.json",
   "ruler": "years_for_half",
-  "sentence": "half_year: nobond_vt08_adopted: half of its 7-year net (+79.60pp) is supplied by 2025 +43.06pp, which is the newest FULL year (the last row is a partial year) (dominant year 2025 = +43.06pp = 54.1% of net) -> one year supplies the half [phase set: one_year 2/5 phases] (exploratory -- decides nothing)"
+  "sentence": "half_year: nobond_vt08_adopted: half of its 7-year net (+79.41pp) is supplied by 2025 +43.06pp, which is the newest FULL year (the last row is a partial year) (dominant year 2025 = +43.06pp = 54.2% of net) -> one year supplies the half [phase set: one_year 3/5 phases] (exploratory -- decides nothing)"
  },
  "half_year_error": "",
  "n_admitted": 0,
@@ -317,18 +319,7 @@
   ],
   "uncertified": []
  },
- "superseded_admissions": [
-  {
-   "candidate": "nobond_base",
-   "failing_checks": [],
-   "reading": "single_phase",
-   "receipt": "results/etf_book_year_gate/YEAR-GATE.json",
-   "state": "ADMIT",
-   "unchecked_checks": [
-    "C1_capacity"
-   ]
-  }
- ],
+ "superseded_admissions": [],
  "superseded_readings": [
   {
    "candidate": "nobond_vt08_adopted",
@@ -338,18 +329,20 @@
    "pass": false,
    "reading": "single_phase",
    "receipt": "results/etf_book_year_gate/YEAR-GATE.json",
-   "receipt_asof": "2026-11-20T15:54:19+0800",
+   "receipt_asof": "2026-11-24T17:12:20+0800",
    "state": "CONDITIONAL",
    "unchecked_checks": []
   },
   {
    "candidate": "nobond_base",
-   "failing_checks": [],
-   "pass": true,
+   "failing_checks": [
+    "Y4_top2_share"
+   ],
+   "pass": false,
    "reading": "single_phase",
    "receipt": "results/etf_book_year_gate/YEAR-GATE.json",
-   "receipt_asof": "2026-11-20T15:54:19+0800",
-   "state": "ADMIT",
+   "receipt_asof": "2026-11-24T17:12:20+0800",
+   "state": "CONDITIONAL",
    "unchecked_checks": [
     "C1_capacity"
    ]

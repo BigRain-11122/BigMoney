@@ -1,126 +1,5 @@
 {
- "accounts": [
-  {
-   "assumed_excess_return_used": 0.1,
-   "breakeven_drop_pct": 0.13041,
-   "crystallized_pnl_cny": -10648.22,
-   "deployed_cny": 936548.07,
-   "deployed_weight": 0.959428,
-   "deployed_weight_pct": 95.9428,
-   "equity_cny": 976152.58,
-   "excess_cny": 741317.55,
-   "excess_foregone_cny_per_year": 74131.76,
-   "largest_holdings": [
-    {
-     "market_value_cny": 189961.64,
-     "sold_in_this_plan_cny": 150362.62,
-     "symbol": "511010"
-    },
-    {
-     "market_value_cny": 189920.75,
-     "sold_in_this_plan_cny": 150330.25,
-     "symbol": "511260"
-    },
-    {
-     "market_value_cny": 189719.76,
-     "sold_in_this_plan_cny": 150171.16,
-     "symbol": "159996"
-    }
-   ],
-   "loss_avoided_cny": {
-    "-10%": 74131.76,
-    "-20%": 148263.51,
-    "-30%": 222395.27,
-    "-5%": 37065.88
-   },
-   "matches_published": true,
-   "name": "COMPOSITE-CE-01",
-   "published_excess_cny": 741317.55,
-   "sell_cost_bp_of_excess": 13.041,
-   "sell_cost_cny": 966.75,
-   "share_of_positions_sold": 0.791542
-  },
-  {
-   "assumed_excess_return_used": 0.1,
-   "breakeven_drop_pct": 0.13041,
-   "crystallized_pnl_cny": -1792.94,
-   "deployed_cny": 828557.96,
-   "deployed_weight": 0.8519,
-   "deployed_weight_pct": 85.19,
-   "equity_cny": 972600.27,
-   "excess_cny": 634037.91,
-   "excess_foregone_cny_per_year": 63403.79,
-   "largest_holdings": [
-    {
-     "market_value_cny": 124763.0,
-     "sold_in_this_plan_cny": 95472.52,
-     "symbol": "512800"
-    },
-    {
-     "market_value_cny": 119028.35,
-     "sold_in_this_plan_cny": 91084.18,
-     "symbol": "510050"
-    },
-    {
-     "market_value_cny": 118676.35,
-     "sold_in_this_plan_cny": 90814.82,
-     "symbol": "511010"
-    }
-   ],
-   "loss_avoided_cny": {
-    "-10%": 63403.79,
-    "-20%": 126807.58,
-    "-30%": 190211.37,
-    "-5%": 31701.9
-   },
-   "matches_published": true,
-   "name": "COMPOSITE-CE-02",
-   "published_excess_cny": 634037.91,
-   "sell_cost_bp_of_excess": 13.041,
-   "sell_cost_cny": 826.85,
-   "share_of_positions_sold": 0.765231
-  },
-  {
-   "assumed_excess_return_used": 0.1,
-   "breakeven_drop_pct": 0.13041,
-   "crystallized_pnl_cny": -90.76,
-   "deployed_cny": 349790.2,
-   "deployed_weight": 0.353675,
-   "deployed_weight_pct": 35.3675,
-   "equity_cny": 989017.01,
-   "excess_cny": 151986.8,
-   "excess_foregone_cny_per_year": 15198.68,
-   "largest_holdings": [
-    {
-     "market_value_cny": 99978.99,
-     "sold_in_this_plan_cny": 43441.67,
-     "symbol": "511010"
-    },
-    {
-     "market_value_cny": 99957.86,
-     "sold_in_this_plan_cny": 43432.49,
-     "symbol": "511260"
-    },
-    {
-     "market_value_cny": 99841.41,
-     "sold_in_this_plan_cny": 43381.89,
-     "symbol": "511090"
-    }
-   ],
-   "loss_avoided_cny": {
-    "-10%": 15198.68,
-    "-20%": 30397.36,
-    "-30%": 45596.04,
-    "-5%": 7599.34
-   },
-   "matches_published": true,
-   "name": "VOLATILITY-CE-01",
-   "published_excess_cny": 151986.8,
-   "sell_cost_bp_of_excess": 13.041,
-   "sell_cost_cny": 198.21,
-   "share_of_positions_sold": 0.434508
-  }
- ],
+ "accounts": [],
  "accounts_above_cap": 3,
  "artifact": "results/regime_cap_compliance_cost.json",
  "assumption": {
@@ -133,102 +12,32 @@
   "rule": "REGIME_GUARD v3 政体阶梯（RED 20%/ORANGE 50%/YELLOW 65%/GREEN 80%/GREEN×HOT 95%）",
   "source": "results/regime_cap_vs_book.json"
  },
- "control": {
-  "n_above_published": 3,
-  "n_compared": 3,
-  "per_account_matches": true,
-  "published_total_excess_cny": 1527342.26,
-  "sum_matches_published": true,
-  "total_excess_cny": 1527342.26
- },
  "elapsed_sec": 0.0,
  "evidence_cutoff": "2026-11-20",
- "generated": "2026-11-23T10:47:12",
+ "generated": "2026-11-24T19:08:21",
  "history": {
-  "below_days": [
-   "2026-11-09"
-  ],
-  "below_days_count": 1,
-  "days_published": 36,
-  "rows": [
-   {
-    "below_days": [
-     "2026-11-09"
-    ],
-    "days_above_todays_cap": 35,
-    "days_below_todays_cap": 1,
-    "days_published": 36,
-    "first_day": "2026-09-24",
-    "first_weight_pct": 95.1204,
-    "largest_single_session_weight_swing_pp": -58.3818,
-    "last_day": "2026-11-20",
-    "last_weight_pct": 95.9428,
-    "max_weight_pct": 95.9985,
-    "min_weight_day": "2026-11-09",
-    "min_weight_pct": 18.3872,
-    "name": "COMPOSITE-CE-01",
-    "swing_from_day": "2026-11-06",
-    "swing_to_day": "2026-11-09"
-   },
-   {
-    "below_days": [
-     "2026-11-09"
-    ],
-    "days_above_todays_cap": 35,
-    "days_below_todays_cap": 1,
-    "days_published": 36,
-    "first_day": "2026-09-24",
-    "first_weight_pct": 95.079,
-    "largest_single_session_weight_swing_pp": 61.0468,
-    "last_day": "2026-11-20",
-    "last_weight_pct": 85.19,
-    "max_weight_pct": 95.7028,
-    "min_weight_day": "2026-11-09",
-    "min_weight_pct": 17.5732,
-    "name": "COMPOSITE-CE-02",
-    "swing_from_day": "2026-11-09",
-    "swing_to_day": "2026-11-10"
-   },
-   {
-    "below_days": [
-     "2026-11-09"
-    ],
-    "days_above_todays_cap": 35,
-    "days_below_todays_cap": 1,
-    "days_published": 36,
-    "first_day": "2026-09-24",
-    "first_weight_pct": 49.9826,
-    "largest_single_session_weight_swing_pp": -30.4398,
-    "last_day": "2026-11-20",
-    "last_weight_pct": 35.3675,
-    "max_weight_pct": 49.9826,
-    "min_weight_day": "2026-11-09",
-    "min_weight_pct": 9.9056,
-    "name": "VOLATILITY-CE-01",
-    "swing_from_day": "2026-11-06",
-    "swing_to_day": "2026-11-09"
-   }
-  ],
-  "ruler_warning": "过去各日的仓位一律用今天的 20% 帽子上限去读——任何面上都没有逐日的历史帽子，所以过去某一天是否超帽，不是按那一天的帽子判的",
-  "verdict": "ABOVE_TODAYS_CAP_ON_MOST_PUBLISHED_DAYS"
+  "below_days": [],
+  "days_published": 37,
+  "rows": [],
+  "ruler_warning": "过去各日的仓位一律用今天的 20% 帽子上限去读——任何面上都没有逐日的历史帽子，所以过去某一天是否超帽，不是按那一天的帽子判的"
  },
  "holdings": {
-  "date": "2026-11-20",
+  "date": "2026-11-24",
   "source": "results/paper_export/latest.json"
  },
  "inputs": [
   {
    "path": "results/regime_cap_vs_book.json",
-   "sha256": "27fa0b835cebf5ae1eae1a4517a72716a0275149176306b1275fd40c0de5cb38"
+   "sha256": "08e1c18f8ff8e21a7cdfdbed72b9eac9feb04fbfd7c656ee907c46ca024cee85"
   },
   {
    "path": "results/paper_export/latest.json",
-   "sha256": "164a4f6d920bf6d697ef82b324de71a8cb6c891df71724738e611cc1913c5975"
+   "sha256": "9b343121a04648435db6c2248a1fbb7ec2cafd6b67ec15b9dcf7bab4cc0fe3dd"
   },
   {
-   "files": 36,
+   "files": 37,
    "path": "results/paper_export/export-*.json",
-   "sha256": "dd0109a55e1b877477c38e980360b853288541964e28753f41a607509de88672"
+   "sha256": "87877ae862ac4de8a7a0aec17841ab3e6e998f6b5dec26718e655aba922374a8"
   }
  ],
  "schema": "regime_cap_compliance_cost_v1",
@@ -244,25 +53,13 @@
   "rate": 0.0013041,
   "single_source": "knowledge.cost_spec.X1_SELL_RATE"
  },
- "sentence": "把 3 户卖回 20% 帽子要动 1,527,342.26 元：手续费 1,991.81 元（13.041 bp），同时把账上 12,531.92 元的浮亏落成实亏（这笔钱卖不卖都已经亏了，只是从账面变成实账）；它买到的是跌 0.1304% 以上的保护——而同一批账户在自己 36 个发布日里最大的一天净值波动就有 1.1564%。所以这不是「手续费」问题，而是一个方向判断：跌超过 0.1304% 就赚，涨回去就白让出那份仓位（按 10%/年假设，那份仓位一年 152,734.23 元）。",
+ "sentence": "帽子面读的是 2026-11-20 的账户，持仓面读的是 2026-11-24 的持仓——两代之间卖哪一笔都是拿昨天的持仓去抵今天的帽子，所以本面一笔都不定价。",
  "shocks": [
   0.05,
   0.1,
   0.2,
   0.3
  ],
- "totals": {
-  "crystallized_pnl_cny": -12531.92,
-  "excess_cny": 1527342.26,
-  "loss_avoided_cny": {
-   "-10%": 152734.23,
-   "-20%": 305468.45,
-   "-30%": 458202.68,
-   "-5%": 76367.11
-  },
-  "own_biggest_one_day_equity_move_pct": 1.1564,
-  "sell_cost_cny": 1991.81
- },
  "unpriceable": [],
- "verdict": "FEE_IS_SMALLER_THAN_A_DAY_THESE_ACCOUNTS_HAVE_ALREADY_HAD"
+ "verdict": "FACES_ARE_ONE_GENERATION_APART"
 }

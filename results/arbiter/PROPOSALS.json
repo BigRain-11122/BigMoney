@@ -1,6 +1,26 @@
 {
- "generated": "2026-11-23T23:40:01+08:00",
- "samples": 8,
- "state": "INSUFFICIENT_SAMPLE",
- "proposals": []
+ "generated": "2026-11-24T23:40:01+08:00",
+ "samples": 27,
+ "grants": 24,
+ "denies": 3,
+ "deny_ratio": 0.111,
+ "reasons": {
+  "DENY_RAM": 3
+ },
+ "ram_share_of_denies": 1.0,
+ "state": "OK",
+ "proposals": [
+  {
+   "id": "ram_denies",
+   "evidence": {
+    "ram_share_of_denies": 1.0
+   },
+   "propose": "heavy 格改分片或先 GC 面板缓存，不要硬等 RAM",
+   "auto_apply": false,
+   "why_not_auto": "改格子实现属研究席决定"
+  }
+ ],
+ "applied": {
+  "date": "2026-11-24"
+ }
 }

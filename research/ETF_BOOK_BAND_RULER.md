@@ -1,12 +1,12 @@
 # 那张「该期待什么」的表，三行不是一把尺子
 
-证据面：`results/etf_book_band_ruler.json` ｜ 定价截止 2026-11-20 ｜ 100.9 秒
+证据面：`results/etf_book_band_ruler.json` ｜ 定价截止 2026-11-24 ｜ 116.7 秒
 
 ## 判决
 
 **ROWS_NOT_COMPARABLE**
 
-- the table's rows are not one ruler: window +4.53pp、universe +0.44pp、ordering -0.65pp per year on the book the operator actually holds. The gap between the top row and the card row is the sum of these dials, not a property of the strategy.
+- the table's rows are not one ruler: window +4.49pp、universe +0.43pp、ordering -0.61pp per year on the book the operator actually holds. The gap between the top row and the card row is the sum of these dials, not a property of the strategy.
 
 ## 表里印的三行（原文，含各自的起点）
 
@@ -24,9 +24,9 @@
 
 | 旋钮 | 从 | 到 | 值多少 |
 |---|---|---|---|
-| 起点 | 2020-01-01..（表里另两行读的那一段） | 2024-01-02..（表里第一行读的那一段） | **+4.53 pp/年** |
-| 股票池 | 卡片类（equity/commodity/convertible） | 票类（equity/commodity/crossborder） | **+0.44 pp/年** |
-| 信号时点 | open-to-open（同 bar 信号） | next-open（次开成交） | **-0.65 pp/年** |
+| 起点 | 2020-01-01..（表里另两行读的那一段） | 2024-01-02..（表里第一行读的那一段） | **+4.49 pp/年** |
+| 股票池 | 卡片类（equity/commodity/convertible） | 票类（equity/commodity/crossborder） | **+0.43 pp/年** |
+| 信号时点 | open-to-open（同 bar 信号） | next-open（次开成交） | **-0.61 pp/年** |
 | 成本 | 8 bp/side（票的引擎） | 10 bp/side（卡的引擎） | **-0.15 pp/年** |
 
 - **起点**：同一条定价路径，只换起点。差的是**时期**不是策略——正因为如此，两行按两段时期读、却被放在同一个「全窗」表头下
@@ -38,14 +38,14 @@
 
 | 格子 | 全窗(2020+) | 起点 2024+ | 最大回撤(全窗) |
 |---|---|---|---|
-| 覆盖·卡片类·次开 | +6.95% | +11.48% | -5.87% |
-| 覆盖·票类·次开（＝你手上这本） | +7.39% | +11.94% | -5.78% |
-| 同上但 10bp | +6.80% | +11.28% | -5.89% |
-| 不挂覆盖·卡片类·次开 | +14.96% | +23.51% | -17.03% |
-| 不挂覆盖·卡片类·同 bar | +15.61% | +22.96% | -15.98% |
-| 不挂覆盖·票类·次开 | +16.10% | +25.07% | -17.03% |
-| 不挂覆盖·票类·同 bar | +17.14% | +24.96% | -15.98% |
-| 卡片自己的 12 名·8% 波动 | +9.16% | +17.04% | -11.77% |
+| 覆盖·卡片类·次开 | +6.94% | +11.43% | -5.87% |
+| 覆盖·票类·次开（＝你手上这本） | +7.37% | +11.89% | -5.78% |
+| 同上但 10bp | +6.79% | +11.23% | -5.89% |
+| 不挂覆盖·卡片类·次开 | +14.93% | +23.39% | -17.03% |
+| 不挂覆盖·卡片类·同 bar | +15.54% | +22.76% | -15.98% |
+| 不挂覆盖·票类·次开 | +16.06% | +24.94% | -17.03% |
+| 不挂覆盖·票类·同 bar | +17.08% | +24.76% | -15.98% |
+| 卡片自己的 12 名·8% 波动 | +9.14% | +16.97% | -11.77% |
 
 ### 为什么覆盖只挂在次开那一侧（实测，不是声明）
 
@@ -63,6 +63,10 @@
 | ticket 12.78% reproduced on its own ruler | 11.94% | 11.94% | +0.00% | 2026-11-20 | PASS |
 | card 9.60% reproduced on its own ruler | 9.16% | 9.16% | +0.00% | 2026-11-20 | PASS |
 | card 18.35% (2024+) reproduced on its own ruler | 17.04% | 17.04% | +0.00% | 2026-11-20 | PASS |
+
+对照臂按运营页那根 bar（2026-11-20）重算，本面自己的拨盘格仍按 2026-11-24 算：两边差一天时，拿今天的盘去比昨天的发布，量的是数据源的滞后，不是这本书。
+
+这也有一个真限制，写在这里免得读者自己补：两个 bar 不同的这一天，拨盘价解释的是**本面这一版**的三行，不是运营页当天印的三行——页面的写入方在自己那根 bar 上重生成后，两处的数才对得上。
 
 ## 规则（跑之前冻结）
 

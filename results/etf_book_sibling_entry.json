@@ -1,8 +1,8 @@
 {
  "artifact": "etf_book_sibling_entry",
- "session": "2026-11-20",
- "board_source": "em_iopv",
- "ticket": "TICKET-2026-11-20.json",
+ "session": "2026-11-24",
+ "board_source": "sina_nav_not_iopv",
+ "ticket": "TICKET-2026-11-24.json",
  "criteria": {
   "liq_floor_cny": 20000000.0,
   "material_gap_pp": 0.5,
@@ -12,8 +12,8 @@
   "legs": [
    {
     "symbol": "510760",
-    "amount_cny": 86328.4,
-    "premium_pct": -0.2599,
+    "amount_cny": 86926.5,
+    "premium_pct": -0.1539,
     "label": "上证指数ETF",
     "index": null,
     "sibling_count": 0,
@@ -26,8 +26,8 @@
    },
    {
     "symbol": "512040",
-    "amount_cny": 86359.0,
-    "premium_pct": -0.2109,
+    "amount_cny": 86980.3,
+    "premium_pct": -0.2289,
     "label": "价值ETF",
     "index": null,
     "sibling_count": 0,
@@ -40,9 +40,9 @@
    },
    {
     "symbol": "159655",
-    "amount_cny": 86396.4,
-    "premium_pct": 6.4294,
-    "label": "标普500ETF",
+    "amount_cny": 86928.4,
+    "premium_pct": 5.0534,
+    "label": "标普ETF",
     "index": null,
     "sibling_count": 0,
     "cheapest": null,
@@ -50,12 +50,12 @@
     "basket_gain_cny": null,
     "family_floor_pct": null,
     "verdict": "CANNOT_VERIFY",
-    "why": "label 标普500ETF names no other live ticker on this board (no sibling group)"
+    "why": "label 标普ETF names no other live ticker on this board (no sibling group)"
    },
    {
     "symbol": "513690",
-    "amount_cny": 86378.4,
-    "premium_pct": -0.6587,
+    "amount_cny": 86916.4,
+    "premium_pct": -1.1914,
     "label": "港股红利ETF",
     "index": null,
     "sibling_count": 0,
@@ -68,9 +68,9 @@
    },
    {
     "symbol": "159519",
-    "amount_cny": 86291.4,
-    "premium_pct": -0.1408,
-    "label": "港股国企ETF",
+    "amount_cny": 86972.2,
+    "premium_pct": -0.979,
+    "label": "港股国企",
     "index": null,
     "sibling_count": 0,
     "cheapest": null,
@@ -78,10 +78,10 @@
     "basket_gain_cny": null,
     "family_floor_pct": null,
     "verdict": "CANNOT_VERIFY",
-    "why": "label 港股国企ETF names no other live ticker on this board (no sibling group)"
+    "why": "label 港股国企 names no other live ticker on this board (no sibling group)"
    }
   ],
-  "planned_amount_cny": 431753.6,
+  "planned_amount_cny": 434723.8,
   "swappable_legs": 0,
   "unverifiable_legs": 5,
   "basket_gain_cny": 0.0,
@@ -89,63 +89,63 @@
   "all_priced_gain_cny": 0.0,
   "gain_share_of_order_pct": 0.0
  },
- "sentence": "the ticket already buys the cheapest live ticker of every index it holds: no swap saves anything on 431,754",
+ "sentence": "the ticket already buys the cheapest live ticker of every index it holds: no swap saves anything on 434,724",
  "families": [
   {
    "index": "NDX100",
-   "members": 12,
-   "live_members": 12,
+   "members": 6,
+   "live_members": 6,
    "cheapest": {
-    "code": "159513",
-    "name": "纳斯达克100ETF大成",
-    "premium_pct": 12.1958
+    "code": "513110",
+    "name": "纳指ETF华泰柏瑞",
+    "premium_pct": 11.0001
    },
    "dearest": {
-    "code": "159501",
-    "name": "纳指ETF嘉实",
-    "premium_pct": 18.0426
+    "code": "513100",
+    "name": "纳指ETF国泰",
+    "premium_pct": 16.9401
    },
-   "min_pct": 12.1958,
+   "min_pct": 11.0001,
    "members_at_a_discount": 0,
-   "spread_pp": 5.8468
+   "spread_pp": 5.94
   },
   {
    "index": "US50",
-   "members": 2,
-   "live_members": 2,
+   "members": 1,
+   "live_members": 1,
    "cheapest": {
-    "code": "159577",
-    "name": "美国50ETF汇添富",
-    "premium_pct": 7.2201
+    "code": "513850",
+    "name": "美国50ETF易方达",
+    "premium_pct": 7.3655
    },
    "dearest": {
     "code": "513850",
     "name": "美国50ETF易方达",
-    "premium_pct": 7.4535
+    "premium_pct": 7.3655
    },
-   "min_pct": 7.2201,
+   "min_pct": 7.3655,
    "members_at_a_discount": 0,
-   "spread_pp": 0.2334
+   "spread_pp": 0.0
   }
  ],
- "labels_in_board": 14,
+ "labels_in_board": 7,
  "unresolved_labels": {
-  "A500ETF": 20,
-  "沪深300ETF": 18,
-  "证券ETF": 17,
-  "机器人ETF": 17,
-  "电力ETF": 16,
-  "电池ETF": 16,
-  "中证500ETF": 16,
-  "科创综指ETF": 16,
-  "工程机械ETF": 15,
-  "光伏ETF": 15
+  "电力ETF": 13,
+  "科创综指ETF": 13,
+  "银行ETF": 12,
+  "科创50ETF": 12,
+  "沪深300ETF": 11,
+  "光伏ETF": 11,
+  "科创芯片ETF": 11,
+  "科创芯片设计ETF": 11,
+  "科创100ETF": 11,
+  "证券ETF": 10
  },
- "unresolved_names": 1656,
+ "unresolved_names": 1663,
  "dead_label_phrases": [],
  "caveats": [
   "the label is read from the NAME, not from a fund document: two tickers that carry different words for the same basket are not merged, and under-merging can only understate the saving",
-  "premium = price / IOPV - 1 on one session snapshot; IOPV is a real-time estimate, not a published NAV, so a cross-border leg's number inherits that error (it is the same ruler r1463 uses)",
+  "premium = price / 公布单位净值 - 1：这块板由备用源（sina）供给，净值是当日官方公布值，不是 eastmoney 的盘中 IOPV（sina_nav_not_iopv）。这一面内部可比，与 IOPV 序列只可粗比。",
   "a swap is a different ISIN holding the same index -- tracking difference, fee, size and quotation width are NOT priced here",
   "the basket gain assumes the cash stays the same; buying the cheaper sibling therefore buys more units, not the same units",
   "liquidity floor is a session turnover number, not a depth test: a 20M-turning ETF can still be thin at the moment of a 92k order",

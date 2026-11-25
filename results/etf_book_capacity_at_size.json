@@ -2,18 +2,18 @@
  "artifact": "etf_book_capacity_at_size",
  "face": "results/etf_book_capacity_at_size.json",
  "script": "scripts/etf_book_capacity_at_size.py",
- "ticket_file": "results/etf_book_order/TICKET-2026-11-20.json",
- "ticket_stem": "2026-11-20",
- "bar": "2026-11-20",
- "panel_bar": "2026-11-20",
- "evidence_cutoff": "2026-11-20",
+ "ticket_file": "results/etf_book_order/TICKET-2026-11-24.json",
+ "ticket_stem": "2026-11-24",
+ "bar": "2026-11-24",
+ "panel_bar": "2026-11-24",
+ "evidence_cutoff": "2026-11-24",
  "book_weight": 0.435003,
- "cash_cny": 565245.9,
+ "cash_cny": 565276.2,
  "published": {
   "lens": "1M",
   "capital_cny": 1000000.0,
   "per_name_cny": 200000.0,
-  "impact_pct_of_adv": 0.982
+  "impact_pct_of_adv": 0.958
  },
  "criteria": {
   "line_pct": 1.0,
@@ -25,36 +25,36 @@
  "rows": [
   {
    "sym": "510760",
-   "amount_cny": 86942.4,
-   "lots": 708,
-   "adv_cny": 560475226.64,
-   "share": 0.00015512264569106853
+   "amount_cny": 86926.5,
+   "lots": 705,
+   "adv_cny": 574954916.38,
+   "share": 0.00015118837586015316
   },
   {
    "sym": "512040",
-   "amount_cny": 86950.5,
-   "lots": 735,
-   "adv_cny": 242460669.45,
-   "share": 0.0003586169261894695
+   "amount_cny": 86980.3,
+   "lots": 739,
+   "adv_cny": 232690175.19,
+   "share": 0.0003738030620708009
   },
   {
    "sym": "159655",
-   "amount_cny": 86952.6,
-   "lots": 469,
-   "adv_cny": 185644322.22,
-   "share": 0.0004683827598987518
+   "amount_cny": 86928.4,
+   "lots": 458,
+   "adv_cny": 199274956.99,
+   "share": 0.0004362234036436891
   },
   {
    "sym": "513690",
-   "amount_cny": 86936.4,
-   "lots": 779,
+   "amount_cny": 86916.4,
+   "lots": 788,
    "adv_cny": 98402773.5,
-   "share": 0.0008834750983924248
+   "share": 0.0008832718520885999
   },
   {
    "sym": "159519",
    "amount_cny": 86972.2,
-   "lots": 511,
+   "lots": 518,
    "adv_cny": 25214482.9,
    "share": 0.003449295404745342
   }
@@ -63,10 +63,10 @@
   "n_names": 5,
   "n_measurable": 5,
   "line_pct": 1.0,
-  "spent_cny": 434754.1,
+  "spent_cny": 434723.8,
   "reading_pct": 0.3449,
   "binding": "159519",
-  "headroom_cny_at_line": 1260414.23,
+  "headroom_cny_at_line": 1260326.38,
   "verdict": "ADMIT_AT_THIS_SIZE",
   "binding_amount_cny": 86972.2,
   "headroom_multiple": 2.8991428180499055,
@@ -88,7 +88,7 @@
    "159307",
    "159549",
    "515300",
-   "562550"
+   "562060"
   ]
  },
  "pricing": {
@@ -97,14 +97,14 @@
   "cost_per_side_bp": 13.041,
   "sell_side_bp": 13.041,
   "money": {
-   "spent_cny": 434754.1,
-   "entry_cost_cny": 566.96,
-   "exit_cost_cny": 566.96,
-   "round_trip_cost_cny": 1133.93,
+   "spent_cny": 434723.8,
+   "entry_cost_cny": 566.92,
+   "exit_cost_cny": 566.92,
+   "round_trip_cost_cny": 1133.85,
    "round_trip_cost_pct_of_order": 0.2608
   }
  },
- "sentence": "按今天这张单自己的五个名字、自己的金额量：最紧的一席 159519 占它自己成交额的 0.3449%，闸线 1.00% → **过线**。注意：准入面印的 0.9820% 是**另一组名字**量的（只有 0 个重合，它量的是 159207、159307、159549、515300、562550），两个数不是同一把尺子上的同一件事。",
+ "sentence": "按今天这张单自己的五个名字、自己的金额量：最紧的一席 159519 占它自己成交额的 0.3449%，闸线 1.00% → **过线**。注意：准入面印的 0.9580% 是**另一组名字**量的（只有 0 个重合，它量的是 159207、159307、159549、515300、562060），两个数不是同一把尺子上的同一件事。",
  "caveats": [
   "成交额用的是闸自己的口径（收盘价×成交量，中位再取中位），是估计值而且是阶梯状的",
   "「1% ADV」是闸选的线，不是量出来的线；换线，每个数按同一比例移动",
@@ -115,14 +115,14 @@
  "inputs": {
   "signature": {
    "daily_files": 1725,
-   "daily_bytes": 93056753,
-   "daily_newest_mtime_ns": 1795162439549339900,
+   "daily_bytes": 93252073,
+   "daily_newest_mtime_ns": 1795508210621742000,
    "daily_names_sha": "469d156b7e2bda77",
-   "ticket": "TICKET-2026-11-20.json",
-   "ticket_sha": "c998d0010c7b3b1d027c1fa86973eb53ffbdc833c36e0adc76415daee238c34a",
-   "status_sha": "1f19dc189a9a37417bec80178094480e59d14d17d38fcb2ed131b82c37604827",
+   "ticket": "TICKET-2026-11-24.json",
+   "ticket_sha": "cb0f35f6d36869c1086189498c89085e37e4ab19e1c3b82073373f89f2a3d87f",
+   "status_sha": "121b4fc2ff1d163e19b5688d2a1972e99be89fc1824fd0b0c7015f9482e26182",
    "script_sha": "e4f175619c4030d1ced347e74936fa3c5fc7db47adc78334446e699ce34e83e0"
   },
-  "key": "bdc1feadbe2da2e8dbcd2321548fa0d39f0e07aed034263aed735bb30d8c9f05"
+  "key": "6d1a313d5a8b76aa6f705c732ccb2e3fdb4ccb638870ae042b7f77a7b9298e95"
  }
 }

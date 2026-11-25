@@ -11,26 +11,20 @@
   "k_sheet": 0.435003,
   "obeyed_now": true,
   "schedule_over_floor": true,
-  "floor_kind": "CURRENT_TICKET",
-  "ticket_superseded": false,
-  "ticket_now": "TICKET-2026-11-20.json",
+  "floor_kind": "STALE_TICKET",
+  "ticket_superseded": true,
+  "ticket_now": "TICKET-2026-11-24.json",
   "missing": [
    "trim: the gap receipt carries no post-cut k, the sheet is judged on its ordered size"
   ],
-  "verdict": "REAPPLY_REQUIRED",
-  "action": "the sheet obeys the floor and names a live floor source (permission_receipt, decision 2026-12-09), so the next sheet inherits the cap instead of re-applying it by hand; the standing risk is narrower -- the trim gone only if BOTH the permission receipt and the floor ledger are missing on that bar (r1497)",
-  "sheet_reads_floor": {
-   "read": true,
-   "source": "permission_receipt",
-   "decision_date": "2026-12-09",
-   "floor": 0.435003
-  }
+  "verdict": "REISSUE_REQUIRED",
+  "action": "the permit was priced from TICKET-2026-11-20.json and the newest ticket is TICKET-2026-11-24.json -- re-issue the permission on the current ticket before sizing"
  },
- "elapsed_sec": 0.2,
- "evidence_cutoff": "2026-11-20",
+ "elapsed_sec": 0.16,
+ "evidence_cutoff": "2026-11-24",
  "face": "etf_book_floor_ledger",
  "floor_rows": 7,
- "generated": "2026-11-20T21:02:01+0800",
+ "generated": "2026-11-24T19:01:30+0800",
  "rows": [
   {
    "cut_k": 0.06718,
@@ -103,5 +97,5 @@
    "source": "results/etf_book_rebalance_permission.json"
   }
  ],
- "sentence": "Floor 0.435003 holds on the sheet, and the sheet names a live floor source (permission_receipt), so the next sheet inherits the cap: the schedule's last decision bar is 0.458463 above the floor, but the trim disappears only if both floor faces go missing on that bar."
+ "sentence": "Floor 0.435003 came from 2026-12-09, but the newest ticket is TICKET-2026-11-24.json; the permit answers a size question that has since moved, so it must be re-issued before it is used."
 }

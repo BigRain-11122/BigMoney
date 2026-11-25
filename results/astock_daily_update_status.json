@@ -1,17 +1,25 @@
 {
-  "ts": "2026-11-22T18:46:35",
-  "mode": "no-op: panel fresh",
+  "ts": "2026-11-24T22:49:00",
+  "mode": "refresh incomplete (checkpoint preserved)",
   "panel": {
-    "complete": true,
-    "cutoff": "2026-11-20",
+    "complete": false,
+    "cutoff": "2026-11-24",
     "cutoff_is": "max tail across all per/*.csv -- read coverage_pct/coverage_90 before calling the panel current",
-    "coverage_pct": 99.8,
-    "coverage_90": "2026-11-20",
+    "coverage_pct": 72.3,
+    "coverage_90": "2026-11-23",
     "coverage_floor_pct": 90,
     "dates_tail": [
       [
+        "2026-11-24",
+        3777
+      ],
+      [
+        "2026-11-23",
+        1428
+      ],
+      [
         "2026-11-20",
-        5213
+        9
       ],
       [
         "2026-11-19",
@@ -23,14 +31,6 @@
       ],
       [
         "2026-11-12",
-        1
-      ],
-      [
-        "2026-11-11",
-        1
-      ],
-      [
-        "2026-11-09",
         1
       ]
     ],
@@ -49,42 +49,51 @@
     "9": 392
   },
   "last_refresh": {
-    "todo": 3,
-    "fetched": 3,
-    "appended": 0,
-    "readjusted": 0,
-    "readjusted_tail": [],
-    "failures_tail": [],
-    "failures_n": 0,
+    "todo": 5221,
+    "fetched": 5213,
+    "appended": 8954,
+    "readjusted": 14,
+    "readjusted_tail": [
+      "301129@2021-11-02",
+      "301267@2022-11-07",
+      "301308@2022-08-05",
+      "301361@2022-11-16",
+      "301550@2023-09-15",
+      "600369@2001-01-09",
+      "600475@2003-07-21",
+      "603040@2017-02-09"
+    ],
+    "failures_tail": [
+      "000656:conn:TimeoutError",
+      "002046:conn:TimeoutError",
+      "002122:conn:TimeoutError",
+      "300016:conn:TimeoutError",
+      "600640:conn:TimeoutError",
+      "603015:conn:TimeoutError",
+      "603878:conn:TimeoutError",
+      "688068:conn:TimeoutError"
+    ],
+    "failures_n": 8,
     "conn_stopped": false,
-    "elapsed_min": 0.4,
-    "vwap_anchor_max": 0.119501,
+    "elapsed_min": 509.7,
+    "vwap_anchor_max": 0.14678,
     "repull": false
   },
   "quarantined_n": 12,
-  "last_spawn_attempt": "2026-11-22T03:17:19",
-  "settled_n": 8,
-  "settled": [
-    "000635",
-    "002122",
-    "002717",
-    "600185",
-    "600567",
-    "688121",
-    "688496",
-    "688798"
-  ],
+  "last_spawn_attempt": "2026-11-24T14:18:30",
+  "settled_n": 0,
+  "settled": [],
   "per_files_on_disk": 5221,
   "validation": {
-    "suspended_rows": 0,
-    "bracket_tolerated_rows": 0,
+    "suspended_rows": 3,
+    "bracket_tolerated_rows": 1,
     "defect_rows": 0
   },
   "takeover": {
     "owner": "bm-b",
     "by": "bm-c",
-    "reason": "owner bm-b silent 558.1h >= 120min",
-    "ts": "2026-11-22T18:46:35"
+    "reason": "owner bm-b silent 601.6h >= 120min",
+    "ts": "2026-11-24T14:18:30"
   },
   "authority": {
     "lane_owner": "bm-b",
@@ -92,8 +101,8 @@
     "data_face_machine": "bm-c",
     "declared_takeover": true,
     "took_over_by": "bm-c",
-    "took_over_at": "2026-11-22T18:46:35",
-    "reason": "owner bm-b silent 558.1h >= 120min"
+    "took_over_at": "2026-11-24T14:18:30",
+    "reason": "owner bm-b silent 601.6h >= 120min"
   },
   "machine": "bm-c",
   "quarantined": [
@@ -110,5 +119,6 @@
     "688845",
     "689009"
   ],
-  "no_op_reason": "panel fresh (cutoff 2026-11-20 >= expected 2026-11-20)"
+  "spawn_reason": "panel lags expected bar date (2026-11-20 < 2026-11-23)",
+  "spawn_mode": "continuation"
 }

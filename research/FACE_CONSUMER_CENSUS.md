@@ -4,19 +4,19 @@ evidence set: `results/**/*.json` (depth <= 2), readable against `scripts/`, `To
 
 | tier | faces | what it means |
 | --- | --- | --- |
-| CODE_MULTI | 692 | >=2 source files name this face |
-| CODE_SINGLE | 806 | exactly one source file names it (producer or lone reader) |
+| CODE_MULTI | 757 | >=2 source files name this face |
+| CODE_SINGLE | 872 | exactly one source file names it (producer or lone reader) |
 | PROSE_ONLY | 60 | only docs/research names it |
-| ORPHAN | 334 | nothing names it (undated only) |
-| DATED_CODE | 354 | dated snapshot, named somewhere |
-| DATED_ORPHAN | 493 | dated snapshot, named nowhere |
-| SCRATCH | 4114 | not a face (receipts / backups / hash scratch) |
+| ORPHAN | 335 | nothing names it (undated only) |
+| DATED_CODE | 360 | dated snapshot, named somewhere |
+| DATED_ORPHAN | 510 | dated snapshot, named nowhere |
+| SCRATCH | 4167 | not a face (receipts / backups / hash scratch) |
 
-undated faces: **1892** of 6853 (dated snapshots and scratch excluded from every verdict below)
+undated faces: **2024** of 7061 (dated snapshots and scratch excluded from every verdict below)
 
-## undated faces nothing names (334)
+## undated faces nothing names (335)
 
-241 of them have no literal namesake at all (the name does not appear anywhere in source or prose, even without `.json`); 93 have their stem mentioned somewhere, which is what a runtime-composed path looks like from the outside.
+241 of them have no literal namesake at all (the name does not appear anywhere in source or prose, even without `.json`); 94 have their stem mentioned somewhere, which is what a runtime-composed path looks like from the outside.
 
 51 of them carry a money-ish name: `results/e24_overlay_breath/latest-ladder20.json`、`results/e33_ladder_baseline/Q1-LADDER-VS-510300-WIN-2016.json`、`results/e33_ladder_baseline/Q1-LADDER-VS-510300-WIN-2018-X3.json`、`results/e33_ladder_baseline/Q1-LADDER-VS-510300-WIN-2018.json`、`results/e33_ladder_baseline/Q1-LADDER-VS-510300-WIN-FULL.json`、`results/e33_ladder_baseline/Q2-LADDER-CADENCE-WIN-2016.json`、`results/e33_ladder_baseline/Q2-LADDER-CADENCE-WIN-2018-X3.json`、`results/e33_ladder_baseline/Q2-LADDER-CADENCE-WIN-2018.json`、`results/e33_ladder_baseline/Q2-LADDER-CADENCE-WIN-FULL-X3.json`、`results/e33_ladder_baseline/Q3-LADDER-MEMBERSHIP-WIN-2016.json`、`results/e33_ladder_baseline/Q3-LADDER-MEMBERSHIP-WIN-2018-X3.json`、`results/e33_ladder_baseline/Q3-LADDER-MEMBERSHIP-WIN-FULL-X3.json`
 
@@ -64,11 +64,17 @@ undated faces: **1892** of 6853 (dated snapshots and scratch excluded from every
 - `results/div_lowvol_rot_probe.json` ← `research/CN_DIV_LOWVOL_ROT_PREREG.md`
 - `results/e34_cadence_rolling/CADENCE-ROLLING-3Y-X3.json` ← `research/digests/DIGEST-20261021-e35-broad-book-screens.md`
 
-## named by exactly one source file (806, 39 money-ish)
+## named by exactly one source file (872, 48 money-ish)
 
 One file naming a face is not a consumer: it is usually the producer. These are the first place to look when asking "is this number read?"
 
-- `results/capital_placement.json` ← `scripts/capital_placement.py`
+- `results/astock_veto_hedge_instrument.json` ← `scripts/astock_veto_hedge_instrument.py`
+- `results/astock_veto_hedge_resize.json` ← `scripts/astock_veto_hedge_resize.py`
+- `results/astock_veto_hedge_stability.json` ← `scripts/astock_veto_hedge_stability.py`
+- `results/astock_veto_hedge_wait_ladder.json` ← `scripts/astock_veto_hedge_wait_ladder.py`
+- `results/bench_ah_premium.json` ← `scripts/bench_ah_premium.py`
+- `results/capital_placement_rent_audit.json` ← `scripts/capital_placement_rent_audit.py`
+- `results/cash_shelf_total_return_audit.json` ← `scripts/cash_shelf_total_return_audit.py`
 - `results/core_ddctl_probe.json` ← `scripts/cn_core_ddctl_p1.py`
 - `results/cycle_position_census.json` ← `scripts/cycle_position_census.py`
 - `results/e33_ladder_baseline/Q2-LADDER-CADENCE-WIN-FULL.json` ← `scripts/e33_ladder_census.py`
@@ -77,11 +83,5 @@ One file naming a face is not a consumer: it is usually the producer. These are 
 - `results/e33_ladder_census.json` ← `scripts/e33_ladder_census.py`
 - `results/etf_book_buffer_price_of_size.json` ← `scripts/etf_book_buffer_price_of_size.py`
 - `results/etf_book_capacity_carry.json` ← `scripts/etf_book_capacity_carry.py`
-- `results/etf_book_drawdown_guard.json` ← `scripts/etf_book_drawdown_guard.py`
-- `results/etf_book_exposure_ladder.json` ← `scripts/etf_book_exposure_ladder.py`
-- `results/etf_book_forward/CARRY_fee_free.json` ← `scripts/etf_book_forward.py`
-- `results/etf_book_lot_ladder.json` ← `scripts/etf_book_lot_ladder.py`
-- `results/etf_book_premium_phases.json` ← `scripts/etf_book_premium_phases.py`
-- `results/etf_book_premium_swap.json` ← `scripts/etf_book_premium_swap.py`
 
-`generated` 2026-11-22T19:49:37+08:00 · every count above is a face count, not a read count.
+`generated` 2026-11-24T19:39:00+08:00 · every count above is a face count, not a read count.

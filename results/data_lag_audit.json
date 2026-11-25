@@ -1,22 +1,17 @@
 {
- "as_of": "2026-11-22T18:37:46",
+ "as_of": "2026-11-25T10:44:09",
  "calendar": {
   "path": "data/exchange_calendar.csv",
   "refresh": {
    "error": null,
-   "fetched": true,
-   "reason": "refreshed",
-   "rows_after": 8797,
-   "rows_before": 8797,
-   "sha256": "e393f45ff7137bddbfc670c178676df40eaf34bb494b29e44049d81a4b9305f3"
+   "fetched": false,
+   "reason": "coverage_and_ttl_ok"
   },
   "rows": 8797,
   "scope_end": "2026-12-31",
   "scope_start": "1990-12-19"
  },
  "coverage_by_day": {
-  "2026-11-09": 1.0,
-  "2026-11-10": 1.0,
   "2026-11-11": 1.0,
   "2026-11-12": 1.0,
   "2026-11-13": 1.0,
@@ -24,24 +19,28 @@
   "2026-11-17": 1.0,
   "2026-11-18": 1.0,
   "2026-11-19": 0.9994,
-  "2026-11-20": 0.9994
+  "2026-11-20": 0.9994,
+  "2026-11-23": 0.9988,
+  "2026-11-24": 0.9983
  },
  "detail": "the maintained panel covers every official trading day it should by now; 3 file(s) sit outside the active cohort: 510880_t73 (declared_out_of_scope; last bar 2026-09-22), sh512390 (source_ended; last bar 2026-09-04), sh530080 (source_ended; last bar 2026-11-12) -- every one of them is declared by the lane's own receipt",
- "expected_last_official_day": "2026-11-20",
+ "expected_last_official_day": "2026-11-24",
  "forward_impact": {
   "blocked": true,
-  "ledger_last_bar": "2026-11-20",
+  "ledger_last_bar": "2026-11-24",
   "note": "one mark per new panel bar; a lagging feed pauses accrual without any error"
  },
  "machine": "bm-c",
  "missing_official_days": [],
  "note": "Descriptive face. The calendar is the independent reference; the panel is ours. source_lag is a publication delay (self-heals), panel_gap is a stopped feed (needs a human/lane owner).",
  "panel": {
-  "active_floor": "2026-11-16",
-  "cutoff_max": "2026-11-20",
+  "active_floor": "2026-11-18",
+  "cutoff_max": "2026-11-24",
   "cutoff_min": "2026-09-04",
-  "effective_cutoff": "2026-11-20",
+  "effective_cutoff": "2026-11-24",
   "lagging_active_sample": [
+   "sh511820",
+   "sh563280",
    "sz159528"
   ],
   "n_active": 1722,
@@ -71,9 +70,10 @@
  "stale_scope": {
   "by_reason": {
    "declared_out_of_scope": 1,
+   "no_trade": 2,
    "source_ended": 2
   },
-  "declared": 3,
+  "declared": 5,
   "error": null,
   "receipt": "results/etf_wide_update_status.json"
  },

@@ -1,0 +1,391 @@
+{
+ "buckets": [
+  "1m",
+  "3m",
+  "6m",
+  "12m"
+ ],
+ "evidence_cutoff": "2026-11-23",
+ "generated": "2026-11-24T19:58:57+08:00",
+ "inputs": {
+  "futures_IC": "cfb7079733366fdffd73dc61f2c232b11d757f2a8bdd9ae28bde6828dfc5b8ad",
+  "futures_IF": "3ee13b895cd26f01d392faba22f34ae791854e5d48accb3e85f1cf4446072416",
+  "futures_IH": "695a36b5085ff92c69089decbc729e624daa64688ab095fa5ee0183212f54ef7",
+  "futures_IM": "5708d944c06ca08d30e622889f3d4f5d1234d94cf749aa48340706e7e88b0180",
+  "index_IC": "9331fd653f74a859e4a6ecbf41c09b593d051bb34dd88ef9f986bb4528e32774",
+  "index_IF": "14152db66a483e8d8f19bb89afeb0bdfdcb63c89b6026d5c3c652b28382b862e",
+  "index_IH": "1fa3eedc278b1315a088c9644849a0aa8f117fbfe9656b91b18e9a8290a354fa",
+  "index_IM": "38f4c5802d57a4ceda35dc3e84edb03589c1b726ace7f13fd30ff55db8bf7abc",
+  "parent_beta_lots": "95742444bc091629af74f0325ef2cab6351b9bd5e2efb58c16f4b03dcb8f31e1"
+ },
+ "kind": "idx-fut-carry-hedge-carry-clock",
+ "legs": {
+  "IC": {
+   "buckets_compounded_pct": {
+    "12m": -10.445,
+    "1m": -0.012,
+    "3m": -3.034,
+    "6m": -5.111
+   },
+   "carry_ann_full_pct": -2.984,
+   "carry_median_daily_ann_pct": -5.041,
+   "current_rolling20_ann_pct": -0.929,
+   "days": 2388,
+   "last_close_px": 6058.0,
+   "parent_window_split": {
+    "carry_share_of_total_pct": -74.4,
+    "days": 242,
+    "residual_pct": 9.944469,
+    "short_carry_pct": -9.5451,
+    "short_index_pct": 12.4283,
+    "short_total_pct": 12.8277,
+    "window": [
+     "2025-11-21",
+     "2026-11-20"
+    ]
+   },
+   "roll_days": 22,
+   "rolling20_distribution": {
+    "median": -1.666,
+    "n": 2347,
+    "p10": -14.172,
+    "p90": 6.545,
+    "share_positive_pct": 37.6
+   },
+   "sign": {
+    "last_flip_date": "2026-11-20",
+    "last_flip_from": "positive",
+    "readings_on_this_side": 1,
+    "side": "costs_a_short"
+   },
+   "state": "ok",
+   "window": [
+    "2017-01-18",
+    "2026-11-23"
+   ]
+  },
+  "IF": {
+   "buckets_compounded_pct": {
+    "12m": -3.997,
+    "1m": 0.485,
+    "3m": -0.95,
+    "6m": -2.888
+   },
+   "carry_ann_full_pct": -1.852,
+   "carry_median_daily_ann_pct": -2.526,
+   "current_rolling20_ann_pct": 11.811,
+   "days": 2388,
+   "last_close_px": 3915.4,
+   "parent_window_split": {
+    "carry_share_of_total_pct": -28.3,
+    "days": 242,
+    "residual_pct": 5.471806,
+    "short_carry_pct": -4.0331,
+    "short_index_pct": 12.8307,
+    "short_total_pct": 14.2694,
+    "window": [
+     "2025-11-21",
+     "2026-11-20"
+    ]
+   },
+   "roll_days": 27,
+   "rolling20_distribution": {
+    "median": -1.103,
+    "n": 2342,
+    "p10": -10.294,
+    "p90": 5.605,
+    "share_positive_pct": 40.8
+   },
+   "sign": {
+    "last_flip_date": "2026-11-19",
+    "last_flip_from": "negative",
+    "readings_on_this_side": 1,
+    "side": "pays_a_short"
+   },
+   "state": "ok",
+   "window": [
+    "2017-01-18",
+    "2026-11-23"
+   ]
+  },
+  "IH": {
+   "buckets_compounded_pct": {
+    "12m": -0.629,
+    "1m": 0.635,
+    "3m": 0.139,
+    "6m": -0.799
+   },
+   "carry_ann_full_pct": -1.506,
+   "carry_median_daily_ann_pct": -1.737,
+   "current_rolling20_ann_pct": 11.773,
+   "days": 2388,
+   "last_close_px": 2733.8,
+   "parent_window_split": {
+    "carry_share_of_total_pct": -7.0,
+    "days": 242,
+    "residual_pct": 2.662563,
+    "short_carry_pct": -0.5998,
+    "short_index_pct": 6.5643,
+    "short_total_pct": 8.627,
+    "window": [
+     "2025-11-21",
+     "2026-11-20"
+    ]
+   },
+   "roll_days": 35,
+   "rolling20_distribution": {
+    "median": -0.893,
+    "n": 2334,
+    "p10": -9.84,
+    "p90": 5.015,
+    "share_positive_pct": 42.2
+   },
+   "sign": {
+    "last_flip_date": "2026-11-19",
+    "last_flip_from": "negative",
+    "readings_on_this_side": 1,
+    "side": "pays_a_short"
+   },
+   "state": "ok",
+   "window": [
+    "2017-01-18",
+    "2026-11-23"
+   ]
+  },
+  "IM": {
+   "buckets_compounded_pct": {
+    "12m": -12.068,
+    "1m": -0.263,
+    "3m": -3.362,
+    "6m": -6.186
+   },
+   "carry_ann_full_pct": -5.869,
+   "carry_median_daily_ann_pct": -8.968,
+   "current_rolling20_ann_pct": -3.444,
+   "days": 1050,
+   "last_close_px": 5756.0,
+   "parent_window_split": {
+    "carry_share_of_total_pct": -50.1,
+    "days": 242,
+    "residual_pct": 11.854,
+    "short_carry_pct": -11.3604,
+    "short_index_pct": 22.2039,
+    "short_total_pct": 22.6975,
+    "window": [
+     "2025-11-21",
+     "2026-11-20"
+    ]
+   },
+   "roll_days": 18,
+   "rolling20_distribution": {
+    "median": -4.537,
+    "n": 1013,
+    "p10": -19.215,
+    "p90": 5.587,
+    "share_positive_pct": 30.3
+   },
+   "sign": {
+    "last_flip_date": "2026-11-20",
+    "last_flip_from": "positive",
+    "readings_on_this_side": 1,
+    "side": "costs_a_short"
+   },
+   "state": "ok",
+   "window": [
+    "2022-07-25",
+    "2026-11-23"
+   ]
+  }
+ },
+ "problems": [],
+ "published_windfalls": {
+  "IC_vs_IF": {
+   "extra_hedge_beta": 0.443283,
+   "hedge_leg": "IF",
+   "windfall_cny": 47395.84
+  },
+  "IC_vs_IH": {
+   "extra_hedge_beta": 0.747993,
+   "hedge_leg": "IH",
+   "windfall_cny": 34063.59
+  },
+  "IC_vs_IM": {
+   "extra_hedge_beta": 0.99438,
+   "hedge_leg": "IM",
+   "windfall_cny": 155600.56
+  },
+  "IH_vs_IC": {
+   "extra_hedge_beta": 0.799188,
+   "hedge_leg": "IC",
+   "windfall_cny": 56390.67
+  },
+  "IH_vs_IF": {
+   "extra_hedge_beta": 0.524681,
+   "hedge_leg": "IF",
+   "windfall_cny": 56098.85
+  },
+  "IH_vs_IM": {
+   "extra_hedge_beta": 0.817215,
+   "hedge_leg": "IM",
+   "windfall_cny": 127877.83
+  },
+  "IM_vs_IC": {
+   "extra_hedge_beta": 0.068532,
+   "hedge_leg": "IC",
+   "windfall_cny": 4835.65
+  },
+  "IM_vs_IF": {
+   "extra_hedge_beta": 0.606128,
+   "hedge_leg": "IF",
+   "windfall_cny": 64807.21
+  },
+  "IM_vs_IH": {
+   "extra_hedge_beta": 0.101314,
+   "hedge_leg": "IH",
+   "windfall_cny": 4613.84
+  }
+ },
+ "rolling_window": 20,
+ "sources": {
+  "basis": "scripts/idx_fut_basis.py::basis_face / load_index / read_csv_rows",
+  "parent_face": "results/idx_fut_carry_hedge_beta_lots.json"
+ },
+ "verdict": "THE_ROUNDING_BET_HAS_TURNED_ON_IC_vs_IM_AND_IH_vs_IC_AND_IH_vs_IM_AND_IM_vs_IC",
+ "windfall_clocks": {
+  "IC_vs_IF": {
+   "carry_ann_pct_used": 11.811,
+   "carry_cny_per_year_from_here": 61498.59,
+   "carry_share_of_windfall_pct": -44.3,
+   "extra_hedge_beta": 0.443283,
+   "notional_cny": 520689.08,
+   "payback_date": null,
+   "state": "ok",
+   "state_reading": "STILL_BEING_PAID",
+   "windfall_carry_leg_cny": -20999.91,
+   "windfall_cny": 47395.84,
+   "windfall_index_leg_cny": 66808.05,
+   "windfall_residual_cny": 1587.7,
+   "years_of_current_carry_buys_another_windfall": 0.771
+  },
+  "IC_vs_IH": {
+   "carry_ann_pct_used": 11.773,
+   "carry_cny_per_year_from_here": 72222.53,
+   "carry_share_of_windfall_pct": -10.8,
+   "extra_hedge_beta": 0.747993,
+   "notional_cny": 613458.98,
+   "payback_date": null,
+   "state": "ok",
+   "state_reading": "STILL_BEING_PAID",
+   "windfall_carry_leg_cny": -3679.53,
+   "windfall_cny": 34063.59,
+   "windfall_index_leg_cny": 40269.29,
+   "windfall_residual_cny": -2526.17,
+   "years_of_current_carry_buys_another_windfall": 0.472
+  },
+  "IC_vs_IM": {
+   "carry_ann_pct_used": -3.444,
+   "carry_cny_per_year_from_here": -39424.51,
+   "carry_share_of_windfall_pct": -83.6,
+   "extra_hedge_beta": 0.99438,
+   "notional_cny": 1144730.26,
+   "payback_date": "2030-11-03",
+   "state": "ok",
+   "state_reading": "BEING_HANDED_BACK",
+   "windfall_carry_leg_cny": -130045.94,
+   "windfall_cny": 155600.56,
+   "windfall_index_leg_cny": 254174.76,
+   "windfall_residual_cny": 31471.74,
+   "years_to_hand_back": 3.947
+  },
+  "IH_vs_IC": {
+   "carry_ann_pct_used": -0.929,
+   "carry_cny_per_year_from_here": -8995.47,
+   "carry_share_of_windfall_pct": -163.9,
+   "extra_hedge_beta": 0.799188,
+   "notional_cny": 968296.18,
+   "payback_date": "2033-02-28",
+   "state": "ok",
+   "state_reading": "BEING_HANDED_BACK",
+   "windfall_carry_leg_cny": -92424.84,
+   "windfall_cny": 56390.67,
+   "windfall_index_leg_cny": 120342.75,
+   "windfall_residual_cny": 28472.76,
+   "years_to_hand_back": 6.269
+  },
+  "IH_vs_IF": {
+   "carry_ann_pct_used": 11.811,
+   "carry_cny_per_year_from_here": 72791.29,
+   "carry_share_of_windfall_pct": -44.3,
+   "extra_hedge_beta": 0.524681,
+   "notional_cny": 616300.8,
+   "payback_date": null,
+   "state": "ok",
+   "state_reading": "STILL_BEING_PAID",
+   "windfall_carry_leg_cny": -24856.03,
+   "windfall_cny": 56098.85,
+   "windfall_index_leg_cny": 79075.71,
+   "windfall_residual_cny": 1879.17,
+   "years_of_current_carry_buys_another_windfall": 0.771
+  },
+  "IH_vs_IM": {
+   "carry_ann_pct_used": -3.444,
+   "carry_cny_per_year_from_here": -32400.39,
+   "carry_share_of_windfall_pct": -83.6,
+   "extra_hedge_beta": 0.817215,
+   "notional_cny": 940777.91,
+   "payback_date": "2030-11-03",
+   "state": "ok",
+   "state_reading": "BEING_HANDED_BACK",
+   "windfall_carry_leg_cny": -106876.13,
+   "windfall_cny": 127877.83,
+   "windfall_index_leg_cny": 208889.39,
+   "windfall_residual_cny": 25864.57,
+   "years_to_hand_back": 3.947
+  },
+  "IM_vs_IC": {
+   "carry_ann_pct_used": -0.929,
+   "carry_cny_per_year_from_here": -771.38,
+   "carry_share_of_windfall_pct": -163.9,
+   "extra_hedge_beta": 0.068532,
+   "notional_cny": 83033.37,
+   "payback_date": "2033-02-28",
+   "state": "ok",
+   "state_reading": "BEING_HANDED_BACK",
+   "windfall_carry_leg_cny": -7925.62,
+   "windfall_cny": 4835.65,
+   "windfall_index_leg_cny": 10319.64,
+   "windfall_residual_cny": 2441.63,
+   "years_to_hand_back": 6.269
+  },
+  "IM_vs_IF": {
+   "carry_ann_pct_used": 11.811,
+   "carry_cny_per_year_from_here": 84090.79,
+   "carry_share_of_windfall_pct": -44.3,
+   "extra_hedge_beta": 0.606128,
+   "notional_cny": 711970.07,
+   "payback_date": null,
+   "state": "ok",
+   "state_reading": "STILL_BEING_PAID",
+   "windfall_carry_leg_cny": -28714.46,
+   "windfall_cny": 64807.21,
+   "windfall_index_leg_cny": 91350.74,
+   "windfall_residual_cny": 2170.93,
+   "years_of_current_carry_buys_another_windfall": 0.771
+  },
+  "IM_vs_IH": {
+   "carry_ann_pct_used": 11.773,
+   "carry_cny_per_year_from_here": 9782.38,
+   "carry_share_of_windfall_pct": -10.8,
+   "extra_hedge_beta": 0.101314,
+   "notional_cny": 83091.66,
+   "payback_date": null,
+   "state": "ok",
+   "state_reading": "STILL_BEING_PAID",
+   "windfall_carry_leg_cny": -498.38,
+   "windfall_cny": 4613.84,
+   "windfall_index_leg_cny": 5454.39,
+   "windfall_residual_cny": -342.17,
+   "years_of_current_carry_buys_another_windfall": 0.472
+  }
+ }
+}

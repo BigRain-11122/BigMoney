@@ -6,11 +6,14 @@
  "panel": {
   "ticket_session": "2026-11-20",
   "read_from_field": "base_bar",
-  "price_panel_last": "2026-11-20",
-  "state": "SAME_SESSION",
-  "bars_beyond_session": 0,
-  "bars_beyond": [],
-  "note": "the price panel ends on the ticket's own session (2026-11-20); every bar the panel holds is in this reading"
+  "price_panel_last": "2026-11-24",
+  "state": "PANEL_AHEAD",
+  "bars_beyond_session": 2,
+  "bars_beyond": [
+   "2026-11-23",
+   "2026-11-24"
+  ],
+  "note": "the price panel has walked past the ticket's session by 2 bar(s) (2026-11-24); this reading stops at 2026-11-20 and those bars are not in it"
  },
  "ticket": {
   "path": "results\\etf_book_order\\TICKET-2026-11-20.json",
@@ -210,10 +213,10 @@
     }
    ],
    "lag_spread_pp": 0.4340405715195006,
-   "panel_last_date": "2026-11-20",
+   "panel_last_date": "2026-11-24",
    "price_session": "2026-11-20",
-   "session_state": "SAME_SESSION",
-   "bars_beyond_session": 0,
+   "session_state": "PANEL_AHEAD",
+   "bars_beyond_session": 2,
    "revert_to_median_cny": -3993.913557634882
   },
   {
@@ -392,10 +395,10 @@
     }
    ],
    "lag_spread_pp": 1.0191938303964032,
-   "panel_last_date": "2026-11-20",
+   "panel_last_date": "2026-11-24",
    "price_session": "2026-11-20",
-   "session_state": "SAME_SESSION",
-   "bars_beyond_session": 0,
+   "session_state": "PANEL_AHEAD",
+   "bars_beyond_session": 2,
    "revert_to_median_cny": -1138.7809015996106
   },
   {
@@ -575,10 +578,10 @@
     }
    ],
    "lag_spread_pp": 1.3327136197154088,
-   "panel_last_date": "2026-11-20",
+   "panel_last_date": "2026-11-24",
    "price_session": "2026-11-20",
-   "session_state": "SAME_SESSION",
-   "bars_beyond_session": 0,
+   "session_state": "PANEL_AHEAD",
+   "bars_beyond_session": 2,
    "revert_to_median_cny": -940.9705638648998
   },
   {
@@ -758,10 +761,10 @@
     }
    ],
    "lag_spread_pp": 0.4924325233414013,
-   "panel_last_date": "2026-11-20",
+   "panel_last_date": "2026-11-24",
    "price_session": "2026-11-20",
-   "session_state": "SAME_SESSION",
-   "bars_beyond_session": 0,
+   "session_state": "PANEL_AHEAD",
+   "bars_beyond_session": 2,
    "revert_to_median_cny": -3652.126527919818
   },
   {
@@ -940,10 +943,10 @@
     }
    ],
    "lag_spread_pp": 0.7119638666232002,
-   "panel_last_date": "2026-11-20",
+   "panel_last_date": "2026-11-24",
    "price_session": "2026-11-20",
-   "session_state": "SAME_SESSION",
-   "bars_beyond_session": 0,
+   "session_state": "PANEL_AHEAD",
+   "bars_beyond_session": 2,
    "revert_to_median_cny": -3666.4633515510764
   }
  ],
@@ -956,7 +959,7 @@
   "n_gap_excluded_total": 29,
   "n_sessions_total": 6516,
   "rulers_disagree": [],
-  "sentence": "没有一只站在自己历史的前 10%；若这些腿各自回到自己的中位溢价，这张单值 ￥-13392；把 29 个「净值戳沿用上一日数字、分母当天不可能动」的会话剔掉后，没有一只腿的判词改变"
+  "sentence": "没有一只站在自己历史的前 10%；若这些腿各自回到自己的中位溢价，这张单值 ￥-13392；把 29 个「净值戳沿用上一日数字、分母当天不可能动」的会话剔掉后，没有一只腿的判词改变；价格面板已经走到 2026-11-24，本页只读这张单的 2026-11-20 那一场（多出的 2 根不进这个读数）"
  },
  "gate": {
   "ok": true,
