@@ -68,7 +68,7 @@
   "task": "HQ-ProductionClaim"
  },
  "cli_read": "2026-11-24T17:15:38+08:00",
- "clock_read": "2026-11-26T02:14:34+08:00",
+ "clock_read": "2026-11-26T02:34:49+08:00",
  "clock_read_source": "local system clock (Win32, Asia/Shanghai)",
  "clock_tz": "+08:00",
  "codely_live_count": 2,
@@ -206,7 +206,7 @@
  "gpu_vram_used_mb": 15603,
  "head_sha": "c558b740d1",
  "health": "ok",
- "heartbeat_epoch_utc": 1795630474,
+ "heartbeat_epoch_utc": 1795631689,
  "heartbeat_epoch_utc_type": "int",
  "hooks_r2041": "pre-commit / pre-push 与 Tools/git-hooks 源（CR 归一）逐字节一致=零动作",
  "hooks_r2044": "pre-commit / pre-push 与 Tools/git-hooks 源（CR 归一）逐字节一致=零动作",
@@ -305,6 +305,7 @@
   "status": "open"
  },
  "next_pointer": "(a) 竞争窗关后把本面接 S6 链腿 + 两条冒烟腿；(b) 把两个天花板搬进 CEO 页的对冲节（需改共享面）；(c) IH 的 carry 在臂面未定价，desk 复合口径不能直接借用来算天花板",
+ "next_r2115": "run the full suite from a detached log and publish the total; publish one full chain generation when the in-flight work settles; keep reader faces re-derived in-chain so a ledger bar never outruns the page that quotes it",
  "next_round": 2029,
  "next_task": "r1547: the 场内买入 word hides WHEN it changed -- print the status transition dates per leg so a reopening is a dated event, not a per-day scan",
  "not_verified": "full smoke suite started 00:19 detached and was still running at round end (no tally claimed); closer.py root cause not fixed; no task registered or restored (D-12)",
@@ -638,6 +639,19 @@
  },
  "prod_lanes": "CPU=W280 prereg freeze landed; GPU idle (gen-only lane); NATS bus node standing",
  "product": "cph4/fleet/rt/visual/receipts/D02-RECONCILE-20261116-bmc.md + cph4/fleet/rt/visual/_bmc_d02_block_open.py + cph4/fleet/rt/visual/queue.jsonl",
+ "product_r2115": {
+  "artifacts": [
+   "docs/live_usage/LIVE-2026-11-26.md (+LIVE-latest)",
+   "Tools/s6_chain_bmc.py (five legs, verified this round)",
+   "results/_r2115bmc_s6_chain.only-ceo_live_usage.json"
+  ],
+  "red_closed": "smoke r1900: docs/live_usage re-derived in-chain (--only=ceo_live_usage rc0 1.3s); page printed -18,921 CNY / 0.981079 over 23 bars while LEDGER had 24 bars (2026-11-25, nav 0.9694971, provisional) = -30,503 CNY; page now prints -30,503",
+  "unverified": [
+   "full smoke total (suite cannot close in a round window; 262 legs then killed)",
+   "full S6 chain generation (1,963-file generation in flight, not published)"
+  ],
+  "wiring_proved": "5 orphan faces now ride check-first chain legs: idx_fut_carry_always_on_price, idx_fut_carry_roll_step_reversal, idx_fut_carry_capacity_lots, idx_fut_carry_decision_face, etf_book_defense_spells -> --only 5/5 rc0 CHECK_OK (2.6 s) on the uncommitted Tools/s6_chain_bmc.py additions"
+ },
  "products_r1341": [
   "scripts/etf_lowvol_book.py",
   "results/etf_lowvol_book.json",
@@ -1554,11 +1568,11 @@
  },
  "round_drift_note": "state said round_no=1937 while commit 6a3f33e30e already said round 1938 -> counters healed to 1939",
  "round_label": "r2063",
- "round_no": 2114,
+ "round_no": 2115,
  "round_no_label": "r2028",
  "round_no_landed": 2028,
- "round_no_note": "prev value was 2102 while the report rows had already reached r2113 (shared state face written by concurrent hosts); set to the next free number after the last report row instead of prev+1",
- "round_no_prev": 2102,
+ "round_no_note": "r2115: prev=2114 read from this file; the report rows above agree on r2114, so prev+1 is the free number this window",
+ "round_no_prev": 2114,
  "round_note": "r2020 two_book_blend: A-share veto book vs bond-free ETF book, corr 0.219, equal-weight Sharpe 0.821 < ETF 1.115 -> BLEND_REDUNDANT (TWO_RETURNS_BUT_WEAK_LEG)",
  "round_now": 2054,
  "round_r1390_closeout_note": "r1390: PRODUCT window (state round_no=1389 at open, HEAD round 1389 pushed clean -> zero absorb owed). PRODUCT = the first supply berth whose exposure is structurally 1.0 (both earlier berths were timing families and lost to the exit tax by construction): scripts/zoo_supply_xs_reversal_probe.py (selftest 9/9) buys the 10 worst trailing-20-bar ETFs from the published book eligibility, holds 20 bars, next-open fill, 8bp/side, and rides run_next_open instead of re-implementing the fill. Rule -8.15%/yr maxdd -59.4% vs SAME-POOL equal-weight +1.86%/-39.9% -> -10.01pp excess, 113.7 slot swaps/yr, all four admit conditions false -> REFUSE_AS_CANDIDATE. The reading that outlives the verdict: 200 same-exposure random-rank nulls average -3.38pp/yr (sd 3.44), so 10-name concentration plus its monthly swap is itself negative alpha on this panel (card E387). Two pits: np.nanmean(P).prod() is not compounding (needs np.prod(1+mean); the basis leg caught the equal-weight control reading -100% before publication), and run_next_open returns a 3-tuple. S6: dualrun streak 14, compute_audit FLAG pool_starvation+supply_floor (ready 0 floor 3, breach 10122 min), update_daily rc0 0 new rows cutoff 2026-11-06, regime RED raw ORANGE shadow, attrition CLEAN. S0.5 orders 0 unacked. orphan 0. SMOKE HONESTY: suite launched 06:57 stalled at 07:05 on an unprinted external-source leg (191 PASS/0 FAIL), killed 07:15, relaunched pid 67412 -- no suite total claimed. next=r1391: an EVENT family (forced trading), because breadth is now measured as a tax and holdings count is no longer a free axis.",
@@ -2091,6 +2105,7 @@
  "s0": "machine.json=bm-c | 111 dirty at open (prior-generation derived faces PLUS another window's in-flight r1760 edits to scripts/etf_book_ceo_page.py + etf_book_order.py, mtimes 08:50) -> directional add only, their two files untouched | ahead=0 behind=0",
  "s05_note": "orders 117 件 / 心跳 orders_ack 331 条 / unacked 0（stale_acks 124 全为他机 lane 广播，r2066 判例不逐令补 ack）；origin/main:docs/decisions.md 原生字节 250,586B sha256 79e3083b85c130b8 == 自持水位 → 零新决策零动作；fleet/inbox 空",
  "s05_r2114": "orders 117 件 vs 心跳 orders_ack 258 → 未回执 0；origin/main:docs/decisions.md 原始字节 250,586 B sha256 79e3083b85c130b8… == 水位 → 零新决策零动作",
+ "s05_r2115": "orders_ack_scan CLEAN (117 orders / 331 acks / unacked=[] / 124 stale other-lane notes); origin/main:docs/decisions.md native 250,586 B sha256 79e3083b… == watermark -> zero new rows; fleet/inbox empty; fleet/tasks no open",
  "s05_scan": "fleet/orders 115 件 vs 271 回执 stem 归一后未回执=0; fleet/inbox 空 -> 零新令",
  "s05_second_scan": "closeout rescan Tools/s05_probe.py rc0 orders_delta=false decisions_delta=false unacked=[] (zero action); fleet/inbox empty",
  "s0_5_r1956": "orders 差集 0 未回执；decisions 新 tip 17384672 ID 集 max_day=20261119 → 零新决策零动作",
@@ -2120,7 +2135,9 @@
  "s0_collision_r1963": "CONTENTION rc3: 两个 2026-11-22 20:09/20:10 起的 bm-c 交互宿主仍在写共享面（15 面 peer-only，含 fleet/machines/bm-c.json、research/ARBITER-BOARD.md）-> 本轮只落新增文件面，S6 链未跑，心跳面由并行宿主维护",
  "s0_note": "machine.json=bm-c；orphan_face_probe orphans=0（py_faces 3 / resident_servers 1）零杀；repo_write_contention rc=0 CLEAN（单宿主）→ 本轮可写共享面",
  "s0_orphans": 0,
+ "s0_r2115": "machine.json=bm-c | orphan_face_probe py_faces=4 orphans=0 resident_servers=2 | repo_write_contention rc=0 CLEAN (single host pid 22284) | ahead=0 behind=0 | 1963 dirty at open (1946 M + 17 ??, a dead peer's full chain generation) -> directional add only",
  "s1_note": "full smoke not run (contention round); the face is backed by selftest 50/50 + negative control 34/34 + run/check rc0, no full-green claim",
+ "s1_r2115": "full suite NOT closed: the suite's own harness leg says it cannot close inside a round window (240.5 s over the slow legs); this round's run reached 262 legs before the 5-minute no-output cap killed it. The one FAIL observed was 'product: the book a person holds is priced in money (r1900)' -> fixed (page re-derived, -30,503 printed, token re-derived from LEDGER bytes = True). No suite total is claimed.",
  "s4u_note": "watchdog S4U flip still pending a one-time elevated re-register (carried, not this round defect)",
  "s6_chain": "deferred（竞争窗 rc=3，连续第 5 轮；pid 74392 s6_chain_bmc.py 2049 自 16:07 起在跑）",
  "s6_chain_excluded": "etf_book_gate_causal is NOT a chain leg: 4 engine runs per invocation. It is re-derived by hand this round and needs a staleness door next round",
@@ -2172,6 +2189,7 @@
  "s7_r2044": "Bigmoney-IterationLoop 相位 no-op（pin=0，下次 11:55）；Bigmoney-LoopWatchdog 已重注册（S4U 待提权）",
  "s7_r2048": "Bigmoney-IterationLoop / Bigmoney-LoopWatchdog 在役（幂等 no-op，S4U 待提权 carried）；pre-commit/pre-push 与 Tools/git-hooks 内容 MATCH（未重装，未用 --no-verify）",
  "s7_r2114": "orphans 0；IterationLoop 幂等 no-op（pin0/PT5H）；Watchdog 重注册 OK 但 S4U XML 翻转被拒（需提权，carried）；pre-commit/pre-push 重装 LF 归一；attrition CLEAN（4 账本 2 处历史缩行 healed）",
+ "s7_r2115": "register_loop_task no-op (pin=0 PT5H, next 02:35) | watchdog re-registered but S4U XML flip REFUSED (access denied, needs elevation -> LogonType regression face stands, not called healed) | pre-commit + pre-push claws reinstalled (LF normalised) | attrition CLEAN (4 ledgers, 3 historic shrinks healed) | saturation_engine status rc0 alive (last_verdict idle)",
  "s7_selfheal": "loop task no-op (pin=0 current=0) | watchdog S4U flip REFUSED (access denied, needs elevation -> LogonType regression face stands) | pre-commit + pre-push claws reinstalled | attrition guard CLEAN (4 ledgers, 3 historic shrinks healed) | orphan faces = 0",
  "s7_watchdog": "Bigmoney-LoopWatchdog 就绪（S4U XML flip 仍拒绝访问=carried，非本轮引入）",
  "saturation": "status rc0 alive, bands registered through W329",
@@ -2361,10 +2379,10 @@
  "why_not_bookkeeping": "本轮主产出是一条把「等待」定价成「保留多少对冲就付多少波动」的阶梯（脚本 + JSON + 页面 + 负控），不是一个数",
  "work": "r2043 · 新增文件面（竞争窗）：把 r2041 的容量读数翻译成「要几个交易日」与「分批本身多少钱」。尺子冻结：一天上限 = 坏日子成交额 1%（读 r2041，不重打）；成交均价 = 每天等额买入的调和平均（不是算术平均，否则把成本说大）；偏移 = 调和均价 ÷ 首日价 − 1，面板每个重叠窗都算，所以公布的是真的发生过什么。读数一：票面 565,246 元，511380 要 2 天、511180 3 天、511360 5 天，511880/511010 一天装完。读数二（本面的要点）：最慢的 511360 分批 95 分位只花 265 元 = 它一年超额的 8.6%；只要 2 天的 511380 一次分批就花 2,787 元 = 2.4 年超额。读数三：511180 根本不该买——它比回购少赚 2,041 元/年，把它和「一年超额」比是拿负数当分母。读数四：511360 的 05 分位是 −0.79bp，在 114.19 元的票面上是 9 个最小报价单位，属于报价粒度而非方向赌（一个报价单位只有 0.0876bp）。",
  "yield_note": {
-  "did": "new-file-only landing: script + results + page + negative control + report row + this state; no shared-face edits, no S6 chain",
-  "next": "smoke full suite + S6 chain + wire r2022-r2041 into the chain when the contention window closes",
-  "round": 2041,
-  "why": "repo_write_contention rc=3 (peer pids 51252 since 2026-11-22 20:10 and 68052 since 2026-11-24 09:43 writing shared faces)"
+  "did": "closed the r1900 smoke red (reader face re-derived after the ledger gained its 24th bar) and proved the five orphan chain legs sitting uncommitted in Tools/s6_chain_bmc.py",
+  "next": "detached full-suite run with a total, then a full chain generation once the in-flight 1,963-file generation is ready to publish",
+  "round": 2115,
+  "why": "the chain has not closed a generation for many rounds under contention while the ledger grows one bar per session, so every reader face drifts one bar and the leg reads a clock race as a content mismatch"
  },
  "ˮλ": "healthy",
  "下个里程碑": "把这面接进链与冒烟腿，并把「容量可行权重 0.3742」与 8% 波动目标并排成一条可执行仓位规则（需独占窗，≤48h）",

@@ -407,6 +407,38 @@ LEGS = [
     # order of magnitude away from a call. Reads the ladder + open-capital faces and the
     # futures panel; ~0.3s, no network, rewrites no ledger line.
     ("idx_fut_carry_margin", ["python", "scripts/idx_fut_carry_margin.py", "run"]),
+    # r2094 priced the always-on carry on three rulers and r2096 asked whether the roll-day
+    # accounting each ruler rests on is supported. Both published faces with no leg here, so
+    # the two inputs the decision face reads most directly trailed the panel by a session
+    # (r1282's orphan class: a face nobody re-derives quotes last week's numbers while every
+    # page stays green). Same two-state contract as r2091/r1850: moved panel bytes say STALE
+    # (this leg pays one write), identical bytes with different numbers say CHECK_FAILED.
+    ("idx_fut_carry_always_on_price",
+     ["python", "scripts/idx_fut_carry_always_on_price.py", "check"],
+     ["python", "scripts/idx_fut_carry_always_on_price.py", "run"]),
+    ("idx_fut_carry_roll_step_reversal",
+     ["python", "scripts/idx_fut_carry_roll_step_reversal.py", "--check"],
+     ["python", "scripts/idx_fut_carry_roll_step_reversal.py"]),
+    # r2095 answered "how big can this book get" with 468/752 lots at the 1% line and then
+    # had no leg here -- its panel moved two sessions while the face still said the size of
+    # a book priced on the 23rd (the decision face reads this one, so its cutoff was the
+    # laggard). Same two-state contract: moved panel bytes say STALE (one write), identical
+    # bytes with a different lot count say CHECK_FAILED. ~0.5s, no network.
+    ("idx_fut_carry_capacity_lots",
+     ["python", "scripts/idx_fut_carry_capacity_lots.py", "check"],
+     ["python", "scripts/idx_fut_carry_capacity_lots.py", "run"]),
+    # r2097 published the one decision the five carry faces above add up to (IC can be
+    # reported on a 0.03pp ruler spread, IM on none, and neither is orderable -- capital
+    # for IC, unset accounting for IM) and then had no leg on this chain, so the answer
+    # could sit on last week's panels while every page quoting it stayed green (r1282's
+    # orphan class, the same gap r2097 was written to close). It reads the risk / ladder /
+    # sizing / open-capital / margin faces and re-derives none of their arithmetic. Same
+    # two-state contract as r2091: moved upstream bytes say STALE (this leg pays one
+    # write), identical bytes with a different answer say CHECK_FAILED (a re-run would
+    # only hide it). ~0.2s, no network, rewrites no ledger line.
+    ("idx_fut_carry_decision_face",
+     ["python", "scripts/idx_fut_carry_decision_face.py", "check"],
+     ["python", "scripts/idx_fut_carry_decision_face.py", "run"]),
     # r1932: the carry book and the ETF core are two ways to be long with the same money,
     # and nothing priced the swap. This leg answers "how much ETF core does one hedged
     # futures lot replace" on three rulers at once (risk budget / per yuan of the funding
@@ -2593,7 +2625,10 @@ LEGS = [
     # built from that count would hold one arm twice and read a parameter sweep as a
     # family. This leg keeps the census of what those rows describe (rows / distinct
     # things / faces) attached to the vote and re-derives it every round, so the number
-    # cannot live only in the round that noticed it.
+    # cannot live only in the round that noticed it.  r2091 gives that re-derivation the
+    # two-state contract: the census records the sha256 of the vote bytes it counted, so
+    # moved bytes say STALE (this leg pays one run) while identical bytes with a different
+    # census say CHECK_FAILED (a defect a re-run would only hide).
     ("etf_book_promotion_provenance",
      ["python", "scripts/etf_book_promotion_provenance.py", "--check"],
      ["python", "scripts/etf_book_promotion_provenance.py", "run"]),
@@ -2610,6 +2645,15 @@ LEGS = [
     ("trial_labor_direction_audit",
      ["python", "scripts/trial_labor_direction_audit.py", "check"],
      ["python", "scripts/trial_labor_direction_audit.py", "run"]),
+    # r2056: the defence-spell face (r2055) published "54.5% of bars are defensive,
+    # 17 spells, today's spell is the longest on record" and then had no reader on this
+    # chain -- so the headline could sit one panel generation behind while every page
+    # that quoted it stayed green. Same two-state contract as r2091: moved panel bytes
+    # say STALE (this leg pays one write), identical bytes with different spell numbers
+    # say CHECK FAILED (a defect a re-run would only hide).
+    ("etf_book_defense_spells",
+     ["python", "scripts/etf_book_defense_spells.py", "check"],
+     ["python", "scripts/etf_book_defense_spells.py", "write"]),
 ]
 
 

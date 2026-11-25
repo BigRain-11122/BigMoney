@@ -1,0 +1,37 @@
+[
+ {
+  "leg": "idx_fut_carry_always_on_price",
+  "rc": 0,
+  "elapsed_sec": 0.1,
+  "tail": "CHECK_OK idx_fut_carry_always_on_price (2 products, verdict PAYS_ON_ITS_WORST_RULER_BUT_THE_RATE_IS_RULER_BOUND)",
+  "timeout_sec": 900
+ },
+ {
+  "leg": "idx_fut_carry_roll_step_reversal",
+  "rc": 0,
+  "elapsed_sec": 1.3,
+  "tail": "CHECK_OK verdict=MIXED_BY_PRODUCT cutoff=2026-11-25",
+  "timeout_sec": 900
+ },
+ {
+  "leg": "idx_fut_carry_capacity_lots",
+  "rc": 0,
+  "elapsed_sec": 0.2,
+  "tail": "CHECK_OK idx_fut_carry_capacity_lots (2026-11-25, verdict MARKET_IS_NOT_THE_GATE)",
+  "timeout_sec": 900
+ },
+ {
+  "leg": "idx_fut_carry_decision_face",
+  "rc": 0,
+  "elapsed_sec": 0.1,
+  "tail": "CHECK_OK cutoff=2026-11-24 verdict=NO_ORDER_ON_BOTH_LEGS",
+  "timeout_sec": 900
+ },
+ {
+  "leg": "etf_book_defense_spells",
+  "rc": 0,
+  "elapsed_sec": 0.9,
+  "tail": "CHECK OK 17 spells, 1670 bars, defensive 54.5%",
+  "timeout_sec": 900
+ }
+]
