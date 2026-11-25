@@ -1,0 +1,154 @@
+{
+ "schema": "idx-fut-carry-vol-sized-lots/v1",
+ "kind": "carry_vol_sized_lots",
+ "evidence_cutoff": "2026-11-25",
+ "generated": "2026-11-26T00:09:47+08:00",
+ "inputs": {
+  "stability": {
+   "path": "results/idx_fut_carry_ladder_stability.json",
+   "sha256": "7aded9b1ffcc49cc6c3c098ad47d9e1b099099b6f4f923a381dc48d326a6254d"
+  },
+  "sizing": {
+   "path": "results/idx_fut_carry_sizing_spec.json",
+   "sha256": "fd9a0559a62d2cc435c429c4e3846f5dc0fb344748de2d2f3e0f306f5a117332"
+  },
+  "lattice": {
+   "path": "results/policy_return_lattice.json",
+   "sha256": "6d00e45a0cb3247825a8a1e1b21e64bc852c530229a87b20f23c2c8b6007dc22"
+  }
+ },
+ "question": "at an 8 % risk budget, how much capital does one IC+IM price-spread block need, and how many blocks does a 1,000,000 CNY book fund?",
+ "rule": "blocks = target_pct / block_vol_pct; one block needs block_vol_pct/100 * nav / (target_pct/100) CNY of capital",
+ "nav_cny": 1000000.0,
+ "target_pct": 8.0,
+ "ticket_blocks": 4,
+ "rulers": [
+  {
+   "ruler": "declared",
+   "block_vol_pct": 8.963,
+   "per_block_vol_cny": 89630.0,
+   "capital_one_block_cny": 1120375.0,
+   "blocks_float_at_book": 0.8926,
+   "blocks_whole_at_book": 0,
+   "ticket_blocks": 4,
+   "ticket_vol_cny": 358520.0,
+   "ticket_multiple_of_budget": 4.4815,
+   "capital_for_ticket_cny": 4481500.0
+  },
+  {
+   "ruler": "full_sample",
+   "block_vol_pct": 13.636,
+   "per_block_vol_cny": 136360.0,
+   "capital_one_block_cny": 1704500.0,
+   "blocks_float_at_book": 0.5867,
+   "blocks_whole_at_book": 0,
+   "ticket_blocks": 4,
+   "ticket_vol_cny": 545440.0,
+   "ticket_multiple_of_budget": 6.818,
+   "capital_for_ticket_cny": 6818000.0
+  },
+  {
+   "ruler": "rolling_120_median",
+   "block_vol_pct": 11.691,
+   "per_block_vol_cny": 116910.0,
+   "capital_one_block_cny": 1461375.0,
+   "blocks_float_at_book": 0.6843,
+   "blocks_whole_at_book": 0,
+   "ticket_blocks": 4,
+   "ticket_vol_cny": 467640.0,
+   "ticket_multiple_of_budget": 5.8455,
+   "capital_for_ticket_cny": 5845500.0
+  },
+  {
+   "ruler": "rolling_120_p95",
+   "block_vol_pct": 24.546,
+   "per_block_vol_cny": 245460.0,
+   "capital_one_block_cny": 3068250.0,
+   "blocks_float_at_book": 0.3259,
+   "blocks_whole_at_book": 0,
+   "ticket_blocks": 4,
+   "ticket_vol_cny": 981840.0,
+   "ticket_multiple_of_budget": 12.273,
+   "capital_for_ticket_cny": 12273000.0
+  },
+  {
+   "ruler": "rolling_120_max",
+   "block_vol_pct": 24.704,
+   "per_block_vol_cny": 247040.0,
+   "capital_one_block_cny": 3088000.0,
+   "blocks_float_at_book": 0.3238,
+   "blocks_whole_at_book": 0,
+   "ticket_blocks": 4,
+   "ticket_vol_cny": 988160.0,
+   "ticket_multiple_of_budget": 12.352,
+   "capital_for_ticket_cny": 12352000.0
+  }
+ ],
+ "history": {
+  "window": 120,
+  "windows": 933,
+  "span": [
+   "2023-01-17",
+   "2026-11-25"
+  ],
+  "block_vol_min_pct": 5.656,
+  "block_vol_median_pct": 11.691,
+  "block_vol_p95_pct": 24.546,
+  "block_vol_max_pct": 24.704,
+  "blocks_float_min": 0.3238,
+  "blocks_float_median": 0.6843,
+  "blocks_float_p95": 1.3433,
+  "blocks_float_max": 1.4145,
+  "share_windows_funding_one_block": 0.2797,
+  "share_windows_funding_two_blocks": 0.0,
+  "whole_block_switches": 3,
+  "whole_block_max": 1
+ },
+ "judgment": {
+  "declaration": "DECLARATION_UNDERSTATES_RISK",
+  "understatement_pp": 4.673,
+  "understatement_ratio": 1.5214,
+  "pressure": "PRESSURE_BENCHES_THE_BOOK",
+  "pressure_blocks_float": 0.3259,
+  "pressure_capital_one_block_cny": 3068250.0,
+  "ticket": "TICKET_EXCEEDS_BUDGET_AT_EVERY_RULER",
+  "ticket_multiples": {
+   "declared": 4.4815,
+   "full_sample": 6.818,
+   "rolling_120_median": 5.8455,
+   "rolling_120_p95": 12.273,
+   "rolling_120_max": 12.352
+  },
+  "share_windows_funding_one_block": 0.2797,
+  "share_windows_funding_two_blocks": 0.0,
+  "whole_block_max": 1
+ },
+ "scope_limits": [
+  "futures block only (1 lot IC + 1 lot IM); the equity sleeve, financing,",
+  "margin and transaction costs stay in results/idx_fut_carry_ladder_risk.json",
+  "the sizing face prices one IC lot hedged with IF, a different book; the two",
+  "are named side by side on the page and never averaged"
+ ],
+ "not_recomputed": [
+  "the volatility series itself (imported from idx_fut_carry_ladder_stability)",
+  "the 8 % target and the desk's ticket (read from the sizing face, printed, never rewritten)",
+  "any income, Sharpe or drawdown: this face only sizes a position"
+ ],
+ "cross_face": {
+  "stability": {
+   "status": "CROSS_FACE_MATCHES",
+   "sibling_face": "results/idx_fut_carry_ladder_stability.json",
+   "sibling_full_sample_pct": 13.636,
+   "this_face_full_sample_pct": 13.636,
+   "delta_pp": 0.0
+  },
+  "sizing": {
+   "status": "DIFFERENT_BOOK_NAMED",
+   "sibling_face": "results/idx_fut_carry_sizing_spec.json",
+   "sibling_one_lot_capital_cny": 1132145.38,
+   "sibling_basis": "one IC lot hedged with IF (per-account residual), not the IC+IM spread block",
+   "this_face_one_block_capital_cny": 1704500.0,
+   "why_not_an_average": "the two faces size different books; the spread block is the one a holder of the lattice's 1/1 rung carries"
+  }
+ }
+}
