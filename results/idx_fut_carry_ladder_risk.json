@@ -1,0 +1,316 @@
+{
+ "schema": "idx-fut-carry-ladder-risk/v1",
+ "kind": "carry_ladder_risk_measurement",
+ "evidence_cutoff": "2026-11-25",
+ "inputs": {
+  "lattice": {
+   "path": "results/policy_return_lattice.json",
+   "sha256": "6d00e45a0cb3247825a8a1e1b21e64bc852c530229a87b20f23c2c8b6007dc22"
+  },
+  "l1_arm": {
+   "path": "results/etf_nobond_vt.json",
+   "sha256": "128722ecf9cc6147cce96804cfc37bfe7aa2aff8a7a8fe14442571e5f989610c"
+  },
+  "nav_cny": 1000000.0,
+  "k": 0.4347,
+  "cash_rate_pct": 1.395,
+  "declared_l2_vol_pct": 4.0,
+  "declared_rho": 0.1,
+  "legs": {
+   "IC": {
+    "span": [
+     "2018-10-23",
+     "2026-11-25"
+    ],
+    "days": 1964,
+    "index": "sh000905"
+   },
+   "IM": {
+    "span": [
+     "2022-07-25",
+     "2026-11-25"
+    ],
+    "days": 1052,
+    "index": "sh000852"
+   }
+  },
+  "equity_span": [
+   "2020-01-06",
+   "2026-11-25"
+  ]
+ },
+ "measured": {
+  "rho_futures_legs": 0.8331,
+  "rho_equity_futures": -0.0384,
+  "sigma_ic_pct": 5.917,
+  "sigma_im_pct": 6.823,
+  "common_days": 1052,
+  "notional_per_lot_cny": {
+   "IC": 1153800.0,
+   "IM": 1086880.0
+  },
+  "rungs": {
+   "0/0": {
+    "ic_lots": 0,
+    "im_lots": 0,
+    "weight_ic": 0.0,
+    "weight_im": 0.0,
+    "expected_return_pct": 5.17,
+    "declared_vol_pct": 4.57,
+    "l2_vol_measured_pct": 0.0,
+    "measured_ann_pct": 2.74,
+    "measured_vol_pct": 1.851,
+    "measured_mdd_pct": -2.068,
+    "measured_sharpe": 0.726,
+    "measured_minus_declared_pp": -2.719,
+    "days": 1052
+   },
+   "0/1": {
+    "ic_lots": 0,
+    "im_lots": 1,
+    "weight_ic": 0.0,
+    "weight_im": 1.08688,
+    "expected_return_pct": 9.053,
+    "declared_vol_pct": 6.61,
+    "l2_vol_measured_pct": 7.416,
+    "measured_ann_pct": 13.897,
+    "measured_vol_pct": 7.529,
+    "measured_mdd_pct": -5.405,
+    "measured_sharpe": 1.661,
+    "measured_minus_declared_pp": 0.919,
+    "days": 1052
+   },
+   "0/2": {
+    "ic_lots": 0,
+    "im_lots": 2,
+    "weight_ic": 0.0,
+    "weight_im": 2.17376,
+    "expected_return_pct": 12.936,
+    "declared_vol_pct": 10.22,
+    "l2_vol_measured_pct": 14.831,
+    "measured_ann_pct": 25.581,
+    "measured_vol_pct": 14.83,
+    "measured_mdd_pct": -10.674,
+    "measured_sharpe": 1.631,
+    "measured_minus_declared_pp": 4.61,
+    "days": 1052
+   },
+   "0/3": {
+    "ic_lots": 0,
+    "im_lots": 3,
+    "weight_ic": 0.0,
+    "weight_im": 3.26064,
+    "expected_return_pct": 16.819,
+    "declared_vol_pct": 14.24,
+    "l2_vol_measured_pct": 22.247,
+    "measured_ann_pct": 37.723,
+    "measured_vol_pct": 22.207,
+    "measured_mdd_pct": -15.734,
+    "measured_sharpe": 1.636,
+    "measured_minus_declared_pp": 7.967,
+    "days": 1052
+   },
+   "1/0": {
+    "ic_lots": 1,
+    "im_lots": 0,
+    "weight_ic": 1.1538,
+    "weight_im": 0.0,
+    "expected_return_pct": 13.492,
+    "declared_vol_pct": 6.81,
+    "l2_vol_measured_pct": 6.827,
+    "measured_ann_pct": 10.813,
+    "measured_vol_pct": 6.993,
+    "measured_mdd_pct": -6.58,
+    "measured_sharpe": 1.347,
+    "measured_minus_declared_pp": 0.183,
+    "days": 1052
+   },
+   "1/1": {
+    "ic_lots": 1,
+    "im_lots": 1,
+    "weight_ic": 1.1538,
+    "weight_im": 1.08688,
+    "expected_return_pct": 17.375,
+    "declared_vol_pct": 10.46,
+    "l2_vol_measured_pct": 13.636,
+    "measured_ann_pct": 22.336,
+    "measured_vol_pct": 13.657,
+    "measured_mdd_pct": -11.063,
+    "measured_sharpe": 1.533,
+    "measured_minus_declared_pp": 3.197,
+    "days": 1052
+   },
+   "1/2": {
+    "ic_lots": 1,
+    "im_lots": 2,
+    "weight_ic": 1.1538,
+    "weight_im": 2.17376,
+    "expected_return_pct": 21.258,
+    "declared_vol_pct": 14.5,
+    "l2_vol_measured_pct": 20.863,
+    "measured_ann_pct": 34.335,
+    "measured_vol_pct": 20.835,
+    "measured_mdd_pct": -16.131,
+    "measured_sharpe": 1.581,
+    "measured_minus_declared_pp": 6.335,
+    "days": 1052
+   },
+   "1/3": {
+    "ic_lots": 1,
+    "im_lots": 3,
+    "weight_ic": 1.1538,
+    "weight_im": 3.26064,
+    "expected_return_pct": 25.141,
+    "declared_vol_pct": 18.68,
+    "l2_vol_measured_pct": 28.188,
+    "measured_ann_pct": 46.729,
+    "measured_vol_pct": 28.137,
+    "measured_mdd_pct": -20.994,
+    "measured_sharpe": 1.611,
+    "measured_minus_declared_pp": 9.457,
+    "days": 1052
+   },
+   "2/0": {
+    "ic_lots": 2,
+    "im_lots": 0,
+    "weight_ic": 2.3076,
+    "weight_im": 0.0,
+    "expected_return_pct": 21.814,
+    "declared_vol_pct": 10.7,
+    "l2_vol_measured_pct": 13.654,
+    "measured_ann_pct": 18.965,
+    "measured_vol_pct": 13.696,
+    "measured_mdd_pct": -12.867,
+    "measured_sharpe": 1.283,
+    "measured_minus_declared_pp": 2.996,
+    "days": 1052
+   },
+   "2/1": {
+    "ic_lots": 2,
+    "im_lots": 1,
+    "weight_ic": 2.3076,
+    "weight_im": 1.08688,
+    "expected_return_pct": 25.697,
+    "declared_vol_pct": 14.75,
+    "l2_vol_measured_pct": 20.252,
+    "measured_ann_pct": 30.798,
+    "measured_vol_pct": 20.237,
+    "measured_mdd_pct": -17.238,
+    "measured_sharpe": 1.453,
+    "measured_minus_declared_pp": 5.487,
+    "days": 1052
+   },
+   "2/2": {
+    "ic_lots": 2,
+    "im_lots": 2,
+    "weight_ic": 2.3076,
+    "weight_im": 2.17376,
+    "expected_return_pct": 29.58,
+    "declared_vol_pct": 18.94,
+    "l2_vol_measured_pct": 27.273,
+    "measured_ann_pct": 43.045,
+    "measured_vol_pct": 27.23,
+    "measured_mdd_pct": -21.767,
+    "measured_sharpe": 1.53,
+    "measured_minus_declared_pp": 8.29,
+    "days": 1052
+   },
+   "2/3": {
+    "ic_lots": 2,
+    "im_lots": 3,
+    "weight_ic": 2.3076,
+    "weight_im": 3.26064,
+    "expected_return_pct": 33.463,
+    "declared_vol_pct": 23.18,
+    "l2_vol_measured_pct": 34.46,
+    "measured_ann_pct": 55.616,
+    "measured_vol_pct": 34.401,
+    "measured_mdd_pct": -26.215,
+    "measured_sharpe": 1.576,
+    "measured_minus_declared_pp": 11.221,
+    "days": 1052
+   },
+   "3/0": {
+    "ic_lots": 3,
+    "im_lots": 0,
+    "weight_ic": 3.4614,
+    "weight_im": 0.0,
+    "expected_return_pct": 30.136,
+    "declared_vol_pct": 15.01,
+    "l2_vol_measured_pct": 20.481,
+    "measured_ann_pct": 27.125,
+    "measured_vol_pct": 20.481,
+    "measured_mdd_pct": -18.997,
+    "measured_sharpe": 1.256,
+    "measured_minus_declared_pp": 5.471,
+    "days": 1052
+   },
+   "3/1": {
+    "ic_lots": 3,
+    "im_lots": 1,
+    "weight_ic": 3.4614,
+    "weight_im": 1.08688,
+    "expected_return_pct": 34.019,
+    "declared_vol_pct": 19.2,
+    "l2_vol_measured_pct": 26.972,
+    "measured_ann_pct": 39.201,
+    "measured_vol_pct": 26.941,
+    "measured_mdd_pct": -23.355,
+    "measured_sharpe": 1.403,
+    "measured_minus_declared_pp": 7.741,
+    "days": 1052
+   },
+   "3/2": {
+    "ic_lots": 3,
+    "im_lots": 2,
+    "weight_ic": 3.4614,
+    "weight_im": 2.17376,
+    "expected_return_pct": 37.902,
+    "declared_vol_pct": 23.44,
+    "l2_vol_measured_pct": 33.846,
+    "measured_ann_pct": 51.623,
+    "measured_vol_pct": 33.795,
+    "measured_mdd_pct": -27.678,
+    "measured_sharpe": 1.486,
+    "measured_minus_declared_pp": 10.355,
+    "days": 1052
+   },
+   "3/3": {
+    "ic_lots": 3,
+    "im_lots": 3,
+    "weight_ic": 3.4614,
+    "weight_im": 3.26064,
+    "expected_return_pct": 41.785,
+    "declared_vol_pct": 27.72,
+    "l2_vol_measured_pct": 40.909,
+    "measured_ann_pct": 64.287,
+    "measured_vol_pct": 40.846,
+    "measured_mdd_pct": -31.867,
+    "measured_sharpe": 1.54,
+    "measured_minus_declared_pp": 13.126,
+    "days": 1052
+   }
+  }
+ },
+ "engine_rung": "1/1",
+ "in_band_rung": "0/1",
+ "judgment": {
+  "declared_vs_measured_vol": "DECLARED_RISK_UNDERSTATES_MEASURED",
+  "declared_vol_pct": 10.46,
+  "measured_vol_pct": 13.657,
+  "measured_minus_declared_pp": 3.197,
+  "band_vs_instruction_risk": "BAND_CUT_ALSO_CUTS_RISK",
+  "band_mdd_gap_pp": 5.658,
+  "sharpe_vs_return": "SHARPE_DISAGREES_WITH_RETURN",
+  "best_sharpe_rung": [
+   0,
+   1
+  ],
+  "best_return_rung": [
+   3,
+   3
+  ]
+ },
+ "check_scope": "check re-probes both futures legs and the ladder digest; the equity sleeve (~65 s) is pinned by results/etf_nobond_vt.json digest only, never re-derived by check",
+ "generated": "2026-11-25T22:32:51+08:00"
+}
