@@ -1,0 +1,238 @@
+{
+ "binding_product": "IC",
+ "evidence_cutoff": "2026-11-23",
+ "generated": "2026-11-25T17:54:29+0800",
+ "inputs": {
+  "price_face": "1dd7e14872caa2235ac30f053934aaee813628e3a5d39164eec801d27de5e513",
+  "spec_face": "f6358c52f704470e27aa16ed1b6608c03a01cb2071b0f13bf5b616466696f154"
+ },
+ "kind": "idx_fut_carry_capacity_lots",
+ "not_recomputed": [
+  "the carry rate itself (results/idx_fut_carry_always_on_price.json)",
+  "the capital rungs (results/idx_fut_carry_sizing_spec.json)",
+  "any impact cost: daily bars carry no depth"
+ ],
+ "products": {
+  "IC": {
+   "adv20_median": 103615.0,
+   "adv20_weakest": {
+    "date": "2026-09-30",
+    "value": 78147.5
+   },
+   "capacity": {
+    "adopted_leg": "roll_one_day",
+    "adopted_lots": 468.45,
+    "legs_traded_only": [
+     "adv20_median",
+     "adv20_weakest",
+     "roll_one_day"
+    ],
+    "share_pct": 1.0
+   },
+   "desk": {
+    "capital_per_lot_cny": 1129565.88,
+    "lots_at_1m_cny": 0,
+    "rung_capital_cny": 2259131.75,
+    "rung_lots": 2.0
+   },
+   "front_contract_last": "IC2612",
+   "headroom_multiple": 234.22,
+   "legs": {
+    "adv20_median": {
+     "date": "2026-11-24",
+     "lots_at_primary": 1036.15,
+     "value": 103615.0,
+     "what": "1% of the 20-bar median volume on the last session"
+    },
+    "adv20_weakest": {
+     "date": "2026-09-30",
+     "lots_at_primary": 781.475,
+     "value": 78147.5,
+     "what": "1% of the 20-bar median volume on the weakest session"
+    },
+    "roll_one_day": {
+     "date": "2026-09-14",
+     "lots_at_primary": 468.45,
+     "value": 46845.0,
+     "what": "1% of the incoming contract's volume on the roll day"
+    },
+    "roll_three_day": {
+     "date": "2026-09-14",
+     "lots_at_primary": 1639.89,
+     "value": 163989.0,
+     "what": "1% of the incoming contract's first three sessions"
+    }
+   },
+   "money": {
+    "capital_at_capacity_cny": 529145134.14,
+    "rulers": {
+     "calendar": {
+      "ann_pct": 9.65,
+      "capacity_carry_cny": 54465304.26,
+      "per_lot_carry_cny": 116267.06
+     },
+     "published": {
+      "ann_pct": 2.76,
+      "capacity_carry_cny": 15577639.55,
+      "per_lot_carry_cny": 33253.58
+     },
+     "strictest": {
+      "ann_pct": 9.68,
+      "capacity_carry_cny": 54634625.51,
+      "per_lot_carry_cny": 116628.51
+     }
+    }
+   },
+   "notional_per_lot_cny": 1204840.0,
+   "open_interest": {
+    "lots_at_primary": 1704.545,
+    "median": 170454.5,
+    "p10": 133950.0,
+    "what": "standing position, not a daily trade: printed as a separate bound"
+   },
+   "roll": {
+    "days": [
+     {
+      "date": "2026-09-14",
+      "incoming": "IC2612",
+      "n_days_used": 3,
+      "one_day_volume": 46845.0,
+      "three_day_volume": 163989.0
+     }
+    ],
+    "n_in_window": 1
+   },
+   "status": "ok",
+   "turnover": {
+    "volume_over_oi_median": 0.6733
+   },
+   "window": {
+    "first": "2026-08-25",
+    "last": "2026-11-24",
+    "sessions": 60
+   },
+   "window_digest": "e4ce71eaaebdd46ac5bf425d520adfcc5774d1e1d55d1bc3f8912c571a5c841e"
+  },
+  "IM": {
+   "adv20_median": 163009.5,
+   "adv20_weakest": {
+    "date": "2026-09-30",
+    "value": 129369.0
+   },
+   "capacity": {
+    "adopted_leg": "roll_one_day",
+    "adopted_lots": 752.15,
+    "legs_traded_only": [
+     "adv20_median",
+     "adv20_weakest",
+     "roll_one_day"
+    ],
+    "share_pct": 1.0
+   },
+   "desk": {
+    "capital_per_lot_cny": 1159159.0,
+    "lots_at_1m_cny": 0,
+    "rung_capital_cny": 2318318.0,
+    "rung_lots": 2.0
+   },
+   "front_contract_last": "IM2612",
+   "headroom_multiple": 376.07,
+   "legs": {
+    "adv20_median": {
+     "date": "2026-11-23",
+     "lots_at_primary": 1630.095,
+     "value": 163009.5,
+     "what": "1% of the 20-bar median volume on the last session"
+    },
+    "adv20_weakest": {
+     "date": "2026-09-30",
+     "lots_at_primary": 1293.69,
+     "value": 129369.0,
+     "what": "1% of the 20-bar median volume on the weakest session"
+    },
+    "roll_one_day": {
+     "date": "2026-09-14",
+     "lots_at_primary": 752.15,
+     "value": 75215.0,
+     "what": "1% of the incoming contract's volume on the roll day"
+    },
+    "roll_three_day": {
+     "date": "2026-09-14",
+     "lots_at_primary": 2615.12,
+     "value": 261512.0,
+     "what": "1% of the incoming contract's first three sessions"
+    }
+   },
+   "money": {
+    "capital_at_capacity_cny": 871861441.85,
+    "rulers": {
+     "calendar": {
+      "ann_pct": 11.96,
+      "capacity_carry_cny": 102910968.16,
+      "per_lot_carry_cny": 136822.4
+     },
+     "published": {
+      "ann_pct": 5.74,
+      "capacity_carry_cny": 49390381.04,
+      "per_lot_carry_cny": 65665.6
+     },
+     "strictest": {
+      "ann_pct": 11.5,
+      "capacity_carry_cny": 98952854.0,
+      "per_lot_carry_cny": 131560.0
+     }
+    }
+   },
+   "notional_per_lot_cny": 1144000.0,
+   "open_interest": {
+    "lots_at_primary": 2719.755,
+    "median": 271975.5,
+    "p10": 202762.0,
+    "what": "standing position, not a daily trade: printed as a separate bound"
+   },
+   "roll": {
+    "days": [
+     {
+      "date": "2026-09-14",
+      "incoming": "IM2612",
+      "n_days_used": 3,
+      "one_day_volume": 75215.0,
+      "three_day_volume": 261512.0
+     }
+    ],
+    "n_in_window": 1
+   },
+   "status": "ok",
+   "turnover": {
+    "volume_over_oi_median": 0.7061
+   },
+   "window": {
+    "first": "2026-08-24",
+    "last": "2026-11-23",
+    "sessions": 60
+   },
+   "window_digest": "9ef7992aeeb21c638b6e9a2a5b5a2dd7c3a72148618115d4d686a0086e1c56bf"
+  }
+ },
+ "question": "how many lots of this carry book can the front contract absorb at 1% of the thing you must trade, and what does that pay per year?",
+ "reading": "capital is the gate by two orders of magnitude; size on the rung, not on the market",
+ "rules": {
+  "adv_bars": 20,
+  "capital_is_linear": "lots -> capital at rung_capital / rung_lots",
+  "line_is_a_rule": "1% of ADV is the K1 line the ETF capacity face uses; it is declared here so the two books are comparable",
+  "primary_share_pct": 1.0,
+  "roll_days": 3,
+  "share_ladder_pct": [
+   0.5,
+   1.0,
+   2.0,
+   5.0
+  ],
+  "stability_sessions": 60
+ },
+ "verdict": "MARKET_IS_NOT_THE_GATE",
+ "what_binds_today": {
+  "name": "capital",
+  "one_line": "桌面已发布的最大档位是 2 手（2,259,132 元），而市场在 1% 线上能吞下 468 手——差 234 倍，所以约束是资本不是流动性"
+ }
+}
