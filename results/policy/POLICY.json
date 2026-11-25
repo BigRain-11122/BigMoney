@@ -1,0 +1,103 @@
+{
+ "generated": "2026-11-25T20:37:18+08:00",
+ "nav_cny": 1000000.0,
+ "mode": "NORMAL",
+ "steps_applied": [
+  "margin 537763 > 350000 -> lots scaled by 0.65"
+ ],
+ "l1_etf_book": {
+  "k": 0.434724,
+  "risk_book_cny": 434723.8,
+  "cash_cny": 565276.2,
+  "holdings": [
+   {
+    "symbol": "159519",
+    "lots": 518,
+    "price": 1.679,
+    "amount_cny": 86972.2
+   },
+   {
+    "symbol": "159655",
+    "lots": 458,
+    "price": 1.898,
+    "amount_cny": 86928.4
+   },
+   {
+    "symbol": "510760",
+    "lots": 705,
+    "price": 1.233,
+    "amount_cny": 86926.5
+   },
+   {
+    "symbol": "512040",
+    "lots": 739,
+    "price": 1.177,
+    "amount_cny": 86980.3
+   },
+   {
+    "symbol": "513690",
+    "lots": 788,
+    "price": 1.103,
+    "amount_cny": 86916.4
+   }
+  ],
+  "bar": "2026-11-24",
+  "source": "results/etf_book_positions.json",
+  "target_k": 0.4347,
+  "target_amount_cny": 434724.0
+ },
+ "l2_basis": {
+  "IC": {
+   "weight": 1.0,
+   "price": 5769.0,
+   "multiplier": 200.0,
+   "notional_per_lot": 1153800.0,
+   "basis_pct": -2.061,
+   "bar": "2026-11-25",
+   "target_weight": 2.5,
+   "target_notional_cny": 2500000.0,
+   "lots": 1,
+   "notional_at_lots_cny": 1153800.0,
+   "margin_cny": 138456.0
+  },
+  "IM": {
+   "weight": 0.9033,
+   "price": 5434.4,
+   "multiplier": 200.0,
+   "notional_per_lot": 1086880.0,
+   "basis_pct": -1.934,
+   "bar": "2026-11-25",
+   "target_weight": 2.2582,
+   "target_notional_cny": 2258250.0,
+   "lots": 1,
+   "notional_at_lots_cny": 1086880.0,
+   "margin_cny": 130426.0
+  }
+ },
+ "l2_margin_total_cny": 268882.0,
+ "l2_margin_pct_of_nav": 26.9,
+ "l3_cash_cny": 296394.0,
+ "risk": {
+  "l1_vol_pct": 4.56,
+  "l2_vol_pct": 3.5,
+  "assumed_corr": 0.1,
+  "portfolio_vol_pct": 6.02,
+  "vol_target_pct": 7.0,
+  "within_target": true
+ },
+ "expected_carry_cny_per_year": {
+  "IC": 85150.0,
+  "IM": 40649.0
+ },
+ "expected_total_cny_per_year": 125799.0,
+ "paper_check": {
+  "worst_cumulative_carry_pct": 117.888,
+  "verdict": "TRACKING",
+  "last_bar": "2026-11-24"
+ },
+ "sources": {
+  "l1": "results/etf_book_positions.json",
+  "l2_weights": "frozen percentile rule (paper_basis_timing.weight_for)",
+  "prices": "data/futures_daily/<code>.csv"
+ }
+}
