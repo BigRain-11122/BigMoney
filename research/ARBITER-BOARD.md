@@ -1,12 +1,12 @@
 # 资源共享仲裁看板（量化 × 自媒体）
 
-generated 2026-11-25T11:11:40+08:00 | 契约 v1.0
+generated 2026-11-25T11:21:39+08:00 | 契约 v1.0
 
 | 资源 | 实测 | 谁在用 | 规则 |
 |---|---|---|---|
 | GPU | util 1% · VRAM 2194/16384MB · Comfy 队列 None/None | media（本机 GPU 归自媒体） | 量化永不申请 GPU |
-| CPU | load 12.0% | media 1 个活 · quant 2 个 | heavy 要求 media 空且 load<50 |
-| RAM | free 25.68GB | media 占 3.8GB | heavy 需 ≥6GB · light 需 ≥2GB |
+| CPU | load 5.4% | media 1 个活 · quant 2 个 | heavy 要求 media 空且 load<50 |
+| RAM | free 25.87GB | media 占 3.8GB | heavy 需 ≥6GB · light 需 ≥2GB |
 | 自媒体排队 | 清单 0 单 · None 已有 None 个产物 · 最近推进 Noneh 前 | media 产线 | 自媒体有活时量化 heavy 让路 |
 
 ## 当前在跑
