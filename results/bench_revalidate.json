@@ -1,40 +1,74 @@
 {
  "cell": "revalidate",
- "generated": "2026-11-24T10:22:14+08:00",
- "evidence_cutoff": "2026-11-20",
- "n_checked": 9,
+ "generated": "2026-11-25T22:22:55+08:00",
+ "evidence_cutoff": "2026-11-25",
+ "n_checked": 28,
  "n_changed": 0,
  "verdict": "ALL_HOLD",
  "reports": [
   {
    "cell": "fut_trend",
-   "state": "SKIPPED_STALE",
-   "cutoff": "2026-11-20",
-   "newest": "2026-11-20"
+   "state": "REVALIDATED",
+   "cutoff_before": "2026-11-24",
+   "newest_bar": "2026-11-25",
+   "verdict_before": {
+    "tsmom": "NO_EDGE",
+    "ma_cross": "NO_EDGE_REPACKAGES_BETA",
+    "donchian": "NO_EDGE",
+    "reversal": "NO_EDGE",
+    "xs_mom": "NO_EDGE"
+   },
+   "verdict_after": {
+    "tsmom": "NO_EDGE",
+    "ma_cross": "NO_EDGE_REPACKAGES_BETA",
+    "donchian": "NO_EDGE",
+    "reversal": "NO_EDGE",
+    "xs_mom": "NO_EDGE"
+   }
   },
   {
    "cell": "bond_curve",
-   "state": "SKIPPED_STALE",
-   "cutoff": "2026-11-20",
-   "newest": "2026-11-20"
+   "state": "REVALIDATED",
+   "cutoff_before": "2026-11-24",
+   "newest_bar": "2026-11-25",
+   "verdict_before": {
+    "T-TF:zrev": "NO_EDGE",
+    "T-TF:trend": "NO_EDGE",
+    "T-TS:zrev": "NO_EDGE",
+    "T-TS:trend": "NO_EDGE",
+    "TF-TS:zrev": "NO_EDGE",
+    "TF-TS:trend": "NO_EDGE"
+   },
+   "verdict_after": {
+    "T-TF:zrev": "NO_EDGE",
+    "T-TF:trend": "NO_EDGE",
+    "T-TS:zrev": "NO_EDGE",
+    "T-TS:trend": "NO_EDGE",
+    "TF-TS:zrev": "NO_EDGE",
+    "TF-TS:trend": "NO_EDGE"
+   }
   },
   {
    "cell": "astock_lowvol",
-   "state": "SKIPPED_STALE",
-   "cutoff": "2026-11-20",
-   "newest": "2026-11-20"
+   "state": "REVALIDATED",
+   "cutoff_before": "2026-11-20",
+   "newest_bar": "2026-11-25",
+   "verdict_before": "NO_EDGE",
+   "verdict_after": "NO_EDGE"
   },
   {
    "cell": "bond_defensive",
-   "state": "SKIPPED_STALE",
-   "cutoff": "2026-11-20",
-   "newest": "2026-11-20"
+   "state": "REVALIDATED",
+   "cutoff_before": "2026-11-24",
+   "newest_bar": "2026-11-25",
+   "verdict_before": "NO_EDGE",
+   "verdict_after": "NO_EDGE"
   },
   {
    "cell": "idx_fut_basis_reuse",
    "state": "REVALIDATED",
    "cutoff_before": "",
-   "newest_bar": "2026-11-20",
+   "newest_bar": "2026-11-25",
    "verdict_before": {
     "C1": true,
     "C2": true,
@@ -42,33 +76,33 @@
     "carries": [
      {
       "fut": "IF",
-      "median_ann_pct": 2.526,
-      "drift_pct": 1.791,
-      "net_carry_pct": 0.735,
+      "median_ann_pct": 2.519,
+      "drift_pct": 1.822,
+      "net_carry_pct": 0.697,
       "C1": false,
       "C2": true
      },
      {
       "fut": "IC",
-      "median_ann_pct": 5.031,
-      "drift_pct": 0.886,
-      "net_carry_pct": 4.145,
+      "median_ann_pct": 5.013,
+      "drift_pct": 0.882,
+      "net_carry_pct": 4.131,
       "C1": true,
       "C2": true
      },
      {
       "fut": "IH",
-      "median_ann_pct": 1.737,
+      "median_ann_pct": 1.703,
       "drift_pct": 0.0,
-      "net_carry_pct": 1.737,
+      "net_carry_pct": 1.703,
       "C1": false,
       "C2": true
      },
      {
       "fut": "IM",
-      "median_ann_pct": 8.907,
-      "drift_pct": 3.018,
-      "net_carry_pct": 5.889,
+      "median_ann_pct": 8.85,
+      "drift_pct": 2.963,
+      "net_carry_pct": 5.887,
       "C1": true,
       "C2": true
      }
@@ -76,17 +110,17 @@
     "controls": [
      {
       "etf": "sh510300",
-      "ann_pct": 1.791,
+      "ann_pct": 1.822,
       "ok": true
      },
      {
       "etf": "sh510500",
-      "ann_pct": 0.886,
+      "ann_pct": 0.882,
       "ok": true
      },
      {
       "etf": "sh512100",
-      "ann_pct": 3.018,
+      "ann_pct": 2.963,
       "ok": true
      }
     ],
@@ -106,33 +140,33 @@
     "carries": [
      {
       "fut": "IF",
-      "median_ann_pct": 2.526,
-      "drift_pct": 1.791,
-      "net_carry_pct": 0.735,
+      "median_ann_pct": 2.519,
+      "drift_pct": 1.822,
+      "net_carry_pct": 0.697,
       "C1": false,
       "C2": true
      },
      {
       "fut": "IC",
-      "median_ann_pct": 5.031,
-      "drift_pct": 0.886,
-      "net_carry_pct": 4.145,
+      "median_ann_pct": 5.013,
+      "drift_pct": 0.882,
+      "net_carry_pct": 4.131,
       "C1": true,
       "C2": true
      },
      {
       "fut": "IH",
-      "median_ann_pct": 1.737,
+      "median_ann_pct": 1.703,
       "drift_pct": 0.0,
-      "net_carry_pct": 1.737,
+      "net_carry_pct": 1.703,
       "C1": false,
       "C2": true
      },
      {
       "fut": "IM",
-      "median_ann_pct": 8.907,
-      "drift_pct": 3.018,
-      "net_carry_pct": 5.889,
+      "median_ann_pct": 8.85,
+      "drift_pct": 2.963,
+      "net_carry_pct": 5.887,
       "C1": true,
       "C2": true
      }
@@ -140,17 +174,17 @@
     "controls": [
      {
       "etf": "sh510300",
-      "ann_pct": 1.791,
+      "ann_pct": 1.822,
       "ok": true
      },
      {
       "etf": "sh510500",
-      "ann_pct": 0.886,
+      "ann_pct": 0.882,
       "ok": true
      },
      {
       "etf": "sh512100",
-      "ann_pct": 3.018,
+      "ann_pct": 2.963,
       "ok": true
      }
     ],
@@ -166,15 +200,19 @@
   },
   {
    "cell": "basis_capacity",
-   "state": "SKIPPED_STALE",
-   "cutoff": "2026-11-20",
-   "newest": "2026-11-20"
+   "state": "REVALIDATED",
+   "cutoff_before": "2026-11-24",
+   "newest_bar": "2026-11-25",
+   "verdict_before": "CAPACITY_OK_AND_SIZED",
+   "verdict_after": "CAPACITY_OK_AND_SIZED"
   },
   {
    "cell": "basis_timing_size",
-   "state": "SKIPPED_STALE",
-   "cutoff": "2026-11-20",
-   "newest": "2026-11-20"
+   "state": "REVALIDATED",
+   "cutoff_before": "2026-11-24",
+   "newest_bar": "2026-11-25",
+   "verdict_before": "GO",
+   "verdict_after": "GO"
   },
   {
    "cell": "repo_ladder",
@@ -185,6 +223,124 @@
    "cell": "cb_floor",
    "state": "LANE_UNREADABLE",
    "lane": null
+  },
+  {
+   "cell": "pair_index_60d",
+   "state": "SCRIPT_FAILED",
+   "rc": 2,
+   "stderr": "usage: bench_generic.py [-h] --config CONFIG\nbench_generic.py: error: the following arguments are required: --config\n"
+  },
+  {
+   "cell": "pair_all10_60d",
+   "state": "SCRIPT_FAILED",
+   "rc": 2,
+   "stderr": "usage: bench_generic.py [-h] --config CONFIG\nbench_generic.py: error: the following arguments are required: --config\n"
+  },
+  {
+   "cell": "pair_commodity_60d",
+   "state": "SCRIPT_FAILED",
+   "rc": 2,
+   "stderr": "usage: bench_generic.py [-h] --config CONFIG\nbench_generic.py: error: the following arguments are required: --config\n"
+  },
+  {
+   "cell": "trend_single_IC_long",
+   "state": "SCRIPT_FAILED",
+   "rc": 2,
+   "stderr": "usage: bench_generic.py [-h] --config CONFIG\nbench_generic.py: error: the following arguments are required: --config\n"
+  },
+  {
+   "cell": "trend_single_AU_long",
+   "state": "SCRIPT_FAILED",
+   "rc": 2,
+   "stderr": "usage: bench_generic.py [-h] --config CONFIG\nbench_generic.py: error: the following arguments are required: --config\n"
+  },
+  {
+   "cell": "trend_single_T_long",
+   "state": "SCRIPT_FAILED",
+   "rc": 2,
+   "stderr": "usage: bench_generic.py [-h] --config CONFIG\nbench_generic.py: error: the following arguments are required: --config\n"
+  },
+  {
+   "cell": "reversal_index_5d",
+   "state": "SCRIPT_FAILED",
+   "rc": 2,
+   "stderr": "usage: bench_generic.py [-h] --config CONFIG\nbench_generic.py: error: the following arguments are required: --config\n"
+  },
+  {
+   "cell": "robust_ma_index",
+   "state": "SCRIPT_FAILED",
+   "rc": 2,
+   "stderr": "usage: bench_generic.py [-h] --config CONFIG\nbench_generic.py: error: the following arguments are required: --config\n"
+  },
+  {
+   "cell": "robust_tsmom_commodity",
+   "state": "SCRIPT_FAILED",
+   "rc": 2,
+   "stderr": "usage: bench_generic.py [-h] --config CONFIG\nbench_generic.py: error: the following arguments are required: --config\n"
+  },
+  {
+   "cell": "robust_donchian_index",
+   "state": "SCRIPT_FAILED",
+   "rc": 2,
+   "stderr": "usage: bench_generic.py [-h] --config CONFIG\nbench_generic.py: error: the following arguments are required: --config\n"
+  },
+  {
+   "cell": "census_index_futures",
+   "state": "SCRIPT_FAILED",
+   "rc": 2,
+   "stderr": "usage: bench_generic.py [-h] --config CONFIG\nbench_generic.py: error: the following arguments are required: --config\n"
+  },
+  {
+   "cell": "census_commodity",
+   "state": "SCRIPT_FAILED",
+   "rc": 2,
+   "stderr": "usage: bench_generic.py [-h] --config CONFIG\nbench_generic.py: error: the following arguments are required: --config\n"
+  },
+  {
+   "cell": "basis_timing_perm",
+   "state": "REVALIDATED",
+   "cutoff_before": "2026-11-24",
+   "newest_bar": "2026-11-25",
+   "verdict_before": "SIGNIFICANT",
+   "verdict_after": "SIGNIFICANT"
+  },
+  {
+   "cell": "census_bond_futures",
+   "state": "SCRIPT_FAILED",
+   "rc": 2,
+   "stderr": "usage: bench_generic.py [-h] --config CONFIG\nbench_generic.py: error: the following arguments are required: --config\n"
+  },
+  {
+   "cell": "pair_bond_curve_60d",
+   "state": "SCRIPT_FAILED",
+   "rc": 2,
+   "stderr": "usage: bench_generic.py [-h] --config CONFIG\nbench_generic.py: error: the following arguments are required: --config\n"
+  },
+  {
+   "cell": "trend_single_RB_long",
+   "state": "SCRIPT_FAILED",
+   "rc": 2,
+   "stderr": "usage: bench_generic.py [-h] --config CONFIG\nbench_generic.py: error: the following arguments are required: --config\n"
+  },
+  {
+   "cell": "trend_single_SC_long",
+   "state": "SCRIPT_FAILED",
+   "rc": 2,
+   "stderr": "usage: bench_generic.py [-h] --config CONFIG\nbench_generic.py: error: the following arguments are required: --config\n"
+  },
+  {
+   "cell": "reversal_commodity_5d",
+   "state": "SCRIPT_FAILED",
+   "rc": 2,
+   "stderr": "usage: bench_generic.py [-h] --config CONFIG\nbench_generic.py: error: the following arguments are required: --config\n"
+  },
+  {
+   "cell": "paper_basis_timing",
+   "state": "REVALIDATED",
+   "cutoff_before": "",
+   "newest_bar": "2026-11-25",
+   "verdict_before": "TRACKING",
+   "verdict_after": "TRACKING"
   }
  ]
 }

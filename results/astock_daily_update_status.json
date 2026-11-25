@@ -1,41 +1,43 @@
 {
-  "ts": "2026-11-24T22:49:00",
-  "mode": "refresh incomplete (checkpoint preserved)",
+  "ts": "2026-11-25T20:33:19",
+  "mode": "refresh in progress (lock alive)",
   "panel": {
     "complete": false,
-    "cutoff": "2026-11-24",
+    "cutoff": "2026-11-25",
     "cutoff_is": "max tail across all per/*.csv -- read coverage_pct/coverage_90 before calling the panel current",
-    "coverage_pct": 72.3,
+    "coverage_pct": 13.6,
     "coverage_90": "2026-11-23",
     "coverage_floor_pct": 90,
     "dates_tail": [
       [
+        "2026-11-25",
+        710
+      ],
+      [
         "2026-11-24",
-        3777
+        3778
       ],
       [
         "2026-11-23",
-        1428
+        722
       ],
       [
         "2026-11-20",
-        9
-      ],
-      [
-        "2026-11-19",
-        1
+        6
       ],
       [
         "2026-11-18",
         1
       ],
       [
-        "2026-11-12",
+        "2026-11-11",
         1
       ]
     ],
     "universe_n": 5227,
-    "per_files": 5221
+    "per_files": 5221,
+    "cycle_cutoff": "2026-11-24",
+    "cycle_cutoff_is": "the cutoff the last completed refresh cycle built its todo against -- always <= cutoff (cutoff is the disk max tail)"
   },
   "claim": "T-2026-09-26-87-bm-b-astock-daily-collector",
   "probe_ref": "results/_r280bmb_probe_akshare_daily.json",
@@ -80,7 +82,7 @@
     "repull": false
   },
   "quarantined_n": 12,
-  "last_spawn_attempt": "2026-11-24T14:18:30",
+  "last_spawn_attempt": "2026-11-25T19:16:11",
   "settled_n": 0,
   "settled": [],
   "per_files_on_disk": 5221,
@@ -92,8 +94,8 @@
   "takeover": {
     "owner": "bm-b",
     "by": "bm-c",
-    "reason": "owner bm-b silent 601.6h >= 120min",
-    "ts": "2026-11-24T14:18:30"
+    "reason": "owner bm-b silent 631.8h >= 120min",
+    "ts": "2026-11-25T20:33:19"
   },
   "authority": {
     "lane_owner": "bm-b",
@@ -101,8 +103,8 @@
     "data_face_machine": "bm-c",
     "declared_takeover": true,
     "took_over_by": "bm-c",
-    "took_over_at": "2026-11-24T14:18:30",
-    "reason": "owner bm-b silent 601.6h >= 120min"
+    "took_over_at": "2026-11-25T20:33:19",
+    "reason": "owner bm-b silent 631.8h >= 120min"
   },
   "machine": "bm-c",
   "quarantined": [
@@ -119,6 +121,6 @@
     "688845",
     "689009"
   ],
-  "spawn_reason": "panel lags expected bar date (2026-11-20 < 2026-11-23)",
+  "spawn_reason": "refresh in progress: panel incomplete at cutoff 2026-11-25 (coverage 13.6%, 90% date 2026-11-23)",
   "spawn_mode": "continuation"
 }

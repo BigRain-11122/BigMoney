@@ -1954,6 +1954,77 @@ def main() -> int:
               f"exit={_r.returncode} | {_tail[:140]}")
     except Exception as e:
         check("product: carry sleeve margin arm (which floor wins, re-derived)", False, str(e))
+    # r2094/r2096: the always-on price face and the roll-day accounting face had no leg
+    # here, so the two inputs the decision face reads most directly could trail the panel
+    # with every page still green. One leg each: the arithmetic re-derives from the panel.
+    try:
+        _r = _leg_memo([sys.executable, "scripts/idx_fut_carry_always_on_price.py", "--selftest"], 120)
+        _tail = ((_r.stdout or _r.stderr).strip().splitlines() or ["no output"])[-1]
+        check("product: carry always-on price (selftest)",
+              _r.returncode == 0, f"exit={_r.returncode} | {_tail[:90]}")
+    except Exception as e:
+        check("product: carry always-on price (selftest)", False, str(e))
+    try:
+        _r = _leg_memo([sys.executable, "scripts/idx_fut_carry_always_on_price.py", "check"], 180)
+        _tail = ((_r.stdout or _r.stderr).strip().splitlines() or ["no output"])[-1]
+        check("product: carry always-on price (three rulers re-derived from the panel)",
+              _r.returncode == 0 and "CHECK_OK" in _tail,
+              f"exit={_r.returncode} | {_tail[:140]}")
+    except Exception as e:
+        check("product: carry always-on price (three rulers re-derived from the panel)", False, str(e))
+    try:
+        _r = _leg_memo([sys.executable, "scripts/idx_fut_carry_roll_step_reversal.py", "--selftest"], 120)
+        _tail = ((_r.stdout or _r.stderr).strip().splitlines() or ["no output"])[-1]
+        check("product: carry roll-step reversal (selftest)",
+              _r.returncode == 0, f"exit={_r.returncode} | {_tail[:90]}")
+    except Exception as e:
+        check("product: carry roll-step reversal (selftest)", False, str(e))
+    try:
+        _r = _leg_memo([sys.executable, "scripts/idx_fut_carry_roll_step_reversal.py", "--check"], 180)
+        _tail = ((_r.stdout or _r.stderr).strip().splitlines() or ["no output"])[-1]
+        check("product: carry roll-step reversal (is the roll-day step paid later)",
+              _r.returncode == 0 and "CHECK_OK" in _tail,
+              f"exit={_r.returncode} | {_tail[:140]}")
+    except Exception as e:
+        check("product: carry roll-step reversal (is the roll-day step paid later)", False, str(e))
+    # r2095: the capacity face says how large the book could get (468/752 lots at the 1%
+    # line) and had no leg, so it kept describing a book priced two sessions ago while the
+    # decision face reading it inherited the lag. Same two legs as every other face here.
+    try:
+        _r = _leg_memo([sys.executable, "scripts/idx_fut_carry_capacity_lots.py", "--selftest"], 120)
+        _tail = ((_r.stdout or _r.stderr).strip().splitlines() or ["no output"])[-1]
+        check("product: carry capacity lots (selftest)",
+              _r.returncode == 0, f"exit={_r.returncode} | {_tail[:90]}")
+    except Exception as e:
+        check("product: carry capacity lots (selftest)", False, str(e))
+    try:
+        _r = _leg_memo([sys.executable, "scripts/idx_fut_carry_capacity_lots.py", "check"], 180)
+        _tail = ((_r.stdout or _r.stderr).strip().splitlines() or ["no output"])[-1]
+        check("product: carry capacity lots (size re-derived from today's panel)",
+              _r.returncode == 0 and "CHECK_OK" in _tail,
+              f"exit={_r.returncode} | {_tail[:140]}")
+    except Exception as e:
+        check("product: carry capacity lots (size re-derived from today's panel)", False, str(e))
+    # r2097: five carry faces each printed a range; the decision they add up to (IC reportable
+    # on a 0.03pp spread, IM on none, neither orderable) was published with no leg here, so
+    # it could go on quoting last week's panels while every page stayed green (r1282 orphan
+    # class). Two legs: the arithmetic re-derives, and the face on disk still agrees with a
+    # rebuild -- the check reads moved upstream bytes as STALE and a hand edit as a defect.
+    try:
+        _r = _leg_memo([sys.executable, "scripts/idx_fut_carry_decision_face.py", "--selftest"], 120)
+        _tail = ((_r.stdout or _r.stderr).strip().splitlines() or ["no output"])[-1]
+        check("product: carry decision face (selftest)",
+              _r.returncode == 0, f"exit={_r.returncode} | {_tail[:90]}")
+    except Exception as e:
+        check("product: carry decision face (selftest)", False, str(e))
+    try:
+        _r = _leg_memo([sys.executable, "scripts/idx_fut_carry_decision_face.py", "check"], 180)
+        _tail = ((_r.stdout or _r.stderr).strip().splitlines() or ["no output"])[-1]
+        check("product: carry decision face (the five ranges add up to one answer)",
+              _r.returncode == 0 and "CHECK_OK" in _tail,
+              f"exit={_r.returncode} | {_tail[:140]}")
+    except Exception as e:
+        check("product: carry decision face (the five ranges add up to one answer)", False, str(e))
     # r1932: the carry book and the ETF core are two ways to be long with the same money.
     # Three legs: the swap arithmetic re-derives, the face on disk still agrees with a
     # rebuild, and the page a reader opens carries the verdict -- because the script's own

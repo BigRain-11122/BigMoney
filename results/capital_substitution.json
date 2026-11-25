@@ -1,10 +1,10 @@
 {
  "artifact": "capital_substitution",
- "evidence_cutoff": "2026-11-23",
+ "evidence_cutoff": "2026-11-24",
  "face_cutoffs": {
-  "carry_sizing": "2026-11-23",
-  "carry_risk": "2026-11-23",
-  "carry_open_capital": "2026-11-23",
+  "carry_sizing": "2026-11-25",
+  "carry_risk": "2026-11-25",
+  "carry_open_capital": "2026-11-25",
   "etf_volgate": "2026-11-24",
   "idx_fut_basis": null
  },
@@ -23,47 +23,47 @@
  "reference_product": "IC",
  "products": {
   "IC": {
-   "per_lot_vol_cny_hedged": 90365.27,
-   "per_lot_vol_cny_from_risk_face": 74804.25,
-   "vol_reading_gap_pct": -17.22,
+   "per_lot_vol_cny_hedged": 90571.63,
+   "per_lot_vol_cny_from_risk_face": 74842.5,
+   "vol_reading_gap_pct": -17.37,
    "per_lot_notional_cny": 1275000.0,
-   "per_lot_return_cny_yr": 109420.5,
-   "funding_rung_cny": 1129565.88,
-   "rung_multiple_of_lens": 1.1296,
+   "per_lot_return_cny_yr": 107890.5,
+   "funding_rung_cny": 1132145.38,
+   "rung_multiple_of_lens": 1.1321,
    "affordable_at_this_capital": false,
-   "vol_budget_share_pct": 112.96,
-   "equivalent_etf_position_share_pct": 85.98,
-   "return_per_yuan_pct": 9.687,
+   "vol_budget_share_pct": 113.21,
+   "equivalent_etf_position_share_pct": 86.18,
+   "return_per_yuan_pct": 9.53,
    "vol_per_yuan_pct": 8.0,
-   "sharpe_on_capital": 1.2109,
+   "sharpe_on_capital": 1.1912,
    "per_yuan_verdict": "CARRY_BETTER",
-   "net_carry_pct_of_notional": 4.159
+   "net_carry_pct_of_notional": 4.131
   },
   "IM": {
-   "per_lot_vol_cny_hedged": 92732.72,
-   "per_lot_vol_cny_from_risk_face": 85615.55,
-   "vol_reading_gap_pct": -7.67,
+   "per_lot_vol_cny_hedged": 92892.9,
+   "per_lot_vol_cny_from_risk_face": 85653.21,
+   "vol_reading_gap_pct": -7.79,
    "per_lot_notional_cny": 1255360.0,
-   "per_lot_return_cny_yr": 125171.95,
-   "funding_rung_cny": 1159159.0,
-   "rung_multiple_of_lens": 1.1592,
+   "per_lot_return_cny_yr": 122171.64,
+   "funding_rung_cny": 1161161.25,
+   "rung_multiple_of_lens": 1.1612,
    "affordable_at_this_capital": false,
-   "vol_budget_share_pct": 115.92,
-   "equivalent_etf_position_share_pct": 88.23,
-   "return_per_yuan_pct": 10.799,
+   "vol_budget_share_pct": 116.12,
+   "equivalent_etf_position_share_pct": 88.39,
+   "return_per_yuan_pct": 10.522,
    "vol_per_yuan_pct": 8.0,
-   "sharpe_on_capital": 1.3498,
+   "sharpe_on_capital": 1.3152,
    "per_yuan_verdict": "CARRY_BETTER",
-   "net_carry_pct_of_notional": 6.005
+   "net_carry_pct_of_notional": 5.887
   }
  },
  "verdict": "BETTER_PER_YUAN_BUT_NOT_BUYABLE_AT_THIS_CAPITAL",
- "sentence": "One hedged IC lot risks 90,365 CNY a year = 113.0% of the 8% budget on 1,000,000, the same risk as 86.0% of the ETF book. Per yuan it needs (1,129,566), the lot returns 9.69% against 8.00% risk (Sharpe 1.21) while the ETF book returns 11.11% against 10.51% (Sharpe 1.10). That rung is 1.13x this capital, so the swap is not buyable today.",
+ "sentence": "One hedged IC lot risks 90,572 CNY a year = 113.2% of the 8% budget on 1,000,000, the same risk as 86.2% of the ETF book. Per yuan it needs (1,132,145), the lot returns 9.53% against 8.00% risk (Sharpe 1.19) while the ETF book returns 11.11% against 10.51% (Sharpe 1.10). That rung is 1.13x this capital, so the swap is not buyable today.",
  "caveats": [
-  "Ruler A reads the sizing face's own hedged-vol figure; ruler C multiplies the risk face's ann_vol by the same notional. They differ by -17.2% on IC (different windows) and are printed side by side, never averaged.",
+  "Ruler A reads the sizing face's own hedged-vol figure; ruler C multiplies the risk face's ann_vol by the same notional. They differ by -17.4% on IC (different windows) and are printed side by side, never averaged.",
   "The ETF book's vol is its measured 8%-target implementation (it de-levers only), not the 8% target itself.",
   "Replacing the ETF core also removes its bond/cash defensive leg; this face prices risk and return, not the drawdown path in a crash.",
   "One lot is a discrete jump: there is no partial lot below the first rung."
  ],
- "generated": "2026-11-24T19:27:28+08:00"
+ "generated": "2026-11-25T20:30:18+08:00"
 }

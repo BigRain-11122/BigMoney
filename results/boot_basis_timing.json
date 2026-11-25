@@ -1,33 +1,33 @@
 {
  "cell": "boot_basis_timing",
- "generated": "2026-11-25T20:29:59+08:00",
- "method": "moving-block bootstrap, block=10 sessions, 5000 resamples",
+ "generated": "2026-11-25T20:33:02+08:00",
+ "method": "moving-block bootstrap, block=60 sessions, 200000 resamples",
  "statistic": "annualised(weighted carry) - annualised(always-on carry)",
  "products": {
   "IC": {
    "bars": 2390,
    "difference_pp": 7.38,
-   "boot_mean_pp": 7.34,
+   "boot_mean_pp": 7.45,
    "ci95_pp": [
-    5.92,
-    8.78
+    5.78,
+    9.12
    ],
    "p_leq_zero": 0.0,
-   "reps": 5000,
-   "block": 10,
+   "reps": 200000,
+   "block": 60,
    "verdict": "CI_EXCLUDES_ZERO"
   },
   "IM": {
    "bars": 1052,
    "difference_pp": 3.74,
-   "boot_mean_pp": 3.68,
+   "boot_mean_pp": 3.93,
    "ci95_pp": [
-    1.64,
-    5.63
+    1.61,
+    6.23
    ],
-   "p_leq_zero": 0.0002,
-   "reps": 5000,
-   "block": 10,
+   "p_leq_zero": 0.0005,
+   "reps": 200000,
+   "block": 60,
    "verdict": "CI_EXCLUDES_ZERO"
   }
  },

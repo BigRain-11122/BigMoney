@@ -1,7 +1,7 @@
 {
  "artifact": "etf_book_positions",
  "asof": "2026-11-24",
- "ledger_bar": "2026-11-24",
+ "ledger_bar": "2026-11-25",
  "ticket_bar": "2026-11-24",
  "ticket": "TICKET-2026-11-24.json",
  "sources": {
@@ -14,7 +14,7 @@
  "unexplained": [],
  "unexplained_total_cny": 0,
  "unexplained_unpriced_rows": 0,
- "ledger_action": "updated",
+ "ledger_action": "kept",
  "ledger_row": {
   "bar": "2026-11-24",
   "kind": "execution",
@@ -144,12 +144,12 @@
   ]
  },
  "next_order_base": {
-  "bar": "2026-11-24",
-  "kind": "execution",
-  "arrival": "declared",
-  "arrival_actions": 0,
-  "source": "execution_row",
-  "risk_book_cny": 434723.8,
+  "bar": "2026-11-25",
+  "kind": "valuation",
+  "arrival": null,
+  "arrival_actions": null,
+  "source": "accrued_valuation",
+  "risk_book_cny": 428829.8,
   "cash_cny": 565276.2,
   "holdings": 5,
   "superseded_execution_bar": "2026-11-24"
@@ -165,26 +165,90 @@
   "159519": 518
  },
  "accrual": {
-  "status": "NO_NEW_BAR",
+  "status": "ACCRUED",
   "from_bar": "2026-11-24",
-  "rows": 0,
-  "written": 0,
+  "rows": 1,
+  "written": 1,
   "kept": 0,
   "skipped_execution_bars": [],
-  "rf_missing_bars": 0,
-  "last": null,
-  "rows_detail": [],
+  "rf_missing_bars": 1,
+  "last": {
+   "bar": "2026-11-25",
+   "kind": "valuation",
+   "from_bar": "2026-11-24",
+   "holdings": [
+    {
+     "symbol": "159519",
+     "lots": 518,
+     "price": 1.656,
+     "amount_cny": 85780.8
+    },
+    {
+     "symbol": "159655",
+     "lots": 458,
+     "price": 1.854,
+     "amount_cny": 84913.2
+    },
+    {
+     "symbol": "510760",
+     "lots": 705,
+     "price": 1.212,
+     "amount_cny": 85446.0
+    },
+    {
+     "symbol": "512040",
+     "lots": 739,
+     "price": 1.166,
+     "amount_cny": 86167.4
+    },
+    {
+     "symbol": "513690",
+     "lots": 788,
+     "price": 1.098,
+     "amount_cny": 86522.4
+    }
+   ],
+   "risk_book_cny": 428829.8,
+   "cash_cny": 565276.2,
+   "nav_cny": 994106.0,
+   "ret": -0.005894,
+   "cum_ret": -0.005894,
+   "rf_step": 0.0,
+   "stale_price_symbols": [],
+   "source_face": "results/etf_book_swap_stack.json"
+  },
+  "rows_detail": [
+   {
+    "bar": "2026-11-25",
+    "risk_book_cny": 428829.8,
+    "cash_cny": 565276.2,
+    "nav_cny": 994106.0,
+    "ret": -0.005894,
+    "cum_ret": -0.005894,
+    "rf_step": 0.0
+   }
+  ],
   "panel_missing_symbols": [],
   "repo_quotes": 3772,
   "rate_latest_bar": "2026-11-20",
   "rate_latest": 1.395,
-  "valued_upto_bar": "2026-11-24"
+  "valued_upto_bar": "2026-11-25"
  },
- "accrual_rows": [],
+ "accrual_rows": [
+  {
+   "bar": "2026-11-25",
+   "risk_book_cny": 428829.8,
+   "cash_cny": 565276.2,
+   "nav_cny": 994106.0,
+   "ret": -0.005894,
+   "cum_ret": -0.005894,
+   "rf_step": 0.0
+  }
+ ],
  "settlement": {
   "bar": "2026-11-24",
   "priced": true,
-  "last_fully_priced_bar": "2026-11-24",
+  "last_fully_priced_bar": "2026-11-25",
   "missing_closes_on_bar": [],
   "blocked_bars_after_boundary": {},
   "ledger_bars_past_boundary": [],
@@ -222,118 +286,15 @@
   }
  },
  "restatements": {
-  "bar": "2026-11-24",
-  "count": 1,
-  "records": [
-   {
-    "bar": "2026-11-24",
-    "previous_written_ts": "2026-11-24T17:22:11+08:00",
-    "written_ts": "2026-11-25T11:02:37+08:00",
-    "before": {
-     "k": null,
-     "risk_book_cny": 434542.7,
-     "cash_cny": 565245.9,
-     "lots": {
-      "159519": 511,
-      "159655": 469,
-      "510760": 708,
-      "512040": 735,
-      "513690": 779
-     }
-    },
-    "after": {
-     "k": 0.434724,
-     "risk_book_cny": 434723.8,
-     "cash_cny": 565276.2,
-     "lots": {
-      "159519": 518,
-      "159655": 458,
-      "510760": 705,
-      "512040": 739,
-      "513690": 788
-     }
-    },
-    "delta": {
-     "k": null,
-     "risk_book_cny": 181.1,
-     "cash_cny": 30.3
-    },
-    "lots_changed": [
-     {
-      "symbol": "159519",
-      "before": 511,
-      "after": 518
-     },
-     {
-      "symbol": "159655",
-      "before": 469,
-      "after": 458
-     },
-     {
-      "symbol": "510760",
-      "before": 708,
-      "after": 705
-     },
-     {
-      "symbol": "512040",
-      "before": 735,
-      "after": 739
-     },
-     {
-      "symbol": "513690",
-      "before": 779,
-      "after": 788
-     }
-    ]
-   }
-  ],
+  "bar": "2026-11-25",
+  "count": 0,
+  "records": [],
   "trail_starts_with_this_version": true,
-  "trail_covers_bar": true,
+  "trail_covers_bar": null,
   "page_block": {
    "bar": "2026-11-24",
-   "same_bar": true,
-   "lots": {
-    "159519": 511,
-    "159655": 469,
-    "510760": 708,
-    "512040": 735,
-    "513690": 779
-   },
-   "cash_cny": 565246.0
-  },
-  "page_vs_ledger_lots": [
-   {
-    "symbol": "159519",
-    "page_lots": 511,
-    "ledger_lots": 518
-   },
-   {
-    "symbol": "159655",
-    "page_lots": 469,
-    "ledger_lots": 458
-   },
-   {
-    "symbol": "510760",
-    "page_lots": 708,
-    "ledger_lots": 705
-   },
-   {
-    "symbol": "512040",
-    "page_lots": 735,
-    "ledger_lots": 739
-   },
-   {
-    "symbol": "513690",
-    "page_lots": 779,
-    "ledger_lots": 788
-   }
-  ],
-  "page_vs_ledger_cash": {
-   "page": 565246.0,
-   "ledger": 565276.2,
-   "page_minus_ledger": -30.2
-  },
-  "page_vs_ledger_agree": false
+   "same_bar": false
+  }
  },
  "caveats": [
   "the reconciliation compares two documents, not two accounts: it says what the printed rows leave behind relative to the book the same face declares, and it cannot see whether the broker actually filled those lots",

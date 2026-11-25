@@ -51,6 +51,7 @@ Usage: python scripts/etf_book_promotion_provenance.py [run|--check|selftest]
 
 from __future__ import annotations
 
+import hashlib
 import io
 import json
 import os
@@ -77,6 +78,15 @@ def _load(path):
 
 def _rel(path):
     return os.path.relpath(path, ROOT).replace("\\", "/")
+
+
+def _digest(path):
+    """sha256 of the exact bytes read, or None when the file is absent."""
+    try:
+        with io.open(path, "rb") as f:
+            return hashlib.sha256(f.read()).hexdigest()
+    except Exception:
+        return None
 
 
 def _num(v):
@@ -186,7 +196,10 @@ def classify(rows):
         fp = fingerprint(r)
         face = r.get("face")
         arm, _ = split_name(r.get("book"))
-        face_rows[face] = face_rows.get(face, 0) + 1
+        # a JSON object key must be a string: an unnamed face has to survive the round trip
+        # through the published file, or this census could never equal its own re-derivation
+        face_rows[face if isinstance(face, str) else "?"] = \
+            face_rows.get(face if isinstance(face, str) else "?", 0) + 1
         if fp is not None:
             fps.setdefault(fp, set()).add(face)
         if arm:
@@ -322,6 +335,7 @@ def build(vote=None):
                      "readings it would promote are distinct things -- and how many of "
                      "those are the same mechanism under a published name?"),
         "source_faces": [_rel(VOTE)],
+        "source_digests": {_rel(VOTE): _digest(VOTE)},
         "evidence_cutoff": vote.get("evidence_cutoff"),
         "rule_read": _rel(VOTE) + "::rules." + RULE + ".changed",
         "honest": [
@@ -376,17 +390,36 @@ def cmd_check():
     if not pub:
         print("NO_PUBLISHED_FACE: run first")
         return 1
+    # r2091: this face is derived, so "the published census disagrees with a fresh
+    # re-derivation" has two causes and they cost different money to fix.  When the vote's
+    # bytes moved, the census is one generation behind its source: the remedy is a re-run of
+    # this producer (the chain pays for it on the STALE word).  Only when the source is
+    # byte-identical to what was read can a disagreement be a defect in this file.
+    src = _rel(VOTE)
+    now = _digest(VOTE)
+    was = (pub.get("source_digests") or {}).get(src)
+    if was is None:
+        print("STALE face is unprovenanced: it records no digest of %s, so there is no way "
+              "to tell a moved source from a wrong census -- the remedy is a re-run of this "
+              "producer" % src)
+        return 2
+    if was != now:
+        print("STALE %s bytes moved (%s -> %s): the published census was counted on the "
+              "older vote, so the remedy is a re-run of this producer, not a hand edit"
+              % (src, was[:12], (now or "missing")[:12]))
+        return 2
     fresh = _strip(build())
     a = _strip(pub)
     if a != fresh:
         moved = sorted(k for k in set(a) | set(fresh) if a.get(k) != fresh.get(k))
-        print("CHECK_FAIL drift in: " + ", ".join(moved))
+        print("CHECK_FAILED drift in: " + ", ".join(moved))
+        print("  the source bytes are unchanged, so this is not staleness")
         for k in moved[:20]:
             print("  %s: %r -> %r" % (k, a.get(k), fresh.get(k)))
         return 1
     print("CHECK_OK %d promoted rows, %d distinct things, %d mechanisms, re-derived from %s"
           % (fresh["n_promoted_rows"], fresh["n_distinct_things"],
-             fresh["n_mechanisms"], _rel(VOTE)))
+             fresh["n_mechanisms"], src))
     return 0
 
 
@@ -566,6 +599,79 @@ def selftest():
     leg("L16c single row -> one clause, no merge claim, no nameless clause",
         summarise(c) == "1 promoted reading(s) carry 1 distinct pair(s) of the two "
                         "published numbers.")
+
+    # L17 (r2091): the published census records the bytes of the vote it counted, so the
+    # check can tell "the source moved" (STALE -> the chain pays one re-run) from "the
+    # arithmetic here disagrees with unchanged inputs" (CHECK_FAILED -> a defect).  Both
+    # branches are exercised against the real cmd_check, not a re-implementation of it.
+    import contextlib
+    import shutil
+    import tempfile
+
+    global VOTE, OUT
+    saved_vote, saved_out = VOTE, OUT
+    tmpd = tempfile.mkdtemp(prefix="_pp_leg_", dir=ROOT)
+    try:
+        tmp_vote = os.path.join(tmpd, "vote.json")
+        tmp_out = os.path.join(tmpd, "census.json")
+
+        def _write_vote(rows):
+            with io.open(tmp_vote, "w", encoding="utf-8", newline="\n") as f:
+                json.dump({"evidence_cutoff": "2026-01-02",
+                           "rules": {RULE: {"changed": rows}}}, f, ensure_ascii=False)
+
+        VOTE, OUT = tmp_vote, tmp_out
+        _write_vote([_row("F.json", "/arms/0", "solo_arm", 7.0, 0.5)])
+        with contextlib.redirect_stdout(io.StringIO()):
+            rc_run = cmd_run()
+        assert rc_run == 0, "fixture run failed"
+        pub = _load(tmp_out)
+
+        def _check():
+            buf = io.StringIO()
+            with contextlib.redirect_stdout(buf):
+                rc = cmd_check()
+            return rc, buf.getvalue()
+
+        rc, out = _check()
+        leg("L17a unchanged source -> CHECK_OK rc0", rc == 0 and "CHECK_OK" in out)
+
+        # the source moves under the face: same question, newer answer
+        _write_vote([_row("F.json", "/arms/0", "solo_arm", 7.0, 0.5),
+                     _row("G.json", "/arms/0", "second_arm", 9.0, 0.6)])
+        rc, out = _check()
+        leg("L17b moved source bytes -> STALE rc2 and names the remedy",
+            rc == 2 and "STALE" in out and "re-run of this producer" in out
+            and "CHECK_FAILED" not in out)
+
+        # unchanged source but a wrong number in the published census: a real defect
+        _write_vote([_row("F.json", "/arms/0", "solo_arm", 7.0, 0.5)])
+        assert _digest(tmp_vote) == (pub.get("source_digests") or {}).get(_rel(tmp_vote))
+        bad = dict(pub)
+        bad["n_promoted_rows"] = pub["n_promoted_rows"] + 1
+        with io.open(tmp_out, "w", encoding="utf-8", newline="\n") as f:
+            json.dump(bad, f, ensure_ascii=False)
+        rc, out = _check()
+        leg("L17c same source bytes, different census -> CHECK_FAILED rc1 (not STALE)",
+            rc == 1 and "CHECK_FAILED" in out and "not staleness" in out
+            and "STALE face" not in out)
+
+        # a face published before digests existed cannot be called either way
+        with io.open(tmp_out, "w", encoding="utf-8", newline="\n") as f:
+            json.dump({k: v for k, v in pub.items() if k != "source_digests"}, f,
+                      ensure_ascii=False)
+        rc, out = _check()
+        leg("L17d unprovenanced census -> STALE rc2, never a quiet green",
+            rc == 2 and "STALE" in out and "unprovenanced" in out)
+
+        # a row whose publishing face printed no name must still re-derive byte-identically
+        c = classify([_row(None, "/arms/0", "solo_arm", 7.0, 0.5)])
+        leg("L17e a face-less row keeps a JSON-stable key, so the census can equal itself",
+            c["rows_per_face"] == {"?": 1}
+            and json.dumps(c["rows_per_face"], sort_keys=True) == '{"?": 1}')
+    finally:
+        VOTE, OUT = saved_vote, saved_out
+        shutil.rmtree(tmpd, ignore_errors=True)
 
     passed = sum(1 for _, v in ok if v)
     for name, v in ok:

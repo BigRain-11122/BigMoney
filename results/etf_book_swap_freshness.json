@@ -1,7 +1,7 @@
 {
  "artifact": "etf_book_swap_freshness",
- "generated": "2026-11-24T18:36:57",
- "evidence_cutoff": "2026-11-24",
+ "generated": "2026-11-26T03:31:44",
+ "evidence_cutoff": "2026-11-25",
  "calendar_source": "data/exchange_calendar.csv",
  "close_accept_time": "15:30",
  "legs": [
@@ -10,30 +10,30 @@
    "producer": "scripts/etf_book_sibling_entry.py",
    "face": "results/etf_book_sibling_entry.json",
    "field": "session",
-   "bar": "2026-11-24",
+   "bar": "2026-11-25",
    "lag_sessions": 0,
    "status": "FRESH",
-   "reason": "on the 2026-11-24 close"
+   "reason": "on the 2026-11-25 close"
   },
   {
    "leg": "sibling_gap",
    "producer": "scripts/etf_book_sibling_gap.py",
    "face": "results/etf_book_sibling_gap.json",
    "field": "session",
-   "bar": "2026-11-24",
+   "bar": "2026-11-25",
    "lag_sessions": 0,
    "status": "FRESH",
-   "reason": "on the 2026-11-24 close"
+   "reason": "on the 2026-11-25 close"
   },
   {
    "leg": "swap_trigger",
    "producer": "scripts/etf_book_swap_trigger.py",
    "face": "results/etf_book_swap_trigger.json",
    "field": "session",
-   "bar": "2026-11-24",
+   "bar": "2026-11-25",
    "lag_sessions": 0,
    "status": "FRESH",
-   "reason": "on the 2026-11-24 close"
+   "reason": "on the 2026-11-25 close"
   },
   {
    "leg": "swap_stack",
@@ -41,9 +41,9 @@
    "face": "results/etf_book_swap_stack.json",
    "field": "asof",
    "bar": "2026-11-24",
-   "lag_sessions": 0,
-   "status": "FRESH",
-   "reason": "on the 2026-11-24 close"
+   "lag_sessions": 1,
+   "status": "STALE",
+   "reason": "1 session(s) behind the 2026-11-25 close"
   },
   {
    "leg": "swap_toll",
@@ -51,9 +51,9 @@
    "face": "results/etf_book_swap_toll.json",
    "field": "bar",
    "bar": "2026-11-24",
-   "lag_sessions": 0,
-   "status": "FRESH",
-   "reason": "on the 2026-11-24 close"
+   "lag_sessions": 1,
+   "status": "STALE",
+   "reason": "1 session(s) behind the 2026-11-25 close"
   },
   {
    "leg": "toll_scope",
@@ -61,9 +61,9 @@
    "face": "results/etf_book_toll_scope.json",
    "field": "bar",
    "bar": "2026-11-24",
-   "lag_sessions": 0,
-   "status": "FRESH",
-   "reason": "on the 2026-11-24 close"
+   "lag_sessions": 1,
+   "status": "STALE",
+   "reason": "1 session(s) behind the 2026-11-25 close"
   },
   {
    "leg": "swap_convergence",
@@ -71,9 +71,9 @@
    "face": "results/etf_book_swap_convergence.json",
    "field": "bar",
    "bar": "2026-11-24",
-   "lag_sessions": 0,
-   "status": "FRESH",
-   "reason": "on the 2026-11-24 close"
+   "lag_sessions": 1,
+   "status": "STALE",
+   "reason": "1 session(s) behind the 2026-11-25 close"
   },
   {
    "leg": "swap_effect",
@@ -81,9 +81,9 @@
    "face": "results/etf_book_swap_effect.json",
    "field": "bar",
    "bar": "2026-11-24",
-   "lag_sessions": 0,
-   "status": "FRESH",
-   "reason": "on the 2026-11-24 close"
+   "lag_sessions": 1,
+   "status": "STALE",
+   "reason": "1 session(s) behind the 2026-11-25 close"
   },
   {
    "leg": "swap_units",
@@ -91,9 +91,9 @@
    "face": "results/etf_book_swap_units.json",
    "field": "bar",
    "bar": "2026-11-24",
-   "lag_sessions": 0,
-   "status": "FRESH",
-   "reason": "on the 2026-11-24 close"
+   "lag_sessions": 1,
+   "status": "STALE",
+   "reason": "1 session(s) behind the 2026-11-25 close"
   },
   {
    "leg": "swap_track",
@@ -101,49 +101,30 @@
    "face": "results/etf_book_swap_track.json",
    "field": "bar",
    "bar": "2026-11-24",
-   "lag_sessions": 0,
-   "status": "FRESH",
-   "reason": "on the 2026-11-24 close"
+   "lag_sessions": 1,
+   "status": "STALE",
+   "reason": "1 session(s) behind the 2026-11-25 close"
   }
  ],
  "n_legs": 10,
- "stale_legs": [],
+ "stale_legs": [
+  "swap_stack",
+  "swap_toll",
+  "toll_scope",
+  "swap_convergence",
+  "swap_effect",
+  "swap_units",
+  "swap_track"
+ ],
  "inconsistent_legs": [],
- "verdict": "FRESH",
- "sentence": "Every one of the 10 faces in the swap section is on the 2026-11-24 close.",
+ "verdict": "STALE",
+ "sentence": "STALE: 7 of 10 faces are older than the 2026-11-25 close -- worst swap_stack on 2026-11-24 (1 session(s) behind the 2026-11-25 close).",
  "caveats": [
   "The bar-to-be comes from the official exchange calendar, never from this chain's own panels: a panel cannot say which session should already be printed (r1286).",
   "A face AHEAD of the calendar is not stale -- its producer would not make it true, so the chain must keep it red instead of paying a refresh (r1345).",
   "Freshness is not correctness: a face on the right bar can still be wrong, and each producer's own check is what refuses that."
  ],
  "paid": [
-  {
-   "leg": "sibling_entry",
-   "cmd": [
-    "scripts/etf_book_sibling_entry.py",
-    "run"
-   ],
-   "rc": 0,
-   "tail": "[sibling_entry] 2026-11-24 -> the ticket already buys the cheapest live ticker of every index it holds: no swap saves anything on 434,724"
-  },
-  {
-   "leg": "sibling_gap",
-   "cmd": [
-    "scripts/etf_book_sibling_gap.py",
-    "run"
-   ],
-   "rc": 0,
-   "tail": "  510760->510980 NO_GAP            today  +0.184pp  mean -1.011  pct  75.87  n=721"
-  },
-  {
-   "leg": "swap_trigger",
-   "cmd": [
-    "scripts/etf_book_swap_trigger.py",
-    "run"
-   ],
-   "rc": 0,
-   "tail": "wrote results/etf_book_swap_trigger.json"
-  },
   {
    "leg": "swap_stack",
    "cmd": [

@@ -364,6 +364,23 @@ def check(quiet=False):
     if published.get("verdict") != fresh.get("verdict"):
         problems.append("verdict %r -> %r" % (published.get("verdict"), fresh.get("verdict")))
 
+    # r2098: the two-state contract must be decided by the INPUTS, not by which fields a
+    # reader guessed could move. This face records every input's digest, so a face that
+    # itself moved is STALE (a rebuild pays one write) and only identical bytes with a
+    # different answer is a defect. Found the hard way: the capital line advancing one
+    # session moved the IC gap by 1,155 CNY (129,565.88 -> 128,410.62) and this check called
+    # it CHECK FAILED, which a chain leg never pays to repair -- the face would have stayed
+    # red on every ordinary day (r1135's trap, r1934's class).
+    moved = []
+    for _k, _rec in (published.get("inputs") or {}).items():
+        _now = (fresh.get("inputs") or {}).get(_k) or {}
+        if (_rec.get("digest") or None) != (_now.get("digest") or None):
+            moved.append(_k)
+    if moved:
+        if not quiet:
+            print("STALE: input face(s) moved: %s -- rebuild this face" % ", ".join(sorted(moved)))
+        return 3
+
     if problems:
         if not quiet:
             for p in problems:

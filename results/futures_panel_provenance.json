@@ -1,8 +1,8 @@
 {
  "census": {
-  "contracts_inside_the_writers_window": 5,
+  "contracts_inside_the_writers_window": 4,
   "contracts_on_disk": 418,
-  "contracts_whose_last_bar_equals_panel_max": 3,
+  "contracts_whose_last_bar_equals_panel_max": 4,
   "contracts_with_bars": 335,
   "contracts_with_no_bars_ever": 83,
   "dead_tail_by_age": {
@@ -14,46 +14,46 @@
   "dead_tail_count": 327,
   "dead_tail_first_named": [
    {
-    "calendar_days_old": 39,
+    "calendar_days_old": 40,
     "last_bar": "2026-10-16",
     "symbol": "IC2610"
    },
    {
-    "calendar_days_old": 39,
+    "calendar_days_old": 40,
     "last_bar": "2026-10-16",
     "symbol": "IF2610"
    },
    {
-    "calendar_days_old": 39,
+    "calendar_days_old": 40,
     "last_bar": "2026-10-16",
     "symbol": "IH2610"
    },
    {
-    "calendar_days_old": 39,
+    "calendar_days_old": 40,
     "last_bar": "2026-10-16",
     "symbol": "IM2610"
    },
    {
-    "calendar_days_old": 67,
+    "calendar_days_old": 68,
     "last_bar": "2026-09-18",
     "symbol": "IC2609"
    }
   ],
   "newest_dead_tail": {
-   "calendar_days_old": 39,
+   "calendar_days_old": 40,
    "last_bar": "2026-10-16",
    "symbol": "IC2610"
   },
   "oldest_dead_tail": {
-   "calendar_days_old": 2811,
+   "calendar_days_old": 2812,
    "last_bar": "2019-03-15",
    "symbol": "IH1903"
   },
   "tail_free_share_of_contracts_with_bars": 0.0239,
-  "window_cut_date": "2026-11-15"
+  "window_cut_date": "2026-11-16"
  },
- "evidence_cutoff": "2026-11-24",
- "generated": "2026-11-25T09:15:37+08:00",
+ "evidence_cutoff": "2026-11-25",
+ "generated": "2026-11-25T20:30:14+08:00",
  "live_set": {
   "agree": true,
   "declared_by_face": [
@@ -79,10 +79,10 @@
  },
  "panel": "data/futures_contracts",
  "pick_rule": {
-  "panel_date_used_by_the_writer": "2026-11-24",
-  "reading": "a contract is live if its last bar is on/after 2026-11-15; the universe is the panel as of 2026-11-24, not today",
+  "panel_date_used_by_the_writer": "2026-11-25",
+  "reading": "a contract is live if its last bar is on/after 2026-11-16; the universe is the panel as of 2026-11-25, not today",
   "stated_by": "scripts/update_futures_contracts.py::live_symbols",
-  "window_cut_date": "2026-11-15",
+  "window_cut_date": "2026-11-16",
   "window_days_param": 5,
   "window_is": "calendar days = window*7//5 + 2"
  },
@@ -91,8 +91,8 @@
  "writer": {
   "cadence": "every S6 chain pass (Tools/s6_chain_bmc.py leg update_futures_contracts)",
   "face": "results/futures_contracts_refresh.json",
-  "face_generated": "2026-11-24T16:13:03+0800",
-  "face_verdict": "ADVANCED",
+  "face_generated": "2026-11-25T20:29:55+0800",
+  "face_verdict": "ALREADY_CURRENT",
   "runs_in_s6_chain": true,
   "script": "scripts/update_futures_contracts.py"
  }

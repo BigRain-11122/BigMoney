@@ -1,7 +1,7 @@
 {
   "schema": "page-fmt-guard/v1",
   "kind": "page_fmt_guard_scan",
-  "generated": "2026-11-26T00:36:31+0800",
+  "generated": "2026-11-26T02:10:18+0800",
   "tool": "Tools/page_fmt_guard.py",
   "scope": {
     "roots": [
@@ -11,20 +11,20 @@
       "live",
       "firm"
     ],
-    "files_scanned": 2666,
-    "page_renderers": 1194,
-    "percent_constants": 28939,
-    "fstrings_skipped": 18568,
+    "files_scanned": 2670,
+    "page_renderers": 1198,
+    "percent_constants": 29079,
+    "fstrings_skipped": 18584,
     "unreadable": [],
     "note": "hazards are only reported for files that build a markdown page (.md literal + a writer call); f-strings and .format() are out of scope"
   },
   "counts": {
-    "LITERAL_DOUBLE_PCT": 31,
+    "LITERAL_DOUBLE_PCT": 37,
     "BARE_PCT_IN_FORMAT": 5,
     "SYNTAX_ERROR": 1,
     "literal_in_writer_call": 13,
-    "literal_in_container": 18,
-    "total": 37
+    "literal_in_container": 24,
+    "total": 43
   },
   "hazards": [
     {
@@ -325,6 +325,54 @@
       "line": 130,
       "kind": "SYNTAX_ERROR",
       "snippet": "unterminated string literal (detected at line 130) (<unknown>, line 130)"
+    },
+    {
+      "file": "Tools/page_fmt_guard_v2.py",
+      "line": 587,
+      "kind": "LITERAL_DOUBLE_PCT",
+      "snippet": "DOC = \"no page here %s\" x = \"a %% b\"",
+      "where": "container",
+      "tag": "page"
+    },
+    {
+      "file": "Tools/page_fmt_guard_v2.py",
+      "line": 328,
+      "kind": "LITERAL_DOUBLE_PCT",
+      "snippet": "%%",
+      "where": "container",
+      "tag": "page"
+    },
+    {
+      "file": "Tools/page_fmt_guard_v2.py",
+      "line": 333,
+      "kind": "LITERAL_DOUBLE_PCT",
+      "snippet": "%%",
+      "where": "container",
+      "tag": "page"
+    },
+    {
+      "file": "Tools/page_fmt_guard_v2.py",
+      "line": 452,
+      "kind": "LITERAL_DOUBLE_PCT",
+      "snippet": "whole-value '%%', or a Compare operand, or appended to bad/err/issues/problems/fail/warn/note/diag/alerts/viol",
+      "where": "container",
+      "tag": "page"
+    },
+    {
+      "file": "Tools/page_fmt_guard_v2.py",
+      "line": 456,
+      "kind": "LITERAL_DOUBLE_PCT",
+      "snippet": "the literal is bound to a name (or to a container of names) that is later used as '<name> %% ...' or unpacked ",
+      "where": "container",
+      "tag": "page"
+    },
+    {
+      "file": "Tools/page_fmt_guard_v2.py",
+      "line": 628,
+      "kind": "LITERAL_DOUBLE_PCT",
+      "snippet": "| net %% | yes |",
+      "where": "container",
+      "tag": "page"
     }
   ],
   "verdict": "PAGE_FMT_HAZARDS"

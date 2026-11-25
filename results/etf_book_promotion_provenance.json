@@ -1,8 +1,8 @@
 {
  "elapsed_sec": 0.0,
- "evidence_cutoff": "2026-11-20",
+ "evidence_cutoff": "2026-11-24",
  "face": "etf_book_promotion_provenance",
- "generated": "2026-11-20T20:43:58+08:00",
+ "generated": "2026-11-25T16:00:17+08:00",
  "honest": [
   "SAME_MECHANISM is read off the name the publishing face chose, not off a rerun: two rows sharing an arm prefix are reported as one mechanism at several settings, and neither setting is re-measured here.",
   "SAME_NUMBERS_TWICE is a claim about the two published numbers only: two rows that agree on CAGR and top-2 share may still differ in cost, window or capacity, and this face does not read those.",
@@ -19,7 +19,7 @@
    ],
    "n_rows": 2,
    "numbers": [
-    "11.1600/0.723800"
+    "11.1100/0.725500"
    ],
    "settings": [
     "(no sleeve)"
@@ -57,11 +57,23 @@
   },
   {
    "arms": [
+    "nobond_vt08_floor_1.00"
+   ],
+   "n_rows": 1,
+   "numbers": [
+    "15.1200/0.700600"
+   ],
+   "settings": [
+    "(no sleeve)"
+   ]
+  },
+  {
+   "arms": [
     "nobond_vt08_floor_0.40"
    ],
    "n_rows": 1,
    "numbers": [
-    "11.4300/0.707800"
+    "11.3800/0.709500"
    ],
    "settings": [
     "(no sleeve)"
@@ -74,14 +86,15 @@
   "n5_gate_arm",
   "nobond_vt08_adopted",
   "nobond_vt08_floor_0.00",
-  "nobond_vt08_floor_0.40"
+  "nobond_vt08_floor_0.40",
+  "nobond_vt08_floor_1.00"
  ],
- "n_distinct_numbers": 6,
- "n_distinct_things": 11,
+ "n_distinct_numbers": 7,
+ "n_distinct_things": 12,
  "n_faces": 5,
- "n_mechanisms": 4,
- "n_named": 8,
- "n_promoted_rows": 13,
+ "n_mechanisms": 5,
+ "n_named": 9,
+ "n_promoted_rows": 14,
  "n_rows_without_name": 5,
  "n_unmeasured": 5,
  "question": "if the concentration check stopped vetoing, how many of the seven readings it would promote are distinct things -- and how many of those are the same mechanism under a published name?",
@@ -93,9 +106,9 @@
    ],
    "at": "/books/0",
    "book": "nobond_vt08_adopted",
-   "cagr_pct": 11.16,
+   "cagr_pct": 11.11,
    "face": "results/etf_book_year_gate/YEAR-GATE.json",
-   "fingerprint": "11.1600/0.723800",
+   "fingerprint": "11.1100/0.725500",
    "from": "CONDITIONAL",
    "mechanism": "nobond_vt08_adopted",
    "mechanism_rows": 1,
@@ -106,7 +119,7 @@
    ],
    "sleeve": null,
    "to": "ADMIT",
-   "top2_share": 0.7238,
+   "top2_share": 0.7255,
    "verdict": "SAME_NUMBERS_TWICE"
   },
   {
@@ -197,11 +210,28 @@
   },
   {
    "also_published_by": [],
+   "at": "/arms/6",
+   "book": "nobond_vt08_floor_1.00",
+   "cagr_pct": 15.12,
+   "face": "results/etf_book_scale_floor.json",
+   "fingerprint": "15.1200/0.700600",
+   "from": "CONDITIONAL",
+   "mechanism": "nobond_vt08_floor_1.00",
+   "mechanism_rows": 1,
+   "settings": null,
+   "shared_name_span": null,
+   "sleeve": null,
+   "to": "ADMIT",
+   "top2_share": 0.7006,
+   "verdict": "SWEEP_MEMBER"
+  },
+  {
+   "also_published_by": [],
    "at": "/arms/1",
    "book": "nobond_vt08_floor_0.40",
-   "cagr_pct": 11.43,
+   "cagr_pct": 11.38,
    "face": "results/etf_book_scale_floor.json",
-   "fingerprint": "11.4300/0.707800",
+   "fingerprint": "11.3800/0.709500",
    "from": "CONDITIONAL",
    "mechanism": "nobond_vt08_floor_0.40",
    "mechanism_rows": 1,
@@ -209,7 +239,7 @@
    "shared_name_span": null,
    "sleeve": null,
    "to": "ADMIT",
-   "top2_share": 0.7078,
+   "top2_share": 0.7095,
    "verdict": "SWEEP_MEMBER"
   },
   {
@@ -219,9 +249,9 @@
    ],
    "at": "/arms/0",
    "book": "nobond_vt08_floor_0.00",
-   "cagr_pct": 11.16,
+   "cagr_pct": 11.11,
    "face": "results/etf_book_scale_floor.json",
-   "fingerprint": "11.1600/0.723800",
+   "fingerprint": "11.1100/0.725500",
    "from": "CONDITIONAL",
    "mechanism": "nobond_vt08_floor_0.00",
    "mechanism_rows": 1,
@@ -232,7 +262,7 @@
    ],
    "sleeve": null,
    "to": "ADMIT",
-   "top2_share": 0.7238,
+   "top2_share": 0.7255,
    "verdict": "SAME_NUMBERS_TWICE"
   },
   {
@@ -347,12 +377,15 @@
  "rows_per_face": {
   "results/etf_book_gate_knobs.json": 4,
   "results/etf_book_partial_year_caliber/CALIBER.json": 5,
-  "results/etf_book_scale_floor.json": 2,
+  "results/etf_book_scale_floor.json": 3,
   "results/etf_book_year_gate/YEAR-GATE.json": 1,
   "results/etf_book_year_gate_idlecarry.json": 1
  },
  "rule_read": "results/etf_book_year_gate_vote.json::rules.R2_advisory.changed",
- "sentence": "13 promoted reading(s) carry 6 distinct pair(s) of the two published numbers; nobond_vt08_adopted and nobond_vt08_floor_0.00 carry the same two numbers and are one mechanism; n12_forward_arm is one mechanism at 3 settings (cash_zero/gc001_roll/ladder3); cash_zero_control and n5_gate_arm carry the same two numbers and are one mechanism; 5 row(s) carry no name at all and sit in no mechanism.",
+ "sentence": "14 promoted reading(s) carry 7 distinct pair(s) of the two published numbers; nobond_vt08_adopted and nobond_vt08_floor_0.00 carry the same two numbers and are one mechanism; n12_forward_arm is one mechanism at 3 settings (cash_zero/gc001_roll/ladder3); cash_zero_control and n5_gate_arm carry the same two numbers and are one mechanism; 5 row(s) carry no name at all and sit in no mechanism.",
+ "source_digests": {
+  "results/etf_book_year_gate_vote.json": "57aa1f630ad9f75297c1d085db8587fc0e6b77c6e60d947a19ec3702b304fdbb"
+ },
  "source_faces": [
   "results/etf_book_year_gate_vote.json"
  ]

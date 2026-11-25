@@ -1,6 +1,6 @@
 {
  "admitted": [],
- "asof": "2026-11-25T09:13:02",
+ "asof": "2026-11-25T20:26:16",
  "cost_per_side_bp": 13.041,
  "criteria_frozen": {
   "C1_abs_t": 2.0,
@@ -9,28 +9,28 @@
   "min_names_per_day": 200,
   "min_years": 6
  },
- "elapsed_sec": 151.1,
- "evidence_cutoff": "2026-11-17",
+ "elapsed_sec": 233.6,
+ "evidence_cutoff": "2026-11-18",
  "face": "event_exec_gate",
  "families": [
   {
    "buckets": {
-    "cost_pct": 0.0008,
-    "cost_share": 0.0004,
+    "cost_pct": 0.0009,
+    "cost_share": 0.0005,
     "gap_pct": 1.4854,
     "gap_share": 0.8124,
     "gross_pct": 0.3429,
     "info_pct": 1.8283,
     "info_too_small": false,
     "n": 10196,
-    "net_pct": 0.3421,
+    "net_pct": 0.342,
     "net_t": 2.646,
     "retained": 0.1871
    },
    "by_year": {
     "2020": {
      "n": 1547,
-     "net_pct": 1.2896
+     "net_pct": 1.2895
     },
     "2021": {
      "n": 1902,
@@ -42,7 +42,7 @@
     },
     "2023": {
      "n": 1486,
-     "net_pct": -0.3724
+     "net_pct": -0.3723
     },
     "2024": {
      "n": 1255,
@@ -95,7 +95,7 @@
   },
   {
    "buckets": {
-    "cost_pct": -0.0008,
+    "cost_pct": -0.0009,
     "cost_share": 0.0,
     "gap_pct": 0.3322,
     "gap_share": 0.0,
@@ -103,14 +103,14 @@
     "info_pct": 0.0004,
     "info_too_small": true,
     "n": 10186,
-    "net_pct": -0.331,
+    "net_pct": -0.3309,
     "net_t": -2.395,
     "retained": 0.0
    },
    "by_year": {
     "2020": {
      "n": 1258,
-     "net_pct": -1.9389
+     "net_pct": -1.9388
     },
     "2021": {
      "n": 1313,
@@ -122,7 +122,7 @@
     },
     "2023": {
      "n": 1776,
-     "net_pct": 1.105
+     "net_pct": 1.1051
     },
     "2024": {
      "n": 1945,
@@ -147,7 +147,7 @@
     "C1": false,
     "C2": false,
     "C3": false,
-    "why": "the priced leg does not stand on its own (-0.3310%, t=-2.40); 3 of 7 years keep the sign; no information on this side to retain (info 0.0004%)",
+    "why": "the priced leg does not stand on its own (-0.3309%, t=-2.40); 3 of 7 years keep the sign; no information on this side to retain (info 0.0004%)",
     "years_present": 7,
     "years_same_sign": 3
    },
@@ -176,28 +176,28 @@
   {
    "buckets": {
     "cost_pct": -0.0036,
-    "cost_share": -0.0047,
-    "gap_pct": 2.129,
-    "gap_share": 2.8069,
-    "gross_pct": -1.3705,
-    "info_pct": 0.7585,
+    "cost_share": -0.0046,
+    "gap_pct": 2.1231,
+    "gap_share": 2.7268,
+    "gross_pct": -1.3445,
+    "info_pct": 0.7786,
     "info_too_small": false,
-    "n": 1618,
-    "net_pct": -1.3669,
-    "net_t": -4.238,
-    "retained": -1.8021
+    "n": 1629,
+    "net_pct": -1.3409,
+    "net_t": -4.17,
+    "retained": -1.7222
    },
    "by_year": {
     "2026": {
-     "n": 1618,
-     "net_pct": -1.3669
+     "n": 1629,
+     "net_pct": -1.3409
     }
    },
    "events_dropped_no_entry_or_exit_quote": 7,
-   "events_in_info_panel": 1625,
-   "events_priced": 1618,
+   "events_in_info_panel": 1636,
+   "events_priced": 1629,
    "events_total": 1877,
-   "events_without_forward_bar": 252,
+   "events_without_forward_bar": 241,
    "family": "zt_follow",
    "gates": {
     "C1": false,
@@ -207,17 +207,17 @@
    },
    "label": "涨停池·次日跟随(全部事件)",
    "money": {
-    "cost_bp_per_side": 12.53,
-    "cost_pct": 0.2506,
+    "cost_bp_per_side": 12.525,
+    "cost_pct": 0.2505,
     "cost_share": 0.0,
-    "gap_pct": 1.7784,
+    "gap_pct": 1.7731,
     "gap_share": 0.0,
-    "gross_pct": -3.7989,
-    "info_pct": -2.0205,
+    "gross_pct": -3.8067,
+    "info_pct": -2.0336,
     "info_too_small": true,
-    "n": 1618,
-    "net_pct": -4.0495,
-    "net_t": -11.573,
+    "n": 1629,
+    "net_pct": -4.0572,
+    "net_t": -11.641,
     "retained": 0.0
    },
    "side": "long",
@@ -240,7 +240,7 @@
  "not_judgeable": [
   "zt_follow"
  ],
- "panel_last_bar": "2026-11-24",
+ "panel_last_bar": "2026-11-25",
  "panels": {
   "gross": "open(D+1) -> close(D+H), no cost",
   "info": "close(D) -> close(D+H)",

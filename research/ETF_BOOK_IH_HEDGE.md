@@ -1,6 +1,6 @@
 # IH as a hedge for the ETF book
 
-Cutoff 2026-11-24 | book bars 1594 (2020-01-06..2026-11-24) | IH IH, one lot 823380 CNY.
+Cutoff 2026-11-24 | book bars 1594 (2020-01-06..2026-11-24) | IH IH, one lot 812580 CNY.
 
 ## What the hedge would have to be
 
@@ -34,13 +34,13 @@ Cutoff 2026-11-24 | book bars 1594 (2020-01-06..2026-11-24) | IH IH, one lot 823
 
 | capital | unit/1beta target | 1x beta executable | capital for one lot at 1 beta |
 | --- | --- | --- | --- |
-| 1,000,000 | 11.01x | no | 11,013,040 |
-| 3,000,000 | 3.67x | no | 11,013,040 |
-| 5,000,000 | 2.20x | yes | 11,013,040 |
-| 10,000,000 | 1.10x | yes | 11,013,040 |
-| 20,000,000 | 0.55x | yes | 11,013,040 |
+| 1,000,000 | 10.87x | no | 10,868,586 |
+| 3,000,000 | 3.62x | no | 10,868,586 |
+| 5,000,000 | 2.17x | yes | 10,868,586 |
+| 10,000,000 | 1.09x | yes | 10,868,586 |
+| 20,000,000 | 0.54x | yes | 10,868,586 |
 
 ## Verdict
 
-**UNEXECUTABLE_AT_THIS_SIZE.** One IH lot is 11.01x the short beta asks for at 1,000,000 CNY, so the only tradeable version of this hedge is an oversized short, not a hedge.
+**UNEXECUTABLE_AT_THIS_SIZE.** One IH lot is 10.87x the short beta asks for at 1,000,000 CNY, so the only tradeable version of this hedge is an oversized short, not a hedge.
 

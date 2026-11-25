@@ -24,12 +24,12 @@
     }
   },
   "paper_start": "2026-09-23",
-  "bars": 39,
+  "bars": 40,
   "months_tracked": 1,
   "monthly_returns": [
     -0.0135
   ],
-  "current_dd": -0.017,
+  "current_dd": -0.0183,
   "months_detail": [
     {
       "month": "2026-09",
@@ -49,17 +49,17 @@
     },
     {
       "month": "2026-11",
-      "return": -0.0011,
-      "bars": 17,
+      "return": -0.0048,
+      "bars": 18,
       "month_ended": false,
       "full_from_hire": true,
       "counted": false
     }
   ],
   "window_metrics": {
-    "annual_return": -0.0904,
-    "sharpe": -2.4895,
-    "max_drawdown": -0.017,
+    "annual_return": -0.1096,
+    "sharpe": -3.0175,
+    "max_drawdown": -0.0183,
     "win_rate": 0.4286,
     "profit_factor": 0.1918,
     "num_trades": 7,
@@ -80,29 +80,29 @@
     "dd_control_days_de_risked": 0,
     "dd_control_scaled_entries": 0,
     "dd_control_state_end": "normal",
-    "dd_control_min_dd": -0.017
+    "dd_control_min_dd": -0.0183
   },
   "cost_x2_check": {
     "status": "ok",
-    "paper_window_sharpe_x2": -2.587,
+    "paper_window_sharpe_x2": -3.1134,
     "skill_bar": 0.4004,
     "survive": false,
-    "margin": -2.9874,
+    "margin": -3.5138,
     "note": "rolling x2-cost safety on paper window to date"
   },
   "x2_watch": {
     "status": "probation",
     "probation": true,
-    "margin": -2.9874,
+    "margin": -3.5138,
     "survive": false,
     "source": "paper_window"
   },
-  "cutoff": "2026-11-24",
-  "updated": "2026-11-24 16:08:18",
+  "cutoff": "2026-11-25",
+  "updated": "2026-11-25 16:04:12",
   "risk_regime": {
     "is_major_bear": true,
     "position_cap": 0.2,
-    "as_of": "2026-11-24"
+    "as_of": "2026-11-25"
   },
   "regime_guard": {
     "mode": "enforce",
@@ -110,7 +110,6 @@
     "active_from": "2026-10-01",
     "gate_note": null,
     "v3_state_tail": {
-      "2026-11-11": "GREEN",
       "2026-11-12": "GREEN",
       "2026-11-13": "GREEN",
       "2026-11-16": "YELLOW",
@@ -119,17 +118,18 @@
       "2026-11-19": "YELLOW",
       "2026-11-20": "YELLOW",
       "2026-11-23": "YELLOW",
-      "2026-11-24": "YELLOW"
+      "2026-11-24": "YELLOW",
+      "2026-11-25": "YELLOW"
     },
     "enforced": {
       "active_from": "2026-10-01",
-      "days_enforced": 34,
+      "days_enforced": 35,
       "entries_blocked": 0,
       "entries_halved": 7
     },
     "shadow_ref": {
       "state": "RED",
-      "asof": "2026-11-23"
+      "asof": "2026-11-24"
     },
     "note": "v3-enforced paper window (T-21); exits never forced; RED new-cash parking is structurally inert in paper (fixed INITIAL_CASH) -- live-gate concern, disclosed"
   },
@@ -141,7 +141,7 @@
     "deferred_days_total": 0,
     "first_deferred_date": null,
     "window_semantics": "guarded",
-    "as_of": "2026-11-24 16:08:18",
+    "as_of": "2026-11-25 16:04:12",
     "note": "composition: buy_rejected_n may include T-21 regime-matrix drops (guard faces ANDed on the buy leg)",
     "consolidation": {
       "enabled": true,
@@ -163,27 +163,27 @@
       "quantity": 66577.9,
       "cost_price": 0.751,
       "high_watermark": 0.751,
-      "hold_days": 1,
-      "last_close": 0.736,
-      "market_value_cny": 49001.33,
-      "unrealized_pnl_cny": -998.67
+      "hold_days": 2,
+      "last_close": 0.711,
+      "market_value_cny": 47336.89,
+      "unrealized_pnl_cny": -2663.12
     },
     {
       "symbol": "515000",
       "quantity": 56497.18,
       "cost_price": 0.885,
       "high_watermark": 0.902,
-      "hold_days": 5,
-      "last_close": 0.88,
-      "market_value_cny": 49717.52,
-      "unrealized_pnl_cny": -282.49
+      "hold_days": 6,
+      "last_close": 0.844,
+      "market_value_cny": 47683.62,
+      "unrealized_pnl_cny": -2316.38
     }
   ],
   "capital": {
     "initial_cash_cny": 1000000.0,
-    "equity_cny": 985442.6,
-    "positions_value_cny": 98718.85,
-    "cash_cny": 886723.75,
+    "equity_cny": 981744.25,
+    "positions_value_cny": 95020.51,
+    "cash_cny": 886723.74,
     "cash_derivation": "equity - positions mark (paper plane runs no parking leg; T-09 cash_parking never wired here)",
     "denomination": "CNY"
   },

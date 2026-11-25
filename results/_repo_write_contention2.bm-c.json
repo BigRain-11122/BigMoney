@@ -1,0 +1,176 @@
+{
+ "schema": "repo-write-contention/v1",
+ "machine_id": "bm-c",
+ "probed_at": "2026-11-25T21:30:38",
+ "lookback_min": 10.0,
+ "verdict": "CONTENTION",
+ "why": "3 hosts alive; 5 shared face(s) written before this round started (strictly another host), 5 written inside the overlap (unattributable)",
+ "hosts": [
+  {
+   "pid": 85312,
+   "kind": "interactive",
+   "started_epoch": 1795608064.2287135,
+   "started": "2026-11-25T20:01:04",
+   "age_min": 89.6,
+   "exempt_from_cloud_cap": true,
+   "cmd_head": "K:\\tuanjieAI\\Tuanjie Cowork\\cli\\bin\\win32-x64\\codely.exe --experimental-acp --experimental-skills --path-polic"
+  },
+  {
+   "pid": 98008,
+   "kind": "interactive",
+   "started_epoch": 1795608138.7913437,
+   "started": "2026-11-25T20:02:18",
+   "age_min": 88.3,
+   "exempt_from_cloud_cap": true,
+   "cmd_head": "K:\\tuanjieAI\\Tuanjie Cowork\\cli\\bin\\win32-x64\\codely.exe --experimental-acp --experimental-skills --path-polic"
+  },
+  {
+   "pid": 43308,
+   "kind": "other",
+   "started_epoch": 1795613103.2602713,
+   "started": "2026-11-25T21:25:03",
+   "age_min": 5.6,
+   "exempt_from_cloud_cap": false,
+   "cmd_head": "K:\\tuanjieAI\\Tuanjie Cowork\\cli\\bin\\win32-x64\\codely.exe -y -p 无人值守执行 Bigmoney 量化公司 10 分钟自迭代一轮（2026-09-23 CEO "
+  }
+ ],
+ "my_host_pid": 43308,
+ "my_host_started": "2026-11-25T21:25:03",
+ "host_probe_error": null,
+ "overlap_windows": [
+  {
+   "pair": [
+    85312,
+    98008
+   ],
+   "kinds": [
+    "interactive",
+    "interactive"
+   ],
+   "from": "2026-11-25T20:02:18",
+   "to": "2026-11-25T21:30:38",
+   "minutes": 88.3,
+   "lo": 1795608138.7913437
+  },
+  {
+   "pair": [
+    85312,
+    43308
+   ],
+   "kinds": [
+    "interactive",
+    "other"
+   ],
+   "from": "2026-11-25T21:25:03",
+   "to": "2026-11-25T21:30:38",
+   "minutes": 5.6,
+   "lo": 1795613103.2602713
+  },
+  {
+   "pair": [
+    98008,
+    43308
+   ],
+   "kinds": [
+    "interactive",
+    "other"
+   ],
+   "from": "2026-11-25T21:25:03",
+   "to": "2026-11-25T21:30:38",
+   "minutes": 5.6,
+   "lo": 1795613103.2602713
+  }
+ ],
+ "peer_only_writes": [
+  "fleet/machines/bm-c.json",
+  "research/ARBITER-BOARD.md",
+  "research/QUANT-BLOCK-BOARD.md",
+  "results/arbiter/STATE.json",
+  "results/quant_block_board.json"
+ ],
+ "ambiguous_writes": [
+  "results/arbiter/LEDGER.jsonl",
+  "results/cpu_fill/LEDGER.jsonl",
+  "results/cpu_fill/STATE.json",
+  "results/paper_recon_date_alignment.json",
+  "scripts/paper_recon_date_alignment.py"
+ ],
+ "ignored_patterns": [
+  "results/saturation_engine/",
+  "results/watermark_red.json",
+  "results/idle_trigger",
+  "results/orders_ack_scan",
+  "results/_orphan_face_probe",
+  "results/_repo_write_contention",
+  "results/_host_contention"
+ ],
+ "ignored_write_count": 8,
+ "declared_own_patterns": [],
+ "declared_own_write_count": 0,
+ "declared_own_writes": [],
+ "writes_scanned_files": 35007,
+ "recent_writes": [
+  {
+   "path": "results/paper_recon_date_alignment.json",
+   "mtime": "2026-11-25T21:30:29",
+   "mtime_epoch": 1795613429.285107,
+   "bytes": 9105
+  },
+  {
+   "path": "scripts/paper_recon_date_alignment.py",
+   "mtime": "2026-11-25T21:30:21",
+   "mtime_epoch": 1795613421.7394445,
+   "bytes": 20814
+  },
+  {
+   "path": "results/cpu_fill/STATE.json",
+   "mtime": "2026-11-25T21:28:15",
+   "mtime_epoch": 1795613295.8410933,
+   "bytes": 660
+  },
+  {
+   "path": "results/arbiter/LEDGER.jsonl",
+   "mtime": "2026-11-25T21:28:15",
+   "mtime_epoch": 1795613295.8340943,
+   "bytes": 63474
+  },
+  {
+   "path": "results/cpu_fill/LEDGER.jsonl",
+   "mtime": "2026-11-25T21:28:15",
+   "mtime_epoch": 1795613295.8340943,
+   "bytes": 41462
+  },
+  {
+   "path": "research/ARBITER-BOARD.md",
+   "mtime": "2026-11-25T21:21:45",
+   "mtime_epoch": 1795612905.3938773,
+   "bytes": 1412
+  },
+  {
+   "path": "results/arbiter/STATE.json",
+   "mtime": "2026-11-25T21:21:45",
+   "mtime_epoch": 1795612905.375813,
+   "bytes": 973
+  },
+  {
+   "path": "research/QUANT-BLOCK-BOARD.md",
+   "mtime": "2026-11-25T21:21:12",
+   "mtime_epoch": 1795612872.255816,
+   "bytes": 6344
+  },
+  {
+   "path": "results/quant_block_board.json",
+   "mtime": "2026-11-25T21:21:12",
+   "mtime_epoch": 1795612872.2548163,
+   "bytes": 11279
+  },
+  {
+   "path": "fleet/machines/bm-c.json",
+   "mtime": "2026-11-25T21:21:03",
+   "mtime_epoch": 1795612863.4900296,
+   "bytes": 259097
+  }
+ ],
+ "recent_write_count": 10,
+ "advisory": "Probe only: it never blocks, kills or defers production. A round that reads CONTENTION must land new files only, never re-derive shared faces or re-run the chain (r1907)."
+}

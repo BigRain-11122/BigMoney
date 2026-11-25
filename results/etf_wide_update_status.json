@@ -1,66 +1,32 @@
 {
- "ts": "2026-11-24T16:17:04",
+ "ts": "2026-11-25T20:34:02",
  "machine": "bm-c",
- "lane_owner": "bm-c",
- "status": "ok",
- "expected": "2026-11-24",
- "panel_cutoff_before": "2026-11-18",
- "mode": "tail_retry",
- "panel_cutoff": "2026-11-18",
- "panel_cutoff_after": "2026-11-18",
+ "status": "noop_fresh",
+ "panel_cutoff": "2026-11-25",
+ "expected": "2026-11-25",
+ "detail": "panel cutoff 2026-11-25 covers expected complete-bar date 2026-11-25",
+ "coverage_pct": 100.0,
+ "coverage_total": 1719,
+ "coverage_floor": 0.95,
+ "laggard_n": 0,
+ "laggard_sample": [],
+ "universe": 1724,
+ "skipped": [
+  "510880_t73"
+ ],
  "source_ended_stems": [
   "sh512390",
-  "sh530080"
+  "sh530080",
+  "sz159528"
  ],
- "universe": 1724,
- "attempted": 0,
- "workers": 6,
- "elapsed_s": 0.8,
- "counts": {
-  "quote_only_tail_lag": 5,
-  "no_trade": 4,
-  "tail_lag": 0,
-  "quote_refused": 1
- },
- "ended_grace_td": 5,
  "source_quiet_stems": [],
- "source_quiet_ts": "2026-11-24T16:17:05",
+ "source_quiet_ts": "2026-11-25T16:26:41",
  "source_no_trade_stems": [
   "sh511820",
   "sh512390",
   "sh530080",
   "sh563280"
  ],
- "source_no_trade_expected": "2026-11-24",
- "no_trade_n": 4,
- "corp_action_n": 0,
- "corp_action_sample": [],
- "source_lagging_stems": 5,
- "coverage_pct_pre": 99.94,
- "coverage_floor": 0.95,
- "coverage_post": 99.94,
- "coverage_total": 1720,
- "laggard_n": 1,
- "laggard_sample": [
-  "sz159528"
- ],
- "quote_topup_stems": 0,
- "quote_topup_rows": 0,
- "quote_refusal_n": 1,
- "quote_refusal_sample": [
-  "sz159528:nonpositive_quote"
- ],
- "quote_face": "https://hq.sinajs.cn/list={syms}",
- "quote_chunk": 60,
- "mismatch_n": 0,
- "mismatch_sample": [],
- "fetch_fail_n": 0,
- "fetch_fail_sample": [],
- "invalid_n": 0,
- "invalid_sample": [],
- "holes_symbols": 0,
- "holes_bars": 0,
- "skipped_stems": [
-  "510880_t73"
- ]
+ "source_no_trade_expected": "2026-11-25",
+ "no_trade_n": 4
 }

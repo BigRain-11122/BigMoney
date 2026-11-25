@@ -1,26 +1,35 @@
 {
  "counts": {
   "ABSENT_LOCALLY": 0,
-  "DEAD_POINTER": 0,
+  "DEAD_POINTER": 1,
   "DELETED_LOCALLY": 0,
   "DOCUMENTED_EXAMPLE": 10,
   "EXTERNAL_CANON": 3,
-  "FIXTURE_LITERAL": 73,
+  "FIXTURE_LITERAL": 75,
   "IGNORED": 30,
   "MACHINE_SCOPED": 0,
-  "NEGATIVE_FIXTURE": 22,
+  "NEGATIVE_FIXTURE": 24,
   "ORPHAN": 0,
   "ROUND_ARTIFACT": 0,
   "TEMPLATE_PLACEHOLDER": 14,
-  "TRACKED": 1264,
-  "cited": 1416
+  "TRACKED": 1319,
+  "cited": 1476
  },
- "dead_pointers": 0,
- "evidence_cutoff": "2026-11-24",
- "generated": "2026-11-24T15:09:46+08:00",
+ "dead_pointers": 1,
+ "evidence_cutoff": "2026-11-25",
+ "generated": "2026-11-25T19:22:10+08:00",
  "hard_orphans": 0,
  "machine_id": "bm-c",
- "rows": [],
+ "rows": [
+  {
+   "cited_by": [
+    "scripts/ingest_lanes_doc.py"
+   ],
+   "path": "research/INGEST/PACKS.json",
+   "severity": "SOFT",
+   "state": "DEAD_POINTER"
+  }
+ ],
  "scope": {
   "literal_citations_only": true,
   "readers": "top-level *.py + scripts/** + Tools/** (no _-prefixed)",

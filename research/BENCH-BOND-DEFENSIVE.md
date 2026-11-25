@@ -1,12 +1,12 @@
 # 国债期货当防守腿（bench cell 4）
 
-evidence cutoff 2026-11-20 | generated 2026-11-22T23:10:28+08:00
+evidence cutoff 2026-11-25 | generated 2026-11-25T22:22:37+08:00
 
 **判决 NO_EDGE**
 
-- 债券腿：+4.88%/年 · 夏普 0.644 · 回撤 -13.86% · 样本外 +7.74%
+- 债券腿：+4.86%/年 · 夏普 0.642 · 回撤 -13.86% · 样本外 +7.66%
 - 现金腿（data/repo_daily/GC001.csv median(last 250 bars)）：+1.38%/年
-- 与沪深300日相关：-0.187
+- 与沪深300日相关：-0.186
 - 权益最差两年：{'2018': {'csi300_pct': -25.31, 'bond_pct': 11.16}, '2022': {'csi300_pct': -21.63, 'bond_pct': -1.07}}
 
 判据：{"H1_net_ge_3pct": true, "H2_corr_le_0.25": true, "H3_positive_in_both_bear_years": false, "H4_drop_best_ge_2pct": true, "H5_beats_cash_by_1pp": true}

@@ -347,6 +347,20 @@ def check(quiet=False):
         return 3
     fresh = derive()
 
+    # r2098: the upstream faces are inputs too, not just the panel window. The per-lot carry
+    # comes from the always-on price face, which this chain rewrites a few legs earlier -- so
+    # on a chain pass this check saw only "capacity_carry moved" and called it a defect the
+    # chain never pays to repair (r1934's class; third face this round, after the decision
+    # face and the roll-step face). Comparing the recorded input digests first makes a moved
+    # upstream face say STALE in its own word; a hand-edited number with unchanged inputs
+    # still says CHECK_FAILED.
+    moved = sorted(k for k, v in (published.get("inputs") or {}).items()
+                   if (fresh.get("inputs") or {}).get(k) != v)
+    if moved:
+        if not quiet:
+            print("STALE: input face(s) moved: %s -- rebuild this face" % ", ".join(moved))
+        return 3
+
     problems, stale = [], []
     if published.get("verdict") != fresh.get("verdict"):
         problems.append("verdict %r -> %r" % (published.get("verdict"), fresh.get("verdict")))

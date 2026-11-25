@@ -1,12 +1,12 @@
 {
  "cell": "etf_census",
- "generated": "2026-11-24T21:37:04+08:00",
- "evidence_cutoff": "2026-11-24",
+ "generated": "2026-11-25T20:28:40+08:00",
+ "evidence_cutoff": "2026-11-25",
  "universe": {
-  "etfs": 983,
-  "bars": 5287,
+  "etfs": 984,
+  "bars": 5288,
   "start": "2005-02-23",
-  "end": "2026-11-24"
+  "end": "2026-11-25"
  },
  "criteria": {
   "cost_bp_side": 10.0,
@@ -19,11 +19,11 @@
  "combos": [
   {
    "combo": "ma_cross|{'fast': 50, 'slow': 200}|rebal5",
-   "ann_pct": -67.33,
-   "sharpe": -0.95,
+   "ann_pct": -67.49,
+   "sharpe": -0.955,
    "mdd_pct": -100.0,
-   "oos_ann_pct": -41.49,
-   "turnover": 535.2,
+   "oos_ann_pct": -42.6,
+   "turnover": 535.0,
    "mde_pp": 47.98,
    "powered": false,
    "verdict": "NO_EDGE",
@@ -38,12 +38,12 @@
   },
   {
    "combo": "tsmom|{'lookback': 250, 'skip': 21}|rebal5",
-   "ann_pct": -96.7,
-   "sharpe": -2.407,
+   "ann_pct": -96.72,
+   "sharpe": -2.412,
    "mdd_pct": -100.0,
-   "oos_ann_pct": -78.47,
-   "turnover": 1644.5,
-   "mde_pp": 69.01,
+   "oos_ann_pct": -79.01,
+   "turnover": 1644.2,
+   "mde_pp": 68.99,
    "powered": false,
    "verdict": "NO_EDGE",
    "checks": {
@@ -57,11 +57,11 @@
   },
   {
    "combo": "reversal|{'window': 5}|rebal5",
-   "ann_pct": -99.86,
-   "sharpe": -4.476,
+   "ann_pct": -99.87,
+   "sharpe": -4.484,
    "mdd_pct": -100.0,
    "oos_ann_pct": -99.84,
-   "turnover": 2933.4,
+   "turnover": 2932.8,
    "mde_pp": 74.58,
    "powered": false,
    "verdict": "NO_EDGE",
@@ -72,16 +72,16 @@
     "H4": false,
     "H5": false
    },
-   "control_p": 0.6167
+   "control_p": 0.6333
   },
   {
    "combo": "ma_cross|{'fast': 50, 'slow': 200}|rebal20",
-   "ann_pct": -49.67,
-   "sharpe": -0.209,
+   "ann_pct": -50.0,
+   "sharpe": -0.215,
    "mdd_pct": -99.98,
-   "oos_ann_pct": 2.21,
-   "turnover": 357.7,
-   "mde_pp": 63.72,
+   "oos_ann_pct": -0.34,
+   "turnover": 357.6,
+   "mde_pp": 63.7,
    "powered": false,
    "verdict": "NO_EDGE",
    "checks": {
@@ -95,12 +95,12 @@
   },
   {
    "combo": "tsmom|{'lookback': 250, 'skip': 21}|rebal20",
-   "ann_pct": -58.57,
-   "sharpe": -0.406,
+   "ann_pct": -58.88,
+   "sharpe": -0.412,
    "mdd_pct": -99.99,
-   "oos_ann_pct": -8.71,
+   "oos_ann_pct": -11.3,
    "turnover": 460.1,
-   "mde_pp": 62.67,
+   "mde_pp": 62.66,
    "powered": false,
    "verdict": "NO_EDGE",
    "checks": {
@@ -114,12 +114,12 @@
   },
   {
    "combo": "reversal|{'window': 5}|rebal20",
-   "ann_pct": -84.59,
-   "sharpe": -0.802,
+   "ann_pct": -84.82,
+   "sharpe": -0.812,
    "mdd_pct": -100.0,
-   "oos_ann_pct": -74.43,
-   "turnover": 670.5,
-   "mde_pp": 82.62,
+   "oos_ann_pct": -75.84,
+   "turnover": 670.3,
+   "mde_pp": 82.63,
    "powered": false,
    "verdict": "NO_EDGE",
    "checks": {

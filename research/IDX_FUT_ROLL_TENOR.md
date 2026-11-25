@@ -4,7 +4,7 @@
 
 **判词：QUARTERLY_WINS_ON_EVERY_COST_BAND**
 
-证据 cutoff `2026-11-20` ｜ generated 2026-11-25T10:45:17
+证据 cutoff `2026-11-20` ｜ generated 2026-11-25T20:20:49
 
 - IF: front pays +0.14pp/yr more gross for +7.67 extra rolls/yr (break-even 1.824 bp/roll; winner at measured median = quarterly)
 - IC: front pays -0.32pp/yr more gross for +7.67 extra rolls/yr (the front already earns no more gross than the quarter contract, so no per-roll cost makes the monthly policy win; winner at measured median = quarterly)
@@ -41,10 +41,10 @@
 
 | 品种 | 一手名义 | 月移 元/年 | 季移 元/年 | 差 元/年（中位成本档） |
 |---|---|---|---|---|
-| IF | 1189147.0 | 11392.0 | 27826.0 | -16434.0 |
-| IC | 1222487.0 | 42836.0 | 75635.0 | -32799.0 |
-| IH | 832347.0 | -2181.0 | 11645.0 | -13825.0 |
-| IM | 1159803.0 | 67118.0 | 101332.0 | -34214.0 |
+| IF | 1169471.0 | 11204.0 | 27366.0 | -16162.0 |
+| IC | 1178083.0 | 41280.0 | 72888.0 | -31608.0 |
+| IH | 825555.0 | -2163.0 | 11550.0 | -13712.0 |
+| IM | 1108310.0 | 64138.0 | 96833.0 | -32695.0 |
 
 ## §四 逐年（毛 carry %，避免一个总数字抹平结构）
 

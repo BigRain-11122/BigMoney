@@ -396,7 +396,15 @@ def check():
         return 3
     old = json.load(open(OUT, encoding="utf-8"))
     new = derive()
-    diff = [k for k in ("verdict", "evidence_cutoff") if old.get(k) != new.get(k)]
+    # r2098: a panel that gained a bar is drift, not a defect. This face is read by the
+    # decision face and had no chain leg, so on any ordinary day its cutoff would trail the
+    # panel by one session and a CHECK FAILED here would never be paid to repair (r1135's
+    # trap). Only an identical cutoff with different numbers is a real defect.
+    if str(old.get("evidence_cutoff") or "") != str(new.get("evidence_cutoff") or ""):
+        print("STALE: panel moved (%s -> %s) -- rebuild this face"
+              % (old.get("evidence_cutoff"), new.get("evidence_cutoff")))
+        return 3
+    diff = [k for k in ("verdict",) if old.get(k) != new.get(k)]
     for code in PRODUCTS:
         o = ((old.get("products") or {}).get(code) or {}).get("rulers") or {}
         n = ((new.get("products") or {}).get(code) or {}).get("rulers") or {}
