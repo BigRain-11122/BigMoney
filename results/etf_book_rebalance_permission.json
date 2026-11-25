@@ -12,10 +12,10 @@
  "cash_amount_cny": 565276.2,
  "readings": {
   "baseline_published": {
-   "k": 0.460253,
-   "delta_vs_now_pp": 2.53,
-   "kind": "path",
-   "why": "an earlier step of the same schedule: this cell reads bar 2026-11-11 (k=0.460253), the ticket prices bar 2026-11-20 (k=0.458463) -- the identity holds and the gap is one step (etf_book_k_identity_bar)",
+   "k": 0.458463,
+   "delta_vs_now_pp": 2.35,
+   "kind": "circular",
+   "why": "the construction the ticket was priced from (k == k_now by identity)",
    "bars": 1670
   },
   "window": {
@@ -48,9 +48,10 @@
   }
  },
  "readings_unreadable": {},
- "circular_readings": [],
+ "circular_readings": [
+  "baseline_published"
+ ],
  "path_readings": [
-  "baseline_published",
   "universe",
   "window",
   "window_x_universe"
@@ -72,13 +73,11 @@
  "cut_pp": 0.0,
  "cut_cny": 0.0,
  "supporters": [
-  "baseline_published",
   "universe",
   "window",
   "window_x_universe"
  ],
  "supporters_path": [
-  "baseline_published",
   "universe",
   "window",
   "window_x_universe"
@@ -91,7 +90,7 @@
   "why": "a ruler that permits a LARGER size is read as permission for this one; the permitting reading need not be a decision path (E456: the rulers are not additive and not interchangeable)"
  },
  "verdict": "KEEP_SUPPORTED_BY_INDEPENDENT_PATH",
- "sentence": "keeping k=0.435003 is supported by 4 independent path reading(s) (baseline_published, universe, window, window_x_universe); the permitting floor over all path readings is k=0.435003",
+ "sentence": "keeping k=0.435003 is supported by 3 independent path reading(s) (universe, window, window_x_universe); the permitting floor over all path readings is k=0.435003",
  "supply_side": {
   "book": "nobond_vt08_adopted",
   "verdict": "CONDITIONAL",
@@ -108,5 +107,5 @@
   "the cost of the cut: the ticket's own reprice delta (CNY 91.7 at the 11-06 bar) is not carried into the gate, and a 6.72pp cut pays one more round of 8bp"
  ],
  "elapsed_sec": 0.0,
- "generated": "2026-11-25T08:37:26+0800"
+ "generated": "2026-11-25T09:38:56+0800"
 }

@@ -1,18 +1,18 @@
 # The size the permission refuses vs the size the desk orders
 
 - 判定：**ORDER_WITHIN_PERMISSION**
-- 决策日：2026-12-09 ｜ 票据：TICKET-2026-11-20.json ｜ 证据截止：2026-11-20
+- 决策日：2026-12-09 ｜ 票据：TICKET-2026-11-24.json ｜ 证据截止：2026-11-24
 
 ## 一句话
 
-the ticket orders k=0.435003 (CNY 434,754) and the permission allows 0.435003 (CNY 434,754): no cut is owed on 2026-12-09
+the ticket orders k=0.435003 (CNY 434,724) and the permission allows 0.435003 (CNY 434,724): no cut is owed on 2026-12-09
 
 ## 两侧的数
 
 | 读数 | k | 风险腿金额 CNY |
 |---|---|---|
-| 票据将下单 | 0.435003 | 434,754 |
-| 权限允许 | 0.435003 | 434,754 |
+| 票据将下单 | 0.435003 | 434,724 |
+| 权限允许 | 0.435003 | 434,724 |
 | 差额 | 0.000000（0.00pp） | 0 |
 
 ## 逐腿削减（）

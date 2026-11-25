@@ -199,6 +199,30 @@ def build_schedule(inception=INCEPTION, beta=BETA):
                    "market": mkt_col, "beta_target": float(beta)}
 
 
+def identity_bar(gap):
+    """Which bar `k_rule` was struck on -- the priced bar first (r2083).
+
+    r1886 read the roster bar (`book_decided_at`) on the premise that the ticket priced there.
+    On 2026-11-24 the ticket priced `base_bar` while the roster was decided at `book_decided_at`
+    eight sessions earlier, and the two bars fall on different schedule steps, so the control
+    arm compared 0.460253 against a ticket that says 0.458463 and refused to publish.  The
+    sizing rule itself is `rule_same_bar_outcome`: k_rule is the step in force on the bar being
+    priced, so that is the bar this arm must reproduce.  `book_decided_at` stays as the last
+    resort so an older ticket without `base_bar` still gets checked rather than skipped.
+    """
+    for field in ("base_bar", "as_of", "book_decided_at"):
+        if gap.get(field):
+            return str(gap[field])[:10], field
+    return None, None
+
+
+def _identity_fatal(ident):
+    return ("FATAL control arm: schedule k %r on %s (%s) != ticket k %r for %s -- read every "
+            "number off the bar named here, not off today's schedule tail (which is %r)"
+            % (ident.get("k_schedule_at_base_bar"), ident.get("base_bar"), ident.get("bar_source"),
+               ident.get("k_ticket"), ident.get("ticket_file"), ident.get("k_schedule_last")))
+
+
 def run():
     gap = _read_json(GAP_FACE)
     slack = float(gap["gap_k"])
@@ -218,18 +242,23 @@ def run():
     # this control arm FATAL on 2026-11-20 for a 0.18pp gap that belongs to the calendar, not
     # to the book (same defect family as the rulers face, E685).
     k_ticket = float(gap.get("k_rule") if gap.get("k_rule") is not None else gap["k_now"])
-    _base_bar = gap.get("book_decided_at") or gap.get("base_bar")
+    _base_bar, _bar_src = identity_bar(gap)
     _k_base = k_in_force(sched or [], _base_bar)[1] if _base_bar else None
     k_ident = _k_base if _k_base is not None else k_last
     ident = {"k_schedule_last": round(k_last, 6) if k_last is not None else None,
              "k_schedule_at_base_bar": round(_k_base, 6) if _k_base is not None else None,
-             "base_bar": str(_base_bar)[:10] if _base_bar else None,
+             "base_bar": _base_bar,
+             "bar_source": _bar_src,
+             "ticket_file": gap.get("ticket_file"),
              "k_ticket": round(k_ticket, 6),
              "delta": round(abs(k_ident - k_ticket), 6) if k_ident is not None else None}
     ident["ok"] = ident["delta"] is not None and ident["delta"] <= 5e-6
     if not ident["ok"]:
-        raise SystemExit("FATAL control arm: schedule last k %r != ticket k %r"
-                         % (ident["k_schedule_last"], ident["k_ticket"]))
+        # r2083: the message must name the operand it actually compared.  It used to print
+        # `k_schedule_last` while the comparison ran on `k_schedule_at_base_bar`, and on
+        # 2026-11-25 those differ by one schedule step -- the FATAL read
+        # "0.458463 != 0.458463", which looks like a float bug and is really a bar bug.
+        raise SystemExit(_identity_fatal(ident))
     d = {
         "face": "etf_book_permission_persistence",
         "evidence_cutoff": meta["panel_last_bar"],
@@ -506,9 +535,30 @@ def selftest():
         and classify_panel_move(None, "2026-11-13")[0] == 0,
         "L17 same/backward/missing bar stays red")
 
+    # L18: the identity bar is the bar the pricing rule struck k on -- `base_bar` wins over
+    # `book_decided_at`, and an old ticket with only the roster bar still gets checked (r2083).
+    leg(identity_bar({"base_bar": "2026-11-24", "book_decided_at": "2026-11-11"})
+        == ("2026-11-24", "base_bar"), "L18a priced bar not preferred")
+    leg(identity_bar({"book_decided_at": "2026-11-11"}) == ("2026-11-11", "book_decided_at"),
+        "L18b roster-bar fallback lost")
+    leg(identity_bar({"as_of": "2026-11-24", "book_decided_at": "2026-11-11"})
+        == ("2026-11-24", "as_of") and identity_bar({}) == (None, None),
+        "L18c as_of fallback / empty ticket")
+
+    # L19: the refusal must name the operand it compared.  The old message printed the schedule
+    # tail, which read "0.458463 != 0.458463" when the comparison ran one step earlier.
+    _fail19 = {"k_schedule_last": 0.458463, "k_schedule_at_base_bar": 0.460253,
+               "base_bar": "2026-11-11", "bar_source": "book_decided_at",
+               "k_ticket": 0.458463, "ticket_file": "TICKET-X.json"}
+    _msg19 = _identity_fatal(_fail19)
+    leg("0.460253" in _msg19 and "2026-11-11" in _msg19 and "book_decided_at" in _msg19,
+        "L19a message does not name the compared pair: %r" % (_msg19[:90],))
+    leg("!= ticket k 0.458463" in _msg19,
+        "L19b message does not name the ticket side: %r" % (_msg19[:90],))
+
     for f in fails:
         print("  FAIL " + f)
-    print("[selftest] %d/%d PASS" % (17 - len(fails), 17))
+    print("[selftest] %d/%d PASS" % (19 - len(fails), 19))
     return 0 if not fails else 1
 
 

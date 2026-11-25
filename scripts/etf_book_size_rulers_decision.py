@@ -394,7 +394,16 @@ def run():
         print("split: FAILED (%s) -- denominator cell unreadable" % exc, flush=True)
 
     cells, notes = {}, {}
-    cells["baseline_published"], k_dec_bar, k_at_dec = baseline_cell(arms["published"], tk)
+    # r2083: the cell must be read on the bar the SIZING RULE struck `k_rule` on, which is the
+    # bar the ticket priced (`base_bar`), not the bar the roster was decided (`book_decided_at`).
+    # On 2026-11-24 those are different bars -- 11-24 vs 11-11 -- and the step in force on
+    # 11-11 is 2026-10-23 k=0.460253 while the ticket's k_rule is the 2026-11-20 step 0.458463.
+    # Reading the roster bar declared the circularity identity broken and poisoned three
+    # consumers (this face, the split receipt, the permission face).  Patch as published by
+    # `etf_book_k_identity_bar` (PATCH): bar fixed, tolerance stays at the 6dp storage precision.
+    priced_bar = tk.get("base_bar") or tk.get("as_of") or tk.get("book_decided_at")
+    cells["baseline_published"], k_dec_bar, k_at_dec = baseline_cell(
+        arms["published"], dict(tk, book_decided_at=priced_bar))
     w_pub = beta_on_window(arms["published"], span)
     cells["window"] = {"beta": None if w_pub is None else w_pub["beta"],
                        "k": None if w_pub is None else k_from_beta(w_pub["beta"], target),

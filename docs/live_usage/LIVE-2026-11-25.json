@@ -2,7 +2,7 @@
  "schema": "ceo_live_usage_v1_9",
  "ticket": "T-202609-28-105",
  "day": "2026-11-25",
- "generated": "2026-11-25T08:37:52",
+ "generated": "2026-11-25T09:42:20",
  "market": {
   "state": "RED",
   "asof": "2026-11-24",
@@ -560,13 +560,13 @@
   "picks_panel_present": false,
   "track": {
    "entry_bar": "2026-10-20",
-   "cutoff": "2026-11-23",
-   "sessions": 25,
+   "cutoff": "2026-11-24",
+   "sessions": 26,
    "n_measured": 20,
-   "ret_pct": -3.811,
-   "bench_n": 1075,
-   "bench_ret_pct": -12.0048,
-   "excess_pp": 8.1938
+   "ret_pct": -4.225,
+   "bench_n": 3774,
+   "bench_ret_pct": -13.5441,
+   "excess_pp": 9.3191
   }
  },
  "judgment_burns": {
@@ -580,7 +580,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 70516.1
+    "last_append_age_min": 70580.5
    },
    {
     "family": "FUND-VALUE-P1",
@@ -588,7 +588,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 71360.6
+    "last_append_age_min": 71425.0
    },
    {
     "family": "FUND-DIVLOWVOL-P1",
@@ -596,7 +596,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 68153.9
+    "last_append_age_min": 68218.3
    }
   ]
  },
@@ -1730,21 +1730,21 @@
   "present": true,
   "path": "results/etf_book_idle_cash.json",
   "verdict": "ADMIT",
-  "cagr_without_pct": 10.95,
-  "cagr_with_pct": 11.53,
+  "cagr_without_pct": 11.11,
+  "cagr_with_pct": 11.69,
   "cagr_gain_pp": 0.58,
-  "sharpe_without": 1.082,
-  "sharpe_with": 1.134,
+  "sharpe_without": 1.096,
+  "sharpe_with": 1.148,
   "maxdd_without_pct": -10.56,
   "maxdd_with_pct": -10.47,
   "idle_share_median": 0.2922,
-  "bars_with_cash": 1408,
-  "bars": 1668,
+  "bars_with_cash": 1409,
+  "bars": 1669,
   "cny_per_year_on_1m": 5800.0,
   "cash_vehicle_net_pct": 1.7708,
   "gap_bp": 0.0049,
-  "evidence_cutoff": "2026-11-23",
-  "source_generated": "2026-11-24T16:12:47"
+  "evidence_cutoff": "2026-11-24",
+  "source_generated": "2026-11-25T09:14:21"
  },
  "book_identity": {
   "path_ledger": "results/etf_book_forward/LEDGER.json",
@@ -1894,7 +1894,7 @@
    }
   },
   "evidence_cutoff": "2026-11-23",
-  "source_generated": "2026-11-24T16:10:09+08:00"
+  "source_generated": "2026-11-25T09:09:18+08:00"
  },
  "carry_membership": {
   "present": true,
@@ -1910,7 +1910,7 @@
    },
    "IF": {
     "verdict": "REFUSE",
-    "why": "at 8.0% vol the sleeve earns 6.50% against the book's 11.04%",
+    "why": "at 8.0% vol the sleeve earns 6.50% against the book's 11.20%",
     "carry_at_target_pct": 6.502,
     "corr_with_book": 0.05,
     "blend_gain_sharpe": 0.134,
@@ -1918,7 +1918,7 @@
    },
    "IH": {
     "verdict": "REFUSE",
-    "why": "at 8.0% vol the sleeve earns 4.30% against the book's 11.04%",
+    "why": "at 8.0% vol the sleeve earns 4.30% against the book's 11.20%",
     "carry_at_target_pct": 4.298,
     "corr_with_book": 0.054,
     "blend_gain_sharpe": 0.087,
@@ -1937,11 +1937,11 @@
    "IC",
    "IM"
   ],
-  "book_ann_pct": 11.015,
-  "book_ann_compound_pct": 11.045,
+  "book_ann_pct": 11.158,
+  "book_ann_compound_pct": 11.204,
   "vol_target_pct": 8.0,
-  "evidence_cutoff": "2026-11-23",
-  "source_generated": "2026-11-24T16:10:17"
+  "evidence_cutoff": "2026-11-24",
+  "source_generated": "2026-11-25T09:09:26"
  },
  "carry_margin": {
   "present": true,
@@ -2043,7 +2043,7 @@
   "writer_script": "scripts/update_futures_contracts.py",
   "writer_verdict": "ADVANCED",
   "writer_generated": "2026-11-24T16:13:03+0800",
-  "source_generated": "2026-11-24T16:13:43+08:00",
+  "source_generated": "2026-11-25T09:15:37+08:00",
   "evidence_cutoff": "2026-11-24"
  },
  "futures_gaps": {
@@ -2128,8 +2128,8 @@
     "gap_measured_pp": 7.492
    }
   },
-  "evidence_cutoff": "2026-11-23",
-  "source_generated": "2026-11-24T16:10:17"
+  "evidence_cutoff": "2026-11-24",
+  "source_generated": "2026-11-25T09:09:26"
  },
  "carry_marks": {
   "present": true,
@@ -2305,57 +2305,23 @@
  },
  "data_lanes": {
   "status": "ok",
-  "as_of": "2026-11-24T19:08:16",
+  "as_of": "2026-11-25T09:08:32",
   "verdict": "attention",
   "counts": {
    "retired": 1,
-   "stalled": 7,
-   "in_sync": 6,
-   "today_pending": 2
+   "stalled": 6,
+   "in_sync": 8,
+   "behind_1d": 1
   },
   "n_lanes": 16,
   "machine": "bm-c",
   "expected": "2026-11-24",
   "rows": [
    {
-    "lane": "sina_mf",
-    "host": "bm-c",
-    "host_alive": true,
-    "host_age_h": 0.01,
-    "state": "stalled",
-    "tail": "2026-10-26",
-    "expected": "2026-11-24",
-    "missing_days": [
-     "2026-10-27",
-     "2026-10-28",
-     "2026-10-29",
-     "2026-10-30",
-     "2026-11-02",
-     "2026-11-03",
-     "2026-11-04",
-     "2026-11-05",
-     "2026-11-06",
-     "2026-11-09",
-     "2026-11-10",
-     "2026-11-11",
-     "2026-11-12",
-     "2026-11-13",
-     "2026-11-16",
-     "2026-11-17",
-     "2026-11-18",
-     "2026-11-19",
-     "2026-11-20",
-     "2026-11-23",
-     "2026-11-24"
-    ],
-    "loss_mode": null,
-    "takeover_capable": false
-   },
-   {
     "lane": "heat",
     "host": "bm-a",
     "host_alive": false,
-    "host_age_h": 143.25,
+    "host_age_h": 157.26,
     "state": "stalled",
     "tail": "2026-11-19",
     "expected": "2026-11-24",
@@ -2371,7 +2337,7 @@
     "lane": "cb_panel",
     "host": "bm-c",
     "host_alive": true,
-    "host_age_h": 0.01,
+    "host_age_h": 0.46,
     "state": "stalled",
     "tail": "2026-11-20",
     "expected": "2026-11-24",
@@ -2386,7 +2352,7 @@
     "lane": "lhb",
     "host": "bm-a",
     "host_alive": false,
-    "host_age_h": 143.25,
+    "host_age_h": 157.26,
     "state": "stalled",
     "tail": "2026-11-20",
     "expected": "2026-11-24",
@@ -2401,7 +2367,7 @@
     "lane": "lhb_inst",
     "host": "bm-c",
     "host_alive": true,
-    "host_age_h": 0.01,
+    "host_age_h": 0.46,
     "state": "stalled",
     "tail": "2026-11-20",
     "expected": "2026-11-24",
@@ -2416,7 +2382,7 @@
     "lane": "marks",
     "host": "bm-b",
     "host_alive": false,
-    "host_age_h": 606.42,
+    "host_age_h": 620.42,
     "state": "stalled",
     "tail": "2026-11-20",
     "expected": "2026-11-24",
@@ -2431,7 +2397,7 @@
     "lane": "repo",
     "host": "bm-a",
     "host_alive": false,
-    "host_age_h": 143.25,
+    "host_age_h": 157.26,
     "state": "stalled",
     "tail": "2026-11-20",
     "expected": "2026-11-24",
@@ -2441,11 +2407,25 @@
     ],
     "loss_mode": null,
     "takeover_capable": true
+   },
+   {
+    "lane": "zt_pool",
+    "host": "bm-c",
+    "host_alive": true,
+    "host_age_h": 0.46,
+    "state": "behind_1d",
+    "tail": "2026-11-23",
+    "expected": "2026-11-24",
+    "missing_days": [
+     "2026-11-24"
+    ],
+    "loss_mode": "pool day slices are terminal at the close; no superset arrives later",
+    "takeover_capable": true
    }
   ],
   "hosts": {
    "bm-a": {
-    "age_h": 143.25,
+    "age_h": 157.26,
     "alive": false,
     "silent_waiting": [],
     "silent_taken_over": {
@@ -2456,7 +2436,7 @@
     }
    },
    "bm-b": {
-    "age_h": 606.42,
+    "age_h": 620.42,
     "alive": false,
     "silent_waiting": [],
     "silent_taken_over": {
