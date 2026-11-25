@@ -33,6 +33,11 @@ def run(cmd, **kwargs):
     """subprocess.run with no console window for the child (Windows)."""
     kwargs.setdefault("capture_output", True)
     kwargs.setdefault("text", True)
+    if kwargs.get("text"):
+        # children are told to speak UTF-8; this box's locale is GBK, so decode
+        # explicitly instead of letting the reader thread raise UnicodeDecodeError
+        kwargs.setdefault("encoding", "utf-8")
+        kwargs.setdefault("errors", "replace")
     if os.name == "nt":
         kwargs.setdefault("startupinfo", _startupinfo())
         kwargs.setdefault("creationflags", CREATE_NO_WINDOW)

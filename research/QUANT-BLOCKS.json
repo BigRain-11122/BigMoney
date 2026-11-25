@@ -594,6 +594,29 @@
    "on_red": "看 DIFF-latest.md：缺哪些文件、哪条车道对方更新；按契约索取或分包",
    "closed_loop": "清单→差异→索取/分包→复核 COMPLETE",
    "auto_fix": null
+  },
+  {
+   "id": "P1_cpu_fill",
+   "group": "治理",
+   "name": "算力占空（常驻执行体）",
+   "granularity": "5 分钟窗口级",
+   "seat": "算力调度席",
+   "skills": [
+    "fleet-ops"
+   ],
+   "input": "research/CPU-WORK.json + 自动体检分片",
+   "artifact": "results/cpu_fill/STATE.json",
+   "cadence_h": 1,
+   "probe": {
+    "type": "duty",
+    "path": "results/cpu_fill/STATE.json",
+    "floor_pct": 60,
+    "max_age_h": 2
+   },
+   "acceptance": "duty >= 60% 且 state <= 2h（任务 Bigmoney-CpuFill 每 5 分钟一窗）",
+   "on_red": "看 STATE.verdict：STARVED=没有有效活可排（补 CPU-WORK 或补数据）；PARTIAL=被仲裁让路",
+   "closed_loop": "补活→agent 跑→duty 回升→绿",
+   "auto_fix": null
   }
  ]
 }

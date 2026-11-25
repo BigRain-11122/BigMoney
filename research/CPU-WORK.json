@@ -1,0 +1,104 @@
+{
+ "version": "1.0",
+ "why": "算力目录：每张卡都是「跑完能产出可读东西」的算力活，不是填时间。agent 按顺序取 open，跑完标 done；体检分片由 agent 自动续（不写在这里）。",
+ "rules": [
+  "每张卡必须说清产出什么、为什么值钱",
+  "重活（RAM>2GB）标 class=cpu_heavy，会先过仲裁；媒体占用时不硬跑",
+  "同一张卡只跑一次；要重跑请换 id（保留历史）"
+ ],
+ "units": [
+  {
+   "id": "boot_basis_timing_200k_a",
+   "cmd": [
+    "scripts/boot_basis_timing.py",
+    "--reps",
+    "200000"
+   ],
+   "class": "cpu_light",
+   "est_s": 20,
+   "purpose": "把 GO 的 95% 区间再收窄一档（20 万次移动块 bootstrap）",
+   "status": "done",
+   "finished": "2026-11-25T20:22:41+08:00",
+   "seconds": 19.7
+  },
+  {
+   "id": "boot_basis_timing_200k_b",
+   "cmd": [
+    "scripts/boot_basis_timing.py",
+    "--reps",
+    "200000"
+   ],
+   "class": "cpu_light",
+   "est_s": 20,
+   "purpose": "用不同随机流复算同一区间（可复现性检查）",
+   "status": "done",
+   "finished": "2026-11-25T20:23:20+08:00",
+   "seconds": 18.6
+  },
+  {
+   "id": "boot_basis_timing_1m",
+   "cmd": [
+    "scripts/boot_basis_timing.py",
+    "--reps",
+    "1000000"
+   ],
+   "class": "cpu_light",
+   "est_s": 100,
+   "purpose": "百万次重抽，确认区间不再漂移（收敛判据）",
+   "status": "timeout",
+   "finished": "2026-11-25T20:24:46+08:00",
+   "seconds": 66.0
+  },
+  {
+   "id": "etf_census_refresh",
+   "cmd": [
+    "scripts/bench_etf_census.py"
+   ],
+   "class": "cpu_light",
+   "est_s": 95,
+   "purpose": "ETF 全池普查在最新 bar 上重算（判据是否仍为 0 个可分辨组合）",
+   "status": "done",
+   "finished": "2026-11-25T20:28:40+08:00",
+   "seconds": 184.9
+  },
+  {
+   "id": "boot_block10_200k",
+   "cmd": [
+    "scripts/boot_basis_timing.py",
+    "--reps",
+    "200000",
+    "--block",
+    "10"
+   ],
+   "class": "cpu_light",
+   "est_s": 20,
+   "purpose": "块长敏感性：块=10 日时 GO 的区间是否仍不含零",
+   "status": "open"
+  },
+  {
+   "id": "boot_block60_200k",
+   "cmd": [
+    "scripts/boot_basis_timing.py",
+    "--reps",
+    "200000",
+    "--block",
+    "60"
+   ],
+   "class": "cpu_light",
+   "est_s": 20,
+   "purpose": "块长敏感性：块=60 日（更长记忆）时区间是否仍不含零",
+   "status": "open"
+  },
+  {
+   "id": "astock_lowvol_recheck",
+   "cmd": [
+    "scripts/bench_astock_lowvol.py"
+   ],
+   "class": "cpu_heavy",
+   "est_s": 180,
+   "threads": 4,
+   "purpose": "A股低波在最新 bar 上重算（H5 超额是否仍在噪声内）",
+   "status": "open"
+  }
+ ]
+}

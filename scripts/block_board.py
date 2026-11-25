@@ -405,9 +405,35 @@ def read_json_any(path):
         return None
 
 
+
+
+def probe_duty(spec):
+    """The standing worker must actually be busy, not merely alive.
+
+    Reads results/cpu_fill/STATE.json: duty = busy core-seconds / available
+    core-seconds over the last window. Below the floor means the machine is
+    idling again, which is the exact failure this block exists to catch.
+    """
+    d = read_json_any(p(spec["path"]))
+    if not d:
+        return False, "no cpu-fill state yet -- the standing worker has never run"
+    age = age_h(p(spec["path"]))
+    if age is not None and "max_age_h" in spec and age > float(spec["max_age_h"]):
+        return False, f"state is {age:.1f}h old (max {spec['max_age_h']}h)"
+    duty = d.get("duty_pct_of_slots")
+    floor = float(spec.get("floor_pct", 60))
+    if duty is None:
+        return False, "state has no duty_pct_of_slots"
+    if duty < floor:
+        return False, (f"duty {duty}% < floor {floor}% "
+                       f"(units={d.get('units_done')}, waiting={d.get('units_waiting')})")
+    return True, f"duty {duty}% >= {floor}% · units={d.get('units_done')} · {age:.1f}h old"
+
+
 PROBES = {
     "dir_fresh": probe_dir_fresh,
     "ingest_diff": probe_ingest_diff,
+    "duty": probe_duty,
     "dir_bar_fresh": probe_dir_bar_fresh,
     "file_fresh": probe_file_fresh,
     "json_exists_keys": probe_json_keys,
