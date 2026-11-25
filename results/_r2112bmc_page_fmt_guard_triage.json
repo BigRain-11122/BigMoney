@@ -1,0 +1,358 @@
+{
+ "schema": "page-fmt-guard-triage/v1",
+ "kind": "page_fmt_guard_triage",
+ "round": "r2112 bm-c",
+ "generated": "2026-11-26T00:58:40+0800",
+ "generated_by": "results/_r2112bmc_page_fmt_guard_triage.py",
+ "source_scan": "results/_r2112bmc_page_fmt_guard.scan.json",
+ "source_scan_verdict": "PAGE_FMT_HAZARDS",
+ "source_scan_scope": {
+  "roots": [
+   "scripts",
+   "Tools",
+   "monitor",
+   "live",
+   "firm"
+  ],
+  "files_scanned": 2666,
+  "page_renderers": 1194,
+  "percent_constants": 28939,
+  "fstrings_skipped": 18568,
+  "unreadable": [],
+  "note": "hazards are only reported for files that build a markdown page (.md literal + a writer call); f-strings and .format() are out of scope"
+ },
+ "wiring_gap": {
+  "guard": "Tools/page_fmt_guard.py",
+  "references_outside_itself": 0,
+  "checked_in": [
+   "Tools/s6_chain_bmc.py",
+   "Tools/s6_chain_bma.py",
+   "smoke_test.py"
+  ],
+  "meaning": "the guard exists and passes its own selftest 19/19, but nothing runs it, so every hazard below is invisible every round (r1282 orphan-guard family)"
+ },
+ "counts": {
+  "total": 37,
+  "read_this_round": 20,
+  "unverified": 17,
+  "classified_false": 16,
+  "classified_true": 4,
+  "tally": {
+   "UNVERIFIED": 17,
+   "FALSE_MAPPING_FMT": 3,
+   "FALSE_DETECTOR_LITERAL": 11,
+   "TRUE_PAGE_DEFECT": 3,
+   "FALSE_VARIABLE_TEMPLATE": 2,
+   "REAL_SYNTAX_DEFECT": 1
+  }
+ },
+ "wiring": {
+  "recommendation": "DO_NOT_WIRE_YET",
+  "because": "on the hits read this round the guard is roughly half right: the three page literals it found are real (a reader sees '%%/yr' in a table header), but it also flags every defect-detector literal in the tree and every mapping/indirect format string. A leg wired today would be red on correct code, and r1789 says a leg that is always red trains readers to skip it.",
+  "three_cheap_fixes": [
+   "skip a constant whose whole value is '%%' (it is the detector, not the defect)",
+   "accept '%(name)[sdif]' as a valid conversion (mapping formats are legal printf)",
+   "for containers, follow one assignment: if the name holding this literal is later used as '<name> % ...', treat the literal as formatted (the guard already handles the inline BinOp case)"
+  ],
+  "after_the_fixes": "re-run the same scan; the residue should be genuine page prose, which is worth fixing at the source in the page writers rather than by another gate",
+  "syntax_error_side_product": "Tools/_r820bmc_close.py does not compile (unterminated string at line 130) -- independent py_compile confirms it, so it is not a guard artifact"
+ },
+ "hazards": [
+  {
+   "file": "scripts/capital_placement.py",
+   "line": 592,
+   "kind": "LITERAL_DOUBLE_PCT",
+   "where": "container",
+   "snippet": "%%",
+   "triage": "FALSE_DETECTOR_LITERAL"
+  },
+  {
+   "file": "scripts/cash_leg_shelf_decision.py",
+   "line": 604,
+   "kind": "LITERAL_DOUBLE_PCT",
+   "where": "container",
+   "snippet": "%%",
+   "triage": "FALSE_DETECTOR_LITERAL"
+  },
+  {
+   "file": "scripts/cash_leg_shelf_decision.py",
+   "line": 606,
+   "kind": "LITERAL_DOUBLE_PCT",
+   "where": "writer",
+   "snippet": "page carries a literal %% (a format string that never ran)",
+   "triage": "FALSE_DETECTOR_LITERAL"
+  },
+  {
+   "file": "scripts/cash_shelf_total_return_audit.py",
+   "line": 821,
+   "kind": "LITERAL_DOUBLE_PCT",
+   "where": "container",
+   "snippet": "%%",
+   "triage": "FALSE_DETECTOR_LITERAL"
+  },
+  {
+   "file": "scripts/etf_book_capacity_ticket.py",
+   "line": 316,
+   "kind": "LITERAL_DOUBLE_PCT",
+   "where": "container",
+   "snippet": "%%",
+   "triage": "FALSE_DETECTOR_LITERAL"
+  },
+  {
+   "file": "scripts/etf_book_hysteresis.py",
+   "line": 580,
+   "kind": "LITERAL_DOUBLE_PCT",
+   "where": "writer",
+   "snippet": "%%",
+   "triage": "FALSE_DETECTOR_LITERAL"
+  },
+  {
+   "file": "scripts/etf_book_ticket_band.py",
+   "line": 368,
+   "kind": "LITERAL_DOUBLE_PCT",
+   "where": "container",
+   "snippet": "%%",
+   "triage": "FALSE_DETECTOR_LITERAL"
+  },
+  {
+   "file": "scripts/money_subband_jump_audit.py",
+   "line": 1135,
+   "kind": "LITERAL_DOUBLE_PCT",
+   "where": "container",
+   "snippet": "%%",
+   "triage": "FALSE_DETECTOR_LITERAL"
+  },
+  {
+   "file": "scripts/money_subband_jump_audit.py",
+   "line": 1136,
+   "kind": "LITERAL_DOUBLE_PCT",
+   "where": "writer",
+   "snippet": "page prints a literal %% (r2039 family)",
+   "triage": "FALSE_DETECTOR_LITERAL"
+  },
+  {
+   "file": "scripts/reader_text_audit.py",
+   "line": 114,
+   "kind": "LITERAL_DOUBLE_PCT",
+   "where": "writer",
+   "snippet": "%%",
+   "triage": "FALSE_DETECTOR_LITERAL"
+  },
+  {
+   "file": "scripts/ticket_open_capacity.py",
+   "line": 604,
+   "kind": "LITERAL_DOUBLE_PCT",
+   "where": "container",
+   "snippet": "%%",
+   "triage": "FALSE_DETECTOR_LITERAL"
+  },
+  {
+   "file": "scripts/a158_tsgate_probe.py",
+   "line": 624,
+   "kind": "BARE_PCT_IN_FORMAT",
+   "where": "format",
+   "snippet": "> 生成: %(gen)s ｜ evidence_cutoff=2026-09-22（P-5C binding·面板一律截断）｜ IS≤2016-12-31 / OOS≥2017-01-01 ｜ 成本 0.10%% 往返",
+   "triage": "FALSE_MAPPING_FMT"
+  },
+  {
+   "file": "scripts/futures_tsmom_signal.py",
+   "line": 710,
+   "kind": "BARE_PCT_IN_FORMAT",
+   "where": "format",
+   "snippet": "L23 FAIL: fingerprint same=%(same)s moved=%(moved)s rows=%(rows)d (same bar date, longer member must differ)",
+   "triage": "FALSE_MAPPING_FMT"
+  },
+  {
+   "file": "scripts/mp1_tsgate_probe.py",
+   "line": 704,
+   "kind": "BARE_PCT_IN_FORMAT",
+   "where": "format",
+   "snippet": "> 生成: %(gen)s ｜ evidence_cutoff=2026-10-09（面板一律截断）｜ IS≤2016-12-31 / OOS≥2017-01-01 ｜ 成本 0.10%% 往返 ｜ 不重叠=stride",
+   "triage": "FALSE_MAPPING_FMT"
+  },
+  {
+   "file": "scripts/idx_fut_carry_drawdown_experience.py",
+   "line": 468,
+   "kind": "LITERAL_DOUBLE_PCT",
+   "where": "container",
+   "snippet": "%.1f%%",
+   "triage": "FALSE_VARIABLE_TEMPLATE"
+  },
+  {
+   "file": "scripts/regime_cap_breach_cash_vs_repo.py",
+   "line": 483,
+   "kind": "LITERAL_DOUBLE_PCT",
+   "where": "container",
+   "snippet": "| 账户 | 准现金腿投入 | 实际标记盈亏 | 实际%% | %s 净 | 手续费 | 差 |",
+   "triage": "FALSE_VARIABLE_TEMPLATE"
+  },
+  {
+   "file": "Tools/_r820bmc_close.py",
+   "line": 130,
+   "kind": "SYNTAX_ERROR",
+   "where": null,
+   "snippet": "unterminated string literal (detected at line 130) (<unknown>, line 130)",
+   "triage": "REAL_SYNTAX_DEFECT"
+  },
+  {
+   "file": "scripts/idx_fut_carry_capital.py",
+   "line": 406,
+   "kind": "LITERAL_DOUBLE_PCT",
+   "where": "writer",
+   "snippet": "| 品种 | 已发布掩码 净 %%/yr | 完整掩码 净 %%/yr | 严格掩码 净 %%/yr | 完整−已发布 pp | 完整掩码判词 | 严格掩码判词 |",
+   "triage": "TRUE_PAGE_DEFECT"
+  },
+  {
+   "file": "scripts/idx_fut_carry_impact_decay.py",
+   "line": 458,
+   "kind": "LITERAL_DOUBLE_PCT",
+   "where": "writer",
+   "snippet": "| 手数 | 占 ADV%%/日 | 规则冲击 bp/侧 | 预算 bp/侧 | 保留率 |",
+   "triage": "TRUE_PAGE_DEFECT"
+  },
+  {
+   "file": "scripts/idx_fut_roll_gap.py",
+   "line": 498,
+   "kind": "LITERAL_DOUBLE_PCT",
+   "where": "writer",
+   "snippet": "| pair | rolls | per year | step median | step mean | sum %%/yr | positive steps | months covered |",
+   "triage": "TRUE_PAGE_DEFECT"
+  },
+  {
+   "file": "scripts/_r1684bmc_closeout.py",
+   "line": 85,
+   "kind": "LITERAL_DOUBLE_PCT",
+   "where": "container",
+   "snippet": "r1684: the admission gate now asks three measurable things -- the adopted book reads ADMIT (OOS 1.83 / CAGR 11",
+   "triage": "UNVERIFIED"
+  },
+  {
+   "file": "scripts/astock_veto_hedgeable_beta.py",
+   "line": 478,
+   "kind": "LITERAL_DOUBLE_PCT",
+   "where": "container",
+   "snippet": "two sides x 8.00 bp per roll on the shorted notional; short-finance carry printed as a 0/2/5 %%/yr axis, not a",
+   "triage": "UNVERIFIED"
+  },
+  {
+   "file": "scripts/astock_veto_hedgeable_beta.py",
+   "line": 481,
+   "kind": "LITERAL_DOUBLE_PCT",
+   "where": "container",
+   "snippet": "three states, strict comparison of Sharpe (excess over 0%%) at k=1: OUT_OF_SAMPLE = k=1 beats k=0 on the not-f",
+   "triage": "UNVERIFIED"
+  },
+  {
+   "file": "scripts/astock_veto_liquidity_legs.py",
+   "line": 413,
+   "kind": "BARE_PCT_IN_FORMAT",
+   "where": "format",
+   "snippet": "r2004 找到唯一一格翻负：**流动性最高三分之一**的差额在 2026 年转负（逐期 B−A 连乘口径 −0.3983%；本面两条腿的年度总额差 %s，两种口径都在表里）。这层不是「涨得多」的层——2025 它的绝对",
+   "triage": "UNVERIFIED"
+  },
+  {
+   "file": "scripts/astock_veto_lot_drag.py",
+   "line": 457,
+   "kind": "BARE_PCT_IN_FORMAT",
+   "where": "format",
+   "snippet": "**这本书要多大才真的存在**：投出比例 ≥95%% 的最低档是 **%s 元**（1000 万时只有 %.1f%% 的钱在场，100 万时只有 %.1f%%——100 万时你买的其实是 %0.f 只、中位价 %.2f ",
+   "triage": "UNVERIFIED"
+  },
+  {
+   "file": "scripts/daily_report.py",
+   "line": 2266,
+   "kind": "LITERAL_DOUBLE_PCT",
+   "where": "container",
+   "snippet": "1.21%%",
+   "triage": "UNVERIFIED"
+  },
+  {
+   "file": "scripts/defensive_ruler_decision_impact.py",
+   "line": 329,
+   "kind": "LITERAL_DOUBLE_PCT",
+   "where": "writer",
+   "snippet": "1. 这两件不是同一种东西：书是 5 名轮动的复合组合（带 8%% 波动目标），篮子是「每一只债券+货币 ETF 都等权」。夏普比较是**指标比较**，不是在说可以把一本书换成一只篮子。",
+   "triage": "UNVERIFIED"
+  },
+  {
+   "file": "scripts/etf_book_cap_beta_power.py",
+   "line": 399,
+   "kind": "LITERAL_DOUBLE_PCT",
+   "where": "writer",
+   "snippet": "| 尺子 | β | 折算敞口 | 相对 20%% 帽 |",
+   "triage": "UNVERIFIED"
+  },
+  {
+   "file": "scripts/etf_book_capacity_floor_gap.py",
+   "line": 328,
+   "kind": "LITERAL_DOUBLE_PCT",
+   "where": "writer",
+   "snippet": "| reading | 1%% ADV | 2%% ADV | 5%% ADV | cagr @5%% | maxdd @5%% |",
+   "triage": "UNVERIFIED"
+  },
+  {
+   "file": "scripts/etf_book_entry_lag.py",
+   "line": 243,
+   "kind": "LITERAL_DOUBLE_PCT",
+   "where": "writer",
+   "snippet": "## 生产候选（整本 + 8%% 波动目标）",
+   "triage": "UNVERIFIED"
+  },
+  {
+   "file": "scripts/etf_book_era_capacity.py",
+   "line": 265,
+   "kind": "LITERAL_DOUBLE_PCT",
+   "where": "container",
+   "snippet": "the gate face carries no 1%%-of-ADV line or no capital lens, so this face cannot price a year",
+   "triage": "UNVERIFIED"
+  },
+  {
+   "file": "scripts/etf_book_lot_ladder.py",
+   "line": 376,
+   "kind": "LITERAL_DOUBLE_PCT",
+   "where": "writer",
+   "snippet": "这本书的选股经常落在**面值 100 元**的债券/货币 ETF 上（511160、511880、159650 之类）：一手就是 1 万元。5 只票就是 5 万元现金被锁死——所以 2 万档有 71%% 的钱留在现金里，",
+   "triage": "UNVERIFIED"
+  },
+  {
+   "file": "scripts/etf_book_open_slicing.py",
+   "line": 468,
+   "kind": "LITERAL_DOUBLE_PCT",
+   "where": "container",
+   "snippet": "- Same book, same 8%% vol-target sizing (de-lever only), same 10 bp per side, same",
+   "triage": "UNVERIFIED"
+  },
+  {
+   "file": "scripts/etf_book_phase_atlas_arms.py",
+   "line": 2828,
+   "kind": "LITERAL_DOUBLE_PCT",
+   "where": "writer",
+   "snippet": "两个成本臂只差这一只旋钮，所以「多收的费有没有被赚回来」只在这里能答。但逐格不是受控对照：引擎按 8%% 波动目标只降不升地调仓，集中持仓（3 名）在本轮波动下降后会被加回目标仓位，这一份加仓比 15bp×换手更大——所",
+   "triage": "UNVERIFIED"
+  },
+  {
+   "file": "scripts/idx_fut_carry_portfolio.py",
+   "line": 99,
+   "kind": "LITERAL_DOUBLE_PCT",
+   "where": "container",
+   "snippet": "in the window where all four members trade, the equal-weight portfolio's max drawdown is at least 20%% better ",
+   "triage": "UNVERIFIED"
+  },
+  {
+   "file": "scripts/money_band_blind_spot.py",
+   "line": 397,
+   "kind": "LITERAL_DOUBLE_PCT",
+   "where": "container",
+   "snippet": "money_premium_carry_audit.find_breaches at its own 1.00%% band, booked at zero by repaired_rets before measuri",
+   "triage": "UNVERIFIED"
+  },
+  {
+   "file": "scripts/policy_return_lattice.py",
+   "line": 375,
+   "kind": "LITERAL_DOUBLE_PCT",
+   "where": "container",
+   "snippet": "- 波动那一列要看括号里：引擎把期货腿截在 3.5%% 预算内，于是每一格都印 6.0%%，把两手和一手抹成同一个风险读数——截尾是政策，不是测量。",
+   "triage": "UNVERIFIED"
+  }
+ ]
+}

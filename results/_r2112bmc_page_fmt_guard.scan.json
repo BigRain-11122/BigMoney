@@ -1,0 +1,331 @@
+{
+  "schema": "page-fmt-guard/v1",
+  "kind": "page_fmt_guard_scan",
+  "generated": "2026-11-26T00:57:17+0800",
+  "tool": "Tools/page_fmt_guard.py",
+  "scope": {
+    "roots": [
+      "scripts",
+      "Tools",
+      "monitor",
+      "live",
+      "firm"
+    ],
+    "files_scanned": 2666,
+    "page_renderers": 1194,
+    "percent_constants": 28939,
+    "fstrings_skipped": 18568,
+    "unreadable": [],
+    "note": "hazards are only reported for files that build a markdown page (.md literal + a writer call); f-strings and .format() are out of scope"
+  },
+  "counts": {
+    "LITERAL_DOUBLE_PCT": 31,
+    "BARE_PCT_IN_FORMAT": 5,
+    "SYNTAX_ERROR": 1,
+    "literal_in_writer_call": 13,
+    "literal_in_container": 18,
+    "total": 37
+  },
+  "hazards": [
+    {
+      "file": "scripts/_r1684bmc_closeout.py",
+      "line": 85,
+      "kind": "LITERAL_DOUBLE_PCT",
+      "snippet": "r1684: the admission gate now asks three measurable things -- the adopted book reads ADMIT (OOS 1.83 / CAGR 11",
+      "where": "container",
+      "tag": "page"
+    },
+    {
+      "file": "scripts/a158_tsgate_probe.py",
+      "line": 624,
+      "kind": "BARE_PCT_IN_FORMAT",
+      "col": 6,
+      "snippet": "> 生成: %(gen)s ｜ evidence_cutoff=2026-09-22（P-5C binding·面板一律截断）｜ IS≤2016-12-31 / OOS≥2017-01-01 ｜ 成本 0.10%% 往返",
+      "where": "format",
+      "tag": "page"
+    },
+    {
+      "file": "scripts/astock_veto_hedgeable_beta.py",
+      "line": 478,
+      "kind": "LITERAL_DOUBLE_PCT",
+      "snippet": "two sides x 8.00 bp per roll on the shorted notional; short-finance carry printed as a 0/2/5 %%/yr axis, not a",
+      "where": "container",
+      "tag": "page"
+    },
+    {
+      "file": "scripts/astock_veto_hedgeable_beta.py",
+      "line": 481,
+      "kind": "LITERAL_DOUBLE_PCT",
+      "snippet": "three states, strict comparison of Sharpe (excess over 0%%) at k=1: OUT_OF_SAMPLE = k=1 beats k=0 on the not-f",
+      "where": "container",
+      "tag": "page"
+    },
+    {
+      "file": "scripts/astock_veto_liquidity_legs.py",
+      "line": 413,
+      "kind": "BARE_PCT_IN_FORMAT",
+      "col": 61,
+      "snippet": "r2004 找到唯一一格翻负：**流动性最高三分之一**的差额在 2026 年转负（逐期 B−A 连乘口径 −0.3983%；本面两条腿的年度总额差 %s，两种口径都在表里）。这层不是「涨得多」的层——2025 它的绝对",
+      "where": "format",
+      "tag": "page"
+    },
+    {
+      "file": "scripts/astock_veto_lot_drag.py",
+      "line": 457,
+      "kind": "BARE_PCT_IN_FORMAT",
+      "col": 94,
+      "snippet": "**这本书要多大才真的存在**：投出比例 ≥95%% 的最低档是 **%s 元**（1000 万时只有 %.1f%% 的钱在场，100 万时只有 %.1f%%——100 万时你买的其实是 %0.f 只、中位价 %.2f ",
+      "where": "format",
+      "tag": "page"
+    },
+    {
+      "file": "scripts/capital_placement.py",
+      "line": 592,
+      "kind": "LITERAL_DOUBLE_PCT",
+      "snippet": "%%",
+      "where": "container",
+      "tag": "page"
+    },
+    {
+      "file": "scripts/cash_leg_shelf_decision.py",
+      "line": 604,
+      "kind": "LITERAL_DOUBLE_PCT",
+      "snippet": "%%",
+      "where": "container",
+      "tag": "page"
+    },
+    {
+      "file": "scripts/cash_leg_shelf_decision.py",
+      "line": 606,
+      "kind": "LITERAL_DOUBLE_PCT",
+      "snippet": "page carries a literal %% (a format string that never ran)",
+      "where": "writer",
+      "tag": "page"
+    },
+    {
+      "file": "scripts/cash_shelf_total_return_audit.py",
+      "line": 821,
+      "kind": "LITERAL_DOUBLE_PCT",
+      "snippet": "%%",
+      "where": "container",
+      "tag": "page"
+    },
+    {
+      "file": "scripts/daily_report.py",
+      "line": 2266,
+      "kind": "LITERAL_DOUBLE_PCT",
+      "snippet": "1.21%%",
+      "where": "container",
+      "tag": "page"
+    },
+    {
+      "file": "scripts/defensive_ruler_decision_impact.py",
+      "line": 329,
+      "kind": "LITERAL_DOUBLE_PCT",
+      "snippet": "1. 这两件不是同一种东西：书是 5 名轮动的复合组合（带 8%% 波动目标），篮子是「每一只债券+货币 ETF 都等权」。夏普比较是**指标比较**，不是在说可以把一本书换成一只篮子。",
+      "where": "writer",
+      "tag": "page"
+    },
+    {
+      "file": "scripts/etf_book_cap_beta_power.py",
+      "line": 399,
+      "kind": "LITERAL_DOUBLE_PCT",
+      "snippet": "| 尺子 | β | 折算敞口 | 相对 20%% 帽 |",
+      "where": "writer",
+      "tag": "page"
+    },
+    {
+      "file": "scripts/etf_book_capacity_floor_gap.py",
+      "line": 328,
+      "kind": "LITERAL_DOUBLE_PCT",
+      "snippet": "| reading | 1%% ADV | 2%% ADV | 5%% ADV | cagr @5%% | maxdd @5%% |",
+      "where": "writer",
+      "tag": "page"
+    },
+    {
+      "file": "scripts/etf_book_capacity_ticket.py",
+      "line": 316,
+      "kind": "LITERAL_DOUBLE_PCT",
+      "snippet": "%%",
+      "where": "container",
+      "tag": "page"
+    },
+    {
+      "file": "scripts/etf_book_entry_lag.py",
+      "line": 243,
+      "kind": "LITERAL_DOUBLE_PCT",
+      "snippet": "## 生产候选（整本 + 8%% 波动目标）",
+      "where": "writer",
+      "tag": "page"
+    },
+    {
+      "file": "scripts/etf_book_era_capacity.py",
+      "line": 265,
+      "kind": "LITERAL_DOUBLE_PCT",
+      "snippet": "the gate face carries no 1%%-of-ADV line or no capital lens, so this face cannot price a year",
+      "where": "container",
+      "tag": "page"
+    },
+    {
+      "file": "scripts/etf_book_hysteresis.py",
+      "line": 580,
+      "kind": "LITERAL_DOUBLE_PCT",
+      "snippet": "%%",
+      "where": "writer",
+      "tag": "page"
+    },
+    {
+      "file": "scripts/etf_book_lot_ladder.py",
+      "line": 376,
+      "kind": "LITERAL_DOUBLE_PCT",
+      "snippet": "这本书的选股经常落在**面值 100 元**的债券/货币 ETF 上（511160、511880、159650 之类）：一手就是 1 万元。5 只票就是 5 万元现金被锁死——所以 2 万档有 71%% 的钱留在现金里，",
+      "where": "writer",
+      "tag": "page"
+    },
+    {
+      "file": "scripts/etf_book_open_slicing.py",
+      "line": 468,
+      "kind": "LITERAL_DOUBLE_PCT",
+      "snippet": "- Same book, same 8%% vol-target sizing (de-lever only), same 10 bp per side, same",
+      "where": "container",
+      "tag": "page"
+    },
+    {
+      "file": "scripts/etf_book_phase_atlas_arms.py",
+      "line": 2828,
+      "kind": "LITERAL_DOUBLE_PCT",
+      "snippet": "两个成本臂只差这一只旋钮，所以「多收的费有没有被赚回来」只在这里能答。但逐格不是受控对照：引擎按 8%% 波动目标只降不升地调仓，集中持仓（3 名）在本轮波动下降后会被加回目标仓位，这一份加仓比 15bp×换手更大——所",
+      "where": "writer",
+      "tag": "page"
+    },
+    {
+      "file": "scripts/etf_book_ticket_band.py",
+      "line": 368,
+      "kind": "LITERAL_DOUBLE_PCT",
+      "snippet": "%%",
+      "where": "container",
+      "tag": "page"
+    },
+    {
+      "file": "scripts/futures_tsmom_signal.py",
+      "line": 710,
+      "kind": "BARE_PCT_IN_FORMAT",
+      "col": 27,
+      "snippet": "L23 FAIL: fingerprint same=%(same)s moved=%(moved)s rows=%(rows)d (same bar date, longer member must differ)",
+      "where": "format",
+      "tag": "page"
+    },
+    {
+      "file": "scripts/idx_fut_carry_capital.py",
+      "line": 406,
+      "kind": "LITERAL_DOUBLE_PCT",
+      "snippet": "| 品种 | 已发布掩码 净 %%/yr | 完整掩码 净 %%/yr | 严格掩码 净 %%/yr | 完整−已发布 pp | 完整掩码判词 | 严格掩码判词 |",
+      "where": "writer",
+      "tag": "page"
+    },
+    {
+      "file": "scripts/idx_fut_carry_drawdown_experience.py",
+      "line": 468,
+      "kind": "LITERAL_DOUBLE_PCT",
+      "snippet": "%.1f%%",
+      "where": "container",
+      "tag": "page"
+    },
+    {
+      "file": "scripts/idx_fut_carry_impact_decay.py",
+      "line": 458,
+      "kind": "LITERAL_DOUBLE_PCT",
+      "snippet": "| 手数 | 占 ADV%%/日 | 规则冲击 bp/侧 | 预算 bp/侧 | 保留率 |",
+      "where": "writer",
+      "tag": "page"
+    },
+    {
+      "file": "scripts/idx_fut_carry_portfolio.py",
+      "line": 99,
+      "kind": "LITERAL_DOUBLE_PCT",
+      "snippet": "in the window where all four members trade, the equal-weight portfolio's max drawdown is at least 20%% better ",
+      "where": "container",
+      "tag": "page"
+    },
+    {
+      "file": "scripts/idx_fut_roll_gap.py",
+      "line": 498,
+      "kind": "LITERAL_DOUBLE_PCT",
+      "snippet": "| pair | rolls | per year | step median | step mean | sum %%/yr | positive steps | months covered |",
+      "where": "writer",
+      "tag": "page"
+    },
+    {
+      "file": "scripts/money_band_blind_spot.py",
+      "line": 397,
+      "kind": "LITERAL_DOUBLE_PCT",
+      "snippet": "money_premium_carry_audit.find_breaches at its own 1.00%% band, booked at zero by repaired_rets before measuri",
+      "where": "container",
+      "tag": "page"
+    },
+    {
+      "file": "scripts/money_subband_jump_audit.py",
+      "line": 1135,
+      "kind": "LITERAL_DOUBLE_PCT",
+      "snippet": "%%",
+      "where": "container",
+      "tag": "page"
+    },
+    {
+      "file": "scripts/money_subband_jump_audit.py",
+      "line": 1136,
+      "kind": "LITERAL_DOUBLE_PCT",
+      "snippet": "page prints a literal %% (r2039 family)",
+      "where": "writer",
+      "tag": "page"
+    },
+    {
+      "file": "scripts/mp1_tsgate_probe.py",
+      "line": 704,
+      "kind": "BARE_PCT_IN_FORMAT",
+      "col": 6,
+      "snippet": "> 生成: %(gen)s ｜ evidence_cutoff=2026-10-09（面板一律截断）｜ IS≤2016-12-31 / OOS≥2017-01-01 ｜ 成本 0.10%% 往返 ｜ 不重叠=stride",
+      "where": "format",
+      "tag": "page"
+    },
+    {
+      "file": "scripts/policy_return_lattice.py",
+      "line": 375,
+      "kind": "LITERAL_DOUBLE_PCT",
+      "snippet": "- 波动那一列要看括号里：引擎把期货腿截在 3.5%% 预算内，于是每一格都印 6.0%%，把两手和一手抹成同一个风险读数——截尾是政策，不是测量。",
+      "where": "container",
+      "tag": "page"
+    },
+    {
+      "file": "scripts/reader_text_audit.py",
+      "line": 114,
+      "kind": "LITERAL_DOUBLE_PCT",
+      "snippet": "%%",
+      "where": "writer",
+      "tag": "page"
+    },
+    {
+      "file": "scripts/regime_cap_breach_cash_vs_repo.py",
+      "line": 483,
+      "kind": "LITERAL_DOUBLE_PCT",
+      "snippet": "| 账户 | 准现金腿投入 | 实际标记盈亏 | 实际%% | %s 净 | 手续费 | 差 |",
+      "where": "container",
+      "tag": "page"
+    },
+    {
+      "file": "scripts/ticket_open_capacity.py",
+      "line": 604,
+      "kind": "LITERAL_DOUBLE_PCT",
+      "snippet": "%%",
+      "where": "container",
+      "tag": "page"
+    },
+    {
+      "file": "Tools/_r820bmc_close.py",
+      "line": 130,
+      "kind": "SYNTAX_ERROR",
+      "snippet": "unterminated string literal (detected at line 130) (<unknown>, line 130)"
+    }
+  ],
+  "verdict": "PAGE_FMT_HAZARDS"
+}
